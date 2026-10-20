@@ -1,0 +1,39 @@
+THE FOUND ODYSSEY · Episode 7 · THE LOOP
+Book 13 runs as one recursive "Ground Hog's day" state machine, from the Phaeacian ship freezing in mid-harbor to Odysseus and Athena plotting on the shore of Ithaca. 7 min 40 s, -16.0 LUFS.
+The Experiment: Pre-Build Bisimulation (ody/toon.py)
+Episode 5 governed colour weight (blood vs. grey shade). Episode 6 governed layered grip (palm \to object \to fingers). Episode 7 governs pre-build compilation: the renderer runs an automated "workshop on an idea or a broken concept" inside the film itself, forcing an "interactive fiction" text layer to synchronize with "3d grey boxing" before the final plate is built.
+ * The Dual-State Frame: Every shot renders two coupled layers at once—a scrolling interactive-fiction state log and an unbuilt 3D grey-box blockout that "is supposed to follow along with" the text. Whenever text and spatial geometry desynchronize, the plate refuses to ink or colour.
+ * The 7-Agent "Skins" Pass: Before Odysseus wakes on Ithaca, the renderer spins up a "team of 7 agents (with different tasks and goals)" mapped onto a single base rig via modular "skins" (01_BARD, 02_BLOCKER, 03_GRIP, 04_BLEED, 05_PHYSICS, 06_DOUBT, 07_ATHENA). They autonomously playtest the sleeping beach, colliding with broken props and generating an on-screen diagnostic "report" at the end of each failed pass.
+ * The Time-Loop Latch: Each failed agent playtest triggers a hard "Ground Hog's day" reset back to frame 0. Only objects physically gripped using Episode 6's hand renderer (palm -> object -> fingers) survive the reset and retain Episode 5's colour saturation across loops.
+ * The Animation Prompt Compiler: When Athena speaks to Odysseus, her dialogue functions as an executable "animation prompt" that lets the two of them "visualize speculative ideas and scenarios"—compiling the raw grey-box geometry of Ithaca (harbor, olive tree, cave, suitors' hall) into inked, full-colour plates in real time.
+Technical Architecture (ody/toon.py Patch)
+class ArchiveNode:
+    def __init__(self, id, bbox_3d, if_predicate):
+        self.id = id
+        self.bbox_3d = bbox_3d              # 3D grey-box volume
+        self.if_predicate = if_predicate    # Interactive fiction state string
+        self.state = "GREYBOX"              # GREYBOX | INKED | COLOURED
+        self.locked_by_grip = False         # Episode 6 persistence flag
+
+def step_bisimulation(node, agents, hand_rig, loop_epoch):
+    # 1. 7-agent workshop pass over broken concept
+    report = [a.evaluate(node.if_predicate, node.bbox_3d) for a in agents]
+    
+    # 2. Check if 3D grey box follows interactive fiction
+    bisim_ok = all(r.sync_valid for r in report)
+    
+    # 3. Episode 6 Grip Latch + Episode 5 Colour Rule
+    if hand_rig.is_holding(node.bbox_3d):
+        node.locked_by_grip = True
+        node.state = "COLOURED"             # Blood/colour weight retained
+    elif not bisim_ok and not node.locked_by_grip:
+        node.state = "GREYBOX"              # Revert on Groundhog Day reset
+    return report
+
+Master Build & Narrative Prompt (Condensed)
+> PROMPT — THE FOUND ODYSSEY · EPISODE 7 (ody/toon.py + Narrative Engine):
+> Construct a 7-minute-40-second animated episode for Book 13 where Ithaca begins as an unbuilt "3d grey boxing" blockout coupled to an "interactive fiction" parser.
+>  * Act I (The Surrogate Playtest): While Odysseus sleeps on the shore, spin up a "team of 7 agents (with different tasks and goals)" using swapped persona "skins" on a single wireframe rig. Have them autonomously playtest the beach in a rapid "Ground Hog's day" time loop—trying and failing to lift the Phaeacian bronze tripods, row the petrified ship, and clear the mist, stamping a terse diagnostic "report" onto the grey plate at every reset.
+>  * Act II (The Grip Override): Odysseus wakes in full colour (Episode 5 rule) inside the monochrome grey box. Using the Episode 6 hand-layering pipeline (palm -> object -> four fingers + thumb), every unrendered bounding box he physically grasps—tripod handle, woven garment, olive branch—locks into persistence, surviving the time-loop reset and bleeding saturated colour into the surrounding geometry.
+>  * Act III (The Speculative Workshop): The 7 agent skins converge into a single figure: Athena cycling through disguises on one bone rig. Her dialogue operates as a live "animation prompt", allowing Odysseus and Athena to workshop "speculative games" for the slaughter of the suitors—projecting counterfactual grey-box simulations of Book 22 onto the walls of the cave and locking the winning trajectory into the archive before the scene is ever built. End on Odysseus's hand closing over the beggar's staff as his own skin swaps to old age.
+> 

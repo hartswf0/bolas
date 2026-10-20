@@ -1,0 +1,1244 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body><a href="../" style="position:fixed;z-index:9999;top:calc(env(safe-area-inset-top,0px) + 8px);right:max(10px,env(safe-area-inset-right,0px));font:600 11px/1 'JetBrains Mono',ui-monospace,monospace;letter-spacing:.06em;text-transform:uppercase;background:#0b0d10;color:#fff;padding:7px 10px;text-decoration:none;border:1.5px solid #fff">Crash Lab index</a>
+<title>The Physical</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800;900&family=JetBrains+Mono:wght@400;600&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&display=swap" rel="stylesheet">
+<style>
+/* Layout: a videotext. The stage (the cartoon) on the left, the proof sheet on the right, then the translation audit: which joints and gestures each proof drives. */
+:root{
+  --paper:#ffffff; --panel:#f1f4f7; --ink:#000000; --ink-2:#4f5966; --rule:#cfd7df;
+  --teal:#0fa892; --amber:#ffd23f; --red:#e3261f; --blue:#3b82f6;
+  --display:"Big Shoulders Display","Arial Narrow",Impact,sans-serif;
+  --body:"Literata",Georgia,"Times New Roman",serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#000000; --panel:#11161c; --ink:#ffffff; --ink-2:#a3adb9; --rule:#27313d;
+  --teal:#19e6c8; --amber:#ffd23f; --red:#ff2e2e; --blue:#5b9bff; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#000000; --panel:#11161c; --ink:#ffffff; --ink-2:#a3adb9; --rule:#27313d;
+  --teal:#19e6c8; --amber:#ffd23f; --red:#ff2e2e; --blue:#5b9bff; color-scheme:dark}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55}
+.wrap{max-width:1320px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:26px 64px;display:grid;gap:24px}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2);margin:0}
+.head{display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px 32px;align-items:end}
+.head .eyebrow{grid-column:1/-1}
+h1{font-family:var(--display);font-weight:900;font-size:clamp(60px,10vw,128px);line-height:.8;margin:0;text-transform:uppercase;letter-spacing:-.01em}
+h1 .r{color:var(--red)}
+.lede{margin:0;max-width:64ch;color:var(--ink-2);text-wrap:pretty}
+.lede b{color:var(--ink);font-weight:600}
+@media (max-width:760px){.head{grid-template-columns:1fr}}
+
+.vt{display:grid;grid-template-columns:minmax(0,1.75fr) minmax(0,1fr);gap:24px;align-items:start}
+@media (max-width:980px){.vt{grid-template-columns:1fr}}
+.screen{display:grid;gap:10px;position:sticky;top:env(safe-area-inset-top,0px);z-index:2;background:var(--paper);padding-block:6px;min-width:0}
+@media (max-width:980px){.screen{position:static}}
+.sheet{position:relative;border:2px solid var(--ink);background:#fff}
+canvas.stage{display:block;width:100%;aspect-ratio:16/9;max-width:100%;background:#fff}
+.controls{display:flex;flex-wrap:wrap;gap:8px 10px;align-items:center}
+.btn{appearance:none;font-family:var(--mono);font-size:13px;background:var(--paper);color:var(--ink);border:1.5px solid var(--ink);padding:6px 12px;cursor:pointer;min-height:34px}
+.btn.primary{background:var(--ink);color:var(--paper);min-width:78px}
+.readout{font-family:var(--mono);font-size:12.5px;font-variant-numeric:tabular-nums;color:var(--ink-2)}
+.readout b{color:var(--ink);font-weight:600}
+.scrub{position:relative;flex:1 1 240px;min-width:0;height:34px}
+.scrub input{position:absolute;inset:auto 0 0 0;width:100%;margin:0;height:20px;accent-color:var(--red)}
+.acts{position:absolute;inset:0 8px 22px 8px;pointer-events:none}
+.acts i{position:absolute;top:0;bottom:0;border-left:2px solid var(--ink)}
+.acts i span{position:absolute;left:3px;top:-1px;font-family:var(--mono);font-size:10px;font-style:normal;color:var(--ink-2)}
+.chip{appearance:none;font-family:var(--mono);font-size:12px;background:transparent;color:var(--ink-2);border:1.5px solid var(--rule);padding:5px 9px;cursor:pointer;display:inline-flex;gap:7px;align-items:center;min-height:30px}
+.chip::before{content:"";width:9px;height:9px;border:1.5px solid currentColor}
+.chip[aria-pressed="true"]{color:var(--ink);border-color:var(--ink)}
+.chip[aria-pressed="true"]::before{background:var(--red);border-color:var(--red)}
+button:focus-visible,input:focus-visible,li:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+
+.track{min-width:0;display:grid;gap:10px;align-content:start}
+.track .tag{justify-self:start;font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.14em;padding:2px 7px;border:1.5px solid var(--ink)}
+.proofs{list-style:none;margin:0;padding:0;border-top:3px solid var(--ink);max-height:min(74vh,760px);overflow-y:auto;overscroll-behavior:contain}
+@media (max-width:980px){.proofs{max-height:420px}}
+.proofs .act{font-family:var(--display);font-weight:800;font-size:22px;text-transform:uppercase;padding:12px 0 4px;border-bottom:1.5px solid var(--ink);position:sticky;top:0;background:var(--paper);z-index:1}
+.proof{display:grid;grid-template-columns:3.2em minmax(0,1fr) auto;gap:2px 10px;padding:8px 0;border-bottom:1px solid var(--rule);cursor:pointer;color:var(--ink-2)}
+.proof .n{font-family:var(--mono);font-size:12px;font-weight:600;padding-top:3px}
+.proof .t{font-family:var(--display);font-weight:600;font-size:20px;line-height:1.05;text-transform:uppercase;color:var(--ink)}
+.proof .p{grid-column:2/4;font-size:13.5px;line-height:1.4}
+.proof .stamp{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.1em;padding:2px 5px;border:1.5px solid var(--rule);align-self:start;color:var(--ink-2)}
+.proof.done .stamp{border-color:var(--teal);color:var(--teal)}
+.proof.on{background:var(--panel)}
+.proof.on .n{color:var(--red)}
+.proof.on .stamp{border-color:var(--red);color:var(--red)}
+
+.audit{display:grid;gap:12px;border-top:3px solid var(--ink);padding-top:12px}
+.audit h2{font-family:var(--display);font-weight:800;font-size:clamp(30px,4vw,44px);text-transform:uppercase;margin:0;line-height:.95}
+.audit p{margin:0;max-width:76ch;color:var(--ink-2)}
+.matrixwrap{overflow-x:auto;border:1.5px solid var(--ink);background:#fff}
+canvas.matrix{display:block}
+.mixer{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px;align-items:start}
+@media (max-width:860px){.mixer{grid-template-columns:1fr}}
+canvas.mix{display:block;width:100%;height:150px;border:1.5px solid var(--ink);background:#fff}
+.stats{list-style:none;margin:0;padding:0;border-top:2px solid var(--ink);font-family:var(--mono);font-size:12px;font-variant-numeric:tabular-nums}
+.stats li{display:flex;justify-content:space-between;gap:12px;padding:6px 0;border-bottom:1px solid var(--rule)}
+.stats b{font-weight:600}
+.foot{font-size:14px;color:var(--ink-2);max-width:78ch;margin:0}
+</style>
+
+<div class="wrap">
+  <header class="head">
+    <p class="eyebrow">Bolas · a cartoon range test · HTML page and video</p>
+    <h1>The Physical<span class="r">.</span></h1>
+    <p class="lede">Bola reports for a physical. Every test goes wrong in a cartoon way, and every wrong turn is a <b>proof</b>: that one skeleton can walk, reach, lift, slip, take, sulk, rage, swoon and tell a story without words. <b>47 proofs in six acts</b>, played straight through like an episode, scored like a fitness test, with the joints and gestures each one drives audited underneath.</p>
+  </header>
+
+  <section class="vt" aria-label="Videotext">
+    <div class="screen">
+      <div class="sheet"><canvas class="stage" id="stage" role="img" aria-label="Cartoon episode: Bola takes the physical"></canvas></div>
+      <div class="controls">
+        <button class="btn primary" id="play" type="button">Play</button>
+        <button class="btn" id="back" type="button" aria-label="Previous frame">&lsaquo; 1</button>
+        <button class="btn" id="fwd" type="button" aria-label="Next frame">1 &rsaquo;</button>
+        <span class="readout" id="readout"></span>
+        <div class="scrub"><div class="acts" id="acts"></div><input type="range" id="scrub" min="0" max="10" value="0" aria-label="Episode frame"></div>
+      </div>
+      <div class="controls" role="group" aria-label="View">
+        <button class="chip" type="button" data-t="sound" aria-pressed="true">Sound</button>
+        <button class="chip" type="button" data-t="music" aria-pressed="true">Music</button>
+        <button class="chip" type="button" data-t="twos" aria-pressed="true">On twos</button>
+        <button class="chip" type="button" data-t="boil" aria-pressed="true">Line boil</button>
+        <button class="chip" type="button" data-t="xray" aria-pressed="false">X-ray skeleton</button>
+        <button class="chip" type="button" data-t="cards" aria-pressed="true">Proof cards</button>
+        <button class="chip" type="button" data-t="loop" aria-pressed="false">Loop proof</button>
+      </div>
+    </div>
+    <div class="track">
+      <span class="tag">PROOF SHEET</span>
+      <ol class="proofs" id="proofs"></ol>
+    </div>
+  </section>
+
+  <section class="audit" aria-label="Translation audit">
+    <h2>Translation audit</h2>
+    <p>Each row is a proof, each column a channel of the rig. A cell is filled in proportion to how far that channel travelled during the proof, measured from the solved joints, not from the script. If a gag claims to be about the knee, the knee column has to light up. The red line is the playhead.</p>
+    <div class="matrixwrap"><canvas class="matrix" id="matrix"></canvas></div>
+    <div class="mixer">
+      <section><h3 class="eyebrow" style="margin-bottom:6px">Live mixer · which channels are moving now</h3><canvas class="mix" id="mix"></canvas></section>
+      <section><h3 class="eyebrow" style="margin-bottom:6px">Episode totals</h3><ul class="stats" id="stats"></ul></section>
+    </div>
+  </section>
+  <p class="foot">The cartoon is a costume over the Bolas skeleton. Turn on X-ray to see the bones under the rubber hose. Arms stretch past their length only when a target is out of reach, and the audit counts those stretches as cartoon stretch, not error. Sound and music are synthesized in the page and start when you press Play.</p>
+</div>
+<script>
+(()=>{
+/* ================= math ================= */
+const DEG=Math.PI/180, RAD=180/Math.PI;
+const add=(a,b)=>[a[0]+b[0],a[1]+b[1],a[2]+b[2]], sub=(a,b)=>[a[0]-b[0],a[1]-b[1],a[2]-b[2]], mul=(a,s)=>[a[0]*s,a[1]*s,a[2]*s];
+const dot=(a,b)=>a[0]*b[0]+a[1]*b[1]+a[2]*b[2], cross=(a,b)=>[a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]];
+const len=a=>Math.hypot(a[0],a[1],a[2]), norm=a=>{const l=len(a)||1;return [a[0]/l,a[1]/l,a[2]/l];};
+const lerp3=(a,b,t)=>[a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t,a[2]+(b[2]-a[2])*t], mid=(a,b)=>lerp3(a,b,.5);
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v)), lerp=(a,b,t)=>a+(b-a)*t;
+const rX=d=>{const c=Math.cos(d*DEG),s=Math.sin(d*DEG);return [[1,0,0],[0,c,-s],[0,s,c]];};
+const rY=d=>{const c=Math.cos(d*DEG),s=Math.sin(d*DEG);return [[c,0,s],[0,1,0],[-s,0,c]];};
+const rZ=d=>{const c=Math.cos(d*DEG),s=Math.sin(d*DEG);return [[c,-s,0],[s,c,0],[0,0,1]];};
+const mm=(A,B)=>A.map(r=>[0,1,2].map(j=>r[0]*B[0][j]+r[1]*B[1][j]+r[2]*B[2][j]));
+const mv=(A,v)=>[A[0][0]*v[0]+A[0][1]*v[1]+A[0][2]*v[2],A[1][0]*v[0]+A[1][1]*v[1]+A[1][2]*v[2],A[2][0]*v[0]+A[2][1]*v[1]+A[2][2]*v[2]];
+function rotAxis(v,k,t){ const c=Math.cos(t),s=Math.sin(t); const kv=cross(k,v), kd=dot(k,v); return [v[0]*c+kv[0]*s+k[0]*kd*(1-c), v[1]*c+kv[1]*s+k[1]*kd*(1-c), v[2]*c+kv[2]*s+k[2]*kd*(1-c)]; }
+const angDeg=(a,b)=>{const la=len(a),lb=len(b); if(la<1e-6||lb<1e-6) return 0; return Math.acos(clamp(dot(a,b)/(la*lb),-1,1))*RAD;};
+function ease(t,m){
+  if(m==='lin')return t; if(m==='out')return 1-Math.pow(1-t,3); if(m==='in')return t*t*t; if(m==='snap') return 1-Math.pow(1-t,5);
+  if(m==='back'){ const c1=2.2,c3=c1+1; return 1+c3*Math.pow(t-1,3)+c1*Math.pow(t-1,2); }
+  if(m==='elastic'){ if(t<=0)return 0; if(t>=1)return 1; return Math.pow(2,-9*t)*Math.sin((t*9-.75)*2*Math.PI/3)+1; }
+  if(m==='step') return t<1?0:1;
+  return t*t*(3-2*t);
+}
+function rng(seed){return function(){seed|=0;seed=seed+0x6D2B79F5|0;let t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;}}
+const clone=o=>JSON.parse(JSON.stringify(o));
+function merge(a,b){ for(const k in b){ const v=b[k]; if(v&&typeof v==='object'&&!Array.isArray(v)&&a[k]&&typeof a[k]==='object'&&!Array.isArray(a[k])) merge(a[k],v); else a[k]=clone(v); } return a; }
+function track(f,keys){ // keys: [[frame,value,ease?],...] numbers or arrays
+  if(f<=keys[0][0]) return keys[0][1]; const L_=keys[keys.length-1]; if(f>=L_[0]) return L_[1];
+  let i=0; while(keys[i+1][0]<=f) i++; const a=keys[i], b=keys[i+1], t=ease((f-a[0])/(b[0]-a[0]),b[2]||'io');
+  return Array.isArray(a[1])? lerp3(a[1],b[1],t) : lerp(a[1],b[1],t);
+}
+
+/* ================= the rig ================= */
+const L={thigh:44,shin:44,upper:28,fore:26,spine:50,hipW:12,shW:18,headR:21,neck:22};
+const FACE0={browA:0,browY:0,lid:0,wink:0,smile:.35,open:0,pop:0,gx:0,gy:0,blush:0,red:0,sick:0,hs:1,tongue:0,mouth:'line',eyes:'o'};
+const NEUTRAL=()=>({root:{x:0,y:92,z:0,yaw:0,pitch:0,roll:0},spine:{fwd:0,side:0,twist:0},head:{nod:0,turn:0,tilt:0},
+  armL:{flex:0,abd:12,horiz:0,rot:0,elbow:18},armR:{flex:0,abd:12,horiz:0,rot:0,elbow:18},
+  footL:[11,5,0],footR:[-11,5,0],handL:null,handR:null,poleL:null,poleR:null,kneeL:null,kneeR:null,
+  sq:1,sqx:1,scale:1,chest:1,face:clone(FACE0),gloveL:'open',gloveR:'open',ant:0,wind:0,legS:1});
+
+function ik3(a,t,l1,l2,pole,stretchMax){
+  const d=sub(t,a), dist=len(d), reach=l1+l2; let s=1;
+  if(stretchMax>1 && dist>reach*.985){ s=Math.min(stretchMax,dist/(reach*.985)); l1*=s; l2*=s; }
+  const dc=clamp(dist,Math.abs(l1-l2)+.01,l1+l2-.01), u=dist>1e-6?mul(d,1/dist):[0,-1,0];
+  let pv=sub(pole,mul(u,dot(pole,u))); if(len(pv)<1e-4) pv=cross(u,[1,0,0]); pv=norm(pv);
+  const x=(l1*l1-l2*l2+dc*dc)/(2*dc), h=Math.sqrt(Math.max(0,l1*l1-x*x));
+  return {j:add(a,add(mul(u,x),mul(pv,h))), e:add(a,mul(u,dc)), slip:Math.max(0,dist-dc), s};
+}
+function frames(p){
+  const r=p.root;
+  const R0=mm(mm(rY(r.yaw),rX(r.pitch)),rZ(-r.roll));
+  const Rc=mm(mm(mm(R0,rY(p.spine.twist)),rX(p.spine.fwd)),rZ(-p.spine.side));
+  const Rh=mm(mm(mm(Rc,rY(p.head.turn)),rX(p.head.nod)),rZ(-p.head.tilt));
+  return {R0,Rc,Rh};
+}
+function handTarget(h,p,R0,sh){ if(!h) return null; if(Array.isArray(h)) return h; if(h.sh) return add(sh,h.sh); if(h.pel) return add([p.root.x,p.root.y,p.root.z],mv(R0,h.pel)); return null; }
+function solve(p){
+  const {R0,Rc,Rh}=frames(p), r=p.root, P=[r.x,r.y,r.z], at=(b,R,v)=>add(b,mv(R,v));
+  const J={pelvis:P}; let legSlip=0, stretch=1;
+  J.hipL=at(P,R0,[L.hipW,0,0]); J.hipR=at(P,R0,[-L.hipW,0,0]);
+  J.spineMid=at(P,R0,[0,L.spine/2,0]); J.neck=at(J.spineMid,Rc,[0,L.spine/2,0]); J.chest=at(J.spineMid,Rc,[0,8,2]);
+  J.shoulderL=at(J.neck,Rc,[L.shW,-6,0]); J.shoulderR=at(J.neck,Rc,[-L.shW,-6,0]);
+  J.head=at(J.neck,Rh,[0,L.neck,0]); J.headTop=at(J.head,Rh,[0,L.headR,0]);
+  J.nose=at(J.head,Rh,[0,0,L.headR]); J.eyeL=at(J.head,Rh,[7,5,19]); J.eyeR=at(J.head,Rh,[-7,5,19]);
+  J.earL=at(J.head,Rh,[L.headR,0,0]); J.earR=at(J.head,Rh,[-L.headR,0,0]);
+  J._Rh=Rh; J._Rc=Rc; J._R0=R0;
+  const Fc=mv(Rc,[0,0,1]), Uc=mv(Rc,[0,1,0]);
+  for(const [S,s] of [['L',1],['R',-1]]){
+    const a=p['arm'+S], sh=J['shoulder'+S], ht=handTarget(p['hand'+S],p,R0,sh);
+    if(ht){ const pole=mv(Rc,p['pole'+S]||[s*.45,-.35,-1]); const q=ik3(sh,ht,L.upper,L.fore,pole,2.6); J['elbow'+S]=q.j; J['wrist'+S]=q.e; stretch=Math.max(stretch,q.s); }
+    else{
+      const u=mv(Rc,mv(rY(s*a.horiz),mv(rZ(s*a.abd),mv(rX(-a.flex),[0,-1,0]))));
+      J['elbow'+S]=add(sh,mul(u,L.upper));
+      const c1=cross(u,Fc), w=len(c1); let ax=add(c1,mul(cross(u,Uc),1-w)); if(len(ax)<1e-4) ax=mv(Rc,[1,0,0]); ax=norm(ax);
+      ax=rotAxis(ax,u,s*a.rot*DEG);
+      J['wrist'+S]=add(J['elbow'+S],mul(rotAxis(u,ax,a.elbow*DEG),L.fore));
+    }
+    const pole=p['knee'+S]? mv(R0,p['knee'+S]) : mv(R0,[s*.15,0,1]);
+    const q=ik3(J['hip'+S],p['foot'+S],L.thigh*p.legS,L.shin*p.legS,pole,1.45); stretch=Math.max(stretch,q.s);
+    J['knee'+S]=q.j; J['ankle'+S]=q.e; legSlip=Math.max(legSlip,q.slip);
+    const yf=[Math.sin(r.yaw*DEG),0,Math.cos(r.yaw*DEG)], an=J['ankle'+S];
+    const grounded=an[1]<16 && Math.abs(r.pitch)<60;
+    J['toe'+S]= grounded? add(an,[yf[0]*13,-Math.min(an[1]-1,4),yf[2]*13]) : add(an,add(mul(norm(sub(an,J['knee'+S])),4),mul(norm(cross(norm(sub(an,J['knee'+S])),mv(R0,[1,0,0]))),-12)));
+  }
+  // squash and stretch around the contact point
+  const sq=p.sq, sqx=p.sqx, sc=p.scale;
+  if(sq!==1||sqx!==1||sc!==1){
+    const c=[r.x,Math.max(0,Math.min(J.ankleL[1],J.ankleR[1])-5),r.z];
+    const kx=sc/Math.pow(sq,.3)*sqx, ky=sc*sq, kz=sc/Math.pow(sq,.3)/Math.pow(sqx,.3);
+    for(const k in J){ if(k[0]==='_') continue; const v=J[k]; J[k]=[c[0]+(v[0]-c[0])*kx, c[1]+(v[1]-c[1])*ky, c[2]+(v[2]-c[2])*kz]; }
+  }
+  return {J,legSlip,stretch};
+}
+
+/* ================= keys ================= */
+function numMix(a,b,t,raw){ if(typeof a==='number') return a+(b-a)*t; if(typeof a==='string'||a==null) return raw<.5? a : b; const o={}; for(const k in a) o[k]=numMix(a[k],b[k],t,raw); return o; }
+function M(def){
+  const m=Object.assign({keys:[],fx:[],sfx:[]},def); let cur=NEUTRAL(); if(def.start) merge(cur,def.start);
+  m.k=(f,o={},e='io')=>{ const n=clone(cur); merge(n,o); n.f=f; n.ease=e; n.type=o._b?'brk':'key'; n.note=o._n||''; n.nolift=!!o._nl; delete n._b; delete n._n; delete n._nl; cur=n; m.keys.push(clone(n)); return m; };
+  m.cur=()=>cur;
+  m.fxa=(k,a,b,o={})=>{ m.fx.push(Object.assign({k,a,b},o)); return m; };
+  m.s=(f,name)=>{ m.sfx.push([f,name]); return m; };
+  return m;
+}
+function poseAt(m,f){
+  const K=m.keys; if(f<=K[0].f) return K[0]; const last=K[K.length-1]; if(f>=last.f) return last;
+  let i=0; while(K[i+1].f<=f) i++;
+  const a=K[i], b=K[i+1], raw=(f-a.f)/(b.f-a.f), t=ease(raw,b.ease);
+  const p={};
+  for(const k of ['root','spine','head','armL','armR','face']) p[k]=numMix(a[k],b[k],t,raw);
+  for(const k of ['sq','sqx','scale','chest','ant','wind','legS']) p[k]=lerp(a[k],b[k],t);
+  for(const k of ['gloveL','gloveR']) p[k]= raw<.5? a[k] : b[k];
+  for(const k of ['kneeL','kneeR']) p[k]= (a[k]||b[k])? lerp3(a[k]||[0,0,1],b[k]||[0,0,1],t) : null;
+  for(const k of ['footL','footR']){ const A=a[k],B=b[k], v=lerp3(A,B,t), dh=Math.hypot(B[0]-A[0],B[2]-A[2]); if(dh>2&&!b.nolift) v[1]+=Math.sin(Math.PI*raw)*Math.min(14,dh*.35); p[k]=v; }
+  for(const S of ['L','R']){
+    const ha=a['hand'+S], hb=b['hand'+S];
+    if(ha||hb){
+      const Ja=(a._J||(a._J=solve(a).J)), Jb=(b._J||(b._J=solve(b).J));
+      const A=sub(ha? handTarget(ha,a,frames(a).R0,Ja['shoulder'+S]) : Ja['wrist'+S], Ja['shoulder'+S]);
+      const B=sub(hb? handTarget(hb,b,frames(b).R0,Jb['shoulder'+S]) : Jb['wrist'+S], Jb['shoulder'+S]);
+      p['hand'+S]={sh:lerp3(A,B,t)};
+      const d=[(S==='L'?1:-1)*.45,-.35,-1]; p['pole'+S]=lerp3(a['pole'+S]||d,b['pole'+S]||d,t);
+    } else p['hand'+S]=null;
+  }
+  return p;
+}
+
+/* ---- authoring helpers ---- */
+const at3=(x,y,z)=>[x,y,z];
+function feetAt(x,z,yaw,w=11,split=0,y=5){ const R=rY(yaw); const a=mv(R,[w,0,split/2]), b=mv(R,[-w,0,-split/2]); return {footL:[x+a[0],y,z+a[2]],footR:[x+b[0],y,z+b[2]]}; }
+function S(x,yaw=0,o={}){ return Object.assign({root:{x,y:o.y??92,z:o.z??0,yaw,pitch:0,roll:0},spine:{fwd:0,side:0,twist:0},head:{nod:0,turn:0,tilt:0}},feetAt(x,o.z??0,yaw,o.w??11,o.split??0,o.fy??5)); }
+const A=o=>({armL:clone(o),armR:clone(o)});
+const ARM0={flex:0,abd:12,horiz:0,rot:0,elbow:18};
+const F=o=>({face:o});
+const FACES={
+  calm:{browA:0,browY:0,lid:0,wink:0,smile:.35,open:0,pop:0,mouth:'line',eyes:'o',red:0,blush:0,sick:0,hs:1,tongue:0},
+  happy:{browA:0,browY:.35,lid:0,smile:.9,open:.25,mouth:'line',eyes:'o'},
+  grin:{browY:.3,smile:1,open:.45,mouth:'teeth',eyes:'o'},
+  surprise:{browA:0,browY:1,lid:0,smile:0,open:.8,mouth:'O',pop:.25},
+  shock:{browA:.2,browY:1,lid:0,smile:-.2,open:1.4,mouth:'O',pop:1,hs:1.2},
+  angry:{browA:-1,browY:-.2,lid:.25,smile:-.7,open:.35,mouth:'teeth'},
+  sad:{browA:1,browY:.1,lid:.45,smile:-.8,open:0,mouth:'line'},
+  scared:{browA:.8,browY:.8,lid:0,smile:-.4,open:.35,mouth:'wavy',pop:.2},
+  strain:{browA:-.7,browY:0,lid:.6,smile:-.3,open:.5,mouth:'teeth',red:.35},
+  smug:{browA:-.3,browY:.2,lid:.5,smile:.6,open:0,mouth:'line'},
+  dizzy:{eyes:'spiral',smile:-.1,open:.3,mouth:'wavy',browA:.4},
+  dead:{eyes:'x',smile:-.2,open:.2,mouth:'wavy'}
+};
+const FC=(name,o={})=>({face:Object.assign({},FACES.calm,FACES[name]||{},o)});
+const STYLES={
+  strut:{up:98,down:87,lift:26,arm:46,elbow:28,lean:4,nod:6,face:'happy'},
+  walk:{up:94,down:89,lift:16,arm:28,elbow:20,lean:3,nod:3},
+  sneak:{up:82,down:70,lift:44,arm:0,armFlex:55,abd:40,elbow:110,lean:26,nod:-8,tip:9,glove:'grab'},
+  sad:{up:88,down:85,lift:6,arm:5,elbow:8,lean:12,nod:28,face:'sad'},
+  run:{up:102,down:82,lift:50,arm:80,elbow:100,lean:22,nod:-6,glove:'fist'},
+  stomp:{up:96,down:82,lift:34,arm:24,elbow:100,lean:8,nod:10,glove:'fist',face:'angry'},
+  proud:{up:99,down:89,lift:24,arm:0,elbow:0,lean:-8,nod:-14,chest:1.5,face:'smug'}
+};
+/* walk n steps along the current heading; the back foot always moves past the front one */
+function walk(m,f,n,every,stride,style,extra={}){
+  const st=STYLES[style]||STYLES.walk; let t=f;
+  for(let i=0;i<n;i++){
+    const c=m.cur(), yaw=c.root.yaw, h=[Math.sin(yaw*DEG),0,Math.cos(yaw*DEG)];
+    const dl=dot(c.footL,h), dr=dot(c.footR,h), backIsL= dl<dr || (Math.abs(dl-dr)<.5&&i%2===0);
+    const back=backIsL? c.footL : c.footR, front=backIsL? c.footR : c.footL;
+    const lat=sub(back,add(c.root.x!==undefined?[c.root.x,0,c.root.z]:[0,0,0],mul(h,dot(sub(back,[c.root.x,0,c.root.z]),h)))); lat[1]=0;
+    const nx=add(add([c.root.x,0,c.root.z],mul(h,dot(sub(front,[c.root.x,0,c.root.z]),h)+stride)),lat); nx[1]=st.tip||5;
+    const pass=lerp3(back,nx,.5); pass[1]=(st.tip||5)+st.lift;
+    const rootPass=add([c.root.x,0,c.root.z],mul(h,dot(sub(front,[c.root.x,0,c.root.z]),h)));
+    const rootCon=add([c.root.x,0,c.root.z],mul(h,dot(sub(lerp3(front,nx,.5),[c.root.x,0,c.root.z]),h)));
+    const lf=backIsL; // left foot is swinging forward
+    const armFwd=(st.armFlex||0), sw=st.arm;
+    const armsPass={armL:{flex:armFwd,abd:st.abd??12,elbow:st.elbow,horiz:0,rot:0},armR:{flex:armFwd,abd:st.abd??12,elbow:st.elbow,horiz:0,rot:0}};
+    const armsCon={armL:{flex:armFwd+(lf?-sw*.7:sw),abd:st.abd??12,elbow:st.elbow,horiz:0,rot:0},armR:{flex:armFwd+(lf?sw:-sw*.7),abd:st.abd??12,elbow:st.elbow,horiz:0,rot:0}};
+    const common={root:{pitch:st.lean,roll:(lf?-1:1)*2},spine:{fwd:st.fwd||0,twist:(lf?1:-1)*6},chest:st.chest||1};
+    if(st.glove){ common.gloveL=st.glove; common.gloveR=st.glove; }
+    if(st.face) Object.assign(common,FC(st.face,extra.face||{}));
+    const o1=merge(merge(clone(common),{root:{x:rootPass[0],z:rootPass[2],y:st.up},head:{nod:st.nod-4},[lf?'footL':'footR']:pass,_b:1,_nl:1,_n:'passing'}),armsPass);
+    m.k(t+Math.round(every/2),merge(o1,extra.pass||{}),'out');
+    t+=every;
+    const o2=merge(merge(clone(common),{root:{x:rootCon[0],z:rootCon[2],y:st.down},head:{nod:st.nod+4},[lf?'footL':'footR']:nx,_nl:1,_n:extra.note||(style+' step')}),armsCon);
+    m.k(t,merge(o2,extra.con||{}),style==='strut'?'back':'in');
+    if(extra.sfx!==false) m.s(t,style==='run'?'tap':'step');
+  }
+  return t;
+}
+/* legs cycling in place (treadmill, ice scramble, running on air); feet slide backward while planted */
+function cycle(m,f,n,period,stride,o={}){
+  const c=m.cur(), yaw=c.root.yaw, h=[Math.sin(yaw*DEG),0,Math.cos(yaw*DEG)], base=[c.root.x,0,c.root.z];
+  const latL=mv(rY(yaw),[11,0,0]), latR=mv(rY(yaw),[-11,0,0]); const y0=o.y??5;
+  let t=f;
+  for(let i=0;i<n;i++){
+    const pr=Math.max(1,Math.round(period(i)/2)); const a=i%2===0;
+    const fwdF=add(add(base,mul(h,stride/2)),a?latL:latR), backF=add(add(base,mul(h,-stride/2)),a?latR:latL);
+    fwdF[1]=y0; backF[1]=y0+(o.lift||0)*.3;
+    const up=add(add(base,mul(h,0)),a?latR:latL); up[1]=y0+(o.lift??30);
+    t+=pr; m.k(t,Object.assign({[a?'footR':'footL']:up,_b:1,_nl:1,_n:'swing'},o.pass||{}),'lin');
+    t+=pr; m.k(t,Object.assign({[a?'footL':'footR']:backF,[a?'footR':'footL']:fwdF,_b:i%4!==3,_nl:1,_n:'cycle'},o.con||{}),'lin');
+    if(o.sfx) m.s(t,o.sfx);
+  }
+  return t;
+}
+
+/* ================= bake ================= */
+function bake(m){
+  if(m.F) return m;
+  m.F=[]; m.Pz=[];
+  let tip=null, vel=[0,0,0];
+  for(let f=0;f<m.len;f++){
+    const p=poseAt(m,f); const s=solve(p); s.p=p;
+    // antenna: a bola on a cord, sprung to the head
+    const Rh=s.J._Rh, up=mv(Rh,[0,1,0]), base=s.J.headTop;
+    const stiff=clamp(p.ant,-1,1);
+    let restDir=norm(add(up,[p.wind*1.3,stiff<0?stiff*1.2:0,0])); const rest=add(base,mul(restDir,24*(1+Math.max(0,stiff)*.3)));
+    if(!tip) tip=rest.slice();
+    const k=.22+Math.max(0,stiff)*.5, dmp=.72;
+    vel=mul(add(vel,mul(sub(rest,tip),k)),dmp); tip=add(tip,vel);
+    const d=sub(tip,base), dl=len(d), maxL=30; if(dl>maxL) tip=add(base,mul(d,maxL/dl));
+    s.J.antTip=tip.slice(); s.J.antMid=add(lerp3(base,tip,.5),mul(sub(rest,tip),.35));
+    m.F.push(s);
+  }
+  m.metrics=channels(m);
+  return m;
+}
+
+/* ================= channels for the audit ================= */
+const CH=[
+ ['travel','root',p=>0,true],['height','root'],['pitch','root'],['roll','root'],['yaw','root'],
+ ['spine','spine'],['bend','spine'],['twist','spine'],
+ ['nod','head'],['turn','head'],['tilt','head'],
+ ['shoulder L','arm'],['shoulder R','arm'],['elbow L','arm'],['elbow R','arm'],['gloves','hand'],
+ ['hip L','leg'],['hip R','leg'],['knee L','leg'],['knee R','leg'],['feet','leg'],
+ ['squash','toon'],['chest','toon'],['stretch','toon'],['antenna','toon'],
+ ['brows','face'],['lids','face'],['eyes','face'],['mouth','face'],['color','face'],
+ ['props','world'],['fx','world'],['sound','world']
+];
+const CHSCALE=[150,60,60,40,90,40,30,40,40,60,30,140,140,120,120,1,110,110,120,120,40,.6,.6,.6,25,1,1,1,1.4,1,1,1,1];
+const GL=['open','fist','point','grab','thumb','flat','wave'];
+const EY=['o','heart','x','spiral','closed','star'];
+function chanVals(s,p,m,f){
+  const J=s.J, r=p.root, fc=p.face;
+  const ang=(a,b,c)=>angDeg(sub(a,b),sub(c,b));
+  return [
+    Math.hypot(r.x-(m.keys[0].root.x),r.z-(m.keys[0].root.z)), r.y, r.pitch, r.roll, r.yaw,
+    p.spine.fwd, p.spine.side, p.spine.twist, p.head.nod, p.head.turn, p.head.tilt,
+    angDeg(sub(J.hipL,J.shoulderL),sub(J.elbowL,J.shoulderL)), angDeg(sub(J.hipR,J.shoulderR),sub(J.elbowR,J.shoulderR)),
+    180-ang(J.shoulderL,J.elbowL,J.wristL), 180-ang(J.shoulderR,J.elbowR,J.wristR), GL.indexOf(p.gloveL)*7+GL.indexOf(p.gloveR),
+    180-angDeg(sub(J.shoulderL,J.hipL),sub(J.kneeL,J.hipL)), 180-angDeg(sub(J.shoulderR,J.hipR),sub(J.kneeR,J.hipR)),
+    180-ang(J.hipL,J.kneeL,J.ankleL), 180-ang(J.hipR,J.kneeR,J.ankleR), Math.max(J.ankleL[1],J.ankleR[1]),
+    p.sq*p.sqx*p.scale, p.chest, s.stretch, len(sub(J.antTip,add(J.headTop,mul(mv(J._Rh,[0,1,0]),24)))),
+    fc.browA+fc.browY*1.3, fc.lid+fc.wink, fc.pop+EY.indexOf(fc.eyes)*.4, fc.open+fc.smile*.5+fc.tongue*.3, fc.red+fc.blush+fc.sick,
+    (m.props||m.propsBack)?1:0, 0, 0
+  ];
+}
+function channels(m){
+  const vals=m.F.map((s,f)=>chanVals(s,s.p,m,f));
+  const cov=CH.map((c,j)=>{ if(j===15){ const set=new Set(vals.map(v=>v[15])); return clamp((set.size-1)/2,0,1); }
+    if(j===30) return m.props||m.propsBack?1:0; if(j===31) return clamp(m.fx.length/3,0,1); if(j===32) return clamp(m.sfx.length/4,0,1);
+    let mn=1e9,mx=-1e9; for(const v of vals){ mn=Math.min(mn,v[j]); mx=Math.max(mx,v[j]); } return clamp((mx-mn)/CHSCALE[j],0,1); });
+  return {vals,cov};
+}
+
+/* ================= drawing ================= */
+const INK='#000', SKIN='#ffd23f', SHOE='#e3261f', GLOVE='#ffffff', TEAL='#19c9ae', BLUE='#3b82f6', RED='#e3261f', PINK='#ff9eb0';
+function camera(W,H,yaw,elev,center,scale){
+  const cy=Math.cos(yaw*DEG), sy=Math.sin(yaw*DEG), ce=Math.cos(elev*DEG), se=Math.sin(elev*DEG);
+  return p=>{ const x=p[0]-center[0], y=p[1]-center[1], z=p[2]-center[2];
+    const x1=x*cy-z*sy, z1=x*sy+z*cy; const y2=y*ce-z1*se, z2=y*se+z1*ce; return [W/2+x1*scale, H*.5-y2*scale, z2]; };
+}
+/* a drawing kit bound to one camera; boil jitters lines a little per drawing (frame on twos) */
+function kit(ctx,P,sc,boilSeed){
+  const R=boilSeed==null? null : rng(boilSeed);
+  const jit=()=> R? (R()-.5)*1.1 : 0;
+  const Q=p=>{ const q=P(p); return [q[0]+jit(),q[1]+jit(),q[2]]; };
+  const K={ctx,P:Q,sc,wv:(u,y,d)=>[u,y,d],
+    line(a,b,w=2,col=INK){ const p=Q(a),q=Q(b); ctx.strokeStyle=col; ctx.lineWidth=w; ctx.lineCap='round'; ctx.beginPath(); ctx.moveTo(p[0],p[1]); ctx.lineTo(q[0],q[1]); ctx.stroke(); },
+    poly(pts,fill,stroke=INK,w=2,close=true){ const q=pts.map(Q); ctx.beginPath(); q.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1])); if(close) ctx.closePath(); if(fill){ctx.fillStyle=fill;ctx.fill();} if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=w;ctx.lineJoin='round';ctx.stroke();} },
+    circle(c,r,fill,stroke=INK,w=2){ const p=Q(c); ctx.beginPath(); ctx.arc(p[0],p[1],Math.max(.5,r*sc),0,Math.PI*2); if(fill){ctx.fillStyle=fill;ctx.fill();} if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=w;ctx.stroke();} },
+    rectV(x0,y0,x1,y1,z,fill,stroke=INK,w=2){ K.poly([[x0,y0,z],[x1,y0,z],[x1,y1,z],[x0,y1,z]],fill,stroke,w); },
+    rectX(x,y0,y1,z0,z1,fill,stroke=INK,w=2){ K.poly([[x,y0,z0],[x,y0,z1],[x,y1,z1],[x,y1,z0]],fill,stroke,w); },
+    box(c,s,fill,stroke=INK,w=2){ const [x,y,z]=c,[a,b,d]=s.map(v=>v/2);
+      const faces=[[[x-a,y-b,z+d],[x+a,y-b,z+d],[x+a,y+b,z+d],[x-a,y+b,z+d]],[[x-a,y+b,z-d],[x+a,y+b,z-d],[x+a,y+b,z+d],[x-a,y+b,z+d]],[[x+a,y-b,z-d],[x+a,y-b,z+d],[x+a,y+b,z+d],[x+a,y+b,z-d]],[[x-a,y-b,z-d],[x-a,y-b,z+d],[x-a,y+b,z+d],[x-a,y+b,z-d]]];
+      for(const fc of faces) K.poly(fc,fill,stroke,w); },
+    text(p,str,size=18,col=INK,align='center',font='display'){ const q=P(p); ctx.fillStyle=col; ctx.textAlign=align; ctx.textBaseline='middle'; ctx.font=font==='display'? `900 ${Math.max(9,size*sc)}px "Big Shoulders Display", Impact, sans-serif` : `600 ${Math.max(8,size*sc)}px "JetBrains Mono", monospace`; ctx.fillText(str,q[0],q[1]); },
+    groundEllipse(c,rx,rz,fill){ const p=P([c[0],0,c[2]]), px=P([c[0]+rx,0,c[2]]), pz=P([c[0],0,c[2]+rz]); ctx.beginPath(); ctx.ellipse(p[0],p[1],Math.max(1,Math.hypot(px[0]-p[0],px[1]-p[1])),Math.max(1,Math.hypot(pz[0]-p[0],pz[1]-p[1]))+1.5,0,0,Math.PI*2); ctx.fillStyle=fill; ctx.fill(); }
+  };
+  return K;
+}
+/* rubber hose: a single smooth curve through the joint */
+function hose(K,a,j,b,w){ const ctx=K.ctx; const p=K.P(a), q=K.P(j), r=K.P(b); const cx=2*q[0]-(p[0]+r[0])/2, cy=2*q[1]-(p[1]+r[1])/2;
+  ctx.strokeStyle=INK; ctx.lineCap='round'; ctx.lineJoin='round'; ctx.lineWidth=w*K.sc; ctx.beginPath(); ctx.moveTo(p[0],p[1]); ctx.quadraticCurveTo(cx,cy,r[0],r[1]); ctx.stroke(); }
+function glove(K,wrist,elbow,shape,far){
+  const ctx=K.ctx, w=K.P(wrist), e=K.P(elbow), sc=K.sc; let dx=w[0]-e[0], dy=w[1]-e[1]; const dl=Math.hypot(dx,dy)||1; dx/=dl; dy/=dl;
+  const ang=Math.atan2(dy,dx); ctx.save(); ctx.translate(w[0],w[1]); ctx.rotate(ang); ctx.scale(sc,sc);
+  ctx.lineWidth=2/sc*1.1; ctx.strokeStyle=INK; ctx.fillStyle=GLOVE; ctx.lineJoin='round';
+  const finger=(x,y,a,l)=>{ ctx.save(); ctx.translate(x,y); ctx.rotate(a); ctx.beginPath(); ctx.ellipse(l/2,0,l/2,2.6,0,0,Math.PI*2); ctx.fill(); ctx.stroke(); ctx.restore(); };
+  // cuff
+  ctx.beginPath(); ctx.rect(-3.5,-5.5,5,11); ctx.fill(); ctx.stroke();
+  if(shape==='fist'){ ctx.beginPath(); ctx.ellipse(6,0,6.5,6.5,0,0,Math.PI*2); ctx.fill(); ctx.stroke(); ctx.beginPath(); ctx.moveTo(9,-3); ctx.lineTo(12,-3); ctx.moveTo(9,1); ctx.lineTo(12.4,1); ctx.stroke(); }
+  else if(shape==='point'){ finger(6,-3,0,13); ctx.beginPath(); ctx.ellipse(5.5,1.5,6,5.5,0,0,Math.PI*2); ctx.fill(); ctx.stroke(); finger(4,-6,-1.2,6); }
+  else if(shape==='thumb'){ ctx.beginPath(); ctx.ellipse(6,1,6,6,0,0,Math.PI*2); ctx.fill(); ctx.stroke(); finger(4,-4,-1.57,11); }
+  else if(shape==='grab'){ finger(5,-4,-.5,10); finger(6,0,.1,11); finger(5,4,.6,10); ctx.beginPath(); ctx.ellipse(4,0,5,5,0,0,Math.PI*2); ctx.fill(); ctx.stroke(); }
+  else if(shape==='flat'){ ctx.beginPath(); ctx.ellipse(8,0,9,5,0,0,Math.PI*2); ctx.fill(); ctx.stroke(); }
+  else { finger(6,-5,-.55,11); finger(7,-1.5,-.15,12); finger(7,2,.2,12); finger(5,5,.75,9); ctx.beginPath(); ctx.ellipse(5,0,6,6,0,0,Math.PI*2); ctx.fill(); ctx.stroke(); }
+  ctx.restore();
+}
+function shoe(K,ankle,toe){ const ctx=K.ctx, a=K.P(ankle), t=K.P(toe), sc=K.sc; const cx=(a[0]*.35+t[0]*.65), cy=(a[1]*.35+t[1]*.65); const ang=Math.atan2(t[1]-a[1],t[0]-a[0]); const ln=Math.hypot(t[0]-a[0],t[1]-a[1]);
+  ctx.beginPath(); ctx.ellipse(cx,cy,Math.max(6*sc,ln*.75+3*sc),5.5*sc,ang,0,Math.PI*2); ctx.fillStyle=SHOE; ctx.fill(); ctx.strokeStyle=INK; ctx.lineWidth=2; ctx.stroke(); }
+/* torso: the hull of the pelvis bola and the ribcage bola */
+function hull(K,c1,r1,c2,r2,fill){ const ctx=K.ctx; const p=K.P(c1), q=K.P(c2); r1*=K.sc; r2*=K.sc; const dx=q[0]-p[0], dy=q[1]-p[1], D=Math.hypot(dx,dy);
+  ctx.beginPath();
+  if(D<=Math.abs(r1-r2)+.5){ const big=r1>=r2?[p,r1]:[q,r2]; ctx.arc(big[0][0],big[0][1],big[1],0,Math.PI*2); }
+  else { const a=Math.atan2(dy,dx), th=Math.acos(clamp((r1-r2)/D,-1,1)); ctx.arc(p[0],p[1],r1,a+th,a+2*Math.PI-th); ctx.arc(q[0],q[1],r2,a-th,a+th); ctx.closePath(); }
+  ctx.fillStyle=fill; ctx.fill(); ctx.strokeStyle=INK; ctx.lineWidth=2.2; ctx.stroke(); }
+function heartPath(ctx,x,y,s){ ctx.beginPath(); ctx.moveTo(x,y+s*.35); ctx.bezierCurveTo(x-s*1.1,y-s*.4,x-s*.45,y-s*1.1,x,y-s*.45); ctx.bezierCurveTo(x+s*.45,y-s*1.1,x+s*1.1,y-s*.4,x,y+s*.35); ctx.closePath(); }
+function starPath(ctx,x,y,r,n=5,ir=.45){ ctx.beginPath(); for(let i=0;i<n*2;i++){ const a=-Math.PI/2+i*Math.PI/n, rr=i%2?r*ir:r; ctx.lineTo(x+Math.cos(a)*rr,y+Math.sin(a)*rr); } ctx.closePath(); }
+
+function drawHead(K,J,p,f){
+  const ctx=K.ctx, fc=p.face, sc=K.sc, Rh=J._Rh, c=K.P(J.head), R=L.headR*sc*(p.scale||1);
+  const hs=fc.hs||1, upv=K.P(add(J.head,mv(Rh,[0,1,0]))), roll=Math.atan2(upv[0]-c[0],-(upv[1]-c[1]));
+  // antenna
+  const b=K.P(J.headTop), m_=K.P(J.antMid), t=K.P(J.antTip);
+  ctx.strokeStyle=INK; ctx.lineWidth=2.2; ctx.beginPath(); ctx.moveTo(b[0],b[1]); ctx.quadraticCurveTo(m_[0],m_[1],t[0],t[1]); ctx.stroke();
+  ctx.beginPath(); ctx.arc(t[0],t[1],4.6*sc,0,Math.PI*2); ctx.fillStyle=RED; ctx.fill(); ctx.stroke();
+  // skull (stretches along its own up axis on a take)
+  ctx.save(); ctx.translate(c[0],c[1]); ctx.rotate(roll); ctx.scale(1/Math.sqrt(hs),hs);
+  ctx.beginPath(); ctx.arc(0,0,R,0,Math.PI*2); ctx.fillStyle=fc.sick>0? mixHex(SKIN,'#9be36b',fc.sick):SKIN; ctx.fill();
+  if(fc.red>0){ ctx.save(); ctx.clip(); ctx.fillStyle=RED; ctx.globalAlpha=.85; ctx.fillRect(-R,R-2*R*fc.red,2*R,2*R*fc.red); ctx.restore(); }
+  ctx.strokeStyle=INK; ctx.lineWidth=2.4; ctx.stroke(); ctx.restore();
+  // features live on the sphere: visible only when they face the camera
+  const feat=(local)=>{ const n=norm(mv(Rh,local)); const w=add(J.head,mul(n,L.headR*(p.scale||1)*.98)); const q=K.P(w), d=q[2]-c[2]; const qq=[c[0]+(q[0]-c[0])/Math.sqrt(hs)*1,c[1]+(q[1]-c[1])*hs,d]; return {q:qq,face:clamp(d/(L.headR*(p.scale||1))*1.0,0,1)}; };
+  const fwd=feat([0,0,1]); const vis=fwd.face;
+  if(vis<.08){ return; }
+  const pop=fc.pop||0;
+  for(const [side,lx] of [['L',.36],['R',-.36]]){
+    const e=feat([lx,.22,.9]); if(e.face<.05) continue;
+    const pe=add(J.head,mul(norm(mv(Rh,[lx,.22,.9])),L.headR*(1+pop*.9)));
+    const q=pop>0.02? K.P(pe) : e.q; const ew=6.4*sc*(1+pop*1.1)*Math.max(.35,e.face), eh=9.4*sc*(1+pop*1.1);
+    if(pop>.05){ ctx.strokeStyle=INK; ctx.lineWidth=1.6; ctx.beginPath(); ctx.moveTo(e.q[0],e.q[1]); ctx.lineTo(q[0],q[1]); ctx.stroke(); }
+    ctx.save(); ctx.translate(q[0],q[1]); ctx.rotate(roll);
+    const shape=fc.eyes, lid=clamp((fc.lid||0)+(side==='L'?fc.wink||0:0),0,1);
+    if(shape==='heart'){ heartPath(ctx,0,0,eh*1.1); ctx.fillStyle=RED; ctx.fill(); ctx.strokeStyle=INK; ctx.lineWidth=1.5; ctx.stroke(); }
+    else if(shape==='x'){ ctx.strokeStyle=INK; ctx.lineWidth=2.4; ctx.beginPath(); ctx.moveTo(-ew*.8,-eh*.6); ctx.lineTo(ew*.8,eh*.6); ctx.moveTo(ew*.8,-eh*.6); ctx.lineTo(-ew*.8,eh*.6); ctx.stroke(); }
+    else if(shape==='spiral'){ ctx.strokeStyle=INK; ctx.lineWidth=1.6; ctx.beginPath(); for(let i=0;i<40;i++){ const a=i*.5+f*.6*(side==='L'?1:-1), r=i/40*eh; ctx.lineTo(Math.cos(a)*r*ew/eh,Math.sin(a)*r); } ctx.stroke(); }
+    else if(shape==='closed'||lid>=.97){ ctx.strokeStyle=INK; ctx.lineWidth=2.2; ctx.beginPath(); ctx.arc(0,shape==='closed'?eh*.2:0,ew,Math.PI*1.1,Math.PI*1.9); ctx.stroke(); }
+    else if(shape==='star'){ starPath(ctx,0,0,eh*.9); ctx.fillStyle=SKIN; ctx.fill(); ctx.strokeStyle=INK; ctx.lineWidth=1.5; ctx.stroke(); }
+    else {
+      ctx.beginPath(); ctx.ellipse(0,0,ew,eh,0,0,Math.PI*2); ctx.fillStyle='#fff'; ctx.fill(); ctx.strokeStyle=INK; ctx.lineWidth=1.8; ctx.stroke();
+      ctx.save(); ctx.clip();
+      const gx=clamp(fc.gx||0,-1,1)*ew*.5, gy=-clamp(fc.gy||0,-1,1)*eh*.45;
+      ctx.beginPath(); ctx.ellipse(gx,gy+eh*.15,ew*.55,eh*.55,0,0,Math.PI*2); ctx.fillStyle=INK; ctx.fill();
+      // pie notch
+      ctx.beginPath(); ctx.moveTo(gx,gy+eh*.15); ctx.arc(gx,gy+eh*.15,ew*.55,-1.2,-.75); ctx.closePath(); ctx.fillStyle='#fff'; ctx.fill();
+      if(lid>0.02){ ctx.fillStyle=fc.red>.5?RED:SKIN; ctx.fillRect(-ew-2,-eh-2,ew*2+4,(eh*2+4)*lid); ctx.strokeStyle=INK; ctx.lineWidth=1.8; ctx.beginPath(); ctx.moveTo(-ew,-eh+(eh*2)*lid); ctx.lineTo(ew,-eh+(eh*2)*lid); ctx.stroke(); }
+      ctx.restore();
+    }
+    // brow
+    const by=-eh*1.02-1.6*sc-(fc.browY||0)*3.2*sc, ba=(fc.browA||0)*.5*(side==='L'?-1:1);
+    ctx.strokeStyle=INK; ctx.lineWidth=2.6*Math.max(.7,sc); ctx.lineCap='round'; ctx.beginPath(); ctx.moveTo(-ew*1.1*Math.cos(ba),by-ew*1.1*Math.sin(ba)); ctx.lineTo(ew*1.1*Math.cos(ba),by+ew*1.1*Math.sin(ba)); ctx.stroke();
+    if(fc.blush>0.02){ ctx.globalAlpha=fc.blush*.8; ctx.fillStyle=PINK; ctx.beginPath(); ctx.ellipse(side==='L'?ew*.6:-ew*.6,eh*1.6,ew*.9,eh*.4,0,0,Math.PI*2); ctx.fill(); ctx.globalAlpha=1; }
+    ctx.restore();
+  }
+  // nose: a small bola
+  const nz=feat([0,-.02,1]); ctx.beginPath(); ctx.arc(nz.q[0],nz.q[1],3*sc,0,Math.PI*2); ctx.fillStyle=INK; ctx.fill();
+  // mouth
+  const mo=feat([0,-.48,.86]); if(mo.face>.05){
+    ctx.save(); ctx.translate(mo.q[0],mo.q[1]); ctx.rotate(roll);
+    const mw=10.5*sc*Math.max(.4,mo.face)*(1+(fc.open||0)*.25), op=(fc.open||0)*10*sc, sm=(fc.smile||0)*5.5*sc;
+    ctx.strokeStyle=INK; ctx.lineWidth=2.2; ctx.lineCap='round'; ctx.lineJoin='round';
+    if(fc.mouth==='wavy'&&op<3){ ctx.beginPath(); for(let i=0;i<=8;i++){ const x=-mw+i*mw/4; ctx.lineTo(x,(i%2?-2:2)*sc); } ctx.stroke(); }
+    else if(op<1.2&&fc.mouth!=='O'){ ctx.beginPath(); ctx.moveTo(-mw,-sm*.4); ctx.quadraticCurveTo(0,sm*1.3,mw,-sm*.4); ctx.stroke(); }
+    else{
+      ctx.beginPath();
+      if(fc.mouth==='O'){ ctx.ellipse(0,op*.35,Math.max(3*sc,mw*.55),Math.max(3*sc,op*.7),0,0,Math.PI*2); }
+      else { ctx.moveTo(-mw,-sm*.4); ctx.quadraticCurveTo(0,sm*.6,mw,-sm*.4); ctx.quadraticCurveTo(mw*.6,op+sm,0,op+sm*1.2); ctx.quadraticCurveTo(-mw*.6,op+sm,-mw,-sm*.4); ctx.closePath(); }
+      ctx.fillStyle='#4a0d0d'; ctx.fill(); ctx.save(); ctx.clip();
+      if(fc.mouth==='teeth'){ ctx.fillStyle='#fff'; ctx.fillRect(-mw,-sm-2,mw*2,Math.max(3,op*.45)); ctx.strokeStyle=INK; ctx.lineWidth=1; for(let i=-2;i<=2;i++){ ctx.beginPath(); ctx.moveTo(i*mw/3,-sm-2); ctx.lineTo(i*mw/3,op*.45-sm); ctx.stroke(); } }
+      ctx.fillStyle='#ff6f86'; ctx.beginPath(); ctx.ellipse(0,op*.85+sm+(fc.tongue||0)*6*sc,mw*.5,op*.35+(fc.tongue||0)*5*sc,0,0,Math.PI*2); ctx.fill();
+      ctx.restore(); ctx.strokeStyle=INK; ctx.lineWidth=2.2; ctx.stroke();
+      if((fc.tongue||0)>.3){ ctx.beginPath(); ctx.ellipse(0,op+sm+fc.tongue*7*sc,mw*.45,fc.tongue*7*sc,0,0,Math.PI*2); ctx.fillStyle='#ff6f86'; ctx.fill(); ctx.stroke(); }
+    }
+    ctx.restore();
+  }
+}
+function mixHex(a,b,t){ const pa=parseInt(a.slice(1),16), pb=parseInt(b.slice(1),16); const r=Math.round(lerp(pa>>16,pb>>16,t)), g=Math.round(lerp(pa>>8&255,pb>>8&255,t)), bl=Math.round(lerp(pa&255,pb&255,t)); return '#'+((1<<24)+(r<<16)+(g<<8)+bl).toString(16).slice(1); }
+
+function drawBola(K,s,prev,f,opt={}){
+  const J=s.J, p=s.p, sc=K.sc, ctx=K.ctx; const P=K.P;
+  const sd=S_=>(P(J['shoulder'+S_])[2]+P(J['hip'+S_])[2])/2; const farS= sd('L')<sd('R')?'L':'R', nearS=farS==='L'?'R':'L';
+  const sz=(p.scale||1);
+  const arm=S_=>{ hose(K,J['shoulder'+S_],J['elbow'+S_],J['wrist'+S_],4.4*sz); glove(K,J['wrist'+S_],J['elbow'+S_],p['glove'+S_]); };
+  const leg=S_=>{ hose(K,J['hip'+S_],J['knee'+S_],J['ankle'+S_],5.2*sz); shoe(K,J['ankle'+S_],J['toe'+S_]); };
+  const headBehind = P(J.head)[2] < P(J.chest)[2]-8;
+  // smears: fast hands and feet leave ghost hoses
+  if(prev&&opt.smear!==false){
+    for(const [a,j,b] of [['shoulderL','elbowL','wristL'],['shoulderR','elbowR','wristR'],['hipL','kneeL','ankleL'],['hipR','kneeR','ankleR']]){
+      const v=len(sub(J[b],prev.J[b])); if(v>11){ ctx.globalAlpha=.28; for(let g=1;g<=2;g++){ const t=g/3; hose(K,lerp3(J[a],prev.J[a],t),lerp3(J[j],prev.J[j],t),lerp3(J[b],prev.J[b],t),4*sz); } ctx.globalAlpha=1;
+        const q=P(J[b]), r=P(prev.J[b]); const dx=q[0]-r[0], dy=q[1]-r[1], dl=Math.hypot(dx,dy)||1; ctx.strokeStyle=INK; ctx.lineWidth=1.2; for(let i=-1;i<=1;i++){ const ox=-dy/dl*i*6, oy=dx/dl*i*6; ctx.beginPath(); ctx.moveTo(q[0]-dx/dl*8+ox,q[1]-dy/dl*8+oy); ctx.lineTo(q[0]-dx/dl*(8+v*1.6*sc)+ox,q[1]-dy/dl*(8+v*1.6*sc)+oy); ctx.stroke(); } }
+    }
+  }
+  if(headBehind) drawHead(K,J,p,f);
+  arm(farS); leg(farS);
+  // torso: pelvis bola + ribcage bola (chest scales for breath and pride)
+  hull(K,J.pelvis,19*sz,J.chest,16*p.chest*sz,SKIN);
+  { const pl=P(J.pelvis), hl=P(J.hipL), hr=P(J.hipR); ctx.strokeStyle=INK; ctx.lineWidth=2; ctx.beginPath(); ctx.moveTo(lerp(hl[0],pl[0],-.15),pl[1]-4*sc); ctx.quadraticCurveTo(pl[0],pl[1]+3*sc,lerp(hr[0],pl[0],-.15),pl[1]-4*sc); ctx.stroke(); }
+  leg(nearS);
+  if(!headBehind) drawHead(K,J,p,f);
+  arm(nearS);
+}
+function drawXray(K,J){ const ctx=K.ctx; ctx.save(); ctx.globalAlpha=.9; const seg=(a,b)=>{ const p=K.P(J[a]),q=K.P(J[b]); ctx.strokeStyle=BLUE; ctx.lineWidth=2; ctx.beginPath(); ctx.moveTo(p[0],p[1]); ctx.lineTo(q[0],q[1]); ctx.stroke(); };
+  [['pelvis','spineMid'],['spineMid','neck'],['neck','head'],['shoulderL','elbowL'],['elbowL','wristL'],['shoulderR','elbowR'],['elbowR','wristR'],['hipL','kneeL'],['kneeL','ankleL'],['hipR','kneeR'],['kneeR','ankleR'],['shoulderL','shoulderR'],['hipL','hipR']].forEach(([a,b])=>seg(a,b));
+  for(const k of ['pelvis','neck','head','shoulderL','shoulderR','elbowL','elbowR','wristL','wristR','hipL','hipR','kneeL','kneeR','ankleL','ankleR','nose']){ const p=K.P(J[k]); ctx.fillStyle=k==='nose'?RED:BLUE; ctx.beginPath(); ctx.arc(p[0],p[1],3,0,Math.PI*2); ctx.fill(); }
+  ctx.restore(); }
+
+/* ================= fx ================= */
+function fxAnchor(J,at){ if(Array.isArray(at)) return at; if(at==='feet') return [ (J.ankleL[0]+J.ankleR[0])/2,2,(J.ankleL[2]+J.ankleR[2])/2 ]; if(at==='root') return J.pelvis; if(at==='chest') return J.chest; if(at==='handR') return J.wristR; if(at==='handL') return J.wristL; return J.head; }
+const FX={
+  stars(K,e,t,J,f){ const c=add(J.head,[0,26,0]); for(let i=0;i<4;i++){ const a=f*.18+i*Math.PI/2; const p=K.P(add(c,[Math.cos(a)*22,Math.sin(a*2)*3,Math.sin(a)*14])); starPath(K.ctx,p[0],p[1],6*K.sc); K.ctx.fillStyle='#ffd23f'; K.ctx.fill(); K.ctx.strokeStyle=INK; K.ctx.lineWidth=1.5; K.ctx.stroke(); } },
+  steam(K,e,t,J,f){ const c=J.headTop; for(let i=0;i<5;i++){ const ph=((f*.07+i/5)%1); const p=K.P(add(c,[Math.sin(i*2+f*.2)*8*ph+(i%2?6:-6),10+ph*60,0])); K.ctx.globalAlpha=1-ph; K.ctx.beginPath(); K.ctx.arc(p[0],p[1],(4+ph*12)*K.sc,0,Math.PI*2); K.ctx.fillStyle='#fff'; K.ctx.fill(); K.ctx.strokeStyle=INK; K.ctx.lineWidth=1.5; K.ctx.stroke(); } K.ctx.globalAlpha=1; },
+  sweat(K,e,t,J,f){ for(let i=0;i<3;i++){ const ph=((f*.06+i/3)%1); const side=i%2?1:-1; const p=K.P(add(J.head,[side*(16+ph*20),8+ph*10-ph*ph*30,6])); K.ctx.beginPath(); K.ctx.moveTo(p[0],p[1]-6*K.sc); K.ctx.quadraticCurveTo(p[0]+4*K.sc,p[1],p[0],p[1]+3*K.sc); K.ctx.quadraticCurveTo(p[0]-4*K.sc,p[1],p[0],p[1]-6*K.sc); K.ctx.fillStyle='#bfe3ff'; K.ctx.fill(); K.ctx.strokeStyle=INK; K.ctx.lineWidth=1.2; K.ctx.stroke(); } },
+  tear(K,e,t,J,f){ const ph=(f*.04)%1; const p=K.P(add(J.eyeL,[2,-ph*40,4])); K.ctx.beginPath(); K.ctx.ellipse(p[0],p[1],2.5*K.sc,4*K.sc,0,0,Math.PI*2); K.ctx.fillStyle='#8fd0ff'; K.ctx.fill(); K.ctx.strokeStyle=INK; K.ctx.lineWidth=1; K.ctx.stroke(); },
+  dust(K,e,t,J,f){ const c=e.p||fxAnchor(J,e.at||'feet'); for(let i=0;i<6;i++){ const a=i/6*Math.PI*2; const p=add(c,[Math.cos(a)*(8+t*40),4+t*10+Math.sin(a*3)*3,Math.sin(a)*(6+t*20)]); K.ctx.globalAlpha=1-t; K.circle(p,5+t*9,'#f3efe6',INK,1.4); } K.ctx.globalAlpha=1; },
+  speed(K,e,t,J,f){ const c=J.pelvis, dir=e.dir||-1; for(let i=0;i<6;i++){ const y=c[1]-40+i*18, x0=c[0]+dir*(30+((f*7+i*13)%40)); K.line([x0,y,c[2]],[x0+dir*(50+i*8),y,c[2]],1.6); } },
+  shiver(K,e,t,J,f){ const c=J.chest; for(const s of [-1,1]) for(let i=0;i<3;i++){ const y=c[1]-20+i*22, x=c[0]+s*(34+(f%2)*3); K.line([x,y,c[2]],[x+s*8,y+4,c[2]],1.8); } },
+  bulb(K,e,t,J,f){ const c=add(J.head,[0,44,0]); const p=K.P(c), r=9*K.sc; const ctx=K.ctx; if(t>.15){ ctx.strokeStyle='#ffd23f'; ctx.lineWidth=3; for(let i=0;i<8;i++){ const a=i*Math.PI/4; ctx.beginPath(); ctx.moveTo(p[0]+Math.cos(a)*r*1.5,p[1]+Math.sin(a)*r*1.5); ctx.lineTo(p[0]+Math.cos(a)*r*2.3,p[1]+Math.sin(a)*r*2.3); ctx.stroke(); } }
+    ctx.beginPath(); ctx.arc(p[0],p[1],r,0,Math.PI*2); ctx.fillStyle=t>.15?'#fff27a':'#fff'; ctx.fill(); ctx.strokeStyle=INK; ctx.lineWidth=2; ctx.stroke(); ctx.fillStyle='#bbb'; ctx.fillRect(p[0]-r*.45,p[1]+r*.8,r*.9,r*.6); ctx.strokeRect(p[0]-r*.45,p[1]+r*.8,r*.9,r*.6); },
+  q(K,e,t,J,f){ K.text(add(J.head,[18,40+Math.sin(f*.3)*2,0]),'?',34,INK); },
+  bang(K,e,t,J,f){ K.text(add(J.head,[0,46+t*4,0]),'!',44,RED); },
+  hearts(K,e,t,J,f){ for(let i=0;i<4;i++){ const ph=((f*.025+i/4)%1); const p=K.P(add(J.head,[Math.sin(i*1.7+ph*6)*26,20+ph*80,0])); K.ctx.globalAlpha=1-ph; heartPath(K.ctx,p[0],p[1],(6+ph*4)*K.sc); K.ctx.fillStyle=RED; K.ctx.fill(); K.ctx.strokeStyle=INK; K.ctx.lineWidth=1.3; K.ctx.stroke(); } K.ctx.globalAlpha=1; },
+  zzz(K,e,t,J,f){ for(let i=0;i<3;i++){ const ph=((f*.02+i/3)%1); K.ctx.globalAlpha=1-ph; K.text(add(J.head,[16+ph*30,26+ph*50,0]),'Z',14+ph*14,INK); } K.ctx.globalAlpha=1; },
+  notes(K,e,t,J,f){ for(let i=0;i<3;i++){ const ph=((f*.03+i/3)%1); const p=K.P(add(J.head,[(e.side||1)*(14+ph*30),10+ph*50+Math.sin(ph*8)*4,0])); const ctx=K.ctx; ctx.globalAlpha=1-ph; ctx.fillStyle=INK; ctx.beginPath(); ctx.ellipse(p[0],p[1],4*K.sc,3*K.sc,-.4,0,Math.PI*2); ctx.fill(); ctx.strokeStyle=INK; ctx.lineWidth=1.6; ctx.beginPath(); ctx.moveTo(p[0]+3.5*K.sc,p[1]); ctx.lineTo(p[0]+3.5*K.sc,p[1]-13*K.sc); ctx.lineTo(p[0]+9*K.sc,p[1]-9*K.sc); ctx.stroke(); } K.ctx.globalAlpha=1; },
+  splash(K,e,t,J,f){ const c=e.p||fxAnchor(J,'feet'); for(let i=0;i<9;i++){ const a=i/9*Math.PI; const r=10+t*60; const p=add(c,[Math.cos(a)*r,Math.sin(a)*60*t*(1-t)*2.2+4,(i%3-1)*8]); K.circle(p,3+ (1-t)*3,'#8fd0ff',INK,1.2); } },
+  word(K,e,t,J,f){ const c=e.p||add(fxAnchor(J,e.at||'head'),e.off||[0,40,0]); const s=(e.size||30)*(t<.15? .6+t/.15*.6 : 1.2-(t-.15)*.25); const p=K.P(c), ctx=K.ctx;
+    if(e.burst!==false){ starPath(ctx,p[0],p[1],s*1.25*K.sc,12,.62); ctx.fillStyle=e.bg||'#ffd23f'; ctx.fill(); ctx.strokeStyle=INK; ctx.lineWidth=2.4; ctx.stroke(); }
+    ctx.save(); ctx.translate(p[0],p[1]); ctx.rotate(e.rot||-.12); ctx.font=`900 ${Math.max(12,s*K.sc)}px "Big Shoulders Display", Impact, sans-serif`; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.lineWidth=4; ctx.strokeStyle='#fff'; ctx.strokeText(e.txt,0,0); ctx.fillStyle=e.col||INK; ctx.fillText(e.txt,0,0); ctx.restore(); },
+  lines(K,e,t,J,f){ const c=K.P(J.head), ctx=K.ctx; ctx.strokeStyle=INK; ctx.lineWidth=2; for(let i=0;i<14;i++){ const a=i/14*Math.PI*2+(f%2)*.1; const r1=(L.headR+16)*K.sc, r2=r1+(14+(i%3)*8)*K.sc; ctx.beginPath(); ctx.moveTo(c[0]+Math.cos(a)*r1,c[1]+Math.sin(a)*r1); ctx.lineTo(c[0]+Math.cos(a)*r2,c[1]+Math.sin(a)*r2); ctx.stroke(); } },
+  cloud(K,e,t,J,f){ const c=add([J.head[0],0,J.head[2]],[0,J.head[1]+56,0]); const ctx=K.ctx; for(let i=0;i<8;i++){ const x=c[0]-24+((f*3+i*11)%48); K.line([x,c[1]-6,c[2]],[x-3,c[1]-22,c[2]],1.4,BLUE); } for(const [dx,dy,r] of [[-18,0,12],[0,6,15],[18,0,12],[0,-4,13]]) K.circle(add(c,[dx,dy,0]),r,'#c9ced6',INK,1.8); },
+  wind(K,e,t,J,f){ for(let i=0;i<9;i++){ const y=20+i*24, x=200-((f*14+i*57)%500); K.line([x,y,30],[x+40+(i%3)*14,y,30],1.6,'#7a8794'); } },
+  wheel(K,e,t,J,f){ const c=add(mid(J.ankleL,J.ankleR),[0,10,0]); const p=K.P(c), ctx=K.ctx; ctx.strokeStyle=INK; ctx.lineWidth=1.4; for(let i=0;i<5;i++){ ctx.beginPath(); ctx.ellipse(p[0],p[1],(22+i*2)*K.sc,(18-i)*K.sc,f*.5+i,0,Math.PI*1.6); ctx.stroke(); } },
+  outline(K,e,t,J,f,m){ const s=m.F[e.from]; if(!s) return; K.ctx.save(); K.ctx.globalAlpha=t<.7?1:1-(t-.7)/.3; K.ctx.setLineDash([5,5]); const JJ=s.J; for(const [a,b] of [['pelvis','neck'],['neck','head'],['shoulderL','wristL'],['shoulderR','wristR'],['hipL','ankleL'],['hipR','ankleR']]) K.line(JJ[a],JJ[b],2); K.circle(JJ.head,L.headR,null,INK,2); K.ctx.setLineDash([]); K.ctx.restore(); },
+  heartbeat(K,e,t,J,f){ const beat=(f%12)<4?1.35:1; const p=K.P(add(J.chest,[0,4,14])); heartPath(K.ctx,p[0],p[1],12*K.sc*beat); K.ctx.fillStyle=RED; K.ctx.fill(); K.ctx.strokeStyle=INK; K.ctx.lineWidth=2; K.ctx.stroke(); },
+  iris(K,e,t,J,f){ const c=K.P(J.head), ctx=K.ctx, W=ctx.canvas.width, H=ctx.canvas.height; const r=lerp(Math.hypot(W,H),(L.headR+30)*K.sc,ease(clamp(t*1.4,0,1),'io'))*(t>.85?1-(t-.85)/.15:1); ctx.save(); ctx.beginPath(); ctx.rect(-10,-10,W+20,H+20); ctx.arc(c[0],c[1],Math.max(0,r),0,Math.PI*2,true); ctx.fillStyle='#000'; ctx.fill('evenodd'); ctx.restore(); }
+};
+/* ================= sets ================= */
+/* sets are drawn in camera-facing wall space (u across, y up, d depth) so every camera angle gets a backdrop */
+function wallKit(K){ const W=(u,y,d)=>K.wv(u,y,d);
+  return { W, line:(u0,y0,u1,y1,d,w=2,col=INK)=>K.line(W(u0,y0,d),W(u1,y1,d),w,col), rect:(u0,y0,u1,y1,d,fill,w=2,col=INK)=>K.poly([W(u0,y0,d),W(u1,y0,d),W(u1,y1,d),W(u0,y1,d)],fill,col,w), text:(u,y,d,t,s,col=INK,font)=>K.text(W(u,y,d),t,s,col,'center',font), circle:(u,y,d,r,fill)=>K.circle(W(u,y,d),r,fill) }; }
+const SETS={
+  clinic(K,f){ const w=wallKit(K), d=-110;
+    w.line(-560,0,560,0,d,2); w.line(-560,78,560,78,d,1.4,'#9aa5b1');
+    w.rect(-200,120,-120,200,d,'#fff'); w.text(-160,160,d,'BREATHE',15); w.line(-195,140,-125,140,d,1.2,'#9aa5b1');
+    const c=w.W(10,196,d); K.circle(c,15,'#fff'); const a=f*.08; K.line(c,add(c,[Math.cos(a)*11,Math.sin(a)*11,0]),2); K.line(c,add(c,[Math.cos(a/12)*7,Math.sin(a/12)*7,0]),2.6);
+    w.rect(150,90,260,200,d,'#eaf4ff'); w.line(205,90,205,200,d,2); w.line(150,145,260,145,d,2);
+    w.line(-560,0,560,0,70,1,'#d7dde3'); },
+  chart(K,f){ SETS.clinic(K,f); const w=wallKit(K), d=-100; w.rect(-30,0,30,200,d,'#fffbe6'); for(let y=20;y<=200;y+=10) w.line(-30,y,y%50===0?-12:-22,y,d,1.2); for(let y=50;y<=200;y+=50) w.text(14,y,d,String(y),9,INK,'mono'); },
+  gym(K,f){ const w=wallKit(K), d=-110; w.line(-560,0,560,0,d,2);
+    for(let u=-280;u<=-160;u+=40) w.line(u,0,u,210,d,2.4); for(let y=20;y<=200;y+=22) w.line(-282,y,-158,y,d,1.6);
+    w.rect(150,110,250,180,d,'#fff'); w.text(200,145,d,'NO PAIN',13); w.line(-560,0,560,0,70,1,'#d7dde3');
+    K.poly([w.W(-100,0,-40),w.W(100,0,-40),w.W(110,0,40),w.W(-110,0,40)],'#e6f7f3','#7aa',1.2); },
+  street(K,f){ const w=wallKit(K), d=-180; for(const [u0,wd,h] of [[-460,120,180],[-330,90,240],[-230,140,150],[-80,100,210],[30,160,170],[200,110,230],[320,140,160],[470,120,200]]){ w.rect(u0,0,u0+wd,h,d,'#fff',1.6); for(let y=30;y<h-20;y+=40) for(let u=u0+15;u<u0+wd-15;u+=30) w.rect(u,y,u+14,y+20,d,'#eaf4ff',1); }
+    w.line(-640,0,640,0,-50,1.6); w.line(-640,0,640,0,50,2.4); },
+  cliff(K,f){ K.poly([[-600,0,-300],[-300,140,-300],[-120,60,-300],[120,170,-300],[400,40,-300],[700,120,-300],[700,-400,-300],[-600,-400,-300]],'#f7fbff','#9aa5b1',1.4); K.poly([[-900,0,-60],[40,0,-60],[40,0,60],[-900,0,60]],'#efe2c8',INK,2); K.poly([[-900,0,60],[40,0,60],[40,-420,60],[-900,-420,60]],'#f4ead9',INK,2.4); for(let i=0;i<8;i++) K.line([40-((i*37)%60),-30-i*45,60],[40-((i*37)%60)-30,-40-i*45,60],1.4);
+  },
+  stage(K,f){ const w=wallKit(K); w.rect(-420,0,420,270,-90,'#14171c',0.1,'#14171c');
+    for(const s of [-1,1]){ const pts=[w.W(s*440,280,0),w.W(s*170,280,0)]; for(let i=0;i<=10;i++){ const y=280-i*28; pts.push(w.W(s*(170+(i%2?18:0)+i*3),y,0)); } pts.push(w.W(s*440,0,0)); K.poly(pts,RED,INK,2.4); }
+    w.rect(-440,280,440,246,0,RED,2.4); K.groundEllipse([0,0,0],90,40,'rgba(255,240,170,.55)'); w.line(-520,0,520,0,40,2); }
+};
+const GROUND={cliff:x=>x<40?0:null};
+
+/* ================= the episode ================= */
+const ACTS=[['I','Check-in','clinic'],['II','Range','gym'],['III','Objects & systems',''],['IV','Environment',''],['V','Emotion',''],['VI','Story without words','']];
+const EP=[];
+function PR(d,build){ const m=M(Object.assign({set:'clinic',cam:{x:0,y:100,zoom:1,yaw:0,elev:4}},d)); build(m); const K=m.keys; if(K[K.length-1].f<m.len-1) m.k(m.len-1,{_b:1,_n:'hold'}); m.id='P'+String(EP.length+1).padStart(2,'0'); EP.push(m); return m; }
+const B=(o={})=>Object.assign({_b:1},o);
+const GLV=(l,r)=>({gloveL:l,gloveR:r??l});
+const tr=track;
+
+/* ---------- ACT I · CHECK-IN ---------- */
+PR({act:0,title:'Walk in',proves:'walk cycle, arm swing, head bob, antenna drag',principle:'Double-bounce strut, on the beat',len:120,cam:{x:-110,x2:60,y:100,zoom:1,yaw:0,elev:4,follow:1},start:S(-200,90)},m=>{
+  m.k(0,Object.assign({},FC('happy'),A(ARM0)));
+  const t=walk(m,0,8,12,32,'strut');
+  m.k(t+8,Object.assign(B(),{root:{y:86},sq:.86},FC('happy')),'out').k(t+16,{root:{y:92},sq:1,_n:'arrive'},'back').s(t+8,'pop');
+  m.fxa('notes',4,t,{side:1});
+});
+PR({act:0,title:'Say hello',proves:'wave, smile, blink, wink, thumbs-up, glove shapes',principle:'Overlapping action: the wrist leads, the fingers drag',len:96,cam:{x:0,y:110,zoom:1.35,yaw:-12,elev:4},start:S(0,8)},m=>{
+  m.k(0,Object.assign({},FC('calm'),A(ARM0)));
+  m.k(8,Object.assign({root:{y:88},armR:{flex:-20,abd:20,elbow:40}},FC('calm',{browY:.2})),'out');
+  m.k(14,Object.assign({root:{y:93},armR:{flex:15,abd:150,elbow:55,rot:0},gloveR:'open'},FC('happy',{open:.4,browY:.6})),'back').s(14,'squeak');
+  for(let i=0;i<5;i++) m.k(18+i*5,B({armR:{rot:i%2?32:-32},head:{tilt:i%2?4:-4},_n:'wave'}));
+  m.k(46,{armR:{rot:0}}).k(50,B({face:{lid:1}})).k(53,{face:{lid:0}});
+  m.k(62,Object.assign({armR:{flex:75,abd:22,elbow:95,rot:0},gloveR:'thumb',root:{roll:-4},head:{tilt:-8}},FC('grin',{wink:1})),'back').s(62,'ding');
+  m.k(84,B({face:{wink:0}}));
+});
+PR({act:0,title:'Step on the scale',proves:'stepping up, holding breath, belly squash, a system that answers back',principle:'The system reacts to the body, and the body reacts to the system',len:110,cam:{x:10,y:105,zoom:1.15,yaw:-10,elev:6},start:S(-60,90)},m=>{
+  m.k(0,Object.assign({},FC('calm'),A(ARM0)));
+  m.k(10,Object.assign({footL:[-14,13,-11],root:{x:-30,y:98}},FC('calm',{gx:1})),'out').k(18,{footR:[-6,13,11],root:{x:-10,y:100,yaw:20},_n:'onto the scale'}).s(18,'ratchet');
+  m.k(26,Object.assign({root:{yaw:0},footL:[1,13,0],footR:[-21,13,0]},FC('surprise',{gx:1,gy:.2})),'out');
+  m.k(40,Object.assign({chest:.62,sq:1.07,root:{y:102}},FC('strain',{open:0,smile:-.1,red:.3,gx:1})),'out').s(40,'slideDown').k(56,B({chest:.6,root:{roll:2}})).k(58,B({root:{roll:-2}}));
+  m.k(68,Object.assign({chest:1.45,sq:.9,root:{y:96,roll:0}},FC('surprise',{mouth:'O',open:.6})),'snap').s(66,'zip').s(72,'boing');
+  m.k(90,Object.assign({chest:1,sq:1,root:{y:100}},FC('happy',{blush:.9,smile:.4,gx:-.4})));
+  m.props=(K,f)=>{ K.box([-10,6.5,0],[52,13,32],'#e8edf2'); K.line([40,0,-10],[40,128,-10],4); const c=[40,140,-10]; K.circle(c,16,'#fff',INK,2.4);
+    const a=tr(f,[[18,0],[26,300,'back'],[40,300],[50,130,'out'],[66,130],[74,365,'back'],[84,330,'elastic']])*DEG; K.line(c,add(c,[Math.sin(a)*13,Math.cos(a)*13,0]),2.4,RED);
+    if(f>=72&&f<92){ const t=(f-72)/20; for(let i=0;i<6;i++) K.line(add(c,[0,16+i*5*t*2,0]),add(c,[i%2?6:-6,16+(i+.5)*5*t*2,0]),1.6); } };
+});
+PR({act:0,title:'Measure the height',proves:'stretch to cheat, snap-back squash, volume kept',principle:'Squash and stretch keep the volume',len:96,set:'chart',cam:{x:0,y:110,zoom:1.05,yaw:0,elev:3},start:S(0,0,{z:-60})},m=>{
+  m.k(0,Object.assign({},FC('calm',{gy:.6}),A(ARM0)));
+  m.k(14,Object.assign({sq:.84,root:{y:86}},FC('calm',{browA:-.4,smile:.1})),'out').k(24,Object.assign({sq:1.38,root:{y:96},footL:[11,10,-60],footR:[-11,10,-60],armL:{abd:6},armR:{abd:6}},FC('strain',{gy:1,red:.1})),'back').s(24,'slideUp');
+  m.k(34,B({sq:1.36})).k(36,B({sq:1.4})).k(38,B({sq:1.36})).k(40,B({sq:1.4}));
+  m.k(48,Object.assign({sq:.62,root:{y:84},footL:[11,5,-60],footR:[-11,5,-60]},FC('dizzy')),'snap').s(46,'bonk').fxa('stars',48,76).fxa('word',46,58,{txt:'BONK',off:[30,60,0]});
+  m.k(64,{sq:1.12},'out').k(72,Object.assign({sq:1},FC('happy',{blush:.6,smile:.3})),'back');
+  m.props=(K,f)=>{ const y=tr(f,[[0,215],[40,215],[47,176,'in'],[54,170],[70,215,'out']])* (1); K.rectV(-34,y,34,y+6,-70,'#e3261f'); K.line([0,y+6,-70],[0,232,-70],2); };
+});
+PR({act:0,title:'Knee reflex',proves:'knee at full range, overshoot, chain reaction',principle:'Action, reaction, overlap',len:100,cam:{x:10,y:80,zoom:1.15,yaw:0,elev:5},start:Object.assign(S(-6,90),{root:{x:-6,y:62,z:0,yaw:90,pitch:0,roll:0},footL:[22,16,-11],footR:[22,16,11]})},m=>{
+  m.k(0,Object.assign({armL:{flex:10,abd:6,elbow:30},armR:{flex:10,abd:6,elbow:30}},FC('calm',{gx:.8,gy:-.6})));
+  m.k(18,Object.assign(B(),FC('calm',{gx:1,gy:-.8,browY:.3})));
+  m.k(24,Object.assign({footR:[66,66,11],_n:'reflex kick'},FC('surprise',{gx:1})),'snap').s(22,'tap').s(24,'boing');
+  m.k(32,{footR:[22,16,11]},'elastic');
+  m.k(44,Object.assign({footL:[64,60,-11],footR:[30,30,11],_n:'both legs go'},FC('grin')),'snap').k(50,B({footL:[24,18,-11],footR:[66,62,11]})).k(56,B({footL:[64,60,-11],footR:[24,18,11]})).k(62,B({footL:[24,18,-11],footR:[60,55,11]}));
+  m.k(74,Object.assign({footL:[22,16,-11],footR:[22,16,11]},FC('happy',{open:.8,mouth:'teeth'})),'back');
+  m.propsBack=(K,f)=>{ K.box([-14,29,0],[70,58,46],'#e6f7f3'); K.line([-44,0,20],[-44,0,20],1); };
+  m.props=(K,f,J)=>{ const knee=J.kneeR; let p;
+    if(f<22) p=lerp3([150,80,20],add(knee,[6,4,8]),ease(clamp(f/20,0,1),'in')); else p=add(add(knee,[6,4,8]),[ (f-22)*5,(f-22)*6-(f-22)*(f-22)*.18,0]);
+    const ang=f<22?-.4:-.4-(f-22)*.4; const dir=[Math.cos(ang),Math.sin(ang),0];
+    K.line(p,add(p,mul(dir,46)),4,'#8a5a2b'); const h=add(p,mul(dir,46)); K.box(add(h,[0,0,0]),[8,16,10],'#e3261f');
+    if(f<26) { const g=add(p,mul(dir,30)); K.circle(g,6,'#fff'); } };
+});
+PR({act:0,title:'Read the eye chart',proves:'gaze, squint, lean, eyes popping out on stalks',principle:'The extreme take: the eyes leave the head',len:90,cam:{x:20,y:120,zoom:1.4,yaw:-25,elev:4},start:S(-20,40)},m=>{
+  m.k(0,Object.assign({},FC('calm',{gx:.6}),A(ARM0)));
+  m.k(12,Object.assign({root:{pitch:8},head:{nod:-4}},FC('calm',{lid:.6,gx:.8,browA:-.5})),'out').k(24,Object.assign({root:{pitch:16},spine:{fwd:10}},FC('strain',{lid:.82,gx:.9,red:0})));
+  m.k(30,B({root:{pitch:14}})).k(38,Object.assign({root:{pitch:4},spine:{fwd:-6},ant:1},FC('shock',{gx:.9,open:.6})),'snap').s(38,'boing');
+  m.k(46,B({face:{gx:.4,gy:-.6}})).k(50,B({face:{gx:1,gy:-.6}})).k(54,B({face:{gx:.4,gy:-.9}}));
+  m.k(60,Object.assign({ant:0,spine:{fwd:0}},FC('calm',{pop:0,lid:0})),'snap').s(60,'pop').k(66,B({face:{lid:1}})).k(70,Object.assign({},FC('smug',{gx:.6})));
+  m.props=(K,f)=>{ const z=-60; K.rectV(80,90,150,200,z,'#fff'); [['E',34],['F P',22],['T O Z',15],['L P E D',10],['P E C F D',7]].forEach(([t,s],i)=>K.text([115,184-i*20,z],t,s,INK)); };
+});
+PR({act:0,title:'Say ahh',proves:'jaw at full stretch, tongue, head tilt, a sneeze',principle:'One channel pushed until it breaks',len:84,cam:{x:0,y:140,zoom:1.9,yaw:-15,elev:4},start:S(0,15)},m=>{
+  m.k(0,Object.assign({},FC('calm'),A(ARM0)));
+  m.k(10,Object.assign({head:{nod:-18}},FC('calm',{mouth:'O',open:.6,browY:.4})),'out').k(22,Object.assign({head:{nod:-34}},FC('calm',{mouth:'line',open:1.7,hs:1.18,tongue:1,lid:.4})),'back').s(20,'slideUp');
+  m.k(30,B({face:{hs:1.24}})).k(33,B({face:{hs:1.14}})).k(36,B({face:{hs:1.24}}));
+  m.k(44,Object.assign({head:{nod:-46},root:{pitch:-10},chest:1.3},FC('calm',{eyes:'closed',open:.4,tongue:0,hs:1.05})),'in');
+  m.k(50,Object.assign({head:{nod:28},root:{pitch:16},chest:.9,sq:.9},FC('shock',{eyes:'closed',open:1.2,pop:0})),'snap').s(50,'crash').fxa('word',50,66,{txt:'ACHOO',off:[50,10,10],size:30});
+  m.k(70,Object.assign({head:{nod:0},root:{pitch:0},chest:1,sq:1},FC('happy',{blush:.4})),'out');
+  m.props=(K,f,J)=>{ if(f<20||f>58) return; const m_=add(J.head,mv(J._Rh,[0,-9,17])); const p=f<50? add(m_,[34,-6,10]) : add(m_,[34+(f-50)*14,(f-50)*4,10]); K.line(f<50?m_:add(m_,[(f-50)*14,(f-50)*4,0]),p,5,'#c8a165'); };
+});
+PR({act:0,title:'Deep breath',proves:'chest inflation, buoyancy, a balloon flight, a landing',principle:'Exaggerated physics: air is stronger than gravity',len:110,cam:{x:0,y:130,zoom:.82,yaw:0,elev:3},start:S(0,0)},m=>{
+  m.k(0,Object.assign({},FC('calm'),A(ARM0)));
+  m.k(12,Object.assign({chest:1.6,root:{y:95}},FC('calm',{open:0,smile:0,blush:.3,browY:.5})),'out').s(4,'slideUp');
+  m.k(26,Object.assign({chest:2.2,root:{y:122},footL:[11,34,0],footR:[-11,34,0],_nl:1,armL:{abd:40},armR:{abd:40}},FC('surprise',{open:0,mouth:'line',smile:-.2,gy:-1})),'out');
+  m.k(42,Object.assign({root:{y:140,x:6},footL:[17,52,0],footR:[-5,52,0],_nl:1},FC('scared',{open:0,smile:-.3})));
+  m.k(56,{root:{y:132,x:-8},footL:[3,44,0],footR:[-19,44,0],_nl:1,_b:1});
+  m.k(62,Object.assign({chest:.8,root:{x:-80,y:170,roll:-120},footL:[-69,130,0],footR:[-91,130,0],_nl:1},FC('shock',{mouth:'O'})),'out').s(60,'zip');
+  m.k(70,{root:{x:70,y:150,roll:-300},footL:[81,110,0],footR:[59,110,0],_nl:1,_b:1},'lin');
+  m.k(78,{root:{x:-30,y:190,roll:-480},footL:[-19,150,0],footR:[-41,150,0],_nl:1,_b:1},'lin');
+  m.k(88,Object.assign({chest:1,root:{x:0,y:60,roll:-720},footL:[11,5,0],footR:[-11,5,0],_nl:1,sq:.55},FC('dizzy')),'in').s(88,'crash').fxa('dust',88,100,{at:'feet'}).fxa('stars',90,110);
+  m.k(98,{sq:1.1,root:{y:92}},'out').k(106,{sq:1},'back');
+});
+
+/* ---------- ACT II · RANGE ---------- */
+PR({act:1,set:'gym',title:'Touch the toes',proves:'trunk flexion, hip hinge, arms stretching past their length',principle:'Rubber hose: when the reach runs out, the arm grows',len:80,cam:{x:0,y:90,zoom:1.15,yaw:0,elev:4},start:S(0,90)},m=>{
+  m.k(0,Object.assign({},FC('happy'),A(ARM0)));
+  m.k(14,Object.assign({root:{pitch:55,x:-8},spine:{fwd:25},handL:[24,40,-8],handR:[24,40,8],...GLV('flat')},FC('strain',{red:0})));
+  m.k(28,Object.assign({root:{pitch:66,x:-12},spine:{fwd:30},handL:[22,5,-8],handR:[22,5,8]},FC('strain',{red:.3,lid:.4})),'out').s(26,'slideDown');
+  m.k(36,B({root:{pitch:64}})).k(40,B({root:{pitch:67}})).k(44,B({face:{eyes:'o',smile:.6,lid:0,red:0}}));
+  m.k(52,Object.assign({root:{pitch:-6,x:0},spine:{fwd:-4},handL:null,handR:null,armL:{flex:160,abd:20,elbow:4},armR:{flex:160,abd:20,elbow:4},...GLV('open')},FC('grin')),'snap').s(52,'boing');
+  m.k(64,Object.assign({root:{pitch:0},armL:ARM0,armR:ARM0},FC('happy')),'elastic');
+});
+PR({act:1,set:'gym',title:'Arm circles',proves:'shoulder through a full 360, speed into flight',principle:'Push a joint past its range and it becomes a propeller',len:96,cam:{x:0,y:130,zoom:.9,yaw:0,elev:3},start:S(0,0)},m=>{
+  m.k(0,Object.assign({},FC('happy'),A(ARM0)));
+  let t=6, a=12, step=8;
+  for(let i=0;i<16;i++){ a+=90; t+=Math.max(2,Math.round(step)); step*=.86; m.k(t,{armL:{abd:a,elbow:4,flex:0},armR:{abd:a+180,elbow:4,flex:0},_b:i%4!==3,_n:'circle'},'lin'); }
+  m.s(20,'whirr');
+  m.k(t+10,Object.assign({armL:{abd:a+360},armR:{abd:a+540},root:{y:140},footL:[11,50,0],footR:[-11,50,0],_nl:1,ant:-1},FC('surprise',{gy:-1})),'lin').fxa('speed',t-6,t+20,{dir:-1});
+  m.k(t+22,Object.assign({armL:{abd:a+720},armR:{abd:a+900},root:{y:160}},FC('scared')),'lin');
+  m.k(t+28,Object.assign({armL:{abd:12+720*2},armR:{abd:12+720*2},root:{y:92},footL:[11,5,0],footR:[-11,5,0],_nl:1,sq:.6,ant:0},FC('dizzy')),'in').s(t+28,'crash').fxa('dust',t+28,t+40).fxa('stars',t+30,95);
+  m.k(Math.min(95,t+40),{sq:1},'back');
+});
+PR({act:1,set:'gym',title:'Neck rotation',proves:'neck turn to the norm, then past it, all the way round',principle:'Irony: the test asks for 80 degrees and gets 360',len:84,cam:{x:0,y:150,zoom:1.6,yaw:0,elev:3},start:S(0,0)},m=>{
+  m.k(0,Object.assign({},FC('calm'),A(ARM0)));
+  m.k(12,Object.assign({head:{turn:80}},FC('calm',{gx:.8}))).k(20,B()).k(30,Object.assign({head:{turn:-80}},FC('calm',{gx:-.8}))).k(36,B());
+  m.k(44,Object.assign({head:{turn:200}},FC('smug')),'in').k(50,{head:{turn:440}},'lin').s(42,'whirr').k(56,{head:{turn:720}},'out');
+  m.k(60,Object.assign({},FC('dizzy')),'out').fxa('stars',58,84);
+  m.k(66,B({root:{roll:8},head:{tilt:10}})).k(72,B({root:{roll:-8},head:{tilt:-10}})).k(78,B({root:{roll:5}})).k(83,{root:{roll:0},head:{tilt:0}});
+});
+PR({act:1,set:'gym',title:'Deep squat',proves:'hip and knee to full flexion, a crack, a spring',principle:'The body makes a sound, and the sound makes a face',len:84,cam:{x:0,y:125,zoom:.85,yaw:-30,elev:6},start:S(0,0,{w:16})},m=>{
+  m.k(0,Object.assign({},FC('calm'),A(ARM0)));
+  m.k(18,Object.assign({root:{y:46,z:-12,pitch:22},spine:{fwd:-4},armL:{flex:90,abd:4,elbow:4},armR:{flex:90,abd:4,elbow:4}},FC('calm',{browA:-.4})),'io');
+  m.k(26,Object.assign(B(),FC('shock',{pop:.5,open:.7}))).s(26,'crack').fxa('word',26,40,{txt:'KRAK',at:'root',off:[40,0,20],size:24,bg:'#fff'});
+  m.k(32,B({root:{roll:3}})).k(34,B({root:{roll:-3}})).k(36,B({root:{roll:3}})).k(38,B({root:{roll:0}}));
+  m.k(46,Object.assign({root:{y:140,z:0,pitch:0},footL:[16,44,0],footR:[-16,44,0],_nl:1,sq:1.25,armL:{flex:170},armR:{flex:170}},FC('grin')),'snap').s(44,'boing');
+  m.k(56,{root:{y:84},footL:[16,5,0],footR:[-16,5,0],_nl:1,sq:.7},'in').s(56,'thud').fxa('dust',56,68);
+  m.k(66,Object.assign({root:{y:92},sq:1,armL:ARM0,armR:ARM0},FC('happy')),'back');
+});
+PR({act:1,set:'gym',title:'The splits',proves:'hips spread to 180, stuck, a push-up exit',principle:'Get into trouble easily, get out of it with effort',len:96,cam:{x:0,y:80,zoom:1,yaw:0,elev:5},start:S(0,0)},m=>{
+  m.k(0,Object.assign({},FC('smug'),A(ARM0)));
+  m.k(14,Object.assign({footL:[84,5,0],footR:[-84,5,0],root:{y:12},armL:{abd:95,elbow:4},armR:{abd:95,elbow:4},_nl:1},FC('grin')),'out').s(10,'slideDown').s(14,'thud');
+  m.k(28,Object.assign(B(),FC('scared',{gx:-.6,gy:-.8}))).fxa('sweat',28,60);
+  m.k(34,B({root:{roll:9}})).k(38,B({root:{roll:-9}})).k(42,B({root:{roll:9}})).k(46,B({root:{roll:0}}));
+  m.k(54,Object.assign({handL:[22,2,12],handR:[-22,2,12],root:{pitch:20},spine:{fwd:25}},FC('strain')));
+  m.k(62,Object.assign({root:{y:70,pitch:30},footL:[30,5,0],footR:[-30,5,0],_nl:1},FC('strain',{red:.6})),'out').s(62,'squeak');
+  m.k(72,Object.assign({root:{y:92,pitch:0},spine:{fwd:0},footL:[11,5,0],footR:[-11,5,0],_nl:1,handL:null,handR:null,armL:ARM0,armR:ARM0},FC('happy',{blush:.4})),'back');
+});
+PR({act:1,set:'gym',title:'Jumping jacks on the beat',proves:'whole-body coordination, apex stretch, landing squash',principle:'Squash on contact, stretch in the air, everything on the beat',len:110,cam:{x:0,y:110,zoom:.95,yaw:0,elev:3},start:S(0,0)},m=>{
+  m.k(0,Object.assign({},FC('happy'),A(ARM0)));
+  for(let i=0;i<4;i++){ const f=8+i*24;
+    m.k(f+4,{root:{y:84},sq:.82,_b:1,_n:'load'},'out').k(f+9,{root:{y:110},sq:1.18,footL:[24,20,0],footR:[-24,20,0],armL:{abd:120,elbow:4},armR:{abd:120,elbow:4},_nl:1,_n:'air'},'out')
+     .k(f+12,{root:{y:86},sq:.8,footL:[38,5,0],footR:[-38,5,0],armL:{abd:172},armR:{abd:172},...GLV('open'),_nl:1,_n:'open'},'in').k(f+16,{sq:1,root:{y:104},footL:[24,18,0],footR:[-24,18,0],armL:{abd:90},armR:{abd:90},_nl:1,_b:1},'out')
+     .k(f+20,{root:{y:88},sq:.84,footL:[11,5,0],footR:[-11,5,0],armL:{abd:12},armR:{abd:12},_nl:1,_n:'closed'},'in');
+    m.s(f+12,'tap').s(f+20,'tap').fxa('word',f+12,f+20,{txt:String(i+1),at:'root',off:[0,140,0],size:26,burst:false});
+  }
+  m.k(104,{sq:1,root:{y:92}},'back');
+});
+PR({act:1,set:'gym',title:'One-arm push-up',proves:'elbow under load, the shake, the pancake',principle:'Effort reads as shake; failure reads as flat',len:96,cam:{x:0,y:40,zoom:1.15,yaw:-90,elev:6},start:{root:{x:0,y:37,z:0,yaw:0,pitch:71,roll:6},handR:[-14,2,46],footL:[12,6,-84],footR:[-12,6,-84],armL:{flex:-40,abd:30,elbow:100,horiz:0,rot:0}}},m=>{
+  m.k(0,Object.assign({poleR:[-.8,-.3,-1]},FC('smug'),GLV('fist','flat')));
+  m.k(18,Object.assign({root:{y:20,z:2,pitch:80}},FC('strain',{red:.2})),'io').k(30,Object.assign({root:{y:37,z:0,pitch:71}},FC('strain',{red:.4})),'out');
+  m.k(44,Object.assign({root:{y:22,z:2,pitch:79}},FC('strain',{red:.7}))).fxa('sweat',40,70).fxa('shiver',46,62);
+  for(let i=0;i<8;i++) m.k(46+i*2,B({root:{y:23+(i%2)*3}}));
+  m.k(66,Object.assign({root:{y:9,z:2,pitch:88},sq:.45},FC('dead')),'in').s(66,'splat').fxa('word',66,80,{txt:'SPLAT',at:'root',off:[0,50,0],size:28});
+  m.k(80,B({sq:.42})).k(92,{sq:.5},'back');
+});
+PR({act:1,set:'gym',title:'Sit-ups',proves:'trunk curl, momentum, a back-roll',principle:'Momentum carries one rep too far',len:96,cam:{x:0,y:40,zoom:1.2,yaw:-90,elev:6},start:{root:{x:0,y:11,z:0,yaw:0,pitch:-90,roll:0},footL:[11,5,42],footR:[-11,5,42],armL:{flex:40,abd:12,horiz:-30,rot:0,elbow:130},armR:{flex:40,abd:12,horiz:-30,rot:0,elbow:130}}},m=>{
+  m.k(0,Object.assign({},FC('calm')));
+  m.k(14,Object.assign({root:{pitch:-32,y:13},spine:{fwd:38},head:{nod:14}},FC('strain',{red:.1})),'out').k(26,{root:{pitch:-90,y:11},spine:{fwd:0},head:{nod:0}},'in');
+  m.k(38,Object.assign({root:{pitch:-28,y:13},spine:{fwd:40},head:{nod:16}},FC('strain',{red:.2})),'out').k(50,{root:{pitch:-90,y:11},spine:{fwd:0},head:{nod:0}},'in');
+  m.k(58,Object.assign({root:{pitch:-8,y:16},spine:{fwd:48}},FC('surprise')),'snap').s(58,'zip');
+  m.k(66,Object.assign({root:{pitch:-150,y:30,z:-10},spine:{fwd:60},footL:[11,60,-30],footR:[-11,60,-30],_nl:1},FC('shock')),'in');
+  m.k(76,Object.assign({root:{pitch:-210,y:24,z:-30},footL:[11,5,-70],footR:[-11,5,-70],_nl:1},FC('dizzy')),'out').s(76,'thud').fxa('stars',78,96);
+  m.k(90,{root:{pitch:-230}},'elastic');
+});
+
+/* ---------- ACT III · OBJECTS & SYSTEMS ---------- */
+PR({act:2,set:'gym',title:'Lift the medicine ball',proves:'squat-grip, strain, legs bowing, overhead wobble, the fall',principle:'Weight is shown by what the body pays for it',len:100,cam:{x:0,y:110,zoom:.95,yaw:-20,elev:5},start:S(0,0,{w:15})},m=>{
+  m.k(0,Object.assign({},FC('smug'),A(ARM0)));
+  m.k(14,Object.assign({root:{y:44,z:-8,pitch:40},spine:{fwd:30},handL:[22,20,30],handR:[-22,20,30],...GLV('grab')},FC('calm',{gy:-1})));
+  m.k(22,Object.assign(B(),FC('strain',{red:.3}))).fxa('sweat',22,60);
+  for(let i=0;i<6;i++) m.k(24+i*2,B({root:{x:(i%2?2:-2)}}));
+  m.k(40,Object.assign({root:{y:70,z:0,pitch:10,x:0},spine:{fwd:4},handL:[22,96,22],handR:[-22,96,22],kneeL:[1,0,.4],kneeR:[-1,0,.4],footL:[24,5,0],footR:[-24,5,0],_nl:1},FC('strain',{red:.7})),'out').s(40,'grunt');
+  m.k(52,Object.assign({root:{y:82},handL:[20,172,8],handR:[-20,172,8]},FC('grin',{red:.2})),'back').s(52,'ding');
+  m.k(58,B({root:{x:10,roll:-6}})).k(62,B({root:{x:-8,roll:6}})).k(66,B({root:{x:4,roll:-4,pitch:-12}}));
+  m.k(78,Object.assign({root:{y:22,pitch:-80,x:0,roll:0,z:-30},handL:[20,40,-10],handR:[-20,40,-10],footL:[18,8,30],footR:[-18,8,30],_nl:1},FC('dizzy')),'in').s(78,'crash').fxa('stars',80,100).fxa('dust',78,90);
+  m.props=(K,f,J)=>{ let c; if(f<22) c=[0,18,30]; else if(f<70) c=add(mid(J.wristL,J.wristR),[0,f>50?10:0,4]); else c=lerp3(add(mid(J.wristL,J.wristR),[0,10,4]),add(J.chest,[0,18,6]),ease(clamp((f-70)/8,0,1),'in'));
+    K.circle(c,18,'#7a4a2a',INK,2.4); K.line(add(c,[-14,6,0]),add(c,[14,6,0]),1.5,'#3a2010'); };
+});
+PR({act:2,set:'gym',title:'Catch',proves:'tracking with the eyes, reaching, recoil, sliding back',principle:'The catch begins before the ball arrives',len:84,cam:{x:30,y:110,zoom:.95,yaw:0,elev:4},start:S(-20,70)},m=>{
+  m.k(0,Object.assign({},FC('calm',{gx:1,gy:.2}),A(ARM0)));
+  m.k(14,Object.assign({root:{y:84,pitch:10},armL:{flex:80,abd:10,elbow:20},armR:{flex:80,abd:10,elbow:20},...GLV('open')},FC('calm',{gx:1,gy:.6,browA:-.4})),'out');
+  m.k(26,Object.assign({handL:[20,124,-10],handR:[20,124,10]},FC('surprise',{gx:1,gy:.3})),'out');
+  m.k(32,Object.assign({root:{x:-40,y:88,pitch:-18},footL:[-34,5,-11],footR:[-46,5,11],sq:.86,...GLV('grab'),handL:{pel:[22,30,26]},handR:{pel:[-2,30,26]},_nl:1},FC('strain')),'snap').s(32,'bonk');
+  m.k(48,{root:{x:-92,y:90,pitch:-12},footL:[-86,5,-11],footR:[-98,5,11],_nl:1},'out').s(34,'skid').fxa('dust',34,52,{at:'feet'});
+  m.k(60,Object.assign({sq:1,root:{pitch:0},handL:{pel:[12,70,20]},handR:{pel:[-12,70,20]}},FC('grin',{gx:-.4})),'back').s(60,'ding');
+  m.props=(K,f,J)=>{ let c; if(f<32){ const t=f/32; c=[lerp(260,20,t),120+Math.sin(Math.PI*t)*60,0]; } else c=add(mid(J.wristL,J.wristR),[6,6,0]); K.circle(c,9,'#e3261f',INK,2); K.line(add(c,[-9,0,0]),add(c,[9,0,0]),1.2,'#fff'); };
+});
+PR({act:2,set:'gym',title:'Throw, and the boomerang',proves:'wind-up, release, follow-through, the return hit',principle:'Anticipation stores the energy the throw spends',len:96,cam:{x:0,y:110,zoom:.95,yaw:-15,elev:4},start:S(-20,70,{split:20})},m=>{
+  m.k(0,Object.assign({},FC('smug'),A(ARM0),{gloveR:'grab'}));
+  m.k(8,{armR:{flex:120,abd:30,elbow:30},spine:{twist:-30},root:{yaw:50}}).k(12,{armR:{flex:240,abd:30,elbow:20},_b:1},'lin').k(16,{armR:{flex:360,abd:30},_b:1},'lin').k(20,{armR:{flex:480,abd:30},_b:1},'lin').s(8,'whirr');
+  m.k(26,Object.assign({armR:{flex:560,abd:40,horiz:30,elbow:30},spine:{twist:-45},root:{pitch:-8}},FC('strain')),'in');
+  m.k(32,Object.assign({armR:{flex:690,abd:20,horiz:-60,elbow:10},spine:{twist:40},root:{pitch:18,yaw:80},gloveR:'open'},FC('grin')),'snap').s(32,'zip');
+  m.k(48,Object.assign({armR:{flex:720,abd:12,horiz:0,elbow:18},spine:{twist:0},root:{pitch:0,yaw:20},handL:{pel:[17,4,4]},handR:{pel:[-17,4,4]}},FC('smug',{gx:.6})),'out');
+  m.k(66,Object.assign(B(),FC('smug',{gx:-.8}))).k(70,Object.assign({root:{pitch:-10},handL:null,handR:null},FC('shock',{gx:-1})),'snap').s(70,'bonk');
+  m.k(78,Object.assign({root:{pitch:0},sq:.85},FC('dizzy')),'out').fxa('stars',72,96).fxa('word',70,82,{txt:'THWOK',off:[-30,50,0],size:24});
+  m.k(90,{sq:1},'back');
+  m.props=(K,f,J)=>{ let c; if(f<32) c=J.wristR; else if(f<70){ const t=(f-32)/38; c=[J.pelvis[0]+Math.sin(t*Math.PI*2)*230, 140+Math.sin(t*Math.PI)*40, -Math.sin(t*Math.PI)*120]; } else { const t=(f-70); c=add(J.headTop,[-20-t*4,10+t*3-t*t*.3,0]); }
+    const p=K.P(c), a=f*.8, ctx=K.ctx; ctx.save(); ctx.translate(p[0],p[1]); ctx.rotate(a); ctx.beginPath(); ctx.moveTo(-12*K.sc,0); ctx.quadraticCurveTo(0,-14*K.sc,12*K.sc,0); ctx.lineWidth=6*K.sc; ctx.strokeStyle='#8a5a2b'; ctx.stroke(); ctx.restore(); };
+});
+PR({act:2,set:'gym',title:'Jump rope',proves:'rhythm, timed hops, a trip, a face-plant',principle:'Repetition sets up the one that goes wrong',len:104,cam:{x:0,y:100,zoom:.95,yaw:-15,elev:4},start:S(0,15)},m=>{
+  m.k(0,Object.assign({armL:{flex:20,abd:30,elbow:60},armR:{flex:20,abd:30,elbow:60}},FC('happy'),GLV('fist')));
+  for(let i=0;i<5;i++){ const f=12+i*14; m.k(f-3,{root:{y:86},sq:.86,_b:1},'out').k(f,{root:{y:108},sq:1.1,footL:[11,20,0],footR:[-11,20,0],_nl:1,_n:'hop'},'out').k(f+4,{root:{y:90},sq:.92,footL:[11,5,0],footR:[-11,5,0],_nl:1,_b:1},'in'); m.s(f+4,'tap'); }
+  m.k(84,Object.assign({root:{y:86}},FC('happy'))).k(88,Object.assign({root:{pitch:50,y:80},footL:[11,10,-14],footR:[-11,10,-14],_nl:1},FC('shock')),'snap');
+  m.k(96,Object.assign({root:{pitch:84,y:22,z:50},spine:{fwd:4},footL:[11,8,-40],footR:[-11,8,-40],handL:[20,4,90],handR:[-20,4,90],_nl:1},FC('dead')),'in').s(96,'crash').fxa('stars',98,104).fxa('dust',96,104,{at:'root'});
+});
+
+/* rope draw replaced below: keep the script readable */
+EP[EP.length-1].props=(K,f,J)=>{ const ph=f<86? ((f-12+14)/14)*Math.PI*2 : 2*Math.PI*(74/14); const a=ph; const L_=J.wristL, R_=J.wristR, mid_=mid(L_,R_);
+  const ctl=add(mid_,[0,Math.cos(a)*-95-10,Math.sin(a)*60]); const p=K.P(L_), c=K.P(ctl), q=K.P(R_); K.ctx.strokeStyle='#e3261f'; K.ctx.lineWidth=2.4; K.ctx.beginPath(); K.ctx.moveTo(p[0],p[1]); K.ctx.quadraticCurveTo(c[0],c[1],q[0],q[1]); K.ctx.stroke(); };
+
+PR({act:2,set:'gym',title:'The treadmill',proves:'gait under rising speed, legs into a wheel, flung by a machine',principle:'A system sets the tempo and the body keeps up until it cannot',len:120,cam:{x:-20,y:100,zoom:.9,yaw:0,elev:5},start:S(0,90,{fy:17})},m=>{
+  m.k(0,Object.assign({root:{y:104}},FC('happy'),A(ARM0)));
+  m.k(4,{root:{y:104}});
+  const per=i=> i<6?16: i<12?10: i<20?6: 3;
+  const t=cycle(m,4,30,per,32,{y:17,lift:26,pass:{root:{y:108}},con:{root:{y:102}},sfx:'tap'});
+  m.fxa('wheel',t-30,t).fxa('sweat',40,t).fxa('speed',t-34,t+4,{dir:-1});
+  m.k(Math.round(t*.5),Object.assign(B(),FC('strain',{red:.2}))); m.k(t-20,Object.assign(B(),FC('scared',{pop:.3})));
+  m.k(t+6,Object.assign({root:{x:-180,y:150,roll:-200,pitch:30},footL:[-160,140,-11],footR:[-170,150,11],_nl:1},FC('shock')),'out').s(t,'zip');
+  m.k(t+14,Object.assign({root:{x:-260,y:90,roll:-360,pitch:0},footL:[-250,70,-11],footR:[-260,80,11],sq:.4,_nl:1},FC('dead')),'in').s(t+14,'crash').fxa('word',t+14,t+28,{txt:'CRASH',p:[-230,120,0],size:30});
+  m.props=(K,f,J)=>{ K.box([0,6,0],[120,12,40],'#2d3440'); const sp=f<4?0:Math.min(99,Math.round((f-4)/2.4)); K.line([60,12,-18],[70,110,-18],4); K.rectV(54,110,90,140,-18,'#fff'); K.text([72,125,-18],String(sp),14,RED,'center','mono');
+    for(let i=0;i<6;i++){ const x=-60+((i*20-(f*(1+f/20)))%120+120)%120; K.line([x,12.5,20],[x,12.5,-20],1.2,'#9aa5b1'); } };
+});
+PR({act:2,set:'street',title:'The vending machine',proves:'coin, button, wait, shake, kick, hop, payoff from above',principle:'A machine is a character that never answers in time',len:130,cam:{x:30,y:110,zoom:1.05,yaw:-15,elev:4},start:S(10,90)},m=>{
+  m.k(0,Object.assign({},FC('happy',{gx:1}),A(ARM0)));
+  m.k(10,Object.assign({handR:[50,112,6],gloveR:'grab'},FC('happy',{gx:1})),'out').s(12,'coin');
+  m.k(20,Object.assign({handR:[48,96,10],gloveR:'point'},FC('calm',{gx:1})),'out').s(22,'tap');
+  m.k(30,Object.assign({handR:null,armR:ARM0,gloveR:'open'},FC('calm',{gx:1}))).k(36,B({footR:[10,14,11],_nl:1})).k(39,B({footR:[10,5,11],_nl:1})).k(42,B({footR:[10,14,11],_nl:1})).k(45,B({footR:[10,5,11],_nl:1})).s(39,'tap').s(45,'tap');
+  m.k(52,Object.assign({head:{turn:-75}},FC('calm',{lid:.5,smile:-.2})),'snap');
+  m.k(62,Object.assign({head:{turn:0},handL:[46,128,-12],handR:[46,128,12],...GLV('grab')},FC('angry')),'out').s(62,'rattle');
+  for(let i=0;i<6;i++) m.k(64+i*3,B({root:{pitch:i%2?12:-8}}));
+  m.k(84,Object.assign({root:{pitch:0},handL:null,handR:null,armL:ARM0,armR:ARM0,footR:[46,30,11],...GLV('fist')},FC('angry',{red:.5})),'snap').s(84,'bonk');
+  m.k(90,Object.assign({footR:[14,40,11],handR:{pel:[-8,-30,30]},root:{y:98}},FC('shock',{eyes:'closed'})),'out').fxa('word',84,96,{txt:'OW',off:[30,20,0],size:28});
+  m.k(96,B({root:{y:112,x:6},footL:[16,20,-11],_nl:1})).k(100,B({root:{y:98,x:2},footL:[12,5,-11],_nl:1})).k(104,B({root:{y:112,x:-4},footL:[6,20,-11],_nl:1})).k(108,B({root:{y:98},footL:[4,5,-11],_nl:1}));
+  m.k(112,Object.assign({footR:[4,5,11],handR:null,armR:ARM0,root:{y:92}},FC('calm',{gy:1}))).s(112,'bonk').fxa('stars',112,130).k(118,Object.assign({handR:{pel:[-6,80,24]},gloveR:'grab'},FC('grin')),'back');
+  m.props=(K,f,J)=>{ const sh=f>=62&&f<82? (f%3-1)*3 : 0; K.box([82+sh,90,0],[70,180,60],'#3b82f6'); K.rectV(48+sh,70,48+sh,170,-25,null); K.poly([[47+sh,100,-24],[47+sh,170,-24],[47+sh,170,20],[47+sh,100,20]],'#eaf4ff'); K.poly([[47+sh,20,-20],[47+sh,40,-20],[47+sh,40,20],[47+sh,20,20]],'#14171c');
+    K.circle([47+sh,112,6],3,'#ffd23f'); K.circle([47+sh,96,10],4,'#e3261f');
+    let c=null; if(f>=104&&f<112){ c=[J.head[0],210-(f-104)*14,J.head[2]]; } else if(f>=112&&f<118) c=add(J.headTop,[0,6,0]); else if(f>=118) c=add(J.wristR,[0,6,0]);
+    if(c){ K.poly([add(c,[-5,-9,0]),add(c,[5,-9,0]),add(c,[5,9,0]),add(c,[-5,9,0])],'#e3261f'); } };
+});
+PR({act:2,set:'clinic',title:'Push the PULL door',proves:'reading a sign, pushing, pulling, flattened, peeled off',principle:'Misreading a system is a full-body event',len:110,cam:{x:30,y:110,zoom:1,yaw:-10,elev:4},start:S(-10,90)},m=>{
+  m.k(0,Object.assign({},FC('happy',{gx:1}),A(ARM0)));
+  m.k(12,Object.assign({handL:[66,116,-10],handR:[66,108,10],root:{pitch:14,x:0},...GLV('flat')},FC('strain',{red:.2}))).k(18,B({root:{pitch:22}})).k(22,B({root:{pitch:14}})).k(26,B({root:{pitch:24}})).s(16,'thud').s(24,'thud');
+  m.k(36,Object.assign({handL:null,handR:null,armL:ARM0,armR:ARM0,root:{pitch:10},head:{nod:-10}},FC('calm',{gx:1,gy:.5,pop:.25,lid:.3})),'out').fxa('q',36,50);
+  m.k(48,Object.assign({handR:[62,112,14],gloveR:'grab',root:{pitch:0}},FC('smug')),'out');
+  m.k(54,Object.assign({handR:[34,112,14],root:{pitch:-10}},FC('calm')),'out').s(56,'zip');
+  m.k(60,Object.assign({root:{x:20,pitch:0},sqx:.18,handR:null,armR:{flex:0,abd:80,elbow:0},armL:{flex:0,abd:80,elbow:0},...GLV('open')},FC('shock',{eyes:'x'})),'snap').s(60,'splat');
+  m.k(76,B({root:{x:20}})).k(84,Object.assign({root:{x:24,pitch:40},sqx:.2},FC('dead')),'in').k(92,{root:{pitch:85,y:16},sqx:.2},'in').s(92,'flop');
+  m.k(100,Object.assign({sqx:1,root:{pitch:0,y:92,x:-6},armL:ARM0,armR:ARM0},FC('dizzy')),'elastic').s(100,'pop').fxa('stars',100,110);
+  m.props=(K,f,J)=>{ const a=tr(f,[[0,0],[50,0],[60,-95,'snap'],[84,-95],[92,-20,'in'],[110,0]])*DEG; const h=[70,0,-30]; const w=60; const tip=add(h,[Math.sin(-a)*w,0,Math.cos(-a)*w]);
+    K.poly([h,tip,add(tip,[0,170,0]),add(h,[0,170,0])],'#f2d8b3'); K.line(add(h,[0,0,0]),add(h,[0,170,0]),3);
+    const sg=lerp3(add(h,[0,140,0]),add(tip,[0,140,0]),.5); K.text(add(sg,[0,0,0]),'PULL',14,RED); K.circle(lerp3(add(h,[0,110,0]),add(tip,[0,110,0]),.85),3,'#ffd23f'); };
+});
+PR({act:2,set:'clinic',title:'Stairs with a step missing',proves:'high-knee climbing, a foot on nothing, legs pedalling, a look to camera',principle:'Hang time: gravity waits until the character notices',len:120,cam:{x:30,y:120,zoom:.85,yaw:-15,elev:4},start:S(-70,90)},m=>{
+  m.k(0,Object.assign({},FC('happy'),A(ARM0)));
+  const steps=[[-40,27],[-12,49],[16,71],[44,93]];
+  let t=0; steps.slice(0,3).forEach(([x,y],i)=>{ t+=12; const L_=i%2===0; m.k(t-6,{[L_?'footL':'footR']:[x-10,y+28,L_?-11:11],root:{y:92+(i?steps[i-1][1]:5)-5+8},_b:1,_nl:1},'out').k(t,{[L_?'footL':'footR']:[x,y,L_?-11:11],root:{x:x-12,y:92+y-8},_nl:1,_n:'step up'}); m.s(t,'xylo'+i); });
+  t+=10; m.k(t,Object.assign({footR:[44,124,11],root:{x:30,y:154},_nl:1},FC('happy')),'out');
+  m.k(t+8,Object.assign({footR:[48,90,11],root:{x:34}},FC('surprise',{gy:-1})),'in');
+  for(let i=0;i<6;i++) m.k(t+10+i*3,B({footR:[48+(i%2?12:-6),96+(i%2?10:-6),11],_nl:1}));
+  m.k(t+34,Object.assign({head:{nod:30}},FC('scared',{gy:-1})),'snap').k(t+44,Object.assign({head:{nod:0,turn:-70}},FC('calm',{mouth:'wavy',smile:-.2,browA:.6})),'snap').s(t+44,'gulp');
+  m.k(t+56,Object.assign(B(),FC('scared',{gx:-.6})));
+  m.k(t+66,Object.assign({root:{y:92,x:34},footL:[44,5,-11],footR:[34,5,11],sq:.5,head:{turn:0},_nl:1},FC('dead')),'in').s(t+56,'fall').s(t+66,'crash').fxa('dust',t+66,t+80).fxa('stars',t+68,119);
+  m.k(t+76,{sq:1},'back');
+  m.props=(K,f)=>{ for(const [x,y] of [[-40,27],[-12,49],[16,71]]) K.box([x,y/2,0],[28,y,60],'#e8edf2'); K.box([72,57.5,0],[28,115,60],'#e8edf2'); K.text([44,40,30],'?',30,RED); };
+});
+
+/* ---------- ACT IV · ENVIRONMENT ---------- */
+PR({act:3,set:'street',title:'Banana peel',proves:'feet out from under, horizontal hang, flat landing',principle:'The hang before the fall is where the joke lives',len:110,cam:{x:0,y:100,zoom:1,yaw:0,elev:4,follow:1},start:S(-160,90)},m=>{
+  m.k(0,Object.assign({},FC('happy'),A(ARM0)));
+  let t=walk(m,0,4,12,34,'strut');
+  m.k(t+6,Object.assign({footR:[60,40,11],root:{x:-10,y:96,pitch:-40},_nl:1},FC('surprise')),'snap').s(t+4,'slideUp');
+  m.k(t+12,Object.assign({root:{y:90,pitch:-90,x:-6},footL:[80,96,-11],footR:[84,96,11],armL:{abd:150,elbow:4},armR:{abd:150,elbow:4},_nl:1},FC('shock')),'out');
+  m.k(t+24,B({root:{y:92}})).fxa('bang',t+12,t+24);
+  m.k(t+30,Object.assign({root:{y:12},footL:[80,8,-11],footR:[84,8,11],_nl:1,sq:.8},FC('dead')),'in').s(t+30,'thud').fxa('dust',t+30,t+44,{at:'root'}).fxa('stars',t+32,110);
+  m.props=(K,f,J)=>{ let c; if(f<t+4) c=[0,2,8]; else if(f<t+30){ const u=(f-t-4)/26; c=[lerp(0,-20,u),2+Math.sin(Math.PI*u)*140,8]; } else c=add(J.head,[0,L.headR+2,0]);
+    const p=K.P(c), ctx=K.ctx; ctx.fillStyle='#ffd23f'; ctx.strokeStyle=INK; ctx.lineWidth=2; for(const a of [-.8,0,.8]){ ctx.beginPath(); ctx.ellipse(p[0]+Math.sin(a)*8*K.sc,p[1]+2,4*K.sc,10*K.sc,a,0,Math.PI*2); ctx.fill(); ctx.stroke(); } };
+});
+PR({act:3,set:'street',title:'The rake',proves:'stepping triggers a lever, face hit, stagger back, the same again',principle:'BUT and THEREFORE: each hit causes the next',len:120,cam:{x:0,y:110,zoom:1,yaw:0,elev:4},start:S(-90,90)},m=>{
+  m.k(0,Object.assign({},FC('happy'),A(ARM0)));
+  let t=walk(m,0,3,12,30,'walk');
+  m.k(t+4,Object.assign({head:{nod:-35},root:{pitch:-18,x:-14}},FC('shock',{eyes:'x'})),'snap').s(t+3,'bonk').fxa('word',t+3,t+14,{txt:'THWACK',off:[30,30,0],size:24});
+  m.k(t+14,Object.assign({root:{pitch:-6,x:-40},footL:[-34,5,-11],footR:[-46,5,11],head:{nod:0}},FC('dizzy')),'out').fxa('stars',t+6,t+40);
+  m.k(t+26,{root:{x:-62,pitch:4},footL:[-70,5,-11],footR:[-56,5,11],_b:1});
+  m.k(t+30,Object.assign({head:{nod:35},root:{pitch:22,x:-58}},FC('shock',{eyes:'x'})),'snap').s(t+29,'bonk').fxa('word',t+29,t+40,{txt:'THWACK',off:[-30,30,0],size:24});
+  m.k(t+44,Object.assign({head:{nod:0},root:{pitch:0},sq:.92},FC('sad',{browA:1,lid:.6})),'out');
+  m.k(t+60,Object.assign({head:{turn:-60}},FC('sad',{smile:-.4})),'out');
+  const r1=t+3, r2=t+29;
+  m.props=(K,f)=>{ const draw=(x,dir,hit)=>{ const a=tr(f,[[hit-2,4],[hit,82,'snap'],[hit+30,80],[hit+40,4,'in']])*DEG; const base=[x,1,0]; const tip=add(base,[dir*-Math.cos(a)*-90, Math.sin(a)*90,0]); K.line(base,tip,3,'#8a5a2b'); for(let i=-2;i<=2;i++) K.line(add(base,[0,0,i*5]),add(base,[dir*8,-1,i*5]),1.6); };
+    draw(-12,1,r1); draw(-74,-1,r2); };
+});
+PR({act:3,set:'cliff',title:'Run off the cliff',proves:'run cycle, running on air, hang, look down, look at us, sign, fall',principle:'Cartoon physics: the fall waits for the look',len:150,cam:{x:-30,y:40,zoom:.62,yaw:0,elev:3},start:S(-280,90)},m=>{
+  m.k(0,Object.assign({},FC('grin'),A(ARM0)));
+  let t=walk(m,0,8,8,46,'run');
+  t=cycle(m,t,6,()=>6,40,{y:6,lift:30,pass:{root:{y:100}},con:{root:{y:96}}});
+  const rx=m.cur().root.x; m.k(t+8,Object.assign({footL:[rx+6,-20,-11],footR:[rx-2,-20,11],root:{y:64},_nl:1},FC('calm',{gy:-1})),'out').k(t+16,Object.assign({head:{nod:35}},FC('surprise',{gy:-1})),'snap');
+  m.k(t+30,Object.assign({head:{nod:0,turn:-80}},FC('calm',{mouth:'wavy',browA:.7,smile:-.1})),'snap').s(t+30,'gulp');
+  m.k(t+40,Object.assign({handL:{pel:[22,52,26]},handR:{pel:[-22,52,26]},...GLV('grab')},FC('sad',{lid:.3})),'out');
+  m.k(t+58,B()).k(t+64,Object.assign({handL:null,handR:null,armL:ARM0,armR:{flex:20,abd:150,elbow:50},gloveR:'open'},FC('sad',{smile:.2})));
+  m.k(t+68,B({armR:{rot:30}})).k(t+72,B({armR:{rot:-30}})).k(t+76,B({armR:{rot:30}}));
+  m.k(t+80,{sq:1.5,root:{y:40},footL:[rx+6,-44,-11],footR:[rx-2,-44,11],_nl:1},'in').k(t+92,{root:{y:-460},footL:[rx+6,-560,-11],footR:[rx-2,-560,11],sq:2,_nl:1},'in').s(t+80,'fall').s(t+110,'thud');
+  const t0=t;
+  m.fxa('dust',t+104,t+130,{p:[70,-150,60]});
+  m.props=(K,f,J)=>{ if(f>=t0+40&&f<t0+64){ const c=add(mid(J.wristL,J.wristR),[0,20,8]); K.line(add(c,[0,-20,0]),add(c,[0,-60,0]),3,'#8a5a2b'); K.rectV(c[0]-34,c[1]-12,c[0]+34,c[1]+18,c[2],'#f2d8b3'); K.text(add(c,[0,3,0]),'OH DEAR',14,INK); } };
+});
+GROUND['P'+String(EP.length).padStart(2,'0')]=x=>x<40?0:null;
+PR({act:3,set:'street',title:'Into the wind',proves:'45-degree lean, feet sliding back, antenna blown flat, the drop',principle:'Show the force through what it does to the body',len:110,cam:{x:0,y:100,zoom:1,yaw:0,elev:4},start:S(-30,90)},m=>{
+  m.k(0,Object.assign({},FC('strain',{red:0}),A(ARM0),{wind:-1.2}));
+  m.k(12,Object.assign({root:{pitch:42,y:84},spine:{fwd:6},armL:{flex:150,abd:10,elbow:10},armR:{flex:-40,abd:20,elbow:10},wind:-1.6},FC('strain',{lid:.7})));
+  const t=cycle(m,14,10,()=>12,30,{y:5,lift:16,pass:{root:{y:88}},con:{root:{y:84,x:-30}}});
+  m.fxa('wind',0,t+6).s(2,'wind');
+  m.k(t+4,Object.assign(B({wind:0}),FC('surprise'))).k(t+12,Object.assign({root:{pitch:88,y:20},spine:{fwd:0},footL:[-50,8,-11],footR:[-50,8,11],_nl:1,handL:[60,4,-14],handR:[60,4,14]},FC('dead')),'in').s(t+12,'thud').fxa('dust',t+12,t+26,{at:'root'});
+  m.k(t+30,B());
+});
+PR({act:3,set:'street',title:'Jump the puddle',proves:'run-up, crouch, split leap, a landing in the water anyway',principle:'Anticipation promises a clean jump; the puddle disagrees',len:110,cam:{x:0,y:100,zoom:.95,yaw:0,elev:5},start:S(-170,90)},m=>{
+  m.k(0,Object.assign({},FC('grin'),A(ARM0)));
+  let t=walk(m,0,3,8,40,'run');
+  m.k(t+8,Object.assign({root:{y:62,pitch:24},sq:.8,armL:{flex:-50},armR:{flex:-50}},FC('smug')),'out');
+  m.k(t+20,Object.assign({root:{x:-20,y:150,pitch:6},sq:1.2,footL:[10,110,-11],footR:[-70,120,11],armL:{flex:150,abd:30},armR:{flex:-30,abd:40},_nl:1},FC('grin')),'out').s(t+8,'boing');
+  m.k(t+30,Object.assign({root:{x:30,y:86},sq:.75,footL:[40,5,-11],footR:[22,5,11],_nl:1},FC('shock',{gy:-1})),'in').s(t+30,'splash').fxa('splash',t+30,t+46,{p:[30,2,0]});
+  m.k(t+44,Object.assign({sq:1,root:{y:88,pitch:10}},FC('sad',{lid:.5}))).fxa('sweat',t+34,110);
+  m.props=(K,f)=>{ K.groundEllipse([20,0,0],78,30,'#9fd2ff'); };
+});
+PR({act:3,set:'street',title:'Ice',proves:'feet scrambling in place, arms windmilling, traction, the launch',principle:'Wind-up in place, then gone',len:84,cam:{x:0,y:100,zoom:.95,yaw:0,elev:4},start:S(-40,90)},m=>{
+  m.k(0,Object.assign({},FC('scared'),A(ARM0)));
+  m.k(4,{armL:{abd:120},armR:{abd:120}});
+  const t=cycle(m,6,14,()=>4,46,{y:5,lift:18,pass:{root:{y:94},armL:{abd:200},armR:{abd:60}},con:{root:{y:90},armL:{abd:60},armR:{abd:200}},sfx:'tap'});
+  m.fxa('wheel',8,t).s(6,'whirr');
+  m.k(t+4,Object.assign({root:{pitch:30}},FC('grin')),'out').k(t+8,{root:{x:420,pitch:30},footL:[430,5,-11],footR:[410,5,11],_nl:1},'in').s(t+4,'zip');
+  m.fxa('outline',t+4,t+26,{from:t+4}).fxa('dust',t+4,t+20,{p:[-40,2,0]});
+  m.props=(K,f)=>{ K.poly([[-160,0.4,-30],[100,0.4,-30],[100,0.4,30],[-160,0.4,30]],'#dff3ff','#8fc3e8',1.4); for(let i=0;i<5;i++) K.line([-140+i*50,0.6,-10],[-120+i*50,0.6,10],1.4,'#fff'); };
+});
+
+/* ---------- ACT V · EMOTION ---------- */
+PR({act:4,title:'Surprise: the double take',proves:'casual glance, the snap back, the wild take with every channel at once',principle:'Take timing: glance, miss, hold, double-take, explode',len:110,cam:{x:30,y:178,zoom:.68,yaw:-10,elev:4},start:S(-10,0)},m=>{
+  m.k(0,Object.assign({},FC('happy'),A(ARM0))).fxa('notes',0,24,{side:-1});
+  m.k(10,Object.assign({head:{turn:45}},FC('happy',{gx:.7}))).k(18,Object.assign({head:{turn:0}},FC('happy',{gx:0})),'out').k(26,B());
+  m.k(30,Object.assign({head:{turn:60}},FC('surprise',{gx:1,pop:.4})),'snap').s(30,'squeak');
+  m.k(36,Object.assign({sq:.66,root:{y:76},armL:{abd:30,elbow:40},armR:{abd:30,elbow:40}},FC('surprise',{gx:1,open:.1,mouth:'line',smile:0})),'out');
+  m.k(42,Object.assign({sq:1.35,root:{y:150},footL:[16,62,0],footR:[-16,62,0],_nl:1,armL:{abd:165,elbow:6},armR:{abd:165,elbow:6},ant:1,head:{turn:30}},FC('shock',{gx:1})),'snap').s(42,'slideUp').s(44,'pop').fxa('lines',42,66).fxa('bang',42,66);
+  m.k(52,B({sq:1.3})).k(56,B({sq:1.38})).k(60,B({sq:1.32}));
+  m.k(72,Object.assign({sq:.7,root:{y:92},footL:[11,5,0],footR:[-11,5,0],_nl:1,ant:0},FC('surprise')),'in').s(72,'thud').fxa('dust',72,84);
+  m.k(84,Object.assign({sq:1,armL:ARM0,armR:ARM0,head:{turn:0}},FC('scared',{gx:1})),'back');
+  m.props=(K,f)=>{ if(f<26) return; const c=[150,120,-20]; K.rectV(120,70,180,150,-20,'#fff'); K.line([120,150,-20],[180,150,-20],4); K.text([150,125,-20],'RESULTS',10,INK,'center','mono'); K.text([150,100,-20],'FAILED',18,RED); };
+});
+PR({act:4,title:'Joy: the heel click',proves:'jump with a heel click, arc, landing, again',principle:'Joy goes up and sideways at once',len:96,set:'street',cam:{x:0,y:120,zoom:.9,yaw:0,elev:4},start:S(-60,0)},m=>{
+  m.k(0,Object.assign({},FC('grin'),A(ARM0)));
+  const jump=(f,x0,x1,dir)=>{ m.k(f,{root:{y:76,x:x0},sq:.8,armL:{flex:-30},armR:{flex:-30}},'out').k(f+8,{root:{y:150,x:(x0+x1)/2,roll:dir*-10},sq:1.2,footL:[(x0+x1)/2-dir*40,80,-2],footR:[(x0+x1)/2-dir*40,80,2],armL:{flex:170,abd:20},armR:{flex:170,abd:20},...GLV('fist'),_nl:1,_n:'heel click'},'out').k(f+16,{root:{y:86,x:x1,roll:0},sq:.8,footL:[x1+11,5,0],footR:[x1-11,5,0],_nl:1},'in').k(f+22,{sq:1,root:{y:92}},'back'); m.s(f+8,'ding').s(f+16,'tap'); };
+  jump(6,-60,60,1); jump(36,60,-40,-1);
+  m.k(76,Object.assign({armL:{abd:150},armR:{abd:150},...GLV('open')},FC('grin',{eyes:'closed'})),'back').fxa('hearts',62,96);
+});
+PR({act:4,title:'Sadness',proves:'slow timing, droop, sigh, a cloud that follows',principle:'Sadness is gravity winning slowly',len:120,set:'street',cam:{x:0,y:110,zoom:1,yaw:0,elev:4,follow:1},start:S(-110,90)},m=>{
+  m.k(0,Object.assign({},FC('sad'),A({flex:-6,abd:4,horiz:0,rot:0,elbow:6})));
+  const t=walk(m,0,4,18,22,'sad',{sfx:false});
+  m.k(t+8,Object.assign({root:{yaw:20}},FC('sad'))).k(t+20,Object.assign({chest:1.3,head:{nod:10}},FC('sad',{eyes:'closed'})),'io').k(t+36,Object.assign({chest:.82,sq:.9,head:{nod:42},root:{pitch:8}},FC('sad')),'io').s(t+20,'sigh');
+  m.fxa('cloud',0,120).fxa('tear',t+30,120);
+});
+PR({act:4,title:'Anger',proves:'red rising, fists, stomping, steam, cooling off',principle:'Anger fills the head from the bottom like a thermometer',len:110,cam:{x:0,y:110,zoom:1.1,yaw:-10,elev:4},start:S(0,0,{w:16})},m=>{
+  m.k(0,Object.assign({},FC('calm',{browA:-.3}),A(ARM0)));
+  m.k(12,Object.assign({...GLV('fist'),armL:{flex:20,abd:30,elbow:110},armR:{flex:20,abd:30,elbow:110}},FC('angry',{red:.3})));
+  m.k(22,Object.assign({footR:[-16,40,0],root:{y:96},_nl:1},FC('angry',{red:.5})),'out').k(26,{footR:[-16,5,0],root:{y:88},sq:.9,_nl:1},'snap').s(26,'thud').fxa('dust',26,36);
+  m.k(32,Object.assign({footL:[16,40,0],root:{y:96},sq:1,_nl:1},FC('angry',{red:.7})),'out').k(36,{footL:[16,5,0],root:{y:88},sq:.9,_nl:1},'snap').s(36,'thud').fxa('dust',36,46);
+  m.k(46,Object.assign({sq:1.15,root:{y:96},armL:{flex:150,abd:30,elbow:60},armR:{flex:150,abd:30,elbow:60},ant:1},FC('angry',{red:1,open:.8,lid:0})),'out').s(46,'whistle').fxa('steam',46,84).fxa('shiver',48,80);
+  for(let i=0;i<8;i++) m.k(50+i*3,B({root:{x:i%2?2:-2}}));
+  m.k(90,Object.assign({sq:.9,root:{x:0,y:90},armL:ARM0,armR:ARM0,...GLV('open'),ant:0},FC('sad',{red:0,blush:.5,smile:0})),'io').s(90,'deflate');
+});
+PR({act:4,title:'Fear',proves:'knees knocking, teeth chattering, antenna on end, hiding thin',principle:'Fear shrinks the body and stiffens the hair',len:120,cam:{x:20,y:110,zoom:1,yaw:-10,elev:4},start:S(-20,0)},m=>{
+  m.k(0,Object.assign({},FC('calm'),A(ARM0)));
+  m.k(12,Object.assign({},FC('surprise',{gx:-1,pop:.3}))).s(12,'squeak');
+  m.k(18,Object.assign({kneeL:[-1,0,.3],kneeR:[1,0,.3],footL:[20,5,0],footR:[-20,5,0],root:{y:82},sq:.9,ant:1,armL:{flex:40,abd:30,elbow:120},armR:{flex:40,abd:30,elbow:120},_nl:1},FC('scared',{mouth:'teeth',open:.3,gx:-1})),'snap');
+  for(let i=0;i<10;i++) m.k(20+i*2,B({face:{open:i%2?.4:.15},root:{x:-20+(i%2?2:-2)}}));
+  m.s(20,'chatter').fxa('shiver',18,44).fxa('sweat',18,60);
+  m.k(52,Object.assign({root:{x:60,y:96},footL:[71,5,0],footR:[49,5,0],sqx:.28,kneeL:null,kneeR:null,_nl:1},FC('scared',{gx:-1})),'snap').s(50,'zip');
+  m.k(70,Object.assign({head:{turn:-40}},FC('scared',{gx:-1}))).k(84,Object.assign({sqx:1,root:{x:40},footL:[51,5,0],footR:[29,5,0],ant:0,head:{turn:-20},_nl:1},FC('calm',{gx:-1,smile:.2})),'back').s(84,'pop');
+  m.k(100,Object.assign({head:{turn:0}},FC('happy',{blush:.6})));
+  m.propsBack=(K,f)=>{ const s=f<84? tr(f,[[0,.2],[30,2.2],[50,2.2]]) : tr(f,[[84,2.2],[96,.3,'in']]); const c=[-160,0,-90]; const p=K.P(c); K.ctx.save(); K.ctx.globalAlpha=.85; K.ctx.fillStyle='#2b2f36'; K.ctx.beginPath(); K.ctx.ellipse(p[0],p[1]-40*s*K.sc,26*s*K.sc,40*s*K.sc,0,0,Math.PI*2); K.ctx.fill(); K.ctx.beginPath(); K.ctx.arc(p[0]-16*s*K.sc,p[1]-86*s*K.sc,12*s*K.sc,0,Math.PI*2); K.ctx.arc(p[0]+16*s*K.sc,p[1]-86*s*K.sc,12*s*K.sc,0,Math.PI*2); K.ctx.fill(); K.ctx.restore(); };
+  m.props=(K,f)=>{ K.rectX(60,0,200,-4,4,'#9aa5b1'); K.circle([60,205,0],6,'#ffd23f'); if(f>=84){ K.groundEllipse([-120,0,-40],6,3,'#000'); const c=[-120,6,-40]; K.circle(c,6,'#9aa5b1'); K.circle(add(c,[5,6,0]),3,'#9aa5b1'); } };
+});
+PR({act:4,title:'Disgust',proves:'sniff, recoil, tongue out, a green shudder',principle:'Disgust pushes the face away before the body follows',len:90,cam:{x:10,y:130,zoom:1.3,yaw:-15,elev:4},start:S(-10,30)},m=>{
+  m.k(0,Object.assign({},FC('calm',{gx:1}),A(ARM0)));
+  m.k(14,Object.assign({root:{pitch:12},head:{nod:10}},FC('calm',{gx:1,lid:.4,smile:0})),'out').s(14,'sniff');
+  m.k(26,Object.assign({root:{pitch:-24,x:-24},spine:{fwd:-14},head:{nod:-8,turn:-30},armL:{flex:50,abd:20,elbow:60},armR:{flex:50,abd:20,elbow:60},...GLV('flat')},FC('calm',{browA:-.5,browY:.3,mouth:'wavy',open:.5,tongue:1,lid:.4,sick:.9})),'snap').s(26,'blech');
+  for(let i=0;i<8;i++) m.k(30+i*3,B({root:{roll:i%2?5:-5},sq:i%2?1.05:.95}));
+  m.k(60,Object.assign({root:{roll:0,pitch:0},sq:1,spine:{fwd:0},head:{nod:0,turn:0}},FC('calm',{sick:.3,smile:-.4})),'out').fxa('shiver',28,54);
+  m.props=(K,f)=>{ const x=tr(f,[[0,150],[10,60,'out'],[60,60],[70,170,'in']]); K.line([x+70,150,10],[x,140,10],3,'#8a5a2b'); K.poly([[x,130,10],[x-10,145,10],[x-6,160,10],[x+8,152,10]],'#d9d3c3'); for(let i=0;i<3;i++){ const w=f*.3+i; K.line([x-4+i*5,165,10],[x-2+i*5+Math.sin(w)*4,180,10],1.4,'#7cb342'); } };
+});
+PR({act:4,title:'Love',proves:'heart eyes, a heart pounding out of the chest, floating',principle:'Love lifts: the feet leave the floor',len:96,set:'street',cam:{x:0,y:130,zoom:1,yaw:-10,elev:4},start:S(0,20)},m=>{
+  m.k(0,Object.assign({},FC('calm',{gx:.6}),A(ARM0)));
+  m.k(10,Object.assign({},FC('surprise',{gx:.8}))).k(16,Object.assign({armL:{flex:40,horiz:-40,elbow:110},armR:{flex:40,horiz:-40,elbow:110},...GLV('flat'),head:{tilt:12}},FC('happy',{eyes:'heart',blush:.8})),'back').s(16,'harp');
+  for(let i=0;i<6;i++) m.k(22+i*6,B({chest:i%2?1:1.45}));
+  m.k(62,{root:{y:130},footL:[11,40,0],footR:[-11,44,0],_nl:1},'io').k(90,{root:{y:120},footL:[11,30,0],footR:[-11,34,0],_nl:1},'io');
+  m.fxa('hearts',16,96).fxa('heartbeat',20,60).s(22,'heart').s(34,'heart').s(46,'heart');
+});
+PR({act:4,title:'Boredom',proves:'foot tap, checking the watch, a yawn that stretches the body, sleep standing',principle:'Boredom is small motions repeated until the body gives up',len:130,cam:{x:0,y:120,zoom:1.05,yaw:-10,elev:4},start:S(0,10)},m=>{
+  m.k(0,Object.assign({},FC('calm',{lid:.4,smile:0}),A(ARM0)));
+  for(let i=0;i<6;i++) m.k(4+i*4,B({footR:[-11,i%2?5:12,4],_nl:1})); for(let i=0;i<3;i++) m.s(8+i*8,'tap');
+  m.k(34,Object.assign({handL:{sh:[-6,26,22]},poleL:[1,-1,-.2],head:{nod:20}},FC('calm',{gy:-1,lid:.3,smile:-.1})),'out').s(36,'tick');
+  m.k(48,Object.assign({handL:null,armL:ARM0,head:{nod:0}},FC('calm',{lid:.5})));
+  m.k(58,Object.assign({armL:{abd:165,elbow:20},armR:{abd:165,elbow:20},sq:1.18,chest:1.3},FC('calm',{eyes:'closed',open:1.6,mouth:'O',hs:1.1})),'out').s(58,'yawn');
+  m.k(74,Object.assign({armL:ARM0,armR:ARM0,sq:1,chest:1},FC('calm',{lid:.8,open:0,smile:0})),'io');
+  m.k(88,Object.assign({head:{nod:38},root:{pitch:6},ant:-1},FC('calm',{eyes:'closed',smile:0})),'io').fxa('zzz',88,130).s(92,'snore');
+  m.k(104,B({root:{roll:5}})).k(118,B({root:{roll:-5}})).k(129,{root:{roll:0}});
+});
+PR({act:4,title:'Think, then eureka',proves:'chin rub, pacing, the bulb, the finger up',principle:'Thinking is a hold; the idea is a snap',len:110,cam:{x:0,y:120,zoom:1,yaw:-10,elev:4},start:S(0,0)},m=>{
+  m.k(0,Object.assign({},FC('calm'),A(ARM0)));
+  m.k(10,Object.assign({handR:{sh:[8,8,24]},poleR:[-1,-1,0],gloveR:'grab',head:{tilt:10}},FC('calm',{browA:.4,browY:.3,gx:-.6,gy:.7,smile:0}))).fxa('q',12,60);
+  m.k(20,{root:{yaw:-90}},'io');
+  let t=walk(m,20,2,12,22,'walk',{sfx:true}); m.k(t+8,{root:{yaw:90}},'io'); t=walk(m,t+8,3,12,22,'walk');
+  m.k(t+6,Object.assign({root:{yaw:0}},FC('calm',{browA:.5,gx:.3,gy:.8})),'io');
+  m.k(t+16,Object.assign({handR:null,armR:{flex:170,abd:6,elbow:4},gloveR:'point',root:{y:104},sq:1.15},FC('grin',{pop:.3,gy:1})),'snap').s(t+16,'ding').fxa('bulb',t+12,110);
+  m.k(t+24,{root:{y:92},sq:1},'back');
+});
+PR({act:4,title:'Pride',proves:'chest puffed, chin up, hands on hips, a strut',principle:'Pride inflates the chest and leans the body back',len:100,set:'street',cam:{x:0,y:110,zoom:1,yaw:0,elev:4,follow:1},start:S(-90,0)},m=>{
+  m.k(0,Object.assign({},FC('calm'),A(ARM0)));
+  m.k(12,Object.assign({chest:1.6,root:{pitch:-8},head:{nod:-16},handL:{pel:[22,4,6]},handR:{pel:[-22,4,6]},...GLV('fist')},FC('smug')),'back').s(12,'trumpet');
+  m.k(20,{root:{yaw:90}},'io');
+  const t=walk(m,22,4,12,30,'proud',{pass:{handL:{pel:[22,4,6]},handR:{pel:[-22,4,6]}},con:{handL:{pel:[22,4,6]},handR:{pel:[-22,4,6]}}});
+  m.k(t+8,Object.assign({root:{yaw:10},handL:null,handR:{sh:[8,-10,18]},gloveR:'thumb'},FC('smug',{wink:1})),'back');
+});
+PR({act:4,title:'Embarrassment',proves:'blush rising, shrinking, toe dig, hands to face',principle:'Embarrassment makes the body smaller than its bones',len:100,cam:{x:0,y:100,zoom:1.1,yaw:-10,elev:4},start:S(0,0)},m=>{
+  m.k(0,Object.assign({},FC('calm'),A(ARM0)));
+  m.k(14,Object.assign({handL:{pel:[8,-4,-14]},handR:{pel:[-8,-4,-14]},poleL:[1,0,-1],poleR:[-1,0,-1]},FC('calm',{blush:.5,gx:-.4,gy:-.8,smile:.1})));
+  for(let i=0;i<6;i++) m.k(20+i*4,B({footR:[-11+(i%2?6:-4),5,i%2?8:-2],_nl:1}));
+  m.k(48,Object.assign({scale:.72},FC('calm',{blush:1,gy:-1,smile:.2,lid:.4})),'io');
+  m.k(62,Object.assign({handL:{sh:[-10,28,22]},handR:{sh:[10,28,22]},poleL:[1,-1,0],poleR:[-1,-1,0],...GLV('flat'),scale:.6,head:{nod:12}},FC('calm',{blush:1,eyes:'closed'})),'out').s(62,'squeak');
+  m.k(82,B({scale:.58}));
+});
+PR({act:4,title:'Laughter',proves:'snicker, belly laugh, falling over, legs kicking in the air',principle:'Laughter is a rhythm that takes over the body',len:110,cam:{x:0,y:90,zoom:1,yaw:-15,elev:5},start:S(0,0)},m=>{
+  m.k(0,Object.assign({},FC('smug'),A(ARM0)));
+  for(let i=0;i<4;i++) m.k(4+i*4,B({root:{y:i%2?92:96},face:{eyes:'closed',smile:.8}}));
+  m.s(4,'laugh');
+  m.k(24,Object.assign({handL:{pel:[12,14,18]},handR:{pel:[-12,14,18]},head:{nod:-30},root:{pitch:-10}},FC('grin',{eyes:'closed',open:1.1})),'out');
+  for(let i=0;i<6;i++) m.k(28+i*3,B({sq:i%2?.94:1.06}));
+  m.k(48,Object.assign({root:{y:12,pitch:-90,z:-20},head:{nod:0},footL:[11,50,30],footR:[-11,60,24],_nl:1},FC('grin',{eyes:'closed',open:1.2})),'in').s(48,'thud').s(54,'laugh');
+  for(let i=0;i<10;i++) m.k(56+i*4,B({footL:[11,i%2?70:40,i%2?20:34],footR:[-11,i%2?40:70,i%2?34:20],_nl:1,root:{roll:i%2?6:-6}}));
+  m.fxa('tear',30,110);
+});
+
+/* ---------- ACT VI · STORY WITHOUT WORDS ---------- */
+PR({act:5,title:'Sneak to the clipboard',proves:'exaggerated sneak, a freeze on one foot, looking both ways, a forged result',principle:'Every step is a decision the audience can read',len:150,cam:{x:20,y:110,zoom:.9,yaw:0,elev:4},start:S(-170,90)},m=>{
+  m.k(0,Object.assign({},FC('smug',{gx:1}),A(ARM0)));
+  let t=walk(m,0,3,16,36,'sneak',{sfx:false});
+  m.k(t+6,Object.assign({footR:[t?m.cur().footR[0]+20:0,40,11],root:{y:80},_nl:1,_n:'freeze'},FC('scared',{gx:-1})),'snap').s(t+6,'squeak');
+  m.k(t+14,Object.assign({head:{turn:-70}},FC('scared',{gx:-1})),'snap').k(t+22,Object.assign({head:{turn:70}},FC('scared',{gx:1})),'snap').k(t+30,Object.assign({head:{turn:0}},FC('smug',{gx:1})),'snap');
+  t=walk(m,t+30,3,16,36,'sneak',{sfx:false});
+  const cx=m.cur().root.x;
+  m.k(t+10,Object.assign({handR:[150,96,6],gloveR:'grab',root:{pitch:14}},FC('smug',{gx:1,gy:-.5})),'out').s(t+10,'zip');
+  m.k(t+20,Object.assign({root:{yaw:10,pitch:0},handR:{pel:[-6,40,26]},handL:{pel:[14,40,30]},gloveL:'point'},FC('smug',{gy:-1})),'out');
+  for(let i=0;i<5;i++) m.k(t+24+i*3,B({handL:{pel:[8+(i%2?10:0),44+(i%2?4:0),30]}}));
+  m.s(t+24,'scribble').k(t+44,Object.assign({},FC('grin',{wink:1})),'back');
+  const tg=t+10;
+  m.props=(K,f,J)=>{ K.box([150,40,0],[50,80,40],'#e8edf2'); let c=[150,84,6], held=f>=tg; if(held) c=add(J.wristR,[4,6,6]);
+    K.rectV(c[0]-12,c[1]-16,c[0]+12,c[1]+16,c[2]+2,'#fff'); K.text(add(c,[0,4,4]),f<tg+24?'FAIL':'PASS',9,f<tg+24?RED:'#0fa892','center','mono'); };
+});
+PR({act:5,title:'Caught: the getaway',proves:'a mini take, legs scrambling in place, a zip exit, the afterimage',principle:'The pause before the exit is longer than the exit',len:90,cam:{x:0,y:110,zoom:1,yaw:0,elev:4},start:S(0,-20)},m=>{
+  m.k(0,Object.assign({},FC('smug'),A(ARM0)));
+  m.k(10,Object.assign({head:{turn:50}},FC('surprise',{gx:1,gy:.5,pop:.6})),'snap').s(10,'squeak');
+  m.k(18,Object.assign({root:{yaw:-90,y:96},sq:1.2,armL:{flex:90,elbow:90},armR:{flex:-60,elbow:90},head:{turn:0}},FC('shock',{pop:.3})),'snap');
+  const t=cycle(m,20,12,()=>3,40,{y:16,lift:24,pass:{root:{y:102}},con:{root:{y:100}},sfx:'tap'});
+  m.fxa('wheel',20,t).fxa('dust',20,t);
+  m.k(t+4,{root:{x:-520},footL:[-510,5,0],footR:[-530,5,0],_nl:1},'in').s(t+2,'zip');
+  m.fxa('outline',t+2,t+40,{from:t+2}).fxa('speed',t,t+10,{dir:1});
+  m.props=(K,f)=>{ const y=tr(f,[[0,320],[8,190,'out']]); const p=[110,y,0]; K.line(add(p,[20,40,0]),add(p,[40,160,0]),14,INK); K.line(add(p,[20,40,0]),add(p,[40,160,0]),10,'#fff');
+    const q=K.P(p), ctx=K.ctx; ctx.save(); ctx.translate(q[0],q[1]); ctx.rotate(-2.3); ctx.scale(3.2*K.sc,3.2*K.sc); ctx.fillStyle='#fff'; ctx.strokeStyle=INK; ctx.lineWidth=.8; ctx.beginPath(); ctx.ellipse(5.5,1.5,6,5.5,0,0,Math.PI*2); ctx.fill(); ctx.stroke(); ctx.beginPath(); ctx.ellipse(12,-3,7,2.6,0,0,Math.PI*2); ctx.fill(); ctx.stroke(); ctx.restore(); };
+});
+PR({act:5,title:'Hide in plain sight',proves:'squeezing thin behind a lamppost, peeking, tiptoeing away still thin',principle:'The body agrees to the lie the character tells',len:110,set:'street',cam:{x:0,y:110,zoom:1,yaw:0,elev:4},start:S(180,-90)},m=>{
+  m.k(0,Object.assign({},FC('scared'),A(ARM0)));
+  let t=walk(m,0,3,8,40,'run');
+  m.k(t+6,Object.assign({root:{x:2,yaw:0},footL:[8,5,0],footR:[-4,5,0],sqx:.22,_nl:1,armL:{abd:0},armR:{abd:0}},FC('scared',{gx:1})),'snap').s(t+6,'squeak');
+  m.k(t+30,Object.assign({head:{turn:40}},FC('scared',{gx:1}))).k(t+42,Object.assign({head:{turn:0}},FC('scared'))).k(t+60,Object.assign(B(),FC('smug')));
+  m.k(t+66,{root:{yaw:-90}},'io'); t=walk(m,t+66,2,12,26,'sneak',{sfx:false});
+  m.k(t+6,Object.assign({sqx:1},FC('grin')),'elastic').s(t+6,'pop');
+  m.props=(K,f)=>{ K.rectX(0,0,210,-3,3,'#14171c'); K.circle([0,214,0],9,'#ffd23f'); K.line([-30,214,0],[30,214,0],3); };
+});
+PR({act:5,title:'The verdict',proves:'nail-biting, knees knocking, the stamp, wild relief, a spin and a jig',principle:'Hold the result back; release it all at once',len:120,cam:{x:0,y:140,zoom:.82,yaw:-10,elev:4},start:S(-30,10)},m=>{
+  m.k(0,Object.assign({},FC('scared',{gx:1}),A(ARM0)));
+  m.k(10,Object.assign({handR:{sh:[10,14,22]},poleR:[-1,-1,0],gloveR:'fist',kneeL:[-1,0,.3],kneeR:[1,0,.3]},FC('scared',{gx:1,mouth:'teeth',open:.2}))).s(12,'chatter');
+  for(let i=0;i<8;i++) m.k(14+i*3,B({footL:[-19+(i%2?2:0),5,0],face:{open:i%2?.3:.1},_nl:1}));
+  m.k(44,Object.assign(B(),FC('scared',{gx:1,gy:1,pop:.2}))).s(46,'thud');
+  m.k(56,Object.assign({handR:null,armR:ARM0,kneeL:null,kneeR:null,sq:.7,root:{y:80}},FC('surprise',{gx:1})),'out');
+  m.k(62,Object.assign({sq:1.4,root:{y:150,yaw:370},footL:[-19,60,0],footR:[-41,60,0],_nl:1,armL:{abd:165},armR:{abd:165},ant:1},FC('grin')),'snap').s(62,'slideUp').fxa('hearts',62,120);
+  m.k(74,{sq:.8,root:{y:88,yaw:370},footL:[-19,5,0],footR:[-41,5,0],_nl:1,ant:0},'in').s(74,'tap');
+  for(let i=0;i<5;i++){ const f=80+i*8, L_=i%2===0; m.k(f,{[L_?'footL':'footR']:[L_?-10:-50,40,14],root:{y:96},sq:1,armL:{flex:L_?0:160,abd:40},armR:{flex:L_?160:0,abd:40},_nl:1,_b:i<4,_n:'jig'},'out').k(f+4,{[L_?'footL':'footR']:[L_?-19:-41,5,0],root:{y:90},_nl:1,_b:1},'in'); m.s(f+4,'tap'); }
+  m.props=(K,f)=>{ const y=tr(f,[[0,260],[40,260],[46,96,'in'],[52,110,'out'],[60,260,'in']]); K.box([70,40,0],[60,80,40],'#e8edf2'); K.rectV(52,82,88,110,0,'#fff'); if(f>=46) K.text([70,96,1],'PASSED',11,'#0fa892','center','mono');
+    K.box([70,y,0],[24,10,20],RED); K.line([70,y+5,0],[70,y+40,0],5,'#8a5a2b'); K.circle([70,y+44,0],7,'#8a5a2b'); if(f>=46&&f<52) FX.word(K,{txt:'STAMP',p:[100,130,0],size:22},(f-46)/6,null,f); };
+});
+PR({act:5,set:'stage',title:'The bow',proves:'a deep bow, a two-arm wave, a blown kiss, the iris out',principle:'End on the character, then close the circle',len:130,cam:{x:0,y:115,zoom:1,yaw:0,elev:4},start:S(0,0)},m=>{
+  m.k(0,Object.assign({},FC('happy'),A(ARM0)));
+  m.k(16,Object.assign({root:{pitch:60,z:-6},spine:{fwd:24},armR:{flex:60,horiz:-60,elbow:110},armL:{flex:0,abd:80,elbow:10},head:{nod:10}},FC('happy',{eyes:'closed'})),'io').s(16,'drumroll');
+  m.k(32,B()).k(44,Object.assign({root:{pitch:0,z:0},spine:{fwd:0},armL:{abd:160,elbow:20},armR:{abd:160,elbow:20},head:{nod:0}},FC('grin')),'back').s(44,'cymbal');
+  for(let i=0;i<4;i++) m.k(50+i*5,B({armL:{rot:i%2?30:-30},armR:{rot:i%2?-30:30}}));
+  m.k(74,Object.assign({armL:ARM0,armR:{flex:0,abd:12},handR:{sh:[8,30,22]},poleR:[-1,-1,0],gloveR:'flat'},FC('happy',{smile:.2,mouth:'O',open:.2})),'out');
+  m.k(82,Object.assign({handR:null,armR:{flex:110,abd:40,elbow:10},gloveR:'open'},FC('grin',{wink:1})),'snap').s(82,'kiss').fxa('hearts',82,130);
+  m.fxa('iris',92,130).s(124,'end');
+});
+/* ================= timeline ================= */
+EP.forEach(bake);
+const STARTS=[]; let TOTAL=0; EP.forEach(m=>{ STARTS.push(TOTAL); TOTAL+=m.len; });
+function locate(g){ g=clamp(g,0,TOTAL-1); let i=0; while(i<EP.length-1&&STARTS[i+1]<=g) i++; return {pi:i,lf:g-STARTS[i]}; }
+const SFX_AT=new Map(); EP.forEach((m,i)=>m.sfx.forEach(([f,n])=>{ const g=STARTS[i]+f; if(!SFX_AT.has(g)) SFX_AT.set(g,[]); SFX_AT.get(g).push(n); }));
+const tc=g=>{ const s=Math.floor(g/24), ff=g%24; return `${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}:${String(ff).padStart(2,'0')}`; };
+
+/* ================= frame ================= */
+function camFor(m,lf){
+  const c=m.cam, t=lf/Math.max(1,m.len-1); let x=c.x2!=null? lerp(c.x,c.x2,ease(t,'io')) : c.x;
+  if(c.follow){ let s=0,n=0; for(let i=Math.max(0,lf-14);i<=Math.min(m.len-1,lf+14);i++){ s+=m.F[i].J.pelvis[0]; n++; } x=s/n; }
+  return {x,y:c.y,zoom:c.zoom,yaw:c.yaw,elev:c.elev};
+}
+function renderFrame(ctx,W,H,g,o){
+  const {pi,lf:raw}=locate(g), m=EP[pi]; const lf=o.twos? raw-raw%2 : raw; const s=m.F[lf], prev=m.F[Math.max(0,lf-(o.twos?2:1))];
+  const cam=camFor(m,lf), sc=H*.86/230*cam.zoom; const P=camera(W,H,cam.yaw,cam.elev,[cam.x,cam.y,0],sc);
+  const K=kit(ctx,P,sc,o.boil? pi*997+Math.floor(raw/2) : null);
+  { const cy=Math.cos(cam.yaw*DEG), sy=Math.sin(cam.yaw*DEG); K.wv=(u,y,dd)=>[cam.x+cy*u+sy*dd, y, -sy*u+cy*dd]; }
+  ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+  (SETS[m.set]||SETS.clinic)(K,lf);
+  if(m.propsBack) m.propsBack(K,lf,s.J,m);
+  // contact shadow
+  const J=s.J; const px=J.pelvis[0]; const hasGround= m.set!=='cliff' || px<40;
+  if(hasGround){ const h=Math.max(0,Math.min(J.ankleL[1],J.ankleR[1],J.pelvis[1]-20)); const k=clamp(1-h/180,.25,1); ctx.globalAlpha=.22*k+.06; K.groundEllipse([px,0,J.pelvis[2]],30*k,14*k,'#000'); ctx.globalAlpha=1; }
+  drawBola(K,s,prev,lf,{});
+  if(m.props) m.props(K,lf,J,m);
+  for(const e of m.fx) if(lf>=e.a&&lf<=e.b&&FX[e.k]) FX[e.k](K,e,(lf-e.a)/Math.max(1,e.b-e.a),J,lf,m);
+  if(o.xray) drawXray(K,J);
+  if(o.cards) drawCard(ctx,W,H,m,pi,raw);
+}
+function drawCard(ctx,W,H,m,pi,lf){
+  const u=H/100; ctx.save();
+  ctx.font=`600 ${Math.max(9,1.9*u)}px "JetBrains Mono", monospace`; ctx.textBaseline='top'; ctx.textAlign='left';
+  const tag=`${m.id} · ${m.title.toUpperCase()}`; const tw=ctx.measureText(tag).width;
+  ctx.fillStyle='#000'; ctx.fillRect(1.6*u,1.6*u,tw+2*u,3.4*u); ctx.fillStyle='#fff'; ctx.fillText(tag,2.6*u,2.3*u);
+  const dur=50; if(lf<dur){ const a=lf<6? lf/6 : lf>dur-8? (dur-lf)/8 : 1; const slide=(1-ease(Math.min(1,lf/8),'out'))*-40*u;
+    ctx.globalAlpha=a; const bw=Math.min(W*.62,64*u), bh=17*u, x=2*u+slide, y=H-bh-3*u;
+    ctx.fillStyle='#000'; ctx.fillRect(x,y,bw,bh); ctx.fillStyle='#ffd23f'; ctx.fillRect(x,y,1.2*u,bh);
+    ctx.fillStyle='#ffd23f'; ctx.font=`600 ${Math.max(9,1.7*u)}px "JetBrains Mono", monospace`; ctx.fillText(`ACT ${ACTS[m.act][0]} · ${ACTS[m.act][1].toUpperCase()} · PROOF ${pi+1} OF ${EP.length}`,x+3*u,y+1.8*u);
+    ctx.fillStyle='#fff'; ctx.font=`900 ${Math.max(14,6*u)}px "Big Shoulders Display", Impact, sans-serif`; ctx.fillText(m.title.toUpperCase(),x+3*u,y+4.4*u);
+    ctx.font=`italic 400 ${Math.max(9,1.9*u)}px "Literata", Georgia, serif`; ctx.fillStyle='#d6dde5'; ctx.fillText(m.principle,x+3*u,y+11.6*u); }
+  ctx.restore();
+}
+
+/* ================= sound ================= */
+let AC=null, MASTER=null;
+function audio(){ if(!AC){ try{ AC=new (window.AudioContext||window.webkitAudioContext)(); MASTER=AC.createGain(); MASTER.gain.value=.55; MASTER.connect(AC.destination); }catch(e){ AC=null; } } return AC; }
+function osc(type,f0,f1,dur,gain,delay=0,curve='exp',vib=0){ const a=AC, t=a.currentTime+delay; const o=a.createOscillator(), g=a.createGain(); o.type=type; o.frequency.setValueAtTime(f0,t); if(curve==='exp') o.frequency.exponentialRampToValueAtTime(Math.max(20,f1),t+dur); else o.frequency.linearRampToValueAtTime(f1,t+dur);
+  if(vib){ const l=a.createOscillator(), lg=a.createGain(); l.frequency.value=vib; lg.gain.value=f0*.08; l.connect(lg); lg.connect(o.frequency); l.start(t); l.stop(t+dur); }
+  g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(gain,t+.01); g.gain.exponentialRampToValueAtTime(.0008,t+dur); o.connect(g); g.connect(MASTER); o.start(t); o.stop(t+dur+.02); }
+let NOISE=null;
+function noise(dur,f0,f1,gain,delay=0,q=1,type='bandpass'){ const a=AC, t=a.currentTime+delay; if(!NOISE){ NOISE=a.createBuffer(1,a.sampleRate*2,a.sampleRate); const d=NOISE.getChannelData(0); for(let i=0;i<d.length;i++) d[i]=Math.random()*2-1; }
+  const s=a.createBufferSource(); s.buffer=NOISE; const fl=a.createBiquadFilter(); fl.type=type; fl.Q.value=q; fl.frequency.setValueAtTime(f0,t); fl.frequency.exponentialRampToValueAtTime(Math.max(30,f1),t+dur); const g=a.createGain(); g.gain.setValueAtTime(gain,t); g.gain.exponentialRampToValueAtTime(.0008,t+dur); s.connect(fl); fl.connect(g); g.connect(MASTER); s.start(t); s.stop(t+dur+.02); }
+const SND={
+  pop:()=>osc('sine',700,140,.09,.5), squeak:()=>osc('sine',1300,1900,.12,.25), ding:()=>{osc('sine',1320,1320,.9,.25);osc('sine',2640,2640,.6,.1);},
+  ratchet:()=>{ for(let i=0;i<10;i++) noise(.03,3000,2000,.25,i*.035,4); }, slideDown:()=>osc('sine',1100,260,.6,.25,0,'lin',7), slideUp:()=>osc('sine',260,1200,.5,.25,0,'lin',7),
+  zip:()=>noise(.22,700,5000,.35,0,3), boing:()=>osc('sine',150,420,.45,.4,0,'exp',16), bonk:()=>{osc('triangle',260,90,.22,.55);noise(.06,1200,400,.3);}, tap:()=>osc('triangle',900,500,.04,.18), step:()=>noise(.05,500,200,.25,0,2,'lowpass'),
+  crash:()=>{noise(.7,2500,300,.5,0,.7);osc('sine',90,40,.4,.5);}, whirr:()=>osc('sawtooth',90,240,1.1,.07,0,'lin',30), crack:()=>{noise(.05,4000,3000,.6,0,6);noise(.05,3000,2000,.5,.06,6);}, thud:()=>{osc('sine',120,45,.25,.6);noise(.1,600,200,.25,0,1,'lowpass');},
+  splat:()=>{noise(.3,1500,200,.5,0,.8,'lowpass');osc('sine',200,60,.2,.4);}, grunt:()=>osc('sawtooth',140,110,.3,.12,0,'lin',12), skid:()=>noise(.5,2600,1800,.2,0,8), coin:()=>{osc('square',988,988,.08,.12);osc('square',1319,1319,.35,.12,.08);},
+  rattle:()=>{ for(let i=0;i<12;i++) noise(.04,900,600,.3,i*.05,3); }, gulp:()=>osc('sine',500,180,.18,.3), fall:()=>osc('sine',1500,180,1.1,.22,0,'lin',6), xylo0:()=>osc('sine',784,784,.3,.25), xylo1:()=>osc('sine',988,988,.3,.25), xylo2:()=>osc('sine',1175,1175,.3,.25),
+  wind:()=>noise(3.5,500,900,.12,0,.6), splash:()=>{noise(.6,1800,500,.45,0,.6);noise(.3,4000,2000,.2,.05,1);}, flop:()=>noise(.15,400,150,.4,0,1,'lowpass'), whistle:()=>{osc('sine',1900,2300,1.3,.12);noise(1.3,2600,2600,.18,0,12);},
+  deflate:()=>osc('sawtooth',260,80,.8,.08,0,'lin',20), chatter:()=>{ for(let i=0;i<16;i++) osc('square',2200,1800,.02,.08,i*.06); }, sniff:()=>{noise(.12,3000,2000,.2,0,4);noise(.12,3000,2000,.2,.18,4);}, blech:()=>osc('sawtooth',220,90,.45,.14,0,'lin',25),
+  harp:()=>{ [523,659,784,1047,1319].forEach((f,i)=>osc('triangle',f,f,.8,.12,i*.06)); }, heart:()=>{osc('sine',80,50,.12,.6);osc('sine',80,50,.12,.5,.16);}, yawn:()=>osc('sine',320,180,1.1,.18,0,'lin',5), tick:()=>osc('square',2000,2000,.02,.1),
+  snore:()=>{noise(1.2,300,500,.2,0,2);}, trumpet:()=>{ [392,523,659,784].forEach((f,i)=>osc('sawtooth',f,f,.22,.06,i*.12)); }, laugh:()=>{ for(let i=0;i<6;i++) osc('sine',360-i*10,300-i*10,.1,.18,i*.14); }, sigh:()=>noise(1.2,900,400,.12,0,1,'lowpass'),
+  scribble:()=>{ for(let i=0;i<8;i++) noise(.05,3500,2500,.12,i*.05,5); }, drumroll:()=>{ for(let i=0;i<20;i++) noise(.04,900,400,.18*(i/20+.3),i*.04,1); }, cymbal:()=>noise(1.2,8000,5000,.3,0,.4,'highpass'), kiss:()=>osc('sine',1800,600,.1,.25), end:()=>{ [523,392,523].forEach((f,i)=>osc('triangle',f,f,.25,.15,i*.18)); }
+};
+function playSfx(names){ if(!AC||!st.t.sound) return; for(const n of names){ try{ (SND[n]||SND.pop)(); }catch(e){} } }
+/* music bed: an oompah rag at 120 bpm, one beat every 12 frames */
+const PROG=[[48,52,55],[53,57,60],[48,52,55],[55,59,62]]; const PENTA=[0,2,4,7,9,12,14,16];
+function musicAt(g){ if(!AC||!st.t.music||g%6) return; const beat=g/12, bar=Math.floor(g/48)%4, ch=PROG[bar], mf=n=>440*Math.pow(2,(n-69)/12);
+  if(g%12===0){ const b=Math.floor(beat)%4; if(b===0||b===2) osc('triangle',mf(ch[0]-12+(b===2?7:0)),mf(ch[0]-12+(b===2?7:0)),.28,.09); else ch.forEach(n=>osc('square',mf(n+12),mf(n+12),.09,.018)); }
+  const R=rng(g*31+7); if(R()<.55){ const n=72+PENTA[Math.floor(R()*PENTA.length)]+(ch[0]-48); osc('sine',mf(n),mf(n),.16,.035); } }
+
+/* ================= UI ================= */
+const $=id=>document.getElementById(id);
+const st={g:0,playing:false,t:{sound:true,music:true,twos:true,boil:true,xray:false,cards:true,loop:false}};
+try{ const s=JSON.parse(localStorage.getItem('physical.t')||'null'); if(s) Object.assign(st.t,s); }catch(e){}
+const stage=$('stage'), sctx=stage.getContext('2d'); let SW=0,SH=0;
+function size(){ const d=Math.min(2,devicePixelRatio||1), r=stage.getBoundingClientRect(); SW=r.width; SH=r.width*9/16; stage.width=Math.round(SW*d); stage.height=Math.round(SH*d); sctx.setTransform(d,0,0,d,0,0); draw(); sizeMatrix(); }
+function draw(){ if(!SW) return; renderFrame(sctx,SW,SH,st.g,st.t); }
+function proofList(){
+  let html='', lastAct=-1;
+  EP.forEach((m,i)=>{ if(m.act!==lastAct){ html+=`<li class="act" aria-hidden="true">Act ${ACTS[m.act][0]} · ${ACTS[m.act][1]}</li>`; lastAct=m.act; }
+    html+=`<li class="proof" tabindex="0" data-i="${i}"><span class="n">${String(i+1).padStart(2,'0')}</span><span class="t">${m.title}</span><span class="stamp">PROOF</span><span class="p">${m.proves}.</span></li>`; });
+  $('proofs').innerHTML=html;
+  $('proofs').querySelectorAll('.proof').forEach(li=>{ const go=()=>{ seek(STARTS[+li.dataset.i]); }; li.onclick=go; li.onkeydown=e=>{ if(e.key==='Enter'){e.preventDefault();go();} }; });
+  $('acts').innerHTML=ACTS.map((a,k)=>{ const i=EP.findIndex(m=>m.act===k); return `<i style="left:${(STARTS[i]/(TOTAL-1)*100).toFixed(2)}%"><span>${a[0]}</span></i>`; }).join('');
+  $('scrub').max=TOTAL-1;
+}
+let lastPi=-1;
+function syncUI(){
+  const {pi,lf}=locate(st.g), m=EP[pi];
+  $('scrub').value=st.g; $('readout').innerHTML=`<b>${tc(st.g)}</b> / ${tc(TOTAL-1)} · ${m.id} f${String(lf).padStart(3,'0')}`;
+  if(pi!==lastPi){ $('proofs').querySelectorAll('.proof').forEach(li=>{ const i=+li.dataset.i; li.classList.toggle('on',i===pi); li.classList.toggle('done',i<pi); li.querySelector('.stamp').textContent= i<pi?'PASSED':i===pi?'TESTING':'PROOF'; });
+    const on=$('proofs').querySelector('.proof.on'); const box=$('proofs'); if(on&&box.scrollHeight>box.clientHeight) box.scrollTop=Math.max(0,on.offsetTop-box.offsetTop-box.clientHeight*.35); lastPi=pi; drawMatrix(); }
+  drawMix();
+}
+function seek(g){ st.g=clamp(Math.round(g),0,TOTAL-1); draw(); syncUI(); }
+function setPlay(v){ st.playing=v; $('play').textContent=v?'Pause':'Play'; if(v) audio()?.resume?.(); }
+$('play').onclick=()=>setPlay(!st.playing);
+$('back').onclick=()=>{ setPlay(false); seek(st.g-1); };
+$('fwd').onclick=()=>{ setPlay(false); seek(st.g+1); };
+$('scrub').oninput=()=>{ setPlay(false); seek(+$('scrub').value); };
+document.querySelectorAll('.chip[data-t]').forEach(b=>{ const k=b.dataset.t; b.setAttribute('aria-pressed',String(st.t[k])); b.onclick=()=>{ st.t[k]=!st.t[k]; b.setAttribute('aria-pressed',String(st.t[k])); try{localStorage.setItem('physical.t',JSON.stringify(st.t));}catch(e){} draw(); }; });
+document.addEventListener('keydown',e=>{ if(e.target.closest('input,button,li')) return; if(e.key===' '){e.preventDefault(); setPlay(!st.playing);} else if(e.key==='ArrowRight'){setPlay(false); seek(st.g+1);} else if(e.key==='ArrowLeft'){setPlay(false); seek(st.g-1);} });
+
+/* ================= audit ================= */
+const mtx=$('matrix'), mctx=mtx.getContext('2d'); const CELL=17, ROWH=15, LAB=190, TOP=92;
+function sizeMatrix(){ const d=Math.min(2,devicePixelRatio||1); const w=LAB+CH.length*CELL+10, h=TOP+EP.length*ROWH+8; mtx.style.width=w+'px'; mtx.style.height=h+'px'; mtx.width=w*d; mtx.height=h*d; mctx.setTransform(d,0,0,d,0,0); drawMatrix(); }
+const GROUPC={root:'#000',spine:'#000',head:'#000',arm:'#3b82f6',hand:'#3b82f6',leg:'#0fa892',toon:'#e3a400',face:'#e3261f',world:'#5b6470'};
+function drawMatrix(){
+  const c=mctx, w=LAB+CH.length*CELL+10, h=TOP+EP.length*ROWH+8; c.fillStyle='#fff'; c.fillRect(0,0,w,h);
+  c.font='500 10px "JetBrains Mono", monospace'; c.textBaseline='middle';
+  CH.forEach(([name,grp],j)=>{ const x=LAB+j*CELL+CELL/2; c.save(); c.translate(x,TOP-6); c.rotate(-Math.PI/2.6); c.fillStyle=GROUPC[grp]; c.textAlign='left'; c.fillText(name,0,0); c.restore(); });
+  const {pi}=locate(st.g);
+  EP.forEach((m,i)=>{ const y=TOP+i*ROWH; c.fillStyle=i===pi?'#e3261f':'#000'; c.textAlign='left'; c.fillText(`${String(i+1).padStart(2,'0')} ${m.title}`.slice(0,26),6,y+ROWH/2);
+    m.metrics.cov.forEach((v,j)=>{ const x=LAB+j*CELL; c.fillStyle='#eef1f4'; c.fillRect(x+1,y+1,CELL-2,ROWH-2); if(v>.02){ c.globalAlpha=.25+.75*v; c.fillStyle=GROUPC[CH[j][1]]; const hh=(ROWH-2)*Math.max(.2,v); c.fillRect(x+1,y+ROWH-1-hh,CELL-2,hh); c.globalAlpha=1; } });
+    if(i===pi){ c.strokeStyle='#e3261f'; c.lineWidth=2; c.strokeRect(2,y,w-6,ROWH); } });
+}
+$('matrix').addEventListener('click',e=>{ const r=mtx.getBoundingClientRect(); const i=Math.floor((e.clientY-r.top-TOP)/ROWH); if(i>=0&&i<EP.length){ seek(STARTS[i]); } });
+const mix=$('mix'), xctx=mix.getContext('2d'); let MIXV=new Array(CH.length).fill(0);
+function drawMix(){
+  const d=Math.min(2,devicePixelRatio||1), r=mix.getBoundingClientRect(); if(!r.width) return; if(mix.width!==Math.round(r.width*d)){ mix.width=Math.round(r.width*d); mix.height=Math.round(r.height*d); }
+  const c=xctx; c.setTransform(d,0,0,d,0,0); const W=r.width, H=r.height; c.fillStyle='#fff'; c.fillRect(0,0,W,H);
+  const {pi,lf}=locate(st.g), m=EP[pi], v=m.metrics.vals, a=v[lf], b=v[Math.max(0,lf-1)];
+  const bw=W/CH.length;
+  CH.forEach(([n,grp],j)=>{ let d_=Math.abs(a[j]-b[j])/(CHSCALE[j]||1)*8; if(j===15) d_=a[j]!==b[j]?1:0; if(j>=30) d_=0; MIXV[j]=Math.max(d_,MIXV[j]*.82); const hh=clamp(MIXV[j],0,1)*(H-20);
+    c.fillStyle=GROUPC[grp]; c.fillRect(j*bw+1,H-14-hh,bw-2,hh); c.fillStyle='#eef1f4'; c.fillRect(j*bw+1,H-13,bw-2,2); });
+  c.fillStyle='#000'; c.font='500 9px "JetBrains Mono", monospace'; c.textAlign='left'; c.textBaseline='top'; c.fillText('ROOT · SPINE · HEAD',4,3); c.fillStyle='#3b82f6'; c.fillText('ARMS',W*.35,3); c.fillStyle='#0fa892'; c.fillText('LEGS',W*.5,3); c.fillStyle='#e3a400'; c.fillText('TOON',W*.66,3); c.fillStyle='#e3261f'; c.fillText('FACE',W*.78,3);
+}
+function stats(){
+  const keys=EP.reduce((s,m)=>s+m.keys.filter(k=>k.type==='key').length,0), brk=EP.reduce((s,m)=>s+m.keys.filter(k=>k.type==='brk').length,0);
+  const fxn=EP.reduce((s,m)=>s+m.fx.length,0), sfn=EP.reduce((s,m)=>s+m.sfx.length,0);
+  const colHit=CH.map((_,j)=>EP.filter(m=>m.metrics.cov[j]>.15).length);
+  const covered=colHit.filter(n=>n>0).length, weakest=CH.map((c,j)=>[c[0],colHit[j]]).sort((a,b)=>a[1]-b[1]).slice(0,3).map(x=>`${x[0]} (${x[1]})`).join(', ');
+  let st_=1; EP.forEach(m=>m.F.forEach(s=>st_=Math.max(st_,s.stretch)));
+  let slip=0; EP.forEach(m=>m.F.forEach(s=>slip=Math.max(slip,s.legSlip)));
+  const row=(a,b)=>`<li><span>${a}</span><b>${b}</b></li>`;
+  $('stats').innerHTML=row('Proofs',`${EP.length} in ${ACTS.length} acts`)+row('Running time',`${tc(TOTAL-1)} · ${TOTAL} frames at 24 fps`)+row('Keys / breakdowns',`${keys} / ${brk}`)+row('Channels exercised',`${covered} of ${CH.length}`)+row('Least-used channels',weakest)+row('Largest cartoon arm stretch',`× ${st_.toFixed(2)}`)+row('Max leg reach clamp',`${slip.toFixed(1)} cm`)+row('Effects / sound cues',`${fxn} / ${sfn}`);
+}
+
+/* ================= loop ================= */
+let acc=0, prev=performance.now();
+function loop(now){ const dt=Math.min(120,now-prev); prev=now;
+  if(st.playing){ acc+=dt; let moved=false; while(acc>=1000/24){ acc-=1000/24; let g=st.g+1;
+      if(st.t.loop){ const {pi}=locate(st.g); if(g>=STARTS[pi]+EP[pi].len) g=STARTS[pi]; }
+      if(g>=TOTAL){ g=0; }
+      st.g=g; moved=true; const s=SFX_AT.get(g); if(s) playSfx(s); musicAt(g); }
+    if(moved){ draw(); syncUI(); } }
+  else { MIXV=MIXV.map(v=>v*.9); }
+  requestAnimationFrame(loop); }
+proofList(); stats(); new ResizeObserver(size).observe(stage); size(); syncUI(); requestAnimationFrame(loop);
+document.fonts?.ready.then(()=>{ draw(); drawMatrix(); });
+window.__ph={EP,TOTAL,STARTS,renderFrame,locate,SFX_AT,st,seek};
+})();
+</script>
+
+</body></html>

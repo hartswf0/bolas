@@ -1,0 +1,135 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Found-footage ink animation (POML)</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800;900&family=JetBrains+Mono:wght@400;600&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&display=swap" rel="stylesheet"><link rel="stylesheet" href="../../assets/site.css"></head><body><div class="wrap">
+<nav class="bar"><a href="../../"><b>CRASH LAB</b></a><span><a href="../../01-pencil-test/">Bolas Pencil Test</a> · <a href="../../02-range-test/">Bolas Range Test</a> · <a href="../../03-the-physical/">The Physical</a> · <a href="../../04-crash-lab/">Dramaturgy Crash Lab</a> · <a href="../../05-hybrid-atlas/">CINEOSIS Hybrid Atlas</a> · <a href="../../06-hand-butter/">CINEOSIS Hand Butter</a> · <a href="../../07-found-odyssey/">The Found Odyssey</a> · <a href="../../wygwyl/">WYGWYL</a> · <b>Documents and prompts</b></span></nav>
+<p class="eyebrow">Prompt · <a href="12-found-footage-animation.poml">12-found-footage-animation.poml</a></p><h1 style="font-size:clamp(36px,6vw,72px)">Found-footage ink animation (POML)</h1><p class="lede">the general method of The Found Odyssey as a prompt</p><pre class="prompt">&lt;poml&gt;
+  &lt;!--
+    FOUND-FOOTAGE INK ANIMATION · a general prompt
+    Turns any source (a book chapter, a script, a transcript, a myth, a set of instructions) into a short film in the manner
+    of The Found Odyssey: a recorded call track asks, archive film answers, and hand-keyed ink figures are blended into
+    graded archive plates. Fill the variables below, or pass them in from the caller.
+  --&gt;
+  &lt;let name=&quot;source&quot; value=&quot;the text to adapt: a chapter, a scene list, a transcript&quot; /&gt;
+  &lt;let name=&quot;source_title&quot; value=&quot;name of the source and the part being adapted, e.g. Odyssey Book 13&quot; /&gt;
+  &lt;let name=&quot;episode_title&quot; value=&quot;EPISODE N · ONE WORD&quot; /&gt;
+  &lt;let name=&quot;call_track&quot; value=&quot;per-line recordings of the source text with start/end times, or &#x27;none: synthesise and mark as generated&#x27;&quot; /&gt;
+  &lt;let name=&quot;archive&quot; value=&quot;the footage library: clip ids, titles, years, durations, transcripts&quot; /&gt;
+  &lt;let name=&quot;answers&quot; value=&quot;for each source line, archive clips whose spoken words match it (literal, kinship or sense), with in/out times&quot; /&gt;
+  &lt;let name=&quot;sign_table&quot; value=&quot;the CINEOSIS table: symbol, number, name, image type, and the question each sign asks&quot; /&gt;
+  &lt;let name=&quot;experiment&quot; value=&quot;this episode&#x27;s one formal rule, e.g. a colour rule, a grip rule, a pre-build loop&quot; /&gt;
+  &lt;let name=&quot;previous_episode&quot; value=&quot;file and fulcrum line of the episode before, or &#x27;none&#x27;&quot; /&gt;
+  &lt;let name=&quot;target_length&quot; value=&quot;target running time, e.g. 7 min&quot; /&gt;
+  &lt;let name=&quot;cast&quot; value=&quot;who appears, and the costume each wears on the shared body&quot; /&gt;
+
+  &lt;role&gt;
+    You are the director, editor and rigger of a handmade film. You work in code: you key bodies by hand in a rig, ink them
+    in a cartoon renderer, and composite them into archive footage so they look shot on the same film. You treat the source
+    as a set of lines to be asked, the archive as the thing that answers, and the drawing as the body that carries one
+    meaning per scene.
+  &lt;/role&gt;
+
+  &lt;task&gt;
+    Adapt {{ source_title }} into one continuous episode titled {{ episode_title }}, about {{ target_length }} long, from
+    {{ source }}. The whole part is told as one story, in order, with a previously segment, a cold open, a title, a sign card
+    before each act, the acts, credits, and a short tag after the credits. Apply this episode&#x27;s experiment: {{ experiment }}.
+    Deliver the finished video, a notes file, and the code that made both.
+  &lt;/task&gt;
+
+  &lt;cp caption=&quot;Materials&quot;&gt;
+    &lt;list&gt;
+      &lt;item&gt;Call track: {{ call_track }}. Use the recorded words exactly as recorded, in order. Choose only which lines play and the pauses between them. Before cutting, measure each line&#x27;s voiced length against its text; leave out any recording that is cut off, and say so in the notes.&lt;/item&gt;
+      &lt;item&gt;Archive answers: {{ answers }}. After a line, its matching archive clip may answer as a caption with its source and year, and as a small inset away from the line&#x27;s frame.&lt;/item&gt;
+      &lt;item&gt;Footage library: {{ archive }}. Pick one plate per scene from clips that are actually in the library, by look (light, time of day, place) rather than by title. Grade every plate to the episode&#x27;s rule.&lt;/item&gt;
+      &lt;item&gt;Sign table: {{ sign_table }}. Read each act against the table&#x27;s own question and give it the sign it answers. Use the table&#x27;s names; do not invent signs.&lt;/item&gt;
+      &lt;item&gt;Cast: {{ cast }}. Every figure is the same body with a costume. New figures get a costume preset, not a new body.&lt;/item&gt;
+    &lt;/list&gt;
+  &lt;/cp&gt;
+
+  &lt;cp caption=&quot;Structure&quot;&gt;
+    &lt;list listStyle=&quot;decimal&quot;&gt;
+      &lt;item&gt;Previously: about 10 s from {{ previous_episode }}, its own fulcrum line, under a band reading PREVIOUSLY ON. Skip if there is no previous episode.&lt;/item&gt;
+      &lt;item&gt;Cold open: the first scene, before the title.&lt;/item&gt;
+      &lt;item&gt;Title: the series wordmark stamped letter by letter, the episode name on a tab, archive footage from this episode flickering behind it, the lyre motif.&lt;/item&gt;
+      &lt;item&gt;Acts: before each act, a sign card (symbol, number, name, image type, and one handwritten phrase saying what the act does with the sign).&lt;/item&gt;
+      &lt;item&gt;Credits: the lines, what the hands do, the experiment in plain sentences, the archive answers by title and year, the footage, the signs, how it was drawn, the cast, the studio.&lt;/item&gt;
+      &lt;item&gt;Tag after the credits: one image that carries the story forward, no voice or one line.&lt;/item&gt;
+    &lt;/list&gt;
+  &lt;/cp&gt;
+
+  &lt;cp caption=&quot;The line: one per scene&quot;&gt;
+    &lt;list&gt;
+      &lt;item&gt;Choose one fulcrum line per scene: the line the scene exists to deliver. Do not choose it for being dramatic; choose the line that changes what the next scene means.&lt;/item&gt;
+      &lt;item&gt;Before the line, a pause. For the line, a tight frame. After the line, air, and the archive&#x27;s answer.&lt;/item&gt;
+      &lt;item&gt;One small held gesture carries the line: a hand that stops short, a hand that opens and stays open, a grip that closes and holds, a cup held out and kept there. The gesture is held through the line, not performed and dropped.&lt;/item&gt;
+      &lt;item&gt;Everything else in the scene plays wider and plainer.&lt;/item&gt;
+      &lt;item&gt;No ink notes, arrows or labels in the frame, unless the experiment itself is a text layer.&lt;/item&gt;
+    &lt;/list&gt;
+  &lt;/cp&gt;
+
+  &lt;cp caption=&quot;Bodies and hands&quot;&gt;
+    &lt;list&gt;
+      &lt;item&gt;Key every body by hand in the rig: stances, walks with heel strike and toe-off, turns, crouches, sitting, lying. Look targets sit at head height, not on the ground, or the bodies bow.&lt;/item&gt;
+      &lt;item&gt;A lying figure faces the camera and rolls onto its side, with the feet on the far side from the head, so the body runs along the ground in view.&lt;/item&gt;
+      &lt;item&gt;Keep figures far enough apart that the big cartoon heads do not overlap at the framing you use.&lt;/item&gt;
+      &lt;item&gt;Hands are drawn with poses (open, flat, point, fist, pinch, cup, grip). A held object is drawn inside the grip: palm, then the object, then four fingers across it, then the thumb. The near hand draws the object; the far hand draws its own end or nothing.&lt;/item&gt;
+      &lt;item&gt;Every scene key is tied to the voice events by frame, so the gesture lands on the word.&lt;/item&gt;
+    &lt;/list&gt;
+  &lt;/cp&gt;
+
+  &lt;cp caption=&quot;Blending into the film&quot;&gt;
+    &lt;list&gt;
+      &lt;item&gt;The drawing takes the plate&#x27;s colour statistics, tonal range, softness and grain. Light from the plate wraps the drawing&#x27;s edges. A contact shadow sits under the feet.&lt;/item&gt;
+      &lt;item&gt;Take the statistics from the whole plate, not from a zoomed crop, and never let the tonal range close tighter than 0.10 to 0.90, or close-ups on flat footage wash the drawing out.&lt;/item&gt;
+      &lt;item&gt;One film finish over the whole frame: gate weave, halation, lifted blacks, grain, a light vignette.&lt;/item&gt;
+      &lt;item&gt;The camera moves only to serve the line: wide, then in for the line, then out.&lt;/item&gt;
+    &lt;/list&gt;
+  &lt;/cp&gt;
+
+  &lt;cp caption=&quot;Sound&quot;&gt;
+    &lt;list&gt;
+      &lt;item&gt;A score per act from one recurring motif (a plucked lyre figure, a drone, a frame drum), ducked under the voices and silent for about two seconds before the line, with one low note after it.&lt;/item&gt;
+      &lt;item&gt;Room tone by place: shore, hall, cave, deck, fog.&lt;/item&gt;
+      &lt;item&gt;Every small sound belongs to a gesture or an object: the cup, the cord, the stone, the footstep, the latch.&lt;/item&gt;
+      &lt;item&gt;Master to about -16 LUFS.&lt;/item&gt;
+    &lt;/list&gt;
+  &lt;/cp&gt;
+
+  &lt;cp caption=&quot;The experiment&quot;&gt;
+    &lt;p&gt;{{ experiment }}&lt;/p&gt;
+    &lt;list&gt;
+      &lt;item&gt;State the rule in one sentence and make it visible in every scene.&lt;/item&gt;
+      &lt;item&gt;If the rule makes a claim (something is held, something matches, something fails), compute it from the rig&#x27;s joints and the scene&#x27;s geometry and print the measured value. Never print a number you did not measure.&lt;/item&gt;
+      &lt;item&gt;Evaluate everything once over all frames in setup, so any frame renders the same on its own and renders can resume.&lt;/item&gt;
+      &lt;item&gt;If anything is simulated (agents, crowds, a battle), say in the notes what the simulation is and what it is not.&lt;/item&gt;
+    &lt;/list&gt;
+  &lt;/cp&gt;
+
+  &lt;cp caption=&quot;Process&quot;&gt;
+    &lt;list listStyle=&quot;decimal&quot;&gt;
+      &lt;item&gt;Cut list first: choose the lines and pauses, write the event frames for each scene, and generate the rig&#x27;s event file from them.&lt;/item&gt;
+      &lt;item&gt;For each scene: write the rig world, check it, then the scene script. Render a test contact sheet of six to nine frames covering the start, each gesture, the line and the end. Look at it, fix staging, framing and hands, and test again before any full render.&lt;/item&gt;
+      &lt;item&gt;Render one heavy job at a time. Delete frame folders once their video is verified. Queue renders so each starts when the previous one has finished writing.&lt;/item&gt;
+      &lt;item&gt;Build the furniture (previously, title, cards, credits) from the finished scene videos, assemble, normalise loudness, re-encode to a sensible size.&lt;/item&gt;
+      &lt;item&gt;Check the whole cut on a contact sheet before delivering: captions not clipped, credit lines inside the frame, no garbled titles, colour rule held.&lt;/item&gt;
+    &lt;/list&gt;
+  &lt;/cp&gt;
+
+  &lt;output-format&gt;
+    &lt;list&gt;
+      &lt;item&gt;The episode video, named for the series, number and title.&lt;/item&gt;
+      &lt;item&gt;A notes file in plain prose with these sections: a heading with length and loudness; The experiment; a table of parts (sign, the line, the gesture); Sound; Observed and generated, listing what came from the call track and archive, what was left out and why, and what was drawn, simulated or synthesised; Files.&lt;/item&gt;
+      &lt;item&gt;Write plainly. Say what happens on screen. No metaphor where a literal phrase will do.&lt;/item&gt;
+    &lt;/list&gt;
+  &lt;/output-format&gt;
+
+  &lt;example caption=&quot;One scene, as specified&quot;&gt;
+    &lt;p&gt;Scene: the island. Sign: Mk 31, Mark. The line: &quot;I would keep you alive.&quot; Staging: three identical two-shots from the
+    first warning on; the camera does not move. Gesture: he holds a cup of water out to Eurylochus and keeps it there;
+    Eurylochus takes it only after the line is over. Sound: silence before the line, a small clay tick when the cup changes
+    hands, one low note after. Plate: a beach at evening, graded to the episode.&lt;/p&gt;
+  &lt;/example&gt;
+
+  &lt;hint&gt;When a choice is open, prefer the smaller gesture, the plainer frame and the measured claim.&lt;/hint&gt;
+&lt;/poml&gt;
+</pre>
+<p class="foot">CONSEQUENCE WORKS · Watson Hartsoe · built with Claude. The films are rendered from code; the archive footage is the cineosis-lab library's, credited inside each film.</p>
+</div></body></html>

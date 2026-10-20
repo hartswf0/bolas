@@ -1,0 +1,131 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Hand Butter · production record</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800;900&family=JetBrains+Mono:wght@400;600&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&display=swap" rel="stylesheet"><link rel="stylesheet" href="../../assets/site.css"></head><body><div class="wrap">
+<nav class="bar"><a href="../../"><b>CRASH LAB</b></a><span><a href="../../01-pencil-test/">Bolas Pencil Test</a> · <a href="../../02-range-test/">Bolas Range Test</a> · <a href="../../03-the-physical/">The Physical</a> · <a href="../../04-crash-lab/">Dramaturgy Crash Lab</a> · <a href="../../05-hybrid-atlas/">CINEOSIS Hybrid Atlas</a> · <a href="../../06-hand-butter/">CINEOSIS Hand Butter</a> · <a href="../../07-found-odyssey/">The Found Odyssey</a> · <a href="../../wygwyl/">WYGWYL</a> · <b>Documents and prompts</b></span></nav>
+<p class="eyebrow">Notes · <a href="cineosis-hand-butter-notes.md">cineosis-hand-butter-notes.md</a></p><div class="md"><h1>CINEOSIS HAND BUTTER: making-of, production record</h1>
+<p>A making-of film for the handmade CINEOSIS film, about 4 minutes long. The film's own cast performs it in a screening room:
+- Bola and Shim;
+- the Critic, a new third figure. He stands for the fresh blind reviewer and wears a blindfold, because he sees the pictures but not what was meant.</p>
+<p>The film has eight scenes:</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Scene</th>
+<th>Content</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>the film</td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td>the archive</td>
+<td></td>
+</tr>
+<tr>
+<td>3</td>
+<td>by hand</td>
+<td></td>
+</tr>
+<tr>
+<td>4</td>
+<td>the shadows</td>
+<td></td>
+</tr>
+<tr>
+<td>5</td>
+<td>the critic</td>
+<td></td>
+</tr>
+<tr>
+<td>6</td>
+<td>the nose</td>
+<td>4.0 and 30.0</td>
+</tr>
+<tr>
+<td>7</td>
+<td>the list</td>
+<td></td>
+</tr>
+<tr>
+<td>8</td>
+<td>next</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2>Observed and generated</h2>
+<p><strong>Observed (on the screen):</strong>
+- archival plates, raw: the atlas sheet, 10.4 and 7.2;
+- frames of finished handmade passages: 10.4, 14.0, 14.1, 4.0, 30.0, 7.2, 21.1, 44.1, plus a montage of 18;
+- frames of the automatic atlas film, in scene 3;
+- the actual key code of 14.0 (crash/m_x14_0.js), in scene 3;
+- the sign card for 14, from the handmade film.</p>
+<p>The passages carry their own generated figures, as recorded in cineosis-handmade-validation.md.</p>
+<p><strong>Generated:</strong>
+- The room: wall, curtains, floor, the screen mask, projection falloff and light spill.
+- The three figures. Every body pose is keyed by hand in crash/m_hb1.js through m_hb8.js.
+- The Critic's blindfold, drawn by the rig.
+- Shadows. The projector is the key light, so shadows run along the floor and up onto the picture. The shared integration standard applies: contact patch, cast shadow, tone, grain, softening.</p>
+<p><strong>Voices:</strong>
+- Synthesized locally with Piper, from open voice models:
+  - Bola: en_US lessac;
+  - Shim: en_US ryan;
+  - the Critic: en_GB alan.
+- No recorded human voices are used.</p>
+<p><strong>Mouths:</strong>
+- Opened by the loudness of each synthesized line, sampled every 2 frames (hb/voice.py → crash/m_hb0.js). This is generated, not keyed by hand.
+- Expressions are keyed by hand per line.</p>
+<p><strong>Sound:</strong>
+- the screen's own track, low;
+- synthesized footsteps and room tone.</p>
+<h2>The Critic's lines</h2>
+<p>The lines he reads as quotes come from reviews that took place. All other dialogue is written for this film.</p>
+<table>
+<thead>
+<tr>
+<th>Passage</th>
+<th>Quote</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>14.0</td>
+<td>"Two outsiders join a strike with blank signs, and drop out."</td>
+<td>round 4 blind read</td>
+</tr>
+<tr>
+<td>4.0</td>
+<td>"She stands frontally on the nose bridge throughout, with zero body movement."</td>
+<td>round 3 blind read</td>
+</tr>
+<tr>
+<td>30.0</td>
+<td>"Confusing … it reads as a second figure inside the mirror."</td>
+<td>round 4 blind read</td>
+</tr>
+<tr>
+<td>21.1</td>
+<td>"She appears to stand in mid-air."</td>
+<td>round 4 reveal</td>
+</tr>
+</tbody>
+</table>
+<p>Other claims in the dialogue checked against cineosis-handmade-validation.md:
+- 85 passages, 21.8 minutes.
+- Shim appears in 14.0 and 14.1 only.
+- 78 passages in the formula atlas.
+- 10.4 time-remapped to her steps.
+- 7.2 crumbs drawn.
+- 4.0 shadow side fixed in round 3.
+- 30.0 double listed as a weak spot.
+- Review rounds 2, 3 and 4.
+- The newest fixes have not been reviewed.</p>
+<h2>Review</h2>
+<p>There has been no blind review of this film.</p></div>
+<p class="foot">CONSEQUENCE WORKS · Watson Hartsoe · built with Claude. The films are rendered from code; the archive footage is the cineosis-lab library's, credited inside each film.</p>
+</div></body></html>

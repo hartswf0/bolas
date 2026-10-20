@@ -1,0 +1,992 @@
+{
+  "title": "Acting Arena: Motion Inventory and Performance Challenges",
+  "version": "0.1",
+  "created": "2026-10-16",
+  "status": "Designed benchmark and inventory schema; no clips imported, catalog enumeration performed, or tests executed.",
+  "purpose": "Index motions by what they can contribute to a performance, then test contact, transitions, intention and stylization in situated challenges.",
+  "sources": [
+    {
+      "url": "https://helpx.adobe.com/creative-cloud/help/animate-characters-mixamo.html",
+      "supports": "Library browsing, search, preview and animation controls."
+    },
+    {
+      "url": "https://helpx.adobe.com/creative-cloud/faq/mixamo-faq.html",
+      "supports": "Humanoid scope and auto-rigging constraints."
+    },
+    {
+      "url": "https://www.disneyanimation.com/process/animation/",
+      "supports": "Performance criteria including timing, staging, anticipation, follow-through and secondary action."
+    }
+  ],
+  "inventory_fields": [
+    "clip_id",
+    "provider",
+    "provider_url",
+    "exact_provider_title",
+    "verified_at",
+    "local_asset_path",
+    "asset_hash",
+    "source_rig",
+    "bone_map",
+    "duration_seconds",
+    "fps",
+    "loop",
+    "root_motion",
+    "travel_direction",
+    "distance_meters",
+    "entry_pose",
+    "exit_pose",
+    "support_contacts",
+    "hand_contacts",
+    "events",
+    "action_tags",
+    "effort_tags",
+    "intent_tags",
+    "prop_requirements",
+    "partner_requirements",
+    "adjustable_parameters",
+    "known_failures",
+    "preview_path",
+    "import_settings"
+  ],
+  "coverage_states": [
+    "unsearched",
+    "searched_no_verified_match",
+    "verified_clip_found",
+    "imported",
+    "adapted",
+    "tested_pass",
+    "tested_fail",
+    "unsupported"
+  ],
+  "rig_families": [
+    {
+      "id": "humanoid",
+      "adapter": "Retarget source joints; calibrate rest pose, proportions, axes and scale."
+    },
+    {
+      "id": "stylized_humanoid",
+      "adapter": "Retarget plus contact correction and authored stylization."
+    },
+    {
+      "id": "bolas_eight_leg",
+      "adapter": "Translate intent, trajectory, effort and contact events into an independently authored eight-legged gait and gesture system; no claim of direct humanoid retargeting."
+    },
+    {
+      "id": "other_nonhumanoid",
+      "adapter": "Separate morphology-specific locomotion and performance adapter required."
+    }
+  ],
+  "review": {
+    "technical": [
+      "pose continuity",
+      "planted-contact drift",
+      "mesh penetration",
+      "prop attachment",
+      "event synchronization",
+      "root path",
+      "recovery and interruption"
+    ],
+    "performance": [
+      "intent readability",
+      "anticipation",
+      "weight",
+      "rhythm",
+      "silhouette",
+      "follow-through",
+      "secondary action",
+      "character consistency"
+    ],
+    "reporting": "Record technical pass/fail separately from qualitative performance notes; preserve failed takes. Numeric tolerances must be calibrated to asset scale and frame rate."
+  },
+  "variation_axes": {
+    "body": [
+      "standard humanoid",
+      "short limbs",
+      "long limbs",
+      "bulky torso",
+      "Bolas via separate adapter"
+    ],
+    "effort": [
+      "light",
+      "heavy",
+      "tired"
+    ],
+    "intent": [
+      "eager",
+      "reluctant",
+      "afraid",
+      "pretending confidence"
+    ],
+    "timing": [
+      "slow",
+      "fast",
+      "late interruption"
+    ],
+    "world": [
+      "flat",
+      "slope",
+      "cramped",
+      "moving target"
+    ]
+  },
+  "test_tiers": [
+    "single motion in isolation",
+    "motion with contact and target",
+    "joined action with interruption",
+    "complete acted situation"
+  ],
+  "reference_benchmarks": {
+    "feature_animation": "Manually annotated short reference scenes; record source title, edition, timecodes, action beats and principle tested. No claim of complete Disney coverage.",
+    "sports_games": "Manually annotated game clips with event timing and input-response behavior; record title, version, character, platform and timecodes. No claim of complete Backyard Sports coverage."
+  },
+  "challenge_count": 32,
+  "challenges": [
+    {
+      "id": "ACT-001",
+      "family": "locomotion",
+      "title": "Walk without spilling",
+      "situation": "Carry a brim-full cup through a turn, stop, then resume.",
+      "mixamo_search_terms": [
+        "walk",
+        "turn",
+        "idle"
+      ],
+      "source_match_status": "unsearched",
+      "verified_mixamo_clips": [],
+      "success_observation": "The cup stays upright; planted feet do not slide; stopping has weight.",
+      "stress_variations": [
+        "narrow route",
+        "short legs",
+        "sudden stop"
+      ],
+      "required_execution_layers": [
+        "motion selection",
+        "transitions and interruption",
+        "scene-dependent contacts",
+        "performance timing"
+      ],
+      "result": "not_run"
+    },
+    {
+      "id": "ACT-002",
+      "family": "locomotion",
+      "title": "Sprint and reconsider",
+      "situation": "Sprint toward a destination, recognize someone, brake and return casually.",
+      "mixamo_search_terms": [
+        "run",
+        "sprint",
+        "stop",
+        "turn",
+        "walk"
+      ],
+      "source_match_status": "unsearched",
+      "verified_mixamo_clips": [],
+      "success_observation": "Braking precedes reversal; momentum and change of intention remain readable.",
+      "stress_variations": [
+        "late cue",
+        "slippery ground",
+        "bulky body"
+      ],
+      "required_execution_layers": [
+        "motion selection",
+        "transitions and interruption",
+        "scene-dependent contacts",
+        "performance timing"
+      ],
+      "result": "not_run"
+    },
+    {
+      "id": "ACT-003",
+      "family": "locomotion",
+      "title": "Crouch under trouble",
+      "situation": "Walk, crouch under a low beam, look back, stand only after clearing it.",
+      "mixamo_search_terms": [
+        "crouch",
+        "crouch walk",
+        "look back",
+        "stand"
+      ],
+      "source_match_status": "unsearched",
+      "verified_mixamo_clips": [],
+      "success_observation": "Head and body clear beam; gaze does not break locomotion.",
+      "stress_variations": [
+        "lower beam",
+        "carried prop",
+        "reverse halfway"
+      ],
+      "required_execution_layers": [
+        "motion selection",
+        "transitions and interruption",
+        "scene-dependent contacts",
+        "performance timing"
+      ],
+      "result": "not_run"
+    },
+    {
+      "id": "ACT-004",
+      "family": "locomotion",
+      "title": "Spin and find the target",
+      "situation": "Turn rapidly through a full rotation then settle facing a moving partner.",
+      "mixamo_search_terms": [
+        "turn",
+        "spin",
+        "idle"
+      ],
+      "source_match_status": "unsearched",
+      "verified_mixamo_clips": [],
+      "success_observation": "Feet and root agree; turn ends without teleporting; gaze reacquires target.",
+      "stress_variations": [
+        "uneven floor",
+        "long arms",
+        "interrupted spin"
+      ],
+      "required_execution_layers": [
+        "motion selection",
+        "transitions and interruption",
+        "scene-dependent contacts",
+        "performance timing"
+      ],
+      "result": "not_run"
+    },
+    {
+      "id": "ACT-005",
+      "family": "air_water",
+      "title": "Jump into water",
+      "situation": "Approach an edge, hesitate, take off, enter water, surface and orient.",
+      "mixamo_search_terms": [
+        "jump",
+        "dive",
+        "swim"
+      ],
+      "source_match_status": "unsearched",
+      "verified_mixamo_clips": [],
+      "success_observation": "Takeoff contact, entry event, buoyancy transition and recovery are distinct.",
+      "stress_variations": [
+        "shallow water",
+        "late cancellation",
+        "shoes carried"
+      ],
+      "required_execution_layers": [
+        "motion selection",
+        "transitions and interruption",
+        "scene-dependent contacts",
+        "performance timing"
+      ],
+      "result": "not_run"
+    },
+    {
+      "id": "ACT-006",
+      "family": "air_water",
+      "title": "Overshoot the ledge",
+      "situation": "Run, jump too far, catch an edge, hang and pull up.",
+      "mixamo_search_terms": [
+        "run",
+        "jump",
+        "hanging",
+        "climb"
+      ],
+      "source_match_status": "unsearched",
+      "verified_mixamo_clips": [],
+      "success_observation": "Hands attach at the ledge; body weight hangs below grip; recovery is continuous.",
+      "stress_variations": [
+        "different ledge heights",
+        "one-handed grip"
+      ],
+      "required_execution_layers": [
+        "motion selection",
+        "transitions and interruption",
+        "scene-dependent contacts",
+        "performance timing"
+      ],
+      "result": "not_run"
+    },
+    {
+      "id": "ACT-007",
+      "family": "air_water",
+      "title": "Slip and recover",
+      "situation": "Step onto a slick patch, slip, windmill arms and regain balance.",
+      "mixamo_search_terms": [
+        "slip",
+        "stumble",
+        "balance"
+      ],
+      "source_match_status": "unsearched",
+      "verified_mixamo_clips": [],
+      "success_observation": "Support changes plausibly; recovery responds to the actual slip direction.",
+      "stress_variations": [
+        "carrying cup",
+        "slope",
+        "blocked recovery step"
+      ],
+      "required_execution_layers": [
+        "motion selection",
+        "transitions and interruption",
+        "scene-dependent contacts",
+        "performance timing"
+      ],
+      "result": "not_run"
+    },
+    {
+      "id": "ACT-008",
+      "family": "air_water",
+      "title": "Stand after a fall",
+      "situation": "Fall sideways, pause, assess pain, get up and continue.",
+      "mixamo_search_terms": [
+        "fall",
+        "get up",
+        "injured walk"
+      ],
+      "source_match_status": "unsearched",
+      "verified_mixamo_clips": [],
+      "success_observation": "Ground contacts remain coherent; injury affects the next action.",
+      "stress_variations": [
+        "tight space",
+        "different body proportions"
+      ],
+      "required_execution_layers": [
+        "motion selection",
+        "transitions and interruption",
+        "scene-dependent contacts",
+        "performance timing"
+      ],
+      "result": "not_run"
+    },
+    {
+      "id": "ACT-009",
+      "family": "objects",
+      "title": "Door opens the wrong way",
+      "situation": "Arrive confidently, push a pull door, notice, reposition and open it.",
+      "mixamo_search_terms": [
+        "walk",
+        "push",
+        "pull",
+        "reach"
+      ],
+      "source_match_status": "unsearched",
+      "verified_mixamo_clips": [],
+      "success_observation": "Hand tracks the handle; door hinge and body clearances remain valid.",
+      "stress_variations": [
+        "heavy door",
+        "crowded threshold",
+        "interruption"
+      ],
+      "required_execution_layers": [
+        "motion selection",
+        "transitions and interruption",
+        "scene-dependent contacts",
+        "performance timing"
+      ],
+      "result": "not_run"
+    },
+    {
+      "id": "ACT-010",
+      "family": "objects",
+      "title": "The unexpectedly heavy box",
+      "situation": "Reach for a box, fail to lift, regrip and lift with effort.",
+      "mixamo_search_terms": [
+        "pick up",
+        "lift",
+        "carry"
+      ],
+      "source_match_status": "unsearched",
+      "verified_mixamo_clips": [],
+      "success_observation": "Hands stay on box; load changes preparation and whole-body effort.",
+      "stress_variations": [
+        "weight change",
+        "high shelf",
+        "partner joins"
+      ],
+      "required_execution_layers": [
+        "motion selection",
+        "transitions and interruption",
+        "scene-dependent contacts",
+        "performance timing"
+      ],
+      "result": "not_run"
+    },
+    {
+      "id": "ACT-011",
+      "family": "objects",
+      "title": "Chair moved away",
+      "situation": "Begin sitting, detect the absent chair and recover before falling.",
+      "mixamo_search_terms": [
+        "sit",
+        "stand",
+        "stumble"
+      ],
+      "source_match_status": "unsearched",
+      "verified_mixamo_clips": [],
+      "success_observation": "Seat expectation, surprise and recovery have distinct timing.",
+      "stress_variations": [
+        "late removal",
+        "low chair",
+        "long-legged rig"
+      ],
+      "required_execution_layers": [
+        "motion selection",
+        "transitions and interruption",
+        "scene-dependent contacts",
+        "performance timing"
+      ],
+      "result": "not_run"
+    },
+    {
+      "id": "ACT-012",
+      "family": "objects",
+      "title": "Hand over reluctantly",
+      "situation": "Offer an object, hesitate at release, then let the other person take it.",
+      "mixamo_search_terms": [
+        "give",
+        "take",
+        "reach"
+      ],
+      "source_match_status": "unsearched",
+      "verified_mixamo_clips": [],
+      "success_observation": "Ownership switches once at release; no duplicated or floating prop.",
+      "stress_variations": [
+        "receiver withdraws",
+        "fragile object",
+        "changed mind"
+      ],
+      "required_execution_layers": [
+        "motion selection",
+        "transitions and interruption",
+        "scene-dependent contacts",
+        "performance timing"
+      ],
+      "result": "not_run"
+    },
+    {
+      "id": "ACT-013",
+      "family": "combat",
+      "title": "Punch that misses",
+      "situation": "Wind up, punch at a moving target, miss and recover guard.",
+      "mixamo_search_terms": [
+        "punch",
+        "boxing",
+        "dodge"
+      ],
+      "source_match_status": "unsearched",
+      "verified_mixamo_clips": [],
+      "success_observation": "Reach follows target geometry; miss produces follow-through; no automatic hit.",
+      "stress_variations": [
+        "target sidesteps",
+        "close wall",
+        "long arms"
+      ],
+      "required_execution_layers": [
+        "motion selection",
+        "transitions and interruption",
+        "scene-dependent contacts",
+        "performance timing"
+      ],
+      "result": "not_run"
+    },
+    {
+      "id": "ACT-014",
+      "family": "combat",
+      "title": "Kick and keep balance",
+      "situation": "Kick a target, encounter resistance, retract and regain stance.",
+      "mixamo_search_terms": [
+        "kick",
+        "fighting stance"
+      ],
+      "source_match_status": "unsearched",
+      "verified_mixamo_clips": [],
+      "success_observation": "Support foot and hip rotation agree; impact response differs from miss.",
+      "stress_variations": [
+        "higher target",
+        "short legs",
+        "slippery floor"
+      ],
+      "required_execution_layers": [
+        "motion selection",
+        "transitions and interruption",
+        "scene-dependent contacts",
+        "performance timing"
+      ],
+      "result": "not_run"
+    },
+    {
+      "id": "ACT-015",
+      "family": "combat",
+      "title": "Block into retreat",
+      "situation": "Block a strike, lose ground, duck the next strike and disengage.",
+      "mixamo_search_terms": [
+        "block",
+        "hit reaction",
+        "duck",
+        "retreat"
+      ],
+      "source_match_status": "unsearched",
+      "verified_mixamo_clips": [],
+      "success_observation": "Both performers share event timing; retreat remains spatially possible.",
+      "stress_variations": [
+        "different heights",
+        "second attacker",
+        "obstacle"
+      ],
+      "required_execution_layers": [
+        "motion selection",
+        "transitions and interruption",
+        "scene-dependent contacts",
+        "performance timing"
+      ],
+      "result": "not_run"
+    },
+    {
+      "id": "ACT-016",
+      "family": "combat",
+      "title": "Fight becomes apology",
+      "situation": "Prepare to strike, recognize a friend, abort and offer help.",
+      "mixamo_search_terms": [
+        "fight idle",
+        "punch",
+        "stop",
+        "reach"
+      ],
+      "source_match_status": "unsearched",
+      "verified_mixamo_clips": [],
+      "success_observation": "Attack aborts before contact; intention changes without a pose snap.",
+      "stress_variations": [
+        "recognition late in strike",
+        "embarrassment"
+      ],
+      "required_execution_layers": [
+        "motion selection",
+        "transitions and interruption",
+        "scene-dependent contacts",
+        "performance timing"
+      ],
+      "result": "not_run"
+    },
+    {
+      "id": "ACT-017",
+      "family": "dance",
+      "title": "Dance through a missed beat",
+      "situation": "Dance, miss a beat, glance at partner and rejoin rhythm.",
+      "mixamo_search_terms": [
+        "dance",
+        "hip hop",
+        "salsa"
+      ],
+      "source_match_status": "unsearched",
+      "verified_mixamo_clips": [],
+      "success_observation": "Beat phase changes visibly; recovery rejoins partner rather than restarting.",
+      "stress_variations": [
+        "tempo change",
+        "delayed cue",
+        "short limbs"
+      ],
+      "required_execution_layers": [
+        "motion selection",
+        "transitions and interruption",
+        "scene-dependent contacts",
+        "performance timing"
+      ],
+      "result": "not_run"
+    },
+    {
+      "id": "ACT-018",
+      "family": "dance",
+      "title": "Spin with a partner",
+      "situation": "Take hands, turn together, exchange places and release.",
+      "mixamo_search_terms": [
+        "dance",
+        "turn",
+        "spin"
+      ],
+      "source_match_status": "unsearched",
+      "verified_mixamo_clips": [],
+      "success_observation": "Shared grip stays attached; pivots avoid intersection; release is synchronized.",
+      "stress_variations": [
+        "height mismatch",
+        "smaller floor",
+        "interrupted turn"
+      ],
+      "required_execution_layers": [
+        "motion selection",
+        "transitions and interruption",
+        "scene-dependent contacts",
+        "performance timing"
+      ],
+      "result": "not_run"
+    },
+    {
+      "id": "ACT-019",
+      "family": "dance",
+      "title": "Celebration interrupted",
+      "situation": "Celebrate a point, discover it was disallowed, compose yourself.",
+      "mixamo_search_terms": [
+        "victory",
+        "cheering",
+        "disappointed",
+        "idle"
+      ],
+      "source_match_status": "unsearched",
+      "verified_mixamo_clips": [],
+      "success_observation": "Celebration does not instantly vanish; social recovery is legible.",
+      "stress_variations": [
+        "late notice",
+        "crowd watching",
+        "exhausted performer"
+      ],
+      "required_execution_layers": [
+        "motion selection",
+        "transitions and interruption",
+        "scene-dependent contacts",
+        "performance timing"
+      ],
+      "result": "not_run"
+    },
+    {
+      "id": "ACT-020",
+      "family": "dance",
+      "title": "Too big for the stage",
+      "situation": "Perform a broad dance in a cramped area, adjust without losing rhythm.",
+      "mixamo_search_terms": [
+        "dance",
+        "sidestep",
+        "crouch"
+      ],
+      "source_match_status": "unsearched",
+      "verified_mixamo_clips": [],
+      "success_observation": "Reach adapts to real boundaries while phrase timing persists.",
+      "stress_variations": [
+        "lower ceiling",
+        "nearby partner",
+        "trailing costume"
+      ],
+      "required_execution_layers": [
+        "motion selection",
+        "transitions and interruption",
+        "scene-dependent contacts",
+        "performance timing"
+      ],
+      "result": "not_run"
+    },
+    {
+      "id": "ACT-021",
+      "family": "acting",
+      "title": "Cower then help",
+      "situation": "Hide from danger, notice another person exposed, emerge to help.",
+      "mixamo_search_terms": [
+        "cower",
+        "scared",
+        "sneak",
+        "reach"
+      ],
+      "source_match_status": "unsearched",
+      "verified_mixamo_clips": [],
+      "success_observation": "Attention redirects before body commits; fear remains in helpful action.",
+      "stress_variations": [
+        "new threat",
+        "injured partner",
+        "exit nearby"
+      ],
+      "required_execution_layers": [
+        "motion selection",
+        "transitions and interruption",
+        "scene-dependent contacts",
+        "performance timing"
+      ],
+      "result": "not_run"
+    },
+    {
+      "id": "ACT-022",
+      "family": "acting",
+      "title": "Pretend the box is light",
+      "situation": "Carry a heavy box while trying to look effortless in front of someone.",
+      "mixamo_search_terms": [
+        "carry",
+        "walk",
+        "idle"
+      ],
+      "source_match_status": "unsearched",
+      "verified_mixamo_clips": [],
+      "success_observation": "Effort leaks through support and recovery despite composed presentation.",
+      "stress_variations": [
+        "observer leaves",
+        "grip slips",
+        "narrow doorway"
+      ],
+      "required_execution_layers": [
+        "motion selection",
+        "transitions and interruption",
+        "scene-dependent contacts",
+        "performance timing"
+      ],
+      "result": "not_run"
+    },
+    {
+      "id": "ACT-023",
+      "family": "acting",
+      "title": "The false confident entrance",
+      "situation": "Enter proudly, discover the wrong room, retreat without attracting notice.",
+      "mixamo_search_terms": [
+        "walk",
+        "look around",
+        "turn",
+        "sneak"
+      ],
+      "source_match_status": "unsearched",
+      "verified_mixamo_clips": [],
+      "success_observation": "Discovery precedes redirection; retreat preserves character intention.",
+      "stress_variations": [
+        "someone makes eye contact",
+        "door sticks"
+      ],
+      "required_execution_layers": [
+        "motion selection",
+        "transitions and interruption",
+        "scene-dependent contacts",
+        "performance timing"
+      ],
+      "result": "not_run"
+    },
+    {
+      "id": "ACT-024",
+      "family": "acting",
+      "title": "Wait without becoming inert",
+      "situation": "Wait for an answer, prepare to leave, hear a reply and turn back.",
+      "mixamo_search_terms": [
+        "idle",
+        "impatient",
+        "turn",
+        "listen"
+      ],
+      "source_match_status": "unsearched",
+      "verified_mixamo_clips": [],
+      "success_observation": "Stillness retains attention; a small cue causes an observable response.",
+      "stress_variations": [
+        "uncertain cue",
+        "distant voice",
+        "competing task"
+      ],
+      "required_execution_layers": [
+        "motion selection",
+        "transitions and interruption",
+        "scene-dependent contacts",
+        "performance timing"
+      ],
+      "result": "not_run"
+    },
+    {
+      "id": "ACT-025",
+      "family": "sports",
+      "title": "Baseball grounder",
+      "situation": "Track a bouncing ball, crouch, field it, transfer and throw.",
+      "mixamo_search_terms": [
+        "run",
+        "crouch",
+        "catch",
+        "throw"
+      ],
+      "source_match_status": "unsearched",
+      "verified_mixamo_clips": [],
+      "success_observation": "Hand and ball meet at the same time and position; ownership transfers once.",
+      "stress_variations": [
+        "bad bounce",
+        "child proportions",
+        "throw aborted"
+      ],
+      "required_execution_layers": [
+        "motion selection",
+        "transitions and interruption",
+        "scene-dependent contacts",
+        "performance timing"
+      ],
+      "result": "not_run"
+    },
+    {
+      "id": "ACT-026",
+      "family": "sports",
+      "title": "Basketball fake",
+      "situation": "Dribble, fake a pass, pivot and shoot while a defender reacts.",
+      "mixamo_search_terms": [
+        "dribble",
+        "basketball",
+        "pivot",
+        "throw"
+      ],
+      "source_match_status": "unsearched",
+      "verified_mixamo_clips": [],
+      "success_observation": "Ball contacts follow hand timing; pivot foot stays planted; defender reads cue.",
+      "stress_variations": [
+        "defender closes",
+        "small hands",
+        "blocked shot"
+      ],
+      "required_execution_layers": [
+        "motion selection",
+        "transitions and interruption",
+        "scene-dependent contacts",
+        "performance timing"
+      ],
+      "result": "not_run"
+    },
+    {
+      "id": "ACT-027",
+      "family": "sports",
+      "title": "Soccer whiff",
+      "situation": "Chase a ball, swing a kick, miss, stumble and keep playing.",
+      "mixamo_search_terms": [
+        "run",
+        "kick",
+        "stumble"
+      ],
+      "source_match_status": "unsearched",
+      "verified_mixamo_clips": [],
+      "success_observation": "Miss stays a miss; ball trajectory is independent; recovery keeps play alive.",
+      "stress_variations": [
+        "moving ball",
+        "wet ground",
+        "late tackle"
+      ],
+      "required_execution_layers": [
+        "motion selection",
+        "transitions and interruption",
+        "scene-dependent contacts",
+        "performance timing"
+      ],
+      "result": "not_run"
+    },
+    {
+      "id": "ACT-028",
+      "family": "sports",
+      "title": "Tennis late return",
+      "situation": "Split-step, chase wide, reach late, return and recover center.",
+      "mixamo_search_terms": [
+        "tennis",
+        "sidestep",
+        "run",
+        "swing"
+      ],
+      "source_match_status": "unsearched",
+      "verified_mixamo_clips": [],
+      "success_observation": "Racket meets ball or visibly misses; footwork reaches actual ball position.",
+      "stress_variations": [
+        "higher ball",
+        "short reach",
+        "backhand required"
+      ],
+      "required_execution_layers": [
+        "motion selection",
+        "transitions and interruption",
+        "scene-dependent contacts",
+        "performance timing"
+      ],
+      "result": "not_run"
+    },
+    {
+      "id": "ACT-029",
+      "family": "ensemble",
+      "title": "Carry a table through a door",
+      "situation": "Two characters carry a table, rotate through a threshold and set it down.",
+      "mixamo_search_terms": [
+        "carry",
+        "walk",
+        "turn",
+        "crouch"
+      ],
+      "source_match_status": "unsearched",
+      "verified_mixamo_clips": [],
+      "success_observation": "Shared object stays rigid; grips persist; both bodies clear threshold.",
+      "stress_variations": [
+        "height mismatch",
+        "one stops",
+        "door begins closing"
+      ],
+      "required_execution_layers": [
+        "motion selection",
+        "transitions and interruption",
+        "scene-dependent contacts",
+        "performance timing"
+      ],
+      "result": "not_run"
+    },
+    {
+      "id": "ACT-030",
+      "family": "ensemble",
+      "title": "Crowded doorway",
+      "situation": "One character holds a door while others enter and someone tries to close it.",
+      "mixamo_search_terms": [
+        "hold",
+        "push",
+        "walk",
+        "stop"
+      ],
+      "source_match_status": "unsearched",
+      "verified_mixamo_clips": [],
+      "success_observation": "Conflicting intentions produce a visible negotiation and valid contacts.",
+      "stress_variations": [
+        "opposing traffic",
+        "chair carried",
+        "original holder leaves"
+      ],
+      "required_execution_layers": [
+        "motion selection",
+        "transitions and interruption",
+        "scene-dependent contacts",
+        "performance timing"
+      ],
+      "result": "not_run"
+    },
+    {
+      "id": "ACT-031",
+      "family": "ensemble",
+      "title": "Catch a falling friend",
+      "situation": "Notice a partner slipping, reach, catch their weight and stabilize together.",
+      "mixamo_search_terms": [
+        "reach",
+        "catch",
+        "stumble",
+        "balance"
+      ],
+      "source_match_status": "unsearched",
+      "verified_mixamo_clips": [],
+      "success_observation": "Reaction has latency; contact carries weight; combined support is credible.",
+      "stress_variations": [
+        "late cue",
+        "weight mismatch",
+        "failed catch"
+      ],
+      "required_execution_layers": [
+        "motion selection",
+        "transitions and interruption",
+        "scene-dependent contacts",
+        "performance timing"
+      ],
+      "result": "not_run"
+    },
+    {
+      "id": "ACT-032",
+      "family": "ensemble",
+      "title": "Chain reaction",
+      "situation": "A dancer bumps a carrier, a cup tips, a third character catches it and the dancer apologizes.",
+      "mixamo_search_terms": [
+        "dance",
+        "carry",
+        "stumble",
+        "catch",
+        "gesture"
+      ],
+      "source_match_status": "unsearched",
+      "verified_mixamo_clips": [],
+      "success_observation": "Events cause one another; prop states persist; reactions remain individually readable.",
+      "stress_variations": [
+        "remove one participant",
+        "delayed catch",
+        "crowded stage"
+      ],
+      "required_execution_layers": [
+        "motion selection",
+        "transitions and interruption",
+        "scene-dependent contacts",
+        "performance timing"
+      ],
+      "result": "not_run"
+    }
+  ]
+}

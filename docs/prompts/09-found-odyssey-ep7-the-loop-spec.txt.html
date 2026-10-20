@@ -1,0 +1,45 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>The Found Odyssey · Episode 7 spec</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800;900&family=JetBrains+Mono:wght@400;600&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&display=swap" rel="stylesheet"><link rel="stylesheet" href="../../assets/site.css"></head><body><div class="wrap">
+<nav class="bar"><a href="../../"><b>CRASH LAB</b></a><span><a href="../../01-pencil-test/">Bolas Pencil Test</a> · <a href="../../02-range-test/">Bolas Range Test</a> · <a href="../../03-the-physical/">The Physical</a> · <a href="../../04-crash-lab/">Dramaturgy Crash Lab</a> · <a href="../../05-hybrid-atlas/">CINEOSIS Hybrid Atlas</a> · <a href="../../06-hand-butter/">CINEOSIS Hand Butter</a> · <a href="../../07-found-odyssey/">The Found Odyssey</a> · <a href="../../wygwyl/">WYGWYL</a> · <b>Documents and prompts</b></span></nav>
+<p class="eyebrow">Prompt · <a href="09-found-odyssey-ep7-the-loop-spec.txt">09-found-odyssey-ep7-the-loop-spec.txt</a></p><h1 style="font-size:clamp(36px,6vw,72px)">The Found Odyssey · Episode 7 spec</h1><p class="lede">pre-build bisimulation: the loop</p><pre class="prompt">THE FOUND ODYSSEY · Episode 7 · THE LOOP
+Book 13 runs as one recursive &quot;Ground Hog&#x27;s day&quot; state machine, from the Phaeacian ship freezing in mid-harbor to Odysseus and Athena plotting on the shore of Ithaca. 7 min 40 s, -16.0 LUFS.
+The Experiment: Pre-Build Bisimulation (ody/toon.py)
+Episode 5 governed colour weight (blood vs. grey shade). Episode 6 governed layered grip (palm \to object \to fingers). Episode 7 governs pre-build compilation: the renderer runs an automated &quot;workshop on an idea or a broken concept&quot; inside the film itself, forcing an &quot;interactive fiction&quot; text layer to synchronize with &quot;3d grey boxing&quot; before the final plate is built.
+ * The Dual-State Frame: Every shot renders two coupled layers at once—a scrolling interactive-fiction state log and an unbuilt 3D grey-box blockout that &quot;is supposed to follow along with&quot; the text. Whenever text and spatial geometry desynchronize, the plate refuses to ink or colour.
+ * The 7-Agent &quot;Skins&quot; Pass: Before Odysseus wakes on Ithaca, the renderer spins up a &quot;team of 7 agents (with different tasks and goals)&quot; mapped onto a single base rig via modular &quot;skins&quot; (01_BARD, 02_BLOCKER, 03_GRIP, 04_BLEED, 05_PHYSICS, 06_DOUBT, 07_ATHENA). They autonomously playtest the sleeping beach, colliding with broken props and generating an on-screen diagnostic &quot;report&quot; at the end of each failed pass.
+ * The Time-Loop Latch: Each failed agent playtest triggers a hard &quot;Ground Hog&#x27;s day&quot; reset back to frame 0. Only objects physically gripped using Episode 6&#x27;s hand renderer (palm -&gt; object -&gt; fingers) survive the reset and retain Episode 5&#x27;s colour saturation across loops.
+ * The Animation Prompt Compiler: When Athena speaks to Odysseus, her dialogue functions as an executable &quot;animation prompt&quot; that lets the two of them &quot;visualize speculative ideas and scenarios&quot;—compiling the raw grey-box geometry of Ithaca (harbor, olive tree, cave, suitors&#x27; hall) into inked, full-colour plates in real time.
+Technical Architecture (ody/toon.py Patch)
+class ArchiveNode:
+    def __init__(self, id, bbox_3d, if_predicate):
+        self.id = id
+        self.bbox_3d = bbox_3d              # 3D grey-box volume
+        self.if_predicate = if_predicate    # Interactive fiction state string
+        self.state = &quot;GREYBOX&quot;              # GREYBOX | INKED | COLOURED
+        self.locked_by_grip = False         # Episode 6 persistence flag
+
+def step_bisimulation(node, agents, hand_rig, loop_epoch):
+    # 1. 7-agent workshop pass over broken concept
+    report = [a.evaluate(node.if_predicate, node.bbox_3d) for a in agents]
+    
+    # 2. Check if 3D grey box follows interactive fiction
+    bisim_ok = all(r.sync_valid for r in report)
+    
+    # 3. Episode 6 Grip Latch + Episode 5 Colour Rule
+    if hand_rig.is_holding(node.bbox_3d):
+        node.locked_by_grip = True
+        node.state = &quot;COLOURED&quot;             # Blood/colour weight retained
+    elif not bisim_ok and not node.locked_by_grip:
+        node.state = &quot;GREYBOX&quot;              # Revert on Groundhog Day reset
+    return report
+
+Master Build &amp; Narrative Prompt (Condensed)
+&gt; PROMPT — THE FOUND ODYSSEY · EPISODE 7 (ody/toon.py + Narrative Engine):
+&gt; Construct a 7-minute-40-second animated episode for Book 13 where Ithaca begins as an unbuilt &quot;3d grey boxing&quot; blockout coupled to an &quot;interactive fiction&quot; parser.
+&gt;  * Act I (The Surrogate Playtest): While Odysseus sleeps on the shore, spin up a &quot;team of 7 agents (with different tasks and goals)&quot; using swapped persona &quot;skins&quot; on a single wireframe rig. Have them autonomously playtest the beach in a rapid &quot;Ground Hog&#x27;s day&quot; time loop—trying and failing to lift the Phaeacian bronze tripods, row the petrified ship, and clear the mist, stamping a terse diagnostic &quot;report&quot; onto the grey plate at every reset.
+&gt;  * Act II (The Grip Override): Odysseus wakes in full colour (Episode 5 rule) inside the monochrome grey box. Using the Episode 6 hand-layering pipeline (palm -&gt; object -&gt; four fingers + thumb), every unrendered bounding box he physically grasps—tripod handle, woven garment, olive branch—locks into persistence, surviving the time-loop reset and bleeding saturated colour into the surrounding geometry.
+&gt;  * Act III (The Speculative Workshop): The 7 agent skins converge into a single figure: Athena cycling through disguises on one bone rig. Her dialogue operates as a live &quot;animation prompt&quot;, allowing Odysseus and Athena to workshop &quot;speculative games&quot; for the slaughter of the suitors—projecting counterfactual grey-box simulations of Book 22 onto the walls of the cave and locking the winning trajectory into the archive before the scene is ever built. End on Odysseus&#x27;s hand closing over the beggar&#x27;s staff as his own skin swaps to old age.
+&gt; 
+</pre>
+<p class="foot">CONSEQUENCE WORKS · Watson Hartsoe · built with Claude. The films are rendered from code; the archive footage is the cineosis-lab library's, credited inside each film.</p>
+</div></body></html>
