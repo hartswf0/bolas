@@ -1,0 +1,695 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>This Side Up · CRASH LAB</title>
+<meta name="description" content="Ten case studies of the cardboard cut-out films: how each was made, with the films, the real sheets and something to try.">
+<link rel="canonical" href="https://hartswf0.github.io/bolas/this-side-up/"><meta property="og:site_name" content="CRASH LAB"><meta property="og:title" content="This Side Up">
+<meta property="og:description" content="Ten case studies of the cardboard cut-out films: how each was made, with the films, the real sheets and something to try.">
+<meta property="og:type" content="website"><meta property="og:url" content="https://hartswf0.github.io/bolas/this-side-up/"><meta property="og:image" content="https://hartswf0.github.io/bolas/this-side-up/media/still/tsu-ice.jpg">
+<meta name="twitter:card" content="summary_large_image"><meta name="theme-color" content="#0b0d10">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml"><link rel="icon" href="../favicon-32.png" sizes="32x32"><link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800;900&family=JetBrains+Mono:wght@400;600&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&display=swap">
+<style>
+/* Layout: a shipping crate of ten case studies. A label at the top lists the shipment; each chapter is one box: the film playing,
+   the question, the trick, the recipe with the real sheets, one thing to try with your hands, what broke and what changed, and what it
+   hands to the next box. CRASH LAB's faces and ink; kraft and rubber-stamp red come from Boone's own credits. */
+:root{
+  --paper:#fbfaf7;--panel:#f1ede4;--ink:#14110d;--ink-2:#5b5348;--rule:#d9d1c2;
+  --kraft:#b98a52;--kraft-2:#8a5f2e;--stamp:#d42a1e;--label:#fffdf8;--teal:#0f8f80;--blue:#2f6fd6;
+  --display:"Big Shoulders Display","Arial Narrow",Impact,sans-serif;--body:"Literata",Georgia,serif;--mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--paper:#0d0b09;--panel:#18140f;--ink:#f4efe6;--ink-2:#b3a896;--rule:#352d23;--kraft:#c99a60;--kraft-2:#e0b57c;--stamp:#ff4b3a;--label:#1e1913;--teal:#2fd1bd;--blue:#6aa1ff;color-scheme:dark}}
+:root[data-theme="dark"]{--paper:#0d0b09;--panel:#18140f;--ink:#f4efe6;--ink-2:#b3a896;--rule:#352d23;--kraft:#c99a60;--kraft-2:#e0b57c;--stamp:#ff4b3a;--label:#1e1913;--teal:#2fd1bd;--blue:#6aa1ff;color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{background:var(--paper);color:var(--ink);font:400 17px/1.62 var(--body);padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 80px}
+.wrap{max-width:1120px;margin:0 auto}
+h1,h2,h3{font-family:var(--display);line-height:.95;margin:0;text-wrap:balance;letter-spacing:.005em}
+p{margin:0;max-width:66ch}
+a{color:inherit;text-decoration-color:var(--kraft);text-underline-offset:3px}
+.mono,code,.lbl{font-family:var(--mono)}
+code{font-size:.84em;background:var(--panel);padding:1px 5px;border-radius:3px}
+.lbl{font-size:11.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-2)}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--stamp);outline-offset:2px}
+img,video{max-width:100%;display:block}
+
+/* ---------- the label ---------- */
+.crate{margin-top:28px;border:2px solid var(--ink);background:var(--label);display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr)}
+.crate>div{padding:22px 24px;min-width:0}
+.crate .l{border-right:2px solid var(--ink);display:grid;gap:14px;align-content:start}
+.ship{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+.crate h1{font-size:clamp(58px,11vw,128px);font-weight:900;text-transform:uppercase;display:flex;align-items:center;gap:.18em;flex-wrap:wrap}
+.arrows{display:inline-flex;gap:.06em;height:.62em}
+.arrows svg{height:100%;width:auto}
+.crate .lede{font-size:19px}
+.crate .r{display:grid;gap:12px;align-content:start;background:repeating-linear-gradient(90deg,transparent 0 6px,color-mix(in srgb,var(--kraft) 9%,transparent) 6px 7px)}
+.barcode{height:44px;background:repeating-linear-gradient(90deg,var(--ink) 0 2px,transparent 2px 4px,var(--ink) 4px 5px,transparent 5px 9px,var(--ink) 9px 12px,transparent 12px 14px)}
+.stampbox{border:3px solid var(--stamp);color:var(--stamp);font-family:var(--mono);font-weight:600;letter-spacing:.08em;text-transform:uppercase;font-size:13px;padding:8px 12px;transform:rotate(-2.5deg);justify-self:start}
+.howto{display:grid;gap:4px;font-size:15px}
+.howto b{font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--kraft-2);margin-right:6px}
+
+/* ---------- the shipment ---------- */
+.shipment{margin-top:22px;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,196px),1fr));gap:12px}
+.tile{display:grid;grid-template-rows:auto 1fr auto;gap:6px;text-decoration:none;border:1px solid var(--rule);background:var(--panel);padding:8px;border-radius:3px;min-width:0}
+.tile:hover{border-color:var(--kraft)}
+.tile img{aspect-ratio:16/9;object-fit:cover;width:100%;border-radius:2px}
+.tile .t{font-family:var(--display);font-weight:800;font-size:20px;line-height:1}
+.tile .m{font-family:var(--mono);font-size:11px;color:var(--ink-2);display:flex;justify-content:space-between;gap:6px}
+.tile .m b{color:var(--stamp);font-weight:600}
+
+/* ---------- a chapter ---------- */
+.box{margin-top:72px;display:grid;gap:26px;scroll-margin-top:16px}
+.boxhead{display:grid;gap:10px;border-top:6px solid var(--ink);padding-top:14px}
+.boxhead .row{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:baseline}
+.code{font-family:var(--mono);font-weight:600;color:var(--paper);background:var(--stamp);padding:2px 8px;font-size:13px;letter-spacing:.04em}
+.boxhead h2{font-size:clamp(40px,7vw,76px);font-weight:900;text-transform:uppercase}
+.q{font-size:clamp(20px,2.4vw,25px);font-style:italic;max-width:46ch;line-height:1.35}
+.hero{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:22px;align-items:start}
+.film{display:grid;gap:8px;margin:0}
+.film .screen{position:relative;background:#000;aspect-ratio:16/9;border-radius:3px;overflow:hidden}
+.film video{width:100%;height:100%;object-fit:contain}
+.film .bar{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.btn{border:1.5px solid var(--ink);background:var(--label);padding:6px 12px;border-radius:2px;cursor:pointer;font-family:var(--mono);font-size:12.5px;letter-spacing:.03em;display:inline-flex;align-items:center;gap:8px}
+.btn:hover{background:var(--ink);color:var(--paper)}
+.btn svg{width:12px;height:12px}
+.cap{font-size:14px;color:var(--ink-2)}
+.trick{background:var(--label);border:2px solid var(--ink);padding:16px 18px;display:grid;gap:8px;position:relative;box-shadow:5px 5px 0 var(--kraft)}
+.trick .lbl{color:var(--stamp)}
+.trick p{font-size:19px;line-height:1.45}
+.facts{display:grid;gap:4px;font-family:var(--mono);font-size:12.5px;color:var(--ink-2)}
+.facts span b{color:var(--ink);font-weight:600}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:22px 30px}
+.part{display:grid;gap:10px;align-content:start;min-width:0}
+.part h3{font-size:26px;font-weight:800;text-transform:uppercase}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-family:var(--mono);font-size:12px;border:1px solid var(--rule);background:var(--panel);padding:2px 8px;border-radius:999px}
+.chip.m{border-color:var(--kraft);color:var(--kraft-2)}
+ol.recipe{list-style:none;counter-reset:r;margin:0;padding:0;display:grid;gap:10px}
+ol.recipe li{counter-increment:r;display:grid;grid-template-columns:34px 1fr;gap:10px;font-size:16px;max-width:70ch}
+ol.recipe li::before{content:counter(r);font-family:var(--display);font-weight:900;font-size:26px;line-height:1;color:var(--kraft-2)}
+.sheets{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:12px}
+.sheets figure{margin:0;display:grid;gap:5px;min-width:0}
+.sheets img{width:100%;border-radius:2px;border:1px solid var(--rule);background:var(--panel)}
+.sheets figcaption{font-size:13.5px;color:var(--ink-2);line-height:1.4}
+.fixes{display:grid;gap:8px}
+.fix{display:grid;grid-template-columns:minmax(0,1fr) 28px minmax(0,1fr);gap:8px;align-items:start;font-size:15.5px}
+.fix .b{border-left:3px solid var(--stamp);padding-left:10px}
+.fix .c{border-left:3px solid var(--teal);padding-left:10px}
+.fix .arr{font-family:var(--mono);color:var(--ink-2);text-align:center;padding-top:2px}
+.teach{display:grid;gap:8px}
+.teach li{font-size:16px}
+ul{margin:0;padding-left:1.1em;display:grid;gap:6px}
+.carry{display:flex;gap:12px;align-items:center;border:1.5px dashed var(--kraft);padding:12px 16px;border-radius:3px;text-decoration:none;flex-wrap:wrap}
+.carry .lbl{color:var(--kraft-2)}
+.carry b{font-family:var(--display);font-size:22px;font-weight:800}
+
+/* ---------- try it ---------- */
+.try{border:2px solid var(--ink);background:var(--label);display:grid;gap:14px;padding:18px;border-radius:3px}
+.try .head{display:flex;gap:12px;align-items:baseline;flex-wrap:wrap}
+.try .head .lbl{color:var(--paper);background:var(--ink);padding:2px 8px}
+.try h3{font-size:26px;font-weight:800;text-transform:uppercase}
+.range{width:100%;accent-color:var(--stamp)}
+.readout{font-family:var(--mono);font-size:13px;display:flex;flex-wrap:wrap;gap:6px 18px;color:var(--ink-2)}
+.readout b{color:var(--ink);font-weight:600}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg button{border:1.5px solid var(--ink);background:transparent;padding:5px 12px;font-family:var(--mono);font-size:12.5px;cursor:pointer;border-radius:2px}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.peel img{width:100%;border-radius:2px;border:1px solid var(--rule)}
+.orbit{display:grid;grid-template-columns:minmax(0,.62fr) minmax(0,1fr) minmax(0,1fr);gap:10px}
+.orbit figure{margin:0;display:grid;gap:4px;min-width:0}
+.orbit img{width:100%;border-radius:2px;background:#000}
+.orbit figcaption{font-family:var(--mono);font-size:11.5px;color:var(--ink-2)}
+.dial{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.bits{display:grid;grid-template-columns:repeat(19,minmax(0,1fr));gap:3px;max-width:640px;background:#000;padding:8px;border-radius:2px}
+.bits span,.bits button{aspect-ratio:1;border:0;border-radius:1px;padding:0;cursor:pointer}
+.bits .start{background:#fff;cursor:default}.bits .end{background:#ff2e2e;cursor:default}
+.bits button{background:#2a2a2a}.bits button[aria-pressed="true"]{background:#fff}
+canvas{width:100%;display:block;border-radius:2px;background:var(--panel)}
+.clocks{display:flex;gap:18px;flex-wrap:wrap;align-items:center}
+.clock{display:grid;justify-items:center;gap:4px;font-family:var(--mono);font-size:12px;color:var(--ink-2)}
+.clock svg{width:96px;height:96px}
+.states{display:flex;gap:2px;width:100%}
+.states button{border:0;padding:0;height:34px;cursor:pointer;background:var(--panel);font-family:var(--mono);font-size:11px;color:var(--ink-2);border-bottom:3px solid var(--rule);min-width:0}
+.states button[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-bottom-color:var(--stamp)}
+.statepanel{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:16px;align-items:start}
+.statepanel img{width:100%;border-radius:2px}
+.statepanel .t{font-family:var(--display);font-size:24px;font-weight:800}
+.cmp{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.cmp figure{margin:0;display:grid;gap:4px;min-width:0}
+.cmp img{width:100%;border-radius:2px}
+.cmp figcaption{font-size:13px;color:var(--ink-2);line-height:1.35}
+.cmp .cn{font-family:var(--mono);font-weight:600;color:var(--ink);font-size:12px}
+
+/* ---------- credits ---------- */
+.credits{margin-top:80px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr));gap:16px}
+.cl{background:var(--label);border:1.5px solid var(--ink);padding:12px 14px;display:grid;gap:4px;position:relative;box-shadow:3px 3px 0 var(--rule)}
+.cl .ship2{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;color:var(--ink-2)}
+.cl b{font-family:var(--display);font-size:24px;font-weight:800;line-height:1}
+.cl .role{justify-self:start;border:2px solid var(--stamp);color:var(--stamp);font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:2px 6px;transform:rotate(-2deg);margin-top:4px}
+.cl .note{font-size:14px;color:var(--ink-2)}
+footer{margin-top:40px;border-top:1px solid var(--rule);padding-top:14px;color:var(--ink-2);font-size:14px;display:grid;gap:6px}
+
+@media (max-width:780px){
+  .crate{grid-template-columns:1fr}.crate .l{border-right:0;border-bottom:2px solid var(--ink)}
+  .hero{grid-template-columns:1fr}
+  .orbit{grid-template-columns:1fr 1fr}.orbit figure:first-child{grid-column:1/-1;max-width:220px}
+  .statepanel{grid-template-columns:1fr}
+  .fix{grid-template-columns:1fr}.fix .arr{display:none}
+}
+@media (max-width:520px){.cmp{grid-template-columns:1fr}}
+</style>
+
+<style>
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0}
+.sitebar{display:flex;gap:14px;align-items:center;flex-wrap:wrap;padding-block:14px;border-bottom:1px solid var(--rule);font-family:var(--mono);font-size:12.5px}
+.sitebar a{text-decoration:none;color:var(--ink-2)}.sitebar a:hover{color:var(--ink)}
+.sitebar .home{display:flex;gap:8px;align-items:center;color:var(--ink);font-weight:600;letter-spacing:.06em}
+.sitebar nav{display:flex;gap:12px;flex-wrap:wrap;margin-left:auto}
+</style></head><body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="up" viewBox="0 0 40 60"><path d="M20 2 L38 26 H27 V58 H13 V26 H2 Z" fill="currentColor"/></symbol>
+  <symbol id="play" viewBox="0 0 12 12"><path d="M2 1 L11 6 L2 11 Z" fill="currentColor"/></symbol>
+  <symbol id="spk" viewBox="0 0 12 12"><path d="M1 4 H3.5 L7 1 V11 L3.5 8 H1 Z" fill="currentColor"/><path d="M8.5 3.5 Q10.5 6 8.5 8.5" stroke="currentColor" fill="none" stroke-width="1.2"/></symbol>
+</svg>
+
+<div class="wrap"><div class="sitebar"><a class="home" href="../"><img src="../favicon.svg" alt="" width="22" height="22">CRASH LAB</a>
+<nav><a href="../lab/">Try it</a><a href="../family/">The Family</a><a href="../cineosis/">CINEOSIS</a><a href="../found-odyssey/">The Found Odyssey</a><a href="../wygwyl/">WYGWYL</a><a href="./" aria-current="page" style="color:var(--ink)">This Side Up</a><a href="../films/">Films</a><a href="../process/">How it was made</a></nav></div></div>
+<div class="wrap">
+
+<header class="crate">
+  <div class="l">
+    <div class="ship"><span class="lbl">Ship to</span><span class="mono">CRASH LAB · Bolas · CONSEQUENCE WORKS</span></div>
+    <h1>This side up <span class="arrows" aria-hidden="true"><svg viewBox="0 0 40 60"><use href="#up"/></svg><svg viewBox="0 0 40 60"><use href="#up"/></svg></span></h1>
+    <p class="lede">The program for everything in Crash Lab made of cardboard cut-outs. Boone is a handmade cardboard puppet. He was photographed on a box in front of a TV, cut into parts, and set into worlds where time stops for everything except him.</p>
+    <p>Ten case studies from October 18 and 19, 2026, in the order they were made. Each one shows how the film was built, with the real sheets, one thing to try with your own hands, and what broke along the way.</p>
+  </div>
+  <div class="r">
+    <div class="barcode" aria-hidden="true"></div>
+    <span class="stampbox">Handle with care · fragile cardboard</span>
+    <div class="howto">
+      <span class="lbl">How to read a box</span>
+      <span><b>Question</b>what the film had to find out</span>
+      <span><b>Trick</b>the one idea that made it work</span>
+      <span><b>Recipe</b>what went in and in what order</span>
+      <span><b>Try it</b>the trick, in your hands</span>
+      <span><b>Broke</b>what failed and what changed</span>
+      <span><b>Carries</b>what the next box inherits</span>
+    </div>
+  </div>
+</header>
+
+<nav class="shipment" aria-label="The ten case studies" id="shipment"></nav>
+
+<!-- =============================================================== 01 -->
+<section class="box" id="tsu-01">
+  <div class="boxhead"><div class="row"><span class="code">TSU-01</span><span class="lbl">Oct 18 · 1 min 41 s · 12 shots</span></div>
+    <h2>This Side Up</h2><p class="q">Can photographs of a cardboard puppet be cut into parts and made to move?</p></div>
+  <div class="hero">
+    <figure class="film" data-src="media/film/this-side-up.mp4" data-seg="13.0,18.5" data-len="1:41"><div class="screen"><video muted playsinline preload="metadata" poster="media/still/tsu-ice.jpg"></video></div><figcaption class="cap">The mammoth shot. Boone stands on a box; the TV behind him plays the background.</figcaption></figure>
+    <div class="trick"><span class="lbl">The trick</span><p>Every moving part is a crop of the photograph itself, and the hole it leaves is painted back in. Boone keeps his real cardboard, tape and shadows.</p>
+      <div class="facts"><span>shots <b>12</b> · field, clouds, mammoth, iceberg, ice cave, icicles, wave, drain</span><span>exposure <b>on twos</b> · camera smooth</span><span>tool <b>rigtool.py</b> · one spec per shot</span></div></div>
+  </div>
+  <div class="try" id="peel"><div class="head"><span class="lbl">Try it</span><h3>Peel one shot apart</h3></div>
+    <div class="seg" role="group" aria-label="Layer"><button data-k="photo" aria-pressed="true">1 · the photograph</button><button data-k="grid">2 · traced on a grid</button><button data-k="parts">3 · the parts</button><button data-k="plate">4 · the plate</button></div>
+    <div class="peel"><img id="peelimg" src="media/still/tsu-photo.jpg" alt="The mammoth shot, one layer at a time"></div>
+    <p class="cap" id="peelcap"></p></div>
+  <div class="cols">
+    <div class="part"><h3>Recipe</h3>
+      <div class="chips"><span class="chip m">12 photographs of Boone</span><span class="chip">a TV playing backgrounds</span><span class="chip">GrabCut</span><span class="chip">labelled source-pixel grid</span><span class="chip">rigtool.py</span></div>
+      <ol class="recipe">
+        <li>Pose Boone on a box in front of the TV and take one photograph per shot.</li>
+        <li>Crop the photo on a grid labelled in source pixels, and trace each part's outline from it.</li>
+        <li>Parts claim pixels in order: the forearm first, then the upper arm, then the head. Whatever is left is the body. Pivots go on the visible joint connectors.</li>
+        <li>Take Boone out of the photo and rebuild the background behind him. That is the plate.</li>
+        <li>Key each part's rotation in degrees (positive is clockwise), hold poses on twos like stop-motion, and keep the camera move smooth. Add snow, wind, drips or spray where the shot needs it.</li>
+        <li>Cut the shots together with cards and short dissolves, an automated foley and music track, and end credits for the crew.</li>
+      </ol></div>
+    <div class="part"><h3>The sheets</h3><div class="sheets">
+      <figure><img src="media/still/tsu-field.jpg" alt="" loading="lazy"><figcaption>The field shot. The TV fills the frame, so the box edge is the only giveaway.</figcaption></figure>
+      <figure><img src="media/still/tsu-inlet.jpg" alt="" loading="lazy"><figcaption>The curb inlet with the trout crew: the first time Boone meets Trouttown.</figcaption></figure>
+    </div></div>
+  </div>
+  <div class="cols">
+    <div class="part"><h3>What to look for</h3><ul class="teach"><li>The rebuilt plate is rough where Boone stood (layer 4). It shows only where a part rotates away from where it was photographed, so it doesn't have to be perfect.</li><li>A spec is plain data: the source photo, the outlines, the pivots, the keyframes, the camera window. A new shot is a new file, not new code.</li></ul></div>
+    <div class="part"><h3>What it teaches</h3><ul class="teach"><li>A rig made of the photograph keeps the object's real material. Nothing has to be redrawn to look like cardboard.</li><li>Tracing on a labelled grid makes every cut repeatable and checkable.</li></ul></div>
+  </div>
+  <a class="carry" href="#tsu-02"><span class="lbl">Carries forward</span><b>The cut-out rig and the crew credits go into every Boone film after this.</b></a>
+</section>
+
+<!-- =============================================================== 02 -->
+<section class="box" id="tsu-02">
+  <div class="boxhead"><div class="row"><span class="code">TSU-02</span><span class="lbl">Oct 18 · calibration reel 1:46 · pose guide 2:12 · stepper page</span></div>
+    <h2>The shooting kit</h2><p class="q">Can the set tell the person with the camera what to do, without a paragraph of instructions?</p></div>
+  <div class="hero">
+    <figure class="film" data-src="media/film/pose-guide.mp4" data-seg="28.0,41.0" data-len="2:12"><div class="screen"><video muted playsinline preload="metadata" poster="media/still/guide-06.jpg"></video></div><figcaption class="cap">The wordless pose guide. The move plays, the part that moved is outlined, and the camera icon flashes: take it.</figcaption></figure>
+    <div class="trick"><span class="lbl">The trick</span><p>The TV behind Boone prints its own frame number on every frame. Any photograph of the set can be matched to the exact background frame that was showing.</p>
+      <div class="facts"><span>code <b>16 bits</b> · MSB first · 28 px squares</span><span>reel <b>18 sections</b> · 2,544 frames at 24 fps</span><span>guide <b>12 photos</b> · one card each</span></div></div>
+  </div>
+  <div class="try" id="code"><div class="head"><span class="lbl">Try it</span><h3>Read the frame code</h3></div>
+    <p>Bottom right of every frame: a white start square, sixteen bits, a red end square. Drag through the reel, or click the bits to write a frame number yourself.</p>
+    <div class="bits" id="bits" aria-label="Frame code bits"></div>
+    <input class="range" type="range" id="frame" min="0" max="2543" value="900" aria-label="Frame number">
+    <div class="readout"><span>frame <b id="fn">900</b></span><span>timecode <b id="tc">00:37:12</b></span><span>section <b id="sec">06 COLOUR CHART</b></span><span>binary <b id="bin"></b></span></div></div>
+  <div class="cols">
+    <div class="part"><h3>Recipe</h3>
+      <div class="chips"><span class="chip m">the TV behind the set</span><span class="chip">calibration reel</span><span class="chip">pose guide</span><span class="chip">Pose Plate Stepper</span></div>
+      <ol class="recipe">
+        <li>Play the calibration reel on the TV and photograph each section with Boone out of frame: black levels, white, 18% grey, a grey wedge, a colour chart, bars, a checkerboard, a dot grid, registration marks, focus stars, a frame-step check, a parallax drift, green, blue.</li>
+        <li>At the end the reel asks for section 10 again, with Boone in place. That photo ties the puppet to the measured set.</li>
+        <li>Watch the pose guide on a second screen beside the set, not on the TV. Each card shows the target pose. The first version tinted the change red and listed the moves; the second shows the move and nothing else.</li>
+        <li>Load the plate in the stepper and shoot the poses in order.</li>
+      </ol></div>
+    <div class="part"><h3>The sheets</h3><div class="sheets">
+      <figure><img src="media/still/calib-chart.jpg" alt="" loading="lazy"><figcaption>Section 06, the colour chart. The code sits bottom right.</figcaption></figure>
+      <figure><img src="media/still/guide-12.jpg" alt="" loading="lazy"><figcaption>Pose 12 in the guide: everything that moves is outlined.</figcaption></figure>
+    </div></div>
+  </div>
+  <div class="part"><h3>What broke and what changed</h3><div class="fixes">
+    <div class="fix"><div class="b">The first pose guide used text cards: the moves to make and the fixed camera rules.</div><div class="arr">→</div><div class="c">The wordless guide. The move plays, the moved part is outlined, a shutter flash says take it. This came from the rule that guides show and don't tell.</div></div>
+  </div></div>
+  <a class="carry" href="#tsu-03"><span class="lbl">Carries forward</span><b>Every photo session after this was shot with the guide on a second screen.</b></a>
+</section>
+
+<!-- =============================================================== 03 -->
+<section class="box" id="tsu-03">
+  <div class="boxhead"><div class="row"><span class="code">TSU-03</span><span class="lbl">Oct 18 · Tempus Fugit v1 · 55 s</span></div>
+    <h2>Reading the reference</h2><p class="q">Can the movement of a famous rooftop scene be measured and given to Boone without using a single frame of it?</p></div>
+  <div class="hero">
+    <figure class="film" data-src="media/film/tf-v1.mp4" data-seg="0.0,13.5" data-len="0:55"><div class="screen"><video muted playsinline preload="metadata" poster="media/still/v1-lean.jpg"></video></div><figcaption class="cap">Tempus Fugit v1. The clock opens, Boone dodges on a computed rooftop, the clock closes.</figcaption></figure>
+    <div class="trick"><span class="lbl">The trick</span><p>Only numbers leave the reference: joint angles, camera motion, light levels. The pictures stay behind, and Boone performs the numbers.</p>
+      <div class="facts"><span>pose estimates fused <b>5 per frame</b></span><span>3D <b>MiDaS depth + solved camera</b></span><span>head <b>face mesh + solvePnP</b></span></div></div>
+  </div>
+  <div class="cols">
+    <div class="part"><h3>Recipe</h3>
+      <div class="chips"><span class="chip">YOLO11</span><span class="chip">MediaPipe Pose</span><span class="chip">MediaPipe Face Mesh</span><span class="chip">MiDaS</span><span class="chip m">a photo of the Howard Miller clock</span></div>
+      <ol class="recipe">
+        <li>First pass: find the main person and the camera motion (background optical flow).</li>
+        <li>Run five pose estimates per frame: MediaPipe streaming, MediaPipe on each frame, MediaPipe on the mirror image, YOLO11x, and YOLO11x mirrored. Fuse them, fix left and right swaps against the previous frame, and smooth inside each shot.</li>
+        <li>Lift the pose to 3D with depth and a solved camera. Take the head's tilt from the eye and ear line and its turn from the nose against the ears.</li>
+        <li>Build Boone as 3D cards: each limb is a card of its photograph that turns about its own bone to face the camera; the torso and head are boxes with the front photo and cardboard sides.</li>
+        <li>Ray-cast a rooftop around him: tiled roof, parapet, city panorama, haze, all in one floor frame, so turning the frame by the measured orbit angle turns the world.</li>
+        <li>Open and close on the clock that gave the film its name. Its hands are drawn about the photographed hub: on the way in the second hand's ticks stretch out, slowing into bullet time; on the way out the hands race, then settle.</li>
+      </ol></div>
+    <div class="part"><h3>The sheets</h3><div class="sheets">
+      <figure><img src="media/still/ref-breakdown.jpg" alt="" loading="lazy"><figcaption>The breakdown: our skeleton on the left, Boone's retargeted pose on the right. No reference pixels.</figcaption></figure>
+      <figure><img src="media/still/ref-animatic.jpg" alt="" loading="lazy"><figcaption>The wordless animatic, line drawings only, cut to the reference's rhythm.</figcaption></figure>
+      <figure><img src="media/still/v1-clock.jpg" alt="" loading="lazy"><figcaption>The dial: TEMPUS FUGIT, "time flees".</figcaption></figure>
+    </div></div>
+  </div>
+  <div class="part"><h3>What broke and what changed</h3><div class="fixes">
+    <div class="fix"><div class="b">Retarget v1 put Boone's head in the wrong place.</div><div class="arr">→</div><div class="c">v2 sets the head on the neck along the torso, takes its tilt from the eye and ear line and its turn from the nose against the ears.</div></div>
+    <div class="fix"><div class="b">Single estimates swapped left and right from one frame to the next.</div><div class="arr">→</div><div class="c">Five estimates fused, with each frame's left and right checked against the frame before it.</div></div>
+  </div></div>
+  <a class="carry" href="#tsu-04"><span class="lbl">Carries forward</span><b>The measured camera path: the real orbit in the next box has to follow it.</b></a>
+</section>
+
+<!-- =============================================================== 04 -->
+<section class="box" id="tsu-04">
+  <div class="boxhead"><div class="row"><span class="code">TSU-04</span><span class="lbl">Oct 18 · the lean, three ways · 10.6 s each</span></div>
+    <h2>Bullet time, for real</h2><p class="q">One photograph can fake an orbit. What does a real one take?</p></div>
+  <div class="hero">
+    <figure class="film" data-src="media/film/tf-marble.mp4" data-seg="7.4,19.5" data-len="0:55"><div class="screen"><video muted playsinline preload="metadata" poster="media/still/marble-lean.jpg"></video></div><figcaption class="cap">The Marble edition: real photographs of Boone on a rooftop generated by Marble 2, the two turning together.</figcaption></figure>
+    <div class="trick"><span class="lbl">The trick</span><p>Put Boone on a hand-cranked turntable stool, the butter churn, hold one pose, and solve the angle of every frame. Then ask Marble 2 for the same rooftop at those same angles.</p>
+      <div class="facts"><span>turntable clips <b>9</b></span><span>one clip <b>348 frames</b> solved, four full turns</span><span>Marble views <b>42</b> · every 5°, 0–205°</span></div></div>
+  </div>
+  <div class="try" id="orbit"><div class="head"><span class="lbl">Try it</span><h3>Turn the churn</h3></div>
+    <p>Drag the angle. You see three pictures for that angle: the phone frame whose solved angle is nearest, the Marble 2 view generated at it, and the two put together with his feet on the orbit centre.</p>
+    <input class="range" type="range" id="az" min="0" max="205" step="5" value="60" aria-label="Orbit angle">
+    <div class="orbit"><figure><img id="o-photo" alt="Turntable photo"><figcaption>turntable photo</figcaption></figure><figure><img id="o-view" alt="Marble 2 view"><figcaption>Marble 2 rooftop</figcaption></figure><figure><img id="o-comp" alt="Together"><figcaption>together</figcaption></figure></div>
+    <div class="readout"><span>wanted <b id="o-az">60°</b></span><span>photo <b id="o-pf"></b></span><span>Marble view <b id="o-vf"></b></span></div></div>
+  <div class="cols">
+    <div class="part"><h3>Recipe</h3>
+      <div class="chips"><span class="chip m">the butter churn</span><span class="chip">optical-flow tracks</span><span class="chip">MediaPipe Hands</span><span class="chip">COLMAP (pycolmap)</span><span class="chip">rembg</span><span class="chip m">Marble 2 · World Labs API</span></div>
+      <ol class="recipe">
+        <li>Fake it first: one photo, layered parallax, labelled on screen as a simulation, because one photograph has one viewpoint.</li>
+        <li>Film Boone holding one pose while the stool turns. Nine phone clips.</li>
+        <li>Per frame, track points on the disc top, fit one ellipse to all of them, and take the turn as the median angular step. Use the wall trim to remove camera shake.</li>
+        <li>Find hands in the frame and skip those frames. In one clip that was 156 of 557.</li>
+        <li>With the wall masked out, run structure-from-motion on the cut-out frames. Boone is rigid, so the solve gives the camera relative to him: the orbit.</li>
+        <li>Give Marble 2 the rooftop and the camera that matches the footage: Boone 1.8 m, lens 0.47 m up and 4.2 m away, aimed at his middle. Generate views every 5° in batches, each batch conditioned on the posed roof and the most recent views, so it stays the same roof.</li>
+        <li>For each frame of the lean, take the view nearest the angle the reference's camera wants and the photo nearest that angle, stand him 1.45 m tall through that view's camera, and add a contact shadow and bullets fixed in the world.</li>
+      </ol></div>
+    <div class="part"><h3>The sheets</h3><div class="sheets">
+      <figure><img src="media/still/churn-tracks.jpg" alt="" loading="lazy"><figcaption>The disc ellipse, the wall-trim tracks and a hand in frame. That frame gets skipped.</figcaption></figure>
+      <figure><img src="media/still/churn-angle.jpg" alt="" loading="lazy"><figcaption>Solved turntable angle per frame.</figcaption></figure>
+      <figure><img src="media/still/mockup.jpg" alt="" loading="lazy"><figcaption>The mock-up from one photo: parallax, not a camera move.</figcaption></figure>
+      <figure><img src="media/still/churn-lean.jpg" alt="" loading="lazy"><figcaption>The churn edition: real photos on the computed roof.</figcaption></figure>
+    </div></div>
+  </div>
+  <div class="part"><h3>What broke and what changed</h3><div class="fixes">
+    <div class="fix"><div class="b">The single-photo version could only slide layers past each other.</div><div class="arr">→</div><div class="c">Shoot a real orbit on the turntable and solve it.</div></div>
+    <div class="fix"><div class="b">Hands came into frame to turn the stool.</div><div class="arr">→</div><div class="c">Hand frames carry a cost in the photo choice, and any hand left is cut from the matte.</div></div>
+    <div class="fix"><div class="b">The churn edition put real photographs on the ray-cast roof.</div><div class="arr">→</div><div class="c">The Marble edition: the same photographs on a Marble 2 rooftop generated along the solved orbit, with depth for every view.</div></div>
+  </div></div>
+  <a class="carry" href="#tsu-05"><span class="lbl">Carries forward</span><b>Photos chosen by solved angle become Boone's body in every built world that follows.</b></a>
+</section>
+
+<!-- =============================================================== 05 -->
+<section class="box" id="tsu-05">
+  <div class="boxhead"><div class="row"><span class="code">TSU-05</span><span class="lbl">Oct 18 · Tempus Fugit v3 · 1 min 9 s</span></div>
+    <h2>Cardboard</h2><p class="q">Does the dodge still read when the roof, the skyline, the guns and the bullets are all cardboard?</p></div>
+  <div class="hero">
+    <figure class="film" data-src="media/film/tf-v3.mp4" data-seg="19.5,30.5" data-len="1:09"><div class="screen"><video muted playsinline preload="metadata" poster="media/still/v3-line.jpg"></video></div><figcaption class="cap">The lean: cardboard slugs on visible fishing line, paper discs strung behind them for the shockwave.</figcaption></figure>
+    <div class="trick"><span class="lbl">The trick</span><p>Make every effect from the puppet's own material: slugs on fishing line, construction-paper muzzle flashes, torn tissue smoke. Nothing glows.</p>
+      <div class="facts"><span>bullet time <b>0.55×</b> after 23.5 s of real time</span><span>camera <b>never closer than 2.4 m</b></span><span>pose photos <b>standing → 40° → 50°</b></span></div></div>
+  </div>
+  <div class="cols">
+    <div class="part"><h3>Recipe</h3>
+      <div class="chips"><span class="chip">cardboard world kit</span><span class="chip">paper FX kit</span><span class="chip m">Boone's pose photos</span><span class="chip">credits v2</span></div>
+      <ol class="recipe">
+        <li>Build the world in cardboard: kraft roof tiles with marker seams and packing tape, cardboard parapets, a skyline of flats with marker windows and shipping stamps, a painted-paper sky with tissue clouds.</li>
+        <li>Re-pace the lean: a real-time dodge, a ramp down, then bullet time at 0.55× with one continuous camera, held wide while he dodges.</li>
+        <li>Swap his real pose photos as he leans, and pass the paper bullets by his real body.</li>
+        <li>Shoot the rest as short scenes: arms up with two cardboard guns, the recoil, an empty click, the agent's gun close to the lens firing at tiny Boone, the fall, lying, sitting up.</li>
+        <li>End on shipping labels: each credit slaps on with a red rubber-stamp role and peels off, and Boone peeks in between.</li>
+      </ol></div>
+    <div class="part"><h3>The sheets</h3><div class="sheets">
+      <figure><img src="media/still/v3-gun.jpg" alt="" loading="lazy"><figcaption>The agent's cardboard gun, close to the lens.</figcaption></figure>
+      <figure><img src="media/still/v3-down.jpg" alt="" loading="lazy"><figcaption>He keeps going past the last lean frame: rotation about the feet, a hit, crumbs.</figcaption></figure>
+      <figure><img src="media/still/v3-credits.jpg" alt="" loading="lazy"><figcaption>Credits v2: shipping labels, stamped.</figcaption></figure>
+    </div></div>
+  </div>
+  <div class="cols"><div class="part"><h3>What it teaches</h3><ul class="teach"><li>When the effects share the puppet's material, the film reads as one made world. A glowing tracer would be the only non-cardboard thing on screen.</li><li>A visible fishing line answers "how does the bullet move?" on screen instead of hiding it.</li></ul></div></div>
+  <a class="carry" href="#tsu-06"><span class="lbl">Carries forward</span><b>The cardboard world, the paper FX and the label credits become shared kits.</b></a>
+</section>
+
+<!-- =============================================================== 06 -->
+<section class="box" id="tsu-06">
+  <div class="boxhead"><div class="row"><span class="code">TSU-06</span><span class="lbl">Oct 18 · Tempus Fugit v4 · 54 s</span></div>
+    <h2>The bullet and the clock</h2><p class="q">Can one shot run on two clocks at once?</p></div>
+  <div class="hero">
+    <figure class="film" data-src="media/film/tf-v4.mp4" data-seg="6.8,24.5" data-len="0:54"><div class="screen"><video muted playsinline preload="metadata" poster="media/still/v4-fire.jpg"></video></div><figcaption class="cap">Boone fires at the clock. The world stops; he doesn't.</figcaption></figure>
+    <div class="trick"><span class="lbl">The trick</span><p>Everything except Boone and the camera runs on world time, and world time is a curve you can draw. Anything he lets go of joins the world's time, so his guns hang in the air where his hands were.</p>
+      <div class="facts"><span>scale <b>metres</b> · Boone 1.45 m</span><span>world rate <b>0.002</b> while stopped</span><span>sound <b>timed from the physics</b></span></div></div>
+  </div>
+  <div class="try" id="clocks"><div class="head"><span class="lbl">Try it</span><h3>Run both clocks</h3></div>
+    <p>Drag screen time. The curve is the world's rate: 1 is real time, 0 is stopped. Boone's clock always runs at 1.</p>
+    <canvas id="warp" height="220" aria-label="World time rate curve"></canvas>
+    <input class="range" type="range" id="st" min="0" max="17.6" step="0.02" value="0" aria-label="Screen time">
+    <div class="clocks"><div class="clock"><svg viewBox="-50 -50 100 100" id="ck-screen"></svg>Boone · screen time</div><div class="clock"><svg viewBox="-50 -50 100 100" id="ck-world"></svg>the world · world time</div>
+      <div class="readout" style="flex-direction:column;gap:4px"><span>screen <b id="w-s">0.00 s</b></span><span>world since the shot <b id="w-w">0.000 s</b></span><span>rate <b id="w-r">1.000</b></span><span>now <b id="w-e">before the shot</b></span></div></div></div>
+  <div class="cols">
+    <div class="part"><h3>Recipe</h3>
+      <div class="chips"><span class="chip">physics kit</span><span class="chip">TimeWarp curve</span><span class="chip">sound kit v2</span><span class="chip m">the clock photo</span></div>
+      <ol class="recipe">
+        <li>Write the story as times on screen: fire at 1.62 s, let go at 3.9, walk 4.4 to 9.0, turn, hold at 9.7, the bullet drops at 12.6, full speed again at 13.6.</li>
+        <li>Draw the world's rate as a piecewise-linear curve through those times, and integrate it to get world seconds.</li>
+        <li>Run every object except Boone on world seconds: the bullet, the guns, the casing, the fishing line, the clock's second hand.</li>
+        <li>In his field the bullet slows to a stop 0.42 m in front of him, integrated so it never jumps. He takes its momentum and slides back.</li>
+        <li>Make the sound from the same events: cardboard taps, a thud, the guns' clatter, a brass tink, the line going slack.</li>
+      </ol></div>
+    <div class="part"><h3>The sheets</h3><div class="sheets">
+      <figure><img src="media/still/v4-walk.jpg" alt="" loading="lazy"><figcaption>He walks out along his own bullet's line while it hangs.</figcaption></figure>
+      <figure><img src="media/still/v4-hold.jpg" alt="" loading="lazy"><figcaption>The hold. When time comes back, everything finishes what it was doing.</figcaption></figure>
+    </div></div>
+  </div>
+  <div class="cols"><div class="part"><h3>What it teaches</h3><ul class="teach"><li>Writing "time stops" as two clocks makes the rule exact: you can ask any object which clock it is on.</li><li>v3 slowed everything down. v4 splits the world from Boone, and that split is the story.</li></ul></div></div>
+  <a class="carry" href="#tsu-07"><span class="lbl">Carries forward</span><b>The two-clock rule runs ICE and FALL.</b></a>
+</section>
+
+<!-- =============================================================== 07 -->
+<section class="box" id="tsu-07">
+  <div class="boxhead"><div class="row"><span class="code">TSU-07</span><span class="lbl">Oct 18 · Tempus Fugit: ICE, ep. 1 "Thaw" · 47 s</span></div>
+    <h2>Thaw</h2><p class="q">Can time that runs only near Boone be seen and heard?</p></div>
+  <div class="hero">
+    <figure class="film" data-src="media/film/ice.mp4" data-seg="4.5,14.5" data-len="0:47"><div class="screen"><video muted playsinline preload="metadata" poster="media/still/ice-drops.jpg"></video></div><figcaption class="cap">Meltwater drops hang in the air. Near Boone they fall, and once he passes they freeze again, mid-fall.</figcaption></figure>
+    <div class="trick"><span class="lbl">The trick</span><p>Every drop has its own clock. Its rate is full within 0.25 m of Boone and falls to nothing at 0.95 m, so time leaks out of him as he walks.</p>
+      <div class="facts"><span>rate <b>(1 − (d − 0.25) / 0.7)<sup>1.5</sup></b></span><span>ice floor <b>μ = 0.05</b></span><span>sound <b>the same drop clocks, re-run</b></span></div></div>
+  </div>
+  <div class="try" id="cave"><div class="head"><span class="lbl">Try it</span><h3>Walk him through the cave</h3></div>
+    <p>Each dot is a drop hanging in the air. Press walk, or drag Boone yourself. Drops near him fall on their own clock and stop when he has gone. This is the rule from the episode's code, run in your browser and seen from the side.</p>
+    <canvas id="cavecv" height="230" aria-label="Ice cave side view"></canvas>
+    <input class="range" type="range" id="bz" min="0.5" max="13" step="0.01" value="1" aria-label="Boone's position in the cave">
+    <div class="seg"><button id="walk" aria-pressed="false">Walk</button><button id="reset">Freeze them again</button></div>
+    <div class="readout"><span>Boone at <b id="c-z">1.00 m</b></span><span>drops moving <b id="c-n">0</b></span><span>landed <b id="c-l">0</b></span></div></div>
+  <div class="cols">
+    <div class="part"><h3>Recipe</h3>
+      <div class="chips"><span class="chip">ray-marched cave (numpy)</span><span class="chip m">turntable photos for the spin</span><span class="chip">sound kit v2</span><span class="chip">Marble 2 (planned)</span></div>
+      <ol class="recipe">
+        <li>Make a test animatic from the TV-plate stills: a slow move toward Boone on each, hard cuts on the beat. The two stills with broadcast logos are left out.</li>
+        <li>Ray-march an ice tunnel in numpy: scalloped walls, icicles, a glassy floor, a mouth opening onto a sunset ridge. It returns depth as well as colour, so the ice can hide Boone and the drops.</li>
+        <li>Hang hundreds of drops. Advance each drop's clock by the local rate every frame.</li>
+        <li>One drop lands on his head and he slips. The floor sends him spinning down the cave, and the turntable photos are the spin.</li>
+        <li>Make the drips, plinks and the slide from the same drop clocks, re-run offline.</li>
+      </ol></div>
+    <div class="part"><h3>The sheets</h3><div class="sheets">
+      <figure><img src="media/still/ice-cave.jpg" alt="" loading="lazy"><figcaption>The ray-marched cave, looking toward the mouth.</figcaption></figure>
+      <figure><img src="media/still/ice-mouth.jpg" alt="" loading="lazy"><figcaption>After the slide: the drops behind him are frozen again.</figcaption></figure>
+    </div></div>
+  </div>
+  <div class="part"><h3>What broke and what changed</h3><div class="fixes">
+    <div class="fix"><div class="b">The plan was a Marble 2 ice cave, grown view by view along the exact path Boone walks, with every view's depth fused into one point cloud. The account returned no credits that day.</div><div class="arr">→</div><div class="c">The ray-marched cave. The Marble script stays in the kit; it checks for credits first and stops cleanly.</div></div>
+  </div></div>
+  <a class="carry" href="#tsu-08"><span class="lbl">Carries forward</span><b>A world that changes in a radius around Boone becomes the leaves in FALL.</b></a>
+</section>
+
+<!-- =============================================================== 08 -->
+<section class="box" id="tsu-08">
+  <div class="boxhead"><div class="row"><span class="code">TSU-08</span><span class="lbl">Oct 18–19 · Tempus Fugit: FALL · 1 min 48 s · six cuts</span></div>
+    <h2>Fall</h2><p class="q">Can found film, photographs and drawing share one frame and still read as one world?</p></div>
+  <div class="hero">
+    <figure class="film" data-src="media/film/fall.mp4" data-seg="21.5,44.0" data-len="1:48"><div class="screen"><video muted playsinline preload="metadata" poster="media/still/fall-c6-23.jpg"></video></div><figcaption class="cap">West Jefferson, N.C. Boone stops time to save the falling leaves and tapes them back on the maple, one by one.</figcaption></figure>
+    <div class="trick"><span class="lbl">The trick</span><p>The world's lines boil on world time and stop when time stops. Boone's lines boil on screen time and keep going. The archive film obeys the same rule: when time stops, the film stops on its frame and its grain freezes.</p>
+      <div class="facts"><span>image kinds <b>3</b> · found film, photographs, drawing</span><span>score <b>G Em C D</b> · freezes with time</span><span>repair passes <b>2</b> after independent critique</span></div></div>
+  </div>
+  <div class="try" id="cuts"><div class="head"><span class="lbl">Try it</span><h3>Same moment, three cuts</h3></div>
+    <div class="seg" role="group" aria-label="Moment"><button data-m="23" aria-pressed="true">0:23 · leaves falling</button><button data-m="47">0:47 · back at the TV</button></div>
+    <div class="cmp">
+      <figure><img id="cut4" alt="Cut 4"><figcaption><span class="cn">Cut 4</span> · the collage cut: found sky and porch TV, photographs of Boone, grease-pencil line over everything.</figcaption></figure>
+      <figure><img id="cut5" alt="Cut 5"><figcaption><span class="cn">Cut 5</span> · leaves that answer to things: his feet kick the ground leaves up, the pile builds, gusts roll them.</figcaption></figure>
+      <figure><img id="cut6" alt="Cut 6"><figcaption><span class="cn">Cut 6</span> · the mountains are made of the archive: every stratum is a strip of found film, oldest at the bottom.</figcaption></figure>
+    </div></div>
+  <div class="cols">
+    <div class="part"><h3>Recipe</h3>
+      <div class="chips"><span class="chip m">found film from the CINEOSIS archive</span><span class="chip m">turntable photos</span><span class="chip">AI pose sprites</span><span class="chip">grease-pencil boil</span><span class="chip">drawn in-betweens</span><span class="chip">ransom letters</span><span class="chip">score kit</span></div>
+      <ol class="recipe">
+        <li>Set a cardboard diorama in front of found film. The porch TV plays a home movie that freezes on a father holding his baby.</li>
+        <li>Mix three kinds of picture in one frame. Real turntable photos are used in the quiet moments and AI pose sprites in the action, with drawn in-betweens between sprite keys.</li>
+        <li>Cut every word from the archive: letters read off title cards and signs by OCR and cut out with a margin of their own background, like a ransom note.</li>
+        <li>Make the leaves physical: kicked up by his feet, landing on his head and sliding off, the pile bursting when he falls into it. Every landing and kick becomes a sound.</li>
+        <li>Make every leaf a small window onto found film. The ones he tapes back play on screen time, a little warmer: the rescued ones keep running.</li>
+        <li>Score it with fingerpicked guitar and banjo, a bowed violin, a pad and a looped vocal "ha". When he stops time, the music freezes on its last instant and slowly darkens, each taped leaf plucks one note, and the band comes back mid-bar.</li>
+      </ol></div>
+    <div class="part"><h3>The sheets</h3><div class="sheets">
+      <figure><img src="media/still/fall-stopped.jpg" alt="" loading="lazy"><figcaption>Time stopped: the tally marks count the leaves saved.</figcaption></figure>
+      <figure><img src="media/still/fall-tempest.jpg" alt="" loading="lazy"><figcaption>TEMPEST FUGIT, in letters cut from the archive. The storm also leaves.</figcaption></figure>
+      <figure><img src="media/still/fall-sprites.jpg" alt="" loading="lazy"><figcaption>The movement sheet: generated pose studies, cut into sprites.</figcaption></figure>
+      <figure><img src="media/still/fall-fence.jpg" alt="" loading="lazy"><figcaption>The ending: Boone's photograph on a fence from the archive film.</figcaption></figure>
+    </div></div>
+  </div>
+  <div class="part"><h3>What broke and what changed</h3><div class="fixes">
+    <div class="fix"><div class="b">The time-stop and the release did not read as events.</div><div class="arr">→</div><div class="c">Repair pass 2, after an independent critique: both made into events, the taping done by hand, maple leaves, the wave going to the same father and baby, a tighter opening and ending.</div></div>
+    <div class="fix"><div class="b">The in-betweens came out white, and the pose changes jumped.</div><div class="arr">→</div><div class="c">Cut 4b: cardboard-coloured in-betweens, three drawn between each pair of poses.</div></div>
+    <div class="fix"><div class="b">Too much writing on screen.</div><div class="arr">→</div><div class="c">Ransom letters for the few words left, tally marks for the count, a drawn cloud running off for "the storm runs away".</div></div>
+  </div></div>
+  <a class="carry" href="#tsu-09"><span class="lbl">Carries forward</span><b>Leaves as windows onto the archive lead to WYGWYL, where the footage is the world itself.</b></a>
+</section>
+
+<!-- =============================================================== 09 -->
+<section class="box" id="tsu-09">
+  <div class="boxhead"><div class="row"><span class="code">TSU-09</span><span class="lbl">Oct 19 · Trouttown: Tempus Fugit · 3 min 28 s</span></div>
+    <h2>A Trouttown repair</h2><p class="q">Can one authored interaction drive every character, camera and sound in a scene?</p></div>
+  <div class="hero">
+    <figure class="film" data-src="media/film/trouttown.mp4" data-seg="96.0,124.0" data-len="3:28"><div class="screen"><video muted playsinline preload="metadata" poster="media/still/brace-09.jpg"></video></div><figcaption class="cap">Under the curb inlet, Boone holds the copper elbow while the trout crew find the old channel.</figcaption></figure>
+    <div class="trick"><span class="lbl">The trick</span><p>The brace is written once, in world space, as ten states. Boone's hands, the fitter's wrench, the elbow, the water, the clock and the cameras are all read from that one record, so nobody disagrees about when a touch starts or ends.</p>
+      <div class="facts"><span>palms on the grips <b>0.00</b> units over 921 frames</span><span>soles <b>≤ 0.39</b> units · Boone is about 390 tall</span><span>critic rounds <b>5</b> · a separate agent</span></div></div>
+  </div>
+  <div class="try" id="brace"><div class="head"><span class="lbl">Try it</span><h3>Step through the ten states</h3></div>
+    <div class="states" id="states" role="group" aria-label="States of the defining passage"></div>
+    <div class="statepanel"><img id="st-img" alt="The defining passage"><div style="display:grid;gap:6px"><span class="lbl" id="st-t"></span><span class="t" id="st-n"></span><p id="st-d"></p></div></div>
+    <p class="cap">The clock's one rule: it runs only while the water presses, and it runs backward, faster as the pressure rises.</p></div>
+  <div class="cols">
+    <div class="part"><h3>Recipe</h3>
+      <div class="chips"><span class="chip m">80 Boone pose sprites</span><span class="chip m">close-up acting studies</span><span class="chip">prop plate</span><span class="chip">cut-out rig engine</span><span class="chip">crew drawn in code</span><span class="chip">four acoustic spaces</span></div>
+      <ol class="recipe">
+        <li>Compile the assets. Every sprite and prop becomes its own PNG and record with a pivot, sockets and where it came from. Boone's identity marks are drawn on in code: ink eyes and smile, a pin at each temple, the frayed white scarf. The atlases are checked pixel for pixel against their sources.</li>
+        <li>Rig Boone from one pose sprite with two-bone IK on his arms and legs. Draw the trout crew in code as cut paper, because the painted crew in the plate could not be separated.</li>
+        <li>Draw the inlet box in section as a cardboard diorama, and the place before the street as a reconstruction, labelled on screen the whole time it is shown.</li>
+        <li>Author the ten states. Read every track from them and render the passage with its own cameras.</li>
+        <li>Give the passage production sound only, in four spaces: the street, the iron throat, the concrete chamber, the creek.</li>
+        <li>Have a separate critic, who sees only the renders and the frame grabs, judge each version against named criteria. Fix and repeat.</li>
+      </ol></div>
+    <div class="part"><h3>The sheets</h3><div class="sheets">
+      <figure><img src="media/still/ttn-boone-sheet.jpg" alt="" loading="lazy"><figcaption>Boone's registered assets, each with its sockets.</figcaption></figure>
+      <figure><img src="media/still/ttn-plan.jpg" alt="" loading="lazy"><figcaption>The foreman's 1968 plan. He trusts it; the story shows it is wrong.</figcaption></figure>
+      <figure><img src="media/still/ttn-town.jpg" alt="" loading="lazy"><figcaption>Trouttown itself, under the street.</figcaption></figure>
+    </div></div>
+  </div>
+  <div class="part"><h3>What broke and what changed</h3><div class="fixes">
+    <div class="fix"><div class="b">Round 1: the arch showed before it was discovered, the failure and result weren't shown, the clock popped in, and the reconstruction was unlabelled.</div><div class="arr">→</div><div class="c">All fixed in v2; the reconstruction carries "drawn for this film, not a record" for its whole length.</div></div>
+    <div class="fix"><div class="b">Round 5: Boone's head read as propping up the elbow.</div><div class="arr">→</div><div class="c">A gap of 40–50 px opens from 41 s. Pass.</div></div>
+    <div class="fix"><div class="b">The joint read as a flat triangle and a strut.</div><div class="arr">→</div><div class="c">One continuous sleeve. It still reads as a bag rather than a hose, and is logged as a should-fix.</div></div>
+  </div></div>
+  <div class="cols"><div class="part"><h3>What it teaches</h3><ul class="teach"><li>Keep three kinds of claim apart: verified local record (Boone Creek was once called Kraut Creek), character belief (the foreman's plan) and invented rule (the clock). Only the verified facts appear in the credits.</li><li>A limitations page written beside the film says what it doesn't do. This one runs 3:28 against a 4–6 minute target.</li></ul></div></div>
+  <a class="carry" href="#tsu-10"><span class="lbl">Carries forward</span><b>The rig engine and Boone's rig, ready to go into someone else's film.</b></a>
+</section>
+
+<!-- =============================================================== 10 -->
+<section class="box" id="tsu-10">
+  <div class="boxhead"><div class="row"><span class="code">TSU-10</span><span class="lbl">Oct 19 · WYGWYL patch P05-008 · 8.8 s, twice</span></div>
+    <h2>Boone visits WYGWYL</h2><p class="q">Can Boone be dropped into another lab's cel database and clock?</p></div>
+  <div class="hero">
+    <figure class="film" data-src="media/film/wyg-cel.mp4" data-seg="0,8.7" data-len="0:09"><div class="screen"><video muted playsinline preload="metadata" poster="media/still/wyg-cel.jpg"></video></div><figcaption class="cap">"Their blood flows through my hands." A red pencil thread runs into his palms, where the patch's own footage plays.</figcaption></figure>
+    <div class="trick"><span class="lbl">The trick</span><p>Work to the existing clock. The patch runs from 491.442 to 500.202 s of the suite, and every beat lands on a word time from the reading: blood, hands, fingerprints, sun.</p>
+      <div class="facts"><span>backgrounds <b>3 cel cuts</b> at the same suite moment</span><span>lane <b>boone · cel</b> on the Syzygy page</span></div></div>
+  </div>
+  <div class="cols">
+    <div class="part"><h3>Recipe</h3><ol class="recipe">
+      <li>Read the patch, its words and its found clip from the lab's own files.</li>
+      <li>Stage Boone with the rig from the previous box, and key his beats to her word times.</li>
+      <li>Play each shot in front of the Cels and Spine-Cut cuts at the same suite second.</li>
+      <li>Make a paper-collage version from the poet's stills, and add a lane in the page's own sprite format.</li></ol></div>
+    <div class="part"><h3>The sheets</h3><div class="sheets">
+      <figure><img src="media/still/wyg-collage.jpg" alt="" loading="lazy"><figcaption>The collage version: the poet cut from his stills, Boone on his box, the archive pinned up.</figcaption></figure>
+      <figure><img src="media/still/wyg-rig.jpg" alt="" loading="lazy"><figcaption>Where it led: the poet as a paper puppet in Boone's rig format. That story continues under WYGWYL.</figcaption></figure>
+    </div></div>
+  </div>
+  <a class="carry" href="#shipment"><span class="lbl">Back to the label</span><b>All ten boxes.</b></a>
+</section>
+
+<!-- =============================================================== credits -->
+<section class="credits" aria-label="Crew">
+  <div class="cl"><span class="ship2">SHIP TO · THIS SIDE UP</span><b>Boone</b><span class="note">a.k.a. Boondog</span><span class="role">Starring</span></div>
+  <div class="cl"><span class="ship2">SHIP TO · THIS SIDE UP</span><b>A child-adult of unknown origin</b><span class="note">cardboard, tape and resolve</span><span class="role">Character made by</span></div>
+  <div class="cl"><span class="ship2">SHIP TO · THIS SIDE UP</span><b>Mark Hartsoe</b><span class="note">who named him</span><span class="role">Name</span></div>
+  <div class="cl"><span class="ship2">SHIP TO · THIS SIDE UP</span><b>Amy Hartsoe</b><span class="note">the scarf, shoe design and materials sourcing</span><span class="role">Lead production designer</span></div>
+  <div class="cl"><span class="ship2">SHIP TO · THIS SIDE UP</span><b>Henry</b><span class="note">hand movement and placement</span><span class="role">Lead theatrical surgeon</span></div>
+  <div class="cl"><span class="ship2">SHIP TO · THIS SIDE UP</span><b>Brittany</b><span class="note">the straw guns</span><span class="role">Straw weaponsmith</span></div>
+  <div class="cl"><span class="ship2">SHIP TO · THIS SIDE UP</span><b>Watson Hartsoe</b><span class="note">photography and AI services</span><span class="role">The slopling</span></div>
+  <div class="cl"><span class="ship2">SHIP TO · THIS SIDE UP</span><b>No cardboard was harmed.</b><span class="note">made for fun</span><span class="role">Also</span></div>
+</section>
+
+<footer>
+  <span>THIS SIDE UP · a program of CRASH LAB · CONSEQUENCE WORKS · Watson Hartsoe, with Claude.</span>
+  <span>Found footage is from the CINEOSIS archive and is credited inside each film. The Matrix rooftop scene was measured, not shown: no frame of it appears in any film or on this page.</span>
+</footer>
+</div>
+
+<script>
+(()=>{
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+
+/* ---------- the shipment strip, from the chapters themselves */
+const thumbs={'tsu-01':'tsu-ice','tsu-02':'guide-06','tsu-03':'v1-lean','tsu-04':'marble-lean','tsu-05':'v3-line','tsu-06':'v4-fire','tsu-07':'ice-drops','tsu-08':'fall-c6-23','tsu-09':'brace-09','tsu-10':'wyg-cel'};
+$('#shipment').innerHTML=$$('section.box').map(s=>{const id=s.id,code=s.querySelector('.code').textContent,t=s.querySelector('h2').textContent,len=s.querySelector('.film')?.dataset.len||'';
+  return `<a class="tile" href="#${id}"><img src="media/still/${thumbs[id]}.jpg" alt="" loading="lazy"><span class="t">${t}</span><span class="m"><b>${code}</b><span>${len}</span></span></a>`}).join('');
+
+/* ---------- films: a muted loop of the key passage; the button plays the whole film with sound */
+const films=$$('.film');
+films.forEach(f=>{
+  const v=f.querySelector('video'),[a,b]=f.dataset.seg.split(',').map(Number);let full=false;
+  const bar=document.createElement('div');bar.className='bar';
+  bar.innerHTML=`<button class="btn" type="button"><svg viewBox="0 0 12 12"><use href="#spk"/></svg>Watch the whole film with sound · ${f.dataset.len}</button>`;
+  f.insertBefore(bar,f.querySelector('figcaption'));
+  v.addEventListener('loadedmetadata',()=>{if(!full){try{v.currentTime=a}catch(e){}}});
+  v.addEventListener('timeupdate',()=>{if(!full&&(v.currentTime>b||v.currentTime<a-.3)){try{v.currentTime=a}catch(e){}}});
+  bar.querySelector('button').addEventListener('click',()=>{full=true;films.forEach(o=>{if(o!==f)o.querySelector('video').pause()});v.muted=false;v.controls=true;v.currentTime=0;v.play().catch(()=>{});bar.remove()});
+  f._load=()=>{if(!v.src){v.src=f.dataset.src}};
+});
+const io=new IntersectionObserver(es=>es.forEach(e=>{const f=e.target,v=f.querySelector('video');
+  if(e.isIntersecting){f._load();if(v.muted&&!matchMedia('(prefers-reduced-motion: reduce)').matches)v.play().catch(()=>{})}else if(v.muted)v.pause()}),{rootMargin:'200px'});
+films.forEach(f=>io.observe(f));
+
+/* ---------- 01 peel */
+const PEEL={photo:['tsu-photo','The photograph as taken: Boone on a box, the TV behind him playing mammoths.'],
+  grid:['tsu-grid','A crop on a grid labelled in source pixels. Every outline and pivot is read off these numbers.'],
+  parts:['tsu-parts','The parts, in claim order: forearm, upper arm, head. Whatever is left is the body. The dots are the pivots.'],
+  plate:['tsu-plate','The plate: Boone taken out and the background rebuilt. It is rough where he stood, and only shows where a part swings away.']};
+const peel=k=>{$('#peelimg').src=`media/still/${PEEL[k][0]}.jpg`;$('#peelcap').textContent=PEEL[k][1];$$('#peel .seg button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.k===k))};
+$$('#peel .seg button').forEach(b=>b.addEventListener('click',()=>peel(b.dataset.k)));peel('photo');
+
+/* ---------- 02 frame code */
+const REEL=[['SLATE',4],['COUNTDOWN',5],['01 BLACK',5],['02 BLACK LEVEL',5],['03 WHITE',5],['04 GREY 18%',5],['05 GREY WEDGE',6],['06 COLOUR CHART',6],['07 COLOUR BARS',5],['08 CHECKERBOARD 16x9',8],['09 DOT GRID 15x8',5],['10 REGISTRATION',8],['11 FOCUS STARS',5],['12 FRAME STEP CHECK',10],['13 PARALLAX DRIFT',10],['14 GREEN 00B140',5],['15 BLUE 0047BB',5],['SLATE (END)',4]];
+const bits=$('#bits');bits.innerHTML='<span class="start" title="start"></span>'+Array.from({length:16},(_,i)=>`<button type="button" aria-label="bit ${15-i}" data-b="${15-i}" aria-pressed="false"></button>`).join('')+'<span class="end" title="end"></span><span style="background:transparent"></span>';
+const setFrame=n=>{n=Math.max(0,Math.min(65535,n|0));$('#frame').value=Math.min(n,2543);
+  $$('#bits button').forEach(b=>b.setAttribute('aria-pressed',((n>>+b.dataset.b)&1)?'true':'false'));
+  const s=Math.floor(n/24),ff=n%24;$('#fn').textContent=n;$('#tc').textContent=`${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}:${String(ff).padStart(2,'0')}`;
+  let acc=0,name='past the end of the reel';for(const [nm,sec] of REEL){if(n<acc+sec*24){name=nm;break}acc+=sec*24}$('#sec').textContent=name;$('#bin').textContent=n.toString(2).padStart(16,'0')};
+$('#frame').addEventListener('input',e=>setFrame(+e.target.value));
+$$('#bits button').forEach(b=>b.addEventListener('click',()=>{const cur=+$('#fn').textContent;setFrame(cur^(1<<+b.dataset.b))}));setFrame(900);
+
+/* ---------- 04 orbit */
+let ORB=null;fetch('media/orbit/orbit.json').then(r=>r.json()).then(d=>{ORB=d;orbit()}).catch(()=>orbit());
+const orbit=()=>{const a=+$('#az').value,k=String(a).padStart(3,'0');
+  $('#o-photo').src=`media/orbit/photo_${k}.jpg`;$('#o-view').src=`media/orbit/view_${k}.jpg`;$('#o-comp').src=`media/orbit/comp_${k}.jpg`;$('#o-az').textContent=a+'°';
+  const s=ORB&&ORB.steps.find(x=>x.az===a);$('#o-pf').textContent=s?`frame ${s.photo_frame}, solved at ${s.photo_az}°`:'';$('#o-vf').textContent=s?`${s.view}, ${s.view_az}°`:''};
+$('#az').addEventListener('input',orbit);
+// preload the orbit images once the box is near, so dragging is instant
+new IntersectionObserver((es,ob)=>{if(es[0].isIntersecting){for(let a=0;a<=205;a+=5){const k=String(a).padStart(3,'0');for(const p of ['photo','view','comp'])new Image().src=`media/orbit/${p}_${k}.jpg`}ob.disconnect()}},{rootMargin:'400px'}).observe($('#orbit'));
+
+/* ---------- 06 two clocks: the world's rate curve from film.py */
+const KEYS=[[0,1],[1.66,1],[1.78,.002],[12.6,.004],[13.0,.1],[13.6,1],[17.6,1]];
+const EVENTS=[[1.62,'fire'],[3.9,'let go'],[4.4,'walk'],[9.0,'turn'],[9.7,'hold'],[12.6,'drop'],[13.6,'full speed']];
+const rate=t=>{for(let i=1;i<KEYS.length;i++){const [t0,r0]=KEYS[i-1],[t1,r1]=KEYS[i];if(t<=t1)return r0+(r1-r0)*(t-t0)/(t1-t0)}return 1};
+const integ=t=>{let s=0,dt=.005;for(let x=0;x<t;x+=dt)s+=rate(Math.min(x+dt/2,t))*Math.min(dt,t-x);return s};
+const T_FIRE=1.62,W_FIRE=integ(T_FIRE);
+const cw=$('#warp');
+const drawWarp=t=>{const dpr=devicePixelRatio||1,W=cw.clientWidth,H=220;cw.width=W*dpr;cw.height=H*dpr;const g=cw.getContext('2d');g.setTransform(dpr,0,0,dpr,0,0);
+  const L=38,R=W-12,T=14,B=H-34,X=x=>L+(R-L)*x/17.6,Y=r=>B-(B-T)*r;g.clearRect(0,0,W,H);
+  g.strokeStyle=css('--rule');g.lineWidth=1;g.font='11px "JetBrains Mono",monospace';g.fillStyle=css('--ink-2');
+  for(const r of [0,.5,1]){g.beginPath();g.moveTo(L,Y(r));g.lineTo(R,Y(r));g.stroke();g.fillText(r.toFixed(1),6,Y(r)+4)}
+  for(let s=0;s<=17;s+=2){g.fillText(s+'s',X(s)-8,H-18)}
+  for(const [e,n] of EVENTS){g.strokeStyle=css('--rule');g.setLineDash([3,3]);g.beginPath();g.moveTo(X(e),T);g.lineTo(X(e),B);g.stroke();g.setLineDash([]);g.save();g.translate(X(e)+3,T+2);g.rotate(Math.PI/2);g.fillStyle=css('--ink-2');g.fillText(n,0,0);g.restore()}
+  g.beginPath();for(let x=0;x<=17.6;x+=.02){const px=X(x),py=Y(rate(x));x?g.lineTo(px,py):g.moveTo(px,py)}g.strokeStyle=css('--stamp');g.lineWidth=2.4;g.stroke();
+  g.lineTo(X(17.6),B);g.lineTo(X(0),B);g.closePath();g.fillStyle=css('--stamp')+'22';g.fill();
+  g.strokeStyle=css('--ink');g.lineWidth=1.5;g.beginPath();g.moveTo(X(t),T);g.lineTo(X(t),B);g.stroke();g.fillStyle=css('--ink');g.beginPath();g.arc(X(t),Y(rate(t)),4.5,0,7);g.fill()};
+const hand=(svg,sec)=>{const a=(sec%60)/60*2*Math.PI-Math.PI/2;svg.innerHTML=`<circle r="44" fill="none" stroke="${css('--ink')}" stroke-width="3"/>`+Array.from({length:12},(_,i)=>{const b=i/12*2*Math.PI;return `<line x1="${38*Math.cos(b)}" y1="${38*Math.sin(b)}" x2="${43*Math.cos(b)}" y2="${43*Math.sin(b)}" stroke="${css('--ink-2')}" stroke-width="2"/>`}).join('')+`<line x1="0" y1="0" x2="${36*Math.cos(a)}" y2="${36*Math.sin(a)}" stroke="${css('--stamp')}" stroke-width="2.5" stroke-linecap="round"/><circle r="3.5" fill="${css('--ink')}"/>`};
+const clocks=()=>{const t=+$('#st').value,w=integ(t);drawWarp(t);hand($('#ck-screen'),t*3.4);hand($('#ck-world'),w*3.4);
+  $('#w-s').textContent=t.toFixed(2)+' s';$('#w-w').textContent=(t<T_FIRE?'—':(w-W_FIRE).toFixed(3)+' s');$('#w-r').textContent=rate(t).toFixed(3);
+  let ev='before the shot';for(const [e,n] of EVENTS)if(t>=e)ev=n;$('#w-e').textContent=ev};
+$('#st').addEventListener('input',clocks);addEventListener('resize',clocks);clocks();
+
+/* ---------- 07 the cave: each drop's clock runs at the local rate */
+const cc=$('#cavecv');let drops=[],bz=1,walking=false,last=0;
+const R2=d=>Math.pow(Math.max(0,Math.min(1,1-(d-.25)/.7)),1.5);
+const seed=()=>{let s=7;const rnd=()=>(s=(s*16807)%2147483647)/2147483647;drops=Array.from({length:240},()=>({z:.5+13*rnd(),x:(rnd()*2-1)*1.0,y0:.25+1.65*rnd(),c:0,land:-1}))};
+const yOf=d=>Math.max(.004,d.y0-.5*9.81*d.c*d.c);
+const drawCave=()=>{const dpr=devicePixelRatio||1,W=cc.clientWidth,H=230;cc.width=W*dpr;cc.height=H*dpr;const g=cc.getContext('2d');g.setTransform(dpr,0,0,dpr,0,0);
+  const X=z=>12+(W-24)*(z-.3)/13.4,Y=y=>H-26-(H-48)*y/2.0;
+  const sky=g.createLinearGradient(0,0,0,H);sky.addColorStop(0,'#16314f');sky.addColorStop(1,'#3d6f98');g.fillStyle=sky;g.fillRect(0,0,W,H);
+  g.fillStyle='#d9ecf7';g.fillRect(0,Y(0),W,H-Y(0));
+  for(let z=0;z<14;z+=.7){g.fillStyle='#8fbad6';g.beginPath();g.moveTo(X(z),0);g.lineTo(X(z+.18),18+((z*7)%5)*4);g.lineTo(X(z+.36),0);g.fill()}
+  // Boone: a cardboard box figure, 1.45 m
+  const bx=X(bz);g.fillStyle='#b98a52';g.strokeStyle='#5b3b17';g.lineWidth=1.2;
+  const u=(H-48)/2.0;g.fillRect(bx-.14*u,Y(.75),.28*u,.42*u);g.strokeRect(bx-.14*u,Y(.75),.28*u,.42*u);g.fillRect(bx-.16*u,Y(1.45),.32*u,.28*u);g.strokeRect(bx-.16*u,Y(1.45),.32*u,.28*u);
+  g.fillRect(bx-.11*u,Y(.34),.08*u,.36*u);g.fillRect(bx+.03*u,Y(.34),.08*u,.36*u);g.fillStyle='#d9d9d9';g.fillRect(bx-.17*u,Y(1.16),.34*u,.04*u);
+  g.strokeStyle='rgba(255,210,120,.55)';g.setLineDash([4,4]);g.beginPath();g.ellipse(bx,Y(.9),.95*(W-24)/13.4,(H-48)*.55,0,0,7);g.stroke();g.setLineDash([]);
+  let moving=0,landed=0;
+  for(const d of drops){const r=R2(Math.hypot(d.z-bz,d.x));if(r>0.001&&d.land<0)moving++;if(d.land>=0)landed++;
+    const y=yOf(d),px=X(d.z),py=Y(y);g.fillStyle=d.land>=0?'rgba(220,240,255,.75)':(r>0.001?'#ffffff':'#bfe3ff');
+    if(d.land>=0){g.beginPath();g.ellipse(px,Y(0)+2,4,1.6,0,0,7);g.fill()}else{g.beginPath();g.ellipse(px,py,2.2,r>0.001?4.2:2.6,0,0,7);g.fill()}}
+  $('#c-z').textContent=bz.toFixed(2)+' m';$('#c-n').textContent=moving;$('#c-l').textContent=landed};
+const step=dt=>{for(const d of drops){if(d.land>=0)continue;const r=R2(Math.hypot(d.z-bz,d.x));d.c+=r*dt;if(yOf(d)<=.005)d.land=d.c}};
+const loop=ts=>{const dt=Math.min(.05,(ts-last)/1000||0);last=ts;if(walking){bz+=.9*dt;if(bz>=13){bz=13;walking=false;$('#walk').setAttribute('aria-pressed','false');$('#walk').textContent='Walk'}$('#bz').value=bz}
+  step(dt);drawCave();requestAnimationFrame(loop)};
+$('#bz').addEventListener('input',e=>{bz=+e.target.value});
+$('#walk').addEventListener('click',e=>{walking=!walking;if(walking&&bz>=12.9)bz=.6;e.currentTarget.setAttribute('aria-pressed',walking);e.currentTarget.textContent=walking?'Stop':'Walk'});
+$('#reset').addEventListener('click',()=>{seed();bz=.6;$('#bz').value=bz});
+seed();requestAnimationFrame(loop);
+
+/* ---------- 08 cuts */
+const cuts=m=>{for(const k of [4,5,6])$('#cut'+k).src=`media/still/fall-c${k}-${m}.jpg`;$$('#cuts .seg button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.m===String(m)))};
+$$('#cuts .seg button').forEach(b=>b.addEventListener('click',()=>cuts(b.dataset.m)));cuts(23);
+
+/* ---------- 09 the ten states of brace_discover_redirect (clip_brace.py) */
+const ST=[[0,2.2,'Boone accepts the load','He lifts the copper elbow to the outlet flange. From 0.6 s his palms are locked to the elbow\'s grips.'],
+ [2.2,8,'The 1968 bolt holes','The fitter tries the old plan: wrench, knock, retry. The flange will not seat; it is 8° off.'],
+ [8,14,'Runoff arrives','Water comes down the spout. The seal leaks and sprays his shin, and the pool rises over his boots.'],
+ [14,17,'The clock','The apprentice sets the salvaged clock on the ledge. The surge hits, and it ticks backward faster.'],
+ [17,19,'His hand, loaded','A close-up of the cardboard taking the weight.'],
+ [19,25,'The place before the street','The reconstruction, drawn for this film and labelled. The open arch is just left of his hand. He keeps the load.'],
+ [25,26,'A wrench slips','Back to the present.'],
+ [26,31,'The chalk arch','The fitter chalks the arch on the bricks and points. The apprentice pries out the first bricks.'],
+ [31,35,'Toward the arch','The fitter swings the elbow down toward the arch. Boone shifts his support and steps left into deeper water.'],
+ [35,42,'The water takes the old channel','The bulkhead gives and the pool drops. He holds a moment longer, then lets go.']];
+$('#states').innerHTML=ST.map((s,i)=>`<button type="button" style="flex:${s[1]-s[0]}" data-i="${i}" aria-pressed="false" aria-label="State ${i+1}: ${s[2]}">${i+1}</button>`).join('');
+const state=i=>{const s=ST[i];$('#st-img').src=`media/still/brace-${String(i+1).padStart(2,'0')}.jpg`;$('#st-t').textContent=`State ${i+1} of 10 · ${s[0].toFixed(1)}–${s[1].toFixed(1)} s`;$('#st-n').textContent=s[2];$('#st-d').textContent=s[3];
+  $$('#states button').forEach(b=>b.setAttribute('aria-pressed',+b.dataset.i===i))};
+$$('#states button').forEach(b=>b.addEventListener('click',()=>state(+b.dataset.i)));state(8);
+})();
+</script>
+
+</body></html>

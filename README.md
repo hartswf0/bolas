@@ -11,6 +11,7 @@ Live: https://hartswf0.github.io/bolas/
 | [The Found Odyssey](found-odyssey/) | Homer's lines are asked by the CALL track and answered by archive speech; a drawn cast acts in graded archive plates. Each episode runs one formal experiment. |
 | [WYGWYL](wygwyl/) | The poet as a jointed paper cut-out made from his own photographs, set over the cineosis-lab cel cuts with the reading on the soundtrack. Every patch is built from the lab's cel database. |
 
+- [This Side Up](this-side-up/): ten case studies of the cardboard cut-out films
 - [Characters](characters/) · [Films](films/) (26) · [Process](process/) · [Docs and prompts](docs/)
 - Lab pages: [Bolas Pencil Test](lab/pencil-test/) · [Bolas Range Test](lab/range-test/) · [The Physical](lab/the-physical/) · [Dramaturgy Crash Lab](lab/crash-lab/)
 

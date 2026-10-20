@@ -38,7 +38,7 @@ def relocate():
 
 # ---------------------------------------------------------------- page frame
 FONTS = '<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800;900&family=JetBrains+Mono:wght@400;600&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&display=swap" rel="stylesheet">'
-NAV = [('lab/', 'Try it'), ('family/', 'The Family'), ('cineosis/', 'CINEOSIS'), ('found-odyssey/', 'The Found Odyssey'), ('wygwyl/', 'WYGWYL'), ('films/', 'Films'), ('characters/', 'Characters'), ('process/', 'How it was made')]
+NAV = [('lab/', 'Try it'), ('family/', 'The Family'), ('cineosis/', 'CINEOSIS'), ('found-odyssey/', 'The Found Odyssey'), ('wygwyl/', 'WYGWYL'), ('this-side-up/', 'This Side Up'), ('films/', 'Films'), ('characters/', 'Characters'), ('process/', 'How it was made')]
 def page(path, title, body, desc='', image='media/og.jpg', kind='website', extra_head='', crumbs=None):
     depth = path.count('/'); up = '../' * depth; here = path.rsplit('index.html', 1)[0]
     nav = ''.join(f'<a href="{up}{h}"{" aria-current=page" if here.startswith(h) else ""}>{n}</a>' for h, n in NAV)
@@ -115,6 +115,9 @@ def section(title, inner, sub=''):
 def grid(items, cls='grid'): return f'<div class="{cls}{" cams" if any("class=\"cam " in i for i in items) else ""}">{"".join(items)}</div>'
 
 # ---------------------------------------------------------------- pages
+TSU_CARD = ('<div class="chans"><a class="chan" href="this-side-up/" style="--c:#b98a52"><span class="shot"><img src="this-side-up/media/still/tsu-ice.jpg" alt="" loading="lazy"></span>'
+            '<span class="txt"><span class="meta"><span class="tid">TSU</span> 10 case studies</span><b>This Side Up</b>'
+            '<span class="line">Boone, a handmade cardboard puppet, cut into parts and set into worlds where time stops for everything except him. How each film was made, with something to try.</span></span></a></div>')
 def home():
     up = ''
     floor = ''.join(cam(w, p, 'f lo' if x < 50 else 'f hi', lines=False, style=f'left:{x}%' + (';top:calc(var(--floor) - var(--cam) * .3)' if w == 'critic' else '')) for w, p, x in CM.BAY)
@@ -136,6 +139,7 @@ def home():
 <div class="baystage" style="--cam:clamp(110px,19vw,230px)">{crate}{floor}<span class="rule"></span></div></section>
 {section('Try it', f'<div class="tries">{tiles}</div><p class="more"><a href="lab/">All five interactive pages</a></p>', 'interactive pages: every figure is computed in your browser')}
 {section('Four channels', f'<div class="chans">{rows}</div>')}
+{section('This Side Up', TSU_CARD, 'everything made of cardboard cut-outs')}
 {section('Latest tests', grid([film_card(f, up) for f in latest]), 'every film has a test number, a logline and its notes')}
 <p class="more"><a href="process/">How it was made: 18 case studies</a> · <a href="characters/">Every character</a> · <a href="films/">All {len(C.FILMS)} films</a></p>"""
     w('index.html', page('index.html', C.BRAND['name'], body, C.BRAND['about'], 'media/thumbs/crash-lab-film.jpg'))
@@ -377,7 +381,7 @@ def docs():
         w(rel, page(rel, f'{f["title"]} · production notes', body, f['line'], f'media/thumbs/{f["id"]}.jpg', crumbs=[('Home', ''), ('Docs', 'docs/'), (f['title'], None)]))
 
 def extras():
-    urls = ['', 'lab/'] + [p['path'] for p in C.PROGRAMS] + ['found-odyssey/cast/', 'characters/', 'films/', 'process/', 'docs/'] + [f'films/{f["id"]}/' for f in C.FILMS] + [f'process/{s}/' for s in PROC] + [f'lab/{l["id"]}/' for l in C.LAB]
+    urls = ['', 'lab/'] + [p['path'] for p in C.PROGRAMS] + ['this-side-up/', 'found-odyssey/cast/', 'characters/', 'films/', 'process/', 'docs/'] + [f'films/{f["id"]}/' for f in C.FILMS] + [f'process/{s}/' for s in PROC] + [f'lab/{l["id"]}/' for l in C.LAB]
     w('sitemap.xml', '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' + ''.join(f'<url><loc>{C.BASE}{u}</loc></url>' for u in urls) + '</urlset>\n')
     w('robots.txt', f'User-agent: *\nAllow: /\nSitemap: {C.BASE}sitemap.xml\n')
     w('catalog.json', json.dumps(dict(brand=C.BRAND, programs=C.PROGRAMS, characters=C.CHARACTERS, lab=C.LAB,
@@ -393,6 +397,7 @@ Live: {C.BASE}
 | Program | |
 |---|---|
 """ + ''.join(f"| [{p['title']}]({p['path']}) | {p['line']} |\n" for p in C.PROGRAMS) + f"""
+- [This Side Up](this-side-up/): ten case studies of the cardboard cut-out films
 - [Characters](characters/) · [Films](films/) ({len(C.FILMS)}) · [Process](process/) · [Docs and prompts](docs/)
 - Lab pages: """ + ' · '.join(f"[{l['title']}](lab/{l['id']}/)" for l in C.LAB) + """
 
