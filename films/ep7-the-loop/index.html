@@ -1,0 +1,117 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Episode 7 · THE LOOP · CRASH LAB</title><meta name="description" content="Book 13 as a loop: seven agents try to land the sleeping man on Ithaca and fail, until a grip holds, Athena compiles, and the old beggar is put together part by part."><link rel="canonical" href="https://hartswf0.github.io/bolas/films/ep7-the-loop/">
+<meta property="og:site_name" content="CRASH LAB"><meta property="og:title" content="Episode 7 · THE LOOP"><meta property="og:description" content="Book 13 as a loop: seven agents try to land the sleeping man on Ithaca and fail, until a grip holds, Athena compiles, and the old beggar is put together part by part."><meta property="og:type" content="video.other"><meta property="og:url" content="https://hartswf0.github.io/bolas/films/ep7-the-loop/"><meta property="og:image" content="https://hartswf0.github.io/bolas/media/thumbs/ep7-the-loop.jpg">
+<meta name="twitter:card" content="summary_large_image"><meta name="theme-color" content="#0b0d10">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml"><link rel="icon" href="../../favicon-32.png" sizes="32x32"><link rel="apple-touch-icon" href="../../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800;900&family=JetBrains+Mono:wght@400;600&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&display=swap" rel="stylesheet"><link rel="stylesheet" href="../../assets/site.css"><script type="application/ld+json">{"@context": "https://schema.org", "@type": "VideoObject", "name": "Episode 7 \u00b7 THE LOOP", "description": "Book 13 as a loop: seven agents try to land the sleeping man on Ithaca and fail, until a grip holds, Athena compiles, and the old beggar is put together part by part.", "thumbnailUrl": "https://hartswf0.github.io/bolas/media/thumbs/ep7-the-loop.jpg", "uploadDate": "2026-10-19", "duration": "PT6M47S", "contentUrl": "https://hartswf0.github.io/bolas/media/films/ep7-the-loop.mp4", "creator": {"@type": "Person", "name": "Watson Hartsoe"}}</script><meta property="og:video" content="https://hartswf0.github.io/bolas/media/films/ep7-the-loop.mp4"></head><body>
+<header class="top"><a class="brand" href="../../"><img src="../../favicon.svg" alt="" width="28" height="28"><span>CRASH LAB</span></a><nav><a href="../../family/">The Family</a><a href="../../cineosis/">CINEOSIS</a><a href="../../found-odyssey/">The Found Odyssey</a><a href="../../wygwyl/">WYGWYL</a><a href="../../characters/">Characters</a><a href="../../films/" aria-current=page>Films</a><a href="../../process/">Process</a><a href="../../docs/">Docs</a></nav></header>
+<main class="wrap"><p class="crumbs"><a href="../../">Home</a> / <a href="../../found-odyssey/">The Found Odyssey</a> / Episode 7 · THE LOOP</p><section class="filmpage"><p class="eyebrow" style="color:#c8553d">The Found Odyssey</p><h1 class="ft">Episode 7 · THE LOOP</h1><img class="still" src="../../media/posters/ep7-the-loop.jpg" alt=""><p class="note">The web copy of this film is still being encoded.</p>
+<p class="logline">Book 13 as a loop: seven agents try to land the sleeping man on Ithaca and fail, until a grip holds, Athena compiles, and the old beggar is put together part by part.</p>
+<dl class="facts"><div><dt>Running time</dt><dd>6:47</dd></div><div><dt>Made</dt><dd>2026-10-19</dd></div><div><dt>Program</dt><dd><a href="../../found-odyssey/">The Found Odyssey</a></dd></div><div><dt>Characters</dt><dd><a href="../../characters/#odysseus">Odysseus</a>, <a href="../../characters/#athena">Athena</a>, <a href="../../characters/#oldbeggar">Odysseus, the old beggar</a></dd></div><div><dt>File</dt><dd>encoding</dd></div></dl>
+<details open><summary>Production notes</summary><div class="md"><h1>THE FOUND ODYSSEY · Episode 7 · THE LOOP</h1>
+<p>Book 13 runs as one story, from the Phaeacian ship leaving Scheria to the old beggar walking up the high path on Ithaca. 6 min 48 s, -16.4 LUFS.</p>
+<h2>The experiment: pre-build bisimulation</h2>
+<p>Episode 5 governed colour (blood against grey). Episode 6 governed the grip (palm, object, fingers, thumb). Episode 7 runs the build of the world inside the film.</p>
+<p>Ithaca is two coupled states in every shot:
+- <strong>A grey-box blockout.</strong> Every gift, the petrified ship, the olive, the cave and the rock wall are real 3D boxes in the same world coordinates as the rig, drawn through the plate's projection.
+- <strong>An interactive-fiction log</strong> in a column at the side of the frame: commands, the parser's replies, the checks between text and boxes, and the result of each check.</p>
+<p>When the text and the boxes disagree, the frame is desynchronised and the plate will not ink or colour.</p>
+<p>The machinery is in <code>ody/ep7/loop.py</code>, and it follows your spec:
+- <code>ArchiveNode</code>: a 3D box, an IF predicate, and a state (GREYBOX, INKED, COLOURED, or STONE for the ship).
+- <code>HandRig.is_holding</code>: the Episode 6 grip latch. A hand counts as holding a node only if its wrist is inside the node's box and it is drawn with the grip layering.
+- <code>step_bisimulation</code>: grip first (the node goes to colour and is locked); otherwise a desynchronised node reverts to grey box at the reset.</p>
+<p>Every number printed in the log comes from that code reading the rig's joints and the boxes. Examples are a wrist inside a box, a hand's distance to a shoulder, a count of tripods, and how far the stone moved. The scenes are evaluated once over all frames, so any frame renders the same on its own.</p>
+<table>
+<thead>
+<tr>
+<th>Part</th>
+<th>Sign</th>
+<th>The line</th>
+<th>What happens</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cold open · the ship</td>
+<td>(none)</td>
+<td>"At sunset Odysseus boards the convoy ship and lies on a prepared bed in the stern."</td>
+<td>The last full colour before the loop. He lies down on the fleece and his hand opens and stays open. The empty ship then turns to stone far out, and the colour drains from the plate starting at the ship.</td>
+</tr>
+<tr>
+<td>I · the loop</td>
+<td><strong>As 6</strong>, Any-space-whatever</td>
+<td>"The crew carries the sleeping man and his treasure onto the shore." (played seven times)</td>
+<td>Seven agents (01_BARD, 02_BLOCKER, 03_GRIP, 04_BLEED, 05_PHYSICS, 06_DOUBT, 07_ATHENA) are seven instances of one base rig, each with its own skin. Each spawns as a bare wire rig, types its command, tries it and fails. For example, 03_GRIP's wrists are inside the tripod's box, but the base rig has no grip layers, so the hold is rejected. Each failure stamps a report, tears the frame and rewinds the plate to frame 0, and the line plays again. On the seventh pass, 07_ATHENA's hand stops short of the sleeping man's hand.</td>
+</tr>
+<tr>
+<td>II · the wake</td>
+<td>(As 6)</td>
+<td>"Tripods, cauldrons, the woven robes, the gold."</td>
+<td>He wakes and is drawn in colour; the beach is still grey box and still resets. His right hand closes on a tripod, then his left takes the robe, then his right takes a low olive branch. Each grip latches, survives every later reset, and bleeds colour into the plate around it.</td>
+</tr>
+<tr>
+<td>III · Athena</td>
+<td><strong>Lo 36</strong>, Limpid and opaque</td>
+<td>"I am Athena, daughter of Zeus, and we two are alike, crooked-minded both,"</td>
+<td>The seven agents walk in from all sides and become one figure whose skin cycles through all seven. His Cretan lie builds volumes (an island, a king's son, a Phoenician ship) that have no Ithaca ground under them, so the frame desynchronises and colour is withdrawn, from him too. Her rebuke knocks the lie volumes down. When she says her name she compiles from grey box to ink to colour, and her hand rests on his shoulder.</td>
+</tr>
+<tr>
+<td>IV · the cave</td>
+<td><strong>Sb 33</strong>, Symbol</td>
+<td>"Now sit with me under the olive, and let us plot."</td>
+<td>He puts the tripod in the cave and drives the stone across the mouth. She sits under the olive with her open hand on the ground beside her until he sits there. Her lines work as an animation prompt: each Ithaca place she names compiles on a map on the rock wall at the moment she says it. Beside the map, Book 22 runs as three counterfactual grey-box simulations of the hall from a small agent model (<code>sim22.py</code>). Open door with a sword fails; spears from the threshold fails; beggar, bow, doors barred and arms removed passes. The passing plan is locked in colour as his hand closes on the ground.</td>
+</tr>
+<tr>
+<td>V · the beggar</td>
+<td><strong>Lo 36</strong>, Limpid and opaque</td>
+<td>"Take this staff and this patched beggar's sack, for this is who you are now."</td>
+<td>Ithaca is compiled and the plate is in colour. As each part is named (skin, hair, limbs, eyes, rags) it is swapped on his rig, with a flash of the bare rig at each swap. The staff is the last grey box, in her hand. His hand closes over it, the grip latches, the staff goes to colour, and the skin locks as 08_BEGGAR.</td>
+</tr>
+<tr>
+<td>After the credits</td>
+<td>(none)</td>
+<td>(none)</td>
+<td>The old man walks up the high path on his staff. The log has no reset left to run.</td>
+</tr>
+</tbody>
+</table>
+<p>The previously segment uses Episode 6's own line, "Odysseus lashes keel and mast together."</p>
+<h2>Sound</h2>
+<ul>
+<li>Each act has its own score from the series' lyre motif, quieter under the voices and silent before the line.</li>
+<li>The loop has its own sounds:</li>
+<li>a tick for every character typed into the log;</li>
+<li>a rewind sweep and a hard stop at each reset;</li>
+<li>a low bronze note when a grip latches;</li>
+<li>a falling tone when a simulation fails, and three notes when one locks.</li>
+<li>Room tone by place: shore, harbour and fog, the rock face.</li>
+</ul>
+<h2>Observed and generated</h2>
+<ul>
+<li>Every spoken line comes from the Found Odyssey CALL tracks for Book 13. The words and their order are unchanged; only the selection and the pauses were chosen (<code>ody/ep7/cut.py</code>).</li>
+<li>Several Book 13 call recordings are cut off (for example "No thief alive will shift that stone" lasts 0.3 s). Those lines were left out, so the treasure going into the cave plays without voice.</li>
+<li>The answers are The Found Odyssey's matches.</li>
+<li>The plates are from the cineosis-lab library:</li>
+<li>Lone Cedar (2007): Phaeacia at sunset;</li>
+<li>Morning Fog time-lapse (2007): the loop, the wake and Athena;</li>
+<li>Valley Fog (2006): the cave;</li>
+<li>Sunburst 1 (2007): the beggar;</li>
+<li>Vivid Sunrise 2 (2007): the closing shot.</li>
+<li>Generated: all drawing and animation, the grey boxes, the log, the agents and their tests, the hall simulations, the sound effects and the score.</li>
+<li>What the agents are: scripted procedures, each with a goal and a test against the geometry. They are not language-model agents.</li>
+</ul>
+<h2>Files</h2>
+<ul>
+<li>Loop machinery: <code>ody/ep7/loop.py</code>.</li>
+<li>Frame pipeline (grey layer, colour layer, bleed, log, stamps, reset): <code>ody/ep7/craft7.py</code>.</li>
+<li>Book 22 simulation: <code>ody/ep7/sim22.py</code>.</li>
+<li>Props: <code>ody/ep7/props7.py</code>; old-man costumes added to <code>ody/toon.py</code>.</li>
+<li>Scenes: <code>ody/ep7/s_*.py</code>; rig worlds: <code>crash/m_e7*.js</code>.</li>
+<li>Title, cards, credits and assembly: <code>ody/ep7/furn7.py</code>.</li>
+</ul></div></details></section><section class="sec"><div class="sechead"><h2>More from The Found Odyssey</h2></div><div class="grid"><a class="card film" href="../../films/ep1-nobody/" style="--c:#c8553d"><img src="../../media/thumbs/ep1-nobody.jpg" alt="" loading="lazy" width="1280" height="720">
+<span class="meta">The Found Odyssey · 3:27</span><b>Episode 1 · NOBODY</b><span class="line">Book 9 in three minutes: a prompt box asks for the hero&#x27;s name, the archive asks for &quot;our young friend&#x27;s&quot;, and Odysseus answers &quot;Nobody.&quot;</span></a><a class="card film" href="../../films/ep2-the-guest-gift/" style="--c:#c8553d"><img src="../../media/thumbs/ep2-the-guest-gift.jpg" alt="" loading="lazy" width="1280" height="720">
+<span class="meta">The Found Odyssey · 8:29</span><b>Episode 2 · THE GUEST-GIFT</b><span class="line">The Cyclops again, as a flashback at the Phaeacian feast, told by two tellers who remember it differently. The experiment: the recollection-image.</span></a><a class="card film" href="../../films/ep3-the-raft/" style="--c:#c8553d"><img src="../../media/thumbs/ep3-the-raft.jpg" alt="" loading="lazy" width="1280" height="720">
+<span class="meta">The Found Odyssey · 8:21</span><b>Episode 3 · THE RAFT</b><span class="line">Book 5 as one story, each act seen from the point of view of whoever is watching it: the gods on their television, Calypso, Poseidon, the sea.</span></a><a class="card film" href="../../films/ep4-circe/" style="--c:#c8553d"><img src="../../media/thumbs/ep4-circe.jpg" alt="" loading="lazy" width="1280" height="720">
+<span class="meta">The Found Odyssey · 6:29</span><b>Episode 4 · CIRCE</b><span class="line">Book 10 re-cut around one line per scene, the place where power shifts: the Laestrygonians, Circe, and the order to sail to the house of Death.</span></a></div></section></main>
+<footer class="foot"><div class="wrap"><p><b>CONSEQUENCE WORKS</b> · Watson Hartsoe · built with Claude</p><p>Every figure is keyed by hand in a rig and rendered from code. Archive footage comes from the cineosis-lab library and is credited inside each film. <a href="../../catalog.json">catalog.json</a> · <a href="../../sitemap.xml">sitemap</a> · <a href="https://github.com/hartswf0/bolas">source</a></p></div></footer>
+</body></html>

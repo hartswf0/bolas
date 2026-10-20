@@ -1,0 +1,856 @@
+{
+ "brand": {
+  "name": "CRASH LAB",
+  "studio": "CONSEQUENCE WORKS",
+  "author": "Watson Hartsoe",
+  "line": "Bolas \u00b7 department of dramaturgical crash testing",
+  "about": "Experiments in authored motion. Figures keyed by hand in a rig, measured like crash-test dummies, and set into archive film."
+ },
+ "programs": [
+  {
+   "id": "family",
+   "title": "The Crash-Test Family",
+   "path": "family/",
+   "color": "#ffd23f",
+   "tag": "Bola, Shim and little Dot",
+   "line": "Three test dummies in a measured bay. Every touch, step and fall is scored for where the weight is, whether the feet hold and whether a hand lands where it was sent.",
+   "parts": [
+    "pencil-test",
+    "range-test",
+    "the-physical",
+    "crash-lab"
+   ]
+  },
+  {
+   "id": "cineosis",
+   "title": "CINEOSIS",
+   "path": "cineosis/",
+   "color": "#19c9ae",
+   "parent": "family",
+   "tag": "the family performs the 45 signs",
+   "line": "The crash-test family performs the 45 signs of Deleuze's cinema books, after David Deamer's taxonomy: first in the measured bay, then inside real archive film, then by hand, and finally as a making-of with a blindfolded Critic."
+  },
+  {
+   "id": "odyssey",
+   "title": "The Found Odyssey",
+   "path": "found-odyssey/",
+   "color": "#c8553d",
+   "tag": "one book of the Odyssey per episode",
+   "line": "Homer's lines are asked by the CALL track and answered by archive speech; a drawn cast acts in graded archive plates. Each episode runs one formal experiment."
+  },
+  {
+   "id": "wygwyl",
+   "title": "WYGWYL",
+   "path": "wygwyl/",
+   "color": "#b39cf5",
+   "tag": "Where You Go When You Leave \u00b7 the cel layer",
+   "line": "The poet as a jointed paper cut-out made from his own photographs, set over the cineosis-lab cel cuts with the reading on the soundtrack. Every patch is built from the lab's cel database."
+  }
+ ],
+ "characters": [
+  {
+   "program": "family",
+   "id": "bola",
+   "name": "Bola",
+   "img": "bola-front.png",
+   "turn": "bola-turnaround.png",
+   "spec": "yellow \u00b7 red shoes \u00b7 a bola on a cord for an antenna",
+   "line": "The lead dummy. Bola takes the physical, opens the letter, misses the stair and walks into every archive clip in the atlas."
+  },
+  {
+   "program": "family",
+   "id": "shim",
+   "name": "Shim",
+   "img": "shim-front.png",
+   "turn": "shim-turnaround.png",
+   "spec": "teal \u00b7 blue shoes \u00b7 six per cent taller than Bola",
+   "line": "Bola's partner. Shim holds the door, takes the hug, carries the heavy end and stands beside Bola in the screening room."
+  },
+  {
+   "program": "family",
+   "id": "dot",
+   "name": "Dot",
+   "img": "dot-front.png",
+   "turn": "dot-turnaround.png",
+   "spec": "coral \u00b7 black shoes \u00b7 seventy-two per cent of Bola's size",
+   "line": "Little Dot. She is lifted, carried and passed between the other two, and she runs under what they have to step over."
+  },
+  {
+   "program": "family",
+   "id": "extras",
+   "name": "The extras",
+   "img": "extra-front.png",
+   "turn": "extra-turnaround.png",
+   "spec": "grey test dummies \u00b7 six sizes",
+   "line": "The crowd of grey dummies who fill the CINEOSIS worlds: queues, parades, audiences, the people Bola walks through."
+  },
+  {
+   "program": "cineosis",
+   "id": "critic",
+   "name": "The Critic",
+   "img": "critic-front.png",
+   "turn": "critic-turnaround.png",
+   "spec": "lilac \u00b7 blindfolded",
+   "line": "The fresh reviewer, made a character in Hand Butter. He wears a blindfold because he sees the pictures but not what was meant, and he judges only what is on the screen."
+  },
+  {
+   "program": "odyssey",
+   "id": "odysseus",
+   "name": "Odysseus",
+   "img": "ody-odysseus.png",
+   "line": "The man of many turns. Every episode is his, and every costume below is drawn on his body."
+  },
+  {
+   "program": "odyssey",
+   "id": "odysseus-vase",
+   "name": "Odysseus, black-figure",
+   "img": "ody-odysseus-vase.png",
+   "line": "The vase-painting style used for title cards and flashbacks: every fill black, every line incised."
+  },
+  {
+   "program": "odyssey",
+   "id": "crew",
+   "name": "The crew",
+   "img": "ody-crew.png",
+   "line": "His companions, who open the bag of winds, eat the cattle and are turned into pigs."
+  },
+  {
+   "program": "odyssey",
+   "id": "polyphemus",
+   "name": "Polyphemus",
+   "img": "ody-polyphemus.png",
+   "line": "The Cyclops of Episodes 1 and 2, who asks the hero's name and is told \"Nobody\"."
+  },
+  {
+   "program": "odyssey",
+   "id": "zeus",
+   "name": "Zeus",
+   "img": "ody-zeus.png",
+   "line": "Decides by stamping a rubber stamp on the screen where the gods watch Odysseus (Episode 3)."
+  },
+  {
+   "program": "odyssey",
+   "id": "hermes",
+   "name": "Hermes",
+   "img": "ody-hermes.png",
+   "line": "Sent to Calypso's island (Episode 3); flickers like an unsettled projection as he brings the moly (Episode 4)."
+  },
+  {
+   "program": "odyssey",
+   "id": "calypso",
+   "name": "Calypso",
+   "img": "ody-calypso.png",
+   "line": "Keeps Odysseus on her island for seven years and builds the raft that takes him off (Episode 3)."
+  },
+  {
+   "program": "odyssey",
+   "id": "poseidon",
+   "name": "Poseidon",
+   "img": "ody-poseidon.png",
+   "line": "The god who wrecks the raft (Episode 3)."
+  },
+  {
+   "program": "odyssey",
+   "id": "circe",
+   "name": "Circe",
+   "img": "ody-circe.png",
+   "line": "Her cup and wand fail against the moly; on \"You are Odysseus\" the wand drops from her hand (Episodes 4 and 6)."
+  },
+  {
+   "program": "odyssey",
+   "id": "athena",
+   "name": "Athena",
+   "img": "ody-athena.png",
+   "line": "Compiles herself from grey box to ink to colour on the shore of Ithaca (Episode 7)."
+  },
+  {
+   "program": "odyssey",
+   "id": "tiresias",
+   "name": "Tiresias",
+   "img": "ody-tiresias.png",
+   "line": "The blind seer: he drinks, gets his colour, and warns him off the herds of the Sun (Episode 5)."
+  },
+  {
+   "program": "odyssey",
+   "id": "anticleia",
+   "name": "Anticleia",
+   "img": "ody-anticleia.png",
+   "line": "His mother. He tries three times to hold her, and each time his arms close through her (Episode 5)."
+  },
+  {
+   "program": "odyssey",
+   "id": "agamemnon",
+   "name": "Agamemnon",
+   "img": "ody-agamemnon.png",
+   "line": "The king who never blinks; Odysseus draws his eyelids down for him, and they stay open (Episode 5)."
+  },
+  {
+   "program": "odyssey",
+   "id": "achilles",
+   "name": "Achilles",
+   "img": "ody-achilles.png",
+   "line": "Drinks in a white field, and his colour leaves with him as he strides away (Episode 5)."
+  },
+  {
+   "program": "odyssey",
+   "id": "ajax",
+   "name": "Ajax",
+   "img": "ody-ajax.png",
+   "line": "Stands apart the whole time, never drinks, and goes away in silence (Episode 5)."
+  },
+  {
+   "program": "odyssey",
+   "id": "sisyphus",
+   "name": "Sisyphus",
+   "img": "ody-sisyphus.png",
+   "line": "After the credits of Episode 5 his stone gets away from him and rolls back down past him."
+  },
+  {
+   "program": "odyssey",
+   "id": "oldbeggar",
+   "name": "Odysseus, the old beggar",
+   "img": "ody-oldbeggar.png",
+   "line": "The disguise Athena puts on him, skin, hair, eyes and rags, one part per word (Episode 7)."
+  },
+  {
+   "program": "wygwyl",
+   "id": "poet",
+   "name": "The poet",
+   "img": "poet-puppet.png",
+   "spec": "a jointed paper cut-out from his own photograph \u00b7 brass pins \u00b7 paper hands",
+   "line": "Cut into eleven pieces along his bones and moved by the rig like paper on a table. Replacement heads come from every photograph of him."
+  },
+  {
+   "program": "wygwyl",
+   "id": "poet-heads",
+   "name": "The replacement heads",
+   "img": "poet-puppet-street.png",
+   "spec": "six heads, mirrored to twelve turns",
+   "line": "Front, three-quarter and profile heads, the head bowed in red light, the hand at the glasses and the camera held to the face, chosen frame by frame from the rig's turn and her words."
+  }
+ ],
+ "lab": [
+  {
+   "id": "pencil-test",
+   "program": "family",
+   "title": "Bolas Pencil Test",
+   "src": "01-pencil-test/index.html",
+   "film": "bolas-videotext",
+   "line": "The three experiments of From Imagetext to Worldtext acted out by ball-and-cord figures, the text beside the action, beat by beat, with a skeletal gate and an X-sheet."
+  },
+  {
+   "id": "range-test",
+   "program": "family",
+   "title": "Bolas Range Test",
+   "src": "02-range-test/index.html",
+   "extra": [
+    "02-range-test/movenet.js"
+   ],
+   "line": "54 motions that push one skeleton to the end of every joint's range, scored like a fitness assessment. Video \u2192 Bolas turns a clip of any person into the same skeleton and the same report."
+  },
+  {
+   "id": "the-physical",
+   "program": "family",
+   "title": "The Physical",
+   "src": "03-the-physical/index.html",
+   "film": "the-physical",
+   "line": "Bola reports for a physical: 47 cartoon proofs in six acts, with the joints each proof drives audited underneath."
+  },
+  {
+   "id": "crash-lab",
+   "program": "family",
+   "title": "Dramaturgy Crash Lab",
+   "src": "04-crash-lab/index.html",
+   "extra": [
+    "04-crash-lab/all-worlds.html"
+   ],
+   "film": "crash-lab-film",
+   "line": "132 vignettes for the family in a measured bay, each a small drama and a crash test, then CINEOSIS over 59 more worlds. All-worlds holds the full rig with every world built since, 159 in all."
+  }
+ ],
+ "films": [
+  {
+   "id": "bolas-videotext",
+   "program": "family",
+   "title": "Bolas \u00b7 videotext",
+   "src": "bolas-videotext.mp4",
+   "date": "2026-10-16",
+   "chars": [
+    "pencil figures"
+   ],
+   "line": "Three experiments from From Imagetext to Worldtext, acted by ball-and-cord figures: a call that builds a doorway, a door that needs somewhere to lead, and a pile of matches sorted into reasons.",
+   "dur": 36.541667,
+   "mb": 1,
+   "file": "media/films/bolas-videotext.mp4",
+   "thumb": "media/thumbs/bolas-videotext.jpg",
+   "poster": "media/posters/bolas-videotext.jpg"
+  },
+  {
+   "id": "the-physical",
+   "program": "family",
+   "title": "The Physical",
+   "src": "the-physical.mp4",
+   "date": "2026-10-16",
+   "chars": [
+    "bola"
+   ],
+   "line": "Bola reports for a physical and every test goes wrong in a cartoon way: 47 proofs in six acts that one skeleton can walk, reach, lift, slip, sulk and swoon.",
+   "dur": 207.833333,
+   "mb": 10,
+   "file": "media/films/the-physical.mp4",
+   "thumb": "media/thumbs/the-physical.jpg",
+   "poster": "media/posters/the-physical.jpg"
+  },
+  {
+   "id": "crash-lab-film",
+   "program": "family",
+   "title": "Crash Lab",
+   "src": "crash-lab-film.mp4",
+   "date": "2026-10-16",
+   "chars": [
+    "bola",
+    "shim",
+    "dot"
+   ],
+   "line": "132 vignettes in a measured bay: letters opened, shoulders touched, doors pushed, stairs missed, and the 32 Acting Arena challenges, each scored for weight, feet, hands and contact.",
+   "dur": 1161.252993,
+   "mb": 44,
+   "file": "media/films/crash-lab-film.mp4",
+   "thumb": "media/thumbs/crash-lab-film.jpg",
+   "poster": "media/posters/crash-lab-film.jpg"
+  },
+  {
+   "id": "cineosis-crash-lab",
+   "program": "cineosis",
+   "title": "CINEOSIS \u00b7 in the crash lab",
+   "src": "cineosis-crash-lab.mp4",
+   "date": "2026-10-17",
+   "notes": "cineosis-findings.md",
+   "chars": [
+    "bola",
+    "shim",
+    "dot",
+    "extras"
+   ],
+   "line": "The family performs all 45 signs over 59 measured worlds, each sign its own shot list of cameras, cuts, mirrors and time maps.",
+   "dur": 851.266009,
+   "mb": 41,
+   "file": "media/films/cineosis-crash-lab.mp4",
+   "thumb": "media/thumbs/cineosis-crash-lab.jpg",
+   "poster": "media/posters/cineosis-crash-lab.jpg"
+  },
+  {
+   "id": "cineosis-hybrid-pilot",
+   "program": "cineosis",
+   "title": "CINEOSIS \u00b7 hybrid pilot",
+   "src": "cineosis-hybrid-pilot.mp4",
+   "date": "2026-10-17",
+   "notes": "cineosis-hybrid-validation.md",
+   "chars": [
+    "bola",
+    "shim",
+    "dot"
+   ],
+   "line": "Six signs, six real archive clips: the dummies fitted by hand into each plate's camera, light and occlusion, from a lamplit desk to a moving raft.",
+   "dur": 71.555011,
+   "mb": 4,
+   "file": "media/films/cineosis-hybrid-pilot.mp4",
+   "thumb": "media/thumbs/cineosis-hybrid-pilot.jpg",
+   "poster": "media/posters/cineosis-hybrid-pilot.jpg"
+  },
+  {
+   "id": "cineosis-hybrid-atlas",
+   "program": "cineosis",
+   "title": "CINEOSIS \u00b7 hybrid atlas",
+   "src": "cineosis-hybrid-atlas.mp4",
+   "date": "2026-10-18",
+   "notes": "cineosis-hybrid-atlas-report.md",
+   "chars": [
+    "bola"
+   ],
+   "line": "84 passages across all 45 signs: an automatic pipeline picks two archive clips per sign, finds the ground, and walks Bola into each one.",
+   "dur": 721.641995,
+   "mb": 49,
+   "file": "media/films/cineosis-hybrid-atlas.mp4",
+   "thumb": "media/thumbs/cineosis-hybrid-atlas.jpg",
+   "poster": "media/posters/cineosis-hybrid-atlas.jpg"
+  },
+  {
+   "id": "cineosis-handmade-film",
+   "program": "cineosis",
+   "title": "CINEOSIS \u00b7 handmade",
+   "src": "cineosis-handmade-film.mp4",
+   "date": "2026-10-18",
+   "notes": "cineosis-handmade-validation.md",
+   "chars": [
+    "bola",
+    "shim"
+   ],
+   "line": "Every sign authored by hand over unaltered archive clips, two passages per sign, each reviewed blind by a fresh critic.",
+   "dur": 1306.416667,
+   "mb": 67,
+   "file": "media/films/cineosis-handmade-film.mp4",
+   "thumb": "media/thumbs/cineosis-handmade-film.jpg",
+   "poster": "media/posters/cineosis-handmade-film.jpg"
+  },
+  {
+   "id": "cineosis-hand-butter",
+   "program": "cineosis",
+   "title": "CINEOSIS \u00b7 Hand Butter",
+   "src": "cineosis-hand-butter.mp4",
+   "date": "2026-10-18",
+   "notes": "cineosis-hand-butter-notes.md",
+   "chars": [
+    "bola",
+    "shim",
+    "critic"
+   ],
+   "line": "The making-of, performed in a screening room by the film's own cast: Bola and Shim show their work, and a blindfolded Critic judges the pictures without knowing what was meant.",
+   "dur": 241.278005,
+   "mb": 9,
+   "file": "media/films/cineosis-hand-butter.mp4",
+   "thumb": "media/thumbs/cineosis-hand-butter.jpg",
+   "poster": "media/posters/cineosis-hand-butter.jpg"
+  },
+  {
+   "id": "cineosis-handmade-batch1",
+   "program": "cineosis",
+   "title": "Handmade \u00b7 first batch",
+   "src": "cineosis-handmade-batch1.mp4",
+   "date": "2026-10-18",
+   "kind": "reel",
+   "chars": [
+    "bola"
+   ],
+   "line": "The first hand-authored passages, before the first blind review.",
+   "dur": 51.916667,
+   "mb": 3,
+   "file": "media/films/cineosis-handmade-batch1.mp4",
+   "thumb": "media/thumbs/cineosis-handmade-batch1.jpg",
+   "poster": "media/posters/cineosis-handmade-batch1.jpg"
+  },
+  {
+   "id": "cineosis-handmade-signs1-8",
+   "program": "cineosis",
+   "title": "Handmade \u00b7 signs 1\u20138",
+   "src": "cineosis-handmade-signs1-8.mp4",
+   "date": "2026-10-18",
+   "kind": "reel",
+   "chars": [
+    "bola",
+    "shim"
+   ],
+   "line": "Review reel of the handmade passages for signs 1 to 8.",
+   "dur": 210.479002,
+   "mb": 11,
+   "file": "media/films/cineosis-handmade-signs1-8.mp4",
+   "thumb": "media/thumbs/cineosis-handmade-signs1-8.jpg",
+   "poster": "media/posters/cineosis-handmade-signs1-8.jpg"
+  },
+  {
+   "id": "cineosis-handmade-signs13-41",
+   "program": "cineosis",
+   "title": "Handmade \u00b7 signs 13\u201341",
+   "src": "cineosis-handmade-signs13-41.mp4",
+   "date": "2026-10-18",
+   "kind": "reel",
+   "chars": [
+    "bola",
+    "shim"
+   ],
+   "line": "Review reel of the handmade passages for signs 13 to 41.",
+   "dur": 717.067007,
+   "mb": 39,
+   "file": "media/films/cineosis-handmade-signs13-41.mp4",
+   "thumb": "media/thumbs/cineosis-handmade-signs13-41.jpg",
+   "poster": "media/posters/cineosis-handmade-signs13-41.jpg"
+  },
+  {
+   "id": "ep1-nobody",
+   "program": "odyssey",
+   "title": "Episode 1 \u00b7 NOBODY",
+   "src": "the-found-odyssey-ep1-nobody.mp4",
+   "date": "2026-10-18",
+   "notes": "the-found-odyssey-ep1-notes.md",
+   "ep": 1,
+   "chars": [
+    "odysseus",
+    "polyphemus"
+   ],
+   "line": "Book 9 in three minutes: a prompt box asks for the hero's name, the archive asks for \"our young friend's\", and Odysseus answers \"Nobody.\"",
+   "dur": 207.136009,
+   "mb": 16,
+   "file": "media/films/ep1-nobody.mp4",
+   "thumb": "media/thumbs/ep1-nobody.jpg",
+   "poster": "media/posters/ep1-nobody.jpg"
+  },
+  {
+   "id": "ep2-the-guest-gift",
+   "program": "odyssey",
+   "title": "Episode 2 \u00b7 THE GUEST-GIFT",
+   "src": "the-found-odyssey-ep2-the-guest-gift.mp4",
+   "date": "2026-10-18",
+   "notes": "the-found-odyssey-ep2-notes.md",
+   "ep": 2,
+   "chars": [
+    "odysseus",
+    "polyphemus",
+    "crew"
+   ],
+   "line": "The Cyclops again, as a flashback at the Phaeacian feast, told by two tellers who remember it differently. The experiment: the recollection-image.",
+   "dur": 509.889002,
+   "mb": 46,
+   "file": "media/films/ep2-the-guest-gift.mp4",
+   "thumb": "media/thumbs/ep2-the-guest-gift.jpg",
+   "poster": "media/posters/ep2-the-guest-gift.jpg"
+  },
+  {
+   "id": "ep3-the-raft",
+   "program": "odyssey",
+   "title": "Episode 3 \u00b7 THE RAFT",
+   "src": "the-found-odyssey-ep3-the-raft.mp4",
+   "date": "2026-10-18",
+   "notes": "the-found-odyssey-ep3-notes.md",
+   "ep": 3,
+   "chars": [
+    "odysseus",
+    "zeus",
+    "hermes",
+    "calypso",
+    "poseidon"
+   ],
+   "line": "Book 5 as one story, each act seen from the point of view of whoever is watching it: the gods on their television, Calypso, Poseidon, the sea.",
+   "dur": 501.345011,
+   "mb": 39,
+   "file": "media/films/ep3-the-raft.mp4",
+   "thumb": "media/thumbs/ep3-the-raft.jpg",
+   "poster": "media/posters/ep3-the-raft.jpg"
+  },
+  {
+   "id": "ep4-circe",
+   "program": "odyssey",
+   "title": "Episode 4 \u00b7 CIRCE",
+   "src": "the-found-odyssey-ep4-circe.mp4",
+   "date": "2026-10-18",
+   "notes": "the-found-odyssey-ep4-notes.md",
+   "ep": 4,
+   "chars": [
+    "odysseus",
+    "crew",
+    "circe",
+    "hermes"
+   ],
+   "line": "Book 10 re-cut around one line per scene, the place where power shifts: the Laestrygonians, Circe, and the order to sail to the house of Death.",
+   "dur": 389.615011,
+   "mb": 37,
+   "file": "media/films/ep4-circe.mp4",
+   "thumb": "media/thumbs/ep4-circe.jpg",
+   "poster": "media/posters/ep4-circe.jpg"
+  },
+  {
+   "id": "ep5-the-blood",
+   "program": "odyssey",
+   "title": "Episode 5 \u00b7 THE BLOOD",
+   "src": "the-found-odyssey-ep5-the-blood.mp4",
+   "date": "2026-10-19",
+   "notes": "the-found-odyssey-ep5-notes.md",
+   "ep": 5,
+   "chars": [
+    "odysseus",
+    "tiresias",
+    "anticleia",
+    "agamemnon",
+    "achilles",
+    "ajax",
+    "sisyphus"
+   ],
+   "line": "Book 11 in grey, where the only colour is the blood in the trench and whichever shade has drunk it.",
+   "dur": 454.918005,
+   "mb": 44,
+   "file": "media/films/ep5-the-blood.mp4",
+   "thumb": "media/thumbs/ep5-the-blood.jpg",
+   "poster": "media/posters/ep5-the-blood.jpg"
+  },
+  {
+   "id": "ep6-the-knot",
+   "program": "odyssey",
+   "title": "Episode 6 \u00b7 THE KNOT",
+   "src": "the-found-odyssey-ep6-the-knot.mp4",
+   "date": "2026-10-19",
+   "notes": "the-found-odyssey-ep6-notes.md",
+   "ep": 6,
+   "chars": [
+    "odysseus",
+    "crew",
+    "circe"
+   ],
+   "line": "Book 12, built on hands that hold things: the mast, the cord, the oar. A held object is drawn inside the grip: palm, object, fingers, thumb.",
+   "dur": 424.819637,
+   "mb": null,
+   "file": "media/films/ep6-the-knot.mp4",
+   "thumb": "media/thumbs/ep6-the-knot.jpg",
+   "poster": "media/posters/ep6-the-knot.jpg"
+  },
+  {
+   "id": "ep7-the-loop",
+   "program": "odyssey",
+   "title": "Episode 7 \u00b7 THE LOOP",
+   "src": "the-found-odyssey-ep7-the-loop.mp4",
+   "date": "2026-10-19",
+   "notes": "the-found-odyssey-ep7-notes.md",
+   "ep": 7,
+   "chars": [
+    "odysseus",
+    "athena",
+    "oldbeggar"
+   ],
+   "line": "Book 13 as a loop: seven agents try to land the sleeping man on Ithaca and fail, until a grip holds, Athena compiles, and the old beggar is put together part by part.",
+   "dur": 407.543991,
+   "mb": null,
+   "file": "media/films/ep7-the-loop.mp4",
+   "thumb": "media/thumbs/ep7-the-loop.jpg",
+   "poster": "media/posters/ep7-the-loop.jpg"
+  },
+  {
+   "id": "found-odyssey-drawn-tests",
+   "program": "odyssey",
+   "title": "Drawn tests \u00b7 NOBODY, THE SIRENS, ARGOS",
+   "src": "found-odyssey-drawn-tests.mp4",
+   "date": "2026-10-18",
+   "notes": "found-odyssey-drawn-tests-notes.md",
+   "kind": "test",
+   "chars": [
+    "odysseus"
+   ],
+   "line": "The first three drawn shots: figures in archive plates, Homer asked by the CALL track and answered by archive speech.",
+   "dur": 115.861995,
+   "mb": 10,
+   "file": "media/films/found-odyssey-drawn-tests.mp4",
+   "thumb": "media/thumbs/found-odyssey-drawn-tests.jpg",
+   "poster": "media/posters/found-odyssey-drawn-tests.jpg"
+  },
+  {
+   "id": "found-odyssey-style-lab",
+   "program": "odyssey",
+   "title": "Style lab",
+   "src": "found-odyssey-style-lab.mp4",
+   "date": "2026-10-18",
+   "notes": "found-odyssey-drawn-v2-notes.md",
+   "kind": "test",
+   "chars": [
+    "odysseus"
+   ],
+   "line": "Six ways for the drawing to meet the footage, from clean ink to matched film stock, played over the same two beats.",
+   "dur": 113.791667,
+   "mb": 11,
+   "file": "media/films/found-odyssey-style-lab.mp4",
+   "thumb": "media/thumbs/found-odyssey-style-lab.jpg",
+   "poster": "media/posters/found-odyssey-style-lab.jpg"
+  },
+  {
+   "id": "found-odyssey-drawn-v2",
+   "program": "odyssey",
+   "title": "Drawn tests \u00b7 second pass",
+   "src": "found-odyssey-drawn-v2.mp4",
+   "date": "2026-10-18",
+   "kind": "test",
+   "chars": [
+    "odysseus"
+   ],
+   "line": "The chosen style applied to the three test shots.",
+   "dur": 160.07,
+   "mb": 13,
+   "file": "media/films/found-odyssey-drawn-v2.mp4",
+   "thumb": "media/thumbs/found-odyssey-drawn-v2.jpg",
+   "poster": "media/posters/found-odyssey-drawn-v2.jpg"
+  },
+  {
+   "id": "ep2-draft-opening",
+   "program": "odyssey",
+   "title": "Episode 2 \u00b7 draft opening",
+   "src": "ep2-draft-opening.mp4",
+   "date": "2026-10-18",
+   "kind": "test",
+   "chars": [
+    "odysseus"
+   ],
+   "line": "First cut of Episode 2's cold open and title.",
+   "dur": 89.007719,
+   "mb": 8,
+   "file": "media/films/ep2-draft-opening.mp4",
+   "thumb": "media/thumbs/ep2-draft-opening.jpg",
+   "poster": "media/posters/ep2-draft-opening.jpg"
+  },
+  {
+   "id": "wygwyl-poem07-paper-poet",
+   "program": "wygwyl",
+   "title": "Poem 07",
+   "src": "wygwyl-poem07-paper-poet.mp4",
+   "date": "2026-10-20",
+   "chars": [
+    "poet",
+    "poet-heads"
+   ],
+   "line": "Poem 07, all twelve patches, made by the automatic pipeline: gestures cued by the words, heads chosen by the rig, plates made from his photographs.",
+   "dur": 98.708333,
+   "mb": null,
+   "file": "media/films/wygwyl-poem07-paper-poet.mp4",
+   "thumb": "media/thumbs/wygwyl-poem07-paper-poet.jpg",
+   "poster": "media/posters/wygwyl-poem07-paper-poet.jpg"
+  },
+  {
+   "id": "wygwyl-poet-paper-proof",
+   "program": "wygwyl",
+   "title": "The paper poet \u00b7 first proof",
+   "src": "wygwyl-poet-paper-proof.mp4",
+   "date": "2026-10-19",
+   "chars": [
+    "poet"
+   ],
+   "line": "The poet as a jointed paper cut-out from his own photograph, over his Mexico City plates, with each patch's archive cel framed on a cardboard plinth.",
+   "dur": 25.208333,
+   "mb": null,
+   "file": "media/films/wygwyl-poet-paper-proof.mp4",
+   "thumb": "media/thumbs/wygwyl-poet-paper-proof.jpg",
+   "poster": "media/posters/wygwyl-poet-paper-proof.jpg"
+  },
+  {
+   "id": "wygwyl-celstyle-proof",
+   "program": "wygwyl",
+   "title": "Cel-cut style proof",
+   "src": "wygwyl-celstyle-proof.mp4",
+   "date": "2026-10-19",
+   "kind": "test",
+   "line": "Two looks over the lab's cel cuts: a faceless figure under one hard light, and 1930s rubber hose on watercolour.",
+   "dur": 31.041667,
+   "mb": null,
+   "file": "media/films/wygwyl-celstyle-proof.mp4",
+   "thumb": "media/thumbs/wygwyl-celstyle-proof.jpg",
+   "poster": "media/posters/wygwyl-celstyle-proof.jpg"
+  },
+  {
+   "id": "wygwyl-inkcel-P05-008",
+   "program": "wygwyl",
+   "title": "Ink cel \u00b7 P05-008",
+   "src": "wygwyl-inkcel-P05-008.mp4",
+   "date": "2026-10-19",
+   "kind": "test",
+   "line": "The first ink cel for WYGWYL: \"Their blood flows through my hands.\"",
+   "dur": 8.75,
+   "mb": null,
+   "file": "media/films/wygwyl-inkcel-P05-008.mp4",
+   "thumb": "media/thumbs/wygwyl-inkcel-P05-008.jpg",
+   "poster": "media/posters/wygwyl-inkcel-P05-008.jpg"
+  }
+ ],
+ "process": [
+  {
+   "id": "pencil-test",
+   "title": "Bolas pencil test",
+   "program": "family",
+   "count": 17
+  },
+  {
+   "id": "range-test",
+   "title": "Bolas range test",
+   "program": "family",
+   "count": 18
+  },
+  {
+   "id": "the-physical",
+   "title": "The Physical",
+   "program": "family",
+   "count": 31
+  },
+  {
+   "id": "crash-lab",
+   "title": "Dramaturgy Crash Lab",
+   "program": "family",
+   "count": 21
+  },
+  {
+   "id": "cineosis-crash-lab",
+   "title": "CINEOSIS in the crash lab",
+   "program": "cineosis",
+   "count": 45
+  },
+  {
+   "id": "hybrid-pilot",
+   "title": "Hybrid pilot",
+   "program": "cineosis",
+   "count": 77
+  },
+  {
+   "id": "hybrid-atlas",
+   "title": "Hybrid atlas",
+   "program": "cineosis",
+   "count": 44
+  },
+  {
+   "id": "handmade",
+   "title": "Handmade CINEOSIS",
+   "program": "cineosis",
+   "count": 145
+  },
+  {
+   "id": "hand-butter",
+   "title": "Hand Butter",
+   "program": "cineosis",
+   "count": 17
+  },
+  {
+   "id": "fo-tests",
+   "title": "Found Odyssey drawn tests and style lab",
+   "program": "odyssey",
+   "count": 39
+  },
+  {
+   "id": "fo-ep1",
+   "title": "Episode 1 \u00b7 NOBODY",
+   "program": "odyssey",
+   "count": 8
+  },
+  {
+   "id": "fo-ep2",
+   "title": "Episode 2 \u00b7 THE GUEST-GIFT",
+   "program": "odyssey",
+   "count": 22
+  },
+  {
+   "id": "fo-ep3",
+   "title": "Episode 3 \u00b7 THE RAFT",
+   "program": "odyssey",
+   "count": 16
+  },
+  {
+   "id": "fo-ep4",
+   "title": "Episode 4 \u00b7 CIRCE",
+   "program": "odyssey",
+   "count": 16
+  },
+  {
+   "id": "fo-ep5",
+   "title": "Episode 5 \u00b7 THE BLOOD",
+   "program": "odyssey",
+   "count": 21
+  },
+  {
+   "id": "fo-ep6",
+   "title": "Episode 6 \u00b7 THE KNOT",
+   "program": "odyssey",
+   "count": 34
+  },
+  {
+   "id": "fo-ep7",
+   "title": "Episode 7 \u00b7 THE LOOP",
+   "program": "odyssey",
+   "count": 12
+  },
+  {
+   "id": "wygwyl",
+   "title": "WYGWYL cels and the paper poet",
+   "program": "wygwyl",
+   "count": 31
+  }
+ ]
+}

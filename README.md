@@ -1,17 +1,21 @@
 # CRASH LAB
 
-Bolas · department of dramaturgical crash testing. Live site: https://hartswf0.github.io/bolas/
+Bolas · department of dramaturgical crash testing. Experiments in authored motion. Figures keyed by hand in a rig, measured like crash-test dummies, and set into archive film.
 
-| # | Section | What it is |
-|---|---|---|
-| 01 | [Bolas Pencil Test](01-pencil-test/) | From Imagetext to Worldtext acted out by ball-and-cord figures (interactive + film) |
-| 02 | [Bolas Range Test](02-range-test/) | 54 range-of-motion tests; Video → Bolas pose extraction in the browser (MoveNet) |
-| 03 | [The Physical](03-the-physical/) | 47 cartoon proofs in six acts, with a translation audit (interactive + film) |
-| 04 | [Dramaturgy Crash Lab](04-crash-lab/) | 132 measured vignettes and CINEOSIS, the 45 signs over 59 worlds (interactive + films) |
-| 05 | [CINEOSIS Hybrid Atlas](05-hybrid-atlas/) | The dummies in real archive clips: six-sign pilot, then 84 passages |
-| 06 | [CINEOSIS Hand Butter](06-hand-butter/) | The handmade CINEOSIS film, its review reels, and the making-of |
-| 07 | [The Found Odyssey](07-found-odyssey/) | Episodes 1–7 and the drawn tests |
-| 08 | [WYGWYL](wygwyl/) | The poet as a paper puppet over the cel cuts; poem 07 complete |
-| — | [Documents and prompts](docs/) | Prompts, production notes, validation records, independent reviews |
+Live: https://hartswf0.github.io/bolas/
 
-Films are web copies (960 px, H.264). The interactive pages are single HTML files with no build step.
+| Program | |
+|---|---|
+| [The Crash-Test Family](family/) | Three test dummies in a measured bay. Every touch, step and fall is scored for where the weight is, whether the feet hold and whether a hand lands where it was sent. |
+| [CINEOSIS](cineosis/) | The crash-test family performs the 45 signs of Deleuze's cinema books, after David Deamer's taxonomy: first in the measured bay, then inside real archive film, then by hand, and finally as a making-of with a blindfolded Critic. |
+| [The Found Odyssey](found-odyssey/) | Homer's lines are asked by the CALL track and answered by archive speech; a drawn cast acts in graded archive plates. Each episode runs one formal experiment. |
+| [WYGWYL](wygwyl/) | The poet as a jointed paper cut-out made from his own photographs, set over the cineosis-lab cel cuts with the reading on the soundtrack. Every patch is built from the lab's cel database. |
+
+- [Characters](characters/) · [Films](films/) (26) · [Process](process/) · [Docs and prompts](docs/)
+- Lab pages: [Bolas Pencil Test](lab/pencil-test/) · [Bolas Range Test](lab/range-test/) · [The Physical](lab/the-physical/) · [Dramaturgy Crash Lab](lab/crash-lab/)
+
+## How the site is built
+
+The site is generated from one catalog. `catalog.json` is its published form: programs, characters, films (with loglines,
+running times, thumbnails) and process stages. Pages, thumbnails and the sitemap are generated from it; adding a film is one
+catalog entry plus its file under `media/films/`.
