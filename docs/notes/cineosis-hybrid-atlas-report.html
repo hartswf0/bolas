@@ -1,12 +1,12 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Hybrid atlas · what scaling taught us · CRASH LAB</title><meta name="description" content="CRASH LAB documents and prompts."><link rel="canonical" href="https://hartswf0.github.io/bolas/docs/notes/cineosis-hybrid-atlas-report.html">
-<meta property="og:site_name" content="CRASH LAB"><meta property="og:title" content="Hybrid atlas · what scaling taught us"><meta property="og:description" content="CRASH LAB documents and prompts."><meta property="og:type" content="website"><meta property="og:url" content="https://hartswf0.github.io/bolas/docs/notes/cineosis-hybrid-atlas-report.html"><meta property="og:image" content="https://hartswf0.github.io/bolas/media/og.jpg">
+<!doctype html><html lang="en" data-root="../../"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>CINEOSIS · hybrid atlas · production notes · CRASH LAB</title><meta name="description" content="84 passages across all 45 signs: an automatic pipeline picks two archive clips per sign, finds the ground, and walks Bola into each one."><link rel="canonical" href="https://hartswf0.github.io/bolas/docs/notes/cineosis-hybrid-atlas-report.html">
+<meta property="og:site_name" content="CRASH LAB"><meta property="og:title" content="CINEOSIS · hybrid atlas · production notes"><meta property="og:description" content="84 passages across all 45 signs: an automatic pipeline picks two archive clips per sign, finds the ground, and walks Bola into each one."><meta property="og:type" content="website"><meta property="og:url" content="https://hartswf0.github.io/bolas/docs/notes/cineosis-hybrid-atlas-report.html"><meta property="og:image" content="https://hartswf0.github.io/bolas/media/thumbs/cineosis-hybrid-atlas.jpg">
 <meta name="twitter:card" content="summary_large_image"><meta name="theme-color" content="#0b0d10">
 <link rel="icon" href="../../favicon.svg" type="image/svg+xml"><link rel="icon" href="../../favicon-32.png" sizes="32x32"><link rel="apple-touch-icon" href="../../apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800;900&family=JetBrains+Mono:wght@400;600&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&display=swap" rel="stylesheet"><link rel="stylesheet" href="../../assets/site.css"></head><body>
-<header class="top"><a class="brand" href="../../"><img src="../../favicon.svg" alt="" width="28" height="28"><span>CRASH LAB</span></a><nav><a href="../../family/">The Family</a><a href="../../cineosis/">CINEOSIS</a><a href="../../found-odyssey/">The Found Odyssey</a><a href="../../wygwyl/">WYGWYL</a><a href="../../characters/">Characters</a><a href="../../films/">Films</a><a href="../../process/">Process</a><a href="../../docs/" aria-current=page>Docs</a></nav></header>
-<main class="wrap"><p class="crumbs"><a href="../../">Home</a> / <a href="../../docs/">Docs</a> / Hybrid atlas · what scaling taught us</p><p class="eyebrow">Notes · <a href="cineosis-hybrid-atlas-report.md">cineosis-hybrid-atlas-report.md</a></p><div class="md"><h1>CINEOSIS hybrid atlas: what scaling taught us</h1>
-<p>This round built 84 passages across all 45 signs:</p>
+<header class="top"><a class="brand" href="../../"><img src="../../favicon.svg" alt="" width="28" height="28"><span>CRASH LAB</span></a><nav><a href="../../lab/">Try it</a><a href="../../family/">The Family</a><a href="../../cineosis/">CINEOSIS</a><a href="../../found-odyssey/">The Found Odyssey</a><a href="../../wygwyl/">WYGWYL</a><a href="../../films/">Films</a><a href="../../characters/">Characters</a><a href="../../process/">How it was made</a></nav></header>
+<main class="wrap"><p class="crumbs"><a href="../../">Home</a> / <a href="../../docs/">Docs</a> / CINEOSIS · hybrid atlas</p><section class="hero"><p class="eyebrow">Production notes</p><h1 class="ft">CINEOSIS · hybrid atlas</h1><p class="lede">84 passages across all 45 signs: an automatic pipeline picks two archive clips per sign, finds the ground, and walks Bola into each one. <a href="../../films/cineosis-hybrid-atlas/">Watch the film</a>.</p></section><section class="notes" style="--cam:clamp(100px,11vw,150px)"><aside class="guide"><div class="gbox"><p class="gsay">A machine placed her. 38 per cent worked. I&#x27;ll walk you through how this was made. Click any frame to play the film from that moment.</p><div class="stand"><span class="cam gs" data-who="critic" data-c="critic-point" data-say="[]"></span></div></div></aside>
+<div class="ncontent"><p class="eyebrow nsec nintro" data-say="A machine placed her. 38 per cent worked. I&#x27;ll walk you through how this was made. Click any frame to play the film from that moment." data-pose="wave">Production notes · CINEOSIS hybrid atlas: what scaling taught us</p><p>This round built 84 passages across all 45 signs:</p>
 <ul>
 <li><strong>78 automatic passages</strong>, two new plates for every sign apart from the six pilot signs.</li>
 <li><strong>6 pilot passages</strong>, carried over from the pilot.</li>
@@ -16,9 +16,7 @@
 <li>a survey of the whole film</li>
 <li>start, middle and end strips for all 78 automatic passages</li>
 <li>consecutive-frame crops of 6 passages</li>
-</ul>
-<h2>The automatic pipeline (per plate, no hand placement)</h2>
-<ol>
+</ul><nav class="ntoc"><a href="#n1">The automatic pipeline (per plate, no hand placement)</a><a href="#n2">Result, by the critic&#x27;s count</a><a href="#n3">What fails, and how often</a><a href="#n4">Next fixes, ranked by passages lifted</a><a href="#nsheets">Sheets</a></nav><section class="nsec" id="n1" data-say="How one passage is put together, step by step." data-pose="wave"><h2>The automatic pipeline (per plate, no hand placement)</h2><p class="gline">How one passage is put together, step by step.</p><ol>
 <li><strong>Plate choice.</strong> Take the two best-scoring examples per sign, then trim each to its longest cut-free segment (up to 8.5 s).</li>
 <li><strong>Analysis.</strong> For each plate, measure:
    - the picture area inside any black bars
@@ -37,9 +35,7 @@
    - The grade follows the plate: mono with a tint, or colour matched by saturation and white balance.
    - She is softened through the plate's native resolution and given grain.
    - Footsteps come from her foot contacts, mixed over the plate's own sound.</li>
-</ol>
-<h2>Result, by the critic's count</h2>
-<table>
+</ol></section><section class="nsec" id="n2" data-say="This is where the blind reviews come in." data-pose="jump"><h2>Result, by the critic&#x27;s count</h2><p class="gline">This is where the blind reviews come in.</p><table>
 <thead>
 <tr>
 <th></th>
@@ -74,8 +70,7 @@
 <td></td>
 </tr>
 </tbody>
-</table>
-<p><strong>Best in the atlas:</strong></p>
+</table><p><strong>Best in the atlas:</strong></p>
 <ul>
 <li><strong>18 Ma, a photographer on a dune:</strong> she stays locked to the sand through the camera tilt, with a matching shadow, at the photographer's scale. This is the reference plate for G mode.</li>
 <li><strong>20 En, a tractor:</strong> she scales correctly through the dolly-in.</li>
@@ -83,18 +78,14 @@
 <li><strong>8 Fe, the giant shoes:</strong> she is tiny beside them on the floor.</li>
 <li><strong>4 Ic, the boy's face:</strong> her shadow falls across the face.</li>
 <li><strong>16 Pl, the chorus line:</strong> a dancer's dress passes in front of her.</li>
-</ul>
-<h2>What fails, and how often</h2>
-<ol>
+</ul></section><section class="nsec" id="n3" data-say="What broke, and what was changed because of it." data-pose="shrug"><h2>What fails, and how often</h2><p class="gline">What broke, and what was changed because of it.</p><ol>
 <li><strong>Hidden cuts and dissolves inside plates: 37%.</strong> They are fatal in G and S, mostly harmless in P. Soft archival footage defeats ordinary scene detection.</li>
 <li><strong>Bola off frame or cut by the edge: about 13%.</strong> Causes: short trims, slow entries, a track that carries her out.</li>
 <li><strong>Wrong support or scale: about 12%, all in G.</strong> She stands at person height on a desk or console, or in crowds with no visible floor.</li>
 <li><strong>Occlusion matte errors: about 10%.</strong> She ghosts through people, is erased by the very surface she stands on, or nearer people pass behind her.</li>
 <li><strong>The track applied as rotation or shear on zoom and roll plates.</strong> Rare, but each case is the worst artifact in the atlas.</li>
 <li><strong>Plate mismatch: about 13%.</strong> Dark plates give her no visible contact, she is lit for day on night plates, and her yellow is too loud on tinted plates.</li>
-</ol>
-<h2>Next fixes, ranked by passages lifted</h2>
-<ol>
+</ol></section><section class="nsec" id="n4" data-say="What broke, and what was changed because of it." data-pose="shrug"><h2>Next fixes, ranked by passages lifted</h2><p class="gline">What broke, and what was changed because of it.</p><ol>
 <li>Shot segmentation tuned for soft footage, including dissolves. Then either trim to one shot or re-stage per shot. About 13 G/S passages lifted and about 14 P passages cleaned.</li>
 <li>Keep her in frame: at least 70% of the passage fully visible, entry finished within 1.5 s, and re-anchoring when the track drifts. About 10 lifted.</li>
 <li>Support and scale validation: feet only on floor-class pixels, scale checked against people, tabletops routed to S. About 9 lifted.</li>
@@ -113,6 +104,7 @@
 <ul>
 <li>P is the mode that survives cuts, so any plate that cannot be cleaned goes there.</li>
 <li>Open ground with a mid-distance person is where G works.</li>
-</ul></div></main>
-<footer class="foot"><div class="wrap"><p><b>CONSEQUENCE WORKS</b> · Watson Hartsoe · built with Claude</p><p>Every figure is keyed by hand in a rig and rendered from code. Archive footage comes from the cineosis-lab library and is credited inside each film. <a href="../../catalog.json">catalog.json</a> · <a href="../../sitemap.xml">sitemap</a> · <a href="https://github.com/hartswf0/bolas">source</a></p></div></footer>
+</ul></section><section class="nsec" id="nsheets" data-say="These are the sheets that were checked while this was made." data-pose="point"><h2>Sheets from the making</h2><div class="sheets"><a class="moment sheet" href="../../media/process/hybrid-atlas/hybrid-atlas-plates.jpg" data-lb><img src="../../media/process/hybrid-atlas/hybrid-atlas-plates.jpg" alt="atlas plates" loading="lazy"><span><b>sheet</b> atlas plates</span></a><a class="moment sheet" href="../../media/process/hybrid-atlas/hybrid-t-a1-1.jpg" data-lb><img src="../../media/process/hybrid-atlas/hybrid-t-a1-1.jpg" alt="t a1 1" loading="lazy"><span><b>sheet</b> t a1 1</span></a><a class="moment sheet" href="../../media/process/hybrid-atlas/hybrid-t-a1-2.jpg" data-lb><img src="../../media/process/hybrid-atlas/hybrid-t-a1-2.jpg" alt="t a1 2" loading="lazy"><span><b>sheet</b> t a1 2</span></a><a class="moment sheet" href="../../media/process/hybrid-atlas/hybrid-t-a3-1.jpg" data-lb><img src="../../media/process/hybrid-atlas/hybrid-t-a3-1.jpg" alt="t a3 1" loading="lazy"><span><b>sheet</b> t a3 1</span></a><a class="moment sheet" href="../../media/process/hybrid-atlas/hybrid-t-a4-2.jpg" data-lb><img src="../../media/process/hybrid-atlas/hybrid-t-a4-2.jpg" alt="t a4 2" loading="lazy"><span><b>sheet</b> t a4 2</span></a><a class="moment sheet" href="../../media/process/hybrid-atlas/hybrid-t-mix.jpg" data-lb><img src="../../media/process/hybrid-atlas/hybrid-t-mix.jpg" alt="t mix" loading="lazy"><span><b>sheet</b> t mix</span></a><a class="moment sheet" href="../../media/process/hybrid-atlas/hybrid-t-mix2.jpg" data-lb><img src="../../media/process/hybrid-atlas/hybrid-t-mix2.jpg" alt="t mix2" loading="lazy"><span><b>sheet</b> t mix2</span></a><a class="moment sheet" href="../../media/process/hybrid-atlas/hybrid-s105.jpg" data-lb><img src="../../media/process/hybrid-atlas/hybrid-s105.jpg" alt="s105" loading="lazy"><span><b>sheet</b> s105</span></a></div><p class=more><a href=../../process/hybrid-atlas/>The full case study</a></p></section></div></section></main>
+<footer class="foot"><div class="wrap"><p><b>CONSEQUENCE WORKS</b> · Watson Hartsoe · built with Claude</p><p>Every figure is keyed by hand in a rig and rendered from code. Archive footage comes from the cineosis-lab library and is credited inside each film. <a href="../../docs/">documents and prompts</a> · <a href="../../catalog.json">catalog.json</a> · <a href="../../sitemap.xml">sitemap</a> · <a href="https://github.com/hartswf0/bolas">source</a></p></div></footer>
+<script src="../../assets/cameo-data.js" defer></script><script src="../../assets/cameo.js" defer></script>
 </body></html>

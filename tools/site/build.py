@@ -223,6 +223,14 @@ def characters():
         body += section(PROG[pid]['title'], '<div class="chars">' + ''.join(char_card(c, up, pid in ('family', 'cineosis')) for c in cs) + '</div>', PROG[pid]['tag'])
     w(path, page(path, 'Characters', body, 'Every cast in CRASH LAB: the crash-test family, the Critic, The Found Odyssey and the paper poet.', 'media/cast/family-lineup.png', crumbs=[('Home', ''), ('Characters', None)]))
 
+import notes as NT, cases as CS
+STAGE_OF = {fid: sid for sid, k in CS.CASES.items() for fid in k.get('films', [])}
+def guided_notes(f, up, here):
+    sid = STAGE_OF.get(f['id']); imgs = PROC[sid]['images'] if sid in PROC else []
+    who = 'odysseus' if f['program'] == 'odyssey' else 'critic' if re.search(r'findings|validation|report|hand-butter', f['notes']) else 'bola'
+    h, n = NT.render(os.path.join(HOME, f['notes']), NT.Film(f['id'], f['dur']), f['id'], imgs, up, here, who, sid, CM.FILM.get(f['id'], {}).get(who, ''))
+    print('notes', f['id'], n, 'parts with pictures')
+    return h
 def films():
     path = 'films/index.html'; up = up_of(path); body = f'<section class="hero"><p class="eyebrow">Films</p><h1>Films<span class="stripe"></span></h1><p class="lede">{len(C.FILMS)} films, {mmss(sum(f["dur"] for f in C.FILMS))} in all, by program.</p></section>'
     for pid in ('family', 'cineosis', 'odyssey', 'wygwyl'):
@@ -231,7 +239,7 @@ def films():
     for f in C.FILMS:
         path = f'films/{f["id"]}/index.html'; up = up_of(path); p = PROG[f['program']]
         chars = ', '.join(f'<a href="{up}characters/#{c}">{esc(CHAR[c]["name"])}</a>' if c in CHAR else esc(c) for c in f.get('chars', [])) or '—'
-        notes = f'<details open><summary>Production notes</summary>{md(os.path.join(HOME, f["notes"]))}</details>' if f.get('notes') else ''
+        notes = guided_notes(f, up, True) if f.get('notes') else ''
         rel = [g for g in C.FILMS if g['program'] == f['program'] and g['id'] != f['id']][:4]
         prog_link = {'family': 'family/', 'cineosis': 'cineosis/', 'odyssey': 'found-odyssey/', 'wygwyl': 'wygwyl/'}[f['program']]
         video = f'<video controls preload="none" playsinline poster="{up}media/posters/{f["id"]}.jpg" src="{up}media/films/{f["id"]}.mp4"></video>' if f['ready'] else f'<img class="still" src="{up}media/posters/{f["id"]}.jpg" alt=""><p class="note">The web copy of this film is still being encoded.</p>'
@@ -358,6 +366,12 @@ def docs():
         if not m: continue
         rel = os.path.relpath(fp, R); title = re.search(r'<title>(.*?)</title>', t).group(1)
         w(rel, page(rel, html.unescape(title), m.group(1), 'CRASH LAB documents and prompts.', 'media/og.jpg', crumbs=[('Home', ''), ('Docs', 'docs/'), (html.unescape(title), None)] if not rel.endswith('docs/index.html') else [('Home', ''), ('Docs', None)]))
+
+    for f in C.FILMS:   # the notes pages under docs/ get the same guided read, with frames linking to the film
+        if not f.get('notes'): continue
+        rel = f'docs/notes/{f["notes"][:-3]}.html'; up = up_of(rel)
+        body = f'<section class="hero"><p class="eyebrow">Production notes</p><h1 class="ft">{esc(f["title"])}</h1><p class="lede">{esc(f["line"])} <a href="{up}films/{f["id"]}/">Watch the film</a>.</p></section>' + guided_notes(f, up, False)
+        w(rel, page(rel, f'{f["title"]} · production notes', body, f['line'], f'media/thumbs/{f["id"]}.jpg', crumbs=[('Home', ''), ('Docs', 'docs/'), (f['title'], None)]))
 
 def extras():
     urls = ['', 'lab/'] + [p['path'] for p in C.PROGRAMS] + ['found-odyssey/cast/', 'characters/', 'films/', 'process/', 'docs/'] + [f'films/{f["id"]}/' for f in C.FILMS] + [f'process/{s}/' for s in PROC] + [f'lab/{l["id"]}/' for l in C.LAB]

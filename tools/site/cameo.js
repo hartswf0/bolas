@@ -55,6 +55,26 @@
     v.addEventListener('ended', () => { cs.forEach(c => { c.classList.remove('watch'); pose(c, '-jump') || set(c, c.dataset.home); }); const t = talker(); t && say(t, D.end[t.dataset.who], 6000); });
   });
 
+  // production notes: the guide follows you down the page, and every frame plays the film from that moment
+  const notes = document.querySelector('.notes');
+  if (notes) {
+    const g = notes.querySelector('.cam.gs'), gs = notes.querySelector('.gsay'), who = g && g.dataset.who;
+    const secs = [...notes.querySelectorAll('.nsec')];
+    let last = null;
+    const show = el => { if (!el || el === last) return; last = el; const sec = el.closest('.nsec');
+      gs.textContent = el.dataset.say; gs.classList.remove('pop'); void gs.offsetWidth; gs.classList.add('pop');
+      const pose = el.dataset.pose || sec.dataset.pose; if (g) { const k = who + '-' + pose; set(g, D.s[k] ? k : who + '-point'); }
+      secs.forEach(x => x.classList.toggle('cur', x === sec)); };
+    const io = new IntersectionObserver(es => { const v = es.filter(e => e.isIntersecting).sort((a, b) => (b.target.classList.contains('beat') - a.target.classList.contains('beat')) || (a.boundingClientRect.top - b.boundingClientRect.top))[0]; v && show(v.target); },
+      { rootMargin: '-30% 0px -60% 0px' });
+    notes.classList.add('js'); secs.forEach(s => io.observe(s)); notes.querySelectorAll('.beat[data-say]').forEach(b => io.observe(b));
+    new IntersectionObserver(es => es.forEach(e => notes.classList.toggle('inview', e.isIntersecting)), { threshold: 0 }).observe(notes);
+  }
+  const seek = t => { const v = document.querySelector('.player video'); if (!v) return false; v.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    v.preload = 'auto'; const go = () => { v.currentTime = t; v.play().catch(() => {}); }; v.readyState >= 1 ? go() : (v.addEventListener('loadedmetadata', go, { once: true }), v.load()); return true; };
+  document.addEventListener('click', e => { const a = e.target.closest('[data-t]'); if (a && a.dataset.t !== '' && seek(+a.dataset.t)) { e.preventDefault(); history.replaceState(null, '', '#t=' + a.dataset.t); } });
+  const h = location.hash.match(/^#t=(\d+)/); if (h) addEventListener('load', () => seek(+h[1]));
+
   // the bay: the cast introduces itself, once, when the bay is on screen
   const bay = document.querySelector('.bayhero');
   if (bay && D.talk) {
