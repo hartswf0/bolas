@@ -1,0 +1,9 @@
+World Labs announcement of Atlas, an "omni world model for spatial intelligence" (dated September 1, 2026), pasted into the session at Oct 18 11:13.
+
+It is a third-party announcement, so it is summarised here rather than republished. What the rooftop runs took from it:
+
+- Atlas makes and poses whole places, not single pictures: images2PosedRGBD returns an image with metric depth and a camera, and generation can be conditioned on posed views.
+- So the rooftop could be asked for view by view along Boone's solved turntable orbit (every 5 degrees, 0 to 205), each batch conditioned on the posed roof and the most recent views.
+- Every view comes with depth, which the composite uses to stand Boone at the orbit centre at the right scale.
+
+The product appears on this site under its model name, Marble 2.

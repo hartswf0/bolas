@@ -1,0 +1,50 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Trouttown: Tempus Fugit · limitations · CRASH LAB</title><meta name="description" content="Trouttown: Tempus Fugit · limitations"><link rel="canonical" href="https://hartswf0.github.io/bolas/docs/notes/trouttown-tempus-fugit-limitations.html">
+<meta property="og:site_name" content="CRASH LAB"><meta property="og:title" content="Trouttown: Tempus Fugit · limitations"><meta property="og:description" content="Trouttown: Tempus Fugit · limitations"><meta property="og:type" content="website"><meta property="og:url" content="https://hartswf0.github.io/bolas/docs/notes/trouttown-tempus-fugit-limitations.html"><meta property="og:image" content="https://hartswf0.github.io/bolas/media/og.jpg">
+<meta name="twitter:card" content="summary_large_image"><meta name="theme-color" content="#0b0d10">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml"><link rel="icon" href="../../favicon-32.png" sizes="32x32"><link rel="apple-touch-icon" href="../../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800;900&family=JetBrains+Mono:wght@400;600&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&display=swap" rel="stylesheet"><link rel="stylesheet" href="../../assets/site.css"></head><body>
+<header class="top"><a class="brand" href="../../"><img src="../../favicon.svg" alt="" width="28" height="28"><span>CRASH LAB</span></a><nav><a href="../../lab/">Try it</a><a href="../../family/">The Family</a><a href="../../cineosis/">CINEOSIS</a><a href="../../found-odyssey/">The Found Odyssey</a><a href="../../wygwyl/">WYGWYL</a><a href="../../this-side-up/">This Side Up</a><a href="../../films/">Films</a><a href="../../characters/">Characters</a><a href="../../process/">How it was made</a></nav></header>
+<main class="wrap"><p class="crumbs"><a href="../../">Home</a> / <a href="../../docs/">Docs</a> / Trouttown: Tempus Fugit · limitations</p><p class="eyebrow">Production notes · <a href="trouttown-tempus-fugit-limitations.md">trouttown-tempus-fugit-limitations.md</a></p><div class="md"><h1>Limitations: Trouttown: Tempus Fugit</h1>
+<p>What this episode does not do, or does only partly. Read this with the validation log.</p>
+<h2>Against the brief</h2>
+<ul>
+<li><strong>Running time.</strong> The cut runs 3 min 28 s, credits included, against a 4–6 min target. The defining passage (42 s) was built and reviewed first. The story around it was kept to what the passage needs, rather than padded.</li>
+<li><strong>Units.</strong> The clip manifest uses world units, not metres. Boone stands about 390 units tall. The ratio is not calibrated to his real height.</li>
+<li><strong>Pose libraries are partial.</strong></li>
+<li>Boone is a rigid-part rig cut from one pose sprite of an earlier session (idle_0), with two-bone IK on arms and legs. Kneeling, sitting and stepping are solved poses, not drawn replacement keys.</li>
+<li>The 80 packed pose sprites are registered, but most are not used in this cut.</li>
+<li>The crew are code-drawn cut-paper rigs. They are not taken from the plates, because the plate crew are painted into the culvert scene and could not be separated cleanly.</li>
+<li><strong>Props drawn in code instead of cut from the plate:</strong> the ladder, the step, the wrench, the flat bar, the chalk lath, the overshoes and the bucket. The plate's ladder and shoes did not survive matting.</li>
+<li><strong>Timber shore, jack and shim</strong> from the brief's prop list are not in the film. The brace is the copper elbow itself, held by Boone.</li>
+<li><strong>Exposure.</strong> Characters are evaluated on every frame (on ones), not held on twos.</li>
+</ul>
+<h2>Picture</h2>
+<ul>
+<li><strong>The reconstruction</strong> of the place before the street is drawn for this film. It is labelled on screen ("RECONSTRUCTION — drawn for this film, not a record") and again in the credits. No archival image of this inlet or of the creek's buried course was found that could be brought into the workspace. Candidates that were inspected are listed in archives/source_manifest.json.</li>
+<li><strong>Hand close-up.</strong> The forearm and hand are a single cut-out from the acting plate. The grip does not articulate finger by finger.</li>
+<li><strong>Water</strong> is drawn as layered streaks, spray particles, a pool band and flow lines. It is not a fluid simulation. The pool level and the soak line come from a small simulation of inflow and drainage (clip_brace.simulate).</li>
+<li><strong>Reaction close-ups.</strong> The faces on the nine close-ups are drawn in code over crops from the acting plate. Mouths do not animate.</li>
+</ul>
+<h2>Sound</h2>
+<ul>
+<li><strong>All sound is synthesized.</strong> Water, cardboard creak, iron, chalk, birds and thunder are all synthesized; there are no field recordings.</li>
+<li><strong>Music.</strong> The three music cues (title, the town, credits) are generated by the lab's small music kit. They are not the user's own Treblo cues. Swap them in if wanted.</li>
+<li><strong>No dialogue or voice-over.</strong> The crew grunt through water and iron.</li>
+</ul>
+<h2>Facts</h2>
+<ul>
+<li><strong>The only verified local facts are in the credits:</strong> Boone Creek is piped under parts of Boone, and Durham Park and future daylighting await funding. They are sourced in validation/epistemic_ledger.md. Nothing in the story claims to be local history.</li>
+<li><strong>The curb-inlet casting text</strong> is read off the supplied plate. The plate's location is not verified.</li>
+</ul>
+<h2>Left open after independent review (the passage passed on round 5)</h2>
+<ul>
+<li><strong>Boone's side-step at 40.3–41.5 s:</strong></li>
+<li>His left boot slides about 35 px without lifting.</li>
+<li>His right boot overlaps the front of the fitter's step box.</li>
+<li>He hides the fitter's face for the last 0.8 s.</li>
+<li><strong>The spout-to-elbow joint</strong> reads as a rounded dark bag rather than a hose with parallel walls. The lower band runs along the hose instead of across it.</li>
+<li><strong>The release beat</strong> sits under the "aftershock" close-up in the episode cut (passage 40.2–42 s). The full release is visible in the passage render.</li>
+</ul></div></main>
+<footer class="foot"><div class="wrap"><p><b>CONSEQUENCE WORKS</b> · Watson Hartsoe · built with Claude</p><p>Every figure is keyed by hand in a rig and rendered from code. Archive footage comes from the cineosis-lab library and is credited inside each film. <a href="../../catalog.json">catalog.json</a> · <a href="../../sitemap.xml">sitemap</a> · <a href="https://github.com/hartswf0/bolas">source</a></p></div></footer>
+</body></html>

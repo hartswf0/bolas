@@ -1,0 +1,99 @@
+# Trouttown: Tempus Fugit · critic round 2
+
+*Critic review of passage v2.* A separate agent that did not make the work, started Oct 19 13:50 EDT. Brief and report verbatim. File paths in the brief are the working paths on the day.
+
+## The brief
+
+```
+You are an independent critic for an animated short. You did not build it, and you must not edit any files except writing your report. Judge it strictly against the acceptance criteria below and report a verdict: PASS or NOT YET, with specific, timestamped reasons.
+
+Material:
+- The defining passage render: /home/claude/lab/tfu/renders/tempus_fugit_passage_v2.mp4 (42 s, 24 fps). Frame grabs at named timestamps (seconds) are at /home/claude/lab/tfu/validation/v2/f_<t>.jpg. View these images with the Read tool (they are 640 px wide). You may extract more frames with ffmpeg if needed, e.g. `ffmpeg -loglevel error -ss 33.5 -i /home/claude/lab/tfu/renders/tempus_fugit_passage_v2.mp4 -frames:v 1 -vf scale=960:-1 /tmp/claude-0/critic_33.5.jpg` (write extra grabs only under /tmp/claude-0/).
+- Per-frame contact data: /home/claude/lab/tfu/clips/brace_discover_redirect.json (field frames[i].contact_err: left_palm, right_palm, left_sole, right_sole, in world units; Boone is ~390 units tall). Contacts are expected to hold while gripping (1.6 s to 40.0 s).
+- Story intent of the passage ("a hand holds across time"): Boone, a cardboard puppet, holds a copper pipe elbow against a downspout in a flooding storm-inlet chamber while a trout fitter bolts it to the wrong (1968) outlet on the right wall. The joint leaks and fails (spray across Boone's forearm around 10.5–12.2 s, the fitter's wrench slips). The water rises and soaks up Boone's cardboard legs. An apprentice trout carries a clock (it runs backward only while the water presses — an invented rule) to a ledge on the left. A hand close-up (17–19 s). Then a torn wipe shows a black-and-white RECONSTRUCTION of the place before the street: an old stone arch where the creek ran (19–25 s), with Boone, the elbow and the crew held in colour. Back in the present the fitter chalks the arch outline on the flat concrete patch of the left wall using chalk on a lath (27.4–30.4 s); the apprentice pries the patch away with a bar, revealing brick behind it (29.6–35 s); Boone swings the elbow toward the arch, steps left and re-grips (31.4–34 s); the bricks fall in (35.2–36.6 s) and the water drains through the old arch; the pool drops, the clock stops; Boone lets go slowly (40–41.6 s), still soaked.
+
+Acceptance criteria (from the previous critic round, which said NOT YET):
+1. Before 17 s, the left wall reads as flat brick/concrete with no arch moulding visible.
+2. The reconstruction frames place the open arch at the exact screen position where the white chalk outline later appears (compare reveal frames with 28–36 s, allowing for the camera moving between shots — judge whether the arch is registered to the same wall location, e.g. relative to the brick/concrete seam, the ledge and the right wall).
+3. After the re-angle, at least two frames show water running through the elbow into the opened arch, with the right-hand water column (the throat overflow down the right) thinning, and the floor water level visibly lower by 41 s.
+4. The failure is shown (10.5–12.2 s): visible spray/leak at the joint, wrench slip.
+5. Damage is visible: Boone's soaked legs/forearm read darker than dry cardboard.
+6. The apprentice visibly does the clearing (pry bar, debris falling), the clock is carried and set down rather than popping in.
+7. The fitter does not vanish during the reconstruction.
+8. The reconstruction is explicitly labelled on screen as a reconstruction.
+9. No unexplained diagonal "strut" or artefacts; the aftermath is not static.
+Also note any new problems (continuity errors, characters standing inside the opening, occlusions that hide the main action, unreadable staging), ranked by severity.
+
+Write your report to /tmp/claude-0/critic_v2.md and also return it in full as your final answer. Be concise and concrete; list each criterion with PASS/FAIL and evidence (timestamps), then a ranked list of remaining fixes (most important first), then the overall verdict.
+```
+
+## The report
+
+**Verdict: NOT YET.** Six of the nine criteria pass outright, two are partial (wrench slip, forearm darkening), and two serious new problems showed up. Report written to /tmp/claude-0/critic_v2.md; the full text follows.
+
+# Critic report: tempus_fugit_passage_v2.mp4 (42 s, 24 fps)
+
+## Criteria
+
+1. **Flat left wall before 17 s: PASS.** At 0, 3, 6, 9, 12.2, 14.5 and 16 s the left side is brick, then a wavy seam, then flat concrete. No arch moulding is visible.
+
+2. **Reconstruction arch registered to the chalk outline: PASS.** The reconstruction (20.5–24.8 s) uses the same framing as 25.5 s (the elbow mouth is at about x 490 in both). In that framing the arch spans x 150–300. That is about 60 px right of the brick/concrete seam and about 190 px left of the elbow mouth. At 30.5 s the camera is about 1.1x closer (seam at x 130, mouth at x 570), so the arch should land at about x 196–361. The chalk is at x 190–355, top at y about 125. At 37 s the opened arch sits just right of the ledge's end, the same relationship as the reconstruction. Registration holds within a few pixels.
+
+3. **Water through the elbow into the arch, right column thinning, floor lower by 41 s: PASS.** Water runs from the elbow into the opening at 33, 34, 35, 35.6, 36.2, 37, 38.5 and 40 s. The right-hand column is full at 34 s, thinner at 36.2 s, and a thin line from 37 s on. The pool level goes from 95 to 80 (36.0 s) to 13 (37.0 s) to 0 (39.0 s). The floor is dry at 38.5 and 41.5 s.
+
+4. **Failure shown 10.5–12.2 s: PARTIAL, counted as FAIL.**
+   - The spray is clear: droplets burst at the joint and water falls at 10.8, 11.0, 11.5, 11.6 and 11.8 s.
+   - The wrench slip does not read. The fitter's head is hidden behind the elbow for the whole joint shot. His arm moves, but the wrench is a tiny grey bar at his shoulder and no slip is visible (contact sheet 10.6–12.2 s).
+   - The spray falls straight down to the right of Boone's hand, not across his forearm.
+
+5. **Soaked cardboard reads darker: PARTIAL.**
+   - Legs: below the waterline they read darker from about 12 s, though part of that is the water tint. At 37–41.9 s the shins and boots are clearly darker than the torso.
+   - Forearm: it is not visibly darker at 30.5 s (close crop shows the same tone as the torso), even though `arm_wet` = 1.0 from about 12 s. It reads darker only near the end, at 39.5–41.9 s.
+
+6. **Apprentice clears the patch; clock carried and set down: PASS.**
+   - The clock is carried 14.2–15.8 s and set on the ledge (14.5, 15.2, 16 s); it does not pop in.
+   - The pry bar is in hand from 31 to 36 s.
+   - Chips fall at 32 s, brick shows behind the patch at 33–34 s, and bricks fall into the opening at 36.2 s.
+   - Minor: the apprentice already holds the clock at the ledge from 0 s, so the carry is short (about 120 units).
+
+7. **Fitter present during the reconstruction: PASS.** He is visible in colour at the right at 19.4, 20.5, 23 and 24.8 s.
+
+8. **Reconstruction labelled on screen: PASS.** "RECONSTRUCTION / drawn for this film, not a record" shows at 19.4–23 s and fades by 24.8 s.
+
+9. **No strut or artefacts; aftermath not static: PASS, with notes.**
+   - No diagonal strut appears anywhere.
+   - The aftermath has motion: the flow continues, the arms release over 40–41.7 s and the camera drifts.
+   - Two new problems sit in this stretch: the elbow hangs in mid-air after the release, and the right column renders as a wire-like double line (fixes 1 and 8 below).
+
+Contact data: across 1.6–40 s, the largest palm error is about 1e-12 and the largest sole error is 0.38 units. However, the palm errors stay at about 1e-12 after 41.67 s, when the arm angles are all 0 and the hands are visibly off the elbow. So `contact_err` does not measure whether the hands are really on the elbow. Do not use it as proof of grip.
+
+## Remaining fixes, most important first
+
+1. **The elbow floats after Boone lets go (41.67–42 s).** `elbow_M` stays frozen at the same position from 39 s to the end. When the arms drop, nothing holds the elbow; it reads as resting on Boone's head. The fix is to seat it visibly (on the downspout end, wedged in the arch, or set down) or have it drop.
+2. **Boone's head is hidden from about 33 s to the end.** The elbow is held over and in front of his head, so he reads as headless, with a pipe for a head. The water appears to pour out of his head and chest (crops at 37, 39.5 and 41.9 s). The upper mouth also faces sideways under the downspout instead of capturing it, so where the water enters the elbow is unclear. Restage so his head stays visible and the elbow clearly takes the downspout flow.
+3. **Characters overlap the opening.**
+   - At 30.5 s the fitter stands inside the chalk outline as it is drawn.
+   - At 33–36 s the apprentice's bar and Boone's left side cross the arch jambs.
+   - At 37–41.9 s Boone's shoulder and forearm overlap the right jamb.
+   - Keep bodies clear of the outline so the shape reads.
+4. **The wrench slip is illegible (10.5–12.2 s).** Re-frame or offset the fitter so his head, hands and wrench are visible during the slip, and make the slip a clear jerk. Optionally route the spray across Boone's forearm, as the brief says.
+5. **The fitter moves unnaturally (30.5–31.25 s).** He slides about 340 units behind Boone in 0.75 s, about 450 units/s, with no walk cycle. He then jumps up 70 units onto the box in a single frame (31.17 s to 31.25 s).
+6. **The forearm wetness does not show mid-passage.** `arm_wet` is 1.0 from about 12 s, but the forearm is not visibly darker until about 39 s. Darken it from 12.2 s on.
+7. **The drain is too fast and too clean.** The pool goes from 95 to 0 in about 2.5 s (36–38.5 s), and the floor is then completely dry. Leave a residual sheet, puddles or wet staining.
+8. **The thin right water column looks like a wire.** From 38 s it renders as two parallel hairlines. Make it read as a trickle.
+9. **Minor:** in the reconstruction, Boone stands on a stone block that does not exist in the present.
+
+## Verdict: NOT YET
+
+The main problems from last round are fixed:
+- the flat wall before 17 s
+- arch registration
+- the drain through the arch
+- the label
+- the fitter's presence in the reconstruction
+- the apprentice's clearing
+- the strut
+
+The wrench slip still doesn't read. The forearm damage shows only at the end. Two new problems need fixing before this passes: the elbow hangs in mid-air after the release, and Boone's head is hidden behind the elbow through the payoff.
+
+Extra frame grabs and crops I made are in /tmp/claude-0/ (critic_*.jpg; the most useful are critic_crop30.jpg, critic_crop37.jpg, critic_crop39.5.jpg, critic_crop41.9.jpg and critic_wrench_tile.jpg).

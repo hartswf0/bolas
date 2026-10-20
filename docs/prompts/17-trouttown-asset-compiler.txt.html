@@ -1,0 +1,236 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>SCION · registered assets and executable performance · CRASH LAB</title><meta name="description" content="the asset compiler and the interaction clip, for Trouttown: Tempus Fugit"><link rel="canonical" href="https://hartswf0.github.io/bolas/docs/prompts/17-trouttown-asset-compiler.txt.html">
+<meta property="og:site_name" content="CRASH LAB"><meta property="og:title" content="SCION · registered assets and executable performance"><meta property="og:description" content="the asset compiler and the interaction clip, for Trouttown: Tempus Fugit"><meta property="og:type" content="website"><meta property="og:url" content="https://hartswf0.github.io/bolas/docs/prompts/17-trouttown-asset-compiler.txt.html"><meta property="og:image" content="https://hartswf0.github.io/bolas/media/og.jpg">
+<meta name="twitter:card" content="summary_large_image"><meta name="theme-color" content="#0b0d10">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml"><link rel="icon" href="../../favicon-32.png" sizes="32x32"><link rel="apple-touch-icon" href="../../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800;900&family=JetBrains+Mono:wght@400;600&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&display=swap" rel="stylesheet"><link rel="stylesheet" href="../../assets/site.css"></head><body>
+<header class="top"><a class="brand" href="../../"><img src="../../favicon.svg" alt="" width="28" height="28"><span>CRASH LAB</span></a><nav><a href="../../lab/">Try it</a><a href="../../family/">The Family</a><a href="../../cineosis/">CINEOSIS</a><a href="../../found-odyssey/">The Found Odyssey</a><a href="../../wygwyl/">WYGWYL</a><a href="../../this-side-up/">This Side Up</a><a href="../../films/">Films</a><a href="../../characters/">Characters</a><a href="../../process/">How it was made</a></nav></header>
+<main class="wrap"><p class="crumbs"><a href="../../">Home</a> / <a href="../../docs/">Docs</a> / SCION · registered assets and executable performance</p><p class="eyebrow">Prompt · pasted Oct 19 11:44 · <a href="17-trouttown-asset-compiler.txt">17-trouttown-asset-compiler.txt</a></p><h1 style="font-size:clamp(36px,6vw,72px)">SCION · registered assets and executable performance</h1><p class="lede">the asset compiler and the interaction clip, for Trouttown: Tempus Fugit</p><pre class="prompt">SCION needs an asset compiler between the reference images and the film. A sprite sheet should be a packed export of individually registered assets, with timing and contact data alongside it. Generating a grid of poses alone will not give us reliable animation.
+
+For this episode, the most useful unit is an interaction clip: Boone holding a brace while the fitter works against it. The characters, tool, and contact points must share one coordinate system.
+
+Add this production layer to the prompt.
+
+
+---
+
+SCION — REGISTERED ASSETS AND EXECUTABLE PERFORMANCE
+
+Produce Tempus Fugit from reusable character parts, registered pose libraries, prop states, environment layers, and timed interaction clips.
+
+Each rendered frame must be reconstructable from a shot manifest. Keep source photographs, generated additions, geometry, and compositing instructions distinguishable.
+
+1. BUILD INDIVIDUAL ASSETS BEFORE PACKING SHEETS
+
+Every sprite starts as a separate image with:
+
+- A stable asset ID.
+- A transparent background where applicable.
+- A defined canvas size, scale, and pivot.
+- Named attachment points.
+- Source provenance.
+- View direction and material state.
+- A review status.
+
+Pack accepted sprites into atlases programmatically. Generate atlas coordinates from the actual packed images. Never ask an image model to invent pixel coordinates or guarantee uniform registration.
+
+Retain the individual source images after packing.
+
+2. USE DIFFERENT REPRESENTATIONS FOR DIFFERENT JOBS
+
+Asset family	Production representation
+
+Boone	Layered rigid parts, photographic pose keys, selective replacement drawings
+Trout crew	Registered full-body poses, with separate tool-holding hands where useful
+Clock	Casing sprite, separate hands, pivoted mechanism parts
+Ladder and brace	Simple geometry or rigid sprites with attachment points
+Copper collar	Geometry or a small verified angle library
+Grate	Original photographic plate, occlusion masks, optional reconstructed geometry
+Water	Separate animated layers and contact effects
+Scarf	Short pose sequences or a deformable strip
+Historical imagery	Preserved source plate plus explicitly authored registration transform
+Lighting	Separate shadows, highlights, and atmosphere
+
+
+Use full-body replacement sprites when part rotation breaks the silhouette. Use rigid parts when they preserve Boone’s actual construction.
+
+A close-up gripping hand needs more detail than a distant walking figure. Allocate assets by shot requirements.
+
+3. DEFINE THE EPISODE’S ASSET INVENTORY
+
+Build these libraries first:
+
+Library	Required content
+
+Boone performance	Approach, kneel, reach, grip, brace, strain, slip, recover, release, sit
+Boone material states	Dry, damp foot, delaminated sole, repaired ankle
+Crew performance	Carry, inspect, point, wrench, pry, receive tool, wrap ankle
+Hand contacts	Ladder rung, brace, collar, wrench, clock handle
+Clock states	Intact, waterlogged, open casing; independently rotatable hands
+Repair props	Collar, ladder, timber shore, jack, shim, pry bar, lantern, cuff
+Environment layers	Street, hood, grate, chamber, staging, bulkhead, bypass, distant town
+Effects	Drips, runoff, spray, suspended silt, cardboard wicking
+Archive transition	Source plate, alignment landmarks, reveal mask, present-day holdouts
+
+
+Do not generate every possible angle and gesture. Start with the views used by the defining passage, then expand when a shot requires it.
+
+4. MAKE CONTACTS FIRST-CLASS DATA
+
+Every relevant asset exposes named sockets:
+
+Boone:
+  left_palm
+  right_palm
+  left_sole
+  right_sole
+  scarf_knot
+
+Brace:
+  grip_left
+  grip_right
+  upper_contact
+  lower_contact
+
+Clock:
+  handle
+  hand_pivot
+  base_contact
+
+During a grip, constrain the palm to the prop’s socket. Solve the arm around that relationship.
+
+During a planted stance, pin the sole in world space. Moving the camera must not move the contact.
+
+Declare when contacts begin, change, and release. A sprite swap cannot silently move a hand to a different rung.
+
+5. AUTHOR INTERACTIONS, THEN EXTRACT CHARACTER TRACKS
+
+The first clip is:
+
+brace_discover_redirect
+
+It contains Boone, the fitter, the apprentice, the brace, the collar, and the bypass opening.
+
+Its states are:
+
+1. Boone accepts the load.
+2. The fitter attempts the wrong alignment.
+3. Water reaches Boone’s foot.
+4. The clock activates.
+5. The older opening becomes legible.
+6. The fitter signals a new angle.
+7. Boone transfers support.
+8. The crew opens the bypass.
+9. Pressure falls.
+10. Boone remains affected by the strain.
+
+These are editable performance states, not ten equally spaced drawings.
+
+Author keys and asymmetric breakdowns. Assign holds, rapid actions, and settling time explicitly. Generate missing drawings only after the contact structure works.
+
+6. SEPARATE DRAWING EXPOSURE FROM CAMERA MOTION
+
+Run the shot at 24 fps. Characters may hold drawings for two or three frames while camera, water, and light update independently.
+
+A minimal manifest could look like this:
+
+{
+  &quot;clip_id&quot;: &quot;brace_discover_redirect&quot;,
+  &quot;fps&quot;: 24,
+  &quot;duration_frames&quot;: 840,
+  &quot;units&quot;: &quot;meters&quot;,
+  &quot;tracks&quot;: {
+    &quot;boone&quot;: {
+      &quot;asset&quot;: &quot;boone_v001&quot;,
+      &quot;keys&quot;: [
+        {&quot;frame&quot;: 0, &quot;pose&quot;: &quot;brace_accept&quot;},
+        {&quot;frame&quot;: 48, &quot;pose&quot;: &quot;brace_loaded&quot;},
+        {&quot;frame&quot;: 192, &quot;pose&quot;: &quot;strain_left&quot;},
+        {&quot;frame&quot;: 456, &quot;pose&quot;: &quot;transfer_support&quot;},
+        {&quot;frame&quot;: 672, &quot;pose&quot;: &quot;pressure_released&quot;}
+      ],
+      &quot;material_events&quot;: [
+        {&quot;frame&quot;: 144, &quot;state&quot;: &quot;left_foot_damp&quot;}
+      ]
+    }
+  },
+  &quot;constraints&quot;: [
+    {
+      &quot;type&quot;: &quot;socket_lock&quot;,
+      &quot;subject&quot;: &quot;boone.left_palm&quot;,
+      &quot;target&quot;: &quot;brace.grip_left&quot;,
+      &quot;frames&quot;: [0, 672]
+    }
+  ],
+  &quot;archive_event&quot;: {
+    &quot;frames&quot;: [288, 408],
+    &quot;source_id&quot;: null,
+    &quot;status&quot;: &quot;awaiting_verified_source&quot;
+  }
+}
+
+These timings are proposed blocking, not measurements extracted from footage. Missing source IDs remain missing.
+
+7. KEEP DAMAGE SEPARATE FROM POSE
+
+Do not create a complete new pose library for every degree of wetness.
+
+Apply registered material masks for darkening, water edges, and surface wear. Use replacement parts when damage changes geometry, such as a delaminated foot.
+
+The ankle repair is an attached asset with its own persistent state.
+
+This allows the same brace pose to appear dry, damp, or repaired without redesigning Boone.
+
+8. EXPORT THE PACKAGE PROGRAMMATICALLY
+
+The compiler must:
+
+1. Validate filenames, dimensions, alpha channels, pivots, and socket data.
+2. Pack approved sprites into atlases.
+3. Export atlas rectangles and animation manifests.
+4. Assemble a contact-sheet preview.
+5. Render the clip from its manifest.
+6. Report missing assets and broken references.
+7. Preserve source files and accepted revisions.
+
+Suggested package structure:
+
+tempus-fugit/
+  sources/
+  assets/
+    boone/
+    crew/
+    props/
+    environment/
+    effects/
+  rigs/
+  clips/
+  shots/
+  archives/
+  atlases/
+  renders/
+  validation/
+
+9. TEST WHAT THE SYSTEM CAN ACTUALLY VERIFY
+
+Automate checks for missing frames, unintended canvas shifts, broken sockets, contact drift, exposure gaps, and atlas clipping.
+
+Use independent playback review for acting, weight, readability, and whether the archival discovery changes the crew’s action.
+
+A technically valid sprite sheet can still produce a lifeless performance.
+
+10. DO NOT PROMOTE ASSUMPTIONS INTO REFERENCE DATA
+
+The four-plate baseline must be audited against files actually present. Frame labels such as 555–880 do not establish timing without the source clip’s frame rate and sampling history.
+
+The photographed grate is cropped; a total of 28 openings must not become canonical without verification. Likewise, generated historical scenery cannot establish the location of a real buried sluice.
+
+If no matching historical photograph exists, use a clearly identified fictional reconstruction for that story mechanism.
+
+FIRST BUILD
+
+Produce one registered Boone brace sequence, one fitter wrench sequence, and one shared collar asset. Assemble them into a short contact test with a locked camera and plain background.
+
+Then add the grate, water, material damage, and archival transition to that same executable scene.</pre></main>
+<footer class="foot"><div class="wrap"><p><b>CONSEQUENCE WORKS</b> · Watson Hartsoe · built with Claude</p><p>Every figure is keyed by hand in a rig and rendered from code. Archive footage comes from the cineosis-lab library and is credited inside each film. <a href="../../catalog.json">catalog.json</a> · <a href="../../sitemap.xml">sitemap</a> · <a href="https://github.com/hartswf0/bolas">source</a></p></div></footer>
+</body></html>

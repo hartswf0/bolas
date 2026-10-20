@@ -1,0 +1,86 @@
+# Trouttown: Tempus Fugit · critic round 1
+
+*Independent review of passage.* A separate agent that did not make the work, started Oct 19 12:57 EDT. Brief and report verbatim. File paths in the brief are the working paths on the day.
+
+## The brief
+
+```
+You are an unbriefed critic reviewing a 42-second animated passage (the "defining passage") of a short film. You have not seen how it was made, and you should judge only what is on screen. You cannot play video, so you will judge from frame sheets taken from the actual render.
+
+THE ASSIGNMENT THE FILM WAS MADE TO (the creative brief, condensed):
+- Boone, a handmade cardboard puppet (rectangular cardboard head and torso, fixed ink eyes and curved smile, exposed joints, broad feet, frayed white scarf), helps a crew of trout construction workers repair a storm inlet under a street before a storm.
+- The defining passage: Boone braces a heavy copper fitting against the wall while the fitter tries to bolt it. Water reaches his vulnerable cardboard. The crew cannot find where the water should really go. A present-day edge lines up with an older image of the same place, and for a moment the surrounding world changes medium while Boone's hand keeps its position and load. The older image shows a spatial relationship the crew needs: an old stone arch, now bricked up, just to the left. The film returns to the present through action. The fitter changes the angle, the apprentice clears the newly identified opening, and Boone shifts his weight. The archival discovery must cause a different repair. It must not read as a decorative flashback.
+- Protected commitments: Boone stays recognisably this handmade character, and his face never animates. Water damage accumulates and persists. Each worker makes a specific choice. Evidence and invention are distinguishable where that matters. The older image in this film is a reconstruction, not a real archival photo.
+
+MATERIAL TO INSPECT (open each with your file-reading tool):
+- /home/claude/lab/tfu/validation/passage_v1_sheet_a.jpg and /home/claude/lab/tfu/validation/passage_v1_sheet_b.jpg: one frame per second, 0-41 s, labelled.
+- /home/claude/lab/tfu/validation/passage_v1_reveal.jpg: one frame every 0.5 s from 16.5 to 27 s, covering the medium change.
+- Reference plates the film must match: /home/claude/lab/tfu/sources/plate_grate.png (the street grate), /home/claude/lab/tfu/sources/plate_culvert.png (a mood/content reference for the underground repair), /home/claude/lab/tfu/sources/plate_props.png (props), /home/claude/lab/tfu/sources/plate_boone_acting.png (Boone close-up acting studies; note the film draws ink eyes and smile onto Boone).
+
+Answer each question with exact evidence (cite timestamps):
+1. Is the repair understandable? Can you tell what was going wrong and why the first attempt fails?
+2. Does Boone remain recognisably this handmade character?
+3. Do contacts and weight survive motion? Do hands, feet and tools look attached to what they hold or stand on?
+4. Does each worker make a specific choice?
+5. Does the archive change the action? From the frames alone, could a viewer say what the old image showed was hidden behind the wall, and what the crew did differently afterward?
+6. Can viewers distinguish evidence from invention where it matters?
+7. If any quiet aftermath is visible, does it hold interest?
+
+Then give:
+- a verdict (PASS / NOT YET);
+- the single largest remaining gap;
+- an observable acceptance condition for fixing it;
+- up to five specific, prioritised fixes;
+- the strengths the next repair must keep.
+Be blunt and concrete. Keep it under 700 words. Do not edit any files.
+```
+
+## The report
+
+**Critique of the defining passage (v1), from frame sheets only**
+
+**1. Is the repair understandable?** Only partly. From 0 to 13 s Boone holds a copper tee up near the wall and the fitter stands under it. From 9 s water starts falling just right of the fitting and the floor floods (9 to 13 s). Nothing on screen shows why the first attempt fails. There is no leak at the joint, no bolt that won't seat, and no outlet pointing at a dead wall. The water simply falls beside a fitting that looks correctly placed.
+
+**2. Is Boone still this handmade character?** Mostly yes. The box head, cardboard torso, blue joints and broad boots stay consistent from 0 to 41 s, and the 17 to 18.5 s close-up of his hand reads as real cardboard. But in every wide shot his ink face is too small to read. The scarf only shows as a white smudge (26 to 30 s). The face never animating can't be confirmed, because it is never shown large enough. The water damage does not read: apart from the drops on his hand at 17 s, I see no darkening or sagging on his legs after the flood (26 to 41 s).
+
+**3. Do contacts and weight hold?** Some do and some don't.
+- **Good:** through the medium change (19.5 to 24.5 s) Boone's hand and the fitting keep the same screen position and angle.
+- **Weak:**
+  - The fitter vanishes during the archive section, so the fitting is held one-handed with no change in Boone's strain.
+  - From 33 s the elbow rotates, but Boone's hands are not clearly on it (36 to 41 s, the fitting sits above his head).
+  - A diagonal strut appears at 32 s with no visible maker or anchor.
+  - The clock appears on the shelf between 15 and 16 s without anyone placing it.
+
+**4. Does each worker make a choice?** The fitter does: he points or reaches toward the arch (27 to 29 s), then the elbow is re-angled (33 s). The apprentice does not. He stands by the shelf (14 to 16 s), then appears inside the arch at 36 s, and the bricks go dark in one jump at 37 s. No clearing action is shown. Boone's weight shift is not visible either: his pose at 36 to 41 s looks like a reposition, not a load transfer.
+
+**5. Does the archive change the action?** Not legibly. This is the core failure.
+- The bricked arch is plainly visible behind Boone in the present from 0 s. The old image (19.5 to 24.5 s: grey stone, open dark arch, trestle silhouettes) reveals nothing the viewer hasn't already seen, and the arch is behind Boone, not "just to the left".
+- After the change, the falling water at right is still falling at 41 s. Nothing shows the flow entering the new opening, and the water level does not drop. A viewer could say "they turned the pipe toward the arch," but not that it worked or why it was needed.
+
+**6. Can viewers tell evidence from invention?** Half-way. The greyscale wall against Boone in colour clearly separates the old image from the present. The white arch outline traced on the present wall (29 to 30 s) is the best device in the passage. But nothing marks the old image as a reconstruction rather than a photograph, and the 17 to 18.5 s close-up switches to a near-photographic style without explanation.
+
+**7. Does the quiet aftermath hold interest?** No. From 36 to 41 s it is a static wide shot with an unchanged waterfall and no visible result, cost or reaction.
+
+**Verdict: NOT YET**
+
+**Largest gap:** the cause-and-effect chain is not on screen. The opening is visible before the discovery, and the rerouted flow is never shown working.
+
+**Acceptance condition:** on a frame sheet, all of the following must be true:
+- Before 17 s the left wall reads as flat brick with no arch moulding.
+- The archive frames place the open arch at the exact screen position where the white outline later appears.
+- After the re-angle, at least two frames show water running through the elbow into the opened arch, with the right-hand water column thinning and the floor level visibly lower by 41 s.
+
+**Fixes, in priority order:**
+1. Hide the arch in the present, using plaster or continuous coursing, until the outline overlay.
+2. Show the first failure in 2 to 3 frames: the outlet faces solid wall, water sprays back out of the joint onto Boone's arm, and the fitter's bolt slips.
+3. Show the result: flow entering the arch, the level dropping, the right-hand stream reducing. Then give the aftermath one beat of Boone's damaged cardboard.
+4. Make damage cumulative and visible at wide scale: dark wet bands creeping up his legs and forearm from 9 s, persisting and growing through 41 s. Add one later close-up.
+5. Give the apprentice real clearing frames, with bricks pulled out and debris falling, instead of the cut at 37 s. Keep the fitter (or his ghost) in the archive frames, and fix the clock pop-in at 15 to 16 s. Mark the old image as a reconstruction, for example drawn hatching, unfinished edges or a caption, so it doesn't read as a photograph.
+
+**Strengths to keep:**
+- Boone's hand and fitting locked in place across the medium change (19 to 25 s).
+- The colour-against-greyscale separation between Boone and the old world.
+- The white outline arch (29 to 30 s) as the bridge from old image to present.
+- The physical re-angle of the elbow (33 s).
+- Rising water that persists (9 s onward).
+- Boone's box-head and blue-joint construction, consistent with the acting plate.

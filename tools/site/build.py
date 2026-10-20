@@ -115,6 +115,8 @@ def section(title, inner, sub=''):
 def grid(items, cls='grid'): return f'<div class="{cls}{" cams" if any("class=\"cam " in i for i in items) else ""}">{"".join(items)}</div>'
 
 # ---------------------------------------------------------------- pages
+# the This Side Up case pages are built by the session that made the films (they are static here; see this-side-up/<slug>/)
+TSU_CASES = ['gust', 'mammoth', 'kit', 'reference', 'bullet-time', 'cardboard', 'two-clocks', 'thaw', 'fall', 'trouttown', 'wygwyl']
 TSU_CARD = ('<div class="chans"><a class="chan" href="this-side-up/" style="--c:#b98a52"><span class="shot"><img src="this-side-up/media/still/tsu-ice.jpg" alt="" loading="lazy"></span>'
             '<span class="txt"><span class="meta"><span class="tid">TSU</span> 10 case studies</span><b>This Side Up</b>'
             '<span class="line">Boone, a handmade cardboard puppet, cut into parts and set into worlds where time stops for everything except him. How each film was made, with something to try.</span></span></a></div>')
@@ -381,7 +383,7 @@ def docs():
         w(rel, page(rel, f'{f["title"]} · production notes', body, f['line'], f'media/thumbs/{f["id"]}.jpg', crumbs=[('Home', ''), ('Docs', 'docs/'), (f['title'], None)]))
 
 def extras():
-    urls = ['', 'lab/'] + [p['path'] for p in C.PROGRAMS] + ['this-side-up/', 'found-odyssey/cast/', 'characters/', 'films/', 'process/', 'docs/'] + [f'films/{f["id"]}/' for f in C.FILMS] + [f'process/{s}/' for s in PROC] + [f'lab/{l["id"]}/' for l in C.LAB]
+    urls = ['', 'lab/'] + [p['path'] for p in C.PROGRAMS] + ['this-side-up/'] + [f'this-side-up/{s}/' for s in TSU_CASES] + ['found-odyssey/cast/', 'characters/', 'films/', 'process/', 'docs/'] + [f'films/{f["id"]}/' for f in C.FILMS] + [f'process/{s}/' for s in PROC] + [f'lab/{l["id"]}/' for l in C.LAB]
     w('sitemap.xml', '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' + ''.join(f'<url><loc>{C.BASE}{u}</loc></url>' for u in urls) + '</urlset>\n')
     w('robots.txt', f'User-agent: *\nAllow: /\nSitemap: {C.BASE}sitemap.xml\n')
     w('catalog.json', json.dumps(dict(brand=C.BRAND, programs=C.PROGRAMS, characters=C.CHARACTERS, lab=C.LAB,
@@ -397,7 +399,7 @@ Live: {C.BASE}
 | Program | |
 |---|---|
 """ + ''.join(f"| [{p['title']}]({p['path']}) | {p['line']} |\n" for p in C.PROGRAMS) + f"""
-- [This Side Up](this-side-up/): ten case studies of the cardboard cut-out films
+- [This Side Up](this-side-up/): case studies of the cardboard cut-out films, each with a full case page of versions, prompts, critic rounds and sheets
 - [Characters](characters/) · [Films](films/) ({len(C.FILMS)}) · [Process](process/) · [Docs and prompts](docs/)
 - Lab pages: """ + ' · '.join(f"[{l['title']}](lab/{l['id']}/)" for l in C.LAB) + """
 
