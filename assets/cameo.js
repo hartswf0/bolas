@@ -67,7 +67,7 @@
       secs.forEach(x => x.classList.toggle('cur', x === sec)); };
     const io = new IntersectionObserver(es => { const v = es.filter(e => e.isIntersecting).sort((a, b) => (b.target.classList.contains('beat') - a.target.classList.contains('beat')) || (a.boundingClientRect.top - b.boundingClientRect.top))[0]; v && show(v.target); },
       { rootMargin: '-30% 0px -60% 0px' });
-    notes.classList.add('js'); secs.forEach(s => io.observe(s)); notes.querySelectorAll('.beat[data-say]').forEach(b => io.observe(b));
+    notes.classList.add('js'); secs.forEach(s => io.observe(s)); notes.querySelectorAll('.beat[data-say],.explain[data-say]').forEach(b => io.observe(b));
     new IntersectionObserver(es => es.forEach(e => notes.classList.toggle('inview', e.isIntersecting)), { threshold: 0 }).observe(notes);
   }
   const seek = t => { const v = document.querySelector('.player video'); if (!v) return false; v.scrollIntoView({ behavior: 'smooth', block: 'center' });

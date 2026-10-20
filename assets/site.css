@@ -284,3 +284,7 @@ pre.prompt{font-family:var(--mono);font-size:12.5px;line-height:1.55;background:
  .ncontent{padding-bottom:110px}.nsec{margin-left:0;padding-left:10px}
  .beat{grid-template-columns:1fr}}
 .nsec.nintro{display:block;border:0;padding:0;margin:0 0 -10px}
+.explain{margin:4px 0 0;display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:16px;align-items:start;background:var(--panel);border-left:6px solid var(--amber);padding:12px}
+.explain .eximgs{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,160px),1fr));gap:8px}
+.explain figcaption{font-size:15px;line-height:1.45}.explain figcaption b{display:block;font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px}
+@media (max-width:700px){.explain{grid-template-columns:1fr}}

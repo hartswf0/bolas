@@ -100,11 +100,18 @@ def pics_for(text, film, after=0):
         if any(abs(t - u) < 3 for u in seen): continue
         seen.add(t); out.append((t, q))
     return out[:3]
+SCENE = {'giants': r'laestrygon', 'sty': r'\bsty\b', 'moly': r'\bmoly\b', 'road': r'^the road|the road\b', 'trench': r'trench', 'seer': r'tiresias', 'king': r'agamemnon',
+         'ajax': r'achilles and ajax', 'mother': r'the mother', 'mound': r'the mound', 'circe': r"circe's road", 'sirens': r'the sirens', 'scylla': r'scylla', 'island': r'the island',
+         'cattle': r'the cattle', 'storm': r'the storm', 'ship': r'cold open · the ship', 'loop': r'i · the loop', 'wake': r'the wake', 'athena': r'· athena', 'cave': r'the cave', 'beggar': r'the beggar',
+         'olympus': r'olympus', 'shore': r'the shore', 'raft': r'the raft', 'odys': r'as odysseus tells it', 'poly': r'as polyphemus tells it', 'fork': r'both at once',
+         'sons': r'in the dark', 'back': r'back at the feast'}
 def sheets_for(text, images, used):
     toks = set()
     for a, b in re.findall(r'\b(\d{1,2})\.(\d)\b', text): toks.add(f'x{a}-{b}')
     m = re.match(r'\s*\**(\d{1,2})\b', text)
     if m: n = m.group(1); toks |= {f'hb{n}', f's{n}', f'c{n}', f'g{n}'}
+    low = text.lower()
+    toks |= {f'test-{k}' for k, al in SCENE.items() if re.search(al, low)}
     out = [i for i in images if i['src'] not in used and any(re.search(rf'(^|[-/]){t}(k)?\.jpg$', i['src']) for t in toks)]
     for i in out: used.add(i['src'])
     return out[:3]
@@ -148,20 +155,46 @@ def para_say(p, who):
     if m and who == 'critic': return f"I said {m.group(1).lower()}: {m.group(2)}. The fix: {m.group(3)}."
     return None
 def inline(t): return MD(t).replace('<p>', '').replace('</p>', '')
-def moment(fid, t, q, up, here):
+def moment(fid, t, q, up, here, label=None):
     src = still(fid, t)
     if not src: return ''
     href = f'#t={t}' if here else f'{up}films/{fid}/#t={t}'
-    cap = f'“{esc(q)}”' if q else 'the start of this part, just after its card'
+    cap = esc(label) if label else f'“{esc(q)}”' if q else 'the start of this part, just after its card'
     return f'<a class="moment" href="{href}" data-t="{t if here else ""}"><img src="{up}{src}" alt="" loading="lazy"><span><b>{mmss(t)}</b> {cap}</span></a>'
+KINDS = [  # (file-name pattern, short label, what you are looking at, the part of the notes it belongs in)
+ (r'^[fr]\d+b?\.jpg', 'sign frame check', 'Frames from one sign, checked here before the critic round.', r'findings|record|review|what it is'),
+ (r'hybrid-(hand-)?s\d|hybrid-hand-x.*-s\.jpg', 'frame strip', 'A strip of frames from one passage, read left to right, to check the motion over time.', r'how each|passages|six plates|integration|standard|what it is'),
+ (r'hybrid-t-(a\d|mix)', 'pipeline test', 'An early run of the automatic pipeline on a few plates, before all 78 passages were made.', r'pipeline|automatic|how'),
+ (r'hybrid-hand-t', 'early handmade test', 'An early test of a hand-keyed passage, before the shared integration standard existed.', r'standard|integration|reviews|what it is'),
+ (r'^t-(py|gods)', 'costume test', 'One body, many costumes: the same keyed body drawn as a new character.', r'what it is|experiment|cast|observed'),
+ (r'survey|all-grp', 'survey sheet', 'A survey sheet: the start, middle and end frame of every automatic passage on one page. The critic counted works, partly and fails from these.', r'result|review|count|what fails'),
+ (r'cl-a\d', 'frame crops', 'Consecutive frames cropped tight on the dummy, used to check contact with the ground and flicker between frames.', r'what fails|result|review'),
+ (r'critic|sheets-x|overview|-ov-', 'critic sheet', 'The sheet a fresh critic was given: frames from one passage and nothing else. The critic described what it showed before reading what it was meant to show.', r'review|verdict|critic|result|round|passage|findings|record'),
+ (r'test-', 'scene test', 'A scene test: the scene rendered on its own before the episode was assembled, to check staging, scale and the line.', r'running order|experiment|^the |what happens|^the line'),
+ (r'chk|epchk|^ep-|/ep-|ep\d-sheet|-sheet\.jpg|^ss\d|/ss\d|/f\d', 'check frame', 'A check frame pulled from the assembled film to look at one moment before the cut was locked.', r'running order|experiment|what it is|structure|the film|record'),
+ (r'plates|clips|cand', 'candidate plates', 'Candidate archive plates laid out side by side before one was chosen for the sign or scene.', r'plate|picture|observed|six plates|how each|what it is'),
+ (r'hybrid-(hand-)?g\d', 'camera fit grid', "The plate with the fitted camera's floor grid drawn over it. If the grid lies flat on the ground, the dummy will stand on it at the right scale.", r'how each|camera|pipeline|integration|standard|six plates|passages'),
+ (r'tmp|dbg|bd-|hybrid-[mrvt]\d', 'layer check', 'A debug render: the dummy layer, the shadow and the mattes checked separately before compositing.', r'how each|pipeline|integration|standard|fix|changes'),
+ (r'ref-|lab-|toon-t|ody-t\d|ody-\d', 'style test', 'A style test: the same drawn figure set into the footage in one candidate way.', r'style|drawn|picture|lab|six|shot'),
+ (r'reel|v\d-', 'reel frame', 'Frames from a review reel, used to check the shots in sequence.', r'shot|reel|second pass|new in every'),
+ (r'dx-|line', 'line study', 'A study of one line and its gesture, drawn before the scene was built.', r'experiment|line|hands|grip'),
+ (r'hb-', 'Hand Butter test', 'A test frame of the screening room: the cast, the screen and the projector light.', r'what it is|scene|observed'),
+]
+def kind(src):
+    for rx, short, long, topic in KINDS:
+        if re.search(rx, src.split('/')[-1]): return short, long, topic
+    return 'working sheet', 'A working sheet from this stage.', r'.'
 def sheet_cap(c):
     m = re.fullmatch(r'([gscx])(\d+)', c)
     if m: return {'g': 'camera fit grid', 's': 'frame strip', 'c': 'check', 'x': 'passage'}[m[1]] + f', sign {m[2]}'
     return c if len(c) > 6 else 'working sheet'
-def sheet(i, up): c = sheet_cap(i["caption"]); return f'<a class="moment sheet" href="{up}{i["src"]}" data-lb><img src="{up}{i["src"]}" alt="{esc(c)}" loading="lazy"><span><b>sheet</b> {esc(c)}</span></a>'
+def sheet(i, up, explain=True):
+    c = sheet_cap(i["caption"]); k, long, _ = kind(i['src'])
+    what = long.split(': ', 1)[-1].split('. ')[0].rstrip('.') if explain else ('' if re.fullmatch(r'working sheet|plates \d+|contact sheet|detail check', c.lower()) else c)
+    return f'<a class="moment sheet" href="{up}{i["src"]}" data-lb><img src="{up}{i["src"]}" alt="{esc(k)}: {esc(c)}" loading="lazy"><span><b>{esc(k)}</b> {esc(what[:1].upper() + what[1:])}{'.' if explain else ''}</span></a>'
 
 
-def render(md_path, film=None, fid=None, images=(), up='', here=True, who='bola', case=None, hello=''):
+def render(md_path, film=None, fid=None, images=(), up='', here=True, who='bola', case=None, hello='', own=lambda i: True, ep=None):
     """the notes as a guided read; returns (html, number of pictures placed)"""
     text = re.sub(r'(?m)^(?![-*] |\d+\. |\s)(.+)\n(?=[-*] |\d+\. )', r'\1\n\n', open(md_path).read())   # a list needs a blank line before it
     title, intro, secs = split_sections(text)
@@ -199,10 +232,20 @@ def render(md_path, film=None, fid=None, images=(), up='', here=True, who='bola'
                     if n0: ms = [(min(int(film.dur) - 1, ms[0][0] + 15 * n0), None)] + ms[1:]
                 if ms: cursor = max(cursor, ms[0][0])
                 rowpics.append((ms, sh))
+            # check frames are named by the second of the film they were pulled from: put each in the row whose scene it falls in
+            times = [m[0][0] if m else None for m, _ in rowpics]; extra = [[] for _ in rows]
+            if ep and any(t is not None for t in times):
+                for i in images:
+                    mm = re.search(rf'chk{ep}-(\d+)\.jpg$', i['src'])
+                    if not mm or i['src'] in used or int(mm.group(1)) < 15: continue
+                    N = int(mm.group(1)); idx = max([k for k, t in enumerate(times) if t is not None and t <= N + 2] or [None], key=lambda k: -1 if k is None else k)
+                    if idx is None and times[0] is None: idx = 0      # before the first matched scene: the opening row
+                    if idx is None or len(extra[idx]) >= 2: continue
+                    extra[idx].append(N); used.add(i['src'])
             if sum(bool(m or s) for m, s in rowpics) >= max(1, len(rows) // 3):
                 cards = ''
-                for r, (ms, sh) in zip(rows, rowpics):
-                    pics = ''.join(moment(fid, t, q, up, here) for t, q in ms[:2]) + ''.join(sheet(i, up) for i in sh[:2]); placed += bool(pics)
+                for r, (ms, sh), ex in zip(rows, rowpics, extra):
+                    pics = ''.join(moment(fid, t, q, up, here) for t, q in ms[:2]) + ''.join(sheet(i, up) for i in sh[:2]) + ''.join(moment(fid, N, None, up, here, 'check frame from this scene') for N in ex if not any(abs(N - t) < 4 for t, _ in ms)); placed += bool(pics)
                     fields = ''.join(f'<div><dt>{esc(h)}</dt><dd>{inline(c)}</dd></div>' for h, c in zip(head_r, r) if c and c not in ('(none)', '—'))
                     rs = row_say(head_r, r); cards += f'<div class="beat"{f" data-say={chr(34)}{esc(rs)}{chr(34)}" if rs else ""}>{f"<div class=pics>{pics}</div>" if pics else ""}<dl class="btxt">{fields}</dl></div>'
                 inner += f'<div class="beats">{cards}</div>'
@@ -211,12 +254,22 @@ def render(md_path, film=None, fid=None, images=(), up='', here=True, who='bola'
                 tbl = MD('| ' + ' | '.join(head_r) + ' |\n|' + '---|' * len(head_r) + '\n' + '\n'.join('| ' + ' | '.join(r) + ' |' for r in rows))
                 inner += f'<details class="bigtable"><summary>Show the table ({len(rows)} rows)</summary>{tbl}</details>' if len(rows) > 10 else tbl
         sid = f'n{n + 1}'; toc.append(f'<a href="#{sid}">{esc(head)}</a>')
-        parts.append(f'<section class="nsec" id="{sid}" data-say="{esc(line)}" data-pose="{pose}"><h2>{esc(head)}</h2><p class="gline">{esc(line)}</p>{inner}</section>')
-    rest = [i for i in images if i['src'] not in used][:8]
-    if rest:
-        parts.append(f'<section class="nsec" id="nsheets" data-say="These are the sheets that were checked while this was made." data-pose="point"><h2>Sheets from the making</h2>'
-                     f'<div class="sheets">{"".join(sheet(i, up) for i in rest)}</div>{f"<p class=more><a href={up}process/{case}/>The full case study</a></p>" if case else ""}</section>')
-        toc.append('<a href="#nsheets">Sheets</a>')
+        parts.append([sid, head, line, pose, inner])
+    # every other sheet from this stage goes beside the part of the notes it belongs to, with what it is said in words
+    groups = {}
+    for i in images:
+        if i['src'] in used or not own(i): continue
+        short, long, topic = kind(i['src'])
+        if short == 'working sheet': continue      # what it shows is not known well enough to put beside the text
+        tgt = next((k for k, p in enumerate(parts) if re.search(topic, p[1].lower())), None)
+        if tgt is None: tgt = next((k for k, p in enumerate(parts) if not re.search(r'^files$|^sound', p[1].lower())), 0)
+        groups.setdefault((tgt, short, long), []).append(i)
+    for (tgt, short, long), ims in groups.items():
+        show = ims[:4]; more = len(ims) - len(show); placed += 1
+        parts[tgt][4] += (f'<figure class="explain" data-say="{esc(long)}"><div class="eximgs">{"".join(sheet(i, up, False) for i in show)}</div>'
+                          f'<figcaption><b>{esc(short[:1].upper() + short[1:])}{"s" if len(ims) > 1 and not short.endswith("s") else ""}</b> {esc(long)}'
+                          f'{f" <a href={up}process/{case}/>{more} more on the case study page</a>" if more and case else ""}</figcaption></figure>')
+    parts = [f'<section class="nsec" id="{sid}" data-say="{esc(line)}" data-pose="{pose}"><h2>{esc(head)}</h2><p class="gline">{esc(line)}</p>{inner}</section>' for sid, head, line, pose, inner in parts]
     first = esc((hello + ' ' if hello else '') + 'I\'ll walk you through how this was made. Click any frame to play the film from that moment.')
     out = f"""<section class="notes" style="--cam:clamp(100px,11vw,150px)"><aside class="guide"><div class="gbox"><p class="gsay">{first}</p><div class="stand"><span class="cam gs" data-who="{who}" data-c="{who}-point" data-say="[]"></span></div></div></aside>
 <div class="ncontent"><p class="eyebrow nsec nintro" data-say="{first}" data-pose="wave">Production notes{' · ' + esc(title) if title else ''}</p>{MD(intro) if intro else ''}<nav class="ntoc">{''.join(toc)}</nav>{''.join(parts)}</div></section>"""

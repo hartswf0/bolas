@@ -226,9 +226,12 @@ def characters():
 import notes as NT, cases as CS
 STAGE_OF = {fid: sid for sid, k in CS.CASES.items() for fid in k.get('films', [])}
 def guided_notes(f, up, here):
-    sid = STAGE_OF.get(f['id']); imgs = PROC[sid]['images'] if sid in PROC else []
+    sid = STAGE_OF.get(f['id']); mine = PROC[sid]['images'] if sid in PROC else []
+    k = ORDER.index(sid) if sid in ORDER else -1     # scene tests can fall in the neighbouring stage's time window; they are matched by scene name only
+    near = [i for j in (k - 1, k + 1) if 0 <= j < len(ORDER) and PROC[ORDER[j]]['program'] == f['program'] for i in PROC[ORDER[j]]['images'] if '-test-' in i['src']] if k >= 0 else []
+    ownset = {i['src'] for i in mine}; imgs = mine + near
     who = 'odysseus' if f['program'] == 'odyssey' else 'critic' if re.search(r'findings|validation|report|hand-butter', f['notes']) else 'bola'
-    h, n = NT.render(os.path.join(HOME, f['notes']), NT.Film(f['id'], f['dur']), f['id'], imgs, up, here, who, sid, CM.FILM.get(f['id'], {}).get(who, ''))
+    h, n = NT.render(os.path.join(HOME, f['notes']), NT.Film(f['id'], f['dur']), f['id'], imgs, up, here, who, sid, CM.FILM.get(f['id'], {}).get(who, ''), lambda i: i['src'] in ownset, f.get('ep'))
     print('notes', f['id'], n, 'parts with pictures')
     return h + LIGHTBOX
 def films():
