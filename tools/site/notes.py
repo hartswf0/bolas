@@ -152,9 +152,14 @@ def moment(fid, t, q, up, here):
     src = still(fid, t)
     if not src: return ''
     href = f'#t={t}' if here else f'{up}films/{fid}/#t={t}'
-    cap = f'“{esc(q)}”' if q else 'the start of this part'
+    cap = f'“{esc(q)}”' if q else 'the start of this part, just after its card'
     return f'<a class="moment" href="{href}" data-t="{t if here else ""}"><img src="{up}{src}" alt="" loading="lazy"><span><b>{mmss(t)}</b> {cap}</span></a>'
-def sheet(i, up): return f'<a class="moment sheet" href="{up}{i["src"]}" data-lb><img src="{up}{i["src"]}" alt="{esc(i["caption"])}" loading="lazy"><span><b>sheet</b> {esc(i["caption"])}</span></a>'
+def sheet_cap(c):
+    m = re.fullmatch(r'([gscx])(\d+)', c)
+    if m: return {'g': 'camera fit grid', 's': 'frame strip', 'c': 'check', 'x': 'passage'}[m[1]] + f', sign {m[2]}'
+    return c if len(c) > 6 else 'working sheet'
+def sheet(i, up): c = sheet_cap(i["caption"]); return f'<a class="moment sheet" href="{up}{i["src"]}" data-lb><img src="{up}{i["src"]}" alt="{esc(c)}" loading="lazy"><span><b>sheet</b> {esc(c)}</span></a>'
+
 
 def render(md_path, film=None, fid=None, images=(), up='', here=True, who='bola', case=None, hello=''):
     """the notes as a guided read; returns (html, number of pictures placed)"""
@@ -186,10 +191,13 @@ def render(md_path, film=None, fid=None, images=(), up='', here=True, who='bola'
                     inner += MD(b[1])
                 continue
             _, head_r, rows = b
-            rowpics = []
+            rowpics = []; again = {}
             for r in rows:
                 t = ' '.join(r); ms = pics_for(t, film, cursor); sh = sheets_for(t, images, used)
-                if ms: cursor = ms[0][0]
+                if ms and ms[0][1] is None:      # the same sign card again: the next passage under it starts about 15 s later
+                    n0 = again.get(ms[0][0], 0); again[ms[0][0]] = n0 + 1
+                    if n0: ms = [(min(int(film.dur) - 1, ms[0][0] + 15 * n0), None)] + ms[1:]
+                if ms: cursor = max(cursor, ms[0][0])
                 rowpics.append((ms, sh))
             if sum(bool(m or s) for m, s in rowpics) >= max(1, len(rows) // 3):
                 cards = ''

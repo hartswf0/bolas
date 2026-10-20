@@ -230,7 +230,7 @@ def guided_notes(f, up, here):
     who = 'odysseus' if f['program'] == 'odyssey' else 'critic' if re.search(r'findings|validation|report|hand-butter', f['notes']) else 'bola'
     h, n = NT.render(os.path.join(HOME, f['notes']), NT.Film(f['id'], f['dur']), f['id'], imgs, up, here, who, sid, CM.FILM.get(f['id'], {}).get(who, ''))
     print('notes', f['id'], n, 'parts with pictures')
-    return h
+    return h + LIGHTBOX
 def films():
     path = 'films/index.html'; up = up_of(path); body = f'<section class="hero"><p class="eyebrow">Films</p><h1>Films<span class="stripe"></span></h1><p class="lede">{len(C.FILMS)} films, {mmss(sum(f["dur"] for f in C.FILMS))} in all, by program.</p></section>'
     for pid in ('family', 'cineosis', 'odyssey', 'wygwyl'):
