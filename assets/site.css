@@ -223,7 +223,7 @@ pre.prompt{font-family:var(--mono);font-size:12.5px;line-height:1.55;background:
 @media (max-width:520px){.chan{grid-template-columns:1fr}}
 
 /* the player: the cast watches with you */
-.player{--cam:clamp(92px,15vw,190px);margin:calc(var(--cam) * .5) auto 0;width:min(100%,940px)}
+.player{--cam:clamp(92px,15vw,190px);margin:calc(var(--cam) * .5) auto calc(var(--cam) * .3);width:min(100%,940px)}
 .player video,.player .still{display:block;width:100%}
 .filmpage .player video{border:2px solid var(--ink)}
 @media (max-width:1180px){.player .cam.l{top:0;right:auto;left:3%}.player .cam.r{top:0;left:auto;right:3%}.player{margin-top:calc(var(--cam) * 1.02)}}
