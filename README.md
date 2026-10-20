@@ -18,4 +18,13 @@ Live: https://hartswf0.github.io/bolas/
 
 The site is generated from one catalog. `catalog.json` is its published form: programs, characters, films (with loglines,
 running times, thumbnails) and process stages. Pages, thumbnails and the sitemap are generated from it; adding a film is one
-catalog entry plus its file under `media/films/`.
+catalog entry plus its file under `media/films/`. Every film gets a test number (FAM-03, CIN-05, ODY-E7, WYG-01) from its
+program and its order in the catalog.
+
+## The cast around the films
+
+The characters that sit on cards, peek over players and talk to the viewer are sprite strips in `media/cameo/`, rendered
+from the rig at one shared scale (`cameos.json` records each strip's frame size and its anchor: soles, seat or hands).
+`site/cameo.py` says who appears around which program's films and what they say; `assets/cameo.js` places them, animates
+them and has them react to the player (they sit down and turn to watch on play, turn back on pause, cheer at the end).
+A new character is a set of sprites plus one entry for its size and lines. The poet is a real person: he appears but never speaks.

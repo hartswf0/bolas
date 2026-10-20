@@ -38,7 +38,7 @@ def relocate():
 
 # ---------------------------------------------------------------- page frame
 FONTS = '<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800;900&family=JetBrains+Mono:wght@400;600&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&display=swap" rel="stylesheet">'
-NAV = [('family/', 'The Family'), ('cineosis/', 'CINEOSIS'), ('found-odyssey/', 'The Found Odyssey'), ('wygwyl/', 'WYGWYL'), ('characters/', 'Characters'), ('films/', 'Films'), ('process/', 'Process'), ('docs/', 'Docs')]
+NAV = [('lab/', 'Try it'), ('family/', 'The Family'), ('cineosis/', 'CINEOSIS'), ('found-odyssey/', 'The Found Odyssey'), ('wygwyl/', 'WYGWYL'), ('films/', 'Films'), ('characters/', 'Characters'), ('process/', 'How it was made')]
 def page(path, title, body, desc='', image='media/og.jpg', kind='website', extra_head='', crumbs=None):
     depth = path.count('/'); up = '../' * depth; here = path.rsplit('index.html', 1)[0]
     nav = ''.join(f'<a href="{up}{h}"{" aria-current=page" if here.startswith(h) else ""}>{n}</a>' for h, n in NAV)
@@ -46,7 +46,7 @@ def page(path, title, body, desc='', image='media/og.jpg', kind='website', extra
     if crumbs: cr = '<p class="crumbs">' + ' / '.join(f'<a href="{up}{h}">{esc(n)}</a>' if h is not None else esc(n) for n, h in crumbs) + '</p>'
     full = title if title == C.BRAND['name'] else f'{title} · {C.BRAND["name"]}'
     url = C.BASE + here; img = C.BASE + image
-    return f"""<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+    return f"""<!doctype html><html lang="en" data-root="{up}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>{esc(full)}</title><meta name="description" content="{esc(desc)}"><link rel="canonical" href="{url}">
 <meta property="og:site_name" content="{C.BRAND['name']}"><meta property="og:title" content="{esc(title)}"><meta property="og:description" content="{esc(desc)}"><meta property="og:type" content="{kind}"><meta property="og:url" content="{url}"><meta property="og:image" content="{img}">
 <meta name="twitter:card" content="summary_large_image"><meta name="theme-color" content="#0b0d10">
@@ -54,15 +54,34 @@ def page(path, title, body, desc='', image='media/og.jpg', kind='website', extra
 {FONTS}<link rel="stylesheet" href="{up}assets/site.css">{extra_head}</head><body>
 <header class="top"><a class="brand" href="{up}"><img src="{up}favicon.svg" alt="" width="28" height="28"><span>{C.BRAND['name']}</span></a><nav>{nav}</nav></header>
 <main class="wrap">{cr}{body}</main>
-<footer class="foot"><div class="wrap"><p><b>{C.BRAND['studio']}</b> · {C.BRAND['author']} · built with Claude</p><p>Every figure is keyed by hand in a rig and rendered from code. Archive footage comes from the cineosis-lab library and is credited inside each film. <a href="{up}catalog.json">catalog.json</a> · <a href="{up}sitemap.xml">sitemap</a> · <a href="https://github.com/hartswf0/bolas">source</a></p></div></footer>
+<footer class="foot"><div class="wrap"><p><b>{C.BRAND['studio']}</b> · {C.BRAND['author']} · built with Claude</p><p>Every figure is keyed by hand in a rig and rendered from code. Archive footage comes from the cineosis-lab library and is credited inside each film. <a href="{up}docs/">documents and prompts</a> · <a href="{up}catalog.json">catalog.json</a> · <a href="{up}sitemap.xml">sitemap</a> · <a href="https://github.com/hartswf0/bolas">source</a></p></div></footer>
+<script src="{up}assets/cameo-data.js" defer></script><script src="{up}assets/cameo.js" defer></script>
 </body></html>"""
 def up_of(path): return '../' * path.count('/')
 
 # ---------------------------------------------------------------- pieces
+import cameo as CM
+PREFIX = {'family': 'FAM', 'cineosis': 'CIN', 'odyssey': 'ODY', 'wygwyl': 'WYG'}
+TID = {}
+for _p in PREFIX:
+    _n = 0
+    for _f in C.FILMS:
+        if _f['program'] != _p: continue
+        if _f.get('ep'): TID[_f['id']] = f"{PREFIX[_p]}-E{_f['ep']}"
+        else: _n += 1; TID[_f['id']] = f"{PREFIX[_p]}-{_n:02d}"
+def cam(who, pose, at, film=None, lines=True, style=''):
+    L = [] if who == 'poet' or not lines else [l for l in [CM.FILM.get(film, {}).get(who)] + CM.LINES.get(who, []) if l]
+    flip = ' flip' if at in ('l', 'tl') else ''
+    return f'<span class="cam {at}{flip}" data-who="{who}" data-c="{who}-{pose}" data-say="{esc(json.dumps(L))}"{f' style="{style}"' if style else ''}></span>'
+def card_cam(f):
+    opts = CM.CARD.get(f['program']) or []
+    if not opts: return ''
+    who, pose, at = opts[sum(map(ord, f['id'])) % len(opts)]
+    return cam(who, pose, at, f['id'])
 def film_card(f, up, big=False):
     p = PROG[f['program']]
-    return f"""<a class="card film{' big' if big else ''}" href="{up}films/{f['id']}/" style="--c:{p['color']}"><img src="{up}media/thumbs/{f['id']}.jpg" alt="" loading="lazy" width="1280" height="720">
-<span class="meta">{esc(p['title'] if p['id'] != 'cineosis' else 'CINEOSIS')} · {mmss(f['dur'])}{' · ' + f['kind'] if f.get('kind') else ''}</span><b>{esc(f['title'])}</b><span class="line">{esc(f['line'])}</span></a>"""
+    return f"""<a class="card film{' big' if big else ''}" href="{up}films/{f['id']}/" style="--c:{p['color']}">{card_cam(f)}<img src="{up}media/thumbs/{f['id']}.jpg" alt="" loading="lazy" width="1280" height="720">
+<span class="meta"><span class="tid">{TID[f['id']]}</span> {mmss(f['dur'])}{' · ' + f['kind'] if f.get('kind') else ''}</span><b>{esc(f['title'])}</b><span class="line">{esc(f['line'])}</span></a>"""
 def char_card(c, up, turn=False):
     img = c.get('turn') if turn and c.get('turn') else c['img']; p = PROG[c['program']]
     return f"""<article class="char{' turn' if turn and c.get('turn') else ''}" id="{c['id']}" style="--c:{p['color']}"><div class="fig"><img src="{up}media/cast/{img}" alt="{esc(c['name'])}" loading="lazy"></div>
@@ -72,8 +91,14 @@ def appears(c, up):
     if not fs: return ''
     return '<p class="in">In: ' + ', '.join(f'<a href="{up}films/{f["id"]}/">{esc(f["title"])}</a>' for f in fs[:8]) + ('…' if len(fs) > 8 else '') + '</p>'
 def lab_card(l, up):
-    f = FILM.get(l.get('film')); img = f'{up}media/thumbs/{f["id"]}.jpg' if f else f'{up}media/process/{l["id"]}/' + (PROC[l['id']]['images'][0]['src'].split('/')[-1] if PROC.get(l['id'], {}).get('images') else '')
-    return f"""<a class="card lab" href="{up}lab/{l['id']}/" style="--c:{PROG[l['program']]['color']}"><img src="{img}" alt="" loading="lazy"><span class="meta">interactive page{' · film' if f else ''}</span><b>{esc(l['title'])}</b><span class="line">{esc(l['line'])}</span></a>"""
+    return try_tile(dict(href=f'lab/{l["id"]}/', img=f'media/lab/{l["id"]}.jpg', title=l['title'], verb=TRYVERB.get(l['id'], ''), line=l['line']), up)
+TRYVERB = {'pencil-test': 'Scrub every beat of three scenes, frame by frame', 'range-test': 'Run 54 range tests, or load a video of a person and get the same report',
+           'the-physical': 'Step through 47 proofs and see which joints each one drives', 'crash-lab': 'Filter 191 crash tests by instrument and play any of them', 'all-worlds': 'Open any of 159 worlds in the full rig'}
+TRY = [dict(href='lab/crash-lab/', img='media/lab/crash-lab.jpg', title='Dramaturgy Crash Lab', id='crash-lab'), dict(href='lab/range-test/', img='media/lab/range-test.jpg', title='Range test and Video to Bolas', id='range-test'),
+       dict(href='lab/the-physical/', img='media/lab/the-physical.jpg', title='The Physical', id='the-physical'), dict(href='lab/pencil-test/', img='media/lab/pencil-test.jpg', title='Pencil test', id='pencil-test'),
+       dict(href='lab/crash-lab/all-worlds.html', img='media/lab/all-worlds.jpg', title='All worlds', id='all-worlds')]
+def try_tile(t, up, cams=''):
+    return f"""<a class="card try" href="{up}{t['href']}" style="--c:var(--amber)">{cams}<span class="shot"><img src="{up}{t['img']}" alt="" loading="lazy"><span class="go">Open</span></span><span class="meta"><span class="tid">Interactive</span> runs in your browser</span><b>{esc(t['title'])}</b><span class="line">{esc(t.get('verb') or TRYVERB.get(t.get('id'), ''))}</span></a>"""
 def process_strip(stage_ids, up, n=6):
     out = ''
     for sid in stage_ids:
@@ -87,41 +112,56 @@ def md(path):
     return '<div class="md">' + markdown.markdown(open(path).read(), extensions=['tables', 'fenced_code', 'sane_lists']) + '</div>'
 def section(title, inner, sub=''):
     return f'<section class="sec"><div class="sechead"><h2>{esc(title)}</h2>{f"<p>{esc(sub)}</p>" if sub else ""}</div>{inner}</section>'
-def grid(items, cls='grid'): return f'<div class="{cls}">{"".join(items)}</div>'
+def grid(items, cls='grid'): return f'<div class="{cls}{" cams" if any("class=\"cam " in i for i in items) else ""}">{"".join(items)}</div>'
 
 # ---------------------------------------------------------------- pages
 def home():
-    up = ''; fam = [CHAR[i] for i in ('bola', 'shim', 'dot')]
-    progs = ''.join(f"""<a class="prog" href="{p['path']}" style="--c:{p['color']}"><img src="media/thumbs/{({'family': 'crash-lab-film', 'cineosis': 'cineosis-hand-butter', 'odyssey': 'ep7-the-loop', 'wygwyl': 'wygwyl-poem07-paper-poet'}[p['id']])}.jpg" alt="" loading="lazy"><span class="meta">{esc(p['tag'])}</span><b>{esc(p['title'])}</b><span class="line">{esc(p['line'])}</span></a>""" for p in C.PROGRAMS)
+    up = ''
+    floor = ''.join(cam(w, p, 'f lo' if x < 50 else 'f hi', lines=False, style=f'left:{x}%' + (';top:calc(var(--floor) - var(--cam) * .3)' if w == 'critic' else '')) for w, p, x in CM.BAY)
+    crate = '<span class="crate" style="left:calc(84% - var(--cam) * .3)"></span>'
+    marks = ''.join(f'<span class="tgt" style="left:{x}%;top:{y}%"></span>' for x, y in ((62, 10), (94, 22), (78, 40)))
+    rows = ''
+    for p in C.PROGRAMS:
+        fs = [f for f in C.FILMS if f['program'] == p['id']]; lead = FILM[{'family': 'crash-lab-film', 'cineosis': 'cineosis-hand-butter', 'odyssey': 'ep7-the-loop', 'wygwyl': 'wygwyl-poem07-paper-poet'}[p['id']]]
+        c = {'family': cam('bola', 'sit', 'tl', lead['id']), 'cineosis': cam('critic', 'peek', 'tr', lead['id']), 'odyssey': cam('odysseus', 'sit', 'tr', lead['id']), 'wygwyl': ''}[p['id']]
+        rows += f"""<a class="chan" href="{p['path']}" style="--c:{p['color']}"><span class="shot">{c}<img src="media/thumbs/{lead['id']}.jpg" alt="" loading="lazy"></span>
+<span class="txt"><span class="meta"><span class="tid">{PREFIX[p['id']]}</span> {len(fs)} films</span><b>{esc(p['title'])}</b><span class="line">{esc(p['tag'])}</span></span></a>"""
     latest = [FILM[i] for i in ('wygwyl-poem07-paper-poet', 'ep7-the-loop', 'cineosis-hand-butter', 'crash-lab-film')]
-    body = f"""<section class="hero"><p class="eyebrow">{esc(C.BRAND['line'])}</p><h1>Crash Lab<span class="stripe"></span></h1><p class="lede">{esc(C.BRAND['about'])} Three dummies in a measured bay, a drawn cast in archive film, and a poet cut from paper.</p></section>
-<section class="family-band"><div class="fam"><img src="media/cast/family-lineup.png" alt="Bola, Shim and Dot"></div><div><p class="eyebrow">Meet the family</p><h2>Bola, Shim and little Dot</h2>
-<p>Three test dummies in a measured bay. {esc(fam[0]['line'])} {esc(fam[1]['line'])} {esc(fam[2]['line'])}</p><p><a class="btn" href="family/">The crash-test family</a> <a class="btn ghost" href="characters/">All characters</a></p></div></section>
-{section('Programs', f'<div class="progs">{progs}</div>')}
-{section('Latest films', grid([film_card(f, up) for f in latest]), 'every film has its own page, logline, notes and running time')}
-{section('Process', '<div class="strips">' + process_strip(['crash-lab', 'hand-butter', 'fo-ep6', 'wygwyl'], up, 6) + '</div>', 'the contact sheets and test frames checked while each piece was made')}
-"""
+    tiles = ''.join(try_tile(t, up, cam('dot', 'peek', 'tr', lines=True) if i == 0 else '') for i, t in enumerate(TRY[:4]))
+    body = f"""<section class="bayhero">{marks}
+<div class="baycopy"><p class="eyebrow">{esc(C.BRAND['studio'])} · {esc(C.BRAND['author'])}</p><h1>Crash Lab<span class="stripe"></span></h1>
+<p class="lede">Films made as tests. Crash-test dummies, a drawn Odysseus and a paper poet, measured in a bay and set into archive film.</p>
+<p class="quote">A report can say the knee hit the dashboard. The film shows it.</p>
+<p><a class="btn" href="films/crash-lab-film/">Watch the crash lab</a> <a class="btn ghost" href="lab/">Move the dummies yourself</a></p></div>
+<div class="baystage" style="--cam:clamp(110px,19vw,230px)">{crate}{floor}<span class="rule"></span></div></section>
+{section('Try it', f'<div class="tries">{tiles}</div><p class="more"><a href="lab/">All five interactive pages</a></p>', 'interactive pages: every figure is computed in your browser')}
+{section('Four channels', f'<div class="chans">{rows}</div>')}
+{section('Latest tests', grid([film_card(f, up) for f in latest]), 'every film has a test number, a logline and its notes')}
+<p class="more"><a href="process/">How it was made: 18 case studies</a> · <a href="characters/">Every character</a> · <a href="films/">All {len(C.FILMS)} films</a></p>"""
     w('index.html', page('index.html', C.BRAND['name'], body, C.BRAND['about'], 'media/thumbs/crash-lab-film.jpg'))
+
+def lab_index():
+    path = 'lab/index.html'; up = up_of(path)
+    tiles = ''.join(try_tile(t, up, cam(*[('dot', 'peek', 'tr'), ('bola', 'sit', 'tl'), ('shim', 'peek', 'tr'), ('bola', 'peek', 'tr'), ('critic', 'sit', 'tr')][i])) for i, t in enumerate(TRY))
+    body = f"""<section class="hero"><p class="eyebrow">Interactive</p><h1>Try it<span class="stripe"></span></h1><p class="lede">Five pages where the figures are computed in your browser. Scrub, filter, play, and load your own video.</p></section>
+<div class="tries all">{tiles}</div>"""
+    w(path, page(path, 'Try it', body, 'Five interactive CRASH LAB pages: the rig, the range test, the physical, the pencil test and every world.', 'media/lab/crash-lab.jpg', crumbs=[('Home', ''), ('Try it', None)]))
 
 def family():
     path = 'family/index.html'; up = up_of(path); p = PROG['family']
     chars = ''.join(char_card(CHAR[i], up, True) for i in ('bola', 'shim', 'dot', 'extras'))
-    bay = """<div class="bay"><p>The bay is a stage with instruments. Each vignette is a small drama and a crash test at once. The instruments report what a camera would miss:</p><ul>
-<li><b>Weight and support.</b> The centre of mass is dropped to the floor and must sit inside everything holding the body up: heels, balls, knees, hands on furniture, another body.</li>
-<li><b>Feet.</b> A planted heel may not move more than 0.6 cm in a frame, the left foot stays on the left, and a planted foot may not face more than 65 degrees from the hips.</li>
-<li><b>Hands.</b> A hand sent to a body or a handle must arrive within 2 cm and may not sit inside a torso it was not sent to.</li>
-<li><b>Bodies and props.</b> Two torsos may not overlap; a prop changing hands is taken where it is and may not jump; a full cup may not be jerked or tipped.</li></ul></div>"""
-    labs = grid([lab_card(LAB[i], up) for i in p['parts']])
+    bay = '<ul class="instr">' + ''.join(f'<li><b>{t}</b>{d}</li>' for t, d in [('Weight', 'the centre of mass stays inside whatever holds the body up'), ('Feet', 'a planted heel moves less than 0.6 cm a frame'), ('Hands', 'a hand lands within 2 cm of where it was sent'), ('Contact', 'two bodies never pass through each other')]) + '</ul>'
+    labs = ''.join(lab_card(LAB[i], up) for i in p['parts'])
     films = grid([film_card(f, up) for f in C.FILMS if f['program'] == 'family'])
     cin = PROG['cineosis']
     cineo = f"""<a class="prog wide" href="{up}cineosis/" style="--c:{cin['color']}"><img src="{up}media/thumbs/cineosis-hybrid-atlas.jpg" alt=""><span class="meta">the family's longest project</span><b>CINEOSIS</b><span class="line">{esc(cin['line'])}</span></a>"""
     body = f"""<section class="hero"><p class="eyebrow">Program · {esc(p['tag'])}</p><h1>The Crash-Test Family<span class="stripe"></span></h1><p class="lede">{esc(p['line'])}</p></section>
 {section('The family', f'<div class="chars">{chars}</div>', 'front, three-quarter, side and back, drawn by the lab\'s own renderer')}
-{section('The measured bay', bay)}
-{section('Lab instruments', labs, 'interactive pages: every figure is computed in your browser')}
+{section('The measured bay', bay, 'every vignette is a small drama and a crash test, read by four instruments')}
+{section('Try it', f'<div class="tries">{labs}</div>', 'interactive pages: every figure is computed in your browser')}
 {section('Films', films)}
 {section('CINEOSIS', cineo)}
-{section('Process', '<div class="strips">' + process_strip(C.PROCESS['family'], up) + '</div>')}"""
+<p class="more"><a href="{up}process/">How it was made: the case studies</a></p>"""
     w(path, page(path, p['title'], body, p['line'], 'media/cast/family-lineup.png', crumbs=[('Home', ''), (p['title'], None)]))
 
 def cineosis():
@@ -139,7 +179,7 @@ def cineosis():
 {section('Films', grid([film_card(f, up) for f in main]))}
 {section('Cast', '<div class="chars">' + ''.join(char_card(CHAR[i], up, True) for i in ('bola', 'shim', 'critic')) + '</div>', 'the family, and the Critic who joined them for Hand Butter')}
 {section('Review reels', grid([film_card(f, up) for f in reels]))}
-{section('Process', '<div class="strips">' + process_strip(C.PROCESS['cineosis'], up) + '</div>')}"""
+<p class="more"><a href="{up}process/">How it was made: the case studies</a></p>"""
     w(path, page(path, 'CINEOSIS', body, p['line'], 'media/thumbs/cineosis-hybrid-atlas.jpg', crumbs=[('Home', ''), ('The Crash-Test Family', 'family/'), ('CINEOSIS', None)]))
 
 def odyssey():
@@ -150,7 +190,7 @@ def odyssey():
 {section('Episodes', grid([film_card(f, up, True) for f in eps], 'grid eps'))}
 {section('The cast', f'<div class="minis">{cast}</div><p><a class="btn" href="{up}found-odyssey/cast/">Cast and character development</a></p>', 'one body, many costumes')}
 {section('Tests', grid([film_card(f, up) for f in tests]))}
-{section('Process', '<div class="strips">' + process_strip(C.PROCESS['odyssey'], up, 6) + '</div>')}
+<p class="more"><a href="{up}process/fo-tests/">How it was made: the case studies</a></p>
 <p class="lede">The method as a prompt: <a href="{up}docs/prompts/12-found-footage-animation.poml.html">found-footage-animation.poml</a>.</p>"""
     w(path, page(path, p['title'], body, p['line'], 'media/thumbs/ep7-the-loop.jpg', crumbs=[('Home', ''), (p['title'], None)]))
     # cast page with character development sheets
@@ -173,7 +213,7 @@ def wygwyl():
 {section('The cast', '<div class="chars">' + ''.join(char_card(c, up) for c in C.CHARACTERS if c['program'] == 'wygwyl') + '</div>')}
 {section('How a patch is built', '<ol class="steps"><li><b>Words to gestures.</b> A cue table maps words in the patch\'s line to one held gesture each (ear, mic, open hands, reach, heart, chin up, head down, camera, glasses) and writes the rig world.</li><li><b>Heads.</b> Each frame takes the replacement head nearest the rig\'s turn and tilt; some words ask for a particular head.</li><li><b>Plates.</b> His own photographs with him painted out; the puppet goes back where he stood.</li><li><b>Inset.</b> The patch\'s own archive cel, framed on a cardboard plinth, labelled from the cel database.</li></ol>')}
 {section('Proofs', grid([film_card(f, up) for f in fs[1:]]))}
-{section('Process', '<div class="strips">' + process_strip(C.PROCESS['wygwyl'], up, 8) + '</div>')}"""
+<p class="more"><a href="{up}process/wygwyl/">How it was made: the case study</a></p>"""
     w(path, page(path, 'WYGWYL', body, p['line'], 'media/thumbs/wygwyl-poem07-paper-poet.jpg', crumbs=[('Home', ''), ('WYGWYL', None)]))
 
 def characters():
@@ -197,7 +237,8 @@ def films():
         video = f'<video controls preload="none" playsinline poster="{up}media/posters/{f["id"]}.jpg" src="{up}media/films/{f["id"]}.mp4"></video>' if f['ready'] else f'<img class="still" src="{up}media/posters/{f["id"]}.jpg" alt=""><p class="note">The web copy of this film is still being encoded.</p>'
         ld = dict({'@context': 'https://schema.org', '@type': 'VideoObject', 'name': f['title'], 'description': f['line'], 'thumbnailUrl': C.BASE + f'media/thumbs/{f["id"]}.jpg',
                    'uploadDate': f['date'], 'duration': f'PT{int(f["dur"] // 60)}M{int(f["dur"] % 60)}S', 'contentUrl': C.BASE + f'media/films/{f["id"]}.mp4', 'creator': {'@type': 'Person', 'name': C.BRAND['author']}})
-        body = f"""<section class="filmpage"><p class="eyebrow" style="color:{p['color']}">{esc(p['title'])}{' · ' + esc(f['kind']) if f.get('kind') else ''}</p><h1 class="ft">{esc(f['title'])}</h1>{video}
+        cams = ''.join(cam(wh, po, at, f['id']) for wh, po, at in CM.PLAYER.get(f['program'], []))
+        body = f"""<section class="filmpage"><p class="eyebrow" style="color:{p['color']}"><span class="tid">Test {TID[f['id']]}</span> {esc(p['title'])}{' · ' + esc(f['kind']) if f.get('kind') else ''}</p><h1 class="ft">{esc(f['title'])}</h1><div class="player">{video}{cams}</div>
 <p class="logline">{esc(f['line'])}</p>
 <dl class="facts"><div><dt>Running time</dt><dd>{mmss(f['dur'])}</dd></div><div><dt>Made</dt><dd>{f['date']}</dd></div><div><dt>Program</dt><dd><a href="{up}{prog_link}">{esc(p['title'])}</a></dd></div><div><dt>Characters</dt><dd>{chars}</dd></div><div><dt>File</dt><dd>{'<a href="' + up + 'media/films/' + f['id'] + '.mp4">mp4</a>, 960 wide, ' + str(f['mb']) + ' MB' if f['ready'] else 'encoding'}</dd></div></dl>
 {notes}</section>{section('More from ' + p['title'], grid([film_card(g, up) for g in rel]))}"""
@@ -319,7 +360,7 @@ def docs():
         w(rel, page(rel, html.unescape(title), m.group(1), 'CRASH LAB documents and prompts.', 'media/og.jpg', crumbs=[('Home', ''), ('Docs', 'docs/'), (html.unescape(title), None)] if not rel.endswith('docs/index.html') else [('Home', ''), ('Docs', None)]))
 
 def extras():
-    urls = [''] + [p['path'] for p in C.PROGRAMS] + ['found-odyssey/cast/', 'characters/', 'films/', 'process/', 'docs/'] + [f'films/{f["id"]}/' for f in C.FILMS] + [f'process/{s}/' for s in PROC] + [f'lab/{l["id"]}/' for l in C.LAB]
+    urls = ['', 'lab/'] + [p['path'] for p in C.PROGRAMS] + ['found-odyssey/cast/', 'characters/', 'films/', 'process/', 'docs/'] + [f'films/{f["id"]}/' for f in C.FILMS] + [f'process/{s}/' for s in PROC] + [f'lab/{l["id"]}/' for l in C.LAB]
     w('sitemap.xml', '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' + ''.join(f'<url><loc>{C.BASE}{u}</loc></url>' for u in urls) + '</urlset>\n')
     w('robots.txt', f'User-agent: *\nAllow: /\nSitemap: {C.BASE}sitemap.xml\n')
     w('catalog.json', json.dumps(dict(brand=C.BRAND, programs=C.PROGRAMS, characters=C.CHARACTERS, lab=C.LAB,
@@ -342,11 +383,25 @@ Live: {C.BASE}
 
 The site is generated from one catalog. `catalog.json` is its published form: programs, characters, films (with loglines,
 running times, thumbnails) and process stages. Pages, thumbnails and the sitemap are generated from it; adding a film is one
-catalog entry plus its file under `media/films/`.
+catalog entry plus its file under `media/films/`. Every film gets a test number (FAM-03, CIN-05, ODY-E7, WYG-01) from its
+program and its order in the catalog.
+
+## The cast around the films
+
+The characters that sit on cards, peek over players and talk to the viewer are sprite strips in `media/cameo/`, rendered
+from the rig at one shared scale (`cameos.json` records each strip's frame size and its anchor: soles, seat or hands).
+`site/cameo.py` says who appears around which program's films and what they say; `assets/cameo.js` places them, animates
+them and has them react to the player (they sit down and turn to watch on play, turn back on pause, cheer at the end).
+A new character is a set of sprites plus one entry for its size and lines. The poet is a real person: he appears but never speaks.
 """)
 
+def cameo_assets():
+    sp = json.load(open(R + '/media/cameo/cameos.json'))
+    data = dict(s={k: dict(w=v['w'], h=v['h'], n=v['n'], ay=v['ay']) for k, v in sp.items()}, k=CM.SIZE, play=CM.ON_PLAY, pause=CM.ON_PAUSE, end=CM.ON_END, talk=CM.BAY_TALK)
+    w('assets/cameo-data.js', 'window.CAM=' + json.dumps(data, separators=(',', ':')) + ';\n')
+    shutil.copy(H + '/cameo.js', R + '/assets/cameo.js')
 def main():
-    relocate(); lab(); home(); family(); cineosis(); odyssey(); wygwyl(); characters(); films(); process(); docs(); extras()
+    relocate(); cameo_assets(); lab(); lab_index(); home(); family(); cineosis(); odyssey(); wygwyl(); characters(); films(); process(); docs(); extras()
     # the first build's section folders are replaced by the structure above
     for d in ('01-pencil-test', '02-range-test', '03-the-physical', '04-crash-lab', '05-hybrid-atlas', '06-hand-butter', '07-found-odyssey'):
         p = os.path.join(R, d)

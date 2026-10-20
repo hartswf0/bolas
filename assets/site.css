@@ -167,3 +167,72 @@ pre.prompt{font-family:var(--mono);font-size:12.5px;line-height:1.55;background:
 .lb p{grid-column:1/-1;color:#fff;font-family:var(--mono);font-size:13px;text-align:center;margin:8px 0 0}
 .lb button{background:none;border:1px solid #666;color:#fff;font-family:var(--mono);font-size:20px;height:48px;cursor:pointer}
 .lb .lbx{position:absolute;top:12px;right:12px;font-size:13px;padding:0 12px;height:36px}
+
+/* ---------------- cameos: the cast around the films */
+.card,.chan .shot,.player,.card.try .shot{position:relative}
+.cam{position:absolute;z-index:4;top:0;display:block;background-repeat:no-repeat;background-position:0 0;transform:translateY(calc(var(--ay,1) * -100%)) scaleX(var(--fx,1));cursor:pointer;outline-offset:4px}
+.cam.run{animation-name:camrun;animation-iteration-count:infinite}
+@keyframes camrun{from{background-position-x:0%}to{background-position-x:100%}}
+.cam.flip{--fx:-1}.cam.tl{left:5%}.cam.tr{right:5%}
+.cam.l{top:100%;right:calc(100% + 6px)}.cam.r{top:100%;left:calc(100% + 6px)}
+.cam.f{top:var(--floor);margin-left:calc(var(--cam) * -.2)}
+.cam .say{position:absolute;bottom:calc(100% - 4px);left:50%;transform:translateX(-50%) scaleX(var(--fx,1));width:max-content;max-width:210px;background:var(--paper);color:var(--ink);border:2px solid var(--ink);border-radius:14px;padding:6px 10px;font:600 13px/1.3 var(--body);text-align:left;opacity:0;pointer-events:none;transition:opacity .2s;box-shadow:3px 3px 0 var(--ink)}
+.cam .say::after{content:"";position:absolute;top:100%;left:50%;margin-left:-7px;border:7px solid transparent;border-top-color:var(--ink)}
+.cam .say.on{opacity:1}
+.cam.tr .say,.cam.r .say,.cam.tl .say,.cam.l .say{left:auto;right:-10px;transform:scaleX(var(--fx,1))}
+.cam.tr .say::after,.cam.r .say::after,.cam.tl .say::after,.cam.l .say::after{left:auto;right:24px}
+.grid.cams{row-gap:92px;padding-top:70px;--cam:clamp(84px,9vw,112px)}
+.grid.cams .card .cam .say{max-width:180px}
+.tid{display:inline-block;font-family:var(--mono);font-size:11px;letter-spacing:.06em;background:var(--ink);color:var(--paper);padding:1px 6px;margin-right:4px;text-transform:uppercase}
+.tid::before{content:"";display:inline-block;width:9px;height:9px;margin-right:5px;vertical-align:-1px;border-radius:50%;background:conic-gradient(var(--amber) 0 25%,#0b0d10 0 50%,var(--amber) 0 75%,#0b0d10 0)}
+.more{margin:0;font-family:var(--mono);font-size:13px}
+
+/* the bay: the intro */
+.bayhero{position:relative;border:2px solid var(--ink);background:
+ linear-gradient(transparent calc(100% - 1px),rgba(59,130,246,.18) 0) 0 0/100% 40px,
+ linear-gradient(90deg,transparent calc(100% - 1px),rgba(59,130,246,.18) 0) 0 0/40px 100%,var(--panel);
+ overflow:hidden;display:grid;margin-top:6px}
+.baycopy{position:relative;z-index:2;padding:26px 26px 0;max-width:760px}
+.baycopy h1{margin-top:4px}
+.baycopy .lede{color:var(--ink);font-size:clamp(18px,2.2vw,22px)}
+.quote{margin:10px 0 14px;font-family:var(--mono);font-size:13px;color:var(--ink-2);border-left:4px solid var(--red);padding-left:10px;max-width:60ch}
+.baystage{position:relative;height:calc(var(--cam) * 1.42);--floor:84%;margin-top:4px}
+.baystage::before{content:"";position:absolute;left:0;right:0;top:var(--floor);bottom:0;background:repeating-linear-gradient(90deg,rgba(11,13,16,.08) 0 1px,transparent 1px 48px),linear-gradient(#e5eaf0,#dde3ea);border-top:2px solid var(--ink)}
+:root[data-theme="dark"] .baystage::before{background:#1a2129}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .baystage::before{background:#1a2129}}
+.baystage .rule{position:absolute;left:12px;bottom:calc(100% - var(--floor));width:10px;height:calc(var(--cam) * 1.1);background:repeating-linear-gradient(0deg,var(--ink) 0 2px,transparent 2px 12px);border-right:2px solid var(--ink)}
+.crate{position:absolute;top:calc(var(--floor) - var(--cam) * .3);width:calc(var(--cam) * .48);height:calc(var(--cam) * .3);background:#c99a5b;border:2px solid var(--ink);box-shadow:inset 0 0 0 5px #b3864b}
+.tgt{position:absolute;width:26px;height:26px;border-radius:50%;border:2px solid #0b0d10;background:conic-gradient(var(--amber) 0 25%,#0b0d10 0 50%,var(--amber) 0 75%,#0b0d10 0);z-index:1}
+@media (max-width:640px){.baycopy{padding:18px 16px 0}.tgt{width:18px;height:18px}.baystage{height:calc(var(--cam) * 1.6)}}
+
+/* try it */
+.tries{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,260px),1fr));gap:84px 18px;padding-top:58px;--cam:clamp(80px,8vw,104px)}
+.tries.all{grid-template-columns:repeat(auto-fill,minmax(min(100%,340px),1fr))}
+.card.try .shot{display:block;border:2px solid var(--ink);background:var(--panel)}
+.card.try .shot img{border:0;aspect-ratio:16/10;object-fit:cover;object-position:top}
+.card.try .go{position:absolute;right:8px;bottom:8px;font-family:var(--mono);font-size:12px;background:var(--amber);color:#0b0d10;border:2px solid #0b0d10;padding:3px 9px}
+.card.try:hover .shot{outline:3px solid var(--amber)}
+.card.try .meta{border-left:0;padding-left:0}
+
+/* channels */
+.chans{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,520px),1fr));gap:76px 26px;padding-top:56px;--cam:clamp(84px,9vw,118px)}
+.chan{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px;align-items:end;text-decoration:none;color:inherit;border-bottom:8px solid var(--c);padding-bottom:12px}
+.chan .shot{display:block}.chan .shot img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover;border:1.5px solid var(--ink)}
+.chan .txt{display:grid;gap:4px}.chan b{font-family:var(--display);font-weight:900;font-size:clamp(28px,3.6vw,44px);line-height:.92;text-transform:uppercase}
+.chan .line{color:var(--ink-2)}.chan .meta{border:0}.chan:hover b{color:var(--red)}
+@media (max-width:520px){.chan{grid-template-columns:1fr}}
+
+/* the player: the cast watches with you */
+.player{--cam:clamp(92px,15vw,190px);margin:calc(var(--cam) * .5) auto 0;width:min(100%,940px)}
+.player video,.player .still{display:block;width:100%}
+.filmpage .player video{border:2px solid var(--ink)}
+@media (max-width:1180px){.player .cam.l{top:0;right:auto;left:3%}.player .cam.r{top:0;left:auto;right:3%}.player{margin-top:calc(var(--cam) * 1.02)}}
+.instr{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,250px),1fr));gap:10px}
+.instr li{border:2px solid var(--ink);padding:10px 12px;display:grid;gap:2px;background:var(--panel)}
+.instr b{font-family:var(--display);font-weight:800;font-size:22px;text-transform:uppercase}
+@media (prefers-reduced-motion:reduce){.cam{animation:none!important}}
+.cam.f.lo .say{left:-8px;transform:none}.cam.f.hi .say{left:auto;right:-8px;transform:none}
+.cam.f.lo .say::after{left:22px}.cam.f.hi .say::after{left:auto;right:22px}
+@media (max-width:640px){.tgt{display:none}.cam .say{max-width:170px;font-size:12px}
+ .grid.cams,.tries,.chans{row-gap:30px;padding-top:0}
+ .grid.cams .card:has(>.cam),.tries .card:has(>.cam),.chan:has(.cam){margin-top:calc(var(--cam) * .64)}}
