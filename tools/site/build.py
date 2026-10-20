@@ -220,7 +220,7 @@ def steps(images, gap=20 * 60, most=14):
 def step_label(g):
     import collections
     c = collections.Counter(re.split(r',| \d| sign| round', clean_cap(i['caption']))[0].strip() for i in g).most_common(2)
-    return ' and '.join(k.lower() if n else k for n, (k, _) in enumerate(c))
+    return ' and '.join(k for k, _ in c)
 def case_map(cur, up):
     out = ''
     for n, sid in enumerate(ORDER, 1):
