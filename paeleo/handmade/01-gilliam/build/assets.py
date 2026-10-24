@@ -179,9 +179,10 @@ for f, nm in [(6, 'face_loud'), (18, 'face_soft'), (12, 'face_half')]:
             wash=(244, 196, 180), wash_mix=0.35, margin=1.5, gamma=0.55, spacing=3.6, cross=0.7, contrast=(0.01, 0.99))
 
 fc = Image.open(os.path.join(CACHE, 'face_loud.png')); d = ImageDraw.Draw(fc)
-ex, ey = 26, 30
+ex, ey = 58, 26   # the eye sits forward, by the nose, and looks out to the right: at the dog
 d.ellipse([ex - 9, ey - 6, ex + 9, ey + 6], fill=(244, 238, 220, 255), outline=(20, 14, 16, 255), width=2)
-d.ellipse([ex - 1, ey - 5, ex + 7, ey + 4], fill=(18, 12, 14, 255))
+d.ellipse([ex + 1, ey - 5, ex + 8, ey + 4], fill=(18, 12, 14, 255))
+d.line([(ex - 10, ey - 11), (ex + 9, ey - 8)], fill=(20, 14, 16, 255), width=3)   # a frown: the command
 fc.save(os.path.join(CACHE, 'face_loud.png'))
 
 # ------------------------------------------------------------------ the reaching hand (The Door to Heaven f010)

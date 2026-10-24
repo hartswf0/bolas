@@ -62,10 +62,10 @@ def run():
         a = f['dog']['act']; p = f['person']
         tr = turn[i]
         endon = None
-        if abs(tr) < 0.3:
+        if abs(tr) < 0.4:
             endon = 'front'   # both turns pass through the front view (the head turned to us first)
         dirW = -1 if tr > 0 else 1
-        sx = max(0.3, abs(tr))
+        sx = max(0.4, abs(tr))
         vx = xs[i] - xs[i - 1] if i else 0.0
         DP = dict(t=f['t'], x=f['dog']['x'], dirW=dirW, sx=sx, endon=endon, turn=tr,
                   crouch=a['crouch'], lie=a['lie'], ear=a['ear'], tail=a['tail'], wag=a['wag'],

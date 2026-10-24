@@ -31,7 +31,8 @@ DOGS = {int(json.loads(l)['key_id']): json.loads(l) for l in open(f'{HERE}/libra
 MIN_HOLD = 3          # twos (6 frames = 0.25 s)
 W = dict(face=7.0, lie=5.0, crouch=2.0, head=2.5, rest=2.0, spread=1.6, flip=0.25,
          viewer_idle=0.9, front_idle=7.0, turn_need=6.0, swap=0.6, vis=2.4,
-         hold_over_step=2.2, swap_off_step=1.6)
+         hold_over_step=2.2, swap_off_step=1.6, headlow=6.0, profile=6.0, walk_swap_off_step=30.0, stale_stride=8.0)
+LONG_HOLD = 24        # twos (2 s): while walking or backing, an identity change at most every 2 s (critic repair 1)
 TURN_WINDOWS = [(7.458, 7.458 + 0.36)]  # the refusal at 3.42 cuts straight to the back (tried a front in-between first: it hid the refusal)
 
 
@@ -49,7 +50,8 @@ def candidates():
                           lie=1.0 if post == 'lie' else 0.0,
                           crouch={'crouch': .8, 'stand': .12, 'front': .2, 'sit': .3, 'lie': 0.}[post],
                           head=e['head'], spread=e['spread'], viewer=e['viewer'], rest=e['rest'],
-                          front=1.0 if post in ('front', 'sit') else 0.0))
+                          front=1.0 if post in ('front', 'sit') else 0.0,
+                          headlow=float(e.get('headlow', 0)), profile=float(e.get('profile', 0))))
     return C
 
 
@@ -117,7 +119,10 @@ def main():
 
     def attr(k):
         return np.array([c[k] for c in C], float)
-    A = {k: attr(k) for k in ('face', 'lie', 'crouch', 'head', 'spread', 'viewer', 'rest', 'front', 'flip')}
+    WALKPAIR = {2830, 135}  # the stride twins: dome body, round head low at the chest
+    for c in C:
+        c['walkpair'] = float(c['idx'] in WALKPAIR)
+    A = {k: attr(k) for k in ('face', 'lie', 'crouch', 'head', 'spread', 'viewer', 'rest', 'front', 'flip', 'headlow', 'profile', 'walkpair')}
     E = np.zeros((T, N))
     for t in range(T):
         f = frames[2 * t]
@@ -154,10 +159,23 @@ def main():
             spread_t = 0.85 if step_parity[2 * t] == 0 else 0.15
             e += W['spread'] * a['moving'] * np.abs(spread_t - A['spread'])
         e += W['flip'] * A['flip']
+        # round 2 (critic repairs 3 and 4): the approach is head low; looking in is a profile head
+        if st == 'approach':
+            e += W['headlow'] * (1 - A['headlow'])
+            e += 50.0 * (1 - A['walkpair'])  # at most two drawings in the walk, one head shape
+        if a['look'] > 0.5:
+            e += W['profile'] * (1 - A['profile'])
         E[t] = e
 
     # Viterbi over states (candidate, hold counter k in 1..MIN_HOLD, MIN_HOLD means "held enough")
-    K = MIN_HOLD
+    K = LONG_HOLD
+    # swaps need MIN_HOLD twos of hold, but LONG_HOLD inside a walk (retreat/approach) once the
+    # state is 0.25 s old; the first swap into a new state is free of the long rule
+    states = [frames[2 * t]['dog']['state'] for t in range(T)]
+    start = [0] * T
+    for t in range(1, T):
+        start[t] = start[t - 1] if states[t] == states[t - 1] else t
+    need = [LONG_HOLD if states[t] in ('approach', 'retreat') and t - start[t] >= 1 else MIN_HOLD for t in range(T)]
     INF = 1e9
     V = np.full((N, K), INF)
     V[:, 0] = E[0]
@@ -168,21 +186,26 @@ def main():
         mv = frames[2 * t]['dog']['act']['moving'] > 0.3
         hold_pen = W['hold_over_step'] if (mv and foot2[t]) else 0.0
         swap_pen = W['swap_off_step'] if (mv and not foot2[t]) else 0.0
+        if states[t] == 'approach' and t - start[t] >= 3 and not foot2[t]:
+            swap_pen = W['walk_swap_off_step']
         NV = np.full((N, K), INF)
         # hold: k -> min(k+1, K)
+        stale = W['stale_stride'] if (states[t] == 'approach' and foot2[t]) else 0.0
         for k in range(K):
             k2 = min(k + 1, K - 1)
-            cand = V[:, k] + hold_pen
+            cand = V[:, k] + hold_pen + (stale if k == K - 1 else 0.0)
             better = cand < NV[:, k2]
             NV[better, k2] = cand[better]
             BP[t, better, k2] = np.stack([np.nonzero(better)[0], np.full(better.sum(), k)], 1)
         # swap: only from k = K-1 (held long enough) into k = 0 of another drawing
-        M = V[:, K - 1][:, None] + TR + swap_pen  # from a (rows) to b (cols)
+        ready = V[:, need[t] - 1:].min(1)   # held at least need[t] twos (counter saturates at K)
+        rk = need[t] - 1 + V[:, need[t] - 1:].argmin(1)
+        M = ready[:, None] + TR + swap_pen  # from a (rows) to b (cols)
         a_best = M.argmin(0)
         cand = M[a_best, np.arange(N)]
         better = cand < NV[:, 0]
         NV[better, 0] = cand[better]
-        BP[t, better, 0] = np.stack([a_best[better], np.full(better.sum(), K - 1)], 1)
+        BP[t, better, 0] = np.stack([a_best[better], rk[a_best[better]]], 1)
         V = NV + E[t][:, None]
     # backtrack
     n, k = np.unravel_index(V.argmin(), V.shape)

@@ -65,12 +65,18 @@ LABELS = {
     1666: ('L', 'lie', .60, 0, 1, 0, 'lying, face to the viewer'),
     959:  ('L', 'lie', .35, 0, 0, .6, 'lying, head low, ears out'),
     3110: ('L', 'lie', .50, 0, 0, 0, 'lying, ear, one leg folded'),
-    2250: ('R', 'lie', .45, 0, 1, 0, 'lying, head right, face to the viewer'),
-    3283: ('R', 'lie', .50, 0, 0, 0, 'lying, head right'),
+    # round 2: 2250 (face-on), 3283 and 2098 (round head curled on the body: the critic could not
+    # tell which end was the head during the refusal) were dropped from the library
     3476: ('R', 'lie', .35, 0, 0, .5, 'lying, head right and down, ear hanging'),
-    2098: ('R', 'lie', .50, 0, 0, 0, 'lying, big head right'),
+    # round 2 additions (critic repairs 1, 3, 4), found in sheets/r2-headlow-*, r2-short-*
+    135:  ('R', 'stand', .30, .7, 0, 0, 'dome body, round-box head low at the chest, legs apart: the stride twin of 2830'),
+    3537: ('L', 'lie', .75, 0, 0, 0, 'lying, box head in profile, snout and eye pointing left'),
     3107: ('R', 'lie', .60, 0, 0, 0, 'lying, floppy head right'),
 }
+
+# round 2 labels: head top below the back line (head-low), head in profile (snout pointing)
+HEADLOW = {2830, 135, 3269, 3005}
+PROFILE = {3537, 1111}
 
 # set doodles: (category, index in <category>.part, role)
 SET = [
@@ -98,6 +104,7 @@ if __name__ == '__main__':
             f = qd.features(d)
             face, post, head, spread, viewer, rest, note = lab
             lib.append(dict(idx=idx, key_id=d['key_id'], countrycode=d['countrycode'], face=face,
+                            headlow=int(idx in HEADLOW), profile=int(idx in PROFILE),
                             posture=post, head=head, spread=spread, viewer=viewer, rest=rest, note=note,
                             measured=dict(aspect=round(f['aspect'], 3), sym=round(f['sym'], 3),
                                           head_side_mass=round(f['hs'], 3), top_left=round(f['tl'], 3),

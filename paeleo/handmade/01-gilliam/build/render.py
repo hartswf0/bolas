@@ -75,12 +75,16 @@ def facing(i):
     if i < a:
         return 1.0
     if i < a + FLIP_N:
-        return math.cos(math.pi * (i - a + 0.75) / FLIP_N)
+        return FLIP[i - a]
     if i < b:
         return -1.0
     if i < b + FLIP_N:
-        return -math.cos(math.pi * (i - b + 0.75) / FLIP_N)
+        return -FLIP[i - b]
     return 1.0
+
+
+# the turn: narrowing, then the bare card edge held for two frames, then the other side
+FLIP = [0.88, 0.45, 0.0, 0.0, -0.45, -0.88]
 
 
 # walking phase from distance actually travelled (feet move with distance)
@@ -212,7 +216,7 @@ def body_pt(name, card='dog_body'):
     return (p[0] - CENTRE[0], p[1] - CENTRE[1])
 
 
-def dog_pose(i):
+def dog_pose(i, i_real=None):
     f = SF[i]
     d = f['dog']; a = d['act']
     t = f['t']
@@ -232,21 +236,24 @@ def dog_pose(i):
     if i >= EV['lie']:
         lie = max(lie, ease((i - EV['lie'] + 1) / 10))
     moving = abs(xs[min(i + 1, N - 1)] - xs[max(i - 1, 0)]) > 0.002
-    return dict(x=d['x'], face=facing(i), crouch=crouch, lie=lie, head=head, tail=tail, wag=a['wag'], rest=a['rest'],
+    return dict(x=d['x'], face=facing(i_real if i_real is not None else i), crouch=crouch, lie=lie, head=head, tail=tail, wag=a['wag'], rest=a['rest'],
                 look=a['look'], phase=2 * math.pi * dist[i] / STRIDE, moving=moving, t=t,
                 doorhead=EV['retreat'] <= i < EV['watch1'])
 
 
-def draw_dog(layer, probe, P):
+NOSE_ANG = None
+
+
+def draw_dog(layer, probe, P, look_at=None):
     X = sx(P['x'])
     f = P['face']
     back = f < 0
     sfx = '_back' if back else ''
     lie, cr = P['lie'], P['crouch']
     # body height: paws on the boards; crouch and lying lower the card
-    shoulder_y = PAW - LEG + cr * 12 + lie * (LEG - 10)
+    shoulder_y = PAW - LEG + cr * 24 * (1 - lie) + lie * (LEG - 10)
     Yc = shoulder_y - SH_OFF
-    tilt = -cr * 4 + lie * 1.5      # crouching dips the rump a little (rotation, local deg)
+    tilt = -cr * 7 * (1 - lie) + lie * 1.5      # crouching dips the rump a little (rotation, local deg)
     bob = 0.0
     swing = 0.0
     if P['moving'] and lie < 0.2:
@@ -265,13 +272,25 @@ def draw_dog(layer, probe, P):
         nm = card + sfx if (card + sfx) in C else card
         place(dst, C[nm], PV[card][pivot_name], L2S(at_local), angle=(ang + tilt) * (1 if f >= 0 else -1), sx_=f)
 
+    if abs(f) < 0.05:
+        # edge-on: the dog is only the thin edge of a card for a held moment
+        top = Yc - 60 - 40 * (1 - lie)
+        edge = Image.new('RGBA', (16, int(PAW - top) + 8), (0, 0, 0, 0))
+        ed = ImageDraw.Draw(edge)
+        hgt = edge.size[1] - 4
+        ed.polygon([(5, 2), (10, 0), (11, hgt), (6, hgt + 2)], fill=(236, 230, 214, 255), outline=(26, 18, 22, 255))
+        ed.line([(7, 6), (8, hgt - 4)], fill=(150, 140, 120, 255), width=1)
+        layer.alpha_composite(edge, (int(X - 8), int(top)))
+        probe.alpha_composite(edge, (int(X - 8), int(top)))
+        return
     ph = P['phase']
     # legs: walk swing, crouch splay, lying fold (fore legs forward, hind legs tucked)
     fore_lie, hind_lie = 82 * lie, 76 * lie
-    a_ff = swing * math.sin(ph + math.pi) + 10 * cr + fore_lie
-    a_fn = swing * math.sin(ph) + 10 * cr + fore_lie
-    a_hf = swing * math.sin(ph + math.pi / 2) - 12 * cr + hind_lie
-    a_hn = swing * math.sin(ph + 3 * math.pi / 2) - 12 * cr + hind_lie
+    cl = cr * (1 - lie)
+    a_ff = swing * math.sin(ph + math.pi) + 26 * cl + fore_lie
+    a_fn = swing * math.sin(ph) + 26 * cl + fore_lie
+    a_hf = swing * math.sin(ph + math.pi / 2) - 30 * cl + hind_lie
+    a_hn = swing * math.sin(ph + 3 * math.pi / 2) - 30 * cl + hind_lie
     sh = body_pt('shoulder'); hn = body_pt('hip_n'); hf = body_pt('hip_f')
     put(layer, 'dog_fore_far', 'top', (sh[0] - 13, sh[1]), a_ff)
     put(layer, 'dog_hind_f', 'top', hf, a_hf)
@@ -291,15 +310,24 @@ def draw_dog(layer, probe, P):
         nky += 10 * P['rest']
     lk = P['look']
     if lk > 0:
-        ha = ha * (1 - lk) + (-22) * lk
-        nkx -= 38 * lk
-        nky -= 6 * lk
+        ha = ha * (1 - lk) + 14 * lk      # nose up and in, toward the lit opening
+        nkx -= 6 * lk
+        nky -= 8 * lk
+    if look_at is not None and f > 0.95 and lie < 0.3:
+        # attention: the head turns to follow the butterfly (the soft voice made visible)
+        ns, nn = PV['dog_head']['neck'], PV['dog_head']['nose']
+        th_n = math.degrees(math.atan2(nn[1] - ns[1], nn[0] - ns[0]))
+        q = L2S((nkx, nky))
+        th_t = math.degrees(math.atan2(look_at[1] - q[1], look_at[0] - q[0]))
+        want = (th_t - th_n + 180) % 360 - 180
+        ha = max(-70, min(45, want))
     if P['doorhead']:
         # substitution: commanded, the dog's head is a shut door
-        place(layer, C['door_head'], PV['door_head']['hinge'], L2S((nkx + 6, nky - 4)), angle=-8 * f, sx_=f)
+        # hung low: the knob edge on the neck, the door hanging down toward the boards like a lowered head
+        place(layer, C['door_head'], PV['door_head']['knob'], L2S((nkx + 4, nky + 6)), angle=-38 * f, sx_=f)
     else:
-        if lk > 0.05:
-            # a stretched neck of fur card fills the gap when the head leans in (drawn behind the head)
+        if False:
+            # (retired in round 2: read as a rectangle) a stretched neck of fur card fills the gap when the head leans in (drawn behind the head)
             a0, a1 = nk, (nkx, nky)
             mid = ((a0[0] + a1[0]) / 2 + 6, (a0[1] + a1[1]) / 2 + 4)
             span = math.hypot(a1[0] - a0[0], a1[1] - a0[1]) + 40
@@ -355,7 +383,7 @@ def draw_head(fr, i, neck):
         s = 2.0 + 0.4 * max(0, 1 - k / 4)
         card = C[nm].resize((int(C[nm].size[0] * s), int(C[nm].size[1] * s)), Image.BICUBIC)
         pv = (PV[nm]['neck'][0] * s, PV[nm]['neck'][1] * s)
-        place(fr, card, pv, (neck[0] - 18, neck[1] + 10))
+        place(fr, card, pv, (neck[0] - 18, neck[1] + 10), angle=10)   # leaning out at the dog
         return 'loud', k
     if voice == 'soft':
         # the soft voice keeps her own head; it is spoken by the slip and carried by the butterfly
