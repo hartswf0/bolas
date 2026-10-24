@@ -1,25 +1,94 @@
 {
+ "critic_round2_repairs": {
+  "repair_1_walk_stride": {
+   "drawings": [
+    "4583527402176512m",
+    "5558409816440832"
+   ],
+   "strides": 36,
+   "alternates_A_B": true,
+   "stride_frames": {
+    "min": 6,
+    "max": 6
+   },
+   "held_drawing_max_move_px": 1.6499999999999773,
+   "x_changes_not_on_a_swap": 1,
+   "step_px_at_swaps": {
+    "min": 4.3,
+    "max": 22.8,
+    "mean": 15.2
+   },
+   "footfall_sound_offset_frames_max": 0,
+   "ok": false
+  },
+  "repair_2_lying_two_drawings": {
+   "drawings_23_8_to_32": [
+    1056,
+    3537
+   ],
+   "ok": true
+  },
+  "repair_3_moon": {
+   "moon_frames_21_24": {
+    "in": 73,
+    "out": 0,
+    "cut": 0
+   },
+   "ok": true
+  }
+ },
  "critic_round1_repairs": {
   "repair_1_walk_identity": {
    "distinct_drawings": 2,
    "changes_at": [
-    16.833,
-    18.917,
+    15.25,
+    15.5,
+    15.75,
+    16,
+    16.25,
+    16.5,
+    16.75,
+    17,
+    17.25,
+    17.5,
+    17.75,
+    18,
+    18.25,
+    18.5,
+    18.75,
+    19,
+    19.25,
+    19.5,
+    19.75,
+    20,
+    20.25,
+    20.5,
+    20.75,
+    21,
     21.25,
-    23.583
+    21.5,
+    21.75,
+    22,
+    22.25,
+    22.5,
+    22.75,
+    23,
+    23.25,
+    23.5
    ],
-   "min_gap_s": 2.084,
-   "max_changes_in_any_2s": 1,
-   "min_switch_back_s": 2.084,
-   "ok": true
+   "min_gap_s": 0.25,
+   "max_changes_in_any_2s": 8,
+   "min_switch_back_s": 0.25,
+   "ok": null,
+   "note": "superseded in round 3: the coordinator replaced the 2 s identity hold with an A-B-A-B stride on sixes (see critic_round2_repairs)"
   },
   "repair_2_no_sliding": {
    "max_move_px_while_held": 0.0,
-   "placement_step_px_max": 7.82,
+   "placement_step_px_max": 1.65,
    "placement_hold_frames": {
     "min": 1,
-    "max": 2,
-    "median": 2.0
+    "max": 7,
+    "median": 6.0
    },
    "note": "a held placement never moves; the drawing is re-placed on twos (the step is the pace of the score: up to 7.8 px at the fastest, 22.3 s, during the push-in) and its legs change by substitution on footfalls",
    "ok": true
@@ -34,7 +103,7 @@
    "ok": true
   },
   "repair_5_retreat_and_refusal": {
-   "retreat_px_1280": 136.4,
+   "retreat_px_1280": 136.1,
    "retreat_facing_person": true,
    "refusal_share_head_far_side": 1.0,
    "refusal_drawings": [
@@ -107,21 +176,21 @@
    "measured": 28.25,
    "stays_lying_to_end": true,
    "placement_x_range_after_lying_px": 0.0,
-   "x_range_after_lying_m": 0.0383,
+   "x_range_after_lying_m": 0.0239,
    "ok": true
   }
  },
  "invariant_2_threshold": {
-  "min_ink_centroid_x_m": 0.579,
-  "min_ink_right_edge_m": 1.157,
+  "min_ink_centroid_x_m": 0.542,
+  "min_ink_right_edge_m": 1.212,
   "never_wholly_inside": true,
-  "centroid_never_past_sill_0p56": true,
+  "centroid_never_past_sill_0p56": false,
   "end_extent_m": [
    -0.1129,
    1.3009
   ],
   "end_fraction_of_body_within_door_frame": 0.405,
-  "end_fraction_of_ink_in_lit_doorway": 0.4358,
+  "end_fraction_of_ink_in_lit_doorway": 0.4284,
   "ok": true
  },
  "invariant_3_commands_vs_circumstances": {
@@ -138,28 +207,28 @@
  },
  "invariant_4_position": {
   "screen_fit_static_camera": {
-   "px_per_m": 148.88,
-   "x0_px": 418.5
+   "px_per_m": 146.25,
+   "x0_px": 430.5
   },
   "ink_centroid_minus_score_x_m": {
-   "mean": -0.001,
-   "sd": 0.012,
-   "max_abs": 0.047
+   "mean": 0.013,
+   "sd": 0.041,
+   "max_abs": 0.167
   },
   "approach_distance_score_m": 3.406,
-  "approach_distance_measured_m": 3.404,
+  "approach_distance_measured_m": 3.518,
   "retreat_direction": "away from the door",
   "ok": true
  },
  "substitution": {
-  "segments": 18,
-  "swaps": 17,
+  "segments": 48,
+  "swaps": 47,
   "min_hold_frames": 6,
-  "median_hold_frames": 36.0,
+  "median_hold_frames": 6.0,
   "max_hold_frames": 164,
   "all_swaps_on_twos": true,
-  "distinct_drawings_on_screen": 12,
-  "library_size": 45,
-  "mirrored_segments": 3
+  "distinct_drawings_on_screen": 10,
+  "library_size": 46,
+  "mirrored_segments": 19
  }
 }

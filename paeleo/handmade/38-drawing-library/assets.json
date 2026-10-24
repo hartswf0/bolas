@@ -316,7 +316,7 @@
     "face_to_viewer": 0,
     "rest": 0
    },
-   "used_on_screen": true,
+   "used_on_screen": false,
    "mirrored_on_screen": false,
    "operation": "selected by eye from contact sheets; strokes kept as drawn (simplified Quick, Draw! strokes); placed by uniform scale + translation, mirrored when the decoder chose the mirror; swapped whole on twos"
   },
@@ -412,8 +412,8 @@
     "face_to_viewer": 0,
     "rest": 0
    },
-   "used_on_screen": false,
-   "mirrored_on_screen": false,
+   "used_on_screen": true,
+   "mirrored_on_screen": true,
    "operation": "selected by eye from contact sheets; strokes kept as drawn (simplified Quick, Draw! strokes); placed by uniform scale + translation, mirrored when the decoder chose the mirror; swapped whole on twos"
   },
   {
@@ -844,7 +844,7 @@
     "face_to_viewer": 0,
     "rest": 0
    },
-   "used_on_screen": true,
+   "used_on_screen": false,
    "mirrored_on_screen": false,
    "operation": "selected by eye from contact sheets; strokes kept as drawn (simplified Quick, Draw! strokes); placed by uniform scale + translation, mirrored when the decoder chose the mirror; swapped whole on twos"
   },
@@ -964,7 +964,7 @@
     "face_to_viewer": 0,
     "rest": 0
    },
-   "used_on_screen": true,
+   "used_on_screen": false,
    "mirrored_on_screen": false,
    "operation": "selected by eye from contact sheets; strokes kept as drawn (simplified Quick, Draw! strokes); placed by uniform scale + translation, mirrored when the decoder chose the mirror; swapped whole on twos"
   },
@@ -1013,7 +1013,7 @@
     "rest": 0
    },
    "used_on_screen": true,
-   "mirrored_on_screen": true,
+   "mirrored_on_screen": false,
    "operation": "selected by eye from contact sheets; strokes kept as drawn (simplified Quick, Draw! strokes); placed by uniform scale + translation, mirrored when the decoder chose the mirror; swapped whole on twos"
   },
   {
@@ -1033,6 +1033,30 @@
     "posture": "stand",
     "head": 0.3,
     "leg_spread": 0.8,
+    "face_to_viewer": 0,
+    "rest": 0
+   },
+   "used_on_screen": false,
+   "mirrored_on_screen": false,
+   "operation": "selected by eye from contact sheets; strokes kept as drawn (simplified Quick, Draw! strokes); placed by uniform scale + translation, mirrored when the decoder chose the mirror; swapped whole on twos"
+  },
+  {
+   "id": "dog-5558409816440832",
+   "what": "dog doodle: oval body, plain circle head at the front at back height, four stick legs: the head-shape twin of 2830 (11_head_partner.py)",
+   "kind": "pose-library drawing",
+   "source_file": "/home/user/hartswf0/quickdraw/dog.part",
+   "line_index": 639,
+   "key_id": "5558409816440832",
+   "countrycode": "US",
+   "copied_to": "library/dogs.ndjson",
+   "source_title": "Quick, Draw! (category: dog)",
+   "archive_url": "https://github.com/googlecreativelab/quickdraw-dataset",
+   "rights": "CC BY 4.0, Quick, Draw! dataset, Google Creative Lab and contributors (https://quickdraw.withgoogle.com/data)",
+   "label": {
+    "native_facing": "L",
+    "posture": "stand",
+    "head": 0.45,
+    "leg_spread": 0.6,
     "face_to_viewer": 0,
     "rest": 0
    },

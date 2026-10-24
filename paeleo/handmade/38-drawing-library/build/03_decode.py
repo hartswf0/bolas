@@ -255,7 +255,7 @@ def main():
     # its first lying frame, the two walk drawings alternate on sixes, starting with the drawing the
     # decoder chose there; the dog is placed at the score's x only at each swap (the swaps are the travel).
     STRIDE = 6
-    a0 = next(t for t in range(T) if states[t] == 'approach' and C[path[t]]['walkpair'] == 1.0)
+    a0 = next(t for t in range(T) if frames[2 * t]['t'] > 14.0 and C[path[t]]['walkpair'] == 1.0)  # the walk's first drawing
     l0 = next(t for t in range(a0, T) if C[path[t]]['posture'] == 'lie')
     first = path[a0]
     other = next(k for k, c in enumerate(C) if c['walkpair'] == 1.0 and c['idx'] != C[first]['idx'] and c['face'] == C[first]['face'])

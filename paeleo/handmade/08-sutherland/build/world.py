@@ -710,9 +710,6 @@ def world_lines():
     ln([[x0, (y0 + y1) / 2, 0], [x1, (y0 + y1) / 2, 0]], 0.3, 'window')
     ln([[x0 - 0.08, y0 - 0.06, 0], [x1 + 0.08, y0 - 0.06, 0]], 0.4, 'window')
     # porch roof: fascia at the front, posts (one master post, instanced)
-    ln([[WX0, EAVE, PFZ], [5.05, EAVE, PFZ]], 0.7, 'roof')
-    ln([[WX0, EAVE + 0.16, PFZ], [5.05, EAVE + 0.16, PFZ]], 0.5, 'roof')
-    ln([[5.05, EAVE, PFZ], [5.05, EAVE + 0.16, PFZ]], 0.5, 'roof')
     ln([[WX1, EAVE, 0], [5.05, EAVE, 0]], 0.25, 'roof')
     for px in (4.72,):
         for dxp in (0.0, 0.12):
