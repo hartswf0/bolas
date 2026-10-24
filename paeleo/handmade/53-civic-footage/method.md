@@ -12,8 +12,9 @@ composite:
   the outline of what was cut from it, and its record: title, year, rights, clip id, frame number, seconds in the clip, film
   timecode where the catalogue lets us derive one ("film offset unknown" where it does not), and the operation applied.
 - **Middle: the composed scene**, labelled on screen as `COMPOSED SCENE · archive fragments re-performed · not a recorded event`.
-- **Bottom: the score**: its 32 s timeline, the six choices as event tags, the playhead, the dog's state and `x`, the
-  person's circumstances (voice, hand, posture, door), and the prompt as a catalogue event line.
+- **Bottom: the score**: the time and frame, the prompt, the person's circumstances (voice, hand, posture, door) and an
+  unlabelled timeline with ticks at the six choices. Round 2 removed the dog's state and the choice names from the screen, so
+  the choices must read from the picture. All text in the scene is 16 px or larger.
 
 These are the swarm's primitives from its prompt: collection and clip ids, timecoded segments, event tags, rights state,
 scene geography (the side-view metre line `x_screen = 372 + 185·x`). The per-frame transform ledger is `build/edl.json`
@@ -30,23 +31,28 @@ cut out by its SAM polygon on every frame and placed by its alpha centroid on th
 | 1.0 | backs away | the side-on walk f042–f048, mirrored to face the door and run **backward**; frame stepped by distance travelled | mirror + reverse |
 | 2.33 | watches | f004–f012 | ping-pong 2:3 |
 | 3.42 | turns its back | **the dog's own turn away from the person in the home movie** (f015–f020, f026–f044, f021–25 cut: their masks swallow the shadow) | play 1:1 |
-| 4.6–7.4 | lies, back turned | f043–f047 grain loop, **folded** | COMPOSED |
-| 7.46 | turns back to look | head lifts (fold pivot), stands, then its turn away played **in reverse** f044→f015 | composed + reverse 5:4 |
+| 4.6–7.4 | lies, back turned | f044 held, **folded** | COMPOSED |
+| 7.46 | turns back to look | comes round through its own frontal frames f033→f028 to f015 (facing the door at 7.625 s); legs folded while the score's `lie` is high, rising by 8.0 s | play + COMPOSED squash |
 | 9–14.7 | waits | f000–f015 | ping-pong 1:2 |
 | 14.71 | comes, head low | f042–f048 mirrored, head low, stepped by distance (feet move with ground covered) | mirror |
-| 23.79 | lies across the sill | f043–f047 mirrored, folded | COMPOSED |
-| 26.4 | hears *come in*: looks in, then settles | head pivots up toward the doorway, then down to the floor | COMPOSED |
+| 23.79 | lies across the sill | f044 mirrored, held, folded (`fold2`) | COMPOSED |
+| 26.4 | hears *come in*: looks in, then settles | head piece pivots from 40° (chin on the floor) to ~95° (pointing up into the lit doorway), 26.5–28.3 s, then down; body does not move | COMPOSED |
 
-**What was composed, exactly**: the footage has no lying dog. Lying is made by splitting the cut-out at the neck,
-compressing the rows below the belly line (legs, to 10 % height, darkened) and lowering body and head by the same amount;
-the head piece pivots at the neck (`build/lib.py: fold`). The seam at the neck is visible and was kept, not hidden: it is a
+**What was composed, exactly**: the footage has no lying dog, and no other found shot has a lying dog (the lion in *Andy's
+Animal Alphabet* lies, but a lion standing in for this dog would be a false history, so it was not used). Lying is made from
+f044 by `build/lib.py: fold2` (round 2): per column, everything below a belly line running from the chest to the hindquarters
+is folded to 6 % height and darkened, and everything above is lowered so the belly rests on the porch; the head is a separate
+piece pivoted at the neck. The seam at the neck is visible and was kept, not hidden: it is a
 cut-out joint. Every composed frame says `COMPOSED: FOLD` on the dog monitor, and the projector tick goes silent while it holds.
 
-The person standing in the doorway is the coat and legs of the person the dog greets in the same home movie (hand-drawn
-matte, the frame's top and left edges faded where the footage ends: we do not invent the rest of them). The seated person is
+The person standing in the doorway (round 2) is the woman in *Straight Talk* (1992) herself: the whole door shot is mirrored
+so that she faces the porch, standing in the half-open door with her hand on the knob (f010–f013); at 5.42 s her own step out
+of the doorway (f013–f019) is played as recorded while the crop re-frames to the door. (Round 1 used the coat and legs of the
+person in the dog's home movie; the critic found it ghosted, and no found shot gives a standing caller with head and torso.)
+The seated person is
 *Survival Stresses* (1961), substituted by a hard cut at the score's `sit = 0.5`. The hand (reach, then low) is *The Door to
-Heaven* (1941), mirrored, its card left out. The door is *Straight Talk* (1992): the closing swing f027→f022 run backward is
-the door opening; its warm hallway, kept in its own colour (the only colour in the scene), is the light. Walls and path are
+Heaven* (1941), mirrored, its card left out; for the reach it slides out of the woman's hand at the knob. The door is the same
+*Straight Talk* shot: after she leaves it swings to (f023–f024, ajar) and, run backward f024→f022, opens; its warm hallway, kept in its own colour (the only colour in the scene), is the light. Walls and path are
 the stone pillar and gravel of the house in the home movie. The sill, the dusk light, the warm fan of light from the door and
 the dog's contact shadow are computed.
 
@@ -81,14 +87,12 @@ mirror flag (structural, not measured from pixels).
 
 The builder looked at: contact sheets of all kit and candidate shots; the four stills; 36-frame contact sheets of draft 1
 and the final; the title and end cards; zoomed crops of the lying passages and of the turn back. Perceptual judgement
-(builder's, not a critic's): the retreat, the turned back, the turn back and the head-low approach read clearly; the lying
-reads as low and settled into the light but not unambiguously as a lying dog (folded legs, visible neck seam); the standing
-person in the doorway is dark and partial (coat and legs only) and may read as a shadow; the right half of the stage (the yard)
-is mostly empty dusk.
+(round 1, builder's own): the lying read as low but ambiguous, and the doorway person as a shadow. The critic agreed and
+failed it; see Round 2 below for what changed. The right half of the stage (the yard) is still mostly empty dusk.
 
 ## What failed and what changed (ledger.jsonl)
 
-Mirrored stone tiling made symmetric faces (replaced with laid blocks). The door's light was invisible (warmth re-measured by
+Round 1: mirrored stone tiling made symmetric faces (replaced with laid blocks). The door's light was invisible (warmth re-measured by
 hue, gap exposure-lifted). A forelegs-forward "sphinx" lie was tried and rejected (legs rotated below the floor). The walk
 loop first included two still-frontal frames and flickered (restricted to f042–f048). The look-in head lift was too small and
 the height proxy hid it (stronger pivot; head-end measure added).
@@ -107,3 +111,20 @@ the height proxy hid it (stronger pivot; head-end measure added).
 ## Rebuild
 
 `build/make.sh` (render.py → ffmpeg, sound.py, mux, stills, check.py). Sources are copied under `sources/`.
+
+## Round 2: critic round 1 (`reviews/round1.md`, DOES NOT PASS) and the repairs
+
+| repair condition | what changed | evidence |
+|---|---|---|
+| 1. lying across the sill at 23.79–24.5 s | `fold2`: legs folded to 6 %, body lowered onto the porch, body held still | measured from 24.5 s: back line (least-squares fit to the body's top edge) max 10.1°; 55–57 % of the dog's length inside the jamb's outer edge; tail at 560 px vs jamb 457 px; height drops below 80 % of standing at 24.0 s. Looked at 23.8, 24.0, 24.25, 24.5 s. |
+| 2. look in at 26.4–27.4 s | head pivots to ~95° toward the lit doorway, 26.5–28.3 s, then lowers to rest; body x spread after 24.5 s 0.001 m | head-end lift measured from 26.458 s; still at 27.0 and 28.0 s looked at |
+| 3. comes round at 7.46 s, no double exposure | recorded frames f033→f028→f015, skipping the blurred f016–f020; two composite head tries rejected (ledger 11, 12) | facing the door from 7.625 s (structural); zoom of 7.42–8.5 s looked at, no doubled frames |
+| 4. solid person in the doorway | the Straight Talk woman, mirrored, opaque, head and torso | stills 0.5, 3.0, 3.9, 4.2, 5.0 s looked at |
+| 5. labels, text size, halos | state labels and choice names removed; HUD and cards in 16 px; dog mask eroded 1 px, feather 0.9 | stills looked at |
+
+`python3 tools/paeleo/check_handmade.py paeleo/handmade/53-civic-footage`: ALL OK (I1–I4). `build/check.py`: all PASS, plus
+the new `lying_shape`.
+
+Still open after round 2: no second critic pass yet. The rising at 7.5–8.0 s squashes the legs of frontal and side frames,
+and the dog looks squat for about half a second. The lying dog still stands about 0.5 m tall at the back: it reads as lying
+low, with no paws visible. The sound is unchanged and still not listened to.

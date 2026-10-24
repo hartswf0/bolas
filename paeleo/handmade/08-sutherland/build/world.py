@@ -332,7 +332,7 @@ class DogDriver:
             goal, tc = math.pi, 7.458
         else:
             goal, tc = phi_b, t
-        dphi = clamp(goal - phi_b, -2.27, 2.27) * smooth((t - tc) / 0.35)
+        dphi = clamp(goal - phi_b, -2.27, 2.27) * smooth((t - tc) / 0.25)
         phi_h = phi_b + dphi
         self.phi = (phi_b, phi_h)
         fhead = np.array([math.cos(phi_h), 0.0, math.sin(phi_h)])
@@ -364,13 +364,13 @@ class DogDriver:
         Wp = g.p('W')
         Ng = Wp + DOG['neck'] * (math.cos(al) * fh + math.sin(al) * UP)
         Zg = Ng + DOG['head'] * (math.cos(be) * fh + math.sin(be) * UP)
-        lead = smooth((t - 7.458) / 0.35) if 7.458 <= t < 9.5 else 0.0
+        lead = smooth((t - 7.458) / 0.25) if 7.458 <= t < 9.5 else 0.0
         rest = a['rest'] * lie * (1 - lead)        # the chin leaves the paws as the head swings round
         if rest > 0:
             Nr = Wp + f * 0.20 + UP * (0.17 - Wp[1])
             Zr = Nr + f * DOG['head'] * 0.97 + UP * (0.07 - 0.17)
             Ng = lerp(Ng, Nr, rest); Zg = lerp(Zg, Zr, rest)
-        g.goal('N', Ng, 0.3, 'poll'); g.goal('Z', Zg, 0.3, 'nose')
+        g.goal('N', Ng, 0.55, 'poll'); g.goal('Z', Zg, 0.55, 'nose')
         # --- tail ---------------------------------------------------------------
         tl = a['tail']
         wag = a['wag'] * math.sin(2 * math.pi * 2.6 * t)
@@ -792,6 +792,15 @@ def draw_dog(df, cam, g, f, side, I=1.0, show_graph=True, pins=None):
     ]
     tors = catmull(cam.pa(sp), 6, closed=True)
     df.line(tors, I, 'dog'); df.occ.append(tors)
+    # the barrel in depth: cross-section rings across the spine (a 3-D wireframe, Sketchpad III style).
+    # Seen in profile they are slivers; when the body turns in depth they open into ellipses.
+    sd = unit(side - a * float(np.dot(side, a)))
+    for c0, dn, ry, rx, Ir in ((Wp + a * 0.04, 0.11, 0.17, 0.10, 0.55), (Mp, 0.09, 0.15, 0.12, 0.45), (Pp - a * 0.01, 0.06, 0.13, 0.10, 0.55)):
+        cc = c0 - ub * dn
+        ang = np.linspace(0, 2 * math.pi, 28)
+        ring = [cc + ub * (ry * math.cos(q)) + sd * (rx * math.sin(q)) for q in ang]
+        df.line(cam.pa(ring), I * Ir, 'dog')
+        df.occ.append(cam.pa(ring))
     # neck: two curves from the body to the head
     hd = unit(Zp - Np); hs = head_side(hd, side); hu = unit(np.cross(hs, hd))
     if hu[1] < 0:
