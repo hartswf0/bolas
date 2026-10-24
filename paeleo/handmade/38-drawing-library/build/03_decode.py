@@ -119,7 +119,7 @@ def main():
 
     def attr(k):
         return np.array([c[k] for c in C], float)
-    WALKPAIR = {2830, 135}  # the stride twins: dome body, round head low at the chest
+    WALKPAIR = {135, 1309}  # the stride twins: dome body, small round head low at the chest
     for c in C:
         c['walkpair'] = float(c['idx'] in WALKPAIR)
     A = {k: attr(k) for k in ('face', 'lie', 'crouch', 'head', 'spread', 'viewer', 'rest', 'front', 'flip', 'headlow', 'profile', 'walkpair')}

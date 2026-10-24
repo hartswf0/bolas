@@ -628,16 +628,21 @@ def scene_frame(i):
     kind, k = draw_head(fr, i, neck)
     hand_at = draw_low_hand(fr, j, sh_r)
     # dog
-    P = dog_pose(j)
+    P = dog_pose(j, i)
+    head_at = (sx(P['x']) - 90 * P['face'], PAW - 120)
+    bp, flying = butterfly_pos(i, hand_at, head_at)
+    look_at = None
+    if bp is not None and flying and 7.7 <= t < 11.8:
+        bj, _ = butterfly_pos(j, hand_at, head_at)   # attention also on twos
+        look_at = bj or bp
+        P['wag'] = max(P['wag'], 0.45)
     dog_shadow(fr, P)
     layer = Image.new('RGBA', (W, H), (0, 0, 0, 0))
     probe = Image.new('RGBA', (W, H), (0, 0, 0, 0))
-    draw_dog(layer, probe, P)
+    draw_dog(layer, probe, P, look_at)
     fr.alpha_composite(layer)
     draw_reach(fr, i, sh_r, sx(P['x']))
     # butterfly
-    head_at = (sx(P['x']) - 90 * P['face'], PAW - 120)
-    bp, flying = butterfly_pos(i, hand_at, head_at)
     if bp is not None:
         flap = abs(math.cos(2 * math.pi * 5 * t)) * 0.85 + 0.15 if flying else 1.0
         sc = 1.0
