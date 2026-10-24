@@ -1,0 +1,209 @@
+{
+ "about": "SCION 53 source manifest and transform record. Per-frame transforms are in build/edl.json. Unused kit: quickdraw (no drawing in this film).",
+ "assets": [
+  {
+   "id": "dog",
+   "what": "the performer: a real dog in a home movie, cut out by its SAM mask on every frame used",
+   "path": "sources/dog/frames + masks.json + pose_agent_v8.json",
+   "source_title": "Amateur Film New Jersey C",
+   "source_year": "undated (not given by the catalogue)",
+   "archive_url": "https://archive.org/details/NewJerseyC",
+   "catalogue_page": "https://www.movingimagearchive.com/sources/amateur-film-new-jersey-c-c65a8960",
+   "clip_id": "2fdacde1-8a23-58e1-b905-5407385bd039",
+   "clip_video_url": "https://pub-075ff01374c04555b51c9bc50f258b42.r2.dev/sources/c65a8960-c79f-5f1c-a57a-832d4068764a/v4-conditional-luna-1/clips/2fdacde1-8a23-58e1-b905-5407385bd039.mp4",
+   "rights": "public_domain",
+   "collection": "Home Movies (Internet Archive collection)",
+   "frames": "f000-f049",
+   "clip_seconds": [
+    0.2,
+    4.283
+   ],
+   "film_timecode": [
+    "00:03:45:18",
+    "00:03:49:20"
+   ],
+   "timecode_basis": "dog: catalogue start_seconds 225.559 + clip.json interval start 0.2 + i/12",
+   "used_frames": "f000-f020, f026-f038 (turn), f042-f048 (walk), f043-f047 (folded lying); f021-f025 not used (masks swallow the shadow); f049 not used",
+   "operation": "mask cut (SAM polygon, 1.2 px feather), greyscale, scale 1.60, placed by its alpha centroid on x_screen = 372 + 185*x; re-timed (play 1:1, ping-pong, stepped by distance travelled), reversed (backing away; turning back), mirrored (walking toward the door), held (4-frame grain loops). COMPOSED, not in the footage: lying down (legs folded by row compression, body lowered), head pivots at the neck (look, look in, chin down).",
+   "context": "an undated amateur film from New Jersey, the dog greets a person in a long coat beside a stone house with a bowl on the path. The person and the place are real and unidentified; we do not name or guess them."
+  },
+  {
+   "id": "person-standing",
+   "what": "the person in the doorway: the coat and legs of the person the dog greets in the same home movie",
+   "path": "sources/dog/frames f003-f006",
+   "source_title": "Amateur Film New Jersey C",
+   "source_year": "undated (not given by the catalogue)",
+   "archive_url": "https://archive.org/details/NewJerseyC",
+   "catalogue_page": "https://www.movingimagearchive.com/sources/amateur-film-new-jersey-c-c65a8960",
+   "clip_id": "2fdacde1-8a23-58e1-b905-5407385bd039",
+   "clip_video_url": "https://pub-075ff01374c04555b51c9bc50f258b42.r2.dev/sources/c65a8960-c79f-5f1c-a57a-832d4068764a/v4-conditional-luna-1/clips/2fdacde1-8a23-58e1-b905-5407385bd039.mp4",
+   "rights": "public_domain",
+   "collection": "Home Movies (Internet Archive collection)",
+   "frames": "f003-f006",
+   "clip_seconds": [
+    0.45,
+    0.7
+   ],
+   "film_timecode": [
+    "00:03:46:00",
+    "00:03:46:06"
+   ],
+   "timecode_basis": "dog: catalogue start_seconds 225.559 + clip.json interval start 0.2 + i/12",
+   "operation": "hand-drawn matte (COAT_POLY in build/render.py, shifted by camera.json), top and left frame edges faded where the footage ends, greyscale, x1.25 brightness, scale 1.62; ping-pong; slid left along the score's person.x when the person steps aside"
+  },
+  {
+   "id": "door",
+   "what": "the door: a white front door with a curtained window, swinging; the warm hallway behind it is the light",
+   "path": "sources/door/frames f022-f027",
+   "source_title": "Straight Talk",
+   "source_year": "1992",
+   "archive_url": "https://archive.org/details/gov.ntis.ava19144vnb1",
+   "catalogue_page": "https://www.movingimagearchive.com/sources/straight-talk-583ba802",
+   "clip_id": "271d80c7-4f56-51b8-90fe-012dfb984b4f",
+   "clip_video_url": "https://pub-075ff01374c04555b51c9bc50f258b42.r2.dev/sources/583ba802-c8e1-5981-ba5f-1af2ab829405/v4-conditional-luna-1/clips/271d80c7-4f56-51b8-90fe-012dfb984b4f.mp4",
+   "rights": "public_domain",
+   "collection": null,
+   "frames": "f022-f027",
+   "clip_seconds": [
+    6.733,
+    7.15
+   ],
+   "film_timecode": "offset of the clip in the film unknown",
+   "timecode_basis": "clip.json t0 + i/12 inside the clip file only",
+   "operation": "fixed crop (x 106-238, stabilised by camera.json), scaled to the doorway (0.92 m); greyscale with the warm gap kept in its own colour and exposure-lifted; HELD f027 (ajar) to 6.2 s, REVERSED f027>f022 (the closing swing run backward = the door opens), HELD f022 (open). Frames f000-f021 not used: the woman who opens the door in the source is in them."
+  },
+  {
+   "id": "person-seated",
+   "what": "the person sitting beside the door: a person sitting upright in a sleeping bag in the snow, from a 1961 survival training film",
+   "path": "sources/seated/frames f000-f049",
+   "source_title": "Survival Stresses",
+   "source_year": "1961",
+   "archive_url": "https://archive.org/details/hmdvid-101704143",
+   "catalogue_page": "https://www.movingimagearchive.com/sources/survival-stresses",
+   "clip_id": "1d980180-c1d2-58d9-a3ae-de422a3e2db2",
+   "clip_video_url": "https://pub-075ff01374c04555b51c9bc50f258b42.r2.dev/sources/survival-stresses/clips/0000120554-0000139906.mp4",
+   "rights": "public_domain",
+   "collection": null,
+   "frames": "f000-f049",
+   "clip_seconds": [
+    4.9,
+    8.983
+   ],
+   "film_timecode": [
+    "00:02:05:11",
+    "00:02:09:13"
+   ],
+   "timecode_basis": "clip file name gives its ms range in the film; + clip.json t0 + i/12 (derived, not checked against the film)",
+   "operation": "SAM mask cut, mirrored (faces the porch), greyscale, scale 0.92, ping-pong at 1:2; SUBSTITUTED for the standing coat at the score's sit = 0.5 (5.96 s), a hard cut, not a morph.",
+   "context": "a training film about cold-weather survival stress; the performer is shown sitting still, which is all we take."
+  },
+  {
+   "id": "hand",
+   "what": "the hand: a hand and forearm reaching in from the right, holding a card that reads SORROW",
+   "path": "sources/hand/frames f000-f061",
+   "source_title": "Door to Heaven, The",
+   "source_year": "1941",
+   "archive_url": "https://archive.org/details/DoortoHe1941",
+   "catalogue_page": "https://www.movingimagearchive.com/sources/door-to-heaven-the",
+   "clip_id": "0870ef3a-b328-5284-890b-3e1ac18057c1",
+   "clip_video_url": "https://pub-075ff01374c04555b51c9bc50f258b42.r2.dev/sources/door-to-heaven-the/clips/0000451551-0000458892.mp4",
+   "rights": "public_domain",
+   "collection": null,
+   "frames": "f000-f061",
+   "clip_seconds": [
+    0.65,
+    5.733
+   ],
+   "film_timecode": [
+    "00:07:32:05",
+    "00:07:37:07"
+   ],
+   "timecode_basis": "clip file name gives its ms range in the film; + clip.json t0 + i/12 (derived, not checked against the film)",
+   "operation": "SAM hand mask + forearm extended by a brightness threshold; the card is left out; mirrored (comes from the left); scale 0.55; slid out by the score's reach (3.4-4.6 s) and, rotated -14 deg, by low (from 6.8 s). Plays at 12 fps in a loop.",
+   "context": "from a 1941 film whose card says SORROW; the word is not shown in the scene, only on the source monitor, where the frame is shown unmodified."
+  },
+  {
+   "id": "plate-stone-wall",
+   "what": "the house wall",
+   "path": "sources/dog/frames f003, f009, f014 crop (314,46)-(376,282)",
+   "source_title": "Amateur Film New Jersey C",
+   "source_year": "undated (not given by the catalogue)",
+   "archive_url": "https://archive.org/details/NewJerseyC",
+   "catalogue_page": "https://www.movingimagearchive.com/sources/amateur-film-new-jersey-c-c65a8960",
+   "clip_id": "2fdacde1-8a23-58e1-b905-5407385bd039",
+   "clip_video_url": "https://pub-075ff01374c04555b51c9bc50f258b42.r2.dev/sources/c65a8960-c79f-5f1c-a57a-832d4068764a/v4-conditional-luna-1/clips/2fdacde1-8a23-58e1-b905-5407385bd039.mp4",
+   "rights": "public_domain",
+   "collection": "Home Movies (Internet Archive collection)",
+   "operation": "blocks cut from the stone pillar of the same house, laid as random stones (seed 53), mortar lines darkened, x0.55 for dusk"
+  },
+  {
+   "id": "plate-path",
+   "what": "the porch floor",
+   "path": "sources/dog/frames f030 crop (0,236)-(380,288)",
+   "source_title": "Amateur Film New Jersey C",
+   "source_year": "undated (not given by the catalogue)",
+   "archive_url": "https://archive.org/details/NewJerseyC",
+   "catalogue_page": "https://www.movingimagearchive.com/sources/amateur-film-new-jersey-c-c65a8960",
+   "clip_id": "2fdacde1-8a23-58e1-b905-5407385bd039",
+   "clip_video_url": "https://pub-075ff01374c04555b51c9bc50f258b42.r2.dev/sources/c65a8960-c79f-5f1c-a57a-832d4068764a/v4-conditional-luna-1/clips/2fdacde1-8a23-58e1-b905-5407385bd039.mp4",
+   "rights": "public_domain",
+   "collection": "Home Movies (Internet Archive collection)",
+   "operation": "gravel path of the same yard, tiled with a mirror, x0.55"
+  },
+  {
+   "id": "plate-yard",
+   "what": "the yard beyond the house",
+   "path": "sources/dog/frames f000 crop (70,0)-(300,70)",
+   "source_title": "Amateur Film New Jersey C",
+   "source_year": "undated (not given by the catalogue)",
+   "archive_url": "https://archive.org/details/NewJerseyC",
+   "catalogue_page": "https://www.movingimagearchive.com/sources/amateur-film-new-jersey-c-c65a8960",
+   "clip_id": "2fdacde1-8a23-58e1-b905-5407385bd039",
+   "clip_video_url": "https://pub-075ff01374c04555b51c9bc50f258b42.r2.dev/sources/c65a8960-c79f-5f1c-a57a-832d4068764a/v4-conditional-luna-1/clips/2fdacde1-8a23-58e1-b905-5407385bd039.mp4",
+   "rights": "public_domain",
+   "collection": "Home Movies (Internet Archive collection)",
+   "operation": "blurred (3 px), 16% over a computed grey dusk gradient"
+  },
+  {
+   "id": "sill",
+   "what": "the sill slab",
+   "source": "drawn (a lighter band in build/render.py build_plates)",
+   "rights": "own work",
+   "operation": "computed"
+  },
+  {
+   "id": "light",
+   "what": "dusk ambient and the light from the door on the porch and on the dog",
+   "source": "computed (build/render.py light_field)",
+   "rights": "own work",
+   "operation": "multiplicative light field; warm fan from the doorway from 6.2 s"
+  },
+  {
+   "id": "contact-shadow",
+   "what": "a soft shadow under the dog",
+   "source": "computed",
+   "rights": "own work",
+   "operation": "gaussian ellipse under the alpha"
+  },
+  {
+   "id": "sound",
+   "what": "all sound",
+   "source": "synthesized (build/sound.py, numpy)",
+   "rights": "own work",
+   "operation": "projector ticks per archive-frame change (higher when reversed, none on composed folds); formant-synthesized voice tones following the contours of \"come here\", \"it's all right\", \"come in\" (not speech); door latch and creak; inside room tone; paw taps per walking frame; breath on lying down; collar jingle on head lifts; wind and synthetic crickets"
+  },
+  {
+   "id": "score",
+   "what": "the dog's decision trace",
+   "path": "sources/threshold-score.json (copy of paeleo/handmade/score/threshold-score.json)",
+   "source": "paeleo/threshold/machine.js",
+   "rights": "PAELEO project"
+  },
+  {
+   "id": "fonts",
+   "what": "Big Shoulders Display, JetBrains Mono, Literata",
+   "path": "tools/paeleo/fonts/*.woff2 (read in place)",
+   "rights": "SIL Open Font License (as shipped in the repository)"
+  }
+ ]
+}

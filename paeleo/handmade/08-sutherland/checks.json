@@ -1,0 +1,111 @@
+{
+ "choices": [
+  {
+   "choice": "retreat",
+   "score_t": 1.0,
+   "measured_t": 1.042,
+   "delta": 0.042,
+   "within_0_25": true
+  },
+  {
+   "choice": "retreat_to_watch",
+   "score_t": 2.333,
+   "measured_t": 2.625,
+   "delta": 0.292,
+   "within_0_25": false
+  },
+  {
+   "choice": "refuse",
+   "score_t": 3.417,
+   "measured_t": 3.917,
+   "delta": 0.5,
+   "within_0_25": false
+  },
+  {
+   "choice": "refuse_to_watch",
+   "score_t": 7.458,
+   "measured_t": 7.5,
+   "delta": 0.042,
+   "within_0_25": true
+  },
+  {
+   "choice": "approach",
+   "score_t": 14.708,
+   "measured_t": 14.708,
+   "delta": 0.0,
+   "within_0_25": true
+  },
+  {
+   "choice": "lie_down",
+   "score_t": 23.792,
+   "measured_t": 23.833,
+   "delta": 0.041,
+   "within_0_25": true
+  },
+  {
+   "choice": "look_in",
+   "score_t": 26.4,
+   "measured_t": 26.542,
+   "delta": 0.142,
+   "within_0_25": true
+  }
+ ],
+ "invariant2": {
+  "min_centre_x": 0.5702,
+  "sill_limit": 0.56,
+  "centre_never_below_sill": true,
+  "min_z_of_any_dog_point_inside_door_jambs": -0.132,
+  "wall_inner_face_z": -0.12,
+  "never_past_the_wall": false,
+  "final_points_between_jambs": 11,
+  "final_points_outside_jambs": 13,
+  "final_spot_share_between_jambs": 0.509,
+  "final_posture": "lying"
+ },
+ "invariant3": {
+  "call_at": 1.0,
+  "x_before_call": 3.0,
+  "x_after_call": 3.948,
+  "reach_at": 3.4,
+  "face_cos_before_reach": 1.0,
+  "face_cos_after_reach": -0.978,
+  "person_seated_at": 6.25,
+  "door_open_past_70deg_at": 6.5,
+  "hand_low_at": 6.542,
+  "soft_voice_at": 7.4,
+  "approach_measured_at": 14.708,
+  "all_circumstances_before_approach": true
+ },
+ "invariant4": {
+  "max_abs_world_minus_score_m": 0.0294,
+  "mean_abs_m": 0.0126,
+  "screen_px_per_m_fit_wide": 151.86,
+  "screen_fit_rms_px": 10.87,
+  "approach_distance_score_m": 3.406,
+  "approach_distance_measured_m": 3.413,
+  "retreat_direction": "+x (away from the door)"
+ },
+ "solver": {
+  "declared_tolerance_mm": 1.0,
+  "dog_hard_max_mm": 0.199,
+  "dog_hard_p95_mm": 0.186,
+  "person_hard_max_mm": 0.384,
+  "door_hard_max_mm": 0.0,
+  "all_within_tolerance": true,
+  "dog_max_point_step_per_frame_m": 0.3482,
+  "dog_max_step_at_t": 4.333,
+  "person_max_point_step_per_frame_m": 0.7599,
+  "planted_paw_slip": "0 by construction (a planted paw has inverse mass 0)",
+  "unsatisfiable_reach_frames": 29,
+  "reach_gap_max_m": 3.54
+ },
+ "rig_ratios_from_archive": {
+  "nose_neck": 0.4697905518701124,
+  "neck_chest": 0.3568021217056033,
+  "chest_tail": 1.0,
+  "fore_h": 0.5955094978658887,
+  "hind_h": 0.8438496288908127,
+  "neck_h": 0.8926307260564227
+ },
+ "rig_keys": 25
+}
