@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Motor skates · a short</title>
+<meta name="description" content="A short cut from the En l'an 2000 card of motor skates, turned into a shadow theatre of hinged silhouettes in front of a real shadow play.">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../assets/favicon-180.png">
+<link rel="stylesheet" href="../room/room.css">
+<link rel="stylesheet" href="shorts.css">
+</head>
+<body>
+<div class="wrap">
+<header class="top"><a class="room-return" href="index.html#skates">The shorts</a></header>
+<h1>Motor skates</h1>
+<p class="lede">Operator: <strong>Lotte Reiniger, articulated shadow theatre</strong>. A light comes up behind the card and the skaters turn to silhouettes, cut from the card's own drawing, on hinged legs. The couple skates, the lady glides off, and the man who fell tries to get up and falls again. A crowd filmed in 1927 watches from the horizon. Then the screen behind them becomes a real shadow play, and the skaters cross in front of its performers.</p>
+<canvas id="stage" aria-label="The short, drawn frame by frame"></canvas>
+<div class="controls"><button id="play">Play</button><input id="scrub" type="range" min="0" max="1000" value="0" aria-label="Time"><span class="tc" id="tc">0.0 s</span></div>
+<p class="meta">This page draws the short live without sound. The film with its soundtrack is in <a href="index.html#skates">the shorts</a>.</p>
+<section class="sheet">
+<h2>Ledger</h2>
+<dl class="ledger">
+<div><dt>Observed</dt><dd>The card, En l'an 2000, about 1910. Two plates from the cineosis-lab shot library: the crowd on the promenade in <em>Autoraces op boulevard Scheveningen</em> (1927), keyed to its dark shapes; and performers behind a lit screen from <em>Industry on Parade</em>, slowed to half speed.</dd></div>
+<div><dt>Cut and moved</dt><dd>Ten pieces: the couple's bodies and each one's legs, the lady, the fallen man in two pieces and his hat, two lamps and the tree line. Each piece's edge is the card's own drawing, separated from the ground by colour.</dd></div>
+<div><dt>Drawn and synthesised</dt><dd>The lit backdrop; the shadow figures, which are the cut pieces darkened, not new drawings; the hinges, the camera, grain and captions; the skate wheels, the fall and the waltz.</dd></div>
+</dl>
+</section>
+</div>
+<script src="stage.js"></script>
+<script>
+const LIGHT = 4.6, DARK = 7.2, RISE = 9.4, SLIP = 11.4, PLAY = 13.4, OUT = 18.8, END = 20.2, DUR = 22.9;
+const NAMES = ['trees', 'lamp1', 'lamp2', 'lady', 'legsW', 'legsM', 'couple', 'fallenLegs', 'fallen', 'hat'];
+const sil = {};
+const stride = t => Math.sin(2 * Math.PI * .85 * t);
+const glide = t => 150 * S.ease(S.seg(t, 5.5, 18.5));
+// the fallen man: up on his arms, nearly standing, then the skates go and he is down again
+const rise = t => t < RISE ? 0 : t < SLIP ? S.ease(S.seg(t, RISE, SLIP - .3)) * .92 : Math.max(0, .92 - S.easeIn(S.seg(t, SLIP, SLIP + .35)) * .92) + .08 * Math.exp(-6 * (t - SLIP - .35)) * Math.abs(Math.sin(18 * (t - SLIP - .35))) * (t > SLIP + .35);
+const S = Stage({
+  id: 'skates', dur: DUR, card: 'skates', frame: [4, 4, 582, 337], plates: ['promenade', 'shadowplay'], poster: 15.6,
+  setup(S) {
+    for (const k of NAMES) { const p = S.parts[k], c = document.createElement('canvas'); c.width = p.w; c.height = p.h;
+      // shadow paper: the piece darkened almost to black, its drawing still faintly there, like Reiniger's tinted tissue
+      const g = c.getContext('2d'); g.filter = 'brightness(.4) saturate(.5) contrast(1.35)'; g.drawImage(p.im, 0, 0); sil[k] = c; }
+  },
+  clock: t => ({ promenade: Math.max(0, Math.min(3.25, (t - DARK) * .5)), shadowplay: Math.max(0, Math.min(3.25, (t - PLAY) * .55)) }),
+  camera(t, S) {
+    const h = S.home; let c = { x: h.x, y: h.y, z: 1 };
+    const k1 = S.ease(S.seg(t, 2.6, 6)); c.z = S.lerp(1, 1.08, k1);
+    const k2 = S.ease(S.seg(t, 8.6, 10.6)); c.x = S.lerp(h.x, 420, k2); c.y = S.lerp(h.y, 185, k2); c.z = S.lerp(c.z, 1.3, k2);
+    const k3 = S.ease(S.seg(t, 12.6, 14.6)); c.x = S.lerp(c.x, h.x + 20, k3); c.y = S.lerp(c.y, h.y, k3); c.z = S.lerp(c.z, 1.04, k3);
+    c.x += S.noise(t * .4) * .8; c.y += S.noise(t * .4 + 2) * .6;
+    return c;
+  },
+  draw(S, t) {
+    const ctx = S.ctx, k = S.ease(S.seg(t, LIGHT, DARK)), st = stride(t), on = S.seg(t, 5.5, 6.5) * (1 - S.seg(t, 18, 18.8));
+    S.view();
+    // the card, then the lit screen coming up behind it
+    S.bg();
+    if (k > 0) {
+      const [cw, ch] = S.manifest.size, g = ctx.createRadialGradient(cw * .5, ch * .62, 20, cw * .5, ch * .55, cw * .72);
+      g.addColorStop(0, '#fbe7b0'); g.addColorStop(.45, '#efc27c'); g.addColorStop(1, '#a5513f');
+      ctx.save(); ctx.globalAlpha = k; ctx.fillStyle = g; ctx.fillRect(0, 0, cw, ch);
+      ctx.globalAlpha = k * .18; ctx.globalCompositeOperation = 'multiply'; ctx.filter = 'blur(6px)'; S.bg(); ctx.filter = 'none'; ctx.restore();
+      // the 1927 crowd as a frieze on the horizon
+      const kc = S.seg(t, DARK, DARK + 1) * (1 - S.seg(t, PLAY - .5, PLAY + .5));
+      if (kc > 0) S.plate('promenade', [-10, 80, 600, 34], { crop: [0, 100, 640, 36], tone: ['#1a1412', '#1a1412'], lumaAlpha: 'dark', contrast: 1.4, res: 640, fade: .55, a: kc * .9 });
+      // the real shadow play takes the screen
+      const kp = S.ease(S.seg(t, PLAY - .4, PLAY + 1.4));
+      if (kp > 0) S.plate('shadowplay', [-6, -2, 598, 345], { crop: [0, 0, 320, 240], tone: ['#1a1412', '#fbe1a4'], contrast: 1.25, a: kp * (1 - .6 * S.seg(t, OUT, END)) });
+    }
+    // each piece: colour first, then its silhouette over it as the light comes up
+    const piece = (n, o) => { if (k < 1) S.drawPart(n, o); if (k > 0) S.drawPart(n, Object.assign({}, o, { im: sil[n], a: k })); };
+    const kp = S.seg(t, PLAY - .4, PLAY + .6);
+    if (kp < 1) { ctx.save(); ctx.globalAlpha = 1 - kp; piece('trees', {}); piece('lamp1', {}); ctx.restore(); }
+    // the lady glides off to the left, rocking on her skates
+    piece('lady', { dx: -150 * S.easeIn(S.seg(t, 6, 12.5)), dy: 2 * Math.abs(st) * on, rot: .05 * st * on, pivot: [140, 282] });
+    // the fallen man and his hat
+    const r = rise(t), up = { rot: -.9 * r, dy: -10 * r }, legs = { rot: .9 * r, dy: -10 * r, dx: -6 * r };
+    piece('hat', { dy: -6 * Math.max(0, Math.sin(Math.PI * S.seg(t, SLIP + .3, SLIP + .7))) });
+    piece('fallenLegs', legs); piece('fallen', up);
+    // the couple: hinged legs scissor while the bodies ride above them
+    const gx = glide(t), bob = -1.6 * Math.abs(st) * on;
+    piece('legsW', { dx: gx, dy: bob, rot: .26 * st * on });
+    piece('legsM', { dx: gx, dy: bob, rot: -.24 * st * on });
+    piece('couple', { dx: gx, dy: bob * 1.2, rot: .018 * st * on, pivot: [335, 222] });
+    piece('lamp2', {});
+    S.vignette(.34); S.grain(.15);
+    S.caption('A light comes up behind the card.', S.seg(t, 4.8, 5.3) * (1 - S.seg(t, 7.8, 8.2)));
+    S.caption('A crowd from 1927 watches: Autoraces op boulevard Scheveningen', S.seg(t, 8.6, 9.1) * (1 - S.seg(t, 12.4, 12.8)));
+    S.caption('Behind them, a real shadow play: Industry on Parade', S.seg(t, 14.6, 15.1) * (1 - S.seg(t, 18.4, 18.8)));
+    S.card([['En l’an 2000', 20, 'sc dim'], ['Motor skates', 54, 'sc'], ['a short cut from the card', 22]], 1 - S.seg(t, 1.9, 2.5));
+    S.card([['Motor skates', 34, 'sc'], ['Operator: Lotte Reiniger, articulated shadow theatre', 20], ['Card: En l’an 2000, about 1910', 18, 'dim'],
+      ['Plates: Autoraces op boulevard Scheveningen (1927) and Industry on Parade,', 18, 'dim'], ['from the cineosis-lab shot library', 18, 'dim'],
+      ['The silhouettes are cut from the card. The sound is synthesised.', 18, 'dim']], S.seg(t, END, END + .5));
+  },
+  cues: (() => {
+    const c = [{ t: .3, k: 'chime', notes: [62, 65, 69], step: .28, a: .12 },
+      { t: 4.6, k: 'hum', d: 2.4, f: 110, wob: .5, a: .04, att: 2, rel: .4 },
+      { t: 5.5, k: 'bed', d: 12.6, lp: 900, pulse: .85, a: .09, att: 1, rel: 1 },
+      { t: SLIP + .3, k: 'bonk', f: 110, a: .45 }, { t: SLIP + .55, k: 'bonk', f: 300, a: .2 },
+      { t: RISE, k: 'tone', f: 220, f1: 330, d: 1.6, a: .05, vib: 5 },
+      { t: END + .1, k: 'chime', notes: [74, 69, 65, 62], step: .3, a: .13 }];
+    // a waltz in the music box, one-two-three
+    const bars = [[62, 66, 69], [62, 66, 69], [61, 64, 69], [61, 64, 69], [62, 66, 71], [62, 67, 71], [64, 67, 73], [62, 66, 74]];
+    let s = 6.2; for (let i = 0; i < 15; i++) { const b = bars[i % bars.length]; b.forEach((n, j) => c.push({ t: s + j * .38, k: 'chime', notes: [n + (j ? 12 : 0)], a: j ? .07 : .1 })); s += 1.14; }
+    return c;
+  })()
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Correspondence by phonograph and cinema · a short</title>
+<meta name="description" content="A short cut from the En l'an 2000 card of correspondence by phonograph and cinema: a voice drives the machines, then a 1914 dance on the screen drives the music.">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../assets/favicon-180.png">
+<link rel="stylesheet" href="../room/room.css">
+<link rel="stylesheet" href="shorts.css">
+</head>
+<body>
+<div class="wrap">
+<header class="top"><a class="room-return" href="index.html#phono-cinema">The shorts</a></header>
+<h1>Correspondence by phonograph and cinema</h1>
+<p class="lede">Operator: <strong>sound to action</strong>. Timing comes from sound. The man in the chair speaks, in a voice without words, and each syllable moves his head, the receiver and the big horn. Then the screen answers with a real dance filmed in 1914. How much the dancers move, measured frame by frame, sets how loud the music plays. Last, the card itself goes up on the screen of a 1948 picture house, behind the audience's heads.</p>
+<canvas id="stage" aria-label="The short, drawn frame by frame"></canvas>
+<div class="controls"><button id="play">Play</button><input id="scrub" type="range" min="0" max="1000" value="0" aria-label="Time"><span class="tc" id="tc">0.0 s</span></div>
+<p class="meta">This page draws the short live without sound. The film with its soundtrack is in <a href="index.html#phono-cinema">the shorts</a>.</p>
+<section class="sheet">
+<h2>Ledger</h2>
+<dl class="ledger">
+<div><dt>Observed</dt><dd>The card, En l'an 2000, about 1910. Two plates from the cineosis-lab shot library: a ballroom from <em>Fatty's Magic Pants</em> (1914), set on the screen, and a picture-house audience from <em>Let's Go To The Movies</em> (1948), whose screen the card is projected onto; the heads stay in front.</dd></div>
+<div><dt>Cut and moved</dt><dd>The big horn, the receiver, the reclining man's head and the woman on the screen. Her place is filled with the screen's own colour.</dd></div>
+<div><dt>Drawn and synthesised</dt><dd>The beam's flicker, the camera, grain and captions; the voice, the projector and the music. The music's loudness follows the dance's measured motion.</dd></div>
+</dl>
+</section>
+</div>
+<script src="stage.js"></script>
+<script>
+const VOICE = 2.6, VOICE_D = 5.9, SYL = 4.2, SWAP = 8.9, DANCE = 10.2, CROWD = 15.6, END = 19.8, DUR = 22.5;
+// the voice's loudness, the same function the synthesiser uses (sound.py, babble), so picture and sound agree
+const voice = t => { const u = t - VOICE; if (u < 0 || u > VOICE_D) return 0;
+  const g = Math.pow(Math.max(0, Math.min(1, Math.sin(Math.PI * ((u * SYL) % 1)) * 1.6)), .7) * (.6 + .4 * (Math.sin(2 * Math.PI * .31 * u) > -.6));
+  return g * Math.min(1, u / .05, (VOICE_D - u) / .2); };
+const SCREEN = [752, 0, 206, 345];
+let dance = () => 0;
+const snap = document.createElement('canvas');
+const S = Stage({
+  id: 'phono-cinema', dur: DUR, card: 'phono-cinema', frame: [6, 4, 956, 556], plates: ['dancers1914', 'audience'], poster: 13,
+  json: { motion: '../assets/shorts/plates/dancers1914.motion.json' },
+  setup(S) { const e = S.data.motion.energy; dance = t => { const u = t - SWAP; if (u < 0) return 0; return e[Math.min(e.length - 1, Math.round(u * 24))] * S.seg(t, SWAP, DANCE); }; },
+  clock: t => ({ dancers1914: Math.max(0, Math.min(11.9, t - SWAP)), audience: Math.max(0, Math.min(2.1, (t - CROWD) * .9)) }),
+  camera(t, S) {
+    const h = S.home; let c = { x: h.x, y: h.y, z: 1 };
+    const k1 = S.ease(S.seg(t, 2.4, 6));
+    c.x = S.lerp(h.x, 520, k1); c.y = S.lerp(h.y, 230, k1); c.z = S.lerp(1, 1.6, k1);
+    const k2 = S.ease(S.seg(t, 8, 10.6));
+    c.x = S.lerp(c.x, 760, k2); c.y = S.lerp(c.y, 190, k2); c.z = S.lerp(c.z, 1.45, k2);
+    const k3 = S.ease(S.seg(t, 15, 17.6));
+    c.x = S.lerp(c.x, h.x + 40, k3); c.y = S.lerp(c.y, h.y, k3); c.z = S.lerp(c.z, 1.03, k3);
+    c.x += S.noise(t * .5) * .8; c.y += S.noise(t * .5 + 3) * .6;
+    return c;
+  },
+  draw(S, t) {
+    const ctx = S.ctx, v = voice(t), d = dance(t), lag = voice(t - .35);
+    S.view(); S.bg();
+    // the screen: the card's woman sways a beat after his voice; then the beam stutters and the 1914 ballroom is on it
+    const swap = S.seg(t, SWAP, SWAP + 1.1), flick = t > SWAP - .6 && t < SWAP + 1.2 ? .5 + .5 * Math.sign(Math.sin(t * 61)) : 1;
+    if (swap < 1) S.drawPart('woman', { rot: .035 * lag * Math.sin(t * 3.1), a: (1 - swap) * (swap > 0 ? flick : 1) });
+    if (swap > 0) S.plate('dancers1914', SCREEN, { crop: [88, 0, 143, 240], tone: ['#3b2f22', '#f6edc9'], keep: .08, contrast: 1.15, a: swap * flick * .95 });
+    // the beam: brighter while the projector runs
+    ctx.save(); ctx.globalCompositeOperation = 'screen'; ctx.globalAlpha = .07 + .1 * (t > SWAP ? flick : .4) * (.8 + .2 * Math.sin(t * 113));
+    ctx.fillStyle = '#E8D59A'; ctx.beginPath(); ctx.moveTo(548, 88); ctx.lineTo(752, 0); ctx.lineTo(752, 345); ctx.closePath(); ctx.fill(); ctx.restore();
+    // sound into action: the voice moves the speaker; after the swap, the dance moves the horn
+    S.drawPart('head', { rot: -.05 * v + .015 * Math.sin(t * 1.3) });
+    S.drawPart('receiver', { dx: 1.4 * v * Math.sin(t * 90), dy: -.9 * v, rot: .02 * v });
+    S.drawPart('horn', { sc: 1 + .05 * v + .09 * d, rot: -.02 * d });
+    // the card goes up on a 1948 picture-house screen; the audience's heads are in front of it
+    const k = S.ease(S.seg(t, CROWD, CROWD + 2.2));
+    if (k > 0) {
+      snap.width = S.W; snap.height = S.H; snap.getContext('2d').drawImage(S.cv, 0, 0);
+      S.screen(); ctx.fillStyle = S.INK; ctx.fillRect(0, 0, S.W, S.H);
+      S.plate('audience', [0, 0, S.W, S.H], { crop: [0, 15, 320, 180], tone: ['#120e0c', '#f3ecd8'], contrast: 1.1, a: k });
+      const r = [270, 136, 345, 194], x = S.lerp(0, r[0], k), y = S.lerp(0, r[1], k), w = S.lerp(S.W, r[2], k), h = S.lerp(S.H, r[3], k);
+      ctx.save(); ctx.globalCompositeOperation = k > .5 ? 'multiply' : 'source-over'; ctx.globalAlpha = k > .5 ? 1 : 1 - k * .3;
+      ctx.drawImage(snap, x, y, w, h); ctx.restore();
+    }
+    S.vignette(.3); S.grain(.14);
+    S.caption('He speaks; the machines move with each syllable.', S.seg(t, 4.2, 4.7) * (1 - S.seg(t, 8.2, 8.6)));
+    S.caption('The screen answers: Fatty’s Magic Pants, 1914', S.seg(t, 10.6, 11.1) * (1 - S.seg(t, 14.4, 14.8)));
+    S.caption('Shown to the audience of Let’s Go To The Movies, 1948', S.seg(t, 17.6, 18.1) * (1 - S.seg(t, END - .4, END)));
+    S.card([['En l’an 2000', 20, 'sc dim'], ['Correspondence by phonograph and cinema', 40, 'sc'], ['a short cut from the card', 22]], 1 - S.seg(t, 1.9, 2.5));
+    S.card([['Phonograph and cinema', 34, 'sc'], ['Operator: sound to action', 20], ['Card: En l’an 2000, about 1910', 18, 'dim'],
+      ['Plates: Fatty’s Magic Pants (1914) and Let’s Go To The Movies (1948),', 18, 'dim'], ['from the cineosis-lab shot library', 18, 'dim'],
+      ['The voice is synthesised; the music follows the dancers’ measured motion.', 18, 'dim']], S.seg(t, END, END + .5));
+  },
+  cues: S => {
+    const e = S.data.motion.energy, c = [
+      { t: .3, k: 'chime', notes: [60, 64, 67], step: .28, a: .12 },
+      { t: VOICE, k: 'babble', d: VOICE_D, f0: 118, rate: SYL, a: .3 },
+      { t: SWAP - .6, k: 'projector', d: DUR - SWAP - 3, rate: 18, a: .07 },
+      { t: SWAP, k: 'whoosh', d: .5, f: 1800, a: .2 },
+      { t: END + .1, k: 'chime', notes: [72, 67, 64, 60], step: .3, a: .13 }];
+    // a phonograph two-step under the dance, each note as loud as the dancers are busy at that moment
+    const tune = [67, 71, 74, 71, 69, 72, 76, 72, 67, 71, 74, 79, 78, 74, 72, 69];
+    for (let i = 0, s = DANCE - .6; s < CROWD + 3.5; s += .3, i++) {
+      const en = e[Math.min(e.length - 1, Math.round((s - SWAP) * 24))] || 0;
+      c.push({ t: s, k: 'tone', f: 440 * Math.pow(2, (tune[i % tune.length] - 69) / 12), d: .26, a: .04 + .13 * en, wave: 'square', rel: .2 });
+      if (i % 2 === 0) c.push({ t: s, k: 'tone', f: 440 * Math.pow(2, (tune[i % tune.length] - 81) / 12), d: .2, a: .05 + .08 * en });
+    }
+    return c;
+  }
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>À l'école · a short</title>
+<meta name="description" content="A short cut from Villemard's At School card: the crank boy turns, a pupil's head comes off and a book opens on a filmed classroom.">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../assets/favicon-180.png">
+<link rel="stylesheet" href="../room/room.css">
+<link rel="stylesheet" href="shorts.css">
+</head>
+<body>
+<div class="wrap">
+<header class="top"><a class="room-return" href="index.html#school">The shorts</a></header>
+<h1>À l'école</h1>
+<p class="lede">Operator: <strong>Terry Gilliam, comic cutout metamorphosis</strong>. Start from what the card already implies and move the smallest piece that breaks it. The boy turns the crank, the lesson runs down the wires, and one pupil's head comes off and is replaced by the book. The book opens on a classroom that was really filmed. When the boy stops, everything stops.</p>
+<canvas id="stage" aria-label="The short, drawn frame by frame"></canvas>
+<div class="controls"><button id="play">Play</button><input id="scrub" type="range" min="0" max="1000" value="0" aria-label="Time"><span class="tc" id="tc">0.0 s</span></div>
+<p class="meta">This page draws the short live without sound. The film with its soundtrack is in <a href="index.html#school">the shorts</a>.</p>
+<section class="sheet">
+<h2>Ledger</h2>
+<dl class="ledger">
+<div><dt>Observed</dt><dd>The card <em>À l'école</em>, En l'an 2000, attributed to Villemard, about 1910. The plate: a lecturer at a blackboard from <em>Letter From an Airline Pilot (Part I)</em>, 3.5 s, from the cineosis-lab shot library, toned and unaltered otherwise.</dd></div>
+<div><dt>Cut and moved</dt><dd>Three pieces of the card: the boy's upper body, the pupil's head and the teacher's book. The holes they leave are filled with the card's own colours, pulled in from the edges.</dd></div>
+<div><dt>Drawn and synthesised</dt><dd>The signal in the wires, the open book, the camera, the grain, the captions and every sound (ratchet, hum, a voice without words, the knocks).</dd></div>
+</dl>
+</section>
+</div>
+<script src="stage.js"></script>
+<script>
+const CRANK_ON = 2.6, CRANK_OFF = 15.4, STOP = 16.4, POP = 7.6, OPEN = 9.0, INTO = 10.6, OUT = 14.5, BACK = 17.1, END = 19.6, DUR = 22.4;
+// crank angle: steady at 1.1 turns a second, eased in and out
+const turns = t => { const r = 1.1; if (t < CRANK_ON) return 0;
+  const a = Math.min(t, CRANK_ON + .6) - CRANK_ON, up = a * a / (2 * .6) * r;
+  if (t < CRANK_ON + .6) return up;
+  const b = Math.min(t, CRANK_OFF) - CRANK_ON - .6, run = up + b * r; if (t < CRANK_OFF) return run;
+  const c = Math.min(t, STOP) - CRANK_OFF, T = STOP - CRANK_OFF; return run + r * (c - c * c / (2 * T)); };
+const speed = t => t < CRANK_ON ? 0 : t < CRANK_ON + .6 ? (t - CRANK_ON) / .6 : t < CRANK_OFF ? 1 : t < STOP ? 1 - (t - CRANK_OFF) / (STOP - CRANK_OFF) : 0;
+const pupils = [[42, 58, 190], [112, 58, 190], [190, 46, 183], [270, 60, 182], [325, 46, 180], [405, 60, 181]];
+const SPREAD = [162, 198, 72, 54];  // the open book, in card pixels
+const plateTime = t => { const run = Math.min(t, CRANK_OFF) - INTO; return Math.max(0, Math.min(3.5, run * .82)); };
+const headDy = t => {
+  if (t < POP) return 0;
+  if (t < BACK) { const u = t - POP; return -40 * (1 - Math.exp(-5 * u) * Math.cos(13 * u)); }
+  const u = t - BACK; if (u < .28) return -40 + 40 * (u / .28) ** 2;
+  return -6 * Math.exp(-7 * (u - .28)) * Math.abs(Math.sin(16 * (u - .28)));
+};
+const bookOpen = t => S.ease(S.seg(t, OPEN, OPEN + 1.1)) * (1 - S.ease(S.seg(t, BACK - .7, BACK - .15)));
+
+const S = Stage({
+  id: 'school', dur: DUR, card: 'school', frame: [24, 26, 778, 458], plates: ['lecturer'], poster: 12.4,
+  clock: t => ({ lecturer: plateTime(t) }),
+  camera(t, S) {
+    const h = S.home; let c = { x: h.x, y: h.y, z: 1 };
+    const k1 = S.ease(S.seg(t, 2.4, 6.4));              // toward the boy and the machine
+    c.x = S.lerp(h.x, 560, k1); c.y = S.lerp(h.y, 230, k1); c.z = S.lerp(1, 1.55, k1);
+    const k2 = S.ease(S.seg(t, 6.6, 8.6));              // across to the pupil
+    c.x = S.lerp(c.x, 205, k2); c.y = S.lerp(c.y, 215, k2); c.z = S.lerp(c.z, 2.1, k2);
+    const k3 = S.easeIn(S.seg(t, INTO, INTO + 1.6)) * (1 - S.ease(S.seg(t, OUT, OUT + 1.2)));  // into the book
+    c.x = S.lerp(c.x, SPREAD[0] + SPREAD[2] / 2, k3); c.y = S.lerp(c.y, SPREAD[1] + SPREAD[3] / 2, k3); c.z = S.lerp(c.z, 8.4, k3);
+    const k4 = S.ease(S.seg(t, OUT + .2, 17.5));       // back to the whole room
+    c.x = S.lerp(c.x, h.x, k4); c.y = S.lerp(c.y, h.y, k4); c.z = S.lerp(c.z, 1.04, k4);
+    c.x += S.noise(t * .6) * 1.2; c.y += S.noise(t * .6 + 40) * .9;
+    return c;
+  },
+  draw(S, t) {
+    const ctx = S.ctx, th = turns(t) * Math.PI * 2, sp = speed(t);
+    S.view(); S.bg();
+    // the boy: his upper body rides the crank's circle; the legs stay planted
+    S.drawPart('torso', { dx: 3.2 * Math.cos(th) * Math.min(1, sp + .001) , dy: 3.6 * Math.sin(th), rot: .028 * Math.sin(th) });
+    // the teacher's book goes into the hopper
+    const kb = S.seg(t, 4.0, 5.7);
+    if (kb < 1) S.drawPart('book', { dx: S.lerp(0, 52, S.ease(kb)), dy: -26 * Math.sin(Math.PI * kb) + 18 * kb, rot: .9 * S.ease(kb), sc: 1 - .35 * kb, a: 1 - S.seg(kb, .85, 1) });
+    // the signal: pulses from the machine along the ceiling and down each coil, only while he turns
+    const pathFor = ([x, top, helm]) => [[706, 78], [690, 47], [x, 47], [x, helm]];
+    const sigStart = 5.8;
+    pupils.forEach((p, i) => {
+      const pts = pathFor(p), lens = pts.slice(1).map((q, j) => Math.hypot(q[0] - pts[j][0], q[1] - pts[j][1])), L = lens.reduce((a, b) => a + b);
+      const at = d => { let j = 0; while (j < lens.length - 1 && d > lens[j]) d -= lens[j++]; const k = Math.min(1, d / lens[j]); return [S.lerp(pts[j][0], pts[j + 1][0], k), S.lerp(pts[j][1], pts[j + 1][1], k)]; };
+      const flow = turns(t) * 210;
+      for (let n = 0; n < 9; n++) {
+        const d = (flow + n * L / 9 + i * 37) % L;
+        const lit = sp * S.seg(t, sigStart - 1.6 + d / 300, sigStart - 1 + d / 300);
+        if (lit <= 0) continue;
+        const [x, y] = at(d);
+        ctx.save(); ctx.globalAlpha = lit; ctx.fillStyle = 'rgba(232,213,154,.55)'; ctx.beginPath(); ctx.arc(x, y, 4.2, 0, 7); ctx.fill();
+        ctx.fillStyle = S.RED; ctx.beginPath(); ctx.arc(x, y, 1.9, 0, 7); ctx.fill(); ctx.restore();
+      }
+    });
+    // the pupil: his head goes up on its coil; the book sits on his collar and opens
+    const hy = headDy(t), ko = bookOpen(t), [sx, sy, sw, sh] = SPREAD;
+    if (t >= POP && t < BACK + .3) {
+      const grow = S.easeOut(S.seg(t, POP, POP + .35));
+      if (ko <= 0.001) S.drawPart('book', { pivot: [625, 155], dx: 198 - 625, dy: 226 - 155, sc: .55 + .55 * grow, rot: -.12 });
+      else {
+        const cx = sx + sw / 2, k = ko, w = sw * k, h0 = sh * (.6 + .4 * k), y0 = 226 - h0 / 2 + (sy + sh / 2 - 226) * k;
+        ctx.save();
+        ctx.fillStyle = S.INK; ctx.fillRect(cx - w / 2 - 2.2, y0 - 2.2, w + 4.4, h0 + 4.4);
+        ctx.fillStyle = '#8f2f24'; ctx.fillRect(cx - w / 2 - 1.4, y0 - 1.4, w + 2.8, h0 + 2.8);
+        S.plate('lecturer', [cx - w / 2, y0, w, h0], { tone: [S.INK, S.PAPER], contrast: 1.15, a: S.seg(k, .25, .7), crop: [0, 0, 320, 240] });
+        ctx.strokeStyle = S.INK; ctx.lineWidth = .8; ctx.beginPath(); ctx.moveTo(cx, y0); ctx.lineTo(cx, y0 + h0); ctx.stroke();
+        // the cover, still swinging
+        const cw = (sw / 2) * (1 - S.seg(k, 0, .9));
+        if (cw > .5) S.drawPart('book', { pivot: [600, 155], dx: cx - 600, dy: y0 + h0 / 2 - 155, sx: cw / 52, sy: h0 / 37 });
+        if (t > CRANK_OFF) { ctx.globalAlpha = .35 * S.seg(t, CRANK_OFF, STOP); ctx.fillStyle = S.PAPER; ctx.fillRect(cx - w / 2, y0, w, h0); }
+        ctx.restore();
+      }
+    }
+    S.drawPart('head', { dy: hy, rot: hy < -2 ? .05 * Math.sin(t * 5) * Math.exp(-(t - POP)) : 0 });
+    // the book drops out onto the desk when his head comes back down
+    if (t >= BACK + .3) {
+      const u = S.seg(t, BACK + .3, BACK + .65), y = S.lerp(226, 281, u * u);
+      S.drawPart('book', { pivot: [625, 155], dx: 205 - 625, dy: y - 155, sc: 1.05, rot: S.lerp(-.12, -1.45, u) });
+    }
+    // the crank: a drawn arm on the printed axle, turning only while he turns
+    { const ax = 612, ay = 338, r = 30, a = th - Math.PI / 2, hx = ax + r * Math.cos(a), hy = ay + r * Math.sin(a) * .55;
+      S.rod([[ax, ay], [hx, hy]], { w: 3.4, fill: '#4F6A88' }); S.rod([[hx, hy], [hx - 16, hy - 2]], { w: 3, fill: '#8a5a2b' }); S.joint(ax, ay, 3.2, { fill: '#4F6A88' }); }
+    S.vignette(.28); S.grain(.14);
+    // words
+    S.caption('A classroom that was really filmed: Letter From an Airline Pilot', S.seg(t, INTO + 1.4, INTO + 1.9) * (1 - S.seg(t, OUT - .4, OUT)));
+    S.caption('The lesson runs only while he turns.', S.seg(t, 17.9, 18.3) * (1 - S.seg(t, END - .3, END)));
+    S.card([['En l’an 2000', 20, 'sc dim'], ['À l’école', 54, 'sc'], ['a short cut from the card', 22]], 1 - S.seg(t, 1.9, 2.5));
+    S.card([['À l’école', 34, 'sc'], ['Operator: Terry Gilliam, comic cutout metamorphosis', 20], ['Card: En l’an 2000, attributed to Villemard, about 1910', 18, 'dim'],
+      ['Plate: Letter From an Airline Pilot (Part I), from the cineosis-lab shot library', 18, 'dim'], ['Every moving piece is cut from the card. The sound is synthesised.', 18, 'dim']], S.seg(t, END, END + .5));
+  },
+  cues: [
+    { t: .3, k: 'chime', notes: [64, 67, 72], step: .28, a: .12 },
+    { t: CRANK_ON, k: 'ratchet', d: CRANK_OFF - CRANK_ON, rate: 6.6, a: .16, f: 1300 },
+    { t: CRANK_ON, k: 'hum', d: STOP - CRANK_ON, f: 55, a: .07, att: .8, rel: 1.2 },
+    { t: CRANK_OFF, k: 'ratchet', d: 1.0, rate: 3.2, a: .12, f: 1100 },
+    { t: 4.0, k: 'whoosh', d: .5, a: .25 }, { t: 5.65, k: 'bonk', f: 95, a: .3 },
+    { t: 5.8, k: 'tone', f: 880, f1: 1320, d: .5, a: .05 },
+    { t: POP, k: 'bonk', f: 320, a: .45 }, { t: POP + .05, k: 'tone', f: 260, f1: 820, d: .55, a: .14, vib: 14 },
+    { t: OPEN, k: 'whoosh', d: .6, f: 1500, a: .2 },
+    { t: INTO + .3, k: 'babble', d: OUT - INTO - .3, f0: 108, rate: 3.6, a: .16 },
+    { t: INTO + .3, k: 'bed', d: OUT - INTO - .3, lp: 3500, pulse: 1.3, a: .03 },
+    { t: OUT, k: 'whoosh', d: .8, f: 700, a: .3 },
+    { t: BACK + .25, k: 'bonk', f: 150, a: .45 }, { t: BACK + .65, k: 'bonk', f: 82, a: .4 },
+    { t: BACK + 1.0, k: 'ratchet', d: 2.4, rate: 1, a: .05, f: 3200 },
+    { t: END + .1, k: 'chime', notes: [72, 67, 64, 60], step: .3, a: .14 }
+  ]
+});
+</script>
+</body>
+</html>

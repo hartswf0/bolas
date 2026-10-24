@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Flying firemen · a short</title>
+<meta name="description" content="A short cut from the En l'an 2000 card of flying firemen: the water lags the nozzle, the flyers lag the wind, and real fire, smoke and a 1947 hose crew come from the archive.">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../assets/favicon-180.png">
+<link rel="stylesheet" href="../room/room.css">
+<link rel="stylesheet" href="shorts.css">
+</head>
+<body>
+<div class="wrap">
+<header class="top"><a class="room-return" href="index.html#firemen">The shorts</a></header>
+<h1>Flying firemen</h1>
+<p class="lede">Operator: <strong>secondary dynamics, inertia and restraint</strong>. Nothing here moves on its own beat; everything follows something. Each drop of water keeps the direction the nozzle had when it left, so the jet whips as the nozzle swings. The flyers ride springs that lag the wind, and the embers drift on the heat. The fire and smoke are real, from the archive. At the end the jet runs into a real hose crew, filmed in 1947.</p>
+<canvas id="stage" aria-label="The short, drawn frame by frame"></canvas>
+<div class="controls"><button id="play">Play</button><input id="scrub" type="range" min="0" max="1000" value="0" aria-label="Time"><span class="tc" id="tc">0.0 s</span></div>
+<p class="meta">This page draws the short live without sound. The film with its soundtrack is in <a href="index.html#firemen">the shorts</a>.</p>
+<section class="sheet">
+<h2>Ledger</h2>
+<dl class="ledger">
+<div><dt>Observed</dt><dd>The card, En l'an 2000, about 1910. Three plates from the cineosis-lab shot library: flames from <em>Watershed wildfire</em> (1958) and a smoke blast from <em>The Balloonatic</em> (1923), each laid over the card's own fire and smoke so that only their light adds; and a line of men with hoses from <em>Fire and Police Service</em> (1947).</dd></div>
+<div><dt>Cut and moved</dt><dd>The two flyers on the left, as one piece, and the flyer above the fire. Their places are filled with the card's colours.</dd></div>
+<div><dt>Drawn and synthesised</dt><dd>The water, each drop thrown from the nozzle; the embers; the springs the flyers hang on; the camera, grain and captions; the roar, the hiss, the wings and the pump.</dd></div>
+</dl>
+</section>
+</div>
+<script src="stage.js"></script>
+<script>
+const JET = 2.6, CREW = 16.6, END = 19.8, DUR = 22.5, NOZ = [627, 221], G = 520, V = 760;
+const aim = t => -.2 + .2 * Math.sign(Math.sin(1.1 * t)) * Math.pow(Math.abs(Math.sin(1.1 * t)), .35) + .04 * Math.sin(3.3 * t + 1);   // the nozzle swings
+const FIRE = [[735, 0], [960, 0], [960, 558], [905, 558], [878, 420], [860, 300], [795, 250], [765, 300], [700, 282], [688, 232], [758, 222], [800, 196], [762, 150], [742, 40]];
+const SMOKE = [[0, 235], [120, 225], [250, 245], [385, 300], [385, 430], [250, 440], [0, 430]];
+const poly = pts => c => { pts.forEach(([x, y], i) => i ? c.lineTo(x, y) : c.moveTo(x, y)); c.closePath(); };
+// springs: each flyer is pulled toward a target that the wind moves; the body lags and overshoots
+const wind = t => ({ x: 9 * Math.sin(.8 * t) + 5 * Math.sin(2.1 * t + 2) * (t > 8 && t < 11 ? 2 : 1), y: 6 * Math.sin(1.4 * t + 1) });
+let springs = null;
+const S = Stage({
+  id: 'firemen', dur: DUR, card: 'firemen', frame: [6, 6, 954, 552], plates: ['wildfire', 'smoke', 'hosedrill'], poster: 6.2,
+  setup(S) {
+    springs = S.simulate(() => ({ a: { x: 0, y: 0, vx: 0, vy: 0 }, b: { x: 0, y: 0, vx: 0, vy: 0 } }), (s, dt, t) => {
+      const w = wind(t);
+      for (const [k, kk, c, lag] of [['a', 16, 3.2, 0], ['b', 24, 4.5, .6]]) {
+        const p = s[k], tx = w.x * (k === 'a' ? 1 : .6), ty = w.y * (k === 'a' ? 1 : .5);
+        p.vx += (kk * (tx - p.x) - c * p.vx) * dt; p.vy += (kk * (ty - p.y) - c * p.vy) * dt; p.x += p.vx * dt; p.y += p.vy * dt;
+      }
+    });
+  },
+  clock: t => ({ wildfire: (t * .85) % 4.3, smoke: Math.min(6.9, Math.max(0, (t - 3.2) * .62)), hosedrill: Math.max(0, Math.min(4.4, (t - CREW) * .9)) }),
+  camera(t, S) {
+    const h = S.home; let c = { x: h.x, y: h.y, z: 1 };
+    const k1 = S.ease(S.seg(t, 2.8, 7));  c.x = S.lerp(h.x, 650, k1); c.y = S.lerp(h.y, 215, k1); c.z = S.lerp(1, 1.55, k1);
+    const k2 = S.ease(S.seg(t, 8.4, 10.8)); c.x = S.lerp(c.x, 285, k2); c.y = S.lerp(c.y, 175, k2); c.z = S.lerp(c.z, 1.7, k2);
+    const k3 = S.ease(S.seg(t, 12.2, 14.4)); c.x = S.lerp(c.x, h.x, k3); c.y = S.lerp(c.y, h.y, k3); c.z = S.lerp(c.z, 1.05, k3);
+    const k4 = S.easeIn(S.seg(t, 14.8, CREW + .2)); c.x = S.lerp(c.x, 700, k4); c.y = S.lerp(c.y, 205, k4); c.z = S.lerp(c.z, 2.6, k4);
+    c.x += S.noise(t * .6) * 1.4; c.y += S.noise(t * .6 + 4) * 1.1;
+    return c;
+  },
+  draw(S, t) {
+    const ctx = S.ctx, sp = springs(t);
+    S.view(); S.bg();
+    // the fire: the 1958 flames add their light to the card's fire
+    S.softPlate('wildfire', [690, -10, 290, 580], FIRE, 14, { crop: [40, 0, 240, 240], blend: 'screen', a: .85 * S.seg(t, 2.2, 3.8) });
+    S.softPlate('smoke', [-20, 150, 440, 330], SMOKE, 30, { crop: [0, 0, 320, 240], tone: ['#000000', '#efe8d2'], contrast: 1.5, lift: -.2, blend: 'screen', a: .6 * S.seg(t, 3.2, 4.6) });
+    // the flyers, on springs behind the wind
+    S.drawPart('pair', { dx: sp.a.x, dy: sp.a.y, rot: .004 * sp.a.vx });
+    S.drawPart('flyer', { dx: sp.b.x, dy: sp.b.y, rot: .006 * sp.b.vx });
+    // the water: each drop keeps the nozzle's aim from the moment it left
+    if (t > JET) {
+      ctx.save(); ctx.lineCap = 'round';
+      for (let e = Math.max(JET, t - .9); e < t; e += 1 / 120) {
+        const u = t - e, fade = 1 - u / .9;
+        for (let k = 0; k < 3; k++) {
+          const a = aim(e) + (S.hash(e * 731 + k) - .5) * .05 * (1 + u * 2), v = V * (1 + .07 * (S.hash(e * 999 + k * 7) - .5));
+          const at = w => [NOZ[0] + Math.cos(a) * v * w, NOZ[1] + Math.sin(a) * v * w + .5 * G * w * w];
+          const [x, y] = at(u), [x0, y0] = at(Math.max(0, u - .018));
+          ctx.strokeStyle = `rgba(236,244,250,${(.75 - k * .18) * fade})`; ctx.lineWidth = (3.4 - k) * (1 - u * .4) + u * 3;
+          ctx.beginPath(); ctx.moveTo(x0, y0); ctx.lineTo(x, y); ctx.stroke();
+          if (k === 2 && S.hash(e * 37) > .55) { ctx.fillStyle = `rgba(255,255,255,${.55 * fade})`; ctx.beginPath(); ctx.arc(x + 5 * (S.hash(e) - .5) * u * 10, y + 5 * (S.hash(e + 2) - .5) * u * 10, 1.6, 0, 7); ctx.fill(); }
+        }
+      }
+      ctx.restore();
+    }
+    // embers drift up on the heat
+    for (let i = 0; i < 40; i++) {
+      const life = 3 + 2 * S.hash(i), age = (t + S.hash(i + 50) * life) % life, x0 = 760 + 190 * S.hash(i + 9);
+      const x = x0 - 30 * age + 12 * S.noise(t * 1.3 + i), y = 520 - 120 * age - 8 * S.noise(t + i * 3);
+      ctx.fillStyle = `rgba(255,${180 + 60 * S.hash(i + 3) | 0},90,${.8 * (1 - age / life) * S.seg(t, 2.5, 4)})`;
+      ctx.beginPath(); ctx.arc(x, y, 1.4, 0, 7); ctx.fill();
+    }
+    // the 1947 crew takes the water
+    const kc = S.ease(S.seg(t, CREW - .3, CREW + .8));
+    if (kc > 0) { S.screen(); S.plate('hosedrill', [0, 0, S.W, S.H], { crop: [0, 15, 320, 180], tone: [S.INK, S.PAPER], contrast: 1.1, a: kc }); }
+    S.vignette(.3); S.grain(.15);
+    S.caption('The water keeps the aim it left with.', S.seg(t, 4.6, 5.1) * (1 - S.seg(t, 8, 8.4)));
+    S.caption('Real fire and smoke, from the archive', S.seg(t, 12.6, 13.1) * (1 - S.seg(t, 14.8, 15.2)));
+    S.caption('A hose crew, filmed in 1947: Fire and Police Service', S.seg(t, CREW + .8, CREW + 1.3) * (1 - S.seg(t, END - .4, END)));
+    S.card([['En l’an 2000', 20, 'sc dim'], ['Flying firemen', 54, 'sc'], ['a short cut from the card', 22]], 1 - S.seg(t, 1.9, 2.5));
+    S.card([['Flying firemen', 34, 'sc'], ['Operator: secondary dynamics, inertia and restraint', 20], ['Card: En l’an 2000, about 1910', 18, 'dim'],
+      ['Plates: Watershed wildfire (1958), The Balloonatic (1923),', 18, 'dim'], ['Fire and Police Service (1947), from the cineosis-lab shot library', 18, 'dim'],
+      ['The water and embers are drawn. The sound is synthesised.', 18, 'dim']], S.seg(t, END, END + .5));
+  },
+  cues: [
+    { t: .3, k: 'chime', notes: [63, 67, 70], step: .28, a: .12 },
+    { t: 2.2, k: 'crackle', d: CREW - 1.6, a: .16, rate: 40 },
+    { t: 2.2, k: 'bed', d: CREW - 1.8, color: 'brown', a: .22, att: 1.5, rel: 1 },
+    { t: JET, k: 'bed', d: CREW - JET, lp: 6000, a: .07, att: .3, rel: .5 },
+    { t: 2.6, k: 'flap', d: CREW - 3, rate: 1.6, a: .12, pan: -.5 },
+    { t: 3.2, k: 'whoosh', d: 2.5, f: 400, a: .35, pan: -.6 },
+    { t: 9.5, k: 'whoosh', d: 1.2, f: 700, a: .25, pan: -.4 },
+    { t: 2.4, k: 'hum', d: CREW - 2, f: 44, wob: 5, a: .06, att: 1, rel: 1 },
+    { t: CREW - .2, k: 'bed', d: END - CREW + .2, lp: 4000, a: .12, att: .2, rel: .3 },
+    { t: CREW, k: 'ratchet', d: END - CREW, rate: 2.4, a: .06, f: 500 },
+    { t: END + .1, k: 'chime', notes: [75, 70, 67, 63], step: .3, a: .13 }
+  ]
+});
+</script>
+</body>
+</html>

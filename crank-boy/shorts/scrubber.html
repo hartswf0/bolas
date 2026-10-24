@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Un frotteur électrique · a short</title>
+<meta name="description" content="A short cut from the En l'an 2000 card of an electric floor scrubber: its legs are solved so the brushes keep to the floor, and the floor they polish reflects a 1957 stage.">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../assets/favicon-180.png">
+<link rel="stylesheet" href="../room/room.css">
+<link rel="stylesheet" href="shorts.css">
+</head>
+<body>
+<div class="wrap">
+<header class="top"><a class="room-return" href="index.html#scrubber">The shorts</a></header>
+<h1>Un frotteur électrique</h1>
+<p class="lede">Operator: <strong>inverse kinematics, contact and reach</strong>. The brushes are told where to be on the floor, and the machine's legs are solved backwards from them: hip, knee, brush. The brushes never leave the floor. Where they have scrubbed, the parquet turns to a mirror, and what it reflects is a stage filmed in 1957.</p>
+<canvas id="stage" aria-label="The short, drawn frame by frame"></canvas>
+<div class="controls"><button id="play">Play</button><input id="scrub" type="range" min="0" max="1000" value="0" aria-label="Time"><span class="tc" id="tc">0.0 s</span></div>
+<p class="meta">This page draws the short live without sound. The film with its soundtrack is in <a href="index.html#scrubber">the shorts</a>.</p>
+<section class="sheet">
+<h2>Ledger</h2>
+<dl class="ledger">
+<div><dt>Observed</dt><dd>The card <em>Un frotteur électrique</em>, En l'an 2000, about 1910. The plate: the stage of <em>Frigidaire Finale 1957</em>, 9 s, from the cineosis-lab shot library, turned upside down as a reflection and toned.</dd></div>
+<div><dt>Cut and moved</dt><dd>The machine's column and both brushes. The printed legs were painted out with the card's own colours.</dd></div>
+<div><dt>Drawn and synthesised</dt><dd>The legs, redrawn as brass rods and solved from the brushes each frame; the polished trail; the camera, grain and captions; the motor, the scrubbing and the waltz.</dd></div>
+</dl>
+<p class="meta" id="residual">Contact test: computed when the page loads.</p>
+</section>
+</div>
+<script src="stage.js"></script>
+<script>
+const ON = 4.0, OFF = 18.6, END = 20.4, DUR = 23.2, W8 = 2 * Math.PI * .8;
+const BODY_PIVOT = [413, 395];
+const seg = (t, a, b) => Math.max(0, Math.min(1, (t - a) / (b - a)));
+const act = t => seg(t, ON, ON + 1) * (1 - seg(t, OFF - .8, OFF));
+// the stroke phase is integrated, so the strokes slow down instead of jumping
+const PH = []; for (let f = 0; f <= DUR * 24 + 1; f++) PH[f] = f ? PH[f - 1] + act((f - 1) / 24) / 24 * W8 : 0;
+const ph = t => PH[Math.min(PH.length - 1, Math.max(0, Math.round(t * 24)))];
+const body = t => { const p = ph(t), a = act(t); return { dx: 2.6 * Math.sin(p) * a, dy: -1.6 * Math.abs(Math.sin(p)) * a, rot: .012 * Math.sin(p + .5) * a }; };
+const xf = (b, [x, y]) => { const [px, py] = BODY_PIVOT, c = Math.cos(b.rot), s = Math.sin(b.rot), u = x - px, v = y - py;
+  return [px + b.dx + u * c - v * s, py + b.dy + u * s + v * c]; };
+// the brushes' targets on the floor: where the operator wants them
+const feet = t => { const p = ph(t), a = act(t);
+  return { broom: [318 + 40 * Math.sin(p + Math.PI) * a, 376 + 9 * Math.sin(p / 2) * a],
+           brush: [499 + 52 * Math.sin(p) * a, 352 + 10 * Math.sin(p / 2 + 1) * a] }; };
+const LEGS = {
+  broom: { hip: [373, 177], knee0: [383, 253], L1: 80, L2: 160 },
+  brush: { hip: [472, 185], knee0: [495, 310], L1: 127, L2: 78 }
+};
+// two-bone inverse kinematics; returns knee, the reached foot, and how far the foot is from its target
+function ik(H, T, L1, L2, near) {
+  const dx = T[0] - H[0], dy = T[1] - H[1], d0 = Math.hypot(dx, dy);
+  const d = Math.min(Math.max(d0, Math.abs(L1 - L2) + 1e-3), L1 + L2 - 1e-3);
+  const base = Math.atan2(dy, dx), a = Math.acos((L1 * L1 + d * d - L2 * L2) / (2 * L1 * d));
+  const ks = [1, -1].map(s => [H[0] + L1 * Math.cos(base + s * a), H[1] + L1 * Math.sin(base + s * a)]);
+  const K = Math.hypot(ks[0][0] - near[0], ks[0][1] - near[1]) < Math.hypot(ks[1][0] - near[0], ks[1][1] - near[1]) ? ks[0] : ks[1];
+  const F = [H[0] + d * Math.cos(base), H[1] + d * Math.sin(base)];
+  return { K, F, miss: Math.hypot(F[0] - T[0], F[1] - T[1]) };
+}
+const pose = t => { const b = body(t), f = feet(t), out = { b };
+  for (const k in LEGS) { const L = LEGS[k], H = xf(b, L.hip); out[k] = Object.assign({ H, T: f[k] }, ik(H, f[k], L.L1, L.L2, xf(b, L.knee0))); }
+  return out; };
+let worst = 0; for (let f = 0; f <= DUR * 24; f++) { const p = pose(f / 24); worst = Math.max(worst, p.broom.miss, p.brush.miss); }
+document.getElementById('residual').textContent = `Contact test, run over all ${Math.round(DUR * 24)} frames: the farthest either brush ever sits from where it was sent is ${worst.toFixed(3)} card pixels.`;
+
+const polish = document.createElement('canvas'), pctx = polish.getContext('2d');
+const refl = document.createElement('canvas'), rctx = refl.getContext('2d');
+const FLOOR = [100, 330, 810, 222];
+
+const S = Stage({
+  id: 'scrubber', dur: DUR, card: 'scrubber', frame: [44, 44, 912, 548], plates: ['frigidaire'], poster: 15.8,
+  setup(S) { polish.width = refl.width = S.manifest.size[0]; polish.height = refl.height = S.manifest.size[1]; },
+  clock: t => ({ frigidaire: Math.max(0, (t - 7) * .62) }),
+  camera(t, S) {
+    const h = S.home; let c = { x: h.x, y: h.y, z: 1 };
+    const k1 = S.ease(S.seg(t, 2.6, 7));
+    c.x = S.lerp(h.x, 450, k1); c.y = S.lerp(h.y, 290, k1); c.z = S.lerp(1, 1.3, k1);
+    const k2 = S.ease(S.seg(t, 12.6, 16));
+    c.x = S.lerp(c.x, 500, k2); c.y = S.lerp(c.y, 438, k2); c.z = S.lerp(c.z, 2.05, k2);
+    const k3 = S.ease(S.seg(t, 18.4, 20.2));
+    c.x = S.lerp(c.x, h.x, k3); c.y = S.lerp(c.y, h.y, k3); c.z = S.lerp(c.z, 1.02, k3);
+    c.x += S.noise(t * .5) * 1; c.y += S.noise(t * .5 + 9) * .8;
+    return c;
+  },
+  draw(S, t) {
+    const ctx = S.ctx, P = pose(t);
+    S.view(); S.bg();
+    // the polished trail: every place a brush has touched, stamped from the start
+    pctx.setTransform(1, 0, 0, 1, 0, 0); pctx.clearRect(0, 0, polish.width, polish.height);
+    for (let f = Math.round(ON * 24); f <= Math.round(t * 24); f += 2) {
+      const p = feet(f / 24); if (act(f / 24) <= 0) continue;
+      pctx.fillStyle = 'rgba(0,0,0,.16)';
+      pctx.beginPath(); pctx.ellipse(p.broom[0], p.broom[1] + 22, 24, 9, 0, 0, 7); pctx.fill();
+      pctx.beginPath(); pctx.ellipse(p.brush[0] + 34, p.brush[1] + 32, 50, 12, 0, 0, 7); pctx.fill();
+    }
+    // the shine spreads out from where the brushes have been, and the floor turns to a mirror
+    const spread = S.easeOut(S.seg(t, 10.5, 17.5));
+    if (spread > 0) {
+      const g = pctx.createRadialGradient(470, 420, 10, 470, 420, 40 + 420 * spread);
+      g.addColorStop(0, 'rgba(0,0,0,.95)'); g.addColorStop(.7, 'rgba(0,0,0,.75)'); g.addColorStop(1, 'rgba(0,0,0,0)');
+      pctx.fillStyle = g; pctx.fillRect(FLOOR[0], FLOOR[1], FLOOR[2], FLOOR[3]);
+    }
+    // the reflection: the 1957 stage upside down, only where the floor is polished
+    const ra = .5 * S.seg(t, 7, 11) + .4 * S.seg(t, 11, 16);
+    if (ra > 0) {
+      rctx.setTransform(1, 0, 0, 1, 0, 0); rctx.clearRect(0, 0, refl.width, refl.height);
+      const src = S.plateFrame('frigidaire', { tone: ['#6a4234', '#ffffff'], keep: .45, contrast: 1.4, lift: .08 });
+      rctx.save(); rctx.translate(FLOOR[0], FLOOR[1] + FLOOR[3]); rctx.scale(1, -1); rctx.drawImage(src, 0, 0, FLOOR[2], FLOOR[3]); rctx.restore();
+      // and the machine itself, upside down under its own wheels and brushes
+      rctx.save(); rctx.globalAlpha = .55; rctx.translate(0, 2 * 402); rctx.scale(1, -1); S.drawPart('body', Object.assign({ ctx: rctx }, P.b)); rctx.restore();
+      rctx.save(); rctx.globalAlpha = .55; rctx.translate(0, 2 * (P.brush.F[1] + 44)); rctx.scale(1, -1);
+      S.drawPart('brush', { ctx: rctx, dx: P.brush.F[0] - 499, dy: P.brush.F[1] - 352 }); rctx.restore();
+      rctx.globalCompositeOperation = 'destination-in'; rctx.filter = 'blur(3px)'; rctx.drawImage(polish, 0, 0); rctx.filter = 'none'; rctx.globalCompositeOperation = 'source-over';
+      ctx.save(); ctx.globalAlpha = ra; ctx.drawImage(refl, 0, 0); ctx.restore();
+      // the parquet's lines stay printed over the reflection
+      ctx.save(); ctx.globalAlpha = .45 * ra; ctx.globalCompositeOperation = 'multiply'; ctx.beginPath(); ctx.rect(FLOOR[0], FLOOR[1], FLOOR[2], FLOOR[3]); ctx.clip(); S.bg(); ctx.restore();
+    }
+    // a sheen where it is newly clean
+    ctx.save(); ctx.globalAlpha = .22 * S.seg(t, ON, ON + 3); ctx.globalCompositeOperation = 'screen';
+    ctx.filter = 'blur(2px)'; ctx.drawImage(polish, 0, 0); ctx.filter = 'none'; ctx.restore();
+    // the legs, solved from the brushes
+    for (const k of ['broom', 'brush']) { const L = P[k]; S.rod([L.H, L.K, L.F], { w: 4.2 }); S.joint(L.K[0], L.K[1], 3.6); }
+    S.drawPart('body', P.b);
+    S.drawPart('broom', { dx: P.broom.F[0] - 318, dy: P.broom.F[1] - 376, rot: -.08 * Math.sin(ph(t) + Math.PI) * act(t) });
+    S.drawPart('brush', { dx: P.brush.F[0] - 499, dy: P.brush.F[1] - 352, rot: .03 * Math.sin(ph(t)) * act(t) });
+    for (const k of ['broom', 'brush']) S.joint(P[k].F[0], P[k].F[1], 2.8);
+    S.vignette(.26); S.grain(.13);
+    S.caption('The brushes are placed first; the legs follow.', S.seg(t, 5.4, 5.9) * (1 - S.seg(t, 9.6, 10)));
+    S.caption('In the polished floor: Frigidaire Finale, 1957', S.seg(t, 14.4, 14.9) * (1 - S.seg(t, 18.2, 18.6)));
+    S.card([['En l’an 2000', 20, 'sc dim'], ['Un frotteur électrique', 50, 'sc'], ['a short cut from the card', 22]], 1 - S.seg(t, 1.9, 2.5));
+    S.card([['Un frotteur électrique', 34, 'sc'], ['Operator: inverse kinematics, contact and reach', 20],
+      [`The brushes never left the floor: largest slip ${worst.toFixed(3)} px`, 18, 'dim'],
+      ['Card: En l’an 2000, about 1910', 18, 'dim'], ['Plate: Frigidaire Finale 1957, from the cineosis-lab shot library', 18, 'dim'],
+      ['The legs are drawn; the sound is synthesised.', 18, 'dim']], S.seg(t, END, END + .5));
+  },
+  cues: [
+    { t: .3, k: 'chime', notes: [64, 69, 73], step: .28, a: .12 },
+    { t: 2.6, k: 'hum', d: OFF - 2.2, f: 48, a: .08, att: 1.4, rel: 1.5, wob: 1.6 },
+    { t: ON, k: 'bed', d: OFF - ON, lp: 2200, pulse: .8, a: .1, att: 1, rel: 1 },
+    { t: ON, k: 'ratchet', d: OFF - ON, rate: 1.6, a: .05, f: 600 },
+    { t: 8.6, k: 'chime', notes: [67, 71, 74, 67, 71, 74, 69, 72, 76, 69, 72, 76, 71, 74, 79, 71, 74, 79, 72, 76, 79, 74, 72, 67, 71, 74, 79], step: .36, a: .1 },
+    { t: OFF - .3, k: 'click', a: .35, f: 900 },
+    { t: END + .1, k: 'chime', notes: [76, 72, 69, 64], step: .3, a: .13 }
+  ]
+});
+</script>
+</body>
+</html>

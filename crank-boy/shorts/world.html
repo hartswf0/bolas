@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>The Town · seven cards, one crank</title>
+<meta name="description" content="The seven En l'an 2000 cards as one playable world, joined by a drawn power line from the crank boy's machine. Each card is a game.">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../assets/favicon-180.png">
+<link rel="stylesheet" href="../room/room.css">
+<link rel="stylesheet" href="shorts.css">
+<style>
+html,body{height:100%}
+body{display:flex;flex-direction:column;min-height:100dvh}
+.play{display:flex;flex-direction:column;gap:8px;max-width:1040px;width:100%;margin:0 auto;padding:10px 16px 16px;flex:1}
+.bar{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.bar h1{font-size:24px;margin:0 auto 0 0}
+canvas#stage{touch-action:none;cursor:crosshair}
+.deck{display:grid;grid-template-columns:150px minmax(0,1fr);gap:12px;align-items:start}
+.deck>div{min-width:0}
+.cast select{max-width:100%}
+#dial{width:150px;height:150px;touch-action:none;cursor:grab;display:block}
+#dial:focus-visible{outline:2px solid var(--red);outline-offset:3px;border-radius:50%}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chips button{font-size:13px;padding:4px 8px}
+.chips button[aria-pressed=true]{background:var(--ink);color:var(--paper)}
+.goal{font-size:16px;margin:2px 0}
+.op{font-family:var(--display);font-size:14px;color:var(--red);margin:0}
+.ctl{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+.ctl button{font-size:16px;padding:8px 14px;touch-action:none}
+.cast{display:flex;gap:6px;align-items:center;font-family:var(--display);font-size:14px;flex-wrap:wrap}
+.cast select{font-family:var(--body);font-size:15px;border:1.5px solid var(--ink);background:var(--paper);padding:2px 4px}
+.help{font-size:14px;color:var(--muted);margin:4px 0 0}
+@media (max-width:760px){.deck{grid-template-columns:96px minmax(0,1fr)}#dial{width:96px;height:96px}.bar h1{font-size:20px}}
+</style>
+</head>
+<body>
+<div class="play">
+<div class="bar"><a class="room-return" href="index.html#world">The shorts</a><h1>The Town</h1><a class="btn" href="index.html#world">Watch the cartoon</a></div>
+<canvas id="stage" aria-label="The town: seven cards in a row under one drawn power line. Select a card to play it."></canvas>
+<div class="deck">
+<svg id="dial" viewBox="-60 -60 120 120" tabindex="0" role="slider" aria-label="The crank. Drag around it, or hold C, to send power down the line." aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+<circle r="54" fill="#4F6A88" stroke="#2B2320" stroke-width="3"/><circle r="44" fill="none" stroke="#F3ECD8" stroke-width="1.5" stroke-dasharray="3 5"/>
+<g id="knob"><line x1="0" y1="0" x2="0" y2="-38" stroke="#F3ECD8" stroke-width="7" stroke-linecap="round"/><circle cy="-38" r="11" fill="#C9733A" stroke="#2B2320" stroke-width="3"/></g>
+<circle r="9" fill="#C9A23E" stroke="#2B2320" stroke-width="2"/></svg>
+<div>
+<div class="chips" id="chips"></div>
+<p class="op" id="op"></p>
+<p class="goal" id="goal">Turn the crank: nothing in the town runs unless somebody turns it. Then choose a card.</p>
+<div class="ctl" id="ctl"></div>
+<div class="cast" id="cast"></div>
+<p class="help" id="help">Keys: hold C to crank. ← → move along the town when no card is chosen.</p>
+</div>
+</div>
+</div>
+<script src="stage.js"></script>
+<script>
+// the controls; the world is in world.js
+const UI = (() => {
+  let O, dialA = null, crankV = 0, lastMove = 0, keyC = false;
+  const $ = id => document.getElementById(id);
+  const btn = (label, down, up) => { const b = document.createElement('button'); b.type = 'button'; b.textContent = label;
+    b.addEventListener('pointerdown', e => { e.preventDefault(); O.wake(); down(); }); if (up) { b.addEventListener('pointerup', up); b.addEventListener('pointerleave', up); } return b; };
+  const ctl = {
+    school: () => [], scrubber: () => [],
+    barber: () => [btn('Left arm (F)', () => O.IN.tap.push('L')), btn('Right arm (J)', () => O.IN.tap.push('R'))],
+    'phono-cinema': () => [btn('Hold to speak (Space)', () => O.IN.speak = true, () => O.IN.speak = false), btn('Use the microphone', mic),
+      ...O.ANSWERERS.map(([k, n]) => btn('Answer: ' + n, () => { O.G['phono-cinema'].who = k; }))],
+    'air-cabs': () => [btn('Up (↑)', () => O.IN.keys.ArrowUp = true, () => O.IN.keys.ArrowUp = false), btn('Down (↓)', () => O.IN.keys.ArrowDown = true, () => O.IN.keys.ArrowDown = false)],
+    firemen: () => [btn('Aim up (↑)', () => O.IN.keys.ArrowUp = true, () => O.IN.keys.ArrowUp = false), btn('Aim down (↓)', () => O.IN.keys.ArrowDown = true, () => O.IN.keys.ArrowDown = false)],
+    skates: () => [btn('Left foot (←)', () => O.IN.tap.push('L')), btn('Right foot (→)', () => O.IN.tap.push('R'))]
+  };
+  const help = { school: 'Turn the dial. Each full turn is one book down one wire.', scrubber: 'Press on the picture near a brush and drag. The brush follows as far as the legs reach.',
+    barber: 'Watch the red hand and the gauge: press its side as it lands.', 'phono-cinema': 'Hold Speak or talk into the microphone. Let go and the screen answers.',
+    'air-cabs': 'Press above or below the cab, or hold Up or Down.', firemen: 'Press on the fire to aim the hose there, and keep the crank turning for pressure.', skates: 'Alternate left and right, a stride every half second or so.' };
+  let micOn = false;
+  async function mic() { if (micOn) return; try { const st = await navigator.mediaDevices.getUserMedia({ audio: true }); const ac = new AudioContext(), an = ac.createAnalyser(); ac.createMediaStreamSource(st).connect(an);
+    const buf = new Float32Array(an.fftSize); micOn = true; const tick = () => { an.getFloatTimeDomainData(buf); let r = 0; for (const v of buf) r += v * v; O.IN.speak = Math.sqrt(r / buf.length) > .03; requestAnimationFrame(tick); }; tick(); } catch (e) { $('help').textContent = 'The microphone is not available here; hold Speak instead.'; } }
+  function focus(d) {
+    document.querySelectorAll('#chips button').forEach(b => b.setAttribute('aria-pressed', String((d && b.dataset.id === d.id) || (!d && b.dataset.id === 'town'))));
+    $('op').textContent = d ? 'Operator: ' + d.op : 'Operator: the line. Power reaches each card later the farther it is from the crank.';
+    $('goal').textContent = d ? d.goal : 'Turn the crank: nothing in the town runs unless somebody turns it. Then choose a card.';
+    const c = $('ctl'); c.innerHTML = ''; if (d) ctl[d.id]().forEach(b => c.append(b));
+    $('help').textContent = d ? help[d.id] + ' Keys: hold C to crank.' : 'Keys: hold C to crank. ← → move along the town when no card is chosen.';
+    const cs = $('cast'); cs.innerHTML = '';
+    if (d && O.cast[d.id]) { cs.append('Who holds the handle here: '); const s = document.createElement('select'); s.setAttribute('aria-label', 'Who holds the handle');
+      for (const [k, a] of Object.entries(O.ACTORS)) { const o = document.createElement('option'); o.value = k; o.textContent = a.name + (a.card === d.id ? ' (from this card)' : ' (from ' + O.D.find(q => q.id === a.card).title + ')'); s.append(o); }
+      s.value = O.cast[d.id]; s.onchange = () => { O.cast[d.id] = s.value; }; cs.append(s, ' The performance stays the same; only the cast changes.'); }
+    history.replaceState(null, '', d ? '?d=' + d.id : location.pathname);
+  }
+  return {
+    init(o) { O = o; const ch = $('chips');
+      const all = [['town', 'The whole town']].concat(o.D.map(d => [d.id, d.title]));
+      for (const [id, t] of all) { const b = document.createElement('button'); b.type = 'button'; b.dataset.id = id; b.textContent = t; b.onclick = () => { o.wake(); o.setFocus(id === 'town' ? null : o.D.find(d => d.id === id)); }; ch.append(b); }
+      const dial = $('dial'), knob = $('knob');
+      const ang = e => { const r = dial.getBoundingClientRect(); return Math.atan2(e.clientY - r.top - r.height / 2, e.clientX - r.left - r.width / 2); };
+      dial.addEventListener('pointerdown', e => { dial.setPointerCapture(e.pointerId); dialA = ang(e); lastMove = performance.now(); o.wake(); });
+      dial.addEventListener('pointermove', e => { if (dialA == null) return; const a = ang(e); let da = a - dialA; if (da > Math.PI) da -= 2 * Math.PI; if (da < -Math.PI) da += 2 * Math.PI;
+        const now = performance.now(), dt = Math.max(8, now - lastMove) / 1000; crankV = .7 * crankV + .3 * Math.abs(da) / (2 * Math.PI) / dt; dialA = a; lastMove = now; });
+      const stop = () => { dialA = null; }; dial.addEventListener('pointerup', stop); dial.addEventListener('pointercancel', stop);
+      addEventListener('keydown', e => { if (e.key === 'c' || e.key === 'C') keyC = true; if (!O.getFocus()) { if (e.key === 'ArrowRight') TOWN.pan(220); if (e.key === 'ArrowLeft') TOWN.pan(-220); } });
+      addEventListener('keyup', e => { if (e.key === 'c' || e.key === 'C') keyC = false; });
+      setInterval(() => { if (dialA == null || performance.now() - lastMove > 160) crankV *= .8; o.IN.crank = keyC ? 1.1 : Math.min(2, crankV); }, 50);
+      this.knob = knob; focus(o.getFocus());
+    },
+    focus, update(status, P) { this.knob && this.knob.setAttribute('transform', `rotate(${(P.turns * 360) % 360})`); $('dial').setAttribute('aria-valuenow', String(Math.round(P.power * 100))); }
+  };
+})();
+</script>
+<script src="world.js"></script>
+</body>
+</html>

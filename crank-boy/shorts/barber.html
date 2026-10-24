@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>The barber · a short</title>
+<meta name="description" content="A short cut from the En l'an 2000 barber card: one lever drives every joint of the mechanical arms, and the mirror shows a barber filmed in 1959.">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../assets/favicon-180.png">
+<link rel="stylesheet" href="../room/room.css">
+<link rel="stylesheet" href="shorts.css">
+</head>
+<body>
+<div class="wrap">
+<header class="top"><a class="room-return" href="index.html#barber">The shorts</a></header>
+<h1>The barber</h1>
+<p class="lede">Operator: <strong>forward kinematics, hierarchical body logic</strong>. The man at the panel pulls one lever. Its angle is the only input: each arm's shoulder turns by a fixed share of it, and each wrist turns on top of its shoulder, parent to child. Meanwhile the mirror on the wall shows the job done by hand, by a barber filmed in 1959.</p>
+<canvas id="stage" aria-label="The short, drawn frame by frame"></canvas>
+<div class="controls"><button id="play">Play</button><input id="scrub" type="range" min="0" max="1000" value="0" aria-label="Time"><span class="tc" id="tc">0.0 s</span></div>
+<p class="meta">This page draws the short live without sound. The film with its soundtrack is in <a href="index.html#barber">the shorts</a>.</p>
+<section class="sheet">
+<h2>Ledger</h2>
+<dl class="ledger">
+<div><dt>Observed</dt><dd>The barber card, En l'an 2000, about 1910. The plate: a barber combing and clipping a boy's hair, from <em>Barbers</em> (1959), 7.4 s, from the cineosis-lab shot library, toned and set in the mirror's oval.</dd></div>
+<div><dt>Cut and moved</dt><dd>The lever and four rods of the arms, each turned about its own joint. The rods' old places are filled with the wall's colours.</dd></div>
+<div><dt>Drawn and synthesised</dt><dd>The joint caps, the gauge needle, the camera, grain and captions; the lever's clack, the motor and the scissors.</dd></div>
+</dl>
+</section>
+</div>
+<script src="stage.js"></script>
+<script>
+const ON = 2.6, OFF = 17.2, END = 19.6, DUR = 22.2, HZ = 1.2;
+const amp = t => S.ease(S.seg(t, ON, ON + 2.5)) * (1 - S.ease(S.seg(t, OFF - 1, OFF)));
+const lam = t => amp(t) * Math.sin(2 * Math.PI * HZ * (t - ON));     // the lever, from -1 to 1
+// forward kinematics: every angle is a fixed function of the lever
+const FK = { lever: .13, r1: .15, r2: -.42, l1: -.11, l2: .5 };
+const rot = ([x, y], [px, py], a) => [px + (x - px) * Math.cos(a) - (y - py) * Math.sin(a), py + (x - px) * Math.sin(a) + (y - py) * Math.cos(a)];
+const MIRROR_L = [50, 92, 37, 55], MIRROR_R = [385, 68, 23, 31];
+const S = Stage({
+  id: 'barber', dur: DUR, card: 'barber', frame: [4, 4, 582, 337], plates: ['barbers'], poster: 12.5,
+  clock: t => ({ barbers: Math.max(0, Math.min(7.3, (t - 8.4) * .78)) }),
+  camera(t, S) {
+    const h = S.home; let c = { x: h.x, y: h.y, z: 1 };
+    const k1 = S.ease(S.seg(t, 2.8, 7));
+    c.x = S.lerp(h.x, 290, k1); c.y = S.lerp(h.y, 110, k1); c.z = S.lerp(1, 1.55, k1);
+    const k2 = S.ease(S.seg(t, 8.2, 10.6));
+    c.x = S.lerp(c.x, 120, k2); c.y = S.lerp(c.y, 98, k2); c.z = S.lerp(c.z, 1.85, k2);
+    const k3 = S.ease(S.seg(t, 14.2, 16.4));
+    c.x = S.lerp(c.x, 400, k3); c.y = S.lerp(c.y, 150, k3); c.z = S.lerp(c.z, 1.5, k3);
+    const k4 = S.ease(S.seg(t, 17.2, 19.4));
+    c.x = S.lerp(c.x, h.x, k4); c.y = S.lerp(c.y, h.y, k4); c.z = S.lerp(c.z, 1.02, k4);
+    c.x += S.noise(t * .5) * .6; c.y += S.noise(t * .5 + 7) * .5;
+    return c;
+  },
+  draw(S, t) {
+    const ctx = S.ctx, l = lam(t);
+    S.view(); S.bg();
+    // the mirrors: the glass shows the 1959 barber once the camera reaches it
+    const mirror = ([cx, cy, rx, ry], a) => {
+      if (a <= 0) return;
+      S.plate('barbers', [cx - rx, cy - ry, rx * 2, ry * 2], { crop: [40, 0, 164, 240], tone: ['#26331d', '#dfe4a6'], keep: .05, contrast: 1.1, a,
+        clip: c => c.ellipse(cx, cy, rx, ry, 0, 0, 7) });
+      ctx.save(); ctx.globalAlpha = .25 * a; const g = ctx.createLinearGradient(cx - rx, cy - ry, cx + rx, cy + ry);
+      g.addColorStop(0, 'rgba(255,255,255,.9)'); g.addColorStop(.35, 'rgba(255,255,255,0)'); ctx.fillStyle = g;
+      ctx.beginPath(); ctx.ellipse(cx, cy, rx, ry, 0, 0, 7); ctx.fill(); ctx.restore();
+    };
+    mirror(MIRROR_L, S.seg(t, 9.6, 11));
+    mirror(MIRROR_R, S.seg(t, 15, 16.4));
+    // the lever, about its floor bracket
+    S.drawPart('lever', { rot: FK.lever * l });
+    // right arm: shoulder, then the wrist on top of it
+    const a1 = FK.r1 * l, e = rot([333, 66], [287, 88], a1);
+    S.drawPart('r1', { rot: a1 });
+    S.drawPart('r2', { dx: e[0] - 333, dy: e[1] - 66, rot: a1 + FK.r2 * l });
+    const b1 = FK.l1 * l, f = rot([225, 35], [287, 88], b1);
+    S.drawPart('l1', { rot: b1 });
+    S.drawPart('l2', { dx: f[0] - 225, dy: f[1] - 35, rot: b1 + FK.l2 * l });
+    S.joint(287, 88, 2.6); S.joint(e[0], e[1], 2.4); S.joint(f[0], f[1], 2.4);
+    // the panel gauge follows the lever: the operator sees this, not the faces
+    { const gx = 548, gy = 121, r = 6.5, a = -Math.PI / 2 + l * 1.1;
+      ctx.save(); ctx.strokeStyle = S.RED; ctx.lineWidth = 1.3; ctx.beginPath(); ctx.moveTo(gx, gy); ctx.lineTo(gx + r * Math.cos(a), gy + r * Math.sin(a)); ctx.stroke(); ctx.restore(); }
+    S.vignette(.28); S.grain(.14);
+    S.caption('One lever. Every joint follows it.', S.seg(t, 4.4, 4.9) * (1 - S.seg(t, 8, 8.4)));
+    S.caption('In the mirror: Barbers, filmed in 1959', S.seg(t, 11, 11.5) * (1 - S.seg(t, 14, 14.4)));
+    S.caption('He watches the gauge, not the faces.', S.seg(t, 15.4, 15.9) * (1 - S.seg(t, 18.6, 19)));
+    S.card([['En l’an 2000', 20, 'sc dim'], ['The barber', 54, 'sc'], ['a short cut from the card', 22]], 1 - S.seg(t, 1.9, 2.5));
+    S.card([['The barber', 34, 'sc'], ['Operator: forward kinematics, hierarchical body logic', 20],
+      ['Card: En l’an 2000, about 1910', 18, 'dim'], ['Plate: Barbers (1959), from the cineosis-lab shot library', 18, 'dim'],
+      ['The arms are the card’s own rods, turned. The sound is synthesised.', 18, 'dim']], S.seg(t, END, END + .5));
+  },
+  cues: (() => {
+    const c = [{ t: .3, k: 'chime', notes: [62, 66, 69], step: .28, a: .12 },
+      { t: ON, k: 'hum', d: OFF - ON + .5, f: 62, a: .06, att: 1, rel: 1 },
+      { t: END + .1, k: 'chime', notes: [74, 69, 66, 62], step: .3, a: .13 }];
+    for (let s = ON + .2; s < OFF; s += .5 / HZ) c.push({ t: s, k: 'click', a: .22, f: 700 + 300 * Math.sin(s) });
+    for (let s = 8.8; s < 14.2; s += .42) c.push({ t: s, k: 'click', a: .12, f: 5200 }, { t: s + .08, k: 'click', a: .1, f: 4600 });
+    return c;
+  })()
+});
+</script>
+</body>
+</html>

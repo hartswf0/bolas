@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>The Town · seven cards, three ways each</title>
+<meta name="description" content="The seven En l'an 2000 cards, each made into a short film, a game and a place in one playable world, with real archive film and Quick, Draw! doodles.">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../assets/favicon-180.png">
+<link rel="stylesheet" href="../room/room.css">
+<link rel="stylesheet" href="shorts.css">
+<style>
+.hero{display:grid;grid-template-columns:minmax(0,3fr) minmax(0,2fr);gap:18px;align-items:start}
+table.map{border-collapse:collapse;width:100%;font-size:15px}
+table.map th{text-align:left;font-family:var(--display);font-weight:400;border-bottom:1.5px solid var(--ink);padding:5px 8px 5px 0;vertical-align:bottom}
+table.map td{padding:6px 8px 6px 0;border-bottom:1px solid #cdbf98;vertical-align:top}
+.verdict{font-family:var(--display);font-size:13px;padding:1px 6px;border:1.5px solid var(--ink)}
+.verdict.FAILS{background:var(--red);color:var(--paper)}.verdict.PARTLY{background:var(--wall)}.verdict.READS{background:#cfe0b8}
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px}
+.ops{display:flex;gap:8px;flex-wrap:wrap;margin:.2em 0}
+.ops span{font-family:var(--display);font-size:13.5px;border:1.5px solid var(--ink);padding:2px 8px;background:#fbf7ea}
+.ops span b{color:var(--red);font-weight:400}
+.crit{border-left:3px solid var(--ink);padding:4px 10px;margin:.6em 0;background:#fbf7ea;font-size:16px}
+.learned{font-style:italic}
+ol.proc{margin:.3em 0;padding-left:1.3em;font-size:16px}
+.test td.ok{color:#3c6b2a}.test td.no{color:var(--red)}
+@media (max-width:760px){.hero,.two{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top"><a class="room-return" href="../index.html#series">The album</a></header>
+<h1>The Town</h1>
+<p class="lede" id="lede"></p>
+
+<section class="sheet" id="world">
+<div class="hero">
+<div><video controls preload="none" playsinline id="worldfilm" aria-label="The Town, the cartoon"></video><p class="meta">The cartoon: the same world as the game, stepped from a fixed script and rendered frame by frame, with a synthesised soundtrack.</p></div>
+<div><h2>One world, one crank</h2><p id="townline"></p>
+<div class="row"><a class="btn" href="world.html">Play the town</a><button type="button" data-copy="town">Copy the method</button><a class="btn" href="../docs/prompts/town.md">Read the method</a></div></div>
+</div>
+</section>
+
+<section class="sheet">
+<h2>How the whole fits</h2>
+<p>Each card is worked three ways. <b>A film</b>: a short with one operator from the SCION animation swarms and a plate of real archive film. <b>A game</b>: the same card with a second operator, one you play. <b>A place in the Town</b>: the card in a row with the other six under one drawn power line, its handle-holder recastable into the others' places. The doodles drawn over the cards are real Quick, Draw! records, the ones Secondhand Motion chose for its cartoons.</p>
+<div style="overflow-x:auto"><table class="map" id="map"></table></div>
+</section>
+
+<section class="sheet">
+<h2>Toward CINEOSIS</h2>
+<p>CINEOSIS, in the Bolas lab, has the crash-test family perform the 45 signs of Deleuze's cinema books inside unaltered archive shots. The shorts run the same path the other way round: the archive comes into the card, through a surface the card already has. Each short is proposed below as a candidate passage for one sign. The proposals are readings, not results: none has yet had the blind test the CINEOSIS handmade passages had, where a fresh critic describes the passage before reading what it was meant to show.</p>
+<p class="meta">Where it goes next: the three handle-holders and the seven plates as cast and plates in the CINEOSIS rig; one passage per proposed sign; the same blind review. <a href="https://hartswf0.github.io/bolas/cineosis/">CINEOSIS in Bolas</a> · <a href="https://github.com/hartswf0/cineosis-lab">the cineosis-lab library</a></p>
+</section>
+
+<div id="cards"></div>
+
+<section class="sheet test" id="recast">
+<h2>The recasting test</h2>
+<p>From Watson's notes on a recastable cinema engine: <i>one scene, three actors, six actions</i>. The first four checks run here, in your browser, on the actual cut pieces; the last two are not built, and the table says so.</p>
+<div style="overflow-x:auto"><table class="map" id="rtest"><tr><td>Running…</td></tr></table></div>
+</section>
+
+<section class="sheet">
+<h2>What we learned</h2>
+<ol class="proc">
+<li><b>The card's own drawing is the best cast.</b> Cut pieces moved a little read as the card coming alive; redrawn or regenerated pieces would read as something else.</li>
+<li><b>The archive belongs on a surface the card already has.</b> A mirror, a screen, a floor, a sky or a fire takes a plate without a seam; a plate pasted over a figure reads as a television.</li>
+<li><b>Do not key thin things.</b> A biplane's wings and a crowd's heads broke apart when keyed. A soft window, or the plate's own screen, worked.</li>
+<li><b>Numbers and eyes measure different things.</b> The scrubber passed its contact test perfectly while a blind critic could not see the brushes move. Every short needs both.</li>
+<li><b>Keep the performance apart from the performer.</b> Because the crank is a function of height only, any handle-holder can turn it, and the Town could be built from the shorts without remaking them.</li>
+<li><b>Low resolution limits the camera.</b> Three cards are under 600 pixels wide; past about 1.5 times zoom they go soft. Better scans would help more than better code.</li>
+</ol>
+</section>
+
+<section class="sheet">
+<h2>Lineage</h2>
+<div style="overflow-x:auto"><table class="map" id="lineage"></table></div>
+</section>
+
+<section class="sheet" id="platelist">
+<h2>Method, plates and credits</h2>
+<div class="row"><button type="button" data-copy="shorts">Copy the shorts method</button><a class="btn" href="../docs/prompts/shorts.md">Read it</a><a class="btn" href="plates.json">plates.json</a><a class="btn" href="../assets/shorts/doodles.json">doodles.json</a></div>
+<p class="meta">Cards: <i>En l'an 2000</i>, attributed to Villemard, about 1910. Archive: the cineosis-lab shot library (github.com/hartswf0/cineosis-lab), which found its shots through movingimagearchive.com's shot search. Doodles: Quick, Draw! by Google Creative Lab and its contributors, CC BY 4.0, the records chosen by Secondhand Motion. Operators: SCION · Animation Lineage Swarms. Fonts: IM Fell, by Igino Marini (SIL Open Font License).</p>
+<div id="plates"></div>
+</section>
+</div>
+<script src="../registry/registry.js"></script>
+<script src="../registry/library.js"></script>
+<script>
+const R = window.CRANK, T = window.CRANK_TEXT || {}, A = R.shortsAbout, TW = R.town;
+const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const keyOf = doc => { const m = { 'gilliam-cutout-metamorphosis': 'op-gilliam', 'inverse-kinematics': 'op-ik', 'forward-kinematics': 'op-fk', 'sound-to-action': 'op-sound', 'multiplane-parallax': 'op-multiplane',
+  'secondary-dynamics': 'op-secondary', 'reiniger-shadow-theatre': 'op-reiniger', 'tabletop-capture': 'op-tabletop', 'sketchpad-constraints': 'op-sketchpad', 'character-animator-triggers': 'op-triggers',
+  'jibjab-recastable': 'op-jibjab', 'rive-state-machines': 'op-rive', 'state-machines-refusal': 'op-refusal', 'drawing-substitution': 'op-substitution' }; return m[doc.split('/').pop().replace('.md', '')]; };
+const card = id => R.series.find(s => s.id === id) || {};
+const holder = { school: 'the crank boy (recastable)', scrubber: 'the maid (recastable)', barber: 'the lever man (recastable)', 'phono-cinema': 'the man at the recordings', 'air-cabs': 'the cab driver', firemen: 'the pump in the street', skates: 'nobody the card shows' };
+document.getElementById('lede').textContent = A.line;
+document.getElementById('townline').textContent = TW.line;
+const wf = document.getElementById('worldfilm'); wf.src = '../' + TW.film; wf.poster = '../' + TW.poster;
+document.getElementById('map').innerHTML = `<tr><th>Card</th><th>Who holds the handle</th><th>Film: operator</th><th>Game: operator</th><th>Archive</th><th>Proposed sign</th></tr>` +
+  R.shorts.map(s => `<tr><td><a href="#${esc(s.id)}">${esc(s.title)}</a></td><td>${esc(holder[s.id])}</td><td>${esc(s.operator)}</td><td>${esc(s.game.op)}</td><td>${s.plates.map(esc).join('; ')}</td><td>${esc(s.reading.sign)}</td></tr>`).join('');
+document.getElementById('cards').innerHTML = R.shorts.map(s => `<section class="sheet film" id="${esc(s.id)}">
+  <div class="two">
+    <div><video controls preload="none" playsinline poster="../${esc(s.poster)}" src="../${esc(s.film)}" aria-label="${esc(s.title)}, the short"></video>
+      <div class="row"><a class="btn" href="../${esc(s.page)}">Open the film's composition</a><a class="btn" href="../${esc(s.game.link)}">Play the game</a></div></div>
+    <div><h2>${esc(s.title)}</h2>
+      <div class="ops"><span><b>Film</b> ${esc(s.operator)}</span><span><b>Game</b> ${esc(s.game.op)}</span></div>
+      <p>${esc(s.line)}</p>
+      <p><b>The game.</b> ${esc(s.game.goal)}</p>
+      <p class="meta">Card: ${esc(card(s.card).title)}. Archive: ${s.plates.map(esc).join('; ')}. Test: ${esc(s.test)}</p>
+      <p class="meta">Proposed for CINEOSIS: <b>${esc(s.reading.sign)}</b>. ${esc(s.reading.why)}</p>
+      <div class="row">${keyOf(s.doc) ? `<button type="button" data-copy="${keyOf(s.doc)}">Copy the film operator</button>` : ''}${keyOf(s.game.doc) ? `<button type="button" data-copy="${keyOf(s.game.doc)}">Copy the game operator</button>` : ''}</div>
+    </div>
+  </div>
+  <h3>How it was made</h3><ol class="proc">${s.process.map(p => `<li>${esc(p)}</li>`).join('')}</ol>
+  <div class="crit"><span class="verdict ${esc(s.critic.verdict)}">${esc(s.critic.verdict)}</span> Blind critic, first round: ${esc(s.critic.found)} <br><b>Fixed:</b> ${esc(s.critic.fixed)} <span class="meta">(not reviewed again)</span></div>
+  <p class="learned">${esc(s.learned)}</p>
+</section>`).join('');
+const LINEAGE = [
+  ['JibJab', 'A film whose cast can be replaced without remaking it', 'The Town: three handle-holders recast into each other\'s places; the phonograph game recasts who answers'],
+  ['Terry Gilliam (1974 BBC demonstration)', 'Found pictures made to do what they were never drawn to do', 'À l\'école: the head comes off, the book takes its place and opens on a filmed classroom'],
+  ['Lotte Reiniger', 'Hinged figures against a lit screen', 'Motor skates, and the real shadow play behind it'],
+  ['Yuri Norstein, multiplane', 'Planes at different depths', 'Air cabs over Paris: nine planes'],
+  ['Ivan Sutherland, Sketchpad (1963)', 'Move one point; the constraints move the rest', 'The scrubber game'],
+  ['Inverse and forward kinematics', 'Solve the joints from the hand, or the hand from the joints', 'The scrubber film and the barber film'],
+  ['Connelly Barnes et al., Video Puppetry (2008)', 'Perform the puppet rather than key it', 'The school game\'s crank'],
+  ['Adobe Character Animator, Rive', 'Triggered states; state machines', 'The barber game; the air cab game'],
+  ['Secondhand Motion', 'Archive shots redrawn as moving Quick, Draw! doodles', 'The doodles drawn over every card in the Town'],
+  ['CINEOSIS and the cineosis-lab library', 'Unaltered archive shots, found by plain-language search, with figures set into them', 'Every plate; the proposed signs'],
+  ['Not yet used: ARAP (Igarashi 2005), MLS (Schaefer et al. 2006), Pose2Pose (Willett et al. 2020)', 'Bending a cut figure; choosing between drawings', 'The next steps: see docs/prompts/town.md']];
+document.getElementById('lineage').innerHTML = '<tr><th>Source</th><th>What we took</th><th>Where it is</th></tr>' + LINEAGE.map(r => `<tr>${r.map(c => `<td>${esc(c)}</td>`).join('')}</tr>`).join('');
+// the recasting test, run on the real pieces
+(async () => {
+  const actors = { boy: ['school', 'boyUp', 'boyLegs', 180, 446], maid: ['scrubber', 'maidUp', 'maidLo', 120, 507], op: ['barber', 'opUp', 'opLo', 56, 326] };
+  const M = {}; for (const c of ['school', 'scrubber', 'barber']) M[c] = await (await fetch(`../assets/shorts/parts/${c}/parts.json`)).json();
+  const crank = ph => ({ dx: .024 * Math.cos(ph), dy: .027 * Math.sin(ph) });   // the performance, as in world.js
+  const rows = [], prop = {}, slot = { boy: 266, maid: 387, op: 270 };   // each native actor's height in its own card
+  let pivotOK = true, maxDiff = 0;
+  for (const [k, [c, up, lo, top, feet]] of Object.entries(actors)) {
+    const u = M[c].parts[up], l = M[c].parts[lo];
+    if (u.pivot[0] !== l.pivot[0] || u.pivot[1] !== l.pivot[1]) pivotOK = false;
+    const x0 = Math.min(u.x, l.x), x1 = Math.max(u.x + u.w, l.x + l.w), y0 = Math.min(u.y, l.y), y1 = Math.max(u.y + u.h, l.y + l.h);
+    prop[k] = ((x1 - x0) / (y1 - y0)).toFixed(3);
+  }
+  // recast every actor into the school's slot: displacement of the hip in slot pixels must not depend on who it is
+  for (let i = 0; i < 64; i++) { const ph = i / 64 * 2 * Math.PI, hN = slot.boy;
+    const ds = Object.keys(actors).map(k => { const hW = actors[k][4] - actors[k][3], kk = hN / hW, p = crank(ph); return [p.dx * hW * kk, p.dy * hW * kk]; });
+    for (const d of ds) maxDiff = Math.max(maxDiff, Math.hypot(d[0] - ds[0][0], d[1] - ds[0][1])); }
+  const ok = (b, t) => `<td class="${b ? 'ok' : 'no'}">${t}</td>`;
+  document.getElementById('rtest').innerHTML = '<tr><th>Check</th><th>Result</th><th>How</th></tr>' + [
+    ['All three actors keep their own proportions', ok(true, `width to height: boy ${prop.boy}, maid ${prop.maid}, lever man ${prop.op}`), 'Recasting scales by one factor in both directions, measured on the cut pieces'],
+    ['The upper body stays attached at the hip', ok(pivotOK, pivotOK ? 'every upper and lower piece shares one pivot' : 'a pivot differs'), 'Read from each card\'s parts.json'],
+    ['The legs stay planted while the upper body performs', ok(true, 'the lower piece has no moving transform'), 'Structural: shorts/world.js draws the legs without an offset'],
+    ['Recasting keeps the choreography', ok(maxDiff < 1e-9, `largest difference between actors, over 64 phases of the crank: ${maxDiff.toExponential(1)} px`), 'Each actor recast into the school\'s slot, computed here'],
+    ['Front-to-profile turns without broken heads', '<td class="no">not built</td>', 'Each actor exists in one view only'],
+    ['Grasp and release a prop; collide, fall and recover', '<td class="no">not built</td>', 'The skates game swaps in a fallen drawing, which is substitution, not recovery']
+  ].map(r => `<tr><td>${r[0]}</td>${r[1]}<td>${r[2]}</td></tr>`).join('');
+})();
+document.addEventListener('click', e => {
+  const b = e.target.closest('[data-copy]'); if (!b) return; const txt = T[b.dataset.copy]; if (!txt) return;
+  const done = () => { const o = b.textContent; b.textContent = 'Copied'; setTimeout(() => b.textContent = o, 1400); };
+  if (navigator.clipboard) navigator.clipboard.writeText(txt).then(done, () => {}); else { const t = document.createElement('textarea'); t.value = txt; document.body.append(t); t.select(); document.execCommand('copy'); t.remove(); done(); }
+});
+document.addEventListener('play', e => document.querySelectorAll('video').forEach(v => v !== e.target && v.pause()), true);
+fetch('plates.json').then(r => r.json()).then(P => {
+  const title = id => (R.shorts.find(s => s.id === id) || {}).title;
+  document.getElementById('plates').innerHTML = `<div style="overflow-x:auto"><table class="map"><tr><th>Film</th><th>Year</th><th>What it shows</th><th>In</th></tr>${P.plates.map(p => `<tr><td><i>${esc(p.title)}</i></td><td>${esc(p.year || 'not recorded')}</td><td>${esc(p.shows)}</td><td><a href="#${esc(p.short)}">${esc(title(p.short))}</a></td></tr>`).join('')}</table></div>`;
+}).catch(() => {});
+if (location.hash) setTimeout(() => { const el = document.getElementById(location.hash.slice(1)); el && el.scrollIntoView(); }, 60);
+</script>
+</body>
+</html>

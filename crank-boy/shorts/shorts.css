@@ -1,0 +1,32 @@
+/* The shorts: one sheet for the gallery and the composition pages. Tokens from room/room.css. */
+@font-face{font-family:'IM Fell English';src:url(../assets/shorts/fonts/IMFellEnglish.ttf) format('truetype');font-display:block}
+@font-face{font-family:'IM Fell English SC';src:url(../assets/shorts/fonts/IMFellEnglishSC.ttf) format('truetype');font-display:block}
+*{box-sizing:border-box}
+html{background:var(--table)}
+body{margin:0;color:var(--ink);font-family:var(--body);font-size:18px;line-height:1.5;background:var(--table)}
+a{color:var(--ink)}
+.wrap{max-width:1040px;margin:0 auto;padding:16px}
+header.top{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:10px}
+h1,h2,h3{font-family:var(--display);font-weight:400;letter-spacing:.02em;margin:.2em 0 .3em}
+h1{font-size:34px}h2{font-size:24px}h3{font-size:19px}
+.lede{max-width:66ch;margin:.2em 0 1em}
+.sheet{background:var(--paper);border:1.5px solid var(--ink);box-shadow:3px 3px 0 var(--ink);padding:14px 16px;margin:0 0 18px}
+canvas#stage,video{display:block;width:100%;height:auto;aspect-ratio:16/9;background:var(--ink);border:1.5px solid var(--ink)}
+.controls{display:flex;gap:10px;align-items:center;margin:8px 0 0}
+.controls input[type=range]{flex:1;accent-color:var(--red)}
+button,.btn{font-family:var(--display);font-size:15px;color:var(--ink);background:var(--paper);border:1.5px solid var(--ink);box-shadow:2px 2px 0 var(--ink);padding:5px 12px;cursor:pointer;text-decoration:none;display:inline-block}
+button:focus-visible,.btn:focus-visible,a:focus-visible{outline:2px solid var(--red);outline-offset:2px}
+.tc{font-family:var(--display);font-size:14px;min-width:4.5em;text-align:right}
+.ledger{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:0}
+.ledger div{border-top:1.5px solid var(--ink);padding-top:6px}
+.ledger dt{font-family:var(--display);font-size:15px}
+.ledger dd{margin:0;font-size:16px}
+.meta{font-size:15px;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.film h2{margin-top:8px}
+.film .op{font-family:var(--display);font-size:15px;color:var(--red);margin:0}
+.film p{margin:.3em 0}
+.row{display:flex;gap:10px;flex-wrap:wrap;margin:.6em 0 0}
+pre.prompt{white-space:pre-wrap;font-family:var(--body);font-size:15px;max-height:22em;overflow:auto;background:#fbf7ea;border:1px solid var(--ink);padding:10px;margin:.5em 0 0}
+ol.steps{padding-left:1.3em}
+@media (max-width:760px){.grid{grid-template-columns:1fr}.ledger{grid-template-columns:1fr}h1{font-size:28px}body{font-size:17px}}

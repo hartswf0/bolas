@@ -1,0 +1,11 @@
+/* The Crank Boy shared tokens and the return link. See DESIGN.md. */
+:root{
+  --wall:#E8D59A; --wainscot:#C89585; --floor:#CFA873; --slate:#4F6A88; --brass:#C9A23E;
+  --orange:#C9733A; --red:#B44A3C; --ink:#2B2320; --paper:#F3ECD8; --table:#D6C69E; --muted:#6E5F4F;
+  --display:'IM Fell English SC','Iowan Old Style',Georgia,serif;
+  --body:'IM Fell English','Iowan Old Style',Georgia,serif;
+}
+.room-return{font-family:var(--display);font-size:13px;letter-spacing:.06em;color:var(--ink);text-decoration:none;
+  border:1.5px solid var(--ink);background:var(--paper);padding:4px 10px;box-shadow:2px 2px 0 var(--ink);display:inline-block}
+.room-return::before{content:"";display:inline-block;width:7px;height:7px;border-left:1.5px solid currentColor;border-bottom:1.5px solid currentColor;transform:rotate(45deg);margin-right:7px;vertical-align:1px}
+.room-return:focus-visible{outline:2px solid var(--red);outline-offset:2px}

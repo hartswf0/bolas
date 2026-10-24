@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Air cabs over Paris · a short</title>
+<meta name="description" content="A short cut from the En l'an 2000 card of air cabs over Paris, taken apart into planes at different depths, with a 1954 crop duster flying through its sky.">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../assets/favicon-180.png">
+<link rel="stylesheet" href="../room/room.css">
+<link rel="stylesheet" href="shorts.css">
+</head>
+<body>
+<div class="wrap">
+<header class="top"><a class="room-return" href="index.html#air-cabs">The shorts</a></header>
+<h1>Air cabs over Paris</h1>
+<p class="lede">Operator: <strong>multiplane parallax, spatial collage</strong>. The card is taken apart into planes at different distances: sky, far flyers, the big cab, the city and the nearest cab. As the camera drifts, each plane slides at its own rate, so the flat print gets depth. Through a gap in the far sky, a real plane comes on: a crop duster filmed in 1954, flying straight at the camera.</p>
+<canvas id="stage" aria-label="The short, drawn frame by frame"></canvas>
+<div class="controls"><button id="play">Play</button><input id="scrub" type="range" min="0" max="1000" value="0" aria-label="Time"><span class="tc" id="tc">0.0 s</span></div>
+<p class="meta">This page draws the short live without sound. The film with its soundtrack is in <a href="index.html#air-cabs">the shorts</a>.</p>
+<section class="sheet">
+<h2>Ledger</h2>
+<dl class="ledger">
+<div><dt>Observed</dt><dd>The card, En l'an 2000, about 1910. The plate: a biplane flying low at the camera, from <em>Airport America</em> (1954), 5 s, from the cineosis-lab shot library, toned and seen through a soft-edged gap in the card's sky.</dd></div>
+<div><dt>Cut and moved</dt><dd>Nine pieces: the city, the nearest cab, the big cab and its two wings, the yellow plane, the airship and two small flyers. The sky behind them is filled with its own colours.</dd></div>
+<div><dt>Drawn and synthesised</dt><dd>The propeller's blur, each plane's depth and drift, the camera, grain and captions; the wind, wings and engines.</dd></div>
+</dl>
+</section>
+</div>
+<script src="stage.js"></script>
+<script>
+const DUSTER = 8.6, END = 19.4, DUR = 22.1;
+const flap = t => Math.sin(2 * Math.PI * 1.05 * t);
+const S = Stage({
+  id: 'air-cabs', dur: DUR, card: 'air-cabs', frame: [4, 4, 582, 337], plates: ['cropduster'], poster: 12.2,
+  clock: t => ({ cropduster: Math.max(0, Math.min(4.95, (t - DUSTER) * .66)) }),
+  camera(t, S) {
+    const h = S.home; const k = S.ease(S.seg(t, 2.2, 15)), k2 = S.ease(S.seg(t, 12.5, 16.5)), k3 = S.ease(S.seg(t, 17.2, 19.3));
+    let c = { x: S.lerp(150, 430, k), y: S.lerp(200, 150, k), z: S.lerp(1.25, 1.4, k) };
+    c.x = S.lerp(c.x, 330, k2); c.y = S.lerp(c.y, 95, k2); c.z = S.lerp(c.z, 1.75, k2);
+    c.x = S.lerp(c.x, h.x, k3); c.y = S.lerp(c.y, h.y, k3); c.z = S.lerp(c.z, 1.02, k3);
+    c.x += S.noise(t * .4) * 1.5; c.y += S.noise(t * .4 + 5) * 1.2;
+    return c;
+  },
+  draw(S, t) {
+    const ctx = S.ctx, f = flap(t);
+    // farthest: the sky
+    S.layer(6); S.bg();
+    // the 1954 plane, far off, coming in
+    const kd = S.seg(t, DUSTER, DUSTER + .6) * (1 - S.seg(t, DUSTER + 7.2, DUSTER + 7.8));
+    if (kd > 0) { S.layer(3.0); const W8 = []; for (let i = 0; i < 24; i++) { const a = i / 24 * Math.PI * 2; W8.push([330 + 125 * Math.cos(a) * (1 + .08 * Math.sin(a * 5)), 52 + 46 * Math.sin(a) * (1 + .1 * Math.cos(a * 4))]); }
+      S.softPlate('cropduster', [190, -10, 280, 124], W8, 12, { crop: [10, 20, 300, 133], tone: ['#2B2320', '#ece9da'], contrast: 1.15, keep: .15, a: kd }); }
+    // far flyers, drifting
+    S.layer(2.6);
+    S.drawPart('small1', { dx: 7 * (t - 2), dy: 1.5 * Math.sin(t * 1.7), rot: .05 * Math.sin(t * 1.7) });
+    S.drawPart('small2', { dx: 4.2 * (t - 2), dy: 1 * Math.sin(t * 1.1 + 1) });
+    S.drawPart('blimp', { dx: 2.2 * (t - 2), dy: 1.2 * Math.sin(t * .7) });
+    S.layer(2.0);
+    S.drawPart('plane', { dx: -3.4 * (t - 2), dy: 2 * Math.sin(t * 1.3), rot: .06 * Math.sin(t * 1.3 + .4) });
+    // the big cab: wings beat, body rides the beat
+    S.layer(1.55);
+    const bob = { dx: 1.1 * (t - 2), dy: 2.4 * f };
+    S.drawPart('wingL', { dx: bob.dx, dy: bob.dy, rot: -.13 * f });
+    S.drawPart('wingR', { dx: bob.dx, dy: bob.dy, rot: .11 * f });
+    S.drawPart('cab', { dx: bob.dx, dy: bob.dy * 1.1, rot: .015 * f });
+    // the city and plaza
+    S.layer(1); S.drawPart('city');
+    // the near cab's propeller, spinning
+    { const cx = 64, cy = 274, a = t * 23;
+      ctx.save(); ctx.translate(cx, cy); ctx.scale(.62, 1); ctx.globalAlpha = .3;
+      for (let i = 0; i < 6; i++) { ctx.rotate(Math.PI / 3); ctx.fillStyle = i % 2 ? '#d8d6c6' : '#4F6A88';
+        ctx.beginPath(); ctx.moveTo(0, 0); ctx.arc(0, 0, 42, a, a + .35); ctx.closePath(); ctx.fill(); }
+      ctx.restore(); }
+    S.layer(.55); S.drawPart('near', { dy: 1.6 * Math.sin(t * 1.6), rot: .006 * Math.sin(t * 1.6 + .5) });
+    S.vignette(.26); S.grain(.14);
+    S.caption('Each plane at its own distance.', S.seg(t, 3.4, 3.9) * (1 - S.seg(t, 7.6, 8)));
+    S.caption('Through a gap in the far sky: Airport America, 1954', S.seg(t, 10.4, 10.9) * (1 - S.seg(t, 15.6, 16)));
+    S.card([['En l’an 2000', 20, 'sc dim'], ['Air cabs over Paris', 50, 'sc'], ['a short cut from the card', 22]], 1 - S.seg(t, 1.9, 2.5));
+    S.card([['Air cabs over Paris', 34, 'sc'], ['Operator: multiplane parallax, spatial collage', 20], ['Card: En l’an 2000, about 1910', 18, 'dim'],
+      ['Plate: Airport America (1954), from the cineosis-lab shot library', 18, 'dim'], ['Nine planes cut from the card. The sound is synthesised.', 18, 'dim']], S.seg(t, END, END + .5));
+  },
+  cues: [
+    { t: .3, k: 'chime', notes: [65, 69, 72], step: .28, a: .12 },
+    { t: 2.2, k: 'bed', d: END - 1.8, lp: 500, a: .16, att: 2, rel: 2 },
+    { t: 2.4, k: 'flap', d: END - 3, rate: 2.1, a: .16 },
+    { t: 2.4, k: 'hum', d: END - 3, f: 96, wob: 28, a: .04, att: 1.5, rel: 1.5 },
+    { t: DUSTER, k: 'hum', d: 7, f: 72, wob: 22, a: .12, att: 4.5, rel: 1.4 },
+    { t: DUSTER + 3.5, k: 'whoosh', d: 2.2, f: 600, a: .35 },
+    { t: 5.6, k: 'babble', d: 1.6, f0: 230, rate: 5, a: .07, pan: .4 },
+    { t: END + .1, k: 'chime', notes: [77, 72, 69, 65], step: .3, a: .13 }
+  ]
+});
+</script>
+</body>
+</html>
