@@ -124,7 +124,7 @@ Each lens (`lenses.js`) draws the same porch, dog and loop of prompts the way th
 
 *Research Pioneers · Sketchpad (1963); graphical constraints and direct manipulation*
 
-- **Through the dog (constraints, points and lines (Sketchpad)).** The dog becomes a constraint drawing on a phosphor screen: its feet are held to the floor and its lengths are kept, while the light pen moves the hand.
+- **Through the dog (constraints (Sketchpad)).** The dog becomes a constraint drawing on a phosphor screen: its feet are held to the floor and its lengths are kept, while the light pen moves the hand.
 - **Theorem.** Build an animation interface in which the animator changes relationships rather than manually repairing every dependent point. The user should move a hand and the rest of the constrained body should respond coherently.
 - **Proof scene.** Allow a user to drag an archived figure’s hand onto a door handle while both feet remain planted, body lengths remain consistent, and the elbow chooses a believable configuration.
 
@@ -340,7 +340,7 @@ Each lens (`lenses.js`) draws the same porch, dog and loop of prompts the way th
 
 *Algorithms & Techniques · Point/segment deformation with affine, similarity and rigid MLS families*
 
-- **Through the dog (gesture warp: drag a handle, the body follows).** One handle at a time is dragged and the dog stretches toward it like rubber, the rest pinned: a gesture made directly on the drawing.
+- **Through the dog (gesture warp).** One handle at a time is dragged and the dog stretches toward it like rubber, the rest pinned: a gesture made directly on the drawing.
 - **Theorem.** Let simple handles cause surprisingly expressive, fast deformation of nonrigid prints and animated linework while keeping unintended distortions visible.
 - **Proof scene.** Compare identical mouth, neck and waving-cape moves under three MLS transformation families using matched source points.
 
@@ -388,7 +388,7 @@ Each lens (`lenses.js`) draws the same porch, dog and loop of prompts the way th
 
 *Algorithms & Techniques · Spring-damper follow-through, trailing motion and collision-aware secondary animation*
 
-- **Through the dog (secondary dynamics: inertia and restraint).** Springs on every loose part, drawn as coils: the ears and tail carry momentum after the dog stops, then settle.
+- **Through the dog (inertia and restraint).** Springs on every loose part, drawn as coils: the ears and tail carry momentum after the dog stops, then settle.
 - **Theorem.** Let secondary objects reveal material and momentum without causing continuous purposeless wiggle.
 - **Proof scene.** A woman abruptly closes a book while her scarf settles and a page continues to flutter; compare damping presets in synchronized split view.
 
@@ -396,7 +396,7 @@ Each lens (`lenses.js`) draws the same porch, dog and loop of prompts the way th
 
 *Algorithms & Techniques · Learned low-dimensional deformation of 2.5D layered cartoon templates*
 
-- **Through the dog (a neural layered puppet: few-shot structure).** The structure a model would infer from a few drawings: each part segmented and labelled, the dog as a graph of named regions.
+- **Through the dog (few-shot structure).** The structure a model would infer from a few drawings: each part segmented and labelled, the dog as a graph of named regions.
 - **Theorem.** Test whether a few source frames can support a trustworthy reusable puppet, while keeping a transparent fallback to authored structure.
 - **Proof scene.** Train or adapt on a small permitted image sequence and render three unseen target poses; compare to a rig-only control.
 

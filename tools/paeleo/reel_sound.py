@@ -32,14 +32,14 @@ def pad(chord, d, g):
     n = int(d * SR); t = np.arange(n) / SR; y = sum(np.sin(2 * np.pi * f * t + k) / (1 + k * .4) for k, f in enumerate(chord)); return y / len(chord) * env(n, .8, 1.0) * g
 FAM = {range(1, 8): [220, 277.2, 329.6, 440], range(8, 16): [196, 246.9, 293.7, 392], range(16, 29): [174.6, 220, 261.6, 349.2], range(29, 49): [164.8, 207.7, 246.9, 329.6], range(49, 55): [146.8, 185, 220, 293.7]}
 chord = lambda i: next(v for k, v in FAM.items() if i in k)
-place(pad([196, 246.9, 293.7, 440], R['head'] + .5, .1), 0)
+place(clip(pad([196, 246.9, 293.7, 440], R['head'], .1), R['head'] - .1), 0)
 # one pad per family run
 runs = []
 for c in R['cuts']:
     ch = chord(c['id'])
     if not runs or runs[-1][0] != ch: runs.append([ch, c['at'], c['at'] + R['each']])
     else: runs[-1][2] = c['at'] + R['each']
-for ch, a, b in runs: place(pad(ch, b - a + 1.0, .08), a - .3)
+for c in R['cuts']: place(clip(pad(chord(c['id']), R['each'], .09), R['each'] - .1), c['at'] + .02)   # a chord for each lens, inside its 1.6 s: nothing sustains across a cut
 for c in R['cuts']:
     place(flick(), c['at'], 2.4, .1); place(flick(), c['at'] + .02, 1.2, -.1)
     for t, w in R['tl']:
@@ -50,8 +50,8 @@ for c in R['cuts']:
             if w.get('voice') == 'call': place(fit(tone(220, 300, .45, .35, True)), at, 1, -.4)
             if w.get('voice') == 'soft': place(fit(tone(170, 140, .6, .25, False)), at, 1, -.4)
             if w.get('door') == 'open': place(fit(creak()), at, 1)
-end = R['dur'] - R['tail']; place(flick(), end, 2.4, 0); place(pad([261.6, 329.6, 392, 587.3], R['tail'] + .5, .12), end - .2)
-t = np.arange(int((end - R['head']) * SR)) / SR; cr = np.sin(2 * np.pi * 4500 * t) * (np.sin(2 * np.pi * 28 * t) > .2) * ((t % .9) < .2) * .008; place(cr, R['head'])
+end = R['dur'] - R['tail']; place(flick(), end, 2.4, 0); place(pad([261.6, 329.6, 392, 587.3], R['tail'], .12), end + .02)
+for c in R['cuts']: tt = np.arange(int((R['each'] - .1) * SR)) / SR; place(np.sin(2 * np.pi * 4500 * tt) * (np.sin(2 * np.pi * 28 * tt) > .2) * ((tt % .9) < .2) * .008, c['at'])
 m = max(np.abs(L).max(), np.abs(Rr).max()); st = np.stack([L, Rr], 1)[:int(R['dur'] * SR)] * (.89 / m)
 with wave.open(f'{out}/sound.wav', 'wb') as w: w.setnchannels(2); w.setsampwidth(2); w.setframerate(SR); w.writeframes((st * 32767).astype('<i2').tobytes())
 print('reel sound', R['dur'])
