@@ -45,7 +45,7 @@ class Source:
     def polys(self, i):
         return self.masks.get(str(i), [])
 
-    def mask(self, i, which='largest', feather=1.2):
+    def mask(self, i, which='largest', feather=1.2, erode=0):
         im = self.frame(i)
         m = Image.new('L', im.size, 0)
         d = ImageDraw.Draw(m)
@@ -55,6 +55,8 @@ class Source:
         for p in P:
             if len(p) > 2:
                 d.polygon([tuple(q) for q in p], fill=255)
+        if erode:
+            m = m.filter(ImageFilter.MinFilter(2 * erode + 1))
         if feather:
             m = m.filter(ImageFilter.GaussianBlur(feather))
         return m
@@ -90,12 +92,12 @@ def to_grey(im, tone=(1.0, 1.0, 1.0)):
     out = np.stack([L * tone[0], L * tone[1], L * tone[2]], -1)
     return Image.fromarray(np.clip(out, 0, 255).astype(np.uint8))
 
-def cutout(src, i, mirror=False, feather=1.2, grey=True):
+def cutout(src, i, mirror=False, feather=1.2, grey=True, erode=0):
     """RGBA crop of frame i under its SAM mask. Returns (rgba np float32 HxWx4 in 0..1, origin (x0,y0) in source px)."""
     im = src.frame(i)
     if grey:
         im = to_grey(im)
-    m = src.mask(i, feather=feather)
+    m = src.mask(i, feather=feather, erode=erode)
     a = np.dstack([np.asarray(im).astype(np.float32) / 255, np.asarray(m).astype(np.float32) / 255])
     if mirror:
         a = a[:, ::-1]
@@ -211,7 +213,7 @@ def scale_rgba(arr, s):
     q[..., :3] = np.where(q[..., 3:4] > 1e-3, q[..., :3] / np.maximum(q[..., 3:4], 1e-3), 0)
     return np.clip(q, 0, 1)
 
-def fold2(arr, origin, neck, chest_belly, hind_belly, hind_x, foot_y, lie, head_deg, facing, muzzle_y, head_flip=False):
+def fold2(arr, origin, neck, chest_belly, hind_belly, hind_x, foot_y, lie, head_deg, facing, muzzle_y, head_flip=False, no_head=False):
     """The lying composite, rebuilt after critic round 1 (COMPOSED, not in the footage).
     Per column: the belly line runs from the chest (at the neck's x) to the hindquarters (hind_x); everything below it
     (legs, thighs) is folded to 6 % height and darkened, everything above it is lowered so the belly rests on the ground.
@@ -226,7 +228,7 @@ def fold2(arr, origin, neck, chest_belly, hind_belly, hind_x, foot_y, lie, head_
     ys_ = np.arange(H)[:, None]
     hw = np.clip(((xs - nx) if facing > 0 else (nx - xs)) / 6.0 + 0.5, 0, 1)[None, :] * np.ones((H, 1))
     hw = hw * (1 - np.clip((ys_ - (muzzle_y - oy)) / 4.0, 0, 1))
-    head = arr.copy(); head[..., 3] *= hw
+    head = arr.copy(); head[..., 3] *= hw * (0 if no_head else 1)
     body = arr.copy(); body[..., 3] *= (1 - hw)
     hx = hind_x - ox
     u = np.clip((xs - nx) / (hx - nx + 1e-6), 0, 1)

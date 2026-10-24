@@ -170,64 +170,64 @@ for f in range(40, 50): FACE[f] = 1      # facing right
 
 def lerp(a, b, u): return a + (b - a) * u
 
+TURN_BACK = [33, 30, 28, 26, 15, 14]   # frontal, then facing the door; f016-f020 are motion-blurred doubles (critic round 1)
+
+def lie_deg(a):
+    """head angle of the lying composite: 40 deg puts the chin on the floor; 'look' lifts it to point into the doorway."""
+    return 40 + 25 * min(1.0, max(0.0, a['head'] - 0.2)) + 30 * a.get('look', 0) - 4 * a.get('rest', 0)
+
 def dog_pick(n):
-    """score frame n -> dict(src, mirror, fold(lie, head_deg) or None, op)"""
+    """score frame n -> dict(src, mirror, fold(lie, head_deg, flip) or None, op (ledger), tag (screen))"""
     f = FR[n]; t = f['t']; d = f['dog']; a = d['act']; x = d['x']
-    hd = lambda: min(40, 4 + (a['head'] - 0.3) * 20 - 6 * a.get('rest', 0) + 22 * a.get('look', 0))
     if t < 1.0:
         k = int(t * 12) % 12
-        return dict(src=k, mirror=False, fold=None, op='PLAY 1:1 · f%03d' % k, ev='watch')
+        return dict(src=k, mirror=False, fold=None, op='PLAY 1:1 · f%03d' % k, tag='PLAY 1:1')
     if t < 2.333:
         k = 48 - int(max(0, x - 3.0) / 0.055) % 7   # f042-f048: the side-on walk (f040-41 are still turning)
-        return dict(src=k, mirror=True, fold=None, op='MIRROR + REVERSE · walks backward', ev='retreat')
+        return dict(src=k, mirror=True, fold=None, op='MIRROR + REVERSE · walks backward', tag='MIRROR+REVERSE')
     if t < 3.417:
         seq = list(range(4, 13)) + list(range(11, 4, -1))
         k = seq[int((t - 2.333) * 8) % len(seq)]
-        return dict(src=k, mirror=False, fold=None, op='PING-PONG 2:3 · f004-f012', ev='watch')
+        return dict(src=k, mirror=False, fold=None, op='PING-PONG 2:3 · f004-f012', tag='PING-PONG 2:3')
     if t < 3.417 + len(TURN) / 12:
         k = TURN[min(len(TURN) - 1, int((t - 3.417) * 12))]
-        return dict(src=k, mirror=False, fold=None, op='PLAY 1:1 · its own turn away (f015-f044, f021-25 cut)', ev='refuse')
+        return dict(src=k, mirror=False, fold=None, op='PLAY 1:1 · its own turn away (f015-f044, f021-25 cut)', tag='PLAY 1:1 (its turn)')
     if t < 7.458:
-        seq = [43, 44, 45, 46, 47, 46, 45, 44]
-        k = seq[int(t * 4) % len(seq)]
-        return dict(src=k, mirror=False, fold=(a['lie'], hd()), op='COMPOSED: FOLD · lies down, back turned', ev='refuse')
+        return dict(src=44, mirror=False, fold=(a['lie'], lie_deg(a), False), op='COMPOSED: FOLD f044 · lies down, back turned', tag='COMPOSED FOLD')
     if t < 7.9:
-        k = 44
-        return dict(src=k, mirror=False, fold=(a['lie'] * 0.85, max(hd(), 18 * (t - 7.458) / 0.44)), op='COMPOSED: FOLD · lifts its head', ev='look')
-    if t < 7.9 + len(TURN) / 15:
-        k = TURN[::-1][min(len(TURN) - 1, int((t - 7.9) * 15))]
-        return dict(src=k, mirror=False, fold=None, op='REVERSE 5:4 · turns back (f044>f015)', ev='look')
+        u = min(1.0, (t - 7.458) / 0.17)
+        return dict(src=44, mirror=False, fold=(a['lie'], 70 + 30 * u, True), op='COMPOSED: FOLD f044 + HEAD MIRRORED at the neck · looks back at the door', tag='COMPOSED HEAD TURN')
+    if t < 7.9 + len(TURN_BACK) / 12:
+        k = TURN_BACK[min(len(TURN_BACK) - 1, int((t - 7.9) * 12))]
+        return dict(src=k, mirror=False, fold=None, op='PLAY · turns to the door (f033>f014)', tag='PLAY (turns back)')
     if t < 14.708:
         seq = list(range(0, 16)) + list(range(14, 0, -1))
-        k = seq[int((t - 8.9) * 6) % len(seq)]
-        return dict(src=k, mirror=False, fold=None, op='PING-PONG 1:2 · f000-f015 · waits', ev='watch')
+        k = seq[int((t - 8.4) * 6) % len(seq)]
+        return dict(src=k, mirror=False, fold=None, op='PING-PONG 1:2 · f000-f015 · waits', tag='PING-PONG 1:2')
     if t < 23.792:
         k = 42 + int(max(0, 4.0 - x) / 0.055) % 7
-        return dict(src=k, mirror=True, fold=None, op='MIRROR · stepped by distance', ev='approach')
-    seq = [43, 44, 45, 46, 47, 46, 45, 44]
-    k = seq[int(t * 4) % len(seq)]
-    look = a.get('look', 0)
-    return dict(src=k, mirror=True, fold=(a['lie'], hd()), op='COMPOSED: FOLD · across the sill', ev='lie')
+        return dict(src=k, mirror=True, fold=None, op='MIRROR · stepped by distance', tag='MIRROR (walk)')
+    return dict(src=44, mirror=True, fold=(a['lie'], lie_deg(a), False), op='COMPOSED: FOLD f044 (mirror) · across the sill', tag='COMPOSED FOLD')
 
+_FOLD_ANCHOR = {}
 def dog_layer(p):
+    """returns (drawn layer, body-only layer used to anchor and measure, facing)."""
     k = p['src']
-    arr, o = cutout(dog, k, mirror=p['mirror'])
+    arr, o = cutout(dog, k, mirror=p['mirror'], feather=0.9, erode=1)
     face = FACE[k] * (-1 if p['mirror'] else 1)
-    drop = 0
-    if p['fold'] is not None:
-        lie, hdeg = p['fold']
-        kp = POSE.get(str(k)) or POSE['44']
-        neck = kp['neck']; nose = kp['nose']
-        if p['mirror']:
-            neck = mirror_pt(neck); nose = mirror_pt(nose)
-        feet = max(kp['f1'][1], kp['f2'][1], kp['h1'][1], kp['h2'][1]) + 12
-        fl = sorted([kp['f1'][0], kp['f2'][0]])
-        fl = [fl[0] - 12, fl[1] + 12]
-        if p['mirror']:
-            fl = [383 - fl[1], 383 - fl[0]]
-        arr, drop = fold(arr, o, neck, kp['chest'][1] + 8, feet, lie, hdeg, face if face != 0 else 1, fore_x=nose[1] + 9, fore_legs=None)  # foreleg swing tried and rejected (ledger #4)
-    lay = scale_rgba(arr, S_DOG)
-    return lay, face
+    if p['fold'] is None:
+        lay = scale_rgba(arr, S_DOG)
+        return lay, lay, face
+    lie, hdeg, flip = p['fold']
+    kp = POSE[str(k)]
+    neck, nose, tail = kp['neck'], kp['nose'], kp['tail']
+    if p['mirror']:
+        neck, nose, tail = mirror_pt(neck), mirror_pt(nose), mirror_pt(tail)
+    feet = max(kp['f1'][1], kp['f2'][1], kp['h1'][1], kp['h2'][1]) + 14
+    args = (arr, o, neck, kp['chest'][1] + 8, 152, tail[0], feet, lie)
+    full, _ = fold2(*args, hdeg, face, nose[1] + 9, head_flip=flip)
+    body, _ = fold2(*args, hdeg, face, nose[1] + 9, no_head=True)
+    return scale_rgba(full, S_DOG), scale_rgba(body, S_DOG), face
 
 # ===================== lighting: dusk, and the light that comes out of the door =====================
 YY, XX = np.mgrid[0:H, 0:W].astype(np.float32)
