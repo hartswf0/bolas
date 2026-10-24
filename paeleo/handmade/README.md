@@ -81,7 +81,11 @@ back to the same swarm. The record per swarm is in its `reviews/`, and the page 
 - **What each kept is its own.** Gilliam's refusal is the card's blank back; Reiniger's, a cut rear view; Sutherland's, a
   console line saying the dog is not selectable; Atlanta's, a dog's real turn away from a real person in 1930s New Jersey.
 
-The status of each film (pass, narrow pass, repair in progress) is kept live on the page, read from the `reviews/` folders.
+All six passed an independent critic: Gilliam, Reiniger and Atlanta cleanly at round 2; Sutherland and Mouris narrowly at
+round 2; the drawing library narrowly at round 3. Each stopped at its pass, as the SCION doctrine says, and each review keeps
+the next blocking failure it names: Sutherland's turns are still a flip, not a solved rotation; the Mouris dog is made of the
+torrent in material and rhythm but its shape is still a computed mould; the drawing library's walking pair are two
+different dogs from two different hands. The page reads each status from the `reviews/` folders.
 
 ## What comes after
 
