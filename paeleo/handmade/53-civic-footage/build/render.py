@@ -212,7 +212,7 @@ def dog_pick(n):
         return dict(src=44, mirror=False, fold=(a['lie'], lie_deg(a), False), op='COMPOSED: FOLD f044 · lies down, back turned', tag='COMPOSED FOLD')
     if t < 7.9:
         u = min(1.0, (t - 7.458) / 0.17)
-        return dict(src=44, mirror=False, fold=(a['lie'], 70 + 30 * u, True), op='COMPOSED: FOLD f044 + HEAD MIRRORED at the neck · looks back at the door', tag='COMPOSED · head')
+        return dict(src=44, mirror=False, fold=(a['lie'], -8 + 14 * u, 'swap8'), op='COMPOSED: FOLD f044 + HEAD OF f008 (the dog looking up at the person) at the neck · looks back at the door', tag='COMPOSED · head')
     if t < 7.9 + len(TURN_BACK) / 12:
         k = TURN_BACK[min(len(TURN_BACK) - 1, int((t - 7.9) * 12))]
         return dict(src=k, mirror=False, fold=None, op='PLAY · turns to the door (f033>f014)', tag='PLAY · turns back')
@@ -241,8 +241,33 @@ def dog_layer(p):
         neck, nose, tail = mirror_pt(neck), mirror_pt(nose), mirror_pt(tail)
     feet = max(kp['f1'][1], kp['f2'][1], kp['h1'][1], kp['h2'][1]) + 14
     args = (arr, o, neck, kp['chest'][1] + 8, 152, tail[0], feet, lie)
+    body, d = fold2(*args, hdeg, face, nose[1] + 9, no_head=True)
+    if flip == 'swap8':
+        # head substitution: the real head of f008, where the dog looks up and left at the person, set on the folded body's neck
+        h8, o8 = cutout(dog, 8, feather=0.9, erode=1)
+        k8 = POSE['8']
+        xs8 = np.arange(h8.shape[1])[None, :] + o8[0]; ys8 = np.arange(h8.shape[0])[:, None] + o8[1]
+        keep = np.clip((k8['neck'][0] + 8 - xs8) / 4.0, 0, 1) * np.clip((k8['neck'][1] + 22 - ys8) / 4.0, 0, 1)
+        h8 = h8.copy(); h8[..., 3] *= keep
+        h8 = rotate_rgba(h8, hdeg, (k8['neck'][0] - o8[0], k8['neck'][1] - o8[1]))
+        full = body.copy()
+        tx = int(round((neck[0] - o[0]) - (k8['neck'][0] - o8[0]) - 6))
+        ty = int(round((neck[1] - o[1] + d) - (k8['neck'][1] - o8[1]) - 4))
+        Hh, Wh = full.shape[:2]
+        canvas = np.zeros((Hh + 120, Wh + 120, 4), np.float32); canvas[60:60 + Hh, 60:60 + Wh] = full
+        bodyc = np.zeros_like(canvas); bodyc[60:60 + Hh, 60:60 + Wh] = body
+        y0, x0 = ty + 60, tx + 60
+        hs = h8[max(0, -y0):, max(0, -x0):]; y0 = max(0, y0); x0 = max(0, x0)
+        hh_, ww_ = min(hs.shape[0], canvas.shape[0] - y0), min(hs.shape[1], canvas.shape[1] - x0)
+        hs = hs[:hh_, :ww_]
+        reg = canvas[y0:y0 + hh_, x0:x0 + ww_]
+        ah = hs[..., 3:4]
+        col = hs[..., :3] * ah + reg[..., :3] * reg[..., 3:4] * (1 - ah)
+        al = ah + reg[..., 3:4] * (1 - ah)
+        reg[..., :3] = np.where(al > 1e-4, col / np.maximum(al, 1e-4), 0); reg[..., 3:4] = al
+        canvas[y0:y0 + hh_, x0:x0 + ww_] = reg
+        return scale_rgba(canvas, S_DOG), scale_rgba(bodyc, S_DOG), face
     full, _ = fold2(*args, hdeg, face, nose[1] + 9, head_flip=flip)
-    body, _ = fold2(*args, hdeg, face, nose[1] + 9, no_head=True)
     return scale_rgba(full, S_DOG), scale_rgba(body, S_DOG), face
 
 # ===================== lighting: dusk, and the light that comes out of the door =====================
@@ -418,7 +443,7 @@ def scene_frame(n):
     frac_len = float(np.clip((DOOR_R - left) / max(1, right - left), 0, 1))
     posture = 'lying' if (p['fold'] is not None and p['fold'][0] > 0.5) else 'standing'
     hface = None
-    if p['fold'] is not None and p['fold'][2]:
+    if p['fold'] is not None and p['fold'][2] == 'swap8':
         hface = 'door'
     TRACE.append({'i': n, 't': t, 'state': f['dog']['state'], 'x_score': f['dog']['x'],
                   'x_screen': round(float(mx), 1), 'y_screen': round(float(my), 1),
