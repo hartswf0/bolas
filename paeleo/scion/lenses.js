@@ -41,6 +41,7 @@
     let X = Math.min(Math.max(x, 9), W - w - 9), Y = y, tries = [[0, 0]]; for (let k = 1; k < 14; k++) tries.push([0, -k * (sz + 10)], [0, k * (sz + 10)], [k * 60, 0], [-k * 60, 0]);
     for (const [dx, dy] of tries) { const r = box(Math.min(Math.max(X + dx, 9), W - w - 9), Y + dy); if (!hit(r)) { X = Math.min(Math.max(X + dx, 9), W - w - 9); Y += dy; break; } }
     const r = box(X, Y); LAYOUT.boxes.push(r);
+    if (!o.bg || /rgba/.test(o.bg)) { ctx.fillStyle = '#14110d'; ctx.fillRect(r[0], r[1], r[2] - r[0], r[3] - r[1]); }   // translucent backings sit on solid ink, so scenery behind never weakens them
     ctx.fillStyle = o.bg || 'rgba(14,12,10,.86)'; ctx.fillRect(r[0], r[1], r[2] - r[0], r[3] - r[1]);
     let txt = ink(ctx, r, o.c); if (!txt) { ctx.fillStyle = 'rgba(0,0,0,.45)'; ctx.fillRect(r[0], r[1], r[2] - r[0], r[3] - r[1]); txt = ink(ctx, r, o.c) || '#fbf7ee'; }
     { const d = ctx.getImageData(Math.round((r[0] + r[2]) / 2), Math.round(r[1] + 3), 1, 1).data, h = hex(txt); r.ratio = h ? ratio(lum(h), lum([d[0], d[1], d[2]])) : 0; }
@@ -229,10 +230,10 @@
   });
   add(25, 'interactive state machines', 'The rig answers to a state graph with inputs, the way an interactive runtime wires it: the dog is tinted by the state it is in, and the graph beside it shows the inputs that moved it there.', { still: 3.8,
     after(ctx, E) { const cols = { watch: '#7f8c8d', approach: '#1abc9c', retreat: '#f39c12', lie_down: '#3498db', refuse: '#e74c3c' }; ctx.save(); ctx.globalCompositeOperation = 'color'; fillParts(ctx, E, 'dog.', cols[E.d.state]); ctx.restore();
-      const d = J(E, 'dog.skull'); const N = { watch: [0, 0], approach: [-1, -1], retreat: [1, -1], lie_down: [-1, 1], refuse: [1, 1] }; const c = [Math.min(Math.max(d[0], 240), W - 240), Math.max(d[1] - 190, 190)];
+      const d = J(E, 'dog.skull'); const N = { watch: [0, 0], approach: [-1, -1], retreat: [1, -1], lie_down: [-1, 1], refuse: [1, 1] }; const c = [Math.min(Math.max(d[0], 240), W - 330), Math.max(d[1] - 190, 190)];
       for (const [n, [i, j]] of Object.entries(N)) { const p = [c[0] + i * 150, c[1] + j * 50]; if (n !== 'watch') line(ctx, c, p, 'rgba(255,255,255,.5)', 1.5); }
       for (const [n, [i, j]] of Object.entries(N)) { const p = [c[0] + i * 150, c[1] + j * 50], on = n === E.d.state; ctx.beginPath(); ctx.ellipse(p[0], p[1], 66, 20, 0, 0, 7); ctx.fillStyle = on ? cols[n] : 'rgba(14,12,10,.85)'; ctx.fill(); ctx.strokeStyle = cols[n]; ctx.lineWidth = 2; ctx.stroke();
-        ctx.font = '600 22px "JetBrains Mono"'; ctx.fillStyle = on && n !== 'watch' ? '#14110d' : '#fff'; ctx.textAlign = 'center'; ctx.fillText(n.replace('_', ' '), p[0], p[1] + 4); ctx.textAlign = 'left'; }
+        ctx.font = '600 22px "JetBrains Mono"'; ctx.fillStyle = on ? '#14110d' : '#fff'; ctx.textAlign = 'center'; ctx.fillText(n.replace('_', ' '), p[0], p[1] + 4); ctx.textAlign = 'left'; }
        }
   });
   add(26, 'an archive stage renderer', 'The dog as a renderer batches it: cut into sprite tiles, each tile one texture sample, with the draw count running; at this resolution the dog is a grid the engine can push by the thousand.', {

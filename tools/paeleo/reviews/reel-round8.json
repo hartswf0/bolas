@@ -1,0 +1,13 @@
+{
+ "title": "Reel round 8",
+ "verdict": "does not pass",
+ "meta": "an eighth, fresh critic · three frames per lens, per-frame tracking of 20, 25, 47, 48, 52, WCAG contrast on about 30 labels, 10 ms RMS",
+ "gap": "Two labels just under 4.5:1: 25's active \"watch\" node (white on grey, 3.15:1) and 48's translucent tag where it crossed the light jamb (4.31–4.52).",
+ "repair": "Every overlay label at 4.5:1 or better on every frame, against the composited pixels behind it; no node in 25 cut off by the porch post.",
+ "notes": [
+  "Everything else held: 32 and 45 contrast 5.9–10.2; panels below the caption; 47's waves on the dog for all 40 frames; the deepest dip before a cut −18.1 dB; every cut +29–38 dB; no text overlaps or covers the dog.",
+  "Colour changes inside 22, 25, 39, 47 and 51 read as intended state changes."
+ ],
+ "keep": "Fifty-four distinct formal languages readable at a glance; 24's close-up and the 29–31 order; a recognisable dog throughout; a duck before each cut and a sharp onset on it.",
+ "done": "Translucent label backings now sit on solid ink, so scenery can't weaken them; active graph nodes take dark text; 25's graph kept clear of the post. The computed check (lens_layout_check.js) reports every label at 4.5:1 or better."
+}
