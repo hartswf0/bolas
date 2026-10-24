@@ -44,6 +44,7 @@ img,video,canvas{max-width:100%;display:block}
 
 /* ---------- sections ---------- */
 .sec{margin-top:70px;display:grid;gap:22px}
+.sec>*,.ctrl{min-width:0}
 .sechead{display:grid;gap:8px;border-top:6px solid var(--ink);padding-top:14px}
 .sechead h2{font-size:clamp(36px,6vw,64px);font-weight:900;text-transform:uppercase}
 .sechead p{font-size:18px}
@@ -149,6 +150,7 @@ pre.log{font-family:var(--mono);font-size:12px;line-height:1.55;background:var(-
 .queue{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,240px),1fr));gap:8px}
 .sw{border:1.5px solid var(--rule);background:var(--panel);padding:9px 11px;display:grid;gap:3px;border-radius:2px;text-decoration:none;min-width:0}
 .sw:hover{border-color:var(--ink)}
+.sw img{width:calc(100% + 22px);margin:-9px -11px 4px;height:auto;display:block;border-radius:2px 2px 0 0;max-width:none}
 .sw .id{font-family:var(--mono);font-size:11px;color:var(--ink-2);display:flex;justify-content:space-between;gap:6px}
 .sw b{font-family:var(--display);font-weight:800;font-size:19px;line-height:1.05}
 .sw i{font-style:normal;font-size:13.5px;color:var(--ink-2);line-height:1.35}

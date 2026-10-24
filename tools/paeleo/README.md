@@ -19,5 +19,15 @@ folder in a fresh checkout: Node with Playwright and its Chromium, Python 3 with
 - `fonts/`: the site's three faces (Big Shoulders Display, JetBrains Mono, Literata; SIL Open Font License) as woff2,
   so the render doesn't need the network.
 
+SCION through the dog (PAE-01 and the live viewer on `paeleo/scion/`):
+
+- `../../paeleo/scion/lenses.js`: the 54 lenses. The stage records every paper piece and joint it draws (`Stage.REC`) and lets a lens restyle
+  them (`Stage.STYLE`); both are off unless a lens turns them on, so PAE-00 renders exactly as before. A lens has a `look`, a `show`
+  sentence, and any of `bg`, `under`, `style`, `after`, `cam`, `still`. `Scion.make(canvas).draw(i, t)` draws lens i at loop time t.
+- `../../paeleo/scion/viewer.js`: the live viewer. `lens_render.html` is the same for headless rendering.
+- `lens_stills.js OUT`: one still per lens at its own moment (resized into `paeleo/media/scion/`).
+- `reel.js OUT` and `reel_sound.py OUT`: the reel, 1.6 s per lens, and its sound; mux as in `make.sh`.
+- `build_pages.py` also writes the operator write-up, `paeleo/scion/index.html` and `paeleo/scion/README.md`, counting the prompts' structure from `swarms.json`.
+
 The SCION operator (`paeleo/scion/operator.html`) is the operator file as supplied, plus a link back and `#sNN` to open a
 given swarm. `paeleo/scion/swarms.json` is its data.

@@ -12,7 +12,7 @@ Live: https://hartswf0.github.io/bolas/
 | [WYGWYL](wygwyl/) | The poet as a jointed paper cut-out made from his own photographs, set over the cineosis-lab cel cuts with the reading on the soundtrack. Every patch is built from the lab's cel database. |
 
 - [This Side Up](this-side-up/): case studies of the cardboard cut-out films, each with a full case page of versions, prompts, critic rounds and sheets
-- [PAELEO](paeleo/): Promptable Augmented Environments Lab · Ekphrastic Operations. One research program at three scales (AEL, PEO, PAELEO); its films are made with the SCION swarms
+- [PAELEO](paeleo/): Promptable Augmented Environments Lab · Ekphrastic Operations. One research program at three scales (AEL, PEO, PAELEO); its films are made with the SCION swarms, all 54 of which are written up and shown through the same paper dog at [paeleo/scion/](paeleo/scion/)
 - [Characters](characters/) · [Films](films/) (26) · [Process](process/) · [Docs and prompts](docs/)
 - Lab pages: [Bolas Pencil Test](lab/pencil-test/) · [Bolas Range Test](lab/range-test/) · [The Physical](lab/the-physical/) · [Dramaturgy Crash Lab](lab/crash-lab/)
 

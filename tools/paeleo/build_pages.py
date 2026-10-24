@@ -1,6 +1,6 @@
 """Build the PAELEO pages: paeleo/ (the program), paeleo/threshold/ (PAE-00's full case) and paeleo/scion/ (the 54-swarm queue).
 python3 tools/paeleo/build_pages.py   (reads tools/paeleo/case.json and paeleo/scion/swarms.json)"""
-import html, json, os
+import html, json, os, subprocess
 
 R = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 P = os.path.join(R, 'paeleo')
@@ -116,8 +116,8 @@ def queue(up, link_case=True):
         for s in [x for x in SW if x['family'] == fam]:
             name, _, kind = s['title'].partition(' — ')
             run = RUN.get(s['id'])
-            href = f'{up}paeleo/{run[1]}' if run and link_case else f'{up}paeleo/scion/operator.html#s{s["id"]}'
-            tiles += (f'<a class="sw{" run" if run else ""}" href="{href}"><span class="id"><span>SCION {s["id"]:02d}</span>{f"<em>{run[0]} · run</em>" if run else "<span>unopened</span>"}</span>'
+            href = f'{up}paeleo/{run[1]}' if run and link_case else f'{up}paeleo/scion/#lens-{s["id"]}'
+            tiles += (f'<a class="sw{" run" if run else ""}" href="{href}"><img src="{up}paeleo/media/scion/lens-{s["id"]:02d}.jpg" alt="" loading="lazy" width="800" height="450"><span class="id"><span>SCION {s["id"]:02d}</span>{f"<em>{run[0]} · run</em>" if run else "<span>lens only</span>"}</span>'
                       f'<b>{esc(name)}</b><i>{esc(kind)}</i></a>')
         out += f'<div class="fam"><h3>{esc(fam)}</h3><div class="queue">{tiles}</div></div>'
     return out
@@ -168,9 +168,18 @@ def index():
 
 <section class="sec" id="boxes"><div class="sechead"><h2>The boxes</h2><p>Each box is one film made by one SCION swarm, with its case: the question, the trick, the recipe, something to try, what broke. The first box is open.</p></div>
 {threshold_box(up)}
+
+
+<section class="box" id="pae-01"><div class="boxhead"><div class="row"><span class="code">PAE-01</span><span class="lbl">Oct 24 · 1 min 35 s · all 54 SCION lenses</span></div>
+    <h2>SCION through the dog</h2><p class="q">Before a swarm makes its own film, what does it see first in this one?</p></div>
+  <div class="hero"><figure class="film" data-src="media/film/paeleo-01.mp4" data-seg="4.0,30.0" data-len="1:35"><div class="screen"><video muted playsinline preload="metadata" poster="media/scion/lens-02.jpg"></video></div><figcaption class="cap">Fifty-four lenses on one porch: shadow theatre, Sketchpad constraints, GrabCut masks, a halftone print, a provenance graph. The dog underneath is the same machine every time.</figcaption></figure>
+    <div class="trick"><span class="lbl">The trick</span><p>The stage records every paper piece and joint as it draws them. Each swarm gets a lens that reads that record and draws its own formal language over the same running scene: meshes, bones, mattes, weights, state graphs, archive frames.</p>
+      <div class="facts"><span>lenses <b>54</b>, one per swarm</span><span>loop <b>32 s</b> of prompts, shared</span><span>live <b>in the browser</b>, any lens</span></div></div></div>
+  <div class="fullcase"><a href="scion/#viewer"><i>PAE-01</i> Every lens, live<span>with the write-up of the operator</span></a></div>
+</section>
 </section>
 
-<section class="sec" id="queue"><div class="sechead"><h2>The swarm queue</h2><p>Fifty-four SCION animation swarms, each a standalone prompt studio with its own proof scene and research loop. PAE-00 was made by number 48. The rest are unopened boxes. <a href="scion/">Read the queue</a> · <a href="scion/operator.html">open the operator</a>.</p></div>
+<section class="sec" id="queue"><div class="sechead"><h2>The swarm queue</h2><p>Fifty-four SCION animation swarms, each a standalone prompt studio with its own proof scene and research loop. PAE-00 was made by number 48; every one is shown through the dog in PAE-01. <a href="scion/">The operator, written up</a> · <a href="scion/operator.html">open the operator</a>.</p></div>
 {queue(up)}
 </section>
 
@@ -247,18 +256,166 @@ def case_page():
     open(os.path.join(P, 'threshold/index.html'), 'w').write(page('paeleo/threshold/index.html', 'PAE-00 · The threshold', c['question'], body, scripts=scripts))
 
 
+def lens_data():
+    """the 54 lenses as the page needs them, read from lenses.js itself"""
+    js = ("global.window=global;global.DOMMatrix=class{};global.Path2D=class{};global.Threshold=require('./paeleo/threshold/machine.js');"
+          "global.Stage=require('./paeleo/threshold/stage.js');require('./paeleo/scion/lenses.js');"
+          "console.log(JSON.stringify(Scion.LENSES.map(l=>({id:l.id,look:l.look,show:l.show}))))")
+    return json.loads(subprocess.run(['node', '-e', js], cwd=R, capture_output=True, text=True, check=True).stdout)
+
+
+def anatomy():
+    """what every SCION prompt is made of, counted from the prompts themselves"""
+    import re
+    heads = [re.findall(r'^## (.+)$', x['prompt'], re.M) for x in SW]
+    words = [len(x['prompt'].split()) for x in SW]
+    doc = SW[0]['prompt']; doc = doc[doc.index('## INHERITED'):doc.index('## START NOW')]
+    doctrine = [(n, t.split('. ')[0].rstrip('.') + '.') for n, t in re.findall(r'^\d+\. \*\*(.+?)\.\*\* (.+)$', doc, re.M)]
+    same_doc = len({x['prompt'][x['prompt'].index('## INHERITED'):x['prompt'].index('## START NOW')] for x in SW}) == 1
+    sec = lambda x, k: x['prompt'].split(f'## {k}')[1].split('\n## ')[0].strip()
+    per = {x['id']: dict(theorem=sec(x, '1 · Creative theorem to prove').split('\n')[0], proof=sec(x, '4 · Hard proof scene; produce before scaling').split('\n')[0],
+                         swarm=sec(x, '3 · Assemble the smallest capable swarm').split('\n')[0], url=(re.search(r'Research starting point: (\S+)', x['prompt']) or [None, None])[1]) for x in SW}
+    import re as _re
+    secs = [_re.sub(r'^\d+ · ', '', h) for h in heads[0] if _re.match(r'^\d+ · ', h)]
+    return dict(secs=secs, heads=heads[0], same_heads=all(h == heads[0] for h in heads), words=(min(words), max(words), sum(words)), doctrine=doctrine, same_doc=same_doc, per=per,
+                fams=[(f, sum(1 for x in SW if x['family'] == f)) for f in dict.fromkeys(x['family'] for x in SW)], urls=sum(1 for x in SW if 'Research starting point' in x['prompt']))
+
+
+RAN = [  # how PAE-00 kept each point of the doctrine (the record is the case page)
+    ('Creative thesis', 'A dog the person can understand but not command. Bland would have been a dog that obeys.'),
+    ('Inspectable bar', 'No reference film was available, so every critic judged against the bar in the prompt and said so: three times "inconclusive" or "does not pass" before a pass.'),
+    ('Hard proof first', 'The proof scene in the prompt (watch, approach, retreat, lie down, refuse; earn the approach) became the film\'s middle, built end to end with sound before anything else was added.'),
+    ('Accountable swarm', 'The six roles were merged into one working session (dramaturg, state graph, clip assembly, interaction, model-based testing), because the coupling was tight. The critic was always a separate agent.'),
+    ('Acting', 'Attention, intention, gesture, resistance, changed state: ears, tail, crouch, the turned back, the chin on the paws. The tags say the same thing, but the critics checked it with the tags masked.'),
+    ('Consequential world', 'The sill, the door, the floor and the distance between the two bodies are in the machine; nothing crosses the threshold that the machine does not allow.'),
+    ('Audio and staging', 'Keys for the prompts, a wordless voice, the door, paws that come nearer, and a quiet hold at the end.'),
+    ('Canonical state', 'One deterministic timeline: the film renders identically from tools/paeleo, and every cut is committed.'),
+    ('Independent criticism', 'Four rounds, four fresh critics. Each saw the film and the bar, never the makers\' notes, and each left a falsifiable condition for the next.'),
+    ('Root-cause repair', 'An absorbing state and a speed jump were found by the model-based tests, a neck that stood up like a plank by a critic; each was fixed in the rig or the machine, not painted over.'),
+    ('Recursive inquiry', 'When the "come in" beat failed twice, the question changed from "is it visible" to "does it read as a choice": the look in through the door, then the chin down for good.'),
+    ('Creative mutation', 'The jamb drawn over the dog\'s back, first a fix, became the image of the idea: half in, half out.'),
+    ('Whole-work assembly', 'Every critic watched the whole 82 s, not the repaired shot.'),
+    ('Honest evidence', 'Critics measured the sound; none could hear it, and the page says so. No human viewing is claimed.'),
+    ('Resources and stopping', 'Stopped at the first independent pass; what the last critic left is listed as the next repairs, not done quietly.'),
+]
+
+
 def scion_page():
-    up = '../../'
+    up = '../../'; A = anatomy(); LD = {l['id']: l for l in lens_data()}
+    fams = ' · '.join(f'{f} {n}' for f, n in A['fams'])
+    tiles = ''
+    for fam, _ in A['fams']:
+        t = ''
+        for x in [y for y in SW if y['family'] == fam]:
+            name, _, kind = x['title'].partition(' — '); l = LD[x['id']]; p = A['per'][x['id']]; run = RUN.get(x['id'])
+            t += (f'<article class="lens{" run" if run else ""}" id="s{x["id"]}"><a href="#lens-{x["id"]}" data-lens="{x["id"]}" class="im"><img src="{up}paeleo/media/scion/lens-{x["id"]:02d}.jpg" alt="{esc(name)} through the dog: {esc(l["look"])}" loading="lazy" width="800" height="450"></a>'
+                  f'<div class="tx"><span class="id">SCION {x["id"]:02d}{f" · <em>{run[0]}</em>" if run else ""}</span><b>{esc(name)}</b><i>{esc(kind)}</i>'
+                  f'<p class="sh">{esc(l["show"])}</p><dl><dt>theorem</dt><dd>{esc(p["theorem"])}</dd><dt>proof scene</dt><dd>{esc(p["proof"])}</dd><dt>lineage</dt><dd>{esc(x["lineage"])}</dd></dl>'
+                  f'<p class="lk"><a href="operator.html#s{x["id"]}">the prompt</a>{f" · <a href=\"{up}paeleo/{run[1]}\">the film it made</a>" if run else ""}{f" · <a href=\"{esc(p["url"])}\">research start</a>" if p["url"] else ""}</p></div></article>')
+        tiles += f'<div class="fam"><h3>{esc(fam)}</h3><div class="lenses">{t}</div></div>'
+    heads = ''.join(f'<li><b>{esc(h)}</b></li>' for h in A['secs'])
+    ex = next(x for x in SW if x['id'] == 48)['prompt']
+    doctrine = ''.join(f'<li><b>{esc(n)}.</b> {esc(t)}</li>' for n, t in A['doctrine'])
+    ran = ''.join(f'<tr><td>{esc(n)}</td><td>{esc(t)}</td></tr>' for n, t in RAN)
     body = f'''<p class="crumbs"><a href="{up}">CRASH LAB</a> / <a href="{up}paeleo/">PAELEO</a> / SCION</p>
-<header class="lockup"><div class="l"><span class="lbl">SCION / lineage forge</span><h1 style="font-size:clamp(64px,12vw,140px)">SCION</h1>
-  <p class="tag">Fifty-four animation swarms. Each is a standalone prompt studio with a creative theorem, a native formal language, a smallest capable swarm, a hard proof scene, a bar, and an independent critic.</p>
-  <p>They come from four families: artists and directors, research pioneers, studios and software, algorithms and techniques, and archives and provenance. Every one inherits the same fifteen-point operating doctrine: hard proof first, an independent critic, honest evidence, and stop when the film is watchable.</p>
-  <p><a class="btn" href="operator.html">Open the operator</a> &nbsp; search all 54, copy any prompt, save it as Markdown</p></div>
-  <div class="r"><span class="lbl">Run so far</span><p><b>SCION 48 · State Machines</b> made <a href="{up}paeleo/threshold/">PAE-00 The threshold</a>, the program's introduction.</p>
-  <p class="lbl">Each name is a lineage, not an endorsement: these are new operational prompts inspired by documented work.</p></div></header>
-<section class="sec"><div class="sechead"><h2>The queue</h2></div>{queue(up)}</section>
+<header class="lockup"><div class="l"><span class="lbl">SCION / lineage forge · the swarm operator</span><h1 style="font-size:clamp(64px,12vw,140px)">SCION</h1>
+  <p class="tag">Fifty-four animation swarms. Each is a standalone prompt that turns one artist, researcher, studio, algorithm or archive into a working studio with a proof to make and a critic to answer to.</p>
+  <p>The SCION operator is a single page: search the 54, read one, copy it whole or save it as Markdown. Each prompt names a lineage, states a creative theorem, gives the swarm its native formal language and the smallest crew that could build it, and sets a hard proof scene to produce before anything else. Then all 54 inherit the same fifteen-point doctrine. PAELEO films are made with them, one swarm per box.</p>
+  <p><a class="btn" href="operator.html">Open the operator</a> <a class="btn" href="#viewer">See all 54 through the dog</a> <a class="btn" href="#reel">Watch the reel</a></p></div>
+  <div class="r"><span class="lbl">Counted from the prompts</span><dl class="letters">
+    <dt>54</dt><dd>swarms, in five families: <i>{esc(fams)}</i></dd><dt>8</dt><dd>numbered sections in every prompt, in the same order{"" if A["same_heads"] else " (not in all)"}</dd>
+    <dt>15</dt><dd>points of doctrine, {"word for word the same in all 54" if A["same_doc"] else "varying"}</dd><dt>5</dt><dd>inputs to fill: work, direction, delivery, resources, rights</dd>
+    <dt>{A["words"][0]:,}</dt><dd>to {A["words"][1]:,} words each, {A["words"][2]:,} in all; {A["urls"]} name a research starting point</dd></dl>
+  <p class="lbl">Each name is a lineage, not an endorsement. The prompts say so themselves.</p></div></header>
+
+<section class="sec" id="viewer-sec"><div class="sechead"><h2>Through the dog</h2><p>Every swarm shown on the same porch, the same paper dog and the same running loop of prompts (called, pressed, then earned). A lens is not that swarm's film. It is its first move: its native formal language made visible on a character you already know. The machine underneath never changes.</p></div>
+  <div class="try" id="viewer">
+    <div class="head"><span class="lbl">Live</span><h3 class="t">State Machines</h3></div>
+    <p class="n lbl"></p>
+    <canvas width="1280" height="720" aria-label="The porch, the person and the dog, drawn through the chosen swarm"></canvas>
+    <div class="ctrls">
+      <div class="ctrl"><span class="lbl">Swarm</span><select class="pick" aria-label="Choose a swarm"></select></div>
+      <div class="ctrl"><span class="lbl">Step</span><div class="seg"><button type="button" data-prev>← previous</button><button type="button" data-next>next →</button></div></div>
+      <div class="ctrl"><span class="lbl">Play</span><div class="seg"><button type="button" data-tour aria-pressed="false">tour all 54</button><button type="button" data-restart>restart the loop</button></div></div>
+    </div>
+    <p><b class="look"></b>. <span class="show"></span></p>
+    <p class="lbl">lineage: <span class="lin"></span> · <a class="op" href="operator.html">read the prompt</a></p>
+  </div>
+  <div class="box" id="reel"><div class="boxhead"><div class="row"><span class="code">PAE-01</span><span class="lbl">Oct 24 · 1 min 35 s · all 54 lenses, 1.6 s each</span></div><h2>SCION through the dog</h2>
+    <p class="q">The same dog, 54 ways: what does each swarm see first?</p></div>
+    <figure class="film" data-src="{up}paeleo/media/film/paeleo-01.mp4" data-seg="4.0,30.0" data-len="1:35"><div class="screen"><video muted playsinline preload="metadata" poster="{up}paeleo/media/scion/lens-02.jpg"></video></div><figcaption class="cap">In operator order, each lens at its own telling moment. The sound is the loop's own: calls, the door, the soft voice, a paper flick on every cut, a chord for each family.</figcaption></figure></div>
+</section>
+
+<section class="sec" id="anatomy"><div class="sechead"><h2>Anatomy of a swarm</h2><p>Every prompt has the same skeleton. What changes from swarm to swarm is what fills it.</p></div>
+  <div class="cols">
+    <div class="part"><h3>The header</h3><ul><li><b>Operator lineage</b>: the documented work it descends from.</li><li><b>Interpretation</b>: a new operational prompt inspired by that work, not a claim that its people wrote or endorsed it.</li><li><b>Identity</b>: "You are SCION-…, an autonomous animation swarm responsible for an exceptional finished, watchable animated work, not an essay or asset dump."</li><li><b>Input</b>: five slots to fill: <code>[WORK]</code>, <code>[DIRECTION_AND_REFERENCES]</code>, <code>[DELIVERY]</code>, <code>[RESOURCES]</code>, <code>[RIGHTS_SCOPE]</code>. Unknown rights are not permission.</li></ul></div>
+    <div class="part"><h3>The eight sections</h3><ol class="recipe">{heads}</ol></div>
+  </div>
+  <div class="cols">
+    <div class="part"><h3>What each section asks</h3><ul>
+      <li><b>Theorem.</b> One claim the work must prove. For State Machines: turn a cast into actors who perceive, choose, resist and remember.</li>
+      <li><b>Native formal language.</b> The primitives to keep as first-class things in the project, not flatten to pixels, with at least one invariant testable by number and one achievement judged only by viewing.</li>
+      <li><b>Smallest capable swarm.</b> Named roles, each building or verifying a real artifact, merged when talking costs more than parallel work saves, and always a separate independent critic.</li>
+      <li><b>Hard proof scene.</b> The most revealing short passage, produced first, with picture and sound, before any asset catalogue.</li>
+      <li><b>The bar.</b> What has to be true, and the critic\'s return: pass, reference stronger or inconclusive; the exact frames; the largest gap; a falsifiable repair condition; the strengths to keep.</li>
+      <li><b>Evolving inquiry.</b> What to test when it fails, and when two fixes fail, fork competing hypotheses with the same material and budget.</li>
+      <li><b>Discovery.</b> A vocabulary to grow from what worked, and a living method library: technique, conditions, proof clip, failures, repair, rejected alternatives.</li>
+      <li><b>Deliverable contract.</b> What to hand over, always including a phone-readable operator page with a playable preview, the current revision, the decisive verdict and the next blocking failure.</li></ul></div>
+    <div class="part"><h3>One, in full</h3><details><summary>SCION 48 · State Machines, verbatim</summary><pre class="prompt">{esc(ex)}</pre></details>
+      <p>All 54 are in the <a href="operator.html">operator</a>, and as data in <a href="swarms.json"><code>swarms.json</code></a>.</p></div>
+  </div>
+</section>
+
+<section class="sec" id="doctrine"><div class="sechead"><h2>The doctrine</h2><p>Fifteen points every swarm inherits, headed "execute, do not summarize". The first sentence of each, as the prompts put it:</p></div>
+  <ol class="recipe">{doctrine}</ol>
+  <p class="note">And the line under them: use real tools and sources, never simulate an agent run in prose, and if something can\'t be run, deliver the smallest executable artifact and say what was not run. Success is a film someone can open and watch, or a bounded playable milestone that has actually passed its tests.</p>
+</section>
+
+<section class="sec" id="ran"><div class="sechead"><h2>How PAE-00 ran it</h2><p>The doctrine, point by point, against what actually happened when SCION 48 made <a href="{up}paeleo/threshold/">The threshold</a>. The case page has the full record.</p></div>
+  <div class="tw"><table class="names"><thead><tr><th>Doctrine</th><th>What happened</th></tr></thead><tbody>{ran}</tbody></table></div>
+</section>
+
+<section class="sec" id="run"><div class="sechead"><h2>Running a swarm</h2></div>
+  <ol class="recipe">
+    <li>Pick the lineage whose theorem is the question your work is asking. Its lens here shows what that swarm will look at first.</li>
+    <li>Copy the prompt from the operator and fill the five inputs. Leave nothing implied about rights.</li>
+    <li>Build the hard proof scene first, end to end, with sound, before anything is scaled.</li>
+    <li>Hand the playable proof to a critic who has the bar and the intended experience, not your notes. Keep its report word for word.</li>
+    <li>Repair causes, not symptoms, and hand the new cut to a fresh critic. Stop at an independent pass, a human stop, the budget, or a justified no-progress boundary.</li>
+    <li>Publish the operator page: the preview, the revision, the verdict, the next blocking failure. In PAELEO that page is the box\'s case.</li>
+  </ol>
+</section>
+
+<section class="sec" id="all"><div class="sechead"><h2>The 54</h2><p>Each with its lens, its theorem, its proof scene and its lineage. Tap a picture to see that lens live.</p></div>{tiles}</section>
 '''
-    open(os.path.join(P, 'scion/index.html'), 'w').write(page('paeleo/scion/index.html', 'SCION · the swarm queue', 'The 54 SCION animation swarms PAELEO films are made with, and which ones have been run.', body))
+    css = '''<style>
+.lenses{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,330px),1fr));gap:16px}
+.lens{border:1.5px solid var(--rule);background:var(--panel);border-radius:3px;display:grid;align-content:start;min-width:0;scroll-margin-top:16px}
+.lens.run{border:2px solid var(--stamp);background:var(--label)}
+.lens .im img{width:100%;height:auto;display:block;border-radius:2px 2px 0 0}
+.lens .tx{padding:10px 12px 12px;display:grid;gap:4px}
+.lens .id{font:600 11px var(--mono);color:var(--ink-2)}.lens .id em{font-style:normal;color:#fff;background:var(--stamp);padding:0 5px}
+.lens b{font:800 22px/1.05 var(--display);text-transform:uppercase}.lens i{font-style:normal;font-size:14px;color:var(--ink-2)}
+.lens .sh{font-size:15px;line-height:1.45;margin-top:4px}
+.lens dl{margin:6px 0 0;display:grid;gap:2px;font-size:13.5px;line-height:1.4}.lens dt{font:600 10.5px var(--mono);text-transform:uppercase;letter-spacing:.06em;color:var(--stamp);margin-top:4px}.lens dd{margin:0;color:var(--ink-2)}
+.lens .lk{font:12px var(--mono);margin-top:6px}
+#viewer canvas{width:100%;aspect-ratio:16/9;border-radius:2px;background:#1d2a4a}
+#viewer select{font:13px var(--mono);padding:6px 8px;border:1.5px solid var(--ink);background:var(--label);color:var(--ink);width:100%;max-width:100%}
+#viewer .look{font-family:var(--mono);font-size:14px}
+</style>'''
+    scripts = (f'<script src="{up}paeleo/threshold/machine.js"></script><script src="{up}paeleo/threshold/stage.js"></script><script src="swarms.js"></script><script src="lenses.js"></script><script src="viewer.js"></script>' + FILM_JS)
+    html_ = page('paeleo/scion/index.html', 'SCION · the swarm operator', 'The SCION swarm operator: 54 animation swarms, how each prompt is built, the doctrine they share, and every one of them shown through the same paper dog.', body, image='paeleo/media/scion/lens-02.jpg', scripts=scripts)
+    open(os.path.join(P, 'scion/index.html'), 'w').write(html_.replace('</head>', css + '</head>', 1))
+    # the same write-up as Markdown, for reading in the repository
+    md = ['# SCION · the swarm operator', '', 'Fifty-four animation swarms. Each is a standalone prompt that turns one artist, researcher, studio, algorithm or archive into a working studio with a proof to make and a critic to answer to. PAELEO films are made with them, one swarm per box. Live: ' + BASE + 'paeleo/scion/', '',
+          f'- {len(SW)} swarms, in five families: {fams}', f'- 8 numbered sections in every prompt, in the same order; 15 points of doctrine, word for word the same in all 54; 5 inputs (work, direction, delivery, resources, rights)',
+          f'- {A["words"][0]:,} to {A["words"][1]:,} words each, {A["words"][2]:,} in all; {A["urls"]} name a research starting point', '- Each name is a lineage, not an endorsement; the prompts say so themselves.', '',
+          '## Anatomy', '', 'Header: operator lineage, interpretation, identity, the five inputs. Then:', ''] + [f'{k}. {h}' for k, h in enumerate(A['secs'], 1)] + ['', 'Then the inherited doctrine, and START NOW.', '',
+          '## The doctrine', ''] + [f'{k}. **{n}.** {t}' for k, (n, t) in enumerate(A['doctrine'], 1)] + ['', '## How PAE-00 ran it', '', '| Doctrine | What happened |', '|---|---|'] + [f'| {n} | {t} |' for n, t in RAN] + ['',
+          '## The 54 through the dog', '', 'Each lens (`lenses.js`) draws the same porch, dog and loop of prompts the way that swarm would; stills in `paeleo/media/scion/`, the reel is PAE-01.', '']
+    for x in SW:
+        md += [f'### SCION {x["id"]:02d} · {x["title"]}', '', f'*{x["family"]} · {x["lineage"]}*', '', f'- **Through the dog ({LD[x["id"]]["look"]}).** {LD[x["id"]]["show"]}', f'- **Theorem.** {A["per"][x["id"]]["theorem"]}', f'- **Proof scene.** {A["per"][x["id"]]["proof"]}', '']
+    open(os.path.join(P, 'scion/README.md'), 'w').write('\n'.join(md) + '\n')
 
 
 if __name__ == '__main__':

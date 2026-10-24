@@ -34,9 +34,19 @@
     g.putImageData(im, 0, 0); PAT = ctx.createPattern(c, 'repeat'); return PAT;
   }
   // fill a path as a piece of paper: colour, fibre texture fixed to the piece, a darker cut edge
+  /* Hooks for the SCION lenses (paeleo/scion/lenses.js), off by default so the film draws as it always has.
+     STYLE changes how a piece is cut and filled; REC, when on, records every piece and joint in screen space under its name. */
+  const STYLE = {}, REC = { on: false, n: '', parts: [], joints: {} };
+  function xf(ctx, p) { const m = ctx.getTransform(); return [m.a * p[0] + m.c * p[1] + m.e, m.b * p[0] + m.d * p[1] + m.f]; }
+  function mark(ctx, name, p) { if (REC.on) REC.joints[name] = xf(ctx, p); }
   function piece(ctx, pts, color, edge, texScale) {
+    if (REC.on && REC.n) REC.parts.push({ name: REC.n, color, pts: pts.map(p => xf(ctx, p)) });
+    if (STYLE.fill) color = STYLE.fill(color, REC.n);
+    if (STYLE.edge !== undefined) edge = typeof STYLE.edge === 'function' ? STYLE.edge(edge, REC.n) : STYLE.edge;
     ctx.beginPath(); pts.forEach((p, i) => i ? ctx.lineTo(p[0], p[1]) : ctx.moveTo(p[0], p[1])); ctx.closePath();
+    if (STYLE.line) { ctx.strokeStyle = STYLE.line; ctx.lineWidth = STYLE.lineWidth || .008; ctx.lineJoin = 'round'; ctx.stroke(); return; }
     ctx.fillStyle = color; ctx.fill();
+    if (STYLE.noTex) { if (edge) { ctx.strokeStyle = edge; ctx.lineWidth = STYLE.edgeWidth || .006; ctx.stroke(); } return; }
     const pat = pattern(ctx); ctx.save(); ctx.clip();
     if (pat.setTransform) pat.setTransform(new DOMMatrix().scale(texScale || 1 / 260));
     ctx.globalCompositeOperation = 'multiply'; ctx.globalAlpha = .55; ctx.fillStyle = pat; ctx.fill(); ctx.restore();
@@ -49,6 +59,7 @@
     return cut(pts, .004, seed);
   }
   function brad(ctx, p, r) {
+    if (STYLE.noBrads) return;
     r = r || .013; ctx.beginPath(); ctx.arc(p[0], p[1], r, 0, 7); ctx.fillStyle = C.brad; ctx.fill();
     ctx.beginPath(); ctx.arc(p[0] - r * .3, p[1] - r * .3, r * .38, 0, 7); ctx.fillStyle = 'rgba(255,248,214,.85)'; ctx.fill();
   }
@@ -131,9 +142,10 @@
       let [mid, end] = ik(root, tgt, l1, l2, -1);
       if (!front && lie > 0) { const m2 = ik(root, tgt, l1, l2, 1)[0], k = ease(lie); mid = [lerp(mid[0], m2[0], k), lerp(mid[1], m2[1], k)]; }   // lying: the hind knee folds forward, up the flank
       const col = far ? C.dogFar : C.dog;
-      piece(ctx, capsule(root, mid, .045, .033, front ? 61 : 71), col, 'rgba(60,30,10,.45)');
-      piece(ctx, capsule(mid, end, .032, .024, front ? 81 : 91), col, 'rgba(60,30,10,.45)');
-      piece(ctx, ellipse(end[0] - .022, end[1] - .012, .038, .02, 12, front ? 3 : 5, .05), col, 'rgba(60,30,10,.45)');
+      const ln = 'dog.' + (front ? 'fore' : 'hind') + (far ? 'Far' : 'Near');
+      REC.n = ln + '.upper'; piece(ctx, capsule(root, mid, .045, .033, front ? 61 : 71), col, 'rgba(60,30,10,.45)');
+      REC.n = ln + '.lower'; piece(ctx, capsule(mid, end, .032, .024, front ? 81 : 91), col, 'rgba(60,30,10,.45)');
+      REC.n = ln + '.paw'; mark(ctx, ln + '.root', root); mark(ctx, ln + '.knee', mid); mark(ctx, ln + '.foot', end); piece(ctx, ellipse(end[0] - .022, end[1] - .012, .038, .02, 12, front ? 3 : 5, .05), col, 'rgba(60,30,10,.45)');
       if (!far) brad(ctx, mid, .009);
     };
     const tailRoot = B([.345, -.06]);
@@ -141,8 +153,8 @@
     const tailA = -.9 + P.tail * 1.6 + wag;      // radians below horizontal, pointing back (+x)
     // far legs, tail, body, chest, near legs, neck and head
     leg(add(sh, [.03, -.01]), Math.PI * 1.5, true, true); leg(add(hip, [.03, -.01]), Math.PI * .5, true, false);
-    ctx.save(); ctx.translate(tailRoot[0], tailRoot[1]); ctx.rotate(tailA); piece(ctx, cut(TAIL(.27, -.5 + P.tail * .3), .003, 7), C.dog, 'rgba(60,30,10,.45)'); ctx.restore();
-    ctx.save(); ctx.translate(O[0], O[1]); ctx.rotate(pitch); piece(ctx, BODY, C.dog, 'rgba(50,25,8,.85)'); piece(ctx, CHEST, C.dogChest, null); ctx.restore();
+    ctx.save(); ctx.translate(tailRoot[0], tailRoot[1]); ctx.rotate(tailA); REC.n = 'dog.tail'; mark(ctx, 'dog.tailTip', [.27 * Math.cos(-.5 + P.tail * .3), .27 * Math.sin(-.5 + P.tail * .3)]); piece(ctx, cut(TAIL(.27, -.5 + P.tail * .3), .003, 7), C.dog, 'rgba(60,30,10,.45)'); ctx.restore();
+    ctx.save(); ctx.translate(O[0], O[1]); ctx.rotate(pitch); REC.n = 'dog.body'; piece(ctx, BODY, C.dog, 'rgba(50,25,8,.85)'); REC.n = 'dog.chest'; piece(ctx, CHEST, C.dogChest, null); ctx.restore();
     leg(sh, Math.PI * .5, false, true); leg(hip, Math.PI * 1.5, false, false);
     // head on the neck: head param 1 = up and alert, 0 = down; rest = chin on the paws
     const rl = clamp(P.rest) * lie;   // chin on the paws: the neck base comes forward and down to the chest, so the neck lies along the floor
@@ -151,21 +163,23 @@
     let hc = [neck[0] - Math.cos(phi) * .17, neck[1] - Math.sin(phi) * .17];
     const restC = [-.47, -.075]; hc = [lerp(hc[0], restC[0], P.rest * lie), lerp(hc[1], restC[1], P.rest * lie)];
     const tilt = lerp(-.15, .35, 1 - clamp(P.head)) + .25 * P.sniff - .2 * P.rest * lie + Math.sin(t * 1.3) * .02;
-    piece(ctx, capsule(neck, hc, lerp(.07, .06, rl), .055, 101), C.dog, 'rgba(50,25,8,.5)');
+    REC.n = 'dog.neck'; piece(ctx, capsule(neck, hc, lerp(.07, .06, rl), .055, 101), C.dog, 'rgba(50,25,8,.5)');
+    mark(ctx, 'dog.neck', neck); mark(ctx, 'dog.shoulder', sh); mark(ctx, 'dog.hip', hip); mark(ctx, 'dog.tailRoot', tailRoot); mark(ctx, 'dog.head', hc);
     ctx.save(); ctx.translate(neck[0], neck[1]); ctx.rotate(Math.atan2(hc[1] - neck[1], hc[0] - neck[0]));
     ctx.fillStyle = C.collar; ctx.beginPath(); ctx.rect(.03, -.06, .028, .12); ctx.fill(); ctx.restore();
     ctx.save(); ctx.translate(hc[0], hc[1]); ctx.rotate(tilt - .25 * (P.look || 0)); ctx.scale(1 - .45 * clamp(P.look || 0), 1);
     // far ear, skull, snout, near ear
     const earA = lerp(1.25, -.15, clamp(P.ear));
-    ctx.save(); ctx.translate(.03, -.045); ctx.rotate(earA + .1); piece(ctx, EAR, C.dogFar, null); ctx.restore();
-    piece(ctx, SKULL, C.dog, 'rgba(50,25,8,.85)'); piece(ctx, SNOUT, C.dog, 'rgba(50,25,8,.85)');
+    ctx.save(); ctx.translate(.03, -.045); ctx.rotate(earA + .1); REC.n = 'dog.earFar'; piece(ctx, EAR, C.dogFar, null); ctx.restore();
+    REC.n = 'dog.skull'; piece(ctx, SKULL, C.dog, 'rgba(50,25,8,.85)'); REC.n = 'dog.snout'; piece(ctx, SNOUT, C.dog, 'rgba(50,25,8,.85)');
+    mark(ctx, 'dog.nose', [-.178, .008]); mark(ctx, 'dog.eye', [-.06, -.018]); mark(ctx, 'dog.mouth', [-.12, .04]); mark(ctx, 'dog.skull', [0, 0]);
     ctx.beginPath(); ctx.ellipse(-.178, .008, .017, .013, 0, 0, 7); ctx.fillStyle = C.nose; ctx.fill();
     ctx.beginPath(); ctx.moveTo(-.16, .036); ctx.quadraticCurveTo(-.12, .044, -.085, .036); ctx.strokeStyle = 'rgba(40,20,10,.7)'; ctx.lineWidth = .005; ctx.stroke();
     ctx.beginPath(); ctx.arc(-.06, -.018, .012, 0, 7); ctx.fillStyle = C.nose; ctx.fill(); ctx.beginPath(); ctx.arc(-.064, -.022, .004, 0, 7); ctx.fillStyle = '#fff'; ctx.fill();
-    ctx.save(); ctx.translate(.015, -.05); ctx.rotate(earA); piece(ctx, EAR, C.dogEar, 'rgba(40,20,10,.5)'); ctx.restore();
+    ctx.save(); ctx.translate(.015, -.05); ctx.rotate(earA); REC.n = 'dog.ear'; mark(ctx, 'dog.earTip', [.035, -.115]); mark(ctx, 'dog.earBase', [0, 0]); piece(ctx, EAR, C.dogEar, 'rgba(40,20,10,.5)'); ctx.restore();
     brad(ctx, [.015, -.05], .008);
     ctx.restore();
-    brad(ctx, neck, .011); brad(ctx, sh, .012); brad(ctx, hip, .012); brad(ctx, tailRoot, .009);
+    brad(ctx, neck, .011); brad(ctx, sh, .012); brad(ctx, hip, .012); brad(ctx, tailRoot, .009); REC.n = '';
   }
 
   /* ------------------------------------------------------------------ the person */
@@ -199,6 +213,7 @@
     };
     const leg = far => { const tg = legT(far), side = s > .5 ? -1 : -1; const [k, f] = ik(add(hip, [far ? -.03 : .03, 0]), tg, .47, .47, side);
       const col = far ? C.trousersFar : C.trousers;
+      REC.n = far ? 'person.legFar' : 'person.leg'; mark(ctx, REC.n + '.knee', k); mark(ctx, REC.n + '.foot', f);
       piece(ctx, capsule(add(hip, [far ? -.03 : .03, 0]), k, .075, .06, far ? 221 : 231), col, 'rgba(0,0,0,.4)');
       piece(ctx, capsule(k, f, .058, .045, far ? 241 : 251), col, 'rgba(0,0,0,.4)');
       piece(ctx, cut([[f[0] - .05, f[1] - .055], [f[0] + .15, f[1] - .04], [f[0] + .16, f[1]], [f[0] - .06, f[1]]], .004, far ? 261 : 271), C.shoe, null);
@@ -214,15 +229,17 @@
     };
     const arm = far => { const tg = handT(far); const [e, h] = ik(add(shoulder, [far ? -.02 : .02, 0]), tg, .3, .29, 1);
       const col = far ? C.shirtFar : C.shirt;
+      REC.n = far ? 'person.armFar' : 'person.arm'; mark(ctx, REC.n + '.elbow', e); mark(ctx, REC.n + '.hand', h);
       piece(ctx, capsule(add(shoulder, [far ? -.02 : .02, 0]), e, .055, .045, far ? 281 : 291), col, 'rgba(0,0,0,.4)');
       piece(ctx, capsule(e, h, .043, .036, far ? 301 : 311), col, 'rgba(0,0,0,.4)');
       const ang = Math.atan2(h[1] - e[1], h[0] - e[0]);
       ctx.save(); ctx.translate(h[0], h[1]); ctx.rotate(ang); piece(ctx, cut([[0, -.035], [.09, -.03], [.11, .0], [.08, .035], [0, .03]], .004, far ? 321 : 331), far ? C.skinFar : C.skin, 'rgba(0,0,0,.35)'); ctx.restore();
       if (!far) brad(ctx, e, .011); };
     leg(true); arm(true);
-    ctx.save(); ctx.translate(hip[0], hip[1]); ctx.rotate(lean); piece(ctx, TORSO, C.shirt, 'rgba(0,0,0,.45)'); ctx.restore();
+    ctx.save(); ctx.translate(hip[0], hip[1]); ctx.rotate(lean); REC.n = 'person.torso'; piece(ctx, TORSO, C.shirt, 'rgba(0,0,0,.45)'); ctx.restore();
     // head
     ctx.save(); ctx.translate(headC[0], headC[1]); ctx.rotate(lean * .6);
+    REC.n = 'person.head'; mark(ctx, 'person.head', [0, 0]); mark(ctx, 'person.eye', [.055, -.015]); mark(ctx, 'person.mouth', [.07, .055]); mark(ctx, 'person.nose', [.13, .015]);
     piece(ctx, cut([[-.02, .08], [.05, .1], [.04, .16], [-.05, .16]], .004, 341), C.skin, null);
     piece(ctx, HEAD, C.skin, 'rgba(0,0,0,.4)');
     piece(ctx, cut([[-.11, -.02], [-.1, -.09], [-.03, -.13], [.06, -.12], [.11, -.06], [.07, -.075], [-.02, -.07], [-.06, -.02]], .004, 351), C.hair, null);
@@ -232,7 +249,7 @@
     ctx.restore();
     leg(false);
     brad(ctx, hip, .014);
-    arm(false); brad(ctx, shoulder, .014); brad(ctx, neck, .011);
+    arm(false); brad(ctx, shoulder, .014); brad(ctx, neck, .011); mark(ctx, 'person.hip', hip); mark(ctx, 'person.shoulder', shoulder); REC.n = '';
   }
 
   /* ------------------------------------------------------------------ the set */
@@ -350,5 +367,5 @@
     ctx.save(); ctx.setTransform(K.ppm, 0, 0, K.ppm, K.sx(0), K.sy(0));
     piece(ctx, cut([[.46, -2.08], [.58, -2.08], [.58, 0], [.46, 0]], .006, 473), C.trim, 'rgba(0,0,0,.3)', 1 / 2.2); ctx.restore();
   }
-  return { jamb, C, lerp, clamp, ease, hash, DogAnim, PersonAnim, drawDog, drawPerson, drawSet, puppet, tag, bubble, camera, piece, cut, ellipse };
+  return { STYLE, REC, mark, jamb, C, lerp, clamp, ease, hash, DogAnim, PersonAnim, drawDog, drawPerson, drawSet, puppet, tag, bubble, camera, piece, cut, ellipse };
 });

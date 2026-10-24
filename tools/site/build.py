@@ -404,7 +404,7 @@ Live: {C.BASE}
 |---|---|
 """ + ''.join(f"| [{p['title']}]({p['path']}) | {p['line']} |\n" for p in C.PROGRAMS) + f"""
 - [This Side Up](this-side-up/): case studies of the cardboard cut-out films, each with a full case page of versions, prompts, critic rounds and sheets
-- [PAELEO](paeleo/): Promptable Augmented Environments Lab · Ekphrastic Operations. One research program at three scales (AEL, PEO, PAELEO); its films are made with the SCION swarms
+- [PAELEO](paeleo/): Promptable Augmented Environments Lab · Ekphrastic Operations. One research program at three scales (AEL, PEO, PAELEO); its films are made with the SCION swarms, all 54 of which are written up and shown through the same paper dog at [paeleo/scion/](paeleo/scion/)
 - [Characters](characters/) · [Films](films/) ({len(C.FILMS)}) · [Process](process/) · [Docs and prompts](docs/)
 - Lab pages: """ + ' · '.join(f"[{l['title']}](lab/{l['id']}/)" for l in C.LAB) + """
 
