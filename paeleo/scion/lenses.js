@@ -25,8 +25,8 @@
   function dot(ctx, p, r, c, ring) { ctx.beginPath(); ctx.arc(p[0], p[1], r, 0, 7); if (ring) { ctx.strokeStyle = c; ctx.lineWidth = ring; ctx.stroke(); } else { ctx.fillStyle = c; ctx.fill(); } }
   function line(ctx, a, b, c, w, dash) { ctx.beginPath(); ctx.moveTo(a[0], a[1]); ctx.lineTo(b[0], b[1]); ctx.strokeStyle = c; ctx.lineWidth = w || 1.5; ctx.setLineDash(dash || []); ctx.stroke(); ctx.setLineDash([]); }
   function label(ctx, x, y, s, o) {
-    o = o || {}; ctx.font = `${o.w || 600} ${o.size || 15}px "JetBrains Mono", monospace`; const w = ctx.measureText(s).width;
-    if (o.bg !== false) { ctx.fillStyle = o.bg || 'rgba(14,12,10,.82)'; ctx.fillRect(x - 5, y - (o.size || 15) - 3, w + 10, (o.size || 15) + 9); }
+    o = o || {}; const sz = Math.max(22, o.size || 22); ctx.font = `${o.w || 600} ${sz}px "JetBrains Mono", monospace`; const w = ctx.measureText(s).width;   // never smaller than 22 px: readable on a phone
+    if (o.bg !== false) { ctx.fillStyle = o.bg || 'rgba(14,12,10,.82)'; ctx.fillRect(x - 5, y - sz - 3, w + 10, sz + 9); }
     ctx.fillStyle = o.c || '#fbf7ee'; ctx.fillText(s, x, y);
   }
   // triangulate a part: rings from the centroid out to the outline (a mesh, as a deformation system would see it)
@@ -47,7 +47,7 @@
   function stateChart(ctx, x, y, cur, col) {
     const N = [['watch', 0, 0], ['approach', 1, 0], ['lie_down', 2, 0], ['retreat', 0, 1], ['refuse', 1, 1]];
     for (const [n, i, j] of N) { const on = n === cur, X = x + i * 132, Y = y + j * 52; ctx.fillStyle = on ? (col || C.stamp) : 'rgba(14,12,10,.78)'; ctx.fillRect(X, Y, 122, 40);
-      ctx.font = '600 15px "JetBrains Mono"'; ctx.fillStyle = on ? '#fff' : 'rgba(251,247,238,.7)'; ctx.fillText(n.replace('_', ' '), X + 10, Y + 26); }
+      ctx.font = '600 22px "JetBrains Mono"'; ctx.fillStyle = on ? '#fff' : 'rgba(251,247,238,.7)'; ctx.fillText(n.replace('_', ' '), X + 8, Y + 28); }
   }
 
   // ------------------------------------------------------------------ backgrounds
@@ -156,7 +156,7 @@
       names.forEach((n, i) => { const x = 250 + i * 160, on = E.d.state === n; ctx.fillStyle = on ? cols[i] : 'rgba(14,12,10,.82)'; ctx.fillRect(x, 116, 150, 84);
       ctx.save(); ctx.translate(x + 75, 184); ctx.scale(-1, 1); const p = { lie: n === 'lie_down' || n === 'refuse' ? 1 : 0, crouch: n === 'retreat' ? .9 : n === 'approach' ? .3 : 0, ear: n === 'retreat' ? 0 : .9, tail: n === 'retreat' ? 1.3 : .5, wag: 0, head: n === 'watch' ? .9 : .4, rest: n === 'refuse' ? 1 : 0, turn: 1, phase: 0, moving: 0, sniff: n === 'approach' ? 1 : 0, look: 0 };
       ctx.scale(100, 100); const st = Object.assign({}, S.STYLE); Object.assign(S.STYLE, { line: '#fff', lineWidth: .014 }); const rec = S.REC.on; S.REC.on = false; S.drawDog(ctx, p, 0); S.REC.on = rec; for (const k in S.STYLE) delete S.STYLE[k]; Object.assign(S.STYLE, st); ctx.restore();
-      label(ctx, x + 6, 136, `drawing ${i + 1}`, { bg: false, size: 14 }); }); }
+      label(ctx, x + 4, 226, String(i + 1), { bg: on ? cols[i] : 'rgba(14,12,10,.82)' }); }); }
   });
   add(15, 'a learned layered puppet', 'The dog pulled apart into the layers a model would have to learn from a few drawings: each part on its own plate, stacked in depth.', {
     after(ctx, E) { const ps = parts(E); const k = .5 + .5 * Math.sin(E.t * .8); ctx.save(); ps.forEach((p, i) => { const o = (i - ps.length / 2) * 9 * k; ctx.save(); ctx.translate(o * 1.4, -o); ctx.globalAlpha = .9; ctx.fillStyle = hsl(i * 23, 55, 60); ctx.fill(P(p.pts)); ctx.strokeStyle = '#14110d'; ctx.lineWidth = 1; ctx.stroke(P(p.pts)); ctx.restore(); }); ctx.restore();
@@ -212,10 +212,10 @@
   });
   add(25, 'interactive state machines', 'The rig answers to a state graph with inputs, the way an interactive runtime wires it: the dog is tinted by the state it is in, and the graph beside it shows the inputs that moved it there.', { still: 3.8,
     after(ctx, E) { const cols = { watch: '#7f8c8d', approach: '#1abc9c', retreat: '#f39c12', lie_down: '#3498db', refuse: '#e74c3c' }; ctx.save(); ctx.globalCompositeOperation = 'color'; fillParts(ctx, E, 'dog.', cols[E.d.state]); ctx.restore();
-      const d = J(E, 'dog.skull'); const N = { watch: [0, 0], approach: [-1, -1], retreat: [1, -1], lie_down: [-1, 1], refuse: [1, 1] }; const c = [d[0], d[1] - 150];
-      for (const [n, [i, j]] of Object.entries(N)) { const p = [c[0] + i * 95, c[1] + j * 45]; if (n !== 'watch') line(ctx, c, p, 'rgba(255,255,255,.5)', 1.5); }
-      for (const [n, [i, j]] of Object.entries(N)) { const p = [c[0] + i * 95, c[1] + j * 45], on = n === E.d.state; ctx.beginPath(); ctx.ellipse(p[0], p[1], 46, 16, 0, 0, 7); ctx.fillStyle = on ? cols[n] : 'rgba(14,12,10,.85)'; ctx.fill(); ctx.strokeStyle = cols[n]; ctx.lineWidth = 2; ctx.stroke();
-        ctx.font = '600 12px "JetBrains Mono"'; ctx.fillStyle = '#fff'; ctx.textAlign = 'center'; ctx.fillText(n.replace('_', ' '), p[0], p[1] + 4); ctx.textAlign = 'left'; }
+      const d = J(E, 'dog.skull'); const N = { watch: [0, 0], approach: [-1, -1], retreat: [1, -1], lie_down: [-1, 1], refuse: [1, 1] }; const c = [Math.min(Math.max(d[0], 240), W - 240), Math.max(d[1] - 190, 190)];
+      for (const [n, [i, j]] of Object.entries(N)) { const p = [c[0] + i * 150, c[1] + j * 50]; if (n !== 'watch') line(ctx, c, p, 'rgba(255,255,255,.5)', 1.5); }
+      for (const [n, [i, j]] of Object.entries(N)) { const p = [c[0] + i * 150, c[1] + j * 50], on = n === E.d.state; ctx.beginPath(); ctx.ellipse(p[0], p[1], 66, 20, 0, 0, 7); ctx.fillStyle = on ? cols[n] : 'rgba(14,12,10,.85)'; ctx.fill(); ctx.strokeStyle = cols[n]; ctx.lineWidth = 2; ctx.stroke();
+        ctx.font = '600 22px "JetBrains Mono"'; ctx.fillStyle = '#fff'; ctx.textAlign = 'center'; ctx.fillText(n.replace('_', ' '), p[0], p[1] + 4); ctx.textAlign = 'left'; }
        }
   });
   add(26, 'an archive stage renderer', 'The dog as a renderer batches it: cut into sprite tiles, each tile one texture sample, with the draw count running; at this resolution the dog is a grid the engine can push by the thousand.', {
@@ -244,7 +244,7 @@
   });
   add(30, 'prompted mask proposals', 'Two clicks, one on the dog and one on the porch, and the model proposes a mask with a confidence; the dog is found by being pointed at.', {
     after(ctx, E) { fillParts(ctx, E, 'dog.', 'rgba(30,144,255,.45)', 'rgba(30,144,255,.9)', 1); const c = J(E, 'dog.shoulder'); dot(ctx, c, 8, '#2ecc71'); dot(ctx, c, 8, '#fff', 2);
-      const n = [c[0] + 160, c[1] + 40]; dot(ctx, n, 8, '#e74c3c'); dot(ctx, n, 8, '#fff', 2); label(ctx, c[0] - 20, c[1] - 70, `mask 0 · IoU ${(.9 + .05 * Math.sin(E.t)).toFixed(2)}`, { size: 12 }); }
+      const n = [c[0] + 160, c[1] + 40]; dot(ctx, n, 8, '#e74c3c'); dot(ctx, n, 8, '#fff', 2); { const db = bbox(allPts(E, 'dog.')); label(ctx, db[0], db[1] - 40, `mask 0 · IoU ${(.9 + .05 * Math.sin(E.t)).toFixed(2)}`); } }
   });
   add(31, 'alpha matting: hair, lace and smoke', 'A trimap around the dog: black is surely porch, white surely dog, grey the fringe (ears, tail, paws) where the matte has to be solved.', { still: 29.0,
     after(ctx, E) { ctx.save(); ctx.fillStyle = 'rgba(0,0,0,.82)'; ctx.fillRect(0, 0, W, H); ctx.lineJoin = 'round'; for (const p of parts(E)) { ctx.strokeStyle = 'rgba(128,128,128,1)'; ctx.lineWidth = /ear|tail|paw/.test(p.name) ? 18 : 9; ctx.stroke(P(p.pts)); }
@@ -298,11 +298,13 @@
   });
   add(41, 'inertia and restraint', 'Springs on every loose part, drawn as coils: the ears and tail carry momentum after the dog stops, then settle.', { still: 2.0,
     after(ctx, E) { fillParts(ctx, E, 'dog.', p => /ear|tail|neck/.test(p.name) ? 'rgba(255,210,63,.8)' : 'rgba(255,210,63,.2)'); for (const [a, b] of [['dog.earBase', 'dog.earTip'], ['dog.tailRoot', 'dog.tailTip'], ['dog.neck', 'dog.head']]) { const A = J(E, a), B = J(E, b); ctx.beginPath(); for (let i = 0; i <= 30; i++) { const t = i / 30, x = lerp(A[0], B[0], t), y = lerp(A[1], B[1], t), o = Math.sin(t * Math.PI * 14) * 5;
-      const dx = B[0] - A[0], dy = B[1] - A[1], L = Math.hypot(dx, dy) || 1; ctx.lineTo(x - dy / L * o, y + dx / L * o); } ctx.strokeStyle = '#ffd23f'; ctx.lineWidth = 1.5; ctx.stroke(); } }
+      const dx = B[0] - A[0], dy = B[1] - A[1], L = Math.hypot(dx, dy) || 1; ctx.lineTo(x - dy / L * o, y + dx / L * o); } ctx.strokeStyle = '#ffd23f'; ctx.lineWidth = 1.5; ctx.stroke(); }  const sw = .3 + .2 * Math.sin(E.t * 9); for (const p of parts(E).filter(p => /ear$|tail/.test(p.name))) { const pivot = p.name.includes('tail') ? J(E, 'dog.tailRoot') : J(E, 'dog.earBase'); for (const k of [1, -1]) { const a = sw * k; ctx.save(); ctx.translate(pivot[0], pivot[1]); ctx.rotate(a); ctx.translate(-pivot[0], -pivot[1]); ctx.fillStyle = 'rgba(212,42,30,.3)'; ctx.fill(P(p.pts)); ctx.strokeStyle = '#d42a1e'; ctx.lineWidth = 2; ctx.setLineDash([4, 3]); ctx.stroke(P(p.pts)); ctx.setLineDash([]); ctx.restore(); } } }
   });
   add(42, 'few-shot structure', 'The structure a model would infer from a few drawings: each part segmented and labelled, the dog as a graph of named regions.', {
-    after(ctx, E) { const seen = {}; parts(E).forEach((p, i) => { const g = p.name.split('.')[1].replace(/Far|Near/, ''); const hue = { body: 30, chest: 50, neck: 90, skull: 200, snout: 220, ear: 280, earFar: 300, tail: 0, tailTip: 0 }[g] ?? (g.startsWith('fore') ? 140 : 170);
-      ctx.fillStyle = hsl(hue, 70, 55, .7); ctx.fill(P(p.pts)); if (!seen[g]) { seen[g] = 1; const c = cen(p.pts); label(ctx, c[0], c[1], g, { size: 17 }); } }); }
+    after(ctx, E) { const G = { head: /skull|snout|ear/, neck: /neck|chest/, body: /body/, legs: /fore|hind/, tail: /tail/ }, hue = { head: 200, neck: 90, body: 30, legs: 150, tail: 0 };
+      for (const p of parts(E)) { const g = Object.keys(G).find(k => G[k].test(p.name)); if (!g) continue; ctx.fillStyle = hsl(hue[g], 70, 55, .75); ctx.fill(P(p.pts)); }
+      const db = bbox(allPts(E, 'dog.')); Object.keys(G).forEach((g, k) => { const ps = parts(E).filter(p => G[g].test(p.name)); if (!ps.length) return; const c = cen(ps.flatMap(p => p.pts)); const lx = Math.min(db[2] + 60, W - 130), ly = Math.max(150, db[1] - 150) + k * 34;
+        line(ctx, c, [lx - 8, ly - 8], hsl(hue[g], 80, 70), 1.5); dot(ctx, c, 4, hsl(hue[g], 80, 70)); label(ctx, lx, ly, g, { bg: hsl(hue[g], 60, 30, .92) }); }); }
   });
   add(43, 'collage graph rewriting', 'The dog as a graph of parts, and a rewriting rule that changes its identity: head ↦ door, so when the dog refuses, it closes itself.', { still: 4.4,
     after(ctx, E) { fillParts(ctx, E, 'dog.', p => hsl({ body: 30, chest: 30, neck: 120, skull: 200, snout: 200, ear: 200, earFar: 200, tail: 300 }[p.name.split('.')[1]] ?? 60, 80, 55, .55), '#fff', 1); const ns = ['dog.head', 'dog.neck', 'dog.shoulder', 'dog.hip', 'dog.tailRoot'].map(n => J(E, n)); for (let i = 0; i < ns.length - 1; i++) line(ctx, ns[i], ns[i + 1], '#fff', 2); ns.forEach(n => dot(ctx, n, 6, '#fff'));
@@ -314,9 +316,9 @@
     after(ctx, E) { const od = Math.sin(E.t * .5) * 10; for (const p of parts(E, 'dog.')) { const far = /Far|tail|earFar/.test(p.name), near = /Near|skull|snout|ear$/.test(p.name); ctx.save(); ctx.translate(far ? -od : near ? od : 0, 0); ctx.fillStyle = far ? 'rgba(70,110,200,.75)' : near ? 'rgba(255,170,60,.8)' : 'rgba(230,220,200,.65)'; ctx.fill(P(p.pts)); ctx.strokeStyle = '#14110d'; ctx.lineWidth = 1; ctx.stroke(P(p.pts)); ctx.restore(); } ctx.save(); ctx.fillStyle = 'rgba(14,30,20,.75)'; const o = Math.sin(E.t * .5) * 140; for (let i = 0; i < 7; i++) { ctx.beginPath(); ctx.ellipse(((i * 230 - o * 2.2) % 1500 + 1500) % 1500 - 100, 690, 90, 120, .3, 0, 7); ctx.fill(); }
       ctx.restore(); }
   });
-  add(45, 'occlusion: who is in front?', 'The draw order made visible: the far legs, the body, the near legs, the jamb drawn over the dog\'s back, each numbered by depth.', {
+  add(45, 'occlusion: who is in front?', 'The draw order made visible: the far legs, the body, the near legs, the jamb drawn over the dog\'s back, each numbered by depth.', { still: 29.5,
     after(ctx, E) { const ps = parts(E); ps.forEach((p, i) => { const c = cen(p.pts); ctx.fillStyle = `rgba(${Math.round(255 * i / ps.length)},${Math.round(80 + 100 * i / ps.length)},${Math.round(255 * (1 - i / ps.length))},.55)`; ctx.fill(P(p.pts)); ctx.strokeStyle = '#fff'; ctx.lineWidth = 1; ctx.stroke(P(p.pts));  });
-      }
+       if (E.d.x < .9) { const K = E.K, jx = K.sx(.46), jw = K.sx(.58) - jx, top = Math.max(110, K.sy(2.08)); ctx.save(); ctx.strokeStyle = '#ffd23f'; ctx.lineWidth = 5; ctx.strokeRect(jx, top, jw, K.sy(0) - top); ctx.restore(); const db = bbox(allPts(E, 'dog.')); label(ctx, jx + jw + 14, Math.max(170, db[1] - 90), 'jamb: in front', { bg: 'rgba(200,138,0,.95)' }); label(ctx, db[0], db[1] - 30, 'dog: behind', { bg: 'rgba(47,111,214,.95)' }); }}
   });
   add(46, 'face landmark registration', 'The dog\'s face is covered in numbered landmarks and a mesh between them, registered point for point to the person\'s, the anatomy a recasting needs.', {
     after(ctx, E) { ctx.save(); ctx.globalCompositeOperation = 'multiply'; fillParts(ctx, E, 'dog.', 'rgba(127,224,210,.55)'); ctx.restore(); for (const p of parts(E, 'dog.')) mesh(p.pts, 1).forEach(t => { ctx.strokeStyle = 'rgba(20,80,75,.6)'; ctx.lineWidth = .7; ctx.stroke(P(t)); }); const fp = parts(E).filter(p => /skull|snout|ear$/.test(p.name)).flatMap(p => p.pts.filter((_, i) => i % 2 === 0)); const pp = parts(E, 'person.head').flatMap(p => p.pts.filter((_, i) => i % 3 === 0));
@@ -340,8 +342,8 @@
     bg(ctx, E) { const g = ctx.createRadialGradient(640, 420, 80, 640, 420, 800); g.addColorStop(0, '#d8d8d4'); g.addColorStop(1, '#8d8d89'); ctx.fillStyle = g; ctx.fillRect(0, 0, W, H); return S.camera(E.cam, W, H); },
     style: () => ({ fill: (c, n) => n && n.startsWith('person.') ? grey(c) : c }),
     after(ctx, E) { ctx.save(); ctx.globalAlpha = .55; ctx.filter = 'blur(3px)'; fillParts(ctx, E, 'person.', '#a9a9a5'); ctx.restore(); ctx.save(); ctx.globalCompositeOperation = 'saturation'; fillParts(ctx, E, 'dog.', 'rgba(128,128,128,.7)'); ctx.restore(); fillParts(ctx, E, 'dog.', null, 'rgba(255,255,255,.9)', 2.5); const b = bbox(allPts(E, 'dog.')); const y = b[3] + 16; ctx.fillStyle = '#111'; for (let i = 0; i < 10; i++) ctx.fillRect(b[0] + i * 15, y, 15, 6 + (i % 2) * 0); for (let i = 0; i < 10; i += 2) { ctx.fillStyle = '#fff'; ctx.fillRect(b[0] + i * 15, y, 15, 6); }
-      label(ctx, b[0], y + 22, '10 cm', { bg: false, size: 11, c: '#111' }); ['#735244', '#c29682', '#627a9d', '#576c43', '#8580b1', '#67bdaa', '#d67e2c', '#505ba6', '#c15a63', '#5e3c6c', '#9dbc40', '#e0a32e'].forEach((c, i) => { ctx.fillStyle = c; ctx.fillRect(b[0] - 190 + (i % 6) * 26, b[3] - 60 + Math.floor(i / 6) * 26, 24, 24); });
-      const cx = Math.min(b[2] + 20, W - 224); ctx.fillStyle = '#efe6d2'; ctx.fillRect(cx, b[1] - 74, 200, 62); ctx.fillStyle = '#14110d'; ctx.font = 'italic 400 15px Literata'; ctx.fillText('Dog at a Threshold, 2026', cx + 8, b[1] - 52); ctx.font = '400 11px "JetBrains Mono"'; ctx.fillText('cut paper, brass brads', cx + 8, b[1] - 34); ctx.fillText('CC0 · open content', cx + 8, b[1] - 18); }
+      label(ctx, b[0], y + 30, '10 cm', { bg: false, c: '#111' }); ['#735244', '#c29682', '#627a9d', '#576c43', '#8580b1', '#67bdaa', '#d67e2c', '#505ba6', '#c15a63', '#5e3c6c', '#9dbc40', '#e0a32e'].forEach((c, i) => { ctx.fillStyle = c; ctx.fillRect(b[0] - 190 + (i % 6) * 26, b[3] - 60 + Math.floor(i / 6) * 26, 24, 24); });
+      const cx = Math.min(b[2] + 20, W - 224) - 40; ctx.fillStyle = '#efe6d2'; ctx.fillRect(cx - 160, b[1] - 120, 360, 100); ctx.fillStyle = '#14110d'; ctx.font = 'italic 400 24px Literata'; ctx.fillText('Dog at a Threshold, 2026', cx - 148, b[1] - 88); ctx.font = '600 22px "JetBrains Mono"'; ctx.fillText('cut paper, brass brads', cx - 148, b[1] - 60); ctx.fillText('CC0 · open content', cx - 148, b[1] - 34); }
   });
   add(50, 'a historical print stage', 'The dog printed the way the archive holds it: a halftone screen on newsprint, the dot doing the work the paper texture did.', {
     style: () => ({ fill: c => grey(c), noTex: true, edge: '#111' }),
@@ -363,7 +365,7 @@
       fillParts(ctx, E, 'dog.', p => /Far/.test(p.name) ? '#20262c' : '#d3dbe2', '#05080a', 2.5); hatch(ctx, (() => { const c = new Path2D(); for (const p of parts(E, 'dog.')) c.addPath(P(p.pts)); return c; })(), 1.53, 11, 'rgba(0,0,0,.55)', 1.2); ctx.save(); ctx.globalCompositeOperation = 'screen'; ctx.filter = 'blur(5px)'; fillParts(ctx, E, 'dog.', 'rgba(200,225,255,.35)'); ctx.restore(); }
   });
   add(54, 'a provenance graph', 'Every piece of the dog traced to where it came from: a hash for each part, linked back to the one source file and the operation that made it.', {
-    after(ctx, E) { fillParts(ctx, E, 'dog.', p => { let h = 0; for (const ch of p.name) h = (h * 31 + ch.charCodeAt(0)) >>> 0; return hsl(h % 360, 70, 55, .7); }, '#7fe0d2', 1.5); const db = bbox(allPts(E, 'dog.')), src = [(db[0] + db[2]) / 2, db[1] - 110]; dot(ctx, src, 9, '#7fe0d2'); label(ctx, src[0] - 140, src[1] - 18, 'stage.js · cut(), one seed per part', { size: 17, c: '#7fe0d2' }); parts(E).filter(p => !/Far/.test(p.name)).slice(0, 9).forEach((p, i) => { const c = cen(p.pts); let h = 0; for (const ch of p.name) h = (h * 31 + ch.charCodeAt(0)) >>> 0; line(ctx, src, c, 'rgba(127,224,210,.5)', 1); dot(ctx, c, 4, '#7fe0d2'); label(ctx, c[0] + 6, c[1] - 6, h.toString(16).slice(0, 6), { size: 15 }); }); }
+    after(ctx, E) { fillParts(ctx, E, 'dog.', p => { let h = 0; for (const ch of p.name) h = (h * 31 + ch.charCodeAt(0)) >>> 0; return hsl(h % 360, 70, 55, .7); }, '#7fe0d2', 1.5); const db = bbox(allPts(E, 'dog.')), src = [(db[0] + db[2]) / 2, db[1] - 110]; dot(ctx, src, 9, '#7fe0d2'); label(ctx, Math.max(20, src[0] - 260), src[1] - 18, 'stage.js · cut(), a seed per part', { c: '#7fe0d2' }); ['dog.skull', 'dog.body', 'dog.tail', 'dog.foreNear.upper', 'dog.hindNear.upper'].forEach((n, i) => { const p = parts(E).find(q => q.name === n); if (!p) return; const c = cen(p.pts); let h = 0; for (const ch of p.name) h = (h * 31 + ch.charCodeAt(0)) >>> 0; const lx = Math.min(db[2] + 50, W - 150), ly = db[1] - 40 + i * 34; line(ctx, src, c, 'rgba(127,224,210,.5)', 1); line(ctx, c, [lx - 6, ly - 8], 'rgba(127,224,210,.8)', 1); dot(ctx, c, 5, '#7fe0d2'); label(ctx, lx, ly, h.toString(16).slice(0, 6), { c: '#7fe0d2' }); }); }
   });
 
   // ------------------------------------------------------------------ the runner: one machine, one loop, any lens
@@ -409,7 +411,7 @@
     ctx.font = '700 30px "JetBrains Mono"'; ctx.fillStyle = '#ff7a6b'; ctx.fillText(`SCION ${String(lens.id).padStart(2, '0')}`, 24, 40);
     ctx.font = '900 40px "Big Shoulders Display"'; ctx.fillStyle = '#fbf7ee'; ctx.fillText(SW[lens.id - 1] ? SW[lens.id - 1].title.replace(' — ', ' · ').toUpperCase() : '', 24, 90);
     ctx.font = '700 30px "JetBrains Mono"'; ctx.fillStyle = 'rgba(251,247,238,.92)'; ctx.textAlign = 'right'; ctx.fillText(lens.look, W - 24, 40); ctx.textAlign = 'left';
-    const pr = [...PROMPT].reverse().find(p => E.t >= p[0]); if (pr && pr[1]) { ctx.fillStyle = 'rgba(14,12,10,.8)'; ctx.fillRect(0, H - 44, W, 44); ctx.font = '600 18px "JetBrains Mono"'; ctx.fillStyle = '#d42a1e'; ctx.fillText('›', 24, H - 16); ctx.fillStyle = '#fbf7ee'; ctx.fillText(pr[1], 46, H - 16); }
+    const pr = [...PROMPT].reverse().find(p => E.t >= p[0]); if (pr && pr[1]) { ctx.fillStyle = 'rgba(14,12,10,.84)'; ctx.fillRect(0, H - 52, W, 52); ctx.font = '600 26px "JetBrains Mono"'; ctx.fillStyle = '#d42a1e'; ctx.fillText('›', 24, H - 17); ctx.fillStyle = '#fbf7ee'; ctx.fillText(pr[1], 52, H - 17); }
     ctx.restore();
   }
   let SW = root.SWARMS || [];
