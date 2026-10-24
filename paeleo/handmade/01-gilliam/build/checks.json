@@ -17,14 +17,14 @@
   },
   "watch1": {
    "expected_t": 2.333,
-   "measured_onset_t": 2.3333333333333335,
+   "measured_onset_t": 2.5,
    "signals_frames": {
-    "head_back": 56,
-    "crouch_released": 58
+    "head_back": 64,
+    "crouch_released": 60
    },
    "signals_t": {
-    "head_back": 2.3333333333333335,
-    "crouch_released": 2.4166666666666665
+    "head_back": 2.6666666666666665,
+    "crouch_released": 2.5
    },
    "pass_0.25s": true
   },
@@ -33,24 +33,24 @@
    "measured_onset_t": 3.4166666666666665,
    "signals_frames": {
     "turn_starts": 82,
-    "back_shown": 86
+    "back_shown": 84
    },
    "signals_t": {
     "turn_starts": 3.4166666666666665,
-    "back_shown": 3.5833333333333335
+    "back_shown": 3.5
    },
    "pass_0.25s": true
   },
   "watch2": {
    "expected_t": 7.458,
-   "measured_onset_t": 7.5,
+   "measured_onset_t": 7.458333333333333,
    "signals_frames": {
-    "front_shown": 182,
-    "turn_starts": 180
+    "front_shown": 183,
+    "turn_starts": 179
    },
    "signals_t": {
-    "front_shown": 7.583333333333333,
-    "turn_starts": 7.5
+    "front_shown": 7.625,
+    "turn_starts": 7.458333333333333
    },
    "pass_0.25s": true
   },
@@ -80,16 +80,16 @@
   },
   "look_in": {
    "expected_t": 26.4,
-   "measured_onset_t": 26.5,
+   "measured_onset_t": null,
    "signals_frames": {
-    "head_moves_in": 636,
-    "settled": 684
+    "head_moves_in": null,
+    "settled": 616
    },
    "signals_t": {
-    "head_moves_in": 26.5,
-    "settled": 28.5
+    "head_moves_in": null,
+    "settled": 25.666666666666668
    },
-   "pass_0.25s": true
+   "pass_0.25s": false
   }
  },
  "never_enters": {
@@ -102,7 +102,7 @@
    258,
    528,
    570,
-   639
+   638
   ],
   "door_opening_px": [
    214.89999999999998,
@@ -114,9 +114,9 @@
   "pass": true
  },
  "x_follows_score": {
-  "max_abs_err_m": 0.031,
+  "max_abs_err_m": 0.032,
   "mean_abs_err_m": 0.003,
-  "retreat_measured_m": 0.996,
+  "retreat_measured_m": 0.997,
   "retreat_score_m": 0.996,
   "approach_measured_m": 3.406,
   "approach_score_m": 3.406,
@@ -124,7 +124,7 @@
   "pass": true
  },
  "commands_push_away": {
-  "x_at_first_call": 3.004,
+  "x_at_first_call": 3.003,
   "x_after_calls": 4.0,
   "pass": true
  },
