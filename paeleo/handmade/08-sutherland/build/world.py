@@ -222,6 +222,7 @@ LEGS = [('LH', 'h', -1, 0.00), ('LF', 'f', -1, 0.25), ('RH', 'h', 1, 0.50), ('RF
 def build_dog(x0):
     g = Graph('dog')
     g.side = np.array([0, 0, -1.0])
+    g.sides = {'f': g.side.copy(), 'r': g.side.copy()}
     hw, hc = DOG['withers_h'], DOG['croup_h']
     f = np.array([-1.0, 0, 0])
     C = np.array([x0, 0, LANE])
@@ -249,10 +250,11 @@ def build_dog(x0):
         g.dist(n0, name + '1', L[0]); g.dist(name + '1', name + '2', L[1]); g.dist(name + '2', name + '3', L[2])
         def mk(root=root, kind=kind, lat=lat):
             def fn(G):
-                Wp, Pp = G.P[G.idx['W']], G.P[G.idx['P']]
-                a = unit(Wp - Pp); s = G.side; ub = np.cross(s, a)
+                Wp, Mp, Pp = G.P[G.idx['W']], G.P[G.idx['M']], G.P[G.idx['P']]
                 if kind == 'f':
+                    a = unit(Wp - Mp); s = G.sides['f']; ub = np.cross(s, a)
                     return Wp + a * 0.03 - ub * 0.14 + s * lat
+                a = unit(Mp - Pp); s = G.sides['r']; ub = np.cross(s, a)
                 return Pp + a * 0.05 - ub * 0.07 + s * lat
             return fn
         fn = mk()
@@ -260,11 +262,11 @@ def build_dog(x0):
         g.rigid(n0, [root, 'M'])
         g.attach_pt(n0, fn, 0.5)
         if kind == 'f':
-            g.bend(n0, name + '1', name + '2', -1, 0.015)      # elbow points back
-            g.bend(name + '1', name + '2', name + '3', 1, 0.002)  # carpus never buckles backwards
+            g.bend(n0, name + '1', name + '2', -1, 0.015, 'f')      # elbow points back
+            g.bend(name + '1', name + '2', name + '3', 1, 0.002, 'f')  # carpus never buckles backwards
         else:
-            g.bend(n0, name + '1', name + '2', 1, 0.02)       # stifle points forward
-            g.bend(name + '1', name + '2', name + '3', -1, 0.02)  # hock points back
+            g.bend(n0, name + '1', name + '2', 1, 0.02, 'r')       # stifle points forward
+            g.bend(name + '1', name + '2', name + '3', -1, 0.02, 'r')  # hock points back
         g.floor(name + '3', 0.03)
         g.floor(name + '1', 0.03); g.floor(name + '2', 0.03)
     g.floor('Z', 0.025); g.floor('N', 0.05); g.floor('T3', 0.02); g.floor('T2', 0.02)
@@ -291,8 +293,7 @@ class DogDriver:
         self.g = build_dog(f0['x'])
         self.travel = 0.0
         self.prev_x = f0['x']
-        self.prev_turn = f0['act']['turn']
-        self.turn_used = None
+        self.prev_turn = (f0['act']['turn'], f0['act']['turn'])
         self.feet = {}
         for name, kind, lr, off in LEGS:
             p = self.g.p(name + '3').copy(); p[1] = 0.03
@@ -314,18 +315,27 @@ class DogDriver:
         fr = SF[i]; d = fr['dog']; a = d['act']; t = fr['t']
         g = self.g
         g.clear_frame()
-        turn = a['turn']
+        T = a['turn']
+        tf, tr = T, T
         if d['state'] == 'refuse' and t < 5.0:
-            turn = min(turn, 1 - 2 * smooth((t - 3.47) / 0.8))     # the back turns from the moment of choosing
+            # the back turns from the moment of choosing: forequarters first, hindquarters follow
+            tf = min(T, 1 - 2 * smooth((t - 3.45) / 0.55))
+            tr = min(T, 1 - 2 * smooth((t - 3.70) / 0.60))
         if 7.458 <= t < 9.5:
-            turn = max(turn, -1 + 2 * smooth((t - 7.62) / 0.7))      # rises, then the body comes round
-        # yaw is a parameter of the graph: the body rotates in depth (z), never a mirror flip.
-        # refusing turns through the wall side (we see its back); coming round turns through
-        # the camera side (we see its face).
-        phi_b = math.pi - math.acos(clamp(turn, -1, 1))
-        f = np.array([math.cos(phi_b), 0.0, math.sin(phi_b)])
-        side = np.cross(f, UP)
-        # the head leads the body: it turns first at the moment of choosing, up to 130 deg off the body
+            # rises, the head swings round, the forequarters come round, the hindquarters follow
+            tf = max(T, -1 + 2 * smooth((t - 7.58) / 0.55))
+            tr = max(T, -1 + 2 * smooth((t - 7.85) / 0.60))
+        turn = tf
+        # yaw is a parameter of the graph, one per half of the spine: the body rotates in depth (z)
+        # and bends at mid-back (W-M-P), a U-turn through the camera side, never a mirror flip.
+        phi_f = math.pi - math.acos(clamp(tf, -1, 1))
+        phi_r = math.pi - math.acos(clamp(tr, -1, 1))
+        f = np.array([math.cos(phi_f), 0.0, math.sin(phi_f)])
+        fr_ = np.array([math.cos(phi_r), 0.0, math.sin(phi_r)])
+        side = np.cross(f, UP); side_r = np.cross(fr_, UP)
+        g.sides = {'f': side, 'r': side_r}
+        phi_b = phi_f
+        # the head leads the body: it turns first at the moment of choosing, up to 130 deg off the shoulders
         if 3.417 <= t < 7.458:
             goal, tc = 0.0, 3.417
         elif 7.458 <= t < 9.5:
@@ -334,16 +344,17 @@ class DogDriver:
             goal, tc = phi_b, t
         dphi = clamp(goal - phi_b, -2.27, 2.27) * smooth((t - tc) / 0.25)
         phi_h = phi_b + dphi
-        self.phi = (phi_b, phi_h)
+        self.phi = (phi_f, phi_r, phi_h)
         fhead = np.array([math.cos(phi_h), 0.0, math.sin(phi_h)])
         g.side = side
         x = d['x']
         dx = x - self.prev_x
-        dyaw = abs(math.acos(clamp(turn, -1, 1)) - math.acos(clamp(self.prev_turn, -1, 1)))
+        dyaw = 0.5 * (abs(math.acos(clamp(tf, -1, 1)) - math.acos(clamp(self.prev_turn[0], -1, 1)))
+                      + abs(math.acos(clamp(tr, -1, 1)) - math.acos(clamp(self.prev_turn[1], -1, 1))))
         lie = a['lie']; crouch = a['crouch']
         if lie < 0.03:
             self.travel += abs(dx) + 0.32 * dyaw
-        self.prev_x, self.prev_turn = x, turn
+        self.prev_x, self.prev_turn = x, (tf, tr)
         C = np.array([x, 0.0, LANE])
         # --- torso requests -------------------------------------------------
         hw = DOG['withers_h'] * (1 - 0.16 * crouch)
@@ -352,9 +363,9 @@ class DogDriver:
         sh = floor_y(x - f[0] * 0.3, LANE)
         bob = 0.012 * a['moving'] * math.sin(4 * math.pi * self.travel / self.STRIDE)
         Wg = C + f * DOG['spine'] + UP * (hw + sh + bob)
-        Pg = C - f * DOG['spine'] + UP * (hc + bob)
+        Pg = C - fr_ * DOG['spine'] + UP * (hc + bob)
         g.goal('W', Wg, 0.35, 'withers'); g.goal('P', Pg, 0.35, 'croup')
-        g.goal('M', (Wg + Pg) / 2 + UP * 0.005, 0.15, 'back')
+        g.goal('M', C + UP * ((hw + hc) / 2 + 0.005 + bob), 0.15, 'back')
         # --- head ---------------------------------------------------------------
         look = a['look']
         fh = unit(fhead * math.cos(look * 1.0) + np.array([0, 0, -1.0]) * math.sin(look * 1.0))
@@ -375,11 +386,11 @@ class DogDriver:
         tl = a['tail']
         wag = a['wag'] * math.sin(2 * math.pi * 2.6 * t)
         gam = math.radians(lerp(30, -82, tl / 1.35) + 14 * wag)
-        back = -unit(np.array([f[0], 0, f[2]]))
+        back = -unit(np.array([fr_[0], 0, fr_[2]]))
         prev = g.p('P')
         for k, nm in enumerate(['T1', 'T2', 'T3']):
             gg = gam - math.radians(12) * k * (1 - lie * 0.5)
-            dvec = math.cos(gg) * back + math.sin(gg) * UP + side * (0.25 * wag * k)
+            dvec = math.cos(gg) * back + math.sin(gg) * UP + side_r * (0.25 * wag * k)
             tgt = prev + DOG['tail'] * unit(dvec)
             g.goal(nm, tgt, 0.25, 'tail')
             prev = tgt
@@ -392,14 +403,15 @@ class DogDriver:
             nm3 = name + '3'
             lat = (DOG['lat_f'] if kind == 'f' else DOG['lat_h']) * lr
             root = Wg if kind == 'f' else Pg
-            home = root.copy() + side * lat + f * (0.02 if kind == 'f' else -0.02)
+            fk, sk = (f, side) if kind == 'f' else (fr_, side_r)
+            home = root.copy() + sk * lat + fk * (0.02 if kind == 'f' else -0.02)
             home[1] = 0.03 + floor_y(home[0], home[2])
             set_floor(g, nm3, 0.03 + floor_y(g.p(nm3)[0], g.p(nm3)[2]))
             if lying:
                 if kind == 'f':
-                    tgt = Wg + f * 0.26 + side * lat * 0.9
+                    tgt = Wg + fk * 0.26 + sk * lat * 0.9
                 else:
-                    tgt = Pg + f * 0.22 + side * lat * 1.9
+                    tgt = Pg + fk * 0.22 + sk * lat * 1.9
                 tgt = tgt.copy(); tgt[1] = 0.03 + floor_y(tgt[0], tgt[2])
                 base = home      # rise from / sink toward the standing footprint under the body as it is now
                 g.goal(nm3, lerp(base, tgt, smooth(lie * 1.15)), 0.5, 'foot')
@@ -433,11 +445,12 @@ class DogDriver:
             # keep knees / elbows near their leg plane (soft)
         for name, kind, lr, off in LEGS:
             for j in ('1', '2'):
-                g.plane(name + j, name + '0', side, 0.4)
+                g.plane(name + j, name + '0', side if kind == 'f' else side_r, 0.4)
         self.lying_prev = lying
         res = g.solve(iters=60, tol=2e-4, hard_tail=150)
         if record and lying and a['wag'] > 0.3:
             pass
+        self.fr = (fr_, side_r)
         return res, f, side
 
 # ----------------------------------------------------------------------------
@@ -1068,7 +1081,7 @@ def main():
         dg = dog.step(i)
         res, f, side = dg
         scene.append(dict(i=i, t=t, mode=mode, op=op, pen=pen_world.copy(),
-                          dogP=dog.g.P.copy(), dog_side=side.copy(), dog_f=f.copy(),
+                          dogP=dog.g.P.copy(), dog_side=side.copy(), dog_f=f.copy(), dog_fr=dog.fr[0].copy(), dog_sider=dog.fr[1].copy(),
                           perP=per.g.P.copy(), doorP=door.g.P.copy(), door_angle=door.angle,
                           hand_req=None if hand_req is None else hand_req.copy(),
                           dres=dict(res), pres=dict(per.g.last), doorres=dict(door.g.last),

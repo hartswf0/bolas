@@ -32,7 +32,8 @@ class Graph:
         self.attach = []    # (i, fn)
         self.last = {}
         self.omega = 1.5
-        self.vmax = None     # metres per frame a goal may pull a point
+        self.vmax = None
+        self.sides = {}     # metres per frame a goal may pull a point
         self.P0 = None     # successive over-relaxation in the hard-only passes
 
     # ----- building -------------------------------------------------------
@@ -67,10 +68,10 @@ class Graph:
     def floor(self, a, y0=0.0):
         self.hard.append(('floor', (self.idx[a], y0)))
 
-    def bend(self, a, j, b, sign, margin=0.012):
+    def bend(self, a, j, b, sign, margin=0.012, key=None):
         """j must sit on the `sign` side of line a->b, measured in the joint's plane.
         The plane normal is supplied per frame through self.side (lateral axis)."""
-        self.hard.append(('bend', (self.idx[a], self.idx[j], self.idx[b], sign, margin)))
+        self.hard.append(('bend', (self.idx[a], self.idx[j], self.idx[b], sign, margin, key)))
 
     def attach_pt(self, name, fn, soft=0.0):
         """attached-to. soft=0: a dependent point (overwritten each pass).
@@ -132,9 +133,10 @@ class Graph:
                 if x0 < P[a][0] < x1 and P[a][2] < z0 and w[a] > 0:
                     P[a][2] = z0
             elif kind == 'bend':
-                a, j, b, sign, m = prm
+                a, j, b, sign, m, key = prm
                 if w[j] == 0:
                     continue
+                side = self.sides[key] if key else self.side
                 ab = P[b] - P[a]
                 L = np.linalg.norm(ab) + 1e-12
                 u = ab / L
@@ -180,10 +182,10 @@ class Graph:
                 a, x0, x1, z0 = prm
                 e = max(0.0, z0 - P[a][2]) if x0 < P[a][0] < x1 else 0.0
             else:
-                a, j, b, sign, m = prm
+                a, j, b, sign, m, key = prm
                 ab = P[b] - P[a]
                 u = ab / (np.linalg.norm(ab) + 1e-12)
-                perp = np.cross(self.side, u)
+                perp = np.cross(self.sides[key] if key else self.side, u)
                 off = float(np.dot(P[j] - P[a], perp)) * sign
                 e = max(0.0, -off)                # only a *wrong-side* joint is a violation
             if e > out[kind]:

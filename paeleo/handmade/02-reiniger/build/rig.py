@@ -62,10 +62,11 @@ def run():
         a = f['dog']['act']; p = f['person']
         tr = turn[i]
         endon = None
-        if abs(tr) < 0.4:
-            endon = 'front'   # both turns pass through the front view (the head turned to us first)
+        if abs(tr) < 0.6:
+            # no squashed in-betweens: profile -> cut end-on piece -> profile
+            endon = 'rear' if t[i] < 6 else 'front'
         dirW = -1 if tr > 0 else 1
-        sx = max(0.4, abs(tr))
+        sx = 1.0
         vx = xs[i] - xs[i - 1] if i else 0.0
         DP = dict(t=f['t'], x=f['dog']['x'], dirW=dirW, sx=sx, endon=endon, turn=tr,
                   crouch=a['crouch'], lie=a['lie'], ear=a['ear'], tail=a['tail'], wag=a['wag'],
@@ -73,11 +74,11 @@ def run():
                   phase=float(phase[i]), moving=a['moving'], vx=float(vx))
         feet = dog.step(i, DP)
         # door leaf: hinged at the right jamb, ajar = 0.45 of the opening; opens on the archive curve
-        if i < i_open: leaf = 0.45
+        if i < i_open: leaf = 1.0           # closed until 6.2 s
         else:
-            k = (i - i_open) / 2.0          # archive 12 fps -> scene 24 fps: each archive frame held twice
+            k = (i - i_open) * 13.0 / 19.0  # 14 archive frames re-timed onto 6.2-7.0 s (20 scene frames)
             s = np.interp(k, np.arange(len(s_door)), s_door)
-            leaf = lerp(0.45, 0.10, s)
+            leaf = lerp(1.0, 0.10, s)
         PP = dict(t=f['t'], x=p['x'], sit=p['sit'], reach=p['reach'], low=p['low'], call=float(call[i]),
                   soft=float(soft[i]), mouth=p['mouth'], walking=bool(i and abs(p['x'] - fr[i - 1]['person']['x']) > 1e-4))
         frames.append(dict(i=i, t=f['t'], state=f['dog']['state'], dog=DP,

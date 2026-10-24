@@ -17,7 +17,7 @@ def posture(R, m):
     d = R['dog']; row = m['row']
     if str(row.get('body', '')).startswith('endon'): return 'end-on, turning (' + row['body'][6:] + ' view)'
     if d['lie'] > 0.5:
-        if d['look'] > 0.5: return 'lying across the sill, head raised, looking in'
+        if d['look'] > 0.5: return 'lying across the sill, snout raised into the doorway, looking in'
         if d['rest'] > 0.5: return 'lying, chin on paws'
         if d['hb'] > 0.5: return 'lying, looking back over its shoulder'
         return 'lying'
@@ -73,8 +73,9 @@ res['turns_back_to_look'] = first(lambda k: fac[k] == 1, 7.0)                   
 res['approach'] = first(lambda k: dx[k] < -0.5, 14.0)                                 # moves toward the door
 h0 = hgt[int(23.4 * FPS)]
 res['lie_down'] = first(lambda k: hgt[k] < h0 - 0.03, 23.4)                           # silhouette lowers
-res['looks_in'] = first(lambda k: fac[k] == 0, 26.0)                                  # muzzle turns into the house
-res['settles'] = first(lambda k: fac[k] == 1, 27.5)
+eye = np.array([m.get('eye_area', 1) for m in meas])
+res['looks_in'] = first(lambda k: fac[k] == 1 and eye[k] < 0.5 and trace[k]['gaze'].startswith('into'), 26.0)  # snout into the light, eye hidden
+res['settles'] = first(lambda k: eye[k] > 0.5, 27.5)
 target = dict(retreat=1.0, watch_after_retreat=2.333, refuse=3.417, turns_back_to_look=7.458, approach=14.708,
               lie_down=23.792, looks_in=26.4)
 choices = {}

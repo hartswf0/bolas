@@ -4,7 +4,7 @@ Typed primitives (native formal language):
   Piece      -- a cut silhouette polygon in its own local frame (metres), with a pivot (pin).
   Pin        -- a hinge joining two pieces; angle limits are enforced and logged.
   Replacement-- a discrete swap of a piece (profile / foreshortened / end-on) chosen per frame.
-  Contact    -- the porch plane g(x) (floor 0, sill 0.045 m) on which paws are planted.
+  Contact    -- the porch plane g(x) (floor 0, raised sill stone 0.09 m) on which paws are planted.
   Exposure   -- one row per frame: replacements used, joint angles, contacts (exposure-sheet.csv).
 
 Coordinates: world metres, x along the porch (threshold at 0, inside negative, steps at 4.9),
@@ -31,7 +31,8 @@ def Y(y): return FY - S * y
 
 def ground(x):
     """Contact plane: porch floor 0, the sill stone across the door opening is 4.5 cm high."""
-    return 0.045 if -0.52 <= x <= 0.52 else 0.0
+    return SILL_H if -0.56 <= x <= 0.56 else 0.0
+SILL_H = 0.09
 
 # ---------------------------------------------------------------- geometry helpers
 def catmull(pts, n=6, closed=True):
@@ -85,6 +86,15 @@ def ik2(a, t, l1, l2, bend):
     mid = a + l1 * np.array([math.cos(ang), math.sin(ang)])
     end = mid + l2 * (t - mid) / (np.linalg.norm(t - mid) + 1e-9)
     return mid, end, clamped
+
+def limit_joint(a, mid, end, l2, lo, hi):
+    """Pinned-joint limit: clamp the relative angle at `mid` into [lo, hi] degrees and re-place the
+    lower bone by forward kinematics. Returns (end, relative angle, clamped?)."""
+    a1 = math.atan2(mid[1] - a[1], mid[0] - a[0]); a2 = math.atan2(end[1] - mid[1], end[0] - mid[0])
+    rel = (math.degrees(a2 - a1) + 180) % 360 - 180
+    if lo <= rel <= hi: return end, rel, False
+    rc = min(hi, max(lo, rel)); a2 = a1 + math.radians(rc)
+    return mid + l2 * np.array([math.cos(a2), math.sin(a2)]), rc, True
 
 def interp(v, xs, ys): return float(np.interp(v, xs, ys))
 def smooth(s): s = min(1, max(0, s)); return s * s * (3 - 2 * s)
@@ -154,9 +164,10 @@ class DogRig:
     # ---- posture -> spine pins
     def spine(self, P):
         cr, lie = P['crouch'], P['lie']
-        yM = lerp(0.47 - 0.07 * cr, 0.20, lie)
-        aF = lerp(D(-7 * cr), D(2), lie)
-        aH = lerp(D(5 + 13 * cr), D(5), lie)
+        # fear lowers the whole spine and drops the croup; the back stays one line (no hump at the pin)
+        yM = lerp(0.47 - 0.10 * cr, 0.20, lie)
+        aF = lerp(D(1 * cr), D(2), lie)
+        aH = lerp(D(5 + 6 * cr), D(5), lie)
         return yM, aF, aH
 
     def anchors(self, yM, aF, aH):
@@ -217,7 +228,7 @@ class DogRig:
             return np.stack([x0 + dirW * sx * p[:, 0], p[:, 1]], 1)
         def L_(wx):  # world x -> local x
             return (wx - x0) / (dirW * sx)
-        fills, holes, muzzle, skull = [], [], [], []
+        fills, holes, muzzle, skull, eyes = [], [], [], [], []
         row = dict(i=i)
         lie, cr, rest, look, hb = P['lie'], P['crouch'], P['rest'], P['look'], P['hb']
         if P['endon']:
@@ -243,9 +254,9 @@ class DogRig:
             if front:
                 wrist = lp + np.array([lerp(-0.01, -0.07, lie), lerp(0.06, 0.03, lie)])
                 elbow, wrist2, cl = ik2(Sj, wrist, LEG['fu'], LEG['fl'], bend=-1)
-                ang = math.degrees(math.atan2(*(wrist2 - elbow)[::-1]) - math.atan2(*(elbow - Sj)[::-1]))
-                ang = (ang + 180) % 360 - 180
-                if not (-5 <= ang <= 150): self.limit_log.append((i, leg, 'elbow', round(ang, 1)))
+                w3, ang, clp = limit_joint(Sj, elbow, wrist2, LEG['fl'], -5, 150)
+                if clp:
+                    self.limit_log.append((i, leg, 'elbow', round(ang, 1))); lp = lp + (w3 - wrist2); wrist2 = w3
                 parts = [capsule(Sj, elbow, 0.058, 0.04), capsule(elbow, wrist2, 0.032, 0.025),
                          capsule(wrist2, lp + np.array([0.035, 0.012]), 0.026, 0.022),
                          ellipse(lp + np.array([0.04, 0.018]), 0.045, 0.02, 14)]
@@ -253,9 +264,9 @@ class DogRig:
             else:
                 hock = lp + np.array([lerp(-0.05, -0.15, lie), lerp(0.14, 0.025, lie)])
                 stifle, hock2, cl = ik2(Hj, hock, LEG['hu'], LEG['hl'], bend=+1)
-                ang = math.degrees(math.atan2(*(hock2 - stifle)[::-1]) - math.atan2(*(stifle - Hj)[::-1]))
-                ang = (ang + 180) % 360 - 180
-                if not (-170 <= ang <= 5): self.limit_log.append((i, leg, 'stifle', round(ang, 1)))
+                h3, ang, clp = limit_joint(Hj, stifle, hock2, LEG['hl'], -170, 5)
+                if clp:
+                    self.limit_log.append((i, leg, 'stifle', round(ang, 1))); lp = lp + (h3 - hock2); hock2 = h3
                 parts = [capsule(Hj, stifle, 0.085, 0.045), capsule(stifle, hock2, 0.04, 0.027),
                          capsule(hock2, lp + np.array([0.02, 0.012]), 0.028, 0.022),
                          ellipse(lp + np.array([0.035, 0.016]), 0.042, 0.019, 14)]
@@ -293,24 +304,24 @@ class DogRig:
         # door, the head swings back over the withers (the profile head flipped on its pin) to look.
         headmode = 'profile'
         if hb > 0 and P.get('hbmode') == 'avert':
-            aN = lerp(aN, aN - 8, smooth(hb)); aHd = lerp(aHd, aHd - 10, smooth(hb))
-            if hb >= 0.45: headmode = 'endon'
+            aN = lerp(aN, max(aN, -4), smooth(hb)); aHd = lerp(aHd, max(aHd, -30), smooth(hb))
+            if hb >= 0.45: headmode = 'back'
         elif hb > 0:
-            aNb = 150 + 22 * (1 - min(1, h)); aHb = 180 + 18
+            aNb = 122 + 10 * (1 - min(1, h)); aHb = 178
             aN = lerp(aN, aNb, smooth(hb)); aHd = lerp(aHd, aHb, smooth(hb))
             if 0.35 < hb < 0.65: headmode = 'endon'
             elif hb >= 0.65: headmode = 'mirror'
         if look > 0:
-            aN = lerp(aN, 62, smooth(look))
-            if look >= 0.6: headmode = 'back'
+            aN = lerp(aN, 68, smooth(look)); aHd = lerp(aHd, 20, smooth(look))
+            if look >= 0.5: headmode = 'lookin'
         aNr = D(aN); aHr = D(aHd)
         neck = place(NECK, neck0, aNr)
         hp = neck0 + NECK_LEN * np.array([math.cos(aNr), math.sin(aNr)])
         fills.append(W_(neck))
         ear_ang = D(interp(max(0, min(1, P['ear'])), [0, 1], [168, 98]))
         hsx = 1.0
-        if headmode in ('profile', 'mirror'):
-            if look > 0: hsx = 1 - min(look, 0.6) / 0.6 * 0.55
+        if headmode in ('profile', 'mirror', 'lookin'):
+            if look > 0: hsx = 1 - min(look, 0.5) / 0.5 * 0.12
             if hb > 0 and P.get('hbmode') == 'avert': hsx = 1 - min(hb, 0.45) / 0.45 * 0.55
             if headmode == 'mirror':
                 # the same head piece flipped on its pin, pointing back over the shoulder
@@ -327,7 +338,8 @@ class DogRig:
                 sk = place(CRANIUM, hp, aHr, hsx)
                 epin = place(EAR_PIN[None], hp, aHr, hsx)[0]
                 ear = place(EAR, epin, aHr + ear_ang)
-            fills.append(W_(ear)); fills.append(W_(hd)); holes.append(W_(ey))
+            fills.append(W_(ear)); fills.append(W_(hd))
+            if headmode != 'lookin': holes.append(W_(ey)); eyes.append(W_(ey))
             muzzle.append(W_(mz)); skull.append(W_(sk))
             if P['ear'] > 0.5 and headmode == 'profile':
                 ear2 = place(EAR, epin + rot2(np.array([[0.028, 0.0]]), aHr)[0] * [hsx, 1], aHr + ear_ang - D(12))
@@ -350,12 +362,12 @@ class DogRig:
                 fills.append(ellipse(cw + np.array([0, -0.035]), 0.05, 0.03, 16))   # nape ruff
         row.update(neck_deg=round(aN, 1), head_deg=round(aHd, 1), head=headmode,
                    ear_deg=round(math.degrees(ear_ang), 1))
-        return dict(fills=fills, holes=holes, muzzle=muzzle, skull=skull, row=row)
+        return dict(fills=fills, holes=holes, muzzle=muzzle, skull=skull, eyes=eyes, row=row)
 
     def pose_endon(self, P, W_, row):
         """End-on replacement puppet: rear view while turning away, front view while turning back."""
         x0 = P['x']; cr = P['crouch']; lie = P['lie']
-        yM = lerp(0.47 - 0.07 * cr, 0.20, lie)
+        yM = lerp(0.47 - 0.10 * cr, 0.20, lie)
         fills, holes, skull = [], [], []
         def at(dx, dy): return np.array([x0 + dx, dy])
         if P['endon'] == 'rear':
@@ -386,7 +398,7 @@ class DogRig:
                 holes.append(ellipse(c + [s_ * 0.027, 0.01], 0.01, 0.006, 10))
             fills.append(ellipse(c + [0, -0.05], 0.04, 0.05, 16))
             row.update(head='endon-front', body='endon-front')
-        return dict(fills=fills, holes=holes, muzzle=[], skull=skull, row=row)
+        return dict(fills=fills, holes=holes, muzzle=[], skull=skull, eyes=[], row=row)
 
 
 # ---------------------------------------------------------------- the person: cut pieces

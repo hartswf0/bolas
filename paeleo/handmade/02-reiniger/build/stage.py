@@ -164,10 +164,19 @@ def build():
                 if xo < xb - 6:
                     poly(d, [(xo, yy - 6), (xo + 6, yy), (xo, yy + 6), (xo - 6, yy)], 0)
     d.line(sp([(0, 604), (STEP_X, 604)]), fill=0, width=2 * SS)
+    # the speech plaque: a framed cartouche cut into the porch fascia
+    d.rounded_rectangle([300 * SS, 632 * SS, 580 * SS, 692 * SS], radius=10 * SS, outline=0, width=2 * SS)
+    for (cx, cy) in [(300, 662), (580, 662)]:
+        circle(d, cx, cy, 4, 0)
     for k in range(3):
         poly(d, [(STEP_X + k * 32, FY + k * 30), (1280, FY + k * 30), (1280, 720), (STEP_X + k * 32, 720)])
     # sill stone across the opening (contact plane, 4.5 cm)
-    d.polygon(wp([(-0.55, 0.0), (-0.52, 0.045), (0.52, 0.045), (0.55, 0.0)]), fill=255)
+    # the sill: its own raised stone (9 cm), chamfered, ornamented, standing on the floor with a lit seam
+    d.polygon(wp([(-0.60, 0.0), (-0.57, SILL_H), (0.57, SILL_H), (0.60, 0.0)]), fill=255)
+    d.line(wp([(-0.60, -0.004), (0.60, -0.004)]), fill=0, width=2 * SS)
+    d.line(wp([(-0.56, SILL_H - 0.022), (0.56, SILL_H - 0.022)]), fill=0, width=SS)
+    for xx in np.arange(-0.50, 0.51, 0.1):
+        circle(d, X(xx), Y(0.035), 2.2, 0)
     # door casing: architrave around the arch, keystone
     ao = arch_outline()
     for k in range(len(ao) - 1):

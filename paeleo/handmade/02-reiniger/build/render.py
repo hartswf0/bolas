@@ -93,13 +93,13 @@ def compose(t, leaf, black_dyn, flick=1.0, open_amt=0.0, star_amt=0.0, sky_t=Non
     Lf = Lf * (1 - door) + interior * door * flick
     win = st['window'][..., None]
     Lf = Lf * (1 - win) + np.array([0.95, 0.66, 0.36], np.float32) * 0.78 * win * flick
-    gl = 0.16 + 0.84 * open_amt
+    gl = open_amt
     Lf = Lf + np.array([1.0, 0.72, 0.40], np.float32) * ((st['radial'] * 0.40 + st['wedge'] * 0.34) * gl)[..., None]
     Lf = Lf + np.array([1.0, 0.70, 0.35], np.float32) * (st['lantern'] * 0.55 * flick)[..., None]
     Lf = Lf + np.array([0.95, 0.92, 0.82], np.float32) * (G['moon'] * 0.85 + G['moonglow'] * 0.10)[..., None]
     Lf = Lf + (st['stars'] * star_amt)[..., None] * np.array([0.9, 0.9, 1.0], np.float32)
     T = st['paper'] * (1 - 0.22 * st['far']) * (1 - 0.42 * st['mid']) * (1 - 0.66 * st['facade'])
-    T = T * (1 - 0.6 * st['curtain']) * (1 - 0.80 * leaf)
+    T = T * (1 - 0.6 * st['curtain']) * (1 - 0.70 * leaf)
     blk = np.maximum(st['black'], black_dyn)
     out = Lf * T[..., None]
     out = out * (1 - blk[..., None]) + BLACK * blk[..., None]
@@ -108,7 +108,7 @@ def compose(t, leaf, black_dyn, flick=1.0, open_amt=0.0, star_amt=0.0, sky_t=Non
 def text_layer(img, t):
     for (a, b, s, kind) in CUES:
         if a - 0.1 <= t <= b + 0.2:
-            al = min(1, (t - a + 0.1) / 0.2, (b + 0.2 - t) / 0.3)
+            al = min(1, (t - a + 0.1) / 0.12, (b + 0.2 - t) / 0.12)
             if al <= 0: continue
             font = G['font_call'] if kind == 'call' else G['font_soft']
             lay = Image.new('L', (W, H), 0); d = ImageDraw.Draw(lay)
@@ -130,7 +130,7 @@ def render_scene(i):
     pmask = mask_of(pp['fills'], pp['holes'])
     lf, ll = leaf_mask(R['leaf'])
     blk = np.maximum(np.maximum(dmask, pmask), ll)
-    open_amt = (0.45 - R['leaf']) / 0.35
+    open_amt = (1.0 - R['leaf']) / 0.9
     flick = 1.0 + 0.012 * math.sin(t * 7.3) + 0.008 * math.sin(t * 17.1 + 1.0)
     star_amt = smooth((t - 9) / 14) * 0.8
     out = compose(t, lf, blk, flick, open_amt, star_amt)
@@ -152,7 +152,11 @@ def render_scene(i):
         gaze = 'toward door' if facing == 1 else 'away from door'
     elif sk is not None and sk.sum() > 3:
         gaze = 'end-on (looking into depth)'
-    meas['facing'] = facing; meas['gaze'] = gaze
+    ey = mask_of(dp['eyes']) if dp['eyes'] else None
+    eye_area = 0 if ey is None else float(ey.sum())
+    if facing == 1 and eye_area < 0.5 and dp['row'].get('head') == 'lookin':
+        gaze = 'into the house (snout into the doorway light, eye hidden)'
+    meas['facing'] = facing; meas['gaze'] = gaze; meas['eye_area'] = round(eye_area, 2)
     meas['row'] = dict(dp['row'], **{'p_' + k: v for k, v in pp['row'].items() if k != 'i'}, leaf=round(R['leaf'], 3))
     meas['limits'] = dog.limit_log
     return np.asarray(img).tobytes(), meas
