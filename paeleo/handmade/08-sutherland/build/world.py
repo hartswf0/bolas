@@ -268,6 +268,10 @@ def build_dog(x0):
         g.floor(name + '1', 0.03); g.floor(name + '2', 0.03)
     g.floor('Z', 0.025); g.floor('N', 0.05); g.floor('T3', 0.02); g.floor('T2', 0.02)
     g.dist('LF0', 'RF0'); g.dist('LH0', 'RH0')
+    # the threshold as a constraint: inside the door frame no part of the dog passes the door plane
+    for n in g.names:
+        g.wall(n, SILL['x0'], SILL['x1'], 0.0)
+    g.vmax = 0.09
     return g
 
 def set_floor(g, name, y0):
@@ -287,6 +291,7 @@ class DogDriver:
         self.travel = 0.0
         self.prev_x = f0['x']
         self.prev_turn = f0['act']['turn']
+        self.turn_used = None
         self.feet = {}
         for name, kind, lr, off in LEGS:
             p = self.g.p(name + '3').copy(); p[1] = 0.03
@@ -309,6 +314,8 @@ class DogDriver:
         g = self.g
         g.clear_frame()
         turn = a['turn']
+        if d['state'] == 'refuse' and t < 5.0:
+            turn = min(turn, 1 - 2 * smooth((t - 3.417) / 1.3))     # the back turns from the moment of choosing
         f, side = self.yaw_vectors(turn)
         g.side = side
         x = d['x']
@@ -448,6 +455,7 @@ def build_person(x0):
         g.P[g.idx['Sh' + s]] = g.attach[[n for n, (i, fn, k) in enumerate(g.attach) if g.names[i] == 'Sh' + s][0]][1](g)
         g.rigid('Hp' + s, ['Pv', 'Ch']); g.rigid('Sh' + s, ['Ch', 'Pv'])
     g.dist('HpL', 'HpR'); g.dist('ShL', 'ShR')
+    g.vmax = 0.08
     for n, m in (('Pv', 0.08), ('Ch', 0.2), ('HpL', 0.2), ('HpR', 0.2), ('ShL', 0.4), ('ShR', 0.4), ('Hd', 0.5)):
         g.mass(n, m)
     g.floor('Pv', 0.12)

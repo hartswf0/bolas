@@ -31,7 +31,9 @@ class Graph:
         self.soft = []
         self.attach = []    # (i, fn)
         self.last = {}
-        self.omega = 1.5     # successive over-relaxation in the hard-only passes
+        self.omega = 1.5
+        self.vmax = None     # metres per frame a goal may pull a point
+        self.P0 = None     # successive over-relaxation in the hard-only passes
 
     # ----- building -------------------------------------------------------
     def point(self, name, xyz, invm=1.0):
@@ -57,6 +59,10 @@ class Graph:
         if L is None:
             L = float(np.linalg.norm(self.P[ia] - self.P[ib]))
         self.hard.append(('dist', (ia, ib, float(L))))
+
+    def wall(self, a, x0, x1, z0):
+        """behind / in-front-of: between x0 and x1 the point may not pass the plane z = z0."""
+        self.hard.append(('wall', (self.idx[a], x0, x1, z0)))
 
     def floor(self, a, y0=0.0):
         self.hard.append(('floor', (self.idx[a], y0)))
@@ -121,6 +127,10 @@ class Graph:
                 a, y0 = prm
                 if P[a][1] < y0 and w[a] > 0:
                     P[a][1] = y0
+            elif kind == 'wall':
+                a, x0, x1, z0 = prm
+                if x0 < P[a][0] < x1 and P[a][2] < z0 and w[a] > 0:
+                    P[a][2] = z0
             elif kind == 'bend':
                 a, j, b, sign, m = prm
                 if w[j] == 0:
@@ -142,6 +152,12 @@ class Graph:
             if kind == 'goal':
                 i, t, k, _ = prm
                 if w[i] > 0:
+                    if self.vmax is not None:
+                        # no hidden teleporting: a request farther than vmax from where the point
+                        # was last frame is only followed vmax of the way this frame
+                        d = t - self.P0[i]; n = math.sqrt(float(d @ d))
+                        if n > self.vmax:
+                            t = self.P0[i] + d * (self.vmax / n)
                     P[i] += k * (t - P[i])
             elif kind == 'plane':
                 i, a, n, k = prm
@@ -151,7 +167,7 @@ class Graph:
 
     def residuals(self):
         P, w = self.P, self.invm
-        out = {'dist': 0.0, 'floor': 0.0, 'bend': 0.0}
+        out = {'dist': 0.0, 'floor': 0.0, 'bend': 0.0, 'wall': 0.0}
         worst = None
         for kind, prm in self.hard:
             if kind == 'dist':
@@ -160,6 +176,9 @@ class Graph:
             elif kind == 'floor':
                 a, y0 = prm
                 e = max(0.0, y0 - P[a][1])
+            elif kind == 'wall':
+                a, x0, x1, z0 = prm
+                e = max(0.0, z0 - P[a][2]) if x0 < P[a][0] < x1 else 0.0
             else:
                 a, j, b, sign, m = prm
                 ab = P[b] - P[a]
@@ -183,6 +202,7 @@ class Graph:
         """Relaxation: alternate soft requests and hard projections; finish with
         hard-only passes until the worst hard error is under tol (or budget ends)."""
         n_used = 0
+        self.P0 = self.P.copy()
         for it in range(iters):
             self._apply_soft()
             self._attach()
