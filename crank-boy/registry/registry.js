@@ -501,6 +501,13 @@ window.CRANK = {
       "title": "SCION // FUTURETOWN art department",
       "file": "docs/prompts/art-department.md",
       "note": "New aesthetics per card: generated blank pages, better rigs, archive backgrounds, call sheets"
+    },
+    {
+      "key": "futuretown",
+      "group": "The shorts",
+      "title": "Futuretown: the write-up",
+      "file": "docs/futuretown.md",
+      "note": "Everything: the shorts, the Town, the art department, the Méliès proof, lessons, next"
     }
   ],
   "influences": [
@@ -955,6 +962,17 @@ window.CRANK = {
       "prompt": "docs/prompts/art-department.md",
       "sheets": "shorts/requests.json",
       "tool": "shorts/tools/stencil.py"
-    }
+    },
+    "proofs": [
+      {
+        "card": "school",
+        "title": "À l'école, a trick film",
+        "page": "shorts/school-melies.html",
+        "film": "assets/shorts/films/school-melies.mp4",
+        "poster": "assets/shorts/films/school-melies.jpg",
+        "aesthetic": "Méliès trick-film stage"
+      }
+    ],
+    "writeup": "docs/futuretown.md"
   }
 };

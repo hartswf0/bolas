@@ -99,7 +99,19 @@
       const ow = Math.max(2, Math.round(o.res || sw)), oh = Math.max(2, Math.round(ow * sh / sw));
       off.width = ow; off.height = oh;
       octx.drawImage(v, sx, sy, sw, sh, 0, 0, ow, oh);
-      if (o.tone) {
+      if (o.inks) {   // re-print in a card's inks: luminance onto the lighter inks through a 4x4 ordered dither, key plate one pixel off
+        const d = octx.getImageData(0, 0, ow, oh), I = o.inks, n = I.length, src = new Float32Array(ow * oh), B = [0, 8, 2, 10, 12, 4, 14, 6, 3, 11, 1, 9, 15, 7, 13, 5];
+        let lo = 1, hi = 0; for (let i = 0; i < ow * oh; i++) { const l = (d.data[i * 4] * .3 + d.data[i * 4 + 1] * .59 + d.data[i * 4 + 2] * .11) / 255; src[i] = l; if (l < lo) lo = l; if (l > hi) hi = l; }
+        const span = Math.max(.05, hi - lo);
+        for (let y = 0; y < oh; y++) for (let x = 0; x < ow; x++) {
+          const i = y * ow + x, l = clamp((src[i] - lo) / span * (o.contrast || 1) + (o.lift || 0)), b = B[(y & 3) * 4 + (x & 3)] / 16 - .5;
+          const c = I[Math.max(1, Math.min(n - 1, Math.round(l * (n - 2) + b * .9) + 1))];
+          const kx = Math.max(0, x - 1), ky = Math.max(0, y - 1), kl = clamp((src[ky * ow + kx] - lo) / span), k = clamp(1 - kl * 2.2) * .85;
+          for (let j = 0; j < 3; j++) d.data[i * 4 + j] = c[j] * (1 - k) + I[0][j] * k;
+          if (o.lumaAlpha) d.data[i * 4 + 3] = 255 * clamp(o.lumaAlpha === 'dark' ? (1 - l) * 1.6 - .2 : l * 1.6 - .3);
+        }
+        octx.putImageData(d, 0, 0);
+      } else if (o.tone) {
         const d = octx.getImageData(0, 0, ow, oh), a = hexRGB(o.tone[0]), b = hexRGB(o.tone[1]);
         const c = o.contrast || 1, lift = o.lift || 0;
         for (let i = 0; i < d.data.length; i += 4) {

@@ -43,7 +43,7 @@ dl.sw dt{font-family:var(--display)}dl.sw dd{margin:0}
 <div><b>Drawn</b>Quick, Draw! doodles (CC BY 4.0) and marks drawn by code.</div>
 <div class="gen"><b>Generated</b>New: image-model blank pages, turnarounds and in-betweens, labelled as generated, each with its prompt, seed and test. None has been run yet.</div>
 </div>
-<div class="row"><button type="button" data-copy="art">Copy the art-department prompt</button><a class="btn" href="../docs/prompts/art-department.md">Read it</a><a class="btn" href="requests.json">requests.json</a></div>
+<div class="row"><a class="btn" href="../docs/futuretown.md">Read the whole write-up</a><button type="button" data-copy="art">Copy the art-department prompt</button><a class="btn" href="../docs/prompts/art-department.md">Read it</a><a class="btn" href="requests.json">requests.json</a></div>
 </section>
 
 <div id="sheets"></div>
@@ -71,6 +71,7 @@ fetch('requests.json').then(r => r.json()).then(Q => {
       <div class="row"><a class="btn" href="world.html?d=${esc(s.card)}">Play this district now</a><a class="btn" href="index.html#${esc(s.card)}">Its film and process</a></div></div></div>
     <h3>Plates to pull</h3><div style="overflow-x:auto"><table class="refs"><tr><th>Film</th><th>Year</th><th>Seconds</th><th>Clip id</th><th>Why</th></tr>
       ${s.refs.map(r => `<tr><td><i>${esc(r.title)}</i></td><td>${esc(r.year || 'not recorded')}</td><td>${r.in}–${r.out}</td><td><code>${esc(r.clip.slice(0, 8))}</code> ${r.where.startsWith('lab/') ? '<span class="local">in the checkout</span>' : '<span class="meta">on the lab CDN</span>'}</td><td>${esc(r.why)}</td></tr>`).join('')}</table></div>
+    ${s.proofScene ? `<div class="sheet" style="margin:.8em 0;background:#fbf7ea"><h3>Proof scene, made</h3><video controls preload="none" playsinline poster="../${esc(s.proofScene.poster)}" src="../${esc(s.proofScene.film)}" aria-label="Proof scene"></video><p>${esc(s.proofScene.line)}</p><p class="meta">${esc(s.proofScene.review)}. <a href="../${esc(s.proofScene.page)}">Open the composition</a></p></div>` : ''}
     ${s.generate.map(g => `<div class="gen-req"><b>Generate (${esc(g.job)}):</b> ${esc(g.prompt)}.<br><span class="meta">Input: ${esc(g.input)}. Accept when: ${esc(g.accept)}. Not yet run.</span></div>`).join('')}
     ${s.ask.map(a => `<div class="ask"><b>Ask:</b> ${esc(a)}</div>`).join('')}
   </section>`).join('');
