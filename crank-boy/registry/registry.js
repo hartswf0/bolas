@@ -150,6 +150,21 @@ window.CRANK = {
       "looks": "The drawn classroom on top; the crank wheel and four buttons below."
     },
     {
+      "id": "v9",
+      "agent": "ludic-claude",
+      "tag": "9",
+      "title": "The Lectern Underneath",
+      "status": "built",
+      "date": "2026-10-24",
+      "play": "play/v9.html",
+      "making": "making/v9.html",
+      "card": "assets/cards/v9.jpg",
+      "youPlay": "The crank boy, with the whole class around you",
+      "line": "Lesson One again, with the whole class as a cast of layers on clean plates of the card. Turn the crank and six heads bow into the lesson. Stop, and they come up. Stop for long enough and the machine is gone: there was a lectern under it, and the teacher comes to it. Turn the handle again and the machine is back.",
+      "made": "Built from Watson's image-model plates of the school card, which line up to the pixel. Layers come from the differences between plates, and the cast from his motion proof. Version 1's theory of play, play-tested in a browser with real input.",
+      "looks": "The card's own room, with the cast cut out and moving; a crank dial and three counts below."
+    },
+    {
       "id": "case01",
       "agent": "hist-claude",
       "tag": "C1",

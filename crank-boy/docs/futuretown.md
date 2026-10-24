@@ -1,6 +1,6 @@
 # Futuretown: the write-up
 
-Seven *En l'an 2000* postcards (attributed to Villemard, about 1910), each brought to life three ways, then joined into one town, then given an art department to take the town into new aesthetics. This is the record of what was made, how, what a blind critic found, and what is next. Pages: `shorts/index.html` (the project page), `shorts/world.html` (the Town), `shorts/requests.html` (the art department), `shorts/school-melies.html` (the first proof scene). The same pages are mirrored into Bolas at `bolas/crank-boy/`.
+Seven *En l'an 2000* postcards (attributed to Villemard, about 1910), each brought to life three ways, then joined into one town, then given an art department to take the town into new aesthetics. This is the record of what was made, how, what a blind critic found, and what is next. Pages: `shorts/index.html` (the project page), `shorts/world.html` (the Town), `shorts/requests.html` (the art department), `shorts/school-melies.html` (the first proof scene), `play/v9.html` (a better Crank Boy on clean plates). The same pages are mirrored into Bolas at `bolas/crank-boy/`.
 
 ## 1. Seven shorts
 
@@ -49,7 +49,17 @@ One short per card, each worked by one operator from the SCION animation swarms 
 - **The film is cranked.** The story's clock runs as fast as the boy turns: it slows when he slows, as a hand-cranked projector did, and it is shown at 16 frames a second with gate weave, flicker, scratches and dust.
 - **What it shows.** An archive frame from the card's own decade, re-printed in the card's inks, can replace a surface of the card on one frame without reading as a seam. The proof has not been blind-reviewed. The re-print now runs live in `stage.js` (the `inks` option of `plateFrame`), so any district can use it.
 
-## 5. Lessons
+## 5. A better Crank Boy: version 9, The Lectern Underneath
+
+Watson made five image-model plates of *À l'école* that line up with the card and with each other to the pixel. Each has less in it: the machine with empty helmets, the machine alone (twice, identical), a lectern with helmets, and the lectern alone. He also made a cast: six pupils with rough head and body layers, the teacher reading and pointing, and the crank boy. This was his motion proof (`crankboy_motion_proof`), extracted from generated sprite sheets by connected alpha components.
+
+- **Layers by difference.** Because the plates line up, subtracting one from another gives a layer already in place. The machine is where the machine plate differs from the lectern plate. The tables and the lectern's front are cut by hand-placed outlines, so the pupils can sit between the rows and the teacher can stand behind the lectern (`assets/v9/build_layers.py`).
+- **The game** (`play/v9.html`) is Lesson One with the whole class. Turn the crank and six heads bow into the lesson while the wires pulse. Stop, and they come up. Stop for six seconds and, in one stop-substitution, the machine is gone: there was a lectern under it, and the teacher comes to it. Turn the handle for three seconds and the machine is back. The bell rings after ninety seconds. Play-tested in a browser with real key and dial input, at desktop and phone size.
+- **Why the lectern.** The card never shows what is under the machine. A clean plate has to invent something there, and the model chose the older future: a man at a desk, talking. The game is built on that invention, and its ledger says it is the model's.
+- **The film** (`assets/shorts/films/v9.mp4`, 52 s) is the game stepped from a fixed script.
+- **Limits.** The head and body split is a horizontal cut. Nobody walks or turns. The crank boy's arms do not follow the crank. There is one view of everyone. The plates' and cast's model and prompts are not recorded in this repository.
+
+## 6. Lessons
 
 1. The card's own drawing is the best cast.
 2. The archive belongs on a surface the card already has.
@@ -58,10 +68,12 @@ One short per card, each worked by one operator from the SCION animation swarms 
 5. Keep the performance apart from the performer; that is what made the Town possible without remaking the shorts.
 6. Re-printing in the card's inks is a stronger join than toning: the archive stops looking pasted and starts looking printed.
 7. Low resolution limits the camera; three cards are under 600 px wide.
+8. Aligned clean plates turn a card into layers by subtraction. One plate per thing taken away is worth more than any amount of inpainting a hole at a time.
 
-## 6. Next
+## 7. Next
 
-- Blind-review the Town, the fixed shorts and the Méliès proof.
+- Blind-review the Town, the fixed shorts, the Méliès proof and version 9.
+- Ask for aligned plates of the other six cards, and a cast for each, in the same form as the school's.
 - Run the Generated lane on one call sheet: the school's blank pages and the teacher's turnaround.
 - Fetch the call sheets' plates that are only on the lab's CDN: *The Rink*, *A Trip Down Market Street* and the 1906 fire.
 - Get better scans of the four smallest cards.

@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>The Crank Boy · How Version 9 Was Made</title>
+<meta name="description" content="How version 9, The Lectern Underneath, was made from Watson's clean plates of the school card and a generated cast, cut into layers by difference.">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../assets/favicon-180.png">
+<link rel="stylesheet" href="../room/room.css">
+<link rel="stylesheet" href="../shorts/shorts.css">
+<style>.plates{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}.plates figure{margin:0}.plates img{width:100%;border:1.5px solid var(--ink)}.plates figcaption{font-size:14px}@media (max-width:760px){.plates{grid-template-columns:1fr 1fr}}</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top"><a class="room-return" href="../index.html#v9">The album</a></header>
+<h1>How version 9 was made</h1>
+<p class="lede">Version 9 is Lesson One again, but the whole class is a cast of layers on clean plates of the card. Version 1 drew the room in code, and the shorts cut the card's own pixels and filled the holes from their surroundings. This version starts from five plates of the same room that Watson made with an image model, each with less in it. They line up with each other and with the card to the pixel.</p>
+<section class="sheet">
+<h2>Play it, or watch it played</h2>
+<video controls preload="none" playsinline poster="../assets/shorts/films/v9.jpg" src="../assets/shorts/films/v9.mp4" aria-label="Version 9, played by a script"></video>
+<div class="row"><a class="btn" href="../play/v9.html">Play version 9</a></div>
+<p class="meta">The film is the game itself, stepped from a fixed script: crank, stop, the lectern, crank again, the bell (<code>play/v9.html?film</code>, rendered by <code>shorts/tools/render.mjs play/v9</code>).</p>
+</section>
+<section class="sheet">
+<h2>The plates</h2>
+<div class="plates">
+<figure><img src="../assets/v9/src/plate-helmets-machine.jpg" alt="The room with the machine and empty helmets on wires" loading="lazy"><figcaption>The machine and the empty helmets.</figcaption></figure>
+<figure><img src="../assets/v9/src/plate-machine.jpg" alt="The room with the machine only" loading="lazy"><figcaption>The machine only.</figcaption></figure>
+<figure><img src="../assets/v9/src/plate-helmets-lectern.jpg" alt="The room with a lectern and empty helmets" loading="lazy"><figcaption>A lectern where the machine was, and the helmets.</figcaption></figure>
+<figure><img src="../assets/v9/src/plate-lectern.jpg" alt="The room with only a lectern" loading="lazy"><figcaption>The lectern only: the game's background.</figcaption></figure>
+</div>
+<p>Two of the five plates were identical, so four are kept. Because the plates line up, subtracting one from another gives a layer that is already in place (<code>assets/v9/build_layers.py</code>):</p>
+<ol class="steps">
+<li><b>The machine</b> is where the machine plate differs from the lectern plate, holes filled, in the machine plate's pixels. Draw it over the lectern plate and the machine is back.</li>
+<li><b>The tables</b> are cut by hand-placed outlines of their tops, aprons and near legs, in two layers. The back row sits behind the middle tables and in front of the wall; the front row sits behind the front table.</li>
+<li><b>The lectern's front</b> is a hand-placed outline, so the teacher can stand behind it.</li>
+</ol>
+</section>
+<section class="sheet">
+<h2>The cast</h2>
+<p>Six pupils, the teacher reading, the teacher pointing and the crank boy, from Watson's motion proof (an earlier pass that extracted them from generated sprite sheets by connected alpha components). Each pupil comes with a rough head layer and body layer. The neck is found as the lowest row of the head layer, and the head turns about it: bowed while the crank turns, lifted and turned toward the window or the teacher when it stops. The wires are drawn from the ceiling rail to each helmet and carry a red pulse while the machine runs.</p>
+<p class="meta">Known limits, as the motion proof said itself: the head and body split is a horizontal cut, not real anatomy; nobody walks or turns; the crank boy's arms do not follow the crank, his whole body rides its circle; there is one view of everyone.</p>
+</section>
+<section class="sheet">
+<h2>The game</h2>
+<p>The theory of play is version 1's: the machine runs only while the boy turns, and the play is in what happens when he stops. Version 1 used the silence to read the page in the hopper. Version 9 uses the plates. Stop for six seconds and, in one stop-substitution with two white frames, the machine is gone: there was a lectern under it all along, and the teacher comes to it and teaches. Turn the handle for three seconds and the machine is back. Nothing tells the player this can happen. At the bell after ninety seconds the game reports how long each lesson ran and how often the heads came up, and makes no judgement.</p>
+<p>The lectern is the image model's invention: the card never shows what is under the machine. That is why the game is built on it. A clean plate has to put something where the machine was, and what it chose is the older future, a man at a desk talking.</p>
+</section>
+<section class="sheet">
+<h2>Ledger</h2>
+<dl class="ledger">
+<div><dt>Documented</dt><dd>The card <i>À l'école</i>, <i>En l'an 2000</i>, attributed to Villemard, about 1910.</dd></div>
+<div><dt>Interpretation</dt><dd>The machine teaches only while the boy turns; the pupils look up when it stops.</dd></div>
+<div><dt>Invention and generated</dt><dd>The plates and the cast, made with an image model from the card and supplied by Watson (model and prompts not recorded here); the lectern; the game, its timings and words; the sound.</dd></div>
+</dl>
+</section>
+</div>
+</body>
+</html>

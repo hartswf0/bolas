@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>The Crank Boy · Version 9, The Lectern Underneath</title>
+<meta name="description" content="Version 9 of The Crank Boy: the whole class as a cast of layers on clean plates of the card. Turn the crank and the machine teaches; stop long enough and the room shows what was under it.">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../assets/favicon-180.png">
+<link rel="stylesheet" href="../room/room.css">
+<link rel="stylesheet" href="../shorts/shorts.css">
+<style>
+html,body{height:100%}
+body{overflow:hidden}
+.app{height:100%;max-width:1040px;margin:0 auto;display:flex;flex-direction:column;gap:8px;padding:8px 16px 12px;box-sizing:border-box}
+.bar{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.bar h1{font-size:21px;margin:0 auto 0 0}
+.post{background:var(--paper);padding:6px;border:1.5px solid var(--ink);box-shadow:3px 3px 0 var(--ink)}
+canvas#stage{display:block;width:100%;height:auto;max-height:52dvh;object-fit:contain;aspect-ratio:1256/728;border:0;background:var(--paper)}
+.deck{display:grid;grid-template-columns:130px minmax(0,1fr);gap:12px;align-items:start;min-height:0}
+.deck>div{min-width:0}
+#dial{width:130px;height:130px;touch-action:none;cursor:grab;display:block}
+#dial:focus-visible{outline:2px solid var(--red);outline-offset:3px;border-radius:50%}
+.say{font-size:17px;margin:0 0 4px;min-height:2.6em}
+.meter{display:flex;gap:14px;flex-wrap:wrap;font-family:var(--display);font-size:14px}
+.meter b{color:var(--red);font-weight:400}
+.help{font-size:14px;color:var(--muted);margin:4px 0 0}
+dialog{max-width:640px;border:1.5px solid var(--ink);background:var(--paper);color:var(--ink);box-shadow:4px 4px 0 var(--ink);padding:16px 18px}
+dialog::backdrop{background:rgba(43,35,32,.45)}
+@media (max-width:760px){.deck{grid-template-columns:96px minmax(0,1fr)}#dial{width:96px;height:96px}.bar h1{font-size:17px}.say{font-size:15px}}
+</style>
+</head>
+<body>
+<div class="app">
+<div class="bar"><a class="room-return" href="../index.html#v9">The album</a><h1>Version 9 · The Lectern Underneath</h1><button type="button" id="btnLedger">Ledger</button><a class="btn" href="../making/v9.html">How it was made</a></div>
+<div class="post"><canvas id="stage" width="1256" height="728" aria-label="The classroom: six pupils in helmets at two rows of tables, the teacher, the crank boy at the machine."></canvas></div>
+<div class="deck">
+<svg id="dial" viewBox="-60 -60 120 120" tabindex="0" role="slider" aria-label="The crank. Drag around it, or hold Space, to turn it." aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+<circle r="54" fill="#4F6A88" stroke="#2B2320" stroke-width="3"/><circle r="44" fill="none" stroke="#F3ECD8" stroke-width="1.5" stroke-dasharray="3 5"/>
+<g id="knob"><line x1="0" y1="0" x2="0" y2="-38" stroke="#F3ECD8" stroke-width="7" stroke-linecap="round"/><circle cy="-38" r="11" fill="#C9733A" stroke="#2B2320" stroke-width="3"/></g>
+<circle r="9" fill="#C9A23E" stroke="#2B2320" stroke-width="2"/></svg>
+<div>
+<p class="say" id="say">You are the crank boy. Turn the crank and the lesson runs down the wires.</p>
+<div class="meter"><span>Machine's lesson <b id="mM">0 s</b></span><span>Teacher's lesson <b id="mT">0 s</b></span><span>Heads up <b id="mH">0</b></span><span>Bell in <b id="mB">90 s</b></span></div>
+<p class="help">Drag around the dial, or hold Space. One lesson lasts ninety seconds.</p>
+</div>
+</div>
+</div>
+<dialog id="dlg"><div id="dlgBody"></div><div class="row"><button type="button" id="dlgClose">Close</button></div></dialog>
+<script>
+(() => {
+const Q = new URLSearchParams(location.search), FILM = Q.has('film') || Q.has('render');
+const cv = document.getElementById('stage'), ctx = cv.getContext('2d'), W = 1256, H = 728, OX = -30, OY = -30;  // the card's frame inside the plate
+const A = '../assets/v9/';
+const clamp = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x)), lerp = (a, b, k) => a + (b - a) * k, ease = k => k < .5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2;
+const hash = n => { const s = Math.sin(n * 127.1 + 311.7) * 43758.5453; return s - Math.floor(s); };
+const noise = x => { const i = Math.floor(x), f = x - i, u = f * f * (3 - 2 * f); return lerp(hash(i), hash(i + 1), u) * 2 - 1; };
+const load = src => new Promise((ok, no) => { const im = new Image(); im.onload = () => ok(im); im.onerror = () => no(new Error(src)); im.src = src; });
+// the cast, placed where the card places them (plate pixels): x is the centre, feet the floor line
+const PUPILS = [
+  { id: 'boy_04_teal', x: 385, feet: 570, row: 'back', look: -1 }, { id: 'boy_05_red', x: 505, feet: 566, row: 'back', look: 1 }, { id: 'boy_06_blue', x: 625, feet: 562, row: 'back', look: 1 },
+  { id: 'boy_01_blue', x: 175, feet: 662, row: 'front', look: -1 }, { id: 'boy_02_red', x: 320, feet: 660, row: 'front', look: 1 }, { id: 'boy_03_blue', x: 465, feet: 658, row: 'front', look: 1 }];
+const IMG = {}; let CAST, MBOX;
+// ---- state: the crank, the room, the lesson
+const G = { t: 0,  turns: 0, omega: 0, power: 0, silent: 0, room: 'machine', sub: 0, subAt: -9, machineS: 0, teacherS: 0, headsUp: 0, wasUp: false, end: false, lift: 0, crankInRoom: 0, flash: 0 };
+const LESSON = 90, STOP_TO_CHANGE = 6, CRANK_TO_RETURN = 3;
+function step(dt, crankIn) {
+  if (G.end) return;
+  G.t += dt;
+  G.omega += (crankIn - G.omega) * Math.min(1, dt * 5); G.turns += G.omega * dt; G.power = clamp(G.omega / .8);
+  const turning = G.power > .25;
+  G.silent = turning ? 0 : G.silent + dt;
+  G.lift = clamp(G.lift + (turning && G.room === 'machine' ? -dt * 2.5 : dt * 1.6));
+  if (G.lift > .6 && !G.wasUp) { G.headsUp++; G.wasUp = true; } if (G.lift < .2) G.wasUp = false;
+  if (G.room === 'machine') {
+    if (turning) G.machineS += dt;
+    if (G.silent > STOP_TO_CHANGE) { G.room = 'lectern'; G.subAt = G.t; G.crankInRoom = 0; sfx('sub'); say('The machine is gone. Under it there was a lectern all along, and the teacher has come to it.'); }
+  } else {
+    G.teacherS += dt;
+    G.crankInRoom = turning ? G.crankInRoom + dt : Math.max(0, G.crankInRoom - dt);
+    if (G.crankInRoom > CRANK_TO_RETURN) { G.room = 'machine'; G.subAt = G.t; sfx('sub'); say('You turned the handle long enough. The machine is back, and so is the lesson in the wires.'); }
+  }
+  if (G.machineS > 0 && G.room === 'machine' && G.silent > 1.2 && G.silent < 1.3) say('You stopped. Six heads come up.');
+  if (G.machineS > 0 && G.room === 'machine' && G.silent > 3.5 && G.silent < 3.6) say('Still nothing. The teacher closes his book.');
+  if (G.t >= LESSON) { G.end = true; sfx('bell'); ending(); }
+}
+// ---- drawing
+function sprite(id, x, feet, o = {}) {   // a cast member at its drawn scale, centred on x with its feet on the floor line
+  const im = IMG[id], k = 1 / 1.5, w = im.width * k, h = im.height * k;
+  ctx.save(); ctx.translate(x, feet); if (o.rot) ctx.rotate(o.rot); ctx.globalAlpha *= o.a == null ? 1 : o.a;
+  ctx.drawImage(im, -w / 2 + (o.dx || 0), -h + (o.dy || 0), w, h); ctx.restore();
+  return { x0: x - w / 2, y0: feet - h, w, h };
+}
+function pupil(p) {
+  const body = IMG[p.id + '_body_rig'], head = IMG[p.id + '_head_rig'], k = 1 / 1.5, w = body.width * k, h = body.height * k, x0 = p.x - w / 2, y0 = p.feet - h;
+  const nk = CAST[p.id].neck, nx = x0 + nk[0] * k, ny = y0 + nk[1] * k, i = PUPILS.indexOf(p);
+  // the wire from the ceiling rail to the helmet's top, coiled; it glows while the machine runs
+  const top = y0 + 10 * k, lit = G.room === 'machine' ? G.power : 0;
+  ctx.save(); ctx.strokeStyle = '#2B2320'; ctx.lineWidth = 2.4; ctx.beginPath();
+  const hx = nx + noise(G.t * .3 + i) * 2 * G.lift, rail = 150;
+  if (G.room === 'machine' || G.t - G.subAt < .01) {
+    for (let s = 0; s <= 40; s++) { const u = s / 40, y = lerp(rail, top + 4 - 16 * G.lift, u); ctx.lineTo(hx + 6 * Math.sin(u * 40 + i), y); } ctx.stroke();
+    if (lit > .05) { const f = (G.turns * 3 + i * .17) % 1; ctx.fillStyle = `rgba(180,74,60,${lit})`; ctx.beginPath(); ctx.arc(hx + 6 * Math.sin(f * 40 + i), lerp(rail, top, f), 5, 0, 7); ctx.fill(); }
+  }
+  ctx.restore();
+  ctx.drawImage(body, x0, y0, w, h);
+  // the head: bowed into the lesson while the crank turns, up and towards the window or the teacher when it stops
+  const turn = G.room === 'lectern' ? 1 : p.look, up = G.lift, listen = (1 - up) * G.power;
+  const rot = -.09 * listen + .07 * up * turn + .012 * Math.sin(G.t * 1.3 + i) * up, dy = 5 * listen - 7 * up;
+  ctx.save(); ctx.translate(nx, ny + dy); ctx.rotate(rot); ctx.drawImage(head, -nx + x0, -ny + y0, w, h);
+  if (lit > .05) { ctx.globalCompositeOperation = 'screen'; ctx.globalAlpha = .25 * lit * (.7 + .3 * Math.sin(G.turns * 12 + i)); ctx.fillStyle = '#E8D59A'; ctx.beginPath(); ctx.ellipse(x0 + w / 2 - nx, y0 + h * .1 - ny, w * .2, h * .06, 0, 0, 7); ctx.fill(); }
+  ctx.restore();
+}
+function draw() {
+  ctx.setTransform(1, 0, 0, 1, OX, OY);
+  const room = G.room, m = MBOX.box, lf = MBOX.lecternFront;
+  ctx.drawImage(IMG.plate, 0, 0, 1309, 816);   // the lectern plate: the room with nothing in it but the lectern
+  // the back row, then the tables in front of them
+  PUPILS.filter(p => p.row === 'back').forEach(pupil);
+  ctx.drawImage(IMG.tables_back, 0, 0, 1309, 816);
+  // the teacher: reading behind the machine, or at the lectern with his finger up
+  if (room === 'machine') { sprite('teacher_reading', 1035, 772, { rot: .015 * Math.sin(G.t * .7), a: 1 - .6 * clamp(G.silent / 6) * clamp(G.silent - 3) }); ctx.drawImage(IMG.machine, m[0], m[1], m[2] - m[0], m[3] - m[1]); }
+  else { sprite('teacher_gesture', 1068, 372, { rot: .03 * Math.sin(G.t * 2.2), dy: 2 * Math.sin(G.t * 4) }); ctx.drawImage(IMG.lectern_front, lf[0], lf[1], lf[2] - lf[0], lf[3] - lf[1]); }
+  // the crank boy: at the handle and turning, or standing back with the handle he unscrewed
+  const th = G.turns * 6.283, sp = clamp(G.omega / .8);
+  if (room === 'machine') sprite('crankboy_working', 838, 724, { dx: 4 * Math.cos(th) * sp, dy: 5 * Math.sin(th) * sp, rot: .03 * Math.sin(th) * sp });
+  else { sprite('crankboy_working', 760, 730, { rot: -.04 }); }
+  // the front row and its table
+  PUPILS.filter(p => p.row === 'front').forEach(pupil);
+  ctx.drawImage(IMG.tables_front, 0, 0, 1309, 816);
+  // the stop-substitution's two white frames
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
+  if (G.t - G.subAt < 2 / 24) { ctx.fillStyle = 'rgba(255,250,240,.9)'; ctx.fillRect(0, 0, W, H); }   // the stop-substitution's two white frames
+  // grain
+  ctx.globalAlpha = .1; ctx.globalCompositeOperation = 'multiply'; ctx.drawImage(GRAIN, (hash(Math.floor(G.t * 12)) * 128) | 0, 0); ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over';
+}
+const GRAIN = document.createElement('canvas'); GRAIN.width = W + 128; GRAIN.height = H;
+{ const g = GRAIN.getContext('2d'), d = g.createImageData(GRAIN.width, H); for (let i = 0; i < d.data.length; i += 4) { const v = 205 + hash(i * .37) * 50; d.data[i] = d.data[i + 1] = d.data[i + 2] = v; d.data[i + 3] = 255; } g.putImageData(d, 0, 0); }
+// ---- words, meters, ending
+const $ = id => document.getElementById(id);
+function say(t) { $('say').textContent = t; }
+function meters() { $('mM').textContent = Math.round(G.machineS) + ' s'; $('mT').textContent = Math.round(G.teacherS) + ' s'; $('mH').textContent = G.headsUp; $('mB').textContent = Math.max(0, Math.ceil(LESSON - G.t)) + ' s';
+  $('knob').setAttribute('transform', `rotate(${(G.turns * 360) % 360})`); $('dial').setAttribute('aria-valuenow', String(Math.round(G.power * 100))); }
+function ending() {
+  const found = G.teacherS > 0;
+  say('The bell.');
+  $('dlgBody').innerHTML = `<h2>The bell</h2><p>The machine taught for ${Math.round(G.machineS)} seconds. The teacher taught for ${Math.round(G.teacherS)} seconds. Six heads came up ${G.headsUp} times.</p>` +
+    (found ? `<p>You found the lectern. The machine ran only while you turned the handle, and when you stopped long enough the room went back to an older way of teaching: a man at a desk, talking. Neither lesson was the card's whole future. One of them needed you, and the other did not.</p>`
+           : `<p>You never stopped for long. Something in the room only happens when the handle is left alone. Try the lesson again and see what is under the machine.</p>`) +
+    `<div class="row"><button type="button" id="again">Another lesson</button><a class="btn" href="../making/v9.html">How it was made</a></div>`;
+  $('dlg').showModal(); $('again').onclick = () => location.reload();
+}
+function ledger() {
+  $('dlgBody').innerHTML = `<h2>Ledger</h2>
+  <p><b>Documented.</b> The postcard <i>À l'école</i> (At School), from <i>En l'an 2000</i>, attributed to Villemard, about 1910: the room, the machine, the wires, six pupils in helmets, the teacher with a book, the boy at the crank.</p>
+  <p><b>Interpretation.</b> That the machine teaches only while the boy turns; that the pupils look up when it stops.</p>
+  <p><b>Invention.</b> The lectern under the machine, the teacher at it, the ninety-second lesson, the counts at the bell, every line of text.</p>
+  <p><b>Generated.</b> The four clean plates (the room with less in it each time) and the cast (six pupils with head and body layers, the teacher reading and pointing, the crank boy) were made with an image model from the card and supplied by Watson Hartsoe; the model and prompts are not recorded here. The lectern is the model's: the card never shows what is under the machine. Layers were cut from the plates by difference and by hand-placed outlines (<code>assets/v9/build_layers.py</code>).</p>`;
+  $('dlg').showModal();
+}
+$('dlgClose').onclick = () => $('dlg').close(); $('btnLedger').onclick = ledger;
+// ---- sound (play only; the film's sound is synthesised offline)
+let AC = null, last = -1;
+const wake = () => { if (!AC) try { AC = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) {} };
+function sfx(kind) { if (FILM || !AC) return; const t = AC.currentTime, o = AC.createOscillator(), g = AC.createGain(); o.connect(g); g.connect(AC.destination);
+  const s = { click: ['square', 1300, .02, .05], sub: ['triangle', 660, .5, .25], bell: ['sine', 880, 2.2, .3] }[kind];
+  o.type = s[0]; o.frequency.setValueAtTime(s[1], t); if (kind === 'sub') o.frequency.exponentialRampToValueAtTime(220, t + .5);
+  g.gain.setValueAtTime(s[3], t); g.gain.exponentialRampToValueAtTime(.0001, t + s[2]); o.start(t); o.stop(t + s[2] + .05); }
+// ---- input: the dial, or Space
+let dialA = null, crankV = 0, lastMove = 0, key = false;
+const dial = $('dial'), ang = e => { const r = dial.getBoundingClientRect(); return Math.atan2(e.clientY - r.top - r.height / 2, e.clientX - r.left - r.width / 2); };
+dial.addEventListener('pointerdown', e => { dial.setPointerCapture(e.pointerId); dialA = ang(e); lastMove = performance.now(); wake(); });
+dial.addEventListener('pointermove', e => { if (dialA == null) return; const a = ang(e); let da = a - dialA; if (da > Math.PI) da -= 6.283; if (da < -Math.PI) da += 6.283;
+  const now = performance.now(), dt = Math.max(8, now - lastMove) / 1000; crankV = .7 * crankV + .3 * Math.abs(da) / 6.283 / dt; dialA = a; lastMove = now; });
+['pointerup', 'pointercancel'].forEach(k => dial.addEventListener(k, () => dialA = null));
+addEventListener('keydown', e => { if (e.key === ' ') { key = true; wake(); e.preventDefault(); } });
+addEventListener('keyup', e => { if (e.key === ' ') key = false; });
+const crankInput = () => { if (dialA == null || performance.now() - lastMove > 160) crankV *= .85; return key ? 1.1 : Math.min(2, crankV); };
+// ---- run
+(async () => {
+  CAST = await (await fetch(A + 'cast/cast.json')).json(); MBOX = await (await fetch(A + 'machine.json')).json();
+  IMG.plate = await load(A + 'src/plate-lectern.jpg');
+  for (const n of ['machine', 'lectern_front', 'tables_front', 'tables_back']) IMG[n] = await load(A + n + '.png');
+  for (const n of ['teacher_reading', 'teacher_gesture', 'crankboy_working']) IMG[n] = await load(A + 'cast/' + n + '.png');
+  for (const p of PUPILS) for (const s of ['_body_rig', '_head_rig']) IMG[p.id + s] = await load(A + 'cast/' + p.id + s + '.png');
+  await document.fonts.ready;
+  if (FILM) {   // the film: the same lesson, played by a script, for render.mjs
+    const script = t => t < 3 ? 0 : t < 17 ? 1.1 : t < 30 ? 0 : t < 35 ? 1.1 : t < 39 ? 0 : 1.1;
+    const DUR = 52; let done = -1;
+    window.SHORT = { id: 'v9', dur: DUR, fps: 24, poster: 26, ready: Promise.resolve(), cues: filmCues(script, DUR),
+      frame: async i => { while (done < i) { done++; step(1 / 24, script(done / 24)); } draw(); captions(i / 24, DUR); return cv.toDataURL('image/jpeg', .9); } };
+    return;
+  }
+  let prev = performance.now();
+  const loop = now => { const dt = Math.min(.05, (now - prev) / 1000); prev = now; step(dt, crankInput());
+    if (AC && Math.floor(G.turns * 6) !== last) { last = Math.floor(G.turns * 6); sfx('click'); } draw(); meters(); if (!G.end) requestAnimationFrame(loop); };
+  requestAnimationFrame(loop);
+})();
+function captions(t, DUR) {   // film only: the title, the beats and the end card
+  const card = (lines, a) => { if (a <= 0) return; ctx.save(); ctx.globalAlpha = a; ctx.fillStyle = '#F3ECD8'; ctx.fillRect(0, 0, W, H); ctx.strokeStyle = '#2B2320'; ctx.lineWidth = 2; ctx.strokeRect(30, 30, W - 60, H - 60);
+    ctx.fillStyle = '#2B2320'; ctx.textAlign = 'center'; const tot = lines.reduce((a, l) => a + l[1] * 1.5, 0); let y = H / 2 - tot / 2; for (const [s, z, sc] of lines) { y += z * 1.1; ctx.font = `${z}px "IM Fell English${sc ? ' SC' : ''}", Georgia, serif`; ctx.fillText(s, W / 2, y); y += z * .4; } ctx.restore(); };
+  const cap = (s, a) => { if (a <= 0) return; ctx.save(); ctx.globalAlpha = a; ctx.font = '28px "IM Fell English", Georgia, serif'; ctx.textAlign = 'center'; const w = ctx.measureText(s).width + 32;
+    ctx.fillStyle = 'rgba(243,236,216,.92)'; ctx.fillRect(W / 2 - w / 2, H - 70, w, 44); ctx.fillStyle = '#2B2320'; ctx.fillText(s, W / 2, H - 38); ctx.restore(); };
+  const b = (a0, a1) => clamp((t - a0) / .4) * (1 - clamp((t - a1) / .4));
+  cap('He turns, and the lesson runs down the wires.', b(4, 9));
+  cap('He stops. Six heads come up.', b(18, 22));
+  cap('Stop long enough, and the machine is gone: there was a lectern under it.', b(24, 29.6));
+  cap('Turn the handle again, and the machine comes back.', b(33.4, 38.4));
+  cap('The lesson in the wires runs to the bell.', b(40, 46));
+  card([['The Crank Boy', 24, 1], ['Version 9 · The Lectern Underneath', 54, 1], ['the whole class as a cast of layers', 24]], 1 - clamp((t - 2.2) / .6));
+  card([['The Lectern Underneath', 40, 1], ['Card: À l’école, En l’an 2000, about 1910', 22], ['Clean plates and cast: made with an image model from the card, supplied by Watson Hartsoe', 20],
+    ['Layers cut by difference between the plates · sound synthesised', 20], ['Play it: play/v9.html', 20]], clamp((t - (DUR - 4)) / .5));
+}
+function filmCues(script, DUR) {
+  const c = [{ t: .2, k: 'chime', notes: [60, 64, 67, 72], step: .28, a: .12 }, { t: DUR - 3.8, k: 'chime', notes: [84, 79, 76, 72], step: .5, a: .16 }];
+  for (const [a, b] of [[3, 17], [30, 35], [39, DUR - 4.5]]) { c.push({ t: a, k: 'ratchet', d: b - a, rate: 6.6, a: .14, f: 1300 }, { t: a, k: 'hum', d: b - a + .6, f: 55, a: .07, att: .6, rel: 1 }); }
+  c.push({ t: 23.25, k: 'bonk', f: 340, a: .45 }, { t: 23.26, k: 'chime', notes: [84, 88, 91], step: .06, a: .1 }, { t: 23.8, k: 'babble', d: 9, f0: 108, rate: 3.6, a: .2 });
+  c.push({ t: 33.0, k: 'bonk', f: 220, a: .45 });
+  return c;
+}
+window.TOWN9 = { G, step };
+})();
+</script>
+</body>
+</html>
