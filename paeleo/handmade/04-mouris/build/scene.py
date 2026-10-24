@@ -141,7 +141,8 @@ def person_parts(p, walk):
     for poly in chain(far, [0.06, 0.05, 0.045]): parts.insert(0, ('far', poly))
     parts.append(('skin', ellipse(head, 0.105, 0.125)))
     parts.append(('cloth', capsule(add(sh, (0, -0.02)), neck, 0.08, 0.055)))
-    for poly in chain(near, [0.065, 0.05, 0.045]): parts.append(('cloth', poly))
+    parts.append(('cloth', capsule(near[0], near[1], 0.065, 0.05)))
+    parts.append(('hand', capsule(P(near[1], near[2], 0.35), near[2], 0.042, 0.04)))   # bare forearm: built from hands
     hand_rot = lerp(-1.2, -0.45, r) if lw < 0.5 else 0.0
     parts.append(('hand', ellipse(add(near[2], (0.06, 0.0)), 0.11, 0.06, hand_rot)))
     parts.append(('hand', capsule(near[2], add(near[2], (0.17, 0.02 - 0.02 * r)), 0.035, 0.025)))

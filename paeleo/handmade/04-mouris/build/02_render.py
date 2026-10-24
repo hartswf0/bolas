@@ -94,7 +94,7 @@ LY = dict(
     spill=TR.Layer('spill', 'light', kind=0, maxlevel=2, contrast=0.8),
     person=TR.Layer('person', 'person', kind=0, maxlevel=1, contrast=0.85, split_std=0.07),
     face=TR.Layer('face', 'face', kind=0, maxlevel=2, contrast=0.9, keep=0.45),
-    hand=TR.Layer('hand', 'hand', kind=0, maxlevel=2, contrast=0.9, keep=0.45),
+    hand=TR.Layer('hand', 'hand', kind=0, maxlevel=2, contrast=0.9, split_std=0.2),
     dog=TR.Layer('dog', 'animal', kind=0, maxlevel=1, contrast=0.95, split_std=0.045),
     dogeye=TR.Layer('dogeye', 'eye', kind=0, maxlevel=3, contrast=0.8),
     words=TR.Layer('words', 'alarm', kind=0, maxlevel=2, contrast=0.9, split_std=0.2),
@@ -241,7 +241,7 @@ def render(i, stats):
     pax, pay = int(person_xy[0]), int(person_xy[1])
     st['person'] = TR.render_layer(lib, LY['person'], pm_body, pg, pax, pay, pr, rng, i, canvas, None, adv)
     st['face'] = TR.render_single(lib, LY['face'], pm_face, lit((0.80, 0.60, 0.48), Lf)[int(sy(C, pinfo['head'][1])) % H, int(sx(C, per['x'] + pinfo['head'][0])) % W], 0.02 + 0.5 * call, rng, i, canvas, adv)
-    st['hand'] = TR.render_single(lib, LY['hand'], pm_hand, lit((0.90, 0.68, 0.54), Lf)[int(sy(C, pinfo['hand'][1])) % H, int(sx(C, per['x'] + pinfo['hand'][0])) % W], 0.02 + 0.5 * call + 0.3 * REACH[i], rng, i, canvas, adv)
+    st['hand'] = TR.render_layer(lib, LY['hand'], pm_hand, lit((0.84, 0.58, 0.44), Lf * 0.7), pax, pay, 0.02 + 0.5 * call + 0.3 * REACH[i], rng, i, canvas, None, adv)
 
     # ---------------------------------------------------------------- the dog: animals (and the archive dog)
     parts, dinfo = SC.dog_parts(a, t)

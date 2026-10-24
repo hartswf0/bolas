@@ -74,7 +74,7 @@ def main():
         (f'the house    {pl["wall"]:,} cups, stoves, clocks, books, vases, brooms', mono_s, 70, 290),
         (f'the light    {pl["inside"] + pl["spill"]:,} lanterns, light bulbs, stars        the dusk  clouds, sea, river, bats, swans', mono_s, 70, 328),
         (f'the voice    {pl["words"]:,} pictures: COME HERE in alarms, trumpets, cannons; it\'s all right in flowers', mono_s, 70, 366),
-        ('nothing is drawn; the moulds are computed from the PAELEO score, the sound from the torrent itself', mono_s, 70, 420),
+        ('no figure is drawn: the moulds are computed from the PAELEO score, the sound from the torrent itself', mono_s, 70, 420),
         ('Quick, Draw! not used. Sources and rights: assets.json', mono_s, 70, 446),
     ]
     L_e = bg_layer('every')
