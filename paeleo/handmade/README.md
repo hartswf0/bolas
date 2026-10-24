@@ -65,6 +65,24 @@ Each is one agent working alone in its folder with its SCION prompt verbatim and
 own trace, an asset ledger, its method, its build scripts, stills and a ledger of attempts. Then each film goes to an
 independent critic, and repairs go back to the swarm, as in PAE-00.
 
+## What happened
+
+All six built a 38 s film from the bottom up, and every film keeps the four invariants when its own trace is checked. Each
+then went to a fresh critic per round (the film, the brief and its SCION prompt; never the builder's notes), and repairs went
+back to the same swarm. The record per swarm is in its `reviews/`, and the page is `paeleo/handmade/` on the site.
+
+- **The choices survived every operation.** A torn card turned over, a silhouette swapped for its end-on piece, a solver
+  refusing a light-pen drag, a doodle chosen from four thousand, a home-movie dog's own walk played backward, a torrent of
+  tiles replaced at once: each is a different way of making the same six decisions readable at the same six moments.
+- **The critics found the operations where they were weakest, and it was always in the operation, not the description.**
+  The found-footage dog had never been filmed lying down, so its one composed pose was where it failed first. The doodle
+  library had no single person's dog walking, so its walk skated. The constraint dog's turns were a flat mirror flip until
+  they were solved as a rotation. The image torrent filled a drawn outline instead of being the body.
+- **What each kept is its own.** Gilliam's refusal is the card's blank back; Reiniger's, a cut rear view; Sutherland's, a
+  console line saying the dog is not selectable; Atlanta's, a dog's real turn away from a real person in 1930s New Jersey.
+
+The status of each film (pass, narrow pass, repair in progress) is kept live on the page, read from the `reviews/` folders.
+
 ## What comes after
 
 - **The other 48.** Each swarm's lens in PAE-01 is its sketch for PAE-02; the lens's `show` sentence is the first line of its
