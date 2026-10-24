@@ -121,8 +121,8 @@ TSU_CARD = ('<div class="chans"><a class="chan" href="this-side-up/" style="--c:
             '<span class="txt"><span class="meta"><span class="tid">TSU</span> 10 case studies</span><b>This Side Up</b>'
             '<span class="line">Boone, a handmade cardboard puppet, cut into parts and set into worlds where time stops for everything except him. How each film was made, with something to try.</span></span></a></div>')
 # PAELEO is built by tools/paeleo/build_pages.py (static here; see paeleo/)
-PAELEO_CARD = ('<div class="chans"><a class="chan" href="paeleo/" style="--c:#d42a1e"><span class="shot"><img src="paeleo/media/still/threshold-sill.jpg" alt="" loading="lazy"></span><span class="txt"><span class="meta"><span class="tid">PAE</span> a new channel · 1 film · 54 swarms queued</span><b>PAELEO</b><span class="line">Promptable Augmented Environments Lab · Ekphrastic Operations. Descriptions that act on worlds: the first film is a paper dog that can refuse, and you can try to earn its trust.</span></span></a></div>')
-PAELEO_CASES = ['threshold', 'scion']
+PAELEO_CARD = ('<div class="chans"><a class="chan" href="paeleo/" style="--c:#d42a1e"><span class="shot"><img src="paeleo/media/still/threshold-sill.jpg" alt="" loading="lazy"></span><span class="txt"><span class="meta"><span class="tid">PAE</span> a new channel · 8 films · 54 swarms</span><b>PAELEO</b><span class="line">Promptable Augmented Environments Lab · Ekphrastic Operations. Descriptions that act on worlds: the first film is a paper dog that can refuse, and you can try to earn its trust. Then six swarms make the same scene from the bottom up.</span></span></a></div>')
+PAELEO_CASES = ['threshold', 'scion', 'handmade']
 def home():
     up = ''
     floor = ''.join(cam(w, p, 'f lo' if x < 50 else 'f hi', lines=False, style=f'left:{x}%' + (';top:calc(var(--floor) - var(--cam) * .3)' if w == 'critic' else '')) for w, p, x in CM.BAY)
@@ -404,7 +404,7 @@ Live: {C.BASE}
 |---|---|
 """ + ''.join(f"| [{p['title']}]({p['path']}) | {p['line']} |\n" for p in C.PROGRAMS) + f"""
 - [This Side Up](this-side-up/): case studies of the cardboard cut-out films, each with a full case page of versions, prompts, critic rounds and sheets
-- [PAELEO](paeleo/): Promptable Augmented Environments Lab · Ekphrastic Operations. One research program at three scales (AEL, PEO, PAELEO); its films are made with the SCION swarms, all 54 of which are written up and shown through the same paper dog at [paeleo/scion/](paeleo/scion/)
+- [PAELEO](paeleo/): Promptable Augmented Environments Lab · Ekphrastic Operations. One research program at three scales (AEL, PEO, PAELEO); its films are made with the SCION swarms, all 54 of which are written up and shown through the same paper dog at [paeleo/scion/](paeleo/scion/); six of them make the same scene from the bottom up at [paeleo/handmade/](paeleo/handmade/)
 - [Characters](characters/) · [Films](films/) ({len(C.FILMS)}) · [Process](process/) · [Docs and prompts](docs/)
 - Lab pages: """ + ' · '.join(f"[{l['title']}](lab/{l['id']}/)" for l in C.LAB) + """
 
