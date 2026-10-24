@@ -528,7 +528,8 @@ class PersonDriver:
                 a0, t0, dur = ft['swing']
                 k = (t - t0) / dur
                 if k >= 1:
-                    ft['pin'] = home.copy(); ft['swing'] = None
+                    pq = g.p('An' + s).copy(); pq[1] = home[1]
+                    ft['pin'] = pq; ft['swing'] = None
                     if record:
                         self.events.append({'t': t, 'kind': 'step', 'x': float(home[0])})
                     g.pin('An' + s, ft['pin'])
