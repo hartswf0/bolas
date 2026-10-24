@@ -70,7 +70,7 @@ LABELS = {
     3476: ('R', 'lie', .35, 0, 0, .5, 'lying, head right and down, ear hanging'),
     # round 2 additions (critic repairs 1, 3, 4), found in sheets/r2-headlow-*, r2-short-*
     135:  ('R', 'stand', .30, .7, 0, 0, 'dome body, round-box head low at the chest, legs apart: the stride twin of 1309'),
-    1309: ('R', 'stand', .30, .8, 0, 0, 'dome body, small round head low at the chest, legs splayed: the stride twin of 135 (found by 10_twin_search.py)'),
+    1309: ('L', 'stand', .30, .8, 0, 0, 'dome body, small round head low at the chest, legs splayed: the stride twin of 135 (found by 10_twin_search.py)'),
     3537: ('L', 'lie', .75, 0, 0, 0, 'lying, box head in profile, snout and eye pointing left'),
     3107: ('R', 'lie', .60, 0, 0, 0, 'lying, floppy head right'),
 }

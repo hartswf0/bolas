@@ -400,11 +400,14 @@ def scene_frame(n):
     by_, bx_ = np.nonzero(Bd > 0.25); bw = Bd[by_, bx_]
     mx = X0_ + (bw * bx_).sum() / bw.sum(); my = Y0_ + (bw * by_).sum() / bw.sum()
     bxa, bxb = bx_.min(), bx_.max()
-    def _top(xc):
-        col = np.nonzero(Bd[:, int(xc)] > 0.5)[0]
-        return col.min() if len(col) else np.nan
-    xa, xb = bxa + 0.2 * (bxb - bxa), bxa + 0.8 * (bxb - bxa)
-    back_deg = float(np.degrees(np.arctan2(abs(_top(xb) - _top(xa)), xb - xa)))
+    # back line: least-squares fit to the top edge of the body over its middle 60 %
+    cols = np.arange(int(bxa + 0.2 * (bxb - bxa)), int(bxa + 0.8 * (bxb - bxa)) + 1)
+    tops = [(c_, np.nonzero(Bd[:, c_] > 0.5)[0].min()) for c_ in cols if (Bd[:, c_] > 0.5).any()]
+    if len(tops) > 5:
+        tx_, ty_ = np.array(tops, float).T
+        back_deg = float(abs(np.degrees(np.arctan(np.polyfit(tx_, ty_, 1)[0]))))
+    else:
+        back_deg = float('nan')
     yy, xx = np.nonzero(A > 0.25)
     w_ = A[yy, xx]
     left = X0_ + xx.min(); right = X0_ + xx.max(); top = Y0_ + yy.min()

@@ -274,14 +274,16 @@ def draw_dog(layer, probe, P, look_at=None):
 
     if abs(f) < 0.05:
         # edge-on: the dog is only the thin edge of a card for a held moment
-        top = Yc - 60 - 40 * (1 - lie)
-        edge = Image.new('RGBA', (16, int(PAW - top) + 8), (0, 0, 0, 0))
+        hgt = int(178 * (1 - lie) + 72 * lie)
+        top = PAW - hgt
+        edge = Image.new('RGBA', (22, hgt + 8), (0, 0, 0, 0))
         ed = ImageDraw.Draw(edge)
-        hgt = edge.size[1] - 4
-        ed.polygon([(5, 2), (10, 0), (11, hgt), (6, hgt + 2)], fill=(236, 230, 214, 255), outline=(26, 18, 22, 255))
-        ed.line([(7, 6), (8, hgt - 4)], fill=(150, 140, 120, 255), width=1)
-        layer.alpha_composite(edge, (int(X - 8), int(top)))
-        probe.alpha_composite(edge, (int(X - 8), int(top)))
+        # a card seen on its edge: a pale sliver with a dark cut line, a little perspective and its own shadow
+        ed.polygon([(9, 3), (16, 0), (17, hgt), (9, hgt + 4)], fill=(30, 20, 26, 110))
+        ed.polygon([(5, 2), (12, 0), (13, hgt), (6, hgt + 3)], fill=(240, 234, 218, 255), outline=(26, 18, 22, 255))
+        ed.line([(8, 6), (9, hgt - 4)], fill=(170, 160, 140, 255), width=1)
+        layer.alpha_composite(edge, (int(X - 10), int(top)))
+        probe.alpha_composite(edge, (int(X - 10), int(top)))
         return
     ph = P['phase']
     # legs: walk swing, crouch splay, lying fold (fore legs forward, hind legs tucked)

@@ -51,7 +51,7 @@ events['refuse, back turned (3.417)'] = first([f == 'away' for f in fac], 3.0)
 events['turns back to look (7.458)'] = first([f != 'away' for f in fac], 7.0)
 events['approach (14.708)'] = first([d < -0.004 for d in dx], 14.0)
 events['lie down across the sill (23.792)'] = first([p == 'lie' for p in post], 23.0)
-events['looks in, head up (26.4)'] = first([LIB[k]['head'] >= 0.85 and p == 'lie' for k, p in zip(keys, post)], 26.0)
+events['looks in, head up (26.4)'] = first([LIB[k].get('profile', 0) == 1 and p == 'lie' for k, p in zip(keys, post)], 26.0)
 want = {'retreat (1.000)': 1.0, 'watch, stops backing (2.333)': 2.333, 'refuse, back turned (3.417)': 3.417,
         'turns back to look (7.458)': 7.458, 'approach (14.708)': 14.708, 'lie down across the sill (23.792)': 23.792,
         'looks in, head up (26.4)': 26.4}
@@ -129,7 +129,72 @@ stats = dict(segments=len(segs), swaps=len(segs) - 1, min_hold_frames=min(holds)
 json.dump(dict(segments=segs, weights=SCHED['weights'], min_hold_twos=SCHED['min_hold_twos'], total_cost=SCHED['total_cost']),
           open(f'{HERE}/pose_schedule.json', 'w'), indent=1)
 
-checks = dict(invariant_1_choices=inv1, invariant_2_threshold=inv2, invariant_3_commands_vs_circumstances=inv3,
+# ---------------------------------------------------------------- round 2: the critic's repair conditions
+from importlib import util as _u
+_s = _u.spec_from_file_location('dec', os.path.join(os.path.dirname(__file__), '03_decode.py'))
+dec = _u.module_from_spec(_s); _s.loader.exec_module(dec)
+CANDS = json.load(open(f'{HERE}/work/candidates.json'))
+def head_below_back(ci):
+    P = np.concatenate(dec.placed(CANDS[ci], 150)); x, y = P[:, 0], P[:, 1]
+    c = CANDS[ci]; L0, W0 = x.min(), x.max() - x.min()
+    front = x < L0 + 0.25 * W0 if c['face'] == 1 else x > L0 + 0.75 * W0
+    mid = (x > L0 + 0.3 * W0) & (x < L0 + 0.7 * W0)
+    return float(y[front].min() - y[mid].min())  # > 0: head top lower than the back (y down)
+sch = SCHED['frames']
+w = [k for k, r in enumerate(trace) if 15.0 <= r['t'] <= 23.7]
+ids = [(trace[k]['key_id'], trace[k]['flip']) for k in w]
+chg = [trace[w[j]]['t'] for j in range(1, len(w)) if ids[j] != ids[j - 1]]
+gaps = np.diff(chg).tolist() if len(chg) > 1 else []
+back = []  # time from leaving a drawing to coming back to it
+last_seen = {}
+for j, k in enumerate(w):
+    if j and ids[j] != ids[j - 1]:
+        if ids[j] in last_seen:
+            back.append(round(trace[k]['t'] - last_seen[ids[j]], 3))
+        last_seen[ids[j - 1]] = trace[k]['t']
+r1 = dict(distinct_drawings=len(set(ids)), changes_at=chg, min_gap_s=round(min(gaps), 3) if gaps else None,
+          max_changes_in_any_2s=max(sum(1 for c in chg if t0 <= c < t0 + 2) for t0 in np.arange(15.0, 21.8, 1 / 24)) if chg else 0,
+          min_switch_back_s=min(back) if back else None)
+r1['ok'] = r1['distinct_drawings'] <= 2 and r1['max_changes_in_any_2s'] <= 1 and (r1['min_switch_back_s'] is None or r1['min_switch_back_s'] >= 1)
+mv_in_hold = []; mv_between = []
+wk = [k for k, r in enumerate(raw) if 14.708 <= r['t'] <= 23.79]
+for a, b in zip(wk, wk[1:]):
+    same_draw = (raw[a]['key_id'], raw[a]['flip']) == (raw[b]['key_id'], raw[b]['flip'])
+    if not same_draw:
+        continue
+    zoom = raw[b]['camera'][2]
+    d = abs(raw[b]['placement'][0] - raw[a]['placement'][0]) * zoom
+    (mv_in_hold if raw[b]['placement'] == raw[a]['placement'] else mv_between).append(d)
+    if raw[b]['placement'] == raw[a]['placement']:
+        pass
+holds_px = []
+run = [wk[0]]
+for a, b in zip(wk, wk[1:]):
+    if (raw[b]['key_id'], raw[b]['flip'], tuple(raw[b]['placement'])) == (raw[a]['key_id'], raw[a]['flip'], tuple(raw[a]['placement'])):
+        run.append(b)
+    else:
+        holds_px.append(len(run)); run = [b]
+holds_px.append(len(run))
+r2 = dict(max_move_px_while_held=max([0.0] + mv_in_hold), placement_step_px_max=round(max([0.0] + mv_between), 2),
+          placement_hold_frames=dict(min=min(holds_px), max=max(holds_px), median=float(np.median(holds_px))),
+          note='a held placement never moves; the drawing is re-placed on twos (<= 5 px a step at 1280 wide) and its legs change by substitution on footfalls')
+r2['ok'] = r2['max_move_px_while_held'] <= 5 and r2['placement_step_px_max'] <= 5
+hl = [head_below_back(sch[k]['cand']) > 0 for k in range(len(sch)) if 14.7 <= sch[k]['t'] <= 23.7]
+r3 = dict(share_head_top_below_back=round(sum(hl) / len(hl), 3), ok=sum(hl) / len(hl) >= 0.8,
+          how='per frame, the displayed drawing as placed: top of its head-end quarter vs top of its middle 40%')
+pf = [LIB[r['key_id']].get('profile', 0) == 1 for r in trace if 26.5 <= r['t'] <= 28.0]
+r4 = dict(share_profile_head_into_doorway=round(sum(pf) / len(pf), 3), ok=sum(pf) / len(pf) >= 0.95)
+xr = [r['x_screen'] for r in trace if 1.0 <= r['t'] <= 2.333]
+fr_ = [r['facing'] for r in trace if 1.0 <= r['t'] <= 2.333]
+rf = [r['facing'] == 'away' for r in trace if 3.417 <= r['t'] <= 7.4]
+used_ref = sorted({LIB[r['key_id']]['idx'] for r in trace if 3.417 <= r['t'] <= 7.4})
+r5 = dict(retreat_px_1280=round(max(xr) - min(xr), 1), retreat_facing_person=all(f == 'toward_door' for f in fr_),
+          refusal_share_head_far_side=round(sum(rf) / len(rf), 3), refusal_drawings=used_ref)
+r5['ok'] = r5['retreat_px_1280'] >= 60 and r5['retreat_facing_person'] and r5['refusal_share_head_far_side'] == 1.0
+round2 = dict(repair_1_walk_identity=r1, repair_2_no_sliding=r2, repair_3_head_low=r3, repair_4_look_in_profile=r4,
+              repair_5_retreat_and_refusal=r5)
+
+checks = dict(critic_round1_repairs=round2, invariant_1_choices=inv1, invariant_2_threshold=inv2, invariant_3_commands_vs_circumstances=inv3,
               invariant_4_position=inv4, substitution=stats)
 json.dump(checks, open(f'{HERE}/checks.json', 'w'), indent=1)
 print(json.dumps(checks, indent=1))

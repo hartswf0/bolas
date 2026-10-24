@@ -49,7 +49,7 @@ res['invariant_1_choice_times'] = {'pass': all(inv1), 'choices': ch,
     'note': 'op_change = the frame where the archive operation switches (structural); motion/height/facing are measured from the render.'}
 
 end = [f for f in tr if f['t'] >= 26]
-lie_fr = [f for f in tr if f['t'] >= 24.5]
+lie_fr = [f for f in tr if f['t'] >= 24.5]   # score lie reaches 0.97 at 24.5 s
 res['lying_shape'] = {'pass': bool(max(f['back_line_deg'] for f in lie_fr) <= 15 and min(f['frac_length_inside_jamb'] for f in lie_fr) >= 0.3 and min(f['tail_right_px'] for f in lie_fr) > 372 + 185 * 0.46),
     'max_back_line_deg_t>=24.5': max(f['back_line_deg'] for f in lie_fr), 'min_frac_length_inside_jamb': min(f['frac_length_inside_jamb'] for f in lie_fr),
     'min_tail_right_px': min(f['tail_right_px'] for f in lie_fr), 'jamb_outer_px': 372 + 185 * 0.46,
