@@ -235,6 +235,7 @@ def case_page():
 </section>
 <section class="sec" id="versions"><div class="sechead"><h2>Versions</h2><p>Every cut, in order.</p></div>{vers}</section>
 <section class="sec" id="critic"><div class="sechead"><h2>Critic rounds</h2><p>An independent critic watched each cut without the makers' notes and returned a verdict, the moments behind it, the largest gap and a condition a re-check could test.</p></div><div style="display:grid;gap:22px">{rounds}</div></section>
+<section class="sec" id="next"><div class="sechead"><h2>Next</h2><p>Accepted at round 4. What the last critic left for the next cut, in order.</p></div><ol class="recipe">{"".join(f"<li>{esc(x)}</li>" for x in c["next"])}</ol></section>
 <section class="sec" id="sheets"><div class="sechead"><h2>Sheets</h2></div><div class="sheets">{sheets}</div></section>
 <section class="sec" id="prompt"><div class="sechead"><h2>The prompt</h2><p>SCION 48, State Machines: Characters That Can Refuse, verbatim from the SCION operator. Its proof scene is this film's middle: a dog chooses among watch, approach, retreat, lie down and refuse, and the player has to change circumstances to earn approach.</p></div>
   <details open><summary>SCION-STATE-MACHINES</summary><pre class="prompt">{esc(prompt)}</pre></details>
