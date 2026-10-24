@@ -45,7 +45,7 @@ def main():
     big = font('f8.woff2', 96, 900); big._wght = 900
     mono = font('f20.woff2', 22, 600); mono._wght = 600
     mono_s = font('f14.woff2', 19, 400); mono_s._wght = 400
-    lit = font('f27.woff2', 34, 500); lit._wght = 500
+    lit = font('f27.woff2', 52, 500); lit._wght = 500
     # ---------------- title
     title_mask = text_mask([('PAE-02 · SCION 04', big, 'c', 200), ('FRANK MOURIS', big, 'c', 318)])
     L_t = TR.Layer('title', 'every', kind=0, maxlevel=2, contrast=0.9, split_std=1)
@@ -56,7 +56,7 @@ def main():
         a = TR.render_layer(lib, L_b, np.ones((H, W), np.float32), np.full((H, W, 3), (0.10, 0.09, 0.16), np.float32), 0, 0, r * 0.3, rng, i, cv, None, 2, bbox=(0, 0, W, H))
         TR.outline(cv, title_mask, 7, alpha=0.95)
         b = TR.render_layer(lib, L_t, title_mask, np.full((H, W, 3), (0.95, 0.80, 0.42), np.float32), 0, 0, r, rng, i, cv, None, 2)
-        plain(cv, [('the threshold, as an image torrent', lit, 'c', 470)])
+        plain(cv, [('the threshold, as an image torrent', lit, 'c', 462)])
         return cv, a['replaced'] + b['replaced']
     tc = card(os.path.join(HERE, 'cache/title.mp4'), title)
     # ---------------- what it is made of
@@ -67,15 +67,16 @@ def main():
     lines = [
         ('MADE OF', mono, 70, 60),
         (f'{total:,} placements of {nframes:,} found frames from {nshots} public-domain films (Internet Archive, NTIS, NARA)', mono_s, 70, 100),
-        (f'the dog      {pl["dog"]:,} pictures of animals: giraffe, horse, cow, cat, lion, tiger, rabbit, sheep,', mono_s, 70, 150),
+        (f'the dog      {pl["dog"] + pl["flank"] + pl["dogeye"]:,} pictures of animals: giraffe, horse, cow, cat, lion, tiger, rabbit, sheep,', mono_s, 70, 150),
         ('             monkey, rhinoceros, a migrating herd, and a real dog (Amateur Film New Jersey C)', mono_s, 70, 176),
         (f'the person   {pl["person"] + pl["face"] + pl["hand"]:,} pictures of faces, eyes, hats, hands and bodies', mono_s, 70, 214),
         (f'the door     {pl["panel"] + pl["trim"]:,} pictures of doors, ladders, windmills, lighthouses (Straight Talk ...)', mono_s, 70, 252),
         (f'the house    {pl["wall"]:,} cups, stoves, clocks, books, vases, brooms', mono_s, 70, 290),
         (f'the light    {pl["inside"] + pl["spill"]:,} lanterns, light bulbs, stars        the dusk  clouds, sea, river, bats, swans', mono_s, 70, 328),
         (f'the voice    {pl["words"]:,} pictures: COME HERE in alarms, trumpets, cannons; it\'s all right in flowers', mono_s, 70, 366),
-        ('no figure is drawn: the moulds are computed from the PAELEO score, the sound from the torrent itself', mono_s, 70, 420),
-        ('Quick, Draw! not used. Sources and rights: assets.json', mono_s, 70, 446),
+        ('no line is drawn: the dog, the person and the words end where their archive pictures end; shapes computed from the score;', mono_s, 70, 420),
+        ('the set is clipped to computed shapes; shadows and the door glow are computed grades; the sound is synthesized.', mono_s, 70, 446),
+        ('Quick, Draw! not used. Sources and rights: assets.json', mono_s, 70, 472),
     ]
     L_e = bg_layer('every')
     def end(i):

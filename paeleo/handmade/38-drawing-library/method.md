@@ -196,3 +196,45 @@ Invariants: all choices within ±0.25 s (looks in now at 26.50, +0.10); never wh
   but brief.
 - The sound was re-synthesized (the flicks follow the new swaps) and still not listened to.
 - Frames looked at: 1.2, 2.2, 3.6, 5.3, 7.6, 15.2, 16.6, 17.6, 19.4, 22.5, 24.0, 27.0, 28.0 s and the stills.
+
+---
+
+## Round 3 (after critic round 2: DOES NOT PASS, narrowly) — supersedes the walk, lying and camera above
+
+The second critic found every choice reading, and one failure: the walk skated (held drawings slid
+~2 px a frame with frozen legs), the two walk drawings had different heads, the first lying drawing
+(#2459) read as a cat, and the push-in cut the moon in half.
+
+**The walk is now the swaps.** The decoder picks the stride pair and its phase; from the walk drawing's
+first frame (14.67 s) to the lie-down (23.83 s) the pair alternates A-B-A-B every 6 frames (37 strides),
+and the dog is placed at the score's x **only at each swap** (a held drawing moves 0 px). Steps are 2.6–19.8
+px (mean 14.2 px ≈ 0.09 m). A footfall sound sits on every swap frame (offset 0 frames); stride swaps are
+heard as pads, not paper. The gait bob was dropped.
+
+**The pair shares a head shape**: #2830 (mirrored) and #639: oval body, a plain circle head at the front,
+stick legs (two vs four). `build/11_head_partner.py` searched all dogs by head-end crop distance plus body
+distance; #135 found no partner with its head; #1309's best (#2717) was rejected after a side-by-side (a
+different, pointed head and half the leg length: two sizes of dog alternating). The pair is registered by
+the head (minus the pair's mean head-to-centroid distance), so the circle head travels smoothly and the body
+changes behind it. Honest cost: the circle head sits at the back line. Round 1's measure ("head top below the
+back", head-end quarter vs middle 40 % of the placed drawing) still reports 100 % for 14.7–23.7, but the
+margin is under 1 px for both drawings: to the eye the head is level with the back, not low. It is lower
+than the raised head of the watch.
+
+**Lying**: only #1056 (chin forward over its paws) and #3537 (profile head into the doorway) from 23.8 s to
+the end: #1056 at the lie-down, #3537 when it hears *come in* (26.50), #1056 again when it settles (28.25).
+#2459 is out.
+
+**Camera**: no push-in. A cut on the lie-down (23.83 s) from the wide frame to the close framing used in
+rounds 1–2, so the 28 s sill composition is unchanged and the moon is wholly in (68 frames, 21–23.8 s) or
+wholly out (196 frames) — never cut.
+
+**Measured** (`checks.json → critic_round2_repairs`): walk alternates A-B (2 drawings) on exactly 6 frames,
+held drawing max move 0 px, x changes off a swap 0, footfall offset max 0 frames; lying drawings
+{1056, 3537}; moon cut frames 0. Invariants: all choices within ±0.25 s (approach +0.21 by ink motion; the
+first walk swap is at 14.67), never wholly inside, end 40 % in the door frame, approach 3.403 m vs 3.406 m.
+`tools/paeleo/check_handmade.py`: **ALL OK**. Kept: the 7.50 turn to look, the sill composition at 28 s,
+selection only. 10 distinct drawings on screen; #135 is the turned back.
+
+**Looked at**: walk frames 456–486 every 6 frames, 498/504, the cut (566/574), the 28 s still. The sound
+was re-synthesized and not listened to.

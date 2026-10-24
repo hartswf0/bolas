@@ -158,7 +158,7 @@ def words_mould(t, C, mouth):
                 cells = (np.add.outer(np.arange(H) // 12 * 31, np.arange(W) // 16 * 17) % 97) / 97.
                 m = m * (cells < fade)
             pool = 'alarm' if kind == 'call' else ('soft' if txt.startswith('it') else 'light')
-            col = (0.98, 0.78, 0.18) if kind == 'call' else (0.96, 0.88, 0.74)
+            col = (0.98, 0.78, 0.18) if kind == 'call' else (1.0, 0.93, 0.80)
             return m, pool, col, kind, txt
     return None
 
@@ -318,7 +318,7 @@ def render(i, stats):
     wm = words_mould(t, C, mouth)
     if wm is not None:
         m, pool, col, kind, txt = wm
-        LY['words'].pool = pool; LY['words'].ragged = (kind == 'call')
+        LY['words'].pool = pool; LY['words'].ragged = True
         st['words'] = TR.render_layer(lib, LY['words'], m, np.full((H, W, 3), col, np.float32), 0, 0, 0.7 if kind == 'call' else 0.04, rng, i, canvas, None, adv)
         rec['words'] = txt
 
