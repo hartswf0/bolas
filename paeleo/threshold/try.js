@@ -32,7 +32,7 @@
       Stage.puppet(ctx, K, per.x, 1, 1, g => Stage.drawPerson(g, per.p), .32);
       const turn = Math.abs(dog.p.turn) < .06 ? .06 * Math.sign(dog.p.turn || 1) : dog.p.turn;
       Stage.puppet(ctx, K, d.x, turn, 1, g => Stage.drawDog(g, dog.p, t), .34);
-      if (d.x < .45) Stage.jamb(ctx, K);
+      if (d.x < .9) Stage.jamb(ctx, K);
       if (w.voice !== 'none') Stage.bubble(ctx, K, [per.x + .05, per.p.sit > .5 ? .95 : 1.78], w.voice === 'call' ? 'Come here!' : "it's all right.", { loud: w.voice === 'call' });
       const lift = dog.p.lie > .5 ? .75 : 1;
       Stage.tag(ctx, K, [d.x - .25 * Math.sign(dog.p.turn || 1), lift * .62], [Math.min(d.x + .1, 4.4), lift + .55],

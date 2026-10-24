@@ -47,7 +47,7 @@ svg = ('<svg class="chart" viewBox="0 0 900 470" role="img" aria-label="State ch
        + '<text x="20" y="455" font-size="12" fill="var(--ink-2)">red: what commands do · green: what changed circumstances earn · every state holds for a minimum window</text></svg>')
 
 rounds = []
-for n in (1, 2, 3):
+for n in range(1, 9):
     m = os.path.join(H, f'reviews/round{n}.json')
     if not os.path.exists(m): continue
     r = json.load(open(m)); r['report'] = open(os.path.join(H, f'reviews/round{n}.txt')).read(); rounds.append(r)
@@ -99,10 +99,14 @@ case = dict(
         ('v2: two reframes of about 60 px inside a shot read as jump cuts; the person\'s sit popped from a squat to a chair-sit in mid-air.',
          'v3: the reframes are camera moves; sitting is two phases, down then legs out, with the hands blended to the knees.'),
         ('v2: a 2 Hz thump under the climax matched no visible tail; near-silence under the lineage.', 'v3: thumps only while the tail really sweeps; a low pad and a paper flick for each pinned tag.'),
+        ('v3: chin down, the neck stood up behind the head like a plank with the collar on it, for the last 5 s of the scene.',
+         'v4: as the chin goes down the neck base comes forward and down to the chest, so the neck lies along the floor.'),
+        ('v3: only a fifth of the dog lay outside the jamb, so it read as in the doorway, not across the sill. And the jamb stopped being drawn over it, because its condition still used the old sill.',
+         'v4: the sill moved again, so a third lies outside; the jamb is drawn for any dog within 0.9 m of the threshold.'),
         ('Moving the sill exposed a speed jump: the dog arrived at 0.12 m/s and stopped dead. The continuity test caught it.', 'The approach slows to 0.06 m/s at the sill.'),
     ],
     carries='The operator, the machine and the critic loop. The next box opens another SCION swarm on the same porch, or takes this dog somewhere else.',
-    fullcase='3 versions, critic rounds, state chart, decision trace, the prompt',
+    fullcase='4 versions, critic rounds, state chart, decision trace, the prompt',
     T0=T0, chart_svg=svg,
     guards=[
         ('refuse', 'turns its back', 'pressure > 0.62 from repeated calls, or pressed (threat > 0.55) when already 3.6 m away or at the steps'),
@@ -143,12 +147,16 @@ case = dict(
              changes=['Lying down, the dog reacts to any voice, then settles chin on paws.', 'It lies at the doorway; the jamb is drawn over its back half.',
                       'Gets up before turning; the cut moved off the turn.', 'The caption travels as one paper slip.', 'Bigger type on tags, cards and credits.',
                       'Critic round 2: inconclusive. The reaction to "come in" too small, and the head rose again; reframe jumps; the sit popped.']),
-        dict(n='v3', title='It looks in, and stays out', meta='Oct 24 · 82 s · the film on the page', file='paeleo-00.mp4', poster='threshold-sill.jpg',
+        dict(n='v3', title='It looks in', meta='Oct 24 · 82 s', file='paeleo-00-v3.mp4', poster='threshold-comein.jpg',
              text='Repairs for the second critic, then a third.',
-             changes=['Told to come in, the dog turns its head in through the lit door with its tail sweeping, then turns back out, chin on its paws, and stays down.',
-                      'It lies across the doorway: front in the light, back third outside the jamb.', 'Camera moves instead of small reframe cuts.',
-                      'The person squats, then puts the legs out; the hands come to the knees smoothly.', 'Slower turns, only once standing.',
-                      'Sound under the lineage; tail thumps only when the tail sweeps.']),
+             changes=['Told to come in, the dog lifts its head toward the lit door with its tail sweeping, then puts its chin on its paws and keeps it down.',
+                      'Camera moves instead of small reframe cuts.', 'The person squats, then puts the legs out.', 'Slower turns, only once standing.',
+                      'Sound under the lineage; tail thumps only when the tail sweeps.',
+                      'Critic round 3: the climax passed three of four checks; the neck stood up like a plank behind the resting head, and too little of the dog lay outside the jamb.']),
+        dict(n='v4', title='Across the sill', meta='Oct 24 · 82 s · the film on the page', file='paeleo-00.mp4', poster='threshold-sill.jpg',
+             text='Repairs for the third critic, then a fourth.',
+             changes=['Chin down, the neck lies forward along the floor to the chest.', 'A third of the dog lies outside the door frame; the jamb is drawn over it.',
+                      'The dog\'s tag sits below the threshold tag.', 'A slower sit, in two phases; quicker title fades; bigger diagram type.', 'A flick and a sigh answer "come in".']),
     ],
     rounds=rounds,
     files=[('paeleo/threshold/machine.js', 'the dog: perception, memory, guards, locomotion'), ('paeleo/threshold/stage.js', 'the paper: set, dog, person, tags'),

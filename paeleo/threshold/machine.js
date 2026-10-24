@@ -7,7 +7,7 @@
 (function (root, factory) { if (typeof module === 'object' && module.exports) module.exports = factory(); else root.Threshold = factory(); })(this, function () {
   'use strict';
   const STATES = ['watch', 'approach', 'retreat', 'lie_down', 'refuse'];
-  const SILL = 0.40;          // the closest the dog will come: lying across the sill, front half in the doorway, back half out
+  const SILL = 0.56;          // the closest the dog will come: lying across the sill, front half in the doorway, back half out
   const PORCH_END = 4.9;      // the porch steps
   const PERSON_X = { doorway: -0.28, beside: -1.25 };
   // minimum time in a state before a lower-priority guard may take it out (action windows: no flicker)

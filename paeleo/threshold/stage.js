@@ -145,12 +145,13 @@
     ctx.save(); ctx.translate(O[0], O[1]); ctx.rotate(pitch); piece(ctx, BODY, C.dog, 'rgba(50,25,8,.85)'); piece(ctx, CHEST, C.dogChest, null); ctx.restore();
     leg(sh, Math.PI * .5, false, true); leg(hip, Math.PI * 1.5, false, false);
     // head on the neck: head param 1 = up and alert, 0 = down; rest = chin on the paws
-    const neck = B([-.29, -.06]);
+    const rl = clamp(P.rest) * lie;   // chin on the paws: the neck base comes forward and down to the chest, so the neck lies along the floor
+    const neck = B([lerp(-.29, -.35, rl), lerp(-.06, .03, rl)]);
     const phi = lerp(.15, 1.0, clamp(P.head)) - .25 * P.sniff;
     let hc = [neck[0] - Math.cos(phi) * .17, neck[1] - Math.sin(phi) * .17];
     const restC = [-.47, -.075]; hc = [lerp(hc[0], restC[0], P.rest * lie), lerp(hc[1], restC[1], P.rest * lie)];
     const tilt = lerp(-.15, .35, 1 - clamp(P.head)) + .25 * P.sniff - .2 * P.rest * lie + Math.sin(t * 1.3) * .02;
-    piece(ctx, capsule(neck, hc, .07, .055, 101), C.dog, null);
+    piece(ctx, capsule(neck, hc, lerp(.07, .06, rl), .055, 101), C.dog, 'rgba(50,25,8,.5)');
     ctx.save(); ctx.translate(neck[0], neck[1]); ctx.rotate(Math.atan2(hc[1] - neck[1], hc[0] - neck[0]));
     ctx.fillStyle = C.collar; ctx.beginPath(); ctx.rect(.03, -.06, .028, .12); ctx.fill(); ctx.restore();
     ctx.save(); ctx.translate(hc[0], hc[1]); ctx.rotate(tilt - .25 * (P.look || 0)); ctx.scale(1 - .45 * clamp(P.look || 0), 1);
@@ -177,14 +178,14 @@
     const dx = clamp(target.x - this.x, -1.1 * dt, 1.1 * dt), prev = this.p.phase; this.x += dx; this.p.phase += Math.abs(dx) / .7 * Math.PI * 2;
     if (Math.sin(prev) > 0 !== Math.sin(this.p.phase) > 0 && Math.abs(dx) > 0) this.steps.push(this.t);
     this.p.moving = lerp(this.p.moving, Math.abs(dx) > 1e-4 ? 1 : 0, .2);
-    const sp = { sit: [26, 9.5], reach: [70, 13], low: [50, 12], mouth: [300, 30], lean: [40, 11] };
+    const sp = { sit: [8, 5.6], reach: [70, 13], low: [50, 12], mouth: [300, 30], lean: [40, 11] };
     const T = { sit: target.sit, reach: target.reach, low: target.low, mouth: target.mouth, lean: target.reach * .25 + target.low * (target.sit > .5 ? .18 : .3) };
     for (const k in sp) { const [K, D] = sp[k]; this.v[k] += (K * (T[k] - this.p[k]) - D * this.v[k]) * dt; this.p[k] += this.v[k] * dt; }
     return this.p;
   };
   function drawPerson(ctx, P) {
     const s = clamp(P.sit), mv = P.moving * (1 - s);
-    const sDown = ease(clamp(s * 1.6)), sOut = ease(clamp((s - .4) / .6));   // sitting: squat down first, then the legs go out
+    const sDown = ease(clamp(s * 1.25)), sOut = ease(clamp((s - .45) / .55));   // sitting: squat down first, then the legs go out
     const hip = [lerp(0, -.08, sOut), lerp(-.95, -.12, sDown)];
     const lean = P.lean;
     const up = rot([0, -.56], lean), neck = add(hip, up);

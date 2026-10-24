@@ -214,7 +214,7 @@ def case_page():
   <div>{vid}</div><div class="part"><p>{esc(v["text"])}</p>{"<ul>" + "".join(f"<li>{esc(x)}</li>" for x in v.get("changes", [])) + "</ul>" if v.get("changes") else ""}</div></article>'''
     rounds = ''
     for r in c['rounds']:
-        cls = {'pass': 'pass', 'reference stronger': 'fail', 'inconclusive': 'part'}[r['verdict']]
+        cls = {'pass': 'pass', 'reference stronger': 'fail', 'does not pass': 'fail', 'inconclusive': 'part'}[r['verdict']]
         figs = ''.join(f'<figure><img src="{up}paeleo/media/still/{f["img"]}" alt="" loading="lazy"><figcaption>{esc(f["cap"])}</figcaption></figure>' for f in r.get('figs', []))
         rounds += f'''<article class="round"><div class="rh"><h3>{esc(r["title"])}</h3><span class="verdict {cls}">{esc(r["verdict"])}</span><span class="vm">{esc(r["meta"])}</span></div>
   <div>{figs}</div><div class="part"><p><b>Largest gap.</b> {esc(r["gap"])}</p><p class="next"><b>Repair condition.</b> {esc(r["repair"])}</p>

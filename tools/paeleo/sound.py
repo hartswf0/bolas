@@ -167,6 +167,7 @@ for c in cues['sfx']:
         elif c['to'] == 'retreat': place(thud(140, .1, .15), t + .05, 1, .5)
         elif c['to'] == 'lie_down': place(thud(60, .35, .35), t + .45, 1, .2); place(huff(.9), t + 1.3, .7, .2)
         elif c['to'] == 'watch' and c['from'] == 'refuse': place(flick(), t + .1, 1.4, .5)
+    elif k == 'sigh': place(huff(1.3), t, 1.3, .1); place(thud(70, .3, .25), t + .15, 1, .1)
     elif k == 'pulse': place(chime(880, .15, 1.2), t, 1, .4)
     elif k == 'unfold': place(flick(), t, 2.0, 0); place(flick(), t + .6, 1.5, 0)
     elif k == 'reply': place(chime(659.3, .14, 1.8), t, 1, 0)

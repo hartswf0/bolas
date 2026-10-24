@@ -36,6 +36,7 @@
     cue(T0 + p.done - .2, 'return');
     if (p.say) cue(T0 + p.fx, p.say[1] ? 'call' : 'soft', { text: p.say[0] });
     if (p.set.door === 'open') cue(T0 + p.fx, 'creak');
+    if (p.text === 'come in.') { cue(T0 + p.fx + .25, 'flick'); cue(T0 + p.fx + 1.75, 'sigh'); }
     if (p.set.posture === 'sit') cue(T0 + p.fx + .65, 'sit');
     cue(T0 + p.fx + .15, 'flick');
   }
@@ -105,7 +106,7 @@
     S.puppet(ctx, K, perA.x, 1, 1, g => S.drawPerson(g, per), .32);
     // dog
     S.puppet(ctx, K, f.x, Math.abs(dogA.p.turn) < .06 ? .06 * Math.sign(dogA.p.turn || 1) : dogA.p.turn, 1, g => S.drawDog(g, dogA.p, T), .34);
-    if (f.x < .45) S.jamb(ctx, K);
+    if (f.x < .9) S.jamb(ctx, K);
     if (w._bubble) S.bubble(ctx, K, [perA.x + .05, per.sit > .5 ? .95 : 1.78], w._bubble[0], { loud: w._bubble[1], alpha: w._bubble[2] });
     for (const tg of tags || []) S.tag(ctx, K, tg.anchor, tg.at, tg.lines, tg);
     ctx.restore();
@@ -179,7 +180,7 @@
       else lines = ['dog · ' + (f.state === 'lie_down' && f.x < .5 ? 'lying on the sill' : DOG_WORD[f.state]), { t: 'trust', bar: f.trust, barc: f.trust > .6 ? C.teal : f.trust < .25 ? C.stamp : '#c88a00' }];
       const lift = f.state === 'lie_down' || (f.state === 'refuse' && dogA.p.lie > .5) ? .75 : 1.0;
       const lastTr = TRANS.filter(e => e.t <= tau).pop();
-      tags.push({ anchor: [f.x - .25 * Math.sign(dogA.p.turn || 1), lift * .62], at: [Math.min(f.x + (f.x < .8 ? .3 : .1), 4.4), lift + (tau < 0 && T > 10.6 ? .95 : f.x < .8 ? 1.25 : .55)], lines, alpha: tagIn(7.6, 8.3), size: 26, flash: lastTr ? clamp(1 - (tau - lastTr.t) / .8) : 0, rot: -.01 });
+      tags.push({ anchor: [f.x - .25 * Math.sign(dogA.p.turn || 1), lift * .62], at: [Math.min(f.x + (f.x < 1 ? 1.0 : .1), 4.4), lift + (tau < 0 && T > 10.6 ? .95 : f.x < 1 ? .3 : .55)], lines, alpha: tagIn(7.6, 8.3), size: 26, flash: lastTr ? clamp(1 - (tau - lastTr.t) / .8) : 0, rot: -.01 });
     }
     // the caption flies from the page to the door tag
     const hideT = 1 - clamp(at(T, 13.9, 14.3) - at(T, 17.7, 18.1));
@@ -194,7 +195,7 @@
     kicker(ctx, '2 · text pinned to a place · AEL', 'ENVIRONMENT TEXT', '', clamp(at(T, 6.4, 6.8) - at(T, 9.7, 10.0)));
     kicker(ctx, '3 · text the place runs on · PAELEO', 'WORLDTEXT', '', clamp(at(T, 10.1, 10.5) - at(T, 14.0, 14.4)));
     if (T > 14.3 && T < 18.6) {
-      const a = clamp(at(T, 14.35, 14.9) - at(T, 17.0, 17.6));
+      const a = clamp(at(T, 14.35, 14.6) - at(T, 17.25, 17.5));
       ctx.save(); ctx.fillStyle = `rgba(10,9,8,${.72 * a})`; ctx.fillRect(0, 0, W, H); ctx.globalAlpha = a;
       textC(ctx, 'PAELEO-00', W / 2, 250, '600 20px "JetBrains Mono"', C.stamp, 'center');
       textC(ctx, 'THE THRESHOLD', W / 2, 352, '900 118px "Big Shoulders Display"', C.paper, 'center');
@@ -228,11 +229,11 @@
           g.fillStyle = col; g.fillRect(x, y - 34, g.measureText ? 0 : 0, 0);
           g.font = '900 48px "Big Shoulders Display"'; g.fillStyle = col; g.fillText(code, x + 18, y + 52);
           g.font = '600 18px "JetBrains Mono"'; g.fillStyle = col; g.fillText(k, x + 18, y + 78);
-          g.font = 'italic 400 25px Literata'; g.fillStyle = 'rgba(251,247,238,.9)'; g.fillText(name, x + 18, y + 108); g.font = '400 22px Literata'; g.fillStyle = 'rgba(251,247,238,.66)'; g.fillText(line, x + 18, y + 136); g.restore(); };
+          g.font = 'italic 400 26px Literata'; g.fillStyle = 'rgba(251,247,238,.95)'; g.fillText(name, x + 18, y + 110); g.font = '400 25px Literata'; g.fillStyle = 'rgba(251,247,238,.85)'; g.fillText(line, x + 18, y + 136); g.restore(); };
         textC(g, 'ONE RESEARCH PROGRAM · THREE SCALES OF OPERATION', W / 2, 56, '600 20px "JetBrains Mono"', C.stamp, 'center');
-        box(60, 80, 1160, 600, 'THE PLACE', 'AEL', 'Augmented Environments Lab', 'where situated worlds are investigated and made', '#c99a60', 64.3);
-        box(120, 230, 1040, 430, 'THE LANGUAGE AND STUDIO', 'PAELEO', 'Promptable Augmented Environments Lab / Language for Ekphrastic Operations', 'where the method operates across environments, archives, games, films and agents', '#7fe0d2', 65.6);
-        box(180, 390, 920, 250, 'THE METHOD', 'PEO', 'Prompt · Ekphrasis · Operation', 'how descriptions become consequential actions', C.stamp, 66.9);
+        box(60, 80, 1160, 600, 'THE PLACE', 'AEL', 'Augmented Environments Lab', 'where worlds are investigated and made', '#c99a60', 64.3);
+        box(120, 230, 1040, 430, 'THE LANGUAGE AND STUDIO', 'PAELEO', 'Promptable Augmented Environments Lab · Ekphrastic Operations', 'the method at work in films, games, archives, agents', '#7fe0d2', 65.6);
+        box(180, 390, 920, 250, 'THE METHOD', 'PEO', 'Prompt · Ekphrasis · Operation', 'descriptions become consequences', C.stamp, 66.9);
         // the cycle inside PEO: intent → description → consequence → (a changed situation) → intent
         const v = ease(at(T, 68.0, 69.0)); if (v > 0) { g.save(); g.globalAlpha *= v; const cx = 880, cy = 515, r = 58;
           [['P', 'intent', -Math.PI / 2], ['E', 'description', Math.PI / 6], ['O', 'consequence', Math.PI * 5 / 6]].forEach(([k, w2, an]) => {
