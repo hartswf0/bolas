@@ -767,11 +767,16 @@ def constraint_glyphs(df, cam, I=0.32):
 # ----------------------------------------------------------------------------
 # Drawing the dog and the person from their solved graphs
 # ----------------------------------------------------------------------------
-def draw_dog(df, cam, g, f, side, I=1.0, show_graph=True, pins=None):
+def draw_dog(df, cam, g, f, side, I=1.0, show_graph=True, pins=None, fr=None, side_r=None):
     P = lambda n: g.p(n)
     S = cam.S
     Wp, Mp, Pp, Np, Zp = P('W'), P('M'), P('P'), P('N'), P('Z')
-    a = unit(Wp - Pp); ub = unit(np.cross(side, a))
+    if fr is None:
+        fr, side_r = f, side
+    af = unit(Wp - Mp); ubf = unit(np.cross(side, af))          # forequarters frame
+    ar = unit(Mp - Pp); ubr = unit(np.cross(side_r, ar))        # hindquarters frame
+    am = unit(af + ar); ubm = unit(ubf + ubr)
+    a, ub = af, ubf
     cz = (Wp[2] + Pp[2]) / 2
     def depthI(pt):
         return I * (0.55 if pt[2] < cz - 0.02 else 1.0)
@@ -788,32 +793,36 @@ def draw_dog(df, cam, g, f, side, I=1.0, show_graph=True, pins=None):
             capsule(df, sB, sC, r1 * S * 0.8, r2 * S, Ii, 'dog', ends=(True, False))
         capsule(df, sC, sD, r2 * S, r3 * S, Ii, 'dog', ends=(False, False))
         # paw: a short flattened loop pointing forward
-        fwd = unit(np.array([f[0], 0, f[2]]))
+        fk = f if kind == 'f' else fr
+        fwd = unit(np.array([fk[0], 0, fk[2]]))
         paw = [D + fwd * 0.045 - UP * 0.02, D - fwd * 0.02 - UP * 0.025, D - fwd * 0.03 + UP * 0.012, D + fwd * 0.02 + UP * 0.02]
         df.line(catmull(cam.pa(paw), 4, closed=True), Ii, 'dog')
     # torso outline (attached-to the spine: offsets in the body frame)
     sp = [
-        Wp + a * 0.11 - ub * 0.10,      # point of shoulder / chest front
-        Wp + a * 0.05 - ub * 0.28,      # brisket
-        Mp + a * 0.06 - ub * 0.22,      # belly
-        Pp + a * 0.16 - ub * 0.15,      # tuck up
-        Pp + a * 0.02 - ub * 0.19,      # stifle line
-        Pp - a * 0.07 - ub * 0.10,      # buttock
-        Pp - a * 0.03 + ub * 0.025,     # croup
-        Mp + ub * 0.045,                # back
-        Wp - a * 0.02 + ub * 0.075,     # withers
+        Wp + af * 0.11 - ubf * 0.10,      # point of shoulder / chest front
+        Wp + af * 0.05 - ubf * 0.28,      # brisket
+        Mp + am * 0.06 - ubm * 0.22,      # belly
+        Pp + ar * 0.16 - ubr * 0.15,      # tuck up
+        Pp + ar * 0.02 - ubr * 0.19,      # stifle line
+        Pp - ar * 0.07 - ubr * 0.10,      # buttock
+        Pp - ar * 0.03 + ubr * 0.025,     # croup
+        Mp + ubm * 0.045,                 # back
+        Wp - af * 0.02 + ubf * 0.075,     # withers
     ]
     tors = catmull(cam.pa(sp), 6, closed=True)
     df.line(tors, I, 'dog'); df.occ.append(tors)
     # the barrel in depth: cross-section rings across the spine (a 3-D wireframe, Sketchpad III style).
     # Seen in profile they are slivers; when the body turns in depth they open into ellipses.
-    sd = unit(side - a * float(np.dot(side, a)))
-    for c0, dn, ry, rx, Ir in ((Wp + a * 0.04, 0.11, 0.17, 0.10, 0.55), (Mp, 0.09, 0.15, 0.12, 0.45), (Pp - a * 0.01, 0.06, 0.13, 0.10, 0.55)):
+    for c0, dn, ry, rx, Ir, aa, uu, ss in ((Wp + af * 0.04, 0.11, 0.17, 0.10, 0.55, af, ubf, side),
+                                           (Mp, 0.09, 0.15, 0.12, 0.45, am, ubm, unit(side + side_r)),
+                                           (Pp - ar * 0.01, 0.06, 0.13, 0.10, 0.55, ar, ubr, side_r)):
+        sd = unit(ss - aa * float(np.dot(ss, aa))); ub = uu
         cc = c0 - ub * dn
         ang = np.linspace(0, 2 * math.pi, 28)
         ring = [cc + ub * (ry * math.cos(q)) + sd * (rx * math.sin(q)) for q in ang]
         df.line(cam.pa(ring), I * Ir, 'dog')
         df.occ.append(cam.pa(ring))
+    a, ub = af, ubf
     # neck: two curves from the body to the head
     hd = unit(Zp - Np); hs = head_side(hd, side); hu = unit(np.cross(hs, hd))
     if hu[1] < 0:

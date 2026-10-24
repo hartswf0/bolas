@@ -99,6 +99,7 @@ def dusk(df, cam, I=1.0):
 
 def set_graphs(fr):
     S['dog'].P[:] = fr['dogP']; S['dog'].side = fr['dog_side']
+    S['dog'].sides = {'f': fr['dog_side'], 'r': fr['dog_sider']}
     S['per'].P[:] = fr['perP']; S['per'].side = np.array([0, 0, 1.0])
 
 def gap_of(fr):
@@ -133,7 +134,7 @@ def compose_scene(df, i, cam, Iscale=1.0, panel=True, build=None):
     # the dog: graph + attached outline
     draw_graph(df, cam, dog, 0.26 * Iscale * (1 if build is None else 1.5), 'dgraph')
     draw_tail(df, cam, dog, Iscale * A)
-    draw_dog(df, cam, dog, fr['dog_f'], fr['dog_side'], Iscale * A)
+    draw_dog(df, cam, dog, fr['dog_f'], fr['dog_side'], Iscale * A, fr=fr['dog_fr'], side_r=fr['dog_sider'])
     draw_ears(df, cam, dog, fr['dog_side'], a['ear'], Iscale * A)
     draw_pins(df, cam, fr['pins'], 0.32 * Iscale)
     if a['look'] > 0.25:
