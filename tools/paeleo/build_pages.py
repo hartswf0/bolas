@@ -8,6 +8,8 @@ esc = html.escape
 CASE = json.load(open(os.path.join(R, 'tools/paeleo/case.json')))
 SW = json.load(open(os.path.join(P, 'scion/swarms.json')))
 RUN = {48: ('PAE-00', 'threshold/')}   # swarms that have been run, and the case they made
+HM = json.load(open(os.path.join(R, 'tools/paeleo/handmade.json')))
+for _s in HM['swarms']: RUN[_s['id']] = ('PAE-02', f'handmade/#s{_s["id"]:02d}')
 
 NAV = [('lab/', 'Try it'), ('family/', 'The Family'), ('cineosis/', 'CINEOSIS'), ('found-odyssey/', 'The Found Odyssey'), ('wygwyl/', 'WYGWYL'),
        ('this-side-up/', 'This Side Up'), ('paeleo/', 'PAELEO'), ('films/', 'Films'), ('process/', 'How it was made')]
@@ -177,6 +179,7 @@ def index():
       <div class="facts"><span>lenses <b>54</b>, one per swarm</span><span>loop <b>32 s</b> of prompts, shared</span><span>live <b>in the browser</b>, any lens</span></div></div></div>
   <div class="fullcase"><a href="scion/#viewer"><i>PAE-01</i> Every lens, live<span>with the write-up of the operator</span></a></div>
 </section>
+{handmade_box(up)}
 </section>
 
 <section class="sec" id="queue"><div class="sechead"><h2>The swarm queue</h2><p>Fifty-four SCION animation swarms, each a standalone prompt studio with its own proof scene and research loop. PAE-00 was made by number 48; every one is shown through the dog in PAE-01. <a href="scion/">The operator, written up</a> · <a href="scion/operator.html">open the operator</a>.</p></div>
@@ -433,5 +436,89 @@ def scion_page():
     open(os.path.join(P, 'scion/README.md'), 'w').write('\n'.join(md) + '\n')
 
 
+CHOICE = {'retreat': 'backs away', 'watch': 'watches', 'refuse': 'turns its back', 'approach': 'comes, head low', 'lie_down': 'lies across the sill'}
+
+
+def rounds_of(d):
+    """The critic rounds for one swarm folder: [(n, verdict class, verdict text, report)]."""
+    import glob, re
+    out = []
+    for f in sorted(glob.glob(os.path.join(d, 'reviews/round*.md')), key=lambda f: int(re.findall(r'\d+', os.path.basename(f))[0])):
+        txt = open(f).read(); head = txt.split('\n', 1)[0].rsplit('·', 1)[-1].strip()
+        cls = 'fail' if head.upper().startswith('DOES NOT') else 'pass' if head.upper().startswith('PASS') else 'part'
+        out.append((int(re.findall(r'\d+', os.path.basename(f))[0]), cls, head, txt))
+    return out
+
+
+def handmade_box(up):
+    sw = [x for x in HM['swarms'] if os.path.exists(os.path.join(P, 'handmade', x['dir'], 'film.mp4'))]
+    passed = sum(1 for x in sw if (rounds_of(os.path.join(P, 'handmade', x['dir'])) or [(0, '', '')])[-1][1] == 'pass')
+    tiles = ''.join(f'<a class="sw run" href="handmade/#s{x["id"]:02d}"><img src="handmade/{x["dir"]}/stills/{os.path.basename(sorted(os.listdir(os.path.join(P, "handmade", x["dir"], "stills")))[-1])}" alt="" loading="lazy"><span class="id"><span>SCION {x["id"]:02d}</span><em>{esc(x["kind"])}</em></span><b>{esc(x["name"])}</b><i>{esc(x["trick"])}</i></a>' for x in sw)
+    return f'''<section class="box" id="pae-02"><div class="boxhead"><div class="row"><span class="code">PAE-02</span><span class="lbl">Oct 24 · {len(sw)} swarms · 38 s each · {passed} passed by an independent critic</span></div>
+    <h2>The threshold, handmade</h2><p class="q">{esc(HM["question"])}</p></div>
+  <div class="trick"><span class="lbl">The trick</span><p>A lens restyles one drawing; PAE-02 asks each swarm to make the whole scene itself, from found footage, silhouettes, constraints, doodles or a torrent of archive tiles, under one score of the dog's choices. The score is checked against every film. Everything else differs.</p></div>
+  <div class="queue">{tiles}</div>
+  <div class="fullcase"><a href="handmade/"><i>PAE-02</i> All six films<span>each with its sheets, its measured invariants and its critic rounds</span></a></div>
+</section>'''
+
+
+def handmade_page():
+    import glob, re
+    up = '../../'; boxes = ''; rows = ''
+    for s in HM['swarms']:
+        d = os.path.join(P, 'handmade', s['dir'])
+        if not os.path.exists(os.path.join(d, 'film.mp4')): continue
+        inv = json.load(open(os.path.join(d, 'invariants.json')))
+        rs = rounds_of(d); last = rs[-1] if rs else (0, 'part', 'awaiting the critic', '')
+        stills = sorted(glob.glob(os.path.join(d, 'stills/*')), key=lambda f: float(re.findall(r'(\d+(?:\.\d+)?)s', os.path.basename(f))[0]))
+        cap = ['refusal, 3.6 s', 'watching, 9 s', 'approach, 19 s', 'across the sill, 28 s']
+        sh = ''.join(f'<figure><img src="{s["dir"]}/stills/{os.path.basename(f)}" alt="SCION {s["id"]:02d}, {c}" loading="lazy"><figcaption>{c}</figcaption></figure>' for f, c in zip(stills, cap))
+        ch = ''.join(f'<span>{esc(CHOICE[c["to"]])} <b>{c["t"]:.2f} → {c["found_at"]:.2f} s</b></span>' for c in inv['I1_choices']['choices'])
+        i2, i3, i4 = inv['I2_threshold'], inv['I3_direction'], inv['I4_refusal']
+        rnd = ''.join(f'<details><summary>Critic round {n} · <span class="verdict {c}">{esc(v)}</span></summary><pre class="prompt">{esc(t)}</pre></details>' for n, c, v, t in rs)
+        boxes += f'''<section class="box" id="s{s["id"]:02d}">
+  <div class="boxhead"><div class="row"><span class="code">SCION {s["id"]:02d}</span><span class="lbl">{esc(s["kind"])} · 38 s · <span class="verdict {last[1]}">{esc(last[2])}</span></span></div>
+    <h2>{esc(s["name"])}</h2><p class="q">{esc(s["trick"])}</p></div>
+  <div class="hero">
+    <figure class="film" data-src="{s["dir"]}/film.mp4" data-seg="3.0,35.0" data-len="0:38"><div class="screen"><video muted playsinline preload="metadata" poster="{s["dir"]}/stills/{os.path.basename(stills[2]) if len(stills) > 2 else ""}"></video></div><figcaption class="cap">The 32 s scene on the score, frame for frame; the whole film adds a title and a card saying what it is made of.</figcaption></figure>
+    <div class="trick"><span class="lbl">Made of</span><p>{esc(s["made"])}</p><span class="lbl">Moved by</span><p>{esc(s["moved"])}</p></div>
+  </div>
+  <div class="part"><h3>The sheets</h3><div class="sheets">{sh}</div></div>
+  <div class="cols">
+    <div class="part"><h3>Did the description survive?</h3><p>Measured from this swarm's own render (its <a href="{s["dir"]}/trace.json">trace</a>) by <code>check_handmade.py</code>. The score's time, then the time the choice appears.</p>
+      <div class="facts">{ch}</div>
+      <ul><li><b>Never inside.</b> {"Holds" if i2["ok"] else "Fails"}: closest {i2["min_x"]:.2f} m from the door (the sill is at {SILL:.2f}); ends {i2["end_x"]:.2f} m.</li>
+      <li><b>Follows the score.</b> {"Holds" if i3["ok"] else "Fails"}: r = {i3["r"]:.3f} between its position and the score's.</li>
+      <li><b>The refusal shows the back.</b> {"Holds" if i4["ok"] else "Fails"}: turned in {i4["share_turned"]:.0%} of the refusal's frames.</li></ul></div>
+    <div class="part"><h3>The critics</h3><p>Each round is a fresh agent that sees the film, the brief and this swarm's SCION prompt, never the builder's notes, and returns a verdict and falsifiable repairs. Stopped at an independent pass.</p>{rnd}
+      <p class="lk"><a href="{s["dir"]}/method.md">method</a> · <a href="{s["dir"]}/assets.json">every asset and its rights</a> · <a href="{s["dir"]}/ledger.jsonl">ledger of attempts</a> · <a href="{s["dir"]}/build/make.sh">build</a> · <a href="{up}paeleo/scion/operator.html#s{s["id"]}">the prompt</a></p></div>
+  </div>
+</section>
+'''
+        rows += f'<tr><td><a href="#s{s["id"]:02d}">{s["id"]:02d} {esc(s["name"])}</a></td><td>{esc(s["made"].split(".")[0])}</td><td>{"all four hold" if inv["all_ok"] else "fails"}</td><td><span class="verdict {last[1]}">{esc(last[2])}</span>{f" (round {last[0]})" if last[0] else ""}</td></tr>'
+    body = f'''<p class="crumbs"><a href="{up}">CRASH LAB</a> / <a href="{up}paeleo/">PAELEO</a> / PAE-02</p>
+<header class="lockup"><div class="l"><span class="lbl">PAE-02 · one description, many operations</span><h1 style="font-size:clamp(56px,10vw,120px)">The threshold, handmade</h1>
+  <p class="tag">{esc(HM["question"])}</p>
+  <p>PAE-01 showed every SCION swarm as a lens on one paper dog: a style laid over a drawing it did not make. That shows what each swarm would look at, not what it would make. In PAE-02 each swarm builds the same scene itself: what the dog is made of, how it moves, what the place is and what it sounds like. Only two things are shared: the <a href="BRIEF.md">description</a> and the <a href="score/threshold-score.json">score</a> of the dog's six choices from the PAELEO machine.</p>
+  <p><a class="btn" href="#cohort">The six</a> <a class="btn" href="BRIEF.md">The brief</a> <a class="btn" href="README.md">The write-up</a></p></div>
+  <div class="r"><span class="lbl">Held still, then let go</span><dl class="letters"><dt>P</dt><dd>the prompts: <i>call, call and reach, sit down beside the door, open the door, offer a hand low, say it softly, come in</i></dd><dt>E</dt><dd>the ekphrasis and the score: six choices at fixed times, 768 frames</dd><dt>O</dt><dd>the operation: entirely the swarm's</dd></dl>
+  <p class="lbl">If description is operative, the choices survive every operation, and that can be measured. Whether they read as choices is for a critic to say.</p></div></header>
+
+<section class="sec" id="cohort"><div class="sechead"><h2>The first six</h2><p>One swarm from each family and two from the algorithms, chosen to be as far apart as possible in what they build with.</p></div>
+  <div class="tw"><table class="names"><thead><tr><th>Swarm</th><th>The dog is</th><th>Invariants</th><th>Critic</th></tr></thead><tbody>{rows}</tbody></table></div>
+  <p class="note">The invariants are the description (the six choices within ¼ s, never inside the house and ending on the sill, moving with the score, the back shown in the refusal). Everything that differs between the films is the operation.</p>
+</section>
+{boxes}
+<section class="sec" id="next"><div class="sechead"><h2>What comes after</h2></div><ul>
+  <li><b>The other 48.</b> Each swarm's lens in PAE-01 is its sketch for PAE-02; these six decide what the brief needs before it scales.</li>
+  <li><b>After the threshold.</b> The next evening, when the door is already open: a swarm that kept the invariants carries its dog one scene further with the same materials. That tests whether its world is a world, or only a look.</li>
+  <li><b>The language.</b> The score is the first piece of PAELEO the language: a description precise enough to operate and loose enough to be built six ways. Its next form is a file a person writes rather than a machine run.</li></ul>
+</section>
+'''
+    open(os.path.join(P, 'handmade/index.html'), 'w').write(page('paeleo/handmade/index.html', 'PAE-02 · The threshold, handmade', HM['question'], body, image='paeleo/handmade/53-civic-footage/stills/scene_28.00s.jpg', scripts=FILM_JS))
+
+
+SILL = json.load(open(os.path.join(P, 'handmade/score/threshold-score.json')))['places']['sill']
+
 if __name__ == '__main__':
-    index(); case_page(); scion_page(); print('built paeleo pages')
+    index(); case_page(); scion_page(); handmade_page(); print('built paeleo pages')

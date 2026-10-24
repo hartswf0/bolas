@@ -51,7 +51,7 @@
   }
  ],
  "invariant2": {
-  "min_centre_x": 0.5702,
+  "min_centre_x": 0.5697,
   "sill_limit": 0.56,
   "centre_never_below_sill": true,
   "min_z_of_any_dog_point_inside_door_jambs": 0.0001,
@@ -59,16 +59,16 @@
   "never_past_the_wall": true,
   "final_points_between_jambs": 11,
   "final_points_outside_jambs": 13,
-  "final_spot_share_between_jambs": 0.509,
+  "final_spot_share_between_jambs": 0.524,
   "final_posture": "lying"
  },
  "invariant3": {
   "call_at": 1.0,
   "x_before_call": 3.0,
-  "x_after_call": 3.948,
+  "x_after_call": 3.943,
   "reach_at": 3.4,
   "face_cos_before_reach": 1.0,
-  "face_cos_after_reach": -0.974,
+  "face_cos_after_reach": -0.975,
   "person_seated_at": 6.25,
   "door_open_past_70deg_at": 6.5,
   "hand_low_at": 6.542,
@@ -77,27 +77,27 @@
   "all_circumstances_before_approach": true
  },
  "invariant4": {
-  "max_abs_world_minus_score_m": 0.0294,
-  "mean_abs_m": 0.0131,
-  "screen_px_per_m_fit_wide": 151.89,
-  "screen_fit_rms_px": 11.27,
+  "max_abs_world_minus_score_m": 0.157,
+  "mean_abs_m": 0.0189,
+  "screen_px_per_m_fit_wide": 150.15,
+  "screen_fit_rms_px": 12.08,
   "approach_distance_score_m": 3.406,
-  "approach_distance_measured_m": 3.413,
+  "approach_distance_measured_m": 3.398,
   "retreat_direction": "+x (away from the door)"
  },
  "solver": {
   "declared_tolerance_mm": 1.0,
   "dog_hard_max_mm": 0.2,
   "dog_hard_p95_mm": 0.188,
-  "person_hard_max_mm": 0.233,
+  "person_hard_max_mm": 0.235,
   "door_hard_max_mm": 0.0,
   "all_within_tolerance": true,
-  "dog_max_point_step_per_frame_m": 0.1452,
-  "dog_max_step_at_t": 7.958,
-  "person_max_point_step_per_frame_m": 0.1212,
+  "dog_max_point_step_per_frame_m": 0.1778,
+  "dog_max_step_at_t": 7.792,
+  "person_max_point_step_per_frame_m": 0.1225,
   "planted_paw_slip": "0 by construction (a planted paw has inverse mass 0)",
   "unsatisfiable_reach_frames": 29,
-  "reach_gap_max_m": 3.903
+  "reach_gap_max_m": 3.993
  },
  "rig_ratios_from_archive": {
   "nose_neck": 0.4697905518701124,
