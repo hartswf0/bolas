@@ -495,7 +495,7 @@ def handmade_page():
   </div>
 </section>
 '''
-        rows += f'<tr><td><a href="#s{s["id"]:02d}">{s["id"]:02d} {esc(s["name"])}</a></td><td>{esc(s["made"].split(".")[0])}</td><td>{"all four hold" if inv["all_ok"] else "fails"}</td><td><span class="verdict {last[1]}">{esc(last[2])}</span>{f" (round {last[0]})" if last[0] else ""}</td></tr>'
+        rows += f'<tr><td><a href="#s{s["id"]:02d}">{s["id"]:02d} {esc(s["name"])}</a></td><td>{esc(s["dog"])}</td><td>{"all four hold" if inv["all_ok"] else "fails"}</td><td><span class="verdict {last[1]}">{esc(last[2])}</span>{f" (round {last[0]})" if last[0] else ""}</td></tr>'
     body = f'''<p class="crumbs"><a href="{up}">CRASH LAB</a> / <a href="{up}paeleo/">PAELEO</a> / PAE-02</p>
 <header class="lockup"><div class="l"><span class="lbl">PAE-02 · one description, many operations</span><h1 style="font-size:clamp(56px,10vw,120px)">The threshold, handmade</h1>
   <p class="tag">{esc(HM["question"])}</p>

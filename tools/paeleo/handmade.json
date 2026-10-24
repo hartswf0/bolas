@@ -1,29 +1,65 @@
 {
  "question": "Hold the description and the dog's choices still. Let each swarm build everything else from the bottom up. Do the choices survive, and is each world its own?",
  "swarms": [
-  {"id": 1, "dir": "01-gilliam", "name": "Terry Gilliam", "kind": "Cut-out collage",
+  {
+   "id": 1,
+   "dir": "01-gilliam",
+   "name": "Terry Gilliam",
+   "kind": "Cut-out collage",
    "made": "The real archive dog from a 1930s home movie, cut out by its mask and engraved by hatching its own light; card parts on pins, a tail cut from its own back fur. Every other figure is a found public-domain cut-out, engraved the same way.",
    "moved": "Card pivots, held frames and hard substitution. The call turns the woman's head into a hinged shouting mouth and the dog's head into a door; the refusal is the card turned over to its blank back, stamped NO; the approach is earned by the door swapped for a lit slab; the lying is a lying card.",
-   "trick": "Each choice is a substitution, so the dog's decision is also the film's cut."},
-  {"id": 2, "dir": "02-reiniger", "name": "Lotte Reiniger", "kind": "Silhouette theatre",
+   "trick": "Each choice is a substitution, so the dog's decision is also the film's cut.",
+   "dog": "the real archive dog, cut out and engraved, on card pivots"
+  },
+  {
+   "id": 2,
+   "dir": "02-reiniger",
+   "name": "Lotte Reiniger",
+   "kind": "Silhouette theatre",
    "made": "A hand-cut shepherd silhouette of 23 pieces on 22 pins, its proportions measured from the archive dog's pose keys (not traced). Tissue hills, a card house front, black card with holes the lamp shines through, lace-cut ornament.",
    "moved": "Articulated joints on a lit screen, paws planted by a contact solver; turns are made by swapping in cut end-on pieces (a rear view, a front view) and four interchangeable heads, and the head always leads the body.",
-   "trick": "No colour on any figure: the whole relationship has to read by outline and the gap between shapes."},
-  {"id": 4, "dir": "04-mouris", "name": "Frank Mouris", "kind": "Image torrent",
+   "trick": "No colour on any figure: the whole relationship has to read by outline and the gap between shapes.",
+   "dog": "a hand-cut silhouette of 23 pieces on a lit paper screen"
+  },
+  {
+   "id": 4,
+   "dir": "04-mouris",
+   "name": "Frank Mouris",
+   "kind": "Image torrent",
    "made": "Thousands of tiles cut from 55 public-domain archive shots (2,238 frames), each figure a computed shape whose edge is the tiles themselves, down to 4×3 pixels, with no line drawn; the tiles' subjects mean something: the dog is animals and the archive dog, the person faces and hats, the door doors and ladders, the light lanterns and bulbs, the words alarm clocks and trumpets for COME HERE, flowers and swans for it's all right.",
    "moved": "The torrent's speed is the dog's state: frantic under the calls, every tile of the dog replaced at each choice, settling as it lies down, and still holds where each tile only plays its own shot forward.",
-   "trick": "The voice is made of pictures too, and it hits the dog as a ring of alarm clocks."},
-  {"id": 8, "dir": "08-sutherland", "name": "Ivan Sutherland", "kind": "Constraint Sketchpad",
+   "trick": "The voice is made of pictures too, and it hits the dog as a ring of alarm clocks.",
+   "dog": "a torrent of tiles cut from 55 archive shots"
+  },
+  {
+   "id": 8,
+   "dir": "08-sutherland",
+   "name": "Ivan Sutherland",
+   "kind": "Constraint Sketchpad",
    "made": "Points, lines and arcs on a simulated phosphor vector display. The dog is a 24-point graph under 77 hard constraints (bone lengths, joint sides, floor contact, and the threshold itself), its proportions the archive dog's measured bones; nothing else is borrowed.",
    "moved": "A real iterative solver, warm-started every frame, with its residuals on the console. The prompts are light-pen drags: the reach pulls the hand toward the dog until the console says HAND GOAL UNSATISFIABLE. The dog cannot be dragged at all.",
-   "trick": "THE DOG IS NOT SELECTABLE: the brief's 'understand it, not control it', said in Sketchpad's own terms."},
-  {"id": 38, "dir": "38-drawing-library", "name": "Dynamic pose selection", "kind": "Drawing library",
+   "trick": "THE DOG IS NOT SELECTABLE: the brief's 'understand it, not control it', said in Sketchpad's own terms.",
+   "dog": "a 24-point graph under 77 constraints, solved every frame"
+  },
+  {
+   "id": 38,
+   "dir": "38-drawing-library",
+   "name": "Dynamic pose selection",
+   "kind": "Drawing library",
    "made": "Real people's Quick, Draw! dog doodles, chosen by eye from 4,164 and labelled by pose; the house, door, moon, steps, arm and hand are doodles too, drawn on in their makers' stroke order.",
    "moved": "A decoder picks a whole drawing for every pair of frames, with costs for pose, for changing identity and for swapping off a footfall. A drawing is only scaled, moved or mirrored, never bent.",
-   "trick": "The dog that turns its back is the same drawing as the dog that comes."},
-  {"id": 53, "dir": "53-civic-footage", "name": "Atlanta Moving Image", "kind": "Civic footage performer",
+   "trick": "The dog that turns its back is the same drawing as the dog that comes.",
+   "dog": "whole Quick, Draw! doodles by real people, chosen, never bent"
+  },
+  {
+   "id": 53,
+   "dir": "53-civic-footage",
+   "name": "Atlanta Moving Image",
+   "kind": "Civic footage performer",
    "made": "No drawing at all. The archive dog's own footage, masked frame by frame; the woman and the door from Straight Talk, the seated man from Survival Stresses, the hand from The Door to Heaven, the wall and path from the home movie. A live strip above the stage shows every source frame in use, with its title, year, rights and the operation applied.",
    "moved": "Re-timing and re-ordering recorded motion: its walk mirrored and played backward is the retreat; its own turn away from a person is the refusal; the door's closing swing run backward is the opening. The one pose the footage never recorded, lying down, is composed and marked COMPOSED on screen.",
-   "trick": "The scene says what it is the whole time: COMPOSED SCENE · archive fragments re-performed · not a recorded event."}
+   "trick": "The scene says what it is the whole time: COMPOSED SCENE · archive fragments re-performed · not a recorded event.",
+   "dog": "the archive dog's own footage, re-timed and re-ordered"
+  }
  ]
 }
