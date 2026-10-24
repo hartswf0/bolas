@@ -210,15 +210,19 @@ def dog_pick(n):
         return dict(src=k, mirror=False, fold=None, op='PLAY 1:1 · its own turn away (f015-f044, f021-25 cut)', tag='PLAY 1:1 · turn')
     if t < 7.458:
         return dict(src=44, mirror=False, fold=(a['lie'], lie_deg(a), False), op='COMPOSED: FOLD f044 · lies down, back turned', tag='COMPOSED FOLD')
-    if t < 7.9:
-        u = min(1.0, (t - 7.458) / 0.17)
-        return dict(src=44, mirror=False, fold=(a['lie'], -8 + 14 * u, 'swap8'), op='COMPOSED: FOLD f044 + HEAD OF f008 (the dog looking up at the person) at the neck · looks back at the door', tag='COMPOSED · head')
-    if t < 7.9 + len(TURN_BACK) / 12:
-        k = TURN_BACK[min(len(TURN_BACK) - 1, int((t - 7.9) * 12))]
-        return dict(src=k, mirror=False, fold=None, op='PLAY · turns to the door (f033>f014)', tag='PLAY · turns back')
+    if t < 8.4:
+        # comes round at once, in the footage's own frames: frontal f033, f028, then f015/f014 facing the door;
+        # while the score's lie value is still high the legs stay folded (COMPOSED squash), rising by 8.0 s
+        seq = [33, 28]
+        i_ = int((t - 7.458) * 12)
+        k = seq[i_] if i_ < 2 else [15, 14][int((t - 7.625) * 3) % 2]
+        lie = a['lie']
+        return dict(src=k, mirror=False, fold=('squash', lie) if lie > 0.02 else None,
+                    op='PLAY f033>f028>f015 · comes round to the door' + (' · legs folded %.2f (COMPOSED)' % lie if lie > 0.02 else ''),
+                    tag='PLAY · comes round')
     if t < 14.708:
         seq = list(range(0, 16)) + list(range(14, 0, -1))
-        k = seq[int((t - 8.4) * 6) % len(seq)]
+        k = seq[(int((t - 8.4) * 6) + 17) % len(seq)]
         return dict(src=k, mirror=False, fold=None, op='PING-PONG 1:2 · f000-f015 · waits', tag='PING-PONG 1:2')
     if t < 23.792:
         k = 42 + int(max(0, 4.0 - x) / 0.055) % 7
@@ -234,6 +238,19 @@ def dog_layer(p):
     if p['fold'] is None:
         lay = scale_rgba(arr, S_DOG)
         return lay, lay, face
+    if p['fold'][0] == 'squash':
+        lie = p['fold'][1]
+        ys_, xs_ = np.nonzero(arr[..., 3] > 0.3)
+        fy = ys_.max() + 1; top = ys_.min()
+        by = int(top + 0.55 * (fy - top))
+        new_leg = max(1, int(round((fy - by) * (1 - 0.85 * lie))))
+        drop = (fy - by) - new_leg
+        out = np.zeros_like(arr)
+        out[drop:by + drop] = arr[:by]
+        legs = resample_rows(arr, by, fy, new_leg); legs[..., :3] *= (1 - 0.4 * lie)
+        out[by + drop:by + drop + new_leg] = legs
+        lay = scale_rgba(out, S_DOG)
+        return lay, lay, face
     lie, hdeg, flip = p['fold']
     kp = POSE[str(k)]
     neck, nose, tail = kp['neck'], kp['nose'], kp['tail']
@@ -247,7 +264,7 @@ def dog_layer(p):
         h8, o8 = cutout(dog, 8, feather=0.9, erode=1)
         k8 = POSE['8']
         xs8 = np.arange(h8.shape[1])[None, :] + o8[0]; ys8 = np.arange(h8.shape[0])[:, None] + o8[1]
-        keep = np.clip((k8['neck'][0] + 8 - xs8) / 4.0, 0, 1) * np.clip((k8['neck'][1] + 22 - ys8) / 4.0, 0, 1)
+        keep = np.clip((k8['neck'][0] + 14 - xs8) / 9.0, 0, 1) * np.clip((k8['neck'][1] + 28 - ys8) / 9.0, 0, 1)
         h8 = h8.copy(); h8[..., 3] *= keep
         h8 = rotate_rgba(h8, hdeg, (k8['neck'][0] - o8[0], k8['neck'][1] - o8[1]))
         full = body.copy()
@@ -441,9 +458,9 @@ def scene_frame(n):
     head_h = int(GROUND - (Y0_ + yy[front].min())) if front.any() else 0
     frac_in = float((w_ * ((X0_ + xx) < DOOR_R)).sum() / w_.sum())
     frac_len = float(np.clip((DOOR_R - left) / max(1, right - left), 0, 1))
-    posture = 'lying' if (p['fold'] is not None and p['fold'][0] > 0.5) else 'standing'
+    posture = 'lying' if (p['fold'] is not None and p['fold'][0] != 'squash' and p['fold'][0] > 0.5) or (p['fold'] is not None and p['fold'][0] == 'squash' and p['fold'][1] > 0.5) else 'standing'
     hface = None
-    if p['fold'] is not None and p['fold'][2] == 'swap8':
+    if p['fold'] is not None and len(p['fold']) > 2 and p['fold'][2] == 'swap8':
         hface = 'door'
     TRACE.append({'i': n, 't': t, 'state': f['dog']['state'], 'x_score': f['dog']['x'],
                   'x_screen': round(float(mx), 1), 'y_screen': round(float(my), 1),
