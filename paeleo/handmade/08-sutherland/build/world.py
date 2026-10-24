@@ -22,8 +22,8 @@ FPS = 24
 TITLE_N = 72
 END_N = 72
 W, H = 1280, 720
-ELEV = math.radians(20)
-KX = 0.30          # oblique: nearer points sit to the right, so depth reads as a diagonal
+ELEV = math.radians(24)
+KX = 0.45          # oblique: nearer points sit to the right, so depth reads as a diagonal
 CE, SE = math.cos(ELEV), math.sin(ELEV)
 UP = np.array([0.0, 1.0, 0.0])
 
@@ -91,7 +91,7 @@ def floor_y(x, z):
 # Camera (Sketchpad's scale knob): orthographic + elevation, then 2-D window
 # ----------------------------------------------------------------------------
 class Cam:
-    def __init__(self, S=150.0, xc=1.45, yc=0.0, px=640.0, py=430.0):
+    def __init__(self, S=150.0, xc=1.45, yc=0.0, px=640.0, py=415.0):
         self.S, self.xc, self.yc, self.px, self.py = S, xc, yc, px, py
     def p(self, v):
         x, y, z = v
@@ -316,20 +316,20 @@ class DogDriver:
         g.clear_frame()
         turn = a['turn']
         if d['state'] == 'refuse' and t < 5.0:
-            turn = min(turn, 1 - 2 * smooth((t - 3.417) / 1.3))     # the back turns from the moment of choosing
+            turn = min(turn, 1 - 2 * smooth((t - 3.47) / 0.8))     # the back turns from the moment of choosing
         if 7.458 <= t < 9.5:
-            turn = max(turn, -1 + 2 * smooth((t - 7.62) / 0.85))      # rises, then the body comes round
+            turn = max(turn, -1 + 2 * smooth((t - 7.62) / 0.7))      # rises, then the body comes round
         # yaw is a parameter of the graph: the body rotates in depth (z), never a mirror flip.
         # refusing turns through the wall side (we see its back); coming round turns through
         # the camera side (we see its face).
-        phi_b = (math.pi + math.acos(clamp(turn, -1, 1))) if t < 7.458 else (3 * math.pi - math.acos(clamp(turn, -1, 1)))
+        phi_b = (math.pi - math.acos(clamp(turn, -1, 1))) if t < 7.458 else (math.acos(clamp(turn, -1, 1)) - math.pi)
         f = np.array([math.cos(phi_b), 0.0, math.sin(phi_b)])
         side = np.cross(f, UP)
         # the head leads the body: it turns first at the moment of choosing, up to 130 deg off the body
         if 3.417 <= t < 7.458:
-            goal, tc = 2 * math.pi, 3.417
+            goal, tc = 0.0, 3.417
         elif 7.458 <= t < 9.5:
-            goal, tc = 3 * math.pi, 7.458
+            goal, tc = -math.pi, 7.458
         else:
             goal, tc = phi_b, t
         dphi = clamp(goal - phi_b, -2.27, 2.27) * smooth((t - tc) / 0.35)
@@ -364,7 +364,8 @@ class DogDriver:
         Wp = g.p('W')
         Ng = Wp + DOG['neck'] * (math.cos(al) * fh + math.sin(al) * UP)
         Zg = Ng + DOG['head'] * (math.cos(be) * fh + math.sin(be) * UP)
-        rest = a['rest'] * lie
+        lead = smooth((t - 7.458) / 0.35) if 7.458 <= t < 9.5 else 0.0
+        rest = a['rest'] * lie * (1 - lead)        # the chin leaves the paws as the head swings round
         if rest > 0:
             Nr = Wp + f * 0.20 + UP * (0.17 - Wp[1])
             Zr = Nr + f * DOG['head'] * 0.97 + UP * (0.07 - 0.17)
