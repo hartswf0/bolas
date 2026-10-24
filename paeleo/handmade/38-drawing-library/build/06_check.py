@@ -101,12 +101,12 @@ inv3 = dict(call_on_screen=call1, retreat=events['retreat (1.000)'], reach_on_sc
 
 # invariant 4: x follows the score (static-camera part for the screen mapping, metres everywhere)
 xs = np.array([r['x_score'] for r in trace])
-m = T < 19
+m = T < 23.8
 A = np.vstack([xs[m], np.ones(m.sum())]).T
 slope, icpt = np.linalg.lstsq(A, np.array([r['x_screen'] for r in trace])[m], rcond=None)[0]
 res = X - xs
 ap = (T >= 14.708) & (T <= 23.792)
-inv4 = dict(screen_fit_static_camera=dict(px_per_m=round(float(slope), 2), x0_px=round(float(icpt), 1)),
+inv4 = dict(screen_fit_wide_camera=dict(px_per_m=round(float(slope), 2), x0_px=round(float(icpt), 1)),
             ink_centroid_minus_score_x_m=dict(mean=round(float(np.nanmean(res)), 3), sd=round(float(np.nanstd(res)), 3),
                                               max_abs=round(float(np.nanmax(np.abs(res))), 3)),
             approach_distance_score_m=round(float(xs[ap][0] - xs[ap][-1]), 3),
@@ -233,12 +233,12 @@ exec(_src.split('def wob(')[0], _ns)  # set geometry only (MOON, camera is defin
 exec('def smooth(u):\n    u = min(1, max(0, u)); return u * u * (3 - 2 * u)\n' + _src[_src.index('def camera(t):'):_src.index('def to_screen(')], _ns)
 MP = np.concatenate(_ns['MOON'])
 for r in trace:
-    if 21.0 <= r['t'] <= 24.0:
+    if 21.0 <= r['t'] <= 32.0:
         x0c, y0c, z = _ns['camera'](r['t'])
         P = (MP - np.array([x0c, y0c])) * z
         inside = (P[:, 0] >= 0) & (P[:, 0] <= 1280) & (P[:, 1] >= 0) & (P[:, 1] <= 720)
         moon_states.append('in' if inside.all() else ('out' if not inside.any() else 'cut'))
-q3 = dict(moon_frames_21_24={k: moon_states.count(k) for k in ('in', 'out', 'cut')}, ok=moon_states.count('cut') == 0)
+q3 = dict(moon_frames_21_32={k: moon_states.count(k) for k in ('in', 'out', 'cut')}, ok=moon_states.count('cut') == 0)
 round3 = dict(repair_1_walk_stride=q1, repair_2_lying_two_drawings=q2, repair_3_moon=q3)
 
 round2 = dict(repair_1_walk_identity=r1, repair_2_no_sliding=r2, repair_3_head_low=r3, repair_4_look_in_profile=r4,

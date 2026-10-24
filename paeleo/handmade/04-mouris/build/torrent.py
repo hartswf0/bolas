@@ -11,14 +11,15 @@ import numpy as np
 from PIL import Image, ImageFilter
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-LEVELS = [(64, 48), (32, 24), (16, 12), (8, 6)]
+LEVELS = [(64, 48), (32, 24), (16, 12), (8, 6), (4, 3)]   # 4x3 only at the edges of figures (ragged layers)
 
 
 class Library:
     def __init__(self):
         L = json.load(open(os.path.join(HERE, 'cache/library.json')))
         Z = np.load(os.path.join(HERE, 'cache/library.npz'))
-        self.T = {w: Z[f't{w}'] for (w, h) in LEVELS}
+        self.T = {w: Z[f't{w}'] for (w, h) in LEVELS[:4]}
+        t8 = self.T[8].astype(np.float32); self.T[4] = t8.reshape(len(t8), 3, 2, 4, 2, 3).mean((2, 4)).astype(np.uint8)
         self.shots = L['shots']; self.info = L['tiles']
         self.mean = np.array([t['mean'] for t in self.info], np.float32)
         self.lum = np.array([t['lum'] for t in self.info], np.float32)
@@ -82,14 +83,15 @@ def coverage_grids(mask, guide, ax, ay):
     def bs(X): return X.reshape(R, h, C, w, *X.shape[2:]).sum((1, 3))
     S0 = bs(M); SG = bs(G * M[..., None]); SL = bs(lum * M); SL2 = bs(lum * lum * M)
     lv = []
-    for k in range(4):
+    NL = len(LEVELS)
+    for k in range(NL):
         lv.append((S0, SG, SL, SL2))
-        if k < 3:
+        if k < NL - 1:
             def up(X): r, c = X.shape[0] // 2, X.shape[1] // 2; return X.reshape(r, 2, c, 2, *X.shape[2:]).sum((1, 3))
             S0, SG, SL, SL2 = up(S0), up(SG), up(SL), up(SL2)
     out = []
     for k, (w, h) in enumerate(LEVELS):
-        S0, SG, SL, SL2 = lv[3 - k]
+        S0, SG, SL, SL2 = lv[NL - 1 - k]
         cov = S0 / (w * h); ws = S0 + 1e-6
         col = SG / ws[..., None]; l1 = SL / ws; std = np.sqrt(np.maximum(SL2 / ws - l1 * l1, 0))
         out.append((cov, col, std))
@@ -114,15 +116,16 @@ def render_layer(lib, layer, mask, guide, ax, ay, rate, rng, frame_no, canvas, o
     grids, px, py, m_x, m_y, Hp, Wp = coverage_grids(sub, gsub, ax - x0, ay - y0)
     taken = None
     tiles_out = []
-    for L in range(layer.maxlevel, 4):
+    last = 4 if layer.ragged else 3
+    for L in range(layer.maxlevel, last + 1):
         cov, col, std = grids[L]
         w, h = LEVELS[L]
         if taken is None: taken = np.zeros_like(cov, bool)
         else: taken = np.repeat(np.repeat(taken, 2, 0), 2, 1)[:cov.shape[0], :cov.shape[1]]
-        if L < 3:
+        if L < last:
             use = (cov > 0.999) & (std < layer.split_std) & ~taken
         else:
-            use = (cov > (0.42 if layer.ragged else 0.003)) & ~taken
+            use = (cov > (0.5 if layer.ragged else 0.003)) & ~taken
         taken = taken | use
         rr, cc = np.nonzero(use)
         f = 64 // w

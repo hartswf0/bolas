@@ -185,8 +185,11 @@ def smooth(u):
     u = min(1, max(0, u)); return u * u * (3 - 2 * u)
 
 def camera(t):
-    u = smooth((t - 19.0) / 6.0)
-    x0 = 0 + u * 150; y0 = 0 + u * 50; w = 1280 + u * (980 - 1280)  # round 3: y0 50 keeps the moon wholly in frame
+    # round 3: no push-in (it cut the moon in half on its way past); a cut on the lie-down
+    # (23.833 s, frame 572) from the wide to the close framing of rounds 1-2, so the sill
+    # composition at 28 s is kept and the moon is wholly in (wide) or wholly out (close)
+    u = 1.0 if t >= 23.8 else 0.0
+    x0 = 0 + u * 150; y0 = 0 + u * 160; w = 1280 + u * (980 - 1280)
     return x0, y0, Wd / w
 
 

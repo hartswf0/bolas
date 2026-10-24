@@ -99,7 +99,7 @@ LY = dict(
     face=TR.Layer('face', 'face', kind=0, maxlevel=1, contrast=0.9, keep=0.5, split_std=0.3, ragged=True, shadow=0.4),
     hand=TR.Layer('hand', 'hand', kind=0, maxlevel=2, contrast=0.95, keep=0.55, split_std=0.3, ragged=True, shadow=0.4),
     dog=TR.Layer('dog', 'animal', kind=0, maxlevel=1, contrast=0.95, keep=0.4, split_std=0.06, ragged=True, shadow=0.55),
-    flank=TR.Layer('flank', 'animal', kind=0, contrast=1.0, keep=0.72),
+    flank=TR.Layer('flank', 'animal', kind=0, contrast=1.0, keep=0.6),
     dogeye=TR.Layer('dogeye', 'eye', kind=0, maxlevel=2, contrast=0.9, keep=0.55, ragged=True),
     words=TR.Layer('words', 'alarm', kind=0, maxlevel=2, contrast=0.9, split_std=0.2, ragged=True, shadow=0.7),
 )
@@ -282,8 +282,8 @@ def render(i, stats):
     if LY['dog'].last_alpha is not None:
         ax0, ay0, A = LY['dog'].last_alpha
         Mx = (dinfo['S'][0] + dinfo['H'][0]) / 2; My = (dinfo['S'][1] + dinfo['H'][1]) / 2
-        tw, th = int(round(64 * C['ppm'] / 175 * abs(flip))), int(round(48 * C['ppm'] / 175))
-        for k_, off in enumerate((-0.13, 0.13)):
+        tw, th = int(round(52 * C['ppm'] / 175 * abs(flip))), int(round(39 * C['ppm'] / 175))
+        for k_, off in enumerate((-0.12, 0.12)):
             cx_ = sx(C, dog['x']) + flip * DOGK * (Mx + off) * C['ppm']; cy_ = sy(C, DOGK * (My - 0.005))
             bx, by = int(cx_ - tw / 2), int(cy_ - th / 2)
             stf = LY['flank'].cells.get(k_)
@@ -318,7 +318,7 @@ def render(i, stats):
     wm = words_mould(t, C, mouth)
     if wm is not None:
         m, pool, col, kind, txt = wm
-        LY['words'].pool = pool
+        LY['words'].pool = pool; LY['words'].ragged = (kind == 'call')
         st['words'] = TR.render_layer(lib, LY['words'], m, np.full((H, W, 3), col, np.float32), 0, 0, 0.7 if kind == 'call' else 0.04, rng, i, canvas, None, adv)
         rec['words'] = txt
 

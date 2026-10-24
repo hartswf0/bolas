@@ -5,21 +5,21 @@
     "4583527402176512m",
     "5558409816440832"
    ],
-   "strides": 36,
+   "strides": 37,
    "alternates_A_B": true,
    "stride_frames": {
     "min": 6,
     "max": 6
    },
-   "held_drawing_max_move_px": 1.6499999999999773,
-   "x_changes_not_on_a_swap": 1,
+   "held_drawing_max_move_px": 0.0,
+   "x_changes_not_on_a_swap": 0,
    "step_px_at_swaps": {
-    "min": 4.3,
-    "max": 22.8,
-    "mean": 15.2
+    "min": 3.2,
+    "max": 22.7,
+    "mean": 14.9
    },
    "footfall_sound_offset_frames_max": 0,
-   "ok": false
+   "ok": true
   },
   "repair_2_lying_two_drawings": {
    "drawings_23_8_to_32": [
@@ -41,40 +41,41 @@
   "repair_1_walk_identity": {
    "distinct_drawings": 2,
    "changes_at": [
-    15.25,
-    15.5,
-    15.75,
-    16,
-    16.25,
-    16.5,
-    16.75,
-    17,
-    17.25,
-    17.5,
-    17.75,
-    18,
-    18.25,
-    18.5,
-    18.75,
-    19,
-    19.25,
-    19.5,
-    19.75,
-    20,
-    20.25,
-    20.5,
-    20.75,
-    21,
-    21.25,
-    21.5,
-    21.75,
-    22,
-    22.25,
-    22.5,
-    22.75,
-    23,
-    23.25,
-    23.5
+    15.167,
+    15.417,
+    15.667,
+    15.917,
+    16.167,
+    16.417,
+    16.667,
+    16.917,
+    17.167,
+    17.417,
+    17.667,
+    17.917,
+    18.167,
+    18.417,
+    18.667,
+    18.917,
+    19.167,
+    19.417,
+    19.667,
+    19.917,
+    20.167,
+    20.417,
+    20.667,
+    20.917,
+    21.167,
+    21.417,
+    21.667,
+    21.917,
+    22.167,
+    22.417,
+    22.667,
+    22.917,
+    23.167,
+    23.417,
+    23.667
    ],
    "min_gap_s": 0.25,
    "max_changes_in_any_2s": 8,
@@ -84,10 +85,10 @@
   },
   "repair_2_no_sliding": {
    "max_move_px_while_held": 0.0,
-   "placement_step_px_max": 1.65,
+   "placement_step_px_max": 0.0,
    "placement_hold_frames": {
-    "min": 1,
-    "max": 7,
+    "min": 3,
+    "max": 6,
     "median": 6.0
    },
    "note": "a held placement never moves; the drawing is re-placed on twos (the step is the pace of the score: up to 7.8 px at the fastest, 22.3 s, during the push-in) and its legs change by substitution on footfalls",
@@ -150,8 +151,8 @@
   },
   "approach (14.708)": {
    "score": 14.708,
-   "measured": 14.75,
-   "delta": 0.042,
+   "measured": 14.917,
+   "delta": 0.209,
    "nearest_drawing_swap": 14.667,
    "swap_delta": -0.041,
    "ok": true
@@ -181,8 +182,8 @@
   }
  },
  "invariant_2_threshold": {
-  "min_ink_centroid_x_m": 0.542,
-  "min_ink_right_edge_m": 1.212,
+  "min_ink_centroid_x_m": 0.55,
+  "min_ink_right_edge_m": 1.218,
   "never_wholly_inside": true,
   "centroid_never_past_sill_0p56": false,
   "end_extent_m": [
@@ -202,28 +203,28 @@
   "door_open": 6.208,
   "low_hand": 6.833,
   "soft_voice": 7.417,
-  "approach": 14.75,
+  "approach": 14.917,
   "ok": true
  },
  "invariant_4_position": {
   "screen_fit_static_camera": {
-   "px_per_m": 146.25,
-   "x0_px": 430.5
+   "px_per_m": 146.68,
+   "x0_px": 428.7
   },
   "ink_centroid_minus_score_x_m": {
    "mean": 0.013,
    "sd": 0.041,
-   "max_abs": 0.167
+   "max_abs": 0.17
   },
   "approach_distance_score_m": 3.406,
-  "approach_distance_measured_m": 3.518,
+  "approach_distance_measured_m": 3.411,
   "retreat_direction": "away from the door",
   "ok": true
  },
  "substitution": {
-  "segments": 48,
-  "swaps": 47,
-  "min_hold_frames": 6,
+  "segments": 49,
+  "swaps": 48,
+  "min_hold_frames": 4,
   "median_hold_frames": 6.0,
   "max_hold_frames": 164,
   "all_swaps_on_twos": true,
