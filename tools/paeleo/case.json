@@ -1,0 +1,396 @@
+{
+ "meta": "Oct 24 · 1 min 22 s · one swarm: SCION 48, State Machines",
+ "question": "Can a description make a character that chooses, so that the person who prompts it can understand it but not command it?",
+ "seg": "37.0,61.5",
+ "len": "1:22",
+ "cap": "Commands push the dog away. Changed circumstances bring it to the sill. Told to come in, it stays where it chose.",
+ "trick": "Nobody animates the dog. The prompts change the world (posture, place, door, voice, hand); a five-state machine reads that world through what it perceives, trusts and remembers, and the paper puppet acts out whatever it chose.",
+ "facts": [
+  [
+   "states",
+   "5 · watch, approach, retreat, lie down, refuse"
+  ],
+  [
+   "prompts",
+   "7, typed on screen"
+  ],
+  [
+   "choices the dog made",
+   "7"
+  ],
+  [
+   "tests",
+   "2,007,908 checks passed"
+  ],
+  [
+   "keyframes on the dog",
+   "0"
+  ]
+ ],
+ "chips": [
+  [
+   "SCION 48 · State Machines",
+   true
+  ],
+  [
+   "machine.js",
+   false
+  ],
+  [
+   "stage.js",
+   false
+  ],
+  [
+   "Chromium canvas",
+   false
+  ],
+  [
+   "numpy sound",
+   false
+  ],
+  [
+   "independent critic",
+   true
+  ]
+ ],
+ "recipe": [
+  "Write the dog first as a machine: five states, guards in priority order, a minimum window in each state, and three things it carries between frames: trust, pressure from repeated calls, and how many times it has refused.",
+  "Test the machine before drawing anything: 400 random operators, every state reachable, no state it cannot be coaxed out of, never faster than its legs, and commands alone never earn an approach.",
+  "Cut the cast from paper in code: limbs as tapered pieces with a fibre texture fixed to each piece, brass brads at the joints, hand-cut edges that stay the same from frame to frame, a cast shadow.",
+  "Let springs carry the machine's choice into the pose (ears, tail, crouch, lie, head, turn), so every change takes time; tie the walk to the distance actually travelled.",
+  "Score the film as prompts: each one is typed on screen (P), the paper tags pinned to the door, person and dog rewrite themselves (E), and the dog acts (O).",
+  "Open with the lineage: a caption on a page is snipped out, carried into the place and pinned there, then becomes the rule the dog runs on.",
+  "Synthesize the sound from the render's own cues: keys, a wordless voice with the contour of the words, paws that grow louder as the dog comes near, the door, crickets, a pad under the titles.",
+  "Hand each cut to a critic who has not seen the notes; repair the causes it finds; hand the new cut to a fresh critic."
+ ],
+ "sheets": [
+  {
+   "img": "threshold-call.jpg",
+   "cap": "The first prompt: the person stands in the doorway and calls. The dog backs away, crouched, ears flat."
+  },
+  {
+   "img": "threshold-refuse.jpg",
+   "cap": "Called again and reached for: the dog turns its back and lies down facing away."
+  },
+  {
+   "img": "threshold-sit.jpg",
+   "cap": "Step back, sit down beside the door, say nothing. The dog keeps its back turned."
+  },
+  {
+   "img": "threshold-door.jpg",
+   "cap": "The door opens. With nothing pressing on it and the doorway lit, the dog turns back to look."
+  },
+  {
+   "img": "threshold-hand.jpg",
+   "cap": "A hand offered low. The dog has settled on the porch; its trust is rising."
+  },
+  {
+   "img": "threshold-approach.jpg",
+   "cap": "Trust past 0.6, nothing threatening, the threshold clear: it gets up and comes, head low, tail going."
+  },
+  {
+   "img": "threshold-comein.jpg",
+   "cap": "Come in. The dog, lying across the sill, lifts its head and ears to the voice."
+  },
+  {
+   "img": "threshold-settle.jpg",
+   "cap": "And settles, chin on its paws, half in the doorway and half out."
+  },
+  {
+   "img": "lineage-imagetext.jpg",
+   "cap": "Imagetext: a picture with a caption on a page."
+  },
+  {
+   "img": "lineage-environment.jpg",
+   "cap": "Environment text: the caption pinned into the place, beside tags for the person and the dog."
+  },
+  {
+   "img": "lineage-worldtext.jpg",
+   "cap": "Worldtext: the dog's tag lists what it may do, and the text reaches the dog."
+  },
+  {
+   "img": "threshold-scales.jpg",
+   "cap": "Three scales: AEL the place, PAELEO the language and studio, PEO the method and its cycle."
+  }
+ ],
+ "fixes": [
+  [
+   "v1: told \"come in\", the dog did nothing you could see. Its choice to stay was told by the closing text, and it lay parallel to the door, not in it.",
+   "v2: a dog lying down notices any voice: head and ears come up to it, the tail goes, then the chin goes down on its paws. The sill moved into the doorway and the jamb is drawn over its back half, so it lies through the door."
+  ],
+  [
+   "v1: at 33.5 s the dog flipped edge-on while still lying, then stood up, on the same frame as a camera cut.",
+   "v2: a lying dog gets up before it turns; the turn is slower; the cut moved before the door opens."
+  ],
+  [
+   "The new sill position left a dog standing right at the sill that could never lie down: an absorbing state the recovery test found in 103 of 6,000 snapshots.",
+   "A guard for it: trusted, unthreatened and already at the sill, the dog lies down there."
+  ],
+  [
+   "v1: the caption vanished under the growing picture and reappeared as a second copy beside its tag.",
+   "v2: the caption is snipped out as a paper slip and carried in one move to the door, where it becomes the tag."
+  ],
+  [
+   "v1: the dog lay down after the door opened just as the next prompt was being typed.",
+   "v2: the next prompts wait a second longer."
+  ]
+ ],
+ "carries": "The operator, the machine and the critic loop. The next box opens another SCION swarm on the same porch, or takes this dog somewhere else.",
+ "fullcase": "2 versions, critic rounds, state chart, decision trace, the prompt",
+ "T0": 18,
+ "chart_svg": "<svg class=\"chart\" viewBox=\"0 0 900 470\" role=\"img\" aria-label=\"State chart: watch, approach, retreat, lie down, refuse, and the guards between them\"><defs><marker id=\"ah\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"7\" markerHeight=\"7\" orient=\"auto-start-reverse\"><path d=\"M0,0 L10,5 L0,10 z\" fill=\"var(--ink-2)\"/></marker></defs><path d=\"M370,215 Q281.0,161.5 192,108\" fill=\"none\" stroke=\"var(--stamp)\" stroke-width=\"1.8\" marker-end=\"url(#ah)\"/><text x=\"250\" y=\"140\" text-anchor=\"middle\" font-size=\"12\" fill=\"var(--stamp)\">threat > .55, near</text><path d=\"M192,128 Q281.0,181.5 370,235\" fill=\"none\" stroke=\"var(--ink-2)\" stroke-width=\"1.8\" marker-end=\"url(#ah)\"/><text x=\"300\" y=\"205\" text-anchor=\"middle\" font-size=\"12\" fill=\"var(--ink-2)\">threat eases</text><path d=\"M452,248 Q546.0,294.0 640,340\" fill=\"none\" stroke=\"var(--teal)\" stroke-width=\"1.8\" marker-end=\"url(#ah)\"/><text x=\"600\" y=\"285\" text-anchor=\"middle\" font-size=\"12\" fill=\"var(--teal)\">trust > .6, clear</text><path d=\"M625,362 Q536.5,312.0 448,262\" fill=\"none\" stroke=\"var(--ink-2)\" stroke-width=\"1.8\" marker-end=\"url(#ah)\"/><text x=\"500\" y=\"330\" text-anchor=\"middle\" font-size=\"12\" fill=\"var(--ink-2)\">threat ≥ .3</text><path d=\"M718,362 Q718.0,256.0 718,150\" fill=\"none\" stroke=\"var(--teal)\" stroke-width=\"1.8\" marker-end=\"url(#ah)\"/><text x=\"770\" y=\"260\" text-anchor=\"middle\" font-size=\"12\" fill=\"var(--teal)\">at the sill</text><path d=\"M640,118 Q547.5,164.0 455,210\" fill=\"none\" stroke=\"var(--ink-2)\" stroke-width=\"1.8\" marker-end=\"url(#ah)\"/><text x=\"560\" y=\"150\" text-anchor=\"middle\" font-size=\"12\" fill=\"var(--ink-2)\">threat > .45</text><path d=\"M452,205 Q506.0,148.5 640,108\" fill=\"none\" stroke=\"var(--ink-2)\" stroke-width=\"1.8\" marker-end=\"url(#ah)\"/><text x=\"540\" y=\"120\" text-anchor=\"middle\" font-size=\"12\" fill=\"var(--ink-2)\">quiet 6 s</text><path d=\"M370,238 Q281.0,295.0 192,352\" fill=\"none\" stroke=\"var(--stamp)\" stroke-width=\"1.8\" marker-end=\"url(#ah)\"/><text x=\"230\" y=\"320\" text-anchor=\"middle\" font-size=\"12\" fill=\"var(--stamp)\">pressed again, far · pressure > .62</text><path d=\"M192,372 Q340.0,299.0 368,250\" fill=\"none\" stroke=\"var(--ink-2)\" stroke-width=\"1.8\" marker-end=\"url(#ah)\"/><text x=\"330\" y=\"400\" text-anchor=\"middle\" font-size=\"12\" fill=\"var(--ink-2)\">pressure gone, invitation > .5</text><path d=\"M150,140 Q150.0,235.0 150,330\" fill=\"none\" stroke=\"var(--stamp)\" stroke-width=\"1.8\" marker-end=\"url(#ah)\"/><text x=\"70\" y=\"240\" text-anchor=\"middle\" font-size=\"12\" fill=\"var(--stamp)\">no room to back away</text><g><rect x=\"332\" y=\"200\" width=\"156\" height=\"60\" rx=\"30\" fill=\"var(--label)\" stroke=\"var(--ink)\" stroke-width=\"3\"/><text x=\"410\" y=\"228\" text-anchor=\"middle\" font-size=\"18\" font-weight=\"600\" fill=\"var(--ink)\">watch</text><text x=\"410\" y=\"247\" text-anchor=\"middle\" font-size=\"11.5\" fill=\"var(--ink-2)\">ears up, looking</text></g><g><rect x=\"72\" y=\"80\" width=\"156\" height=\"60\" rx=\"30\" fill=\"var(--label)\" stroke=\"var(--stamp)\" stroke-width=\"3\"/><text x=\"150\" y=\"108\" text-anchor=\"middle\" font-size=\"18\" font-weight=\"600\" fill=\"var(--ink)\">retreat</text><text x=\"150\" y=\"127\" text-anchor=\"middle\" font-size=\"11.5\" fill=\"var(--ink-2)\">crouched, ears flat</text></g><g><rect x=\"72\" y=\"330\" width=\"156\" height=\"60\" rx=\"30\" fill=\"var(--label)\" stroke=\"var(--stamp)\" stroke-width=\"3\"/><text x=\"150\" y=\"358\" text-anchor=\"middle\" font-size=\"18\" font-weight=\"600\" fill=\"var(--ink)\">refuse</text><text x=\"150\" y=\"377\" text-anchor=\"middle\" font-size=\"11.5\" fill=\"var(--ink-2)\">its back turned</text></g><g><rect x=\"640\" y=\"340\" width=\"156\" height=\"60\" rx=\"30\" fill=\"var(--label)\" stroke=\"var(--teal)\" stroke-width=\"3\"/><text x=\"718\" y=\"368\" text-anchor=\"middle\" font-size=\"18\" font-weight=\"600\" fill=\"var(--ink)\">approach</text><text x=\"718\" y=\"387\" text-anchor=\"middle\" font-size=\"11.5\" fill=\"var(--ink-2)\">head low, tail going</text></g><g><rect x=\"640\" y=\"90\" width=\"156\" height=\"60\" rx=\"30\" fill=\"var(--label)\" stroke=\"var(--teal)\" stroke-width=\"3\"/><text x=\"718\" y=\"118\" text-anchor=\"middle\" font-size=\"18\" font-weight=\"600\" fill=\"var(--ink)\">lie down</text><text x=\"718\" y=\"137\" text-anchor=\"middle\" font-size=\"11.5\" fill=\"var(--ink-2)\">on the porch or the sill</text></g><text x=\"20\" y=\"455\" font-size=\"12\" fill=\"var(--ink-2)\">red: what commands do · green: what changed circumstances earn · every state holds for a minimum window</text></svg>",
+ "guards": [
+  [
+   "refuse",
+   "turns its back",
+   "pressure > 0.62 from repeated calls, or pressed (threat > 0.55) when already 3.6 m away or at the steps"
+  ],
+  [
+   "refuse → watch",
+   "turns back",
+   "held 3.5 s, pressure < 0.2, invitation > 0.5 and threat < 0.25"
+  ],
+  [
+   "retreat",
+   "backs away, facing the person",
+   "threat > 0.55 within 3.6 m (may cut any window short)"
+  ],
+  [
+   "lie down at the sill",
+   "lies through the doorway",
+   "arrives at the sill, or trusted and unthreatened there"
+  ],
+  [
+   "lie down → watch",
+   "gets up",
+   "threat > 0.45 while lying"
+  ],
+  [
+   "approach",
+   "comes closer, slower when unsure",
+   "trust > 0.6, threat < 0.3, the threshold clear (the person sitting, or not in the doorway)"
+  ],
+  [
+   "approach → watch",
+   "stops to look",
+   "threat ≥ 0.3 or trust < 0.5 on the way"
+  ],
+  [
+   "lie down where it is",
+   "settles",
+   "nothing asked of it (silent, no hand, no threat) for 6 s"
+  ],
+  [
+   "watch",
+   "watches",
+   "otherwise"
+  ]
+ ],
+ "perceive": [
+  "Threat: a reaching hand 0.55, a call 0.42, a person standing in the doorway 0.22; all of it up to 2.3 times stronger the closer the person is, plus a share of the built-up pressure.",
+  "Invitation: sitting 0.3, a hand offered low 0.35, a soft voice 0.25, the door open 0.15, the person beside the door 0.15; a call takes 0.3 off.",
+  "Trust rises with invitation only while threat is low, and falls with threat. A dog that has refused warms up more slowly: the gain is divided by 1 + 0.6 for each refusal.",
+  "Pressure: each new call adds 0.3, or 0.5 if the dog is already backing away or turned away; it fades at 0.09 a second in silence.",
+  "Hearing: any voice, soft or loud, is noticed. Lying down, the dog lifts its head to it before deciding nothing has changed."
+ ],
+ "tests": [
+  "400 random operators of 60 s each: all five states reached, 16 kinds of transition seen.",
+  "No absorbing states: from 6,000 snapshots of those runs, a patient operator (sit beside the open door, hand low, silent) brings the dog to the sill every time, the slowest in 29.5 s.",
+  "Not a button: standing in the doorway and calling every 4 s, reaching, or both, for 60 s, never earns an approach.",
+  "Choices depend on declared state: the same world makes a dog with trust 0.8 approach and one with 0.2 stay; a dog that has refused three times takes 4.1 s to approach where a fresh one takes 1.5 s.",
+  "Continuity on every frame: never more than 0.8 m/s, never a speed jump, never off the porch; a refusing dog always has its back turned.",
+  "Deterministic: one timeline, one film."
+ ],
+ "inputs": [
+  [
+   "[WORK]",
+   "PAELEO-00, the introduction film for the PAELEO channel, whose middle is this swarm's proof scene."
+  ],
+  [
+   "[DIRECTION_AND_REFERENCES]",
+   "The PEO cycle made visible (prompt, ekphrasis, operation); the lineage imagetext, environment text, worldtext; cut paper and brads in the This Side Up tradition; dusk on a porch."
+  ],
+  [
+   "[DELIVERY]",
+   "1280×720, 24 fps, about 80 s, H.264 and AAC, plus a playable version of the dog on the web page."
+  ],
+  [
+   "[RESOURCES]",
+   "One cloud session: Node, the preinstalled Chromium, Python with numpy and Pillow, ffmpeg. No image models, no samples, no recordings."
+  ],
+  [
+   "[RIGHTS_SCOPE]",
+   "Everything drawn and synthesized from code in this session; fonts are the site's own (SIL Open Font License). No archive material."
+  ]
+ ],
+ "versions": [
+  {
+   "n": "v1",
+   "title": "First cut",
+   "meta": "Oct 24 · 82 s",
+   "file": "paeleo-00-v1.mp4",
+   "poster": "threshold-call.jpg",
+   "text": "The whole film end to end: the lineage, the title, seven prompts, the three scales, the lockup. The dog makes seven choices on its own.",
+   "changes": [
+    "Critic round 1: inconclusive. The climax was told, not acted; a pose snap at 33.5 s."
+   ]
+  },
+  {
+   "n": "v2",
+   "title": "The dog hears",
+   "meta": "Oct 24 · 82 s · the film on the page",
+   "file": "paeleo-00.mp4",
+   "poster": "threshold-sill.jpg",
+   "text": "Repairs for every cause the first critic found, then a fresh critic.",
+   "changes": [
+    "Lying down, the dog reacts to any voice, then settles chin on paws.",
+    "It lies across the sill, through the doorway; the jamb is drawn over its back half.",
+    "Gets up before turning; slower turn; the cut moved off the turn.",
+    "The caption travels as one paper slip.",
+    "Bigger type on tags, cards and credits; no text over text."
+   ]
+  }
+ ],
+ "rounds": [
+  {
+   "title": "Round 1 · v1",
+   "verdict": "inconclusive",
+   "meta": "a fresh critic · frames at 2–24 fps, sound by measurement",
+   "gap": "The thesis beat is told by text rather than acted: told to come in, the dog does nothing you can read as a choice.",
+   "repair": "In the 2 s after \"come in.\" resolves: (a) the dog visibly reacts, ears or head toward the doorway or the tail moves; (b) then settles back clearly, head onto paws or turned back out; (c) on the last frame part of the body is inside the lit opening and part outside. Legible at 320 px wide with the tags masked.",
+   "notes": [
+    "33.5 s: a pose and scale snap, lying-and-turned-away to edge-on to standing, on a camera cut.",
+    "37.5 s: the reaction to the open door lands while the next prompt is typed.",
+    "28–33 s: in the wide shot the turned-away dog is a small lump; only the close-up reads.",
+    "5.0–5.9 s: the caption vanishes under the growing picture, then appears twice.",
+    "6.0 and 18.0 s: crossfades put text over text.",
+    "Tags, diagram subtitles and credits too small for a phone.",
+    "\"Come in\" is the weakest sound cue: mostly a broadband burst."
+   ],
+   "keep": "The cut paper and dusk palette; the P/E/O bar and tags that update; the close-up refusal at 25–28 s; the person sitting; the continuous approach with paws in sync; the door creak; the nesting scales and the lockup.",
+   "done": "Every cause repaired (see What broke and what changed); round 2 went to a different critic.",
+   "figs": [
+    {
+     "img": "critic-r1-sill.jpg",
+     "cap": "The critic's sheet: after \"come in\", the same pose in every sample."
+    },
+    {
+     "img": "critic-r1-snap.jpg",
+     "cap": "The critic's sheet: the snap at 33.5 s."
+    }
+   ],
+   "report": "PAELEO-00 v1 critic report (round 1)\n\nWhat I inspected: frames at 2 fps across all 82 s (contact sheets), 8 fps tiles at 4.6–6.1, 21–23, 32.6–33.8, 37.2–38.8 and 52.3–53.5 s, a 24 fps crop at 33.3–33.8 s, and full-res stills. For sound I measured RMS, peak and spectral centroid every 0.25 s, rendered a full spectrogram, zoomed in on six moments and checked a 5 ms envelope. I cannot hear it, so I'm not claiming the voices are intelligible as speech.\n\n1. Verdict: inconclusive. No reference film was supplied to compare against, so \"reference stronger\" can't be judged. Measured against the bar, it does not pass: the climax refusal has no acting, and the dog visibly pops at 33.5 s.\n\n2. Moments behind the verdict\n- 54.1–59.6 s (about frames 1298–1430): after \"come in.\" the dog's pose is the same in every 0.5 s sample. No ear, head, tail or glance toward the doorway changes. Only the camera drifts. The refusal is carried by the narration typed at 58.0–60 s (\"the dog stays on the sill. the description let it choose.\"). The dog lies in profile, parallel to the lit door, so \"half in, half out\" isn't staged at all.\n- 33.50 s (frame about 804): the dog goes from lying curled and facing away (large) to an edge-on sliver in one frame, then stands up much smaller in the same framing. That is a pose and scale snap.\n- 37.5–38.0 s: the dog's response to \"open the door\" (lying down, tag says \"lying down\") only lands while the next prompt \"offer a hand\" is already being typed and the operation light is on. That muddies which change caused it.\n\n3. Single largest gap\nThe thesis beat, \"the viewer can understand the dog but not control it\", is told by text rather than acted. When asked to come in, the dog doesn't do anything you can read as a choice.\n\n4. Repair condition (falsifiable)\nIn the 2 s after the \"come in.\" prompt resolves, a re-check at 8 fps must show:\n- (a) the dog first reacts visibly: ears or head turn toward the doorway or interior, or the tail moves;\n- (b) then it settles back clearly: head lowers onto paws, or it turns its head back out;\n- (c) on the final frame of the scene, part of the body (front paws or chest) is past the door-frame line inside the lit opening and part is outside.\nAll of this has to be legible in a 320 px-wide still with the tags masked.\n\n5. Other problems, ranked\n1. 33.50 s (frame about 804): the lying-to-standing snap and scale pop. Every frame-to-frame pose change needs to be continuous, at least 6 frames.\n2. 37.5 s: make the reaction to the door read before the next prompt starts typing (an approach or a lie-down inside 34–36 s).\n3. 28.0–33.4 s: in the wide shot, the \"turned its back\" dog is a small curled lump about 70 px wide at 1280. It doesn't read as turned away at phone size; only the close-up at 25–28 s does.\n4. 5.0–5.9 s: the IMAGETEXT caption doesn't lift off. The growing picture covers it and it vanishes, then it reappears at 5.9 s as a second copy beside a new tag. That's two copies of the same text over the door frame.\n5. 18.0 s and 6.0 s: crossfades overlap text. The title is ghosted over the tags, and \"ENVIRONMENT TEXT\" is doubled.\n6. 64.5–71.0 s and 77.5–81.5 s: the subtitles in the three-scales diagram, the cycle labels and the credits are tiny monospace, unreadable at phone size. All tag text is also around 11 px at 720p.\n7. 21.0–22.4 s: \"backing away\" is a slow drift of roughly 15% of frame width with the head low. It's legible, but the ears and tail don't help.\n8. Sound: the voices are short synthetic harmonic glides (21.5, 25.0, 41.5–43, about 54.5 s). The soft voice at 41.5 is noticeably lower and quieter, which is good. \"Come in\" at 54.5 s is mostly a broadband burst with little harmonic content, so the climax line is the weakest sound cue. Paw-like clustered transients are present at 44–51.5 s.\n\n6. Strengths to keep\n- The cut-paper look and the dusk palette.\n- The P/E/O indicator bar and tags that update with each prompt.\n- The close-up at 25–28 s (dog crouched, head down, facing away). It's the best piece of acting in the film.\n- The person sitting down at 31–32 s.\n- A continuous approach walk with matching paw sounds (43.5–53 s) and a smooth lie-down onto the sill (53.0–53.4 s).\n- A door creak synced to the door opening (33.5–35 s), typing sounds synced to each prompt, a cricket ambience bed, and music only under the close.\n- The three-scales nesting animation and a clean PAELEO lockup with a readable tagline (72–77 s).\n"
+  }
+ ],
+ "files": [
+  [
+   "paeleo/threshold/machine.js",
+   "the dog: perception, memory, guards, locomotion"
+  ],
+  [
+   "paeleo/threshold/stage.js",
+   "the paper: set, dog, person, tags"
+  ],
+  [
+   "paeleo/threshold/try.js",
+   "the Try it page"
+  ],
+  [
+   "tools/paeleo/film.js",
+   "the score: prompts, camera, text, sound cues"
+  ],
+  [
+   "tools/paeleo/render.js",
+   "renders the score in Chromium to H.264"
+  ],
+  [
+   "tools/paeleo/sound.py",
+   "the soundtrack from the cues"
+  ],
+  [
+   "tools/paeleo/test_machine.js",
+   "the model-based tests"
+  ],
+  [
+   "paeleo/scion/operator.html",
+   "the SCION operator, all 54 prompts"
+  ]
+ ],
+ "trace": [
+  [
+   "21.0 s",
+   "› the person stands in the doorway and calls: Come here.",
+   "prompt takes effect: voice = call"
+  ],
+  [
+   "21.0 s",
+   "watch → retreat",
+   "threat 0.74 > 0.55 at 3.3 m: backs away (trust 0.17, at 3.00 m)"
+  ],
+  [
+   "22.4 s",
+   "retreat → watch",
+   "watches (trust 0.12, at 3.95 m)"
+  ],
+  [
+   "24.8 s",
+   "› call again, and reach for it.",
+   "prompt takes effect: voice = call, hand = reach"
+  ],
+  [
+   "24.8 s",
+   "watch → refuse",
+   "threat 1.00 and already 4.3 m away: turns its back (trust 0.10, at 4.06 m)"
+  ],
+  [
+   "31.6 s",
+   "› step back. sit down beside the door. say nothing.",
+   "prompt takes effect: place = beside, posture = sit"
+  ],
+  [
+   "33.5 s",
+   "› open the door.",
+   "prompt takes effect: door = open"
+  ],
+  [
+   "33.5 s",
+   "refuse → watch",
+   "pressure 0.00 gone, invitation 0.60: turns back to look (trust 0.12, at 4.06 m)"
+  ],
+  [
+   "37.6 s",
+   "watch → lie down",
+   "nothing asked of it for a while: settles where it is (trust 0.31, at 4.06 m)"
+  ],
+  [
+   "39.5 s",
+   "› offer a hand, low.",
+   "prompt takes effect: hand = low"
+  ],
+  [
+   "42.6 s",
+   "› say it softly: it's all right.",
+   "prompt takes effect: voice = soft"
+  ],
+  [
+   "43.9 s",
+   "lie down → approach",
+   "trust 0.60 > 0.6, threat 0.00, threshold clear: gets up and comes closer (trust 0.60, at 4.06 m)"
+  ],
+  [
+   "53.8 s",
+   "approach → lie down",
+   "reached the sill: lies down there, half in and half out (trust 0.84, at 0.15 m)"
+  ],
+  [
+   "56.0 s",
+   "› come in.",
+   "prompt takes effect: voice = soft"
+  ],
+  [
+   "56.0 s",
+   "lie down (stays)",
+   "hears the voice: head and ears come up, the tail goes, then the chin goes down on its paws. No guard fires: nothing it perceives has changed enough to move it."
+  ]
+ ]
+}
