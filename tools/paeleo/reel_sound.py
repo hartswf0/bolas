@@ -38,14 +38,14 @@ for c in R['cuts']:
     else: runs[-1][2] = c['at'] + R['each']
 for ch, a, b in runs: place(pad(ch, b - a + 1.0, .08), a - .3)
 for c in R['cuts']:
-    place(flick(), c['at'], 1.6, .1)
+    place(flick(), c['at'], 2.4, .1); place(flick(), c['at'] + .02, 1.2, -.1)
     for t, w in R['tl']:
         if c['from'] <= t < c['from'] + R['each']:
             at = c['at'] + t - c['from']
             if w.get('voice') == 'call': place(tone(220, 300, .45, .35, True), at, 1, -.4)
             if w.get('voice') == 'soft': place(tone(170, 140, .6, .25, False), at, 1, -.4)
             if w.get('door') == 'open': place(creak(), at, 1)
-end = R['dur'] - R['tail']; place(pad([261.6, 329.6, 392, 587.3], R['tail'] + .5, .12), end - .2)
+end = R['dur'] - R['tail']; place(flick(), end, 2.4, 0); place(pad([261.6, 329.6, 392, 587.3], R['tail'] + .5, .12), end - .2)
 t = np.arange(int((end - R['head']) * SR)) / SR; cr = np.sin(2 * np.pi * 4500 * t) * (np.sin(2 * np.pi * 28 * t) > .2) * ((t % .9) < .2) * .008; place(cr, R['head'])
 m = max(np.abs(L).max(), np.abs(Rr).max()); st = np.stack([L, Rr], 1)[:int(R['dur'] * SR)] * (.89 / m)
 with wave.open(f'{out}/sound.wav', 'wb') as w: w.setnchannels(2); w.setsampwidth(2); w.setframerate(SR); w.writeframes((st * 32767).astype('<i2').tobytes())
