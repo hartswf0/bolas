@@ -93,23 +93,34 @@ def dog_parts(a, time):
         parts.append(('near', ellipse(add(pts[-1], (-0.03, 0)), 0.05, 0.026)))
     # neck and head
     N0 = add(S, (-0.05, 0.05))
-    def headrel(h):
-        if h >= 0.45: return P((-0.24, 0.07), (-0.15, 0.25), (h - 0.45) / 0.55)
-        return P((-0.22, -0.10), (-0.24, 0.07), (h - 0.15) / 0.30)
+    def headrel(h):   # head carriage: up and alert at 1, below the line of the back at 0.45 (approach), low at 0.15
+        if h >= 0.7: return P((-0.22, 0.10), (-0.15, 0.25), (h - 0.7) / 0.3)
+        if h >= 0.45: return P((-0.28, -0.07), (-0.22, 0.10), (h - 0.45) / 0.25)
+        return P((-0.24, -0.17), (-0.28, -0.07), (h - 0.15) / 0.30)
     hc = add(N0, headrel(min(hd, 1.0)))
-    pitch = lerp(-0.65, 0.0, clamp((hd - 0.15) / 0.85)) + 0.2 * clamp(hd - 1)
+    pitch = lerp(-0.55, 0.0, clamp((hd - 0.15) / 0.75))
     rest_c = (S[0] - 0.33, 0.12)
     hc = P(hc, rest_c, rest * l); pitch = lerp(pitch, 0.05, rest * l)
-    hc = add(hc, (0.04 * look, 0.03 * look))
-    fx = 1 - 0.45 * clamp(look)
-    def H_(v): v = rot(v, -pitch); return (hc[0] + v[0] * fx, hc[1] + v[1])   # head-local: -x is forward
+    lk = ease(clamp(look * 1.25))
+    # looking in: the head turns away from us, into the doorway: muzzle shortens away, both ears seen from behind
+    hc = add(hc, (-0.03 * lk, 0.02 * lk))
+    pitch = lerp(pitch, 0.0, lk)
+    def H_(v): v = rot(v, -pitch); return (hc[0] + v[0], hc[1] + v[1])   # head-local: -x is forward
     parts.append(('body', capsule(add(N0, (0.04, -0.02)), add(hc, (0.03, -0.01)), 0.11, 0.075)))
     ear_tip = P((0.17, 0.03), (0.03, 0.19), e)
-    parts.append(('ear', [H_((-0.01, 0.05)), H_((0.085, 0.035)), H_(ear_tip)]))
-    parts.append(('head', ellipse(H_((0, 0)), 0.105 * fx, 0.088, -pitch)))
-    parts.append(('head', capsule(H_((-0.05, -0.015)), H_((-0.19, -0.04)), 0.052 * max(fx, .6), 0.036 * max(fx, .6))))
-    parts.append(('ear', [H_((-0.02, 0.055)), H_((0.05, 0.06)), H_((ear_tip[0] - 0.03, ear_tip[1] - 0.01))]))
-    eye = H_((-0.055, 0.02)); nose = H_((-0.205, -0.03))
+    side = 1 - lk
+    # profile ears (fade with the turn) and rear-view ears (both, symmetric)
+    if side > 0.05:
+        parts.append(('ear', [H_((-0.01, 0.05)), H_((0.085, 0.035)), H_((ear_tip[0], ear_tip[1] * (0.6 + 0.4 * side)))]))
+        parts.append(('ear', [H_((-0.02, 0.055)), H_((0.05, 0.06)), H_((ear_tip[0] - 0.03, ear_tip[1] - 0.01))]))
+    if lk > 0.05:
+        for sx_ in (-1, 1):
+            parts.append(('ear', [H_((sx_ * 0.035, 0.05)), H_((sx_ * 0.095, 0.03)), H_((sx_ * 0.085, 0.05 + 0.15 * lk))]))
+    parts.append(('head', ellipse(H_((0, 0)), lerp(0.105, 0.095, lk), lerp(0.088, 0.095, lk), -pitch)))
+    ml = side
+    if ml > 0.08:
+        parts.append(('head', capsule(H_((-0.05 * ml, -0.015)), H_((-0.19 * ml, -0.04)), 0.052, 0.036)))
+    eye = H_((-0.055, 0.02)) if lk < 0.5 else None; nose = H_((-0.205 * ml, -0.03))
     return parts, dict(eye=eye, nose=nose, S=S, H=H, head=hc, torso=torso)
 
 

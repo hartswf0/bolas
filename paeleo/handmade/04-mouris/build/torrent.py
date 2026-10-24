@@ -61,8 +61,9 @@ class Library:
 
 class Layer:
     """persistent state of one mould's tiles"""
-    def __init__(self, name, pool, kind=0, maxlevel=0, contrast=0.85, keep=0.0, split_std=0.05, minlevel=3):
+    def __init__(self, name, pool, kind=0, maxlevel=0, contrast=0.85, keep=0.0, split_std=0.05, minlevel=3, ragged=False, shadow=0.0):
         self.name, self.pool, self.kind, self.maxlevel, self.contrast, self.keep = name, pool, kind, maxlevel, contrast, keep
+        self.ragged, self.shadow, self.last_alpha = ragged, shadow, None
         self.split_std, self.minlevel = split_std, minlevel
         self.cells = {}     # (level, r, c) -> [shot, frame, kind, dir, target(3), born]
         self.replaced = 0; self.placed = 0
@@ -107,7 +108,8 @@ def render_layer(lib, layer, mask, guide, ax, ay, rate, rng, frame_no, canvas, o
         if len(xs) == 0: return dict(cells=0, replaced=0)
         bbox = (xs.min(), ys.min(), xs.max() + 1, ys.max() + 1)
     x0, y0, x1, y1 = bbox
-    x0 = max(0, x0 - 2); y0 = max(0, y0 - 2); x1 = min(W, x1 + 2); y1 = min(H, y1 + 2)
+    mg = 14 if layer.ragged else 2
+    x0 = max(0, x0 - mg); y0 = max(0, y0 - mg); x1 = min(W, x1 + mg); y1 = min(H, y1 + mg)
     sub = mask[y0:y1, x0:x1]; gsub = guide[y0:y1, x0:x1]
     grids, px, py, m_x, m_y, Hp, Wp = coverage_grids(sub, gsub, ax - x0, ay - y0)
     taken = None
@@ -120,14 +122,14 @@ def render_layer(lib, layer, mask, guide, ax, ay, rate, rng, frame_no, canvas, o
         if L < 3:
             use = (cov > 0.999) & (std < layer.split_std) & ~taken
         else:
-            use = (cov > 0.003) & ~taken
+            use = (cov > (0.42 if layer.ragged else 0.003)) & ~taken
         taken = taken | use
         rr, cc = np.nonzero(use)
         f = 64 // w
         for r, c in zip(rr, cc):
             tiles_out.append((L, r, c, col[r, c]))
     # paint
-    region = np.zeros((Hp, Wp, 3), np.float32)
+    region = np.zeros((Hp, Wp, 3), np.float32); ralpha = np.zeros((Hp, Wp), np.float32)
     replaced = 0
     seen = set()
     k = layer.contrast
@@ -157,12 +159,21 @@ def render_layer(lib, layer, mask, guide, ax, ay, rate, rng, frame_no, canvas, o
         tgt = st[4] if not rep else target
         out = (t - tm) * k + tgt
         if layer.keep: out = out * (1 - layer.keep) + t * layer.keep
-        region[r * h:(r + 1) * h, c * w:(c + 1) * w] = out
+        region[r * h:(r + 1) * h, c * w:(c + 1) * w] = out; ralpha[r * h:(r + 1) * h, c * w:(c + 1) * w] = 1
     # drop the state of cells that left the mould
     if len(layer.cells) > 4 * len(seen) + 200:
         layer.cells = {k_: v for k_, v in layer.cells.items() if k_ in seen}
     reg = np.clip(region[py:py + (y1 - y0), px:px + (x1 - x0)], 0, 1)
-    a = sub[..., None]
+    if layer.ragged:   # the silhouette is the edge of the pictures themselves
+        a2 = ralpha[py:py + (y1 - y0), px:px + (x1 - x0)]
+        if layer.shadow:   # paper cut-outs lifted off the page: a soft offset shadow, no drawn line
+            sh = np.zeros_like(a2); sh[5:, 4:] = a2[:-5, :-4]
+            sh = np.asarray(Image.fromarray((sh * 255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(3)), np.float32) / 255.
+            canvas[y0:y1, x0:x1] *= (1 - layer.shadow * sh)[..., None]
+        layer.last_alpha = (x0, y0, a2)
+    else:
+        a2 = sub
+    a = a2[..., None]
     canvas[y0:y1, x0:x1] = canvas[y0:y1, x0:x1] * (1 - a) + reg * a
     layer.replaced += replaced; layer.placed += replaced
     return dict(cells=len(tiles_out), replaced=replaced)

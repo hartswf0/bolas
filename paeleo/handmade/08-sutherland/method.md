@@ -64,3 +64,25 @@ See `ledger.jsonl`. In short:
 - The person is a mannequin, and the voice is tones, not words. The typed prompts are the score's own text.
 - Not built: an interactive constraint editor, a unit-test suite, or a mobile operator page. The SCION deliverable contract asks for these. This brief asks for a film, so the solver is exercised only by the film and by `check.py`.
 - **Unknown:** no independent critic has watched this, and no human has. I looked at extracted frames and contact strips (title, every choice, the end card) but did not watch it at normal speed with sound. I checked the audio only by level: −19 dB mean, −1.1 dB peak. The flash band from the display-file refresh is visible as a moving brighter zone in the door hatching. That is intended, but it may read as flicker.
+
+## Repair pass after critic round 1 (PASS, narrow)
+
+The critic's ranked repair conditions, and what changed. Every passing element was kept as it was: the light-pen drags, HAND GOAL UNSATISFIABLE, THE DOG IS NOT SELECTABLE, and the dog lying across the sill.
+
+1. **The head turns to the door as the dog rises (7.46–7.80).** The head now has its own yaw in the graph, which leads the shoulders by up to 143°. It starts moving at 7.458, and over 0.25 s the chin-on-paws pull fades out. Two things had been holding it back, and I found both in the solver trace rather than guessing: the no-teleport limit (9 cm/frame) and the leftover rest pose. The fix is a per-point speed limit: 13 cm/frame for the poll and 17 cm/frame for the nose, because a head can whip round faster than a body. Looked at: by 7.75 the head points at the door while the body is still rising, and by 8.15 the body has followed. Measured: the largest single-frame point move is now 17.8 cm, the nose at 7.79 s. The previous worst was 14.5 cm.
+2–3. **The turns are rotations in depth, not mirror flips.** Yaw was already a graph parameter, but the body turned as one rigid plank. Every parallel projection has one direction in which a plank collapses edge-on. The dog now has **two yaws**: forequarters (W–M) and hindquarters (M–P). It turns as a U, bending at mid-back. Each pair of legs solves its joint limits in its own half's plane. The torso outline and three new cross-section rings are attached per half, so a body turned toward the camera reads as a barrel, not a line. The projection is now oblique (nearer points sit to the left, ×0.45) with 24° of elevation, so depth shows as a diagonal. Both turns pass through the camera side. Refusal: the forequarters go at 3.45 over 0.42 s and the hindquarters at 3.62 over 0.45 s. The head turns with the shoulders here; a leading head had to cross the body and tangled the drawing. Coming round: head, then forequarters at 7.58, then hindquarters at 7.85. Looked at, honestly: 3.75–3.85 is still a compact curled cluster for about 3 frames, legible as a dog curling rather than a clean silhouette. By 3.95 the back is clearly turned, head to the right.
+4. **The soft voice is ≥6 dB below the call.** Measured on the final mix, bed included: 1.0 s call window −10.5 dB, 7.4 s window −20.5 dB, 26.4 s window −20.4 dB. The bed alone is about −22 dB.
+5. **The look-in reads without the sight line.** The neck lifts by an extra 22° times the score's look value, and the head yaws a full radian toward the door. Looked at: between 26.4 and 26.7 the head rises clearly and turns into the doorway.
+- **Phosphor trails no longer ghost the person during the zoom.** Earlier frames' persistence is now redrawn at the current scale-knob setting, so objects leave trails but a zoom does not smear.
+- **The porch-roof fascia was removed.** Once the oblique moved it, it read as a beam floating across the house.
+
+Measured after the repair:
+- `tools/paeleo/check_handmade.py`: ALL OK (I1–I4).
+- Own checks: all seven choice onsets within 0.25 s (unchanged times), and the hard residuals.
+- Hard residuals: dog ≤ 0.20 mm, person ≤ 0.24 mm.
+- The threshold constraint holds: the closest point inside the jambs is at z = +0.0001.
+- The final lying dog has 52% of its rendered spots between the jambs.
+
+A new cost of the U-turn: the midpoint of withers and croup drifts up to 15.7 cm off the score's x during the two turns, because the spine bends. Mean drift over the scene is 1.9 cm, and the approach still covers 3.398 m against the score's 3.406.
+
+Not done: no new critic round. This repair is judged from my own frame strips, not from normal-speed viewing.

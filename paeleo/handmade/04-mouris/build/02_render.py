@@ -39,6 +39,9 @@ CHOICES = [c['t'] for c in SCORE['choices']] + [26.4]
 def onsets(kind): return [FR[i]['t'] for i in range(1, len(FR)) if voice[i] == kind and voice[i - 1] != kind]
 CALL_ON, SOFT_ON = onsets('call'), onsets('soft')
 HOLDS = [(11.9, 14.6), (29.0, 32.1)]
+FLIPS = [FR[i]['t'] for i in range(1, len(FR)) if (FR[i]['dog']['act']['turn'] >= 0) != (FR[i - 1]['dog']['act']['turn'] >= 0)]
+BIG_BURSTS = [c['t'] for c in SCORE['choices'] if c['to'] in ('refuse', 'lie_down')]   # the two choices cut as a burst of the whole frame
+TRUST = np.array([f['dog']['trust'] for f in FR])
 def in_hold(t): return any(a <= t < b for a, b in HOLDS)
 
 # ------------------------------------------------------------------ drawing moulds
@@ -92,12 +95,13 @@ LY = dict(
     panel=TR.Layer('panel', 'door', kind=1, maxlevel=1, contrast=0.75, split_std=0.1),
     floor=TR.Layer('floor', 'floor', kind=1, maxlevel=1, contrast=0.45, split_std=0.06),
     spill=TR.Layer('spill', 'light', kind=0, maxlevel=2, contrast=0.8),
-    person=TR.Layer('person', 'person', kind=0, maxlevel=1, contrast=0.85, split_std=0.07),
-    face=TR.Layer('face', 'face', kind=0, maxlevel=2, contrast=0.9, keep=0.45),
-    hand=TR.Layer('hand', 'hand', kind=0, maxlevel=2, contrast=0.9, split_std=0.2),
-    dog=TR.Layer('dog', 'animal', kind=0, maxlevel=1, contrast=0.95, split_std=0.045),
-    dogeye=TR.Layer('dogeye', 'eye', kind=0, maxlevel=3, contrast=0.8),
-    words=TR.Layer('words', 'alarm', kind=0, maxlevel=2, contrast=0.9, split_std=0.2),
+    person=TR.Layer('person', 'person', kind=0, maxlevel=1, contrast=0.85, keep=0.25, split_std=0.07, ragged=True, shadow=0.45),
+    face=TR.Layer('face', 'face', kind=0, maxlevel=1, contrast=0.9, keep=0.5, split_std=0.3, ragged=True, shadow=0.4),
+    hand=TR.Layer('hand', 'hand', kind=0, maxlevel=2, contrast=0.95, keep=0.55, split_std=0.3, ragged=True, shadow=0.4),
+    dog=TR.Layer('dog', 'animal', kind=0, maxlevel=1, contrast=0.95, keep=0.4, split_std=0.06, ragged=True, shadow=0.55),
+    flank=TR.Layer('flank', 'animal', kind=0, contrast=1.0, keep=0.72),
+    dogeye=TR.Layer('dogeye', 'eye', kind=0, maxlevel=2, contrast=0.9, keep=0.55, ragged=True),
+    words=TR.Layer('words', 'alarm', kind=0, maxlevel=2, contrast=0.9, split_std=0.2, ragged=True, shadow=0.7),
 )
 
 # ------------------------------------------------------------------ waves of other pictures (the voice made visible)
@@ -176,9 +180,11 @@ def render(i, stats):
     rec = dict(i=i, t=t)
     # rates: the torrent's speed is the scene's pressure
     call = CALL[i]; soft = SOFT[i]
-    choice_burst = any(0 <= t - c < 2.5 / FPS for c in CHOICES)
+    choice_burst = any(0 <= t - c < 6 / FPS for c in CHOICES) or any(0 <= t - c < 4 / FPS for c in FLIPS)
+    big_burst = any(0 <= t - c < 12 / FPS for c in BIG_BURSTS)
     bg_rate = 0.004 + 0.30 * call + (0.0 if hold else 0.004)
     if hold: bg_rate = 0.0015
+    if big_burst: bg_rate = 1.0
     adv = 4 if hold else 2
     person_xy = (sx(C, per['x']), sy(C, 0))
     pparts, pinfo = SC.person_parts(per, walk=abs(per['x'] + 0.28) / 0.28 * math.pi)
@@ -236,17 +242,16 @@ def render(i, stats):
     pm_far = mould(poly_px(C, lab['far'], per['x']))
     pg = lit((0.30, 0.42, 0.55), Lf) * (1 - 0.45 * pm_far[..., None])
     pm_face = mould(poly_px(C, lab['skin'], per['x'])); pm_hand = mould(poly_px(C, lab['hand'], per['x']))
-    allp = np.clip(pm_body + pm_face + pm_hand, 0, 1)
-    TR.outline(canvas, allp, 5)
+    if big_burst: pr = 1.0
     pax, pay = int(person_xy[0]), int(person_xy[1])
     st['person'] = TR.render_layer(lib, LY['person'], pm_body, pg, pax, pay, pr, rng, i, canvas, None, adv)
-    st['face'] = TR.render_single(lib, LY['face'], pm_face, lit((0.80, 0.60, 0.48), Lf)[int(sy(C, pinfo['head'][1])) % H, int(sx(C, per['x'] + pinfo['head'][0])) % W], 0.02 + 0.5 * call, rng, i, canvas, adv)
-    st['hand'] = TR.render_layer(lib, LY['hand'], pm_hand, lit((0.84, 0.58, 0.44), Lf * 0.7), pax, pay, 0.02 + 0.5 * call + 0.3 * REACH[i], rng, i, canvas, None, adv)
+    st['face'] = TR.render_layer(lib, LY['face'], pm_face, lit((0.80, 0.60, 0.48), Lf), pax, pay, max(pr, 0.02 + 0.5 * call), rng, i, canvas, None, adv)
+    st['hand'] = TR.render_layer(lib, LY['hand'], pm_hand, lit((0.84, 0.58, 0.44), Lf * 0.7), pax, pay, max(pr, 0.02 + 0.5 * call + 0.3 * REACH[i]), rng, i, canvas, None, adv)
 
     # ---------------------------------------------------------------- the dog: animals (and the archive dog)
     parts, dinfo = SC.dog_parts(a, t)
     turn = a['turn']; sgn = 1.0 if (turn > 0 or (turn == 0 and dog['face'] > 0)) else -1.0
-    flip = sgn * max(abs(turn), 0.2)
+    flip = sgn * (0.62 + 0.38 * abs(turn))   # a cut-out turned over, never seen end-on
     dl = {}
     for l_, poly in parts: dl.setdefault(l_, []).append(poly)
     def dm(names): return mould(poly_px(C, [p for n in names for p in dl.get(n, [])], dog['x'], flip=flip, k=DOGK))
@@ -257,24 +262,55 @@ def render(i, stats):
     shade = base * 1.0 - 0.42 * m_far[..., None] * (1 - m_body[..., None]) - 0.25 * m_ear[..., None] + 0.08 * m_head[..., None]
     oy = sy(C, 0)
     vert = np.clip((YY - (oy - 0.8 * C['ppm'])) / (0.8 * C['ppm']), 0, 1)[..., None]
-    dg = lit((0.68, 0.44, 0.26), Lf * 0.9) * shade * (1.02 - 0.18 * (1 - vert))
+    # the dog's colour follows the score's trust: cold dusk grey when it distrusts, warm as trust grows
+    tr_ = clamp((TRUST[i] - 0.1) / 0.8)
+    dbase = np.array([lerp(0.46, 0.80, tr_), lerp(0.40, 0.50, tr_), lerp(0.44, 0.28, tr_)], np.float32)
+    Lq = Lf * 0.35
+    dg = np.clip(dbase * (DUSK * (1 - Lq) + WARM * Lq * 1.2 + 0.25 * DUSK * Lq), 0, 1) * shade * (1.02 - 0.18 * (1 - vert))
     # the dog's rate: frantic when called, a full re-making at each choice, settling as it lies down, nearly held at the end
-    dr = 0.015 + 0.55 * dog['threat'] ** 1.5 + 0.10 * a['moving'] + 0.30 * call
+    dr = 0.05 + 0.55 * dog['threat'] ** 1.5 + 0.18 * a['moving'] + 0.30 * call
     if dog['state'] == 'lie_down': dr *= (1 - 0.85 * a['lie'])
     if hold: dr = 0.004 if t > 20 else 0.01
-    if choice_burst: dr = 1.0
+    if choice_burst or big_burst: dr = 1.0
     # shadow on the floor
     sh = mould([[(sx(C, dog['x']) + x * C['ppm'], sy(C, 0) - y * C['ppm']) for x, y in SC.ellipse((0, 0.0), 0.55 * DOGK, 0.035)]])
     canvas *= (1 - 0.45 * sh[..., None])
-    TR.outline(canvas, m_all, 5)
     dax, day = int(round(sx(C, dog['x']))), int(round(sy(C, 0)))
     st['dog'] = TR.render_layer(lib, LY['dog'], m_all, dg, dax, day, dr, rng, i, canvas, None, adv)
-    e = dinfo['eye']; ex, ey = sx(C, dog['x']) + flip * DOGK * e[0] * C['ppm'], sy(C, DOGK * e[1])
-    eye = mould([SC.circle((ex, ey), max(3.5, 0.026 * C['ppm']), 16)])
-    n_ = dinfo['nose']; nx, ny = sx(C, dog['x']) + flip * DOGK * n_[0] * C['ppm'], sy(C, DOGK * n_[1])
-    nose = mould([SC.ellipse((nx, ny), max(4.0, 0.03 * C['ppm']), max(3.0, 0.022 * C['ppm']))])
-    canvas *= (1 - 0.9 * nose[..., None])
-    st['dogeye'] = TR.render_single(lib, LY['dogeye'], eye, (0.10, 0.07, 0.05), 0.01, rng, i, canvas, adv)
+    # two large flank pictures, pasted on the body (recognisable animals, little colour shift)
+    st['flank'] = dict(cells=0, replaced=0)
+    if LY['dog'].last_alpha is not None:
+        ax0, ay0, A = LY['dog'].last_alpha
+        Mx = (dinfo['S'][0] + dinfo['H'][0]) / 2; My = (dinfo['S'][1] + dinfo['H'][1]) / 2
+        tw, th = int(round(64 * C['ppm'] / 175 * abs(flip))), int(round(48 * C['ppm'] / 175))
+        for k_, off in enumerate((-0.13, 0.13)):
+            cx_ = sx(C, dog['x']) + flip * DOGK * (Mx + off) * C['ppm']; cy_ = sy(C, DOGK * (My - 0.005))
+            bx, by = int(cx_ - tw / 2), int(cy_ - th / 2)
+            stf = LY['flank'].cells.get(k_)
+            if stf is None or rng.random() < (1.0 if (choice_burst or big_burst) else 0.6 * dr):
+                stf = lib.choose('animal', dbase, 0, rng, k=3, avoid=None if stf is None else stf[0]) + [None, i, 'animal']
+                LY['flank'].cells[k_] = stf; LY['flank'].placed += 1; st['flank']['replaced'] += 1
+            elif (i - stf[5]) % adv == 0:
+                n = lib.shots[stf[0]]['n']; nf = stf[1] + stf[3]
+                if nf < 0 or nf >= n: stf[3] = -stf[3]; nf = stf[1] + stf[3]
+                stf[1] = int(min(max(nf, 0), n - 1))
+            idx = lib.index(stf[0], stf[1], stf[2])
+            tile = np.asarray(Image.fromarray(lib.T[64][idx]).resize((max(tw, 4), th), Image.BILINEAR), np.float32) / 255.
+            tgt = dg[int(min(max(cy_, 0), H - 1)), int(min(max(cx_, 0), W - 1))]
+            out = np.clip(((tile - lib.mean[idx]) + tgt) * (1 - LY['flank'].keep) + tile * LY['flank'].keep, 0, 1)
+            # clip to the dog's own tile alpha, and to the frame
+            X0, Y0 = max(bx, ax0, 0), max(by, ay0, 0); X1 = min(bx + tile.shape[1], ax0 + A.shape[1], W); Y1 = min(by + th, ay0 + A.shape[0], H)
+            if X1 > X0 and Y1 > Y0:
+                aa = A[Y0 - ay0:Y1 - ay0, X0 - ax0:X1 - ax0][..., None]
+                canvas[Y0:Y1, X0:X1] = canvas[Y0:Y1, X0:X1] * (1 - aa) + out[Y0 - by:Y1 - by, X0 - bx:X1 - bx] * aa
+                st['flank']['cells'] += 1
+    # the eye: one small found eye picture, pasted whole
+    e = dinfo['eye']; st['dogeye'] = dict(cells=0, replaced=0)
+    if e is not None:
+        ex, ey = sx(C, dog['x']) + flip * DOGK * e[0] * C['ppm'], sy(C, DOGK * e[1])
+        ew, eh = (8, 6) if C['ppm'] < 210 else (16, 12)
+        eye = np.zeros((H, W), np.float32); eye[int(ey - eh / 2):int(ey + eh / 2), int(ex - ew / 2):int(ex + ew / 2)] = 1
+        st['dogeye'] = TR.render_layer(lib, LY['dogeye'], eye, np.full((H, W, 3), (0.30, 0.22, 0.16), np.float32), int(ex - ew / 2), int(ey - eh / 2), 0.02, rng, i, canvas, None, adv)
     # the right jamb in front of the dog: lying across the sill it is half in the doorway, half out
     st['trim'] = TR.render_layer(lib, LY['trim'], trim_all, lit((0.78, 0.72, 0.62), Lf * 0.6), int(sx(C, -0.58)), int(sy(C, 2.2)), bg_rate, rng, i, canvas, None, adv)
 
@@ -283,7 +319,6 @@ def render(i, stats):
     if wm is not None:
         m, pool, col, kind, txt = wm
         LY['words'].pool = pool
-        TR.outline(canvas, m, 7, alpha=0.9)
         st['words'] = TR.render_layer(lib, LY['words'], m, np.full((H, W, 3), col, np.float32), 0, 0, 0.7 if kind == 'call' else 0.04, rng, i, canvas, None, adv)
         rec['words'] = txt
 
