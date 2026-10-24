@@ -127,7 +127,7 @@ def wave_override(t, C, src_mouth, door_xy):
 F_LOUD = ImageFont.truetype(os.path.join(FONTS, 'f8.woff2'), 150)
 try: F_LOUD.set_variation_by_axes([900])
 except Exception: pass
-F_SOFT = ImageFont.truetype(os.path.join(FONTS, 'f27.woff2'), 76)
+F_SOFT = ImageFont.truetype(os.path.join(FONTS, 'f27.woff2'), 100)
 try: F_SOFT.set_variation_by_axes([600])
 except Exception: pass
 SPEECH = []   # (t0, t1, text, font, pool, colour, anchor)
@@ -145,11 +145,11 @@ def words_mould(t, C, mouth):
             if kind == 'call': shown = int(clamp((t - t0) / 0.35) * n + 0.999)
             im = Image.new('L', (W * SS, H * SS), 0); d = ImageDraw.Draw(im)
             if kind == 'call': x, y = mouth[0] + 30, max(60, mouth[1] - 230)
-            else: x, y = mouth[0] + 20, mouth[1] - 120
+            else: x, y = mouth[0] + 10, mouth[1] - 150
             x = min(x, W - 40 - d.textlength(txt, font=font) * 1.0)
             jit = (rng.integers(-4, 5), rng.integers(-4, 5)) if kind == 'call' and t < t1 else (0, 0)
             fs = font.font_variant(size=font.size * SS) if True else font
-            try: fs.set_variation_by_axes([900 if kind == 'call' else 600])
+            try: fs.set_variation_by_axes([900 if kind == 'call' else 800])
             except Exception: pass
             d.text(((x + jit[0]) * SS, (y + jit[1]) * SS), txt[:shown], font=fs, fill=255)
             m = np.asarray(im.reduce(SS), np.float32) / 255.

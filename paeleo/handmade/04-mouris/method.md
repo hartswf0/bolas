@@ -100,3 +100,42 @@ is surely not intelligible as English, so the words on screen carry the speech.
   doorway glow (computed grades). Every visible texture is an archive frame.
 - The made-of card counts are tile placements (a tile replaced counts again), not distinct pictures.
 - The SCION's operator page and critic report were not produced; this brief's deliverables replace them.
+
+---
+
+## Round 2 (after critic round 1: PASS, narrow)
+The critic was right that round 1 was a calm mosaic inside a drawn outline. Repairs, in the critic's order:
+
+1. **Tiles carry the body.** The drawn black rim, the drawn eye circle and the darkened nose are gone. The dog, the person and the
+   words are *ragged* layers (`torrent.py`, `ragged=True`): the quadtree descends to a 4×3 tile level at their edges, and a cell is
+   painted whole if the shape covers more than half of it, else not at all. So the silhouette is the edge of the pictures. A soft,
+   offset shadow under each such layer separates it from the ground, like a paper cut-out lifted off the page (a computed grade,
+   not a line). The dog's eye is one small found eye picture, pasted whole (8×6, 16×12 after the push-in), not clipped to a circle.
+   The made-of card now says exactly this: the figures and words end where their pictures end; the set is clipped to computed
+   shapes; shadows and the glow are computed grades.
+2. **Recognisable pictures.** Dog tiles keep 40 % of their own colour (`keep=0.4`). Two larger flank pictures (52×39 px, 73×55
+   after the push-in, `keep=0.6`) are pasted on the torso, clipped only to the dog's own tile edges, replaced at 0.6× the dog's
+   rate and at every burst. Proof: `stills/proof-tiles-9s.png`, `-19s.png`, `-28s.png`, taken from the delivered compressed
+   film (looked at, zoomed: a cat's face and a herd on the flank at 19 s; a lion and a rhinoceros at 28 s).
+3. **Rhythm.** The dog is fully re-made for 6 frames at every choice and for 4 frames when its turn crosses zero. At the two
+   pivotal choices (3.417 refuse, 23.792 lie down) the **whole frame** is re-cut for 12 frames (every layer replaced every frame).
+   Two holds, 11.9–14.6 s and 29–32 s. `rhythm.png` / `rhythm.json`: mean frame-to-frame difference of the scene (whole
+   frame and a box around the dog, from `trace.json`). Measured means (whole frame / dog): first call 1.0–2.3 s 12.1 / 15.3; burst 3.42–3.92 s 19.4 / 22.0;
+   burst 23.8–24.3 s 18.4 / 18.4; holds 12–14.5 s 0.7 / 0.6 and 29.2–31.9 s 0.9 / 0.9 (out of 255). The rise from 24 to 26.5 s is the camera push-in, not the torrent. The dog's colour now follows the score's
+   `trust` (cold dusk grey at 0.1, warm brown-orange at 0.9), with the door light at only 0.35 gain, so no switch happens at 17–20 s.
+4. **Approach, head low.** New head carriage in `scene.py`: at the score's head = 0.45 the head centre is 0.07 m below the
+   neck base, below the line of the back (checked on flat moulds at 15, 17.5, 20.8, 23.3 s).
+5. **Looking in.** With the score's `look`, the head turns away from us into the doorway. The muzzle shortens to nothing, the eye
+   disappears, and both ears are seen from behind, with the head in front of the lit interior (frames 26.6–28.0 looked at).
+- End-on views: the flip is never thinner than 0.62 (`flip = sign·(0.62 + 0.38·|turn|)`), so the turn is a cut-out turned
+  over, marked by a burst, not a squashed table. The offered hand is a cut-out of hand pictures keeping 55 % of their own colour.
+  The title subtitle is 52 px.
+- Size: `film.mp4` is now a two-pass x264 encode at 2.1 Mb/s plus AAC 128 kb/s (about 10.6 MB). A crf-12 master stays in `build/cache`.
+
+Measured after round 2 (`build/cache/invariants.json`; `tools/paeleo/check_handmade.py` → `invariants.json`: ALL OK). All seven
+choice probes are within 0.06 s, as in round 1. The turn of the back runs 4.00–4.13 s (the score's own turn). Minimum measured
+x 0.558 m; max |x − score| 0.033 m; the approach covers 3.41 m (score: 3.41 m). The dog ends lying across the jamb, facing the door.
+
+Not done or unknown in round 2: still no human viewing or listening; the cowering, turning dog at 3.9–4.1 s is a low, cold,
+crouched shape. I judge it to read as an animal, but that is the builder's judgement. The set (wall, door, floor) is still clipped to smooth computed
+shapes, not ragged.

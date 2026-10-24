@@ -74,9 +74,10 @@ def main():
         (f'the house    {pl["wall"]:,} cups, stoves, clocks, books, vases, brooms', mono_s, 70, 290),
         (f'the light    {pl["inside"] + pl["spill"]:,} lanterns, light bulbs, stars        the dusk  clouds, sea, river, bats, swans', mono_s, 70, 328),
         (f'the voice    {pl["words"]:,} pictures: COME HERE in alarms, trumpets, cannons; it\'s all right in flowers', mono_s, 70, 366),
-        ('no line is drawn: the dog, the person and the words end where their archive pictures end; shapes computed from the score;', mono_s, 70, 420),
-        ('the set is clipped to computed shapes; shadows and the door glow are computed grades; the sound is synthesized.', mono_s, 70, 446),
-        ('Quick, Draw! not used. Sources and rights: assets.json', mono_s, 70, 472),
+        ('no line is drawn: the dog, the person and the words end where their pictures end.', mono_s, 70, 420),
+        ('their shapes are computed from the score; the set is clipped to computed shapes;', mono_s, 70, 446),
+        ('shadows and the door glow are computed grades; the sound is synthesized.', mono_s, 70, 472),
+        ('Quick, Draw! not used. Sources and rights: assets.json', mono_s, 70, 498),
     ]
     L_e = bg_layer('every')
     def end(i):

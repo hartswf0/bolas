@@ -470,7 +470,7 @@ def handmade_page():
         if not os.path.exists(os.path.join(d, 'film.mp4')): continue
         inv = json.load(open(os.path.join(d, 'invariants.json')))
         rs = rounds_of(d); last = rs[-1] if rs else (0, 'part', 'awaiting the critic', '')
-        stills = sorted(glob.glob(os.path.join(d, 'stills/*')), key=lambda f: float(re.findall(r'(\d+(?:\.\d+)?)s', os.path.basename(f))[0]))
+        stills = sorted([f for f in glob.glob(os.path.join(d, 'stills/*')) if 'proof' not in os.path.basename(f)], key=lambda f: float(re.findall(r'(\d+(?:\.\d+)?)s', os.path.basename(f))[0]))
         cap = ['refusal, 3.6 s', 'watching, 9 s', 'approach, 19 s', 'across the sill, 28 s']
         sh = ''.join(f'<figure><img src="{s["dir"]}/stills/{os.path.basename(f)}" alt="SCION {s["id"]:02d}, {c}" loading="lazy"><figcaption>{c}</figcaption></figure>' for f, c in zip(stills, cap))
         ch = ''.join(f'<span>{esc(CHOICE[c["to"]])} <b>{c["t"]:.2f} → {c["found_at"]:.2f} s</b></span>' for c in inv['I1_choices']['choices'])
