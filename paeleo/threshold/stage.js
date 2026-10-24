@@ -75,7 +75,7 @@
     return L.concat(R.reverse()); };
 
   function DogAnim() {
-    this.p = { lie: 0, crouch: 0, ear: .8, tail: .5, wag: 0, head: .9, rest: 0, turn: 1, phase: 0, moving: 0, sniff: 0 };
+    this.p = { lie: 0, crouch: 0, ear: .8, tail: .5, wag: 0, head: .9, rest: 0, turn: 1, phase: 0, moving: 0, sniff: 0, look: 0 };
     this.v = {}; for (const k in this.p) this.v[k] = 0;
     this.lastX = null; this.steps = []; this.t = 0; this.stateT = 0; this.state = 'watch'; this.thumps = [];
   }
@@ -88,18 +88,19 @@
     T.ear = s === 'retreat' ? 0 : s === 'refuse' ? .15 : s === 'lie_down' ? .45 + .3 * tr : s === 'approach' ? .55 : .95;
     T.tail = s === 'retreat' ? 1.35 : s === 'refuse' ? 1.15 : s === 'approach' ? .55 - .4 * tr : s === 'lie_down' ? .25 : .6 - .5 * tr;
     T.wag = (s === 'approach' || s === 'lie_down') ? clamp((tr - .5) * 2) * .35 : s === 'watch' ? clamp((tr - .6) * 2) * .25 : 0;
-    T.head = s === 'retreat' ? .35 : s === 'refuse' ? .15 : s === 'approach' ? .45 : s === 'lie_down' ? (this.stateT < 1.6 || tr > .85 ? .7 : .3) : .9;
-    T.rest = (s === 'refuse' && this.stateT > 2.2) || (s === 'lie_down' && tr < .85 && this.stateT > 2.4) ? 1 : 0;
+    T.head = s === 'retreat' ? .35 : s === 'refuse' ? .15 : s === 'approach' ? .45 : s === 'lie_down' ? (this.stateT < 1.6 ? .7 : .3) : .9;
+    T.rest = (s === 'refuse' && this.stateT > 2.2) || (s === 'lie_down' && this.stateT > 2.4) ? 1 : 0;
     T.sniff = s === 'approach' ? 1 : 0;
     const h = f.heard === undefined ? 99 : f.heard;
-    if (s === 'lie_down' && h < 3.2) {
-      if (h < 1.3) { T.head = 1.15; T.ear = 1; T.rest = 0; T.wag = .45; }           // hears it: head up toward the voice, ears up, tail going
-      else { T.head = .3; T.ear = .45; T.rest = 1; T.wag = .2; }                     // and stays: the chin goes down on the paws, in the doorway
+    T.look = 0;
+    if (s === 'lie_down' && h < this.stateT) {                                       // spoken to after it lay down
+      if (h < 1.6) { T.head = 1.2; T.ear = 1; T.rest = 0; T.wag = .8; T.look = 1; }  // hears it: head up and turned in through the door, ears up, tail sweeping
+      else { T.head = .2; T.ear = .4; T.rest = 1; T.wag = 0; T.look = 0; }          // then turns back out and puts its chin on its paws, and stays
     }
     // turn only when standing: a lying dog gets up first, then turns (no flip while lying)
-    T.turn = (Math.sign(f.face) !== Math.sign(this.p.turn) && this.p.lie > .3) ? Math.sign(this.p.turn) : f.face;
+    T.turn = (Math.sign(f.face) !== Math.sign(this.p.turn) && (this.p.lie > .15 || this.stateT < .5)) ? Math.sign(this.p.turn) : f.face;
     if (s === 'refuse' && Math.sign(this.p.turn) > 0) T.lie = 0;
-    const sp = { turn: [95, 19], lie: [38, 11], ear: [120, 14], tail: [60, 10], head: [55, 11], crouch: [70, 13], rest: [30, 10], wag: [20, 8], sniff: [30, 10] };
+    const sp = { turn: [42, 13], lie: [38, 11], ear: [120, 14], tail: [60, 10], head: [55, 11], crouch: [70, 13], rest: [30, 10], wag: [60, 12], sniff: [30, 10], look: [70, 14] };
     for (const k in T) { const [K, D] = sp[k]; const a = K * (T[k] - this.p[k]) - D * this.v[k]; this.v[k] += a * dt; this.p[k] += this.v[k] * dt; }
     // walk phase follows the distance actually travelled: feet never outrun the body
     if (this.lastX !== null) { const dx = f.x - this.lastX, prev = this.p.phase; this.p.phase += Math.abs(dx) / .55 * Math.PI * 2;
@@ -107,7 +108,7 @@
       for (const off of legs) { const a = Math.sin(prev + off), b = Math.sin(this.p.phase + off); if (a > 0 && b <= 0) this.steps.push(this.t); } }
     this.p.moving = lerp(this.p.moving, clamp(Math.abs(f.v) / .15), .25);
     this.lastX = f.x; this.x = f.x;
-    if (s === 'lie_down' && tr > .8 && this.p.wag > .1) { const ph = Math.sin(this.t * Math.PI * 2 * 2.2); if (this._lastWag > 0 && ph <= 0) this.thumps.push(this.t); this._lastWag = ph; }
+    if (s === 'lie_down' && this.p.wag > .4) { const ph = Math.sin(this.t * Math.PI * 2 * 2.2); if (this._lastWag > 0 && ph <= 0) this.thumps.push(this.t); this._lastWag = ph; }
     return this.p;
   };
 
@@ -141,7 +142,7 @@
     // far legs, tail, body, chest, near legs, neck and head
     leg(add(sh, [.03, -.01]), Math.PI * 1.5, true, true); leg(add(hip, [.03, -.01]), Math.PI * .5, true, false);
     ctx.save(); ctx.translate(tailRoot[0], tailRoot[1]); ctx.rotate(tailA); piece(ctx, cut(TAIL(.27, -.5 + P.tail * .3), .003, 7), C.dog, 'rgba(60,30,10,.45)'); ctx.restore();
-    ctx.save(); ctx.translate(O[0], O[1]); ctx.rotate(pitch); piece(ctx, BODY, C.dog, 'rgba(60,30,10,.5)'); piece(ctx, CHEST, C.dogChest, null); ctx.restore();
+    ctx.save(); ctx.translate(O[0], O[1]); ctx.rotate(pitch); piece(ctx, BODY, C.dog, 'rgba(50,25,8,.85)'); piece(ctx, CHEST, C.dogChest, null); ctx.restore();
     leg(sh, Math.PI * .5, false, true); leg(hip, Math.PI * 1.5, false, false);
     // head on the neck: head param 1 = up and alert, 0 = down; rest = chin on the paws
     const neck = B([-.29, -.06]);
@@ -152,11 +153,11 @@
     piece(ctx, capsule(neck, hc, .07, .055, 101), C.dog, null);
     ctx.save(); ctx.translate(neck[0], neck[1]); ctx.rotate(Math.atan2(hc[1] - neck[1], hc[0] - neck[0]));
     ctx.fillStyle = C.collar; ctx.beginPath(); ctx.rect(.03, -.06, .028, .12); ctx.fill(); ctx.restore();
-    ctx.save(); ctx.translate(hc[0], hc[1]); ctx.rotate(tilt);
+    ctx.save(); ctx.translate(hc[0], hc[1]); ctx.rotate(tilt - .25 * (P.look || 0)); ctx.scale(1 - .45 * clamp(P.look || 0), 1);
     // far ear, skull, snout, near ear
     const earA = lerp(1.25, -.15, clamp(P.ear));
     ctx.save(); ctx.translate(.03, -.045); ctx.rotate(earA + .1); piece(ctx, EAR, C.dogFar, null); ctx.restore();
-    piece(ctx, SKULL, C.dog, 'rgba(60,30,10,.5)'); piece(ctx, SNOUT, C.dog, 'rgba(60,30,10,.5)');
+    piece(ctx, SKULL, C.dog, 'rgba(50,25,8,.85)'); piece(ctx, SNOUT, C.dog, 'rgba(50,25,8,.85)');
     ctx.beginPath(); ctx.ellipse(-.178, .008, .017, .013, 0, 0, 7); ctx.fillStyle = C.nose; ctx.fill();
     ctx.beginPath(); ctx.moveTo(-.16, .036); ctx.quadraticCurveTo(-.12, .044, -.085, .036); ctx.strokeStyle = 'rgba(40,20,10,.7)'; ctx.lineWidth = .005; ctx.stroke();
     ctx.beginPath(); ctx.arc(-.06, -.018, .012, 0, 7); ctx.fillStyle = C.nose; ctx.fill(); ctx.beginPath(); ctx.arc(-.064, -.022, .004, 0, 7); ctx.fillStyle = '#fff'; ctx.fill();
@@ -183,7 +184,8 @@
   };
   function drawPerson(ctx, P) {
     const s = clamp(P.sit), mv = P.moving * (1 - s);
-    const hip = [0, lerp(-.95, -.12, ease(s))];
+    const sDown = ease(clamp(s * 1.6)), sOut = ease(clamp((s - .4) / .6));   // sitting: squat down first, then the legs go out
+    const hip = [lerp(0, -.08, sOut), lerp(-.95, -.12, sDown)];
     const lean = P.lean;
     const up = rot([0, -.56], lean), neck = add(hip, up);
     const shoulder = add(hip, rot([.0, -.5], lean));
@@ -191,7 +193,8 @@
     const legT = (far) => {
       const ph = P.phase + (far ? Math.PI : 0), sw = .16 * mv * Math.sin(ph), lift = .06 * mv * Math.max(0, Math.cos(ph));
       const st = [sw + (far ? -.02 : .02), -lift], sitF = [far ? .78 : .72, -.04];
-      return [lerp(st[0], sitF[0], ease(s)), lerp(st[1], sitF[1], ease(s))];
+      const sq = [st[0] + .12 * sDown * (1 - sOut), st[1]];
+      return [lerp(sq[0], sitF[0], sOut), lerp(sq[1], sitF[1], sOut)];
     };
     const leg = far => { const tg = legT(far), side = s > .5 ? -1 : -1; const [k, f] = ik(add(hip, [far ? -.03 : .03, 0]), tg, .47, .47, side);
       const col = far ? C.trousersFar : C.trousers;
@@ -205,8 +208,8 @@
       const low = s > .5 ? [.62, -.06] : add(shoulder, [.42, .5]);
       let h = [lerp(down[0], reach[0], P.reach), lerp(down[1], reach[1], P.reach)];
       if (!far) h = [lerp(h[0], low[0], P.low), lerp(h[1], low[1], P.low)];
-      if (s > .5 && P.low < .5 && P.reach < .5) h = add(hip, [far ? .2 : .32, -.18]);   // sitting: hands rest on the knees
-      return h;
+      const knee = add(hip, [far ? .2 : .32, -.18]), r = sOut * clamp(1 - P.low * 2) * clamp(1 - P.reach * 2);   // sitting: hands come to rest on the knees
+      return [lerp(h[0], knee[0], r), lerp(h[1], knee[1], r)];
     };
     const arm = far => { const tg = handT(far); const [e, h] = ik(add(shoulder, [far ? -.02 : .02, 0]), tg, .3, .29, 1);
       const col = far ? C.shirtFar : C.shirt;

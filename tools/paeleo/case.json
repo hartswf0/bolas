@@ -20,7 +20,7 @@
   ],
   [
    "tests",
-   "2,007,908 checks passed"
+   "2,009,021 checks passed"
   ],
   [
    "keyframes on the dog",
@@ -133,10 +133,26 @@
   [
    "v1: the dog lay down after the door opened just as the next prompt was being typed.",
    "v2: the next prompts wait a second longer."
+  ],
+  [
+   "v2: told \"come in\", the dog only lifted its head outward, put it down, and raised it again before the end. Refusal could not be told from not hearing.",
+   "v3: it turns its head in through the lit doorway with its tail sweeping, turns back out, lays its chin on its paws and keeps it there. The sill moved so a third of it lies outside the jamb."
+  ],
+  [
+   "v2: two reframes of about 60 px inside a shot read as jump cuts; the person's sit popped from a squat to a chair-sit in mid-air.",
+   "v3: the reframes are camera moves; sitting is two phases, down then legs out, with the hands blended to the knees."
+  ],
+  [
+   "v2: a 2 Hz thump under the climax matched no visible tail; near-silence under the lineage.",
+   "v3: thumps only while the tail really sweeps; a low pad and a paper flick for each pinned tag."
+  ],
+  [
+   "Moving the sill exposed a speed jump: the dog arrived at 0.12 m/s and stopped dead. The continuity test caught it.",
+   "The approach slows to 0.06 m/s at the sill."
   ]
  ],
  "carries": "The operator, the machine and the critic loop. The next box opens another SCION swarm on the same porch, or takes this dog somewhere else.",
- "fullcase": "2 versions, critic rounds, state chart, decision trace, the prompt",
+ "fullcase": "3 versions, critic rounds, state chart, decision trace, the prompt",
  "T0": 18,
  "chart_svg": "<svg class=\"chart\" viewBox=\"0 0 900 470\" role=\"img\" aria-label=\"State chart: watch, approach, retreat, lie down, refuse, and the guards between them\"><defs><marker id=\"ah\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"7\" markerHeight=\"7\" orient=\"auto-start-reverse\"><path d=\"M0,0 L10,5 L0,10 z\" fill=\"var(--ink-2)\"/></marker></defs><path d=\"M370,215 Q281.0,161.5 192,108\" fill=\"none\" stroke=\"var(--stamp)\" stroke-width=\"1.8\" marker-end=\"url(#ah)\"/><text x=\"250\" y=\"140\" text-anchor=\"middle\" font-size=\"12\" fill=\"var(--stamp)\">threat > .55, near</text><path d=\"M192,128 Q281.0,181.5 370,235\" fill=\"none\" stroke=\"var(--ink-2)\" stroke-width=\"1.8\" marker-end=\"url(#ah)\"/><text x=\"300\" y=\"205\" text-anchor=\"middle\" font-size=\"12\" fill=\"var(--ink-2)\">threat eases</text><path d=\"M452,248 Q546.0,294.0 640,340\" fill=\"none\" stroke=\"var(--teal)\" stroke-width=\"1.8\" marker-end=\"url(#ah)\"/><text x=\"600\" y=\"285\" text-anchor=\"middle\" font-size=\"12\" fill=\"var(--teal)\">trust > .6, clear</text><path d=\"M625,362 Q536.5,312.0 448,262\" fill=\"none\" stroke=\"var(--ink-2)\" stroke-width=\"1.8\" marker-end=\"url(#ah)\"/><text x=\"500\" y=\"330\" text-anchor=\"middle\" font-size=\"12\" fill=\"var(--ink-2)\">threat ≥ .3</text><path d=\"M718,362 Q718.0,256.0 718,150\" fill=\"none\" stroke=\"var(--teal)\" stroke-width=\"1.8\" marker-end=\"url(#ah)\"/><text x=\"770\" y=\"260\" text-anchor=\"middle\" font-size=\"12\" fill=\"var(--teal)\">at the sill</text><path d=\"M640,118 Q547.5,164.0 455,210\" fill=\"none\" stroke=\"var(--ink-2)\" stroke-width=\"1.8\" marker-end=\"url(#ah)\"/><text x=\"560\" y=\"150\" text-anchor=\"middle\" font-size=\"12\" fill=\"var(--ink-2)\">threat > .45</text><path d=\"M452,205 Q506.0,148.5 640,108\" fill=\"none\" stroke=\"var(--ink-2)\" stroke-width=\"1.8\" marker-end=\"url(#ah)\"/><text x=\"540\" y=\"120\" text-anchor=\"middle\" font-size=\"12\" fill=\"var(--ink-2)\">quiet 6 s</text><path d=\"M370,238 Q281.0,295.0 192,352\" fill=\"none\" stroke=\"var(--stamp)\" stroke-width=\"1.8\" marker-end=\"url(#ah)\"/><text x=\"230\" y=\"320\" text-anchor=\"middle\" font-size=\"12\" fill=\"var(--stamp)\">pressed again, far · pressure > .62</text><path d=\"M192,372 Q340.0,299.0 368,250\" fill=\"none\" stroke=\"var(--ink-2)\" stroke-width=\"1.8\" marker-end=\"url(#ah)\"/><text x=\"330\" y=\"400\" text-anchor=\"middle\" font-size=\"12\" fill=\"var(--ink-2)\">pressure gone, invitation > .5</text><path d=\"M150,140 Q150.0,235.0 150,330\" fill=\"none\" stroke=\"var(--stamp)\" stroke-width=\"1.8\" marker-end=\"url(#ah)\"/><text x=\"70\" y=\"240\" text-anchor=\"middle\" font-size=\"12\" fill=\"var(--stamp)\">no room to back away</text><g><rect x=\"332\" y=\"200\" width=\"156\" height=\"60\" rx=\"30\" fill=\"var(--label)\" stroke=\"var(--ink)\" stroke-width=\"3\"/><text x=\"410\" y=\"228\" text-anchor=\"middle\" font-size=\"18\" font-weight=\"600\" fill=\"var(--ink)\">watch</text><text x=\"410\" y=\"247\" text-anchor=\"middle\" font-size=\"11.5\" fill=\"var(--ink-2)\">ears up, looking</text></g><g><rect x=\"72\" y=\"80\" width=\"156\" height=\"60\" rx=\"30\" fill=\"var(--label)\" stroke=\"var(--stamp)\" stroke-width=\"3\"/><text x=\"150\" y=\"108\" text-anchor=\"middle\" font-size=\"18\" font-weight=\"600\" fill=\"var(--ink)\">retreat</text><text x=\"150\" y=\"127\" text-anchor=\"middle\" font-size=\"11.5\" fill=\"var(--ink-2)\">crouched, ears flat</text></g><g><rect x=\"72\" y=\"330\" width=\"156\" height=\"60\" rx=\"30\" fill=\"var(--label)\" stroke=\"var(--stamp)\" stroke-width=\"3\"/><text x=\"150\" y=\"358\" text-anchor=\"middle\" font-size=\"18\" font-weight=\"600\" fill=\"var(--ink)\">refuse</text><text x=\"150\" y=\"377\" text-anchor=\"middle\" font-size=\"11.5\" fill=\"var(--ink-2)\">its back turned</text></g><g><rect x=\"640\" y=\"340\" width=\"156\" height=\"60\" rx=\"30\" fill=\"var(--label)\" stroke=\"var(--teal)\" stroke-width=\"3\"/><text x=\"718\" y=\"368\" text-anchor=\"middle\" font-size=\"18\" font-weight=\"600\" fill=\"var(--ink)\">approach</text><text x=\"718\" y=\"387\" text-anchor=\"middle\" font-size=\"11.5\" fill=\"var(--ink-2)\">head low, tail going</text></g><g><rect x=\"640\" y=\"90\" width=\"156\" height=\"60\" rx=\"30\" fill=\"var(--label)\" stroke=\"var(--teal)\" stroke-width=\"3\"/><text x=\"718\" y=\"118\" text-anchor=\"middle\" font-size=\"18\" font-weight=\"600\" fill=\"var(--ink)\">lie down</text><text x=\"718\" y=\"137\" text-anchor=\"middle\" font-size=\"11.5\" fill=\"var(--ink-2)\">on the porch or the sill</text></g><text x=\"20\" y=\"455\" font-size=\"12\" fill=\"var(--ink-2)\">red: what commands do · green: what changed circumstances earn · every state holds for a minimum window</text></svg>",
  "guards": [
@@ -195,7 +211,7 @@
  ],
  "tests": [
   "400 random operators of 60 s each: all five states reached, 16 kinds of transition seen.",
-  "No absorbing states: from 6,000 snapshots of those runs, a patient operator (sit beside the open door, hand low, silent) brings the dog to the sill every time, the slowest in 29.5 s.",
+  "No absorbing states: from 6,000 snapshots of those runs, a patient operator (sit beside the open door, hand low, silent) brings the dog to the sill every time, the slowest in 29.1 s.",
   "Not a button: standing in the doorway and calling every 4 s, reaching, or both, for 60 s, never earns an approach.",
   "Choices depend on declared state: the same world makes a dog with trust 0.8 approach and one with 0.2 stay; a dog that has refused three times takes 4.1 s to approach where a fresh one takes 1.5 s.",
   "Continuity on every frame: never more than 0.8 m/s, never a speed jump, never off the porch; a refusing dog always has its back turned.",
@@ -238,16 +254,33 @@
   {
    "n": "v2",
    "title": "The dog hears",
-   "meta": "Oct 24 · 82 s · the film on the page",
-   "file": "paeleo-00.mp4",
-   "poster": "threshold-sill.jpg",
+   "meta": "Oct 24 · 82 s",
+   "file": "paeleo-00-v2.mp4",
+   "poster": "threshold-comein.jpg",
    "text": "Repairs for every cause the first critic found, then a fresh critic.",
    "changes": [
     "Lying down, the dog reacts to any voice, then settles chin on paws.",
-    "It lies across the sill, through the doorway; the jamb is drawn over its back half.",
-    "Gets up before turning; slower turn; the cut moved off the turn.",
+    "It lies at the doorway; the jamb is drawn over its back half.",
+    "Gets up before turning; the cut moved off the turn.",
     "The caption travels as one paper slip.",
-    "Bigger type on tags, cards and credits; no text over text."
+    "Bigger type on tags, cards and credits.",
+    "Critic round 2: inconclusive. The reaction to \"come in\" too small, and the head rose again; reframe jumps; the sit popped."
+   ]
+  },
+  {
+   "n": "v3",
+   "title": "It looks in, and stays out",
+   "meta": "Oct 24 · 82 s · the film on the page",
+   "file": "paeleo-00.mp4",
+   "poster": "threshold-sill.jpg",
+   "text": "Repairs for the second critic, then a third.",
+   "changes": [
+    "Told to come in, the dog turns its head in through the lit door with its tail sweeping, then turns back out, chin on its paws, and stays down.",
+    "It lies across the doorway: front in the light, back third outside the jamb.",
+    "Camera moves instead of small reframe cuts.",
+    "The person squats, then puts the legs out; the hands come to the knees smoothly.",
+    "Slower turns, only once standing.",
+    "Sound under the lineage; tail thumps only when the tail sweeps."
    ]
   }
  ],
@@ -280,6 +313,34 @@
     }
    ],
    "report": "PAELEO-00 v1 critic report (round 1)\n\nWhat I inspected: frames at 2 fps across all 82 s (contact sheets), 8 fps tiles at 4.6–6.1, 21–23, 32.6–33.8, 37.2–38.8 and 52.3–53.5 s, a 24 fps crop at 33.3–33.8 s, and full-res stills. For sound I measured RMS, peak and spectral centroid every 0.25 s, rendered a full spectrogram, zoomed in on six moments and checked a 5 ms envelope. I cannot hear it, so I'm not claiming the voices are intelligible as speech.\n\n1. Verdict: inconclusive. No reference film was supplied to compare against, so \"reference stronger\" can't be judged. Measured against the bar, it does not pass: the climax refusal has no acting, and the dog visibly pops at 33.5 s.\n\n2. Moments behind the verdict\n- 54.1–59.6 s (about frames 1298–1430): after \"come in.\" the dog's pose is the same in every 0.5 s sample. No ear, head, tail or glance toward the doorway changes. Only the camera drifts. The refusal is carried by the narration typed at 58.0–60 s (\"the dog stays on the sill. the description let it choose.\"). The dog lies in profile, parallel to the lit door, so \"half in, half out\" isn't staged at all.\n- 33.50 s (frame about 804): the dog goes from lying curled and facing away (large) to an edge-on sliver in one frame, then stands up much smaller in the same framing. That is a pose and scale snap.\n- 37.5–38.0 s: the dog's response to \"open the door\" (lying down, tag says \"lying down\") only lands while the next prompt \"offer a hand\" is already being typed and the operation light is on. That muddies which change caused it.\n\n3. Single largest gap\nThe thesis beat, \"the viewer can understand the dog but not control it\", is told by text rather than acted. When asked to come in, the dog doesn't do anything you can read as a choice.\n\n4. Repair condition (falsifiable)\nIn the 2 s after the \"come in.\" prompt resolves, a re-check at 8 fps must show:\n- (a) the dog first reacts visibly: ears or head turn toward the doorway or interior, or the tail moves;\n- (b) then it settles back clearly: head lowers onto paws, or it turns its head back out;\n- (c) on the final frame of the scene, part of the body (front paws or chest) is past the door-frame line inside the lit opening and part is outside.\nAll of this has to be legible in a 320 px-wide still with the tags masked.\n\n5. Other problems, ranked\n1. 33.50 s (frame about 804): the lying-to-standing snap and scale pop. Every frame-to-frame pose change needs to be continuous, at least 6 frames.\n2. 37.5 s: make the reaction to the door read before the next prompt starts typing (an approach or a lie-down inside 34–36 s).\n3. 28.0–33.4 s: in the wide shot, the \"turned its back\" dog is a small curled lump about 70 px wide at 1280. It doesn't read as turned away at phone size; only the close-up at 25–28 s does.\n4. 5.0–5.9 s: the IMAGETEXT caption doesn't lift off. The growing picture covers it and it vanishes, then it reappears at 5.9 s as a second copy beside a new tag. That's two copies of the same text over the door frame.\n5. 18.0 s and 6.0 s: crossfades overlap text. The title is ghosted over the tags, and \"ENVIRONMENT TEXT\" is doubled.\n6. 64.5–71.0 s and 77.5–81.5 s: the subtitles in the three-scales diagram, the cycle labels and the credits are tiny monospace, unreadable at phone size. All tag text is also around 11 px at 720p.\n7. 21.0–22.4 s: \"backing away\" is a slow drift of roughly 15% of frame width with the head low. It's legible, but the ears and tail don't help.\n8. Sound: the voices are short synthetic harmonic glides (21.5, 25.0, 41.5–43, about 54.5 s). The soft voice at 41.5 is noticeably lower and quieter, which is good. \"Come in\" at 54.5 s is mostly a broadband burst with little harmonic content, so the climax line is the weakest sound cue. Paw-like clustered transients are present at 44–51.5 s.\n\n6. Strengths to keep\n- The cut-paper look and the dusk palette.\n- The P/E/O indicator bar and tags that update with each prompt.\n- The close-up at 25–28 s (dog crouched, head down, facing away). It's the best piece of acting in the film.\n- The person sitting down at 31–32 s.\n- A continuous approach walk with matching paw sounds (43.5–53 s) and a smooth lie-down onto the sill (53.0–53.4 s).\n- A door creak synced to the door opening (33.5–35 s), typing sounds synced to each prompt, a cricket ambience bed, and music only under the close.\n- The three-scales nesting animation and a clean PAELEO lockup with a readable tagline (72–77 s).\n"
+  },
+  {
+   "title": "Round 2 · v2",
+   "verdict": "inconclusive",
+   "meta": "a second, fresh critic · 1 to 24 fps, motion and pan measured, sound by measurement",
+   "gap": "The refusal of \"come in\" is a near non-event: a small head lift outward, head down, then up again. It never looks into the house, so refusal cannot be told from not hearing.",
+   "repair": "Within 1 s of the prompt: the head turns at least 30° toward the lit interior and holds 6 frames, or the tail sweeps twice; within 1.5 s more it turns back out and lowers onto the paws; it does not rise again before the scene ends; in a 320 px still of the last frame the dog crosses a jamb with at least a quarter of its length on each side.",
+   "notes": [
+    "32.9 and 37.2 s: reframes of about 60 px inside one shot read as jump cuts.",
+    "31.8–32.0 s: the person's sit pops from a squat to a chair-sit in mid-air.",
+    "6.3 s: two copies of the caption at once; 14.5 and 17.5 s: the title over half-faded tags.",
+    "33.4–34.0 s: getting up and turning in 0.6 s is too fast to read as a decision.",
+    "Sound: near-silence under the lineage (5.5–11 s); a loud 2 Hz pulse from 54 s that no visible tail matches.",
+    "Credits and the PEO diagram label: too small, and a label runs into a border."
+   ],
+   "keep": "The caption lift-off as one travelling object; the refusal close-up; the continuous approach and lie-down; the clean head-lower at 57.3 s; the nested scales card; the title card.",
+   "done": "The dog now turns its head in through the door with its tail sweeping, then puts its chin down and keeps it down; the sill moved so its back third lies outside the jamb; the reframes became moves; the sit squats first; the turn waits until the dog is up and takes longer; a pad and tag sounds under the lineage; tail thumps only when the tail sweeps; bigger type.",
+   "figs": [
+    {
+     "img": "critic-r2-climax.jpg",
+     "cap": "The critic's sheet: \"come in\" at 8 fps in v2."
+    },
+    {
+     "img": "critic-r2-sit.jpg",
+     "cap": "The critic's sheet: the person's sit popping at 31.875 s."
+    }
+   ],
+   "report": "PLAY CRITIC REPORT: paeleo-00-v2.mp4\n\nWhat I inspected: a 1 fps contact sheet of the whole film; frame-accurate grabs at 8 fps for 3.5–7, 13.75–18.25 (at 4 fps), 31–36 and 44–64, and at 24 fps for 31.5–32.1, 32.9–33.4, 33.4–34.4, 55.8–56.3, 57.25–57.75 and 59.1–59.6. I also ran per-frame motion and pan-shift measurements over 8–64 s, took per-0.25 s RMS for the whole film, and rendered a log spectrogram. I had no reference cut, so I cannot compare against one.\n\n1. VERDICT: Inconclusive, because there was no reference to compare against. Against the bar on its own terms it does not pass. The climax repair condition is only partly met, and there are visible pops and jump-reframes in the middle act.\n\n2. REPAIR CONDITION TEST (\"come in.\" finishes typing at about 55.9; the speech bubble shows 56.5–57.5)\n- (a) Partly met. At 56.00–56.17 the head lifts slightly and the ears prick, over about 4 frames. But the head stays facing out toward the person and never turns toward the interior. The tail does not move: frame difference in the tail region is under 0.8 from 56 to 60.\n- (b) Met, then undone. At 57.29–57.75 the head lowers smoothly onto the paws over about 11 frames and reads clearly. But at 59.2–59.9 the head comes back up to an alert, outward pose and holds there to the fade at 63.0–64.0. The scene ends on alert watching, not on a settled dog.\n- (c) Marginal. In the 62.9 still at 320 px the body sits inside the lit opening. The forepaws are at the left jamb by the person's feet, and a thin tail crosses past the right jamb onto the siding. It reads as \"dog lying in the doorway\", but in/out is not legible. The dog is low-contrast brown on yellow, and the \"dog · lying on the sill\" tag and its leader line sit right above it.\n\n3. LARGEST GAP: The refusal of \"come in\" is acted as a near non-event. The dog gives a tiny outward head lift, puts its head down, then lifts it again. It never looks into the house and never chooses, so without the tag and the closing line (\"the dog stays on the sill. the description let it choose.\"), the viewer cannot tell refusal from not hearing.\n\n4. REPAIR CONDITION FOR THAT GAP (check at 8 fps, tags masked):\n- Within 1.0 s of the prompt resolving, the head turns at least 30° toward the lit interior and holds at least 6 frames, or the tail makes at least 2 visible sweeps.\n- Within the next 1.5 s, the head turns back out and lowers onto the paws.\n- From then to the last frame of the scene, the head does not rise again: motion in the head region stays under 1.0 mean-abs per frame.\n- In a 320 px still of the last frame, the dog's silhouette crosses a jamb clearly, with at least 25% of its body length on each side.\n\n5. OTHER PROBLEMS, ranked:\n- 32.958 and 37.208: hard reframe jumps of about 60 px within one shot (pan shift ±60 measured in one frame; 37.2 also slightly rescales). They read as jump-cut pops. Also 28.208 is an abrupt cut back to wide.\n- 31.83–32.0: the person's sit pops. A squat snaps to a chair-sit hovering in mid-air at 31.875, then slides to the floor by 32.04.\n- 6.30–6.45: crossfade shows two copies of the caption at once, the serif \"A dog at a door.\" stacked over the mono \"a dog at a door\". About 14.5 and 17.5: the title ghosts over half-faded tags. About 24.75: \"Come here!\" and \"Come HERE!\" overlap.\n- 33.4–34.0: the dog goes from lying to standing and does a paper-flip turn in about 0.6 s. It is continuous, not a pop, but too fast to read as a decision at phone size.\n- Sound: near-silence at about −44 dB from 5.5 to 11 s, under the ENVIRONMENT TEXT and WORLDTEXT beats that carry the lineage. A loud low pulse at about 2 Hz (−17 dB) starts at about 54 s, under the intimate climax. The tail barely moves, so the pulse does not match tail thumps, and it pre-laps the closing music.\n- Credits text (79–82) and the 10 px tag body text are unreadable at phone size. In the PEO diagram at 70 s, \"description\" runs into the red box border.\n\n6. STRENGTHS TO PRESERVE:\n- The caption lift-off at 4.5–6.2 reads as one object travelling: the caption leaves the page while the camera pushes into the picture.\n- The 55-frame close-up beats at 25–28 (dog backing off, then turning its back) clearly show refusal and its consequence.\n- The approach at 44–54.5 is continuous walking locomotion ending in a smooth lie-down on the sill.\n- The head-lower at 57.3–57.7 is clean.\n- The nested AEL/PAELEO/PEO card (66–71) is legible and well layered.\n- The title card is clean.\n"
   }
  ],
  "files": [
@@ -378,9 +439,9 @@
    "trust 0.60 > 0.6, threat 0.00, threshold clear: gets up and comes closer (trust 0.60, at 4.06 m)"
   ],
   [
-   "53.8 s",
+   "53.4 s",
    "approach → lie down",
-   "reached the sill: lies down there, half in and half out (trust 0.84, at 0.15 m)"
+   "reached the sill: lies down there, half in and half out (trust 0.84, at 0.43 m)"
   ],
   [
    "56.0 s",

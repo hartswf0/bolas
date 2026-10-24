@@ -139,6 +139,8 @@ def cricket_bed(t0, t1):
 # ---------------------------------------------------------------- beds and music
 place(cricket_bed(4.6, 63.5), 4.6, 1.0, .2)
 place(pad([220, 277.2, 329.6, 493.9], 6.0, .09), 0.0)                    # the page
+place(pad([146.8, 220, 293.7, 370], 9.5, .07), 5.0)                     # under the lineage: environment text, worldtext
+for tt in (6.4, 7.0, 8.0): place(flick(), tt, 1.6, .1)                     # each tag pinned
 place(pad([196, 246.9, 293.7, 440], 4.6, .10), 14.3)                      # the title
 place(chime(587.3, .18), 14.6, 1, -.2)
 place(pad([174.6, 220, 261.6, 392], 8.5, .11), 63.2)                       # three scales

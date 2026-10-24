@@ -45,7 +45,7 @@
   // ---------------------------------------------------------------- helpers
   const at = (T, a, b) => clamp((T - a) / (b - a));
   // camera keys in machine time: [from, x, zoom, cut]. A cut snaps; otherwise the camera eases toward the key. The approach tracks the dog.
-  const CAM = [[-99, 1.5, 1.15], [0, 1.55, 1.22], [2.4, 1.8, 1.2], [7.4, 3.45, 2.15, 1], [10.2, 1.5, 1.2, 1], [14.95, 1.85, 1.25, 1], [19.2, 1.45, 1.14, 1], [21, 1.5, 1.14]];
+  const CAM = [[-99, 1.5, 1.15], [0, 1.55, 1.22], [2.4, 1.8, 1.2], [7.4, 3.45, 2.15, 1], [10.2, 1.5, 1.2, 1], [14.95, 1.85, 1.25], [19.2, 1.45, 1.14], [21, 1.5, 1.14]];
   function camAt(tau, dogX) {
     let c = CAM[0]; for (const k of CAM) if (tau >= k[0]) c = k;
     let x = c[1], z = c[2];
@@ -84,9 +84,9 @@
   function slip(ctx, T, K) {
     if (T > 6.5) return;
     const k = ease(at(T, 4.5, 6.3)), lift = ease(at(T, 4.2, 4.6));
-    const x0 = W / 2, y0 = 512, x1 = K ? K.sx(.95) : W * .62, y1 = K ? K.sy(2.62) - 34 : 120;
+    const x0 = W / 2, y0 = 512, x1 = K ? K.sx(1.3) : W * .66, y1 = K ? K.sy(2.62) - 34 : 120;
     const x = lerp(x0, x1, k), y = lerp(y0, y1, k) - 14 * lift * (1 - k), fs = lerp(34, 22, k);
-    ctx.save(); ctx.globalAlpha = (T < .4 ? T / .4 : 1) * (1 - at(T, 6.3, 6.5)); ctx.translate(x, y); ctx.rotate(Math.sin(k * Math.PI) * -.06);
+    ctx.save(); ctx.globalAlpha = (T < .4 ? T / .4 : 1) * (1 - at(T, 6.36, 6.42)); ctx.translate(x, y); ctx.rotate(Math.sin(k * Math.PI) * -.06);
     ctx.font = `italic 400 ${fs}px Literata`; const w = ctx.measureText('A dog at a door.').width + 30, h = fs + 22;
     if (lift > 0) { ctx.shadowColor = `rgba(0,0,0,${.3 * lift})`; ctx.shadowBlur = 10 * lift; ctx.shadowOffsetY = 6 * lift; ctx.fillStyle = `rgba(251,247,238,${lift})`; ctx.fillRect(-w / 2, -h / 2 - fs * .3, w, h); ctx.shadowColor = 'transparent'; }
     ctx.fillStyle = C.ink; ctx.textAlign = 'center'; ctx.fillText('A dog at a door.', 0, fs * .05); ctx.restore();
@@ -165,12 +165,12 @@
     const tagIn = (a, b) => ease(at(T, a, b));
     const doorLines = T < 7.0 ? ['a dog at a door'] : tau < 0 ? ['threshold', 'the door is ajar'] : ['threshold', wd.door === 'open' ? 'the door is open' : 'the door is ajar'];
     const flashOf = key => { const p = [...PROMPTS].reverse().find(p => tau >= p.fx && key in p.set); return p ? clamp(1 - (tau - p.fx) / .8) : 0; };
-    tags.push({ anchor: [.3, 2.08], at: [.95, 2.62], lines: doorLines, alpha: at(T, 6.3, 6.5), size: 24, flash: flashOf('door'), rot: -.015 });
+    tags.push({ anchor: [.3, 2.08], at: [1.3, 2.62], lines: doorLines, alpha: at(T, 6.36, 6.42), size: 26, flash: flashOf('door'), rot: -.015 });
     if (T > 6.6) {
       const per = tau < 0 ? ['a person', 'standing in the doorway'] :
         [wd.posture === 'sit' ? 'person · sitting' : 'person · standing', wd.place === 'doorway' ? 'in the doorway' : 'beside the door',
           wd.voice === 'call' ? 'calling' : wd.voice === 'soft' ? 'speaking softly' : wd.hand === 'reach' ? 'reaching' : wd.hand === 'low' ? 'a hand offered, low' : 'silent'];
-      tags.push({ anchor: [perA.x, pp.sit > .5 ? .95 : 1.8], at: [perA.x - .55, pp.sit > .5 ? 1.75 : 2.45], lines: per, alpha: tagIn(6.6, 7.3), size: 24, flash: Math.max(flashOf('voice'), flashOf('hand'), flashOf('posture')), rot: .012 });
+      tags.push({ anchor: [perA.x, pp.sit > .5 ? .95 : 1.8], at: [perA.x - .55, pp.sit > .5 ? 1.75 : 2.45], lines: per, alpha: tagIn(6.6, 7.3), size: 26, flash: Math.max(flashOf('voice'), flashOf('hand'), flashOf('posture')), rot: .012 });
     }
     if (T > 7.6) {
       let lines;
@@ -179,10 +179,10 @@
       else lines = ['dog · ' + (f.state === 'lie_down' && f.x < .5 ? 'lying on the sill' : DOG_WORD[f.state]), { t: 'trust', bar: f.trust, barc: f.trust > .6 ? C.teal : f.trust < .25 ? C.stamp : '#c88a00' }];
       const lift = f.state === 'lie_down' || (f.state === 'refuse' && dogA.p.lie > .5) ? .75 : 1.0;
       const lastTr = TRANS.filter(e => e.t <= tau).pop();
-      tags.push({ anchor: [f.x - .25 * Math.sign(dogA.p.turn || 1), lift * .62], at: [Math.min(f.x + .1, 4.4), lift + (tau < 0 && T > 10.6 ? .95 : .55)], lines, alpha: tagIn(7.6, 8.3), size: 24, flash: lastTr ? clamp(1 - (tau - lastTr.t) / .8) : 0, rot: -.01 });
+      tags.push({ anchor: [f.x - .25 * Math.sign(dogA.p.turn || 1), lift * .62], at: [Math.min(f.x + (f.x < .8 ? .3 : .1), 4.4), lift + (tau < 0 && T > 10.6 ? .95 : f.x < .8 ? 1.25 : .55)], lines, alpha: tagIn(7.6, 8.3), size: 26, flash: lastTr ? clamp(1 - (tau - lastTr.t) / .8) : 0, rot: -.01 });
     }
     // the caption flies from the page to the door tag
-    const hideT = 1 - clamp(at(T, 14.3, 14.8) - at(T, 17.6, 18.1));
+    const hideT = 1 - clamp(at(T, 13.9, 14.3) - at(T, 17.7, 18.1));
     for (const tg of tags) { tg.alpha = (tg.alpha === undefined ? 1 : tg.alpha) * hideT; if (T < 14.6) tg.top = 142; }
     const K = scene(ctx, cam, f, world, T, tags);
     if (T < 6.6) slip(ctx, T, K);
@@ -194,7 +194,7 @@
     kicker(ctx, '2 · text pinned to a place · AEL', 'ENVIRONMENT TEXT', '', clamp(at(T, 6.4, 6.8) - at(T, 9.7, 10.0)));
     kicker(ctx, '3 · text the place runs on · PAELEO', 'WORLDTEXT', '', clamp(at(T, 10.1, 10.5) - at(T, 14.0, 14.4)));
     if (T > 14.3 && T < 18.6) {
-      const a = clamp(at(T, 14.4, 15.0) - at(T, 17.0, 17.6));
+      const a = clamp(at(T, 14.35, 14.9) - at(T, 17.0, 17.6));
       ctx.save(); ctx.fillStyle = `rgba(10,9,8,${.72 * a})`; ctx.fillRect(0, 0, W, H); ctx.globalAlpha = a;
       textC(ctx, 'PAELEO-00', W / 2, 250, '600 20px "JetBrains Mono"', C.stamp, 'center');
       textC(ctx, 'THE THRESHOLD', W / 2, 352, '900 118px "Big Shoulders Display"', C.paper, 'center');
@@ -234,10 +234,10 @@
         box(120, 230, 1040, 430, 'THE LANGUAGE AND STUDIO', 'PAELEO', 'Promptable Augmented Environments Lab / Language for Ekphrastic Operations', 'where the method operates across environments, archives, games, films and agents', '#7fe0d2', 65.6);
         box(180, 390, 920, 250, 'THE METHOD', 'PEO', 'Prompt · Ekphrasis · Operation', 'how descriptions become consequential actions', C.stamp, 66.9);
         // the cycle inside PEO: intent → description → consequence → (a changed situation) → intent
-        const v = ease(at(T, 68.0, 69.0)); if (v > 0) { g.save(); g.globalAlpha *= v; const cx = 930, cy = 520, r = 62;
+        const v = ease(at(T, 68.0, 69.0)); if (v > 0) { g.save(); g.globalAlpha *= v; const cx = 880, cy = 515, r = 58;
           [['P', 'intent', -Math.PI / 2], ['E', 'description', Math.PI / 6], ['O', 'consequence', Math.PI * 5 / 6]].forEach(([k, w2, an]) => {
             const x = cx + Math.cos(an) * r, y = cy + Math.sin(an) * r; g.beginPath(); g.arc(x, y, 22, 0, 7); g.fillStyle = C.stamp; g.fill();
-            g.font = '900 26px "Big Shoulders Display"'; g.fillStyle = '#fff'; g.textAlign = 'center'; g.fillText(k, x, y + 9); g.font = '600 17px "JetBrains Mono"'; g.fillStyle = 'rgba(251,247,238,.8)'; g.fillText(w2, x + (an > 1 ? -54 : an > 0 ? 58 : 0), y + (an < 0 ? -30 : 40)); g.textAlign = 'left'; });
+            g.font = '900 26px "Big Shoulders Display"'; g.fillStyle = '#fff'; g.textAlign = 'center'; g.fillText(k, x, y + 9); g.font = '600 17px "JetBrains Mono"'; g.fillStyle = 'rgba(251,247,238,.8)'; g.fillText(w2, x + (an > 1 ? -60 : an > 0 ? 40 : 0), y + (an < 0 ? -30 : 42)); g.textAlign = 'left'; });
           g.strokeStyle = 'rgba(251,247,238,.5)'; g.lineWidth = 2; g.beginPath(); g.arc(cx, cy, r, -Math.PI / 2 + .35, -Math.PI / 2 + .35 + (Math.PI * 2 - .7) * clamp(at(T, 68.2, 69.6))); g.stroke(); g.restore(); }
         g.restore();
       } else if (T < 77.4) {
@@ -250,12 +250,12 @@
       } else {
         const g = ctx, a3 = clamp(at(T, 77.5, 78.1) - at(T, 81.2, 82)); g.save(); g.globalAlpha = a3;
         textC(g, 'PAELEO-00 · THE THRESHOLD', W / 2, 200, '900 52px "Big Shoulders Display"', C.paper, 'center');
-        const L = ['made with SCION-STATE-MACHINES, one of the 54 SCION animation swarms',
-          'the dog is a state machine: watch · approach · retreat · lie down · refuse',
-          'nothing it does was keyed; every move follows from the prompts and what it remembers',
-          'built, rendered and scored from code by Claude · reviewed by an independent critic',
-          'paper, brads and dusk: Bolas · CRASH LAB · October 2026'];
-        L.forEach((s, k) => textC(g, s, W / 2, 280 + k * 54, k === 0 ? '600 23px "JetBrains Mono"' : '400 21px "JetBrains Mono"', k === 0 ? C.stamp : 'rgba(251,247,238,.8)', 'center'));
+        const L = ['made with SCION 48 · State Machines',
+          'the dog: watch · approach · retreat · lie down · refuse',
+          'nothing it does is keyed; it follows the prompts',
+          'made from code by Claude · checked by independent critics',
+          'Bolas · CRASH LAB · October 2026'];
+        L.forEach((s, k) => textC(g, s, W / 2, 280 + k * 58, k === 0 ? '600 26px "JetBrains Mono"' : '400 24px "JetBrains Mono"', k === 0 ? C.stamp : 'rgba(251,247,238,.8)', 'center'));
         g.restore();
       }
     }

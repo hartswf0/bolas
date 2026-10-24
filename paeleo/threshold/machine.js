@@ -7,7 +7,7 @@
 (function (root, factory) { if (typeof module === 'object' && module.exports) module.exports = factory(); else root.Threshold = factory(); })(this, function () {
   'use strict';
   const STATES = ['watch', 'approach', 'retreat', 'lie_down', 'refuse'];
-  const SILL = 0.12;          // the closest the dog will come: lying across the sill, front half in the doorway, back half out
+  const SILL = 0.40;          // the closest the dog will come: lying across the sill, front half in the doorway, back half out
   const PORCH_END = 4.9;      // the porch steps
   const PERSON_X = { doorway: -0.28, beside: -1.25 };
   // minimum time in a state before a lower-priority guard may take it out (action windows: no flicker)
@@ -85,7 +85,7 @@
 
     // locomotion: the state sets a target speed; the dog accelerates toward it (no teleporting, no instant stops)
     let target = 0, face = d.face;
-    if (d.state === 'approach') { const sp = 0.25 + 0.55 * clamp((d.trust - 0.6) / 0.4); target = -Math.min(sp, Math.max(0.12, (d.x - SILL) * 1.6)); face = 1; }
+    if (d.state === 'approach') { const sp = 0.25 + 0.55 * clamp((d.trust - 0.6) / 0.4); target = -Math.min(sp, Math.max(0.06, (d.x - SILL) * 1.6)); face = 1; }
     if (d.state === 'retreat') { target = Math.min(0.75, (PORCH_END - d.x) * 1.6); face = 1; }                     // backs away still facing the person
     if (d.state === 'refuse') face = -1;                                          // the refusal is visible: its back
     if (d.state === 'watch' || d.state === 'lie_down') face = 1;
