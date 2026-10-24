@@ -57,7 +57,7 @@ det = {}
 det['retreat'] = {'crouch': first(lambda k: drop[k] > 6, 12), 'door_head': first(lambda k: fw[k] < fw[:20].mean() - 0.010, 12),
                   'moves_away': first(lambda k: x_est[k] > x_est[20] + 0.03, 12)}
 # 2 retreat -> watch at 2.333: the door head is gone (dog head back)
-det['watch1'] = {'head_back': first(lambda k: fw[k] > fw[:20].mean() - 0.005, (det['retreat']['door_head'] or 24) + 1),
+det['watch1'] = {'head_back': first(lambda k: fw[k] > fw[:20].mean() - 0.025, (det['retreat']['door_head'] or 24) + 1),
                   'crouch_released': first(lambda k: drop[k] < 4.0, (det['retreat']['crouch'] or 24) + 1)}
 # 3 refuse at 3.417: the card starts to turn (width shrinks) and shows its blank back
 wid = bbox[:, 2] - bbox[:, 0]
@@ -70,9 +70,9 @@ det['approach'] = {'moves_in': first(lambda k: x_est[k] < x_est[300] - 0.03, 300
 # 6 lie down at 23.792: body drops to the boards
 det['lie'] = {'body_down': first(lambda k: drop[k] > 6, 540), 'lying': first(lambda k: drop[k] > 30, 540)}
 # 7 come in at 26.4: looks in (the head goes further into the door frame), then settles
-hx = np.array([b[0] for b in bbox])
-det['look_in'] = {'head_moves_in': first(lambda k: hx[k] < hx[615] - 8, 615),
-                  'settled': first(lambda k: hx[k] >= hx[615] - 3, (first(lambda k: hx[k] < hx[615] - 8, 615) or 615) + 1)}
+hy = np.array([b[1] for b in bbox])   # top of the dog: the head lifts up into the lit opening when it looks in
+up = first(lambda k: hy[k] < hy[620] - 10, 615)
+det['look_in'] = {'head_lifts_into_door': up, 'settled': first(lambda k: hy[k] >= hy[620] - 3, (up or 615) + 1)}
 
 expected = {'retreat': 1.0, 'watch1': 2.333, 'refuse': 3.417, 'watch2': 7.458, 'approach': 14.708, 'lie': 23.792, 'look_in': 26.4}
 checks = {'choices': {}}

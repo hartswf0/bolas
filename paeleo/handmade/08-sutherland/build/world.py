@@ -22,7 +22,8 @@ FPS = 24
 TITLE_N = 72
 END_N = 72
 W, H = 1280, 720
-ELEV = math.radians(14)
+ELEV = math.radians(20)
+KX = 0.30          # oblique: nearer points sit to the right, so depth reads as a diagonal
 CE, SE = math.cos(ELEV), math.sin(ELEV)
 UP = np.array([0.0, 1.0, 0.0])
 
@@ -95,11 +96,11 @@ class Cam:
     def p(self, v):
         x, y, z = v
         sy = y * CE - z * SE
-        return (self.px + self.S * (x - self.xc), self.py - self.S * (sy - self.yc))
+        return (self.px + self.S * (x + KX * z - self.xc), self.py - self.S * (sy - self.yc))
     def pa(self, A):
         A = np.asarray(A, float)
         sy = A[:, 1] * CE - A[:, 2] * SE
-        return np.stack([self.px + self.S * (A[:, 0] - self.xc), self.py - self.S * (sy - self.yc)], 1)
+        return np.stack([self.px + self.S * (A[:, 0] + KX * A[:, 2] - self.xc), self.py - self.S * (sy - self.yc)], 1)
 
 CAM0 = Cam()
 CAM1 = Cam(S=200.0, xc=-0.15, yc=0.80, px=640.0, py=292.0)
@@ -316,7 +317,25 @@ class DogDriver:
         turn = a['turn']
         if d['state'] == 'refuse' and t < 5.0:
             turn = min(turn, 1 - 2 * smooth((t - 3.417) / 1.3))     # the back turns from the moment of choosing
-        f, side = self.yaw_vectors(turn)
+        if 7.458 <= t < 9.5:
+            turn = max(turn, -1 + 2 * smooth((t - 7.62) / 0.85))      # rises, then the body comes round
+        # yaw is a parameter of the graph: the body rotates in depth (z), never a mirror flip.
+        # refusing turns through the wall side (we see its back); coming round turns through
+        # the camera side (we see its face).
+        phi_b = (math.pi + math.acos(clamp(turn, -1, 1))) if t < 7.458 else (3 * math.pi - math.acos(clamp(turn, -1, 1)))
+        f = np.array([math.cos(phi_b), 0.0, math.sin(phi_b)])
+        side = np.cross(f, UP)
+        # the head leads the body: it turns first at the moment of choosing, up to 130 deg off the body
+        if 3.417 <= t < 7.458:
+            goal, tc = 2 * math.pi, 3.417
+        elif 7.458 <= t < 9.5:
+            goal, tc = 3 * math.pi, 7.458
+        else:
+            goal, tc = phi_b, t
+        dphi = clamp(goal - phi_b, -2.27, 2.27) * smooth((t - tc) / 0.35)
+        phi_h = phi_b + dphi
+        self.phi = (phi_b, phi_h)
+        fhead = np.array([math.cos(phi_h), 0.0, math.sin(phi_h)])
         g.side = side
         x = d['x']
         dx = x - self.prev_x
@@ -338,9 +357,9 @@ class DogDriver:
         g.goal('M', (Wg + Pg) / 2 + UP * 0.005, 0.15, 'back')
         # --- head ---------------------------------------------------------------
         look = a['look']
-        fh = unit(f * math.cos(look * 0.85) + np.array([0, 0, -1.0]) * math.sin(look * 0.85))
+        fh = unit(fhead * math.cos(look * 1.0) + np.array([0, 0, -1.0]) * math.sin(look * 1.0))
         hd = clamp(a['head'], 0, 1.3)
-        al = math.radians(lerp(-20, 42, min(hd, 1.0)) + 25 * max(0.0, hd - 1.0)) * (1 - 0.3 * lie)
+        al = math.radians(lerp(-20, 42, min(hd, 1.0)) + 25 * max(0.0, hd - 1.0)) * (1 - 0.3 * lie) + math.radians(22) * look
         be = math.radians(lerp(-62, -8, clamp(hd, 0, 1.2)))
         Wp = g.p('W')
         Ng = Wp + DOG['neck'] * (math.cos(al) * fh + math.sin(al) * UP)
@@ -773,8 +792,8 @@ def draw_dog(df, cam, g, f, side, I=1.0, show_graph=True, pins=None):
     tors = catmull(cam.pa(sp), 6, closed=True)
     df.line(tors, I, 'dog'); df.occ.append(tors)
     # neck: two curves from the body to the head
-    hd = unit(Zp - Np); hu = unit(np.cross(side, hd))
-    if hu[1] < 0 and abs(hd[1]) < 0.9:
+    hd = unit(Zp - Np); hs = head_side(hd, side); hu = unit(np.cross(hs, hd))
+    if hu[1] < 0:
         hu = -hu
     df.line(catmull(cam.pa([Wp + ub * 0.075 - a * 0.02, Wp + (Np - Wp) * 0.5 + ub * 0.06, Np + hu * 0.045 - hd * 0.03]), 5), I, 'dog')
     df.line(catmull(cam.pa([Wp + a * 0.11 - ub * 0.10, Wp + (Np - Wp) * 0.55 - ub * 0.02 + a * 0.05, Np - hu * 0.05 + hd * 0.03]), 5), I, 'dog')
@@ -794,19 +813,25 @@ def draw_dog(df, cam, g, f, side, I=1.0, show_graph=True, pins=None):
     # ears: attached to the head frame; the score's 'ear' sets their angle
     return hd, hu
 
+def head_side(hd, side):
+    h = np.array([hd[0], 0.0, hd[2]])
+    if np.linalg.norm(h) < 0.2:
+        return side
+    return unit(np.cross(unit(h), UP))
+
 def draw_ears(df, cam, g, side, ear, I=1.0):
     Np, Zp = g.p('N'), g.p('Z')
-    hd = unit(Zp - Np); hu = unit(np.cross(side, hd))
-    if hu[1] < 0 and abs(hd[1]) < 0.9:
+    hd = unit(Zp - Np); hs = head_side(hd, side); hu = unit(np.cross(hs, hd))
+    if hu[1] < 0:
         hu = -hu
     for k, lat in enumerate((-1, 1)):
-        base = Np + hu * 0.04 + hd * 0.02 + side * 0.03 * lat
+        base = Np + hu * 0.04 + hd * 0.02 + hs * 0.035 * lat
         ang = math.radians(lerp(-150, -60, clamp(ear, 0, 1)))   # flat back -> pricked
         tipdir = math.cos(ang) * hd + math.sin(ang) * (-hu)
         tip = base - tipdir * 0.10 * (1 if True else 1)
         tip = base + unit(-(math.cos(math.radians(lerp(160, 75, clamp(ear, 0, 1)))) * hd) + math.sin(math.radians(lerp(160, 75, clamp(ear, 0, 1)))) * hu) * 0.12
         b1 = base - hd * 0.045; b2 = base + hd * 0.035
-        Ii = I * (0.55 if lat * side[2] < 0 else 1.0)
+        Ii = I * (0.55 if lat * hs[2] < 0 else 1.0)
         df.line(cam.pa([b1, tip, b2]), Ii, 'dog')
 
 def draw_tail(df, cam, g, I=1.0):

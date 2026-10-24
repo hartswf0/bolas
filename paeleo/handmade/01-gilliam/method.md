@@ -81,3 +81,15 @@ I looked at the card contact sheets, probe frames, four contact sheets over the 
 ## Protected
 
 The six choice frames and the snaps that land on them; the door-head ↔ open-door rhyme; the NO-stamped back; the same hand grabbing, then resting; the butterfly leading the look-in; the dog ending half in the door frame and never past x = 0.59 m.
+
+## Round 2: repair after the critic's round-1 verdict (PASS, narrow)
+
+I repaired the five ranked conditions without touching what passed: the card verso as the turned back, the telescoping arm, the lit-door substitution, and the lying card across the sill.
+
+1. **Look-in (26.6–27.6 s).** On *come in* the head now rotates nose-up (+14°) with a small lift, so it points up into the lit opening instead of at the jamb. I removed the stretched neck strip; it read as a rectangle. Measured: the top of the dog rises 39 px into the doorway from 26.5 s and settles at 28.25 s.
+2. **Fear (1.0–2.3 s).** The crouch is deeper: the body drops 24 px, the legs splay ±26–30° and the rump tilts. The door-head now hangs low, pinned at its knob edge and tipped 38° down like a lowered head, for the whole retreat. The gag stays, but no longer hides the crouch.
+3. **The turn (3.42 and 7.46 s).** I replaced the cosine with an explicit table (0.88, 0.45, edge, edge, −0.45, −0.88) driven by the real frame rather than the twos. On the two held edge frames the dog is drawn as a pale card sliver with a cut line and its own shadow, at standing or lying height.
+4. **Addressed calls.** The shouting-mouth card leans 10° out toward the dog. Its eye now sits forward by the nose, looking right, under a frown. The woman's body is still the found back view.
+5. **The butterfly causes something (7.7–11.8 s).** While it flies, the dog's head turns to follow it (angle from neck to butterfly, clamped −70°…+45°, on twos) and its tail wags. It looks up as the butterfly circles above it, and left as it returns to the hand.
+
+Checks after the repair: `tools/paeleo/check_handmade.py` reports ALL OK (I1 choices, I2 threshold, I3 direction, I4 refusal). My own detectors give retreat 1.000, watch 2.333, refuse 3.417, watch 7.458, approach 14.833, lie 23.833 and look-in 26.5 s. Min x is 0.59 m and max |x error| is 0.032 m. I changed two detectors to match the repaired picture: look-in is now detected by "head top lifts" rather than "head moves left", and door-head-gone uses the midpoint of the two warmth plateaus. I looked at the repaired frames in contact sheets and in six frames taken from the final `film.mp4`. I still have not listened to the sound, and the not-done items listed above still stand.

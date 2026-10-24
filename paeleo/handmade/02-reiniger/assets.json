@@ -1,0 +1,101 @@
+{
+ "about": "Every asset in SCION-02 (Reiniger) film.mp4, where it came from, its rights, and the operation that made it. No pixels from any archive frame appear in the film: the archive was measured, not copied.",
+ "assets": [
+  {
+   "id": "dog-puppet",
+   "what": "the dog: 23 hand-cut silhouette pieces (fore- and hindquarter body pieces with round lap joints on the spine pin, neck, head with cut eye, two ears, brush tail, 4 legs x 3 segments + paw) on 22 pins",
+   "files": [
+    "build/theatre.py (FORE, HIND, NECK, HEAD, EAR, tail_shape, DogRig)"
+   ],
+   "operation": "drawn as polygons; proportions MEASURED from the archive pose keys, then cut by hand-placed control points (Catmull-Rom); no mask outline traced into the puppet",
+   "measured_from": {
+    "file": "paeleo/handmade/kit/archive-dog/pose_agent_v8.json",
+    "frames": "8 (clean profile: chest->tail-root 110 px, chest height 64 px, neck height 89 px, nose height 109 px; scaled so chest->tail-root = 0.80 m) and 19-23 (head-low range, nose 20-26 px above ground)",
+    "source_title": "Amateur Film New Jersey C",
+    "collection": "Home Movies (Internet Archive collection)",
+    "archive_url": "https://archive.org/details/NewJerseyC",
+    "shot_page": "https://www.movingimagearchive.com/sources/amateur-film-new-jersey-c-c65a8960?clip=2fdacde1-8a23-58e1-b905-5407385bd039",
+    "clip_id": "2fdacde1-8a23-58e1-b905-5407385bd039",
+    "rights": "public_domain"
+   },
+   "inspected_not_used": "paeleo/handmade/kit/archive-dog/masks.json and frames (contact sheets in study/archive-dog-sheet.jpg, study/dog-f8-keys.png)",
+   "rights": "original drawing (this swarm); measurements from a public-domain film"
+  },
+  {
+   "id": "dog-replacements",
+   "what": "replacement pieces: end-on head seen from the front (averted face, ears flatten outward with the score's ear channel), end-on head seen from behind (looking in through the door), front-view body for the two turns; a rear-view body is in the code but rejected (see method.md)",
+   "files": [
+    "build/theatre.py (pose_endon, head modes 'endon', 'back', 'mirror')"
+   ],
+   "operation": "drawn",
+   "rights": "original"
+  },
+  {
+   "id": "person-puppet",
+   "what": "the person: profile silhouette, 16-20 pieces (bodice, procedurally cut skirt with scalloped lace hem and cut holes, head with cut eye and an open-mouth replacement, hair bun with a cut clip, puff sleeve, upper arm, forearm, lace cuff, three replacement hands -- point, open grasp, offered palm-up -- each with a separate thumb lobe; far arm; shoes)",
+   "files": [
+    "build/theatre.py (BODICE, HEAD_P, HEAD_P_OPEN, BUN, hand_piece, PersonRig)"
+   ],
+   "operation": "drawn; the hair bun and clip were drawn after looking at the woman in the Straight Talk door frames",
+   "reference": {
+    "file": "paeleo/handmade/kit/archive-door/frames",
+    "source_title": "Straight Talk",
+    "archive_url": "https://archive.org/details/gov.ntis.ava19144vnb1",
+    "rights": "public_domain"
+   },
+   "rights": "original drawing"
+  },
+  {
+   "id": "door-swing",
+   "what": "the timing curve of the door leaf opening (leaf width over time)",
+   "operation": "re-timed found motion: SAM mask widths of the left door leaf in Straight Talk frames 31..18 (closing swing, [130, 130, 129, 126, 123, 118, 112, 108, 102, 98, 90, 84, 73, 67] px) reversed into an opening, normalised 0..1, each archive frame (12 fps) held for two scene frames, mapped onto the leaf's foreshortening from 0.45 to 0.10 of the opening, starting at score t = 6.2 s",
+   "file": "paeleo/handmade/kit/archive-door/masks.json",
+   "source_title": "Straight Talk",
+   "source_year": "1992",
+   "archive_url": "https://archive.org/details/gov.ntis.ava19144vnb1",
+   "shot_page": "https://www.movingimagearchive.com/sources/straight-talk-583ba802?clip=271d80c7-4f56-51b8-90fe-012dfb984b4f",
+   "clip_id": "271d80c7-4f56-51b8-90fe-012dfb984b4f",
+   "rights": "public_domain"
+  },
+  {
+   "id": "stage",
+   "what": "the theatre: lamp-lit paper screen (dusk colour wash, backlight hot spot, paper mottling), far hills and two garden trees in tissue, house facade card with scored stone courses and arched doorway, window with lace curtain, door leaf in tissue with a cut lace window, black card porch with lattice skirting, sill stone, steps, turned post with filigree brackets, roof valance, hanging lantern, interior lamp, crescent moon, stars, foreground lace proscenium, ivy and branch filigree",
+   "files": [
+    "build/stage.py",
+    "build/render.py (compose, leaf_mask)"
+   ],
+   "operation": "drawn procedurally (seeded RNG 1924 for vines/trees/paper), composited as transmission layers",
+   "rights": "original"
+  },
+  {
+   "id": "lettering",
+   "what": "the spoken lines and the cards",
+   "font": "Literata (tools/paeleo/fonts/f27.woff2 italic, f34.woff2 regular), SIL Open Font License, already in this repository",
+   "operation": "set as lamp-lit lettering in the black floor plaque",
+   "rights": "OFL font; text original"
+  },
+  {
+   "id": "sound",
+   "what": "all sound: muted horn (the calls), flute (the soft words), clarinet (the dog), pizzicato plucks on each paw contact (32 contacts from the contact solver), reed organ, low strings, bells, harp glissando timed to the door swing, crickets, air",
+   "files": [
+    "build/sound.py",
+    "build/out/events.json"
+   ],
+   "operation": "synthesized in numpy (additive synthesis, band-limited noise); no samples",
+   "rights": "original"
+  },
+  {
+   "id": "score",
+   "what": "timing, positions and acting channels",
+   "file": "paeleo/handmade/score/threshold-score.json",
+   "operation": "read frame for frame; acting rules added on top are listed in method.md",
+   "rights": "PAELEO project"
+  }
+ ],
+ "not_used": [
+  "paeleo/handmade/kit/quickdraw (no doodle drawing fits a cut-silhouette language)",
+  "/home/user/hartswf0/quickdraw",
+  "paeleo/handmade/kit/found-frames.json shots",
+  "paeleo/handmade/kit/archive-dog/source-excerpt.mp4 (not viewed at normal speed)"
+ ]
+}

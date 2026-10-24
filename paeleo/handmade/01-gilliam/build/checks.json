@@ -17,13 +17,13 @@
   },
   "watch1": {
    "expected_t": 2.333,
-   "measured_onset_t": 2.5,
+   "measured_onset_t": 2.3333333333333335,
    "signals_frames": {
-    "head_back": 64,
+    "head_back": 56,
     "crouch_released": 60
    },
    "signals_t": {
-    "head_back": 2.6666666666666665,
+    "head_back": 2.3333333333333335,
     "crouch_released": 2.5
    },
    "pass_0.25s": true
@@ -80,16 +80,16 @@
   },
   "look_in": {
    "expected_t": 26.4,
-   "measured_onset_t": null,
+   "measured_onset_t": 26.5,
    "signals_frames": {
-    "head_moves_in": null,
-    "settled": 616
+    "head_lifts_into_door": 636,
+    "settled": 678
    },
    "signals_t": {
-    "head_moves_in": null,
-    "settled": 25.666666666666668
+    "head_lifts_into_door": 26.5,
+    "settled": 28.25
    },
-   "pass_0.25s": false
+   "pass_0.25s": true
   }
  },
  "never_enters": {

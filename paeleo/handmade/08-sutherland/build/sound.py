@@ -144,15 +144,16 @@ hiss = bandpass(rng.randn(N), 3000, 9000) * a * 0.05
 L += hiss * 0.8; R += hiss * 0.5
 
 # ---------------------------------------------------------------------------- voice
+SOFT_G = 0.05
 def call_phrase():
     return tone([330, 494, 440], [0.16, 0.05, 0.30], 'square', vib=0.012, att=0.004, rel=0.04)
 def soft_phrase(notes, durs):
     return tone(notes, durs, 'voice', vib=0.006, att=0.09, rel=0.18)
 for tt in (1.0, 1.65, 3.4, 4.0):
     put(call_phrase(), T_TITLE + tt, 0.11, -0.35, 0.25)
-put(soft_phrase([220, 208, 185, 165], [0.18, 0.2, 0.32, 0.6]), T_TITLE + 7.45, 0.16, -0.4, 0.6)     # it's all right
-put(soft_phrase([220, 196, 175], [0.2, 0.3, 0.7]), T_TITLE + 10.45, 0.15, -0.4, 0.6)
-put(soft_phrase([196, 175], [0.3, 0.8]), T_TITLE + 26.45, 0.15, -0.4, 0.6)                         # come in
+put(soft_phrase([220, 208, 185, 165], [0.18, 0.2, 0.32, 0.6]), T_TITLE + 7.45, SOFT_G, -0.4, 0.6)     # it's all right
+put(soft_phrase([220, 196, 175], [0.2, 0.3, 0.7]), T_TITLE + 10.45, SOFT_G, -0.4, 0.6)
+put(soft_phrase([196, 175], [0.3, 0.8]), T_TITLE + 26.45, SOFT_G, -0.4, 0.6)                         # come in
 
 # ---------------------------------------------------------------------------- door
 dt = T_TITLE + 6.2

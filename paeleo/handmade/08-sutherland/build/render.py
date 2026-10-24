@@ -208,7 +208,7 @@ def frame_pts_title(k):
     err = float(np.abs(P - fp).max())
     return P, err
 
-def compose(n):
+def compose(n, cam_override=None):
     df = DF()
     if n < TITLE_N:
         k = n
@@ -231,7 +231,7 @@ def compose(n):
     if n < TITLE_N + N_SCENE:
         i = n - TITLE_N
         t = SF[i]['t']
-        compose_scene(df, i, cam_at(t), 1.0)
+        compose_scene(df, i, cam_override or cam_at(t), 1.0)
         return df, i
     k = n - TITLE_N - N_SCENE
     fade = clamp(1 - k / 12)
@@ -368,7 +368,10 @@ def raster(n, t_capture):
     # persistence of the two previous frames (moving strokes leave a trail)
     for k, wgt in enumerate(TRAIL):
         if n - 1 - k >= 0:
-            dfp, _ = compose(n - 1 - k)
+            # the persistence of strokes drawn last frame, at this frame's scale-knob setting
+            # (a moving object trails; a scale change is a redraw, not a smear)
+            co = cam_at(SF[i]['t']) if (i is not None and n - 1 - k >= TITLE_N) else None
+            dfp, _ = compose(n - 1 - k, co)
             xp, yp, Ip, _ = spots(dfp)
             Ep += splat(xp, yp, Ip * wgt)
     meas = None
