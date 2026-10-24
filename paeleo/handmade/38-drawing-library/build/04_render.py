@@ -186,7 +186,7 @@ def smooth(u):
 
 def camera(t):
     u = smooth((t - 19.0) / 6.0)
-    x0 = 0 + u * 150; y0 = 0 + u * 160; w = 1280 + u * (980 - 1280)
+    x0 = 0 + u * 150; y0 = 0 + u * 50; w = 1280 + u * (980 - 1280)  # round 3: y0 50 keeps the moon wholly in frame
     return x0, y0, Wd / w
 
 
@@ -315,13 +315,9 @@ def scene_frame(i, trace):
     Lv, dv = layer()
     draw_strokes(dv, vm, cam, 3.0 if f2['person']['voice'] == 'call' else 2.2)
     # dog: the decoder's drawing, at the score's x sampled on twos
-    xd = f2['dog']['x']
+    xd = SCORE['frames'][sch['x_frame']]['dog']['x']  # walk: the score's x at the swap that began this hold
     dst = dog_strokes(sch['cand'], xd)
-    # round 2: a gait bob, a rigid lift of the whole drawing at the passing position of each
-    # step (|sin(walk_phase)|, 3 px), placed on twos with the position: the drawing is never bent
-    a2 = f2['dog']['act']
-    bob = -3.0 * abs(math.sin(a2['walk_phase'])) * (a2['moving'] > 0.3)
-    dst = [q + np.array([0.0, bob]) for q in dst]
+    bob = 0.0  # round 3: the gait bob was dropped (it moved the drawing within a hold)
     Ld, dd_ = layer()
     draw_strokes(dd_, dst, cam, 3.2)
     A_set, A_p, A_v, A_d = down(Ls), down(Lp), down(Lv), down(Ld)
@@ -358,7 +354,7 @@ def scene_frame(i, trace):
                       x_ink_m=round((cxp / z + x0c - X0) / S, 4) if len(xs) else None,
                       facing={1: 'toward_door', -1: 'away', 0: 'front'}[c['face']], posture=c['posture'],
                       key_id=c['key_id'], flip=c['flip'], bbox_left_m=round(left_m, 4), bbox_right_m=round(right_m, 4),
-                      ink_in_lit_doorway=round(inside_frac, 4), person=pposture, bob_px=round(bob, 2),
+                      ink_in_lit_doorway=round(inside_frac, 4), person=pposture, stride=sch.get('stride', False),
                       placement=[round(sx(xd), 2), round(bob, 2)],
                       voice=f2['person']['voice'], door=door, camera=[round(v, 3) for v in cam]))
     return im

@@ -71,12 +71,13 @@ LABELS = {
     # round 2 additions (critic repairs 1, 3, 4), found in sheets/r2-headlow-*, r2-short-*
     135:  ('R', 'stand', .30, .7, 0, 0, 'dome body, round-box head low at the chest, legs apart: the stride twin of 1309'),
     1309: ('L', 'stand', .30, .8, 0, 0, 'dome body, small round head low at the chest, legs splayed: the stride twin of 135 (found by 10_twin_search.py)'),
+    639:  ('L', 'stand', .45, .6, 0, 0, 'oval body, plain circle head at the front at back height, four stick legs: the head-shape twin of 2830 (11_head_partner.py)'),
     3537: ('L', 'lie', .75, 0, 0, 0, 'lying, box head in profile, snout and eye pointing left'),
     3107: ('R', 'lie', .60, 0, 0, 0, 'lying, floppy head right'),
 }
 
 # round 2 labels: head top below the back line (head-low), head in profile (snout pointing)
-HEADLOW = {135, 1309, 3269, 3005}  # 2830 measured level (head top 0.7 px under the back): not head-low
+HEADLOW = {135, 1309, 2717, 3269, 3005}  # 2830 measured level (head top 0.7 px under the back): not head-low
 PROFILE = {3537, 1111}
 
 # set doodles: (category, index in <category>.part, role)

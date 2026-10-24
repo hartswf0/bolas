@@ -157,7 +157,8 @@ for j, k in enumerate(w):
 r1 = dict(distinct_drawings=len(set(ids)), changes_at=chg, min_gap_s=round(min(gaps), 3) if gaps else None,
           max_changes_in_any_2s=max(sum(1 for c in chg if t0 <= c < t0 + 2) for t0 in np.arange(15.0, 21.8, 1 / 24)) if chg else 0,
           min_switch_back_s=min(back) if back else None)
-r1['ok'] = r1['distinct_drawings'] <= 2 and r1['max_changes_in_any_2s'] <= 1 and (r1['min_switch_back_s'] is None or r1['min_switch_back_s'] >= 1)
+r1['ok'] = None
+r1['note'] = 'superseded in round 3: the coordinator replaced the 2 s identity hold with an A-B-A-B stride on sixes (see critic_round2_repairs)'
 mv_in_hold = []; mv_between = []
 wk = [k for k, r in enumerate(raw) if 14.708 <= r['t'] <= 23.79]
 for a, b in zip(wk, wk[1:]):
@@ -193,10 +194,57 @@ used_ref = sorted({LIB[r['key_id']]['idx'] for r in trace if 3.417 <= r['t'] <= 
 r5 = dict(retreat_px_1280=round(max(xr) - min(xr), 1), retreat_facing_person=all(f == 'toward_door' for f in fr_),
           refusal_share_head_far_side=round(sum(rf) / len(rf), 3), refusal_drawings=used_ref)
 r5['ok'] = r5['retreat_px_1280'] >= 60 and r5['retreat_facing_person'] and r5['refusal_share_head_far_side'] == 1.0
+# ---------------------------------------------------------------- round 3: the round-2 critic's conditions
+wseg = [k for k, r in enumerate(raw) if 14.708 <= r['t'] <= 23.79]
+seq = []
+for k in wseg:
+    key = (raw[k]['key_id'], raw[k]['flip'])
+    if not seq or seq[-1][0] != key:
+        seq.append([key, k, 0])
+    seq[-1][2] += 1
+inner = seq[1:-1]
+alternates = all(seq[j][0] != seq[j + 1][0] for j in range(len(seq) - 1)) and len({q[0] for q in seq}) <= 2
+held_moves = 0.0; x_change_off_swap = 0
+for a, b in zip(wseg, wseg[1:]):
+    same = (raw[a]['key_id'], raw[a]['flip']) == (raw[b]['key_id'], raw[b]['flip'])
+    moved = raw[a]['placement'] != raw[b]['placement']
+    if same and moved:
+        x_change_off_swap += 1
+        held_moves = max(held_moves, abs(raw[b]['placement'][0] - raw[a]['placement'][0]) * raw[b]['camera'][2])
+swap_frames = [raw[k]['i'] for a, k in zip(wseg, wseg[1:]) if (raw[a]['key_id'], raw[a]['flip']) != (raw[k]['key_id'], raw[k]['flip'])]
+steps_px = [abs(raw[k]['placement'][0] - raw[k - 1]['placement'][0]) * raw[k]['camera'][2] for k in swap_frames]
+ev = json.load(open(f'{HERE}/work/sound_events.json'))
+foot = [e['frame'] for e in ev if e['kind'] == 'footfall']
+off = [min(abs(f - sfr) for f in foot) for sfr in swap_frames] if foot else [99]
+q1 = dict(drawings=sorted({f'{q[0][0]}{"m" if q[0][1] else ""}' for q in seq}), strides=len(seq),
+          alternates_A_B=alternates, stride_frames=dict(min=min(q[2] for q in inner), max=max(q[2] for q in inner)) if inner else None,
+          held_drawing_max_move_px=held_moves, x_changes_not_on_a_swap=x_change_off_swap,
+          step_px_at_swaps=dict(min=round(min(steps_px), 1), max=round(max(steps_px), 1), mean=round(float(np.mean(steps_px)), 1)),
+          footfall_sound_offset_frames_max=max(off))
+q1['ok'] = alternates and held_moves == 0 and x_change_off_swap == 0 and (q1['stride_frames'] or {'max': 6})['max'] <= 6 and max(off) <= 1
+lk = sorted({LIB[r['key_id']]['idx'] for r in trace if r['t'] >= 23.8})
+q2 = dict(drawings_23_8_to_32=lk, ok=len(lk) <= 2 and 2459 not in lk)
+import importlib.util as _iu
+_rs = _iu.spec_from_file_location('rnd', os.path.join(os.path.dirname(__file__), '04_render.py'))
+moon_states = []
+_src = open(os.path.join(os.path.dirname(__file__), '04_render.py')).read()
+_ns = {'__file__': os.path.join(os.path.dirname(__file__), '04_render.py')}
+exec(_src.split('def wob(')[0], _ns)  # set geometry only (MOON, camera is defined later)
+exec('def smooth(u):\n    u = min(1, max(0, u)); return u * u * (3 - 2 * u)\n' + _src[_src.index('def camera(t):'):_src.index('def to_screen(')], _ns)
+MP = np.concatenate(_ns['MOON'])
+for r in trace:
+    if 21.0 <= r['t'] <= 24.0:
+        x0c, y0c, z = _ns['camera'](r['t'])
+        P = (MP - np.array([x0c, y0c])) * z
+        inside = (P[:, 0] >= 0) & (P[:, 0] <= 1280) & (P[:, 1] >= 0) & (P[:, 1] <= 720)
+        moon_states.append('in' if inside.all() else ('out' if not inside.any() else 'cut'))
+q3 = dict(moon_frames_21_24={k: moon_states.count(k) for k in ('in', 'out', 'cut')}, ok=moon_states.count('cut') == 0)
+round3 = dict(repair_1_walk_stride=q1, repair_2_lying_two_drawings=q2, repair_3_moon=q3)
+
 round2 = dict(repair_1_walk_identity=r1, repair_2_no_sliding=r2, repair_3_head_low=r3, repair_4_look_in_profile=r4,
               repair_5_retreat_and_refusal=r5)
 
-checks = dict(critic_round1_repairs=round2, invariant_1_choices=inv1, invariant_2_threshold=inv2, invariant_3_commands_vs_circumstances=inv3,
+checks = dict(critic_round2_repairs=round3, critic_round1_repairs=round2, invariant_1_choices=inv1, invariant_2_threshold=inv2, invariant_3_commands_vs_circumstances=inv3,
               invariant_4_position=inv4, substitution=stats)
 json.dump(checks, open(f'{HERE}/checks.json', 'w'), indent=1)
 print(json.dumps(checks, indent=1))

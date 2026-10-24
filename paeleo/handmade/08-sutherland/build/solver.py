@@ -33,7 +33,8 @@ class Graph:
         self.last = {}
         self.omega = 1.5
         self.vmax = None
-        self.sides = {}     # metres per frame a goal may pull a point
+        self.sides = {}
+        self.vmax_pt = {}     # metres per frame a goal may pull a point
         self.P0 = None     # successive over-relaxation in the hard-only passes
 
     # ----- building -------------------------------------------------------
@@ -154,12 +155,13 @@ class Graph:
             if kind == 'goal':
                 i, t, k, _ = prm
                 if w[i] > 0:
-                    if self.vmax is not None:
-                        # no hidden teleporting: a request farther than vmax from where the point
-                        # was last frame is only followed vmax of the way this frame
+                    vm = self.vmax_pt.get(i, self.vmax)
+                    if vm is not None:
+                        # no hidden teleporting: a request farther than vm from where the point
+                        # was last frame is only followed vm of the way this frame
                         d = t - self.P0[i]; n = math.sqrt(float(d @ d))
-                        if n > self.vmax:
-                            t = self.P0[i] + d * (self.vmax / n)
+                        if n > vm:
+                            t = self.P0[i] + d * (vm / n)
                     P[i] += k * (t - P[i])
             elif kind == 'plane':
                 i, a, n, k = prm

@@ -53,13 +53,13 @@ for f in F:
         continue
     for hr in (True, False):
         hv, bv, hd = desc(f['idx'], hr)
-        if hd >= 0.08:
+        if hd >= 0.0:
             pool.append((f['idx'], hr, hv, bv, hd))
 print('head-low pool', len(pool))
 out = {}
-for anchor, ahr in ((135, True), (1309, False)):
+for anchor, ahr in ((135, True), (1309, False), (2830, True)):
     ah, ab, _ = desc(anchor, ahr)
-    rows = sorted(((1 - h @ ah) + 0.5 * (1 - b @ ab), i, hr, round(float(1 - h @ ah), 3), round(float(1 - b @ ab), 3), round(float(hd), 3))
+    rows = sorted(((1 - h @ ah) + 1.0 * (1 - b @ ab), i, hr, round(float(1 - h @ ah), 3), round(float(1 - b @ ab), 3), round(float(hd), 3))
                   for i, hr, h, b, hd in pool if i != anchor)
     out[anchor] = rows[:40]
     cols, cw, ch = 6, 250, 170

@@ -151,7 +151,10 @@ def flick(strong):
     return s
 
 fr = SCHED['frames']
+EVENTS = []
 for a, b in zip(fr, fr[1:]):
+    if b['cand'] != a['cand'] and b.get('stride') and a.get('stride'):
+        continue  # the stride swaps are heard as footfalls (below), not as paper
     if b['cand'] != a['cand']:
         strong = (a['posture'] != b['posture']) or (a['face'] != b['face'])
         add(flick(strong), OFF + b['t'], 0.10 if strong else 0.035, 0.15)
@@ -170,6 +173,12 @@ def tap(bright):
     return s
 
 for f, s in zip(SCORE['frames'], fr):
+    if s.get('stride') and (s['i'] == 0 or fr[s['i'] - 1]['cand'] != s['cand'] or not fr[s['i'] - 1].get('stride')):
+        add(tap(False), OFF + f['t'], 0.09, 0.2)  # a footfall on every stride swap, on its frame
+        EVENTS.append(dict(kind='footfall', frame=s['i'], t=f['t']))
+        continue
+    if s.get('stride'):
+        continue
     if s['footfall']:
         st = f['dog']['state']
         if st == 'retreat':
@@ -220,6 +229,7 @@ pad(14.7, 24.5, [110.0, 164.81, 246.94], 0.035, 2.5, 2.0)          # while it co
 pad(23.8, 33.5, [110.0, 164.81, 277.18, 329.63], 0.075, 0.8, 3.0)  # it lies across the sill
 pad(28.4, 34.5, [138.59, 220.0, 369.99, 440.0], 0.05, 1.5, 3.0)    # and stays
 
+json.dump(EVENTS, open(f'{HERE}/work/sound_events.json', 'w'))
 # ---------------------------------------------------------------- master
 mix = np.stack([L, R], 1)
 fade = np.ones(N); fi = int(0.5 * SR)

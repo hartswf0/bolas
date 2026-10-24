@@ -55,6 +55,27 @@ def candidates():
     return C
 
 
+HEAD_REG = {2830: 'R', 639: 'L'}   # native head side of the stride pair
+def head_x(S, side):
+    P = np.concatenate(qd.densify(S, 2.0)); x0, x1 = P[:, 0].min(), P[:, 0].max()
+    m = P[:, 0] > x1 - 0.25 * (x1 - x0) if side == 'R' else P[:, 0] < x0 + 0.25 * (x1 - x0)
+    return P[m, 0].mean()
+
+
+_PO = []
+def pair_offset_m():
+    if not _PO:
+        ds = []
+        for e in LIB['dogs']:
+            if e['idx'] in HEAD_REG:
+                S = qd.strokes_np(DOGS[int(e['key_id'])]); x0, y0, x1, y1 = qd.bbox(S)
+                sc = min(1.2 / max(x1 - x0, 1), 0.95 / max(y1 - y0, 1))
+                cen = np.concatenate(qd.densify(S, 2.0))[:, 0].mean()
+                ds.append(abs(head_x(S, HEAD_REG[e['idx']]) - cen) * sc)
+        _PO.append(float(np.mean(ds)))
+    return _PO[0]
+
+
 def placed(c, M=150.0):
     """Return strokes in metres*M px, feet on y=0 and registered at x=0 by the drawing's ink
     centroid (a body registration, so substituted drawings do not jump), mirrored if flip.
@@ -72,6 +93,11 @@ def placed(c, M=150.0):
         sc = 1.2 / w
     sc = min(sc, 0.95 / h)
     cx = np.concatenate(qd.densify(S, 2.0))[:, 0].mean()
+    if int(c['idx']) in HEAD_REG:
+        # round 3: the stride pair is registered by the head (shared head shape, so the head travels
+        # smoothly and the body changes behind it), set back by the pair's mean head-to-centroid distance
+        side = HEAD_REG[int(c['idx'])]
+        cx = head_x(S, side) + (-1 if side == 'R' else 1) * pair_offset_m() / sc
     out = []
     for s in S:
         X = (s[:, 0] - cx) * sc
@@ -119,10 +145,12 @@ def main():
 
     def attr(k):
         return np.array([c[k] for c in C], float)
-    WALKPAIR = {135, 1309}  # the stride twins: dome body, small round head low at the chest
+    WALKPAIR = {2830, 639}  # round 3: stride pair sharing a head shape (plain circle head at the front, oval body, stick legs)
+    LIEPAIR = {1056, 3537}   # round 3: at most two drawings lying at the sill
     for c in C:
         c['walkpair'] = float(c['idx'] in WALKPAIR)
-    A = {k: attr(k) for k in ('face', 'lie', 'crouch', 'head', 'spread', 'viewer', 'rest', 'front', 'flip', 'headlow', 'profile', 'walkpair')}
+        c['liepair'] = float(c['idx'] in LIEPAIR)
+    A = {k: attr(k) for k in ('face', 'lie', 'crouch', 'head', 'spread', 'viewer', 'rest', 'front', 'flip', 'headlow', 'profile', 'walkpair', 'liepair')}
     E = np.zeros((T, N))
     for t in range(T):
         f = frames[2 * t]
@@ -151,6 +179,10 @@ def main():
         e += W['lie'] * np.abs(lie_t - A['lie'])
         e += W['crouch'] * np.abs(crouch_t - A['crouch']) * (1 - A['lie'])
         head_t = min(head_raw, 1.0)
+        if st == 'lie_down':
+            e += 50.0 * (1 - A['liepair'])
+            if a['look'] < 0.3 and tt < 26.4:
+                e += 4.0 * A['profile']  # the profile head is the looking in: keep it for 'come in'
         if a['look'] > 0.5:
             head_t = 1.0
         e += W['head'] * np.abs(head_t - A['head'])
@@ -163,6 +195,10 @@ def main():
         if st == 'approach':
             e += W['headlow'] * (1 - A['headlow'])
             e += 50.0 * (1 - A['walkpair'])  # at most two drawings in the walk, one head shape
+        if st == 'lie_down':
+            e += 50.0 * (1 - A['liepair'])
+            if a['look'] < 0.3 and tt < 26.4:
+                e += 4.0 * A['profile']  # the profile head is the looking in: keep it for 'come in'
         if a['look'] > 0.5:
             e += W['profile'] * (1 - A['profile'])
         E[t] = e
@@ -215,13 +251,32 @@ def main():
         if t:
             n, k = BP[t, n, k]
     total = float(V.min())
+    # round 3 (critic repair 1): the walk is a stride cycle. From the decoder's first approach frame to
+    # its first lying frame, the two walk drawings alternate on sixes, starting with the drawing the
+    # decoder chose there; the dog is placed at the score's x only at each swap (the swaps are the travel).
+    STRIDE = 6
+    a0 = next(t for t in range(T) if states[t] == 'approach' and C[path[t]]['walkpair'] == 1.0)
+    l0 = next(t for t in range(a0, T) if C[path[t]]['posture'] == 'lie')
+    first = path[a0]
+    other = next(k for k, c in enumerate(C) if c['walkpair'] == 1.0 and c['idx'] != C[first]['idx'] and c['face'] == C[first]['face'])
+    stride_cand = {}
+    xframe = {}
+    kmax = (2 * l0 - 2 * a0) // STRIDE
+    if (2 * l0 - 2 * a0) - kmax * STRIDE < 4:
+        kmax -= 1  # a last stride shorter than 4 frames joins the one before it
+    for i in range(2 * a0, 2 * l0):
+        k = min((i - 2 * a0) // STRIDE, kmax)
+        stride_cand[i] = first if k % 2 == 0 else other
+        xframe[i] = 2 * a0 + k * STRIDE
     sched = []
     for i, f in enumerate(frames):
         t2 = i // 2
-        c = C[path[t2]]
-        sched.append(dict(i=i, t=f['t'], cand=path[t2], key_id=c['key_id'], idx=c['idx'], flip=c['flip'],
+        ci = stride_cand.get(i, path[t2])
+        c = C[ci]
+        sched.append(dict(i=i, t=f['t'], cand=ci, key_id=c['key_id'], idx=c['idx'], flip=c['flip'],
+                          x_frame=xframe.get(i, i - i % 2), stride=i in stride_cand,
                           posture=c['posture'], facing={1: 'toward door', -1: 'away', 0: 'front'}[c['face']],
-                          face=c['face'], emission=float(E[t2, path[t2]]), footfall=bool(foot[i])))
+                          face=c['face'], emission=float(E[t2, ci]), footfall=bool(foot[i])))
     swaps = [s['t'] for a, s in zip(sched, sched[1:]) if s['cand'] != a['cand']]
     used = sorted({s['key_id'] for s in sched})
     print(f'total cost {total:.1f}; swaps {len(swaps)}; distinct drawings used {len(used)}; candidates {N}')

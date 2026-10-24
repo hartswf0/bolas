@@ -98,3 +98,15 @@ The full list is in `ledger.jsonl`:
 ## Rebuild
 
 `build/make.sh`: `stage.py` → `rig.py` → `render.py` (about 5.5 min on 4 cores) → `sound.py` → ffmpeg mux → `check.py stills`.
+
+## Round 2 (after critic round 1: PASS, polish list)
+
+- **Turns.** The flat puppet is never squashed now. While |turn| ≥ 0.6 it is a full profile; below that it is a cut end-on piece. The turn away uses the rear view (3.96–4.33 s), and the head averts into depth beforehand, so it reads consistently from behind. The turn back uses the front view (8.04–8.38 s). When the profile flips, all four paws are re-planted under it. Fear crouch now lowers the whole spine with a mild croup drop, so there is no hump at the spine pin. The over-the-shoulder look uses an upright neck (122–132°) with a level head.
+- **Joint limits are enforced**, not only logged (`limit_joint` in `theatre.py`). The elbow and stifle are clamped by forward kinematics and the paw follows. No clamp was needed in the final render.
+- **Door.** It stays closed (leaf 1.0) until 6.2 s; only its lace window glows. The Straight Talk swing (frames 31→18 reversed) is re-timed onto 6.2–7.0 s. The light outside (glow and porch wedge) scales with the opening, so it floods only then.
+- **Look-in at 26.4 s.** The profile head lifts, and its snout points up-left into the doorway's light inside the arch. The eye hole is removed, so the head is three-quarters away, into the house and not toward the person. It is measured from the render as an eye mask of zero area while the muzzle points at the door, first at 26.542 s. It settles back to chin on paws (eye visible) at 28.13 s.
+- **Sill.** It is a separate raised stone, 9 cm high: chamfered, with a groove and a row of cut holes, standing on the floor with a lit seam under it. The contact plane follows it, so the forequarters and front paws rest on the stone from about 24.4 s.
+- **Plaque.** The spoken lines sit in a framed cartouche cut into the porch fascia, with short crisp fades. "Come in." spans 370–511 px inside the 300–580 px plaque.
+- **Measured.** `tools/paeleo/check_handmade.py` reports ALL OK (I1–I4). `build/out/invariants.json` has all seven choice times within 0.25 s, the dog never past the inner jamb, the last frame across the outer jamb (−0.114 to 1.411 m), and 0 joint clamps.
+- **Looked at.** Strips of 3.83–5.42 s, 7.50–9.33 s, the door from 0–25 s, and the end from 24.4–29.2 s.
+- **Not done.** I still have not listened to the sound, and have not watched at normal speed in a player.

@@ -23,7 +23,7 @@ TITLE_N = 72
 END_N = 72
 W, H = 1280, 720
 ELEV = math.radians(24)
-KX = 0.45          # oblique: nearer points sit to the right, so depth reads as a diagonal
+KX = -0.45         # oblique: nearer points sit to the left, so depth reads as a diagonal
 CE, SE = math.cos(ELEV), math.sin(ELEV)
 UP = np.array([0.0, 1.0, 0.0])
 
@@ -275,6 +275,7 @@ def build_dog(x0):
     for n in g.names:
         g.wall(n, SILL['x0'], SILL['x1'], 0.0)
     g.vmax = 0.09
+    g.vmax_pt = {g.idx['N']: 0.13, g.idx['Z']: 0.17}     # a head can whip round faster than a body moves
     return g
 
 def set_floor(g, name, y0):
@@ -319,8 +320,8 @@ class DogDriver:
         tf, tr = T, T
         if d['state'] == 'refuse' and t < 5.0:
             # the back turns from the moment of choosing: forequarters first, hindquarters follow
-            tf = min(T, 1 - 2 * smooth((t - 3.45) / 0.55))
-            tr = min(T, 1 - 2 * smooth((t - 3.70) / 0.60))
+            tf = min(T, 1 - 2 * smooth((t - 3.45) / 0.42))
+            tr = min(T, 1 - 2 * smooth((t - 3.62) / 0.45))
         if 7.458 <= t < 9.5:
             # rises, the head swings round, the forequarters come round, the hindquarters follow
             tf = max(T, -1 + 2 * smooth((t - 7.58) / 0.55))
@@ -336,13 +337,11 @@ class DogDriver:
         g.sides = {'f': side, 'r': side_r}
         phi_b = phi_f
         # the head leads the body: it turns first at the moment of choosing, up to 130 deg off the shoulders
-        if 3.417 <= t < 7.458:
-            goal, tc = 0.0, 3.417
-        elif 7.458 <= t < 9.5:
+        if 7.458 <= t < 9.5:
             goal, tc = math.pi, 7.458
         else:
             goal, tc = phi_b, t
-        dphi = clamp(goal - phi_b, -2.27, 2.27) * smooth((t - tc) / 0.25)
+        dphi = clamp(goal - phi_b, -2.5, 2.5) * smooth((t - tc) / 0.25)
         phi_h = phi_b + dphi
         self.phi = (phi_f, phi_r, phi_h)
         fhead = np.array([math.cos(phi_h), 0.0, math.sin(phi_h)])
@@ -717,7 +716,7 @@ def world_lines():
     ln([[WX1, EAVE, 0], [5.05, EAVE, 0]], 0.25, 'roof')
     for px in (4.72,):
         for dxp in (0.0, 0.12):
-            ln([[px + dxp, 0, PFZ - 0.06], [px + dxp, EAVE, PFZ - 0.06]], 0.7, 'post')
+            ln([[px + dxp, 0, 0.08], [px + dxp, EAVE, 0.08]], 0.7, 'post')
     # the sill (a slab across the threshold)
     s = SILL
     ln([[s['x0'], s['h'], s['z1']], [s['x1'], s['h'], s['z1']]], 0.85, 'sill')

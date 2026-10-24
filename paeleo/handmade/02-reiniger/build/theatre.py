@@ -188,6 +188,9 @@ class DogRig:
         walking = moving > 0.05 and dphi > 1e-4
         mdir = 0 if abs(vx) < 1e-6 else (1 if vx > 0 else -1)
         out = {}
+        if getattr(self, 'prev_dir', dirW) != dirW or P.get('endon'):
+            self.feet = {}          # a turn re-plants all four paws under the new profile (no dragged legs)
+        self.prev_dir = dirW
         for leg, off in self.OFF.items():
             ax = x0 + dirW * sx * neutral[leg]
             st = self.feet.get(leg)
