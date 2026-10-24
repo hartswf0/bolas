@@ -288,7 +288,8 @@ def render(i, stats):
         rec['words'] = txt
 
     # ---------------------------------------------------------------- measure the dog from its own rendered mould
-    ys, xs = np.nonzero(m_body > 0.5)
+    m_torso = mould(poly_px(C, [dinfo['torso']], dog['x'], flip=flip, k=DOGK))
+    ys, xs = np.nonzero(m_torso > 0.5)
     hy_, hx_ = np.nonzero(m_head > 0.5)
     ay_, ax_ = np.nonzero(m_all > 0.5)
     cxm = float(xs.mean()); cym = float(ys.mean())
@@ -330,7 +331,7 @@ def main():
     if full:
         ff.stdin.close(); ff.wait()
         json.dump(stats, open(os.path.join(HERE, 'cache/stats.json'), 'w'))
-        json.dump(dict(about='SCION-04 · what the dog did, measured per scene frame from its own rendered mould (torso centroid, head centroid vs torso, body top height). x_screen/y_screen are px of the torso centroid; x_world_measured inverts the camera; facing: door = head toward the threshold, away = back turned; posture from the height of the back above the porch.',
+        json.dump(dict(about='SCION-04 · what the dog did, measured per scene frame from its own rendered mould (centroid of the torso polygon as rendered, head centroid vs torso, height of the back). x_screen/y_screen are px of the torso centroid; x_world_measured inverts the camera; facing: door = head toward the threshold, away = back turned; posture from the height of the back above the porch.',
                        frames=traces, usage={lib.shots[s]['category'] + ('(kit)' if 'kit/' in lib.shots[s]['dir'] else ''): n for s, n in sorted(lib.usage.items())}),
                   open(os.path.join(OUT, 'trace.json'), 'w'))
         json.dump({k: v.placed for k, v in LY.items()}, open(os.path.join(HERE, 'cache/placements.json'), 'w'))

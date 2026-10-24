@@ -137,3 +137,62 @@ spectrogram and RMS per half second.
 
 `sh build/make.sh` (about 10 minutes on 4 CPUs; the picture is the slow step). Review sheet tools not in
 the chain: `build/01c_shortlist_sheet.py <out.png> <idx,idx,…>`, `build/01d_set_sheets.py`.
+
+---
+
+## Round 2 (after critic round 1: DOES NOT PASS) — this section supersedes the numbers above
+
+The independent critic (`reviews/round1.md`) found the walk cycling three different dogs every
+0.33–0.67 s, held drawings sliding with static legs, the approach head level, the look-in face-on,
+the refusal lost in an unfaceable curl (4.5–5.7 s), and the backing weak. All five repairs were made
+inside the doctrine: whole drawings, uniform scale, translation, mirror; nothing bent.
+
+**What changed**
+- **Library** (`02_library.py`): new labels `headlow` (head top below the back line, measured on the placed
+  drawing) and `profile` (head in profile, snout pointing). Added #135 and #1309, a *stride twin pair*
+  (dome body, small round head low at the chest; two legs vs three splayed legs), found by
+  `10_twin_search.py`: a search of all 4,164 dogs for head-low drawings (head drop ≥ 8 % of height) ranked
+  by blurred-raster distance to #135, then picked by eye (`sheets/r2-twins.png`; the distance alone
+  ranked floppy-eared faces high). Added #3537, a lying dog whose box head is in profile with snout and
+  eye pointing left, for looking in. Dropped #2098 and #3283 (the round heads curled on the body that hid
+  the turned back) and #2250 (face-on). #2830 was measured level (head top 0.7 px under the back), so it
+  is not head-low and left the walk.
+- **Decoder** (`03_decode.py`): the hold counter now runs to 24 twos (2 s). Inside the retreat and the
+  approach a swap needs 2 s of hold (the swap on the state's first frame is free), costs 30 off a footfall,
+  and the walk is restricted to the twin pair, with a stale-stride cost at each footfall once a drawing has
+  held 2 s, so the legs change on a footfall about every 2 s. Head-low (6) and profile (6) terms.
+- **Render** (`04_render.py`): a gait bob, a rigid 3 px lift of the whole drawing at the passing position
+  of each step (|sin walk_phase|), placed on twos with the position. A held placement never moves; the
+  drawing is re-placed every 2 frames to keep following x.
+
+**Decoded acting now**: head-up watch → one crouched dog (#2087) backing away 136 px facing the person,
+no swaps (1.0–2.5 s) → watch → #135 with its back turned, head low on the far side (3.42) → lying with
+the head away: #3107, #3476, #1056 mirrored (4.58–7.5) → sits up facing us (7.50, kept) → watch → the
+dome dog walks in, head low: #1309 / #135 mirrored, swapped at 14.67, 16.83, 18.92, 21.25, 23.58 →
+lies across the sill (23.83, kept) → #3537 head in profile pointing into the lit doorway (26.50–28.25)
+→ chin down and stays. #135 is both the turned back and half the walk, so the refusing dog and the
+coming dog are the same drawing.
+
+**Measured** (`checks.json → critic_round1_repairs`, from the render):
+
+| repair | condition | measured |
+|---|---|---|
+| 1 walk identity | ≤ 2 drawings, ≤ 1 change per 2 s, no switch back within 1 s (15.0–23.7) | 2 drawings; changes at 16.83, 18.92, 21.25, 23.58; most changes in any 2 s window: 1; minimum switch-back 2.08 s |
+| 2 no sliding | a held drawing moves ≤ 5 px while held | 0 px within a placement; placements 1–2 frames; step between placements up to 7.8 px (the score's fastest pace, 22.3 s, during the push-in) |
+| 3 head low | head top below the back line ≥ 80 % (14.7–23.7) | 100 % |
+| 4 look in | head in profile into the doorway (26.5–28.0) | 100 % of frames (#3537) |
+| 5 retreat, refusal | ≥ 60 px backing facing the person; head on the far side 3.42–7.4 | 136.4 px, facing the person throughout; 100 % head far side (#135, #3107, #3476, #1056 mirrored) |
+
+Invariants: all choices within ±0.25 s (looks in now at 26.50, +0.10); never wholly inside, centroid ≥
+0.579 m, end 40.5 % inside the door frame; approach 3.404 m vs 3.406 m. `tools/paeleo/check_handmade.py`:
+**ALL OK** (I1–I4). 18 segments, 17 swaps, 12 distinct drawings on screen.
+
+**Honest limits, round 2**
+- The stride changes legs only every ~2 s (the identity rule); between, the dome dog advances by
+  re-placement on twos with the bob. It is a slow, deliberate walk, not a full step cycle.
+- #135 and #1309 are two people's drawings. They share the construction and the head, but they are not
+  one hand; whether they read as one dog is for the critic.
+- A 6-frame #135 at 23.58 s sits just before the lie-down (a footfall swap the decoder took); it's legal
+  but brief.
+- The sound was re-synthesized (the flicks follow the new swaps) and still not listened to.
+- Frames looked at: 1.2, 2.2, 3.6, 5.3, 7.6, 15.2, 16.6, 17.6, 19.4, 22.5, 24.0, 27.0, 28.0 s and the stills.

@@ -1,0 +1,882 @@
+{
+ "about": "SCION-04 \u00b7 Frank Mouris image torrent: every asset, its source and rights, and the operation that made it.",
+ "assets": [
+  {
+   "id": "dog(kit)",
+   "what": "50 archive frames (dog) with SAM masks, cut into tiles",
+   "file": "paeleo/handmade/kit/archive-dog/frames",
+   "masks": "paeleo/handmade/kit/archive-dog/masks.json",
+   "source_title": "Amateur Film New Jersey C",
+   "archive_url": "https://archive.org/details/NewJerseyC",
+   "clip_id": null,
+   "rights": "public_domain",
+   "pools": [
+    "animal"
+   ],
+   "placements": 4132,
+   "operation": "each frame cropped twice (whole frame; and the SAM-mask bounding box widened to 4:3), resized to 64x48/32x24/16x12/8x6 tiles; placed by a quadtree into computed moulds; tile mean shifted to the mould's guide colour (contrast kept); held tiles play their own shot forward at 12 fps"
+  },
+  {
+   "id": "door(kit)",
+   "what": "32 archive frames (door) with SAM masks, cut into tiles",
+   "file": "paeleo/handmade/kit/archive-door/frames",
+   "masks": "paeleo/handmade/kit/archive-door/masks.json",
+   "source_title": "Straight Talk",
+   "archive_url": "https://archive.org/details/gov.ntis.ava19144vnb1",
+   "clip_id": null,
+   "rights": "public_domain",
+   "pools": [
+    "door"
+   ],
+   "placements": 6314,
+   "operation": "each frame cropped twice (whole frame; and the SAM-mask bounding box widened to 4:3), resized to 64x48/32x24/16x12/8x6 tiles; placed by a quadtree into computed moulds; tile mean shifted to the mould's guide colour (contrast kept); held tiles play their own shot forward at 12 fps"
+  },
+  {
+   "id": "alarm-clock",
+   "what": "38 archive frames (alarm-clock) with SAM masks, cut into tiles",
+   "file": "/home/user/hartswf0/secondhand-motion/shots/alarm-clock-sam/frames",
+   "masks": "/home/user/hartswf0/secondhand-motion/shots/alarm-clock-sam/masks.json",
+   "source_title": "This is Coffee",
+   "archive_url": "https://archive.org/details/ThisisCo1961",
+   "clip_id": "30956829-ceff-5881-9945-d698b1b27723",
+   "rights": "public_domain",
+   "pools": [
+    "house",
+    "alarm"
+   ],
+   "placements": 43373,
+   "operation": "each frame cropped twice (whole frame; and the SAM-mask bounding box widened to 4:3), resized to 64x48/32x24/16x12/8x6 tiles; placed by a quadtree into computed moulds; tile mean shifted to the mould's guide colour (contrast kept); held tiles play their own shot forward at 12 fps"
+  },
+  {
+   "id": "ambulance",
+   "what": "25 archive frames (ambulance) with SAM masks, cut into tiles",
+   "file": "/home/user/hartswf0/secondhand-motion/shots/ambulance-sam/frames",
+   "masks": "/home/user/hartswf0/secondhand-motion/shots/ambulance-sam/masks.json",
+   "source_title": "Inner City, The",
+   "archive_url": "https://archive.org/details/InnerCit1958",
+   "clip_id": "a56cce20-4863-53d6-a734-a316239af8fb",
+   "rights": "public_domain",
+   "pools": [
+    "alarm"
+   ],
+   "placements": 34345,
+   "operation": "each frame cropped twice (whole frame; and the SAM-mask bounding box widened to 4:3), resized to 64x48/32x24/16x12/8x6 tiles; placed by a quadtree into computed moulds; tile mean shifted to the mould's guide colour (contrast kept); held tiles play their own shot forward at 12 fps"
+  },
+  {
+   "id": "animal-migration",
+   "what": "56 archive frames (animal-migration) with SAM masks, cut into tiles",
+   "file": "/home/user/hartswf0/secondhand-motion/shots/animal-migration-sam/frames",
+   "masks": "/home/user/hartswf0/secondhand-motion/shots/animal-migration-sam/masks.json",
+   "source_title": "National Wildlife Refuge System",
+   "archive_url": "https://archive.org/details/gov.fws.aws.2.3",
+   "clip_id": "5b1064ec-848a-58b7-9161-759dae2bc52a",
+   "rights": "public_domain",
+   "pools": [
+    "animal"
+   ],
+   "placements": 920,
+   "operation": "each frame cropped twice (whole frame; and the SAM-mask bounding box widened to 4:3), resized to 64x48/32x24/16x12/8x6 tiles; placed by a quadtree into computed moulds; tile mean shifted to the mould's guide colour (contrast kept); held tiles play their own shot forward at 12 fps"
+  },
+  {
+   "id": "ant",
+   "what": "25 archive frames (ant) with SAM masks, cut into tiles",
+   "file": "/home/user/hartswf0/secondhand-motion/shots/ant-sam/frames",
+   "masks": "/home/user/hartswf0/secondhand-motion/shots/ant-sam/masks.json",
+   "source_title": "Ant City",
+   "archive_url": "https://archive.org/details/ant_city",
+   "clip_id": "17c403a7-1f5c-5a7d-9bc5-aa1bac026b73",
+   "rights": "public_domain",
+   "pools": [
+    "yard"
+   ],
+   "placements": 1070,
+   "operation": "each frame cropped twice (whole frame; and the SAM-mask bounding box widened to 4:3), resized to 64x48/32x24/16x12/8x6 tiles; placed by a quadtree into computed moulds; tile mean shifted to the mould's guide colour (contrast kept); held tiles play their own shot forward at 12 fps"
+  },
+  {
+   "id": "basket",
+   "what": "50 archive frames (basket) with SAM masks, cut into tiles",
+   "file": "/home/user/hartswf0/secondhand-motion/shots/basket-sam/frames",
+   "masks": "/home/user/hartswf0/secondhand-motion/shots/basket-sam/masks.json",
+   "source_title": "St. John Virgin Islands National park",
+   "archive_url": "https://archive.org/details/gov.ntis.ava18223vnb1",
+   "clip_id": "9145f42b-3ec8-50e5-875a-7ea44769451d",
+   "rights": "public_domain",
+   "pools": [
+    "floor"
+   ],
+   "placements": 10392,
+   "operation": "each frame cropped twice (whole frame; and the SAM-mask bounding box widened to 4:3), resized to 64x48/32x24/16x12/8x6 tiles; placed by a quadtree into computed moulds; tile mean shifted to the mould's guide colour (contrast kept); held tiles play their own shot forward at 12 fps"
+  },
+  {
+   "id": "bat",
+   "what": "62 archive frames (bat) with SAM masks, cut into tiles",
+   "file": "/home/user/hartswf0/secondhand-motion/shots/bat-sam/frames",
+   "masks": "/home/user/hartswf0/secondhand-motion/shots/bat-sam/masks.json",
+   "source_title": "Muscatatuck National Wildlife Refuge",
+   "archive_url": "https://archive.org/details/gov.fws.aws.1.8",
+   "clip_id": "a5852c9d-5a31-56dc-9c17-d237217a9d21",
+   "rights": "public_domain",
+   "pools": [
+    "sky"
+   ],
+   "placements": 1951,
+   "operation": "each frame cropped twice (whole frame; and the SAM-mask bounding box widened to 4:3), resized to 64x48/32x24/16x12/8x6 tiles; placed by a quadtree into computed moulds; tile mean shifted to the mould's guide colour (contrast kept); held tiles play their own shot forward at 12 fps"
+  },
+  {
+   "id": "book",
+   "what": "26 archive frames (book) with SAM masks, cut into tiles",
+   "file": "/home/user/hartswf0/secondhand-motion/shots/book-sam/frames",
+   "masks": "/home/user/hartswf0/secondhand-motion/shots/book-sam/masks.json",
+   "source_title": "Inside the Fed",
+   "archive_url": "https://archive.org/details/gov.frb.fr62.04",
+   "clip_id": "08e49d0e-b726-5767-a326-d86eb549b994",
+   "rights": "public_domain",
+   "pools": [
+    "house"
+   ],
+   "placements": 197,
+   "operation": "each frame cropped twice (whole frame; and the SAM-mask bounding box widened to 4:3), resized to 64x48/32x24/16x12/8x6 tiles; placed by a quadtree into computed moulds; tile mean shifted to the mould's guide colour (contrast kept); held tiles play their own shot forward at 12 fps"
+  },
+  {
+   "id": "broom",
+   "what": "32 archive frames (broom) with SAM masks, cut into tiles",
+   "file": "/home/user/hartswf0/secondhand-motion/shots/broom-sam/frames",
+   "masks": "/home/user/hartswf0/secondhand-motion/shots/broom-sam/masks.json",
+   "source_title": "They Call It All-States",
+   "archive_url": "https://archive.org/details/TheyCall1950",
+   "clip_id": "e706c786-b112-5c22-846c-7008afec718d",
+   "rights": "public_domain",
+   "pools": [
+    "house"
+   ],
+   "placements": 3332,
+   "operation": "each frame cropped twice (whole frame; and the SAM-mask bounding box widened to 4:3), resized to 64x48/32x24/16x12/8x6 tiles; placed by a quadtree into computed moulds; tile mean shifted to the mould's guide colour (contrast kept); held tiles play their own shot forward at 12 fps"
+  },
+  {
+   "id": "butterfly",
+   "what": "78 archive frames (butterfly) with SAM masks, cut into tiles",
+   "file": "/home/user/hartswf0/secondhand-motion/shots/butterfly-sam/frames",
+   "masks": "/home/user/hartswf0/secondhand-motion/shots/butterfly-sam/masks.json",
+   "source_title": "Insect Zoo",
+   "archive_url": "https://archive.org/details/insect_zoo",
+   "clip_id": "810c95a2-7992-5461-9171-49a32c354cb8",
+   "rights": "public_domain",
+   "pools": [
+    "soft"
+   ],
+   "placements": 1019,
+   "operation": "each frame cropped twice (whole frame; and the SAM-mask bounding box widened to 4:3), resized to 64x48/32x24/16x12/8x6 tiles; placed by a quadtree into computed moulds; tile mean shifted to the mould's guide colour (contrast kept); held tiles play their own shot forward at 12 fps"
+  },
+  {
+   "id": "cannon",
+   "what": "32 archive frames (cannon) with SAM masks, cut into tiles",
+   "file": "/home/user/hartswf0/secondhand-motion/shots/cannon-sam/frames",
+   "masks": "/home/user/hartswf0/secondhand-motion/shots/cannon-sam/masks.json",
+   "source_title": "Space Navigation",
+   "archive_url": "https://archive.org/details/gov.archives.arc.1257098",
+   "clip_id": "fd3379af-48a0-5bc9-9b52-6ce9150ae1cf",
+   "rights": "public_domain",
+   "pools": [
+    "alarm"
+   ],
+   "placements": 49306,
+   "operation": "each frame cropped twice (whole frame; and the SAM-mask bounding box widened to 4:3), resized to 64x48/32x24/16x12/8x6 tiles; placed by a quadtree into computed moulds; tile mean shifted to the mould's guide colour (contrast kept); held tiles play their own shot forward at 12 fps"
+  },
+  {
+   "id": "cat",
+   "what": "62 archive frames (cat) with SAM masks, cut into tiles",
+   "file": "/home/user/hartswf0/secondhand-motion/shots/cat-sam/frames",
+   "masks": "/home/user/hartswf0/secondhand-motion/shots/cat-sam/masks.json",
+   "source_title": "Gateways to the Mind",
+   "archive_url": "https://archive.org/details/gateways_to_the_mind",
+   "clip_id": "ccf4e561-d837-5b58-845e-c4b5414938bb",
+   "rights": "public_domain",
+   "pools": [
+    "animal"
+   ],
+   "placements": 2856,
+   "operation": "each frame cropped twice (whole frame; and the SAM-mask bounding box widened to 4:3), resized to 64x48/32x24/16x12/8x6 tiles; placed by a quadtree into computed moulds; tile mean shifted to the mould's guide colour (contrast kept); held tiles play their own shot forward at 12 fps"
+  },
+  {
+   "id": "cloud",
+   "what": "62 archive frames (cloud) with SAM masks, cut into tiles",
+   "file": "/home/user/hartswf0/secondhand-motion/shots/cloud-sam/frames",
+   "masks": "/home/user/hartswf0/secondhand-motion/shots/cloud-sam/masks.json",
+   "source_title": "Top Of The Cloud - Time Lapse (Wide Screen 16:9)",
+   "archive_url": "https://archive.org/details/CEP391",
+   "clip_id": "3a3663e4-7a6e-5277-8cf5-12e94237350c",
+   "rights": "public_domain",
+   "pools": [
+    "sky",
+    "soft"
+   ],
+   "placements": 1421,
+   "operation": "each frame cropped twice (whole frame; and the SAM-mask bounding box widened to 4:3), resized to 64x48/32x24/16x12/8x6 tiles; placed by a quadtree into computed moulds; tile mean shifted to the mould's guide colour (contrast kept); held tiles play their own shot forward at 12 fps"
+  },
+  {
+   "id": "coffee-cup",
+   "what": "50 archive frames (coffee-cup) with SAM masks, cut into tiles",
+   "file": "/home/user/hartswf0/secondhand-motion/shots/coffee-cup-sam/frames",
+   "masks": "/home/user/hartswf0/secondhand-motion/shots/coffee-cup-sam/masks.json",
+   "source_title": "Biologist Caye Johnson Explains How NASA Searched for Life from the Moon in Recently Rediscovered Historic Footage",
+   "archive_url": "https://images.nasa.gov/details/ARC-20190708-AAV3208-LunarBioLab-JohnsonNarration-NASAWeb-24fps",
+   "clip_id": "cfd628fc-fb46-5a1e-b891-cdf3dcddf328",
+   "rights": "public_domain",
+   "pools": [
+    "house"
+   ],
+   "placements": 2269,
+   "operation": "each frame cropped twice (whole frame; and the SAM-mask bounding box widened to 4:3), resized to 64x48/32x24/16x12/8x6 tiles; placed by a quadtree into computed moulds; tile mean shifted to the mould's guide colour (contrast kept); held tiles play their own shot forward at 12 fps"
+  },
+  {
+   "id": "cow",
+   "what": "44 archive frames (cow) with SAM masks, cut into tiles",
+   "file": "/home/user/hartswf0/secondhand-motion/shots/cow-sam/frames",
+   "masks": "/home/user/hartswf0/secondhand-motion/shots/cow-sam/masks.json",
+   "source_title": "Triple Goodness",
+   "archive_url": "https://archive.org/details/TripleGo1948",
+   "clip_id": "1f60b8f5-a603-5713-b971-a95ca6401d04",
+   "rights": "public_domain",
+   "pools": [
+    "animal"
+   ],
+   "placements": 6996,
+   "operation": "each frame cropped twice (whole frame; and the SAM-mask bounding box widened to 4:3), resized to 64x48/32x24/16x12/8x6 tiles; placed by a quadtree into computed moulds; tile mean shifted to the mould's guide colour (contrast kept); held tiles play their own shot forward at 12 fps"
+  },
+  {
+   "id": "door",
+   "what": "32 archive frames (door) with SAM masks, cut into tiles",
+   "file": "/home/user/hartswf0/secondhand-motion/shots/door-sam/frames",
+   "masks": "/home/user/hartswf0/secondhand-motion/shots/door-sam/masks.json",
+   "source_title": "Straight Talk",
+   "archive_url": "https://archive.org/details/gov.ntis.ava19144vnb1",
+   "clip_id": "271d80c7-4f56-51b8-90fe-012dfb984b4f",
+   "rights": "public_domain",
+   "pools": [
+    "door"
+   ],
+   "placements": 6146,
+   "operation": "each frame cropped twice (whole frame; and the SAM-mask bounding box widened to 4:3), resized to 64x48/32x24/16x12/8x6 tiles; placed by a quadtree into computed moulds; tile mean shifted to the mould's guide colour (contrast kept); held tiles play their own shot forward at 12 fps"
+  },
+  {
+   "id": "eye",
+   "what": "32 archive frames (eye) with SAM masks, cut into tiles",
+   "file": "/home/user/hartswf0/secondhand-motion/shots/eye-sam/frames",
+   "masks": "/home/user/hartswf0/secondhand-motion/shots/eye-sam/masks.json",
+   "source_title": "Mental Hospital",
+   "archive_url": "https://archive.org/details/mental_hospital",
+   "clip_id": "12b40541-dbf1-542f-a520-7c2b414e8510",
+   "rights": "public_domain",
+   "pools": [
+    "person",
+    "eye (dog's eye)",
+    "face (head)"
+   ],
+   "placements": 6106,
+   "operation": "each frame cropped twice (whole frame; and the SAM-mask bounding box widened to 4:3), resized to 64x48/32x24/16x12/8x6 tiles; placed by a quadtree into computed moulds; tile mean shifted to the mould's guide colour (contrast kept); held tiles play their own shot forward at 12 fps"
+  },
+  {
+   "id": "face",
+   "what": "38 archive frames (face) with SAM masks, cut into tiles",
+   "file": "/home/user/hartswf0/secondhand-motion/shots/face-sam/frames",
+   "masks": "/home/user/hartswf0/secondhand-motion/shots/face-sam/masks.json",
+   "source_title": "We Learn About the Telephone I",
+   "archive_url": "https://archive.org/details/WeLearnA1965",
+   "clip_id": "de79b639-b8b3-5462-912e-b57322df522b",
+   "rights": "public_domain",
+   "pools": [
+    "person",
+    "face (head)"
+   ],
+   "placements": 186,
+   "operation": "each frame cropped twice (whole frame; and the SAM-mask bounding box widened to 4:3), resized to 64x48/32x24/16x12/8x6 tiles; placed by a quadtree into computed moulds; tile mean shifted to the mould's guide colour (contrast kept); held tiles play their own shot forward at 12 fps"
+  },
+  {
+   "id": "flower",
+   "what": "38 archive frames (flower) with SAM masks, cut into tiles",
+   "file": "/home/user/hartswf0/secondhand-motion/shots/flower-sam/frames",
+   "masks": "/home/user/hartswf0/secondhand-motion/shots/flower-sam/masks.json",
+   "source_title": "[Amateur film: Wathen collection: New York World's Fair, 1939-40] (Part I)",
+   "archive_url": "https://archive.org/details/Wathenco1939",
+   "clip_id": "c1926b73-5173-5fab-9ac0-96b9f24d0dd8",
+   "rights": "public_domain",
+   "pools": [
+    "yard",
+    "soft"
+   ],
+   "placements": 6558,
+   "operation": "each frame cropped twice (whole frame; and the SAM-mask bounding box widened to 4:3), resized to 64x48/32x24/16x12/8x6 tiles; placed by a quadtree into computed moulds; tile mean shifted to the mould's guide colour (contrast kept); held tiles play their own shot forward at 12 fps"
+  },
+  {
+   "id": "frying-pan",
+   "what": "25 archive frames (frying-pan) with SAM masks, cut into tiles",
+   "file": "/home/user/hartswf0/secondhand-motion/shots/frying-pan-sam/frames",
+   "masks": "/home/user/hartswf0/secondhand-motion/shots/frying-pan-sam/masks.json",
+   "source_title": "Don't Be Afraid",
+   "archive_url": "https://archive.org/details/DontBeAf1953",
+   "clip_id": "f5d86144-025e-5cf1-bece-9b560951dbc8",
+   "rights": "public_domain",
+   "pools": [
+    "house"
+   ],
+   "placements": 4502,
+   "operation": "each frame cropped twice (whole frame; and the SAM-mask bounding box widened to 4:3), resized to 64x48/32x24/16x12/8x6 tiles; placed by a quadtree into computed moulds; tile mean shifted to the mould's guide colour (contrast kept); held tiles play their own shot forward at 12 fps"
+  },
+  {
+   "id": "garden-hose",
+   "what": "38 archive frames (garden-hose) with SAM masks, cut into tiles",
+   "file": "/home/user/hartswf0/secondhand-motion/shots/garden-hose-sam/frames",
+   "masks": "/home/user/hartswf0/secondhand-motion/shots/garden-hose-sam/masks.json",
+   "source_title": "Automatic Emergency Parking Brakes (as required by 30 CFR 75.523-3)",
+   "archive_url": "https://archive.org/details/gov.msha.dvd590",
+   "clip_id": "1a756d80-6b01-5b04-9a87-b8a3be791e54",
+   "rights": "public_domain",
+   "pools": [
+    "floor"
+   ],
+   "placements": 17740,
+   "operation": "each frame cropped twice (whole frame; and the SAM-mask bounding box widened to 4:3), resized to 64x48/32x24/16x12/8x6 tiles; placed by a quadtree into computed moulds; tile mean shifted to the mould's guide colour (contrast kept); held tiles play their own shot forward at 12 fps"
+  },
+  {
+   "id": "giraffe",
+   "what": "17 archive frames (giraffe) with SAM masks, cut into tiles",
+   "file": "/home/user/hartswf0/secondhand-motion/shots/giraffe-sam/frames",
+   "masks": "/home/user/hartswf0/secondhand-motion/shots/giraffe-sam/masks.json",
+   "source_title": "The Story",
+   "archive_url": "https://archive.org/details/the_story",
+   "clip_id": "06eba2e3-edcf-5406-a69a-5aab2d02de33",
+   "rights": "public_domain",
+   "pools": [
+    "animal"
+   ],
+   "placements": 3422,
+   "operation": "each frame cropped twice (whole frame; and the SAM-mask bounding box widened to 4:3), resized to 64x48/32x24/16x12/8x6 tiles; placed by a quadtree into computed moulds; tile mean shifted to the mould's guide colour (contrast kept); held tiles play their own shot forward at 12 fps"
+  },
+  {
+   "id": "hammer",
+   "what": "38 archive frames (hammer) with SAM masks, cut into tiles",
+   "file": "/home/user/hartswf0/secondhand-motion/shots/hammer-sam/frames",
+   "masks": "/home/user/hartswf0/secondhand-motion/shots/hammer-sam/masks.json",
+   "source_title": "Man On The Land",
+   "archive_url": "https://archive.org/details/ManOnTheLand",
+   "clip_id": "837d753a-94ad-5336-8923-a7ced694ab0b",
+   "rights": "public_domain",
+   "pools": [
+    "floor"
+   ],
+   "placements": 8123,
+   "operation": "each frame cropped twice (whole frame; and the SAM-mask bounding box widened to 4:3), resized to 64x48/32x24/16x12/8x6 tiles; placed by a quadtree into computed moulds; tile mean shifted to the mould's guide colour (contrast kept); held tiles play their own shot forward at 12 fps"
+  },
+  {
+   "id": "hand",
+   "what": "62 archive frames (hand) with SAM masks, cut into tiles",
+   "file": "/home/user/hartswf0/secondhand-motion/shots/hand-sam/frames",
+   "masks": "/home/user/hartswf0/secondhand-motion/shots/hand-sam/masks.json",
+   "source_title": "Door to Heaven, The",
+   "archive_url": "https://archive.org/details/DoortoHe1941",
+   "clip_id": "0870ef3a-b328-5284-890b-3e1ac18057c1",
+   "rights": "public_domain",
+   "pools": [
+    "person",
+    "hand (hand)"
+   ],
+   "placements": 8251,
+   "operation": "each frame cropped twice (whole frame; and the SAM-mask bounding box widened to 4:3), resized to 64x48/32x24/16x12/8x6 tiles; placed by a quadtree into computed moulds; tile mean shifted to the mould's guide colour (contrast kept); held tiles play their own shot forward at 12 fps"
+  },
+  {
+   "id": "hat",
+   "what": "32 archive frames (hat) with SAM masks, cut into tiles",
+   "file": "/home/user/hartswf0/secondhand-motion/shots/hat-sam/frames",
+   "masks": "/home/user/hartswf0/secondhand-motion/shots/hat-sam/masks.json",
+   "source_title": "Vision of the Wild",
+   "archive_url": "https://archive.org/details/gov.ntis.ava18890vnb1",
+   "clip_id": "4c900a5b-b0d8-527b-bee7-752bd08db5fd",
+   "rights": "public_domain",
+   "pools": [
+    "person",
+    "face (head)"
+   ],
+   "placements": 3535,
+   "operation": "each frame cropped twice (whole frame; and the SAM-mask bounding box widened to 4:3), resized to 64x48/32x24/16x12/8x6 tiles; placed by a quadtree into computed moulds; tile mean shifted to the mould's guide colour (contrast kept); held tiles play their own shot forward at 12 fps"
+  },
+  {
+   "id": "horse",
+   "what": "45 archive frames (horse) with SAM masks, cut into tiles",
+   "file": "/home/user/hartswf0/secondhand-motion/shots/horse-sam/frames",
+   "masks": "/home/user/hartswf0/secondhand-motion/shots/horse-sam/masks.json",
+   "source_title": "Billie, the Buffalo Baby",
+   "archive_url": "https://archive.org/details/Billieth1956",
+   "clip_id": "fd0a7bab-8330-57e5-8c1b-5943070d0605",
+   "rights": "public_domain",
+   "pools": [
+    "animal"
+   ],
+   "placements": 4865,
+   "operation": "each frame cropped twice (whole frame; and the SAM-mask bounding box widened to 4:3), resized to 64x48/32x24/16x12/8x6 tiles; placed by a quadtree into computed moulds; tile mean shifted to the mould's guide colour (contrast kept); held tiles play their own shot forward at 12 fps"
+  },
+  {
+   "id": "ladder",
+   "what": "38 archive frames (ladder) with SAM masks, cut into tiles",
+   "file": "/home/user/hartswf0/secondhand-motion/shots/ladder-sam/frames",
+   "masks": "/home/user/hartswf0/secondhand-motion/shots/ladder-sam/masks.json",
+   "source_title": "Robinson Crusoe C",
+   "archive_url": "https://archive.org/details/RobinsonCrus_3",
+   "clip_id": "b3d678ab-f4ee-5b8d-a27e-f668604f1b98",
+   "rights": "public_domain",
+   "pools": [
+    "door"
+   ],
+   "placements": 1999,
+   "operation": "each frame cropped twice (whole frame; and the SAM-mask bounding box widened to 4:3), resized to 64x48/32x24/16x12/8x6 tiles; placed by a quadtree into computed moulds; tile mean shifted to the mould's guide colour (contrast kept); held tiles play their own shot forward at 12 fps"
+  },
+  {
+   "id": "lantern",
+   "what": "32 archive frames (lantern) with SAM masks, cut into tiles",
+   "file": "/home/user/hartswf0/secondhand-motion/shots/lantern-sam/frames",
+   "masks": "/home/user/hartswf0/secondhand-motion/shots/lantern-sam/masks.json",
+   "source_title": "Anthracite: Pre-Shift Examinations of Underground Mines",
+   "archive_url": "https://archive.org/details/gov.msha.dvd614",
+   "clip_id": "4e46b7b2-909b-5072-8dbf-30085bb76742",
+   "rights": "public_domain",
+   "pools": [
+    "light"
+   ],
+   "placements": 11260,
+   "operation": "each frame cropped twice (whole frame; and the SAM-mask bounding box widened to 4:3), resized to 64x48/32x24/16x12/8x6 tiles; placed by a quadtree into computed moulds; tile mean shifted to the mould's guide colour (contrast kept); held tiles play their own shot forward at 12 fps"
+  },
+  {
+   "id": "light-bulb",
+   "what": "26 archive frames (light-bulb) with SAM masks, cut into tiles",
+   "file": "/home/user/hartswf0/secondhand-motion/shots/light-bulb-sam/frames",
+   "masks": "/home/user/hartswf0/secondhand-motion/shots/light-bulb-sam/masks.json",
+   "source_title": "Light Of Your Life B",
+   "archive_url": "https://archive.org/details/LightOfYourL_2",
+   "clip_id": "ccf9d371-1f80-5aa3-bb2a-2e720f1786f2",
+   "rights": "public_domain",
+   "pools": [
+    "light",
+    "moon"
+   ],
+   "placements": 19115,
+   "operation": "each frame cropped twice (whole frame; and the SAM-mask bounding box widened to 4:3), resized to 64x48/32x24/16x12/8x6 tiles; placed by a quadtree into computed moulds; tile mean shifted to the mould's guide colour (contrast kept); held tiles play their own shot forward at 12 fps"
+  },
+  {
+   "id": "lighthouse",
+   "what": "32 archive frames (lighthouse) with SAM masks, cut into tiles",
+   "file": "/home/user/hartswf0/secondhand-motion/shots/lighthouse-sam/frames",
+   "masks": "/home/user/hartswf0/secondhand-motion/shots/lighthouse-sam/masks.json",
+   "source_title": "Celebrating Chincoteague National Wildlife Refuge",
+   "archive_url": "https://archive.org/details/gov.fws.aws.3.4",
+   "clip_id": "998660df-9287-5d68-88cf-56c90d677881",
+   "rights": "public_domain",
+   "pools": [
+    "door"
+   ],
+   "placements": 1776,
+   "operation": "each frame cropped twice (whole frame; and the SAM-mask bounding box widened to 4:3), resized to 64x48/32x24/16x12/8x6 tiles; placed by a quadtree into computed moulds; tile mean shifted to the mould's guide colour (contrast kept); held tiles play their own shot forward at 12 fps"
+  },
+  {
+   "id": "lion",
+   "what": "32 archive frames (lion) with SAM masks, cut into tiles",
+   "file": "/home/user/hartswf0/secondhand-motion/shots/lion-sam/frames",
+   "masks": "/home/user/hartswf0/secondhand-motion/shots/lion-sam/masks.json",
+   "source_title": "Andy's Animal Alphabet",
+   "archive_url": "https://archive.org/details/AndysAnimalA",
+   "clip_id": "2c353422-8745-5875-82a7-f19d09c157f9",
+   "rights": "public_domain",
+   "pools": [
+    "animal"
+   ],
+   "placements": 1997,
+   "operation": "each frame cropped twice (whole frame; and the SAM-mask bounding box widened to 4:3), resized to 64x48/32x24/16x12/8x6 tiles; placed by a quadtree into computed moulds; tile mean shifted to the mould's guide colour (contrast kept); held tiles play their own shot forward at 12 fps"
+  },
+  {
+   "id": "microwave",
+   "what": "38 archive frames (microwave) with SAM masks, cut into tiles",
+   "file": "/home/user/hartswf0/secondhand-motion/shots/microwave-sam/frames",
+   "masks": "/home/user/hartswf0/secondhand-motion/shots/microwave-sam/masks.json",
+   "source_title": "[Frigidaire Imperial Line]",
+   "archive_url": "https://archive.org/details/Frigidai1956",
+   "clip_id": "0cabb521-1b74-5478-beb1-ca249076271d",
+   "rights": "public_domain",
+   "pools": [
+    "house"
+   ],
+   "placements": 351,
+   "operation": "each frame cropped twice (whole frame; and the SAM-mask bounding box widened to 4:3), resized to 64x48/32x24/16x12/8x6 tiles; placed by a quadtree into computed moulds; tile mean shifted to the mould's guide colour (contrast kept); held tiles play their own shot forward at 12 fps"
+  },
+  {
+   "id": "monkey",
+   "what": "43 archive frames (monkey) with SAM masks, cut into tiles",
+   "file": "/home/user/hartswf0/secondhand-motion/shots/monkey-sam/frames",
+   "masks": "/home/user/hartswf0/secondhand-motion/shots/monkey-sam/masks.json",
+   "source_title": "The Story",
+   "archive_url": "https://archive.org/details/the_story",
+   "clip_id": "0c93c28c-6d9b-53c2-8cc7-905df20ec940",
+   "rights": "public_domain",
+   "pools": [
+    "animal"
+   ],
+   "placements": 955,
+   "operation": "each frame cropped twice (whole frame; and the SAM-mask bounding box widened to 4:3), resized to 64x48/32x24/16x12/8x6 tiles; placed by a quadtree into computed moulds; tile mean shifted to the mould's guide colour (contrast kept); held tiles play their own shot forward at 12 fps"
+  },
+  {
+   "id": "mug",
+   "what": "44 archive frames (mug) with SAM masks, cut into tiles",
+   "file": "/home/user/hartswf0/secondhand-motion/shots/mug-sam/frames",
+   "masks": "/home/user/hartswf0/secondhand-motion/shots/mug-sam/masks.json",
+   "source_title": "NASA Searches for Life from the Moon in Recently Rediscovered Historic Footage",
+   "archive_url": "https://images.nasa.gov/details/ARC-19700101-AAV0064-LunarLabFilm-NASAWeb",
+   "clip_id": "2ead7f30-ae72-563e-80ed-56dac41657dc",
+   "rights": "public_domain",
+   "pools": [
+    "house"
+   ],
+   "placements": 4011,
+   "operation": "each frame cropped twice (whole frame; and the SAM-mask bounding box widened to 4:3), resized to 64x48/32x24/16x12/8x6 tiles; placed by a quadtree into computed moulds; tile mean shifted to the mould's guide colour (contrast kept); held tiles play their own shot forward at 12 fps"
+  },
+  {
+   "id": "ocean",
+   "what": "38 archive frames (ocean) with SAM masks, cut into tiles",
+   "file": "/home/user/hartswf0/secondhand-motion/shots/ocean-sam/frames",
+   "masks": "/home/user/hartswf0/secondhand-motion/shots/ocean-sam/masks.json",
+   "source_title": "Big Bounce, The",
+   "archive_url": "https://archive.org/details/BigBounc1960",
+   "clip_id": "8b44b793-e262-550a-8d3a-3e35096d4ac8",
+   "rights": "public_domain",
+   "pools": [
+    "sky"
+   ],
+   "placements": 1220,
+   "operation": "each frame cropped twice (whole frame; and the SAM-mask bounding box widened to 4:3), resized to 64x48/32x24/16x12/8x6 tiles; placed by a quadtree into computed moulds; tile mean shifted to the mould's guide colour (contrast kept); held tiles play their own shot forward at 12 fps"
+  },
+  {
+   "id": "paintbrush",
+   "what": "37 archive frames (paintbrush) with SAM masks, cut into tiles",
+   "file": "/home/user/hartswf0/secondhand-motion/shots/paintbrush-sam/frames",
+   "masks": "/home/user/hartswf0/secondhand-motion/shots/paintbrush-sam/masks.json",
+   "source_title": "Ole' 23",
+   "archive_url": "https://archive.org/details/ole_23",
+   "clip_id": "6c0213fd-3905-53da-9bde-05d816228053",
+   "rights": "public_domain",
+   "pools": [
+    "floor"
+   ],
+   "placements": 559,
+   "operation": "each frame cropped twice (whole frame; and the SAM-mask bounding box widened to 4:3), resized to 64x48/32x24/16x12/8x6 tiles; placed by a quadtree into computed moulds; tile mean shifted to the mould's guide colour (contrast kept); held tiles play their own shot forward at 12 fps"
+  },
+  {
+   "id": "palm-tree",
+   "what": "37 archive frames (palm-tree) with SAM masks, cut into tiles",
+   "file": "/home/user/hartswf0/secondhand-motion/shots/palm-tree-sam/frames",
+   "masks": "/home/user/hartswf0/secondhand-motion/shots/palm-tree-sam/masks.json",
+   "source_title": "Gift of Green",
+   "archive_url": "https://archive.org/details/GiftofGr1946",
+   "clip_id": "60bf381f-8c2e-5be4-a283-a43975c777eb",
+   "rights": "public_domain",
+   "pools": [
+    "yard"
+   ],
+   "placements": 490,
+   "operation": "each frame cropped twice (whole frame; and the SAM-mask bounding box widened to 4:3), resized to 64x48/32x24/16x12/8x6 tiles; placed by a quadtree into computed moulds; tile mean shifted to the mould's guide colour (contrast kept); held tiles play their own shot forward at 12 fps"
+  },
+  {
+   "id": "rabbit",
+   "what": "52 archive frames (rabbit) with SAM masks, cut into tiles",
+   "file": "/home/user/hartswf0/secondhand-motion/shots/rabbit-sam/frames",
+   "masks": "/home/user/hartswf0/secondhand-motion/shots/rabbit-sam/masks.json",
+   "source_title": "Frances and Her Rabbit",
+   "archive_url": "https://archive.org/details/frances_and_her_rabbit",
+   "clip_id": "16866ed1-bc06-5d59-a8fe-81d8665d0d75",
+   "rights": "public_domain",
+   "pools": [
+    "animal"
+   ],
+   "placements": 6151,
+   "operation": "each frame cropped twice (whole frame; and the SAM-mask bounding box widened to 4:3), resized to 64x48/32x24/16x12/8x6 tiles; placed by a quadtree into computed moulds; tile mean shifted to the mould's guide colour (contrast kept); held tiles play their own shot forward at 12 fps"
+  },
+  {
+   "id": "rhinoceros",
+   "what": "50 archive frames (rhinoceros) with SAM masks, cut into tiles",
+   "file": "/home/user/hartswf0/secondhand-motion/shots/rhinoceros-sam/frames",
+   "masks": "/home/user/hartswf0/secondhand-motion/shots/rhinoceros-sam/masks.json",
+   "source_title": "Andy's Animal Alphabet",
+   "archive_url": "https://archive.org/details/AndysAnimalA",
+   "clip_id": "16df5c86-d395-55d7-b373-a6e0fc0525bc",
+   "rights": "public_domain",
+   "pools": [
+    "animal"
+   ],
+   "placements": 615,
+   "operation": "each frame cropped twice (whole frame; and the SAM-mask bounding box widened to 4:3), resized to 64x48/32x24/16x12/8x6 tiles; placed by a quadtree into computed moulds; tile mean shifted to the mould's guide colour (contrast kept); held tiles play their own shot forward at 12 fps"
+  },
+  {
+   "id": "river",
+   "what": "49 archive frames (river) with SAM masks, cut into tiles",
+   "file": "/home/user/hartswf0/secondhand-motion/shots/river-sam/frames",
+   "masks": "/home/user/hartswf0/secondhand-motion/shots/river-sam/masks.json",
+   "source_title": "Blackwater National Wildlife Refuge",
+   "archive_url": "https://archive.org/details/gov.fws.aws.2.9",
+   "clip_id": "c330054f-9239-531c-8aee-c56c50b33345",
+   "rights": "public_domain",
+   "pools": [
+    "sky"
+   ],
+   "placements": 2426,
+   "operation": "each frame cropped twice (whole frame; and the SAM-mask bounding box widened to 4:3), resized to 64x48/32x24/16x12/8x6 tiles; placed by a quadtree into computed moulds; tile mean shifted to the mould's guide colour (contrast kept); held tiles play their own shot forward at 12 fps"
+  },
+  {
+   "id": "sheep",
+   "what": "38 archive frames (sheep) with SAM masks, cut into tiles",
+   "file": "/home/user/hartswf0/secondhand-motion/shots/sheep-sam/frames",
+   "masks": "/home/user/hartswf0/secondhand-motion/shots/sheep-sam/masks.json",
+   "source_title": "Amateur Film Northwest",
+   "archive_url": "https://archive.org/details/Northwest_2",
+   "clip_id": "9848e6ef-8358-50b8-851d-8261a90f8983",
+   "rights": "public_domain",
+   "pools": [
+    "animal"
+   ],
+   "placements": 1750,
+   "operation": "each frame cropped twice (whole frame; and the SAM-mask bounding box widened to 4:3), resized to 64x48/32x24/16x12/8x6 tiles; placed by a quadtree into computed moulds; tile mean shifted to the mould's guide colour (contrast kept); held tiles play their own shot forward at 12 fps"
+  },
+  {
+   "id": "shovel",
+   "what": "32 archive frames (shovel) with SAM masks, cut into tiles",
+   "file": "/home/user/hartswf0/secondhand-motion/shots/shovel-sam/frames",
+   "masks": "/home/user/hartswf0/secondhand-motion/shots/shovel-sam/masks.json",
+   "source_title": "Fortune in Two Old Trunks, A (Part I)",
+   "archive_url": "https://archive.org/details/Fortunei1951",
+   "clip_id": "420e7c91-280b-50ef-8a7f-3cd172f7cf0f",
+   "rights": "public_domain",
+   "pools": [
+    "floor"
+   ],
+   "placements": 3623,
+   "operation": "each frame cropped twice (whole frame; and the SAM-mask bounding box widened to 4:3), resized to 64x48/32x24/16x12/8x6 tiles; placed by a quadtree into computed moulds; tile mean shifted to the mould's guide colour (contrast kept); held tiles play their own shot forward at 12 fps"
+  },
+  {
+   "id": "spider",
+   "what": "38 archive frames (spider) with SAM masks, cut into tiles",
+   "file": "/home/user/hartswf0/secondhand-motion/shots/spider-sam/frames",
+   "masks": "/home/user/hartswf0/secondhand-motion/shots/spider-sam/masks.json",
+   "source_title": "Spider Engineers",
+   "archive_url": "https://archive.org/details/SpiderEngine",
+   "clip_id": "a975d12c-ffcb-58f5-9c3f-4abf577b102e",
+   "rights": "public_domain",
+   "pools": [
+    "yard"
+   ],
+   "placements": 8089,
+   "operation": "each frame cropped twice (whole frame; and the SAM-mask bounding box widened to 4:3), resized to 64x48/32x24/16x12/8x6 tiles; placed by a quadtree into computed moulds; tile mean shifted to the mould's guide colour (contrast kept); held tiles play their own shot forward at 12 fps"
+  },
+  {
+   "id": "star",
+   "what": "50 archive frames (star) with SAM masks, cut into tiles",
+   "file": "/home/user/hartswf0/secondhand-motion/shots/star-sam/frames",
+   "masks": "/home/user/hartswf0/secondhand-motion/shots/star-sam/masks.json",
+   "source_title": "Gift of Green",
+   "archive_url": "https://archive.org/details/GiftofGr1946",
+   "clip_id": "9883a502-df53-50b3-9a1f-2aa86fec839f",
+   "rights": "public_domain",
+   "pools": [
+    "light"
+   ],
+   "placements": 16016,
+   "operation": "each frame cropped twice (whole frame; and the SAM-mask bounding box widened to 4:3), resized to 64x48/32x24/16x12/8x6 tiles; placed by a quadtree into computed moulds; tile mean shifted to the mould's guide colour (contrast kept); held tiles play their own shot forward at 12 fps"
+  },
+  {
+   "id": "stove",
+   "what": "38 archive frames (stove) with SAM masks, cut into tiles",
+   "file": "/home/user/hartswf0/secondhand-motion/shots/stove-sam/frames",
+   "masks": "/home/user/hartswf0/secondhand-motion/shots/stove-sam/masks.json",
+   "source_title": "[Frigidaire Imperial Line]",
+   "archive_url": "https://archive.org/details/Frigidai1956",
+   "clip_id": "c40f668b-c5a8-5598-828a-31687a353358",
+   "rights": "public_domain",
+   "pools": [
+    "house"
+   ],
+   "placements": 1463,
+   "operation": "each frame cropped twice (whole frame; and the SAM-mask bounding box widened to 4:3), resized to 64x48/32x24/16x12/8x6 tiles; placed by a quadtree into computed moulds; tile mean shifted to the mould's guide colour (contrast kept); held tiles play their own shot forward at 12 fps"
+  },
+  {
+   "id": "swan",
+   "what": "38 archive frames (swan) with SAM masks, cut into tiles",
+   "file": "/home/user/hartswf0/secondhand-motion/shots/swan-sam/frames",
+   "masks": "/home/user/hartswf0/secondhand-motion/shots/swan-sam/masks.json",
+   "source_title": "Muscatatuck National Wildlife Refuge",
+   "archive_url": "https://archive.org/details/gov.fws.aws.1.8",
+   "clip_id": "299e589e-f689-595b-9f3c-e5537e5c84a6",
+   "rights": "public_domain",
+   "pools": [
+    "sky",
+    "soft"
+   ],
+   "placements": 2362,
+   "operation": "each frame cropped twice (whole frame; and the SAM-mask bounding box widened to 4:3), resized to 64x48/32x24/16x12/8x6 tiles; placed by a quadtree into computed moulds; tile mean shifted to the mould's guide colour (contrast kept); held tiles play their own shot forward at 12 fps"
+  },
+  {
+   "id": "tiger",
+   "what": "35 archive frames (tiger) with SAM masks, cut into tiles",
+   "file": "/home/user/hartswf0/secondhand-motion/shots/tiger-sam/frames",
+   "masks": "/home/user/hartswf0/secondhand-motion/shots/tiger-sam/masks.json",
+   "source_title": "Andy's Animal Alphabet",
+   "archive_url": "https://archive.org/details/AndysAnimalA",
+   "clip_id": "21f72c0b-0951-50f9-8016-8dbbc3669858",
+   "rights": "public_domain",
+   "pools": [
+    "animal"
+   ],
+   "placements": 883,
+   "operation": "each frame cropped twice (whole frame; and the SAM-mask bounding box widened to 4:3), resized to 64x48/32x24/16x12/8x6 tiles; placed by a quadtree into computed moulds; tile mean shifted to the mould's guide colour (contrast kept); held tiles play their own shot forward at 12 fps"
+  },
+  {
+   "id": "traffic-light",
+   "what": "44 archive frames (traffic-light) with SAM masks, cut into tiles",
+   "file": "/home/user/hartswf0/secondhand-motion/shots/traffic-light-sam/frames",
+   "masks": "/home/user/hartswf0/secondhand-motion/shots/traffic-light-sam/masks.json",
+   "source_title": "Destruction: Fun or Dumb?",
+   "archive_url": "https://archive.org/details/destruction_fun_or_dumb",
+   "clip_id": "0cc902e7-0ef9-527d-b032-dbddb6e9caa2",
+   "rights": "public_domain",
+   "pools": [
+    "alarm"
+   ],
+   "placements": 27779,
+   "operation": "each frame cropped twice (whole frame; and the SAM-mask bounding box widened to 4:3), resized to 64x48/32x24/16x12/8x6 tiles; placed by a quadtree into computed moulds; tile mean shifted to the mould's guide colour (contrast kept); held tiles play their own shot forward at 12 fps"
+  },
+  {
+   "id": "trumpet",
+   "what": "62 archive frames (trumpet) with SAM masks, cut into tiles",
+   "file": "/home/user/hartswf0/secondhand-motion/shots/trumpet-sam/frames",
+   "masks": "/home/user/hartswf0/secondhand-motion/shots/trumpet-sam/masks.json",
+   "source_title": "[Amateur films: Ivan Besse collection: Britton, South Dakota 1938-39] (Part VI)",
+   "archive_url": "https://archive.org/details/sIvanBes1938_6",
+   "clip_id": "015d2d81-d328-592c-8b82-ed667cb5376c",
+   "rights": "public_domain",
+   "pools": [
+    "alarm"
+   ],
+   "placements": 21151,
+   "operation": "each frame cropped twice (whole frame; and the SAM-mask bounding box widened to 4:3), resized to 64x48/32x24/16x12/8x6 tiles; placed by a quadtree into computed moulds; tile mean shifted to the mould's guide colour (contrast kept); held tiles play their own shot forward at 12 fps"
+  },
+  {
+   "id": "umbrella",
+   "what": "38 archive frames (umbrella) with SAM masks, cut into tiles",
+   "file": "/home/user/hartswf0/secondhand-motion/shots/umbrella-sam/frames",
+   "masks": "/home/user/hartswf0/secondhand-motion/shots/umbrella-sam/masks.json",
+   "source_title": "[Amateur film: Summers collection: San Francisco, California, 1941] (Part I)",
+   "archive_url": "https://archive.org/details/Summersc1941",
+   "clip_id": "f8e7e678-4f03-5fe8-afdd-e0b0ca19c463",
+   "rights": "public_domain",
+   "pools": [
+    "house"
+   ],
+   "placements": 2570,
+   "operation": "each frame cropped twice (whole frame; and the SAM-mask bounding box widened to 4:3), resized to 64x48/32x24/16x12/8x6 tiles; placed by a quadtree into computed moulds; tile mean shifted to the mould's guide colour (contrast kept); held tiles play their own shot forward at 12 fps"
+  },
+  {
+   "id": "vase",
+   "what": "38 archive frames (vase) with SAM masks, cut into tiles",
+   "file": "/home/user/hartswf0/secondhand-motion/shots/vase-sam/frames",
+   "masks": "/home/user/hartswf0/secondhand-motion/shots/vase-sam/masks.json",
+   "source_title": "POTTERY, ca. 1926",
+   "archive_url": "https://archive.org/details/gov.archives.arc.91018",
+   "clip_id": "9f48ead8-8873-5405-961b-4f371a8779af",
+   "rights": "public_domain",
+   "pools": [
+    "house"
+   ],
+   "placements": 587,
+   "operation": "each frame cropped twice (whole frame; and the SAM-mask bounding box widened to 4:3), resized to 64x48/32x24/16x12/8x6 tiles; placed by a quadtree into computed moulds; tile mean shifted to the mould's guide colour (contrast kept); held tiles play their own shot forward at 12 fps"
+  },
+  {
+   "id": "wheel",
+   "what": "26 archive frames (wheel) with SAM masks, cut into tiles",
+   "file": "/home/user/hartswf0/secondhand-motion/shots/wheel-sam/frames",
+   "masks": "/home/user/hartswf0/secondhand-motion/shots/wheel-sam/masks.json",
+   "source_title": "Around the Corner",
+   "archive_url": "https://archive.org/details/Aroundth1937",
+   "clip_id": "81c2c8d6-91da-53bd-86be-62342722d0fa",
+   "rights": "public_domain",
+   "pools": [
+    "floor"
+   ],
+   "placements": 82,
+   "operation": "each frame cropped twice (whole frame; and the SAM-mask bounding box widened to 4:3), resized to 64x48/32x24/16x12/8x6 tiles; placed by a quadtree into computed moulds; tile mean shifted to the mould's guide colour (contrast kept); held tiles play their own shot forward at 12 fps"
+  },
+  {
+   "id": "windmill",
+   "what": "54 archive frames (windmill) with SAM masks, cut into tiles",
+   "file": "/home/user/hartswf0/secondhand-motion/shots/windmill-sam/frames",
+   "masks": "/home/user/hartswf0/secondhand-motion/shots/windmill-sam/masks.json",
+   "source_title": "Golden Gate City",
+   "archive_url": "https://archive.org/details/golden_gate_city",
+   "clip_id": "2cefc97c-12b2-5141-ae30-570c652db9f0",
+   "rights": "public_domain",
+   "pools": [
+    "door"
+   ],
+   "placements": 11583,
+   "operation": "each frame cropped twice (whole frame; and the SAM-mask bounding box widened to 4:3), resized to 64x48/32x24/16x12/8x6 tiles; placed by a quadtree into computed moulds; tile mean shifted to the mould's guide colour (contrast kept); held tiles play their own shot forward at 12 fps"
+  },
+  {
+   "id": "yoga",
+   "what": "38 archive frames (yoga) with SAM masks, cut into tiles",
+   "file": "/home/user/hartswf0/secondhand-motion/shots/yoga-sam/frames",
+   "masks": "/home/user/hartswf0/secondhand-motion/shots/yoga-sam/masks.json",
+   "source_title": "Behind the Lens",
+   "archive_url": "https://archive.org/details/Behindth1940",
+   "clip_id": "524a7f80-bfcf-5efc-b5ac-9a5050afe647",
+   "rights": "public_domain",
+   "pools": [
+    "person"
+   ],
+   "placements": 859,
+   "operation": "each frame cropped twice (whole frame; and the SAM-mask bounding box widened to 4:3), resized to 64x48/32x24/16x12/8x6 tiles; placed by a quadtree into computed moulds; tile mean shifted to the mould's guide colour (contrast kept); held tiles play their own shot forward at 12 fps"
+  },
+  {
+   "id": "moulds",
+   "what": "the shapes of the dog, person, door, porch, moon and the words",
+   "file": "build/scene.py, build/02_render.py",
+   "rights": "made here",
+   "operation": "computed (drawn as polygons from the PAELEO score: dog act values, person posture/reach/low hand, door state); never shown directly, only filled with archive tiles"
+  },
+  {
+   "id": "score",
+   "what": "the dog decision trace",
+   "file": "paeleo/handmade/score/threshold-score.json",
+   "rights": "PAELEO, made in this program",
+   "operation": "read only: drives every mould and every rate"
+  },
+  {
+   "id": "fonts",
+   "what": "Big Shoulders Display (COME HERE, title), Literata italic (it's all right, come in), JetBrains Mono (made-of card)",
+   "file": "tools/paeleo/fonts/",
+   "rights": "SIL Open Font License",
+   "operation": "text rendered into moulds, then filled with archive tiles (spoken words); plain text on the cards"
+  },
+  {
+   "id": "sound",
+   "what": "all sound",
+   "file": "build/04_sound.py",
+   "rights": "made here",
+   "operation": "synthesized with numpy: one click per replaced tile (from cache/stats.json), formant voice, stick-slip door creak, paw thumps from the score walk phase, breath noise, a sine chord, 24 Hz projector purr, crickets"
+  },
+  {
+   "id": "glow",
+   "what": "the warm glow of the doorway into the dusk",
+   "file": "build/02_render.py",
+   "rights": "made here",
+   "operation": "computed screen-blend radial grade (not a picture); the light itself is lantern, bulb and star tiles"
+  },
+  {
+   "id": "quickdraw",
+   "what": "not used",
+   "file": "paeleo/handmade/kit/quickdraw",
+   "rights": "CC BY 4.0",
+   "operation": "none"
+  }
+ ]
+}

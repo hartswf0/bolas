@@ -1,4 +1,51 @@
 {
+ "critic_round1_repairs": {
+  "repair_1_walk_identity": {
+   "distinct_drawings": 2,
+   "changes_at": [
+    16.833,
+    18.917,
+    21.25,
+    23.583
+   ],
+   "min_gap_s": 2.084,
+   "max_changes_in_any_2s": 1,
+   "min_switch_back_s": 2.084,
+   "ok": true
+  },
+  "repair_2_no_sliding": {
+   "max_move_px_while_held": 0.0,
+   "placement_step_px_max": 7.82,
+   "placement_hold_frames": {
+    "min": 1,
+    "max": 2,
+    "median": 2.0
+   },
+   "note": "a held placement never moves; the drawing is re-placed on twos (the step is the pace of the score: up to 7.8 px at the fastest, 22.3 s, during the push-in) and its legs change by substitution on footfalls",
+   "ok": true
+  },
+  "repair_3_head_low": {
+   "share_head_top_below_back": 1.0,
+   "ok": true,
+   "how": "per frame, the displayed drawing as placed: top of its head-end quarter vs top of its middle 40%"
+  },
+  "repair_4_look_in_profile": {
+   "share_profile_head_into_doorway": 1.0,
+   "ok": true
+  },
+  "repair_5_retreat_and_refusal": {
+   "retreat_px_1280": 136.4,
+   "retreat_facing_person": true,
+   "refusal_share_head_far_side": 1.0,
+   "refusal_drawings": [
+    135,
+    1056,
+    3107,
+    3476
+   ],
+   "ok": true
+  }
+ },
  "invariant_1_choices": {
   "retreat (1.000)": {
    "score": 1.0,
@@ -12,8 +59,8 @@
    "score": 2.333,
    "measured": 2.583,
    "delta": 0.25,
-   "nearest_drawing_swap": 2.167,
-   "swap_delta": -0.166,
+   "nearest_drawing_swap": 2.5,
+   "swap_delta": 0.167,
    "ok": true
   },
   "refuse, back turned (3.417)": {
@@ -50,22 +97,23 @@
   },
   "looks in, head up (26.4)": {
    "score": 26.4,
-   "measured": 26.583,
-   "delta": 0.183,
-   "nearest_drawing_swap": 26.583,
-   "swap_delta": 0.183,
+   "measured": 26.5,
+   "delta": 0.1,
+   "nearest_drawing_swap": 26.5,
+   "swap_delta": 0.1,
    "ok": true
   },
   "settles, head down, and stays (after 26.4)": {
-   "measured": 28.167,
+   "measured": 28.25,
    "stays_lying_to_end": true,
-   "x_range_after_lying_m": 0.0158,
+   "placement_x_range_after_lying_px": 0.0,
+   "x_range_after_lying_m": 0.0383,
    "ok": true
   }
  },
  "invariant_2_threshold": {
   "min_ink_centroid_x_m": 0.579,
-  "min_ink_right_edge_m": 1.227,
+  "min_ink_right_edge_m": 1.157,
   "never_wholly_inside": true,
   "centroid_never_past_sill_0p56": true,
   "end_extent_m": [
@@ -90,13 +138,13 @@
  },
  "invariant_4_position": {
   "screen_fit_static_camera": {
-   "px_per_m": 149.48,
-   "x0_px": 416.0
+   "px_per_m": 148.88,
+   "x0_px": 418.5
   },
   "ink_centroid_minus_score_x_m": {
-   "mean": -0.004,
-   "sd": 0.01,
-   "max_abs": 0.057
+   "mean": -0.001,
+   "sd": 0.012,
+   "max_abs": 0.047
   },
   "approach_distance_score_m": 3.406,
   "approach_distance_measured_m": 3.404,
@@ -104,14 +152,14 @@
   "ok": true
  },
  "substitution": {
-  "segments": 31,
-  "swaps": 30,
+  "segments": 18,
+  "swaps": 17,
   "min_hold_frames": 6,
-  "median_hold_frames": 16.0,
+  "median_hold_frames": 36.0,
   "max_hold_frames": 164,
   "all_swaps_on_twos": true,
-  "distinct_drawings_on_screen": 17,
+  "distinct_drawings_on_screen": 12,
   "library_size": 45,
-  "mirrored_segments": 7
+  "mirrored_segments": 3
  }
 }

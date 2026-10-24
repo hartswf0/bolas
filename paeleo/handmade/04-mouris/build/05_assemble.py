@@ -29,10 +29,11 @@ dx = np.gradient(x)
 hdx_s = np.abs(hdx)
 meas = {}
 meas['retreat (backs away)'] = (1.0, first(dx > 0.003, 0.5, 2.2))
-meas['retreat -> watch (stops)'] = (2.333, first(np.abs(dx) < 0.0015, 2.0, 3.2))
-base = hdx_s[int(3.0 * 24)]
-meas['refuse (begins to turn its back)'] = (3.417, first(hdx_s < base - 0.03, 3.0, 5.0))
-meas['refuse: back fully turned (head on the far side)'] = (None, first(np.sign(hdx) != np.sign(hdx[int(3.0 * 24)]), 3.0, 6.0))
+meas['retreat -> watch (head comes up out of the crouch)'] = (2.333, first(head > head[int(2.2 * 24)] + 0.03, 2.2, 3.2))
+meas['  (info) retreat steps end (x stops)'] = (None, first(np.abs(dx) < 0.0015, 2.0, 3.2))
+meas['refuse (cowers: head drops, then turns its back)'] = (3.417, first(head < head[int(3.3 * 24)] - 0.03, 3.3, 5.0))
+meas['  (info) turn of the back begins (head offset shrinks)'] = (None, first(hdx_s < hdx_s[int(3.0 * 24)] - 0.03, 3.0, 5.0))
+meas['  (info) back fully turned (head on the far side)'] = (None, first(np.sign(hdx) != np.sign(hdx[int(3.0 * 24)]), 3.0, 6.0))
 base = head[int(7.0 * 24)]
 meas['refuse -> watch (lifts head, turns back to look)'] = (7.458, first(head > base + 0.03, 7.0, 9.0))
 meas['watch -> approach (starts toward the door)'] = (14.708, first(dx < -0.003, 14.0, 16.0))

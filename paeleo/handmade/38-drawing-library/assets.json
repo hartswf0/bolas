@@ -172,7 +172,7 @@
     "face_to_viewer": 0,
     "rest": 0
    },
-   "used_on_screen": true,
+   "used_on_screen": false,
    "mirrored_on_screen": false,
    "operation": "selected by eye from contact sheets; strokes kept as drawn (simplified Quick, Draw! strokes); placed by uniform scale + translation, mirrored when the decoder chose the mirror; swapped whole on twos"
   },
@@ -196,7 +196,7 @@
     "face_to_viewer": 0,
     "rest": 0
    },
-   "used_on_screen": true,
+   "used_on_screen": false,
    "mirrored_on_screen": false,
    "operation": "selected by eye from contact sheets; strokes kept as drawn (simplified Quick, Draw! strokes); placed by uniform scale + translation, mirrored when the decoder chose the mirror; swapped whole on twos"
   },
@@ -220,7 +220,7 @@
     "face_to_viewer": 0,
     "rest": 0
    },
-   "used_on_screen": true,
+   "used_on_screen": false,
    "mirrored_on_screen": false,
    "operation": "selected by eye from contact sheets; strokes kept as drawn (simplified Quick, Draw! strokes); placed by uniform scale + translation, mirrored when the decoder chose the mirror; swapped whole on twos"
   },
@@ -268,7 +268,7 @@
     "face_to_viewer": 0,
     "rest": 0
    },
-   "used_on_screen": true,
+   "used_on_screen": false,
    "mirrored_on_screen": false,
    "operation": "selected by eye from contact sheets; strokes kept as drawn (simplified Quick, Draw! strokes); placed by uniform scale + translation, mirrored when the decoder chose the mirror; swapped whole on twos"
   },
@@ -484,8 +484,8 @@
     "face_to_viewer": 0,
     "rest": 0
    },
-   "used_on_screen": true,
-   "mirrored_on_screen": true,
+   "used_on_screen": false,
+   "mirrored_on_screen": false,
    "operation": "selected by eye from contact sheets; strokes kept as drawn (simplified Quick, Draw! strokes); placed by uniform scale + translation, mirrored when the decoder chose the mirror; swapped whole on twos"
   },
   {
@@ -508,7 +508,7 @@
     "face_to_viewer": 0,
     "rest": 0
    },
-   "used_on_screen": true,
+   "used_on_screen": false,
    "mirrored_on_screen": false,
    "operation": "selected by eye from contact sheets; strokes kept as drawn (simplified Quick, Draw! strokes); placed by uniform scale + translation, mirrored when the decoder chose the mirror; swapped whole on twos"
   },
@@ -892,7 +892,7 @@
     "face_to_viewer": 0,
     "rest": 0
    },
-   "used_on_screen": true,
+   "used_on_screen": false,
    "mirrored_on_screen": false,
    "operation": "selected by eye from contact sheets; strokes kept as drawn (simplified Quick, Draw! strokes); placed by uniform scale + translation, mirrored when the decoder chose the mirror; swapped whole on twos"
   },
@@ -940,7 +940,7 @@
     "face_to_viewer": 0,
     "rest": 0.6
    },
-   "used_on_screen": true,
+   "used_on_screen": false,
    "mirrored_on_screen": false,
    "operation": "selected by eye from contact sheets; strokes kept as drawn (simplified Quick, Draw! strokes); placed by uniform scale + translation, mirrored when the decoder chose the mirror; swapped whole on twos"
   },
@@ -958,54 +958,6 @@
    "rights": "CC BY 4.0, Quick, Draw! dataset, Google Creative Lab and contributors (https://quickdraw.withgoogle.com/data)",
    "label": {
     "native_facing": "L",
-    "posture": "lie",
-    "head": 0.5,
-    "leg_spread": 0,
-    "face_to_viewer": 0,
-    "rest": 0
-   },
-   "used_on_screen": true,
-   "mirrored_on_screen": false,
-   "operation": "selected by eye from contact sheets; strokes kept as drawn (simplified Quick, Draw! strokes); placed by uniform scale + translation, mirrored when the decoder chose the mirror; swapped whole on twos"
-  },
-  {
-   "id": "dog-5430510601895936",
-   "what": "dog doodle: lying, head right, face to the viewer",
-   "kind": "pose-library drawing",
-   "source_file": "/home/user/hartswf0/quickdraw/dog.part",
-   "line_index": 2250,
-   "key_id": "5430510601895936",
-   "countrycode": "AU",
-   "copied_to": "library/dogs.ndjson",
-   "source_title": "Quick, Draw! (category: dog)",
-   "archive_url": "https://github.com/googlecreativelab/quickdraw-dataset",
-   "rights": "CC BY 4.0, Quick, Draw! dataset, Google Creative Lab and contributors (https://quickdraw.withgoogle.com/data)",
-   "label": {
-    "native_facing": "R",
-    "posture": "lie",
-    "head": 0.45,
-    "leg_spread": 0,
-    "face_to_viewer": 1,
-    "rest": 0
-   },
-   "used_on_screen": false,
-   "mirrored_on_screen": false,
-   "operation": "selected by eye from contact sheets; strokes kept as drawn (simplified Quick, Draw! strokes); placed by uniform scale + translation, mirrored when the decoder chose the mirror; swapped whole on twos"
-  },
-  {
-   "id": "dog-5827981035438080",
-   "what": "dog doodle: lying, head right",
-   "kind": "pose-library drawing",
-   "source_file": "/home/user/hartswf0/quickdraw/dog.part",
-   "line_index": 3283,
-   "key_id": "5827981035438080",
-   "countrycode": "VN",
-   "copied_to": "library/dogs.ndjson",
-   "source_title": "Quick, Draw! (category: dog)",
-   "archive_url": "https://github.com/googlecreativelab/quickdraw-dataset",
-   "rights": "CC BY 4.0, Quick, Draw! dataset, Google Creative Lab and contributors (https://quickdraw.withgoogle.com/data)",
-   "label": {
-    "native_facing": "R",
     "posture": "lie",
     "head": 0.5,
     "leg_spread": 0,
@@ -1041,26 +993,74 @@
    "operation": "selected by eye from contact sheets; strokes kept as drawn (simplified Quick, Draw! strokes); placed by uniform scale + translation, mirrored when the decoder chose the mirror; swapped whole on twos"
   },
   {
-   "id": "dog-4593780072120320",
-   "what": "dog doodle: lying, big head right",
+   "id": "dog-5840510176460800",
+   "what": "dog doodle: dome body, round-box head low at the chest, legs apart: the stride twin of 1309",
    "kind": "pose-library drawing",
    "source_file": "/home/user/hartswf0/quickdraw/dog.part",
-   "line_index": 2098,
-   "key_id": "4593780072120320",
-   "countrycode": "KR",
+   "line_index": 135,
+   "key_id": "5840510176460800",
+   "countrycode": "FR",
    "copied_to": "library/dogs.ndjson",
    "source_title": "Quick, Draw! (category: dog)",
    "archive_url": "https://github.com/googlecreativelab/quickdraw-dataset",
    "rights": "CC BY 4.0, Quick, Draw! dataset, Google Creative Lab and contributors (https://quickdraw.withgoogle.com/data)",
    "label": {
     "native_facing": "R",
+    "posture": "stand",
+    "head": 0.3,
+    "leg_spread": 0.7,
+    "face_to_viewer": 0,
+    "rest": 0
+   },
+   "used_on_screen": true,
+   "mirrored_on_screen": true,
+   "operation": "selected by eye from contact sheets; strokes kept as drawn (simplified Quick, Draw! strokes); placed by uniform scale + translation, mirrored when the decoder chose the mirror; swapped whole on twos"
+  },
+  {
+   "id": "dog-4559467041521664",
+   "what": "dog doodle: dome body, small round head low at the chest, legs splayed: the stride twin of 135 (found by 10_twin_search.py)",
+   "kind": "pose-library drawing",
+   "source_file": "/home/user/hartswf0/quickdraw/dog.part",
+   "line_index": 1309,
+   "key_id": "4559467041521664",
+   "countrycode": "US",
+   "copied_to": "library/dogs.ndjson",
+   "source_title": "Quick, Draw! (category: dog)",
+   "archive_url": "https://github.com/googlecreativelab/quickdraw-dataset",
+   "rights": "CC BY 4.0, Quick, Draw! dataset, Google Creative Lab and contributors (https://quickdraw.withgoogle.com/data)",
+   "label": {
+    "native_facing": "L",
+    "posture": "stand",
+    "head": 0.3,
+    "leg_spread": 0.8,
+    "face_to_viewer": 0,
+    "rest": 0
+   },
+   "used_on_screen": true,
+   "mirrored_on_screen": false,
+   "operation": "selected by eye from contact sheets; strokes kept as drawn (simplified Quick, Draw! strokes); placed by uniform scale + translation, mirrored when the decoder chose the mirror; swapped whole on twos"
+  },
+  {
+   "id": "dog-4559532657213440",
+   "what": "dog doodle: lying, box head in profile, snout and eye pointing left",
+   "kind": "pose-library drawing",
+   "source_file": "/home/user/hartswf0/quickdraw/dog.part",
+   "line_index": 3537,
+   "key_id": "4559532657213440",
+   "countrycode": "US",
+   "copied_to": "library/dogs.ndjson",
+   "source_title": "Quick, Draw! (category: dog)",
+   "archive_url": "https://github.com/googlecreativelab/quickdraw-dataset",
+   "rights": "CC BY 4.0, Quick, Draw! dataset, Google Creative Lab and contributors (https://quickdraw.withgoogle.com/data)",
+   "label": {
+    "native_facing": "L",
     "posture": "lie",
-    "head": 0.5,
+    "head": 0.75,
     "leg_spread": 0,
     "face_to_viewer": 0,
     "rest": 0
    },
-   "used_on_screen": false,
+   "used_on_screen": true,
    "mirrored_on_screen": false,
    "operation": "selected by eye from contact sheets; strokes kept as drawn (simplified Quick, Draw! strokes); placed by uniform scale + translation, mirrored when the decoder chose the mirror; swapped whole on twos"
   },
@@ -1084,7 +1084,7 @@
     "face_to_viewer": 0,
     "rest": 0
    },
-   "used_on_screen": false,
+   "used_on_screen": true,
    "mirrored_on_screen": false,
    "operation": "selected by eye from contact sheets; strokes kept as drawn (simplified Quick, Draw! strokes); placed by uniform scale + translation, mirrored when the decoder chose the mirror; swapped whole on twos"
   },

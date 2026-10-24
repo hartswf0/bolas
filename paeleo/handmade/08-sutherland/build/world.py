@@ -322,14 +322,14 @@ class DogDriver:
         # yaw is a parameter of the graph: the body rotates in depth (z), never a mirror flip.
         # refusing turns through the wall side (we see its back); coming round turns through
         # the camera side (we see its face).
-        phi_b = (math.pi - math.acos(clamp(turn, -1, 1))) if t < 7.458 else (math.acos(clamp(turn, -1, 1)) - math.pi)
+        phi_b = math.pi - math.acos(clamp(turn, -1, 1))
         f = np.array([math.cos(phi_b), 0.0, math.sin(phi_b)])
         side = np.cross(f, UP)
         # the head leads the body: it turns first at the moment of choosing, up to 130 deg off the body
         if 3.417 <= t < 7.458:
             goal, tc = 0.0, 3.417
         elif 7.458 <= t < 9.5:
-            goal, tc = -math.pi, 7.458
+            goal, tc = math.pi, 7.458
         else:
             goal, tc = phi_b, t
         dphi = clamp(goal - phi_b, -2.27, 2.27) * smooth((t - tc) / 0.35)

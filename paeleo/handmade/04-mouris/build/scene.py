@@ -110,7 +110,7 @@ def dog_parts(a, time):
     parts.append(('head', capsule(H_((-0.05, -0.015)), H_((-0.19, -0.04)), 0.052 * max(fx, .6), 0.036 * max(fx, .6))))
     parts.append(('ear', [H_((-0.02, 0.055)), H_((0.05, 0.06)), H_((ear_tip[0] - 0.03, ear_tip[1] - 0.01))]))
     eye = H_((-0.055, 0.02)); nose = H_((-0.205, -0.03))
-    return parts, dict(eye=eye, nose=nose, S=S, H=H, head=hc)
+    return parts, dict(eye=eye, nose=nose, S=S, H=H, head=hc, torso=torso)
 
 
 # ---------------------------------------------------------------- the person's mould (local metres, faces +x)

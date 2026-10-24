@@ -21,17 +21,17 @@
 </head>
 <body>
 <main>
-  <div class="k">PAE-02 · SCION 38 · revision: full film v2 (end-card text fix)</div>
+  <div class="k">PAE-02 · SCION 38 · revision: round 2 (critic round 1 repairs)</div>
   <h1>Dynamic Pose Selection: the drawing-library swarm</h1>
   <video src="film.mp4" controls playsinline preload="metadata" poster="stills/28.0s-lying-across-the-sill.png"></video>
   <div class="card"><div class="k">Critic verdict</div>
-    Pending. No independent critic was run by this swarm; the builder does not approve its own work.</div>
+    Round 1: DOES NOT PASS (reviews/round1.md). Round 2 repairs made and measured; awaiting the critic.</div>
   <div class="card"><div class="k">Next blocking failure</div>
-    The walk cycle alternates drawings by different people: identity shimmer on every step (14.7–23.8 s).
-    Repair condition: a matched stride pair from one doodle hand, or a viewer reading it as one dog walking.</div>
+    The walk changes legs only every ~2 s (stride twins #135/#1309, two hands); between, re-placement on twos with a gait bob.
+    Repair condition: a viewer reads the dome dog as one dog walking in, head low.</div>
   <div class="card"><div class="k">Invariants (measured, checks.json)</div>
     <ul>
-      <li>Six choices on screen within ±0.25 s (largest: stopping the backing, +0.25 by motion, +0.17 by swap).</li>
+      <li>Six choices on screen within ±0.25 s (largest: stopping the backing, +0.25 by motion, +0.17 by swap); check_handmade ALL OK.</li>
       <li>Never enters: centroid ≥ 0.579 m; ends 40% inside the door frame, 44% of its ink in the lit doorway.</li>
       <li>Call → retreat, reach → back turned; sit, open door, low hand, soft voice all before the approach.</li>
       <li>x follows the score: approach 3.404 m measured vs 3.406 m.</li>
