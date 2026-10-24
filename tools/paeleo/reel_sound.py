@@ -52,6 +52,7 @@ for c in R['cuts']:
             if w.get('door') == 'open': place(fit(creak()), at, 1)
 end = R['dur'] - R['tail']; place(flick(), end, 2.4, 0); place(pad([261.6, 329.6, 392, 587.3], R['tail'], .12), end + .02)
 for c in R['cuts']: tt = np.arange(int((R['each'] - .1) * SR)) / SR; place(np.sin(2 * np.pi * 4500 * tt) * (np.sin(2 * np.pi * 28 * tt) > .2) * ((tt % .9) < .2) * .008, c['at'])
+air = lowpass(noise(R['dur']), 900) * .0035; L[:len(air)] += air; Rr[:len(air)] += air[::-1]   # room air, unpitched, so a cut is never digital silence
 m = max(np.abs(L).max(), np.abs(Rr).max()); st = np.stack([L, Rr], 1)[:int(R['dur'] * SR)] * (.89 / m)
 with wave.open(f'{out}/sound.wav', 'wb') as w: w.setnchannels(2); w.setsampwidth(2); w.setframerate(SR); w.writeframes((st * 32767).astype('<i2').tobytes())
 print('reel sound', R['dur'])
