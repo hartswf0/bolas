@@ -31,7 +31,8 @@ ch['watch>retreat (1.00)'] = {'op_change': op_change(0.9), 'motion_onset': first
 ch['retreat>watch (2.33)'] = {'op_change': op_change(2.2)}
 ch['watch>refuse (3.42)'] = {'op_change': op_change(3.3), 'first_frame_not_facing_door': first(lambda i: FAC[i] != 'door', 3.0),
                             'first_frame_back_turned': first(lambda i: FAC[i] == 'away', 3.0)}
-ch['refuse>watch (7.46)'] = {'head_lift_onset (head end +4px over 5.5-7.3 s)': first(lambda i: HH[i] > np.median(HH[(T > 5.5) & (T < 7.3)]) + 4, 7.3),
+HF = [f.get('head_facing') for f in tr]
+ch['refuse>watch (7.46)'] = {'head_faces_door': first(lambda i: HF[i] == 'door', 7.0),'head_lift_onset (head end +4px over 5.5-7.3 s)': first(lambda i: HH[i] > np.median(HH[(T > 5.5) & (T < 7.3)]) + 4, 7.3),
                             'first_frame_facing_door_again': first(lambda i: FAC[i] == 'door', 7.3)}
 ch['watch>approach (14.71)'] = {'op_change': op_change(14.5), 'motion_onset': first(lambda i: XM[i] < 3.97, 14.0)}
 ch['approach>lie_down (23.79)'] = {'op_change': op_change(23.5), 'height_drop_below_80pct': first(lambda i: HP[i] < 0.8 * stand_h, 23.0)}
@@ -48,6 +49,11 @@ res['invariant_1_choice_times'] = {'pass': all(inv1), 'choices': ch,
     'note': 'op_change = the frame where the archive operation switches (structural); motion/height/facing are measured from the render.'}
 
 end = [f for f in tr if f['t'] >= 26]
+lie_fr = [f for f in tr if f['t'] >= 24.5]
+res['lying_shape'] = {'pass': bool(max(f['back_line_deg'] for f in lie_fr) <= 15 and min(f['frac_length_inside_jamb'] for f in lie_fr) >= 0.3 and min(f['tail_right_px'] for f in lie_fr) > 372 + 185 * 0.46),
+    'max_back_line_deg_t>=24.5': max(f['back_line_deg'] for f in lie_fr), 'min_frac_length_inside_jamb': min(f['frac_length_inside_jamb'] for f in lie_fr),
+    'min_tail_right_px': min(f['tail_right_px'] for f in lie_fr), 'jamb_outer_px': 372 + 185 * 0.46,
+    'body_x_spread_after_24.5_m': max(f['x_measured_m'] for f in lie_fr) - min(f['x_measured_m'] for f in lie_fr)}
 sill_px = 372 + 185 * 0.46
 inner_px = 372 - 185 * 0.46
 inv2 = {'min_x_measured_m': float(XM.min()), 'x_measured_end_m': float(XM[-1]),

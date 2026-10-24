@@ -10,16 +10,16 @@
   {
    "choice": "retreat_to_watch",
    "score_t": 2.333,
-   "measured_t": 2.625,
-   "delta": 0.292,
-   "within_0_25": false
+   "measured_t": 2.333,
+   "delta": 0.0,
+   "within_0_25": true
   },
   {
    "choice": "refuse",
    "score_t": 3.417,
-   "measured_t": 3.917,
-   "delta": 0.5,
-   "within_0_25": false
+   "measured_t": 3.417,
+   "delta": 0.0,
+   "within_0_25": true
   },
   {
    "choice": "refuse_to_watch",
@@ -54,9 +54,9 @@
   "min_centre_x": 0.5702,
   "sill_limit": 0.56,
   "centre_never_below_sill": true,
-  "min_z_of_any_dog_point_inside_door_jambs": -0.132,
+  "min_z_of_any_dog_point_inside_door_jambs": 0.0001,
   "wall_inner_face_z": -0.12,
-  "never_past_the_wall": false,
+  "never_past_the_wall": true,
   "final_points_between_jambs": 11,
   "final_points_outside_jambs": 13,
   "final_spot_share_between_jambs": 0.509,
@@ -68,7 +68,7 @@
   "x_after_call": 3.948,
   "reach_at": 3.4,
   "face_cos_before_reach": 1.0,
-  "face_cos_after_reach": -0.978,
+  "face_cos_after_reach": -0.974,
   "person_seated_at": 6.25,
   "door_open_past_70deg_at": 6.5,
   "hand_low_at": 6.542,
@@ -78,26 +78,26 @@
  },
  "invariant4": {
   "max_abs_world_minus_score_m": 0.0294,
-  "mean_abs_m": 0.0126,
-  "screen_px_per_m_fit_wide": 151.86,
-  "screen_fit_rms_px": 10.87,
+  "mean_abs_m": 0.0131,
+  "screen_px_per_m_fit_wide": 151.89,
+  "screen_fit_rms_px": 11.27,
   "approach_distance_score_m": 3.406,
   "approach_distance_measured_m": 3.413,
   "retreat_direction": "+x (away from the door)"
  },
  "solver": {
   "declared_tolerance_mm": 1.0,
-  "dog_hard_max_mm": 0.199,
-  "dog_hard_p95_mm": 0.186,
-  "person_hard_max_mm": 0.384,
+  "dog_hard_max_mm": 0.2,
+  "dog_hard_p95_mm": 0.188,
+  "person_hard_max_mm": 0.233,
   "door_hard_max_mm": 0.0,
   "all_within_tolerance": true,
-  "dog_max_point_step_per_frame_m": 0.3482,
-  "dog_max_step_at_t": 4.333,
-  "person_max_point_step_per_frame_m": 0.7599,
+  "dog_max_point_step_per_frame_m": 0.1452,
+  "dog_max_step_at_t": 7.958,
+  "person_max_point_step_per_frame_m": 0.1212,
   "planted_paw_slip": "0 by construction (a planted paw has inverse mass 0)",
   "unsatisfiable_reach_frames": 29,
-  "reach_gap_max_m": 3.54
+  "reach_gap_max_m": 3.903
  },
  "rig_ratios_from_archive": {
   "nose_neck": 0.4697905518701124,
@@ -107,5 +107,9 @@
   "hind_h": 0.8438496288908127,
   "neck_h": 0.8926307260564227
  },
- "rig_keys": 25
+ "rig_keys": 25,
+ "auxiliary_events": {
+  "retreat_to_watch_head_rises": 1.583,
+  "refuse_body_turn_15deg": 3.542
+ }
 }

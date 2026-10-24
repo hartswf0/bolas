@@ -176,7 +176,8 @@ L += drone; R += drone
 def paw(g):
     th = onepole(rng.randn(2400), 260) * env(2400, 0.001, 0.018)
     ck = bandpass(rng.randn(300), 3000, 8000) * env(300, 0.0001, 0.0015)
-    return th * g + ck * g * 0.5
+    th[:300] += ck * 0.5
+    return th * g
 for ev in S['events']:
     tt = T_TITLE + ev['t']
     if ev['kind'] == 'paw':

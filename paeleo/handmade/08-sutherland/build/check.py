@@ -58,8 +58,8 @@ ev = {}
 ev['retreat'] = first(V > 0.05, 0.5)
 NZ = np.array([f['dogP'][I['Z']][1] for f in sc])
 mret = NZ[(T > 1.6) & (T < 2.3)].min()
-ev['retreat_to_watch'] = first(NZ > mret + 0.02, 2.0)          # the head comes up out of the cower
-ev['retreat_to_watch_speed_falls'] = first(np.r_[0, np.diff(V)] < -0.05, 2.0)
+ev['retreat_to_watch'] = first(np.r_[0, np.diff(V)] < -0.05, 1.5)   # the backing-away starts to brake
+ev['retreat_to_watch_head_rises'] = first(NZ > mret + 0.02, 1.5)
 basez = NZ[(T > 2.9) & (T < 3.35)].mean()
 ev['refuse'] = first(NZ < basez - 0.02, 3.0)                      # the head drops and the body starts to turn
 ev['refuse_body_turn_15deg'] = first(FC < math.cos(math.radians(15)), 3.0)
@@ -135,6 +135,6 @@ solver = dict(declared_tolerance_mm=1.0,
               unsatisfiable_reach_frames=len(gaps), reach_gap_max_m=round(max(gaps), 3) if gaps else None)
 checks = dict(choices=choice_rows, invariant2=inv2, invariant3=inv3, invariant4=inv4, solver=solver,
               rig_ratios_from_archive=Wd.RATIOS, rig_keys=Wd.N_KEYS)
-checks['auxiliary_events'] = {k: ev[k] for k in ('retreat_to_watch_speed_falls', 'refuse_body_turn_15deg')}
+checks['auxiliary_events'] = {k: ev[k] for k in ('retreat_to_watch_head_rises', 'refuse_body_turn_15deg')}
 json.dump(checks, open(os.path.join(OUT, 'checks.json'), 'w'), indent=1)
 print(json.dumps(checks, indent=1))

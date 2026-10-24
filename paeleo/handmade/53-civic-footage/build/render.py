@@ -98,30 +98,46 @@ def build_plates():
 
 # ===================== the door: Straight Talk (1992), re-timed =====================
 DOOR_REF = 31
-def door_frame_for(t):
-    """ajar = source f027 held (a thin warm gap); opens 6.2 s -> 6.7 s by playing the closing swing backwards f027 -> f022."""
+DOOR_CROP_W = 132
+def door_frame_for(t, P):
+    """Straight Talk, mirrored so the woman in it faces the porch. Returns (frame, crop x0 in the mirrored frame, op, tag).
+    0-5.42 s  the woman stands in the half-open door, hand on the knob: f010-f013 ping-pong (faster while she calls)
+    5.42-6.0  she steps aside: f013>f019 played as recorded, the crop re-framed from her to the door
+    6.0-6.2   the door swings toward shut: f023, f024 (ajar)
+    6.2-6.4   the door opens: f024>f022 played backward; held f022 (open), its warm hallway lifted as light"""
+    if t < 5.417:
+        seq = [10, 11, 12, 13, 12, 11]
+        k = seq[int(t * (8 if P['voice'] == 'call' else 3)) % len(seq)]
+        return k, 98, 'MIRROR · PING-PONG f010-f013 · the woman in the door', 'MIRROR · PING-PONG'
+    if t < 6.0:
+        u = (t - 5.417) / 0.583
+        return min(19, 13 + int((t - 5.417) * 12)), 98 + 47 * u, 'MIRROR · PLAY 1:1 f013>f019 · she steps aside · REFRAMED', 'PLAY · steps aside'
     if t < 6.2:
-        return 27, 'HELD f027 (ajar)'
-    k = min(5, int((t - 6.2) * 12))
-    if k < 5:
-        return 27 - k, 'REVERSE f027>f022 (the door opens)'
-    return 22, 'HELD f022 (open)'
+        return (23 if t < 6.1 else 24), 145, 'MIRROR · f023-f024 · the door swings to (ajar)', 'MIRROR · ajar'
+    k = max(22, 24 - int((t - 6.2) * 12))
+    if k > 22:
+        return k, 145, 'MIRROR · REVERSE f024>f022 · the door opens', 'REVERSE · opens'
+    return 22, 145, 'MIRROR · HELD f022 (open)', 'HELD · open'
 
-def door_layer(i):
-    im = door.frame(i)
+def door_layer(i, x0, open_amt):
+    im = door.frame(i).transpose(Image.FLIP_LEFT_RIGHT)
     c = door.camera
-    dx = c[i][0] - c[DOOR_REF][0]; dy = c[i][1] - c[DOOR_REF][1]
-    box = (106 + dx, 0 + dy, 238 + dx, 288 + dy)
+    dx = -(c[i][0] - c[DOOR_REF][0]); dy = c[i][1] - c[DOOR_REF][1]
+    y0 = min(16.0, max(0.0, 8 + dy))                 # stay inside the frame: no black edge
+    box = (x0 + dx, y0, x0 + DOOR_CROP_W + dx, y0 + 272)
     cr = im.crop(tuple(int(round(v)) for v in box)).resize((int(DOOR_R - DOOR_L), WALL_BASE - DOOR_TOP), Image.BICUBIC)
     a = np.asarray(cr).astype(np.float32) / 255
     L = a @ np.array([0.299, 0.587, 0.114])
+    grey = np.repeat(L[..., None], 3, -1) * 0.74          # the doorway at dusk
+    if open_amt <= 0:
+        return grey, None
     hue = (a[..., 0] - a[..., 2]) / (a[..., 0] + 0.05)
     warm = np.clip((hue - 0.30) / 0.15, 0, 1)
     hh, ww = warm.shape
     warm[int(hh * 0.90):] = 0                      # the brown floor of the hallway is not light
-    warm[:, :int(ww * 0.45)] *= 0                  # only the gap beside the door's edge
+    warm[:, int(ww * 0.55):] *= 0                  # only the gap beside the door's edge (mirrored: left)
     warm = np.asarray(Image.fromarray((warm * 255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(1.5))).astype(np.float32) / 255
-    grey = np.repeat(L[..., None], 3, -1) * 0.62       # the door panel sits in dusk
+    warm *= open_amt
     lit = a / np.maximum(L, 0.12)[..., None] * 0.80     # the gap's own warm colour, exposure lifted: the light inside
     out = grey * (1 - warm[..., None]) + np.clip(lit, 0, 1) * warm[..., None]
     return out, warm
@@ -191,15 +207,15 @@ def dog_pick(n):
         return dict(src=k, mirror=False, fold=None, op='PING-PONG 2:3 · f004-f012', tag='PING-PONG 2:3')
     if t < 3.417 + len(TURN) / 12:
         k = TURN[min(len(TURN) - 1, int((t - 3.417) * 12))]
-        return dict(src=k, mirror=False, fold=None, op='PLAY 1:1 · its own turn away (f015-f044, f021-25 cut)', tag='PLAY 1:1 (its turn)')
+        return dict(src=k, mirror=False, fold=None, op='PLAY 1:1 · its own turn away (f015-f044, f021-25 cut)', tag='PLAY 1:1 · turn')
     if t < 7.458:
         return dict(src=44, mirror=False, fold=(a['lie'], lie_deg(a), False), op='COMPOSED: FOLD f044 · lies down, back turned', tag='COMPOSED FOLD')
     if t < 7.9:
         u = min(1.0, (t - 7.458) / 0.17)
-        return dict(src=44, mirror=False, fold=(a['lie'], 70 + 30 * u, True), op='COMPOSED: FOLD f044 + HEAD MIRRORED at the neck · looks back at the door', tag='COMPOSED HEAD TURN')
+        return dict(src=44, mirror=False, fold=(a['lie'], 70 + 30 * u, True), op='COMPOSED: FOLD f044 + HEAD MIRRORED at the neck · looks back at the door', tag='COMPOSED · head')
     if t < 7.9 + len(TURN_BACK) / 12:
         k = TURN_BACK[min(len(TURN_BACK) - 1, int((t - 7.9) * 12))]
-        return dict(src=k, mirror=False, fold=None, op='PLAY · turns to the door (f033>f014)', tag='PLAY (turns back)')
+        return dict(src=k, mirror=False, fold=None, op='PLAY · turns to the door (f033>f014)', tag='PLAY · turns back')
     if t < 14.708:
         seq = list(range(0, 16)) + list(range(14, 0, -1))
         k = seq[int((t - 8.4) * 6) % len(seq)]
@@ -256,70 +272,61 @@ def rec_line(src):
     r = src.rec
     return r.get('source_title', '?'), (r.get('source_year') or 'undated'), r.get('rights_statement', 'unknown')
 
-MON_W, MON_H = 152, 114
-def draw_monitor(img, dr, x, label, src, k, op, active, outline=None, mirror=False):
-    y = 12
-    fr = src.frame(k).resize((MON_W, int(MON_W * src.frame(k).height / src.frame(k).width)), Image.BILINEAR)
+MON_W, MON_H = 128, 96
+F_HUD = font('mono', 16); F_HUD_B = font('mono6', 16); F_PROMPT = font('serifi', 22)
+def draw_monitor(img, dr, x, label, src, k, tag, active, outline=None):
+    y = 10
+    fr0 = src.frame(k)
+    fr = fr0.resize((MON_W, int(MON_W * fr0.height / fr0.width)), Image.BILINEAR)
     if not active:
         fr = Image.blend(fr, Image.new('RGB', fr.size, (24, 24, 27)), 0.72)
     img.paste(fr, (x, y))
     if outline and active:
-        s = MON_W / src.frame(k).width
-        for p in outline:
-            if len(p) > 2:
-                dr.line([(x + q[0] * s, y + q[1] * s) for q in p] + [(x + p[0][0] * s, y + p[0][1] * s)], fill=AMBER, width=1)
+        s = MON_W / fr0.width
+        for p_ in outline:
+            if len(p_) > 2:
+                dr.line([(x + q[0] * s, y + q[1] * s) for q in p_] + [(x + p_[0][0] * s, y + p_[0][1] * s)], fill=AMBER, width=1)
     dr.rectangle([x - 1, y - 1, x + MON_W, y + fr.height], outline=(70, 70, 70))
     title, year, rights = rec_line(src)
     tx = x + MON_W + 8
-    dr.text((tx, y - 1), label, font=F_MONO_B, fill=AMBER if active else DIM)
-    lines = [title[:24], year + ' · ' + rights.replace('_', ' '), 'clip ' + src.rec.get('clip_id', '')[:8],
-             'f%03d  clip+%5.2fs' % (k, src.clip_time(k)), ('film ' + tc(src.source_time(k))) if src.source_time(k) is not None else 'film offset unknown']
-    for j, s in enumerate(lines):
-        dr.text((tx, y + 15 + j * 13), s, font=F_MONO_S, fill=INK if active else DIM)
-    # operation, wrapped
-    words = op.split(' '); ln = ''; yy = y + 15 + len(lines) * 13 + 2
-    for w_ in words:
-        if len(ln) + len(w_) + 1 > 21:
-            dr.text((tx, yy), ln, font=F_MONO_S, fill=AMBER if active else DIM); yy += 12; ln = w_
-        else:
-            ln = (ln + ' ' + w_).strip()
-    if ln:
-        dr.text((tx, yy), ln, font=F_MONO_S, fill=AMBER if active else DIM)
+    st = src.source_time(k)
+    lines = [(label, AMBER if active else DIM, F_HUD_B), (title[:18], INK, F_HUD),
+             ((year + ' · ' + ('PD' if rights == 'public_domain' else rights))[:18], INK, F_HUD),
+             (('f%03d +%.2fs' % (k, src.clip_time(k)))[:18], INK, F_HUD),
+             (tc(st) if st is not None else 'film tc unknown', INK, F_HUD),
+             (tag[:18], AMBER, F_HUD)]
+    for j, (s_, col, fnt) in enumerate(lines):
+        dr.text((tx, y - 2 + j * 19), s_, font=fnt, fill=col if active else DIM)
 
 CHOICES = SCORE['choices']
 PROMPTS = SCORE['prompts']
 def draw_score(dr, n):
+    """the score strip: time, the prompt, the circumstances, and an unlabelled timeline (choices read from the picture)."""
     t = FR[n]['t']
-    x0, x1, y = 24, W - 24, 676
+    x0, x1, y = 24, W - 24, 700
     dr.line([(x0, y), (x1, y)], fill=(80, 80, 80), width=1)
     for s in range(0, 33):
         X = x0 + (x1 - x0) * s / 32
         dr.line([(X, y - 3), (X, y + 3)], fill=(70, 70, 70))
-    # circumstances, as event tags on the timeline
-    tl = SCORE['timeline']
     for c in CHOICES:
         X = x0 + (x1 - x0) * c['t'] / 32
-        on = t >= c['t']
-        dr.line([(X, y - 12), (X, y + 12)], fill=AMBER if on else (100, 96, 90), width=2)
-        dr.text((X + 3, y + 6), c['to'].replace('_', ' '), font=F_MONO_S, fill=AMBER if on else DIM)
+        dr.line([(X, y - 7), (X, y + 7)], fill=(150, 140, 120) if t >= c['t'] else (90, 88, 84), width=2)
     X = x0 + (x1 - x0) * t / 32
-    dr.line([(X, y - 18), (X, y + 18)], fill=(240, 236, 228), width=1)
-    st = FR[n]['dog']['state'].replace('_', ' ')
-    dr.text((x0, y - 30), 'SCORE  %05.2f s  frame %03d   dog: %s   x = %.2f m' % (t, n, st.upper(), FR[n]['dog']['x']), font=F_MONO, fill=INK)
-    # the prompt on screen (the operator's circumstance), as a catalogue event tag
+    dr.line([(X, y - 12), (X, y + 12)], fill=(240, 236, 228), width=2)
+    dr.text((x0, 622), 'score %05.2f s · frame %03d' % (t, n), font=F_HUD, fill=INK)
     cur = None
     for pt, s in PROMPTS:
         if pt <= t < pt + 2.4:
             cur = s
     if cur:
-        dr.text((x0 + 520, y - 34), cur, font=F_SER, fill=(236, 220, 190))
+        dr.text((380, 618), cur, font=F_PROMPT, fill=(236, 220, 190))
     P = FR[n]['person']
     tags = []
-    if P['voice'] != 'none': tags.append('VOICE: ' + P['voice'])
-    if P['hand'] != 'none': tags.append('HAND: ' + P['hand'])
-    tags.append('PERSON: ' + P['posture'] + ', ' + P['place'])
-    tags.append('DOOR: ' + FR[n]['door'])
-    dr.text((x0, y + 22), '   '.join(tags), font=F_MONO_S, fill=DIM)
+    if P['voice'] != 'none': tags.append('voice: ' + P['voice'])
+    if P['hand'] != 'none': tags.append('hand: ' + P['hand'])
+    tags.append('person: ' + P['posture'] + ', ' + P['place'])
+    tags.append('door: ' + FR[n]['door'])
+    dr.text((x0, 654), '   '.join(tags), font=F_HUD, fill=(150, 146, 138))
 
 # ===================== the scene frame =====================
 PLATES = None
@@ -333,46 +340,36 @@ def scene_frame(n):
     f = FR[n]; t = f['t']; P = f['person']
     base = PLATES.copy()
     edl = {'i': n, 't': t}
-    # --- door
-    dk, dop = door_frame_for(t)
-    dl, warm = door_layer(dk)
+    # --- door (and, until she steps aside, the person in it)
     open_amt = float(np.clip((t - 6.2) / 0.5, 0, 1))
+    dk, dx0, dop, dtag = door_frame_for(t, P)
+    dl, warm = door_layer(dk, dx0, open_amt)
     base[DOOR_TOP:WALL_BASE, int(DOOR_L):int(DOOR_L) + dl.shape[1]] = dl
-    # door frame jambs (dark), so the flat reads as an opening in the stone wall
     base[DOOR_TOP - 8:DOOR_TOP, int(DOOR_L) - 8:int(DOOR_R) + 8] *= 0.35
     base[DOOR_TOP - 8:WALL_BASE, int(DOOR_L) - 8:int(DOOR_L)] *= 0.35
     base[DOOR_TOP - 8:WALL_BASE, int(DOOR_R):int(DOOR_R) + 8] *= 0.35
-    edl['door'] = {'src': 'door', 'f': dk, 'op': dop}
-    # --- person
-    pm = None
-    sit = P['sit']
-    if sit < 0.5:
-        seq = [3, 4, 5, 6, 5, 4]
-        speak = P['voice'] == 'call'
-        ck = seq[int(t * (10 if speak else 3)) % len(seq)]
-        lay = scale_rgba(coat_cut(ck), S_COAT)
-        px = sx(P['x']) - 36 * S_COAT
-        py = WALL_BASE + 4 - 199 * S_COAT
-        over(base, lay, px, py)
-        pm = ('coat', ck, 'CUT (drawn matte) · ' + ('PLAY 10:12 while calling' if speak else 'PING-PONG f003-f006'))
-        # the reach: the Door to Heaven arm slides out of the coat toward the porch
+    edl['door'] = {'src': 'door', 'f': dk, 'crop_x0_mirrored': round(dx0, 1), 'op': dop}
+    sc = (DOOR_R - DOOR_L) / DOOR_CROP_W
+    if t < 5.417:
+        pm = ('door', dk, dop, dtag)
         if P['reach'] > 0.02:
             hk = int(t * 12) % 62
             hl = scale_rgba(hand_cut(hk), S_HAND)
-            hx = px + 52 * S_COAT - hl.shape[1] * (1 - P['reach'] * 0.95)
-            hy = GROUND - 0.98 * K - P['reach'] * 10
+            hx = DOOR_L + 112 * sc - hl.shape[1] * (1 - P['reach'] * 0.95)
+            hy = DOOR_TOP + 168 * (WALL_BASE - DOOR_TOP) / 288 - P['reach'] * 8
             over(base, hl, hx, hy)
-            edl['hand'] = {'src': 'hand', 'f': hk, 'op': 'MIRROR · CUT · SLIDE (reach %.2f)' % P['reach']}
+            edl['hand'] = {'src': 'hand', 'f': hk, 'op': 'MIRROR · CUT · SLIDE from her hand (reach %.2f)' % P['reach'], 'tag': 'MIRROR · SLIDE'}
+    elif P['sit'] < 0.5:
+        pm = ('door', dk, dop, dtag)
     else:
         seq = list(range(0, 50)) + list(range(48, 0, -1))
         sk = seq[int(t * 6) % len(seq)]
-        a, o = seated_cut(sk)
-        lay = scale_rgba(a, S_SEAT)
-        # place by the seated body's head/torso column (mirrored source x ~ 230 -> person x)
+        a_, o = seated_cut(sk)
+        lay = scale_rgba(a_, S_SEAT)
         px = sx(P['x']) - (230 - o[0]) * S_SEAT
         py = WALL_BASE + 6 - (226 - o[1]) * S_SEAT
         over(base, lay, px, py)
-        pm = ('seated', sk, 'MIRROR · CUT · PING-PONG 1:2 · SUBSTITUTED for the coat at sit 0.5')
+        pm = ('seated', sk, 'MIRROR · CUT · PING-PONG 1:2 · SUBSTITUTED at sit 0.5', 'MIRROR · PING-PONG')
         if P['low'] > 0.02 or P['hand'] == 'low':
             hk = int(t * 12) % 62
             hl = scale_rgba(hand_cut(hk), S_HAND)
@@ -382,40 +379,52 @@ def scene_frame(n):
             hx = sx(-0.62) - hl.shape[1] * (1 - u) + 10
             hy = GROUND - 0.36 * K
             over(base, hl, hx, hy)
-            edl['hand'] = {'src': 'hand', 'f': hk, 'op': 'MIRROR · CUT · ROTATE -14° · SLIDE (low hand)'}
-    edl['person'] = {'src': 'dog' if pm[0] == 'coat' else 'seated', 'f': pm[1], 'op': pm[2]}
-    # --- dog
+            edl['hand'] = {'src': 'hand', 'f': hk, 'op': 'MIRROR · CUT · ROTATE -14° · SLIDE (low hand)', 'tag': 'MIRROR · SLIDE'}
+    edl['person'] = {'src': pm[0], 'f': pm[1], 'op': pm[2]}
+    # --- dog: anchored and measured by its body (the head piece, when composed, may move; the body does not)
     p = dog_pick(n)
-    lay, face = dog_layer(p)
-    al = lay[..., 3]
-    ys, xs = np.nonzero(al > 0.25)
-    cx = (al[ys, xs] * xs).sum() / al[ys, xs].sum()
+    lay, body, face = dog_layer(p)
+    ab = body[..., 3]
+    ys, xs = np.nonzero(ab > 0.25)
+    cx = (ab[ys, xs] * xs).sum() / ab[ys, xs].sum()
     bottom = ys.max()
     X = sx(f['dog']['x']) - cx
     Y = GROUND - bottom
-    # contact shadow (computed): a soft dark ellipse under the body
     sh_w = (xs.max() - xs.min()) * 0.55
     sh = np.exp(-(((XX - (X + cx)) / max(20, sh_w)) ** 2 + ((YY - (GROUND - 2)) / 6) ** 2))
     base *= (1 - 0.45 * sh[..., None])
     res = over(base, lay, X, Y)
     edl['dog'] = {'src': 'dog', 'f': p['src'], 'mirror': p['mirror'], 'fold': p['fold'], 'op': p['op']}
-    # measured from the composited alpha
     X0_, Y0_, X1_, Y1_, A = res
+    Bd = body[Y0_ - int(round(Y)):Y1_ - int(round(Y)), X0_ - int(round(X)):X1_ - int(round(X)), 3]
+    by_, bx_ = np.nonzero(Bd > 0.25); bw = Bd[by_, bx_]
+    mx = X0_ + (bw * bx_).sum() / bw.sum(); my = Y0_ + (bw * by_).sum() / bw.sum()
+    bxa, bxb = bx_.min(), bx_.max()
+    def _top(xc):
+        col = np.nonzero(Bd[:, int(xc)] > 0.5)[0]
+        return col.min() if len(col) else np.nan
+    xa, xb = bxa + 0.2 * (bxb - bxa), bxa + 0.8 * (bxb - bxa)
+    back_deg = float(np.degrees(np.arctan2(abs(_top(xb) - _top(xa)), xb - xa)))
     yy, xx = np.nonzero(A > 0.25)
     w_ = A[yy, xx]
-    mx = X0_ + (w_ * xx).sum() / w_.sum(); my = Y0_ + (w_ * yy).sum() / w_.sum()
     left = X0_ + xx.min(); right = X0_ + xx.max(); top = Y0_ + yy.min()
     span = xx.max() - xx.min()
     front = (xx < xx.min() + 0.28 * span) if face <= 0 else (xx > xx.max() - 0.28 * span)
     head_h = int(GROUND - (Y0_ + yy[front].min())) if front.any() else 0
     frac_in = float((w_ * ((X0_ + xx) < DOOR_R)).sum() / w_.sum())
+    frac_len = float(np.clip((DOOR_R - left) / max(1, right - left), 0, 1))
     posture = 'lying' if (p['fold'] is not None and p['fold'][0] > 0.5) else 'standing'
+    hface = None
+    if p['fold'] is not None and p['fold'][2]:
+        hface = 'door'
     TRACE.append({'i': n, 't': t, 'state': f['dog']['state'], 'x_score': f['dog']['x'],
                   'x_screen': round(float(mx), 1), 'y_screen': round(float(my), 1),
                   'x_measured_m': round(float((mx - X0) / K), 3),
-                  'facing': {-1: 'door', 0: 'camera', 1: 'away'}[face], 'posture': posture,
-                  'height_px': int(GROUND - top), 'head_height_px': head_h, 'nose_left_px': int(left), 'tail_right_px': int(right),
-                  'frac_inside_door_frame': round(frac_in, 3), 'src_frame': p['src'], 'mirror': p['mirror'], 'op': p['op']})
+                  'facing': {-1: 'door', 0: 'camera', 1: 'away'}[face], 'head_facing': hface or {-1: 'door', 0: 'camera', 1: 'away'}[face],
+                  'posture': posture, 'back_line_deg': round(back_deg, 1), 'height_px': int(GROUND - top), 'head_height_px': head_h,
+                  'nose_left_px': int(left), 'tail_right_px': int(right),
+                  'frac_inside_door_frame': round(frac_in, 3), 'frac_length_inside_jamb': round(frac_len, 3),
+                  'src_frame': p['src'], 'mirror': p['mirror'], 'op': p['op']})
     # --- light
     base[BAND_T:BAND_B] *= light_field(open_amt)[BAND_T:BAND_B]
     # band edge vignette
@@ -425,18 +434,17 @@ def scene_frame(n):
     dr = ImageDraw.Draw(img)
     # --- monitors: the unmodified archive frames in use, with their records
     dpol = dog.polys(p['src'])
-    draw_monitor(img, dr, 16, 'DOG', dog, p['src'], p['op'], True, outline=[max(dpol, key=poly_area)] if dpol else None)
-    draw_monitor(img, dr, 336, 'DOOR', door, dk, dop, True)
-    if pm[0] == 'coat':
-        draw_monitor(img, dr, 656, 'PERSON', dog, pm[1], pm[2], True, outline=[COAT_POLY])
+    draw_monitor(img, dr, 12, 'DOG', dog, p['src'], p['tag'], True, outline=[max(dpol, key=poly_area)] if dpol else None)
+    draw_monitor(img, dr, 332, 'DOOR', door, dk, dtag, True)
+    if pm[0] == 'door':
+        draw_monitor(img, dr, 652, 'PERSON', door, pm[1], pm[3], True)
     else:
         sp = seated.polys(pm[1])
-        draw_monitor(img, dr, 656, 'PERSON', seated, pm[1], pm[2], True, outline=[max(sp, key=poly_area)] if sp else None)
+        draw_monitor(img, dr, 652, 'PERSON', seated, pm[1], pm[3], True, outline=[max(sp, key=poly_area)] if sp else None)
     hk = edl.get('hand', {}).get('f', 0)
-    draw_monitor(img, dr, 976, 'HAND', hand, hk, edl['hand']['op'] if 'hand' in edl else 'not on screen', 'hand' in edl,
+    draw_monitor(img, dr, 972, 'HAND', hand, hk, edl['hand']['tag'] if 'hand' in edl else 'not on screen', 'hand' in edl,
                  outline=hand.polys(hk) if 'hand' in edl else None)
-    # the fiction, marked
-    dr.text((14, BAND_T + 6), 'COMPOSED SCENE · archive fragments re-performed · not a recorded event', font=F_MONO_S, fill=(150, 146, 138))
+    dr.text((14, BAND_T + 6), 'COMPOSED SCENE · not a recorded event', font=F_HUD, fill=(156, 152, 144))
     draw_score(dr, n)
     EDL.append(edl)
     return img
@@ -448,35 +456,39 @@ def title_card(k):
     c = tuple(int(v * a) for v in (232, 226, 214)); c2 = tuple(int(v * a) for v in AMBER); c3 = tuple(int(v * a) for v in (150, 146, 138))
     dr.text((96, 250), 'PAE-02 · SCION 53 · Atlanta Moving Image — Civic Footage Performer', font=font('display9', 40), fill=c)
     dr.text((96, 316), 'The threshold, re-performed by a dog from a home movie.', font=font('serifi', 26), fill=c2)
-    dr.text((96, 372), 'Amateur Film New Jersey C · Home Movies, Internet Archive · undated · public domain', font=F_MONO, fill=c3)
-    dr.text((96, 392), 'Every fragment on screen is shown above it as it was recorded, with its clip, frame and operation.', font=F_MONO, fill=c3)
+    dr.text((96, 376), 'Amateur Film New Jersey C · Home Movies, Internet Archive · undated · public domain', font=F_HUD, fill=c3)
+    dr.text((96, 400), 'Every fragment on screen is shown above it as recorded, with its clip, frame and operation.', font=F_HUD, fill=c3)
     return img
 
 END_LINES = [
     ('MADE OF', ''),
-    ('dog', 'Amateur Film New Jersey C · undated home movie · Home Movies (Internet Archive) · archive.org/details/NewJerseyC'),
-    ('', 'clip 2fdacde1 · film 225.56-235.40 s · 50 frames, SAM masks · public domain · re-timed, reversed, mirrored, held;'),
-    ('', 'lying down and head pivots COMPOSED by folding the cut-out (not in the footage)'),
-    ('person, standing', 'the person in the same home movie (coat and legs) · drawn matte · slid aside'),
-    ('door', 'Straight Talk · 1992 · NTIS · archive.org/details/gov.ntis.ava19144vnb1 · clip 271d80c7 · public domain · reversed swing'),
-    ('person, seated', 'Survival Stresses · 1961 · archive.org/details/hmdvid-101704143 · clip 1d980180 · public domain · mirrored'),
-    ('hand', 'The Door to Heaven · 1941 · archive.org/details/DoortoHe1941 · clip 0870ef3a · public domain · mirrored, card removed'),
-    ('walls, path', 'stone pillar and gravel path of the house in the home movie, tiled · sill and light computed'),
-    ('sound', 'synthesized with numpy: no recorded voices; the calls are formant tones, not words'),
-    ('', 'clips via movingimagearchive.com · these are real people\'s films: shown here re-performed, marked as composed'),
+    ('dog', 'Amateur Film New Jersey C · undated home movie · Home Movies, Internet Archive'),
+    ('', 'archive.org/details/NewJerseyC · clip 2fdacde1 · public domain · SAM-masked frames'),
+    ('', 're-timed, reversed, mirrored, held; lying, head turned back and head lifts'),
+    ('', 'COMPOSED from f044 by folding the cut-out (not in the footage)'),
+    ('door, person', 'Straight Talk · 1992 · NTIS · archive.org/details/gov.ntis.ava19144vnb1'),
+    ('', 'clip 271d80c7 · public domain · mirrored · the woman in the door, her step aside,'),
+    ('', 'the door swinging to and, run backward, opening'),
+    ('person, seated', 'Survival Stresses · 1961 · archive.org/details/hmdvid-101704143 · mirrored'),
+    ('hand', 'The Door to Heaven · 1941 · archive.org/details/DoortoHe1941 · card left out'),
+    ('walls, path', 'stone pillar and gravel path of the house in the home movie · sill, light computed'),
+    ('sound', 'synthesized with numpy · the calls are formant tones, not words'),
+    ('', "real people's films, re-performed and marked as composed"),
 ]
 def end_card(k):
     img = Image.new('RGB', (W, H), (20, 20, 22)); dr = ImageDraw.Draw(img)
     a = min(1, k / 10) * min(1, (END_N - k) / 12)
-    y = 150
+    y = 120
     for lab, s in END_LINES:
         if lab == 'MADE OF':
-            dr.text((96, y - 50), 'What this is made of', font=font('display9', 34), fill=tuple(int(v * a) for v in (232, 226, 214)))
+            dr.text((80, y - 62), 'What this is made of', font=font('display9', 38), fill=tuple(int(v * a) for v in (232, 226, 214)))
             continue
-        dr.text((96, y), lab, font=F_MONO_B, fill=tuple(int(v * a) for v in AMBER))
-        dr.text((262, y), s, font=F_MONO_S, fill=tuple(int(v * a) for v in INK))
-        y += 30 if lab else 22
-    dr.text((96, 640), 'PAE-02 · SCION 53 · score: paeleo/threshold/machine.js, 768 frames, 24 fps', font=F_MONO_S, fill=tuple(int(v * a) for v in (130, 126, 120)))
+        if lab:
+            y += 10
+        dr.text((80, y), lab, font=F_HUD_B, fill=tuple(int(v * a) for v in AMBER))
+        dr.text((262, y), s, font=F_HUD, fill=tuple(int(v * a) for v in INK))
+        y += 24
+    dr.text((80, 672), 'PAE-02 · SCION 53 · score: paeleo/threshold/machine.js, 768 frames, 24 fps', font=F_HUD, fill=tuple(int(v * a) for v in (130, 126, 120)))
     return img
 
 def main():
