@@ -25,6 +25,9 @@ def tone(f0, f1, d, g, harsh):
 def creak(d=1.0):
     n = int(d * SR); t = np.arange(n) / SR; f = 180 + 120 * np.sin(np.pi * t / d); ph = np.cumsum(f) / SR
     return lowpass(((ph % 1) < .08).astype(float) + noise(d) * .05, 2500) * env(n, .1, .3) * .5
+def clip(sig, d):
+    """cut a sound to d seconds, with a 12 ms fade, so it ends before the next cut"""
+    n = max(1, min(len(sig), int(d * SR))); out = sig[:n].copy(); f = min(n, int(.012 * SR)); out[n - f:] *= np.linspace(1, 0, f); return out
 def pad(chord, d, g):
     n = int(d * SR); t = np.arange(n) / SR; y = sum(np.sin(2 * np.pi * f * t + k) / (1 + k * .4) for k, f in enumerate(chord)); return y / len(chord) * env(n, .8, 1.0) * g
 FAM = {range(1, 8): [220, 277.2, 329.6, 440], range(8, 16): [196, 246.9, 293.7, 392], range(16, 29): [174.6, 220, 261.6, 349.2], range(29, 49): [164.8, 207.7, 246.9, 329.6], range(49, 55): [146.8, 185, 220, 293.7]}
@@ -42,9 +45,11 @@ for c in R['cuts']:
     for t, w in R['tl']:
         if c['from'] <= t < c['from'] + R['each']:
             at = c['at'] + t - c['from']
-            if w.get('voice') == 'call': place(tone(220, 300, .45, .35, True), at, 1, -.4)
-            if w.get('voice') == 'soft': place(tone(170, 140, .6, .25, False), at, 1, -.4)
-            if w.get('door') == 'open': place(creak(), at, 1)
+            end = c['at'] + R['each'] - .1   # nothing runs across a cut: every sound ends 0.1 s before the next one, so the cut is heard
+            fit = lambda sig: clip(sig, end - at)
+            if w.get('voice') == 'call': place(fit(tone(220, 300, .45, .35, True)), at, 1, -.4)
+            if w.get('voice') == 'soft': place(fit(tone(170, 140, .6, .25, False)), at, 1, -.4)
+            if w.get('door') == 'open': place(fit(creak()), at, 1)
 end = R['dur'] - R['tail']; place(flick(), end, 2.4, 0); place(pad([261.6, 329.6, 392, 587.3], R['tail'] + .5, .12), end - .2)
 t = np.arange(int((end - R['head']) * SR)) / SR; cr = np.sin(2 * np.pi * 4500 * t) * (np.sin(2 * np.pi * 28 * t) > .2) * ((t % .9) < .2) * .008; place(cr, R['head'])
 m = max(np.abs(L).max(), np.abs(Rr).max()); st = np.stack([L, Rr], 1)[:int(R['dur'] * SR)] * (.89 / m)
