@@ -54,11 +54,11 @@ def first(cond, start=0, end=None):
 
 det = {}
 # 1 retreat at 1.00: crouch snaps (body drops), the head is a door (pale front), the dog starts moving away
-det['retreat'] = {'crouch': first(lambda k: drop[k] > 6, 12), 'door_head': first(lambda k: fw[k] < fw[:20].mean() - 0.06, 12),
+det['retreat'] = {'crouch': first(lambda k: drop[k] > 6, 12), 'door_head': first(lambda k: fw[k] < fw[:20].mean() - 0.010, 12),
                   'moves_away': first(lambda k: x_est[k] > x_est[20] + 0.03, 12)}
 # 2 retreat -> watch at 2.333: the door head is gone (dog head back)
-det['watch1'] = {'head_back': first(lambda k: fw[k] > fw[:20].mean() - 0.03, (det['retreat']['door_head'] or 24) + 1),
-                  'crouch_released': first(lambda k: drop[k] < 6.5, (det['retreat']['crouch'] or 24) + 1)}
+det['watch1'] = {'head_back': first(lambda k: fw[k] > fw[:20].mean() - 0.005, (det['retreat']['door_head'] or 24) + 1),
+                  'crouch_released': first(lambda k: drop[k] < 4.0, (det['retreat']['crouch'] or 24) + 1)}
 # 3 refuse at 3.417: the card starts to turn (width shrinks) and shows its blank back
 wid = bbox[:, 2] - bbox[:, 0]
 det['refuse'] = {'turn_starts': first(lambda k: wid[k] < 0.95 * wid[k - 1], 70), 'back_shown': first(lambda k: facing[k] == -1, 70)}

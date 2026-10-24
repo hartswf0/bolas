@@ -56,8 +56,13 @@ def first(cond, after):
 
 ev = {}
 ev['retreat'] = first(V > 0.05, 0.5)
-ev['retreat_to_watch'] = first((np.abs(V) < 0.12) & (X > 3.5), (ev['retreat'] or 1) + 0.3)
-ev['refuse'] = first(FC < math.cos(math.radians(15)), 3.0)
+NZ = np.array([f['dogP'][I['Z']][1] for f in sc])
+mret = NZ[(T > 1.6) & (T < 2.3)].min()
+ev['retreat_to_watch'] = first(NZ > mret + 0.02, 2.0)          # the head comes up out of the cower
+ev['retreat_to_watch_speed_falls'] = first(np.r_[0, np.diff(V)] < -0.05, 2.0)
+basez = NZ[(T > 2.9) & (T < 3.35)].mean()
+ev['refuse'] = first(NZ < basez - 0.02, 3.0)                      # the head drops and the body starts to turn
+ev['refuse_body_turn_15deg'] = first(FC < math.cos(math.radians(15)), 3.0)
 wh_min_idx = np.where((T > 6) & (T < 7.46 + 0.6))[0]
 base = WH[(T > 6.5) & (T < 7.2)].mean()
 ev['refuse_to_watch'] = first((WH > base + 0.01), 7.0)
@@ -130,5 +135,6 @@ solver = dict(declared_tolerance_mm=1.0,
               unsatisfiable_reach_frames=len(gaps), reach_gap_max_m=round(max(gaps), 3) if gaps else None)
 checks = dict(choices=choice_rows, invariant2=inv2, invariant3=inv3, invariant4=inv4, solver=solver,
               rig_ratios_from_archive=Wd.RATIOS, rig_keys=Wd.N_KEYS)
+checks['auxiliary_events'] = {k: ev[k] for k in ('retreat_to_watch_speed_falls', 'refuse_body_turn_15deg')}
 json.dump(checks, open(os.path.join(OUT, 'checks.json'), 'w'), indent=1)
 print(json.dumps(checks, indent=1))

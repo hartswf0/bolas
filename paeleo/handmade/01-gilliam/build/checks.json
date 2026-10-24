@@ -2,55 +2,57 @@
  "choices": {
   "retreat": {
    "expected_t": 1.0,
-   "measured_onset_t": 1.0833333333333333,
+   "measured_onset_t": 1.0,
    "signals_frames": {
-    "crouch": 26,
-    "door_head": 86,
+    "crouch": 24,
+    "door_head": 24,
     "moves_away": 28
    },
    "signals_t": {
-    "crouch": 1.0833333333333333,
-    "door_head": 3.5833333333333335,
+    "crouch": 1.0,
+    "door_head": 1.0,
     "moves_away": 1.1666666666666667
    },
    "pass_0.25s": true
   },
   "watch1": {
    "expected_t": 2.333,
-   "measured_onset_t": 7.583333333333333,
+   "measured_onset_t": 2.3333333333333335,
    "signals_frames": {
-    "head_back": 182
+    "head_back": 56,
+    "crouch_released": 58
    },
    "signals_t": {
-    "head_back": 7.583333333333333
+    "head_back": 2.3333333333333335,
+    "crouch_released": 2.4166666666666665
    },
-   "pass_0.25s": false
+   "pass_0.25s": true
   },
   "refuse": {
    "expected_t": 3.417,
-   "measured_onset_t": 3.5,
+   "measured_onset_t": 3.4166666666666665,
    "signals_frames": {
-    "turn_starts": 84,
-    "back_shown": null
+    "turn_starts": 82,
+    "back_shown": 86
    },
    "signals_t": {
-    "turn_starts": 3.5,
-    "back_shown": null
+    "turn_starts": 3.4166666666666665,
+    "back_shown": 3.5833333333333335
    },
    "pass_0.25s": true
   },
   "watch2": {
    "expected_t": 7.458,
-   "measured_onset_t": 3.7916666666666665,
+   "measured_onset_t": 7.5,
    "signals_frames": {
-    "front_shown": 91,
+    "front_shown": 182,
     "turn_starts": 180
    },
    "signals_t": {
-    "front_shown": 3.7916666666666665,
+    "front_shown": 7.583333333333333,
     "turn_starts": 7.5
    },
-   "pass_0.25s": false
+   "pass_0.25s": true
   },
   "approach": {
    "expected_t": 14.708,
@@ -122,8 +124,8 @@
   "pass": true
  },
  "commands_push_away": {
-  "x_at_first_call": 3.003,
-  "x_after_calls": 3.998,
+  "x_at_first_call": 3.004,
+  "x_after_calls": 4.0,
   "pass": true
  },
  "circumstances_before_approach": {

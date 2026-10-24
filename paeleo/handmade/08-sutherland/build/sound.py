@@ -105,6 +105,7 @@ def sx_pan(x):
 def click(g=0.05, pan=0.0):
     c = bandpass(rng.randn(700), 2000, 7000) * env(700, 0.0002, 0.0025)
     c2 = onepole(rng.randn(1400), 300) * env(1400, 0.0005, 0.006)
+    c = np.pad(c, (0, 700))
     return (c + c2 * 0.8) * g
 
 title = 'PAE-02 · SCION 08 · IVAN SUTHERLAND'
