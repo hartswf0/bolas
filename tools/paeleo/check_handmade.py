@@ -4,8 +4,8 @@ python3 tools/paeleo/check_handmade.py paeleo/handmade/<nn>-<slug>   (or several
 Reads the swarm's trace.json (what its dog did, measured from its own render) against score/threshold-score.json:
   I1 choices    each of the six choices appears within ±0.25 s of the score's time (first frame in the new state)
   I2 threshold  the dog never goes inside the house (x_score ≥ the sill) and ends at the sill
-  I3 direction  the dog's screen motion follows the score: correlation of x_screen with x_score at least 0.9 in magnitude,
-                and the retreat moves the opposite way to the approach
+  I3 direction  the dog's motion follows the score: correlation of its measured position with the score's x at least 0.9 in
+                magnitude. The position is x_world_measured when the trace has it (a film whose camera moves), else x_screen
   I4 refusal    while the score refuses, the trace has the dog's back turned (facing opposite its facing while watching)
 These are structural checks of the trace the builder reports; they do not judge whether the choices read on screen.
 That is the critic's job."""
@@ -38,9 +38,10 @@ def check(folder):
     res['I2_threshold'] = {'ok': bool(xs) and min(xs) >= SILL - 1e-3 and abs(xs[-1] - SILL) < .1, 'min_x': min(xs) if xs else None, 'end_x': xs[-1] if xs else None}
     # I3: direction
     sc = {f['i']: f['dog']['x'] for f in SCORE['frames']}
-    pairs = [(f['x_screen'], sc[f['i']]) for f in fr if f.get('x_screen') is not None and f['i'] in sc]
+    key = 'x_world_measured' if any(f.get('x_world_measured') is not None for f in fr) else 'x_screen'
+    pairs = [(f[key], sc[f['i']]) for f in fr if f.get(key) is not None and f['i'] in sc]
     r = corr([p[0] for p in pairs], [p[1] for p in pairs]) if len(pairs) > 10 else 0
-    res['I3_direction'] = {'ok': abs(r) >= .9, 'r': round(r, 3), 'n': len(pairs)}
+    res['I3_direction'] = {'ok': abs(r) >= .9, 'r': round(r, 3), 'n': len(pairs), 'measure': key}
     # I4: refusal shows the back
     watch = [f.get('facing') for f in fr if f.get('state') == 'watch' and f.get('facing') is not None]
     ref = [f.get('facing') for f in fr if f.get('state') == 'refuse' and f.get('facing') is not None]
