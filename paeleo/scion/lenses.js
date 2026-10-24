@@ -28,6 +28,12 @@
   // any label already drawn this frame and off the dog until it covers no more than 15% of the dog. LAYOUT is reset per frame.
   const LAYOUT = { boxes: [], dog: null };
   function dogCover(r) { const d = LAYOUT.dog; if (!d) return 0; let n = 0, k = 0; for (let x = r[0] + 3; x < r[2]; x += 6) for (let y = r[1] + 3; y < r[3]; y += 6) { n++; if (d.ctx.isPointInPath(d.path, x, y)) k++; } return d.area ? k * 36 / d.area : 0; }
+  // WCAG contrast: read the backing as drawn (centre of the box), then use the asked-for colour if it reaches 4.5:1, else paper or ink, else nothing
+  const lum = ([r, g, b]) => { const f = v => { v /= 255; return v <= .03928 ? v / 12.92 : ((v + .055) / 1.055) ** 2.4; }; return .2126 * f(r) + .7152 * f(g) + .0722 * f(b); };
+  const ratio = (a, b) => (Math.max(a, b) + .05) / (Math.min(a, b) + .05);
+  const hex = c => { const m = /^#([0-9a-f]{6})$/i.exec(c || ''); return m ? [0, 2, 4].map(i => parseInt(m[1].slice(i, i + 2), 16)) : null; };
+  function ink(ctx, r, want) { const d = ctx.getImageData(Math.round((r[0] + r[2]) / 2), Math.round(r[1] + 3), 1, 1).data, L = lum([d[0], d[1], d[2]]);
+    for (const c of [want, '#fbf7ee', '#14110d']) { const h = hex(c); if (h && ratio(lum(h), L) >= 4.5) return c; } return null; }
   function label(ctx, x, y, s, o) {
     o = o || {}; const sz = Math.max(22, o.size || 22); ctx.save(); ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.font = `${o.w || 600} ${sz}px "JetBrains Mono", monospace`; const w = ctx.measureText(s).width;
     const box = (X, Y) => [X - 5, Y - sz - 3, X + w + 5, Y + 6];
@@ -36,8 +42,9 @@
     for (const [dx, dy] of tries) { const r = box(Math.min(Math.max(X + dx, 9), W - w - 9), Y + dy); if (!hit(r)) { X = Math.min(Math.max(X + dx, 9), W - w - 9); Y += dy; break; } }
     const r = box(X, Y); LAYOUT.boxes.push(r);
     ctx.fillStyle = o.bg || 'rgba(14,12,10,.86)'; ctx.fillRect(r[0], r[1], r[2] - r[0], r[3] - r[1]);
-    ctx.fillStyle = o.c && o.bg === false ? '#fbf7ee' : (o.c || '#fbf7ee'); if (o.bg && /^#(?:[0-9a-f]{3}){1,2}$/i.test(o.bg) && parseInt(o.bg.slice(1, 3), 16) > 200) ctx.fillStyle = '#14110d';
-    ctx.fillText(s, X, Y); ctx.restore(); return r;
+    let txt = ink(ctx, r, o.c); if (!txt) { ctx.fillStyle = 'rgba(0,0,0,.45)'; ctx.fillRect(r[0], r[1], r[2] - r[0], r[3] - r[1]); txt = ink(ctx, r, o.c) || '#fbf7ee'; }
+    { const d = ctx.getImageData(Math.round((r[0] + r[2]) / 2), Math.round(r[1] + 3), 1, 1).data, h = hex(txt); r.ratio = h ? ratio(lum(h), lum([d[0], d[1], d[2]])) : 0; }
+    ctx.fillStyle = txt; ctx.fillText(s, X, Y); ctx.restore(); return r;
   }
   // triangulate a part: rings from the centroid out to the outline (a mesh, as a deformation system would see it)
   function mesh(pts, rings) { const c = cen(pts), T = []; rings = rings || 2; const R = []; for (let k = 0; k <= rings; k++) R.push(pts.map(p => [lerp(c[0], p[0], k / rings), lerp(c[1], p[1], k / rings)]));
@@ -134,7 +141,7 @@
   });
   add(9, 'as-rigid-as-possible puppetry', 'The dog becomes a mesh of triangles that bend but try not to stretch; red triangles are the ones being stretched by the pose.', {
     after(ctx, E) { const prev = E.mem.arap = E.mem.arap || {}; for (const p of parts(E)) { const T = mesh(p.pts, 2); T.forEach((t, i) => { const k = p.name + i, a = Math.abs((t[1][0] - t[0][0]) * (t[2][1] - t[0][1]) - (t[2][0] - t[0][0]) * (t[1][1] - t[0][1]));
-      const s = prev[k] ? clamp(Math.abs(a / prev[k] - 1) * 8) : 0; prev[k] = a; ctx.fillStyle = `rgba(212,42,30,${s * .6})`; ctx.fill(P(t)); ctx.strokeStyle = 'rgba(20,17,13,.55)'; ctx.lineWidth = .8; ctx.stroke(P(t)); }); } }
+      const s = prev[k] ? clamp(Math.abs(a / prev[k] - 1) * 8) : 0; prev[k] = a; ctx.fillStyle = `rgba(212,42,30,${s * .6})`; ctx.fill(P(t)); ctx.strokeStyle = 'rgba(255,255,255,.75)'; ctx.lineWidth = 1.1; ctx.stroke(P(t)); }); } for (const n of ['dog.nose', 'dog.shoulder', 'dog.hip', 'dog.tailTip', 'dog.foreNear.foot', 'dog.hindNear.foot']) { const h = J(E, n); dot(ctx, h, 8, '#ffd23f'); dot(ctx, h, 8, '#14110d', 2); } }
   });
   add(10, 'moving least squares deformation', 'A lattice is laid over the dog and pinned at six handles; as the dog moves, the lattice bends smoothly between the pins and the dog bends with it.', {
     after(ctx, E) { const hs = ['dog.nose', 'dog.shoulder', 'dog.hip', 'dog.tailTip', 'dog.foreNear.foot', 'dog.hindNear.foot'].map(n => J(E, n)); const b = bbox(allPts(E));
@@ -196,7 +203,7 @@
   });
   add(20, 'a production rig: pegs and nodes', 'The rig as a production pipeline sees it: every piece a node, pegged to its parent, and the node view beside the stage.', {
     after(ctx, E) { fillParts(ctx, E, 'dog.', p => ({ body: 'rgba(36,72,89,.6)', chest: 'rgba(36,72,89,.6)', neck: 'rgba(127,224,210,.5)', skull: 'rgba(127,224,210,.65)', snout: 'rgba(127,224,210,.65)', ear: 'rgba(200,255,250,.7)', earFar: 'rgba(200,255,250,.7)', tail: 'rgba(80,160,200,.6)' })[p.name.split('.')[1]] || 'rgba(60,120,150,.55)', '#7fe0d2', 1); const ns = [['dog', 980, 130], ['body', 980, 190], ['neck', 900, 250], ['head', 900, 310], ['ear', 900, 370], ['tail', 1060, 250], ['fore', 1140, 250], ['hind', 1060, 310]];
-      ctx.fillStyle = 'rgba(14,12,10,.85)'; ctx.fillRect(860, 100, 380, 300); const at = n => ns.find(x => x[0] === n);
+      ctx.fillStyle = 'rgba(14,12,10,.85)'; ctx.fillRect(860, 112, 380, 300); const at = n => ns.find(x => x[0] === n);
       [['dog', 'body'], ['body', 'neck'], ['neck', 'head'], ['head', 'ear'], ['body', 'tail'], ['body', 'fore'], ['body', 'hind']].forEach(([a, b]) => line(ctx, [at(a)[1] + 30, at(a)[2] + 14], [at(b)[1] + 30, at(b)[2]], '#7fe0d2', 1.5));
       ns.forEach(([n, x, y]) => { ctx.fillStyle = '#244859'; ctx.fillRect(x, y, 70, 22); label(ctx, x + 6, y + 16, n, { bg: false, size: 12 }); });
       for (const n of ['dog.shoulder', 'dog.hip', 'dog.neck', 'dog.head', 'dog.tailRoot']) { const p = J(E, n); ctx.strokeStyle = '#7fe0d2'; ctx.lineWidth = 2; ctx.strokeRect(p[0] - 6, p[1] - 6, 12, 12); } }
@@ -225,7 +232,7 @@
       const d = J(E, 'dog.skull'); const N = { watch: [0, 0], approach: [-1, -1], retreat: [1, -1], lie_down: [-1, 1], refuse: [1, 1] }; const c = [Math.min(Math.max(d[0], 240), W - 240), Math.max(d[1] - 190, 190)];
       for (const [n, [i, j]] of Object.entries(N)) { const p = [c[0] + i * 150, c[1] + j * 50]; if (n !== 'watch') line(ctx, c, p, 'rgba(255,255,255,.5)', 1.5); }
       for (const [n, [i, j]] of Object.entries(N)) { const p = [c[0] + i * 150, c[1] + j * 50], on = n === E.d.state; ctx.beginPath(); ctx.ellipse(p[0], p[1], 66, 20, 0, 0, 7); ctx.fillStyle = on ? cols[n] : 'rgba(14,12,10,.85)'; ctx.fill(); ctx.strokeStyle = cols[n]; ctx.lineWidth = 2; ctx.stroke();
-        ctx.font = '600 22px "JetBrains Mono"'; ctx.fillStyle = '#fff'; ctx.textAlign = 'center'; ctx.fillText(n.replace('_', ' '), p[0], p[1] + 4); ctx.textAlign = 'left'; }
+        ctx.font = '600 22px "JetBrains Mono"'; ctx.fillStyle = on && n !== 'watch' ? '#14110d' : '#fff'; ctx.textAlign = 'center'; ctx.fillText(n.replace('_', ' '), p[0], p[1] + 4); ctx.textAlign = 'left'; }
        }
   });
   add(26, 'an archive stage renderer', 'The dog as a renderer batches it: cut into sprite tiles, each tile one texture sample, with the draw count running; at this resolution the dog is a grid the engine can push by the thousand.', {
@@ -337,8 +344,8 @@
       for (const [a, b] of [['person.eye', 'dog.eye'], ['person.nose', 'dog.nose'], ['person.mouth', 'dog.mouth']]) line(ctx, J(E, a), J(E, b), 'rgba(127,224,210,.5)', 1, [5, 5]); }
   });
   add(47, 'sound to action', 'The voice drives the body: each call\'s waveform runs through the dog itself, and its ears and crouch answer it, a viseme for a dog.', { still: 1.4,
-    after(ctx, E) { const vv = E.w.voice; fillParts(ctx, E, 'dog.', vv === 'call' ? 'rgba(255,46,46,.45)' : vv === 'soft' ? 'rgba(127,224,210,.4)' : 'rgba(14,12,10,.35)'); const v = E.w.voice, amp = v === 'call' ? 1 : v === 'soft' ? .4 : .05; const b = bbox(allPts(E, 'dog.')); ctx.save(); const clip = new Path2D(); for (const p of parts(E, 'dog.')) clip.addPath(P(p.pts)); ctx.clip(clip);
-      for (let r = 0; r < 6; r++) { ctx.beginPath(); for (let x = b[0]; x < b[2]; x += 2) ctx.lineTo(x, (b[1] + b[3]) / 2 + (r - 2.5) * 10 + Math.sin(x * .25 + E.t * 30 + r) * 18 * amp * Math.sin((x - b[0]) / (b[2] - b[0]) * Math.PI)); ctx.strokeStyle = v === 'call' ? '#ff2e2e' : '#7fe0d2'; ctx.lineWidth = 2; ctx.stroke(); } ctx.restore();
+    after(ctx, E) { const vv = E.w.voice; fillParts(ctx, E, 'dog.', vv === 'call' ? 'rgba(255,46,46,.4)' : 'rgba(127,224,210,.3)'); const v = E.w.voice, amp = v === 'call' ? 1 : v === 'soft' ? .5 : .3; const b = bbox(allPts(E, 'dog.')); ctx.save(); const clip = new Path2D(); for (const p of parts(E, 'dog.')) clip.addPath(P(p.pts)); ctx.clip(clip);
+      for (let r = 0; r < 6; r++) { ctx.beginPath(); for (let x = b[0]; x < b[2]; x += 2) ctx.lineTo(x, (b[1] + b[3]) / 2 + (r - 2.5) * 10 + Math.sin(x * .25 + E.t * 30 + r) * 18 * amp * Math.sin((x - b[0]) / (b[2] - b[0]) * Math.PI)); ctx.strokeStyle = v === 'call' ? '#ffffff' : '#0f5f57'; ctx.lineWidth = 2.5; ctx.stroke(); } ctx.restore();
       if (0) label(ctx, b[0], b[1] - 14, `voice: ${v} → ears ${E.dog.p.ear.toFixed(2)} · crouch ${E.dog.p.crouch.toFixed(2)}`, { size: 13 }); }
   });
   add(48, 'characters that can refuse', 'The original swarm, the one PAE-00 was made with: the dog\'s state, its trust, and the guard that made its last choice.', { still: 3.8,
@@ -364,8 +371,8 @@
       hist.forEach((h, i) => { ctx.save(); ctx.translate(-(hist.length - i) * 40, -(hist.length - i) * 6); ctx.globalAlpha = .12 + i * .04; ctx.fillStyle = hsl(i * 50, 60, 50); for (const pts of h) ctx.fill(P(pts)); ctx.restore(); }); }
   });
   add(52, 'reconstruct the method', 'The workbench behind the trick: the dog\'s parts laid out loose beside it, pinned and labelled, so the method can be rebuilt from them.', {
-    after(ctx, E) { for (const p of parts(E, 'dog.')) { ctx.strokeStyle = '#d42a1e'; ctx.lineWidth = 2; ctx.setLineDash([5, 4]); ctx.stroke(P(p.pts)); ctx.setLineDash([]); ctx.fillStyle = 'rgba(239,230,210,.55)'; ctx.fill(P(p.pts)); dot(ctx, cen(p.pts), 3, '#d42a1e'); } ctx.fillStyle = 'rgba(239,230,210,.94)'; ctx.fillRect(820, 90, 430, 260); const ps = parts(E).filter(p => !/Far/.test(p.name)).slice(0, 12);
-      ps.forEach((p, i) => { const b = bbox(p.pts), c = cen(p.pts), x = 860 + (i % 4) * 100, y = 140 + Math.floor(i / 4) * 75; ctx.save(); const k = Math.min(1, 60 / Math.max(b[2] - b[0], b[3] - b[1])); ctx.translate(x, y); ctx.scale(k, k); ctx.translate(-c[0], -c[1]);
+    after(ctx, E) { for (const p of parts(E, 'dog.')) { ctx.strokeStyle = '#d42a1e'; ctx.lineWidth = 2; ctx.setLineDash([5, 4]); ctx.stroke(P(p.pts)); ctx.setLineDash([]); ctx.fillStyle = 'rgba(239,230,210,.55)'; ctx.fill(P(p.pts)); dot(ctx, cen(p.pts), 3, '#d42a1e'); } ctx.fillStyle = 'rgba(239,230,210,.94)'; ctx.fillRect(820, 112, 430, 250); const ps = parts(E).filter(p => !/Far/.test(p.name)).slice(0, 12);
+      ps.forEach((p, i) => { const b = bbox(p.pts), c = cen(p.pts), x = 860 + (i % 4) * 100, y = 160 + Math.floor(i / 4) * 70; ctx.save(); const k = Math.min(1, 60 / Math.max(b[2] - b[0], b[3] - b[1])); ctx.translate(x, y); ctx.scale(k, k); ctx.translate(-c[0], -c[1]);
         ctx.fillStyle = p.color; ctx.fill(P(p.pts)); ctx.strokeStyle = '#14110d'; ctx.lineWidth = 1 / k; ctx.stroke(P(p.pts)); ctx.restore(); dot(ctx, [x, y - 26], 3, '#d42a1e');  }); }
   });
   add(53, 'civic footage performer', 'The dog performs inside archive footage: 16 mm grain, gate weave and sprocket holes, as if found in a city\'s film collection.', {

@@ -1,0 +1,37 @@
+REEL CRITIC, round 7: paeleo-01.mp4
+
+What I inspected: a mid-lens frame of all 54 lenses at 1280x720, four frames per lens at 0.4 s steps, 5 fps strips of 32/47/49/54, the title and end card, and the reference dog (paeleo-00 at 47 s). I measured x-height from pixel row profiles of text, and WCAG contrast from box background against glyph-core colour. Sound was measured as 10 ms RMS around all 55 cuts. I did not check every frame, and I did not judge the sound by ear.
+
+1. Verdict: does not pass, narrowly. Layout, size and silence now pass, but contrast fails in 4 lenses.
+- Measured x-heights: caption look line 17 px, prompt line 15 px. The small labels are 12 px in 20, 25, 30, 38, 45, 48 and 49, so they pass at the floor and have no margin.
+- No cut falls into digital silence: no run below −80 dB anywhere. Every new lens's sound starts within 10 ms of its cut.
+
+2. Lenses that fail the repair condition (contrast):
+- 32 FK, 53.6–55.2 s: white angle labels on orange, 2.75:1.
+- 45 Occlusion, 74.4–76.0 s: "jamb: in front" white on mustard is 2.76:1, and "dog: behind" on blue is 4.4:1.
+- 25 Rive, 42.4–44.0 s: "refuse" white on coral, 3.74:1.
+
+The other five named first, 27, 38, 46, 49 and 52, now meet the text conditions. Their labels are 5.1:1 or better, nothing collides, and nothing covers the dog.
+
+Weak as claims rather than as text:
+- 47 Sound-to-action, 77.6–79.2 s: the waveform stripes on the dog last about 0.4 s. It then switches to a plain red dog and the camera jumps, so the lens reads as a style swap, not sound driving action.
+- 9 Igarashi ARAP: the dog is only darkened and textured, with no mesh or handles. At phone size it is hard to tell apart from 3, 26 and 50.
+
+3. Collisions:
+- 20: the rig-graph panel's top border, rows 100–103, sits inside the caption bar, which ends at 103.
+- 52: the parts sheet starts at y≈90, about 14 px under the semi-transparent caption bar.
+- I found no overlap between text boxes and nothing leaving the frame in the frames I sampled. Labels in 32, 49 and 54 come close to the dog's ears and tail but do not cover them.
+
+4. Largest remaining gap: label colours were picked for hue, not for luminance. Falsifiable repair:
+- Every overlay label is at least 4.5:1 (glyph core against box fill), so white text needs a fill with relative luminance of 0.18 or less. That applies to 25, 32 and 45.
+- No overlay panel's bounding box starts above y=104 (affects 20 and 52).
+- 47's sound cue stays visible for at least 1.2 s of its 1.6 s.
+
+Sound, second: about half the cuts are preceded by a 250–380 ms run below −55 dB, with a floor around −65 dB. Mid-lens level is −28 to −46 dB. It is no longer digital silence, but by measurement the sound still drops out before the cut rather than carrying across it. To test: no 10 ms window in the 300 ms before any cut sits more than 20 dB below that lens's median.
+
+5. Strengths to keep:
+- The caption system is clean and consistent: red number, condensed title, mono look line, prompt bar, and no collisions between them.
+- Many lenses read at a glance: 2, 6, 7, 8, 14, 22, 24, 25, 27, 29–31, 33, 36, 42, 45, 49, 51 and 54.
+- The 29–31 segmentation trio reads clearly as a set, and the 24 close-up works.
+- The dog stays recognisable against the reference (pose, brads, red collar) across nearly all lenses.
+- Sound onsets land on the cuts.

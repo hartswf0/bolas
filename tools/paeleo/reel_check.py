@@ -13,4 +13,7 @@ def band(a, b):
 on = [rms(t, t + .03) - rms(t - .1, t) for t in cuts]
 bed = [band(t - .85, t - .75) - band(t - .1, t) for t in cuts[1:]]
 print(f'onsets: min {min(on):.1f} dB, under 12: {sum(v < 12 for v in on)} of {len(on)}')
+lens_med = {t: np.median([rms(a, a + .01) for a in np.arange(t - 1.5, t - .05, .01)]) for t in cuts[1:]}
+drop = [min(rms(a, a + .01) for a in np.arange(t - .3, t - .01, .01)) - lens_med[t] for t in cuts[1:]]
+print(f'before cuts, the quietest 10 ms vs the lens median: worst {min(drop):.1f} dB, more than 20 dB down: {sum(v < -20 for v in drop)} of {len(drop)}')
 print(f'bed before cuts: min drop {min(bed):.1f} dB, under 20: {sum(v < 20 for v in bed)} of {len(bed)}')
