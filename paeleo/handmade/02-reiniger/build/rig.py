@@ -63,7 +63,7 @@ def run():
         tr = turn[i]
         endon = None
         if abs(tr) < 0.3:
-            endon = 'rear' if t[i] < 6 else 'front'
+            endon = 'front'   # both turns pass through the front view (the head turned to us first)
         dirW = -1 if tr > 0 else 1
         sx = max(0.3, abs(tr))
         vx = xs[i] - xs[i - 1] if i else 0.0

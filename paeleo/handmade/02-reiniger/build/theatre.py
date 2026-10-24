@@ -170,7 +170,7 @@ class DogRig:
         x0, dirW, sx = P['x'], P['dirW'], P['sx']
         yM, aF, aH = self.spine(P)
         M, Sj, Hj = self.anchors(yM, aF, aH)
-        neutral = {'nf': Sj[0] - 0.05, 'ff': Sj[0] - 0.10, 'nh': Hj[0] - 0.03, 'fh': Hj[0] + 0.02}
+        neutral = {'nf': Sj[0] - 0.09, 'ff': Sj[0] + 0.02, 'nh': Hj[0] - 0.07, 'fh': Hj[0] + 0.04}
         phi = P['phase']; moving = P['moving']; vx = P['vx']
         dphi = 0 if self.prev is None else abs(phi - self.prev)
         self.prev = phi
@@ -294,7 +294,7 @@ class DogRig:
         headmode = 'profile'
         if hb > 0 and P.get('hbmode') == 'avert':
             aN = lerp(aN, aN - 8, smooth(hb)); aHd = lerp(aHd, aHd - 10, smooth(hb))
-            if hb >= 0.45: headmode = 'back'
+            if hb >= 0.45: headmode = 'endon'
         elif hb > 0:
             aNb = 150 + 22 * (1 - min(1, h)); aHb = 180 + 18
             aN = lerp(aN, aNb, smooth(hb)); aHd = lerp(aHd, aHb, smooth(hb))
@@ -337,15 +337,15 @@ class DogRig:
             front = headmode == 'endon'
             cw = W_((hp + rot2(np.array([[0.04, 0.0]]), aHr)[0])[None])[0]
             hdw = ellipse(cw, 0.066, 0.06, 22)
-            ee = interp(max(0, min(1, P['ear'])), [0, 1], [0.35, 1.0])
+            ee = interp(max(0, min(1, P['ear'])), [0, 1], [0.0, 1.0])
             for s_ in (-1, 1):
                 b0 = cw + np.array([s_ * 0.018, 0.045]); b1 = cw + np.array([s_ * 0.066, 0.005])
-                tip = cw + np.array([s_ * (0.062 + 0.04 * (1 - ee)), 0.05 + 0.065 * ee])
+                tip = cw + np.array([s_ * (0.065 + 0.07 * (1 - ee)), 0.03 + 0.08 * ee])
                 fills.append(catmull([b0, (b0 + tip) / 2 + [s_ * -0.004, 0.0], tip, (tip + b1) / 2 + [s_ * 0.01, 0], b1], 3))
             fills.append(hdw); skull.append(hdw)
             if front:
-                fills.append(ellipse(cw + np.array([0, -0.045]), 0.036, 0.04, 16))
-                for s_ in (-1, 1): holes.append(ellipse(cw + [s_ * 0.026, 0.008], 0.009, 0.006, 10))
+                fills.append(ellipse(cw + np.array([0, -0.05]), 0.04, 0.05, 16))
+                for s_ in (-1, 1): holes.append(ellipse(cw + [s_ * 0.027, 0.01], 0.01, 0.006, 10))
             else:
                 fills.append(ellipse(cw + np.array([0, -0.035]), 0.05, 0.03, 16))   # nape ruff
         row.update(neck_deg=round(aN, 1), head_deg=round(aHd, 1), head=headmode,
@@ -370,18 +370,21 @@ class DogRig:
                                     [0.03, 0.04, 0.04, 0.025]))             # tucked tail hangs between
             row.update(head='hidden', body='endon-rear')
         else:
-            fills.append(ellipse(at(0, yM - 0.03), 0.15, 0.14))
+            fills.append(ellipse(at(0, yM - 0.03), 0.155, 0.15))
             for s_ in (-1, 1):
-                fills.append(capsule(at(s_ * 0.07, yM - 0.10), at(s_ * 0.07, 0.03), 0.048, 0.032))
-                fills.append(ellipse(at(s_ * 0.07, 0.016), 0.036, 0.018))
-            fills.append(capsule(at(0, yM + 0.04), at(0, yM + 0.19), 0.09, 0.07))
-            c = at(0, yM + 0.25)
-            hdw = ellipse(c, 0.066, 0.06, 22); fills.append(hdw); skull.append(hdw)
+                fills.append(capsule(at(s_ * 0.075, yM - 0.10), at(s_ * 0.075, 0.03), 0.05, 0.035))
+                fills.append(ellipse(at(s_ * 0.08, 0.016), 0.04, 0.02))
+            hh = interp(P['head'], [0, 0.5, 1.0], [0.04, 0.14, 0.22])
+            fills.append(capsule(at(0, yM + 0.02), at(0, yM + hh - 0.02), 0.095, 0.075))
+            c = at(0, yM + hh + 0.04)
+            hdw = ellipse(c, 0.068, 0.062, 22); fills.append(hdw); skull.append(hdw)
+            ee = interp(max(0, min(1, P['ear'])), [0, 1], [0.0, 1.0])
             for s_ in (-1, 1):
-                b0 = c + [s_ * 0.018, 0.045]; b1 = c + [s_ * 0.066, 0.005]; tip = c + [s_ * 0.075, 0.10]
+                b0 = c + [s_ * 0.018, 0.045]; b1 = c + [s_ * 0.066, 0.005]
+                tip = c + [s_ * (0.065 + 0.07 * (1 - ee)), 0.03 + 0.08 * ee]
                 fills.append(catmull([b0, tip, b1], 3))
-                holes.append(ellipse(c + [s_ * 0.026, 0.008], 0.009, 0.006, 10))
-            fills.append(ellipse(c + [0, -0.045], 0.036, 0.04, 16))
+                holes.append(ellipse(c + [s_ * 0.027, 0.01], 0.01, 0.006, 10))
+            fills.append(ellipse(c + [0, -0.05], 0.04, 0.05, 16))
             row.update(head='endon-front', body='endon-front')
         return dict(fills=fills, holes=holes, muzzle=[], skull=skull, row=row)
 
@@ -436,7 +439,7 @@ class PersonRig:
         row = dict(i=i)
         # sitting = kneeling down onto the heels beside the door (seiza): the skirt pools on the floor
         hip = np.array([lerp(0.0, -0.06, sitE), lerp(0.95, 0.24, sitE)])
-        lean = D(-(24 * reach + 24 * low * sitE + 3 * call * (1 - sitE)))
+        lean = D(-(34 * reach + 24 * low * sitE + 3 * call * (1 - sitE)))
         st = self.feet_phase
         ph = [math.sin(st), math.sin(st + math.pi)]
         feet = []
@@ -497,7 +500,7 @@ class PersonRig:
         # near arm: rest / call (point at the floor: "here") / reach (grasp) / offer low (palm up)
         rest_u, rest_f = -96, -80
         cu, cf = -38, -58
-        ru, rf = -14, -8
+        ru, rf = -8, -2
         lu, lf = -40, -36
         u_ = rest_u; f_ = rest_f
         u_ = lerp(u_, cu, call); f_ = lerp(f_, cf, call)

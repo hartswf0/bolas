@@ -210,3 +210,61 @@ def scale_rgba(arr, s):
     q = np.asarray(imp).astype(np.float32) / 255
     q[..., :3] = np.where(q[..., 3:4] > 1e-3, q[..., :3] / np.maximum(q[..., 3:4], 1e-3), 0)
     return np.clip(q, 0, 1)
+
+def fold2(arr, origin, neck, chest_belly, hind_belly, hind_x, foot_y, lie, head_deg, facing, muzzle_y, head_flip=False):
+    """The lying composite, rebuilt after critic round 1 (COMPOSED, not in the footage).
+    Per column: the belly line runs from the chest (at the neck's x) to the hindquarters (hind_x); everything below it
+    (legs, thighs) is folded to 6 % height and darkened, everything above it is lowered so the belly rests on the ground.
+    The back line stays nearly level because the hind belly line is set high. The head is a separate piece (above the
+    muzzle's underside, beyond the neck) lowered with the body and pivoted at the neck; head_flip mirrors it about the neck
+    so it looks back over the shoulder. Returns (rgba, drop_at_neck)."""
+    H, W = arr.shape[:2]
+    ox, oy = origin
+    nx, ny = neck[0] - ox, neck[1] - oy
+    fy = int(round(foot_y - oy)); fy = min(H, fy)
+    xs = np.arange(W)
+    ys_ = np.arange(H)[:, None]
+    hw = np.clip(((xs - nx) if facing > 0 else (nx - xs)) / 6.0 + 0.5, 0, 1)[None, :] * np.ones((H, 1))
+    hw = hw * (1 - np.clip((ys_ - (muzzle_y - oy)) / 4.0, 0, 1))
+    head = arr.copy(); head[..., 3] *= hw
+    body = arr.copy(); body[..., 3] *= (1 - hw)
+    hx = hind_x - ox
+    u = np.clip((xs - nx) / (hx - nx + 1e-6), 0, 1)
+    belly = (chest_belly - oy) + u * (hind_belly - chest_belly)
+    out = np.zeros_like(body)
+    drop_neck = 0
+    for x in range(W):
+        by = int(round(min(belly[x], fy - 1)))
+        leg_h = max(1, fy - by)
+        new_leg = max(1, int(round(leg_h * (1 - 0.94 * lie))))
+        drop = leg_h - new_leg
+        if abs(x - nx) < 1: drop_neck = drop
+        col = body[:, x]
+        top = col[:by]
+        out[drop:by + drop, x] = top
+        seg = col[by:fy]
+        if len(seg):
+            idx = np.linspace(0, len(seg) - 1, new_leg).astype(int)
+            legs = seg[idx].copy(); legs[:, :3] *= (1 - 0.45 * lie)
+            out[by + drop:by + drop + new_leg, x] = legs
+    if drop_neck == 0:
+        by = int(round(belly[int(np.clip(nx, 0, W - 1))])); drop_neck = int(round((fy - by) * 0.94 * lie))
+    hd = np.zeros_like(head)
+    d = drop_neck
+    hd[d:] = head[:H - d] if d > 0 else head
+    if head_flip:
+        hd2 = np.zeros_like(hd)
+        c = int(round(nx))
+        for x in range(W):
+            xm = 2 * c - x
+            if 0 <= xm < W: hd2[:, xm] = hd[:, x]
+        hd = hd2
+        facing = -facing
+    ang = head_deg if facing > 0 else -head_deg
+    hd = rotate_rgba(hd, ang, (nx, ny + d))
+    a_h = hd[..., 3:4]
+    comp = out.copy()
+    comp[..., :3] = hd[..., :3] * a_h + out[..., :3] * out[..., 3:4] * (1 - a_h)
+    comp[..., 3:4] = a_h + out[..., 3:4] * (1 - a_h)
+    comp[..., :3] = np.where(comp[..., 3:4] > 1e-4, comp[..., :3] / np.maximum(comp[..., 3:4], 1e-4), 0)
+    return comp, d
