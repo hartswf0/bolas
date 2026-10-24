@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Futuretown · the art department</title>
+<meta name="description" content="Call sheets for new aesthetics in the Town: for each paleofuture card, a new look, the swarm that leads it, archive plates by clip id, images to generate and what to ask for.">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../assets/favicon-180.png">
+<link rel="stylesheet" href="../room/room.css">
+<link rel="stylesheet" href="shorts.css">
+<style>
+.proof img{display:block;width:100%;height:auto;border:1.5px solid var(--ink)}
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px}
+.lane{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:.6em 0}
+.lane div{border-top:3px solid var(--ink);padding-top:6px;font-size:15px}
+.lane b{font-family:var(--display);font-weight:400;display:block;font-size:16px}
+.lane .gen{border-top-color:var(--red)}
+table.refs{border-collapse:collapse;width:100%;font-size:14.5px}
+table.refs th{text-align:left;font-family:var(--display);font-weight:400;border-bottom:1.5px solid var(--ink);padding:4px 8px 4px 0}
+table.refs td{padding:5px 8px 5px 0;border-bottom:1px solid #cdbf98;vertical-align:top}
+.local{font-family:var(--display);font-size:12px;border:1.2px solid var(--ink);padding:0 4px}
+.gen-req{border-left:3px solid var(--red);background:#fbf7ea;padding:6px 10px;margin:.5em 0;font-size:15px}
+.ask{border-left:3px solid var(--brass);background:#fbf7ea;padding:6px 10px;margin:.5em 0;font-size:15px}
+dl.sw{display:grid;grid-template-columns:max-content 1fr;gap:3px 12px;font-size:15px;margin:.4em 0}
+dl.sw dt{font-family:var(--display)}dl.sw dd{margin:0}
+.k{font-family:var(--display);font-size:14px;color:var(--red)}
+@media (max-width:760px){.two,.lane{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top"><a class="room-return" href="index.html">The Town</a></header>
+<h1>Futuretown: the art department</h1>
+<p class="lede">The Town works, but every district looks the same: the card, cut and moved. These call sheets give each district its own aesthetic while it stays one town. Each sheet names the swarm that leads it and what the other swarms would do differently. It lists the archive plates to pull by clip id, the images to generate with their prompts and acceptance tests, and what to ask for. One test holds the town together: anything on screen must survive being re-printed in its card's own eight inks.</p>
+
+<section class="sheet">
+<h2>The test, already run</h2>
+<p>Each pair below is a real archive frame as found and then re-printed in a card's inks by <code>shorts/tools/stencil.py</code>: eight inks from the card by k-means, the print's dot screen, and a key plate one pixel off register. The 1906 ruin, the 1915 colonnade and the 1966 cleaning cart all read as part of their cards. This is the instrument for every new plate, background and generated image.</p>
+<div class="lane">
+<div><b>Card</b>The printed card, cut and moved. Never repainted.</div>
+<div><b>Archive</b>Shots from the cineosis-lab library and other public archives: trimmed, toned, re-printed, never painted.</div>
+<div><b>Drawn</b>Quick, Draw! doodles (CC BY 4.0) and marks drawn by code.</div>
+<div class="gen"><b>Generated</b>New: image-model blank pages, turnarounds and in-betweens, labelled as generated, each with its prompt, seed and test. None has been run yet.</div>
+</div>
+<div class="row"><button type="button" data-copy="art">Copy the art-department prompt</button><a class="btn" href="../docs/prompts/art-department.md">Read it</a><a class="btn" href="requests.json">requests.json</a></div>
+</section>
+
+<div id="sheets"></div>
+
+<section class="sheet" id="more">
+<h2>More postcards from the paleofuture</h2>
+<p id="morenote"></p>
+<ul id="morecards"></ul>
+</section>
+</div>
+<script src="../registry/registry.js"></script>
+<script src="../registry/library.js"></script>
+<script>
+const R = window.CRANK, TX = window.CRANK_TEXT || {};
+const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const title = id => (R.series.find(s => s.id === id) || {}).title || id;
+fetch('requests.json').then(r => r.json()).then(Q => {
+  document.getElementById('sheets').innerHTML = Q.sheets.map(s => `<section class="sheet" id="${esc(s.card)}">
+    <p class="k">${esc(title(s.card))}</p><h2>${esc(s.aesthetic)}</h2>
+    <div class="two"><div>
+      <p><b>Lead swarm:</b> ${esc(s.lead)}</p><p>${esc(s.thesis)}</p>
+      <h3>How</h3><ol class="steps">${s.how.map(h => `<li>${esc(h)}</li>`).join('')}</ol>
+      <h3>What each swarm would do</h3><dl class="sw">${Object.entries(s.swarms).map(([k, v]) => `<dt>${esc(k)}</dt><dd>${esc(v)}</dd>`).join('')}</dl>
+    </div><div class="proof"><img src="../${esc(s.proof.image)}" alt="${esc(s.proof.plate)}, as found and re-printed in the card's inks" loading="lazy"><p class="meta">${esc(s.proof.plate)}. ${esc(s.proof.made)}.</p>
+      <div class="row"><a class="btn" href="world.html?d=${esc(s.card)}">Play this district now</a><a class="btn" href="index.html#${esc(s.card)}">Its film and process</a></div></div></div>
+    <h3>Plates to pull</h3><div style="overflow-x:auto"><table class="refs"><tr><th>Film</th><th>Year</th><th>Seconds</th><th>Clip id</th><th>Why</th></tr>
+      ${s.refs.map(r => `<tr><td><i>${esc(r.title)}</i></td><td>${esc(r.year || 'not recorded')}</td><td>${r.in}–${r.out}</td><td><code>${esc(r.clip.slice(0, 8))}</code> ${r.where.startsWith('lab/') ? '<span class="local">in the checkout</span>' : '<span class="meta">on the lab CDN</span>'}</td><td>${esc(r.why)}</td></tr>`).join('')}</table></div>
+    ${s.generate.map(g => `<div class="gen-req"><b>Generate (${esc(g.job)}):</b> ${esc(g.prompt)}.<br><span class="meta">Input: ${esc(g.input)}. Accept when: ${esc(g.accept)}. Not yet run.</span></div>`).join('')}
+    ${s.ask.map(a => `<div class="ask"><b>Ask:</b> ${esc(a)}</div>`).join('')}
+  </section>`).join('');
+  document.getElementById('morenote').textContent = Q.newCards.note;
+  document.getElementById('morecards').innerHTML = Q.newCards.cards.map(c => `<li><b>${esc(c.title)}.</b> ${esc(c.shows)} ${esc(c.why)}</li>`).join('');
+  if (location.hash) { const el = document.getElementById(location.hash.slice(1)); el && el.scrollIntoView(); }
+});
+document.addEventListener('click', e => { const b = e.target.closest('[data-copy]'); if (!b) return; const t = TX[b.dataset.copy]; if (!t) return;
+  navigator.clipboard && navigator.clipboard.writeText(t).then(() => { const o = b.textContent; b.textContent = 'Copied'; setTimeout(() => b.textContent = o, 1400); }); });
+</script>
+</body>
+</html>

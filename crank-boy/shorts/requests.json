@@ -1,0 +1,470 @@
+{
+ "about": "Call sheets for the art department (docs/prompts/art-department.md): for each series card, a new aesthetic, the swarm that leads it, what other swarms would do, reference plates by cineosis-lab clip id, images to generate with prompts and acceptance tests, and what to ask Watson for. 'where' says whether the clip is in the local cineosis-lab checkout. Nothing in 'generate' has been run.",
+ "labCommit": "dc86064dbe67de630d294f63a04bb5a29e91cd62",
+ "sheets": [
+  {
+   "card": "school",
+   "aesthetic": "Trick-film stage, 1907",
+   "lead": "Georges Méliès, through the Gilliam swarm (comic cutout metamorphosis)",
+   "thesis": "The school was drawn in the same years Méliès was building painted stages. Make the classroom a trick-film set: the wall is a painted flat, the books that go into the machine come out as Méliès's sun and moon, and every change is a stop-substitution, not a dissolve.",
+   "how": [
+    "Re-print The Eclipse (1907) in the school's inks with stencil.py and use it as the window: the view outside is the sun and moon colliding.",
+    "Replace the opened book's plate with a substitution splice: one frame the book, the next the moon's face.",
+    "Cut the teacher into head, arm and book hand so he can feed the hopper with a real throw."
+   ],
+   "swarms": {
+    "Gilliam": "A pupil's head becomes the moon and floats out of the window.",
+    "Reiniger": "Backlight the classroom through the windows; the pupils become a row of hinged silhouettes.",
+    "Whitney": "The six coils pulse as one harmonic system, each a ratio of the crank's speed."
+   },
+   "refs": [
+    {
+     "clip": "ed87f1da-e8a4-5668-b3bb-4821189b1285",
+     "title": "The Eclipse",
+     "year": 1907,
+     "in": 394.6,
+     "out": 412.9,
+     "why": "The sun and moon on a painted sky; already re-printed in the school's inks (assets/shorts/art/stencil-school-eclipse.jpg)",
+     "where": "lab/clips/"
+    },
+    {
+     "clip": "7730847b-3f7b-5d0d-8de8-06f6e7fe5d0d",
+     "title": "The Eclipse",
+     "year": 1907,
+     "in": 412.9,
+     "out": 439.1,
+     "why": "The collision itself",
+     "where": "cineosis-lab CDN (not in the local checkout; fetch it through the lab's lab/clips pipeline)"
+    },
+    {
+     "clip": "b3006d9b-1cbc-501c-b444-b7b177b21491",
+     "title": "The Impossible Voyage",
+     "year": 1904,
+     "in": 652.1,
+     "out": 659.2,
+     "why": "Painted-flat machinery to borrow for the hopper",
+     "where": "cineosis-lab CDN (not in the local checkout; fetch it through the lab's lab/clips pipeline)"
+    },
+    {
+     "clip": "dbb38088-1b64-50f7-992b-fa85323f6e02",
+     "title": "Letter From an Airline Pilot (Part I)",
+     "year": null,
+     "in": 430.3,
+     "out": 433.9,
+     "why": "The current plate; keep it as the lesson inside the book",
+     "where": "lab/clips/"
+    }
+   ],
+   "generate": [
+    {
+     "job": "blank page",
+     "input": "school card, mask = boyUp + boyLegs + head + book outlines",
+     "prompt": "continue the floorboards, the blue machine's side and the yellow wall, flat chromolithograph colour, ink outlines, paper grain, no figure",
+     "accept": "palette distance to the card's inks under 0.06; a blind critic cannot find the patch"
+    },
+    {
+     "job": "rig coverage",
+     "input": "the teacher, cut",
+     "prompt": "the same teacher from the card, three-quarter view and profile, arms raised to throw a book, same inks and outline weight",
+     "accept": "stencil.py round-trip changes under 5% of pixels; critic names him as the same man"
+    }
+   ],
+   "ask": [
+    "A higher-resolution scan of À l'école (the current one is 800 px wide).",
+    "The Eclipse (1907) collision shot fetched from the lab CDN."
+   ],
+   "proof": {
+    "image": "assets/shorts/art/stencil-school-eclipse.jpg",
+    "plate": "The Eclipse (1907)",
+    "made": "shorts/tools/stencil.py: left, the frame as found; right, re-printed in the card's eight inks with a dot screen and a key plate one pixel off register"
+   }
+  },
+  {
+   "card": "scrubber",
+   "aesthetic": "Collage novel in engraving, after Max Ernst",
+   "lead": "Max Ernst, surreal collage grammar",
+   "thesis": "The scrubber card is about who does the work and who gets the credit. Ernst's collage novels set mechanical parts into bourgeois parlours. Re-print the parlour as a black-and-white engraving and let the machine's brushes be the only colour, and let the maid be grafted from a 1966 cleaning film.",
+   "how": [
+    "Pull 19th-century parlour engravings from the British Library's Mechanical Curator and re-print them as the walls.",
+    "Re-print Color it Clean (1966) in the scrubber's pinks; its cleaning cart rolls through the parlour door.",
+    "Keep the machine and the brushes in the card's colour; everything else in engraving black."
+   ],
+   "swarms": {
+    "Ernst": "Recombine an engraved parlour, a 1966 cart and the card's machine into one impossible room.",
+    "Sutherland (Sketchpad)": "The player drags the brush; the constraint solver keeps the legs (the current game).",
+    "Pose2Pose": "The maid's push is chosen from a library of real cleaning gestures from the 1966 film."
+   },
+   "refs": [
+    {
+     "clip": "e25d4343-dca2-59a2-9724-5bd891a6276e",
+     "title": "Color it Clean",
+     "year": 1966,
+     "in": 199.1,
+     "out": 215.4,
+     "why": "A cleaning cart in a corridor; already re-printed (stencil-scrubber-1966.jpg)",
+     "where": "lab/wygwyl/tempest/"
+    },
+    {
+     "clip": "a020894d-f806-5a4c-ae6c-8e47847313e8",
+     "title": "Color it Clean",
+     "year": 1966,
+     "in": 180.3,
+     "out": 199.1,
+     "why": "A person on hands and knees scrubbing tile: the performance to retarget",
+     "where": "cineosis-lab CDN (not in the local checkout; fetch it through the lab's lab/clips pipeline)"
+    },
+    {
+     "clip": "b3794af0-20a2-5d22-ba80-f9432ba913df",
+     "title": "Frigidaire Finale 1957",
+     "year": 1957,
+     "in": 165.9,
+     "out": 221.2,
+     "why": "The current mirror plate",
+     "where": "lab/clips/"
+    }
+   ],
+   "generate": [
+    {
+     "job": "blank page",
+     "input": "scrubber card, mask = maid + painted-out legs",
+     "prompt": "continue the parquet in perspective and the pink wall, chromolithograph, ink outline, hatching",
+     "accept": "parquet lines continue across the mask within 1 px"
+    }
+   ],
+   "ask": [
+    "Five public-domain parlour engravings from the British Library Mechanical Curator, with their item records.",
+    "A clip of someone actually polishing a floor, ideally before 1920."
+   ],
+   "proof": {
+    "image": "assets/shorts/art/stencil-scrubber-1966.jpg",
+    "plate": "Color it Clean (1966)",
+    "made": "shorts/tools/stencil.py: left, the frame as found; right, re-printed in the card's eight inks with a dot screen and a key plate one pixel off register"
+   }
+  },
+  {
+   "card": "barber",
+   "aesthetic": "Turnaround portraits, a barber's mirror that turns",
+   "lead": "Live2D Cubism and Multiview Drawing Substitution",
+   "thesis": "Barbers work on faces you see from every side in the mirror. The card shows the customers only from behind. Give each customer a turnaround so the mirror can show the face the card never drew, and let the 1941 salon film supply the hands.",
+   "how": [
+    "Generate front, three-quarter and profile views of each customer, conditioned on the card, and accept only views that survive the stencil round-trip.",
+    "Drive the head turn with angle parameters, Live2D-style, and switch drawings where bending breaks.",
+    "Set Caroll's Beauty Salon (1941) in the mirrors instead of Barbers (1959)."
+   ],
+   "swarms": {
+    "Live2D": "Parametric head angles on the customers.",
+    "Face landmark registration": "Fit the generated faces to the card's head positions.",
+    "Character Animator": "Arms triggered on the beat (the current game)."
+   },
+   "refs": [
+    {
+     "clip": "db80ead3-c3de-50e9-8eb4-4ffd8c498558",
+     "title": "Caroll's Beauty Salon, Hamtramck",
+     "year": 1941,
+     "in": 0,
+     "out": 25.3,
+     "why": "An amateur film of a real salon: hands, mirrors, chairs",
+     "where": "cineosis-lab CDN (not in the local checkout; fetch it through the lab's lab/clips pipeline)"
+    },
+    {
+     "clip": "c015a7f0-270a-5dc6-9f43-9f16e4237938",
+     "title": "Barbers",
+     "year": 1959,
+     "in": 471.6,
+     "out": 487.6,
+     "why": "The current mirror plate",
+     "where": "lab/clips/"
+    }
+   ],
+   "generate": [
+    {
+     "job": "rig coverage",
+     "input": "each customer's cut head and shoulders",
+     "prompt": "the same man from the card seen from the front, three-quarter and profile, lathered, same inks and outline weight, flat colour",
+     "accept": "critic matches each view to the right customer; stencil round-trip under 5%"
+    }
+   ],
+   "ask": [
+    "A better scan of the barber card (586 px wide now).",
+    "Permission to fetch Caroll's Beauty Salon from the lab CDN."
+   ],
+   "proof": {
+    "image": "assets/shorts/art/stencil-barber.jpg",
+    "plate": "Barbers (1959)",
+    "made": "shorts/tools/stencil.py: left, the frame as found; right, re-printed in the card's eight inks with a dot screen and a key plate one pixel off register"
+   }
+  },
+  {
+   "card": "phono-cinema",
+   "aesthetic": "Image torrent, after Frank Mouris",
+   "lead": "Frank Mouris, autobiographical image torrent",
+   "thesis": "The card predicts a screen that answers. Frank Film answers with thousands of images at once. Let the screen answer with a torrent of the lab's own faces: one shot per syllable, chosen by what was said.",
+   "how": [
+    "Index the lab's shots of faces and telephones; pick one per syllable of the speaker's voice.",
+    "Cut on the syllable, never between: the voice sets the edit.",
+    "Re-print every shot in the card's inks so the torrent stays on the card's screen."
+   ],
+   "swarms": {
+    "Mouris": "The torrent.",
+    "JibJab": "The same answer recast by a different face (the current game).",
+    "Sound to action": "Syllables move the horn (the current short)."
+   },
+   "refs": [
+    {
+     "clip": "e36f7e11-04e5-5dbe-84cf-a8ba06c9f56e",
+     "title": "TELEPHONE MEMORIES (Reel 1 of 2)",
+     "year": 1931,
+     "in": 400.3,
+     "out": 432.7,
+     "why": "Early telephone faces",
+     "where": "cineosis-lab CDN (not in the local checkout; fetch it through the lab's lab/clips pipeline)"
+    },
+    {
+     "clip": "b762c586-1d5f-5ef2-b8e4-c0dcc8f82449",
+     "title": "Television Tomorrow",
+     "year": null,
+     "in": 276.1,
+     "out": 284.2,
+     "why": "A screen inside a screen",
+     "where": "lab/clips/"
+    },
+    {
+     "clip": "8095f755-7150-5d96-bde8-83d7e001fb57",
+     "title": "RCA Presentation: Television",
+     "year": 1939,
+     "in": 28.8,
+     "out": 50.1,
+     "why": "The 1939 promise of television",
+     "where": "lab/clips/"
+    }
+   ],
+   "generate": [],
+   "ask": [
+    "Which faces may answer: the torrent should draw only on shots whose rights record says public domain."
+   ],
+   "proof": {
+    "image": "assets/shorts/art/stencil-phono.jpg",
+    "plate": "Fatty's Magic Pants (1914)",
+    "made": "shorts/tools/stencil.py: left, the frame as found; right, re-printed in the card's eight inks with a dot screen and a key plate one pixel off register"
+   }
+  },
+  {
+   "card": "air-cabs",
+   "aesthetic": "Atmospheric multiplane, after Yuri Norstein",
+   "lead": "Yuri Norstein, atmospheric multiplane cinema",
+   "thesis": "The air cabs card is all sky. Norstein's multiplane puts mist between the planes. Give the sky real depth with real mist, and send the cabs over a real 1906 street and a 1915 exposition.",
+   "how": [
+    "Outpaint the card upward and sideways so the camera can travel.",
+    "Lay A Trip Down Market Street (1906) re-printed as the street far below.",
+    "Put a layer of real fog (from the lab) between each pair of planes."
+   ],
+   "swarms": {
+    "Norstein": "Mist between the planes.",
+    "Rive": "The cab's states (the current game).",
+    "Multiplane parallax": "Depth from motion (the current short)."
+   },
+   "refs": [
+    {
+     "clip": "b780253f-3db4-5bf2-a3ac-6f32755f753d",
+     "title": "A Trip Down Market Street",
+     "year": 1906,
+     "in": 83.6,
+     "out": 98.6,
+     "why": "A real street seen from the front of a cable car, the year after the cards",
+     "where": "cineosis-lab CDN (not in the local checkout; fetch it through the lab's lab/clips pipeline)"
+    },
+    {
+     "clip": "cd1ca1ba-265a-5b47-8a65-f648ff7e24a5",
+     "title": "The Story of Jewel City",
+     "year": 1915,
+     "in": 231.8,
+     "out": 238.0,
+     "why": "Exposition colonnade; already re-printed (stencil-air-1915.jpg)",
+     "where": "lab/wygwyl/tempest/"
+    },
+    {
+     "clip": "ee40ab01-8027-5410-8506-a27ccf1dda35",
+     "title": "On the Roofs",
+     "year": 1897,
+     "in": 39,
+     "out": 64.5,
+     "why": "Rooftops for the cabs to land on",
+     "where": "cineosis-lab CDN (not in the local checkout; fetch it through the lab's lab/clips pipeline)"
+    },
+    {
+     "clip": "d3c1f500-55a9-50c7-9ca4-11791246582d",
+     "title": "Panama by Air (Reel 4)",
+     "year": 1914,
+     "in": 517.7,
+     "out": 530.6,
+     "why": "Aerial footage from 1914",
+     "where": "lab/clips/"
+    }
+   ],
+   "generate": [
+    {
+     "job": "blank page",
+     "input": "air-cabs card padded 40% on every side",
+     "prompt": "extend the sky and the Paris rooftops beyond the card's edge, same inks, flat colour, ink outlines, no new flying machines",
+     "accept": "the seam is invisible to a blind critic; no new figures"
+    }
+   ],
+   "ask": [
+    "A larger scan of the air cabs card (584 px now).",
+    "A Trip Down Market Street fetched from the lab CDN."
+   ],
+   "proof": {
+    "image": "assets/shorts/art/stencil-air-1915.jpg",
+    "plate": "The Story of Jewel City (1915)",
+    "made": "shorts/tools/stencil.py: left, the frame as found; right, re-printed in the card's eight inks with a dot screen and a key plate one pixel off register"
+   }
+  },
+  {
+   "card": "firemen",
+   "aesthetic": "The real fire of 1906, drawn metamorphosis",
+   "lead": "Peter Foldès, drawn metamorphosis",
+   "thesis": "The card was printed the year of the San Francisco earthquake and fire, or within a few years of it. The town's fire should be that fire. Foldès interpolated drawn forms into one another; morph the card's printed flames into the 1906 smoke and ruins.",
+   "how": [
+    "Re-print the earthquake aftermath (1906) as the street; done for one shot (stencil-firemen-1906.jpg).",
+    "Interpolate the card's flame shapes into the smoke shapes of the 1906 fire, frame by frame.",
+    "Keep the flyers on springs (secondary dynamics) and let them refuse without water (the current game)."
+   ],
+   "swarms": {
+    "Foldès": "Flames morph into smoke and back.",
+    "State machines": "Flyers that refuse (the current game).",
+    "Atlanta Moving Image swarm": "Treat the 1906 footage as a civic record: say where and when on screen."
+   },
+   "refs": [
+    {
+     "clip": "f125ae2e-fed3-553e-99c0-aed6528847d3",
+     "title": "San Francisco Earthquake Aftermath, Part 1",
+     "year": 1906,
+     "in": 569.0,
+     "out": 595.9,
+     "why": "Ruins and rubble; already re-printed",
+     "where": "lab/clips/"
+    },
+    {
+     "clip": "6ea301ab-9ac3-5d5c-855d-f60b068ed48c",
+     "title": "San Francisco Earthquake and Fire, April 18, 1906",
+     "year": 1906,
+     "in": 59.6,
+     "out": 116.5,
+     "why": "The fire itself",
+     "where": "cineosis-lab CDN (not in the local checkout; fetch it through the lab's lab/clips pipeline)"
+    },
+    {
+     "clip": "a1ae303e-48f4-5f26-b72f-95387e00539a",
+     "title": "Fire and Police Service",
+     "year": 1947,
+     "in": 547.3,
+     "out": 552.3,
+     "why": "The current hose plate",
+     "where": "lab/clips/"
+    }
+   ],
+   "generate": [
+    {
+     "job": "in-between",
+     "input": "the card's flame outlines and a smoke mask from the 1906 shot",
+     "prompt": "twelve drawings between the printed flame and the smoke cloud, same inks, flat colour, ink outlines",
+     "accept": "each drawing passes the stencil round-trip; the sequence reads as one shape changing, to a blind critic"
+    }
+   ],
+   "ask": [
+    "Care: this is footage of a real disaster in which people died. Decide whether the town's fire may be that fire, and how the page should say so."
+   ],
+   "proof": {
+    "image": "assets/shorts/art/stencil-firemen-1906.jpg",
+    "plate": "San Francisco Earthquake Aftermath (1906)",
+    "made": "shorts/tools/stencil.py: left, the frame as found; right, re-printed in the card's eight inks with a dot screen and a key plate one pixel off register"
+   }
+  },
+  {
+   "card": "skates",
+   "aesthetic": "Chaplin's rink, retargeted",
+   "lead": "Nora Willett, Pose2Pose casting",
+   "thesis": "The lab holds Chaplin's The Rink (1916), ten years after the card: a real man on roller skates, falling on purpose. Retarget his performance onto the card's fallen man, so the skater who falls in the card falls the way Chaplin falls.",
+   "how": [
+    "Track Chaplin's joints through the Rink clips.",
+    "Cluster his poses; draw or generate one card-style drawing per cluster; choose between them per frame by dynamic programming.",
+    "Keep the couple on hinged legs (the current short) and let the player stride (the current game)."
+   ],
+   "swarms": {
+    "Pose2Pose": "Chaplin's poses chosen into the card's drawings.",
+    "Reiniger": "Shadow theatre (the current short).",
+    "Drawing substitution": "Fall and get up (the current game)."
+   },
+   "refs": [
+    {
+     "clip": "2eec4e55-6913-5a02-9ddf-958b56ddeb8a",
+     "title": "Charlie Chaplin's The Rink",
+     "year": 1916,
+     "in": 80.7,
+     "out": 97.3,
+     "why": "Chaplin on skates",
+     "where": "cineosis-lab CDN (not in the local checkout; fetch it through the lab's lab/clips pipeline)"
+    },
+    {
+     "clip": "96760fc2-cbfb-5f8f-8266-ff2b6ca362c8",
+     "title": "Charlie Chaplin's The Rink",
+     "year": 1916,
+     "in": 437.9,
+     "out": 463.5,
+     "why": "The rink sequence, in colour",
+     "where": "cineosis-lab CDN (not in the local checkout; fetch it through the lab's lab/clips pipeline)"
+    },
+    {
+     "clip": "46f3aa0c-b404-59a0-83be-97e3a38a538c",
+     "title": "Autoraces op boulevard Scheveningen",
+     "year": 1927,
+     "in": 97.3,
+     "out": 115.4,
+     "why": "The current crowd plate",
+     "where": "lab/clips/"
+    }
+   ],
+   "generate": [
+    {
+     "job": "rig coverage",
+     "input": "the fallen man, cut, and one tracked Chaplin pose per cluster",
+     "prompt": "the same man from the card in this pose, on roller skates, same inks and outline weight",
+     "accept": "the joint positions of the drawing match the tracked pose within 4 px; critic names him as the card's man"
+    }
+   ],
+   "ask": [
+    "Confirm the rights record for The Rink in the lab before it is used."
+   ],
+   "proof": {
+    "image": "assets/shorts/art/stencil-skates.jpg",
+    "plate": "Autoraces op boulevard Scheveningen (1927)",
+    "made": "shorts/tools/stencil.py: left, the frame as found; right, re-printed in the card's eight inks with a dot screen and a key plate one pixel off register"
+   }
+  }
+ ],
+ "newCards": {
+  "note": "More cards of En l'an 2000 to bring into the town. Titles are as commonly reproduced; confirm each against the Archive of Past Futures or the card's own caption before use.",
+  "cards": [
+   {
+    "title": "Rural postman (aerial)",
+    "shows": "A postman flies to a farm with the mail.",
+    "why": "A delivery game that feeds off the Town's line."
+   },
+   {
+    "title": "The automatic tailor",
+    "shows": "A machine measures and dresses a customer.",
+    "why": "A rig test card: a body taken apart and re-dressed is exactly the recasting problem."
+   },
+   {
+    "title": "The whale bus",
+    "shows": "A whale pulls a bus under the sea.",
+    "why": "Underwater multiplane with real aquarium footage from the lab."
+   },
+   {
+    "title": "Electric agriculture or mechanical harvest",
+    "shows": "Machines working a field.",
+    "why": "Who holds the handle in the fields."
+   }
+  ]
+ }
+}

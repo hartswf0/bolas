@@ -494,6 +494,13 @@ window.CRANK = {
       "title": "The Town: one world, seven games",
       "file": "docs/prompts/town.md",
       "note": "The method for the world and its games"
+    },
+    {
+      "key": "art",
+      "group": "The shorts",
+      "title": "SCION // FUTURETOWN art department",
+      "file": "docs/prompts/art-department.md",
+      "note": "New aesthetics per card: generated blank pages, better rigs, archive backgrounds, call sheets"
     }
   ],
   "influences": [
@@ -942,6 +949,12 @@ window.CRANK = {
     "poster": "assets/shorts/films/world.jpg",
     "line": "The seven cards as one world, joined by a drawn power line from the crank boy's machine. Nothing runs unless somebody turns the crank, and power reaches each card later the farther it is from him. Each card is a game, and the three handle-holders can be recast into each other's places: the same performance, a different hand on it.",
     "doodles": "assets/shorts/doodles.json",
-    "doodleSource": "Quick, Draw! (Google Creative Lab, CC BY 4.0), the records chosen by Secondhand Motion (github.com/hartswf0/secondhand-motion)"
+    "doodleSource": "Quick, Draw! (Google Creative Lab, CC BY 4.0), the records chosen by Secondhand Motion (github.com/hartswf0/secondhand-motion)",
+    "artDepartment": {
+      "page": "shorts/requests.html",
+      "prompt": "docs/prompts/art-department.md",
+      "sheets": "shorts/requests.json",
+      "tool": "shorts/tools/stencil.py"
+    }
   }
 };
