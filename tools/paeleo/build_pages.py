@@ -300,6 +300,20 @@ RAN = [  # how PAE-00 kept each point of the doctrine (the record is the case pa
 ]
 
 
+def reel_rounds(up):
+    out = ''
+    for n in range(1, 6):
+        f = os.path.join(R, f'tools/paeleo/reviews/reel-round{n}.json')
+        if not os.path.exists(f): continue
+        r = json.load(open(f)); rep = open(f[:-5] + '.txt').read()
+        cls = {'pass': 'pass', 'does not pass': 'fail', 'inconclusive': 'part'}[r['verdict']]
+        out += f'''<article class="round"><div class="rh"><h3>{esc(r["title"])}</h3><span class="verdict {cls}">{esc(r["verdict"])}</span><span class="vm">{esc(r["meta"])}</span></div>
+  <div class="part"><p><b>Largest gap.</b> {esc(r["gap"])}</p><p class="next"><b>Repair condition.</b> {esc(r["repair"])}</p></div>
+  <div class="part"><ul>{"".join(f"<li>{esc(x)}</li>" for x in r["notes"])}</ul><p><b>What was done.</b> {esc(r["done"])}</p>
+  <details><summary>The critic's report, verbatim</summary><pre class="prompt">{esc(rep)}</pre></details></div></article>'''
+    return f'<div style="display:grid;gap:18px"><h3 style="font:800 26px/1 var(--display);text-transform:uppercase;margin:0">The reel\'s critic rounds</h3>{out}</div>' if out else ''
+
+
 def scion_page():
     up = '../../'; A = anatomy(); LD = {l['id']: l for l in lens_data()}
     fams = ' · '.join(f'{f} {n}' for f, n in A['fams'])
@@ -344,6 +358,7 @@ def scion_page():
   <div class="box" id="reel"><div class="boxhead"><div class="row"><span class="code">PAE-01</span><span class="lbl">Oct 24 · 1 min 35 s · all 54 lenses, 1.6 s each</span></div><h2>SCION through the dog</h2>
     <p class="q">The same dog, 54 ways: what does each swarm see first?</p></div>
     <figure class="film" data-src="{up}paeleo/media/film/paeleo-01.mp4" data-seg="4.0,30.0" data-len="1:35"><div class="screen"><video muted playsinline preload="metadata" poster="{up}paeleo/media/scion/lens-02.jpg"></video></div><figcaption class="cap">In operator order, each lens at its own telling moment. The sound is the loop's own: calls, the door, the soft voice, a paper flick on every cut, a chord for each family.</figcaption></figure></div>
+  {reel_rounds(up)}
 </section>
 
 <section class="sec" id="anatomy"><div class="sechead"><h2>Anatomy of a swarm</h2><p>Every prompt has the same skeleton. What changes from swarm to swarm is what fills it.</p></div>

@@ -41,6 +41,7 @@
   function mark(ctx, name, p) { if (REC.on) REC.joints[name] = xf(ctx, p); }
   function piece(ctx, pts, color, edge, texScale) {
     if (REC.on && REC.n) REC.parts.push({ name: REC.n, color, pts: pts.map(p => xf(ctx, p)) });
+    if (STYLE.skip && STYLE.skip(REC.n)) return;
     if (STYLE.fill) color = STYLE.fill(color, REC.n);
     if (STYLE.edge !== undefined) edge = typeof STYLE.edge === 'function' ? STYLE.edge(edge, REC.n) : STYLE.edge;
     ctx.beginPath(); pts.forEach((p, i) => i ? ctx.lineTo(p[0], p[1]) : ctx.moveTo(p[0], p[1])); ctx.closePath();

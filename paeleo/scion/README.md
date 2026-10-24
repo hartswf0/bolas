@@ -108,7 +108,7 @@ Each lens (`lenses.js`) draws the same porch, dog and loop of prompts the way th
 
 *Artists & Directors · Computer-generated abstract motion, Permutations and harmonic choreography*
 
-- **Through the dog (harmonic motion).** Every joint of the dog leaves a trace, and the traces are read as harmonics: the walk is a set of phased circles, the wag a faster one.
+- **Through the dog (harmonic motion).** The dog is redrawn as rings of points turning at harmonic rates, the way a motion-graphics machine draws; its walk and wag become the frequencies.
 - **Theorem.** Compose motion as interacting frequencies, phases, symmetries, and accumulations. Numerical structure must produce perceptible musical development, not ornamental complexity.
 - **Proof scene.** Animate twenty engraved ornaments into a dancing procession where a 3:2 phase relation creates approach, interference and reunion across 12 seconds.
 
@@ -140,7 +140,7 @@ Each lens (`lenses.js`) draws the same porch, dog and loop of prompts the way th
 
 *Research Pioneers · Image Deformation Using Moving Least Squares (2006)*
 
-- **Through the dog (moving least squares deformation).** A few handles, and the dog warps smoothly between them; the grid behind shows the warp the handles make.
+- **Through the dog (moving least squares deformation).** A lattice is laid over the dog and pinned at six handles; as the dog moves, the lattice bends smoothly between the pins and the dog bends with it.
 - **Theorem.** Let an artist drag carefully chosen landmarks and contour segments to reshape historical images intuitively, comparing affine, similarity, and rigid variants based on visual effect.
 - **Proof scene.** Animate an engraved face opening its mouth and a long bird neck curving around a frame using identical control handles but multiple MLS variants.
 
@@ -164,7 +164,7 @@ Each lens (`lenses.js`) draws the same porch, dog and loop of prompts the way th
 
 *Research Pioneers · Secondary Motion for Performed 2D Animation (2017), with Li, Popović, Berthouzoz and Finkelstein*
 
-- **Through the dog (secondary motion).** The ears and tail lag behind the body and overshoot; the springs that make them follow are drawn, so you see the follow-through the dog's choices cause.
+- **Through the dog (secondary motion).** The ears and tail lag behind the body and overshoot: their last positions trail behind them in colour, so the follow-through the dog's choices cause is visible.
 - **Theorem.** Give performing paper figures secondary dynamics that communicate material and intention. Hair, coat tails, reeds, scarves and loose limbs should reveal acceleration, resistance and stopping.
 - **Proof scene.** A fox sprints, stops abruptly, looks back, and lets its scarf settle while the world remains still. Compare no secondary motion, generic oscillation and tuned material-specific follow-through.
 
@@ -172,7 +172,7 @@ Each lens (`lenses.js`) draws the same porch, dog and loop of prompts the way th
 
 *Research Pioneers · Pose2Pose: Pose Selection and Transfer for 2D Character Animation (2020), with Shin, Jin, Li and Finkelstein*
 
-- **Through the dog (pose to pose, cast from a library).** Along the bottom, the dog's library of drawn poses; the one it is in now lights up. The machine chooses the state, the library supplies the drawing.
+- **Through the dog (pose to pose, cast from a library).** Along the top, the dog's library of drawn poses; the one it is in now lights up, and the dog itself is outlined in that pose's colour. The machine chooses the state, the library supplies the drawing.
 - **Theorem.** Build a performance-transfer engine that uses a small set of artist-approved drawings to animate a character across new recorded actions. Prefer coherent drawing sequences over continuous warped artifacts.
 - **Proof scene.** Take an 8-second reach, recoil, turn and walk performance. Transfer to a small collection of Victorian engravings with only twelve target drawings, then reveal the actual selected path.
 
@@ -204,7 +204,7 @@ Each lens (`lenses.js`) draws the same porch, dog and loop of prompts the way th
 
 *Studios & Software · Handcrafted image traditions combined with production 2D digital workflows*
 
-- **Through the dog (painterly puppet discipline).** A painted world with a flattened, ornamental space: the dog keeps its paper joints but sits inside a painted, patterned frame.
+- **Through the dog (painterly puppet discipline).** The porch repainted as a flat, ornamental world in deep green and gold; the dog keeps its paper joints but is gilded and patterned with spirals, the way a painterly studio disciplines a puppet.
 - **Theorem.** Maintain authored drawing identity while gaining reusable animation and team production. The rig exists to protect line, shape and acting rather than flatten them into generic motion.
 - **Proof scene.** A character crosses a patterned interior, touches a natural object, and experiences a close-up change of expression without any mechanical change in line quality.
 
@@ -260,7 +260,7 @@ Each lens (`lenses.js`) draws the same porch, dog and loop of prompts the way th
 
 *Studios & Software · Rive state machines, inputs, listener-driven runtime animation*
 
-- **Through the dog (interactive state machines).** The rig answers to a state graph, and the graph is on screen: the state lights, and the dog's pose is whatever that state is wired to.
+- **Through the dog (interactive state machines).** The rig answers to a state graph with inputs, the way an interactive runtime wires it: the dog is tinted by the state it is in, and the graph beside it shows the inputs that moved it there.
 - **Theorem.** Make animation a responsive dramatic contract: actions must respond to input, remember the state of the world, and permit meaningful refusal or interruption.
 - **Proof scene.** A paper dog can approach, refuse, sit, notice a thrown ball, abandon the ball, and look back to the player without snapping through impossible poses.
 
@@ -268,7 +268,7 @@ Each lens (`lenses.js`) draws the same porch, dog and loop of prompts the way th
 
 *Studios & Software · JavaScript/TypeScript GPU 2D rendering, textures, containers, filters and masks*
 
-- **Through the dog (an archive stage renderer).** The scene as a renderer counts it: sprites, draw calls, a frame time; the dog is one batch among the archive's many.
+- **Through the dog (an archive stage renderer).** The dog as a renderer batches it: cut into sprite tiles, each tile one texture sample, with the draw count running; at this resolution the dog is a grid the engine can push by the thousand.
 - **Theorem.** Render hundreds of transparent historic fragments as a coherent responsive theater while retaining precision, masking and contact logic.
 - **Proof scene.** Render fifteen archival actors on six depth planes with expressive motion, fog and overlapping windows; maintain touch targets and inspect mobile performance.
 
@@ -276,7 +276,7 @@ Each lens (`lenses.js`) draws the same porch, dog and loop of prompts the way th
 
 *Studios & Software · Frame-indexed React compositions and programmatic video rendering*
 
-- **Through the dog (a declarative film compiler).** The film as code compiles it: tracks for the prompts, the dog's states and the camera, with a playhead running through.
+- **Through the dog (a declarative film compiler).** The film as code compiles it: tracks for the prompts, the dog's states and the camera, with a playhead running through, and the dog tinted by the track segment it is playing.
 - **Theorem.** Treat film as a reproducible function of scene data, cast, time and seed. Build finished sequences rather than endless screenshots or prompts.
 - **Proof scene.** Rerender the same 12-second animated sequence in landscape and portrait with two castings and matched sound cues; compare exact frames across machines.
 
@@ -316,7 +316,7 @@ Each lens (`lenses.js`) draws the same porch, dog and loop of prompts the way th
 
 *Algorithms & Techniques · Parent-child transformation trees and stable pivot geometry*
 
-- **Through the dog (forward kinematics).** Rotate the shoulder and everything below it follows: the dog drawn as a chain of joints, each angle added to its parent's.
+- **Through the dog (forward kinematics).** Rotate the shoulder and everything below it follows: the dog drawn as a chain of joints, each angle added to its parent's, with the angles written on the joints.
 - **Theorem.** Encode bodies as coherent relationships so modifying a hip or shoulder propagates predictably through descendants, including props and clothing.
 - **Proof scene.** Walk a long-coated character through a turn, sit and stand while a carried umbrella remains fixed to the proper wrist and coat hem follows correctly.
 
@@ -324,7 +324,7 @@ Each lens (`lenses.js`) draws the same porch, dog and loop of prompts the way th
 
 *Algorithms & Techniques · Constraint-driven joint target solving; two-bone IK and support relationships*
 
-- **Through the dog (inverse kinematics: contact and reach).** The feet are targets on the floor and the legs solve for them; the person's hand reaches a target and the arm follows.
+- **Through the dog (inverse kinematics: contact and reach).** Targets first, joints after: each foot is a target pinned to the floor and the leg solves to reach it; the dog is shown as the solver sees it, chains and targets, nothing else.
 - **Theorem.** Make action physically consequential: hands reach the thing they choose, feet grip the ground, bodies counterbalance and contact changes the next pose.
 - **Proof scene.** An actor steps onto a stool, reaches a door handle, discovers the door is heavy, braces and pulls until the door moves.
 
@@ -340,7 +340,7 @@ Each lens (`lenses.js`) draws the same porch, dog and loop of prompts the way th
 
 *Algorithms & Techniques · Point/segment deformation with affine, similarity and rigid MLS families*
 
-- **Through the dog (moving least squares, gesture warp).** Drag one handle and the dog bends like rubber around the others: a gesture warp, the handles drawn as pins.
+- **Through the dog (gesture warp: drag a handle, the body follows).** One handle at a time is dragged and the dog stretches toward it like rubber, the rest pinned: a gesture made directly on the drawing.
 - **Theorem.** Let simple handles cause surprisingly expressive, fast deformation of nonrigid prints and animated linework while keeping unintended distortions visible.
 - **Proof scene.** Compare identical mouth, neck and waving-cape moves under three MLS transformation families using matched source points.
 
@@ -356,7 +356,7 @@ Each lens (`lenses.js`) draws the same porch, dog and loop of prompts the way th
 
 *Algorithms & Techniques · Linear blend skinning and deformation attachments*
 
-- **Through the dog (weighted skinning).** Where two bones meet, the paper is shared: each vertex of the dog coloured by how it blends between the bones on either side.
+- **Through the dog (weighted skinning).** Where the shoulder's influence meets the hip's, the paper is shared: the dog is split into two colours with a blended band between, the region skinning has to solve.
 - **Theorem.** Make one character mesh move with several joints while retaining the special graphic qualities of archival textures and intentional angularity.
 - **Proof scene.** Animate a jacket sleeve through arm raise, fold and reach, with a shoulder tattoo or printed ornament held intact.
 
@@ -364,7 +364,7 @@ Each lens (`lenses.js`) draws the same porch, dog and loop of prompts the way th
 
 *Algorithms & Techniques · Dynamic programming over representative drawings and recorded motion*
 
-- **Through the dog (dynamic pose selection from drawings).** Instead of bending one drawing, the dog flips between whole drawings, choosing the nearest from its library each time it changes state: on twos.
+- **Through the dog (dynamic pose selection from drawings).** Instead of bending one drawing, the dog flips between whole drawings, each a numbered card in red pencil, chosen from its library each time it changes state and held on twos.
 - **Theorem.** Generate coherent animation from sparse historical or artist-made poses by globally optimizing action match and sequence quality.
 - **Proof scene.** Use at most ten drawings to animate a figure that looks down, reaches, recoils, turns and retreats; expose the decoder path.
 
@@ -380,7 +380,7 @@ Each lens (`lenses.js`) draws the same porch, dog and loop of prompts the way th
 
 *Algorithms & Techniques · Overhead camera-tracked paper puppet manipulation, inspired by Video Puppetry*
 
-- **Through the dog (physical tabletop capture).** The paper on a real table under a lamp: long shadows, a tabletop edge, a hand-held feel. The cut-outs are physical things being shot.
+- **Through the dog (physical tabletop capture).** The scene is a real tabletop shot from above at an angle: the floor tilts away, a lamp pools on the paper, and the cut-outs cast long hard shadows.
 - **Theorem.** Convert fingers moving paper into reusable, editable film acting without making equipment calibration more onerous than performing.
 - **Proof scene.** Capture a paper creature leaping across three props and disappearing behind a door; replay on a different set with a new character skin.
 
@@ -428,7 +428,7 @@ Each lens (`lenses.js`) draws the same porch, dog and loop of prompts the way th
 
 *Algorithms & Techniques · Feature alignment and angle-aware head, eye and mouth fitting*
 
-- **Through the dog (face landmark registration).** Landmarks on the person's face are registered to the dog's: eye to eye, nose to nose, mouth to mouth, the anatomy that recasting needs.
+- **Through the dog (face landmark registration).** The dog's face is covered in numbered landmarks and a mesh between them, registered point for point to the person's, the anatomy a recasting needs.
 - **Theorem.** Make interchangeable heads act without losing attachment, expression, directional consistency or dignity of source portraits.
 - **Proof scene.** Recast the same one-minute actor with three diverse authorized faces and inspect frontal, profile and hat-occluded keyframes.
 
@@ -436,7 +436,7 @@ Each lens (`lenses.js`) draws the same porch, dog and loop of prompts the way th
 
 *Algorithms & Techniques · Audio phoneme/viseme alignment; timing-driven expressive action*
 
-- **Through the dog (sound to action).** The voice drives the body: the waveform of each call, and the dog's ears and crouch responding to it, a viseme for a dog.
+- **Through the dog (sound to action).** The voice drives the body: each call's waveform runs through the dog itself, and its ears and crouch answer it, a viseme for a dog.
 - **Theorem.** Convert dialogue and environmental sound into selective mouth, breath, glance and body action while allowing silence to animate thought.
 - **Proof scene.** An archived portrait says three words, pauses, hears an unseen object fall, then chooses not to answer.
 
@@ -452,7 +452,7 @@ Each lens (`lenses.js`) draws the same porch, dog and loop of prompts the way th
 
 *Archives & Provenance · Collection search, Getty Open Content Program and Smithsonian Open Access*
 
-- **Through the dog (open-content atelier).** The scene as a museum plate: an object on a mount with its catalogue label and credit line, open content offered for reuse.
+- **Through the dog (open-content atelier).** The dog photographed as a museum object: alone on a grey seamless, with a scale bar, a colour target and a catalogue label, offered as open content.
 - **Theorem.** Build a rights-aware production image reservoir. The archive supplies potential actors, objects, backgrounds and textures, not just mood-board references.
 - **Proof scene.** From permitted Getty or Smithsonian CC0-marked objects, identify 8 distinct movable subjects, produce a six-second composite encounter, and trace each pixel layer to its item record.
 
