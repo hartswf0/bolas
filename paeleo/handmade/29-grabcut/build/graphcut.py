@@ -304,6 +304,10 @@ def cleanup(fg, img_sm, min_hole=80, keep_near=0):
             if not (m[0].any() or m[-1].any() or m[:, 0].any() or m[:, -1].any()):
                 holes |= m
     body |= holes
+    # contour smoothing (round 2): a 2-pass box filter of the binary body, re-thresholded, rounds polygon corners
+    # and staircases without moving straight runs of true edge by more than ~1 px
+    sm_body = box_blur(box_blur(body.astype(np.float32), 1), 1) > 0.5
+    body = sm_body | (body & erode(body, 2))
     # border matting: alpha from local fg/bg means across a 2px band, fallback to a distance ramp
     inner = erode(body, 2); outer = ~dilate(body, 2)
     band = ~inner & ~outer

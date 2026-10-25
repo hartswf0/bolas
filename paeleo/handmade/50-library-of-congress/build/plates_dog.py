@@ -125,7 +125,7 @@ def puppet(rigname):
     json.dump(meta, open(os.path.join(OUT, 'dog%s.json' % rigname), 'w'), indent=0)
     return meta
 
-TURN = [26, 28, 30, 33, 36, 38, 40, 43, 44]   # f016, f017 dropped in round 2: head hidden, read as a lump   # the film's own turn, left profile → facing camera → right
+TURN = [28, 30, 33, 36, 38, 40, 43, 44]   # f016, f017, f026 dropped in round 2: head hidden, read as a lump   # the film's own turn, left profile → facing camera → right
 def turn_plates():
     M = json.load(open(os.path.join(KIT, 'masks.json')))
     meta = {}

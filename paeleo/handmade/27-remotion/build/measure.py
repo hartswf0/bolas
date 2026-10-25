@@ -58,7 +58,7 @@ k = np.ones(5) / 5
 vx = np.convolve(np.gradient(np.pad(xw, 2, mode='edge')), k, mode='same')[2:-2]   # metres/frame along the porch
 gh = np.array([r['gh'] for r in rows]) * depth / np.array([MAN['frames'][i]['camera']['focal'] for i in range(n)])   # body (green) height, metres
 stand_h = np.median(h[:20]); stand_gh = np.median(gh[:20])
-lying = gh < 0.62 * stand_gh
+lying = gh < 0.8 * stand_gh
 head_low = np.array([(r['head_top'] is not None and r['back_top'] is not None and r['head_top'] > r['back_top']) for r in rows])
 V0 = 0.005   # m/frame (0.12 m/s): the dog is travelling
 state = []
@@ -118,7 +118,7 @@ appr = [f for f in frames if f['score_state'] == 'approach']
 head_low_share = sum(f['head_below_back'] for f in appr) / len(appr)
 out = {'schema': 'scion27.trace/1', 'measured_from': 'build/cache/matte/*.png (DogMatte composition, 1280x720, same camera)',
        'rules': {'x_screen': 'centroid of all dog pixels', 'x_world_measured': 'the body (green: torso, legs, tail; no neck or head) centroid back-projected through the frame\'s camera (manifest) onto the vertical plane of the dog\'s line Z = %.2f m; metres along the porch' % DOGZ, 'facing': '+1 muzzle (red) left of skull (blue) on screen = toward the door; −1 away',
-                 'lying': f'body (green, no head) height, px → metres at its depth, < 0.62 × its standing height ({stand_gh:.2f} m)', 'head_below_back': 'top of head pixels lower than the 2nd-percentile top of body pixels',
+                 'lying': f'body (green, no head) height, px → metres at its depth, < 0.8 × its standing height ({stand_gh:.2f} m)', 'head_below_back': 'top of head pixels lower than the 2nd-percentile top of body pixels',
                  'state': 'refuse if facing −1; else lie_down if lying and x_world_measured < 1.6 m; else approach/retreat if |vx| > 0.005 m/frame (x_world_measured) (retreat also needs head below back); else watch',
                  'onsets': 'each state change walked back while the producing movement is active (muzzle turning > 2.5°/frame, body height falling > 2 mm/frame, |vx| > 0.0015 m/frame)'},
        'onsets': onsets, 'approach_head_below_back_share': round(head_low_share, 3), 'frames': frames}

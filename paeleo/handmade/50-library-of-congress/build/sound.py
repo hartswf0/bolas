@@ -138,7 +138,7 @@ for e in EV:
     click = fft_filter(rng.normal(0, 1, m), lo=2500, hi=9000) * np.exp(-np.arange(m) / (0.0025 * SR))
     thud = np.sin(2 * np.pi * 140 * np.arange(m) / SR) * np.exp(-np.arange(m) / (0.02 * SR))
     board = np.sin(2 * np.pi * 310 * np.arange(m) / SR) * np.exp(-np.arange(m) / (0.012 * SR))   # the porch board answering
-    g = 10 ** (-17 / 20) * (1.2 if e['t'] < 3 else 1.0) * rng.uniform(0.85, 1.1)
+    g = 10 ** (-12 / 20) * (1.2 if e['t'] < 3 else 1.0) * rng.uniform(0.85, 1.1)
     place((click * 0.6 + thud * 0.5 + board * 0.35) / 1.2, e['t'], pan, g)
     steps_t.append(e['t'])
 

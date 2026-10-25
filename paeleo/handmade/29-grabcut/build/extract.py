@@ -30,9 +30,23 @@ def disk(H, W, cx, cy, r):
     return (xx - cx) ** 2 + (yy - cy) ** 2 <= r * r
 
 
+RUMP_BG = {   # crop coords (f9 origin 55,57; f10/f11 origin 55,58)
+    9: [(122, 55), (136, 58), (147, 63), (155, 73), (159, 86), (161, 97)],
+    10: [(122, 54), (136, 56), (146, 61), (152, 69), (155, 80), (156, 93)],
+    11: [(112, 46), (128, 48), (140, 53), (149, 62), (153, 74), (155, 86)],
+}
+
+
 def extra_seeds(shot, i, img, sam, x0, y0, seed):
     """shot-specific scribbles (manual contour markup, recorded here so it is versioned)."""
     H, W = seed.shape
+    if shot == 'dog' and i in RUMP_BG:
+        # round 2 (critic: boxy SAM hindquarter on the watching drawings): manual contour markup, a bg scribble just
+        # outside the rounded rump, in crop coordinates of that frame; the cut finds the edge inside it
+        from PIL import ImageDraw
+        im = Image.new('L', (W, H), 0)
+        ImageDraw.Draw(im).line(RUMP_BG[i], fill=255, width=6)
+        seed[np.array(im) > 127] = 2
     if shot == 'hand':
         # the forearm continues off the right edge: scribble it fg; the card is the adjacent object: scribble it bg
         grey = img.mean(2)

@@ -40,8 +40,8 @@ def smooth(a, b, t):
 def lerp(a, b, u): return a + (b - a) * u
 
 # ---------------------------------------------------------------- the dog's plan, from the score
-TURN_OUT = [26, 26, 28, 28, 30, 33, 36, 38, 40, 43, 44, 44]     # round 2: f016/f017 dropped (headless lumps)     # 3.417 → 3.917: the film's own turn, re-timed
-TURN_BACK = [33, 30, 28, 26]                         # 8.04 → 8.62: back toward the door, re-timed
+TURN_OUT = [28, 28, 28, 30, 30, 33, 36, 38, 40, 43, 44, 44]     # round 2: f016/f017/f026 dropped (head hidden, read as lumps)     # 3.417 → 3.917: the film's own turn, re-timed
+TURN_BACK = [33, 30, 28]                         # 8.04 → 8.62: back toward the door, re-timed
 T_REFUSE = 3.417; T_BACK = 7.458; T_RISE_END = 8.04; T_TURNB = 8.04; T_TURNB_END = 8.62
 TURN_FACING = {16: 1, 17: 1, 18: 1, 26: 0, 28: 0, 30: 0, 33: -1, 36: -1, 38: -1, 40: -1, 43: -1, 44: -1}
 
@@ -225,8 +225,8 @@ def title_card(i, kind):
         dr.text((200, 118), 'What this plate is made of', font=f, fill=c((31, 25, 22)))
         f3 = font('JetBrainsMono-Regular', 14)
         lines = [
-            'fig. 1  the dog: line-engraved after 10 frames of Amateur Film New Jersey C:',
-            '        f006, f026, f028, f030, f033, f036, f038, f040, f043, f044',
+            'fig. 1  the dog: line-engraved after 9 frames of Amateur Film New Jersey C:',
+            '        f006, f028, f030, f033, f036, f038, f040, f043, f044',
             '        (Home Movies, archive.org/details/NewJerseyC; public domain).',
             '        Frame 6 traced into 11 cut pieces and re-posed (invented motion, red pins);',
             '        the two turns are the film\'s own frames, re-timed. Eye, nostril, mouth: drawn.',
