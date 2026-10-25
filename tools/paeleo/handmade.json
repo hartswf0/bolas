@@ -162,6 +162,16 @@
    "trick": "The cut is the film: every edge of the dog is an argument about where it ends."
   },
   {
+   "id": 33,
+   "dir": "33-inverse-kinematics",
+   "name": "Inverse kinematics",
+   "kind": "Joints, chains and planted effectors",
+   "dog": "the rig itself: tapered capsules on drawn joints, every leg solved every frame",
+   "made": "A shepherd-type rig: pelvis and chest, neck, skull and muzzle, ears, a seven-link tail and four three-segment legs, drawn as what it is (tapered capsules with rings at the elbows, stifles and hocks) and lit by dusk and the door light. Proportions come only as numbers from the archive dog's rig keys; no archive pixel appears. The person is built in the same language, and the door is a rigid body with friction.",
+   "moved": "Analytic two-bone IK with pole vectors and joint limits on every leg, every frame, checked against a FABRIK solver. A footfall planner locks each planted paw in world space and lifts it only when its home has moved or the leg can no longer hold it. The head aims at world targets: the person, the lit boards, the low hand, the room. The person's reach for the dog straightens toward the target and falls metres short, while the reach to the door edge arrives and pushes it open.",
+   "trick": "A command is a target the arm cannot reach; the threshold is a target the dog's own chain lays down across."
+  },
+  {
    "id": 38,
    "dir": "38-drawing-library",
    "name": "Dynamic pose selection",
