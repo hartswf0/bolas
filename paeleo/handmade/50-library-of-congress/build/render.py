@@ -40,8 +40,8 @@ def smooth(a, b, t):
 def lerp(a, b, u): return a + (b - a) * u
 
 # ---------------------------------------------------------------- the dog's plan, from the score
-TURN_OUT = [16, 17, 26, 26, 28, 30, 33, 36, 38, 40, 43, 44]     # 3.417 → 3.917: the film's own turn, re-timed
-TURN_BACK = [33, 30, 28, 26, 17, 16]                         # 8.04 → 8.62: back toward the door, re-timed
+TURN_OUT = [26, 26, 28, 28, 30, 33, 36, 38, 40, 43, 44, 44]     # round 2: f016/f017 dropped (headless lumps)     # 3.417 → 3.917: the film's own turn, re-timed
+TURN_BACK = [33, 30, 28, 26]                         # 8.04 → 8.62: back toward the door, re-timed
 T_REFUSE = 3.417; T_BACK = 7.458; T_RISE_END = 8.04; T_TURNB = 8.04; T_TURNB_END = 8.62
 TURN_FACING = {16: 1, 17: 1, 18: 1, 26: 0, 28: 0, 30: 0, 33: -1, 36: -1, 38: -1, 40: -1, 43: -1, 44: -1}
 
@@ -58,7 +58,7 @@ def dog_plan(i):
         p['rear'] = 1
     if t < T_REFUSE:
         return ('puppet', 1, None, p)
-    k = int((t - T_REFUSE) * FPS)
+    k = int((t - T_REFUSE) * FPS + 1e-6)
     if k < len(TURN_OUT):
         return ('turn', TURN_OUT[k], None, p)
     if t < T_BACK:
@@ -245,6 +245,18 @@ def title_card(i, kind):
             dr.text((200, 172 + 30 * k), ln, font=f3, fill=c((52, 44, 38)))
     return img
 
+_pm = {}
+def puppet_meas(i):
+    """the cut-piece dog's own silhouette at frame i (drawn off stage): centroid x, height, lowest point relative to the ground"""
+    if i not in _pm:
+        kind, a, headf, p = dog_plan(i); assert kind == 'puppet'
+        p['s'] = s_acc[i]
+        di = np.zeros((H, W), np.float32); dc = np.zeros((H, W), np.float32)
+        D.draw_puppet(di, dc, p, (XS + FR[i]['dog']['x'] * S, YG), a, headf=headf)
+        ys, xs = np.nonzero(dc > 0.5)
+        _pm[i] = (float(xs.mean()), float(ys.max() - ys.min()), float(ys.max() - YG))
+    return _pm[i]
+
 # ---------------------------------------------------------------- main
 def render_scene_frame(i, events, prev):
     t = i / FPS; d = FR[i]['dog']
@@ -270,7 +282,13 @@ def render_scene_frame(i, events, prev):
         src_frame = 6
         facing_m = None
     else:
-        D.draw_turn(di, dc, a, O, 178.0)
+        ib = i
+        while dog_plan(ib)[0] != 'puppet': ib -= 1
+        ia = i
+        while dog_plan(ia)[0] != 'puppet': ia += 1
+        mb, ma = puppet_meas(ib), puppet_meas(ia)
+        u = (i - ib) / (ia - ib)
+        D.draw_turn(di, dc, a, (lerp(mb[0], ma[0], u), YG + lerp(mb[2], ma[2], u) - 0.0), lerp(mb[1], ma[1], u))
         src_frame = a
         facing_m = TURN_FACING[a]
     ink = ink * (1 - dc) + di

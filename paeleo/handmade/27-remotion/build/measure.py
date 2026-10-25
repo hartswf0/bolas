@@ -18,13 +18,15 @@ for i, fn in enumerate(files):
     a = np.asarray(Image.open(fn).convert('RGB')).astype(np.int16)
     r, g, b = a[..., 0], a[..., 1], a[..., 2]
     G = (g > 110) & (g > r + 40) & (g > b + 40); B = (b > 110) & (b > r + 40) & (b > g + 40); Rm = (r > 110) & (r > g + 40) & (r > b + 40)
-    allm = G | B | Rm
+    Nk = (r > 110) & (b > 110) & (g < 80)
+    allm = G | B | Rm | Nk
     ys, xs = np.nonzero(allm)
     def c(m):
         yy, xx = np.nonzero(m); return (float(xx.mean()), float(yy.mean()), int(len(xx))) if len(xx) else (None, None, 0)
     gx, gy, gn = c(G); bx, by, bn = c(B); rx, ry, rn = c(Rm)
     gys = np.nonzero(G)[0]
-    rows.append(dict(x=float(xs.mean()), y=float(ys.mean()), top=int(ys.min()), bottom=int(ys.max()), h=int(ys.max() - ys.min()),
+    gh = float(np.percentile(gys, 98) - np.percentile(gys, 2)) if len(gys) > 20 else 0.0
+    rows.append(dict(gh=gh, bx_=gx, by_=gy, x=float(xs.mean()), y=float(ys.mean()), top=int(ys.min()), bottom=int(ys.max()), h=int(ys.max() - ys.min()),
                      skull=(bx, by), muzzle=(rx, ry), rn=rn, bn=bn, back_top=int(np.percentile(gys, 2)) if len(gys) else None,
                      head_top=int(np.nonzero(B | Rm)[0].min()) if (bn + rn) else None))
 
@@ -39,7 +41,7 @@ def unproject(sx, sy, cam):
     d = fwd + (sx - 640) / cam['focal'] * right - (sy - 360) / cam['focal'] * up
     s_ = (DOGZ - pos[2]) / d[2]; P = pos + d * s_; return float(P[0]), float(np.dot(P - pos, fwd))
 x = np.array([r['x'] for r in rows])
-xw, depth = np.array([unproject(r['x'], r['y'], MAN['frames'][i]['camera']) for i, r in enumerate(rows)]).T
+xw, depth = np.array([unproject(r['bx_'], r['by_'], MAN['frames'][i]['camera']) for i, r in enumerate(rows)]).T   # body (green) centroid
 # height in metres at the dog's depth (the camera zooms and the dog changes distance; pixels alone would lie)
 h = np.array([r['h'] for r in rows], float) * depth / np.array([MAN['frames'][i]['camera']['focal'] for i in range(n)])
 # muzzle direction on screen (angle of skull→muzzle), facing: +1 muzzle toward the door (screen left), −1 away
@@ -54,14 +56,15 @@ for i, r in enumerate(rows):
     facing[i] = last
 k = np.ones(5) / 5
 vx = np.convolve(np.gradient(np.pad(xw, 2, mode='edge')), k, mode='same')[2:-2]   # metres/frame along the porch
-stand_h = np.median(h[:20])
-lying = h < 0.62 * stand_h
+gh = np.array([r['gh'] for r in rows]) * depth / np.array([MAN['frames'][i]['camera']['focal'] for i in range(n)])   # body (green) height, metres
+stand_h = np.median(h[:20]); stand_gh = np.median(gh[:20])
+lying = gh < 0.62 * stand_gh
 head_low = np.array([(r['head_top'] is not None and r['back_top'] is not None and r['head_top'] > r['back_top']) for r in rows])
 V0 = 0.005   # m/frame (0.12 m/s): the dog is travelling
 state = []
 for i in range(n):
     if facing[i] < 0: s = 'refuse'
-    elif lying[i]: s = 'lie_down'
+    elif lying[i] and xw[i] < 1.6: s = 'lie_down'        # lying down is the choice at the sill; lying elsewhere facing the door is watching
     elif vx[i] < -V0: s = 'approach'
     elif vx[i] > V0 and head_low[i]: s = 'retreat'
     else: s = 'watch'
@@ -69,7 +72,7 @@ for i in range(n):
 
 # onsets: walk each change back to where the movement that produces it starts
 dang = np.abs(np.diff(np.unwrap(np.radians(ang)), prepend=0)) * 180 / np.pi
-dh = np.gradient(h)
+dh = np.gradient(gh)
 def walk_back(i, active):
     j = i
     while j > 0 and active(j - 1): j -= 1
@@ -80,7 +83,7 @@ for i in changes:
     if b == 'refuse' or (a == 'refuse' and b != 'refuse'):
         j = walk_back(i, lambda q: dang[q] > 2.5 and state[q] == a)
     elif b == 'lie_down':
-        j = walk_back(i, lambda q: dh[q] < -0.4 and state[q] == a)
+        j = walk_back(i, lambda q: dh[q] < -0.002 and state[q] == a)
     elif b in ('approach', 'retreat'):
         j = walk_back(i, lambda q: abs(vx[q]) > 0.0015 and state[q] == a)
     else:
@@ -89,7 +92,7 @@ for i in changes:
 # measured posture
 post = []
 for i, r in enumerate(rows):
-    if lying[i]: post.append('lying, head up' if not head_low[i] else 'lying, head down')
+    if lying[i] or (gh[i] < 0.75 * stand_gh): post.append('lying, head up' if not head_low[i] else 'lying, head down')
     else: post.append('standing, head below back' if head_low[i] else 'standing, head up')
 
 frames = []
@@ -98,7 +101,7 @@ for i, r in enumerate(rows):
     frames.append({'i': i, 't': round(i / 24, 4), 'state': state[i], 'score_state': S['dog']['state'], 'x_score': S['dog']['x'],
                    'x_screen': round(r['x'], 2), 'y_screen': round(r['y'], 2),
                    'x_world_measured': round(float(xw[i]), 3), 'facing': int(facing[i]), 'posture': post[i],
-                   'muzzle_angle_screen_deg': round(float(ang[i]), 1), 'height_px': int(r['h']), 'height_m': round(float(h[i]), 3),
+                   'muzzle_angle_screen_deg': round(float(ang[i]), 1), 'height_px': int(r['h']), 'height_m': round(float(h[i]), 3), 'body_height_m': round(float(gh[i]), 3),
                    'head_below_back': bool(head_low[i]), 'vx_m_per_frame': round(float(vx[i]), 4)})
 onsets = []
 for c in SCORE['choices']:
@@ -106,18 +109,18 @@ for c in SCORE['choices']:
     onsets.append({'choice': f"{c['from']} → {c['to']}", 'score_t': c['t'], 'measured_t': hit['t'] if hit else None,
                    'dt': round(hit['t'] - c['t'], 3) if hit else None})
 # 26.4: the look in, measured as the head rising above the back and the muzzle angle turning, while lying
-look = next((f for f in frames if f['t'] >= 26.0 and f['state'] == 'lie_down' and not f['head_below_back']
-             and f['height_px'] > frames[int(26.0 * 24)]['height_px'] + 6), None)
+h26 = frames[int(26.0 * 24)]['height_m']
+look = next((f for f in frames if f['t'] >= 26.0 and f['state'] == 'lie_down' and f['height_m'] > 1.15 * h26), None)
 onsets.append({'choice': 'hears come in → looks in', 'score_t': 26.4, 'measured_t': look['t'] if look else None,
-               'dt': round(look['t'] - 26.4, 3) if look else None, 'rule': 'lying, head top above the back and the dog > 6 px taller than at 26.0 s (the head lifts)'})
+               'dt': round(look['t'] - 26.4, 3) if look else None, 'rule': 'still lying, the dog more than 15 % taller (metres) than at 26.0 s: the head lifts and turns in'})
 # approach: is the head below the line of the back for the whole approach?
 appr = [f for f in frames if f['score_state'] == 'approach']
 head_low_share = sum(f['head_below_back'] for f in appr) / len(appr)
 out = {'schema': 'scion27.trace/1', 'measured_from': 'build/cache/matte/*.png (DogMatte composition, 1280x720, same camera)',
-       'rules': {'x_screen': 'centroid of all dog pixels', 'x_world_measured': 'that centroid back-projected through the frame\'s camera (manifest) onto the vertical plane of the dog\'s line Z = %.2f m; metres along the porch' % DOGZ, 'facing': '+1 muzzle (red) left of skull (blue) on screen = toward the door; −1 away',
-                 'lying': f'dog height (px → metres at its depth) < 0.62 × standing height ({stand_h:.2f} m)', 'head_below_back': 'top of head pixels lower than the 2nd-percentile top of body pixels',
-                 'state': 'refuse if facing −1; else lie_down if lying; else approach/retreat if |vx| > 0.005 m/frame (x_world_measured) (retreat also needs head below back); else watch',
-                 'onsets': 'each state change walked back while the producing movement is active (muzzle turning > 2.5°/frame, height falling > 0.4 px/frame, |vx| > 0.0015 m/frame)'},
+       'rules': {'x_screen': 'centroid of all dog pixels', 'x_world_measured': 'the body (green: torso, legs, tail; no neck or head) centroid back-projected through the frame\'s camera (manifest) onto the vertical plane of the dog\'s line Z = %.2f m; metres along the porch' % DOGZ, 'facing': '+1 muzzle (red) left of skull (blue) on screen = toward the door; −1 away',
+                 'lying': f'body (green, no head) height, px → metres at its depth, < 0.62 × its standing height ({stand_gh:.2f} m)', 'head_below_back': 'top of head pixels lower than the 2nd-percentile top of body pixels',
+                 'state': 'refuse if facing −1; else lie_down if lying and x_world_measured < 1.6 m; else approach/retreat if |vx| > 0.005 m/frame (x_world_measured) (retreat also needs head below back); else watch',
+                 'onsets': 'each state change walked back while the producing movement is active (muzzle turning > 2.5°/frame, body height falling > 2 mm/frame, |vx| > 0.0015 m/frame)'},
        'onsets': onsets, 'approach_head_below_back_share': round(head_low_share, 3), 'frames': frames}
 json.dump(out, open(os.path.join(FOLDER, 'trace.json'), 'w'), indent=0)
 for o in onsets: print(o)

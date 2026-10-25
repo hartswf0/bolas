@@ -40,8 +40,10 @@ const results = [];
 for (const c of cases) {
   const i = Math.round(c.t * 24), d = rig.dog(i), body = d.pieces[0], mesh = MESH[body.mesh];
   const sol = new ARAP.Solver(mesh), hs = handlesFor(body);
-  const X = sol.initFrom(hs); sol.solve(hs, X, 60);
-  const da = stats(sol, X);
+  const X0 = sol.initFrom(hs); sol.solve(hs, X0, 60); const plain = stats(new ARAP.Solver(mesh), X0);
+  { const s0 = new ARAP.Solver(mesh); s0.R = sol.R; Object.assign(plain, s0.diagnose(X0)); }
+  const X = Float64Array.from(X0); sol.solveRepair(hs, X, 20);
+  const da = stats(sol, X); da.plain_arap_inverted_before_repair = plain.inverted; da.repair_rounds = sol.repairs || 0;
   // per-handle rotation from the ARAP result, handed to skinning
   for (const h of hs) { let cx = 0, cy = 0, rx = 0, ry = 0; for (const v of h.verts) { cx += X[2 * v]; cy += X[2 * v + 1]; rx += mesh.verts[v][0]; ry += mesh.verts[v][1]; } cx /= h.verts.length; cy /= h.verts.length; rx /= h.verts.length; ry /= h.verts.length; let a = 0, b = 0; for (const v of h.verts) { const ex = mesh.verts[v][0] - rx, ey = mesh.verts[v][1] - ry, fx = X[2 * v] - cx, fy = X[2 * v + 1] - cy; a += ex * fx + ey * fy; b += ex * fy - ey * fx; } h.ang = h.verts.length > 1 ? Math.atan2(b, a) : 0; }
   const Ls = ARAP.skin(mesh, hs, X);
@@ -107,7 +109,7 @@ console.log(JSON.stringify(proofJson, null, 1));
       out.mesh = c.toDataURL('image/png'); }
     // 2. ARAP vs skinning
     { const c = document.createElement('canvas'); c.width = 1400; c.height = 300 * results.length + 40; const g = c.getContext('2d'); g.fillStyle = '#e9e4da'; g.fillRect(0, 0, c.width, c.height);
-      g.fillStyle = '#222'; g.font = 'bold 18px monospace'; g.fillText('ARAP (this film)', 120, 26); g.fillText('weighted skinning, same handles + ARAP’s handle rotations', 760, 26);
+      g.fillStyle = '#222'; g.font = 'bold 18px monospace'; g.fillText('ARAP + inversion repair (as in the film)', 40, 26); g.fillText('weighted skinning, same handles + ARAP’s handle rotations', 760, 26);
       results.forEach((r, k) => { const m = MESH[r.mesh], y = 40 + k * 300;
         drawMesh(g, m, r.X, 40, y, 0.78, tex[r.mesh], false); drawMesh(g, m, r.L, 720, y, 0.78, tex[r.mesh], false);
         g.fillStyle = '#c00'; for (const h of r.handles) for (const ox of [40, 720]) { g.beginPath(); g.arc(ox + h[0] * .78, y + h[1] * .78, 3, 0, 7); g.fill(); }

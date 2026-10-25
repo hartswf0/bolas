@@ -58,11 +58,16 @@ def puppet(rigname):
         if n == 'head':
             # a cut piece: a thin white line of paper parts the head from the shoulders, inside it the engraved contour
             cov = dilate(m, int(2 * HK))
-            inner = erode(cov, int(1.0 * HK))
-            own_edge = contour(inner, 1.8 * SS)
+            inner = erode(cov, max(1, int(0.6 * HK)))
+            # round 2: no hard collar where the neck runs into the shoulders: the parting and contour fade out near the pivot
+            yy_, xx_ = np.mgrid[0:H, 0:W].astype(np.float32)
+            px_, py_ = (P['pivot'][0] - box[0]) * HK, (P['pivot'][1] - box[1]) * HK
+            dd = np.hypot(xx_ - px_, (yy_ - py_) * 1.0) / HK
+            wcol = np.clip((dd - 9.0) / 10.0, 0, 1)
+            own_edge = contour(inner, 1.6 * SS) * wcol
         ink = engrave(t, angle=-16 if n != 'head' else -40, period=3.3 * SS, warp_amp=1.4, cross=0.62, ox=box[0] * HK, oy=box[1] * HK)
         ink = np.maximum(ink * 0.95, own_edge)
-        if n == 'head': ink = ink * inner
+        if n == 'head': ink = ink * (inner * wcol + (1 - wcol))
         if n == 'head':
             # engraver's interpretation where the scan is unreadable at this size: eye, nostril, mouth, ear fold (inferred)
             from PIL import ImageDraw as _D
@@ -115,11 +120,12 @@ def puppet(rigname):
     ink = np.maximum(ink, np.asarray(fi, np.float32) / 255. * m)
     save_plate('dog%s_head_rear' % rigname, ink * (m > 0), m)
     meta['pieces']['head_rear'] = {'origin': [bx0, by0]}
+    meta['tone_mean'] = float(tone[union > 0.5].mean())
     meta['rig'] = R['parts']; meta['order'] = ORDER; meta['ground'] = GROUND; meta['anchor'] = ANCHOR
     json.dump(meta, open(os.path.join(OUT, 'dog%s.json' % rigname), 'w'), indent=0)
     return meta
 
-TURN = [16, 17, 26, 28, 30, 33, 36, 38, 40, 43, 44]   # the film's own turn, left profile → facing camera → right
+TURN = [26, 28, 30, 33, 36, 38, 40, 43, 44]   # f016, f017 dropped in round 2: head hidden, read as a lump   # the film's own turn, left profile → facing camera → right
 def turn_plates():
     M = json.load(open(os.path.join(KIT, 'masks.json')))
     meta = {}

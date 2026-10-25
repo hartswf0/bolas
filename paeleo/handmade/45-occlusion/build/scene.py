@@ -533,10 +533,10 @@ def dog_layer(cam, i, t, amb, spillL):
         hm = np.clip(r['head_a'], 0, 1)
         # the back of the head: dusk on it (dim, cool), the lit room behind it wrapping its upper edge
         if r['tone'] == 'back':
-            fill = amb * (0.30 + 0.30 * lum[..., None])
+            fill = lit * 0.80                               # lit like the rest of the dog (it is the dog's own fur)
             edge = np.clip(hm - np.roll(np.roll(hm, 2, axis=0), 0, axis=1) * 0.5 - np.roll(hm, 2, axis=0) * 0.5, 0, 1)
             side = np.clip(hm - 0.5 * (np.roll(hm, 2, axis=1) + np.roll(hm, -2, axis=1)), 0, 1)
-            head_col = fill + WARM * (1.1 * edge + 0.6 * side)[..., None]
+            head_col = fill + WARM * (0.9 * edge + 0.45 * side)[..., None]
         else:
             head_col = lit * 0.55 + WARM * 0.15 * lum[..., None]
         lit = lit * (1 - hm[..., None]) + head_col * hm[..., None]

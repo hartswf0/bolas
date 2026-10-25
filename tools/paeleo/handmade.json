@@ -102,6 +102,16 @@
    "trick": "Discipline is what is not rigged: the drawing does the acting, the rig only carries it."
   },
   {
+   "id": 24,
+   "dir": "24-live2d",
+   "name": "Live2D lineage",
+   "kind": "Portrait volume illusion",
+   "dog": "a parametric 2D rig: head keyforms, art meshes on deformers, pendulum physics",
+   "made": "A parametric rig written from scratch (no Cubism software here): 17 parameter axes in the Live2D style; a head keyform table of 16 yaw by 5 pitch keys over named landmarks, blended bilinearly; body art meshes with saddle, blaze and belly markings on a chain of rotation deformers; eye, brow and mouth controls; the coat studied by eye from the archive dog. The person is a small rig in the same language; the house is drawn in cross-section.",
+   "moved": "The eyes move first, the head two or three frames later, the body last. Both turns pass through a chest-facing view rather than a mirror flip, the head leading; a stepping solver keeps paws fixed until they must step; pendulums drive the tail, ears and tag. The camera zooms about fixed points, with a portrait of the dog while it considers.",
+   "trick": "Gaze, head and body are three separate decisions, and the dog makes them in that order."
+  },
+  {
    "id": 38,
    "dir": "38-drawing-library",
    "name": "Dynamic pose selection",

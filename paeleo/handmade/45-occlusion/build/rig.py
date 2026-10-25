@@ -50,9 +50,27 @@ PARTS = {
 def part(name):
     key = ('part', name)
     if key not in _cache:
-        src, poly, piv = PARTS[name]
-        _cache[key] = (holdout(cel(src), poly), piv)
+        if name == 'headBack':
+            _cache[key] = head_back()
+        else:
+            src, poly, piv = PARTS[name]
+            _cache[key] = (holdout(cel(src), poly), piv)
     return _cache[key]
+
+
+def head_back():
+    """The back of the head, as a matte and a fill: the outline is the frontal head of f28 (a head's outline is the same
+    from in front and from behind), the fill is the dog's own neck-and-shoulder fur from f10 pushed through that matte, so
+    no face shows. Compositing, not drawing: every pixel is the dog's."""
+    hf, piv = part('headF')
+    a = np.array(hf)[:, :, 3]
+    ys, xs = np.nonzero(a > 10)
+    x0, x1, y0, y1 = xs.min(), xs.max() + 1, ys.min(), ys.max() + 1
+    fur = cel(10).crop((128, 96, 192, 146)).convert('RGB').resize((x1 - x0, y1 - y0), Image.BICUBIC)
+    out = np.zeros_like(np.array(hf))
+    out[y0:y1, x0:x1, :3] = np.array(fur)
+    out[:, :, 3] = a
+    return Image.fromarray(out), piv
 
 
 def affine(img, piv, theta_deg, dst, scale=(1.0, 1.0), flip=False, out_size=(384, 288)):

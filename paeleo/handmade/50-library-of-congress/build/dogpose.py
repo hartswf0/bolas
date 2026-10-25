@@ -174,22 +174,43 @@ def draw_puppet(ink, cov, p, O, f, layers=None, headf=None, hc=None):
         joints.append((to_screen(pn, O, f), a, n))
     return sol, feet, joints
 
+_turn_cache = {}
 def draw_turn(ink, cov, f_scan, O, height_px):
-    """a whole documented frame, scaled to the puppet's height, standing on the ground line at O."""
-    im = plate('turn_f%03d' % f_scan)
-    m = TURNM[str(f_scan)]
-    bb = m['bbox_scan']; box = m['box']
-    s = height_px / ((bb[3] - bb[1]) * K)
-    w, h = im.size
-    W, H = int(w * s), int(h * s)
-    reg = im.resize((max(1, W), max(1, H)), Image.BICUBIC)
-    # bottom of bbox on the ground, horizontal centre of bbox at O.x
-    cx = ((bb[0] + bb[2]) / 2 - box[0]) * K * s; by = (bb[3] - box[1]) * K * s
-    X0 = int(round(O[0] - cx)); Y0 = int(round(O[1] - by))
-    arr = np.asarray(reg, np.float32) / 255.
+    """a whole documented frame (shape unaltered), engraved at the exact scale that gives it the neighbouring cut-piece dog's
+    height, with its tone normalised to the cut-piece dog's mean tone and the same screen, contour and cross-hatch;
+    its mask centroid placed at O.x, its lowest point on the ground at O.y."""
+    import plates_dog as PD
+    from eng import engrave, poly_mask, blur, contour
+    key = (f_scan, int(round(height_px)))
+    if key not in _turn_cache:
+        m = TURNM[str(f_scan)]; bb = m['bbox_scan']; box = m['box']
+        M_ = _masks()[str(f_scan)]
+        polys = sorted(M_, key=lambda P: -len(P))[:1]
+        k = height_px / (bb[3] - bb[1]); hk = k * 2
+        W, H = int((box[2] - box[0]) * hk), int((box[3] - box[1]) * hk)
+        mh = poly_mask((H, W), polys, hk, box[:2])
+        mh = (blur(mh, 3.0 * 2 * k / K) > 0.5).astype(np.float32)
+        tone = PD.scan_tone(f_scan, box, mh)
+        tm = tone[mh > 0.5].mean()
+        tone = np.clip(tone * (META['tone_mean'] / tm), 0, 1)
+        e = engrave(tone, angle=-16, period=3.3 * 2, warp_amp=1.4, cross=0.62)
+        e = np.maximum(e * 0.95, contour(mh, 2.2 * 2)) * mh
+        ei = Image.fromarray((np.clip(e, 0, 1) * 255).astype(np.uint8)).resize((W // 2, H // 2), Image.LANCZOS)
+        ci = Image.fromarray((mh * 255).astype(np.uint8)).resize((W // 2, H // 2), Image.LANCZOS)
+        a_i = np.asarray(ei, np.float32) / 255.; a_c = np.asarray(ci, np.float32) / 255.
+        ys, xs = np.nonzero(a_c > 0.5)
+        _turn_cache[key] = (a_i, a_c, float(xs.mean()), int(ys.max()))
+    a_i, a_c, mcx, mby = _turn_cache[key]
+    X0 = int(round(O[0] - mcx)); Y0 = int(round(O[1] - mby))
+    Hh, Ww = a_c.shape
     Hc, Wc = ink.shape
-    xa, ya = max(0, X0), max(0, Y0); xb, yb = min(Wc, X0 + W), min(Hc, Y0 + H)
-    sub_ = arr[ya - Y0:yb - Y0, xa - X0:xb - X0]
-    i_, c_ = sub_[..., 0], sub_[..., 3]
+    xa, ya = max(0, X0), max(0, Y0); xb, yb = min(Wc, X0 + Ww), min(Hc, Y0 + Hh)
+    i_ = a_i[ya - Y0:yb - Y0, xa - X0:xb - X0]; c_ = a_c[ya - Y0:yb - Y0, xa - X0:xb - X0]
     ink[ya:yb, xa:xb] = np.clip(ink[ya:yb, xa:xb] * (1 - c_) + i_, 0, 1)
     cov[ya:yb, xa:xb] = cov[ya:yb, xa:xb] + c_ * (1 - cov[ya:yb, xa:xb])
+
+_M = {}
+def _masks():
+    if not _M:
+        _M['m'] = json.load(open(os.path.join(HERE, '..', '..', 'kit', 'archive-dog', 'masks.json')))
+    return _M['m']

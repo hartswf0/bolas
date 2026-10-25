@@ -106,7 +106,7 @@ def lie_pose(u, head_th, head_kind='L', head_dy=0.0, head_dx=0.0):
         HEAD_ONLY[0] = rig.compose([hl], CANVAS)
         headpt = rig.fwd((80, 85), hp, head_th, (neck[0] + 4 + head_dx, neck[1] + head_dy), (0.70, 0.97))
     else:
-        hf, hfp = rig.part('headF')
+        hf, hfp = rig.part('headBack' if head_kind == 'B' else 'headF')
         hl = (hf, hfp, head_th, (neck[0] + 2 + head_dx, neck[1] + 10 + head_dy), (0.78, 0.78))
         L.append(hl)
         if head_kind == 'B':
@@ -227,7 +227,7 @@ def dog_frame(i):
         if look > 0.62:
             # looking in: the head turned into the lit room; the frontal-head outline is what the back of a head looks
             # like, so it is shown from behind: dusk on the back of the skull, the room's light around its edge
-            img, anc, head = lie_pose(u, 0, 'B', -14, -17)
+            img, anc, head = lie_pose(u, 0, 'B', -12, -8)
             tone = 'back'; parts = ['headF (as back of head)', 'torso10', 'legs']
         elif look > 0.30:
             img, anc, head = lie_pose(u, 14, 'T', -8, -6)

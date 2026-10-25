@@ -14,7 +14,7 @@ export type DogPose = {
   rest: number; look: number; breath: number; bob: number; feet: V3[];  // paws FL FR HL HR, world (from the gait solver)
 };
 export type Tone = 'coat' | 'saddle' | 'tan' | 'dark' | 'nose' | 'eye' | 'ear';
-export type Matte = 'body' | 'skull' | 'muzzle';
+export type Matte = 'body' | 'neck' | 'skull' | 'muzzle';
 export type Part = {kind: 'cap'; a: V3; ra: number; b: V3; rb: number; tone: Tone; matte: Matte; far?: boolean; bias?: number}
   | {kind: 'tri'; pts: V3[]; tone: Tone; matte: Matte; far?: boolean; bias?: number};
 
@@ -71,7 +71,7 @@ export function dogParts(p: DogPose): Part[] {
   const hy = (p.yaw + p.headYaw) * deg, ny = (p.yaw + p.headYaw * 0.55) * deg;
   const hdir: V3 = [Math.cos(hy), 0, Math.sin(hy)], ndir: V3 = [Math.cos(ny), 0, Math.sin(ny)];
   const skull = add(neckBase, add(mul(ndir, reach * Math.cos(phi * deg)), mul(up, reach * Math.sin(phi * deg))));
-  cap(neckBase, 0.105, skull, 0.08, 'coat');
+  cap(neckBase, 0.105, skull, 0.08, 'coat', 'neck');
   let beta = keyed([[-58, -62], [-44, -48], [12, -14], [54, -6]], phi, false);
   beta = lerp(beta, -4, clamp(p.rest));
   const md = norm(add(mul(hdir, Math.cos(beta * deg)), mul(up, Math.sin(beta * deg))));

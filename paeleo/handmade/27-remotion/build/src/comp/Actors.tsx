@@ -12,7 +12,7 @@ import type {PersonPose, PTone} from '../lib/personRig.ts';
 import {cap2, capPath, mixc} from './draw.tsx';
 
 export const DOG_TONE: Record<Tone, string> = {coat: '#3a2c24', saddle: '#1c1512', tan: '#8c6844', dark: '#120e0c', nose: '#070606', eye: '#0a0807', ear: '#2a201b'};
-export const MATTE: Record<Matte, string> = {body: '#00ff00', skull: '#0000ff', muzzle: '#ff0000'};
+export const MATTE: Record<Matte, string> = {body: '#00ff00', neck: '#ff00ff', skull: '#0000ff', muzzle: '#ff0000'};
 const PERSON_TONE: Record<PTone, string> = {cloth: '#3b4150', cloth2: '#272a33', skin: '#b98c6c', hair: '#2a1f1a', shoe: '#141414'};
 const WARM = '#ffc778';
 
