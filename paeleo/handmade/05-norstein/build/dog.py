@@ -94,7 +94,9 @@ def controller():
         if st == 'lie_down':  # lying, the head is lifted on the neck, never stood up on it
             alpha = min(alpha, 22.0)
         # the choice to stop backing and watch (2.33) is shown at once: the head comes up while the body still drifts
-        alpha = ease('alpha', alpha, 0.7 if 2.30 <= t < 2.7 else 0.35)
+        if 2.32 <= t < 2.9:
+            alpha = max(alpha, 25.0)
+        alpha = ease('alpha', alpha, 0.5 if 2.30 <= t < 2.7 else 0.35)
         # --- the rest of the body
         crouch = ease('crouch', a['crouch'] if not (2.30 <= t < 2.7) else min(a['crouch'], 0.3), 0.3)
         ear = ease('ear', max(clamp(a['ear'], 0, 1), 0.5 * (1 - smooth(3.9, 4.4, t)) if t > 3.4 else 0), 0.4)
