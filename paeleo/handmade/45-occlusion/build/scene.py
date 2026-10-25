@@ -663,7 +663,7 @@ def zcomposite(layers, step=2):
         d = np.full(L.a[::step, ::step].shape, L.depth, np.float32) if np.isscalar(L.depth) else L.depth[::step, ::step]
         # horizontal supports sit under whatever stands on them; the room behind the opening sits behind the porch
         if L.kind == 'support':
-            d = -50 + 0.01 * d
+            d = -50 + 0.01 * d + (0.01 if L.name == 'sill' else 0.0)   # the sill stands on the porch boards
         if L.kind == 'back':
             d = -60 + 0.01 * d
         return d
