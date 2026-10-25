@@ -360,7 +360,7 @@
         outline(ctx, ARM, 2.6);
       },
       cuts: [[[126, 476], [122, 640]]],   // between the trouser legs, so a step parts the legs instead of stretching a skirt
-      handles: { head: [128, 50], chest: [128, 160], hip: [128, 380], knee: [128, 500], foot_a: [176, 620], foot_b: [96, 620], shoulder: [152, 140], elbow: [160, 230], hand: [184, 318] },
+      handles: { head: [128, 50], chest: [128, 160], hip: [128, 380], knee: [154, 500], foot_a: [176, 620], foot_b: [96, 620], shoulder: [152, 140], elbow: [160, 230], hand: [184, 318] },
       features: [{ name: 'eye', c: [142, 56], r: 9 }, ...[150, 196, 242, 288].map((y, k) => ({ name: 'button' + k, c: [136, y], r: 10 }))]
     };
   }

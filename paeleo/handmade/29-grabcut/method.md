@@ -1,8 +1,8 @@
 # SCION 29 · GrabCut: the threshold, cut out of archive film
 
 ## Thesis
-Every figure on screen is a figure *extracted* from a public-domain archive frame by our own graph cut, and it keeps its cut
-line. The dog is the home-movie dog of *Amateur Film New Jersey C*, cut out frame by frame; the person and the door are cut
+Every figure on screen is a figure *extracted* from a public-domain archive frame by our own graph cut. (Round 1 drew
+each piece's cut line; round 2 removed it on the critic's note about a light rim: the cut line is now shown only on the title card.) The dog is the home-movie dog of *Amateur Film New Jersey C*, cut out frame by frame; the person and the door are cut
 from *Straight Talk* (NTIS, 1992); the low hand is cut from *The Door to Heaven* (1941) away from the card its fingers hold.
 The defining passage is the end: a dog that this footage never shows lying down is assembled from the pieces of one of its own
 frames and lies across the lit sill, front half in the door frame, then turns the back of its head into the room.
@@ -100,3 +100,36 @@ black trapezoids (removed); walk drawings f46–48 had blocky SAM-shaped cuts th
 No independent critic was run; no human viewing. No mobile operator page (in the SCION deliverable contract; not in the
 brief's list). No matting comparison beyond the border matte; no extraction presets by scan class. No GPU, no cv2/scipy,
 no network. No Quick, Draw! drawings used. No git.
+
+
+## Round 2 (after critic round 1: DOES NOT PASS)
+The critic accepted the language and failed the cut quality on the dog. What changed (ledger #16–24):
+1. **Composed lie** (4.45–7.46, 23.79–32): the lying body is now one piece. The f13 torso and haunch above a floor line, each column filled down to it by
+   clone-stamping fur from 30 px above (a recorded repair of the occluded belly), the fill line curving up into chest and rump, the contour rounded.
+   The hind legs are no longer drawn (folded under). The head carries a small hidden neck tab and is drawn behind the body. The forelegs were raised
+   onto the boards. The descent starts at lie = 0.4, so no standing puppet frame appears (the 23.81 pop is gone).
+2. **Look-back** (7.458–8.45): the pasted head and the puppet rise are gone. The dog is up in real cuts only: mirrored f30 (frontal, head toward the
+   camera/door side), mirrored f44 (3/4 toward the door, head low), then side f13. Each frame has one head.
+3. **Watching drawing**: f9/f10/f11 re-cut, with a manual bg scribble outside the rounded rump and contour smoothing on every cut.
+4. **Turn away**: f13 → f30 → f34 → f44 (six boxy/muddled drawings dropped). 3.75–3.79 is now f44 facing away.
+5. **Rim**: the drawn cut line was removed. Edge-colour decontamination replaces matte-band luminance with nearby interior luminance. The dog's
+   exposure was lifted on the dusk porch, and the grain was halved.
+6. **Footfalls**: approach median −39.9 dBFS over 30 ms windows, **7.5 dB above room tone** (−47.3 dBFS), measured.
+
+Measured after round 2: checker ALL OK. Onsets (score → measured): 1.000 → 1.000, 2.333 → 2.333, 3.417 → 3.542, 7.458 → 7.458, 14.708 → 14.708,
+23.792 → 23.750 (the walk's last frame already sinks into the doorway's depth), look-in 26.4 → 26.542. End: lying, 39 % of the dog left of the right
+jamb. Soft voice ≥ 11.9 dB under the calls, 18.6 dB over room tone. Film 912 frames, 38.0 s, crf 22, about 7.6 MB.
+The dog now uses 11 archive frames (f0, f9–11, f13, f30, f34, f42–45).
+
+Looked at (builder, not critic): every frame 3.58–3.96, 7.38–8.38 and 23.67–24.58 as 1:1 crops of the encoded film, plus the watching drawing at
+0, 2.33, 3, 9, 12.5 and 14.2 s.
+
+Still weak after round 2:
+- The lying body's straight bottom is its floor contact. It reads as lying on the sill, but it is a straight line.
+- The look-back is a substitution (lying → standing frontal in one cut), not a seen rise.
+- The turn away is coarse (four drawings).
+- f44 and f30 keep some straight SAM runs (the f44 rump, the f30 flank).
+- f10 keeps a short straight run at the haunch.
+- Upscaling still softens the source.
+- The 3/4 ↔ side substitutions at 14.7 s and 23.79 s remain.
+- The voices are synthesized and unheard by me.
