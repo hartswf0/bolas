@@ -133,12 +133,12 @@ room tone in those windows -35.15 and -33.81. The soft voice is
 
 | score t (s) | choice | measured first frame (s) | dt |
 |---|---|---|---|
-| 1 | retreat | 1.1667 | +0.167 |
+| 1 | retreat | 1.0833 | +0.083 |
 | 2.333 | watch | 2.4167 | +0.084 |
 | 3.417 | refuse | 3.5833 | +0.166 |
 | 7.458 | watch | 7.5 | +0.042 |
 | 14.708 | approach | 14.7917 | +0.084 |
-| 23.792 | lie_down | 23.875 | +0.083 |
+| 23.792 | lie_down | 23.9167 | +0.125 |
 
 - I2: the measured position never goes below 0.5661 m (sill 0.56) and ends at 0.5974 m.
   At the end 41 % of the dog's silhouette lies within the doorway's span (X < 0.46 m) and the tail end is at
@@ -158,7 +158,7 @@ room tone in those windows -35.15 and -33.81. The soft voice is
 **How the trace is measured** (assemble.py): position = the centroid of the torso ID pass, unprojected at the dog glass's
 depth; facing = which side of the laid head piece's hinge its nose lies on (left = to the door); travel = the paws and
 the body moving together (7-frame smoothing); height = the silhouette height in metres at the dog's depth (lying < 0.55 m).
-State: lying at the sill -> lie_down; facing away -> refuse; travelling away from the door at > 0.12 m/s with the head
+State: lying at the sill -> lie_down; facing away -> refuse; travelling away from the door at > 0.08 m/s with the head
 below its alert carriage -> retreat; travelling toward it at > 0.12 m/s, sustained 0.75 s -> approach; otherwise watch.
 These thresholds are a measurement model the builder chose and tuned against this render (see ledger 11-13). They are a
 structural record, not a judgement that the choices read.
@@ -226,6 +226,24 @@ Critic round 1 (reviews/round1.md): DOES NOT PASS, close. Repairs as ranked by t
 Kept: the glass planes and parallax, the fog's four states, the focus pull to the bowl, the head-low approach, the sound
 (unchanged, re-synthesized from the same seed and the new footfalls).
 
+## Round 3: the critic's repairs and what was done
+
+Critic round 2 (reviews/round2.md): DOES NOT PASS (narrowly). What changed:
+
+1. **Looking in.** A dedicated back-of-head piece is cut by hand (skull, both ears standing, darker nape; no face, no
+   eye): the maquette's back view had its ears edge-on. From 26.46 the head goes to the lost profile and from 26.67 to
+   the back of the head, turned straight away into the room toward the bowl at level gaze, held until the focus pull
+   begins at 26.96 (looked at every frame 26.21-27.17).
+2. **Hindquarters.** In the retreat crouch the rump drops less and the tail hangs behind the hocks instead of tucking
+   between them; every cut edge that lies over another piece now shows a thin pale seam, and the far legs are lighter,
+   so thigh, shin and hock of both hind legs read separately (looked at every frame 1.21-2.50; the legs are still dark
+   against a dark wall in fog). Lying down and getting up: the paw travels and the joints bend by IK (no crossing).
+   The guide is posed at the chosen pieces' own view angles, which removed the ghost at 3.75.
+3. **The walk as replacement pieces.** The dog is shot on twos: each placement of its pieces is held two frames while
+   the camera and fog move on ones; the seams are visible (looked at every frame 15.00-16.00).
+4. assets.json describes the piece library; the person is grounded on its lowest point every frame and sits through a
+   squat; the audio master peak is 0.75 (film -2.3 dBFS by ffmpeg volumedetect).
+
 ## What is still weak (the builder's view, for the critic to confirm or overturn)
 
 - The dog is small in the wide shots (about 180 px long) and fog-soft through the refusal; at 6.3 to 7.2 s, while the
@@ -236,7 +254,8 @@ Kept: the glass planes and parallax, the fog's four states, the focus pull to th
   "looking up" or "looking at the person".
 - The rear-view body piece (about 3.6 s, two frames) is the most generic drawing; the limbs are plain strips, so the
   puppet reads as a jointed toy as much as a painted Norstein figure.
-- The lost-profile head when looking in may read as "looking up at the light" rather than "into the room".
+- The back-of-head piece is simple (a round with two ears): it may read as feline.
+- The person still passes through a brief squat with the seat off the boards (about 5.7-5.9 s).
 - The dog is still dim in the fog during the refusal (4.5 to 7.2 s), by design of the obscure state.
 - The ears are pointed and stiff; the person is a plain mannequin-like cutout.
 - The voice is formant-synthesized and almost certainly mechanical; intelligibility is unknown.
