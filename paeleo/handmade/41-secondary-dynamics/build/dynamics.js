@@ -116,15 +116,17 @@ class Chain {
         const d = V.sub(this.p[i], this.p[i - 1]), L = V.len(d) || 1e-9, e = (L - this.rest[i - 1]) / L;
         if (i === 1) this.p[i] = V.sub(this.p[i], V.mul(d, e)); else { this.p[i] = V.sub(this.p[i], V.mul(d, e * 0.5)); this.p[i - 1] = V.add(this.p[i - 1], V.mul(d, e * 0.5)); }
       }
-      if (!this.touch) this.touch = {};
+      if (!this.touch) this.touch = {}; const contacts = [];
       for (let i = 1; i < this.n; i++) for (let ci = 0; ci < colliders.length; ci++) { // collision boundaries: project out
         const c = colliders[ci], key = i * 64 + ci, hit = resolve(this.p[i], this.r[i], c);
         if (!hit) { if (this.touch[key] && signedGap(this.p[i], this.r[i], c) > 0.008) this.touch[key] = 0; continue; } // hysteresis: a contact ends only 8 mm clear
         const vn = V.dot(V.sub(V.mul(V.sub(this.p[i], prev[i]), 1 / h), c.v || [0, 0, 0]), hit.n); this.p[i] = hit.p; // normal speed relative to the (moving) boundary
         if (!this.touch[key] && vn < -0.05 && c.tag) this.events.push({ t: t0 + (s + 1) * h, tag: c.tag, node: i, speed: -vn }); // contact onset only
-        this.touch[key] = 1;
+        this.touch[key] = 1; contacts.push([i, hit.n, c.v || [0, 0, 0]]);
       }
       for (let i = 1; i < this.n; i++) this.v[i] = V.mul(V.sub(this.p[i], prev[i]), 1 / h); // velocities from positions
+      for (const [i, n, vc] of contacts) { // inelastic contact: the push-out must not become a bounce (relative to the boundary)
+        const rel = V.sub(this.v[i], vc), vn = V.dot(rel, n); if (vn > 0) this.v[i] = V.sub(this.v[i], V.mul(n, vn)); }
     }
     this.prevT = targets.map(q => q.slice());
   }
