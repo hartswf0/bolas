@@ -524,6 +524,9 @@ def person_skeleton(f):
     hand_n = hang_n + (reach_n - hang_n) * reach
     hand_n = hand_n + ((hip + np.array([0.30, 0.30, 0.14])) - hand_n) * sit * (1 - low)
     hand_n = hand_n + (low_n - hand_n) * low
+    back = smoothstep(24.3, 25.6, t)   # once it lies down, the hand is drawn back and rests low, giving it room
+    rest_n = hip + np.array([0.52, 0.0, -0.12]); rest_n[1] = 0.16
+    hand_n = hand_n + (rest_n - hand_n) * back
     hand_f = hang_f + (knee_rest - hang_f) * sit
     return dict(hip=hip, sh=sh, neck=neck, skull=skull, lam=lam, foot_n=fn, foot_f=ff, hand_n=hand_n, hand_f=hand_f, sit=sit)
 

@@ -20945,20 +20945,17 @@
 "t": 26.5,
 "state": "lie_down",
 "x_score": 0.59,
-"x_screen": 407.39,
-"y_screen": 476.32,
+"x_screen": 413.47,
+"y_screen": 475.62,
 "facing": 1,
-"posture": "lying",
+"posture": "lying, head turned in",
 "bbox": [
-270,
-409,
+274,
+396,
 582,
 536
 ],
-"nose": [
-271.7,
-450.5
-],
+"nose": null,
 "withers": [
 361.6,
 484.3
@@ -20968,32 +20965,31 @@
 "fore_a_f045",
 "fore_b_f045",
 "haunch_f006",
-"head_low_f048",
+"head_back_cut",
 "hind_a_f012",
 "hind_a_f045",
 "tail_f006"
 ],
-"rules": []
+"rules": [
+"ENTER head->door light: REPLACE head by head_back_cut (looks in)"
+]
 },
 {
 "i": 637,
 "t": 26.5,
 "state": "lie_down",
 "x_score": 0.59,
-"x_screen": 407.39,
-"y_screen": 476.32,
+"x_screen": 413.47,
+"y_screen": 475.62,
 "facing": 1,
-"posture": "lying",
+"posture": "lying, head turned in",
 "bbox": [
-270,
-409,
+274,
+396,
 582,
 536
 ],
-"nose": [
-271.7,
-450.5
-],
+"nose": null,
 "withers": [
 361.6,
 484.3
@@ -21003,12 +20999,14 @@
 "fore_a_f045",
 "fore_b_f045",
 "haunch_f006",
-"head_low_f048",
+"head_back_cut",
 "hind_a_f012",
 "hind_a_f045",
 "tail_f006"
 ],
-"rules": []
+"rules": [
+"ENTER head->door light: REPLACE head by head_back_cut (looks in)"
+]
 },
 {
 "i": 638,
@@ -22307,20 +22305,17 @@
 "t": 28.167,
 "state": "lie_down",
 "x_score": 0.59,
-"x_screen": 407.89,
-"y_screen": 475.89,
+"x_screen": 413.97,
+"y_screen": 475.18,
 "facing": 1,
-"posture": "lying",
+"posture": "lying, head turned in",
 "bbox": [
-270,
-409,
+274,
+396,
 584,
 536
 ],
-"nose": [
-271.7,
-450.5
-],
+"nose": null,
 "withers": [
 361.6,
 484.3
@@ -22330,32 +22325,31 @@
 "fore_a_f045",
 "fore_b_f045",
 "haunch_f006",
-"head_low_f048",
+"head_back_cut",
 "hind_a_f012",
 "hind_a_f045",
 "tail_f006"
 ],
-"rules": []
+"rules": [
+"ENTER head->door light: REPLACE head by head_back_cut (looks in)"
+]
 },
 {
 "i": 677,
 "t": 28.167,
 "state": "lie_down",
 "x_score": 0.59,
-"x_screen": 407.89,
-"y_screen": 475.89,
+"x_screen": 413.97,
+"y_screen": 475.18,
 "facing": 1,
-"posture": "lying",
+"posture": "lying, head turned in",
 "bbox": [
-270,
-409,
+274,
+396,
 584,
 536
 ],
-"nose": [
-271.7,
-450.5
-],
+"nose": null,
 "withers": [
 361.6,
 484.3
@@ -22365,12 +22359,14 @@
 "fore_a_f045",
 "fore_b_f045",
 "haunch_f006",
-"head_low_f048",
+"head_back_cut",
 "hind_a_f012",
 "hind_a_f045",
 "tail_f006"
 ],
-"rules": []
+"rules": [
+"ENTER head->door light: REPLACE head by head_back_cut (looks in)"
+]
 },
 {
 "i": 678,
@@ -25561,13 +25557,13 @@
 "how": "dog-layer bbox height falls below 92 % of its standing height (the first going-down drawing is 88 %)"
 },
 "looks_in": {
-"measured": 26.583,
+"measured": 26.5,
 "score": 26.4,
-"dt": 0.183,
+"dt": 0.1,
 "how": "dog-layer top rises >10 px above its lying height (the head comes up into the doorway)"
 },
 "settles": {
-"measured": 28.167,
+"measured": 28.25,
 "score": null,
 "dt": null,
 "how": "top returns to lying height and the nose is below the withers again"

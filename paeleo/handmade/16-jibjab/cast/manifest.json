@@ -125,6 +125,88 @@
        "scale": 1
       }
      ]
+    },
+    "F": {
+     "png": "cast/paper/F.png",
+     "socket": [
+      140,
+      170
+     ],
+     "nose": [
+      140.0,
+      136.0
+     ],
+     "ears": [
+      {
+       "png": "cast/paper/ear.png",
+       "pivot_in_ear": [
+        48.0,
+        12.0
+       ],
+       "at": [
+        106.0,
+        98.0
+       ],
+       "front": true,
+       "side": -1,
+       "scale": 1
+      },
+      {
+       "png": "cast/paper/ear.png",
+       "pivot_in_ear": [
+        48.0,
+        12.0
+       ],
+       "at": [
+        174.0,
+        98.0
+       ],
+       "front": true,
+       "side": 1,
+       "scale": 1
+      }
+     ]
+    },
+    "FL": {
+     "png": "cast/paper/FL.png",
+     "socket": [
+      140,
+      170
+     ],
+     "nose": [
+      72.0,
+      134.8
+     ],
+     "ears": [
+      {
+       "png": "cast/paper/ear.png",
+       "pivot_in_ear": [
+        48.0,
+        12.0
+       ],
+       "at": [
+        116.0,
+        94.0
+       ],
+       "front": false,
+       "side": -1,
+       "scale": 0.85
+      },
+      {
+       "png": "cast/paper/ear.png",
+       "pivot_in_ear": [
+        48.0,
+        12.0
+       ],
+       "at": [
+        170.0,
+        96.0
+       ],
+       "front": true,
+       "side": 1,
+       "scale": 1
+      }
+     ]
     }
    },
    "ear_angles": {
@@ -190,6 +272,30 @@
       138.0
      ],
      "ears": []
+    },
+    "F": {
+     "png": "cast/doodle/F.png",
+     "socket": [
+      140,
+      170
+     ],
+     "nose": [
+      140.0,
+      130.0
+     ],
+     "ears": []
+    },
+    "FL": {
+     "png": "cast/doodle/FL.png",
+     "socket": [
+      140,
+      170
+     ],
+     "nose": [
+      140.0,
+      130.0
+     ],
+     "ears": []
     }
    },
    "ear_angles": {
@@ -200,8 +306,8 @@
   },
   "home": {
    "name": "Home movie",
-   "style": "the archive dog's own face, sepia, grain left in",
-   "made_by": "L: hand-cut from Amateur Film New Jersey C f038 (the only legible face, a 3/4 view, mirrored). B/BL: no frame shows the back of its head; built as a silhouette filled with its own back fur from f008.",
+   "style": "the archive dog's own head, graded and grained like its body plate, at the plate's scale",
+   "made_by": "L: f008 head (profile, rotated 24 deg). FL/FR: f038 face (mirrored for FL). F: f028 head. B: f028 head with the face filled from its own crown coat (no frame shows the back of its head). BL: B + the L muzzle tip.",
    "rights": "public domain (Home Movies collection, Internet Archive: https://archive.org/details/NewJerseyC)",
    "consent_and_likeness": "an animal in a public-domain home movie; no person's face is used",
    "views": {
@@ -212,8 +318,32 @@
       170
      ],
      "nose": [
-      96.96774193548387,
-      140.67741935483872
+      92.0,
+      118.0
+     ],
+     "ears": []
+    },
+    "FL": {
+     "png": "cast/home/FL.png",
+     "socket": [
+      140,
+      170
+     ],
+     "nose": [
+      100.0,
+      146.0
+     ],
+     "ears": []
+    },
+    "F": {
+     "png": "cast/home/F.png",
+     "socket": [
+      140,
+      170
+     ],
+     "nose": [
+      140.0,
+      146.0
      ],
      "ears": []
     },
@@ -225,7 +355,7 @@
      ],
      "nose": [
       140.0,
-      98.0
+      122.0
      ],
      "ears": []
     },
@@ -237,12 +367,13 @@
      ],
      "nose": [
       60.0,
-      146.67741935483872
+      130.0
      ],
      "ears": []
     }
    },
-   "ear_angles": null
+   "ear_angles": null,
+   "card_px_per_source_px": 2
   }
  }
 }

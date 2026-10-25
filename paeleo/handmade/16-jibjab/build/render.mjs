@@ -18,7 +18,10 @@ const [mode, ...args] = process.argv.slice(2);
 const b64 = p => fs.readFileSync(p).toString('base64');
 const dataUrl = p => 'data:image/png;base64,' + b64(p);
 const manifest = JSON.parse(fs.readFileSync(path.join(HERE, 'cast/manifest.json')));
-const images = { door: dataUrl(path.join(HERE, 'plates/door.png')), fur: dataUrl(path.join(HERE, 'plates/fur.png')) };
+const images = { door: dataUrl(path.join(HERE, 'plates/door.png')) };
+const plate = JSON.parse(fs.readFileSync(path.join(HERE, 'plates/plate.json')));
+for (const [n, r] of Object.entries(plate.rig)) images['rig/' + n] = dataUrl(path.join(HERE, r.png));
+for (const tp of plate.turn) images['turn/' + tp.frame] = dataUrl(path.join(HERE, tp.png));
 for (const [c, cast] of Object.entries(manifest.casts)) {
   for (const [v, vw] of Object.entries(cast.views)) images[`${c}/${v}`] = dataUrl(path.join(HERE, vw.png));
   for (const f of fs.readdirSync(path.join(HERE, 'cast', c))) if (f.startsWith('ear')) images[`${c}/${f.replace('.png', '')}`] = dataUrl(path.join(HERE, 'cast', c, f));
@@ -33,7 +36,7 @@ for (const blk of css.split('@font-face').slice(1)) {
   if (!fonts[key] && /U\+0000-00FF/.test(blk)) fonts[key] = b64(path.join(FONTS, src));
 }
 const data = {
-  manifest, images, fonts,
+  manifest, images, fonts, plate,
   perf: JSON.parse(fs.readFileSync(path.join(HERE, 'performance.json'))),
   skeleton: JSON.parse(fs.readFileSync(path.join(HERE, 'build/cache/skeleton.json'))),
   qd: JSON.parse(fs.readFileSync(path.join(HERE, 'plates/qd.json'))),
@@ -46,6 +49,7 @@ page.on('pageerror', e => { console.error('[pageerror]', e); process.exit(2); })
 await page.setContent(`<html><body style="margin:0;background:#000"><canvas id=c width=1280 height=720></canvas></body></html>`);
 await page.addScriptTag({ content: fs.readFileSync(path.join(HERE, 'build/scene.js'), 'utf8') });
 await page.evaluate(async d => { await window.SCENE.init(d); }, data);
+if (process.env.DEBUG_TINT) await page.evaluate(t => { window.DEBUG_TINT = JSON.parse(t); }, process.env.DEBUG_TINT);
 
 function ffmpeg(out) {
   const p = spawn('ffmpeg', ['-y', '-loglevel', 'error', '-f', 'image2pipe', '-framerate', '24', '-c:v', 'mjpeg', '-i', '-',

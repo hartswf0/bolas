@@ -279,7 +279,7 @@ def dog_pose(i):
                     facing=-1, posture='back turned, lying' if L > .95 else 'back turned')
     if t < T_APP:  # turns back to look: head first, over the shoulder; rises; then the archive turn, backward
         if t < T_W2 + .55:
-            lb = float(smooth(T_W2, T_W2 + .12, t)); L = 1 - float(smooth(T_W2 + .2, T_W2 + .55, t))
+            lb = float(smooth(T_W2, T_W2 + .08, t)); L = 1 - float(smooth(T_W2 + .2, T_W2 + .55, t))
             return dict(kind='lie', L=L, head_up=float(lb), look=0., rest=float(1 - lb), face_right=True, look_back=lb,
                         facing=1 if lb > .5 else -1, posture='looks back, rising')
         k = int((t - T_W2 - .55) * 12)
@@ -297,7 +297,7 @@ def dog_pose(i):
         return dict(kind='frame', f=WALK[k], m=True, facing=1, posture='walk head low')
     # lies down across the sill; hears "come in": looks in, then settles
     L = float(smooth(T_LIE, T_LIE + .75, t))
-    look = float(smooth(T_COMEIN + .15, T_COMEIN + .35, t) * (1 - smooth(28.15, 28.35, t)))
+    look = float(smooth(T_COMEIN, T_COMEIN + .16, t) * (1 - smooth(28.15, 28.35, t)))
     rest = float(smooth(28.2, 28.9, t))
     head_up = float(L * (1 - rest))
     return dict(kind='lie', L=L, head_up=head_up, look=look, rest=rest, facing=1,

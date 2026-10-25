@@ -92,12 +92,18 @@ def main():
         for k in range(768): f.write("file 'frames/s%04d.jpg'\nduration 0.0416667\n" % k)
         for k in range(72): f.write("file 'cards/e%03d.jpg'\nduration 0.0416667\n" % k)
         f.write("file 'cards/e071.jpg'\n")
-    subprocess.run(['ffmpeg', '-y', '-loglevel', 'error', '-f', 'concat', '-safe', '0', '-i', lst,
-                    '-f', 'lavfi', '-t', '3', '-i', 'anullsrc=r=48000:cl=stereo', '-i', os.path.join(C, 'scene.wav'),
-                    '-f', 'lavfi', '-t', '3', '-i', 'anullsrc=r=48000:cl=stereo',
-                    '-filter_complex', '[1:a][2:a][3:a]concat=n=3:v=0:a=1[a]', '-map', '0:v', '-map', '[a]',
-                    '-r', '24', '-frames:v', '912', '-c:v', 'libx264', '-preset', 'slow', '-crf', '21', '-pix_fmt', 'yuv420p',
-                    '-c:a', 'aac', '-b:a', '160k', '-movflags', '+faststart', '-t', '38', os.path.join(OUT, 'film.mp4')], check=True)
+    base = ['ffmpeg', '-y', '-loglevel', 'error', '-f', 'concat', '-safe', '0', '-i', lst,
+            '-f', 'lavfi', '-t', '3', '-i', 'anullsrc=r=48000:cl=stereo', '-i', os.path.join(C, 'scene.wav'),
+            '-f', 'lavfi', '-t', '3', '-i', 'anullsrc=r=48000:cl=stereo',
+            '-filter_complex', '[1:a][2:a][3:a]concat=n=3:v=0:a=1[a]', '-map', '0:v', '-map', '[a]',
+            '-r', '24', '-frames:v', '912', '-c:v', 'libx264', '-preset', 'slow', '-b:v', '2100k', '-pix_fmt', 'yuv420p',
+            '-passlogfile', os.path.join(C, 'x264pass')]
+    # two-pass to a size budget (≤ 12 MB with audio): the renewed print grain makes constant-quality files large
+    subprocess.run(base + ['-pass', '1', '-an', '-f', 'mp4', '/dev/null'], check=True)
+    subprocess.run(base + ['-pass', '2', '-c:a', 'aac', '-b:a', '160k', '-movflags', '+faststart', '-t', '38',
+                           os.path.join(OUT, 'film.mp4')], check=True)
+    for f in glob.glob(os.path.join(C, 'x264pass*')):
+        os.remove(f)
     print('film ok')
 
 

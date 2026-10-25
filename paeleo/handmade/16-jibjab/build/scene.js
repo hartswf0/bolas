@@ -2,19 +2,19 @@
 // Runs in Chromium (Playwright). All images arrive as data URLs from render.mjs. Nothing here is imported from the stage.
 'use strict';
 const W = 1280, H = 720, S = 205, CX = 290, FY = 615, K = 0.26, WALL = 0.55;
-const HEADSCALE = 1.42, PPM = 400;
+const HEADSCALE = 1.15, PPM = 400;
 const P = (x, y, d) => [CX + S * x, FY - S * y - K * S * d];
 const clamp = (v, a = 0, b = 1) => Math.max(a, Math.min(b, v));
 const lerp = (a, b, u) => a + (b - a) * u;
 const sstep = u => { u = clamp(u); return u * u * (3 - 2 * u); };
-let IMG = {}, MAN = null, PERF = null, SK = null, QD = null;
+let IMG = {}, MAN = null, PERF = null, SK = null, QD = null, PLATE = null;
 let layers = {};
 
 function mk(w = W, h = H) { const c = document.createElement('canvas'); c.width = w; c.height = h; return c; }
 async function loadImg(src) { const im = new Image(); im.src = src; await im.decode(); return im; }
 
 async function init(data) {
-  MAN = data.manifest; PERF = data.perf; SK = data.skeleton; QD = data.qd;
+  MAN = data.manifest; PLATE = data.plate; PERF = data.perf; SK = data.skeleton; QD = data.qd;
   for (const [k, v] of Object.entries(data.images)) IMG[k] = await loadImg(v);
   for (const [name, b64] of Object.entries(data.fonts)) {
     const [fam, wt, st] = name.split('|');
@@ -248,10 +248,54 @@ function capsule(x, a, b, r1, r2) {
 // ------------------------------------------------------------------ the dog: body plate + face slot + collar (neck matte)
 const BODY = 'rgb(186,130,80)', BODYFAR = 'rgb(150,100,62)', OUTL = 'rgb(40,26,16)';
 function viewFor(yaw) {
-  const opts = [[180, 'L', 1], [135, 'BL', 1], [90, 'B', 1], [45, 'BL', -1], [0, 'L', -1]];
+  const opts = [[90, 'B', 1], [135, 'BL', 1], [180, 'L', 1], [225, 'FL', 1], [270, 'F', 1], [315, 'FL', -1], [360, 'L', -1], [45, 'BL', -1], [0, 'L', -1]];
   let best = opts[0], bd = 1e9;
   for (const o of opts) { const dd = Math.abs(o[0] - yaw); if (dd < bd) { bd = dd; best = o; } }
   return { name: best[1], mir: best[2], key: best[0] };
+}
+
+const KS = 1.27;   // screen px per archive source px (the body plate's scale)
+function drawPiece(x, img, a, b, A, B, kperp, mir) {
+  const u = [b[0] - a[0], b[1] - a[1]], U = [B[0] - A[0], B[1] - A[1]];
+  const la = Math.hypot(...u) || 1, LA = Math.hypot(...U) || 1;
+  x.save(); x.translate(A[0], A[1]); x.rotate(Math.atan2(U[1], U[0])); x.scale(LA / la, kperp * mir);
+  x.rotate(-Math.atan2(u[1], u[0])); x.translate(-a[0], -a[1]); x.drawImage(img, 0, 0); x.restore();
+}
+function turnPlateFor(yaw) {
+  if (!(yaw > 192 && yaw < 352)) return null;
+  let best = null, bd = 1e9;
+  for (const tp of PLATE.turn) { const d = Math.abs(tp.yaw - yaw); if (d < bd) { bd = d; best = tp; } }
+  return best;
+}
+// the body plate: the archive dog's own pieces (rig) re-posed on the performance, or its own turn frames (plates)
+function drawBody(bx, sk, fr) {
+  const pr = p => P(p[0], p[1], p[2]), up = PLATE.up, kp = KS / up;
+  const tp = turnPlateFor(sk.yaw);
+  if (tp) {
+    const root = P(sk.X, 0, sk.D), img = IMG['turn/' + tp.frame];
+    bx.save(); bx.translate(root[0], root[1] + 2); bx.scale(kp, kp); bx.drawImage(img, -tp.feet[0], -tp.feet[1]); bx.restore();
+    const c = tp.head_removed.c;
+    return { plate: tp.frame, headCentre: [root[0] + (c[0] - tp.feet[0]) * kp, root[1] + 2 + (c[1] - tp.feet[1]) * kp] };
+  }
+  const R = PLATE.rig, mir = Math.cos(sk.yaw * Math.PI / 180) > 0 ? -1 : 1;
+  const L = sk.legs, avg = (a, b) => [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2, (a[2] + b[2]) / 2];
+  const sh = pr(avg(L.FL.s, L.FR.s)), hp = pr(avg(L.HL.s, L.HR.s));
+  const foreNear = L.FL.s[2] < L.FR.s[2] ? 'FL' : 'FR', foreFar = foreNear === 'FL' ? 'FR' : 'FL';
+  const hindNear = L.HL.s[2] < L.HR.s[2] ? 'HL' : 'HR', hindFar = hindNear === 'HL' ? 'HR' : 'HL';
+  const pc = (name, A, B, dark) => { if (window.DEBUG_TINT) { bx.filter = DEBUG_TINT[name] || 'none'; } const r = R[name], ks = Object.keys(r.pivots); if (!window.DEBUG_TINT) bx.filter = dark ? 'brightness(0.6)' : 'none';
+    drawPiece(bx, IMG['rig/' + name], r.pivots[ks[0]], r.pivots[ks[1]], A, B, kp, mir); bx.filter = 'none'; };
+  const fore = (g, dark) => { pc('fore_upper', pr(g.s), pr(g.k), dark); pc('fore_lower', pr(g.k), pr(g.f), dark); };
+  const hind = (g, name, dark) => { const top = [lerp(g.s[0], g.k[0], 0.5), lerp(g.s[1], g.k[1], 0.5), lerp(g.s[2], g.k[2], 0.5)]; pc(name, pr(top), pr(g.f), dark); };
+  const lying = fr.lie > 0.5;
+  fore(L[foreFar], true); hind(L[hindFar], 'hind_far', true);
+  if (lying) hind(L[hindNear], 'hind_near', false);
+  pc('tail', pr(sk.tail[0]), pr(sk.tail[sk.tail.length - 1]), false);
+  { const r = R.torso, ks = Object.keys(r.pivots); bx.filter = window.DEBUG_TINT ? (DEBUG_TINT.torso || 'none') : 'none';
+    drawPiece(bx, IMG['rig/torso'], r.pivots[ks[0]], r.pivots[ks[1]], sh, hp, kp * lerp(1, 0.84, sstep(fr.lie)), mir); bx.filter = 'none'; }   // lying, the body settles flatter
+  if (!lying) hind(L[hindNear], 'hind_near', false);
+  fore(L[foreNear], false);
+  pc('neck', pr(sk.neck), pr(sk.head.collar), false);
+  return { plate: null, torsoAB: [sh, hp], mir };
 }
 
 function drawDog(ctx, i, castName, opts = {}) {
@@ -259,77 +303,26 @@ function drawDog(ctx, i, castName, opts = {}) {
   const B = layers.body, bx = B.getContext('2d'); bx.clearRect(0, 0, W, H);
   const Hc = layers.head, hx = Hc.getContext('2d'); hx.clearRect(0, 0, W, H);
   const pr = p => P(p[0], p[1], p[2]);
-  // body parts in depth order (far first). depth = d
-  const parts = [];
   const meanD = sk.spine.reduce((s, p) => s + p[2], 0) / sk.spine.length;
-  parts.push({ d: meanD, kind: 'torso' });
-  for (const [L, g] of Object.entries(sk.legs)) parts.push({ d: g.s[2], kind: 'leg', L, g });
-  parts.push({ d: sk.tail[0][2] - 0.005, kind: 'tail' });
-  parts.push({ d: sk.neck[2] - 0.004, kind: 'neck' });
-  parts.sort((a, b) => b.d - a.d);
-  const yaw = sk.yaw * Math.PI / 180;
-  const outlineW = 3;
-  for (const pt of parts) {
-    if (pt.kind === 'torso') {
-      const cs = sk.spine.map(p => [...pr(p), p[3] * S]);
-      bx.fillStyle = OUTL;
-      for (let k = 0; k < cs.length; k++) { bx.beginPath(); bx.arc(cs[k][0], cs[k][1], cs[k][2] + outlineW, 0, 7); bx.fill(); }
-      bx.fillStyle = BODY;
-      for (let k = 0; k < cs.length; k++) { bx.beginPath(); bx.arc(cs[k][0], cs[k][1], cs[k][2], 0, 7); bx.fill(); }
-      // a lit plate: light from above, the belly in shade
-      const ys = cs.map(c => c[1] - c[2]), ye = cs.map(c => c[1] + c[2]);
-      const g = bx.createLinearGradient(0, Math.min(...ys), 0, Math.max(...ye));
-      g.addColorStop(0, 'rgba(255,230,190,0.22)'); g.addColorStop(0.45, 'rgba(255,230,190,0)'); g.addColorStop(0.75, 'rgba(50,28,14,0.10)'); g.addColorStop(1, 'rgba(50,28,14,0.38)');
-      bx.save(); bx.globalCompositeOperation = 'source-atop'; bx.fillStyle = g; bx.fillRect(0, 0, W, H); bx.restore();
-    } else if (pt.kind === 'leg') {
-      const g = pt.g, far = pt.d > meanD + 0.01;
-      const s = pr(g.s), k = pr(g.k), f = pr(g.f), hind = pt.L[0] === 'H';
-      const col = far ? BODYFAR : BODY;
-      const r1 = (hind ? 0.085 : 0.062) * S, r2 = (hind ? 0.045 : 0.042) * S, r3 = 0.034 * S;
-      bx.lineWidth = outlineW * 2; bx.strokeStyle = OUTL; bx.fillStyle = col;
-      if (hind && fr.lie > 0.55) {
-        // lying: the hind leg is drawn as one folded haunch (substitution, not a bent stick)
-        const hm = [lerp(s[0], f[0], 0.45), lerp(s[1], f[1], 0.45) + 2];
-        capsule(bx, s, hm, r1 * 1.15, r1 * 0.8); bx.stroke(); capsule(bx, hm, f, r1 * 0.8, r3); bx.stroke();
-        capsule(bx, s, hm, r1 * 1.15, r1 * 0.8); bx.fill(); capsule(bx, hm, f, r1 * 0.8, r3); bx.fill();
-      } else {
-      capsule(bx, s, k, r1, r2); bx.stroke(); capsule(bx, k, f, r2 * 0.92, r3); bx.stroke();
-      capsule(bx, s, k, r1, r2); bx.fill(); capsule(bx, k, f, r2 * 0.92, r3); bx.fill();
-      }
-      // paw: points along the body's forward direction (screen x sign)
-      const fx = Math.cos(yaw), pw = 0.07 * S * (0.45 + 0.55 * Math.abs(fx));
-      bx.lineWidth = outlineW; bx.beginPath(); bx.ellipse(f[0] + fx * pw * 0.45, f[1] + 1, pw, 0.03 * S, 0, 0, 7);
-      bx.fillStyle = far ? 'rgb(120,80,50)' : 'rgb(150,104,66)'; bx.fill(); bx.stroke();
-    } else if (pt.kind === 'tail') {
-      const ps = sk.tail.map(pr);
-      bx.lineCap = bx.lineJoin = 'round';
-      for (const [w, c] of [[0.06 * S + outlineW * 2, OUTL], [0.06 * S, BODY]]) {
-        for (let k = 0; k < ps.length - 1; k++) {
-          bx.strokeStyle = c; bx.lineWidth = w * (1 - 0.55 * k / ps.length);
-          bx.beginPath(); bx.moveTo(...ps[k]); bx.lineTo(...ps[k + 1]); bx.stroke();
-        }
-      }
-      // pale tail tip
-      const tp = ps[ps.length - 1]; bx.fillStyle = 'rgb(236,214,176)'; bx.beginPath(); bx.arc(tp[0], tp[1], 0.022 * S, 0, 7); bx.fill();
-    } else if (pt.kind === 'neck') {
-      const a = pr(sk.neck), b = pr(sk.head.collar);
-      capsule(bx, a, b, 0.105 * S, 0.075 * S); bx.lineWidth = outlineW; bx.strokeStyle = OUTL; bx.stroke(); bx.fillStyle = BODY; bx.fill();
-    }
-  }
-  // the fur: the archive dog's own torso (Amateur Film New Jersey C f008) laid into the plate
-  if (!opts.flat) {
-    const tx = layers.tmp.getContext('2d'); tx.clearRect(0, 0, W, H);
-    tx.globalCompositeOperation = 'source-over';
-    tx.fillStyle = tx.createPattern(IMG.fur, 'repeat'); tx.fillRect(0, 0, W, H);
-    tx.globalCompositeOperation = 'destination-in'; tx.drawImage(B, 0, 0); tx.globalCompositeOperation = 'source-over';
-    bx.save(); bx.globalCompositeOperation = 'multiply'; bx.globalAlpha = 0.7; bx.drawImage(layers.tmp, 0, 0); bx.restore();
-    bx.save(); bx.globalCompositeOperation = 'destination-in'; bx.drawImage(layers.tmp, 0, 0); bx.restore();
+  const body = drawBody(bx, sk, fr);
+  // torso-only matte for the measurements
+  if (opts.measure) {
+    const mt = layers.mt.getContext('2d'); mt.clearRect(0, 0, 320, 180);
+    mt.save(); mt.scale(0.25, 0.25);
+    if (body.plate) mt.drawImage(B, 0, 0);
+    else { const r = PLATE.rig.torso, ks = Object.keys(r.pivots); drawPiece(mt, IMG['rig/torso'], r.pivots[ks[0]], r.pivots[ks[1]], body.torsoAB[0], body.torsoAB[1], KS / PLATE.up * lerp(1, 0.84, sstep(fr.lie)), body.mir); }
+    mt.restore();
   }
   // face slot
   const hd = sk.head, v = viewFor(hd.yaw);
   const cast = MAN.casts[castName];
-  const cpt = pr(hd.collar);
   const sc = S * HEADSCALE / PPM;
+  // landmark alignment: on the rig the socket sits on the collar; on a turn plate the skull centre sits where its own head was
+  let cpt = body.plate ? [body.headCentre[0], body.headCentre[1] + 0.115 * PPM * sc] : pr(hd.collar);
+  if (!body.plate) {   // the socket sinks into the neck plate so slot and plate overlap (no floating face)
+    const a = pr(sk.neck), l = Math.hypot(cpt[0] - a[0], cpt[1] - a[1]) || 1;
+    cpt = [cpt[0] - (cpt[0] - a[0]) / l * 0.045 * S, cpt[1] - (cpt[1] - a[1]) / l * 0.045 * S];
+  }
   const pitch = hd.pitch * Math.PI / 180;
   const neckDir = (() => { const a = pr(sk.neck), b = cpt; const l = Math.hypot(b[0] - a[0], b[1] - a[1]) || 1; return [(b[0] - a[0]) / l, (b[1] - a[1]) / l]; })();
   function collar() {
@@ -338,7 +331,7 @@ function drawDog(ctx, i, castName, opts = {}) {
     const rx = 0.088 * S, ry = 0.026 * S, ca = Math.atan2(perp[1], perp[0]);
     const c0 = [cpt[0] - neckDir[0] * 9, cpt[1] - neckDir[1] * 9];
     hx.save(); hx.translate(c0[0], c0[1]); hx.rotate(ca);
-    hx.fillStyle = 'rgb(104,30,30)'; hx.strokeStyle = OUTL; hx.lineWidth = 2.5;
+    hx.fillStyle = 'rgb(214,198,170)'; hx.strokeStyle = 'rgba(40,26,16,0.6)'; hx.lineWidth = 1.5;
     hx.beginPath(); hx.ellipse(0, 0, rx, ry, 0, 0, 7); hx.fill(); hx.stroke();
     hx.restore();
     const swing = Math.sin(t * 9) * 0.25 * (fr.lie < 0.5 ? 1 : 0.2);
@@ -351,7 +344,7 @@ function drawDog(ctx, i, castName, opts = {}) {
     hx.save(); hx.translate(cpt[0], cpt[1]);
     let rot = 0, sy = 1;
     if (v.name === 'L') rot = v.mir > 0 ? pitch : -pitch;
-    else if (v.name === 'BL') rot = (v.mir > 0 ? pitch : -pitch) * 0.6;
+    else if (v.name === 'BL' || v.name === 'FL') rot = (v.mir > 0 ? pitch : -pitch) * 0.6;
     else { sy = 1 + hd.pitch / 260; hx.translate(0, -hd.pitch * 0.35); }
     hx.rotate(rot); hx.scale(v.mir * sc, sc * sy);
     const ears = vw.ears || [];
@@ -361,13 +354,13 @@ function drawDog(ctx, i, castName, opts = {}) {
       const ei = IMG[e.png.replace('cast/', '').replace('.png', '')];
       hx.save(); hx.translate(e.at[0] - vw.socket[0], e.at[1] - vw.socket[1]);
       let a = earAng(hd.ear) * Math.PI / 180;
-      if (v.name === 'B') a = a * 0.45 * e.side; else a = -a;
+      if (v.name === 'B' || v.name === 'F') a = a * 0.45 * e.side; else a = -a;
       hx.rotate(a); if (e.side < 0 && v.name !== 'L') hx.scale(-1, 1);
       hx.scale(e.scale || 1, e.scale || 1);
       hx.drawImage(ei, -e.pivot_in_ear[0], -e.pivot_in_ear[1]); hx.restore();
     };
     for (const e of ears) if (!e.front) drawEar(e);
-    hx.restore(); collar(); hx.save(); hx.translate(cpt[0], cpt[1]); hx.rotate(rot); hx.scale(v.mir * sc, sc * sy);
+    hx.restore(); if (!body.plate) collar(); hx.save(); hx.translate(cpt[0], cpt[1]); hx.rotate(rot); hx.scale(v.mir * sc, sc * sy);
     if (v.name === 'B') hx.translate(0, 0);
     hx.drawImage(im, -vw.socket[0], -vw.socket[1]);
     for (const e of ears) if (e.front) drawEar(e);
@@ -386,7 +379,7 @@ function drawDog(ctx, i, castName, opts = {}) {
     hx.restore();
     headInfo.nose = cpt;
   }
-  if (!cast) collar();
+  if (!cast && !body.plate) collar();
   // light the dog: dusk ambient, the door's warmth by distance
   const hs = opts.hs;
   for (const [L, cx] of [[B, bx], [Hc, hx]]) {
@@ -406,23 +399,27 @@ function drawDog(ctx, i, castName, opts = {}) {
   const sxs = fs.map(p => p[0]), sys = fs.map(p => p[1]);
   const mx = (Math.min(...sxs) + Math.max(...sxs)) / 2, my = Math.max(...sys) + 2;
   ctx.beginPath(); ctx.ellipse(mx, my, (Math.max(...sxs) - Math.min(...sxs)) / 2 + 26, 10 + 6 * fr.lie, 0, 0, 7); ctx.filter = 'blur(4px)'; ctx.fill(); ctx.filter = 'none';
-  for (const p of fs) { ctx.beginPath(); ctx.ellipse(p[0], p[1] + 2, 12, 4, 0, 0, 7); ctx.fill(); }
+  if (!body.plate) for (const p of fs) { ctx.beginPath(); ctx.ellipse(p[0], p[1] + 2, 12, 4, 0, 0, 7); ctx.fill(); }
   ctx.restore();
   // occlusion: a head that faces away sits behind the torso; otherwise in front
-  const headBehind = hd.collar[2] > meanD + 0.04;
-  if (headBehind) { ctx.drawImage(Hc, 0, 0); ctx.drawImage(B, 0, 0); } else { ctx.drawImage(B, 0, 0); ctx.drawImage(Hc, 0, 0); }
+  const headBehind = !body.plate && hd.collar[2] > meanD + 0.04;
+  // grade the slot to the plate: drawn casts are toned into the home movie's own duotone and grain
+  const gradeF = castName === 'home' ? 'none' : (castName === 'doodle' ? 'grayscale(1) sepia(0.75) brightness(0.88) contrast(0.95)' : 'grayscale(1) sepia(0.9) saturate(1.25) contrast(0.95) brightness(0.9)');
+  const drawHead = () => { ctx.save(); ctx.filter = gradeF; ctx.drawImage(Hc, 0, 0); ctx.restore();
+    if (gradeF !== 'none') { ctx.save(); ctx.globalCompositeOperation = 'overlay'; ctx.globalAlpha = 0.16;
+      const tx = layers.tmp.getContext('2d'); tx.clearRect(0, 0, W, H); tx.drawImage(layers.grain[(i + 3) % 6], 0, 0, W, H);
+      tx.globalCompositeOperation = 'destination-in'; tx.drawImage(Hc, 0, 0); tx.globalCompositeOperation = 'source-over';
+      ctx.drawImage(layers.tmp, 0, 0); ctx.restore(); } };
+  if (headBehind) { drawHead(); ctx.drawImage(B, 0, 0); } else { ctx.drawImage(B, 0, 0); drawHead(); }
   // mattes for measurement (1/4 scale)
   if (opts.measure) {
     const mt = layers.mt.getContext('2d'), mh = layers.mh.getContext('2d'), md = layers.md.getContext('2d');
-    mt.clearRect(0, 0, 320, 180); mh.clearRect(0, 0, 320, 180); md.clearRect(0, 0, 320, 180);
-    mt.save(); mt.scale(0.25, 0.25); mt.fillStyle = '#fff';
-    for (const p of sk.spine) { const q = pr(p); mt.beginPath(); mt.arc(q[0], q[1], p[3] * S, 0, 7); mt.fill(); }
-    mt.restore();
+    mh.clearRect(0, 0, 320, 180); md.clearRect(0, 0, 320, 180);
     mh.drawImage(Hc, 0, 0, 320, 180); md.drawImage(B, 0, 0, 320, 180); md.drawImage(Hc, 0, 0, 320, 180);
     const st = a => { const d = a.getImageData(0, 0, 320, 180).data; let n = 0, sx = 0, sy = 0, x0 = 1e9, x1 = -1, y0 = 1e9, y1 = -1;
       for (let y = 0; y < 180; y++) for (let x = 0; x < 320; x++) { if (d[(y * 320 + x) * 4 + 3] > 100) { n++; sx += x; sy += y; if (x < x0) x0 = x; if (x > x1) x1 = x; if (y < y0) y0 = y; if (y > y1) y1 = y; } }
       return n ? { n: n * 16, cx: sx / n * 4 + 2, cy: sy / n * 4 + 2, x0: x0 * 4, x1: x1 * 4 + 4, y0: y0 * 4, y1: y1 * 4 + 4 } : null; };
-    return { torso: st(mt), head: st(mh), dog: st(md), headInfo, headBehind, view: headInfo.view };
+    return { torso: st(mt), head: st(mh), dog: st(md), headInfo, headBehind, view: headInfo.view, plate: body.plate };
   }
   return { headInfo, headBehind };
 }

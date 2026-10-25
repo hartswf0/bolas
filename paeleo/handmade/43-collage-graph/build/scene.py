@@ -148,7 +148,7 @@ def dog_state(i):
     # head choice: REPLACE head node by the drawing whose native angle fits the intention
     hv, look, rest = a['head'], a['look'], a['rest']
     sun_head = st in ('approach', 'lie_down')
-    if look > 0.5:
+    if look > 0.2:
         g['head'] = ('head_back_cut', 0.0); g['rules'].append('ENTER head->door light: REPLACE head by head_back_cut (looks in)')
     elif sun_head:
         if g['lie'] >= 0.99 and rest > 0.5: g['head'] = ('head_low_f048', -14.0)
@@ -542,7 +542,7 @@ def light_map(t):
     xl, xr = PX(DOOR_L), PX(DOOR_R)
     ytop = WALL_BASE - DOOR_TOP_M * PXM
     spread = np.clip(yy - WALL_BASE, 0, None) * 0.45
-    inx = sstep(-30, 10, xx - (xl - spread)) * sstep(-30, 10, (xr + spread) - xx)
+    inx = sstep(-45, 25, xx - (xl - spread)) * sstep(-45, 25, (xr + spread) - xx)
     col = inx * sstep(ytop - 20, ytop + 20, yy) * (1 - sstep(660, 700, yy))
     _LM.append(col.astype(np.float32))
     return _LM[0] * L

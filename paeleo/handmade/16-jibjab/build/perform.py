@@ -42,8 +42,9 @@ T_IN = 26.4
 
 def body_yaw(t):
     y = 180.0
-    if t >= T_REF: y = lerp(180, 40, sstep((t - T_REF - 0.02) / (4.2 - T_REF)))  # turns its back: rump to camera by 3.9 s
-    if t >= 7.70: y = lerp(40, 180, ramp(t, 7.72, 8.55))               # body follows the head round
+    # round 2: the turns go through the camera, as the archive dog's own turn did (its frames f016-f044 are the plates)
+    if t >= T_REF: y = lerp(180, 360, sstep((t - T_REF - 0.02) / (3.88 - T_REF)))   # turns its back: facing away by 3.9 s
+    if t >= 7.76: y = lerp(360, 180, sstep((t - 7.76) / (8.40 - 7.76)))             # body follows the head round
     return y
 
 
@@ -55,8 +56,8 @@ def path_yaw(x):
 
 
 def head_yaw(t, yb, look):
-    if T_REF <= t < 4.6: return lerp(180, 40, sstep((t - T_REF) / (4.05 - T_REF)))  # the head leads the turn away slightly
-    if T_W2 <= t < 8.6: return lerp(40, 180, ramp(t, T_W2 + 0.01, 7.95))  # turns back to look: the head comes round first
+    if T_REF <= t < 4.6: return lerp(180, 360, sstep((t - T_REF) / (3.85 - T_REF)))  # the head leads the turn away slightly
+    if T_W2 <= t < 8.45: return min(yb, lerp(360, 185, sstep((t - T_W2) / (7.70 - T_W2))))  # turns to look: the muzzle is at the door by 7.70
     if t >= 23.6: return lerp(yb, lerp(180, 84, look), sstep((t - 23.6) / 0.6))   # lying: toward the person; look in: the back of its head to us
     return yb
 
@@ -119,7 +120,7 @@ for f in F:
     look = a['look']; yh = head_yaw(t, yb, look)
     lie, crouch, rest = a['lie'], a['crouch'], a['rest']
     # spine
-    vs = lerp(0.40 - 0.05 * crouch, 0.155, sstep(lie))
+    vs = lerp(0.40 - 0.05 * crouch, 0.12, sstep(lie))
     rump_drop = 0.04 * crouch * (1 - lie)
     breath = 1 + 0.018 * math.sin(2 * math.pi * t / (1.5 if lie < .5 else 2.6))
     spine = []
@@ -183,7 +184,7 @@ for f in F:
         knee, foot = ik(la, lb, sock, foot, bend)
         legs[L] = {'s': sock, 'k': knee, 'f': foot, 'lift': lift}
     # tail
-    tang = interp(TAIL, a['tail']) * (1 - 0.4 * lie)
+    tang = lerp(interp(TAIL, a['tail']), -28, sstep(lie))     # lying, the tail lies down along the boards
     wag = a['wag'] * 0.75 * math.sin(2 * math.pi * 2.3 * t)
     tail = []
     base = (-0.37, vs + 0.06 - rump_drop)

@@ -27,7 +27,7 @@ lines = [
     'the low hand, the lit room. The door is simulated: held, released, pushed against static friction.',
     'The light is cast through the opening each frame; the bodies cut their shadows out of it.',
     'Proportions studied from the rig keys of a home-movie dog (Amateur Film New Jersey C, Internet',
-    'Archive, public domain). No footage, drawing or found image appears. All sound is synthesized.',
+    'Archive, public domain). No footage, no found drawing, no found image appears. All sound is synthesized.',
 ]
 for k, ln in enumerate(lines):
     d.text((112, 175 + k * 40), ln, font=lit, fill=INK)

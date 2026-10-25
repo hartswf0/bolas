@@ -81,11 +81,11 @@ def _head_yaw(t, th_body, lie_head_target):
 def lying_head(t):
     # after lying at the sill: head toward the person (seated inside, nearer the viewer), then 'come in' -> into the room
     toward_person = 140.0
-    into_room = 218.0
+    into_room = 232.0
     if t < 24.2: return ease(TH_DOOR, toward_person, 23.8, 24.6, t)
     if t < 26.36: return toward_person
     if t < 28.0: return ease(toward_person, into_room, 26.36, 26.62, t)
-    return ease(into_room, 205.0, 28.0, 29.0, t)
+    return ease(into_room, 215.0, 28.0, 29.0, t)
 
 
 def build():
