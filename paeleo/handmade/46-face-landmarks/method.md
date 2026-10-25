@@ -104,7 +104,6 @@ down, wind and crickets. Measured: see *Evidence*.
 - The refusal's lie-down (4.5–7.4 s) seen from behind is a rounded lump with folded legs; it reads as 'lying, turned away' but not crisply.
 - At 3.6 s (the still) the dog is mid-turn; the back is fully shown only from ~3.8 s.
 - Legs are simple tapered outlines; the walk is plausible but stiff. The 135° torso is cushion-like.
-- The person's cartoon face keeps its source's light bands, which can read as a striped mask or beard.
 - In the wide shots the dog's face is small (~55 px head), so eye controls only really read in the close shot.
 
 ## What I did not do
@@ -112,7 +111,12 @@ down, wind and crickets. Measured: see *Evidence*.
 - No independent critic was run by me; no human has watched or listened to the film.
 - The voice is not intelligible speech: it is pitched, timed syllables with consonant noise. Whether it reads as "come here" is unknown.
 - The person's face exists only in profile (the source never shows another view), so the person never turns their head; their
-  forehead, cranium and back of head are drawn (the hat covers the forehead the source never showed). The cartoon's own light
-  bands are kept (graded, not repainted).
+  forehead, cranium and back of head are drawn (the hat covers the forehead the source never showed). After critic round 1 the source's bands and stripes were replaced by one flat skin tone; its outline and mouth shapes are untouched, and the eye, forehead and cheek are drawn (the source never shows them).
 - No Quick, Draw! drawings and no archive-dog pixels are in the picture (the archive dog was a reference for coat and markings).
 - The SCION's original proof (three faces recast on one actor) is replaced by the brief's scene; I did not recast the person.
+
+## Repair round 1 (after the independent critic: does not pass, narrowly)
+
+Measured after the re-render: person's eye and mouth on the face in 100% of frames 20-32 s; mouth source frames 26.4-27.3 s {'open': 14, 'closed': 6, 'half': 2};
+head plates shown 3.62-3.75 s [135, 135, 135, 135] (no back-of-head plate, head drawn above the back line); look-in view sequence [45, 90, 135], muzzle at least 0.372 m below the person's skull pivot;
+face returns (watch) at 7.625 s (≤ 7.70); look-in onset 26.583 s. The near casing is no longer drawn, so nothing crosses the dog. Looked at: crops of 3.62-3.75 s, 26.42-26.67 s, and full frames at 20.8, 24.2, 26.7, 29.2, 31.7 s.

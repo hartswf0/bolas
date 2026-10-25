@@ -136,8 +136,10 @@ def main():
         p = tr[str(i)]['pose']
         f = p.get('f'); post = p.get('posture', '')
         if p.get('kind') == 'frame' and f != prev and post in ('back away', 'walk head low'):
-            hard = 1.3 if post == 'back away' else .7
-            add(L, claw(i, hard), i / 24. + R.uniform(0, .02), 10 ** (-30 / 20))
+            hard = 1.3 if post == 'back away' else 1.2
+            add(L, claw(i, hard), i / 24. + R.uniform(0, .02), 10 ** (-24 / 20))
+            if post == 'walk head low':   # a second paw lands half a step later
+                add(L, claw(i + 500, .9), i / 24. + .09, 10 ** (-27 / 20))
             if post == 'back away':
                 add(L, claw(i + 999, .8), i / 24. + .03, 10 ** (-34 / 20))
         prev = f

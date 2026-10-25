@@ -64,10 +64,11 @@ def title():
 
 END = [
     ('The dog', 'one frame of a home movie dog (Amateur Film New Jersey C, Internet Archive, public domain), printed, cut into seven '
-                'pieces and pinned at neck, shoulders, hips and tail. A second frame of the same dog is the turning card. '
-                'There is no print of the back of its head: that card is cut from its own fur.'),
+                'pieces and pinned at neck, shoulders, hips and tail. Two more frames of the same dog give the turning card, '
+                'the face it looks back with, and its lowered head. There is no print of the back of its head: that card is cut '
+                'from its own fur.'),
     ('The people and things', 'a face in a hat (Vision of the Wild), a smock, jeans and a door swinging (Straight Talk), a forearm '
-                'that held a card (Door to Heaven), a lamp (Light Of Your Life B), trees (Behind the Lens), a cloud (Top Of The '
+                'that held a card (Door to Heaven), and the same forearm enlarged, a lamp (Light Of Your Life B), trees (Behind the Lens), a cloud (Top Of The '
                 'Cloud), the stone of the dog\'s own house. All public domain.'),
     ('Made here', 'airbrushed sky, painted wall and boards, a crate, shoes, the moon, black paper behind the jaw. The voice is '
                   'flite speech synthesis; every other sound is synthesized.'),
@@ -81,16 +82,16 @@ def endcard():
     d = ImageDraw.Draw(img)
     ink = (40, 28, 26)
     d.text((150, 104), 'What it is made of', font=BIG(42), fill=ink)
-    y = 170
+    y = 162
     for head, body in END:
         d.text((150, y), head, font=SERIF_I(23), fill=(140, 40, 34))
         y += 32
         words, line = body.split(), ''
         for w in words:
-            if d.textlength(line + ' ' + w, font=SERIF(19)) > 960:
-                d.text((150, y), line.strip(), font=SERIF(19), fill=ink); y += 26; line = ''
+            if d.textlength(line + ' ' + w, font=SERIF(18)) > 980:
+                d.text((150, y), line.strip(), font=SERIF(18), fill=ink); y += 24; line = ''
             line += ' ' + w
-        d.text((150, y), line.strip(), font=SERIF(19), fill=ink); y += 40
+        d.text((150, y), line.strip(), font=SERIF(18), fill=ink); y += 32
     d.text((150, 610), 'Quick, Draw! was not used. Sources and rights: assets.json', font=MONO(14), fill=(110, 90, 80))
     return img
 

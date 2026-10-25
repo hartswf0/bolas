@@ -157,8 +157,18 @@ def repair_checks(rig, pose, reg, rows):
         if f['t'] < 20: continue
         st = voice.mouth_state(f['t'])
         lm = next(v['landmarks'] for v in man['frames'].values() if v['state'] == st)
-        face_poly = np.array(R.UNDERLAY + [(188, 42), (130, 118), (110, 200)], float)
-        ins.append(point_in_poly(R.EYE_C, np.array(R.UNDERLAY, float)) and point_in_poly(np.array(lm['mouth']) + np.array([6, 0]), np.vstack([R.UNDERLAY, [(188, 42), (140, 150), (110, 205)]])))
+        al = np.asarray(R.face_img(st))[..., 3]
+        def on_face(q):
+            q = np.asarray(q, float)
+            if point_in_poly(q, np.array(R.UNDERLAY, float)): return True
+            x, y = int(round(q[0])), int(round(q[1]))
+            if 0 <= x < al.shape[1] and 0 <= y < al.shape[0] and al[y, x] > 128: return True
+            if st in R.MOUTH_CAV:
+                (cx, cy), rx, ry = R.MOUTH_CAV[st]
+                return ((q[0] - cx) / rx) ** 2 + ((q[1] - cy) / ry) ** 2 <= 1
+            return False
+        mouth_pt = R.MOUTH_CAV[st][0] if st in R.MOUTH_CAV else lm['mouth']
+        ins.append(on_face(R.EYE_C) and on_face(mouth_pt) and on_face(np.array(lm['upper_lip']) - np.array([6, 0])) and on_face(np.array(lm['chin']) - np.array([6, 4])))
     states = [voice.mouth_state(f['t']) for f in rig if 26.4 <= f['t'] < 27.3]
     out['person_face'] = dict(eye_and_mouth_on_face_share=float(np.mean(ins)), bands_removed='flattened plates (face_source.py)',
                               mouth_frames_26_4_to_27_3={k: states.count(k) for k in set(states)})
@@ -169,7 +179,7 @@ def repair_checks(rig, pose, reg, rows):
     seq = []
     for r in reg:
         if 26.3 <= r['t'] <= 26.9 and (not seq or seq[-1] != r['head']['view']): seq.append(r['head']['view'])
-    worst = 0.0
+    worst = -9.0
     for f, p in zip(rig, pose):
         if 26.4 <= f['t'] <= 28.0:
             sk = R.person_skeleton(f)

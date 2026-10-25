@@ -323,9 +323,9 @@ def draw_dog(canvas, i, log=None):
     hl = 0.30
     if hid == 'head_back_f027':
         # the neck runs from inside the chest up into the doorway; the found head seen from the room's light
-        Nn = (N[0] - 0.08, N[1] - 0.10)
-        crown = (Nn[0] + 0.03, Nn[1] + 0.31)
-        M = place(canvas, hid, anc(hid, 'neck'), anc(hid, 'crown'), W2S(*Nn), W2S(*crown), mirror=False, layer_log=log, node='dog.head')
+        Nn = (N[0] - 0.08, N[1] - 0.05)
+        crown = (Nn[0] + 0.02, Nn[1] + 0.33)
+        M = place(canvas, hid, anc(hid, 'neck'), anc(hid, 'crown'), W2S(*Nn), W2S(*crown), mirror=(f > 0), layer_log=log, node='dog.head')  # any trace of muzzle points into the room
         info['nose'] = None; info['neck'] = W2S(*Nn); info['head_kind'] = 'away'
         info['facing_measured'] = f
     elif g['head_mirror']:
