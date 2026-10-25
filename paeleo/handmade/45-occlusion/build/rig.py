@@ -41,7 +41,7 @@ PARTS = {
     'torso10': (10, [(124, 55), (250, 55), (250, 176), (208, 173), (183, 167), (150, 162), (110, 159), (99, 152), (124, 88)], (160, 150)),
     'foreA10': (10, [(127, 158), (153, 158), (153, 210), (127, 210)], (140, 163)),
     'foreB10': (10, [(88, 153), (123, 153), (123, 196), (88, 196)], (114, 160)),
-    'hind10':  (10, [(179, 178), (211, 178), (211, 203), (179, 203)], (195, 180)),   # round 2: cut lower, drawn behind the torso
+    'hind10':  (10, [(179, 166), (213, 166), (213, 203), (179, 203)], (195, 175)),   # round 3: overlaps the torso (drawn behind it), so no gap and no visible cut
     # frame 0: the dog seen three-quarters from behind, looking up and away: head, ear and back of the skull
     'head0':   (0, [(100, 56), (152, 56), (154, 98), (142, 120), (104, 124), (99, 100)], (124, 118)),
     # frame 2: the bushy tail (frame 10's tail is hidden behind its hind leg)

@@ -57,7 +57,10 @@ def flite(text, rate=1.0):
     p = os.path.join(CACHE, 'vo_%s.wav' % abs(hash((text, rate))))
     subprocess.run(['ffmpeg', '-loglevel', 'error', '-y', '-f', 'lavfi', '-i', "flite=text='%s':voice=slt" % text,
                     '-af', 'aresample=%d,atempo=%.3f' % (SR, rate), '-ac', '1', '-f', 'f32le', p + '.raw'], check=True)
-    return np.fromfile(p + '.raw', np.float32).astype(np.float64)
+    x = np.fromfile(p + '.raw', np.float32).astype(np.float64)
+    # round 3: trim the synthesizer's leading silence (~0.27-0.35 s) so a line's placed time is its audible onset
+    on = np.nonzero(np.abs(x) > 0.01)[0]
+    return x[max(0, on[0] - int(0.01 * SR)):] if len(on) else x
 
 
 def reverb(x, wet=0.2, decay=0.35):
@@ -134,14 +137,14 @@ def main():
     buf[0] += room * 0.8; buf[1] += room * 0.6
     # ---------------------------------------------------------------- the voice (synthesized), calls vs soft
     calls = []
-    v1 = reverb(flite('Come here!', 0.95), 0.18) ; place(buf, v1, 0.98, db(-6), -0.35); calls.append((0.98, len(v1), db(-6)))
-    v2 = reverb(flite('Come here! Come on!', 1.0), 0.18); place(buf, v2, 3.38, db(-4.5), -0.35); calls.append((3.38, len(v2), db(-4.5)))
+    v1 = reverb(flite('Come here!', 0.95), 0.18) ; place(buf, v1, 0.82, db(-6), -0.35); calls.append((0.82, len(v1), db(-6)))
+    v2 = reverb(flite('Come here! Come on!', 1.0), 0.18); place(buf, v2, 3.24, db(-4.5), -0.35); calls.append((3.24, len(v2), db(-4.5)))
     softs = []
-    for (t0, txt) in [(7.42, "It's all right."), (10.42, "It's all right. It's all right.")]:
+    for (t0, txt) in [(7.28, "It's all right."), (10.42, "It's all right. It's all right.")]:
         s = fft_filter(flite(txt, 0.82), hi=2600) ; s = reverb(s, 0.08)
         place(buf, s, t0, db(-17), -0.55); softs.append((t0, len(s), db(-17)))
     s = fft_filter(flite('Come in.', 0.8), hi=2600); s = reverb(s, 0.08)
-    place(buf, s, 26.42, db(-17), -0.5); softs.append((26.42, len(s), db(-17)))
+    place(buf, s, 26.30, db(-17), -0.5); softs.append((26.30, len(s), db(-17)))
     # ---------------------------------------------------------------- the dog: foley from its own cel substitutions
     import dog as DOG
     events = []
@@ -202,6 +205,8 @@ def main():
     lev['soft_minus_room_db'] = round(min(lev['soft_dbfs']) - lev['room_tone_dbfs_12.5_14.0'], 2)
     lev['peak_dbfs'] = round(20 * math.log10(np.abs(buf).max()), 2)
     lev['note'] = 'RMS over 80% of each line (includes the bed under it). Measured, not listened to.'
+    lev['audible_onsets_s'] = {'come here (1)': 0.82, 'come here, come on (2)': 3.24, "it's all right (1)": 7.28,
+                               "it's all right (2)": 10.42, 'come in': 26.30}
     json.dump({'levels': lev, 'events': events}, open(os.path.join(CACHE, 'audio_levels.json'), 'w'), indent=1)
     pcm = (np.clip(buf.T, -1, 1) * 32767).astype('<i2')
     import wave

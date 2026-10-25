@@ -1,0 +1,85 @@
+{"t": 1, "kind": "transition", "layer": "Body", "from": "Stand", "to": "Backing", "priority": 3, "event": "backs"}
+{"t": 1.4167, "kind": "footfall", "foot": "LF", "x": 3.0844}
+{"t": 1.4167, "kind": "footfall", "foot": "LH", "x": 3.55}
+{"t": 1.625, "kind": "footfall", "foot": "RF", "x": 3.2403}
+{"t": 1.625, "kind": "footfall", "foot": "RH", "x": 3.7058}
+{"t": 2, "kind": "footfall", "foot": "LF", "x": 3.5223}
+{"t": 2, "kind": "footfall", "foot": "LH", "x": 3.9878}
+{"t": 2.2083, "kind": "footfall", "foot": "RF", "x": 3.6782}
+{"t": 2.2083, "kind": "footfall", "foot": "RH", "x": 4.1437}
+{"t": 2.625, "kind": "transition", "layer": "Body", "from": "Backing", "to": "Stand", "priority": 3, "event": "stops"}
+{"t": 3.2083, "kind": "footfall", "foot": "RF", "x": 3.544}
+{"t": 3.2083, "kind": "footfall", "foot": "RH", "x": 4.0134}
+{"t": 3.4167, "kind": "transition", "layer": "Facing", "from": "FacePerson", "to": "TurningAway", "priority": 1, "event": "turn_away"}
+{"t": 3.625, "kind": "footfall", "foot": "LF", "x": 3.6078}
+{"t": 3.625, "kind": "footfall", "foot": "RF", "x": 3.7466}
+{"t": 3.75, "kind": "footfall", "foot": "LH", "x": 3.5324}
+{"t": 3.75, "kind": "footfall", "foot": "RH", "x": 3.6458}
+{"t": 3.9167, "kind": "footfall", "foot": "LF", "x": 3.9787}
+{"t": 3.9167, "kind": "footfall", "foot": "RF", "x": 3.9787}
+{"t": 3.9583, "kind": "transition", "layer": "Facing", "from": "TurningAway", "to": "BackTurned", "priority": 1, "event": null}
+{"t": 4.0417, "kind": "footfall", "foot": "LH", "x": 3.5112}
+{"t": 4.0417, "kind": "footfall", "foot": "RH", "x": 3.5112}
+{"t": 4.3333, "kind": "transition", "layer": "Body", "from": "Stand", "to": "Down", "priority": 1, "event": "going_down"}
+{"t": 5.75, "kind": "transition", "layer": "Attention", "from": "Alert", "to": "Rest", "priority": 2, "event": "chin_down"}
+{"t": 6.2083, "kind": "world", "door": "open"}
+{"t": 7.4583, "kind": "transition", "layer": "Facing", "from": "BackTurned", "to": "HeadLeads", "priority": 1, "event": "head_leads"}
+{"t": 7.8333, "kind": "transition", "layer": "Attention", "from": "Rest", "to": "Alert", "priority": 3, "event": "head_up"}
+{"t": 7.9583, "kind": "transition", "layer": "Facing", "from": "HeadLeads", "to": "TurningBack", "priority": 1, "event": "turn_back"}
+{"t": 8.2083, "kind": "transition", "layer": "Body", "from": "Down", "to": "Stand", "priority": 2, "event": "up"}
+{"t": 8.4167, "kind": "footfall", "foot": "LF", "x": 3.6171}
+{"t": 8.4167, "kind": "footfall", "foot": "RF", "x": 3.7585}
+{"t": 8.5417, "kind": "footfall", "foot": "LH", "x": 3.9321}
+{"t": 8.5417, "kind": "footfall", "foot": "RH", "x": 4.0159}
+{"t": 8.7083, "kind": "footfall", "foot": "LF", "x": 3.5417}
+{"t": 8.7083, "kind": "footfall", "foot": "RF", "x": 3.547}
+{"t": 8.7917, "kind": "transition", "layer": "Facing", "from": "TurningBack", "to": "FacePerson", "priority": 1, "event": null}
+{"t": 8.8333, "kind": "footfall", "foot": "LH", "x": 4.0137}
+{"t": 8.8333, "kind": "footfall", "foot": "RH", "x": 4.0137}
+{"t": 14.7083, "kind": "transition", "layer": "Body", "from": "Stand", "to": "Walk", "priority": 4, "event": "walks"}
+{"t": 15.25, "kind": "footfall", "foot": "RF", "x": 3.2822}
+{"t": 15.25, "kind": "footfall", "foot": "LH", "x": 3.7516}
+{"t": 15.5, "kind": "footfall", "foot": "RH", "x": 3.6755}
+{"t": 15.5417, "kind": "footfall", "foot": "LF", "x": 3.1934}
+{"t": 16.125, "kind": "footfall", "foot": "RF", "x": 3.0027}
+{"t": 16.125, "kind": "footfall", "foot": "LH", "x": 3.472}
+{"t": 16.375, "kind": "footfall", "foot": "RH", "x": 3.3855}
+{"t": 16.4167, "kind": "footfall", "foot": "LF", "x": 2.9022}
+{"t": 16.9583, "kind": "footfall", "foot": "RF", "x": 2.7046}
+{"t": 16.9583, "kind": "footfall", "foot": "LH", "x": 3.174}
+{"t": 17.2083, "kind": "footfall", "foot": "RH", "x": 3.0795}
+{"t": 17.25, "kind": "footfall", "foot": "LF", "x": 2.5946}
+{"t": 17.75, "kind": "footfall", "foot": "RF", "x": 2.3962}
+{"t": 17.75, "kind": "footfall", "foot": "LH", "x": 2.8657}
+{"t": 18, "kind": "footfall", "foot": "RH", "x": 2.7625}
+{"t": 18.0417, "kind": "footfall", "foot": "LF", "x": 2.2762}
+{"t": 18.5, "kind": "footfall", "foot": "RF", "x": 2.0811}
+{"t": 18.5, "kind": "footfall", "foot": "LH", "x": 2.5506}
+{"t": 18.75, "kind": "footfall", "foot": "RH", "x": 2.4419}
+{"t": 18.7917, "kind": "footfall", "foot": "LF", "x": 1.9539}
+{"t": 19.25, "kind": "footfall", "foot": "RF", "x": 1.7473}
+{"t": 19.25, "kind": "footfall", "foot": "LH", "x": 2.2168}
+{"t": 19.5, "kind": "footfall", "foot": "RH", "x": 2.101}
+{"t": 19.5417, "kind": "footfall", "foot": "LF", "x": 1.6121}
+{"t": 20, "kind": "footfall", "foot": "RF", "x": 1.3948}
+{"t": 20, "kind": "footfall", "foot": "LH", "x": 1.8644}
+{"t": 20.25, "kind": "footfall", "foot": "RH", "x": 1.743}
+{"t": 20.2917, "kind": "footfall", "foot": "LF", "x": 1.253}
+{"t": 20.7083, "kind": "footfall", "foot": "RF", "x": 1.046}
+{"t": 20.7083, "kind": "footfall", "foot": "LH", "x": 1.5156}
+{"t": 20.9583, "kind": "footfall", "foot": "RH", "x": 1.3893}
+{"t": 21, "kind": "footfall", "foot": "LF", "x": 0.8983}
+{"t": 21.375, "kind": "footfall", "foot": "RF", "x": 0.7047}
+{"t": 21.375, "kind": "footfall", "foot": "LH", "x": 1.1743}
+{"t": 21.625, "kind": "footfall", "foot": "RH", "x": 1.0438}
+{"t": 21.6667, "kind": "footfall", "foot": "LF", "x": 0.5527}
+{"t": 22.0417, "kind": "footfall", "foot": "RF", "x": 0.3525}
+{"t": 22.0417, "kind": "footfall", "foot": "LH", "x": 0.8222}
+{"t": 22.2917, "kind": "footfall", "foot": "RH", "x": 0.6863}
+{"t": 22.3333, "kind": "footfall", "foot": "LF", "x": 0.1942}
+{"t": 22.9167, "kind": "footfall", "foot": "RF", "x": 0.1384}
+{"t": 22.9167, "kind": "footfall", "foot": "LH", "x": 0.6081}
+{"t": 23.7917, "kind": "transition", "layer": "Body", "from": "Walk", "to": "Down", "priority": 1, "event": "going_down"}
+{"t": 26.3333, "kind": "transition", "layer": "Attention", "from": "Alert", "to": "Rest", "priority": 2, "event": "chin_down"}
+{"t": 26.4583, "kind": "transition", "layer": "Attention", "from": "Rest", "to": "LookIn", "priority": 1, "event": "looks_in"}
+{"t": 28.2917, "kind": "transition", "layer": "Attention", "from": "LookIn", "to": "Rest", "priority": 2, "event": "settles"}

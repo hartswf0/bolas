@@ -1,0 +1,19 @@
+{
+ "about": "every dog leg chain, every frame: the analytic two-bone solution vs FABRIK (30 iterations, started bent toward the pole)",
+ "chains": 3072,
+ "mid_joint_difference_m": {
+  "max": 0.0427,
+  "mean": 8e-05,
+  "p99": 0.0
+ },
+ "analytic_residual_m": {
+  "max": 0.0821,
+  "mean": 0.00012
+ },
+ "fabrik_residual_m": {
+  "max": 0.0817,
+  "mean": 0.0001
+ },
+ "bend_side_disagreements": 0,
+ "reading": "Where both reach, they agree on the joint; FABRIK has no pole, so where the chain is nearly straight or nearly folded it can find the mirrored knee \u2014 the analytic solver with the pole is what the film uses."
+}
