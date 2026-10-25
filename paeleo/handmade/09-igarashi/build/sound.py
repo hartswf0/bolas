@@ -37,18 +37,6 @@ def env(n, a, d):
     e[:na] = np.linspace(0, 1, na); e[-nd:] *= np.linspace(1, 0, nd); return e
 
 
-def lp(x, fc):  # one-pole low-pass, run twice
-    a = np.exp(-2 * np.pi * fc / SR); y = np.zeros_like(x); s = 0.0
-    for _ in range(2):
-        out = np.empty_like(x)
-        # vectorized-ish IIR via scipy-free loop in chunks
-        s = 0.0
-        for i in range(len(x)):
-            s = (1 - a) * x[i] + a * s; out[i] = s
-        x = out
-    return x
-
-
 def bp_noise(n, f0, q, seed=0):
     # band noise made by FFT shaping (fast, no IIR loops)
     r = np.random.default_rng(seed)
@@ -170,7 +158,7 @@ fade = np.clip(tg / 1.5, 0, 1) * np.clip((DUR - tg) / 1.5, 0, 1)
 L *= fade; R *= fade
 mix = np.stack([L, R], 1)
 peak = np.abs(mix).max()
-if peak > 0.95: mix *= 0.95 / peak
+mix *= 0.84 / peak   # normalise the whole mix to -1.5 dBFS peak; relative levels are unchanged
 
 
 def rms_db(a, b):

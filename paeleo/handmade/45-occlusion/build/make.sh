@@ -10,5 +10,6 @@ PROCS=${PROCS:-3} python3 render.py   # 768 scene frames + per-frame records (DA
 python3 measure.py       # trace.json, measured.json (onsets, occlusion assertions, overlap events)
 python3 assets.py        # assets.json, cache/cels_used.json
 python3 cards.py         # title and end cards
-python3 assemble.py      # film.mp4 (38 s), stills/, proof/
+python3 assemble.py film stills proof   # film.mp4 (38 s), stills/, proof/
 python3 ../../../../tools/paeleo/check_handmade.py ..
+python3 assemble.py operator   # operator page with the measured state

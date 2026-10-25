@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SCION 09 Igarashi</title>
+<link rel="stylesheet" href="../../../tools/paeleo/fonts/local.css">
+<style>
+:root{--bg:#16151a;--fg:#efe4cc;--dim:#a99f8a;--line:#3a3640;--acc:#d8b24a}
+@media (prefers-color-scheme: light){:root:not([data-theme="dark"]){--bg:#f3ede0;--fg:#1e1711;--dim:#6d6352;--line:#d6ccb8;--acc:#9e2f26}}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.5 Literata,Georgia,serif}
+main{max-width:980px;margin:0 auto;padding:16px}
+h1{font:800 34px/1.1 'Big Shoulders Display',sans-serif;margin:8px 0 4px}
+h2{font:800 22px/1.2 'Big Shoulders Display',sans-serif;margin:28px 0 8px}
+p,li{color:var(--fg)} .dim{color:var(--dim)} code{font:13px 'JetBrains Mono',monospace}
+video{width:100%;height:auto;background:#000;border:1px solid var(--line)}
+canvas{width:100%;height:auto;background:#6d7480;border:1px solid var(--line);touch-action:none;display:block}
+.row{display:flex;gap:12px;flex-wrap:wrap;align-items:center} button,select{font:14px 'JetBrains Mono',monospace;background:transparent;color:var(--fg);border:1px solid var(--line);padding:6px 10px;border-radius:4px}
+table{border-collapse:collapse;width:100%;font:13px 'JetBrains Mono',monospace} td{border-bottom:1px solid var(--line);padding:4px 6px;vertical-align:top}
+a{color:var(--acc)}
+</style></head><body><main>
+<h1>SCION 09 · Igarashi — the threshold, as-rigid-as-possible</h1>
+<p class="dim">PAE-02 cohort 3 · revision <span id="rev">r3</span> · operator page and runtime demo</p>
+<video src="film.mp4" controls playsinline preload="metadata" poster="stills/still_28.0s.jpg"></video>
+<table>
+<tr><td>critic verdict</td><td>not yet reviewed: the builder does not approve its own work</td></tr>
+<tr><td>next blocking failure</td><td id="block">see method.md, "What is still weak"</td></tr>
+<tr><td>artifacts</td><td><a href="method.md">method.md</a> · <a href="trace.json">trace.json</a> · <a href="diagnostics.json">diagnostics.json</a> · <a href="invariants.json">invariants.json</a> · <a href="assets.json">assets.json</a> · <a href="proof/arap_vs_skinning.png">ARAP vs skinning</a> · <a href="proof/mesh_and_handles.png">meshes</a> · <a href="proof/feature_protect.png">feature protection</a> · <a href="ledger.jsonl">ledger</a></td></tr>
+</table>
+<h2>Runtime demo: drag a handle</h2>
+<p class="dim">The film's own solver (<code>build/arap.js</code>) on the film's own meshes. Yellow dots are handles; drag one and the drawing bends as-rigid-as-possible, the eye, nose and tag held stiff. Red triangles would be inverted ones.</p>
+<div class="row"><select id="pick"><option value="dog_stand">dog standing</option><option value="dog_lie">dog lying</option><option value="head_side">head, side</option><option value="dog_rear">dog from behind</option><option value="person_stand.body">person</option></select>
+<button id="reset">reset</button><span class="dim" id="ms"></span></div>
+<canvas id="c" width="900" height="560"></canvas>
+<script src="build/arap.js"></script>
+<script>
+const NAMES=['dog_stand','dog_lie','head_side','dog_rear','person_stand.body'];
+const M={},IMG={};let cur,sol,X,H,drag=null;
+const c=document.getElementById('c'),g=c.getContext('2d');
+async function load(n){if(M[n])return;M[n]=await (await fetch('assets/mesh/'+n+'.json')).json();const im=new Image();im.src=M[n].texture;await im.decode();IMG[n]=im;}
+function sc(){const m=M[cur];return Math.min(c.width/(m.w+40),c.height/(m.h+40))}
+async function pick(n){await load(n);cur=n;const m=M[n];sol=new ARAP.Solver(m);X=sol.rest();H=Object.entries(m.handles).map(([k,v])=>({name:k,verts:v,at:m.handle_points[k].slice()}));sol.solve(H,X,2);draw();}
+function draw(){const m=M[cur],s=sc(),ox=20,oy=20;g.setTransform(1,0,0,1,0,0);g.fillStyle='#6d7480';g.fillRect(0,0,c.width,c.height);
+ for(const t of m.tris){const P=t.map(v=>[ox+X[2*v]*s,oy+X[2*v+1]*s]),U=t.map(v=>m.verts[v]);const[u0,u1,u2]=U,[p0,p1,p2]=P;const d=(u1[0]-u0[0])*(u2[1]-u0[1])-(u2[0]-u0[0])*(u1[1]-u0[1]);
+  const A=((p1[0]-p0[0])*(u2[1]-u0[1])-(p2[0]-p0[0])*(u1[1]-u0[1]))/d,B=((p2[0]-p0[0])*(u1[0]-u0[0])-(p1[0]-p0[0])*(u2[0]-u0[0]))/d,C=((p1[1]-p0[1])*(u2[1]-u0[1])-(p2[1]-p0[1])*(u1[1]-u0[1]))/d,D=((p2[1]-p0[1])*(u1[0]-u0[0])-(p1[1]-p0[1])*(u2[0]-u0[0]))/d;
+  const cx=(p0[0]+p1[0]+p2[0])/3,cy=(p0[1]+p1[1]+p2[1])/3;g.save();g.beginPath();P.forEach((q,k)=>{const x=q[0]+(q[0]-cx)*.05,y=q[1]+(q[1]-cy)*.05;k?g.lineTo(x,y):g.moveTo(x,y)});g.closePath();g.clip();
+  g.setTransform(A,C,B,D,p0[0]-A*u0[0]-B*u0[1],p0[1]-C*u0[0]-D*u0[1]);g.drawImage(IMG[cur],0,0);g.restore();
+  const ar=(p1[0]-p0[0])*(p2[1]-p0[1])-(p1[1]-p0[1])*(p2[0]-p0[0]);if(ar<=0){g.fillStyle='rgba(255,0,0,.7)';g.beginPath();g.moveTo(...p0);g.lineTo(...p1);g.lineTo(...p2);g.fill();}}
+ for(const h of H){g.beginPath();g.arc(ox+h.at[0]*s,oy+h.at[1]*s,7,0,7);g.fillStyle=h===drag?'#fff':'#e0b000';g.fill();g.strokeStyle='#000';g.stroke();}}
+function pos(e){const r=c.getBoundingClientRect(),s=sc();return[((e.clientX-r.left)*c.width/r.width-20)/s,((e.clientY-r.top)*c.height/r.height-20)/s];}
+c.addEventListener('pointerdown',e=>{const p=pos(e),s=sc();let best=null,bd=(22/s)**2;for(const h of H){const d=(h.at[0]-p[0])**2+(h.at[1]-p[1])**2;if(d<bd){bd=d;best=h}}drag=best;if(best)c.setPointerCapture(e.pointerId);draw();});
+c.addEventListener('pointermove',e=>{if(!drag)return;drag.at=pos(e);const t=performance.now();sol.solve(H,X,6);const ms=performance.now()-t;const d=sol.diagnose(X);
+ document.getElementById('ms').textContent=`solve ${ms.toFixed(1)} ms · inverted ${d.inverted} · energy ${d.energy.toFixed(4)} · feature |σ−1| ${d.feature_distortion.toFixed(3)}`;draw();});
+c.addEventListener('pointerup',()=>{drag=null;draw();});
+document.getElementById('pick').onchange=e=>pick(e.target.value);document.getElementById('reset').onclick=()=>pick(cur);
+pick('dog_stand');
+</script>
+</main></body></html>
