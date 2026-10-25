@@ -146,7 +146,7 @@ class Scene:
         if lie > 0:
             rest, look = a['rest'], a['look']
             base = lerp(hr, -60, lie)
-            hr = lerp(base, -92, rest)
+            hr = lerp(base, -84, rest)
             hr = lerp(hr, -34, look)
             pose['tail_rot'] = lerp(pose['tail_rot'], -28, lie)    # the tail lies out behind on the boards
         if pose.get('head_flip'):
@@ -254,7 +254,9 @@ class Scene:
             if t0 <= t < t1 + 0.35:
                 fade = min(1.0, (t - t0) / 0.12, (t1 + 0.35 - t) / 0.35)
                 hp = pinfo['head_px']
-                layers.append({'synth': 'text', 'params': {'text': text, 'x': hp[0] + 0.30 * s, 'y': hp[1] - 0.30 * s, 'size': int(30 if kind == 'call' else 23),
+                call = kind == 'call'
+                layers.append({'synth': 'text', 'params': {'text': text, 'x': hp[0] + (0.30 if call else -0.10) * s, 'y': hp[1] - (0.30 if call else 0.32) * s,
+                                                           'anchor': 'ls' if call else 'rs', 'size': int(30 if call else 23),
                                                            'font': 'f27', 'color': [242, 228, 206] if kind == 'call' else [214, 196, 176], 'alpha': fade * (1.0 if kind == 'call' else 0.8)}, 'role': 'speech'})
         # the lineage rail: where this frame's pieces came from
         srcs = []
@@ -332,7 +334,9 @@ def compose_frame(G, layers, want_alpha=False):
             p = l['params']
             lay = Image.new('RGBA', (W, H), (0, 0, 0, 0))
             d = ImageDraw.Draw(lay)
-            d.text((p['x'], p['y']), p['text'], font=get_font(p['font'], p['size']), fill=tuple(p['color']) + (int(255 * p['alpha']),), anchor='ls')
+            fo = get_font(p['font'], p['size']); an = p.get('anchor', 'ls')
+            d.text((p['x'] + 1.5, p['y'] + 1.5), p['text'], font=fo, fill=(8, 6, 10, int(170 * p['alpha'])), anchor=an)
+            d.text((p['x'], p['y']), p['text'], font=fo, fill=tuple(p['color']) + (int(255 * p['alpha']),), anchor=an)
             canvas.alpha_composite(lay)
         elif l['synth'] == 'rail':
             p = l['params']

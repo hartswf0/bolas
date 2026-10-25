@@ -190,6 +190,7 @@ rear34 = head_key(
     [(-0.135, 0.06), (-0.142, 0.058)], [(-0.05, 0.05), (-0.05, 0.05)],
     [(-0.155, 0.05), (-0.15, 0.048)], [(-0.12, 0.0), (-0.1, -0.01), (-0.08, -0.02)], gaze=-0.4,
     earRz=1, earLz=1, eyeRa=0.0, eyeLa=0.0, mouth_a=0.0)
+rear34["nose"]["a"] = 0.0   # turned away: the nose is behind the head
 
 # directly from behind: the round back of the head and two ears; symmetric (its own mirror)
 def head_ring(r=0.095, cy=0.01):

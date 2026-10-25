@@ -75,13 +75,18 @@ for p in ('none', 'tuned', 'loose'):
     fn = os.path.join(C, 'sim.json' if p == 'tuned' else f'sim-{p}.json')
     if not os.path.exists(fn): continue
     s = json.load(open(fn)); g = s['gaps']
-    # settle after the refusal turn (3.9 s): time until tail-tip deviation from its pose stays < 1 cm
-    dv = [math.dist(f['dog']['tail'][-1], f['dog']['tailPose'][-1]) for f in s['frames']]
-    def settle(t0, t1):
-        i0, i1 = fi(t0), fi(t1); last = max((i for i in range(i0, i1) if dv[i] > 0.01), default=i0); return round((last - i0) / 24, 2)
-    cmp[p] = {'tail_settle_after_turn_s': settle(3.9, 5.0), 'tail_settle_after_wag_s': settle(28.4, 31.9), 'tail_max_deviation_cm': round(max(dv) * 100, 1),
+    # settle: time after a source stops until the part's secondary energy stays below 1e-4 (m^2/s^2 per kg);
+    # swings: local maxima of that energy (each is one visible swing or rebound)
+    En = s['energy']
+    def settle(part, t0, t1):
+        i0, i1 = fi(t0), fi(t1); last = max((i for i in range(i0, i1) if En[i][part] > 1e-4), default=i0 - 1); return round((last + 1 - i0) / 24, 2)
+    def swings(part, t0, t1):
+        e = [En[i][part] for i in range(fi(t0), fi(t1))]; return sum(1 for k in range(1, len(e) - 1) if e[k] > e[k - 1] and e[k] >= e[k + 1] and e[k] > 1e-3)
+    cmp[p] = {'tail_settle_after_wag_s (28.5)': settle('tail', 28.5, 31.9), 'tail_swings_after_wag': swings('tail', 28.5, 31.9),
+              'ears_settle_after_rise_s (8.7)': settle('ears', 8.7, 10.4), 'ears_swings_after_rise': swings('ears', 8.7, 10.4),
+              'scarf_settle_after_sit_s (6.6)': settle('scarf', 6.6, 14.0), 'shrub_settle_after_leave_s (8.9)': settle('shrub', 8.9, 14.0), 'shrub_swings_after_leave': swings('shrub', 8.9, 14.0),
               'min_gap_tail_m': round(min(x['tail'] for x in g), 4), 'min_gap_scarf_m': round(min(x['scarf'] for x in g), 4),
-              'tag_contacts': sum(1 for e in s['events'] if e['tag'] == 'tag' and e['speed'] > 0.25), 'leaf_contacts': sum(1 for e in s['events'] if e['tag'] == 'leaf')}
+              'tag_contacts': sum(1 for e in s['events'] if e['tag'] == 'tag' and e['speed'] > 0.25)}
 print('preset comparison:', json.dumps(cmp, indent=1)); out['preset_comparison'] = cmp
 json.dump(out, open(os.path.join(TOP, 'proof', 'assertions.json'), 'w'), indent=1)
 print('FAILED', fails) if fails else print('all scene assertions pass'); sys.exit(1 if fails else 0)

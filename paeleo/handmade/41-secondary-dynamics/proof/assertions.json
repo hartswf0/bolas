@@ -126,31 +126,40 @@
  },
  "preset_comparison": {
   "none": {
-   "tail_settle_after_turn_s": 0.0,
-   "tail_settle_after_wag_s": 0.0,
-   "tail_max_deviation_cm": 0.0,
+   "tail_settle_after_wag_s (28.5)": 0.12,
+   "tail_swings_after_wag": 0,
+   "ears_settle_after_rise_s (8.7)": 0.12,
+   "ears_swings_after_rise": 0,
+   "scarf_settle_after_sit_s (6.6)": 1.12,
+   "shrub_settle_after_leave_s (8.9)": 0.0,
+   "shrub_swings_after_leave": 0,
    "min_gap_tail_m": -0.0379,
    "min_gap_scarf_m": -0.0888,
-   "tag_contacts": 0,
-   "leaf_contacts": 0
+   "tag_contacts": 0
   },
   "tuned": {
-   "tail_settle_after_turn_s": 1.04,
-   "tail_settle_after_wag_s": 3.46,
-   "tail_max_deviation_cm": 48.1,
+   "tail_settle_after_wag_s (28.5)": 1.17,
+   "tail_swings_after_wag": 2,
+   "ears_settle_after_rise_s (8.7)": 0.83,
+   "ears_swings_after_rise": 2,
+   "scarf_settle_after_sit_s (6.6)": 3.62,
+   "shrub_settle_after_leave_s (8.9)": 1.96,
+   "shrub_swings_after_leave": 3,
    "min_gap_tail_m": 0,
    "min_gap_scarf_m": 0,
-   "tag_contacts": 15,
-   "leaf_contacts": 0
+   "tag_contacts": 15
   },
   "loose": {
-   "tail_settle_after_turn_s": 1.04,
-   "tail_settle_after_wag_s": 3.46,
-   "tail_max_deviation_cm": 59.7,
+   "tail_settle_after_wag_s (28.5)": 3.42,
+   "tail_swings_after_wag": 7,
+   "ears_settle_after_rise_s (8.7)": 1.71,
+   "ears_swings_after_rise": 7,
+   "scarf_settle_after_sit_s (6.6)": 7.42,
+   "shrub_settle_after_leave_s (8.9)": 5.08,
+   "shrub_swings_after_leave": 11,
    "min_gap_tail_m": 0,
    "min_gap_scarf_m": 0,
-   "tag_contacts": 15,
-   "leaf_contacts": 0
+   "tag_contacts": 15
   }
  }
 }
