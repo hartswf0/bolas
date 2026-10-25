@@ -1,7 +1,7 @@
 """Alignment engineer. Synthesize each spoken line with CMU Flite (libflite 2.2, voice cmu_us_slt, called through ctypes)
 and read the phoneme timing from the synthesizer's own Segment relation, so picture and sound share one time base.
 
-(First attempt, kept in build/cache/voice_viterbi_rejected.py and proof/alignment_rejected_viterbi.png: a hand-set
+(First attempt, kept in build/rejected_viterbi_aligner.py and proof/alignment_rejected_viterbi.png: a hand-set
 forced aligner on energy/voicing features. It misplaced vowels into nasals; rejected for the synthesizer's own segments.)
 
 Output: build/cache/voice/<id>.wav (16 kHz mono) and build/voice_lines.json:

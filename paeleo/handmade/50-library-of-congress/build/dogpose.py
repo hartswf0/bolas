@@ -83,7 +83,7 @@ def solve(p):
             w = (u - DUTY) / (1 - DUTY)
             rel = STRIDE * DUTY * (-0.5 + w); lift = LIFT * math.sin(math.pi * w) * p.get('moving', 1)
         # rel is measured forward (toward the head): local x decreases forward
-        tx = foot0[0] - rel * p.get('moving', 1) - (crouch * (4 if front else -6))
+        tx = foot0[0] - rel
         ty = foot0[1] - lift
         bend = -1 if front else 1       # fore: joint forward; hind: hock back
         knee, foot = ik(hip, (tx, ty), l1, l2, bend)

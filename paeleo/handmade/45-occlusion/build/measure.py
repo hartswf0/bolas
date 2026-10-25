@@ -31,7 +31,7 @@ def main():
         xw = fx + (d['cx'] - 640) / s                       # measured body centroid, world metres
         h_top = (d['bot'] - d['top']) / s                   # measured height of the dog above its lowest pixel
         rows.append(dict(i=i, t=r['t'], xw=xw, h_top=h_top, width=(d['right'] - d['left']) / s, head_side=d.get('head_side'),
-                         dark_head=d.get('dark_head', 0), cx=d['cx'], cy=d['cy'], vis=d['visible'] / max(1, d['area']),
+                         dark_head=d.get('dark_head', 0), head_dx=(d['cx'] - d['head_screen'][0]) / s if d['cx'] is not None else 0, cx=d['cx'], cy=d['cy'], vis=d['visible'] / max(1, d['area']),
                          in_frac=d['in_frac'], hiders=d['hiders'], facing_annot=d['facing'], posture_annot=d['posture'],
                          shadow_dx=(None if d['shadow_cx'] is None or d['base_cx'] is None else (d['shadow_cx'] - d['base_cx']) / s)))
     t = np.array([q['t'] for q in rows]); xw = np.array([q['xw'] for q in rows]); ht = np.array([q['h_top'] for q in rows])
@@ -70,10 +70,12 @@ def main():
         for j in range(k0, len(rows)):
             state[j] = st
     # facing measured: head side, with ties (end-on frames) keeping the previous value
+    # facing: where the composited head is (the head sublayer, or the head end of the real cel) relative to the body
+    # centroid measured on the dog's alpha; +1 = head toward the door (left). Ties (end-on) keep the previous value.
     facing = []; prev = 1
     for q in rows:
-        h = q['head_side']
-        if h is not None and abs(h) > 0.015:
+        h = q['head_dx']
+        if abs(h) > 0.04:
             prev = 1 if h > 0 else -1
         facing.append(prev)
     lie_h = 0.40
@@ -84,7 +86,7 @@ def main():
         x_meas = q['xw'] + DOG.CENTER_OFFSET           # back into the score's x by this film's one fixed mapping
         trace.append(dict(i=i, t=q['t'], state=st, state_score=FR[i]['dog']['state'], x_score=FR[i]['dog']['x'],
                           x_screen=round(q['cx'], 2), y_screen=round(q['cy'], 2), x_world_measured=round(x_meas, 4),
-                          facing=fa, posture=posture, h_top_m=round(q['h_top'], 3), visible_share=round(q['vis'], 3),
+                          facing=fa, head_side_px=None if q['head_side'] is None else round(q['head_side'], 3), posture=posture, h_top_m=round(q['h_top'], 3), visible_share=round(q['vis'], 3),
                           inside_frame_share=round(q['in_frac'], 3), hidden_by=q['hiders'],
                           facing_annotated=q['facing_annot']))
     choices = []
