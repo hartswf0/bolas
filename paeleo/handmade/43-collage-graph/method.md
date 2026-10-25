@@ -27,7 +27,7 @@ surprise-and-readability critic is external (the brief's critic); I do not appro
   `voice.arcs`. Door nodes: `door.leaf`, the room. Every placed node, with the fragment it is made of, is logged per change
   in `graph_trace.json`.
 - **Rules** (`rulebook.json`, with every firing in this render): R1 REPLACE head (by intention; only a drawing whose native
-  angle is within 45° of the wanted one); R2 REPLACE head by the found frontal head (turning to look); R3 MERGE dog → whole
+  angle is within 45° of the wanted one); R2 REPLACE head by the looking-away head (turning to look); R3 MERGE dog → whole
   found frame (the turns: f027, f030 of the real dog turning); R4 SPLIT back to the mirrored graph; R5 REPLACE leg by
   stance/swing drawing; R6 EXIT legs / lie (four discrete drawings); R7 REPLACE material shade → sun; R8 SPLIT torso at the
   threshold; R9 ENTER head into the door light (look in); P1 ENTER voice (found sound arcs); P2 SPLIT coat (sit);
@@ -39,7 +39,7 @@ surprise-and-readability critic is external (the brief's critic); I do not appro
   top/foot; tail base/tip; whole-frame ground/top; person feet/top/hip/neck/mouth; hand arm/tip. A stance foot is a world
   anchor: it keeps its world x while the body travels.
 - **Coordinates and time**: metres along the porch (the score's x; threshold 0; my door opening −0.55…0.55 in a facade
-  view), height v; screen X = 300 + 195·x; ground line 588 px mid-porch, 520 px at the sill. Dog graph in local metres
+  view), height v; screen X = 278 + 195·x; ground line 588 px mid-porch, 520 px at the sill. Dog graph in local metres
   ×1.25 (a big shepherd). Time base = the score's 24 fps; the dog's graph is solved on twos (12 drawings/s), the world at 24.
 - **Provenance**: `assets.json` lists every fragment with its source frame file, title, archive URL, rights, scissors
   polygon (source px), anchors and operation (SAM mask ∩ scissors polygon, luminance key, mirror, tone, feather).
@@ -48,8 +48,8 @@ surprise-and-readability critic is external (the brief's critic); I do not appro
 
 Every fragment drawn as the dog comes from one source: *Amateur Film New Jersey C* (Home Movies, Internet Archive, public
 domain), frames 6, 12, 27, 30, 45, 48 (`trace.json → invariants.dog_sources = ["archive-dog"]`). Torso, alert head and tail
-(cut tapered along the found tail) from f006; level head and the four legs from f012; turning frames f027/f030, and from
-them the frontal head (f030) and the back-lit head and neck (f027); sunlit torso, chest and legs from f045 (mirrored); low
+(cut tapered along the found tail) from f006; level head and the four legs from f012; turning frames f027/f030; the
+looking-away head and neck from f009 (the dog lifting its head to its person, its back to the camera); sunlit torso, chest and legs from f045 (mirrored); low
 head with the white collar from f048 (mirrored). Each piece is the SAM mask of its frame intersected with my scissors
 polygon, toned by the whole dog of its frame (not stretched on its own); one paper rim is cut around the assembled dog.
 **Nothing of the dog is drawn.**
@@ -60,17 +60,19 @@ polygon, toned by the whole dog of its frame (not stretched on its own); one pap
 - **Turning away (3.417) and back (7.92–8.25)**: never a mirror flip. R3 MERGEs the graph into the real dog's own turning
   frames (f027 three-quarter, f030 front), then R4 SPLITs into the mirrored profile. The back is shown from 3.75 s.
 - **Refusal**: stands with its back turned, then lies down (R6), tail toward the person, head low on its paws, whole dog in
-  frame (right edge ≤ 1247 px).
-- **Turning to look (7.458)**: R2: on the still-turned lying body the head is replaced by the found frontal head of f030,
-  mirrored so its muzzle points at the door (first drawn frame 7.50, solved on twos); the body rises and turns after it.
+  frame (right edge ≤ 1219 px, 61 px clear); the hind legs EXIT (fold under the haunch) from the 2/3 drawing on.
+- **Turning to look (7.458)**: R2: on the still-turned lying body, on the choice's own frame, the head is replaced by
+  f009's head in profile, muzzle to the door, raised above the turned back at normal scale; the body rises and turns after it.
 - **Coming, head low (14.708)**: R1+R7: the head is replaced by f048 (head below the back line, collar showing) for the
   whole approach; the walk is the gait solver with found legs.
-- **Lying across the sill (23.79)**: composed (no frame of this dog lies down): torso lowered, forelegs laid forward, hind
-  legs gathered; R7/R8 make the chest and forelegs sunlit inside the door frame, the haunch and tail shaded outside; the
-  join is graded (the sunlit chest's rear edge feathered over 28 source px, over a shaded haunch that runs under it).
-- **Looking in (26.4)**: R9: the head is replaced by the head and neck of found turning frame f027, tone-crushed to a
-  back-lit silhouette against the lit room (broad skull, soft ears, the neck running out of the chest): the head turned away
-  from us, into the house. Then it settles, head on its paws.
+- **Lying across the sill (23.79)**: composed (no frame of this dog lies down). On the choice's own frame it is already half
+  down (the feet stay where they stood while the body lowers over them), then down: forelegs short and forward, hind legs
+  folded away. R7/R8 bring the sunlit chest and forelegs in by weight as they enter the light (over ~0.6 s of walking,
+  never a one-frame swap), laid over the shaded body with a feathered rear edge; the door's light itself falls off softly
+  across the body. Haunch and tail stay shaded, outside.
+- **Looking in (26.4)**: R9: the head is replaced by f009's looking-away head and neck (the dog lifting its head to its
+  person, back to the camera), the neck faded into the chest, the muzzle raised inside the door frame against the lit room.
+  The same found gesture that looked up at its person now looks into the house. Then it settles, head on its paws.
 
 The world is other found images becoming buildings and tools: the home movie's stone pillar is the house wall, its path the
 porch, its shrubs the hedge, its coat the porch timber; Straight Talk's door (closing swing, played backward) is the door; a
@@ -115,11 +117,23 @@ reads as a dog; whether the material rewrite reads as cause (the light) and not 
 4. Straight seam at the sill → feathered sunlit chest over an extended shaded haunch (graded join).
 5. Flat pale tail → tail cut tapered along the found tail; all dog pieces toned per frame, not per piece.
 
+### Repair round 2 (independent critic: does not pass, narrowly)
+
+1. The darkened frontal silhouette read as a blob → looking in uses f009's real looking-away head with its ear and neck,
+   neck faded along its base line (no straight cut), muzzle up inside the door frame.
+2. The mirrored frontal head was oversized and looked at the camera → f009's head in profile, muzzle to the door, normal
+   scale, from the choice's own frame (choices no longer wait for the next drawing on twos).
+3. Lying away: standing-leg slabs → hind legs EXIT from the 2/3 drawing, lying forelegs short; world X0 278, right edge 1219.
+4. Entering the sill read as two animals and thrust a stick paw → sun material blended in by weight over ~0.6 s, softer
+   light falloff, feet stay put while the body lowers.
+5. Lie onset late → on its own frame (23.792) the dog is already half down.
+
 ## What is still weak (my view; the critic decides)
 
 - The home-movie dog is blurred and grey; the profile composite reads as a dog at film size but its parts are soft and the
   legs thick. The walk is a solver over four found legs, not a found walk.
-- The looking-in head is a found front-facing head crushed into silhouette: it depends on the back-lit reading.
+- Looking in is the found looking-away head raised into the doorway; whether it reads as *looking in* rather than *looking
+  up* is the critic's call.
 - The person is stiff (substitution in thirds), the found face is small.
 - The voice is a formant synthesizer: intelligibility of "come here / it's all right / come in" is **unknown** (I cannot
   listen). Levels are measured; the timbre is not judged.

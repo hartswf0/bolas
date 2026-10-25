@@ -21,7 +21,7 @@ FRAMES = SCORE['frames']
 LIB = {f['id']: f for f in json.load(open(os.path.join(CACHE, 'frags.json')))['fragments']}
 W, H = 1280, 720
 PXM = 195.0
-X0 = 290.0
+X0 = 278.0
 WALL_BASE = 505
 G_MID, G_SILL = 588, 520
 DOOR_L, DOOR_R, DOOR_TOP_M = -0.55, 0.55, 2.0
@@ -150,7 +150,7 @@ def dog_state(i):
     hv, look, rest = a['head'], a['look'], a['rest']
     sun_head = st in ('approach', 'lie_down')
     if look > 0.2:
-        g['head'] = ('head_away_f009', 50.0); g['rules'].append('ENTER head->door light: REPLACE head by head_away_f009 (the dog looking away, up at its person) pointed into the doorway (looks in)')
+        g['head'] = ('head_away_f009', 40.0); g['rules'].append('ENTER head->door light: REPLACE head by head_away_f009 (the dog looking away, up at its person) pointed into the doorway (looks in)')
     elif sun_head:
         if g['lie'] >= 0.99 and rest > 0.5: g['head'] = ('head_low_f048', -14.0)
         elif g['lie'] >= 0.99: g['head'] = ('head_low_f048', 8.0 if hv > 0.5 else -6.0)
@@ -274,12 +274,11 @@ def draw_dog(canvas, i, log=None):
     for leg in ('hind_f', 'fore_f', 'hind_n', 'fore_n'):
         top = S if leg.startswith('fore') else Hh
         if lie >= 0.99:
-            fu = top[0] + (0.20 if leg.startswith('fore') else 0.16) + (0.0 if leg.endswith('n') else -0.04)
+            fu = top[0] + (0.15 if leg.startswith('fore') else 0.12) + (0.0 if leg.endswith('n') else -0.04)
             foot = (fu, 0.035); phase = 'down'
         else:
             ru, lift, phase = foot_rel(leg, d, g['moving'], K)
-            if lie > 0.1:  # settling: feet gather forward as it goes down
-                ru = ru * (1 - lie) + (top[0] + (0.18 if leg.startswith('fore') else 0.12)) * lie
+            if lie > 0.1:  # settling: the feet stay where they stand while the body goes down over them
                 lift = 0
             foot = (ru, lift)
         legs[leg] = (top, foot, phase)
@@ -292,7 +291,7 @@ def draw_dog(canvas, i, log=None):
 
     def put_leg(leg):
         top, foot, phase = legs[leg]
-        if lie >= 0.99 and leg.startswith('hind'): return   # EXIT: lying, the hind legs fold under the haunch
+        if lie >= 0.66 and leg.startswith('hind'): return   # EXIT: going down, the hind legs fold under the haunch
         if lie >= 0.66 and leg == 'fore_f': return           # the far foreleg is hidden behind the near one
         tp = (top[0] + (0.02 if leg.endswith('f') else 0.0), top[1] + 0.03)
         w = mats[leg]
@@ -549,7 +548,7 @@ def light_map(t):
     xl, xr = PX(DOOR_L), PX(DOOR_R)
     ytop = WALL_BASE - DOOR_TOP_M * PXM
     spread = np.clip(yy - WALL_BASE, 0, None) * 0.45
-    inx = sstep(-45, 25, xx - (xl - spread)) * sstep(-45, 25, (xr + spread) - xx)
+    inx = sstep(-120, 40, xx - (xl - spread)) * sstep(-120, 40, (xr + spread) - xx)  # the door's light falls off softly across the dog
     col = inx * sstep(ytop - 20, ytop + 20, yy) * (1 - sstep(660, 700, yy))
     _LM.append(col.astype(np.float32))
     return _LM[0] * L

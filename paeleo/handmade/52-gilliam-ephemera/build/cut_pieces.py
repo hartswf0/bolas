@@ -82,7 +82,7 @@ add(cut('dog_head_low', dogf(46), [[(242, 134), (262, 136), (276, 156), (282, 17
 # the face (f030: the dog facing the camera, head turned, eyes and muzzle readable). Used when it looks back over its
 # shoulder at the door: one unambiguous face. Printed looking right; flopped when the dog is laid facing left.
 add(cut('dog_face', dogf(30), [[(146, 92), (170, 87), (200, 94), (214, 112), (219, 134), (206, 143), (180, 146), (156, 141), (146, 120)]],
-        0.89, 'dog', M30, **DG, seed=10, provenance=prov('dog', 30),
+        0.74, 'dog', M30, **DG, seed=10, provenance=prov('dog', 30),
         pins={'neck': (176, 140), 'nose': (216, 128), 'top': (170, 88)}), op='crop+matte+scissor cut+tint (substitute head card: the face)')
 
 # the back of the head (looking in): there is no print of it. Constructed: the outline of the f030 head (skull and ears,
