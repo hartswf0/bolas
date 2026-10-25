@@ -152,3 +152,25 @@ recordings. Did not use `paeleo/threshold/stage.js` or `paeleo/scion/lenses.js`;
 `build/make.sh` (Python 3 + numpy + Pillow, ffmpeg; ~10 min on 4 shared cores). Intermediates in `build/cache/`
 (git-ignored). Found frames and the Quick, Draw! drawings used are copied into `sources/` with their records, so the build
 does not need the external library. Operator page: `index.html`.
+
+## Round 2 (after critic round 1: does not pass, narrowly)
+
+Repairs, each re-rendered, re-measured and looked at (every film frame 3.40–4.25 s and 7.40–8.25 s, extracted from
+`film.mp4`):
+1. **Headless refusal.** The mirrored puppet's head had been rotated to -82°, which hid it behind the forelegs. It is now
+   at -50° (low, turned away, on the far side, with a slow sway), so every refusal frame has head, back, rump and tail, and
+   the rump and tail face the door. No new cuts were needed: it is the same recorded head piece and pivot. The change is a
+   pose parameter, and that parameter is recorded in `render_deps`.
+2. **Doubles in the turns.** There was no compositor crossfade. The doubles were the found frames' own motion blur
+   (f018, f042, f044). The turn is now a hard substitution through single, clean found frames: f011 f014 f028 f030 f032
+   f036 f038 f045. It finishes at 3.75 s, and it plays in reverse from 7.65 s.
+3. **Looking in by 26.65 s.** The look runs at 2.3× the score's rate and the chin-down rest is released, so the head is
+   up and level into the doorway by about 26.5 s. The camera starts its look into the room at 26.4 s.
+4. **The door.** The leaf is ajar and nearly edge-on (16% of its face) until 6.2 s. It swings open from 6.2 to 6.45 s,
+   then the found Straight Talk frames f021–f031 play at 20 fps until 7.0 s. The light follows the door.
+5. **Soft voice.** Measured in the final mix (`lineage/sound.json` → `in_mix`): the soft lines are 9.95 dB under the
+   calls and 11.2 dB above the 12–14 s background.
+6. The provenance strip is now 16 px on a dark band. The fear head is held 10° lower than the approach head.
+
+Still weak: the puppet's texture is soft, the person is stiff, and I have not heard the sound. check_handmade: ALL OK.
+Audit: PASS.

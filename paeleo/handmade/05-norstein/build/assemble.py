@@ -122,7 +122,8 @@ def trace():
         else:
             posture = 'standing' if head_rel > 0.05 else 'standing, head low'
         # the state as measured: what a viewer could see the dog do
-        if lying and m['x_world'] < 0.75:
+        was_lying = frames and frames[-1]['state'] == 'lie_down'
+        if (lying or (was_lying and h_m[i] < 0.62)) and m['x_world'] < 0.75:
             st = 'lie_down'
         elif facing == 'away':
             st = 'refuse'
@@ -137,6 +138,20 @@ def trace():
                            posture=posture, speed=round(float(v[i]), 3), height_m=round(float(h_m[i]), 3), head_above_back=round(float(head_rel), 3),
                            head_screen=[m['head_cx'], m['head_cy']], nose_screen=[round(float(nx), 1), round(float(ny), 1)], inside_frame_share=m['inside_frame'], tail_end_x=m['right_x'] if facing == 'door' else m['left_x'],
                            camera=m['cam'], focus_z=m['focus_z'], atmosphere=m['atmosphere'], lum_dog=m.get('lum_dog'), lum_around=m.get('lum_around')))
+    # travel must be sustained to count as coming (0.5 s) or backing away (0.25 s): a turn in place re-steps the paws
+    for name, need in (('approach', 12), ('retreat', 6)):
+        k = 0
+        while k < N:
+            if frames[k]['state'] == name:
+                j = k
+                while j < N and frames[j]['state'] == name:
+                    j += 1
+                if j - k < need:
+                    for q in range(k, j):
+                        frames[q]['state'] = frames[k - 1]['state'] if k else 'watch'
+                k = j
+            else:
+                k += 1
     # hysteresis: a state must hold 3 frames to count (a measurement, not a performance, has jitter)
     for i in range(1, N - 2):
         if frames[i]['state'] != frames[i - 1]['state'] and not (frames[i]['state'] == frames[i + 1]['state'] == frames[i + 2]['state']):

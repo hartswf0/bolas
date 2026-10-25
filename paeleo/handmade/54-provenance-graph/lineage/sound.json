@@ -18,27 +18,40 @@
   {
    "line": "all_right",
    "t": 7.42,
-   "gain": 0.15,
-   "rms_dbfs": -33.25,
-   "peak_dbfs": -16.48
+   "gain": 0.23,
+   "rms_dbfs": -29.54,
+   "peak_dbfs": -12.77
   },
   {
    "line": "all_right",
    "t": 10.42,
-   "gain": 0.14,
-   "rms_dbfs": -33.92,
-   "peak_dbfs": -17.08
+   "gain": 0.22,
+   "rms_dbfs": -30.0,
+   "peak_dbfs": -13.15
   },
   {
    "line": "come_in",
    "t": 26.42,
-   "gain": 0.14,
-   "rms_dbfs": -27.9,
-   "peak_dbfs": -17.08
+   "gain": 0.22,
+   "rms_dbfs": -23.98,
+   "peak_dbfs": -13.15
   }
  ],
- "room_tone_rms_dbfs": -43.91,
- "soft_minus_loudest_call_db": -13.78,
- "soft_above_room_db": 9.99,
- "claw_contacts": 31
+ "room_tone_rms_dbfs": -47.01,
+ "soft_minus_loudest_call_db": -9.86,
+ "soft_above_room_db": 17.01,
+ "claw_contacts": 31,
+ "in_mix": {
+  "about": "rms of the final mix over each line, and over 12-14 s (room tone + warmth, no events)",
+  "lines": {
+   "come_here@1.0": -15.38,
+   "come_here2@3.42": -15.13,
+   "all_right@7.42": -31.16,
+   "all_right@10.42": -31.32,
+   "come_in@26.42": -25.33
+  },
+  "background_12_14s": -42.53,
+  "soft_minus_loudest_call_db": -9.95,
+  "softest_line_above_background_db": 11.21
+ }
 }

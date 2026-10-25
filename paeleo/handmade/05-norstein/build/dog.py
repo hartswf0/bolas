@@ -53,10 +53,10 @@ def controller():
         st = d['state']
         x, z = dog_path(t)
         # --- body yaw: pi = facing the door (screen left), pi/2 = rump to camera, 0 = back turned, -pi/2 = chest to camera
-        if t < 3.42:
+        if t < 3.40:
             psi = math.pi
         elif t < 3.92:  # the refusal turn: quick, away from camera, through the rear view (the back is shown by ~3.65)
-            u = smooth(3.42, 3.92, t)
+            u = smooth(3.40, 3.92, t)
             psi = ang_lerp(math.pi, 0.32, u)
         elif t < 8.0:
             psi = 0.32
@@ -73,6 +73,8 @@ def controller():
             bend = -0.7 * smooth(7.38, 7.6, t) * (1 - smooth(8.15, 8.95, t))
         # --- head yaw relative to the body
         head_rel = 0.0
+        if 3.40 <= t < 3.92:  # turning away, the head goes first
+            head_rel = -0.55 * math.sin(math.pi * smooth(3.40, 3.92, t)) * (1 if smooth(3.40, 3.92, t) < 0.5 else 1)
         if 7.40 <= t < 8.95:  # looks back over the shoulder at the opened door, on time (7.46)
             target = keyed([(7.38, psi + bend), (7.58, -2.8), (8.0, -2.9), (8.95, -math.pi)], t)
             head_rel = target - psi - bend
