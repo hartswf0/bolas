@@ -458,7 +458,7 @@ def handmade_box(up):
     <h2>The threshold, handmade</h2><p class="q">{esc(HM["question"])}</p></div>
   <div class="trick"><span class="lbl">The trick</span><p>A lens restyles one drawing; PAE-02 asks each swarm to make the whole scene itself, from found footage, silhouettes, constraints, doodles or a torrent of archive tiles, under one score of the dog's choices. The score is checked against every film. Everything else differs.</p></div>
   <div class="queue">{tiles}</div>
-  <div class="fullcase"><a href="handmade/"><i>PAE-02</i> All six films<span>each with its sheets, its measured invariants and its critic rounds</span></a></div>
+  <div class="fullcase"><a href="handmade/"><i>PAE-02</i> All the films<span>each with its sheets, its measured invariants and its critic rounds</span></a></div>
 </section>'''
 
 
@@ -496,15 +496,16 @@ def handmade_page():
 </section>
 '''
         rows += f'<tr><td><a href="#s{s["id"]:02d}">{s["id"]:02d} {esc(s["name"])}</a></td><td>{esc(s["dog"])}</td><td>{"all four hold" if inv["all_ok"] else "fails"}</td><td><span class="verdict {last[1]}">{esc(last[2])}</span>{f" (round {last[0]})" if last[0] else ""}</td></tr>'
+    n_sw = rows.count('<tr>')
     body = f'''<p class="crumbs"><a href="{up}">CRASH LAB</a> / <a href="{up}paeleo/">PAELEO</a> / PAE-02</p>
 <header class="lockup"><div class="l"><span class="lbl">PAE-02 · one description, many operations</span><h1 style="font-size:clamp(56px,10vw,120px)">The threshold, handmade</h1>
   <p class="tag">{esc(HM["question"])}</p>
   <p>PAE-01 showed every SCION swarm as a lens on one paper dog: a style laid over a drawing it did not make. That shows what each swarm would look at, not what it would make. In PAE-02 each swarm builds the same scene itself: what the dog is made of, how it moves, what the place is and what it sounds like. Only two things are shared: the <a href="BRIEF.md">description</a> and the <a href="score/threshold-score.json">score</a> of the dog's six choices from the PAELEO machine.</p>
-  <p><a class="btn" href="#cohort">The six</a> <a class="btn" href="BRIEF.md">The brief</a> <a class="btn" href="README.md">The write-up</a></p></div>
+  <p><a class="btn" href="#cohort">The swarms</a> <a class="btn" href="BRIEF.md">The brief</a> <a class="btn" href="README.md">The write-up</a></p></div>
   <div class="r"><span class="lbl">Held still, then let go</span><dl class="letters"><dt>P</dt><dd>the prompts: <i>call, call and reach, sit down beside the door, open the door, offer a hand low, say it softly, come in</i></dd><dt>E</dt><dd>the ekphrasis and the score: six choices at fixed times, 768 frames</dd><dt>O</dt><dd>the operation: entirely the swarm's</dd></dl>
   <p class="lbl">If description is operative, the choices survive every operation, and that can be measured. Whether they read as choices is for a critic to say.</p></div></header>
 
-<section class="sec" id="cohort"><div class="sechead"><h2>The first six</h2><p>One swarm from each family and two from the algorithms, chosen to be as far apart as possible in what they build with.</p></div>
+<section class="sec" id="cohort"><div class="sechead"><h2>The swarms so far</h2><p>{n_sw} of the 54, in cohorts chosen to be as far apart as possible in what they build with. Each later cohort reads what the earlier ones failed at, never their films or code.</p></div>
   <div class="tw"><table class="names"><thead><tr><th>Swarm</th><th>The dog is</th><th>Invariants</th><th>Critic</th></tr></thead><tbody>{rows}</tbody></table></div>
   <p class="note">The invariants are the description (the six choices within ¼ s, never inside the house and ending on the sill, moving with the score, the back shown in the refusal). Everything that differs between the films is the operation.</p>
 </section>

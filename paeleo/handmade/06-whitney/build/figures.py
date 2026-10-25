@@ -17,7 +17,7 @@ import numpy as np
 W0 = 2 * math.pi / 8.0        # rad/s: the ring precession fundamental (an 8 s period)
 T_REUNION = 24.0              # the rings align when the dog lies down on the sill
 
-DOG_COL = np.array([0.80, 0.93, 1.00])
+DOG_COL = np.array([0.72, 0.88, 1.00])
 DOG_WARM = np.array([1.00, 0.86, 0.62])
 HOT = np.array([1.00, 0.36, 0.42])
 PERSON_COL = np.array([1.00, 0.70, 0.42])

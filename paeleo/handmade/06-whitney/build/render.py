@@ -23,7 +23,7 @@ W, Hh = 1280, 720
 # wide and fixed until the approach (0-14.8 s); during the approach it dollies with the dog toward the sill (eased),
 # and is fixed again, close, from 23.6 s. x_world_measured in the trace back-projects through each frame's camera.
 WIDE = dict(cam=np.array([3.0, 0.85, 5.2]), tgt=np.array([1.50, 0.80, 0.0]), focal=1000.0, cx=640.0, cy=388.0)
-CLOSE = dict(cam=np.array([2.2, 0.75, 3.6]), tgt=np.array([0.05, 0.60, 0.0]), focal=1050.0, cx=640.0, cy=410.0)
+CLOSE = dict(cam=np.array([2.2, 0.75, 3.6]), tgt=np.array([0.10, 0.50, 0.0]), focal=1230.0, cx=640.0, cy=400.0)
 CAM = TGT = FOCAL = CX = CY = _f = _r = _u = None
 
 
@@ -291,7 +291,7 @@ class Scene:
         # ---- the person
         pq = {k: self.Pq[k][i] for k in ('u', 'z', 'sit', 'reach', 'low', 'lean')}
         PD = G.person(pq, t, th_h)
-        self.draw_body(Bd, PD, 1.5 + 0.4 * light)
+        self.draw_body(Bd, PD, 2.2 + 0.6 * light)
         # ---- the voice: wavefronts from the mouth (calls hot and fast, the soft voice slow, warm, faint)
         dog_u = self.Q['u'][i]
         for te, kind in WAVES:
@@ -318,7 +318,13 @@ class Scene:
         q = self.qd(i)
         warm = 0.3 * light * float(np.exp(-max(q['u'], 0) / 2.0))
         D = G.dog(q, t, th_d, self.agit[i], warm, 0.55 + 0.45 * dens)
-        meas = self.draw_body(Bd, D, 1.7)
+        dogb = np.zeros_like(Bd)
+        meas = self.draw_body(dogb, D, 2.5)
+        Bd += dogb
+        # the body stands against the light: a soft occlusion mask from the dog's own dots dims what is behind it
+        sm = dogb.reshape(Hh // 4, 4, W // 4, 4, 3).sum((1, 3)).mean(2)
+        sm = blur(sm[..., None], 3)[..., 0]
+        occ = np.clip(up4(sm[..., None])[..., 0] * 1.6, 0, 0.85)[..., None]
         # ---- composite
         img = self.sky.copy()
         # stars pulse at integer multiples of the house rate (an oscillator bank on the sky)
@@ -332,14 +338,14 @@ class Scene:
         mx = 1085 + 44 * np.sin(B['th_dog'][jj]); my = 118 - 44 * np.sin(B['th_house'][jj] + 0.6)
         age = (i - jj) / 144.0
         splat(st, mx, my, np.tile([0.95, 0.92, 0.80], (len(jj), 1)), 0.9 * (1 - age) ** 1.5 + 0.05)
-        Lt = L + st + Bd
+        Lt = (L + st) * (1 - occ) + Bd
         dot = blur(Lt, 1)
         g = glow(Lt)
         lum = dot * 1.6 + g * 0.55
         if self.haze is not None:
             small = self.haze.reshape(Hh // 4, 4, W // 4, 4, 3).sum((1, 3))
             small = blur(small, 10)
-            lum = lum + up4(small) * 2.6
+            lum = lum + up4(small) * 2.0 * (1 - occ)
         out = 1 - (1 - img) * np.exp(-lum)
         im = Image.fromarray(np.clip(out * 255, 0, 255).astype(np.uint8))
         self.subtitle(im, t, PD)
@@ -380,6 +386,8 @@ def measure(i, meas, D, scene):
     head_pts = part == 2
     hsx = float(sx[head_pts].mean()) if head_pts.any() else float('nan')
     facing = 1 if float(hx[0]) < float(rx[0]) else -1
+    nx, _, _ = project(a['nose'][None]); kx, _, _ = project(a['skull'][None])
+    gaze = 1 if float(nx[0]) < float(kx[0]) else -1      # the drawn nose left of the drawn skull: looking toward the door
     loc = D['local']
     back_y = loc['withers_y']
     lying = loc['sh_y'] < 0.40
@@ -394,7 +402,7 @@ def measure(i, meas, D, scene):
     pw = CAM + s * d
     return dict(i=i, t=round(i / 24, 4), state=scene.Q['state'][i], x_score=round(float(scene.Q['x'][i]), 4),
                 x_screen=round(xs, 2), y_screen=round(ys, 2), x_world_measured=round(float(pw[0]) + H.U_OFFSET, 4),
-                facing=facing, posture=posture, head_screen_x=round(hsx, 2),
+                facing=facing, gaze=gaze, posture=posture, head_screen_x=round(hsx, 2),
                 head_below_back_m=round(back_y - loc['skull_y'], 3), shoulder_h_m=round(loc['sh_y'], 3),
                 feet_planted=[k for k, v in D['contacts'].items() if v])
 

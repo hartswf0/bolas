@@ -115,7 +115,7 @@ def cards():
                 ('Every in-between is a blend of corresponding points between keys; turns pass through drawn views.', 'f34.woff2', 22, ink),
                 ('The door\'s outline becomes the light on the boards. The paws are planted; they step.', 'f34.woff2', 22, ink),
                 ('No footage, no photographs, no generated images. The voices and sounds are synthesized.', 'f34.woff2', 22, ink),
-                ('The dog\'s choices are the PAELEO threshold score, kept at their times.', 'f27.woff2', 22, (70, 66, 70))],
+                ('The dog\'s choices follow the PAELEO threshold score; their onsets, measured from the drawing, are in trace.json.', 'f27.woff2', 22, (70, 66, 70))],
                os.path.join(HERE, 'cache', 'end.png'))
     # title: the first key contour draws itself on (pen travels the outline); end: hold
     for i in range(72):

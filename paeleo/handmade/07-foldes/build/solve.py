@@ -105,7 +105,7 @@ HEAD_SEQ = [  # (t, {headkey: w}, placement)
     (25.40, {'profile': 1}, (-0.52, 0.47, 0.0, HL)),
     (26.10, {'profile': 1}, (-0.57, 0.32, 0.16, HL)),
     (26.40, {'profile': 1}, (-0.57, 0.32, 0.16, HL)),   # come in (soft): it turns its head in, through the door
-    (26.85, {'rear34': 1}, (-0.60, 0.42, 0.12, HL)),    # back of the head to us, muzzle pointing level into the lit room
+    (26.72, {'rear34': 1}, (-0.60, 0.42, 0.12, HL)),    # back of the head to us, muzzle pointing level into the lit room
     (28.05, {'rear34': 1}, (-0.60, 0.42, 0.12, HL)),
     (28.65, {'profile': 1}, (-0.62, 0.20, 0.08, 1.14)),  # and settles, head down on its paws, and stays
     (32.0, {'profile': 1}, (-0.62, 0.20, 0.08, 1.14)),
