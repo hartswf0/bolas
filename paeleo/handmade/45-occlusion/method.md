@@ -57,27 +57,27 @@ the dusk ambient and the doorway light, plus a rim pass).
   (7.95-8.8) goes the other way: two camera-facing frames, then 3/4 and profile frames with the head on the door side
   (`TURN_BACK`). Profile cels are registered by the rump, which barely moves when the head does, so a head change never
   slides the body; camera-facing cels by their centre.
-- **Re-timed walks.** The head-low walk is f42-47, shown mirrored as a whole pose so it faces the door. The cel index is
-  the distance travelled divided by a 0.30 m stride (six cels per stride), so the drawings account for the travel; backing
+- **Re-timed walks.** The head-low walk is f43-45 (round 2: f42, f46, f47 dropped), shown mirrored as a whole pose so it faces the door. The cel index is
+  the distance travelled divided by a 0.30 m stride (three cels per stride), so the drawings account for the travel; backing
   away plays the same cycle backward.
 - **Re-assembled parts.** The footage has no lying dog. Lying is built from frame 10 cut into five sublayers (head, torso,
   near foreleg, far foreleg, hind lower leg) by hand-authored holdout polygons, plus the bushy tail cut from frame 2
   (frame 10's tail is hidden behind its leg), rotated about pivots: the hind end goes down first, then the chest; the
   forelegs lie forward, the hind paw tucks under, the tail is laid out on the boards and sweeps with the score's wag. The head turns are substitutions of
   head sublayers: profile away → frontal head (f28) → profile toward the door laid over the shoulder (7.46-7.6), and, for
-  *looking in*, the profile head foreshortened as it turns away (T), then the back of the head (B) made as a matte and a
-  fill: the outline of the frontal head of frame 28 (a head's outline is the same from in front and from behind) filled
-  with the dog's own neck fur from frame 10, so no face shows, lit like the body, with the room's light around its edge.
+  *looking in* (round 2), the real head of frame 0, where the archive dog is seen three-quarters from behind looking up
+  and away: its ear and the back of its skull toward the camera, tilted into the lit hall (T: the same cut at 78% width
+  mid-turn; B: full width).
 - **In depth.** The lying body is angled 31° into the doorway (its depth pass slopes 0.6 m per m) and its depth pass
-  crosses the casing plane (D = 0.005 m) at x = 0.54 m, under the right jamb: `dog_in < jamb_R < dog_out`.
+  crosses the casing plane (D = 0.005 m) at x = 0.575 m, at the right jamb's outer edge: `dog_in < jamb_R < dog_out`.
 
 Mapping: the dog's body centre in world metres is `x - 0.14` (one fixed offset for the whole film), so the approach covers
 the score's distance at the score's pace; the last 1.3 m it angles in toward the doorway. The dog is scaled to a big dog
-(shoulder about 0.70 m). Of the kit's 50 frames, 23 are composited (`build/cache/cels_used.json`, `assets.json`).
+(shoulder about 0.70 m). Of the kit's 50 frames, 19 are composited (`build/cache/cels_used.json`, `assets.json`).
 
 Camera: a fixed-lens stage camera that only reframes (`CAM_KEYS`): the caller and the dog in one frame for both commands
-(0-4.7 s), out to take in the bench and the door as it opens (5.9-7.0), a small push on the dog for the turn back with the
-lit door still in frame (7.6-9.4), back to the two-shot for the waiting, then it follows the approach in to the sill and
+(0-4.7 s), out to take in the bench and the door as it opens (5.9-7.0) and holding that two-shot (round 2: no push at the turn back, so the person stays
+in frame) through the waiting, then it follows the approach in to the sill and
 closes slowly on the threshold to the end. Because it moves, the trace carries `x_world_measured`.
 
 ## The person, the house, the sound
@@ -175,3 +175,52 @@ through camera-facing frames; the look-in head as a black ball.
 - The person's position "beside the door" is placed at x = -1.05 m on this porch's bench, not the score's -1.25 (the
   person is not part of the invariants; the dog's mapping is the one fixed offset above).
 - No git, nothing outside this folder.
+
+
+## Round 2 (after critic round 1: DOES NOT PASS)
+
+What the critic found, what caused it, what changed. Everything was re-rendered (768 frames), `trace.json` rewritten
+from the render, `check_handmade.py`: **ALL OK**.
+
+1. **The jamb defect (blocking).** Cause: a bug in my own affine. The dog layer's forward map was
+   `y = Ya + k(v - va) + shear·(x - Xa)`, but the constant term missed `-shear·k·cx·ua`, so every sheared dog (the last
+   1.3 m of the approach and the whole lie) was drawn about 90 px *below* its anchor: on the porch, in front of the sill,
+   while its depth pass said it was behind the casing. The depth buffer was right and the picture was wrong, so the
+   order read as impossible. Fixed: the front half now lies on the sill and the interior boards (at 28.0 s its paws and
+   belly sit on the sill, at that floor's screen height), the jamb covers the body where it crosses, and the hindquarters
+   lie on the porch in front of it. The crossing moved to x = 0.575, the jamb's own outer edge, so the in/out boundary is
+   the jamb's edge and not a straight matte cut on the hindquarters.
+2. **Looking in.** The filled outline and the narrow sliver are gone. The head is the real head of frame 0, where the
+   dog is seen from behind and to one side with its ear toward the camera, tilted toward the lit hall. It is never
+   narrower than 78% of its own width. There is no halo: it is lit like the body and warmed a little by the room.
+3. **Turns.** I removed cels 15, 17, 19 and 20 from the turn away (the box with legs, the two heads). It now goes from the
+   left profile through the camera-facing frames 26-33 and the 3/4 right frames, and is held from 3.88 s in a clear
+   facing-away profile (the frame-10 standing pose, mirrored as a whole). Turning back: the head lies level over the
+   shoulders toward the door (it was nose-up, which read as a seal's neck). The rise takes 7.60-7.80, then camera-facing
+   frame 26, then the left profile frame 14 with the head toward the door from 7.92 s. The 3/4 sniffing frames 17 and 19
+   are gone.
+4. **Walk.** I dropped the headless "boulder" (f47), the blurred f46 and f42 (which read as two heads). The cycle is now
+   f43-45.
+5. **Shadows, edges, framing.** I added a wide occlusion pool to the contact shadow, so the dog sits on the dark boards
+   too (shadow under the bottom contour: min 0.985, median
+   1.0). The hind-leg part is cut lower, feathered and drawn behind the torso, so
+   its cut never shows. The rim light is halved and the head halo removed. There is no push at 7.6, so the person is in
+   frame at 7.8.
+
+Measured after round 2: onsets dt 0 / 0 / 0 / 0 / 0 / +0.166, looks in +0.10, settles -0.09.
+- The ordering never forms a loop, there are no depth conflicts, no order flips while two layers overlap, and alpha is
+  valid in every frame.
+- The per-pixel re-composite was checked on 192 frames; none differ by more than 50 px.
+- The dog is split at the jamb in 238 frames.
+- At the end 70% of the dog's pixels are behind the door-frame plane.
+- The look-in onset is now measured as a >10% one-frame change of the dog's own pixels (the head swap), since the new
+  head does not raise the dog's height.
+
+Looked at, every frame: 3.42–4.63, 7.42–8.63, 23.67–24.63 and 26.29–28.50, as crops around the dog, plus decoded film
+frames. Still weak:
+- f43 still has a slightly tangled head.
+- The lying refusal is a rough assembly.
+- The rising pose at 7.7–7.8 is a lump with the head on top.
+- Whether the frame-0 head reads as *looking in* is for the critic.
+- The walk glides a few px during cel holds.
+- I have not heard the sound (unchanged since round 1).
