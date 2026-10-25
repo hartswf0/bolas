@@ -89,6 +89,34 @@ Python 3 with numpy and Pillow (pip install of other packages may work; cv2 and 
 Playwright and its Chromium (canvas rendering, e.g. pipe `toDataURL` JPEGs into ffmpeg), ffmpeg. No GPU. No network to the
 archive. Fonts: `tools/paeleo/fonts/` (Big Shoulders Display, JetBrains Mono, Literata, woff2, with `local.css`).
 
+## What the first six taught (read before you start)
+
+Six swarms built this scene before you (01 Gilliam, 02 Reiniger, 04 Mouris, 08 Sutherland, 38 drawing library, 53 civic
+footage); all six passed an independent critic, most only after a repair round. Do not look at their films or code: your
+operation must be your own. But every one of them failed first in the same few places, and the critics will look there:
+
+- **Turns.** A flat figure turned by mirroring or squashing collapses edge-on into a tangle, a box or a "giraffe" for a few
+  frames (3.5–4.3 s and 7.5–8.5 s). Every frame of both turns must read as a dog, in your language.
+- **The refusal must show the back**, clearly, by about 3.9 s, and keep it until 7.46.
+- **Turning to look (7.46).** The head must come round to the door on time; a rise that still faces away reads late.
+- **Coming, head low.** The head must sit visibly below the line of the back for the whole approach, not only near the end.
+- **Feet.** Nothing slides while held: if your dog walks, the feet or the drawings must account for the travel.
+- **Lying down across the sill.** The body really lies (no raised hindquarters, no standing legs), with a clear part of it
+  inside the door frame and the tail outside. If your materials have no lying dog, say so and solve it in your language.
+- **Looking in (26.4).** The head must turn into the lit doorway, not just up or toward the person.
+- **No labels doing the acting.** Do not print the dog's state or the choice names on screen during the scene.
+- **The soft voice** must be at least 6 dB quieter than the calls, and above any room tone.
+- **Claims must be true.** If the end card says "nothing is drawn", nothing may be drawn.
+
+House rules learned the hard way:
+
+- `film.mp4` ≤ 12 MB, H.264 with `-movflags +faststart` (the page streams it).
+- Name the stills `stills/still_03.6s.jpg`, `still_09.0s.jpg`, `still_19.0s.jpg`, `still_28.0s.jpg` (JPEG, 1280×720); put any
+  other proof images elsewhere (e.g. `proof/`).
+- If your camera moves, add `x_world_measured` (metres, measured from your render) to every trace frame; the checker uses it.
+- Put regenerable intermediates in `build/cache/` (git-ignored) and keep the folder lean.
+- Run `python3 tools/paeleo/check_handmade.py paeleo/handmade/<your folder>` and look at your own frames before you stop.
+
 ## Deliverables, all inside your folder `paeleo/handmade/<nn>-<slug>/` (touch nothing outside it)
 
 - `film.mp4`: 1280×720, 24 fps, H.264 + AAC. A 3 s title card (`PAE-02 · SCION <nn> · <name>`), the 32 s scene aligned to the
