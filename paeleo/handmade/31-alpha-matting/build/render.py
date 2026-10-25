@@ -248,8 +248,8 @@ T_RET, T_W1, T_REF, T_W2, T_APP, T_LIE = [c['t'] for c in SCORE['choices']]
 T_COMEIN = 26.4
 WALK = [43, 44, 45, 48]                 # the archive dog's head-low walk, mirrored to face the door (42, 46, 47: head lost in a tangle, skipped)
 STRIDE = 0.068                           # metres travelled per walk frame (≈ the source's own advance per frame)
-TURN = [14, 15, 26, 28, 31]              # the turn through the dog's front: 3/4 left, front, 3/4 right (source frames 17-22 were illegible tangles)
-TURN_BACK = [26, 26, 15, 14]            # back to the door through the front
+TURN = [14, 14, 26, 28, 31]              # the turn through the dog's front: 3/4 left, front, 3/4 right (source frames 17-22 were illegible tangles)
+TURN_BACK = [26, 26, 14, 14]            # back to the door through the front
 
 
 def cumdist():
@@ -282,7 +282,7 @@ def dog_pose(i):
         k = int((t - T_REF) * 12)
         if k < len(TURN):
             f = TURN[k]
-            return dict(kind='frame', f=f, m=False, facing=1 if f in (14, 15, 26) else -1, posture='turn away')
+            return dict(kind='frame', f=f, m=False, facing=1 if f in (14, 26) else -1, posture='turn away')
         L = float(smooth(4.3, 5.0, t)); rest = .45 + .55 * float(smooth(5.6, 6.5, t))
         return dict(kind='lie', L=L, head_up=0., look=0., rest=rest, face_right=True, look_back=0.,
                     facing=-1, posture='back turned, lying' if L > .95 else 'back turned')
@@ -300,7 +300,7 @@ def dog_pose(i):
     if t < T_LIE:  # comes, head low: mirrored head-low walk, one frame per STRIDE metres travelled
         k0 = int((t - T_APP) * 12)
         if k0 < 2:
-            return dict(kind='frame', f=[14, 15][k0], m=False, facing=1, posture='head lowers')
+            return dict(kind='frame', f=[14, 14][k0], m=False, facing=1, posture='head lowers')
         d = DIST[i] - DIST[int(T_APP * 24)]
         k = int(d / STRIDE) % len(WALK)
         return dict(kind='frame', f=WALK[k], m=True, facing=1, posture='walk head low')

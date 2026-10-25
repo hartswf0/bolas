@@ -117,13 +117,15 @@ def build():
             elev_t = (1 - rest) * (-5 + 55 * min(1.2, head)) + rest * (-62)
         elif lie > 0.5:
             elev_t = -40 - 25 * a['rest']
-        if 3.40 <= t < 4.15: elev_t = max(elev_t, 18.0)   # during the turn the head stays above the back line: never a headless body
+        if 3.40 <= t < 4.15: elev_t = max(elev_t, 18.0)
+        if 4.15 <= t < 8.20: elev_t = max(elev_t, 38.0)   # refusing, lying turned away: head held up, its skull and ears above the back line   # during the turn the head stays above the back line: never a headless body
         elev = elev_f(elev_t)
-        hpitch = hp_f(-12 + 22 * min(1.2, head) - 30 * (d['state'] == 'approach') - 25 * a['rest'] * lie)
+        hpitch = hp_f(-12 + 22 * min(1.2, head) - 30 * (d['state'] == 'approach') - 25 * a['rest'] * lie * (not (4.15 <= t < 8.2)))
         hy = head_yaw(t, th, lying_head)
         # ears: score's ear act, plus attention flicks toward the soft voice
         ear = a['ear']
         if 7.4 <= t < 7.7 or 10.4 <= t < 10.7: ear = max(ear, 0.75)
+        if 4.6 <= t < 7.5: ear = max(ear, 0.5)    # ears half back but visible above the skull
         ear = ear_f(min(1.1, max(-0.1, ear)))
         # eyes: lid openness. wide when afraid, heavy when resting; blinks are choices (a blink before it comes)
         lid = 0.92 - 0.35 * a['rest'] + 0.12 * (crouch > 0.6)

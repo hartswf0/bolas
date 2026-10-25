@@ -514,7 +514,8 @@ def person_skeleton(f):
     ff = f_far0 + (f_far1 - f_far0) * s2; ff[1] = 0.08 * math.sin(math.pi * s2)
     seat_n = hip + np.array([0.56, -0.12, 0.10]); seat_n[1] = 0.0
     seat_f = hip + np.array([0.48, -0.12, -0.10]); seat_f[1] = 0.0
-    fn = fn + (seat_n - fn) * sit; ff = ff + (seat_f - ff) * sit
+    fb = smoothstep(0.6, 1.0, sit)   # feet stay under the hips (a supported squat) and slide out only as he reaches the floor
+    fn = fn + (seat_n - fn) * fb; ff = ff + (seat_f - ff) * fb
     # arms
     reach = p['reach2']; low = p['low2']
     hang_n = sh + np.array([0.06, -0.60, 0.12]); hang_f = sh + np.array([-0.04, -0.58, -0.12])
@@ -600,7 +601,7 @@ HAT_BAND = [(-150, -38), (160, -44), (166, -26), (-158, -22)]
 # forehead and cheek drawn in the portrait's own frame, under the cut, so the cut has no seam; the source never shows them
 UNDERLAY = [(-20, -30), (141, -30), (146, -12), (151, 5), (122, 60), (96, 214), (-20, 222)]
 FOREHEAD_LINE = [(141, -30), (146, -12), (151, 5)]
-SKULL_BACK = [(-150, -30), (-162, 70), (-130, 160), (-60, 215), (4, 226), (22, 196), (0, 120), (8, 40), (4, -30)]
+SKULL_BACK = [(-150, -30), (-162, 70), (-130, 160), (-60, 215), (2, 224), (14, 192), (24, 120), (20, 50), (4, -30)]
 EAR_P = [(-20, 70), (-5, 60), (10, 85), (5, 120), (-15, 130), (-28, 105)]
 NECK_P = [(-90, 200), (40, 210), (60, 320), (-110, 320)]
 EYE_C, EYE_W, EYE_H = (124.0, 1.0), 27.0, 13.0

@@ -42,7 +42,7 @@ def onsets(frames):
     i = next(k for k in range(60, 768) if frames[k]['facing'] == -1); m['back_turned_first_frame'] = frames[i]['t']
     i = next(k for k in range(150, 768) if frames[k]['facing'] == 1 and frames[k - 1]['facing'] == -1); m['head_toward_door_again'] = frames[i]['t']
     i = next(k for k in range(300, 768) if xs[300] - xs[k] > 1.0); m['approach_motion_starts'] = frames[i]['t']
-    i = next(k for k in range(300, 768) if frames[k]['source_frame'] in (14, 15) and frames[k - 1]['source_frame'] not in (14, 15) and k > 340)
+    i = next(k for k in range(300, 768) if frames[k]['source_frame'] == 14 and frames[k - 1]['source_frame'] != 14 and k > 340)
     m['approach_head_lowers_first_frame'] = frames[i]['t']
     hts = np.array([f['dog_bottom'] - f['dog_top'] for f in frames])
     h0 = np.median(hts[500:560])

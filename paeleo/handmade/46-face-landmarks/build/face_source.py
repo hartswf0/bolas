@@ -58,6 +58,7 @@ def main():
         band = (np.asarray(m.filter(ImageFilter.MaxFilter(9)), float) > 0) & (np.asarray(m.filter(ImageFilter.MinFilter(9)), float) < 255)
         ink = (a < 92) & band
         rgb = np.zeros(a.shape + (3,), np.uint8); rgb[...] = SKIN
+        ink[190:, :78] = False   # the jaw line ends at the chin (the cut's lower edge is not a jaw)
         rgb[ink] = INK
         rgba = Image.fromarray(rgb); rgba.putalpha(m)
         fn = f'face_{state}_{i:03d}.png'; rgba.save(os.path.join(OUT, fn))
