@@ -1,0 +1,66 @@
+{
+ "I1_choices": {
+  "ok": false,
+  "choices": [
+   {
+    "t": 1,
+    "to": "retreat",
+    "found_at": 1.1667,
+    "dt": 0.167,
+    "ok": true
+   },
+   {
+    "t": 2.333,
+    "to": "watch",
+    "found_at": 2.375,
+    "dt": 0.042,
+    "ok": true
+   },
+   {
+    "t": 3.417,
+    "to": "refuse",
+    "found_at": 3.8333,
+    "dt": 0.416,
+    "ok": false
+   },
+   {
+    "t": 7.458,
+    "to": "watch",
+    "found_at": 7.5417,
+    "dt": 0.084,
+    "ok": true
+   },
+   {
+    "t": 14.708,
+    "to": "approach",
+    "found_at": 14.7083,
+    "dt": 0.0,
+    "ok": true
+   },
+   {
+    "t": 23.792,
+    "to": "lie_down",
+    "found_at": null,
+    "dt": null,
+    "ok": false
+   }
+  ]
+ },
+ "I2_threshold": {
+  "ok": true,
+  "min_x": 0.5661,
+  "end_x": 0.5974
+ },
+ "I3_direction": {
+  "ok": true,
+  "r": 1.0,
+  "n": 768,
+  "measure": "x_world_measured"
+ },
+ "I4_refusal": {
+  "ok": true,
+  "share_turned": 1.0,
+  "facing_when_watching": "door"
+ },
+ "all_ok": false
+}

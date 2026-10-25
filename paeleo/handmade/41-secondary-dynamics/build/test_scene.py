@@ -69,6 +69,21 @@ meas = {'retreat': (m_retreat, 1.0), 'watch': (m_watch, 2.333), 'refuse': (m_ref
 ok('A6_choices_measured_from_render', all(a is not None and abs(a - b) <= 0.25 for a, b in meas.values()), 'render-measured onset - score time (s): ' + ', '.join(f'{k} {a - b:+.2f}' if a is not None else f'{k} none' for k, (a, b) in meas.items()), {k: {'measured': a, 'score': b} for k, (a, b) in meas.items()})
 # A7
 ok('A7_voice_levels', LV['soft_below_calls_db'] >= 6 and LV['soft_above_room_db'] > 6, f"soft voice {LV['soft_below_calls_db']} dB below the calls, {LV['soft_above_room_db']} dB above the room tone", LV)
+# A8: standing holds 0-1 s and 9-14.5 s: legs near vertical (root-to-paw line within 15 degrees), feet planted
+def ang(l):
+    d = [l['paw'][k] - l['root'][k] for k in range(3)]; return math.degrees(math.atan2(math.hypot(d[0], d[2]), -d[1]))
+worst = max(ang(l) for i in list(range(0, fi(1.0))) + list(range(fi(9.0), fi(14.5))) for l in S['frames'][i]['dog']['legs'])
+ok('A8_standing_legs_vertical', worst <= 15, f'worst leg angle from vertical in the standing holds {worst:.1f} deg', worst)
+# A9: from 6.0 s the open door leaf is on screen in every frame, beside the jamb (projected with each frame's camera)
+def proj(c, p):
+    sub = lambda a, b: [a[k] - b[k] for k in range(3)]; dot = lambda a, b: sum(a[k] * b[k] for k in range(3))
+    fw = sub(c['at'], c['pos']); n = math.sqrt(dot(fw, fw)); fw = [v / n for v in fw]; r = [-fw[2], 0, fw[0]]; n = math.hypot(r[0], r[2]); r = [v / n for v in r]
+    f = 360 / math.tan(c['vfov'] / 2); d = sub(p, c['pos']); return 640 + f * dot(d, r) / dot(d, fw)
+Wd = S['world']; h = Wd['hinge']; vis = []
+for i in range(fi(6.0), len(S['frames'])):
+    f = S['frames'][i]; a = f['door']; c = f['cam']; F = [h[0] - Wd['leaf'] * math.sin(a), 1.0, h[2] + Wd['hingeDir'] * Wd['leaf'] * math.cos(a)]
+    jam = proj(c, [Wd['wallIn'], 1.0, Wd['open'][0]]); vis.append(jam - proj(c, F))
+ok('A9_open_leaf_visible', min(vis) >= 6, f'from 6.0 s the leaf shows {min(vis):.0f}-{max(vis):.0f} px beside the jamb (min over frames)', [min(vis), max(vis)])
 # reference comparison of presets
 cmp = {}
 for p in ('none', 'tuned', 'loose'):

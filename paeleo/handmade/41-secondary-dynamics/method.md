@@ -175,3 +175,24 @@ The repairs the critic asked for, in rank order:
 
 The checker and assertions A1–A7 still pass. I looked at every frame from 26.21 to 28.58 s and from 7.42 to 8.42 s. Not
 addressed: the dog is still dim at dusk (0–6 s), and the lie-down is still quick. The sound has still not been listened to.
+
+## Round 3 (after critic round 2: does not pass, very close)
+
+1. **The door stays in the world.** Round 2 cut the opened leaf away into the section plane, so it popped out of the
+   film at 6.04 s; that contradicted the consequential-world bar. The leaf now hangs on the far jamb and swings into the
+   room past 90°, to a rubber doorstop at 2.75 rad. It is whole in every frame and rests foreshortened beside the jamb.
+   - **Choosing the stop angle by measurement.** I projected the leaf, the jamb and the dog's head with each frame's
+     camera. At 2.9 rad the jamb's thickness hides the leaf in the wide shot. At 2.4 rad the leaf's panel sits behind the
+     dog's head in the close shot.
+   - **Camera.** As the camera pushes in (16–24 s), its yaw eases from 0.10 to 0.38 rad, so the open leaf is seen nearly
+     edge-on, to the right of the head.
+   - **Sequence.** She sits first (4.98–5.55 s), then reaches out and pushes. The impulse is re-solved (12.6 N·m·s) so
+     the leaf reaches its stop at 6.20 s, and it rests 0.6° off the stop.
+   - **Assertion A9.** From 6.0 s the leaf shows 13–85 px beside the jamb in every frame.
+2. **Standing legs.** Shorter bones, and the hock now sits over the paw. When the dog is still, a foot re-steps once it
+   is 2 cm from its ideal place, so after the turn the feet step back under the body. Assertion A8: the worst leg is
+   2.4° from vertical in the holds at 0–1 s and 9–14.5 s.
+3. **Optional repairs, also done.**
+   - **Eye line.** When it looks in, the lying head pitches up 0.38 rad, so the gaze passes over her head into the house.
+   - **Ears.** The ears no longer fall onto the cheek while the dog lies.
+   - **Planter.** The planter is moved back.

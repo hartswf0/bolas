@@ -1,19 +1,19 @@
 {
  "A1_energy_decays": {
   "ok": true,
-  "msg": "max hold energy / peak per part: tail 3.1e-05, ears 1.3e-06, tag 3.6e-04, scarf 3.1e-07, shrub 7.8e-05, coat 1.8e-06, door 0.0e+00",
+  "msg": "max hold energy / peak per part: tail 3.1e-05, ears 1.1e-06, tag 3.6e-04, scarf 1.8e-08, shrub 8.2e-05, coat 1.8e-06, door 0.0e+00",
   "value": {
    "tail": {
-    "peak": 16.026093958110305,
-    "hold_12.5_14.2": 0.000489652956459332,
-    "hold_30_32": 1.0425844374501914e-05,
-    "ratio": 3.055348095045543e-05
+    "peak": 16.021071692993395,
+    "hold_12.5_14.2": 0.0004896529564534186,
+    "hold_30_32": 1.0425844374497564e-05,
+    "ratio": 3.056305881631887e-05
    },
    "ears": {
-    "peak": 19.122887878253103,
-    "hold_12.5_14.2": 2.5714318710887513e-05,
-    "hold_30_32": 8.740659263911678e-08,
-    "ratio": 1.3446880447450778e-06
+    "peak": 22.57428780534797,
+    "hold_12.5_14.2": 2.5714318848317562e-05,
+    "hold_30_32": 1.144834903174899e-07,
+    "ratio": 1.1390976791846208e-06
    },
    "tag": {
     "peak": 5.505552755735497,
@@ -22,16 +22,16 @@
     "ratio": 0.00035919468340918576
    },
    "scarf": {
-    "peak": 10.316315407266053,
-    "hold_12.5_14.2": 3.2374885717763668e-06,
-    "hold_30_32": 6.037603351132578e-27,
-    "ratio": 3.138221781680035e-07
+    "peak": 31.282676825433253,
+    "hold_12.5_14.2": 5.765306232103581e-07,
+    "hold_30_32": 8.769963898568293e-27,
+    "ratio": 1.8429708762698677e-08
    },
    "shrub": {
-    "peak": 0.027029242127563448,
-    "hold_12.5_14.2": 2.1016361046480027e-06,
-    "hold_30_32": 1.183556415095672e-24,
-    "ratio": 7.77541632402941e-05
+    "peak": 0.026927301775113408,
+    "hold_12.5_14.2": 2.2183485602478435e-06,
+    "hold_30_32": 1.2599639046535687e-24,
+    "ratio": 8.238287589208335e-05
    },
    "coat": {
     "peak": 16.941010477913363,
@@ -40,7 +40,7 @@
     "ratio": 1.7687689089212728e-06
    },
    "door": {
-    "peak": 2.231232109637203,
+    "peak": 20.239044619034214,
     "hold_12.5_14.2": 0,
     "hold_30_32": 0,
     "ratio": 0.0
@@ -58,10 +58,10 @@
  },
  "A3_no_interpenetration": {
   "ok": true,
-  "msg": "min signed gaps (m; collision radii included): {'tail': 0, 'scarf': -0.0001, 'jamb': 0.2262, 'body_floor': 0.019}",
+  "msg": "min signed gaps (m; collision radii included): {'tail': 0, 'scarf': -0.0019, 'jamb': 0.2262, 'body_floor': 0.019}",
   "value": {
    "tail": 0,
-   "scarf": -0.0001,
+   "scarf": -0.0019,
    "jamb": 0.2262,
    "body_floor": 0.019
   }
@@ -124,6 +124,19 @@
    "soft_above_room_db": 23.9
   }
  },
+ "A8_standing_legs_vertical": {
+  "ok": true,
+  "msg": "worst leg angle from vertical in the standing holds 2.4 deg",
+  "value": 2.446471811052149
+ },
+ "A9_open_leaf_visible": {
+  "ok": true,
+  "msg": "from 6.0 s the leaf shows 13-85 px beside the jamb (min over frames)",
+  "value": [
+   12.848946861663762,
+   85.40350718136597
+  ]
+ },
  "preset_comparison": {
   "none": {
    "tail_settle_after_wag_s (28.5)": 0.12,
@@ -134,7 +147,7 @@
    "shrub_settle_after_leave_s (8.9)": 0.0,
    "shrub_swings_after_leave": 0,
    "min_gap_tail_m": -0.0379,
-   "min_gap_scarf_m": -0.0865,
+   "min_gap_scarf_m": -0.0886,
    "tag_contacts": 0
   },
   "tuned": {
@@ -142,11 +155,11 @@
    "tail_swings_after_wag": 2,
    "ears_settle_after_rise_s (8.7)": 0.83,
    "ears_swings_after_rise": 2,
-   "scarf_settle_after_sit_s (6.6)": 4.54,
+   "scarf_settle_after_sit_s (6.6)": 3.92,
    "shrub_settle_after_leave_s (8.9)": 1.96,
    "shrub_swings_after_leave": 3,
    "min_gap_tail_m": 0,
-   "min_gap_scarf_m": -0.0001,
+   "min_gap_scarf_m": -0.0019,
    "tag_contacts": 17
   },
   "loose": {
@@ -156,9 +169,9 @@
    "ears_swings_after_rise": 8,
    "scarf_settle_after_sit_s (6.6)": 7.42,
    "shrub_settle_after_leave_s (8.9)": 5.08,
-   "shrub_swings_after_leave": 11,
+   "shrub_swings_after_leave": 12,
    "min_gap_tail_m": 0,
-   "min_gap_scarf_m": -0.0001,
+   "min_gap_scarf_m": -0.0332,
    "tag_contacts": 17
   }
  }

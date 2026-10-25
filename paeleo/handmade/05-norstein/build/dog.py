@@ -55,8 +55,8 @@ def controller():
         # --- body yaw: pi = facing the door (screen left), pi/2 = rump to camera, 0 = back turned, -pi/2 = chest to camera
         if t < 3.42:
             psi = math.pi
-        elif t < 4.12:  # the refusal turn: away from camera, through the rear view (the back is shown at ~3.75)
-            u = smooth(3.42, 4.12, t)
+        elif t < 3.92:  # the refusal turn: quick, away from camera, through the rear view (the back is shown by ~3.65)
+            u = smooth(3.42, 3.92, t)
             psi = ang_lerp(math.pi, 0.32, u)
         elif t < 8.0:
             psi = 0.32
@@ -67,8 +67,8 @@ def controller():
             psi = -math.pi - 0.20 * smooth(2.4, 1.0, x) - 0.12 * smooth(23.7, 24.6, t)
         # spine bend: the head end leads every turn
         bend = 0.0
-        if 3.42 <= t < 4.12:
-            bend = -0.38 * math.sin(math.pi * smooth(3.42, 4.12, t))
+        if 3.42 <= t < 3.92:
+            bend = -0.38 * math.sin(math.pi * smooth(3.42, 3.92, t))
         if 7.40 <= t < 8.95:
             bend = -0.7 * smooth(7.38, 7.6, t) * (1 - smooth(8.15, 8.95, t))
         # --- head yaw relative to the body

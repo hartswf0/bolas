@@ -152,9 +152,9 @@ def choreography(score, B):
     m = (t >= 7.40) & (t < 8.4)
     lie[m] = 1 - smooth(7.70, 8.10, t[m])
     rest[m] = np.minimum(rest[m], 1 - smooth(7.46, 7.62, t[m]))
-    # lying on the sill: it goes down at once when it reaches the sill (23.79 -> 24.25)
+    # lying on the sill: it goes down at once when it reaches the sill (23.79 -> 24.12)
     m2 = t >= 23.6
-    lie[m2] = np.maximum(lie[m2], smooth(23.79, 24.25, t[m2]))
+    lie[m2] = np.maximum(lie[m2], smooth(23.79, 24.12, t[m2]))
     # refusal lie: score's timing (4.3 -> 5.0) kept
     crouch = act['crouch']; ear = act['ear']; tail = act['tail']; wag = act['wag']; look = act['look']
     # retreat and approach move along u; forward distance for the gait (signed along the body's forward axis)

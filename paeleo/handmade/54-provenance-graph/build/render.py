@@ -15,7 +15,7 @@ SCORE = json.load(open(os.path.join(REPO, 'paeleo/handmade/score/threshold-score
 FR = SCORE['frames']
 FONTS = os.path.join(REPO, 'tools/paeleo/fonts/')
 CACHE = os.path.join(FOLDER, 'build', 'cache')
-TURN_SEQ = [11, 14, 18, 26, 30, 34, 38, 42, 44]
+TURN_SEQ = [11, 14, 28, 30, 32, 36, 38, 45]
 T_BACK = 7.65             # the body follows the head round, through the found frames
 OFF_END = 20.0
 T_TURN1 = 3.417
@@ -44,7 +44,7 @@ def camera(t):
     u = smooth((t - 24.0) / 8.0)
     base = tuple(lerp(a, b, u) for a, b in zip(c, e))
     # when it hears 'come in' the dog looks in, and the frame looks in with it: along its line of sight into the lit room
-    look = smooth((t - 26.5) / 0.9) * (1 - smooth((t - 28.3) / 1.2))
+    look = smooth((t - 26.4) / 0.6) * (1 - smooth((t - 28.3) / 1.2))
     return (base[0] - 0.62 * look, base[1] + 0.05 * look, base[2] - 0.12 * look)
 
 
@@ -65,15 +65,29 @@ def interp_head(h):
     return float(np.interp(h, [0.0, 0.15, 0.45, 0.9, 1.3], [-90, -82, -72, 0, 6]))
 
 
+T_DOOR = 6.2
+
+
 def door_index(t):
-    """which found door frame: frame 20 (narrow, ajar) until 6.2 s, then its own swing at its own 12 fps."""
-    if t < 6.2:
+    """which found door frame: f020 until the swing; from 6.45 s the found door's own frames f021..f031 at 20 fps."""
+    if t < T_DOOR + 0.25:
         return 0
-    return min(len(Cs.DOOR_FRAMES) - 1, int((t - 6.2) * 12))
+    return min(len(Cs.DOOR_FRAMES) - 1, 1 + int((t - T_DOOR - 0.25) * 20))
+
+
+def door_open_x(t):
+    """horizontal extent of the leaf as seen in the section: ajar (nearly edge-on, a crack) until 6.2 s, then it swings."""
+    if t < T_DOOR:
+        return 0.16
+    if t < T_DOOR + 0.25:
+        return 0.16 + 0.84 * smooth((t - T_DOOR) / 0.25)
+    return 1.0
 
 
 def light(t):
-    return door_index(t) / (len(Cs.DOOR_FRAMES) - 1)
+    if t < T_DOOR:
+        return 0.0
+    return min(1.0, (door_open_x(t) - 0.16) / 0.84 * 0.35 + 0.65 * door_index(t) / (len(Cs.DOOR_FRAMES) - 1))
 
 
 def font(fid, size, wght=None):
@@ -140,17 +154,23 @@ class Scene:
         pose['crouch'] = min(1.0, a['crouch'] * 1.1)
         pose['head'] = 'up'
         hr = interp_head(a['head'])
+        if st == 'retreat' or (st == 'watch' and d['v'] > 0.05):
+            hr -= 10.0           # fear: the head pulled lower and in than the approach's carriage
         pose['tail_rot'] = (a['tail'] - 0.5) * 52 + math.sin(t * 2 * math.pi * 2.1) * a['wag'] * 28
         lie = a['lie'] if st == 'lie_down' else 0.0
         pose['lie'] = lie
         if lie > 0:
-            rest, look = a['rest'], a['look']
+            rest, look = a['rest'], min(1.0, a['look'] * 2.3)
+            if t > 26.4 and a['look'] > 0.02:
+                rest = rest * (1 - look)
             base = lerp(hr, -60, lie)
             hr = lerp(base, -84, rest)
             hr = lerp(hr, -34, look)
             pose['tail_rot'] = lerp(pose['tail_rot'], -28, lie)    # the tail lies out behind on the boards
         if pose.get('head_flip'):
             hr = -22.0
+        elif back_turned:
+            hr = -50.0 + 4 * math.sin(t * 2 * math.pi * 0.25)     # head low and away, still part of the silhouette
         pose['head_rot'] = hr + math.sin(t * 2 * math.pi * 0.3) * 1.2
         pose['breath'] = math.sin(t * 2 * math.pi * 0.42)
         if a['moving'] > 0.02:
@@ -235,7 +255,7 @@ class Scene:
         # door: the found door's swing
         di = door_index(t); dd = self.C['door'][di]
         dw, dh = dd['size']; md = 2.04 / dh
-        Md = Mw @ T(Wd.WALL_IN, 0) @ np.array([[md, 0, 0], [0, -md, 0], [0, 0, 1]]) @ T(-dw, -dh)
+        Md = Mw @ T(Wd.WALL_IN, 0) @ np.array([[md * door_open_x(t), 0, 0], [0, -md, 0], [0, 0, 1]]) @ T(-dw, -dh)
         layers.append({'node': dd['dusk'], 'M': Md, 'op': 1.0, 'role': 'door', 'src': 'ST#%03d' % dd['f']})
         layers.append({'node': dd['lit'], 'M': Md, 'op': 0.25 + 0.75 * Lf, 'role': 'door_lit'})
         # person
@@ -346,7 +366,8 @@ def compose_frame(G, layers, want_alpha=False):
             lay = Image.new('RGBA', (W, H), (0, 0, 0, 0))
             d = ImageDraw.Draw(lay)
             txt = 'f%03d  ' % p['i'] + '  '.join(p['srcs'])
-            d.text((22, H - 18), txt, font=get_font('f14', 12), fill=(200, 190, 210, 96), anchor='ls')
+            d.rectangle([0, H - 30, W, H], fill=(8, 7, 14, 120))
+            d.text((22, H - 9), 'sources in this frame:  ' + txt, font=get_font('f14', 16), fill=(214, 204, 224, 190), anchor='ls')
             canvas.alpha_composite(lay)
     return canvas.convert('RGB'), dog_alpha, parts
 

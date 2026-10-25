@@ -149,12 +149,12 @@ def main():
                     tt = np.arange(n) / SR
                     crick[i:i + n] += np.sin(2 * math.pi * f * tt) * np.sin(np.pi * tt / 0.016) * a * (0.7 + 0.6 * rng.random())
     fade = np.clip(t / 1.5, 0, 1) * np.clip((PRE + SCENE + POST - t) / 2.0, 0, 1)
-    room = (wind + crick) * fade
+    room = (wind + crick) * fade * 0.7
     buf[0] += room; buf[1] += room * 0.96
     room_stem = room.copy()
     # ---- the voice: calls are loud and near, the soft lines are quiet and close
     stems = {}
-    plan = [('come_here', 1.0, 0.5), ('come_here2', 3.42, 0.58), ('all_right', 7.42, 0.15), ('all_right', 10.42, 0.14), ('come_in', 26.42, 0.14)]
+    plan = [('come_here', 1.0, 0.5), ('come_here2', 3.42, 0.58), ('all_right', 7.42, 0.23), ('all_right', 10.42, 0.22), ('come_in', 26.42, 0.22)]
     vlog = []
     for key, t0, g in plan:
         segs, f0 = LINES[key]
@@ -213,12 +213,20 @@ def main():
     import wave
     with wave.open(os.path.join(FOLDER, 'build', 'cache', 'sound.wav'), 'wb') as w:
         w.setnchannels(2); w.setsampwidth(2); w.setframerate(SR); w.writeframes(pcm.tobytes())
+    mix = buf.mean(0)
+    def win(t0, t1):
+        return rms_db(mix[int((PRE + t0) * SR):int((PRE + t1) * SR)])
+    bg = win(12.0, 14.0)
+    mixlines = {f'{k}@{t0}': round(win(t0, t0 + sum(d for _, d, _ in LINES[k][0])) , 2) for k, t0, g in plan}
     room_db = rms_db(room_stem[int((PRE + 12) * SR):int((PRE + 14) * SR)])
     calls = [v['rms_dbfs'] for v in vlog if v['line'].startswith('come_here')]
     softs = [v['rms_dbfs'] for v in vlog if not v['line'].startswith('come_here')]
     rep = {'about': 'levels measured on the synthesised stems before mixing (rms over the voiced part, dBFS)', 'lines': vlog,
            'room_tone_rms_dbfs': round(room_db, 2), 'soft_minus_loudest_call_db': round(max(softs) - min(calls), 2),
-           'soft_above_room_db': round(min(softs) - room_db, 2), 'claw_contacts': contacts}
+           'soft_above_room_db': round(min(softs) - room_db, 2), 'claw_contacts': contacts,
+           'in_mix': {'about': 'rms of the final mix over each line, and over 12-14 s (room tone + warmth, no events)', 'lines': mixlines, 'background_12_14s': round(bg, 2),
+                      'soft_minus_loudest_call_db': round(max(v for k, v in mixlines.items() if not k.startswith('come_here')) - min(v for k, v in mixlines.items() if k.startswith('come_here')), 2),
+                      'softest_line_above_background_db': round(min(v for k, v in mixlines.items() if not k.startswith('come_here')) - bg, 2)}}
     json.dump(rep, open(os.path.join(FOLDER, 'lineage', 'sound.json'), 'w'), indent=1)
     print(json.dumps(rep, indent=1))
 

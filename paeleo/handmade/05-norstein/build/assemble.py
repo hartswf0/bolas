@@ -99,19 +99,23 @@ def trace():
     import render as R
     P = json.load(open(os.path.join(CACHE, 'dog_params.json')), object_hook=R._obj)
     xw = np.array([m['x_world'] for m in M])
+    # travel is measured on the paws (the cut paw pieces' world positions: they hold still through a turn in place,
+    # where the torso's centroid swings), smoothed over 7 frames
+    paws = np.array([np.mean([P[i]['feet'][leg][0][0] for leg in P[i]['feet']]) for i in range(N)])
     k = np.ones(7) / 7
-    xs = np.convolve(np.pad(xw, 3, 'edge'), k, 'valid')
+    xs = np.convolve(np.pad(paws, 3, 'edge'), k, 'valid')
     v = np.gradient(xs) * FPS
-    # reference standing silhouette height (watching, 0-0.9 s)
-    h_stand = float(np.median([m['sil_h'] for m in M[:20]]))
+    # silhouette height in metres at the dog glass (standing about 0.72, head-low walking 0.59, lying 0.38 to 0.50)
+    h_m = np.array([m['sil_h'] * (P[i]['z'] - m['cam'][2]) / F for i, m in enumerate(M)])
+    h_stand = float(np.median(h_m[:20]))
     frames = []
     for i, m in enumerate(M):
         fr = FR[i]
         (hx, hy), (nx, ny) = head_pieces(P[i], tuple(m['cam']))
         facing = 'door' if nx < hx else 'away'  # where the muzzle points: left, to the door, or right, away
         head_rel = (m['torso_top'] - m['head_top']) / max(1, m['sil_h'])  # >0: head above the back line
-        lying = m['sil_h'] < 0.66 * h_stand
-        if lying:
+        lying = h_m[i] < 0.55
+        if lying and abs(v[i]) < 0.08:
             posture = 'lying'
         elif abs(v[i]) > 0.08:
             posture = 'walking' if head_rel > -0.05 else 'walking, head low'
@@ -124,13 +128,13 @@ def trace():
             st = 'refuse'
         elif v[i] > 0.12 and head_rel < 0.1:
             st = 'retreat'
-        elif v[i] < -0.12:
-            st = 'approach'
+        elif v[i] < -0.12 or (frames and frames[-1]['state'] == 'approach' and v[i] < 0.02):
+            st = 'approach'  # coming; it stays 'coming' while it slows to the sill
         else:
             st = 'watch'
         frames.append(dict(i=i, t=round(i / FPS, 4), state=st, state_score=fr['dog']['state'], x_score=round(float(xw[i]), 4),
                            x_world_measured=round(float(xw[i]), 4), x_screen=m['torso_cx'], y_screen=m['torso_cy'], facing=facing,
-                           posture=posture, speed=round(float(v[i]), 3), head_above_back=round(float(head_rel), 3),
+                           posture=posture, speed=round(float(v[i]), 3), height_m=round(float(h_m[i]), 3), head_above_back=round(float(head_rel), 3),
                            head_screen=[m['head_cx'], m['head_cy']], nose_screen=[round(float(nx), 1), round(float(ny), 1)], inside_frame_share=m['inside_frame'], tail_end_x=m['right_x'] if facing == 'door' else m['left_x'],
                            camera=m['cam'], focus_z=m['focus_z'], atmosphere=m['atmosphere'], lum_dog=m.get('lum_dog'), lum_around=m.get('lum_around')))
     # hysteresis: a state must hold 3 frames to count (a measurement, not a performance, has jitter)
@@ -141,7 +145,7 @@ def trace():
                      'silhouette; facing from where the cut nose piece lies against the skull piece). x_score = x_world_measured: the torso pass centroid unprojected at the dog glass depth (metres, '
                      'same axis as the score). state is classified from measurements (facing, speed, head above or below the back line, '
                      'silhouette height); state_score is the score state that drove the acting.',
-               h_stand_px=h_stand, frames=frames)
+               h_stand_m=h_stand, frames=frames)
     json.dump(out, open(os.path.join(FOLDER, 'trace.json'), 'w'))
     # report transitions
     tr = [(f['t'], frames[k - 1]['state'], f['state']) for k, f in enumerate(frames) if k and f['state'] != frames[k - 1]['state']]

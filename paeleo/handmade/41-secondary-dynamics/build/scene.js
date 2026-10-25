@@ -22,7 +22,7 @@ const r4 = x => Math.round(x * 1e4) / 1e4, P3 = p => [r4(p[0]), r4(p[1]), r4(p[2
 const act = i => FR[clamp(i, 0, N - 1)].dog.act;
 
 // ---------- the world (metres) ----------
-const WORLD = { wallIn: 0.30, wallOut: 0.50, open: [-0.46, 0.46], lintel: 2.05, sill: [0.26, 0.66, 0.025], hinge: [0.31, 0, -0.46], hingeDir: 1, leaf: 0.90, leafStop: 2.90,
+const WORLD = { wallIn: 0.30, wallOut: 0.50, open: [-0.46, 0.46], lintel: 2.05, sill: [0.26, 0.66, 0.025], hinge: [0.31, 0, -0.46], hingeDir: 1, leaf: 0.90, leafStop: 2.75,
   porchEnd: 4.9, railZ: -1.32, lamp: [-1.05, 2.15, -0.1], shrub: [4.74, 0, -0.86], dogZ: 0.0 };
 
 // ---------- the dog's own timing (primary), anchored to the score's choices ----------
@@ -196,7 +196,7 @@ function personPose(i) {
   let handR = V.lerp(restR, V.add(shR, V.add(V.mul(F, 0.34), [0, -0.12 + 0.12 * beckon, 0])), call);
   handR = V.lerp(handR, V.add(shR, V.add(V.mul(F, 0.62), [0, -0.12, 0.05])), reach);
   const leafF = doorEdge(DOOR_A[i] ?? 1.0, 0.85, 0.55);
-  const lowHand = [-0.50, 0.15, -0.02];
+  const lowHand = [-0.36, 0.13, 0.03];
   handR = V.lerp(handR, lowHand, low);
   let handL = V.lerp(restL, V.add(hip, V.add(V.mul(F, 0.30), V.add(V.mul(L, 0.24), [0, 0.07, 0]))), sit); // on the far knee
   handR = V.lerp(handR, leafF, push * (1 - low));
@@ -229,7 +229,7 @@ function mouthAt(t) { let m = 0; for (const v of VOICE) { let s = v.t; for (cons
 
 // ---------- door leaf (wood): hinge with friction and a doorstop; the person's hand gives the impulses ----------
 const DOOR_A = [];
-function runDoor(J) { const d = new D.Hinge({ I: 3.9, k: 0, c: 0.5, friction: 0.9, min: 0.0, max: WORLD.leafStop, restitution: 0.06, tag: 'door' }); d.a = 1.0; const A = [];
+function runDoor(J) { const d = new D.Hinge({ I: 3.9, k: 0, c: 0.5, friction: 0.9, min: 0.0, max: WORLD.leafStop, restitution: 0.03, tag: 'door' }); d.a = 1.0; const A = [];
   for (let i = 0; i < N; i++) { if (i === Math.round(5.62 / DT)) d.impulse(J); d.step(DT, SUB, i * DT); A.push(d.a); } return { d, A }; }
 let lo = 0.5, hi = 40; for (let it = 0; it < 40; it++) { const m = (lo + hi) / 2, s0 = runDoor(m).d.events.find(e => e.tag === 'door-stop'); if (!s0 || s0.t > 6.2) lo = m; else hi = m; }
 const DOORJ = (lo + hi) / 2, door = runDoor(DOORJ).d; DOOR_A.push(...runDoor(DOORJ).A);
@@ -346,7 +346,7 @@ const CAM = []; { let c = 2.0, cv = 0, w = 5.9, wv = 0; const f = 0.32;
     CAM.push({ c, w }); } }
 function camera(i) {
   const { c, w } = CAM[i], hfov = 38 * PI / 180, dist = (w / 2) / Math.tan(hfov / 2), vfov = 2 * Math.atan(Math.tan(hfov / 2) * 9 / 16);
-  const yaw = 0.10, elev = 0.10, H = w * 9 / 16, cy = 0.33 * H - 0.02;
+  const yaw = 0.10 + 0.28 * seg(i * DT, 16, 24), elev = 0.10, /* as it pushes in, the camera comes round so the open leaf is seen edge-on beside the dog's head */ H = w * 9 / 16, cy = 0.33 * H - 0.02;
   const at = [c, cy, 0]; const pos = [c + dist * Math.sin(yaw), cy + dist * Math.sin(elev), dist * Math.cos(yaw)];
   return { pos: P3(pos), at: P3(at), vfov: r4(vfov) };
 }
