@@ -32,7 +32,7 @@ WALK_LOW = [42, 43, 44, 45, 46, 47]                              # head-low walk
 TURN_AWAY = [13, 14, 15, 17, 19, 20, 26, 28, 30, 33, 36, 38, 40]  # left -> frontal (head low) -> right
 TURN_BACK = [30, 26, 19, 17, 15, 14, 13, 11, 10]   # never passes through a camera-facing frame: the head stays on the door side           # frontal (head up) -> left, for 8.0-9.0
 WATCH = [9, 10, 11, 10]                                           # held alert cels (boil)
-LIE_D, LIE_SHEAR = 0.0, 0.228   # lying across the sill: centre on the wall plane, body 31 deg into depth
+LIE_D, LIE_SHEAR = -0.05, 0.228   # lying across the sill: its depth pass crosses the casing plane at x = 0.54, under the right jamb
 STRIDE = 0.30                                                     # metres per walk cycle (short, wary steps)
 
 
