@@ -9,6 +9,7 @@ from multiprocessing import Pool
 from common import *
 import dog as DOG
 import person as PERSON
+import pieces as PIECES
 
 PL = os.path.join(CACHE, 'planes')
 FRAMES = os.path.join(CACHE, 'frames')
@@ -171,9 +172,9 @@ def prof_porch(X, Y, t):
     xd = FR[i]['dog']['x']
     part = 1 - 0.5 * np.exp(-((X - xd + 0.6) ** 2) / 0.7) * smooth(14.5, 16.0, t)
     u_ = np.clip((X - 3.6) / 1.8, 0, 1)
-    edge = 0.35 * u_ * u_ * (3 - 2 * u_)
+    edge = 0.35 * u_ * u_ * (3 - 2 * u_) * (1 - 0.8 * smooth(6.6, 7.2, t) * (1 - smooth(8.8, 10, t)))  # the bank lifts off the dog for the turn to look
     # the silhouette is kept readable exactly when it acts: the fog thins round the dog, most at its choices
-    near_choice = max([1 - smooth(0.25, 0.9, abs(t - ct)) for ct in (1.0, 2.33, 3.42, 3.9, 7.46, 8.3, 14.71, 23.79, 26.6, 27.3)])
+    near_choice = max([1 - smooth(0.25, 0.9, abs(t - ct)) for ct in (1.0, 2.33, 3.42, 3.9, 7.0, 7.46, 7.9, 8.4, 14.71, 23.79, 26.6, 27.3)])
     clear = 1 - (0.6 + 0.35 * near_choice) * np.exp(-((X - xd) ** 2) / 0.6)  # towards the steps the fog comes up from the yard
     low = np.exp(-np.maximum(Y - 0.1, 0) / 1.0)
     return (0.18 + bank * part + edge) * low * clear
@@ -311,28 +312,15 @@ def cutout_to_screen(x0, y0, rgb, a, t, zlayer):
 
 
 def dog_layer(p, c, t):
-    x0, y0, tone, alpha, torso, headm = DOG.render(p, c)
-    SS = DOG.SS
-    sx, sy, _ = project((p['x'], 0.3, p['z']), c)
-    # a fur edge: the cut edge is broken by short hairs (threshold of a blurred edge against fine noise moving with the dog)
-    ab = np.asarray(alpha.filter(ImageFilter.GaussianBlur(1.4 * SS)), np.float32) / 255
-    hh, ww = ab.shape
-    oy, ox = int(sy * SS) % 300, int(sx * SS) % 500
-    nz = G['fur'][oy:oy + hh, ox:ox + ww] if oy + hh <= 900 and ox + ww <= 1500 else G['fur'][:hh, :ww]
-    if nz.shape != ab.shape:
-        nz = np.resize(nz, ab.shape)
-    thr = 0.5 + (nz - 0.5) * 1.6
-    af = np.clip((ab - thr) / 0.12 + 0.5, 0, 1)
-    af = np.maximum(af, (np.asarray(alpha, np.float32) / 255) * (ab > 0.85))
+    # the replacement pieces, chosen and hinged for this frame (pieces.py); their cut edges and paint are their own
+    x0, y0, tone, alpha, torso, headm, info = PIECES.render(p, c)
+    SS = 2
     w, h = tone.size[0] // SS, tone.size[1] // SS
-    A = np.asarray(Image.fromarray((af * 255).astype(np.uint8)).resize((w, h), Image.BOX), np.float32) / 255
+    A = np.asarray(alpha.resize((w, h), Image.BOX), np.float32) / 255
     T = np.asarray(tone.resize((w, h), Image.BOX), np.float32) / 160.0
     T = T / np.maximum(A, 1e-3)
-    # the coat: grain cut from the archive dog's own coat (kit/archive-dog f000, inside its SAM mask)
-    cy0, cx0 = int(sy * 0.0) % 64, int(sx * 0.0) % 64
-    coat = G['coat'][:h, :w] if G['coat'].shape[0] >= h and G['coat'].shape[1] >= w else np.resize(G['coat'], (h, w))
     base = np.array([50, 42, 39.], np.float32) / 255
-    col = base[None, None, :] * T[..., None] * (1 + 0.22 * coat[..., None])
+    col = base[None, None, :] * T[..., None]
     # light: the blue hour everywhere, the house's light where the dog stands in it (per pixel: half in, half out)
     zc = p['z'] - c[2]
     Xpx = c[0] + (np.arange(w, dtype=np.float32) + x0 - CX) * zc / F
@@ -347,6 +335,8 @@ def dog_layer(p, c, t):
     lit = lit + rimw[..., None] * np.array([1.0, 0.72, 0.42]) * 0.75 + rimc[..., None] * np.array([0.62, 0.68, 0.82])
     rgb = np.clip(lit, 0, 1) * A[..., None]
     meas = measure_dog(p, c, x0, y0, A, torso, headm, w, h)
+    meas.update(nose_px=[round(v, 1) for v in info['nose_px']], head_anchor_px=[round(float(v), 1) for v in info['head_anchor_px']],
+                pieces=dict(body=info['body'], head=info['head'], view_body=int(info['choice']['kb']), view_head=int(info['choice']['kh'])))
     full = cutout_to_screen(x0, y0, rgb, A, t, p['z'])
     return full, meas
 
@@ -507,6 +497,8 @@ def main():
         ser.append(d)
     json.dump(ser, open(os.path.join(CACHE, 'dog_params.json'), 'w'))
     coat_texture()
+    lib = PIECES.build_library(P, [cam(i / FPS) for i in range(N)])
+    print('piece library:', len(lib), 'substitution pieces in use', flush=True)
     rng_ = range(N)
     for a in sys.argv[1:]:
         if a.startswith('--frames='):

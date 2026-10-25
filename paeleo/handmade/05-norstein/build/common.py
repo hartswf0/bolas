@@ -63,8 +63,8 @@ def door_gap(t):
 
 
 # ---- the camera: pan X, truck Z, focus distance (world Z), as curves of scene time
-CAM_X = [(0, 1.95), (4.15, 1.97), (5.7, 2.85), (6.05, 2.86), (7.4, 1.47), (14.6, 1.55), (16.0, 1.42), (23.6, 0.20), (32, 0.02)]
-CAM_Z = [(0, 0.0), (4.15, 0.0), (5.7, 0.92), (6.05, 0.94), (7.4, 0.02), (14.6, 0.16), (23.6, 1.10), (32, 1.36)]
+CAM_X = [(0, 1.95), (4.3, 1.97), (5.5, 1.38), (14.6, 1.42), (16.0, 1.32), (23.6, 0.20), (32, 0.02)]
+CAM_Z = [(0, 0.0), (4.3, 0.0), (5.5, -0.32), (14.6, -0.2), (23.6, 1.10), (32, 1.36)]
 
 
 def dog_z(t):
@@ -89,14 +89,14 @@ def focus_z(t):
     k = [(0, Z['grass'] + 0.3), (0.15, Z['grass'] + 0.3), (0.95, zd)]
     if t < 0.95:
         return keyed(k, t)
-    if 6.3 <= t <= 7.38:  # the door opens: focus is pulled into the light, then back to the near hand and the dog
-        return keyed([(6.3, zd), (6.75, Z['interior_near'] + 0.4), (6.95, Z['interior_near'] + 0.4), (7.38, zd)], t)
-    if 26.95 <= t <= 28.0:  # come in: the dog looks in, focus follows its look into the room, then returns to it
-        return keyed([(26.95, zd), (27.3, Z['interior_wall'] - 0.6), (27.55, Z['interior_wall'] - 0.6), (27.95, zd)], t)
+    if 6.25 <= t <= 7.12:  # the door opens: focus is pulled into the light, then back to the near hand and the dog
+        return keyed([(6.25, zd), (6.6, Z['interior_near'] + 0.4), (6.75, Z['interior_near'] + 0.4), (7.12, zd)], t)
+    if 26.7 <= t <= 28.0:  # come in: the dog looks in, focus follows its look into the room, then returns to it
+        return keyed([(26.7, zd), (27.15, Z['interior_wall'] - 0.6), (27.5, Z['interior_wall'] - 0.6), (27.95, zd)], t)
     return zd
 
 
-CAM_YK = [(0, CAM_Y), (4.15, CAM_Y), (5.7, 0.82), (6.05, 0.82), (7.4, CAM_Y), (32, CAM_Y)]
+CAM_YK = [(0, CAM_Y), (32, CAM_Y)]
 
 
 def cam(t):

@@ -76,14 +76,14 @@ def controller():
         if 3.40 <= t < 3.92:  # turning away, the head goes first
             head_rel = -0.55 * math.sin(math.pi * smooth(3.40, 3.92, t)) * (1 if smooth(3.40, 3.92, t) < 0.5 else 1)
         if 7.40 <= t < 8.95:  # looks back over the shoulder at the opened door, on time (7.46)
-            target = keyed([(7.38, psi + bend), (7.58, -2.8), (8.0, -2.9), (8.95, -math.pi)], t)
+            target = keyed([(7.38, psi + bend), (7.56, -math.pi), (8.95, -math.pi)], t)  # round to the door, and held there
             head_rel = target - psi - bend
         if 9.0 <= t < 14.7:  # watching: small looks between the low hand and the light
             head_rel = 0.18 * math.sin((t - 9.0) * 0.9) * smooth(9.0, 10.0, t)
         lie = a['lie']
         look = a['look']
         if st == 'lie_down' or t > 23.7:
-            head_rel = -0.82 * look  # looking in: the muzzle turns into the depth of the lit room
+            head_rel = -0.5 * look  # looking in: the head turns three-quarters away, into the lit room
         # --- head carriage (alpha: neck angle above horizontal, degrees)
         hv = a['head']
         alpha = interp(hv, [0, 0.15, 0.35, 0.45, 0.7, 0.9, 1.25], [-48, -42, -30, -24, 6, 30, 52])
@@ -260,6 +260,7 @@ def build(p):
         q = nb + (head - dh * 0.04 - nb) * u
         ell(q, (head - nb) / (np.linalg.norm(head - nb) + 1e-6) * 0.07, up * lerp(0.085, 0.062, u), lf * lerp(0.085, 0.064, u),
             1.0, 'neck')
+    p['_g'] = dict(root=root, nb=nb, head=head, dh=dh, hup=hup, hlat=hlat, psi_h=psi_h, beta=beta, ff=ff, fr=fr, hf=hf, hr=hr)
     ell(head, dh * 0.092, hup * 0.08, hlat * 0.075, 1.0, 'head')
     ell(head + dh * 0.105 - hup * 0.024, dh * 0.08, hup * 0.045, hlat * 0.043, 1.12, 'head')   # muzzle
     ell(head + dh * 0.18 - hup * 0.012, dh * 0.018, hup * 0.019, hlat * 0.022, 0.25, 'head')   # nose

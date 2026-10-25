@@ -168,3 +168,11 @@ The critic's ranked repairs and what I changed (the critic's report is in `revie
    1-3 kHz band of each soft line against the mix in the 0.5 s before it (`proof/audio.json`).
 
 Kept: the 3D refusal turn with its curl, the head-low approach, the voice wavefronts, the sound arc, the moon.
+
+Round 2 measured: checker ALL OK (same trace measures as round 1, rewritten from the round 2 render); seen choices
+retreat +0.21, watch +0.04, refuse +0.17, watch +0.17, approach -0.04, lie_down +0.21 s; scene 768 / film 912 frames,
+38.0 s, 2.6 MB. Soft lines' 1-3 kHz band above the mix in the 0.5 s before: 28.2, 21.1, 51.5 dB. Looked at: every frame
+7.79-8.50 s and 24.0-28.4 s (small tiles; `proof/r2_rise_every_frame.png`, key frames `proof/r2_sill_keys.png`) and
+drift-to-lock crops (`proof/r2_drift_to_lock.png`). Still weak after round 2: the interior floor's far part extends to
+the right of the door frame (it is behind the facade but the facade lattice is faint); the person is faint; in the
+look-in we see the back of the dog's head, so "looking in" depends on the hearth being visible in the doorway.
