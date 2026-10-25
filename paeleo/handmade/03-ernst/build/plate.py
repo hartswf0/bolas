@@ -252,7 +252,7 @@ def door_layer(L, ang, light):
     # the door panel: hinged at the left jamb (x = dl, z = 0), opening inward (toward -z)
     c, s_ = np.cos(ang), np.sin(ang)
     wdt = dr - dl
-    hx, hz = dl, -0.04
+    hx, hz = dl, -WALL_T + 0.02            # the door hangs at the inner face: the reveal in front of it is the door frame
     ex, ez = hx + wdt * c, hz - wdt * s_
     pts = [(hx, 0.01, hz), (ex, 0.01, ez), (ex, DOOR_H - 0.01, ez), (hx, DOOR_H - 0.01, hz)]
     panel = quad(pts)

@@ -49,13 +49,15 @@ def quickdraw_pick():
     src = '/home/user/hartswf0/quickdraw/'
     want = {'moon': ['02816'], 'tree': ['81152', '83200', '00384', '90816', '47072'], 'fence': ['78272']}
     out = []
+    p = os.path.join(FOLDER, 'sources', 'quickdraw-used.ndjson')
+    if not os.path.isdir(src) and os.path.exists(p):
+        return p                      # rebuild from the copy kept in this folder
     for cat, tails in want.items():
         lines = open(src + cat + '.part').read().splitlines()[:-1]   # last line may be partial
         for l in lines[:400]:
             d = json.loads(l)
             if d.get('recognized') and any(d['key_id'].endswith(t) for t in tails) and not any(o['key_id'] == d['key_id'] for o in out):
                 out.append(d)
-    p = os.path.join(FOLDER, 'sources', 'quickdraw-used.ndjson')
     with open(p, 'w') as f:
         for d in out:
             f.write(json.dumps(d) + '\n')
@@ -67,11 +69,14 @@ def copy_found(rel_shot, frames):
     base = '/home/user/hartswf0/secondhand-motion/shots/' + rel_shot + '/'
     dst = os.path.join(FOLDER, 'sources', rel_shot); os.makedirs(dst, exist_ok=True)
     out = {}
+    have = os.path.isdir(base)          # rebuilds without the found-frames library use the copies kept here
     for f in frames:
-        shutil.copyfile(base + 'frames/f%03d.jpg' % f, os.path.join(dst, 'f%03d.jpg' % f))
+        if have:
+            shutil.copyfile(base + 'frames/f%03d.jpg' % f, os.path.join(dst, 'f%03d.jpg' % f))
         out[f] = os.path.join(dst, 'f%03d.jpg' % f)
-    shutil.copyfile(base + 'masks.json', os.path.join(dst, 'masks.json'))
-    shutil.copyfile(base + 'clip.json', os.path.join(dst, 'clip.json'))
+    if have:
+        shutil.copyfile(base + 'masks.json', os.path.join(dst, 'masks.json'))
+        shutil.copyfile(base + 'clip.json', os.path.join(dst, 'clip.json'))
     return out, os.path.join(dst, 'masks.json')
 
 

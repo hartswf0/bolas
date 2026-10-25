@@ -56,7 +56,7 @@ def head_world_yaw(t, body):
 
 def dog_z(t, x):
     s = ss(1.25, 0.62, x) if t < T_LIE + 0.6 else 1.0
-    return sdf.ZD - 0.52 * s
+    return sdf.ZD - 0.49 * s
 
 
 def build():
@@ -80,6 +80,10 @@ def build():
                  head=head, rest=rest, ear=float(np.clip(a['ear'], 0, 1)), tail=a['tail'],
                  wag_ang=a['wag'] * 0.55 * np.sin(2 * np.pi * 2.3 * t), y=0.03 * ss(1.0, 0.7, x) * lie)
         p['breath'] = 0.004 * np.sin(2 * np.pi * (0.45 if lie > 0.5 else 0.6) * t)
+        # while it waits (8.3-14.7 s) it is alive but undecided: an ear flicks at each soft word
+        if st == 'watch' and t > 8.3:
+            for t0 in (8.9, 10.5, 12.6, 13.9):
+                p['ear'] = float(np.clip(p['ear'] - 0.5 * np.exp(-((t - t0) / 0.09) ** 2), 0, 1))
         dog_p.append(p)
     # gaze (yaw of the head relative to the body), from targets
     person_head_stand = np.array([-0.28, 1.62, 0.12])
