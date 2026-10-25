@@ -480,7 +480,7 @@ def person_layers(cam, t, f, amb, light_amt, th):
         xe, De = leaf_edge(th)
         span = max(0.05, (xe + 0.06) - shx)
         uleaf = np.clip((OPEN_X - xw) / max(1e-3, OPEN_X - xe), 0, 1)
-        depth = np.where(armmask > 0.02, np.where(xw < -OPEN_X - 0.02, 0.30, uleaf * De + 0.03), depth)
+        depth = np.where(armmask > 0.02, np.where(xw < -OPEN_X - 0.02, 0.30, HINGE_D + uleaf * (De - HINGE_D) + 0.03), depth)
     rgbp = (rgb * a[..., None]).astype(np.float32)
     return rgbp, a, depth.astype(np.float32), dict(root=(rx, rD), hand=hand, joints=Jw)
 
