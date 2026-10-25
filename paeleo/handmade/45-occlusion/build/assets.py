@@ -10,7 +10,7 @@ SH = '/home/user/hartswf0/secondhand-motion/shots'
 
 def used_cels():
     used = {}
-    PART_SRC = {'head10': 10, 'torso10': 10, 'foreA10': 10, 'foreB10': 10, 'hind10': 10, 'headF': 28}
+    PART_SRC = {'head0': 0, 'head10': 10, 'torso10': 10, 'foreA10': 10, 'foreB10': 10, 'hind10': 10, 'headF': 28}
     for p in sorted(glob.glob(os.path.join(HERE, 'cache/records/r*.json'))):
         r = json.load(open(p))
         for part in r['dog']['parts']:
@@ -20,8 +20,6 @@ def used_cels():
                 used.setdefault(n, set()).add('whole cel' if m else part.split(' ')[0])
             if part.startswith('torso10'):
                 used.setdefault(2, set()).add('tail2')            # every re-assembled pose carries frame 2's tail
-            if part.startswith('headF (as back'):
-                used.setdefault(10, set()).add('headBack fill (neck fur)')
     out = {str(k): sorted(v) for k, v in sorted(used.items())}
     json.dump(out, open(os.path.join(HERE, 'cache/cels_used.json'), 'w'), indent=0)
     return out

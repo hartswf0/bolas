@@ -1,6 +1,20 @@
 {
  "assets": [
   {
+   "asset": "dog cel 0",
+   "kind": "RGBA cel (the dog)",
+   "file": "paeleo/handmade/kit/archive-dog/frames/f000.jpg",
+   "matte": "paeleo/handmade/kit/archive-dog/masks.json[\"0\"] (SAM) x garbage matte in build/cels.py",
+   "source_title": "Amateur Film New Jersey C",
+   "archive_url": "https://archive.org/details/NewJerseyC",
+   "collection": "Home Movies (Internet Archive collection)",
+   "rights": "public_domain",
+   "used_as": [
+    "head0"
+   ],
+   "operation": "mask (SAM polygon AND hand garbage matte), 0.7 px feather; split into semantic sublayers by hand-authored holdout polygons (build/rig.py PARTS) and re-assembled by rotation about pivots; re-lit by the scene light pass (colour from luminance; no pixel painted)"
+  },
+  {
    "asset": "dog cel 2",
    "kind": "RGBA cel (the dog)",
    "file": "paeleo/handmade/kit/archive-dog/frames/f002.jpg",
@@ -41,7 +55,6 @@
     "foreA10",
     "foreB10",
     "head10",
-    "headBack fill (neck fur)",
     "hind10",
     "torso10",
     "whole cel"

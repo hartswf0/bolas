@@ -242,10 +242,10 @@ def dog_frame(i):
             # looking in: the head turned into the lit room; the frontal-head outline is what the back of a head looks
             # like, so it is shown from behind: dusk on the back of the skull, the room's light around its edge
             img, anc, head = lie_pose(u, 0, 'B', -6, -6)
-            tone = 'back'; parts = ['headF (as back of head)', 'torso10', 'legs']
+            tone = 'back'; parts = ['head0 (frame 0, seen from behind)', 'torso10', 'legs']
         elif look > 0.30:
             img, anc, head = lie_pose(u, -18, 'T', -4, -2)
-            tone = 'turn'; parts = ['head10 (turning away, foreshortened)', 'torso10', 'legs']
+            tone = 'turn'; parts = ['head0 (frame 0, turning away)', 'torso10', 'legs']
         else:
             # head low as it came (matches the head-low walk), lifts to watch, chin to the paws when it settles
             hth = lerp(-78, -28, sm(23.95, 24.8, t)) + lerp(0, -42, rest) + 3 * math.sin(max(0, t - 24.8) * 1.3) * (1 - rest)
