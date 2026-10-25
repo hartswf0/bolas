@@ -11,7 +11,7 @@ from graphcut import contour
 C = os.path.join(HERE, 'cache')
 OUT = os.path.join(os.path.dirname(HERE), 'pieces')
 os.makedirs(OUT, exist_ok=True)
-DOG_USED = [0, 9, 10, 11, 13, 15, 26, 30, 34, 36, 38, 40, 42, 43, 44, 45, 46, 47, 48]
+DOG_USED = [0, 9, 10, 11, 13, 15, 26, 30, 34, 36, 38, 40, 42, 43, 44, 45]
 SRC = {'dog': 'paeleo/handmade/kit/archive-dog/frames/f%03d.jpg', }
 logd = json.load(open(os.path.join(C, 'dog', 'log.json')))
 logw = json.load(open(os.path.join(C, 'world', 'log.json')))

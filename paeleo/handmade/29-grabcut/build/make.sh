@@ -7,6 +7,7 @@ python3 plate.py                 # clean background plate of the dog shot (sourc
 python3 extract.py dog           # graph-cut every dog frame (BK max-flow, GrabCut iterations, alpha cleanup)
 python3 extract_world.py         # woman, door panel, hand (cut from its card), pillar, shrub, bowl
 python3 cards.py                 # title + end cards
+rm -f cache/measure*.json
 python3 render.py                # 768 scene frames + measure.json (measured from the rendered dog layers)
 python3 trace.py                 # trace.json + measured choice onsets
 python3 sound.py                 # sound.wav + sound_levels.json

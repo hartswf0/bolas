@@ -7,11 +7,11 @@ DOOR = {'source_title': 'Straight Talk (1992)', 'collection': 'NTIS', 'archive_u
         'shot_url': 'https://www.movingimagearchive.com/sources/straight-talk-583ba802?clip=271d80c7-4f56-51b8-90fe-012dfb984b4f', 'rights': 'public_domain'}
 HAND = {'source_title': 'The Door to Heaven (1941)', 'archive_url': 'https://archive.org/details/DoortoHe1941', 'clip_id': '0870ef3a-b328-5284-890b-3e1ac18057c1',
         'rights': 'public_domain', 'kit_index': 'paeleo/handmade/kit/found-frames.json (category hand)'}
-used = [0, 9, 10, 11, 13, 15, 26, 30, 34, 36, 38, 40, 42, 43, 44, 45, 46, 47, 48]
+used = [0, 9, 10, 11, 13, 15, 26, 30, 34, 36, 38, 40, 42, 43, 44, 45]
 A = []
 for i in used:
     role = {0: 'back-of-head piece (look in)', 13: 'puppet source: head, torso, two forelegs, hind legs, tail; also turn drawings',
-            9: 'watch', 10: 'watch', 11: 'watch'}.get(i, 'walk (mirrored; reversed for the retreat)' if 42 <= i <= 48 else 'turn drawing')
+            9: 'watch', 10: 'watch', 11: 'watch'}.get(i, 'walk (mirrored; reversed for the retreat)' if 42 <= i <= 45 else 'turn drawing')
     A.append(dict(DOG, asset='dog cut f%03d' % i, file='paeleo/handmade/kit/archive-dog/frames/f%03d.jpg' % i, piece='pieces/dog_f%03d.png' % i,
                   role=role, operation='graph cut (BK max-flow; seeds from kit SAM mask eroded/dilated, rig-key scribbles, belly-gap and tail scribbles; '
                   'unaries: intensity x texture x |frame - clean plate| histograms re-estimated 4x; contrast pairwise; 2x supersampled) -> alpha cleanup '

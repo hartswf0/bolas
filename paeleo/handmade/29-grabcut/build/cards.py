@@ -56,7 +56,7 @@ lines = [
     ('graph cuts of public-domain archive film: our own max-flow (Boykov-Kolmogorov, numpy), seeded by boxes,', mono),
     ('scribbles and the kit\'s SAM masks as one input; colour, texture and clean-plate unaries; alpha cleanup.', mono),
     ('', mono),
-    ('the dog: 19 frames of the home-movie dog, Amateur Film New Jersey C, cut out and re-timed, mirrored,', mono),
+    ('the dog: 16 frames of the home-movie dog, Amateur Film New Jersey C, cut out and re-timed, mirrored,', mono),
     ('played backwards; lying down it is the pieces of one of its own frames (this clip never shows it lying).', mono),
     ('the woman and the door: Straight Talk (NTIS, 1992). the low hand: The Door to Heaven, cut from its card.', mono),
     ('the stone, the porch boards and the garden: the dog\'s own porch, a clean plate of its shot.', mono),

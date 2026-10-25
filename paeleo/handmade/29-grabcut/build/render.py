@@ -377,7 +377,7 @@ def floor_spill(cv, o):
 
 # ------------------------------------------------------------------ the dog
 DOG_S = 1.36
-WALK = [42, 43, 44, 45, 46, 47, 48]          # the archive dog's own walk, head low (mirrored to face the door)
+WALK = [42, 43, 44, 45]          # the archive dog's own walk, head low (mirrored to face the door)
 WATCH = [9, 10, 11, 10]                      # standing, head up, looking at the person (boils between real frames)
 TURN_AWAY = [13, 15, 26, 30, 34, 36, 38, 40, 42, 44]   # the real dog turning from side-left through frontal to right
 TURN_BACK = ['P', ('m', 36), ('m', 38), ('m', 40), 13]   # puppet (body away, head back) -> mirrored 3/4 -> side
