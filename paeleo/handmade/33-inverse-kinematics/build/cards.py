@@ -29,9 +29,21 @@ lines = [
     'Proportions studied from the rig keys of a home-movie dog (Amateur Film New Jersey C, Internet',
     'Archive, public domain). No footage, no found drawing, no found image appears. All sound is synthesized.',
 ]
-for k, ln in enumerate(lines):
-    d.text((112, 175 + k * 40), ln, font=lit, fill=INK)
-d.text((112, 530), 'the score: PAELEO threshold machine, 32 s, six choices — kept within ±0.25 s, measured from the render', font=mono, fill=DIM)
-d.text((112, 560), 'SCION 33 · Inverse Kinematics — Contact and Reach Swarm · cohort 4', font=mono, fill=DIM)
+# re-set: wrap the paragraph to stay inside a 40 px right margin (and the 112 px left one)
+words = ' '.join(lines).split()
+maxw = W - 112 - 40
+rows, cur = [], ''
+for w_ in words:
+    t = (cur + ' ' + w_).strip()
+    if d.textlength(t, font=lit) <= maxw: cur = t
+    else: rows.append(cur); cur = w_
+rows.append(cur)
+for k, ln in enumerate(rows):
+    d.text((112, 150 + k * 38), ln, font=lit, fill=INK)
+y_end = 150 + len(rows) * 38 + 20
+for ln in [d.textlength(r, font=lit) for r in rows]:
+    assert 112 + ln <= W - 40
+d.text((112, y_end + 10), 'the score: PAELEO threshold machine, 32 s, six choices — kept within ±0.25 s, measured from the render', font=mono, fill=DIM)
+d.text((112, y_end + 40), 'SCION 33 · Inverse Kinematics — Contact and Reach Swarm · cohort 4', font=mono, fill=DIM)
 im.save(os.path.join(HERE, 'cache/end.png'))
-print('cards ok')
+print('cards ok', len(rows), 'rows; widest', max(d.textlength(r, font=lit) for r in rows), 'mono', d.textlength('the score: PAELEO threshold machine, 32 s, six choices — kept within ±0.25 s, measured from the render', font=mono))
