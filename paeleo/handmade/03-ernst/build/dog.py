@@ -164,7 +164,7 @@ def _build(p, root):
     for sgn, nm in ((1, 'earL'), (-1, 'earR')):
         base = hc_w - hf * 0.04 + hu * 0.065 + hs * 0.048 * sgn
         d_pr = hu * 1.0 + hs * 0.22 * sgn + hf * 0.04
-        d_fl = -hf * 1.0 + hu * 0.15 + hs * 0.45 * sgn
+        d_fl = -hf * 1.0 + hu * 0.5 + hs * 0.5 * sgn          # pinned back, but still a dog's ear
         d = lerp(d_fl, d_pr, ear); d /= np.linalg.norm(d)
         cen = base + d * 0.055
         ax_e = ell_axes(d, hf * ear + (hu + hs * sgn) * (1 - ear))

@@ -12,6 +12,8 @@ ROLE = {
     'lion_mask': 'the keystone over the door from 6.05 s (the same lion, now architecture); its cut margin fades: the seam concealed',
     'hand': 'the person’s right hand: pasted large and swelling while it reaches (3.4-4.6 s, margin shown), small and low when offered (6.8 s on, margin concealed)',
     'lantern': 'the lamp hanging in the hall, seen through the open door: where the light comes from',
+    'mane': 'round 2: the dog\u2019s hybrid part. The lion\u2019s mane (the same frame as the magistrate\u2019s head, its face cut away with a disc) pasted round the dog\u2019s neck from the first call (1.0 s): hackles raised, white cut margin shown while it is commanded and refuses; it shrinks as trust grows and its margin fades as the dog lies across the sill (23.9-24.9 s): absorbed as the ruff of a couchant guardian under the keystone lion',
+    'mane_r': 'the same mane, unmirrored, used when the dog faces away (the refusal)',
 }
 
 if __name__ == '__main__':
@@ -27,7 +29,7 @@ if __name__ == '__main__':
             'operation': 'cut by its SAM mask (crop %s), %sscaled x%.1f, tone-stretched, engraved with this swarm’s burin '
                          '(%s line system), outlined at the cut, white cut margin kept as a separate layer'
                          % (list(f['crop']), 'mirrored, ' if f['mirror'] else '', f['scale'],
-                            'radial mane' if f['name'].startswith('lion') else 'parallel, luminance-displaced'),
+                            'radial mane' if f['name'].startswith(('lion', 'mane')) else 'parallel, luminance-displaced'),
             'used_as': 'build/cache/frag_%s.npz' % f['name']})
     assets += [
         {'id': 'dog', 'what': 'the dog: a maquette of 27 typed primitives (round cones, ellipsoids): chest, loin, haunch, neck, skull, muzzle, nose, two eyes, two ears, four legs of three segments (upper, lower, paw), a four-segment tail',

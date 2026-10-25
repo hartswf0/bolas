@@ -23,7 +23,7 @@ W, Hh = 1280, 720
 # wide and fixed until the approach (0-14.8 s); during the approach it dollies with the dog toward the sill (eased),
 # and is fixed again, close, from 23.6 s. x_world_measured in the trace back-projects through each frame's camera.
 WIDE = dict(cam=np.array([3.0, 0.85, 5.2]), tgt=np.array([1.50, 0.80, 0.0]), focal=1000.0, cx=640.0, cy=388.0)
-CLOSE = dict(cam=np.array([2.2, 0.75, 3.6]), tgt=np.array([0.10, 0.50, 0.0]), focal=1230.0, cx=640.0, cy=400.0)
+CLOSE = dict(cam=np.array([2.0, 1.45, 3.4]), tgt=np.array([-0.35, 0.40, 0.0]), focal=1050.0, cx=640.0, cy=400.0)
 CAM = TGT = FOCAL = CX = CY = _f = _r = _u = None
 
 
@@ -76,7 +76,7 @@ def lattice():
         z = np.arange(-1.7, 0.81, 0.04)
         add(np.stack([np.full(z.size, 4.47 + du), np.full(z.size, dy), z], 1), [0.7, 0.66, 0.92], 0.30 - 0.08 * k)
     # facade (plane u = 0): wall lattice with the door opening (z in [-0.45, 0.45], y < 2.05) left open
-    zs = np.arange(-3.2, 2.0, 0.2); ys = np.arange(0.0, 2.95, 0.2)
+    zs = np.arange(-4.4, 2.0, 0.2); ys = np.arange(0.0, 2.95, 0.2)
     Z, Y = np.meshgrid(zs, ys)
     m = ~((np.abs(Z) < 0.5) & (Y < 2.1))
     add(np.stack([np.zeros(m.sum()), Y[m], Z[m]], 1), [0.50, 0.46, 0.75], 0.08)
@@ -101,14 +101,25 @@ def lattice():
 
 
 def interior():
-    """the room behind the door: back wall and floor (lit only when the door opens)."""
-    zs = np.arange(-2.6, 1.8, 0.16); ys = np.arange(0.0, 2.9, 0.16)
+    """the room behind the door, in point-lines: floorboards running into the room, a back wall of horizontal lines,
+    lit only when the door opens."""
+    zs = np.arange(-4.4, 1.61, 0.05); ys = np.arange(0.06, 2.9, 0.16)
     Z, Y = np.meshgrid(zs, ys)
     back = np.stack([np.full(Z.size, -2.6), Y.ravel(), Z.ravel()], 1)
-    us = np.arange(-2.55, -0.31, 0.12); zs2 = np.arange(-2.6, 1.8, 0.16)
+    us = np.arange(-2.58, -0.31, 0.04); zs2 = np.arange(-4.4, 1.61, 0.15)
     U, Z2 = np.meshgrid(us, zs2)
     floor = np.stack([U.ravel(), np.zeros(U.size), Z2.ravel()], 1)
     return np.concatenate([back, floor])
+
+
+def through_opening(P):
+    """True where the camera sees the point through the door opening (both faces of the frame): the wall hides the rest."""
+    ok = np.ones(len(P), bool)
+    for uu in (0.0, -0.30):
+        s = (uu - CAM[0]) / (P[:, 0] - CAM[0] + 1e-9)
+        Q = CAM[None] + s[:, None] * (P - CAM[None])
+        ok &= (np.abs(Q[:, 2]) < 0.46) & (Q[:, 1] >= -0.01) & (Q[:, 1] <= 2.06)
+    return ok | (P[:, 0] >= -0.02)
 
 
 def hills():
@@ -231,7 +242,8 @@ class Scene:
     def frame(self, i):
         t = i / H.FPS; B = self.B
         set_cam(t)
-        self.sx0, self.sy0, self.sz0 = project(self.static[0])
+        G.PSI = float(B['psi'][i])
+        lock = float(B['lock'][i])
         self.isx, self.isy, self.isz = project(self.inner)
         th_h, th_d = B['th_house'][i], B['th_dog'][i]
         light = self.Dq['light'][i]; dens = B['density'][i]
@@ -243,16 +255,41 @@ class Scene:
         P, C, Wt = self.static
         pulse = 0.85 + 0.15 * np.cos(th_h - 0.9 * P[:, 0])
         wt = Wt * pulse
+        # the porch planks carry the 3:2 relation: their dots ripple with psi (drifting under the calls, still when locked)
+        P = P.copy()
+        plank = (P[:, 1] == 0) & (P[:, 0] > 0)
+        P[plank, 0] += 0.045 * np.sin(5.0 * P[plank, 2] + 2.0 * P[plank, 0] - B['psi'][i])
+        self.sx0, self.sy0, self.sz0 = project(P)
         # door light on the porch floor: a fan from the doorway, carrying a wave outward at the house rate
         fl = (P[:, 1] == 0) & (P[:, 0] > 0) & (P[:, 0] < 4.46)
         fan = (np.abs(P[:, 2]) < 0.48 + 0.30 * P[:, 0]) & fl
-        wave = 0.55 + 0.45 * np.cos(2.6 * P[:, 0] - th_h)
-        boost = np.where(fan, light * 3.4 * np.exp(-P[:, 0] / 2.2) * wave, 0)
+        # the light's wave runs out along the porch at 3/2 of the house phase; it reaches further as the lock grows,
+        # and when locked its crest arrives at the dog exactly as the dog's breath peaks (2 theta_dog = 3 theta_house)
+        du = P[:, 0] - self.Q['u'][i]
+        wave = 0.5 + 0.5 * np.cos(2.4 * du - 1.5 * th_h)
+        reach = 1.2 + 3.0 * lock * float(H.smooth(6.5, 9.0, t))
+        boost = np.where(fan, light * 3.4 * np.exp(-P[:, 0] / reach) * wave ** 2, 0)
         cols = C * (1 - np.clip(boost, 0, 1)[:, None] * 0.6) + np.array([1.0, 0.78, 0.45]) * np.clip(boost, 0, 1)[:, None] * 0.6
         splat(L, self.sx0, self.sy0, cols, (wt + boost * 0.5) * 0.9)
         # interior
-        ib = light * (0.55 + 0.2 * np.cos(th_h + self.inner[:, 2]))
-        splat(L, self.isx, self.isy, np.tile([1.0, 0.76, 0.42], (len(self.inner), 1)), np.full(len(self.inner), ib * 0.55))
+        IP = self.inner
+        # cutaway: the room's floor is seen whole (the facade is a dot lattice); its back wall only through the door
+        vis = np.where(IP[:, 1] == 0, 1.0, np.where(through_opening(IP), 1.0, 0.25))
+        onfloor = IP[:, 1] == 0
+        lamp = np.exp(-((IP[:, 1] - 1.5) ** 2 + (IP[:, 2] + 0.5) ** 2) / 0.35)
+        dh = np.sqrt((IP[:, 0] + 2.4) ** 2 + (IP[:, 2] + 3.6) ** 2)          # distance from the hearth
+        fall = np.where(onfloor, 0.10 + 1.4 * np.exp(-dh / 1.2) + 0.5 * np.exp(-(IP[:, 0] + 0.3) ** 2 / 0.5 - IP[:, 2] ** 2 / 0.6),
+                        0.25 + 1.0 * np.exp(-dh / 1.0))
+        ib = light * (0.75 + 0.25 * np.cos(th_h - 1.2 * IP[:, 0])) * fall * vis
+        splat(L, self.isx, self.isy, np.tile([1.0, 0.76, 0.42], (len(IP), 1)), ib * 1.1)
+        # the hearth at the back of the room, low: a small fire of points on a Lissajous knot, flickering at the house rate
+        if light > 0.05:
+            s_ = np.linspace(0, 2 * math.pi, 140, endpoint=False)
+            hp_ = np.stack([np.full(140, -2.45), 0.05 + 0.30 * np.abs(np.sin(2 * s_ + 0.7 * th_h)) * (0.8 + 0.2 * np.sin(3 * s_)),
+                            -3.6 + 0.30 * np.sin(3 * s_ + th_h)], 1)
+            sx, sy, _ = project(hp_)
+            splat(L, sx, sy, np.tile([1.0, 0.62, 0.28], (140, 1)), np.full(140, light * 1.1))
+            self.hearth = hp_
         # light leaving the door: points on straight trajectories, one per (lane, phase), periodic in the house rate
         if light > 0.05:
             lanes = np.linspace(-0.42, 0.42, 9); ph = np.arange(14) / 14
@@ -268,7 +305,7 @@ class Scene:
             Gz2, Gy2 = np.meshgrid(gz2, gy2)
             op = np.stack([np.full(Gz2.size, -0.34), Gy2.ravel(), Gz2.ravel()], 1)
             sx, sy, _ = project(op)
-            pw = light * (0.55 + 0.15 * np.cos(th_h - 1.5 * op[:, 1])) * (1.1 - 0.35 * op[:, 1] / 2.0)
+            pw = light * (0.55 + 0.15 * np.cos(th_h - 1.5 * op[:, 1])) * np.exp(-op[:, 1] / 0.35) * 0.8   # only a low glow at the sill: the room itself is the light
             haze = np.zeros_like(L)
             splat(haze, sx, sy, np.tile([1.0, 0.72, 0.40], (len(op), 1)), pw)
             # the light falling out across the sill onto the porch
@@ -278,6 +315,8 @@ class Scene:
             fp = np.stack([FU[m], np.zeros(m.sum()), FZ[m]], 1)
             sx, sy, _ = project(fp)
             splat(haze, sx, sy, np.tile([1.0, 0.70, 0.38], (len(fp), 1)), light * 0.35 * np.exp(-np.maximum(fp[:, 0], 0) / 1.0))
+            sx, sy, _ = project(np.array([[-2.45, 0.2, -3.6]]))
+            splat(haze, np.array([sx[0] + dx for dx in (-6, 0, 6) for _ in (0,)]), np.full(3, sy[0]), np.tile([1.0, 0.6, 0.3], (3, 1)), np.full(3, light * 25.0))
             self.haze = haze
         else:
             self.haze = None
@@ -291,7 +330,8 @@ class Scene:
         # ---- the person
         pq = {k: self.Pq[k][i] for k in ('u', 'z', 'sit', 'reach', 'low', 'lean')}
         PD = G.person(pq, t, th_h)
-        self.draw_body(Bd, PD, 2.2 + 0.6 * light)
+        PD['w'] = PD['w'] * np.where(through_opening(PD['p']), 1.0, 0.8)
+        self.draw_body(Bd, PD, 3.0 + 1.2 * light)
         # ---- the voice: wavefronts from the mouth (calls hot and fast, the soft voice slow, warm, faint)
         dog_u = self.Q['u'][i]
         for te, kind in WAVES:
@@ -319,7 +359,7 @@ class Scene:
         warm = 0.3 * light * float(np.exp(-max(q['u'], 0) / 2.0))
         D = G.dog(q, t, th_d, self.agit[i], warm, 0.55 + 0.45 * dens)
         dogb = np.zeros_like(Bd)
-        meas = self.draw_body(dogb, D, 2.5)
+        meas = self.draw_body(dogb, D, 2.5 * (0.85 + 0.25 * (0.5 + 0.5 * math.cos(th_d))))
         Bd += dogb
         # the body stands against the light: a soft occlusion mask from the dog's own dots dims what is behind it
         sm = dogb.reshape(Hh // 4, 4, W // 4, 4, 3).sum((1, 3)).mean(2)
@@ -341,7 +381,7 @@ class Scene:
         Lt = (L + st) * (1 - occ) + Bd
         dot = blur(Lt, 1)
         g = glow(Lt)
-        lum = dot * 1.6 + g * 0.55
+        lum = dot * 1.85 + g * 0.6
         if self.haze is not None:
             small = self.haze.reshape(Hh // 4, 4, W // 4, 4, 3).sum((1, 3))
             small = blur(small, 10)

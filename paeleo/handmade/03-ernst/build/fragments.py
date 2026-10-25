@@ -22,10 +22,12 @@ FRAGS = {
     'lion_mask': ('lion', 17, None, 1.6, 90, 3.2, False),     # the keystone: frontal
     'hand': ('hand', 10, None, 2.0, 70, 3.2, True),           # the reaching / offered hand (mirrored to point right)
     'lantern': ('lantern', 20, None, 0.8, 0, 3.0, False),     # the hall lamp
+    'mane': ('lion', 22, None, 2.0, 24, 3.4, True),           # round 2: the lion's mane as the dog's hackles (mirrored)
+    'mane_r': ('lion', 22, None, 2.0, 24, 3.4, False),        # the same mane, unmirrored (for the dog facing away)
 }
 
 
-RADIAL = {'lion_head': (0.7, 0.55, 150), 'lion_head_b': (0.7, 0.55, 150), 'lion_mask': (0.5, 0.56, 110)}
+RADIAL = {'mane': (0.3, 0.55, 150), 'mane_r': (0.7, 0.55, 150), 'lion_head': (0.7, 0.55, 150), 'lion_head_b': (0.7, 0.55, 150), 'lion_mask': (0.5, 0.56, 110)}
 
 
 def load_mask(shot, i, W, H):
@@ -63,6 +65,12 @@ def make(name):
     im = im.resize((w, h), Image.BICUBIC); mk = mk.resize((w, h), Image.BICUBIC).filter(ImageFilter.GaussianBlur(1.2))
     g = np.asarray(im, float) / 255
     m = np.asarray(mk, float) / 255
+    if name in ('mane', 'mane_r'):
+        # only the mane: the face is cut away with scissors (a disc around it), leaving a crescent of fur
+        yy0, xx0 = np.mgrid[0:h, 0:w].astype(float)
+        fx, fy, _ = RADIAL[name]
+        r0 = np.hypot(xx0 - fx * w, (yy0 - fy * h) * 0.95)
+        m = m * np.clip((r0 - 0.27 * min(w, h)) / 4.0, 0, 1)
     # tone: stretch the fragment's own range, so every fragment is cut to the same density (the seam concealed by burin)
     inside = m > 0.5
     lo, hi = np.percentile(g[inside], 3), np.percentile(g[inside], 97)

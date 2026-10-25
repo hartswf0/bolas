@@ -15,7 +15,7 @@ CACHE = os.path.join(HERE, 'cache')
 OUT = os.path.join(CACHE, 'frames')
 H, W = plate.H, plate.W
 TLD = pickle.load(open(os.path.join(CACHE, 'timeline.pkl'), 'rb'))
-FRAG = {n: dict(np.load(os.path.join(CACHE, 'frag_%s.npz' % n))) for n in ('lion_head', 'lion_head_b', 'lion_mask', 'hand', 'lantern')}
+FRAG = {n: dict(np.load(os.path.join(CACHE, 'frag_%s.npz' % n))) for n in ('lion_head', 'lion_head_b', 'lion_mask', 'hand', 'lantern', 'mane', 'mane_r')}
 FONT = ImageFont.truetype(os.path.join(CACHE, 'literata_it.ttf'), 23)
 _static = None
 _door_cache = {}
@@ -162,6 +162,17 @@ def render_frame(i):
         rgb, _ = paste(rgb, nm, c, sc, rot, mg, tint=np.array([232, 224, 206]) / 255)
     else:
         rgb, _ = paste(rgb, nm, c, sc, rot, mg)
+    # the knock that opens the door: engraved impact strokes under the keystone, 6.05-6.3 s
+    if 6.05 <= t < 6.32:
+        kx, ky = TL.lion_state(6.4, head_px, 0)[1]
+        fade = 1 - (t - 6.05) / 0.27
+        im = Image.new('L', (W, H), 0); dr = ImageDraw.Draw(im)
+        for k in range(7):
+            a_ = np.radians(200 + k * 23.3)
+            r0, r1 = 46, 46 + 22 * fade + 6
+            dr.line((kx + np.cos(a_) * r0 * 0.8, ky + 10 + np.sin(a_) * -r0 * 0.6 + 30, kx + np.cos(a_) * r1 * 0.8, ky + 10 + np.sin(a_) * -r1 * 0.6 + 30), fill=255, width=2)
+        mk = np.asarray(im, float)[..., None] / 255 * fade
+        rgb = rgb * (1 - mk) + burin.INK * mk
     # -- the hand: pasted large to reach (cut margin shown), small and low to offer (margin concealed)
     if hand_frag:
         el = sdf.project(Jp['elR']); hd = sdf.project(Jp['handR'])
@@ -182,6 +193,7 @@ def render_frame(i):
     if bd is not None and bd['hit'].any():
         # door light reaches the dog when it is near the open door
         cd, ad, wd = dogplate.engrave(bd, prims_d, doorlight=light * 1.0, dusk=dk * 0.35)
+        ids = bd['id']
         x0, y0, x1, y1 = bd['box']
         sub = rgb[y0:y1, x0:x1]
         wt = np.clip(wd * 0.8, 0, 0.75)[..., None]
@@ -189,8 +201,39 @@ def render_frame(i):
         drgb = paperD * (1 - cd[..., None]) + burin.INK * cd[..., None]
         a = ad[..., None]
         rgb[y0:y1, x0:x1] = sub * (1 - a) + drgb * a
+        # the dog's hybrid part: a lion's mane pasted round its neck while it is commanded and refuses (white cut
+        # margin shown: an intrusion); it lies down as trust grows and its seam closes as the dog lies across the sill
+        ms = TL.mane_state(t)
+        if ms is not None:
+            sc, mgA, alpha_m = ms
+            hp = sdf.project(Jd['head']); npj = sdf.project(Jd['nose'])
+            dx, dy = npj[0] - hp[0], npj[1] - hp[1]
+            ang = np.degrees(np.arctan2(dy, dx))
+            if dx <= 0:
+                nmm = 'mane'; rot = ((ang - 180 + 180) % 360) - 180
+            else:
+                nmm = 'mane_r'; rot = ang
+            rot = float(np.clip(rot, -40, 40))
+            f = FRAG[nmm]
+            hfx = (0.3 if nmm == 'mane' else 0.7) * f['cov'].shape[1]; hfy = 0.55 * f['cov'].shape[0]
+            # place the fragment so the hole (the cut-away face) sits on the dog's skull
+            cx = f['cov'].shape[1] / 2; cy = f['cov'].shape[0] / 2
+            ox, oy = (cx - hfx) * sc, (cy - hfy) * sc
+            ca, sa = np.cos(np.radians(rot)), np.sin(np.radians(rot))
+            cen = (hp[0] + ca * ox - sa * oy, hp[1] + sa * ox + ca * oy)
+            tintm = None
+            if alpha_m < 0.999:
+                tintm = burin.PAPER * (1 - 0.2 * dk)
+            before = rgb.copy() if alpha_m < 0.999 else None
+            rgb, mb = paste(rgb, nmm, cen, sc, rot, mgA, tint=tintm)
+            if before is not None:
+                rgb = before * (1 - alpha_m) + rgb * alpha_m
+            # the head stays in front of the ruff
+            hid = np.isin(ids, [k for k, pr in enumerate(prims_d) if pr.name in ('skull', 'muzzle', 'nose', 'eyeL', 'eyeR', 'earL', 'earR')])
+            ha = (hid * ad)[..., None]
+            rgb[y0:y1, x0:x1] = rgb[y0:y1, x0:x1] * (1 - ha) + drgb * ha
+            tr['mane'] = {'scale': round(sc, 3), 'margin': round(mgA, 3), 'alpha': round(alpha_m, 3)}
         # measurement from the render: torso pixels (chest, loin, haunch) give the body's screen centre
-        ids = bd['id']
         torso = np.isin(ids, [k for k, pr in enumerate(prims_d) if pr.name in ('chest', 'loin', 'haunch')])
         head = np.isin(ids, [k for k, pr in enumerate(prims_d) if pr.name in ('skull', 'muzzle', 'nose')])
         tail = np.isin(ids, [k for k, pr in enumerate(prims_d) if pr.name.startswith('tail') or pr.name == 'haunch'])
@@ -222,13 +265,10 @@ def render_frame(i):
     # caption under the plate (the typed circumstance, set as a book's caption)
     rgb = compose.finish(np.clip(rgb, 0, 1))
     img = Image.fromarray((rgb * 255).astype(np.uint8))
-    cap = TL.FR[i]['prompt']
+    cap = TL.caption(i)
     if cap:
         # fade in over the first 8 frames of each caption
-        k = i
-        while k > 0 and TL.FR[k - 1]['prompt'] == cap:
-            k -= 1
-        fa = min(1.0, (i - k + 1) / 8.0)
+        fa = TL.caption_alpha(i)
         dr = ImageDraw.Draw(img)
         txt = cap[0].upper() + cap[1:]
         tw = dr.textlength(txt, font=FONT)

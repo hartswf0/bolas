@@ -142,8 +142,19 @@ def tones(buf, B):
     mono += bl * 0.035 * (np.sin(2 * math.pi * 440 * t) + 0.6 * np.sin(2 * math.pi * 660 * t))
     # release: the field thins; let the bed fall
     mono *= 1 - 0.5 * np.clip((t - (PRE + 28.6)) / 3.0, 0, 1)
+    # duck the bed under the soft voice (it must sit clearly above it): -14 dB from 0.6 s before each soft line to its end
+    duck = np.ones(NT)
+    for on, dur in SOFT_LINES:
+        a0, a1 = PRE + on - 0.6, PRE + on - 0.15
+        b0, b1 = PRE + on + dur + 0.1, PRE + on + dur + 0.7
+        g = np.clip((t - a0) / (a1 - a0), 0, 1) * (1 - np.clip((t - b0) / (b1 - b0), 0, 1))
+        duck = np.minimum(duck, 1 - 0.8 * g)
+    mono = mono * duck
     buf[0] += mono * 0.95; buf[1] += mono * 1.05
     return mono
+
+
+SOFT_LINES = [(7.50, 1.25), (10.50, 1.25), (26.45, 0.85)]
 
 
 def door_sound(buf):
@@ -224,6 +235,15 @@ def main():
     meas['mix_quiet_window_13.0-14.5s'] = round(rms_db(full[int((PRE + 13) * SR):int((PRE + 14.5) * SR)]), 2)
     meas['soft_minus_loudest_call_dB'] = round(max(meas['soft_1'], meas['soft_2'], meas['soft_come_in']) - min(meas['call_1'], meas['call_2']), 2)
     meas['footfall_ticks'] = nf
+    # 1-3 kHz band: each soft line against the mix in the 0.5 s before it
+    def band_db(x):
+        X = np.fft.rfft(x * np.hanning(len(x))); f = np.fft.rfftfreq(len(x), 1 / SR)
+        m = (f >= 1000) & (f <= 3000)
+        return 10 * math.log10(np.sum(np.abs(X[m]) ** 2) / len(x) + 1e-20)
+    for k, (on, dur) in enumerate(SOFT_LINES):
+        seg = full[int((PRE + on) * SR):int((PRE + on + dur) * SR)]
+        pre = full[int((PRE + on - 0.5) * SR):int((PRE + on) * SR)]
+        meas['soft%d_band1-3k_over_bed_before_dB' % (k + 1)] = round(band_db(seg) - band_db(pre), 2)
     meas['note'] = 'RMS in dBFS of the voice stem alone over its active samples; the soft voice must be >= 6 dB below the calls and above the room tone.'
     json.dump(meas, open(os.path.join(OUT, 'proof', 'audio.json'), 'w'), indent=1)
     print(meas)

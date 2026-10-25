@@ -205,9 +205,11 @@ def build():
 
 
 def door_state(t):
-    o = ss(6.2, 7.1, t)
+    # round 2: the door is struck open by the lion landing in the keystone (6.05 s): it starts to swing on the knock
+    x = float(np.clip((t - 6.07) / 0.9, 0, 1))
+    o = 1 - (1 - x) ** 2.4                     # struck: fast at first, then slowing
     ang = lerp(0.06, 1.28, o)
-    light = lerp(0.3, 1.0, ss(6.2, 6.9, t))
+    light = lerp(0.3, 1.0, ss(6.1, 6.8, t))
     return ang, light
 
 
@@ -233,10 +235,82 @@ def lion_state(t, head_px, mouth):
         name = 'lion_head' if s < 0.5 else 'lion_mask'
         sc = lerp(0.42, 0.5, s) if name == 'lion_head' else 0.46
         return name, tuple(c), sc, 0.0, 1.0
-    return 'lion_mask', key, 0.46, 0.0, 1.0 - ss(6.05, 6.5, t)
+    # it lands with a knock: a small drop and rebound
+    bounce = 7.0 * np.exp(-(t - 6.05) * 14) * np.cos((t - 6.05) * 40) if t < 6.5 else 0.0
+    return 'lion_mask', (key[0], key[1] + bounce), 0.46, 0.0, 1.0 - ss(6.05, 6.5, t)
 
 
 if __name__ == '__main__':
     tl = build()
     pickle.dump(tl, open(os.path.join(HERE, 'cache', 'timeline.pkl'), 'wb'))
     print('dog steps', len(tl['dog_events']), 'person steps', len(tl['person_events']))
+
+
+def mane_state(t):
+    """the lion's mane on the dog: (scale, margin alpha, opacity) or None."""
+    if t < 1.0:
+        return None
+    sc = 0.36 * (0.7 + 0.3 * ss(1.0, 1.12, t))                     # hackles up with the first call
+    sc *= 1 - 0.1 * ss(7.6, 12.0, t) - 0.08 * ss(14.7, 23.0, t)     # they lie down as trust grows
+    margin = 1.0 - ss(23.9, 24.9, t)                                 # the seam closes on the sill
+    alpha = 1.0 - 0.18 * ss(23.9, 24.9, t)
+    return sc, margin, alpha
+
+
+def _voice_spans():
+    spans = []
+    cur = None
+    for f in FR:
+        v = f['person']['voice']
+        if v != 'none' and cur is None:
+            cur = [f['t'], f['t']]
+        if v != 'none':
+            cur[1] = f['t']
+        if v == 'none' and cur is not None:
+            spans.append(tuple(cur)); cur = None
+    if cur:
+        spans.append(tuple(cur))
+    return spans
+
+
+VOICE = _voice_spans()
+PROMPT_T = {}
+for _f in FR:
+    if _f['prompt'] and _f['prompt'] not in PROMPT_T:
+        PROMPT_T[_f['prompt']] = _f['t']
+
+
+def caption_on(i):
+    f = FR[i]; p = f['prompt']
+    if not p:
+        return False
+    t = f['t']
+    if t - PROMPT_T[p] < 2.4:
+        return True
+    return any(a - 0.8 <= t <= b + 0.5 for a, b in VOICE) and t >= PROMPT_T[p]
+
+
+def caption(i):
+    """round 2: a caption is shown when its circumstance is set, and again while its words are spoken; never in silence."""
+    for k in range(i, max(-1, i - 8), -1):
+        if caption_on(k):
+            return FR[k]['prompt']
+    return ''
+
+
+def caption_alpha(i):
+    on = [caption_on(k) for k in range(max(0, i - 7), i + 1)]
+    # fade in over 8 frames when it begins, fade out over 8 after it ends
+    if caption_on(i):
+        n = 0
+        for v in reversed(on):
+            if not v:
+                break
+            n += 1
+        return min(1.0, n / 8.0)
+    n = 0
+    for v in reversed(on):
+        if v:
+            break
+        n += 1
+    return max(0.0, 1.0 - n / 8.0)

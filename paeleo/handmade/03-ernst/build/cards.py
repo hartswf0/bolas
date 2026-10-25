@@ -56,9 +56,10 @@ def title():
 END = [
     ('The dog', 'a maquette of round cones and ellipsoids, engraved by this swarm’s own burin;'),
     ('', 'no picture of a dog is used. A step solver sets its paws; its choices are the PAELEO score.'),
+    ('', 'Round its neck, the lion\u2019s mane: pasted on at the first call, its seam closing as it lies across the sill.'),
     ('The plate', 'porch, facade, door, chair, fence and dusk built as regions, each cut with its own engraved line.'),
     ('Found fragments', 'cut from public-domain films and re-engraved:'),
-    ('', 'a lion, Andy’s Animal Alphabet (the magistrate’s head, then the keystone);'),
+    ('', 'a lion, Andy’s Animal Alphabet (the magistrate’s head, the keystone, the dog’s mane);'),
     ('', 'a hand, The Door to Heaven (reaching, then offered low);'),
     ('', 'a miner’s lamp, Anthracite: Pre-Shift Examinations of Underground Mines (the light inside).'),
     ('Sound', 'every sound synthesized: formant voices, a lion’s growl under the calls, paper, stone, hinge, boards.'),
@@ -79,7 +80,7 @@ def colophon():
         d.text((330, y), b, font=fb, fill=INK)
         y += 32
     rule(d, y + 24, 200)
-    centred(d, y + 44, 'Rights: public domain (Internet Archive) for the found frames; everything else made here.', font('literata_it', 17))
+    centred(d, y + 44, 'Rights: public domain (Internet Archive) for the found frames; Literata (SIL OFL) for the type; everything else made here.', font('literata_it', 17))
     centred(d, 640, 'PAE-02 · SCION 03 · Max Ernst · Surreal Collage Grammar', font('literata_it', 16))
     img.save(os.path.join(CACHE, 'card_end.png'))
 

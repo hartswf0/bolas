@@ -135,3 +135,36 @@ shared machine); every later build was checked by frame count.
   voice is intelligible as words is unknown; subtitles carry the words.
 - Ears, eyes and paws are small at the wide camera; whether they read at normal speed was judged only from stills.
 - Quick, Draw!, the archive frames' pixels, the masks and the found-frames library were not used.
+
+## Round 2 (after critic round 1: DOES NOT PASS, close)
+
+The critic's ranked repairs and what I changed (the critic's report is in `reviews/round1.md`, not edited):
+
+1. **Look-in 26.6-28.0 pointed up.** The look now keeps the head near level (pitch blended to +4 degrees) and turns the
+   muzzle 58 degrees away from the camera, into the depth of the room, toward a hearth at the back of the room
+   (u -2.45, z -3.6), which is seen through the open door from the close camera. Before it (24.4-26.4) the head turns
+   the other way, toward the person's low hand, so the look-in is a visible head turn from the person to the room.
+2. **Inside and outside were not legible.** The room is now a distinct interior in point-lines: warm floorboards running
+   into the room and a back wall of horizontal lines (drawn as a cutaway; the back wall is shown only where it is seen
+   through the door, elsewhere it is faint), lit by the hearth and by the door. The porch stays cool dots. The close
+   camera is higher (1.45 m) so both floors read as planes. My mapping became u = x - 0.52, so on the sill the head and
+   forelegs lie beyond the inner face of the frame, the hindquarters on the porch boards, the tail outside. The person
+   sits inside, beside the frame on the near side, hand low near the dog's head. The door's light slab was removed (the
+   room itself is the light; only a low glow at the sill).
+3. **The 3:2 was only in the moon.** The phase relation psi now drives the main field:
+   - the dog's meridian lines: rotation 0.25 h psi and twist 1.5 sin(psi) per tube. While psi drifts (the calls, the
+     refusal) the lines stream round the body and wind and unwind; as the bank locks (about 7.5-12 s) they slow and
+     stand straight and still. (This replaces the 8 s clock twist of round 1.)
+   - the porch planks: every plank dot is displaced along the porch by 0.045 sin(5 z + 2 u - psi): rippling under the
+     calls, still once locked.
+   - the light's wave on the porch runs at 3/2 of the house phase and is aimed at the dog, so when locked its crest
+     reaches the dog exactly as the dog's breath peaks (the dog's brightness pulses at theta_dog); its reach grows with
+     the lock (1.2 m -> 4.2 m), so through 9-14 s the light visibly travels out to the watching dog.
+   The moon stays as an addition.
+4. **7.9-8.4 upright torso / flung leg.** The body now rises in place first (7.66-8.02) and turns standing (8.00-8.70),
+   with no spine curl on this turn (seen from above, the curl read as a sloped, rearing body); the head stays near the
+   line of the back while it looks over its shoulder; the tail is shorter and a tucked tail curls under.
+5. **Soft voice vs bed.** The oscillator bed ducks by 14 dB from 0.6 s before each soft line to its end; measured: the
+   1-3 kHz band of each soft line against the mix in the 0.5 s before it (`proof/audio.json`).
+
+Kept: the 3D refusal turn with its curl, the head-low approach, the voice wavefronts, the sound arc, the moon.

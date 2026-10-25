@@ -63,8 +63,8 @@ forelegs, face) instead of an edge-on sliver.
 Acting (`dog.py controller`): the six choices and their times come from the score; the body performs them this way:
 
 - **Retreat (1.0 s).** Backs away, crouched, hindquarters dropped, tail tucked, ears flat, head low. The feet step backwards.
-- **Refusal (3.42 s).** Turns away from the camera, head leading (spine bend), through the rear view at about 3.8 s, done by
-  4.12 s; the head is carried high enough in the turn to show above the back, then sinks; it lies down with its back to the
+- **Refusal (3.42 s).** Turns away from the camera, head leading (spine bend and neck), through the rear view at about 3.65 s,
+  done by 3.92 s; the head is carried high enough in the turn to show above the back, then sinks; it lies down with its back to the
   door and its chin on its paws (the score's lie and rest values) until 7.46.
 - **Turning to look (7.46 s).** The chin comes off the paws at 7.36, the head lifts high and swings back over the shoulder
   to the door, muzzle pointing left, by 7.58; it stands (7.5 to 8.0) and the body follows through the front view (8.0 to
@@ -102,15 +102,65 @@ Air (shaped noise), crickets in the yard, the room's hum and clock heard through
 going down to the boards with a breath out (twice), the tail on the boards while it looks in, a long sigh as it settles,
 a latch and a creak as the door swings in, a sparse score of glass tones entering with the light and resolving at the sill.
 
-MEASURED_AUDIO
+Measured levels (proof/audio_levels.json; RMS dBFS of each stem's active samples after the master gain): calls
+-15.47 and -12.78; soft *it's all right* -25.97 and -26.38; soft *come in* -26.98;
+room tone in those windows -35.15 and -33.81. The soft voice is
+10.5 dB under the quieter call and at least 6.83 dB over the room tone.
+**Measured, not heard:** the builder cannot listen. proof/spectrogram.png pictures the final mix (0-12 kHz over the 38 s); it is a picture of the sound, not a listening.
 
 ## Protected conditions and measurements
 
-MEASURED_INVARIANTS
+`python3 tools/paeleo/check_handmade.py paeleo/handmade/05-norstein` -> **ALL OK** (invariants.json).
+
+| score t (s) | choice | measured first frame (s) | dt |
+|---|---|---|---|
+| 1 | retreat | 1.1667 | +0.167 |
+| 2.333 | watch | 2.375 | +0.042 |
+| 3.417 | refuse | 3.625 | +0.208 |
+| 7.458 | watch | 7.5417 | +0.084 |
+| 14.708 | approach | 14.7917 | +0.084 |
+| 23.792 | lie_down | 23.875 | +0.083 |
+
+- I2: the measured position never goes below 0.5661 m (sill 0.56) and ends at 0.5974 m.
+  At the end 40 % of the dog's silhouette lies within the doorway's span (X < 0.46 m) and the tail end is at
+  1.26 m, outside the jamb; the front of the dog is in the door's light (measured from the render: trace.json,
+  inside_frame_share, tail_end_x).
+- I3: correlation of the measured position (x_world_measured, the torso pass centroid unprojected at the dog glass depth,
+  because the camera moves) with the score's x: r = 1.0 over 768 frames.
+  The mapping is the identity (the porch is the score's X axis), so the approach covers the same distance at the same pace.
+- I4: 100 % of the refusal frames are measured facing away.
+- Head low on the approach: in every frame measured as coming, the head pass's top is below the torso pass's top
+  (head_above_back between -0.137 and -0.029 of the silhouette height).
+- Feet: planted feet do not move in the solver (0 m over 1,522 planted foot-frames while standing or walking). The drawn
+  paw sits at the end of the leg chain and lags a planted foot by at most 1.2 cm. Three single frames in the two spins
+  (3.58, 8.29, 8.54 s) have three feet off the boards. While lying down and getting up, the legs fold by an explicit
+  pose and the paws do move on the boards; they are not held there.
+
+**How the trace is measured** (assemble.py): position = the centroid of the torso ID pass, unprojected at the dog glass's
+depth; facing = which side of the cut skull piece the cut nose piece lies on (left = to the door); travel = the paws and
+the body moving together (7-frame smoothing); height = the silhouette height in metres at the dog's depth (lying < 0.55 m).
+State: lying at the sill -> lie_down; facing away -> refuse; travelling away from the door at > 0.12 m/s with the head
+below its alert carriage -> retreat; travelling toward it at > 0.12 m/s, sustained 0.75 s -> approach; otherwise watch.
+These thresholds are a measurement model the builder chose and tuned against this render (see ledger 11-13). They are a
+structural record, not a judgement that the choices read.
 
 ## What failed and what changed (full list in ledger.jsonl)
 
-LEDGER_SUMMARY
+1. **maquette pose sheet v1 (proof/poses_a.png, first version).** Saw: reads as a bear/pig: torso too fat, legs short and splayed, thick stick tail, ears tiny; rear view a blob; lying hind legs sprawl back like a frog Changed: slimmer chest/waist/hip, bigger head and ears, thin tapering tail
+2. **pose sheet v2 at film scale.** Saw: dog-like; legs bend too much (too long for the height), a lifted paw detached from its leg mid-turn, approach head level with the back (not below) Changed: shorter limbs; paws attached to the IK chain end; depth tone inside the puppet (far pieces darker)
+3. **pose sheet v3 (proof/poses_b.png).** Saw: front and rear views read (chest+forelegs; rump+hind legs+tucked tail), the look-back over the shoulder reads; approach head still at the back line; lying hind thigh sticks out Changed: approach neck angle -40 deg (head below the withers); lying pose re-cut
+4. **first composited frames 1, 3.6, 9, 19, 28 s.** Saw: structure works (doorway light, porch, person, dog), but there is no fog to speak of; the person sits in a squat floating below the boards; still at 28 s caught mid rack-focus Changed: fog colour lighter, density from cloud footage with contrast; sit pose re-angled; return rack ends by 27.85 s
+5. **frames with keyed cloud fog.** Saw: fog reads as real fog, but the cloud bank top edge painted a cloud line across the wall; the dog at 3.6 s is nearly lost in it Changed: two fog sources: the bank edge only for ground fog and the bank (tops at 0.75 and 1.55 m), the cloud interior for haze; darker coat; fog thins round the dog, most at its choices
+6. **lying pose sheet (proof/poses_d, poses_e).** Saw: lying read as a cat about to pounce (chest high, neck stood up, ears like spikes) Changed: torso lowered to the boards, haunch widened, neck capped at 22 deg when lying, ears shortened, look-in yaw reduced so the muzzle shows
+7. **sound v1 levels (proof/audio_levels.json).** Saw: soft voice 12.7 dB under the calls, but only 3 dB over the room tone Changed: soft voice +2.3 dB, room -3 dB: soft 10.5 dB under calls, 6.8 dB over room (measured; not listened to)
+8. **camera v2: push in on the refusal, pull back as the door opens.** Saw: the dog is larger in its refusal; the look back (7.46) still faced the camera from the front end of the body: the chin-on-paws rest pose held the head at the front Changed: rest released at 7.36, head lifted to 48 deg during the look back, yaw to -2.8 rad, spine bend -0.7: the muzzle now points back over the shoulder, above the back line (proof/poses_f.png)
+9. **contrast at the choices.** Saw: dog lum ~56 vs surround ~76: murky grey in grey fog Changed: coat darker (50,42,39), cool rim 0.5, fog clears 60-95% round the dog at its choices
+10. **process error (not a film attempt).** Saw: to stop my own render I ran pkill -f render.py, which matches every render.py on this shared machine; it very likely killed other swarms' renders (03-ernst, 06-whitney, 54-provenance-graph were running render.py). Their processes restarted afterwards. Changed: stop only by PID from now on; reported to the caller
+11. **full cut r1 (768 frames, 2200 s on a shared, loaded machine); check_handmade.** Saw: I1 failed: the measured refusal came at 3.83 s (score 3.417): facing was measured from head vs torso centroid, which flips only when the head passes the middle of the body; the look back was measured late for the same reason; the trace had spurious "approach" runs during turns in place; lying was not detected at the sill because silhouette height was in pixels while the camera trucks in Changed: facing measured from the cut nose piece against the skull piece; travel measured on the paws and the torso together; height in metres at the dog glass; coming must be sustained 0.75 s, backing 0.25 s
+12. **acting repairs for the measured choices.** Saw: the dog kept its head low for 0.3 s after the score says it stops backing (2.33): the choice to watch did not read Changed: head comes up at 2.33 while the body still drifts; the refusal turn shortened to 3.40-3.92 with the head leading by 0.55 rad
+13. **check after repairs.** Saw: ALL OK: choices at +0.167, +0.042, +0.208, +0.084, +0.167, +0.083 s; min x 0.566, end x 0.597; r = 1.0; refusal turned 100 % Changed: -
+14. **looked at the cut at 2 fps (proof sheets) and the four stills at full size.** Saw: at 28 s the head reads as looking at the person, not into the room Changed: looking-in head yaw -0.5 -> -0.82 rad and lowered; in silhouette against the doorway the muzzle then hides: the rack focus into the room carries the rest of the beat (judgement, not measured)
+15. **foot audit.** Saw: planted feet never move in the solver (0 m over 1522 planted foot-frames), but in the quick refusal turn the body outran a forefoot by up to 15 cm, so the drawn paw (at the end of the leg chain) dragged; on walking strides it lagged up to 3 cm Changed: a foot the leg cannot hold steps at once; faster steps while spinning; legs 1 cm longer per segment: drawn-paw lag on planted feet now <= 1.2 cm; three single frames with 3 feet off the boards in the spins (3.58, 8.29, 8.54 s)
 
 ## Honest evidence
 
@@ -133,3 +183,16 @@ LEDGER_SUMMARY
 - No real voice recording; no lip or mouth animation on the person.
 - The door light does not cast the dog's shadow onto the boards (only a soft contact shadow under each figure).
 - The operator page (index.html) is a local file, not published.
+
+## What is still weak (the builder's view, for the critic to confirm or overturn)
+
+- The dog is small in the wide shots (about 180 px long) and fog-soft through the refusal; at 6.3 to 7.2 s, while the
+  camera pulls back and focus is in the room, it is barely visible. That is the obscure state, but the critic may find
+  it too dim.
+- Looking in (26.4 s): when the muzzle turns into the room it hides behind the skull, so the silhouette shows a round head
+  with pricked ears against the doorway. The rack focus into the room carries the rest of the beat. It may read as
+  "looking up" or "looking at the person".
+- The rear view mid-turn (about 3.6 to 3.7 s) is the most generic drawing: rump, legs and a raised head.
+- The ears are pointed and stiff (a little feline); the person is a plain mannequin-like cutout.
+- The voice is formant-synthesized and almost certainly mechanical; intelligibility is unknown.
+- Trace thresholds were tuned against this render (see above).

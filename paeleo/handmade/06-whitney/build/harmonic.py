@@ -24,7 +24,7 @@ FPS = 24
 N = 768
 T = np.arange(N) / FPS
 
-U_OFFSET = 0.45      # my space: u = x_score - 0.45 (metres); the facade's outer face is u = 0, the inner face u = -0.30
+U_OFFSET = 0.52      # my space: u = x_score - 0.52 (metres); the facade's outer face is u = 0, the inner face u = -0.30
 
 
 def load_score():
@@ -102,11 +102,12 @@ def bank(score, coupled=True):
         th_d[i + 1] = th_d[i] + (2 * math.pi * f_nat[i] - K[i] * math.sin(psi)) * dt
     psi = np.unwrap(2 * th_d - 3 * th_h)
     dpsi = np.gradient(psi) * FPS
+    lock = np.exp(-np.abs(dpsi) / 0.25)            # 1 locked, 0 drifting
     # density: sparse -> dense -> release (the progression the bar asks for)
     density = np.clip(0.38 + 0.12 * smooth(6.2, 8.0, t) + 0.25 * smooth(9.0, 15.0, t) + 0.25 * smooth(15.0, 23.8, t)
                       - 0.45 * smooth(28.6, 31.8, t), 0.25, 1.0)
     # agitation: how hard the commands strike the body's rings (bristle amplitude)
-    return dict(t=t, th_house=th_h, th_dog=th_d, psi=psi, dpsi=dpsi, f_house=f_house, f_nat=f_nat, K=K,
+    return dict(t=t, th_house=th_h, th_dog=th_d, psi=psi, dpsi=dpsi, lock=lock, f_house=f_house, f_nat=f_nat, K=K,
                 press=press, invite=invite, density=density, trust=trust, **{'c_' + k: v for k, v in c.items()})
 
 
@@ -124,17 +125,17 @@ def choreography(score, B):
     # body yaw: 0 faces the door (-u); one full revolution across the film's two turns:
     #   refusal 3.417 -> 3.90 turns away from the camera to pi (its back to the door),
     #   turning back: body 7.72 -> 8.55 from pi through facing the camera (3pi/2) to 2pi.
-    p1, p2 = smooth(3.43, 3.90, t), smooth(7.72, 8.55, t)
+    p1, p2 = smooth(3.43, 3.90, t), smooth(8.00, 8.70, t)
     yaw = math.pi * p1 + math.pi * p2
     # while it turns, the spine curls toward the turn (front leads, rear follows): never an end-on tube
-    bend = -1.4 * (np.sin(math.pi * p1) + np.sin(math.pi * p2))
+    bend = -1.4 * np.sin(math.pi * p1)          # (turning back: no curl; seen from above, a curl read as a sloped, rearing body)
     # head world yaw leads the body (attention -> intention -> gesture)
     head_w = math.pi * smooth(3.40, 3.80, t)
     head_w = head_w + (2 * math.pi - math.radians(18) - math.pi) * smooth(7.46, 7.70, t) \
         + math.radians(18) * smooth(8.1, 8.6, t)
     # on the sill: first a glance toward the low hand (the person, camera side), then at 26.4 into the lit doorway
     glance = -math.radians(42) * smooth(24.4, 25.2, t) * (1 - smooth(26.45, 26.85, t))
-    look_in = math.radians(16) * smooth(26.45, 26.85, t) * (1 - smooth(28.2, 28.9, t))
+    look_in = math.radians(58) * smooth(26.45, 26.95, t) * (1 - smooth(28.2, 28.9, t))   # into the depth of the room (the hearth), away from us and from the person
     head_w = head_w + glance + look_in
     # approach glances (small, toward the hand) keep the head alive without lifting it
     head_rel = np.array([wrap(a) for a in head_w - yaw])
@@ -146,11 +147,17 @@ def choreography(score, B):
     head_pitch = np.where(appr > 0, np.minimum(head_pitch, -30), head_pitch)
     # looking back over the shoulder at 7.46: head lifts as it comes round (before the body rises)
     head_pitch = head_pitch + 12 * smooth(7.46, 7.70, t) * (1 - smooth(8.0, 8.6, t))
+    # while it looks back over its shoulder and gets up, the head stays near the line of the back (no rearing, no giraffe)
+    lb = smooth(7.40, 7.60, t) * (1 - smooth(8.45, 8.85, t))
+    head_pitch = np.minimum(head_pitch, 14 * lb + 90 * (1 - lb))
+    # looking in (26.45-28.2): the neck stretches the muzzle forward into the room, level, not up
+    lk = smooth(26.45, 26.85, t) * (1 - smooth(28.2, 28.9, t))
+    head_pitch = head_pitch * (1 - lk) + 4.0 * lk
     rest = act['rest'].copy()
     # the lie: the score's lie, but at 7.46 the rise waits for the head (it rises 7.70 -> 8.10)
     lie = act['lie'].copy()
     m = (t >= 7.40) & (t < 8.4)
-    lie[m] = 1 - smooth(7.70, 8.10, t[m])
+    lie[m] = 1 - smooth(7.66, 8.02, t[m])
     rest[m] = np.minimum(rest[m], 1 - smooth(7.46, 7.62, t[m]))
     # lying on the sill: it goes down at once when it reaches the sill (23.79 -> 24.12)
     m2 = t >= 23.6
@@ -171,8 +178,8 @@ def person(score, B):
     t = T
     # doorway: standing in the door frame (u -0.55); 4.75 -> 5.45 steps aside (inside, toward the camera) and sits
     step = smooth(4.75, 5.45, t)
-    pu = -0.58 + (-0.92 - -0.58) * step
-    pz = 0.0 + 0.78 * step
+    pu = -0.58 + (-0.62 - -0.58) * step
+    pz = 0.0 + 0.80 * step
     sit = smooth(5.35, 6.05, t)
     reach = np.clip(env(t, 3.40, 4.55, .30, .45), 0, 1)
     low = smooth(6.8, 7.25, t)

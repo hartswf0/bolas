@@ -14,7 +14,28 @@ if __name__ == '__main__':
         byi[f['i']] = f
     frames = [byi[i] for i in sorted(byi)]
     assert len(frames) == 768, len(frames)
+    # measured onsets: when the rendered dog visibly does each choice (from its own render, not from the state field)
+    def first(cond, t0):
+        return next((f['t'] for f in frames if f['t'] >= t0 and cond(f)), None)
+    x0 = frames[12]['x_screen']
+    def at(tq, key):
+        return min(frames, key=lambda f: abs(f['t'] - tq))[key]
+    def vel(f, k=2):
+        i = f['i']; a = frames[max(0, i - k)]; b = frames[min(767, i + k)]
+        return (b['x_screen'] - a['x_screen']) / (b['t'] - a['t'])
+    on = {
+        'retreat (backs away: x_screen rises 2 px)': first(lambda f: f['x_screen'] > x0 + 2, 0.5),
+        'watch (stops backing: |v| < 25 px/s)': first(lambda f: abs(vel(f)) < 25, 2.0),
+        'refuse (rendered head passes to the far side of the tail)': first(lambda f: f['facing'] == -1, 3.0),
+        'watch (head starts coming round: head_x moves 3 px toward the door)': first(lambda f: f['head_x'] < at(7.4, 'head_x') - 3, 7.4),
+        'approach (comes: x_screen falls 2 px)': first(lambda f: f['x_screen'] < at(14.0, 'x_screen') - 2, 14.0),
+        'lie_down (rendered torso drops 3 cm)': first(lambda f: f['torso_h'] < at(23.5, 'torso_h') - 0.03, 23.5),
+    }
+    score_t = [1.0, 2.333, 3.417, 7.458, 14.708, 23.792]
+    measured = [{'choice': k, 'score_t': st, 'measured_onset_t': v, 'dt': None if v is None else round(v - st, 3)}
+                for (k, v), st in zip(on.items(), score_t)]
     about = {
+        'measured_onsets': measured,
         'about': 'What the Ernst dog did, per scene frame, measured from its own render (fixed camera: x_screen is '
                  'the screen centre of the torso pixels of the engraved maquette; facing is +1 when the rendered head '
                  'is on the door side of the rendered tail; posture from the rendered torso height). state is the '

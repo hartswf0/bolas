@@ -113,12 +113,16 @@ class Builder:
                     w=np.concatenate(self.W), part=np.concatenate(self.part), tg=np.concatenate(self.T))
 
 
+PSI = 0.0     # the 3:2 relation psi = 2 theta_dog - 3 theta_house, set by the renderer each frame
+
+
 def ring_phase(h, K, t):
-    """the meridians' phase along a tube of K stations, harmonic number h: a slow common rotation plus a twist that
-    winds the lines into helices and unwinds them to straight engraved lines at T_REUNION + 8 k s."""
+    """the meridians' phase along a tube of K stations, harmonic number h, driven by the 3:2 relation psi:
+    while psi drifts (the calls) the lines stream round the body and wind and unwind into helices;
+    when it locks they stand still and straight, like engraved lines."""
     s = np.linspace(0, 1, K)
-    rot = 0.35 * h * W0 * (t - T_REUNION)
-    tw = 1.6 * math.sin(0.5 * W0 * (t - T_REUNION))
+    rot = 0.25 * h * PSI
+    tw = 1.5 * math.sin(PSI)
     return rot + h * tw * s
 
 
@@ -261,16 +265,17 @@ def dog(q, t, breath, agit, warmth, density):
     a0 = math.radians(float(np.interp(tl, [0, .25, .5, 1.0, 1.35], [30, -14, -36, -62, -82])))
     wag = q['wag'] * 0.9 * math.sin(2 * breath)
     base = np.array([-0.42, hp_y + 0.01, 0])
-    pts = [base]; ang = a0; d = 0.06
+    pts = [base]; ang = a0; d = 0.055
     for k in range(7):
         dvec = np.array([-math.cos(ang) * math.cos(wag), math.sin(ang), math.cos(ang) * math.sin(wag)])
         nxt = pts[-1] + d * dvec
         # lying: the tail rests on the floor, outside
         if lie > 0:
             flo = np.array([pts[-1][0] - d * 0.9, 0.03, pts[-1][2] + d * 0.35 * lie])
-            nxt = nxt * (1 - lie) + flo * lie
+            lt = lie ** 2
+            nxt = nxt * (1 - lt) + flo * lt
         nxt[1] = max(nxt[1], 0.025)
-        pts.append(nxt); ang += math.radians(7 if tl < .15 else -3)
+        pts.append(nxt); ang += math.radians(7 if tl < .15 else (-3 if tl < .6 else -16 * min(1, (tl - .6) / .4)))   # a tucked tail curls under
     cen = dense(np.array(pts), 18)
     P, Nn = tube(W(cen), np.linspace(.038, .012, 18), np.linspace(.038, .012, 18), 6, Wd([0, 1, 0]), ring_phase(6, 18, t), ripple * .3, 2, breath)
     B.add(P, Nn, col, 1.0, 4)
@@ -329,7 +334,7 @@ def person(q, t, phase):
         rest_hand = sh + U * -0.55 + F * 0.05
         if sg == 1:
             reach_hand = sh + F * 0.62 + U * -0.22
-            low_hand = o + F * 0.62 + U * 0.30 + S * -0.30
+            low_hand = o + F * 0.12 + U * 0.28 + S * -0.52
             hand = rest_hand * (1 - max(reach, low)) + reach_hand * reach + low_hand * low * (1 - reach)
         else:
             knee = hip + F * 0.42 + U * 0.22 + S * -0.09

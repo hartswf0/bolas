@@ -66,6 +66,32 @@
    "used_as": "build/cache/frag_lantern.npz"
   },
   {
+   "id": "mane",
+   "what": "round 2: the dog’s hybrid part. The lion’s mane (the same frame as the magistrate’s head, its face cut away with a disc) pasted round the dog’s neck from the first call (1.0 s): hackles raised, white cut margin shown while it is commanded and refuses; it shrinks as trust grows and its margin fades as the dog lies across the sill (23.9-24.9 s): absorbed as the ruff of a couchant guardian under the keystone lion",
+   "source_file": "src/lion/f022.jpg",
+   "kit_path": "hartswf0/secondhand-motion/shots/lion-sam/frames/f022.jpg",
+   "mask": "hartswf0/secondhand-motion/shots/lion-sam/masks.json [frame 22]",
+   "source_title": "Andy's Animal Alphabet",
+   "archive_url": "https://archive.org/details/AndysAnimalA",
+   "clip_id": "2c353422-8745-5875-82a7-f19d09c157f9",
+   "rights": "public_domain",
+   "operation": "cut by its SAM mask (crop [5, 83, 122, 199]), mirrored, scaled x2.0, tone-stretched, engraved with this swarm’s burin (radial mane line system), outlined at the cut, white cut margin kept as a separate layer",
+   "used_as": "build/cache/frag_mane.npz"
+  },
+  {
+   "id": "mane_r",
+   "what": "the same mane, unmirrored, used when the dog faces away (the refusal)",
+   "source_file": "src/lion/f022.jpg",
+   "kit_path": "hartswf0/secondhand-motion/shots/lion-sam/frames/f022.jpg",
+   "mask": "hartswf0/secondhand-motion/shots/lion-sam/masks.json [frame 22]",
+   "source_title": "Andy's Animal Alphabet",
+   "archive_url": "https://archive.org/details/AndysAnimalA",
+   "clip_id": "2c353422-8745-5875-82a7-f19d09c157f9",
+   "rights": "public_domain",
+   "operation": "cut by its SAM mask (crop [5, 83, 122, 199]), scaled x2.0, tone-stretched, engraved with this swarm’s burin (radial mane line system), outlined at the cut, white cut margin kept as a separate layer",
+   "used_as": "build/cache/frag_mane_r.npz"
+  },
+  {
    "id": "dog",
    "what": "the dog: a maquette of 27 typed primitives (round cones, ellipsoids): chest, loin, haunch, neck, skull, muzzle, nose, two eyes, two ears, four legs of three segments (upper, lower, paw), a four-segment tail",
    "source_file": "build/dog.py",

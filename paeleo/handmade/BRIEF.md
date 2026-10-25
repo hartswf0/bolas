@@ -116,6 +116,9 @@ House rules learned the hard way:
 - If your camera moves, add `x_world_measured` (metres, measured from your render) to every trace frame; the checker uses it.
 - Put regenerable intermediates in `build/cache/` (git-ignored) and keep the folder lean.
 - Run `python3 tools/paeleo/check_handmade.py paeleo/handmade/<your folder>` and look at your own frames before you stop.
+- The machine is shared with other swarms rendering at the same time. Never use pattern kills (`pkill -f`, `killall`); stop
+  only PIDs you started. After every build, check the frame count (768 scene frames, film 38.0 s).
+- Record each choice's onset as measured from your render, not only the score's state label, so timing is evidence.
 
 ## Deliverables, all inside your folder `paeleo/handmade/<nn>-<slug>/` (touch nothing outside it)
 
