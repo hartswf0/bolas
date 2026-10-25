@@ -218,7 +218,12 @@ class Assets:
         for x in cols:
             ys = np.nonzero(bm[:, x])[0]
             # the fill line curves up into the chest and the rump so neither end is a vertical wall
-            yb = int(self.lie_floor - 1.4 * max(0, xc0 + 24 - x) - 1.1 * max(0, x - (xc1 - 14)))
+            # round 3: a drawn belly contour (recorded repair), not a straight floor line: the chest rounds down to the
+            # elbow, the belly lifts between elbow and haunch, the haunch rounds onto the boards, with a little fur
+            xa, xb = xc0 + 22, xc1 - 34
+            lift = 6.0 * math.sin(math.pi * min(1, max(0, (x - xa) / max(1, xb - xa)))) if xa < x < xb else 0.0
+            fur = 1.3 * math.sin(x * 0.9) + 0.8 * math.sin(x * 2.3 + 1.0)
+            yb = int(round(self.lie_floor - lift + fur - 1.6 * max(0, xc0 + 24 - x) - 1.3 * max(0, x - (xc1 - 16))))
             y0 = ys.min()
             if yb <= y0:
                 continue
@@ -437,7 +442,7 @@ def floor_spill(cv, o):
 # ------------------------------------------------------------------ the dog
 DOG_S = 1.36
 WALK = [42, 43, 44, 45]          # the archive dog's own walk, head low (mirrored to face the door)
-WATCH = [9, 10, 11, 10]                      # standing, head up, looking at the person (boils between real frames)
+WATCH = [9]   # round 3: f10/f11 dropped (hindquarter slab); f9 holds, breathing                      # standing, head up, looking at the person (boils between real frames)
 TURN_AWAY = [13, 30, 34, 44]       # round 2: f15, f26, f36, f38, f40, f42 dropped (boxy or muddled cuts)   # the real dog turning from side-left through frontal to right
 TURN_BACK = [('m', 30), ('m', 30), ('m', 44), 13]   # round 2: real cuts only, mirrored, head leading to the door
 
@@ -477,6 +482,9 @@ class DogRig:
         if mirror:
             ax = orig.w - ax
         M = aff(A_scale_rot(s, ang), (ax, ay), (x_anchor, fy))
+        if i in WATCH:   # breathing: a 0.7 % rise of the body about its feet, ~0.4 Hz (score time from cv)
+            br = 1.0 + 0.007 * math.sin(getattr(cv, 't', 0.0) * 2.5)
+            M = M @ aff(np.diag([1.0, br]), (ax, ay), (ax, ay))
         cv.draw(sp, M, exposure=exposure, lit=lit, tag=tag)
         # where this drawing's nose and tail are on the canvas (the kit's rig keys for that source frame, carried by M)
         from extract import interp_pose
@@ -536,15 +544,16 @@ class DogRig:
                 v = Mh @ np.array([p[0] - 54, p[1] - 54, 1.0]); return [float(v[0]), float(v[1])]
             cv.marks = {'nose': th(k13['nose']), 'neck': th(k13['neck']), 'tail': None}
         cv.draw(head_sp, Mh, exposure=exposure * (1.05 if look > 0.5 else 1.0), lit=lit, tag='head')
-        # the body, one piece
+        # forelegs laid forward along the boards, drawn BEHIND the body (round 3: the leg tops' joint cut is hidden under
+        # the chest); both at one angle, the far leg a little behind and above the near one so they overlap (no gap)
+        fore_ang = 88.0 * (0.6 + 0.4 * u)
+        for leg, a0, off, ek in (('fore_b', 0.0, (-2.0, -16.0), 0.8), ('fore_a', 22.0, (-6.0, -12.0), 1.0)):
+            M = aff(R @ (rot(fore_ang + a0) @ np.diag([1, 0.9])), P['shoulder'],
+                    to_canvas(torso_pt(P['shoulder']) + np.array(off)))
+            cv.draw(pp[leg], M, exposure=exposure * ek, lit=lit, tag='dog')
+        # the body, one piece, over the leg tops and the neck
         M = aff(R @ Tt, body, to_canvas(torso_pt(body)))
         cv.draw(A.lie_body, M, exposure=exposure, lit=lit, tag='dog')
-        # forelegs laid forward along the boards (the two legs had different angles in f13)
-        fore_ang = 88.0 * (0.6 + 0.4 * u)
-        for leg, a0 in (('fore_b', 0.0), ('fore_a', -24.0)):
-            M = aff(R @ (rot(fore_ang + a0) @ np.diag([1, 0.9])), P['shoulder'],
-                    to_canvas(torso_pt(P['shoulder']) + np.array([-4, -13.0])))
-            cv.draw(pp[leg], M, exposure=exposure * (0.85 if leg == 'fore_b' else 1.0), lit=lit, tag='dog')
 
 
 def mask_add(cv, tag, M, sp):
@@ -792,7 +801,7 @@ def render(frames, outdir, measure_path):
         # the person (in the doorway, or beside the door)
         draw_person(cv, A, t, f, o)
         # the dog: shadow first (from its own rendered alpha on a scratch canvas), then the cut
-        scratch = Canvas(np.zeros((H, W, 3), np.float32)); scratch.light = cv.light
+        scratch = Canvas(np.zeros((H, W, 3), np.float32)); scratch.light = cv.light; scratch.t = t
         info = ch.frame(scratch, i, o)
         dm = scratch.masks.get('_cov', np.zeros((H, W), np.float32))
         hm = scratch.masks.get('head', np.zeros((H, W), np.float32))
