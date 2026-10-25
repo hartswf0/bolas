@@ -1,0 +1,248 @@
+{
+ "about": "Face slots. Each cast fills the same five head views (L, BL, B; R and BR are mirrors) aligned at the socket landmark to the collar of the one performance. Ears are a separate slot where the cast provides them.",
+ "card_px_per_m": 400,
+ "card_size": [
+  280,
+  240
+ ],
+ "socket": [
+  140,
+  170
+ ],
+ "casts": {
+  "paper": {
+   "name": "Paper",
+   "style": "cut paper, tan and cream, a white core at every cut edge",
+   "made_by": "cut by this swarm (synthesized: PIL polygons with a seeded jitter, seed 16)",
+   "rights": "made here",
+   "consent_and_likeness": "not a likeness of any real animal or person",
+   "views": {
+    "L": {
+     "png": "cast/paper/L.png",
+     "socket": [
+      140,
+      170
+     ],
+     "nose": [
+      24.000000000000014,
+      134.0
+     ],
+     "ears": [
+      {
+       "png": "cast/paper/ear.png",
+       "pivot_in_ear": [
+        48.0,
+        12.0
+       ],
+       "at": [
+        154.0,
+        96.0
+       ],
+       "front": true,
+       "side": 1,
+       "scale": 1
+      }
+     ]
+    },
+    "BL": {
+     "png": "cast/paper/BL.png",
+     "socket": [
+      140,
+      170
+     ],
+     "nose": [
+      54.0,
+      134.0
+     ],
+     "ears": [
+      {
+       "png": "cast/paper/ear.png",
+       "pivot_in_ear": [
+        48.0,
+        12.0
+       ],
+       "at": [
+        112.0,
+        94.0
+       ],
+       "front": false,
+       "side": -1,
+       "scale": 0.85
+      },
+      {
+       "png": "cast/paper/ear.png",
+       "pivot_in_ear": [
+        48.0,
+        12.0
+       ],
+       "at": [
+        164.0,
+        94.0
+       ],
+       "front": true,
+       "side": 1,
+       "scale": 1
+      }
+     ]
+    },
+    "B": {
+     "png": "cast/paper/B.png",
+     "socket": [
+      140,
+      170
+     ],
+     "nose": [
+      140.0,
+      106.0
+     ],
+     "ears": [
+      {
+       "png": "cast/paper/ear.png",
+       "pivot_in_ear": [
+        48.0,
+        12.0
+       ],
+       "at": [
+        108.0,
+        94.0
+       ],
+       "front": true,
+       "side": -1,
+       "scale": 1
+      },
+      {
+       "png": "cast/paper/ear.png",
+       "pivot_in_ear": [
+        48.0,
+        12.0
+       ],
+       "at": [
+        172.0,
+        94.0
+       ],
+       "front": true,
+       "side": 1,
+       "scale": 1
+      }
+     ]
+    }
+   },
+   "ear_angles": {
+    "flat": 62,
+    "hang": 8,
+    "prick": -38
+   }
+  },
+  "doodle": {
+   "name": "Doodle",
+   "style": "two strangers' Quick, Draw! dogs as white stickers, black marker line",
+   "made_by": "Quick, Draw! dog key_id 6100378732986368 (NL, profile) and key_id 5882863587164160 (US, face; its face strokes removed for the back views)",
+   "rights": "CC BY 4.0, Google Creative Lab and contributors",
+   "consent_and_likeness": "drawings, no likeness",
+   "views": {
+    "L": {
+     "png": "cast/doodle/L.png",
+     "socket": [
+      140,
+      170
+     ],
+     "nose": [
+      41.2,
+      122.0
+     ],
+     "ears": [
+      {
+       "png": "cast/doodle/ear.png",
+       "pivot_in_ear": [
+        32.0,
+        8.0
+       ],
+       "at": [
+        150.75294117647059,
+        72.0
+       ],
+       "front": true,
+       "side": 1,
+       "scale": 1
+      }
+     ]
+    },
+    "B": {
+     "png": "cast/doodle/B.png",
+     "socket": [
+      140,
+      170
+     ],
+     "nose": [
+      140.0,
+      90.0
+     ],
+     "ears": []
+    },
+    "BL": {
+     "png": "cast/doodle/BL.png",
+     "socket": [
+      140,
+      170
+     ],
+     "nose": [
+      33.19999999999999,
+      138.0
+     ],
+     "ears": []
+    }
+   },
+   "ear_angles": {
+    "flat": 28,
+    "hang": 0,
+    "prick": -14
+   }
+  },
+  "home": {
+   "name": "Home movie",
+   "style": "the archive dog's own face, sepia, grain left in",
+   "made_by": "L: hand-cut from Amateur Film New Jersey C f038 (the only legible face, a 3/4 view, mirrored). B/BL: no frame shows the back of its head; built as a silhouette filled with its own back fur from f008.",
+   "rights": "public domain (Home Movies collection, Internet Archive: https://archive.org/details/NewJerseyC)",
+   "consent_and_likeness": "an animal in a public-domain home movie; no person's face is used",
+   "views": {
+    "L": {
+     "png": "cast/home/L.png",
+     "socket": [
+      140,
+      170
+     ],
+     "nose": [
+      96.96774193548387,
+      140.67741935483872
+     ],
+     "ears": []
+    },
+    "B": {
+     "png": "cast/home/B.png",
+     "socket": [
+      140,
+      170
+     ],
+     "nose": [
+      140.0,
+      98.0
+     ],
+     "ears": []
+    },
+    "BL": {
+     "png": "cast/home/BL.png",
+     "socket": [
+      140,
+      170
+     ],
+     "nose": [
+      60.0,
+      146.67741935483872
+     ],
+     "ears": []
+    }
+   },
+   "ear_angles": null
+  }
+ }
+}

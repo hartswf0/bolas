@@ -388,9 +388,14 @@ def contact_shadow(alpha, s, band=0.05):
     bot = np.where(col_has, ys, -1)
     m = ((YY > bot[None, :] - band * s) & (YY <= bot[None, :] + 0.02 * s) & col_has[None, :]).astype(np.float32)
     m = m * np.clip(alpha + 0.6, 0, 1)
-    sh = blur(m, max(1.5, 0.02 * s))
-    soft = blur(m, max(3.0, 0.06 * s))      # round 2: a wider occlusion pool so the dog sits on the dark boards too
-    return np.clip(sh * 1.4 + soft * 1.2, 0, 1)
+    # round 3: a shadow cast down onto the boards just under the feet and belly (not a halo round the outline): the
+    # lowest band is pushed a little down, flattened, blurred, and kept only at or below the dog's own bottom contour
+    m2 = np.roll(m, int(max(1, 0.012 * s)), axis=0)
+    sh = blur(m2, max(1.5, 0.018 * s))
+    soft = blur(m2, max(3.0, 0.04 * s))
+    below = (YY >= bot[None, :] - 0.01 * s) | ~col_has[None, :]
+    # spread sideways a little past the contour ends but never above the local bottom
+    return np.clip((sh * 1.6 + soft * 0.9) * below, 0, 1)
 
 
 # ------------------------------------------------------------------ actors
@@ -579,8 +584,8 @@ def build_dag(layers):
             dA = A.depth if np.isscalar(A.depth) else A.depth[m]
             dB = B.depth if np.isscalar(B.depth) else B.depth[m]
             diff = np.asarray(dB - dA)
-            front_B = float((diff > 1e-4).mean()) if diff.size > 1 else float(diff > 1e-4)
-            front_A = float((diff < -1e-4).mean()) if diff.size > 1 else float(diff < -1e-4)
+            front_B = float(np.mean(diff > 1e-4))
+            front_A = float(np.mean(diff < -1e-4))
             if A.kind == 'sky' or B.kind == 'sky':
                 edges.append((A.name, B.name, cnt, 'ok') if A.kind == 'sky' else (B.name, A.name, cnt, 'ok')); continue
             STAND = ('actor', 'prop', 'frame', 'wall')

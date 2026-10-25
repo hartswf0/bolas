@@ -30,9 +30,10 @@ CENTER_OFFSET = 0.14                 # world body centre = score x - 0.14 (so x 
 # real-frame sequences
 WALK_LOW = [43, 44, 45]   # head-low walk, shown mirrored (faces the door); round 2 dropped 46 (blurred), 47 (head hidden: a 'boulder') and 42 (reads as two heads)
 TURN_AWAY = [13, 14, 26, 28, 30, 31, 33, 36, 38, 40]  # left -> facing the camera -> right (round 2: 15/17/19/20 dropped: a box, two heads)
-TURN_BACK = [26, 14, 13, 11, 10]   # never passes through a camera-facing frame: the head stays on the door side           # frontal (head up) -> left, for 8.0-9.0
+TURN_BACK = [26, 14, 13, 11, 10]   # after cel 28 (7.68-7.80)   # never passes through a camera-facing frame: the head stays on the door side           # frontal (head up) -> left, for 8.0-9.0
 WATCH = [9, 10, 11, 10]                                           # held alert cels (boil)
 LIE_D, LIE_SHEAR = -0.07, 0.228   # lying across the sill: its depth pass crosses the casing plane at x = 0.575, at the right jamb's outer edge, so the in/out boundary is the jamb's own edge
+RIG_FROM = 2.05                   # score x below which the rig walks (round 3)
 STRIDE = 0.30                                                     # metres per walk cycle (short, wary steps)
 
 
@@ -66,6 +67,7 @@ def whole_cel(n):
 
 HEAD_ONLY = [None]
 WAG = [0.0]
+STEP = [0.0, 0.0]   # rig walk: phase (rad), amplitude (deg); round 3
 
 
 def lie_pose(u, head_th, head_kind='L', head_dy=0.0, head_dx=0.0):
@@ -90,7 +92,10 @@ def lie_pose(u, head_th, head_kind='L', head_dy=0.0, head_dx=0.0):
     rump = rig.fwd((200, 172), tp, tor_th, tdst)
     F = FLOOR + OY
     # legs: from their standing place to folded
-    fa_th = lerp(0, 80, uf); fb_th = lerp(0, 62, uf); k_th = lerp(0, 84, uh)
+    ph, amp = STEP
+    fa_th = lerp(0, 80, uf) + amp * math.sin(ph) * (1 - uf)
+    fb_th = lerp(0, 62, uf) - amp * math.sin(ph) * (1 - uf)
+    k_th = lerp(0, 84, uh) + amp * math.sin(ph + math.pi) * (1 - uh)
     fa_dst = (lerp(140 + OX, chest[0] + 2, uf), lerp(163 + OY, F - 9, uf))
     fb_dst = (lerp(114 + OX, chest[0] + 8, uf), lerp(160 + OY, F - 13, uf))
     k_dst = (lerp(195 + OX, rump[0] + 4, uh), lerp(175 + OY, F - 9, uh))
@@ -137,6 +142,7 @@ def mirror_img(img, anchor, headpt):
 def dog_frame(i):
     f = FR[i]; t = f['t']; d = f['dog']; st = d['state']; a = d['act']
     WAG[0] = 14.0 * a['wag'] * math.sin(2 * math.pi * 2.1 * t) if a['lie'] > 0.5 else 0.0
+    STEP[0], STEP[1] = 0.0, 0.0
     x = d['x']
     Xc = x - CENTER_OFFSET
     D = 1.05
@@ -194,21 +200,22 @@ def dog_frame(i):
         if t < 7.80:
             # head first: profile-away -> frontal head -> profile toward the door, over the shoulder; body still lying
             ht = t - 7.458
-            u = 1 - sm(7.60, 7.80, t)               # rises once the head is round (round 2: quicker)
+            u = 1 - sm(7.60, 7.68, t)               # starts to rise as the head comes round
             if ht < 0.08:
                 img, anc, head = lie_pose(u, lerp(-70, -20, ht / 0.08), 'L', 6)
                 img, anc, head = mirror_img(img, anc, head); facing = -1
                 parts = ['head10', 'torso10', 'legs', '(mirrored)']
-            elif ht < 0.17:
+            elif ht < 0.22:
                 img, anc, head = lie_pose(u, 0, 'F', -4, 4)
                 img, anc, head = mirror_img(img, anc, head); facing = 1
                 parts = ['headF', 'torso10', 'legs', '(mirrored body)']
             else:
-                # body mirrored (faces away), head NOT mirrored: it looks back over the shoulder to the door
-                body, anc, _ = lie_pose(u, 0, 'F', 0)  # placeholder head replaced below
-                img, anc, head = lie_back_look(u)
-                facing = 1
-                parts = ['head10 (unmirrored, over the shoulder)', 'torso10', 'legs', '(mirrored body)']
+                # round 3: no head laid over the shoulder (read as a two-part lump): it rises facing the camera,
+                # the real standing cel 28, before the profile toward the door
+                img, anc = whole_cel(28); parts = ['cel28']; head = (META['28']['cx'] + OX, META['28']['bbox'][1] + OY)
+                facing = 1; mirror = False; kind = 'cel'; posture = 'stand'
+                return dict(img=img, head_img=None, anchor=anc, mirror=mirror, Xc=Xc, D=D, shear=shear, parts=parts, head=head,
+                            kind=kind, facing=facing, posture=posture, tone=tone, state=st)
             mirror = True; kind = 'rig'; posture = 'lie' if u > 0.5 else 'stand'
         else:
             seq = TURN_BACK
@@ -228,11 +235,25 @@ def dog_frame(i):
         dist = 4.0 - x
         k = int(dist / (STRIDE / len(WALK_LOW)))
         n = WALK_LOW[k % len(WALK_LOW)]
-        img, anc = whole_cel(n); img, anc, head = mirror_img(img, anc, (258 + OX, 176 + OY)); mirror = True
-        parts = ['cel%d(mirrored)' % n]; facing = 1; posture = 'stand'
-        # the last 1.3 m it angles in toward the doorway (depth decreases), body sheared into depth
         g = sm(1.9, 0.62, x)
+        if x > RIG_FROM:
+            img, anc = whole_cel(n); img, anc, head = mirror_img(img, anc, (258 + OX, 176 + OY)); mirror = True
+            parts = ['cel%d(mirrored)' % n]
+        else:
+            # round 3: the last stretch, through the doorway, is walked by the frame-10 profile parts (level feet, so the
+            # hind feet stay on the porch when the body angles in, and the same parts then lie down: no swap at the sill).
+            # Leg swing amplitude follows the score's speed; 10 deg about the upper pivots keeps the planted foot still.
+            STEP[0] = 2 * math.pi * dist / STRIDE
+            STEP[1] = 15.0 * min(1.0, abs(d['v']) / 0.3)
+            img, anc, head = lie_pose(0.0, -78, 'L', 0); kind = 'rig'
+            parts = ['head10', 'torso10', 'foreA10', 'foreB10', 'hind10', '(walking)']
+        facing = 1; posture = 'stand'
+        # the last 1.3 m it angles in toward the doorway (depth decreases), body sheared into depth
         D = lerp(1.05, LIE_D, g); shear = lerp(0, LIE_SHEAR, g)
+        # round 3: the body may only pass behind the casing plane inside the opening: its depth crossing is held at the
+        # right jamb's outer edge (x = 0.575), never on the siding beyond it
+        if shear > 1e-4:
+            D = max(D, 0.005 + (Xc - 0.575) * shear / 0.38)
     # ---------------------------------------------------------------- 23.79 - 32 lies down across the sill; looks in; stays
     else:
         u = sm(23.792, 24.6, t)

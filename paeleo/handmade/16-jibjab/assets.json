@@ -1,0 +1,119 @@
+{
+ "about": "Every asset in SCION 16 JibJab, where it came from, its rights, and the operation that made it. Nothing was fetched from the web; no model-generated images; no real person's face.",
+ "assets": [
+  {
+   "asset": "plates/fur.png",
+   "what": "body plate fur: the archive dog's own coat, laid into the cut-out body by multiply",
+   "from": "paeleo/handmade/kit/archive-dog/frames/f008.jpg crop (130,100)-(194,132), mirrored into a tile, contrast reduced, blurred 0.8 px",
+   "source_title": "Amateur Film New Jersey C",
+   "archive_url": "https://archive.org/details/NewJerseyC",
+   "shot_page": "https://www.movingimagearchive.com/sources/amateur-film-new-jersey-c-c65a8960?clip=2fdacde1-8a23-58e1-b905-5407385bd039",
+   "clip_id": "2fdacde1-8a23-58e1-b905-5407385bd039",
+   "rights": "public domain (Home Movies collection, Internet Archive)",
+   "operation": "crop, mirror-tile, tone, multiply into the drawn body plate"
+  },
+  {
+   "asset": "plates/door.png",
+   "what": "the door plate: the empty white door (nobody in frame), hinged on the right jamb, opened by an affine swing",
+   "from": "paeleo/handmade/kit/archive-door/frames/f028.jpg, quad (111,2)(235,0)(212,284)(122,262) rectified to 150x360",
+   "source_title": "Straight Talk",
+   "archive_url": "https://archive.org/details/gov.ntis.ava19144vnb1",
+   "shot_page": "https://www.movingimagearchive.com/sources/straight-talk-583ba802?clip=271d80c7-4f56-51b8-90fe-012dfb984b4f",
+   "clip_id": "271d80c7-4f56-51b8-90fe-012dfb984b4f",
+   "rights": "public domain (NTIS)",
+   "operation": "rectify (bilinear quad), tint by canvas filter, affine door swing, clipped to the doorway",
+   "note": "the person in that shot is not used: f028 shows only the door"
+  },
+  {
+   "asset": "cast/home/L.png",
+   "what": "face slot, cast \"home movie\", view L",
+   "from": "L: kit/archive-dog/frames/f038.jpg hand-cut polygon around the head (3/4 face, mirrored); B/BL: silhouette drawn here filled with fur from f008 (no frame shows the back of its head); BL adds the left 42% of the mirrored f038 face",
+   "source_title": "Amateur Film New Jersey C",
+   "archive_url": "https://archive.org/details/NewJerseyC",
+   "rights": "public domain",
+   "operation": "hand-cut mask, feather, autocontrast, sepia colorize, mirror, composite"
+  },
+  {
+   "asset": "cast/home/BL.png",
+   "what": "face slot, cast \"home movie\", view BL",
+   "from": "L: kit/archive-dog/frames/f038.jpg hand-cut polygon around the head (3/4 face, mirrored); B/BL: silhouette drawn here filled with fur from f008 (no frame shows the back of its head); BL adds the left 42% of the mirrored f038 face",
+   "source_title": "Amateur Film New Jersey C",
+   "archive_url": "https://archive.org/details/NewJerseyC",
+   "rights": "public domain",
+   "operation": "hand-cut mask, feather, autocontrast, sepia colorize, mirror, composite"
+  },
+  {
+   "asset": "cast/home/B.png",
+   "what": "face slot, cast \"home movie\", view B",
+   "from": "L: kit/archive-dog/frames/f038.jpg hand-cut polygon around the head (3/4 face, mirrored); B/BL: silhouette drawn here filled with fur from f008 (no frame shows the back of its head); BL adds the left 42% of the mirrored f038 face",
+   "source_title": "Amateur Film New Jersey C",
+   "archive_url": "https://archive.org/details/NewJerseyC",
+   "rights": "public domain",
+   "operation": "hand-cut mask, feather, autocontrast, sepia colorize, mirror, composite"
+  },
+  {
+   "asset": "cast/doodle/L.png, cast/doodle/ear.png",
+   "what": "face slot, cast \"doodle\", profile view and its ear slot",
+   "from": "/home/user/hartswf0/quickdraw/dog.part line 240",
+   "key_id": "6100378732986368",
+   "countrycode": "NL",
+   "rights": "CC BY 4.0, Quick, Draw! (Google Creative Lab and contributors)",
+   "operation": "strokes kept whole (stroke 4, a neck line, dropped); head stroke filled as a sticker; ear stroke cut out as its own rotating slot"
+  },
+  {
+   "asset": "cast/doodle/B.png, cast/doodle/BL.png",
+   "what": "face slot, cast \"doodle\", back views",
+   "from": "/home/user/hartswf0/quickdraw/dog.part line 298",
+   "key_id": "5882863587164160",
+   "countrycode": "US",
+   "rights": "CC BY 4.0, Quick, Draw!",
+   "operation": "head and ear strokes kept, the face strokes (3-9) removed so the drawing reads from behind; BL joins the snout tip of key_id 6100378732986368"
+  },
+  {
+   "asset": "cast/paper/*.png",
+   "what": "face slot, cast \"paper\": L, BL, B and an ear piece",
+   "from": "build/prep.py cast_paper()",
+   "rights": "made here",
+   "operation": "synthesized: PIL polygons with seeded jitter (seed 16), cut-paper edge"
+  },
+  {
+   "asset": "person face (in plates/qd.json)",
+   "what": "the person's face slot: a stranger's Quick, Draw! face, its outline replaced by the sticker edge, its mouth stroke opened by the performance",
+   "from": "/home/user/hartswf0/quickdraw/face.part line 13",
+   "key_id": "4675852618956800",
+   "countrycode": "US",
+   "rights": "CC BY 4.0, Quick, Draw!",
+   "operation": "stroke drawing, mouth stroke scaled"
+  },
+  {
+   "asset": "moon (in plates/qd.json)",
+   "what": "the moon",
+   "from": "/home/user/hartswf0/quickdraw/moon.part line 16",
+   "key_id": "6698312558182400",
+   "countrycode": "US",
+   "rights": "CC BY 4.0, Quick, Draw!",
+   "operation": "stroke drawing, chalk"
+  },
+  {
+   "asset": "body plate, person plate, house, porch, garden, light, grain (build/scene.js)",
+   "what": "drawn here in canvas",
+   "from": "build/scene.js",
+   "rights": "made here",
+   "operation": "drawn: cut-out capsules and circles placed by the performance's 3D anchors"
+  },
+  {
+   "asset": "sound (build/cache/sound.wav, in film.mp4)",
+   "what": "voices (formant synthesis), paws, collar tag, door, room, crickets, plucks",
+   "from": "build/sound.py",
+   "rights": "made here",
+   "operation": "synthesized; no recordings"
+  },
+  {
+   "asset": "performance.json, build/cache/skeleton.json",
+   "what": "the one performance, cast-agnostic",
+   "from": "paeleo/handmade/score/threshold-score.json via build/perform.py",
+   "rights": "the PAELEO score (Bolas)",
+   "operation": "solved: channels, stepping solver, IK, timecoded events"
+  }
+ ]
+}

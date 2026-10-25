@@ -1,0 +1,381 @@
+{
+ "about": "k-means (k=14) over the per-frame pose vectors of the score performance; each cluster checked against the bank.",
+ "clusters": [
+  {
+   "cluster": 7,
+   "frames": 23,
+   "medoid_t": 3.792,
+   "state": "refuse",
+   "spans_s": [
+    [
+     3.62,
+     4.54
+    ]
+   ],
+   "nearest_drawing": "cower_R",
+   "distance": 0.3,
+   "second": "q135_low",
+   "explained": true
+  },
+  {
+   "cluster": 1,
+   "frames": 69,
+   "medoid_t": 5.875,
+   "state": "refuse",
+   "spans_s": [
+    [
+     4.58,
+     7.42
+    ]
+   ],
+   "nearest_drawing": "rest_R",
+   "distance": 0.574,
+   "second": "lie_R",
+   "explained": true
+  },
+  {
+   "cluster": 2,
+   "frames": 12,
+   "medoid_t": 7.667,
+   "state": "watch",
+   "spans_s": [
+    [
+     7.46,
+     7.92
+    ]
+   ],
+   "nearest_drawing": "situp_R",
+   "distance": 0.928,
+   "second": "rise_R",
+   "explained": true
+  },
+  {
+   "cluster": 0,
+   "frames": 7,
+   "medoid_t": 8.083,
+   "state": "watch",
+   "spans_s": [
+    [
+     7.96,
+     8.21
+    ]
+   ],
+   "nearest_drawing": "f90_qleft",
+   "distance": 0.497,
+   "second": "rise_R",
+   "explained": true
+  },
+  {
+   "cluster": 11,
+   "frames": 179,
+   "medoid_t": 9.042,
+   "state": "watch",
+   "spans_s": [
+    [
+     0.0,
+     1.04
+    ],
+    [
+     2.71,
+     3.58
+    ],
+    [
+     8.25,
+     8.38
+    ],
+    [
+     8.54,
+     10.38
+    ],
+    [
+     11.54,
+     14.75
+    ],
+    [
+     23.79,
+     23.92
+    ]
+   ],
+   "nearest_drawing": "watch",
+   "distance": 0.028,
+   "second": "wary",
+   "explained": true
+  },
+  {
+   "cluster": 6,
+   "frames": 30,
+   "medoid_t": 10.625,
+   "state": "watch",
+   "spans_s": [
+    [
+     8.42,
+     8.5
+    ],
+    [
+     10.42,
+     11.5
+    ]
+   ],
+   "nearest_drawing": "listen",
+   "distance": 0.047,
+   "second": "watch",
+   "explained": true
+  },
+  {
+   "cluster": 3,
+   "frames": 63,
+   "medoid_t": 15.125,
+   "state": "approach",
+   "spans_s": [
+    [
+     1.08,
+     1.17
+    ],
+    [
+     1.83,
+     1.92
+    ],
+    [
+     14.92,
+     15.33
+    ],
+    [
+     16.75,
+     17.04
+    ],
+    [
+     18.21,
+     18.46
+    ],
+    [
+     19.5,
+     19.71
+    ]
+   ],
+   "nearest_drawing": "walk_0",
+   "distance": 0.032,
+   "second": "walk_1",
+   "explained": true
+  },
+  {
+   "cluster": 13,
+   "frames": 46,
+   "medoid_t": 15.542,
+   "state": "approach",
+   "spans_s": [
+    [
+     1.21,
+     1.33
+    ],
+    [
+     1.96,
+     2.08
+    ],
+    [
+     15.38,
+     15.71
+    ],
+    [
+     17.08,
+     17.33
+    ],
+    [
+     18.5,
+     18.71
+    ],
+    [
+     19.75,
+     19.92
+    ]
+   ],
+   "nearest_drawing": "walk_2",
+   "distance": 0.021,
+   "second": "walk_1",
+   "explained": true
+  },
+  {
+   "cluster": 4,
+   "frames": 43,
+   "medoid_t": 15.917,
+   "state": "approach",
+   "spans_s": [
+    [
+     1.38,
+     1.46
+    ],
+    [
+     2.12,
+     2.21
+    ],
+    [
+     15.75,
+     16.04
+    ],
+    [
+     17.38,
+     17.62
+    ],
+    [
+     18.75,
+     18.96
+    ],
+    [
+     19.96,
+     20.17
+    ]
+   ],
+   "nearest_drawing": "walk_3",
+   "distance": 0.228,
+   "second": "walk_4",
+   "explained": true
+  },
+  {
+   "cluster": 10,
+   "frames": 45,
+   "medoid_t": 16.25,
+   "state": "approach",
+   "spans_s": [
+    [
+     1.5,
+     1.62
+    ],
+    [
+     2.25,
+     2.38
+    ],
+    [
+     16.08,
+     16.38
+    ],
+    [
+     17.67,
+     17.88
+    ],
+    [
+     19.0,
+     19.21
+    ],
+    [
+     20.21,
+     20.38
+    ]
+   ],
+   "nearest_drawing": "walk_5",
+   "distance": 0.003,
+   "second": "walk_6",
+   "explained": true
+  },
+  {
+   "cluster": 12,
+   "frames": 58,
+   "medoid_t": 16.583,
+   "state": "approach",
+   "spans_s": [
+    [
+     1.67,
+     1.79
+    ],
+    [
+     2.42,
+     2.67
+    ],
+    [
+     14.79,
+     14.88
+    ],
+    [
+     16.42,
+     16.71
+    ],
+    [
+     17.92,
+     18.17
+    ],
+    [
+     19.25,
+     19.46
+    ]
+   ],
+   "nearest_drawing": "walk_7",
+   "distance": 0.102,
+   "second": "walk_6",
+   "explained": true
+  },
+  {
+   "cluster": 9,
+   "frames": 65,
+   "medoid_t": 25.5,
+   "state": "lie_down",
+   "spans_s": [
+    [
+     23.96,
+     26.5
+    ],
+    [
+     28.12,
+     28.21
+    ]
+   ],
+   "nearest_drawing": "lie_up",
+   "distance": 0.129,
+   "second": "lie_low",
+   "explained": true
+  },
+  {
+   "cluster": 5,
+   "frames": 38,
+   "medoid_t": 26.833,
+   "state": "lie_down",
+   "spans_s": [
+    [
+     26.54,
+     28.08
+    ]
+   ],
+   "nearest_drawing": "look_in_a",
+   "distance": 0.351,
+   "second": "look_in",
+   "explained": true
+  },
+  {
+   "cluster": 8,
+   "frames": 90,
+   "medoid_t": 28.875,
+   "state": "lie_down",
+   "spans_s": [
+    [
+     28.25,
+     31.96
+    ]
+   ],
+   "nearest_drawing": "rest",
+   "distance": 0.003,
+   "second": "lie_low",
+   "explained": true
+  }
+ ],
+ "rare_gestures": [
+  {
+   "gesture": "head comes round to the door (7.46 s)",
+   "frames": 19,
+   "share_of_film": 0.025,
+   "drawing": "rise_R",
+   "distance": 0.447
+  },
+  {
+   "gesture": "listens to the soft voice",
+   "frames": 30,
+   "share_of_film": 0.039,
+   "drawing": "listen",
+   "distance": 0.047
+  },
+  {
+   "gesture": "looks in through the door (26.4 s)",
+   "frames": 38,
+   "share_of_film": 0.049,
+   "drawing": "look_in",
+   "distance": 0.479
+  }
+ ],
+ "unexplained": []
+}

@@ -1,0 +1,69 @@
+{
+ "about": "SCION-25 RIVE asset ledger: every asset in the film and where it came from.",
+ "assets": [
+  {
+   "id": "dog-puppet",
+   "what": "the dog: artboard of bones, round shapes bound to bones (torso as two capsules, neck, skull, muzzle, ears, tail chain, four IK legs), keyed poses and loops, typed inputs, three-layer state machine",
+   "file": "build/puppet.json + build/rive.js",
+   "source": "authored in this folder by SCION-25",
+   "rights": "own work",
+   "operation": "drawn (vector primitives, solved and rasterized per frame by canvas)"
+  },
+  {
+   "id": "dog-proportion-study",
+   "what": "body proportions (chest-to-tail length vs neck height, nose height) and coat pattern (tan, dark saddle, pale chest, dark muzzle and ears)",
+   "file": "paeleo/handmade/kit/archive-dog/pose_agent_v8.json (keys of frames 0,4,8,12); kit/archive-dog/frames f000,f015,f030,f045 looked at",
+   "source_title": "Amateur Film New Jersey C",
+   "archive_url": "https://archive.org/details/NewJerseyC",
+   "collection": "Home Movies (Internet Archive)",
+   "rights": "public_domain",
+   "operation": "studied: numbers read and frames looked at; no pixels, masks or outlines copied into the film"
+  },
+  {
+   "id": "person-puppet",
+   "what": "the person: 2D profile puppet (legs and arms by two-bone IK, torso, head, hair, mouth opened by the score's mouth value)",
+   "file": "build/film.js (personPose, drawPerson)",
+   "source": "authored",
+   "rights": "own work",
+   "operation": "drawn"
+  },
+  {
+   "id": "world",
+   "what": "porch, railing, posts, floor boards, house in section (back wall, facade, reveal, sill, lintel, poche), door leaf, lamp, stool, rug, picture, sky, stars, moon, tree line, light pool, haze, shadows",
+   "file": "build/film.js",
+   "source": "authored",
+   "rights": "own work",
+   "operation": "drawn (projected polygons in metres, oblique camera)"
+  },
+  {
+   "id": "score",
+   "what": "the dog's decision trace and the person's circumstances, 768 frames",
+   "file": "paeleo/handmade/score/threshold-score.json",
+   "source": "PAELEO machine (paeleo/threshold/machine.js via tools/paeleo/build_score.js)",
+   "rights": "project material",
+   "operation": "read as the state machine's inputs (drive.js)"
+  },
+  {
+   "id": "sound",
+   "what": "room tone (filtered noise, synthesized crickets), warm room hum and crackle, door creak, stool, formant-synthesized voices (two calls: 'come here' x3, 'come on'; soft: 'it's all right' x2, 'come in'), dog pads, claw ticks, tag jingle, body thump, breaths, tail beats",
+   "file": "build/sound.py",
+   "source": "synthesized from the render's event trace and the score's timeline",
+   "rights": "own work",
+   "operation": "synthesized (numpy)"
+  },
+  {
+   "id": "fonts",
+   "what": "Big Shoulders Display, Literata, JetBrains Mono (title, end card, typed prompts)",
+   "file": "tools/paeleo/fonts/",
+   "source": "repository fonts (OFL families)",
+   "rights": "as recorded in the repository",
+   "operation": "set type"
+  },
+  {
+   "id": "not-used",
+   "what": "no Quick, Draw! drawings, no archive-door frames, no found-frames shots, no web images, no generated images",
+   "rights": "n/a",
+   "operation": "none"
+  }
+ ]
+}

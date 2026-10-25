@@ -43,7 +43,15 @@ def cut(i):
     # keep the largest connected blob only (drop SAM islands) via flood from the densest column
     a = keep_main(a)
     mk = Image.fromarray((a * 255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(0.7))
-    rgba = im.convert('RGBA')
+    # round 3: bleed the dog's own colour into the transparent border, so resampling never pulls the background
+    # (grass, shadow) into the edge as a dark or light fringe
+    rgb = np.asarray(im).astype(np.float32)
+    al = np.asarray(mk).astype(np.float32)[..., None] / 255
+    num = np.asarray(Image.fromarray((rgb * al).astype(np.uint8)).filter(ImageFilter.GaussianBlur(3))).astype(np.float32)
+    den = np.asarray(Image.fromarray((al[..., 0] * 255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(3))).astype(np.float32)[..., None] / 255
+    fill = np.clip(num / np.maximum(den, 1e-3), 0, 255)
+    rgb2 = np.where(al > 0.6, rgb, fill)
+    rgba = Image.fromarray(rgb2.astype(np.uint8)).convert('RGBA')
     rgba.putalpha(mk)
     return rgba
 

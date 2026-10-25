@@ -1,0 +1,562 @@
+{
+ "about": "SCION-25 RIVE. The authored artboard for the dog: bones, shapes bound to bones, keyed clips (single-key poses and loops), typed inputs and the state machine (layers, states, transitions with explicit priority). Read by build/rive.js; nothing here is pixels. Units: metres, seconds, degrees in clips. Body frame: f forward, y up, l lateral.",
+ "version": "25-rive/puppet v5",
+ "provenance": "Authored by hand in this file (SCION-25). Proportions set from the archive dog's rig keys (kit/archive-dog/pose_agent_v8.json, frames 0-12: chest-to-tail length about 1.15-1.25 x neck height, nose about 1.2 x neck height when alert), and its coat pattern (tan body, dark saddle, pale chest, dark muzzle and ears) from looking at kit/archive-dog/frames f000, f015, f030, f045. No pixels of the archive are used.",
+ "bones": {
+  "chest": {
+   "f": 0.23,
+   "y": 0.385,
+   "r": 0.15
+  },
+  "waist": {
+   "f": -0.03,
+   "y": 0.425,
+   "r": 0.112
+  },
+  "rump": {
+   "f": -0.27,
+   "y": 0.405,
+   "r": 0.132
+  },
+  "saddleOffset": 0.072,
+  "shoulder": {
+   "f": 0.21,
+   "y": 0.4,
+   "l": 0.072
+  },
+  "hip": {
+   "f": -0.27,
+   "y": 0.42,
+   "l": 0.074
+  },
+  "neckBase": {
+   "f": 0.29,
+   "y": 0.47
+  },
+  "neckLen": 0.165,
+  "skullR": 0.078,
+  "muzzleLen": 0.135,
+  "muzzleR": 0.034,
+  "frontUpper": 0.19,
+  "frontLower": 0.19,
+  "pastern": 0.055,
+  "hindThigh": 0.205,
+  "hindShin": 0.215,
+  "hindMeta": 0.135,
+  "tailBase": {
+   "f": -0.375,
+   "y": 0.47
+  },
+  "tailSegs": [
+   0.09,
+   0.09,
+   0.085,
+   0.075,
+   0.065
+  ],
+  "tailW": [
+   0.072,
+   0.07,
+   0.062,
+   0.05,
+   0.034
+  ],
+  "homeFront": {
+   "f": 0.215,
+   "l": 0.075
+  },
+  "homeHind": {
+   "f": -0.255,
+   "l": 0.078
+  }
+ },
+ "palette": {
+  "coat": "#c08750",
+  "coatFar": "#8c5d34",
+  "saddle": "#3a2a20",
+  "chest": "#e0c393",
+  "mask": "#2d211a",
+  "ear": "#36271e",
+  "earInner": "#7a5540",
+  "nose": "#140e0b",
+  "eye": "#100b08",
+  "eyeLight": "#f3e2c0",
+  "paw": "#d6b98a",
+  "tailTip": "#2f231b"
+ },
+ "clips": {
+  "stand": {
+   "bodyY": 0.0,
+   "pitch": 0,
+   "rearDrop": 0.0,
+   "frontPawF": 0.0,
+   "hindPawF": 0.0,
+   "hindPawL": 0.0,
+   "metaFlat": 0,
+   "pasternFlat": 0,
+   "headPitch": 8,
+   "neckAdd": 0
+  },
+  "crouch": {
+   "bodyY": -0.085,
+   "pitch": 4,
+   "rearDrop": 0.06,
+   "frontPawF": 0.03,
+   "hindPawF": 0.05,
+   "hindPawL": 0.0,
+   "metaFlat": 0.2,
+   "pasternFlat": 0,
+   "headPitch": 22,
+   "neckAdd": -14
+  },
+  "lie": {
+   "bodyY": -0.235,
+   "pitch": 2,
+   "rearDrop": 0.0,
+   "frontPawF": 0.25,
+   "hindPawF": 0.21,
+   "hindPawL": 0.075,
+   "metaFlat": 1,
+   "pasternFlat": 1,
+   "headPitch": 6,
+   "neckAdd": 0
+  },
+  "rest": {
+   "neckAdd": -58,
+   "headPitch": 4,
+   "neckLenAdd": 0.02
+  },
+  "lookIn": {
+   "headYawAdd": 50,
+   "neckAdd": 14,
+   "headPitch": -6
+  },
+  "headDown": {
+   "neckAng": -30
+  },
+  "headLow": {
+   "neckAng": -17
+  },
+  "headAlert": {
+   "neckAng": 50
+  },
+  "headHigh": {
+   "neckAng": 64
+  },
+  "tailHigh": {
+   "tailAng": 15,
+   "tailCurl": 10
+  },
+  "tailNeutral": {
+   "tailAng": -45,
+   "tailCurl": -8
+  },
+  "tailTucked": {
+   "tailAng": -100,
+   "tailCurl": 30
+  },
+  "breath": {
+   "loop": 3.2,
+   "keys": [
+    [
+     0,
+     {
+      "chestR": 0
+     }
+    ],
+    [
+     1.4,
+     {
+      "chestR": 0.006
+     }
+    ],
+    [
+     3.2,
+     {
+      "chestR": 0
+     }
+    ]
+   ]
+  },
+  "wag": {
+   "loop": 0.42,
+   "keys": [
+    [
+     0,
+     {
+      "wag": -1
+     }
+    ],
+    [
+     0.21,
+     {
+      "wag": 1
+     }
+    ],
+    [
+     0.42,
+     {
+      "wag": -1
+     }
+    ]
+   ]
+  }
+ },
+ "inputs": [
+  {
+   "name": "mood",
+   "type": "number",
+   "doc": "the decision the score has made: 0 watch, 1 approach, 2 retreat, 3 lie_down, 4 refuse"
+  },
+  {
+   "name": "speed",
+   "type": "number",
+   "doc": "signed metres per second along the porch (score v; negative toward the door)"
+  },
+  {
+   "name": "crouch",
+   "type": "number"
+  },
+  {
+   "name": "lie",
+   "type": "number"
+  },
+  {
+   "name": "rest",
+   "type": "number"
+  },
+  {
+   "name": "head",
+   "type": "number"
+  },
+  {
+   "name": "ear",
+   "type": "number"
+  },
+  {
+   "name": "tail",
+   "type": "number"
+  },
+  {
+   "name": "wag",
+   "type": "number"
+  },
+  {
+   "name": "look",
+   "type": "number"
+  },
+  {
+   "name": "heard",
+   "type": "trigger",
+   "doc": "a voice begins (call or soft)"
+  },
+  {
+   "name": "call",
+   "type": "trigger",
+   "doc": "a call begins"
+  },
+  {
+   "name": "doorOpen",
+   "type": "boolean"
+  }
+ ],
+ "stateMachine": {
+  "name": "Threshold",
+  "layers": [
+   {
+    "name": "Facing",
+    "doc": "which way the body points and where the head leads. The only layer allowed to rotate the body.",
+    "entry": "FacePerson",
+    "states": {
+     "FacePerson": {
+      "yaw": 180,
+      "headRel": 0
+     },
+     "TurningAway": {
+      "from": {
+       "yaw": 180,
+       "headRel": 0
+      },
+      "to": {
+       "yaw": 0,
+       "headRel": 0
+      },
+      "duration": 0.42,
+      "via": "front",
+      "headLag": -0.06
+     },
+     "BackTurned": {
+      "yaw": 0,
+      "headRel": 0
+     },
+     "HeadLeads": {
+      "from": {
+       "yaw": 0,
+       "headRel": 0
+      },
+      "to": {
+       "yaw": 0,
+       "headRel": 168
+      },
+      "duration": 0.38,
+      "via": "front"
+     },
+     "TurningBack": {
+      "from": {
+       "yaw": 0,
+       "headRel": 168
+      },
+      "to": {
+       "yaw": 180,
+       "headRel": 0
+      },
+      "duration": 0.8,
+      "via": "front",
+      "keepHeadWorld": true
+     }
+    },
+    "transitions": [
+     {
+      "from": "FacePerson",
+      "to": "TurningAway",
+      "priority": 1,
+      "when": [
+       [
+        "mood",
+        "==",
+        4
+       ]
+      ],
+      "event": "turn_away"
+     },
+     {
+      "from": "TurningAway",
+      "to": "BackTurned",
+      "priority": 1,
+      "when": [
+       [
+        "@done"
+       ]
+      ]
+     },
+     {
+      "from": "BackTurned",
+      "to": "HeadLeads",
+      "priority": 1,
+      "when": [
+       [
+        "mood",
+        "!=",
+        4
+       ]
+      ],
+      "event": "head_leads"
+     },
+     {
+      "from": "HeadLeads",
+      "to": "TurningBack",
+      "priority": 1,
+      "when": [
+       [
+        "@done"
+       ],
+       [
+        "lie",
+        "<",
+        0.12
+       ]
+      ],
+      "event": "turn_back"
+     },
+     {
+      "from": "TurningBack",
+      "to": "FacePerson",
+      "priority": 1,
+      "when": [
+       [
+        "@done"
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "name": "Body",
+    "doc": "blend states: Stand (1D blend crouch), Walk (gait solver on), Down (1D blend lie, additive rest).",
+    "entry": "Stand",
+    "states": {
+     "Stand": {},
+     "Walk": {},
+     "Backing": {},
+     "Down": {}
+    },
+    "transitions": [
+     {
+      "from": "*",
+      "to": "Down",
+      "priority": 1,
+      "when": [
+       [
+        "lie",
+        ">",
+        0.03
+       ]
+      ],
+      "event": "going_down"
+     },
+     {
+      "from": "Down",
+      "to": "Stand",
+      "priority": 2,
+      "when": [
+       [
+        "lie",
+        "<=",
+        0.03
+       ]
+      ],
+      "event": "up"
+     },
+     {
+      "from": "Stand",
+      "to": "Backing",
+      "priority": 3,
+      "when": [
+       [
+        "speed",
+        ">",
+        0.03
+       ],
+       [
+        "mood",
+        "==",
+        2
+       ]
+      ],
+      "event": "backs"
+     },
+     {
+      "from": "Stand",
+      "to": "Walk",
+      "priority": 4,
+      "when": [
+       [
+        "speed",
+        "<",
+        -0.03
+       ]
+      ],
+      "event": "walks"
+     },
+     {
+      "from": "Backing",
+      "to": "Stand",
+      "priority": 3,
+      "when": [
+       [
+        "speed",
+        "<=",
+        0.03
+       ]
+      ],
+      "event": "stops"
+     },
+     {
+      "from": "Walk",
+      "to": "Stand",
+      "priority": 4,
+      "when": [
+       [
+        "speed",
+        ">=",
+        -0.03
+       ]
+      ],
+      "event": "stops"
+     }
+    ]
+   },
+   {
+    "name": "Attention",
+    "doc": "the head. Priority: LookIn > Leading (from Facing) > Rest > Alert. A voice onset pricks the ears (trigger).",
+    "entry": "Alert",
+    "states": {
+     "Alert": {},
+     "Rest": {},
+     "LookIn": {}
+    },
+    "transitions": [
+     {
+      "from": "*",
+      "to": "LookIn",
+      "priority": 1,
+      "when": [
+       [
+        "look",
+        ">",
+        0.15
+       ]
+      ],
+      "event": "looks_in"
+     },
+     {
+      "from": "LookIn",
+      "to": "Rest",
+      "priority": 2,
+      "when": [
+       [
+        "look",
+        "<=",
+        0.15
+       ],
+       [
+        "rest",
+        ">",
+        0.3
+       ]
+      ],
+      "event": "settles"
+     },
+     {
+      "from": "LookIn",
+      "to": "Alert",
+      "priority": 3,
+      "when": [
+       [
+        "look",
+        "<=",
+        0.15
+       ]
+      ]
+     },
+     {
+      "from": "Alert",
+      "to": "Rest",
+      "priority": 2,
+      "when": [
+       [
+        "rest",
+        ">",
+        0.3
+       ]
+      ],
+      "event": "chin_down"
+     },
+     {
+      "from": "Rest",
+      "to": "Alert",
+      "priority": 3,
+      "when": [
+       [
+        "rest",
+        "<=",
+        0.3
+       ]
+      ],
+      "event": "head_up"
+     }
+    ]
+   }
+  ]
+ }
+}

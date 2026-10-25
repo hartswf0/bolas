@@ -1,0 +1,70 @@
+{
+  "about": "SCION 33 · Inverse Kinematics — every asset in the film, where it came from, its rights, and the operation that made it. Nothing found appears on screen; the only found material used is a set of numbers (rig keys) studied for proportion.",
+  "assets": [
+    {
+      "id": "dog-rig",
+      "what": "the dog: a constraint rig of a spine (pelvis, chest), neck, skull and muzzle, four three-segment legs (upper arm/forearm/pastern; thigh/shank/metatarsus), ears and a seven-link tail, drawn as tapered capsules with their joints marked",
+      "source": "computed: build/perform.py (rig, IK, footfall planner), build/render.py (capsules)",
+      "rights": "made here",
+      "operation": "synthesized: analytic two-bone IK with pole vectors and joint limits per leg, world-space look-targets for the head, planted-foot locks; proportions below"
+    },
+    {
+      "id": "dog-proportions",
+      "what": "proportion study only (numbers, not pixels): chest-to-tail-root / chest-to-ground ≈ 1.75 and neck ≈ 0.3 of body length, measured from the archive dog's rig keys in profile frames 0-17; shepherd-type build (pricked ears, bushy tail) after the same dog",
+      "source": "paeleo/handmade/kit/archive-dog/pose_agent_v8.json (keys) and frames/f010.jpg (looked at); source title 'Amateur Film New Jersey C', Home Movies collection, Internet Archive",
+      "archive_url": "https://archive.org/details/NewJerseyC",
+      "rights": "public_domain (kit/archive-dog/source.json rights_statement)",
+      "operation": "measured ratios; no frame, mask or outline of the archive dog is used or shown"
+    },
+    {
+      "id": "person-rig",
+      "what": "the person: pelvis, spine, neck, head, two-bone arms and legs as capsules; keyed world-space targets for feet, hands, pelvis, lean and twist; gaze aimed at the dog",
+      "source": "computed: build/perform.py, build/render.py",
+      "rights": "made here",
+      "operation": "synthesized: two-bone IK (knees forward, elbows down/back), step keys with locked feet, hand contacts (door edge, thigh, boards)"
+    },
+    {
+      "id": "door",
+      "what": "the door: a panel hinged on the near jamb with a simulated swing (held, released and settling on its own weight, shoved against static friction, coasting to its stop)",
+      "source": "computed: build/perform.py door_curve()",
+      "rights": "made here",
+      "operation": "synthesized: rigid-body hinge integration (8 substeps per frame)"
+    },
+    {
+      "id": "set",
+      "what": "dusk sky and yard (ray-cast), house front with clapboards, casing, window, doorway and sill, porch boards, steps, tree line and fence silhouettes, the lit room behind the door (ray-cast box with two lamps and a ceiling light)",
+      "source": "computed: build/bg.py (two camera set-ups A and B)",
+      "rights": "made here",
+      "operation": "synthesized: projected 3D polygons with near-plane clipping, per-pixel ray casts"
+    },
+    {
+      "id": "door-light",
+      "what": "the light that comes out of the door onto the boards, with the bodies' shadows cut out of it",
+      "source": "computed per frame: build/render.py floor_light(), cast_shadow_polys()",
+      "rights": "made here",
+      "operation": "synthesized: per-pixel visibility of the ceiling light through the opening and past the door panel; capsules projected from the light onto the floor"
+    },
+    {
+      "id": "sound",
+      "what": "all sound: the calls ('Come here.' twice), the soft voice ('it's all right' twice, 'come in'), paw clicks and pads on boards, claws scrabbling in the retreat and turns, footfalls and board creaks, thigh pats, the door's strain, swing and stop, the dog's body settling and sighs, tail thumps, dusk air and crickets, the warmer room tone as the door opens",
+      "source": "computed: build/sound.py, placed from data/contacts.json and the score's voice timeline",
+      "rights": "made here",
+      "operation": "synthesized: formant synthesis (glottal pulse train through three time-varying resonators, noise consonants), filtered noise and sine events"
+    },
+    {
+      "id": "score",
+      "what": "the dog's decision trace (state, x, acting intentions per frame) that drives the rig's targets",
+      "source": "paeleo/handmade/score/threshold-score.json (PAELEO machine, tools/paeleo/build_score.js)",
+      "rights": "PAELEO project material",
+      "operation": "read: states and x used as given; acting intentions reshaped where noted in method.md"
+    },
+    {
+      "id": "fonts",
+      "what": "card type: Big Shoulders Display, Literata, JetBrains Mono",
+      "source": "tools/paeleo/fonts/ (f2, f8, f14, f27 .woff2)",
+      "rights": "SIL Open Font License (as provided in the repo for PAELEO)",
+      "operation": "set in the title and end cards"
+    }
+  ],
+  "not_used": "no archive frames, masks, Quick, Draw! drawings, found shots, web images or model-generated images appear in the film"
+}

@@ -24,7 +24,7 @@ def film():
          '-loop', '1', '-framerate', '24', '-t', '3', '-i', os.path.join(C, 'card_end.png'),
          '-i', os.path.join(C, 'scene_audio.wav'),
          '-filter_complex',
-         '[0:v]format=yuv420p,fade=t=out:st=2.5:d=0.5[a];[1:v]format=yuv420p,fade=t=in:st=0:d=0.25[b];'
+         '[0:v]format=yuv420p,fade=t=out:st=2.5:d=0.5[a];[1:v]format=yuv420p[b];'
          '[2:v]format=yuv420p,fade=t=in:st=0:d=0.4[c];[a][b][c]concat=n=3:v=1:a=0[v]',
          '-map', '[v]', '-map', '3:a', '-c:v', 'libx264', '-preset', 'slow', '-crf', '21', '-maxrate', '2300k', '-bufsize', '4600k',
          '-pix_fmt', 'yuv420p', '-r', '24', '-c:a', 'aac', '-b:a', '160k', '-t', '38', '-movflags', '+faststart', out])
