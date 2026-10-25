@@ -42,7 +42,10 @@ def camera(t):
         u = smooth((t - 14.7) / 9.3)
         return tuple(lerp(a, b, u) for a, b in zip(w, c))
     u = smooth((t - 24.0) / 8.0)
-    return tuple(lerp(a, b, u) for a, b in zip(c, e))
+    base = tuple(lerp(a, b, u) for a, b in zip(c, e))
+    # when it hears 'come in' the dog looks in, and the frame looks in with it: along its line of sight into the lit room
+    look = smooth((t - 26.5) / 0.9) * (1 - smooth((t - 28.3) / 1.2))
+    return (base[0] - 0.62 * look, base[1] + 0.05 * look, base[2] - 0.12 * look)
 
 
 def cam_M(t):
@@ -143,8 +146,8 @@ class Scene:
         if lie > 0:
             rest, look = a['rest'], a['look']
             base = lerp(hr, -60, lie)
-            hr = lerp(base, -82, rest)
-            hr = lerp(hr, -42, look)
+            hr = lerp(base, -92, rest)
+            hr = lerp(hr, -34, look)
             pose['tail_rot'] = lerp(pose['tail_rot'], -28, lie)    # the tail lies out behind on the boards
         if pose.get('head_flip'):
             hr = -22.0

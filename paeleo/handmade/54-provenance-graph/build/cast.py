@@ -65,7 +65,7 @@ def build_cast(G):
     C['lamp']['size'] = G.get(C['lamp']['lit']).size
     C['glow'] = G.op('radial', [], {'size': [400, 400], 'color': [255, 196, 120, 150], 'falloff': 1.8})
     # --- the doorway light, synthesised from recorded geometry at plate resolution
-    C['beam'] = G.op('beam', [], {'size': [Wd.PW, Wd.PH], 'door_px': Wd.P(Wd.WALL_OUT, 0), 'color': [255, 182, 108, 112], 'reach_px': 4.4 * Wd.PPM, 'ppm': Wd.PPM})
+    C['beam'] = G.op('beam', [], {'size': [Wd.PW, Wd.PH], 'door_px': Wd.P(Wd.WALL_OUT, 0), 'color': [255, 182, 108, 165], 'reach_px': 4.6 * Wd.PPM, 'ppm': Wd.PPM, 'h1': 0.95, 'h2': 2.4})
     C['channel'] = G.op('hgradient', [], {'size': [int(0.92 * Wd.PPM), int(Wd.LINTEL * Wd.PPM)], 'color': [255, 196, 128], 'a0': 0.85, 'a1': 0.45})
     # --- the dog's own turn: the archive dog's turning frames, matted, cleaned, recoloured
     masks = [k for k, n in G.nodes.items() if n.get('source_id', '').endswith(':sam') and 'New Jersey' in n.get('title', '')][0]

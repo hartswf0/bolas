@@ -92,8 +92,8 @@ def compose(bw, hw, place, ear=0.9, tv=0.5, wag=0.0, t=0.0, breath=0.0, paws=Non
         wp = max(0.0, min(1.0, (abs(gaze) - 0.35) / 0.55))   # how much of a profile this head is
         sb = 1.0 if gaze < 0 else -1.0                         # profile: flatten toward the back of the head
         so = 1.0 if base[0] > cx else -1.0                     # from behind / in front: droop outward
-        th = -flat * (wp * sb * math.radians(58) + (1 - wp) * so * math.radians(34))
-        sc_e = 1.0 - 0.3 * flat
+        th = -flat * (wp * sb * math.radians(40) + (1 - wp) * so * math.radians(28))   # round 2: less (flat ears read rat-like)
+        sc_e = 1.0 - 0.12 * flat
         H[en]['pts'] = [rot([base[0] + (p[0] - base[0]) * sc_e, base[1] + (p[1] - base[1]) * sc_e], base, th) for p in e]
     # tail wag: a travelling bend from the root
     tp = b['tail']['pts']

@@ -31,6 +31,9 @@ def lerp(a, b, t):
 
 # ---------------------------------------------------------------- the dog's registered key sequence (hand-timed to the score)
 # body: (t, {key: weight}). '|' marks a declared substitution (same point set, mirrored correspondences).
+# Round 2: a declared substitution is INSTANTANEOUS: two waypoints at the same time (a zero-length segment is never
+# interpolated). In round 1 they were 0.01 s tweens, and a frame that landed inside one blended a key with its own mirror,
+# which collapsed the body (the sliver at 3.833 s and the broken body at 8.375 s).
 BODY_SEQ = [
     (0.00, {'stand': 1}),
     (0.98, {'stand': 1}),
@@ -39,23 +42,22 @@ BODY_SEQ = [
     (2.85, {'stand': 1}),                           # watch again, upright
     (3.42, {'stand': 1}),                           # call again + reach: it turns its back
     (3.60, {'rear34L': 1}),
-    (3.78, {'rearA': 1}),
-    (3.83, {'rearA': 1}), ('|', 3.83, 'rearA', 'rearB'),
-    (3.84, {'rearB': 1}),
-    (4.02, {'rear34R': 1}),
-    (4.24, {'stand_R': .5, 'crouch_R': .5}),
+    (3.80, {'rearA': 1}),
+    (3.86, {'rearA': 1}), ('|', 3.86, 'rearA', 'rearB'),
+    (3.86, {'rearB': 1}),
+    (4.04, {'rear34R': 1}),
+    (4.26, {'stand_R': .5, 'crouch_R': .5}),
     (4.55, {'crouch_R': .5, 'lie_R': .5}),
     (5.00, {'lie_R': 1}),                           # lies down with its back to the door
-    (6.00, {'curl_R': 1}),                          # and closes: the contour draws in to a curl (the refusal, drawn)
-    (7.42, {'curl_R': 1}),
-    (7.66, {'lie_R': 1}),                           # opens again as the head comes round                           # the head comes round first (head sequence), then it rises
-    (8.02, {'stand_R': 1}),
-    (8.20, {'front34R': 1}),
-    (8.33, {'frontB': 1}),
-    (8.37, {'frontB': 1}), ('|', 8.37, 'frontB', 'frontA'),
-    (8.38, {'frontA': 1}),
-    (8.52, {'front34L': 1}),
-    (8.72, {'stand': 1}),
+    (6.00, {'curl_R': .6, 'lie_R': .4}),           # and closes: the contour draws in (the refusal, drawn)
+    (7.42, {'curl_R': .6, 'lie_R': .4}),
+    (7.62, {'lie_R': 1}),                           # opens as the head comes round (head sequence leads from 7.46)
+    (7.88, {'front34R': .55, 'crouch_R': .45}),     # rises turning toward us, behind its face
+    (8.02, {'frontB': 1}),
+    (8.06, {'frontB': 1}), ('|', 8.06, 'frontB', 'frontA'),
+    (8.06, {'frontA': 1}),
+    (8.22, {'front34L': 1}),
+    (8.42, {'stand': 1}),
     (14.71, {'stand': 1}),
     (15.00, {'stand': .88, 'crouch': .12}),        # comes, low
     (23.79, {'stand': .88, 'crouch': .12}),
@@ -65,48 +67,48 @@ BODY_SEQ = [
 ]
 
 PA = (-0.55, 0.73, 0.0, 1.0)
+HL = 1.1   # the head drawn a little larger when the dog lies (round 2: the small head read as a rodent's)
 HEAD_SEQ = [  # (t, {headkey: w}, placement)
     (0.00, {'profile': 1}, PA),
     (0.98, {'profile': 1}, PA),
-    (1.30, {'profile': 1}, (-0.56, 0.53, 0.18, 1.0)),
-    (2.36, {'profile': 1}, (-0.56, 0.53, 0.18, 1.0)),
+    (1.30, {'profile': 1}, (-0.57, 0.55, 0.14, 1.0)),
+    (2.36, {'profile': 1}, (-0.57, 0.55, 0.14, 1.0)),
     (2.85, {'profile': 1}, PA),
     (3.42, {'profile': 1}, PA),
     (3.56, {'rear34': 1}, (-0.33, 0.68, 0.0, 0.95)),   # the head leads the turn away
-    (3.74, {'rearH': 1}, (0.0, 0.70, 0.0, 0.95)),
-    (3.80, {'rearH': 1}, (0.0, 0.70, 0.0, 0.95)), ('|', 3.80, 'rearH', 'rearH_R'),
-    (3.81, {'rearH_R': 1}, (0.0, 0.70, 0.0, 0.95)),
-    (3.98, {'rear34_R': 1}, (0.33, 0.64, 0.0, 0.95)),
-    (4.22, {'profile_R': 1}, (0.56, 0.52, -0.28, 1.0)),
-    (4.55, {'profile_R': 1}, (0.57, 0.36, -0.3, 1.0)),
-    (5.00, {'profile_R': 1}, (0.56, 0.28, -0.3, 1.0)),
-    (5.70, {'profile_R': 1}, (0.56, 0.14, -0.2, 1.0)),
-    (6.00, {'profile_R': 1}, (0.45, 0.12, -0.3, 0.97)),   # tucked into the curl, back turned
-    (7.40, {'profile_R': 1}, (0.45, 0.12, -0.3, 0.97)),
-    (7.46, {'front34_R': 1}, (0.56, 0.27, -0.05, 1.0)), # 7.46: the head lifts and comes round, past the camera,
-    (7.50, {'frontH_R': 1}, (0.54, 0.34, 0.0, 1.0)),    #       to look back at the door (drawn views, not a mirror flip)
-    (7.51, {'frontH_R': 1}, (0.54, 0.34, 0.0, 1.0)), ('|', 7.51, 'frontH_R', 'frontH'),
-    (7.52, {'frontH': 1}, (0.54, 0.35, 0.0, 1.0)),
-    (7.56, {'front34': 1}, (0.50, 0.42, 0.0, 1.0)),
-    (7.62, {'profile': 1}, (0.40, 0.50, 0.0, 1.0)),
-    (8.02, {'profile': 1}, (0.43, 0.76, 0.0, 1.0)),    # rises still looking back
-    (8.20, {'front34': 1}, (0.34, 0.72, 0.0, 1.0)),
-    (8.36, {'front34': 1}, (-0.05, 0.73, 0.0, 1.0)),
-    (8.52, {'front34': .4, 'profile': .6}, (-0.40, 0.71, 0.0, 1.0)),
-    (8.72, {'profile': 1}, PA),
+    (3.76, {'rearH': 1}, (0.0, 0.70, 0.0, 0.95)),
+    (3.84, {'rearH': 1}, (0.0, 0.70, 0.0, 0.95)), ('|', 3.84, 'rearH', 'rearH_R'),
+    (3.84, {'rearH_R': 1}, (0.0, 0.70, 0.0, 0.95)),
+    (4.00, {'rear34_R': 1}, (0.33, 0.64, 0.0, 0.95)),
+    (4.24, {'profile_R': 1}, (0.56, 0.52, -0.28, 1.0)),
+    (4.55, {'profile_R': 1}, (0.57, 0.36, -0.3, 1.05)),
+    (5.00, {'profile_R': 1}, (0.56, 0.30, -0.3, HL)),
+    (5.70, {'profile_R': 1}, (0.55, 0.16, -0.2, HL)),
+    (6.00, {'profile_R': 1}, (0.47, 0.15, -0.22, HL)),   # head down on its paws in the curl, back turned
+    (7.40, {'profile_R': 1}, (0.47, 0.15, -0.22, HL)),
+    (7.46, {'front34_R': 1}, (0.52, 0.24, -0.05, HL)),   # 7.46: the head lifts and comes round, past the camera,
+    (7.50, {'frontH_R': 1}, (0.52, 0.31, 0.0, HL)),      #       through the drawn front view (not a mirror flip),
+    (7.51, {'frontH_R': 1}, (0.52, 0.32, 0.0, HL)), ('|', 7.51, 'frontH_R', 'frontH'),
+    (7.51, {'frontH': 1}, (0.52, 0.32, 0.0, HL)),
+    (7.56, {'front34': 1}, (0.48, 0.38, 0.0, HL)),       #       and faces the door, muzzle to the left, from 7.56
+    (7.72, {'front34': .45, 'profile': .55}, (0.40, 0.50, 0.0, 1.05)),  # muzzle at the door while it rises
+    (7.88, {'front34': .6, 'profile': .4}, (0.30, 0.60, 0.0, 1.03)),     # rises facing the door
+    (8.04, {'front34': 1}, (-0.03, 0.72, 0.0, 1.0)),     # the body comes round under it
+    (8.22, {'front34': .4, 'profile': .6}, (-0.40, 0.71, 0.0, 1.0)),
+    (8.42, {'profile': 1}, PA),
     (10.0, {'profile': 1}, PA),
     (14.6, {'profile': 1}, (-0.57, 0.69, 0.08, 1.0)),   # trust: the watching head drifts down and forward
     (14.71, {'profile': 1}, (-0.57, 0.69, 0.08, 1.0)),
     (15.00, {'profile': 1}, (-0.60, 0.40, 0.30, 1.0)),  # head low, below the line of the back, for the whole approach
     (23.79, {'profile': 1}, (-0.60, 0.40, 0.30, 1.0)),
-    (24.45, {'profile': 1}, (-0.50, 0.47, 0.0, 1.0)),
-    (25.40, {'profile': 1}, (-0.50, 0.47, 0.0, 1.0)),
-    (26.10, {'profile': 1}, (-0.56, 0.30, 0.18, 1.0)),
-    (26.40, {'profile': 1}, (-0.56, 0.30, 0.18, 1.0)),  # come in (soft): it looks in, through the door
-    (26.85, {'rear34': 1}, (-0.47, 0.56, -0.18, 1.0)),
-    (28.05, {'rear34': 1}, (-0.47, 0.56, -0.18, 1.0)),
-    (28.65, {'profile': 1}, (-0.565, 0.13, 0.12, 1.0)), # and settles, chin down, and stays
-    (32.0, {'profile': 1}, (-0.565, 0.13, 0.12, 1.0)),
+    (24.45, {'profile': 1}, (-0.52, 0.47, 0.0, HL)),
+    (25.40, {'profile': 1}, (-0.52, 0.47, 0.0, HL)),
+    (26.10, {'profile': 1}, (-0.57, 0.32, 0.16, HL)),
+    (26.40, {'profile': 1}, (-0.57, 0.32, 0.16, HL)),   # come in (soft): it turns its head in, through the door
+    (26.85, {'rear34': 1}, (-0.60, 0.42, 0.12, HL)),    # back of the head to us, muzzle pointing level into the lit room
+    (28.05, {'rear34': 1}, (-0.60, 0.42, 0.12, HL)),
+    (28.65, {'profile': 1}, (-0.585, 0.14, 0.12, HL)),  # and settles, chin down, and stays
+    (32.0, {'profile': 1}, (-0.585, 0.14, 0.12, HL)),
 ]
 
 STATE_AT = [(0, 'watch')] + [(c['t'], c['to']) for c in SCORE['choices']]

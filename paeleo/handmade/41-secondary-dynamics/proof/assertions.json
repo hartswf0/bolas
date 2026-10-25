@@ -78,7 +78,7 @@
  },
  "A6_choices_measured_from_render": {
   "ok": true,
-  "msg": "render-measured onset - score time (s): retreat +0.12, watch +0.08, refuse +0.12, turns back to look +0.08, approach +0.12, lie down +0.08, looks in +0.14",
+  "msg": "render-measured onset - score time (s): retreat +0.12, watch +0.08, refuse +0.12, turns back to look +0.08, approach +0.08, lie down +0.08, looks in +0.14",
   "value": {
    "retreat": {
     "measured": 1.125,
@@ -97,7 +97,7 @@
     "score": 7.458
    },
    "approach": {
-    "measured": 14.833,
+    "measured": 14.792,
     "score": 14.708
    },
    "lie down": {
@@ -114,11 +114,11 @@
   "ok": true,
   "msg": "soft voice 10.1 dB below the calls, 27.1 dB above the room tone",
   "value": {
-   "calls_rms_dbfs": -16.7,
-   "soft_rms_dbfs": -26.8,
-   "calls_voice_only_dbfs": -15.9,
-   "soft_voice_only_dbfs": -26.0,
-   "room_tone_rms_dbfs": -53.1,
+   "calls_rms_dbfs": -16.6,
+   "soft_rms_dbfs": -26.7,
+   "calls_voice_only_dbfs": -15.8,
+   "soft_voice_only_dbfs": -25.9,
+   "room_tone_rms_dbfs": -53.0,
    "peak_dbfs": -1.0,
    "soft_below_calls_db": 10.1,
    "soft_above_room_db": 27.1
@@ -148,8 +148,8 @@
    "tail_settle_after_wag_s": 3.46,
    "tail_max_deviation_cm": 59.7,
    "min_gap_tail_m": 0,
-   "min_gap_scarf_m": -0.0013,
-   "tag_contacts": 1268,
+   "min_gap_scarf_m": 0,
+   "tag_contacts": 15,
    "leaf_contacts": 0
   }
  }

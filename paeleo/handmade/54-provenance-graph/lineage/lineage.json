@@ -9710,40 +9710,6 @@
    ],
    "tags": "documented"
   },
-  "n_a58ea83803c508bc": {
-   "id": "n_a58ea83803c508bc",
-   "kind": "derivative",
-   "label": null,
-   "op": "beam",
-   "op_sig": "342f018733c7ce92",
-   "op_version": 2,
-   "params": {
-    "color": [
-     255,
-     182,
-     108,
-     112
-    ],
-    "door_px": [
-     1299.2,
-     1120.0
-    ],
-    "ppm": 320,
-    "reach_px": 1408.0,
-    "size": [
-     3040,
-     1472
-    ]
-   },
-   "parents": [],
-   "rights": "self-made",
-   "sha256": "a58ea83803c508bc6707f61a6d26ca400635aa9608dc91ae5b79f5cad61b4a46",
-   "size": [
-    3040,
-    1472
-   ],
-   "tags": "inferred"
-  },
   "n_a59ef6597bb88f46": {
    "id": "n_a59ef6597bb88f46",
    "kind": "derivative",
@@ -10229,6 +10195,42 @@
    "size": [
     384,
     288
+   ],
+   "tags": "inferred"
+  },
+  "n_bf28ddb8ed3d64a6": {
+   "id": "n_bf28ddb8ed3d64a6",
+   "kind": "derivative",
+   "label": null,
+   "op": "beam",
+   "op_sig": "9921b7d2edbe6ad5",
+   "op_version": 2,
+   "params": {
+    "color": [
+     255,
+     182,
+     108,
+     165
+    ],
+    "door_px": [
+     1299.2,
+     1120.0
+    ],
+    "h1": 0.95,
+    "h2": 2.4,
+    "ppm": 320,
+    "reach_px": 1472.0,
+    "size": [
+     3040,
+     1472
+    ]
+   },
+   "parents": [],
+   "rights": "self-made",
+   "sha256": "bf28ddb8ed3d64a620159f2221b663bf105ca7768232133a880b51142495babf",
+   "size": [
+    3040,
+    1472
    ],
    "tags": "inferred"
   },
@@ -13056,7 +13058,7 @@
     "m_per_px": 0.002,
     "node": "n_35c85bfd4d19f731"
    },
-   "beam": "n_a58ea83803c508bc",
+   "beam": "n_bf28ddb8ed3d64a6",
    "channel": "n_1931178da97cbf6b",
    "door": [
     {
