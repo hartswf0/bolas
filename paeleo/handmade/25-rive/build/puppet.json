@@ -1,6 +1,6 @@
 {
  "about": "SCION-25 RIVE. The authored artboard for the dog: bones, shapes bound to bones, keyed clips (single-key poses and loops), typed inputs and the state machine (layers, states, transitions with explicit priority). Read by build/rive.js; nothing here is pixels. Units: metres, seconds, degrees in clips. Body frame: f forward, y up, l lateral.",
- "version": "25-rive/puppet v4",
+ "version": "25-rive/puppet v5",
  "provenance": "Authored by hand in this file (SCION-25). Proportions set from the archive dog's rig keys (kit/archive-dog/pose_agent_v8.json, frames 0-12: chest-to-tail length about 1.15-1.25 x neck height, nose about 1.2 x neck height when alert), and its coat pattern (tan body, dark saddle, pale chest, dark muzzle and ears) from looking at kit/archive-dog/frames f000, f015, f030, f045. No pixels of the archive are used.",
  "bones": {
   "chest": {
@@ -144,12 +144,12 @@
    "neckAng": 64
   },
   "tailHigh": {
-   "tailAng": 30,
-   "tailCurl": 14
+   "tailAng": 15,
+   "tailCurl": 10
   },
   "tailNeutral": {
-   "tailAng": -38,
-   "tailCurl": -12
+   "tailAng": -45,
+   "tailCurl": -8
   },
   "tailTucked": {
    "tailAng": -100,
@@ -281,7 +281,7 @@
        "yaw": 0,
        "headRel": 0
       },
-      "duration": 0.5,
+      "duration": 0.42,
       "via": "front",
       "headLag": -0.06
      },

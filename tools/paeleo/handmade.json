@@ -92,6 +92,16 @@
    "trick": "A drawing that bends without ever folding: the dog keeps its shape by solving for it."
   },
   {
+   "id": 14,
+   "dir": "14-pose2pose",
+   "name": "Pose2Pose casting",
+   "kind": "Nora Willett lineage",
+   "dog": "a bank of 41 whole ink-and-wash drawings, cast to the score by a Viterbi path",
+   "made": "An illustration bank drawn for this film: 41 ink-and-wash dog drawings set by hand from a construction kit (profile, three-quarter, front and back heads, legs, tail, a dark saddle, a pale ruff and socks), and 13 drawings of the person; the porch, door, room, light and sky drawn as paths. The archive dog was studied for build and markings; no pixel of it is used.",
+   "moved": "Only by choosing one whole drawing per frame: each score frame becomes a pose vector, and a Viterbi path picks drawings by pose distance plus a transition cost, so turns pass through the drawn three-quarter and front views and nothing flickers. Walk and backing drawings sit on a gait chart so planted paws stay pinned. Nothing is tweened or warped.",
+   "trick": "The performance is a path through a drawer of drawings: casting, not animating."
+  },
+  {
    "id": 17,
    "dir": "17-south-park",
    "name": "South Park lineage",

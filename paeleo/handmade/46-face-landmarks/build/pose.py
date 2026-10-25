@@ -159,7 +159,7 @@ def solve(rig):
             chain.append(cur.copy())
         out.append(dict(i=f['i'], t=t, body={k2: v.tolist() for k2, v in L.items()}, skull=Sk.tolist(),
                         head={q: v.tolist() for q, v in Hd.items()}, ears={s2: [a.tolist(), b.tolist()] for s2, (a, b) in ears.items()},
-                        legs={n2: [j.tolist() for j in js] for n2, js in joints.items()}, tail=[c.tolist() for c in chain],
+                        legs={n2: [j.tolist() for j in js] for n2, js in joints.items()}, feet={n2: v.tolist() for n2, v in legs.items()}, tail=[c.tolist() for c in chain],
                         planted={n2: (n2 not in swing) for n2 in LEGS}))
     return out, contacts
 

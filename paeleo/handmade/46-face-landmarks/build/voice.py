@@ -2,7 +2,7 @@
 is chosen by what is being said). Times in scene seconds. Calls are loud; the soft voice is about 12 dB quieter."""
 import math
 
-CALL, SOFT = 1.0, 0.25
+CALL, SOFT = 1.0, 0.32
 SYL = [
     # (start, end, amplitude, pitch Hz start, pitch Hz end, vowel)   'Come here.'
     (1.00, 1.27, CALL, 210, 230, 'uh'), (1.36, 1.86, CALL, 250, 205, 'ee'),

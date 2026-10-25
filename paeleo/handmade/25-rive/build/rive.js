@@ -179,7 +179,7 @@
       const out = [];
       defs.forEach((d, i) => {
         const ft = this.feet[i], H = home(d);
-        const lead = [H[0] + vel[0] * 0.28, H[1] + vel[1] * 0.28];
+        const lead = [H[0] + vel[0] * 0.16, H[1] + vel[1] * 0.16];
         let pos, lift = 0;
         if (!this.lyingFeet && I.lie > 0.02) { this.lyingFeet = true; this.foldFrom = this.feet.map(f => f.P.slice()); this.feet.forEach(f => { f.swing = null; }); }
         if (this.lyingFeet && I.lie < 0.12 && I.lie < (this.prevLie || 0) && i === 0) { this.lyingFeet = false; this.feet.forEach((f, j) => { f.P = f.lastPos ? f.lastPos.slice() : f.P; }); this.foldFrom = null; }
@@ -196,7 +196,7 @@
             ft.swing = { from: ft.P.slice(), t: 0, dur };
           }
           if (ft.swing) {
-            ft.swing.t += dt; const k = clamp(ft.swing.t / ft.swing.dur), tgt = [H[0] + vel[0] * 0.42, H[1] + vel[1] * 0.42];
+            ft.swing.t += dt; const k = clamp(ft.swing.t / ft.swing.dur), tgt = [H[0] + vel[0] * 0.24, H[1] + vel[1] * 0.24];
             pos = [lerp(ft.swing.from[0], tgt[0], ease(k)), lerp(ft.swing.from[1], tgt[1], ease(k))]; lift = Math.sin(Math.PI * k) * (d.front ? 0.07 : 0.06);
             if (k >= 1) { ft.P = pos.slice(); ft.swing = null; this.events.push({ t: +this.t.toFixed(4), kind: 'footfall', foot: d.n, x: +pos[0].toFixed(4) }); }
           } else pos = ft.P.slice();

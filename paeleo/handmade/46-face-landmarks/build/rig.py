@@ -83,8 +83,8 @@ def lying_head(t):
     toward_person = 140.0
     into_room = 218.0
     if t < 24.2: return ease(TH_DOOR, toward_person, 23.8, 24.6, t)
-    if t < 26.40: return toward_person
-    if t < 28.0: return ease(toward_person, into_room, 26.40, 26.78, t)
+    if t < 26.36: return toward_person
+    if t < 28.0: return ease(toward_person, into_room, 26.36, 26.62, t)
     return ease(into_room, 205.0, 28.0, 29.0, t)
 
 
@@ -95,7 +95,11 @@ def build():
     elev_f = OneEuro(2.5, 0.6); hp_f = OneEuro(2.5, 0.6); ear_f = OneEuro(3.0, 0.6); tail_f = OneEuro(2.0, 0.5)
     for i, fr in enumerate(F):
         t = fr['t']; d = fr['dog']; a = d['act']; p = fr['person']
-        x = d['x']; X_mid = x - OFFSET
+        x = d['x']
+        if 2.333 <= t < 2.75:   # it stops to watch: the last 11 cm of the backing are taken in 0.17 s, not 0.42 s
+            j = min(len(F) - 1, int(round((2.333 + (t - 2.333) * 2.4) * FPS)))
+            x = F[j]['dog']['x']
+        X_mid = x - OFFSET
         th = body_heading(t)
         lie = a['lie']
         # the refusal lie (4.5-7.4) follows the score's lie; the sill lie follows it too

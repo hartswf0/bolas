@@ -122,6 +122,8 @@ def sky_base():
 
 
 SKY = None
+_yy, _xx = np.mgrid[0:H, 0:W]
+VIG = 1 - 0.32 * (((_xx - W / 2) / (W / 2)) ** 2 + ((_yy - H / 2) / (H / 2)) ** 2) ** 1.3
 rng_static = np.random.default_rng(46)
 STARS = [(rng_static.uniform(-40, 40), rng_static.uniform(6, 30), rng_static.uniform(0.4, 1.0)) for _ in range(60)]
 TREES = []
@@ -289,8 +291,8 @@ def draw_porch(w, f):
     w.quad([(0, 0, -1.7), (4.9, 0, -1.7), (4.9, 0, 1.4), (0, 0, 1.4)], porch_color(2.0, 0.0, f, (78, 82, 98)))
     # boards along X, shaded by the light they get
     for z in np.arange(-1.7, 1.4, 0.13):
-        for x0 in np.arange(0, 4.9, 0.35):
-            x1 = min(4.9, x0 + 0.35)
+        for x0 in np.arange(0, 4.9, 0.7):
+            x1 = min(4.9, x0 + 0.7)
             c = porch_color((x0 + x1) / 2, z + 0.065, f, (92, 94, 110))
             w.quad([(x0, 0, z + 0.008), (x1, 0, z + 0.008), (x1, 0, z + 0.122), (x0, 0, z + 0.122)], c)
         w.seg((0, 0.0005, z), (4.9, 0.0005, z), porch_color(2.0, z, f, (44, 46, 58)), 0.5)
@@ -744,9 +746,7 @@ def render_frame(f, p, r):
     bl = np.asarray(Image.fromarray(np.clip(br, 0, 255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(18)), float)
     a = a + 0.55 * bl
     # vignette and grain
-    yy, xx = np.mgrid[0:H, 0:W]
-    vg = 1 - 0.32 * (((xx - W / 2) / (W / 2)) ** 2 + ((yy - H / 2) / (H / 2)) ** 2) ** 1.3
-    a = a * vg[..., None]
+    a = a * VIG[..., None]
     rng = np.random.default_rng(1000 + f['i'])
     a = a + rng.normal(0, 3.2, (H, W, 1))
     return Image.fromarray(np.clip(a, 0, 255).astype(np.uint8))
