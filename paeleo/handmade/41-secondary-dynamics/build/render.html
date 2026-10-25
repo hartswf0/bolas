@@ -117,9 +117,9 @@ function drawInterior(f) {
   const bg = g.createRadialGradient(lampP[0], lampP[1] + 6, 1, lampP[0], lampP[1] + 6, 60); bg.addColorStop(0, 'rgba(255,240,200,1)'); bg.addColorStop(0.3, 'rgba(255,200,120,0.6)'); bg.addColorStop(1, 'rgba(255,180,100,0)');
   g.fillStyle = bg; g.beginPath(); g.arc(lampP[0], lampP[1] + 6, 60, 0, 7); g.fill();
 }
-function drawDoor(f) { // the glazed wooden leaf, hung on the near jamb. Opened flat it lies in the section plane and is cut away with the near wall
+function drawDoor(f) { // the glazed wooden leaf, hung on the far jamb; it swings into the room and rests, foreshortened, against its stop
   const Wd = S.world, h = Wd.hinge, a = f.door, dz = Wd.hingeDir, d = [-Math.sin(a), 0, dz * Math.cos(a)], n = [Math.cos(a), 0, -dz * Math.sin(a)], T = 0.045, Hd = 2.02, Lf = Wd.leaf;
-  const ca = Math.cos(a); const u0 = ca > 1e-3 ? clamp((h[2] - Wd.leafCut) / (Lf * ca), 0, 1) : 1; if (u0 >= 0.999) return;
+  const u0 = 0; // the leaf is always whole: it swings into the room and rests against its stop
   const at = (u, y, s = 0) => add(add(h, mul(d, u * Lf)), add([0, y, 0], mul(n, s * T)));
   const face = norm(sub(CAM.pos, at(0.5, 1, 0))), sgn = dot(face, n) > 0 ? 1 : -1; const s = sgn * 0.5;
   const wood = lit(hex('#6b4a2e'), at(0.5, 1, s), 0.6);

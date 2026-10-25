@@ -22,8 +22,8 @@ const r4 = x => Math.round(x * 1e4) / 1e4, P3 = p => [r4(p[0]), r4(p[1]), r4(p[2
 const act = i => FR[clamp(i, 0, N - 1)].dog.act;
 
 // ---------- the world (metres) ----------
-const WORLD = { wallIn: 0.30, wallOut: 0.50, open: [-0.46, 0.46], lintel: 2.05, sill: [0.26, 0.66, 0.025], hinge: [0.31, 0, 0.46], hingeDir: -1, leaf: 0.90, leafCut: 0.40,
-  porchEnd: 4.9, railZ: -1.32, lamp: [-1.05, 2.15, -0.1], shrub: [4.74, 0, -0.66], dogZ: 0.0 };
+const WORLD = { wallIn: 0.30, wallOut: 0.50, open: [-0.46, 0.46], lintel: 2.05, sill: [0.26, 0.66, 0.025], hinge: [0.31, 0, -0.46], hingeDir: 1, leaf: 0.90, leafStop: 2.90,
+  porchEnd: 4.9, railZ: -1.32, lamp: [-1.05, 2.15, -0.1], shrub: [4.74, 0, -0.86], dogZ: 0.0 };
 
 // ---------- the dog's own timing (primary), anchored to the score's choices ----------
 // heading θ: F = (cos θ, 0, sin θ). θ = π faces the door (−X). The turns pass through θ = π/2 (facing the camera),
@@ -69,9 +69,10 @@ function headPose(B) {
   let dy = table([[0, -0.33], [0.2, -0.27], [0.45, -0.13], [0.7, 0.15], [0.9, 0.26], [1.25, 0.32]], h);
   let fw = table([[0, 0.23], [0.45, 0.25], [0.9, 0.17], [1.25, 0.15]], h);
   let pitch = table([[0, -0.9], [0.45, -0.55], [0.9, -0.16], [1.25, 0.12]], h);
+  const lookUp = 0.38 * Math.max(0, Math.min(1, (h - 0.9) / 0.3)) * lb; // lying, the raised head looks up and in, over her head
   const ly = lerp(table([[0.2, 0.31], [0.45, 0.37], [0.7, 0.44], [1.25, 0.56]], h), 0.108, rest);
   const lfw = lerp(0.17, 0.29, rest), lp = lerp(table([[0.2, -0.25], [0.7, -0.1], [1.25, 0.1]], h), -0.04, rest);
-  const yAbs = lerp(B.withersC + dy, ly, lb); fw = lerp(fw, lfw, lb); pitch = lerp(pitch, lp, lb);
+  const yAbs = lerp(B.withersC + dy, ly, lb); fw = lerp(fw, lfw, lb); pitch = lerp(pitch, lp, lb) + lookUp * (1 - rest);
   // neck carries the head round: offset from the neck base rotated by most of the relative yaw
   const ry = rel * 0.78, Fh = frameOf(th + ry);
   const N = B.neckBase; let H = V.add([N[0], 0, N[2]], V.add(V.mul(Fh.F, fw), [0, yAbs, 0]));
@@ -114,7 +115,7 @@ for (let i = 0; i < N; i++) {
     const ft = feet[k], partner = feet[k ^ 1]; // k^1: the other foot of the same girdle
     if (ft.swing && t >= ft.swing.t1) { ft.P = ft.swing.B; ft.swing = null; ft.last = t; EVENTS.push({ t, tag: 'paw', k, speed: ft.speed || 0.3, x: ft.P[0] }); }
     if (!ft.swing && B.lb < 0.3) {
-      const mv = moving(i) || moving(i + 3), thr = mv ? (Math.abs(FR[i].dog.v) > 0.5 ? 0.15 : 0.12) : 0.045, d = V.len(V.sub(IDEAL[i][k], ft.P));
+      const mv = moving(i) || moving(i + 3), thr = mv ? (Math.abs(FR[i].dog.v) > 0.5 ? 0.15 : 0.12) : 0.02, d = V.len(V.sub(IDEAL[i][k], ft.P));
       const swinging = feet.filter(q => q.swing).length;
       if (d > thr && !partner.swing && swinging < 2 && t - ft.last > 0.1) {
         const Tsw = Math.abs(FR[i].dog.v) > 0.5 ? 0.17 : (mv ? 0.22 : 0.26), j = clamp(Math.round(i + (Tsw + (mv ? 0.2 : 0)) / DT), 0, N - 1);
@@ -136,15 +137,15 @@ function dogSkeleton(i) {
     const paw = FOOT[i][k].p, down = [0, -1, 0];
     if (f.fore) {
       const S = at(0.205, B.withersC - 0.075, 0.075 * f.s), pole = V.norm(V.add(V.mul(F, -1), V.mul(down, 0.3)));
-      const wrist = V.add(paw, [0, 0.055, 0]); let { B: el } = ik2(S, wrist, 0.19, 0.162, pole);
+      const wrist = V.add(paw, [0, 0.055, 0]); let { B: el } = ik2(S, wrist, 0.18, 0.162, pole);
       let j2 = wrist;
       if (B.lb > 0) { el = V.lerp(el, at(0.17, 0.045, 0.085 * f.s), B.lb); j2 = V.lerp(wrist, at(0.43, 0.035, 0.07 * f.s), B.lb); }
       return { fore: 1, s: f.s, root: S, j1: el, j2, paw };
     }
     const Hj = at(-0.285, B.pelvisC - 0.05, 0.078 * f.s);
-    const hock = V.lerp(V.add(paw, V.add([0, 0.125, 0], V.mul(F, -0.045))), V.add(paw, V.add([0, 0.03, 0], V.mul(F, -0.15))), B.lb);
+    const hock = V.lerp(V.add(paw, V.add([0, 0.125, 0], V.mul(F, -0.012))), V.add(paw, V.add([0, 0.03, 0], V.mul(F, -0.15))), B.lb);
     const pole = V.norm(V.add(V.mul(F, 1), V.add(V.mul(L, 0.6 * f.s * B.lb), [0, 0.2, 0])));
-    let { B: st } = ik2(Hj, hock, 0.18, 0.175, pole);
+    let { B: st } = ik2(Hj, hock, 0.16, 0.152, pole);
     if (B.lb > 0) st = V.lerp(st, at(-0.08, 0.11, 0.165 * f.s), B.lb);
     return { fore: 0, s: f.s, root: Hj, j1: st, j2: hock, paw };
   });
@@ -153,16 +154,17 @@ function dogSkeleton(i) {
 
 // ---------- the person: primary poses (keyframed acting) ----------
 const PF = i => FR[clamp(i, 0, N - 1)].person;
-const SEAT = { hip: [-1.12, 0.14, -0.26], heading: 0.18 };
-const DOORWAY = { hip: [0.40, 0.93, -0.12], heading: 0.0 };
+const SEAT = { hip: [-0.95, 0.14, -0.12], heading: 0.18 };
+const DOORWAY = { hip: [-0.20, 0.93, 0.12], heading: 0.0 };
 function personPose(i) {
   const t = i * DT, p = PF(i);
-  const walk = seg(t, 4.62, 5.45), sit = sm(p.sit), headingP = lerp(DOORWAY.heading, SEAT.heading, seg(t, 5.0, 5.8));
+  const walk = seg(t, 4.55, 5.25), sit = sm(seg(t, 4.98, 5.55)), // she sits first, then opens the door
+    headingP = lerp(DOORWAY.heading, SEAT.heading, seg(t, 5.0, 5.8));
   const { F, L } = frameOf(headingP);
   // feet: planted in the doorway, three steps out and aside, then planted in front of the seat
   const seatFeet = s => V.add([SEAT.hip[0], 0, SEAT.hip[2]], V.add(V.mul(frameOf(SEAT.heading).F, 0.56), V.mul(frameOf(SEAT.heading).L, 0.12 * s)));
   const doorFeet = s => V.add([DOORWAY.hip[0], 0, DOORWAY.hip[2]], V.mul([0, 0, -1], 0.11 * s));
-  const steps = [[4.62, 4.9, 1], [4.86, 5.16, -1], [5.12, 5.42, 1], [5.36, 5.62, -1]];
+  const steps = [[4.55, 4.78, 1], [4.72, 4.96, -1], [4.9, 5.12, 1], [5.05, 5.28, -1]];
   const footAt = s => { // s: +1 left (far), −1 right (near)
     let p = doorFeet(s); const mid = V.lerp(doorFeet(s), seatFeet(s), 0.5);
     const mine = steps.filter(q => q[2] === s);
@@ -180,10 +182,10 @@ function personPose(i) {
   hip = V.lerp(hip, SEAT.hip, sit);
   // upper body: lean toward the dog when calling, more when reaching; toward the door edge when pushing it
   const reach = p.reach, call = (t > 0.95 && t < 2.3 ? seg(t, 0.95, 1.15) * (1 - seg(t, 2.0, 2.3)) : 0);
-  const push = seg(t, 4.72, 4.98) * (1 - seg(t, 5.05, 5.35)); // the near hand pushes the door open as she steps back in
+  const push = seg(t, 5.36, 5.6) * (1 - seg(t, 5.72, 6.05)); // seated, she reaches out and pushes the door open
   const low = p.low;
   let lean = 0.10 * call + 0.30 * reach - 0.05 * sit + 0.34 * low * sit + 0.12 * push;
-  let twist = -0.25 * push; // shoulders toward the door
+  let twist = 0.3 * push; // shoulders toward the door's edge
   const fwd = V.norm(V.add(V.mul(frameOf(headingP + twist * 0.5).F, Math.sin(lean)), [0, Math.cos(lean), 0])); // spine axis
   const Fs = frameOf(headingP + twist * 0.5).F, Ls = frameOf(headingP + twist * 0.5).L;
   const chest = V.add(hip, V.mul(fwd, 0.36)), neck = V.add(hip, V.mul(fwd, 0.53)), head = V.add(V.add(hip, V.mul(fwd, 0.665)), V.mul(Fs, 0.025));
@@ -193,7 +195,7 @@ function personPose(i) {
   const beckon = call * (0.5 + 0.5 * Math.sin(2 * PI * 1.8 * (t - 1.0)));
   let handR = V.lerp(restR, V.add(shR, V.add(V.mul(F, 0.34), [0, -0.12 + 0.12 * beckon, 0])), call);
   handR = V.lerp(handR, V.add(shR, V.add(V.mul(F, 0.62), [0, -0.12, 0.05])), reach);
-  const leafF = doorEdge(DOOR_A[i] ?? 0.5, 0.6);
+  const leafF = doorEdge(DOOR_A[i] ?? 1.0, 0.85, 0.55);
   const lowHand = [-0.50, 0.15, -0.02];
   handR = V.lerp(handR, lowHand, low);
   let handL = V.lerp(restL, V.add(hip, V.add(V.mul(F, 0.30), V.add(V.mul(L, 0.24), [0, 0.07, 0]))), sit); // on the far knee
@@ -227,9 +229,9 @@ function mouthAt(t) { let m = 0; for (const v of VOICE) { let s = v.t; for (cons
 
 // ---------- door leaf (wood): hinge with friction and a doorstop; the person's hand gives the impulses ----------
 const DOOR_A = [];
-function runDoor(J) { const d = new D.Hinge({ I: 3.9, k: 0, c: 0.5, friction: 0.42, min: 0.0, max: 1.62, restitution: 0.2, tag: 'door' }); d.a = 0.5; const A = [];
-  for (let i = 0; i < N; i++) { if (i === Math.round(5.0 / DT)) d.impulse(J); d.step(DT, SUB, i * DT); A.push(d.a); } return { d, A }; }
-let lo = 0.5, hi = 12; for (let it = 0; it < 40; it++) { const m = (lo + hi) / 2, s0 = runDoor(m).d.events.find(e => e.tag === 'door-stop'); if (!s0 || s0.t > 6.2) lo = m; else hi = m; }
+function runDoor(J) { const d = new D.Hinge({ I: 3.9, k: 0, c: 0.5, friction: 0.9, min: 0.0, max: WORLD.leafStop, restitution: 0.06, tag: 'door' }); d.a = 1.0; const A = [];
+  for (let i = 0; i < N; i++) { if (i === Math.round(5.62 / DT)) d.impulse(J); d.step(DT, SUB, i * DT); A.push(d.a); } return { d, A }; }
+let lo = 0.5, hi = 40; for (let it = 0; it < 40; it++) { const m = (lo + hi) / 2, s0 = runDoor(m).d.events.find(e => e.tag === 'door-stop'); if (!s0 || s0.t > 6.2) lo = m; else hi = m; }
 const DOORJ = (lo + hi) / 2, door = runDoor(DOORJ).d; DOOR_A.push(...runDoor(DOORJ).A);
 EVENTS.push(...door.events);
 
@@ -281,7 +283,7 @@ const vel = (key, tgt) => { const pv = PREV[key]; PREV[key] = tgt; return pv ? t
 function simFrame(i, record) {
   const t = record ? i * DT : 0, Sk = dogSkeleton(i), { B, Hp, legs } = Sk, a = B.a;
   // ears: pricked by attention; flattened by fear; a voice onset adds a small prick impulse
-  let e = clamp(a.ear, 0, 1); for (const v of VOICE) e = clamp(e + 0.35 * seg(t, v.t, v.t + 0.12) * (1 - seg(t, v.t + 0.25, v.t + 0.7)) * (v.level === 'soft' ? 1 : 0), 0, 1);
+  let e = clamp(Math.max(a.ear, 0.45 * B.lb), 0, 1); for (const v of VOICE) e = clamp(e + 0.35 * seg(t, v.t, v.t + 0.12) * (1 - seg(t, v.t + 0.25, v.t + 0.7)) * (v.level === 'soft' ? 1 : 0), 0, 1);
   const skull = { type: 'sphere', c: Hp.H, r: 0.074 };
   const eLt = earTargets(Hp, 1, e), eRt = earTargets(Hp, -1, e); earL.step(eLt, [skull], DT, SUB, t); earR.step(eRt, [skull], DT, SUB, t);
   // tail: collides with the floor, the rump and both thighs (a tucked tail lies between the legs, not through them)
