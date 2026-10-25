@@ -57,7 +57,8 @@ the dusk ambient and the doorway light, plus a rim pass).
   (7.95-8.8) goes the other way: two camera-facing frames, then 3/4 and profile frames with the head on the door side
   (`TURN_BACK`). Profile cels are registered by the rump, which barely moves when the head does, so a head change never
   slides the body; camera-facing cels by their centre.
-- **Re-timed walks.** The head-low walk is f43-45 (round 2: f42, f46, f47 dropped), shown mirrored as a whole pose so it faces the door. The cel index is
+- **Re-timed walks.** The head-low walk is f43-45 (round 2: f42, f46, f47 dropped), shown mirrored as a whole pose so it faces the door; from score x = 2.05 to the
+  sill (round 3) the frame-10 profile parts walk instead, legs swinging 15° about their upper pivots, so the same parts then lie down. The cel index is
   the distance travelled divided by a 0.30 m stride (three cels per stride), so the drawings account for the travel; backing
   away plays the same cycle backward.
 - **Re-assembled parts.** The footage has no lying dog. Lying is built from frame 10 cut into five sublayers (head, torso,
@@ -224,3 +225,59 @@ frames. Still weak:
 - Whether the frame-0 head reads as *looking in* is for the critic.
 - The walk glides a few px during cel holds.
 - I have not heard the sound (unchanged since round 1).
+
+
+## Round 3 (after critic round 2: DOES NOT PASS, close)
+
+1. **The walk-in through the jamb (22.1–24.4).** There were two causes:
+   - *The walk cels.* The head-low cels are a three-quarter-front view, so their hind feet sit higher in the picture than
+     their front feet. Angled into the doorway, that put the hindquarters up on the siding.
+   - *The depth path.* It let the body cross the frame plane to the right of the opening, so the part between the jamb
+     and that crossing was held out by the wall: the rear shrank to a sliver, then popped back when the lying parts took
+     over at 23.79.
+
+   Changes:
+   - From score x = 2.05 on (from about 20.6 s), the frame-10 profile parts walk. Their feet are level, and the same
+     parts then lie down, so there is no drawing swap at the sill.
+   - The depth crossing is held at the right jamb's outer edge (x = 0.575) for the whole walk-in.
+   - The hind-leg part overlaps the torso and is drawn behind it, so there is no gap and no visible cut.
+
+   Measured on the dog's alpha pass right of the casing, every frame 22.1–24.4 (`build/cache/rear_metric.json`):
+   - The lowest hindquarter pixel is at most 4.9 px above the porch line.
+   - The largest change in rear area between adjacent frames is 5.8%.
+2. **7.63–7.83: one head.** I removed the head laid over the shoulder. Now the frontal head comes round on the rising
+   body (to 7.68), then the real standing cel 28 faces the camera (7.68–7.80), then cel 26, then the left profile cel 14
+   with the head toward the door from 7.92.
+3. **Voice before response.** flite puts 0.27–0.35 s of silence before each line. It is now trimmed, and each line is
+   placed by its audible onset:
+   - "Come here" at 0.82 s; the retreat is at 1.00.
+   - The second call at 3.24 s; the refusal is at 3.417.
+   - "It's all right" at 7.28 s; the turn is at 7.458.
+   - "Come in" at 26.3 s; the look-in is at 26.50.
+
+   An envelope check on the mixed track finds the first loud sample at 0.87, 3.28, 7.33 and 26.38 s. Levels are
+   unchanged: the soft voice is 11.4 dB under the calls and 16.2 dB
+   over the room tone.
+4. **Contact shadow and edges.** The shadow is now cast down onto the boards under the feet and belly. It is kept only
+   at or below the dog's own bottom contour, so there is no halo over the siding. Shadow under the bottom contour: min
+   0.928, median 0.981. The cels now bleed the
+   dog's own colour into their transparent border, so resampling no longer pulls a dark or light fringe from the
+   footage's background.
+5. **The black fade at 0.00 is gone.** The scene now cuts straight in from the title card.
+
+After the re-render, `check_handmade.py` gives ALL OK. Onsets: dt 0 / 0 / 0 / 0 / 0 / +0.166, looks in +0.10.
+- No ordering loops, no conflicts and no pops; alpha valid; the per-pixel re-composite differs by more than 50 px on 0
+  of 192 frames.
+- The dog is split at the jamb in 239 frames.
+- Note: the first full render stopped at frame 562 on a bug in the ordering code (an overlap of exactly one pixel). I
+  fixed it and rendered the remaining 206 frames with the same code.
+
+Looked at, every frame: 21.79–24.50 and 7.50–8.00 (crops around the dog), plus the decoded film at the scene start.
+
+Still weak:
+- The walking profile parts are my own small rig, not real footage, for the last 1.45 m. They are the dog's real
+  pixels, but the swing is computed.
+- The rig's lowered head shows two lobes (the ear and the head).
+- The rise at 7.67 is one frame of a half-risen body with the frontal head.
+- The walk cels glide a few px during holds.
+- The sound is measured, not heard.

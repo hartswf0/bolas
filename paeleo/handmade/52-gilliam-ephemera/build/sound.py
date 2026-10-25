@@ -53,7 +53,7 @@ def env(n, a, r):
 
 # ------------------------------------------------------------------ room tone: dusk air and crickets, the whole film
 air = fft_band(rng.normal(0, 1, N).astype(np.float32), 60, 700)
-air *= .012 / (np.sqrt(np.mean(air ** 2)) + 1e-9)
+air *= .0045 / (np.sqrt(np.mean(air ** 2)) + 1e-9)
 fade = np.minimum(1, np.arange(N) / (SR * 1.5)) * np.minimum(1, (N - np.arange(N)) / (SR * 1.5))
 L += air * fade; Rr += air * fade * .96
 stems['room'] = air * fade
@@ -61,13 +61,13 @@ t = 0.4
 while t < DUR - 4:
     n = int(.11 * SR); tt = np.arange(n) / SR
     chirp = np.sin(2 * np.pi * 4650 * tt) * (np.sin(2 * np.pi * 32 * tt) > .3) * env(n, .005, .02)
-    add(chirp.astype(np.float32), t - OFF, -44 + rng.normal(0, 2), pan=rng.uniform(.3, .9), stem='room')
+    add(chirp.astype(np.float32), t - OFF, -52 + rng.normal(0, 2), pan=rng.uniform(.3, .9), stem='room')
     t += rng.uniform(.55, 1.2)
 
 # ------------------------------------------------------------------ the voice: two calls, three soft lines
 for k, ln in enumerate(VO['lines']):
     a = np.load(os.path.join(CACHE, f'voice_{k}.npy')).astype(np.float32)
-    g = -9 if ln['register'] == 'call' else -23
+    g = -9 if ln['register'] == 'call' else -21
     add(a, ln['t'], g, pan=-.45, stem='call' if ln['register'] == 'call' else 'soft')
 
 
@@ -155,7 +155,7 @@ add(chord(14.0, [174.6, 220.0, 261.6, 329.6], 2.0, 5.0), 23.9, -34, pan=-.2, ste
 # ------------------------------------------------------------------ master
 mix = np.stack([L, Rr], 1)
 pk = np.abs(mix).max()
-if pk > .95: mix *= .95 / pk
+master = .89 / pk; mix *= master
 with wave.open(os.path.join(CACHE, 'sound.wav'), 'w') as w:
     w.setnchannels(2); w.setsampwidth(2); w.setframerate(SR)
     w.writeframes((np.clip(mix, -1, 1) * 32767).astype(np.int16).tobytes())
@@ -173,7 +173,7 @@ def active_rms(stem):
     return round(20 * math.log10(np.sqrt(np.mean(x[on] ** 2)) + 1e-12), 2)
 
 
-lev = {'note': 'levels measured on the synthesized stems before the master (no master gain applied: peak ' + str(round(float(pk), 3)) + ')',
+lev = {'note': 'levels measured on the synthesized stems, before the master gain (' + str(round(20 * math.log10(master), 2)) + ' dB, same for all; ratios hold)',
        'call_voice_active_rms_dbfs': active_rms('call'), 'soft_voice_active_rms_dbfs': active_rms('soft'),
        'room_tone_rms_dbfs': round(20 * math.log10(np.sqrt(np.mean(stems['room'][SR * 4:SR * 34] ** 2))), 2)}
 lev['soft_minus_call_db'] = round(lev['soft_voice_active_rms_dbfs'] - lev['call_voice_active_rms_dbfs'], 2)
