@@ -54,7 +54,12 @@ def tube(centers, rx, ry, M, ref, phase, ripple=0.0, ripple_k=3, ripple_ph=0.0):
     P = C[:, None, :] + ca[..., None] * np.asarray(rx)[:, None, None] * A2[:, None, :] \
         + sa[..., None] * np.asarray(ry)[:, None, None] * A1[:, None, :]
     Nn = norm(np.cos(TH)[..., None] * A2[:, None, :] + np.sin(TH)[..., None] * A1[:, None, :])
+    global LAST_T
+    LAST_T = np.repeat(Tn, M, 0)
     return P.reshape(-1, 3), Nn.reshape(-1, 3)
+
+
+LAST_T = None
 
 
 def rotY(v, a):
@@ -91,10 +96,13 @@ def chain(pts, k_each):
 
 class Builder:
     def __init__(self):
-        self.P, self.N, self.C, self.W, self.part = [], [], [], [], []
+        self.P, self.N, self.C, self.W, self.part, self.T = [], [], [], [], [], []
 
-    def add(self, P, Nn, col, w, part):
+    def add(self, P, Nn, col, w, part, tang=None):
         P = np.asarray(P, float).reshape(-1, 3)
+        if tang is None:
+            tang = LAST_T if (LAST_T is not None and len(LAST_T) == len(P)) else np.zeros_like(P)
+        self.T.append(np.asarray(tang, float).reshape(-1, 3))
         self.P.append(P); self.N.append(np.asarray(Nn, float).reshape(-1, 3))
         self.C.append(np.broadcast_to(np.asarray(col, float), P.shape).copy())
         self.W.append(np.broadcast_to(np.asarray(w, float), (len(P),)).copy())
@@ -102,7 +110,7 @@ class Builder:
 
     def done(self):
         return dict(p=np.concatenate(self.P), n=np.concatenate(self.N), c=np.concatenate(self.C),
-                    w=np.concatenate(self.W), part=np.concatenate(self.part))
+                    w=np.concatenate(self.W), part=np.concatenate(self.part), tg=np.concatenate(self.T))
 
 
 def ring_phase(h, K, t):

@@ -356,7 +356,9 @@ class Scene:
         v = CAM[None] - D['p']; v /= np.linalg.norm(v, axis=1, keepdims=True)
         ndv = (D['n'] * v).sum(1)
         # light-pen shading: rims (the silhouette) bright, the near face moderate, the far face dim
-        b = 0.20 + 0.42 * np.clip(ndv, 0, 1) + 0.70 * np.exp(-(ndv / 0.32) ** 2) * (ndv > -0.55)
+        # a tube seen end-on: its rings are not a silhouette, so the rim term fades with |tangent . view|
+        endon = np.abs((D['tg'] * v).sum(1))
+        b = 0.20 + 0.42 * np.clip(ndv, 0, 1) + 0.70 * np.exp(-(ndv / 0.32) ** 2) * (ndv > -0.55) * (1 - endon) ** 2
         b = np.where(D['part'] == 6, 1.0, b)
         splat(L, sx, sy, D['c'], D['w'] * b * gain * 0.62)
         return dict(sx=sx, sy=sy, part=D['part'])
