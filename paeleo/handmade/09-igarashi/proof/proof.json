@@ -1,0 +1,86 @@
+{
+ "cases": [
+  {
+   "label": "coming, head low (19.0 s)",
+   "t": 19,
+   "mesh": "dog_stand",
+   "arap": {
+    "inverted": 0,
+    "energy": 0.052871729824034,
+    "feature_distortion": 0,
+    "min_area_ratio": 0.30864540872002216
+   },
+   "skinning": {
+    "inverted": 32,
+    "energy": 0.15196776060931821,
+    "feature_distortion": 0,
+    "min_area_ratio": -1.1825423677670868
+   }
+  },
+  {
+   "label": "crouching onto the sill (24.08 s)",
+   "t": 24.08,
+   "mesh": "dog_stand",
+   "arap": {
+    "inverted": 5,
+    "energy": 0.04772068871670717,
+    "feature_distortion": 0,
+    "min_area_ratio": -0.24351968691016365
+   },
+   "skinning": {
+    "inverted": 53,
+    "energy": 0.16780488542891842,
+    "feature_distortion": 0,
+    "min_area_ratio": -1.0577367516462544
+   }
+  },
+  {
+   "label": "backing away, cowering (1.8 s)",
+   "t": 1.8,
+   "mesh": "dog_stand",
+   "arap": {
+    "inverted": 4,
+    "energy": 0.04326795758836302,
+    "feature_distortion": 0,
+    "min_area_ratio": -0.2940019366014458
+   },
+   "skinning": {
+    "inverted": 71,
+    "energy": 0.16902953477264118,
+    "feature_distortion": 0,
+    "min_area_ratio": -0.7010628315793256
+   }
+  },
+  {
+   "label": "the back view swinging round (3.67 s)",
+   "t": 3.67,
+   "mesh": "dog_rear",
+   "arap": {
+    "inverted": 0,
+    "energy": 0.016498429169972236,
+    "feature_distortion": 0,
+    "min_area_ratio": 0.06882011924793727
+   },
+   "skinning": {
+    "inverted": 0,
+    "energy": 0.03899407263774505,
+    "feature_distortion": 0,
+    "min_area_ratio": 0.17143976552657086
+   }
+  }
+ ],
+ "feature_protect": {
+  "protected": {
+   "inverted": 1,
+   "energy": 0.012789762008332458,
+   "feature_distortion": 0.05126398412903699,
+   "min_area_ratio": -0.11253872884812595
+  },
+  "unprotected": {
+   "inverted": 0,
+   "energy": 0.04111058588373507,
+   "feature_distortion": 0.668708992053,
+   "min_area_ratio": 0.06364362197742018
+  }
+ }
+}
