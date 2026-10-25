@@ -49,7 +49,7 @@ def smooth(a, b, u):
 # ------------------------------------------------------------------------------------------------- dog
 LEGN = {'fore': 'dog_fore', 'farfore': 'dog_farfore', 'hind': 'dog_hind', 'farhind': 'dog_farhind'}
 def leglen(p):
-    piv = [v for k, v in PIECES[p]['pins'].items() if k != 'foot'][0]; f = pin(p, 'foot')
+    piv = [v for k, v in PIECES[p]['pins'].items() if k != 'knee'][0]; f = pin(p + '_lo', 'foot')
     return math.hypot(f[0] - piv[0], f[1] - piv[1])
 LL = {k: leglen(v) for k, v in LEGN.items()}
 OFF = {'hind': 0.0, 'fore': .25, 'farhind': .5, 'farfore': .75}   # lateral-sequence walk
@@ -118,7 +118,7 @@ LIE = {'fore': 80, 'farfore': 72, 'hind': 110, 'farhind': 105}
 def dog_pose(i, prev):
     f = F[i]; d = f['dog']; a = d['act']; t = f['t']; x = d['x']
     st = d['state']
-    p = {'X': round(xs(x), 2), 'face': 1, 'head': -15, 'tail': 0, 'drop': 0, 'tilt': 0,
+    p = {'X': round(xs(x), 2), 'face': 1, 'head': -15, 'tail': 0, 'drop': 0, 'tilt': -4,   # -4: the back levelled
          'fore': 0, 'farfore': 0, 'hind': 0, 'farhind': 0}
     label = st
     cr = a['crouch']
@@ -145,12 +145,12 @@ def dog_pose(i, prev):
         p['face'] = -1
         l = a['lie']; rest = a['rest']
         p['head'] = smooth(-40, -25, l) + (-50) * rest
-        p['tail'] = smooth(35, 25, l)
+        p['tail'] = smooth(70, 58, l)          # tucked down between the hind legs
         for k in LIE: p[k] = LIE[k] * l
         p['drop'] = 50 * l + 4; p['tilt'] = 2 * l + 2 * (1 - l)
         label = 'refuse: back turned' + (', lying' if l > .5 else '')
     elif i < 194:                                            # the head card turned over: looks back; then rises
-        p['face'] = -1; p['headflop'] = 1; p['headpiece'] = 'dog_face'   # the face card, looking back at the door
+        p['face'] = -1; p['headflop'] = 1; p['headpiece'] = 'dog_lookback'   # the face card, looking back at the door
         l = a['lie']
         p['head'] = 0
         for k in LIE: p[k] = LIE[k] * l
@@ -172,8 +172,8 @@ def dog_pose(i, prev):
     elif i < CH['lie']:                                      # coming, head low, below the line of the back
         g, _ = gait((4.0 - x) * K)
         p.update(g)
-        p['head'] = smooth(-55, -60, (t - 14.71) / .2)   # the head drops on the first exposure of the choice
-        p['neckdrop'] = smooth(24, 30, (t - 14.71) / .2)  # and hangs from lower on the chest: wholly below the withers
+        p['head'] = smooth(-30, -32, (t - 14.71) / .2)   # the head drops on the first exposure of the choice
+        p['neckdrop'] = smooth(42, 46, (t - 14.71) / .2)  # and hangs from lower on the chest: wholly below the withers
         p['tail'] = 18 + 8 * math.sin(t * 4.0)
         label = 'approach: head low'
     else:                                                    # lies down across the sill
@@ -181,12 +181,14 @@ def dog_pose(i, prev):
         l = max(a['lie'], .3)          # the first exposure of the choice already folds the legs a third of the way
         for k in LIE: p[k] = smooth(g[k], LIE[k], l)
         p['drop'] = 50 * l; p['tilt'] = 2 * l; p['tail'] = smooth(18, 25, l)
-        hd = smooth(-60, -20, l); p['neckdrop'] = 30 * (1 - min(1, l / .9))
+        hd = smooth(-32, -20, (l - .3) / .7); p['neckdrop'] = 46 * (1 - min(1, max(0, l - .3) / .6))
         if t >= 25.4: hd = smooth(-20, -38, (t - 25.4) / .7)
         p['head'] = hd
         label = 'lie_down: across the sill'
         if LOOK_IN <= i < LOOK_OUT:
-            p['headpiece'] = 'dog_backhead'; p['head'] = 0
+            p['headpiece'] = 'dog_backhead'
+            # the held look moves: a tilt toward the voice inside, then back, then an ear-flick of the whole card
+            p['head'] = 0 if t < 26.95 else (6 if t < 27.45 else (-3 if t < 27.8 else 1))
             label = 'lie_down: looks in through the door'
         elif i >= LOOK_OUT:
             p['head'] = smooth(-30, -75, (t - 28.08) / .55)

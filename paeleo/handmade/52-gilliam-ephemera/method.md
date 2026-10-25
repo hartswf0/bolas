@@ -41,9 +41,9 @@ only from public-domain prints in the kit and card I made.
   turned joint shows no gap. The person is a collage, as the method does it: a face in a hat (Vision of the Wild f010,
   flopped to face the dog) with its chin cut free and pinned at the ear over a scrap of black paper (the hinged jaw), a
   smock (Straight Talk f000), jeans cut at the knee (Straight Talk f013), a forearm that held a card (Door to Heaven f000).
-- **Camera frame interval**: `xsheet.json` has 245 exposures for 768 frames. Every exposure is held at least 2 frames
+- **Camera frame interval**: `xsheet.json` has 255 exposures for 768 frames. Every exposure is held at least 2 frames
   (on twos), re-phased so each choice starts its own exposure, and held longer whenever nothing on the table is touched
-  (longest hold 24 frames). A card that is touched is never put back exactly (a small placement error per exposure on
+  (longest hold 24 frames; 255 exposures after the repair round). A card that is touched is never put back exactly (a small placement error per exposure on
   the head, tail and person); untouched cards do not move. Film grain changes every frame; the lamp flickers a little
   per exposure.
 - **Shot breakdown**: one locked-off rostrum shot (the camera does not move), the facade face-on, the porch running along
@@ -65,17 +65,18 @@ only from public-domain prints in the kit and card I made.
   whole photographed dog.
 - **The refusal**: back to the door from 3.42 s (measured facing −1 on 100% of refusal frames), then it lies down facing
   away, chin on paws.
-- **Turning to look (7.458 s)**: the head card alone is turned over (mirrored) on the neck pin while the body still lies
-  facing away: the head comes round to the door on the choice frame. It then rises and turns by the turning card.
-- **Coming, head low (14.708 s)**: the head card is swivelled down; measured, the head card's centroid is below the top
-  line of the back on all 218 approach frames (median 12 px below).
+- **Turning to look (7.458 s)**: the head card alone is substituted, on the choice frame, by a face card (the same dog's
+  face from f030) looking left at the door, while the body still lies facing away. It then rises and turns by the
+  turning card.
+- **Coming, head low (14.708 s)**: the head card hangs from a lower pin on the chest and is swivelled down; measured, the
+  topmost pixel of the head card is below the withers on all 219 approach frames (min 25 px), the muzzle 46+ px below.
 - **Lying down across the sill (23.792 s)**: the archive dog was never filmed lying. Solved in the language: the legs
   swivel flat (forelegs forward along the boards, hind legs folded), the body card comes down onto the boards, rear not
   raised. It ends with 50% of its pixels inside the door frame on screen (head and shoulders in the lit doorway, hindquarters
   and tail outside), on the porch plane: it never goes through.
-- **Looking in (26.4 s)**: there is no print of the back of the dog's head; I constructed one (fur cut from the same
-  print's saddle to the outline of the skull and hanging ears of the front-facing print) and substitute it for the head
-  card from 26.42 s to 28.08 s, so the back of the head is toward the viewer and the muzzle is into the room. Then the
+- **Looking in (26.4 s)**: there is no print of the back of the dog's head; I constructed one (skull and folded-tip ears
+  cut from the same print's saddle fur, with the tip of the muzzle from f046 showing past the skull) and substitute it for
+  the head card from 26.42 s to 28.08 s, so the back of the head is toward the viewer and the muzzle is into the room. Then the
   profile head comes back and lowers, chin on paws, and stays.
 
 The person: calls with the hinged jaw opening on the voice (the jaw is driven by a mouth chart read from the voice takes,
@@ -112,6 +113,48 @@ breaths as it lies down and settles; a dry tap of card when a card is swapped (t
 a reed-organ chord when the lamp's light comes out, and another when it lies across the sill. **I cannot listen**: levels
 and timing are measured; whether it sounds good is unknown. The synthetic voice is plainly synthetic.
 
+## Repair round 1 (independent critic: does not pass, near)
+
+The critic's five conditions and what changed (protected: the turns, the refusal, the lie-down, the look-in and settle,
+the sound levels):
+
+1. **Head low, wholly below the withers (14.71–23.79 s).** My earlier measure used the head card's centroid; the critic saw
+   its dark ear and skull at the line. Now measured as the critic asked: the topmost pixel of the head card (ears included)
+   against the top of the torso card in the column of the shoulder pin. The head card now hangs from lower on the chest
+   (a lower pin, 30 px) and is swivelled down 60°. Measured on all 219 frames: topmost head pixel 11–15 px below the withers
+   (min 11), muzzle 60–67 px below.
+2. **One unambiguous face at the door by 7.70 s.** The turned-over profile head is replaced, from 7.458 s, by a new
+   substitution card: the face of the same dog cut from f030 (eyes and muzzle readable), laid looking left on the
+   lying, facing-away body; it stays through the rise until the turning card at 8.08 s. Measured: 100% of frames
+   7.458–8.1 s have the head toward the door.
+3. **No hyena blotches, no jagged hackles.** All dog prints regraded (the print is blurred 1.7 px and its contrast
+   compressed to 0.62 before the dye ramp, no sharpening, a calmer palette) and the scissor line follows a smoothed
+   matte (blurred 2.2 px and re-cut at half), so the back edge and tail are smooth. Looked at in full-resolution crops.
+4. **A deliberate absurd beat.** 11.9–13.7 s, while the dog only watches: a giant hand (a second, much larger print of
+   the same forearm) slides in from the edge of the table, takes the moon between finger and thumb, lowers it into the
+   cloud (the dusk deepened by hand), and withdraws, with paper swishes and a descending slide whistle. The dog and the
+   person are not touched; I1–I4 unchanged.
+5. **The back of the head reads as a dog's.** Rebuilt: a broad skull on a thick neck, upright broad-based ears with the
+   top third folded outward (darker fur), and the tip of the muzzle (a scrap of f046, flopped) showing past the skull on
+   the side it is turned to, inside the door frame.
+
+## Repair round 2 (critic: pass, narrow; one more round)
+
+1. **Look-in, 26.42–28.08 s.** The back-of-head card is rebuilt again: long hanging ears down the sides of the skull, like
+   the profile head's (the pricked ears read as a cat's), and the muzzle tip (a scrap of f046) showing over the top of
+   the skull, pointing up and to the right into the lit room, away from the person and the hand. During the hold the card
+   tilts toward the room at 26.95 s (+6°), back past level at 27.45 s (−3°), and settles at 27.8 s (+1°), so the look is
+   not frozen.
+2. **Approach reads as a dog.** The torso card's back line is cut lower (no withers hump) and its matte smoothed harder
+   (4 px), the whole body is levelled 4° (the print's back sloped down to the rear: the hyena), and the head hangs from a
+   pin 46 px down the chest, swivelled only 32° so the muzzle reaches forward and down rather than drooping (the tapir).
+   Measured on all 219 approach frames: topmost head pixel 25–29 px below the withers, muzzle 46–54 px below.
+3. **Face card at 7.46–8.04 s.** Re-cut from f030 at a smaller print scale (0.74 instead of 1.31): 39 px tall against the
+   torso card's 68 px (ratio 0.57, required ≤ 0.6). It still replaces the head on the choice frame 7.458.
+4. (optional) **Tail tucked** between the hind legs through the refusal (pinned at 70° standing, 58° lying).
+5. (optional) **Footfalls audible**: claw-and-board clicks raised 9 dB; 13 transients more than 12 dB over the bed during
+   the approach, plus a paw and a body thud at 23.84–23.9 s (20 dB over the bed). Measured, not listened to.
+
 ## What failed and what I changed (see ledger.jsonl)
 
 - First head cut took the whole mane: lying, the dog read as a seal. Cut the head smaller at the neck line.
@@ -128,12 +171,15 @@ and timing are measured; whether it sounds good is unknown. The synthetic voice 
 
 ## What is still weak (my view, not a verdict)
 
-- The dog is small in a wide, locked-off shot (about 210 px long); the archive print is blurry and its head reads as a
-  blob with a raised muzzle; at times it looks more hyena than dog.
+- The dog is small in a wide, locked-off shot (about 210 px long). The regrade removed the spots but also most of the
+  photographic detail: the dog now reads as a smooth tinted card more than as a photograph.
+- The lowered head hangs from the chest: below the withers as required, but the neck can read long.
+- The small face card at the look-back is only 39 px tall; at that size its eyes are barely readable.
+- The giant hand is in the sky, away from the dog; whether it reads as absurd or as a distraction is for the viewer.
 - The half-way exposures of lying down and getting up (legs part-swivelled) look like a sprawl for two or three
   exposures.
 - The person is crude: a box-edged hat card, wide smock, the face mostly in shadow; the closed jaw shows its cut as a line.
-- The back-of-head card is constructed, not found, and simple.
+- The back-of-head card is constructed, not found; its ears could still read as a fox's.
 - Rigid single-piece legs cannot bend, so the crouch is mild.
 - The voice is synthetic; music and effects are synthetic.
 

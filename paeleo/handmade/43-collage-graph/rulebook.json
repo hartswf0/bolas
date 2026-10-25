@@ -1,5 +1,5 @@
 {
- "about": "SCION 43 rewrite rulebook. Time base: score frames, 24 fps; the dog graph is solved on twos. Coordinates: metres along the porch (x), height (v); screen X = 305 + 205 x.",
+ "about": "SCION 43 rewrite rulebook. Time base: score frames, 24 fps; the dog graph is solved on twos. Coordinates: metres along the porch (x), height (v); screen X = 278 + 195 x.",
  "rules": [
   {
    "id": "R1 REPLACE head",
@@ -16,14 +16,14 @@
    "motif": "head up = attention; head low = the decision to come (f048: the dog lowering its head to its bowl, re-used as trust)"
   },
   {
-   "id": "R2 REPLACE head by mirror(head)",
+   "id": "R2 REPLACE head by the looking-away head",
    "kind": "replace",
    "input": "dog.head on a turned-away body",
    "output": "dog.head facing the door",
-   "precondition": "state becomes watch (7.458) while the body still faces away",
+   "precondition": "state becomes watch (7.458, on its own frame) while the body still faces away; legibility: muzzle left of the neck, level (<= 20 deg), head at normal scale, clear of the back, with its own paper rim; the body stays lying (no hybrid) until the found turn frames at 7.75",
    "preserved": "neck anchor",
    "fragments": [
-    "head_level_f012 (mirrored)"
+    "head_alert_f006 rotated level about its neck (muzzle to the door, 8 deg)"
    ],
    "motif": "the head comes round first: turning to look"
   },
@@ -66,8 +66,8 @@
    "id": "R6 EXIT legs / lie",
    "kind": "exit",
    "input": "standing graph",
-   "output": "lying graph (4 discrete drawings: stand, 1/3, 2/3, down)",
-   "precondition": "score act.lie quantised",
+   "output": "lying graph (discrete drawings; hind legs EXIT from 2/3 down; lying at the sill starts half down on its own frame)",
+   "precondition": "score act.lie quantised (thirds; quarters from 1/2 for lie_down)",
    "preserved": "body centre x, tail outside",
    "motif": "lying is composed: no frame of this dog lies down"
   },
@@ -75,8 +75,8 @@
    "id": "R7 REPLACE node.material shade -> sun",
    "kind": "replace",
    "input": "dog node cut from the shaded frames (f006/f012)",
-   "output": "same node cut from the sunlit frames (f045/f048)",
-   "precondition": "state in {approach, lie_down} AND (node is the head [the decision] OR node lies inside the door light, world x <= 0.62)",
+   "output": "same node cut from the sunlit frames (f045/f048), blended in by weight",
+   "precondition": "state in {approach, lie_down} AND (node is the head [the decision, weight 1] OR chest/forelegs entering the door light: weight ramps over world x 0.80 -> 0.50 m, about 0.6 s; haunch, hind legs, tail stay 0)",
    "preserved": "node anchors; the source dog (identity: every piece is the same home-movie dog)",
    "motif": "what the dog is made of changes as it comes into the light; the tail never does"
   },
@@ -84,8 +84,8 @@
    "id": "R8 SPLIT torso at the threshold",
    "kind": "split",
    "input": "dog.torso",
-   "output": "dog.chest (sun) + dog.haunch (shade)",
-   "precondition": "chest and haunch have different materials (R7)",
+   "output": "shaded torso + sunlit chest laid over it (rear edge feathered, alpha = R7 weight)",
+   "precondition": "chest weight > 0 (R7)",
    "preserved": "S and H anchors of the torso",
    "motif": "half in, half out, materially"
   },
@@ -93,10 +93,10 @@
    "id": "R9 ENTER head -> the door light (look in)",
    "kind": "enter",
    "input": "dog.head",
-   "output": "head_back_cut (back of the head, toward the viewer, into the lit room)",
-   "precondition": "score act.look > 0.2 (on hearing \"come in\")",
-   "preserved": "neck anchor",
-   "motif": "the one drawn shape; the head turns into depth"
+   "output": "head_low_f048 rotated about its neck to a level muzzle (10 deg), the neck reaching in past the jamb at sill height, muzzle into the room",
+   "precondition": "score act.look > 0.2 (on hearing \"come in\"); legibility: muzzle inside the door frame at sill height, no more than 20 deg above horizontal (measured on the rendered frame), pointing into the room, not at the bulb",
+   "preserved": "neck anchor (the neck runs from inside the chest)",
+   "motif": "the head that came low to trust now reaches level into the house; nothing drawn"
   },
   {
    "id": "P1 ENTER voice",
@@ -157,57 +157,21 @@
    "materials": null
   },
   {
-   "t": 7.5,
-   "i": 180,
+   "t": 7.458,
+   "i": 179,
    "state": "watch",
    "rules": [
-    "REPLACE head by mirror(head) on the turned-away body (turns back to look)"
+    "REPLACE head by head_alert_f006 rotated level about its neck, muzzle to the door, on the turned-away body (turns back to look)"
    ],
    "materials": {
-    "head": "shade",
-    "chest": "shade",
-    "haunch": "shade",
-    "fore_n": "shade",
-    "fore_f": "shade",
-    "hind_n": "shade",
-    "hind_f": "shade",
-    "tail": "shade"
-   }
-  },
-  {
-   "t": 7.583,
-   "i": 182,
-   "state": "watch",
-   "rules": [
-    "REPLACE head by mirror(head) on the turned-away body (turns back to look)"
-   ],
-   "materials": {
-    "head": "shade",
-    "chest": "shade",
-    "haunch": "shade",
-    "fore_n": "shade",
-    "fore_f": "shade",
-    "hind_n": "shade",
-    "hind_f": "shade",
-    "tail": "shade"
-   }
-  },
-  {
-   "t": 7.667,
-   "i": 184,
-   "state": "watch",
-   "rules": [
-    "REPLACE head by mirror(head) on the turned-away body (turns back to look)"
-   ],
-   "materials": {
-    "head": "shade",
-    "chest": "shade",
-    "haunch": "shade",
-    "fore_n": "shade",
-    "fore_f": "shade",
-    "hind_n": "shade",
-    "hind_f": "shade",
-    "tail": "shade"
+    "head": 0.0,
+    "chest": 0.0,
+    "haunch": 0.0,
+    "fore_n": 0.0,
+    "fore_f": 0.0,
+    "hind_n": 0.0,
+    "hind_f": 0.0,
+    "tail": 0.0
    }
   },
   {
@@ -215,36 +179,108 @@
    "i": 186,
    "state": "watch",
    "rules": [
-    "REPLACE head by mirror(head) on the turned-away body (turns back to look)"
+    "MERGE dog->whole_f030 (turn back, 1/2)"
    ],
-   "materials": {
-    "head": "shade",
-    "chest": "shade",
-    "haunch": "shade",
-    "fore_n": "shade",
-    "fore_f": "shade",
-    "hind_n": "shade",
-    "hind_f": "shade",
-    "tail": "shade"
-   }
+   "materials": null
   },
   {
    "t": 7.917,
    "i": 190,
    "state": "watch",
    "rules": [
-    "MERGE dog->whole_f030 (turn back, 1/2)"
+    "MERGE dog->whole_f027 mirrored (turn back, 2/2)"
    ],
    "materials": null
   },
   {
-   "t": 8.083,
-   "i": 194,
-   "state": "watch",
+   "t": 22,
+   "i": 528,
+   "state": "approach",
    "rules": [
-    "MERGE dog->whole_f027 mirrored (turn back, 2/2)"
+    "R8 SPLIT torso at the threshold"
    ],
-   "materials": null
+   "materials": {
+    "head": 1.0,
+    "chest": 0.03,
+    "haunch": 0.0,
+    "fore_n": 0.82,
+    "fore_f": 0.0,
+    "hind_n": 0.0,
+    "hind_f": 0.0,
+    "tail": 0.0
+   }
+  },
+  {
+   "t": 22.083,
+   "i": 530,
+   "state": "approach",
+   "rules": [
+    "R8 SPLIT torso at the threshold"
+   ],
+   "materials": {
+    "head": 1.0,
+    "chest": 0.16,
+    "haunch": 0.0,
+    "fore_n": 1.0,
+    "fore_f": 0.0,
+    "hind_n": 0.0,
+    "hind_f": 0.0,
+    "tail": 0.0
+   }
+  },
+  {
+   "t": 22.167,
+   "i": 532,
+   "state": "approach",
+   "rules": [
+    "R8 SPLIT torso at the threshold"
+   ],
+   "materials": {
+    "head": 1.0,
+    "chest": 0.35,
+    "haunch": 0.0,
+    "fore_n": 1.0,
+    "fore_f": 0.0,
+    "hind_n": 0.0,
+    "hind_f": 0.0,
+    "tail": 0.0
+   }
+  },
+  {
+   "t": 22.25,
+   "i": 534,
+   "state": "approach",
+   "rules": [
+    "R8 SPLIT torso at the threshold"
+   ],
+   "materials": {
+    "head": 1.0,
+    "chest": 0.56,
+    "haunch": 0.0,
+    "fore_n": 1.0,
+    "fore_f": 0.0,
+    "hind_n": 0.0,
+    "hind_f": 0.0,
+    "tail": 0.0
+   }
+  },
+  {
+   "t": 22.333,
+   "i": 536,
+   "state": "approach",
+   "rules": [
+    "R8 SPLIT torso at the threshold"
+   ],
+   "materials": {
+    "head": 1.0,
+    "chest": 0.77,
+    "haunch": 0.0,
+    "fore_n": 1.0,
+    "fore_f": 0.02,
+    "hind_n": 0.0,
+    "hind_f": 0.0,
+    "tail": 0.0
+   }
   },
   {
    "t": 22.417,
@@ -254,14 +290,14 @@
     "R8 SPLIT torso at the threshold"
    ],
    "materials": {
-    "head": "sun",
-    "chest": "sun",
-    "haunch": "shade",
-    "fore_n": "sun",
-    "fore_f": "shade",
-    "hind_n": "shade",
-    "hind_f": "shade",
-    "tail": "shade"
+    "head": 1.0,
+    "chest": 0.91,
+    "haunch": 0.0,
+    "fore_n": 1.0,
+    "fore_f": 0.39,
+    "hind_n": 0.0,
+    "hind_f": 0.0,
+    "tail": 0.0
    }
   },
   {
@@ -272,105 +308,86 @@
     "R8 SPLIT torso at the threshold"
    ],
    "materials": {
-    "head": "sun",
-    "chest": "sun",
-    "haunch": "shade",
-    "fore_n": "sun",
-    "fore_f": "sun",
-    "hind_n": "shade",
-    "hind_f": "shade",
-    "tail": "shade"
+    "head": 1.0,
+    "chest": 0.99,
+    "haunch": 0.0,
+    "fore_n": 1.0,
+    "fore_f": 0.83,
+    "hind_n": 0.0,
+    "hind_f": 0.0,
+    "tail": 0.0
    }
   },
   {
-   "t": 23.833,
-   "i": 572,
+   "t": 22.583,
+   "i": 542,
+   "state": "approach",
+   "rules": [
+    "R8 SPLIT torso at the threshold"
+   ],
+   "materials": {
+    "head": 1.0,
+    "chest": 1.0,
+    "haunch": 0.0,
+    "fore_n": 1.0,
+    "fore_f": 1.0,
+    "hind_n": 0.0,
+    "hind_f": 0.0,
+    "tail": 0.0
+   }
+  },
+  {
+   "t": 23.792,
+   "i": 571,
    "state": "lie_down",
    "rules": [
     "R8 SPLIT torso at the threshold"
    ],
    "materials": {
-    "head": "sun",
-    "chest": "sun",
-    "haunch": "shade",
-    "fore_n": "sun",
-    "fore_f": "sun",
-    "hind_n": "shade",
-    "hind_f": "shade",
-    "tail": "shade"
+    "head": 1.0,
+    "chest": 1.0,
+    "haunch": 0.0,
+    "fore_n": 1.0,
+    "fore_f": 1.0,
+    "hind_n": 0.0,
+    "hind_f": 0.0,
+    "tail": 0.0
    }
   },
   {
-   "t": 24,
-   "i": 576,
+   "t": 24.083,
+   "i": 578,
    "state": "lie_down",
    "rules": [
     "R8 SPLIT torso at the threshold"
    ],
    "materials": {
-    "head": "sun",
-    "chest": "sun",
-    "haunch": "shade",
-    "fore_n": "sun",
-    "fore_f": "sun",
-    "hind_n": "shade",
-    "hind_f": "shade",
-    "tail": "shade"
+    "head": 1.0,
+    "chest": 1.0,
+    "haunch": 0.0,
+    "fore_n": 1.0,
+    "fore_f": 1.0,
+    "hind_n": 0.0,
+    "hind_f": 0.0,
+    "tail": 0.0
    }
   },
   {
-   "t": 24.25,
-   "i": 582,
+   "t": 24.333,
+   "i": 584,
    "state": "lie_down",
    "rules": [
     "R8 SPLIT torso at the threshold"
    ],
    "materials": {
-    "head": "sun",
-    "chest": "sun",
-    "haunch": "shade",
-    "fore_n": "sun",
-    "fore_f": "sun",
-    "hind_n": "sun",
-    "hind_f": "shade",
-    "tail": "shade"
-   }
-  },
-  {
-   "t": 26.5,
-   "i": 636,
-   "state": "lie_down",
-   "rules": [
-    "ENTER head->door light: REPLACE head by head_back_cut (looks in)",
-    "R8 SPLIT torso at the threshold"
-   ],
-   "materials": {
-    "head": "sun",
-    "chest": "sun",
-    "haunch": "shade",
-    "fore_n": "sun",
-    "fore_f": "sun",
-    "hind_n": "sun",
-    "hind_f": "shade",
-    "tail": "shade"
-   }
-  },
-  {
-   "t": 28.25,
-   "i": 678,
-   "state": "lie_down",
-   "rules": [
-    "R8 SPLIT torso at the threshold"
-   ],
-   "materials": {
-    "head": "sun",
-    "chest": "sun",
-    "haunch": "shade",
-    "fore_n": "sun",
-    "fore_f": "sun",
-    "hind_n": "sun",
-    "hind_f": "shade",
-    "tail": "shade"
+    "head": 1.0,
+    "chest": 1.0,
+    "haunch": 0.0,
+    "fore_n": 1.0,
+    "fore_f": 1.0,
+    "hind_n": 0.0,
+    "hind_f": 0.0,
+    "tail": 0.0
    }
   }
  ]

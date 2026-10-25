@@ -94,7 +94,7 @@ for e in ex:
         for k in LEGN:
             if prev[k][0] == 'swing' and ph[k][0] != 'swing':        # a foot is put down
                 near = k in ('fore', 'hind')
-                add(click(1.0 if near else .6), e['t'] + rng.uniform(0, .02), -27 if lab.startswith('retreat') else -30,
+                add(click(1.0 if near else .6), e['t'] + rng.uniform(0, .02), -24 if lab.startswith('retreat') else -21,
                     pan=.5 if e['dog']['X'] > 700 else -.05, stem='dog')
     prev = ph
 
@@ -117,6 +117,12 @@ def whimper(dur=.45, f0=980, f1=720):
 add(whimper(), 3.55, -33, pan=.6, stem='dog')                    # as it turns its back
 add(breath(1.1, 900, 400, 1), 5.0, -32, pan=.6, stem='dog')        # lies down, away
 add(breath(1.0, 900, 380, 1), 24.25, -31, pan=-.1, stem='dog')     # lies down across the sill
+def thud():
+    n = int(.25 * SR); tt = np.arange(n) / SR
+    s = np.sin(2 * np.pi * 85 * tt) * np.exp(-tt / .05) + .4 * fft_band(np.pad(rng.normal(0, 1, n).astype(np.float32), (0, 2048)), 150, 1200)[:n] * np.exp(-tt / .03)
+    return (s / (np.abs(s).max() + 1e-9)).astype(np.float32)
+add(thud(), 23.9, -20, pan=-.1, stem='dog')                         # its weight comes down on the boards
+add(click(.8), 23.84, -22, pan=-.1, stem='dog')                     # a last paw set down
 add(breath(1.4, 700, 300, 1), 28.6, -32, pan=-.1, stem='dog')      # settles, chin on paws
 
 
@@ -151,6 +157,24 @@ def chord(dur, notes, attack, release):
 
 add(chord(6.5, [196.0, 246.9, 293.7], 1.4, 3.0), 6.25, -33, pan=-.3, stem='music')          # G major, the lamp
 add(chord(14.0, [174.6, 220.0, 261.6, 329.6], 2.0, 5.0), 23.9, -34, pan=-.2, stem='music')  # F maj7, lying across the sill
+
+# ------------------------------------------------------------------ the absurd beat: a giant hand lowers the moon
+def swish(dur=.35):
+    n = int(dur * SR)
+    x = fft_band(rng.normal(0, 1, n + 4096).astype(np.float32), 500, 4000)[:n]
+    return x / (np.abs(x).max() + 1e-9) * np.sin(np.linspace(0, math.pi, n)) ** 2
+
+
+def slide_whistle(dur, f0, f1):
+    n = int(dur * SR); tt = np.arange(n) / SR
+    f = np.exp(np.linspace(math.log(f0), math.log(f1), n)) * (1 + .012 * np.sin(2 * np.pi * 6 * tt))
+    ph = np.cumsum(2 * np.pi * f / SR)
+    return ((np.sin(ph) + .2 * np.sin(2 * ph)) * env(n, .03, .12)).astype(np.float32)
+
+
+add(swish(.4), 11.9, -34, pan=.8, stem='beat')
+add(slide_whistle(.5, 1150, 430), 12.62, -31, pan=.75, stem='beat')
+add(swish(.4), 13.2, -35, pan=.8, stem='beat')
 
 # ------------------------------------------------------------------ master
 mix = np.stack([L, Rr], 1)

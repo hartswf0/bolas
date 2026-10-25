@@ -3,7 +3,7 @@
 Each fragment = (source frame, my scissors polygon, optional SAM mask intersection, optional luminance key, optional flip).
 Output: build/cache/frags/<id>.png (RGBA, tone-normalised, with a thin cut-paper edge) and build/cache/frags.json
 (fragment pixel size, anchors in fragment pixels, provenance). Nothing here is drawn except the scissors lines
-(cut polygons) and one cut shape (head_back), which are recorded as such.
+(cut polygons), which are recorded with each fragment.
 """
 import json, math, os, sys
 import numpy as np
@@ -73,18 +73,18 @@ SPECS = [
     dict(id='hind_b_f012', type='dog.leg.hind', tags=['bent'], src=DOGSRC, f=12, sam=True,
          cut=[(164, 148), (184, 150), (178, 170), (163, 188), (148, 188), (157, 170)], anchors=dict(top=(174, 155), foot=(155, 184))),
     dict(id='tail_f006', type='dog.tail', src=DOGSRC, f=6, sam=True,
-         cut=[(210, 110), (256, 116), (256, 150), (210, 140)],
-         anchors=dict(base=(213, 121), tip=(250, 145))),
+         cut=[(206, 112), (220, 115), (236, 127), (250, 139), (254, 145), (249, 148), (236, 142), (220, 134), (206, 130)],
+         anchors=dict(base=(213, 121), tip=(250, 145))),  # tapered along the found tail
     # the torso is SPLIT into two typed nodes (chest, haunch) so that the threshold can cut the dog in half materially
     dict(id='chest_f006', type='dog.chest', tags=['shade'], src=DOGSRC, f=6, sam=True,
-         cut=[(102, 130), (116, 112), (130, 102), (164, 94), (164, 168), (100, 168)], anchors=dict(S=(126, 142), H=(198, 140), M=(160, 128), N=(112, 116))),
+         cut=[(102, 130), (116, 112), (130, 102), (180, 96), (180, 168), (100, 168)], feather=(180, 28, -1), anchors=dict(S=(126, 142), H=(198, 140), M=(160, 128), N=(112, 116))),
     dict(id='haunch_f006', type='dog.haunch', tags=['shade'], src=DOGSRC, f=6, sam=True,
-         cut=[(152, 94), (214, 108), (224, 118), (224, 168), (152, 168)], anchors=dict(S=(126, 142), H=(198, 140), M=(160, 128), T=(214, 121))),
+         cut=[(128, 100), (150, 94), (214, 108), (224, 118), (224, 168), (128, 168)], anchors=dict(S=(126, 142), H=(198, 140), M=(160, 128), T=(214, 121))),
     # SUN set: the same dog a few seconds later, in sunlight at its bowl (f045), mirrored to face the door
     dict(id='chest_f045', type='dog.chest', tags=['sun', 'collar'], src=DOGSRC, f=45, sam=True, flip=True,
-         cut=[(192, 114), (226, 110), (240, 118), (247, 130), (245, 170), (192, 172)], anchors=dict(S=(221, 152), H=(158, 146), M=(194, 134), N=(234, 118))),
+         cut=[(174, 112), (226, 110), (240, 118), (247, 130), (245, 170), (174, 172)], feather=(174, 28, 1), anchors=dict(S=(221, 152), H=(158, 146), M=(194, 134), N=(234, 118))),
     dict(id='haunch_f045', type='dog.haunch', tags=['sun'], src=DOGSRC, f=45, sam=True, flip=True,
-         cut=[(136, 108), (199, 112), (199, 170), (136, 170)], anchors=dict(S=(221, 152), H=(158, 146), M=(194, 134), T=(147, 128))),
+         cut=[(136, 108), (226, 112), (226, 170), (136, 170)], anchors=dict(S=(221, 152), H=(158, 146), M=(194, 134), T=(147, 128))),
     dict(id='torso_f045', type='dog.torso', tags=['sun', 'collar'], src=DOGSRC, f=45, sam=True, flip=True,
          cut=[(136, 108), (190, 110), (226, 110), (247, 128), (242, 168), (136, 168)], anchors=dict(S=(221, 152), H=(158, 146), N=(234, 118), T=(147, 128))),
     dict(id='fore_a_f045', type='dog.leg.fore', tags=['sun'], src=DOGSRC, f=45, sam=True, flip=True,
@@ -156,6 +156,25 @@ def cut(spec):
         k = np.clip((a - bg - 6) * 10, 0, 255)
         k = np.asarray(Image.fromarray(k.astype(np.uint8)).filter(ImageFilter.MaxFilter(5))).astype(float)
         m = Image.fromarray(np.minimum(np.array(m), k).astype(np.uint8))
+    if spec.get('feather'):  # a graded join instead of a straight scissor seam
+        xe, wd, side = spec['feather']
+        xx = np.arange(W)[None, :].astype(float)
+        ramp = np.clip((xx - xe) / wd if side > 0 else (xe - xx) / wd, 0, 1) ** 1.5
+        m = Image.fromarray((np.asarray(m).astype(float) * ramp).astype(np.uint8))
+    if spec.get('feather_line'):  # fade across a cut line (the side away from the head fades out)
+        (x1, y1), (x2, y2), wd = spec['feather_line']
+        yy, xx = np.mgrid[0:H, 0:W].astype(float)
+        nx, ny = (y2 - y1), -(x2 - x1); nn = math.hypot(nx, ny); nx, ny = nx / nn, ny / nn
+        dist = (xx - x1) * nx + (yy - y1) * ny  # positive on one side
+        cx, cy = spec['anchors']['nose']
+        if (cx - x1) * nx + (cy - y1) * ny < 0: dist = -dist
+        ramp = np.clip(dist / wd + 0.0, 0, 1) ** 1.2
+        m = Image.fromarray((np.asarray(m).astype(float) * ramp).astype(np.uint8))
+    if spec.get('feather_y'):  # the neck fades into the body instead of ending on a straight cut
+        ye, wd, side = spec['feather_y']
+        yy = np.arange(H)[:, None].astype(float)
+        ramp = np.clip((yy - ye) / wd if side > 0 else (ye - yy) / wd, 0, 1) ** 1.2
+        m = Image.fromarray((np.asarray(m).astype(float) * ramp).astype(np.uint8))
     m = m.filter(ImageFilter.GaussianBlur(0.6))
     bb = m.getbbox()
     if bb is None: raise SystemExit('empty fragment ' + spec['id'])
@@ -167,7 +186,16 @@ def cut(spec):
     if spec['type'].startswith(('dog', 'person.body', 'person.torso', 'person.legs', 'person.sleeve', 'person.hair')):
         g = np.asarray(rgb.convert('L')).astype(float)
         aa = np.asarray(al) > 128
-        if aa.sum() > 20:
+        if spec['type'].startswith('dog') and spec.get('sam'):
+            # one tone for the whole dog of that frame (pieces no longer stretch on their own: no pale bars)
+            full = np.asarray(im.convert('L')).astype(float)
+            fm = np.asarray(poly_mask((W, H), sam(spec['src'], spec['f']))) > 128
+            lo, hi = np.percentile(full[fm], 3), np.percentile(full[fm], 97)
+            g = np.clip((g - lo) / max(1, hi - lo), 0, 1)
+            g = g * 200 + 28
+            if spec.get('tone') == 'backlit': g = g * 0.20 + 6
+            g = np.asarray(Image.fromarray(g.astype(np.uint8)).filter(ImageFilter.GaussianBlur(0.7))).astype(float)
+        elif aa.sum() > 20:
             lo, hi = np.percentile(g[aa], 3), np.percentile(g[aa], 97)
             g = np.clip((g - lo) / max(1, hi - lo), 0, 1)
             g = g * 120 + 14 if spec['type'].startswith('person') else g * 200 + 28
@@ -202,29 +230,8 @@ def cut(spec):
                 anchors={k: [round(v[0], 2), round(v[1], 2)] for k, v in anchors.items()},
                 source=dict(spec['src'], frame=spec['f'], frame_file=os.path.relpath(frame_path(spec['src'], spec['f']), ROOT) if frame_path(spec['src'], spec['f']).startswith(ROOT) else frame_path(spec['src'], spec['f'])),
                 operation=('SAM mask ∩ ' if spec.get('sam') else '') + ('scissors polygon' if spec.get('cut') else 'SAM mask') +
-                          (' · luminance key' if spec.get('key') else '') + (' · mirrored' if spec.get('flip') else '') + (' · tone stretch' if spec['type'].startswith(('dog', 'person.body', 'person.torso', 'person.legs')) else '') + (' · paper rim' if spec.get('edge', 0 if spec['type'].startswith('dog') else 1) else ''),
+                          (' · luminance key' if spec.get('key') else '') + (' · mirrored' if spec.get('flip') else '') + (' · tone crushed (back-lit)' if spec.get('tone') == 'backlit' else '') + (' · graded join (feather)' if spec.get('feather') or spec.get('feather_y') or spec.get('feather_line') else '') + (' · tone stretch' if spec['type'].startswith(('dog', 'person.body', 'person.torso', 'person.legs')) else '') + (' · paper rim' if spec.get('edge', 0 if spec['type'].startswith('dog') else 1) else ''),
                 cut=spec.get('cut'))
-
-
-def head_back():
-    """The one piece cut to a shape I drew: the back of the dog's head (no frame of the dog shows it), cut from its own
-    dark saddle fur (f006) with the white collar strip from f048 below. Recorded as 'cut to a drawn shape'."""
-    fur = Image.open(frame_path(DOGSRC, 12)).convert('L').crop((86, 96, 130, 140)).resize((84, 72), Image.BICUBIC)
-    collar = Image.open(frame_path(DOGSRC, 48)).convert('L').crop((230, 132, 250, 152)).resize((60, 20), Image.BICUBIC)
-    W, H = 100, 112
-    im = Image.new('L', (W, H), 0)
-    im.paste(fur.resize((100, 112)), (0, 0))
-    g = np.asarray(im).astype(float); g = np.clip((g - g.min()) / (np.ptp(g) + 1), 0, 1) * 60 + 14
-    shape = [(12, 110), (14, 84), (20, 64), (22, 50), (12, 18), (18, 12), (38, 32), (46, 29), (54, 29), (62, 32), (82, 12), (88, 18), (78, 50), (80, 64), (86, 84), (88, 110)]
-    al = Image.new('L', (W, H), 0); ImageDraw.Draw(al).polygon(shape, fill=255)
-    al = al.filter(ImageFilter.GaussianBlur(0.8))
-    rgba = Image.fromarray(g.astype(np.uint8)).convert('RGBA'); rgba.putalpha(al)
-    rgba.save(os.path.join(OUT, 'head_back_cut.png'))
-    return dict(id='head_back_cut', type='dog.head', tags=['away', 'look-in'], size=(W, H),
-                anchors=dict(neck=[50, 106], crown=[50, 26]),
-                source=dict(DOGSRC, frame=12, frame_file='paeleo/handmade/kit/archive-dog/frames/f012.jpg'),
-                operation='fur crop (f012 x86-130 y96-140), cut to a drawn shape (back of the head and neck, two ears)',
-                cut=shape)
 
 
 def world():
@@ -256,7 +263,7 @@ def world():
 
 
 if __name__ == '__main__':
-    lib = [cut(s) for s in SPECS] + [head_back()]
+    lib = [cut(s) for s in SPECS]
     wl = world()
     json.dump(dict(fragments=lib, world=wl), open(os.path.join(HERE, 'cache/frags.json'), 'w'), indent=1)
     # proof sheet

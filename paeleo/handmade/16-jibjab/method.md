@@ -120,3 +120,57 @@ at 3.6 s (faster ease).
 No independent critic; no human viewing; no listening. No hat exchange (the SCION's own proof scene is replaced by the brief's).
 No real person's face; the *Straight Talk* woman is not used (f028 has only the door). No web images, no generated images.
 No git. Nothing written outside this folder.
+
+---
+
+# Round 2 (after reviews/round1.md: DOES NOT PASS, narrowly)
+
+## What changed
+
+1. **The dog is now made of the archive dog.** The body plate is no longer drawn capsules with a coat tile. It is cut from the
+   footage itself (`build/plate.py`): torso, neck, foreleg upper and lower, two hind legs from f008 (profile, walking left), the
+   tail from f006, each a SAM-mask cut intersected with a piece polygon, graded to one duotone with the film's own grain left in.
+   The pieces are re-posed on the same performance by two-point affine maps (shoulder→hip, base→collar, socket→knee→foot); the
+   stepping solver still plants every foot. No drawn outline remains on the dog's body.
+2. **The turns are the dog's own turn.** In the footage the dog turns from facing left, through the camera, to facing right
+   (f016–f044). Those eight frames, cut out and placed by their pose keys (feet on the root, head disc at the face slot), are
+   the turns, re-timed: 3.44–3.88 s away (facing away by 3.9 s), 7.76–8.40 s back. Their heads are matted out and filled from the
+   coat; the face slot sits where the head was.
+3. **Turning to look:** the head now leads hard: from 7.46 s it swings over its shoulder (F view, face to us at ~7.58) and is in L,
+   muzzle at the door, by 7.70 s while the body is still lying facing away; the body follows on the plates.
+4. **Lying:** the body plate lowers to 0.12 m with both sockets level (the hip cannot rise above the shoulder), flattens 16%,
+   the hind legs go behind the torso, the forelegs forward along the boards, the tail lies along the boards.
+5. **The face slot** gains F and FL views in every cast. The drawn casts (paper, doodle) are graded into the plate's duotone
+   with grain; the doodle stickers are toned from white to the plate's paper colour. The home-movie cast is rebuilt in five
+   views at the plate's scale (f008, f038, f028, and a B made from the f028 head with its face filled from its own crown).
+6. HEADSCALE 1.42 → 1.15 (the caricature head is smaller on a real body); the collar is the dog's own pale collar colour.
+
+## Why the main cast is still the paper head (option a, not b)
+
+I looked at every head of the archive dog at film size (f004, f008, f044–f047): profile and head-down heads are 30–40 px of
+blur that do not read as a face. A photographic main cast would have made the choices (head low, looking in) unreadable. So
+the film follows repair option (a): the body plate is the archive dog; the head is the paper slot graded into it. The
+home-movie head is in `proof/comparison.mp4`, honestly weak.
+
+## Measured (round 2 build)
+
+Onsets measured from the render: retreat 1.000 (score 1.000), watch 2.375 (2.333), refuse 3.417 (3.417), turns back 7.542
+(7.458), approach 14.708 (14.708), lie down 23.875 (23.792), looks in 26.375 (26.4). Head below the back on 100% of approach
+frames; facing away on 95% of refusal frames; end matte x 292–512 px against jambs 196–384 (92 px in, 128 px out); I3 r = 1.00.
+`check_handmade.py`: ALL OK. Film 912 frames, 38.0 s, 3.7 MB. Sound re-synthesized from the new contacts (89): calls 9.4 dB over
+the soft lines, the quietest soft line 8.5 dB over the bed.
+
+## Looked at (by me; not a verdict)
+
+Frames from `film.mp4` at 3.5–3.9, 4.5, 7.5–8.3, 9, 19, 23.80–24.20, 26.6–31.5; the comparison reel at 3, 7.7 and 27 s; the four
+stills; the end card.
+
+## Still weak after round 2
+
+- The body is photographic but the head is a graded paper card: the dog reads as a real dog wearing a cartoon head (that is
+  the JibJab image), not as a seamless dog.
+- Rig pieces are cut from one blurry 384×288 frame; the forelegs are thin and pale and read as sticks when lying.
+- The turn plates are standing frames: the turn-back starts while the score's dog is still rising (a small pop at 7.76 s).
+- Lying is a composed pose (no lying dog exists in the footage).
+- The home-movie cast's profile and back are barely legible; the doodle cast's 3/4 views reuse the front drawing.
+- I cannot listen.

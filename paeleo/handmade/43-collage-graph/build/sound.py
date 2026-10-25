@@ -132,7 +132,7 @@ for k in range(150):
 
 # ------------------------------------------------------------------ the voice: calls loud, soft voice >= 6 dB quieter
 VOICE_EVENTS = []
-for tsc, txt, g in ((1.0, 'come here', -1.0), (3.4, 'come here!', 0.0), (7.45, "it's all right", -14.0), (10.45, "it's all right", -15.0), (26.42, 'come in', -14.5)):
+for tsc, txt, g in ((0.70, 'come here', -1.0), (3.10, 'come here!', 0.0), (7.45, "it's all right", -14.0), (10.45, "it's all right", -15.0), (26.42, 'come in', -14.5)):
     v = utter(txt)
     add(v * db(g), OFF + tsc, pan=-0.55)
     i0 = int((OFF + tsc) * SR); VST[i0:i0 + len(v)] += v * db(g)
@@ -179,7 +179,7 @@ if os.path.isdir(meas):
         p = os.path.join(meas, '%04d.json' % i)
         if not os.path.exists(p): continue
         m = json.load(open(p))
-        key = (m['mode'], m['head'], m['head_mirror'], m['split'], tuple(sorted((m.get('materials') or {}).items())))
+        key = (m['mode'], m['head'], m['head_mirror'], m['split'], tuple(sorted((k, v > 0.5) for k, v in (m.get('materials') or {}).items())))
         if prev is not None and key != prev: snips.append(m['t'])
         prev = key
 for t0 in snips:
@@ -210,8 +210,9 @@ for t0 in (0.2, 35.1):
     add(pp / np.max(np.abs(pp)) * db(-30), t0)
 
 L *= fade; R *= fade
+PEAK = db(-3.5)  # the calls peak at or below -3 dBFS: the whole mix is scaled so its loudest sample sits at -3.5 dBFS
 mx = max(np.max(np.abs(L)), np.max(np.abs(R)))
-if mx > 0.98: L *= 0.98 / mx; R *= 0.98 / mx; VST *= 0.98 / mx
+L *= PEAK / mx; R *= PEAK / mx; VST *= PEAK / mx
 
 
 def rms_db(a, b):
@@ -230,7 +231,8 @@ for e in VOICE_EVENTS:
     a = OFF + e['t']; b = a + e['n'] / SR
     i0, i1 = int(a * SR), int(b * SR)
     vs = VST[i0:i1]; vr = 20 * math.log10(np.sqrt(np.mean(vs ** 2)) + 1e-12)
-    lv['%s@%.2f' % (e['text'], e['t'])] = dict(mix_rms_db=round(rms_db(a, b), 2), mix_loudest_300ms_db=round(peak_rms_db(a, b), 2), voice_stem_rms_db=round(vr, 2))
+    pk = 20 * math.log10(max(np.max(np.abs(L[i0:i1])), np.max(np.abs(R[i0:i1]))) + 1e-12)
+    lv['%s@%.2f' % (e['text'], e['t'])] = dict(peak_dbfs=round(pk, 2), starts_before_choice_frames=None,mix_rms_db=round(rms_db(a, b), 2), mix_loudest_300ms_db=round(peak_rms_db(a, b), 2), voice_stem_rms_db=round(vr, 2))
 lv['room_tone_quiet_window_db'] = round(rms_db(OFF + 12.2, OFF + 14.2), 2)
 calls = [v['mix_loudest_300ms_db'] for k, v in lv.items() if k.startswith('come here')]
 soft = [v['mix_loudest_300ms_db'] for k, v in lv.items() if k.startswith(("it's", 'come in'))]
@@ -239,6 +241,9 @@ cs = [v['voice_stem_rms_db'] for k, v in lv.items() if k.startswith('come here')
 ss = [v['voice_stem_rms_db'] for k, v in lv.items() if k.startswith(("it's", 'come in'))]
 lv['soft_minus_calls_db_voice_stem_rms'] = round(max(ss) - min(cs), 2)
 lv['soft_minus_room_db'] = round(min(soft) - lv['room_tone_quiet_window_db'], 2)
+for k, ch in (('come here@0.70', 1.0), ('come here!@3.10', 3.417)):
+    lv[k]['starts_before_choice_frames'] = round((ch - float(k.split('@')[1])) * 24, 1)
+lv['mix_peak_dbfs'] = round(20 * math.log10(max(np.max(np.abs(L)), np.max(np.abs(R)))), 2)
 lv['paw_taps'] = len(taps); lv['rewrite_snips'] = len(snips)
 json.dump(lv, open(os.path.join(HERE, 'cache/sound_levels.json'), 'w'), indent=1)
 pcm = (np.stack([L, R], 1) * 32767).astype(np.int16)

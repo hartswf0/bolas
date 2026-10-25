@@ -59,7 +59,7 @@ def body_heading(t):
 
 def head_yaw(t, th_body, lie_head_target):
     h = _head_yaw(t, th_body, lie_head_target)
-    if 3.42 <= t < 3.95 or 7.9 <= t < 8.6:   # during the body's turns the head leads by at most 70 degrees
+    if 3.42 <= t < 3.95:   # during the refusal turn the head leads by at most 70 degrees
         d = (h - th_body + 180) % 360 - 180
         d = max(-70, min(70, d)); h = th_body + d
     return h
@@ -83,8 +83,8 @@ def lying_head(t):
     toward_person = 140.0
     into_room = 232.0
     if t < 24.2: return ease(TH_DOOR, toward_person, 23.8, 24.6, t)
-    if t < 26.36: return toward_person
-    if t < 28.0: return ease(toward_person, into_room, 26.36, 26.62, t)
+    if t < 26.30: return toward_person
+    if t < 28.0: return ease(toward_person, into_room, 26.30, 26.74, t)
     return ease(into_room, 215.0, 28.0, 29.0, t)
 
 
@@ -108,21 +108,22 @@ def build():
         pitch = pitch_f(7.0 * crouch * (1 - lie) - 2.0 * lie)
         # neck elevation: head act 0 down .. 1 up ; approach (head .45) must keep the head below the back line
         head = a['head']
-        if d['state'] == 'approach' or (14.7 <= t < 23.9):
-            elev_t = -38.0 + 6 * math.sin(t * 1.3)
-        else:
-            elev_t = -30 + 85 * min(1.2, head)
+        wa = smoothstep(14.70, 15.40, t) * (t < 23.9)     # the head lowers into the approach over 0.7 s, not in one frame
+        elev_t = (1 - wa) * (-30 + 85 * min(1.2, head)) + wa * (-38.0 + 6 * math.sin(t * 1.3))
         if lie > 0.5 and t > 23.8:
             rest = a['rest']; look = a['look']
             elev_t = (1 - rest) * (-5 + 55 * min(1.2, head)) + rest * (-62)
         elif lie > 0.5:
             elev_t = -40 - 25 * a['rest']
+        if 3.40 <= t < 4.15: elev_t = max(elev_t, 18.0)
+        if 4.15 <= t < 8.20: elev_t = max(elev_t, 38.0)   # refusing, lying turned away: head held up, its skull and ears above the back line   # during the turn the head stays above the back line: never a headless body
         elev = elev_f(elev_t)
-        hpitch = hp_f(-12 + 22 * min(1.2, head) - 30 * (d['state'] == 'approach') - 25 * a['rest'] * lie)
+        hpitch = hp_f(-12 + 22 * min(1.2, head) - 30 * wa - 25 * a['rest'] * lie * (not (4.15 <= t < 8.2)))
         hy = head_yaw(t, th, lying_head)
         # ears: score's ear act, plus attention flicks toward the soft voice
         ear = a['ear']
         if 7.4 <= t < 7.7 or 10.4 <= t < 10.7: ear = max(ear, 0.75)
+        if 4.6 <= t < 7.5: ear = max(ear, 0.5)    # ears half back but visible above the skull
         ear = ear_f(min(1.1, max(-0.1, ear)))
         # eyes: lid openness. wide when afraid, heavy when resting; blinks are choices (a blink before it comes)
         lid = 0.92 - 0.35 * a['rest'] + 0.12 * (crouch > 0.6)

@@ -42,7 +42,7 @@ def add(rec, **kw):
 DS = 1.31   # print enlargement: 1 source px -> 1.31 screen px (dog ~1.0 m = 210 px at 210 px/m)
 M6 = mpolys(DOGM, 6)
 HEAD = [(82, 74), (120, 78), (136, 90), (145, 104), (138, 117), (120, 123), (104, 119), (92, 102), (82, 92)]
-TORSO = [(108, 92), (166, 98), (240, 108), (242, 162), (226, 160), (220, 157), (205, 157), (198, 159), (186, 161),
+TORSO = [(108, 112), (138, 110), (170, 109), (205, 111), (240, 112), (242, 162), (226, 160), (220, 157), (205, 157), (198, 159), (186, 161),
          (156, 158), (146, 159), (134, 161), (120, 162), (108, 158)]
 FORE = [(130, 146), (155, 146), (155, 207), (121, 207), (121, 194), (131, 188)]
 FARFORE = [(116, 160), (131, 160), (131, 197), (116, 197)]
@@ -51,39 +51,97 @@ FARHIND = [(183, 156), (205, 156), (205, 200), (183, 200)]
 TAIL = [(236, 108), (290, 108), (290, 182), (236, 182)]
 P6 = prov('dog', 6)
 # regrade (repair 1): smooth scissor line along the matte, blotches blurred, contrast compressed, no sharpening
-DG = dict(smooth_mask=2.2, soften=1.0, contrast=.78, wash_amp=.05, sharpen=False, stretch=(4, 96))
-add(cut('dog_torso', dogf(6), [TORSO], DS, 'dog', M6, **DG, holes=[HEAD], seed=1, provenance=P6,
+DG = dict(smooth_mask=2.2, soften=1.7, contrast=.62, wash_amp=.04, sharpen=False, stretch=(4, 96))
+add(cut('dog_torso', dogf(6), [TORSO], DS, 'dog', M6, **dict(DG, smooth_mask=4.0), holes=[HEAD], seed=1, provenance=P6,
         pins={'neck': (128, 112), 'shoulder': (141, 150), 'farshoulder': (126, 154), 'hip': (213, 151), 'farhip': (198, 152),
               'tailroot': (238, 136), 'centre': (176, 135), 'belly': (176, 160)}), op='crop+matte+scissor cut+tint')
-add(cut('dog_head', dogf(6), [HEAD, ('disc', 128, 112, 11)], DS, 'dog', M6, **DG, seed=2, provenance=P6,
+# head cards keep their features: no blur, sharpened, a firmer contrast (round-3 diagnosis: the fur regrade erased them)
+HG = dict(smooth_mask=1.2, soften=0, contrast=1.0, wash_amp=.04, sharpen=True, stretch=(3, 97))
+
+
+def ink(name, ops):
+    """retouching, as the method does it: ink drawn onto a print (eye, nostril, mouth, the line of an ear).
+    ops in source px: ('dot', x, y, r, dark), ('line', [(x,y)...], w, dark), ('fill', [(x,y)...], dark)."""
+    r = pieces[name]; sc = r['scale']; ox, oy = r['origin']
+    fn = os.path.join(FOLDER, r['file'])
+    im = Image.open(fn).convert('RGBA'); W, H = im.size
+    S = 4
+    m = Image.new('L', (W * S, H * S), 0); d = ImageDraw.Draw(m)
+    tr = lambda x, y: ((x * sc - ox) * S, (y * sc - oy) * S)
+    layers = []
+    for op in ops:
+        if op[0] in ('light', 'lightfill'):
+            continue
+        if op[0] == 'dot':
+            _, x, y, rr, dk = op; cx, cy = tr(x, y); R = rr * sc * S
+            d.ellipse((cx - R, cy - R * .8, cx + R, cy + R * .8), fill=int(255 * dk))
+        elif op[0] == 'line':
+            _, pts, w, dk = op; d.line([tr(*p) for p in pts], fill=int(255 * dk), width=max(1, int(w * sc * S)), joint='curve')
+        elif op[0] == 'fill':
+            _, pts, dk = op; d.polygon([tr(*p) for p in pts], fill=int(255 * dk))
+    a = np.asarray(im).astype(np.float32)
+    # body colour first (a lighter wash for a muzzle, a highlight in an eye), then the dark ink on top
+    ml = Image.new('L', (W * S, H * S), 0); dl = ImageDraw.Draw(ml)
+    for op in ops:
+        if op[0] == 'lightfill':
+            _, pts, dk = op; dl.polygon([tr(*p) for p in pts], fill=int(255 * dk))
+    kl = np.asarray(ml.resize((W, H), Image.BOX).filter(ImageFilter.GaussianBlur(1))).astype(np.float32)[..., None] / 255
+    a[..., :3] = a[..., :3] * (1 - kl) + np.array([196, 164, 122], np.float32) * kl
+    k = np.asarray(m.resize((W, H), Image.BOX)).astype(np.float32)[..., None] / 255
+    inkc = np.array([18, 10, 8], np.float32)
+    a[..., :3] = a[..., :3] * (1 - k) + inkc * k
+    mh = Image.new('L', (W * S, H * S), 0); dh = ImageDraw.Draw(mh)
+    for op in ops:
+        if op[0] == 'light':
+            _, x, y, rr, dk = op; cx, cy = tr(x, y); R = rr * sc * S
+            dh.ellipse((cx - R, cy - R, cx + R, cy + R), fill=int(255 * dk))
+    kh = np.asarray(mh.resize((W, H), Image.BOX)).astype(np.float32)[..., None] / 255
+    a[..., :3] = a[..., :3] * (1 - kh) + np.array([236, 226, 205], np.float32) * kh
+    Image.fromarray(a.astype(np.uint8), 'RGBA').save(fn)
+    r['op'] = r.get('op', '') + ' + retouching drawn here (ink and body colour: ' + ', '.join(sorted(set(o[0] for o in ops))) + ')'
+
+
+add(cut('dog_head', dogf(6), [HEAD, ('disc', 128, 112, 11)], DS, 'dog', M6, **HG, seed=2, provenance=P6,
         pins={'neck': (128, 112), 'nose': (88, 86), 'eye': (102, 92)}), op='crop+matte+scissor cut+tint')
-add(cut('dog_fore', dogf(6), [FORE, ('disc', 141, 151, 11)], DS, 'dog', M6, **DG, seed=3, provenance=P6,
-        pins={'shoulder': (141, 150), 'foot': (133, 201)}), op='crop+matte+scissor cut+tint')
-add(cut('dog_farfore', dogf(6), [FARFORE, ('disc', 126, 156, 9)], DS, 'dogfar', M6, **DG, seed=4, provenance=P6,
-        pins={'shoulder': (126, 154), 'foot': (123, 193)}), op='crop+matte+scissor cut+darker print')
-add(cut('dog_hind', dogf(6), [HIND, ('disc', 213, 152, 11)], DS, 'dog', M6, **DG, seed=5, provenance=P6,
-        pins={'hip': (213, 151), 'foot': (210, 202)}), op='crop+matte+scissor cut+tint')
-add(cut('dog_farhind', dogf(6), [FARHIND, ('disc', 198, 154, 9)], DS, 'dogfar', M6, **DG, seed=6, provenance=P6,
-        pins={'hip': (198, 152), 'foot': (191, 196)}), op='crop+matte+scissor cut+darker print')
+HEAD_INK = [('lightfill', [(84, 80), (100, 80), (110, 88), (106, 100), (94, 100), (84, 92)], .6),
+            ('fill', [(112, 84), (127, 89), (134, 106), (126, 116), (114, 106)], .6),
+            ('dot', 88.5, 85.5, 2.8, .97), ('dot', 104, 89.5, 2.0, .97), ('light', 104.6, 88.9, .6, .8),
+            ('line', [(90, 91), (97, 95), (104, 97)], 1.0, .75)]
+ink('dog_head', HEAD_INK)
+# legs: each cut in two at the elbow / hock, so they can fold
+def leg(name, poly, piv_name, piv, knee, foot, pal, seed, kneecut):
+    up = [p for p in poly]  # clipped by y below with a hole
+    add(cut(name, dogf(6), [poly, ('disc', piv[0], piv[1], 10)], DS, pal, M6, **DG, seed=seed, provenance=P6,
+            holes=[[(0, kneecut + 4), (400, kneecut + 4), (400, 300), (0, 300)]],
+            pins={piv_name: piv, 'knee': knee}), op='crop+matte+scissor cut+tint (upper leg)')
+    add(cut(name + '_lo', dogf(6), [poly, ('disc', knee[0], knee[1], 6.5)], DS, pal, M6, **DG, seed=seed + 50, provenance=P6,
+            holes=[[(0, 0), (400, 0), (400, kneecut - 4), (0, kneecut - 4)]],
+            pins={'knee': knee, 'foot': foot}), op='crop+matte+scissor cut+tint (lower leg and paw)')
+leg('dog_fore', FORE, 'shoulder', (141, 150), (138, 176), (133, 201), 'dog', 3, 176)
+leg('dog_farfore', FARFORE, 'shoulder', (126, 154), (124, 178), (123, 193), 'dogfar', 4, 178)
+leg('dog_hind', HIND, 'hip', (213, 151), (212, 178), (210, 202), 'dog', 5, 178)
+leg('dog_farhind', FARHIND, 'hip', (198, 152), (194, 178), (191, 196), 'dogfar', 6, 178)
 add(cut('dog_tail', dogf(6), [TAIL, ('disc', 239, 136, 8)], DS, 'dog', M6, **DG, seed=7, provenance=P6,
         pins={'tailroot': (238, 136), 'tip': (282, 158)}), op='crop+matte+scissor cut+tint')
-# the turning card: a second print, the same dog facing the camera with its head turning (f030), one whole piece
+# the turning card: a second print, the same dog facing the camera with its head turning (f030), one whole piece,
+# kept sharp and retouched: two eyes, the nose, the ears' edges inked
 M30 = mpolys(DOGM, 30)
-add(cut('dog_front', dogf(30), [[(130, 80), (230, 80), (230, 210), (130, 210)]], DS, 'dog', M30, **DG, seed=8, provenance=prov('dog', 30),
+add(cut('dog_front', dogf(30), [[(130, 80), (230, 80), (230, 210), (130, 210)]], DS, 'dog', M30, **dict(HG, soften=.9, contrast=.72, sharpen=False), seed=8, provenance=prov('dog', 30),
         pins={'feet': (178, 198), 'head': (192, 120)}), op='crop+matte+scissor cut+tint (substitution card for the turn)')
-
-# the head lowered (f046: the same dog, walking, head down; printed facing right, flopped when laid facing left).
-# Cut tight round skull, ear and muzzle, without the white collar: one unambiguous face.
-M46 = mpolys(DOGM, 46)
-add(cut('dog_head_low', dogf(46), [[(242, 134), (262, 136), (276, 156), (282, 176), (278, 192), (258, 194), (244, 186), (240, 160)]],
-        DS, 'dog', M46, **DG, seed=9, provenance=prov('dog', 46),
-        pins={'neck': (246, 152), 'nose': (278, 182), 'top': (252, 136)}), op='crop+matte+scissor cut+tint (substitute head card: head low)')
-
-# the face (f030: the dog facing the camera, head turned, eyes and muzzle readable). Used when it looks back over its
-# shoulder at the door: one unambiguous face. Printed looking right; flopped when the dog is laid facing left.
-add(cut('dog_face', dogf(30), [[(146, 92), (170, 87), (200, 94), (214, 112), (219, 134), (206, 143), (180, 146), (156, 141), (146, 120)]],
-        DS, 'dog', M30, **DG, seed=10, provenance=prov('dog', 30),
-        pins={'neck': (176, 140), 'nose': (216, 128), 'top': (170, 88)}), op='crop+matte+scissor cut+tint (substitute head card: the face)')
+ink('dog_front', [('lightfill', [(170, 104), (190, 104), (204, 112), (212, 120), (210, 130), (196, 134), (176, 128), (168, 116)], .75),
+                  ('lightfill', [(164, 140), (190, 140), (188, 160), (166, 160)], .45),
+                  ('fill', [(149, 104), (162, 100), (167, 116), (162, 134), (151, 136), (147, 120)], .7),
+                  ('fill', [(196, 100), (207, 104), (209, 116), (201, 114)], .7),
+                  ('dot', 181, 113, 2.6, .97), ('dot', 197, 115, 2.6, .97), ('light', 181.8, 112.2, .7, .9), ('light', 197.8, 114.2, .7, .9),
+                  ('dot', 211, 125, 3.4, .97), ('line', [(203, 129), (208, 133), (213, 131)], 1.0, .8)])
+# the look back (7.458): the same profile head, a smaller print (0.82: ~0.6 of the torso card's height), retouched,
+# laid turned over the shoulder so its muzzle points at the door
+add(cut('dog_lookback', dogf(6), [HEAD, ('disc', 128, 112, 9)], 0.82, 'dog', M6, **dict(HG, soften=.6, contrast=.8, sharpen=False), seed=10, provenance=P6,
+        pins={'neck': (128, 112), 'nose': (88, 86), 'top': (95, 76)}), op='crop+matte+scissor cut+tint (substitute head card: looking back)')
+ink('dog_lookback', [('lightfill', [(84, 80), (100, 80), (110, 88), (106, 100), (94, 100), (84, 92)], .7),
+                     ('fill', [(112, 84), (127, 89), (134, 106), (126, 116), (114, 106)], .75),
+                     ('dot', 88.5, 85.5, 3.4, .97), ('dot', 104, 89.5, 2.7, .97), ('light', 104.8, 88.8, .8, .9),
+                     ('line', [(90, 91), (97, 95), (104, 97)], 1.3, .8)])
 
 # the back of the head (looking in): there is no print of it. Constructed: the outline of the f030 head (skull and ears,
 # muzzle hidden) cut from the fur of the f006 back, i.e. a collage of two prints. Labelled as a constructed piece.
@@ -93,7 +151,7 @@ def back_of_head():
     skull on the side it is turned to."""
     from cutlib import ramp
     im = Image.open(dogf(6)).convert('RGB')
-    W, H = 74, 78
+    W, H = 76, 80
     def fur(box, size, dark=1.0):
         f = im.crop(box).resize(size, Image.BICUBIC).filter(ImageFilter.GaussianBlur(1))
         L = np.asarray(f.convert('L')).astype(np.float32) / 255
@@ -109,28 +167,29 @@ def back_of_head():
     def lay(col, al):
         nonlocal rgb, a
         rgb = rgb * (1 - al[..., None]) + col * al[..., None]; a = a + al * (1 - a)
-    # muzzle tip from f046 (flopped: pointing left), behind the skull, sticking out on the left
-    mz = Image.open(dogf(46)).convert('RGB').crop((262, 158, 282, 190)).transpose(Image.FLIP_LEFT_RIGHT).resize((26, 40), Image.BICUBIC)
+    # muzzle tip from f046, turned away into the lit room: it shows over the top of the skull, up and to the right,
+    # away from the person and the hand
+    mz = Image.open(dogf(46)).convert('RGB').crop((258, 154, 282, 194)).rotate(-40, Image.BICUBIC, expand=False).resize((30, 34), Image.BICUBIC)
     Lm = np.asarray(mz.convert('L')).astype(np.float32) / 255; lo, hi = np.percentile(Lm, (4, 96))
-    mcol = np.zeros((H, W, 3), np.float32); mcol[30:70, 0:26] = ramp(np.clip((Lm - lo) / (hi - lo + 1e-6), 0, 1) * .8 + .15, PALETTES['dog'])
-    lay(mcol, mask([('p', [(2, 46), (10, 36), (26, 36), (26, 64), (12, 64), (3, 56)])]))
-    # skull and neck
-    lay(fur((150, 108, 204, 152), (W, H)), mask([('e', (14, 20, 60, 70)), ('p', [(24, 60), (50, 60), (54, 78), (20, 78)])]))
-    # pricked ears, with their tips folded forward in darker fur
-    lay(fur((160, 112, 200, 148), (W, H), .8), mask([('p', [(16, 34), (14, 2), (34, 24)]), ('p', [(58, 34), (60, 2), (40, 24)])]))
-    lay(fur((160, 112, 200, 148), (W, H), .45), mask([('p', [(14, 2), (22, 12), (14, 14)]), ('p', [(60, 2), (52, 12), (60, 14)])]))
+    mcol = np.zeros((H, W, 3), np.float32); mcol[0:34, 40:70] = ramp(np.clip((Lm - lo) / (hi - lo + 1e-6), 0, 1) * .55 + .4, PALETTES['dog'])
+    lay(mcol, mask([('p', [(40, 30), (48, 12), (60, 2), (70, 4), (68, 16), (58, 32)])]))
+    # skull, round, on a neck that widens into the shoulders
+    lay(fur((150, 108, 204, 152), (W, H)), mask([('e', (16, 16, 62, 60)), ('p', [(22, 48), (56, 48), (66, 80), (12, 80)])]))
+    # the ears hang, long and soft, like the profile head's (from behind: two drops down the sides of the skull)
+    lay(fur((160, 112, 200, 148), (W, H), .5), mask([('p', [(18, 22), (8, 30), (4, 52), (10, 66), (18, 60), (22, 36)]),
+                                                    ('p', [(58, 22), (68, 30), (72, 52), (66, 66), (58, 60), (54, 36)])]))
     # the parting of the fur down the back of the skull
     yy, xx = np.mgrid[0:H, 0:W]
-    rgb *= (1 - .22 * np.exp(-((xx - 37) ** 2) / 14) * (yy > 26))[..., None]
+    rgb *= (1 - .22 * np.exp(-((xx - 38) ** 2) / 14) * (yy > 30))[..., None]
     A = Image.fromarray((a * 255).astype(np.uint8)); er = np.asarray(A.filter(ImageFilter.MinFilter(3))).astype(np.float32) / 255
     e = np.clip(a - er, 0, 1)
     rgb = rgb * (1 - e[..., None] * .75) + np.array([.93, .9, .82]) * e[..., None] * .75
     fn = os.path.join(CACHE, 'pieces', 'dog_backhead.png')
     Image.fromarray(np.dstack([np.clip(rgb, 0, 1) * 255, a * 255]).astype(np.uint8), 'RGBA').save(fn)
     return {'name': 'dog_backhead', 'file': os.path.relpath(fn, FOLDER), 'origin': [0, 0], 'size': [W, H], 'scale': 1,
-            'pins': {'neck': [37, 72]}, 'palette': 'dog', 'source_print': os.path.relpath(dogf(6), ROOT),
-            'provenance': prov('dog', 6), 'notes': 'constructed: skull and pricked, folded-tip ears cut from the f006 saddle fur; '
-            'the muzzle tip is a scrap of f046 (flopped) showing past the skull', 'op': 'constructed collage of two prints'}
+            'pins': {'neck': [40, 74]}, 'palette': 'dog', 'source_print': os.path.relpath(dogf(6), ROOT),
+            'provenance': prov('dog', 6), 'notes': 'constructed: skull and hanging, folded ears cut from the f006 saddle fur; '
+            'the muzzle tip is a scrap of f046 showing over the skull, turned into the room', 'op': 'constructed collage of two prints'}
 add(back_of_head())
 
 # ---------------------------------------------------------------- the person: a collage, as the method does it

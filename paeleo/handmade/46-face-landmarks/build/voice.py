@@ -29,5 +29,5 @@ def envelope(t):
 def mouth_state(t):
     env, a = envelope(t)
     if env < 0.2: return 'closed'
-    if a >= 0.9 and env > 0.55: return 'open'
+    if env > (0.55 if a >= 0.9 else 0.6): return 'open'
     return 'half'

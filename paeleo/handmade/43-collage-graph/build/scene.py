@@ -20,8 +20,8 @@ SCORE = json.load(open(os.path.join(ROOT, 'paeleo/handmade/score/threshold-score
 FRAMES = SCORE['frames']
 LIB = {f['id']: f for f in json.load(open(os.path.join(CACHE, 'frags.json')))['fragments']}
 W, H = 1280, 720
-PXM = 205.0
-X0 = 305.0
+PXM = 195.0
+X0 = 278.0
 WALL_BASE = 505
 G_MID, G_SILL = 588, 520
 DOOR_L, DOOR_R, DOOR_TOP_M = -0.55, 0.55, 2.0
@@ -118,13 +118,14 @@ def anc(fid, k): return tuple(LIB[fid]['anchors'][k])
 
 # ------------------------------------------------------------------ the scene-event contract: score frame -> dog graph state
 TURN1 = (3.417, 3.583, 3.75)       # profile-L | f027 | f030 | profile-R   (back shown from 3.75)
-TURN2 = (7.917, 8.083, 8.25)       # profile-R (head already round) | f030 | f027 | profile-L
+TURN2 = (7.75, 7.917, 8.083)       # lying, head round to the door | f030 | f027 | profile-L (the found turn comes in promptly)
 LOOKBACK = 7.458                   # REPLACE head by its mirror: the head comes round to the door first
 
 
 def dog_state(i):
     """Return the dog's typed graph for score frame i (solved on twos)."""
     i2 = i - (i % 2)
+    if FRAMES[i]['dog']['state'] != FRAMES[i2]['dog']['state']: i2 = i  # a choice shows on its own frame, not on the next two
     fr = FRAMES[i2]; d = fr['dog']; a = d['act']; t = fr['t']
     st = d['state']
     g = dict(i=i, i2=i2, t=t, state=st, x=d['x'], rules=[])
@@ -139,7 +140,7 @@ def dog_state(i):
     lie = a['lie']
     if TURN1[2] <= t < 4.30: lie = 0.0  # it stands with its back turned before it lies down
     g['lie'] = round(lie * 3) / 3
-    if st == 'lie_down' and g['lie'] < 1 / 3: g['lie'] = 1 / 3  # the choice shows on its first frame: it starts to go down
+    if st == 'lie_down': g['lie'] = max(0.5, round(lie * 4) / 4)  # the choice shows on its first frame: it is already half down
     g['crouch'] = round(a['crouch'] * 2) / 2 if g['lie'] < 0.3 else 0
     if st == 'retreat': g['crouch'] = max(g['crouch'], 0.5)   # it cowers as it backs away, from the first frame of the choice
     if st == 'watch' and t < 3.417: g['crouch'] = 0.0          # it stops backing and stands to look
@@ -149,19 +150,22 @@ def dog_state(i):
     hv, look, rest = a['head'], a['look'], a['rest']
     sun_head = st in ('approach', 'lie_down')
     if look > 0.2:
-        g['head'] = ('head_back_cut', 0.0); g['rules'].append('ENTER head->door light: REPLACE head by head_back_cut (looks in)')
+        g['head'] = ('head_low_f048', 10.0); g['rules'].append('ENTER head->door light: REPLACE head pose: head_low_f048 rotated about its neck to 10 deg, neck reaching in past the jamb, muzzle level into the room (looks in)')
     elif sun_head:
         if g['lie'] >= 0.99 and rest > 0.5: g['head'] = ('head_low_f048', -14.0)
-        elif g['lie'] >= 0.99: g['head'] = ('head_low_f048', 8.0 if hv > 0.5 else -6.0)
+        elif g['lie'] >= 0.99: g['head'] = ('head_low_f048', -12.0)  # lying at the sill, head down on its paws until it hears 'come in'
         else: g['head'] = ('head_low_f048', -42.0)
     else:
-        if g['lie'] >= 0.66 and rest > 0.5: g['head'] = ('head_level_f012', -18.0)
+        if g['lie'] >= 0.66 and rest > 0.5: g['head'] = ('head_level_f012', -30.0)
         elif g['lie'] >= 0.66: g['head'] = ('head_level_f012', -4.0)
         elif g['crouch'] >= 0.5: g['head'] = ('head_level_f012', -6.0)
         elif hv >= 0.8 or (st == 'watch' and 2.3 < t < 3.417 and hv >= 0.6): g['head'] = ('head_alert_f006', 40.0)  # stops backing: head up to look
         else: g['head'] = ('head_level_f012', 14.0)
     g['head_mirror'] = (st == 'watch' and LOOKBACK <= t < TURN2[0])  # looks back over its shoulder
-    if g['head_mirror']: g['rules'].append('REPLACE head by mirror(head) on the turned-away body (turns back to look)')
+    if g['head_mirror']:
+        g['head'] = ('head_alert_f006', 8.0)
+        g['lie'] = 1.0  # no hybrid: it stays lying until the found turning frames take over
+        g['rules'].append('REPLACE head by head_alert_f006 rotated level about its neck, muzzle to the door, on the turned-away body (turns back to look)')
     return g
 
 
@@ -224,11 +228,13 @@ def light_amount(t):
 
 
 def node_material(g, node, ux_world, light_on):
-    """REPLACE node.material shade->sun: the head by the decision to come; the rest by entering the door's light (x <= 0.62)."""
-    if g['state'] not in ('approach', 'lie_down'): return 'shade'
-    if node == 'head': return 'sun'
-    if node in ('tail',): return 'shade'
-    return 'sun' if (light_on > 0.5 and ux_world <= 0.62) else 'shade'
+    """REPLACE node.material shade->sun, as a weight 0..1: the head by the decision to come (1 at once); the chest and
+    forelegs by entering the door's light, graded over 0.80 -> 0.50 m (about 0.7 s of walking, never a one-frame swap);
+    the haunch, hind legs and tail stay shade (they never cross the sill)."""
+    if g['state'] not in ('approach', 'lie_down'): return 0.0
+    if node == 'head': return 1.0
+    if node in ('tail', 'haunch', 'hind_n', 'hind_f'): return 0.0
+    return float(sstep(0.80, 0.50, ux_world)) if light_on > 0.5 else 0.0
 
 
 def draw_dog(canvas, i, log=None):
@@ -261,7 +267,7 @@ def draw_dog(canvas, i, log=None):
     Sv = 0.47 - 0.10 * cr - 0.32 * lie
     Hv = 0.48 - 0.15 * cr - 0.34 * lie
     S = (0.24 + 0.03 * lie, Sv); Hh = (-0.24, Hv); Mm = (0.0, (Sv + Hv) / 2 + 0.03 - 0.02 * lie)
-    N = (0.33 + 0.02 * lie, Sv + 0.12 - 0.02 * lie)
+    N = (0.33 - 0.03 * lie, Sv + 0.12 - 0.06 * lie)
     T = (-0.31, Hv + 0.07)
     d = travel(g['i2'])
     # the legs: stance feet planted (constraint), swing feet substituted by a bent fragment
@@ -269,29 +275,33 @@ def draw_dog(canvas, i, log=None):
     for leg in ('hind_f', 'fore_f', 'hind_n', 'fore_n'):
         top = S if leg.startswith('fore') else Hh
         if lie >= 0.99:
-            fu = top[0] + (0.33 if leg.startswith('fore') else 0.24) + (0.0 if leg.endswith('n') else -0.05)
+            fu = top[0] + (0.15 if leg.startswith('fore') else 0.12) + (0.0 if leg.endswith('n') else -0.04)
             foot = (fu, 0.035); phase = 'down'
         else:
             ru, lift, phase = foot_rel(leg, d, g['moving'], K)
-            if lie > 0.1:  # settling: feet gather forward as it goes down
-                ru = ru * (1 - lie) + (top[0] + (0.30 if leg.startswith('fore') else 0.18)) * lie
+            if lie > 0.1:  # settling: the feet stay where they stand while the body goes down over them
                 lift = 0
             foot = (ru, lift)
         legs[leg] = (top, foot, phase)
     mats = {}
     for node, ux in (('head', N[0] + 0.15), ('chest', S[0]), ('haunch', Hh[0]), ('fore_n', legs['fore_n'][1][0]), ('fore_f', legs['fore_f'][1][0]),
                      ('hind_n', legs['hind_n'][1][0]), ('hind_f', legs['hind_f'][1][0]), ('tail', T[0])):
-        mats[node] = node_material(g, node, x - f * ux, L)
+        mats[node] = round(node_material(g, node, x - f * ux * K, L), 2)
     info['materials'] = mats
     SETS = dict(shade=SHADE, sun=SUN)
 
     def put_leg(leg):
         top, foot, phase = legs[leg]
-        st = SETS[mats[leg]]
-        fid = st[leg]
-        if phase == 'swing': fid = st['hind_swing'] if leg.startswith('hind') else st['fore_swing']
+        if lie >= 0.66 and leg.startswith('hind'): return   # EXIT: going down, the hind legs fold under the haunch
+        if lie >= 0.66 and leg == 'fore_f': return           # the far foreleg is hidden behind the near one
         tp = (top[0] + (0.02 if leg.endswith('f') else 0.0), top[1] + 0.03)
-        place(canvas, fid, anc(fid, 'top'), anc(fid, 'foot'), W2S(*tp), W2S(*foot), mirror=(f < 0), layer_log=log, node='dog.' + leg)
+        w = mats[leg]
+        for mat, al in (('shade', 1.0), ('sun', w)):
+            if al <= 0.01: continue
+            st = SETS[mat]
+            fid = st[leg]
+            if phase == 'swing': fid = st['hind_swing'] if leg.startswith('hind') else st['fore_swing']
+            place(canvas, fid, anc(fid, 'top'), anc(fid, 'foot'), W2S(*tp), W2S(*foot), mirror=(f < 0), alpha=al, layer_log=log, node='dog.' + leg + ('' if mat == 'shade' else '.sun'))
         if phase != 'swing' and lie < 0.1:
             info.setdefault('planted', []).append(round(x - f * foot[0] * K, 4))
 
@@ -304,36 +314,40 @@ def draw_dog(canvas, i, log=None):
     tip = (T[0] - tl * math.cos(math.radians(ta)), T[1] + tl * math.sin(math.radians(ta)))
     if lie >= 0.99: tip = (tip[0], max(0.03, tip[1]))
     place(canvas, 'tail_f006', anc('tail_f006', 'base'), anc('tail_f006', 'tip'), W2S(*T), W2S(*tip), mirror=(f < 0), layer_log=log, node='dog.tail')
-    if mats['haunch'] == mats['chest']:
-        tf = SETS[mats['chest']]['torso']
-        place(canvas, tf, anc(tf, 'H'), anc(tf, 'S'), W2S(*Hh), W2S(*S), mirror=(f < 0), layer_log=log, node='dog.torso')
-        put_leg('hind_n')
-    else:
-        # SPLIT torso at the light's edge: haunch (shade) and chest (sun) are two nodes with a visible seam
+    tf = SHADE['torso']
+    place(canvas, tf, anc(tf, 'H'), anc(tf, 'S'), W2S(*Hh), W2S(*S), mirror=(f < 0), layer_log=log, node='dog.torso')
+    put_leg('hind_n')
+    if mats['chest'] > 0.01:
+        # SPLIT torso: the sunlit chest (its rear edge feathered) comes in over the shaded body as it enters the light
         info['split'] = True
-        hf = SETS[mats['haunch']]['haunch']
-        place(canvas, hf, anc(hf, 'H'), anc(hf, 'S'), W2S(*Hh), W2S(*S), mirror=(f < 0), layer_log=log, node='dog.haunch')
-        put_leg('hind_n')
-        cf = SETS[mats['chest']]['chest']
-        place(canvas, cf, anc(cf, 'H'), anc(cf, 'S'), W2S(*Hh), W2S(*S), mirror=(f < 0), layer_log=log, node='dog.chest')
+        cf = SUN['chest']
+        place(canvas, cf, anc(cf, 'H'), anc(cf, 'S'), W2S(*Hh), W2S(*S), mirror=(f < 0), alpha=mats['chest'], layer_log=log, node='dog.chest.sun')
     put_leg('fore_n')
     # head: neck anchor on N, nose direction from the chosen drawing's angle
     hid, ang = g['head']
     hf_ = 1 if not g['head_mirror'] else -1  # mirrored head looks the other way
+    look_in = 'looks in' in ' '.join(g['rules'])
     hl = 0.30
-    if hid == 'head_back_cut':
-        Nn = (N[0] - 0.04, N[1] - 0.04)
-        crown = (Nn[0] + 0.04, Nn[1] + 0.25)
-        M = place(canvas, hid, anc(hid, 'neck'), anc(hid, 'crown'), W2S(*Nn), W2S(*crown), mirror=False, layer_log=log, node='dog.head')
-        info['nose'] = None; info['neck'] = W2S(*Nn); info['head_kind'] = 'away'
-        info['facing_measured'] = f
+    if look_in:
+        N = (N[0] + 0.07, N[1] + 0.04)   # the neck reaches in over the sill; the muzzle stays level, into the room
+    elif g['head_mirror']:
+        N = (N[0] + 0.03, N[1] + 0.12)   # turning to look: the head comes up clear of the back and round, level, to the door
+    if False:
+        pass
     else:
         nose = (N[0] + hf_ * hl * math.cos(math.radians(ang)), N[1] + hl * math.sin(math.radians(ang)))
-        if lie >= 0.99 or (g['lie'] >= 0.66):
+        if (lie >= 0.99 or g['lie'] >= 0.66) and not look_in and not g['head_mirror']:
             nose = (nose[0], max(0.04, nose[1]))
         mirror_head = (f < 0) ^ (hf_ < 0)
-        place(canvas, hid, anc(hid, 'neck'), anc(hid, 'nose'), W2S(*N), W2S(*nose), mirror=mirror_head, layer_log=log, node='dog.head')
+        # the head is its own cut: drawn on its own sheet with its own paper rim, so it reads against the body it overlaps
+        hl_ = Image.new('RGBA', canvas.size, (0, 0, 0, 0))
+        place(hl_, hid, anc(hid, 'neck'), anc(hid, 'nose'), W2S(*N), W2S(*nose), mirror=mirror_head, layer_log=log, node='dog.head')
+        rim_ = hl_.getchannel('A').filter(ImageFilter.MaxFilter(3))
+        pap_ = Image.new('RGBA', canvas.size, (226, 218, 198, 255)); pap_.putalpha(rim_.point(lambda v: int(v * 0.85)))
+        canvas.alpha_composite(pap_); canvas.alpha_composite(hl_)
         info['nose'] = W2S(*nose); info['neck'] = W2S(*N); info['head_kind'] = hid
+        dxm, dym = info['nose'][0] - info['neck'][0], info['neck'][1] - info['nose'][1]
+        info['muzzle_angle_deg'] = round(math.degrees(math.atan2(dym, abs(dxm))), 1)  # above horizontal, measured on screen
         info['facing_measured'] = 1 if info['nose'][0] < info['neck'][0] else -1
     info['withers'] = W2S(*S)
     info['back_v'] = max(Sv, Hv)
@@ -353,7 +367,7 @@ def draw_person(canvas, i, log=None):
     depth = sstep(-0.28, -1.0, px)  # doorway (sill) -> against the wall beside the door
     gy = 512 + 14 * depth
     sc = PXM
-    X = PX(px)
+    X = PX(max(px, -1.02))  # my staging: the person sits just left of the door, fully in frame
     walking = 5.4 < t < 6.4 and sit < 0.99
     bob = 4 * abs(math.sin(math.pi * (t - 5.4) * 2.2)) if walking else 0
     def P(dx, h): return (X + dx * sc, gy - h * sc - bob)
@@ -369,8 +383,9 @@ def draw_person(canvas, i, log=None):
         place_strip(canvas, 'coat_lo', anc('coat_lo', 'hip'), anc('coat_lo', 'feet'), hip, knee, 1.05, layer_log=log, node='person.thigh')
         place(canvas, 'coat_up', anc('coat_up', 'hip'), anc('coat_up', 'top'), hip, P(-0.03, hip_h + 0.62), layer_log=log, node='person.torso')
         sh = P(0.03, hip_h + 0.54); neck = P(0.0, hip_h + 0.62)
-    calling = p['voice'] == 'call'
-    tilt = 10 if calling else (5 if p['voice'] == 'soft' else (6 if sit > 0.5 else 0))
+    vnow = voice_at(t)[0]
+    calling = vnow == 'call'
+    tilt = 10 if calling else (5 if vnow == 'soft' else (6 if sit > 0.5 else 0))
     hh = 0.30 * sc
     crown = (neck[0] + hh * math.sin(math.radians(tilt)) - 6, neck[1] - hh * math.cos(math.radians(tilt)))
     # hair/back of the head: the coat cut round, behind the found face
@@ -393,12 +408,27 @@ def draw_person(canvas, i, log=None):
     return dict(mouth=mouth, tip=tip, X=X, gy=gy)
 
 
+CALL_LEAD = 0.30  # a call is heard before the dog answers it: voices start 7 frames before the choice they cause
+VOICES = []
+for _k, (_t, _ev) in enumerate(SCORE['timeline']):
+    if 'voice' in _ev and _ev['voice'] != 'none':
+        _end = next(tt for tt, ev in SCORE['timeline'][_k + 1:] if 'voice' in ev)
+        _lead = CALL_LEAD if _ev['voice'] == 'call' else 0.0
+        VOICES.append((_t - _lead, _end - _lead, _ev['voice']))
+
+
+def voice_at(t):
+    for a, b, v in VOICES:
+        if a <= t < b: return v, a
+    return 'none', None
+
+
 def draw_voice(canvas, i, mouth, dog_xy, log=None):
     """ENTER voice: the telephone film's sound arcs, re-timed (its own frames cycle at 12 fps), become the person's voice.
     A call sends wide arcs travelling out to the dog; the soft voice makes small arcs that hardly leave the mouth."""
-    fr = FRAMES[i]; v = fr['person']['voice']; t = fr['t']
+    t = FRAMES[i]['t']
+    v, on = voice_at(t)
     if v == 'none': return None
-    on = max(tt for tt, ev in SCORE['timeline'] if 'voice' in ev and tt <= t + 1e-6)
     age = t - on
     ids = sorted(k for k in LIB if k.startswith('arcs_'))
     dx, dy = dog_xy[0] - mouth[0], dog_xy[1] - mouth[1]
@@ -542,7 +572,7 @@ def light_map(t):
     xl, xr = PX(DOOR_L), PX(DOOR_R)
     ytop = WALL_BASE - DOOR_TOP_M * PXM
     spread = np.clip(yy - WALL_BASE, 0, None) * 0.45
-    inx = sstep(-45, 25, xx - (xl - spread)) * sstep(-45, 25, (xr + spread) - xx)
+    inx = sstep(-120, 40, xx - (xl - spread)) * sstep(-120, 40, (xr + spread) - xx)  # the door's light falls off softly across the dog
     col = inx * sstep(ytop - 20, ytop + 20, yy) * (1 - sstep(660, 700, yy))
     _LM.append(col.astype(np.float32))
     return _LM[0] * L
@@ -603,7 +633,12 @@ def render(i, want_layers=False):
     can.alpha_composite(WORLD['frame'])
     can.alpha_composite(WORLD['floor'])
     can.alpha_composite(WORLD['post'])
-    pinfo = draw_person(can, i, log)
+    play = Image.new('RGBA', (W, H), (0, 0, 0, 0))
+    pinfo = draw_person(play, i, log)
+    pa = np.asarray(play.getchannel('A'))
+    pys, pxs = np.nonzero(pa > 40)
+    pinfo['bbox'] = [int(pxs.min()), int(pys.min()), int(pxs.max()), int(pys.max())] if len(pxs) else None
+    can.alpha_composite(play)
     doglayer = Image.new('RGBA', (W, H), (0, 0, 0, 0))
     dinfo = draw_dog(doglayer, i, log)
     # contact shadow under the dog

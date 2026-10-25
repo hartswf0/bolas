@@ -14,8 +14,8 @@ def job(i):
     m = dict(i=i, t=g['t'], state=g['state'], x_score=g['x'], mode=g['mode'], head=g['head'][0] if g['mode'] == 'graph' else g['whole'][0],
              head_mirror=g['head_mirror'], lie=g['lie'], crouch=g['crouch'], rules=g['rules'], facing_measured=d.get('facing_measured'),
              nose=d.get('nose'), neck=d.get('neck'), withers=d.get('withers'), materials=d.get('materials'), split=d.get('split', False),
-             planted=d.get('planted'), meas=d.get('meas'), gy=d['gy'],
-             nodes=[(e['node'], e['frag']) for e in meta['log']], door=meta['door'], voice=scene.FRAMES[i]['person']['voice'])
+             planted=d.get('planted'), meas=d.get('meas'), gy=d['gy'], muzzle_angle_deg=d.get('muzzle_angle_deg'), person_bbox=meta['person'].get('bbox'),
+             nodes=[(e['node'], e['frag']) for e in meta['log']], door=meta['door'], voice=scene.voice_at(scene.FRAMES[i]['t'])[0])
     json.dump(m, open(os.path.join(MEAS, '%04d.json' % i), 'w'))
     return i
 

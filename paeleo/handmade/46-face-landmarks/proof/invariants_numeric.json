@@ -1,13 +1,13 @@
 {
  "attachment_cm": {
-  "max": 0.943,
-  "mean": 0.354,
+  "max": 1.037,
+  "mean": 0.297,
   "at_t": 26.375,
   "test": "head plate skull-pivot landmark, as placed by its fit, vs the solved neck end (skull pivot); world cm"
  },
  "eyes_on_face": {
   "share": 1.0,
-  "n": 587,
+  "n": 594,
   "test": "every drawn eye centre lies inside its head plate outline"
  },
  "planted_feet": {
@@ -23,10 +23,33 @@
   "test": "the person's face is placed only by rotation + uniform scale + translation (by construction, see render.draw_person_head)"
  },
  "head_low_on_approach": {
-  "share": 1.0,
-  "worst_margin_m": 0.021,
+  "share": 0.9626,
+  "worst_margin_m": -0.107,
   "test": "15-23.8 s: the top of the skull (cranium and ear bases) is below the withers (world height)"
  },
- "head_view_changes": 11,
+ "repair_round_1": {
+  "person_face": {
+   "eye_and_mouth_on_face_share": 1.0,
+   "bands_removed": "flattened plates (face_source.py)",
+   "mouth_frames_26_4_to_27_3": {
+    "half": 2,
+    "open": 14,
+    "closed": 6
+   }
+  },
+  "turn_head_views_3_62_to_3_75": [
+   135,
+   135,
+   135,
+   135
+  ],
+  "look_in_view_sequence_26_3_to_26_9": [
+   45,
+   90,
+   135
+  ],
+  "look_in_muzzle_minus_person_skull_height_m_max": -0.372
+ },
+ "head_view_changes": 5,
  "torso_view_changes": 6
 }

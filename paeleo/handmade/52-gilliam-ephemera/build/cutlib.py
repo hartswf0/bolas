@@ -12,7 +12,7 @@ CACHE = os.path.join(HERE, 'cache')
 SS = 4  # supersampling of the scissor line
 
 PALETTES = {  # three-stop print tones (dark, mid, light): the hand-tinting of a monochrome print
-    'dog':   [(34, 22, 16), (120, 84, 54), (222, 190, 140)],
+    'dog':   [(40, 27, 19), (118, 82, 54), (204, 172, 128)],
     'dogfar': [(24, 16, 12), (84, 58, 40), (160, 132, 98)],
     'smock': [(48, 28, 40), (150, 100, 112), (236, 206, 204)],
     'skin':  [(44, 26, 20), (158, 108, 82), (242, 214, 182)],

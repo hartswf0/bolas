@@ -1,5 +1,5 @@
 """Measures the choices from the render (trace.json), not from the score labels. Writes ../proof/measured.json."""
-import json, os, sys
+import json, math, os, sys
 import numpy as np
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from xsheet import gait, LEGN, STANCE, K
@@ -13,7 +13,8 @@ def first(cond, after):
     idx = [i for i in range(len(tr)) if t[i] >= after and cond(i)]
     return float(t[idx[0]]) if idx else None
 on = {}
-on['retreat (backs away)'] = first(lambda i: abs(X[i] - X[0]) > 1.5 or abs(hy[i] - hy[0]) > 3, .5)
+hxs = np.array([f['head_xy'][0] for f in tr])
+on['retreat (backs away)'] = first(lambda i: abs(X[i] - X[0]) > 1.5 or math.hypot(hxs[i] - hxs[0], hy[i] - hy[0]) > 2.5, .5)
 r0 = on['retreat (backs away)']
 on['watch (stops backing, head comes up)'] = first(lambda i: hy[i] < hy[i - 1] - 3.0, r0 + .5)
 on['refuse (back turned)'] = first(lambda i: fac[i] == -1, 3.0)
@@ -35,6 +36,17 @@ ap = [f for f in tr if f['state'] == 'approach' and f['back_line_y'] is not None
 below = [f['head_xy'][1] - f['back_line_y'] for f in ap]
 head_low = {'frames': len(ap), 'share_head_centroid_below_back_line': round(sum(b > 0 for b in below) / len(below), 3),
             'min_px_below': round(min(below), 1), 'median_px_below': round(float(np.median(below)), 1)}
+# repair 1: the topmost pixel of the head card (ears included) below the withers, muzzle clearly below, whole approach
+apf = [f for f in tr if 14.708 <= f['t'] < 23.792]
+tops = [f['head_top_y'] - f['withers_y'] for f in apf]
+muz = [f['muzzle_y'] - f['withers_y'] for f in apf]
+head_low['head_card_top_below_withers'] = {'frames': len(apf), 'share_all_below': round(sum(v > 0 for v in tops) / len(tops), 3),
+                                           'min_px': min(tops), 'median_px': float(np.median(tops))}
+head_low['muzzle_below_withers'] = {'min_px': round(min(muz), 1), 'median_px': round(float(np.median(muz)), 1)}
+# repair 2: one head card, the face, pointing at the door from the look-back
+lb = [f for f in tr if 7.458 <= f['t'] < 8.1]
+look_back = {'frames_7.458_to_8.1': len(lb), 'head_pieces': sorted(set(f['head_piece'] for f in lb)),
+             'share_facing_door': round(sum(f['facing'] == 1 for f in lb) / len(lb), 3)}
 # feet: slip of planted feet between consecutive exposures while walking (structural: from the placed transforms)
 slips = []
 ex = xs['exposures']
@@ -57,7 +69,7 @@ holds = [e['n'] for e in ex]
 interval = {'exposures': len(ex), 'frames': sum(holds), 'min_frames_per_exposure': min(holds),
             'share_on_twos_or_longer': round(sum(h >= 2 for h in holds) / len(holds), 3), 'longest_hold_frames': max(holds)}
 out = {'about': 'measured from trace.json (the rendered dog layer) and xsheet.json', 'onsets': onsets, 'refusal_back': back,
-       'approach_head_low': head_low, 'feet_while_walking': feet, 'end_on_sill': sill, 'camera_interval': interval}
+       'approach_head_low': head_low, 'look_back': look_back, 'feet_while_walking': feet, 'end_on_sill': sill, 'camera_interval': interval}
 os.makedirs(os.path.join(FOLDER, 'proof'), exist_ok=True)
 json.dump(out, open(os.path.join(FOLDER, 'proof', 'measured.json'), 'w'), indent=1)
 print(json.dumps(out, indent=1))

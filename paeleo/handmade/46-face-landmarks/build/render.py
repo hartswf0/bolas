@@ -352,7 +352,7 @@ def dog_parts(cam, f, p, r):
             limb_outline(pt, chain, [w_ * sc for w_ in widths], lit(col, Ll), lit('ink', np.minimum(Ll, 1)))
             pc = 'white' if fore else col
             draw_shapes(pt, BONES['paw'], bone_M(paw[0], paw[1], BONE_W['paw'] * sc * 0.8), lambda k: lit(pc, Ll), Ll, flip_y=False)
-        parts.append((rd + (0.0 if not near else -0.001), leg))
+        parts.append((cdepth + 0.05 + (0.0 if not near else -0.001) + 0.01 * (rd - cdepth), leg))
     # tail
     chain = [np.array(c) for c in p['tail']]
     td = proj(cam, chain[1])[1]
@@ -408,6 +408,7 @@ def dog_parts(cam, f, p, r):
         for s in ears:
             if ear_d[s] <= sd: ear(pt, s)
     hd = sd if sd > cdepth + 0.12 else min(sd, cdepth - 0.02)
+    if f['lie'] > 0.5 and f['t'] > 23.8: hd = cdepth - 1.0   # lying at the sill: the head rests in front of its chest and forelegs
     parts.append((hd, head_group))
     return parts
 
@@ -514,7 +515,8 @@ def person_skeleton(f):
     ff = f_far0 + (f_far1 - f_far0) * s2; ff[1] = 0.08 * math.sin(math.pi * s2)
     seat_n = hip + np.array([0.56, -0.12, 0.10]); seat_n[1] = 0.0
     seat_f = hip + np.array([0.48, -0.12, -0.10]); seat_f[1] = 0.0
-    fn = fn + (seat_n - fn) * sit; ff = ff + (seat_f - ff) * sit
+    fb = smoothstep(0.6, 1.0, sit)   # feet stay under the hips (a supported squat) and slide out only as he reaches the floor
+    fn = fn + (seat_n - fn) * fb; ff = ff + (seat_f - ff) * fb
     # arms
     reach = p['reach2']; low = p['low2']
     hang_n = sh + np.array([0.06, -0.60, 0.12]); hang_f = sh + np.array([-0.04, -0.58, -0.12])
@@ -595,28 +597,57 @@ def person_parts(cam, f):
 
 # cranium, hat and ear are drawn in the source portrait's own pixel frame (x right, y down), so one similarity fit
 # places the whole head; the hat brim covers exactly the forehead the source never showed.
-HAT = [(-150, -8), (-105, -100), (-10, -150), (110, -120), (150, -40), (170, -12), (232, 6), (240, 14), (150, 12), (40, 10), (-60, 14), (-160, 10)]
-HAT_BAND = [(-150, -8), (160, -14), (170, 4), (-158, 8)]
-SKULL_BACK = [(-150, 0), (-162, 70), (-130, 160), (-60, 215), (10, 228), (40, 200), (10, 120), (20, 20)]
+HAT = [(-150, -38), (-105, -130), (-10, -180), (110, -150), (150, -70), (166, -42), (232, -24), (240, -16), (150, -18), (40, -20), (-60, -16), (-160, -20)]
+HAT_BAND = [(-150, -38), (160, -44), (166, -26), (-158, -22)]
+# forehead and cheek drawn in the portrait's own frame, under the cut, so the cut has no seam; the source never shows them
+UNDERLAY = [(-20, -30), (141, -30), (146, -12), (151, 5), (122, 60), (96, 214), (-20, 222)]
+FOREHEAD_LINE = [(141, -30), (146, -12), (151, 5)]
+SKULL_BACK = [(-150, -30), (-162, 70), (-130, 160), (-60, 215), (2, 224), (14, 192), (24, 120), (20, 50), (4, -30)]
 EAR_P = [(-20, 70), (-5, 60), (10, 85), (5, 120), (-15, 130), (-28, 105)]
 NECK_P = [(-90, 200), (40, 210), (60, 320), (-110, 320)]
+EYE_C, EYE_W, EYE_H = (124.0, 1.0), 27.0, 13.0
+MOUTH_CAV = {'half': ((104, 134), 22, 8), 'open': ((100, 136), 26, 24)}
+FACE_LM_KEYS = ('bridge', 'nose_tip', 'chin')
+PERSON_BLINKS = (2.6, 9.2, 13.1, 17.8, 21.4, 25.1, 28.6, 31.0)
+
+
+def person_head_fit(cam, sk, f, src_lm):
+    """the portrait is registered by its landmarks: target landmarks are the source landmarks carried rigidly on the
+    person's skull (metres, tilted with the body), projected; the fit is a similarity (no shear) and its residual is kept"""
+    tilt = -sk['lam'] * 0.5 + math.radians(6) * f['person']['low2'] - math.radians(4) * (voice.envelope(f['t'])[1] >= 0.9)
+    c, s_ = math.cos(tilt), math.sin(tilt)
+    pivot = np.array([40.0, 95.0]); m_per_px = 0.00082
+    src = np.array([src_lm[k] for k in FACE_LM_KEYS], float)
+    dst = []
+    for q in src:
+        d = (q - pivot) * m_per_px; d = np.array([d[0], -d[1]])           # source y-down -> world y-up
+        d = np.array([c * d[0] + s_ * d[1], -s_ * d[0] + c * d[1]])        # tilt (screen-clockwise positive)
+        dst.append(cam.project(np.array(sk['skull']) + np.array([d[0], d[1], 0.0]))[0][0])
+    from geom import fit_similarity, residual
+    M = fit_similarity(src, np.array(dst))
+    return M, residual(M, src, np.array(dst))
+
+
+_FACE_MAN = None
 
 
 def draw_person_head(pt, cam, f, sk, Lp):
+    global _FACE_MAN
     t = f['t']
+    if _FACE_MAN is None: _FACE_MAN = json.load(open(os.path.join(FACE_DIR, 'manifest.json')))
     state = voice.mouth_state(t)
     img = face_img(state)
-    sc = px_per_m(cam, sk['skull']) * 0.00082          # screen px per source px (similarity scale)
-    tilt = -sk['lam'] * 0.5 + math.radians(6) * f['person']['low2'] - math.radians(4) * (voice.envelope(t)[1] >= 0.9)
-    c, s = math.cos(tilt), math.sin(tilt)
-    piv = proj(cam, sk['skull'])[0]
-    pivot_src = np.array([40.0, 95.0])
-    M = np.array([[c * sc, -s * sc, 0], [s * sc, c * sc, 0]]); M[:, 2] = piv - M[:, :2] @ pivot_src
+    lm = next(v['landmarks'] for v in _FACE_MAN['frames'].values() if v['state'] == state)
+    M, res = person_head_fit(cam, sk, f, lm)
+    g = np.minimum(Lp * 1.05, 1.25)
+    skin = tuple(int(v) for v in np.clip(np.array([198, 152, 124]) * g, 0, 255))
     hair = lit((40, 30, 30), Lp); hatc = lit((52, 44, 40), Lp); band = lit((104, 64, 52), Lp); ink = lit('ink', np.minimum(Lp, 1))
-    skin = lit((176, 124, 104), Lp)
     pt.poly(apply(M, catmull(NECK_P, True, 3)), fill=skin, outline=ink, w=0.7)
-    pt.poly(apply(M, catmull(SKULL_BACK, True, 5)), fill=hair, outline=ink, w=0.8)
-    # the source portrait, placed by the similarity fit (graded by the room's light, never sheared)
+    pt.poly(apply(M, np.array(UNDERLAY, float)), fill=skin)
+    if state in MOUTH_CAV:
+        (cx, cy), rx, ry = MOUTH_CAV[state]
+        ang = np.linspace(0, 2 * np.pi, 20)
+        pt.poly(apply(M, np.stack([cx + rx * np.cos(ang), cy + ry * np.sin(ang)], 1)), fill=lit((70, 30, 34), Lp))
     Ms = np.vstack([M, [0, 0, 1]]); Minv = np.linalg.inv(Ms)
     corners = apply(M, np.array([[0, 0], [384, 0], [384, 288], [0, 288]]))
     x0, y0 = np.floor(corners.min(0) * SS).astype(int); x1, y1 = np.ceil(corners.max(0) * SS).astype(int)
@@ -624,15 +655,32 @@ def draw_person_head(pt, cam, f, sk, Lp):
         T = np.array([[1.0 / SS, 0, x0 / SS], [0, 1.0 / SS, y0 / SS], [0, 0, 1]])
         A = Minv @ T
         arr = np.asarray(img, float).copy()
-        grade = np.minimum(Lp * 1.05, 1.25)
-        arr[..., :3] = np.clip(arr[..., :3] * grade, 0, 255)
+        arr[..., :3] = np.clip(arr[..., :3] * g, 0, 255)
         src = Image.fromarray(arr.astype(np.uint8), 'RGBA')
         patch = src.transform((x1 - x0, y1 - y0), Image.AFFINE, A[:2].flatten().tolist(), Image.BICUBIC)
         pt.img.paste(patch, (x0, y0), patch)
+    pt.line(apply(M, catmull(FOREHEAD_LINE, False, 4)), ink, 0.8)
+    # eye (control): almond, iris looking forward, lid with blinks; brow
+    lid = 1.0
+    for tb in PERSON_BLINKS:
+        if tb <= t < tb + 0.16: lid = min(lid, 0.1 + 5 * abs(t - tb - 0.08))
+    if f['person']['low2'] > 0.5: lid = min(lid, 0.92)
+    xs = np.linspace(-1, 1, 13)
+    top = np.stack([EYE_C[0] + xs * EYE_W / 2, EYE_C[1] - EYE_H / 2 * (1 - xs ** 2) ** 0.6], 1)
+    bot = np.stack([EYE_C[0] + xs[::-1] * EYE_W / 2, EYE_C[1] + EYE_H / 2 * 0.8 * (1 - xs[::-1] ** 2) ** 0.7], 1)
+    pt.poly(apply(M, np.vstack([top, bot])), fill=lit((236, 228, 216), np.maximum(Lp, 0.8)), outline=ink, w=0.6)
+    ang = np.linspace(0, 2 * np.pi, 14)
+    pt.poly(apply(M, np.stack([EYE_C[0] + 6 + 4.6 * np.cos(ang), EYE_C[1] + 0.5 + 5.2 * np.sin(ang)], 1)), fill=lit((48, 32, 26), Lp))
+    if lid < 0.98:
+        ly = top[:, 1] + (1 - lid) * (np.interp(top[:, 0], bot[::-1, 0], bot[::-1, 1]) - top[:, 1])
+        pt.poly(apply(M, np.vstack([top - np.array([0, 1.0]), np.stack([top[::-1, 0], ly[::-1]], 1)])), fill=skin)
+        pt.line(apply(M, np.stack([top[:, 0], ly], 1)), ink, 0.7)
+    pt.line(apply(M, catmull([(108, -12), (124, -15), (138, -11)], False, 3)), hair, 1.3)
+    pt.poly(apply(M, catmull(SKULL_BACK, True, 5)), fill=hair, outline=ink, w=0.8)
     pt.poly(apply(M, catmull(EAR_P, True, 3)), fill=skin, outline=ink, w=0.7)
     pt.poly(apply(M, catmull(HAT, True, 4)), fill=hatc, outline=ink, w=0.9)
     pt.poly(apply(M, np.array(HAT_BAND)), fill=band)
-    return M
+    return M, res
 
 
 # ------------------------------------------------------------------ light spill and shadows
@@ -740,7 +788,6 @@ def render_frame(f, p, r):
     allp = [(d, fn) for d, fn in parts] + [(d, fn) for d, fn in pparts]
     allp.sort(key=lambda x: -x[0])
     for d, fn in allp: fn(pt)
-    draw_near_jamb(World(cam, f, pt), f)
     small = img.reduce(SS)
     a = np.asarray(small, float)
     # bloom around the brightest light (door light and lamp)

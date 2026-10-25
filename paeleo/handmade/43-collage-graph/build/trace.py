@@ -13,7 +13,7 @@ frames = []
 for m in M:
     me = m['meas'] or {}
     if m['mode'] == 'whole': posture = 'turning (whole found frame)'
-    elif m['head'] == 'head_back_cut': posture = 'lying, head turned in'
+    elif any('looks in' in r for r in m['rules']): posture = 'lying, head turned in'
     elif m['lie'] >= 0.99: posture = 'lying' + (', head on paws' if m['nose'] and m['withers'] and m['nose'][1] > m['withers'][1] else '')
     elif m['lie'] > 0.1: posture = 'going down / getting up'
     elif m['crouch'] >= 0.5: posture = 'crouched, backing'
@@ -53,8 +53,9 @@ on['approach'] = first(lambda k: nose_up[k] < low_ref - 15 or cx[k] < cx[int(14 
 hstand = np.mean((y1 - y0)[(T > 22.5) & (T < 23.5)])
 on['lie_down'] = first(lambda k: (y1[k] - y0[k]) < 0.92 * hstand, 23.0)
 top_ref = np.mean(y0[(T > 25.8) & (T < 26.3)])
-on['looks_in'] = first(lambda k: y0[k] < top_ref - 10, 26.0)
-on['settles'] = first(lambda k: y0[k] > top_ref - 4, 27.8)
+x0a = np.array([f['bbox'][0] for f in frames], float); front_ref = np.mean(x0a[(T > 25.8) & (T < 26.3)])
+on['looks_in'] = first(lambda k: y0[k] < top_ref - 6 or x0a[k] > front_ref + 6, 26.0)
+on['settles'] = first(lambda k: y0[k] > top_ref - 3 and x0a[k] < front_ref + 4, 27.8)
 score_t = dict(retreat=1.0, watch_after_retreat=2.333, refuse=3.417, watch_turns_back=7.458, approach=14.708, lie_down=23.792, looks_in=26.4)
 onsets = {k: dict(measured=v, score=score_t.get(k), dt=None if v is None or k not in score_t else round(v - score_t[k], 3)) for k, v in on.items()}
 how = dict(retreat='dog-layer centroid moves away >3 px or its top drops >4 px (cowers), from 0.5 s',
@@ -63,7 +64,7 @@ how = dict(retreat='dog-layer centroid moves away >3 px or its top drops >4 px (
            watch_turns_back='rendered nose points to the door again (nose left of neck)',
            approach='nose drops >15 px below its watching height above the withers, or centroid moves toward the door >3 px',
            lie_down='dog-layer bbox height falls below 92 % of its standing height (the first going-down drawing is 88 %)',
-           looks_in='dog-layer top rises >10 px above its lying height (the head comes up into the doorway)',
+           looks_in='dog-layer top rises >6 px above its lying height, or its front edge retracts >6 px (the muzzle leaves the forward line: the head turns up and away into the doorway)',
            settles='top returns to lying height and the nose is below the withers again')
 for k in onsets: onsets[k]['how'] = how[k]
 # feet: planted positions must not move while planted (world metres, per leg slot); report the worst creep
@@ -81,7 +82,8 @@ inv = dict(dog_fragments=dogfr, dog_sources=srcs, identity_single_source=srcs ==
            max_x_screen_per_metre_check=None)
 # end state: the threshold
 last = frames[-1]
-xl = 305 + 205 * -0.55; xr = 305 + 205 * 0.55
+import sys; sys.path.insert(0, HERE); import scene as _sc
+xl = _sc.PX(-0.55); xr = _sc.PX(0.55)
 inv['end_bbox'] = last['bbox']; inv['door_opening_px'] = [round(xl, 1), round(xr, 1)]
 inv['end_part_inside_frame_px'] = max(0, min(xr, last['bbox'][2]) - max(xl, last['bbox'][0]))
 inv['end_part_outside_frame_px'] = max(0, last['bbox'][2] - max(xr, last['bbox'][0]))
