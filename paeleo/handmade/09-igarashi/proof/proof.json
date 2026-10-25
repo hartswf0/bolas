@@ -1,0 +1,94 @@
+{
+ "cases": [
+  {
+   "label": "coming, head low (19.0 s)",
+   "t": 19,
+   "mesh": "dog_stand",
+   "arap": {
+    "inverted": 0,
+    "energy": 0.016327745968583704,
+    "feature_distortion": 0,
+    "min_area_ratio": 0.35228140421787996,
+    "plain_arap_inverted_before_repair": 0,
+    "repair_rounds": 0
+   },
+   "skinning": {
+    "inverted": 25,
+    "energy": 0.13789823252726843,
+    "feature_distortion": 0,
+    "min_area_ratio": -0.28028362052412936
+   }
+  },
+  {
+   "label": "crouching onto the sill (24.08 s)",
+   "t": 24.08,
+   "mesh": "dog_stand",
+   "arap": {
+    "inverted": 0,
+    "energy": 0.045372368713821463,
+    "feature_distortion": 0,
+    "min_area_ratio": 0.021204880885910406,
+    "plain_arap_inverted_before_repair": 4,
+    "repair_rounds": 2
+   },
+   "skinning": {
+    "inverted": 72,
+    "energy": 0.1461609417768409,
+    "feature_distortion": 0,
+    "min_area_ratio": -1.2779324863108377
+   }
+  },
+  {
+   "label": "backing away, cowering (1.8 s)",
+   "t": 1.8,
+   "mesh": "dog_stand",
+   "arap": {
+    "inverted": 0,
+    "energy": 0.024802594922284184,
+    "feature_distortion": 0,
+    "min_area_ratio": 0.032930375526965226,
+    "plain_arap_inverted_before_repair": 0,
+    "repair_rounds": 0
+   },
+   "skinning": {
+    "inverted": 78,
+    "energy": 0.1370657477904243,
+    "feature_distortion": 0,
+    "min_area_ratio": -2.147535783752448
+   }
+  },
+  {
+   "label": "the back view swinging round (3.67 s)",
+   "t": 3.67,
+   "mesh": "dog_rear",
+   "arap": {
+    "inverted": 0,
+    "energy": 0.02030233415554712,
+    "feature_distortion": 0,
+    "min_area_ratio": 0.05999563908878566,
+    "plain_arap_inverted_before_repair": 1,
+    "repair_rounds": 1
+   },
+   "skinning": {
+    "inverted": 0,
+    "energy": 0.03956013607913086,
+    "feature_distortion": 0,
+    "min_area_ratio": 0.09838661696687485
+   }
+  }
+ ],
+ "feature_protect": {
+  "protected": {
+   "inverted": 1,
+   "energy": 0.012923251865512537,
+   "feature_distortion": 0.05105019771856811,
+   "min_area_ratio": -0.08167072605119968
+  },
+  "unprotected": {
+   "inverted": 0,
+   "energy": 0.041882996729794404,
+   "feature_distortion": 0.676202743683436,
+   "min_area_ratio": 0.056241169746207326
+  }
+ }
+}

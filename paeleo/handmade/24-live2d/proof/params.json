@@ -1,0 +1,330 @@
+{
+ "about": "SCION-24 parameter table. Ranges are the allowed ranges (source-sensitive limits); keyformed axes interpolate between true angle drawings.",
+ "params": [
+  {
+   "id": "ParamBodyAngleX",
+   "min": -180,
+   "max": 180,
+   "default": 0,
+   "unit": "deg",
+   "what": "body yaw: 0 = profile facing the door (screen left), 90 = toward the viewer, 180 = facing away from the door (screen right)",
+   "driven_by": "acting sheet (motion.js A.bodyYaw): the refusal turn 3.47-3.93 s and the return 8.06-8.78 s, both through 90 (toward the viewer)"
+  },
+  {
+   "id": "ParamAngleX",
+   "min": -180,
+   "max": 360,
+   "default": 0,
+   "unit": "deg",
+   "what": "head yaw in the world, same convention; -45 = head turned into the depth of the room (back of the head to the viewer)",
+   "driven_by": "acting sheet A.headYaw: leads the body by 2-3 frames; over the shoulder at 7.47-7.92 s; into the room 26.62-27.2 s"
+  },
+  {
+   "id": "ParamAngleY",
+   "min": -35,
+   "max": 35,
+   "default": 0,
+   "unit": "deg",
+   "what": "head pitch (nose up +)",
+   "driven_by": "acting sheet A.headPitch, minus 6 deg per unit of score act.rest"
+  },
+  {
+   "id": "ParamAngleZ",
+   "min": -25,
+   "max": 25,
+   "default": 0,
+   "unit": "deg",
+   "what": "head roll, a rotation deformer after the keyform blend",
+   "driven_by": "acting sheet A.headRoll"
+  },
+  {
+   "id": "ParamEyeBallX",
+   "min": -1,
+   "max": 1,
+   "default": 0,
+   "unit": "",
+   "what": "gaze along the eye (toward the muzzle +); separate from the head",
+   "driven_by": "acting sheet A.eyeX: the eyes move first (whale eye at 3.46, 6.3, 7.5 s)"
+  },
+  {
+   "id": "ParamEyeBallY",
+   "min": -1,
+   "max": 1,
+   "default": 0,
+   "unit": "",
+   "what": "gaze up +",
+   "driven_by": "acting sheet A.eyeY"
+  },
+  {
+   "id": "ParamEyeOpen",
+   "min": 0,
+   "max": 1.25,
+   "default": 1,
+   "unit": "",
+   "what": "lid opening; 0 closed (blink), 1.25 wide",
+   "driven_by": "blinks (motion.js BLINKS), widening on the calls, heavier lids while refusing and when settled"
+  },
+  {
+   "id": "ParamBrowWorry",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "unit": "",
+   "what": "brow pips raised and drawn in (worry)",
+   "driven_by": "acting sheet A.brow"
+  },
+  {
+   "id": "ParamMouthOpen",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "unit": "",
+   "what": "jaw drop",
+   "driven_by": "acting sheet A.mouth (relaxed open mouth lying, the exhale at 29.2 s)"
+  },
+  {
+   "id": "ParamEarPrick",
+   "min": 0,
+   "max": 1,
+   "default": 1,
+   "unit": "",
+   "what": "0 flat back, 1 pricked (score act.ear) + ear physics",
+   "driven_by": "score act.ear + one-ear lags (earLag) + ear pendulum"
+  },
+  {
+   "id": "ParamTail",
+   "min": 0,
+   "max": 1.35,
+   "default": 0.5,
+   "unit": "",
+   "what": "0 high, 0.5 hanging, 1.35 tucked (score act.tail) + tail physics",
+   "driven_by": "score act.tail -> tail chain targets; tail pendulum"
+  },
+  {
+   "id": "ParamWag",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "unit": "",
+   "what": "tail sweep amplitude (score act.wag), driven by the tail pendulum",
+   "driven_by": "score act.wag -> tail chain lateral target"
+  },
+  {
+   "id": "ParamCrouch",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "unit": "",
+   "what": "body lowered, rear lower (score act.crouch)",
+   "driven_by": "score act.crouch"
+  },
+  {
+   "id": "ParamLie",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "unit": "",
+   "what": "standing 0 to sphinx lying 1 (score act.lie)",
+   "driven_by": "score act.lie"
+  },
+  {
+   "id": "ParamRest",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "unit": "",
+   "what": "chin down onto the forepaws (score act.rest)",
+   "driven_by": "score act.rest (held 25.9-26.42 s so the look-in starts from stillness)"
+  },
+  {
+   "id": "ParamNeck",
+   "min": -0.3,
+   "max": 1.25,
+   "default": 0.9,
+   "unit": "",
+   "what": "neck raise: 0 head low, 1 head up (score act.head)",
+   "driven_by": "score act.head through a piecewise map (head low on the approach)"
+  },
+  {
+   "id": "ParamBreath",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "unit": "",
+   "what": "chest swell",
+   "driven_by": "breath oscillator, faster when afraid; the sigh at 29.15 s"
+  }
+ ],
+ "head_keyform_grid": {
+  "ParamAngleX_keys_deg": [
+   0,
+   22.5,
+   45,
+   67.5,
+   90,
+   112.5,
+   135,
+   157.5,
+   180,
+   202.5,
+   225,
+   247.5,
+   270,
+   292.5,
+   315,
+   337.5
+  ],
+  "ParamAngleY_keys_deg": [
+   -35,
+   -17.5,
+   0,
+   17.5,
+   35
+  ],
+  "inner_axes": [
+   "ParamEarPrick (flat/pricked tip per key)",
+   "ParamMouthOpen (jaw rotation about the hinge landmark)"
+  ],
+  "per_key_corrections": {
+   "90": {
+    "cheekA": [
+     0.004,
+     0
+    ],
+    "cheekB": [
+     -0.004,
+     0
+    ]
+   },
+   "270": {
+    "cheekA": [
+     -0.004,
+     0
+    ],
+    "cheekB": [
+     0.004,
+     0
+    ]
+   }
+  },
+  "landmarks": [
+   "muzB",
+   "muzT",
+   "nose",
+   "noseUp",
+   "eyeA",
+   "eyeB",
+   "eyeAi",
+   "eyeAo",
+   "eyeBi",
+   "eyeBo",
+   "browA",
+   "browB",
+   "earAi",
+   "earAo",
+   "earAt",
+   "earAf",
+   "earBi",
+   "earBo",
+   "earBt",
+   "earBf",
+   "lipA",
+   "lipB",
+   "lipF",
+   "chin",
+   "hinge",
+   "throat"
+  ],
+  "ellipsoids": [
+   "skull",
+   "cheekA",
+   "cheekB",
+   "jowl",
+   "cap",
+   "mask"
+  ]
+ },
+ "deformer_hierarchy": [
+  "root (score x, torso middle) -> ParamBodyAngleX yaw",
+  " -> body pitch/height (ParamCrouch, ParamLie, ParamBreath)",
+  "   -> torso art meshes (chest, waist, rump volumes; saddle, blaze, belly markings clipped to the torso)",
+  "   -> neck (ParamNeck, 0.55 of the head-body yaw difference) -> head keyform blend -> roll (ParamAngleZ) -> eyes, brows, ears, nose, mouth",
+  "   -> 4 legs: shoulder/hip -> elbow/knee -> wrist/hock -> paw, two-bone solve to the planted foot",
+  "   -> tail: 7 rotation segments from the tail pendulum",
+  "   -> collar tag pendulum"
+ ],
+ "body": {
+  "halfLen": 0.22,
+  "vols": {
+   "chest": [
+    0.17,
+    -0.16,
+    0.18,
+    0.19,
+    0.135
+   ],
+   "waist": [
+    -0.03,
+    -0.1,
+    0.15,
+    0.12,
+    0.118
+   ],
+   "rump": [
+    -0.2,
+    -0.09,
+    0.15,
+    0.15,
+    0.125
+   ]
+  },
+  "saddle": [
+   -0.01,
+   0.02,
+   0.29,
+   0.115,
+   0.145
+  ],
+  "blaze": [
+   0.32,
+   -0.22,
+   0.07,
+   0.13,
+   0.075
+  ],
+  "belly": [
+   0,
+   -0.27,
+   0.2,
+   0.06,
+   0.09
+  ],
+  "shoulder": [
+   0.19,
+   -0.18,
+   0.085
+  ],
+  "hip": [
+   -0.21,
+   -0.12,
+   0.08
+  ],
+  "neckBase": [
+   0.27,
+   -0.03
+  ],
+  "tailRoot": [
+   -0.33,
+   -0.02
+  ],
+  "front": [
+   0.18,
+   0.2
+  ],
+  "hind": [
+   0.19,
+   0.18,
+   0.12
+  ]
+ }
+}

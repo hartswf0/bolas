@@ -1,0 +1,43 @@
+<!doctype html><html><head><meta charset="utf-8">
+<link rel="stylesheet" href="../../../../tools/paeleo/fonts/local.css">
+<style>body{margin:0;background:#000}</style></head><body>
+<canvas id="c" width="1280" height="720"></canvas>
+<script src="rig.js"></script><script src="scene.js"></script><script src="motion.js"></script>
+<script>
+const cv = document.getElementById('c'), ctx = cv.getContext('2d');
+let M = null, SCORE = null;
+window.init = function (score) { SCORE = score; M = Motion.create(score); return score.frames.length; };
+window.frame = function (i, opt) {
+  opt = opt || {};
+  const st = M.step(i);
+  const { cam, S, L } = st;
+  ctx.save();
+  Scene.drawSky(ctx, cam, st.t); Scene.drawYard(ctx, cam, st.t); Scene.drawRailing(ctx, cam);
+  Scene.drawInterior(ctx, cam, S); Scene.drawReveal(ctx, cam, S); Scene.drawDoor(ctx, cam, S); Scene.drawBench(ctx, cam);
+  const pm = Scene.drawPerson(ctx, cam, st.person, { dusk: 0.15, warm: 0.3 });
+  Scene.drawSection(ctx, cam, S); Scene.drawPorch(ctx, cam, S); Scene.drawHaze(ctx, cam, S);
+  const meas = Rig.drawDog(ctx, cam, st.pose, L);
+  Scene.drawFrame(ctx, cam);
+  // a soft vignette (dusk)
+  const g = ctx.createRadialGradient(640, 380, 300, 640, 380, 820); g.addColorStop(0, 'rgba(0,0,0,0)'); g.addColorStop(1, 'rgba(4,4,16,0.45)');
+  ctx.fillStyle = g; ctx.fillRect(0, 0, 1280, 720);
+  ctx.restore();
+  if (opt.debug) { ctx.fillStyle = '#0f0'; ctx.font = '14px monospace'; ctx.fillText(`${i} ${st.t.toFixed(2)} ${st.state} x=${st.score.dog.x.toFixed(2)} yaw=${st.pose.bodyYaw.toFixed(0)} h=${st.pose.headYaw.toFixed(0)}`, 10, 20); }
+  const K = cam.S * cam.zoom;
+  const toW = s => [(s[0] - cam.W / 2) / K + cam.cx, -((s[1] - cam.H / 2) / K) + cam.cy];
+  const out = { i, t: st.t, state: st.state, x_score: st.score.dog.x, root: meas.root, rootW: toW(meas.root), withers: meas.withers, hip: meas.hip, nose: meas.parts.nose, head: meas.parts.head,
+    tail: meas.parts.tailTip, feet: meas.feet, headBehind: meas.headBehind, facing: meas.headFacing, cam: { zoom: cam.zoom, cx: cam.cx, cy: cam.cy, K },
+    pose: { bodyYaw: st.pose.bodyYaw, headYaw: st.pose.headYaw, lie: st.pose.lie, crouch: st.pose.crouch, neck: st.pose.neck, rest: st.pose.rest, eyeX: st.pose.eyeX, ear: st.pose.ear }, person: { x: st.person.x, sit: st.person.sit, head: pm.head },
+    headPolysTop: Math.min(...meas.headPolys.flat().map(q => q[1])), headPolysBottom: Math.max(...meas.headPolys.flat().map(q => q[1])), door: S.doorAng, light: L.warm };
+  return out;
+};
+window.card = function (lines, a) {
+  ctx.fillStyle = '#0c0d1c'; ctx.fillRect(0, 0, 1280, 720);
+  ctx.globalAlpha = a;
+  for (const [txt, font, y, col] of lines) { ctx.font = font; ctx.fillStyle = col || '#eadfcc'; ctx.textAlign = 'center'; ctx.fillText(txt, 640, y); }
+  ctx.globalAlpha = 1; ctx.textAlign = 'left';
+};
+window.grab = function (q) { return cv.toDataURL('image/jpeg', q || 0.9); };
+window.events = function () { return M.events; };
+window.speech = function () { return M.SPEECH; };
+</script></body></html>

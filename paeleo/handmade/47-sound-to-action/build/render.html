@@ -1,0 +1,52 @@
+<!doctype html><html><head><meta charset="utf-8">
+<style>
+@font-face{font-family:'Big Shoulders Display';font-weight:800;src:url(fonts/f5.woff2) format('woff2')}
+@font-face{font-family:'JetBrains Mono';font-weight:400;src:url(fonts/f14.woff2) format('woff2')}
+@font-face{font-family:'Literata';font-style:italic;font-weight:400;src:url(fonts/f27.woff2) format('woff2')}
+@font-face{font-family:'Literata';font-style:normal;font-weight:400;src:url(fonts/f34.woff2) format('woff2')}
+body{margin:0;background:#000}
+</style></head><body>
+<canvas id="c" width="1280" height="720"></canvas><canvas id="id" width="1280" height="720" style="display:none"></canvas>
+<script src="dog.js"></script><script src="person.js"></script><script src="scene.js"></script>
+<script>
+const C = document.getElementById('c'), X = C.getContext('2d'), CI = document.getElementById('id'), XI = CI.getContext('2d', { willReadFrequently: true });
+window.init = async (xs) => {
+  await Promise.all(['800 40px "Big Shoulders Display"', '400 20px "JetBrains Mono"', 'italic 400 20px Literata', '400 20px Literata'].map(f => document.fonts.load(f)));
+  SCENE.setup(xs); return xs.frames.length;
+};
+function card(lines) {
+  X.fillStyle = '#0d0f1a'; X.fillRect(0, 0, 1280, 720);
+  for (const [txt, font, color, y] of lines) { X.font = font; X.fillStyle = color; X.textAlign = 'center'; X.fillText(txt, 640, y); }
+  X.textAlign = 'left';
+}
+window.titleCard = (k) => {
+  card([['PAE-02 · SCION 47 · Sound-to-Action', '800 64px "Big Shoulders Display"', '#eef0ff', 330],
+        ['The threshold, handmade. The voice is the cause.', 'italic 400 26px Literata', '#f2cf9a', 385],
+        ['Viseme and gesture swarm · cohort 3', '400 16px "JetBrains Mono"', '#8d93b8', 430]]);
+  const a = k < 12 ? 1 - k / 12 : (k > 60 ? (k - 60) / 12 : 0); if (a > 0) { X.fillStyle = `rgba(0,0,0,${a})`; X.fillRect(0, 0, 1280, 720); }
+  return C.toDataURL('image/jpeg', 0.92);
+};
+window.endCard = (k, lines) => {
+  card(lines.map((l, n) => [l, n === 0 ? '800 48px "Big Shoulders Display"' : '400 24px Literata', n === 0 ? '#eef0ff' : '#d9d2c4', 190 + n * 52 + (n ? 30 : 0)]));
+  const a = k < 10 ? 1 - k / 10 : (k > 62 ? (k - 62) / 10 : 0); if (a > 0) { X.fillStyle = `rgba(0,0,0,${a})`; X.fillRect(0, 0, 1280, 720); }
+  return C.toDataURL('image/jpeg', 0.92);
+};
+function stats(img, test) {
+  let n = 0, sx = 0, sy = 0, x0 = 1e9, x1 = -1, y0 = 1e9, y1 = -1; const d = img.data, w = img.width;
+  for (let k = 0; k < d.length; k += 4) if (test(d[k], d[k + 1], d[k + 2])) { const p = k / 4, x = p % w, y = (p - x) / w; n++; sx += x; sy += y; if (x < x0) x0 = x; if (x > x1) x1 = x; if (y < y0) y0 = y; if (y > y1) y1 = y; }
+  return n ? { n, cx: +(sx / n).toFixed(2), cy: +(sy / n).toFixed(2), x0, x1, y0, y1 } : { n: 0 };
+}
+window.scene = (i, measure) => {
+  SCENE.frame(X, i);
+  const out = { jpg: C.toDataURL('image/jpeg', 0.9) };
+  if (measure) {
+    SCENE.idFrame(XI, i);
+    const img = XI.getImageData(0, 0, 1280, 720);
+    out.m = { body: stats(img, (r, g, b) => r > 150 && g < 90 && b < 90), head: stats(img, (r, g, b) => g > 150 && r < 90 && b < 90),
+      muzzle: stats(img, (r, g, b) => b > 150 && r < 90 && g < 90), dog: stats(img, (r, g, b) => (r > 150 || g > 150 || b > 150) && !(g > 150 && b > 150)),
+      mouth: stats(img, (r, g, b) => g > 150 && b > 150 && r < 90).n };
+  }
+  return out;
+};
+window.idImage = (i) => { SCENE.idFrame(XI, i); return CI.toDataURL('image/png'); };
+</script></body></html>

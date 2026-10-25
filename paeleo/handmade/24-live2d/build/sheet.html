@@ -1,0 +1,42 @@
+<!doctype html><html><head><meta charset="utf-8"></head><body style="margin:0;background:#222">
+<canvas id="c" width="1600" height="1000"></canvas>
+<script src="rig.js"></script>
+<script>
+// extreme-view diagnostics: body yaw turnaround, head yaw x pitch keyform grid, lying, ear/mouth controls
+window.sheet = function (kind) {
+  const cv = document.getElementById('c'), ctx = cv.getContext('2d');
+  ctx.fillStyle = '#d9d4c8'; ctx.fillRect(0, 0, cv.width, cv.height);
+  ctx.font = '14px monospace'; ctx.fillStyle = '#333';
+  const L = { dusk: 0, warm: 0 };
+  const base = { x: 0, z: 0, bodyYaw: 0, headYaw: 0, headPitch: 0, headRoll: 0, neck: 0.9, crouch: 0, lie: 0, rest: 0, breath: 0, eyeX: 0, eyeY: 0, eyeOpen: 1, brow: 0, mouth: 0, ear: [1, 1], earSwing: [0, 0], tag: 0 };
+  const tail = (lift) => Array.from({ length: 7 }, (_, i) => ({ p: Rig.lerp(35, -75, lift / 1.35) - i * 6 * (lift > 0.8 ? 1.5 : 0.4), w: 0 }));
+  function dog(cx, cy, zoom, o) {
+    const pose = Object.assign({}, base, o); pose.tail = o.tail || tail(o.tl === undefined ? 0.5 : o.tl);
+    pose.feet = o.feet || Rig.homeFeet(pose);
+    const cam = { S: 188, zoom, cx: -cx / (188 * zoom), cy: cy / (188 * zoom), W: 0, H: 0 };
+    // place world origin at canvas (cx, cy)
+    cam.cx = -cx / (188 * zoom); cam.cy = cy / (188 * zoom); cam.W = 0; cam.H = 0;
+    return Rig.drawDog(ctx, cam, pose, L);
+  }
+  if (kind === 'body') {
+    const yaws = [0, 30, 60, 90, 120, 150, 180, 210, -30, -60];
+    yaws.forEach((y, k) => { const cx = 170 + (k % 5) * 310, cy = 420 + Math.floor(k / 5) * 450; dog(cx, cy, 1.6, { bodyYaw: y, headYaw: y }); ctx.fillStyle = '#333'; ctx.fillText('body ' + y + ' head ' + y, cx - 80, cy + 40); });
+  } else if (kind === 'head') {
+    const yaws = [-90, -67.5, -45, -22.5, 0, 22.5, 45, 67.5, 90, 135, 180];
+    const pitches = [-30, 0, 30];
+    pitches.forEach((p, j) => yaws.forEach((y, k) => {
+      const cx = 70 + k * 140, cy = 260 + j * 300;
+      dog(cx + 60, cy + 150, 3.2, { bodyYaw: 0, headYaw: y, headPitch: p, x: 0, only: ['head'] });
+      ctx.fillStyle = '#333'; ctx.fillText(y + '/' + p, cx, cy + 190);
+    }));
+  } else if (kind === 'pose') {
+    const P = [
+      { bodyYaw: 0, headYaw: 0, lie: 1, neck: 0.6, tl: 0.3 }, { bodyYaw: 0, headYaw: -40, headPitch: 15, lie: 1, neck: 1.1 }, { bodyYaw: 0, headYaw: 0, lie: 1, rest: 1, neck: 0.2, ear: [0.4, 0.4] },
+      { bodyYaw: 180, headYaw: 180, lie: 1, rest: 1, neck: 0.15, ear: [0.15, 0.15], tl: 1.15 }, { bodyYaw: 180, headYaw: 20, lie: 1, neck: 0.6 },
+      { bodyYaw: 0, headYaw: 0, crouch: 0.9, neck: 0.35, ear: [0, 0], tl: 1.35, brow: 1, eyeX: -1 }, { bodyYaw: 0, headYaw: 0, neck: 0.45, headPitch: -15, ear: [0.55, 0.55], tl: 0.27 },
+      { bodyYaw: 0, headYaw: 10, mouth: 1, eyeOpen: 0.3 }, { bodyYaw: 180, headYaw: 180, crouch: 0.5, neck: 0.15, tl: 1.15, ear: [0.15, 0.15] }, { bodyYaw: 0, headYaw: 0, neck: 1.2, headPitch: 20 }];
+    P.forEach((o, k) => { const cx = 200 + (k % 5) * 300, cy = 420 + Math.floor(k / 5) * 450; dog(cx, cy, 1.6, o); ctx.fillStyle = '#333'; ctx.fillText(JSON.stringify(o).slice(1, 44), cx - 140, cy + 40); });
+  }
+  return cv.toDataURL('image/png');
+};
+</script></body></html>

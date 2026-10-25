@@ -1,0 +1,171 @@
+# SCION 29 · GrabCut: the threshold, cut out of archive film
+
+## Thesis
+Every figure on screen is a figure *extracted* from a public-domain archive frame by our own graph cut. (Round 1 drew
+each piece's cut line; round 2 removed it on the critic's note about a light rim: the cut line is now shown only on the title card.) The dog is the home-movie dog of *Amateur Film New Jersey C*, cut out frame by frame; the person and the door are cut
+from *Straight Talk* (NTIS, 1992); the low hand is cut from *The Door to Heaven* (1941) away from the card its fingers hold.
+The defining passage is the end: a dog that this footage never shows lying down is assembled from the pieces of one of its own
+frames and lies across the lit sill, front half in the door frame, then turns the back of its head into the room.
+What would make it bland: a generic puppet with an archive texture laid over it. So the dog's look and its motion are the cuts
+themselves: substitution of whole real cut frames (turns, walk, watching), re-timing and reversal by registered distance,
+and re-posing of its own cut pieces only where the footage has nothing (lying, the head coming round).
+
+## Swarm (one agent, roles merged; no independent critic was run by me)
+- Source image restorer: `build/plate.py`, a camera-registered median clean plate of the dog shot (dog excluded).
+- Segmentation operator: `build/graphcut.py` (Boykov–Kolmogorov max-flow in pure Python, numpy elsewhere), `extract.py`,
+  `extract_world.py`.
+- Boundary cost designer: unaries (intensity × local texture × |frame − plate| histograms, colour cube for colour footage),
+  contrast pairwise term, seeds (SAM eroded = fg, SAM dilated complement = bg, rig-key scribbles, belly-gap and tail
+  scribbles, box + scribbles for unmasked figures).
+- Edge/matte specialist: `cleanup()` (largest component = no background islands, small-hole fill, border matte from local
+  fg/bg means with a distance-ramp fallback), 2× supersampled cut averaged back to source resolution.
+- QA inspector: `inspect_cuts.py` proof sheets, `trace.py`, `export_pieces.py` failure masks.
+- Independent extraction critic: **not run** here; the brief assigns an independent critic after delivery.
+
+## Native formal language, as kept in the project
+Typed primitives (`graphcut.py` docstring): unary costs U_fg/U_bg, pairwise W_r/W_d, seeds {unknown, hard fg, hard bg},
+the cut (bool), alpha (float). Coordinates: source-frame pixels; every piece keeps its crop origin (`pieces/manifest.json`:
+piece (u,v) → source (u+ox, v+oy)); canvas transforms are affine (dog, person, hand) or projective (door panel).
+Time base: score frame i, t = i/24. Mapping: X(x) = 325 + 205·x px (threshold x = 0 at 325, sill 0.56, door ±0.46 → 231..419).
+Numerical invariant tested: the BK cut energy equals the max flow (synthetic test, exact), and the PAELEO trace invariants
+(below). Artistic achievement judged only by viewing: whether the cut dog reads as one animal deciding.
+
+## How the dog is built and moved
+- Cut: 50 frames extracted; 16 used (f0, f9–11, f13, f15, f26, f30, f34, f36, f38, f40, f42–45). SAM masks are one input:
+  they seed and softly bias the cut; our cut disagrees with SAM on 400–1900 px per frame (logged per piece).
+- Watching: substitution among real cuts f9/f10/f11 (head up toward the person), boiling every ~0.45 s, anchored at the feet.
+- Backing away (1.0–2.33 s): the real walk f42–45, mirrored to face the door and played **backwards**; each drawing is placed
+  at its own registered source position (plate coordinates × scale), so the feet hold within a drawing and the travel is the
+  dog's own stride.
+- Turning its back (3.42–3.86 s): ten real cuts of the dog turning, side-left → frontal → 3/4 right (13, 15, 26, 30, 34, 36,
+  38, 40, 42, 44). No mirroring or squashing inside the turn; every drawing is a filmed dog.
+- Lying with its back turned (4.45–7.46 s) and lying across the sill (from 23.79 s): the *puppet*: f13 split at manual joint
+  lines into head, torso, two forelegs, hind legs, tail; the forelegs are laid forward along the boards, the hind legs folded
+  behind the torso, the torso lowered, the head levelled or laid on the paws (score `rest`), the tail wagged (score `wag`).
+  Mirrored for the refusal. At lie = 0 the puppet is exactly the cut f13, so the switch is drawing-to-drawing.
+- Head comes round (7.458 s): on the turned (mirrored) lying body the f13 head is drawn un-mirrored, over the shoulder,
+  facing the door; the body rises; then turns back through mirrored 3/4 cuts (36, 38, 40) to side f13.
+- Coming, head low (14.71–23.79 s): the mirrored real walk f42–45, drawing chosen by distance travelled (registered stride),
+  walking into the depth of the doorway as it nears (feet y 620 → 546).
+- Looking in (26.54 s): the head is replaced by the f0 head, which the home movie shows from behind, raised: the back of
+  the head toward us, drawn behind the torso so its crop edge is hidden.
+
+The world: façade stone = the stone pillar cut from the dog's own shot, tiled; porch boards and far garden = the clean plate;
+the door panel (Straight Talk f28) hinged by a homography, ajar then swinging inward at 6.2 s; light, sky, floor spill,
+shadow (the dog's own rendered alpha flattened onto the boards) and grain are computed. The typed prompts appear as small
+slips at the bottom; the dog's state is never printed.
+
+## Measured (from the render's own dog layers: `build/cache/measure*.json`, `trace.json`)
+Checker `tools/paeleo/check_handmade.py`: **ALL OK** (I1 choices, I2 threshold min/end x = 0.59, I3 r = 1.0 on x_screen,
+I4 share turned = 1.0).
+Measured onsets (score → measured): retreat 1.000 → 1.000; watch 2.333 → 2.333; refuse 3.417 → 3.542; watch 7.458 → 7.458;
+approach 14.708 → 14.708; lie down 23.792 → 23.792; look in 26.4 → 26.542 (back-of-head piece first drawn).
+How: facing = the drawn nose vs neck (rig keys carried by each drawing's transform); retreat/approach = x or head-top departs
+from its watching level; lie = start of the final sinking of the dog's coverage centroid. These detectors were written
+after a first full render and adjusted once (ledger #12–13); they measure the render, but they were tuned on it.
+Because the choreography switches drawings at the score's times, the agreement is structural: honest, but not independent.
+End: lying, coverage centroid x = 433 px; 43 % of the dog's pixels are left of the right jamb (inside the door frame), the
+tail outside.
+Sound (`build/cache/sound_levels.json`, RMS over voiced samples): calls −16.3 / −15.1 dBFS; soft voice −28.3 / −28.7 /
+−28.3 dBFS (≥ 11.9 dB quieter than the calls); room tone −47.3 dBFS (soft voice 18.6 dB above it). Footfalls: 98, placed
+at the frames where the walk drawing changes.
+Film: 1280×720, 24 fps, H.264 + AAC, 912 frames, 38.0 s, 6.9 MB, faststart.
+
+## Looked at (by me, the builder; not a critic's judgement)
+Proof sheets of cuts, the puppet poses in isolation, every frame of both turns, the walk, the sill window, and 1 fps frames
+from the encoded film. What I saw: the turn away reads frame by frame as a dog; the lying poses read as a dog lying in a
+sphinx pose; the walk reads as a dog walking with its head below its back; the end reads as a dog lying on the sill in front
+of the light with its head inside the frame.
+
+## What failed and what changed
+See `ledger.jsonl`. Main ones: graph cuts bridged the shadowed gap between the legs and dropped the tail (fixed with seed
+constraints and 2× source resolution); the clean-plate cue helped little on dark fur over dark ground; weakening SAM's
+authority made bleeding worse (branch rejected); graph-cut part splitting hugged its seeds (replaced by manual joint lines);
+the first lying puppet was a tangle (exterior-only cut lines, split forelegs, corrected head rotation); shrub tiles read as
+black trapezoids (removed); walk drawings f46–48 had blocky SAM-shaped cuts that read as a blob (dropped from the cycle).
+
+## What is still weak
+- Several cut edges are still SAM-shaped and boxy (f16/f19 were avoided; f44, f45 have straight runs). Edge fidelity is
+  limited by the 384×288 blurred home movie; at film scale the dog is ~1.4× its source and soft.
+- The dog is dim and small in the first 6 s (dusk before the door opens); the pre-door scene is sparse.
+- The lying puppet's mid-transition frames (lie ≈ 0.3–0.6) are awkward; the head-over-the-shoulder at 7.46 points upward.
+- The person is a back view read as a silhouette; her sitting legs are a dark folded piece; the 6.0 s frame is awkward;
+  her lower legs are a stretched repair (recorded) because the archive frame cuts her off at the knee.
+- One walk-cycle seam (f45 → f42) pops; walk drawings are 3/4 views, watching drawings are side views: the switch at
+  14.7 s and 23.79 s is a visible substitution.
+- The sound is synthesized formant speech: it is pitched and shaped like "come here", "it's all right", "come in" but I
+  cannot listen to it; intelligibility is unknown. Levels above are measured, not heard.
+
+## What I did not do
+No independent critic was run; no human viewing. No mobile operator page (in the SCION deliverable contract; not in the
+brief's list). No matting comparison beyond the border matte; no extraction presets by scan class. No GPU, no cv2/scipy,
+no network. No Quick, Draw! drawings used. No git.
+
+
+## Round 2 (after critic round 1: DOES NOT PASS)
+The critic accepted the language and failed the cut quality on the dog. What changed (ledger #16–24):
+1. **Composed lie** (4.45–7.46, 23.79–32): the lying body is now one piece. The f13 torso and haunch above a floor line, each column filled down to it by
+   clone-stamping fur from 30 px above (a recorded repair of the occluded belly), the fill line curving up into chest and rump, the contour rounded.
+   The hind legs are no longer drawn (folded under). The head carries a small hidden neck tab and is drawn behind the body. The forelegs were raised
+   onto the boards. The descent starts at lie = 0.4, so no standing puppet frame appears (the 23.81 pop is gone).
+2. **Look-back** (7.458–8.45): the pasted head and the puppet rise are gone. The dog is up in real cuts only: mirrored f30 (frontal, head toward the
+   camera/door side), mirrored f44 (3/4 toward the door, head low), then side f13. Each frame has one head.
+3. **Watching drawing**: f9/f10/f11 re-cut, with a manual bg scribble outside the rounded rump and contour smoothing on every cut.
+4. **Turn away**: f13 → f30 → f34 → f44 (six boxy/muddled drawings dropped). 3.75–3.79 is now f44 facing away.
+5. **Rim**: the drawn cut line was removed. Edge-colour decontamination replaces matte-band luminance with nearby interior luminance. The dog's
+   exposure was lifted on the dusk porch, and the grain was halved.
+6. **Footfalls**: approach median −39.9 dBFS over 30 ms windows, **7.5 dB above room tone** (−47.3 dBFS), measured.
+
+Measured after round 2: checker ALL OK. Onsets (score → measured): 1.000 → 1.000, 2.333 → 2.333, 3.417 → 3.542, 7.458 → 7.458, 14.708 → 14.708,
+23.792 → 23.750 (the walk's last frame already sinks into the doorway's depth), look-in 26.4 → 26.542. End: lying, 39 % of the dog left of the right
+jamb. Soft voice ≥ 11.9 dB under the calls, 18.6 dB over room tone. Film 912 frames, 38.0 s, crf 22, about 7.6 MB.
+The dog now uses 11 archive frames (f0, f9–11, f13, f30, f34, f42–45).
+
+Looked at (builder, not critic): every frame 3.58–3.96, 7.38–8.38 and 23.67–24.58 as 1:1 crops of the encoded film, plus the watching drawing at
+0, 2.33, 3, 9, 12.5 and 14.2 s.
+
+Still weak after round 2:
+- The lying body's straight bottom is its floor contact. It reads as lying on the sill, but it is a straight line.
+- The look-back is a substitution (lying → standing frontal in one cut), not a seen rise.
+- The turn away is coarse (four drawings).
+- f44 and f30 keep some straight SAM runs (the f44 rump, the f30 flank).
+- f10 keeps a short straight run at the haunch.
+- Upscaling still softens the source.
+- The 3/4 ↔ side substitutions at 14.7 s and 23.79 s remain.
+- The voices are synthesized and unheard by me.
+
+
+## Round 3 (after critic round 2: DOES NOT PASS, narrowly)
+1. **Refusal lie base** (4.46–7.42) and the **sill lie** (24–32): the straight floor line is replaced by a drawn belly contour, recorded as a repair, not a cut.
+   - The chest rounds down to the elbow; the belly lifts up to 6 source px; the haunch is a round mound touching the boards in one place; a slight
+     fur wiggle runs along the edge.
+   - Original pixels below that contour are trimmed.
+   - The forelegs are drawn behind the body at one angle, the two legs overlapping, so there is no gap between the leg pieces and no seam at the
+     chest/foreleg joint.
+   - At rest the chin lies on the paws.
+   - The tail root now belongs to the body, and the tail piece tapers at its joint.
+   - f13 was re-cut with a rounding scribble on the rump top. The back-of-head piece is now cropped by an ellipse instead of a box.
+2. **Watching**: f10 (the slab hindquarter) and f11 are dropped. f9 is held, breathing, and shows two separate hind legs. Its tail is not
+   separately visible, and its near-vertical leg edges remain (runs up to 27–28 px).
+3. **Straight-run metric**: `build/straight.py`, the longest horizontal or vertical run of boundary pixels of the rendered dog per frame
+   (canvas px), in `measure*.json`. Per window, in `build/cache/straight_runs.json` [max h, max v, median h, median v]:
+   - watch 0-1: 18, 27, 18, 27 (24/24 frames have a run > 15 px)
+   - retreat 1-2.33: 21, 26, 18, 22 (32/32 frames have a run > 15 px)
+   - watch 2.33-3.42: 19, 28, 18, 27 (26/26 frames have a run > 15 px)
+   - turn 3.42-3.86: 24, 34, 19, 22 (11/11 frames have a run > 15 px)
+   - away 3.86-4.45: 21, 18, 21, 18 (14/14 frames have a run > 15 px)
+   - refusal lie 4.46-7.42: 20, 19, 14, 7 (34/71 frames have a run > 15 px)
+   - refusal lie settled 5.0-7.42: 20, 9, 14, 7 (25/59 frames have a run > 15 px)
+   - look-back 7.46-8.45: 21, 34, 19, 22 (24/24 frames have a run > 15 px)
+   - watch 8.45-14.7: 19, 27, 18, 27 (150/150 frames have a run > 15 px)
+   - approach 14.7-23.79: 21, 26, 18, 22 (212/218 frames have a run > 15 px)
+   - sill lie 23.8-32: 18, 25, 13, 8 (92/197 frames have a run > 15 px)
+   - sill lie settled 24.4-32: 18, 21, 13, 8 (87/182 frames have a run > 15 px)
+   Lying windows went from runs of 30–44 px (round 2) to medians of 13–14 px. Their maxima are still 18–20 px: the f13 head top, and the
+   descent frames. Standing drawings keep 18–34 px runs, mostly along near-vertical leg edges. The metric does not see diagonal straight lines.
+4. Kept as they were: the timing, the warming toward the light, the back-of-head look-in and the sound levels (calls −16.3/−15.1 dBFS, soft
+   voice ≥ 11.9 dB under them, footfalls 7.5 dB over room tone). The checker passes (ALL OK). Onsets are unchanged: 1.000, 2.333, 3.542, 7.458,
+   14.708, 23.750; look-in 26.542.
+5. Not fixed: the stub on the f44 rump (3.75–4.42, 7.83–8.0; it may be the real tail); the substitution from standing f44 to the lie at 4.46.
+
+The dog now uses 9 archive frames (f0, f9, f13, f30, f34, f42–45; f10/f11 are cut but no longer used), and the end card says 9.

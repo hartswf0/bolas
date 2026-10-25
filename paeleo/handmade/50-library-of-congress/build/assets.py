@@ -1,0 +1,58 @@
+"""assets.json: the provenance-first manifest. Every visible piece links to its source item, its rights state, the crop it
+was taken from, its illustration type, and whether what it shows is documented (as photographed) or inferred (drawn / re-posed)."""
+import os, json
+HERE = os.path.dirname(os.path.abspath(__file__)); ROOT = os.path.dirname(HERE)
+DOG = {'source_title': 'Amateur Film New Jersey C', 'collection': 'Home Movies (Internet Archive collection)',
+       'archive_url': 'https://archive.org/details/NewJerseyC', 'clip_id': '2fdacde1-8a23-58e1-b905-5407385bd039',
+       'source_interval_s': [225.559, 235.402], 'rights': 'public_domain (rights_statement recorded in kit/archive-dog/source.json)',
+       'kit_path': 'paeleo/handmade/kit/archive-dog/', 'artist': 'unknown amateur filmmaker', 'date': 'unknown (not recorded)'}
+assets = [
+ {'id': 'fig1-dog-puppet', 'what': 'the dog: frame f006 traced by hand into 11 cut pieces (head, torso, tail, 4 legs split at the joint), each line-engraved with the scan\'s own luminance',
+  **DOG, 'scan_crop': {'frame': 'kit/archive-dog/frames/f006.jpg', 'box_px': [81, 61, 273, 209]},
+  'operation': 'trace (contours by hand over the scan), cut, engrave (line screen whose width follows the scan tone), re-pose by forward kinematics and two-bone IK with pinned feet; reversed impression (mirror) for the refusal',
+  'illustration_type': 'line engraving after a photograph (film frame)',
+  'documented': ['silhouette and tone of the dog in f006', 'its standing pose as photographed'],
+  'inferred': ['every pose other than f006 standing (walking, crouching, lying, head low, head turned back)', 'joint positions', 'eye, nostril, mouth, ear fold (the scan is unreadable at that size)', 'the mirrored (right-facing) side'],
+  'files': ['build/rig.py', 'build/plates_dog.py', 'build/dogpose.py']},
+ {'id': 'fig1-dog-turn-frames', 'what': 'the two turns: whole frames f030, f033, f036, f043, f044 of the same film, masked (SAM mask, largest polygon), engraved, scaled to the puppet\'s height; shape unaltered',
+  **DOG, 'scan_crop': {'frames': ['kit/archive-dog/frames/f%03d.jpg' % f for f in [30, 33, 36, 43, 44]], 'masks': 'kit/archive-dog/masks.json'},
+  'operation': 'mask, engrave, re-time: the film\'s own 2.3 s turn (12 fps) played as 5 drawings (f030 held four frames, f033 two, f036 three, f043 one, f044 two) in 0.5 s (refusal, 3.46-3.96 s), and f033, f030 in reverse order printed as reversed (mirrored) impressions so the head points to the door, in 0.58 s (turning back, 8.04-8.58 s; round 3); each engraved at render time at the neighbouring cut-piece dog\'s height, centroid and mean tone (round 2). f016, f017, f026 and f028 were dropped in round 2 and f038, f040 in round 3: the head is hidden or unreadable and they read as a lump',
+  'illustration_type': 'line engraving after a photograph', 'documented': ['the dog turning from facing the camera to right profile'],
+  'inferred': ['the timing (re-timed), the direction of the second turn (reversed order, mirrored prints)', 'that the turn means a refusal'], 'files': ['build/plates_dog.py']},
+ {'id': 'fig1-dog-head-rear', 'what': 'the back of the dog\'s head (looking away from us into the room, 26.72-28.2 s)', 'source_title': None,
+  'rights': 'made here', 'operation': 'drawn (ellipse, two ears, nape) and toned with the f006 scan\'s neck tone', 'illustration_type': 'designed analog',
+  'documented': [], 'inferred': ['all of it: no frame of the film shows the back of the head'], 'files': ['build/plates_dog.py']},
+ {'id': 'fig2-figure', 'what': 'the person: a drawn figure in a long coat (torso, skirt, lower skirt and shoes, head, upper arm, forearm), engraved', 'source_title': None,
+  'rights': 'made here', 'operation': 'drawn polygons, engraved, posed by forward kinematics', 'illustration_type': 'drawn figure',
+  'documented': [], 'inferred': ['all of it; the hair bun echoes the woman in Straight Talk but is drawn, not cut'], 'files': ['build/person.py']},
+ {'id': 'fig2-hand', 'what': 'the person\'s hand', 'source_title': 'The Door to Heaven (1941)', 'archive_url': 'https://archive.org/details/DoortoHe1941',
+  'clip_id': '0870ef3a-b328-5284-890b-3e1ac18057c1', 'rights': 'public_domain (kit/found-frames.json)',
+  'kit_path': '/home/user/hartswf0/secondhand-motion/shots/hand-sam/frames/f000.jpg (copied to sources/hand-door-to-heaven/)',
+  'scan_crop': {'frame': 'sources/hand-door-to-heaven/f000.jpg', 'mask': 'sources/hand-door-to-heaven/masks_f000.json'},
+  'operation': 'mask, engrave, mirror (reversed impression), scale 0.25, attach at the wrist of the drawn forearm',
+  'documentary_context': 'in the source the hand holds a card lettered SORROW; the card is cropped away here and not shown',
+  'illustration_type': 'line engraving after a photograph', 'documented': ['a hand, palm down'], 'inferred': ['whose hand, the reach, the offer'], 'files': ['build/person.py']},
+ {'id': 'fig3-door', 'what': 'the door leaf (white panel door with a curtained window), seen foreshortened as it swings into the room', 'source_title': 'Straight Talk (1992)',
+  'collection': 'NTIS (National Technical Information Service), Internet Archive', 'archive_url': 'https://archive.org/details/gov.ntis.ava19144vnb1',
+  'clip_id': '271d80c7-4f56-51b8-90fe-012dfb984b4f', 'rights': 'public_domain (kit/archive-door/source.json)',
+  'scan_crop': {'frame': 'kit/archive-door/frames/f030.jpg', 'box_px': [116, 0, 234, 272]},
+  'operation': 'crop, engrave, scale horizontally by sin(opening angle)', 'illustration_type': 'line engraving after a photograph',
+  'documented': ['the door\'s face'], 'inferred': ['its hinge, its swing, the house it belongs to'], 'files': ['build/world.py']},
+ {'id': 'pl1-fieldstone', 'what': 'the fieldstone of the wall section and foundation', **{k: DOG[k] for k in ('source_title', 'collection', 'archive_url', 'clip_id', 'rights')},
+  'scan_crop': {'frame': 'kit/archive-dog/frames/f000.jpg', 'box_px': [324, 46, 384, 286]},
+  'operation': 'drawn stone courses, each stone toned by the mean of the scan of the stone pillar beside which the dog walks in the film', 'illustration_type': 'engraving after a photograph (interpretive)',
+  'documented': ['the pillar\'s tonal pattern'], 'inferred': ['the stone joints, the wall\'s section'], 'files': ['build/world.py']},
+ {'id': 'pl1-place', 'what': 'the sectional elevation: room, lamp, table, stool, framed blank print, lintel, reveal, sill stone, porch boards and joists, steps, porch roof and post, dusk sky, moon, distant trees', 'source_title': None,
+  'rights': 'made here', 'operation': 'drawn and engraved (line screens, cross-hatch), hand-coloured washes (dusk blue, lamp warm, light out of the door)',
+  'illustration_type': 'drawn sectional elevation', 'documented': [], 'inferred': ['all of it'], 'files': ['build/world.py', 'build/eng.py']},
+ {'id': 'margin-key', 'what': 'the plate\'s key under the image: a toned thumbnail of the scan frame in use (kit/archive-dog/frames/f%03d.jpg), its source line, and the state of the drawing (as photographed / re-posed: invented motion, in red)',
+  **{k: DOG[k] for k in ('source_title', 'archive_url', 'rights')}, 'operation': 'thumbnail of the unaltered scan', 'illustration_type': 'catalogue key', 'files': ['build/render.py']},
+ {'id': 'type', 'what': 'Literata (italic, regular), JetBrains Mono, Big Shoulders Display', 'source_title': 'tools/paeleo/fonts/*.woff2 (repo)', 'rights': 'SIL Open Font License (as shipped in the repo)', 'operation': 'woff2 converted to ttf in build/cache', 'files': ['build/fonts.py']},
+ {'id': 'sound', 'what': 'all sound: formant-synthesized voice (two calls of "come here", twice; "it\'s all right" three times and "come in", 14 dB softer), dusk air and crickets, paper riffles at each substitution of the dog\'s drawing, claws and pads at each footfall the render logged, door creak and knock, the dog lying down and sighing',
+  'source_title': None, 'rights': 'made here', 'operation': 'synthesized (numpy)', 'files': ['build/sound.py']},
+]
+not_used = {'quickdraw': 'not used (the plate is engraved, not doodled)', 'library_of_congress': 'no Library of Congress item was used: the collections were not reachable from here; nothing here claims an LoC source',
+            'archive-door frames other than f030': 'not used', 'archive-dog/pose_agent_v8.json': 'read for orientation only; the rig joints were placed by hand on f006 (which has no rig keys)'}
+json.dump({'about': 'Provenance-first manifest for PAE-02 SCION 50 (Library of Congress, Historical Print Stage).', 'assets': assets, 'not_used': not_used},
+          open(os.path.join(ROOT, 'assets.json'), 'w'), indent=1)
+print(len(assets), 'assets')

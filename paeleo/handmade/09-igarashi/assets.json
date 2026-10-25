@@ -1,0 +1,303 @@
+{
+ "swarm": "SCION 09 \u00b7 Takeo Igarashi \u2014 as-rigid-as-possible puppetry",
+ "assets": [
+  {
+   "id": "drawing:dog_stand",
+   "what": "the dog standing, in profile facing the door (body; the head is its own piece)",
+   "file": "assets/drawings/dog_stand.png",
+   "sha256_16": "558b69cd1c104cc7",
+   "source": "drawn by this swarm in code (build/drawings.js: Catmull-Rom outlines, fills, procedural fur strokes, ink lines), rendered once in headless Chromium canvas (build/draw_assets.js)",
+   "rights": "own work made for this film; no found image, no tracing of footage, no image model",
+   "operation": "drawn"
+  },
+  {
+   "id": "mesh:dog_stand",
+   "what": "triangulated ARAP mesh of dog_stand with handles, cuts and feature-protect weights",
+   "file": "assets/mesh/dog_stand.json",
+   "source": "computed from assets/drawings/dog_stand.png by build/mesh.py (grid cells clipped to the drawing alpha, two triangles per cell, explicit cuts by vertex duplication)",
+   "rights": "own work",
+   "operation": "triangulated (computed)"
+  },
+  {
+   "id": "drawing:dog_rear",
+   "what": "the dog standing seen from behind: haunches, tucked tail, spine and saddle receding to the shoulders",
+   "file": "assets/drawings/dog_rear.png",
+   "sha256_16": "6c226ffad8282417",
+   "source": "drawn by this swarm in code (build/drawings.js: Catmull-Rom outlines, fills, procedural fur strokes, ink lines), rendered once in headless Chromium canvas (build/draw_assets.js)",
+   "rights": "own work made for this film; no found image, no tracing of footage, no image model",
+   "operation": "drawn"
+  },
+  {
+   "id": "mesh:dog_rear",
+   "what": "triangulated ARAP mesh of dog_rear with handles, cuts and feature-protect weights",
+   "file": "assets/mesh/dog_rear.json",
+   "source": "computed from assets/drawings/dog_rear.png by build/mesh.py (grid cells clipped to the drawing alpha, two triangles per cell, explicit cuts by vertex duplication)",
+   "rights": "own work",
+   "operation": "triangulated (computed)"
+  },
+  {
+   "id": "drawing:dog_sit_back",
+   "what": "the dog sitting seen from behind (the held refusal), tail on the boards",
+   "file": "assets/drawings/dog_sit_back.png",
+   "sha256_16": "571276ca6113619e",
+   "source": "drawn by this swarm in code (build/drawings.js: Catmull-Rom outlines, fills, procedural fur strokes, ink lines), rendered once in headless Chromium canvas (build/draw_assets.js)",
+   "rights": "own work made for this film; no found image, no tracing of footage, no image model",
+   "operation": "drawn"
+  },
+  {
+   "id": "mesh:dog_sit_back",
+   "what": "triangulated ARAP mesh of dog_sit_back with handles, cuts and feature-protect weights",
+   "file": "assets/mesh/dog_sit_back.json",
+   "source": "computed from assets/drawings/dog_sit_back.png by build/mesh.py (grid cells clipped to the drawing alpha, two triangles per cell, explicit cuts by vertex duplication)",
+   "rights": "own work",
+   "operation": "triangulated (computed)"
+  },
+  {
+   "id": "drawing:dog_lie",
+   "what": "the dog lying sphinx-wise in profile, forelegs out, hind leg folded, tail along the boards",
+   "file": "assets/drawings/dog_lie.png",
+   "sha256_16": "2ab22935c26be5fe",
+   "source": "drawn by this swarm in code (build/drawings.js: Catmull-Rom outlines, fills, procedural fur strokes, ink lines), rendered once in headless Chromium canvas (build/draw_assets.js)",
+   "rights": "own work made for this film; no found image, no tracing of footage, no image model",
+   "operation": "drawn"
+  },
+  {
+   "id": "mesh:dog_lie",
+   "what": "triangulated ARAP mesh of dog_lie with handles, cuts and feature-protect weights",
+   "file": "assets/mesh/dog_lie.json",
+   "source": "computed from assets/drawings/dog_lie.png by build/mesh.py (grid cells clipped to the drawing alpha, two triangles per cell, explicit cuts by vertex duplication)",
+   "rights": "own work",
+   "operation": "triangulated (computed)"
+  },
+  {
+   "id": "drawing:head_side",
+   "what": "the dog's head in profile with collar and brass tag (eye, nose and tag are feature-protected)",
+   "file": "assets/drawings/head_side.png",
+   "sha256_16": "1144c49c62aebe6e",
+   "source": "drawn by this swarm in code (build/drawings.js: Catmull-Rom outlines, fills, procedural fur strokes, ink lines), rendered once in headless Chromium canvas (build/draw_assets.js)",
+   "rights": "own work made for this film; no found image, no tracing of footage, no image model",
+   "operation": "drawn"
+  },
+  {
+   "id": "mesh:head_side",
+   "what": "triangulated ARAP mesh of head_side with handles, cuts and feature-protect weights",
+   "file": "assets/mesh/head_side.json",
+   "source": "computed from assets/drawings/head_side.png by build/mesh.py (grid cells clipped to the drawing alpha, two triangles per cell, explicit cuts by vertex duplication)",
+   "rights": "own work",
+   "operation": "triangulated (computed)"
+  },
+  {
+   "id": "drawing:head_back",
+   "what": "the back of the dog's head: backs of the ears, nape, collar buckle, the tip of the muzzle and nose peeking past the cheek",
+   "file": "assets/drawings/head_back.png",
+   "sha256_16": "d99db40f9dd3705c",
+   "source": "drawn by this swarm in code (build/drawings.js: Catmull-Rom outlines, fills, procedural fur strokes, ink lines), rendered once in headless Chromium canvas (build/draw_assets.js)",
+   "rights": "own work made for this film; no found image, no tracing of footage, no image model",
+   "operation": "drawn"
+  },
+  {
+   "id": "mesh:head_back",
+   "what": "triangulated ARAP mesh of head_back with handles, cuts and feature-protect weights",
+   "file": "assets/mesh/head_back.json",
+   "source": "computed from assets/drawings/head_back.png by build/mesh.py (grid cells clipped to the drawing alpha, two triangles per cell, explicit cuts by vertex duplication)",
+   "rights": "own work",
+   "operation": "triangulated (computed)"
+  },
+  {
+   "id": "drawing:person_stand.body",
+   "what": "the person standing in profile, cardigan with four buttons (buttons and eye feature-protected)",
+   "file": "assets/drawings/person_stand.body.png",
+   "sha256_16": "210895fea6f0333f",
+   "source": "drawn by this swarm in code (build/drawings.js: Catmull-Rom outlines, fills, procedural fur strokes, ink lines), rendered once in headless Chromium canvas (build/draw_assets.js)",
+   "rights": "own work made for this film; no found image, no tracing of footage, no image model",
+   "operation": "drawn"
+  },
+  {
+   "id": "mesh:person_stand.body",
+   "what": "triangulated ARAP mesh of person_stand.body with handles, cuts and feature-protect weights",
+   "file": "assets/mesh/person_stand.body.json",
+   "source": "computed from assets/drawings/person_stand.body.png by build/mesh.py (grid cells clipped to the drawing alpha, two triangles per cell, explicit cuts by vertex duplication)",
+   "rights": "own work",
+   "operation": "triangulated (computed)"
+  },
+  {
+   "id": "drawing:person_stand.arm",
+   "what": "the person's near arm (its own layer, moved by a hand handle and an IK elbow)",
+   "file": "assets/drawings/person_stand.arm.png",
+   "sha256_16": "faa9d4e134a2df79",
+   "source": "drawn by this swarm in code (build/drawings.js: Catmull-Rom outlines, fills, procedural fur strokes, ink lines), rendered once in headless Chromium canvas (build/draw_assets.js)",
+   "rights": "own work made for this film; no found image, no tracing of footage, no image model",
+   "operation": "drawn"
+  },
+  {
+   "id": "mesh:person_stand.arm",
+   "what": "triangulated ARAP mesh of person_stand.arm with handles, cuts and feature-protect weights",
+   "file": "assets/mesh/person_stand.arm.json",
+   "source": "computed from assets/drawings/person_stand.arm.png by build/mesh.py (grid cells clipped to the drawing alpha, two triangles per cell, explicit cuts by vertex duplication)",
+   "rights": "own work",
+   "operation": "triangulated (computed)"
+  },
+  {
+   "id": "drawing:person_sit.body",
+   "what": "the person sitting on the crate beside the door",
+   "file": "assets/drawings/person_sit.body.png",
+   "sha256_16": "1fd2ae1a9c97a413",
+   "source": "drawn by this swarm in code (build/drawings.js: Catmull-Rom outlines, fills, procedural fur strokes, ink lines), rendered once in headless Chromium canvas (build/draw_assets.js)",
+   "rights": "own work made for this film; no found image, no tracing of footage, no image model",
+   "operation": "drawn"
+  },
+  {
+   "id": "mesh:person_sit.body",
+   "what": "triangulated ARAP mesh of person_sit.body with handles, cuts and feature-protect weights",
+   "file": "assets/mesh/person_sit.body.json",
+   "source": "computed from assets/drawings/person_sit.body.png by build/mesh.py (grid cells clipped to the drawing alpha, two triangles per cell, explicit cuts by vertex duplication)",
+   "rights": "own work",
+   "operation": "triangulated (computed)"
+  },
+  {
+   "id": "drawing:person_sit.arm",
+   "what": "the person's near arm while sitting (rests on the knee, then offered low)",
+   "file": "assets/drawings/person_sit.arm.png",
+   "sha256_16": "5221ce6966bbc94a",
+   "source": "drawn by this swarm in code (build/drawings.js: Catmull-Rom outlines, fills, procedural fur strokes, ink lines), rendered once in headless Chromium canvas (build/draw_assets.js)",
+   "rights": "own work made for this film; no found image, no tracing of footage, no image model",
+   "operation": "drawn"
+  },
+  {
+   "id": "mesh:person_sit.arm",
+   "what": "triangulated ARAP mesh of person_sit.arm with handles, cuts and feature-protect weights",
+   "file": "assets/mesh/person_sit.arm.json",
+   "source": "computed from assets/drawings/person_sit.arm.png by build/mesh.py (grid cells clipped to the drawing alpha, two triangles per cell, explicit cuts by vertex duplication)",
+   "rights": "own work",
+   "operation": "triangulated (computed)"
+  },
+  {
+   "id": "drawing:dog_stand.near",
+   "what": "the standing dog drawing with the far side of the foreleg cut erased below the belly (round 2)",
+   "file": "assets/drawings/dog_stand.near.png",
+   "source": "computed from assets/drawings/dog_stand.png by build/mesh.py",
+   "rights": "own work",
+   "operation": "masked (computed): each side of the foreleg cut samples only its own leg, so a crossing leg carries none of the other"
+  },
+  {
+   "id": "drawing:dog_stand.far",
+   "what": "the standing dog drawing with the near side of the foreleg cut erased below the belly (round 2)",
+   "file": "assets/drawings/dog_stand.far.png",
+   "source": "computed from assets/drawings/dog_stand.png by build/mesh.py",
+   "rights": "own work",
+   "operation": "masked (computed): each side of the foreleg cut samples only its own leg, so a crossing leg carries none of the other"
+  },
+  {
+   "id": "quickdraw:moon:6698312558182400",
+   "what": "a Quick, Draw! moon drawing (US, 2017-01-23), drawn into the dusk sky as chalk lines",
+   "file": "assets/quickdraw.ndjson",
+   "key_id": "6698312558182400",
+   "source": "/home/user/hartswf0/quickdraw/moon.part (Quick, Draw! dataset)",
+   "source_title": "Quick, Draw! \u2014 Google Creative Lab and contributors",
+   "archive_url": "https://github.com/googlecreativelab/quickdraw-dataset",
+   "rights": "CC BY 4.0, Google Creative Lab and contributors (credited on the end card)",
+   "operation": "strokes copied verbatim, scaled and placed, stroked in canvas"
+  },
+  {
+   "id": "quickdraw:tree:5855111324631040",
+   "what": "a Quick, Draw! tree drawing (US, 2017-01-31), drawn into the dusk sky as chalk lines",
+   "file": "assets/quickdraw.ndjson",
+   "key_id": "5855111324631040",
+   "source": "/home/user/hartswf0/quickdraw/tree.part (Quick, Draw! dataset)",
+   "source_title": "Quick, Draw! \u2014 Google Creative Lab and contributors",
+   "archive_url": "https://github.com/googlecreativelab/quickdraw-dataset",
+   "rights": "CC BY 4.0, Google Creative Lab and contributors (credited on the end card)",
+   "operation": "strokes copied verbatim, scaled and placed, stroked in canvas"
+  },
+  {
+   "id": "quickdraw:tree:4519774497275904",
+   "what": "a Quick, Draw! tree drawing (IN, 2017-03-15), drawn into the dusk sky as chalk lines",
+   "file": "assets/quickdraw.ndjson",
+   "key_id": "4519774497275904",
+   "source": "/home/user/hartswf0/quickdraw/tree.part (Quick, Draw! dataset)",
+   "source_title": "Quick, Draw! \u2014 Google Creative Lab and contributors",
+   "archive_url": "https://github.com/googlecreativelab/quickdraw-dataset",
+   "rights": "CC BY 4.0, Google Creative Lab and contributors (credited on the end card)",
+   "operation": "strokes copied verbatim, scaled and placed, stroked in canvas"
+  },
+  {
+   "id": "quickdraw:tree:5900376651857920",
+   "what": "a Quick, Draw! tree drawing (CA, 2017-03-17), drawn into the dusk sky as chalk lines",
+   "file": "assets/quickdraw.ndjson",
+   "key_id": "5900376651857920",
+   "source": "/home/user/hartswf0/quickdraw/tree.part (Quick, Draw! dataset)",
+   "source_title": "Quick, Draw! \u2014 Google Creative Lab and contributors",
+   "archive_url": "https://github.com/googlecreativelab/quickdraw-dataset",
+   "rights": "CC BY 4.0, Google Creative Lab and contributors (credited on the end card)",
+   "operation": "strokes copied verbatim, scaled and placed, stroked in canvas"
+  },
+  {
+   "id": "quickdraw:tree:5113214775853056",
+   "what": "a Quick, Draw! tree drawing (US, 2017-03-11), drawn into the dusk sky as chalk lines",
+   "file": "assets/quickdraw.ndjson",
+   "key_id": "5113214775853056",
+   "source": "/home/user/hartswf0/quickdraw/tree.part (Quick, Draw! dataset)",
+   "source_title": "Quick, Draw! \u2014 Google Creative Lab and contributors",
+   "archive_url": "https://github.com/googlecreativelab/quickdraw-dataset",
+   "rights": "CC BY 4.0, Google Creative Lab and contributors (credited on the end card)",
+   "operation": "strokes copied verbatim, scaled and placed, stroked in canvas"
+  },
+  {
+   "id": "quickdraw:tree:4973382720290816",
+   "what": "a Quick, Draw! tree drawing (US, 2017-03-10), drawn into the dusk sky as chalk lines",
+   "file": "assets/quickdraw.ndjson",
+   "key_id": "4973382720290816",
+   "source": "/home/user/hartswf0/quickdraw/tree.part (Quick, Draw! dataset)",
+   "source_title": "Quick, Draw! \u2014 Google Creative Lab and contributors",
+   "archive_url": "https://github.com/googlecreativelab/quickdraw-dataset",
+   "rights": "CC BY 4.0, Google Creative Lab and contributors (credited on the end card)",
+   "operation": "strokes copied verbatim, scaled and placed, stroked in canvas"
+  },
+  {
+   "id": "world",
+   "what": "the house front, siding, door and frame, sill, window, porch boards, roof beam, posts, railing, steps, crate, the hall inside, dusk sky, light spill, paper grain",
+   "file": "build/render.html",
+   "source": "drawn in canvas by this swarm at render time",
+   "rights": "own work",
+   "operation": "drawn (computed each frame)"
+  },
+  {
+   "id": "score",
+   "what": "the PAELEO threshold score: the dog's decision trace, 768 frames",
+   "file": "../score/threshold-score.json",
+   "source": "paeleo/handmade/score/threshold-score.json (from paeleo/threshold/machine.js)",
+   "rights": "Bolas project material",
+   "operation": "read: times, x, acts and the person's circumstances drive the rig"
+  },
+  {
+   "id": "voice",
+   "what": "the person's five lines: \"Come here.\" \"Come here!\" \"It's all right.\" (twice) \"Come in.\"",
+   "source": "synthesized here with ffmpeg's flite filter (CMU Flite, voice \"slt\" from the CMU ARCTIC databases)",
+   "rights": "CMU Flite and CMU ARCTIC are distributed under a free BSD-style licence permitting use and redistribution; the speech was generated here",
+   "operation": "synthesized (TTS), then for the soft lines low-passed, breath added, -12.5 dB"
+  },
+  {
+   "id": "sound",
+   "what": "dusk air, crickets, paw clicks timed to the rig's planted feet, the sit and lie-down thumps, a sigh, tail knocks, a whine, the person's steps and the crate, the door creak, the warm chord that is the light, two plucks",
+   "file": "build/sound.py",
+   "source": "synthesized in numpy by this swarm",
+   "rights": "own work",
+   "operation": "synthesized"
+  },
+  {
+   "id": "fonts",
+   "what": "Big Shoulders Display (title, end card) and Literata (end card text, the spoken words at the foot of the frame)",
+   "file": "../../../tools/paeleo/fonts/",
+   "source": "tools/paeleo/fonts (Google Fonts, woff2)",
+   "rights": "SIL Open Font License 1.1",
+   "operation": "typeset"
+  },
+  {
+   "id": "not-used:archive-dog",
+   "what": "paeleo/handmade/kit/archive-dog frames",
+   "source": "Amateur Film New Jersey C (Home Movies, Internet Archive), public domain",
+   "rights": "public domain",
+   "operation": "looked at once as a contact sheet for the build of a shepherd-type dog; nothing from it is in the film (no pixels, masks or keys)"
+  }
+ ]
+}

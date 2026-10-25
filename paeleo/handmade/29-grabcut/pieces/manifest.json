@@ -1,0 +1,791 @@
+{
+ "about": "Deliverable contract: individual RGBA pieces, contour masks, failure masks, original-coordinate transforms.\n-> ../pieces/<name>.png (RGBA, source pixels + our alpha), <name>_contour.png, <name>_fail.png, manifest.json\nFailure mask colours: red = SAM kept it, our cut removed it; green = our cut kept it, SAM did not; yellow = matte band\n(0.02 < alpha < 0.98). The transform maps piece pixel (u, v) to source-frame pixel (u + ox, v + oy).",
+ "pieces": [
+  {
+   "name": "dog_f000",
+   "source": "paeleo/handmade/kit/archive-dog/frames/f000.jpg",
+   "transform_piece_to_source": {
+    "ox": 92,
+    "oy": 44,
+    "scale": 1
+   },
+   "size": [
+    153,
+    173
+   ],
+   "px_cut": 7763,
+   "px_disagree_with_sam": 668,
+   "log": {
+    "box": [
+     92,
+     44,
+     245,
+     217
+    ],
+    "iters": [
+     {
+      "iter": 0,
+      "flow": 3683545,
+      "fg_px": 31300,
+      "changed_px": 2756
+     },
+     {
+      "iter": 1,
+      "flow": 3676707,
+      "fg_px": 31330,
+      "changed_px": 68
+     },
+     {
+      "iter": 2,
+      "flow": 3677236,
+      "fg_px": 31336,
+      "changed_px": 6
+     }
+    ],
+    "cleanup": {
+     "islands_px": 97,
+     "holes_filled_px": 17,
+     "matted_px": 1373
+    },
+    "sam_px": 7761,
+    "cut_px": 7763,
+    "disagree_with_sam_px": 668,
+    "secs": 2.69
+   }
+  },
+  {
+   "name": "dog_f009",
+   "source": "paeleo/handmade/kit/archive-dog/frames/f009.jpg",
+   "transform_piece_to_source": {
+    "ox": 55,
+    "oy": 57,
+    "scale": 1
+   },
+   "size": [
+    182,
+    168
+   ],
+   "px_cut": 7336,
+   "px_disagree_with_sam": 962,
+   "log": {
+    "box": [
+     55,
+     57,
+     237,
+     225
+    ],
+    "iters": [
+     {
+      "iter": 0,
+      "flow": 4708858,
+      "fg_px": 29587,
+      "changed_px": 3813
+     },
+     {
+      "iter": 1,
+      "flow": 4697216,
+      "fg_px": 29581,
+      "changed_px": 14
+     }
+    ],
+    "cleanup": {
+     "islands_px": 8,
+     "holes_filled_px": 0,
+     "matted_px": 2311
+    },
+    "sam_px": 7531,
+    "cut_px": 7337,
+    "disagree_with_sam_px": 962,
+    "secs": 1.66
+   }
+  },
+  {
+   "name": "dog_f013",
+   "source": "paeleo/handmade/kit/archive-dog/frames/f013.jpg",
+   "transform_piece_to_source": {
+    "ox": 54,
+    "oy": 54,
+    "scale": 1
+   },
+   "size": [
+    182,
+    171
+   ],
+   "px_cut": 6908,
+   "px_disagree_with_sam": 1079,
+   "log": {
+    "box": [
+     54,
+     54,
+     236,
+     225
+    ],
+    "iters": [
+     {
+      "iter": 0,
+      "flow": 4558472,
+      "fg_px": 27776,
+      "changed_px": 4328
+     },
+     {
+      "iter": 1,
+      "flow": 4551966,
+      "fg_px": 27799,
+      "changed_px": 23
+     },
+     {
+      "iter": 2,
+      "flow": 4551611,
+      "fg_px": 27799,
+      "changed_px": 0
+     }
+    ],
+    "cleanup": {
+     "islands_px": 2,
+     "holes_filled_px": 0,
+     "matted_px": 2460
+    },
+    "sam_px": 6925,
+    "cut_px": 6908,
+    "disagree_with_sam_px": 1079,
+    "secs": 2.26
+   }
+  },
+  {
+   "name": "dog_f030",
+   "source": "paeleo/handmade/kit/archive-dog/frames/f030.jpg",
+   "transform_piece_to_source": {
+    "ox": 126,
+    "oy": 71,
+    "scale": 1
+   },
+   "size": [
+    109,
+    146
+   ],
+   "px_cut": 3817,
+   "px_disagree_with_sam": 412,
+   "log": {
+    "box": [
+     126,
+     71,
+     235,
+     217
+    ],
+    "iters": [
+     {
+      "iter": 0,
+      "flow": 2462554,
+      "fg_px": 15409,
+      "changed_px": 1625
+     },
+     {
+      "iter": 1,
+      "flow": 2454696,
+      "fg_px": 15380,
+      "changed_px": 35
+     },
+     {
+      "iter": 2,
+      "flow": 2454917,
+      "fg_px": 15380,
+      "changed_px": 0
+     }
+    ],
+    "cleanup": {
+     "islands_px": 0,
+     "holes_filled_px": 0,
+     "matted_px": 1435
+    },
+    "sam_px": 3868,
+    "cut_px": 3818,
+    "disagree_with_sam_px": 412,
+    "secs": 1.18
+   }
+  },
+  {
+   "name": "dog_f034",
+   "source": "paeleo/handmade/kit/archive-dog/frames/f034.jpg",
+   "transform_piece_to_source": {
+    "ox": 131,
+    "oy": 75,
+    "scale": 1
+   },
+   "size": [
+    117,
+    143
+   ],
+   "px_cut": 4606,
+   "px_disagree_with_sam": 517,
+   "log": {
+    "box": [
+     131,
+     75,
+     248,
+     218
+    ],
+    "iters": [
+     {
+      "iter": 0,
+      "flow": 2620924,
+      "fg_px": 18437,
+      "changed_px": 2089
+     },
+     {
+      "iter": 1,
+      "flow": 2608163,
+      "fg_px": 18460,
+      "changed_px": 53
+     },
+     {
+      "iter": 2,
+      "flow": 2608972,
+      "fg_px": 18485,
+      "changed_px": 25
+     },
+     {
+      "iter": 3,
+      "flow": 2609331,
+      "fg_px": 18486,
+      "changed_px": 1
+     }
+    ],
+    "cleanup": {
+     "islands_px": 0,
+     "holes_filled_px": 6,
+     "matted_px": 1308
+    },
+    "sam_px": 4491,
+    "cut_px": 4606,
+    "disagree_with_sam_px": 517,
+    "secs": 1.95
+   }
+  },
+  {
+   "name": "dog_f042",
+   "source": "paeleo/handmade/kit/archive-dog/frames/f042.jpg",
+   "transform_piece_to_source": {
+    "ox": 124,
+    "oy": 75,
+    "scale": 1
+   },
+   "size": [
+    175,
+    152
+   ],
+   "px_cut": 7626,
+   "px_disagree_with_sam": 735,
+   "log": {
+    "box": [
+     124,
+     75,
+     299,
+     227
+    ],
+    "iters": [
+     {
+      "iter": 0,
+      "flow": 3685234,
+      "fg_px": 30604,
+      "changed_px": 2938
+     },
+     {
+      "iter": 1,
+      "flow": 3686556,
+      "fg_px": 30604,
+      "changed_px": 4
+     }
+    ],
+    "cleanup": {
+     "islands_px": 1,
+     "holes_filled_px": 5,
+     "matted_px": 1603
+    },
+    "sam_px": 7791,
+    "cut_px": 7626,
+    "disagree_with_sam_px": 735,
+    "secs": 2.02
+   }
+  },
+  {
+   "name": "dog_f043",
+   "source": "paeleo/handmade/kit/archive-dog/frames/f043.jpg",
+   "transform_piece_to_source": {
+    "ox": 115,
+    "oy": 81,
+    "scale": 1
+   },
+   "size": [
+    182,
+    146
+   ],
+   "px_cut": 7625,
+   "px_disagree_with_sam": 769,
+   "log": {
+    "box": [
+     115,
+     81,
+     297,
+     227
+    ],
+    "iters": [
+     {
+      "iter": 0,
+      "flow": 3708781,
+      "fg_px": 30862,
+      "changed_px": 2924
+     },
+     {
+      "iter": 1,
+      "flow": 3702088,
+      "fg_px": 30854,
+      "changed_px": 14
+     }
+    ],
+    "cleanup": {
+     "islands_px": 246,
+     "holes_filled_px": 1,
+     "matted_px": 1650
+    },
+    "sam_px": 8168,
+    "cut_px": 7625,
+    "disagree_with_sam_px": 769,
+    "secs": 1.88
+   }
+  },
+  {
+   "name": "dog_f044",
+   "source": "paeleo/handmade/kit/archive-dog/frames/f044.jpg",
+   "transform_piece_to_source": {
+    "ox": 112,
+    "oy": 78,
+    "scale": 1
+   },
+   "size": [
+    178,
+    158
+   ],
+   "px_cut": 7572,
+   "px_disagree_with_sam": 905,
+   "log": {
+    "box": [
+     112,
+     78,
+     290,
+     236
+    ],
+    "iters": [
+     {
+      "iter": 0,
+      "flow": 4074052,
+      "fg_px": 30298,
+      "changed_px": 3412
+     },
+     {
+      "iter": 1,
+      "flow": 4073953,
+      "fg_px": 30481,
+      "changed_px": 237
+     },
+     {
+      "iter": 2,
+      "flow": 4076845,
+      "fg_px": 30482,
+      "changed_px": 1
+     }
+    ],
+    "cleanup": {
+     "islands_px": 65,
+     "holes_filled_px": 1,
+     "matted_px": 1999
+    },
+    "sam_px": 7632,
+    "cut_px": 7573,
+    "disagree_with_sam_px": 905,
+    "secs": 2.53
+   }
+  },
+  {
+   "name": "dog_f045",
+   "source": "paeleo/handmade/kit/archive-dog/frames/f045.jpg",
+   "transform_piece_to_source": {
+    "ox": 122,
+    "oy": 74,
+    "scale": 1
+   },
+   "size": [
+    175,
+    159
+   ],
+   "px_cut": 7360,
+   "px_disagree_with_sam": 1315,
+   "log": {
+    "box": [
+     122,
+     74,
+     297,
+     233
+    ],
+    "iters": [
+     {
+      "iter": 0,
+      "flow": 4374215,
+      "fg_px": 29273,
+      "changed_px": 4317
+     },
+     {
+      "iter": 1,
+      "flow": 4367518,
+      "fg_px": 29847,
+      "changed_px": 606
+     },
+     {
+      "iter": 2,
+      "flow": 4375451,
+      "fg_px": 30017,
+      "changed_px": 170
+     },
+     {
+      "iter": 3,
+      "flow": 4376171,
+      "fg_px": 30007,
+      "changed_px": 22
+     }
+    ],
+    "cleanup": {
+     "islands_px": 507,
+     "holes_filled_px": 0,
+     "matted_px": 1999
+    },
+    "sam_px": 7671,
+    "cut_px": 7360,
+    "disagree_with_sam_px": 1315,
+    "secs": 4.86
+   }
+  },
+  {
+   "name": "woman_stand",
+   "source": "paeleo/handmade/kit/archive-door/frames/f000.jpg",
+   "transform_piece_to_source": {
+    "ox": 178,
+    "oy": 0,
+    "scale": 1
+   },
+   "size": [
+    166,
+    288
+   ],
+   "px_cut": 22232,
+   "px_disagree_with_sam": 18648,
+   "log": {
+    "src": "paeleo/handmade/kit/archive-door",
+    "frame": 0,
+    "box": [
+     178,
+     0,
+     344,
+     288
+    ],
+    "iters": [
+     {
+      "iter": 0,
+      "flow": 15365873,
+      "fg_px": 100904,
+      "changed_px": 62616
+     },
+     {
+      "iter": 1,
+      "flow": 14519458,
+      "fg_px": 94185,
+      "changed_px": 6725
+     },
+     {
+      "iter": 2,
+      "flow": 14438681,
+      "fg_px": 90590,
+      "changed_px": 3595
+     },
+     {
+      "iter": 3,
+      "flow": 14366845,
+      "fg_px": 89676,
+      "changed_px": 1636
+     },
+     {
+      "iter": 4,
+      "flow": 14351202,
+      "fg_px": 88777,
+      "changed_px": 939
+     }
+    ],
+    "cleanup": {
+     "islands_px": 21,
+     "holes_filled_px": 151,
+     "matted_px": 2725
+    },
+    "secs": 43.99
+   }
+  },
+  {
+   "name": "door_panel",
+   "source": "paeleo/handmade/kit/archive-door/frames/f028.jpg",
+   "transform_piece_to_source": {
+    "ox": 97,
+    "oy": 0,
+    "scale": 1
+   },
+   "size": [
+    150,
+    288
+   ],
+   "px_cut": 30155,
+   "px_disagree_with_sam": 377,
+   "log": {
+    "src": "paeleo/handmade/kit/archive-door",
+    "frame": 28,
+    "box": [
+     97,
+     0,
+     247,
+     288
+    ],
+    "iters": [
+     {
+      "iter": 0,
+      "flow": 3246927,
+      "fg_px": 120859,
+      "changed_px": 1477
+     },
+     {
+      "iter": 1,
+      "flow": 3245043,
+      "fg_px": 120859,
+      "changed_px": 2
+     }
+    ],
+    "cleanup": {
+     "islands_px": 0,
+     "holes_filled_px": 0,
+     "matted_px": 1808
+    },
+    "secs": 1.25
+   }
+  },
+  {
+   "name": "hand",
+   "source": "/home/user/hartswf0/secondhand-motion/shots/hand-sam/frames/f010.jpg",
+   "transform_piece_to_source": {
+    "ox": 149,
+    "oy": 23,
+    "scale": 1
+   },
+   "size": [
+    235,
+    128
+   ],
+   "px_cut": 6518,
+   "px_disagree_with_sam": 834,
+   "log": {
+    "src": "/home/user/hartswf0/secondhand-motion/shots/hand-sam",
+    "frame": 10,
+    "box": [
+     149,
+     23,
+     384,
+     151
+    ],
+    "iters": [
+     {
+      "iter": 0,
+      "flow": 2432431,
+      "fg_px": 25260,
+      "changed_px": 2702
+     },
+     {
+      "iter": 1,
+      "flow": 2426930,
+      "fg_px": 26047,
+      "changed_px": 811
+     },
+     {
+      "iter": 2,
+      "flow": 2423238,
+      "fg_px": 26104,
+      "changed_px": 57
+     },
+     {
+      "iter": 3,
+      "flow": 2427413,
+      "fg_px": 26105,
+      "changed_px": 1
+     }
+    ],
+    "cleanup": {
+     "islands_px": 0,
+     "holes_filled_px": 0,
+     "matted_px": 1566
+    },
+    "secs": 3.67
+   }
+  },
+  {
+   "name": "pillar",
+   "source": "paeleo/handmade/kit/archive-dog/frames/f006.jpg",
+   "transform_piece_to_source": {
+    "ox": 302,
+    "oy": 30,
+    "scale": 1
+   },
+   "size": [
+    82,
+    195
+   ],
+   "px_cut": 9220,
+   "px_disagree_with_sam": 3380,
+   "log": {
+    "src": "paeleo/handmade/kit/archive-dog",
+    "frame": 6,
+    "box": [
+     302,
+     30,
+     384,
+     225
+    ],
+    "iters": [
+     {
+      "iter": 0,
+      "flow": 3648041,
+      "fg_px": 39180,
+      "changed_px": 11220
+     },
+     {
+      "iter": 1,
+      "flow": 3446148,
+      "fg_px": 37536,
+      "changed_px": 1688
+     },
+     {
+      "iter": 2,
+      "flow": 3413126,
+      "fg_px": 37019,
+      "changed_px": 527
+     },
+     {
+      "iter": 3,
+      "flow": 3415704,
+      "fg_px": 37019,
+      "changed_px": 0
+     }
+    ],
+    "cleanup": {
+     "islands_px": 208,
+     "holes_filled_px": 0,
+     "matted_px": 1435
+    },
+    "secs": 2.42
+   }
+  },
+  {
+   "name": "shrub",
+   "source": "paeleo/handmade/kit/archive-dog/frames/f006.jpg",
+   "transform_piece_to_source": {
+    "ox": 115,
+    "oy": 0,
+    "scale": 1
+   },
+   "size": [
+    95,
+    60
+   ],
+   "px_cut": 1566,
+   "px_disagree_with_sam": 2184,
+   "log": {
+    "src": "paeleo/handmade/kit/archive-dog",
+    "frame": 6,
+    "box": [
+     115,
+     0,
+     210,
+     60
+    ],
+    "iters": [
+     {
+      "iter": 0,
+      "flow": 1339835,
+      "fg_px": 6928,
+      "changed_px": 8072
+     },
+     {
+      "iter": 1,
+      "flow": 1246353,
+      "fg_px": 6747,
+      "changed_px": 451
+     },
+     {
+      "iter": 2,
+      "flow": 1240254,
+      "fg_px": 6747,
+      "changed_px": 0
+     }
+    ],
+    "cleanup": {
+     "islands_px": 443,
+     "holes_filled_px": 0,
+     "matted_px": 623
+    },
+    "secs": 2.91
+   }
+  },
+  {
+   "name": "bowl",
+   "source": "paeleo/handmade/kit/archive-dog/frames/f006.jpg",
+   "transform_piece_to_source": {
+    "ox": 218,
+    "oy": 204,
+    "scale": 1
+   },
+   "size": [
+    114,
+    76
+   ],
+   "px_cut": 1254,
+   "px_disagree_with_sam": 4010,
+   "log": {
+    "src": "paeleo/handmade/kit/archive-dog",
+    "frame": 6,
+    "box": [
+     218,
+     204,
+     332,
+     280
+    ],
+    "iters": [
+     {
+      "iter": 0,
+      "flow": 1602328,
+      "fg_px": 5133,
+      "changed_px": 15923
+     },
+     {
+      "iter": 1,
+      "flow": 1420293,
+      "fg_px": 5114,
+      "changed_px": 93
+     },
+     {
+      "iter": 2,
+      "flow": 1421183,
+      "fg_px": 5111,
+      "changed_px": 3
+     }
+    ],
+    "cleanup": {
+     "islands_px": 0,
+     "holes_filled_px": 0,
+     "matted_px": 619
+    },
+    "secs": 1.53
+   }
+  }
+ ]
+}

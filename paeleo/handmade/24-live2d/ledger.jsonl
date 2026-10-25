@@ -1,0 +1,18 @@
+{"n": 1, "what": "turnaround sheets of the first rig (body yaw 0..210, head yaw x pitch, poses)", "saw": "reads as a shepherd in every view; far ear collapsed to a spike; tail mapping too flat; head drawn over the body when facing away"}
+{"n": 2, "what": "ear leaf rebuilt (edges bulge away from the other base point), head occluded by the shoulders when facing away, larger eyes", "saw": "ears fixed; rear views read as a back"}
+{"n": 3, "what": "first set and person; test shots at 0, 3.75, 12.5, 28 s", "saw": "trees drawn as giant triangles; light too faint; dog small in the wide"}
+{"n": 4, "what": "refusal turn strip 3.33-5.4 s", "saw": "turn passes through a front view, chest to camera; back shown by 3.71 s"}
+{"n": 5, "what": "turn back strip 7.33-8.83 s", "saw": "head over the shoulder by 7.83 s, then rise and turn through the front view; hind legs trail as it rises"}
+{"n": 6, "what": "look-in at 26.4 s", "saw": "FAILED: read as looking up (pitch lifted, and the person sat on the same axis as the room). Repair: no pitch lift, yaw into the depth of the room; person moved to the viewer's side of the bench so 'at her' (toward camera) and 'into the room' (away) separate"}
+{"n": 7, "what": "proportions", "saw": "torso too long (weasel); shortened halfLen 0.26 -> 0.22, deeper chest"}
+{"n": 8, "what": "lying across the sill", "saw": "dog lay in front of the frame, not in it; jamb sections moved to the front layer and the wall made deeper (outer face 0.40 m) so head and forepaws lie between the jambs and the shoulder crosses the outer jamb"}
+{"n": 9, "what": "rim light", "saw": "stroked every volume, showing inner ellipse rings; replaced by union-minus-shifted-union (silhouette only)"}
+{"n": 10, "what": "first full render + measure + checker", "saw": "ALL OK; choice onsets measured at dt 0.0; look-in onset -0.19 s (the head drifted before the line)"}
+{"n": 11, "what": "sound v1 spectrogram", "saw": "FAILED: voice was broadband wash (reverb impulse normalized to L1=6, breath noise dominant). Repair: unit-energy impulse, breath noise cut; harmonic stacks and bursts now visible in the spectrogram. Not listened to."}
+{"n": 12, "what": "whole-film contact sheets every 0.5 s", "saw": "dog small and dim in the wide; the 9-14.7 s watch carries no visible acting at that scale. Repair: staging tracks (two-shot 1.2x, wide when the room opens, 2.9x portrait of the dog while it considers, wide for the approach, 1.75x at the sill), coat lighter at dusk, gaze schedule while considering"}
+{"n": 13, "what": "camera mid-move frames", "saw": "FAILED: dog drifted out of frame mid-move (zoom and centre interpolated separately). Repair: each move is a log-zoom about its fixed point"}
+{"n": 14, "what": "leg reach check (legcheck.js) after shortening the legs", "saw": "FAILED: 162 frames with a planted front paw beyond reach (paw would detach = visible slide). Repair: front forearm back to 0.20 m, reach-forced steps; 0 planted over-reach frames"}
+{"n": 15, "what": "keyform test", "saw": "FAILED my bound: view interpolation error 0.169 skull radius between the coarse pitch keys. Repair (commission true angle keys): pitch keys at +-17.5; error 0.075, lips inside the muzzle in all 845 tested views"}
+{"n": 16, "what": "held the head still 25.9-26.42 s", "saw": "look-in onset now +0.10 s after 'come in'"}
+{"n": 17, "what": "end card claim check", "saw": "card said 'warp deformers'; there is no warp lattice in this rig; changed to 'a chain of rotation deformers'"}
+{"n": 18, "what": "final make.sh rebuild", "saw": "912 frames, 38.0 s, checker ALL OK; stills extracted and looked at"}

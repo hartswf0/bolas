@@ -107,6 +107,12 @@ operation must be your own. But every one of them failed first in the same few p
 - **No labels doing the acting.** Do not print the dog's state or the choice names on screen during the scene.
 - **The soft voice** must be at least 6 dB quieter than the calls, and above any room tone.
 - **Claims must be true.** If the end card says "nothing is drawn", nothing may be drawn.
+- **The dog itself must be made in your language** (lesson of cohort 2). Three critics failed or narrowly passed films whose
+  world was in the swarm's language but whose dog was a generic 3D maquette with a style laid over it (engraving shader,
+  tiles poured into an outline, a flattened rig). That is mapping on top. If you use a maquette at all, use it only as a
+  guide; what the viewer sees of the dog, and how it moves, must be your primitives.
+- **A head turning "in" must read in depth**: the back of the head toward the viewer, or the muzzle visibly into the room,
+  not a lift toward the light or the person.
 
 House rules learned the hard way:
 
