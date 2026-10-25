@@ -31,6 +31,10 @@ for k, what in drawn.items():
     A.append({'id': 'mesh:' + k, 'what': 'triangulated ARAP mesh of ' + k + ' with handles, cuts and feature-protect weights', 'file': f'assets/mesh/{k}.json',
               'source': 'computed from assets/drawings/' + k + '.png by build/mesh.py (grid cells clipped to the drawing alpha, two triangles per cell, explicit cuts by vertex duplication)',
               'rights': 'own work', 'operation': 'triangulated (computed)'})
+for part in ('near', 'far'):
+    A.append({'id': f'drawing:dog_stand.{part}', 'what': f'the standing dog drawing with the {"far" if part == "near" else "near"} side of the foreleg cut erased below the belly (round 2)',
+              'file': f'assets/drawings/dog_stand.{part}.png', 'source': 'computed from assets/drawings/dog_stand.png by build/mesh.py', 'rights': 'own work',
+              'operation': 'masked (computed): each side of the foreleg cut samples only its own leg, so a crossing leg carries none of the other'})
 for line in open(os.path.join(ROOT, 'assets', 'quickdraw.ndjson')):
     d = json.loads(line)
     A.append({'id': f'quickdraw:{d["word"]}:{d["key_id"]}', 'what': f'a Quick, Draw! {d["word"]} drawing ({d["countrycode"]}, {d["timestamp"][:10]}), drawn into the dusk sky as chalk lines',

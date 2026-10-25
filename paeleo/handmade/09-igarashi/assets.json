@@ -172,6 +172,22 @@
    "operation": "triangulated (computed)"
   },
   {
+   "id": "drawing:dog_stand.near",
+   "what": "the standing dog drawing with the far side of the foreleg cut erased below the belly (round 2)",
+   "file": "assets/drawings/dog_stand.near.png",
+   "source": "computed from assets/drawings/dog_stand.png by build/mesh.py",
+   "rights": "own work",
+   "operation": "masked (computed): each side of the foreleg cut samples only its own leg, so a crossing leg carries none of the other"
+  },
+  {
+   "id": "drawing:dog_stand.far",
+   "what": "the standing dog drawing with the near side of the foreleg cut erased below the belly (round 2)",
+   "file": "assets/drawings/dog_stand.far.png",
+   "source": "computed from assets/drawings/dog_stand.png by build/mesh.py",
+   "rights": "own work",
+   "operation": "masked (computed): each side of the foreleg cut samples only its own leg, so a crossing leg carries none of the other"
+  },
+  {
    "id": "quickdraw:moon:6698312558182400",
    "what": "a Quick, Draw! moon drawing (US, 2017-01-23), drawn into the dusk sky as chalk lines",
    "file": "assets/quickdraw.ndjson",

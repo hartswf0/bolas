@@ -179,3 +179,52 @@ contact sheets of the whole film at 2 fps, the four stills and the end card. In 
 - **The archive dog footage was looked at once** as a contact sheet for a shepherd's build. Nothing from it (pixels,
   masks, keys) is in the film.
 - **The typed prompts are not shown.** The person's spoken words appear quietly at the foot of the frame.
+
+## Round 2 (after critic round 1: PASS, narrow)
+
+The critic ranked five repairs. What changed, measured from the round-2 render and looked at frame by frame (every frame
+of 0.8–1.2, 3.3–3.8, 18.2–19.6 and 23.9–24.4, plus 4.6–4.9, 5.4–6.4, 7.6–7.9, 8.1–8.4 and 29 s):
+
+1. **Calls before reactions.**
+   - I trimmed flite's leading silence and placed the calls so the voice begins at **0.897 s** and **3.307 s**. That is
+     measured on the voice track: the first 10 ms with RMS above −40 dBFS.
+   - The dog reacts at 1.00 and 3.42. On the first call the person's beckon starts at 1.00, with the dog.
+   - The soft lines are still **10.7 dB** under the calls.
+2. **No seam in a leg.**
+   - Cause: the foreleg cut left near-side triangles carrying the far leg's ink and paper margin, so a near leg crossing
+     the far leg dragged a zigzag of the other leg with it.
+   - Fix: the standing drawing now samples two textures split along the cut. Far-side triangles are drawn first and see
+     only their own pixels; near-side triangles see only theirs.
+   - Measured: 0 inverted triangles in every frame and piece. Looked at: the near leg passes cleanly over the far leg.
+3. **Swaps bridged by bent in-betweens.**
+   - Profile → back view: the profile foreshortens over 3 frames, its paws lifting (a shuffle, not a slide). The back view
+     arrives 30% wide and narrows.
+   - Back view → sitting: the haunches spread before the sit and spread out again after it.
+   - Back view → profile: the profile arrives foreshortened and unfolds over 3 frames.
+   - Profile → lying: the crouch goes deeper, with legs folding and forefeet reaching. The lying drawing arrives high
+     with its forelegs gathered and comes down over 0.5 s.
+   - Measured: the largest frame-to-frame change of the rendered dog's area is **28.7%** (8.25 s), then 16.6% (3.67),
+     14.3% (4.75), 11.7% (7.75).
+   - First attempt failed: I swept the tail through a hind leg, which flipped 76 triangles. I replaced it with the
+     haunch spread.
+4. **The person steps aside.**
+   - A cut now runs between the trouser legs. The person takes eight short alternating steps with the planted foot held
+     (no skirt, no glide), then a deeper bend into the seated drawing, which arrives raised and settles.
+   - The door leaf does not move before 6.2 s: its angle is the constant 0.30 rad, rendered from the rig. What changes
+     at 5.5 s is the person uncovering the knob and the dark gap.
+5. **Behind the threshold.**
+   - Lying, the oak sill is redrawn in front of the dog inside the door opening, and the sheet tips 0.025 rad front-up.
+     The chest and forepaws read as on the hall floor beyond the sill; the rest and the tail are on the porch.
+   - This is still a 2D cue in a facade-parallel view, not a real depth position.
+
+Unchanged and re-measured:
+- `check_handmade.py` ALL OK.
+- Onsets: retreat +0.083, watch 0, refuse +0.125, watch 0, approach +0.042, lie down +0.166, looks in +0.058.
+- Planted feet slide at most 0.2 px. The head is low in 100% of the approach. 44.2% of the lying dog is inside the
+  frame.
+
+Still weak, still unknown:
+- Thin paper-margin slivers sometimes show at the ends of the cuts: between the person's feet, and at the tail notch
+  while the dog turns.
+- The seated swap is still a substitution, bridged by bends, not a continuous sit.
+- The sound was still only measured, not heard.
