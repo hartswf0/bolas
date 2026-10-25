@@ -9,7 +9,7 @@ window.sheet = (keys, cols, K, bg) => {
   x.fillStyle = bg || '#6d7a8c'; x.fillRect(0, 0, c.width, c.height);
   keys.forEach((k, i) => {
     const s = DOG.sprite(k, K, 'ink'), cx = (i % cols) * W, cy = Math.floor(i / cols) * (H + 14);
-    x.drawImage(s.c, cx, cy); x.fillStyle = '#000'; x.font = '10px monospace'; x.fillText(k.replace(/,br=0,rs=0,sn=0/, ''), cx + 3, cy + H + 10);
+    x.drawImage(s.c, cx, cy); x.fillStyle = '#000'; x.font = '10px monospace'; x.fillText(String(i), cx + 3, cy + H + 10);
   });
   return c.toDataURL('image/png');
 };

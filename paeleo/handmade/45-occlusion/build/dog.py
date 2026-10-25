@@ -29,8 +29,8 @@ CENTER_OFFSET = 0.14                 # world body centre = score x - 0.14 (so x 
 
 # real-frame sequences
 WALK_LOW = [42, 43, 44, 45, 46, 47]                              # head-low walk, shown mirrored (faces the door)
-TURN_AWAY = [13, 14, 15, 16, 17, 19, 20, 22, 24, 26, 30, 36, 40]  # left -> frontal (head low) -> right
-TURN_BACK = [19, 17, 16, 15, 14, 13, 11, 10]   # never passes through a camera-facing frame: the head stays on the door side           # frontal (head up) -> left, for 8.0-9.0
+TURN_AWAY = [13, 14, 15, 17, 19, 20, 26, 28, 30, 33, 36, 38, 40]  # left -> frontal (head low) -> right
+TURN_BACK = [30, 26, 19, 17, 15, 14, 13, 11, 10]   # never passes through a camera-facing frame: the head stays on the door side           # frontal (head up) -> left, for 8.0-9.0
 WATCH = [9, 10, 11, 10]                                           # held alert cels (boil)
 LIE_D, LIE_SHEAR = 0.0, 0.228   # lying across the sill: centre on the wall plane, body 31 deg into depth
 STRIDE = 0.30                                                     # metres per walk cycle (short, wary steps)
@@ -45,12 +45,23 @@ def lerp(a, b, u):
     return a + (b - a) * u
 
 
+REAR = 61   # source px from the rump to the body centre (0.36 m): profile cels are registered by the rump, which
+            # barely moves when the head does, so a head change never slides the body; camera-facing cels by their centre
+
+
 def whole_cel(n):
     c = rig.cel(n)
     out = Image.new('RGBA', CANVAS, (0, 0, 0, 0))
     out.paste(c, (OX, OY), c)
     m = META[str(n)]
-    return out, (m['cx'] + OX, m['foot_y'] + OY)
+    bb = m['bbox']
+    if n <= 19:
+        ax = bb[2] - REAR           # faces left: rump on the right
+    elif n <= 35:
+        ax = (bb[0] + bb[2]) / 2    # faces the camera
+    else:
+        ax = bb[0] + REAR           # faces right: rump on the left
+    return out, (ax + OX, m['foot_y'] + OY)
 
 
 HEAD_ONLY = [None]
@@ -135,8 +146,8 @@ def dog_frame(i):
             img, anc = whole_cel(n); img, anc, head = mirror_img(img, anc, (258 + OX, 176 + OY)); mirror = True
             parts = ['cel%d(mirrored, reversed)' % n]; posture = 'crouch'
         else:                                        # 2.33-2.6: head comes up again, via the head-lowering frames
-            seq = [16, 15, 14, 13]
-            n = seq[min(3, int((t - 2.333) / 0.07))]
+            seq = [15, 14, 13]
+            n = seq[min(2, int((t - 2.333) / 0.09))]
             img, anc = whole_cel(n); parts = ['cel%d' % n]; head = (88 + OX, 110 + OY); posture = 'stand'
         facing = 1
     # ---------------------------------------------------------------- 2.6 - 3.42 watch

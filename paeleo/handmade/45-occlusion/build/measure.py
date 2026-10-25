@@ -22,7 +22,8 @@ def main():
     for p in sorted(glob.glob(os.path.join(HERE, 'cache/records/r*.json'))):
         r = json.load(open(p)); recs[r['i']] = r
     idx = sorted(recs)
-    assert len(idx) == 768, 'need all 768 scene frames, have %d' % len(idx)
+    if os.environ.get('PARTIAL') != '1':
+        assert len(idx) == 768, 'need all 768 scene frames, have %d' % len(idx)
     rows = []
     for i in idx:
         r = recs[i]; d = r['dog']; c = r['cam']

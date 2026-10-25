@@ -80,7 +80,7 @@
     90: { cheekA: [0.004, 0], cheekB: [-0.004, 0] },
     270: { cheekA: [-0.004, 0], cheekB: [0.004, 0] },
   };
-  const YAW_KEYS = Array.from({ length: 16 }, (_, k) => k * 22.5), PITCH_KEYS = [-35, 0, 35];
+  const YAW_KEYS = Array.from({ length: 16 }, (_, k) => k * 22.5), PITCH_KEYS = [-35, -17.5, 0, 17.5, 35];
 
   function headFrame(yaw, pitch) {
     const y = yaw * DEG, p = pitch * DEG;
@@ -116,7 +116,7 @@
   }
   function headKey(yaw, pitch) {   // view interpolation: bilinear between the 4 nearest keyforms
     const yw = ((yaw % 360) + 360) % 360, fy = yw / 22.5, i0 = Math.floor(fy) % 16, i1 = (i0 + 1) % 16, ty = fy - Math.floor(fy);
-    const pc = clamp(pitch, -35, 35), j0 = pc < 0 ? 0 : 1, j1 = j0 + 1, tp = (pc - PITCH_KEYS[j0]) / 35;
+    const pc = clamp(pitch, -35, 35); let j0 = 0; while (j0 < PITCH_KEYS.length - 2 && pc > PITCH_KEYS[j0 + 1]) j0++; const j1 = j0 + 1, tp = (pc - PITCH_KEYS[j0]) / (PITCH_KEYS[j1] - PITCH_KEYS[j0]);
     return blendKeys([[TABLE[i0][j0], (1 - ty) * (1 - tp)], [TABLE[i1][j0], ty * (1 - tp)], [TABLE[i0][j1], (1 - ty) * tp], [TABLE[i1][j1], ty * tp]]);
   }
 

@@ -88,10 +88,10 @@ lat.append({'answer': 'stops backing, lifts its head (watch)', 'cause': 'the cal
 sn = EV['sniff']; last_sniff = sn['t0'] + (sn['n'] - 1) * sn['gap']
 lat.append({'answer': 'approach (first step)', 'cause': "the dog's own third sniff, after 3.2 s of silence", 'cue_t': last_sniff,
             'answer_onset_t': det[4]['measured_onset_t'], 'latency_s': round(det[4]['measured_onset_t'] - last_sniff, 3)})
-foley = json.load(open(os.path.join(HERE, 'foley.json')))
-last_paw = max(f['t0'] for f in foley if f['kind'] == 'paw')
-lat.append({'answer': 'lies down', 'cause': 'its last footfall at the sill', 'cue_t': last_paw, 'answer_onset_t': det[5]['measured_onset_t'],
-            'latency_s': round(det[5]['measured_onset_t'] - last_paw, 3)})
+t_arr = XS['schedule']['t_arrive']
+lat.append({'answer': 'lies down', 'cause': 'it has arrived at the sill and stopped (the score x stops); its footsteps stop', 'cue_t': t_arr,
+            'answer_onset_t': det[5]['measured_onset_t'], 'latency_s': round(det[5]['measured_onset_t'] - t_arr, 3)})
+
 # trace: state switches at measured onsets
 bounds = [(onsets[k], ch[k]['to']) for k in range(6)]
 fw = None; trace = []

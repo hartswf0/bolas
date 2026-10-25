@@ -25,22 +25,22 @@
 {
 "choice": "watch -> refuse",
 "score_t": 3.417,
-"measured_onset_t": 3.5,
-"measured_frame": 84,
-"dt": 0.083,
+"measured_onset_t": 3.4583,
+"measured_frame": 83,
+"dt": 0.041,
 "detector": "dog drawing changes after the hold (body, head or top edge moves >= 2 px)",
 "feature": "bx",
-"delta_px": -6.31
+"delta_px": -7.07
 },
 {
 "choice": "refuse -> watch",
 "score_t": 7.458,
-"measured_onset_t": 7.5,
-"measured_frame": 180,
-"dt": 0.042,
+"measured_onset_t": 7.4583,
+"measured_frame": 179,
+"dt": 0.0,
 "detector": "head moves >= 3 px after the refusal hold (head only: breath moves the chest)",
 "feature": "hx",
-"delta_px": -5.72
+"delta_px": -4.01
 },
 {
 "choice": "watch -> approach",
@@ -93,15 +93,15 @@
 "answer": "refuse",
 "cause": "call3 \"Come here!\" cue vowel of 'here'",
 "cue_t": 3.247,
-"answer_onset_t": 3.5,
-"latency_s": 0.253
+"answer_onset_t": 3.4583,
+"latency_s": 0.211
 },
 {
 "answer": "watch (turns back to look)",
 "cause": "soft1 \"It's all right.\" cue vowel of 'it'",
 "cue_t": 7.288,
-"answer_onset_t": 7.5,
-"latency_s": 0.212
+"answer_onset_t": 7.4583,
+"latency_s": 0.17
 },
 {
 "answer": "looks in",
@@ -126,10 +126,10 @@
 },
 {
 "answer": "lies down",
-"cause": "its last footfall at the sill",
-"cue_t": 22.8333,
+"cause": "it has arrived at the sill and stopped (the score x stops); its footsteps stop",
+"cue_t": 23.708,
 "answer_onset_t": 23.8333,
-"latency_s": 1.0
+"latency_s": 0.125
 }
 ],
 "lipsync": {
@@ -621,7 +621,7 @@
 "x_screen": 910.3,
 "y_screen": 457.45,
 "facing": 1,
-"posture": "standing",
+"posture": "crouched",
 "head_screen": [
 818.67,
 417.21
@@ -636,7 +636,7 @@
 "x_screen": 910.3,
 "y_screen": 457.45,
 "facing": 1,
-"posture": "standing",
+"posture": "crouched",
 "head_screen": [
 818.67,
 417.21
@@ -651,7 +651,7 @@
 "x_screen": 918.57,
 "y_screen": 458.03,
 "facing": 1,
-"posture": "standing",
+"posture": "crouched",
 "head_screen": [
 826.67,
 417.21
@@ -666,7 +666,7 @@
 "x_screen": 918.57,
 "y_screen": 458.03,
 "facing": 1,
-"posture": "standing",
+"posture": "crouched",
 "head_screen": [
 826.67,
 417.21
@@ -681,7 +681,7 @@
 "x_screen": 931.12,
 "y_screen": 459.02,
 "facing": 1,
-"posture": "standing",
+"posture": "crouched",
 "head_screen": [
 834.67,
 417.21
@@ -696,7 +696,7 @@
 "x_screen": 931.12,
 "y_screen": 459.02,
 "facing": 1,
-"posture": "standing",
+"posture": "crouched",
 "head_screen": [
 834.67,
 417.21
@@ -711,7 +711,7 @@
 "x_screen": 948.86,
 "y_screen": 459.04,
 "facing": 1,
-"posture": "standing",
+"posture": "crouched",
 "head_screen": [
 851.67,
 417.21
@@ -726,7 +726,7 @@
 "x_screen": 948.86,
 "y_screen": 459.04,
 "facing": 1,
-"posture": "standing",
+"posture": "crouched",
 "head_screen": [
 851.67,
 417.21
@@ -741,7 +741,7 @@
 "x_screen": 954.98,
 "y_screen": 458.56,
 "facing": 1,
-"posture": "standing",
+"posture": "crouched",
 "head_screen": [
 859.67,
 417.21
@@ -756,7 +756,7 @@
 "x_screen": 954.98,
 "y_screen": 458.56,
 "facing": 1,
-"posture": "standing",
+"posture": "crouched",
 "head_screen": [
 859.67,
 417.21
@@ -771,7 +771,7 @@
 "x_screen": 961.99,
 "y_screen": 458.15,
 "facing": 1,
-"posture": "standing",
+"posture": "crouched",
 "head_screen": [
 868.67,
 417.21
@@ -786,7 +786,7 @@
 "x_screen": 961.99,
 "y_screen": 458.15,
 "facing": 1,
-"posture": "standing",
+"posture": "crouched",
 "head_screen": [
 868.67,
 417.21
@@ -801,7 +801,7 @@
 "x_screen": 981.13,
 "y_screen": 459.31,
 "facing": 1,
-"posture": "standing",
+"posture": "crouched",
 "head_screen": [
 884.67,
 417.21
@@ -816,7 +816,7 @@
 "x_screen": 981.13,
 "y_screen": 459.31,
 "facing": 1,
-"posture": "standing",
+"posture": "crouched",
 "head_screen": [
 884.67,
 417.21
@@ -831,7 +831,7 @@
 "x_screen": 990.49,
 "y_screen": 459.29,
 "facing": 1,
-"posture": "standing",
+"posture": "crouched",
 "head_screen": [
 892.67,
 417.21
@@ -846,7 +846,7 @@
 "x_screen": 990.49,
 "y_screen": 459.29,
 "facing": 1,
-"posture": "standing",
+"posture": "crouched",
 "head_screen": [
 892.67,
 417.21
@@ -861,7 +861,7 @@
 "x_screen": 998.29,
 "y_screen": 459.94,
 "facing": 1,
-"posture": "standing",
+"posture": "crouched",
 "head_screen": [
 901.67,
 418.46
@@ -876,7 +876,7 @@
 "x_screen": 998.29,
 "y_screen": 459.94,
 "facing": 1,
-"posture": "standing",
+"posture": "crouched",
 "head_screen": [
 901.67,
 418.46
@@ -891,7 +891,7 @@
 "x_screen": 1008.97,
 "y_screen": 458.47,
 "facing": 1,
-"posture": "standing",
+"posture": "crouched",
 "head_screen": [
 917.67,
 418.46
@@ -906,7 +906,7 @@
 "x_screen": 1008.97,
 "y_screen": 458.47,
 "facing": 1,
-"posture": "standing",
+"posture": "crouched",
 "head_screen": [
 917.67,
 418.46
@@ -921,7 +921,7 @@
 "x_screen": 1017.04,
 "y_screen": 459.35,
 "facing": 1,
-"posture": "standing",
+"posture": "crouched",
 "head_screen": [
 925.67,
 418.46
@@ -936,7 +936,7 @@
 "x_screen": 1017.04,
 "y_screen": 459.35,
 "facing": 1,
-"posture": "standing",
+"posture": "crouched",
 "head_screen": [
 925.67,
 418.46
@@ -951,7 +951,7 @@
 "x_screen": 1030.12,
 "y_screen": 459.02,
 "facing": 1,
-"posture": "standing",
+"posture": "crouched",
 "head_screen": [
 933.67,
 417.21
@@ -966,7 +966,7 @@
 "x_screen": 1030.12,
 "y_screen": 459.02,
 "facing": 1,
-"posture": "standing",
+"posture": "crouched",
 "head_screen": [
 933.67,
 417.21
@@ -981,7 +981,7 @@
 "x_screen": 1047.86,
 "y_screen": 459.04,
 "facing": 1,
-"posture": "standing",
+"posture": "crouched",
 "head_screen": [
 950.67,
 417.21
@@ -996,7 +996,7 @@
 "x_screen": 1047.86,
 "y_screen": 459.04,
 "facing": 1,
-"posture": "standing",
+"posture": "crouched",
 "head_screen": [
 950.67,
 417.21
@@ -1011,7 +1011,7 @@
 "x_screen": 1053.68,
 "y_screen": 458.18,
 "facing": 1,
-"posture": "standing",
+"posture": "crouched",
 "head_screen": [
 959.31,
 410.63
@@ -1026,7 +1026,7 @@
 "x_screen": 1053.68,
 "y_screen": 458.18,
 "facing": 1,
-"posture": "standing",
+"posture": "crouched",
 "head_screen": [
 959.31,
 410.63
@@ -1041,7 +1041,7 @@
 "x_screen": 1062.03,
 "y_screen": 456.22,
 "facing": 1,
-"posture": "standing",
+"posture": "crouched",
 "head_screen": [
 970.21,
 403.33
@@ -1056,7 +1056,7 @@
 "x_screen": 1062.03,
 "y_screen": 456.22,
 "facing": 1,
-"posture": "standing",
+"posture": "crouched",
 "head_screen": [
 970.21,
 403.33
@@ -1071,7 +1071,7 @@
 "x_screen": 1074.02,
 "y_screen": 455.09,
 "facing": 1,
-"posture": "standing",
+"posture": "crouched",
 "head_screen": [
 980.84,
 393.32
@@ -1086,7 +1086,7 @@
 "x_screen": 1074.02,
 "y_screen": 455.09,
 "facing": 1,
-"posture": "standing",
+"posture": "crouched",
 "head_screen": [
 980.84,
 393.32
@@ -1101,7 +1101,7 @@
 "x_screen": 1087.15,
 "y_screen": 452.3,
 "facing": 1,
-"posture": "standing",
+"posture": "crouched",
 "head_screen": [
 992.5,
 385.4
@@ -1116,7 +1116,7 @@
 "x_screen": 1087.15,
 "y_screen": 452.3,
 "facing": 1,
-"posture": "standing",
+"posture": "crouched",
 "head_screen": [
 992.5,
 385.4
@@ -1441,317 +1441,317 @@
 {
 "i": 83,
 "t": 3.4583,
-"state": "watch",
+"state": "refuse",
 "x_score": 4,
-"x_screen": 1089.84,
-"y_screen": 446.66,
+"x_screen": 1082.77,
+"y_screen": 446.61,
 "facing": 1,
 "posture": "standing",
 "head_screen": [
-1001.62,
-370.59
+989.59,
+377.7
 ],
-"sprite": "yaw=0,hy=0,hp=9,ear=2,tl=5,wag=0,cr=1,lie=0,g=2,br=0,rs=0,sn=0,st=10"
+"sprite": "yaw=1,hy=27,hp=6,ear=1,tl=8,wag=0,cr=2,lie=0,g=2,br=0,rs=0,sn=0,st=3"
 },
 {
 "i": 84,
 "t": 3.5,
 "state": "refuse",
 "x_score": 4,
-"x_screen": 1083.53,
-"y_screen": 446.64,
+"x_screen": 1081.55,
+"y_screen": 446.12,
 "facing": 1,
 "posture": "standing",
 "head_screen": [
 993.03,
 374.57
 ],
-"sprite": "yaw=5,hy=43,hp=6,ear=1,tl=8,wag=0,cr=2,lie=0,g=2,br=0,rs=0,sn=0,st=3"
+"sprite": "yaw=5,hy=43,hp=6,ear=1,tl=8,wag=0,cr=2,lie=0,g=4,br=0,rs=0,sn=0,st=3"
 },
 {
 "i": 85,
 "t": 3.5417,
 "state": "refuse",
 "x_score": 4,
-"x_screen": 1083.53,
-"y_screen": 446.64,
+"x_screen": 1081.55,
+"y_screen": 446.12,
 "facing": 1,
 "posture": "standing",
 "head_screen": [
 993.03,
 374.57
 ],
-"sprite": "yaw=5,hy=43,hp=6,ear=1,tl=8,wag=0,cr=2,lie=0,g=2,br=0,rs=0,sn=0,st=3"
+"sprite": "yaw=5,hy=43,hp=6,ear=1,tl=8,wag=0,cr=2,lie=0,g=4,br=0,rs=0,sn=0,st=3"
 },
 {
 "i": 86,
 "t": 3.5833,
 "state": "refuse",
 "x_score": 4,
-"x_screen": 1082.16,
-"y_screen": 447.52,
+"x_screen": 1081.78,
+"y_screen": 446.45,
 "facing": 1,
 "posture": "standing",
 "head_screen": [
 1004.9,
 380.17
 ],
-"sprite": "yaw=22,hy=79,hp=4,ear=0,tl=11,wag=0,cr=2,lie=0,g=4,br=0,rs=0,sn=0,st=3"
+"sprite": "yaw=22,hy=79,hp=4,ear=0,tl=11,wag=0,cr=2,lie=0,g=6,br=0,rs=0,sn=0,st=3"
 },
 {
 "i": 87,
 "t": 3.625,
 "state": "refuse",
 "x_score": 4,
-"x_screen": 1082.16,
-"y_screen": 447.52,
+"x_screen": 1081.78,
+"y_screen": 446.45,
 "facing": 1,
 "posture": "standing",
 "head_screen": [
 1004.9,
 380.17
 ],
-"sprite": "yaw=22,hy=79,hp=4,ear=0,tl=11,wag=0,cr=2,lie=0,g=4,br=0,rs=0,sn=0,st=3"
+"sprite": "yaw=22,hy=79,hp=4,ear=0,tl=11,wag=0,cr=2,lie=0,g=6,br=0,rs=0,sn=0,st=3"
 },
 {
 "i": 88,
 "t": 3.6667,
 "state": "refuse",
 "x_score": 4,
-"x_screen": 1082.66,
-"y_screen": 451.1,
+"x_screen": 1082.52,
+"y_screen": 451.36,
 "facing": -1,
 "posture": "standing",
 "head_screen": [
 1047.51,
 371.35
 ],
-"sprite": "yaw=49,hy=115,hp=4,ear=0,tl=11,wag=0,cr=2,lie=0,g=6,br=1,rs=0,sn=0,st=3"
+"sprite": "yaw=49,hy=115,hp=4,ear=0,tl=11,wag=0,cr=2,lie=0,g=8,br=1,rs=0,sn=0,st=3"
 },
 {
 "i": 89,
 "t": 3.7083,
 "state": "refuse",
 "x_score": 4,
-"x_screen": 1082.66,
-"y_screen": 451.1,
+"x_screen": 1082.52,
+"y_screen": 451.36,
 "facing": -1,
 "posture": "standing",
 "head_screen": [
 1047.51,
 371.35
 ],
-"sprite": "yaw=49,hy=115,hp=4,ear=0,tl=11,wag=0,cr=2,lie=0,g=6,br=1,rs=0,sn=0,st=3"
+"sprite": "yaw=49,hy=115,hp=4,ear=0,tl=11,wag=0,cr=2,lie=0,g=8,br=1,rs=0,sn=0,st=3"
 },
 {
 "i": 90,
 "t": 3.75,
 "state": "refuse",
 "x_score": 4,
-"x_screen": 1082.79,
-"y_screen": 452.71,
+"x_screen": 1082.71,
+"y_screen": 452.39,
 "facing": -1,
-"posture": "standing",
+"posture": "crouched",
 "head_screen": [
 1096.37,
 375.07
 ],
-"sprite": "yaw=80,hy=146,hp=3,ear=0,tl=11,wag=0,cr=2,lie=0,g=8,br=1,rs=0,sn=0,st=3"
+"sprite": "yaw=80,hy=146,hp=3,ear=0,tl=11,wag=0,cr=2,lie=0,g=10,br=1,rs=0,sn=0,st=3"
 },
 {
 "i": 91,
 "t": 3.7917,
 "state": "refuse",
 "x_score": 4,
-"x_screen": 1082.79,
-"y_screen": 452.71,
+"x_screen": 1082.71,
+"y_screen": 452.39,
 "facing": -1,
-"posture": "standing",
+"posture": "crouched",
 "head_screen": [
 1096.37,
 375.07
 ],
-"sprite": "yaw=80,hy=146,hp=3,ear=0,tl=11,wag=0,cr=2,lie=0,g=8,br=1,rs=0,sn=0,st=3"
+"sprite": "yaw=80,hy=146,hp=3,ear=0,tl=11,wag=0,cr=2,lie=0,g=10,br=1,rs=0,sn=0,st=3"
 },
 {
 "i": 92,
 "t": 3.8333,
 "state": "refuse",
 "x_score": 4,
-"x_screen": 1085.54,
-"y_screen": 449.62,
+"x_screen": 1084.89,
+"y_screen": 449.19,
 "facing": -1,
 "posture": "standing",
 "head_screen": [
 1137.33,
 378.44
 ],
-"sprite": "yaw=110,hy=163,hp=3,ear=0,tl=11,wag=0,cr=2,lie=0,g=10,br=1,rs=0,sn=0,st=3"
+"sprite": "yaw=110,hy=163,hp=3,ear=0,tl=11,wag=0,cr=2,lie=0,g=0,br=1,rs=0,sn=0,st=3"
 },
 {
 "i": 93,
 "t": 3.875,
 "state": "refuse",
 "x_score": 4,
-"x_screen": 1085.54,
-"y_screen": 449.62,
+"x_screen": 1084.89,
+"y_screen": 449.19,
 "facing": -1,
 "posture": "standing",
 "head_screen": [
 1137.33,
 378.44
 ],
-"sprite": "yaw=110,hy=163,hp=3,ear=0,tl=11,wag=0,cr=2,lie=0,g=10,br=1,rs=0,sn=0,st=3"
+"sprite": "yaw=110,hy=163,hp=3,ear=0,tl=11,wag=0,cr=2,lie=0,g=0,br=1,rs=0,sn=0,st=3"
 },
 {
 "i": 94,
 "t": 3.9167,
 "state": "refuse",
 "x_score": 4,
-"x_screen": 1084.23,
-"y_screen": 448.83,
+"x_screen": 1084.44,
+"y_screen": 449.05,
 "facing": -1,
 "posture": "standing",
 "head_screen": [
 1160.52,
 383.68
 ],
-"sprite": "yaw=134,hy=165,hp=3,ear=0,tl=11,wag=0,cr=2,lie=0,g=0,br=1,rs=0,sn=0,st=3"
+"sprite": "yaw=134,hy=165,hp=3,ear=0,tl=11,wag=0,cr=2,lie=0,g=2,br=1,rs=0,sn=0,st=3"
 },
 {
 "i": 95,
 "t": 3.9583,
 "state": "refuse",
 "x_score": 4,
-"x_screen": 1084.23,
-"y_screen": 448.83,
+"x_screen": 1084.44,
+"y_screen": 449.05,
 "facing": -1,
 "posture": "standing",
 "head_screen": [
 1160.52,
 383.68
 ],
-"sprite": "yaw=134,hy=165,hp=3,ear=0,tl=11,wag=0,cr=2,lie=0,g=0,br=1,rs=0,sn=0,st=3"
+"sprite": "yaw=134,hy=165,hp=3,ear=0,tl=11,wag=0,cr=2,lie=0,g=2,br=1,rs=0,sn=0,st=3"
 },
 {
 "i": 96,
 "t": 4.0,
 "state": "refuse",
 "x_score": 4,
-"x_screen": 1084.65,
-"y_screen": 447.33,
+"x_screen": 1084.35,
+"y_screen": 448.6,
 "facing": -1,
 "posture": "standing",
 "head_screen": [
 1170.55,
 387.64
 ],
-"sprite": "yaw=148,hy=165,hp=3,ear=0,tl=11,wag=0,cr=2,lie=0,g=2,br=1,rs=0,sn=0,st=3"
+"sprite": "yaw=148,hy=165,hp=3,ear=0,tl=11,wag=0,cr=2,lie=0,g=4,br=1,rs=0,sn=0,st=3"
 },
 {
 "i": 97,
 "t": 4.0417,
 "state": "refuse",
 "x_score": 4,
-"x_screen": 1084.65,
-"y_screen": 447.33,
+"x_screen": 1084.35,
+"y_screen": 448.6,
 "facing": -1,
 "posture": "standing",
 "head_screen": [
 1170.55,
 387.64
 ],
-"sprite": "yaw=148,hy=165,hp=3,ear=0,tl=11,wag=0,cr=2,lie=0,g=2,br=1,rs=0,sn=0,st=3"
+"sprite": "yaw=148,hy=165,hp=3,ear=0,tl=11,wag=0,cr=2,lie=0,g=4,br=1,rs=0,sn=0,st=3"
 },
 {
 "i": 98,
 "t": 4.0833,
 "state": "refuse",
 "x_score": 4,
-"x_screen": 1084.27,
-"y_screen": 448.56,
+"x_screen": 1082.75,
+"y_screen": 449.06,
 "facing": -1,
 "posture": "standing",
 "head_screen": [
 1171.63,
 388.3
 ],
-"sprite": "yaw=150,hy=165,hp=3,ear=0,tl=11,wag=0,cr=2,lie=0,g=4,br=1,rs=0,sn=0,st=3"
+"sprite": "yaw=150,hy=165,hp=3,ear=0,tl=11,wag=0,cr=2,lie=0,g=6,br=1,rs=0,sn=0,st=3"
 },
 {
 "i": 99,
 "t": 4.125,
 "state": "refuse",
 "x_score": 4,
-"x_screen": 1084.27,
-"y_screen": 448.56,
+"x_screen": 1082.75,
+"y_screen": 449.06,
 "facing": -1,
 "posture": "standing",
 "head_screen": [
 1171.63,
 388.3
 ],
-"sprite": "yaw=150,hy=165,hp=3,ear=0,tl=11,wag=0,cr=2,lie=0,g=4,br=1,rs=0,sn=0,st=3"
+"sprite": "yaw=150,hy=165,hp=3,ear=0,tl=11,wag=0,cr=2,lie=0,g=6,br=1,rs=0,sn=0,st=3"
 },
 {
 "i": 100,
 "t": 4.1667,
 "state": "refuse",
 "x_score": 4,
-"x_screen": 1082.75,
-"y_screen": 449.06,
+"x_screen": 1082.14,
+"y_screen": 447.83,
 "facing": -1,
 "posture": "standing",
 "head_screen": [
 1171.63,
 388.3
 ],
-"sprite": "yaw=150,hy=165,hp=3,ear=0,tl=11,wag=0,cr=2,lie=0,g=6,br=1,rs=0,sn=0,st=3"
+"sprite": "yaw=150,hy=165,hp=3,ear=0,tl=11,wag=0,cr=2,lie=0,g=8,br=1,rs=0,sn=0,st=3"
 },
 {
 "i": 101,
 "t": 4.2083,
 "state": "refuse",
 "x_score": 4,
-"x_screen": 1082.75,
-"y_screen": 449.06,
+"x_screen": 1082.14,
+"y_screen": 447.83,
 "facing": -1,
 "posture": "standing",
 "head_screen": [
 1171.63,
 388.3
 ],
-"sprite": "yaw=150,hy=165,hp=3,ear=0,tl=11,wag=0,cr=2,lie=0,g=6,br=1,rs=0,sn=0,st=3"
+"sprite": "yaw=150,hy=165,hp=3,ear=0,tl=11,wag=0,cr=2,lie=0,g=8,br=1,rs=0,sn=0,st=3"
 },
 {
 "i": 102,
 "t": 4.25,
 "state": "refuse",
 "x_score": 4,
-"x_screen": 1082.14,
-"y_screen": 447.83,
+"x_screen": 1082.79,
+"y_screen": 446.89,
 "facing": -1,
 "posture": "standing",
 "head_screen": [
 1171.63,
 388.3
 ],
-"sprite": "yaw=150,hy=165,hp=3,ear=0,tl=11,wag=0,cr=2,lie=0,g=8,br=1,rs=0,sn=0,st=3"
+"sprite": "yaw=150,hy=165,hp=3,ear=0,tl=11,wag=0,cr=2,lie=0,g=10,br=1,rs=0,sn=0,st=3"
 },
 {
 "i": 103,
 "t": 4.2917,
 "state": "refuse",
 "x_score": 4,
-"x_screen": 1082.14,
-"y_screen": 447.83,
+"x_screen": 1082.79,
+"y_screen": 446.89,
 "facing": -1,
 "posture": "standing",
 "head_screen": [
 1171.63,
 388.3
 ],
-"sprite": "yaw=150,hy=165,hp=3,ear=0,tl=11,wag=0,cr=2,lie=0,g=8,br=1,rs=0,sn=0,st=3"
+"sprite": "yaw=150,hy=165,hp=3,ear=0,tl=11,wag=0,cr=2,lie=0,g=10,br=1,rs=0,sn=0,st=3"
 },
 {
 "i": 104,
@@ -1941,7 +1941,7 @@
 "x_screen": 1083.04,
 "y_screen": 457.11,
 "facing": -1,
-"posture": "standing",
+"posture": "crouched",
 "head_screen": [
 1170.67,
 392.12
@@ -1956,7 +1956,7 @@
 "x_screen": 1083.04,
 "y_screen": 457.11,
 "facing": -1,
-"posture": "standing",
+"posture": "crouched",
 "head_screen": [
 1170.67,
 392.12
@@ -2031,7 +2031,7 @@
 "x_screen": 1088.73,
 "y_screen": 482.5,
 "facing": -1,
-"posture": "crouched",
+"posture": "lying",
 "head_screen": [
 1174.44,
 433.8
@@ -2046,7 +2046,7 @@
 "x_screen": 1088.73,
 "y_screen": 482.5,
 "facing": -1,
-"posture": "crouched",
+"posture": "lying",
 "head_screen": [
 1174.44,
 433.8
@@ -2881,17 +2881,17 @@
 {
 "i": 179,
 "t": 7.4583,
-"state": "refuse",
+"state": "watch",
 "x_score": 4,
-"x_screen": 1091.65,
-"y_screen": 489.17,
+"x_screen": 1085.22,
+"y_screen": 491.01,
 "facing": -1,
 "posture": "lying",
 "head_screen": [
-1178.54,
-444
+1174.53,
+442.56
 ],
-"sprite": "yaw=150,hy=165,hp=1,ear=0,tl=12,wag=0,cr=0,lie=10,g=-1,br=0,rs=10,sn=0,st=10"
+"sprite": "yaw=150,hy=165,hp=2,ear=2,tl=9,wag=0,cr=1,lie=10,g=-1,br=0,rs=5,sn=0,st=10"
 },
 {
 "i": 180,
@@ -2991,7 +2991,7 @@
 "x_screen": 1080.02,
 "y_screen": 480.89,
 "facing": 1,
-"posture": "crouched",
+"posture": "lying",
 "head_screen": [
 1112.07,
 387.27
@@ -3006,7 +3006,7 @@
 "x_screen": 1080.02,
 "y_screen": 480.89,
 "facing": 1,
-"posture": "crouched",
+"posture": "lying",
 "head_screen": [
 1112.07,
 387.27
@@ -3051,7 +3051,7 @@
 "x_screen": 1074.76,
 "y_screen": 453.06,
 "facing": 1,
-"posture": "standing",
+"posture": "crouched",
 "head_screen": [
 1107.26,
 352.76
@@ -3066,7 +3066,7 @@
 "x_screen": 1074.76,
 "y_screen": 453.06,
 "facing": 1,
-"posture": "standing",
+"posture": "crouched",
 "head_screen": [
 1107.26,
 352.76
@@ -3108,240 +3108,240 @@
 "t": 8.0833,
 "state": "watch",
 "x_score": 4,
-"x_screen": 1074.54,
-"y_screen": 445.43,
+"x_screen": 1076.4,
+"y_screen": 444.82,
 "facing": 1,
 "posture": "standing",
 "head_screen": [
 1102.63,
 351.79
 ],
-"sprite": "yaw=144,hy=8,hp=7,ear=2,tl=9,wag=0,cr=1,lie=0,g=10,br=0,rs=0,sn=0,st=3"
+"sprite": "yaw=144,hy=8,hp=7,ear=2,tl=9,wag=0,cr=1,lie=0,g=0,br=0,rs=0,sn=0,st=3"
 },
 {
 "i": 195,
 "t": 8.125,
 "state": "watch",
 "x_score": 4,
-"x_screen": 1074.54,
-"y_screen": 445.43,
+"x_screen": 1076.4,
+"y_screen": 444.82,
 "facing": 1,
 "posture": "standing",
 "head_screen": [
 1102.63,
 351.79
 ],
-"sprite": "yaw=144,hy=8,hp=7,ear=2,tl=9,wag=0,cr=1,lie=0,g=10,br=0,rs=0,sn=0,st=3"
+"sprite": "yaw=144,hy=8,hp=7,ear=2,tl=9,wag=0,cr=1,lie=0,g=0,br=0,rs=0,sn=0,st=3"
 },
 {
 "i": 196,
 "t": 8.1667,
 "state": "watch",
 "x_score": 4,
-"x_screen": 1075.84,
-"y_screen": 448.06,
+"x_screen": 1075.71,
+"y_screen": 448.48,
 "facing": 1,
 "posture": "standing",
 "head_screen": [
 1088.84,
 349.72
 ],
-"sprite": "yaw=128,hy=8,hp=7,ear=2,tl=9,wag=0,cr=1,lie=0,g=0,br=0,rs=0,sn=0,st=3"
+"sprite": "yaw=128,hy=8,hp=7,ear=2,tl=9,wag=0,cr=1,lie=0,g=2,br=0,rs=0,sn=0,st=3"
 },
 {
 "i": 197,
 "t": 8.2083,
 "state": "watch",
 "x_score": 4,
-"x_screen": 1075.84,
-"y_screen": 448.06,
+"x_screen": 1075.71,
+"y_screen": 448.48,
 "facing": 1,
 "posture": "standing",
 "head_screen": [
 1088.84,
 349.72
 ],
-"sprite": "yaw=128,hy=8,hp=7,ear=2,tl=9,wag=0,cr=1,lie=0,g=0,br=0,rs=0,sn=0,st=3"
+"sprite": "yaw=128,hy=8,hp=7,ear=2,tl=9,wag=0,cr=1,lie=0,g=2,br=0,rs=0,sn=0,st=3"
 },
 {
 "i": 198,
 "t": 8.25,
 "state": "watch",
 "x_score": 4,
-"x_screen": 1077.64,
-"y_screen": 445.08,
+"x_screen": 1077.72,
+"y_screen": 445.38,
 "facing": 1,
 "posture": "standing",
 "head_screen": [
 1063.43,
 348.47
 ],
-"sprite": "yaw=103,hy=8,hp=7,ear=2,tl=9,wag=0,cr=1,lie=0,g=2,br=0,rs=0,sn=0,st=3"
+"sprite": "yaw=103,hy=8,hp=7,ear=2,tl=9,wag=0,cr=1,lie=0,g=4,br=0,rs=0,sn=0,st=3"
 },
 {
 "i": 199,
 "t": 8.2917,
 "state": "watch",
 "x_score": 4,
-"x_screen": 1077.64,
-"y_screen": 445.08,
+"x_screen": 1077.72,
+"y_screen": 445.38,
 "facing": 1,
 "posture": "standing",
 "head_screen": [
 1063.43,
 348.47
 ],
-"sprite": "yaw=103,hy=8,hp=7,ear=2,tl=9,wag=0,cr=1,lie=0,g=2,br=0,rs=0,sn=0,st=3"
+"sprite": "yaw=103,hy=8,hp=7,ear=2,tl=9,wag=0,cr=1,lie=0,g=4,br=0,rs=0,sn=0,st=3"
 },
 {
 "i": 200,
 "t": 8.3333,
 "state": "watch",
 "x_score": 4,
-"x_screen": 1074.99,
-"y_screen": 444.12,
+"x_screen": 1075.67,
+"y_screen": 443.85,
 "facing": 1,
 "posture": "standing",
 "head_screen": [
 1033.64,
 350.29
 ],
-"sprite": "yaw=75,hy=8,hp=7,ear=2,tl=9,wag=0,cr=1,lie=0,g=4,br=0,rs=0,sn=0,st=3"
+"sprite": "yaw=75,hy=8,hp=7,ear=2,tl=9,wag=0,cr=1,lie=0,g=6,br=0,rs=0,sn=0,st=3"
 },
 {
 "i": 201,
 "t": 8.375,
 "state": "watch",
 "x_score": 4,
-"x_screen": 1074.99,
-"y_screen": 444.12,
+"x_screen": 1075.67,
+"y_screen": 443.85,
 "facing": 1,
 "posture": "standing",
 "head_screen": [
 1033.64,
 350.29
 ],
-"sprite": "yaw=75,hy=8,hp=7,ear=2,tl=9,wag=0,cr=1,lie=0,g=4,br=0,rs=0,sn=0,st=3"
+"sprite": "yaw=75,hy=8,hp=7,ear=2,tl=9,wag=0,cr=1,lie=0,g=6,br=0,rs=0,sn=0,st=3"
 },
 {
 "i": 202,
 "t": 8.4167,
 "state": "watch",
 "x_score": 4,
-"x_screen": 1078.91,
-"y_screen": 446.24,
+"x_screen": 1079.29,
+"y_screen": 446.94,
 "facing": 1,
 "posture": "standing",
 "head_screen": [
 1008.42,
 355.35
 ],
-"sprite": "yaw=47,hy=8,hp=7,ear=2,tl=9,wag=0,cr=1,lie=0,g=6,br=1,rs=0,sn=0,st=3"
+"sprite": "yaw=47,hy=8,hp=7,ear=2,tl=9,wag=0,cr=1,lie=0,g=8,br=1,rs=0,sn=0,st=3"
 },
 {
 "i": 203,
 "t": 8.4583,
 "state": "watch",
 "x_score": 4,
-"x_screen": 1078.91,
-"y_screen": 446.24,
+"x_screen": 1079.29,
+"y_screen": 446.94,
 "facing": 1,
 "posture": "standing",
 "head_screen": [
 1008.42,
 355.35
 ],
-"sprite": "yaw=47,hy=8,hp=7,ear=2,tl=9,wag=0,cr=1,lie=0,g=6,br=1,rs=0,sn=0,st=3"
+"sprite": "yaw=47,hy=8,hp=7,ear=2,tl=9,wag=0,cr=1,lie=0,g=8,br=1,rs=0,sn=0,st=3"
 },
 {
 "i": 204,
 "t": 8.5,
 "state": "watch",
 "x_score": 4,
-"x_screen": 1078.92,
-"y_screen": 443.57,
+"x_screen": 1079.96,
+"y_screen": 445.84,
 "facing": 1,
 "posture": "standing",
 "head_screen": [
 994.24,
 364.04
 ],
-"sprite": "yaw=22,hy=8,hp=7,ear=2,tl=9,wag=0,cr=1,lie=0,g=8,br=1,rs=0,sn=0,st=3"
+"sprite": "yaw=22,hy=8,hp=7,ear=2,tl=9,wag=0,cr=1,lie=0,g=10,br=1,rs=0,sn=0,st=3"
 },
 {
 "i": 205,
 "t": 8.5417,
 "state": "watch",
 "x_score": 4,
-"x_screen": 1078.92,
-"y_screen": 443.57,
+"x_screen": 1079.96,
+"y_screen": 445.84,
 "facing": 1,
 "posture": "standing",
 "head_screen": [
 994.24,
 364.04
 ],
-"sprite": "yaw=22,hy=8,hp=7,ear=2,tl=9,wag=0,cr=1,lie=0,g=8,br=1,rs=0,sn=0,st=3"
+"sprite": "yaw=22,hy=8,hp=7,ear=2,tl=9,wag=0,cr=1,lie=0,g=10,br=1,rs=0,sn=0,st=3"
 },
 {
 "i": 206,
 "t": 8.5833,
 "state": "watch",
 "x_score": 4,
-"x_screen": 1082.33,
-"y_screen": 445.94,
+"x_screen": 1086.48,
+"y_screen": 446.64,
 "facing": 1,
 "posture": "standing",
 "head_screen": [
 991.54,
 376.63
 ],
-"sprite": "yaw=5,hy=8,hp=7,ear=2,tl=9,wag=0,cr=1,lie=0,g=10,br=1,rs=0,sn=0,st=3"
+"sprite": "yaw=5,hy=8,hp=7,ear=2,tl=9,wag=0,cr=1,lie=0,g=0,br=1,rs=0,sn=0,st=3"
 },
 {
 "i": 207,
 "t": 8.625,
 "state": "watch",
 "x_score": 4,
-"x_screen": 1082.33,
-"y_screen": 445.94,
+"x_screen": 1086.48,
+"y_screen": 446.64,
 "facing": 1,
 "posture": "standing",
 "head_screen": [
 991.54,
 376.63
 ],
-"sprite": "yaw=5,hy=8,hp=7,ear=2,tl=9,wag=0,cr=1,lie=0,g=10,br=1,rs=0,sn=0,st=3"
+"sprite": "yaw=5,hy=8,hp=7,ear=2,tl=9,wag=0,cr=1,lie=0,g=0,br=1,rs=0,sn=0,st=3"
 },
 {
 "i": 208,
 "t": 8.6667,
 "state": "watch",
 "x_score": 4,
-"x_screen": 1088.91,
-"y_screen": 444.42,
+"x_screen": 1087.33,
+"y_screen": 445.01,
 "facing": 1,
 "posture": "standing",
 "head_screen": [
 1000.62,
 370.59
 ],
-"sprite": "yaw=0,hy=0,hp=9,ear=2,tl=5,wag=0,cr=1,lie=0,g=0,br=1,rs=0,sn=0,st=3"
+"sprite": "yaw=0,hy=0,hp=9,ear=2,tl=5,wag=0,cr=1,lie=0,g=2,br=1,rs=0,sn=0,st=3"
 },
 {
 "i": 209,
 "t": 8.7083,
 "state": "watch",
 "x_score": 4,
-"x_screen": 1088.91,
-"y_screen": 444.42,
+"x_screen": 1087.33,
+"y_screen": 445.01,
 "facing": 1,
 "posture": "standing",
 "head_screen": [
 1000.62,
 370.59
 ],
-"sprite": "yaw=0,hy=0,hp=9,ear=2,tl=5,wag=0,cr=1,lie=0,g=0,br=1,rs=0,sn=0,st=3"
+"sprite": "yaw=0,hy=0,hp=9,ear=2,tl=5,wag=0,cr=1,lie=0,g=2,br=1,rs=0,sn=0,st=3"
 },
 {
 "i": 210,
@@ -8763,15 +8763,15 @@
 "t": 23.7917,
 "state": "approach",
 "x_score": 0.59,
-"x_screen": 470.5,
-"y_screen": 446.39,
+"x_screen": 474,
+"y_screen": 446.71,
 "facing": 1,
 "posture": "standing",
 "head_screen": [
-364.75,
-412.24
+371.18,
+391.8
 ],
-"sprite": "yaw=0,hy=0,hp=2,ear=1,tl=3,wag=0,cr=1,lie=0,g=5,br=1,rs=0,sn=0,st=10"
+"sprite": "yaw=0,hy=0,hp=5,ear=1,tl=3,wag=0,cr=0,lie=1,g=-1,br=1,rs=0,sn=0,st=10"
 },
 {
 "i": 572,
@@ -8811,7 +8811,7 @@
 "x_screen": 473.19,
 "y_screen": 455.07,
 "facing": 1,
-"posture": "standing",
+"posture": "crouched",
 "head_screen": [
 371.18,
 391.8
@@ -8826,7 +8826,7 @@
 "x_screen": 473.19,
 "y_screen": 455.07,
 "facing": 1,
-"posture": "standing",
+"posture": "crouched",
 "head_screen": [
 371.18,
 391.8
@@ -8871,7 +8871,7 @@
 "x_screen": 469.88,
 "y_screen": 476.62,
 "facing": 1,
-"posture": "crouched",
+"posture": "lying",
 "head_screen": [
 368.36,
 415.09
@@ -8886,7 +8886,7 @@
 "x_screen": 469.88,
 "y_screen": 476.62,
 "facing": 1,
-"posture": "crouched",
+"posture": "lying",
 "head_screen": [
 368.36,
 415.09
@@ -8901,7 +8901,7 @@
 "x_screen": 468.23,
 "y_screen": 483.57,
 "facing": 1,
-"posture": "crouched",
+"posture": "lying",
 "head_screen": [
 366.64,
 430.9
@@ -8916,7 +8916,7 @@
 "x_screen": 468.23,
 "y_screen": 483.57,
 "facing": 1,
-"posture": "crouched",
+"posture": "lying",
 "head_screen": [
 366.64,
 430.9

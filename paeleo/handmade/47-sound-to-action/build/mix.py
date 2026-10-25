@@ -163,7 +163,7 @@ for e in AT['events']:
 
 for f in FOLEY:
     k = f['kind']; pan = pan_of(f['x'])
-    if k == 'paw': put('dog', nails(), f['t0'], pan, -33 if not f.get('soft') else -38)
+    if k == 'paw': put('dog', nails(), f['t0'], pan, -24 if not f.get('soft') else -29)
     if k == 'thump': put('dog', thump(60, 0.25, 0.15), f['t0'], pan, f.get('g', -14) - 6)
     if k == 'sniff': put('dog', noise_env(0.09, 1500, 6000, 0.01, 0.03), f['t0'], pan, -24)
     if k == 'sigh': put('dog', noise_env(f['dur'], 300, 1800, 0.12, f['dur'] / 2.5), f['t0'], pan, -27)
