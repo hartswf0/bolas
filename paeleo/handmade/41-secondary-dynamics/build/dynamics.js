@@ -118,7 +118,9 @@ class Chain {
       }
       if (!this.touch) this.touch = {}; const contacts = [];
       for (let i = 1; i < this.n; i++) for (let ci = 0; ci < colliders.length; ci++) { // collision boundaries: project out
-        const c = colliders[ci], key = i * 64 + ci, hit = resolve(this.p[i], this.r[i], c);
+        const c0 = colliders[ci], key = i * 64 + ci, back = c0.v ? V.mul(c0.v, -(dt - (s + 1) * h)) : null; // a moving boundary, where it is at this substep
+        const c = !back ? c0 : c0.type === 'sphere' ? { ...c0, c: V.add(c0.c, back) } : c0.type === 'capsule' ? { ...c0, a: V.add(c0.a, back), b: V.add(c0.b, back) } : c0;
+        const hit = resolve(this.p[i], this.r[i], c);
         if (!hit) { if (this.touch[key] && signedGap(this.p[i], this.r[i], c) > 0.008) this.touch[key] = 0; continue; } // hysteresis: a contact ends only 8 mm clear
         const vn = V.dot(V.sub(V.mul(V.sub(this.p[i], prev[i]), 1 / h), c.v || [0, 0, 0]), hit.n); this.p[i] = hit.p; // normal speed relative to the (moving) boundary
         if (!this.touch[key] && vn < -0.05 && c.tag) this.events.push({ t: t0 + (s + 1) * h, tag: c.tag, node: i, speed: -vn }); // contact onset only

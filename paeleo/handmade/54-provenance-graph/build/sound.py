@@ -154,7 +154,7 @@ def main():
     room_stem = room.copy()
     # ---- the voice: calls are loud and near, the soft lines are quiet and close
     stems = {}
-    plan = [('come_here', 1.0, 0.5), ('come_here2', 3.42, 0.58), ('all_right', 7.42, 0.11), ('all_right', 10.42, 0.10), ('come_in', 26.42, 0.10)]
+    plan = [('come_here', 1.0, 0.5), ('come_here2', 3.42, 0.58), ('all_right', 7.42, 0.15), ('all_right', 10.42, 0.14), ('come_in', 26.42, 0.14)]
     vlog = []
     for key, t0, g in plan:
         segs, f0 = LINES[key]
@@ -164,23 +164,23 @@ def main():
         place(buf, sig, t0, g, pan)
         vlog.append({'line': key, 't': t0, 'gain': g, 'rms_dbfs': round(rms_db(sig[np.abs(sig) > 0.02] * g), 2), 'peak_dbfs': round(20 * math.log10(g), 2)})
     # ---- the dog's claws on the boards, at the render's own foot contacts
+    import dogrig
     contacts = 0
-    prev = None
+    prev = {}
     for f in trace:
-        ps = f.get('feet_px')
-        if not ps or f['mode'] != 'rig':
-            prev = None; continue
-        if prev is not None:
-            for leg, (x, y) in ps.items():
-                px, py = prev.get(leg, (x, y))
-                moving_before = abs(px - x) > 0.4
-                # contact: a foot that was travelling arrives on the boards (stops moving) this frame
-                if f['posture'].startswith(('walking', 'backing')) and abs(px - x) < 0.25 and prev.get('_mv_' + leg):
-                    pan = (x - 640) / 640 * 0.7
-                    place(buf, tick(0.8 if 'near' in leg else 0.55), f['t'], 0.16 * (0.7 if f['state'] == 'approach' else 1.0), pan)
-                    contacts += 1
-        mv = {('_mv_' + leg): (prev is not None and abs(prev.get(leg, (x, y))[0] - x) > 0.4) for leg, (x, y) in ps.items()}
-        prev = dict(ps); prev.update(mv)
+        fs = SCORE['frames'][f['i']]['dog']
+        if f['mode'] != 'rig' or fs['act']['moving'] <= 0.02 or f['posture'].startswith(('lying', 'standing, back')):
+            prev = {}; continue
+        s_ = (4.0 - fs['x']) * 125.0
+        for leg, (pc, pv, ft, near, ph) in dogrig.LEGS.items():
+            _, _, stance = dogrig.gait_foot(s_, ph, 70.0, 0.62, 70.0 * 0.62 / 2)
+            if stance and prev.get(leg) is False:
+                x = (f['feet_px'] or {}).get(leg, [640, 0])[0]
+                pan = (x - 640) / 640 * 0.7
+                g = (0.22 if near else 0.15) * (0.75 if fs['state'] == 'approach' else 1.0) * min(1.0, fs['act']['moving'] * 1.3)
+                place(buf, tick(1.0), f['t'], g, pan)
+                contacts += 1
+            prev[leg] = stance
     # scuffles at the two turns
     for t0 in (3.42, 3.6, 7.66, 7.84):
         place(buf, tick(0.6), t0, 0.12, 0.6); place(buf, tick(0.4), t0 + 0.07, 0.10, 0.6)

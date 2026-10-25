@@ -118,6 +118,15 @@ See `ledger.jsonl`. In short: seams inside the silhouette (fixed with merge-grou
 fifth leg; a back of the head whose nape patch read as a mouth; a face too small for the mouth atlas; a light-mask haze on
 the wall; the moon hidden by the porch roof; a refusal still mid-turn at 3.6 s (turn tightened to 3.42–3.58); and a head
 that only reached the line of the back in the approach (head stop lowered, neck and collar rebuilt to follow the head).
+Two whole-film renders were killed from outside mid-run (exit 144, memory flat), so the build now renders in 96-frame
+chunks, one process each, and concatenates them.
+
+**Still weak** (my own reading, not a critic's): the dog is small in the wide shot (about 210 px long); the half-down
+frame at 23.97 s hides the forelegs behind the blaze; the front and three-quarter turn drawings are on screen for only two
+frames each; the person has one view; the voice is a crude synth whose intelligibility I could not hear.
+
+**Stopping point**: the film is watchable and the four invariants hold on the measured trace. I stopped there, not at a
+no-progress boundary. Next is an independent critic round.
 
 ## What I did not do
 
