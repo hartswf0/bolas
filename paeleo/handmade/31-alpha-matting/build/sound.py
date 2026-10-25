@@ -124,9 +124,9 @@ def main():
     # the voice: calls are loud; soft words at least 6 dB below (measured below)
     CALL_G, SOFT_G = 10 ** (-12 / 20), 10 ** (-24 / 20)
     marks = {}
-    v = come_here(1.0); add(L, v, 1.0, CALL_G / np.abs(v).max()); marks['call_1'] = (1.0, 1.0 + len(v) / SR)
-    v = come_here(1.25); add(L, v, 3.42, CALL_G * 1.12 / np.abs(v).max()); marks['call_2'] = (3.42, 3.42 + len(v) / SR)
-    v = come_here(1.1); add(L, v, 1.0 + .95, CALL_G * .9 / np.abs(v).max()); marks['call_1b'] = (1.95, 1.95 + len(v) / SR)
+    v = come_here(1.0); add(L, v, 0.62, CALL_G / np.abs(v).max()); marks['call_1'] = (0.62, 0.62 + len(v) / SR)
+    v = come_here(1.25); add(L, v, 2.95, CALL_G * 1.12 / np.abs(v).max()); marks['call_2'] = (2.95, 2.95 + len(v) / SR)
+    v = come_here(1.1); add(L, v, 1.62, CALL_G * .9 / np.abs(v).max()); marks['call_1b'] = (1.62, 1.62 + len(v) / SR)
     for t0, name in [(7.42, 'soft_1'), (10.42, 'soft_2')]:
         v = its_all_right(); add(L, v, t0, SOFT_G / np.abs(v).max()); marks[name] = (t0, t0 + len(v) / SR)
     v = come_in(); add(L, v, 25.85, SOFT_G * 1.05 / np.abs(v).max()); marks['come_in'] = (25.85, 25.85 + len(v) / SR)
@@ -142,6 +142,11 @@ def main():
                 add(L, claw(i + 500, .9), i / 24. + .09, 10 ** (-27 / 20))
             if post == 'back away':
                 add(L, claw(i + 999, .8), i / 24. + .03, 10 ** (-34 / 20))
+        if p.get('kind') == 'gait' and i > 0:      # backing away: a tick each time a paw is set down again
+            q = tr[str(i - 1)]['pose']
+            for k in ('fore', 'hind'):
+                if q.get('kind') == 'gait' and p['legs'][k]['plant'] != q['legs'][k]['plant']:
+                    add(L, claw(i * 3 + (k == 'fore'), 1.3), i / 24. + .02, 10 ** (-25 / 20))
         prev = f
     # the person: steps aside and sits (boards, cloth)
     for k, t0 in enumerate(np.arange(5.4, 6.3, .3)):
@@ -166,11 +171,11 @@ def main():
     def rms(a, b):
         s = L[int(a * SR):int(b * SR)]; return 20 * np.log10(np.sqrt((s ** 2).mean()) + 1e-12)
     lv = {k: round(rms(a, b), 2) for k, (a, b) in marks.items()}
-    lv['room_tone_0.2_0.9'] = round(rms(.2, .9), 2)
+    lv['room_tone_0.05_0.55'] = round(rms(.05, .55), 2)
     lv['room_tone_12.5_14.5'] = round(rms(12.5, 14.5), 2)
     lv['peak'] = round(20 * np.log10(np.abs(L).max()), 2)
     lv['calls_minus_soft_dB'] = round(min(lv['call_1'], lv['call_2']) - max(lv['soft_1'], lv['soft_2'], lv['come_in']), 2)
-    lv['soft_minus_room_dB'] = round(min(lv['soft_1'], lv['soft_2'], lv['come_in']) - max(lv['room_tone_0.2_0.9'], lv['room_tone_12.5_14.5']), 2)
+    lv['soft_minus_room_dB'] = round(min(lv['soft_1'], lv['soft_2'], lv['come_in']) - max(lv['room_tone_0.05_0.55'], lv['room_tone_12.5_14.5']), 2)
     lv['marks_s'] = {k: [round(a, 2), round(b, 2)] for k, (a, b) in marks.items()}
     json.dump(lv, open(os.path.join(C, 'sound_levels.json'), 'w'), indent=1)
     st = np.stack([L, L * .97], 1)

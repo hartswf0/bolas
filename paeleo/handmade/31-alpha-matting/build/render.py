@@ -116,6 +116,7 @@ def dog_frame(i, mirror):
     if key not in DOG:
         z = load_npz(os.path.join(C, 'dog/f%03d.npz' % i))
         P = z['P'].astype(np.float32); x0, y0, x1, y1 = z['box']
+        P = P * main_component(P[..., 3])[..., None]       # matte debris detached from the body is dropped
         if mirror:
             P = P[:, ::-1].copy(); x0, x1 = 384 - x1, 384 - x0
         DOG[key] = (P, (x0, y0, x1, y1))
@@ -305,6 +306,26 @@ def gait_sprite(x_body, x_start):
     return out, info
 
 
+def main_component(a, thr=.08, grow=2):
+    """mask of the largest connected piece of matte (grown by `grow` px so fur strands touching the body stay);
+    label propagation in numpy (no scipy here)"""
+    from lib_matte import dilate
+    m = dilate(a > thr, grow)
+    lab = np.where(m, np.arange(m.size, dtype=np.int64).reshape(m.shape) + 1, 0)
+    for _ in range(2000):
+        p = np.pad(lab, 1)
+        nb = np.maximum.reduce([p[1:-1, 1:-1], p[:-2, 1:-1], p[2:, 1:-1], p[1:-1, :-2], p[1:-1, 2:]])
+        nb = np.where(m, nb, 0)
+        if (nb == lab).all():
+            break
+        lab = nb
+    if lab.max() == 0:
+        return np.ones_like(a)
+    ids, cnt = np.unique(lab[lab > 0], return_counts=True)
+    keep = lab == ids[cnt.argmax()]
+    return blur(keep.astype(np.float32), 1, 1)
+
+
 def bbox_crop(A):
     a = A[..., 3]; ys, xs = np.nonzero(a > .004)
     if len(xs) == 0:
@@ -317,6 +338,7 @@ def bbox_crop(A):
 CH = {c['to'] + ('' if c['to'] != 'watch' else str(k)): c['t'] for k, c in enumerate(SCORE['choices'])}
 T_RET, T_W1, T_REF, T_W2, T_APP, T_LIE = [c['t'] for c in SCORE['choices']]
 T_COMEIN = 26.4
+CALL_WINDOWS = [(0.62, 1.38), (1.62, 2.30), (2.95, 3.70)]   # the voice comes first (sound.py places the calls here)
 WALK = [43, 44, 45, 48]                 # the archive dog's head-low walk, mirrored to face the door (42, 46, 47: head lost in a tangle, skipped)
 STRIDE = 0.068                           # metres travelled per walk frame (≈ the source's own advance per frame)
 TURN = [14, 14, 26, 28, 31]              # the turn through the dog's front: 3/4 left, front, 3/4 right (source frames 17-22 were illegible tangles)
@@ -378,6 +400,7 @@ def dog_pose(i):
     look = float(smooth(T_COMEIN, T_COMEIN + .16, t) * (1 - smooth(28.15, 28.35, t)))
     rest = float(smooth(28.2, 28.9, t))
     head_up = float(L * (1 - rest))
+    rest = max(rest, .5 * L)          # head held level on the sill, not pointed at the sky
     return dict(kind='lie', L=L, head_up=head_up, look=look, rest=rest, facing=1,
                 posture='lie' if L > .95 else 'lying down', looking_in=look > .5)
 
@@ -410,7 +433,7 @@ def dog_sprite(i):
         p['anchor'] = gait_pieces()['anchor']
     else:
         A = lying_sprite(p['L'], p['head_up'], p['look'], p['rest'], p.get('face_right', False), p.get('look_back', 0.))
-        A = A * (blur(A[..., 3], 6, 2) > .18)[..., None]     # drop stray specks left by the piece masks
+        A = A * main_component(A[..., 3])[..., None]          # drop matte debris detached from the body
         P, b = bbox_crop(A)
     return p, P, b
 
@@ -438,8 +461,10 @@ def place(canvas, P, x, y, wrap=0.0, wrap_col=None):
         bgb = blur(D.copy(), 1, 1) if wrap_col is None else wrap_col[cy0:cy1, cx0:cx1]   # only light actually behind the edge
         inner = blur(S[..., 3], 3, 2)[..., None]
         edge = np.clip(a * (1 - inner) * 3.0, 0, 1)
-        add = edge * bgb * wrap
-        canvas[cy0:cy1, cx0:cx1] = S[..., :3] + add * a + D * (1 - a)
+        k = np.clip(edge * wrap, 0, .6)
+        # energy-conserving wrap: a share of the edge's own colour is replaced by the light behind it, never added,
+        # so an edge can never be brighter than the brighter of fur and background
+        canvas[cy0:cy1, cx0:cx1] = S[..., :3] * (1 - k) + bgb * k * a + D * (1 - a)
     else:
         canvas[cy0:cy1, cx0:cx1] = S[..., :3] + D * (1 - a)
 
@@ -491,7 +516,7 @@ def person(canvas, i, t, light):
     s = 0.70
     px = sx(pr['x'])
     sit = pr['sit']
-    calling = 1.0 if pr['voice'] == 'call' else 0.0
+    calling = 1.0 if any(a0 <= t < a1 for a0, a1 in CALL_WINDOWS) else 0.0
     lean = calling * (0.6 + 0.4 * math.sin(t * 9)) if calling else 0
     # torso: matte (Straight Talk), cropped at the hip as she sits
     crop_y = int(WOMAN.shape[0] - sit * 70)
@@ -643,7 +668,7 @@ def mix_layers(Pa, la, ta, Pb, lb, tb, w):
     return M, x0, y0
 
 
-DISSOLVES = []   # filled below from the score: (first frame of the new drawing, frames of dissolve)
+DISSOLVES = [(int(math.ceil(T_RET * 24)), 3), (int(math.ceil(T_W1 * 24)), 4), (int(math.ceil(T_LIE * 24)), 4)]   # (first frame of the new drawing, frames)
 
 
 def render(i):
@@ -699,7 +724,7 @@ def render(i):
     a = Pd[..., 3]
     hs = max(2, int(a.shape[0] * .22))
     proj = np.asarray(Image.fromarray(a[::-1]).resize((a.shape[1], hs), Image.BILINEAR))
-    ox, oy = int(left), int(GY + 4)
+    ox, oy = int(left), int(GY + 1)
     for r in range(hs):                      # shear toward the right (away from the door)
         sh_x = ox + int(r * 1.8 * light)
         yy = oy + r - 2
@@ -723,7 +748,7 @@ def render(i):
     if y1c > y0c and x1c > x0c:
         ca[y0c:y1c, x0c:x1c] = Pd[y0c - Y0 - 4:y1c - Y0 - 4, x0c - X0:x1c - X0, 3]
     ca = blur(ca, 3, 2) * (ST['yy'] > 580)
-    can *= (1 - .7 * ca[..., None])
+    can *= (1 - .8 * ca[..., None])
     # light wrap only from what is behind the dog in depth (the wall, the doorway, the sky), never from the floor
     wc = blur(can.copy(), 1, 1); wc[584:] = 0
     place(can, Pd, left, top, wrap=wrapk, wrap_col=wc)
@@ -761,7 +786,7 @@ def main():
     for i in range(a, b):
         img, pose, meas = render(i)
         Image.fromarray(img).save(os.path.join(od, 's%04d.jpg' % i), quality=93)
-        p = {k: v for k, v in pose.items() if k in ('kind', 'f', 'm', 'facing', 'posture', 'L', 'look', 'rest', 'looking_in')}
+        p = {k: v for k, v in pose.items() if k in ('kind', 'f', 'm', 'facing', 'posture', 'L', 'look', 'rest', 'looking_in', 'legs', 'dissolve')}
         tr[i] = dict(pose=p, **meas)
     json.dump(tr, open(os.path.join(C, 'trace_part_%04d_%04d.json' % (a, b)), 'w'))
     print('rendered', a, b)
