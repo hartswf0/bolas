@@ -480,12 +480,12 @@ function card(ctx, kind, u) {
   } else {
     ctx.font = '600 30px "Big Shoulders Display"'; ctx.fillStyle = 'rgb(214,170,110)'; ctx.fillText('WHAT IT IS MADE OF', W / 2, 120);
     ctx.font = '400 21px Literata'; ctx.fillStyle = 'rgb(232,224,208)';
-    const L = ['The dog is a body plate cut here, furred with the archive dog’s own coat (Amateur Film New Jersey C, public domain),',
-      'moved by one performance solved from the PAELEO score, with a collar where the head meets it.',
-      'Its head is a face slot. In this cut: a paper head cut here. Recast with no new performance:',
-      'two strangers’ Quick, Draw! dogs (CC BY 4.0), or the home-movie dog’s own face (public domain).',
+    const L = ['The dog\u2019s body is the archive dog itself (Amateur Film New Jersey C, public domain): pieces cut from its frames',
+      're-posed on one performance solved from the PAELEO score, and its own turn toward the camera, re-timed, for the turns.',
+      'Its head is a face slot. In this cut: a paper head cut here, graded into the home movie. Recast with no new performance:',
+      'two strangers\u2019 Quick, Draw! dogs (CC BY 4.0), or the home-movie dog\u2019s own head (public domain).',
       'The door is the empty door from Straight Talk (NTIS, public domain); the person is cut paper with a Quick, Draw! face.',
-      'The moon is a Quick, Draw! moon. Every voice and sound is synthesized here. No real person’s face is used.'];
+      'The moon is a Quick, Draw! moon. Every voice and sound is synthesized here. No real person\u2019s face is used.'];
     L.forEach((s, k) => ctx.fillText(s, W / 2, 190 + k * 40));
     // the three casts in the same slot, same frame
     if (card.thumbs) card.thumbs.forEach((c, k) => { ctx.drawImage(c, 160 + k * 330, 450, 300, 169); });

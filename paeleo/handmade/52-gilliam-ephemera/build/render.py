@@ -63,11 +63,11 @@ def shoot(e):
         wts = A[ys, xs_]
         cx = float((xs_ * wts).sum() / wts.sum()); cy = float((ys * wts).sum() / wts.sum())
         bbox = [int(xs_.min()), int(ys.min()), int(xs_.max()), int(ys.max())]
-        hx = None
+        hx = None; head_top = None; withers = None
         for name, x0, y0, al in rec:
-            if name in ('dog_head', 'dog_backhead'):
+            if name in ('dog_head', 'dog_backhead', 'dog_face', 'dog_head_low'):
                 a = np.asarray(al).astype(np.float32); yy, xx = np.nonzero(a > 128)
-                hx = float(xx.mean() + x0); hy = float(yy.mean() + y0)
+                hx = float(xx.mean() + x0); hy = float(yy.mean() + y0); head_top = int(yy.min() + y0)
             if name == 'dog_front':
                 a = np.asarray(al).astype(np.float32); hh = a.shape[0]
                 top = a[: int(hh * .45)]; yy, xx = np.nonzero(top > 128)
@@ -80,19 +80,24 @@ def shoot(e):
             mid = a[:, a.shape[1] // 3: 2 * a.shape[1] // 3] > 128
             rows = np.nonzero(mid.any(axis=1))[0]
             back_y = float(rows.min() + y0) if len(rows) else None
+            if 'card' not in dp:   # the withers: top of the torso card in the column of the shoulder pin
+                sx = int(dog_points(dp)['shoulder'][0]) - x0
+                col = (a[:, max(0, sx - 4):sx + 5] > 128).any(axis=1)
+                withers = int(np.nonzero(col)[0].min() + y0)
         else:
             bx = cx; back_y = None
         if 'card' in dp:
             facing = 1 if hx < cx else -1      # turning card: where its head is
         else:
-            nx = dog_points(dp)['neck'][0]
-            facing = 1 if hx < nx - 1 else -1  # which way the head card points from the neck pin: +1 toward the door
+            pts_ = dog_points(dp)
+            facing = 1 if pts_['head'][0] < pts_['neck'][0] - 1 else -1  # the head card's muzzle pin left of the neck pin: +1 toward the door
         body_facing = dp.get('face', 1)
         w = bbox[2] - bbox[0]; h = bbox[3] - bbox[1]
         inside = float(((A[:, OPEN_L:OPEN_R] > .5).sum()) / max(1, (A > .5).sum()))
         meas = {'x_screen': round(cx, 2), 'y_screen': round(cy, 2), 'bbox': bbox, 'facing': facing, 'body_facing': body_facing, 'head_xy': [round(hx, 1), round(hy, 1)],
                 'aspect_h_w': round(h / max(1, w), 3), 'share_inside_door_frame_px': round(inside, 3),
-                'back_line_y': back_y, 'head_piece': next((r[0] for r in rec if r[0] in ('dog_head', 'dog_backhead', 'dog_front')), None)}
+                'back_line_y': back_y, 'head_top_y': head_top, 'withers_y': withers,
+                'muzzle_y': round(dog_points(dp)['head'][1], 1) if 'card' not in dp else None, 'head_piece': next((r[0] for r in rec if r[0] in ('dog_head', 'dog_backhead', 'dog_front', 'dog_face', 'dog_head_low')), None)}
         if 'card' not in dp:
             pts = dog_points(dp)
             meas['feet'] = {kk: [round(v[0], 2), round(v[1], 2)] for kk, v in pts.items() if kk.startswith('dog_')}
@@ -138,9 +143,10 @@ def main():
             frames.append({'i': f, 't': round(f / 24, 4), 'state': e['state'], 'x_score': s['x'], 'x_screen': m['x_screen'],
                            'y_screen': m['y_screen'], 'facing': m['facing'], 'body_facing': m['body_facing'], 'posture': posture, 'exposure': e['k'],
                            'exposure_first_frame': e['f0'], 'card': e['dog_label'], 'head_piece': m['head_piece'],
-                           'head_xy': m['head_xy'], 'back_line_y': m['back_line_y'], 'bbox': m['bbox'], 'aspect_h_w': m['aspect_h_w'],
+                           'head_xy': m['head_xy'], 'back_line_y': m['back_line_y'], 'head_top_y': m['head_top_y'],
+                           'withers_y': m['withers_y'], 'muzzle_y': m['muzzle_y'], 'bbox': m['bbox'], 'aspect_h_w': m['aspect_h_w'],
                            'share_inside_door_frame_px': m['share_inside_door_frame_px'], 'feet': m.get('feet')})
-    json.dump({'about': 'measured from the rendered dog layer of each exposure (alpha centroid, bbox, head-card centroid vs '
+    json.dump({'about': 'measured from the rendered dog layer of each exposure (alpha centroid, bbox, muzzle pin of the head card vs '
                         'the neck pin for facing: +1 = head toward the door). state = the score state the x-sheet '
                         'acts on that frame. No camera moves: x_screen is in fixed screen pixels, x_metres = (x_screen-290)/210.',
                'frames': frames}, open(os.path.join(FOLDER, 'trace.json'), 'w'))
