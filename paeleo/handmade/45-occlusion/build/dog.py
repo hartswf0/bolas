@@ -28,9 +28,9 @@ FLOOR = 205                          # source foot line used by the rig poses
 CENTER_OFFSET = 0.14                 # world body centre = score x - 0.14 (so x = 0.59 lays the loin under the jamb)
 
 # real-frame sequences
-WALK_LOW = [42, 43, 44, 45, 46, 47]                              # head-low walk, shown mirrored (faces the door)
-TURN_AWAY = [13, 14, 15, 17, 19, 20, 26, 28, 30, 33, 36, 38, 40]  # left -> frontal (head low) -> right
-TURN_BACK = [30, 26, 19, 17, 15, 14, 13, 11, 10]   # never passes through a camera-facing frame: the head stays on the door side           # frontal (head up) -> left, for 8.0-9.0
+WALK_LOW = [42, 43, 44, 45]   # head-low walk, shown mirrored (faces the door); 46 (blurred) and 47 (head hidden: a 'boulder') dropped in round 2
+TURN_AWAY = [13, 14, 26, 28, 30, 31, 33, 36, 38, 40]  # left -> facing the camera -> right (round 2: 15/17/19/20 dropped: a box, two heads)
+TURN_BACK = [28, 26, 14, 13, 11, 10]   # never passes through a camera-facing frame: the head stays on the door side           # frontal (head up) -> left, for 8.0-9.0
 WATCH = [9, 10, 11, 10]                                           # held alert cels (boil)
 LIE_D, LIE_SHEAR = -0.05, 0.228   # lying across the sill: its depth pass crosses the casing plane at x = 0.54, under the right jamb
 STRIDE = 0.30                                                     # metres per walk cycle (short, wary steps)
@@ -100,18 +100,22 @@ def lie_pose(u, head_th, head_kind='L', head_dy=0.0, head_dx=0.0):
     root = rig.fwd((209, 150), tp, tor_th, tdst)
     tail_th = lerp(10, -38, uf) + WAG[0]
     L = [(tl, tlp, tail_th, (root[0] - 2, root[1] + lerp(0, 4, uf)), (1, 1)),
-         (fb, fbp, fb_th, fb_dst, (1, 1)), (t, tp, tor_th, tdst, (1, 1)), (k, kp, k_th, k_dst, (1, 1)),
+         (fb, fbp, fb_th, fb_dst, (1, 1)), (k, kp, k_th, k_dst, (1, 1)), (t, tp, tor_th, tdst, (1, 1)),
          (fa, fap, fa_th, fa_dst, (1, 1))]
     HEAD_ONLY[0] = None
     if head_kind == 'L':
         L.append((h, hp, head_th, (neck[0] + head_dx, neck[1] + head_dy), (1, 1)))
         headpt = rig.fwd((80, 85), hp, head_th, (neck[0] + head_dx, neck[1] + head_dy))
-    elif head_kind == 'T':
-        # turning away into the room: the profile head foreshortened as it rotates away from the camera
-        hl = (h, hp, head_th, (neck[0] + 4 + head_dx, neck[1] + head_dy), (0.70, 0.97))
+    elif head_kind in ('T', 'B'):
+        # round 2: looking in = the real head of frame 0, where the dog is seen three-quarters from behind looking up and
+        # away (its ear and the back of its skull toward the camera, the muzzle away into depth); T is the same head
+        # mid-turn (rotated part-way from the profile's angle), never narrower than 85% of its width
+        h0, h0p = rig.part('head0')
+        sc = (0.88, 1.0) if head_kind == 'T' else (1.0, 1.0)
+        hl = (h0, h0p, head_th, (neck[0] + 6 + head_dx, neck[1] + 8 + head_dy), sc)
         L.append(hl)
         HEAD_ONLY[0] = rig.compose([hl], CANVAS)
-        headpt = rig.fwd((80, 85), hp, head_th, (neck[0] + 4 + head_dx, neck[1] + head_dy), (0.70, 0.97))
+        headpt = (neck[0] + head_dx, neck[1] - 30 + head_dy)
     else:
         hf, hfp = rig.part('headBack' if head_kind == 'B' else 'headF')
         hl = (hf, hfp, head_th, (neck[0] + 2 + head_dx, neck[1] + 10 + head_dy), (0.78, 0.78))
@@ -149,8 +153,8 @@ def dog_frame(i):
     elif st == 'retreat' or (t < 2.6 and t >= 1.0):
         dist = x - 3.0
         if t < 2.333:
-            k = int(dist / (STRIDE / 6))
-            n = WALK_LOW[(-k) % 6]                  # cycle played backwards: it steps back
+            k = int(dist / (STRIDE / len(WALK_LOW)))
+            n = WALK_LOW[(-k) % len(WALK_LOW)]                  # cycle played backwards: it steps back
             img, anc = whole_cel(n); img, anc, head = mirror_img(img, anc, (258 + OX, 176 + OY)); mirror = True
             parts = ['cel%d(mirrored, reversed)' % n]; posture = 'crouch'
         else:                                        # 2.33-2.6: head comes up again, via the head-lowering frames
@@ -173,8 +177,10 @@ def dog_frame(i):
             head = (m['bbox'][0] + OX, m['bbox'][1] + 20 + OY) if n < 20 else ((m['bbox'][2] + OX, m['bbox'][1] + 20 + OY) if n > 30 else (m['cx'] + OX, m['bbox'][1] + OY))
             facing = 1 if n < 19 else (-1)
             posture = 'stand'
-        elif t < 4.15:                              # stands with its back turned (real cel held)
-            img, anc = whole_cel(40); parts = ['cel40']; head = (META['40']['bbox'][2] + OX, 150 + OY); facing = -1; posture = 'stand'
+        elif t < 4.15:                              # stands in profile with its back to the door (re-assembled, head low)
+            img, anc, head = lie_pose(0.0, -35, 'L', 0)
+            img, anc, head = mirror_img(img, anc, head); mirror = True; kind = 'rig'
+            parts = ['head10', 'torso10', 'foreA10', 'foreB10', 'hind10', '(pose mirrored)']; facing = -1; posture = 'stand'
         else:                                       # lies down, facing away, head low, then chin on the paws
             u = sm(4.15, 5.0, t)
             hth = lerp(-35, -55, sm(4.4, 5.0, t)) + lerp(0, -20, a['rest'])
@@ -206,7 +212,7 @@ def dog_frame(i):
             mirror = True; kind = 'rig'; posture = 'lie' if u > 0.5 else 'stand'
         else:
             seq = TURN_BACK
-            k = min(len(seq) - 1, int((t - 7.95) / (0.85 / len(seq))))
+            k = min(len(seq) - 1, int((t - 7.95) / (0.65 / len(seq))))
             n = seq[k]
             img, anc = whole_cel(n); parts = ['cel%d' % n]
             m = META[str(n)]
@@ -220,8 +226,8 @@ def dog_frame(i):
     # ---------------------------------------------------------------- 14.71 - 23.79 approach, head low
     elif t < 23.792:
         dist = 4.0 - x
-        k = int(dist / (STRIDE / 6))
-        n = WALK_LOW[k % 6]
+        k = int(dist / (STRIDE / len(WALK_LOW)))
+        n = WALK_LOW[k % len(WALK_LOW)]
         img, anc = whole_cel(n); img, anc, head = mirror_img(img, anc, (258 + OX, 176 + OY)); mirror = True
         parts = ['cel%d(mirrored)' % n]; facing = 1; posture = 'stand'
         # the last 1.3 m it angles in toward the doorway (depth decreases), body sheared into depth
@@ -235,10 +241,10 @@ def dog_frame(i):
         if look > 0.62:
             # looking in: the head turned into the lit room; the frontal-head outline is what the back of a head looks
             # like, so it is shown from behind: dusk on the back of the skull, the room's light around its edge
-            img, anc, head = lie_pose(u, 0, 'B', -12, -13)
+            img, anc, head = lie_pose(u, 0, 'B', -6, -6)
             tone = 'back'; parts = ['headF (as back of head)', 'torso10', 'legs']
         elif look > 0.30:
-            img, anc, head = lie_pose(u, 14, 'T', -8, -6)
+            img, anc, head = lie_pose(u, -18, 'T', -4, -2)
             tone = 'turn'; parts = ['head10 (turning away, foreshortened)', 'torso10', 'legs']
         else:
             # head low as it came (matches the head-low walk), lifts to watch, chin to the paws when it settles
@@ -263,9 +269,10 @@ def lie_back_look(u):
     # the shoulders of the mirrored body: mirrored neck point
     neck_local = lie_neck(u)
     nx, ny = W - 1 - neck_local[0], neck_local[1]
-    head_img = rig.affine(h, hp, 8, (nx - 18, ny - 4), out_size=CANVAS)
+    # round 2: the head lies level over the shoulders toward the door (was nose-up: read as a seal's neck)
+    head_img = rig.affine(h, hp, -38, (nx - 22, ny + 6), out_size=CANVAS)
     out = Image.alpha_composite(m, head_img)
-    headpt = rig.fwd((80, 85), hp, 8, (nx - 18, ny - 4))
+    headpt = rig.fwd((80, 85), hp, -38, (nx - 22, ny + 6))
     return out, anc2, headpt
 
 
@@ -297,7 +304,7 @@ def lie_body_only(u):
     root = rig.fwd((209, 150), tp, tor_th, tdst)
     L = [(tl, tlp, lerp(10, -38, uf) + WAG[0], (root[0] - 2, root[1] + lerp(0, 4, uf)), (1, 1)),
          (fb, fbp, lerp(0, 62, uf), (lerp(114 + OX, chest[0] + 8, uf), lerp(160 + OY, F - 13, uf)), (1, 1)),
-         (t, tp, tor_th, tdst, (1, 1)),
          (k, kp, lerp(0, 84, uh), (lerp(195 + OX, rump[0] + 4, uh), lerp(175 + OY, F - 9, uh)), (1, 1)),
+         (t, tp, tor_th, tdst, (1, 1)),
          (fa, fap, lerp(0, 80, uf), (lerp(140 + OX, chest[0] + 2, uf), lerp(163 + OY, F - 9, uf)), (1, 1))]
     return rig.compose(L, CANVAS)

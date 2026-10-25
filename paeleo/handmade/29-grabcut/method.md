@@ -133,3 +133,39 @@ Still weak after round 2:
 - Upscaling still softens the source.
 - The 3/4 ↔ side substitutions at 14.7 s and 23.79 s remain.
 - The voices are synthesized and unheard by me.
+
+
+## Round 3 (after critic round 2: DOES NOT PASS, narrowly)
+1. **Refusal lie base** (4.46–7.42) and the **sill lie** (24–32): the straight floor line is replaced by a drawn belly contour, recorded as a repair, not a cut.
+   - The chest rounds down to the elbow; the belly lifts up to 6 source px; the haunch is a round mound touching the boards in one place; a slight
+     fur wiggle runs along the edge.
+   - Original pixels below that contour are trimmed.
+   - The forelegs are drawn behind the body at one angle, the two legs overlapping, so there is no gap between the leg pieces and no seam at the
+     chest/foreleg joint.
+   - At rest the chin lies on the paws.
+   - The tail root now belongs to the body, and the tail piece tapers at its joint.
+   - f13 was re-cut with a rounding scribble on the rump top. The back-of-head piece is now cropped by an ellipse instead of a box.
+2. **Watching**: f10 (the slab hindquarter) and f11 are dropped. f9 is held, breathing, and shows two separate hind legs. Its tail is not
+   separately visible, and its near-vertical leg edges remain (runs up to 27–28 px).
+3. **Straight-run metric**: `build/straight.py`, the longest horizontal or vertical run of boundary pixels of the rendered dog per frame
+   (canvas px), in `measure*.json`. Per window, in `build/cache/straight_runs.json` [max h, max v, median h, median v]:
+   - watch 0-1: 18, 27, 18, 27 (24/24 frames have a run > 15 px)
+   - retreat 1-2.33: 21, 26, 18, 22 (32/32 frames have a run > 15 px)
+   - watch 2.33-3.42: 19, 28, 18, 27 (26/26 frames have a run > 15 px)
+   - turn 3.42-3.86: 24, 34, 19, 22 (11/11 frames have a run > 15 px)
+   - away 3.86-4.45: 21, 18, 21, 18 (14/14 frames have a run > 15 px)
+   - refusal lie 4.46-7.42: 20, 19, 14, 7 (34/71 frames have a run > 15 px)
+   - refusal lie settled 5.0-7.42: 20, 9, 14, 7 (25/59 frames have a run > 15 px)
+   - look-back 7.46-8.45: 21, 34, 19, 22 (24/24 frames have a run > 15 px)
+   - watch 8.45-14.7: 19, 27, 18, 27 (150/150 frames have a run > 15 px)
+   - approach 14.7-23.79: 21, 26, 18, 22 (212/218 frames have a run > 15 px)
+   - sill lie 23.8-32: 18, 25, 13, 8 (92/197 frames have a run > 15 px)
+   - sill lie settled 24.4-32: 18, 21, 13, 8 (87/182 frames have a run > 15 px)
+   Lying windows went from runs of 30–44 px (round 2) to medians of 13–14 px. Their maxima are still 18–20 px: the f13 head top, and the
+   descent frames. Standing drawings keep 18–34 px runs, mostly along near-vertical leg edges. The metric does not see diagonal straight lines.
+4. Kept as they were: the timing, the warming toward the light, the back-of-head look-in and the sound levels (calls −16.3/−15.1 dBFS, soft
+   voice ≥ 11.9 dB under them, footfalls 7.5 dB over room tone). The checker passes (ALL OK). Onsets are unchanged: 1.000, 2.333, 3.542, 7.458,
+   14.708, 23.750; look-in 26.542.
+5. Not fixed: the stub on the f44 rump (3.75–4.42, 7.83–8.0; it may be the real tail); the substitution from standing f44 to the lie at 4.46.
+
+The dog now uses 9 archive frames (f0, f9, f13, f30, f34, f42–45; f10/f11 are cut but no longer used), and the end card says 9.

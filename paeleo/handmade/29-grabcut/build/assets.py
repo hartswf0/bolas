@@ -7,7 +7,7 @@ DOOR = {'source_title': 'Straight Talk (1992)', 'collection': 'NTIS', 'archive_u
         'shot_url': 'https://www.movingimagearchive.com/sources/straight-talk-583ba802?clip=271d80c7-4f56-51b8-90fe-012dfb984b4f', 'rights': 'public_domain'}
 HAND = {'source_title': 'The Door to Heaven (1941)', 'archive_url': 'https://archive.org/details/DoortoHe1941', 'clip_id': '0870ef3a-b328-5284-890b-3e1ac18057c1',
         'rights': 'public_domain', 'kit_index': 'paeleo/handmade/kit/found-frames.json (category hand)'}
-used = [0, 9, 10, 11, 13, 30, 34, 42, 43, 44, 45]
+used = [0, 9, 13, 30, 34, 42, 43, 44, 45]
 A = []
 for i in used:
     role = {0: 'back-of-head piece (look in)', 13: 'puppet source: head, torso, two forelegs, hind legs, tail; also turn drawings',

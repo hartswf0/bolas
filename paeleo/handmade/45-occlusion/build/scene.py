@@ -55,7 +55,7 @@ def lerp(a, b, u):
 CAM_KEYS = [  # t, px/m, focus x, focus h: the caller and the dog in one frame for the commands; the bench comes in for the
     # changed circumstances; a small push for the turn back (the lit door stays in frame); then the approach and the sill
     (0.0, 250, 1.95, 0.52), (4.7, 250, 1.95, 0.52), (5.9, 220, 1.58, 0.50), (7.0, 220, 1.58, 0.50),
-    (7.6, 245, 2.00, 0.50), (9.4, 245, 2.00, 0.50), (11.0, 220, 1.58, 0.50), (15.0, 220, 1.58, 0.50),
+    (15.0, 220, 1.58, 0.50),   # round 2: no push at the turn back; the person stays in frame
     (24.0, 262, 0.40, 0.53), (24.4, 290, 0.32, 0.55), (31.8, 370, 0.14, 0.58), (40.0, 370, 0.14, 0.58)]
 
 
@@ -389,7 +389,8 @@ def contact_shadow(alpha, s, band=0.05):
     m = ((YY > bot[None, :] - band * s) & (YY <= bot[None, :] + 0.02 * s) & col_has[None, :]).astype(np.float32)
     m = m * np.clip(alpha + 0.6, 0, 1)
     sh = blur(m, max(1.5, 0.02 * s))
-    return np.clip(sh * 1.4, 0, 1)
+    soft = blur(m, max(3.0, 0.06 * s))      # round 2: a wider occlusion pool so the dog sits on the dark boards too
+    return np.clip(sh * 1.4 + soft * 1.2, 0, 1)
 
 
 # ------------------------------------------------------------------ actors
@@ -500,7 +501,7 @@ def dog_geom(cam, i):
     # forward: x = Xa + k cx (u-ua) ; y = Ya + k (v-va) + sh (x - Xa)
     a11, a12, b1 = k * cx, 0.0, Xa - k * cx * ua
     a21, a22 = sh * k * cx, k
-    b2 = Ya - k * va
+    b2 = Ya - k * va - a21 * ua        # round 2 fix: the shear term was missing its offset (sheared dogs sat ~90 px low)
     det = a11 * a22 - a12 * a21
     ia, ib, ic, id_ = a22 / det, -a12 / det, -a21 / det, a11 / det
     coeffs = (ia, ib, -(ia * b1 + ib * b2), ic, id_, -(ic * b1 + id_ * b2))
@@ -527,18 +528,14 @@ def dog_layer(cam, i, t, amb, spillL):
     inside_light = np.clip((OPEN_X + 0.1 - xw) / 0.5, 0, 1) * (r['D'] < 0.4) * 0.8   # forequarters in the doorway get the room light
     lit = lum[..., None] * (amb * 1.25 + WARM * (0.55 * Ld + inside_light[..., None] * 0.9 * DOOR_OPEN[0]))
     rim_src = np.roll(a, 3, axis=1)   # light from the left (the door)
-    rim = np.clip(a - rim_src, 0, 1) * (0.25 + 0.6 * DOOR_OPEN[0])
+    rim = np.clip(a - rim_src, 0, 1) * (0.15 + 0.3 * DOOR_OPEN[0])
     lit = lit + rim[..., None] * WARM * 0.5
     if r['head_a'] is not None:
         hm = np.clip(r['head_a'], 0, 1)
         # the back of the head: dusk on it (dim, cool), the lit room behind it wrapping its upper edge
-        if r['tone'] == 'back':
-            fill = lit * 0.80                               # lit like the rest of the dog (it is the dog's own fur)
-            edge = np.clip(hm - np.roll(np.roll(hm, 2, axis=0), 0, axis=1) * 0.5 - np.roll(hm, 2, axis=0) * 0.5, 0, 1)
-            side = np.clip(hm - 0.5 * (np.roll(hm, 2, axis=1) + np.roll(hm, -2, axis=1)), 0, 1)
-            head_col = fill + WARM * (0.9 * edge + 0.45 * side)[..., None]
-        else:
-            head_col = lit * 0.55 + WARM * 0.15 * lum[..., None]
+        # round 2: the turned head is lit like the body (it is the dog's own head), warmed a little by the room it faces;
+        # no edge halo
+        head_col = lit * 0.92 + WARM * 0.22 * lum[..., None] * DOOR_OPEN[0]
         lit = lit * (1 - hm[..., None]) + head_col * hm[..., None]
     rgb = (np.clip(lit, 0, 1.3) * a[..., None]).astype(np.float32)
     # depth pass along the body: the end toward the door is deeper by the angle into the doorway
@@ -719,7 +716,7 @@ def render(i, verify=False):
     post_layer = st['post']
     bench_layer = st['bench']
     csb = contact_shadow(post_layer.a, cam.s, 0.03) * 0.5 + contact_shadow(bench_layer.a, cam.s, 0.03) * 0.5
-    shade = 1 - np.clip(0.62 * csd + csp + csb, 0, 0.85)
+    shade = 1 - np.clip(0.80 * csd + csp + csb, 0, 0.88)
     fl = (fcol * (1 + 0 * L[..., None]) + (L[..., None] * WARM * 0.62) * (fcol / np.maximum(fcol.max(), 1e-3) * 1.6 + 0.15)) * shade[..., None]
     floor = Layer('porch_floor', (fl * fa[..., None]).astype(np.float32), fa, Dw.astype(np.float32), 'support', 'drawn boards + light pass + contact shadows')
     layers.append(floor)
