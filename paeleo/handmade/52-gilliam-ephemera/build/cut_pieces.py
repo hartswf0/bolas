@@ -42,7 +42,7 @@ def add(rec, **kw):
 DS = 1.31   # print enlargement: 1 source px -> 1.31 screen px (dog ~1.0 m = 210 px at 210 px/m)
 M6 = mpolys(DOGM, 6)
 HEAD = [(82, 74), (120, 78), (136, 90), (145, 104), (138, 117), (120, 123), (104, 119), (92, 102), (82, 92)]
-TORSO = [(108, 92), (166, 98), (240, 108), (242, 162), (226, 160), (220, 157), (205, 157), (198, 159), (186, 161),
+TORSO = [(108, 110), (138, 105), (170, 104), (240, 110), (242, 162), (226, 160), (220, 157), (205, 157), (198, 159), (186, 161),
          (156, 158), (146, 159), (134, 161), (120, 162), (108, 158)]
 FORE = [(130, 146), (155, 146), (155, 207), (121, 207), (121, 194), (131, 188)]
 FARFORE = [(116, 160), (131, 160), (131, 197), (116, 197)]
@@ -52,7 +52,7 @@ TAIL = [(236, 108), (290, 108), (290, 182), (236, 182)]
 P6 = prov('dog', 6)
 # regrade (repair 1): smooth scissor line along the matte, blotches blurred, contrast compressed, no sharpening
 DG = dict(smooth_mask=2.2, soften=1.7, contrast=.62, wash_amp=.04, sharpen=False, stretch=(4, 96))
-add(cut('dog_torso', dogf(6), [TORSO], DS, 'dog', M6, **DG, holes=[HEAD], seed=1, provenance=P6,
+add(cut('dog_torso', dogf(6), [TORSO], DS, 'dog', M6, **dict(DG, smooth_mask=4.0), holes=[HEAD], seed=1, provenance=P6,
         pins={'neck': (128, 112), 'shoulder': (141, 150), 'farshoulder': (126, 154), 'hip': (213, 151), 'farhip': (198, 152),
               'tailroot': (238, 136), 'centre': (176, 135), 'belly': (176, 160)}), op='crop+matte+scissor cut+tint')
 add(cut('dog_head', dogf(6), [HEAD, ('disc', 128, 112, 11)], DS, 'dog', M6, **DG, seed=2, provenance=P6,
