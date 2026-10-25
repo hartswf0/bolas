@@ -477,7 +477,7 @@ def handmade_page():
         i2, i3, i4 = inv['I2_threshold'], inv['I3_direction'], inv['I4_refusal']
         rnd = ''.join(f'<details><summary>Critic round {n} · <span class="verdict {c}">{esc(v)}</span></summary><pre class="prompt">{esc(t)}</pre></details>' for n, c, v, t in rs)
         boxes += f'''<section class="box" id="s{s["id"]:02d}">
-  <div class="boxhead"><div class="row"><span class="code">SCION {s["id"]:02d}</span><span class="lbl">{esc(s["kind"])} · 38 s · <span class="verdict {last[1]}">{esc(last[2])}</span></span></div>
+  <div class="boxhead"><div class="row"><span class="code">SCION {s["id"]:02d}</span><span class="lbl">{esc(s["kind"])} · 38 s · <span class="verdict {last[1]}">{esc(last[2])}</span>{(" · " + esc(s["status"])) if s.get("status") else ""}</span></div>
     <h2>{esc(s["name"])}</h2><p class="q">{esc(s["trick"])}</p></div>
   <div class="hero">
     <figure class="film" data-src="{s["dir"]}/film.mp4" data-seg="3.0,35.0" data-len="0:38"><div class="screen"><video muted playsinline preload="metadata" poster="{s["dir"]}/stills/{os.path.basename(stills[2]) if len(stills) > 2 else ""}"></video></div><figcaption class="cap">The 32 s scene on the score, frame for frame; the whole film adds a title and a card saying what it is made of.</figcaption></figure>
