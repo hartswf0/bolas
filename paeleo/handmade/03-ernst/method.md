@@ -173,3 +173,73 @@ What is still weak:
 - No motif graph page or operator page; the deliverables of this brief were followed instead.
 - No forked branches were compared.
 - Sound was not listened to.
+
+
+## Round 2 (after critic round 1: PASS, narrow)
+
+The critic's largest gap was that the collage grammar stopped at the dog: a self-built 3D model with a hatching shader.
+I made one repair round and kept what the critic protected: the lion becoming the keystone, the hand changing job, the 3D
+turns, the head-led turn back, the look-in, and the sound mix.
+
+1. **The dog now carries the grammar: a lion's mane round its neck.**
+   - **Source.** The mane comes from the same found frame as the magistrate's head (*Andy's Animal Alphabet*, lion
+     f022). Its face is cut away with a disc, leaving a crescent of radially engraved mane. It is mirrored when the dog
+     faces away (`mane`, `mane_r` in `assets.json`).
+   - **Placement.** The hole sits on the dog's skull, and the dog's head is re-composited in front of it. The result is a
+     dog wearing a lion's ruff.
+   - **Its job changes.**
+     - At the first call (1.0 s) it is pasted on with its white cut margin: hackles up. The command's lion has got into
+       the dog. It stays through the refusal.
+     - It shrinks as trust grows (7.6–23 s).
+     - As the dog lies across the sill (23.9–24.9 s) the margin fades to nothing and the ruff sinks into the coat (82%
+       opacity, paper tint). It is absorbed as the ruff of a couchant guardian lying under the keystone lion.
+   - **What it means.** The dog's change from refusal to acceptance is also a change in what it is made of: from a
+     pasted intrusion to its own coat. The seam rule is the same one the lion and the hand obey. The per-frame
+     scale, margin and opacity are in `trace.json` (`mane`).
+2. **Head low.** During the approach the head is lowered 0.27 below the score's head value (was 0.13). At 16, 19 and
+   22 s the rendered head centre is 0.48–0.49 m and the top of the back is 0.78–0.79 m. The skull, whose vertical radius
+   is about 0.1 m at scale, sits about 0.2 m below the back line. The head is below the back in 99.5% of approach frames.
+3. **A canine head.**
+   - The muzzle is longer, with a stop: it now reaches 0.205 at unit scale, up from 0.152, and is narrower.
+   - The skull is flatter.
+   - The ears are larger (0.068 × 0.04) and never fully flat; pinned back, they still stand out from the skull.
+   - I looked at 1.9, 6.0 and 29.5 s (`proof/r2_critic_times.png`). The head reads as a dog's (hound or wolf-like),
+     though at plate scale it is still small.
+4. **Captions.**
+   - A caption now shows when its circumstance is set, for 2.4 s, and again while its words are spoken (0.8 s before to
+     0.5 s after each voice span). It fades over 8 frames.
+   - The 12.1–25.8 s span and every other silence are now without a caption.
+5. **The door is struck open by the lion.**
+   - The lion lands in the keystone at 6.05 s with a visible drop and rebound and engraved impact strokes under it
+     (6.05–6.32 s), together with the stone knock in the sound.
+   - The door starts to swing on that knock (6.07 s), fast at first, and the light rises with it from 6.1 s.
+   - The score's circumstance "door open" is 6.2 s. The swing starts 0.13 s earlier so that the knock is its cause.
+
+**Trace.** `trace.json` was rewritten from the new render. It now carries `measured_onsets`: when the rendered dog
+visibly does each choice, measured from its own render (pixels, rendered heights), not from the `state` field.
+
+| choice (render measure) | score t | measured onset | dt |
+|---|---|---|---|
+| retreat (backs away: x_screen rises 2 px) | 1.0 | 1.083 | +0.083 |
+| watch (stops backing: |v| < 25 px/s) | 2.333 | 2.583 | +0.250 |
+| refuse (rendered head passes to the far side of the tail) | 3.417 | 3.667 | +0.250 |
+| watch (head starts coming round: head_x moves 3 px toward the door) | 7.458 | 7.5 | +0.042 |
+| approach (comes: x_screen falls 2 px) | 14.708 | 14.792 | +0.084 |
+| lie_down (rendered torso drops 3 cm) | 23.792 | 23.833 | +0.041 |
+
+How to read the two +0.25 s values:
+- The refusal turn starts at 3.42 s; 3.67 s is when the rendered head crosses to the far side of the tail.
+- The retreat's "stop backing" lags because the score's own x is still decelerating after 2.33 s.
+
+`check_handmade.py` reports ALL OK (I1–I4). The film is 38.0 s and 4.24 MB.
+
+**Round 2 also changed.** The colophon now names the dog's mane and the lion's three jobs. Its rights line names
+Literata (OFL) and no longer says "everything else made here" about the type.
+
+**Still weak after round 2:**
+- The ruff at 24.9 s and later is subtle at plate scale. Whether the viewer sees the absorption, and not just a
+  disappearance, is for the critic to judge.
+- The person still lurches to the chair (5.4–6.15 s).
+- The legs are still stiff.
+- The look-in still points up-left on screen.
+- I did not listen to the sound. It is unchanged apart from the new door timing; the knock was already at 6.04 s.
