@@ -68,15 +68,22 @@ def main():
         ph = HEADS[vh]
         src = np.array([ph['lm'][k] for k in ph['keys']]) * np.array([1, -1])
         dst = np.array([P(head[k if side_h > 0 else mirror_key(k)]) for k in ph['keys']])
-        Mh = fit_affine(src, dst)
-        if anisotropy(Mh) > 1.5:   # a view far from its plate would squeeze the head: keep its size (similarity fit)
+        Mh = fit_affine(src, dst); fb = False
+        if anisotropy(Mh) > 1.5:
+            fb = True   # a view far from its plate would squeeze the head: keep its size (similarity fit)
             from geom import fit_similarity_reflect
             Mh = fit_similarity_reflect(src, dst)
+            # keep the head's true size (metres x cast scale x px per metre at its depth) and pin its skull pivot to the neck
+            from pose import HS
+            want = HS * cam.focal / float(cam.project(head['S'])[1][0])
+            lin = Mh[:, :2] / np.sqrt(abs(np.linalg.det(Mh[:, :2]))) * want
+            s_src = np.array(ph['lm']['S']) * np.array([1, -1])
+            Mh = np.hstack([lin, (P(head['S']) - lin @ s_src)[:, None]])
         # person head: similarity only (the source portrait is never sheared)
         pr = f['person']
         reg.append(dict(i=f['i'], t=f['t'],
                         torso=dict(view=vt, alpha=round(a_t, 2), side=side_t, M=Mt.tolist(), res=round(residual(Mt, np.array([pl['lm'][k] for k in keys]) * np.array([1, -1]), np.array([P(body[k if side_t > 0 else mirror_key(k)]) for k in keys])), 3), aniso=round(anisotropy(Mt), 3)),
-                        head=dict(view=vh, alpha=round(a_h, 2), side=side_h, M=Mh.tolist(), res=round(residual(Mh, src, dst), 3), aniso=round(anisotropy(Mh), 3),
+                        head=dict(view=vh, alpha=round(a_h, 2), side=side_h, M=Mh.tolist(), res=round(residual(Mh, src, dst), 3), aniso=round(anisotropy(Mh), 3), size_kept=fb,
                                   depth=float(cam.project(head['S'])[1][0]))))
     json.dump(reg, open(os.path.join(CACHE, 'registration.json'), 'w'))
     from collections import Counter

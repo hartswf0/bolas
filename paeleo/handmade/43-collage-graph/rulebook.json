@@ -20,10 +20,10 @@
    "kind": "replace",
    "input": "dog.head on a turned-away body",
    "output": "dog.head facing the door",
-   "precondition": "state becomes watch (7.458, on its own frame) while the body still faces away; legibility: muzzle left of the neck, head at normal scale, raised above the back",
+   "precondition": "state becomes watch (7.458, on its own frame) while the body still faces away; legibility: muzzle left of the neck, level (<= 20 deg), head at normal scale, clear of the back, with its own paper rim; the body stays lying (no hybrid) until the found turn frames at 7.75",
    "preserved": "neck anchor",
    "fragments": [
-    "head_away_f009 (profile, muzzle to the door)"
+    "head_alert_f006 rotated level about its neck (muzzle to the door, 8 deg)"
    ],
    "motif": "the head comes round first: turning to look"
   },
@@ -93,10 +93,10 @@
    "id": "R9 ENTER head -> the door light (look in)",
    "kind": "enter",
    "input": "dog.head",
-   "output": "head_away_f009 (frame 9: the dog lifting its head to its person, its back to the camera; neck faded into the body) pointed up into the doorway",
-   "precondition": "score act.look > 0.2 (on hearing \"come in\"); legibility: muzzle inside the door frame, against the lit room",
+   "output": "head_low_f048 rotated about its neck to a level muzzle (10 deg), the neck reaching in past the jamb at sill height, muzzle into the room",
+   "precondition": "score act.look > 0.2 (on hearing \"come in\"); legibility: muzzle inside the door frame at sill height, no more than 20 deg above horizontal (measured on the rendered frame), pointing into the room, not at the bulb",
    "preserved": "neck anchor (the neck runs from inside the chest)",
-   "motif": "the same found gesture (looking up at its person) re-cast as looking into the house; nothing drawn"
+   "motif": "the head that came low to trust now reaches level into the house; nothing drawn"
   },
   {
    "id": "P1 ENTER voice",
@@ -161,7 +161,7 @@
    "i": 179,
    "state": "watch",
    "rules": [
-    "REPLACE head by head_away_f009 (profile, muzzle to the door) on the turned-away body (turns back to look)"
+    "REPLACE head by head_alert_f006 rotated level about its neck, muzzle to the door, on the turned-away body (turns back to look)"
    ],
    "materials": {
     "head": 0.0,
@@ -175,44 +175,8 @@
    }
   },
   {
-   "t": 7.583,
-   "i": 182,
-   "state": "watch",
-   "rules": [
-    "REPLACE head by head_away_f009 (profile, muzzle to the door) on the turned-away body (turns back to look)"
-   ],
-   "materials": {
-    "head": 0.0,
-    "chest": 0.0,
-    "haunch": 0.0,
-    "fore_n": 0.0,
-    "fore_f": 0.0,
-    "hind_n": 0.0,
-    "hind_f": 0.0,
-    "tail": 0.0
-   }
-  },
-  {
-   "t": 7.667,
-   "i": 184,
-   "state": "watch",
-   "rules": [
-    "REPLACE head by head_away_f009 (profile, muzzle to the door) on the turned-away body (turns back to look)"
-   ],
-   "materials": {
-    "head": 0.0,
-    "chest": 0.0,
-    "haunch": 0.0,
-    "fore_n": 0.0,
-    "fore_f": 0.0,
-    "hind_n": 0.0,
-    "hind_f": 0.0,
-    "tail": 0.0
-   }
-  },
-  {
-   "t": 7.917,
-   "i": 190,
+   "t": 7.75,
+   "i": 186,
    "state": "watch",
    "rules": [
     "MERGE dog->whole_f030 (turn back, 1/2)"
@@ -220,8 +184,8 @@
    "materials": null
   },
   {
-   "t": 8.083,
-   "i": 194,
+   "t": 7.917,
+   "i": 190,
    "state": "watch",
    "rules": [
     "MERGE dog->whole_f027 mirrored (turn back, 2/2)"
@@ -411,43 +375,6 @@
   {
    "t": 24.333,
    "i": 584,
-   "state": "lie_down",
-   "rules": [
-    "R8 SPLIT torso at the threshold"
-   ],
-   "materials": {
-    "head": 1.0,
-    "chest": 1.0,
-    "haunch": 0.0,
-    "fore_n": 1.0,
-    "fore_f": 1.0,
-    "hind_n": 0.0,
-    "hind_f": 0.0,
-    "tail": 0.0
-   }
-  },
-  {
-   "t": 26.5,
-   "i": 636,
-   "state": "lie_down",
-   "rules": [
-    "ENTER head->door light: REPLACE head by head_away_f009 (the dog looking away, up at its person) pointed into the doorway (looks in)",
-    "R8 SPLIT torso at the threshold"
-   ],
-   "materials": {
-    "head": 1.0,
-    "chest": 1.0,
-    "haunch": 0.0,
-    "fore_n": 1.0,
-    "fore_f": 1.0,
-    "hind_n": 0.0,
-    "hind_f": 0.0,
-    "tail": 0.0
-   }
-  },
-  {
-   "t": 28.25,
-   "i": 678,
    "state": "lie_down",
    "rules": [
     "R8 SPLIT torso at the threshold"

@@ -20,10 +20,10 @@ def title():
 END = [
     'What it is made of',
     '',
-    'THE DOG  a real dog, Amateur Film New Jersey C (Home Movies, Internet Archive, public domain): 13 of its frames.',
+    'THE DOG  a real dog, Amateur Film New Jersey C (Home Movies, Internet Archive, public domain): 11 of its frames.',
     '         Each frame matted: SAM outline -> trimap -> solved fractional alpha -> decontaminated foreground',
     '         colour -> premultiplied RGBA. It moves by substitution of whole matted frames: a turn through its front',
-    '         chosen from its own frames; its own head-low walk, mirrored, advanced by distance travelled.',
+    '         chosen from its own frames; its own head-low walk, mirrored; backing away on planted paws.',
     '         It was never filmed lying down: the lying dog is a RECONSTRUCTION from pieces of one matted frame',
     '         (body, forelegs pivoted forward, head pivoted or substituted), its belly edge fringe synthesized.',
     'THE WOMAN AND THE DOOR LEAF  Straight Talk (NTIS 1992, public domain); her legs are drawn (reconstruction).',

@@ -118,7 +118,7 @@ def anc(fid, k): return tuple(LIB[fid]['anchors'][k])
 
 # ------------------------------------------------------------------ the scene-event contract: score frame -> dog graph state
 TURN1 = (3.417, 3.583, 3.75)       # profile-L | f027 | f030 | profile-R   (back shown from 3.75)
-TURN2 = (7.917, 8.083, 8.25)       # profile-R (head already round) | f030 | f027 | profile-L
+TURN2 = (7.75, 7.917, 8.083)       # lying, head round to the door | f030 | f027 | profile-L (the found turn comes in promptly)
 LOOKBACK = 7.458                   # REPLACE head by its mirror: the head comes round to the door first
 
 
@@ -150,10 +150,10 @@ def dog_state(i):
     hv, look, rest = a['head'], a['look'], a['rest']
     sun_head = st in ('approach', 'lie_down')
     if look > 0.2:
-        g['head'] = ('head_away_f009', 40.0); g['rules'].append('ENTER head->door light: REPLACE head by head_away_f009 (the dog looking away, up at its person) pointed into the doorway (looks in)')
+        g['head'] = ('head_low_f048', 10.0); g['rules'].append('ENTER head->door light: REPLACE head pose: head_low_f048 rotated about its neck to 10 deg, neck reaching in past the jamb, muzzle level into the room (looks in)')
     elif sun_head:
         if g['lie'] >= 0.99 and rest > 0.5: g['head'] = ('head_low_f048', -14.0)
-        elif g['lie'] >= 0.99: g['head'] = ('head_low_f048', 8.0 if hv > 0.5 else -6.0)
+        elif g['lie'] >= 0.99: g['head'] = ('head_low_f048', -12.0)  # lying at the sill, head down on its paws until it hears 'come in'
         else: g['head'] = ('head_low_f048', -42.0)
     else:
         if g['lie'] >= 0.66 and rest > 0.5: g['head'] = ('head_level_f012', -30.0)
@@ -163,8 +163,9 @@ def dog_state(i):
         else: g['head'] = ('head_level_f012', 14.0)
     g['head_mirror'] = (st == 'watch' and LOOKBACK <= t < TURN2[0])  # looks back over its shoulder
     if g['head_mirror']:
-        g['head'] = ('head_away_f009', 28.0)
-        g['rules'].append('REPLACE head by head_away_f009 (profile, muzzle to the door) on the turned-away body (turns back to look)')
+        g['head'] = ('head_alert_f006', 8.0)
+        g['lie'] = 1.0  # no hybrid: it stays lying until the found turning frames take over
+        g['rules'].append('REPLACE head by head_alert_f006 rotated level about its neck, muzzle to the door, on the turned-away body (turns back to look)')
     return g
 
 
@@ -327,19 +328,26 @@ def draw_dog(canvas, i, log=None):
     hf_ = 1 if not g['head_mirror'] else -1  # mirrored head looks the other way
     look_in = 'looks in' in ' '.join(g['rules'])
     hl = 0.30
-    if hid == 'head_away_f009' and look_in:
-        N = (N[0] - 0.02, N[1] + 0.08)   # the neck lifts; the muzzle goes up into the lit doorway
-    elif hid == 'head_away_f009':
-        N = (N[0] + 0.02, N[1] + 0.10)   # turning to look: the head comes up and round, over the turned back
+    if look_in:
+        N = (N[0] + 0.07, N[1] + 0.04)   # the neck reaches in over the sill; the muzzle stays level, into the room
+    elif g['head_mirror']:
+        N = (N[0] + 0.03, N[1] + 0.12)   # turning to look: the head comes up clear of the back and round, level, to the door
     if False:
         pass
     else:
         nose = (N[0] + hf_ * hl * math.cos(math.radians(ang)), N[1] + hl * math.sin(math.radians(ang)))
-        if (lie >= 0.99 or g['lie'] >= 0.66) and hid != 'head_away_f009':
+        if (lie >= 0.99 or g['lie'] >= 0.66) and not look_in and not g['head_mirror']:
             nose = (nose[0], max(0.04, nose[1]))
         mirror_head = (f < 0) ^ (hf_ < 0)
-        place(canvas, hid, anc(hid, 'neck'), anc(hid, 'nose'), W2S(*N), W2S(*nose), mirror=mirror_head, layer_log=log, node='dog.head')
+        # the head is its own cut: drawn on its own sheet with its own paper rim, so it reads against the body it overlaps
+        hl_ = Image.new('RGBA', canvas.size, (0, 0, 0, 0))
+        place(hl_, hid, anc(hid, 'neck'), anc(hid, 'nose'), W2S(*N), W2S(*nose), mirror=mirror_head, layer_log=log, node='dog.head')
+        rim_ = hl_.getchannel('A').filter(ImageFilter.MaxFilter(3))
+        pap_ = Image.new('RGBA', canvas.size, (226, 218, 198, 255)); pap_.putalpha(rim_.point(lambda v: int(v * 0.85)))
+        canvas.alpha_composite(pap_); canvas.alpha_composite(hl_)
         info['nose'] = W2S(*nose); info['neck'] = W2S(*N); info['head_kind'] = hid
+        dxm, dym = info['nose'][0] - info['neck'][0], info['neck'][1] - info['nose'][1]
+        info['muzzle_angle_deg'] = round(math.degrees(math.atan2(dym, abs(dxm))), 1)  # above horizontal, measured on screen
         info['facing_measured'] = 1 if info['nose'][0] < info['neck'][0] else -1
     info['withers'] = W2S(*S)
     info['back_v'] = max(Sv, Hv)
@@ -359,7 +367,7 @@ def draw_person(canvas, i, log=None):
     depth = sstep(-0.28, -1.0, px)  # doorway (sill) -> against the wall beside the door
     gy = 512 + 14 * depth
     sc = PXM
-    X = PX(px)
+    X = PX(max(px, -1.02))  # my staging: the person sits just left of the door, fully in frame
     walking = 5.4 < t < 6.4 and sit < 0.99
     bob = 4 * abs(math.sin(math.pi * (t - 5.4) * 2.2)) if walking else 0
     def P(dx, h): return (X + dx * sc, gy - h * sc - bob)
@@ -375,8 +383,9 @@ def draw_person(canvas, i, log=None):
         place_strip(canvas, 'coat_lo', anc('coat_lo', 'hip'), anc('coat_lo', 'feet'), hip, knee, 1.05, layer_log=log, node='person.thigh')
         place(canvas, 'coat_up', anc('coat_up', 'hip'), anc('coat_up', 'top'), hip, P(-0.03, hip_h + 0.62), layer_log=log, node='person.torso')
         sh = P(0.03, hip_h + 0.54); neck = P(0.0, hip_h + 0.62)
-    calling = p['voice'] == 'call'
-    tilt = 10 if calling else (5 if p['voice'] == 'soft' else (6 if sit > 0.5 else 0))
+    vnow = voice_at(t)[0]
+    calling = vnow == 'call'
+    tilt = 10 if calling else (5 if vnow == 'soft' else (6 if sit > 0.5 else 0))
     hh = 0.30 * sc
     crown = (neck[0] + hh * math.sin(math.radians(tilt)) - 6, neck[1] - hh * math.cos(math.radians(tilt)))
     # hair/back of the head: the coat cut round, behind the found face
@@ -399,12 +408,27 @@ def draw_person(canvas, i, log=None):
     return dict(mouth=mouth, tip=tip, X=X, gy=gy)
 
 
+CALL_LEAD = 0.30  # a call is heard before the dog answers it: voices start 7 frames before the choice they cause
+VOICES = []
+for _k, (_t, _ev) in enumerate(SCORE['timeline']):
+    if 'voice' in _ev and _ev['voice'] != 'none':
+        _end = next(tt for tt, ev in SCORE['timeline'][_k + 1:] if 'voice' in ev)
+        _lead = CALL_LEAD if _ev['voice'] == 'call' else 0.0
+        VOICES.append((_t - _lead, _end - _lead, _ev['voice']))
+
+
+def voice_at(t):
+    for a, b, v in VOICES:
+        if a <= t < b: return v, a
+    return 'none', None
+
+
 def draw_voice(canvas, i, mouth, dog_xy, log=None):
     """ENTER voice: the telephone film's sound arcs, re-timed (its own frames cycle at 12 fps), become the person's voice.
     A call sends wide arcs travelling out to the dog; the soft voice makes small arcs that hardly leave the mouth."""
-    fr = FRAMES[i]; v = fr['person']['voice']; t = fr['t']
+    t = FRAMES[i]['t']
+    v, on = voice_at(t)
     if v == 'none': return None
-    on = max(tt for tt, ev in SCORE['timeline'] if 'voice' in ev and tt <= t + 1e-6)
     age = t - on
     ids = sorted(k for k in LIB if k.startswith('arcs_'))
     dx, dy = dog_xy[0] - mouth[0], dog_xy[1] - mouth[1]
@@ -609,7 +633,12 @@ def render(i, want_layers=False):
     can.alpha_composite(WORLD['frame'])
     can.alpha_composite(WORLD['floor'])
     can.alpha_composite(WORLD['post'])
-    pinfo = draw_person(can, i, log)
+    play = Image.new('RGBA', (W, H), (0, 0, 0, 0))
+    pinfo = draw_person(play, i, log)
+    pa = np.asarray(play.getchannel('A'))
+    pys, pxs = np.nonzero(pa > 40)
+    pinfo['bbox'] = [int(pxs.min()), int(pys.min()), int(pxs.max()), int(pys.max())] if len(pxs) else None
+    can.alpha_composite(play)
     doglayer = Image.new('RGBA', (W, H), (0, 0, 0, 0))
     dinfo = draw_dog(doglayer, i, log)
     # contact shadow under the dog

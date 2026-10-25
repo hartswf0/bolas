@@ -48,21 +48,22 @@ surprise-and-readability critic is external (the brief's critic); I do not appro
 
 Every fragment drawn as the dog comes from one source: *Amateur Film New Jersey C* (Home Movies, Internet Archive, public
 domain), frames 6, 12, 27, 30, 45, 48 (`trace.json → invariants.dog_sources = ["archive-dog"]`). Torso, alert head and tail
-(cut tapered along the found tail) from f006; level head and the four legs from f012; turning frames f027/f030; the
-looking-away head and neck from f009 (the dog lifting its head to its person, its back to the camera); sunlit torso, chest and legs from f045 (mirrored); low
+(cut tapered along the found tail) from f006; level head and the four legs from f012; turning frames f027/f030; ; sunlit torso, chest and legs from f045 (mirrored); low
 head with the white collar from f048 (mirrored). Each piece is the SAM mask of its frame intersected with my scissors
 polygon, toned by the whole dog of its frame (not stretched on its own); one paper rim is cut around the assembled dog.
 **Nothing of the dog is drawn.**
 
-- **Watching / backing away (1.0)**: the call's arcs travel to it; it cowers (crouch drawing) and walks *backward* with
+- **Watching / backing away (1.0)**: the call starts at 0.70 and its arcs travel to it; it cowers (crouch drawing) and walks *backward* with
   planted feet (stance legs fixed in world x, swing legs replaced by the bent drawing).
 - **Stops and looks (2.333)**: stands, head up (R1).
 - **Turning away (3.417) and back (7.92–8.25)**: never a mirror flip. R3 MERGEs the graph into the real dog's own turning
   frames (f027 three-quarter, f030 front), then R4 SPLITs into the mirrored profile. The back is shown from 3.75 s.
 - **Refusal**: stands with its back turned, then lies down (R6), tail toward the person, head low on its paws, whole dog in
   frame (right edge ≤ 1219 px, 61 px clear); the hind legs EXIT (fold under the haunch) from the 2/3 drawing on.
-- **Turning to look (7.458)**: R2: on the still-turned lying body, on the choice's own frame, the head is replaced by
-  f009's head in profile, muzzle to the door, raised above the turned back at normal scale; the body rises and turns after it.
+- **Turning to look (7.458)**: R2: on the still-turned lying body, on the choice's own frame, the head is replaced by the
+  f006 head rotated level about its neck (muzzle 8° above horizontal, measured on the frame), pointing left to the door,
+  clear of the back with its own paper rim. The body stays lying (no hybrid) until the found turning frames take over at
+  7.75 (f030, then f027 mirrored), and it stands facing the door from 8.08.
 - **Coming, head low (14.708)**: R1+R7: the head is replaced by f048 (head below the back line, collar showing) for the
   whole approach; the walk is the gait solver with found legs.
 - **Lying across the sill (23.79)**: composed (no frame of this dog lies down). On the choice's own frame it is already half
@@ -70,9 +71,9 @@ polygon, toned by the whole dog of its frame (not stretched on its own); one pap
   folded away. R7/R8 bring the sunlit chest and forelegs in by weight as they enter the light (over ~0.6 s of walking,
   never a one-frame swap), laid over the shaded body with a feathered rear edge; the door's light itself falls off softly
   across the body. Haunch and tail stay shaded, outside.
-- **Looking in (26.4)**: R9: the head is replaced by f009's looking-away head and neck (the dog lifting its head to its
-  person, back to the camera), the neck faded into the chest, the muzzle raised inside the door frame against the lit room.
-  The same found gesture that looked up at its person now looks into the house. Then it settles, head on its paws.
+- **Looking in (26.4)**: R9: lying at the sill its head has rested on its paws since it lay down; on "come in" the f048
+  head is rotated level about its neck (muzzle 10° above horizontal, measured) and the neck reaches in past the jamb at sill
+  height, muzzle pointing left into the room, not up at the bulb. Then it settles, head on its paws, and stays.
 
 The world is other found images becoming buildings and tools: the home movie's stone pillar is the house wall, its path the
 porch, its shrubs the hedge, its coat the porch timber; Straight Talk's door (closing swing, played backward) is the door; a
@@ -128,12 +129,21 @@ reads as a dog; whether the material rewrite reads as cause (the light) and not 
    light falloff, feet stay put while the body lowers.
 5. Lie onset late → on its own frame (23.792) the dog is already half down.
 
+### Repair round 3 (independent critic: does not pass; head direction at 26.4 and 7.46)
+
+1. Look-in: the raised f009 head read as lifting toward the light → the f048 head rotated level (10°) about its neck,
+   reaching in past the jamb at sill height; before "come in" the head rests on its paws, so the look-in is a visible change.
+2. Turning to look: f006 head rotated level (8°), muzzle left, clear of the back with its own rim.
+3. No hybrid lying-body/standing-leg frame: it stays lying with the head round until the found turn frames at 7.75.
+4. The seated person and the offered hand stay inside the frame (my staging seats the person just left of the door).
+5. The calls start 0.30 s (7 frames) before the choices they cause (0.70 → 1.0, 3.10 → 3.417); the mix peaks at −3.5 dBFS.
+   The voice arcs travel with the voice and reach the dog as it reacts.
+
 ## What is still weak (my view; the critic decides)
 
 - The home-movie dog is blurred and grey; the profile composite reads as a dog at film size but its parts are soft and the
   legs thick. The walk is a solver over four found legs, not a found walk.
-- Looking in is the found looking-away head raised into the doorway; whether it reads as *looking in* rather than *looking
-  up* is the critic's call.
+- Looking in is a level head reaching in at the sill: a profile, not the back of the head; legibility is the critic's call.
 - The person is stiff (substitution in thirds), the found face is small.
 - The voice is a formant synthesizer: intelligibility of "come here / it's all right / come in" is **unknown** (I cannot
   listen). Levels are measured; the timbre is not judged.

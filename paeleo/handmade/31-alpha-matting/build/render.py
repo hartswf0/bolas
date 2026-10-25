@@ -263,9 +263,10 @@ def gait_pieces():
         cut = np.clip((L['ytop'] + 6 - yy) / 2. + .5, 0, 1)
         body_m = body_m * (1 - inx * (1 - cut))
         GAIT[k] = A * leg_m[..., None]
-    head_m = soft_region(shp, lambda x, y: (x < 133) & (y > 118), 2)
+    head_m = soft_region(shp, lambda x, y: x < 142, 2)          # the head with a neck root that overlaps the body
+    core = soft_region(shp, lambda x, y: x < 128, 2)            # what the body gives up to it
     GAIT['head'] = A * (body_m * head_m)[..., None]
-    GAIT['body'] = A * (body_m * (1 - head_m))[..., None]
+    GAIT['body'] = A * (body_m * (1 - core))[..., None]
     cx, by = anchor(A)
     GAIT['anchor'] = (cx, by)
     return GAIT
@@ -312,9 +313,10 @@ def gait_sprite(x_body, x_start, head_raise=0.):
         info[k] = dict(paw_src_x=L['paw'][0] + Dpx, plant=int(n), planted=bool(planted))
     out = over(out, g['body'])
     if head_raise > 0:   # the hanging head lifted about the neck, to bridge into and out of the upright frames
-        out = over(out, rot_premult(g["head"], -HEAD_RAISE_DEG * head_raise, 138, 140))
+        out = over(out, rot_premult(g["head"], -HEAD_RAISE_DEG * head_raise, 136, 150))
     else:
-        out = out + g['head'] * (1 - out[..., 3:4]) if False else over(out, g['head'])
+        out = over(out, g['head'])
+    out = out * main_component(out[..., 3])[..., None]
     a = out[..., 3]
     inner = blur((a > .5).astype(np.float32), 3, 2) > .999
     k = inner & (a < 1)
@@ -389,7 +391,7 @@ def dog_pose(i):
         if k < len(FLINCH):
             return dict(kind='frame', f=FLINCH[k], m=False, facing=1, posture='back away')
         k2 = i - (I_RET + len(FLINCH)); k3 = I_W1 - 1 - i
-        hr = max(0., 1 - k2 / 6.) if k2 < 6 else (max(0., 1 - k3 / 6.) if k3 < 6 else 0.)
+        hr = max(0., 1 - k2 / 7.) if k2 < 7 else (max(0., 1 - k3 / 7.) if k3 < 7 else 0.)
         return dict(kind='gait', facing=1, posture='back away', head_raise=hr)
     if t < T_REF:  # stops and lifts its head again through 16-15-14 to 13 (no pop)
         k = i - I_W1

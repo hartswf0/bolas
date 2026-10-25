@@ -55,6 +55,28 @@ def onsets(frames):
     return m
 
 
+def gait_and_pops(frames, tr):
+    """backing away: how far each planted paw moves on screen while it is planted (same plant, consecutive frames);
+    pops: largest frame-to-frame move of the head's lead point around each bridged substitution"""
+    drift = {'fore': 0., 'hind': 0.}; n_planted = 0
+    for i in range(1, 768):
+        p, q = tr[str(i)]['pose'], tr[str(i - 1)]['pose']
+        if p.get('kind') == 'gait' and q.get('kind') == 'gait':
+            for k in drift:
+                a, b = p['legs'][k], q['legs'][k]
+                if a['planted'] and b['planted'] and a['plant'] == b['plant']:
+                    drift[k] = max(drift[k], abs(a['paw_screen_x'] - b['paw_screen_x'])); n_planted += 1
+    def jump(i0, i1):
+        best = 0.
+        for i in range(i0 + 1, i1):
+            a, b = tr[str(i)], tr[str(i - 1)]
+            if a.get('nose_x') is None or b.get('nose_x') is None: continue
+            best = max(best, ((a['nose_x'] - b['nose_x']) ** 2 + (a['nose_y'] - b['nose_y']) ** 2) ** .5)
+        return round(best, 1)
+    return dict(planted_paw_max_drift_px={k: round(v, 2) for k, v in drift.items()}, planted_frame_pairs=n_planted,
+                head_lead_point_max_jump_px={'0.92-1.60s': jump(22, 39), '2.00-2.71s': jump(48, 65), '23.75-24.17s': jump(570, 581)})
+
+
 def main():
     tr = merge()
     frames = []
@@ -69,6 +91,8 @@ def main():
     x0, x1 = 330 - 87, 330 + 87
     last = frames[-1]
     onset = onsets(frames)
+    onset.update(gait_and_pops(frames, tr))
+    lv = json.load(open(os.path.join(C, 'sound_levels.json'))) if os.path.exists(os.path.join(C, 'sound_levels.json')) else {}
     info = dict(about='SCION 31 Alpha Matting: what the dog did, measured from its own render. x_screen/y_screen = alpha-weighted '
                       'centroid of the dog matte as composited; dog_left..dog_bottom = its solid (alpha>0.5) extent on screen; '
                       'facing +1 = toward the door (screen left), -1 = back turned; state is read from the pose the render chose.',

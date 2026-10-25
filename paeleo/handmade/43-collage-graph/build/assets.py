@@ -22,8 +22,8 @@ out += [
          rights='SIL Open Font License', operation='woff2 -> ttf (fontTools) for the cards and prompt slips'),
     dict(id='sound', kind='sound', file='build/sound.py', source='synthesized here in numpy: formant voice (source-filter), door latch/creak, warm pad, paw taps from the gait solver, paper snips at rewrites, crickets, room tone',
          rights='made here', operation='synthesized; no recordings used'),
-    dict(id='head_away_f009', kind='note', source_title='Amateur Film New Jersey C', rights='public_domain',
-         operation='no frame shows the back of the dog\'s head squarely: turning to look and looking in use frame 9, where the dog lifts its head to its person with its back to the camera (SAM mask ∩ scissors, the neck faded along its base line). Nothing of the dog is drawn.'),
+    dict(id='heads', kind='note', source_title='Amateur Film New Jersey C', rights='public_domain',
+         operation='no frame shows the back of the dog\'s head: turning to look uses the f006 head rotated level about its neck (muzzle to the door); looking in uses the f048 head rotated level about its neck, reaching in past the jamb. Nothing of the dog is drawn.'),
     dict(id='not used', kind='note', operation='No Quick, Draw! drawings, no web images, no model-generated images, nothing of unknown rights.'),
 ]
 json.dump(dict(about='SCION 43 source ledger: every piece of the film, its source, rights and operation', assets=out),

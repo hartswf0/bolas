@@ -65,7 +65,7 @@ def shoot(e):
         bbox = [int(xs_.min()), int(ys.min()), int(xs_.max()), int(ys.max())]
         hx = None; head_top = None; withers = None
         for name, x0, y0, al in rec:
-            if name in ('dog_head', 'dog_backhead', 'dog_face', 'dog_head_low'):
+            if name in ('dog_head', 'dog_backhead', 'dog_lookback', 'dog_head_low'):
                 a = np.asarray(al).astype(np.float32); yy, xx = np.nonzero(a > 128)
                 hx = float(xx.mean() + x0); hy = float(yy.mean() + y0); head_top = int(yy.min() + y0)
             if name == 'dog_front':
@@ -97,7 +97,7 @@ def shoot(e):
         meas = {'x_screen': round(cx, 2), 'y_screen': round(cy, 2), 'bbox': bbox, 'facing': facing, 'body_facing': body_facing, 'head_xy': [round(hx, 1), round(hy, 1)],
                 'aspect_h_w': round(h / max(1, w), 3), 'share_inside_door_frame_px': round(inside, 3),
                 'back_line_y': back_y, 'head_top_y': head_top, 'withers_y': withers,
-                'muzzle_y': round(dog_points(dp)['head'][1], 1) if 'card' not in dp else None, 'head_piece': next((r[0] for r in rec if r[0] in ('dog_head', 'dog_backhead', 'dog_front', 'dog_face', 'dog_head_low')), None)}
+                'muzzle_y': round(dog_points(dp)['head'][1], 1) if 'card' not in dp else None, 'head_piece': next((r[0] for r in rec if r[0] in ('dog_head', 'dog_backhead', 'dog_front', 'dog_lookback', 'dog_head_low')), None)}
         if 'card' not in dp:
             pts = dog_points(dp)
             meas['feet'] = {kk: [round(v[0], 2), round(v[1], 2)] for kk, v in pts.items() if kk.startswith('dog_')}

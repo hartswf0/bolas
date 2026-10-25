@@ -51,7 +51,7 @@ def end():
     slip(im, (70, 60), ['What it is made of'], [serif], tilt=-1)
     L = ['The dog: %d fragments cut from the 50 frames of one real dog (Amateur Film New Jersey C,' % n,
          'Home Movies, Internet Archive) - pieces from its shaded and its sunlit frames, two found turning frames;',
-         'it turns to look and looks in with its own head lifted away from the camera (f009). Nothing of it is drawn.',
+         'its heads are re-posed only by rotation about the neck. Nothing of it is drawn.',
          'The person: the coat of the dog\'s own person in that film (also its sleeve and hair); a face from Anthracite:',
          'Pre-Shift Examinations (MSHA); a hand from The Door to Heaven (1941).',
          'The door: Straight Talk (NTIS, 1992). The room: a bulb from Light Of Your Life B.',

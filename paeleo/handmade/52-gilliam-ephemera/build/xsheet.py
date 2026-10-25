@@ -49,7 +49,7 @@ def smooth(a, b, u):
 # ------------------------------------------------------------------------------------------------- dog
 LEGN = {'fore': 'dog_fore', 'farfore': 'dog_farfore', 'hind': 'dog_hind', 'farhind': 'dog_farhind'}
 def leglen(p):
-    piv = [v for k, v in PIECES[p]['pins'].items() if k != 'foot'][0]; f = pin(p, 'foot')
+    piv = [v for k, v in PIECES[p]['pins'].items() if k != 'knee'][0]; f = pin(p + '_lo', 'foot')
     return math.hypot(f[0] - piv[0], f[1] - piv[1])
 LL = {k: leglen(v) for k, v in LEGN.items()}
 OFF = {'hind': 0.0, 'fore': .25, 'farhind': .5, 'farfore': .75}   # lateral-sequence walk
@@ -150,7 +150,7 @@ def dog_pose(i, prev):
         p['drop'] = 50 * l + 4; p['tilt'] = 2 * l + 2 * (1 - l)
         label = 'refuse: back turned' + (', lying' if l > .5 else '')
     elif i < 194:                                            # the head card turned over: looks back; then rises
-        p['face'] = -1; p['headflop'] = 1; p['headpiece'] = 'dog_face'   # the face card, looking back at the door
+        p['face'] = -1; p['headflop'] = 1; p['headpiece'] = 'dog_lookback'   # the face card, looking back at the door
         l = a['lie']
         p['head'] = 0
         for k in LIE: p[k] = LIE[k] * l

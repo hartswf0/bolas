@@ -95,11 +95,6 @@ SPECS = [
          cut=[(163, 152), (185, 152), (183, 191), (167, 193), (163, 175)], anchors=dict(top=(174, 157), foot=(175, 188))),
     dict(id='hind_b_f045', type='dog.leg.hind', tags=['sun', 'bent'], src=DOGSRC, f=45, sam=True, flip=True,
          cut=[(141, 132), (161, 132), (161, 183), (143, 183)], anchors=dict(top=(151, 140), foot=(151, 180))),
-    # the head that looks away: in frames 6-10 the dog lifts its head to its person, its back to the camera; f009's
-    # head and neck, cut by the SAM mask and faded along the neck-base line so the neck runs into the body
-    dict(id='head_away_f009', type='dog.head', tags=['away', 'look-in', 'look-back'], src=DOGSRC, f=9, sam=True,
-         cut=[(60, 58), (128, 58), (138, 100), (138, 146), (96, 146), (60, 104)], feather_line=((96, 144), (140, 102), 16),
-         anchors=dict(neck=(116, 122), nose=(80, 84))),
     dict(id='whole_f027', type='dog.whole', tags=['turn', 'three-quarter'], src=DOGSRC, f=27, sam=True, cut=None, anchors={}),
     dict(id='whole_f030', type='dog.whole', tags=['turn', 'front'], src=DOGSRC, f=30, sam=True, cut=None, anchors={}),
     dict(id='whole_f033', type='dog.whole', tags=['turn', 'front'], src=DOGSRC, f=33, sam=True, cut=None, anchors={}),

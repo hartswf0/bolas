@@ -8,7 +8,7 @@ FLOOR_DOG = 602      # screen y where the dog's near feet stand (just in front o
 # ---------------------------------------------------------------------------------------------- dog
 LEGS = {  # piece: (pivot pin on torso, foot pin)
     'dog_fore': 'shoulder', 'dog_farfore': 'farshoulder', 'dog_hind': 'hip', 'dog_farhind': 'farhip'}
-FOOT_Y = pin('dog_fore', 'foot')[1]       # puppet-space y of the near forefoot
+FOOT_Y = pin('dog_fore_lo', 'foot')[1]    # puppet-space y of the near forefoot
 CENTRE = pin('dog_torso', 'centre')
 BELLY = pin('dog_torso', 'belly')
 
@@ -17,6 +17,22 @@ def leg_len(p):
     piv = [v for k, v in PIECES[p]['pins'].items() if k != 'foot'][0]
     f = pin(p, 'foot')
     return math.hypot(f[0] - piv[0], f[1] - piv[1])
+
+
+def leg_affs(G, pose, p):
+    """upper card on its pin at angle pose[k]; lower card on the knee pin at angle pose[k+'_lo'] (default: straight)"""
+    k = p.split('_')[1]
+    piv = [v for kk, v in PIECES[p]['pins'].items() if kk != 'knee'][0]
+    Au = G @ R(pose.get(k, 0), piv)
+    rel = pose.get(k + '_lo', pose.get(k, 0)) - pose.get(k, 0)
+    Al = Au @ R(rel, pin(p, 'knee'))
+    return Au, Al
+
+
+def place_leg(canvas, G, pose, p, tint, rec):
+    Au, Al = leg_affs(G, pose, p)
+    place(canvas, p + '_lo', Al, tint=tint, record=rec)
+    place(canvas, p, Au, tint=tint, record=rec)
 
 
 def dog_global(pose):
@@ -44,19 +60,19 @@ def draw_dog(canvas, pose, rec=None, tint=None):
     G = dog_global(pose)
     def piv(p): return [v for k, v in PIECES[p]['pins'].items() if k != 'foot'][0]
     # far side first (behind the torso), as cards lie on the table
-    place(canvas, 'dog_farhind', G @ R(pose.get('farhind', 0), piv('dog_farhind')), tint=tint, record=rec)
-    place(canvas, 'dog_farfore', G @ R(pose.get('farfore', 0), piv('dog_farfore')), tint=tint, record=rec)
+    place_leg(canvas, G, pose, 'dog_farhind', tint, rec)
+    place_leg(canvas, G, pose, 'dog_farfore', tint, rec)
     place(canvas, 'dog_tail', G @ R(pose.get('tail', 0), pin('dog_tail', 'tailroot')), tint=tint, record=rec)
     place(canvas, 'dog_torso', G, tint=tint, record=rec)
-    place(canvas, 'dog_hind', G @ R(pose.get('hind', 0), piv('dog_hind')), tint=tint, record=rec)
-    place(canvas, 'dog_fore', G @ R(pose.get('fore', 0), piv('dog_fore')), tint=tint, record=rec)
+    place_leg(canvas, G, pose, 'dog_hind', tint, rec)
+    place_leg(canvas, G, pose, 'dog_fore', tint, rec)
     nk = pin('dog_torso', 'neck')
     hp = pose.get('headpiece', 'dog_head')
     if hp == 'dog_backhead':
         b = pin('dog_backhead', 'neck')
         A = G @ T(nk[0] - 14, nk[1] + 20) @ R(pose.get('head', 0)) @ T(-b[0], -b[1])
         place(canvas, 'dog_backhead', A, tint=tint, record=rec)
-    elif hp in ('dog_head_low', 'dog_face'):
+    elif hp in ('dog_head_low', 'dog_lookback'):
         place(canvas, hp, head_low_aff(G, pose, hp), tint=tint, record=rec)
     else:
         A = G @ T(0, pose.get('neckdrop', 0)) @ R(pose.get('head', 0), nk)
@@ -66,7 +82,8 @@ def draw_dog(canvas, pose, rec=None, tint=None):
 
 
 LOW_ATTACH = (124 * 1.31, 126 * 1.31)
-FACE_ATTACH = (132 * 1.31, 118 * 1.31)   # the face card sits on the neck, over the shoulders   # the head-low card hangs from the front of the chest, below the neck pin
+LOW_ATTACH = (124 * 1.31, 126 * 1.31)    # the head-low card hangs from the front of the chest
+FACE_ATTACH = (132 * 1.31, 118 * 1.31)   # the look-back card sits on the neck, over the shoulders
 
 
 def head_low_aff(G, pose, hp='dog_head_low'):
@@ -75,7 +92,8 @@ def head_low_aff(G, pose, hp='dog_head_low'):
     p = pin(hp, 'neck')
     at = LOW_ATTACH if hp == 'dog_head_low' else FACE_ATTACH
     A = G @ T(*at) @ R(pose.get('head', 0))
-    if not pose.get('headflop'):
+    printed_right = hp != 'dog_lookback'          # f046 prints face right; the f006 profile faces left
+    if (not pose.get('headflop')) if printed_right else pose.get('headflop'):
         A = A @ FLIP()
     return A @ T(-p[0], -p[1])
 
@@ -90,7 +108,7 @@ def dog_points(pose):
     if pose.get('headflop'):
         H = H @ T(nk[0], 0) @ FLIP() @ T(-nk[0], 0)
     hp = pose.get('headpiece', 'dog_head')
-    if hp in ('dog_head_low', 'dog_face'):
+    if hp in ('dog_head_low', 'dog_lookback'):
         hd = head_low_aff(G, pose, hp).apply(pin(hp, 'nose'))
     elif hp == 'dog_head':
         hd = H.apply(pin('dog_head', 'nose'))
@@ -100,7 +118,7 @@ def dog_points(pose):
            'neck': G.apply(nk), 'centre': G.apply(CENTRE),
            'tail': (G @ R(pose.get('tail', 0), pin('dog_tail', 'tailroot'))).apply(pin('dog_tail', 'tip'))}
     for p in LEGS:
-        out[p] = (G @ R(pose.get(p.split('_')[1], 0), [v for k, v in PIECES[p]['pins'].items() if k != 'foot'][0])).apply(pin(p, 'foot'))
+        out[p] = leg_affs(G, pose, p)[1].apply(pin(p + '_lo', 'foot'))
     return out
 
 

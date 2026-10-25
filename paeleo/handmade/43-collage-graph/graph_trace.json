@@ -150,6 +150,14 @@
 [
 "dog.head",
 "head_level_f012"
+],
+[
+"voice.arcs",
+"arcs_f017"
+],
+[
+"voice.arcs",
+"arcs_f020"
 ]
 ]
 },
@@ -229,7 +237,15 @@
 ],
 [
 "voice.arcs",
-"arcs_f017"
+"arcs_f026"
+],
+[
+"voice.arcs",
+"arcs_f029"
+],
+[
+"voice.arcs",
+"arcs_f008"
 ]
 ]
 },
@@ -427,6 +443,14 @@
 [
 "dog.whole",
 "whole_f027"
+],
+[
+"voice.arcs",
+"arcs_f017"
+],
+[
+"voice.arcs",
+"arcs_f020"
 ]
 ]
 },
@@ -475,7 +499,11 @@
 ],
 [
 "voice.arcs",
-"arcs_f011"
+"arcs_f020"
+],
+[
+"voice.arcs",
+"arcs_f023"
 ]
 ]
 },
@@ -524,7 +552,15 @@
 ],
 [
 "voice.arcs",
-"arcs_f014"
+"arcs_f023"
+],
+[
+"voice.arcs",
+"arcs_f026"
+],
+[
+"voice.arcs",
+"arcs_f029"
 ]
 ]
 },
@@ -604,11 +640,15 @@
 ],
 [
 "voice.arcs",
-"arcs_f020"
+"arcs_f029"
 ],
 [
 "voice.arcs",
-"arcs_f023"
+"arcs_f008"
+],
+[
+"voice.arcs",
+"arcs_f011"
 ]
 ]
 },
@@ -685,22 +725,6 @@
 [
 "dog.head",
 "head_level_f012"
-],
-[
-"voice.arcs",
-"arcs_f020"
-],
-[
-"voice.arcs",
-"arcs_f023"
-],
-[
-"voice.arcs",
-"arcs_f026"
-],
-[
-"voice.arcs",
-"arcs_f029"
 ]
 ]
 },
@@ -765,18 +789,6 @@
 [
 "dog.head",
 "head_level_f012"
-],
-[
-"voice.arcs",
-"arcs_f029"
-],
-[
-"voice.arcs",
-"arcs_f008"
-],
-[
-"voice.arcs",
-"arcs_f011"
 ]
 ]
 },
@@ -849,10 +861,10 @@
 "t": 7.458,
 "state": "watch",
 "rules": [
-"REPLACE head by head_away_f009 (profile, muzzle to the door) on the turned-away body (turns back to look)"
+"REPLACE head by head_alert_f006 rotated level about its neck, muzzle to the door, on the turned-away body (turns back to look)"
 ],
 "mode": "graph",
-"head": "head_away_f009",
+"head": "head_alert_f006",
 "head_mirror": true,
 "split_at_threshold": false,
 "materials": {
@@ -914,7 +926,7 @@
 ],
 [
 "dog.head",
-"head_away_f009"
+"head_alert_f006"
 ],
 [
 "voice.arcs",
@@ -927,184 +939,8 @@
 ]
 },
 {
-"i": 182,
-"t": 7.583,
-"state": "watch",
-"rules": [
-"REPLACE head by head_away_f009 (profile, muzzle to the door) on the turned-away body (turns back to look)"
-],
-"mode": "graph",
-"head": "head_away_f009",
-"head_mirror": true,
-"split_at_threshold": false,
-"materials": {
-"head": 0.0,
-"chest": 0.0,
-"haunch": 0.0,
-"fore_n": 0.0,
-"fore_f": 0.0,
-"hind_n": 0.0,
-"hind_f": 0.0,
-"tail": 0.0
-},
-"lie": 0.6666666666666666,
-"crouch": 0,
-"nodes": [
-[
-"door.leaf",
-"leaf_f020"
-],
-[
-"person.shin",
-"coat_lo"
-],
-[
-"person.thigh",
-"coat_lo"
-],
-[
-"person.torso",
-"coat_up"
-],
-[
-"person.hair",
-"hair_coat"
-],
-[
-"person.head",
-"head_miner_f000"
-],
-[
-"person.sleeve",
-"sleeve_coat"
-],
-[
-"person.hand",
-"hand_f000"
-],
-[
-"dog.tail",
-"tail_f006"
-],
-[
-"dog.torso",
-"torso_f006"
-],
-[
-"dog.fore_n",
-"fore_a_f012"
-],
-[
-"dog.head",
-"head_away_f009"
-],
-[
-"voice.arcs",
-"arcs_f014"
-],
-[
-"voice.arcs",
-"arcs_f017"
-]
-]
-},
-{
-"i": 184,
-"t": 7.667,
-"state": "watch",
-"rules": [
-"REPLACE head by head_away_f009 (profile, muzzle to the door) on the turned-away body (turns back to look)"
-],
-"mode": "graph",
-"head": "head_away_f009",
-"head_mirror": true,
-"split_at_threshold": false,
-"materials": {
-"head": 0.0,
-"chest": 0.0,
-"haunch": 0.0,
-"fore_n": 0.0,
-"fore_f": 0.0,
-"hind_n": 0.0,
-"hind_f": 0.0,
-"tail": 0.0
-},
-"lie": 0.3333333333333333,
-"crouch": 0,
-"nodes": [
-[
-"door.leaf",
-"leaf_f020"
-],
-[
-"person.shin",
-"coat_lo"
-],
-[
-"person.thigh",
-"coat_lo"
-],
-[
-"person.torso",
-"coat_up"
-],
-[
-"person.hair",
-"hair_coat"
-],
-[
-"person.head",
-"head_miner_f000"
-],
-[
-"person.sleeve",
-"sleeve_coat"
-],
-[
-"person.hand",
-"hand_f000"
-],
-[
-"dog.hind_f",
-"hind_a_f012"
-],
-[
-"dog.fore_f",
-"fore_a_f012"
-],
-[
-"dog.tail",
-"tail_f006"
-],
-[
-"dog.torso",
-"torso_f006"
-],
-[
-"dog.hind_n",
-"hind_a_f012"
-],
-[
-"dog.fore_n",
-"fore_a_f012"
-],
-[
-"dog.head",
-"head_away_f009"
-],
-[
-"voice.arcs",
-"arcs_f017"
-],
-[
-"voice.arcs",
-"arcs_f020"
-]
-]
-},
-{
-"i": 190,
-"t": 7.917,
+"i": 186,
+"t": 7.75,
 "state": "watch",
 "rules": [
 "MERGE dog->whole_f030 (turn back, 1/2)"
@@ -1114,8 +950,8 @@
 "head_mirror": false,
 "split_at_threshold": false,
 "materials": null,
-"lie": 0.0,
-"crouch": 0.0,
+"lie": 0.3333333333333333,
+"crouch": 0,
 "nodes": [
 [
 "door.leaf",
@@ -1155,17 +991,17 @@
 ],
 [
 "voice.arcs",
-"arcs_f026"
+"arcs_f020"
 ],
 [
 "voice.arcs",
-"arcs_f029"
+"arcs_f023"
 ]
 ]
 },
 {
-"i": 194,
-"t": 8.083,
+"i": 190,
+"t": 7.917,
 "state": "watch",
 "rules": [
 "MERGE dog->whole_f027 mirrored (turn back, 2/2)"
@@ -1216,17 +1052,17 @@
 ],
 [
 "voice.arcs",
-"arcs_f008"
+"arcs_f026"
 ],
 [
 "voice.arcs",
-"arcs_f011"
+"arcs_f029"
 ]
 ]
 },
 {
-"i": 198,
-"t": 8.25,
+"i": 194,
+"t": 8.083,
 "state": "watch",
 "rules": [],
 "mode": "graph",
@@ -1308,11 +1144,11 @@
 ],
 [
 "voice.arcs",
-"arcs_f014"
+"arcs_f008"
 ],
 [
 "voice.arcs",
-"arcs_f017"
+"arcs_f011"
 ]
 ]
 },
@@ -2419,176 +2255,6 @@
 {
 "i": 584,
 "t": 24.333,
-"state": "lie_down",
-"rules": [],
-"mode": "graph",
-"head": "head_low_f048",
-"head_mirror": false,
-"split_at_threshold": true,
-"materials": {
-"head": 1.0,
-"chest": 1.0,
-"haunch": 0.0,
-"fore_n": 1.0,
-"fore_f": 1.0,
-"hind_n": 0.0,
-"hind_f": 0.0,
-"tail": 0.0
-},
-"lie": 1.0,
-"crouch": 0,
-"nodes": [
-[
-"door.leaf",
-"leaf_f020"
-],
-[
-"person.shin",
-"coat_lo"
-],
-[
-"person.thigh",
-"coat_lo"
-],
-[
-"person.torso",
-"coat_up"
-],
-[
-"person.hair",
-"hair_coat"
-],
-[
-"person.head",
-"head_miner_f000"
-],
-[
-"person.sleeve",
-"sleeve_coat"
-],
-[
-"person.hand",
-"hand_f000"
-],
-[
-"dog.tail",
-"tail_f006"
-],
-[
-"dog.torso",
-"torso_f006"
-],
-[
-"dog.chest.sun",
-"chest_f045"
-],
-[
-"dog.fore_n",
-"fore_b_f012"
-],
-[
-"dog.fore_n.sun",
-"fore_a_f045"
-],
-[
-"dog.head",
-"head_low_f048"
-]
-]
-},
-{
-"i": 636,
-"t": 26.5,
-"state": "lie_down",
-"rules": [
-"ENTER head->door light: REPLACE head by head_away_f009 (the dog looking away, up at its person) pointed into the doorway (looks in)"
-],
-"mode": "graph",
-"head": "head_away_f009",
-"head_mirror": false,
-"split_at_threshold": true,
-"materials": {
-"head": 1.0,
-"chest": 1.0,
-"haunch": 0.0,
-"fore_n": 1.0,
-"fore_f": 1.0,
-"hind_n": 0.0,
-"hind_f": 0.0,
-"tail": 0.0
-},
-"lie": 1.0,
-"crouch": 0,
-"nodes": [
-[
-"door.leaf",
-"leaf_f020"
-],
-[
-"person.shin",
-"coat_lo"
-],
-[
-"person.thigh",
-"coat_lo"
-],
-[
-"person.torso",
-"coat_up"
-],
-[
-"person.hair",
-"hair_coat"
-],
-[
-"person.head",
-"head_miner_f000"
-],
-[
-"person.sleeve",
-"sleeve_coat"
-],
-[
-"person.hand",
-"hand_f000"
-],
-[
-"dog.tail",
-"tail_f006"
-],
-[
-"dog.torso",
-"torso_f006"
-],
-[
-"dog.chest.sun",
-"chest_f045"
-],
-[
-"dog.fore_n",
-"fore_b_f012"
-],
-[
-"dog.fore_n.sun",
-"fore_a_f045"
-],
-[
-"dog.head",
-"head_away_f009"
-],
-[
-"voice.arcs",
-"arcs_f011"
-],
-[
-"voice.arcs",
-"arcs_f014"
-]
-]
-},
-{
-"i": 678,
-"t": 28.25,
 "state": "lie_down",
 "rules": [],
 "mode": "graph",
