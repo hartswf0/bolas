@@ -134,14 +134,14 @@ room tone in those windows -35.15 and -33.81. The soft voice is
 | score t (s) | choice | measured first frame (s) | dt |
 |---|---|---|---|
 | 1 | retreat | 1.1667 | +0.167 |
-| 2.333 | watch | 2.375 | +0.042 |
-| 3.417 | refuse | 3.625 | +0.208 |
-| 7.458 | watch | 7.5417 | +0.084 |
+| 2.333 | watch | 2.4167 | +0.084 |
+| 3.417 | refuse | 3.5833 | +0.166 |
+| 7.458 | watch | 7.5 | +0.042 |
 | 14.708 | approach | 14.7917 | +0.084 |
 | 23.792 | lie_down | 23.875 | +0.083 |
 
 - I2: the measured position never goes below 0.5661 m (sill 0.56) and ends at 0.5974 m.
-  At the end 40 % of the dog's silhouette lies within the doorway's span (X < 0.46 m) and the tail end is at
+  At the end 41 % of the dog's silhouette lies within the doorway's span (X < 0.46 m) and the tail end is at
   1.26 m, outside the jamb; the front of the dog is in the door's light (measured from the render: trace.json,
   inside_frame_share, tail_end_x).
 - I3: correlation of the measured position (x_world_measured, the torso pass centroid unprojected at the dog glass depth,
@@ -149,14 +149,14 @@ room tone in those windows -35.15 and -33.81. The soft voice is
   The mapping is the identity (the porch is the score's X axis), so the approach covers the same distance at the same pace.
 - I4: 100 % of the refusal frames are measured facing away.
 - Head low on the approach: in every frame measured as coming, the head pass's top is below the torso pass's top
-  (head_above_back between -0.137 and -0.029 of the silhouette height).
+  (head_above_back between -0.139 and -0.021 of the silhouette height).
 - Feet: planted feet do not move in the solver (0 m over 1,522 planted foot-frames while standing or walking). The drawn
   paw sits at the end of the leg chain and lags a planted foot by at most 1.2 cm. Three single frames in the two spins
   (3.58, 8.29, 8.54 s) have three feet off the boards. While lying down and getting up, the legs fold by an explicit
   pose and the paws do move on the boards; they are not held there.
 
 **How the trace is measured** (assemble.py): position = the centroid of the torso ID pass, unprojected at the dog glass's
-depth; facing = which side of the cut skull piece the cut nose piece lies on (left = to the door); travel = the paws and
+depth; facing = which side of the laid head piece's hinge its nose lies on (left = to the door); travel = the paws and
 the body moving together (7-frame smoothing); height = the silhouette height in metres at the dog's depth (lying < 0.55 m).
 State: lying at the sill -> lie_down; facing away -> refuse; travelling away from the door at > 0.12 m/s with the head
 below its alert carriage -> retreat; travelling toward it at > 0.12 m/s, sustained 0.75 s -> approach; otherwise watch.
@@ -203,6 +203,29 @@ structural record, not a judgement that the choices read.
 - The door light does not cast the dog's shadow onto the boards (only a soft contact shadow under each figure).
 - The operator page (index.html) is a local file, not published.
 
+## Round 2: the critic's repairs and what was done
+
+Critic round 1 (reviews/round1.md): DOES NOT PASS, close. Repairs as ranked by the coordinator, and what changed:
+
+1. **Turning to look (7.46).** The chin is released at 7.36; the head is replaced by a front head at about 7.46 to 7.5
+   and by the profile head toward the door from 7.54, which is held (looking at the door) through the rise and the
+   body's turn to 8.95. Measured: facing (nose of the laid head piece vs its hinge) is 'door' from 7.50 s. The porch fog
+   bank lifts off the dog from 6.6 s and the fog clears round the dog at 7.0, 7.46, 7.9 and 8.4 s; focus is back on the
+   dog by 7.12 s. Looked at: every frame 7.29 to 8.58 s (contact sheet of crops): no headless frame; legs visible
+   throughout the rise.
+2. **Looking in (26.4).** The head piece is replaced at 26.46 s by the lost-profile head (turned away from the camera, no
+   eye) and lifted into the lit doorway; focus follows from 26.85 s to the bowl (27.25 to 27.5) and returns by 27.95.
+   Looked at: every frame 26.21 to 27.21 s.
+3. **Language.** The dog is now a library of hand-cut, painted replacement pieces hinged per frame (see "The dog" above);
+   21 body and head pieces plus 11 limb, neck, tail and paw pieces are in use (build/cache/render.log).
+4. **Framing.** The camera no longer pushes in on the refusal; it eases back and left from 4.3 to 5.5 s, so the person
+   sitting (5.4) and the door opening (6.2) are fully on screen (looked at 5.42, 6.21, 6.67, 7.0 s).
+5. **Hindquarters.** The hind legs are separate pieces laid over or under the body piece by depth, so thigh, shin and
+   hock keep their shapes in the crouch (1.4 to 2.3) and the rise (7.5 to 7.7) (looked at).
+
+Kept: the glass planes and parallax, the fog's four states, the focus pull to the bowl, the head-low approach, the sound
+(unchanged, re-synthesized from the same seed and the new footfalls).
+
 ## What is still weak (the builder's view, for the critic to confirm or overturn)
 
 - The dog is small in the wide shots (about 180 px long) and fog-soft through the refusal; at 6.3 to 7.2 s, while the
@@ -211,7 +234,10 @@ structural record, not a judgement that the choices read.
 - Looking in (26.4 s): when the muzzle turns into the room it hides behind the skull, so the silhouette shows a round head
   with pricked ears against the doorway. The rack focus into the room carries the rest of the beat. It may read as
   "looking up" or "looking at the person".
-- The rear view mid-turn (about 3.6 to 3.7 s) is the most generic drawing: rump, legs and a raised head.
-- The ears are pointed and stiff (a little feline); the person is a plain mannequin-like cutout.
+- The rear-view body piece (about 3.6 s, two frames) is the most generic drawing; the limbs are plain strips, so the
+  puppet reads as a jointed toy as much as a painted Norstein figure.
+- The lost-profile head when looking in may read as "looking up at the light" rather than "into the room".
+- The dog is still dim in the fog during the refusal (4.5 to 7.2 s), by design of the obscure state.
+- The ears are pointed and stiff; the person is a plain mannequin-like cutout.
 - The voice is formant-synthesized and almost certainly mechanical; intelligibility is unknown.
 - Trace thresholds were tuned against this render (see above).
