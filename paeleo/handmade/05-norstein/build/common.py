@@ -91,8 +91,8 @@ def focus_z(t):
         return keyed(k, t)
     if 6.25 <= t <= 7.12:  # the door opens: focus is pulled into the light, then back to the near hand and the dog
         return keyed([(6.25, zd), (6.6, Z['interior_near'] + 0.4), (6.75, Z['interior_near'] + 0.4), (7.12, zd)], t)
-    if 26.7 <= t <= 28.0:  # come in: the dog looks in, focus follows its look into the room, then returns to it
-        return keyed([(26.7, zd), (27.15, Z['interior_wall'] - 0.6), (27.5, Z['interior_wall'] - 0.6), (27.95, zd)], t)
+    if 26.85 <= t <= 28.0:  # come in: the dog looks in, focus follows its look into the room, then returns to it
+        return keyed([(26.85, zd), (27.25, Z['interior_wall'] - 0.6), (27.5, Z['interior_wall'] - 0.6), (27.95, zd)], t)
     return zd
 
 

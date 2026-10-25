@@ -114,8 +114,8 @@ def trace():
     frames = []
     for i, m in enumerate(M):
         fr = FR[i]
-        (hx, hy), (nx, ny) = head_pieces(P[i], tuple(m['cam']))
-        facing = 'door' if nx < hx else 'away'  # where the muzzle points: left, to the door, or right, away
+        (hx, hy), (nx, ny) = m['head_anchor_px'], m['nose_px']
+        facing = 'door' if nx < hx else 'away'  # where the laid head piece's muzzle points: left, to the door, or right
         head_rel = (m['torso_top'] - m['head_top']) / max(1, m['sil_h'])  # >0: head above the back line
         lying = h_m[i] < 0.55
         if lying and abs(v[i]) < 0.08:
@@ -140,7 +140,7 @@ def trace():
                            x_world_measured=round(float(xw[i]), 4), x_screen=m['torso_cx'], y_screen=m['torso_cy'], facing=facing,
                            posture=posture, speed=round(float(v[i]), 3), height_m=round(float(h_m[i]), 3), head_above_back=round(float(head_rel), 3),
                            head_screen=[m['head_cx'], m['head_cy']], nose_screen=[round(float(nx), 1), round(float(ny), 1)], inside_frame_share=m['inside_frame'], tail_end_x=m['right_x'] if facing == 'door' else m['left_x'],
-                           camera=m['cam'], focus_z=m['focus_z'], atmosphere=m['atmosphere'], lum_dog=m.get('lum_dog'), lum_around=m.get('lum_around')))
+                           camera=m['cam'], focus_z=m['focus_z'], pieces=m.get('pieces'), atmosphere=m['atmosphere'], lum_dog=m.get('lum_dog'), lum_around=m.get('lum_around')))
     # travel must be sustained to count as coming (0.75 s) or backing away (0.25 s): a turn in place re-steps the paws
     for name, need in (('approach', 18), ('retreat', 6)):
         k = 0
@@ -160,7 +160,7 @@ def trace():
         if frames[i]['state'] != frames[i - 1]['state'] and not (frames[i]['state'] == frames[i + 1]['state'] == frames[i + 2]['state']):
             frames[i]['state'] = frames[i - 1]['state']
     out = dict(about='SCION 05 Norstein: what the dog did, measured per scene frame from the render (torso and head ID passes, '
-                     'silhouette; facing from where the cut nose piece lies against the skull piece). x_score = x_world_measured: the torso pass centroid unprojected at the dog glass depth (metres, '
+                     'silhouette; facing from where the nose of the head piece laid this frame lies against its hinge; pieces names per frame). x_score = x_world_measured: the torso pass centroid unprojected at the dog glass depth (metres, '
                      'same axis as the score). state is classified from measurements (facing, speed, head above or below the back line, '
                      'silhouette height); state_score is the score state that drove the acting.',
                h_stand_m=h_stand, frames=frames)
