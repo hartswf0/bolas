@@ -165,12 +165,9 @@ def caption(dr, t, px, py):
             f = font('Literata-Italic', 20 if soft else 27)
             col = tuple(int(lerp(v_p, v_i, al * (0.72 if soft else 0.97))) for v_p, v_i in zip((214, 212, 210), (31, 25, 22)))
             tw = dr.textlength(text, font=f)
-            if al > 0.02:
-                bg = tuple(int(lerp(a_, b_, al)) for a_, b_ in zip((200, 196, 186), (240, 232, 212)))
-                pad = 7
-                hh = 30 if not soft else 24
-                dr.rectangle([px - tw / 2 - pad, py - 2, px + tw / 2 + pad, py + hh], fill=bg, outline=tuple(int(lerp(200, 90, al)) for _ in range(3)))
-            dr.text((px - tw / 2, py), text, font=f, fill=col)
+            # round 2: lettered into the plate (engraved italic with a hairline of paper round it), not a slip
+            halo = tuple(int(lerp(p_, h_, al)) for p_, h_ in zip((200, 196, 190), (236, 228, 208)))
+            dr.text((px - tw / 2, py), text, font=f, fill=col, stroke_width=2, stroke_fill=halo)
 
 def margin(dr, img, t, source, posture_text):
     f1 = font('JetBrainsMono-Regular', 11); f2 = font('Literata-Italic', 14)
@@ -228,16 +225,16 @@ def title_card(i, kind):
         dr.text((200, 118), 'What this plate is made of', font=f, fill=c((31, 25, 22)))
         f3 = font('JetBrainsMono-Regular', 14)
         lines = [
-            'fig. 1  the dog: line-engraved after 12 frames of Amateur Film New Jersey C (6, 16, 17, 26-44)',
-            '        (Home Movies, Internet Archive, archive.org/details/NewJerseyC; public domain).',
+            'fig. 1  the dog: line-engraved after 10 frames of Amateur Film New Jersey C:',
+            '        f006, f026, f028, f030, f033, f036, f038, f040, f043, f044',
+            '        (Home Movies, archive.org/details/NewJerseyC; public domain).',
             '        Frame 6 traced into 11 cut pieces and re-posed (invented motion, red pins);',
             '        the two turns are the film\'s own frames, re-timed. Eye, nostril, mouth: drawn.',
             '        No frame shows it lying down or the back of its head: both are invented.',
             'fig. 2  the figure: drawn; its hand after The Door to Heaven (1941), f000 (public domain;',
             '        the card it holds in the source is cropped away).',
-            'fig. 3  the door: after Straight Talk f030 (NTIS 1992, archive.org, public domain).',
+            'fig. 3  the door: after Straight Talk f030 (NTIS 1992, public domain). Sound: synthesized.',
             '        Wall: fieldstone after the pillar in fig. 1\'s film, f000. Room, porch, sky: drawn.',
-            'Sound: synthesized here (voice-like formant calls, paper, boards, room tone).',
             'No Library of Congress item was used; the LoC collections were not reachable.',
             'The events are fiction: the person, the call and the refusal never happened.',
         ]
