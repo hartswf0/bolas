@@ -111,8 +111,8 @@ def lie_pose(u, head_th, head_kind='L', head_dy=0.0, head_dx=0.0):
         # away (its ear and the back of its skull toward the camera, the muzzle away into depth); T is the same head
         # mid-turn (rotated part-way from the profile's angle), never narrower than 85% of its width
         h0, h0p = rig.part('head0')
-        sc = (0.88, 1.0) if head_kind == 'T' else (1.0, 1.0)
-        hl = (h0, h0p, head_th, (neck[0] + 6 + head_dx, neck[1] + 8 + head_dy), sc)
+        sc = (0.78, 0.86) if head_kind == 'T' else (0.88, 0.86)
+        hl = (h0, h0p, head_th, (neck[0] + 8 + head_dx, neck[1] + 20 + head_dy), sc)
         L.append(hl)
         HEAD_ONLY[0] = rig.compose([hl], CANVAS)
         headpt = (neck[0] + head_dx, neck[1] - 30 + head_dy)
