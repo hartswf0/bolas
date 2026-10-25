@@ -88,7 +88,7 @@ function dogPose(i) {
     if (t >= 7.46) { // the head comes round to the door first, over the shoulder
       P.ear = key(t, [[7.46, 0.6], [7.56, 0.95], [8.6, 0.85]]);
       P.eye = 1; P.brow = 0.2;
-      if (u >= 2.5) { P.head = 'front34'; P.headFace = 1; P.headFront = true; P.headPivot = lp([12, 58], [12, 33], P.lie); P.pitch = key(t, [[7.46, 10], [7.6, 2], [8.1, -2]]); }
+      if (u >= 2.5) { P.head = 'front34'; P.headFace = 1; P.headFront = true; P.headPivot = lp([20, 58], [17, 33], P.lie); P.tailOut = true; /* face over the far shoulder; tail stays out at the rump */ P.pitch = key(t, [[7.46, 10], [7.6, 2], [8.1, -2]]); }
       else if (u >= 0.5) { P.head = 'prof'; P.headFace = 1; P.headFront = u >= 1.5 ? false : false; P.h = 0.85; P.pitch = -2; }
       else { P.head = 'prof'; P.h = 0.85; P.pitch = -3; }
     }

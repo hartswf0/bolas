@@ -169,6 +169,7 @@ function drawDog(ctx, P) {
       a0 = lerp(a0, s2 > 0 ? -70 : -110, P.lie) + wagA * 0.3; curl = lerp(curl, 16 * s2, P.lie);
     }
     if (P.tailCurl !== undefined) curl = P.tailCurl;
+    if (P.tailOut && fam === 'Q2' && P.lie < 0.5) { a0 = -122 + wagA * 0.3; curl = -5; } // hangs off the rump, away from the head
     const r = body.pv.tail;
     const c = tailChain(r, a0 * Math.PI / 180, curl, isL ? 0 : 0, D.tail.len * (isL ? 1 : 0.85));
     const ol = ribbonOutline(c, D.tail.width);
