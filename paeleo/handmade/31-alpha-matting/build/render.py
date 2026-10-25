@@ -234,6 +234,77 @@ def lying_sprite(L, head_up, look, rest, face_right=False, look_back=0.0):
     return out
 
 
+GAIT = {}
+GAIT_LS = 0.22          # metres per backing step (each leg pair)
+LEGS = {'fore': dict(x0=128, x1=172, ytop=160, paw=(136, 210), phase=.5),
+        'hind': dict(x0=178, x1=224, ytop=156, paw=(195, 200), phase=0.)}
+
+
+def gait_pieces():
+    """the crouched, head-low frame 45 (mirrored, facing the door) split into body and two leg pairs; the legs overlap
+    6 px up under the body and are drawn beneath it, so unmoved pieces add back to the solved matte"""
+    if GAIT:
+        return GAIT
+    P, b = dog_frame(45, True)
+    A = piece_canvas(P, b)
+    shp = A.shape[:2]
+    yy, xx = np.mgrid[:shp[0], :shp[1]].astype(np.float32)
+    body_m = np.ones(shp, np.float32)
+    for k, L in LEGS.items():
+        inx = soft_region(shp, lambda x, y, L=L: (x >= L['x0']) & (x < L['x1']), 1)
+        leg_m = np.clip((yy - L['ytop']) / 2. + .5, 0, 1) * inx
+        cut = np.clip((L['ytop'] + 6 - yy) / 2. + .5, 0, 1)
+        body_m = body_m * (1 - inx * (1 - cut))
+        GAIT[k] = A * leg_m[..., None]
+    GAIT['body'] = A * body_m[..., None]
+    cx, by = anchor(A)
+    GAIT['anchor'] = (cx, by)
+    return GAIT
+
+
+def leg_offset(s_):
+    """one leg pair's paw offset from its rest place (in steps) and lift, at gait phase s_ (cycles).
+    stance (70 %): the paw is planted while the body moves away; swing (30 %): the paw steps back, lifted"""
+    n = math.floor(s_); u = s_ - n
+    if u < .7:
+        return .35 - u, 0., n, True
+    v = (u - .7) / .3
+    e = v * v * (3 - 2 * v)
+    return -.35 + .7 * e, math.sin(math.pi * v), n, False
+
+
+def shear_leg(P, ytop, ybot, D, lift):
+    """shear a leg piece: its top stays with the body, its paw sits D px away; lift shortens it (premultiplied)"""
+    Hh = max(ybot - ytop, 1)
+    e = 1 + lift / Hh
+    coeffs = (1, -D / Hh, D * ytop / Hh, 0, e, -lift * ytop / Hh)
+    ch = [np.asarray(Image.fromarray(P[..., c]).transform(P.shape[1::-1], Image.AFFINE, coeffs, Image.BICUBIC)) for c in range(4)]
+    o = np.clip(np.stack(ch, 2), 0, 1).astype(np.float32)
+    o[..., :3] = np.minimum(o[..., :3], o[..., 3:4])
+    return o
+
+
+def gait_sprite(x_body, x_start):
+    """backing away on planted paws: the body follows the score; each leg pair is planted, then steps back"""
+    g = gait_pieces()
+    out = np.zeros_like(g['body'])
+    def over(dst, src):
+        return src + dst * (1 - src[..., 3:4])
+    info = {}
+    step_px = GAIT_LS * PPM / DS          # one step in source pixels
+    for k in ('hind', 'fore'):
+        L = LEGS[k]
+        s_ = (x_body - x_start) / GAIT_LS + L['phase']
+        D, lift, n, planted = leg_offset(s_)
+        D0, _, _, _ = leg_offset(L['phase'])
+        Dpx = (D - D0) * step_px          # zero at the start: the dog starts standing on its own frame
+        leg = shear_leg(g[k], L['ytop'], L['paw'][1], Dpx, 5 * lift)
+        out = over(out, leg)
+        info[k] = dict(paw_src_x=L['paw'][0] + Dpx, plant=int(n), planted=bool(planted))
+    out = over(out, g['body'])
+    return out, info
+
+
 def bbox_crop(A):
     a = A[..., 3]; ys, xs = np.nonzero(a > .004)
     if len(xs) == 0:
@@ -272,10 +343,8 @@ def dog_pose(i):
     t = i / 24.
     if t < T_RET:
         return dict(kind='frame', f=9, m=False, facing=1, posture='watch')
-    if t < T_W1:   # backing away: the head-low walk played backward, advanced by distance
-        d = DIST[i] - DIST[int(T_RET * 24)]
-        k = int(d / STRIDE) % len(WALK)
-        return dict(kind='frame', f=WALK[len(WALK) - 1 - k], m=True, facing=1, posture='back away')
+    if t < T_W1:   # backing away, crouched and head low, facing the door, on planted paws (gait_sprite)
+        return dict(kind='gait', facing=1, posture='back away')
     if t < T_REF:
         return dict(kind='frame', f=13, m=False, facing=1, posture='watch')
     if t < T_W2:   # turns its back: the archive dog's own turn at its own rate, then lies down with its back to them
@@ -334,6 +403,11 @@ def dog_sprite(i):
     p = dog_pose(i)
     if p['kind'] == 'frame':
         P, b = dog_frame(p['f'], p['m'])
+    elif p['kind'] == 'gait':
+        A, info = gait_sprite(FR[i]['dog']['x'], FR[int(math.ceil(T_RET * 24))]['dog']['x'])
+        p['legs'] = info
+        P, b = A, (0, 0, A.shape[1], A.shape[0])        # uncropped: the body keeps one fixed anchor
+        p['anchor'] = gait_pieces()['anchor']
     else:
         A = lying_sprite(p['L'], p['head_up'], p['look'], p['rest'], p.get('face_right', False), p.get('look_back', 0.))
         A = A * (blur(A[..., 3], 6, 2) > .18)[..., None]     # drop stray specks left by the piece masks
@@ -541,6 +615,37 @@ def cloud_layer(t):
 
 
 # ---------------------------------------------------------------- one frame
+def dog_layer(i):
+    pose, P, b = dog_sprite(i)
+    # dog placement: alpha centroid -> score x, lowest solid row -> floor line (a gait sprite keeps its body's anchor)
+    Ps = scale_premult(P, DS)
+    if 'anchor' in pose:
+        cx, by = pose['anchor'][0] * DS, pose['anchor'][1] * DS
+    else:
+        cx, by = anchor(Ps)
+    xd = x_drawn(i)
+    left = sx(xd) - cx - (48 * pose['L'] if pose['kind'] == 'lie' and not pose.get('face_right') else 0)
+    top = GY + 4 - by
+    if pose['kind'] == 'gait':
+        for k, v in pose['legs'].items():
+            v['paw_screen_x'] = round(int(round(left)) + v['paw_src_x'] * DS, 2)
+    return pose, Ps, left, top, xd
+
+
+def mix_layers(Pa, la, ta, Pb, lb, tb, w):
+    """premultiplied dissolve of two placed sprites in their union box"""
+    la, ta, lb, tb = int(round(la)), int(round(ta)), int(round(lb)), int(round(tb))
+    x0, y0 = min(la, lb), min(ta, tb)
+    x1, y1 = max(la + Pa.shape[1], lb + Pb.shape[1]), max(ta + Pa.shape[0], tb + Pb.shape[0])
+    M = np.zeros((y1 - y0, x1 - x0, 4), np.float32)
+    M[ta - y0:ta - y0 + Pa.shape[0], la - x0:la - x0 + Pa.shape[1]] += (1 - w) * Pa
+    M[tb - y0:tb - y0 + Pb.shape[0], lb - x0:lb - x0 + Pb.shape[1]] += w * Pb
+    return M, x0, y0
+
+
+DISSOLVES = []   # filled below from the score: (first frame of the new drawing, frames of dissolve)
+
+
 def render(i):
     global ST
     if ST is None:
@@ -574,13 +679,13 @@ def render(i):
     can[586:, xe:] = np.array([.05, .055, .075])
     can[640:, xe + 20:] = np.array([.09, .085, .10])
     # door light on the floor (emission) minus the dog's shadow, computed after the dog sprite is known
-    pose, P, b = dog_sprite(i)
-    # dog placement: alpha centroid -> score x, lowest solid row -> floor line
-    Ps = scale_premult(P, DS)
-    cx, by = anchor(Ps)
-    xd = x_drawn(i)
-    left = sx(xd) - cx - (48 * pose['L'] if pose['kind'] == 'lie' and not pose.get('face_right') else 0)
-    top = GY + 4 - by
+    pose, Ps, left, top, xd = dog_layer(i)
+    for i0, n in DISSOLVES:                # premultiplied dissolve across a substitution that would pop
+        if i0 <= i < i0 + n:
+            _, Po, lo, to, _ = dog_layer(i0 - 1)
+            w = (i - i0 + 1) / (n + 1.)
+            Ps, left, top = mix_layers(Po, lo, to, Ps, left, top, w)
+            pose = dict(pose, dissolve=round(w, 3))
     dist = abs(xd)
     warm = light * math.exp(-dist / 1.6) * .22 + .03
     Pd = grade_dusk(Ps, warm, dark=.44 - .12 * light * math.exp(-dist / 1.2), seed=i * 7 + 3)

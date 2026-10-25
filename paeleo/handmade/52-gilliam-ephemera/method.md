@@ -69,7 +69,7 @@ only from public-domain prints in the kit and card I made.
   face from f030) looking left at the door, while the body still lies facing away. It then rises and turns by the
   turning card.
 - **Coming, head low (14.708 s)**: the head card hangs from a lower pin on the chest and is swivelled down; measured, the
-  topmost pixel of the head card is below the withers on all 219 approach frames (min 11 px), the muzzle 60+ px below.
+  topmost pixel of the head card is below the withers on all 219 approach frames (min 25 px), the muzzle 46+ px below.
 - **Lying down across the sill (23.792 s)**: the archive dog was never filmed lying. Solved in the language: the legs
   swivel flat (forelegs forward along the boards, hind legs folded), the body card comes down onto the boards, rear not
   raised. It ends with 50% of its pixels inside the door frame on screen (head and shoulders in the lit doorway, hindquarters
@@ -138,6 +138,23 @@ the sound levels):
    top third folded outward (darker fur), and the tip of the muzzle (a scrap of f046, flopped) showing past the skull on
    the side it is turned to, inside the door frame.
 
+## Repair round 2 (critic: pass, narrow; one more round)
+
+1. **Look-in, 26.42–28.08 s.** The back-of-head card is rebuilt again: long hanging ears down the sides of the skull, like
+   the profile head's (the pricked ears read as a cat's), and the muzzle tip (a scrap of f046) showing over the top of
+   the skull, pointing up and to the right into the lit room, away from the person and the hand. During the hold the card
+   tilts toward the room at 26.95 s (+6°), back past level at 27.45 s (−3°), and settles at 27.8 s (+1°), so the look is
+   not frozen.
+2. **Approach reads as a dog.** The torso card's back line is cut lower (no withers hump) and its matte smoothed harder
+   (4 px), the whole body is levelled 4° (the print's back sloped down to the rear: the hyena), and the head hangs from a
+   pin 46 px down the chest, swivelled only 32° so the muzzle reaches forward and down rather than drooping (the tapir).
+   Measured on all 219 approach frames: topmost head pixel 25–29 px below the withers, muzzle 46–54 px below.
+3. **Face card at 7.46–8.04 s.** Re-cut from f030 at a smaller print scale (0.74 instead of 1.31): 39 px tall against the
+   torso card's 68 px (ratio 0.57, required ≤ 0.6). It still replaces the head on the choice frame 7.458.
+4. (optional) **Tail tucked** between the hind legs through the refusal (pinned at 70° standing, 58° lying).
+5. (optional) **Footfalls audible**: claw-and-board clicks raised 9 dB; 13 transients more than 12 dB over the bed during
+   the approach, plus a paw and a body thud at 23.84–23.9 s (20 dB over the bed). Measured, not listened to.
+
 ## What failed and what I changed (see ledger.jsonl)
 
 - First head cut took the whole mane: lying, the dog read as a seal. Cut the head smaller at the neck line.
@@ -156,7 +173,8 @@ the sound levels):
 
 - The dog is small in a wide, locked-off shot (about 210 px long). The regrade removed the spots but also most of the
   photographic detail: the dog now reads as a smooth tinted card more than as a photograph.
-- The lowered head hangs from the chest: below the withers as required, but the neck reads long.
+- The lowered head hangs from the chest: below the withers as required, but the neck can read long.
+- The small face card at the look-back is only 39 px tall; at that size its eyes are barely readable.
 - The giant hand is in the sky, away from the dog; whether it reads as absurd or as a distraction is for the viewer.
 - The half-way exposures of lying down and getting up (legs part-swivelled) look like a sprawl for two or three
   exposures.
