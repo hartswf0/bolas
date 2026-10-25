@@ -82,6 +82,16 @@
    "dog": "a 24-point graph under 77 constraints, solved every frame"
   },
   {
+   "id": 9,
+   "dir": "09-igarashi",
+   "name": "Takeo Igarashi",
+   "kind": "As-rigid-as-possible puppetry",
+   "dog": "six drawn sheets bent by an ARAP solver, features held rigid",
+   "made": "Six dog drawings drawn in code: a standing profile, standing and sitting back views, a lying sphinx profile, a profile head with collar and tag, and the back of the head. Each is cut into a triangle mesh, with cuts between the forelegs and at the tail notch, and the eye, nose, tag and buttons weighted forty times stiffer. The moon and trees are Quick, Draw! doodles.",
+   "moved": "Only by an as-rigid-as-possible solver: handles, a best rotation per triangle, one energy minimized per frame; a triangle that flips is stiffened and the frame solved again. Feet come from a stepping simulation, planted or in the air, never slid. Turns swap whole drawings, bent across by the solver, the head leading. Against weighted skinning on the same mesh, the solver folds no triangles where skinning folds dozens.",
+   "trick": "A drawing that bends without ever folding: the dog keeps its shape by solving for it."
+  },
+  {
    "id": 17,
    "dir": "17-south-park",
    "name": "South Park lineage",
