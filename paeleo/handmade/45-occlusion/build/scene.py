@@ -163,16 +163,19 @@ def door_angle(t):
     return lerp(9, 76, sm(6.15, 7.0, t))
 
 
+HINGE_D = -0.16          # the leaf hangs at the inner face of the wall and swings into the room
+
+
 def leaf_edge(th):
     r = math.radians(th)
-    return OPEN_X - 2 * OPEN_X * math.cos(r), -2 * OPEN_X * math.sin(r)
+    return OPEN_X - 2 * OPEN_X * math.cos(r), HINGE_D - 2 * OPEN_X * math.sin(r)
 
 
 def light_through(th, n=240):
     """Fraction of the opening (sampled across x0 in [-0.46, 0.46] at D=0) that the lamp sees past the leaf (plan view)."""
     xs = np.linspace(-OPEN_X, OPEN_X, n)
     lx, _, lD = LAMP
-    hx, hD = OPEN_X, 0.0
+    hx, hD = OPEN_X, HINGE_D
     fxe, fDe = leaf_edge(th)
     lit = np.ones(n)
     for k, x0 in enumerate(xs):
@@ -262,7 +265,7 @@ def L_leaf(cam, t, amb):
     th = door_angle(t)
     xe, De = leaf_edge(th)
     leaf = plate('leaf')
-    quad = [cam.P(xe, DOOR_H, De), cam.P(OPEN_X, DOOR_H, 0), cam.P(OPEN_X, 0, 0), cam.P(xe, 0, De)]
+    quad = [cam.P(xe, DOOR_H, De), cam.P(OPEN_X, DOOR_H, HINGE_D), cam.P(OPEN_X, 0, HINGE_D), cam.P(xe, 0, De)]
     im = warp_to_quad(leaf, quad)
     rgb, a = from_pil(im)
     shade = 0.30 + 0.55 * math.cos(math.radians(th)) ** 1.5
@@ -270,7 +273,7 @@ def L_leaf(cam, t, amb):
     # depth pass along the leaf
     xw = cam.fx + (XX - 640) / cam.s
     u = np.clip((OPEN_X - xw) / max(1e-3, OPEN_X - xe), 0, 1)
-    depth = (u * De).astype(np.float32)
+    depth = (HINGE_D + u * (De - HINGE_D)).astype(np.float32)
     return Layer('door_leaf', rgb.astype(np.float32), a, depth, 'wall', 'Straight Talk f016 door panel (SAM, rectified)'), th
 
 
@@ -293,7 +296,7 @@ def L_facade(cam, t, amb, light_amt):
     gx = np.exp(-((np.abs(xw) - OPEN_X) / 0.5).clip(0) ** 2) * np.exp(-((hw - 0.8) / 1.3) ** 2)
     col = col + (gx * light_amt * 0.10)[..., None] * WARM
     rgb = col.astype(np.float32) * a[..., None]
-    return Layer('facade', rgb, a, 0.0, 'wall', 'drawn clapboard wall; the opening is its holdout')
+    return Layer('facade', rgb, a, FRAME_D, 'wall', 'drawn clapboard wall; the opening is its holdout')
 
 
 def L_frame(cam, t, amb, light_amt):
