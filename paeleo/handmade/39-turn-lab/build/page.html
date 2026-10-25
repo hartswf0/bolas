@@ -99,6 +99,12 @@ function measure(i, model) {
   out.body_cx = bn ? 2 * (body[0].sx + body[1].sx) / bn : null; out.body_cy = bn ? 2 * (body[0].sy + body[1].sy) / bn : null;
   out.torso_top = 2 * Math.min(body[0].miny, body[1].miny);
   out.body_cx_occluded = out.body_cx;
+  // neck attachment: base (in the body's frame) and joint (where the head drawing hangs), and whether the neck is solid
+  out.neck_base = [ox + model.Bs[0] * WORLD.S, oy - model.Bs[1] * WORLD.S];
+  { let gap = 0; const B = out.neck_base, Nj = [ox + model.Ns[0] * WORLD.S, oy - model.Ns[1] * WORLD.S];
+    for (let k = 0; k <= 20; k++) { const x = Math.round((B[0] + (Nj[0] - B[0]) * k / 20) / 2), y = Math.round((B[1] + (Nj[1] - B[1]) * k / 20) / 2);
+      const o = (y * MW + x) * 4; if (im[o] + im[o + 1] + im[o + 2] < 120) gap++; }
+    out.neck_gap_samples = gap; }
   // the torso alone (legs and head not drawn): its centroid is the parent-frame anchor the trace reports
   MX.setTransform(1, 0, 0, 1, 0, 0); MX.fillStyle = '#000'; MX.fillRect(0, 0, MW, MH);
   MX.setTransform(WORLD.S / 2, 0, 0, -WORLD.S / 2, ox / 2, oy / 2);

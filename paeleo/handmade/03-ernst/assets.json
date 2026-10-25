@@ -1,0 +1,117 @@
+{
+ "assets": [
+  {
+   "id": "lion_head",
+   "what": "the magistrate’s head (hybrid noun: person + lion) while the person commands, 0-5.45 s; its cut margin is shown (a pasted authority)",
+   "source_file": "src/lion/f022.jpg",
+   "kit_path": "hartswf0/secondhand-motion/shots/lion-sam/frames/f022.jpg",
+   "mask": "hartswf0/secondhand-motion/shots/lion-sam/masks.json [frame 22]",
+   "source_title": "Andy's Animal Alphabet",
+   "archive_url": "https://archive.org/details/AndysAnimalA",
+   "clip_id": "2c353422-8745-5875-82a7-f19d09c157f9",
+   "rights": "public_domain",
+   "operation": "cut by its SAM mask (crop [5, 83, 122, 199]), scaled x2.0, tone-stretched, engraved with this swarm’s burin (radial mane line system), outlined at the cut, white cut margin kept as a separate layer",
+   "used_as": "build/cache/frag_lion_head.npz"
+  },
+  {
+   "id": "lion_head_b",
+   "what": "substitution partner of lion_head, alternated at 4 Hz while the person calls (the head “speaks” by substitution)",
+   "source_file": "src/lion/f021.jpg",
+   "kit_path": "hartswf0/secondhand-motion/shots/lion-sam/frames/f021.jpg",
+   "mask": "hartswf0/secondhand-motion/shots/lion-sam/masks.json [frame 21]",
+   "source_title": "Andy's Animal Alphabet",
+   "archive_url": "https://archive.org/details/AndysAnimalA",
+   "clip_id": "2c353422-8745-5875-82a7-f19d09c157f9",
+   "rights": "public_domain",
+   "operation": "cut by its SAM mask (crop [0, 85, 111, 199]), scaled x2.0, tone-stretched, engraved with this swarm’s burin (radial mane line system), outlined at the cut, white cut margin kept as a separate layer",
+   "used_as": "build/cache/frag_lion_head_b.npz"
+  },
+  {
+   "id": "lion_mask",
+   "what": "the keystone over the door from 6.05 s (the same lion, now architecture); its cut margin fades: the seam concealed",
+   "source_file": "src/lion/f017.jpg",
+   "kit_path": "hartswf0/secondhand-motion/shots/lion-sam/frames/f017.jpg",
+   "mask": "hartswf0/secondhand-motion/shots/lion-sam/masks.json [frame 17]",
+   "source_title": "Andy's Animal Alphabet",
+   "archive_url": "https://archive.org/details/AndysAnimalA",
+   "clip_id": "2c353422-8745-5875-82a7-f19d09c157f9",
+   "rights": "public_domain",
+   "operation": "cut by its SAM mask (crop [0, 82, 72, 195]), scaled x1.6, tone-stretched, engraved with this swarm’s burin (radial mane line system), outlined at the cut, white cut margin kept as a separate layer",
+   "used_as": "build/cache/frag_lion_mask.npz"
+  },
+  {
+   "id": "hand",
+   "what": "the person’s right hand: pasted large and swelling while it reaches (3.4-4.6 s, margin shown), small and low when offered (6.8 s on, margin concealed)",
+   "source_file": "src/hand/f010.jpg",
+   "kit_path": "hartswf0/secondhand-motion/shots/hand-sam/frames/f010.jpg",
+   "mask": "hartswf0/secondhand-motion/shots/hand-sam/masks.json [frame 10]",
+   "source_title": "Door to Heaven, The",
+   "archive_url": "https://archive.org/details/DoortoHe1941",
+   "clip_id": "0870ef3a-b328-5284-890b-3e1ac18057c1",
+   "rights": "public_domain",
+   "operation": "cut by its SAM mask (crop [183, 57, 292, 118]), mirrored, scaled x2.0, tone-stretched, engraved with this swarm’s burin (parallel, luminance-displaced line system), outlined at the cut, white cut margin kept as a separate layer",
+   "used_as": "build/cache/frag_hand.npz"
+  },
+  {
+   "id": "lantern",
+   "what": "the lamp hanging in the hall, seen through the open door: where the light comes from",
+   "source_file": "src/lantern/f020.jpg",
+   "kit_path": "hartswf0/secondhand-motion/shots/lantern-sam/frames/f020.jpg",
+   "mask": "hartswf0/secondhand-motion/shots/lantern-sam/masks.json [frame 20]",
+   "source_title": "Anthracite: Pre-Shift Examinations of Underground Mines",
+   "archive_url": "https://archive.org/details/gov.msha.dvd614",
+   "clip_id": "4e46b7b2-909b-5072-8dbf-30085bb76742",
+   "rights": "public_domain",
+   "operation": "cut by its SAM mask (crop [105, 20, 213, 210]), scaled x0.8, tone-stretched, engraved with this swarm’s burin (parallel, luminance-displaced line system), outlined at the cut, white cut margin kept as a separate layer",
+   "used_as": "build/cache/frag_lantern.npz"
+  },
+  {
+   "id": "dog",
+   "what": "the dog: a maquette of 27 typed primitives (round cones, ellipsoids): chest, loin, haunch, neck, skull, muzzle, nose, two eyes, two ears, four legs of three segments (upper, lower, paw), a four-segment tail",
+   "source_file": "build/dog.py",
+   "rights": "made here (this swarm)",
+   "operation": "drawn as geometry, posed from the score, paws by the step solver (build/gait.py), two-bone IK, ray-marched (build/sdf.py), engraved along the form (build/dogplate.py, build/burin.py)"
+  },
+  {
+   "id": "person",
+   "what": "the person: a frock-coated mannequin of round cones and ellipsoids, own plain head shown once the lion has left",
+   "source_file": "build/person.py",
+   "rights": "made here",
+   "operation": "geometry posed from the score’s person circumstances; feet by the same step solver; ray-marched and engraved"
+  },
+  {
+   "id": "plate",
+   "what": "porch boards, clapboard facade, door case, door and its four panels, sill, hall with papered wall, chair, window, fence, hedge, moon, steps, newel post",
+   "source_file": "build/plate.py",
+   "rights": "made here",
+   "operation": "projected world quads, each given its own engraved line system; the door swings and lets out light (build/plate.py door_layer, light_spill)"
+  },
+  {
+   "id": "sound",
+   "what": "all sound: crickets, wind, formant voices (come here / here / it’s all right / come in), lion growl, paper rustles, stone knock, hinge and chair creaks, footfalls, sighs, tail knocks, the warm chord of the light",
+   "source_file": "build/sound.py",
+   "rights": "made here (synthesized; no recordings)",
+   "operation": "synthesized in numpy, cued from the score and from the step solver’s touchdown events"
+  },
+  {
+   "id": "fonts",
+   "what": "Literata (captions, cards)",
+   "source_file": "tools/paeleo/fonts/f27.woff2, f34.woff2, f41.woff2",
+   "rights": "Literata is published under the SIL Open Font License (Google Fonts); used as shipped in the repo",
+   "operation": "converted to TrueType into build/cache (fonts.py)"
+  },
+  {
+   "id": "score",
+   "what": "the dog’s decisions and the circumstances",
+   "source_file": "paeleo/handmade/score/threshold-score.json",
+   "rights": "PAELEO (this repo)",
+   "operation": "read only; drives the timeline (build/timeline.py)"
+  }
+ ],
+ "not_used": [
+  "kit/archive-dog (looked at, not used: no lying or turned-back dog in it; the dog is built as a maquette instead)",
+  "kit/archive-door (looked at, not used)",
+  "kit/quickdraw and Quick, Draw! categories (not used)"
+ ],
+ "rule": "only rights-recorded material: public-domain archive frames from the kit’s found-frames list, and what this swarm made"
+}

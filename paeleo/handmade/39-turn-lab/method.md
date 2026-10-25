@@ -133,3 +133,51 @@ orientation controller's state: the choice being performed, which follows the sc
 
 `bash build/make.sh` runs controller → render (Playwright/Chromium canvas) → trace → sound → assemble (ffmpeg) → identity
 loop → `check_handmade.py`. The intermediates go to `build/cache/` (git-ignored).
+
+## Round 2: repairs after critic round 1 (DOES NOT PASS, one blocking defect)
+
+The critic's report is in `reviews/round1.md` (I read it and did not edit it). Each defect below gives the cause I found,
+the fix, and what I measured or looked at afterwards.
+
+1. **(Blocking) 26.6–28.4: the rear head floated on an unfilled neck.**
+   - Cause: a path bug. The neck was filled from a path built with `moveTo` plus two `crOpen` calls. Each `crOpen` starts a
+     new subpath, so the "filled" neck was really two open curves. Only its two ink edges showed, with the room visible
+     between them. The tail had the same construction.
+   - Fix: the neck is now one closed, filled and fully inked shape, drawn behind the torso so the torso hides the junction.
+     The tail is one closed shape too.
+   - Measured: a new check samples 21 points of the id mask along the line from the neck base to the neck joint. In all 768
+     frames, no sample is background (`N4_frames_with_background_in_neck: []`). Across 26.6–28.4 the neck base stays within
+     0.7 px in x and 0 px in y. At the head-only swaps at 26.625, 26.708, 28.333 and 28.458 its shift is 0.0 px.
+   - The one larger shift at a head swap (up to 12 px, at 7.50–7.63) is the dog rising: the shoulders move every frame
+     there, not only at the swap.
+2. **Stray strokes like a leash or antenna.**
+   - Two causes. The un-inked or unfilled neck edges ran past the head; the closed neck fixes those. The flattened ears were
+     long thin slivers sticking backwards.
+   - Fix: every head view's flat-ear tip now lies back along the skull, and the ear widens as it flattens.
+   - Looked at: 1.25, 1.67, 2.08, 3.67 and 7.71–8.0 zoomed. No stroke leaves the head or collar outline.
+3. **The lie across the sill read as a 2D overlap.**
+   - Fix: the dog now steps in to 0.13 m from the wall (it was 0.32 m) as it turns into the doorway. The forepaws now rest at
+     the sill board and the head and chest are inside the jambs, while the haunch and tail stay out on the porch boards.
+   - Looked at: every frame 26.4–28.6, plus 24.0–26.2 sampled.
+4. **The seated person was cropped by the left edge.**
+   - Fix: the person now sits at u = −0.92 (it was −1.02). The back of the coat is at about x = 31 px by construction. I
+     looked at frames 6.0, 8.3 and 23.4.
+5. **Tangled hind legs at 4.4 and 7.7–8.0, and a hip seam at 23.4.**
+   - Fix, in three parts:
+     - Legs on the far side of the body are now drawn behind the torso in every view. In the rear view, where both pairs are
+       at the same depth, the hind legs go in front and the fore legs behind.
+     - The lying haunch drawing now takes over earlier in the lie, so no half-folded hind leg is ever drawn.
+     - A leg over the body is now filled with the torso's own gradient and not outlined inside the body, so the hip seam is
+       gone.
+   - Looked at: 4.4, 7.71–8.0 and 23.4.
+
+The critic asked me to keep the head-leading turn at 7.46–8.4, the rear-view refusal, the ear and tail acting, the head-low
+approach and the sound mix. None of these were changed: no choreography keys and no sound changed, only drawings and layering.
+
+**After round 2:** `check_handmade.py` is ALL OK. I1 dt is 0.000 for all six choices; I2 min x 0.584, end x 0.585; I3
+r 1.000; I4 0.959. N1 (sideways jump at body swaps) is 1.5 px. N3: the collar is hidden in one frame only, scene frame 181,
+the rear head behind the lying body. `film.mp4` is 3.0 MB.
+
+**Still my own judgement, not a verdict:** where the lying dog turns its head to the person, the neck shows as a rounded
+ruff behind the head (24.8–26.5 and 28.5–32). It is filled and inked, but it is a hump. The rear standing drawing is still
+the narrowest frame of each turn.

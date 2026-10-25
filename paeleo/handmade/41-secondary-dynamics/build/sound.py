@@ -87,7 +87,8 @@ def syllable(cons, vowel, dur, amp, level, f0a, f0b, coda=''):
     if coda in ('m', 'n'): nb = int(0.09 * SR); tt = np.arange(nb) / SR; post = np.sin(2 * math.pi * np.cumsum(np.full(nb, f0b)) / SR) * np.exp(-tt / 0.05) * 0.25 * (1 if coda == 'm' else 0.8)
     if coda == 'ts': nb = int(0.07 * SR); post = fft_filter(rng.standard_normal(nb), 4000, 9000) * env(nb, 0.01, 0.03) * (0.3 if not soft else 0.16)
     if coda == 't': nb = int(0.03 * SR); post = fft_filter(rng.standard_normal(nb), 2500, 7000) * env(nb, 0.002, 0.01) * 0.25
-    out = np.concatenate([pre, y / (np.abs(y).max() + 1e-9) * amp, post])
+    k = amp / 0.9  # consonants scale with the syllable's loudness (a soft voice has soft consonants)
+    out = np.concatenate([pre * k, y / (np.abs(y).max() + 1e-9) * amp, post * k])
     return out
 
 
@@ -99,7 +100,7 @@ for v in S['voice']:
         last = k == n_s - 1
         if level == 'call': f0a, f0b = (215, 205) if not last else (250, 300 if 'HERE' in v['text'] else 270)
         else: f0a, f0b = (190, 182) if not last else (185, 160)
-        sig = syllable(c, vw, d, amp * (0.92 if level == 'call' else 0.30), level, f0a, f0b, CODA.get(v['text'], [''] * 3)[k])
+        sig = syllable(c, vw, d, amp * (0.92 if level == 'call' else 0.42), level, f0a, f0b, CODA.get(v['text'], [''] * 3)[k])
         place(sig, t + 0.03, -0.55, 'voice_call' if level == 'call' else 'voice_soft'); t += d + 0.04
     voice_spans[level].append((start, t + 0.1))
 

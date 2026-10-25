@@ -288,11 +288,13 @@ def person(q, t, phase):
     head = neck + 0.13 * lean_v + F * 0.02
     ph = phase
     # torso
-    cen = seg(hip, chest, 18)
-    P, Nn = tube(cen, np.linspace(.15, .18, 18), np.linspace(.10, .11, 18), 10, F, ring_phase(3, 18, t), 0.03, 2, ph)
+    cen = seg(hip, chest + 0.06 * lean_v, 18)
+    sp = np.linspace(0, 1, 18)
+    P, Nn = tube(cen, np.interp(sp, [0, .35, .8, 1], [.16, .14, .19, .12]), np.interp(sp, [0, .35, .8, 1], [.11, .10, .12, .07]),
+                 10, F, ring_phase(3, 18, t), 0.03, 2, ph)
     B.add(P, Nn, PERSON_COL, 0.85, 10)
     cen = seg(neck, head + 0.1 * lean_v, 13)
-    hr = np.sin(np.linspace(0.25, math.pi - 0.25, 13)) * 0.105
+    hr = np.sin(np.linspace(0.25, math.pi - 0.25, 13)) * 0.09
     P, Nn = tube(cen, hr * 0.95, hr, 10, F, ring_phase(4, 13, t), 0.02, 2, ph)
     B.add(P, Nn, PERSON_COL, 0.95, 11)
     mouth = head + F * 0.10 + U * -0.02

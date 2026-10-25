@@ -23,7 +23,7 @@ for q, p in zip(m, plan):
                'facing': facing, 'posture': posture, 'torso_top_m': round(h, 3), 'head_dx_px': round(dx, 1),
                'body_view': q['body_view'], 'head_view': q['head_view'],
                'collar_px': q['counts']['collar'], 'saddle_px': q['counts']['saddle'], 'tail_px': q['counts']['tail'], 'area_px': q['area'],
-               'bbox': [round(v) for v in q['bbox']]})
+               'bbox': [round(v) for v in q['bbox']], 'neck_base': [round(v, 1) for v in q['neck_base']], 'neck_gap_samples': q['neck_gap_samples']})
 doc = {'about': 'SCION 39 Turn Lab: what the dog did, per scene frame, measured from an id-mask pass of its own render (see build/trace.py).',
        'mapping': {'x_score': '(x_screen - 290) / 225 + 0.39', 'camera': 'static'}, 'frames': fr}
 json.dump(doc, open(os.path.join(FOLDER, 'trace.json'), 'w'))

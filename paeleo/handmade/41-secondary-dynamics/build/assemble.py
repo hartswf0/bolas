@@ -19,9 +19,9 @@ for f in SCORE['frames']:
     lie = me['lie']; posture = 'lying' if lie > 0.85 else ('lying down' if lie > 0.1 else ('crouched' if me['withers_y'] < 0.43 else 'standing'))
     if posture == 'standing' and abs(f['dog']['v']) > 0.05: posture = 'walking' if f['dog']['v'] < 0 else 'backing'
     fr.append({'i': i, 't': f['t'], 'state': f['dog']['state'], 'x_score': f['dog']['x'], 'x_screen': m['cx'], 'y_screen': m['cy'], 'x_world_measured': m['x_world'],
-               'facing': facing, 'posture': posture, 'head_below_back': me['head_below_back'], 'bbox': m['bbox']})
+               'facing': facing, 'head_facing': (1 if m['muzzle_dx'] < -2 else (-1 if m['muzzle_dx'] > 2 else 0)), 'posture': posture, 'head_below_back': me['head_below_back'], 'bbox': m['bbox']})
 json.dump({'about': 'SCION 41 trace, measured from the render: x_screen/y_screen = centroid of the drawn dog layer (px), x_world_measured = that centroid unprojected to the dog plane Z=0 '
-           'with the frame camera (m), facing = +1 head drawn toward the door (screen-left of the rump), -1 away, 0 end-on; posture from the rig heights; state is the score state the rig executed.',
+           'with the frame camera (m), facing = +1 head drawn toward the door (screen-left of the rump), -1 away, 0 end-on; head_facing = where the drawn muzzle points (+1 toward the door, -1 away, 0 at the camera); posture from the rig heights; state is the score state the rig executed.',
            'facing_convention': {'1': 'faces the door/person', '-1': 'back turned', '0': 'end-on mid-turn'}, 'frames': fr}, open(os.path.join(TOP, 'trace.json'), 'w'))
 
 os.makedirs(os.path.join(TOP, 'stills'), exist_ok=True)

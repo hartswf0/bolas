@@ -89,8 +89,8 @@
       nose: [-0.268, 0.004, 0.022, 0.017], mouth: [[-0.255, -0.03], [-0.205, -0.042], [-0.155, -0.036]],
       eyes: [[-0.112, 0.046, 0.022, 0.012, 1]],
       brows: [[-0.105, 0.072, 0.011]],
-      ears: { far: { b1: [-0.075, 0.088], b2: [-0.012, 0.102], up: [-0.045, 0.215], flat: [0.085, 0.118] },
-        near: { b1: [-0.04, 0.094], b2: [0.03, 0.074], up: [0.012, 0.232], flat: [0.135, 0.098] } },
+      ears: { far: { b1: [-0.075, 0.088], b2: [-0.012, 0.102], up: [-0.045, 0.215], flat: [0.07, 0.096] },
+        near: { b1: [-0.04, 0.094], b2: [0.03, 0.074], up: [0.012, 0.232], flat: [0.112, 0.072] } },
       pitch: 1, inner: false,
     },
     '-45': {
@@ -101,8 +101,8 @@
       nose: [-0.193, 0.012, 0.028, 0.02], mouth: [[-0.19, -0.03], [-0.15, -0.048], [-0.10, -0.045]],
       eyes: [[-0.045, 0.052, 0.02, 0.012, 1], [-0.125, 0.056, 0.015, 0.01, 0.8]],
       brows: [[-0.04, 0.076, 0.01], [-0.12, 0.078, 0.008]],
-      ears: { far: { b1: [-0.10, 0.10], b2: [-0.04, 0.116], up: [-0.115, 0.232], flat: [-0.02, 0.148] },
-        near: { b1: [0.0, 0.112], b2: [0.06, 0.07], up: [0.075, 0.228], flat: [0.15, 0.11] } },
+      ears: { far: { b1: [-0.10, 0.10], b2: [-0.04, 0.116], up: [-0.115, 0.232], flat: [-0.03, 0.122] },
+        near: { b1: [0.0, 0.112], b2: [0.06, 0.07], up: [0.075, 0.228], flat: [0.125, 0.082] } },
       pitch: 0.6, inner: true,
     },
     45: {
@@ -112,8 +112,8 @@
       pale: null,
       nose: [-0.18, 0.042, 0.012, 0.012], mouth: null,
       eyes: [], brows: [],
-      ears: { far: { b1: [-0.105, 0.092], b2: [-0.045, 0.11], up: [-0.088, 0.222], flat: [-0.02, 0.14] },
-        near: { b1: [-0.012, 0.106], b2: [0.058, 0.066], up: [0.048, 0.218], flat: [0.13, 0.09] } },
+      ears: { far: { b1: [-0.105, 0.092], b2: [-0.045, 0.11], up: [-0.088, 0.222], flat: [-0.01, 0.116] },
+        near: { b1: [-0.012, 0.106], b2: [0.058, 0.066], up: [0.048, 0.218], flat: [0.11, 0.074] } },
       pitch: 0.6, inner: false, earsFront: true,
     },
     90: {
@@ -221,7 +221,7 @@
         const J = ik2([P3[0], P3[1]], Hk, 0.21, 0.22, q => q[0] * (1 - tl) + q[1] * tl * 2);
         joints3 = [P3, [J[0], J[1], lerp(P3[2], F3[2], 0.4)], [Hk[0], Hk[1], lerp(P3[2], F3[2], 0.85)], F3];
       }
-      if (leg.type === 'hind' && tl > 0.55) {
+      if (leg.type === 'hind' && tl > 0.32) {
         // lying: the hind leg is a different drawing — a haunch on the ground and the hock laid flat (substitution, not a fold)
         const hc = [P3[0] - 0.07, P3[1] - 0.045, P3[2] + 0.03 * leg.side];
         const pc = proj(th, hc[0], hc[1], hc[2]);
@@ -236,7 +236,8 @@
       const paw3 = [F3[0] - 0.025, F3[1] + 0.016, F3[2]];
       const pw = proj(th, paw3[0], paw3[1], paw3[2]);
       const toe = proj(th, F3[0] - 0.07, F3[1] + 0.01, F3[2]);
-      parts.push({ id: 'leg_' + leg.id, key: pj[0][2] * 0.9 + 0.001 * leg.side, leg: leg.type, near: pj[0][2] > -0.02 || (th === 90 && leg.type === 'hind'),
+      const midD = proj(th, P3[0], P3[1], 0)[2], dd = pj[0][2] - midD, nearSide = Math.abs(dd) > 1e-6 ? dd > 0 : pj[0][2] > 0;
+      parts.push({ id: 'leg_' + leg.id, key: (nearSide ? 0.3 : -0.3) + 0.001 * leg.side + (leg.type === 'hind' ? 0.002 : 0), leg: leg.type, near: pj[0][2] > -0.02 || (th === 90 && leg.type === 'hind'),
         pts: pj.map(p => [p[0], p[1]]), widths: leg.type === 'fore' ? [0.09, 0.06, 0.048] : [0.15, 0.10, 0.058, 0.05],
         paw: [pw[0], pw[1]], toe: [toe[0], toe[1]], lifted: (pose.lift && pose.lift[leg.id]) || 0 });
     }
@@ -285,10 +286,12 @@
     const lw = 0.0115;
     const fill = (col, idc) => { ctx.fillStyle = ID ? idc : col; ctx.fill(); };
     const ink = (w) => { if (ID) return; ctx.lineWidth = w || lw; ctx.strokeStyle = PAL.ink; ctx.lineJoin = 'round'; ctx.lineCap = 'round'; ctx.stroke(); };
+    let torsoPts = null;
+    const torsoGrad = () => { const g = ctx.createLinearGradient(0, 0.62, 0, 0.1); g.addColorStop(0, PAL.fawn); g.addColorStop(1, PAL.fawnDark); return g; };
     for (const p of model.parts) {
       if (opt.torsoOnly && p.id !== 'torso') continue;
       if (p.id === 'torso') {
-        const T = jit(p.torso, seed + 1, amp);
+        const T = jit(p.torso, seed + 1, amp); torsoPts = T;
         ctx.beginPath(); crClosed(ctx, T);
         if (!ID) { const g = ctx.createLinearGradient(0, 0.62, 0, 0.1); g.addColorStop(0, PAL.fawn); g.addColorStop(1, PAL.fawnDark); ctx.fillStyle = g; ctx.fill(); }
         else fill(null, ID.torso);
@@ -300,7 +303,8 @@
         if (!ID) for (const l of p.lines) { ctx.beginPath(); crOpen(ctx, jit(l, seed + 4, amp)); ink(lw * 0.7); }
       } else if (p.id.startsWith('leg_')) {
         const t = tube(jit(p.pts, seed + 10 + p.key * 50, amp * 0.6), p.widths);
-        const col = p.near ? PAL.fawn : PAL.fawnFar;
+        const overTorso = p.near && torsoPts && p.key > 0;
+        const col = overTorso ? torsoGrad() : (p.near ? PAL.fawn : PAL.fawnFar);
         ctx.beginPath(); crClosed(ctx, [...t.L, ...t.R.slice().reverse()]); fill(col, ID ? ID.leg : null);
         // paw
         const pc = [(p.paw[0] + p.toe[0]) / 2, (p.paw[1] + p.toe[1]) / 2];
@@ -308,7 +312,10 @@
         ctx.beginPath(); ctx.ellipse(pc[0], pc[1] - 0.006, rx, 0.02, 0, 0, Math.PI * 2); fill(p.near ? '#cfae80' : '#9c7a52', ID ? ID.leg : null); ink(lw * 0.8);
         if (!ID) { // side contours only (no seam where the leg enters the body)
           const cut = 1;
-          ctx.save(); ctx.beginPath(); ctx.rect(-5, -5, 10, 10); ctx.arc(p.pts[0][0], p.pts[0][1], p.widths[0] * 0.75, 0, 7, true); ctx.clip('evenodd');
+          // a leg over the body is not outlined inside the body (it continues the torso's drawing; no hip seam)
+          ctx.save(); ctx.beginPath(); ctx.rect(-5, -5, 10, 10);
+          if (overTorso) crClosed(ctx, torsoPts); else ctx.arc(p.pts[0][0], p.pts[0][1], p.widths[0] * 0.75, 0, 7, true);
+          ctx.clip('evenodd');
           ctx.beginPath(); crClosed(ctx, [...t.L, ...t.R.slice().reverse()]); ink(lw * 0.9); ctx.restore();
         }
       } else if (p.id.startsWith('haunch_')) {
@@ -323,10 +330,8 @@
       } else if (p.id === 'tail') {
         const pts = jit(p.pts, seed + 20, amp);
         const t = tube(pts, p.widths);
-        ctx.beginPath(); ctx.moveTo(t.L[0][0], t.L[0][1]); crOpen(ctx, t.L);
-        const tip = pts[pts.length - 1]; ctx.lineTo(tip[0], tip[1]);
-        const Rr = t.R.slice().reverse(); for (const q of Rr) ctx.lineTo(q[0], q[1]);
-        ctx.closePath();
+        const tip = pts[pts.length - 1];
+        ctx.beginPath(); crClosed(ctx, [...t.L.slice(0, -1), tip, ...t.R.slice(0, -1).reverse()]);
         if (!ID) { const g = ctx.createLinearGradient(pts[0][0], pts[0][1], tip[0], tip[1]); g.addColorStop(0, PAL.fawnDark); g.addColorStop(0.55, PAL.saddle); g.addColorStop(1, '#241a13'); ctx.fillStyle = g; ctx.fill(); }
         else fill(null, ID.tail);
         if (!ID) { ctx.beginPath(); crOpen(ctx, t.L.slice(1)); ink(lw * 0.85); ctx.beginPath(); crOpen(ctx, t.R.slice(1)); ink(lw * 0.85); }
@@ -341,11 +346,11 @@
     const { ID, seed, amp, lw, fill, ink } = o;
     // neck tube from base B to joint N with the collar ring
     const B = p.B, N = p.N, mid = [lerp(B[0], N[0], 0.5), lerp(B[1], N[1], 0.5) + 0.01];
-    const t = tube([B, mid, N], [0.25, 0.20, 0.16]);
-    ctx.beginPath(); ctx.moveTo(t.L[0][0], t.L[0][1]); crOpen(ctx, t.L); ctx.lineTo(t.R[2][0], t.R[2][1]);
-    crOpen(ctx, t.R.slice().reverse()); ctx.closePath(); fill(PAL.fawn, ID ? ID.neck : null);
+    const t = tube([B, mid, N], [0.21, 0.185, 0.155]);
+    // one closed, filled, fully inked neck shape; it is drawn behind the torso, so the torso hides the junction
+    ctx.beginPath(); crClosed(ctx, [...t.L, ...t.R.slice().reverse()]); fill(PAL.fawn, ID ? ID.neck : null); ink();
     // saddle carries up the neck top in views from behind
-    if (!ID) { ctx.beginPath(); crOpen(ctx, t.L); ink(); ctx.beginPath(); crOpen(ctx, t.R); ink(); }
+
     // collar: the protected identity feature, visible in every view
     const c0 = L2(B, N, 0.66), c1 = L2(B, N, 0.82);
     const tc = tube([c0, c1], [0.205, 0.18]);
@@ -364,7 +369,7 @@
       const tip = L2(E.flat, E.up, e);
       const b1 = rot(E.b1), b2 = rot(E.b2), tp = rot(tip);
       const m1 = L2(b1, tp, 0.5), m2 = L2(tp, b2, 0.5);
-      const bulge = 0.018;
+      const bulge = 0.018 + 0.016 * (1 - clamp(e));
       const n1 = [-(tp[1] - b1[1]), tp[0] - b1[0]], n2 = [-(b2[1] - tp[1]), b2[0] - tp[0]];
       const k1 = Math.hypot(n1[0], n1[1]) || 1, k2 = Math.hypot(n2[0], n2[1]) || 1;
       ctx.beginPath(); ctx.moveTo(b1[0], b1[1]);

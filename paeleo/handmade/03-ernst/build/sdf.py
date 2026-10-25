@@ -137,7 +137,27 @@ def render(prims, W=1280, H=720, pad=6):
     t = np.full(n, dep.min() - 0.05)
     tmax = dep.max() + 0.05
     sxf = gx.ravel(); syf = gy.ravel()
-    act = np.arange(n)
+    # conservative 2D cull: in an orthographic view each primitive lies inside the 2D capsule of its projection
+    near = np.zeros(n, bool)
+    for pr in prims:
+        if pr.kind == 'cone':
+            ax_, ay_, _ = project(pr.a); bx_, by_, _ = project(pr.b); r = max(pr.r1, pr.r2)
+        else:
+            ax_, ay_, _ = project(pr.c); bx_, by_ = ax_, ay_; r = pr.rad.max()
+        rr = (r + pr.k * 0.5 + 0.01) * SCALE + 2
+        lo_x, hi_x = min(ax_, bx_) - rr, max(ax_, bx_) + rr
+        lo_y, hi_y = min(ay_, by_) - rr, max(ay_, by_) + rr
+        cand = (sxf > lo_x) & (sxf < hi_x) & (syf > lo_y) & (syf < hi_y)
+        idx = np.nonzero(cand & ~near)[0]
+        if idx.size == 0:
+            continue
+        px = sxf[idx] - ax_; py = syf[idx] - ay_
+        dx, dy = bx_ - ax_, by_ - ay_
+        L2 = dx * dx + dy * dy
+        h = np.clip((px * dx + py * dy) / L2, 0, 1) if L2 > 1e-9 else np.zeros(idx.size)
+        dd = np.hypot(px - dx * h, py - dy * h)
+        near[idx[dd < rr]] = True
+    act = np.nonzero(near)[0]
     hit = np.zeros(n, bool)
     for it in range(64):
         if act.size == 0:

@@ -1,5 +1,6 @@
 """Identity-continuity loop and reviewer frame index (SCION 39 deliverables), from trace.json.
 Numerical invariants (measured on the id-mask render):
+  N4 neck attachment: neck base shift (|dx|+|dy| px) at head-only swaps, and frames where background shows on the line base→joint
   N1 body anchor stationary across substitutions: |Δ x_screen| at every frame where the body drawing changes, px
   N2 no scale pop: dog pixel area and bbox height ratio between consecutive frames at every swap
   N3 protected identity features visible every frame: collar ring and saddle pixels > 0
@@ -20,6 +21,9 @@ res = {
     'N1_anchor_max_dx_px_at_body_swaps': max(abs(s['dx_body_px']) for s in body_swaps),
     'N2_area_ratio_range_at_swaps': [min(s['area_ratio'] for s in swaps), max(s['area_ratio'] for s in swaps)],
     'N2_height_ratio_range_at_swaps': [min(s['height_ratio'] for s in swaps), max(s['height_ratio'] for s in swaps)],
+    'N4_neck_base_max_shift_px_at_head_swaps': max((abs(fr[s['i']]['neck_base'][0] - fr[s['i'] - 1]['neck_base'][0]) + abs(fr[s['i']]['neck_base'][1] - fr[s['i'] - 1]['neck_base'][1])
+        for s in swaps if s['body'][0] == s['body'][1]), default=0),
+    'N4_frames_with_background_in_neck': [f['i'] for f in fr if f['neck_gap_samples'] > 0],
     'N3_frames_without_collar': [f['i'] for f in fr if f['collar_px'] <= 0],
     'N3_frames_without_saddle': [f['i'] for f in fr if f['saddle_px'] <= 0],
     'swaps': swaps,

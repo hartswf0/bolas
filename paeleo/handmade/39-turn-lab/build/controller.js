@@ -102,7 +102,7 @@
       const breath = 0.006 * Math.sin(2 * Math.PI * t / 2.9) * lying + 0.003 * Math.sin(2 * Math.PI * t / 1.7) * (1 - lying) * (1 - moving);
       // drift onto the door centre during the last turn so it lies square in the doorway
       const uDog = u;
-      const depth = lerp(DEPTH, 0.32, smooth((t - 22.9) / 0.9));
+      const depth = lerp(DEPTH, 0.13, smooth((t - 22.9) / 0.9));
       const dog = { u: uDog, depth, body, headYaw, alpha, beta, ear, earFlick, blink, lie: lying, crouch, tail, wag, wagPh,
         feet: ft.feet, lift: ft.lift, bob, breath, state: f.dog.state, x_score: xs, moving };
       // ---- the person
@@ -121,9 +121,9 @@
     P.lean = 0.25 * pulse(t, 0.95, 0.9) + 0.35 * (smooth((t - 3.35) / 0.25) * (1 - smooth((t - 4.5) / 0.4)));
     P.reach = smooth((t - 3.38) / 0.3) * (1 - smooth((t - 4.45) / 0.35));
     if (t >= 4.9 && t < 5.0) P.view = 'F';
-    if (t >= 5.0 && t < 5.45) { P.view = 'L'; P.walk = (t - 5.0) / 0.45; P.u = lerp(-0.20, -1.02, smooth(P.walk)); P.step = P.walk; }
-    if (t >= 5.45 && t < 5.55) { P.view = 'F'; P.u = -1.02; }
-    if (t >= 5.45) { P.u = -1.02; P.depth = lerp(0.06, 0.30, smooth((t - 5.0) / 0.5)); }
+    if (t >= 5.0 && t < 5.45) { P.view = 'L'; P.walk = (t - 5.0) / 0.45; P.u = lerp(-0.20, -0.92, smooth(P.walk)); P.step = P.walk; }
+    if (t >= 5.45 && t < 5.55) { P.view = 'F'; P.u = -0.92; }
+    if (t >= 5.45) { P.u = -0.92; P.depth = lerp(0.06, 0.30, smooth((t - 5.0) / 0.5)); }
     else if (t >= 5.0) P.depth = lerp(0.06, 0.30, smooth((t - 5.0) / 0.5));
     if (t >= 5.55) { P.view = 'R'; P.sit = smooth((t - 5.55) / 0.45); }
     P.push = pulse(t, 5.95, 0.7);
