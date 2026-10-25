@@ -8,9 +8,9 @@ const require = createRequire(DEPS + '/');
 export const {bundle} = require('@remotion/bundler');
 export const R = require('@remotion/renderer');
 export const browserExecutable = process.env.SCION27_BROWSER || '/opt/pw-browsers/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell';
-export const chromiumOptions = {gl: 'swangle', disableWebSecurity: false};
+export const chromiumOptions = {gl: process.env.SCION27_GL || 'swiftshader', disableWebSecurity: false};
 export async function serve() {
-  return bundle({entryPoint: path.join(HERE, 'src/index.tsx'), publicDir: path.join(HERE, 'cache/public'),
+  return bundle({entryPoint: path.join(HERE, 'src/index.tsx'), publicDir: path.join(HERE, 'cache/public'), enableCaching: false,
     webpackOverride: c => ({...c, resolve: {...c.resolve, modules: [DEPS, 'node_modules']}})});
 }
 export async function stills(serveUrl, id, frames, outDir, fmt = 'jpeg') {

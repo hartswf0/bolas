@@ -102,9 +102,10 @@ def main():
     dec[1:-2] = (hl_[1:-2] < hl_[:-3] - 1e-4) & (hl_[2:-1] < hl_[1:-2] - 1e-4) & (hl_[3:] < hl_[2:-1] - 1e-4)
     on['lie_down'] = first(dec, 23.4)
     # 26.4 'come in': the head rises and turns into the doorway (the dog's own height rises over the lying hold)
-    ref4 = med(hl_, 25.2, 26.2)
-    on['look_in'] = first(hl_ > ref4 + 0.03, 26.0)
-    on['settle'] = first(hl_ < ref4 - 0.015, (t[on['look_in']] + 0.5) if on['look_in'] is not None else 27)
+    # 26.4 'come in': the head is replaced by the real head seen from behind (a jump in the dog's own pixels); settles:
+    # the next such jump, when the profile head comes back down to the paws
+    on['look_in'] = first(mo_ > 0.10, 26.0)
+    on['settle'] = first(mo_ > 0.10, (t[on['look_in']] + 0.5) if on['look_in'] is not None else 27)
     names = [('retreat', 'retreat'), ('watch_1', 'watch'), ('refuse', 'refuse'), ('watch_2', 'watch'), ('approach', 'approach'), ('lie_down', 'lie_down')]
     bounds = [(on[k], st) for k, st in names]
     state = ['watch'] * len(rows)
@@ -138,10 +139,10 @@ def main():
                                          'lie_down': 'the dog alpha\'s height falls three frames running (it goes down, hind end first)'}[k]))
     look = None if on['look_in'] is None else float(t[on['look_in']])
     choices.append(dict(choice='looks in', score_t=26.4, measured_onset_t=look, dt=None if look is None else round(look - 26.4, 3),
-                        measured_by='top of the lying dog rises as the head turns into the doorway (h_top); what turns is judged by viewing'))
+                        measured_by='the dog\'s own pixels change by >10% in one frame as the turned head (frame 0, seen from behind) replaces the profile head; what it reads as is judged by viewing'))
     settle = None if on['settle'] is None else float(t[on['settle']])
     choices.append(dict(choice='settles and stays', score_t=28.3, measured_onset_t=settle, dt=None if settle is None else round(settle - 28.3, 3),
-                        measured_by='back-of-head pixels gone; chin back down'))
+                        measured_by='the next >10% change: the profile head returns, chin to the paws'))
     # ------------------------------------------------------------- occlusion assertions over all frames
     A = {}
     A['dag_acyclic_every_frame'] = all(recs[i]['acyclic'] for i in idx)

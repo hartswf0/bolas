@@ -86,16 +86,21 @@ the score (rules are written into `trace.json`).
 | watch → refuse | 3.417 | 3.583 | +0.166 |
 | refuse → watch (turns to look) | 7.458 | 7.458 | 0.000 |
 | watch → approach | 14.708 | 14.667 | −0.041 |
-| approach → lie_down | 23.792 | 23.792 | 0.000 |
+| approach → lie_down | 23.792 | 23.833 | +0.041 |
 | hears *come in* → looks in | 26.4 | 26.500 | +0.100 |
 
 - I1–I4 `ALL OK` (check_handmade.py). I3 r = 0.999 on `x_world_measured` (body centroid back-projected through the
   frame's camera onto the dog's line). I4: muzzle points away from the door in the refusal frames.
-- Head below the line of the back (screen pixels, head incl. ears vs body top): 98.2 % of approach frames; the failures
-  are the first frames (14.71–14.8 s, head still lowering) and a few frames passing the hand.
+- Head below the line of the back (screen pixels, head incl. ears vs the top of the body): 100 % of the score's approach
+  frames (14.71–23.79 s).
 - Voice: calls −17.9 / −17.0 dBFS RMS, soft lines −27.8 / −28.3 / −28.9 dBFS → soft is 9.9 dB quieter than the calls
   and 25 dB above the room tone (−53.7 dBFS, scene 12.5–14.5 s), measured on the synthesised mix before AAC.
-- Determinism: see `repro.json` (10 scene frames rendered twice in two fresh bundles/browser sessions, SHA-256 of PNGs).
+- Determinism (`repro.json`): 10 scene frames (0, 30, 86, 100, 180, 216, 456, 576, 650, 767) rendered as PNG in two
+  fresh bundles and browser sessions, SHA-256 equal 10/10, and equal to the previous run of the same manifest. With the
+  default GL backend (`swangle`) 2 of 10 frames differed by one level on scattered pixels below y = 509; removing every
+  blur filter did not fix it; switching the backend to `swiftshader` did (4 runs, all equal). The film, matte and stills
+  are all rendered under that contract. One machine only: cross-machine equality is **unknown**.
+- Film: 912 frames, 1280×720, 24 fps, 38.016 s, H.264 + AAC, faststart, 3.97 MB.
 
 ## What failed and what I changed (full list in `ledger.jsonl`)
 
@@ -111,6 +116,10 @@ the score (rules are written into `trace.json`).
    condition for lie_down, and a lower head (and ears) in the approach.
 7. A comment swallowed two manifest fields (ear, tail) → a full film rendered with NaN paths and no tail. Added the
    manifest contract check in `solve.ts` and a render guard that fails on any browser error; re-rendered.
+8. The doorway hole and its clip path were projected once at module load (t = 0 camera); during the push-in a phantom
+   wall cut off the dog's head. Projections are now per frame.
+9. Frame hashes differed between runs under `swangle`; fixed by the `swiftshader` contract (see above). It also cut the
+   film render from ~17–27 min to under a minute on this loaded machine.
 
 ## What is still weak (my view; the critic decides)
 
@@ -131,5 +140,5 @@ the score (rules are written into `trace.json`).
 
 ## Rebuild
 
-`bash paeleo/handmade/27-remotion/build/make.sh` (installs Remotion into `build/cache/deps` on first run). Expect ~20–30
-min for the film render on 4 cores under load.
+`bash paeleo/handmade/27-remotion/build/make.sh` (installs Remotion into `build/cache/deps` on first run). The film
+renders in about a minute with `gl: swiftshader`.
