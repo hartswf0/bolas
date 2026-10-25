@@ -244,7 +244,7 @@ def dog(q, t, breath, agit, warmth, density):
         B.add(P, Nn, col, 0.95, 3)
     # --- tail: pitch from the score's tail (0 high .. 1.35 tucked); wag at twice the dog's rate (a harmonic)
     tl = q['tail']
-    a0 = math.radians(float(np.interp(tl, [0, .25, .5, 1.0, 1.35], [40, 5, -30, -62, -82])))
+    a0 = math.radians(float(np.interp(tl, [0, .25, .5, 1.0, 1.35], [30, -14, -36, -62, -82])))
     wag = q['wag'] * 0.9 * math.sin(2 * breath)
     base = np.array([-0.42, hp_y + 0.01, 0])
     pts = [base]; ang = a0; d = 0.06
@@ -256,7 +256,7 @@ def dog(q, t, breath, agit, warmth, density):
             flo = np.array([pts[-1][0] - d * 0.9, 0.03, pts[-1][2] + d * 0.35 * lie])
             nxt = nxt * (1 - lie) + flo * lie
         nxt[1] = max(nxt[1], 0.025)
-        pts.append(nxt); ang += math.radians(8 if tl < .3 else -4)
+        pts.append(nxt); ang += math.radians(7 if tl < .15 else -3)
     cen = dense(np.array(pts), 18)
     P, Nn = tube(W(cen), np.linspace(.038, .012, 18), np.linspace(.038, .012, 18), 6, Wd([0, 1, 0]), ring_phase(6, 18, t), ripple * .3, 2, breath)
     B.add(P, Nn, col, 1.0, 4)

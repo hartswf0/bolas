@@ -85,8 +85,19 @@ def fade(im, u):
 
 
 # ------------------------------------------------------------------------------------------------ the trace
+def head_pieces(p, c):
+    """screen centres of the skull piece and the nose piece, as cut for this frame (the same projection that draws them)."""
+    import dog as DOG
+    pr = DOG.build(p)
+    skull = next(q for q in pr if q[0] == 'ell' and q[-1] == 'head')
+    nose = next(q for q in pr if q[0] == 'ell' and q[-1] == 'head' and q[3] == 0.25)
+    return project(skull[1], c)[:2], project(nose[1], c)[:2]
+
+
 def trace():
     M = [json.load(open(os.path.join(MEAS, '%04d.json' % i))) for i in range(N)]
+    import render as R
+    P = json.load(open(os.path.join(CACHE, 'dog_params.json')), object_hook=R._obj)
     xw = np.array([m['x_world'] for m in M])
     k = np.ones(7) / 7
     xs = np.convolve(np.pad(xw, 3, 'edge'), k, 'valid')
@@ -96,7 +107,8 @@ def trace():
     frames = []
     for i, m in enumerate(M):
         fr = FR[i]
-        facing = 'door' if m['head_cx'] < m['torso_cx'] else 'away'
+        (hx, hy), (nx, ny) = head_pieces(P[i], tuple(m['cam']))
+        facing = 'door' if nx < hx else 'away'  # where the muzzle points: left, to the door, or right, away
         head_rel = (m['torso_top'] - m['head_top']) / max(1, m['sil_h'])  # >0: head above the back line
         lying = m['sil_h'] < 0.66 * h_stand
         if lying:
@@ -110,7 +122,7 @@ def trace():
             st = 'lie_down'
         elif facing == 'away':
             st = 'refuse'
-        elif v[i] > 0.12 and head_rel < 0.12:
+        elif v[i] > 0.12 and head_rel < 0.1:
             st = 'retreat'
         elif v[i] < -0.12:
             st = 'approach'
@@ -119,15 +131,15 @@ def trace():
         frames.append(dict(i=i, t=round(i / FPS, 4), state=st, state_score=fr['dog']['state'], x_score=round(float(xw[i]), 4),
                            x_world_measured=round(float(xw[i]), 4), x_screen=m['torso_cx'], y_screen=m['torso_cy'], facing=facing,
                            posture=posture, speed=round(float(v[i]), 3), head_above_back=round(float(head_rel), 3),
-                           head_screen=[m['head_cx'], m['head_cy']], inside_frame_share=m['inside_frame'], tail_end_x=m['right_x'] if facing == 'door' else m['left_x'],
+                           head_screen=[m['head_cx'], m['head_cy']], nose_screen=[round(float(nx), 1), round(float(ny), 1)], inside_frame_share=m['inside_frame'], tail_end_x=m['right_x'] if facing == 'door' else m['left_x'],
                            camera=m['cam'], focus_z=m['focus_z'], atmosphere=m['atmosphere'], lum_dog=m.get('lum_dog'), lum_around=m.get('lum_around')))
     # hysteresis: a state must hold 3 frames to count (a measurement, not a performance, has jitter)
     for i in range(1, N - 2):
         if frames[i]['state'] != frames[i - 1]['state'] and not (frames[i]['state'] == frames[i + 1]['state'] == frames[i + 2]['state']):
             frames[i]['state'] = frames[i - 1]['state']
     out = dict(about='SCION 05 Norstein: what the dog did, measured per scene frame from the render (torso and head ID passes, '
-                     'silhouette). x_score = x_world_measured: the torso pass centroid unprojected at the dog glass depth (metres, '
-                     'same axis as the score). state is classified from measurements (facing from head vs torso centroid, speed, '
+                     'silhouette; facing from where the cut nose piece lies against the skull piece). x_score = x_world_measured: the torso pass centroid unprojected at the dog glass depth (metres, '
+                     'same axis as the score). state is classified from measurements (facing, speed, head above or below the back line, '
                      'silhouette height); state_score is the score state that drove the acting.',
                h_stand_px=h_stand, frames=frames)
     json.dump(out, open(os.path.join(FOLDER, 'trace.json'), 'w'))

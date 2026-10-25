@@ -145,3 +145,59 @@ The full record is in `ledger.jsonl`. In short:
 - I did not fork competing branches. The two stalled repairs (the head's turn back) were resolved by one change of model
   (the symmetric substitution head), compared side by side in `proof/before_after.png`.
 - No git and no accepted checkpoint. The project is rebuilt by `build/make.sh`.
+
+## Round 2 (after reviews/round1.md: DOES NOT PASS)
+
+**Root cause of the worst failures.** The body vanished at 8.375 s and the rear view was a sliver at 3.833 s. Both came from
+how I wrote the declared substitutions: as 0.01 s tweens. A frame that landed inside one blended a key with its own mirror,
+and the mirror's reversed winding collapses the outline. My round-1 strips sampled every 2nd frame and missed both frames.
+Substitutions are now instantaneous: two waypoints at the same time, and a zero-length segment is never interpolated.
+
+**Repairs, in the critic's order:**
+1. **Turning to look (7.46).** The head comes round through 3/4 front, front and 3/4 front, and faces the door (muzzle
+   left) from 7.54. The curl opens, and the dog rises and turns its body toward us *under its face*: lie, 3/4 front, front,
+   substitution, 3/4 front, stand by 8.42. It no longer lies with its head laid back over the far shoulder.
+2. **8.25–8.50 and the whole turn.** I looked at every frame of film.mp4 from 7.375 to 8.667 s, and each shows one closed body
+   outline joined to the head, with four legs. The front and rear substitution keys were redrawn by hand as symmetric outlines
+   with shoulders and haunches (`sym12` in `build/keys.py`). The first redraw of the front was a box, so I rounded it.
+3. **Looking in (26.4).** The 3/4-rear head (back of the head to us, eyes hidden) sits low and level inside the door frame,
+   muzzle into the lit room. It is reached by 26.72 s.
+4. **The lying dog.**
+   - The tail is bushier on every key.
+   - The lie has a shoulder, a back line and a hip.
+   - The head is drawn 1.1x when lying, and the final resting head is up on the paws.
+   - The curl is softened to 60% curl and 40% lie, with the tail along the side.
+   - The ears flatten less: 40 degrees and 12% smaller, instead of 58 and 30, which had made the crouch head rat-like.
+   - The collie ears are drawn larger.
+5. **Rear view at 3.83.** It keeps the dog's width, with haunches and the tail between them. I looked at it in film.mp4.
+
+**Timing is now measured.** `trace.json` has per-frame `muzzle_dir` (where the drawn nose point sits in the drawn head
+outline), `eyes_shown`, `withers_m`, and a `measured_onsets` table detected from the drawn geometry. `facing` is now the
+measured muzzle direction.
+
+| choice | score t | measured from the drawing | onset t | dt |
+|---|---|---|---|---|
+| retreat | 1.000 | torso moves away from the door faster than 0.05 m/s | 1 | +0.000 |
+| watch | 2.333 | body starts to rise out of the crouch (withers rising > 0.05 m/s) | 2.417 | +0.084 |
+| refuse | 3.417 | the drawn muzzle starts to swing away (muzzle_dir moves > 0.15 from its 3.0 s value) | 3.542 | +0.125 |
+| watch | 7.458 | the drawn muzzle points toward the door again (muzzle_dir < -0.15) | 7.542 | +0.084 |
+| approach | 14.708 | torso moves toward the door faster than 0.05 m/s | 14.708 | +0.000 |
+| lie_down | 23.792 | withers drop more than 0.03 m below standing height | 23.875 | +0.083 |
+| look in | 26.400 | the head turns away from us into the doorway (eyes hidden) while inside the door frame | 26.583 | +0.183 |
+
+The retreat and approach onsets are exact because the torso's position follows the score's x. The others come from the
+drawing's changes, which my hand-timed sequence produces.
+
+Checker after round 2:
+- I1–I4 ALL OK.
+- I2: closest point to the house 0.5898 m, end 0.6256 m.
+- I3: r = 1.0.
+- I4: back turned in 96.9% of refusal frames.
+
+The end card no longer says the choices were "kept at their times". It says they follow the score, with onsets measured in
+trace.json.
+
+**Still weak (my reading, not a verdict).**
+- The front view (8.00–8.08 s) is a rounded block facing us: a dog, but a stiff one.
+- The lying dog is long and low, and may still read as a ferret more than a collie.
+- I still cannot listen to the sound, and I have not seen normal-speed playback.

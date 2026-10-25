@@ -407,6 +407,35 @@ def measure(i, meas, D, scene):
                 feet_planted=[k for k, v in D['contacts'].items() if v])
 
 
+def seen_states(trace):
+    """classify what a viewer can see from the drawn geometry alone (not from the score's labels), per frame:
+    lie_down = lying posture at the sill; refuse = the drawn head points away from the door; retreat = crouched and
+    moving away; approach = moving toward the door; else watch. Writes state_seen into each frame and returns the
+    first frame of each of the six choices as seen."""
+    xs = np.array([f['x_world_measured'] for f in trace])
+    v = np.gradient(np.convolve(np.pad(xs, 3, mode='edge'), np.ones(7) / 7, 'valid')) * 24
+    for f, vv in zip(trace, v):
+        if f['posture'] == 'lying' and f['x_world_measured'] < 0.8:
+            s = 'lie_down'
+        elif f['gaze'] == -1:
+            s = 'refuse'
+        elif f['posture'] == 'crouched' and vv > 0.08:
+            s = 'retreat'
+        elif vv < -0.08:
+            s = 'approach'
+        else:
+            s = 'watch'
+        f['state_seen'] = s
+    S = H.load_score(); out = []
+    for c in S['choices']:
+        hit = next((f for f in trace if f['t'] >= c['t'] - .5 and f['state_seen'] == c['to']), None)
+        out.append(dict(t=c['t'], to=c['to'], seen_at=None if hit is None else hit['t'], dt=None if hit is None else round(hit['t'] - c['t'], 3)))
+    json.dump(dict(about='the six choices as classified from the drawn geometry (render.py seen_states), not from the score labels',
+                   choices=out), open(os.path.join(OUT, 'proof', 'seen_states.json'), 'w'), indent=1)
+    print('seen', out)
+    return out
+
+
 def render_all():
     sc = Scene()
     path = os.path.join(CACHE, 'scene.mp4')
@@ -421,6 +450,7 @@ def render_all():
         if i % 96 == 0:
             print('frame', i, flush=True)
     ff.stdin.close(); ff.wait()
+    seen = seen_states(trace)
     B = sc.B
     json.dump(dict(about='SCION 06 Whitney: what the dog did, measured from the drawn points of each scene frame. '
                          'x_screen/y_screen: mean screen position of the drawn torso dots; x_world_measured: that screen point '
