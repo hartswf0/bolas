@@ -95,12 +95,11 @@ SPECS = [
          cut=[(163, 152), (185, 152), (183, 191), (167, 193), (163, 175)], anchors=dict(top=(174, 157), foot=(175, 188))),
     dict(id='hind_b_f045', type='dog.leg.hind', tags=['sun', 'bent'], src=DOGSRC, f=45, sam=True, flip=True,
          cut=[(141, 132), (161, 132), (161, 183), (143, 183)], anchors=dict(top=(151, 140), foot=(151, 180))),
-    # heads from the found turning frames: f030's frontal head (the head comes round to the door first) and f027's head
-    # and neck crushed into shadow against the lit room (seen from the door's light, it is the back of the head)
-    dict(id='head_front_f030', type='dog.head', tags=['turn', 'front', 'look-back'], src=DOGSRC, f=30, sam=True,
-         cut=[(144, 89), (217, 89), (217, 128), (204, 144), (152, 144), (144, 126)], anchors=dict(neck=(178, 142), crown=(178, 95), muzzle=(210, 120))),
-    dict(id='head_back_f027', type='dog.head', tags=['turn', 'away', 'look-in'], src=DOGSRC, f=27, sam=True, tone='backlit',
-         cut=[(140, 88), (197, 88), (199, 112), (196, 136), (202, 156), (146, 156), (140, 132)], anchors=dict(neck=(176, 154), crown=(176, 94))),
+    # the head that looks away: in frames 6-10 the dog lifts its head to its person, its back to the camera; f009's
+    # head and neck, cut by the SAM mask and faded along the neck-base line so the neck runs into the body
+    dict(id='head_away_f009', type='dog.head', tags=['away', 'look-in', 'look-back'], src=DOGSRC, f=9, sam=True,
+         cut=[(60, 58), (128, 58), (138, 100), (138, 146), (96, 146), (60, 104)], feather_line=((96, 144), (140, 102), 16),
+         anchors=dict(neck=(116, 122), nose=(80, 84))),
     dict(id='whole_f027', type='dog.whole', tags=['turn', 'three-quarter'], src=DOGSRC, f=27, sam=True, cut=None, anchors={}),
     dict(id='whole_f030', type='dog.whole', tags=['turn', 'front'], src=DOGSRC, f=30, sam=True, cut=None, anchors={}),
     dict(id='whole_f033', type='dog.whole', tags=['turn', 'front'], src=DOGSRC, f=33, sam=True, cut=None, anchors={}),
@@ -167,6 +166,20 @@ def cut(spec):
         xx = np.arange(W)[None, :].astype(float)
         ramp = np.clip((xx - xe) / wd if side > 0 else (xe - xx) / wd, 0, 1) ** 1.5
         m = Image.fromarray((np.asarray(m).astype(float) * ramp).astype(np.uint8))
+    if spec.get('feather_line'):  # fade across a cut line (the side away from the head fades out)
+        (x1, y1), (x2, y2), wd = spec['feather_line']
+        yy, xx = np.mgrid[0:H, 0:W].astype(float)
+        nx, ny = (y2 - y1), -(x2 - x1); nn = math.hypot(nx, ny); nx, ny = nx / nn, ny / nn
+        dist = (xx - x1) * nx + (yy - y1) * ny  # positive on one side
+        cx, cy = spec['anchors']['nose']
+        if (cx - x1) * nx + (cy - y1) * ny < 0: dist = -dist
+        ramp = np.clip(dist / wd + 0.0, 0, 1) ** 1.2
+        m = Image.fromarray((np.asarray(m).astype(float) * ramp).astype(np.uint8))
+    if spec.get('feather_y'):  # the neck fades into the body instead of ending on a straight cut
+        ye, wd, side = spec['feather_y']
+        yy = np.arange(H)[:, None].astype(float)
+        ramp = np.clip((yy - ye) / wd if side > 0 else (ye - yy) / wd, 0, 1) ** 1.2
+        m = Image.fromarray((np.asarray(m).astype(float) * ramp).astype(np.uint8))
     m = m.filter(ImageFilter.GaussianBlur(0.6))
     bb = m.getbbox()
     if bb is None: raise SystemExit('empty fragment ' + spec['id'])
@@ -222,7 +235,7 @@ def cut(spec):
                 anchors={k: [round(v[0], 2), round(v[1], 2)] for k, v in anchors.items()},
                 source=dict(spec['src'], frame=spec['f'], frame_file=os.path.relpath(frame_path(spec['src'], spec['f']), ROOT) if frame_path(spec['src'], spec['f']).startswith(ROOT) else frame_path(spec['src'], spec['f'])),
                 operation=('SAM mask ∩ ' if spec.get('sam') else '') + ('scissors polygon' if spec.get('cut') else 'SAM mask') +
-                          (' · luminance key' if spec.get('key') else '') + (' · mirrored' if spec.get('flip') else '') + (' · tone crushed (back-lit)' if spec.get('tone') == 'backlit' else '') + (' · graded join (feather)' if spec.get('feather') else '') + (' · tone stretch' if spec['type'].startswith(('dog', 'person.body', 'person.torso', 'person.legs')) else '') + (' · paper rim' if spec.get('edge', 0 if spec['type'].startswith('dog') else 1) else ''),
+                          (' · luminance key' if spec.get('key') else '') + (' · mirrored' if spec.get('flip') else '') + (' · tone crushed (back-lit)' if spec.get('tone') == 'backlit' else '') + (' · graded join (feather)' if spec.get('feather') or spec.get('feather_y') or spec.get('feather_line') else '') + (' · tone stretch' if spec['type'].startswith(('dog', 'person.body', 'person.torso', 'person.legs')) else '') + (' · paper rim' if spec.get('edge', 0 if spec['type'].startswith('dog') else 1) else ''),
                 cut=spec.get('cut'))
 
 

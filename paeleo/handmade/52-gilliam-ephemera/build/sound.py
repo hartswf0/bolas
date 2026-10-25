@@ -94,7 +94,7 @@ for e in ex:
         for k in LEGN:
             if prev[k][0] == 'swing' and ph[k][0] != 'swing':        # a foot is put down
                 near = k in ('fore', 'hind')
-                add(click(1.0 if near else .6), e['t'] + rng.uniform(0, .02), -27 if lab.startswith('retreat') else -30,
+                add(click(1.0 if near else .6), e['t'] + rng.uniform(0, .02), -24 if lab.startswith('retreat') else -21,
                     pan=.5 if e['dog']['X'] > 700 else -.05, stem='dog')
     prev = ph
 
@@ -117,6 +117,12 @@ def whimper(dur=.45, f0=980, f1=720):
 add(whimper(), 3.55, -33, pan=.6, stem='dog')                    # as it turns its back
 add(breath(1.1, 900, 400, 1), 5.0, -32, pan=.6, stem='dog')        # lies down, away
 add(breath(1.0, 900, 380, 1), 24.25, -31, pan=-.1, stem='dog')     # lies down across the sill
+def thud():
+    n = int(.25 * SR); tt = np.arange(n) / SR
+    s = np.sin(2 * np.pi * 85 * tt) * np.exp(-tt / .05) + .4 * fft_band(np.pad(rng.normal(0, 1, n).astype(np.float32), (0, 2048)), 150, 1200)[:n] * np.exp(-tt / .03)
+    return (s / (np.abs(s).max() + 1e-9)).astype(np.float32)
+add(thud(), 23.9, -20, pan=-.1, stem='dog')                         # its weight comes down on the boards
+add(click(.8), 23.84, -22, pan=-.1, stem='dog')                     # a last paw set down
 add(breath(1.4, 700, 300, 1), 28.6, -32, pan=-.1, stem='dog')      # settles, chin on paws
 
 

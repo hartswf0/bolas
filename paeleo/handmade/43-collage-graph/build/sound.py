@@ -179,7 +179,7 @@ if os.path.isdir(meas):
         p = os.path.join(meas, '%04d.json' % i)
         if not os.path.exists(p): continue
         m = json.load(open(p))
-        key = (m['mode'], m['head'], m['head_mirror'], m['split'], tuple(sorted((m.get('materials') or {}).items())))
+        key = (m['mode'], m['head'], m['head_mirror'], m['split'], tuple(sorted((k, v > 0.5) for k, v in (m.get('materials') or {}).items())))
         if prev is not None and key != prev: snips.append(m['t'])
         prev = key
 for t0 in snips:

@@ -1,5 +1,5 @@
 """Measures the choices from the render (trace.json), not from the score labels. Writes ../proof/measured.json."""
-import json, os, sys
+import json, math, os, sys
 import numpy as np
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from xsheet import gait, LEGN, STANCE, K
@@ -13,7 +13,8 @@ def first(cond, after):
     idx = [i for i in range(len(tr)) if t[i] >= after and cond(i)]
     return float(t[idx[0]]) if idx else None
 on = {}
-on['retreat (backs away)'] = first(lambda i: abs(X[i] - X[0]) > 1.5 or abs(hy[i] - hy[0]) > 3, .5)
+hxs = np.array([f['head_xy'][0] for f in tr])
+on['retreat (backs away)'] = first(lambda i: abs(X[i] - X[0]) > 1.5 or math.hypot(hxs[i] - hxs[0], hy[i] - hy[0]) > 2.5, .5)
 r0 = on['retreat (backs away)']
 on['watch (stops backing, head comes up)'] = first(lambda i: hy[i] < hy[i - 1] - 3.0, r0 + .5)
 on['refuse (back turned)'] = first(lambda i: fac[i] == -1, 3.0)

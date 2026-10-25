@@ -13,7 +13,7 @@ frames = []
 for m in M:
     me = m['meas'] or {}
     if m['mode'] == 'whole': posture = 'turning (whole found frame)'
-    elif m['head'] == 'head_back_f027': posture = 'lying, head turned in'
+    elif any('looks in' in r for r in m['rules']): posture = 'lying, head turned in'
     elif m['lie'] >= 0.99: posture = 'lying' + (', head on paws' if m['nose'] and m['withers'] and m['nose'][1] > m['withers'][1] else '')
     elif m['lie'] > 0.1: posture = 'going down / getting up'
     elif m['crouch'] >= 0.5: posture = 'crouched, backing'

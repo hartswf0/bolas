@@ -120,3 +120,7 @@ down, wind and crickets. Measured: see *Evidence*.
 Measured after the re-render: person's eye and mouth on the face in 100% of frames 20-32 s; mouth source frames 26.4-27.3 s {'open': 14, 'closed': 6, 'half': 2};
 head plates shown 3.62-3.75 s [135, 135, 135, 135] (no back-of-head plate, head drawn above the back line); look-in view sequence [45, 90, 135], muzzle at least 0.372 m below the person's skull pivot;
 face returns (watch) at 7.625 s (≤ 7.70); look-in onset 26.583 s. The near casing is no longer drawn, so nothing crosses the dog. Looked at: crops of 3.62-3.75 s, 26.42-26.67 s, and full frames at 20.8, 24.2, 26.7, 29.2, 31.7 s.
+
+## Repair round 2 (after critic round 2: pass, narrowly on craft)
+
+The collar now sits only high on the neck, under the head, so no white band crosses the head plate or the withers. While refusing, the head stays up, with its skull and ears above the back line (5.0-7.4 s), and stays visible through the turn back (7.40-7.70 s). The person squats on his feet as he sits. The face's jaw line ends at the chin, and the hair meets the face along a curve. The six choices were re-measured and are unchanged: watch returns at 7.625 s. The checker reports ALL OK. Looked at: crops at 5.0, 6.25, 7.0, 7.33, 7.5, 7.58, 7.67, 22.5, 23.58 and 23.75 s.
