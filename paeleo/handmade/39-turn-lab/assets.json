@@ -1,0 +1,24 @@
+{
+ "about": "Every asset in SCION 39 Turn Lab. No found pixels are in the film: everything on screen is drawn by the scripts in build/; everything heard is synthesized by build/sound.py.",
+ "assets": [
+  {"id": "dog_atlas", "what": "the dog: drawing atlas of body views V0 (profile), V45 (rear three-quarter), V90 (rear), each standing and lying with matched point counts; V135/V180 are the same drawings flipped; legs as tapered strokes on canonical pivots; a lying haunch drawing substituted for the hind leg when lying",
+   "file": "build/dog.js (VIEWS, RIG, LEGS)", "operation": "drawn (hand-placed outline points, Catmull-Rom curves, ink line with on-twos boil)", "rights": "made for this film"},
+  {"id": "dog_heads", "what": "head atlas: H-45 front three-quarter, H0 profile, H45 rear three-quarter, H90 rear (flips give H-135, H135, H180); ears pricked/flat interpolated within a view; eyes with blink",
+   "file": "build/dog.js (HEADS)", "operation": "drawn", "rights": "made for this film"},
+  {"id": "dog_reference", "what": "markings and proportions reference only (dark saddle, pale collar ring, pale chest, upright ears, dark tail): the dog in the 50 kit frames, looked at; no pixel, mask, rig key or trace of it is used",
+   "file": "paeleo/handmade/kit/archive-dog/frames/f000.jpg … f049.jpg (viewed f000, f015, f030, f045)", "source_title": "Amateur Film New Jersey C", "collection": "Home Movies (Internet Archive)",
+   "archive_url": "https://archive.org/details/NewJerseyC", "rights": "public_domain (kit source.json)", "operation": "observed (reference for the drawing curator), not copied"},
+  {"id": "turn_choreography", "what": "orientation controller: body view keys, head yaw keys, rest keys, blinks, ear flicks, gait (planted feet from distance travelled), turn steps",
+   "file": "build/controller.js", "operation": "computed from paeleo/handmade/score/threshold-score.json", "rights": "made for this film; the score is the PAELEO project's"},
+  {"id": "set", "what": "the house front, clapboards, window, door frame and sill, the interior with lamp and picture, the door leaf (a true plane, the one continuous rotation), the porch floor, steps, posts, dusk sky, stars, moon, tree line, the door's light on the porch",
+   "file": "build/world.js", "operation": "drawn in code", "rights": "made for this film"},
+  {"id": "person", "what": "the person: a small drawing set (profile facing the dog, front, profile walking; standing, sitting) with arm poses for call, reach, push the door, hand offered low",
+   "file": "build/world.js (person)", "operation": "drawn in code", "rights": "made for this film"},
+  {"id": "voice", "what": "the person's lines (Come here. / Come here! / It's all right. ×2 / Come in.): a formant synthesizer, glottal pulses through three resonators, consonants as shaped noise; the words are also given as subtitles because the synthesis is not reliably intelligible",
+   "file": "build/sound.py", "operation": "synthesized", "rights": "made for this film"},
+  {"id": "foley_and_room", "what": "dusk room tone (crickets, air), footfalls placed at the controller's own foot landings, reach and sitting rustles, porch board creak, latch, door creak, lying-down thumps, sighs, a low warm tone with the open door, one soft note under each card",
+   "file": "build/sound.py", "operation": "synthesized", "rights": "made for this film"},
+  {"id": "fonts", "what": "Big Shoulders Display, JetBrains Mono, Literata (cards and subtitles)", "file": "tools/paeleo/fonts/ (loaded, not copied)", "operation": "typeset", "rights": "SIL Open Font License, as provided in the repo"}
+ ],
+ "not_used": ["paeleo/threshold/stage.js", "paeleo/scion/lenses.js", "Quick, Draw! drawings", "found-frames shots", "archive-door frames", "any web image", "any model-generated image"]
+}

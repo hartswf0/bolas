@@ -1,0 +1,177 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<link rel="stylesheet" href="../../../../tools/paeleo/fonts/local.css">
+<style>body{margin:0;background:#000}canvas{display:block}</style>
+</head><body>
+<canvas id="c" width="1280" height="720"></canvas>
+<script src="dog.js"></script>
+<script src="world.js"></script>
+<script src="controller.js"></script>
+<script>
+'use strict';
+const W = 1280, H = 720;
+const C = document.getElementById('c'), X = C.getContext('2d');
+const dogL = document.createElement('canvas'); dogL.width = W; dogL.height = H; const DX = dogL.getContext('2d');
+const shL = document.createElement('canvas'); shL.width = W; shL.height = H; const SX = shL.getContext('2d');
+const MW = 640, MH = 360; const mC = document.createElement('canvas'); mC.width = MW; mC.height = MH; const MX = mC.getContext('2d', { willReadFrequently: true });
+const ID = { torso: '#ff0000', saddle: '#00ffff', head: '#00ff00', leg: '#0000ff', tail: '#ffff00', collar: '#ff00ff', nose: '#ff8000', neck: '#808080' };
+const IDRGB = Object.fromEntries(Object.entries(ID).map(([k, v]) => [k, [parseInt(v.slice(1, 3), 16), parseInt(v.slice(3, 5), 16), parseInt(v.slice(5, 7), 16)]]));
+let BG = null, PLAN = null;
+const clamp = (v, a = 0, b = 1) => Math.max(a, Math.min(b, v));
+const lerp = (a, b, t) => a + (b - a) * t;
+// paper grain, made once
+const grain = document.createElement('canvas'); grain.width = 256; grain.height = 256;
+{ const g = grain.getContext('2d'), im = g.createImageData(256, 256); let s = 9; for (let i = 0; i < im.data.length; i += 4) { s = (s * 1103515245 + 12345) & 0x7fffffff; const v = 128 + ((s >> 8) % 60) - 30; im.data[i] = im.data[i + 1] = im.data[i + 2] = v; im.data[i + 3] = 22; } g.putImageData(im, 0, 0); }
+
+function init(plan) { PLAN = plan; BG = WORLD.backdrop(W, H); }
+
+function dogOrigin(d, model) { return [WORLD.sx(d.u) - (model ? model.anchor : 0) * WORLD.S, WORLD.gy(d.depth)]; }
+
+function drawScene(i) {
+  const F = PLAN[i], d = F.dog, t = F.t;
+  X.setTransform(1, 0, 0, 1, 0, 0); X.globalCompositeOperation = 'source-over'; X.globalAlpha = 1;
+  X.drawImage(BG, 0, 0);
+  WORLD.doorway(X, F.door, t);
+  WORLD.doorLight(X, F.door);
+  // the person
+  WORLD.person(X, F.person, F.door.light);
+  // the dog, built from the atlas
+  const model = DOG.build(d);
+  const [ox, oy] = dogOrigin(d, model);
+  DX.setTransform(1, 0, 0, 1, 0, 0); DX.clearRect(0, 0, W, H);
+  DX.setTransform(WORLD.S, 0, 0, -WORLD.S, ox, oy);
+  DOG.paintDog(DX, model, { seed: Math.floor(i / 2) * 13.7 });
+  DX.setTransform(1, 0, 0, 1, 0, 0);
+  // dusk on the dog, and the door's warm light on its door side
+  DX.globalCompositeOperation = 'source-atop';
+  DX.fillStyle = 'rgba(48,56,100,0.20)'; DX.fillRect(0, 0, W, H);
+  const lit = F.door.light;
+  const dx = Math.abs(d.u);
+  const rg = DX.createRadialGradient(WORLD.sx(0), WORLD.WALL_Y - 160, 30, WORLD.sx(0), WORLD.WALL_Y - 160, 520);
+  rg.addColorStop(0, `rgba(255,190,110,${0.14 * lit})`); rg.addColorStop(1, 'rgba(255,170,90,0)');
+  DX.fillStyle = rg; DX.fillRect(0, 0, W, H);
+  DX.globalCompositeOperation = 'source-over';
+  // shadows: a contact shadow always; a cast shadow away from the door once it is open
+  const xs = model.parts.filter(p => p.id === 'torso')[0].torso.map(q => q[0]);
+  const wmin = Math.min(...xs), wmax = Math.max(...xs);
+  X.save(); X.fillStyle = 'rgba(10,8,8,0.45)'; X.beginPath();
+  X.ellipse(ox + (wmin + wmax) / 2 * WORLD.S, oy + 2, (wmax - wmin) / 2 * WORLD.S + 12, 7 + (d.body === 90 ? 10 : 2), 0, 0, 7); X.fill(); X.restore();
+  if (lit > 0.02) {
+    SX.setTransform(1, 0, 0, 1, 0, 0); SX.clearRect(0, 0, W, H); SX.drawImage(dogL, 0, 0);
+    SX.globalCompositeOperation = 'source-in'; SX.fillStyle = '#0a0706'; SX.fillRect(0, 0, W, H); SX.globalCompositeOperation = 'source-over';
+    const k1 = clamp(d.u * 0.28, -0.2, 0.9), k2 = 0.32;
+    X.save(); X.globalAlpha = 0.36 * lit * clamp(1.3 - dx / 4.5, 0.25, 1) * clamp((dx - 0.4) / 1.0);
+    X.setTransform(1, 0, -k1, -k2, k1 * oy, oy * (1 + k2)); X.drawImage(shL, 0, 0); X.restore();
+  }
+  X.drawImage(dogL, 0, 0);
+  // grade, vignette, grain
+  X.setTransform(1, 0, 0, 1, 0, 0);
+  const vg = X.createRadialGradient(W * 0.45, H * 0.5, 300, W * 0.45, H * 0.5, 820);
+  vg.addColorStop(0, 'rgba(0,0,0,0)'); vg.addColorStop(1, `rgba(6,6,16,${0.55 + 0.1 * (t / 32)})`);
+  X.fillStyle = vg; X.fillRect(0, 0, W, H);
+  X.globalCompositeOperation = 'overlay'; X.globalAlpha = 0.5;
+  const gx = (i * 37) % 256, gyy = (i * 91) % 256; X.translate(-gx, -gyy); X.fillStyle = X.createPattern(grain, 'repeat'); X.fillRect(0, 0, W + 256, H + 256); X.setTransform(1, 0, 0, 1, 0, 0);
+  X.globalCompositeOperation = 'source-over'; X.globalAlpha = 1;
+  WORLD.subtitle(X, t, W, H);
+  return model;
+}
+
+// measure the dog from its own render: an id-mask pass at half resolution
+function measure(i, model) {
+  const F = PLAN[i], d = F.dog; const [ox, oy] = dogOrigin(d, model);
+  MX.setTransform(1, 0, 0, 1, 0, 0); MX.fillStyle = '#000'; MX.fillRect(0, 0, MW, MH);
+  MX.setTransform(WORLD.S / 2, 0, 0, -WORLD.S / 2, ox / 2, oy / 2);
+  DOG.paintDog(MX, model, { mask: ID });
+  const im = MX.getImageData(0, 0, MW, MH).data;
+  const acc = {}; for (const k in ID) acc[k] = { n: 0, sx: 0, sy: 0, minx: 1e9, maxx: -1e9, miny: 1e9, maxy: -1e9 };
+  const keys = Object.keys(ID);
+  for (let p = 0, q = 0; p < im.length; p += 4, q++) {
+    const r = im[p], g = im[p + 1], b = im[p + 2]; if (r + g + b < 120) continue;
+    let best = null, bd = 90 * 90;
+    for (const k of keys) { const c = IDRGB[k]; const e = (r - c[0]) ** 2 + (g - c[1]) ** 2 + (b - c[2]) ** 2; if (e < bd) { bd = e; best = k; } }
+    if (!best) continue;
+    const x = q % MW, y = (q / MW) | 0, A = acc[best];
+    A.n++; A.sx += x; A.sy += y; if (x < A.minx) A.minx = x; if (x > A.maxx) A.maxx = x; if (y < A.miny) A.miny = y; if (y > A.maxy) A.maxy = y;
+  }
+  const out = { i, counts: {} };
+  for (const k in acc) out.counts[k] = acc[k].n;
+  const body = ['torso', 'saddle'].map(k => acc[k]); const bn = body[0].n + body[1].n;
+  out.body_cx = bn ? 2 * (body[0].sx + body[1].sx) / bn : null; out.body_cy = bn ? 2 * (body[0].sy + body[1].sy) / bn : null;
+  out.torso_top = 2 * Math.min(body[0].miny, body[1].miny);
+  out.body_cx_occluded = out.body_cx;
+  // the torso alone (legs and head not drawn): its centroid is the parent-frame anchor the trace reports
+  MX.setTransform(1, 0, 0, 1, 0, 0); MX.fillStyle = '#000'; MX.fillRect(0, 0, MW, MH);
+  MX.setTransform(WORLD.S / 2, 0, 0, -WORLD.S / 2, ox / 2, oy / 2);
+  DOG.paintDog(MX, model, { mask: ID, torsoOnly: true });
+  { const im2 = MX.getImageData(0, 0, MW, MH).data; let n = 0, sx = 0, sy = 0;
+    for (let p = 0, q = 0; p < im2.length; p += 4, q++) if (im2[p] + im2[p + 1] + im2[p + 2] > 200) { n++; sx += q % MW; sy += (q / MW) | 0; }
+    out.body_cx = 2 * sx / n; out.body_cy = 2 * sy / n; }
+  const all = keys.map(k => acc[k]); const an = all.reduce((s, a) => s + a.n, 0);
+  out.cx = an ? 2 * all.reduce((s, a) => s + a.sx, 0) / an : null; out.cy = an ? 2 * all.reduce((s, a) => s + a.sy, 0) / an : null;
+  out.bbox = [2 * Math.min(...all.map(a => a.minx)), 2 * Math.min(...all.map(a => a.miny)), 2 * Math.max(...all.map(a => a.maxx)), 2 * Math.max(...all.map(a => a.maxy))];
+  const hd = acc.head; out.head_cx = hd.n ? 2 * hd.sx / hd.n : null; out.head_cy = hd.n ? 2 * hd.sy / hd.n : null;
+  const ns = acc.nose; out.nose_cx = ns.n ? 2 * ns.sx / ns.n : null;
+  out.ground_y = oy; out.area = an * 4;
+  // structural: neck joint vs head drawing origin (the head is attached at the view's own pivot)
+  out.neck_joint = [ox + model.Ns[0] * WORLD.S, oy - model.Ns[1] * WORLD.S];
+  out.body_view = d.body; out.head_view = DOG.headKey(d.headYaw).snapped;
+  return out;
+}
+
+function frame(i, withMeasure) {
+  const m = drawScene(i);
+  const r = { jpg: C.toDataURL('image/jpeg', 0.9) };
+  if (withMeasure) r.m = measure(i, m);
+  return r;
+}
+
+// ---- cards
+function card(kind, k, n) {
+  X.setTransform(1, 0, 0, 1, 0, 0); X.globalAlpha = 1; X.globalCompositeOperation = 'source-over';
+  X.fillStyle = '#ede5d3'; X.fillRect(0, 0, W, H);
+  X.globalCompositeOperation = 'multiply'; X.globalAlpha = 0.6; X.fillStyle = X.createPattern(grain, 'repeat'); X.fillRect(0, 0, W, H); X.globalCompositeOperation = 'source-over'; X.globalAlpha = 1;
+  const fade = clamp(k / 8) * clamp((n - 1 - k) / 8);
+  X.globalAlpha = fade;
+  if (kind === 'title') {
+    X.fillStyle = '#2a211a'; X.font = '800 50px "Big Shoulders Display"'; X.textAlign = 'left';
+    X.fillText('PAE-02 · SCION 39 · Multiview Drawing Substitution — Turn Lab', 70, 130);
+    X.font = '400 20px "JetBrains Mono"'; X.fillStyle = '#6b5a48';
+    X.fillText('the threshold, handmade · one dog, five drawings, turned by substitution', 72, 172);
+    // model sheet: the body views on canonical lines
+    const views = [[0, 0], [45, 45], [90, 90], [135, 135], [180, 180]];
+    const base = 560, s = 150;
+    X.strokeStyle = 'rgba(120,96,70,0.45)'; X.lineWidth = 1; X.setLineDash([6, 6]);
+    for (const hgt of [0, 0.58, 0.86]) { X.beginPath(); X.moveTo(60, base - hgt * s); X.lineTo(W - 60, base - hgt * s); X.stroke(); }
+    X.setLineDash([]);
+    views.forEach(([b, h], j) => {
+      const show = clamp((k - 6 - j * 5) / 6); if (show <= 0) return;
+      X.save(); X.globalAlpha = fade * show; X.translate(170 + j * 235, base); X.scale(s, -s);
+      DOG.paintDog(X, DOG.build({ body: b, headYaw: h, alpha: 50, beta: 0, ear: 1, tail: 0.5, lie: 0 }), { seed: j + Math.floor(k / 2) * 3 });
+      X.restore();
+      X.globalAlpha = fade * show; X.fillStyle = '#6b5a48'; X.font = '400 15px "JetBrains Mono"'; X.textAlign = 'center';
+      X.fillText(['V0 profile', 'V45 rear ¾', 'V90 rear', 'V135 = V45 flipped', 'V180 = V0 flipped'][j], 170 + j * 235, base + 34);
+    });
+    X.textAlign = 'left';
+  } else {
+    X.fillStyle = '#2a211a'; X.font = '800 44px "Big Shoulders Display"'; X.textAlign = 'left';
+    X.fillText('What it is made of', 80, 110);
+    X.font = '400 21px Literata'; X.fillStyle = '#3a2f25';
+    const L = [
+      'The dog is a drawing atlas made for this film: three body drawings (profile, rear three-quarter, rear; the two rear ones',
+      'also lying) and four head drawings, flipped for the other side. It turns by substituting one drawing for the next at',
+      'view-specific pivots set from one table of canonical dog dimensions; the head leads, the body follows, the feet step.',
+      'Its markings follow the dog in Amateur Film New Jersey C (Home Movies, Internet Archive, public domain), looked at',
+      'for reference only: no frame of it is used. The house, the door, the person and the dusk are drawn in code.',
+      'The voice is synthesized; the words are given as text. The footsteps, door, porch and room sounds are synthesized.',
+      'Its choices follow the PAELEO threshold score, frame for frame.',
+    ];
+    L.forEach((s, j) => X.fillText(s, 80, 175 + j * 38));
+    X.font = '400 16px "JetBrains Mono"'; X.fillStyle = '#6b5a48';
+    X.fillText('SCION 39 · Turn Lab · PAELEO PAE-02 · paeleo/handmade/39-turn-lab', 80, 660);
+  }
+  X.globalAlpha = 1;
+  return C.toDataURL('image/jpeg', 0.9);
+}
+window.R = { init, frame, card };
+</script>
+</body></html>

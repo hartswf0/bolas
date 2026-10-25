@@ -1,0 +1,151 @@
+{
+ "about": "SCION 17 asset ledger: every piece in the film, where it came from, its rights, and the operation that made it.",
+ "cast_and_set_drawn_in_code": [
+  {
+   "id": "biscuit",
+   "what": "the dog: construction-paper cut-out, 3 body direction states (P profile, Q three-quarter, F front; P and Q also turned over as complete drawings), 5 head direction states (P, Q, F, QB, B), a standing drawing with a two-segment planted-foot leg rig and a lying drawing, expression atlas (eye OPEN/WIDE/HALF/CLOSED x brow NEUTRAL/WORRY/DOWN/UP x ear PRICK/HALF/FLAT), head stops, tail pivot",
+   "source": "build/dog.py (biscuit-v1)",
+   "rights": "made here for this film",
+   "operation": "drawn: polygons cut in code from ovals, rounded strips and hulls, each with a fixed seeded scissor wobble (build/kit.py)"
+  },
+  {
+   "id": "maren",
+   "what": "the person: one three-quarter direction state, postures STAND/CROUCH/SIT, arm and leg pivots solved to hand and foot targets, face atlas (eyes, brows, head tilt) and a ten-shape mouth atlas",
+   "source": "build/person.py (maren-v1)",
+   "rights": "made here",
+   "operation": "drawn in code"
+  },
+  {
+   "id": "phoneme_chart",
+   "what": "five spoken lines as timed phonemes; one table maps phonemes to mouth drawings and the same list drives the voice synthesizer",
+   "source": "build/dialogue.py (dialogue-v1)",
+   "rights": "made here",
+   "operation": "written"
+  },
+  {
+   "id": "porch",
+   "what": "stage template: dusk sky bands, stars, clapboard house wall, two dark windows, porch fascia, post, floor, lattice skirt, steps, yard; the door in three drawings (AJAR, WIDE, OPEN) with the lit hall seen through it; the door light as a mask tied to the door drawing; two camera framings (WIDE, CLOSE)",
+   "source": "build/stage.py (porch-v1)",
+   "rights": "made here",
+   "operation": "drawn in code"
+  },
+  {
+   "id": "paper_grain",
+   "what": "a fixed paper grain multiplied over every frame",
+   "source": "build/stage.py paper_grain(seed 17)",
+   "rights": "made here",
+   "operation": "synthesized noise"
+  }
+ ],
+ "found": [
+  {
+   "id": "quickdraw_moon_4560673948303360",
+   "what": "the moon in the sky",
+   "source_file": "/home/user/hartswf0/quickdraw/moon.part",
+   "index_among_recognized": 7,
+   "key_id": "4560673948303360",
+   "countrycode": "DE",
+   "timestamp": "2017-01-28 14:32:25.37052 UTC",
+   "source_title": "Quick, Draw! dataset (Google Creative Lab and contributors)",
+   "rights": "CC BY 4.0; credited on the end card",
+   "copy": "assets/quickdraw_used.ndjson",
+   "operation": "stroke closed and filled as one pale cut-paper shape"
+  },
+  {
+   "id": "quickdraw_tree_6718527320883200",
+   "what": "a tree in the yard",
+   "source_file": "/home/user/hartswf0/quickdraw/tree.part",
+   "index_among_recognized": 3,
+   "key_id": "6718527320883200",
+   "countrycode": "US",
+   "timestamp": "2017-03-08 16:54:01.37875 UTC",
+   "source_title": "Quick, Draw! dataset (Google Creative Lab and contributors)",
+   "rights": "CC BY 4.0; credited on the end card",
+   "copy": "assets/quickdraw_used.ndjson",
+   "operation": "longest stroke filled as the crown; other strokes cut as dark paper strips"
+  },
+  {
+   "id": "quickdraw_tree_5900376651857920",
+   "what": "a tree in the yard",
+   "source_file": "/home/user/hartswf0/quickdraw/tree.part",
+   "index_among_recognized": 30,
+   "key_id": "5900376651857920",
+   "countrycode": "CA",
+   "timestamp": "2017-03-17 01:58:40.87079 UTC",
+   "source_title": "Quick, Draw! dataset (Google Creative Lab and contributors)",
+   "rights": "CC BY 4.0; credited on the end card",
+   "copy": "assets/quickdraw_used.ndjson",
+   "operation": "longest stroke filled as the crown; other strokes cut as dark paper strips"
+  },
+  {
+   "id": "quickdraw_fence_4545209713033216",
+   "what": "fence panels behind the yard (tiled)",
+   "source_file": "/home/user/hartswf0/quickdraw/fence.part",
+   "index_among_recognized": 28,
+   "key_id": "4545209713033216",
+   "countrycode": "US",
+   "timestamp": "2017-03-08 13:08:06.08585 UTC",
+   "source_title": "Quick, Draw! dataset (Google Creative Lab and contributors)",
+   "rights": "CC BY 4.0; credited on the end card",
+   "copy": "assets/quickdraw_used.ndjson",
+   "operation": "strokes cut as paper strips, panels repeated along the yard"
+  },
+  {
+   "id": "quickdraw_fence_5634059839471616",
+   "what": "fence panels behind the yard (tiled)",
+   "source_file": "/home/user/hartswf0/quickdraw/fence.part",
+   "index_among_recognized": 24,
+   "key_id": "5634059839471616",
+   "countrycode": "US",
+   "timestamp": "2017-03-26 19:39:48.50672 UTC",
+   "source_title": "Quick, Draw! dataset (Google Creative Lab and contributors)",
+   "rights": "CC BY 4.0; credited on the end card",
+   "copy": "assets/quickdraw_used.ndjson",
+   "operation": "strokes cut as paper strips, panels repeated along the yard"
+  }
+ ],
+ "type": [
+  {
+   "id": "big_shoulders_display",
+   "use": "title card, end card, the calls' captions",
+   "source": "tools/paeleo/fonts/f5.woff2, f8.woff2",
+   "rights": "as supplied in the repo for PAELEO pages (a Google Fonts family, SIL Open Font License)"
+  },
+  {
+   "id": "literata",
+   "use": "the soft lines' captions, end card",
+   "source": "tools/paeleo/fonts/f27.woff2, f34.woff2",
+   "rights": "as supplied in the repo (a Google Fonts family, SIL Open Font License)"
+  }
+ ],
+ "sound_synthesized": [
+  {
+   "id": "voice",
+   "what": "Maren's five lines",
+   "operation": "cascade formant synthesis (Rosenberg-like glottal pulse, three time-varying resonators, frication branch) from the phoneme chart",
+   "source": "build/sound.py"
+  },
+  {
+   "id": "room",
+   "what": "dusk wind, two crickets",
+   "operation": "filtered noise; sine chirp trains",
+   "source": "build/sound.py"
+  },
+  {
+   "id": "foley",
+   "what": "paw taps at the gait's foot contacts, collar tag, flop, huff, her steps, sitting, door creak, inside warmth hum when the door opens, tail thumps, a two-note pluck under the sulking flop",
+   "operation": "synthesized (knocks, filtered noise, sine partials, Karplus-Strong pluck) at the director's events",
+   "source": "build/sound.py, build/direct.py"
+  }
+ ],
+ "not_used": [
+  "paeleo/handmade/kit/archive-dog (frames, masks, rig keys): not used; the dog is drawn",
+  "paeleo/handmade/kit/archive-door: not used",
+  "kit/found-frames.json shots: not used",
+  "paeleo/threshold/stage.js and paeleo/scion/lenses.js: not imported, not read"
+ ],
+ "score": {
+  "source": "paeleo/handmade/score/threshold-score.json",
+  "use": "the dog's state, x, and acting intentions (crouch, ear, tail, wag, head, rest, look, moving) per frame; the person's timeline"
+ }
+}
