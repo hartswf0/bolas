@@ -143,7 +143,7 @@
       if (t >= T_APPROACH) {
         const u = win(t, T_APPROACH, T_APPROACH + 0.35);
         P.head = lerp(a.head, 0.2, u); P.ear = lerp(a.ear, 0.35, u); P.crouch = lerp(a.crouch, 0.22, u);
-        P.tail = lerp(a.tail, 0.95, u); P.wag = Math.max(a.wag, 0.25 * u);
+        P.tail = lerp(a.tail, 0.72, u); P.wag = Math.max(a.wag, 0.25 * u);
       }
       if (t >= T_RETREAT && t < T_WATCH1 + 0.4) P.head = Math.max(P.head, 0.58);
       if (t >= T_RETREAT && t < T_WATCH1 + 0.3) P.lean = 10 * win(t, T_RETREAT, T_RETREAT + 0.2) * (1 - win(t, T_WATCH1, T_WATCH1 + 0.3));

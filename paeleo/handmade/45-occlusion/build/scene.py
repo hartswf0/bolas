@@ -26,7 +26,7 @@ FR = SCORE['frames']
 PL = os.path.join(HERE, 'cache/plates')
 OPEN_X = 0.46            # half-width of the opening
 FRAME_W = 0.12           # casing width
-FRAME_D = 0.04           # casing front face depth
+FRAME_D = 0.005          # casing face depth (flush trim): the plane the dog and the person are split at
 DOOR_H = 2.03
 LAMP = (-0.12, 1.02, -1.05)
 POST_X, POST_D, POST_W = 2.32, 2.30, 0.13
@@ -56,7 +56,7 @@ CAM_KEYS = [  # t, px/m, focus x, focus h: the caller and the dog in one frame f
     # changed circumstances; a small push for the turn back (the lit door stays in frame); then the approach and the sill
     (0.0, 250, 1.95, 0.52), (4.7, 250, 1.95, 0.52), (5.9, 220, 1.58, 0.50), (7.0, 220, 1.58, 0.50),
     (7.6, 245, 2.00, 0.50), (9.4, 245, 2.00, 0.50), (11.0, 220, 1.58, 0.50), (15.0, 220, 1.58, 0.50),
-    (24.0, 262, 0.40, 0.53), (24.4, 262, 0.40, 0.53), (31.8, 300, 0.22, 0.57), (40.0, 300, 0.22, 0.57)]
+    (24.0, 262, 0.40, 0.53), (24.4, 290, 0.32, 0.55), (31.8, 370, 0.14, 0.58), (40.0, 370, 0.14, 0.58)]
 
 
 def camera(t):
@@ -426,8 +426,7 @@ def person_layers(cam, t, f, amb, light_amt, th):
         Jl = dict(Jl, wn=(xe + 0.06 - rx, 0.95))
     Jw = {k: (rx + v[0], v[1]) for k, v in Jl.items()}
     ss = 2
-    seated = t >= 5.9
-    Dbody = rD + (0.22 if seated else 0.0)
+    Dbody = rD
     jx = [v[0] for v in Jw.values()]; jh = [v[1] for v in Jw.values()]
     bx0 = int(max(0, cam.X(min(jx) - 0.3))); bx1 = int(min(W, cam.X(max(jx) + 0.3)))
     by0 = int(max(0, cam.Y(max(jh) + 0.3, Dbody))); by1 = int(min(H, cam.Y(-0.05, Dbody) + 4))
@@ -780,21 +779,24 @@ def render(i, verify=False):
     in_frac = float(din.a.sum() / max(1e-3, da.sum()))
     # who hides the dog: per occluder coverage
     hiders = {}
-    for n in order[pos.get('dog_in', len(order)):]:
+    first_dog = min([pos[n] for n in ('dog_in', 'dog_out') if n in pos] or [len(order)])
+    for n in order[first_dog:]:
         if n in ('dog_in', 'dog_out'):
             continue
         ov = float((np.maximum(by['dog_in'].a if 'dog_in' in by else 0, by['dog_out'].a if 'dog_out' in by else 0) * by[n].a).sum())
         if ov > 1:
             hiders[n] = round(ov, 1)
     # contact shadow registration: shadow centroid vs dog base
+    # contact-shadow registration: share of the dog's bottom-contour columns that have shadow just under them
+    contact_cov = None
     if len(xs):
-        sy_, sx_ = np.nonzero(csd > 0.2)
-        csx = float(sx_.mean()) if len(sx_) else None
-        base_x = float(xs[ys > bot - 0.06 * cam.s].mean())
-    else:
-        csx = base_x = None
+        colmax = np.where(da > 0.5, YY, -1).max(0)
+        cols = np.nonzero(colmax >= 0)[0]
+        yb = np.clip(colmax[cols] + 2, 0, H - 1).astype(int)
+        contact_cov = float((csd[yb, cols] > 0.15).mean())
+    csx = base_x = None
     rec['dog'] = dict(head_side=head_side, dark_head=dark_head, cx=cxs, cy=cys, top=top, bot=bot, left=left, right=right, area=float(da.sum()), visible=float(vis.sum()),
-                      hidden=hidden, in_frac=in_frac, hiders=hiders, shadow_cx=csx, base_cx=base_x,
+                      hidden=hidden, in_frac=in_frac, hiders=hiders, shadow_cx=csx, base_cx=base_x, contact_cov=contact_cov,
                       head_screen=dmeta['head_screen'], **{k: dmeta[k] for k in ('Xc', 'D', 'shear', 'parts', 'kind', 'facing', 'posture', 'tone', 'mirror')})
     rec['person'] = dict(root=pmeta['root'], hand=pmeta['hand'])
     rec['light_at_dog'] = float(L[int(min(H - 1, max(0, cam.Y(0, dmeta['D'])))), int(min(W - 1, max(0, cam.X(dmeta['Xc']))))])

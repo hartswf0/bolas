@@ -227,7 +227,7 @@ def dog_frame(i):
         if look > 0.62:
             # looking in: the head turned into the lit room; the frontal-head outline is what the back of a head looks
             # like, so it is shown from behind: dusk on the back of the skull, the room's light around its edge
-            img, anc, head = lie_pose(u, 0, 'B', -14, -9)
+            img, anc, head = lie_pose(u, 0, 'B', -14, -17)
             tone = 'back'; parts = ['headF (as back of head)', 'torso10', 'legs']
         elif look > 0.30:
             img, anc, head = lie_pose(u, 14, 'T', -8, -6)

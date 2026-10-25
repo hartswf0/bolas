@@ -1,0 +1,15 @@
+{"n": 1, "what": "BK max-flow in pure Python; synthetic disk test", "saw": "cut energy == flow (107101): the min cut is optimal"}
+{"n": 2, "what": "GrabCut on dog frames at 1x, SAM eroded/dilated seeds, intensity x texture unaries", "saw": "f12: leg gaps filled by shadowed ground, tail lost (shrinking bias)"}
+{"n": 3, "what": "source resolution: cut at 2x supersampled", "saw": "thin parts survive slightly better; leg gaps still bridged"}
+{"n": 4, "what": "seed constraints: belly-gap bg scribble from rig keys, tail fg scribble from thin SAM protrusions", "saw": "f12 legs separated and tail kept; a foreleg cut away when the gap seed overlapped it -> restricted gap seed to SAM background"}
+{"n": 5, "what": "clean plate (camera-registered median, dog excluded) as an extra unary cue", "saw": "plate difference weak on the dog's dark saddle vs dark ground; little change in edges"}
+{"n": 6, "what": "fork: weaken SAM authority (er 8, di 12, prior 0.08) vs keep (er 5, di 8, prior 0.4)", "saw": "weak-SAM branch bleeds into shadows between legs; reverted to the SAM-seeded branch. Boxy SAM edges remain in some frames (f6 tail, f16, f19)"}
+{"n": 7, "what": "part split by graph cut inside the alpha with rig-key seeds", "saw": "min cuts hug the small seeds (head of 117 px); rejected; replaced by manual joint lines on f13 (manual contour markup)"}
+{"n": 8, "what": "first full composition (175 px/m)", "saw": "dog too small, ghost-pale; shrub cut tiled as horizon read as black trapezoids; lying puppet a tangle (leg tabs as vertical bars, joint cut lines drawn as edges, head pointing up)"}
+{"n": 9, "what": "exterior-only cut lines; no tabs; forelegs split in two and laid forward; head angle sign fixed; torso drop", "saw": "lying reads as a sphinx-lying dog; look-in back-of-head piece drawn behind the torso hides its straight crop edges"}
+{"n": 10, "what": "world 205 px/m, X0 shifted so the sitting woman and the dog at 4 m both fit; shrubs removed, far garden from the plate", "saw": "composition readable; the sitting woman's legs a dark box"}
+{"n": 11, "what": "person re-posed: sleeve pivot, thigh swung forward, shins from knee to boards, Door to Heaven hand at the sleeve end", "saw": "reach reads; sitting with hand low reads as a silhouette; the transition frame at 6.0 s is awkward"}
+{"n": 12, "what": "full render; trace detectors", "saw": "I1 failed: detectors too twitchy (walk heights vary); head-back facing measured from head centroid not direction"}
+{"n": 13, "what": "facing from the drawn nose vs neck (rig keys carried by the drawing transform); lie onset = start of the final sinking of the body centroid", "saw": "checker ALL OK; onsets 1.000, 2.333, 3.542, 7.458, 14.708, 23.792; look-in 26.542"}
+{"n": 14, "what": "still 19 s showed a walk drawing (f46/47) that read as a blob", "saw": "walk reduced to f42-f45; re-rendered the walk windows; still 19 now reads as a dog walking, head low, but soft"}
+{"n": 15, "what": "encode", "saw": "crf 23 gave 18 MB (grain); crf 25 gives 6.9 MB, 912 frames, 38.0 s"}

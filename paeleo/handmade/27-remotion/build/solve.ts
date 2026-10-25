@@ -10,7 +10,7 @@ import type {V3} from './src/lib/math.ts';
 import {clamp, lerp, ramp, keyed, smooth, vnoise, deg} from './src/lib/math.ts';
 import {FOOT_LOCAL, FOOT_LIE, toWorld} from './src/lib/dogRig.ts';
 import {WORLD, doorAngle} from './src/lib/world.ts';
-import {project, setCameraTime} from './src/lib/camera.ts';
+import {project, setCameraTime, camAt} from './src/lib/camera.ts';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(HERE, '../../../..');
@@ -24,17 +24,17 @@ const REF_YAW = -175;                                          // refusal headin
 const yawAt = (i: number) => {
   const t = i / FPS;
   if (t < 3.42) return 180;
-  if (t < 7.46) return 180 + REF_YAW * ramp(t, 3.45, 3.90);    // the turn away, retimed to read by 3.9 s
+  if (t < 7.46) return 180 + REF_YAW * ramp(t, 3.43, 3.88);    // the turn away, retimed to read by 3.9 s
   return 180 + REF_YAW * (1 - ramp(t, 7.56, 8.4));             // the turn back: it rises and turns together (score turn: 7.9–8.7)
 };
 const HAND_LOW: V3 = [1.26, 0.16, -0.62];                       // where the person's low hand rests (world)
 const headYawAt = (i: number, X: number, yaw: number) => {
   const t = i / FPS;
   let psi = 0;
-  if (t >= 3.40 && t < 7.40) psi = keyed([[3.40, 0], [3.50, -48], [3.72, -40], [3.92, -10], [4.6, -8], [7.4, -8]], t);
+  if (t >= 3.40 && t < 7.40) psi = keyed([[3.40, 0], [3.48, -50], [3.70, -40], [3.90, -10], [4.6, -8], [7.4, -8]], t);
   if (t >= 7.40 && t < 10) {
     const target = clamp(182 - yaw, 0, 140);                  // the head comes round toward the door first, over the shoulder
-    psi = lerp(-8, target, ramp(t, 7.40, 7.66));
+    psi = lerp(-8, target, ramp(t, 7.40, 7.60));
   }
   // passing the low hand on the way in: the head goes to it (sniff), then on
   if (t > 19 && t < 24) {
@@ -152,7 +152,8 @@ const frames = FR.map((F, i) => {
     breath: Math.sin(t * Math.PI * 2 * 0.33), bob, feet: feet[i].map(p => p.map(v => +v.toFixed(4))), swing: swingP[i]};
   const open01 = ramp(t, 6.2, 6.85);
   const line = LINES.find(l => t >= l[0] - 0.05 && t < l[1] + 0.4);
-  return {i, t: +t.toFixed(4), score_state: F.dog.state, dog, person: personAt(i),
+  const cam = camAt(t);
+  return {i, t: +t.toFixed(4), score_state: F.dog.state, camera: {pos: cam.pos.map(v => +v.toFixed(5)), target: cam.target.map(v => +v.toFixed(5)), focal: +cam.focal.toFixed(4)}, dog, person: personAt(i),
     door: {open01, angle: doorAngle(open01), lamp: lerp(0.5, 1, open01)},
     caption: line ? {text: line[2], kind: line[3], alpha: ramp(t, line[0] - 0.05, line[0] + 0.12) * (1 - ramp(t, line[1] + 0.1, line[1] + 0.4))} : null};
 });

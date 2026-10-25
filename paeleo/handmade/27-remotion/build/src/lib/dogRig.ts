@@ -64,7 +64,7 @@ export function dogParts(p: DogPose): Part[] {
   cap(W(0.20, hc - 0.05, 0), 0.125, W(0.02, hc - 0.03, 0), 0.11, 'coat');                       // deep chest (keel)
   cap(W(0.29, hc - 0.06, 0), 0.10, W(0.22, hc - 0.11, 0), 0.08, 'tan', 'body', false, -0.01);   // chest front, lighter
   // neck and head
-  let phi = keyed([[0, -55], [0.15, -46], [0.45, -32], [0.7, 15], [0.9, 38], [1.25, 54]], p.head, false);
+  let phi = keyed([[0, -58], [0.15, -50], [0.45, -44], [0.7, 12], [0.9, 38], [1.25, 54]], p.head, false);
   phi = lerp(phi, -42, clamp(p.rest)); phi = lerp(phi, 20, clamp(p.look));
   const reach = 0.25 * (1 + 0.14 * clamp(p.look));
   const neckBase = W(0.25 + 0.05 * clamp(p.look), hc + 0.09, 0);
@@ -72,7 +72,7 @@ export function dogParts(p: DogPose): Part[] {
   const hdir: V3 = [Math.cos(hy), 0, Math.sin(hy)], ndir: V3 = [Math.cos(ny), 0, Math.sin(ny)];
   const skull = add(neckBase, add(mul(ndir, reach * Math.cos(phi * deg)), mul(up, reach * Math.sin(phi * deg))));
   cap(neckBase, 0.105, skull, 0.08, 'coat');
-  let beta = keyed([[-55, -62], [-32, -42], [15, -14], [54, -6]], phi, false);
+  let beta = keyed([[-58, -62], [-44, -48], [12, -14], [54, -6]], phi, false);
   beta = lerp(beta, -4, clamp(p.rest));
   const md = norm(add(mul(hdir, Math.cos(beta * deg)), mul(up, Math.sin(beta * deg))));
   const hs = norm(cross(up, hdir));                       // head side axis
@@ -90,7 +90,7 @@ export function dogParts(p: DogPose): Part[] {
     cap(e, 0.013, e, 0.013, 'eye', 'skull', false, -0.05);
     const pip = add(add(e, mul(hu, 0.03)), mul(md, -0.008));
     cap(pip, 0.011, pip, 0.011, 'tan', 'skull', false, -0.045);
-    const pr = clamp(p.ear, -0.1, 1.05);                  // 1 pricked, 0 flat back
+    const pr = clamp(p.ear * (0.6 + 0.4 * clamp(p.head)), -0.1, 1.05);   // 1 pricked, 0 flat back; a low head carries its ears lower
     const base1 = add(add(add(skull, mul(hs, 0.025 * sd)), mul(hu, 0.08)), mul(md, -0.01));
     const base2 = add(add(add(skull, mul(hs, 0.088 * sd)), mul(hu, 0.035)), mul(md, -0.04));
     const tipUp = add(add(add(skull, mul(hs, 0.09 * sd)), mul(hu, 0.23)), mul(md, -0.035));

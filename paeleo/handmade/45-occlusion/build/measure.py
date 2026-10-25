@@ -33,7 +33,7 @@ def main():
         rows.append(dict(i=i, t=r['t'], xw=xw, h_top=h_top, width=(d['right'] - d['left']) / s, head_side=d.get('head_side'),
                          dark_head=d.get('dark_head', 0), head_dx=(d['cx'] - d['head_screen'][0]) / s if d['cx'] is not None else 0, cx=d['cx'], cy=d['cy'], vis=d['visible'] / max(1, d['area']),
                          in_frac=d['in_frac'], hiders=d['hiders'], facing_annot=d['facing'], posture_annot=d['posture'],
-                         shadow_dx=(None if d['shadow_cx'] is None or d['base_cx'] is None else (d['shadow_cx'] - d['base_cx']) / s)))
+                         contact_cov=d.get('contact_cov')))
     t = np.array([q['t'] for q in rows]); xw = np.array([q['xw'] for q in rows]); ht = np.array([q['h_top'] for q in rows])
     hs = np.array([q['head_side'] if q['head_side'] is not None else 0 for q in rows]); wd = np.array([q['width'] for q in rows])
     dk = np.array([q['dark_head'] for q in rows])
@@ -121,8 +121,9 @@ def main():
     A['min_x_world_measured'] = round(min(q['x_world_measured'] for q in trace), 3)
     A['end_inside_frame_share'] = trace[-1]['inside_frame_share']
     A['end_visible_share'] = trace[-1]['visible_share']
-    sdx = [abs(q['shadow_dx']) for q in rows if q['shadow_dx'] is not None]
-    A['contact_shadow_offset_m_p95'] = round(float(np.percentile(sdx, 95)), 3) if sdx else None
+    cc = [q['contact_cov'] for q in rows if q['contact_cov'] is not None]
+    A['contact_shadow_under_dog_base_min'] = round(float(min(cc)), 3) if cc else None
+    A['contact_shadow_under_dog_base_median'] = round(float(np.median(cc)), 3) if cc else None
     # overlap events (who hides the dog, when)
     ev = {}
     for q in rows:
