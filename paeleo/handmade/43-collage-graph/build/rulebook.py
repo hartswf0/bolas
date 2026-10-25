@@ -7,8 +7,8 @@ RULES = [
          precondition='intention changes (score act.head / state); the new drawing\'s native neck->nose angle within 45 deg of the wanted angle',
          preserved='neck anchor N (the joint), facing', fragments=['head_alert_f006', 'head_level_f012', 'head_low_f048'],
          motif='head up = attention; head low = the decision to come (f048: the dog lowering its head to its bowl, re-used as trust)'),
-    dict(id='R2 REPLACE head by mirror(head)', kind='replace', input='dog.head on a turned-away body', output='dog.head facing the door',
-         precondition='state becomes watch (7.458) while the body still faces away', preserved='neck anchor', fragments=['head_level_f012 (mirrored)'],
+    dict(id='R2 REPLACE head by the found frontal head', kind='replace', input='dog.head on a turned-away body', output='dog.head facing the door',
+         precondition='state becomes watch (7.458) while the body still faces away', preserved='neck anchor', fragments=['head_front_f030 (mirrored: muzzle to the door)'],
          motif='the head comes round first: turning to look'),
     dict(id='R3 MERGE dog -> whole found frame', kind='merge', input='dog graph (head, torso, legs, tail)', output='dog.whole',
          precondition='a turn: |facing| changes sign; the found frame must show the same dog between profiles', preserved='ground point under the body, height 0.80 m (local)',
@@ -25,8 +25,8 @@ RULES = [
          preserved='node anchors; the source dog (identity: every piece is the same home-movie dog)', motif='what the dog is made of changes as it comes into the light; the tail never does'),
     dict(id='R8 SPLIT torso at the threshold', kind='split', input='dog.torso', output='dog.chest (sun) + dog.haunch (shade)',
          precondition='chest and haunch have different materials (R7)', preserved='S and H anchors of the torso', motif='half in, half out, materially'),
-    dict(id='R9 ENTER head -> the door light (look in)', kind='enter', input='dog.head', output='head_back_cut (back of the head, toward the viewer, into the lit room)',
-         precondition='score act.look > 0.2 (on hearing "come in")', preserved='neck anchor', motif='the one drawn shape; the head turns into depth'),
+    dict(id='R9 ENTER head -> the door light (look in)', kind='enter', input='dog.head', output='head_back_f027 (the found turning frame\'s head and neck, crushed into shadow against the lit room: the back of the head)',
+         precondition='score act.look > 0.2 (on hearing "come in")', preserved='neck anchor (the neck runs from inside the chest)', motif='the head turns into depth; nothing drawn'),
     dict(id='P1 ENTER voice', kind='enter', input='person.head (mouth anchor)', output='voice.arcs (found telephone sound arcs, re-timed)',
          precondition='score voice = call (wide arcs travelling to the dog) or soft (small arcs that stay at the mouth)'),
     dict(id='P2 SPLIT coat (sit)', kind='split', input='person.body (the coat)', output='person.torso + person.thigh + person.shin',
@@ -41,6 +41,6 @@ for c in gt:
     if c['rules'] or c['split_at_threshold']:
         fired.append(dict(t=c['t'], i=c['i'], state=c['state'], rules=c['rules'] + (['R8 SPLIT torso at the threshold'] if c['split_at_threshold'] else []),
                           materials=c['materials']))
-json.dump(dict(about='SCION 43 rewrite rulebook. Time base: score frames, 24 fps; the dog graph is solved on twos. Coordinates: metres along the porch (x), height (v); screen X = 305 + 205 x.',
+json.dump(dict(about='SCION 43 rewrite rulebook. Time base: score frames, 24 fps; the dog graph is solved on twos. Coordinates: metres along the porch (x), height (v); screen X = 300 + 195 x.',
                rules=RULES, fired_in_this_render=fired), open(os.path.join(TOP, 'rulebook.json'), 'w'), indent=1)
 print(len(RULES), 'rules;', len(fired), 'graph changes with rules')

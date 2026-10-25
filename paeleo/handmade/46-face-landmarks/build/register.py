@@ -22,8 +22,8 @@ def view_of(center, fwd, rt, campos):
     return a, side
 
 
-def pick(table, a, prev, hyst=7.0):
-    keys = sorted(table)
+def pick(table, a, prev, hyst=7.0, allowed=None):
+    keys = sorted(allowed or table)
     best = min(keys, key=lambda k: abs(k - a))
     if prev is not None and prev in table and best != prev:
         if abs(a - prev) < abs(a - best) + hyst: return prev
@@ -62,7 +62,8 @@ def main():
         Mt = fit_affine(src, dst)
         hf = fwd_of(f['hyaw']); hr = right_of(f['hyaw'])
         a_h, side_h = view_of(head['S'], hf, hr, cam.pos)
-        vh = pick(HEADS, a_h, prev_h); prev_h = vh
+        turning = 3.40 <= f['t'] < 4.10 or 7.40 <= f['t'] < 8.65
+        vh = pick(HEADS, a_h, prev_h, allowed=(45, 90, 135) if turning else None); prev_h = vh
         ph = HEADS[vh]
         src = np.array([ph['lm'][k] for k in ph['keys']]) * np.array([1, -1])
         dst = np.array([P(head[k if side_h > 0 else mirror_key(k)]) for k in ph['keys']])

@@ -20,8 +20,8 @@ SCORE = json.load(open(os.path.join(ROOT, 'paeleo/handmade/score/threshold-score
 FRAMES = SCORE['frames']
 LIB = {f['id']: f for f in json.load(open(os.path.join(CACHE, 'frags.json')))['fragments']}
 W, H = 1280, 720
-PXM = 205.0
-X0 = 305.0
+PXM = 195.0
+X0 = 300.0
 WALL_BASE = 505
 G_MID, G_SILL = 588, 520
 DOOR_L, DOOR_R, DOOR_TOP_M = -0.55, 0.55, 2.0
@@ -149,7 +149,7 @@ def dog_state(i):
     hv, look, rest = a['head'], a['look'], a['rest']
     sun_head = st in ('approach', 'lie_down')
     if look > 0.2:
-        g['head'] = ('head_back_cut', 0.0); g['rules'].append('ENTER head->door light: REPLACE head by head_back_cut (looks in)')
+        g['head'] = ('head_back_f027', 0.0); g['rules'].append('ENTER head->door light: REPLACE head by head_back_f027 (looks in)')
     elif sun_head:
         if g['lie'] >= 0.99 and rest > 0.5: g['head'] = ('head_low_f048', -14.0)
         elif g['lie'] >= 0.99: g['head'] = ('head_low_f048', 8.0 if hv > 0.5 else -6.0)
@@ -161,7 +161,7 @@ def dog_state(i):
         elif hv >= 0.8 or (st == 'watch' and 2.3 < t < 3.417 and hv >= 0.6): g['head'] = ('head_alert_f006', 40.0)  # stops backing: head up to look
         else: g['head'] = ('head_level_f012', 14.0)
     g['head_mirror'] = (st == 'watch' and LOOKBACK <= t < TURN2[0])  # looks back over its shoulder
-    if g['head_mirror']: g['rules'].append('REPLACE head by mirror(head) on the turned-away body (turns back to look)')
+    if g['head_mirror']: g['rules'].append('REPLACE head by head_front_f030, mirrored to face the door, on the turned-away body (turns back to look)')
     return g
 
 
@@ -261,7 +261,7 @@ def draw_dog(canvas, i, log=None):
     Sv = 0.47 - 0.10 * cr - 0.32 * lie
     Hv = 0.48 - 0.15 * cr - 0.34 * lie
     S = (0.24 + 0.03 * lie, Sv); Hh = (-0.24, Hv); Mm = (0.0, (Sv + Hv) / 2 + 0.03 - 0.02 * lie)
-    N = (0.33 + 0.02 * lie, Sv + 0.12 - 0.02 * lie)
+    N = (0.33 + 0.02 * lie, Sv + 0.12 - 0.06 * lie)
     T = (-0.31, Hv + 0.07)
     d = travel(g['i2'])
     # the legs: stance feet planted (constraint), swing feet substituted by a bent fragment
@@ -269,7 +269,7 @@ def draw_dog(canvas, i, log=None):
     for leg in ('hind_f', 'fore_f', 'hind_n', 'fore_n'):
         top = S if leg.startswith('fore') else Hh
         if lie >= 0.99:
-            fu = top[0] + (0.33 if leg.startswith('fore') else 0.24) + (0.0 if leg.endswith('n') else -0.05)
+            fu = top[0] + (0.29 if leg.startswith('fore') else 0.22) + (0.0 if leg.endswith('n') else -0.05)
             foot = (fu, 0.035); phase = 'down'
         else:
             ru, lift, phase = foot_rel(leg, d, g['moving'], K)
@@ -321,12 +321,24 @@ def draw_dog(canvas, i, log=None):
     hid, ang = g['head']
     hf_ = 1 if not g['head_mirror'] else -1  # mirrored head looks the other way
     hl = 0.30
-    if hid == 'head_back_cut':
-        Nn = (N[0] - 0.04, N[1] - 0.04)
-        crown = (Nn[0] + 0.04, Nn[1] + 0.25)
+    if hid == 'head_back_f027':
+        # the neck runs from inside the chest up into the doorway; the found head seen from the room's light
+        Nn = (N[0] - 0.08, N[1] - 0.10)
+        crown = (Nn[0] + 0.03, Nn[1] + 0.31)
         M = place(canvas, hid, anc(hid, 'neck'), anc(hid, 'crown'), W2S(*Nn), W2S(*crown), mirror=False, layer_log=log, node='dog.head')
         info['nose'] = None; info['neck'] = W2S(*Nn); info['head_kind'] = 'away'
         info['facing_measured'] = f
+    elif g['head_mirror']:
+        # turning to look: the found frontal head (f030), mirrored so its muzzle points to the door, leads the body
+        hid = 'head_front_f030'
+        Nn = (N[0] - 0.02, N[1] - 0.02)
+        crown = (Nn[0] + 0.03, Nn[1] + 0.30)
+        mir = f < 0  # f030's muzzle points right; on a body facing away it is mirrored to point at the door
+        M = place(canvas, hid, anc(hid, 'neck'), anc(hid, 'crown'), W2S(*Nn), W2S(*crown), mirror=mir, layer_log=log, node='dog.head')
+        w = img(hid).width; a_mz = anc(hid, 'muzzle')
+        info['nose'] = apply(M, (w - 1 - a_mz[0], a_mz[1]) if mir else a_mz)
+        info['neck'] = W2S(*Nn); info['head_kind'] = hid
+        info['facing_measured'] = 1 if info['nose'][0] < info['neck'][0] else -1
     else:
         nose = (N[0] + hf_ * hl * math.cos(math.radians(ang)), N[1] + hl * math.sin(math.radians(ang)))
         if lie >= 0.99 or (g['lie'] >= 0.66):

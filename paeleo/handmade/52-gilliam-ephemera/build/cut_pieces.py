@@ -51,7 +51,7 @@ FARHIND = [(183, 156), (205, 156), (205, 200), (183, 200)]
 TAIL = [(236, 108), (290, 108), (290, 182), (236, 182)]
 P6 = prov('dog', 6)
 # regrade (repair 1): smooth scissor line along the matte, blotches blurred, contrast compressed, no sharpening
-DG = dict(smooth_mask=2.2, soften=1.0, contrast=.78, wash_amp=.05, sharpen=False, stretch=(4, 96))
+DG = dict(smooth_mask=2.2, soften=1.7, contrast=.62, wash_amp=.04, sharpen=False, stretch=(4, 96))
 add(cut('dog_torso', dogf(6), [TORSO], DS, 'dog', M6, **DG, holes=[HEAD], seed=1, provenance=P6,
         pins={'neck': (128, 112), 'shoulder': (141, 150), 'farshoulder': (126, 154), 'hip': (213, 151), 'farhip': (198, 152),
               'tailroot': (238, 136), 'centre': (176, 135), 'belly': (176, 160)}), op='crop+matte+scissor cut+tint')
@@ -93,7 +93,7 @@ def back_of_head():
     skull on the side it is turned to."""
     from cutlib import ramp
     im = Image.open(dogf(6)).convert('RGB')
-    W, H = 74, 78
+    W, H = 76, 80
     def fur(box, size, dark=1.0):
         f = im.crop(box).resize(size, Image.BICUBIC).filter(ImageFilter.GaussianBlur(1))
         L = np.asarray(f.convert('L')).astype(np.float32) / 255
@@ -109,26 +109,26 @@ def back_of_head():
     def lay(col, al):
         nonlocal rgb, a
         rgb = rgb * (1 - al[..., None]) + col * al[..., None]; a = a + al * (1 - a)
-    # muzzle tip from f046 (flopped: pointing left), behind the skull, sticking out on the left
-    mz = Image.open(dogf(46)).convert('RGB').crop((262, 158, 282, 190)).transpose(Image.FLIP_LEFT_RIGHT).resize((26, 40), Image.BICUBIC)
+    # muzzle tip from f046 (flopped: pointing left), behind the skull, sticking well out on the left (turned into the room)
+    mz = Image.open(dogf(46)).convert('RGB').crop((260, 156, 282, 192)).transpose(Image.FLIP_LEFT_RIGHT).resize((30, 44), Image.BICUBIC)
     Lm = np.asarray(mz.convert('L')).astype(np.float32) / 255; lo, hi = np.percentile(Lm, (4, 96))
-    mcol = np.zeros((H, W, 3), np.float32); mcol[30:70, 0:26] = ramp(np.clip((Lm - lo) / (hi - lo + 1e-6), 0, 1) * .8 + .15, PALETTES['dog'])
-    lay(mcol, mask([('p', [(2, 46), (10, 36), (26, 36), (26, 64), (12, 64), (3, 56)])]))
-    # skull and neck
-    lay(fur((150, 108, 204, 152), (W, H)), mask([('e', (14, 20, 60, 70)), ('p', [(24, 60), (50, 60), (54, 78), (20, 78)])]))
-    # pricked ears, with their tips folded forward in darker fur
-    lay(fur((160, 112, 200, 148), (W, H), .8), mask([('p', [(16, 34), (14, 2), (34, 24)]), ('p', [(58, 34), (60, 2), (40, 24)])]))
-    lay(fur((160, 112, 200, 148), (W, H), .45), mask([('p', [(14, 2), (22, 12), (14, 14)]), ('p', [(60, 2), (52, 12), (60, 14)])]))
+    mcol = np.zeros((H, W, 3), np.float32); mcol[28:72, 0:30] = ramp(np.clip((Lm - lo) / (hi - lo + 1e-6), 0, 1) * .7 + .25, PALETTES['dog'])
+    lay(mcol, mask([('p', [(0, 50), (6, 40), (26, 36), (28, 62), (10, 64), (1, 58)])]))
+    # skull, broad, on a thick neck
+    lay(fur((150, 108, 204, 152), (W, H)), mask([('e', (12, 22, 66, 68)), ('p', [(16, 56), (64, 56), (70, 78), (12, 78)])]))
+    # ears: broad-based, upright, the top third folded over outward (a dog's, not a cat's)
+    lay(fur((160, 112, 200, 148), (W, H), .8), mask([('p', [(14, 38), (12, 12), (20, 6), (34, 26)]), ('p', [(64, 38), (66, 12), (58, 6), (44, 26)])]))
+    lay(fur((160, 112, 200, 148), (W, H), .42), mask([('p', [(12, 12), (20, 6), (10, 24), (4, 22)]), ('p', [(66, 12), (58, 6), (68, 24), (74, 22)])]))
     # the parting of the fur down the back of the skull
     yy, xx = np.mgrid[0:H, 0:W]
-    rgb *= (1 - .22 * np.exp(-((xx - 37) ** 2) / 14) * (yy > 26))[..., None]
+    rgb *= (1 - .22 * np.exp(-((xx - 39) ** 2) / 14) * (yy > 26))[..., None]
     A = Image.fromarray((a * 255).astype(np.uint8)); er = np.asarray(A.filter(ImageFilter.MinFilter(3))).astype(np.float32) / 255
     e = np.clip(a - er, 0, 1)
     rgb = rgb * (1 - e[..., None] * .75) + np.array([.93, .9, .82]) * e[..., None] * .75
     fn = os.path.join(CACHE, 'pieces', 'dog_backhead.png')
     Image.fromarray(np.dstack([np.clip(rgb, 0, 1) * 255, a * 255]).astype(np.uint8), 'RGBA').save(fn)
     return {'name': 'dog_backhead', 'file': os.path.relpath(fn, FOLDER), 'origin': [0, 0], 'size': [W, H], 'scale': 1,
-            'pins': {'neck': [37, 72]}, 'palette': 'dog', 'source_print': os.path.relpath(dogf(6), ROOT),
+            'pins': {'neck': [40, 74]}, 'palette': 'dog', 'source_print': os.path.relpath(dogf(6), ROOT),
             'provenance': prov('dog', 6), 'notes': 'constructed: skull and pricked, folded-tip ears cut from the f006 saddle fur; '
             'the muzzle tip is a scrap of f046 (flopped) showing past the skull', 'op': 'constructed collage of two prints'}
 add(back_of_head())

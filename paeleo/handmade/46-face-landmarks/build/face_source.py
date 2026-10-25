@@ -21,7 +21,9 @@ LANDMARKS = {
     'half':   dict(bridge=[151, 5], nose_tip=[188, 42], upper_lip=[132, 118], mouth=[100, 140], chin=[106, 197]),
     'open':   dict(bridge=[151, 5], nose_tip=[188, 42], upper_lip=[131, 112], mouth=[78, 150], chin=[110, 197]),
 }
-PIVOT = [40, 95]          # skull pivot in source pixels (where the drawn cranium is hinged on the neck)
+PIVOT = [40, 95]
+SKIN = (198, 152, 124)   # one flat skin tone replaces the source's stripes and light bands
+INK = (40, 28, 30)          # skull pivot in source pixels (where the drawn cranium is hinged on the neck)
 ROWS = (5, 20, 40, 60, 90)   # upper-face rows used to measure registration
 
 
@@ -38,6 +40,7 @@ def main():
                       'clip_id': clip.get('clip_id'), 'rights': 'public_domain', 'label': clip.get('label'),
                       'frames_from': 'hartswf0/secondhand-motion/shots/face-sam/frames (copied to sources/face/)', 'masks': 'SAM masks.json'},
            'typology': 'caricature: a drawn cartoon profile, not a photograph of a real person',
+           'treatment': 'flattened: the source contour line (dark pixels within 4 px of the mask edge) is kept; interior bands and stripes are replaced by one skin tone; geometry untouched',
            'fit': 'similarity only (rotation, uniform scale, translation), pivot ' + str(PIVOT),
            'landmarks_method': 'hand-annotated on a 20 px grid', 'frames': {}}
     ref = None
@@ -50,7 +53,13 @@ def main():
         poly = max(masks[str(i)], key=len)
         m = Image.new('L', im.size, 0); ImageDraw.Draw(m).polygon([tuple(p) for p in poly], fill=255)
         m = m.filter(ImageFilter.MaxFilter(3)).filter(ImageFilter.GaussianBlur(0.8))
-        rgba = im.copy(); rgba.putalpha(m)
+        # flatten: the source's light bands and stripe tones go; only its outline ink near the contour stays
+        mk = np.asarray(m, float) / 255.0
+        band = (np.asarray(m.filter(ImageFilter.MaxFilter(9)), float) > 0) & (np.asarray(m.filter(ImageFilter.MinFilter(9)), float) < 255)
+        ink = (a < 92) & band
+        rgb = np.zeros(a.shape + (3,), np.uint8); rgb[...] = SKIN
+        rgb[ink] = INK
+        rgba = Image.fromarray(rgb); rgba.putalpha(m)
         fn = f'face_{state}_{i:03d}.png'; rgba.save(os.path.join(OUT, fn))
         man['frames'][fn] = dict(state=state, source_frame=f'f{i:03d}.jpg', landmarks=LANDMARKS[state], pivot=PIVOT,
                                  upper_face_edge_x=dict(zip(map(str, ROWS), rows)), registration_residual_px=round(res, 2),

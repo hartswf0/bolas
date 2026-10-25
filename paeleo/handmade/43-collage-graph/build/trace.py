@@ -13,7 +13,7 @@ frames = []
 for m in M:
     me = m['meas'] or {}
     if m['mode'] == 'whole': posture = 'turning (whole found frame)'
-    elif m['head'] == 'head_back_cut': posture = 'lying, head turned in'
+    elif m['head'] == 'head_back_f027': posture = 'lying, head turned in'
     elif m['lie'] >= 0.99: posture = 'lying' + (', head on paws' if m['nose'] and m['withers'] and m['nose'][1] > m['withers'][1] else '')
     elif m['lie'] > 0.1: posture = 'going down / getting up'
     elif m['crouch'] >= 0.5: posture = 'crouched, backing'
@@ -81,7 +81,8 @@ inv = dict(dog_fragments=dogfr, dog_sources=srcs, identity_single_source=srcs ==
            max_x_screen_per_metre_check=None)
 # end state: the threshold
 last = frames[-1]
-xl = 305 + 205 * -0.55; xr = 305 + 205 * 0.55
+import sys; sys.path.insert(0, HERE); import scene as _sc
+xl = _sc.PX(-0.55); xr = _sc.PX(0.55)
 inv['end_bbox'] = last['bbox']; inv['door_opening_px'] = [round(xl, 1), round(xr, 1)]
 inv['end_part_inside_frame_px'] = max(0, min(xr, last['bbox'][2]) - max(xl, last['bbox'][0]))
 inv['end_part_outside_frame_px'] = max(0, last['bbox'][2] - max(xr, last['bbox'][0]))

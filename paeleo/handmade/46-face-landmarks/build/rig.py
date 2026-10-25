@@ -83,8 +83,8 @@ def lying_head(t):
     toward_person = 140.0
     into_room = 232.0
     if t < 24.2: return ease(TH_DOOR, toward_person, 23.8, 24.6, t)
-    if t < 26.36: return toward_person
-    if t < 28.0: return ease(toward_person, into_room, 26.36, 26.62, t)
+    if t < 26.30: return toward_person
+    if t < 28.0: return ease(toward_person, into_room, 26.30, 26.74, t)
     return ease(into_room, 215.0, 28.0, 29.0, t)
 
 
@@ -117,6 +117,7 @@ def build():
             elev_t = (1 - rest) * (-5 + 55 * min(1.2, head)) + rest * (-62)
         elif lie > 0.5:
             elev_t = -40 - 25 * a['rest']
+        if 3.40 <= t < 4.15: elev_t = max(elev_t, 18.0)   # during the turn the head stays above the back line: never a headless body
         elev = elev_f(elev_t)
         hpitch = hp_f(-12 + 22 * min(1.2, head) - 30 * (d['state'] == 'approach') - 25 * a['rest'] * lie)
         hy = head_yaw(t, th, lying_head)
