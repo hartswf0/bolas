@@ -173,17 +173,20 @@ function drawDoor(ctx, open) { // open: 0 closed .. 1 wide
 }
 // the light that comes out: a painted pool on the porch boards and a glow in the air (compositing palette 'warm')
 function lightAmount(open) { return 0.18 + 0.82 * open; }
-function drawLight(ctx, open, flick) {
+function drawLight(ctx, open, flick) { // the light comes OUT of the doorway: a wedge spilling from the opening down onto the boards
   const a = lightAmount(open) * (0.94 + 0.06 * flick);
-  ctx.save(); ctx.globalCompositeOperation = 'screen';
-  const g = ctx.createRadialGradient(XW1, 470, 10, XW1, 470, 520 * a + 80);
-  g.addColorStop(0, `rgba(255,190,110,${0.5 * a})`); g.addColorStop(0.5, `rgba(240,150,80,${0.2 * a})`); g.addColorStop(1, 'rgba(240,150,80,0)');
-  ctx.fillStyle = g; ctx.fillRect(XW0, 160, W - XW0, 450);
   const L = 120 + 600 * a;
-  const fg = ctx.createLinearGradient(XW1, 0, XW1 + L, 0); fg.addColorStop(0, `rgba(255,212,140,${0.95 * a})`); fg.addColorStop(1, 'rgba(255,205,130,0)');
-  ctx.fillStyle = fg; ctx.beginPath(); ctx.moveTo(XW0, 590); ctx.lineTo(XW1 + L, 589); ctx.lineTo(XW1 + L, 606); ctx.lineTo(XW0, 606); ctx.closePath(); ctx.fill();
-  // the door frame catches the lamplight
-  ctx.fillStyle = `rgba(255,190,110,${0.35 * a})`; ctx.fillRect(XW0, LINTEL + 4, XW1 - XW0, 591 - LINTEL - 4);
+  ctx.save(); ctx.globalCompositeOperation = 'screen';
+  // the wedge of lit air from the opening, falling from lintel height to the boards at distance L
+  const wg = ctx.createLinearGradient(XW1, 0, XW1 + L, 0);
+  wg.addColorStop(0, `rgba(255,196,120,${0.34 * a})`); wg.addColorStop(0.55, `rgba(250,170,95,${0.12 * a})`); wg.addColorStop(1, 'rgba(250,170,95,0)');
+  ctx.fillStyle = wg; ctx.beginPath(); ctx.moveTo(XW0, LINTEL + 6); ctx.lineTo(XW1, LINTEL + 6); ctx.lineTo(XW1 + L, 604); ctx.lineTo(XW0, 604); ctx.closePath(); ctx.fill();
+  // the pool on the boards, brightest at the sill
+  const fg = ctx.createLinearGradient(XW1, 0, XW1 + L, 0); fg.addColorStop(0, `rgba(255,220,150,${1.0 * a})`); fg.addColorStop(0.4, `rgba(255,200,125,${0.6 * a})`); fg.addColorStop(1, 'rgba(255,205,130,0)');
+  ctx.fillStyle = fg; ctx.beginPath(); ctx.moveTo(XW0, 589); ctx.lineTo(XW1 + L, 588); ctx.lineTo(XW1 + L, 606); ctx.lineTo(XW0, 606); ctx.closePath(); ctx.fill();
+  // the door frame and sill catch it
+  ctx.fillStyle = `rgba(255,190,110,${0.45 * a})`; ctx.fillRect(XW0, LINTEL + 4, XW1 - XW0, 591 - LINTEL - 4);
+  ctx.fillStyle = `rgba(255,230,170,${0.8 * a})`; ctx.fillRect(sx(0.40), 589, sx(0.78) - sx(0.40), 3);
   ctx.restore();
 }
 function warmAt(xpx, open) { const a = lightAmount(open); const L = 120 + 600 * a; return xpx < XW1 ? 1 : clamp(1 - (xpx - XW1) / L) * a; }

@@ -12,7 +12,8 @@ The state per frame is assigned from measured onsets (events detected in these s
   refuse    facing leaves 'door' after the second watch began
   watch     facing returns to 'door' (the head comes round)
   approach  after 9 s: x moves toward the door (> 3 px) or the head drops (top > 8 px)
-  lie_down  centroid descends > 4 px below its level over the previous 0.25 s, after the approach
+  lie_down  start of the final descent: walking back from the first frame from which the dog's body centroid stays
+            > 10 px below its level over the previous second, for 1 s, to where that sinking began
   look_in   (not a state; reported) the back-of-head piece is drawn
 x_score is the score's x at that frame (the position the score asks for; the checker's I2 uses it), x_screen is measured."""
 import os, json
@@ -55,7 +56,11 @@ def main():
     w = [q for q in range(n) if 9 < t[q] < 14.0]
     bx = cx[w].mean(); bt = top[w].mean()
     a = next(q for q in range(n) if t[q] > 9 and (bx - cx[q] > 3 or top[q] - bt > 8)); ev['approach'] = a
-    ld = next(q for q in range(a + 24, n) if height[q] < 0.93 * np.median(height[q - 12:q]) and cy[q] > np.median(cy[q - 12:q]) + 3); ev['lie_down'] = ld
+    qe = next(q for q in range(a + 24, n) if (cy[q:q + 24] > np.median(cy[q - 24:q]) + 10).all())  # sunk >10 px below its last-second level, for >= 1 s
+    ld = qe
+    while ld > a and cy[ld - 1] < cy[ld]:
+        ld -= 1                                                  # back to the start of that last sinking
+    ev['lie_down'] = ld
     li = next((q for q in range(ld, n) if rows[q].get('head_piece') == 'back_of_head_f000'), None)
     order = [('retreat', 'retreat'), ('watch1', 'watch'), ('refuse', 'refuse'), ('watch2', 'watch'), ('approach', 'approach'), ('lie_down', 'lie_down')]
     frames = []

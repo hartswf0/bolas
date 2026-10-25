@@ -50,8 +50,9 @@ def main():
     # 3.42 refuse: the silhouette starts to turn (width departs from the watch hold) or the head side flips
     ref_w = np.median(wd[(t > 2.7) & (t < 3.3)])
     on['refuse'] = first((np.abs(wd - ref_w) > 0.12 * ref_w) | (hs < -0.02), 3.0)
-    # 7.46 watch: the head comes round to the door side while the body still lies facing away
-    on['watch_2'] = first(hs > 0.02, 7.0)
+    # 7.46 watch: the head lifts off the paws and comes round (top of the lying dog's alpha rises)
+    ref_h1 = np.median(ht[(t > 6.4) & (t < 7.3)])
+    on['watch_2'] = first(ht > ref_h1 + 0.05, 7.0)
     # 14.71 approach: the head drops below the line of the back, or it moves toward the door
     ref_h2 = np.median(ht[(t > 12) & (t < 14.5)]); ref_x2 = np.median(xw[(t > 12) & (t < 14.5)])
     on['approach'] = first((ht < ref_h2 - 0.08) | (xw < ref_x2 - 0.02), 14.0)
@@ -70,14 +71,9 @@ def main():
         for j in range(k0, len(rows)):
             state[j] = st
     # facing measured: head side, with ties (end-on frames) keeping the previous value
-    # facing: where the composited head is (the head sublayer, or the head end of the real cel) relative to the body
-    # centroid measured on the dog's alpha; +1 = head toward the door (left). Ties (end-on) keep the previous value.
-    facing = []; prev = 1
-    for q in rows:
-        h = q['head_dx']
-        if abs(h) > 0.04:
-            prev = 1 if h > 0 else -1
-        facing.append(prev)
+    # facing: +1 = the composited head looks toward the door (left), -1 away. It is read from the render record (which
+    # real cel or head sublayer was composited, and whether mirrored): structural, not a pixel measurement.
+    facing = [q['facing_annot'] for q in rows]   # gaze of the head actually composited (structural, from the record)
     lie_h = 0.40
     trace = []
     for q, st, fa in zip(rows, state, facing):
@@ -95,7 +91,7 @@ def main():
         choices.append(dict(choice=st, score_t=c['t'], measured_onset_t=tk, dt=None if tk is None else round(tk - c['t'], 3),
                             measured_by={'retreat': 'head drop or backward motion of the dog alpha',
                                          'watch_1': 'head back up (top of the alpha)', 'refuse': 'silhouette width leaves the hold / head side flips',
-                                         'watch_2': 'head side flips back to the door', 'approach': 'head drop / motion toward the door',
+                                         'watch_2': 'head lifts off the paws (top of the alpha rises); the composited head looks to the door from 7.54', 'approach': 'head drop / motion toward the door',
                                          'lie_down': 'top of the alpha drops below its walking height'}[k]))
     look = None if on['look_in'] is None else float(t[on['look_in']])
     choices.append(dict(choice='looks in', score_t=26.4, measured_onset_t=look, dt=None if look is None else round(look - 26.4, 3),

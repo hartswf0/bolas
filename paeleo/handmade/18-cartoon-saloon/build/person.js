@@ -71,9 +71,14 @@ function drawArm(ctx, toS, sh, hand, near, line, fill, palmUp) {
     L.push([segs[i][0] - ty * ws[i] / 2, segs[i][1] + tx * ws[i] / 2]); R.push([segs[i][0] + ty * ws[i] / 2, segs[i][1] - tx * ws[i] / 2]);
   }
   ink(ctx, crSample([...L, ...R.reverse()], true, 5).map(toS), { fill, line, lw: 1.9, seed: 220 + near, tex: 2 });
-  // hand: a mitten with a thumb, palm up when offered low
-  const dir = Math.atan2(hand[1] - elbow[1], hand[0] - elbow[0]);
-  const hp = [[0, -2.4], [5.5, -2.2], [7.5, 0], [5.5, 2.2], [1, 2.6], [2.5, palmUp ? -4 : 4.6], [-1, 2.8]].map(p => { const c = Math.cos(dir), s2 = Math.sin(dir); return [hand[0] + p[0] * c - p[1] * s2, hand[1] + p[0] * s2 + p[1] * c]; });
-  ink(ctx, crSample(hp, true, 5).map(toS), { fill: PAL.skin, line: PAL.skinLine, lw: 1.6, seed: 230 + near, tex: null });
+  // hand: when offered low it is an open palm, turned up and held level toward the dog, with a pale cuff so it reads apart from the sleeve
+  let dir = Math.atan2(hand[1] - elbow[1], hand[0] - elbow[0]);
+  const sc = palmUp ? 1.55 : 1;
+  if (palmUp) dir = dir * 0.25;
+  const shape = palmUp ? [[-1, -2.4], [4, -3], [9, -2.6], [12, -1.4], [12.6, 0.2], [9.4, 0.7], [9.8, 1.9], [6.2, 1.5], [3.4, 4.2], [1.4, 2.4], [-1, 2.4]]
+                       : [[0, -2.4], [5.5, -2.2], [7.5, 0], [5.5, 2.2], [1, 2.6], [2.5, 4.6], [-1, 2.8]];
+  const rot = p => { const c = Math.cos(dir), s2 = Math.sin(dir); return [hand[0] + sc * (p[0] * c - p[1] * s2), hand[1] + sc * (p[0] * s2 + p[1] * c)]; };
+  ink(ctx, crSample(shape.map(rot), true, 5).map(toS), { fill: PAL.skin, line: PAL.skinLine, lw: 1.7, seed: 230 + near, tex: null });
+  if (palmUp) brush(ctx, [[-1.5, -3], [-1.2, 3]].map(rot).map(toS), false, 3, '#efd9ad', 232);
 }
 if (typeof window !== 'undefined') Object.assign(window, { drawPerson, personX });

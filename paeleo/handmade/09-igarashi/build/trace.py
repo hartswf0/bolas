@@ -36,12 +36,14 @@ top_retreat = np.mean(y0[(t > 1.5) & (t < 2.2)])
 base_app = np.median(cx[(t > 13) & (t < 14.5)])
 top_app = np.median(y0[(t > 22.5) & (t < 23.7)])
 on = {}
-on['retreat'] = first(lambda i: cx[i] > base + 1.5, 0.5)                                   # starts to move away from the door
+wy = np.array([m['meas']['withers'][1] for m in M]); wbase = np.median(wy[(t > 0.1) & (t < 0.9)])
+on['retreat'] = first(lambda i: cx[i] > base + 1.5 or wy[i] > wbase + 2, 0.5)             # flinches down or moves away from the door
 on['watch_1'] = first(lambda i: y0[i] < top_retreat - 3, 2.0)                              # stops cowering: the back rises
 on['refuse'] = first(lambda i: facing[i] == -1, 3.0)                                       # the rendered muzzle turns away
 on['watch_2'] = first(lambda i: facing[i] == 1, 5.0)                                       # the muzzle comes round to the door
 on['approach'] = first(lambda i: cx[i] < base_app - 1.5, 13.0)                             # starts toward the door
-on['lie_down'] = first(lambda i: y0[i] > top_app + 4, 23.0)                                # the back goes down at the sill
+wapp = np.median(wy[(t > 22.5) & (t < 23.7)])
+on['lie_down'] = first(lambda i: wy[i] > wapp + 4, 23.0)                                   # the withers go down at the sill
 on['look_in'] = first(lambda i: heads[i] == 'head_back' and bodies[i] == 'dog_lie', 25.0)  # the back of its head toward us, muzzle into the room
 score_t = {'retreat': 1.0, 'watch_1': 2.333, 'refuse': 3.417, 'watch_2': 7.458, 'approach': 14.708, 'lie_down': 23.792, 'look_in': 26.4}
 onsets = {k: {'score_t': score_t[k], 'measured_t': None if v is None else round(float(t[v]), 3), 'frame': v,

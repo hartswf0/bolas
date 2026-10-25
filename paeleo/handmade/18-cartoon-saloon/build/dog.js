@@ -138,10 +138,13 @@ function drawDog(ctx, P) {
   const toeDir = toeDirOf(fam);
   const tint = P.tint || null;
 
+  const rvFront = fam === 'RV';
   function drawLegs(nearPass) {
     for (const g of legs) {
-      if ((g.near ? 1 : 0) !== nearPass) continue;
-      const len = g.fore ? D.legs.len.fore : D.legs.len.hind, w = g.fore ? D.legs.width.fore : D.legs.width.hind;
+      const pass = rvFront && g.near && !g.fore ? 2 : (g.near ? 1 : 0); // in the rear view the hind legs stand in front of the rump
+      if (pass !== nearPass) continue;
+      const cs = 1 - 0.24 * (P.crouch || 0) * (fam === 'L' ? 1 : 0); // a cowering dog folds its legs under, it does not splay them
+      const len = (g.fore ? D.legs.len.fore : D.legs.len.hind).map(v => v * cs), w = g.fore ? D.legs.width.fore : D.legs.width.hind;
       const side = (g.fore ? 1 : -1) * (fam === 'Q2' ? -1 : 1);
       const foot = [g.foot[0], g.foot[1] + g.lift];
       const knee = ik(g.root, [foot[0], foot[1] + 3.2], len[0], len[1], side, g.depth);
@@ -183,7 +186,7 @@ function drawDog(ctx, P) {
   if (!pivot) {
     const h = P.h;
     const offL = h < 0.5 ? lp([-14, -14], [-13, 3], h / 0.5) : lp([-13, 3], [-8, 15], (h - 0.5) / 0.5);
-    const offQ = lp([-5, -6], [-6, 8], h), offR = lp([0, -4], [0, 8], h);
+    const offQ = lp([-5, -6], [-6, 8], h), offR = lp([0, 3], [0, 10], h); // the rear view keeps the head and neck above the shoulders
     const offOf = f => f === 'L' ? offL : f === 'Q1' ? offQ : f === 'Q2' ? [-offQ[0], offQ[1]] : offR;
     const o = lp(offOf(famA), offOf(famB), t);
     pivot = [nk[0] + o[0], nk[1] + o[1]];
@@ -241,6 +244,7 @@ function drawDog(ctx, P) {
   if (headFront) drawNeck();
   drawLegs(1);
   drawTorso();
+  drawLegs(2);
   if (tailFront) geo.tail = drawTail();
   if (headFront) drawHead();
   geo.fam = fam; geo.root = root;

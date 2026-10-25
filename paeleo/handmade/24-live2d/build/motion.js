@@ -83,12 +83,13 @@
       const B = bodyAt(t);
       const pose = Object.assign({}, B);
       pose.headYaw = A.headYaw(t);
-      pose.headPitch = A.headPitch(t) - 6 * a.rest;
+      pose.headPitch = A.headPitch(t);
       pose.headRoll = A.headRoll(t);
       let hsc = a.head;
-      if (t >= 25.9 && t < 26.6) { const h0 = F[Math.round(25.9 * FPS)].dog.act.head; hsc = t < 26.42 ? h0 : lerp(h0, a.head, smooth(26.42, 26.6, t)); }
+      let rsc = a.rest;
+      if (t >= 25.9 && t < 26.85) { const a0 = F[Math.round(25.9 * FPS)].dog.act, u = t < 26.42 ? 0 : smooth(26.42, 26.85, t); hsc = lerp(a0.head, a.head, u); rsc = lerp(a0.rest, a.rest, u); }
       pose.neck = neckFromScore(hsc);
-      pose.rest = a.rest;
+      pose.rest = rsc; pose.headPitch -= 6 * rsc;
       pose.eyeX = A.eyeX(t); pose.eyeY = A.eyeY(t);
       const wide = pulse(t, 1.0, 0.05, 0.5, 0.6) * 0.18 + pulse(t, 3.42, 0.04, 0.4, 0.5) * 0.2 + pulse(t, 26.44, 0.06, 0.6, 0.6) * 0.12;
       const sleepy = a.lie * (d.state === 'refuse' ? 0.22 : 0) + smooth(28.8, 31, t) * 0.3;

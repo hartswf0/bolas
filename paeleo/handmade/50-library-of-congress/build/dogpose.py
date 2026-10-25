@@ -35,7 +35,7 @@ def ik(hip, target, l1, l2, bend):
 # gait: lateral-sequence walk; offsets per leg (fraction of a cycle), duty factor
 GAIT = {'hind_near': 0.0, 'fore_near': 0.25, 'hind_far': 0.5, 'fore_far': 0.75}
 DUTY = 0.62
-STRIDE = 0.62 * 132.0   # local px per cycle (0.62 m)
+STRIDE = 0.46 * 132.0   # local px per cycle (0.46 m)
 LIFT = 7.0
 
 def solve(p):
@@ -44,7 +44,7 @@ def solve(p):
     lie, crouch = p['lie'], p['crouch']
     out = {}
     # torso: drops with crouch and lie; crouch tips the rump down a little
-    drop = crouch * 9.0 + lie * 41.0 + 0.8 * p.get('breath', 0.0) * (1 - min(1, p.get('moving', 0)))
+    drop = crouch * 9.0 + lie * 41.0 + 5.5 * min(1, p.get('moving', 0)) * (1 - lie) + 0.8 * p.get('breath', 0.0) * (1 - min(1, p.get('moving', 0)))
     pitch = math.radians(crouch * 5.0 * (1 - lie))   # positive = clockwise: front up / rump down for a left-facing dog
     tp = tuple(RIG['torso']['pivot'])
     tnew = (tp[0], tp[1] + drop)

@@ -25,8 +25,8 @@ function viewU(t) {
 function lieAt(t) { return t < 10 ? key(t, [[4.2, 0], [4.85, 1], [7.58, 1], [8.08, 0]]) : key(t, [[23.72, 0], [24.4, 1]]); }
 
 function initGait() { // feet planted on the boards: stance feet never move in the world; swing feet land ahead
-  const F = SCORE.frames, stride = 0.40, beta = 0.62;
-  const home = [-22, -18, 23, 19], off = [0.25, 0.75, 0, 0.5], far = [0, 1.5, 0, 1.5];
+  const F = SCORE.frames, stride = 0.34, beta = 0.62;
+  const home = [-20, -16, 20, 16], off = [0.25, 0.75, 0, 0.5], far = [0, 1.5, 0, 1.5];
   GAIT = []; EVENTS = [];
   let Dist = 0, wasFree = false; const plant = [0, 0, 0, 0], start = [0, 0, 0, 0], tgt = [0, 0, 0, 0], last = [0, 0, 0, 0], prevP = off.slice();
   for (let i = 0; i < F.length; i++) {
@@ -76,7 +76,7 @@ function dogPose(i) {
     P.brow = key(t, [[1.0, 0], [1.2, 1], [2.4, 1], [2.8, 0.3]]);
     P.T = A.tail; P.bob = breathe * (1 - A.moving);
   } else if (t < 8.6) { // refusal: turned back, lies down with its back to the door; then turns back to look
-    P.T = key(t, [[3.42, 0.8], [3.9, 1.05], [7.46, 1.0], [7.7, 0.6], [8.6, 0.45]]);
+    P.T = key(t, [[3.42, 0.8], [3.9, 1.05], [7.46, 1.0], [8.25, 0.95], [8.6, 0.45]]);
     P.ear = key(t, [[3.46, 0.1], [4.8, 0.15], [6.2, 0.15], [6.3, 0.55], [6.55, 0.2], [7.05, 0.25], [7.2, 0.6], [7.4, 0.45], [7.5, 0.9]]);
     P.h = key(t, [[3.46, 0.3], [3.9, 0.2], [5.4, 0.15], [6.0, 0.0]]);
     P.pitch = key(t, [[3.46, 14], [4.2, 16], [6.0, 22]]);
@@ -168,7 +168,7 @@ function renderScene(i) {
   id(); ctx.drawImage(L.ext, 0, 0); cam(); drawStars(ctx, t);
   id(); ctx.drawImage(L.int, 0, 0); cam();
   const flick = drawHearth(ctx, t);
-  ctx.fillStyle = `rgba(16,12,36,${0.30 * (1 - open)})`; ctx.fillRect(0, 150, XW0, 460); // the room before the door opens is dim
+  ctx.fillStyle = `rgba(14,10,32,${0.5 * clamp((1 - open) / 0.78)})`; ctx.fillRect(0, 150, XW0, 460); // the room before the door opens is dim
   ctx.save(); ctx.globalCompositeOperation = 'screen'; ctx.fillStyle = `rgba(255,170,90,${0.13 * open})`; ctx.fillRect(-10, 150, XW0 + 10, 460); ctx.restore();
   drawDoor(ctx, open);
   id(); ctx.drawImage(L.arch, 0, 0); cam();

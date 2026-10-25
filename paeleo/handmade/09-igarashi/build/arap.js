@@ -19,6 +19,7 @@
       const nt = T.length;
       this.T = new Int32Array(3 * nt); for (let t = 0; t < nt; t++) for (let k = 0; k < 3; k++) this.T[3 * t + k] = T[t][k];
       this.W = Float64Array.from(mesh.weight);
+      this.feat = Uint8Array.from(mesh.weight, w => (w > 1 ? 1 : 0)); // the feature-protect mask as authored
       this.C = new Float64Array(3 * nt); // cot weight for edge opposite vertex k, edge = (k+1, k+2)
       const P = this.P;
       for (let t = 0; t < nt; t++) {
@@ -187,7 +188,7 @@
           const rx = co * ex - si * ey, ry = si * ex + co * ey;
           e += cc * ((fx - rx) ** 2 + (fy - ry) ** 2); e0 += cc * (ex * ex + ey * ey);
         }
-        if (this.W[t] > 1) {
+        if (this.feat[t]) {
           // Jacobian J = [u v][p q]^-1, singular values
           const det = px * qy - py * qx;
           const j00 = (ux * qy - vx * py) / det, j01 = (vx * px - ux * qx) / det, j10 = (uy * qy - vy * py) / det, j11 = (vy * px - uy * qx) / det;

@@ -9,6 +9,9 @@ python3 world.py              # pl. I: the section of the house and porch, the d
 python3 person.py             # fig. 2: drawn figure, hand after Door to Heaven f000
 python3 render.py --stills    # 912 frames → cache/video.mp4, measure.json, events.json, stills/
 python3 trace.py              # trace.json from the measured dog layer
+python3 feet.py               # proof/feet.json: stance-foot slide
+python3 assets.py             # assets.json
+python3 source_sheet.py       # proof/source_sheet.jpg
 python3 sound.py              # cache/audio.wav and sound.json, from the logged events
 ffmpeg -y -loglevel error -i cache/video.mp4 -i cache/audio.wav -c:v copy -c:a aac -b:a 160k -movflags +faststart -shortest "$F/film.mp4"
 python3 "$F/../../../tools/paeleo/check_handmade.py" "$F"

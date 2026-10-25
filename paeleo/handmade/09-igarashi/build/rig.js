@@ -189,10 +189,10 @@
         const hp = HP('dog_rear'); H = {};
         for (const k of Object.keys(hp)) H[k] = hp[k].slice();
         let low = 0;
-        if (!sg.lookback) low = 20 * win(t, 4.35, 4.75);          // starts to sit
-        else low = 20 * (1 - win(t, 7.75, 7.95));                  // rising from the sit
+        if (!sg.lookback) low = 10 * win(t, 4.35, 4.75);          // starts to sit
+        else low = 10 * (1 - win(t, 7.75, 7.95));                  // rising from the sit
         const settle = sg.lookback ? 0 : 8 * Math.exp(-(t - (T_REFUSE + 0.21)) * 9) * Math.cos((t - (T_REFUSE + 0.21)) * 26);
-        for (const k of ['hip', 'belly']) H[k][1] += low;
+        H.hip[1] += low;
         H.back[1] += low * 0.5 + settle * 0.3; H.withers[1] += settle; H.socket[1] += settle + 6;
         H.tail_tip = add(hp.tail_tip, [0, low * 0.3]);
         headPitch = 0; headOff = [12, 24]; headScale = 0.8;
