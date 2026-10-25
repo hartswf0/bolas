@@ -179,8 +179,10 @@ function drawLight(ctx, open, flick) { // the light comes OUT of the doorway: a 
   ctx.save(); ctx.globalCompositeOperation = 'screen';
   // the wedge of lit air from the opening, falling from lintel height to the boards at distance L
   const wg = ctx.createLinearGradient(XW1, 0, XW1 + L, 0);
-  wg.addColorStop(0, `rgba(255,196,120,${0.34 * a})`); wg.addColorStop(0.55, `rgba(250,170,95,${0.12 * a})`); wg.addColorStop(1, 'rgba(250,170,95,0)');
+  wg.addColorStop(0, `rgba(255,196,120,${0.30 * a})`); wg.addColorStop(0.5, `rgba(250,170,95,${0.09 * a})`); wg.addColorStop(1, 'rgba(250,170,95,0)');
+  ctx.filter = `blur(${7 * CAM.z}px)`; // a soft edge to the lit air
   ctx.fillStyle = wg; ctx.beginPath(); ctx.moveTo(XW0, LINTEL + 6); ctx.lineTo(XW1, LINTEL + 6); ctx.lineTo(XW1 + L, 604); ctx.lineTo(XW0, 604); ctx.closePath(); ctx.fill();
+  ctx.filter = 'none';
   // the pool on the boards, brightest at the sill
   const fg = ctx.createLinearGradient(XW1, 0, XW1 + L, 0); fg.addColorStop(0, `rgba(255,220,150,${1.0 * a})`); fg.addColorStop(0.4, `rgba(255,200,125,${0.6 * a})`); fg.addColorStop(1, 'rgba(255,205,130,0)');
   ctx.fillStyle = fg; ctx.beginPath(); ctx.moveTo(XW0, 589); ctx.lineTo(XW1 + L, 588); ctx.lineTo(XW1 + L, 606); ctx.lineTo(XW0, 606); ctx.closePath(); ctx.fill();

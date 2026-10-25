@@ -1,10 +1,10 @@
 // 2-D drawing primitives for projected capsules. A capsule = two discs and their outer tangents.
 import type {V3} from '../lib/math.ts';
-import {project} from '../lib/camera.ts';
+import {project, CAM} from '../lib/camera.ts';
 export type Cap2 = {x1: number; y1: number; r1: number; x2: number; y2: number; r2: number; depth: number};
 export const cap2 = (a: V3, ra: number, b: V3, rb: number, grow = 0): Cap2 => {
   const p = project(a), q = project(b);
-  return {x1: p[0], y1: p[1], r1: ra * 1500 / p[2] + grow, x2: q[0], y2: q[1], r2: rb * 1500 / q[2] + grow, depth: (p[2] + q[2]) / 2};
+  return {x1: p[0], y1: p[1], r1: ra * CAM.focal / p[2] + grow, x2: q[0], y2: q[1], r2: rb * CAM.focal / q[2] + grow, depth: (p[2] + q[2]) / 2};
 };
 const f = (v: number) => v.toFixed(1);
 export const capPath = (c: Cap2) => {

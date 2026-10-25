@@ -127,7 +127,7 @@ def build(name, png, m, layer=None):
         names = [(k, p) for k, p in names if k not in ('elbow', 'hand')]
     for k, p in names:
         d = np.hypot(V[:, 0] - p[0], V[:, 1] - p[1])
-        r = max(c * 1.6, 1.0)
+        r = c * 4.0 if (m['kind'] == 'person' and k == 'head') else max(c * 1.6, 1.0)  # the person's head moves as one piece
         idx = np.where(d <= r)[0]
         if len(idx) == 0:
             idx = [int(d.argmin())]

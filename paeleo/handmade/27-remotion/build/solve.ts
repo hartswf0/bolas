@@ -10,7 +10,7 @@ import type {V3} from './src/lib/math.ts';
 import {clamp, lerp, ramp, keyed, smooth, vnoise, deg} from './src/lib/math.ts';
 import {FOOT_LOCAL, FOOT_LIE, toWorld} from './src/lib/dogRig.ts';
 import {WORLD, doorAngle} from './src/lib/world.ts';
-import {project} from './src/lib/camera.ts';
+import {project, setCameraTime} from './src/lib/camera.ts';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(HERE, '../../../..');
@@ -180,7 +180,7 @@ for (let i = 1; i < N; i++) {
 events.push({t: 28.3, kind: 'sigh'});
 // stereo position of each dog sound = where the dog is on screen
 for (const e of events) if (['paw', 'body_down', 'sigh', 'tail_thump'].includes(e.kind)) {
-  const f = frames[Math.min(N - 1, Math.round(e.t * FPS))];
+  const f = frames[Math.min(N - 1, Math.round(e.t * FPS))]; setCameraTime(f.t);
   e.pan = +clamp((project([f.dog.X, 0.3, f.dog.Z])[0] / 640 - 1) * 0.8, -0.8, 0.8).toFixed(2);
 }
 events.sort((a, b) => a.t - b.t);

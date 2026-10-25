@@ -10,11 +10,11 @@
   },
   "dog_body": {
    "frames": 768,
-   "inverted_frames": 5,
-   "max_inverted": 42,
-   "max_energy": 0.1139,
-   "max_feature_distortion": 3.2501,
-   "min_area_ratio": -4.3203
+   "inverted_frames": 0,
+   "max_inverted": 0,
+   "max_energy": 0.0465,
+   "max_feature_distortion": 0,
+   "min_area_ratio": 0.0035
   },
   "person_arm": {
    "frames": 768,
@@ -29,13 +29,13 @@
    "inverted_frames": 0,
    "max_inverted": 0,
    "max_energy": 0.0062,
-   "max_feature_distortion": 0.9211,
+   "max_feature_distortion": 0.0096,
    "min_area_ratio": 0.0039
   }
  },
  "frame_ms": {
-  "mean": 122.2,
-  "p95": 215.7,
+  "mean": 128.2,
+  "p95": 242.3,
   "note": "rig + ARAP solve of every piece + full compositing per frame, headless Chromium with SwiftShader (no GPU)"
  },
  "head_low_share_of_approach": 1.0,

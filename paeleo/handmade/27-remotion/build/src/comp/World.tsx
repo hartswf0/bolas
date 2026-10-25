@@ -3,7 +3,7 @@ import React from 'react';
 import {random} from 'remotion';
 import type {V3} from '../lib/math.ts';
 import {lerp, clamp} from '../lib/math.ts';
-import {project, p2, pathOf, W, H, CAM} from '../lib/camera.ts';
+import {project, p2, pathOf, W, H, CAM, farShift} from '../lib/camera.ts';
 import {WORLD} from '../lib/world.ts';
 import {spillPoly} from '../lib/light.ts';
 import {mixc} from './draw.tsx';
@@ -30,12 +30,13 @@ const horizonY = () => {
   const far: V3 = [CAM.pos[0] - 400, CAM.pos[1], CAM.pos[2] - 760];
   return p2(far)[1];
 };
+const FarG: React.FC<{children: React.ReactNode}> = ({children}) => { const [dx, dy] = farShift(); return <g transform={`translate(${dx.toFixed(1)},${dy.toFixed(1)})`}>{children}</g>; };
 
 export const Sky: React.FC<{t: number}> = ({t}) => {
   const k = clamp(t / 32);
   const top = mixc('#27305a', '#131733', k), mid = mixc('#5a4f78', '#2b2c52', k), low = mixc('#d08a68', '#8c5a5e', k);
-  const hy = horizonY();
-  const stars = Array.from({length: 60}, (_, i) => ({x: random('star-x-' + i) * W, y: random('star-y-' + i) * hy * 0.85,
+  const hy = horizonY(), hyF = hy - farShift()[1];
+  const stars = Array.from({length: 60}, (_, i) => ({x: random('star-x-' + i) * W * 1.3 - W * 0.15, y: random('star-y-' + i) * hyF * 0.85,
     r: 0.6 + random('star-r-' + i) * 1.1, on: random('star-on-' + i) * 26 + 3}));
   return (
     <g>
@@ -45,26 +46,26 @@ export const Sky: React.FC<{t: number}> = ({t}) => {
         </linearGradient>
       </defs>
       <rect width={W} height={H} fill="url(#sky)"/>
-      {stars.map((s, i) => <circle key={i} cx={s.x} cy={s.y} r={s.r} fill="#f4f0e0" opacity={clamp((t - s.on) / 4) * 0.8}/>)}
+      <FarG>{stars.map((s, i) => <circle key={i} cx={s.x} cy={s.y} r={s.r} fill="#f4f0e0" opacity={clamp((t - s.on) / 4) * 0.8}/>)}
       {/* a low moon over the yard */}
-      <circle cx={1120} cy={hy - 175} r={17} fill="#efe6cf" opacity={0.85}/>
-      <circle cx={1127} cy={hy - 179} r={16} fill={mid} opacity={0.92}/>
+      <circle cx={1120} cy={hyF - 175} r={17} fill="#efe6cf" opacity={0.85}/>
+      <circle cx={1127} cy={hyF - 179} r={16} fill={mid} opacity={0.92}/></FarG>
     </g>
   );
 };
 
 export const Yard: React.FC<{t: number}> = ({t}) => {
-  const hy = horizonY();
+  const hy = horizonY(), hyF = hy - farShift()[1];
   // tree line: seeded silhouettes on the horizon (Remotion's deterministic random)
-  const crowns = Array.from({length: 46}, (_, k) => ({x: k * 29 + random('tx-' + k) * 20, r: 18 + random('tr-' + k) * 26,
+  const crowns = Array.from({length: 60}, (_, k) => ({x: k * 29 - 300 + random('tx-' + k) * 20, r: 18 + random('tr-' + k) * 26,
     h: 18 + random('th-' + k) * 40 + 30 * Math.pow(Math.abs(Math.sin(k * 0.37 + 1.1)), 2)}));
   const ground = mixc('#262a2c', '#15181c', clamp(t / 32));
   return (
     <g>
-      <g fill={mixc('#1b1e2a', '#0f101a', clamp(t / 32))}>
-        {crowns.map((c, k) => <g key={k}><circle cx={c.x} cy={hy - c.h} r={c.r}/><circle cx={c.x + c.r * 0.6} cy={hy - c.h * 0.7} r={c.r * 0.8}/>
-          <rect x={c.x - c.r} y={hy - c.h} width={c.r * 2.2} height={c.h + 2}/></g>)}
-      </g>
+      <FarG><g fill={mixc('#1b1e2a', '#0f101a', clamp(t / 32))}>
+        {crowns.map((c, k) => <g key={k}><circle cx={c.x} cy={hyF - c.h} r={c.r}/><circle cx={c.x + c.r * 0.6} cy={hyF - c.h * 0.7} r={c.r * 0.8}/>
+          <rect x={c.x - c.r} y={hyF - c.h} width={c.r * 2.2} height={c.h + 2}/></g>)}
+      </g></FarG>
       <rect x={0} y={hy} width={W} height={H - hy} fill={ground}/>
     </g>
   );

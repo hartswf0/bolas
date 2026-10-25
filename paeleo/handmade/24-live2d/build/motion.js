@@ -55,11 +55,23 @@
 
   // camera (staging): a closer two-shot for the calls and the refusal, the room revealed as she sits and the door opens,
   // a portrait of the dog while it considers, wide for the approach, in to the sill for the end
-  const CAM = {
-    zoom: track([[0, 1.2], [4.9, 1.2], [6.4, 1.0], [8.9, 1.0], [10.3, 2.9], [13.5, 2.9], [14.6, 1.0], [24.1, 1.0], [26.2, 1.75], [32, 1.75]]),
-    cx: track([[0, 2.0], [4.9, 2.0], [6.4, 1.504], [8.9, 1.504], [10.3, 3.74], [13.5, 3.74], [14.6, 1.504], [24.1, 1.504], [26.2, 0.02], [32, 0.02]]),
-    cy: track([[0, 0.97], [4.9, 0.97], [6.4, 0.851], [8.9, 0.851], [10.3, 0.6], [13.5, 0.6], [14.6, 0.851], [24.1, 0.851], [26.2, 0.8], [32, 0.8]]),
-  };
+  const CAM_KEYS = [[0, 1.2, 1.85, 0.97], [4.9, 1.2, 1.85, 0.97], [6.4, 1.0, 1.504, 0.851], [8.9, 1.0, 1.504, 0.851], [10.3, 2.9, 3.74, 0.6], [13.4, 2.9, 3.74, 0.6],
+    [14.7, 1.0, 1.504, 0.851], [24.1, 1.0, 1.504, 0.851], [26.2, 1.75, 0.02, 0.8], [32, 1.75, 0.02, 0.8]];
+  // each move is a zoom about the one point that keeps its place on screen (log-zoom, smooth in-out), so nothing drifts out mid-move
+  function camAt(t) {
+    const K = CAM_KEYS; if (t <= K[0][0]) return K[0].slice(1);
+    for (let i = 0; i < K.length - 1; i++) {
+      const [t0, z0, x0, y0] = K[i], [t1, z1, x1, y1] = K[i + 1];
+      if (t > t1) continue;
+      let u = (t - t0) / (t1 - t0); u = u * u * (3 - 2 * u);
+      if (Math.abs(z1 - z0) < 1e-6) return [z0, lerp(x0, x1, u), lerp(y0, y1, u)];
+      const z = z0 * Math.pow(z1 / z0, u);
+      const px = (x1 * z1 - x0 * z0) / (z1 - z0), py = (y1 * z1 - y0 * z0) / (z1 - z0);
+      return [z, px - (px - x0) * z0 / z, py - (py - y0) * z0 / z];
+    }
+    return K[K.length - 1].slice(1);
+  }
+  const CAM = { zoom: t => camAt(t)[0], cx: t => camAt(t)[1], cy: t => camAt(t)[2], keys: CAM_KEYS };
   function create(score) {
     const F = score.frames;
     const N = F.length;

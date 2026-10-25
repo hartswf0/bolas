@@ -23,7 +23,7 @@ FR = SCORE['frames']
 META = json.load(open(os.path.join(HERE, 'cache/cels/cels.json')))
 OX, OY = 60, 20                      # local canvas offset so rotated parts never clip
 CANVAS = (384 + 2 * OX, 288 + OY + 20)
-P_SRC = 170.0                        # archive-dog source px per metre (shoulder ~0.62 m = ~105 px)
+P_SRC = 152.0                        # archive-dog source px per metre (a big dog: shoulder ~0.70 m = ~105 px)
 FLOOR = 205                          # source foot line used by the rig poses
 CENTER_OFFSET = 0.14                 # world body centre = score x - 0.14 (so x = 0.59 lays the loin under the jamb)
 
