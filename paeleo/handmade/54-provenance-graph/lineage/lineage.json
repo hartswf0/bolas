@@ -427,45 +427,6 @@
    "tags": "inferred",
    "type": "drawn"
   },
-  "d_3f78ca80a3e7ca8d": {
-   "data": {
-    "stops": [
-     [
-      0.0,
-      [
-       8,
-       6,
-       10
-      ]
-     ],
-     [
-      0.6,
-      [
-       26,
-       18,
-       22
-      ]
-     ],
-     [
-      1.0,
-      [
-       60,
-       42,
-       40
-      ]
-     ]
-    ]
-   },
-   "id": "d_3f78ca80a3e7ca8d",
-   "kind": "source",
-   "name": "ramp silhouette",
-   "note": "near-black with a lamp-warm lift",
-   "parents": [],
-   "rights": "self-made",
-   "sha256": "3f78ca80a3e7ca8d01b9ae945e74a8bb8e5f85311312e079a933ac47cb1ce526",
-   "tags": "inferred",
-   "type": "drawn"
-  },
   "d_426ad837f194a296": {
    "data": {
     "shapes": [
@@ -5092,6 +5053,45 @@
    "tags": "inferred",
    "type": "drawn"
   },
+  "d_c158e02341d96d61": {
+   "data": {
+    "stops": [
+     [
+      0.0,
+      [
+       6,
+       5,
+       8
+      ]
+     ],
+     [
+      0.6,
+      [
+       15,
+       11,
+       14
+      ]
+     ],
+     [
+      1.0,
+      [
+       32,
+       24,
+       26
+      ]
+     ]
+    ]
+   },
+   "id": "d_c158e02341d96d61",
+   "kind": "source",
+   "name": "ramp silhouette",
+   "note": "near-black with a lamp-warm lift",
+   "parents": [],
+   "rights": "self-made",
+   "sha256": "c158e02341d96d6161a003c3ec658e2c0a8facf54b433ce1de1adb6e575c7095",
+   "tags": "inferred",
+   "type": "drawn"
+  },
   "d_df156160459fb804": {
    "data": {
     "stops": [
@@ -6761,30 +6761,6 @@
    "size": [
     384,
     288
-   ],
-   "tags": "inferred"
-  },
-  "n_32e76bb528c1512b": {
-   "id": "n_32e76bb528c1512b",
-   "kind": "derivative",
-   "label": null,
-   "op": "recolor",
-   "op_sig": "5be5bda71df81f9d",
-   "op_version": 1,
-   "params": {
-    "gain": 1.0,
-    "lift": 0.0
-   },
-   "parents": [
-    "n_b505709818837305",
-    "d_3f78ca80a3e7ca8d"
-   ],
-   "recipe": false,
-   "rights": "public_domain",
-   "sha256": "32e76bb528c1512b09e427a73fd9005243115e51e35032006dd3501c31e41fd4",
-   "size": [
-    134,
-    276
    ],
    "tags": "inferred"
   },
@@ -9320,6 +9296,30 @@
    "size": [
     104,
     288
+   ],
+   "tags": "inferred"
+  },
+  "n_87fcab39c62d2455": {
+   "id": "n_87fcab39c62d2455",
+   "kind": "derivative",
+   "label": null,
+   "op": "recolor",
+   "op_sig": "5be5bda71df81f9d",
+   "op_version": 1,
+   "params": {
+    "gain": 1.0,
+    "lift": 0.0
+   },
+   "parents": [
+    "n_b505709818837305",
+    "d_c158e02341d96d61"
+   ],
+   "recipe": false,
+   "rights": "public_domain",
+   "sha256": "87fcab39c62d2455dc56262742ef88a3bd9b3633f70e3a1922e91051ad996a6a",
+   "size": [
+    134,
+    276
    ],
    "tags": "inferred"
   },
@@ -13708,7 +13708,7 @@
      272
     ],
     "m_per_px": 0.003359375,
-    "node": "n_32e76bb528c1512b",
+    "node": "n_87fcab39c62d2455",
     "origin": [
      194,
      12

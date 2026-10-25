@@ -86,7 +86,7 @@ def main():
             r = 4 if src else 2.5
             col = (236, 200, 150, int(220 * a)) if src else (180, 170, 210, int(150 * a))
             d.ellipse([x - r, y - r, x + r, y + r], fill=col)
-        d.text((720, 40), 'the dog’s lineage: sources → mattes → cuts → pieces', font=mono, fill=(170, 156, 180, int(200 * a)))
+        d.text((720, 40), 'the dog’s lineage: sources > mattes > cuts > pieces', font=mono, fill=(170, 156, 180, int(200 * a)))
         y = 150
         for i, t in enumerate(lines):
             d.text((70, y), t, font=small if i else F('f41', 30, 600), fill=(238, 226, 204, int(255 * a)))
