@@ -150,3 +150,20 @@ No independent critic was run by me. No human viewing. No listening. No Quick, D
 images. I did not import `paeleo/threshold/stage.js` or `paeleo/scion/lenses.js`, did not look at other swarms' folders,
 and did not run git. No operator page was published as an artifact; `operator.html` in this folder is a local page.
 
+## Evidence (last build: make.sh v5, then frames 80–91, 192–205, 350–361 re-rendered; measured)
+
+**Checker (`invariants.json`): ALL OK.** I1 retreat 1.000 s (dt +0.000), watch 2.333 s (dt +0.000), refuse 3.458 s (dt +0.041), watch 7.458 s (dt +0.000), approach 14.708 s (dt +0.000), lie_down 23.833 s (dt +0.041). I2 min x_score 0.59, end 0.59. I3 r = 0.999. I4 back turned in 0.938 of refusal frames. State labels in `trace.json` are read from the pose the render chose.
+
+**Onsets measured from the render**: retreat_motion_starts 1.208 s; retreat_motion_stops 2.375 s; turn_away_first_new_frame 3.458 s; back_turned_first_frame 3.708 s; head_toward_door_again 7.458 s; approach_motion_starts 14.875 s; approach_head_lowers_first_frame 14.708 s; lie_sequence_first_frame 23.833 s; lying_half_down 24.167 s; refusal_lies_down_full 4.917 s; looks_in_first_frame 26.500 s; looks_in_last_frame 28.208 s.
+
+**End across the sill**: solid dog x 272.8–513.8 px vs door opening 243–417 px: 144.2 px inside the frame, 96.8 px outside.
+
+**Sound (RMS dBFS)**: calls -23.1 / -23.6 / -23.0; soft words -35.0 / -35.0; come in -33.6; room tone -58.8 / -51.7. Calls − loudest soft word 10.51 dB; quietest soft word − room tone 16.69 dB. Not listened to.
+
+**Mattes**: premult_ok on 50/50 dog mattes and all world mattes; stress fixture: 0 premultiplication failures, 0 bright rims in 96 frames. Lying sprite: minimum alpha inside the silhouette 1.000 over 21 lie values × 3 configurations (refusal, look-back rise, sill).
+
+**Film**: 1280×720, 24 fps, H.264 two-pass 2.1 Mb/s + AAC 160k, faststart, 912 frames, 38.000 s, 10.69 MB; 768 scene frames.
+
+**Looked at**: extracted frames only (contact sheets, frame-by-frame sheets of both turn windows, 2× crops of the sill). **Not**: normal-speed playback, the sound.
+
+**Status**: repair round 1 done against the critic's five conditions; awaiting re-review. Not accepted.
