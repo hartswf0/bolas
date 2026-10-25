@@ -10,7 +10,12 @@ FONTS = os.path.join(ROOT, 'tools/paeleo/fonts')
 BG = (18, 20, 36)
 
 
-def font(fn, size): return ImageFont.truetype(os.path.join(FONTS, fn), size)
+def font(fn, size, weight=None):
+    f = ImageFont.truetype(os.path.join(FONTS, fn), size)
+    if weight:
+        try: f.set_variation_by_axes([weight])
+        except Exception: pass
+    return f
 
 
 def wrap(d, text, fnt, width):
@@ -42,9 +47,9 @@ def main():
     # title
     big = Image.new('RGB', (W * R.SS, H * R.SS), BG); im = big
     d = ImageDraw.Draw(im)
-    f1 = font("f8.woff2", 120); f2 = font('f27.woff2', 46); f3 = font('f14.woff2', 26)
+    f1 = font("f8.woff2", 116, 700); f2 = font('f27.woff2', 46); f3 = font('f14.woff2', 26)
     d.text((W * R.SS / 2, 520), 'PAE-02 · SCION 46 · Face Landmark Registration', font=f1, fill=(238, 226, 200), anchor='mm')
-    d.text((W * R.SS / 2, 680), 'Recasting anatomy: the threshold, handmade', font=f2, fill=(214, 170, 112), anchor='mm')
+    d.text((W * R.SS / 2, 680), 'Recasting Anatomy · the threshold, handmade', font=f2, fill=(214, 170, 112), anchor='mm')
     d.text((W * R.SS / 2, 1250), 'a dog at a threshold that may refuse', font=f3, fill=(140, 140, 170), anchor='mm')
     im.reduce(R.SS).save(os.path.join(out, 'title.png'))
     # end card: the cast and what it is made of
@@ -53,7 +58,7 @@ def main():
         plate_thumb(im, HEADS, v, 110 + k * 145, 230, 400)
     for k, v in enumerate((90, 135, 180)):
         plate_thumb(im, TORSO, v, [150, 370, 560][k], 640, 215)
-    fh = font("f8.woff2", 64); ft = font('f27.woff2', 33); fm = font('f14.woff2', 23)
+    fh = font("f8.woff2", 64, 700); ft = font('f27.woff2', 33); fm = font('f14.woff2', 23)
     x0 = 1330; y = 150
     d.text((x0, y), 'What it is made of', font=fh, fill=(238, 226, 200)); y += 110
     paras = [

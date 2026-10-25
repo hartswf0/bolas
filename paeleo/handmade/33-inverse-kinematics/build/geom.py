@@ -28,7 +28,7 @@ PORCH_Z = (-3.2, 1.55)
 
 CAMS = {
     'A': dict(pos=[3.9, 1.35, 4.6], look=[2.2, 0.62, -0.3], fov=35.5),      # the wide: porch, door, yard
-    'B': dict(pos=[2.6, 1.6, 2.8], look=[0.62, 0.38, -0.45], fov=40.0),      # closer: the sill, the room, the low hand
+    'B': dict(pos=[2.6, 1.6, 2.8], look=[0.35, 0.5, -0.2], fov=38.0),      # closer: the sill, the room, the low hand
 }
 CUT_T = 20.5          # one cut, mid-approach, while the dog walks (not on a choice)
 

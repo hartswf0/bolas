@@ -50,6 +50,7 @@ for i in range(768):
 cx = np.array([f['x_screen'] for f in frames]); hy = np.array([f['head_screen'][1] for f in frames])
 hx = np.array([f['head_screen'][0] for f in frames])
 mang = np.array([math.degrees(math.atan2(f['muzzle_screen'][1] - f['head_screen'][1], f['muzzle_screen'][0] - f['head_screen'][0])) for f in frames])
+rx = np.array([f['bbox'][2] for f in frames])
 top = np.array([f['bbox'][1] for f in frames]); bot = np.array([f['bbox'][3] for f in frames])
 T = np.arange(768) / 24
 
@@ -76,8 +77,8 @@ on = [
          t=first(lambda i: hx[i] > cx[i], 3.3)),
     dict(choice='refuse -> watch', score_t=7.458, measure='head lifts > 2 px off the paws (from its 7.3 s rest)',
          t=first(lambda i: hy[i] < hy[i74] - 2, 7.3)),
-    dict(choice='watch -> approach', score_t=14.708, measure='dog centroid moves left (toward the door) > 1.5 px from its 14.5 s hold',
-         t=first(lambda i: cx[i] - cx[i146] < -1.5, 14.5)),
+    dict(choice='watch -> approach', score_t=14.708, measure='the rump (right edge of the silhouette) moves left, toward the door, > 1.5 px from its 14.5 s hold (the head lowering from 14.42 s moves the centroid first, so the centroid is not used here)',
+         t=first(lambda i: rx[i] - rx[i146] < -1.5, 14.5)),
     dict(choice='approach -> lie_down', score_t=23.792, measure='silhouette top drops > 3 px below its 23.6 s height',
          t=first(lambda i: top[i] - top[i236] > 3, 23.6)),
     dict(choice='hears come in: looks in', score_t=26.4, measure='muzzle direction on screen turns > 8 deg or head rises > 2 px from its 26.2 s pose',
@@ -98,6 +99,6 @@ summary = dict(onsets_measured=on, approach_head_low=head_low,
                              house_wall_outer_x=0.40, house_wall_inner_x=0.24, sill_x=0.56,
                              reading='nose inside the inner face of the wall, body centre outside the sill edge, tail on the porch' if end['nose_x_world'] < 0.24 and end['tail_tip_x_world'] > 0.56 else 'check'),
                min_x_score=min(f['x_score'] for f in frames))
-json.dump(dict(about='SCION 33 trace, measured from the render: x_screen/y_screen are the dog silhouette centroid (px, in that frame's camera), facing is measured on screen (head left of centroid = +1, toward the door), x_score is the rig root in world metres (= the score x mapping, 1 m = 1 m).',
-               camera='two fixed set-ups, one cut at 20.5 s (A: wide, B: closer on the sill); x_world_measured back-projects the measured centroid through the frame\'s camera onto the plane of the path', summary=summary, frames=frames), open(os.path.join(ROOT, 'trace.json'), 'w'))
+json.dump(dict(about='SCION 33 trace, measured from the render: x_screen/y_screen are the dog silhouette centroid (px, in that frame camera), facing is measured on screen (head left of centroid = +1, toward the door), x_score is the rig root in world metres (= the score x mapping, 1 m = 1 m).',
+               camera='two fixed set-ups, one cut at 20.5 s (A: wide, B: closer on the sill); x_world_measured back-projects the measured centroid through that frame camera onto the plane of the path', summary=summary, frames=frames), open(os.path.join(ROOT, 'trace.json'), 'w'))
 print(json.dumps(summary, indent=1))

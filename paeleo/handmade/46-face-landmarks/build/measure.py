@@ -126,6 +126,9 @@ def main():
                 a = np.array(pose[k]['feet'][n2]); b = np.array(pose[k - 1]['feet'][n2])
                 worlddrift.append(float(np.linalg.norm(a - b)))
     man = json.load(open(os.path.join(CACHE, 'face', 'manifest.json')))
+    appr = [(p_['head']['Cr'][1] * 0 + max(p_['head']['Cr'][1], p_['head']['EbR'][1], p_['head']['EbL'][1]), p_['body']['W'][1]) for f_, p_ in zip(rig, pose) if 14.9 <= f_['t'] < 23.8]
+    below = [h < w_ for h, w_ in appr]
+    ears_top = [h for h, w_ in appr]
     inv = dict(
         attachment_cm=dict(max=round(max(a for a, _ in attach), 3), mean=round(float(np.mean([a for a, _ in attach])), 3),
                            at_t=max(attach)[1], test='head plate skull-pivot landmark, as placed by its fit, vs the solved neck end (skull pivot); world cm'),
@@ -133,6 +136,8 @@ def main():
         planted_feet=dict(max_drift_m_per_frame=round(max(worlddrift), 6), n=len(worlddrift), test='a toe marked planted does not move in the world between frames'),
         source_face=dict(fit='similarity', anisotropy=1.0, shear=0.0, frames=len(man['frames']),
                          test='the person\'s face is placed only by rotation + uniform scale + translation (by construction, see render.draw_person_head)'),
+        head_low_on_approach=dict(share=round(float(np.mean(below)), 4), worst_margin_m=round(float(min(w_ - h for h, w_ in appr)), 3),
+                                  test='15-23.8 s: the top of the skull (cranium and ear bases) is below the withers (world height)'),
         head_view_changes=sum(1 for a, b in zip(rows, rows[1:]) if a['head_view'] != b['head_view']),
         torso_view_changes=sum(1 for a, b in zip(rows, rows[1:]) if a['torso_view'] != b['torso_view']))
     json.dump(inv, open(os.path.join(FOLDER, 'proof', 'invariants_numeric.json'), 'w'), indent=1)

@@ -140,7 +140,7 @@ def person_capsules(p):
     coat = (62, 68, 92); trou = (40, 44, 62); skin = (150, 114, 98); hair = (30, 26, 30); shoe = (26, 24, 28)
     pel, ch, nk, hd = p['pelvis'], p['chest'], p['neck'], p['head']
     caps += [C(pel, ch, 0.15, 0.17, coat, 'p.torso'), C(nk, hd - (hd - nk) * 0.3, 0.05, 0.05, skin, 'p.neck'),
-             C(hd, hd + UP * 0.01, 0.105, 0.105, skin, 'p.head'), C(hd + p['gaze'] * 0.08 - UP * 0.01, hd + p['gaze'] * 0.115 - UP * 0.015, 0.03, 0.022, skin, 'p.nose'), C(hd + UP * 0.035 - p['gaze'] * 0.03, hd + UP * 0.04 - p['gaze'] * 0.035, 0.094, 0.092, hair, 'p.hair')]
+             C(hd, hd + UP * 0.01, 0.105, 0.105, skin, 'p.head'), C(hd + p['gaze'] * 0.08 - UP * 0.01, hd + p['gaze'] * 0.115 - UP * 0.015, 0.03, 0.022, skin, 'p.nose'), C(hd + UP * 0.03 - p['gaze'] * 0.035, hd + UP * 0.035 - p['gaze'] * 0.04, 0.1, 0.1, hair, 'p.hair')]
     for nm, side in (('legR', 1), ('legL', -1)):
         g = p[nm]
         caps += [C(g['root'], g['mid'], 0.085, 0.065, trou, 'p.thigh', side, joint='knee'), C(g['mid'], g['end'], 0.06, 0.045, trou, 'p.shin', side),
@@ -206,7 +206,7 @@ def render_caps(dr, items, theta, off, mask_dr=None, light_dir=None):
     depth, then the lit side), so a body reads as one mass while each limb bone keeps its own outline and joint."""
     for grp in items:
         geo = []
-        for cap in sorted(grp, key=lambda c: (c['part'] in LATE, -depth_key(c))):
+        for cap in sorted(grp, key=lambda c: (c['part'] != 'p.hair', c['part'] in LATE, -depth_key(c))):
             g = cap_geom(cap, off)
             if g is None: continue
             mid = (cap['a'] + cap['b']) / 2
