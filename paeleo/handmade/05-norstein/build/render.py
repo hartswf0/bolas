@@ -395,7 +395,7 @@ def person_layer(t, c):
 def frame(i):
     t = i / FPS
     c = cam(t)
-    p = G['dogP'][i]
+    p = G['dogP'][i - (i % 2)]  # the dog is shot on twos: each placement of its pieces is held for two frames
     q = PERSON.pose(t)
     out = np.zeros((H, W, 3), np.float32)
 

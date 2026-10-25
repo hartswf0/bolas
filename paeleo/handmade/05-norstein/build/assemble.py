@@ -130,7 +130,7 @@ def trace():
             st = 'lie_down'
         elif facing == 'away':
             st = 'refuse'
-        elif v[i] > 0.12 and head_rel < 0.1:
+        elif v[i] > 0.08 and head_rel < 0.1:
             st = 'retreat'
         elif v[i] < -0.12 or (frames and frames[-1]['state'] == 'approach' and v[i] < 0.02):
             st = 'approach'  # coming; it stays 'coming' while it slows to the sill

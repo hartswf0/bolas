@@ -11,7 +11,7 @@
     "clip_id": "2fdacde1-8a23-58e1-b905-5407385bd039"
    },
    "rights": "public_domain",
-   "operation": "measured ratios, then built as a maquette of ellipsoids and tapered limbs (build/dog.py); no pixels of the archive dog are drawn as the dog"
+   "operation": "measured ratios -> a small 3D maquette (build/dog.py) used only as a cutting guide for the pieces and as a guide for where the hinges are each frame; no pixels of the archive dog are drawn as the dog"
   },
   {
    "id": "dog-coat-grain",
@@ -22,7 +22,7 @@
     "url": "https://archive.org/details/NewJerseyC"
    },
    "rights": "public_domain",
-   "operation": "crop, high-pass, mirror-tile (build/render.py coat_texture)"
+   "operation": "crop, high-pass, mirror-tile; painted once into every piece of the replacement-piece library (build/pieces.py paint)"
   },
   {
    "id": "bowl",
@@ -50,12 +50,12 @@
   },
   {
    "id": "dog-cutout",
-   "what": "the dog as seen: flat painted pieces re-cut every frame from the maquette",
+   "what": "the dog as seen: a library of hand-cut, hand-painted replacement pieces (bodies per view and posture, heads per view, ears and eyes, a hand-cut back-of-head piece, limb, neck, tail and paw pieces), chosen and hinged per frame, held on twos",
    "source": {
-    "path": "build/dog.py"
+    "path": "build/pieces.py -> build/cache/pieces/*.png (+ .json: hinge, nose)"
    },
    "rights": "made here",
-   "operation": "drawn (projected ellipses, limb strips, ear triangles), painted, fur-edged, lit"
+   "operation": "each piece cut once: outline taken off the maquette at that view (or drawn by hand: the back of the head), scissor-wobbled edge, hair edge on coat pieces, painted with its own fixed brush strokes and the archive coat grain, cut edge darkened; per frame pieces are chosen (substitution) and hinged (rotation in the plane, slight stretch along a limb), laid far to near with soft cast shadows; pieces never change shape between frames"
   },
   {
    "id": "person-cutout",

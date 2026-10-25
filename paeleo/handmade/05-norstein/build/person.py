@@ -24,7 +24,7 @@ def pose(t):
     soft = 1.0 if pr['voice'] == 'soft' else 0.0
     # torso lean (deg from vertical, + = forward towards the dog)
     lean = 4 + 9 * keyed([(0.9, 0), (1.1, 1), (2.2, 1), (2.45, 0), (3.35, 0), (3.55, 1), (4.5, 1), (4.8, 0)], t) + 16 * reach
-    lean = lean * (1 - sit) + (8 + 10 * low) * sit
+    lean = lean * (1 - sit) + (8 + 10 * low) * sit + 34 * math.sin(math.pi * min(sit, 1.0)) * (1 - low)  # weight over the feet as it lowers
     head_tilt = 6 * calling * (1 + 0.5 * math.sin(t * 9)) - 14 * soft * (1 - sit * 0.3) - 6 * low
     # the near arm: shoulder angle from straight down (+ = forward), elbow bend
     beckon = keyed([(0.95, 0), (1.15, 1), (2.1, 1), (2.35, 0)], t)
@@ -37,11 +37,12 @@ def pose(t):
     wr = wr * (1 - low) + (-28) * low
     # sit (on the boards, back near the wall, knees up) vs stand
     walk = math.sin((t - 5.35) / 0.7 * 2 * math.pi) * (step * (1 - step) * 4)
-    hip_y = lerp(0.93, 0.13, sit)
-    thigh = lerp(-4 + 22 * walk, 132, sit)   # thigh angle from straight down (+ = forward)
-    knee = lerp(4 + 10 * abs(walk), 116, sit)  # knee bend
-    thigh2 = lerp(-4 - 22 * walk, 122, sit)
-    knee2 = lerp(4 + 10 * abs(walk), 100, sit)
+    sit_d = min(1.0, sit) ** 0.55  # the hips go down first (a squat), the legs fold out after
+    hip_y = lerp(0.93, 0.13, sit_d)
+    thigh = lerp(-4 + 22 * walk, 132, sit_d)   # thigh angle from straight down (+ = forward)
+    knee = lerp(4 + 10 * abs(walk), 116, sit_d)  # knee bend
+    thigh2 = lerp(-4 - 22 * walk, 122, sit_d)
+    knee2 = lerp(4 + 10 * abs(walk), 100, sit_d)
     hipX = X + 0.10 * sit
     return dict(X=hipX, Y=hip_y, Z=Zp, lean=lean, head=head_tilt, sh=sh, el=el, wr=wr, th1=thigh, kn1=knee,
                 th2=thigh2, kn2=knee2, low=low, reach=reach, sit=sit)
@@ -60,6 +61,20 @@ def chain(base, angs, lens):
 
 def build(q):
     """pieces in world (X, Y) on the person's glass at depth q['Z']: [(layer, polygon or capsule, tone)]"""
+    pieces, hand = _build(q)
+    # grounded: the lowest point of the figure (feet, or the seat when sitting) rests on the boards
+    lows = []
+    for layer, geo, tone, mat in pieces:
+        if geo[0] == 'cap':
+            lows += [geo[1][1] - geo[3], geo[2][1] - geo[4]]
+        elif geo[0] == 'poly':
+            lows += [v[1] for v in geo[1]]
+    dy = -min(lows)
+    q['Y'] += dy
+    return _build(q)
+
+
+def _build(q):
     hip = np.array([q['X'], q['Y']])
     L = math.radians(q['lean'])
     up = np.array([math.sin(L), math.cos(L)])

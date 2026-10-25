@@ -104,7 +104,7 @@ def paint(shapes, seed, kind, axis_deg=0.0, hair=True):
     eyes = []
     for d, g, t, k in sorted(shapes, key=lambda r: -r[0]):
         if k == 'p':
-            tn = t * (1 - 0.6 * clamp(d - zmin, 0, 0.35))
+            tn = t * (1 - 0.35 * clamp(d - zmin, 0, 0.35))
             poly = [P(*q) for q in g]
             dt.polygon(poly, fill=int(clamp(tn * 160, 0, 255)))
             da.polygon(poly, fill=255)
@@ -140,7 +140,7 @@ def paint(shapes, seed, kind, axis_deg=0.0, hair=True):
     # the cut edge is darker (the paper's edge and the paint pooled at it)
     inner = np.asarray(Image.fromarray((Ac * 255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(2.2 * S)), np.float32) / 255
     rim = np.clip((1 - inner) * 2.2, 0, 1) * Ac
-    Tn = T / np.maximum(A, 1e-3) * tex * (1 - 0.30 * rim)
+    Tn = T / np.maximum(A, 1e-3) * tex * (1 - 0.45 * rim)  # the cut edge: a visible seam
     Tn = np.where(Ac > 0, Tn, 0)
     tone_im = Image.fromarray(np.clip(Tn, 0, 255).astype(np.uint8))
     al_im = Image.fromarray((Ac * 255).astype(np.uint8))
@@ -192,10 +192,28 @@ def body_piece(k, cq, lq):
     return name
 
 
+def back_head_piece(name, eq):
+    """the back of the head, cut by hand (not taken off the maquette, where the ears would be edge-on): the round of the
+    skull, the cheeks showing either side, both ears standing (or laid back), a darker nape."""
+    sk = [(math.cos(a) * 0.078 * (1.0 + 0.12 * max(0, -math.sin(a))), 0.075 + math.sin(a) * 0.07) for a in np.linspace(0, 2 * math.pi, 40)]
+    shapes = [(0.0, sk, 1.0, 'p')]
+    for sgn in (1, -1):
+        base0, base1 = (sgn * 0.022, 0.125), (sgn * 0.074, 0.105)
+        tip = (sgn * lerp(0.13, 0.07, eq), lerp(0.11, 0.215, eq))
+        shapes.append((-0.01, [base0, tip, base1], 0.9, 'p'))
+    shapes.append((-0.02, [(-0.03, 0.0), (0.03, 0.0), (0.02, 0.05), (-0.02, 0.05)], 0.8, 'p'))  # the nape, darker
+    tone, al, origin = paint(shapes, RNG_SEED + 777 + int(eq * 5), 'head', axis_deg=90)
+    meta = dict(anchor=to_px((0.0, 0.0), origin), nose=to_px((0.0, 0.075), origin), size=tone.size, beta0=-5.0)
+    save(name, tone, al, meta)
+    return name
+
+
 def head_piece(k, eq, eye):
     name = 'head_%s_e%.1f_%s' % (VIEWS[k], eq, 'open' if eye else 'shut')
     if os.path.exists(os.path.join(LIB, name + '.png')):
         return name
+    if k == 2:
+        return back_head_piece(name, eq)
     p = guide_params(k * math.pi / 4, ear=eq, eye=1.0 if eye else 0.0, alpha=20.0)
     prims = DOG.build(p)
     g = p['_g']
@@ -325,8 +343,12 @@ class Canvas:
         if shadow and self.al.any():  # the piece casts a soft shadow on the pieces under it
             sh = Image.fromarray((A * 255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(2.5 * k))
             sh = np.roll(np.roll(np.asarray(sh, np.float32) / 255, int(2 * k), 0), int(1 * k), 1)
-            self.tone *= 1 - 0.32 * sh * self.al
+            self.tone *= 1 - 0.42 * sh * self.al
         self.tone = self.tone * (1 - A) + T * A
+        # the cut edge of a piece catches the light where it lies over another piece: a thin pale seam
+        sh = int(round(1.5 * k))
+        edge = np.clip(A - np.roll(np.roll(A, sh, 0), sh, 1), 0, 1) * self.al
+        self.tone = self.tone + 70.0 * edge * A
         self.al = A + self.al * (1 - A)
         if pass_name:
             self.passes[pass_name] = np.maximum(self.passes.get(pass_name, 0), A)
@@ -339,6 +361,15 @@ def render(p, c):
     bname, hname = ensure(ch)
     q = dict(p)
     q['crouch'], q['lie'] = (ch['cq'] if ch['lq'] == 0 else 0.0), ch['lq']
+    # the guide is posed at the chosen pieces' own angles, so the hinges sit where the drawn pieces have them
+    off = 0.35 * (math.atan2(p['z'] - c[2], p['x'] - c[0]) - math.pi / 2)
+
+    def near(a, ref):
+        return a + 2 * math.pi * round((ref - a) / (2 * math.pi))
+    psi_q = near(ch['kb'] * math.pi / 4 + off, p['psi'])
+    head_abs = p['psi'] + p['bend'] + p['head_rel']
+    head_q = near(ch['kh'] * math.pi / 4 + off, head_abs)
+    q['psi'], q['bend'], q['head_rel'] = psi_q, 0.0, head_q - psi_q
     prims = DOG.build(q)
     g = q['_g']
     zc = p['z'] - c[2]
@@ -386,7 +417,7 @@ def render(p, c):
                 Lpx = np.linalg.norm(d) + 1e-6
                 ang = math.atan2(d[1], d[0]) - math.pi / 2  # pieces hang down (+y); turn to the bone
                 L = LIMBS[nm][0]
-                cv.lay(nm, a2, ang, s, Lpx / (L * LPPM), tone_k=0.66 if far else 0.9)
+                cv.lay(nm, a2, ang, s, Lpx / (L * LPPM), tone_k=0.84 if far else 0.92)
             side = abs(fwd_screen) > 0.35 * 0.3 * F / zc
             pname = 'paw_side' if side else 'paw_front'
             cv.lay(pname, P(paw - np.array([0, 0.02, 0])), 0.0, s, s, mirror=(fwd_screen > 0), tone_k=0.72 if far else 1.0)
@@ -409,7 +440,6 @@ def render(p, c):
             view_yaw = kh * math.pi / 4
             sgn = -math.cos(view_yaw)
             ang = math.radians(math.degrees(g['beta']) - meta['beta0']) * sgn
-            ang += 0.5 * p.get('look', 0.0) * (1 if sgn >= 0 else -1)  # looking in: the muzzle lifts into the lit doorway
             mirror_h = kh in MIRROR
             m, anc, tgt, A = cv.lay(hname, P(attach), ang, s, s, mirror_h, pass_name='head')
             nx, ny = meta['nose']

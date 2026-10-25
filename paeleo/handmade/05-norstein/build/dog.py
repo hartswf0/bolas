@@ -83,7 +83,7 @@ def controller():
         lie = a['lie']
         look = a['look']
         if st == 'lie_down' or t > 23.7:
-            head_rel = -0.5 * look  # looking in: the head turns three-quarters away, into the lit room
+            head_rel = -1.25 * look  # looking in: the head turns away from us, into the room (towards the bowl)
         # --- head carriage (alpha: neck angle above horizontal, degrees)
         hv = a['head']
         alpha = interp(hv, [0, 0.15, 0.35, 0.45, 0.7, 0.9, 1.25], [-48, -42, -30, -24, 6, 30, 52])
@@ -94,15 +94,17 @@ def controller():
         if 7.38 <= t < 8.9:  # the head lifts high as it comes round, so the look over the shoulder clears the back
             alpha = max(alpha, lerp(-30, 48, smooth(7.38, 7.56, t)) * (1 - smooth(8.3, 8.9, t)) + 30 * smooth(8.3, 8.9, t))
         if st == 'lie_down':  # lying, the head is lifted on the neck, never stood up on it
-            alpha = min(alpha, 22.0 - 10.0 * a['look'])
+            alpha = min(alpha, 22.0 - 14.0 * a['look'])
         # the choice to stop backing and watch (2.33) is shown at once: the head comes up while the body still drifts
+        if 1.0 <= t < 1.7:  # the call lands: it flinches, the head goes down at once as it backs
+            alpha = min(alpha, -30.0)
         if 2.32 <= t < 2.9:
             alpha = max(alpha, 25.0)
-        alpha = ease('alpha', alpha, 0.5 if 2.30 <= t < 2.7 else 0.35)
+        alpha = ease('alpha', alpha, 0.5 if (2.30 <= t < 2.7 or 1.0 <= t < 1.3) else 0.35)
         # --- the rest of the body
         crouch = ease('crouch', a['crouch'] if not (2.30 <= t < 2.7) else min(a['crouch'], 0.3), 0.3)
         ear = ease('ear', max(clamp(a['ear'], 0, 1), 0.5 * (1 - smooth(3.9, 4.4, t)) if t > 3.4 else 0), 0.4)
-        tail = ease('tail', a['tail'], 0.3)
+        tail = ease('tail', min(a['tail'], 0.95), 0.3)  # tucked, but kept out behind the hocks so the hind legs read
         wag = ease('wag', a['wag'], 0.2)
         wag_phase += 2 * math.pi * (2.0 + 1.2 * wag) / FPS
         rest = ease('rest', a['rest'], 0.25)
@@ -217,7 +219,7 @@ def build(p):
     c = p['crouch']
     br = p['breath'] * 0.006
     hf = lerp(STAND_H - 0.07 * c, 0.128, lie)  # torso centre height at the front
-    hr = lerp(STAND_H - 0.115 * c, 0.118, lie)  # and at the rear (afraid: hindquarters drop)
+    hr = lerp(STAND_H - 0.07 * c, 0.118, lie)  # and at the rear (afraid: hindquarters drop)
 
     def Fp(f, y, l=0.0):  # a point in the front-half frame
         return root + ff * f + up * y + lf * l
@@ -282,17 +284,21 @@ def build(p):
         foot, lift, _ = feet[leg]
         foot = foot + up * (0.025 + lift)
         if L['front']:
-            K, Wr = ik2(J, foot + up * 0.02, UPPER_F, LOWER_F, -fwd)
             # lying pose (sphinx: forelegs along the boards)
             Kl, Wl, Fl = PtL(0.12, 0.04, L['l']), PtL(0.31, 0.028, L['l'] * 0.8), PtL(0.38, 0.022, L['l'] * 0.8)
-            K, Wr = K * (1 - lie) + Kl * lie, Wr * (1 - lie) + Wl * lie
+            if lie >= 0.999:
+                K, Wr = Kl, Wl
+            else:  # going down or getting up: the paw travels, the joint bends by IK (no crossing limbs)
+                K, Wr = ik2(J, (foot + up * 0.02) * (1 - lie) + Wl * lie, UPPER_F, LOWER_F, -fwd)
             paw = Wr - up * 0.02 * (1 - lie) + fwd * (0.03 + 0.045 * lie)
             segs = [(J, K, 0.052, 0.034), (K, Wr, 0.031, 0.024)]
         else:
             hock = foot + up * 0.12 - fwd * 0.045
-            K, hock2 = ik2(J, hock, THIGH, SHIN, fwd)
             Kl, Hl, Fl = PtL(-0.12, 0.06, L['l'] * 1.6), PtL(-0.29, 0.03, L['l'] * 1.6), PtL(-0.13, 0.022, L['l'] * 1.6)
-            K, hock2 = K * (1 - lie) + Kl * lie, hock2 * (1 - lie) + Hl * lie
+            if lie >= 0.999:
+                K, hock2 = Kl, Hl
+            else:
+                K, hock2 = ik2(J, hock * (1 - lie) + Hl * lie, THIGH, SHIN, fwd)
             paw = hock2 - up * lerp(0.12, 0.01, lie) + fwd * lerp(0.075, 0.15, lie)
             segs = [(J, K, 0.075, 0.042), (K, hock2, 0.04, 0.026), (hock2, paw, 0.025, 0.022)]
         for a_, b_, r0, r1 in segs:

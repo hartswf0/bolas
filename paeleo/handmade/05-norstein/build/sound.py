@@ -332,7 +332,7 @@ def build():
     L = M.L + wet * 0.5
     R = M.R + np.concatenate([np.zeros(240), wet[:-240]]) * 0.5
     peak = max(np.abs(L).max(), np.abs(R).max())
-    g = 0.89 / peak
+    g = 0.75 / peak  # about -2.5 dBFS sample peak, leaving room for the encoder's overshoot
     L *= g
     R *= g
     pcm = (np.stack([L, R], 1) * 32767).astype('<i2')
