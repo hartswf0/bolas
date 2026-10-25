@@ -267,7 +267,7 @@
         const stepTo = (u, k0) => { let o = 0, lift = 0; for (const [a, b] of k0) { const v = clamp((u - a) / (b - a)); o += 0.5 * D * ss(v); lift = Math.max(lift, Math.sin(Math.PI * v)); } return [o, lift]; };
         const [ob, lb] = stepTo(u, [[0, 0.25], [0.5, 0.75]]), [oa, la] = stepTo(u, [[0.25, 0.5], [0.75, 1]]);
         H.foot_b = add(H.foot_b, [ob - dx, -12 * lb]); H.foot_a = add(H.foot_a, [oa - dx, -12 * la]);
-        H.hip = add(H.hip, [0, -4 * (lb + la)]); H.chest = add(H.chest, [0, -4 * (lb + la)]); H.head = add(H.head, [0, -4 * (lb + la)]);
+        H.hip = add(H.hip, [0, -4 * (lb + la)]); H.chest = add(H.chest, [0, -4 * (lb + la)]); H.head = add(H.head, [0, -4 * (lb + la)]); H.shoulder = add(H.shoulder, [0, -4 * (lb + la)]);
         const pxs = -0.28 + (1.25 - 0.28) * -u;
         // beginning to sit (5.85–6.05): hips go down and back, knees forward
         const s = win(t, 5.88, 6.05);

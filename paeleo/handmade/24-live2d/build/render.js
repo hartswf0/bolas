@@ -34,7 +34,7 @@ const shots = args.includes('--shots') ? args[args.indexOf('--shots') + 1].split
   }
   const end = [['What it is made of', '600 40px "Big Shoulders Display"', 190],
     ['A dog drawn as a parametric 2D rig: angle axes, a keyform table for the head,', '400 23px Literata', 250],
-    ['rotation and warp deformers, eye, brow, ear and mouth controls, pendulum physics', '400 23px Literata', 284],
+    ['a chain of rotation deformers, eye, brow, ear and mouth controls, pendulum physics', '400 23px Literata', 284],
     ['for ears, tail and collar tag, and feet solved to planted steps.', '400 23px Literata', 318],
     ['The house in section, the porch and the person are drawn the same way, in code.', '400 23px Literata', 370],
     ['The voice, paws, door and dusk are synthesized. Nothing is filmed or traced;', '400 23px Literata', 422],

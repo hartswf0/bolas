@@ -3,7 +3,7 @@ import React from 'react';
 import {random} from 'remotion';
 import type {V3} from '../lib/math.ts';
 import {lerp, clamp} from '../lib/math.ts';
-import {project, p2, pathOf, W, H, CAM, farShift} from '../lib/camera.ts';
+import {project, p2, pathOf, seg, W, H, CAM, farShift} from '../lib/camera.ts';
 import {WORLD} from '../lib/world.ts';
 import {spillPoly} from '../lib/light.ts';
 import {mixc} from './draw.tsx';
@@ -166,14 +166,14 @@ export const Porch: React.FC<{t: number; lamp: number; angle: number}> = ({t, la
   const floor: V3[] = [[X1, 0, P.z0], [P.x1, 0, P.z0], [P.x1, 0, P.z1], [X1, 0, P.z1]];
   const seams: React.ReactNode[] = [];
   for (let z = P.z0 + 0.13; z < P.z1; z += 0.13) {
-    const a = p2([X1, 0, z]), b = p2([P.x1, 0, z]);
-    seams.push(<line key={z} x1={a[0]} y1={a[1]} x2={b[0]} y2={b[1]} stroke={seam} strokeWidth={1.1}/>);
+    const q = seg([X1, 0, z], [P.x1, 0, z]); if (!q) continue;
+    seams.push(<line key={z} x1={q[0]} y1={q[1]} x2={q[2]} y2={q[3]} stroke={seam} strokeWidth={1.1}/>);
   }
   // board ends, staggered (deterministic)
   for (let k = 0; k < 35; k++) {
     const z = P.z0 + 0.13 * k, x = 0.9 + random('end-' + k) * 3.6;
-    const a = p2([x, 0, z]), b = p2([x, 0, z + 0.13]);
-    seams.push(<line key={'e' + k} x1={a[0]} y1={a[1]} x2={b[0]} y2={b[1]} stroke={seam} strokeWidth={1}/>);
+    const q = seg([x, 0, z], [x, 0, z + 0.13]); if (!q) continue;
+    seams.push(<line key={'e' + k} x1={q[0]} y1={q[1]} x2={q[2]} y2={q[3]} stroke={seam} strokeWidth={1}/>);
   }
   const fascia: V3[] = [[X1, 0, P.z1], [P.x1, 0, P.z1], [P.x1, -0.5, P.z1], [X1, -0.5, P.z1]];
   const endFace: V3[] = [[P.x1, 0, P.z0], [P.x1, 0, P.z1], [P.x1, -0.5, P.z1], [P.x1, -0.5, P.z0]];
