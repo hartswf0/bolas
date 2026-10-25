@@ -172,6 +172,17 @@
    "trick": "The cut is the film: every edge of the dog is an argument about where it ends."
   },
   {
+   "id": 31,
+   "dir": "31-alpha-matting",
+   "name": "Alpha Matting",
+   "kind": "Soft-edged matted archive frames",
+   "status": "in repair after critic round 2",
+   "dog": "the archive dog itself, lifted out of its frames with soft fur edges",
+   "made": "Every archive frame of the dog is matted with a fur-class alpha, so the edges are fractional, not cut. The woman and the door come from another public-domain film; the lying dog is cut from one matte and labelled as reconstruction.",
+   "moved": "By swapping whole matted frames, and by pivoting pieces of a single matte. Premultiplied compositing keeps the edges from picking up the background.",
+   "trick": "The dog's edges hold against sky and siding, because the matte, not the outline, decides what is dog."
+  },
+  {
    "id": 33,
    "dir": "33-inverse-kinematics",
    "name": "Inverse kinematics",
@@ -212,6 +223,17 @@
    "trick": "Nothing secondary is animated by hand, so stillness has to be earned: the holds are quiet because the energy has gone."
   },
   {
+   "id": 43,
+   "dir": "43-collage-graph",
+   "name": "Collage Graph Rewriting",
+   "kind": "Typed fragments and rewrite rules",
+   "status": "in repair after critic round 3",
+   "dog": "a graph of typed fragments of one archive dog, rewritten by rule",
+   "made": "Head, torso, legs and tail are cut from the archive dog's frames. Other found images make the world: a bulb for the lit room, a cloud for the dusk, a door from a film, and a face from another.",
+   "moved": "Thirteen written rules replace, merge, split, enter and exit fragments. The turns are found frames, not mirrored, and the dog is re-cut from sunlit frames as it crosses the threshold.",
+   "trick": "Each change to the dog is a named rule, so the film can say what it did and why."
+  },
+  {
    "id": 45,
    "dir": "45-occlusion",
    "name": "Occlusion compositing",
@@ -220,6 +242,17 @@
    "made": "Every element an RGBA layer with a depth, ordered each frame by which layers overlap and which is nearer, and drawn back to front. The dog is the real dog of Amateur Film New Jersey C: its own frames cut by their mattes, its own turn played for the refusal, a lying pose built from cut parts. The hallway and door from Straight Talk, the hand from The Door to Heaven, the bulb and sky found; the house, porch, post and the person drawn.",
    "moved": "The thesis is the ending: the dog lies at an angle into the doorway, its depth crossing the plane of the door frame under the post, so it is split into two layers, the front half behind the post in the doorway and the hindquarters in front on the porch. The door holds back the room's light until it opens; the porch post passes in front of the walking dog; the layer order never loops or flips in any frame.",
    "trick": "Half in, half out is a fact about layers: the door frame is in front of one half of the dog and behind the other."
+  },
+  {
+   "id": 46,
+   "dir": "46-face-landmarks",
+   "name": "Face Landmark Registration",
+   "kind": "View-matched plates on landmarks",
+   "status": "in repair after critic round 3",
+   "dog": "a drawn dog built from view plates, each carrying its own landmark points",
+   "made": "Four head plates and three body plates, each with landmarks, fitted onto a 3D skeleton. The person's face is a public-domain cartoon profile placed by a similarity fit, with the mouth driven by the voice.",
+   "moved": "Plates are swapped by view as the head turns, so the head leads every turn. The eye and mouth are controls inside the head plate.",
+   "trick": "The dog turns through depth by swapping views, never by mirroring a side."
   },
   {
    "id": 47,
@@ -240,6 +273,17 @@
    "made": "One plate, Pl. I, The Threshold: a sectional elevation of a wall, doorway and porch at dusk, line-engraved and hand-coloured. The dog is traced by hand from one frame of Amateur Film New Jersey C into eleven pieces, each engraved with a line screen from the scan's own tone; both turns are the film's own frames, some printed as reversed impressions. The door from Straight Talk, the hand from The Door to Heaven. No Library of Congress item is used or claimed.",
    "moved": "Pieces rotate about hand-placed joints, legs by two-bone IK with stance feet pinned. Under the image a key shows the scan frame in use, its source and rights, and the state of the drawing: as photographed, printed reversed, or, in red with red pins at the joints, re-posed as invented motion.",
    "trick": "Every frame says whether the dog in it was photographed or invented."
+  },
+  {
+   "id": 52,
+   "dir": "52-gilliam-ephemera",
+   "name": "Gilliam Ephemera",
+   "kind": "Pinned found prints and substitution",
+   "status": "in repair after critic round 3",
+   "dog": "one public-domain home-movie dog, cut into seven pinned pieces",
+   "made": "The archive dog is cut into head, torso, tail, two forelegs and two hind legs, pinned at the joints. Substitute cards of the same dog make the turns. A found face in a hat with a hinged jaw, a smock, a bulb, trees and a cloud make the world.",
+   "moved": "Pins, slides and swivels; whole-frame swaps for the turns, and a giant hand from above in the moon gag.",
+   "trick": "The collage's logic is the dog's own: each piece moves on a pin, and the absurd beat is a hand from nowhere."
   },
   {
    "id": 53,
