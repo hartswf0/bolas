@@ -18,8 +18,8 @@ from common import *
 LEGS = {  # mount on the body (forward f, lateral l), segment lengths
     'LF': dict(f=0.205, l=0.075, front=True), 'RF': dict(f=0.205, l=-0.075, front=True),
     'LH': dict(f=-0.215, l=0.078, front=False), 'RH': dict(f=-0.215, l=-0.078, front=False)}
-UPPER_F, LOWER_F = 0.172, 0.168
-THIGH, SHIN, META = 0.165, 0.155, 0.14
+UPPER_F, LOWER_F = 0.182, 0.178
+THIGH, SHIN, META = 0.172, 0.162, 0.14
 STAND_H = 0.355  # torso centre height when standing
 
 
@@ -161,14 +161,16 @@ def solve_feet(P):
                 if s['mode'] != 'plant':
                     continue
                 e = np.linalg.norm(ideal[leg] - s['P'])
-                if e < (0.11 if yaw_rate < 0.5 else 0.07):
+                if e < ((0.09 if np.linalg.norm(v) > 0.2 else 0.11) if yaw_rate < 0.5 else 0.07):
                     continue
+                m0, _, _ = mount_world(p, leg)
+                overreach = np.hypot(s['P'][0] - m0[0], s['P'][2] - m0[2]) > 0.15  # the leg cannot hold it: lift now
                 side = leg[0]
                 girdle = leg[1]
                 busy = [n for n in LEGS if feet[n]['mode'] == 'swing']
-                if len(busy) >= 2 or any(n[0] == side or n[1] == girdle for n in busy):
+                if not overreach and (len(busy) >= 2 or any(n[0] == side or n[1] == girdle for n in busy)):
                     continue
-                dur = 0.24 if np.linalg.norm(v) > 0.2 else 0.20
+                dur = 0.24 if np.linalg.norm(v) > 0.2 else (0.14 if yaw_rate > 2.0 else 0.20)
                 feet[leg] = dict(mode='swing', A=s['P'].copy(), u=0.0, du=1.0 / (dur * FPS))
             for leg in LEGS:
                 s = feet[leg]
