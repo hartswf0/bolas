@@ -152,22 +152,23 @@ def _build(p, root):
     hu = Y * np.cos(hpitch) - fy * np.sin(hpitch)
     hs = sy
     ax_h = ell_axes(hf, hu)
-    prims.append(ellip('skull', hc_w, ax_h, (0.108, 0.09, 0.084), 'coat', k=0.03))
-    m0 = hc_w + hf * 0.05 - hu * 0.022
-    m1 = hc_w + hf * 0.152 - hu * 0.036
-    prims.append(cone('muzzle', m0, m1, 0.066, 0.046, 'muzzle', hu, k=0.04))
+    prims.append(ellip('skull', hc_w, ax_h, (0.112, 0.08, 0.08), 'coat', k=0.03))
+    # a long, defined dog's muzzle with a stop (round 2: the round-1 head read as a rodent's)
+    m0 = hc_w + hf * 0.06 - hu * 0.03
+    m1 = hc_w + hf * 0.205 - hu * 0.045
+    prims.append(cone('muzzle', m0, m1, 0.058, 0.036, 'muzzle', hu, k=0.025))
     prims.append(ellip('nose', m1 + hf * 0.012 + hu * 0.008, ax_h, (0.026, 0.021, 0.03), 'nose', k=0.008))
     for sgn, nm in ((1, 'eyeL'), (-1, 'eyeR')):
         prims.append(ellip(nm, hc_w + hf * 0.074 + hu * 0.03 + hs * 0.05 * sgn, ax_h, (0.011, 0.009, 0.01), 'eye', k=0.003))
-    ear = float(np.clip(p['ear'], 0, 1))
+    ear = float(np.clip(0.3 + 0.7 * p['ear'], 0, 1))          # never fully flat: a dog's ears stay legible
     for sgn, nm in ((1, 'earL'), (-1, 'earR')):
-        base = hc_w - hf * 0.035 + hu * 0.06 + hs * 0.05 * sgn
+        base = hc_w - hf * 0.04 + hu * 0.065 + hs * 0.048 * sgn
         d_pr = hu * 1.0 + hs * 0.22 * sgn + hf * 0.04
         d_fl = -hf * 1.0 + hu * 0.15 + hs * 0.45 * sgn
         d = lerp(d_fl, d_pr, ear); d /= np.linalg.norm(d)
-        cen = base + d * 0.042
+        cen = base + d * 0.055
         ax_e = ell_axes(d, hf * ear + (hu + hs * sgn) * (1 - ear))
-        prims.append(ellip(nm, cen, ax_e, (0.05, 0.032, 0.012), 'ear', k=0.012))
+        prims.append(ellip(nm, cen, ax_e, (0.068, 0.04, 0.012), 'ear', k=0.01))
     J['head'] = hc_w; J['nose'] = m1; J['neck'] = n0_w; J['hf'] = hf
     # legs: shoulders and hips, paws from the step solver, IK
     paws = p['paws']

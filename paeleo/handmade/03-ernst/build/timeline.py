@@ -70,7 +70,7 @@ def build():
         st = d['state']
         head = a['head']
         if st == 'approach':
-            head = head - 0.13 * min(1.0, a['moving'] * 1.5 + 0.3)
+            head = head - 0.27 * min(1.0, a['moving'] * 1.5 + 0.3)
         lie = a['lie']
         rest = a['rest']
         if T_BACK <= t < T_BACK + 1.0:
