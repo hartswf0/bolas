@@ -1,0 +1,486 @@
+"""Per-part QA gates: cut-off, contamination, connection point, view. A part that FAILs any gate is excluded from
+pairing (pairs.py) and from assembly.
+
+    gate(rec) -> {'cutoff': {...}, 'contamination': {...}, 'connection': {...}, 'view': {...}, 'verdict': ...}
+
+Each test gives {'result': pass|warn|fail, 'evidence': {...}, 'why': str}. Measurements are taken on the source card
+(border contact, straight cuts) and on the canonical image (lengths in cm at 10 px/cm).
+"""
+import math, os, sys
+import numpy as np
+import cv2
+HERE = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, os.path.join(os.path.dirname(HERE), 'tools'))
+import common as C  # noqa: E402
+
+RANK = {'pass': 0, 'warn': 1, 'fail': 2}
+
+
+def _res(r, ev, why=''):
+    return {'result': r, 'evidence': ev, 'why': why}
+
+
+def worst(*rs):
+    return max(rs, key=lambda r: RANK[r])
+
+
+def load_canon(rec):
+    from PIL import Image
+    return np.array(Image.open(os.path.join(C.LIB2, rec['image'])).convert('RGBA'))
+
+
+def card_of(rec):
+    return next(c for c in C.cards() if c['id'] == rec['source_card'])
+
+
+def straight_cuts(mask, min_len, avoid_pt=None, avoid_r=0):
+    """long straight runs on the outline (scissor cuts across a limb), excluding those near avoid_pt"""
+    cs, _ = cv2.findContours(mask.astype(np.uint8), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
+    if not cs:
+        return []
+    c = max(cs, key=cv2.contourArea)
+    poly = cv2.approxPolyDP(c, 1.2, True)[:, 0, :].astype(float)
+    out = []
+    for i in range(len(poly)):
+        a, b = poly[i], poly[(i + 1) % len(poly)]
+        L = float(np.linalg.norm(b - a))
+        if L < min_len:
+            continue
+        mid = (a + b) / 2
+        if avoid_pt is not None and np.linalg.norm(mid - np.array(avoid_pt)) < avoid_r:
+            continue
+        # a straight segment is a cut only if the contour between its ends really follows the chord
+        out.append({'a': a.round(1).tolist(), 'b': b.round(1).tolist(), 'len': round(L, 1)})
+    return out
+
+
+def border_contact(alpha, keep_side=None):
+    a = alpha > 128
+    H, W = a.shape
+    sides = {'top': int(a[0].sum()), 'bottom': int(a[-1].sum()), 'left': int(a[:, 0].sum()), 'right': int(a[:, -1].sum())}
+    if keep_side:
+        sides.pop(keep_side, None)
+    return {k: v for k, v in sides.items() if v > 3}
+
+
+def nearest_side(pt, W, H):
+    d = {'left': pt[0], 'right': W - pt[0], 'top': pt[1], 'bottom': H - pt[1]}
+    return min(d, key=d.get)
+
+
+def gate_head(rec):
+    c = card_of(rec)
+    rgba = C.load_rgba(c)
+    kc, kcard = rec['keypoints']['canonical'], rec['keypoints']['card']
+    H, W = rgba.shape[:2]
+    out = {}
+    # --- cut-off: border contact away from the neck end, crown at the very top edge, straight cuts off the neck
+    bc = border_contact(rgba[..., 3], keep_side=nearest_side(kcard['pivot'], W, H))
+    m = rgba[..., 3] > 128
+    hh = math.dist(kcard['crown'], kcard['chin'])
+    cuts = straight_cuts(m, 0.28 * hh, avoid_pt=kcard['pivot'], avoid_r=0.75 * math.dist(kcard['pivot'], kcard['chin']) + 0.15 * hh)
+    if 'removed_components' in rec:
+        cuts = [s for s in cuts if not any(abs(s['a'][1] - r['bbox'][1]) < 3 for r in rec['removed_components'] if r['kind'] == 'caption')]
+    crown_cm = math.dist(kc['crown'], kc['chin']) / C.CANON_PPC
+    exp = C.height_cm(rec['character']) / 8.0
+    r = 'pass'
+    why = []
+    bc = {k: v for k, v in bc.items() if v > 0.05 * (W if k in ('top', 'bottom') else H)}   # a tangent touch is not a cut
+    if bc:
+        r = 'fail' if max(bc.values()) > 0.2 * max(W, H) else 'warn'; why.append('alpha runs along the card border: %s px' % bc)
+    if cuts:
+        r = worst(r, 'warn'); why.append('%d long straight edge(s) away from the neck' % len(cuts))
+    if crown_cm < 0.82 * exp:
+        r = worst(r, 'fail' if crown_cm < 0.7 * exp else 'warn'); why.append('crown->chin %.1f cm < expected %.1f' % (crown_cm, exp))
+    out['cutoff'] = _res(r, {'border_px': bc, 'straight_cuts': cuts, 'crown_chin_cm': round(crown_cm, 1), 'expected_cm': round(exp, 1)}, '; '.join(why))
+    # --- contamination: shoulders/collar below the neck (width blows up below the narrowest neck row), neck too long,
+    #     dark cloth under the chin
+    can = load_canon(rec)
+    mc = can[..., 3] > 128
+    piv, chin = kc['pivot'], kc['chin']
+    wid = rec.get('widths_px', {})
+    neck_min = wid.get('neck_min') or 1
+    below = [y for y in range(int(chin[1] + 0.4 * (piv[1] - chin[1])), min(mc.shape[0], int(piv[1] + 0.25 * (piv[1] - chin[1])) + 1))]
+    wmax = max([np.ptp(np.where(mc[y])[0]) + 1 for y in below if mc[y].any()] or [0])
+    neck_cm = (piv[1] - chin[1]) / C.CANON_PPC
+    hsv = cv2.cvtColor(can[..., :3], cv2.COLOR_RGB2HSV)
+    zone = np.zeros_like(mc); zone[int(chin[1] + 0.25 * (piv[1] - chin[1])):, :] = True
+    zone &= mc
+    cloth = float(((hsv[..., 2] < 60) & zone).sum() / max(1, zone.sum()))
+    r, why = 'pass', []
+    if wmax > 1.9 * neck_min:
+        r = 'fail'; why.append('outline widens to %.0f px below the chin (neck %.0f): shoulders or collar attached' % (wmax, neck_min))
+    elif wmax > 1.5 * neck_min:
+        r = 'warn'; why.append('outline widens below the chin (%.0f vs neck %.0f)' % (wmax, neck_min))
+    if neck_cm > 14:
+        r = worst(r, 'warn'); why.append('chin->pivot %.1f cm: long neck tab, pivot sits mid-neck' % neck_cm)
+    if cloth > 0.25 and 'back' not in rec['flags']:
+        r = worst(r, 'warn'); why.append('%.0f%% dark cloth-like pixels in the neck zone' % (100 * cloth))
+    out['contamination'] = _res(r, {'max_width_below_chin_px': int(wmax), 'neck_min_px': neck_min, 'chin_to_pivot_cm': round(neck_cm, 1),
+                                    'dark_in_neck_zone': round(cloth, 3)}, '; '.join(why))
+    # --- connection: pivot centred on the neck cross-section, brad found, clean end
+    row = int(round(piv[1]))
+    xs = np.where(mc[min(max(row, 0), mc.shape[0] - 1)])[0]
+    off = abs(piv[0] - (xs[0] + xs[-1]) / 2) / max(1, np.ptp(xs)) if len(xs) else 1
+    r, why = 'pass', []
+    if off > 0.25:
+        r = 'fail'; why.append('pivot %.0f%% off the neck centre-line' % (100 * off))
+    elif off > 0.12:
+        r = 'warn'; why.append('pivot %.0f%% off the neck centre-line' % (100 * off))
+    if 'brass' not in rec.get('pivot_source', ''):
+        r = worst(r, 'warn'); why.append('no brad found; pivot = %s' % rec.get('pivot_source'))
+    below_piv = mc[int(piv[1]) + 1:].sum() / C.CANON_PPC ** 2
+    if below_piv < 0.5:
+        r = worst(r, 'warn'); why.append('pivot sits on the bottom edge (%.1f cm^2 below it): no overlap tab' % below_piv)
+    out['connection'] = _res(r, {'pivot_offset_frac': round(float(off), 3), 'width_at_pivot_px': rec.get('widths_px', {}).get('neck_at_pivot'),
+                                 'tab_below_pivot_cm2': round(float(below_piv), 1), 'pivot_source': rec.get('pivot_source')}, '; '.join(why))
+    # --- view: the tag against the pixel test
+    px = rec.get('pixel_tests') or {}
+    v = rec['classes']['view']['value']
+    dx, dbox = px.get('skin_vs_hair_dx', 0), px.get('dark_face_box', 0)
+    pv = 'back' if dbox > 0.6 else 'side' if abs(dx) > 0.16 else 'three-quarter' if abs(dx) > 0.06 else 'front'
+    fam = lambda x: {'three-quarter-back': 'back', 'three-quarter': 'turned', 'side': 'turned'}.get(x, x)
+    r = 'pass' if fam(pv) == fam(v) or 'blank' in rec['flags'] and v != 'back' else 'warn'
+    out['view'] = _res(r, {'tag': v, 'pixel_view': pv, 'skin_vs_hair_dx': dx, 'dark_face_box': dbox, 'tag_conf': rec['classes']['view']['conf']},
+                       '' if r == 'pass' else 'pixel test reads %s, tag says %s' % (pv, v))
+    out['verdict'] = worst(*[out[k]['result'] for k in ('cutoff', 'contamination', 'connection', 'view')])
+    return out
+
+
+GATES = {'head': gate_head}
+
+
+
+
+def _common_cut(rec, rgba, pivot_card):
+    H, W = rgba.shape[:2]
+    bc = border_contact(rgba[..., 3], keep_side=nearest_side(pivot_card, W, H))
+    return {k: v for k, v in bc.items() if v > 0.05 * (W if k in ('top', 'bottom') else H)}
+
+
+def _cloth(can, zone):
+    hsv = cv2.cvtColor(can[..., :3], cv2.COLOR_RGB2HSV)
+    S, V = hsv[..., 1].astype(int), hsv[..., 2].astype(int)
+    return float((zone & (V < 55)).sum() / max(1, zone.sum())), float((zone & (S < 40) & (V > 170)).sum() / max(1, zone.sum()))
+
+
+_SKIN = {}
+
+
+def skin_ref(ch):
+    """the character's skin colour: median Lab of skin-coloured pixels on its front/three-quarter heads that are
+    painted or blank plates (the face plates are painted skin), excluding composed heads"""
+    if ch not in _SKIN:
+        idx = C.load_json(os.path.join(C.LIB2, 'index.json'))['parts']
+        px = []
+        for r in idx.values():
+            if r['character'] != ch or r['part'] != 'head' or r['status'] != 'ok' or 'composed' in r.get('flags', []):
+                continue
+            if r['classes']['view']['value'] not in ('front', 'three-quarter', 'side') or 'pale_skin_off_palette' in r['flags']:
+                continue
+            im = load_canon(r)
+            hsv = cv2.cvtColor(im[..., :3], cv2.COLOR_RGB2HSV).astype(int)
+            m = (im[..., 3] > 200) & (hsv[..., 0] >= 4) & (hsv[..., 0] <= 25) & (hsv[..., 1] >= 60) & (hsv[..., 2] >= 70)
+            lab = cv2.cvtColor(im[..., :3], cv2.COLOR_RGB2LAB).astype(float)[m]
+            if len(lab):
+                px.append(np.median(lab, 0))
+        _SKIN[ch] = np.median(px, 0) if px else None
+    return _SKIN[ch]
+
+
+def skin_delta(rec, can):
+    """delta-E (CIE76, L* in 0..100) between the part's dominant paint (opaque, not brass, not dark outline) and the
+    character's head skin"""
+    ref = skin_ref(rec['character'])
+    if ref is None:
+        return None
+    hsv = cv2.cvtColor(can[..., :3], cv2.COLOR_RGB2HSV).astype(int)
+    m = (can[..., 3] > 200) & (hsv[..., 2] > 60) & ~((hsv[..., 0] >= 17) & (hsv[..., 0] <= 32) & (hsv[..., 1] >= 90))
+    if m.sum() < 50:
+        return None
+    lab = cv2.cvtColor(can[..., :3], cv2.COLOR_RGB2LAB).astype(float)
+    a, b = np.median(lab[m], 0), ref
+    sc = np.array([100 / 255.0, 1, 1])
+    return float(np.linalg.norm((a - b) * sc))
+
+
+def gate_hand(rec):
+    c = card_of(rec)
+    rgba = C.load_rgba(c)
+    kc, kcard = rec['keypoints']['canonical'], rec['keypoints']['card']
+    can = load_canon(rec)
+    mc = can[..., 3] > 128
+    out = {}
+    exp = 0.108 * C.height_cm(rec['character'])            # wrist crease -> middle fingertip
+    L = rec['widths_px']['length'] / C.CANON_PPC
+    st = rec['classes']['state']['value']
+    closed = st in ('fist', 'grip', 'pinch', 'claw', 'cupped', 'point', 'peace') or str(st).startswith('holding')
+    lo = 0.45 if closed else 0.65
+    bc = _common_cut(rec, rgba, kcard['pivot'])
+    r, why = 'pass', []
+    if bc:
+        r = 'fail' if max(bc.values()) > 0.2 * max(rgba.shape[:2]) else 'warn'; why.append('alpha runs along the card border: %s px' % bc)
+    if L < lo * exp:
+        r = worst(r, 'fail' if L < (lo - 0.15) * exp else 'warn'); why.append('pivot->tip %.1f cm short for a %s hand (expected >= %.1f)' % (L, st, lo * exp))
+    if L > 1.45 * exp:
+        r = worst(r, 'warn'); why.append('pivot->tip %.1f cm long (expected about %.1f): wrist/forearm included or scale off' % (L, exp))
+    out['cutoff'] = _res(r, {'border_px': bc, 'length_cm': round(L, 1), 'expected_cm': round(exp, 1), 'state': st}, '; '.join(why))
+    # contamination: sleeve / cuff (dark or white cloth) past the tab, props, pale skin
+    P = kc['pivot']
+    zone = mc.copy(); zone[:int(P[1] + 0.12 * rec['widths_px']['length'])] = False
+    dark, white = _cloth(can, zone)
+    r, why = 'pass', []
+    if dark > 0.12:
+        r = 'fail'; why.append('%.0f%% dark cloth in the hand (sleeve or cuff attached)' % (100 * dark))
+    elif dark > 0.05:
+        r = 'warn'; why.append('%.0f%% dark pixels in the hand' % (100 * dark))
+    if 'prop' in rec['flags']:
+        r = worst(r, 'warn'); why.append('holds a painted prop (%s)' % st)
+    sd = skin_delta(rec, can)
+    glove = C.fixes().get(rec['source_card'], {}).get('glove_confirmed')
+    if sd is not None and sd > 20 and not glove:
+        r = 'fail'; why.append('skin tone %.0f dE from the character head skin (pale/grey: unpainted under-layer or another character; not a confirmed glove)' % sd)
+    elif 'pale_skin_off_palette' in rec['flags'] and not glove:
+        r = worst(r, 'warn'); why.append('pale skin, off the poet palette')
+    pc = kc.get('palm_centre')
+    if pc and (pc[1] - P[1]) > 0.62 * rec['widths_px']['length']:
+        r = worst(r, 'warn'); why.append('palm centre far from the wrist pivot: a long wrist/forearm stub')
+    out['contamination'] = _res(r, {'dark_cloth': round(dark, 3), 'white_cloth': round(white, 3), 'prop_frac': (rec.get('pixel_tests') or {}).get('prop_frac'),
+                                    'skin_dE_vs_head': None if sd is None else round(sd, 1)}, '; '.join(why))
+    # connection
+    r, why = 'pass', []
+    if 'brass' not in rec.get('pivot_source', ''):
+        r = 'warn'; why.append('no wrist brad found; pivot = %s' % rec.get('pivot_source'))
+    row = mc[int(P[1])]
+    xs = np.where(row)[0]
+    off = abs(P[0] - (xs[0] + xs[-1]) / 2) / max(1, np.ptp(xs)) if len(xs) else 1
+    if off > 0.25:
+        r = 'fail'; why.append('pivot %.0f%% off the wrist tab centre' % (100 * off))
+    tab = mc[:int(P[1])].sum() / C.CANON_PPC ** 2
+    if tab < 0.3:
+        r = worst(r, 'warn'); why.append('nothing beyond the pivot: no overlap tab')
+    out['connection'] = _res(r, {'pivot_offset_frac': round(float(off), 3), 'width_at_pivot_px': rec['widths_px'].get('at_pivot'), 'tab_beyond_pivot_cm2': round(float(tab), 1)}, '; '.join(why))
+    # view assumptions
+    cl = rec['classes']
+    r, why = 'pass', []
+    if cl['palm_normal']['value'] == 'unknown':
+        r = 'warn'; why.append('palm/back facing unknown')
+    if cl['side']['value'] == 'unknown':
+        r = 'warn'; why.append('his left/right unknown')
+    if any(f.startswith('name_') for f in rec['flags']):
+        r = 'warn'; why.append('card name contradicts the image (%s)' % ','.join(f for f in rec['flags'] if f.startswith('name_')))
+    out['view'] = _res(r, {'view': cl['view']['value'], 'palm_normal': cl['palm_normal']['value'], 'side': cl['side']['value'],
+                           'width_over_length': (rec.get('pixel_tests') or {}).get('width_over_length')}, '; '.join(why))
+    out['verdict'] = worst(*[out[k]['result'] for k in ('cutoff', 'contamination', 'connection', 'view')])
+    return out
+
+
+def gate_foot(rec):
+    c = card_of(rec)
+    rgba = C.load_rgba(c)
+    kc, kcard = rec['keypoints']['canonical'], rec['keypoints']['card']
+    can = load_canon(rec)
+    mc = can[..., 3] > 128
+    out = {}
+    exp = 0.165 * C.height_cm(rec['character'])            # boot length heel->toe
+    L = rec['widths_px']['length'] / C.CANON_PPC
+    side = rec['classes']['view']['value'] in ('side', 'three-quarter')
+    bc = _common_cut(rec, rgba, kcard['pivot'])
+    bc.pop('bottom', None)      # a flat sole on a tightly cut card's bottom edge is the sole, not a cut
+    r, why = 'pass', []
+    if bc:
+        r = 'fail' if max(bc.values()) > 0.35 * max(rgba.shape[:2]) else 'warn'; why.append('alpha runs along the card border: %s px' % bc)
+    edge = mc[:, 0].any() or mc[:, -1].any() or mc[-1].any()
+    if edge:
+        r = worst(r, 'warn'); why.append('the foot reaches the canonical canvas edge')
+    if side and L < 0.75 * exp:
+        r = worst(r, 'fail' if L < 0.6 * exp else 'warn'); why.append('heel->toe %.1f cm short (expected about %.1f)' % (L, exp))
+    if side and L > 1.35 * exp:
+        r = worst(r, 'warn'); why.append('heel->toe %.1f cm long (expected about %.1f)' % (L, exp))
+    out['cutoff'] = _res(r, {'border_px': bc, 'length_cm': round(L, 1), 'expected_cm': round(exp, 1)}, '; '.join(why))
+    hp = rec['widths_px']['height_pivot_to_sole'] / C.CANON_PPC
+    P = kc['pivot']
+    zone = mc.copy(); zone[int(P[1]):] = False
+    hsv = cv2.cvtColor(can[..., :3], cv2.COLOR_RGB2HSV)
+    red = float((zone & ((hsv[..., 0] < 8) | (hsv[..., 0] > 170)) & (hsv[..., 1] > 120) & (hsv[..., 2] > 80)).sum() / max(1, zone.sum()))
+    r, why = 'pass', []
+    if hp > 24:
+        r = 'warn'; why.append('ankle pivot %.1f cm above the sole: shaft/shin included?' % hp)
+    if red > 0.03:
+        r = 'fail'; why.append('trouser stripe (red) above the ankle: shin attached')
+    if 'off_palette_white' in rec['flags']:
+        r = worst(r, 'warn'); why.append('white boot, off the costume palette')
+    out['contamination'] = _res(r, {'pivot_to_sole_cm': round(hp, 1), 'red_above_pivot': round(red, 3)}, '; '.join(why))
+    r, why = 'pass', []
+    if 'brass' not in rec.get('pivot_source', ''):
+        r = 'warn'; why.append('no ankle brad found; pivot = %s' % rec.get('pivot_source'))
+    row = mc[int(P[1])]
+    xs = np.where(row)[0]
+    off = abs(P[0] - (xs[0] + xs[-1]) / 2) / max(1, np.ptp(xs)) if len(xs) else 1
+    if off > 0.3:
+        r = worst(r, 'fail'); why.append('pivot %.0f%% off the ankle tab centre' % (100 * off))
+    out['connection'] = _res(r, {'pivot_offset_frac': round(float(off), 3), 'width_at_pivot_px': rec['widths_px'].get('ankle_tab_at_pivot')}, '; '.join(why))
+    cl = rec['classes']
+    asym = (rec.get('pixel_tests') or {}).get('toe_asym', 0)
+    r, why = 'pass', []
+    if cl['view']['value'] == 'side' and abs(asym) < 0.12:
+        r = 'warn'; why.append('tagged side but symmetric about the ankle (asym %.2f)' % asym)
+    if cl['view']['value'] in ('front', 'back') and abs(asym) > 0.25:
+        r = 'warn'; why.append('tagged %s but reads as a side view (asym %.2f)' % (cl['view']['value'], asym))
+    if cl['side']['value'] == 'unknown':
+        r = worst(r, 'warn'); why.append('his left/right unknown')
+    out['view'] = _res(r, {'view': cl['view']['value'], 'facing': cl['facing']['value'], 'toe_asym': asym}, '; '.join(why))
+    out['verdict'] = worst(*[out[k]['result'] for k in ('cutoff', 'contamination', 'connection', 'view')])
+    return out
+
+
+def gate_limb(rec):
+    """forearm / shin / upper arm / thigh: border cut, two segments, both joint brads"""
+    c = card_of(rec)
+    rgba = C.load_rgba(c)
+    kcard = rec['keypoints']['card']
+    out = {}
+    bc = _common_cut(rec, rgba, kcard['pivot'])
+    out['cutoff'] = _res('warn' if bc else 'pass', {'border_px': bc}, 'alpha runs along the card border' if bc else '')
+    bad = 'extra_brads_mid_segment' in rec['flags']
+    out['contamination'] = _res('fail' if bad else 'pass', {'flags': rec['flags']}, 'brads mid-segment: two segments on one card' if bad else '')
+    est = [f for f in rec['flags'] if f.endswith('_pivot_estimated')]
+    out['connection'] = _res('warn' if est else 'pass', {'pivot_source': rec.get('pivot_source'), 'widths_px': rec.get('widths_px')}, ', '.join(est))
+    out['view'] = _res('pass', {'view': rec['classes']['view']['value']}, '')
+    out['verdict'] = worst(*[out[k]['result'] for k in ('cutoff', 'contamination', 'connection', 'view')])
+    return out
+
+
+GATES.update({'hand': gate_hand, 'foot': gate_foot, 'forearm': gate_limb, 'shin': gate_limb, 'upper_arm': gate_limb, 'thigh': gate_limb})
+
+
+# ---------------------------------------------------------------- identity: is it actually this part?
+PART_PROMPTS = {'head': ['a head', 'the back of a head'], 'hand': ['a hand', 'a fist', 'a hand with fingers'],
+                'forearm': ['a forearm in a sleeve', 'a lower arm sleeve with a cuff'], 'upper_arm': ['an upper arm in a sleeve', 'a shoulder and upper arm'],
+                'thigh': ['a thigh in trousers', 'an upper leg'], 'shin': ['a lower leg in trousers', 'a shin'],
+                'foot': ['a shoe', 'a boot', 'a foot'], 'torso': ['a torso', 'a jacket body without sleeves', 'a vest'],
+                'pelvis': ['hips', 'a hip connector plate', 'shorts'], 'feature': ['an eye', 'a mouth', 'eyebrows']}
+_ZS = {}
+
+
+def clip_part(card_id):
+    if card_id not in _ZS:
+        try:
+            import cliptext
+            _ZS[card_id] = cliptext.zero_shot(card_id, PART_PROMPTS)
+        except Exception as e:      # CLIP weights missing: the identity test runs without it
+            _ZS[card_id] = None
+    return _ZS[card_id]
+
+
+NAME_PART = [('forearm', r'farm|fore-?arm|forearm'), ('upper_arm', r'uarm|upper-?arm|bicep'), ('thigh', r'thigh'),
+             ('shin', r'shin|calf'), ('foot', r'foot|boot|shoe|sneaker'), ('hand', r'hand|palm|fist'),
+             ('head', r'head|face'), ('torso', r'torso|chest|jacket|vest'), ('pelvis', r'pelvis|hip-bridge|hipcore|waist-link')]
+_SHEET_PPC = {}
+
+
+def name_part(card_id):
+    import re
+    n = card_id.split('/')[-1].lower()
+    hits = [p for p, pat in NAME_PART if re.search(pat, n)]
+    return hits[0] if len(hits) == 1 else None      # 'foot-l-foot-r' -> foot; 'hand-l-forearm' -> ambiguous
+
+
+def sheet_ppc(card_id):
+    """the cut sheet's scale: median library px_per_cm over every card of the sheet (all slots)"""
+    sk = card_id.split('/')[0]
+    if sk not in _SHEET_PPC:
+        v = [c['px_per_cm'] for c in C.cards() if c['id'].split('/')[0] == sk and c.get('px_per_cm')]
+        _SHEET_PPC[sk] = float(np.median(v)) if v else None
+    return _SHEET_PPC[sk]
+
+
+def raw_length_cm(rec):
+    """pivot->tip on the CARD, in cm at the sheet's scale (independent of the canonical normalisation)"""
+    kc = rec['keypoints']['card']
+    p = rec['part']
+    tip = {'upper_arm': 'elbow', 'forearm': 'wrist', 'thigh': 'knee', 'shin': 'ankle'}.get(p)
+    ppc = sheet_ppc(rec['source_card'])
+    if not ppc:
+        return None
+    if tip and kc.get(tip):
+        return math.dist(kc['pivot'], kc[tip]) / ppc
+    if p in ('hand', 'foot'):
+        L = (rec.get('widths_px') or {}).get('length')
+        s = rec['transform']['scale']
+        return L / s / ppc if L and s else None
+    return None
+
+
+def gate_identity(rec):
+    """is it actually this part? Three independent votes against the filing:
+    the card's own name naming another part (weak), CLIP zero-shot reading another part, and the raw card length
+    (at the sheet's scale) being closer to the canon of the named part than of the filed part.
+    Two votes -> fail, one -> warn. Torsos must also show a shoulder line and a neck/collar."""
+    p = rec['part']
+    zs = clip_part(rec['source_card'])
+    np_ = name_part(rec['source_card'])
+    votes, why = [], []
+    other = None
+    if np_ and np_ != p:
+        votes.append('name'); why.append('the card name says %s' % np_); other = np_
+    top = max(zs, key=zs.get) if zs else None
+    clip_min = 0.6 if p in ('hand', 'foot') else 0.4      # cut-out hands with tabs read as forearms at ~0.5
+    if zs and top != p and zs[top] > clip_min and zs.get(p, 0) < 0.25:
+        votes.append('clip'); why.append('CLIP reads %s (%.2f) over %s (%.2f)' % (top, zs[top], p, zs.get(p, 0))); other = other or top
+    canon = None
+    try:
+        if 'canon' not in _SHEET_PPC:
+            _SHEET_PPC['canon'] = C.load_json(os.path.join(C.LIB2, 'canon.json'))['characters']
+        cn = _SHEET_PPC['canon']
+        ck = '%s/%s' % (rec['character'], rec.get('costume'))
+        canon = cn.get(ck) or next((v for k, v in cn.items() if k.startswith(rec['character'] + '/') and 'error' not in v), None)
+    except Exception:
+        pass
+    L = raw_length_cm(rec) if p in ('upper_arm', 'forearm', 'thigh', 'shin', 'hand', 'foot') else None
+    lr = None
+    if L and canon:
+        seg = canon['segments_cm']
+        cf = (seg.get(p) or {}).get('canon')
+        if cf:
+            lr = L / cf
+        cand = other if other in seg else None
+        if p in ('hand', 'foot'):
+            cand = None       # the card length includes the wrist/ankle tab: only an absurd length counts here
+        if cf and cand and (seg.get(cand) or {}).get('canon'):
+            co = seg[cand]['canon']
+            if abs(math.log(L / co)) + 0.15 < abs(math.log(L / cf)):
+                votes.append('length'); why.append('card length %.1f cm is closer to a %s (%.1f) than a %s (%.1f)' % (L, cand, co, p, cf))
+        if cf and (lr < 0.45 or lr > 2.2):
+            votes.append('length_absurd'); why.append('card length %.1f cm vs canon %s %.1f' % (L, p, cf))
+    if p == 'torso':
+        k = rec['keypoints']['canonical']
+        v = rec['classes']['view']['value']
+        has_sh = ('shoulder' in k) if v == 'side' else ('shoulder_l' in k and 'shoulder_r' in k)
+        no_sh = not ('shoulder_l' in k or 'shoulder_r' in k or 'shoulder' in k)
+        clip_torso = bool(zs) and max(zs, key=zs.get) == 'torso'
+        if no_sh and not clip_torso:
+            votes.append('structure'); votes.append('structure'); why.append('no shoulder sockets and CLIP does not read a torso')
+        elif no_sh:
+            why.append('no shoulder brads (sleeveless card: arm sockets are the armholes, not located)')
+        elif not has_sh:
+            votes.append('structure'); why.append('shoulder line incomplete for a %s view' % v)
+    r = 'fail' if len(votes) >= 2 else 'warn' if votes else 'pass'
+    conf = C.fixes().get(rec['source_card'], {}).get('identity_confirmed')
+    if conf:
+        r = 'pass'; why = ['confirmed by eye (fixes.json): ' + conf] + why
+    return _res(r, {'clip': zs, 'name_part': np_, 'raw_length_cm': None if L is None else round(L, 1), 'length_ratio_raw': None if lr is None else round(lr, 2),
+                    'votes': votes, 'refile_as': other if r == 'fail' else None}, '; '.join(why))
+
+
+def gate(rec):
+    f = GATES.get(rec['part'])
+    out = f(rec) if f else None
+    if out is not None:
+        out['identity'] = gate_identity(rec)
+        out['verdict'] = worst(*[out[k]['result'] for k in ('cutoff', 'contamination', 'connection', 'view', 'identity')])
+    return out
+
+
+GATES['torso'] = gate_limb
+GATES['pelvis'] = gate_limb
