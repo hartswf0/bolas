@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SCION 31 operator</title>
+<style>
+:root{--bg:#0e0f1a;--fg:#ece2d2;--dim:#aaa096;--amb:#f0aa5a}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.5 system-ui,sans-serif;padding:16px;max-width:760px}
+video{width:100%;height:auto;background:#000}h1{font-size:20px;margin:.2em 0}h2{font-size:15px;color:var(--amb);margin:1.2em 0 .3em}
+a{color:var(--amb)}code{color:var(--dim)}li{margin:.2em 0}
+</style></head><body>
+<h1>SCION 31 · Alpha Matting — the threshold</h1>
+<p>PAE-02 cohort 4 · revision: build v4 (make.sh rebuild; look-in at 26.4 s; two-pass encode).</p>
+<video src="film.mp4" controls playsinline preload="metadata"></video>
+<h2>Critic verdict</h2><p>Not yet judged. The builder does not approve its own work; an independent critic will.</p>
+<h2>Next blocking failure (builder's guess, untested)</h2>
+<p>The turns are the archive dog's own small, fast turn; mid-turn frames 17–20 may read as a hunched shape. The walk is a seven-frame loop whose seam shows.</p>
+<h2>Artifacts</h2><ul>
+<li><a href="trace.json">trace.json</a> · <a href="invariants.json">invariants.json</a> · <a href="assets.json">assets.json</a> · <a href="method.md">method.md</a> · <a href="ledger.jsonl">ledger.jsonl</a></li>
+<li>Matte diagnostics: <a href="proof/dog_matte_diagnostics.jpg">dog</a>, <a href="proof/world_matte_diagnostics.jpg">world</a>, <a href="proof/fork_fur_ABC.jpg">fur fork A/B/C</a></li>
+<li>Stress composite: <a href="proof/stress_composite.mp4">light / dark / moving, turning and rotating</a> · <a href="proof/edge_log.json">edge acceptance log</a> · RGBA variants in <code>proof/rgba/</code></li>
+<li>Stills: <a href="stills/still_03.6s.jpg">3.6 s</a> · <a href="stills/still_09.0s.jpg">9 s</a> · <a href="stills/still_19.0s.jpg">19 s</a> · <a href="stills/still_28.0s.jpg">28 s</a></li>
+</ul>
+<p>Rebuild: <code>build/make.sh</code>. Accepted checkpoint: none yet (no critic pass).</p>
+</body></html>

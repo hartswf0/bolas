@@ -132,6 +132,16 @@
    "trick": "Gaze, head and body are three separate decisions, and the dog makes them in that order."
   },
   {
+   "id": 25,
+   "dir": "25-rive",
+   "name": "Rive",
+   "kind": "Interactive puppet state machines",
+   "dog": "a boned vector puppet driven by a three-layer state machine",
+   "made": "An artboard of capsule shapes bound to bones: a two-capsule torso with tuck-up, neck, skull, muzzle, curved-triangle ears, a five-segment tapered tail and four two-bone IK legs, with the coat pattern clipped to the torso. Keyed poses (stand, crouch, lie, rest, look in) and looping clips (breath, wag) are mixed by 1D blend states. The house is drawn in section under an oblique camera. Proportions were studied from a public-domain home movie; no archive pixels are used. Rive itself was not available, so the swarm wrote a small runtime with Rive's primitives.",
+   "moved": "Typed inputs (numbers, triggers, a boolean) feed three layered state machines: Facing, Body and Attention. Only Facing may rotate the body, and both turns go through the dog's front. A stepping solver plants each foot until its home moves too far, and the head layer leads the body round at 7.46 s.",
+   "trick": "The score is played into the puppet as inputs; the dog's choices come out of its own state machine."
+  },
+  {
    "id": 27,
    "dir": "27-remotion",
    "name": "Remotion",
@@ -150,6 +160,16 @@
    "made": "A graph cut written for this film (Boykov–Kolmogorov max-flow), seeded but not decided by the kit's SAM masks, with scribbles from the rig keys, a 2× supersampled cut, colour and texture models and a clean plate of the shot with the dog removed. Nine frames of the home-movie dog, cut and saved with contour and failure masks; the woman and door cut from Straight Talk, the hand from The Door to Heaven, the wall and boards from the dog's own shot.",
    "moved": "Re-performance of the cuts: the dog's real walk mirrored and run backward for the retreat and chosen by distance for the approach; its own turning frames for the refusal; a lying dog assembled from one frame's cut pieces, with the hidden belly a recorded repair; the back of the head from the one frame the home movie shot from behind.",
    "trick": "The cut is the film: every edge of the dog is an argument about where it ends."
+  },
+  {
+   "id": 33,
+   "dir": "33-inverse-kinematics",
+   "name": "Inverse kinematics",
+   "kind": "Joints, chains and planted effectors",
+   "dog": "the rig itself: tapered capsules on drawn joints, every leg solved every frame",
+   "made": "A shepherd-type rig: pelvis and chest, neck, skull and muzzle, ears, a seven-link tail and four three-segment legs, drawn as what it is (tapered capsules with rings at the elbows, stifles and hocks) and lit by dusk and the door light. Proportions come only as numbers from the archive dog's rig keys; no archive pixel appears. The person is built in the same language, and the door is a rigid body with friction.",
+   "moved": "Analytic two-bone IK with pole vectors and joint limits on every leg, every frame, checked against a FABRIK solver. A footfall planner locks each planted paw in world space and lifts it only when its home has moved or the leg can no longer hold it. The head aims at world targets: the person, the lit boards, the low hand, the room. The person's reach for the dog straightens toward the target and falls metres short, while the reach to the door edge arrives and pushes it open.",
+   "trick": "A command is a target the arm cannot reach; the threshold is a target the dog's own chain lays down across."
   },
   {
    "id": 38,

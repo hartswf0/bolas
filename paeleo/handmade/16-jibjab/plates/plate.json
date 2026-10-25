@@ -1,0 +1,267 @@
+{
+ "about": "SCION 16 JibJab, round 2: the body plate, cut from the archive dog's own footage (Amateur Film New Jersey C, PD).\n\nTwo kinds of plate, both graded the same way (duotone, the film's own grain left in), both headless (the head is the face slot):\n  rig pieces   cut from f008 (profile, walking left) and f012 (its tail): torso, neck, foreleg upper/lower, two hind legs,\n               tail. Re-posed on the performance by two-point affine maps (pivot -> pivot). Far-side foreleg = the near one,\n               darkened (recorded as a duplicate).\n  turn plates  whole cut-outs of the frames in which the real dog turned from facing left, through facing the camera, to\n               facing right (f016 .. f044): re-timed, they are the turns. Their heads are matted out at the pose keys.\nWrites plates/rig/*.png, plates/turn/*.png, plates/plate.json (pivots in piece px; piece px = source px x UP).\n",
+ "up": 2,
+ "source": "paeleo/handmade/kit/archive-dog (Amateur Film New Jersey C, public domain)",
+ "rig": {
+  "torso": {
+   "png": "plates/rig/torso.png",
+   "frame": 8,
+   "pivots": {
+    "shoulder": [
+     50,
+     96
+    ],
+    "hip": [
+     202,
+     96
+    ]
+   }
+  },
+  "neck": {
+   "png": "plates/rig/neck.png",
+   "frame": 8,
+   "pivots": {
+    "base": [
+     50,
+     88
+    ],
+    "collar": [
+     18,
+     24
+    ]
+   }
+  },
+  "fore_upper": {
+   "png": "plates/rig/fore_upper.png",
+   "frame": 8,
+   "pivots": {
+    "top": [
+     36,
+     20
+    ],
+    "knee": [
+     42,
+     72
+    ]
+   }
+  },
+  "fore_lower": {
+   "png": "plates/rig/fore_lower.png",
+   "frame": 8,
+   "pivots": {
+    "knee": [
+     2,
+     16
+    ],
+    "foot": [
+     12,
+     78
+    ]
+   }
+  },
+  "hind_near": {
+   "png": "plates/rig/hind_near.png",
+   "frame": 8,
+   "pivots": {
+    "top": [
+     26,
+     16
+    ],
+    "foot": [
+     24,
+     116
+    ]
+   }
+  },
+  "hind_far": {
+   "png": "plates/rig/hind_far.png",
+   "frame": 8,
+   "pivots": {
+    "top": [
+     36,
+     16
+    ],
+    "foot": [
+     26,
+     100
+    ]
+   }
+  },
+  "tail": {
+   "png": "plates/rig/tail.png",
+   "frame": 6,
+   "pivots": {
+    "base": [
+     22,
+     36
+    ],
+    "tip": [
+     110,
+     76
+    ]
+   }
+  }
+ },
+ "turn": [
+  {
+   "png": "plates/turn/f016.png",
+   "frame": 16,
+   "yaw": 205,
+   "feet": [
+    99.55000000000001,
+    200.60000000000002
+   ],
+   "neck": [
+    14.599999999999994,
+    46.0
+   ],
+   "head_removed": {
+    "c": [
+     5.800000000000011,
+     64.04000000000002
+    ],
+    "r": 44.626517540266775
+   }
+  },
+  {
+   "png": "plates/turn/f020.png",
+   "frame": 20,
+   "yaw": 228,
+   "feet": [
+    148.5,
+    196
+   ],
+   "neck": [
+    96,
+    62
+   ],
+   "head_removed": {
+    "c": [
+     101.5,
+     106.0
+    ],
+    "r": 71.985998039451
+   }
+  },
+  {
+   "png": "plates/turn/f026.png",
+   "frame": 26,
+   "yaw": 252,
+   "feet": [
+    82.0,
+    206
+   ],
+   "neck": [
+    106,
+    46
+   ],
+   "head_removed": {
+    "c": [
+     114.80000000000007,
+     76.80000000000001
+    ],
+    "r": 58.10934505083137
+   }
+  },
+  {
+   "png": "plates/turn/f028.png",
+   "frame": 28,
+   "yaw": 270,
+   "feet": [
+    38.5,
+    202
+   ],
+   "neck": [
+    62,
+    32
+   ],
+   "head_removed": {
+    "c": [
+     77.40000000000003,
+     57.30000000000001
+    ],
+    "r": 55.38802180423392
+   }
+  },
+  {
+   "png": "plates/turn/f032.png",
+   "frame": 32,
+   "yaw": 290,
+   "feet": [
+    26.0,
+    196
+   ],
+   "neck": [
+    86,
+    32
+   ],
+   "head_removed": {
+    "c": [
+     111.30000000000007,
+     56.19999999999999
+    ],
+    "r": 61.466299547842084
+   }
+  },
+  {
+   "png": "plates/turn/f036.png",
+   "frame": 36,
+   "yaw": 308,
+   "feet": [
+    54.0,
+    202
+   ],
+   "neck": [
+    100,
+    42
+   ],
+   "head_removed": {
+    "c": [
+     124.20000000000005,
+     67.30000000000001
+    ],
+    "r": 61.466299547842084
+   }
+  },
+  {
+   "png": "plates/turn/f040.png",
+   "frame": 40,
+   "yaw": 326,
+   "feet": [
+    79.5,
+    208
+   ],
+   "neck": [
+    132,
+    52
+   ],
+   "head_removed": {
+    "c": [
+     154.0,
+     90.5
+    ],
+    "r": 71.985998039451
+   }
+  },
+  {
+   "png": "plates/turn/f044.png",
+   "frame": 44,
+   "yaw": 345,
+   "feet": [
+    115.5,
+    208
+   ],
+   "neck": [
+    196,
+    64
+   ],
+   "head_removed": {
+    "c": [
+     229.0,
+     115.70000000000005
+    ],
+    "r": 91.14042522287522
+   }
+  }
+ ]
+}

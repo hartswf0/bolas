@@ -26,7 +26,7 @@ RULES = [
     dict(id='R8 SPLIT torso at the threshold', kind='split', input='dog.torso', output='dog.chest (sun) + dog.haunch (shade)',
          precondition='chest and haunch have different materials (R7)', preserved='S and H anchors of the torso', motif='half in, half out, materially'),
     dict(id='R9 ENTER head -> the door light (look in)', kind='enter', input='dog.head', output='head_back_cut (back of the head, toward the viewer, into the lit room)',
-         precondition='score act.look > 0.5 (after "come in")', preserved='neck anchor', motif='the one drawn shape; the head turns into depth'),
+         precondition='score act.look > 0.2 (on hearing "come in")', preserved='neck anchor', motif='the one drawn shape; the head turns into depth'),
     dict(id='P1 ENTER voice', kind='enter', input='person.head (mouth anchor)', output='voice.arcs (found telephone sound arcs, re-timed)',
          precondition='score voice = call (wide arcs travelling to the dog) or soft (small arcs that stay at the mouth)'),
     dict(id='P2 SPLIT coat (sit)', kind='split', input='person.body (the coat)', output='person.torso + person.thigh + person.shin',

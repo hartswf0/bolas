@@ -1,0 +1,15 @@
+{"n": 1, "attempt": "cut v1", "change": "dog from f006 in 7 pieces, person collage, door substitution set", "saw": "standing dog reads; lying with big head card reads as a seal; chest triangle below floor; person legs boxy"}
+{"n": 2, "attempt": "cut v2", "change": "head cut at neck line; chest re-cut; trousers narrowed; drawn crate/shoes", "saw": "lying reads as a sphinx-lying dog; back-of-head first version too small and floating, ears pointy like a cat"}
+{"n": 3, "attempt": "cut v3", "change": "back-of-head enlarged, hanging ears, lowered onto chest", "saw": "reads as the back of a dog's head looking in"}
+{"n": 4, "attempt": "set v1", "change": "facade face-on, doorway hole, airbrushed sky, porch boards, stone pillar, lamplight", "saw": "pillar a grey slab, lawn a hard block; wall empty"}
+{"n": 5, "attempt": "set v2", "change": "pillar narrowed and darkened, lawn airbrushed, window from the door's curtained glass", "saw": "composition balanced enough; dog still small"}
+{"n": 6, "attempt": "person v2", "change": "face print found to look LEFT: head+jaw flopped, jaw hinge at the ear, black paper mouth", "saw": "jaw opening with black mouth reads at 1280x720 (looked at frame 40 zoom)"}
+{"n": 7, "attempt": "render v1", "change": "full 768 frames, trace measured", "saw": "checker ALL OK; measured look-back 0.625 s late (facing measured by position); feet slip 10 px at approach start"}
+{"n": 8, "attempt": "render v2", "change": "planted-start gait; facing = head card direction from neck pin; crisper first exposures at retreat/approach/lie", "saw": "all measured onsets within 0.02 s; max foot slip 1.89 px"}
+{"n": 9, "attempt": "render v3", "change": "looked-back head card angle corrected (+ lowers on flopped body)", "saw": "head comes round level-ish over the shoulder on frame 179"}
+{"n": 10, "attempt": "sound v1", "change": "flite voice, room tone, claws, taps, creak, chords", "saw": "room tone too loud (soft only 5 dB above)"}
+{"n": 11, "attempt": "sound v2", "change": "room tone and crickets lowered; soft voice -21", "saw": "soft 13.2 dB below calls, 15.5 dB above room tone (measured on stems)"}
+{"n": 12, "attempt": "encode v1", "change": "crf 25 -tune grain", "saw": "21 MB: over the 12 MB limit"}
+{"n": 13, "attempt": "encode v2", "change": "two-pass 2.1 Mb/s; disk had filled mid-attempt, re-run", "saw": "10.7 MB, 912 frames, 38.0 s; checked compressed frames: grain and cut edges survive"}
+{"n": 14, "attempt": "render v4", "change": "lying tilt levelled (rear not raised), low hand extended to 58 deg with lean", "saw": "stills look right: refusal back, watching, approach head low, lying half in the frame looking in"}
+{"n": 15, "attempt": "sound v3", "change": "leading silence trimmed; lines start 0.15-0.2 s before the choice; reach starts with second call", "saw": "mouth opens frame 21 (<24 retreat), 78 (<82 refuse), 174 (<179 look), 631 (<634 look in)"}

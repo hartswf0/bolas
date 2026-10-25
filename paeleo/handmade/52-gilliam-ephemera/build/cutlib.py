@@ -57,7 +57,8 @@ def poly_alpha(polys, size, scale, off, holes=()):
 
 
 def cut(name, src, polys, scale, palette, mask_polys=None, holes=(), stretch=(2, 98), gamma=1.0, sharpen=True,
-        rim=1.0, seed=0, pins=None, notes='', provenance=None, keep_color=False, extra_alpha=None):
+        rim=1.0, seed=0, pins=None, notes='', provenance=None, keep_color=False, extra_alpha=None,
+        smooth_mask=0, soften=0, contrast=1.0, wash_amp=.10):
     """src: path to the print (a frame). polys: list of polygons / ('disc',cx,cy,r) in source pixels.
     Returns a record; writes cache/pieces/<name>.png (RGBA at screen scale)."""
     im = Image.open(src).convert('RGB')
@@ -75,7 +76,11 @@ def cut(name, src, polys, scale, palette, mask_polys=None, holes=(), stretch=(2,
     crop = im.transform((W, H), Image.AFFINE, (1 / scale, 0, off[0] / scale, 0, 1 / scale, off[1] / scale), Image.BICUBIC)
     a = poly_alpha(polys, (W, H), scale, off, holes)
     if mask_polys is not None:
-        a = a * poly_alpha(mask_polys, (W, H), scale, off)
+        m = poly_alpha(mask_polys, (W, H), scale, off)
+        if smooth_mask:   # scissors follow a smooth line, not the matte's jagged hackles: blur, then re-cut at half
+            mb = np.asarray(Image.fromarray((m * 255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(smooth_mask))).astype(np.float32) / 255
+            m = np.clip((mb - .5) * 4 + .5, 0, 1)
+        a = a * m
     if extra_alpha is not None:
         a = a * extra_alpha(crop, W, H)
     L = lum(crop)
@@ -84,6 +89,10 @@ def cut(name, src, polys, scale, palette, mask_polys=None, holes=(), stretch=(2,
         lo, hi = np.percentile(L[inside], stretch)
         L = np.clip((L - lo) / max(hi - lo, 1e-3), 0, 1)
     L = L ** gamma
+    if soften:            # regrade: the print's JPEG blotches are blurred and its contrast compressed
+        L = np.asarray(Image.fromarray((L * 255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(soften))).astype(np.float32) / 255
+    if contrast != 1.0:
+        L = np.clip(.5 + (L - .5) * contrast, 0, 1)
     if sharpen:
         Li = Image.fromarray((L * 255).astype(np.uint8)).filter(ImageFilter.UnsharpMask(radius=1.6, percent=90, threshold=1))
         L = np.asarray(Li).astype(np.float32) / 255.0
@@ -94,7 +103,7 @@ def cut(name, src, polys, scale, palette, mask_polys=None, holes=(), stretch=(2,
     # hand tint: a low-frequency wash, the unevenness of a brush of dye
     rng = np.random.default_rng(seed)
     n = Image.fromarray((rng.random((max(2, H // 14), max(2, W // 14))) * 255).astype(np.uint8)).resize((W, H), Image.BICUBIC)
-    wash = (np.asarray(n).astype(np.float32) / 255.0 - .5) * .10
+    wash = (np.asarray(n).astype(np.float32) / 255.0 - .5) * wash_amp
     rgb = np.clip(rgb * (1 + wash[..., None]), 0, 1)
     # paper core at the cut edge
     A = Image.fromarray((a * 255).astype(np.uint8))

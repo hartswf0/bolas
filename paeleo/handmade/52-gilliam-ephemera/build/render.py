@@ -9,7 +9,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import world
 from world import W, H, sky_layer, house_layers, door_layer, lightmap, place_at, OPEN_L, OPEN_R, X_D, K
 from puppets import draw_dog, draw_person, dog_points
-from table import place, T
+from table import place, T, pin
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 FOLDER = os.path.dirname(HERE)
@@ -34,7 +34,11 @@ def jitter(k, piece_scale=1.0):
 def shoot(e):
     k = e['k']
     sky = G['sky'].copy()
+    place(sky, 'moon', T(1120, 70 + e.get('moon_dy', 0)), shadow=(1, 2, .25))
     place_at(sky, 'cloud', 900 + e['cloud_dx'] + 200, 250, tint=(.8, .75, .9), shadow=None, alpha=.85)
+    if e.get('hand_x') is not None:      # the giant hand comes in over the table edge and lowers the moon
+        tp = pin('giant_hand', 'tip')
+        place(sky, 'giant_hand', T(e['hand_x'], 112 + e.get('moon_dy', 0)) @ T(-tp[0], -tp[1]), shadow=(6, 8, .45), tint=(.78, .78, .92))
     lit = Image.new('RGBA', (W, H), (0, 0, 0, 0))
     lit.alpha_composite(G['inner'])
     if e['door'] not in G['doors']:

@@ -9,7 +9,7 @@ Card convention: 400 px per metre, y down, landmarks in card pixels. socket = wh
 """
 import json, math, os, random
 import numpy as np
-from PIL import Image, ImageDraw, ImageFilter, ImageOps
+from PIL import Image, ImageDraw, ImageFilter, ImageOps, ImageChops
 
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 KIT = os.path.join(HERE, '..', 'kit')
@@ -142,6 +142,25 @@ def cast_paper():
     paper(d, blob(0.0, 0.085, 0.065, 0.07, rnd), (176, 120, 68), ew=0)
     views['B'] = {'img': im, 'nose': (0.0, 0.16), 'ears': [{'piv': (-0.08, 0.19), 'front': True, 'side': -1},
                                                            {'piv': (0.08, 0.19), 'front': True, 'side': 1}]}
+    # F : from the front (seen only mid-turn and when it looks back over its shoulder)
+    im = Image.new('RGBA', (CW * SS, CH * SS), (0, 0, 0, 0)); d = ImageDraw.Draw(im)
+    paper(d, blob(0.0, 0.12, 0.108, 0.11, rnd), TAN)
+    paper(d, blob(0.0, 0.06, 0.072, 0.052, rnd), CREAM)
+    paper(d, blob(0.0, 0.085, 0.03, 0.022, rnd), NOSE, edge=(60, 45, 35), ew=2)
+    for sx in (-1, 1):
+        paper(d, blob(sx * 0.045, 0.145, 0.02, 0.022, rnd), (26, 18, 14), edge=(250, 245, 235), ew=5)
+    d.line([m2c(-0.03, 0.035), m2c(0, 0.045), m2c(0.03, 0.035)], fill=DARK, width=6)
+    views['F'] = {'img': im, 'nose': (0.0, 0.085), 'ears': [{'piv': (-0.085, 0.18), 'front': True, 'side': -1},
+                                                            {'piv': (0.085, 0.18), 'front': True, 'side': 1}]}
+    # FL : three-quarter from the front, looking left
+    im = Image.new('RGBA', (CW * SS, CH * SS), (0, 0, 0, 0)); d = ImageDraw.Draw(im)
+    paper(d, blob(0.01, 0.12, 0.11, 0.108, rnd), TAN)
+    paper(d, blob(-0.075, 0.065, 0.085, 0.055, rnd, rot=0.05), CREAM)
+    paper(d, blob(-0.15, 0.088, 0.03, 0.023, rnd), NOSE, edge=(60, 45, 35), ew=2)
+    paper(d, blob(-0.065, 0.145, 0.019, 0.022, rnd), (26, 18, 14), edge=(250, 245, 235), ew=5)
+    paper(d, blob(0.025, 0.15, 0.017, 0.02, rnd), (26, 18, 14), edge=(250, 245, 235), ew=4)
+    views['FL'] = {'img': im, 'nose': (-0.17, 0.088), 'ears': [{'piv': (-0.06, 0.19), 'front': False, 'side': -1, 'scale': .85},
+                                                               {'piv': (0.075, 0.185), 'front': True, 'side': 1}]}
     ear, epiv = ear_piece(BROWN)
     ear.save(os.path.join(HERE, 'cast/paper/ear.png'))
     for v, o in views.items():
@@ -174,13 +193,13 @@ def strokes_to_card(drawing, keep, box_m, flip=False):
     return out
 
 
-def doodle_img(polys_fill, lines, lw=9, fill=(250, 246, 236)):
+def doodle_img(polys_fill, lines, lw=9, fill=(214, 200, 178)):
     im = Image.new('RGBA', (CW * SS, CH * SS), (0, 0, 0, 0)); d = ImageDraw.Draw(im)
     for poly in polys_fill:
         d.polygon([m2c(*p) for p in poly], fill=fill)
     # sticker border: dilate alpha, white
     a = im.split()[3].filter(ImageFilter.MaxFilter(17))
-    base = Image.new('RGBA', im.size, (255, 255, 255, 0)); base.putalpha(a)
+    base = Image.new('RGBA', im.size, (226, 214, 194, 0)); base.putalpha(a)
     base.alpha_composite(im)
     d = ImageDraw.Draw(base)
     for ln in lines:
@@ -217,6 +236,11 @@ def cast_doodle():
     snout = [(x - 0.02, y - 0.02) for x, y in snout]
     BLi = doodle_img([snout + [(-0.12, 0.05)], headF, e1, e2], [snout, headF, e1, e2])
     out['BL'] = {'img': BLi, 'nose': (min(p[0] for p in snout), 0.08)}
+    # F and FL: the same stranger's face drawing whole (its features back in)
+    feats = strokes_to_card(F, list(range(3, len(F))), boxF)
+    Fi = doodle_img([headF, e1, e2], [headF, e1, e2] + feats)
+    out['F'] = {'img': Fi, 'nose': (0.0, 0.1)}
+    out['FL'] = {'img': Fi.copy(), 'nose': (0.0, 0.1)}
     views = {}
     for v, o in out.items():
         img = shadowed(finish(o['img']))
@@ -230,8 +254,8 @@ def cast_doodle():
     im = Image.new('RGBA', (W * SS, H * SS), (0, 0, 0, 0)); d = ImageDraw.Draw(im)
     tx, ty = top
     loc = [((W / 2 + (x - tx) * PPM) * SS, (0.02 * PPM + (ty - y) * PPM) * SS) for x, y in ear]
-    d.polygon(loc, fill=(250, 246, 236))
-    a = im.split()[3].filter(ImageFilter.MaxFilter(17)); base = Image.new('RGBA', im.size, (255, 255, 255, 0)); base.putalpha(a)
+    d.polygon(loc, fill=(214, 200, 178))
+    a = im.split()[3].filter(ImageFilter.MaxFilter(17)); base = Image.new('RGBA', im.size, (226, 214, 194, 0)); base.putalpha(a)
     base.alpha_composite(im); d = ImageDraw.Draw(base); d.line(loc, fill=(22, 22, 26), width=9)
     finish(base).save(os.path.join(HERE, 'cast/doodle/ear.png'))
     views['L']['ears'] = [{'png': 'cast/doodle/ear.png', 'pivot_in_ear': [W / 2, 0.02 * PPM],
@@ -245,62 +269,76 @@ def cast_doodle():
 
 # ---------------------------------------------------------------- cast A: home movie (the archive dog's own face)
 def cast_home():
+    """every view from the archive dog's own frames, graded like the body plate, at its scale (2 card px per source px)"""
+    import numpy as np
     os.makedirs(os.path.join(HERE, 'cast/home'), exist_ok=True)
-    fr = lambda i: Image.open(os.path.join(KIT, 'archive-dog/frames/f%03d.jpg' % i)).convert('L')
-    # f038: the only frame where the dog's face reads (eye, nose, white blaze, collar): a 3/4 face looking right.
-    # Mirrored, it looks left. Cut by hand along the head (this polygon), feathered; seam under the collar.
-    src = fr(38)
-    poly = [(193, 108), (203, 101), (214, 102), (226, 106), (236, 113), (241, 124), (242, 134), (238, 142), (228, 147),
-            (216, 148), (206, 146), (199, 140), (194, 131), (191, 120)]
-    m = Image.new('L', src.size, 0); ImageDraw.Draw(m).polygon(poly, fill=255)
-    m = m.filter(ImageFilter.GaussianBlur(0.8))
-    x0, y0, x1, y1 = 186, 96, 248, 152
-    face = src.crop((x0, y0, x1, y1)); mm = m.crop((x0, y0, x1, y1))
-    # lift contrast; sepia tint to sit on the body plate
-    face = ImageOps.autocontrast(face, cutoff=1)
-    sep = ImageOps.colorize(face, (30, 20, 12), (250, 226, 190))
-    sep = sep.convert('RGBA'); sep.putalpha(mm)
-    sep = ImageOps.mirror(sep)
-    scale = 0.30 * PPM / (x1 - x0)              # face card is 0.30 m wide
-    sep = sep.resize((int(sep.width * scale), int(sep.height * scale)), Image.LANCZOS)
+    KD = os.path.join(KIT, 'archive-dog')
+    MK = json.load(open(os.path.join(KD, 'masks.json')))
+    fr = lambda i: Image.open(os.path.join(KD, 'frames/f%03d.jpg' % i)).convert('L')
+    def fmask(i):
+        m = Image.new('L', (384, 288), 0); d = ImageDraw.Draw(m)
+        for p in MK[str(i)]: d.polygon([tuple(q) for q in p], fill=255)
+        return m
+    def grade(g):
+        g = ImageOps.autocontrast(g, cutoff=1)
+        return ImageOps.colorize(g, black=(22, 16, 13), white=(232, 206, 168), mid=(128, 96, 70))
+    def cutp(i, poly, use_mask=True, src=None):
+        g = src if src is not None else fr(i)
+        m = Image.new('L', (384, 288), 0); ImageDraw.Draw(m).polygon(poly, fill=255)
+        if use_mask: m = ImageChops.multiply(m, fmask(i))
+        m = m.filter(ImageFilter.GaussianBlur(0.7))
+        rgb = grade(g).convert('RGBA'); rgb.putalpha(m)
+        return rgb
+    def place(rgba, sock_src, rot=0, mirror=False):
+        """source-px image -> card: 2x, socket on SOCK, rotated about the socket"""
+        big = rgba.resize((384 * 2, 288 * 2), Image.LANCZOS)
+        sx, sy = sock_src[0] * 2, sock_src[1] * 2
+        if mirror:
+            big = ImageOps.mirror(big); sx = 768 - sx
+        big = big.rotate(rot, resample=Image.BICUBIC, center=(sx, sy))
+        card = Image.new('RGBA', (CW, CH), (0, 0, 0, 0))
+        card.alpha_composite(big.crop((int(sx - SOCK[0]), int(sy - SOCK[1]), int(sx - SOCK[0]) + CW, int(sy - SOCK[1]) + CH)))
+        return card
     views = {}
-    L = Image.new('RGBA', (CW, CH), (0, 0, 0, 0))
-    # socket: bottom-right of the mirrored face (where the neck was)
-    ox, oy = SOCK[0] - int(sep.width * 0.62), SOCK[1] - int(sep.height * 0.92)
-    L.alpha_composite(sep, (ox, oy))
-    # landmark: nose in source at (232,132) -> mirrored local
-    nx = ox + (x1 - 232) * scale; ny = oy + (132 - y0) * scale
-    views['L'] = (L, (nx, ny))
-    # back views: the same head's silhouette (mirrored crop), filled with the archive dog's own back fur (f008), darkened
-    fur = fr(8).crop((128, 96, 200, 136)); fur = ImageOps.autocontrast(fur, cutoff=1)
-    furc = ImageOps.colorize(fur, (24, 16, 10), (170, 130, 92)).resize((CW, CH), Image.LANCZOS).convert('RGBA')
-    sil = Image.new('L', (CW, CH), 0)
-    cx, cy = SOCK[0], SOCK[1] - int(0.12 * PPM)
-    ImageDraw.Draw(sil).ellipse([cx - 0.105 * PPM, cy - 0.11 * PPM, cx + 0.105 * PPM, cy + 0.11 * PPM], fill=255)
-    # ears of the home dog hang: cut from the same fur
-    for s in (-1, 1):
-        ImageDraw.Draw(sil).polygon([(cx + s * 0.06 * PPM, cy - 0.1 * PPM), (cx + s * 0.135 * PPM, cy - 0.02 * PPM),
-                                     (cx + s * 0.13 * PPM, cy + 0.08 * PPM), (cx + s * 0.09 * PPM, cy + 0.06 * PPM)], fill=255)
-    sil = sil.filter(ImageFilter.GaussianBlur(1.2))
-    B = Image.new('RGBA', (CW, CH), (0, 0, 0, 0)); fb = furc.copy(); fb.putalpha(sil); B.alpha_composite(fb)
-    views['B'] = (B, (cx, cy - 0.06 * PPM))
-    # BL: the back, with the real face's muzzle edge just past it (the mirrored photo, cropped to its left third)
-    BL = Image.new('RGBA', (CW, CH), (0, 0, 0, 0))
-    mz = sep.crop((0, 0, int(sep.width * 0.42), sep.height))
-    BL.alpha_composite(mz, (cx - int(0.2 * PPM), oy + 6))
-    BL.alpha_composite(fb, (8, 0))
-    views['BL'] = (BL, (cx - 0.2 * PPM, oy + 6 + (132 - y0) * scale))
+    # L: f008, the head in profile (it looks up at the person); turned 24 degrees down to sit level in the slot
+    L = cutp(8, [(76, 72), (101, 70), (119, 83), (124, 104), (113, 114), (99, 111), (84, 96)])
+    views['L'] = (place(L, (110, 106), rot=24), (-0.12, 0.13))
+    # FR: f038, the one legible face (eye, nose, white blaze), three-quarter looking right; FL is its mirror
+    FR = cutp(38, [(193, 108), (203, 101), (214, 102), (226, 106), (236, 113), (241, 124), (242, 134), (238, 142), (228, 147),
+                   (216, 148), (206, 146), (199, 140), (194, 131), (191, 120)], use_mask=False)
+    views['FL'] = (place(FR, (205, 146), mirror=True), (-0.1, 0.06))
+    # F: f028, the face toward the camera (head lowered)
+    Fi = cutp(28, [(158, 98), (176, 92), (194, 98), (199, 114), (195, 132), (184, 141), (170, 141), (160, 130), (155, 114)])
+    views['F'] = (place(Fi, (177, 142)), (0.0, 0.06))
+    # B: no frame shows the back of its head. The f028 head (crown and both ears) with its face filled from its own coat
+    g = np.asarray(fr(28)).astype(float)
+    face = Image.new('L', (384, 288), 0); ImageDraw.Draw(face).ellipse([166, 108, 190, 140], fill=255)
+    D = np.asarray(face.filter(ImageFilter.GaussianBlur(2))).astype(float) / 255
+    crown = g[96:106, 166:190].mean()
+    rng = np.random.default_rng(28)
+    tex = crown + rng.normal(0, 10, g.shape)
+    gb = g * (1 - D) + tex * D * 0.85 + g * D * 0.15
+    B = cutp(28, [(158, 98), (176, 92), (194, 98), (199, 114), (195, 132), (184, 141), (170, 141), (160, 130), (155, 114)],
+             src=Image.fromarray(np.clip(gb, 0, 255).astype('uint8')))
+    views['B'] = (place(B, (177, 142)), (0.0, 0.12))
+    # BL: the back, with the profile's muzzle tip showing past it at the left
+    BLc = place(B, (177, 142)).copy()
+    tip = place(L, (110, 106), rot=24)
+    tipm = Image.new('L', (CW, CH), 0); ImageDraw.Draw(tipm).rectangle([0, 0, SOCK[0] - 40, CH], fill=255)
+    ta = ImageChops.multiply(tip.split()[3], tipm); tip.putalpha(ta)
+    BLi = Image.new('RGBA', (CW, CH), (0, 0, 0, 0)); BLi.alpha_composite(tip, (-12, 6)); BLi.alpha_composite(BLc, (8, 0))
+    views['BL'] = (BLi, (-0.2, 0.1))
     out = {}
     for v, (img, nose) in views.items():
-        img = shadowed(img, off=(2, 3), alpha=70)
+        img = shadowed(img, off=(2, 3), alpha=60)
         img.save(os.path.join(HERE, f'cast/home/{v}.png'))
-        out[v] = {'png': f'cast/home/{v}.png', 'socket': list(SOCK), 'nose': [float(nose[0]), float(nose[1])], 'ears': []}
-    return {'name': 'Home movie', 'style': 'the archive dog\'s own face, sepia, grain left in',
-            'made_by': 'L: hand-cut from Amateur Film New Jersey C f038 (the only legible face, a 3/4 view, mirrored). '
-                       'B/BL: no frame shows the back of its head; built as a silhouette filled with its own back fur from f008.',
+        out[v] = {'png': f'cast/home/{v}.png', 'socket': list(SOCK), 'nose': [SOCK[0] + nose[0] * PPM, SOCK[1] - nose[1] * PPM], 'ears': []}
+    return {'name': 'Home movie', 'style': 'the archive dog\'s own head, graded and grained like its body plate, at the plate\'s scale',
+            'made_by': 'L: f008 head (profile, rotated 24 deg). FL/FR: f038 face (mirrored for FL). F: f028 head. '
+                       'B: f028 head with the face filled from its own crown coat (no frame shows the back of its head). BL: B + the L muzzle tip.',
             'rights': 'public domain (Home Movies collection, Internet Archive: https://archive.org/details/NewJerseyC)',
             'consent_and_likeness': 'an animal in a public-domain home movie; no person\'s face is used', 'views': out,
-            'ear_angles': None}
+            'ear_angles': None, 'card_px_per_source_px': 2}
 
 
 manifest['casts']['paper'] = cast_paper()
@@ -308,15 +346,7 @@ manifest['casts']['doodle'] = cast_doodle()
 manifest['casts']['home'] = cast_home()
 json.dump(manifest, open(os.path.join(HERE, 'cast/manifest.json'), 'w'), indent=1)
 
-# ---------------------------------------------------------------- body plate fur (the archive dog's torso)
-f8 = Image.open(os.path.join(KIT, 'archive-dog/frames/f008.jpg')).convert('L')
-t = ImageOps.autocontrast(f8.crop((130, 100, 194, 132)), cutoff=2)
-tile = Image.new('L', (128, 64))
-tile.paste(t, (0, 0)); tile.paste(ImageOps.mirror(t), (64, 0))
-tile = tile.resize((256, 128), Image.BICUBIC)
-arr = np.asarray(tile).astype(float)
-arr = 150 + (arr - arr.mean()) * 0.55
-Image.fromarray(np.clip(arr, 0, 255).astype('uint8')).filter(ImageFilter.GaussianBlur(0.8)).save(os.path.join(HERE, 'plates/fur.png'))
+# (round 1's fur tile is gone: the body plate is now cut from the footage itself, build/plate.py)
 
 # ---------------------------------------------------------------- door plate (Straight Talk f028; the door, closed, nobody in frame)
 door = np.asarray(Image.open(os.path.join(KIT, 'archive-door/frames/f028.jpg')).convert('RGB')).astype(float)

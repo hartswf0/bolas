@@ -1,17 +1,17 @@
 {
  "attachment_cm": {
-  "max": 0.968,
-  "mean": 0.329,
-  "at_t": 26.458,
+  "max": 0.943,
+  "mean": 0.354,
+  "at_t": 26.375,
   "test": "head plate skull-pivot landmark, as placed by its fit, vs the solved neck end (skull pivot); world cm"
  },
  "eyes_on_face": {
   "share": 1.0,
-  "n": 592,
+  "n": 587,
   "test": "every drawn eye centre lies inside its head plate outline"
  },
  "planted_feet": {
-  "max_drift_m_per_frame": 0.016905,
+  "max_drift_m_per_frame": 0.001289,
   "n": 1405,
   "test": "a toe marked planted does not move in the world between frames"
  },
@@ -19,8 +19,13 @@
   "fit": "similarity",
   "anisotropy": 1.0,
   "shear": 0.0,
-  "frames": 9,
+  "frames": 3,
   "test": "the person's face is placed only by rotation + uniform scale + translation (by construction, see render.draw_person_head)"
+ },
+ "head_low_on_approach": {
+  "share": 1.0,
+  "worst_margin_m": 0.021,
+  "test": "15-23.8 s: the top of the skull (cranium and ear bases) is below the withers (world height)"
  },
  "head_view_changes": 11,
  "torso_view_changes": 6

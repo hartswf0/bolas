@@ -139,13 +139,16 @@ def dog_state(i):
     lie = a['lie']
     if TURN1[2] <= t < 4.30: lie = 0.0  # it stands with its back turned before it lies down
     g['lie'] = round(lie * 3) / 3
+    if st == 'lie_down' and g['lie'] < 1 / 3: g['lie'] = 1 / 3  # the choice shows on its first frame: it starts to go down
     g['crouch'] = round(a['crouch'] * 2) / 2 if g['lie'] < 0.3 else 0
+    if st == 'retreat': g['crouch'] = max(g['crouch'], 0.5)   # it cowers as it backs away, from the first frame of the choice
+    if st == 'watch' and t < 3.417: g['crouch'] = 0.0          # it stops backing and stands to look
     g['tail'] = a['tail']; g['wag'] = a['wag']
     g['moving'] = a['moving']
     # head choice: REPLACE head node by the drawing whose native angle fits the intention
     hv, look, rest = a['head'], a['look'], a['rest']
     sun_head = st in ('approach', 'lie_down')
-    if look > 0.5:
+    if look > 0.2:
         g['head'] = ('head_back_cut', 0.0); g['rules'].append('ENTER head->door light: REPLACE head by head_back_cut (looks in)')
     elif sun_head:
         if g['lie'] >= 0.99 and rest > 0.5: g['head'] = ('head_low_f048', -14.0)
@@ -155,7 +158,7 @@ def dog_state(i):
         if g['lie'] >= 0.66 and rest > 0.5: g['head'] = ('head_level_f012', -18.0)
         elif g['lie'] >= 0.66: g['head'] = ('head_level_f012', -4.0)
         elif g['crouch'] >= 0.5: g['head'] = ('head_level_f012', -6.0)
-        elif hv >= 0.8: g['head'] = ('head_alert_f006', 40.0)
+        elif hv >= 0.8 or (st == 'watch' and 2.3 < t < 3.417 and hv >= 0.6): g['head'] = ('head_alert_f006', 40.0)  # stops backing: head up to look
         else: g['head'] = ('head_level_f012', 14.0)
     g['head_mirror'] = (st == 'watch' and LOOKBACK <= t < TURN2[0])  # looks back over its shoulder
     if g['head_mirror']: g['rules'].append('REPLACE head by mirror(head) on the turned-away body (turns back to look)')
@@ -539,7 +542,7 @@ def light_map(t):
     xl, xr = PX(DOOR_L), PX(DOOR_R)
     ytop = WALL_BASE - DOOR_TOP_M * PXM
     spread = np.clip(yy - WALL_BASE, 0, None) * 0.45
-    inx = sstep(-30, 10, xx - (xl - spread)) * sstep(-30, 10, (xr + spread) - xx)
+    inx = sstep(-45, 25, xx - (xl - spread)) * sstep(-45, 25, (xr + spread) - xx)
     col = inx * sstep(ytop - 20, ytop + 20, yy) * (1 - sstep(660, 700, yy))
     _LM.append(col.astype(np.float32))
     return _LM[0] * L

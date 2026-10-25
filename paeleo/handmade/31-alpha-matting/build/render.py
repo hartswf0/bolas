@@ -279,7 +279,7 @@ def dog_pose(i):
                     facing=-1, posture='back turned, lying' if L > .95 else 'back turned')
     if t < T_APP:  # turns back to look: head first, over the shoulder; rises; then the archive turn, backward
         if t < T_W2 + .55:
-            lb = float(smooth(T_W2, T_W2 + .12, t)); L = 1 - float(smooth(T_W2 + .2, T_W2 + .55, t))
+            lb = float(smooth(T_W2, T_W2 + .08, t)); L = 1 - float(smooth(T_W2 + .2, T_W2 + .55, t))
             return dict(kind='lie', L=L, head_up=float(lb), look=0., rest=float(1 - lb), face_right=True, look_back=lb,
                         facing=1 if lb > .5 else -1, posture='looks back, rising')
         k = int((t - T_W2 - .55) * 12)
@@ -297,11 +297,28 @@ def dog_pose(i):
         return dict(kind='frame', f=WALK[k], m=True, facing=1, posture='walk head low')
     # lies down across the sill; hears "come in": looks in, then settles
     L = float(smooth(T_LIE, T_LIE + .75, t))
-    look = float(smooth(T_COMEIN + .15, T_COMEIN + .35, t) * (1 - smooth(28.15, 28.35, t)))
+    look = float(smooth(T_COMEIN, T_COMEIN + .16, t) * (1 - smooth(28.15, 28.35, t)))
     rest = float(smooth(28.2, 28.9, t))
     head_up = float(L * (1 - rest))
     return dict(kind='lie', L=L, head_up=head_up, look=look, rest=rest, facing=1,
                 posture='lie' if L > .95 else 'lying down', looking_in=look > .5)
+
+
+def pose_key(i):
+    p = dog_pose(i)
+    return (p['kind'], p.get('f'), p.get('m')) if p['kind'] == 'frame' else None
+
+
+def x_drawn(i):
+    """substitution: a drawing (matted frame) is placed where the score has the dog when that drawing appears and
+    stays there while it is held, so nothing slides under a held frame; the next drawing carries the travel"""
+    k = pose_key(i)
+    if k is None:
+        return FR[i]['dog']['x']
+    j = i
+    while j > 0 and pose_key(j - 1) == k:
+        j -= 1
+    return FR[j]['dog']['x']
 
 
 def dog_sprite(i):
@@ -310,6 +327,7 @@ def dog_sprite(i):
         P, b = dog_frame(p['f'], p['m'])
     else:
         A = lying_sprite(p['L'], p['head_up'], p['look'], p['rest'], p.get('face_right', False), p.get('look_back', 0.))
+        A = A * (blur(A[..., 3], 3, 1) > .06)[..., None]     # drop stray specks left by the piece masks
         P, b = bbox_crop(A)
     return p, P, b
 
@@ -542,7 +560,7 @@ def render(i):
     # dog placement: alpha centroid -> score x, lowest solid row -> floor line
     Ps = scale_premult(P, DS)
     cx, by = anchor(Ps)
-    xd = FR[i]['dog']['x']
+    xd = x_drawn(i)
     left = sx(xd) - cx - (48 * pose['L'] if pose['kind'] == 'lie' and not pose.get('face_right') else 0)
     top = GY + 4 - by
     dist = abs(xd)

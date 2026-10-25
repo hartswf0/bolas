@@ -57,7 +57,6 @@ def sky_layer():
     sky = airbrush(W, H, (26, 30, 70), (226, 128, 92), seed=1, curve=1.6)
     S = to_img(sky)
     m = pin  # noqa
-    place(S, 'moon', T(1120, 70), shadow=(1, 2, .25))
     # trees: two prints, darkened to silhouette by the dusk
     place_at(S, 'trees2', 940, 476, tint=(.2, .18, .28), shadow=None)
     place_at(S, 'trees', 1010, 478, tint=(.22, .2, .3), shadow=None)
