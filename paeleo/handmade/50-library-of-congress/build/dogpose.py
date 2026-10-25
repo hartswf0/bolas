@@ -175,7 +175,7 @@ def draw_puppet(ink, cov, p, O, f, layers=None, headf=None, hc=None):
     return sol, feet, joints
 
 _turn_cache = {}
-def draw_turn(ink, cov, f_scan, O, height_px):
+def draw_turn(ink, cov, f_scan, O, height_px, mirror=False):
     """a whole documented frame (shape unaltered), engraved at the exact scale that gives it the neighbouring cut-piece dog's
     height, with its tone normalised to the cut-piece dog's mean tone and the same screen, contour and cross-hatch;
     its mask centroid placed at O.x, its lowest point on the ground at O.y."""
@@ -201,6 +201,9 @@ def draw_turn(ink, cov, f_scan, O, height_px):
         ys, xs = np.nonzero(a_c > 0.5)
         _turn_cache[key] = (a_i, a_c, float(xs.mean()), int(ys.max()))
     a_i, a_c, mcx, mby = _turn_cache[key]
+    if mirror:
+        # reversed impression of the documented frame (round 3): its head points to the door
+        a_i = a_i[:, ::-1]; a_c = a_c[:, ::-1]; mcx = a_c.shape[1] - 1 - mcx
     X0 = int(round(O[0] - mcx)); Y0 = int(round(O[1] - mby))
     Hh, Ww = a_c.shape
     Hc, Wc = ink.shape

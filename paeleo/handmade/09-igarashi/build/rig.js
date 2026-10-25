@@ -108,7 +108,7 @@
     function footShiftAt(t) {
       if (t < T_LIE) return {};
       const u = win(t, T_LIE, T_LIE + 0.3);
-      return { f1: [-62 * u, 0], f2: [-54 * u, 0], h1: [-22 * u, 0], h2: [-16 * u, 0] };
+      return { f1: [-50 * u, 0], f2: [-44 * u, 0], h1: [-22 * u, 0], h2: [-16 * u, 0] };
     }
 
     function standHandles(i, P) {
@@ -180,7 +180,7 @@
         let feet = null;
         if (t >= T_LIE) { // crouch down onto the sill: legs fold, the forefeet reach forward
           const u = win(t, T_LIE, T_LIE + 0.33);
-          P.crouch = lerp(P.crouch, 1.55, u); P.head = lerp(P.head, 0.5, u);
+          P.crouch = lerp(P.crouch, 1.9, u); P.head = lerp(P.head, 0.45, u);
         }
         H = standHandles(i, P);
         // bridges: the profile foreshortens as it turns away (3.50–3.625) and unfolds after the back view (8.21–8.33)
@@ -242,7 +242,7 @@
         for (const k of Object.keys(hp)) H[k] = hp[k].slice();
         const t0 = T_LIE + 0.33, u = win(t, t0, t0 + 0.45);
         // arriving from the crouch: back and hips higher, forefeet not yet out
-        H.withers[1] -= 26 * (1 - u); H.back[1] -= 30 * (1 - u); H.hip[1] -= 34 * (1 - u); H.socket[1] -= 24 * (1 - u);
+        H.withers[1] -= 30 * (1 - u); H.back[1] -= 36 * (1 - u); H.hip[1] -= 44 * (1 - u); H.socket[1] -= 28 * (1 - u); H.belly[1] -= 22 * (1 - u);
         H.f1[0] += 50 * (1 - u); H.f2[0] += 44 * (1 - u); H.f1[1] -= 10 * (1 - u); H.f2[1] -= 8 * (1 - u);
         const br = Math.sin(t * 2 * Math.PI * 0.3) * 1.8; H.back[1] += br; H.withers[1] += br * 0.6;
         const wag = F[i].dog.act.wag;

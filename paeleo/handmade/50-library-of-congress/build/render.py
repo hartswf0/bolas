@@ -40,7 +40,7 @@ def smooth(a, b, t):
 def lerp(a, b, u): return a + (b - a) * u
 
 # ---------------------------------------------------------------- the dog's plan, from the score
-TURN_OUT = [30, 30, 30, 30, 33, 33, 36, 38, 40, 43, 44, 44]     # round 2: f016/f017/f026/f028 dropped (head hidden or bowed, read as lumps)     # 3.417 → 3.917: the film's own turn, re-timed
+TURN_OUT = [30, 30, 30, 30, 33, 33, 36, 36, 36, 43, 44, 44]   # round 3: f038, f040 dropped (no readable head)     # round 2: f016/f017/f026/f028 dropped (head hidden or bowed, read as lumps)     # 3.417 → 3.917: the film's own turn, re-timed
 TURN_BACK = [33, 30]                         # 8.04 → 8.62: back toward the door, re-timed
 T_REFUSE = 3.417; T_BACK = 7.458; T_RISE_END = 8.04; T_TURNB = 8.04; T_TURNB_END = 8.62
 TURN_FACING = {16: 1, 17: 1, 18: 1, 26: 0, 28: 0, 30: 0, 33: -1, 36: -1, 38: -1, 40: -1, 43: -1, 44: -1}
@@ -225,8 +225,8 @@ def title_card(i, kind):
         dr.text((200, 118), 'What this plate is made of', font=f, fill=c((31, 25, 22)))
         f3 = font('JetBrainsMono-Regular', 14)
         lines = [
-            'fig. 1  the dog: line-engraved after 8 frames of Amateur Film New Jersey C:',
-            '        f006, f030, f033, f036, f038, f040, f043, f044',
+            'fig. 1  the dog: line-engraved after 6 frames of Amateur Film New Jersey C:',
+            '        f006, f030, f033, f036, f043, f044 (f030, f033 also reversed)',
             '        (Home Movies, archive.org/details/NewJerseyC; public domain).',
             '        Frame 6 traced into 11 cut pieces and re-posed (invented motion, red pins);',
             '        the two turns are the film\'s own frames, re-timed. Eye, nostril, mouth: drawn.',
@@ -285,9 +285,10 @@ def render_scene_frame(i, events, prev):
         while dog_plan(ia)[0] != 'puppet': ia += 1
         mb, ma = puppet_meas(ib), puppet_meas(ia)
         u = (i - ib) / (ia - ib)
-        D.draw_turn(di, dc, a, (lerp(mb[0], ma[0], u), YG + lerp(mb[2], ma[2], u) - 0.0), lerp(mb[1], ma[1], u))
+        mir = t > 6
+        D.draw_turn(di, dc, a, (lerp(mb[0], ma[0], u), YG + lerp(mb[2], ma[2], u) - 0.0), lerp(mb[1], ma[1], u), mirror=mir)
         src_frame = a
-        facing_m = TURN_FACING[a]
+        facing_m = TURN_FACING[a] if not mir else (1 if TURN_FACING[a] <= 0 else -1)
     ink = ink * (1 - dc) + di
     msr = measure(dc, hc if kind == 'puppet' else None)
     if kind == 'puppet':
@@ -317,7 +318,8 @@ def render_scene_frame(i, events, prev):
               'state of the drawing: frame 006 cut into 11 pieces and re-posed%s: invented motion' % (' (reversed impression)' if a == -1 else ''))
     else:
         st = ('fig. 1 dog: engraved after Amateur Film New Jersey C (Home Movies, Internet Archive; public domain), frame %03d' % src_frame,
-              "state of the drawing: frame %03d as photographed, outline from its mask; the film's own turn, re-timed" % src_frame)
+              ("state of the drawing: frame %03d as photographed, outline from its mask; the film's own turn, re-timed" % src_frame) if not (t > 6)
+              else ("state of the drawing: frame %03d as photographed, printed as a reversed impression; the film's own turn, re-timed" % src_frame))
     margin(dr, img, t, st, '')
     # events for the sound and the ledger
     if prev is not None and (prev['kind'], prev['a']) != (kind, a): events.append({'t': t, 'type': 'paper', 'from': prev['kind'], 'to': kind})

@@ -63,9 +63,15 @@ def puppet(rigname):
             yy_, xx_ = np.mgrid[0:H, 0:W].astype(np.float32)
             px_, py_ = (P['pivot'][0] - box[0]) * HK, (P['pivot'][1] - box[1]) * HK
             dd = np.hypot(xx_ - px_, (yy_ - py_) * 1.0) / HK
-            wcol = np.clip((dd - 9.0) / 10.0, 0, 1)
+            # round 3: the fade is over the whole neck (behind x 106 and below y 90 in scan px), not only round the pivot;
+            # there the head's lines turn to the torso's angle and its edge is feathered into the shoulders
+            lx_ = xx_ / HK + box[0]; ly_ = yy_ / HK + box[1]
+            wcol = np.clip(np.maximum((106 - lx_) / 8.0, (90 - ly_) / 6.0), 0, 1)
             own_edge = contour(inner, 1.6 * SS) * wcol
+            cov = cov * wcol + np.clip(blur(m, 2.5 * HK) * 1.4, 0, 1) * cov * (1 - wcol)
         ink = engrave(t, angle=-16 if n != 'head' else -40, period=3.3 * SS, warp_amp=1.4, cross=0.62, ox=box[0] * HK, oy=box[1] * HK)
+        if n == 'head':
+            ink = ink * wcol + engrave(t, angle=-16, period=3.3 * SS, warp_amp=1.4, cross=0.62, ox=box[0] * HK, oy=box[1] * HK) * (1 - wcol)
         ink = np.maximum(ink * 0.95, own_edge)
         if n == 'head': ink = ink * (inner * wcol + (1 - wcol))
         if n == 'head':
@@ -125,7 +131,7 @@ def puppet(rigname):
     json.dump(meta, open(os.path.join(OUT, 'dog%s.json' % rigname), 'w'), indent=0)
     return meta
 
-TURN = [30, 33, 36, 38, 40, 43, 44]   # f016, f017, f026, f028 dropped in round 2: head hidden, read as a lump   # the film's own turn, left profile → facing camera → right
+TURN = [30, 33, 36, 43, 44]   # f016, f017, f026, f028 dropped in round 2, f038, f040 in round 3: no readable head   # the film's own turn, left profile → facing camera → right
 def turn_plates():
     M = json.load(open(os.path.join(KIT, 'masks.json')))
     meta = {}

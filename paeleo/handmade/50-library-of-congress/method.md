@@ -56,16 +56,17 @@ refusal and trust.
   feet account for the travel: the solved stance feet move 0.38 px/frame at most and 0.01 px/frame on average. Crouch, tail,
   lying, head height, resting and looking come from the score's `act` channels, mapped to angles. Breathing and a slow idle
   head move only during holds.
-- **The turns are substitution, not mirroring.** The refusal (3.46–3.96 s) shows 7 whole documented frames of the film's own
-  turn: f030 ×4, f033 ×2, f036, f038, f040, f043, f044 ×2. They run from facing the camera (head visible) to right profile,
+- **The turns are substitution, not mirroring.** The refusal (3.46–3.96 s) shows 5 whole documented frames of the film's own
+  turn: f030 ×4, f033 ×2, f036 ×3, f043, f044 ×2 (round 3). They run from facing the camera (head visible) to right profile,
   re-timed and engraved through the same screen at render time, at the neighbouring cut-piece dog's height, centroid and mean
   tone (round 2). Every frame of the turn is a
   photographed dog, never a squashed one. The dog then becomes the cut-piece dog as a **reversed impression** (a mirrored
   print, a historical reproduction fact), so its back is turned by 3.96 s. It lies down facing away with its chin on its paws.
 - **Turning to look (7.458 s, on the frame).** The head piece is substituted: the unmirrored left-facing head is pinned to the
   reversed body's neck, so the head comes round over the shoulder to the door while the body still lies turned away. The body
-  then rises (7.5–8.0). It turns back through two documented frames in reverse (f033, f030, 8.04–8.62 s) and stands facing
-  the door.
+  then rises (7.5–8.0). It turns back through two documented frames in reverse order (f033, f030, 8.04–8.58 s), printed as
+  reversed impressions (mirrored, and said so in the key) so the head points to the door in every frame (round 3), and
+  stands facing the door.
 - **Coming, head low.** The head is rotated down about the withers, so the nose sits below the line of the back for the whole
   approach. The walk is slow, crouched a little, with bent joints.
 - **Lying across the sill.** No frame of the film shows this dog lying, so the lying is **invented from cut pieces**: the
@@ -141,7 +142,7 @@ The steps are in `ledger.jsonl`. In short:
 
 ## What is still weak
 
-- The facing-camera turn frames (f030–f040) are still soft at this size, though each shows a head and legs; the turn goes
+- The facing-camera turn frames (f030–f036) are still soft at this size, though each shows a head and legs; the turn goes
   from left profile straight to facing the camera (the documented left-to-front frames were the lumps and are gone), so it
   is a jump-cut of a turn rather than a sweep. The turn back is two held drawings.
 - The cut-piece dog's tail is a rigid plank, and its folded hind legs are a clutter of small shapes when lying.
@@ -187,4 +188,21 @@ Repairs, each against the critic's ranked conditions:
 
 Unchanged and kept: the plate key and scan thumbnail, the red pins only on invented motion, the over-the-shoulder look at
 7.458, the back-of-head look-in, the sphinx lie. `check_handmade.py`: ALL OK. Onsets: +0.083, +0.167, +0.041, 0, 0, 0
+(look-in +0.017). Film: 912 frames, 38.0 s, 4.7 MB.
+
+## Round 3 (after critic round 2: does not pass, narrowly)
+
+1. **7.46–8.62: the head points toward the door in every frame.** The second turn's documented frames f033 and f030 are now
+   printed as reversed (mirrored) impressions. The key says "printed as a reversed impression", as it does for the mirrored
+   refusal body. Their faces point screen-left, to the door, from 8.04 to 8.58. Before that the head is round over the shoulder
+   from 7.458, and the standing cut-piece dog faces the door from 8.62. I looked at every frame 7.40–8.69 in `film.mp4`: the
+   head is on the door side in each. That is my own look. The measured facing in `trace.json` is +1 throughout 7.458–8.7.
+2. **3.75–3.79: a readable head.** I dropped f038 and f040, so f036 is held three frames (3.733–3.817), then f043 and f044.
+   I looked at every frame 3.40–3.98: each is a dog with its face or head on the right and its legs.
+3. **Collar edge (optional, done).** Across the whole neck (not only round the pivot), the head piece's contour fades out.
+   Its line angle turns to the torso's angle, and its coverage is feathered into the shoulders. The 18.5 s close-up shows no
+   hard throat line.
+
+The dog is now after 6 frames of the film: f006, f030, f033, f036, f043, f044, with f030 and f033 also reversed. The end card,
+`assets.json` and the source sheet agree. `check_handmade.py`: ALL OK. Onsets unchanged: +0.083, +0.167, +0.041, 0, 0, 0
 (look-in +0.017). Film: 912 frames, 38.0 s, 4.7 MB.

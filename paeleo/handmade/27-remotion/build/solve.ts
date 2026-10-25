@@ -147,7 +147,9 @@ const frames = FR.map((F, i) => {
   const bob = -0.012 * sw.reduce((s, u) => s + Math.sin(Math.PI * u), 0) * (1 - A.lie);
   const sniff = (t > 19 && t < 24) ? 0.12 * smooth((X - 1.55) / 0.25) * (1 - smooth((X - 2.2) / 0.3)) : 0;
   const dog = {X, Z: WORLD.dogZ, yaw, headYaw: headYawAt(i, X, yaw), lie: A.lie, crouch: A.crouch,
-    head: (t > 14.4 && t < 15.3 ? Math.min(A.head, keyed([[14.4, 0.9], [14.72, 0.45]], t)) : A.head) - sniff,   // the head goes low as it sets off ear: A.ear + 0.1 * (vnoise(SEED, t * 1.7) - 0.5) * (1 - A.crouch), tail: A.tail,
+    // the head goes low as it sets off
+    head: (t > 14.4 && t < 15.3 ? Math.min(A.head, keyed([[14.4, 0.9], [14.72, 0.45]], t)) : A.head) - sniff,
+    ear: A.ear + 0.1 * (vnoise(SEED, t * 1.7) - 0.5) * (1 - A.crouch), tail: A.tail,
     wag: A.wag, wagPh: t * Math.PI * 2 * 2.3, rest: A.rest, look: A.look,
     breath: Math.sin(t * Math.PI * 2 * 0.33), bob, feet: feet[i].map(p => p.map(v => +v.toFixed(4))), swing: swingP[i]};
   const open01 = ramp(t, 6.2, 6.85);
@@ -157,6 +159,14 @@ const frames = FR.map((F, i) => {
     door: {open01, angle: doorAngle(open01), lamp: lerp(0.5, 1, open01)},
     caption: line ? {text: line[2], kind: line[3], alpha: ramp(t, line[0] - 0.05, line[0] + 0.12) * (1 - ramp(t, line[1] + 0.1, line[1] + 0.4))} : null};
 });
+
+// ---------- the manifest contract: every dog/person channel is a finite number in every frame ----------
+const DOG_KEYS = ['X', 'Z', 'yaw', 'headYaw', 'lie', 'crouch', 'head', 'ear', 'tail', 'wag', 'wagPh', 'rest', 'look', 'breath', 'bob'];
+for (const f of frames) {
+  for (const k of DOG_KEYS) if (typeof (f.dog as any)[k] !== 'number' || !Number.isFinite((f.dog as any)[k])) throw new Error(`frame ${f.i}: dog.${k} = ${(f.dog as any)[k]}`);
+  if (f.dog.feet.flat().some((v: number) => !Number.isFinite(v))) throw new Error(`frame ${f.i}: feet`);
+  for (const [k, v] of Object.entries(f.person)) if (typeof v === 'number' && !Number.isFinite(v)) throw new Error(`frame ${f.i}: person.${k}`);
+}
 
 // ---------- the audio manifest (synthesised by build/sound.py) ----------
 const events: any[] = [];

@@ -34,6 +34,27 @@ def main():
                          dark_head=d.get('dark_head', 0), head_dx=(d['cx'] - d['head_screen'][0]) / s if d['cx'] is not None else 0, cx=d['cx'], cy=d['cy'], vis=d['visible'] / max(1, d['area']),
                          in_frac=d['in_frac'], hiders=d['hiders'], facing_annot=d['facing'], posture_annot=d['posture'],
                          contact_cov=d.get('contact_cov')))
+    # the dog's own alpha pass in its layer space (before camera and shear), regenerated deterministically by the same
+    # code that rendered it: posture height, rump height and frame-to-frame change of the dog's pixels
+    loc = []
+    prev = None
+    for q in rows:
+        r = DOG.dog_frame(q['i'])
+        a = np.asarray(r['img'])[:, :, 3].astype(np.float32) / 255
+        on_ = a > 0.5
+        ys_, xs_ = np.nonzero(on_)
+        hl = (ys_.max() - ys_.min()) / DOG.P_SRC
+        x0_, x1_ = xs_.min(), xs_.max()
+        q4 = (x1_ - x0_) // 4
+        rear = on_[:, x1_ - q4:x1_ + 1] if not r['mirror'] else on_[:, x0_:x0_ + q4 + 1]
+        if r['facing'] == -1 and not r['mirror']:
+            rear = on_[:, x0_:x0_ + q4 + 1]
+        ry = np.nonzero(rear.any(1))[0]
+        hr = (ry.max() - ry.min()) / DOG.P_SRC if len(ry) else 0
+        mo = 0.0 if prev is None else float(np.abs(a - prev).sum() / max(1.0, a.sum()))
+        prev = a
+        loc.append((hl, hr, mo))
+    hl_ = np.array([v[0] for v in loc]); hr_ = np.array([v[1] for v in loc]); mo_ = np.array([v[2] for v in loc])
     t = np.array([q['t'] for q in rows]); xw = np.array([q['xw'] for q in rows]); ht = np.array([q['h_top'] for q in rows])
     hs = np.array([q['head_side'] if q['head_side'] is not None else 0 for q in rows]); wd = np.array([q['width'] for q in rows])
     dk = np.array([q['dark_head'] for q in rows])
@@ -41,28 +62,31 @@ def main():
     def first(cond, after):
         k = np.nonzero((t >= after) & cond)[0]
         return int(k[0]) if len(k) else None
-    ref_h = np.median(ht[(t > 0.2) & (t < 0.9)]); ref_x = np.median(xw[(t > 0.2) & (t < 0.9)])
+    def med(arr, a0, a1):
+        return float(np.median(arr[(t > a0) & (t < a1)]))
+    def sustained(cond, n=3):
+        c = np.array(cond, bool); out = np.zeros_like(c)
+        for k in range(len(c) - n + 1):
+            out[k] = c[k:k + n].all()
+        return out
     on = {}
-    # 1.00 retreat: the head drops or it moves back (away from the door)
-    on['retreat'] = first((ht < ref_h - 0.08) | (xw > ref_x + 0.02), 0.6)
-    # 2.33 watch: the head is up again
-    on['watch_1'] = first(ht > ref_h - 0.06, t[on['retreat']] + 0.4)
-    # 3.42 refuse: the silhouette starts to turn (width departs from the watch hold) or the head side flips
-    ref_w = np.median(wd[(t > 2.7) & (t < 3.3)])
-    on['refuse'] = first((np.abs(wd - ref_w) > 0.12 * ref_w) | (hs < -0.02), 3.0)
-    # 7.46 watch: the head lifts off the paws and comes round (top of the lying dog's alpha rises)
-    ref_h1 = np.median(ht[(t > 6.4) & (t < 7.3)])
-    on['watch_2'] = first(ht > ref_h1 + 0.05, 7.0)
-    # 14.71 approach: the head drops below the line of the back, or it moves toward the door
-    ref_h2 = np.median(ht[(t > 12) & (t < 14.5)]); ref_x2 = np.median(xw[(t > 12) & (t < 14.5)])
-    on['approach'] = first((ht < ref_h2 - 0.08) | (xw < ref_x2 - 0.02), 14.0)
-    # 23.79 lie down: the body goes down from its walking height
-    ref_h3 = np.median(ht[(t > 22.6) & (t < 23.5)])
-    on['lie_down'] = first(ht < ref_h3 - 0.05, 23.5)
-    # 26.4 hears 'come in': the head turns into the lit doorway (the back of the head, dark against the room)
-    ref_h4 = np.median(ht[(t > 25.2) & (t < 26.2)])
-    on['look_in'] = first(ht > ref_h4 + 0.03, 26.0)          # the head rises off the line it held, turning into the room
-    on['settle'] = first(ht < ref_h4 - 0.015, (t[on['look_in']] + 0.5) if on['look_in'] is not None else 27)   # chin to the paws
+    # 1.00 retreat: the head drops (the dog's own height falls) or it moves back
+    on['retreat'] = first((hl_ < med(hl_, 0.2, 0.9) - 0.06) | (xw > med(xw, 0.2, 0.9) + 0.05), 0.6)
+    # 2.33 watch: the head comes back up out of the cowering walk
+    tr = t[on['retreat']]
+    on['watch_1'] = first(hl_ > med(hl_, tr + 0.2, tr + 1.1) + 0.04, tr + 0.4)
+    # 3.42 refuse: the dog's pixels start to change frame after frame (the real turn begins)
+    on['refuse'] = first(sustained(mo_ > 0.08), 3.0)
+    # 7.46 watch: after a second of stillness lying down, the first movement (the head comes up and round)
+    on['watch_2'] = first(mo_ > 0.03, 7.0)
+    # 14.71 approach: the head drops below the line of the back (height falls) or it moves toward the door
+    on['approach'] = first((hl_ < med(hl_, 12, 14.5) - 0.06) | (xw < med(xw, 12, 14.5) - 0.05), 14.0)
+    # 23.79 lie down: the hind end goes down (rump height falls below its walking height)
+    on['lie_down'] = first(hr_ < med(hr_, 22.6, 23.6) - 0.04, 23.4)
+    # 26.4 'come in': the head rises and turns into the doorway (the dog's own height rises over the lying hold)
+    ref4 = med(hl_, 25.2, 26.2)
+    on['look_in'] = first(hl_ > ref4 + 0.03, 26.0)
+    on['settle'] = first(hl_ < ref4 - 0.015, (t[on['look_in']] + 0.5) if on['look_in'] is not None else 27)
     names = [('retreat', 'retreat'), ('watch_1', 'watch'), ('refuse', 'refuse'), ('watch_2', 'watch'), ('approach', 'approach'), ('lie_down', 'lie_down')]
     bounds = [(on[k], st) for k, st in names]
     state = ['watch'] * len(rows)
@@ -75,25 +99,25 @@ def main():
     # facing: +1 = the composited head looks toward the door (left), -1 away. It is read from the render record (which
     # real cel or head sublayer was composited, and whether mirrored): structural, not a pixel measurement.
     facing = [q['facing_annot'] for q in rows]   # gaze of the head actually composited (structural, from the record)
-    lie_h = 0.40
+    stand_h = med(hl_, 0.2, 0.9)
     trace = []
-    for q, st, fa in zip(rows, state, facing):
+    for q, st, fa, (hl, hr, mo) in zip(rows, state, facing, loc):
         i = q['i']
-        posture = 'lying' if q['h_top'] < lie_h else ('crouched' if q['h_top'] < ref_h - 0.08 else 'standing')
+        posture = 'lying' if hl < 0.50 else ('crouched' if hl < stand_h - 0.06 else 'standing')
         x_meas = q['xw'] + DOG.CENTER_OFFSET           # back into the score's x by this film's one fixed mapping
         trace.append(dict(i=i, t=q['t'], state=st, state_score=FR[i]['dog']['state'], x_score=FR[i]['dog']['x'],
                           x_screen=round(q['cx'], 2), y_screen=round(q['cy'], 2), x_world_measured=round(x_meas, 4),
-                          facing=fa, head_side_px=None if q['head_side'] is None else round(q['head_side'], 3), posture=posture, h_top_m=round(q['h_top'], 3), visible_share=round(q['vis'], 3),
+                          facing=fa, head_side_px=None if q['head_side'] is None else round(q['head_side'], 3), posture=posture, dog_height_m=round(hl, 3), rump_height_m=round(hr, 3), pixel_change=round(mo, 3), visible_share=round(q['vis'], 3),
                           inside_frame_share=round(q['in_frac'], 3), hidden_by=q['hiders'],
                           facing_annotated=q['facing_annot']))
     choices = []
     for (k, st), c in zip(names, SCORE['choices']):
         tk = None if on[k] is None else float(t[on[k]])
         choices.append(dict(choice=st, score_t=c['t'], measured_onset_t=tk, dt=None if tk is None else round(tk - c['t'], 3),
-                            measured_by={'retreat': 'head drop or backward motion of the dog alpha',
-                                         'watch_1': 'head back up (top of the alpha)', 'refuse': 'silhouette width leaves the hold / head side flips',
-                                         'watch_2': 'head lifts off the paws (top of the alpha rises); the composited head looks to the door from 7.54', 'approach': 'head drop / motion toward the door',
-                                         'lie_down': 'top of the alpha drops below its walking height'}[k]))
+                            measured_by={'retreat': 'the dog\'s height falls (head drops) or its measured position moves back',
+                                         'watch_1': 'the dog\'s height rises out of the cowering walk (head up)', 'refuse': 'the dog\'s own pixels change three frames running (the real turn starts)',
+                                         'watch_2': 'first movement of the lying dog\'s pixels (the head comes up); the composited head looks to the door from 7.54', 'approach': 'the dog\'s height falls (head below the back) or it moves toward the door',
+                                         'lie_down': 'rump height of the dog\'s alpha falls below its walking height (hind end first)'}[k]))
     look = None if on['look_in'] is None else float(t[on['look_in']])
     choices.append(dict(choice='looks in', score_t=26.4, measured_onset_t=look, dt=None if look is None else round(look - 26.4, 3),
                         measured_by='top of the lying dog rises as the head turns into the doorway (h_top); what turns is judged by viewing'))

@@ -25,7 +25,7 @@ rows = [
   [os.path.join(PL, 'dogL_%s.png' % n) for n in ['torso', 'head', 'tail', 'fore_near_up', 'fore_near_lo', 'hind_near_up', 'hind_near_lo', 'head_rear']],
   'traced into 11 cut pieces (8 shown) + the drawn back of the head (designed analog, last)'),
  ('same film, f030-f044 (the dog\'s own turn), masked', os.path.join(KIT, 'archive-dog', 'frames', 'f028.jpg'), None,
-  [os.path.join(PL, 'turn_f%03d.png' % f) for f in [30, 33, 40, 44]], 'whole frames, engraved, shape unaltered, re-timed'),
+  [os.path.join(PL, 'turn_f%03d.png' % f) for f in [30, 33, 36, 44]], 'whole frames, engraved, shape unaltered, re-timed'),
  ('Straight Talk (NTIS 1992), f030 · archive.org/details/gov.ntis.ava19144vnb1', os.path.join(KIT, 'archive-door', 'frames', 'f030.jpg'), (116, 0, 234, 272),
   [os.path.join(PL, 'door_leaf.png')], 'the door leaf'),
  ('The Door to Heaven (1941), f000 · archive.org/details/DoortoHe1941', os.path.join(ROOT, 'sources', 'hand-door-to-heaven', 'f000.jpg'), None,

@@ -11,20 +11,26 @@ const t0 = Date.now();
 const serveUrl = await serve();
 console.log('bundled', ((Date.now() - t0) / 1000).toFixed(1), 's');
 const conc = Number(process.env.SCION27_CONCURRENCY || 3);
+// the render contract: any browser error (e.g. a NaN in an SVG path) fails the build
+const errors = [];
+const onBrowserLog = (l) => { if (l.type === 'error') errors.push(l.text.slice(0, 200)); };
+const guard = (what) => { if (errors.length) { console.error(what, 'BROWSER ERRORS', errors.length, errors[0]); process.exit(2); } };
 
 if (want.has('film')) {
   const composition = await R.selectComposition({serveUrl, id: 'Film', browserExecutable, chromiumOptions, logLevel: 'error'});
   let last = -1;
   await R.renderMedia({composition, serveUrl, codec: 'h264', crf: 16, outputLocation: path.join(HERE, 'cache/film_raw.mp4'),
-    browserExecutable, chromiumOptions, concurrency: conc, audioCodec: 'aac', logLevel: 'error',
+    browserExecutable, chromiumOptions, concurrency: conc, audioCodec: 'aac', logLevel: 'error', onBrowserLog,
     onProgress: ({progress}) => { const p = Math.floor(progress * 10); if (p !== last) { last = p; console.log('film', p * 10, '%'); } }});
+  guard('film');
   console.log('film_raw.mp4 done', ((Date.now() - t0) / 1000).toFixed(1), 's');
 }
 if (want.has('matte')) {
   const dir = path.join(HERE, 'cache/matte'); fs.rmSync(dir, {recursive: true, force: true}); fs.mkdirSync(dir, {recursive: true});
   const composition = await R.selectComposition({serveUrl, id: 'DogMatte', browserExecutable, chromiumOptions, logLevel: 'error'});
   await R.renderFrames({composition, serveUrl, outputDir: dir, imageFormat: 'png', inputProps: {}, concurrency: conc,
-    browserExecutable, chromiumOptions, logLevel: 'error', onStart: () => {}, onFrameUpdate: (n) => { if (n % 128 === 0) console.log('matte', n); }});
+    browserExecutable, chromiumOptions, logLevel: 'error', onBrowserLog, onStart: () => {}, onFrameUpdate: (n) => { if (n % 128 === 0) console.log('matte', n); }});
+  guard('matte');
   console.log('matte done', fs.readdirSync(dir).length, 'frames', ((Date.now() - t0) / 1000).toFixed(1), 's');
 }
 if (want.has('stills')) {

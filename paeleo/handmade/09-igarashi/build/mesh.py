@@ -97,8 +97,28 @@ def build(name, png, m, layer=None):
     used = used[np.lexsort((V[used, 0], V[used, 1]))]          # row-major order keeps the solver's band narrow
     remap = -np.ones(len(V), int); remap[used] = np.arange(len(used))
     V = V[used]; T = remap[T]
-    # draw order: triangles inside the 'behind' regions (far legs) come first, so the GPU paints them under the rest
-    if m.get('behind'):
+    groups = None
+    # split textures along the first cut: triangles on the far side of the foreleg cut sample a texture with the near side
+    # erased, and all others sample one with the far side erased, so a near leg crossing a far leg carries none of the
+    # far leg's ink or paper with it (and vice versa). The far group is drawn first, behind.
+    if m.get('behind') and m_cuts(m):
+        (ax_, ay_), (bx_, by_) = m_cuts(m)[0]
+        cutx = lambda y: ax_ + (bx_ - ax_) * (y - ay_) / (by_ - ay_)
+        yy, xx = np.mgrid[0:H, 0:W]
+        band = (yy > ay_) & (yy < by_ + 8)
+        right = band & (xx > cutx(yy))
+        left = band & (xx <= cutx(yy))
+        rgba = np.asarray(Image.open(png).convert('RGBA')).copy()
+        near = rgba.copy(); near[right] = 0; far = rgba.copy(); far[left] = 0
+        base = os.path.splitext(os.path.basename(png))[0]
+        Image.fromarray(near).save(os.path.join(DR, base + '.near.png')); Image.fromarray(far).save(os.path.join(DR, base + '.far.png'))
+        c0 = V[T].mean(1)
+        isfar = (c0[:, 1] > ay_) & (c0[:, 1] < by_ + 8) & (c0[:, 0] > np.array([cutx(y) for y in c0[:, 1]]))
+        T = np.concatenate([T[isfar], T[~isfar]])
+        nf = int(isfar.sum())
+        groups = [{'from': 0, 'to': nf, 'texture': f'assets/drawings/{base}.far.png'}, {'from': nf, 'to': len(T), 'texture': f'assets/drawings/{base}.near.png'}]
+        print(f'   textures split at the foreleg cut: {nf} far-side triangles drawn first')
+    elif m.get('behind'):
         from PIL import ImageDraw
         msk = Image.new('L', (W, H), 0); dr = ImageDraw.Draw(msk)
         for poly in m['behind']:
@@ -146,7 +166,7 @@ def build(name, png, m, layer=None):
         hp_c[k] = V[hs[k]].mean(0).round(3).tolist()   # the handle point IS the centroid of its vertices (targets stay consistent)
     out = {'name': name, 'kind': m['kind'], 'layer': layer, 'w': W, 'h': H, 'cell': c, 'verts': V.round(2).tolist(), 'tris': T.tolist(),
            'weight': w.tolist(), 'handles': hs, 'features': feats, 'components': comps, 'socket': m['socket'], 'ground': m['ground'],
-           'facing': m['facing'], 'handle_points': hp_c, 'texture': 'assets/drawings/' + os.path.basename(png)}
+           'facing': m['facing'], 'handle_points': hp_c, 'texture': 'assets/drawings/' + os.path.basename(png), 'groups': groups}
     json.dump(out, open(os.path.join(OUT, name + '.json'), 'w'), separators=(',', ':'))
     print(f'{name:22s} verts {len(V):5d} tris {len(T):5d} cell {c}px components {comps} feature tris {sum(len(x) for x in feats.values())}')
 

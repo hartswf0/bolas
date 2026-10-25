@@ -45,22 +45,23 @@ function glMesh(name, img) {
   gl.enableVertexAttribArray(loc.uv); gl.vertexAttribPointer(loc.uv, 2, gl.FLOAT, false, 0, 0);
   const ib = gl.createBuffer(); gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, ib); gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, idx, gl.STATIC_DRAW);
   gl.bindVertexArray(null);
-  const tex = gl.createTexture(); gl.bindTexture(gl.TEXTURE_2D, tex);
+  const mk = im => { const tex = gl.createTexture(); gl.bindTexture(gl.TEXTURE_2D, tex);
   gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, true);
-  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, img);
+  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, im);
   gl.generateMipmap(gl.TEXTURE_2D);
   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-  GM[name] = { vao, pb, n: idx.length, tex, buf: new Float32Array(m.verts.length * 2) };
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE); return tex; };
+  const groups = (m.groups || [{ from: 0, to: m.tris.length }]).map(g => ({ off: g.from * 3, n: (g.to - g.from) * 3, tex: mk(g.img || img) }));
+  GM[name] = { vao, pb, n: idx.length, groups, buf: new Float32Array(m.verts.length * 2) };
 }
 function drawPiece(pc, amb, warm, flat = 0) {
   const g = GM[pc.mesh], X = pc.X, pl = pc.place, n = X.length / 2;
   const m = pl.mirror ? -1 : 1, c = Math.cos(pl.rot), s = Math.sin(pl.rot);
   for (let i = 0; i < n; i++) { const dx = (X[2 * i] - pl.ox) * pl.k, dy = (X[2 * i + 1] - pl.oy) * pl.k; g.buf[2 * i] = pl.tx + m * (c * dx - s * dy); g.buf[2 * i + 1] = pl.ty + (s * dx + c * dy); }
   gl.bindVertexArray(g.vao); gl.bindBuffer(gl.ARRAY_BUFFER, g.pb); gl.bufferSubData(gl.ARRAY_BUFFER, 0, g.buf);
-  gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, g.tex);
   gl.uniform3fv(loc.amb, amb); gl.uniform3fv(loc.warm, warm); gl.uniform1f(loc.flat, flat);
-  gl.drawElements(gl.TRIANGLES, g.n, gl.UNSIGNED_SHORT, 0);
+  gl.activeTexture(gl.TEXTURE0);
+  for (const gr of g.groups) { gl.bindTexture(gl.TEXTURE_2D, gr.tex); gl.drawElements(gl.TRIANGLES, gr.n, gl.UNSIGNED_SHORT, gr.off * 2); }
   gl.bindVertexArray(null);
   return g.buf;
 }
@@ -251,7 +252,7 @@ function renderFrame(i, opts = {}) {
   const meas = measure(buf, P, dg);
   paperLift(); ctx.drawImage(gl_c, 0, 0);
   // across the sill: the dog's chest and forepaws are on the hall floor beyond the threshold, so the oak sill and the
-  // foot of the jambs pass in front of them (drawn over the dog only inside the door opening)
+  // sill's edge pass in front of them (drawn over the dog only inside the door opening)
   if (P.dog_body.mesh === 'dog_lie') drawSillFront(ctx);
   // dusk grade and paper
   ctx.save(); ctx.globalCompositeOperation = 'multiply'; ctx.fillStyle = `rgba(${lerp(220, 170, dusk)},${lerp(214, 168, dusk)},${lerp(240, 210, dusk)},1)`; ctx.fillRect(0, 0, W, H); ctx.restore();
@@ -268,10 +269,10 @@ function renderFrame(i, opts = {}) {
   return { meas, diag: sol.diag, dog: { state: dg.state, facing_rig: dg.facing, posture: dg.posture, headLow: dg.headLow, body: P.dog_body.mesh, head: P.dog_head.mesh }, person: ps.posture };
 }
 function drawSillFront(g) {
-  g.save(); g.beginPath(); g.rect(DOOR_L - 18, YG - 14, DOOR_R - DOOR_L + 36, 40); g.clip();
+  g.save(); g.beginPath(); g.rect(DOOR_L - 6, YG - 14, DOOR_R - DOOR_L + 12, 40); g.clip();
+  g.fillStyle = 'rgba(0,0,0,.25)'; g.fillRect(DOOR_L - 6, YG - 11, DOOR_R - DOOR_L + 12, 3);
   g.fillStyle = '#a07a4e'; g.fillRect(DOOR_L - 6, YG - 8, DOOR_R - DOOR_L + 12, 13); g.strokeStyle = INK; g.lineWidth = 2; g.strokeRect(DOOR_L - 6, YG - 8, DOOR_R - DOOR_L + 12, 13);
   g.fillStyle = 'rgba(255,230,180,.35)'; g.fillRect(DOOR_L - 6, YG - 8, DOOR_R - DOOR_L + 12, 3);
-  g.fillStyle = '#e3d8c0'; g.fillRect(DOOR_R, YG - 14, 18, 14); g.strokeRect(DOOR_R, YG - 14, 18, 14);
   g.restore();
 }
 function paperLift() { ctx.save(); ctx.filter = 'blur(2.5px) brightness(0)'; ctx.globalAlpha = .38; ctx.drawImage(gl_c, 4, 5); ctx.restore(); }
@@ -328,7 +329,9 @@ async function init(data) {
   rig = RIG.Rig(SCORE, MESH); stage = RIG.Stage(MESH, ARAP);
   makePaper(); makeHouse();
   for (const name of Object.keys(MESH)) {
-    const img = new Image(); img.src = '../' + MESH[name].texture; await img.decode(); glMesh(name, img);
+    const img = new Image(); img.src = '../' + MESH[name].texture; await img.decode();
+    for (const g of MESH[name].groups || []) { g.img = new Image(); g.img.src = '../' + g.texture; await g.img.decode(); }
+    glMesh(name, img);
   }
   await document.fonts.load('800 40px "Big Shoulders Display"'); await document.fonts.load('italic 400 20px Literata'); await document.fonts.load('400 20px Literata'); await document.fonts.load('italic 600 31px Literata');
   return Object.keys(MESH).length;
