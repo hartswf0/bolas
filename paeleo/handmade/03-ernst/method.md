@@ -98,7 +98,26 @@ not boil.
 
 `state` is the score decision that drove the frame. It is copied, not measured, and that is said here plainly.
 
-RESULTS_PLACEHOLDER
+- **I1 choices**: all six found at dt = 0.000 s. This is structural: `state` is the score's decision for each frame.
+- **I2 threshold**: min x_score 0.59 and end 0.59. Visually, the dog's deepest
+  rendered point is z = -0.222 m, inside the door frame's reveal (which runs from 0 to -0.24 m) and short of the door, which
+  hangs at the inner face.
+- **I3 direction**: r = 1.0 on x_screen, measured from the rendered torso pixels with a fixed camera.
+- **I4 refusal**: share turned = 0.938. Measured facing first flips at 3.667 s; the turn runs
+  3.42 to 3.92 s.
+- **Head low on the approach**: the rendered head centre is at least 8 cm below the top of the back in 99.1% of approach frames.
+- **Lying across the sill**: posture is 'lying' (rendered torso height under 0.29 m) in every frame from 24.5 s
+  (179/180 frames). At the end, 49% of the dog's pixels lie inside
+  the door opening's x-span (head and forequarters) and the rest outside (hindquarters, tail).
+- **Turn back**: the head's relative yaw reaches 111° at 7.67 s, so the head comes round over the shoulder before the body turns.
+  The rendered head is on the door side of the tail (measured facing +1) from 7.71 s.
+- **Soft voice vs calls** (measured on the synthesized voice track): calls -18.9 / -16.1 dB RMS,
+  soft voice -29.9 dB, so the soft voice is 11.0 dB under the quieter call. Room
+  tone is -45.1 dB, so the soft voice is 15.1 dB above it. The final mix needed no
+  gain change (peak 0.627).
+- **Looked at** (by me, on extracted frames): the turns, the walk, the lie-down, the look-in, the lion's transfer, the retreat,
+  the four stills and a 1 fps sheet of the whole film. Proof sheets are in `proof/`.
+- **Unknown**: how it plays at normal speed to a fresh eye, and how it sounds.
 
 ## Sound
 
@@ -117,7 +136,34 @@ spectrograms, which show harmonic, formant-shaped utterances where the voices sh
 
 ## What failed, and what changed (details in `ledger.jsonl`)
 
-LEDGER_PLACEHOLDER
+Each line of `ledger.jsonl` is one attempt with its evidence. In short:
+- **The maquette** first read as a weasel, then a deer. I changed its proportions, legs, head and ears, and scaled it ×1.2.
+- **Lying parallel to the facade** made looking in read as looking up. Fix: the dog angles into the doorway at the sill.
+- **The 3/4 lion** read as a sculpted human face. Fix: a radial, mane-like line system.
+- **The lantern** on the hall's back wall showed above the door, because of the orthographic camera. Fix: it now hangs in
+  the hall.
+- **The gait** lurched in trot pairs. Fix: a lateral-sequence walk on a distance clock with look-ahead landing.
+- **The refusal turn** left the legs stretched. Fix: a fast turn mode for the steps.
+- **The turn back**: the chin-on-paws pose held the head, so it came round late (about 8.1 s). Fix: release that pose and
+  let the head lead.
+- **The growl** under the calls was broadband because of a phase bug. Fixed.
+- **The offered hand** sat on a stretched stick of an arm. Fix: the reach is clamped, and the person leans forward with the
+  hand low.
+- **The nose** went 0.25 m into the wall, past where the door hung. Fix: the door now hangs at the inner face, and the
+  dog's depth was reduced.
+- **Looking in** rose too steeply, toward the keystone. Fix: the gaze target is now low and deep in the hall, and the head
+  is lowered.
+- **Rendering** was too slow. Fix: a 2D cull of the rays. The output was verified identical.
+
+What is still weak:
+- The look-in still points up-left on screen. In this camera, depth reads as up. A viewer may read it as looking up at the
+  lamp or the lion rather than in.
+- The turn at 3.6-3.7 s passes through a small frontal view that is barely readable as a dog at plate scale.
+- The 3/4 lion head is ambiguous between lion and carved face.
+- The legs are stiff, like stilts.
+- The person is a dark, simple mannequin.
+- The six seconds of waiting (8.3-14.7 s) are nearly static apart from ear flicks.
+- The voices are synthetic. Whether they are intelligible is unknown.
 
 ## What I did not do
 
