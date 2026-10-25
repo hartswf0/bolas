@@ -286,8 +286,8 @@
         H.shoulder = add(H.shoulder, [lean * 0.65, 6 * reach]);
         // stepping aside (5.4–5.95): four short steps to the left, back foot leading; a foot is planted or in the air
         const u = win(t, 5.4, 5.85), D = -(1.25 - 0.28) * DPM, dx = D * u;
-        const stepTo = (u, k0) => { let o = 0, lift = 0; for (const [a, b] of k0) { const v = clamp((u - a) / (b - a)); o += D / 3 * ss(v); lift = Math.max(lift, Math.sin(Math.PI * v)); } return [o, lift]; };
-        const [ob, lb] = stepTo(u, [[0, 1 / 6], [2 / 6, 3 / 6], [4 / 6, 5 / 6]]), [oa, la] = stepTo(u, [[1 / 6, 2 / 6], [3 / 6, 4 / 6], [5 / 6, 1]]);
+        const stepTo = (u, k0) => { let o = 0, lift = 0; for (const [a, b] of k0) { const v = clamp((u - a) / (b - a)); o += D / 4 * ss(v); lift = Math.max(lift, Math.sin(Math.PI * v)); } return [o, lift]; };
+        const [ob, lb] = stepTo(u, [[0, 1 / 8], [2 / 8, 3 / 8], [4 / 8, 5 / 8], [6 / 8, 7 / 8]]), [oa, la] = stepTo(u, [[1 / 8, 2 / 8], [3 / 8, 4 / 8], [5 / 8, 6 / 8], [7 / 8, 1]]);
         H.foot_b = add(H.foot_b, [ob - dx, -12 * lb]); H.foot_a = add(H.foot_a, [oa - dx, -12 * la]);
         H.hip = add(H.hip, [0, -4 * (lb + la)]); H.chest = add(H.chest, [0, -4 * (lb + la)]); H.head = add(H.head, [0, -4 * (lb + la)]); H.shoulder = add(H.shoulder, [0, -4 * (lb + la)]);
         const pxs = -0.28 + (1.25 - 0.28) * -u;
