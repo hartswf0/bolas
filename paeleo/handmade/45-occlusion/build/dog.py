@@ -32,7 +32,7 @@ WALK_LOW = [42, 43, 44, 45]   # head-low walk, shown mirrored (faces the door); 
 TURN_AWAY = [13, 14, 26, 28, 30, 31, 33, 36, 38, 40]  # left -> facing the camera -> right (round 2: 15/17/19/20 dropped: a box, two heads)
 TURN_BACK = [28, 26, 14, 13, 11, 10]   # never passes through a camera-facing frame: the head stays on the door side           # frontal (head up) -> left, for 8.0-9.0
 WATCH = [9, 10, 11, 10]                                           # held alert cels (boil)
-LIE_D, LIE_SHEAR = -0.05, 0.228   # lying across the sill: its depth pass crosses the casing plane at x = 0.54, under the right jamb
+LIE_D, LIE_SHEAR = -0.07, 0.228   # lying across the sill: its depth pass crosses the casing plane at x = 0.575, at the right jamb's outer edge, so the in/out boundary is the jamb's own edge
 STRIDE = 0.30                                                     # metres per walk cycle (short, wary steps)
 
 
