@@ -206,7 +206,7 @@ class Assets:
         # top contour down to that line with the nearest fur above (a recorded repair: the occluded belly), then the
         # contour rounded. No hind legs hang below it; nothing is left as a notch.
         self.lie_floor = 116.0
-        bm = (parts['torso'] + parts['hind'] + parts['fore'] * (xx >= 72) + parts['tail'] * (xx < 153)) * (p13.a > .5)   # round 3: the tail root belongs to the body
+        bm = (parts['torso'] + parts['hind'] + parts['fore'] * (xx >= 72) + parts['tail'] * (xx < 156)) * (p13.a > .5)   # round 3: the tail root belongs to the body
         bm = (bm > 0.5) & (yy < self.lie_floor)
         filled = bm.copy(); lum = p13.lum.copy()
         cols = np.nonzero(bm.any(0))[0]
@@ -246,7 +246,7 @@ class Assets:
             f = box_blur(f, 1)
         filled = f > 0.5
         lum = np.where(filled & (p13.a < .9), box_blur(lum, 1), lum)
-        self.lie_tail = p13.masked(parts['tail'] * (xx >= 150))
+        self.lie_tail = p13.masked(parts['tail'] * np.clip((xx - 148) / 6.0, 0, 1))   # round 3: tapered root, no hard joint edge
         self.lie_body = Sprite(lum, filled.astype(np.float32) * np.clip(box_blur(filled.astype(np.float32), 1) * 1.6 - 0.3, 0, 1),
                                {'shot': 'dog', 'piece': 'f013 lying body', 'repair': 'column fill to floor line, corners rounded'}, edge=np.zeros_like(lum))
         # head with a 7 px neck tab past its joint line (hidden under the body when drawn behind it)
@@ -539,7 +539,7 @@ class DogRig:
             cv.head_piece = 'back_of_head_f000'; cv.marks = None
         else:
             hang = -(lerp(-6.0, 12.0, 1 - min(1.2, head)) + 36.0 + 26.0 * rest)
-            hdrop = 6.0 + 12.0 * rest
+            hdrop = 6.0 + 21.0 * rest
             head_sp = A.head_tab
             Mh = aff(R @ rot(hang), neck, to_canvas(torso_pt(neck) + np.array([0, hdrop])))
             cv.head_piece = 'head_f013'

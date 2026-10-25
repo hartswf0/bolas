@@ -18,7 +18,7 @@ export async function stills(serveUrl, id, frames, outDir, fmt = 'jpeg') {
   const out = [];
   for (const frame of frames) {
     const output = path.join(outDir, `${id}_${String(frame).padStart(4, '0')}.${fmt === 'png' ? 'png' : 'jpg'}`);
-    await R.renderStill({composition, serveUrl, frame, output, imageFormat: fmt, jpegQuality: 92, browserExecutable, chromiumOptions, logLevel: 'error'});
+    await R.renderStill({composition, serveUrl, frame, output, imageFormat: fmt, ...(fmt === 'jpeg' ? {jpegQuality: 92} : {}), browserExecutable, chromiumOptions, logLevel: 'error'});
     out.push(output);
   }
   return out;
