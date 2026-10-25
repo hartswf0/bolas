@@ -1,5 +1,5 @@
 {
- "about": "SCION 43 rewrite rulebook. Time base: score frames, 24 fps; the dog graph is solved on twos. Coordinates: metres along the porch (x), height (v); screen X = 305 + 205 x.",
+ "about": "SCION 43 rewrite rulebook. Time base: score frames, 24 fps; the dog graph is solved on twos. Coordinates: metres along the porch (x), height (v); screen X = 300 + 195 x.",
  "rules": [
   {
    "id": "R1 REPLACE head",
@@ -16,14 +16,14 @@
    "motif": "head up = attention; head low = the decision to come (f048: the dog lowering its head to its bowl, re-used as trust)"
   },
   {
-   "id": "R2 REPLACE head by mirror(head)",
+   "id": "R2 REPLACE head by the found frontal head",
    "kind": "replace",
    "input": "dog.head on a turned-away body",
    "output": "dog.head facing the door",
    "precondition": "state becomes watch (7.458) while the body still faces away",
    "preserved": "neck anchor",
    "fragments": [
-    "head_level_f012 (mirrored)"
+    "head_front_f030 (mirrored: muzzle to the door)"
    ],
    "motif": "the head comes round first: turning to look"
   },
@@ -93,10 +93,10 @@
    "id": "R9 ENTER head -> the door light (look in)",
    "kind": "enter",
    "input": "dog.head",
-   "output": "head_back_cut (back of the head, toward the viewer, into the lit room)",
+   "output": "head_back_f027 (the found turning frame's head and neck, crushed into shadow against the lit room: the back of the head)",
    "precondition": "score act.look > 0.2 (on hearing \"come in\")",
-   "preserved": "neck anchor",
-   "motif": "the one drawn shape; the head turns into depth"
+   "preserved": "neck anchor (the neck runs from inside the chest)",
+   "motif": "the head turns into depth; nothing drawn"
   },
   {
    "id": "P1 ENTER voice",
@@ -161,7 +161,7 @@
    "i": 180,
    "state": "watch",
    "rules": [
-    "REPLACE head by mirror(head) on the turned-away body (turns back to look)"
+    "REPLACE head by head_front_f030, mirrored to face the door, on the turned-away body (turns back to look)"
    ],
    "materials": {
     "head": "shade",
@@ -179,7 +179,7 @@
    "i": 182,
    "state": "watch",
    "rules": [
-    "REPLACE head by mirror(head) on the turned-away body (turns back to look)"
+    "REPLACE head by head_front_f030, mirrored to face the door, on the turned-away body (turns back to look)"
    ],
    "materials": {
     "head": "shade",
@@ -197,7 +197,7 @@
    "i": 184,
    "state": "watch",
    "rules": [
-    "REPLACE head by mirror(head) on the turned-away body (turns back to look)"
+    "REPLACE head by head_front_f030, mirrored to face the door, on the turned-away body (turns back to look)"
    ],
    "materials": {
     "head": "shade",
@@ -215,7 +215,7 @@
    "i": 186,
    "state": "watch",
    "rules": [
-    "REPLACE head by mirror(head) on the turned-away body (turns back to look)"
+    "REPLACE head by head_front_f030, mirrored to face the door, on the turned-away body (turns back to look)"
    ],
    "materials": {
     "head": "shade",
@@ -341,7 +341,7 @@
    "i": 636,
    "state": "lie_down",
    "rules": [
-    "ENTER head->door light: REPLACE head by head_back_cut (looks in)",
+    "ENTER head->door light: REPLACE head by head_back_f027 (looks in)",
     "R8 SPLIT torso at the threshold"
    ],
    "materials": {

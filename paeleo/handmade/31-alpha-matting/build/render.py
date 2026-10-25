@@ -179,8 +179,8 @@ def lie_pieces():
     # the head seen from behind (frame 5: the dog looks up and away, the back of its skull and ears toward the camera)
     P5, b5 = dog_frame(5, False)
     A5 = piece_canvas(P5, b5)
-    hm5 = np.clip((1 - np.hypot((xx - 123) / 22., (yy - 112) / 25.)) * 5, 0, 1) * (yy < 140)
-    LIE['head_back'] = rot_premult(A5 * hm5[..., None], 0, 0, 0, dx=-24, dy=-10)
+    hm5 = np.clip((1 - np.hypot((xx - 117) / 20., (yy - 108) / 24.)) * 5, 0, 1) * (yy < 136)
+    LIE['head_back'] = rot_premult(A5 * hm5[..., None], 0, 0, 0, dx=-20, dy=-14)   # skull and both ears above the shoulder line
     return LIE
 
 
@@ -197,7 +197,9 @@ def lying_sprite(L, head_up, look, rest, face_right=False, look_back=0.0):
         s_ = 1 - .88 * L
         ch = [np.asarray(Image.fromarray(hind[..., c]).transform(hind.shape[1::-1], Image.AFFINE, (1, 0, 0, 0, 1 / s_, 151 - 151 / s_), Image.BICUBIC)) for c in range(4)]
         hind = np.clip(np.stack(ch, 2), 0, 1).astype(np.float32)
-    hind = rot_premult(hind, 0, 0, 0, dy=drop) * (1 - .85 * L)    # folded under the body
+    hind = rot_premult(hind, 0, 0, 0, dy=drop)
+    hind[int(151 + drop + 4):] = 0                        # folded under the body: nothing below the floor line, but
+                                                         # no fade either, so body + hind still add up to solid across the thigh
     def ground(P, target):
         rows = np.nonzero((P[..., 3] > .4).sum(1) > 1)[0]
         return 0 if len(rows) == 0 else target - (rows.max() + 1)
@@ -223,6 +225,12 @@ def lying_sprite(L, head_up, look, rest, face_right=False, look_back=0.0):
         out = over(out, hm)
     else:
         out = over(out, hd)
+    # union alpha: pieces cut from one solid body must stay solid where they meet (no sky through the thigh seam)
+    a = out[..., 3]
+    inner = blur((a > .5).astype(np.float32), 4, 2) > .999
+    k = inner & (a < 1)
+    out[k, :3] = out[k, :3] / np.maximum(a[k, None], 1e-4)
+    out[k, 3] = 1.0
     return out
 
 
@@ -238,9 +246,10 @@ def bbox_crop(A):
 CH = {c['to'] + ('' if c['to'] != 'watch' else str(k)): c['t'] for k, c in enumerate(SCORE['choices'])}
 T_RET, T_W1, T_REF, T_W2, T_APP, T_LIE = [c['t'] for c in SCORE['choices']]
 T_COMEIN = 26.4
-WALK = [42, 43, 44, 45, 46, 47, 48]     # the archive dog's head-low walk, mirrored to face the door
+WALK = [42, 43, 44, 45, 48]             # the archive dog's head-low walk, mirrored to face the door (46, 47: head lost in the body, skipped)
 STRIDE = 0.068                           # metres travelled per walk frame (≈ the source's own advance per frame)
-TURN = list(range(14, 23))               # the archive dog's own turn away (13 faces the person, 22 has turned)
+TURN = [14, 15, 26, 28, 31]              # the turn through the dog's front: 3/4 left, front, 3/4 right (source frames 17-22 were illegible tangles)
+TURN_BACK = [26, 26, 15, 14]            # back to the door through the front
 
 
 def cumdist():
@@ -273,20 +282,20 @@ def dog_pose(i):
         k = int((t - T_REF) * 12)
         if k < len(TURN):
             f = TURN[k]
-            return dict(kind='frame', f=f, m=False, facing=1 if f < 17 else -1, posture='turn away')
+            return dict(kind='frame', f=f, m=False, facing=1 if f in (14, 15, 26) else -1, posture='turn away')
         L = float(smooth(4.3, 5.0, t)); rest = .45 + .55 * float(smooth(5.6, 6.5, t))
         return dict(kind='lie', L=L, head_up=0., look=0., rest=rest, face_right=True, look_back=0.,
                     facing=-1, posture='back turned, lying' if L > .95 else 'back turned')
     if t < T_APP:  # turns back to look: head first, over the shoulder; rises; then the archive turn, backward
         if t < T_W2 + .55:
-            lb = float(smooth(T_W2, T_W2 + .08, t)); L = 1 - float(smooth(T_W2 + .2, T_W2 + .55, t))
-            return dict(kind='lie', L=L, head_up=float(lb), look=0., rest=float(1 - lb), face_right=True, look_back=lb,
-                        facing=1 if lb > .5 else -1, posture='looks back, rising')
+            L = 1 - float(smooth(T_W2 + .2, T_W2 + .55, t))   # head turns back to the door at once (hard substitution, no dissolve)
+            return dict(kind='lie', L=L, head_up=1., look=0., rest=.72, face_right=True, look_back=1.,
+                        facing=1, posture='looks back, rising')
         k = int((t - T_W2 - .55) * 12)
-        R = TURN[::-1][1:]
+        R = TURN_BACK
         if k < len(R):
             f = R[k]
-            return dict(kind='frame', f=f, m=False, facing=1 if f < 17 else -1, posture='turn back')
+            return dict(kind='frame', f=f, m=False, facing=1, posture='turn back')
         return dict(kind='frame', f=watch_boil(t - T_W2), m=False, facing=1, posture='watch')
     if t < T_LIE:  # comes, head low: mirrored head-low walk, one frame per STRIDE metres travelled
         k0 = int((t - T_APP) * 12)
@@ -327,7 +336,7 @@ def dog_sprite(i):
         P, b = dog_frame(p['f'], p['m'])
     else:
         A = lying_sprite(p['L'], p['head_up'], p['look'], p['rest'], p.get('face_right', False), p.get('look_back', 0.))
-        A = A * (blur(A[..., 3], 3, 1) > .06)[..., None]     # drop stray specks left by the piece masks
+        A = A * (blur(A[..., 3], 6, 2) > .18)[..., None]     # drop stray specks left by the piece masks
         P, b = bbox_crop(A)
     return p, P, b
 
@@ -352,7 +361,7 @@ def place(canvas, P, x, y, wrap=0.0, wrap_col=None):
     D = canvas[cy0:cy1, cx0:cx1]
     a = S[..., 3:4]
     if wrap > 0:
-        bgb = blur(D.copy(), 5, 2) if wrap_col is None else wrap_col[cy0:cy1, cx0:cx1]
+        bgb = blur(D.copy(), 1, 1) if wrap_col is None else wrap_col[cy0:cy1, cx0:cx1]   # only light actually behind the edge
         inner = blur(S[..., 3], 3, 2)[..., None]
         edge = np.clip(a * (1 - inner) * 3.0, 0, 1)
         add = edge * bgb * wrap
@@ -372,6 +381,15 @@ def grade_dusk(P, warm, dark=.48, grain=.018, seed=0):
     a = P[..., 3:4]
     F = P[..., :3] / np.maximum(a, 1e-4)
     g = F.mean(2, keepdims=True)
+    # edge colour match (decontamination at playback scale): a fractional edge pixel may not be lighter than the solid
+    # fur beside it, so no pale outline is carried from the sunlit source
+    solid = (a[..., 0] > .95).astype(np.float32)
+    den = blur(solid, 4, 2)
+    gi = blur(g[..., 0] * solid, 4, 2) / np.maximum(den, 1e-4)
+    band = (a[..., 0] < .95) & (den > .02)
+    g0 = g[..., 0]
+    g0[band] = np.minimum(g0[band], gi[band])
+    g = g0[..., None]
     r = np.random.default_rng(seed)
     g = np.clip(g + r.normal(0, grain, g.shape).astype(np.float32) * (0.5 + g), 0, 1)
     cool = np.array([.62, .66, .86], np.float32) * dark
@@ -566,7 +584,7 @@ def render(i):
     dist = abs(xd)
     warm = light * math.exp(-dist / 1.6) * .22 + .03
     Pd = grade_dusk(Ps, warm, dark=.44 - .12 * light * math.exp(-dist / 1.2), seed=i * 7 + 3)
-    wrapk = .6 + .8 * light * math.exp(-dist / 1.5)
+    wrapk = .25 + .35 * light * math.exp(-dist / 1.5)
     if pose['kind'] == 'lie' and pose.get('L', 0) > .95:
         k = 1 + .012 * math.sin(t * 2 * math.pi / 1.7)
         Pd = resize_premult(Pd, Pd.shape[1], max(1, int(Pd.shape[0] * k)))

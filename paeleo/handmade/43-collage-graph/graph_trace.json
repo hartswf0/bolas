@@ -873,7 +873,7 @@
 "t": 7.5,
 "state": "watch",
 "rules": [
-"REPLACE head by mirror(head) on the turned-away body (turns back to look)"
+"REPLACE head by head_front_f030, mirrored to face the door, on the turned-away body (turns back to look)"
 ],
 "mode": "graph",
 "head": "head_level_f012",
@@ -950,7 +950,7 @@
 ],
 [
 "dog.head",
-"head_level_f012"
+"head_front_f030"
 ],
 [
 "voice.arcs",
@@ -967,7 +967,7 @@
 "t": 7.583,
 "state": "watch",
 "rules": [
-"REPLACE head by mirror(head) on the turned-away body (turns back to look)"
+"REPLACE head by head_front_f030, mirrored to face the door, on the turned-away body (turns back to look)"
 ],
 "mode": "graph",
 "head": "head_level_f012",
@@ -1044,7 +1044,7 @@
 ],
 [
 "dog.head",
-"head_level_f012"
+"head_front_f030"
 ],
 [
 "voice.arcs",
@@ -1061,7 +1061,7 @@
 "t": 7.667,
 "state": "watch",
 "rules": [
-"REPLACE head by mirror(head) on the turned-away body (turns back to look)"
+"REPLACE head by head_front_f030, mirrored to face the door, on the turned-away body (turns back to look)"
 ],
 "mode": "graph",
 "head": "head_level_f012",
@@ -1138,7 +1138,7 @@
 ],
 [
 "dog.head",
-"head_level_f012"
+"head_front_f030"
 ],
 [
 "voice.arcs",
@@ -1155,7 +1155,7 @@
 "t": 7.75,
 "state": "watch",
 "rules": [
-"REPLACE head by mirror(head) on the turned-away body (turns back to look)"
+"REPLACE head by head_front_f030, mirrored to face the door, on the turned-away body (turns back to look)"
 ],
 "mode": "graph",
 "head": "head_alert_f006",
@@ -1232,7 +1232,7 @@
 ],
 [
 "dog.head",
-"head_alert_f006"
+"head_front_f030"
 ],
 [
 "voice.arcs",
@@ -2071,10 +2071,10 @@
 "t": 26.5,
 "state": "lie_down",
 "rules": [
-"ENTER head->door light: REPLACE head by head_back_cut (looks in)"
+"ENTER head->door light: REPLACE head by head_back_f027 (looks in)"
 ],
 "mode": "graph",
-"head": "head_back_cut",
+"head": "head_back_f027",
 "head_mirror": false,
 "split_at_threshold": true,
 "materials": {
@@ -2152,7 +2152,7 @@
 ],
 [
 "dog.head",
-"head_back_cut"
+"head_back_f027"
 ],
 [
 "voice.arcs",
