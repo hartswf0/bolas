@@ -29,7 +29,7 @@ FRAME_W = 0.12           # casing width
 FRAME_D = 0.005          # casing face depth (flush trim): the plane the dog and the person are split at
 DOOR_H = 2.03
 LAMP = (-0.12, 1.02, -1.05)
-POST_X, POST_D, POST_W = 2.32, 2.30, 0.13
+POST_X, POST_D, POST_W = 2.20, 2.30, 0.13
 CORNER_X = 2.05
 BENCH = (-1.55, -0.62, 0.22, 0.58, 0.44)   # x0, x1, D0, D1, seat h
 

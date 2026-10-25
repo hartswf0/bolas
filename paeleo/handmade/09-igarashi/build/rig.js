@@ -240,10 +240,10 @@
       } else { // dog_lie
         const hp = HP('dog_lie'); H = {};
         for (const k of Object.keys(hp)) H[k] = hp[k].slice();
-        const t0 = T_LIE + 0.33, u = win(t, t0, t0 + 0.45);
+        const t0 = T_LIE + 0.33, u = win(t, t0, t0 + 0.5);
         // arriving from the crouch: back and hips higher, forefeet not yet out
-        H.withers[1] -= 30 * (1 - u); H.back[1] -= 36 * (1 - u); H.hip[1] -= 44 * (1 - u); H.socket[1] -= 28 * (1 - u); H.belly[1] -= 22 * (1 - u);
-        H.f1[0] += 50 * (1 - u); H.f2[0] += 44 * (1 - u); H.f1[1] -= 10 * (1 - u); H.f2[1] -= 8 * (1 - u);
+        H.withers[1] -= 44 * (1 - u); H.back[1] -= 54 * (1 - u); H.hip[1] -= 66 * (1 - u); H.socket[1] -= 40 * (1 - u); H.belly[1] -= 34 * (1 - u); H.h2[1] -= 10 * (1 - u);
+        H.f1[0] += 64 * (1 - u); H.f2[0] += 56 * (1 - u); H.f1[1] -= 6 * (1 - u); H.f2[1] -= 4 * (1 - u);
         const br = Math.sin(t * 2 * Math.PI * 0.3) * 1.8; H.back[1] += br; H.withers[1] += br * 0.6;
         const wag = F[i].dog.act.wag;
         H.tail_tip = add(hp.tail_tip, [-6 * wag * Math.abs(Math.sin(t * 2 * Math.PI * 2.2)), -10 * wag * Math.abs(Math.sin(t * 2 * Math.PI * 2.2))]);

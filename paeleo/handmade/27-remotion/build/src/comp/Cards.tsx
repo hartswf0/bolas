@@ -21,7 +21,7 @@ export const End: React.FC = () => {
     <AbsoluteFill style={base}>
       <div style={{opacity: o, padding: '0 90px'}}>
         <div style={{fontFamily: 'Big Shoulders Display', fontWeight: 800, fontSize: 40, letterSpacing: 1.5, marginBottom: 18}}>What this is made of</div>
-        <div style={L}>The dog is a joint graph of 31 capsules and two ear triangles: React components drawing SVG strokes from 3-D joints,
+        <div style={L}>The dog is a joint graph of 34 capsules and two ear triangles: React components drawing SVG strokes from 3-D joints,
           a pure function of the PAELEO score frame and seed 27. Its proportions are measured from the archive dog's rig keys
           (<i>Amateur Film New Jersey C</i>, Home Movies, Internet Archive, public domain); its paws are placed by a stepping solver.</div>
         <div style={{...L, marginTop: 12}}>The person, porch, door and lit room are drawn the same way. The voice, paws, door and dusk are synthesised in numpy.

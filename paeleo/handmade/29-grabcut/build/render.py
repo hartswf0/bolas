@@ -439,7 +439,7 @@ DOG_S = 1.36
 WALK = [42, 43, 44, 45]          # the archive dog's own walk, head low (mirrored to face the door)
 WATCH = [9, 10, 11, 10]                      # standing, head up, looking at the person (boils between real frames)
 TURN_AWAY = [13, 30, 34, 44]       # round 2: f15, f26, f36, f38, f40, f42 dropped (boxy or muddled cuts)   # the real dog turning from side-left through frontal to right
-TURN_BACK = [('m', 30), ('m', 34), ('m', 44), 13]   # round 2: real cuts only, mirrored, head leading to the door
+TURN_BACK = [('m', 30), ('m', 30), ('m', 44), 13]   # round 2: real cuts only, mirrored, head leading to the door
 
 
 def feet_y(xm):

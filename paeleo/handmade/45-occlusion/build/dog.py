@@ -65,6 +65,7 @@ def whole_cel(n):
 
 
 HEAD_ONLY = [None]
+WAG = [0.0]
 
 
 def lie_pose(u, head_th, head_kind='L', head_dy=0.0, head_dx=0.0):
@@ -93,7 +94,13 @@ def lie_pose(u, head_th, head_kind='L', head_dy=0.0, head_dx=0.0):
     fa_dst = (lerp(140 + OX, chest[0] + 2, uf), lerp(163 + OY, F - 9, uf))
     fb_dst = (lerp(114 + OX, chest[0] + 8, uf), lerp(160 + OY, F - 13, uf))
     k_dst = (lerp(195 + OX, rump[0] + 4, uh), lerp(175 + OY, F - 9, uh))
-    L = [(fb, fbp, fb_th, fb_dst, (1, 1)), (t, tp, tor_th, tdst, (1, 1)), (k, kp, k_th, k_dst, (1, 1)),
+    # the tail (from frame 2) at the rump: hanging while standing, laid out on the boards behind when lying; it sweeps
+    # with the score's wag
+    tl, tlp = rig.part('tail2')
+    root = rig.fwd((209, 150), tp, tor_th, tdst)
+    tail_th = lerp(10, -38, uf) + WAG[0]
+    L = [(tl, tlp, tail_th, (root[0] - 2, root[1] + lerp(0, 4, uf)), (1, 1)),
+         (fb, fbp, fb_th, fb_dst, (1, 1)), (t, tp, tor_th, tdst, (1, 1)), (k, kp, k_th, k_dst, (1, 1)),
          (fa, fap, fa_th, fa_dst, (1, 1))]
     HEAD_ONLY[0] = None
     if head_kind == 'L':
@@ -125,6 +132,7 @@ def mirror_img(img, anchor, headpt):
 
 def dog_frame(i):
     f = FR[i]; t = f['t']; d = f['dog']; st = d['state']; a = d['act']
+    WAG[0] = 14.0 * a['wag'] * math.sin(2 * math.pi * 2.1 * t) if a['lie'] > 0.5 else 0.0
     x = d['x']
     Xc = x - CENTER_OFFSET
     D = 1.05
@@ -159,7 +167,7 @@ def dog_frame(i):
         tt = t - 3.417
         nT = len(TURN_AWAY)
         if tt < nT / 24.0 + 0.001:                  # the real turn, one frame each (0.58 s)
-            n = TURN_AWAY[min(nT - 1, int(tt * 24))]
+            n = TURN_AWAY[min(nT - 1, int(round(tt * 24)))]
             img, anc = whole_cel(n); parts = ['cel%d' % n]
             m = META[str(n)]
             head = (m['bbox'][0] + OX, m['bbox'][1] + 20 + OY) if n < 20 else ((m['bbox'][2] + OX, m['bbox'][1] + 20 + OY) if n > 30 else (m['cx'] + OX, m['bbox'][1] + OY))
@@ -285,7 +293,10 @@ def lie_body_only(u):
     tdst = (160 + OX, 150 + dy + OY)
     chest = rig.fwd((108, 157), tp, tor_th, tdst); rump = rig.fwd((200, 172), tp, tor_th, tdst)
     F = FLOOR + OY
-    L = [(fb, fbp, lerp(0, 62, uf), (lerp(114 + OX, chest[0] + 8, uf), lerp(160 + OY, F - 13, uf)), (1, 1)),
+    tl, tlp = rig.part('tail2')
+    root = rig.fwd((209, 150), tp, tor_th, tdst)
+    L = [(tl, tlp, lerp(10, -38, uf) + WAG[0], (root[0] - 2, root[1] + lerp(0, 4, uf)), (1, 1)),
+         (fb, fbp, lerp(0, 62, uf), (lerp(114 + OX, chest[0] + 8, uf), lerp(160 + OY, F - 13, uf)), (1, 1)),
          (t, tp, tor_th, tdst, (1, 1)),
          (k, kp, lerp(0, 84, uh), (lerp(195 + OX, rump[0] + 4, uh), lerp(175 + OY, F - 9, uh)), (1, 1)),
          (fa, fap, lerp(0, 80, uf), (lerp(140 + OX, chest[0] + 2, uf), lerp(163 + OY, F - 9, uf)), (1, 1))]
