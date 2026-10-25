@@ -89,13 +89,42 @@ dots cast a soft occlusion, so its body stands dark against the light with its d
   under the commands. A/B: the same bank with K = 0 drifts at 0.23 rad/s through the approach (the detuned branch).
 - Sound (`proof/audio.json`): voice stem RMS over its active samples; soft voice vs calls and room tone.
 
+## Measured results (build 6, the delivered film)
+
+- checker: ALL OK. I1 every choice dt = 0.000 s (structural: `state` is the score's label); I2 min x 0.59, end 0.59;
+  I3 r = 1.000 on x_world_measured; I4 share of refusal frames turned = 0.928.
+- seen from the drawn geometry only (`proof/seen_states.json`): retreat +0.208 s; watch +0.042 s; refuse +0.166 s; watch +0.167 s; approach -0.041 s; lie_down +0.208 s.
+- head below the line of the back during the approach: min 0.078 m, max 0.078 m over 218 frames (positive = below).
+- 3:2 lock: |d psi/dt| max 0.0000 rad/s from 14.7 s to the end; mean 3.37 rad/s under the commands; the K = 0 branch
+  drifts at 0.226 rad/s through the approach.
+- sound: calls -17.1 / -17.1 dBFS, soft voice -30.0 / -30.3 / -29.2 dBFS (soft 12.1 dB below the calls), room tone -57.5 dBFS;
+  34 footfall ticks placed on the frames where a drawn foot plants.
+- film.mp4: 1280x720, 24 fps, H.264 + AAC, 38.0 s, 912 video frames, 2.6 MB, faststart.
+
+Looked at (Read on images): test frames, contact sheets of the retreat, both turns (every frame region 3.45-3.80 and
+7.90-8.30 s), the approach, the sill sequence, film frames at scene 9 s and 28 s after compression, a 1 fps and a 0.5 s
+sheet of the whole film, the four stills. Not looked at: every frame at normal speed (I cannot play video).
+
 ## What failed and what I changed
 
 See `ledger.jsonl` (one line per attempt). In short: rings read as a coil spring -> meridian lines; trails smeared the walk
 -> two persistence buffers; the field drowned the dog -> dimmer lattice; the bottom half of the frame was empty -> lower
 camera; the end was tiny and lost in the door frame -> a dolly to a close sill shot; the door did not read as lit -> a
 haze field; the light flooded the lying dog -> occlusion mask from the dog's own dots; the look-back made a giraffe neck
--> smaller head lift; the high curled tail read fox-like on the approach -> lower tail mapping.
+-> smaller head lift; the high curled tail read fox-like on the approach -> lower tail mapping; in the turns the
+rump-on and chest-on frames collapsed into a ball of bright end-on rings -> the spine curls into a C toward the turn
+(head leads, rear follows) and rim brightness fades for tubes seen end-on; lying on the sill reached the lying pose
+late -> it goes down 23.79-24.12 s. Two early builds were killed mid-render (another swarm's `pkill -f render.py` on the
+shared machine); every later build was checked by frame count.
+
+## Still weak
+
+- The middle frames of both turns (about 3.60-3.72 s and 8.05-8.20 s) are the weakest drawings: a curled body seen
+  3/4 from behind / chest-on, dimmer than the profile. They read as a body with legs; whether they read as a dog at
+  normal speed is for the critic.
+- In the wide shot (0-15 s) the dog is about 300 px long and the ears, eyes and paws are small.
+- The person is a coarse figure (a lantern head, a block torso).
+- The still at 3.6 s catches the dog mid-turn (its back fully to the door from about 3.8 s).
 
 ## What I did not do
 
