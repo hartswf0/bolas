@@ -91,8 +91,8 @@ def operator():
 :root{--bg:#10111b;--ink:#e2dacc;--dim:#9a9aa8;--warm:#f0b268}
 body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,sans-serif}
 main{max-width:760px;margin:0 auto;padding:16px}
-h1{font-size:1.3rem;margin:.2em 0}a{color:var(--warm)}video{width:100%;border-radius:6px;background:#000}
-table{border-collapse:collapse;width:100%;font-size:.9rem}td,th{border-bottom:1px solid #2a2b3a;padding:4px 6px;text-align:left}
+h1{font-size:1.3rem;margin:.2em 0}a{color:var(--warm)}video{width:100%%;border-radius:6px;background:#000}
+table{border-collapse:collapse;width:100%%;font-size:.9rem}td,th{border-bottom:1px solid #2a2b3a;padding:4px 6px;text-align:left}
 .k{color:var(--dim)}</style></head><body><main>
 <h1>PAE-02 · SCION 45 · Occlusion Compositing</h1>
 <p class="k">current revision: scene-v9 / dog-v6 · critic verdict: <b>not yet judged</b> (an independent critic has not seen this film)</p>

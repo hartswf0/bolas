@@ -18,6 +18,10 @@ def used_cels():
             n = int(m.group(1)) if m else next((v for k, v in PART_SRC.items() if part.startswith(k)), None)
             if n is not None:
                 used.setdefault(n, set()).add('whole cel' if m else part.split(' ')[0])
+            if part.startswith('torso10'):
+                used.setdefault(2, set()).add('tail2')            # every re-assembled pose carries frame 2's tail
+            if part.startswith('headF (as back'):
+                used.setdefault(10, set()).add('headBack fill (neck fur)')
     out = {str(k): sorted(v) for k, v in sorted(used.items())}
     json.dump(out, open(os.path.join(HERE, 'cache/cels_used.json'), 'w'), indent=0)
     return out

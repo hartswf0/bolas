@@ -11,15 +11,16 @@ import {mixc} from './draw.tsx';
 const Z0 = -2.7, Z1 = 1.9;               // façade extent across the porch
 const D = WORLD.door, X1 = WORLD.wallOut, X0 = WORLD.wallIn;
 const rect = (x: number, za: number, zb: number, ya: number, yb: number): V3[] => [[x, ya, za], [x, ya, zb], [x, yb, zb], [x, yb, za]];
-export const openingOuter = pathOf(rect(X1, D.z0, D.z1, 0, D.h));
-export const openingInner = pathOf(rect(X0, D.z0, D.z1, 0, D.h));
+// projected per frame (the camera moves): never cache a projection at module scope
+export const openingOuter = () => pathOf(rect(X1, D.z0, D.z1, 0, D.h));
+export const openingInner = () => pathOf(rect(X0, D.z0, D.z1, 0, D.h));
 export const spillPath = (angle: number) => pathOf(spillPoly(angle));
 
 export const Defs: React.FC<{angle: number}> = ({angle}) => (
   <defs>
-    <clipPath id="openIn"><path d={openingInner}/></clipPath>
-    <clipPath id="opening" clipPath="url(#openIn)"><path d={openingOuter}/></clipPath>
-    <clipPath id="openOut"><path d={openingOuter}/></clipPath>
+    <clipPath id="openIn"><path d={openingInner()}/></clipPath>
+    <clipPath id="opening" clipPath="url(#openIn)"><path d={openingOuter()}/></clipPath>
+    <clipPath id="openOut"><path d={openingOuter()}/></clipPath>
     <clipPath id="spillClip"><path d={spillPath(angle)}/></clipPath>
     <filter id="soft" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="3"/></filter>
     <radialGradient id="glowG"><stop offset="0" stopColor="#fff2c8" stopOpacity="1"/><stop offset="0.45" stopColor="#ffe2a0" stopOpacity="0.45"/><stop offset="1" stopColor="#ffd890" stopOpacity="0"/></radialGradient>
@@ -136,9 +137,9 @@ export const Facade: React.FC<{t: number; lamp: number}> = ({t, lamp}) => {
     <g>
       <path d={pathOf(roof)} fill={mixc('#2b2d38', '#191a24', dusk)}/>
       <path d={pathOf([[X1 + 0.3, 2.95, Z0 - 0.15], [X1 + 0.3, 2.95, Z1 + 0.2], [X1 + 0.3, 2.82, Z1 + 0.2], [X1 + 0.3, 2.82, Z0 - 0.15]])} fill={mixc('#40404a', '#25252f', dusk)}/>
-      <path d={outer + openingOuter} fill={wall} fillRule="evenodd"/>
+      <path d={outer + openingOuter()} fill={wall} fillRule="evenodd"/>
       <g clipPath="url(#wallClip)">{boards}</g>
-      <defs><clipPath id="wallClip"><path d={outer + openingOuter} clipRule="evenodd"/></clipPath></defs>
+      <defs><clipPath id="wallClip"><path d={outer + openingOuter()} clipRule="evenodd"/></clipPath></defs>
       {/* window: the room's light, faintly, through glass */}
       <path d={pathOf(win)} fill={mixc('#3a3030', '#c48a4c', lamp * 0.8)} stroke={trim} strokeWidth={5}/>
       <line x1={p2([X1, 1.45, 0.85])[0]} y1={p2([X1, 1.45, 0.85])[1]} x2={p2([X1, 1.45, 1.55])[0]} y2={p2([X1, 1.45, 1.55])[1]} stroke={trim} strokeWidth={3}/>

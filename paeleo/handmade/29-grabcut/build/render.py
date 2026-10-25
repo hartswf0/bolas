@@ -206,7 +206,7 @@ class Assets:
         # top contour down to that line with the nearest fur above (a recorded repair: the occluded belly), then the
         # contour rounded. No hind legs hang below it; nothing is left as a notch.
         self.lie_floor = 116.0
-        bm = (parts['torso'] + parts['hind'] + parts['fore'] * (xx >= 72)) * (p13.a > .5)
+        bm = (parts['torso'] + parts['hind'] + parts['fore'] * (xx >= 72) + parts['tail'] * (xx < 153)) * (p13.a > .5)   # round 3: the tail root belongs to the body
         bm = (bm > 0.5) & (yy < self.lie_floor)
         filled = bm.copy(); lum = p13.lum.copy()
         cols = np.nonzero(bm.any(0))[0]
@@ -222,9 +222,12 @@ class Assets:
             # elbow, the belly lifts between elbow and haunch, the haunch rounds onto the boards, with a little fur
             xa, xb = xc0 + 22, xc1 - 34
             lift = 6.0 * math.sin(math.pi * min(1, max(0, (x - xa) / max(1, xb - xa)))) if xa < x < xb else 0.0
-            fur = 1.3 * math.sin(x * 0.9) + 0.8 * math.sin(x * 2.3 + 1.0)
+            xh = xc1 - 24                                   # the haunch: a round mound touching the boards at one place
+            lift += min(10.0, 0.012 * (x - xh) ** 2) if x > xb - 6 else 0.0
+            fur = 1.4 * math.sin(x * 0.7) + 0.9 * math.sin(x * 1.9 + 1.0)
             yb = int(round(self.lie_floor - lift + fur - 1.6 * max(0, xc0 + 24 - x) - 1.3 * max(0, x - (xc1 - 16))))
             y0 = ys.min()
+            filled[max(yb, y0):, x] = False        # the drawn belly contour also trims original pixels below it
             if yb <= y0:
                 continue
             filled[y0:yb, x] = True
@@ -239,10 +242,11 @@ class Assets:
                     lum[y, x] = band_mean[x] * 0.86
         # round the two lower corners and the contour
         f = filled.astype(np.float32)
-        for _ in range(3):
-            f = box_blur(f, 2)
+        for _ in range(2):
+            f = box_blur(f, 1)
         filled = f > 0.5
         lum = np.where(filled & (p13.a < .9), box_blur(lum, 1), lum)
+        self.lie_tail = p13.masked(parts['tail'] * (xx >= 150))
         self.lie_body = Sprite(lum, filled.astype(np.float32) * np.clip(box_blur(filled.astype(np.float32), 1) * 1.6 - 0.3, 0, 1),
                                {'shot': 'dog', 'piece': 'f013 lying body', 'repair': 'column fill to floor line, corners rounded'}, edge=np.zeros_like(lum))
         # head with a 7 px neck tab past its joint line (hidden under the body when drawn behind it)
@@ -264,7 +268,8 @@ class Assets:
             f = box_blur(f, 2)
         ab = np.clip((f - 0.5) * 4 + 0.5, 0, 1) * (self.backhead.a > 0.01 + 0 * f)
         ab = np.clip((f - 0.5) * 4 + 0.5, 0, 1)
-        self.backhead = Sprite(p0.lum, ab * ((yy < 70) & (xx < 64)), dict(self.backhead.src, repair='contour rounded'))
+        ell = ((xx - 38) / 27.0) ** 2 + ((yy - 40) / 34.0) ** 2 < 1.0     # round 3: an elliptical crop, not a box
+        self.backhead = Sprite(p0.lum, ab * ell, dict(self.backhead.src, repair='contour rounded, elliptical crop'))
         # ---- world pieces
         self.w = {}
         for n in ('woman_stand', 'door_panel', 'hand', 'pillar', 'shrub', 'bowl'):
@@ -523,9 +528,9 @@ class DogRig:
         def torso_pt(p):
             return body + Tt @ (np.array(p) - body) + np.array([0, drop])
         # tail: behind, lowered onto the boards, wagging with the score
-        tail_ang = 26.0 * u + wag * 10.0 * math.sin(t * 2 * math.pi * 2.2)
-        M = aff(R @ rot(tail_ang), P['tail'], to_canvas(torso_pt(P['tail'])))
-        cv.draw(pp['tail'], M, exposure=exposure * 0.9, lit=lit, tag='dog')
+        tail_ang = 12.0 * u + wag * 8.0 * math.sin(t * 2 * math.pi * 2.2)
+        M = aff(R @ rot(tail_ang), (151, 96), to_canvas(torso_pt((151, 96))))
+        cv.draw(A.lie_tail, M, exposure=exposure * 0.9, lit=lit, tag='dog')
         # head transform
         neck = np.array(P['neck'])
         if look > 0.5:
@@ -546,8 +551,8 @@ class DogRig:
         cv.draw(head_sp, Mh, exposure=exposure * (1.05 if look > 0.5 else 1.0), lit=lit, tag='head')
         # forelegs laid forward along the boards, drawn BEHIND the body (round 3: the leg tops' joint cut is hidden under
         # the chest); both at one angle, the far leg a little behind and above the near one so they overlap (no gap)
-        fore_ang = 88.0 * (0.6 + 0.4 * u)
-        for leg, a0, off, ek in (('fore_b', 0.0, (-2.0, -16.0), 0.8), ('fore_a', 22.0, (-6.0, -12.0), 1.0)):
+        fore_ang = 88.0 * (0.9 + 0.1 * u)
+        for leg, a0, off, ek in (('fore_b', 0.0, (-2.0, -15.0), 0.8), ('fore_a', -22.0, (-12.0, -6.0), 1.0)):
             M = aff(R @ (rot(fore_ang + a0) @ np.diag([1, 0.9])), P['shoulder'],
                     to_canvas(torso_pt(P['shoulder']) + np.array(off)))
             cv.draw(pp[leg], M, exposure=exposure * ek, lit=lit, tag='dog')
@@ -843,6 +848,9 @@ def render(frames, outdir, measure_path):
             m['head_cy'] = float(hy.mean()) if len(hy) else None
             inside = (xs < DOOR_R).mean()
             m['frac_inside_frame'] = float(inside)
+            from straight import longest_runs
+            y0b, y1b, x0b, x1b = max(0, ys.min() - 2), ys.max() + 3, max(0, xs.min() - 2), xs.max() + 3
+            m['straight_run_px'] = longest_runs(dm[y0b:y1b, x0b:x1b] > .5)   # longest h/v boundary run (canvas px)
         m['drawing'] = [str(v) for v in info['drawing']] if info['drawing'] else None
         mk = getattr(scratch, 'marks', None)
         if mk:

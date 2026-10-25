@@ -53,22 +53,32 @@ the dusk ambient and the doorway light, plus a rim pass).
 
 - **Substitution of real frames.** The footage contains a real turn: left profile (f0-19), facing the camera (f22-35),
   right profile with the head low (f40-47). The refusal turn (3.42 s) plays the dog's own turn, one real frame per film
-  frame, through the camera-facing frames (`TURN_AWAY`), so it is never a mirror flip or a squash. The turn back (8.0-8.8)
-  goes the other way through 3/4 frames that keep the head on the door side (`TURN_BACK`).
+  frame, through the camera-facing frames (`TURN_AWAY`), so it is never a mirror flip or a squash. The turn back
+  (7.95-8.8) goes the other way: two camera-facing frames, then 3/4 and profile frames with the head on the door side
+  (`TURN_BACK`). Profile cels are registered by the rump, which barely moves when the head does, so a head change never
+  slides the body; camera-facing cels by their centre.
 - **Re-timed walks.** The head-low walk is f42-47, shown mirrored as a whole pose so it faces the door. The cel index is
   the distance travelled divided by a 0.30 m stride (six cels per stride), so the drawings account for the travel; backing
   away plays the same cycle backward.
 - **Re-assembled parts.** The footage has no lying dog. Lying is built from frame 10 cut into five sublayers (head, torso,
-  near foreleg, far foreleg, hind lower leg) by hand-authored holdout polygons, rotated about pivots: the hind end goes
-  down first, then the chest; the forelegs lie forward, the hind paw tucks under. The head turns are substitutions of
+  near foreleg, far foreleg, hind lower leg) by hand-authored holdout polygons, plus the bushy tail cut from frame 2
+  (frame 10's tail is hidden behind its leg), rotated about pivots: the hind end goes down first, then the chest; the
+  forelegs lie forward, the hind paw tucks under, the tail is laid out on the boards and sweeps with the score's wag. The head turns are substitutions of
   head sublayers: profile away → frontal head (f28) → profile toward the door laid over the shoulder (7.46-7.6), and, for
-  *looking in*, the profile head foreshortened as it turns away (T), then the frontal-head outline shown from behind (B):
-  dusk on the back of the skull and the room's light around its edge.
-- **In depth.** The lying body is angled 31° into the doorway (its depth pass slopes 0.6 m per m), so it crosses the
-  casing plane under the right jamb: `dog_in < jamb_R < dog_out`.
+  *looking in*, the profile head foreshortened as it turns away (T), then the back of the head (B) made as a matte and a
+  fill: the outline of the frontal head of frame 28 (a head's outline is the same from in front and from behind) filled
+  with the dog's own neck fur from frame 10, so no face shows, lit like the body, with the room's light around its edge.
+- **In depth.** The lying body is angled 31° into the doorway (its depth pass slopes 0.6 m per m) and its depth pass
+  crosses the casing plane (D = 0.005 m) at x = 0.54 m, under the right jamb: `dog_in < jamb_R < dog_out`.
 
 Mapping: the dog's body centre in world metres is `x - 0.14` (one fixed offset for the whole film), so the approach covers
-the score's distance at the score's pace; the last 1.3 m it angles in toward the doorway.
+the score's distance at the score's pace; the last 1.3 m it angles in toward the doorway. The dog is scaled to a big dog
+(shoulder about 0.70 m). Of the kit's 50 frames, 23 are composited (`build/cache/cels_used.json`, `assets.json`).
+
+Camera: a fixed-lens stage camera that only reframes (`CAM_KEYS`): the caller and the dog in one frame for both commands
+(0-4.7 s), out to take in the bench and the door as it opens (5.9-7.0), a small push on the dog for the turn back with the
+lit door still in frame (7.6-9.4), back to the two-shot for the waiting, then it follows the approach in to the sill and
+closes slowly on the threshold to the end. Because it moves, the trace carries `x_world_measured`.
 
 ## The person, the house, the sound
 
@@ -86,7 +96,50 @@ the body meeting the boards). Measured (not listened to): see `build/cache/audio
 
 ## Measured, looked at, unknown
 
-MEASURED_BLOCK
+**Measured on the render** (`measure.py` → `trace.json`, `measured.json`; `check_handmade.py` → `invariants.json`):
+
+| choice | score t (s) | measured onset (s) | dt | measured by |
+|---|---|---|---|---|
+| retreat | 1.000 | 1.0 | +0.000 | head drops below the line of the back (dog alpha: front-quarter top vs middle top) or its measured position moves back |
+| watch | 2.333 | 2.333 | +0.000 | head back above the line of the back |
+| refuse | 3.417 | 3.417 | +0.000 | the dog's own pixels change three frames running (the real turn starts) |
+| watch | 7.458 | 7.458 | +0.000 | first movement of the lying dog's pixels (the head comes up); the composited head looks to the door from 7.54 |
+| approach | 14.708 | 14.708 | +0.000 | head drops below the line of the back, or it moves toward the door |
+| lie_down | 23.792 | 23.958 | +0.166 | the dog alpha's height falls three frames running (it goes down, hind end first) |
+| looks in | 26.400 | 26.5 | +0.100 | top of the lying dog rises as the head turns into the doorway (h_top); what turns is judged by viewing |
+| settles and stays | 28.300 | 28.208 | -0.092 | back-of-head pixels gone; chin back down |
+
+- PAELEO invariants: **ALL OK**. I1 all six within ±0.25 s (dt 0, 0, 0, 0, 0, +0.166);
+  I2 min/end score x 0.59/0.59; I3 r = 1.0 on
+  `x_world_measured` (the dog-alpha centroid through the known camera, + the fixed 0.14 m offset); I4 back turned in
+  96% of refusal frames.
+- Occlusion assertions over all 768 frames: DAG acyclic every frame: True; depth conflicts:
+  0; alpha valid every frame: True; order flips while
+  overlapping (pops): 0; per-pixel depth re-composite vs DAG composite: 192
+  frames checked, 0 disagree by more than 50 px.
+- The split is needed, not decorative: in 238 frames (22.1–32.0 s) merging
+  `dog_in` and `dog_out` back into one layer makes a 2-cycle with `jamb_R`; for the person, 14 frames (the push, 6.04–6.58 s,
+  the hand behind the left jamb).
+- Overlap events: the porch post hides the walking dog 18.17–20.38 s; the right jamb hides the dog's loin 22.13–32.0 s;
+  the person's reaching arm passes in front of the right jamb 3.54–4.58 s.
+- At the end 66% of the dog's pixels are behind the casing plane (head, chest, forelegs,
+  in the doorway) and the rest, hindquarters and tail, in front of it; at most 75% is ever behind it.
+  The measured centroid in score units reaches 0.541 (below the 0.56 sill) only because the lying
+  body's centroid is pulled forward by the outstretched forelegs and head; the hindquarters stay outside in every frame.
+- Contact shadow under the dog's bottom contour: share of contour columns with shadow just beneath, min
+  0.979, median 1.0.
+- Sound (RMS, dBFS, over 80% of each line, bed included): calls [-16.78, -15.84], soft lines [-30.14, -29.9, -28.25], room tone
+  -45.71. The soft voice is 11.5 dB under the calls and
+  15.6 dB over the room tone. Film integrated loudness -19.1 LUFS (ffmpeg ebur128).
+- Film: 912 frames, 38.0 s, 1280×720, 24 fps, H.264 + AAC, 4.0 MB.
+
+**Looked at** (Read on extracted images): contact sheets of every third frame of a review render and of the final render
+around every choice; the four stills; the proof sheets in `proof/` (mattes of `dog_in`, `dog_out`, the jamb, the post,
+the person, with the DAG order and edges); frames decoded from `film.mp4` at 4.0, 7.6, 19, 25.5, 27.5, 31.5 s and both cards.
+
+**Unknown**: I cannot play video or listen. I have not seen the film at normal speed, so the rhythm of the substitutions
+(the six-cel head-low walk, the 13-frame turn, the pop where the walking cel gives way to the re-assembled lying dog at
+23.79 s) is judged only from stills. The sound is unheard. Whether the back-of-head reads as *looking in* is for the critic.
 
 ## What failed and what changed
 
