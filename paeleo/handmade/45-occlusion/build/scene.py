@@ -805,8 +805,8 @@ def render(i, verify=False):
     rec['person'] = dict(root=pmeta['root'], hand=pmeta['hand'])
     rec['light_at_dog'] = float(L[int(min(H - 1, max(0, cam.Y(0, dmeta['D'])))), int(min(W - 1, max(0, cam.X(dmeta['Xc']))))])
     if verify:
-        zc = zcomposite(layers, 2)
-        dc = rgb[::2, ::2]
+        zc = np.clip(zcomposite(layers, 2), 0, 1)
+        dc = np.clip(rgb[::2, ::2], 0, 1)
         rec['verify_max_diff'] = float(np.abs(zc - dc).max())
         rec['verify_px_over_2pct'] = int((np.abs(zc - dc).max(-1) > 0.02).sum())
     frame = np.clip(rgb, 0, 1)

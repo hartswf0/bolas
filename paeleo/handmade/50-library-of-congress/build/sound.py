@@ -130,14 +130,17 @@ for e in EV:
 
 # ---------------- claws and pads on the porch boards at the footfalls the render logged
 xs = {i: r['msr']['cx'] for i, r in enumerate(MEAS) if r.get('msr')}
+steps_t = []
 for e in EV:
     if e['type'] != 'step': continue
     i = int(round(e['t'] * 24)); pan = (xs.get(i, 900) / 640.0) - 1
     m = int(0.09 * SR)
     click = fft_filter(rng.normal(0, 1, m), lo=2500, hi=9000) * np.exp(-np.arange(m) / (0.0025 * SR))
     thud = np.sin(2 * np.pi * 140 * np.arange(m) / SR) * np.exp(-np.arange(m) / (0.02 * SR))
-    g = 10 ** (-30 / 20) * (1.3 if e['t'] < 3 else 1.0)
-    place((click * 0.6 + thud * 0.5) / 1.1, e['t'], pan, g)
+    board = np.sin(2 * np.pi * 310 * np.arange(m) / SR) * np.exp(-np.arange(m) / (0.012 * SR))   # the porch board answering
+    g = 10 ** (-17 / 20) * (1.2 if e['t'] < 3 else 1.0) * rng.uniform(0.85, 1.1)
+    place((click * 0.6 + thud * 0.5 + board * 0.35) / 1.2, e['t'], pan, g)
+    steps_t.append(e['t'])
 
 # ---------------- the door: a slow creak, then the latch side touching the wall
 m = int(0.85 * SR); x = np.arange(m) / SR
@@ -146,18 +149,18 @@ ph = np.cumsum(rate / SR); pulses = (np.diff(np.floor(ph), prepend=0) > 0).astyp
 pulses *= 1 + 0.4 * rng.normal(0, 1, m)
 creak = resonator(pulses, np.full(m, 720.0), 60) + 0.5 * resonator(pulses, np.full(m, 1650.0), 120)
 creak *= env(m, 0.05, 0.2); creak /= np.abs(creak).max()
-place(creak, 6.22, -0.75, 10 ** (-27 / 20))
+place(creak, 6.22, -0.75, 10 ** (-14 / 20))
 m = int(0.25 * SR); knock = np.sin(2 * np.pi * 95 * np.arange(m) / SR) * np.exp(-np.arange(m) / (0.03 * SR))
-place(knock, 7.05, -0.8, 10 ** (-30 / 20))
+place(knock, 7.05, -0.8, 10 ** (-17 / 20))
 
 # ---------------- lying down: a soft body on boards and an exhale; the settled sigh at the end
 def liedown(t, pan, g=1.0):
     m = int(0.3 * SR); th = fft_filter(rng.normal(0, 1, m), hi=260) * np.exp(-np.arange(m) / (0.06 * SR))
-    place(th / np.abs(th).max(), t, pan, 10 ** (-28 / 20) * g)
+    place(th / np.abs(th).max(), t, pan, 10 ** (-15 / 20) * g)
     m = int(0.9 * SR); ex = fft_filter(rng.normal(0, 1, m), lo=300, hi=1800) * np.hanning(m)
-    place(ex / np.abs(ex).max(), t + 0.15, pan, 10 ** (-34 / 20) * g)
-liedown(4.75, 0.6)
-liedown(24.35, -0.4)
+    place(ex / np.abs(ex).max(), t + 0.15, pan, 10 ** (-24 / 20) * g)
+liedown(4.6, 0.6)
+liedown(23.85, -0.4)     # round 2: the event lands as the body goes down (23.79)
 m = int(1.2 * SR); sigh = fft_filter(rng.normal(0, 1, m), lo=250, hi=1400) * np.hanning(m) ** 0.7
 place(sigh / np.abs(sigh).max(), 28.6, -0.4, 10 ** (-33 / 20))
 
@@ -182,6 +185,16 @@ meas = {
     'room_tone_rms_db_12_14s': rms_db(win(12.0, 14.0, mix)), 'room_tone_rms_db_0.5_0.9s': rms_db(win(0.5, 0.9, mix)),
     'peak_dbfs': 20 * math.log10(max(np.abs(L).max(), np.abs(R).max())),
     'note': 'RMS over voiced samples of the voice stem only (the same gain as the mix); room tone from the full mix in windows without voice.'}
+bed = [rms_db(win(a_, a_ + 0.06, mix)) for a_ in np.arange(15.0, 23.7, 0.06)
+       if all(abs(a_ - st) > 0.15 for st in steps_t)]
+bed_db = float(np.median(bed))
+fall = [rms_db(win(st, st + 0.06, mix)) for st in steps_t if 14.7 <= st <= 23.8]
+meas['approach_bed_rms_db_60ms_median'] = round(bed_db, 2)
+meas['approach_footfalls'] = len(fall)
+meas['footfall_rms_db_60ms_min'] = round(min(fall), 2); meas['footfall_rms_db_60ms_median'] = round(float(np.median(fall)), 2)
+meas['footfall_over_bed_db_min'] = round(min(fall) - bed_db, 2)
+meas['door_creak_rms_db'] = round(rms_db(win(6.25, 7.0, mix)), 2); meas['door_over_bed_db'] = round(rms_db(win(6.25, 7.0, mix)) - rms_db(win(5.4, 6.1, mix)), 2)
+meas['liedown_23.85_rms_db_0.3s'] = round(rms_db(win(23.85, 24.15, mix)), 2); meas['liedown_over_bed_db'] = round(rms_db(win(23.85, 24.15, mix)) - bed_db, 2)
 meas['soft_below_calls_db'] = round(min(meas['call_1_rms_db'], meas['call_2_rms_db']) - max(meas['soft_1_rms_db'], meas['soft_2_rms_db'], meas['come_in_rms_db']), 2)
 meas['soft_above_room_db'] = round(min(meas['soft_1_rms_db'], meas['soft_2_rms_db'], meas['come_in_rms_db']) - meas['room_tone_rms_db_12_14s'], 2)
 json.dump(meas, open(os.path.join(ROOT, 'sound.json'), 'w'), indent=1)

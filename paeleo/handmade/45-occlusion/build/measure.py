@@ -60,8 +60,9 @@ def main():
     ref_h3 = np.median(ht[(t > 22.6) & (t < 23.5)])
     on['lie_down'] = first(ht < ref_h3 - 0.05, 23.5)
     # 26.4 hears 'come in': the head turns into the lit doorway (the back of the head, dark against the room)
-    on['look_in'] = first(dk > 40, 26.0)
-    on['settle'] = first(dk < 10, (t[on['look_in']] + 0.3) if on['look_in'] is not None else 27)
+    ref_h4 = np.median(ht[(t > 25.2) & (t < 26.2)])
+    on['look_in'] = first(ht > ref_h4 + 0.03, 26.0)          # the head rises off the line it held, turning into the room
+    on['settle'] = first(ht < ref_h4 - 0.015, (t[on['look_in']] + 0.5) if on['look_in'] is not None else 27)   # chin to the paws
     names = [('retreat', 'retreat'), ('watch_1', 'watch'), ('refuse', 'refuse'), ('watch_2', 'watch'), ('approach', 'approach'), ('lie_down', 'lie_down')]
     bounds = [(on[k], st) for k, st in names]
     state = ['watch'] * len(rows)
@@ -95,7 +96,7 @@ def main():
                                          'lie_down': 'top of the alpha drops below its walking height'}[k]))
     look = None if on['look_in'] is None else float(t[on['look_in']])
     choices.append(dict(choice='looks in', score_t=26.4, measured_onset_t=look, dt=None if look is None else round(look - 26.4, 3),
-                        measured_by='dark back-of-head pixels inside the dog alpha against the lit doorway'))
+                        measured_by='top of the lying dog rises as the head turns into the doorway (h_top); what turns is judged by viewing'))
     settle = None if on['settle'] is None else float(t[on['settle']])
     choices.append(dict(choice='settles and stays', score_t=28.3, measured_onset_t=settle, dt=None if settle is None else round(settle - 28.3, 3),
                         measured_by='back-of-head pixels gone; chin back down'))
