@@ -133,6 +133,22 @@ No independent critic was run by me. No human viewing. No listening. No Quick, D
 images. I did not import `paeleo/threshold/stage.js` or `paeleo/scion/lenses.js`, did not look at other swarms' folders,
 and did not run git. No operator page was published as an artifact; `operator.html` in this folder is a local page.
 
-## Evidence (filled from the build)
+## Evidence (last build, `build/make.sh`, measured)
 
-See the appended section below, written after the last build.
+**Structural (checker, `invariants.json`): ALL OK.** I1 choices found at retreat 1.000 s (dt +0.000), watch 2.333 s (dt +0.000), refuse 3.458 s (dt +0.041), watch 7.458 s (dt +0.000), approach 14.708 s (dt +0.000), lie_down 23.833 s (dt +0.041). I2 min x_score 0.59, end 0.59. I3 r = 0.999 (x_screen, static camera). I4 share of refusal frames with the back turned 0.938.
+The state labels in `trace.json` are read from the pose the render chose for each frame (posture), not copied from the score.
+
+**Onsets measured from the render** (`trace.json` → `onsets_measured`): retreat_motion_starts 1.208 s; retreat_motion_stops 2.375 s; turn_away_first_new_frame 3.458 s; back_turned_first_frame 3.708 s; head_toward_door_again 7.500 s; approach_motion_starts 14.792 s; approach_head_lowers_first_frame 14.708 s; lie_sequence_first_frame 23.833 s; lying_half_down 24.167 s; refusal_lies_down_full 4.917 s; looks_in_first_frame 26.500 s; looks_in_last_frame 28.208 s.
+Note: retreat posture (the head-low frame) appears at 1.000 s; under substitution placement the first step of travel shows at 1.208 s.
+
+**End across the sill**: solid dog extent x 274.5–513.5 px against the door opening 243–417 px: 142.5 px inside the door frame (head, forelegs, chest), 96.5 px outside (haunch, tail).
+
+**Sound (RMS dBFS over each event)**: calls -23.1 / -23.6 / -23.0; soft words -35.0 / -35.0; come in -33.6; room tone -58.8 and -51.7. Calls minus loudest soft word: 10.49 dB (≥ 6 required); quietest soft word above room tone: 16.69 dB. Peak -10.99 dBFS. Not listened to.
+
+**Matte invariants**: premult_ok on 50/50 dog mattes and all world mattes; stress fixture 96 frames: 0 premultiplication failures, 0 bright rims.
+
+**Film**: 1280×720, 24 fps, H.264 two-pass (2.1 Mb/s) + AAC 160k, faststart, 912 video frames, 38.000 s, 10.67 MB. 768 scene frames rendered (checked after each build).
+
+**Looked at** (Read tool on extracted film frames): contact sheets at ~45 scene times across all passages, zooms of the lying dog at 25.0/26.5/27.2/28.4 s, a walk strip (16–17 s every second frame), the stills, every matte diagnostic and fork view. **Not looked at**: playback at normal speed (I saw stills only), the sound.
+
+**Status**: stopped with the film watchable by my own viewing of frames and the invariants holding; not independently accepted. The independent critic has not run.

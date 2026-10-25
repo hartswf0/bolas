@@ -54,13 +54,30 @@ def draw_dog(canvas, pose, rec=None, tint=None):
     hp = pose.get('headpiece', 'dog_head')
     if hp == 'dog_backhead':
         b = pin('dog_backhead', 'neck')
-        A = G @ T(nk[0] - 12, nk[1] + 16) @ R(pose.get('head', 0)) @ T(-b[0], -b[1])
+        A = G @ T(nk[0] - 14, nk[1] + 20) @ R(pose.get('head', 0)) @ T(-b[0], -b[1])
         place(canvas, 'dog_backhead', A, tint=tint, record=rec)
+    elif hp in ('dog_head_low', 'dog_face'):
+        place(canvas, hp, head_low_aff(G, pose, hp), tint=tint, record=rec)
     else:
-        A = G @ R(pose.get('head', 0), nk)
+        A = G @ T(0, pose.get('neckdrop', 0)) @ R(pose.get('head', 0), nk)
         if pose.get('headflop'):
             A = A @ T(nk[0], 0) @ FLIP() @ T(-nk[0], 0)   # the head card turned over (a mirrored print)
         place(canvas, 'dog_head', A, tint=tint, record=rec)
+
+
+LOW_ATTACH = (124 * 1.31, 126 * 1.31)
+FACE_ATTACH = (132 * 1.31, 118 * 1.31)   # the face card sits on the neck, over the shoulders   # the head-low card hangs from the front of the chest, below the neck pin
+
+
+def head_low_aff(G, pose, hp='dog_head_low'):
+    """the head-low print faces right; in puppet space (facing left) it is flopped about its neck pin, unless the
+    head is turned back over the shoulder (headflop), when it is laid as printed."""
+    p = pin(hp, 'neck')
+    at = LOW_ATTACH if hp == 'dog_head_low' else FACE_ATTACH
+    A = G @ T(*at) @ R(pose.get('head', 0))
+    if not pose.get('headflop'):
+        A = A @ FLIP()
+    return A @ T(-p[0], -p[1])
 
 
 def dog_points(pose):
@@ -69,10 +86,17 @@ def dog_points(pose):
         return {'head': (pose['X'] + 14 * pose.get('face', 1) * -1, FLOOR_DOG - 100), 'tail': (pose['X'], FLOOR_DOG - 60)}
     G = dog_global(pose)
     nk = pin('dog_torso', 'neck')
-    H = G @ R(pose.get('head', 0), nk)
+    H = G @ T(0, pose.get('neckdrop', 0)) @ R(pose.get('head', 0), nk)
     if pose.get('headflop'):
         H = H @ T(nk[0], 0) @ FLIP() @ T(-nk[0], 0)
-    out = {'head': H.apply(pin('dog_head', 'nose')) if pose.get('headpiece', 'dog_head') == 'dog_head' else G.apply((nk[0] - 6, nk[1] - 20)),
+    hp = pose.get('headpiece', 'dog_head')
+    if hp in ('dog_head_low', 'dog_face'):
+        hd = head_low_aff(G, pose, hp).apply(pin(hp, 'nose'))
+    elif hp == 'dog_head':
+        hd = H.apply(pin('dog_head', 'nose'))
+    else:
+        hd = G.apply((nk[0] - 6, nk[1] - 20))
+    out = {'head': hd, 'shoulder': G.apply(pin('dog_torso', 'shoulder')),
            'neck': G.apply(nk), 'centre': G.apply(CENTRE),
            'tail': (G @ R(pose.get('tail', 0), pin('dog_tail', 'tailroot'))).apply(pin('dog_tail', 'tip'))}
     for p in LEGS:
