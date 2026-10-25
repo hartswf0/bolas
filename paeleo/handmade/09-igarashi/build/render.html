@@ -214,7 +214,7 @@ function drawLightSpill(g, lit) {
 function shadow(g, cx, w, a) { g.save(); const r = g.createRadialGradient(cx, YG + 4, 2, cx, YG + 4, w); r.addColorStop(0, `rgba(0,0,0,${a})`); r.addColorStop(1, 'rgba(0,0,0,0)'); g.setTransform(1, 0, 0, 0.16, 0, (YG + 4) * (1 - 0.16)); g.fillStyle = r; g.fillRect(cx - w, YG + 4 - w, 2 * w, 2 * w); g.restore(); }
 
 // ───────────── a frame ─────────────
-const SUBS = [[1.0, 2.3, 'Come here.', 'call'], [3.4, 4.6, 'Come here!', 'call'], [7.4, 9.4, 'It’s all right.', 'soft'], [10.4, 11.6, 'It’s all right.', 'soft'], [26.4, 27.4, 'Come in.', 'soft']];
+const SUBS = [[0.9, 2.3, 'Come here.', 'call'], [3.31, 4.6, 'Come here!', 'call'], [7.4, 9.4, 'It’s all right.', 'soft'], [10.4, 11.6, 'It’s all right.', 'soft'], [26.4, 27.4, 'Come in.', 'soft']];
 function renderFrame(i, opts = {}) {
   const f = SCORE.frames[i], t = f.t, wd = rig.world(i), lit = wd.open;
   const dusk = wd.dusk;
@@ -250,6 +250,9 @@ function renderFrame(i, opts = {}) {
   for (const id of ['dog_body', 'dog_head']) buf[id] = Float32Array.from(drawPiece(P[id], amb, warmAt(dcx)));
   const meas = measure(buf, P, dg);
   paperLift(); ctx.drawImage(gl_c, 0, 0);
+  // across the sill: the dog's chest and forepaws are on the hall floor beyond the threshold, so the oak sill and the
+  // foot of the jambs pass in front of them (drawn over the dog only inside the door opening)
+  if (P.dog_body.mesh === 'dog_lie') drawSillFront(ctx);
   // dusk grade and paper
   ctx.save(); ctx.globalCompositeOperation = 'multiply'; ctx.fillStyle = `rgba(${lerp(220, 170, dusk)},${lerp(214, 168, dusk)},${lerp(240, 210, dusk)},1)`; ctx.fillRect(0, 0, W, H); ctx.restore();
   // the doorway light reasserts itself over the grade
@@ -263,6 +266,13 @@ function renderFrame(i, opts = {}) {
     ctx.fillStyle = '#f2e8d2'; ctx.textAlign = 'center'; ctx.shadowColor = 'rgba(0,0,0,.8)'; ctx.shadowBlur = 6; ctx.fillText(txt, 640, 686); ctx.restore();
   }
   return { meas, diag: sol.diag, dog: { state: dg.state, facing_rig: dg.facing, posture: dg.posture, headLow: dg.headLow, body: P.dog_body.mesh, head: P.dog_head.mesh }, person: ps.posture };
+}
+function drawSillFront(g) {
+  g.save(); g.beginPath(); g.rect(DOOR_L - 18, YG - 14, DOOR_R - DOOR_L + 36, 40); g.clip();
+  g.fillStyle = '#a07a4e'; g.fillRect(DOOR_L - 6, YG - 8, DOOR_R - DOOR_L + 12, 13); g.strokeStyle = INK; g.lineWidth = 2; g.strokeRect(DOOR_L - 6, YG - 8, DOOR_R - DOOR_L + 12, 13);
+  g.fillStyle = 'rgba(255,230,180,.35)'; g.fillRect(DOOR_L - 6, YG - 8, DOOR_R - DOOR_L + 12, 3);
+  g.fillStyle = '#e3d8c0'; g.fillRect(DOOR_R, YG - 14, 18, 14); g.strokeRect(DOOR_R, YG - 14, 18, 14);
+  g.restore();
 }
 function paperLift() { ctx.save(); ctx.filter = 'blur(2.5px) brightness(0)'; ctx.globalAlpha = .38; ctx.drawImage(gl_c, 4, 5); ctx.restore(); }
 function vignette() { const r = ctx.createRadialGradient(640, 380, 300, 640, 380, 860); r.addColorStop(0, 'rgba(0,0,0,0)'); r.addColorStop(1, 'rgba(0,0,0,.55)'); ctx.fillStyle = r; ctx.fillRect(0, 0, W, H); }
@@ -285,7 +295,7 @@ function measure(buf, P, dg) {
   const withers = bmean(bm.handles.withers), hip = bmean(bm.handles.hip);
   const backTop = Math.min(withers[1], hip[1]);
   const feet = {}; for (const k of ['f1', 'f2', 'h1', 'h2']) if (bm.handles[k]) feet[k] = bmean(bm.handles[k]).map(v => Math.round(v * 100) / 100);
-  return { feet, cx: sx / sa, cy: sy / sa, x0, x1, y0, y1, muzzle: muz, neck, skull, withers, hip, facing: muz[0] < neck[0] - 3 ? 1 : (muz[0] > neck[0] + 3 ? -1 : 0), skull_below_back: skull[1] - withers[1] };
+  return { feet, area: Math.round(sa / 255 * 4), cx: sx / sa, cy: sy / sa, x0, x1, y0, y1, muzzle: muz, neck, skull, withers, hip, facing: muz[0] < neck[0] - 3 ? 1 : (muz[0] > neck[0] + 3 ? -1 : 0), skull_below_back: skull[1] - withers[1] };
 }
 
 // ───────────── cards ─────────────

@@ -174,7 +174,7 @@ for ft in foot_times:
     if (1.0 <= ft < 2.4) or (14.7 <= ft < 23.8):
         pad = biquad_bp(rng.normal(0, 1, pad_n), 1500 + rng.normal(0, 200), 1.5) * np.exp(-pt / .008)
         tick = biquad_bp(rng.normal(0, 1, pad_n), 4200, 4) * np.exp(-pt / .003)
-        g = 0.07 if ft < 3 else 0.05
+        g = 0.20 if ft < 3 else 0.17      # round 2: footfalls lifted well above room tone
         place(out, (pad + tick * 0.6) * g, ft + rng.normal(0, .004))
 # the turns: a scuffle of claws on boards
 for t0, dur in ((3.45, .4), (8.05, .4)):
@@ -204,6 +204,9 @@ levels = {'call_1_dBFS': round(voiced_db(1.0, 1.9), 2), 'call_2_dBFS': round(voi
           'soft_1_dBFS': round(voiced_db(7.4, 8.4), 2), 'soft_2_dBFS': round(voiced_db(10.4, 11.4), 2),
           'soft_come_in_dBFS': round(voiced_db(26.4, 27.2), 2), 'room_tone_dBFS': round(db(span(room_track, 7.4, 8.4)), 2),
           'room_tone_early_dBFS': round(db(span(room_track, 0, 0.9)), 2), 'footfalls': len(foot_times)}
+ff = [db(span(mix, ft, ft + 0.03)) for ft in foot_times if 14.7 <= ft < 23.8]
+levels['footfall_approach_dBFS_median'] = round(float(np.median(ff)), 2) if ff else None
+levels['footfall_minus_room_dB'] = round(levels['footfall_approach_dBFS_median'] - db(span(room_track, 15, 23)), 2) if ff else None
 levels['soft_minus_call_dB'] = round(max(levels['soft_1_dBFS'], levels['soft_2_dBFS'], levels['soft_come_in_dBFS']) -
                                      min(levels['call_1_dBFS'], levels['call_2_dBFS']), 2)
 levels['soft_minus_room_dB'] = round(min(levels['soft_1_dBFS'], levels['soft_2_dBFS'], levels['soft_come_in_dBFS']) - levels['room_tone_dBFS'], 2)

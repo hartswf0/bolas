@@ -108,7 +108,7 @@
     function footShiftAt(t) {
       if (t < T_LIE) return {};
       const u = win(t, T_LIE, T_LIE + 0.3);
-      return { f1: [-34 * u, 0], f2: [-30 * u, 0], h1: [-6 * u, 0], h2: [-4 * u, 0] };
+      return { f1: [-62 * u, 0], f2: [-54 * u, 0], h1: [-22 * u, 0], h2: [-16 * u, 0] };
     }
 
     function standHandles(i, P) {
@@ -165,6 +165,9 @@
       return H;
     }
 
+    // squeeze every handle toward (or away from) a vertical line: the in-between bend that bridges a drawing swap
+    function squeeze(H, cx, f) { for (const k of Object.keys(H)) H[k] = [cx + (H[k][0] - cx) * f, H[k][1]]; }
+
     // ── one dog frame: list of pieces with handle targets (drawing coords) and placement ──
     function dog(i) {
       const f = F[i], t = f.t, x = f.dog.x, sg = segment(t), P = dogParams(i);
@@ -180,6 +183,11 @@
           P.crouch = lerp(P.crouch, 1.55, u); P.head = lerp(P.head, 0.5, u);
         }
         H = standHandles(i, P);
+        // bridges: the profile foreshortens as it turns away (3.50–3.625) and unfolds after the back view (8.21–8.33)
+        // (the paws lift while the body pivots: a shuffle, not a slide)
+        const shuffle = (u) => { for (const k of ['f1', 'f2', 'h1', 'h2']) H[k][1] -= 7 * Math.sin(Math.PI * clamp(u)) * (k === 'f1' || k === 'h1' ? 1 : 0.6); };
+        if (sg.turning) { const u = win(t, T_REFUSE + 0.083, T_REFUSE + 0.208); squeeze(H, 254, 1 - 0.34 * u); shuffle(u * 2 > 1 ? 2 - u * 2 : u * 2); }
+        if (t >= 8.21 && t < 8.4) { const u = win(t, 8.21, 8.34); squeeze(H, 254, lerp(0.66, 1, u)); shuffle(u); }
         headPitch = -0.95 + 1.0 * P.head;
         headOff = [-(0.9 - P.head) * 14, (0.9 - P.head) * 30];
         if (sg.turning) { headPitch = 0; headOff = [26, 22]; headScale = 0.84; }
@@ -195,6 +203,14 @@
         H.hip[1] += low;
         H.back[1] += low * 0.5 + settle * 0.3; H.withers[1] += settle; H.socket[1] += settle + 6;
         H.tail_tip = add(hp.tail_tip, [0, low * 0.3]);
+        // bridges: arriving from the profile still wide (3.625–3.71); the tail goes out onto the boards before the sit
+        // (4.55–4.75) and comes in from the boards after rising (7.75–7.86)
+        if (!sg.lookback) {
+          if (t < T_REFUSE + 0.3) squeeze(H, 216, lerp(1.3, 1, win(t, T_REFUSE + 0.208, T_REFUSE + 0.3)));
+          squeeze(H, 216, 1 + 0.16 * win(t, 4.55, 4.75));   // the haunches spread as it goes down
+        } else {
+          squeeze(H, 216, 1 + 0.16 * (1 - win(t, 7.75, 7.86)));
+        }
         headPitch = 0; headOff = [12, 24]; headScale = 0.8;
         if (sg.lookback) { headPitch = 0.1; headOff = [-4, 16]; headScale = 0.86; }
         // the front end swings round: entering the back view it is still coming from the door side (left); leaving it,
@@ -210,6 +226,10 @@
         for (const k of Object.keys(hp)) H[k] = hp[k].slice();
         const br = Math.sin(t * 2 * Math.PI * 0.32) * 2.2;
         H.back[1] += br * 0.5; H.withers[1] += br; H.socket[1] += br;
+        // bridges: the haunches spread and the tail sweeps out after the swap (4.75–4.9), and gather in before rising (7.62–7.75)
+        const gather = Math.max(1 - win(t, 4.75, 4.9), win(t, 7.62, 7.75));
+        H.h1 = [lerp(H.h1[0], 206, gather), H.h1[1]]; H.h2 = [lerp(H.h2[0], 318, gather), H.h2[1]];
+        H.withers[1] -= 10 * win(t, 7.62, 7.75); H.socket[1] -= 10 * win(t, 7.62, 7.75);
         const sink = 14 * (1 - win(t, 4.75, 5.05));                // arrives from the half-sit
         H.withers[1] -= sink; H.socket[1] -= sink; H.back[1] -= sink * 0.6;
         // head droops while refusing (rest), comes round at the choice
@@ -223,7 +243,7 @@
         const t0 = T_LIE + 0.33, u = win(t, t0, t0 + 0.45);
         // arriving from the crouch: back and hips higher, forefeet not yet out
         H.withers[1] -= 26 * (1 - u); H.back[1] -= 30 * (1 - u); H.hip[1] -= 34 * (1 - u); H.socket[1] -= 24 * (1 - u);
-        H.f1[0] += 26 * (1 - u); H.f2[0] += 22 * (1 - u);
+        H.f1[0] += 50 * (1 - u); H.f2[0] += 44 * (1 - u); H.f1[1] -= 10 * (1 - u); H.f2[1] -= 8 * (1 - u);
         const br = Math.sin(t * 2 * Math.PI * 0.3) * 1.8; H.back[1] += br; H.withers[1] += br * 0.6;
         const wag = F[i].dog.act.wag;
         H.tail_tip = add(hp.tail_tip, [-6 * wag * Math.abs(Math.sin(t * 2 * Math.PI * 2.2)), -10 * wag * Math.abs(Math.sin(t * 2 * Math.PI * 2.2))]);
@@ -240,7 +260,9 @@
         posture = sg.lookin ? 'lying_looking_in' : (rest > 0.5 ? 'lying_resting' : 'lying');
       }
       const anc = ANCHOR[sg.body];
-      pieces.push({ id: 'dog_body', mesh: sg.body, mirror, place: { tx: ax, ty: YG, ox: anc[0], oy: anc[1], k: KD, rot: 0 }, handles: H, z: 20 });
+      // lying across the sill, the front half is further in (on the hall floor): the sheet tips a little, front up
+      const tip = sg.body === 'dog_lie' ? 0.025 * win(t, T_LIE + 0.33, T_LIE + 0.8) : 0;
+      pieces.push({ id: 'dog_body', mesh: sg.body, mirror, place: { tx: ax, ty: YG, ox: anc[0], oy: anc[1], k: KD, rot: tip }, handles: H, z: 20 });
       const hh = headHandles(sg.head, P, t);
       pieces.push({ id: 'dog_head', mesh: sg.head, mirror: sg.headMirror === undefined ? mirror : sg.headMirror, attach: { to: 'dog_body', pitch: headPitch, off: headOff, scale: headScale }, handles: hh, z: 21 });
       return { pieces, state, facing, posture, headLow: sg.body === 'dog_stand' && t >= T_APPROACH && t < T_LIE };
@@ -263,16 +285,16 @@
         H.chest = add(H.chest, [lean * 0.6, 6 * reach]);
         H.shoulder = add(H.shoulder, [lean * 0.65, 6 * reach]);
         // stepping aside (5.4–5.95): four short steps to the left, back foot leading; a foot is planted or in the air
-        const u = win(t, 5.4, 5.95), D = -(1.25 - 0.28) * DPM, dx = D * u;
-        const stepTo = (u, k0) => { let o = 0, lift = 0; for (const [a, b] of k0) { const v = clamp((u - a) / (b - a)); o += 0.5 * D * ss(v); lift = Math.max(lift, Math.sin(Math.PI * v)); } return [o, lift]; };
-        const [ob, lb] = stepTo(u, [[0, 0.25], [0.5, 0.75]]), [oa, la] = stepTo(u, [[0.25, 0.5], [0.75, 1]]);
+        const u = win(t, 5.4, 5.85), D = -(1.25 - 0.28) * DPM, dx = D * u;
+        const stepTo = (u, k0) => { let o = 0, lift = 0; for (const [a, b] of k0) { const v = clamp((u - a) / (b - a)); o += D / 3 * ss(v); lift = Math.max(lift, Math.sin(Math.PI * v)); } return [o, lift]; };
+        const [ob, lb] = stepTo(u, [[0, 1 / 6], [2 / 6, 3 / 6], [4 / 6, 5 / 6]]), [oa, la] = stepTo(u, [[1 / 6, 2 / 6], [3 / 6, 4 / 6], [5 / 6, 1]]);
         H.foot_b = add(H.foot_b, [ob - dx, -12 * lb]); H.foot_a = add(H.foot_a, [oa - dx, -12 * la]);
         H.hip = add(H.hip, [0, -4 * (lb + la)]); H.chest = add(H.chest, [0, -4 * (lb + la)]); H.head = add(H.head, [0, -4 * (lb + la)]); H.shoulder = add(H.shoulder, [0, -4 * (lb + la)]);
         const pxs = -0.28 + (1.25 - 0.28) * -u;
         // beginning to sit (5.85–6.05): hips go down and back, knees forward
-        const s = win(t, 5.88, 6.05);
-        H.hip = add(H.hip, [-16 * s, 34 * s]); H.knee = add(H.knee, [26 * s, 10 * s]);
-        H.chest = add(H.chest, [12 * s, 34 * s]); H.head = add(H.head, [18 * s, 36 * s]); H.shoulder = add(H.shoulder, [12 * s, 34 * s]);
+        const s = win(t, 5.85, 6.05);
+        H.hip = add(H.hip, [-30 * s, 56 * s]); H.knee = add(H.knee, [44 * s, 22 * s]);
+        H.chest = add(H.chest, [18 * s, 52 * s]); H.head = add(H.head, [26 * s, 54 * s]); H.shoulder = add(H.shoulder, [18 * s, 52 * s]);
         pieces.push({ id: 'person_body', mesh: 'person_stand.body', place: { tx: X0 + pxs * S, ty: YG, ox: ANCHOR['person_stand.body'][0], oy: 622, k: K, rot: 0 }, handles: H, z: 10 });
         // arm: shoulder follows the body; hand by IK toward the reach / beckon target
         const ah = HP('person_stand.arm'), A = {};

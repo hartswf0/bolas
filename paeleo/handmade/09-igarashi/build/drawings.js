@@ -125,6 +125,8 @@
       features: [],
       // explicit cuts (crack lines in the mesh, from tip to open end): the near and far forelegs, the tail and the rump
       cuts: [[[156, 226], [158, 334]], [[383, 170], [404, 192]]],
+      // the far legs are drawn first (behind), so a crossing near leg passes over them instead of folding through them
+      behind: [FARFRONT.map(p => [p[0], p[1] < 300 ? p[1] : p[1] + 12]), FARHIND.map(p => [p[0], p[1] < 300 ? p[1] : p[1] + 12])],
       socket: { at: [116, 102], toward: [178, 124] } // head attaches here; neck line direction toward the withers
     };
   }

@@ -11,7 +11,7 @@ One agent did all of this work, playing the roles the prompt names, in turns. No
 
 | role | artifact it built or checked |
 |---|---|
-| collection navigator | read the kit's rights records; picked dog f006 (a clean left profile) and f016–f044 (the dog's own turn), door f030, *The Door to Heaven* hand f000, and the stone pillar in dog f000 |
+| collection navigator | read the kit's rights records; picked dog f006 (a clean left profile) and f030–f044 (the dog's own turn; f016, f017, f026, f028 tried and dropped in round 2), door f030, *The Door to Heaven* hand f000, and the stone pillar in dog f000 |
 | historical metadata critic | `assets.json`: one entry per visible piece, each with its item URL, clip id, rights, scan crop, illustration type, and what is documented vs inferred |
 | visual forager | `proof/source_sheet.jpg`: each scan beside what was engraved from it |
 | rigging researcher | `build/rig.py`, `build/dogpose.py`: f006 traced into 11 cut pieces, forward kinematics, two-bone IK with pinned stance feet |
@@ -27,7 +27,7 @@ is applied to the kit's rights-recorded Internet Archive / NTIS material.
 - **Item / permalink and rights advisory.** Every plate links to its archive item and rights state, in `assets.json` and on
   screen. The margin key names the film, collection and rights of the dog drawing currently on stage.
 - **Scan crop.** The margin shows a toned thumbnail of the scan frame the current drawing is engraved after. It changes frame
-  by frame during the turns (f016 … f044) and reads f006 otherwise.
+  by frame during the turns (f030 … f044) and reads f006 otherwise.
 - **Illustration type.** Three types appear: "engraving after a photograph" (dog, door, hand, stone), "drawn" (person, room,
   porch, sky) and "designed analog" (the back of the dog's head).
 - **Inferred vs documented, made visible without labels doing the acting.** When the dog is a documented frame (the two
@@ -56,14 +56,15 @@ refusal and trust.
   feet account for the travel: the solved stance feet move 0.38 px/frame at most and 0.01 px/frame on average. Crouch, tail,
   lying, head height, resting and looking come from the score's `act` channels, mapped to angles. Breathing and a slow idle
   head move only during holds.
-- **The turns are substitution, not mirroring.** The refusal (3.42–3.92 s) shows 11 whole documented frames of the film's own
-  turn: f016, f017, f026 ×2, f028, f030, f033, f036, f038, f040, f043, f044. They run from left profile, through facing the
-  camera, to right profile, re-timed from 2.3 s to 0.5 s and engraved through the same screen. Every frame of the turn is a
+- **The turns are substitution, not mirroring.** The refusal (3.46–3.96 s) shows 7 whole documented frames of the film's own
+  turn: f030 ×4, f033 ×2, f036, f038, f040, f043, f044 ×2. They run from facing the camera (head visible) to right profile,
+  re-timed and engraved through the same screen at render time, at the neighbouring cut-piece dog's height, centroid and mean
+  tone (round 2). Every frame of the turn is a
   photographed dog, never a squashed one. The dog then becomes the cut-piece dog as a **reversed impression** (a mirrored
-  print, a historical reproduction fact), so its back is turned by 3.92 s. It lies down facing away with its chin on its paws.
+  print, a historical reproduction fact), so its back is turned by 3.96 s. It lies down facing away with its chin on its paws.
 - **Turning to look (7.458 s, on the frame).** The head piece is substituted: the unmirrored left-facing head is pinned to the
   reversed body's neck, so the head comes round over the shoulder to the door while the body still lies turned away. The body
-  then rises (7.5–8.0). It turns back through six documented frames in reverse (f033 → f016, 8.04–8.62 s) and stands facing
+  then rises (7.5–8.0). It turns back through two documented frames in reverse (f033, f030, 8.04–8.62 s) and stands facing
   the door.
 - **Coming, head low.** The head is rotated down about the withers, so the nose sits below the line of the back for the whole
   approach. The walk is slow, crouched a little, with bent joints.
@@ -140,8 +141,9 @@ The steps are in `ledger.jsonl`. In short:
 
 ## What is still weak
 
-- The facing-camera turn frames (f026–f036) are soft blobs at this size; the turn's middle reads as "an animal turning", not
-  crisply as a dog.
+- The facing-camera turn frames (f030–f040) are still soft at this size, though each shows a head and legs; the turn goes
+  from left profile straight to facing the camera (the documented left-to-front frames were the lumps and are gone), so it
+  is a jump-cut of a turn rather than a sweep. The turn back is two held drawings.
 - The cut-piece dog's tail is a rigid plank, and its folded hind legs are a clutter of small shapes when lying.
 - The person is a stiff toy-theatre figure; her seated skirt is boxy.
 - The person is never shown opening the door: it opens on its own, as in the description's passive voice.
@@ -160,3 +162,29 @@ The steps are in `ledger.jsonl`. In short:
 
 `build/make.sh` runs everything from the kit and the score: fonts, plates, world, person, render, trace, feet, assets, source
 sheet, sound, mux, check and probe. Intermediates go to `build/cache/`.
+
+## Round 2 (after critic round 1: does not pass, narrowly)
+
+Repairs, each against the critic's ranked conditions:
+
+1. **Every turn frame reads as a dog.** The critic named 3.458–3.500 and 8.458–8.541 as headless lumps (f016, f017). I
+   dropped them. Looking at every frame again, I also dropped f026 and f028, whose heads are bowed out of sight. The turns stay
+   documented: out = f030 ×4, f033 ×2, f036, f038, f040, f043, f044 ×2 (3.458–3.917); back = f033 ×7, f030 ×7 (8.04–8.58).
+   The key names each frame shown. I looked at every frame 3.40–3.98 and 8.00–8.71 in `film.mp4`: each shows a head (face or
+   ear on the right) and legs. That is perceptual, my own look, not the critic's.
+2. **No jump at the swaps.** The turn frames are now engraved at render time at exactly the height and centroid x of the
+   cut-piece dog on either side of the turn (interpolated across it), on its ground line. Their tone is normalised to the
+   cut-piece dog's mean scan tone, with the same line period, cross-hatch and contour. Measured bbox heights at the swaps (`trace.json`): 189 → 182 px
+   at 3.458, 153 → 154 at 3.958, 190 → 184 at 8.04, 190 → 195 at 8.62 (before round 2: 189 → 175, 174 → 154, 190 → 172,
+   175 → 195). A residual 3–4 % step remains.
+3. **Sound.** Footfalls during 14.7–23.8 are louder and have a board resonance; the minimum is **8.7 dB** over the median
+   cricket bed in 60 ms windows (29 footfalls). The door creak is 9.8 dB over the preceding second. A body-on-boards thud and
+   exhale now land at 23.85 s, **8.3 dB** over the bed. All of this is in `sound.json`. I still cannot listen.
+4. **End card = assets.json.** The dog is after 8 frames (f006, f030, f033, f036, f038, f040, f043, f044). The wall is after
+   f000 of the same film, listed separately in both.
+5. **Optional, done.** The head piece's paper parting and contour fade out where the neck meets the shoulders. The speech is
+   now lettered into the plate (engraved italic with a hairline of paper round it), not white boxes.
+
+Unchanged and kept: the plate key and scan thumbnail, the red pins only on invented motion, the over-the-shoulder look at
+7.458, the back-of-head look-in, the sphinx lie. `check_handmade.py`: ALL OK. Onsets: +0.083, +0.167, +0.041, 0, 0, 0
+(look-in +0.017). Film: 912 frames, 38.0 s, 4.7 MB.

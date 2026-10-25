@@ -67,9 +67,15 @@ def flite(text, voice='slt'):
     w = wave.open(f); a = np.frombuffer(w.readframes(w.getnframes()), np.int16).astype(float) / 32768; return a
 
 
+VO = np.zeros(N)   # the voice alone, to measure its onsets
+
+
 def voice(text, t0, kind):
     a = flite(text)
     a = a / (np.abs(a).max() + 1e-9)
+    # trim flite's leading silence so that t0 is the first audible sound of the line (the voice onset)
+    env_ = np.convolve(np.abs(a), np.ones(240) / 240, 'same')
+    on = int(np.argmax(env_ > 0.06)); a = a[max(0, on - 240):]
     if kind == 'call':
         g = 0.42
         # a little porch reverb
@@ -84,11 +90,13 @@ def voice(text, t0, kind):
         a = a + breath
         a = a / np.abs(a).max()
     put(a, t0, X0 - 1.0 * S if t0 > 5 else X0 - 0.28 * S, g)
+    i0 = int((PRE + t0) * SR); VO[i0:i0 + len(a)] += a[:N - i0] * g
     return a, g
 
 
 levels = {'call': [], 'soft': []}
-for t0, txt, kind in [(1.02, 'Come here.', 'call'), (3.42, 'Come here!', 'call'), (7.45, "It's all right.", 'soft'),
+# the calls begin just before the dog reacts (choices at 1.00 and 3.417): it flinches 0.1 s into the word
+for t0, txt, kind in [(0.90, 'Come here.', 'call'), (3.31, 'Come here!', 'call'), (7.45, "It's all right.", 'soft'),
                       (10.45, "It's all right.", 'soft'), (26.42, 'Come in.', 'soft')]:
     voice(txt, t0, kind)
     levels[kind].append((t0, t0 + 1.1))
@@ -168,6 +176,11 @@ def rms_db(a, b):
 
 lv = {'call_dbfs_rms': [round(rms_db(a, b), 1) for a, b in levels['call']], 'soft_dbfs_rms': [round(rms_db(a, b), 1) for a, b in levels['soft']],
       'room_tone_dbfs_rms': round(rms_db(12.2, 14.4), 1), 'room_tone_before_light_dbfs_rms': round(rms_db(0.1, 0.9), 1), 'peak_dbfs': round(float(20 * np.log10(np.abs(mix).max())), 1)}
+mono = VO * 0.84 / peak; hop = int(0.01 * SR); fr = np.sqrt(np.convolve(mono ** 2, np.ones(hop) / hop, 'same'))
+def onset(a, b):
+    i0, i1 = int((PRE + a) * SR), int((PRE + b) * SR); seg = fr[i0:i1]; floor = 0
+    k = int(np.argmax(seg > max(floor * 4, 10 ** (-40 / 20)))); return round(a + k / SR, 3)
+lv['call_voice_onsets_measured_s (voice track, first 10 ms RMS above -40 dBFS)'] = [onset(0.7, 1.6), onset(3.1, 4.0)]
 lv['soft_minus_call_db'] = round(max(lv['soft_dbfs_rms']) - min(lv['call_dbfs_rms']), 1)
 json.dump(lv, open(os.path.join(CACHE, 'sound_levels.json'), 'w'), indent=1)
 print(lv)

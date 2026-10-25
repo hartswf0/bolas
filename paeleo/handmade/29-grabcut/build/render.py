@@ -210,16 +210,28 @@ class Assets:
         bm = (bm > 0.5) & (yy < self.lie_floor)
         filled = bm.copy(); lum = p13.lum.copy()
         cols = np.nonzero(bm.any(0))[0]
+        xc0, xc1 = cols.min(), cols.max()
+        solid13 = bm & (p13.a > .9) & (yy > 80)
+        bsum = (np.where(solid13, p13.lum, 0)).sum(0); bcnt = solid13.sum(0)
+        k = np.ones(21) / 21
+        band_mean = np.convolve(bsum, k, 'same') / np.maximum(np.convolve(bcnt, k, 'same'), 1e-3)
         for x in cols:
             ys = np.nonzero(bm[:, x])[0]
-            y0 = ys.min(); yb = int(self.lie_floor)
+            # the fill line curves up into the chest and the rump so neither end is a vertical wall
+            yb = int(self.lie_floor - 1.4 * max(0, xc0 + 24 - x) - 1.1 * max(0, x - (xc1 - 14)))
+            y0 = ys.min()
+            if yb <= y0:
+                continue
             filled[y0:yb, x] = True
-            last = None
             for y in range(y0, yb):
                 if bm[y, x] and p13.a[y, x] > .9:
-                    last = p13.lum[y, x]
-                elif last is not None:
-                    lum[y, x] = last * (0.82 + 0.1 * ((y * 7 + x * 13) % 5) / 5)
+                    continue
+                # clone-stamp repair: fur from 30 px above in the same column (inside the body), else the band mean
+                ys2 = y - 30
+                if ys2 >= 0 and bm[ys2, x] and p13.a[ys2, x] > .9:
+                    lum[y, x] = p13.lum[ys2, x] * 0.86
+                else:
+                    lum[y, x] = band_mean[x] * 0.86
         # round the two lower corners and the contour
         f = filled.astype(np.float32)
         for _ in range(3):
@@ -232,7 +244,8 @@ class Assets:
         p = np.array([33.0, 62.0]); q = np.array([66.0, 47.0]); n = np.array([-(q - p)[1], (q - p)[0]]); n /= np.linalg.norm(n)
         sgn = np.sign((np.array([35.0, 30.0]) - p) @ n)
         d = ((xx - p[0]) * n[0] + (yy - p[1]) * n[1]) * sgn
-        self.head_tab = p13.masked(((d > -7) & (p13.a > .5)).astype(np.float32))
+        near = (xx - 48) ** 2 + (yy - 58) ** 2 < 11 ** 2
+        self.head_tab = p13.masked((((d > 0) | ((d > -7) & near)) & (p13.a > .5)).astype(np.float32))
         self.piv = {'neck': (48, 58), 'shoulder': (66, 101), 'hip': (128, 96), 'tail': (147, 92), 'body': (95, 80)}
         self.pup_anchor = p13.anchor
         # back-of-head piece (frame 0: head raised, seen from behind): look in
@@ -240,6 +253,13 @@ class Assets:
         hh, ww = p0.a.shape; yy, xx = np.mgrid[:hh, :ww]
         self.backhead = p0.masked(((yy < 68) & (xx < 62)).astype(np.float32))
         self.backhead_piv = (40, 64)
+        # round 2: the frame-0 head's top was a SAM-straight run; round its contour (3 box passes, re-thresholded)
+        f = self.backhead.a.copy()
+        for _ in range(3):
+            f = box_blur(f, 2)
+        ab = np.clip((f - 0.5) * 4 + 0.5, 0, 1) * (self.backhead.a > 0.01 + 0 * f)
+        ab = np.clip((f - 0.5) * 4 + 0.5, 0, 1)
+        self.backhead = Sprite(p0.lum, ab * ((yy < 70) & (xx < 64)), dict(self.backhead.src, repair='contour rounded'))
         # ---- world pieces
         self.w = {}
         for n in ('woman_stand', 'door_panel', 'hand', 'pillar', 'shrub', 'bowl'):
@@ -418,8 +438,8 @@ def floor_spill(cv, o):
 DOG_S = 1.36
 WALK = [42, 43, 44, 45]          # the archive dog's own walk, head low (mirrored to face the door)
 WATCH = [9, 10, 11, 10]                      # standing, head up, looking at the person (boils between real frames)
-TURN_AWAY = [13, 15, 26, 30, 34, 36, 38, 42, 44]       # round 2: f40 dropped (a blob mid-turn)   # the real dog turning from side-left through frontal to right
-TURN_BACK = [('m', 26), ('m', 30), ('m', 36), ('m', 38), 13]   # round 2: real cuts only, mirrored, head leading to the door
+TURN_AWAY = [13, 30, 34, 44]       # round 2: f15, f26, f36, f38, f40, f42 dropped (boxy or muddled cuts)   # the real dog turning from side-left through frontal to right
+TURN_BACK = [('m', 30), ('m', 34), ('m', 44), 13]   # round 2: real cuts only, mirrored, head leading to the door
 
 
 def feet_y(xm):
@@ -505,7 +525,7 @@ class DogRig:
             Mh = aff(R @ (rot(0) * 0.98), A.backhead_piv, to_canvas(torso_pt(neck) + np.array([6, 2])))
             cv.head_piece = 'back_of_head_f000'; cv.marks = None
         else:
-            hang = -(lerp(-6.0, 12.0, 1 - min(1.2, head)) + 26.0 + 34.0 * rest)
+            hang = -(lerp(-6.0, 12.0, 1 - min(1.2, head)) + 36.0 + 26.0 * rest)
             hdrop = 6.0 + 12.0 * rest
             head_sp = A.head_tab
             Mh = aff(R @ rot(hang), neck, to_canvas(torso_pt(neck) + np.array([0, hdrop])))
@@ -523,7 +543,7 @@ class DogRig:
         fore_ang = 88.0 * (0.6 + 0.4 * u)
         for leg, a0 in (('fore_b', 0.0), ('fore_a', -24.0)):
             M = aff(R @ (rot(fore_ang + a0) @ np.diag([1, 0.9])), P['shoulder'],
-                    to_canvas(torso_pt(P['shoulder']) + np.array([-4, (ay - floor_src) * 0.18 - 2])))
+                    to_canvas(torso_pt(P['shoulder']) + np.array([-4, -13.0])))
             cv.draw(pp[leg], M, exposure=exposure * (0.85 if leg == 'fore_b' else 1.0), lit=lit, tag='dog')
 
 

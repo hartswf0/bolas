@@ -25,7 +25,7 @@ CELL = {'dog': 7, 'head': 6, 'person': 9}
 
 meta = json.loads(subprocess.check_output(['node', '-e', '''
 const {D}=require(process.argv[1]); const o={};
-for (const [k,d] of Object.entries(D)) o[k]={kind:d.kind,cuts:d.cuts||null,w:d.w,h:d.h,handles:d.handles,features:d.features||[],layers:d.layers||null,socket:d.socket||null,ground:d.ground||null,facing:d.facing};
+for (const [k,d] of Object.entries(D)) o[k]={kind:d.kind,behind:d.behind||null,cuts:d.cuts||null,w:d.w,h:d.h,handles:d.handles,features:d.features||[],layers:d.layers||null,socket:d.socket||null,ground:d.ground||null,facing:d.facing};
 console.log(JSON.stringify(o));''', os.path.join(HERE, 'drawings.js')]))
 
 
@@ -97,6 +97,17 @@ def build(name, png, m, layer=None):
     used = used[np.lexsort((V[used, 0], V[used, 1]))]          # row-major order keeps the solver's band narrow
     remap = -np.ones(len(V), int); remap[used] = np.arange(len(used))
     V = V[used]; T = remap[T]
+    # draw order: triangles inside the 'behind' regions (far legs) come first, so the GPU paints them under the rest
+    if m.get('behind'):
+        from PIL import ImageDraw
+        msk = Image.new('L', (W, H), 0); dr = ImageDraw.Draw(msk)
+        for poly in m['behind']:
+            dr.polygon([tuple(p) for p in poly], fill=255)
+        mk = np.asarray(msk)
+        c0 = V[T].mean(1)
+        back = mk[np.clip(c0[:, 1].astype(int), 0, H - 1), np.clip(c0[:, 0].astype(int), 0, W - 1)] > 0
+        T = np.concatenate([T[back], T[~back]])
+        print(f'   behind: {int(back.sum())} triangles drawn first')
     cen = V[T].mean(1)
     w = np.ones(len(T))
     feats = {}

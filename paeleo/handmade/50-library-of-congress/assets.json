@@ -45,7 +45,7 @@
   },
   {
    "id": "fig1-dog-turn-frames",
-   "what": "the two turns: whole frames f026, f028, f030, f033, f036, f038, f040, f043, f044 of the same film, masked (SAM mask, largest polygon), engraved, scaled to the puppet's height; shape unaltered",
+   "what": "the two turns: whole frames f030, f033, f036, f038, f040, f043, f044 of the same film, masked (SAM mask, largest polygon), engraved, scaled to the puppet's height; shape unaltered",
    "source_title": "Amateur Film New Jersey C",
    "collection": "Home Movies (Internet Archive collection)",
    "archive_url": "https://archive.org/details/NewJerseyC",
@@ -60,8 +60,6 @@
    "date": "unknown (not recorded)",
    "scan_crop": {
     "frames": [
-     "kit/archive-dog/frames/f026.jpg",
-     "kit/archive-dog/frames/f028.jpg",
      "kit/archive-dog/frames/f030.jpg",
      "kit/archive-dog/frames/f033.jpg",
      "kit/archive-dog/frames/f036.jpg",
@@ -72,7 +70,7 @@
     ],
     "masks": "kit/archive-dog/masks.json"
    },
-   "operation": "mask, engrave, re-time: the film's own 2.3 s turn (12 fps) played as 9 drawings (f026, f028, f044 held two frames) in 0.5 s (refusal, 3.46-3.96 s) and f033, f030, f028, f026 in reverse in 0.58 s (turning back, 8.04-8.62 s); each engraved at render time at the neighbouring cut-piece dog's height, centroid and mean tone (round 2). f016 and f017 were dropped in round 2: their head is hidden and they read as a lump",
+   "operation": "mask, engrave, re-time: the film's own 2.3 s turn (12 fps) played as 7 drawings (f030 held four frames, f033 and f044 two) in 0.5 s (refusal, 3.46-3.96 s) and f033, f030 in reverse in 0.58 s (turning back, 8.04-8.62 s); each engraved at render time at the neighbouring cut-piece dog's height, centroid and mean tone (round 2). f016, f017, f026 and f028 were dropped in round 2: the head is hidden or bowed out of sight and they read as a lump",
    "illustration_type": "line engraving after a photograph",
    "documented": [
     "the dog turning from facing the camera to right profile"
