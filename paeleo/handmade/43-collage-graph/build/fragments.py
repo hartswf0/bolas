@@ -110,7 +110,7 @@ SPECS = [
     dict(id='sleeve_coat', type='person.sleeve', src=DOGSRC, f=0, sam=False,
          cut=[(20, 30), (44, 30), (45, 112), (19, 112)], anchors=dict(top=(32, 32), bottom=(32, 110))),
     dict(id='hair_coat', type='person.hair', src=DOGSRC, f=0, sam=False,
-         cut=[(32 + 22 * math.cos(k * math.pi / 9), 60 + 24 * math.sin(k * math.pi / 9)) for k in range(18)], anchors=dict(c=(32, 60), top=(32, 36))),
+         cut=[(32 + 22 * math.cos(k * math.pi / 9), 60 + 24 * math.sin(k * math.pi / 9)) for k in range(18)], anchors=dict(c=(32, 60), top=(32, 36)), edge=0),
     dict(id='head_miner_f000', type='person.head', src=LANSRC, f=0, sam=False, flip=True,
          cut=[(300, 40), (384, 40), (384, 214), (372, 205), (350, 186), (343, 175), (338, 152), (330, 137), (320, 129), (325, 110),
               (326, 93), (318, 83), (290, 82), (285, 56)],

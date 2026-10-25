@@ -139,7 +139,10 @@ def dog_state(i):
     lie = a['lie']
     if TURN1[2] <= t < 4.30: lie = 0.0  # it stands with its back turned before it lies down
     g['lie'] = round(lie * 3) / 3
+    if st == 'lie_down' and g['lie'] < 1 / 3: g['lie'] = 1 / 3  # the choice shows on its first frame: it starts to go down
     g['crouch'] = round(a['crouch'] * 2) / 2 if g['lie'] < 0.3 else 0
+    if st == 'retreat': g['crouch'] = max(g['crouch'], 0.5)   # it cowers as it backs away, from the first frame of the choice
+    if st == 'watch' and t < 3.417: g['crouch'] = 0.0          # it stops backing and stands to look
     g['tail'] = a['tail']; g['wag'] = a['wag']
     g['moving'] = a['moving']
     # head choice: REPLACE head node by the drawing whose native angle fits the intention

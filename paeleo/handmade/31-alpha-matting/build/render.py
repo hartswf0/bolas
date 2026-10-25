@@ -304,12 +304,30 @@ def dog_pose(i):
                 posture='lie' if L > .95 else 'lying down', looking_in=look > .5)
 
 
+def pose_key(i):
+    p = dog_pose(i)
+    return (p['kind'], p.get('f'), p.get('m')) if p['kind'] == 'frame' else None
+
+
+def x_drawn(i):
+    """substitution: a drawing (matted frame) is placed where the score has the dog when that drawing appears and
+    stays there while it is held, so nothing slides under a held frame; the next drawing carries the travel"""
+    k = pose_key(i)
+    if k is None:
+        return FR[i]['dog']['x']
+    j = i
+    while j > 0 and pose_key(j - 1) == k:
+        j -= 1
+    return FR[j]['dog']['x']
+
+
 def dog_sprite(i):
     p = dog_pose(i)
     if p['kind'] == 'frame':
         P, b = dog_frame(p['f'], p['m'])
     else:
         A = lying_sprite(p['L'], p['head_up'], p['look'], p['rest'], p.get('face_right', False), p.get('look_back', 0.))
+        A = A * (blur(A[..., 3], 3, 1) > .06)[..., None]     # drop stray specks left by the piece masks
         P, b = bbox_crop(A)
     return p, P, b
 
@@ -542,7 +560,7 @@ def render(i):
     # dog placement: alpha centroid -> score x, lowest solid row -> floor line
     Ps = scale_premult(P, DS)
     cx, by = anchor(Ps)
-    xd = FR[i]['dog']['x']
+    xd = x_drawn(i)
     left = sx(xd) - cx - (48 * pose['L'] if pose['kind'] == 'lie' and not pose.get('face_right') else 0)
     top = GY + 4 - by
     dist = abs(xd)

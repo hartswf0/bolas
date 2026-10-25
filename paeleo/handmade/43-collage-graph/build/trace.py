@@ -54,7 +54,7 @@ hstand = np.mean((y1 - y0)[(T > 22.5) & (T < 23.5)])
 on['lie_down'] = first(lambda k: (y1[k] - y0[k]) < 0.85 * hstand, 23.0)
 top_ref = np.mean(y0[(T > 25.8) & (T < 26.3)])
 on['looks_in'] = first(lambda k: y0[k] < top_ref - 10, 26.0)
-on['settles'] = first(lambda k: y0[k] > top_ref - 3 and nose_up[k] < 0, 27.6)
+on['settles'] = first(lambda k: y0[k] > top_ref - 4, 27.8)
 score_t = dict(retreat=1.0, watch_after_retreat=2.333, refuse=3.417, watch_turns_back=7.458, approach=14.708, lie_down=23.792, looks_in=26.4)
 onsets = {k: dict(measured=v, score=score_t.get(k), dt=None if v is None or k not in score_t else round(v - score_t[k], 3)) for k, v in on.items()}
 how = dict(retreat='dog-layer centroid moves away >3 px or its top drops >4 px (cowers), from 0.5 s',

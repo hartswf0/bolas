@@ -42,18 +42,21 @@ def title():
 
 
 def end():
+    import json
+    tr = json.load(open(os.path.join(HERE, '../trace.json')))
+    n = len(tr['invariants']['dog_fragments'])
     im = bg()
     mono = ImageFont.truetype(os.path.join(F, 'mono.ttf'), 17)
     serif = ImageFont.truetype(os.path.join(F, 'serif.ttf'), 26)
     slip(im, (70, 60), ['What it is made of'], [serif], tilt=-1)
-    L = ['The dog: 20 fragments cut from 50 frames of one real dog (Amateur Film New Jersey C,',
-         'Home Movies, Internet Archive) - shade pieces, sunlit pieces, three found turning frames;',
+    L = ['The dog: %d fragments cut from the 50 frames of one real dog (Amateur Film New Jersey C,' % n,
+         'Home Movies, Internet Archive) - pieces from its shaded and its sunlit frames, two found turning frames;',
          'one piece (the back of its head) cut from its own fur to a shape drawn here.',
-         'The person: the coat of the dog\'s own person in that film; a face from Anthracite:',
+         'The person: the coat of the dog\'s own person in that film (also its sleeve and hair); a face from Anthracite:',
          'Pre-Shift Examinations (MSHA); a hand from The Door to Heaven (1941).',
          'The door: Straight Talk (NTIS, 1992). The room: a bulb from Light Of Your Life B.',
          'The voice you see: the sound arcs of We Learn About the Telephone I. The dusk: a cloud',
-         'time-lapse (Top Of The Cloud). The house: the stones of the home movie\'s house.',
+         'time-lapse (Top Of The Cloud). The house wall: the stone pillar in the home movie; the porch: its path.',
          'All public domain. Moved only by rewrite rules: replace, merge, split, enter.',
          'The sound is synthesized (voice, door, paws, scissors, crickets). The dog\'s choices follow',
          'the PAELEO score; its timing is measured from this render.']

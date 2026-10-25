@@ -96,7 +96,7 @@ def main():
                     '-f', 'lavfi', '-t', '3', '-i', 'anullsrc=r=48000:cl=stereo', '-i', os.path.join(C, 'scene.wav'),
                     '-f', 'lavfi', '-t', '3', '-i', 'anullsrc=r=48000:cl=stereo',
                     '-filter_complex', '[1:a][2:a][3:a]concat=n=3:v=0:a=1[a]', '-map', '0:v', '-map', '[a]',
-                    '-r', '24', '-frames:v', '912', '-c:v', 'libx264', '-preset', 'slow', '-crf', '25', '-pix_fmt', 'yuv420p',
+                    '-r', '24', '-frames:v', '912', '-c:v', 'libx264', '-preset', 'slow', '-crf', '21', '-pix_fmt', 'yuv420p',
                     '-c:a', 'aac', '-b:a', '160k', '-movflags', '+faststart', '-t', '38', os.path.join(OUT, 'film.mp4')], check=True)
     print('film ok')
 

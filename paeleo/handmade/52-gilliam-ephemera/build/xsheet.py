@@ -147,14 +147,14 @@ def dog_pose(i, prev):
         p['head'] = smooth(-40, -25, l) + (-50) * rest
         p['tail'] = smooth(35, 25, l)
         for k in LIE: p[k] = LIE[k] * l
-        p['drop'] = 50 * l + 4; p['tilt'] = -3 * l + 2 * (1 - l)
+        p['drop'] = 50 * l + 4; p['tilt'] = 2 * l + 2 * (1 - l)
         label = 'refuse: back turned' + (', lying' if l > .5 else '')
     elif i < 194:                                            # the head card turned over: looks back; then rises
         p['face'] = -1; p['headflop'] = 1
         l = a['lie']
         p['head'] = 18 + 6 * l          # (the turned-over head card: + lowers its muzzle on screen)
         for k in LIE: p[k] = LIE[k] * l
-        p['drop'] = 50 * l; p['tilt'] = -3 * l; p['tail'] = 25 * l
+        p['drop'] = 50 * l; p['tilt'] = 2 * l; p['tail'] = 25 * l
         label = 'watch: looks back over the shoulder' + (', rising' if l > .1 else '')
     elif i < 200:
         p = {'X': p['X'], 'card': 'front', 'face': -1}
@@ -179,7 +179,7 @@ def dog_pose(i, prev):
         g, _ = gait((4.0 - 0.59) * K)
         l = max(a['lie'], .3)          # the first exposure of the choice already folds the legs a third of the way
         for k in LIE: p[k] = smooth(g[k], LIE[k], l)
-        p['drop'] = 50 * l; p['tilt'] = -3 * l; p['tail'] = smooth(18, 25, l)
+        p['drop'] = 50 * l; p['tilt'] = 2 * l; p['tail'] = smooth(18, 25, l)
         hd = smooth(-55, -20, l)
         if t >= 25.4: hd = smooth(-20, -38, (t - 25.4) / .7)
         p['head'] = hd
@@ -211,7 +211,7 @@ def person_pose(i):
     if t >= 5.4: p['sit'] = smooth(0, 1, (t - 5.4) / .4)
     if t >= 5.8: p['lean'] = 3; p['nod'] = 8
     if t >= 6.8:
-        p['arm'] = smooth(0, 40, (t - 6.8) / .3); p['lean'] = smooth(3, 9, (t - 6.8) / .3); p['nod'] = 12
+        p['arm'] = smooth(0, 58, (t - 6.8) / .3); p['lean'] = smooth(3, 12, (t - 6.8) / .3); p['nod'] = 12
     if t >= 23.9: p['nod'] = 16
     for k in list(p):
         if isinstance(p[k], float): p[k] = round(p[k], 1) if k == 'jaw' else float(round(p[k]))
