@@ -54,6 +54,14 @@ class Sprite:
             edge = box_blur(e, 1) * 1.6
             edge = np.clip(edge, 0, 1) * (self.a > 0.05)
         self.edge = edge.astype(np.float32)
+        # round 2: edge-colour decontamination. In the matte band the pixel mixes the dog with the old background (the
+        # light rim); replace band luminance by the mean of nearby solid interior pixels.
+        solid = self.a > 0.97
+        if solid.any():
+            num = box_blur(np.where(solid, self.lum, 0), 3); den = box_blur(solid.astype(np.float32), 3)
+            inner = num / np.maximum(den, 1e-3)
+            band = (self.a <= 0.97) & (self.a > 0) & (den > 0.02)
+            self.lum = np.where(band, inner, self.lum).astype(np.float32)
         self.h, self.w = self.a.shape
 
     def masked(self, m):
@@ -96,7 +104,7 @@ class Canvas:
         self.light = None
         self.masks = {}
 
-    def draw(self, sp, M, exposure=1.0, lit=0.0, edge_k=0.42, tag=None, tint=None, warmth=None, z_mask=None, opacity=1.0):
+    def draw(self, sp, M, exposure=1.0, lit=0.0, edge_k=0.0, tag=None, tint=None, warmth=None, z_mask=None, opacity=1.0):
         """composite sprite with projective/affine M (sprite->canvas). Bilinear inverse sampling inside the bbox."""
         corners = np.array([[0, 0, 1], [sp.w, 0, 1], [0, sp.h, 1], [sp.w, sp.h, 1]], float).T
         pc = M @ corners; pc = pc[:2] / pc[2]
@@ -194,6 +202,37 @@ class Assets:
         parts['fore_b'] = parts['fore'] * (xx >= 72) * (xx < 92)    # the upright leg (x>=92 below the joint is belly: torso)
         parts['torso'] = np.maximum(parts['torso'], parts['fore'] * (xx >= 92))
         self.pup = {k: p13.masked(m) for k, m in parts.items()}
+        # round 2: the lying body, one piece. torso + hind (+ tail root) above a floor line, each column filled from its
+        # top contour down to that line with the nearest fur above (a recorded repair: the occluded belly), then the
+        # contour rounded. No hind legs hang below it; nothing is left as a notch.
+        self.lie_floor = 116.0
+        bm = (parts['torso'] + parts['hind'] + parts['fore'] * (xx >= 72)) * (p13.a > .5)
+        bm = (bm > 0.5) & (yy < self.lie_floor)
+        filled = bm.copy(); lum = p13.lum.copy()
+        cols = np.nonzero(bm.any(0))[0]
+        for x in cols:
+            ys = np.nonzero(bm[:, x])[0]
+            y0 = ys.min(); yb = int(self.lie_floor)
+            filled[y0:yb, x] = True
+            last = None
+            for y in range(y0, yb):
+                if bm[y, x] and p13.a[y, x] > .9:
+                    last = p13.lum[y, x]
+                elif last is not None:
+                    lum[y, x] = last * (0.82 + 0.1 * ((y * 7 + x * 13) % 5) / 5)
+        # round the two lower corners and the contour
+        f = filled.astype(np.float32)
+        for _ in range(3):
+            f = box_blur(f, 2)
+        filled = f > 0.5
+        lum = np.where(filled & (p13.a < .9), box_blur(lum, 1), lum)
+        self.lie_body = Sprite(lum, filled.astype(np.float32) * np.clip(box_blur(filled.astype(np.float32), 1) * 1.6 - 0.3, 0, 1),
+                               {'shot': 'dog', 'piece': 'f013 lying body', 'repair': 'column fill to floor line, corners rounded'}, edge=np.zeros_like(lum))
+        # head with a 7 px neck tab past its joint line (hidden under the body when drawn behind it)
+        p = np.array([33.0, 62.0]); q = np.array([66.0, 47.0]); n = np.array([-(q - p)[1], (q - p)[0]]); n /= np.linalg.norm(n)
+        sgn = np.sign((np.array([35.0, 30.0]) - p) @ n)
+        d = ((xx - p[0]) * n[0] + (yy - p[1]) * n[1]) * sgn
+        self.head_tab = p13.masked(((d > -7) & (p13.a > .5)).astype(np.float32))
         self.piv = {'neck': (48, 58), 'shoulder': (66, 101), 'hip': (128, 96), 'tail': (147, 92), 'body': (95, 80)}
         self.pup_anchor = p13.anchor
         # back-of-head piece (frame 0: head raised, seen from behind): look in
@@ -379,8 +418,8 @@ def floor_spill(cv, o):
 DOG_S = 1.36
 WALK = [42, 43, 44, 45]          # the archive dog's own walk, head low (mirrored to face the door)
 WATCH = [9, 10, 11, 10]                      # standing, head up, looking at the person (boils between real frames)
-TURN_AWAY = [13, 15, 26, 30, 34, 36, 38, 40, 42, 44]   # the real dog turning from side-left through frontal to right
-TURN_BACK = ['P', ('m', 36), ('m', 38), ('m', 40), 13]   # puppet (body away, head back) -> mirrored 3/4 -> side
+TURN_AWAY = [13, 15, 26, 30, 34, 36, 38, 42, 44]       # round 2: f40 dropped (a blob mid-turn)   # the real dog turning from side-left through frontal to right
+TURN_BACK = [('m', 26), ('m', 30), ('m', 36), ('m', 38), 13]   # round 2: real cuts only, mirrored, head leading to the door
 
 
 def feet_y(xm):
@@ -435,92 +474,57 @@ class DogRig:
 
     # ---------------- puppet
     def puppet(self, cv, x_anchor, fy, mirror, lie, rest, head, look, tail, wag, t, exposure, lit, head_back=0.0, breathe=0.0):
-        """frame-13 pieces re-posed. lie 0 standing (exactly frame 13) .. 1 lying; rest: chin on paws; head: up;
-        look: the back-of-head piece (turned into the doorway); head_back: head turned round over the shoulder."""
+        """the lying dog: f13's own pieces re-posed (round 2). The body is ONE piece: torso + haunch cut at the floor line
+        and column-filled down to it (no notches, no hanging hind legs); the forelegs are laid forward along the boards;
+        the head (with a hidden neck tab) is drawn behind the body so the neck covers its cut; the tail lies behind.
+        lie 0.4 (going down) .. 1 (down); rest lays the chin on the paws; look swaps in the back-of-head piece."""
         A = self.A; P = A.piv; pp = A.pup
         s = DOG_S * depth_scale(fy)
-        fy = fy - 12.0 * lie      # the laid-forward paws rest on the boards, not below them
         ax, ay = A.pup_anchor
         sg = -1.0 if mirror else 1.0
-        # torso: lowered onto the boards and tipped (rump slightly down) as it lies
-        drop = 38.0 * lie
-        tip = -2.0 * lie
-        def world(L_local, pivot_src, pivot_dst_src):
-            # L_local acts in source px around pivot_src; pivot_dst_src is where the pivot lands (source px, before root)
-            return L_local, pivot_src, pivot_dst_src
-        # root transform: source px -> canvas (mirror about the anchor)
         R = np.array([[s * sg, 0], [0, s]])
         def to_canvas(p):
             return np.array([x_anchor, fy]) + R @ (np.array(p) - np.array([ax, ay]))
         def rot(deg):
             a = math.radians(deg); return np.array([[math.cos(a), -math.sin(a)], [math.sin(a), math.cos(a)]])
+        u = min(1.0, max(0.0, (lie - 0.4) / 0.6))
+        floor_src = A.lie_floor                      # source row of the body's cut floor line
+        drop = (ay - floor_src) * (0.55 + 0.45 * u)  # at u = 1 the floor line sits on the boards
         body = np.array(P['body'])
-        Tt = rot(tip * 1.0)
-        breath = 1.0 + 0.012 * breathe
-        Tt = Tt @ np.diag([1.0, breath])
+        Tt = np.diag([1.0, 1.0 + 0.012 * breathe])
         def torso_pt(p):
             return body + Tt @ (np.array(p) - body) + np.array([0, drop])
-        def draw_piece(sp, L_src, pivot, tag=None, exp_k=1.0):
-            # L_src: local linear map in source px about pivot; pivot lands at torso_pt(pivot) (or given)
-            Lc = R @ L_src
-            if mirror:
-                # mirroring is in R; local rotations must be mirrored too so the pose stays physical
-                pass
-            M = aff(Lc, pivot, to_canvas(torso_pt(pivot)) if not isinstance(pivot, tuple) or True else None)
-            cv.draw(sp, M, exposure=exposure * exp_k, lit=lit, tag=tag)
-        # legs: fore rotate forward to lie along the boards, hind fold under the belly (drawn behind the torso)
-        hind_ang = 70.0 * lie
-        fore_ang = 88.0 * smooth(lie * 1.15)
-        tail_ang = (14.0 * lie) + wag * 9.0 * math.sin(t * 2 * math.pi * 2.2)
-        tail_ang -= 10 * (1 - lie) * 0  # standing tail as drawn
-        # hind (behind)
-        M = aff(R @ (Tt @ rot(hind_ang) @ np.diag([1, 1 - 0.4 * lie])), P['hip'], to_canvas(torso_pt(P['hip'])))
-        cv.draw(pp['hind'], M, exposure=exposure * 0.8, lit=lit, tag='dog')
-        # tail
-        M = aff(R @ (Tt @ rot(tail_ang)), P['tail'], to_canvas(torso_pt(P['tail'])))
-        cv.draw(pp['tail'], M, exposure=exposure, lit=lit, tag='dog')
-        # head transform (decided first: its draw order depends on where it is turned)
+        # tail: behind, lowered onto the boards, wagging with the score
+        tail_ang = 26.0 * u + wag * 10.0 * math.sin(t * 2 * math.pi * 2.2)
+        M = aff(R @ rot(tail_ang), P['tail'], to_canvas(torso_pt(P['tail'])))
+        cv.draw(pp['tail'], M, exposure=exposure * 0.9, lit=lit, tag='dog')
+        # head transform
         neck = np.array(P['neck'])
         if look > 0.5:
-            # the back of the head, raised, turned into the room: the frame-0 head seen from behind. Drawn behind the
-            # torso, so the neck covers its cut.
             head_sp = A.backhead
             Mh = aff(R @ (rot(0) * 0.98), A.backhead_piv, to_canvas(torso_pt(neck) + np.array([6, 2])))
-            head_first = True
-        elif head_back > 0.5:
-            # the head comes round: the head faces the other way (toward the door) over the shoulder of the turned body
-            head_sp = pp['head']
-            Mh = aff(np.array([[-s * sg, 0], [0, s]]) @ rot(-28), neck, to_canvas(torso_pt(neck) + np.array([10, -2])))
-            head_first = True
+            cv.head_piece = 'back_of_head_f000'; cv.marks = None
         else:
-            # f13's muzzle points ~40 deg above level; lying alert brings it level, rest lays the chin on the paws
-            hang = -(lerp(-6.0, 12.0, 1 - min(1.2, head)) + 26.0 * lie + 34.0 * rest + 110.0 * max(0.0, 0.9 - head) * (1 - lie))
-            hdrop = 6.0 * lie + 12.0 * rest
-            head_sp = pp['head']
+            hang = -(lerp(-6.0, 12.0, 1 - min(1.2, head)) + 26.0 + 34.0 * rest)
+            hdrop = 6.0 + 12.0 * rest
+            head_sp = A.head_tab
             Mh = aff(R @ rot(hang), neck, to_canvas(torso_pt(neck) + np.array([0, hdrop])))
-            head_first = False
-        cv.head_piece = 'back_of_head_f000' if look > 0.5 else ('head_f013_turned_round' if head_back > 0.5 else 'head_f013')
-        # measurement marks: where the drawn head's nose and neck land (frame-13 rig keys through the head's transform)
-        if look > 0.5:
-            cv.marks = None
-        else:
+            cv.head_piece = 'head_f013'
             from extract import interp_pose
             k13 = interp_pose(self.pose, 13)
             def th(p):
                 v = Mh @ np.array([p[0] - 54, p[1] - 54, 1.0]); return [float(v[0]), float(v[1])]
             cv.marks = {'nose': th(k13['nose']), 'neck': th(k13['neck']), 'tail': None}
-        if head_first:
-            cv.draw(head_sp, Mh, exposure=exposure * 1.05, lit=lit, tag='head')
-        # torso
+        cv.draw(head_sp, Mh, exposure=exposure * (1.05 if look > 0.5 else 1.0), lit=lit, tag='head')
+        # the body, one piece
         M = aff(R @ Tt, body, to_canvas(torso_pt(body)))
-        cv.draw(pp['torso'], M, exposure=exposure, lit=lit, tag='dog')
-        # fore legs (in front), each laid forward along the boards as it lies (the two legs had different angles in f13)
+        cv.draw(A.lie_body, M, exposure=exposure, lit=lit, tag='dog')
+        # forelegs laid forward along the boards (the two legs had different angles in f13)
+        fore_ang = 88.0 * (0.6 + 0.4 * u)
         for leg, a0 in (('fore_b', 0.0), ('fore_a', -24.0)):
-            M = aff(R @ (Tt @ rot(fore_ang + a0 * smooth(lie * 1.15)) @ np.diag([1, 1 - 0.12 * lie])), P['shoulder'],
-                    to_canvas(torso_pt(P['shoulder']) + np.array([-4 * lie, -3 * lie])))
+            M = aff(R @ (rot(fore_ang + a0) @ np.diag([1, 0.9])), P['shoulder'],
+                    to_canvas(torso_pt(P['shoulder']) + np.array([-4, (ay - floor_src) * 0.18 - 2])))
             cv.draw(pp[leg], M, exposure=exposure * (0.85 if leg == 'fore_b' else 1.0), lit=lit, tag='dog')
-        if not head_first:
-            cv.draw(head_sp, Mh, exposure=exposure, lit=lit, tag='head')
 
 
 def mask_add(cv, tag, M, sp):
@@ -630,7 +634,7 @@ class Choreo:
         fy = feet_y(x)
         L = cv.light
         lit = 1.0
-        exp = 0.70
+        exp = 0.70 + 0.30 * (1 - o)       # round 2: more contrast before the door opens
         info = {'drawing': None}
         # timeline (s): measured choice onsets are taken from the render, these are the plan's switch points
         if t < 1.0:
@@ -662,22 +666,16 @@ class Choreo:
             rig.place_frame(cv, k, False, X(x), fy, exp, lit, s=DOG_S * 1.1)
             info['drawing'] = ('frame', k, False)
         elif t < 7.458:
-            # lies down with its back to the door (puppet, mirrored), chin onto its paws
-            lie = smooth((t - 4.45) / 0.55)
+            # lies down with its back to the door (puppet, mirrored): straight into the descent, chin onto its paws
+            u = min(1.0, max(0.0, (t - 4.45) / 0.5)); lie = 0.4 + 0.6 * (1 - (1 - u) ** 2)
             rig.puppet(cv, X(x), fy, True, lie, a['rest'], a['head'], 0, a['tail'], 0, t, exp, lit, breathe=math.sin(t * 2.4))
             info['drawing'] = ('puppet', True, lie)
-        elif t < 8.05:
-            # the head comes round to the door first, then it rises
-            lie = 1 - smooth((t - 7.55) / 0.5)
-            rig.puppet(cv, X(x), fy, True, lie, 0.0, 0.9, 0, a['tail'], 0, t, exp, lit, head_back=1.0)
-            info['drawing'] = ('puppet', True, lie)
         elif t < 8.45:
+            # turns back to look: it is up and its head comes round, real cuts mirrored (head toward the door), then side
             n = len(TURN_BACK)
-            u = (t - 8.05) / (8.45 - 8.05)
+            u = (t - 7.458) / (8.2 - 7.458)
             k = TURN_BACK[min(n - 1, int(u * n))]
-            if k == 'P':
-                rig.puppet(cv, X(x), fy, True, 0.0, 0.0, 0.9, 0, a['tail'], 0, t, exp, lit, head_back=1.0)
-            elif isinstance(k, tuple):
+            if isinstance(k, tuple):
                 rig.place_frame(cv, k[1], True, X(x), fy, exp, lit, s=DOG_S * 1.1)
             else:
                 rig.place_frame(cv, k, False, X(x), fy, exp, lit)
@@ -695,7 +693,7 @@ class Choreo:
             info['drawing'] = ('frame', k, True)
         else:
             # at the sill: lies down across it, half in the doorway (puppet, facing in)
-            u = min(1.0, max(0.0, (t - 23.75) / 0.6)); lie = 1 - (1 - u) ** 2     # it goes down at once, then settles
+            u = min(1.0, max(0.0, (t - 23.792) / 0.5)); lie = 0.4 + 0.6 * (1 - (1 - u) ** 2)   # straight into the descent
             head = a['head']; rest = a['rest']; look = a['look']
             rig.puppet(cv, X(x), fy, False, lie, rest, head, look, a['tail'], a['wag'], t, exp, lit, breathe=math.sin(t * 2.0) * (1 if t > 24.6 else 0))
             info['drawing'] = ('puppet', False, lie, look > .5)
