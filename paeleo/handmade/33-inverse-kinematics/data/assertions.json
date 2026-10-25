@@ -11,8 +11,9 @@
  },
  "reach_residual": {
   "ok": false,
+  "note": "frames over tolerance on a swinging leg: the swing target is out of reach and the paw is carried on the leg end (drawn attached); frames over on a planted leg are real failures",
   "tolerance_m": 0.01,
-  "frames_over": 9,
+  "frames_over": 8,
   "worst": [
    [
     8.5417,
@@ -27,27 +28,27 @@
     false
    ],
    [
-    4.875,
-    "RF",
-    0.0568,
-    false
-   ],
-   [
-    4.8333,
-    "RF",
-    0.0496,
-    false
-   ],
-   [
     8.5,
     "RF",
     0.02809,
     true
    ],
    [
+    4.8333,
+    "RF",
+    0.02529,
+    false
+   ],
+   [
     24.0,
     "RF",
     0.02517,
+    false
+   ],
+   [
+    4.875,
+    "RF",
+    0.02154,
     false
    ]
   ],
@@ -60,8 +61,8 @@
  },
  "door_moves_after_contact": {
   "ok": true,
-  "rule": "door angle constant until the hand contact (5.95 s) + static friction; see contacts.json",
-  "touch_t": 5.95,
+  "rule": "door angle constant (settled) until the hand contact, then held by static friction; see contacts.json",
+  "touch_t": 5.96,
   "first_motion_t": 6.083
  },
  "all_ok": false

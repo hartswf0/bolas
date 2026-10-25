@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SCION 33 Operator</title>
+<style>
+:root{--bg:#12141f;--ink:#e6dccb;--dim:#9a96a6;--warm:#ecb270;--line:#2a2d40}
+@media (prefers-color-scheme: light){:root:not([data-theme="dark"]){--bg:#f6f2ea;--ink:#1d1b22;--dim:#5d5868;--warm:#a5551c;--line:#d8d1c4}}
+:root[data-theme="light"]{--bg:#f6f2ea;--ink:#1d1b22;--dim:#5d5868;--warm:#a5551c;--line:#d8d1c4}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 Georgia,serif;padding:16px;max-width:860px;margin:auto}
+h1{font:600 22px/1.2 system-ui,sans-serif;margin:8px 0}
+video,img{width:100%;height:auto;border:1px solid var(--line)}
+.k{font:13px/1.4 ui-monospace,monospace;color:var(--dim)}
+dt{color:var(--warm);font:600 14px system-ui,sans-serif;margin-top:12px}
+a{color:var(--warm)}
+</style></head><body>
+<h1>SCION 33 · Inverse Kinematics — Contact and Reach</h1>
+<p class="k">PAE-02 · the threshold, handmade · cohort 4 · revision r9 (see ledger.jsonl)</p>
+<video src="film.mp4" controls playsinline preload="metadata" poster="stills/still_28.0s.jpg"></video>
+<dl>
+<dt>Critic verdict</dt><dd>Not yet reviewed. The builder does not approve its own work; an independent critic will judge the film against the brief and the SCION bar.</dd>
+<dt>Next blocking failure (builder's own reading, unverified)</dt><dd>Reach residual exceeds 1 cm on 2 planted-leg frames (8.50 s RF, 24.0 s) in the turn-back and the lie-down; the dog's head inside the door frame is small in the final shot.</dd>
+<dt>Invariants</dt><dd><a href="invariants.json">invariants.json</a> (checker) · <a href="trace.json">trace.json</a> (measured from the render, onsets in summary)</dd>
+<dt>Contact timelines and error curves</dt><dd><img src="proof/contact_timeline.png" alt="contact timeline and residual curves"><br>
+<a href="data/contacts.json">contacts.json</a> · <a href="data/residuals.json">residuals.json</a> · <a href="data/assertions.json">assertions.json</a> · <a href="data/solver_compare.json">solver_compare.json</a> · <a href="data/sound_levels.json">sound_levels.json</a></dd>
+<dt>Method, assets, attempts</dt><dd><a href="method.md">method.md</a> · <a href="assets.json">assets.json</a> · <a href="ledger.jsonl">ledger.jsonl</a> · <a href="build/make.sh">build/make.sh</a></dd>
+<dt>Recoverable checkpoint</dt><dd>The film is rebuilt from the score by build/make.sh; no git checkpoint was made (the brief forbids running git).</dd>
+</dl>
+</body></html>

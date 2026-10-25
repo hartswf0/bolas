@@ -132,6 +132,16 @@
    "trick": "Gaze, head and body are three separate decisions, and the dog makes them in that order."
   },
   {
+   "id": 25,
+   "dir": "25-rive",
+   "name": "Rive",
+   "kind": "Interactive puppet state machines",
+   "dog": "a boned vector puppet driven by a three-layer state machine",
+   "made": "An artboard of capsule shapes bound to bones: a two-capsule torso with tuck-up, neck, skull, muzzle, curved-triangle ears, a five-segment tapered tail and four two-bone IK legs, with the coat pattern clipped to the torso. Keyed poses (stand, crouch, lie, rest, look in) and looping clips (breath, wag) are mixed by 1D blend states. The house is drawn in section under an oblique camera. Proportions were studied from a public-domain home movie; no archive pixels are used. Rive itself was not available, so the swarm wrote a small runtime with Rive's primitives.",
+   "moved": "Typed inputs (numbers, triggers, a boolean) feed three layered state machines: Facing, Body and Attention. Only Facing may rotate the body, and both turns go through the dog's front. A stepping solver plants each foot until its home moves too far, and the head layer leads the body round at 7.46 s.",
+   "trick": "The score is played into the puppet as inputs; the dog's choices come out of its own state machine."
+  },
+  {
    "id": 27,
    "dir": "27-remotion",
    "name": "Remotion",

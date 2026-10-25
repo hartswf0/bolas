@@ -5,7 +5,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 out, mode, idx = sys.argv[1], sys.argv[2], [int(v) for v in sys.argv[3].split(',')]
 tiles = []
 for i in idx:
-    im = Image.open(os.path.join(HERE, 'cache/frames/%04d.png' % i)).convert('RGB')
+    im = Image.open(os.path.join(HERE, 'cache/frames/%04d.jpg' % i)).convert('RGB')
     if mode == 'crop':
         m = json.load(open(os.path.join(HERE, 'cache/measure/%04d.json' % i)))
         cx, cy = m.get('cx', 640), m.get('cy', 400)

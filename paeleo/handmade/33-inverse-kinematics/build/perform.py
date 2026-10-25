@@ -396,7 +396,7 @@ class Planner:
             pred = {L: self.home(ctrl_next, L) + (self.home(ctrl_next, L) - self.home(ctrl, L)) * (lead * FPS) for L in LEGS}
             err = {L: np.linalg.norm(pred[L] - self.lock[L]) for L in LEGS if L not in self.swing}
             # a planted paw the leg can no longer hold must release, whatever the gait rules say
-            urgent = {L for L in err if reach_gap(ctrl_next, L, self.lock[L]) > -0.03}
+            urgent = {L for L in err if reach_gap(ctrl_next, L, self.lock[L]) > -0.05}
             for L in sorted(err, key=lambda k: (k not in urgent, -err[k])):
                 if err[L] < thresh and L not in urgent: continue
                 sw = list(self.swing.keys())

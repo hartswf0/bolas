@@ -405,7 +405,7 @@ def render(i):
     rng = np.random.default_rng(1000 + i)
     arr += rng.normal(0, 2.2, (H, W, 1))
     arr *= VIG[..., None]
-    Image.fromarray(arr.clip(0, 255).astype(np.uint8)).save(os.path.join(OUT, '%04d.png' % i), compress_level=1)
+    Image.fromarray(arr.clip(0, 255).astype(np.uint8)).save(os.path.join(OUT, '%04d.jpg' % i), quality=93)
     # measurement from the render
     dmask = np.asarray(dmask.resize((W, H), Image.BILINEAR)) > 100
     ys, xs = np.nonzero(dmask)
