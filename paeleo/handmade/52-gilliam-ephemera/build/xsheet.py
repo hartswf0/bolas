@@ -173,7 +173,7 @@ def dog_pose(i, prev):
         g, _ = gait((4.0 - x) * K)
         p.update(g)
         p['head'] = smooth(-55, -60, (t - 14.71) / .2)   # the head drops on the first exposure of the choice
-        p['neckdrop'] = smooth(24, 30, (t - 14.71) / .2)  # and hangs from lower on the chest: wholly below the withers
+        p['neckdrop'] = smooth(28, 30, (t - 14.71) / .2)  # and hangs from lower on the chest: wholly below the withers
         p['tail'] = 18 + 8 * math.sin(t * 4.0)
         label = 'approach: head low'
     else:                                                    # lies down across the sill
@@ -181,7 +181,7 @@ def dog_pose(i, prev):
         l = max(a['lie'], .3)          # the first exposure of the choice already folds the legs a third of the way
         for k in LIE: p[k] = smooth(g[k], LIE[k], l)
         p['drop'] = 50 * l; p['tilt'] = 2 * l; p['tail'] = smooth(18, 25, l)
-        hd = smooth(-60, -20, l); p['neckdrop'] = 30 * (1 - min(1, l / .9))
+        hd = smooth(-60, -20, (l - .3) / .7); p['neckdrop'] = 30 * (1 - min(1, max(0, l - .3) / .6))
         if t >= 25.4: hd = smooth(-20, -38, (t - 25.4) / .7)
         p['head'] = hd
         label = 'lie_down: across the sill'

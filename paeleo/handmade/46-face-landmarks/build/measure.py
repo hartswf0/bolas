@@ -138,10 +138,45 @@ def main():
                          test='the person\'s face is placed only by rotation + uniform scale + translation (by construction, see render.draw_person_head)'),
         head_low_on_approach=dict(share=round(float(np.mean(below)), 4), worst_margin_m=round(float(min(w_ - h for h, w_ in appr)), 3),
                                   test='15-23.8 s: the top of the skull (cranium and ear bases) is below the withers (world height)'),
+        repair_round_1=repair_checks(rig, pose, reg, rows),
         head_view_changes=sum(1 for a, b in zip(rows, rows[1:]) if a['head_view'] != b['head_view']),
         torso_view_changes=sum(1 for a, b in zip(rows, rows[1:]) if a['torso_view'] != b['torso_view']))
     json.dump(inv, open(os.path.join(FOLDER, 'proof', 'invariants_numeric.json'), 'w'), indent=1)
     print(json.dumps(inv, indent=1))
+
+
+def repair_checks(rig, pose, reg, rows):
+    """the critic's repair conditions, as far as the representation supports a number"""
+    import render as R
+    from geom import Camera
+    out = {}
+    # 1. person face 20-32 s: eye centre and mouth landmark inside the face (underlay + portrait); mouth source state at 26.4-27.3
+    man = json.load(open(os.path.join(CACHE, 'face', 'manifest.json')))
+    ins = []
+    for f in rig:
+        if f['t'] < 20: continue
+        st = voice.mouth_state(f['t'])
+        lm = next(v['landmarks'] for v in man['frames'].values() if v['state'] == st)
+        face_poly = np.array(R.UNDERLAY + [(188, 42), (130, 118), (110, 200)], float)
+        ins.append(point_in_poly(R.EYE_C, np.array(R.UNDERLAY, float)) and point_in_poly(np.array(lm['mouth']) + np.array([6, 0]), np.vstack([R.UNDERLAY, [(188, 42), (140, 150), (110, 205)]])))
+    states = [voice.mouth_state(f['t']) for f in rig if 26.4 <= f['t'] < 27.3]
+    out['person_face'] = dict(eye_and_mouth_on_face_share=float(np.mean(ins)), bands_removed='flattened plates (face_source.py)',
+                              mouth_frames_26_4_to_27_3={k: states.count(k) for k in set(states)})
+    # 3. 3.62-3.75: the head plate shown always has its muzzle (no back-of-head plate) and the head is drawn
+    hv = [r['head']['view'] for r in reg if 3.62 <= r['t'] <= 3.75]
+    out['turn_head_views_3_62_to_3_75'] = hv
+    # 4. look-in passes an intermediate view; muzzle below the person's head
+    seq = []
+    for r in reg:
+        if 26.3 <= r['t'] <= 26.9 and (not seq or seq[-1] != r['head']['view']): seq.append(r['head']['view'])
+    worst = 0.0
+    for f, p in zip(rig, pose):
+        if 26.4 <= f['t'] <= 28.0:
+            sk = R.person_skeleton(f)
+            worst = max(worst, p['head']['Nz'][1] - sk['skull'][1])
+    out['look_in_view_sequence_26_3_to_26_9'] = seq
+    out['look_in_muzzle_minus_person_skull_height_m_max'] = round(float(worst), 3)
+    return out
 
 
 def point_in_poly(pt, poly):
