@@ -89,7 +89,7 @@ def build():
     person_head_stand = np.array([-0.28, 1.62, 0.12])
     person_head_sit = np.array([-1.2, 1.25, 0.38])
     low_hand = np.array([-0.7, 0.4, 0.62])
-    inside = np.array([-0.15, 0.9, -2.6])
+    inside = np.array([-0.45, 0.35, -2.4])
     for p, f in zip(dog_p, FR):
         t = p['t']; a = f['dog']['act']
         F, S = D.frame(p['phi'])
@@ -112,7 +112,8 @@ def build():
             y1, g1 = yaw_to(person_head_sit)
             y2, g2 = yaw_to(inside)
             w = float(np.clip(a['look'], 0, 1))
-            yr = lerp(y1, y2, w); gp = lerp(g1, g2, w) * 0.5
+            yr = lerp(y1, y2, w); gp = lerp(g1, g2 * 0.2, w) * 0.5
+            p['head'] = lerp(p['head'], min(p['head'], 0.75), w)
             yr *= (1 - a['rest'])
         hw = head_world_yaw(t, p['phi'] * R2D)
         if hw is not None:

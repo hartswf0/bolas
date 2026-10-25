@@ -104,7 +104,10 @@ def trace():
     paws = np.array([np.mean([P[i]['feet'][leg][0][0] for leg in P[i]['feet']]) for i in range(N)])
     k = np.ones(7) / 7
     xs = np.convolve(np.pad(paws, 3, 'edge'), k, 'valid')
-    v = np.gradient(xs) * FPS
+    vp = np.gradient(xs) * FPS
+    vt = np.gradient(np.convolve(np.pad(xw, 3, 'edge'), k, 'valid')) * FPS
+    # travel counts only when the paws and the body agree (a turn in place swings the torso; re-stepping moves paws)
+    v = np.where(np.sign(vp) == np.sign(vt), np.sign(vp) * np.minimum(np.abs(vp), np.abs(vt)), 0.0)
     # silhouette height in metres at the dog glass (standing about 0.72, head-low walking 0.59, lying 0.38 to 0.50)
     h_m = np.array([m['sil_h'] * (P[i]['z'] - m['cam'][2]) / F for i, m in enumerate(M)])
     h_stand = float(np.median(h_m[:20]))
