@@ -30,7 +30,7 @@ CENTER_OFFSET = 0.14                 # world body centre = score x - 0.14 (so x 
 # real-frame sequences
 WALK_LOW = [42, 43, 44, 45]   # head-low walk, shown mirrored (faces the door); 46 (blurred) and 47 (head hidden: a 'boulder') dropped in round 2
 TURN_AWAY = [13, 14, 26, 28, 30, 31, 33, 36, 38, 40]  # left -> facing the camera -> right (round 2: 15/17/19/20 dropped: a box, two heads)
-TURN_BACK = [28, 26, 14, 13, 11, 10]   # never passes through a camera-facing frame: the head stays on the door side           # frontal (head up) -> left, for 8.0-9.0
+TURN_BACK = [26, 14, 13, 11, 10]   # never passes through a camera-facing frame: the head stays on the door side           # frontal (head up) -> left, for 8.0-9.0
 WATCH = [9, 10, 11, 10]                                           # held alert cels (boil)
 LIE_D, LIE_SHEAR = -0.07, 0.228   # lying across the sill: its depth pass crosses the casing plane at x = 0.575, at the right jamb's outer edge, so the in/out boundary is the jamb's own edge
 STRIDE = 0.30                                                     # metres per walk cycle (short, wary steps)
@@ -191,10 +191,10 @@ def dog_frame(i):
             facing = -1; posture = 'lie' if u > 0.6 else 'stand'
     # ---------------------------------------------------------------- 7.46 - 9.0 turns back to look, gets up, turns
     elif t < 9.0:
-        if t < 7.95:
+        if t < 7.80:
             # head first: profile-away -> frontal head -> profile toward the door, over the shoulder; body still lying
             ht = t - 7.458
-            u = 1 - sm(7.62, 7.95, t)               # starts rising once the head is round
+            u = 1 - sm(7.60, 7.80, t)               # rises once the head is round (round 2: quicker)
             if ht < 0.08:
                 img, anc, head = lie_pose(u, lerp(-70, -20, ht / 0.08), 'L', 6)
                 img, anc, head = mirror_img(img, anc, head); facing = -1
@@ -212,7 +212,7 @@ def dog_frame(i):
             mirror = True; kind = 'rig'; posture = 'lie' if u > 0.5 else 'stand'
         else:
             seq = TURN_BACK
-            k = min(len(seq) - 1, int((t - 7.95) / (0.65 / len(seq))))
+            k = min(len(seq) - 1, int((t - 7.80) / (0.5 / len(seq))))
             n = seq[k]
             img, anc = whole_cel(n); parts = ['cel%d' % n]
             m = META[str(n)]
@@ -241,10 +241,10 @@ def dog_frame(i):
         if look > 0.62:
             # looking in: the head turned into the lit room; the frontal-head outline is what the back of a head looks
             # like, so it is shown from behind: dusk on the back of the skull, the room's light around its edge
-            img, anc, head = lie_pose(u, 0, 'B', -6, -6)
+            img, anc, head = lie_pose(u, -30, 'B', -10, -2)
             tone = 'back'; parts = ['head0 (frame 0, seen from behind)', 'torso10', 'legs']
         elif look > 0.30:
-            img, anc, head = lie_pose(u, -18, 'T', -4, -2)
+            img, anc, head = lie_pose(u, -40, 'T', -6, 2)
             tone = 'turn'; parts = ['head0 (frame 0, turning away)', 'torso10', 'legs']
         else:
             # head low as it came (matches the head-low walk), lifts to watch, chin to the paws when it settles
