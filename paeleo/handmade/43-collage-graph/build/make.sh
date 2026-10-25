@@ -9,4 +9,7 @@ python3 trace.py            # ../trace.json (measured), ../graph_trace.json
 python3 sound.py            # synthesized sound (cache/sound.wav) + measured levels
 python3 cards.py            # title / end cards
 python3 assemble.py         # ../film.mp4 (38.0 s), ../stills
+python3 assets.py           # ../assets.json (source ledger)
+python3 rulebook.py         # ../rulebook.json
+python3 ../../../../tools/paeleo/check_handmade.py ..
 ffprobe -v error -count_frames -select_streams v:0 -show_entries stream=nb_read_frames,width,height -of csv=p=0 ../film.mp4

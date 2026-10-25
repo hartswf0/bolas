@@ -77,13 +77,17 @@ a face from *Anthracite: Pre-Shift Examinations*, a forearm and hand from *The D
 Measured from this render (`trace.json`, `invariants.json`, `build/cache/sound_levels.json`):
 
 - **I1–I4**: `check_handmade.py` → ALL OK (see invariants.json).
-- **Choice onsets measured from pixels** (`trace.json → measured_onsets`, each with its rule of measurement): see the
-  report numbers in `ledger.jsonl` (last line) — they are recomputed by `build/trace.py`.
-- **Feet**: max creep of a planted foot between consecutive frames (world metres) — `trace.json →
-  feet_max_creep_m_between_frames` (≈1 mm; it comes from the slight depth scale change near the sill).
+- **Choice onsets measured from pixels** (`trace.json → measured_onsets`, each with its rule of measurement; recomputed by
+  `build/trace.py`): backs away 1.000 (score 1.00, Δ 0); stops and looks 2.500 (2.333, +0.167); turns its back 3.417
+  (3.417, 0); turns back to look 7.500 (7.458, +0.042); comes, head low 14.750 (14.708, +0.042); lies down 23.833
+  (23.792, +0.041); looks in 26.500 (26.4, +0.10); settles again 28.25.
+- **Sound** (measured, not listened to): soft voice 10.7 dB below the calls (voice stem RMS), 9.8 dB below (loudest 300 ms
+  in the mix); soft voice 18.1 dB above the room tone.
+- **Feet**: max creep of a planted foot between consecutive frames: 0.0014 m (it comes from the slight depth scale
+  change near the sill).
 - **Identity**: every dog fragment from the one home-movie dog (`identity_single_source: true`).
-- **Threshold end state**: end bbox vs the door opening, px inside / outside the frame (`invariants.end_part_*`).
-- **Sound**: soft voice vs calls (voice stem RMS and loudest 300 ms in the mix), soft voice vs room tone.
+- **Threshold end state**: last frame, dog bbox x 274–583 px; door opening 192–418 px: 144 px of the dog inside the door
+  frame, 165 px outside (the haunch and tail).
 
 Judged only by viewing (not by me — by the critic): whether the six choices *read* as choices; whether the dog reads as a
 dog in every frame of both turns; whether the material rewrite reads as cause (the light) and not as clutter.

@@ -94,7 +94,7 @@
    "kind": "enter",
    "input": "dog.head",
    "output": "head_back_cut (back of the head, toward the viewer, into the lit room)",
-   "precondition": "score act.look > 0.5 (after \"come in\")",
+   "precondition": "score act.look > 0.2 (on hearing \"come in\")",
    "preserved": "neck anchor",
    "motif": "the one drawn shape; the head turns into depth"
   },
@@ -337,8 +337,8 @@
    }
   },
   {
-   "t": 26.583,
-   "i": 638,
+   "t": 26.5,
+   "i": 636,
    "state": "lie_down",
    "rules": [
     "ENTER head->door light: REPLACE head by head_back_cut (looks in)",
@@ -356,8 +356,8 @@
    }
   },
   {
-   "t": 28.167,
-   "i": 676,
+   "t": 28.25,
+   "i": 678,
    "state": "lie_down",
    "rules": [
     "R8 SPLIT torso at the threshold"
