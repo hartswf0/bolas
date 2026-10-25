@@ -131,9 +131,15 @@ def dog(q, t, breath, agit, warmth, density):
     yaw = q['yaw']
     origin = np.array([q['u'], 0.0, 0.0])
 
+    kap = q.get('bend', 0.0) / 0.84       # spine curvature (rad/m): a turning dog curls into a C, head leading
+
     def W(v):  # dog-local (forward f, up y, side l) -> world. local forward is -x at yaw 0.
         v = np.asarray(v, float)
-        loc = np.stack([-v[..., 0], v[..., 1], v[..., 2]], -1)
+        fl, yl, ll = v[..., 0], v[..., 1], v[..., 2]
+        if abs(kap) > 1e-4:
+            th = kap * fl
+            fl, ll = np.sin(th) / kap - ll * np.sin(th), (1 - np.cos(th)) / kap + ll * np.cos(th)
+        loc = np.stack([-fl, yl, ll], -1)
         return origin + rotY(loc, yaw)
 
     def Wd(v):

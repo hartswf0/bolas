@@ -15,7 +15,7 @@ SCORE = json.load(open(os.path.join(REPO, 'paeleo/handmade/score/threshold-score
 FR = SCORE['frames']
 FONTS = os.path.join(REPO, 'tools/paeleo/fonts/')
 CACHE = os.path.join(FOLDER, 'build', 'cache')
-TURN_SEQ = [11, 14, 18, 19, 26, 30, 34, 38, 42, 44]
+TURN_SEQ = [11, 14, 18, 26, 30, 34, 38, 42, 44]
 T_BACK = 7.65             # the body follows the head round, through the found frames
 OFF_END = 20.0
 T_TURN1 = 3.417
@@ -157,6 +157,8 @@ class Scene:
             pose['walk'] = min(1.0, a['moving'] * 1.2)
             pose['s'] = (4.0 - x) * APPM
         L, feet = dogrig.dog_layers(self.P, pose)
+        keys = feet.pop('_keys')
+        info['keys_px'] = {kk: [round(float(v[0]), 2), round(float(v[1]), 2)] for kk, v in keys.items() if v is not None}
         layers = []
         for pc, v, M, role in L:
             layers.append({'node': self.P[pc]['dusk'], 'M': M, 'op': 1.0, 'role': 'dog_' + role, 'src': 'NJC#018' if pc in ('tail',) else 'NJC#011'})
@@ -396,6 +398,16 @@ def measure(dinfo, dog_alpha, parts, t):
             # the back line: top of the body piece at the withers
             out['back_world'] = round(float(ap(Mi, (0, by.min()))[1]), 4)
             out['facing_measured'] = 1 if hx.mean() < bcx else -1
+            kp = dinfo.get('keys_px', {})
+            if 'nose' in kp and 'withers' in kp:
+                # the skull: rendered head pixels within 0.22 m of the (transformed) nose key; its top against the withers
+                r = 0.22 * s
+                near = (hx - kp['nose'][0]) ** 2 + (hy - kp['nose'][1]) ** 2 < r * r
+                if near.any():
+                    out['skull_top_world'] = round(float(ap(Mi, (0, hy[near].min()))[1]), 4)
+                out['nose_world'] = [round(float(v), 4) for v in ap(Mi, kp['nose'])]
+                out['withers_world'] = round(float(ap(Mi, kp['withers'])[1]), 4)
+                out['rump_world'] = round(float(ap(Mi, kp['rump'])[1]), 4)
     return out
 
 

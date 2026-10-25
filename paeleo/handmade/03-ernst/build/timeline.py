@@ -84,7 +84,7 @@ def build():
     # gaze (yaw of the head relative to the body), from targets
     person_head_stand = np.array([-0.28, 1.62, 0.12])
     person_head_sit = np.array([-1.2, 1.25, 0.38])
-    low_hand = np.array([-0.55, 0.3, 0.6])
+    low_hand = np.array([-0.7, 0.4, 0.62])
     inside = np.array([-0.15, 0.9, -2.6])
     for p, f in zip(dog_p, FR):
         t = p['t']; a = f['dog']['act']
@@ -164,7 +164,7 @@ def build():
         else:
             psi = lerp(168.0, 12.0, ss(6.0, 6.3, t))
         reach = ps['reach']; low = ps['low']; mouth = ps['mouth'] if ps['voice'] == 'call' else 0.0
-        lean = 0.5 * reach + 0.1 * mouth + 0.32 * low * sit
+        lean = 0.5 * reach + 0.1 * mouth + 0.6 * low * sit
         q = dict(t=t, x=x, z=z, psi=psi * D2R, sit=sit, lean=lean, reach=reach, low=low, mouth=mouth,
                  voice=ps['voice'], soft=ps['mouth'] if ps['voice'] == 'soft' else 0.0)
         per_p.append(q)
@@ -189,7 +189,7 @@ def build():
         rest_h = pel + F * (0.06 + 0.25 * q['sit']) + PR.Y * (0.02 + 0.12 * q['sit']) - S * 0.23
         point = chest + F * 0.5 - PR.Y * 0.38 - S * 0.12
         reachp = chest + F * 0.6 + PR.Y * 0.02 - S * 0.1
-        lowp = np.array([-0.46, 0.3, 0.64])
+        lowp = np.array([-0.6, 0.5, 0.62])
         call_w = np.clip(q['mouth'] / 0.6, 0, 1) * (1 - q['reach'])
         h = rest_h + (point - rest_h) * call_w
         h = h + (reachp - h) * q['reach']

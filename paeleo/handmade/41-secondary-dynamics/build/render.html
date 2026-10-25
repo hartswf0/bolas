@@ -30,7 +30,7 @@ let LIGHT = null;
 function lightSetup(f) {
   const Wd = S.world, L = Wd.lamp, ang = (x, z) => Math.atan2(z - L[2], x - L[0]);
   const lo = Math.max(ang(Wd.wallIn, Wd.open[0]), ang(Wd.wallOut, Wd.open[0])), hi = Math.min(ang(Wd.wallIn, Wd.open[1]), ang(Wd.wallOut, Wd.open[1]));
-  const h = Wd.hinge, a = f.door, Fe = [h[0] - Wd.leaf * Math.sin(a), h[2] + Wd.leaf * Math.cos(a)];
+  const h = Wd.hinge, a = f.door, Fe = [h[0] - Wd.leaf * Math.sin(a), h[2] + Wd.hingeDir * Wd.leaf * Math.cos(a)];
   const l1 = ang(h[0], h[2]), l2 = ang(Fe[0], Fe[1]);
   const pp = f.person.chest, pr = Math.atan2(0.2, Math.hypot(pp[0] - L[0], pp[2] - L[2])), pa = ang(pp[0], pp[2]), standing = f.person.hip[1] > 0.5;
   LIGHT = { L, lo, hi, leaf: [Math.min(l1, l2), Math.max(l1, l2)], h, Fe, person: standing ? [pa - pr, pa + pr] : null };
@@ -117,19 +117,20 @@ function drawInterior(f) {
   const bg = g.createRadialGradient(lampP[0], lampP[1] + 6, 1, lampP[0], lampP[1] + 6, 60); bg.addColorStop(0, 'rgba(255,240,200,1)'); bg.addColorStop(0.3, 'rgba(255,200,120,0.6)'); bg.addColorStop(1, 'rgba(255,180,100,0)');
   g.fillStyle = bg; g.beginPath(); g.arc(lampP[0], lampP[1] + 6, 60, 0, 7); g.fill();
 }
-function drawDoor(f) { // the glazed wooden leaf on its hinge
-  const Wd = S.world, h = Wd.hinge, a = f.door, d = [-Math.sin(a), 0, Math.cos(a)], n = [Math.cos(a), 0, Math.sin(a)], T = 0.045, Hd = 2.02, Lf = Wd.leaf;
+function drawDoor(f) { // the glazed wooden leaf, hung on the near jamb. Opened flat it lies in the section plane and is cut away with the near wall
+  const Wd = S.world, h = Wd.hinge, a = f.door, dz = Wd.hingeDir, d = [-Math.sin(a), 0, dz * Math.cos(a)], n = [Math.cos(a), 0, -dz * Math.sin(a)], T = 0.045, Hd = 2.02, Lf = Wd.leaf;
+  const ca = Math.cos(a); const u0 = ca > 1e-3 ? clamp((h[2] - Wd.leafCut) / (Lf * ca), 0, 1) : 1; if (u0 >= 0.999) return;
   const at = (u, y, s = 0) => add(add(h, mul(d, u * Lf)), add([0, y, 0], mul(n, s * T)));
   const face = norm(sub(CAM.pos, at(0.5, 1, 0))), sgn = dot(face, n) > 0 ? 1 : -1; const s = sgn * 0.5;
   const wood = lit(hex('#6b4a2e'), at(0.5, 1, s), 0.6);
   poly(g, [at(1, 0, -s), at(1, 0, s), at(1, Hd, s), at(1, Hd, -s)], rgb(mul(wood, 0.7)));
-  poly(g, [at(0, 0, s), at(1, 0, s), at(1, Hd, s), at(0, Hd, s)], rgb(wood), 'rgba(20,12,8,0.8)', 1.2);
-  // glazing: 2 x 3 panes above a solid panel; the room glows through them
+  poly(g, [at(u0, 0, s), at(1, 0, s), at(1, Hd, s), at(u0, Hd, s)], rgb(wood), 'rgba(20,12,8,0.8)', 1.2);
   for (let cI = 0; cI < 2; cI++) for (let r = 0; r < 3; r++) {
-    const u0 = 0.1 + cI * 0.415, u1 = u0 + 0.385, y0 = 0.95 + r * 0.33, y1 = y0 + 0.29;
-    poly(g, [at(u0, y0, s), at(u1, y0, s), at(u1, y1, s), at(u0, y1, s)], 'rgba(255,196,120,0.38)', 'rgba(25,15,8,0.9)', 1);
+    let p0 = 0.1 + cI * 0.415, p1 = p0 + 0.385; const y0 = 0.95 + r * 0.33, y1 = y0 + 0.29; p0 = Math.max(p0, u0); if (p1 <= p0) continue;
+    poly(g, [at(p0, y0, s), at(p1, y0, s), at(p1, y1, s), at(p0, y1, s)], 'rgba(255,196,120,0.38)', 'rgba(25,15,8,0.9)', 1);
   }
-  poly(g, [at(0.12, 0.15, s), at(0.88, 0.15, s), at(0.88, 0.8, s), at(0.12, 0.8, s)], null, 'rgba(25,15,8,0.6)', 1);
+  if (u0 < 0.12) poly(g, [at(0.12, 0.15, s), at(0.88, 0.15, s), at(0.88, 0.8, s), at(0.12, 0.8, s)], null, 'rgba(25,15,8,0.6)', 1);
+  if (u0 > 0.01) poly(g, [at(u0, 0, -s), at(u0, 0, s), at(u0, Hd, s), at(u0, Hd, -s)], '#1c1716'); // the leaf in section where the cut passes through it
   const kn = P(at(0.9, 0.98, s * 1.4)); g.fillStyle = '#c9a75a'; g.beginPath(); g.arc(kn[0], kn[1], Math.max(1.5, 0.022 * kn[3]), 0, 7); g.fill();
 }
 function drawHouseShell(f) {
@@ -297,14 +298,17 @@ function drawDog(ctx, f) {
   ctx.strokeStyle = '#8f8a7c'; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(rq[0], rq[1]); ctx.lineTo(tq[0], tq[1]); ctx.stroke();
   const tc = lit(hex('#d8c27a'), tg, 1.4); ctx.fillStyle = rgb(tc); ctx.beginPath(); ctx.arc(tq[0], tq[1], Math.max(1.8, 0.014 * tq[3]), 0, 7); ctx.fill(); ctx.strokeStyle = 'rgba(40,30,10,0.8)'; ctx.stroke();
 }
-function drawEar(ctx, e, d) {
-  const along = mul(d.fwd, 0.032), b1 = add(e[0], along), b2 = sub(e[0], mul(along, 0.8));
-  const pts = [b1, add(e[1], mul(d.fwd, 0.03)), lerp3(e[1], e[2], 0.6), e[2], add(e[1], mul(d.fwd, -0.026)), b2].map(q => P(q));
-  ctx.beginPath(); pts.forEach((q, k) => k ? ctx.lineTo(q[0], q[1]) : ctx.moveTo(q[0], q[1])); ctx.closePath();
-  ctx.fillStyle = rgb(lit(SADDLE, e[1], 0.9)); ctx.fill(); ctx.strokeStyle = 'rgba(12,8,6,0.9)'; ctx.lineWidth = 1.3; ctx.stroke();
-  // the inner ear shows when the opening faces the camera
-  const n = norm(cross(sub(e[2], e[0]), d.up)); const facing = dot(mul(n, 1), norm(sub(CAM.pos, e[1])));
-  if (Math.abs(facing) > 0.25) { const ip = [add(e[0], mul(d.fwd, 0.004)), add(e[1], mul(d.fwd, 0.002)), lerp3(e[1], e[2], 0.6)].map(q => P(q)); ctx.beginPath(); ip.forEach((q, k) => k ? ctx.lineTo(q[0], q[1]) : ctx.moveTo(q[0], q[1])); ctx.closePath(); ctx.fillStyle = rgb(lit(hex('#8a5a48'), e[1]), 0.6); ctx.fill(); }
+function drawEar(ctx, e, d) { // one coherent flap: a leaf shape from the base through the solved mid node to the solved tip
+  const b = P(e[0]), m = P(e[1]), t = P(e[2]); const sc = b[3];
+  let tx = t[0] - b[0], ty = t[1] - b[1]; const L = Math.hypot(tx, ty) || 1; tx /= L; ty /= L; const nx = -ty, ny = tx;
+  const w = 0.032 * sc, wm = Math.max(w * 0.8, Math.abs((m[0] - b[0]) * nx + (m[1] - b[1]) * ny) + w * 0.4);
+  const mx = (b[0] + t[0]) / 2 + ((m[0] - (b[0] + t[0]) / 2) * 0.6), my = (b[1] + t[1]) / 2 + ((m[1] - (b[1] + t[1]) / 2) * 0.6);
+  const path = new Path2D(); path.moveTo(b[0] + nx * w, b[1] + ny * w); path.quadraticCurveTo(mx + nx * wm, my + ny * wm, t[0], t[1]);
+  path.quadraticCurveTo(mx - nx * wm, my - ny * wm, b[0] - nx * w, b[1] - ny * w); path.closePath();
+  ctx.fillStyle = rgb(lit(SADDLE, e[1], 0.9)); ctx.fill(path); ctx.strokeStyle = 'rgba(12,8,6,0.9)'; ctx.lineWidth = 1.3; ctx.stroke(path);
+  const facing = dot(norm(cross(sub(e[2], e[0]), d.up)), norm(sub(CAM.pos, e[1])));
+  if (Math.abs(facing) > 0.3 && L > 6) { const ip = new Path2D(); const k = 0.5; ip.moveTo(b[0] + nx * w * k, b[1] + ny * w * k); ip.quadraticCurveTo(mx + nx * wm * k, my + ny * wm * k, b[0] + tx * L * 0.8, b[1] + ty * L * 0.8);
+    ip.quadraticCurveTo(mx - nx * wm * k, my - ny * wm * k, b[0] - nx * w * k, b[1] - ny * w * k); ip.closePath(); ctx.fillStyle = rgb(lit(hex('#8a5a48'), e[1]), 0.55); ctx.fill(ip); }
 }
 function drawFaceDog(ctx, d) {
   const H = d.head, toCam = norm(sub(CAM.pos, H));
@@ -319,7 +323,7 @@ function drawFaceDog(ctx, d) {
 // coat: short strokes on the silhouette of each furred part, swept by the coat's mass proxies (offsets from the solver)
 function drawFur(ctx, pt, res, d) {
   const off = pt.name === 'tail' ? null : (pt.name === 'torso' ? d.coat.belly : pt.name === 'neck' ? d.coat.neck : d.coat.breech);
-  const pr = res.pr, circles = []; for (const [a, b] of pr) { circles.push(a, b); circles.push([(a[0] + b[0]) / 2, (a[1] + b[1]) / 2, (a[2] + b[2]) / 2]); }
+  const pr = pt.name === 'neck' ? res.pr.slice(0, 1) : res.pr, circles = []; for (const [a, b] of pr) { circles.push(a, b); circles.push([(a[0] + b[0]) / 2, (a[1] + b[1]) / 2, (a[2] + b[2]) / 2]); }
   ctx.strokeStyle = pt.name === 'tail' || pt.name === 'neck' ? 'rgba(28,20,14,0.85)' : 'rgba(40,28,18,0.7)'; ctx.lineWidth = 1;
   let ox = 0, oy = 0; if (off) { const ol = len(off), oc = ol > 0.025 ? mul(off, 0.025 / ol) : off; const o0 = P(d.torso[2]), o1 = P(add(d.torso[2], oc)); ox = o1[0] - o0[0]; oy = o1[1] - o0[1]; }
   ctx.beginPath();

@@ -143,4 +143,8 @@ def dog_layers(P, pose):
         pc, M, _, _ = legs[name]; out.append((pc, v, M, 'leg_near'))
     out.append(('head_up' if hd == 'up' else 'head_low', v, Mh, 'head'))
     feet = {n: ap(Mroot, l[3]) for n, l in legs.items()}
+    # keypoints through the same matrices (frame-11 px: nose, withers and rump top are inferred keys)
+    keys = {'nose': ap(Mh, (80 - P['head_up']['origin'][0], 85 - P['head_up']['origin'][1])) if hd == 'up' else None,
+            'withers': ap(Mroot @ Mb, (150, 106)), 'rump': ap(Mroot @ Mb, (200, 113))}
+    feet['_keys'] = keys
     return out, feet

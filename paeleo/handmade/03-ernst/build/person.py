@@ -72,7 +72,10 @@ def build(q):
         if tgt is None:
             tgt = W(pel + np.array([0.06 + 0.25 * sit, 0.02 + 0.12 * sit, 0.23 * side]))
         tgt = np.asarray(tgt, float)
-        el = ik2(sh, tgt, 0.31, 0.29, -F * 0.6 - Y * 0.5 + S * side * 0.6)
+        dv = tgt - sh; dl = np.linalg.norm(dv)
+        if dl > 0.97 * 0.64:                       # an arm cannot stretch: the hand stops at the arm's reach
+            tgt = sh + dv / dl * 0.97 * 0.64
+        el = ik2(sh, tgt, 0.33, 0.31, -F * 0.6 - Y * 0.5 + S * side * 0.6)
         prims.append(cone('uarm' + k, sh, el, 0.065, 0.05, 'cloth2', F, k=0.03))
         prims.append(cone('farm' + k, el, tgt, 0.05, 0.04, 'cloth2', F, k=0.02))
         if q.get('hands_on', {}).get(k, True):

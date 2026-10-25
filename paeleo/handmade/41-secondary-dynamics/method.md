@@ -151,3 +151,27 @@ The ledger has 11 entries. The main ones:
 `bash build/make.sh` runs the unit tests, the three presets, the render with measurement, the sound, the assembly
 (`film.mp4`, `trace.json`, `stills/`), the assertions, the split view and the PAELEO checker. It takes about 4 minutes.
 Intermediates go in `build/cache/` (git-ignored).
+
+## Round 2 (after critic round 1: does not pass, close)
+
+The repairs the critic asked for, in rank order:
+
+1. **Look-in.** The neck now has one length (0.25 m, measured at every frame). The head rotates about the neck base and
+   never stretches, so the collar stays at the base. At 24.6–25.4 the head settles turned out toward the porch. At
+   26.42–26.85 it yaws into the doorway past the person and lifts. From 28.0 the chin goes down onto the paws.
+2. **Open door.** The leaf is now hung on the near jamb. The person stands on the sill with the door ajar behind her and
+   pushes it open as she steps back in. The impulse is re-solved (4.19 N·m·s) so that the leaf reaches its stop at 6.20
+   s. Opened flat against the near jamb, the leaf lies in the section plane and is cut away with the near wall, which is
+   the cutaway convention the whole set already uses. From 6.2 s the doorway is an empty, lit opening, and the head and
+   forepaws lie in it. Trade-off: once open, the leaf itself is no longer visible; the opening reads through the empty
+   lit doorway, the jamb, the lintel and the light.
+3. **Ears.** Each ear is drawn as one closed leaf-shaped path, built in screen space from the solved base, mid node and
+   tip, so it cannot split. Coat strokes are removed from the upper neck. The ear material (3.6 Hz, ζ 0.30) settles in
+   0.83 s after the rise, with 2 flicks.
+4. **Turn back.** The head comes round to point at the door by 7.66 s (head direction along x is -0.93 at 7.7 s). The
+   body follows at 7.86–8.62.
+5. **Standing.** Shorter leg bones keep the standing legs near-straight under the body. The feet were already planted
+   (2.1 mm maximum slide).
+
+The checker and assertions A1–A7 still pass. I looked at every frame from 26.21 to 28.58 s and from 7.42 to 8.42 s. Not
+addressed: the dog is still dim at dusk (0–6 s), and the lie-down is still quick. The sound has still not been listened to.

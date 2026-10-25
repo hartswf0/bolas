@@ -22,7 +22,7 @@ const r4 = x => Math.round(x * 1e4) / 1e4, P3 = p => [r4(p[0]), r4(p[1]), r4(p[2
 const act = i => FR[clamp(i, 0, N - 1)].dog.act;
 
 // ---------- the world (metres) ----------
-const WORLD = { wallIn: 0.30, wallOut: 0.50, open: [-0.46, 0.46], lintel: 2.05, sill: [0.26, 0.66, 0.025], hinge: [0.31, 0, -0.46], leaf: 0.90,
+const WORLD = { wallIn: 0.30, wallOut: 0.50, open: [-0.46, 0.46], lintel: 2.05, sill: [0.26, 0.66, 0.025], hinge: [0.31, 0, 0.46], hingeDir: -1, leaf: 0.90, leafCut: 0.40,
   porchEnd: 4.9, railZ: -1.32, lamp: [-1.05, 2.15, -0.1], shrub: [4.74, 0, -0.66], dogZ: 0.0 };
 
 // ---------- the dog's own timing (primary), anchored to the score's choices ----------
@@ -40,9 +40,9 @@ function bodyYaw(t) {
 }
 function headHeading(t, th) { // world heading of the head: it leads the body, and at 7.46 it comes round first
   if (t >= 3.3 && t < 3.95) return bodyYaw(t + 0.08);
-  if (t >= 7.458 && t < 8.75) return Math.max(th, 2 * PI + lerp(0, 2.45, seg(t, 7.458, 7.64)));
+  if (t >= 7.458 && t < 8.75) return Math.max(th, 2 * PI + lerp(0, 2.85, seg(t, 7.458, 7.66)));
   let y = th;
-  if (t > 24.4) y += -0.95 * seg(t, 24.6, 25.4) * (1 - seg(t, 26.42, 26.8)); // settles looking along the porch, then turns in
+  if (t > 24.4) y += -1.25 * seg(t, 24.6, 25.4) * (1 - seg(t, 26.42, 26.85)) + 0.18 * seg(t, 26.5, 26.9) * (1 - seg(t, 28.3, 28.9)); // settles looking out along the porch, then turns in through the doorway, past the person
   return y;
 }
 function headRoll(t) { return 0.22 * seg(t, 10.45, 10.8) * (1 - seg(t, 11.5, 12.1)) + 0.12 * seg(t, 7.6, 7.9) * (1 - seg(t, 8.3, 8.8)); }
@@ -74,7 +74,8 @@ function headPose(B) {
   const yAbs = lerp(B.withersC + dy, ly, lb); fw = lerp(fw, lfw, lb); pitch = lerp(pitch, lp, lb);
   // neck carries the head round: offset from the neck base rotated by most of the relative yaw
   const ry = rel * 0.78, Fh = frameOf(th + ry);
-  const N = B.neckBase, H = V.add([N[0], 0, N[2]], V.add(V.mul(Fh.F, fw), [0, yAbs, 0]));
+  const N = B.neckBase; let H = V.add([N[0], 0, N[2]], V.add(V.mul(Fh.F, fw), [0, yAbs, 0]));
+  H = V.add(N, V.mul(V.norm(V.sub(H, N)), NECK)); // the neck has one length: the head rotates about its base, it never stretches
   const hf = frameOf(hh), roll = headRoll(t);
   const fwd = V.norm(V.add(V.mul(hf.F, Math.cos(pitch)), [0, Math.sin(pitch), 0]));
   let up = V.norm(V.sub([0, 1, 0], V.mul(fwd, fwd[1]))), side = V.cross(up, fwd); // side = head's left
@@ -83,6 +84,7 @@ function headPose(B) {
 }
 
 // ideal footholds in the body frame (u forward, w left): standing, crouched (hind gathered under), lying (sphinx)
+const NECK = 0.25;
 const FEET = [{ n: 'LF', fore: 1, s: 1 }, { n: 'RF', fore: 1, s: -1 }, { n: 'LH', fore: 0, s: 1 }, { n: 'RH', fore: 0, s: -1 }];
 function idealFoot(B, k) {
   const f = FEET[k], c = B.c;
@@ -134,7 +136,7 @@ function dogSkeleton(i) {
     const paw = FOOT[i][k].p, down = [0, -1, 0];
     if (f.fore) {
       const S = at(0.205, B.withersC - 0.075, 0.075 * f.s), pole = V.norm(V.add(V.mul(F, -1), V.mul(down, 0.3)));
-      const wrist = V.add(paw, [0, 0.055, 0]); let { B: el } = ik2(S, wrist, 0.205, 0.17, pole);
+      const wrist = V.add(paw, [0, 0.055, 0]); let { B: el } = ik2(S, wrist, 0.19, 0.162, pole);
       let j2 = wrist;
       if (B.lb > 0) { el = V.lerp(el, at(0.17, 0.045, 0.085 * f.s), B.lb); j2 = V.lerp(wrist, at(0.43, 0.035, 0.07 * f.s), B.lb); }
       return { fore: 1, s: f.s, root: S, j1: el, j2, paw };
@@ -142,7 +144,7 @@ function dogSkeleton(i) {
     const Hj = at(-0.285, B.pelvisC - 0.05, 0.078 * f.s);
     const hock = V.lerp(V.add(paw, V.add([0, 0.125, 0], V.mul(F, -0.045))), V.add(paw, V.add([0, 0.03, 0], V.mul(F, -0.15))), B.lb);
     const pole = V.norm(V.add(V.mul(F, 1), V.add(V.mul(L, 0.6 * f.s * B.lb), [0, 0.2, 0])));
-    let { B: st } = ik2(Hj, hock, 0.215, 0.215, pole);
+    let { B: st } = ik2(Hj, hock, 0.18, 0.175, pole);
     if (B.lb > 0) st = V.lerp(st, at(-0.08, 0.11, 0.165 * f.s), B.lb);
     return { fore: 0, s: f.s, root: Hj, j1: st, j2: hock, paw };
   });
@@ -152,7 +154,7 @@ function dogSkeleton(i) {
 // ---------- the person: primary poses (keyframed acting) ----------
 const PF = i => FR[clamp(i, 0, N - 1)].person;
 const SEAT = { hip: [-1.12, 0.14, -0.26], heading: 0.18 };
-const DOORWAY = { hip: [-0.20, 0.93, 0.12], heading: 0.0 };
+const DOORWAY = { hip: [0.40, 0.93, -0.12], heading: 0.0 };
 function personPose(i) {
   const t = i * DT, p = PF(i);
   const walk = seg(t, 4.62, 5.45), sit = sm(p.sit), headingP = lerp(DOORWAY.heading, SEAT.heading, seg(t, 5.0, 5.8));
@@ -178,10 +180,10 @@ function personPose(i) {
   hip = V.lerp(hip, SEAT.hip, sit);
   // upper body: lean toward the dog when calling, more when reaching; toward the door edge when pushing it
   const reach = p.reach, call = (t > 0.95 && t < 2.3 ? seg(t, 0.95, 1.15) * (1 - seg(t, 2.0, 2.3)) : 0);
-  const push = seg(t, 4.78, 4.98) * (1 - seg(t, 5.08, 5.35)); // the far hand takes the door's edge and pulls it open
+  const push = seg(t, 4.72, 4.98) * (1 - seg(t, 5.05, 5.35)); // the near hand pushes the door open as she steps back in
   const low = p.low;
   let lean = 0.10 * call + 0.30 * reach - 0.05 * sit + 0.34 * low * sit + 0.12 * push;
-  let twist = 0.35 * push; // shoulders open toward the door's edge
+  let twist = -0.25 * push; // shoulders toward the door
   const fwd = V.norm(V.add(V.mul(frameOf(headingP + twist * 0.5).F, Math.sin(lean)), [0, Math.cos(lean), 0])); // spine axis
   const Fs = frameOf(headingP + twist * 0.5).F, Ls = frameOf(headingP + twist * 0.5).L;
   const chest = V.add(hip, V.mul(fwd, 0.36)), neck = V.add(hip, V.mul(fwd, 0.53)), head = V.add(V.add(hip, V.mul(fwd, 0.665)), V.mul(Fs, 0.025));
@@ -191,11 +193,11 @@ function personPose(i) {
   const beckon = call * (0.5 + 0.5 * Math.sin(2 * PI * 1.8 * (t - 1.0)));
   let handR = V.lerp(restR, V.add(shR, V.add(V.mul(F, 0.34), [0, -0.12 + 0.12 * beckon, 0])), call);
   handR = V.lerp(handR, V.add(shR, V.add(V.mul(F, 0.62), [0, -0.12, 0.05])), reach);
-  const leafF = doorEdge(DOOR_A[i] ?? 1.0, 0.97);
+  const leafF = doorEdge(DOOR_A[i] ?? 0.5, 0.6);
   const lowHand = [-0.50, 0.15, -0.02];
   handR = V.lerp(handR, lowHand, low);
   let handL = V.lerp(restL, V.add(hip, V.add(V.mul(F, 0.30), V.add(V.mul(L, 0.24), [0, 0.07, 0]))), sit); // on the far knee
-  handL = V.lerp(handL, leafF, push);
+  handR = V.lerp(handR, leafF, push * (1 - low));
   // knees: standing straight, walking bend, sitting up
   const legPole = V.norm(V.add(F, [0, 0.35 * sit, 0]));
   const hipL = V.add(hip, V.mul(L, 0.1)), hipR = V.add(hip, V.mul(L, -0.1));
@@ -210,7 +212,7 @@ function personPose(i) {
   return { hip, chest, neck, head, shR, shL, elR: eR.B, handR: eR.C, elL: eL.B, handL: eL.C, hipL, hipR, kL, kR, fl: flx, fr: frx, F, L, Fs, fwd, gaze, sit, lean };
 }
 let DOGHEAD = []; const dogHeadAt = i => DOGHEAD[clamp(i, 0, N - 1)] || [3, 0.6, 0];
-function doorEdge(a, u = 1, y = 0.98) { const h = WORLD.hinge; return [h[0] - WORLD.leaf * u * Math.sin(a), y, h[2] + WORLD.leaf * u * Math.cos(a)]; }
+function doorEdge(a, u = 1, y = 0.98) { const h = WORLD.hinge; return [h[0] - WORLD.leaf * u * Math.sin(a), y, h[2] + WORLD.hingeDir * WORLD.leaf * u * Math.cos(a)]; }
 
 // ---------- the voice (shared with the sound): syllables, loudness, mouth ----------
 const VOICE = [
@@ -225,7 +227,7 @@ function mouthAt(t) { let m = 0; for (const v of VOICE) { let s = v.t; for (cons
 
 // ---------- door leaf (wood): hinge with friction and a doorstop; the person's hand gives the impulses ----------
 const DOOR_A = [];
-function runDoor(J) { const d = new D.Hinge({ I: 3.9, k: 0, c: 0.5, friction: 0.42, min: 0.0, max: 1.62, restitution: 0.2, tag: 'door' }); d.a = 1.0; const A = [];
+function runDoor(J) { const d = new D.Hinge({ I: 3.9, k: 0, c: 0.5, friction: 0.42, min: 0.0, max: 1.62, restitution: 0.2, tag: 'door' }); d.a = 0.5; const A = [];
   for (let i = 0; i < N; i++) { if (i === Math.round(5.0 / DT)) d.impulse(J); d.step(DT, SUB, i * DT); A.push(d.a); } return { d, A }; }
 let lo = 0.5, hi = 12; for (let it = 0; it < 40; it++) { const m = (lo + hi) / 2, s0 = runDoor(m).d.events.find(e => e.tag === 'door-stop'); if (!s0 || s0.t > 6.2) lo = m; else hi = m; }
 const DOORJ = (lo + hi) / 2, door = runDoor(DOORJ).d; DOOR_A.push(...runDoor(DOORJ).A);

@@ -124,7 +124,10 @@ def choreography(score, B):
     # body yaw: 0 faces the door (-u); one full revolution across the film's two turns:
     #   refusal 3.417 -> 3.90 turns away from the camera to pi (its back to the door),
     #   turning back: body 7.72 -> 8.55 from pi through facing the camera (3pi/2) to 2pi.
-    yaw = math.pi * smooth(3.43, 3.90, t) + math.pi * smooth(7.72, 8.55, t)
+    p1, p2 = smooth(3.43, 3.90, t), smooth(7.72, 8.55, t)
+    yaw = math.pi * p1 + math.pi * p2
+    # while it turns, the spine curls toward the turn (front leads, rear follows): never an end-on tube
+    bend = -1.4 * (np.sin(math.pi * p1) + np.sin(math.pi * p2))
     # head world yaw leads the body (attention -> intention -> gesture)
     head_w = math.pi * smooth(3.40, 3.80, t)
     head_w = head_w + (2 * math.pi - math.radians(18) - math.pi) * smooth(7.46, 7.70, t) \
@@ -149,6 +152,9 @@ def choreography(score, B):
     m = (t >= 7.40) & (t < 8.4)
     lie[m] = 1 - smooth(7.70, 8.10, t[m])
     rest[m] = np.minimum(rest[m], 1 - smooth(7.46, 7.62, t[m]))
+    # lying on the sill: it goes down at once when it reaches the sill (23.79 -> 24.25)
+    m2 = t >= 23.6
+    lie[m2] = np.maximum(lie[m2], smooth(23.79, 24.25, t[m2]))
     # refusal lie: score's timing (4.3 -> 5.0) kept
     crouch = act['crouch']; ear = act['ear']; tail = act['tail']; wag = act['wag']; look = act['look']
     # retreat and approach move along u; forward distance for the gait (signed along the body's forward axis)
@@ -156,7 +162,7 @@ def choreography(score, B):
     du = np.gradient(u)
     d_fwd = np.cumsum(du * fwd)    # metres travelled forward (backing away decreases it)
     moving = act['moving']
-    return dict(t=t, x=x, u=u, state=state, yaw=yaw, head_rel=head_rel, head_pitch=np.radians(head_pitch),
+    return dict(t=t, x=x, u=u, state=state, yaw=yaw, bend=bend, head_rel=head_rel, head_pitch=np.radians(head_pitch),
                 lie=lie, rest=rest, crouch=crouch, ear=ear, tail=tail, wag=wag, look=look, d_fwd=d_fwd, moving=moving)
 
 
