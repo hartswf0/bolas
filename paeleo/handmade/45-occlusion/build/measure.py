@@ -53,8 +53,24 @@ def main():
         hr = (ry.max() - ry.min()) / DOG.P_SRC if len(ry) else 0
         mo = 0.0 if prev is None else float(np.abs(a - prev).sum() / max(1.0, a.sum()))
         prev = a
-        loc.append((hl, hr, mo))
+        # head over the back: top of the front quarter vs top of the middle half (positive = head above the back line)
+        import re as _re
+        m_ = _re.match(r'cel(\d+)', r['parts'][0]) if r['parts'] else None
+        if m_:
+            n_ = int(m_.group(1))
+            left = True if (n_ <= 19 or r['mirror']) else (None if n_ <= 35 else False)
+        else:
+            left = not r['mirror']
+        hrel = None
+        if left is not None:
+            cols = np.nonzero(on_.any(0))[0]; c0, c1 = cols.min(), cols.max(); w_ = c1 - c0
+            front = on_[:, c0:c0 + w_ // 4 + 1] if left else on_[:, c1 - w_ // 4:c1 + 1]
+            mid = on_[:, c0 + w_ // 4:c1 - w_ // 4 + 1]
+            ft = np.nonzero(front.any(1))[0].min(); mt = np.nonzero(mid.any(1))[0].min()
+            hrel = (mt - ft) / DOG.P_SRC
+        loc.append((hl, hr, mo, hrel))
     hl_ = np.array([v[0] for v in loc]); hr_ = np.array([v[1] for v in loc]); mo_ = np.array([v[2] for v in loc])
+    hx_ = np.array([np.nan if v[3] is None else v[3] for v in loc])
     t = np.array([q['t'] for q in rows]); xw = np.array([q['xw'] for q in rows]); ht = np.array([q['h_top'] for q in rows])
     hs = np.array([q['head_side'] if q['head_side'] is not None else 0 for q in rows]); wd = np.array([q['width'] for q in rows])
     dk = np.array([q['dark_head'] for q in rows])
@@ -70,19 +86,21 @@ def main():
             out[k] = c[k:k + n].all()
         return out
     on = {}
-    # 1.00 retreat: the head drops (the dog's own height falls) or it moves back
-    on['retreat'] = first((hl_ < med(hl_, 0.2, 0.9) - 0.06) | (xw > med(xw, 0.2, 0.9) + 0.05), 0.6)
-    # 2.33 watch: the head comes back up out of the cowering walk
+    # 1.00 retreat: the head drops below the line of the back, or it moves back
+    on['retreat'] = first((hx_ < med(hx_, 0.2, 0.9) - 0.10) | (xw > med(xw, 0.2, 0.9) + 0.05), 0.6)
+    # 2.33 watch: the head comes back up above the line of the back
     tr = t[on['retreat']]
-    on['watch_1'] = first(hl_ > med(hl_, tr + 0.2, tr + 1.1) + 0.04, tr + 0.4)
+    on['watch_1'] = first(hx_ > 0.0, tr + 0.4)
     # 3.42 refuse: the dog's pixels start to change frame after frame (the real turn begins)
     on['refuse'] = first(sustained(mo_ > 0.08), 3.0)
     # 7.46 watch: after a second of stillness lying down, the first movement (the head comes up and round)
     on['watch_2'] = first(mo_ > 0.03, 7.0)
-    # 14.71 approach: the head drops below the line of the back (height falls) or it moves toward the door
-    on['approach'] = first((hl_ < med(hl_, 12, 14.5) - 0.06) | (xw < med(xw, 12, 14.5) - 0.05), 14.0)
-    # 23.79 lie down: the hind end goes down (rump height falls below its walking height)
-    on['lie_down'] = first(hr_ < med(hr_, 22.6, 23.6) - 0.04, 23.4)
+    # 14.71 approach: the head drops below the line of the back, or it moves toward the door
+    on['approach'] = first((hx_ < med(hx_, 12, 14.5) - 0.10) | (xw < med(xw, 12, 14.5) - 0.05), 14.0)
+    # 23.79 lie down: the dog's height starts to fall and keeps falling (three frames running)
+    dec = np.zeros(len(hl_), bool)
+    dec[1:-2] = (hl_[1:-2] < hl_[:-3] - 1e-4) & (hl_[2:-1] < hl_[1:-2] - 1e-4) & (hl_[3:] < hl_[2:-1] - 1e-4)
+    on['lie_down'] = first(dec, 23.4)
     # 26.4 'come in': the head rises and turns into the doorway (the dog's own height rises over the lying hold)
     ref4 = med(hl_, 25.2, 26.2)
     on['look_in'] = first(hl_ > ref4 + 0.03, 26.0)
@@ -101,23 +119,23 @@ def main():
     facing = [q['facing_annot'] for q in rows]   # gaze of the head actually composited (structural, from the record)
     stand_h = med(hl_, 0.2, 0.9)
     trace = []
-    for q, st, fa, (hl, hr, mo) in zip(rows, state, facing, loc):
+    for q, st, fa, (hl, hr, mo, hx) in zip(rows, state, facing, [(a_, b_, c_, (np.nan if d_ is None else d_)) for a_, b_, c_, d_ in loc]):
         i = q['i']
         posture = 'lying' if hl < 0.50 else ('crouched' if hl < stand_h - 0.06 else 'standing')
         x_meas = q['xw'] + DOG.CENTER_OFFSET           # back into the score's x by this film's one fixed mapping
         trace.append(dict(i=i, t=q['t'], state=st, state_score=FR[i]['dog']['state'], x_score=FR[i]['dog']['x'],
                           x_screen=round(q['cx'], 2), y_screen=round(q['cy'], 2), x_world_measured=round(x_meas, 4),
-                          facing=fa, head_side_px=None if q['head_side'] is None else round(q['head_side'], 3), posture=posture, dog_height_m=round(hl, 3), rump_height_m=round(hr, 3), pixel_change=round(mo, 3), visible_share=round(q['vis'], 3),
+                          facing=fa, head_side_px=None if q['head_side'] is None else round(q['head_side'], 3), posture=posture, dog_height_m=round(hl, 3), head_over_back_m=None if np.isnan(hx) else round(float(hx), 3), pixel_change=round(mo, 3), visible_share=round(q['vis'], 3),
                           inside_frame_share=round(q['in_frac'], 3), hidden_by=q['hiders'],
                           facing_annotated=q['facing_annot']))
     choices = []
     for (k, st), c in zip(names, SCORE['choices']):
         tk = None if on[k] is None else float(t[on[k]])
         choices.append(dict(choice=st, score_t=c['t'], measured_onset_t=tk, dt=None if tk is None else round(tk - c['t'], 3),
-                            measured_by={'retreat': 'the dog\'s height falls (head drops) or its measured position moves back',
-                                         'watch_1': 'the dog\'s height rises out of the cowering walk (head up)', 'refuse': 'the dog\'s own pixels change three frames running (the real turn starts)',
-                                         'watch_2': 'first movement of the lying dog\'s pixels (the head comes up); the composited head looks to the door from 7.54', 'approach': 'the dog\'s height falls (head below the back) or it moves toward the door',
-                                         'lie_down': 'rump height of the dog\'s alpha falls below its walking height (hind end first)'}[k]))
+                            measured_by={'retreat': 'head drops below the line of the back (dog alpha: front-quarter top vs middle top) or its measured position moves back',
+                                         'watch_1': 'head back above the line of the back', 'refuse': 'the dog\'s own pixels change three frames running (the real turn starts)',
+                                         'watch_2': 'first movement of the lying dog\'s pixels (the head comes up); the composited head looks to the door from 7.54', 'approach': 'head drops below the line of the back, or it moves toward the door',
+                                         'lie_down': 'the dog alpha\'s height falls three frames running (it goes down, hind end first)'}[k]))
     look = None if on['look_in'] is None else float(t[on['look_in']])
     choices.append(dict(choice='looks in', score_t=26.4, measured_onset_t=look, dt=None if look is None else round(look - 26.4, 3),
                         measured_by='top of the lying dog rises as the head turns into the doorway (h_top); what turns is judged by viewing'))
