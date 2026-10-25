@@ -2005,19 +2005,19 @@
 "t": 2.5,
 "state": "watch",
 "x_score": 3.986,
-"x_screen": 1124.09,
-"y_screen": 476.55,
+"x_screen": 1133.74,
+"y_screen": 481.66,
 "facing": 1,
 "posture": "standing",
 "bbox": [
-965,
-373,
+991,
+381,
 1279,
 595
 ],
 "nose": [
-963.0,
-418.2
+978.7,
+387.4
 ],
 "withers": [
 1060.6,
@@ -2025,7 +2025,7 @@
 ],
 "made_of": [
 "fore_a_f012",
-"head_level_f012",
+"head_alert_f006",
 "hind_a_f012",
 "hind_b_f012",
 "tail_f006",
@@ -2038,19 +2038,19 @@
 "t": 2.5,
 "state": "watch",
 "x_score": 3.986,
-"x_screen": 1124.09,
-"y_screen": 476.55,
+"x_screen": 1133.74,
+"y_screen": 481.66,
 "facing": 1,
 "posture": "standing",
 "bbox": [
-965,
-373,
+991,
+381,
 1279,
 595
 ],
 "nose": [
-963.0,
-418.2
+978.7,
+387.4
 ],
 "withers": [
 1060.6,
@@ -2058,7 +2058,7 @@
 ],
 "made_of": [
 "fore_a_f012",
-"head_level_f012",
+"head_alert_f006",
 "hind_a_f012",
 "hind_b_f012",
 "tail_f006",
@@ -25531,9 +25531,9 @@
 "how": "dog-layer centroid moves away >3 px or its top drops >4 px (cowers), from 0.5 s"
 },
 "watch_after_retreat": {
-"measured": 2.583,
+"measured": 2.5,
 "score": 2.333,
-"dt": 0.25,
+"dt": 0.167,
 "how": "nose rises above the withers past the midpoint between crouched and watching heights"
 },
 "refuse": {
@@ -25555,10 +25555,10 @@
 "how": "nose drops >15 px below its watching height above the withers, or centroid moves toward the door >3 px"
 },
 "lie_down": {
-"measured": 24,
+"measured": 23.833,
 "score": 23.792,
-"dt": 0.208,
-"how": "dog-layer bbox height falls below 85 % of its standing height"
+"dt": 0.041,
+"how": "dog-layer bbox height falls below 92 % of its standing height (the first going-down drawing is 88 %)"
 },
 "looks_in": {
 "measured": 26.583,
