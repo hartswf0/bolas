@@ -34,7 +34,27 @@ export const unprojectToZ = (sx: number, sy: number, z0: number) => {
 export const p2 = (p: V3): V2 => { const q = project(p); return [q[0], q[1]]; };
 export const scaleAt = (p: V3) => C.focal / project(p)[2];
 export const poly = (pts: V3[]) => pts.map(p => p2(p).map(v => v.toFixed(1)).join(',')).join(' ');
-export const pathOf = (pts: V3[]) => 'M' + pts.map(p => p2(p).map(v => v.toFixed(1)).join(',')).join('L') + 'Z';
+const NEARZ = 0.15;
+const depthOf = (p: V3) => dot(sub(p, C.pos), C.fwd);
+/** clip a polygon against the near plane (Sutherland–Hodgman), so geometry behind the lens never folds onto the screen */
+export const clipNear = (pts: V3[]): V3[] => {
+  const out: V3[] = [];
+  for (let i = 0; i < pts.length; i++) {
+    const a = pts[i], b = pts[(i + 1) % pts.length], da = depthOf(a) - NEARZ, db = depthOf(b) - NEARZ;
+    if (da >= 0) out.push(a);
+    if ((da >= 0) !== (db >= 0)) { const u = da / (da - db); out.push([a[0] + (b[0] - a[0]) * u, a[1] + (b[1] - a[1]) * u, a[2] + (b[2] - a[2]) * u]); }
+  }
+  return out;
+};
+export const pathOf = (pts: V3[]) => { const q = clipNear(pts); return q.length < 3 ? '' : 'M' + q.map(p => p2(p).map(v => v.toFixed(1)).join(',')).join('L') + 'Z'; };
+/** a clipped segment as [x1, y1, x2, y2] or null */
+export const seg = (a: V3, b: V3): [number, number, number, number] | null => {
+  let da = depthOf(a) - NEARZ, db = depthOf(b) - NEARZ;
+  if (da < 0 && db < 0) return null;
+  if (da < 0) { const u = da / (da - db); a = [a[0] + (b[0] - a[0]) * u, a[1] + (b[1] - a[1]) * u, a[2] + (b[2] - a[2]) * u]; }
+  else if (db < 0) { const u = db / (db - da); b = [b[0] + (a[0] - b[0]) * u, b[1] + (a[1] - b[1]) * u, b[2] + (a[2] - b[2]) * u]; }
+  const p = p2(a), q = p2(b); return [p[0], p[1], q[0], q[1]];
+};
 /** screen offset of a very distant point relative to the opening camera: the sky and tree line move by this (parallax ~ 0) */
 const farDir = (c: Cam): [number, number] => { const d: V3 = [-400, 0, -760]; const z = dot(d, c.fwd);
   return [W / 2 + c.focal * dot(d, c.right) / z, H / 2 - c.focal * dot(d, c.up) / z]; };

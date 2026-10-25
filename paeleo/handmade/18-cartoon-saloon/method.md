@@ -147,3 +147,32 @@ framing.
 `build/make.sh` runs the whole chain: textures → render (Chromium canvas, `render.mjs`) → gait check → trace → sound →
 mux → stills → checker. Intermediates go in `build/cache/`. `build/sheet.html` with `sheetTest()` renders the model
 sheet.
+
+## Round 2 (after critic round 1: PASS, narrow)
+
+These repairs answer the critic's five conditions. Everything else is unchanged.
+
+1. **Tail at 8.00–8.21 s.** The look-back head now sits over the far shoulder, and the tail hangs out and down off the
+   rump until the body turns. I looked at every frame from 7.92 to 8.33 s: the tail is at the rump, away from the head.
+2. **Light from the door, 6.2–7.4 s.**
+   - The uniform haze is gone.
+   - A soft-edged wedge of lit air now falls from the opening onto the boards, with a pool brightest at the sill. The sill
+     and the door frame catch it, and all of it grows with the door's swing.
+   - The cut-away room is held dim until the door opens, so the open door is what adds the light.
+   - I looked at every frame from 6.0 to 7.5 s.
+3. **Rear view, 3.65–3.72 s.** The head and ears stand above the shoulders, and the hind legs are drawn in front of the
+   rump. I looked at every frame from 3.58 to 3.83 s.
+4. **The low hand.** It is now an open palm, turned up and held level toward the dog at knee height, 1.55× larger, with a
+   pale cuff that separates it from the sleeve.
+5. **The retreat crouch.** The legs fold under the body instead of splaying. The gait is tighter: stride 0.34 m, paw
+   offset at most 33 cm from the body centre. Stance slip is still 0.0 cm.
+
+**Re-measured after the rebuild:**
+- Choice onsets are unchanged: +0.042, +0.125, +0.083, +0.042, 0.000, +0.083 s; the look-in is +0.058 s.
+- Checker: ALL OK. r = 0.999; back turned for 95.8% of refuse frames.
+- Line width: 1.600 px, CV 0.6%.
+- Soft voice: 12.8 dB under the calls and 11.2 dB above the room tone.
+- `film.mp4`: 10.1 MB.
+
+**Not done:** I did not attempt a wholesale redesign of the dog's silhouette (the optional condition 5, "a more designed
+shape"). The turnaround is kept as the critic saw it.

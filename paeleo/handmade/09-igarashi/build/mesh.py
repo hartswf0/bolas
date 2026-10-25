@@ -119,7 +119,7 @@ def build(name, png, m, layer=None):
             if ra != rb:
                 parent[ra] = rb
     comps = len(set(find(i) for i in range(len(V))))
-    hs = {}
+    hs = {}; hp_c = {}
     names = m['handles'].items()
     if layer == 'arm':
         names = [(k, p) for k, p in names if k in ('shoulder', 'elbow', 'hand')]
@@ -132,9 +132,10 @@ def build(name, png, m, layer=None):
         if len(idx) == 0:
             idx = [int(d.argmin())]
         hs[k] = [int(i) for i in idx]
+        hp_c[k] = V[hs[k]].mean(0).round(3).tolist()   # the handle point IS the centroid of its vertices (targets stay consistent)
     out = {'name': name, 'kind': m['kind'], 'layer': layer, 'w': W, 'h': H, 'cell': c, 'verts': V.round(2).tolist(), 'tris': T.tolist(),
            'weight': w.tolist(), 'handles': hs, 'features': feats, 'components': comps, 'socket': m['socket'], 'ground': m['ground'],
-           'facing': m['facing'], 'handle_points': dict(names), 'texture': 'assets/drawings/' + os.path.basename(png)}
+           'facing': m['facing'], 'handle_points': hp_c, 'texture': 'assets/drawings/' + os.path.basename(png)}
     json.dump(out, open(os.path.join(OUT, name + '.json'), 'w'), separators=(',', ':'))
     print(f'{name:22s} verts {len(V):5d} tris {len(T):5d} cell {c}px components {comps} feature tris {sum(len(x) for x in feats.values())}')
 
