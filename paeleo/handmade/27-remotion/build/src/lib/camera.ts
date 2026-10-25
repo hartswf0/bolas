@@ -1,15 +1,15 @@
 // The camera: pin-hole, 1280x720, a pure function of scene time. World: X along the porch (metres, = score x),
 // Y up, Z across the porch (+Z toward the camera side). Wide and still until 15.4 s; then, while the dog comes,
-// a slow push-in to the doorway (15.4 → 23.6 s); held to the end. The dog's world X is measured back through this
+// a slow push-in (zoom 1500 → 2550 px, a small dolly) to the doorway (15.4 → 23.6 s); held to the end. The dog's world X is measured back through this
 // camera from the matte (x_world_measured), so the checker can follow it while the camera moves.
 import type {V3, V2} from './math.ts';
 import {sub, dot, norm, cross, mix3, ramp} from './math.ts';
 export const W = 1280, H = 720;
 const WIDE = {pos: [6.0, 1.3, 5.6] as V3, target: [2.0, 0.6, -0.5] as V3};
-const NEAR = {pos: [3.12, 0.92, 2.53] as V3, target: [0.7, 0.5, -0.55] as V3};
+const NEAR = {pos: [5.6, 1.25, 5.2] as V3, target: [0.95, 0.55, -0.6] as V3};
 export const camAt = (t: number) => {
   const u = ramp(t, 15.4, 23.6);
-  return {pos: mix3(WIDE.pos, NEAR.pos, u), target: mix3(WIDE.target, NEAR.target, u), focal: 1500};
+  return {pos: mix3(WIDE.pos, NEAR.pos, u), target: mix3(WIDE.target, NEAR.target, u), focal: 1500 + 1050 * u};
 };
 type Cam = {pos: V3; target: V3; focal: number; fwd: V3; right: V3; up: V3};
 const build = (c: {pos: V3; target: V3; focal: number}): Cam => {
