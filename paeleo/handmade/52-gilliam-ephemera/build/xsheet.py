@@ -150,9 +150,9 @@ def dog_pose(i, prev):
         p['drop'] = 50 * l + 4; p['tilt'] = 2 * l + 2 * (1 - l)
         label = 'refuse: back turned' + (', lying' if l > .5 else '')
     elif i < 194:                                            # the head card turned over: looks back; then rises
-        p['face'] = -1; p['headflop'] = 1
+        p['face'] = -1; p['headflop'] = 1; p['headpiece'] = 'dog_face'   # the face card, looking back at the door
         l = a['lie']
-        p['head'] = 18 + 6 * l          # (the turned-over head card: + lowers its muzzle on screen)
+        p['head'] = 0
         for k in LIE: p[k] = LIE[k] * l
         p['drop'] = 50 * l; p['tilt'] = 2 * l; p['tail'] = 25 * l
         label = 'watch: looks back over the shoulder' + (', rising' if l > .1 else '')
@@ -172,7 +172,8 @@ def dog_pose(i, prev):
     elif i < CH['lie']:                                      # coming, head low, below the line of the back
         g, _ = gait((4.0 - x) * K)
         p.update(g)
-        p['head'] = smooth(-46, -55, (t - 14.71) / .2)   # the head drops on the first exposure of the choice
+        p['head'] = smooth(-55, -60, (t - 14.71) / .2)   # the head drops on the first exposure of the choice
+        p['neckdrop'] = smooth(24, 30, (t - 14.71) / .2)  # and hangs from lower on the chest: wholly below the withers
         p['tail'] = 18 + 8 * math.sin(t * 4.0)
         label = 'approach: head low'
     else:                                                    # lies down across the sill
@@ -180,7 +181,7 @@ def dog_pose(i, prev):
         l = max(a['lie'], .3)          # the first exposure of the choice already folds the legs a third of the way
         for k in LIE: p[k] = smooth(g[k], LIE[k], l)
         p['drop'] = 50 * l; p['tilt'] = 2 * l; p['tail'] = smooth(18, 25, l)
-        hd = smooth(-55, -20, l)
+        hd = smooth(-60, -20, l); p['neckdrop'] = 30 * (1 - min(1, l / .9))
         if t >= 25.4: hd = smooth(-20, -38, (t - 25.4) / .7)
         p['head'] = hd
         label = 'lie_down: across the sill'
@@ -218,6 +219,20 @@ def person_pose(i):
     return p
 
 
+def moon_beat(i):
+    """the absurd beat, 11.9-13.6 s, while the dog only watches: a giant hand slides in from the right edge, takes the
+    moon between finger and thumb, lowers it into the cloud (the dusk deepening, by hand), and withdraws."""
+    t = i / 24
+    dy = 0.0; hx = None
+    if 11.9 <= t < 13.7:
+        if t < 12.4: hx = smooth(1420, 1150, (t - 11.9) / .5)
+        elif t < 13.2: hx = 1150
+        else: hx = smooth(1150, 1430, (t - 13.2) / .45)
+        if hx > 1400: hx = None
+    if t >= 12.6: dy = smooth(0, 56, (t - 12.6) / .45)
+    return float(round(dy)), (None if hx is None else float(round(hx)))
+
+
 def door_state(i):
     name, fr = 'door_24', .1
     for f0, n, o in DOOR:
@@ -236,7 +251,9 @@ def main():
         dn, op = door_state(s0)
         e = {'f0': s0, 'n': s1 - s0, 't': round(s0 / 24, 3), 'state': F[s0]['dog']['state'], 'dog': dp, 'dog_label': lab,
              'person': pp, 'door': dn, 'open': op, 'cloud_dx': round(-.35 * s0 / 2, 2)}
+        e['moon_dy'], e['hand_x'] = moon_beat(s0)
         if prev and prev['dog'] == dp and prev['person'] == pp and prev['door'] == dn and abs(prev['cloud_dx'] - e['cloud_dx']) < 4 \
+                and prev['moon_dy'] == e['moon_dy'] and prev['hand_x'] == e['hand_x'] \
                 and prev['state'] == e['state']:
             prev['n'] += e['n']           # nothing touched: the previous exposure is simply held
             continue

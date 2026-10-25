@@ -167,6 +167,10 @@ ARM = [(186, 72), (205, 58), (260, 62), (330, 55), (383, 40), (383, 90), (300, 9
 add(cut('person_arm', shot('hand', 0), [ARM], AS, 'skin', seed=16, provenance=prov('hand', 0), stretch=(1, 99.5),
         pins={'shoulder': (378, 64), 'hand': (196, 88)}), op='crop+scissor cut+tint')
 
+# the giant hand (an absurd beat): a second, much larger print of the same forearm, as the method enlarges a found hand
+add(cut('giant_hand', shot('hand', 0), [ARM], 1.9, 'skin', seed=17, provenance=prov('hand', 0), stretch=(1, 99.5),
+        pins={'tip': (188, 100)}), op='crop+scissor cut+tint, enlarged print (the hand from above the table)')
+
 # ---------------------------------------------------------------- the door: re-timed prints of a real door swinging
 DOORS = [31, 27, 24, 22, 20]
 for i in DOORS:
