@@ -89,8 +89,8 @@ def controller():
             alpha = min(alpha, -40.0 + 10.0 * smooth(23.2, 23.8, t))
         if 3.42 <= t < 4.3:  # turning away, the head is still carried: it shows over the back in the rear view
             alpha = max(alpha, lerp(14, -40, smooth(3.95, 4.35, t)))
-        if 7.40 <= t < 7.75:  # the head lifts as it comes round
-            alpha = max(alpha, lerp(-30, 25, smooth(7.40, 7.62, t)))
+        if 7.38 <= t < 8.9:  # the head lifts high as it comes round, so the look over the shoulder clears the back
+            alpha = max(alpha, lerp(-30, 48, smooth(7.38, 7.56, t)) * (1 - smooth(8.3, 8.9, t)) + 30 * smooth(8.3, 8.9, t))
         if st == 'lie_down':  # lying, the head is lifted on the neck, never stood up on it
             alpha = min(alpha, 22.0)
         alpha = ease('alpha', alpha, 0.35)
@@ -278,14 +278,14 @@ def build(p):
             # lying pose (sphinx: forelegs along the boards)
             Kl, Wl, Fl = PtL(0.12, 0.04, L['l']), PtL(0.31, 0.028, L['l'] * 0.8), PtL(0.38, 0.022, L['l'] * 0.8)
             K, Wr = K * (1 - lie) + Kl * lie, Wr * (1 - lie) + Wl * lie
-            paw = (Wr - up * 0.02 + fwd * 0.03) * (1 - lie) + Fl * lie
+            paw = Wr - up * 0.02 * (1 - lie) + fwd * (0.03 + 0.045 * lie)
             segs = [(J, K, 0.052, 0.034), (K, Wr, 0.031, 0.024)]
         else:
             hock = foot + up * 0.12 - fwd * 0.045
             K, hock2 = ik2(J, hock, THIGH, SHIN, fwd)
             Kl, Hl, Fl = PtL(-0.12, 0.06, L['l'] * 1.6), PtL(-0.29, 0.03, L['l'] * 1.6), PtL(-0.13, 0.022, L['l'] * 1.6)
             K, hock2 = K * (1 - lie) + Kl * lie, hock2 * (1 - lie) + Hl * lie
-            paw = (hock2 - up * 0.12 + fwd * 0.075) * (1 - lie) + Fl * lie
+            paw = hock2 - up * lerp(0.12, 0.01, lie) + fwd * lerp(0.075, 0.15, lie)
             segs = [(J, K, 0.075, 0.042), (K, hock2, 0.04, 0.026), (hock2, paw, 0.025, 0.022)]
         for a_, b_, r0, r1 in segs:
             cap(a_, b_, r0, r1, 1.0, 'leg_' + leg)

@@ -72,7 +72,8 @@ class MassProxy {
 }
 
 // ---- collision boundaries ---------------------------------------------------------------------------------------
-// plane {n, d}: n·p ≥ d.  sphere {c, r}: outside.  capsule {a, b, r}: outside.  slab {axis, min, max, ...}: box to stay out of.
+// plane {n, d}: n·p ≥ d.  sphere {c, r}: outside.  capsule {a, b, r}: outside.  Optional v: the boundary's velocity (m/s),
+// so that contact speeds (and the sounds they make) are relative to a moving body, not to the world.
 function closestOnSeg(p, a, b) { const ab = V.sub(b, a), t = Math.max(0, Math.min(1, V.dot(V.sub(p, a), ab) / (V.dot(ab, ab) || 1))); return V.add(a, V.mul(ab, t)); }
 function resolve(p, r, col) { // returns {p, n, depth} or null when not penetrating
   if (col.type === 'plane') { const s = V.dot(col.n, p) - col.d - r; return s < 0 ? { p: V.sub(p, V.mul(col.n, s)), n: col.n, depth: -s } : null; }
@@ -115,10 +116,13 @@ class Chain {
         const d = V.sub(this.p[i], this.p[i - 1]), L = V.len(d) || 1e-9, e = (L - this.rest[i - 1]) / L;
         if (i === 1) this.p[i] = V.sub(this.p[i], V.mul(d, e)); else { this.p[i] = V.sub(this.p[i], V.mul(d, e * 0.5)); this.p[i - 1] = V.add(this.p[i - 1], V.mul(d, e * 0.5)); }
       }
-      for (let i = 1; i < this.n; i++) for (const c of colliders) { // collision boundaries: project out, kill normal velocity
-        const hit = resolve(this.p[i], this.r[i], c); if (!hit) continue;
-        const vn = V.dot(V.mul(V.sub(this.p[i], prev[i]), 1 / h), hit.n); this.p[i] = hit.p;
-        if (vn < -0.05 && c.tag) this.events.push({ t: t0 + (s + 1) * h, tag: c.tag, node: i, speed: -vn });
+      if (!this.touch) this.touch = {};
+      for (let i = 1; i < this.n; i++) for (let ci = 0; ci < colliders.length; ci++) { // collision boundaries: project out
+        const c = colliders[ci], key = i * 64 + ci, hit = resolve(this.p[i], this.r[i], c);
+        if (!hit) { if (this.touch[key] && signedGap(this.p[i], this.r[i], c) > 0.008) this.touch[key] = 0; continue; } // hysteresis: a contact ends only 8 mm clear
+        const vn = V.dot(V.sub(V.mul(V.sub(this.p[i], prev[i]), 1 / h), c.v || [0, 0, 0]), hit.n); this.p[i] = hit.p; // normal speed relative to the (moving) boundary
+        if (!this.touch[key] && vn < -0.05 && c.tag) this.events.push({ t: t0 + (s + 1) * h, tag: c.tag, node: i, speed: -vn }); // contact onset only
+        this.touch[key] = 1;
       }
       for (let i = 1; i < this.n; i++) this.v[i] = V.mul(V.sub(this.p[i], prev[i]), 1 / h); // velocities from positions
     }

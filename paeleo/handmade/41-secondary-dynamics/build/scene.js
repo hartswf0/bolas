@@ -60,7 +60,8 @@ function bodyPose(i) {
   return { t, a, th, F, L, root, lb, c, pelvisC, withersC, at, torso, neckBase, x };
 }
 function headPose(B) {
-  const { t, a, th, lb } = B; const rest = a.rest * lb, h = a.head;
+  const { t, a, th, lb } = B; const rest = a.rest * lb; let h = a.head;
+  if (t > 14.3 && t < 15.3) h = Math.min(h, act(Math.round(t / DT) + 9).head); // the head goes down as it decides to come
   const hh = headHeading(t, th), rel = hh - th;
   let dy = table([[0, -0.33], [0.2, -0.27], [0.45, -0.13], [0.7, 0.15], [0.9, 0.26], [1.25, 0.32]], h);
   let fw = table([[0, 0.23], [0.45, 0.25], [0.9, 0.17], [1.25, 0.15]], h);
@@ -269,6 +270,7 @@ let prevTail = null, prevEars = null;
 for (let i = 0; i < N; i++) {
   const t = i * DT, Sk = dogSkeleton(i), { B, Hp, legs } = Sk; DOGHEAD[i] = Hp.H;
 }
+const PREVC = {}; // previous collider positions (for boundary velocities)
 const PREV = {}; // previous pose targets per secondary part, for the relative (secondary) energy
 const vel = (key, tgt) => { const pv = PREV[key]; PREV[key] = tgt; return pv ? tgt.map((q, k) => V.mul(V.sub(q, pv[k]), 1 / DT)) : tgt.map(() => [0, 0, 0]); };
 function simFrame(i, record) {
@@ -282,8 +284,10 @@ function simFrame(i, record) {
   const tailCols = [{ ...floor, tag: 'tail-floor' }, { type: 'sphere', c: B.torso[0].c, r: B.torso[0].r * 0.92 }, ...thighs];
   const tt = tailTargets(Sk, t); tail.step(tt, tailCols, DT, SUB, t);
   // collar tag: a pendulum under the throat that ticks on the chest
-  const neckA = B.neckBase, ring = V.add(V.lerp(neckA, Hp.H, 0.28), [0, -0.062, 0]);
-  const tagT = [ring, V.add(ring, [0, -0.045, 0])]; tag.step(tagT, [{ type: 'sphere', c: B.torso[4].c, r: B.torso[4].r, tag: 'tag' }, { type: 'capsule', a: neckA, b: Hp.H, r: 0.055, tag: 'tag' }], DT, SUB, t);
+  const neckA = B.neckBase, ring = V.add(V.lerp(neckA, Hp.H, 0.28), [0, -0.078, 0]); // just outside the neck's surface
+  const vB = PREVC.brisket ? V.mul(V.sub(B.torso[4].c, PREVC.brisket), 1 / DT) : [0, 0, 0], vN = PREVC.neck ? V.mul(V.sub(neckA, PREVC.neck), 1 / DT) : [0, 0, 0];
+  PREVC.brisket = B.torso[4].c; PREVC.neck = neckA;
+  const tagT = [ring, V.add(ring, [0, -0.045, 0])]; tag.step(tagT, [{ type: 'sphere', c: B.torso[4].c, r: B.torso[4].r, tag: 'tag', v: vB }, { type: 'capsule', a: neckA, b: Hp.H, r: 0.06, tag: 'tag', v: vN }], DT, SUB, t);
   // coat mass proxies
   const coatO = { ruff: coat.ruff.step(B.torso[4].c, DT).slice(), belly: coat.belly.step(B.torso[2].c, DT).slice(), breech: coat.breech.step(B.torso[0].c, DT).slice(), neck: coat.neck.step(B.torso[5].c, DT).slice() };
   // person + scarf: hangs from the collar of the coat, drapes on the chest and the lap, never through them
@@ -294,10 +298,11 @@ function simFrame(i, record) {
     { type: 'capsule', a: Pp.shR, b: Pp.elR, r: 0.05 }, { type: 'capsule', a: Pp.elR, b: Pp.handR, r: 0.045 }];
   const sAt = sT(8, -0.05), sBt = sT(7, 0.05); scarfA.step(sAt, body, DT, SUB, t); scarfB.step(sBt, body, DT, SUB, t);
   // shrub stems: springs that the dog's head and body can push aside
-  const dogCols = [{ type: 'sphere', c: Hp.H, r: 0.10, tag: 'leaf' }, { type: 'sphere', c: V.add(Hp.H, V.mul(Hp.fwd, 0.13)), r: 0.07, tag: 'leaf' }, ...B.torso.map(s => ({ type: 'sphere', c: s.c, r: s.r + 0.02, tag: 'leaf' }))];
+  const vBody = PREVC.body ? V.mul(V.sub(B.torso[2].c, PREVC.body), 1 / DT) : [0, 0, 0]; PREVC.body = B.torso[2].c;
+  const dogCols = [{ type: 'sphere', c: Hp.H, r: 0.10, tag: 'leaf', v: vBody }, { type: 'sphere', c: V.add(Hp.H, V.mul(Hp.fwd, 0.13)), r: 0.07, tag: 'leaf', v: vBody }, ...B.torso.map(s => ({ type: 'sphere', c: s.c, r: s.r + 0.02, tag: 'leaf', v: vBody }))];
   for (const st of STEMS) st.chain.step(st.pts, dogCols, DT, SUB, t);
   // energies (secondary kinetic energy relative to each part's pose motion) and gaps (collision assertions)
-  if (!record) { for (const k of ['tail', 'eL', 'eR', 'tag', 'sA', 'sB']) delete PREV[k]; return; }
+  if (!record) { for (const k of ['tail', 'eL', 'eR', 'tag', 'sA', 'sB']) delete PREV[k]; for (const k in PREVC) delete PREVC[k]; return; }
   ENERGY.push({ t: r4(t), tail: tail.energy(tt, vel('tail', tt)), ears: earL.energy(eLt, vel('eL', eLt)) + earR.energy(eRt, vel('eR', eRt)), tag: tag.energy(tagT, vel('tag', tagT)),
     scarf: scarfA.energy(sAt, vel('sA', sAt)) + scarfB.energy(sBt, vel('sB', sBt)), shrub: STEMS.reduce((s, q) => s + q.chain.energy(), 0), door: door.I * 0 + 0.5 * 3.9 * Math.pow(((DOOR_A[i] - (DOOR_A[i - 1] ?? DOOR_A[i])) / DT), 2),
     coat: Object.values(coat).reduce((s, q) => s + q.energy(), 0) });

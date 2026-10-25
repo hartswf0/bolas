@@ -205,38 +205,57 @@ def main():
         return
     if '--cards' in args:
         title_card().save(os.path.join(ROOT, 'build', 'cache', 'title.png')); end_card().save(os.path.join(ROOT, 'build', 'cache', 'end.png')); return
-    out = os.path.join(ROOT, 'build', 'cache', 'video.mp4')
-    ff = subprocess.Popen(['ffmpeg', '-y', '-loglevel', 'error', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', '%dx%d' % (W, H), '-r', '24',
-                           '-i', '-', '-c:v', 'libx264', '-preset', 'slow', '-crf', '21', '-pix_fmt', 'yuv420p', out], stdin=subprocess.PIPE)
-    tc = title_card(); ec = end_card()
-    for k in range(TITLE_N): ff.stdin.write(tc.tobytes())
-    trace = []
-    stills = {86: 'still_03.6s.jpg', 216: 'still_09.0s.jpg', 456: 'still_19.0s.jpg', 672: 'still_28.0s.jpg'}
-    os.makedirs(os.path.join(ROOT, 'stills'), exist_ok=True)
-    for fr in frames:
-        im, m = compose(fr)
-        ff.stdin.write(im.tobytes())
-        if fr['i'] in stills: im.save(os.path.join(ROOT, 'stills', stills[fr['i']]), quality=90)
-        dg = fr['dog']; cam = fr['cam']
-        trace.append(dict(i=fr['i'], t=fr['t'], state=dg['state'], x_score=dg['x'],
-                          x_screen=round(m['cx'], 2), y_screen=round(m['cy'], 2),
-                          x_world_measured=round(stage.px_to_world_x(cam, m['cx']), 4),
-                          x_anchor_measured=round(stage.px_to_world_x(cam, m['body_x']), 4) if m['body_x'] is not None else None,
-                          facing=m['facing'] if dg['look'] != 'in' else 1, look=dg['look'], posture=dg['posture'],
-                          drawing='%s%s/%s%s' % (dg['pose']['draw'] if dg['pose']['draw'] == 'LIE' else dg['pose']['body'], '_R' if dg['pose'].get('mirror') else '',
-                                                 dg['pose'].get('head_view', 'P'), '_back' if dg['pose'].get('head_mirror') else ''),
-                          cam=cam, bbox=m['bbox']))
-        if fr['i'] % 96 == 0: print('frame', fr['i'], flush=True)
-    for k in range(END_N): ff.stdin.write(ec.tobytes())
-    ff.stdin.close(); ff.wait()
-    json.dump(dict(about='SCION 17 trace: what Biscuit did, per scene frame, measured from the render. x_screen/y_screen: centroid of the '
-                         'dog\'s painted silhouette (1x px). x_world_measured: that centroid back through the frame\'s camera (metres; the film '
-                         'cuts from WIDE to CLOSE at frame %d). x_anchor_measured: centre of the painted body piece, in metres. x_score: the score x '
-                         'the dog was staged at. facing: 1 = head toward the door (screen left), -1 = away, 0 = toward camera, from the painted nose '
-                         'relative to the painted skull; while look = in the back of the head is up (no nose painted) and facing is recorded as 1.' % direct.CUT_CLOSE,
-                   frames=trace), open(os.path.join(ROOT, 'trace.json'), 'w'), indent=0)
-    json.dump(events, open(os.path.join(ROOT, 'build', 'cache', 'events.json'), 'w'))
-    print('done', out)
+    cache = os.path.join(ROOT, 'build', 'cache')
+    def encoder(path):
+        return subprocess.Popen(['ffmpeg', '-y', '-loglevel', 'error', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', '%dx%d' % (W, H), '-r', '24',
+                                 '-i', '-', '-c:v', 'libx264', '-preset', 'slow', '-crf', '21', '-pix_fmt', 'yuv420p', path], stdin=subprocess.PIPE)
+    if '--cards-seg' in args:                     # title and end card segments
+        for name, im, n in (('seg_title.mp4', title_card(), TITLE_N), ('seg_end.mp4', end_card(), END_N)):
+            ff = encoder(os.path.join(cache, name))
+            for k in range(n): ff.stdin.write(im.tobytes())
+            ff.stdin.close(); ff.wait()
+        return
+    if '--range' in args:                         # one chunk of scene frames, its own process (the build runs chunks)
+        a, b = int(args[args.index('--range') + 1]), int(args[args.index('--range') + 2])
+        ff = encoder(os.path.join(cache, 'seg_%04d.mp4' % a))
+        trace = []
+        stills = {86: 'still_03.6s.jpg', 216: 'still_09.0s.jpg', 456: 'still_19.0s.jpg', 672: 'still_28.0s.jpg'}
+        os.makedirs(os.path.join(ROOT, 'stills'), exist_ok=True)
+        for fr in frames[a:b]:
+            im, m = compose(fr)
+            ff.stdin.write(im.tobytes())
+            if fr['i'] in stills: im.save(os.path.join(ROOT, 'stills', stills[fr['i']]), quality=90)
+            dg = fr['dog']; cam = fr['cam']
+            trace.append(dict(i=fr['i'], t=fr['t'], state=dg['state'], x_score=dg['x'],
+                              x_screen=round(m['cx'], 2), y_screen=round(m['cy'], 2),
+                              x_world_measured=round(stage.px_to_world_x(cam, m['cx']), 4),
+                              x_anchor_measured=round(stage.px_to_world_x(cam, m['body_x']), 4) if m['body_x'] is not None else None,
+                              facing=m['facing'] if dg['look'] != 'in' else 1, look=dg['look'], posture=dg['posture'],
+                              drawing='%s%s/%s%s' % (dg['pose']['draw'] if dg['pose']['draw'] == 'LIE' else dg['pose']['body'], '_R' if dg['pose'].get('mirror') else '',
+                                                     dg['pose'].get('head_view', 'P'), '_back' if dg['pose'].get('head_mirror') else ''),
+                              cam=cam, bbox=m['bbox']))
+        ff.stdin.close(); ff.wait()
+        json.dump(trace, open(os.path.join(cache, 'trace_%04d.json' % a), 'w'))
+        print('chunk', a, b, flush=True)
+        return
+    if '--assemble' in args:
+        chunks = sorted(f for f in os.listdir(cache) if f.startswith('seg_0') or f.startswith('seg_1'))
+        lst = os.path.join(cache, 'concat.txt')
+        open(lst, 'w').write(''.join("file '%s'\n" % os.path.join(cache, f) for f in ['seg_title.mp4'] + chunks + ['seg_end.mp4']))
+        subprocess.run(['ffmpeg', '-y', '-loglevel', 'error', '-f', 'concat', '-safe', '0', '-i', lst, '-c', 'copy', os.path.join(cache, 'video.mp4')], check=True)
+        trace = []
+        for f in sorted(f for f in os.listdir(cache) if f.startswith('trace_')):
+            trace += json.load(open(os.path.join(cache, f)))
+        trace.sort(key=lambda r: r['i'])
+        assert [r['i'] for r in trace] == list(range(len(frames))), 'trace incomplete'
+        json.dump(dict(about='SCION 17 trace: what Biscuit did, per scene frame, measured from the render. x_screen/y_screen: centroid of the '
+                             'dog\'s painted silhouette (1x px). x_world_measured: that centroid back through the frame\'s camera (metres; the film '
+                             'cuts from WIDE to CLOSE at frame %d). x_anchor_measured: centre of the painted body piece, in metres. x_score: the score x '
+                             'the dog was staged at. facing: 1 = head toward the door (screen left), -1 = away, 0 = toward camera, from the painted nose '
+                             'relative to the painted skull; while look = in the back of the head is up (no nose painted) and facing is recorded as 1.' % direct.CUT_CLOSE,
+                       frames=trace), open(os.path.join(ROOT, 'trace.json'), 'w'), indent=0)
+        json.dump(events, open(os.path.join(cache, 'events.json'), 'w'))
+        print('assembled', len(trace))
 
 
 if __name__ == '__main__':

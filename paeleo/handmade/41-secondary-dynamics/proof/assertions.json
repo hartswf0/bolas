@@ -1,0 +1,156 @@
+{
+ "A1_energy_decays": {
+  "ok": true,
+  "msg": "max hold energy / peak per part: tail 2.7e-05, ears 2.7e-06, tag 1.3e-04, scarf 2.9e-09, shrub 1.9e-05, coat 1.8e-06, door 0.0e+00",
+  "value": {
+   "tail": {
+    "peak": 18.272636191673726,
+    "hold_12.5_14.2": 0.000489652956664328,
+    "hold_30_32": 1.0425844374499525e-05,
+    "ratio": 2.6797061547553147e-05
+   },
+   "ears": {
+    "peak": 9.560166488161913,
+    "hold_12.5_14.2": 2.5714327324705804e-05,
+    "hold_30_32": 4.0245989495428453e-07,
+    "ratio": 2.6897363509879388e-06
+   },
+   "tag": {
+    "peak": 4.252056949004789,
+    "hold_12.5_14.2": 0.0005335757359435325,
+    "hold_30_32": 0.00023502357848963413,
+    "ratio": 0.00012548649802736486
+   },
+   "scarf": {
+    "peak": 54.29035239766498,
+    "hold_12.5_14.2": 1.5830751224107793e-07,
+    "hold_30_32": 1.5665594286331463e-26,
+    "ratio": 2.915941880087828e-09
+   },
+   "shrub": {
+    "peak": 5.661800412678937,
+    "hold_12.5_14.2": 0.00010680439385039028,
+    "hold_30_32": 1.375541698703145e-22,
+    "ratio": 1.8864033711116764e-05
+   },
+   "coat": {
+    "peak": 16.941010477913345,
+    "hold_12.5_14.2": 2.9964732619042668e-05,
+    "hold_30_32": 9.656456287357446e-37,
+    "ratio": 1.7687689089212745e-06
+   },
+   "door": {
+    "peak": 0.7510555583165798,
+    "hold_12.5_14.2": 0,
+    "hold_30_32": 0,
+    "ratio": 0.0
+   }
+  }
+ },
+ "A2_response_after_primary": {
+  "ok": true,
+  "msg": "tail-tip deviation (>1 cm over rest) begins this many frames after the primary onset: {'retreat': 1, 'refuse turn': 2, 'approach': 14}",
+  "value": {
+   "retreat": 1,
+   "refuse turn": 2,
+   "approach": 14
+  }
+ },
+ "A3_no_interpenetration": {
+  "ok": true,
+  "msg": "min signed gaps (m; collision radii included): {'tail': 0, 'scarf': -0.0016, 'jamb': 0.3095, 'body_floor': 0.019}",
+  "value": {
+   "tail": 0,
+   "scarf": -0.0016,
+   "jamb": 0.3095,
+   "body_floor": 0.019
+  }
+ },
+ "A4_feet_planted": {
+  "ok": true,
+  "msg": "largest planted-foot movement between frames 2.1 mm",
+  "value": 0.0020561447758277516
+ },
+ "A5_head_low_on_approach": {
+  "ok": true,
+  "msg": "head top below back top in 218/218 approach frames; worst margin 16.1 cm",
+  "value": null
+ },
+ "A6_choices_measured_from_render": {
+  "ok": true,
+  "msg": "render-measured onset - score time (s): retreat +0.12, watch +0.08, refuse +0.12, turns back to look +0.08, approach +0.12, lie down +0.08, looks in +0.14",
+  "value": {
+   "retreat": {
+    "measured": 1.125,
+    "score": 1.0
+   },
+   "watch": {
+    "measured": 2.417,
+    "score": 2.333
+   },
+   "refuse": {
+    "measured": 3.542,
+    "score": 3.417
+   },
+   "turns back to look": {
+    "measured": 7.542,
+    "score": 7.458
+   },
+   "approach": {
+    "measured": 14.833,
+    "score": 14.708
+   },
+   "lie down": {
+    "measured": 23.875,
+    "score": 23.792
+   },
+   "looks in": {
+    "measured": 26.542,
+    "score": 26.4
+   }
+  }
+ },
+ "A7_voice_levels": {
+  "ok": true,
+  "msg": "soft voice 10.1 dB below the calls, 27.1 dB above the room tone",
+  "value": {
+   "calls_rms_dbfs": -16.7,
+   "soft_rms_dbfs": -26.8,
+   "calls_voice_only_dbfs": -15.9,
+   "soft_voice_only_dbfs": -26.0,
+   "room_tone_rms_dbfs": -53.1,
+   "peak_dbfs": -1.0,
+   "soft_below_calls_db": 10.1,
+   "soft_above_room_db": 27.1
+  }
+ },
+ "preset_comparison": {
+  "none": {
+   "tail_settle_after_turn_s": 0.0,
+   "tail_settle_after_wag_s": 0.0,
+   "tail_max_deviation_cm": 0.0,
+   "min_gap_tail_m": -0.0379,
+   "min_gap_scarf_m": -0.0888,
+   "tag_contacts": 0,
+   "leaf_contacts": 0
+  },
+  "tuned": {
+   "tail_settle_after_turn_s": 1.04,
+   "tail_settle_after_wag_s": 3.46,
+   "tail_max_deviation_cm": 48.1,
+   "min_gap_tail_m": 0,
+   "min_gap_scarf_m": -0.0016,
+   "tag_contacts": 132,
+   "leaf_contacts": 1
+  },
+  "loose": {
+   "tail_settle_after_turn_s": 1.04,
+   "tail_settle_after_wag_s": 3.46,
+   "tail_max_deviation_cm": 59.7,
+   "min_gap_tail_m": 0,
+   "min_gap_scarf_m": -0.0013,
+   "tag_contacts": 1268,
+   "leaf_contacts": 0
+  }
+ }
+}
