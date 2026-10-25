@@ -1,0 +1,41 @@
+{
+ "definition": "psi = 2*theta_dog - 3*theta_house (radians); |dpsi/dt| in rad/s, mean over each window",
+ "invariant": "locked (|dpsi/dt| < 0.05 rad/s, max) through the approach and the sill; drifting (> 1 rad/s mean) under the commands",
+ "coupled": {
+  "commands 1.0-7.4": {
+   "mean": 3.3546,
+   "max": 5.3772
+  },
+  "entrain 7.46-14.7": {
+   "mean": 0.1765,
+   "max": 0.541
+  },
+  "approach 14.7-23.8": {
+   "mean": 0.0,
+   "max": 0.0
+  },
+  "sill 23.8-32": {
+   "mean": 0.0,
+   "max": 0.0
+  }
+ },
+ "uncoupled_drift_AB": {
+  "commands 1.0-7.4": {
+   "mean": 3.329,
+   "max": 5.2779
+  },
+  "entrain 7.46-14.7": {
+   "mean": 0.2401,
+   "max": 0.4481
+  },
+  "approach 14.7-23.8": {
+   "mean": 0.2262,
+   "max": 0.2262
+  },
+  "sill 23.8-32": {
+   "mean": 0.2262,
+   "max": 0.2262
+  }
+ },
+ "pass": true
+}

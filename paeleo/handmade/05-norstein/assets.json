@@ -1,0 +1,120 @@
+{
+ "assets": [
+  {
+   "id": "dog-proportions",
+   "what": "the dog maquette's proportions (withers height, body length, head and neck lengths, leg mounts)",
+   "source": {
+    "path": "paeleo/handmade/kit/archive-dog/pose_agent_v8.json (frame 0 keys: nose, neck, chest, tail, f1, f2, h1, h2)",
+    "title": "Amateur Film New Jersey C",
+    "collection": "Home Movies (Internet Archive)",
+    "url": "https://archive.org/details/NewJerseyC",
+    "clip_id": "2fdacde1-8a23-58e1-b905-5407385bd039"
+   },
+   "rights": "public_domain",
+   "operation": "measured ratios, then built as a maquette of ellipsoids and tapered limbs (build/dog.py); no pixels of the archive dog are drawn as the dog"
+  },
+  {
+   "id": "dog-coat-grain",
+   "what": "the grain modulating the dog's coat paint",
+   "source": {
+    "path": "paeleo/handmade/kit/archive-dog/frames/f000.jpg (rows 120-152, cols 150-200, inside the SAM mask of frame 0, masks.json)",
+    "title": "Amateur Film New Jersey C",
+    "url": "https://archive.org/details/NewJerseyC"
+   },
+   "rights": "public_domain",
+   "operation": "crop, high-pass, mirror-tile (build/render.py coat_texture)"
+  },
+  {
+   "id": "bowl",
+   "what": "the bowl on the floor inside the house (the expected distant object)",
+   "source": {
+    "path": "paeleo/handmade/kit/archive-dog/frames/f000.jpg (box 240,222-320,265)",
+    "title": "Amateur Film New Jersey C",
+    "url": "https://archive.org/details/NewJerseyC"
+   },
+   "rights": "public_domain",
+   "operation": "crop, elliptical mask, warm tint, placed on the interior_near glass (build/world.py)"
+  },
+  {
+   "id": "fog",
+   "what": "all fog fields (density and its drift/evolution)",
+   "source": {
+    "path": "assets/found/cloud/f000.jpg .. f061.jpg (copied from /home/user/hartswf0/secondhand-motion/shots/cloud-sam/frames)",
+    "title": "Top Of The Cloud - Time Lapse (Wide Screen 16:9)",
+    "url": "https://archive.org/details/CEP391",
+    "clip_id": "3a3663e4-7a6e-5277-8cf5-12e94237350c",
+    "listed_in": "paeleo/handmade/kit/found-frames.json"
+   },
+   "rights": "public_domain",
+   "operation": "keyed (white and unsaturated = density), the bank edge kept as the top of ground fog, the interior shading used for haze; mirror-tiled, cross-faded frame to frame at 1.9 fps, drifted per the atmosphere states (build/world.py, render.py fog_layer)"
+  },
+  {
+   "id": "dog-cutout",
+   "what": "the dog as seen: flat painted pieces re-cut every frame from the maquette",
+   "source": {
+    "path": "build/dog.py"
+   },
+   "rights": "made here",
+   "operation": "drawn (projected ellipses, limb strips, ear triangles), painted, fur-edged, lit"
+  },
+  {
+   "id": "person-cutout",
+   "what": "the person: a jointed flat cutout in profile",
+   "source": {
+    "path": "build/person.py"
+   },
+   "rights": "made here",
+   "operation": "drawn"
+  },
+  {
+   "id": "glass-planes",
+   "what": "sky and moon, far and near trees, fence, interior wall and objects (lamp, chair, picture), house front with doorway and window, porch posts and eave, foreground weeds, hanging leaves",
+   "source": {
+    "path": "build/world.py -> build/cache/planes/*.png"
+   },
+   "rights": "made here",
+   "operation": "painted in code (gradients, value noise, brushed polygons)"
+  },
+  {
+   "id": "floors-door-light",
+   "what": "porch boards, sill, step, fascia, yard, interior floor (ray-cast per pixel), the door leaf and jambs, the door light through fog, on the boards and on the cutouts",
+   "source": {
+    "path": "build/render.py"
+   },
+   "rights": "made here",
+   "operation": "computed per frame"
+  },
+  {
+   "id": "sound",
+   "what": "all sound: air, crickets, room hum and clock, the voice (calls and soft), the dog's footfalls, settling, breath, tail on boards, door latch and creak, glass-tone score, reverb",
+   "source": {
+    "path": "build/sound.py"
+   },
+   "rights": "made here",
+   "operation": "synthesized (noise shaping, formant synthesis, additive tones); no recordings"
+  },
+  {
+   "id": "score",
+   "what": "the dog's decision trace (states, x, act values) and the person's circumstances",
+   "source": {
+    "path": "paeleo/handmade/score/threshold-score.json"
+   },
+   "rights": "PAELEO project",
+   "operation": "read; drives the acting"
+  },
+  {
+   "id": "fonts",
+   "what": "card type: Big Shoulders Display, Literata",
+   "source": {
+    "path": "tools/paeleo/fonts/f8.woff2, f34.woff2, f27.woff2"
+   },
+   "rights": "SIL Open Font License (as shipped with the repo)",
+   "operation": "set on the cards"
+  }
+ ],
+ "not_used": [
+  "kit/archive-door (the door is painted)",
+  "kit/quickdraw and hartswf0/quickdraw (no doodles in this film)",
+  "other found-frames shots"
+ ]
+}

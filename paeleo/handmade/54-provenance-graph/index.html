@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SCION 54 Provenance Graph</title>
+<style>
+:root { --bg:#100f1a; --ink:#eee2cc; --dim:#a89cb4; --line:#2c2840; --warm:#f0b878; }
+@media (prefers-color-scheme: light) { :root:not([data-theme="dark"]) { --bg:#f6f1e8; --ink:#1c1824; --dim:#5d566a; --line:#d8cfc0; --warm:#9a5a1c; } }
+body { margin:0; background:var(--bg); color:var(--ink); font:16px/1.5 Georgia, serif; }
+main { max-width:760px; margin:0 auto; padding:16px; }
+h1 { font:600 1.4rem/1.2 system-ui, sans-serif; margin:.4rem 0 .2rem; }
+.sub { color:var(--dim); font-size:.9rem; }
+video { width:100%; height:auto; background:#000; border-radius:4px; margin:12px 0; }
+section { border-top:1px solid var(--line); padding:10px 0; }
+h2 { font:600 .8rem/1 system-ui, sans-serif; letter-spacing:.08em; text-transform:uppercase; color:var(--dim); margin:.6rem 0; }
+a { color:var(--warm); }
+ul { padding-left:1.1rem; margin:.2rem 0; }
+code { font-size:.85em; }
+.k { display:grid; grid-template-columns:auto 1fr; gap:2px 12px; font-size:.92rem; }
+.k b { font-weight:600; color:var(--dim); font-family:system-ui, sans-serif; font-size:.8rem; }
+</style>
+</head>
+<body><main>
+<h1>PAE-02 · SCION 54 · Provenance Graph</h1>
+<div class="sub">The threshold, handmade: a home-movie dog cut into a puppet, every piece traced to its source.</div>
+<video src="film.mp4" controls playsinline preload="metadata" poster="stills/still_28.0s.jpg"></video>
+<section><h2>State</h2>
+<div class="k">
+<b>revision</b><span>r2 (round-2 repairs, 2026-10-25), schema pg-lineage/1.1</span>
+<b>critic</b><span>round 1: does not pass (narrowly), see reviews/round1.md; round 2 pending</span>
+<b>invariants</b><span><a href="invariants.json">invariants.json</a> (check_handmade) and <a href="lineage/audit.json">lineage/audit.json</a> (lineage audit)</span>
+<b>next blocking failure</b><span>round-2 review of the refusal head and the turn frames</span>
+</div></section>
+<section><h2>Artifacts</h2>
+<ul>
+<li><a href="method.md">method.md</a>: the swarm, the language, what failed and what changed</li>
+<li><a href="lineage/lineage.json">lineage.json</a> (the derivative DAG), <a href="lineage/schema.json">schema.json</a>, <a href="lineage/permissions.json">permissions.json</a>, <a href="lineage/sound.json">sound.json</a></li>
+<li><a href="assets.json">assets.json</a>, <a href="trace.json">trace.json</a>, <a href="ledger.jsonl">ledger.jsonl</a></li>
+<li>stills: <a href="stills/still_03.6s.jpg">3.6 s</a> · <a href="stills/still_09.0s.jpg">9 s</a> · <a href="stills/still_19.0s.jpg">19 s</a> · <a href="stills/still_28.0s.jpg">28 s</a></li>
+<li>proof: <a href="proof/turn_away_3.3-4.1s.jpg">turn away</a> · <a href="proof/turn_back_7.3-8.3s.jpg">turn back</a> · <a href="proof/retreat_1-2.5s.jpg">retreat</a> · <a href="proof/approach_head_low.jpg">approach</a> · <a href="proof/lie_and_look_in_23.6-29.5s.jpg">lie, look in</a></li>
+<li>rebuild: <code>build/make.sh</code>; audit: <code>build/audit.py</code></li>
+</ul></section>
+</main></body>
+</html>

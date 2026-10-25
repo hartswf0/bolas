@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SCION 07 Foldès</title>
+<style>
+:root{--bg:#ece6d8;--ink:#1e1c22;--mute:#5f5a5c;--line:#c9bfae;--warn:#8a2b1c}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1d1b1f;--ink:#ece6d8;--mute:#a8a19a;--line:#3b3740;--warn:#e7957f}}
+:root[data-theme="dark"]{--bg:#1d1b1f;--ink:#ece6d8;--mute:#a8a19a;--line:#3b3740;--warn:#e7957f}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 Georgia,serif}
+main{max-width:860px;margin:0 auto;padding:16px}
+h1{font:700 1.5rem/1.2 system-ui,sans-serif;margin:.4em 0}
+video,img{width:100%;height:auto;display:block;border:1px solid var(--line)}
+.k{font:13px/1.4 ui-monospace,monospace;color:var(--mute)}
+.warn{color:var(--warn)}
+ul{padding-left:1.1em} a{color:inherit}
+</style></head><body><main>
+<h1>PAE-02 · SCION 07 · Peter Foldès: drawn metamorphosis</h1>
+<p class="k">revision: r2 (repairs after critic round 1) · 38 s · 1280×720 · 24 fps</p>
+<video src="film.mp4" controls playsinline preload="metadata" poster="stills/still_28.0s.jpg"></video>
+<p><b>Critic verdict:</b> <span class="warn">round 1: does not pass</span> (<a href="reviews/round1.md">reviews/round1.md</a>). r2 repairs the five conditions; awaiting round 2.</p>
+<p><b>Next blocking failure (builder's own guess, not a verdict):</b> the front view (8.00–8.08 s) is a stiff rounded block; the lying dog may still read long and low; the voices are formant-synthesized and were never heard by the builder.</p>
+<ul>
+<li><a href="method.md">method.md</a>: swarm, language, what was measured, looked at, unknown</li>
+<li><a href="proof/keys.png">key drawing set</a> · <a href="keys/dog_keys.json">dog_keys.json</a> · <a href="keys/person_keys.json">person_keys.json</a></li>
+<li><a href="build/schedule.json">registered morph sequence</a> · <a href="proof/topology.json">topology warnings</a></li>
+<li><a href="proof/before_after.png">before/after: mirror blend vs drawn-view turn</a></li>
+<li><a href="proof/morph_refusal.png">refusal</a> · <a href="proof/morph_turnback.png">turning back</a> · <a href="proof/morph_door_light.png">door into light</a> · <a href="proof/morph_sill.png">the sill</a></li>
+<li><a href="trace.json">trace.json</a> · <a href="invariants.json">invariants.json</a> · <a href="proof/measures.json">measures.json</a> · <a href="assets.json">assets.json</a> · <a href="ledger.jsonl">ledger.jsonl</a></li>
+</ul>
+<p class="k">Accepted checkpoint: none accepted yet. The build is recoverable with build/make.sh (no git was run by this swarm).</p>
+</main></body></html>
