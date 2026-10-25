@@ -11,6 +11,6 @@ for p in t s e; do
 done
 echo "frames: $n"
 ffmpeg -hide_banner -loglevel error -y -framerate 24 -i "$C/seq/%04d.jpg" -i "$C/sound.wav" \
-  -c:v libx264 -preset slow -crf ${CRF:-25} -tune grain -pix_fmt yuv420p -c:a aac -b:a 160k -shortest \
+  -c:v libx264 -preset slow -crf ${CRF:-25} -pix_fmt yuv420p -c:a aac -b:a 160k -shortest \
   -movflags +faststart "$OUT"
 ls -l "$OUT"

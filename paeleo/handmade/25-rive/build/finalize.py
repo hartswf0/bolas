@@ -22,9 +22,11 @@ xs = [f['x_screen'] for f in fr]; nose = [f['nose_screen'] for f in fr]
 on = {}
 # 1.00 retreat: the rendered dog layer starts moving away from the door (centroid +0.4 px/frame)
 on['retreat'] = first(lambda i: xs[i] - xs[i - 1] > 0.4, int(0.5 * 24))
-# 2.33 watch: the backing stops being driven (screen speed falls below 90 % of its peak)
-pk = max(range(24, 70), key=lambda i: xs[i] - xs[i - 1]); vmax = xs[pk] - xs[pk - 1]
-on['watch_1'] = first(lambda i: xs[i] - xs[i - 1] < 0.9 * vmax, pk)
+# 2.33 watch: the backing stops being driven (smoothed screen speed falls below 60 % of its mean through the retreat)
+# (velocity of the rendered layer, smoothed over +-4 frames so the swinging legs do not jitter it)
+sv = lambda i: (xs[min(767, i + 4)] - xs[max(0, i - 4)]) / 8
+vmean = sum(sv(i) for i in range(31, 53)) / 22   # mean layer speed through the middle of the retreat (1.3-2.2 s)
+on['watch_1'] = first(lambda i: sv(i) < 0.6 * vmean, 48)
 # 3.42 refuse: the muzzle starts to leave its watching place (the turn begins: nose moves > 3 px relative to the body centroid)
 # 3.42 refuse: the drawn head starts to swing away from the door (head yaw leaves 180 deg by more than 4 deg)
 on['refuse'] = first(lambda i: abs(fr[i]['head_world_yaw'] - 180) > 4, int(3.0 * 24))

@@ -261,7 +261,7 @@
       ['A dog authored here as a puppet: bones, round shapes bound to them, IK legs,', m, c, 270],
       ['keyed poses and loops, driven by its own state machine (Facing · Body · Attention)', m, c, 298],
       ['whose inputs are set each frame from the PAELEO score. The head leads the turns.', m, c, 326],
-      ['Feet are planted by a stepping solver; nothing slides. Every transition and footfall is an event.', m, c, 354],
+      ['A stepping solver plants the feet: a planted foot never slides (measured). Every transition and footfall is an event.', m, c, 354],
       ['House, door, light and person: drawn primitives. Sound: synthesized from the event trace.', m, c, 382],
       ['Proportions studied from Amateur Film New Jersey C (Internet Archive, public domain); no archive pixels.', m, '#9d93a6', 430],
       ['No found footage, no doodles, no generated images.', m, '#9d93a6', 458]], a);

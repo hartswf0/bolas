@@ -87,8 +87,8 @@ is segmented at onsets detected in these measurements, not copied from the score
 | lie down | 23.792 | 23.875 | torso matte drops |
 | looks in | 26.4 | 26.417 | head matte rises and turns; view becomes back of head |
 
-(The numbers in this table are from the r7 build; `trace.json` → `summary.onsets` holds the current build's.)
-Also measured: head below the line of the back on 99% of approach frames; facing away on 87% of refusal frames (the first
+(Current build, r8; `trace.json` → `summary.onsets`.)
+Also measured: head below the line of the back on 99% of approach frames; facing away on 89% of refusal frames (the first
 0.3 s is the turn itself); the end matte spans x 272–512 px against door jambs at 196–384 px (112 px inside the frame, 128 px
 outside); x_screen correlation with the score's x r = 1.00. `check_handmade.py`: ALL OK. Sound (`sound-levels.json`): calls
 ≈9 dB louder than the soft lines; the quietest soft line ≈8 dB above the bed (window RMS).

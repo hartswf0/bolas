@@ -1,25 +1,27 @@
 {"t": 1, "kind": "transition", "layer": "Body", "from": "Stand", "to": "Backing", "priority": 3, "event": "backs"}
-{"t": 1.4167, "kind": "footfall", "foot": "LF", "x": 3.0844}
-{"t": 1.4167, "kind": "footfall", "foot": "LH", "x": 3.55}
-{"t": 1.625, "kind": "footfall", "foot": "RF", "x": 3.2403}
-{"t": 1.625, "kind": "footfall", "foot": "RH", "x": 3.7058}
-{"t": 2, "kind": "footfall", "foot": "LF", "x": 3.5223}
-{"t": 2, "kind": "footfall", "foot": "LH", "x": 3.9878}
-{"t": 2.2083, "kind": "footfall", "foot": "RF", "x": 3.6782}
-{"t": 2.2083, "kind": "footfall", "foot": "RH", "x": 4.1437}
+{"t": 1.4167, "kind": "footfall", "foot": "LF", "x": 2.9494}
+{"t": 1.4167, "kind": "footfall", "foot": "LH", "x": 3.415}
+{"t": 1.625, "kind": "footfall", "foot": "RF", "x": 3.1053}
+{"t": 1.625, "kind": "footfall", "foot": "RH", "x": 3.5708}
+{"t": 1.9167, "kind": "footfall", "foot": "LF", "x": 3.3242}
+{"t": 1.9167, "kind": "footfall", "foot": "LH", "x": 3.7897}
+{"t": 2.125, "kind": "footfall", "foot": "RF", "x": 3.4803}
+{"t": 2.125, "kind": "footfall", "foot": "RH", "x": 3.9458}
+{"t": 2.4167, "kind": "footfall", "foot": "LF", "x": 3.6128}
+{"t": 2.4167, "kind": "footfall", "foot": "LH", "x": 4.08}
 {"t": 2.625, "kind": "transition", "layer": "Body", "from": "Backing", "to": "Stand", "priority": 3, "event": "stops"}
-{"t": 3.2083, "kind": "footfall", "foot": "RF", "x": 3.544}
-{"t": 3.2083, "kind": "footfall", "foot": "RH", "x": 4.0134}
+{"t": 3.2083, "kind": "footfall", "foot": "LF", "x": 3.544}
+{"t": 3.2083, "kind": "footfall", "foot": "LH", "x": 4.0134}
 {"t": 3.4167, "kind": "transition", "layer": "Facing", "from": "FacePerson", "to": "TurningAway", "priority": 1, "event": "turn_away"}
-{"t": 3.625, "kind": "footfall", "foot": "LF", "x": 3.6078}
-{"t": 3.625, "kind": "footfall", "foot": "RF", "x": 3.7466}
-{"t": 3.75, "kind": "footfall", "foot": "LH", "x": 3.5324}
-{"t": 3.75, "kind": "footfall", "foot": "RH", "x": 3.6458}
+{"t": 3.4583, "kind": "footfall", "foot": "RF", "x": 3.5505}
+{"t": 3.4583, "kind": "footfall", "foot": "RH", "x": 4.0179}
+{"t": 3.625, "kind": "footfall", "foot": "LF", "x": 3.6809}
+{"t": 3.625, "kind": "footfall", "foot": "RF", "x": 3.8309}
+{"t": 3.75, "kind": "footfall", "foot": "LH", "x": 3.4993}
+{"t": 3.75, "kind": "footfall", "foot": "RH", "x": 3.5522}
+{"t": 3.875, "kind": "transition", "layer": "Facing", "from": "TurningAway", "to": "BackTurned", "priority": 1, "event": null}
 {"t": 3.9167, "kind": "footfall", "foot": "LF", "x": 3.9787}
 {"t": 3.9167, "kind": "footfall", "foot": "RF", "x": 3.9787}
-{"t": 3.9583, "kind": "transition", "layer": "Facing", "from": "TurningAway", "to": "BackTurned", "priority": 1, "event": null}
-{"t": 4.0417, "kind": "footfall", "foot": "LH", "x": 3.5112}
-{"t": 4.0417, "kind": "footfall", "foot": "RH", "x": 3.5112}
 {"t": 4.3333, "kind": "transition", "layer": "Body", "from": "Stand", "to": "Down", "priority": 1, "event": "going_down"}
 {"t": 5.75, "kind": "transition", "layer": "Attention", "from": "Alert", "to": "Rest", "priority": 2, "event": "chin_down"}
 {"t": 6.2083, "kind": "world", "door": "open"}
@@ -37,48 +39,52 @@
 {"t": 8.8333, "kind": "footfall", "foot": "LH", "x": 4.0137}
 {"t": 8.8333, "kind": "footfall", "foot": "RH", "x": 4.0137}
 {"t": 14.7083, "kind": "transition", "layer": "Body", "from": "Stand", "to": "Walk", "priority": 4, "event": "walks"}
-{"t": 15.25, "kind": "footfall", "foot": "RF", "x": 3.2822}
-{"t": 15.25, "kind": "footfall", "foot": "LH", "x": 3.7516}
-{"t": 15.5, "kind": "footfall", "foot": "RH", "x": 3.6755}
-{"t": 15.5417, "kind": "footfall", "foot": "LF", "x": 3.1934}
-{"t": 16.125, "kind": "footfall", "foot": "RF", "x": 3.0027}
-{"t": 16.125, "kind": "footfall", "foot": "LH", "x": 3.472}
-{"t": 16.375, "kind": "footfall", "foot": "RH", "x": 3.3855}
-{"t": 16.4167, "kind": "footfall", "foot": "LF", "x": 2.9022}
-{"t": 16.9583, "kind": "footfall", "foot": "RF", "x": 2.7046}
-{"t": 16.9583, "kind": "footfall", "foot": "LH", "x": 3.174}
-{"t": 17.2083, "kind": "footfall", "foot": "RH", "x": 3.0795}
-{"t": 17.25, "kind": "footfall", "foot": "LF", "x": 2.5946}
-{"t": 17.75, "kind": "footfall", "foot": "RF", "x": 2.3962}
-{"t": 17.75, "kind": "footfall", "foot": "LH", "x": 2.8657}
-{"t": 18, "kind": "footfall", "foot": "RH", "x": 2.7625}
-{"t": 18.0417, "kind": "footfall", "foot": "LF", "x": 2.2762}
-{"t": 18.5, "kind": "footfall", "foot": "RF", "x": 2.0811}
-{"t": 18.5, "kind": "footfall", "foot": "LH", "x": 2.5506}
-{"t": 18.75, "kind": "footfall", "foot": "RH", "x": 2.4419}
-{"t": 18.7917, "kind": "footfall", "foot": "LF", "x": 1.9539}
-{"t": 19.25, "kind": "footfall", "foot": "RF", "x": 1.7473}
-{"t": 19.25, "kind": "footfall", "foot": "LH", "x": 2.2168}
-{"t": 19.5, "kind": "footfall", "foot": "RH", "x": 2.101}
-{"t": 19.5417, "kind": "footfall", "foot": "LF", "x": 1.6121}
-{"t": 20, "kind": "footfall", "foot": "RF", "x": 1.3948}
-{"t": 20, "kind": "footfall", "foot": "LH", "x": 1.8644}
-{"t": 20.25, "kind": "footfall", "foot": "RH", "x": 1.743}
-{"t": 20.2917, "kind": "footfall", "foot": "LF", "x": 1.253}
-{"t": 20.7083, "kind": "footfall", "foot": "RF", "x": 1.046}
-{"t": 20.7083, "kind": "footfall", "foot": "LH", "x": 1.5156}
-{"t": 20.9583, "kind": "footfall", "foot": "RH", "x": 1.3893}
-{"t": 21, "kind": "footfall", "foot": "LF", "x": 0.8983}
-{"t": 21.375, "kind": "footfall", "foot": "RF", "x": 0.7047}
-{"t": 21.375, "kind": "footfall", "foot": "LH", "x": 1.1743}
-{"t": 21.625, "kind": "footfall", "foot": "RH", "x": 1.0438}
-{"t": 21.6667, "kind": "footfall", "foot": "LF", "x": 0.5527}
-{"t": 22.0417, "kind": "footfall", "foot": "RF", "x": 0.3525}
-{"t": 22.0417, "kind": "footfall", "foot": "LH", "x": 0.8222}
-{"t": 22.2917, "kind": "footfall", "foot": "RH", "x": 0.6863}
-{"t": 22.3333, "kind": "footfall", "foot": "LF", "x": 0.1942}
-{"t": 22.9167, "kind": "footfall", "foot": "RF", "x": 0.1384}
-{"t": 22.9167, "kind": "footfall", "foot": "LH", "x": 0.6081}
+{"t": 15.375, "kind": "footfall", "foot": "LF", "x": 3.2958}
+{"t": 15.375, "kind": "footfall", "foot": "LH", "x": 3.7652}
+{"t": 15.625, "kind": "footfall", "foot": "RF", "x": 3.22}
+{"t": 15.625, "kind": "footfall", "foot": "RH", "x": 3.6893}
+{"t": 16.2083, "kind": "footfall", "foot": "LF", "x": 3.0326}
+{"t": 16.2083, "kind": "footfall", "foot": "LH", "x": 3.5019}
+{"t": 16.4583, "kind": "footfall", "foot": "RF", "x": 2.9477}
+{"t": 16.4583, "kind": "footfall", "foot": "RH", "x": 3.4171}
+{"t": 17, "kind": "footfall", "foot": "LF", "x": 2.7542}
+{"t": 17, "kind": "footfall", "foot": "LH", "x": 3.2237}
+{"t": 17.25, "kind": "footfall", "foot": "RF", "x": 2.6608}
+{"t": 17.25, "kind": "footfall", "foot": "RH", "x": 3.1303}
+{"t": 17.75, "kind": "footfall", "foot": "LF", "x": 2.4661}
+{"t": 17.75, "kind": "footfall", "foot": "LH", "x": 2.9356}
+{"t": 18, "kind": "footfall", "foot": "RF", "x": 2.3647}
+{"t": 18, "kind": "footfall", "foot": "RH", "x": 2.8342}
+{"t": 18.4583, "kind": "footfall", "foot": "LF", "x": 2.1747}
+{"t": 18.4583, "kind": "footfall", "foot": "LH", "x": 2.6442}
+{"t": 18.7083, "kind": "footfall", "foot": "RF", "x": 2.0675}
+{"t": 18.7083, "kind": "footfall", "foot": "RH", "x": 2.537}
+{"t": 19.1667, "kind": "footfall", "foot": "LF", "x": 1.8647}
+{"t": 19.1667, "kind": "footfall", "foot": "LH", "x": 2.3342}
+{"t": 19.4167, "kind": "footfall", "foot": "RF", "x": 1.7516}
+{"t": 19.4167, "kind": "footfall", "foot": "RH", "x": 2.2211}
+{"t": 19.8333, "kind": "footfall", "foot": "LF", "x": 1.5585}
+{"t": 19.8333, "kind": "footfall", "foot": "LH", "x": 2.028}
+{"t": 20.0833, "kind": "footfall", "foot": "RF", "x": 1.4396}
+{"t": 20.0833, "kind": "footfall", "foot": "RH", "x": 1.9091}
+{"t": 20.5, "kind": "footfall", "foot": "LF", "x": 1.2375}
+{"t": 20.5, "kind": "footfall", "foot": "LH", "x": 1.7071}
+{"t": 20.75, "kind": "footfall", "foot": "RF", "x": 1.1136}
+{"t": 20.75, "kind": "footfall", "foot": "RH", "x": 1.5832}
+{"t": 21.1667, "kind": "footfall", "foot": "LF", "x": 0.9037}
+{"t": 21.1667, "kind": "footfall", "foot": "LH", "x": 1.3733}
+{"t": 21.375, "kind": "footfall", "foot": "RF", "x": 0.7963}
+{"t": 21.375, "kind": "footfall", "foot": "RH", "x": 1.2659}
+{"t": 21.75, "kind": "footfall", "foot": "LF", "x": 0.6009}
+{"t": 21.75, "kind": "footfall", "foot": "LH", "x": 1.0705}
+{"t": 21.9583, "kind": "footfall", "foot": "RF", "x": 0.4917}
+{"t": 21.9583, "kind": "footfall", "foot": "RH", "x": 0.9614}
+{"t": 22.3333, "kind": "footfall", "foot": "LF", "x": 0.2903}
+{"t": 22.3333, "kind": "footfall", "foot": "LH", "x": 0.76}
+{"t": 22.5417, "kind": "footfall", "foot": "RF", "x": 0.2351}
+{"t": 22.5417, "kind": "footfall", "foot": "RH", "x": 0.7047}
+{"t": 23.7083, "kind": "footfall", "foot": "LF", "x": 0.1221}
+{"t": 23.7083, "kind": "footfall", "foot": "LH", "x": 0.5918}
 {"t": 23.7917, "kind": "transition", "layer": "Body", "from": "Walk", "to": "Down", "priority": 1, "event": "going_down"}
 {"t": 26.3333, "kind": "transition", "layer": "Attention", "from": "Alert", "to": "Rest", "priority": 2, "event": "chin_down"}
 {"t": 26.4583, "kind": "transition", "layer": "Attention", "from": "Rest", "to": "LookIn", "priority": 1, "event": "looks_in"}

@@ -163,7 +163,7 @@ def main():
     for k, (f, rate, ph, pan) in enumerate(((4600, 2.1, 0.0, 0.7), (4300, 1.7, 0.4, -0.5), (4900, 2.6, 0.2, 0.2))):
         gate = ((np.sin(2 * math.pi * rate * t + ph) > 0.4) * (np.sin(2 * math.pi * 30 * t) > 0)).astype(float)
         gate = lp_fast(gate, 0.02)
-        sig = np.sin(2 * math.pi * f * t) * gate * 0.010
+        sig = np.sin(2 * math.pi * f * t) * gate * 0.005 * (0.6 + 0.4 * np.sin(2 * math.pi * t / (9 + 4 * k) + k))
         place(stems['room'], sig, 0.0, 1.0, pan)
     # voice
     for k, (s, e, amp, fa, fb, vow) in enumerate(voice.SYL):

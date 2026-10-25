@@ -12,7 +12,7 @@ WW, HH = W * SS, H * SS
 UP = np.array([0.0, 1.0, 0.0])
 LAMP = np.array([-1.7, 2.45, -0.35])
 FACE_DIR = os.path.join(CACHE, 'face')
-DOOR_TEX = '/home/user/hartswf0/secondhand-motion/shots/door-sam/frames/f031.jpg'
+DOOR_TEX = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'sources', 'door', 'f031.jpg')
 # door panel in the source frame (annotated by hand: hinge edge at left, knob at right; the top runs out of frame)
 DOOR_SRC_QUAD = [(117, 0), (238, 0), (222, 272), (119, 247)]
 
@@ -293,7 +293,7 @@ def draw_porch(w, f):
     for z in np.arange(-1.7, 1.4, 0.13):
         for x0 in np.arange(0, 4.9, 0.7):
             x1 = min(4.9, x0 + 0.7)
-            c = porch_color((x0 + x1) / 2, z + 0.065, f, (92, 94, 110))
+            c = lit((92, 94, 110), np.array([0.60, 0.64, 0.84]) * (1 - 0.18 * f['t'] / 32.0) * (0.96 + 0.08 * ((int(x0 / 0.7) * 7 + int((z + 2) / 0.13) * 3) % 5) / 4))
             w.quad([(x0, 0, z + 0.008), (x1, 0, z + 0.008), (x1, 0, z + 0.122), (x0, 0, z + 0.122)], c)
         w.seg((0, 0.0005, z), (4.9, 0.0005, z), porch_color(2.0, z, f, (44, 46, 58)), 0.5)
     # front fascia and steps down at 4.9
@@ -520,7 +520,7 @@ def person_skeleton(f):
     hang_n = sh + np.array([0.06, -0.60, 0.12]); hang_f = sh + np.array([-0.04, -0.58, -0.12])
     reach_n = sh + 0.64 * np.array([math.cos(math.radians(-28)), math.sin(math.radians(-28)), 0]) + np.array([0, 0, 0.1])
     knee_rest = hip + np.array([0.34, 0.36, -0.08])
-    low_n = hip + np.array([0.58, 0.05, -0.16]); low_n[1] = 0.10
+    low_n = hip + np.array([0.80, 0.05, -0.14]); low_n[1] = 0.24
     hand_n = hang_n + (reach_n - hang_n) * reach
     hand_n = hand_n + ((hip + np.array([0.30, 0.30, 0.14])) - hand_n) * sit * (1 - low)
     hand_n = hand_n + (low_n - hand_n) * low

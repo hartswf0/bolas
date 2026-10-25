@@ -155,7 +155,7 @@ def person_track(out):
     for f in out:
         t = f['t']; p = f['person']
         step = smoothstep(5.0, 6.1, t)
-        X = -0.30 + (-1.45 + 0.30) * step
+        X = -0.30 + (-1.25 + 0.30) * step
         Z = 0.0 + 0.40 * smoothstep(5.0, 5.9, t)
         sit = smoothstep(5.6, 6.6, t)
         lean = 0.0
@@ -168,7 +168,7 @@ def person_track(out):
 
 def camera_track(out):
     """camera: wide while the dog keeps its distance; it comes closer only as the dog does (14.7-24)."""
-    wide = dict(pos=np.array([1.45, 1.30, 7.2]), target=np.array([1.45, 0.62, 0.0]), fov=45.0)
+    wide = dict(pos=np.array([1.30, 1.30, 7.3]), target=np.array([1.30, 0.62, 0.0]), fov=50.0)
     close = dict(pos=np.array([0.35, 1.38, 4.3]), target=np.array([-0.45, 0.42, 0.0]), fov=44.0)
     for f in out:
         t = f['t']
