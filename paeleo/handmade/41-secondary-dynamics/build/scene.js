@@ -284,7 +284,8 @@ function simFrame(i, record) {
   const tailCols = [{ ...floor, tag: 'tail-floor' }, { type: 'sphere', c: B.torso[0].c, r: B.torso[0].r * 0.92 }, ...thighs];
   const tt = tailTargets(Sk, t); tail.step(tt, tailCols, DT, SUB, t);
   // collar tag: a pendulum under the throat that ticks on the chest
-  const neckA = B.neckBase, ring = V.add(V.lerp(neckA, Hp.H, 0.28), [0, -0.078, 0]); // just outside the neck's surface
+  const neckA = B.neckBase; let ring = V.add(V.lerp(neckA, Hp.H, 0.28), [0, -0.078, 0]); // just outside the neck's surface
+  { const hit = D.resolve(ring, 0.014, { type: 'sphere', c: B.torso[4].c, r: B.torso[4].r }); if (hit) ring = hit.p; } // the collar rides on the chest, never inside it
   const vB = PREVC.brisket ? V.mul(V.sub(B.torso[4].c, PREVC.brisket), 1 / DT) : [0, 0, 0], vN = PREVC.neck ? V.mul(V.sub(neckA, PREVC.neck), 1 / DT) : [0, 0, 0];
   PREVC.brisket = B.torso[4].c; PREVC.neck = neckA;
   const tagT = [ring, V.add(ring, [0, -0.045, 0])]; tag.step(tagT, [{ type: 'sphere', c: B.torso[4].c, r: B.torso[4].r, tag: 'tag', v: vB }, { type: 'capsule', a: neckA, b: Hp.H, r: 0.06, tag: 'tag', v: vN }], DT, SUB, t);
