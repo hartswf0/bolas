@@ -152,6 +152,7 @@ class Scene:
         if pose.get('head_flip'):
             hr = -22.0
         pose['head_rot'] = hr + math.sin(t * 2 * math.pi * 0.3) * 1.2
+        pose['breath'] = math.sin(t * 2 * math.pi * 0.42)
         if a['moving'] > 0.02:
             pose['walk'] = min(1.0, a['moving'] * 1.2)
             pose['s'] = (4.0 - x) * APPM
@@ -349,11 +350,21 @@ def compose_frame(G, layers, want_alpha=False):
 
 
 def jsonable(layers):
+    def clean(v):
+        if isinstance(v, dict):
+            return {k: clean(x) for k, x in v.items()}
+        if isinstance(v, (list, tuple)):
+            return [clean(x) for x in v]
+        if isinstance(v, (float, np.floating)):
+            return round(float(v), 4)
+        if isinstance(v, np.integer):
+            return int(v)
+        return v
     out = []
     for l in layers:
-        l2 = dict(l)
-        if 'M' in l2:
-            l2['M'] = [[round(float(v), 5) for v in row] for row in np.array(l2['M'])[:2]]
+        l2 = clean(dict((k, v) for k, v in l.items() if k != 'M'))
+        if 'M' in l:
+            l2['M'] = [[round(float(v), 5) for v in row] for row in np.array(l['M'])[:2]] + [[0.0, 0.0, 1.0]]
         out.append(l2)
     return out
 
@@ -398,6 +409,7 @@ def render_one(i):
     sc = _SC
     t = i / FPS
     layers, dinfo, pinfo = sc.frame_layers(i)
+    layers = jsonable(layers)          # the frame is composed from exactly what render_deps records
     img, dog_alpha, parts = compose_frame(sc.G, layers, want_alpha=True)
     img.save(os.path.join(CACHE, 'frames', 'scene_%04d.png' % i), compress_level=1)
     h = sha(img.tobytes())
@@ -426,7 +438,7 @@ def render_one(i):
           'x_world_measured': m.get('x_world_measured'), 'facing': facing, 'posture': posture, 'mode': dinfo['mode'],
           'measured': {k: v for k, v in m.items() if k not in ('x_screen', 'y_screen', 'x_world_measured')},
           'feet_px': dinfo.get('feet')}
-    return {'i': i, 'sha256_rgb': h, 'layers': jsonable(layers)}, tr
+    return {'i': i, 'sha256_rgb': h, 'layers': layers}, tr
 
 
 def main(only=None, procs=4):

@@ -13,10 +13,8 @@ BG = (14, 13, 24)
 def F(fid, size, wght=None):
     f = ImageFont.truetype(FONTS + fid + '.woff2', size)
     if wght:
-        try:
-            f.set_variation_by_axes([wght])
-        except Exception:
-            pass
+        axes = f.get_variation_axes()
+        f.set_variation_by_axes([wght if a['name'] == b'Weight' else a['default'] for a in axes])
     return f
 
 
@@ -58,7 +56,7 @@ def main():
     L = json.load(open(os.path.join(FOLDER, 'lineage', 'lineage.json')))
     n_nodes = len(L['nodes'])
     os.makedirs(os.path.join(CACHE, 'cards'), exist_ok=True)
-    big = F('f8', 74); mid = F('f27', 30); mono = F('f14', 15); small = F('f34', 21)
+    big = F('f8', 74, 800); mid = F('f27', 30); mono = F('f14', 15); small = F('f34', 21)
     for k in range(72):
         a = min(1, k / 10, (72 - k) / 10)
         im = Image.new('RGB', (W, H), BG); d = ImageDraw.Draw(im)
@@ -91,7 +89,7 @@ def main():
         d.text((720, 40), 'the dog’s lineage: sources → mattes → cuts → pieces', font=mono, fill=(170, 156, 180, int(200 * a)))
         y = 150
         for i, t in enumerate(lines):
-            d.text((70, y), t, font=small if i else F('f41', 30), fill=(238, 226, 204, int(255 * a)))
+            d.text((70, y), t, font=small if i else F('f41', 30, 600), fill=(238, 226, 204, int(255 * a)))
             y += 44 if i == 0 else 34
         d.text((70, 640), 'PAE-02 · SCION 54 · Provenance Graph', font=mono, fill=(170, 156, 180, int(200 * a)))
         im.save(os.path.join(CACHE, 'cards', 'end_%02d.png' % k))

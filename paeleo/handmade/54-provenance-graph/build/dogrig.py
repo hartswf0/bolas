@@ -90,7 +90,8 @@ def dog_layers(P, pose):
     Mroot = T(X, Y) @ S(k * f, k) @ T(-ANCHOR[0], -gy)
     lie = pose.get('lie', 0.0); crouch = pose.get('crouch', 0.0)
     dy = crouch * 9.0 + lie * (gy - K11['belly_y'] - 3)
-    Mb = T(0, dy) @ T(*ANCHOR) @ R(pose.get('body_rot', 0.0)) @ T(*(-ANCHOR))
+    br = pose.get('breath', 0.0)
+    Mb = T(0, dy) @ T(ANCHOR[0], K11['belly_y']) @ S(1.0, 1.0 + 0.012 * br) @ T(-ANCHOR[0], -K11['belly_y']) @ T(*ANCHOR) @ R(pose.get('body_rot', 0.0)) @ T(*(-ANCHOR))
     out = []
     walk = pose.get('walk', 0.0); s = pose.get('s', 0.0)
     stride = pose.get('stride', 70.0); duty = 0.62; A = stride * duty / 2
