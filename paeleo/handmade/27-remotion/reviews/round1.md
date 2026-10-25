@@ -11,3 +11,5 @@ Defects: the approach 14.7–23.8 is effectively silent (~−51 to −58 dB RMS,
 Rights: everything made here; Remotion's bundled licence confirms a free tier for individuals, non-profits and companies of up to 3 employees; whether Bolas qualifies needs an operator decision. Reproducibility claimed on one machine only; the lockfile lives only in the git-ignored cache.
 
 Remaining (not pursued: stopped at an independent pass per the SCION doctrine): audible paws through the approach; head and muzzle separate from the body at 1.2–2.3 and 7.6–7.8; a readable "Come in." caption; a committed lockfile and a second-machine hash check; an operator ruling on the Remotion licence.
+
+Operator ruling (Remotion licence): the operator is an individual, so the free tier applies. Recorded here; no change to the film.

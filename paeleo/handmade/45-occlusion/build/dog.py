@@ -28,7 +28,7 @@ FLOOR = 205                          # source foot line used by the rig poses
 CENTER_OFFSET = 0.14                 # world body centre = score x - 0.14 (so x = 0.59 lays the loin under the jamb)
 
 # real-frame sequences
-WALK_LOW = [42, 43, 44, 45]   # head-low walk, shown mirrored (faces the door); 46 (blurred) and 47 (head hidden: a 'boulder') dropped in round 2
+WALK_LOW = [43, 44, 45]   # head-low walk, shown mirrored (faces the door); round 2 dropped 46 (blurred), 47 (head hidden: a 'boulder') and 42 (reads as two heads)
 TURN_AWAY = [13, 14, 26, 28, 30, 31, 33, 36, 38, 40]  # left -> facing the camera -> right (round 2: 15/17/19/20 dropped: a box, two heads)
 TURN_BACK = [26, 14, 13, 11, 10]   # never passes through a camera-facing frame: the head stays on the door side           # frontal (head up) -> left, for 8.0-9.0
 WATCH = [9, 10, 11, 10]                                           # held alert cels (boil)
