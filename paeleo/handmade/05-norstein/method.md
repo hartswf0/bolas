@@ -50,15 +50,30 @@ at 0.56, steps at 4.9), Y up, Z depth. Dependencies: Python 3, numpy, Pillow, ff
 
 ## The dog: what it is made of and how it moves
 
-A Norstein cutout is a set of flat pieces moved under the camera, with replacement pieces for new angles. Here the
-replacement pieces are cut every frame from a small 3D maquette: chest, waist, hip, back and withers ellipsoids, a neck
-of three ellipsoids, skull, muzzle and nose, ears as flat triangles, legs as tapered strips (two segments in front, three
-behind), a six-segment tail. Each frame each ellipsoid becomes the flat ellipse it projects to, each limb a flat strip,
-each ear a triangle; the pieces are laid on the dog's glass far to near, the far legs painted darker, and the whole
-cutout is painted with a coat grain cut from the archive dog's own film, its edge broken into short hairs. The maquette's
-proportions come from the archive dog's rig keys (kit/archive-dog, frame 0). Because every piece keeps its thickness, a
-turn passes through a real rear view (rump, hind legs, the head carried above the back) and a real front view (chest,
-forelegs, face) instead of an edge-on sliver.
+**Round 2 (current): a library of hand-cut replacement pieces, hinged.** A Norstein puppet is a set of flat, painted
+pieces hinged at joints and moved by hand under the camera, with replacement pieces (another head, another body) for new
+angles. The dog is now exactly that (`build/pieces.py`):
+
+- **The library** (`build/cache/pieces/`, cut once): body pieces per view (L facing the door, BL three-quarter rump to us,
+  B rear, FL three-quarter chest to us, F front; R, BR, FR are the same pieces turned over, as a cutout painted on both
+  sides) and per posture (standing, half crouch, full crouch; three stages of lying down, so lying down and getting up are
+  replacement drawings, not a tween); head pieces per view (the same eight views, five drawn), per ear state (laid back,
+  half, pricked) and eyes open or shut, the turned-away heads drawn in lost profile (cheek and ear, no eye); separate
+  pieces for upper and lower foreleg, thigh, shin and hock, two paws (side and front), three tail pieces and a neck.
+- **How a piece is made:** its outline is taken off the maquette at that view (the maquette is the cutting guide, like an
+  animator's sculpted reference), then cut: the edge wobbles like a scissor cut and, on coat pieces, breaks into short hairs;
+  it is painted once with its own brush strokes along its grain and the archive dog's coat grain; the cut edge is darkened.
+  A piece never changes shape between frames.
+- **Per frame:** the maquette, posed by the controller and the foot solver, is only a guide for where the hinges are. The
+  pieces are chosen (body view and posture, head view, ears, eyes), hinged on those points (rotated in the plane; a limb
+  piece may stretch a little along its length to keep a planted paw on its spot), laid on the dog's glass far to near, the
+  far legs laid in their shadowed cut, and each piece casts a soft shadow on the pieces under it. The pieces' names are in
+  trace.json for every frame.
+- A turn is a run of substitutions: the refusal goes L, BL, B, BR, R (the rear piece shows the back); the turn back to the
+  door goes R, FR, F, FL, L with the head piece already in profile toward the door.
+
+Round 1 (superseded): the same maquette was flattened every frame into projected ellipses (a rig look the critic rejected).
+Its proportions still come from the archive dog's rig keys (kit/archive-dog, frame 0).
 
 Acting (`dog.py controller`): the six choices and their times come from the score; the body performs them this way:
 
@@ -66,17 +81,19 @@ Acting (`dog.py controller`): the six choices and their times come from the scor
 - **Refusal (3.42 s).** Turns away from the camera, head leading (spine bend and neck), through the rear view at about 3.65 s,
   done by 3.92 s; the head is carried high enough in the turn to show above the back, then sinks; it lies down with its back to the
   door and its chin on its paws (the score's lie and rest values) until 7.46.
-- **Turning to look (7.46 s).** The chin comes off the paws at 7.36, the head lifts high and swings back over the shoulder
-  to the door, muzzle pointing left, by 7.58; it stands (7.5 to 8.0) and the body follows through the front view (8.0 to
-  8.95 s).
+- **Turning to look (7.46 s).** The chin comes off the paws at 7.36; the head lifts and is replaced in two steps (front
+  view at about 7.5, profile toward the door from 7.56) and the profile head is held, looking at the door, while the dog
+  stands (lying pieces 0.66, 0.33, standing) and the body is replaced round through the front view (8.0 to 8.95 s).
 - **Watching (9 to 14.7 s).** Faces the door; small looks between the low hand and the light; breathing; a blink.
 - **Coming (14.71 s).** Walks toward the door with the neck held 40 degrees below level, so the head is below the line of
   the back for the whole approach; its path angles in toward the doorway over the last 1.6 m.
 - **Lying down across the sill (23.79 s).** Lowers to the boards in about 0.6 s: forelegs along the boards, hind legs folded
   under the haunch, tail out on the porch. The front of the dog is in the doorway's span and in its light; the back half
   and the tail are outside.
-- **Looking in (26.4 s).** Ears up, the head turns in toward the lit room, the tail sweeps the boards; then the chin goes
-  down onto the paws, facing the person's low hand, and the eyes close slowly (30.3 s).
+- **Looking in (26.4 s).** Ears up, the head piece is replaced by the lost-profile head (turned away from the camera, into
+  the room) and lifted toward the lit doorway; the tail sweeps the boards; the focus follows the look into the room from
+  26.85 s (the bowl sharp at 27.25 to 27.5) and returns by 27.95; then the chin goes down onto the paws, facing the
+  person's low hand, and the eyes close (30.3 s).
 
 Feet are solved, not tweened: a foot on the boards keeps its world position until the body has left it by 11 cm (7 cm
 while turning), then it is lifted (a sine arc) and put down ahead; at most two feet are off the boards, never two on one
@@ -90,10 +107,12 @@ In the doorway it is backlit (dark, ringed with warm light); seated, it is lit o
 
 ## The camera as attention
 
-Wide on the doorway and the dog for the calls; while the dog refuses, the camera pushes in and drops toward it (4.15 to
-5.7 s), so the turned back is seen close in the fog; as the door opens it pulls back to the wide (6.05 to 7.4 s), so the
-seated person, the low hand and the light are on screen before the dog turns to look; during the approach it pans with the
-dog and trucks in (14.6 to 23.6 s), the near posts and weeds passing with real parallax; at the sill it settles closer still.
+Wide on the doorway and the dog for the calls; as the person steps aside and sits (4.3 to 5.5 s) the camera eases back
+and left, so the person sitting, the door opening (6.2 s) and the low hand are fully on screen with the dog (round 1
+pushed in on the dog here and lost them at the frame edge; the critic flagged it). Focus goes into the room as the door
+opens (6.25 to 7.12 s) and is back on the dog before it turns to look; the porch fog bank lifts off the dog from 6.6 s.
+During the approach the camera pans with the dog and trucks in (14.6 to 23.6 s), the near posts and weeds passing with
+real parallax; at the sill it settles closer still.
 
 ## Sound (synthesized here; nothing recorded)
 
