@@ -41,12 +41,12 @@ def pose_at(t, f):
         J = mix(J, CALL, sm(0.85, 1.05, t) * (1 - sm(2.2, 2.5, t)))
         J = mix(J, REACH, sm(3.35, 3.6, t) * (1 - sm(4.5, 4.8, t)))
         J = mix(J, CALL, sm(3.3, 3.45, t) * (1 - sm(3.35, 3.6, t)) * 0.0)
-        return -0.22, -0.06, J, dict(hand='reach' if 3.45 < t < 4.7 else None)
+        return -0.22, -0.02, J, dict(hand='reach' if 3.45 < t < 4.7 else None)
     # 4.8-5.25 steps out of the doorway (toward the camera), 5.2-5.85 to the bench, 5.55-6.0 sits
     if t < 6.0:
         u1 = sm(4.8, 5.25, t); u2 = sm(5.2, 5.85, t); u3 = sm(5.55, 6.0, t)
         x = -0.22 + (PX_BESIDE + 0.22) * u2
-        D = -0.06 + (0.82 + 0.06) * u1 - (0.82 - 0.60) * u3     # out past the bench front, then back onto the seat
+        D = -0.02 + (0.82 + 0.02) * u1 - (0.82 - 0.60) * u3     # out past the bench front, then back onto the seat
         J = mix(STAND, SIT, u3)
         ph = math.sin(u2 * math.pi * 3) * 0.12 * (1 - u3)      # a few steps: the legs scissor while it moves
         J = dict(J, kn=(J['kn'][0] + ph, J['kn'][1]), an=(J['an'][0] + 1.6 * ph, J['an'][1]), tn=(J['tn'][0] + 1.6 * ph, J['tn'][1]),

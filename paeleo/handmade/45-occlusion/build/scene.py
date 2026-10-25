@@ -779,14 +779,15 @@ def render(i, verify=False):
     in_frac = float(din.a.sum() / max(1e-3, da.sum()))
     # who hides the dog: per occluder coverage
     hiders = {}
-    first_dog = min([pos[n] for n in ('dog_in', 'dog_out') if n in pos] or [len(order)])
-    for n in order[first_dog:]:
-        if n in ('dog_in', 'dog_out'):
+    for dn in ('dog_in', 'dog_out'):
+        if dn not in pos:
             continue
-        ov = float((np.maximum(by['dog_in'].a if 'dog_in' in by else 0, by['dog_out'].a if 'dog_out' in by else 0) * by[n].a).sum())
-        if ov > 1:
-            hiders[n] = round(ov, 1)
-    # contact shadow registration: shadow centroid vs dog base
+        for n in order[pos[dn] + 1:]:
+            if n in ('dog_in', 'dog_out'):
+                continue
+            ov = float((by[dn].a * by[n].a).sum())
+            if ov > 1:
+                hiders[n] = round(hiders.get(n, 0) + ov, 1)
     # contact-shadow registration: share of the dog's bottom-contour columns that have shadow just under them
     contact_cov = None
     if len(xs):
