@@ -654,7 +654,7 @@ class Choreo:
         fy = feet_y(x)
         L = cv.light
         lit = 1.0
-        exp = 0.70 + 0.30 * (1 - o)       # round 2: more contrast before the door opens
+        exp = 0.72 + 0.43 * smooth((x - 1.0) / 1.6)   # round 2: the dog out on the dusk porch is lifted; near the lit door the light carries it
         info = {'drawing': None}
         # timeline (s): measured choice onsets are taken from the render, these are the plan's switch points
         if t < 1.0:
@@ -760,7 +760,7 @@ def prompt_for(t):
 
 
 # ------------------------------------------------------------------ main
-def grain(rng, k=0.018):
+def grain(rng, k=0.010):
     g = rng.normal(0, 1, (H // 2, W // 2)).astype(np.float32)
     g = np.repeat(np.repeat(g, 2, 0), 2, 1)
     return g * k

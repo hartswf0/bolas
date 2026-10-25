@@ -72,7 +72,7 @@ for a, b, fa, fb in zip(M[:-1], M[1:], F[:-1], F[1:]):
         continue
     for k in ('f1', 'f2', 'h1', 'h2'):
         pa, pb = a['meas'].get('feet', {}).get(k), b['meas'].get('feet', {}).get(k)
-        if pa and pb and abs(pa[1] - pb[1]) < 0.3 and pa[1] > 585:
+        if pa and pb and abs(pa[1] - pb[1]) < 0.3 and pa[1] > 587.5:   # on the boards (planted paws sit at y = 588)
             slides.append(abs(pb[0] - pa[0]))
 diag = {'pieces': {}}
 for m in M:
