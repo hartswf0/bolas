@@ -18,7 +18,7 @@ REPO = os.path.abspath(os.path.join(FOLDER, '..', '..', '..'))
 CACHE = os.path.join(HERE, 'cache', 'nodes')
 os.makedirs(CACHE, exist_ok=True)
 
-RIGHTS_ORDER = ['self-made', 'public_domain', 'CC-BY-4.0', 'unknown']   # later = more restrictive; unknown blocks
+RIGHTS_ORDER = ['self-made', 'public_domain', 'OFL-1.1', 'CC-BY-4.0', 'unknown']   # later = more restrictive; unknown blocks
 SCHEMA_VERSION = 'pg-lineage/1.1'
 
 
@@ -81,7 +81,12 @@ class Graph:
     # ---- derivatives ----
     def op(self, name, parents, params, tags='inferred', label=None):
         o = self.ops[name]
-        ins = [self.get(p) for p in parents]
+        recipe = False
+        if not parents:
+            # a synthesised layer still has a parent: the recorded recipe it was made from
+            parents = [self.drawn('recipe: ' + name, params, 'the parameters of a synthesised layer, recorded as its source')]
+            recipe = True
+        ins = [] if recipe else [self.get(p) for p in parents]
         out = o['fn'](*ins, **params)
         b = img_bytes(out) if isinstance(out, Image.Image) else json.dumps(out, sort_keys=True).encode()
         h = sha(b)
@@ -92,7 +97,7 @@ class Graph:
             if not os.path.exists(cp):
                 out.save(cp)
         self.nodes[nid] = {'id': nid, 'kind': 'derivative', 'op': name, 'op_version': o['version'], 'op_sig': self.sig(name, params),
-                           'parents': list(parents), 'params': params, 'sha256': h, 'tags': tags, 'label': label,
+                           'parents': list(parents), 'params': params, 'sha256': h, 'tags': tags, 'label': label, 'recipe': recipe,
                            'rights': combine_rights(self.nodes[p]['rights'] for p in parents),
                            'size': list(out.size) if isinstance(out, Image.Image) else None}
         return nid

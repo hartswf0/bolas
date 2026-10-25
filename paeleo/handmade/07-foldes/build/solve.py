@@ -107,8 +107,8 @@ HEAD_SEQ = [  # (t, {headkey: w}, placement)
     (26.40, {'profile': 1}, (-0.57, 0.32, 0.16, HL)),   # come in (soft): it turns its head in, through the door
     (26.85, {'rear34': 1}, (-0.60, 0.42, 0.12, HL)),    # back of the head to us, muzzle pointing level into the lit room
     (28.05, {'rear34': 1}, (-0.60, 0.42, 0.12, HL)),
-    (28.65, {'profile': 1}, (-0.585, 0.14, 0.12, HL)),  # and settles, chin down, and stays
-    (32.0, {'profile': 1}, (-0.585, 0.14, 0.12, HL)),
+    (28.65, {'profile': 1}, (-0.62, 0.20, 0.08, 1.14)),  # and settles, head down on its paws, and stays
+    (32.0, {'profile': 1}, (-0.62, 0.20, 0.08, 1.14)),
 ]
 
 STATE_AT = [(0, 'watch')] + [(c['t'], c['to']) for c in SCORE['choices']]
@@ -303,7 +303,13 @@ def main():
         head_top = min(p[1] for p in hpoly)
         withers = body['P'][1][1]
         gaze = meta['gaze']
-        facing = 1 if gaze < -0.15 else -1
+        # measured from the drawn head: where the nose point sits relative to the head outline (-1 far left .. +1 far right)
+        nose = next(s for s in scr if s['name'] == 'nose')
+        hxs = [p[0] for p in hpoly]
+        hcx = sum(hxs) / len(hxs); hwid = (max(hxs) - min(hxs)) / 2 or 1.0
+        muzzle = (nose['P'][0][0] - hcx) / hwid if nose['a'] > 0.3 else 0.0
+        eyes_shown = max(s['a'] for s in scr if s['name'] in ('eyeR', 'eyeL'))
+        facing = 1 if muzzle < -0.15 else -1
         turnw = sum(v for k, v in bw.items() if k[:4] in ('rear', 'fron'))
         crw = sum(v for k, v in bw.items() if k.startswith('crouch'))
         posture = 'lie' if lie_w > 0.5 else 'turning' if turnw > 0.3 else 'crouch' if crw > 0.5 else 'stand'
@@ -315,6 +321,8 @@ def main():
                       'head_below_back_px': round(head_top - withers, 1),
                       'front_px_inside_frame': round(max(0.0, sill_line - min(xs)), 1),
                       'rear_px_outside_frame': round(max(0.0, max(xs) - sill_line), 1),
+                      'muzzle_dir': round(muzzle, 3), 'eyes_shown': round(eyes_shown, 3),
+                      'withers_m': round((ST.YDOG - withers) / ST.S, 4), 'head_cx_px': round(hcx, 1),
                       'x_anchor_score': xd, 'body_keys': {k: round(v, 3) for k, v in bw.items()},
                       'head_keys': {k: round(v, 3) for k, v in hw.items()}})
         # topology: draw-order flips and declared substitutions
@@ -327,6 +335,30 @@ def main():
         sp = 0.0 if prev_P is None else sum(math.hypot(a[0] - b[0], a[1] - b[1]) for a, b in zip(P, prev_P)) / len(P)
         frames[-1]['morph_speed'] = sp; trace[-1]['morph_px_per_frame'] = round(sp, 3)
         prev_P = P
+    # ---- measured onsets of each choice, from the drawn geometry (not from the schedule's state labels)
+    def first(pred, after):
+        for k, f in enumerate(trace):
+            if f['t'] >= after and pred(k, f):
+                return f['t']
+        return None
+    vel = lambda k: (trace[min(k + 1, len(trace) - 1)]['x_screen'] - trace[max(k - 1, 0)]['x_screen']) / ST.S * FPS / 2
+    dwh = lambda k: (trace[min(k + 1, len(trace) - 1)]['withers_m'] - trace[max(k - 1, 0)]['withers_m']) * FPS / 2
+    mz0 = trace[int(3.0 * FPS)]['muzzle_dir']
+    stand_w = trace[int(22.0 * FPS)]['withers_m']
+    onsets = [
+        ('retreat', 1.0, 'torso moves away from the door faster than 0.05 m/s', first(lambda k, f: vel(k) > 0.05, 0.5)),
+        ('watch', 2.333, 'body starts to rise out of the crouch (withers rising > 0.05 m/s)', first(lambda k, f: dwh(k) > 0.05, 1.6)),
+        ('refuse', 3.417, 'the drawn muzzle starts to swing away (muzzle_dir moves > 0.15 from its 3.0 s value)',
+         first(lambda k, f: abs(f['muzzle_dir'] - mz0) > 0.15, 3.0)),
+        ('watch', 7.458, 'the drawn muzzle points toward the door again (muzzle_dir < -0.15)',
+         first(lambda k, f: f['muzzle_dir'] < -0.15, 6.0)),
+        ('approach', 14.708, 'torso moves toward the door faster than 0.05 m/s', first(lambda k, f: vel(k) < -0.05, 9.0)),
+        ('lie_down', 23.792, 'withers drop more than 0.03 m below standing height', first(lambda k, f: f['withers_m'] < stand_w - 0.03, 20.0)),
+        ('look in', 26.4, 'the head turns away from us into the doorway (eyes hidden) while inside the door frame',
+         first(lambda k, f: f['eyes_shown'] < 0.5 and f['head_cx_px'] < ST.DOOR[1], 25.0)),
+    ]
+    measured = [{'choice': c, 'score_t': st_, 'measure': m, 'onset_t': o, 'dt': None if o is None else round(o - st_, 3)}
+                for c, st_, m, o in onsets]
     for s in BODY_SEQ + HEAD_SEQ:
         if s[0] == '|':
             topo.append({'t': s[1], 'kind': 'declared substitution (mirrored correspondence, same point set)', 'from': s[2], 'to': s[3]})
@@ -334,9 +366,11 @@ def main():
     pickle.dump(frames, open(os.path.join(HERE, 'cache', 'seq.pkl'), 'wb'))
     json.dump({'about': 'SCION 07 trace: measured from the geometry drawn in each scene frame (centroid of the torso contour, body points 1-10, withers to chest; the neck points are bound to the head and left out; head '
                'and withers heights, extents against the door frame). state is the dog\'s choice as scheduled from the score; '
-               'facing is the gaze of the drawn head key (1 toward the door and the person, -1 back turned).',
+               'facing is measured from the drawn head (1 when the drawn nose point is on the door side of the head outline, -1 when it points away or is hidden). measured_onsets gives the onset of each choice, detected from the drawn geometry.',
                'mapping': {'x_screen': 'X0 + S * x', 'X0': ST.X0, 'S': ST.S, 'door_frame_px': ST.DOOR[:2]},
-               'frames': trace}, open(os.path.join(ROOT, 'trace.json'), 'w'))
+               'measured_onsets': measured, 'frames': trace}, open(os.path.join(ROOT, 'trace.json'), 'w'))
+    for m in measured:
+        print('onset', m['choice'], m['score_t'], '->', m['onset_t'], m['dt'])
     os.makedirs(os.path.join(ROOT, 'proof'), exist_ok=True)
     json.dump(topo, open(os.path.join(ROOT, 'proof', 'topology.json'), 'w'), indent=0)
     json.dump({'body': [list(s) if s[0] == '|' else [s[0], s[1]] for s in BODY_SEQ],

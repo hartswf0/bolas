@@ -28,16 +28,19 @@ const WORLD = { wallIn: 0.30, wallOut: 0.50, open: [-0.46, 0.46], lintel: 2.05, 
 // ---------- the dog's own timing (primary), anchored to the score's choices ----------
 // heading θ: F = (cos θ, 0, sin θ). θ = π faces the door (−X). The turns pass through θ = π/2 (facing the camera),
 // so every frame of a turn is a dog seen from the front-quarter, never an edge-on card.
+// The refusal turns away from the viewer (θ: π → 3π/2 → 2π): its rump and back come round to us as it turns its back
+// on the door. The turn back to look goes the other way round, through the camera side (2π → 5π/2 → 3π), so its face
+// comes round first. Angles are unwrapped (2π ≡ 0, 3π ≡ π).
 function bodyYaw(t) {
   if (t < 3.417) return PI;
-  if (t < 3.9) return PI * (1 - seg(t, 3.417, 3.9));
-  if (t < 7.86) return 0;
-  if (t < 8.62) return PI * seg(t, 7.86, 8.62);
-  return PI;
+  if (t < 3.9) return PI * (1 + seg(t, 3.417, 3.9));
+  if (t < 7.86) return 2 * PI;
+  if (t < 8.62) return 2 * PI + PI * seg(t, 7.86, 8.62);
+  return 3 * PI;
 }
 function headHeading(t, th) { // world heading of the head: it leads the body, and at 7.46 it comes round first
   if (t >= 3.3 && t < 3.95) return bodyYaw(t + 0.08);
-  if (t >= 7.458 && t < 8.75) return Math.max(th, lerp(0, 2.45, seg(t, 7.458, 7.64)));
+  if (t >= 7.458 && t < 8.75) return Math.max(th, 2 * PI + lerp(0, 2.45, seg(t, 7.458, 7.64)));
   let y = th;
   if (t > 24.4) y += -0.95 * seg(t, 24.6, 25.4) * (1 - seg(t, 26.42, 26.8)); // settles looking along the porch, then turns in
   return y;

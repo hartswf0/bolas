@@ -65,6 +65,10 @@ def main():
     plates = world.build_world(G)
     import cast
     C = cast.build_cast(G)
+    fonts = {}
+    for fid, name in (('f27', 'Literata Italic'), ('f14', 'JetBrains Mono'), ('f8', 'Big Shoulders Display'), ('f34', 'Literata'), ('f41', 'Literata')):
+        fonts[fid] = G.source('tools/paeleo/fonts/%s.woff2' % fid, 'font:' + name, name + ' (repo font, tools/paeleo/fonts)', 'https://fonts.google.com', 'OFL-1.1', kind='font')
+    C['fonts'] = fonts
     import PIL
     G.get(plates['dusk']).convert('RGB').resize((world.PW // 2, world.PH // 2)).save(os.path.join(FOLDER, 'build', 'cache', 'plate_dusk.jpg'))
     G.get(plates['lit']).convert('RGB').resize((world.PW // 2, world.PH // 2)).save(os.path.join(FOLDER, 'build', 'cache', 'plate_lit.jpg'))
