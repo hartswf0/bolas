@@ -83,7 +83,7 @@ def controller():
         lie = a['lie']
         look = a['look']
         if st == 'lie_down' or t > 23.7:
-            head_rel = -0.5 * look
+            head_rel = -0.82 * look  # looking in: the muzzle turns into the depth of the lit room
         # --- head carriage (alpha: neck angle above horizontal, degrees)
         hv = a['head']
         alpha = interp(hv, [0, 0.15, 0.35, 0.45, 0.7, 0.9, 1.25], [-48, -42, -30, -24, 6, 30, 52])
@@ -94,7 +94,7 @@ def controller():
         if 7.38 <= t < 8.9:  # the head lifts high as it comes round, so the look over the shoulder clears the back
             alpha = max(alpha, lerp(-30, 48, smooth(7.38, 7.56, t)) * (1 - smooth(8.3, 8.9, t)) + 30 * smooth(8.3, 8.9, t))
         if st == 'lie_down':  # lying, the head is lifted on the neck, never stood up on it
-            alpha = min(alpha, 22.0)
+            alpha = min(alpha, 22.0 - 10.0 * a['look'])
         # the choice to stop backing and watch (2.33) is shown at once: the head comes up while the body still drifts
         if 2.32 <= t < 2.9:
             alpha = max(alpha, 25.0)
