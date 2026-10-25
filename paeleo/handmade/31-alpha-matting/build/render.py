@@ -109,6 +109,7 @@ def load_npz(path):
 
 
 DOG = {}
+DEBRIS = {15: [(163, 98, 183, 119)]}   # frame 15: a fragment standing on the back (source px)
 
 
 def dog_frame(i, mirror):
@@ -117,6 +118,10 @@ def dog_frame(i, mirror):
         z = load_npz(os.path.join(C, 'dog/f%03d.npz' % i))
         P = z['P'].astype(np.float32); x0, y0, x1, y1 = z['box']
         P = P * main_component(P[..., 3])[..., None]       # matte debris detached from the body is dropped
+        for (bx0, by0, bx1, by1) in DEBRIS.get(i, []):      # debris attached to the outline (looked at, cut by hand)
+            m = np.zeros(P.shape[:2], np.float32)
+            m[max(by0 - y0, 0):max(by1 - y0, 0), max(bx0 - x0, 0):max(bx1 - x0, 0)] = 1
+            P = P * (1 - blur(m, 1, 1))[..., None]
         if mirror:
             P = P[:, ::-1].copy(); x0, x1 = 384 - x1, 384 - x0
         DOG[key] = (P, (x0, y0, x1, y1))
@@ -338,6 +343,7 @@ def bbox_crop(A):
 CH = {c['to'] + ('' if c['to'] != 'watch' else str(k)): c['t'] for k, c in enumerate(SCORE['choices'])}
 T_RET, T_W1, T_REF, T_W2, T_APP, T_LIE = [c['t'] for c in SCORE['choices']]
 T_COMEIN = 26.4
+I_RET, I_W1 = int(math.ceil(T_RET * 24)), int(math.ceil(T_W1 * 24))
 CALL_WINDOWS = [(0.62, 1.38), (1.62, 2.30), (2.95, 3.70)]   # the voice comes first (sound.py places the calls here)
 WALK = [43, 44, 45, 48]                 # the archive dog's head-low walk, mirrored to face the door (42, 46, 47: head lost in a tangle, skipped)
 STRIDE = 0.068                           # metres travelled per walk frame (≈ the source's own advance per frame)
@@ -355,7 +361,7 @@ XS, DIST = cumdist()
 
 def watch_boil(t):
     """long watching hold: the archive dog's own small attention shifts (frames 12-13-14), never a frozen still"""
-    seq = [13, 13, 12, 13, 14, 14, 13]
+    seq = [13, 13, 14, 13, 13, 14, 13]   # frame 12 dropped: a ragged fragment above its back and a streak at the tail
     k = int(t / 0.9) % len(seq)
     return seq[k]
 
@@ -365,9 +371,15 @@ def dog_pose(i):
     t = i / 24.
     if t < T_RET:
         return dict(kind='frame', f=9, m=False, facing=1, posture='watch')
-    if t < T_W1:   # backing away, crouched and head low, facing the door, on planted paws (gait_sprite)
+    if t < T_W1:   # flinch: the head drops through the dog's own frames 14-15-16, then it backs away on planted paws
+        k = i - I_RET
+        if k < 3:
+            return dict(kind='frame', f=[14, 15, 16][k], m=False, facing=1, posture='back away')
         return dict(kind='gait', facing=1, posture='back away')
-    if t < T_REF:
+    if t < T_REF:  # stops and lifts its head again through 16-15-14 to 13 (no pop)
+        k = i - I_W1
+        if k < 3:
+            return dict(kind='frame', f=[16, 15, 14][k], m=False, facing=1, posture='watch')
         return dict(kind='frame', f=13, m=False, facing=1, posture='watch')
     if t < T_W2:   # turns its back: the archive dog's own turn at its own rate, then lies down with its back to them
         k = int((t - T_REF) * 12)
@@ -400,7 +412,7 @@ def dog_pose(i):
     look = float(smooth(T_COMEIN, T_COMEIN + .16, t) * (1 - smooth(28.15, 28.35, t)))
     rest = float(smooth(28.2, 28.9, t))
     head_up = float(L * (1 - rest))
-    rest = max(rest, .5 * L)          # head held level on the sill, not pointed at the sky
+    rest = max(rest, .5 * L, 1 - float(smooth(T_LIE, T_LIE + .45, t)))   # head comes up from the walk's low carriage, then held level
     return dict(kind='lie', L=L, head_up=head_up, look=look, rest=rest, facing=1,
                 posture='lie' if L > .95 else 'lying down', looking_in=look > .5)
 
@@ -427,7 +439,7 @@ def dog_sprite(i):
     if p['kind'] == 'frame':
         P, b = dog_frame(p['f'], p['m'])
     elif p['kind'] == 'gait':
-        A, info = gait_sprite(FR[i]['dog']['x'], FR[int(math.ceil(T_RET * 24))]['dog']['x'])
+        A, info = gait_sprite(FR[i]['dog']['x'], FR[I_RET + 3]['dog']['x'])
         p['legs'] = info
         P, b = A, (0, 0, A.shape[1], A.shape[0])        # uncropped: the body keeps one fixed anchor
         p['anchor'] = gait_pieces()['anchor']
@@ -668,7 +680,7 @@ def mix_layers(Pa, la, ta, Pb, lb, tb, w):
     return M, x0, y0
 
 
-DISSOLVES = [(int(math.ceil(T_RET * 24)), 3), (int(math.ceil(T_W1 * 24)), 4), (int(math.ceil(T_LIE * 24)), 4)]   # (first frame of the new drawing, frames)
+DISSOLVES = []   # (first frame, frames): premultiplied dissolves, unused; pops are bridged by intermediate drawings instead
 
 
 def render(i):

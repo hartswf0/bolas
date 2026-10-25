@@ -62,9 +62,10 @@ def main():
     x0 = 1330; y = 150
     d.text((x0, y), 'What it is made of', font=fh, fill=(238, 226, 200)); y += 110
     paras = [
-        'The dog is drawn for this film as plates, one per view: four heads, three bodies, ears, eyes, legs and a tail. '
-        'Each plate carries its own landmark vector. Nothing is bent by hand: every plate is placed by an affine fit to a solved '
-        'skeleton of landmarks, swapped for another view when the head or body turns, and its eyes, ears and mouth are controls.',
+        'The dog is drawn for this film as plates, one per view: four heads and three bodies, each carrying its own landmark vector, '
+        'placed only by affine fits to a solved skeleton of landmarks and swapped for another view when the head or body turns; '
+        'ears and neck are two-point fits, eyes, ears and mouth are controls. The legs and tail are not plates: they are outlines '
+        'drawn through a solved pivot chain (feet planted by a stepper, joints by two-bone IK).',
         "The person's face is a public-domain cartoon profile from 'We Learn About the Telephone I', placed by a similarity fit "
         '(never sheared); its mouth is its own source frames. Body and hat are drawn. The door is a public-domain door from '
         "'Straight Talk', rectified and re-projected on its hinge. The sound is synthesized.",

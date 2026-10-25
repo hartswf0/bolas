@@ -352,7 +352,7 @@ def dog_parts(cam, f, p, r):
             limb_outline(pt, chain, [w_ * sc for w_ in widths], lit(col, Ll), lit('ink', np.minimum(Ll, 1)))
             pc = 'white' if fore else col
             draw_shapes(pt, BONES['paw'], bone_M(paw[0], paw[1], BONE_W['paw'] * sc * 0.8), lambda k: lit(pc, Ll), Ll, flip_y=False)
-        parts.append((rd + (0.0 if not near else -0.001), leg))
+        parts.append((cdepth + 0.05 + (0.0 if not near else -0.001) + 0.01 * (rd - cdepth), leg))
     # tail
     chain = [np.array(c) for c in p['tail']]
     td = proj(cam, chain[1])[1]
@@ -408,6 +408,7 @@ def dog_parts(cam, f, p, r):
         for s in ears:
             if ear_d[s] <= sd: ear(pt, s)
     hd = sd if sd > cdepth + 0.12 else min(sd, cdepth - 0.02)
+    if f['lie'] > 0.5 and f['t'] > 23.8: hd = cdepth - 1.0   # lying at the sill: the head rests in front of its chest and forelegs
     parts.append((hd, head_group))
     return parts
 

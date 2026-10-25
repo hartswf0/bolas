@@ -62,12 +62,16 @@ def main():
         Mt = fit_affine(src, dst)
         hf = fwd_of(f['hyaw']); hr = right_of(f['hyaw'])
         a_h, side_h = view_of(head['S'], hf, hr, cam.pos)
-        turning = 3.40 <= f['t'] < 4.10 or 7.40 <= f['t'] < 8.65
-        vh = pick(HEADS, a_h, prev_h, allowed=(45, 90, 135) if turning else None); prev_h = vh
+        turning = 3.40 <= f['t'] < 4.10 or 7.40 <= f['t'] < 7.62
+        back_to_door = 7.62 <= f['t'] < 8.65 and prev_h in (45, 90)   # once the face is back it stays back
+        vh = pick(HEADS, a_h, prev_h, allowed=(45, 90) if back_to_door else ((45, 90, 135) if turning else None)); prev_h = vh
         ph = HEADS[vh]
         src = np.array([ph['lm'][k] for k in ph['keys']]) * np.array([1, -1])
         dst = np.array([P(head[k if side_h > 0 else mirror_key(k)]) for k in ph['keys']])
         Mh = fit_affine(src, dst)
+        if anisotropy(Mh) > 1.5:   # a view far from its plate would squeeze the head: keep its size (similarity fit)
+            from geom import fit_similarity_reflect
+            Mh = fit_similarity_reflect(src, dst)
         # person head: similarity only (the source portrait is never sheared)
         pr = f['person']
         reg.append(dict(i=f['i'], t=f['t'],
