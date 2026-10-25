@@ -7,9 +7,11 @@ import numpy as np
 HERE = os.path.dirname(os.path.abspath(__file__))
 CACHE = os.path.join(HERE, 'cache')
 SR = 48000
-# (scene time s, text, register). Calls at 1.0 and 3.4; soft lines at 7.4, 10.4 and 26.4 (the score's timeline)
-LINES = [(1.0, 'Come here.', 'call'), (3.4, 'Come here!', 'call'), (7.4, "It's all right.", 'soft'),
-         (10.4, "It's all right.", 'soft'), (26.4, 'Come in.', 'soft')]
+# (scene time s, text, register). The score's timeline has the calls at 1.0 and 3.4 and the soft voice at 7.4, 10.4
+# and 26.4, the same instants the dog chooses. Staged so the cause is heard before the effect is seen: each line's
+# first sound starts 0.15-0.2 s ahead of the dog's choice (and the leading silence of each take is trimmed).
+LINES = [(0.82, 'Come here.', 'call'), (3.22, 'Come here!', 'call'), (7.26, "It's all right.", 'soft'),
+         (10.4, "It's all right.", 'soft'), (26.24, 'Come in.', 'soft')]
 
 
 def synth(text, reg, fn):
@@ -21,6 +23,8 @@ def synth(text, reg, fn):
     with wave.open(fn) as w:
         a = np.frombuffer(w.readframes(w.getnframes()), np.int16).astype(np.float32) / 32768
     a = a / (np.abs(a).max() + 1e-9)
+    on = np.nonzero(np.abs(a) > .02)[0]
+    a = a[max(0, on[0] - 240):]                 # trim the take's leading silence (keep 5 ms)
     return a
 
 

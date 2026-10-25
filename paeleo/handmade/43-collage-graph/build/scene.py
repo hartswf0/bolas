@@ -158,7 +158,7 @@ def dog_state(i):
         if g['lie'] >= 0.66 and rest > 0.5: g['head'] = ('head_level_f012', -18.0)
         elif g['lie'] >= 0.66: g['head'] = ('head_level_f012', -4.0)
         elif g['crouch'] >= 0.5: g['head'] = ('head_level_f012', -6.0)
-        elif hv >= 0.8: g['head'] = ('head_alert_f006', 40.0)
+        elif hv >= 0.8 or (st == 'watch' and 2.3 < t < 3.417 and hv >= 0.6): g['head'] = ('head_alert_f006', 40.0)  # stops backing: head up to look
         else: g['head'] = ('head_level_f012', 14.0)
     g['head_mirror'] = (st == 'watch' and LOOKBACK <= t < TURN2[0])  # looks back over its shoulder
     if g['head_mirror']: g['rules'].append('REPLACE head by mirror(head) on the turned-away body (turns back to look)')

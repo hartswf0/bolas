@@ -203,9 +203,9 @@ def person_pose(i):
     t = i / 24
     mouth = max(VOICE['mouth'][i:i + 2]) if i < N else 0
     p = {'X': 290, 'sit': 0, 'arm': 0, 'jaw': round(mouth, 2), 'nod': 4, 'lean': 0, 'crate': 142}
-    if 1.0 <= t < 2.3: p['nod'] = -6; p['lean'] = 4
-    if 3.4 <= t < 4.6:
-        p['nod'] = -4; p['lean'] = smooth(4, 10, (t - 3.4) / .3); p['arm'] = smooth(0, 86, (t - 3.4) / .3)
+    if .8 <= t < 2.3: p['nod'] = -6; p['lean'] = 4
+    if 3.22 <= t < 4.6:            # the reach starts with the second call, a beat before the dog turns its back
+        p['nod'] = -4; p['lean'] = smooth(4, 10, (t - 3.22) / .25); p['arm'] = smooth(0, 86, (t - 3.22) / .25)
     if 4.6 <= t < 4.8: p['arm'] = smooth(86, 0, (t - 4.6) / .2); p['lean'] = 4
     if t >= 4.8: p['X'] = smooth(290, SIT_X, (t - 4.8) / .6)
     if t >= 5.4: p['sit'] = smooth(0, 1, (t - 5.4) / .4)

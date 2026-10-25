@@ -51,7 +51,7 @@ on['watch_turns_back'] = first(lambda k: face[k] == 1, 7.0)
 low_ref = np.nanmean(nose_up[(T > 12) & (T < 14)])
 on['approach'] = first(lambda k: nose_up[k] < low_ref - 15 or cx[k] < cx[int(14 * 24)] - 3, 14.0)
 hstand = np.mean((y1 - y0)[(T > 22.5) & (T < 23.5)])
-on['lie_down'] = first(lambda k: (y1[k] - y0[k]) < 0.85 * hstand, 23.0)
+on['lie_down'] = first(lambda k: (y1[k] - y0[k]) < 0.92 * hstand, 23.0)
 top_ref = np.mean(y0[(T > 25.8) & (T < 26.3)])
 on['looks_in'] = first(lambda k: y0[k] < top_ref - 10, 26.0)
 on['settles'] = first(lambda k: y0[k] > top_ref - 4, 27.8)
@@ -62,7 +62,7 @@ how = dict(retreat='dog-layer centroid moves away >3 px or its top drops >4 px (
            refuse='rendered head no longer points to the door (front-view whole frame or head pointing away)',
            watch_turns_back='rendered nose points to the door again (nose left of neck)',
            approach='nose drops >15 px below its watching height above the withers, or centroid moves toward the door >3 px',
-           lie_down='dog-layer bbox height falls below 85 % of its standing height',
+           lie_down='dog-layer bbox height falls below 92 % of its standing height (the first going-down drawing is 88 %)',
            looks_in='dog-layer top rises >10 px above its lying height (the head comes up into the doorway)',
            settles='top returns to lying height and the nose is below the withers again')
 for k in onsets: onsets[k]['how'] = how[k]
