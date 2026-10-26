@@ -33,6 +33,11 @@ N.forEach(n => {
 const FI = ctx.window.CRANK_FILMS, KIT = ctx.window.CRANK_KIT;
 if (FI) {
   const g = new Set(FI.groups.map(x => x.id)), fids = new Set();
+  (FI.works || []).forEach(w => {
+    if (!g.has(w.group)) errs.push(`work ${w.id}: unknown group ${w.group}`);
+    if (w.members.length < 2) errs.push(`work ${w.id}: a work needs two or more films`);
+    w.members.forEach(m => { const f = FI.films.find(x => x.id === m); if (!f) errs.push(`work ${w.id}: unknown film ${m}`); else if (f.work !== w.id || !f.role || !f.how) errs.push(`work ${w.id}: film ${m} has no role or how`); });
+  });
   FI.films.forEach(f => {
     if (fids.has(f.id)) errs.push(`film ${f.id}: duplicate id`); fids.add(f.id);
     if (!g.has(f.group)) errs.push(`film ${f.id}: unknown group ${f.group}`);

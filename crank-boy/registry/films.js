@@ -5,7 +5,7 @@ window.CRANK_FILMS = {
   {
    "id": "crankboy",
    "title": "The Crank Boy",
-   "line": "The opening film and the games, played."
+   "line": "The opening film for the album of seven versions."
   },
   {
    "id": "futuretown",
@@ -46,6 +46,97 @@ window.CRANK_FILMS = {
    "line": "Related films that live in other places."
   }
  ],
+ "works": [
+  {
+   "id": "school-card",
+   "group": "futuretown",
+   "title": "À l'école, three films",
+   "line": "The school card is the only card with more than one film. They are three different questions asked of the same room: what does one operator make of the card, what does an older film style make of it, and what does the game look like on clean plates. The Town cartoon (below) also contains it.",
+   "members": [
+    "school",
+    "proof-school",
+    "v9-played"
+   ]
+  },
+  {
+   "id": "family-three",
+   "group": "family",
+   "title": "The crash-test family, in three films",
+   "line": "From a first pencil test of ball-and-cord figures to the full measured bay. Each film adds what the one before could not do.",
+   "members": [
+    "bolas-videotext",
+    "the-physical",
+    "crash-lab-film"
+   ]
+  },
+  {
+   "id": "cineosis-passes",
+   "group": "cineosis",
+   "title": "CINEOSIS, in five passes",
+   "line": "The same 45 signs of Deleuze's cinema books, performed again each time with less machine and more hand: first in the bay, then fitted into six archive clips by hand, then into 84 by an automatic pipeline, then by hand into all of them with blind review, and finally a making-of. The three reels are cuts of the handmade film.",
+   "members": [
+    "cineosis-crash-lab",
+    "cineosis-hybrid-pilot",
+    "cineosis-hybrid-atlas",
+    "cineosis-handmade-batch1",
+    "cineosis-handmade-signs1-8",
+    "cineosis-handmade-signs13-41",
+    "cineosis-handmade-film",
+    "cineosis-hand-butter"
+   ]
+  },
+  {
+   "id": "odyssey-look",
+   "group": "odyssey",
+   "title": "The Found Odyssey: finding the look",
+   "line": "Before the episodes: how the drawn cast should meet archive footage. Three first shots, six ways to draw them, the chosen way, and the first cut of an episode opening. These led to the seven episodes.",
+   "members": [
+    "found-odyssey-drawn-tests",
+    "found-odyssey-style-lab",
+    "found-odyssey-drawn-v2",
+    "ep2-draft-opening"
+   ]
+  },
+  {
+   "id": "odyssey-episodes",
+   "group": "odyssey",
+   "title": "The Found Odyssey: seven episodes",
+   "line": "One book of the Odyssey per episode, each running one formal experiment. Watch them in order or in any order.",
+   "members": [
+    "ep1-nobody",
+    "ep2-the-guest-gift",
+    "ep3-the-raft",
+    "ep4-circe",
+    "ep5-the-blood",
+    "ep6-the-knot",
+    "ep7-the-loop"
+   ]
+  },
+  {
+   "id": "wygwyl-build",
+   "group": "wygwyl",
+   "title": "WYGWYL, from one ink cel to a poem",
+   "line": "The paper poet's build, in the order it was made: one ink cel, two looks, the jointed poet over his own plates, then a whole poem made by the automatic pipeline.",
+   "members": [
+    "wygwyl-inkcel-P05-008",
+    "wygwyl-celstyle-proof",
+    "wygwyl-poet-paper-proof",
+    "wygwyl-poem07-paper-poet"
+   ]
+  }
+ ],
+ "relations": [
+  {
+   "from": "futuretown",
+   "to": "cineosis",
+   "text": "Futuretown runs the CINEOSIS path the other way round: archive footage from the same cineosis-lab library, but brought into the card through a surface it already has, instead of a dummy walked into the footage."
+  },
+  {
+   "from": "futuretown",
+   "to": "wygwyl",
+   "text": "The Town's doodle layer and the paper poet are both cut-out puppets over archive footage; WYGWYL's rig is the older of the two."
+  }
+ ],
  "films": [
   {
    "id": "opening",
@@ -75,7 +166,8 @@ window.CRANK_FILMS = {
   },
   {
    "id": "v9-played",
-   "group": "crankboy",
+   "group": "futuretown",
+   "card": "school",
    "kind": "game",
    "title": "Version 9 · The Lectern Underneath, played",
    "date": "2026-10-24",
@@ -99,7 +191,12 @@ window.CRANK_FILMS = {
    "tags": [
     "game",
     "plates"
-   ]
+   ],
+   "work": "school-card",
+   "role": "Game, played",
+   "step": 3,
+   "of": 3,
+   "how": "Version 9 on Watson's clean plates: the whole class as layers, and a lectern under the machine. The film is the game played by a script."
   },
   {
    "id": "school",
@@ -136,7 +233,12 @@ window.CRANK_FILMS = {
    "tags": [
     "archive",
     "terry"
-   ]
+   ],
+   "work": "school-card",
+   "role": "Short",
+   "step": 1,
+   "of": 3,
+   "how": "Terry Gilliam's cutout metamorphosis: the card cut into three pieces, a head comes off and a book opens on a filmed classroom."
   },
   {
    "id": "scrubber",
@@ -419,7 +521,12 @@ window.CRANK_FILMS = {
    "tags": [
     "art department",
     "archive"
-   ]
+   ],
+   "work": "school-card",
+   "role": "Proof scene",
+   "step": 2,
+   "of": 3,
+   "how": "The art department's first call sheet made real: the same card as a 1907 trick-film tableau, with the stars of The Eclipse re-printed in its inks."
   },
   {
    "id": "bolas-videotext",
@@ -451,7 +558,12 @@ window.CRANK_FILMS = {
      "bolas": "family/"
     }
    ],
-   "tags": []
+   "tags": [],
+   "work": "family-three",
+   "role": "Pencil test",
+   "step": 1,
+   "of": 3,
+   "how": "Three experiments acted by ball-and-cord figures."
   },
   {
    "id": "the-physical",
@@ -483,7 +595,12 @@ window.CRANK_FILMS = {
      "bolas": "family/"
     }
    ],
-   "tags": []
+   "tags": [],
+   "work": "family-three",
+   "role": "The physical",
+   "step": 2,
+   "of": 3,
+   "how": "One skeleton must walk, reach, lift, slip, sulk and swoon: 47 proofs."
   },
   {
    "id": "crash-lab-film",
@@ -517,7 +634,12 @@ window.CRANK_FILMS = {
      "bolas": "family/"
     }
    ],
-   "tags": []
+   "tags": [],
+   "work": "family-three",
+   "role": "The crash lab",
+   "step": 3,
+   "of": 3,
+   "how": "132 vignettes in a measured bay, each scored for weight, feet, hands and contact."
   },
   {
    "id": "cineosis-crash-lab",
@@ -556,7 +678,12 @@ window.CRANK_FILMS = {
      "bolas": "cineosis/"
     }
    ],
-   "tags": []
+   "tags": [],
+   "work": "cineosis-passes",
+   "role": "In the bay",
+   "step": 1,
+   "of": 8,
+   "how": "All 45 signs over 59 measured worlds; no archive footage yet."
   },
   {
    "id": "cineosis-hybrid-pilot",
@@ -594,7 +721,12 @@ window.CRANK_FILMS = {
      "bolas": "cineosis/"
     }
    ],
-   "tags": []
+   "tags": [],
+   "work": "cineosis-passes",
+   "role": "Pilot",
+   "step": 2,
+   "of": 8,
+   "how": "Six signs inside six real archive clips: does it work at all?"
   },
   {
    "id": "cineosis-hybrid-atlas",
@@ -630,7 +762,12 @@ window.CRANK_FILMS = {
      "bolas": "cineosis/"
     }
    ],
-   "tags": []
+   "tags": [],
+   "work": "cineosis-passes",
+   "role": "Automatic",
+   "step": 3,
+   "of": 8,
+   "how": "The same, for all 45 signs, found and fitted by an automatic pipeline: 84 passages."
   },
   {
    "id": "cineosis-handmade-film",
@@ -667,7 +804,12 @@ window.CRANK_FILMS = {
      "bolas": "cineosis/"
     }
    ],
-   "tags": []
+   "tags": [],
+   "work": "cineosis-passes",
+   "role": "Handmade",
+   "step": 7,
+   "of": 8,
+   "how": "Every sign authored by hand over unaltered archive clips, each reviewed blind by a fresh critic."
   },
   {
    "id": "cineosis-hand-butter",
@@ -705,7 +847,12 @@ window.CRANK_FILMS = {
      "bolas": "cineosis/"
     }
    ],
-   "tags": []
+   "tags": [],
+   "work": "cineosis-passes",
+   "role": "Making-of",
+   "step": 8,
+   "of": 8,
+   "how": "The cast shows its work to a blindfolded Critic."
   },
   {
    "id": "cineosis-handmade-batch1",
@@ -737,7 +884,12 @@ window.CRANK_FILMS = {
      "bolas": "cineosis/"
     }
    ],
-   "tags": []
+   "tags": [],
+   "work": "cineosis-passes",
+   "role": "Reel of the handmade film",
+   "step": 4,
+   "of": 8,
+   "how": "The first hand-authored passages, before the first blind review."
   },
   {
    "id": "cineosis-handmade-signs1-8",
@@ -770,7 +922,12 @@ window.CRANK_FILMS = {
      "bolas": "cineosis/"
     }
    ],
-   "tags": []
+   "tags": [],
+   "work": "cineosis-passes",
+   "role": "Reel of the handmade film",
+   "step": 5,
+   "of": 8,
+   "how": "Review reel for signs 1 to 8."
   },
   {
    "id": "cineosis-handmade-signs13-41",
@@ -803,7 +960,12 @@ window.CRANK_FILMS = {
      "bolas": "cineosis/"
     }
    ],
-   "tags": []
+   "tags": [],
+   "work": "cineosis-passes",
+   "role": "Reel of the handmade film",
+   "step": 6,
+   "of": 8,
+   "how": "Review reel for signs 13 to 41."
   },
   {
    "id": "ep1-nobody",
@@ -840,7 +1002,12 @@ window.CRANK_FILMS = {
      "bolas": "found-odyssey/"
     }
    ],
-   "tags": []
+   "tags": [],
+   "work": "odyssey-episodes",
+   "role": "Episode 1 · Book 9",
+   "step": 1,
+   "of": 7,
+   "how": "A prompt box asks for the hero's name."
   },
   {
    "id": "ep2-the-guest-gift",
@@ -878,7 +1045,12 @@ window.CRANK_FILMS = {
      "bolas": "found-odyssey/"
     }
    ],
-   "tags": []
+   "tags": [],
+   "work": "odyssey-episodes",
+   "role": "Episode 2 · Book 9 again",
+   "step": 2,
+   "of": 7,
+   "how": "The Cyclops as a flashback told two ways: the recollection-image."
   },
   {
    "id": "ep3-the-raft",
@@ -918,7 +1090,12 @@ window.CRANK_FILMS = {
      "bolas": "found-odyssey/"
     }
    ],
-   "tags": []
+   "tags": [],
+   "work": "odyssey-episodes",
+   "role": "Episode 3 · Book 5",
+   "step": 3,
+   "of": 7,
+   "how": "Each act from the point of view of whoever watches it."
   },
   {
    "id": "ep4-circe",
@@ -957,7 +1134,12 @@ window.CRANK_FILMS = {
      "bolas": "found-odyssey/"
     }
    ],
-   "tags": []
+   "tags": [],
+   "work": "odyssey-episodes",
+   "role": "Episode 4 · Book 10",
+   "step": 4,
+   "of": 7,
+   "how": "Re-cut around the line where power shifts."
   },
   {
    "id": "ep5-the-blood",
@@ -999,7 +1181,12 @@ window.CRANK_FILMS = {
      "bolas": "found-odyssey/"
     }
    ],
-   "tags": []
+   "tags": [],
+   "work": "odyssey-episodes",
+   "role": "Episode 5 · Book 11",
+   "step": 5,
+   "of": 7,
+   "how": "In grey; the only colour is the blood in the trench."
   },
   {
    "id": "ep6-the-knot",
@@ -1037,7 +1224,12 @@ window.CRANK_FILMS = {
      "bolas": "found-odyssey/"
     }
    ],
-   "tags": []
+   "tags": [],
+   "work": "odyssey-episodes",
+   "role": "Episode 6 · Book 12",
+   "step": 6,
+   "of": 7,
+   "how": "Built on hands that hold things."
   },
   {
    "id": "ep7-the-loop",
@@ -1075,7 +1267,12 @@ window.CRANK_FILMS = {
      "bolas": "found-odyssey/"
     }
    ],
-   "tags": []
+   "tags": [],
+   "work": "odyssey-episodes",
+   "role": "Episode 7 · Book 13",
+   "step": 7,
+   "of": 7,
+   "how": "A loop of seven agents trying to land the sleeping man."
   },
   {
    "id": "found-odyssey-drawn-tests",
@@ -1111,7 +1308,12 @@ window.CRANK_FILMS = {
      "bolas": "found-odyssey/"
     }
    ],
-   "tags": []
+   "tags": [],
+   "work": "odyssey-look",
+   "role": "Test",
+   "step": 1,
+   "of": 4,
+   "how": "The first three drawn shots in archive plates."
   },
   {
    "id": "found-odyssey-style-lab",
@@ -1147,7 +1349,12 @@ window.CRANK_FILMS = {
      "bolas": "found-odyssey/"
     }
    ],
-   "tags": []
+   "tags": [],
+   "work": "odyssey-look",
+   "role": "Test",
+   "step": 2,
+   "of": 4,
+   "how": "Six ways for the drawing to meet the footage, over the same two beats."
   },
   {
    "id": "found-odyssey-drawn-v2",
@@ -1179,7 +1386,12 @@ window.CRANK_FILMS = {
      "bolas": "found-odyssey/"
     }
    ],
-   "tags": []
+   "tags": [],
+   "work": "odyssey-look",
+   "role": "Test",
+   "step": 3,
+   "of": 4,
+   "how": "The chosen style applied to the three test shots."
   },
   {
    "id": "ep2-draft-opening",
@@ -1211,7 +1423,12 @@ window.CRANK_FILMS = {
      "bolas": "found-odyssey/"
     }
    ],
-   "tags": []
+   "tags": [],
+   "work": "odyssey-look",
+   "role": "Draft",
+   "step": 4,
+   "of": 4,
+   "how": "First cut of Episode 2's cold open; the finished episode follows below."
   },
   {
    "id": "wygwyl-poem07-paper-poet",
@@ -1244,7 +1461,12 @@ window.CRANK_FILMS = {
      "bolas": "wygwyl/"
     }
    ],
-   "tags": []
+   "tags": [],
+   "work": "wygwyl-build",
+   "role": "Poem 07",
+   "step": 4,
+   "of": 4,
+   "how": "All twelve patches, made by the automatic pipeline."
   },
   {
    "id": "wygwyl-poet-paper-proof",
@@ -1276,7 +1498,12 @@ window.CRANK_FILMS = {
      "bolas": "wygwyl/"
     }
    ],
-   "tags": []
+   "tags": [],
+   "work": "wygwyl-build",
+   "role": "First proof",
+   "step": 3,
+   "of": 4,
+   "how": "The poet as a jointed paper cut-out from his own photograph."
   },
   {
    "id": "wygwyl-celstyle-proof",
@@ -1306,7 +1533,12 @@ window.CRANK_FILMS = {
      "bolas": "wygwyl/"
     }
    ],
-   "tags": []
+   "tags": [],
+   "work": "wygwyl-build",
+   "role": "Test",
+   "step": 2,
+   "of": 4,
+   "how": "Two looks over the lab's cel cuts."
   },
   {
    "id": "wygwyl-inkcel-P05-008",
@@ -1336,7 +1568,12 @@ window.CRANK_FILMS = {
      "bolas": "wygwyl/"
     }
    ],
-   "tags": []
+   "tags": [],
+   "work": "wygwyl-build",
+   "role": "Test",
+   "step": 1,
+   "of": 4,
+   "how": "The first ink cel: one line of poem 05."
   },
   {
    "id": "wygwyl-cuts",

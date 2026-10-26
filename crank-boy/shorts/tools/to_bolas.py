@@ -5,7 +5,8 @@ Copies this repository (without .git and the agent instruction files CLAUDE.md a
   - adds <meta name="crank-mirror"> to every page, which tells room/site.js and films.html that Bolas is one folder up
     (so the Bolas films stream from ../media/films/ instead of the published site);
   - writes <bolas>/crank-boy/index.html, the landing page in the Bolas frame;
-  - adds the pages to <bolas>/sitemap.xml.
+  - adds the pages to <bolas>/sitemap.xml;
+  - copies registry/works.json to <bolas>/tools/site/ and runs works.py there, which adds "Part of ... how it follows" to every Bolas film page.
 Run it again after any change here; it replaces the copy. Then run bolas/tools/site/build.py's checks and commit in Bolas."""
 import html, json, os, re, shutil, sys
 root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -45,10 +46,16 @@ T = R['town']
 nfilms = len([f for f in FI['films'] if not f.get('external')])
 feat = [f for f in FI['films'] if f['id'] in ('town', 'proof-school', 'v9-played')]
 tiles = ''.join(f'''<a class="cb-tile" href="films.html#{esc(f["id"])}"><img src="{esc(f["thumb"])}" alt="" loading="lazy"><b>{esc(f["title"])}</b><span>{esc(f["line"][:150].rsplit(" ", 1)[0])}…</span></a>''' for f in feat)
+def more(cid):
+    fs = [f for f in FI['films'] if f.get('card') == cid]
+    if len(fs) < 2:
+        return ''
+    return '<span class="cb-ops">' + str(len(fs)) + ' films for this card: ' + ' · '.join(f'<a href="films.html#{esc(f["id"])}">{esc(f.get("role") or f["kind"])}</a>' for f in fs) + '</span>'
 cards = ''.join(f'''<div class="cb-card"><a href="films.html#{esc(s["id"])}"><img src="{esc(s["poster"])}" alt="" loading="lazy"></a>
 <b>{esc(s["title"])}</b><span class="line">{esc(s["line"])}</span>
 <span class="cb-ops">Film: {esc(s["operator"])} · Game: {esc(s["game"]["op"])} · Proposed sign: {esc(s["reading"]["sign"])}</span>
-<span class="cb-links"><a href="films.html#{esc(s["id"])}">Watch</a> · <a href="{esc(s["game"]["link"])}">Play the game</a> · <a href="shorts/index.html#{esc(s["id"])}">How it was made</a> · <a href="kit.html#card-{esc(s["id"])}">The pieces</a></span></div>''' for s in R['shorts'])
+{more(s["id"])}<span class="cb-links"><a href="films.html#{esc(s["id"])}">Watch</a> · <a href="{esc(s["game"]["link"])}">Play the game</a> · <a href="shorts/index.html#{esc(s["id"])}">How it was made</a> · <a href="kit.html#card-{esc(s["id"])}">The pieces</a></span></div>''' for s in R['shorts'])
+worklist = ''.join(f'<li><a href="films.html#w:{esc(w["id"])}">{esc(w["title"])}</a> · {len(w["members"])} films</li>' for w in FI['works'])
 desc = 'One 1910 postcard, seven versions of a game, and Futuretown: seven cards as films, games and one playable town, with archive film from the cineosis-lab library.'
 page = f'''<!doctype html><html lang="en" data-root="../"><head><meta charset="utf-8"><meta name="crank-mirror" content="bolas"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>The Crank Boy · CRASH LAB</title><meta name="description" content="{esc(desc)}"><link rel="canonical" href="https://hartswf0.github.io/bolas/crank-boy/">
@@ -86,6 +93,7 @@ page = f'''<!doctype html><html lang="en" data-root="../"><head><meta charset="u
 <div class="cb-act"><a href="play/v9.html">Play version 9</a><a href="shorts/school-melies.html">The trick-film proof</a><a href="shorts/requests.html">The art department</a><a href="docs/futuretown.md">The write-up</a></div></section>
 <section class="sec"><div class="sechead"><h2>Toward CINEOSIS</h2><p>the archive comes into the card</p></div>
 <p>CINEOSIS sets the crash-test family inside unaltered archive shots. These films take shots from the same cineosis-lab library the other way round, into a surface the card already has: a mirror, a screen, a polished floor, a sky, a fire. Each short is proposed as a candidate passage for one of the 45 signs. That is a reading, not a result: none has yet had the blind review the CINEOSIS handmade passages had.</p></section>
+<section class="sec"><div class="sechead"><h2>Films that go together</h2><p>{len(FI["works"])} works of two or more films, in order</p></div><p>Some subjects have more than one film. The school card has three (a short, a trick-film proof and the game played), and the Bolas films run in chains: the family in three, CINEOSIS in five passes, the Found Odyssey as a search for its look and then seven episodes, WYGWYL from one ink cel to a poem. <a href="films.html">The film library</a> shows each chain in order, with how each film follows the one before; each Bolas film page says the same.</p><ul>{worklist}</ul></section>
 <section class="sec"><div class="sechead"><h2>Seven cards</h2><p>a film, a game and a place in the Town for each</p></div><div class="cb-grid">{cards}</div></section>
 </main>
 <footer class="foot"><div class="wrap"><p><b>CONSEQUENCE WORKS</b> · Watson Hartsoe · built with Claude</p><p>The Crank Boy is mirrored here from <a href="https://github.com/hartswf0/crank-boy">hartswf0/crank-boy</a>. Cards: En l'an 2000, attributed to Villemard, about 1910. Archive footage comes from the cineosis-lab library and is credited inside each film. Doodles: Quick, Draw! (Google Creative Lab, CC BY 4.0), chosen by Secondhand Motion.</p></div></footer>
@@ -103,6 +111,12 @@ if os.path.exists(sm):
     if add:
         t = t.replace('</urlset>', add + '</urlset>')
         open(sm, 'w', encoding='utf-8').write(t)
+wj = os.path.join(bolas, 'tools/site/works.json')
+if os.path.isdir(os.path.dirname(wj)):
+    shutil.copyfile(os.path.join(root, 'registry/works.json'), wj)
+    if os.path.exists(os.path.join(bolas, 'tools/site/works.py')):
+        import subprocess
+        subprocess.run([sys.executable, os.path.join(bolas, 'tools/site/works.py')], check=True)
 nfiles = sum(len(fs) for _, _, fs in os.walk(out))
 size = sum(os.path.getsize(os.path.join(d, f)) for d, _, fs in os.walk(out) for f in fs)
 print(f'crank-boy/: {nfiles} files, {size / 1e6:.1f} MB; {n} pages marked as a mirror')

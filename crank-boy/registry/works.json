@@ -1,0 +1,210 @@
+{
+ "about": "Films that belong together. A work is a set of films about one thing, in the order they were made or the order to watch them, each with its role and one sentence on how it follows from the one before. registry/build_films.py reads this file into registry/films.js; films.html, the Futuretown page, the kit and the Bolas pages show it. Add a work when a second film appears for the same card, program or idea. A film with no entry is a work of one.",
+ "works": [
+  {
+   "id": "school-card",
+   "group": "futuretown",
+   "title": "À l'école, three films",
+   "line": "The school card is the only card with more than one film. They are three different questions asked of the same room: what does one operator make of the card, what does an older film style make of it, and what does the game look like on clean plates. The Town cartoon (below) also contains it.",
+   "members": [
+    {
+     "film": "school",
+     "role": "Short",
+     "note": "Terry Gilliam's cutout metamorphosis: the card cut into three pieces, a head comes off and a book opens on a filmed classroom."
+    },
+    {
+     "film": "proof-school",
+     "role": "Proof scene",
+     "note": "The art department's first call sheet made real: the same card as a 1907 trick-film tableau, with the stars of The Eclipse re-printed in its inks."
+    },
+    {
+     "film": "v9-played",
+     "role": "Game, played",
+     "note": "Version 9 on Watson's clean plates: the whole class as layers, and a lectern under the machine. The film is the game played by a script."
+    }
+   ]
+  },
+  {
+   "id": "family-three",
+   "group": "family",
+   "title": "The crash-test family, in three films",
+   "line": "From a first pencil test of ball-and-cord figures to the full measured bay. Each film adds what the one before could not do.",
+   "members": [
+    {
+     "film": "bolas-videotext",
+     "role": "Pencil test",
+     "note": "Three experiments acted by ball-and-cord figures."
+    },
+    {
+     "film": "the-physical",
+     "role": "The physical",
+     "note": "One skeleton must walk, reach, lift, slip, sulk and swoon: 47 proofs."
+    },
+    {
+     "film": "crash-lab-film",
+     "role": "The crash lab",
+     "note": "132 vignettes in a measured bay, each scored for weight, feet, hands and contact."
+    }
+   ]
+  },
+  {
+   "id": "cineosis-passes",
+   "group": "cineosis",
+   "title": "CINEOSIS, in five passes",
+   "line": "The same 45 signs of Deleuze's cinema books, performed again each time with less machine and more hand: first in the bay, then fitted into six archive clips by hand, then into 84 by an automatic pipeline, then by hand into all of them with blind review, and finally a making-of. The three reels are cuts of the handmade film.",
+   "members": [
+    {
+     "film": "cineosis-crash-lab",
+     "role": "In the bay",
+     "note": "All 45 signs over 59 measured worlds; no archive footage yet."
+    },
+    {
+     "film": "cineosis-hybrid-pilot",
+     "role": "Pilot",
+     "note": "Six signs inside six real archive clips: does it work at all?"
+    },
+    {
+     "film": "cineosis-hybrid-atlas",
+     "role": "Automatic",
+     "note": "The same, for all 45 signs, found and fitted by an automatic pipeline: 84 passages."
+    },
+    {
+     "film": "cineosis-handmade-batch1",
+     "role": "Reel of the handmade film",
+     "note": "The first hand-authored passages, before the first blind review."
+    },
+    {
+     "film": "cineosis-handmade-signs1-8",
+     "role": "Reel of the handmade film",
+     "note": "Review reel for signs 1 to 8."
+    },
+    {
+     "film": "cineosis-handmade-signs13-41",
+     "role": "Reel of the handmade film",
+     "note": "Review reel for signs 13 to 41."
+    },
+    {
+     "film": "cineosis-handmade-film",
+     "role": "Handmade",
+     "note": "Every sign authored by hand over unaltered archive clips, each reviewed blind by a fresh critic."
+    },
+    {
+     "film": "cineosis-hand-butter",
+     "role": "Making-of",
+     "note": "The cast shows its work to a blindfolded Critic."
+    }
+   ]
+  },
+  {
+   "id": "odyssey-look",
+   "group": "odyssey",
+   "title": "The Found Odyssey: finding the look",
+   "line": "Before the episodes: how the drawn cast should meet archive footage. Three first shots, six ways to draw them, the chosen way, and the first cut of an episode opening. These led to the seven episodes.",
+   "members": [
+    {
+     "film": "found-odyssey-drawn-tests",
+     "role": "Test",
+     "note": "The first three drawn shots in archive plates."
+    },
+    {
+     "film": "found-odyssey-style-lab",
+     "role": "Test",
+     "note": "Six ways for the drawing to meet the footage, over the same two beats."
+    },
+    {
+     "film": "found-odyssey-drawn-v2",
+     "role": "Test",
+     "note": "The chosen style applied to the three test shots."
+    },
+    {
+     "film": "ep2-draft-opening",
+     "role": "Draft",
+     "note": "First cut of Episode 2's cold open; the finished episode follows below."
+    }
+   ]
+  },
+  {
+   "id": "odyssey-episodes",
+   "group": "odyssey",
+   "title": "The Found Odyssey: seven episodes",
+   "line": "One book of the Odyssey per episode, each running one formal experiment. Watch them in order or in any order.",
+   "members": [
+    {
+     "film": "ep1-nobody",
+     "role": "Episode 1 · Book 9",
+     "note": "A prompt box asks for the hero's name."
+    },
+    {
+     "film": "ep2-the-guest-gift",
+     "role": "Episode 2 · Book 9 again",
+     "note": "The Cyclops as a flashback told two ways: the recollection-image."
+    },
+    {
+     "film": "ep3-the-raft",
+     "role": "Episode 3 · Book 5",
+     "note": "Each act from the point of view of whoever watches it."
+    },
+    {
+     "film": "ep4-circe",
+     "role": "Episode 4 · Book 10",
+     "note": "Re-cut around the line where power shifts."
+    },
+    {
+     "film": "ep5-the-blood",
+     "role": "Episode 5 · Book 11",
+     "note": "In grey; the only colour is the blood in the trench."
+    },
+    {
+     "film": "ep6-the-knot",
+     "role": "Episode 6 · Book 12",
+     "note": "Built on hands that hold things."
+    },
+    {
+     "film": "ep7-the-loop",
+     "role": "Episode 7 · Book 13",
+     "note": "A loop of seven agents trying to land the sleeping man."
+    }
+   ]
+  },
+  {
+   "id": "wygwyl-build",
+   "group": "wygwyl",
+   "title": "WYGWYL, from one ink cel to a poem",
+   "line": "The paper poet's build, in the order it was made: one ink cel, two looks, the jointed poet over his own plates, then a whole poem made by the automatic pipeline.",
+   "members": [
+    {
+     "film": "wygwyl-inkcel-P05-008",
+     "role": "Test",
+     "note": "The first ink cel: one line of poem 05."
+    },
+    {
+     "film": "wygwyl-celstyle-proof",
+     "role": "Test",
+     "note": "Two looks over the lab's cel cuts."
+    },
+    {
+     "film": "wygwyl-poet-paper-proof",
+     "role": "First proof",
+     "note": "The poet as a jointed paper cut-out from his own photograph."
+    },
+    {
+     "film": "wygwyl-poem07-paper-poet",
+     "role": "Poem 07",
+     "note": "All twelve patches, made by the automatic pipeline."
+    }
+   ]
+  }
+ ],
+ "relations": [
+  {
+   "from": "futuretown",
+   "to": "cineosis",
+   "text": "Futuretown runs the CINEOSIS path the other way round: archive footage from the same cineosis-lab library, but brought into the card through a surface it already has, instead of a dummy walked into the footage."
+  },
+  {
+   "from": "futuretown",
+   "to": "wygwyl",
+   "text": "The Town's doodle layer and the paper poet are both cut-out puppets over archive footage; WYGWYL's rig is the older of the two."
+  }
+ ]
+}

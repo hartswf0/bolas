@@ -67,6 +67,18 @@ h1{font-size:36px;margin:8px 0 2px}
 .list .film .body{display:flex;flex-direction:column;gap:4px;min-width:0}
 .list .film p{-webkit-line-clamp:3}
 .empty{padding:30px 0;color:var(--muted);font-style:italic}
+.work{margin:0 0 30px;border-left:4px solid var(--c);padding:2px 0 2px 14px}
+.work .wh{margin-bottom:12px;max-width:80ch}
+.work .wh h3{font-size:21px;line-height:1.1}
+.work .wh .m{display:block;margin:2px 0 4px}
+.work .wh p{margin:0;font-size:15px;color:#3d332b}
+.poster .step{position:absolute;right:8px;top:8px;font-family:var(--display);font-size:13px;width:24px;height:24px;border-radius:50%;background:var(--paper);color:var(--ink);border:1.5px solid var(--ink);display:flex;align-items:center;justify-content:center}
+.film .how{font-style:italic;font-size:14.5px;line-height:1.35;color:#2b2320;margin:0;display:block;-webkit-line-clamp:none}
+.film .part{font-size:13px;color:var(--muted)}
+.rel{margin:0 0 12px;font-size:14.5px;color:#4a3f36;max-width:80ch}
+.sibs{display:flex;gap:8px;flex-wrap:wrap;margin:2px 0 0}
+.sibs button{border:1.5px solid var(--ink);background:var(--paper);padding:2px 9px;font-family:var(--display);font-size:13px;border-radius:999px}
+.sibs button[aria-current=true]{background:var(--ink);color:var(--paper)}
 
 /* player */
 dialog{width:min(960px,96vw);max-height:96dvh;padding:0;border:1.5px solid var(--ink);background:var(--paper);color:var(--ink);box-shadow:5px 5px 0 var(--ink);overflow:auto}
@@ -139,7 +151,7 @@ const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&am
 const COLOR = { crankboy: '#C9733A', futuretown: '#B44A3C', family: '#B8901F', cineosis: '#2E8E80', odyssey: '#9A4A36', wygwyl: '#7B68B8', elsewhere: '#76685A' };
 const KIND = { live: 'Live film', film: 'Film', short: 'Short', proof: 'Proof scene', cartoon: 'Cartoon', game: 'Game, played', reel: 'Reel', test: 'Test', external: 'Elsewhere' };
 const G = Object.fromEntries(F.groups.map(g => [g.id, g]));
-const films = F.films;
+const films = F.films, FBY = Object.fromEntries(F.films.map(f => [f.id, f])), W = Object.fromEntries((F.works || []).map(w => [w.id, w]));
 const fmt = d => { if (!d) return ''; d = Math.round(d); const h = Math.floor(d / 3600), m = Math.floor(d % 3600 / 60), s = d % 60; return h ? `${h}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}` : `${m}:${String(s).padStart(2, '0')}`; };
 const fmtLong = d => { const h = Math.floor(d / 3600), m = Math.round(d % 3600 / 60); return h ? `${h} h ${m} min` : `${m} min`; };
 const src = f => f.src ? (f.src.local ? S.root + f.src.local : BOLAS + f.src.bolas) : null;
@@ -151,7 +163,7 @@ const state = { q: '', group: 'all', kind: 'all', sort: 'group', layout: 'grid' 
 try { const l = localStorage.getItem('crank.films.layout'); if (l === 'list') state.layout = 'list'; } catch (e) {}
 const TECTI = '<svg viewBox="-14 -14 28 28" aria-hidden="true"><g fill="none" stroke="#C0573A" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M-10 0 L0 -9 L10 0 M-7.8 0 V9.5 M7.8 0 V9.5 M0 -9 V-5.5"/></g><circle cx="-3" cy="2.8" r="1" fill="#C0573A"/><circle cx="3" cy="2.8" r="1" fill="#C0573A"/></svg>';
 
-$('lede').textContent = 'Every film we have made, in one place: the opening film and the games played by a script; the Futuretown shorts, the Town and the proof scenes; and the four programs of Bolas, the crash-test family, CINEOSIS, the Found Odyssey and WYGWYL. Pick one to watch it here.';
+$('lede').textContent = 'Every film we have made, in one place: the opening film and the games played by a script; the Futuretown shorts, the Town and the proof scenes; and the four programs of Bolas, the crash-test family, CINEOSIS, the Found Odyssey and WYGWYL. Where several films belong together, such as the three films of the school card or the five passes of CINEOSIS, they are grouped, numbered and described in the order to watch them. Pick one to watch it here.';
 const playable = films.filter(f => src(f));
 const totalDur = films.reduce((a, f) => a + (f.dur || 0), 0), totalMb = films.reduce((a, f) => a + (f.mb || 0), 0);
 $('sum').textContent = `${films.filter(f => !external(f)).length} films · ${fmtLong(totalDur)} · ${Math.round(totalMb)} MB · ${films.filter(external).length} more elsewhere`;
@@ -172,7 +184,7 @@ $('lg').onclick = () => setLayout('grid'); $('ll').onclick = () => setLayout('li
 function setLayout(l) { state.layout = l; try { localStorage.setItem('crank.films.layout', l); } catch (e) {} render(); }
 
 // ---- the list
-const hay = f => [f.title, f.line, f.op, (f.plates || []).join(' '), (f.cast || []).join(' '), (f.tags || []).join(' '), KIND[f.kind], G[f.group].title, f.date].join(' ').toLowerCase();
+const hay = f => [f.title, f.line, f.op, (f.plates || []).join(' '), (f.cast || []).join(' '), (f.tags || []).join(' '), KIND[f.kind], f.role, f.how, f.work && W[f.work].title, G[f.group].title, f.date].join(' ').toLowerCase();
 const HAY = new Map(films.map(f => [f.id, hay(f)]));
 let shown = [];
 function filtered() {
@@ -182,13 +194,27 @@ function filtered() {
   else if (state.sort === 'az') r = r.slice().sort((a, b) => a.title.localeCompare(b.title));
   return r;
 }
-function card(f) {
+function card(f, inWork) {
   const t = thumb(f), c = COLOR[f.group], isExt = external(f), a = isExt ? f.external : live(f) ? S.root + f.open.replace(/^index\.html/, S.mirror ? 'album.html' : 'index.html') : null;
-  const poster = `<${a ? 'a href="' + esc(a) + '"' + (isExt ? ' target="_blank" rel="noopener"' : '') : 'button type="button" data-open="' + f.id + '" aria-label="Watch ' + esc(f.title) + '"'} class="poster${t ? '' : ' ph'}">${t ? `<img src="${esc(t)}" alt="" loading="lazy" width="640" height="400">` : TECTI}<span class="kind">${esc(KIND[f.kind] || f.kind)}</span>${f.dur ? `<span class="dur">${fmt(f.dur)}</span>` : ''}${isExt ? '' : '<span class="play" aria-hidden="true"></span>'}</${a ? 'a' : 'button'}>`;
+  const label = f.work ? f.role : (KIND[f.kind] || f.kind);
+  const poster = `<${a ? 'a href="' + esc(a) + '"' + (isExt ? ' target="_blank" rel="noopener"' : '') : 'button type="button" data-open="' + f.id + '" aria-label="Watch ' + esc(f.title) + '"'} class="poster${t ? '' : ' ph'}">${t ? `<img src="${esc(t)}" alt="" loading="lazy" width="640" height="400">` : TECTI}<span class="kind">${esc(label)}</span>${f.work && inWork ? `<span class="step" title="Film ${f.step} of ${f.of}">${f.step}</span>` : ''}${f.dur ? `<span class="dur">${fmt(f.dur)}</span>` : ''}${isExt ? '' : '<span class="play" aria-hidden="true"></span>'}</${a ? 'a' : 'button'}>`;
   const title = a ? `<a href="${esc(a)}"${isExt ? ' target="_blank" rel="noopener"' : ''}>${esc(f.title)}${isExt ? ' ↗' : ''}</a>` : `<button type="button" data-open="${f.id}">${esc(f.title)}</button>`;
   const meta = [G[f.group].title, f.date, f.mb ? f.mb + ' MB' : ''].filter(Boolean).join(' · ');
-  return `<article class="film" id="f-${f.id}" style="--c:${c}">${poster}<div class="body"><h3>${title}</h3><div class="m">${esc(meta)}</div><p>${esc(f.line)}</p></div></article>`;
+  const part = f.work && !inWork ? `<div class="part">${f.step} of ${f.of} in <a href="#w:${f.work}">${esc(W[f.work].title)}</a></div>` : '';
+  return `<article class="film" id="f-${f.id}" style="--c:${c}">${poster}<div class="body"><h3>${title}</h3><div class="m">${esc(meta)}</div>${part}${f.work && inWork ? `<p class="how">${esc(f.how)}</p>` : ''}<p>${esc(f.line)}</p></div></article>`;
 }
+// films in registry order, with each work's films gathered into one block at its first film
+function blocks(fs) {
+  const out = [], seen = new Set();
+  for (const f of fs) {
+    if (!f.work) { out.push({ one: f }); continue; }
+    if (seen.has(f.work)) continue; seen.add(f.work);
+    const mem = fs.filter(x => x.work === f.work).sort((a, b) => a.step - b.step);
+    out.push(mem.length > 1 || W[f.work].members.length > 1 ? { work: W[f.work], mem } : { one: f });
+  }
+  return out;
+}
+const blockHtml = b => b.one ? card(b.one) : `<div class="work" id="w-${b.work.id}"><div class="wh"><h3>${esc(b.work.title)}</h3><span class="m">${b.mem.length === b.work.members.length ? b.work.members.length + ' films, in the order to watch them' : b.mem.length + ' of ' + b.work.members.length + ' films shown'}</span><p>${esc(b.work.line)}</p></div><div class="grid">${b.mem.map(f => card(f, true)).join('')}</div></div>`;
 function render() {
   shown = filtered();
   document.querySelectorAll('#chips button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.g === state.group)));
@@ -198,7 +224,9 @@ function render() {
   else if (state.sort === 'group') {
     out.innerHTML = F.groups.map(g => { const fs = shown.filter(f => f.group === g.id); if (!fs.length) return '';
       const link = g.path ? `<a href="${esc(BOLAS + g.path)}">${esc(g.title)} in Bolas</a>` : '';
-      return `<section class="group" style="--c:${COLOR[g.id]}" aria-label="${esc(g.title)}"><header><h2>${esc(g.title)}</h2><p>${esc(g.line)}</p>${link}</header><div class="grid">${fs.map(card).join('')}</div></section>`; }).join('');
+      const rel = (F.relations || []).filter(r => r.from === g.id || r.to === g.id).map(r => `<p class="rel"><b style="font-weight:400;font-family:var(--display)">Related:</b> ${esc(r.text)}</p>`).join('');
+      const bl = blocks(fs), singles = bl.filter(b => b.one), works = bl.filter(b => b.work);
+      return `<section class="group" style="--c:${COLOR[g.id]}" aria-label="${esc(g.title)}"><header><h2>${esc(g.title)}</h2><p>${esc(g.line)}</p>${link}</header>${rel}${works.map(blockHtml).join('')}${singles.length ? `<div class="grid">${singles.map(blockHtml).join('')}</div>` : ''}</section>`; }).join('');
   } else out.innerHTML = `<div class="group"><div class="grid">${shown.map(card).join('')}</div></div>`;
   out.querySelectorAll('[data-open]').forEach(b => b.onclick = () => openFilm(b.dataset.open));
   const pl = shown.filter(f => src(f)), tot = pl.reduce((a, f) => a + (f.dur || 0), 0);
@@ -214,11 +242,13 @@ function openFilm(id, list) {
   cur = f; $('perr').hidden = true;
   $('pt').textContent = f.title; $('pm').textContent = [KIND[f.kind], G[f.group].title, f.date, f.dur ? fmt(f.dur) : '', f.mb ? f.mb + ' MB' : ''].filter(Boolean).join(' · '); $('pline').textContent = f.line;
   const facts = [];
+  if (f.work) { facts.push(['Part of', W[f.work].title + ' · ' + f.step + ' of ' + f.of]); facts.push(['How it follows', f.how]); }
   if (f.op) facts.push(['Operator', f.op]);
   if (f.plates && f.plates.length) facts.push(['Archive', f.plates.join('; ')]);
   if (f.cast && f.cast.length) facts.push(['Cast', f.cast.join(', ')]);
   facts.push(['More', (f.links || []).map(l => `<a href="${esc(hrefOf(l))}">${esc(l.label)}</a>`).join(' · ') + ` · <a href="${esc(src(f))}">The file</a>`]);
-  $('pf').innerHTML = facts.map(([k, v]) => `<dt>${k}</dt><dd>${k === 'More' ? v : esc(v)}</dd>`).join('');
+  $('pf').innerHTML = facts.map(([k, v]) => `<dt>${k}</dt><dd>${k === 'More' ? v : esc(v)}</dd>`).join('') + (f.work ? `<dt>Same work</dt><dd><div class="sibs">${W[f.work].members.map(id => FBY[id]).filter(x => src(x) || x.open).map(x => `<button type="button" data-sib="${x.id}" aria-current="${x.id === f.id}">${x.step} · ${esc(x.role)}</button>`).join('')}</div></dd>` : '');
+  $('pf').querySelectorAll('[data-sib]').forEach(b => b.onclick = () => openFilm(b.dataset.sib, W[f.work].members.map(id => FBY[id]).filter(src)));
   const i = queue.indexOf(f); $('pp').disabled = i <= 0; $('pn').disabled = i >= queue.length - 1;
   vid.poster = thumb(f) || ''; vid.src = src(f);
   if (!dlg.open) dlg.showModal();
@@ -240,6 +270,7 @@ $('playall').onclick = () => { const pl = shown.filter(f => src(f)); if (!pl.len
 chips(); render();
 const h = decodeURIComponent(location.hash.slice(1));
 if (h.startsWith('g:') && G[h.slice(2)]) { state.group = h.slice(2); render(); }
+else if (h.startsWith('w:') && W[h.slice(2)]) { state.group = W[h.slice(2)].group; render(); const el = document.getElementById('w-' + h.slice(2)); el && el.scrollIntoView(); }
 else if (h && films.some(f => f.id === h && src(f))) openFilm(h, films.filter(src));
 })();
 </script>

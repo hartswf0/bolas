@@ -77,6 +77,8 @@ Reading pages carry the site bar: `<script src="../room/site.js" data-root="../"
 
 Render it (`node shorts/tools/render.mjs <id>`), then run `python3 registry/build_films.py <bolas checkout>` and `node registry/check.js`. A version with a `film` field in the registry appears in the library as "played". A Futuretown short appears from `shorts` in the registry. Bolas films come from Bolas's `catalog.json`; do not copy them here.
 
+**Films that go together.** If the new film is a second film for a card, program or idea, add it to `registry/works.json` as a member of a work (or start one), with a `role` and one sentence `note` on how it follows the film before. `build_films.py` refuses an unknown film or a film in two works, and `check.js` checks every work. `films.html`, the Futuretown page, the kit and the Bolas film pages all read it (`to_bolas.py` copies it to `bolas/tools/site/works.json`).
+
 ## Publishing into Bolas
 
 `python3 shorts/tools/to_bolas.py <bolas checkout>` mirrors this repository into `bolas/crank-boy/`. The Bolas landing page is `crank-boy/index.html`; the album is `crank-boy/album.html`. Run it after any change, then commit in Bolas.

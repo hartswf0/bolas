@@ -89,6 +89,7 @@ table.t code{font-size:13.5px}
 </div>
 <script src="registry/registry.js"></script>
 <script src="registry/library.js"></script>
+<script src="registry/films.js"></script>
 <script src="registry/kit.js"></script>
 <script>
 (() => {
@@ -101,7 +102,7 @@ $('cardsOut').innerHTML = K.cards.map(c => `<div class="sheet" id="card-${esc(c.
   <div><h3 style="margin-top:0">${esc(c.title)}</h3>
   <div class="tags"><span class="chip">${c.parts.length} pieces</span><span class="chip">${c.parts.filter(p => p.slot).length} slots</span>${c.film ? `<span class="chip">Film: ${esc(c.film)}</span>` : ''}${c.game ? `<span class="chip">Game: ${esc(c.game)}</span>` : ''}</div>
   <div class="meta">The eight inks</div><div class="inks" role="group" aria-label="Inks">${c.inks.map((k, i) => `<button type="button" style="background:${hex(k)}" data-ink="${hex(k)}" aria-label="Ink ${i + 1} ${hex(k)}"></button>`).join('')}</div><div class="inkname" aria-live="polite">&nbsp;</div>
-  <div class="row" style="display:flex;gap:8px;flex-wrap:wrap;margin:6px 0 10px"><a class="btn" href="${esc(c.clean)}">The clean card</a>${c.empty ? `<a class="btn" href="${esc(c.empty)}">With the actors removed</a>` : ''}<a class="btn" href="shorts/${esc(c.id)}.html">Its film</a><a class="btn" href="shorts/world.html?d=${esc(c.id)}">Its game</a><a class="btn" href="shorts/requests.html#${esc(c.id)}">Its call sheet</a></div>
+  <div class="row" style="display:flex;gap:8px;flex-wrap:wrap;margin:6px 0 10px"><a class="btn" href="${esc(c.clean)}">The clean card</a>${c.empty ? `<a class="btn" href="${esc(c.empty)}">With the actors removed</a>` : ''}${window.CRANK_FILMS.films.filter(f => f.card === c.id).map(f => `<a class="btn" href="films.html#${esc(f.id)}">${esc(f.role || 'Film')}</a>`).join('') || '<a class="btn" href="shorts/' + esc(c.id) + '.html">Its film</a>'}<a class="btn" href="shorts/world.html?d=${esc(c.id)}">Its game</a><a class="btn" href="shorts/requests.html#${esc(c.id)}">Its call sheet</a></div>
   <div class="pieces">${c.parts.map(piece).join('')}</div></div></div></div>`).join('');
 $('cardsOut').querySelectorAll('[data-ink]').forEach(b => b.onclick = () => { const n = b.closest('.cardrow').querySelector('.inkname'); n.textContent = b.dataset.ink + ' (copied)'; if (navigator.clipboard) navigator.clipboard.writeText(b.dataset.ink).catch(() => {}); });
 const V = K.v9;

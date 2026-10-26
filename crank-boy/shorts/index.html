@@ -102,6 +102,7 @@ ol.proc{margin:.3em 0;padding-left:1.3em;font-size:16px}
 </div>
 <script src="../registry/registry.js"></script>
 <script src="../registry/library.js"></script>
+<script src="../registry/films.js"></script>
 <script>
 const R = window.CRANK, T = window.CRANK_TEXT || {}, A = R.shortsAbout, TW = R.town;
 const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -111,7 +112,8 @@ const keyOf = doc => { const m = { 'gilliam-cutout-metamorphosis': 'op-gilliam',
 const card = id => R.series.find(s => s.id === id) || {};
 const holder = { school: 'the crank boy (recastable)', scrubber: 'the maid (recastable)', barber: 'the lever man (recastable)', 'phono-cinema': 'the man at the recordings', 'air-cabs': 'the cab driver', firemen: 'the pump in the street', skates: 'nobody the card shows' };
 document.getElementById('lede').textContent = A.line;
-document.getElementById('sevenOut').innerHTML = R.shorts.map(s => `<div class="c"><a href="#${esc(s.id)}"><img src="../${esc(card(s.card).image)}" alt="${esc(s.title)}" loading="lazy"></a><b>${esc(s.title)}</b><div class="l"><a href="../films.html#${esc(s.id)}">Film</a><a href="world.html?d=${esc(s.id)}">Game</a><a href="../kit.html#card-${esc(s.id)}">Pieces</a><a href="requests.html#${esc(s.id)}">Next look</a></div><div class="o">${esc(s.operator)}</div></div>`).join('');
+const cardFilms = id => window.CRANK_FILMS.films.filter(f => f.card === id);
+document.getElementById('sevenOut').innerHTML = R.shorts.map(s => `<div class="c"><a href="#${esc(s.id)}"><img src="../${esc(card(s.card).image)}" alt="${esc(s.title)}" loading="lazy"></a><b>${esc(s.title)}</b><div class="l"><a href="../films.html#${esc(s.id)}">${cardFilms(s.id).length > 1 ? 'Films (' + cardFilms(s.id).length + ')' : 'Film'}</a><a href="world.html?d=${esc(s.id)}">Game</a><a href="../kit.html#card-${esc(s.id)}">Pieces</a><a href="requests.html#${esc(s.id)}">Next look</a></div><div class="o">${esc(s.operator)}</div>${cardFilms(s.id).length > 1 ? `<div class="o">${cardFilms(s.id).map(f => `<a href="../films.html#${esc(f.id)}">${esc(f.role || f.kind)}</a>`).join(' · ')}</div>` : ''}</div>`).join('');
 document.getElementById('townline').textContent = TW.line;
 const wf = document.getElementById('worldfilm'); wf.src = '../' + TW.film; wf.poster = '../' + TW.poster;
 document.getElementById('map').innerHTML = `<tr><th>Card</th><th>Who holds the handle</th><th>Film: operator</th><th>Game: operator</th><th>Archive</th><th>Proposed sign</th></tr>` +

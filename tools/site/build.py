@@ -61,6 +61,7 @@ def up_of(path): return '../' * path.count('/')
 
 # ---------------------------------------------------------------- pieces
 import cameo as CM
+import works as WK
 PREFIX = {'family': 'FAM', 'cineosis': 'CIN', 'odyssey': 'ODY', 'wygwyl': 'WYG'}
 TID = {}
 for _p in PREFIX:
@@ -246,7 +247,7 @@ def guided_notes(f, up, here):
 def films():
     path = 'films/index.html'; up = up_of(path); body = f'<section class="hero"><p class="eyebrow">Films</p><h1>Films<span class="stripe"></span></h1><p class="lede">{len(C.FILMS)} films, {mmss(sum(f["dur"] for f in C.FILMS))} in all, by program. The films of the Crank Boy (the Futuretown shorts and the Town) are in <a href="{up}crank-boy/films.html">its film library</a>, which also lists these.</p></section>'
     for pid in ('family', 'cineosis', 'odyssey', 'wygwyl'):
-        body += section(PROG[pid]['title'], grid([film_card(f, up) for f in C.FILMS if f['program'] == pid]))
+        body += section(PROG[pid]['title'], (f'<p class="worknote">{WK.lede(pid)}</p>' if WK.lede(pid) else '') + grid([film_card(f, up) for f in C.FILMS if f['program'] == pid]))
     w(path, page(path, 'Films', body, f'All {len(C.FILMS)} CRASH LAB films with loglines.', 'media/thumbs/crash-lab-film.jpg', crumbs=[('Home', ''), ('Films', None)]))
     for f in C.FILMS:
         path = f'films/{f["id"]}/index.html'; up = up_of(path); p = PROG[f['program']]
@@ -260,7 +261,7 @@ def films():
         cams = ''.join(cam(wh, po, at, f['id']) for wh, po, at in CM.PLAYER.get(f['program'], []))
         body = f"""<section class="filmpage"><p class="eyebrow" style="color:{p['color']}"><span class="tid">Test {TID[f['id']]}</span> {esc(p['title'])}{' · ' + esc(f['kind']) if f.get('kind') else ''}</p><h1 class="ft">{esc(f['title'])}</h1><div class="player">{video}{cams}</div>
 <p class="logline">{esc(f['line'])}</p>
-<dl class="facts"><div><dt>Running time</dt><dd>{mmss(f['dur'])}</dd></div><div><dt>Made</dt><dd>{f['date']}</dd></div><div><dt>Program</dt><dd><a href="{up}{prog_link}">{esc(p['title'])}</a></dd></div><div><dt>Characters</dt><dd>{chars}</dd></div><div><dt>File</dt><dd>{'<a href="' + up + 'media/films/' + f['id'] + '.mp4">mp4</a>, 960 wide, ' + str(f['mb']) + ' MB' if f['ready'] else 'encoding'}</dd></div></dl>
+<dl class="facts">{WK.row(f['id'], up)}<div><dt>Running time</dt><dd>{mmss(f['dur'])}</dd></div><div><dt>Made</dt><dd>{f['date']}</dd></div><div><dt>Program</dt><dd><a href="{up}{prog_link}">{esc(p['title'])}</a></dd></div><div><dt>Characters</dt><dd>{chars}</dd></div><div><dt>File</dt><dd>{'<a href="' + up + 'media/films/' + f['id'] + '.mp4">mp4</a>, 960 wide, ' + str(f['mb']) + ' MB' if f['ready'] else 'encoding'}</dd></div></dl>
 {notes}</section>{section('More from ' + p['title'], grid([film_card(g, up) for g in rel]))}"""
         w(path, page(path, f['title'], body, f['line'], f'media/thumbs/{f["id"]}.jpg', 'video.other', f'<script type="application/ld+json">{json.dumps(ld)}</script><meta property="og:video" content="{C.BASE}media/films/{f["id"]}.mp4">',
                      crumbs=[('Home', ''), (p['title'], prog_link), (f['title'], None)]))

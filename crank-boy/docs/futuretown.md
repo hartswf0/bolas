@@ -59,6 +59,12 @@ Watson made five image-model plates of *À l'école* that line up with the card 
 - **The film** (`assets/shorts/films/v9.mp4`, 52 s) is the game stepped from a fixed script.
 - **Limits.** The head and body split is a horizontal cut. Nobody walks or turns. The crank boy's arms do not follow the crank. There is one view of everyone. The plates' and cast's model and prompts are not recorded in this repository.
 
+## Films per card, and films that go together
+
+Most cards have one film. The school card has three, asked three different questions of the same room: the Gilliam-cutout short, the trick-film proof scene, and version 9 played on clean plates. Bolas has the same shape at larger scale: the crash-test family in three films, CINEOSIS in five passes (three reels are cuts of the handmade film), the Found Odyssey as a search for its look followed by seven episodes, and WYGWYL from one ink cel to a poem.
+
+`registry/works.json` records this: each work lists its films in order, each with a role and one sentence on how it follows the one before. `films.html` shows each work as a numbered block (`films.html#w:school-card`), the Futuretown page and the kit list every film for a card, and every Bolas film page carries a "Part of" row with before and next links.
+
 ## 6. Lessons
 
 1. The card's own drawing is the best cast.

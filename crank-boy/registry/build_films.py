@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Build registry/films.js: every film in the Crank Boy and in Bolas, for films.html.
 python3 registry/build_films.py <bolas checkout>
-Reads: registry/registry.js (shorts, town, versions, lab), <bolas>/catalog.json (the 26 Bolas films), the films in
+Reads: registry/registry.js (shorts, town, versions, lab), registry/works.json (which films belong together), <bolas>/catalog.json (the 26 Bolas films), the films in
 assets/shorts/films/. Copies each Bolas film's thumbnail into assets/films/thumbs/ so the page works without the network.
 Bolas films themselves are not copied (595 MB): films.html streams them from Bolas, from ../media/films/ when this site is
 mirrored inside Bolas and from the published site otherwise.
@@ -22,7 +22,7 @@ def probe(p):
     return round(d, 1), round(os.path.getsize(p) / 1e6, 1)
 
 GROUPS = [
-    {'id': 'crankboy', 'title': 'The Crank Boy', 'line': 'The opening film and the games, played.'},
+    {'id': 'crankboy', 'title': 'The Crank Boy', 'line': 'The opening film for the album of seven versions.'},
     {'id': 'futuretown', 'title': 'Futuretown', 'line': 'The seven cards brought to life, the Town they make together, and the proof scenes.'},
     {'id': 'family', 'title': 'The Crash-Test Family', 'line': 'Bola, Shim and little Dot in a measured bay, from the first pencil test to the full crash lab.', 'path': 'family/', 'bolas': True},
     {'id': 'cineosis', 'title': 'CINEOSIS', 'line': 'The family performs the 45 signs of Deleuze\'s cinema books, in a measured bay and inside real archive film.', 'path': 'cineosis/', 'bolas': True},
@@ -38,7 +38,7 @@ films.append({'id': 'opening', 'group': 'crankboy', 'kind': 'live', 'title': 'Th
 for v in R['versions']:
     if v.get('film'):
         d, mb = probe(os.path.join(root, v['film']))
-        films.append({'id': v['id'] + '-played', 'group': 'crankboy', 'kind': 'game', 'title': f"Version {v['tag']} · {v['title']}, played", 'date': v['date'], 'dur': d, 'mb': mb,
+        films.append({'id': v['id'] + '-played', 'group': 'futuretown', 'card': 'school', 'kind': 'game', 'title': f"Version {v['tag']} · {v['title']}, played", 'date': v['date'], 'dur': d, 'mb': mb,
                       'line': v['line'], 'thumb': v['film'].replace('.mp4', '.jpg'), 'src': {'local': v['film']},
                       'links': [{'label': 'Play it', 'href': v['play']}, {'label': 'How it was made', 'href': v['making']}], 'tags': ['game', 'plates']})
 
@@ -101,9 +101,20 @@ for f in R['lab'].get('films', []):
         continue
     films.append({'id': 'x-' + ''.join(c for c in f['title'].lower() if c.isalnum())[:24], 'group': 'elsewhere', 'kind': 'external', 'title': f['title'], 'date': None, 'dur': None, 'mb': None, 'line': f['what'], 'thumb': None, 'external': f['url'], 'links': [{'label': 'Open', 'href': f['url']}], 'tags': []})
 
+# ---- works: films that belong together (registry/works.json)
+W = json.load(open(os.path.join(root, 'registry/works.json'), encoding='utf-8'))
+by = {f['id']: f for f in films}
+for w in W['works']:
+    for i, m in enumerate(w['members']):
+        f = by.get(m['film'])
+        assert f, f"works.json: unknown film {m['film']} in {w['id']}"
+        assert 'work' not in f, f"film {f['id']} is in two works"
+        f.update({'work': w['id'], 'role': m['role'], 'step': i + 1, 'of': len(w['members']), 'how': m['note']})
+works = [{'id': w['id'], 'group': w['group'], 'title': w['title'], 'line': w['line'], 'members': [m['film'] for m in w['members']]} for w in W['works']]
+
 ids = [f['id'] for f in films]
 assert len(ids) == len(set(ids)), 'duplicate film id'
-out = {'updated': datetime.date.today().isoformat(), 'bolas': 'https://hartswf0.github.io/bolas/', 'groups': GROUPS, 'films': films}
+out = {'updated': datetime.date.today().isoformat(), 'bolas': 'https://hartswf0.github.io/bolas/', 'groups': GROUPS, 'works': works, 'relations': W.get('relations', []), 'films': films}
 open(os.path.join(root, 'registry/films.js'), 'w', encoding='utf-8').write('window.CRANK_FILMS = ' + json.dumps(out, indent=1, ensure_ascii=False) + ';\n')
 tot = sum(f['dur'] or 0 for f in films)
 print(f'{len(films)} films, {tot / 3600:.1f} h; thumbs in assets/films/thumbs: {len(os.listdir(os.path.join(root, "assets/films/thumbs")))}')
