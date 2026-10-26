@@ -13,6 +13,7 @@ Live: https://hartswf0.github.io/bolas/
 
 - [The Crank Boy](crank-boy/): seven En l'an 2000 postcards as short films, games and one playable town, with cineosis-lab archive film (mirrored from hartswf0/crank-boy); with version 9 on clean plates of the card, its art department and a first proof scene, the school as a Méliès trick film; write-up at crank-boy/docs/futuretown.md
 - [This Side Up](this-side-up/): case studies of the cardboard cut-out films, each with a full case page of versions, prompts, critic rounds and sheets
+- [PAELEO](paeleo/): Promptable Augmented Environments Lab · Ekphrastic Operations. One research program at three scales (AEL, PEO, PAELEO); its films are made with the SCION swarms, all 54 of which are written up and shown through the same paper dog at [paeleo/scion/](paeleo/scion/); six of them make the same scene from the bottom up at [paeleo/handmade/](paeleo/handmade/)
 - [Characters](characters/) · [Films](films/) (26) · [Process](process/) · [Docs and prompts](docs/)
 - Lab pages: [Bolas Pencil Test](lab/pencil-test/) · [Bolas Range Test](lab/range-test/) · [The Physical](lab/the-physical/) · [Dramaturgy Crash Lab](lab/crash-lab/)
 

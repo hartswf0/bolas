@@ -1,0 +1,94 @@
+{
+ "about": "SCION 46 asset ledger: every piece in the picture and the sound, where it came from, its rights, and the operation that made it.",
+ "assets": [
+  {
+   "id": "dog_head_plates",
+   "what": "the dog's four head plates (three-quarter front 45, side 90, three-quarter back 135, back 180), each with its landmark vector",
+   "source": "drawn for this film (build/plates.py, Catmull-Rom outlines in metres)",
+   "rights": "made here",
+   "operation": "drawn; placed per frame only by an affine least-squares fit of its landmarks to the solver's projected head landmarks; chosen by view-matching on the head's azimuth (hysteresis 7 deg)",
+   "note": "coat colours (tan, dark saddle, white collar/chest/blaze) chosen after looking at the home-movie dog in kit/archive-dog (Amateur Film New Jersey C); no pixels of it are used"
+  },
+  {
+   "id": "dog_body_plates",
+   "what": "three torso plates (side 90, three-quarter back 135, back 180)",
+   "source": "drawn for this film (build/plates.py)",
+   "rights": "made here",
+   "operation": "drawn; affine fit to projected torso landmarks; view-matched; mirrored views arise from the fit itself"
+  },
+  {
+   "id": "dog_parts",
+   "what": "ears (inner/outer), eyes (almond, iris, pupil, lid), mouth, neck with collar, four limbs, paws, tail",
+   "source": "drawn for this film (build/plates.py, build/render.py)",
+   "rights": "made here",
+   "operation": "ears and neck by two-point fits (base to tip, neck pivot to skull pivot); eyes, lid and mouth as controls inside the head plate's frame; limbs as one outline through the solved pivot chain; tail as a five-pivot chain"
+  },
+  {
+   "id": "person_face",
+   "what": "the person's face: a cartoon profile (nose, lips, chin), three mouth states",
+   "source_file": "sources/face/f004.jpg (closed), f012.jpg (half), f007.jpg (open), sources/face/masks.json",
+   "copied_from": "/home/user/hartswf0/secondhand-motion/shots/face-sam/frames/ (kit/found-frames.json entry 'face')",
+   "source_title": "We Learn About the Telephone I",
+   "archive_url": "https://archive.org/details/WeLearnA1965",
+   "clip_id": "de79b639-b8b3-5462-912e-b57322df522b",
+   "rights": "public_domain (as recorded in kit/found-frames.json)",
+   "operation": "SAM mask cut; landmarks hand-annotated; registration between mouth frames measured (upper-face edge, residual 0-1 px); placed by similarity fit only (no shear); graded by the scene's light; mouth chosen per frame from the voice's syllable envelope",
+   "note": "a drawn cartoon, not a real person's photographed face"
+  },
+  {
+   "id": "person_body_hat",
+   "what": "the person's coat, legs, arms, hands, cranium, hair, ear and hat",
+   "source": "drawn for this film (build/render.py)",
+   "rights": "made here",
+   "operation": "drawn in the face portrait's own pixel frame (cranium, hat, ear) and as limbs through a solved skeleton; the hat brim covers exactly the forehead the source frame never showed"
+  },
+  {
+   "id": "door",
+   "what": "the door panel with its curtained window and knob",
+   "source_file": "sources/door/f031.jpg",
+   "copied_from": "/home/user/hartswf0/secondhand-motion/shots/door-sam/frames/f031.jpg (kit/found-frames.json entry 'door')",
+   "source_title": "Straight Talk",
+   "archive_url": "https://archive.org/details/gov.ntis.ava19144vnb1",
+   "clip_id": "271d80c7-4f56-51b8-90fe-012dfb984b4f",
+   "rights": "public_domain (as recorded in kit/found-frames.json)",
+   "operation": "panel quad annotated by hand; rectified by a projective fit; mirrored (hinge side); a plain drawn head rail added where the source frame ends; re-projected each frame by a projective fit onto the swinging panel"
+  },
+  {
+   "id": "set",
+   "what": "house, cut-away room, lamp, picture frame, rug, porch, steps, railing, fence, treeline, sky, moon, stars, light spill and shadows",
+   "source": "drawn/computed for this film (build/render.py)",
+   "rights": "made here",
+   "operation": "world geometry in metres projected through the frame camera; light spill = the lit doorway projected from the lamp onto the porch; shadows = the dog's and person's landmarks projected from the lamp"
+  },
+  {
+   "id": "sound",
+   "what": "voice (formant synthesis of timed syllables), paws (one per solved foot contact), door creak, room hum and clock, collar tag, breath, wind and crickets",
+   "source": "synthesized here (build/sound.py, build/voice.py)",
+   "rights": "made here",
+   "operation": "synthesized; voice syllables shared with the face's mouth control; paws from cache/contacts.json"
+  },
+  {
+   "id": "score",
+   "what": "the dog's decision trace",
+   "source_file": "paeleo/handmade/score/threshold-score.json",
+   "rights": "PAELEO project",
+   "operation": "read: x, state, act intentions, person and door timeline"
+  },
+  {
+   "id": "fonts",
+   "what": "Big Shoulders Display, Literata, JetBrains Mono (cards only)",
+   "source_file": "tools/paeleo/fonts/",
+   "rights": "as provided by the repo (SIL OFL fonts)",
+   "operation": "typeset"
+  },
+  {
+   "id": "archive_dog_inspected",
+   "what": "kit/archive-dog frames",
+   "source_title": "Amateur Film New Jersey C",
+   "archive_url": "https://archive.org/details/NewJerseyC",
+   "rights": "public_domain",
+   "operation": "looked at only (coat and markings reference); not used in the picture"
+  }
+ ],
+ "not_used": "no Quick, Draw! drawings, no archive-dog pixels, no web images, no model-generated images, no real person's photographed face"
+}

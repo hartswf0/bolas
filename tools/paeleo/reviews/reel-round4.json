@@ -1,0 +1,13 @@
+{
+ "title": "Reel round 4",
+ "verdict": "does not pass",
+ "meta": "a fourth, fresh critic · 10 ms RMS and the 140–240 Hz band at all 55 cuts, four frames per lens, 390 px crops",
+ "gap": "The family pad ran straight through the cuts: a chord that changed only five times under 54 cuts.",
+ "repair": "In the 100 ms before every cut the bed is at least 20 dB below that lens's middle; the caption's number and look at least 22 px high.",
+ "notes": [
+  "Passed from round 3: every cut rises 18.5–28.7 dB within 30 ms; 03 and 53 changed by eye; 29/30 and 42/45 fixed.",
+  "Still: 06 barely a dog; 26, 42, 54 labels too small; 31 a flat matte with no fringe; 49's card cut off; 48's label on the post; floating labels at 42/43, 47/48, 26/30."
+ ],
+ "keep": "Frame-exact cuts with strong hits; neighbours distinct throughout; a dog continuous within each lens; claims that read at once in 02, 08, 11, 14, 20, 27, 29, 33, 36, 51, 53.",
+ "done": "A chord for each lens inside its 1.6 s and nothing after, checked by script (tools/paeleo/reel_check.py: every cut +21.8 dB or more, the bed 59 dB down before every cut); the number and look at 30 px; 06 keeps the dog's silhouette under its points; 31 gets a fringe of strands; bigger labels on 42 and 54; the labels on 26, 43 and 47 gone; 48 reads trust and reason in one tag by the head; 49's card in frame; 53's sprockets below the caption."
+}

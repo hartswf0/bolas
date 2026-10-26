@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SCION 16 JibJab</title>
+<style>
+:root{--bg:#14161f;--fg:#ece4d4;--mut:#a9a294;--acc:#d6aa6e;--line:#2c3040}
+@media (prefers-color-scheme: light){:root:not([data-theme="dark"]){--bg:#f6f1e7;--fg:#1d1b18;--mut:#5d574d;--acc:#8a5a1e;--line:#d8cfbf}}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.5 Georgia,serif}
+main{max-width:900px;margin:0 auto;padding:16px}
+h1{font:700 1.6rem system-ui,sans-serif;margin:.2em 0}h2{font:600 1.05rem system-ui,sans-serif;color:var(--acc);margin:1.4em 0 .3em}
+video{width:100%;background:#000;border-radius:6px}
+.row{display:flex;gap:8px;flex-wrap:wrap}.row a{color:var(--acc)}
+code{font-size:.9em}.k{color:var(--mut)}
+table{border-collapse:collapse;width:100%;font-size:.92em}td,th{border-bottom:1px solid var(--line);padding:4px 6px;text-align:left}
+</style></head><body><main>
+<h1>PAE-02 · SCION 16 · JibJab</h1>
+<p class="k">Recastable performance studio. One performance of the threshold, a face slot, three casts.</p>
+<video src="film.mp4" controls playsinline preload="metadata" poster="stills/still_28.0s.jpg"></video>
+<h2>Status</h2>
+<p><b>Revision:</b> round 2 (r14) (see <a href="ledger.jsonl">ledger.jsonl</a>). <b>Critic verdict:</b> round 1 DOES NOT PASS (narrowly), see reviews/round1.md; round 2 not yet reviewed. <b>Checker:</b> <a href="invariants.json">invariants.json</a> (structural, from the render's own trace).</p>
+<p><b>Next blocking failure (builder's guess, not a verdict):</b> a real photographic body wearing a graded paper head; thin photo forelegs when lying; the home-movie head barely legible.</p>
+<h2>The same performance, recast</h2>
+<video src="proof/comparison.mp4" controls playsinline preload="metadata"></video>
+<p class="k">Paper (this film) · Quick, Draw! doodle · home-movie face · the body plate with its empty face slot and torso matte. No re-performance between them.</p>
+<h2>Artifacts</h2>
+<div class="row"><a href="method.md">method.md</a><a href="trace.json">trace.json</a><a href="performance.json">performance.json</a><a href="cast/manifest.json">cast manifest</a><a href="matte-manifest.json">matte manifest</a><a href="assets.json">assets.json</a><a href="sound-levels.json">sound levels</a><a href="build/make.sh">build/make.sh</a></div>
+</main></body></html>

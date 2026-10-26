@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SCION 14 Pose2Pose</title>
+<style>
+:root{--bg:#16130f;--fg:#e9dcc2;--mute:#9a8c76;--acc:#d1b07e}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.5 Georgia,serif;padding:16px;max-width:900px;margin:auto}
+video,img{width:100%;height:auto;display:block;border-radius:4px}
+h1{font:700 22px/1.2 system-ui,sans-serif;margin:8px 0}
+.m{color:var(--mute);font:13px/1.4 ui-monospace,monospace}
+a{color:var(--acc)}
+li{margin:4px 0}
+</style></head><body>
+<h1>PAE-02 · SCION 14 · Pose2Pose Casting</h1>
+<p class="m">revision: build/make.sh run 10 (ledger.jsonl) · check_handmade ALL OK</p>
+<video src="film.mp4" controls playsinline preload="metadata" poster="stills/still_28.0s.jpg"></video>
+<p><b>Critic verdict:</b> pending (no independent critic has seen it; the builder does not approve its own work).</p>
+<p><b>Next blocking failure (builder's guess):</b> the front-view turn in-between at 3.63 s is the plainest drawing; the voice has never been heard.</p>
+<ul>
+<li><a href="proof/pose_atlas.png">pose atlas</a> · <a href="bank/bank.json">illustration bank</a></li>
+<li><a href="build/solve.py">sequence optimizer</a> · <a href="proof/path.json">decoded path</a> · <a href="proof/path_trace.png">path trace</a></li>
+<li><a href="proof/heatmap.png">failure-frame heat map</a> · <a href="proof/clusters.json">clusters</a></li>
+<li><a href="trace.json">trace</a> · <a href="invariants.json">invariants</a> · <a href="method.md">method</a> · <a href="assets.json">assets</a> · <a href="ledger.jsonl">ledger</a></li>
+</ul>
+</body></html>

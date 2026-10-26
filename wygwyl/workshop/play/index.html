@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="theme-color" content="#0b0d10">
+<link rel="icon" href="data:,">
+<title>WYGWYL Play</title>
+<style>
+/* Layout: a character shelf, then a full-screen stage. Joystick bottom left, one button per animation bottom right. */
+:root{
+  --bg:#0b0d10; --panel:#141920; --line:#2a313c; --ink:#e8ecf1; --muted:#9aa4b2; --brass:#d8ab4f; --brass-soft:#3a3020; --floor:#1b1f26;
+  --display:"Bricolage Grotesque","Arial Narrow",system-ui,sans-serif; --body:system-ui,-apple-system,"Segoe UI",sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);overscroll-behavior:none}
+body{overflow:hidden}
+button{font:inherit;color:inherit}
+#shelf{position:fixed;inset:0;overflow-y:auto;padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(24px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));-webkit-overflow-scrolling:touch}
+#shelf header{max-width:1000px;margin:0 auto 14px}
+#shelf h1{font-family:var(--display);font-size:1.7rem;margin:.2rem 0;letter-spacing:-.01em}
+#shelf p{color:var(--muted);margin:0 0 .4rem;max-width:62ch;line-height:1.45}
+.grid{max-width:1000px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:8px;display:grid;gap:4px;text-align:left;cursor:pointer;min-width:0}
+.card:focus-visible,.btn:focus-visible{outline:2px solid var(--brass);outline-offset:2px}
+.card .pic{height:150px;display:grid;place-items:center;background:#0f1319;border-radius:6px;overflow:hidden}
+.card img{max-width:100%;max-height:100%;object-fit:contain}
+.card b{font-size:.92rem;line-height:1.2;word-break:break-word}
+.card small{color:var(--muted);font-size:.74rem;line-height:1.3}
+.card.locked{opacity:.55;cursor:default}
+.card.locked .pic{font-size:.78rem;color:var(--muted);padding:8px;text-align:center}
+h2.sec{max-width:1000px;margin:20px auto 8px;font-family:var(--display);font-size:1.05rem;color:var(--muted)}
+#stage{position:fixed;inset:0;display:none;background:var(--bg);touch-action:none;user-select:none;-webkit-user-select:none}
+#cv{position:absolute;inset:0;width:100%;height:100%;display:block}
+.top{position:absolute;left:0;right:0;top:0;display:flex;gap:8px;align-items:center;padding:max(8px,env(safe-area-inset-top,0px)) max(10px,env(safe-area-inset-right,0px)) 8px max(10px,env(safe-area-inset-left,0px));pointer-events:none}
+.top>*{pointer-events:auto}
+.btn{background:#141920e6;border:1px solid var(--line);border-radius:999px;padding:9px 14px;font-size:.88rem;cursor:pointer;min-height:40px}
+.btn.on{background:var(--brass-soft);border-color:var(--brass)}
+#title{flex:1;min-width:0;font-family:var(--display);font-size:1rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-shadow:0 1px 4px #000}
+#note{position:absolute;left:0;right:0;top:calc(max(8px,env(safe-area-inset-top,0px)) + 52px);text-align:center;color:#fff;font-size:.78rem;text-shadow:0 1px 4px #000;pointer-events:none;padding:0 16px}
+#pad{position:absolute;left:0;right:0;bottom:calc(76px + env(safe-area-inset-bottom,0px));height:34%;touch-action:none}
+#knob{position:absolute;width:84px;height:84px;margin:-42px 0 0 -42px;border-radius:50%;border:2px solid #ffffff55;background:#ffffff14;display:none;pointer-events:none}
+#knob i{position:absolute;left:50%;top:50%;width:36px;height:36px;margin:-18px 0 0 -18px;border-radius:50%;background:#ffffff66}
+#hint{position:absolute;left:0;right:0;bottom:calc(96px + env(safe-area-inset-bottom,0px));text-align:center;color:#ffffffaa;font-size:.8rem;pointer-events:none;text-shadow:0 1px 4px #000}
+#acts{position:absolute;left:0;right:0;bottom:0;display:flex;gap:8px;align-items:center;overflow-x:auto;overflow-y:hidden;padding:10px max(10px,env(safe-area-inset-right,0px)) max(10px,env(safe-area-inset-bottom,0px)) max(10px,env(safe-area-inset-left,0px));background:linear-gradient(0deg,#0b0d10f2,#0b0d10b0 70%,#0b0d1000);-webkit-overflow-scrolling:touch;scrollbar-width:none}
+#acts::-webkit-scrollbar{display:none}
+#acts .btn{flex:0 0 auto;min-height:48px;padding:10px 16px;white-space:nowrap}
+#loading{position:absolute;inset:0;display:none;place-items:center;background:#0b0d10cc;color:var(--muted)}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto}}
+</style></head>
+<body>
+<section id="shelf" aria-label="Characters">
+  <header>
+    <h1>WYGWYL Play</h1>
+    <p>Pick a character. Move with the stick, tap the buttons to play each animation. Every animation here is made by swapping the character's own paintings, so a character can only do what its paintings show.</p>
+    <p id="count"></p>
+    <p><a href="levels.html" style="color:#8fb8ff">Play the 14 poems as levels →</a></p>
+  </header>
+  <div class="grid" id="chars"></div>
+  <h2 class="sec">Locked: no painting yet</h2>
+  <div class="grid" id="locked"></div>
+</section>
+
+<section id="stage" aria-label="Stage">
+  <canvas id="cv"></canvas>
+  <div class="top"><button class="btn" id="back" aria-label="Back to characters">‹ Characters</button><div id="title"></div><button class="btn" id="bgbtn" aria-label="Change stage">Stage</button></div>
+  <div id="note"></div>
+  <div id="pad"><div id="knob"><i></i></div></div>
+  <div id="hint">drag anywhere on the stage to walk</div>
+  <div id="acts"></div>
+  <div id="loading">Loading…</div>
+</section>
+
+<script>
+'use strict';
+const $ = id => document.getElementById(id);
+const store = { get(k){ try { return localStorage.getItem(k); } catch(e){ return null; } }, set(k,v){ try { localStorage.setItem(k,v); } catch(e){} } };
+let DATA = null, BGS = [];
+const LABEL = { dance:'Dance', sit:'Sit', kneel:'Kneel', crouch:'Crouch', lean:'Lean', lunge:'Lunge', lie:'Lie down', fall:'Fall', run:'Run', fly:'Fly', float:'Float', throw:'Throw', reach:'Reach', point:'Point' };
+const GROUND_ONLY = new Set(['lie','fall','sit','kneel','crouch','float','fly']);
+
+/* ---------- animations are built from the character's drawings ---------- */
+function neutralScore(d){ return (d.cls==='stand'?0:2) + (d.arm>=45?2:0) + (d.spread>=20?2:0) + (d.view==='q3'?0:(d.view==='front'?0.5:3)); }
+function plan(ch){
+  const D = ch.draws.map((d,i)=>Object.assign({i},d));
+  const idleCands = D.filter(d=>!GROUND_ONLY.has(d.cls) && d.view!=='back' && d.view!=='back3q').sort((a,b)=>neutralScore(a)-neutralScore(b));
+  const idle = idleCands[0] || D.filter(d=>d.view!=='back').sort((a,b)=>neutralScore(a)-neutralScore(b))[0] || D[0];
+  const strides = D.filter(d=>d.spread>=25 && d.view!=='back' && d.view!=='back3q' && !GROUND_ONLY.has(d.cls));
+  const walk = { frames: [], mode: 'glide' };
+  if (strides.length >= 2){ walk.frames = strides.map(d=>({d, hold:170})); walk.mode = 'step'; }
+  else if (strides.length === 1 && strides[0] !== idle){ walk.frames = [{d:strides[0],hold:170},{d:idle,hold:170}]; walk.mode = 'step'; }
+  else walk.frames = [{d:strides[0]||idle, hold:300}];
+  // turn: a ring of views, the far side by mirroring the near side
+  const bestFor = v => D.filter(d=>d.view===v && !GROUND_ONLY.has(d.cls)).sort((a,b)=>neutralScore(a)-neutralScore(b))[0];
+  const ringViews = [['q3',false],['prof',false],['back3q',false],['back',false],['back3q',true],['prof',true],['q3',true],['front',false]];
+  const have = new Set(D.map(d=>d.view));
+  let turn = null;
+  if (have.size >= 2){
+    const frames = []; let last = idle;
+    for (const [v,mir] of ringViews){ const d = bestFor(v) || last; last = d; frames.push({d, hold:150, mirror:mir}); }
+    frames.push({d:idle, hold:200});
+    turn = frames;
+  }
+  const poses = [];
+  const byCls = {};
+  D.forEach(d=>{ if (d.cls!=='stand' && d.cls!=='walk') (byCls[d.cls] = byCls[d.cls]||[]).push(d); });
+  for (const [c, list] of Object.entries(byCls)) poses.push({ label: LABEL[c] || ('Pose: '+c), frames: list.map(d=>({d, hold:520})), loop:true, stay:true });
+  const reach = D.filter(d=>d.arm>=60 && (d.cls==='stand'||d.cls==='walk'||d.cls==='dance') && !byCls[d.cls]?.includes(d));
+  if (reach.length) poses.push({ label:'Reach', frames: reach.map(d=>({d, hold:520})), loop:true, stay:true });
+  return { idle, walk, turn, poses, all: D, info: { strides: strides.length, views: [...have], drawings: D.length } };
+}
+
+/* ---------- state ---------- */
+const cv = $('cv'), ctx = cv.getContext('2d');
+let W=0,H=0,DPR=1, ppc=2, floorY=0;
+let cur = null;           // {ch, P, imgs[], x, dir, anim, t0, last, swapT}
+let move = 0;             // -1..1 from the stick or keys
+let bgIndex = 0, bgImg = null, camX = 0, lastT = 0, swapAt = 0;
+const keys = {};
+
+function resize(){
+  DPR = Math.min(2, window.devicePixelRatio || 1);
+  W = cv.clientWidth; H = cv.clientHeight;
+  cv.width = Math.round(W*DPR); cv.height = Math.round(H*DPR);
+  floorY = H - 150 - 0; ppc = ((floorY - 90) * 0.78) / 183;
+}
+window.addEventListener('resize', resize);
+
+function loadImg(src){ return new Promise(r=>{ const i = new Image(); i.onload = ()=>r(i); i.onerror = ()=>r(null); i.src = src; }); }
+
+async function setBg(n){
+  if (!BGS.length) return;
+  bgIndex = (n + BGS.length) % BGS.length; store.set('wy.bg', String(bgIndex));
+  bgImg = await loadImg('assets/bg/' + BGS[bgIndex].f);
+}
+
+/* ---------- character shelf ---------- */
+function bestThumb(ch){ return ch.draws.slice().sort((a,b)=>neutralScore(a)-neutralScore(b))[0]; }
+function buildShelf(){
+  const g = $('chars'), l = $('locked');
+  DATA.characters.forEach(ch=>{
+    const t = bestThumb(ch), P = plan(ch);
+    const b = document.createElement('button'); b.className='card';
+    const anims = 1 + (P.walk.mode==='step'?1:1) + (P.turn?1:0) + P.poses.length;
+    b.innerHTML = `<span class="pic"><img loading="lazy" alt="" src="assets/${ch.dir}/${t.f}"></span><b></b><small></small>`;
+    b.querySelector('b').textContent = ch.name;
+    b.querySelector('small').textContent = `${P.info.drawings} painting${P.info.drawings>1?'s':''} · ${anims} animations · walk: ${P.walk.mode}`;
+    b.addEventListener('click', ()=>play(ch));
+    g.append(b);
+  });
+  DATA.locked.forEach(c=>{
+    const b = document.createElement('div'); b.className='card locked';
+    b.innerHTML = `<span class="pic"></span><b></b><small></small>`;
+    b.querySelector('.pic').textContent = 'needs paintings';
+    b.querySelector('b').textContent = c.name; b.querySelector('small').textContent = c.reason;
+    l.append(b);
+  });
+  const total = DATA.characters.reduce((n,c)=>n+c.draws.length,0);
+  $('count').textContent = `${DATA.characters.length} playable characters, ${total} paintings, ${DATA.locked.length} still need paintings.`;
+}
+
+/* ---------- play ---------- */
+async function play(ch){
+  $('loading').style.display = 'grid'; $('shelf').style.display = 'none'; $('stage').style.display = 'block'; resize();
+  const imgs = await Promise.all(ch.draws.map(d=>loadImg(`assets/${ch.dir}/${d.f}`)));
+  const P = plan(ch);
+  cur = { ch, P, imgs, x: 0, dir: 1, anim: {kind:'idle'}, t0: performance.now(), shown: P.idle.i, swapT: -1e9, pose: null };
+  $('title').textContent = ch.name; $('loading').style.display = 'none';
+  const w = P.walk.mode === 'glide' ? 'Walk is a glide: this character has no walking drawing yet.' : '';
+  $('note').textContent = w;
+  buildButtons(); camX = 0; lastT = performance.now();
+  requestAnimationFrame(frame);
+}
+
+function buildButtons(){
+  const box = $('acts'); box.innerHTML = '';
+  const add = (label, fn) => { const b = document.createElement('button'); b.className='btn'; b.textContent = label; b.addEventListener('pointerdown', e=>{ e.preventDefault(); fn(b); }); box.append(b); return b; };
+  const P = cur.P;
+  add('Idle', ()=>setAnim({kind:'idle'}));
+  if (P.turn) add('Turn', ()=>setAnim({kind:'turn', frames:P.turn, i:0, t:0}));
+  P.poses.forEach(p=>add(p.label, b=>{ if (cur.anim.kind==='pose' && cur.anim.p===p){ setAnim({kind:'idle'}); } else setAnim({kind:'pose', p, i:0, t:0}); }));
+  add('Next painting', ()=>setAnim({kind:'one', k:((cur.anim.k??-1)+1) % P.all.length}));
+}
+
+function setAnim(a){ cur.anim = a; cur.t0 = performance.now(); }
+
+/* what to draw this frame: {d, flip, dy} */
+function current(now){
+  const a = cur.anim, P = cur.P, dt = Math.max(0, now - cur.t0);
+  const dirBase = (d)=> d.right ? 1 : -1;
+  if (move !== 0 && (a.kind==='idle' || a.kind==='pose' || a.kind==='one')) { setAnim({kind:'walk'}); return current(now); }
+  if (a.kind==='walk' && move === 0) { setAnim({kind:'idle'}); return current(now); }
+  if (a.kind==='walk'){
+    const fr = P.walk.frames; const total = fr.reduce((s,f)=>s+f.hold,0); let t = dt % total, f = fr[0];
+    for (const x of fr){ if (t < x.hold){ f = x; break; } t -= x.hold; }
+    return { d: f.d, extra: false, dy: -Math.abs(Math.sin(dt/170*Math.PI/ (P.walk.mode==='step'?2:1))) * 1.6 * ppc };
+  }
+  if (a.kind==='turn'){
+    let t = dt, f = null;
+    for (const x of a.frames){ if (t < x.hold){ f = x; break; } t -= x.hold; }
+    if (!f){ setAnim({kind:'idle'}); return current(now); }
+    return { d: f.d, extra: !!f.mirror, dy: 0 };
+  }
+  if (a.kind==='pose'){
+    const fr = a.p.frames; const total = fr.length * 520; let t = dt % total, k = Math.floor(t/520);
+    return { d: fr[k].d, extra:false, dy:0 };
+  }
+  if (a.kind==='one') return { d: P.all[a.k], extra:false, dy:0 };
+  return { d: P.idle, extra:false, dy:0, breathe: Math.sin(dt/1100)*0.006 };
+}
+
+function frame(now){
+  if (!cur) return;
+  const dt = Math.min(0.05, (now - lastT)/1000); lastT = now;
+  // input
+  const kx = (keys.ArrowRight||keys.d?1:0) - (keys.ArrowLeft||keys.a?1:0);
+  const m = Math.abs(kx) > 0 ? kx : move; const eff = Math.abs(m) < 0.15 ? 0 : m;
+  const prevMove = move; move = eff;
+  if (eff !== 0) cur.dir = eff > 0 ? 1 : -1;
+  if (eff !== 0) cur.x += eff * 125 * dt;        // cm per second
+  const c = current(now);
+  if (c.d.i !== cur.shown){ cur.shown = c.d.i; cur.swapT = now; }
+  camX += (cur.x - camX) * Math.min(1, dt*5);
+  draw(c, now);
+  requestAnimationFrame(frame);
+}
+
+function draw(c, now){
+  ctx.setTransform(DPR,0,0,DPR,0,0);
+  ctx.clearRect(0,0,W,H);
+  // backdrop: cover height, parallax, mirrored tiling so seams never show
+  if (bgImg){
+    const s = H / bgImg.height, bw = bgImg.width * s, off = -camX * ppc * 0.25;
+    let x0 = ((off % (2*bw)) + 2*bw) % (2*bw) - 2*bw;
+    for (let x = x0; x < W; x += bw){
+      const k = Math.round((x - x0)/bw), flip = (k%2)===1;
+      ctx.save(); if (flip){ ctx.translate(x+bw,0); ctx.scale(-1,1); ctx.drawImage(bgImg,0,0,bw,H); } else ctx.drawImage(bgImg,x,0,bw,H); ctx.restore();
+    }
+  } else { ctx.fillStyle = '#10151c'; ctx.fillRect(0,0,W,H); }
+  ctx.fillStyle = 'rgba(8,10,14,.12)'; ctx.fillRect(0,0,W,H);
+  // floor: a dark band with ticks every metre so walking is felt
+  const g = ctx.createLinearGradient(0,floorY-6,0,H); g.addColorStop(0,'#1d2330'); g.addColorStop(1,'#0e1117');
+  ctx.fillStyle = g; ctx.fillRect(0, floorY, W, H-floorY);
+  ctx.strokeStyle = '#ffffff55'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(0,floorY); ctx.lineTo(W,floorY); ctx.stroke();
+  ctx.strokeStyle = '#ffffff22'; ctx.lineWidth = 1;
+  const px = 100*ppc; for (let x = (-(camX*ppc) % px + px) % px; x < W; x += px){ ctx.beginPath(); ctx.moveTo(x,floorY+4); ctx.lineTo(x-14,H); ctx.stroke(); }
+  // character
+  const d = c.d, ch = cur.ch, img = cur.imgs[d.i]; if (!img) return;
+  const s = ((0.70*ch.height_cm) / d.body_px) * ppc;
+  const base = d.right ? 1 : -1;
+  let flip = (cur.dir !== base) !== !!c.extra;
+  const swapAge = now - cur.swapT, dip = swapAge < 130 ? (1 - swapAge/130) * 0.025 * d.h * s : 0;
+  const sx = W/2 + (cur.x - camX) * ppc, sy = floorY + dip + (c.dy||0);
+  ctx.save(); ctx.translate(sx, sy);
+  if (flip) ctx.scale(-1,1);
+  if (c.breathe) ctx.scale(1, 1 + c.breathe);
+  ctx.shadowColor = 'rgba(0,0,0,.45)'; ctx.shadowBlur = 14; ctx.shadowOffsetY = 4;
+  ctx.drawImage(img, -d.ax*s, -d.h*s, d.w*s, d.h*s);
+  ctx.restore();
+}
+
+/* ---------- input ---------- */
+const pad = $('pad'), knob = $('knob'); let padId = null, ox = 0;
+pad.addEventListener('pointerdown', e=>{ padId = e.pointerId; pad.setPointerCapture(e.pointerId); const r = pad.getBoundingClientRect(); ox = e.clientX; knob.style.display='block'; knob.style.left = (e.clientX-r.left)+'px'; knob.style.top = (e.clientY-r.top)+'px'; $('hint').style.display='none'; });
+pad.addEventListener('pointermove', e=>{ if (e.pointerId!==padId) return; move = Math.max(-1, Math.min(1, (e.clientX-ox)/55)); knob.firstElementChild.style.transform = `translateX(${Math.max(-40,Math.min(40,e.clientX-ox))}px)`; });
+const endPad = e=>{ if (e.pointerId!==padId) return; padId = null; move = 0; knob.style.display='none'; knob.firstElementChild.style.transform=''; };
+pad.addEventListener('pointerup', endPad); pad.addEventListener('pointercancel', endPad);
+window.addEventListener('keydown', e=>{ keys[e.key] = true; if (e.key===' ' && cur){ e.preventDefault(); setAnim({kind:'one', k:((cur.anim.k??-1)+1) % cur.P.all.length}); } });
+window.addEventListener('keyup', e=>{ keys[e.key] = false; });
+$('back').addEventListener('click', ()=>{ cur = null; move = 0; $('stage').style.display='none'; $('shelf').style.display='block'; });
+$('bgbtn').addEventListener('click', ()=>setBg(bgIndex+1));
+document.addEventListener('gesturestart', e=>e.preventDefault());
+
+/* ---------- start ---------- */
+(async function(){
+  try {
+    DATA = await (await fetch('data.json')).json();
+    try { BGS = await (await fetch('assets/bg/bg.json')).json(); } catch(e){ BGS = []; }
+    buildShelf();
+    await setBg(parseInt(store.get('wy.bg')||'0',10)||0);
+    const q = new URLSearchParams(location.search).get('c');
+    if (q){ const ch = DATA.characters.find(c=>c.key===q || c.dir===q); if (ch) play(ch); }
+  } catch(e){ $('count').textContent = 'The game data did not load: ' + e.message; }
+})();
+</script>
+</body></html>

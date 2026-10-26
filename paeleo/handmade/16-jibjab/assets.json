@@ -1,0 +1,225 @@
+{
+ "about": "Every asset in SCION 16 JibJab, where it came from, its rights, and the operation that made it. Nothing was fetched from the web; no model-generated images; no real person's face.",
+ "assets": [
+  {
+   "asset": "plates/door.png",
+   "what": "the door plate: the empty white door (nobody in frame), hinged on the right jamb, opened by an affine swing",
+   "from": "paeleo/handmade/kit/archive-door/frames/f028.jpg, quad (111,2)(235,0)(212,284)(122,262) rectified to 150x360",
+   "source_title": "Straight Talk",
+   "archive_url": "https://archive.org/details/gov.ntis.ava19144vnb1",
+   "shot_page": "https://www.movingimagearchive.com/sources/straight-talk-583ba802?clip=271d80c7-4f56-51b8-90fe-012dfb984b4f",
+   "clip_id": "271d80c7-4f56-51b8-90fe-012dfb984b4f",
+   "rights": "public domain (NTIS)",
+   "operation": "rectify (bilinear quad), tint by canvas filter, affine door swing, clipped to the doorway",
+   "note": "the person in that shot is not used: f028 shows only the door"
+  },
+  {
+   "asset": "cast/doodle/L.png, cast/doodle/ear.png",
+   "what": "face slot, cast \"doodle\", profile view and its ear slot",
+   "from": "/home/user/hartswf0/quickdraw/dog.part line 240",
+   "key_id": "6100378732986368",
+   "countrycode": "NL",
+   "rights": "CC BY 4.0, Quick, Draw! (Google Creative Lab and contributors)",
+   "operation": "strokes kept whole (stroke 4, a neck line, dropped); head stroke filled as a sticker; ear stroke cut out as its own rotating slot"
+  },
+  {
+   "asset": "cast/doodle/B.png, cast/doodle/BL.png",
+   "what": "face slot, cast \"doodle\", back views",
+   "from": "/home/user/hartswf0/quickdraw/dog.part line 298",
+   "key_id": "5882863587164160",
+   "countrycode": "US",
+   "rights": "CC BY 4.0, Quick, Draw!",
+   "operation": "head and ear strokes kept, the face strokes (3-9) removed so the drawing reads from behind; BL joins the snout tip of key_id 6100378732986368"
+  },
+  {
+   "asset": "cast/paper/*.png",
+   "what": "face slot, cast \"paper\": L, BL, B and an ear piece",
+   "from": "build/prep.py cast_paper()",
+   "rights": "made here",
+   "operation": "synthesized: PIL polygons with seeded jitter (seed 16), cut-paper edge"
+  },
+  {
+   "asset": "person face (in plates/qd.json)",
+   "what": "the person's face slot: a stranger's Quick, Draw! face, its outline replaced by the sticker edge, its mouth stroke opened by the performance",
+   "from": "/home/user/hartswf0/quickdraw/face.part line 13",
+   "key_id": "4675852618956800",
+   "countrycode": "US",
+   "rights": "CC BY 4.0, Quick, Draw!",
+   "operation": "stroke drawing, mouth stroke scaled"
+  },
+  {
+   "asset": "moon (in plates/qd.json)",
+   "what": "the moon",
+   "from": "/home/user/hartswf0/quickdraw/moon.part line 16",
+   "key_id": "6698312558182400",
+   "countrycode": "US",
+   "rights": "CC BY 4.0, Quick, Draw!",
+   "operation": "stroke drawing, chalk"
+  },
+  {
+   "asset": "body plate, person plate, house, porch, garden, light, grain (build/scene.js)",
+   "what": "drawn here in canvas",
+   "from": "build/scene.js",
+   "rights": "made here",
+   "operation": "drawn: cut-out capsules and circles placed by the performance's 3D anchors"
+  },
+  {
+   "asset": "sound (build/cache/sound.wav, in film.mp4)",
+   "what": "voices (formant synthesis), paws, collar tag, door, room, crickets, plucks",
+   "from": "build/sound.py",
+   "rights": "made here",
+   "operation": "synthesized; no recordings"
+  },
+  {
+   "asset": "performance.json, build/cache/skeleton.json",
+   "what": "the one performance, cast-agnostic",
+   "from": "paeleo/handmade/score/threshold-score.json via build/perform.py",
+   "rights": "the PAELEO score (Bolas)",
+   "operation": "solved: channels, stepping solver, IK, timecoded events"
+  },
+  {
+   "asset": "plates/rig/torso.png",
+   "what": "body plate rig piece \"torso\" (round 2)",
+   "from": "paeleo/handmade/kit/archive-dog/frames/f008.jpg, SAM mask (masks.json) intersected with a hand-placed piece polygon (build/plate.py)",
+   "source_title": "Amateur Film New Jersey C",
+   "archive_url": "https://archive.org/details/NewJerseyC",
+   "rights": "public domain (Home Movies collection, Internet Archive)",
+   "operation": "mask cut, feather, duotone grade (grain kept), 2x; re-posed by two-point affine maps on the performance"
+  },
+  {
+   "asset": "plates/rig/neck.png",
+   "what": "body plate rig piece \"neck\" (round 2)",
+   "from": "paeleo/handmade/kit/archive-dog/frames/f008.jpg, SAM mask (masks.json) intersected with a hand-placed piece polygon (build/plate.py)",
+   "source_title": "Amateur Film New Jersey C",
+   "archive_url": "https://archive.org/details/NewJerseyC",
+   "rights": "public domain (Home Movies collection, Internet Archive)",
+   "operation": "mask cut, feather, duotone grade (grain kept), 2x; re-posed by two-point affine maps on the performance"
+  },
+  {
+   "asset": "plates/rig/fore_upper.png",
+   "what": "body plate rig piece \"fore_upper\" (round 2)",
+   "from": "paeleo/handmade/kit/archive-dog/frames/f008.jpg, SAM mask (masks.json) intersected with a hand-placed piece polygon (build/plate.py)",
+   "source_title": "Amateur Film New Jersey C",
+   "archive_url": "https://archive.org/details/NewJerseyC",
+   "rights": "public domain (Home Movies collection, Internet Archive)",
+   "operation": "mask cut, feather, duotone grade (grain kept), 2x; re-posed by two-point affine maps on the performance; also drawn darkened as the far foreleg (duplicate)"
+  },
+  {
+   "asset": "plates/rig/fore_lower.png",
+   "what": "body plate rig piece \"fore_lower\" (round 2)",
+   "from": "paeleo/handmade/kit/archive-dog/frames/f008.jpg, SAM mask (masks.json) intersected with a hand-placed piece polygon (build/plate.py)",
+   "source_title": "Amateur Film New Jersey C",
+   "archive_url": "https://archive.org/details/NewJerseyC",
+   "rights": "public domain (Home Movies collection, Internet Archive)",
+   "operation": "mask cut, feather, duotone grade (grain kept), 2x; re-posed by two-point affine maps on the performance; also drawn darkened as the far foreleg (duplicate)"
+  },
+  {
+   "asset": "plates/rig/hind_near.png",
+   "what": "body plate rig piece \"hind_near\" (round 2)",
+   "from": "paeleo/handmade/kit/archive-dog/frames/f008.jpg, SAM mask (masks.json) intersected with a hand-placed piece polygon (build/plate.py)",
+   "source_title": "Amateur Film New Jersey C",
+   "archive_url": "https://archive.org/details/NewJerseyC",
+   "rights": "public domain (Home Movies collection, Internet Archive)",
+   "operation": "mask cut, feather, duotone grade (grain kept), 2x; re-posed by two-point affine maps on the performance"
+  },
+  {
+   "asset": "plates/rig/hind_far.png",
+   "what": "body plate rig piece \"hind_far\" (round 2)",
+   "from": "paeleo/handmade/kit/archive-dog/frames/f008.jpg, SAM mask (masks.json) intersected with a hand-placed piece polygon (build/plate.py)",
+   "source_title": "Amateur Film New Jersey C",
+   "archive_url": "https://archive.org/details/NewJerseyC",
+   "rights": "public domain (Home Movies collection, Internet Archive)",
+   "operation": "mask cut, feather, duotone grade (grain kept), 2x; re-posed by two-point affine maps on the performance"
+  },
+  {
+   "asset": "plates/rig/tail.png",
+   "what": "body plate rig piece \"tail\" (round 2)",
+   "from": "paeleo/handmade/kit/archive-dog/frames/f006.jpg, SAM mask (masks.json) intersected with a hand-placed piece polygon (build/plate.py)",
+   "source_title": "Amateur Film New Jersey C",
+   "archive_url": "https://archive.org/details/NewJerseyC",
+   "rights": "public domain (Home Movies collection, Internet Archive)",
+   "operation": "mask cut, feather, duotone grade (grain kept), 2x; re-posed by two-point affine maps on the performance"
+  },
+  {
+   "asset": "plates/turn/f016.png",
+   "what": "turn plate, the real dog's own turn, frame f016 (yaw label 205)",
+   "from": "paeleo/handmade/kit/archive-dog/frames/f016.jpg + SAM mask; pose keys (pose_agent_v8.json) place it",
+   "source_title": "Amateur Film New Jersey C",
+   "archive_url": "https://archive.org/details/NewJerseyC",
+   "rights": "public domain",
+   "operation": "mask cut, head disc filled from the surrounding coat (blur-fill), duotone grade, re-timed into the two turns"
+  },
+  {
+   "asset": "plates/turn/f020.png",
+   "what": "turn plate, the real dog's own turn, frame f020 (yaw label 228)",
+   "from": "paeleo/handmade/kit/archive-dog/frames/f020.jpg + SAM mask; pose keys (pose_agent_v8.json) place it",
+   "source_title": "Amateur Film New Jersey C",
+   "archive_url": "https://archive.org/details/NewJerseyC",
+   "rights": "public domain",
+   "operation": "mask cut, head disc filled from the surrounding coat (blur-fill), duotone grade, re-timed into the two turns"
+  },
+  {
+   "asset": "plates/turn/f026.png",
+   "what": "turn plate, the real dog's own turn, frame f026 (yaw label 252)",
+   "from": "paeleo/handmade/kit/archive-dog/frames/f026.jpg + SAM mask; pose keys (pose_agent_v8.json) place it",
+   "source_title": "Amateur Film New Jersey C",
+   "archive_url": "https://archive.org/details/NewJerseyC",
+   "rights": "public domain",
+   "operation": "mask cut, head disc filled from the surrounding coat (blur-fill), duotone grade, re-timed into the two turns"
+  },
+  {
+   "asset": "plates/turn/f028.png",
+   "what": "turn plate, the real dog's own turn, frame f028 (yaw label 270)",
+   "from": "paeleo/handmade/kit/archive-dog/frames/f028.jpg + SAM mask; pose keys (pose_agent_v8.json) place it",
+   "source_title": "Amateur Film New Jersey C",
+   "archive_url": "https://archive.org/details/NewJerseyC",
+   "rights": "public domain",
+   "operation": "mask cut, head disc filled from the surrounding coat (blur-fill), duotone grade, re-timed into the two turns"
+  },
+  {
+   "asset": "plates/turn/f032.png",
+   "what": "turn plate, the real dog's own turn, frame f032 (yaw label 290)",
+   "from": "paeleo/handmade/kit/archive-dog/frames/f032.jpg + SAM mask; pose keys (pose_agent_v8.json) place it",
+   "source_title": "Amateur Film New Jersey C",
+   "archive_url": "https://archive.org/details/NewJerseyC",
+   "rights": "public domain",
+   "operation": "mask cut, head disc filled from the surrounding coat (blur-fill), duotone grade, re-timed into the two turns"
+  },
+  {
+   "asset": "plates/turn/f036.png",
+   "what": "turn plate, the real dog's own turn, frame f036 (yaw label 308)",
+   "from": "paeleo/handmade/kit/archive-dog/frames/f036.jpg + SAM mask; pose keys (pose_agent_v8.json) place it",
+   "source_title": "Amateur Film New Jersey C",
+   "archive_url": "https://archive.org/details/NewJerseyC",
+   "rights": "public domain",
+   "operation": "mask cut, head disc filled from the surrounding coat (blur-fill), duotone grade, re-timed into the two turns"
+  },
+  {
+   "asset": "plates/turn/f040.png",
+   "what": "turn plate, the real dog's own turn, frame f040 (yaw label 326)",
+   "from": "paeleo/handmade/kit/archive-dog/frames/f040.jpg + SAM mask; pose keys (pose_agent_v8.json) place it",
+   "source_title": "Amateur Film New Jersey C",
+   "archive_url": "https://archive.org/details/NewJerseyC",
+   "rights": "public domain",
+   "operation": "mask cut, head disc filled from the surrounding coat (blur-fill), duotone grade, re-timed into the two turns"
+  },
+  {
+   "asset": "plates/turn/f044.png",
+   "what": "turn plate, the real dog's own turn, frame f044 (yaw label 345)",
+   "from": "paeleo/handmade/kit/archive-dog/frames/f044.jpg + SAM mask; pose keys (pose_agent_v8.json) place it",
+   "source_title": "Amateur Film New Jersey C",
+   "archive_url": "https://archive.org/details/NewJerseyC",
+   "rights": "public domain",
+   "operation": "mask cut, head disc filled from the surrounding coat (blur-fill), duotone grade, re-timed into the two turns"
+  },
+  {
+   "asset": "cast/home/*.png",
+   "what": "face slot, cast \"home movie\": L, FL, F, B, BL",
+   "from": "kit/archive-dog f008 (L), f038 (FL, mirrored), f028 (F; B = f028 head with its face filled from its own crown coat), BL = B + L muzzle tip",
+   "source_title": "Amateur Film New Jersey C",
+   "archive_url": "https://archive.org/details/NewJerseyC",
+   "rights": "public domain",
+   "operation": "hand-cut polygons with the SAM mask, duotone grade like the plate, 2 card px per source px"
+  }
+ ]
+}

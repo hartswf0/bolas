@@ -1,0 +1,8 @@
+<!doctype html><meta charset="utf-8"><title>render</title><link rel="stylesheet" href="fonts/local.css">
+<body style="margin:0;background:#000"><canvas id="c" width="1280" height="720"></canvas>
+<script src="../../paeleo/threshold/machine.js"></script><script src="../../paeleo/threshold/stage.js"></script><script src="film.js"></script>
+<script>
+window.ready = (async () => { for (const f of ['600 17px "JetBrains Mono"', '400 17px "JetBrains Mono"', '900 40px "Big Shoulders Display"', '400 20px Literata', 'italic 400 20px Literata', '700 20px Literata']) await document.fonts.load(f); return true; })();
+const ctx = document.getElementById('c').getContext('2d');
+window.frame = (i, q) => { FILM.draw(i, ctx); return q ? document.getElementById('c').toDataURL('image/jpeg', q) : null; };
+</script>

@@ -1,0 +1,95 @@
+{
+ "invariant_1_choice_times": {
+  "pass": true,
+  "choices": {
+   "watch>retreat (1.00)": {
+    "op_change": 1.0,
+    "motion_onset": 1.125,
+    "target": 1.0,
+    "nearest": 1.0,
+    "within_0.25s": true
+   },
+   "retreat>watch (2.33)": {
+    "op_change": 2.333,
+    "target": 2.333,
+    "nearest": 2.333,
+    "within_0.25s": true
+   },
+   "watch>refuse (3.42)": {
+    "op_change": 3.417,
+    "first_frame_not_facing_door": 3.917,
+    "first_frame_back_turned": 4.417,
+    "target": 3.417,
+    "nearest": 3.417,
+    "within_0.25s": true
+   },
+   "refuse>watch (7.46)": {
+    "head_faces_door": 7.625,
+    "head_lift_onset (head end +4px over 5.5-7.3 s)": 7.458,
+    "first_frame_facing_door_again": 7.625,
+    "target": 7.458,
+    "nearest": 7.458,
+    "within_0.25s": true
+   },
+   "watch>approach (14.71)": {
+    "op_change": 14.708,
+    "motion_onset": 14.875,
+    "target": 14.708,
+    "nearest": 14.708,
+    "within_0.25s": true
+   },
+   "approach>lie_down (23.79)": {
+    "op_change": 23.792,
+    "height_drop_below_80pct": 24.0,
+    "target": 23.792,
+    "nearest": 23.792,
+    "within_0.25s": true
+   },
+   "hears come in (26.4): looks in": {
+    "head_lift_onset (head end +4px over 25.0-26.3 s)": 26.458,
+    "target": 26.4,
+    "nearest": 26.458,
+    "within_0.25s": true
+   }
+  },
+  "note": "op_change = the frame where the archive operation switches (structural); motion/height/facing are measured from the render."
+ },
+ "lying_shape": {
+  "pass": true,
+  "max_back_line_deg_t>=24.5": 10.1,
+  "min_frac_length_inside_jamb": 0.553,
+  "min_tail_right_px": 560,
+  "jamb_outer_px": 457.1,
+  "body_x_spread_after_24.5_m": 0.0010000000000000009
+ },
+ "invariant_2_never_enters": {
+  "min_x_measured_m": 0.588,
+  "x_measured_end_m": 0.588,
+  "min_nose_left_px": 316,
+  "door_inner_edge_px (x=-0.46)": 286.9,
+  "frac_inside_door_frame_end (mean t>=26)": 0.5032152777777777,
+  "posture_end": "lying",
+  "pass": true
+ },
+ "invariant_3_commands_vs_circumstances": {
+  "retreat_after_call_m": 0.9224999999999999,
+  "back_turned_after_reach_at": 4.417,
+  "seated_on_screen_from": 5.958,
+  "door_opening_on_screen_from": 6.208,
+  "low_hand_on_screen_from": 6.833,
+  "soft_voice_from (score timeline)": 7.4,
+  "approach_motion_onset": 14.875,
+  "pass": true
+ },
+ "invariant_4_position_follows_x": {
+  "max_abs_error_m": 0.0030000000000001137,
+  "mean_abs_error_m": 0.001479166666666706,
+  "approach_distance_score_m": 3.406,
+  "approach_distance_measured_m": 3.409,
+  "approach_mean_speed_score_mps": 0.37668657376686576,
+  "approach_mean_speed_measured_mps": 0.3770183587701836,
+  "retreat_direction_measured": "away from door (+x)",
+  "mapping": "x_screen = 372 + 185 * x (px); dog centroid placed on that line each frame",
+  "pass": true
+ }
+}

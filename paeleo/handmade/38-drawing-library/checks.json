@@ -1,0 +1,235 @@
+{
+ "critic_round2_repairs": {
+  "repair_1_walk_stride": {
+   "drawings": [
+    "4583527402176512m",
+    "5558409816440832"
+   ],
+   "strides": 37,
+   "alternates_A_B": true,
+   "stride_frames": {
+    "min": 6,
+    "max": 6
+   },
+   "held_drawing_max_move_px": 0.0,
+   "x_changes_not_on_a_swap": 0,
+   "step_px_at_swaps": {
+    "min": 2.6,
+    "max": 19.8,
+    "mean": 14.2
+   },
+   "footfall_sound_offset_frames_max": 0,
+   "ok": true
+  },
+  "repair_2_lying_two_drawings": {
+   "drawings_23_8_to_32": [
+    1056,
+    3537
+   ],
+   "ok": true
+  },
+  "repair_3_moon": {
+   "moon_frames_21_32": {
+    "in": 68,
+    "out": 196,
+    "cut": 0
+   },
+   "ok": true
+  }
+ },
+ "critic_round1_repairs": {
+  "repair_1_walk_identity": {
+   "distinct_drawings": 2,
+   "changes_at": [
+    15.167,
+    15.417,
+    15.667,
+    15.917,
+    16.167,
+    16.417,
+    16.667,
+    16.917,
+    17.167,
+    17.417,
+    17.667,
+    17.917,
+    18.167,
+    18.417,
+    18.667,
+    18.917,
+    19.167,
+    19.417,
+    19.667,
+    19.917,
+    20.167,
+    20.417,
+    20.667,
+    20.917,
+    21.167,
+    21.417,
+    21.667,
+    21.917,
+    22.167,
+    22.417,
+    22.667,
+    22.917,
+    23.167,
+    23.417,
+    23.667
+   ],
+   "min_gap_s": 0.25,
+   "max_changes_in_any_2s": 8,
+   "min_switch_back_s": 0.25,
+   "ok": null,
+   "note": "superseded in round 3: the coordinator replaced the 2 s identity hold with an A-B-A-B stride on sixes (see critic_round2_repairs)"
+  },
+  "repair_2_no_sliding": {
+   "max_move_px_while_held": 0.0,
+   "placement_step_px_max": 0.0,
+   "placement_hold_frames": {
+    "min": 3,
+    "max": 6,
+    "median": 6.0
+   },
+   "note": "a held placement never moves; the drawing is re-placed on twos (the step is the pace of the score: up to 7.8 px at the fastest, 22.3 s, during the push-in) and its legs change by substitution on footfalls",
+   "ok": true
+  },
+  "repair_3_head_low": {
+   "share_head_top_below_back": 1.0,
+   "ok": true,
+   "how": "per frame, the displayed drawing as placed: top of its head-end quarter vs top of its middle 40%"
+  },
+  "repair_4_look_in_profile": {
+   "share_profile_head_into_doorway": 1.0,
+   "ok": true
+  },
+  "repair_5_retreat_and_refusal": {
+   "retreat_px_1280": 136.1,
+   "retreat_facing_person": true,
+   "refusal_share_head_far_side": 1.0,
+   "refusal_drawings": [
+    135,
+    1056,
+    3107,
+    3476
+   ],
+   "ok": true
+  }
+ },
+ "invariant_1_choices": {
+  "retreat (1.000)": {
+   "score": 1.0,
+   "measured": 1.083,
+   "delta": 0.083,
+   "nearest_drawing_swap": 1,
+   "swap_delta": 0.0,
+   "ok": true
+  },
+  "watch, stops backing (2.333)": {
+   "score": 2.333,
+   "measured": 2.583,
+   "delta": 0.25,
+   "nearest_drawing_swap": 2.5,
+   "swap_delta": 0.167,
+   "ok": true
+  },
+  "refuse, back turned (3.417)": {
+   "score": 3.417,
+   "measured": 3.417,
+   "delta": 0.0,
+   "nearest_drawing_swap": 3.417,
+   "swap_delta": 0.0,
+   "ok": true
+  },
+  "turns back to look (7.458)": {
+   "score": 7.458,
+   "measured": 7.5,
+   "delta": 0.042,
+   "nearest_drawing_swap": 7.5,
+   "swap_delta": 0.042,
+   "ok": true
+  },
+  "approach (14.708)": {
+   "score": 14.708,
+   "measured": 14.917,
+   "delta": 0.209,
+   "nearest_drawing_swap": 14.667,
+   "swap_delta": -0.041,
+   "ok": true
+  },
+  "lie down across the sill (23.792)": {
+   "score": 23.792,
+   "measured": 23.833,
+   "delta": 0.041,
+   "nearest_drawing_swap": 23.833,
+   "swap_delta": 0.041,
+   "ok": true
+  },
+  "looks in, head up (26.4)": {
+   "score": 26.4,
+   "measured": 26.5,
+   "delta": 0.1,
+   "nearest_drawing_swap": 26.5,
+   "swap_delta": 0.1,
+   "ok": true
+  },
+  "settles, head down, and stays (after 26.4)": {
+   "measured": 28.25,
+   "stays_lying_to_end": true,
+   "placement_x_range_after_lying_px": 0.0,
+   "x_range_after_lying_m": 0.0244,
+   "ok": true
+  }
+ },
+ "invariant_2_threshold": {
+  "min_ink_centroid_x_m": 0.555,
+  "min_ink_right_edge_m": 1.22,
+  "never_wholly_inside": true,
+  "centroid_never_past_sill_0p56": true,
+  "end_extent_m": [
+   -0.1129,
+   1.3009
+  ],
+  "end_fraction_of_body_within_door_frame": 0.405,
+  "end_fraction_of_ink_in_lit_doorway": 0.4358,
+  "ok": true
+ },
+ "invariant_3_commands_vs_circumstances": {
+  "call_on_screen": 1,
+  "retreat": 1.083,
+  "reach_on_screen": 3.5,
+  "back_turned": 3.417,
+  "person_sitting": 6.333,
+  "door_open": 6.208,
+  "low_hand": 6.833,
+  "soft_voice": 7.417,
+  "approach": 14.917,
+  "ok": true
+ },
+ "invariant_4_position": {
+  "screen_fit_wide_camera": {
+   "px_per_m": 147.83,
+   "x0_px": 424.5
+  },
+  "ink_centroid_minus_score_x_m": {
+   "mean": 0.014,
+   "sd": 0.041,
+   "max_abs": 0.172
+  },
+  "approach_distance_score_m": 3.406,
+  "approach_distance_measured_m": 3.403,
+  "retreat_direction": "away from the door",
+  "ok": true
+ },
+ "substitution": {
+  "segments": 49,
+  "swaps": 48,
+  "min_hold_frames": 4,
+  "median_hold_frames": 6.0,
+  "max_hold_frames": 164,
+  "all_swaps_on_twos": true,
+  "distinct_drawings_on_screen": 10,
+  "library_size": 46,
+  "mirrored_segments": 19
+ }
+}

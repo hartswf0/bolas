@@ -1,0 +1,97 @@
+{
+ "about": "measured from trace.json (the rendered dog layer) and xsheet.json",
+ "onsets": {
+  "retreat (backs away)": {
+   "score_t": 1.0,
+   "measured_t": 1.0,
+   "dt": 0.0
+  },
+  "watch (stops backing, head comes up)": {
+   "score_t": 2.333,
+   "measured_t": 2.3333,
+   "dt": 0.0
+  },
+  "refuse (back turned)": {
+   "score_t": 3.417,
+   "measured_t": 3.4167,
+   "dt": -0.0
+  },
+  "watch (turns back to look)": {
+   "score_t": 7.458,
+   "measured_t": 7.4583,
+   "dt": 0.0
+  },
+  "approach (comes, head low)": {
+   "score_t": 14.708,
+   "measured_t": 14.7083,
+   "dt": 0.0
+  },
+  "lie_down (lies across the sill)": {
+   "score_t": 23.792,
+   "measured_t": 23.7917,
+   "dt": -0.0
+  },
+  "looks in (head card turned into the doorway)": {
+   "score_t": 26.4,
+   "measured_t": 26.4167,
+   "dt": 0.017
+  }
+ },
+ "refusal_back": {
+  "first_back_turned_t": 3.4167,
+  "share_refuse_frames_back_turned": 1.0
+ },
+ "approach_head_low": {
+  "frames": 218,
+  "share_head_centroid_below_back_line": 1.0,
+  "min_px_below": 45.0,
+  "median_px_below": 49.9,
+  "head_card_top_below_withers": {
+   "frames": 219,
+   "share_all_below": 1.0,
+   "min_px": 25,
+   "median_px": 29.0
+  },
+  "muzzle_below_withers": {
+   "min_px": 46.2,
+   "median_px": 54.0
+  }
+ },
+ "look_back": {
+  "frames_7.458_to_8.1": 16,
+  "head_pieces": [
+   "dog_face",
+   "dog_front"
+  ],
+  "share_facing_door": 1.0
+ },
+ "feet_while_walking": {
+  "stance_pairs": 270,
+  "max_slip_px": 1.89,
+  "mean_slip_px": 0.404
+ },
+ "end_on_sill": {
+  "end_bbox": [
+   295,
+   509,
+   516,
+   609
+  ],
+  "door_frame_px": [
+   193,
+   387
+  ],
+  "part_inside_frame": true,
+  "part_outside_frame": true,
+  "share_of_dog_pixels_inside_frame": 0.493,
+  "end_posture": "lying",
+  "end_facing": 1
+ },
+ "camera_interval": {
+  "exposures": 257,
+  "frames": 768,
+  "min_frames_per_exposure": 2,
+  "share_on_twos_or_longer": 1.0,
+  "longest_hold_frames": 24
+ }
+}

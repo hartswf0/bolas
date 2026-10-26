@@ -1,0 +1,19 @@
+{
+ "about": "every dog leg chain, every frame: the analytic two-bone solution vs FABRIK (30 iterations, started bent toward the pole)",
+ "chains": 3072,
+ "mid_joint_difference_m": {
+  "max": 0.0415,
+  "mean": 7e-05,
+  "p99": 0.0
+ },
+ "analytic_residual_m": {
+  "max": 0.0821,
+  "mean": 0.0001
+ },
+ "fabrik_residual_m": {
+  "max": 0.0817,
+  "mean": 8e-05
+ },
+ "bend_side_disagreements": 0,
+ "reading": "measured: the two solvers agree (mean mid-joint difference 0.00007 m, 0 bend-side disagreements); the largest differences are in the few frames where the target is out of reach and the solvers straighten differently. FABRIK here is seeded bent toward the pole; unseeded it has no pole, which is why the film uses the analytic solver."
+}

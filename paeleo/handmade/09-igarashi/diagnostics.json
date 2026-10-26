@@ -1,0 +1,49 @@
+{
+ "pieces": {
+  "person_body": {
+   "frames": 768,
+   "inverted_frames": 0,
+   "max_inverted": 0,
+   "max_energy": 0.0089,
+   "max_feature_distortion": 0.0876,
+   "min_area_ratio": 0.4045
+  },
+  "dog_body": {
+   "frames": 768,
+   "inverted_frames": 0,
+   "max_inverted": 0,
+   "max_energy": 0.0651,
+   "max_feature_distortion": 0,
+   "min_area_ratio": 0.01
+  },
+  "person_arm": {
+   "frames": 768,
+   "inverted_frames": 0,
+   "max_inverted": 0,
+   "max_energy": 0.0665,
+   "max_feature_distortion": 0,
+   "min_area_ratio": 0.236
+  },
+  "dog_head": {
+   "frames": 768,
+   "inverted_frames": 0,
+   "max_inverted": 0,
+   "max_energy": 0.0071,
+   "max_feature_distortion": 0.0092,
+   "min_area_ratio": 0.0008
+  }
+ },
+ "frame_ms": {
+  "mean": 100.2,
+  "p95": 156.7,
+  "note": "rig + ARAP solve of every piece + full compositing per frame, headless Chromium with SwiftShader (no GPU)"
+ },
+ "head_low_share_of_approach": 1.0,
+ "end_bbox_inside_door_frame_share": 0.442,
+ "planted_foot_slide_px": {
+  "n": 1499,
+  "mean": 0.0,
+  "p95": 0.0,
+  "max": 0.2
+ }
+}

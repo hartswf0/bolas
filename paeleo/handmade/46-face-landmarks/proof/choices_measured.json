@@ -1,0 +1,51 @@
+{
+ "retreat": {
+  "score_t": 1.0,
+  "measured_t": 1,
+  "dt": 0.0,
+  "ok": true,
+  "how": "first frame the placed torso moves back (away from the door) by more than 4 mm"
+ },
+ "watch_1": {
+  "score_t": 2.333,
+  "measured_t": 2.417,
+  "dt": 0.084,
+  "ok": true,
+  "how": "first frame after the retreat the ears are back up past halfway (ear control)"
+ },
+ "refuse": {
+  "score_t": 3.417,
+  "measured_t": 3.583,
+  "dt": 0.166,
+  "ok": true,
+  "how": "first frame the head plate shown is a face-withdrawn view (three-quarter back or back)"
+ },
+ "watch_2": {
+  "score_t": 7.458,
+  "measured_t": 7.625,
+  "dt": 0.167,
+  "ok": true,
+  "how": "first frame after 7 s the head plate shown is a face view again (side or three-quarter front)"
+ },
+ "approach": {
+  "score_t": 14.708,
+  "measured_t": 14.75,
+  "dt": 0.042,
+  "ok": true,
+  "how": "first frame the placed torso moves toward the door by more than 4 mm"
+ },
+ "lie_down": {
+  "score_t": 23.792,
+  "measured_t": 23.875,
+  "dt": 0.083,
+  "ok": true,
+  "how": "first frame the torso is more than 2 cm lower than standing"
+ },
+ "look_in": {
+  "score_t": 26.4,
+  "measured_t": 26.583,
+  "dt": 0.183,
+  "ok": true,
+  "how": "first frame after 26 s the face is withdrawn into the room (three-quarter-back head plate)"
+ }
+}

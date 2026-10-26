@@ -1,0 +1,9 @@
+# SCION 14 · critic round 1 · PASS
+
+Independent critic (fresh agent; frames every 0.5 s and every frame in the turn, lie and look-in windows; verdict from the picture before any builder notes).
+
+All six choices read: backing away (a crouched head-low drawing facing the door travels away from 1.08, upright and watching by 2.5); turned back (3/4 → rear 3.62–3.67 → 3/4 the other way → profile facing away, back shown from 3.79; lies facing away 5.4–7.4 as the score has it); turning to look on time (the head over the shoulder to the door at 7.458 while still lying; profile to the door by 8.42); coming head low (below the back the whole way; each drawing held 4 frames, then a ~12 px move; planted paws within ~10 px across swaps; staccato, no slide); lying across the sill, weak in depth (onto the haunches 23.87, lying by 24.12, forequarters overlapping the lit opening, tail out; but lying on the stoop ~60 px below the sill line, in front of the door rather than across it); looking in and staying (a back-of-head drawing into the lit room 26.54–28.0, never enters). A dog in every frame; one frontal drawing (8.04–8.21) darker and boxier.
+
+Bottom-up: every frame one whole drawing chosen from a bank, no tweens or warps; the rare gestures have their own drawings; the person cast from its own bank. The drawings are hand-set constructions in code (a parametric figure posed 41 times), but what the viewer sees and how it moves is discrete selection. Fundamentally different from PAE-00.
+
+Remaining (not pursued: stopped at an independent pass per the SCION doctrine): part of the lying dog above the sill line with the jamb overlapping it; no planted paw moving more than 4 px across a walk swap; the frontal turn drawings on-model with the profiles. Soft voice 9–12 dB under the calls, well above room tone. Rights clean; the end card's claims match the picture.

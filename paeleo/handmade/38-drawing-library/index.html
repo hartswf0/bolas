@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SCION 38 Pose Selection</title>
+<style>
+  :root { --bg:#f6f2ea; --fg:#1d1b2e; --muted:#5d5a70; --accent:#9a5b00; --card:#fffdf8; --line:#ddd5c6; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg:#18183a; --fg:#efe6d2; --muted:#a9a3c0; --accent:#f6c870; --card:#202048; --line:#34345e; } }
+  :root[data-theme="dark"] { --bg:#18183a; --fg:#efe6d2; --muted:#a9a3c0; --accent:#f6c870; --card:#202048; --line:#34345e; }
+  body { background:var(--bg); color:var(--fg); font:16px/1.5 system-ui, sans-serif; margin:0; padding:16px; }
+  main { max-width:820px; margin:0 auto; }
+  h1 { font-size:1.4rem; margin:.2rem 0 .6rem; }
+  video, img { width:100%; height:auto; border-radius:6px; background:#000; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:8px; padding:12px 14px; margin:12px 0; }
+  .k { color:var(--muted); font-size:.85rem; text-transform:uppercase; letter-spacing:.04em; }
+  a { color:var(--accent); }
+  ul { padding-left:1.1rem; }
+  code { font-size:.9em; }
+</style>
+</head>
+<body>
+<main>
+  <div class="k">PAE-02 · SCION 38 · revision: round 3 (critic round 2 repairs)</div>
+  <h1>Dynamic Pose Selection: the drawing-library swarm</h1>
+  <video src="film.mp4" controls playsinline preload="metadata" poster="stills/28.0s-lying-across-the-sill.png"></video>
+  <div class="card"><div class="k">Critic verdict</div>
+    Round 1 and round 2: DOES NOT PASS (reviews/). Round 3 repairs made and measured; awaiting the critic.</div>
+  <div class="card"><div class="k">Next blocking failure</div>
+    Walk = stride pair #2830/#639 alternating on sixes, x only at swaps. Heads share a shape but sit at the back line (level), not below it.
+    Repair condition: a viewer reads the circle-headed dog as one dog stepping in.</div>
+  <div class="card"><div class="k">Invariants (measured, checks.json)</div>
+    <ul>
+      <li>Six choices on screen within ±0.25 s (largest: stopping the backing, +0.25 by motion, +0.17 by swap); check_handmade ALL OK.</li>
+      <li>Never enters: centroid ≥ 0.579 m; ends 40% inside the door frame, 44% of its ink in the lit doorway.</li>
+      <li>Call → retreat, reach → back turned; sit, open door, low hand, soft voice all before the approach.</li>
+      <li>x follows the score: approach 3.404 m measured vs 3.406 m.</li>
+    </ul></div>
+  <div class="card"><div class="k">Artifacts</div>
+    <ul>
+      <li><a href="film.mp4">film.mp4</a> · <a href="trace.json">trace.json</a> · <a href="checks.json">checks.json</a> · <a href="assets.json">assets.json</a> · <a href="method.md">method.md</a> · <a href="ledger.jsonl">ledger.jsonl</a></li>
+      <li>Pose-state library: <a href="library/pose_library.json">pose_library.json</a>, <a href="sheets/library.png">library.png</a></li>
+      <li>Decoded pose schedule: <a href="pose_schedule.json">pose_schedule.json</a>, <a href="sheets/schedule.png">schedule.png</a></li>
+      <li>Error histogram: <a href="sheets/error-histogram.png">error-histogram.png</a></li>
+      <li>Scoring functions and decoder: <a href="build/03_decode.py">build/03_decode.py</a>; rebuild: <code>sh build/make.sh</code></li>
+    </ul></div>
+  <img src="sheets/schedule.png" alt="Decoder path: the chosen dog drawings along the 32 second timeline">
+</main>
+</body>
+</html>

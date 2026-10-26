@@ -1,0 +1,43 @@
+REEL CRITIC, round 4: paeleo-01.mp4
+
+Verdict: does not pass. Most of the previous repair condition is now met. Two parts still fail: the sound carries a drone across nearly every cut, and the caption number and look text cannot be read at phone size.
+
+What I inspected
+- Sound: I measured RMS in 10 ms windows at all 55 cut points (the 54 lens starts plus 90.4 s). I tracked the low-frequency pitch either side of each cut and band-passed the 140–240 Hz range to find how long it runs.
+- Picture: I pulled the middle frame of every lens, and 4 frames per lens at 2.5 fps across 4–90.4 s. I measured per-frame change around each cut.
+- I viewed the title, the end card, crops at 390 px wide, and dog crops of lenses 03 and 53 next to the plain dog from paeleo-00.
+- I did not listen to anything or judge the mix by ear.
+
+The repair condition, part by part
+- RMS jump at cuts: passes. Every cut, including 29.6 and 90.4, rises 18.5–28.7 dB within 30 ms of the cut over the preceding 100 ms.
+- No sound over 0.3 s across a cut: fails. A drone at about −37 dB, roughly 25 dB under the cut hits, runs the same pitch across 48 of the 55 cuts. It changes pitch only at 15.2, 28.0, 48.8, 80.8 and 90.4. In the 140–240 Hz band it runs unbroken from 48.79 to 90.53 s.
+- Picture cuts: all 55 big picture changes fall exactly on the cut frames.
+- Lenses 03 and 53 differ from the plain dog: passes, by eye. Lens 03 is hatched collage paper and lens 53 is white ruled paper. Almost none of the tan remains. My pixel count was confounded by the orange sky and by lens 53's sepia grade, so this is a visual judgement, not a measured 25%.
+- No overlay type repeating within 3 lenses: partly passes. The 29/30 and 42/45 cases are fixed. The same small floating mono-text label now repeats at 42/43 (54.4–57.6 s) and 47/48 (77.6–80.8 s), and also at 26 and 30.
+- Caption readability: fails. The number "SCION nn" and the look text are about 10 px high in the 720p frame. At a 390 px phone width that is about 3 px, so neither can be read. The title line is about 28 px, roughly 8 px at phone size, and is readable.
+
+1. Verdict
+Does not pass, because of the drone across cuts and the unreadable number and look text.
+
+2. Lenses that still fail
+- 06 (12.0–13.6): the dog is a cloud of coloured dots and barely reads as the dog.
+- 26 (44.0–45.6), 42 (69.6–71.2), 54 (88.8–90.4): the label text that carries the claim is unreadable at phone size.
+- 31 (52.0–53.6): a flat white matte. I saw no hair, lace or smoke edge at the sizes I checked.
+
+3. Broken picture or collisions
+- 49 (80.8–82.4): the label card "Dog at a Threshold, 202…" is cut off at the right edge of the frame.
+- 48 (79.2–80.8): the "trust" label overlaps the porch post.
+- 53 (87.2–88.8): the look text runs up against the film-sprocket strip.
+- Captions never cover the dog.
+
+4. Largest remaining gap
+The sound bed runs straight through the cuts. The repair holds if:
+- in the 100 ms before every cut, energy at the bed's pitch is at least 20 dB below its level at that lens's middle; and
+- the caption number and look text are at least 22 px high in the 720p frame.
+
+5. Strengths to keep
+- Cuts are frame-exact, with strong sound hits on every one.
+- Neighbouring lenses are visually distinct throughout.
+- The dog stays continuous within each lens. Changes inside a lens are deliberate parts of the claim: the 39 turn, the 47 voice states, the 25 state change.
+- Lenses where the claim reads instantly: 02 Reiniger, 08 Sketchpad, 11 strings, 14 pose strip, 20 node graph, 27 timeline, 29 GrabCut box, 33 IK, 36 BBW heatmap, 51 ghost trail, 53 film strip.
+- The title and end card are clean.

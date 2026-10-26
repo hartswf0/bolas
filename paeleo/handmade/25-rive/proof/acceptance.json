@@ -1,0 +1,40 @@
+{
+ "frames_scene": 768,
+ "film_frames_expected": 912,
+ "choice_onsets_within_0.25s": true,
+ "refusal_back_share": 0.948,
+ "back_turned_from_3.9_to_7.458": true,
+ "approach_head_below_back_share": 1.0,
+ "planted_foot_max_slide_m": 0.0,
+ "end_front_x_world_m": -0.196,
+ "end_tail_x_world_m": 0.965,
+ "door_outer_face_x_world_m": 0.25,
+ "door_inner_face_x_world_m": -0.25,
+ "end_front_inside_frame": true,
+ "end_tail_outside": true,
+ "min_front_x_world_m": -0.249,
+ "never_past_inner_face": true,
+ "approach_screen_px_per_score_m": 209.35,
+ "audio": {
+  "call_active_rms_db": -15.905381933479138,
+  "soft_active_rms_db": -31.411388837435915,
+  "room_rms_db": -44.0738781633429,
+  "peak_scale": 1.0,
+  "dog_sound_events": 82,
+  "dog_events_by_kind": {
+   "settles": 1,
+   "chin_down": 2,
+   "turn_away": 1,
+   "head_leads": 1,
+   "going_down": 2,
+   "looks_in": 1,
+   "footfall": 74
+  },
+  "soft_below_call_db": 15.506006903956777,
+  "soft_above_room_db": 12.662489325906982
+ },
+ "soft_6db_below_call": true,
+ "soft_above_room": true,
+ "no_dead_end_states": true,
+ "dead_end_states": []
+}

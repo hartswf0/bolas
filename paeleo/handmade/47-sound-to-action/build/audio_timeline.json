@@ -1,0 +1,497 @@
+{
+ "about": "Typed audio events on the scene clock (s). voice events carry words and phones from the synthesizer; cue_t is the onset of the vowel the dog answers. LAT is the hearing latency used by the exposure sheet.",
+ "LAT": 0.17,
+ "fps": 24,
+ "events": [
+  {
+   "id": "room",
+   "kind": "room",
+   "src": "yard",
+   "t0": 0,
+   "t1": 32,
+   "desc": "dusk room tone: air and crickets"
+  },
+  {
+   "id": "call1",
+   "kind": "voice",
+   "style": "call",
+   "src": "person",
+   "t0": 0.445,
+   "t1": 1.152,
+   "text": "Come here!",
+   "cue_t": 0.83,
+   "cue_word": "here",
+   "words": [
+    {
+     "w": "come",
+     "t0": 0.485,
+     "t1": 0.752
+    },
+    {
+     "w": "here",
+     "t0": 0.752,
+     "t1": 1.092
+    }
+   ],
+   "phones": [
+    {
+     "p": "k",
+     "t0": 0.485,
+     "t1": 0.568
+    },
+    {
+     "p": "ah",
+     "t0": 0.568,
+     "t1": 0.666
+    },
+    {
+     "p": "m",
+     "t0": 0.666,
+     "t1": 0.752
+    },
+    {
+     "p": "hh",
+     "t0": 0.752,
+     "t1": 0.83
+    },
+    {
+     "p": "ih",
+     "t0": 0.83,
+     "t1": 0.901
+    },
+    {
+     "p": "r",
+     "t0": 0.901,
+     "t1": 1.092
+    }
+   ],
+   "causes": "retreat",
+   "file": "build/cache/voice/call1.wav"
+  },
+  {
+   "id": "call4",
+   "kind": "voice",
+   "style": "call",
+   "src": "person",
+   "t0": 1.3,
+   "t1": 1.935,
+   "text": "Come on!",
+   "cue_t": 1.592,
+   "cue_word": "on",
+   "words": [
+    {
+     "w": "come",
+     "t0": 1.34,
+     "t1": 1.592
+    },
+    {
+     "w": "on",
+     "t0": 1.592,
+     "t1": 1.875
+    }
+   ],
+   "phones": [
+    {
+     "p": "k",
+     "t0": 1.34,
+     "t1": 1.441
+    },
+    {
+     "p": "ah",
+     "t0": 1.441,
+     "t1": 1.534
+    },
+    {
+     "p": "m",
+     "t0": 1.534,
+     "t1": 1.592
+    },
+    {
+     "p": "aa",
+     "t0": 1.592,
+     "t1": 1.789
+    },
+    {
+     "p": "n",
+     "t0": 1.789,
+     "t1": 1.875
+    }
+   ],
+   "causes": "retreat continues while the call sounds",
+   "file": "build/cache/voice/call4.wav"
+  },
+  {
+   "id": "call3",
+   "kind": "voice",
+   "style": "call",
+   "src": "person",
+   "t0": 2.881,
+   "t1": 3.556,
+   "text": "Come here!",
+   "cue_t": 3.247,
+   "cue_word": "here",
+   "words": [
+    {
+     "w": "come",
+     "t0": 2.921,
+     "t1": 3.174
+    },
+    {
+     "w": "here",
+     "t0": 3.174,
+     "t1": 3.496
+    }
+   ],
+   "phones": [
+    {
+     "p": "k",
+     "t0": 2.921,
+     "t1": 2.999
+    },
+    {
+     "p": "ah",
+     "t0": 2.999,
+     "t1": 3.092
+    },
+    {
+     "p": "m",
+     "t0": 3.092,
+     "t1": 3.174
+    },
+    {
+     "p": "hh",
+     "t0": 3.174,
+     "t1": 3.247
+    },
+    {
+     "p": "ih",
+     "t0": 3.247,
+     "t1": 3.315
+    },
+    {
+     "p": "r",
+     "t0": 3.315,
+     "t1": 3.496
+    }
+   ],
+   "causes": "refuse",
+   "file": "build/cache/voice/call3.wav"
+  },
+  {
+   "id": "call4b",
+   "kind": "voice",
+   "style": "call",
+   "src": "person",
+   "t0": 3.92,
+   "t1": 4.555,
+   "text": "Come on!",
+   "cue_t": 4.212,
+   "cue_word": "on",
+   "words": [
+    {
+     "w": "come",
+     "t0": 3.96,
+     "t1": 4.212
+    },
+    {
+     "w": "on",
+     "t0": 4.212,
+     "t1": 4.495
+    }
+   ],
+   "phones": [
+    {
+     "p": "k",
+     "t0": 3.96,
+     "t1": 4.061
+    },
+    {
+     "p": "ah",
+     "t0": 4.061,
+     "t1": 4.154
+    },
+    {
+     "p": "m",
+     "t0": 4.154,
+     "t1": 4.212
+    },
+    {
+     "p": "aa",
+     "t0": 4.212,
+     "t1": 4.409
+    },
+    {
+     "p": "n",
+     "t0": 4.409,
+     "t1": 4.495
+    }
+   ],
+   "causes": "refusal deepens: lies down, back turned",
+   "file": "build/cache/voice/call4.wav"
+  },
+  {
+   "id": "pstep1",
+   "kind": "step",
+   "src": "person",
+   "t0": 4.98,
+   "x": -0.45
+  },
+  {
+   "id": "pstep2",
+   "kind": "step",
+   "src": "person",
+   "t0": 5.22,
+   "x": -0.75
+  },
+  {
+   "id": "pstep3",
+   "kind": "step",
+   "src": "person",
+   "t0": 5.46,
+   "x": -1.05
+  },
+  {
+   "id": "sit",
+   "kind": "sit",
+   "src": "person",
+   "t0": 5.8,
+   "t1": 6.35,
+   "x": -1.25,
+   "desc": "cloth and a board taking weight"
+  },
+  {
+   "id": "push",
+   "kind": "touch",
+   "src": "person",
+   "t0": 6.18,
+   "x": -0.45,
+   "desc": "palm on the door"
+  },
+  {
+   "id": "door",
+   "kind": "creak",
+   "src": "door",
+   "t0": 6.22,
+   "t1": 6.95,
+   "x": -0.46,
+   "desc": "hinge creak as the door swings in",
+   "causes": "gesture accent only: one ear turns to the sound; the dog does not answer"
+  },
+  {
+   "id": "hand",
+   "kind": "cloth",
+   "src": "person",
+   "t0": 6.8,
+   "t1": 7.15,
+   "x": -0.9
+  },
+  {
+   "id": "soft1",
+   "kind": "voice",
+   "style": "soft",
+   "src": "person",
+   "t0": 7.248,
+   "t1": 8.194,
+   "text": "It's all right.",
+   "cue_t": 7.288,
+   "cue_word": "it",
+   "words": [
+    {
+     "w": "it",
+     "t0": 7.288,
+     "t1": 7.439
+    },
+    {
+     "w": "'s",
+     "t0": 7.439,
+     "t1": 7.603
+    },
+    {
+     "w": "all",
+     "t0": 7.603,
+     "t1": 7.865
+    },
+    {
+     "w": "right",
+     "t0": 7.865,
+     "t1": 8.134
+    }
+   ],
+   "phones": [
+    {
+     "p": "ih",
+     "t0": 7.288,
+     "t1": 7.363
+    },
+    {
+     "p": "t",
+     "t0": 7.363,
+     "t1": 7.439
+    },
+    {
+     "p": "s",
+     "t0": 7.439,
+     "t1": 7.603
+    },
+    {
+     "p": "ao",
+     "t0": 7.603,
+     "t1": 7.785
+    },
+    {
+     "p": "l",
+     "t0": 7.785,
+     "t1": 7.865
+    },
+    {
+     "p": "r",
+     "t0": 7.865,
+     "t1": 7.922
+    },
+    {
+     "p": "ay",
+     "t0": 7.922,
+     "t1": 8.08
+    },
+    {
+     "p": "t",
+     "t0": 8.08,
+     "t1": 8.134
+    }
+   ],
+   "causes": "watch: turns back to look",
+   "file": "build/cache/voice/soft1.wav"
+  },
+  {
+   "id": "soft2",
+   "kind": "voice",
+   "style": "soft",
+   "src": "person",
+   "t0": 10.45,
+   "t1": 11.49,
+   "text": "It's okay.",
+   "cue_t": 10.49,
+   "cue_word": "it",
+   "words": [
+    {
+     "w": "it",
+     "t0": 10.49,
+     "t1": 10.651
+    },
+    {
+     "w": "'s",
+     "t0": 10.651,
+     "t1": 10.822
+    },
+    {
+     "w": "okay",
+     "t0": 10.822,
+     "t1": 11.43
+    }
+   ],
+   "phones": [
+    {
+     "p": "ih",
+     "t0": 10.49,
+     "t1": 10.567
+    },
+    {
+     "p": "t",
+     "t0": 10.567,
+     "t1": 10.651
+    },
+    {
+     "p": "s",
+     "t0": 10.651,
+     "t1": 10.822
+    },
+    {
+     "p": "ow",
+     "t0": 10.822,
+     "t1": 11.019
+    },
+    {
+     "p": "k",
+     "t0": 11.019,
+     "t1": 11.12
+    },
+    {
+     "p": "ey",
+     "t0": 11.12,
+     "t1": 11.43
+    }
+   ],
+   "causes": "ears and tail answer; no step yet",
+   "file": "build/cache/voice/soft2.wav"
+  },
+  {
+   "id": "sniff",
+   "kind": "sniff",
+   "src": "dog",
+   "t0": 13.86,
+   "n": 3,
+   "gap": 0.16,
+   "causes": "approach: the dog reads the air, then comes"
+  },
+  {
+   "id": "soft3",
+   "kind": "voice",
+   "style": "soft",
+   "src": "person",
+   "t0": 25.905699999999996,
+   "t1": 26.7,
+   "text": "Come in.",
+   "cue_t": 26.31,
+   "cue_word": "in",
+   "words": [
+    {
+     "w": "come",
+     "t0": 25.946,
+     "t1": 26.31
+    },
+    {
+     "w": "in",
+     "t0": 26.31,
+     "t1": 26.64
+    }
+   ],
+   "phones": [
+    {
+     "p": "k",
+     "t0": 25.946,
+     "t1": 26.092
+    },
+    {
+     "p": "ah",
+     "t0": 26.092,
+     "t1": 26.226
+    },
+    {
+     "p": "m",
+     "t0": 26.226,
+     "t1": 26.31
+    },
+    {
+     "p": "ih",
+     "t0": 26.31,
+     "t1": 26.487
+    },
+    {
+     "p": "n",
+     "t0": 26.487,
+     "t1": 26.64
+    }
+   ],
+   "causes": "looks in through the door, then settles",
+   "file": "build/cache/voice/soft3.wav"
+  },
+  {
+   "id": "hand_rest",
+   "kind": "cloth",
+   "src": "person",
+   "t0": 29.6,
+   "t1": 29.9,
+   "x": -1.0
+  }
+ ]
+}

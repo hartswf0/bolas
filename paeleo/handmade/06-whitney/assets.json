@@ -1,0 +1,66 @@
+{
+ "about": "SCION 06 Whitney: every asset in film.mp4, where it came from, its rights, and the operation that made it. Every visible mark in the scene is a computed point; no image file is composited into the film.",
+ "assets": [
+  {
+   "id": "score",
+   "what": "the dog's decision trace (state, x, act, person, door, prompts), 768 frames",
+   "path": "paeleo/handmade/score/threshold-score.json",
+   "source": "PAELEO machine (paeleo/threshold/machine.js), built by tools/paeleo/build_score.js",
+   "rights": "project-internal (Bolas repository)",
+   "operation": "read: drives build/harmonic.py (states, x, act curves, circumstances). Not drawn."
+  },
+  {
+   "id": "dog-proportions",
+   "what": "the dog's skeleton proportions (torso length to shoulder height, head reach, leg length)",
+   "path": "paeleo/handmade/kit/archive-dog/pose_agent_v8.json (frame 0: nose, neck, chest, tail, feet keys)",
+   "source_title": "Amateur Film New Jersey C",
+   "archive_url": "https://archive.org/details/NewJerseyC",
+   "collection": "Home Movies (Internet Archive collection)",
+   "rights": "public_domain (kit/archive-dog/source.json rights_statement)",
+   "operation": "measured: pixel distances between rig keys converted to metres (chest to tail base 90 px = 0.80 m torso); no pixel of the footage is used. Frame f000.jpg was looked at once to see the breed (a shepherd-like dog)."
+  },
+  {
+   "id": "dog",
+   "what": "the dog: tubes of helical dot-lines (meridians) around a skeleton of spine, neck, head, four 3-segment legs, tail; ear triangles; eye and nose points",
+   "path": "build/figures.py: dog()",
+   "rights": "made here (synthesized)",
+   "operation": "synthesized: parametric curves; gait by phase relations; two-bone IK; poses from the score's act curves"
+  },
+  {
+   "id": "person",
+   "what": "the person: the same ring-tube construction in warm points",
+   "path": "build/figures.py: person()",
+   "rights": "made here (synthesized)",
+   "operation": "synthesized"
+  },
+  {
+   "id": "field",
+   "what": "porch planks, facade lattice, door frame and sill, door leaf, steps, post, interior, door light and haze, stars, the moon (a Lissajous trail of the two oscillators), voice wavefronts",
+   "path": "build/render.py",
+   "rights": "made here (synthesized)",
+   "operation": "synthesized: points on lines, grids and periodic trajectories"
+  },
+  {
+   "id": "words",
+   "what": "the person's spoken words as subtitles (Come here! / It's all right. / Come in.)",
+   "path": "build/render.py: VOICE",
+   "rights": "text from the brief's ekphrasis",
+   "operation": "typeset in Literata Italic; calls larger and brighter than the soft words. The dog's states and choice names are never printed."
+  },
+  {
+   "id": "sound",
+   "what": "house tone (220 Hz), dog tone (330 Hz scaled by the dog oscillator's rate), additive-formant voice, footfall ticks, door creak, thumps and sighs, room tone",
+   "path": "build/audio.py",
+   "rights": "made here (synthesized)",
+   "operation": "synthesized from the oscillator bank in build/harmonic.py and the trace's foot contacts"
+  },
+  {
+   "id": "fonts",
+   "what": "Big Shoulders Display 800, JetBrains Mono 400, Literata 400 and 400 Italic",
+   "path": "tools/paeleo/fonts/f5.woff2, f14.woff2, f27.woff2, f34.woff2",
+   "rights": "SIL Open Font License 1.1",
+   "operation": "converted woff2 to ttf in build/cache (build/fonts.py) for Pillow"
+  }
+ ],
+ "not_used": "No archive footage pixels, no SAM masks, no Quick, Draw! strokes, no found-frames shots, nothing fetched from the web, no generated images."
+}

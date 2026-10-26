@@ -1,0 +1,13 @@
+{
+ "title": "Reel round 6",
+ "verdict": "does not pass",
+ "meta": "a sixth, fresh critic · a mid-frame of every lens, enlarged crops of every text box, 5 fps on 41 and 45, RMS at every cut",
+ "gap": "The overlay layout was not collision-checked: text overprinted text or the dog in six lenses (27, 32, 38, 46, 49, 52).",
+ "repair": "A computed check over every frame: no two text boxes intersect, none leaves the frame, none covers more than 15% of the dog, x-height at least 12 px, contrast at least 4.5:1.",
+ "notes": [
+  "Round 5's condition held for 14, 30, 42, 48 and 54; 45 now shows the jamb in front of the dog; 41 marginal.",
+  "Sound: tightly synced, but 150 ms of digital silence before each cut made a stutter."
+ ],
+ "keep": "Distinct grammars lens to lens; the same tan, jointed, red-collared dog throughout; readable captions; 14, 20, 22, 25, 30, 42, 48 and 54 read at a glance.",
+ "done": "Labels now place themselves: at least 22 px on a backing, inside the frame, moved off every label already drawn and off the dog until they cover 15% or less of it; tools/paeleo/lens_layout_check.js checks every fourth frame of every lens window and reports clean. 27's tracks re-spaced, 32 three angles with leaders, 46 without numerals, 49's title larger, 52 without names; an unpitched room air under the whole reel so no cut falls into digital silence."
+}

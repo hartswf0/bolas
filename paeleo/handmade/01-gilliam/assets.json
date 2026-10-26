@@ -1,0 +1,1277 @@
+{
+ "about": "Every asset in SCION-01 (Gilliam) PAE-02. Each card is cut from a public-domain archive frame copied into sources/<name>/fNNN.jpg (with its SAM masks), engraved by luminance hatching (build/common.py:engrave), and placed on pivots by build/render.py. Drawn parts are marked as drawn.",
+ "sources": {
+  "dog": {
+   "title": "Amateur Film New Jersey C",
+   "clip_id": "2fdacde1-8a23-58e1-b905-5407385bd039",
+   "rights": "public_domain",
+   "archive_url": "https://archive.org/details/NewJerseyC",
+   "shot_page_url": "https://www.movingimagearchive.com/sources/amateur-film-new-jersey-c-c65a8960?clip=2fdacde1-8a23-58e1-b905-5407385bd039",
+   "kit_or_shot_dir": "/home/user/bolas/paeleo/handmade/kit/archive-dog",
+   "frames_used": [
+    0,
+    8,
+    20
+   ],
+   "local_copy": "sources/dog/"
+  },
+  "door": {
+   "title": "Straight Talk",
+   "clip_id": "271d80c7-4f56-51b8-90fe-012dfb984b4f",
+   "rights": "public_domain",
+   "archive_url": "https://archive.org/details/gov.ntis.ava19144vnb1",
+   "shot_page_url": "https://www.movingimagearchive.com/sources/straight-talk-583ba802?clip=271d80c7-4f56-51b8-90fe-012dfb984b4f",
+   "kit_or_shot_dir": "/home/user/bolas/paeleo/handmade/kit/archive-door",
+   "frames_used": [
+    0,
+    12,
+    16,
+    31
+   ],
+   "local_copy": "sources/door/"
+  },
+  "face": {
+   "title": "We Learn About the Telephone I",
+   "clip_id": "de79b639-b8b3-5462-912e-b57322df522b",
+   "rights": "public_domain",
+   "archive_url": "https://archive.org/details/WeLearnA1965",
+   "shot_page_url": null,
+   "kit_or_shot_dir": "/home/user/hartswf0/secondhand-motion/shots/face-sam",
+   "frames_used": [
+    6,
+    12,
+    18
+   ],
+   "local_copy": "sources/face/"
+  },
+  "hand": {
+   "title": "Door to Heaven, The",
+   "clip_id": "0870ef3a-b328-5284-890b-3e1ac18057c1",
+   "rights": "public_domain",
+   "archive_url": "https://archive.org/details/DoortoHe1941",
+   "shot_page_url": null,
+   "kit_or_shot_dir": "/home/user/hartswf0/secondhand-motion/shots/hand-sam",
+   "frames_used": [
+    10
+   ],
+   "local_copy": "sources/hand/"
+  },
+  "butterfly": {
+   "title": "Insect Zoo",
+   "clip_id": "810c95a2-7992-5461-9171-49a32c354cb8",
+   "rights": "public_domain",
+   "archive_url": "https://archive.org/details/insect_zoo",
+   "shot_page_url": null,
+   "kit_or_shot_dir": "/home/user/hartswf0/secondhand-motion/shots/butterfly-sam",
+   "frames_used": [
+    0,
+    15,
+    60
+   ],
+   "local_copy": "sources/butterfly/"
+  },
+  "lantern": {
+   "title": "Anthracite: Pre-Shift Examinations of Underground Mines",
+   "clip_id": "4e46b7b2-909b-5072-8dbf-30085bb76742",
+   "rights": "public_domain",
+   "archive_url": "https://archive.org/details/gov.msha.dvd614",
+   "shot_page_url": null,
+   "kit_or_shot_dir": "/home/user/hartswf0/secondhand-motion/shots/lantern-sam",
+   "frames_used": [
+    30
+   ],
+   "local_copy": "sources/lantern/"
+  },
+  "cloud": {
+   "title": "Top Of The Cloud - Time Lapse (Wide Screen 16:9)",
+   "clip_id": "3a3663e4-7a6e-5277-8cf5-12e94237350c",
+   "rights": "public_domain",
+   "archive_url": "https://archive.org/details/CEP391",
+   "shot_page_url": null,
+   "kit_or_shot_dir": "/home/user/hartswf0/secondhand-motion/shots/cloud-sam",
+   "frames_used": [
+    0,
+    6,
+    12,
+    18,
+    24,
+    30,
+    36,
+    42,
+    48,
+    54,
+    60
+   ],
+   "local_copy": "sources/cloud/"
+  }
+ },
+ "cards": [
+  {
+   "card": "dog_head",
+   "file": "build/cache/dog_head.png",
+   "size_px": [
+    141,
+    151
+   ],
+   "from": "sources/dog/f008.jpg",
+   "source_title": "Amateur Film New Jersey C",
+   "archive_url": "https://archive.org/details/NewJerseyC",
+   "rights": "public_domain",
+   "operation": "SAM mask cut, split on pivot joints, engraved from luminance",
+   "pivots_px": {
+    "neck": [
+     101.2,
+     105.55
+    ],
+    "nose": [
+     44.65,
+     41.75
+    ],
+    "eye": [
+     72.2,
+     59.15
+    ]
+   }
+  },
+  {
+   "card": "dog_body",
+   "file": "build/cache/dog_body.png",
+   "size_px": [
+    209,
+    137
+   ],
+   "from": "sources/dog/f008.jpg",
+   "source_title": "Amateur Film New Jersey C",
+   "archive_url": "https://archive.org/details/NewJerseyC",
+   "rights": "public_domain",
+   "operation": "SAM mask cut, split on pivot joints, engraved from luminance",
+   "pivots_px": {
+    "centre": [
+     107.0,
+     78.0
+    ],
+    "neck": [
+     43.199999999999996,
+     62.05
+    ],
+    "shoulder": [
+     67.85,
+     102.64999999999999
+    ],
+    "hip_n": [
+     143.25,
+     96.85
+    ],
+    "hip_f": [
+     176.6,
+     96.85
+    ],
+    "rump": [
+     189.65,
+     50.449999999999996
+    ],
+    "belly": [
+     107.0,
+     117.14999999999999
+    ]
+   }
+  },
+  {
+   "card": "dog_fore",
+   "file": "build/cache/dog_fore.png",
+   "size_px": [
+    72,
+    109
+   ],
+   "from": "sources/dog/f008.jpg",
+   "source_title": "Amateur Film New Jersey C",
+   "archive_url": "https://archive.org/details/NewJerseyC",
+   "rights": "public_domain",
+   "operation": "SAM mask cut, split on pivot joints, engraved from luminance",
+   "pivots_px": {
+    "top": [
+     34.5,
+     22.9
+    ],
+    "paw": [
+     37.4,
+     93.95
+    ]
+   }
+  },
+  {
+   "card": "dog_hind_n",
+   "file": "build/cache/dog_hind_n.png",
+   "size_px": [
+    63,
+    115
+   ],
+   "from": "sources/dog/f008.jpg",
+   "source_title": "Amateur Film New Jersey C",
+   "archive_url": "https://archive.org/details/NewJerseyC",
+   "rights": "public_domain",
+   "operation": "SAM mask cut, split on pivot joints, engraved from luminance",
+   "pivots_px": {
+    "top": [
+     31.599999999999998,
+     22.9
+    ],
+    "paw": [
+     27.25,
+     101.2
+    ]
+   }
+  },
+  {
+   "card": "dog_hind_f",
+   "file": "build/cache/dog_hind_f.png",
+   "size_px": [
+    60,
+    115
+   ],
+   "from": "sources/dog/f008.jpg",
+   "source_title": "Amateur Film New Jersey C",
+   "archive_url": "https://archive.org/details/NewJerseyC",
+   "rights": "public_domain",
+   "operation": "SAM mask cut, split on pivot joints, engraved from luminance",
+   "pivots_px": {
+    "top": [
+     27.25,
+     22.9
+    ],
+    "paw": [
+     28.7,
+     101.2
+    ]
+   }
+  },
+  {
+   "card": "dog_tail",
+   "file": "build/cache/dog_tail.png",
+   "size_px": [
+    104,
+    51
+   ],
+   "from": "sources/dog/f008.jpg",
+   "source_title": "Amateur Film New Jersey C",
+   "archive_url": "https://archive.org/details/NewJerseyC",
+   "rights": "public_domain",
+   "operation": "fur crop from the back (150,100)-(214,128) under a drawn tail-shaped scissor line, engraved",
+   "pivots_px": {
+    "base": [
+     9.85,
+     18.549999999999997
+    ],
+    "tip": [
+     86.7,
+     34.5
+    ]
+   }
+  },
+  {
+   "card": "dog_neck",
+   "file": "build/cache/dog_neck.png",
+   "size_px": [
+    69,
+    57
+   ],
+   "from": "sources/dog/f008.jpg",
+   "source_title": "Amateur Film New Jersey C",
+   "archive_url": "https://archive.org/details/NewJerseyC",
+   "rights": "public_domain",
+   "operation": "chest-fur crop (112,104)-(152,136), engraved; stretched as an accordion neck",
+   "pivots_px": {
+    "c": [
+     34.5,
+     28.7
+    ]
+   }
+  },
+  {
+   "card": "dog_head_back",
+   "file": "build/cache/dog_head_back.png",
+   "size_px": [
+    141,
+    151
+   ],
+   "from": "sources/dog/f008.jpg",
+   "source_title": "Amateur Film New Jersey C",
+   "archive_url": "https://archive.org/details/NewJerseyC",
+   "rights": "public_domain",
+   "operation": "reverse of the card: blank card, ink ghost, stamp (body)",
+   "pivots_px": {
+    "neck": [
+     101.2,
+     105.55
+    ],
+    "nose": [
+     44.65,
+     41.75
+    ],
+    "eye": [
+     72.2,
+     59.15
+    ]
+   }
+  },
+  {
+   "card": "dog_body_back",
+   "file": "build/cache/dog_body_back.png",
+   "size_px": [
+    209,
+    137
+   ],
+   "from": "sources/dog/f008.jpg",
+   "source_title": "Amateur Film New Jersey C",
+   "archive_url": "https://archive.org/details/NewJerseyC",
+   "rights": "public_domain",
+   "operation": "reverse of the card: blank card, ink ghost, stamp (body)",
+   "pivots_px": {
+    "centre": [
+     107.0,
+     78.0
+    ],
+    "neck": [
+     43.199999999999996,
+     62.05
+    ],
+    "shoulder": [
+     67.85,
+     102.64999999999999
+    ],
+    "hip_n": [
+     143.25,
+     96.85
+    ],
+    "hip_f": [
+     176.6,
+     96.85
+    ],
+    "rump": [
+     189.65,
+     50.449999999999996
+    ],
+    "belly": [
+     107.0,
+     117.14999999999999
+    ]
+   }
+  },
+  {
+   "card": "dog_fore_back",
+   "file": "build/cache/dog_fore_back.png",
+   "size_px": [
+    72,
+    109
+   ],
+   "from": "sources/dog/f008.jpg",
+   "source_title": "Amateur Film New Jersey C",
+   "archive_url": "https://archive.org/details/NewJerseyC",
+   "rights": "public_domain",
+   "operation": "reverse of the card: blank card, ink ghost, stamp (body)",
+   "pivots_px": {
+    "top": [
+     34.5,
+     22.9
+    ],
+    "paw": [
+     37.4,
+     93.95
+    ]
+   }
+  },
+  {
+   "card": "dog_hind_n_back",
+   "file": "build/cache/dog_hind_n_back.png",
+   "size_px": [
+    63,
+    115
+   ],
+   "from": "sources/dog/f008.jpg",
+   "source_title": "Amateur Film New Jersey C",
+   "archive_url": "https://archive.org/details/NewJerseyC",
+   "rights": "public_domain",
+   "operation": "reverse of the card: blank card, ink ghost, stamp (body)",
+   "pivots_px": {
+    "top": [
+     31.599999999999998,
+     22.9
+    ],
+    "paw": [
+     27.25,
+     101.2
+    ]
+   }
+  },
+  {
+   "card": "dog_hind_f_back",
+   "file": "build/cache/dog_hind_f_back.png",
+   "size_px": [
+    60,
+    115
+   ],
+   "from": "sources/dog/f008.jpg",
+   "source_title": "Amateur Film New Jersey C",
+   "archive_url": "https://archive.org/details/NewJerseyC",
+   "rights": "public_domain",
+   "operation": "reverse of the card: blank card, ink ghost, stamp (body)",
+   "pivots_px": {
+    "top": [
+     27.25,
+     22.9
+    ],
+    "paw": [
+     28.7,
+     101.2
+    ]
+   }
+  },
+  {
+   "card": "dog_tail_back",
+   "file": "build/cache/dog_tail_back.png",
+   "size_px": [
+    104,
+    51
+   ],
+   "from": "sources/dog/f008.jpg",
+   "source_title": "Amateur Film New Jersey C",
+   "archive_url": "https://archive.org/details/NewJerseyC",
+   "rights": "public_domain",
+   "operation": "reverse of the card: blank card, ink ghost, stamp (body)",
+   "pivots_px": {
+    "base": [
+     9.85,
+     18.549999999999997
+    ],
+    "tip": [
+     86.7,
+     34.5
+    ]
+   }
+  },
+  {
+   "card": "door_head",
+   "file": "build/cache/door_head.png",
+   "size_px": [
+    62,
+    127
+   ],
+   "from": "sources/door/f031.jpg",
+   "source_title": "Straight Talk",
+   "archive_url": "https://archive.org/details/gov.ntis.ava19144vnb1",
+   "rights": "public_domain",
+   "operation": "SAM mask cut, engraved, used as a substitution object for the dog head",
+   "pivots_px": {
+    "hinge": [
+     5.84,
+     68.0
+    ],
+    "knob": [
+     52.04,
+     68.0
+    ]
+   }
+  },
+  {
+   "card": "door",
+   "file": "build/cache/door.png",
+   "size_px": [
+    179,
+    388
+   ],
+   "from": "sources/door/f031.jpg",
+   "source_title": "Straight Talk",
+   "archive_url": "https://archive.org/details/gov.ntis.ava19144vnb1",
+   "rights": "public_domain",
+   "operation": "crop of the closed door, stretched to the opening, engraved; swings on its hinge as a card",
+   "pivots_px": {
+    "hinge_top": [
+     4.5,
+     4.5
+    ],
+    "hinge_bot": [
+     4.5,
+     383.74999999999994
+    ]
+   }
+  },
+  {
+   "card": "interior_dark",
+   "file": "build/cache/interior_dark.png",
+   "size_px": [
+    174,
+    383
+   ],
+   "from": "sources/door/f000.jpg",
+   "source_title": "Straight Talk",
+   "archive_url": "https://archive.org/details/gov.ntis.ava19144vnb1",
+   "rights": "public_domain",
+   "operation": "crop (0,0)-(100,288), engraved, tinted interior_dark",
+   "pivots_px": {
+    "tl": [
+     2.0,
+     2.0
+    ]
+   }
+  },
+  {
+   "card": "interior_lit",
+   "file": "build/cache/interior_lit.png",
+   "size_px": [
+    174,
+    383
+   ],
+   "from": "sources/door/f000.jpg",
+   "source_title": "Straight Talk",
+   "archive_url": "https://archive.org/details/gov.ntis.ava19144vnb1",
+   "rights": "public_domain",
+   "operation": "crop (0,0)-(100,288), engraved, tinted interior_lit",
+   "pivots_px": {
+    "tl": [
+     2.0,
+     2.0
+    ]
+   }
+  },
+  {
+   "card": "p_head",
+   "file": "build/cache/p_head.png",
+   "size_px": [
+    70,
+    66
+   ],
+   "from": "sources/door/f000.jpg",
+   "source_title": "Straight Talk",
+   "archive_url": "https://archive.org/details/gov.ntis.ava19144vnb1",
+   "rights": "public_domain",
+   "operation": "colour/darkness cut against the white wall and the SAM door mask, rows filled, engraved",
+   "pivots_px": {
+    "neck": [
+     32.879999999999995,
+     57.3
+    ],
+    "top": [
+     32.879999999999995,
+     9.94
+    ]
+   }
+  },
+  {
+   "card": "p_torso",
+   "file": "build/cache/p_torso.png",
+   "size_px": [
+    116,
+    162
+   ],
+   "from": "sources/door/f000.jpg",
+   "source_title": "Straight Talk",
+   "archive_url": "https://archive.org/details/gov.ntis.ava19144vnb1",
+   "rights": "public_domain",
+   "operation": "colour/darkness cut against the white wall and the SAM door mask, rows filled, engraved",
+   "pivots_px": {
+    "neck": [
+     58.78,
+     11.42
+    ],
+    "hip": [
+     58.78,
+     147.57999999999998
+    ],
+    "shoulder_r": [
+     100.22,
+     27.7
+    ],
+    "shoulder_l": [
+     16.6,
+     27.7
+    ]
+   }
+  },
+  {
+   "card": "p_leg",
+   "file": "build/cache/p_leg.png",
+   "size_px": [
+    47,
+    148
+   ],
+   "from": "sources/door/f012.jpg",
+   "source_title": "Straight Talk",
+   "archive_url": "https://archive.org/details/gov.ntis.ava19144vnb1",
+   "rights": "public_domain",
+   "operation": "jeans crop (185,200)-(235,288) under a drawn trouser scissor line, engraved",
+   "pivots_px": {
+    "hip": [
+     23.400000000000002,
+     8.68
+    ],
+    "foot": [
+     25.240000000000002,
+     139.32
+    ]
+   }
+  },
+  {
+   "card": "p_sleeve",
+   "file": "build/cache/p_sleeve.png",
+   "size_px": [
+    66,
+    32
+   ],
+   "from": "sources/door/f000.jpg",
+   "source_title": "Straight Talk",
+   "archive_url": "https://archive.org/details/gov.ntis.ava19144vnb1",
+   "rights": "public_domain",
+   "operation": "sleeve crop (298,100)-(326,170), rotated, engraved; repeated as telescoping arm",
+   "pivots_px": {
+    "l": [
+     5.0,
+     16.200000000000003
+    ],
+    "r": [
+     61.0,
+     16.200000000000003
+    ]
+   }
+  },
+  {
+   "card": "face_loud",
+   "file": "build/cache/face_loud.png",
+   "size_px": [
+    91,
+    132
+   ],
+   "from": "sources/face/f006.jpg",
+   "source_title": "We Learn About the Telephone I",
+   "archive_url": "https://archive.org/details/WeLearnA1965",
+   "rights": "public_domain",
+   "operation": "SAM mask cut of the cartoon profile, engraved; substitution head",
+   "pivots_px": {
+    "neck": [
+     22.3,
+     123.1
+    ],
+    "mouth": [
+     47.5,
+     68.5
+    ]
+   }
+  },
+  {
+   "card": "face_soft",
+   "file": "build/cache/face_soft.png",
+   "size_px": [
+    91,
+    132
+   ],
+   "from": "sources/face/f018.jpg",
+   "source_title": "We Learn About the Telephone I",
+   "archive_url": "https://archive.org/details/WeLearnA1965",
+   "rights": "public_domain",
+   "operation": "SAM mask cut of the cartoon profile, engraved; substitution head",
+   "pivots_px": {
+    "neck": [
+     22.3,
+     123.1
+    ],
+    "mouth": [
+     47.5,
+     68.5
+    ]
+   }
+  },
+  {
+   "card": "face_half",
+   "file": "build/cache/face_half.png",
+   "size_px": [
+    91,
+    132
+   ],
+   "from": "sources/face/f012.jpg",
+   "source_title": "We Learn About the Telephone I",
+   "archive_url": "https://archive.org/details/WeLearnA1965",
+   "rights": "public_domain",
+   "operation": "SAM mask cut of the cartoon profile, engraved; substitution head",
+   "pivots_px": {
+    "neck": [
+     22.3,
+     123.1
+    ],
+    "mouth": [
+     47.5,
+     68.5
+    ]
+   }
+  },
+  {
+   "card": "hand_reach",
+   "file": "build/cache/hand_reach.png",
+   "size_px": [
+    206,
+    97
+   ],
+   "from": "sources/hand/f010.jpg",
+   "source_title": "Door to Heaven, The",
+   "archive_url": "https://archive.org/details/DoortoHe1941",
+   "rights": "public_domain",
+   "operation": "SAM hand mask + forearm by luminance, mirrored, engraved",
+   "pivots_px": {
+    "wrist": [
+     19.299999999999997,
+     55.4
+    ],
+    "tip": [
+     188.39999999999998,
+     44.0
+    ]
+   }
+  },
+  {
+   "card": "hand_low",
+   "file": "build/cache/hand_low.png",
+   "size_px": [
+    137,
+    87
+   ],
+   "from": "sources/butterfly/f060.jpg",
+   "source_title": "Insect Zoo",
+   "archive_url": "https://archive.org/details/insect_zoo",
+   "rights": "public_domain",
+   "operation": "luminance cut of the hand on black, minus the butterfly mask, engraved",
+   "pivots_px": {
+    "wrist": [
+     110.0,
+     78.0
+    ],
+    "tip": [
+     22.0,
+     17.200000000000003
+    ]
+   }
+  },
+  {
+   "card": "butterfly",
+   "file": "build/cache/butterfly.png",
+   "size_px": [
+    73,
+    126
+   ],
+   "from": "sources/butterfly/f060.jpg",
+   "source_title": "Insect Zoo",
+   "archive_url": "https://archive.org/details/insect_zoo",
+   "rights": "public_domain",
+   "operation": "SAM mask cut, engraved and hand-coloured, flaps by card scaling; the soft voice",
+   "pivots_px": {
+    "body": [
+     12.3,
+     117.7
+    ]
+   }
+  },
+  {
+   "card": "lantern",
+   "file": "build/cache/lantern.png",
+   "size_px": [
+    67,
+    92
+   ],
+   "from": "sources/lantern/f030.jpg",
+   "source_title": "Anthracite: Pre-Shift Examinations of Underground Mines",
+   "archive_url": "https://archive.org/details/gov.msha.dvd614",
+   "rights": "public_domain",
+   "operation": "SAM mask cut (cage only), engraved",
+   "pivots_px": {
+    "hook": [
+     33.75,
+     6.5
+    ]
+   }
+  },
+  {
+   "card": "wall",
+   "file": "build/cache/wall.png",
+   "size_px": [
+    564,
+    618
+   ],
+   "from": "sources/dog/f000.jpg",
+   "source_title": "Amateur Film New Jersey C",
+   "archive_url": "https://archive.org/details/NewJerseyC",
+   "rights": "public_domain",
+   "operation": "stone pillar crop (306,60)-(380,200) tiled and mirrored into a wall, engraved",
+   "pivots_px": {
+    "tl": [
+     2.0,
+     2.0
+    ]
+   }
+  },
+  {
+   "card": "hedge",
+   "file": "build/cache/hedge.png",
+   "size_px": [
+    852,
+    249
+   ],
+   "from": "sources/cloud/f000.jpg",
+   "source_title": "Top Of The Cloud - Time Lapse (Wide Screen 16:9)",
+   "archive_url": "https://archive.org/details/CEP391",
+   "rights": "public_domain",
+   "operation": "the SAM cloud outline reused as a hedge silhouette, tones inverted, engraved dark",
+   "pivots_px": {
+    "tl": [
+     3.5,
+     3.5
+    ]
+   }
+  },
+  {
+   "card": "cloud_00",
+   "file": "build/cache/cloud_00.png",
+   "size_px": [
+    1280,
+    410
+   ],
+   "from": "sources/cloud/f000.jpg",
+   "source_title": "Top Of The Cloud - Time Lapse (Wide Screen 16:9)",
+   "archive_url": "https://archive.org/details/CEP391",
+   "rights": "public_domain",
+   "operation": "time-lapse frame, engraved as dusk sky",
+   "pivots_px": {}
+  },
+  {
+   "card": "cloud_06",
+   "file": "build/cache/cloud_06.png",
+   "size_px": [
+    1280,
+    410
+   ],
+   "from": "sources/cloud/f006.jpg",
+   "source_title": "Top Of The Cloud - Time Lapse (Wide Screen 16:9)",
+   "archive_url": "https://archive.org/details/CEP391",
+   "rights": "public_domain",
+   "operation": "time-lapse frame, engraved as dusk sky",
+   "pivots_px": {}
+  },
+  {
+   "card": "cloud_12",
+   "file": "build/cache/cloud_12.png",
+   "size_px": [
+    1280,
+    410
+   ],
+   "from": "sources/cloud/f012.jpg",
+   "source_title": "Top Of The Cloud - Time Lapse (Wide Screen 16:9)",
+   "archive_url": "https://archive.org/details/CEP391",
+   "rights": "public_domain",
+   "operation": "time-lapse frame, engraved as dusk sky",
+   "pivots_px": {}
+  },
+  {
+   "card": "cloud_18",
+   "file": "build/cache/cloud_18.png",
+   "size_px": [
+    1280,
+    410
+   ],
+   "from": "sources/cloud/f018.jpg",
+   "source_title": "Top Of The Cloud - Time Lapse (Wide Screen 16:9)",
+   "archive_url": "https://archive.org/details/CEP391",
+   "rights": "public_domain",
+   "operation": "time-lapse frame, engraved as dusk sky",
+   "pivots_px": {}
+  },
+  {
+   "card": "cloud_24",
+   "file": "build/cache/cloud_24.png",
+   "size_px": [
+    1280,
+    410
+   ],
+   "from": "sources/cloud/f024.jpg",
+   "source_title": "Top Of The Cloud - Time Lapse (Wide Screen 16:9)",
+   "archive_url": "https://archive.org/details/CEP391",
+   "rights": "public_domain",
+   "operation": "time-lapse frame, engraved as dusk sky",
+   "pivots_px": {}
+  },
+  {
+   "card": "cloud_30",
+   "file": "build/cache/cloud_30.png",
+   "size_px": [
+    1280,
+    410
+   ],
+   "from": "sources/cloud/f030.jpg",
+   "source_title": "Top Of The Cloud - Time Lapse (Wide Screen 16:9)",
+   "archive_url": "https://archive.org/details/CEP391",
+   "rights": "public_domain",
+   "operation": "time-lapse frame, engraved as dusk sky",
+   "pivots_px": {}
+  },
+  {
+   "card": "cloud_36",
+   "file": "build/cache/cloud_36.png",
+   "size_px": [
+    1280,
+    410
+   ],
+   "from": "sources/cloud/f036.jpg",
+   "source_title": "Top Of The Cloud - Time Lapse (Wide Screen 16:9)",
+   "archive_url": "https://archive.org/details/CEP391",
+   "rights": "public_domain",
+   "operation": "time-lapse frame, engraved as dusk sky",
+   "pivots_px": {}
+  },
+  {
+   "card": "cloud_42",
+   "file": "build/cache/cloud_42.png",
+   "size_px": [
+    1280,
+    410
+   ],
+   "from": "sources/cloud/f042.jpg",
+   "source_title": "Top Of The Cloud - Time Lapse (Wide Screen 16:9)",
+   "archive_url": "https://archive.org/details/CEP391",
+   "rights": "public_domain",
+   "operation": "time-lapse frame, engraved as dusk sky",
+   "pivots_px": {}
+  },
+  {
+   "card": "cloud_48",
+   "file": "build/cache/cloud_48.png",
+   "size_px": [
+    1280,
+    410
+   ],
+   "from": "sources/cloud/f048.jpg",
+   "source_title": "Top Of The Cloud - Time Lapse (Wide Screen 16:9)",
+   "archive_url": "https://archive.org/details/CEP391",
+   "rights": "public_domain",
+   "operation": "time-lapse frame, engraved as dusk sky",
+   "pivots_px": {}
+  },
+  {
+   "card": "cloud_54",
+   "file": "build/cache/cloud_54.png",
+   "size_px": [
+    1280,
+    410
+   ],
+   "from": "sources/cloud/f054.jpg",
+   "source_title": "Top Of The Cloud - Time Lapse (Wide Screen 16:9)",
+   "archive_url": "https://archive.org/details/CEP391",
+   "rights": "public_domain",
+   "operation": "time-lapse frame, engraved as dusk sky",
+   "pivots_px": {}
+  },
+  {
+   "card": "cloud_60",
+   "file": "build/cache/cloud_60.png",
+   "size_px": [
+    1280,
+    410
+   ],
+   "from": "sources/cloud/f060.jpg",
+   "source_title": "Top Of The Cloud - Time Lapse (Wide Screen 16:9)",
+   "archive_url": "https://archive.org/details/CEP391",
+   "rights": "public_domain",
+   "operation": "time-lapse frame, engraved as dusk sky",
+   "pivots_px": {}
+  }
+ ],
+ "drawn": [
+  {
+   "what": "sky gradient, field below the horizon, eave, porch boards and fascia, steps, door casing, sill slab",
+   "operation": "drawn: flat tones + noise engraved by the same hatching routine (render.py:hatched)",
+   "rights": "made here"
+  },
+  {
+   "what": "dog eye highlight and nose dot; eye on the shouting mouth",
+   "operation": "drawn on the cards (assets.py)",
+   "rights": "made here"
+  },
+  {
+   "what": "tail scissor line, trouser scissor line, rounded head cut of the mouth card",
+   "operation": "drawn cut lines over found pixels",
+   "rights": "made here"
+  },
+  {
+   "what": "the rubber stamp NO on the back of the dog card",
+   "operation": "drawn with Big Shoulders Display 900",
+   "rights": "made here; font OFL"
+  },
+  {
+   "what": "light spill and doorway glow",
+   "operation": "computed (blurred polygons, additive warm light)",
+   "rights": "made here"
+  }
+ ],
+ "sound": [
+  {
+   "t_film": 0.0,
+   "sound": "title fanfare (synth brass), paper slaps, honk",
+   "operation": "synthesized with numpy (build/sound.py)",
+   "rights": "made here"
+  },
+  {
+   "t_film": 3.0,
+   "sound": "dusk: three crickets, air",
+   "operation": "synthesized with numpy (build/sound.py)",
+   "rights": "made here"
+  },
+  {
+   "t_film": 4.0,
+   "sound": "voice: COME HERE! (formant synth, loud)",
+   "operation": "synthesized with numpy (build/sound.py)",
+   "rights": "made here"
+  },
+  {
+   "t_film": 4.0,
+   "sound": "door SLAM: the dog head becomes a door",
+   "operation": "synthesized with numpy (build/sound.py)",
+   "rights": "made here"
+  },
+  {
+   "t_film": 4.02,
+   "sound": "klaxon under the shout",
+   "operation": "synthesized with numpy (build/sound.py)",
+   "rights": "made here"
+  },
+  {
+   "t_film": 5.283,
+   "sound": "creak: the door-head opens back into a dog head",
+   "operation": "synthesized with numpy (build/sound.py)",
+   "rights": "made here"
+  },
+  {
+   "t_film": 5.613,
+   "sound": "pop",
+   "operation": "synthesized with numpy (build/sound.py)",
+   "rights": "made here"
+  },
+  {
+   "t_film": 6.417,
+   "sound": "voice: COME HERE! (formant synth, loud)",
+   "operation": "synthesized with numpy (build/sound.py)",
+   "rights": "made here"
+  },
+  {
+   "t_film": 6.417,
+   "sound": "slide whistle up",
+   "operation": "synthesized with numpy (build/sound.py)",
+   "rights": "made here"
+  },
+  {
+   "t_film": 6.417,
+   "sound": "paper whoosh: the card turns over",
+   "operation": "synthesized with numpy (build/sound.py)",
+   "rights": "made here"
+  },
+  {
+   "t_film": 6.437,
+   "sound": "klaxon under the shout",
+   "operation": "synthesized with numpy (build/sound.py)",
+   "rights": "made here"
+  },
+  {
+   "t_film": 6.437,
+   "sound": "ratchet: the arm extends",
+   "operation": "synthesized with numpy (build/sound.py)",
+   "rights": "made here"
+  },
+  {
+   "t_film": 6.647,
+   "sound": "card slap",
+   "operation": "synthesized with numpy (build/sound.py)",
+   "rights": "made here"
+  },
+  {
+   "t_film": 6.747,
+   "sound": "rubber stamp: NO",
+   "operation": "synthesized with numpy (build/sound.py)",
+   "rights": "made here"
+  },
+  {
+   "t_film": 7.55,
+   "sound": "paper flop: lies down, back turned",
+   "operation": "synthesized with numpy (build/sound.py)",
+   "rights": "made here"
+  },
+  {
+   "t_film": 7.625,
+   "sound": "slide whistle down: the arm retracts",
+   "operation": "synthesized with numpy (build/sound.py)",
+   "rights": "made here"
+  },
+  {
+   "t_film": 8.075,
+   "sound": "snap",
+   "operation": "synthesized with numpy (build/sound.py)",
+   "rights": "made here"
+  },
+  {
+   "t_film": 8.45,
+   "sound": "hop steps",
+   "operation": "synthesized with numpy (build/sound.py)",
+   "rights": "made here"
+  },
+  {
+   "t_film": 9.05,
+   "sound": "sits: cushion flump",
+   "operation": "synthesized with numpy (build/sound.py)",
+   "rights": "made here"
+  },
+  {
+   "t_film": 9.208,
+   "sound": "door creak",
+   "operation": "synthesized with numpy (build/sound.py)",
+   "rights": "made here"
+  },
+  {
+   "t_film": 9.408,
+   "sound": "latch",
+   "operation": "synthesized with numpy (build/sound.py)",
+   "rights": "made here"
+  },
+  {
+   "t_film": 9.408,
+   "sound": "warm light: a soft G-major chord that holds to the end",
+   "operation": "synthesized with numpy (build/sound.py)",
+   "rights": "made here"
+  },
+  {
+   "t_film": 9.8,
+   "sound": "plink: the hand, low",
+   "operation": "synthesized with numpy (build/sound.py)",
+   "rights": "made here"
+  },
+  {
+   "t_film": 10.4,
+   "sound": "voice: it's all right (soft)",
+   "operation": "synthesized with numpy (build/sound.py)",
+   "rights": "made here"
+  },
+  {
+   "t_film": 10.4,
+   "sound": "butterfly flutter",
+   "operation": "synthesized with numpy (build/sound.py)",
+   "rights": "made here"
+  },
+  {
+   "t_film": 10.458,
+   "sound": "paper whoosh: the card turns back to look",
+   "operation": "synthesized with numpy (build/sound.py)",
+   "rights": "made here"
+  },
+  {
+   "t_film": 10.808,
+   "sound": "small rising whine",
+   "operation": "synthesized with numpy (build/sound.py)",
+   "rights": "made here"
+  },
+  {
+   "t_film": 13.4,
+   "sound": "voice: it's all right (soft)",
+   "operation": "synthesized with numpy (build/sound.py)",
+   "rights": "made here"
+  },
+  {
+   "t_film": 13.4,
+   "sound": "butterfly flutter",
+   "operation": "synthesized with numpy (build/sound.py)",
+   "rights": "made here"
+  },
+  {
+   "t_film": 27.192,
+   "sound": "flump: lies down across the sill",
+   "operation": "synthesized with numpy (build/sound.py)",
+   "rights": "made here"
+  },
+  {
+   "t_film": 28.417,
+   "sound": "tick: the camera cuts in",
+   "operation": "synthesized with numpy (build/sound.py)",
+   "rights": "made here"
+  },
+  {
+   "t_film": 29.4,
+   "sound": "voice: come in (soft)",
+   "operation": "synthesized with numpy (build/sound.py)",
+   "rights": "made here"
+  },
+  {
+   "t_film": 29.4,
+   "sound": "butterfly flutter",
+   "operation": "synthesized with numpy (build/sound.py)",
+   "rights": "made here"
+  },
+  {
+   "t_film": 29.7,
+   "sound": "small whine: looks in",
+   "operation": "synthesized with numpy (build/sound.py)",
+   "rights": "made here"
+  },
+  {
+   "t_film": 31.4,
+   "sound": "sigh: chin on paws",
+   "operation": "synthesized with numpy (build/sound.py)",
+   "rights": "made here"
+  },
+  {
+   "t_film": 35.05,
+   "sound": "end card lands",
+   "operation": "synthesized with numpy (build/sound.py)",
+   "rights": "made here"
+  },
+  {
+   "t_film": 37.3,
+   "sound": "pop",
+   "operation": "synthesized with numpy (build/sound.py)",
+   "rights": "made here"
+  }
+ ],
+ "type": [
+  {
+   "font": "Big Shoulders Display (variable, 900), Literata Italic/Regular",
+   "from": "tools/paeleo/fonts/*.woff2 (decompressed by build/fonts.py)",
+   "rights": "SIL Open Font License"
+  }
+ ],
+ "substitutions": [
+  {
+   "when": "scene 1.000-2.333 s (frames 24-55), the first command",
+   "what": "the dog's head is replaced by the Straight Talk door (card door_head)",
+   "why": "commanded, the dog shuts: the door it is called through becomes its face"
+  },
+  {
+   "when": "scene 1.0-2.3 s and 3.417-4.6 s, the calls",
+   "what": "the woman's head is replaced by the shouting cartoon mouth (We Learn About the Telephone I), enlarged 2x",
+   "why": "the command is all mouth"
+  },
+  {
+   "when": "scene 3.417 s (frames 82-87)",
+   "what": "the dog card turns over: its blank back with a rubber stamp NO",
+   "why": "the refusal is the cut-out showing its paper back"
+  },
+  {
+   "when": "scene 3.417-4.6 s",
+   "what": "the arm becomes a telescope of repeated sleeve cards ending in The Door to Heaven hand",
+   "why": "reaching = grabbing across the whole porch"
+  },
+  {
+   "when": "scene 6.8 s onward",
+   "what": "the same found hand, laid low and still on the boards",
+   "why": "the same fragment, different circumstance"
+  },
+  {
+   "when": "scene 7.4-11.6 s and 26.4-27.6 s",
+   "what": "the soft voice is carried by the Insect Zoo butterfly (two mirrored wing cards)",
+   "why": "it goes to the dog, comes back, and finally flies in through the door: the dog looks after it"
+  },
+  {
+   "when": "background",
+   "what": "the cloud's own SAM outline reused as the hills at dusk",
+   "why": "collage economy"
+  }
+ ]
+}

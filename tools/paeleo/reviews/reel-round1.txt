@@ -1,0 +1,36 @@
+REEL CRITIC, round 1: paeleo-01.mp4
+
+What I inspected: ffprobe; contact sheets every 0.5 s for the whole film; one full-res mid-frame for each of the 54 lenses, tiled with numbers; enlarged dog crops for lenses 6, 9, 10, 13, 18, 26, 32, 33, 40 and 46; four frames around 28.1 s; cut detection by frame difference over the whole frame and over the dog region; audio RMS every 0.25 s; a full spectrogram. I did not check each lens frame by frame, and I did not judge caption type size on a real phone.
+
+Timing: title 0–4.0 s, lenses every 1.6 s from 4.0 s (lens n starts at 4.0+1.6(n−1)), end card 90.4–95.4 s. The structure is exact.
+
+1. Verdict: does not pass. The rig and the structure hold up. But about a dozen lenses make their look visible only as tiny dots, faint lines or a corner panel. At phone size they read as the same brown dog with a new caption, so the bar of "visibly distinct and legible in 1.6 s" fails for roughly 20% of the reel. Several neighbouring or repeated lenses also look alike.
+
+2. Weakest lenses:
+- SCION 06 Whitney, 12.0 s: "harmonic motion" is a few pink and purple dots and faint arcs at the paws.
+- SCION 13 Willett, 23.2 s: two red dots on the nose and tail. Nothing reads as secondary motion.
+- SCION 10 Schaefer et al., 18.4 s: faint teal vertical lines, which read as rain or glitch. SCION 35 (58.4 s) is also "moving least squares", so the method appears twice.
+- SCION 18 Cartoon Saloon, 31.2 s: only a faint amber frame edge. The dog is untouched.
+- SCION 26 PixiJS, 44.0 s: a stats box in the corner. The dog is unchanged.
+- SCION 32 FK (53.6 s) and SCION 33 IK (55.2 s): thin orange bones, then red feet with white contact ticks. Cut detection barely registers 33 to 34 (56.8 s), so the change is very small.
+- SCION 40 Physical tabletop, 66.4 s: just a darker grade and a soft shadow.
+- SCION 49 Getty, 80.8 s: a label card only. The dog is unchanged.
+- SCION 46 Face landmarks, 76.0 s: the dots sit mainly on the person's face. On the dog it is a small cyan cluster at the snout.
+- Repeated looks: 07 and 38 (cream line drawing); 25 Rive and 48 State machines (the same watch/approach/retreat/refuse panel); 12, 36 and 37 (weight colouring).
+
+3. Broken picture or collisions: I found no rig pops. The only jump the dog-region check flagged (SCION 16 at 28.17 s) is a normal leg change in the walk cycle. Collisions:
+- SCION 27 Remotion (45.6 s): the timeline bar covers the person's legs and the dog's feet.
+- SCION 14 Willett (24.8 s): the pose filmstrip runs across the person's feet and the porch line, and is tiny.
+- SCION 47 (77.6 s): the waveform box sits on the porch next to the dog's paws.
+- SCION 49 (80.8 s): the card crosses the porch edge under the dog.
+- SCION 24 Live2D (40.8 s): a sudden close-up. Effective, but it is the only scale change in the reel and breaks continuity with 23 and 25.
+
+4. Largest gap: the formal language sits next to the dog instead of on it. Repair condition: in each lens's mid-frame scaled to 360 px wide, at least 25% of the dog's pixels differ visibly from the plain dog. Measure as the mean absolute difference in the dog box against a reference plain-dog frame of the same beat, and set a threshold. In addition, no two lenses within 3 positions of each other may share the same overlay type. Today 06, 13, 18, 26, 32, 40 and 49 would fail the first test.
+
+5. Strengths to keep:
+- The 1.6 s grid is exact.
+- A broadband click on every cut, a quiet drone bed around −35 dB, and voice-like call bursts near −13 dB on the "call" beats. The sound marks the rhythm cleanly.
+- Strong lenses: 02 Reiniger, 07 Foldès, 08 Sutherland, 17 South Park, 24 Live2D, 29 GrabCut, 31 Alpha matting, 36 BBW, 51 Mouris trails, 53 Atlanta film strip, 54 Provenance graph.
+- Caption bar (number, family, name, look) is consistent and doesn't collide.
+- The dog rig is recognisable and continuous in every lens.
+- Title and end cards are clean.

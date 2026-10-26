@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SCION 41 Threshold</title>
+<style>
+:root { --bg: #f4efe6; --fg: #1d1a16; --mute: #6b6358; --card: #ffffff; --line: #ddd3c4; --accent: #9a3b26; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg: #11131d; --fg: #ece4d6; --mute: #a49a8a; --card: #1a1d2a; --line: #2c3042; --accent: #e08a62; } }
+:root[data-theme="dark"] { --bg: #11131d; --fg: #ece4d6; --mute: #a49a8a; --card: #1a1d2a; --line: #2c3042; --accent: #e08a62; }
+body { margin: 0; background: var(--bg); color: var(--fg); font: 16px/1.5 system-ui, -apple-system, Segoe UI, sans-serif; }
+main { max-width: 760px; margin: 0 auto; padding: 20px 16px 48px; }
+h1 { font-size: 1.5rem; margin: 0 0 4px; } h2 { font-size: 1.05rem; margin: 28px 0 8px; }
+.sub { color: var(--mute); margin: 0 0 16px; }
+video { width: 100%; border-radius: 8px; background: #000; display: block; }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px; margin: 10px 0; }
+.k { color: var(--mute); font-size: .85rem; text-transform: uppercase; letter-spacing: .04em; }
+.v { font-weight: 600; } .warn { color: var(--accent); }
+ul { padding-left: 20px; margin: 6px 0; } a { color: var(--accent); }
+.grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; } .grid img { width: 100%; border-radius: 6px; display: block; }
+code { font-size: .9em; }
+</style></head>
+<body><main>
+<h1>SCION 41 · Secondary Dynamics</h1>
+<p class="sub">PAE-02 · The threshold, handmade · cohort 2 · the dog's choices are primary; ears, tail, coat, tag, scarf, door and shrub are solved and come to rest.</p>
+<video src="film.mp4" controls playsinline preload="metadata" poster="stills/still_28.0s.jpg"></video>
+
+<div class="card"><div class="k">Current revision</div><div class="v">r13 (round 3) · film 38 s · built by <code>build/make.sh</code></div></div>
+<div class="card"><div class="k">Critic verdict</div><div class="v warn">Round 2: does not pass (very close); repairs made in r13; round 3 not yet reviewed.</div></div>
+<div class="card"><div class="k">Next blocking failure (builder's own guess, unconfirmed)</div>
+<ul><li>0–6 s: the dog is dim against the dark railing at dusk.</li><li>The sound has never been listened to: the voice's intelligibility is unknown.</li><li>In the wide shot (5–14 s) the dog is small, so ear and tag motion is hard to see.</li></ul></div>
+<div class="card"><div class="k">Measured</div>
+<ul><li>PAELEO checker: I1–I4 all OK (I3 r = 1.00 on render-measured x; I4 0.948 turned).</li>
+<li>Bar assertions A1–A7 pass: energy decays in holds; response after primary; no interpenetration; feet ≤ 2.1 mm; head low on 218/218 approach frames; choices measured from the render +0.08 to +0.14 s; soft voice 13.3 dB under the calls.</li></ul></div>
+
+<h2>Damping presets, synchronized</h2>
+<video src="proof/presets.mp4" controls playsinline preload="none"></video>
+<p class="sub">Top: no secondary motion · middle: tuned (the film) · bottom: underdamped ×0.35.</p>
+
+<h2>Stills</h2>
+<div class="grid"><img src="stills/still_03.6s.jpg" alt="3.6 s, the refusal: the dog turns its back"><img src="stills/still_09.0s.jpg" alt="9 s, watching in the light"><img src="stills/still_19.0s.jpg" alt="19 s, coming head low"><img src="stills/still_28.0s.jpg" alt="28 s, lying across the sill"></div>
+
+<h2>Artifacts</h2>
+<ul>
+<li><a href="method.md">method.md</a>: swarm, formal language, what failed, what is unknown</li>
+<li><a href="trace.json">trace.json</a> · <a href="invariants.json">invariants.json</a> · <a href="proof/assertions.json">proof/assertions.json</a></li>
+<li><a href="assets.json">assets.json</a> · <a href="ledger.jsonl">ledger.jsonl</a></li>
+<li><a href="build/dynamics.js">build/dynamics.js</a> (component library) · <a href="build/test_dynamics.js">unit tests</a> · <a href="build/scene.js">scene</a> · <a href="build/render.html">renderer</a> · <a href="build/sound.py">sound</a></li>
+</ul>
+</main></body></html>

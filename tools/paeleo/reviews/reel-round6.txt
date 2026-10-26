@@ -1,0 +1,35 @@
+REEL CRITIC, round 6: paeleo-01.mp4
+
+What I inspected: one mid-lens frame for each of the 54 lenses (at start + 0.8 s), the title (1 s, 3 s), the end card (91 s, 94 s) and the reference dog. I also looked at full-resolution enlarged crops of every on-frame text box I suspected, with x-heights estimated by row-density measurement plus a 12 px grid. I sampled lenses 41 and 45 at 5 fps across their whole 1.6 s, and measured the audio RMS envelope at every cut. Lenses other than 41 and 45 were judged from a single frame, so motion and continuity are unverified for them.
+
+1. Verdict: does not pass. The previous critic's text condition now holds for the lenses they flagged (14, 30, 42, 48, 54), except 49. But it fails in six other lenses: text overprinting text, text overprinting the dog, and an unreadable label.
+
+2. Lenses that still fail:
+- 27 Remotion (45.6 s): the timeline labels "prompts", "dog" and "camera" are overprinted by the coloured bars and read as "pr□pts" and "d□g".
+- 32 FK (53.6 s): the angle tags overlap each other ("-254°" collides with "6°"). Five orange tags sit on the dog's torso and legs, by eye well over 15% of the silhouette.
+- 38 Pose selection (63.2 s): "#2.2 approach" is red on dusk blue at about 12 px and almost invisible.
+- 46 Face landmarks (76.0 s): the numerals 12, 8, 4 and 0 sit on the dog's head on top of the landmark dots, so the head is hidden.
+- 49 Getty (80.8 s): the serif title "Dog at a Threshold, 2026" has an x-height of about 10 px, under 12.
+- 52 Gilliam ephemera (85.6 s): the part labels collide ("foreNear…hindNear" are overprinted into one string) and are cut off at the right edge of the frame ("foreNear.up", "…r.lo").
+- Borderline: in 19 (32.8 s), "ears" and "0.00" measured 8–12 px depending on the method.
+
+3. Other picture checks:
+- Lens 45 (74.4 s) now passes: the "jamb: in front" bar sits in front of the dog through the whole lens.
+- Lens 41 (68.0 s) shows tail and ear flicks with dashed trails, and the tail flips late in the lens. That reads as secondary motion, but overshoot-and-settle is weak; I would call it marginal, not clear.
+- Lens 24 jumps to a large close-up of a pink mesh dog, a break in scale, though still recognisable.
+- Sound: every one of the 54 cuts has about 150 ms of digital silence (around −95 dB) and then an onset of about −22 dB exactly on the cut. It is tightly synced, but it is a hard stutter.
+
+4. Largest remaining gap: overlay layout is not collision-checked. Repair condition: in every lens and every frame, a computed check of the text bounding boxes shows:
+- no two boxes intersect;
+- no box extends past the 1280-pixel frame edge;
+- no box covers more than 15% of the dog's alpha mask;
+- every lowercase x-height is at least 12 px;
+- text contrast against its local background is at least 4.5:1.
+Retest with 27, 32, 38, 46, 49 and 52 named first.
+
+5. Strengths to keep:
+- Strong lens-to-lens distinctness in palette and grammar: Reiniger silhouette, Foldès line, Sketchpad green vector, the Whitney dark field, the BBW heat map, film sprockets on 53, the moving picture-card camera on 40.
+- The dog stays a recognisable tan, jointed, red-collared machine across lenses.
+- Captions are consistent and readable (look x-height about 16 px), and the prompt line is about 14 px.
+- 14, 20, 22, 25, 30, 42, 48 and 54 show their claim in one glance with clean, separated labels.
+- Title and end card are clean.

@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Turn Lab · SCION 39</title>
+<style>
+:root{--bg:#ede5d3;--ink:#2a211a;--mute:#6b5a48;--card:#f6f0e3}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#17141a;--ink:#ece3d2;--mute:#a89884;--card:#221e25}}
+:root[data-theme="dark"]{--bg:#17141a;--ink:#ece3d2;--mute:#a89884;--card:#221e25}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 Georgia,serif}
+main{max-width:760px;margin:0 auto;padding:16px}
+h1{font:800 28px/1.15 system-ui,sans-serif;margin:8px 0}
+video{width:100%;border-radius:6px;background:#000}
+.c{background:var(--card);border-radius:8px;padding:12px 14px;margin:12px 0}
+.m{color:var(--mute);font:13px/1.4 ui-monospace,monospace}
+a{color:inherit}
+</style></head><body><main>
+<h1>SCION 39 · Multiview Drawing Substitution — Turn Lab</h1>
+<p class="m">PAELEO PAE-02 · the threshold, handmade · revision: round 2 (atlas v3 + neck/leg repairs)</p>
+<video src="film.mp4" controls playsinline preload="metadata" poster="stills/still_28.0s.jpg"></video>
+<div class="c"><b>Critic verdict:</b> round 1 DOES NOT PASS (reviews/round1.md: rear head on an unfilled neck at 26.6–28.4). Round 2 repairs are in; awaiting re-review. The builder does not approve its own work.</div>
+<div class="c"><b>Measured:</b> check_handmade ALL OK (I1 dt 0.000 for all six choices; I2 min x 0.584, end 0.585; I3 r 1.000; I4 0.959). Anchor drift at body swaps 1.4 px. Soft voice 13.4 dB below the calls.</div>
+<div class="c"><b>Next blocking failure (builder guess):</b> the neck reads as a rounded ruff behind a sideways head when lying; the rear standing drawing is narrow; the voice has not been heard.</div>
+<div class="c m">
+<a href="stills/still_03.6s.jpg">still 3.6 s</a> · <a href="stills/still_09.0s.jpg">9 s</a> · <a href="stills/still_19.0s.jpg">19 s</a> · <a href="stills/still_28.0s.jpg">28 s</a><br>
+<a href="proof/atlas_v3.png">view atlas</a> · <a href="proof/reviewer_frame_index.json">reviewer frame index</a> · <a href="proof/identity_loop.json">identity loop</a> · <a href="proof/sound_levels.json">sound levels</a><br>
+<a href="method.md">method</a> · <a href="assets.json">assets</a> · <a href="trace.json">trace</a> · <a href="invariants.json">invariants</a> · <a href="ledger.jsonl">ledger</a> · <a href="build/controller.js">orientation controller</a> · <a href="build/dog.js">drawing atlas</a>
+</div>
+</main></body></html>

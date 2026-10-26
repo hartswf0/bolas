@@ -1,0 +1,89 @@
+{
+ "schema": "scion27.assets/1",
+ "note": "Every visible or audible thing in film.mp4 is listed here. Nothing is fetched from the web; no image or sound file from anyone else is used.",
+ "assets": [
+  {
+   "id": "score",
+   "what": "the PAELEO threshold score (dog's decision trace, 768 frames)",
+   "path": "paeleo/handmade/score/threshold-score.json",
+   "source": "paeleo/threshold/machine.js via tools/paeleo/build_score.js",
+   "rights": "Bolas project, internal",
+   "operation": "read by build/solve.ts; the dog's x, act channels (lie, crouch, head, ear, tail, wag, rest, look) and the person's circumstances drive the manifest"
+  },
+  {
+   "id": "dog-proportions",
+   "what": "dog proportions (neck height 0.881 L, chest 0.475 L, tail root 0.76 L, nose-neck 0.706 L, neck-chest 0.425 L; L = chest-tail)",
+   "path": "paeleo/handmade/kit/archive-dog/pose_agent_v8.json (keys 0,4,8,12,44-49, side-on |_xscale| >= 0.97)",
+   "source_title": "Amateur Film New Jersey C",
+   "archive_url": "https://archive.org/details/NewJerseyC",
+   "collection": "Home Movies (Internet Archive)",
+   "rights": "public domain",
+   "operation": "measured: medians of 10 rig keys, normalised; no pixel of the footage is shown"
+  },
+  {
+   "id": "dog",
+   "what": "the dog: joint graph of tapered capsules + 2 ear triangles (build/src/lib/dogRig.ts), drawn by <Dog> (build/src/comp/Actors.tsx)",
+   "rights": "made here",
+   "operation": "drawn (procedural SVG from 3-D joints), paws placed by the gait solver in build/solve.ts"
+  },
+  {
+   "id": "person",
+   "what": "the person: capsule joint graph (build/src/lib/personRig.ts)",
+   "rights": "made here",
+   "operation": "drawn"
+  },
+  {
+   "id": "place",
+   "what": "porch, façade, door, room, lamp, railing, sky, trees, stars, moon (build/src/comp/World.tsx)",
+   "rights": "made here",
+   "operation": "drawn; trees/stars/board ends placed with Remotion random() seeds"
+  },
+  {
+   "id": "light",
+   "what": "doorway light spill and the cast shadows (build/src/lib/light.ts)",
+   "rights": "made here",
+   "operation": "computed: lamp → opening → floor projection"
+  },
+  {
+   "id": "sound",
+   "what": "voice (formant synthesis), paws, body, sighs, tail thumps, door creak, wind, crickets, room hum and clock",
+   "path": "build/sound.py → build/cache/public/mix.wav; event list audio.json",
+   "rights": "made here",
+   "operation": "synthesized with numpy"
+  },
+  {
+   "id": "fonts",
+   "what": "Big Shoulders Display 800, JetBrains Mono 400, Literata 400 italic/regular (woff2)",
+   "path": "tools/paeleo/fonts/f5.woff2, f14.woff2, f27.woff2, f34.woff2",
+   "rights": "SIL Open Font License 1.1 (all three families are OFL Google Fonts)",
+   "operation": "copied into build/cache/public/fonts, loaded with FontFace + delayRender"
+  },
+  {
+   "id": "remotion",
+   "what": "Remotion 4.0.538 (remotion, @remotion/bundler, @remotion/renderer)",
+   "source": "npm registry",
+   "rights": "Remotion License: free for individuals, non-profits and companies of up to 3 people; larger companies need a company license. This is a research render inside the Bolas project; whether the free tier applies has not been confirmed with the operator. Flag for review.",
+   "operation": "composition, bundling, frame rendering, encoding"
+  },
+  {
+   "id": "react",
+   "what": "React 18.3.1, react-dom 18.3.1",
+   "rights": "MIT",
+   "operation": "component graph"
+  },
+  {
+   "id": "chromium",
+   "what": "Playwright chrome-headless-shell 1243 at /opt/pw-browsers",
+   "rights": "BSD-style (Chromium)",
+   "operation": "renderer browser"
+  }
+ ],
+ "not_used": [
+  "archive-dog frames or masks (only rig keys measured)",
+  "archive-door",
+  "Quick, Draw!",
+  "found-frames",
+  "paeleo/threshold/stage.js",
+  "paeleo/scion/lenses.js"
+ ]
+}

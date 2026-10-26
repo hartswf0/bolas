@@ -1,0 +1,96 @@
+{
+ "about": "Every asset in SCION 31's threshold film: where it came from, its rights, and the operation that made it. Rights unknown = not used.",
+ "assets": [
+  {
+   "id": "dog-mattes",
+   "what": "the dog: 11 matted archive frames on screen (9, 13, 14 watching; 14/26/28/31 the turn through its front; 43-45/48 the head-low walk; 45 split into body, head and leg pairs for backing away on planted paws; 5 for the head turned away); all 50 frames are matted; detached matte debris removed by a largest-component filter, one attached fragment on frame 15 cut by hand (frame 15 and 12 no longer used)",
+   "source_file": "paeleo/handmade/kit/archive-dog/frames/f000-f049.jpg + masks.json (SAM outlines)",
+   "source_title": "Amateur Film New Jersey C",
+   "collection": "Home Movies (Internet Archive collection)",
+   "archive_url": "https://archive.org/details/NewJerseyC",
+   "clip_page": "https://www.movingimagearchive.com/sources/amateur-film-new-jersey-c-c65a8960?clip=2fdacde1-8a23-58e1-b905-5407385bd039",
+   "rights": "public_domain",
+   "operation": "SAM outline -> anti-aliased coverage prior -> fur-class trimap (erode 2 / dilate 3) -> colour-line alpha against locally extended F and B, confidence-weighted with the prior -> guided filter (r1, eps 2e-4) -> alpha contrast curve 0.06..0.94 -> foreground colour by inverting the compositing equation, clamped to +-0.15 of the extended interior (decontamination) -> premultiplied RGBA (build/prep_dog.py, build/lib_matte.py); in the film: mirrored for the head-low walk, scaled 1.55 in premultiplied form, regraded for dusk with per-frame grain inside alpha, light-wrapped"
+  },
+  {
+   "id": "lying-dog",
+   "what": "the dog lying (refusal and the sill): RECONSTRUCTION, the source has no lying dog",
+   "source_file": "dog-mattes frame 9 (body, legs, head) and frame 15 (head turned away)",
+   "rights": "public_domain (as dog-mattes)",
+   "operation": "one solved matte split by complementary soft masks into body / forelegs / hind legs / head; forelegs pivoted forward at the elbow, hind legs compressed under the haunch, body lowered, head pivoted at the neck or substituted (premultiplied dissolve); belly cut given a synthesized fringe (labelled reconstruction); whole matte mirrored for the refusal; pieces composited with union alpha where they meet (interior forced solid), head-back piece cut only across the neck so skull and ears keep their own matte edge"
+  },
+  {
+   "id": "woman",
+   "what": "the person: torso, arms, hair",
+   "source_file": "paeleo/handmade/kit/archive-door/frames/f000.jpg",
+   "source_title": "Straight Talk (1992)",
+   "archive_url": "https://archive.org/details/gov.ntis.ava19144vnb1",
+   "clip_page": "https://www.movingimagearchive.com/sources/straight-talk-583ba802?clip=271d80c7-4f56-51b8-90fe-012dfb984b4f",
+   "rights": "public_domain",
+   "operation": "hand-drawn trimap outline (build/polys.py WOMAN_F000) -> hair/fabric-class band (erode 4 / dilate 3) -> same solver -> premultiplied; graded near-silhouette for dusk; cropped at the hip as she sits"
+  },
+  {
+   "id": "woman-legs",
+   "what": "the person's legs (standing, stepping, sitting with knees up)",
+   "source_file": "none",
+   "rights": "own work",
+   "operation": "drawn: anti-aliased polygons (reconstruction: the source frame is cut at the thigh)"
+  },
+  {
+   "id": "hand",
+   "what": "the reaching and the low offered hand + forearm",
+   "source_file": "paeleo/handmade/31-alpha-matting/sources/hand/f000.jpg (+ masks.json, clip.json), copied from /home/user/hartswf0/secondhand-motion/shots/hand-sam/",
+   "source_title": "Door to Heaven, The (1941)",
+   "archive_url": "https://archive.org/details/DoortoHe1941",
+   "clip_id": "0870ef3a-b328-5284-890b-3e1ac18057c1",
+   "rights": "public_domain (paeleo/handmade/kit/found-frames.json)",
+   "operation": "SAM hand outline unioned with a drawn forearm outline (the card it holds is excluded) -> trimap (erode 7 / dilate 4) -> solver -> premultiplied; mirrored, scaled, rotated in premultiplied form"
+  },
+  {
+   "id": "door-leaf-and-curtain",
+   "what": "the door leaf and its curtained window",
+   "source_file": "paeleo/handmade/kit/archive-door/frames/f031.jpg + masks.json",
+   "source_title": "Straight Talk (1992)",
+   "archive_url": "https://archive.org/details/gov.ntis.ava19144vnb1",
+   "rights": "public_domain",
+   "operation": "SAM leaf outline -> hard (painted wood) class trimap (erode 1 / dilate 2) -> solver; quad rectified to a flat leaf; the window's sheer curtain as a luminance-keyed fabric density (alpha) that the room light passes through; leaf swung by per-column foreshortening"
+  },
+  {
+   "id": "clouds-and-haze",
+   "what": "the dusk clouds, and the haze density in the door's beam",
+   "source_file": "paeleo/handmade/31-alpha-matting/sources/cloud/f000-f061.jpg (+ clip.json), copied from /home/user/hartswf0/secondhand-motion/shots/cloud-sam/",
+   "source_title": "Top Of The Cloud - Time Lapse (Wide Screen 16:9)",
+   "archive_url": "https://archive.org/details/CEP391",
+   "clip_id": "3a3663e4-7a6e-5277-8cf5-12e94237350c",
+   "rights": "public_domain (paeleo/handmade/kit/found-frames.json)",
+   "operation": "smoke class: trimap from saturation (sure sky / sure cloud) -> colour-line alpha against the extended blue sky -> guided filter -> foreground desaturated and its blue clamped (the sky's blue spill removed) -> premultiplied; interpolated between frames in premultiplied form; regraded to dusk"
+  },
+  {
+   "id": "world",
+   "what": "house facade, porch boards, door casing and sill, steps, sky gradient, tree line, room interior and lamp, door light spill, beam, cast shadow, grain, vignette",
+   "source_file": "build/render.py",
+   "rights": "own work",
+   "operation": "computed (numpy). The tree line is a computed fractional matte (foliage edge class). The dog's cast shadow is its own alpha projected onto the floor."
+  },
+  {
+   "id": "sound",
+   "what": "dusk air, crickets, the voice (calls, soft words), claws on boards, door creak, room air, rustle, lying down, sigh",
+   "source_file": "build/sound.py",
+   "rights": "own work",
+   "operation": "synthesized (numpy): additive harmonic voice shaped by formants; noise bands; claw ticks placed at the walk-frame changes measured in the render trace"
+  },
+  {
+   "id": "fonts",
+   "what": "card type",
+   "source_file": "tools/paeleo/fonts/f8.woff2 (Big Shoulders Display), f14.woff2 (JetBrains Mono)",
+   "rights": "SIL Open Font License (house fonts)",
+   "operation": "set with Pillow"
+  }
+ ],
+ "not_used": [
+  "Quick, Draw! drawings (none used)",
+  "any web image",
+  "any model-generated image",
+  "paeleo/threshold/stage.js, paeleo/scion/lenses.js"
+ ]
+}

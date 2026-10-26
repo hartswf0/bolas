@@ -1,0 +1,11527 @@
+{
+"about": "Decoded path: one drawing per scene frame, chosen by Viterbi over pose distance + transition penalty.",
+"summary": {
+"dog_cost": 218.325,
+"person_cost": 51.809,
+"switches": 100,
+"single_frame_holds": 0,
+"max_planted_slip_px": 1.378,
+"slip_at": 15.25,
+"max_step_pop_px": 33.466,
+"pop_at": 2.625,
+"drawings_used": [
+"back_0",
+"back_1",
+"back_2",
+"back_3",
+"back_4",
+"back_5",
+"back_6",
+"back_7",
+"cower_R",
+"f90_low",
+"f90_qleft",
+"lie_R",
+"lie_low",
+"lie_up",
+"listen",
+"look_in",
+"look_in_a",
+"look_in_b",
+"lookback_R",
+"q135_low",
+"q45_low",
+"q45_up",
+"rest",
+"rest_R",
+"rise_R",
+"sink_R",
+"sit",
+"situp_R",
+"stand_low",
+"walk_0",
+"walk_1",
+"walk_2",
+"walk_3",
+"walk_4",
+"walk_5",
+"walk_6",
+"walk_7",
+"wary",
+"watch"
+],
+"unused": [
+"cower",
+"flinch"
+],
+"weights": {
+"dog": {
+"yaw": 2.0,
+"lie": 6.0,
+"crouch": 2.0,
+"head": 3.0,
+"look": 6.0,
+"rest": 3.0,
+"ear": 0.5,
+"tail": 0.35,
+"moving": 5.0,
+"back": 4.0,
+"phase": 3.0,
+"wag": 2.0,
+"over": 8.0,
+"listen": 2.5
+},
+"person": {
+"sit": 6.0,
+"reach": 5.0,
+"low": 4.0,
+"mouth": 3.0,
+"walk": 6.0,
+"phase": 2.0
+},
+"switch": {
+"dog": 0.7,
+"person": 0.9
+},
+"kappa": {
+"dog": 0.15,
+"person": 0.1
+}
+}
+},
+"frames": [
+{
+"i": 0,
+"t": 0,
+"state": "watch",
+"x_score": 3,
+"dog": "watch",
+"x_place": 3,
+"cost": 0.0147,
+"terms": {
+"ear": 0.014
+},
+"person": "P_stand",
+"person_x": -0.28,
+"pcost": 0.0
+},
+{
+"i": 1,
+"t": 0.042,
+"state": "watch",
+"x_score": 3,
+"dog": "watch",
+"x_place": 3,
+"cost": 0.0109,
+"terms": {},
+"person": "P_stand",
+"person_x": -0.28,
+"pcost": 0.0
+},
+{
+"i": 2,
+"t": 0.083,
+"state": "watch",
+"x_score": 3,
+"dog": "watch",
+"x_place": 3,
+"cost": 0.0106,
+"terms": {},
+"person": "P_stand",
+"person_x": -0.28,
+"pcost": 0.0
+},
+{
+"i": 3,
+"t": 0.125,
+"state": "watch",
+"x_score": 3,
+"dog": "watch",
+"x_place": 3,
+"cost": 0.0129,
+"terms": {
+"crouch": 0.01
+},
+"person": "P_stand",
+"person_x": -0.28,
+"pcost": 0.0
+},
+{
+"i": 4,
+"t": 0.167,
+"state": "watch",
+"x_score": 3,
+"dog": "watch",
+"x_place": 3,
+"cost": 0.0159,
+"terms": {
+"crouch": 0.014
+},
+"person": "P_stand",
+"person_x": -0.28,
+"pcost": 0.0
+},
+{
+"i": 5,
+"t": 0.208,
+"state": "watch",
+"x_score": 3,
+"dog": "watch",
+"x_place": 3,
+"cost": 0.0194,
+"terms": {
+"crouch": 0.018
+},
+"person": "P_stand",
+"person_x": -0.28,
+"pcost": 0.0
+},
+{
+"i": 6,
+"t": 0.25,
+"state": "watch",
+"x_score": 3,
+"dog": "watch",
+"x_place": 3,
+"cost": 0.0224,
+"terms": {
+"crouch": 0.021
+},
+"person": "P_stand",
+"person_x": -0.28,
+"pcost": 0.0
+},
+{
+"i": 7,
+"t": 0.292,
+"state": "watch",
+"x_score": 3,
+"dog": "watch",
+"x_place": 3,
+"cost": 0.0249,
+"terms": {
+"crouch": 0.024
+},
+"person": "P_stand",
+"person_x": -0.28,
+"pcost": 0.0
+},
+{
+"i": 8,
+"t": 0.333,
+"state": "watch",
+"x_score": 3,
+"dog": "watch",
+"x_place": 3,
+"cost": 0.0266,
+"terms": {
+"crouch": 0.026
+},
+"person": "P_stand",
+"person_x": -0.28,
+"pcost": 0.0
+},
+{
+"i": 9,
+"t": 0.375,
+"state": "watch",
+"x_score": 3,
+"dog": "watch",
+"x_place": 3,
+"cost": 0.0281,
+"terms": {
+"crouch": 0.027
+},
+"person": "P_stand",
+"person_x": -0.28,
+"pcost": 0.0
+},
+{
+"i": 10,
+"t": 0.417,
+"state": "watch",
+"x_score": 3,
+"dog": "watch",
+"x_place": 3,
+"cost": 0.029,
+"terms": {
+"crouch": 0.028
+},
+"person": "P_stand",
+"person_x": -0.28,
+"pcost": 0.0
+},
+{
+"i": 11,
+"t": 0.458,
+"state": "watch",
+"x_score": 3,
+"dog": "watch",
+"x_place": 3,
+"cost": 0.0295,
+"terms": {
+"crouch": 0.028
+},
+"person": "P_stand",
+"person_x": -0.28,
+"pcost": 0.0
+},
+{
+"i": 12,
+"t": 0.5,
+"state": "watch",
+"x_score": 3,
+"dog": "watch",
+"x_place": 3,
+"cost": 0.0301,
+"terms": {
+"crouch": 0.029
+},
+"person": "P_stand",
+"person_x": -0.28,
+"pcost": 0.0
+},
+{
+"i": 13,
+"t": 0.542,
+"state": "watch",
+"x_score": 3,
+"dog": "watch",
+"x_place": 3,
+"cost": 0.0301,
+"terms": {
+"crouch": 0.029
+},
+"person": "P_stand",
+"person_x": -0.28,
+"pcost": 0.0
+},
+{
+"i": 14,
+"t": 0.583,
+"state": "watch",
+"x_score": 3,
+"dog": "watch",
+"x_place": 3,
+"cost": 0.0305,
+"terms": {
+"crouch": 0.029
+},
+"person": "P_stand",
+"person_x": -0.28,
+"pcost": 0.0
+},
+{
+"i": 15,
+"t": 0.625,
+"state": "watch",
+"x_score": 3,
+"dog": "watch",
+"x_place": 3,
+"cost": 0.0305,
+"terms": {
+"crouch": 0.029
+},
+"person": "P_stand",
+"person_x": -0.28,
+"pcost": 0.0
+},
+{
+"i": 16,
+"t": 0.667,
+"state": "watch",
+"x_score": 3,
+"dog": "watch",
+"x_place": 3,
+"cost": 0.0305,
+"terms": {
+"crouch": 0.029
+},
+"person": "P_stand",
+"person_x": -0.28,
+"pcost": 0.0
+},
+{
+"i": 17,
+"t": 0.708,
+"state": "watch",
+"x_score": 3,
+"dog": "watch",
+"x_place": 3,
+"cost": 0.0305,
+"terms": {
+"crouch": 0.029
+},
+"person": "P_stand",
+"person_x": -0.28,
+"pcost": 0.0
+},
+{
+"i": 18,
+"t": 0.75,
+"state": "watch",
+"x_score": 3,
+"dog": "watch",
+"x_place": 3,
+"cost": 0.0305,
+"terms": {
+"crouch": 0.029
+},
+"person": "P_stand",
+"person_x": -0.28,
+"pcost": 0.0
+},
+{
+"i": 19,
+"t": 0.792,
+"state": "watch",
+"x_score": 3,
+"dog": "watch",
+"x_place": 3,
+"cost": 0.0305,
+"terms": {
+"crouch": 0.029
+},
+"person": "P_stand",
+"person_x": -0.28,
+"pcost": 0.0
+},
+{
+"i": 20,
+"t": 0.833,
+"state": "watch",
+"x_score": 3,
+"dog": "watch",
+"x_place": 3,
+"cost": 0.0305,
+"terms": {
+"crouch": 0.029
+},
+"person": "P_stand",
+"person_x": -0.28,
+"pcost": 0.0
+},
+{
+"i": 21,
+"t": 0.875,
+"state": "watch",
+"x_score": 3,
+"dog": "watch",
+"x_place": 3,
+"cost": 0.0305,
+"terms": {
+"crouch": 0.029
+},
+"person": "P_stand",
+"person_x": -0.28,
+"pcost": 0.0
+},
+{
+"i": 22,
+"t": 0.917,
+"state": "watch",
+"x_score": 3,
+"dog": "watch",
+"x_place": 3,
+"cost": 0.0305,
+"terms": {
+"crouch": 0.029
+},
+"person": "P_stand",
+"person_x": -0.28,
+"pcost": 0.0
+},
+{
+"i": 23,
+"t": 0.958,
+"state": "watch",
+"x_score": 3,
+"dog": "watch",
+"x_place": 3,
+"cost": 0.031,
+"terms": {
+"crouch": 0.03
+},
+"person": "P_stand",
+"person_x": -0.28,
+"pcost": 0.0
+},
+{
+"i": 24,
+"t": 1,
+"state": "retreat",
+"x_score": 3.004,
+"dog": "watch",
+"x_place": 3,
+"cost": 0.2512,
+"terms": {
+"crouch": 0.093,
+"ear": 0.031,
+"moving": 0.117
+},
+"person": "P_stand",
+"person_x": -0.28,
+"pcost": 0.6599
+},
+{
+"i": 25,
+"t": 1.042,
+"state": "retreat",
+"x_score": 3.011,
+"dog": "watch",
+"x_place": 3,
+"cost": 2.5388,
+"terms": {
+"crouch": 0.235,
+"head": 0.049,
+"ear": 0.119,
+"moving": 0.666,
+"back": 1.46
+},
+"person": "P_call",
+"person_x": -0.28,
+"pcost": 0.5393
+},
+{
+"i": 26,
+"t": 1.083,
+"state": "retreat",
+"x_score": 3.023,
+"dog": "back_1",
+"x_place": 3.06877,
+"cost": 2.2639,
+"terms": {
+"crouch": 0.373,
+"head": 0.347,
+"ear": 0.047,
+"moving": 1.138,
+"tail": 0.045,
+"phase": 0.314
+},
+"person": "P_call",
+"person_x": -0.28,
+"pcost": 0.2386
+},
+{
+"i": 27,
+"t": 1.125,
+"state": "retreat",
+"x_score": 3.038,
+"dog": "back_1",
+"x_place": 3.06877,
+"cost": 1.2666,
+"terms": {
+"crouch": 0.207,
+"head": 0.209,
+"ear": 0.012,
+"moving": 0.637,
+"tail": 0.024,
+"phase": 0.177
+},
+"person": "P_call",
+"person_x": -0.28,
+"pcost": 0.1492
+},
+{
+"i": 28,
+"t": 1.167,
+"state": "retreat",
+"x_score": 3.057,
+"dog": "back_1",
+"x_place": 3.06877,
+"cost": 0.623,
+"terms": {
+"crouch": 0.108,
+"head": 0.116,
+"moving": 0.359,
+"tail": 0.011,
+"phase": 0.027
+},
+"person": "P_call",
+"person_x": -0.28,
+"pcost": 0.0908
+},
+{
+"i": 29,
+"t": 1.208,
+"state": "retreat",
+"x_score": 3.08,
+"dog": "back_1",
+"x_place": 3.06877,
+"cost": 0.3444,
+"terms": {
+"crouch": 0.053,
+"head": 0.06,
+"moving": 0.202,
+"phase": 0.025
+},
+"person": "P_call",
+"person_x": -0.28,
+"pcost": 0.0657
+},
+{
+"i": 30,
+"t": 1.25,
+"state": "retreat",
+"x_score": 3.107,
+"dog": "back_2",
+"x_place": 3.13755,
+"cost": 0.35,
+"terms": {
+"crouch": 0.025,
+"head": 0.029,
+"moving": 0.114,
+"phase": 0.181
+},
+"person": "P_call",
+"person_x": -0.28,
+"pcost": 0.0499
+},
+{
+"i": 31,
+"t": 1.292,
+"state": "retreat",
+"x_score": 3.137,
+"dog": "back_2",
+"x_place": 3.13755,
+"cost": 0.0881,
+"terms": {
+"crouch": 0.011,
+"head": 0.013,
+"moving": 0.064
+},
+"person": "P_call",
+"person_x": -0.28,
+"pcost": 0.0425
+},
+{
+"i": 32,
+"t": 1.333,
+"state": "retreat",
+"x_score": 3.169,
+"dog": "back_2",
+"x_place": 3.13755,
+"cost": 0.2375,
+"terms": {
+"moving": 0.036,
+"phase": 0.191
+},
+"person": "P_call",
+"person_x": -0.28,
+"pcost": 0.0376
+},
+{
+"i": 33,
+"t": 1.375,
+"state": "retreat",
+"x_score": 3.2,
+"dog": "back_3",
+"x_place": 3.20632,
+"cost": 0.032,
+"terms": {
+"moving": 0.02
+},
+"person": "P_call",
+"person_x": -0.28,
+"pcost": 0.0343
+},
+{
+"i": 34,
+"t": 1.417,
+"state": "retreat",
+"x_score": 3.231,
+"dog": "back_3",
+"x_place": 3.20632,
+"cost": 0.1312,
+"terms": {
+"moving": 0.012,
+"phase": 0.118
+},
+"person": "P_call",
+"person_x": -0.28,
+"pcost": 0.0331
+},
+{
+"i": 35,
+"t": 1.458,
+"state": "retreat",
+"x_score": 3.262,
+"dog": "back_4",
+"x_place": 3.2751,
+"cost": 0.0405,
+"terms": {
+"phase": 0.034
+},
+"person": "P_call",
+"person_x": -0.28,
+"pcost": 0.0318
+},
+{
+"i": 36,
+"t": 1.5,
+"state": "retreat",
+"x_score": 3.294,
+"dog": "back_4",
+"x_place": 3.2751,
+"cost": 0.0735,
+"terms": {
+"phase": 0.07
+},
+"person": "P_call",
+"person_x": -0.28,
+"pcost": 0.0312
+},
+{
+"i": 37,
+"t": 1.542,
+"state": "retreat",
+"x_score": 3.325,
+"dog": "back_5",
+"x_place": 3.34387,
+"cost": 0.0715,
+"terms": {
+"phase": 0.069
+},
+"person": "P_call",
+"person_x": -0.28,
+"pcost": 0.0306
+},
+{
+"i": 38,
+"t": 1.583,
+"state": "retreat",
+"x_score": 3.356,
+"dog": "back_5",
+"x_place": 3.34387,
+"cost": 0.03,
+"terms": {
+"phase": 0.029
+},
+"person": "P_call",
+"person_x": -0.28,
+"pcost": 0.0306
+},
+{
+"i": 39,
+"t": 1.625,
+"state": "retreat",
+"x_score": 3.387,
+"dog": "back_6",
+"x_place": 3.41264,
+"cost": 0.1284,
+"terms": {
+"phase": 0.128
+},
+"person": "P_call",
+"person_x": -0.28,
+"pcost": 0.03
+},
+{
+"i": 40,
+"t": 1.667,
+"state": "retreat",
+"x_score": 3.419,
+"dog": "back_6",
+"x_place": 3.41264,
+"cost": 0.0083,
+"terms": {},
+"person": "P_call",
+"person_x": -0.28,
+"pcost": 0.03
+},
+{
+"i": 41,
+"t": 1.708,
+"state": "retreat",
+"x_score": 3.45,
+"dog": "back_7",
+"x_place": 3.48142,
+"cost": 0.1912,
+"terms": {
+"phase": 0.191
+},
+"person": "P_call",
+"person_x": -0.28,
+"pcost": 0.03
+},
+{
+"i": 42,
+"t": 1.75,
+"state": "retreat",
+"x_score": 3.481,
+"dog": "back_7",
+"x_place": 3.48142,
+"cost": 0.0002,
+"terms": {},
+"person": "P_call",
+"person_x": -0.28,
+"pcost": 0.03
+},
+{
+"i": 43,
+"t": 1.792,
+"state": "retreat",
+"x_score": 3.512,
+"dog": "back_7",
+"x_place": 3.48142,
+"cost": 0.1812,
+"terms": {
+"phase": 0.181
+},
+"person": "P_call",
+"person_x": -0.28,
+"pcost": 0.03
+},
+{
+"i": 44,
+"t": 1.833,
+"state": "retreat",
+"x_score": 3.544,
+"dog": "back_0",
+"x_place": 3.55019,
+"cost": 0.0075,
+"terms": {},
+"person": "P_call",
+"person_x": -0.28,
+"pcost": 0.03
+},
+{
+"i": 45,
+"t": 1.875,
+"state": "retreat",
+"x_score": 3.575,
+"dog": "back_0",
+"x_place": 3.55019,
+"cost": 0.1196,
+"terms": {
+"phase": 0.12
+},
+"person": "P_call",
+"person_x": -0.28,
+"pcost": 0.03
+},
+{
+"i": 46,
+"t": 1.917,
+"state": "retreat",
+"x_score": 3.606,
+"dog": "back_1",
+"x_place": 3.61897,
+"cost": 0.0329,
+"terms": {
+"phase": 0.033
+},
+"person": "P_call",
+"person_x": -0.28,
+"pcost": 0.03
+},
+{
+"i": 47,
+"t": 1.958,
+"state": "retreat",
+"x_score": 3.637,
+"dog": "back_1",
+"x_place": 3.61897,
+"cost": 0.0634,
+"terms": {
+"phase": 0.063
+},
+"person": "P_call",
+"person_x": -0.28,
+"pcost": 0.03
+},
+{
+"i": 48,
+"t": 2,
+"state": "retreat",
+"x_score": 3.669,
+"dog": "back_2",
+"x_place": 3.68774,
+"cost": 0.0684,
+"terms": {
+"phase": 0.068
+},
+"person": "P_call",
+"person_x": -0.28,
+"pcost": 0.03
+},
+{
+"i": 49,
+"t": 2.042,
+"state": "retreat",
+"x_score": 3.7,
+"dog": "back_2",
+"x_place": 3.68774,
+"cost": 0.0294,
+"terms": {
+"phase": 0.029
+},
+"person": "P_call",
+"person_x": -0.28,
+"pcost": 0.03
+},
+{
+"i": 50,
+"t": 2.083,
+"state": "retreat",
+"x_score": 3.731,
+"dog": "back_3",
+"x_place": 3.75651,
+"cost": 0.1265,
+"terms": {
+"phase": 0.126
+},
+"person": "P_call",
+"person_x": -0.28,
+"pcost": 0.03
+},
+{
+"i": 51,
+"t": 2.125,
+"state": "retreat",
+"x_score": 3.762,
+"dog": "back_3",
+"x_place": 3.75651,
+"cost": 0.0059,
+"terms": {},
+"person": "P_call",
+"person_x": -0.28,
+"pcost": 0.03
+},
+{
+"i": 52,
+"t": 2.167,
+"state": "retreat",
+"x_score": 3.794,
+"dog": "back_4",
+"x_place": 3.82529,
+"cost": 0.1895,
+"terms": {
+"phase": 0.189
+},
+"person": "P_call",
+"person_x": -0.28,
+"pcost": 0.03
+},
+{
+"i": 53,
+"t": 2.208,
+"state": "retreat",
+"x_score": 3.825,
+"dog": "back_4",
+"x_place": 3.82529,
+"cost": 0.0,
+"terms": {},
+"person": "P_call",
+"person_x": -0.28,
+"pcost": 0.03
+},
+{
+"i": 54,
+"t": 2.25,
+"state": "retreat",
+"x_score": 3.856,
+"dog": "back_4",
+"x_place": 3.82529,
+"cost": 0.1826,
+"terms": {
+"phase": 0.183
+},
+"person": "P_call",
+"person_x": -0.28,
+"pcost": 0.03
+},
+{
+"i": 55,
+"t": 2.292,
+"state": "retreat",
+"x_score": 3.887,
+"dog": "back_5",
+"x_place": 3.89406,
+"cost": 0.0097,
+"terms": {},
+"person": "P_call",
+"person_x": -0.28,
+"pcost": 0.03
+},
+{
+"i": 56,
+"t": 2.333,
+"state": "watch",
+"x_score": 3.915,
+"dog": "back_5",
+"x_place": 3.89406,
+"cost": 0.1325,
+"terms": {
+"crouch": 0.018,
+"ear": 0.02,
+"phase": 0.085
+},
+"person": "P_stand",
+"person_x": -0.28,
+"pcost": 0.5573
+},
+{
+"i": 57,
+"t": 2.375,
+"state": "watch",
+"x_score": 3.939,
+"dog": "back_6",
+"x_place": 3.96283,
+"cost": 0.3596,
+"terms": {
+"crouch": 0.096,
+"head": 0.049,
+"ear": 0.095,
+"phase": 0.11
+},
+"person": "P_stand",
+"person_x": -0.28,
+"pcost": 0.3149
+},
+{
+"i": 58,
+"t": 2.417,
+"state": "watch",
+"x_score": 3.958,
+"dog": "back_6",
+"x_place": 3.96283,
+"cost": 0.6043,
+"terms": {
+"crouch": 0.237,
+"head": 0.132,
+"ear": 0.207,
+"tail": 0.023
+},
+"person": "P_stand",
+"person_x": -0.28,
+"pcost": 0.0994
+},
+{
+"i": 59,
+"t": 2.458,
+"state": "watch",
+"x_score": 3.974,
+"dog": "back_6",
+"x_place": 3.96283,
+"cost": 1.0385,
+"terms": {
+"crouch": 0.41,
+"head": 0.245,
+"ear": 0.314,
+"tail": 0.044,
+"phase": 0.024
+},
+"person": "P_stand",
+"person_x": -0.28,
+"pcost": 0.0454
+},
+{
+"i": 60,
+"t": 2.5,
+"state": "watch",
+"x_score": 3.986,
+"dog": "back_6",
+"x_place": 3.96283,
+"cost": 1.5253,
+"terms": {
+"crouch": 0.585,
+"head": 0.374,
+"ear": 0.395,
+"tail": 0.067,
+"phase": 0.104
+},
+"person": "P_stand",
+"person_x": -0.28,
+"pcost": 0.0164
+},
+{
+"i": 61,
+"t": 2.542,
+"state": "watch",
+"x_score": 3.995,
+"dog": "back_6",
+"x_place": 3.96283,
+"cost": 1.9747,
+"terms": {
+"crouch": 0.744,
+"head": 0.499,
+"ear": 0.443,
+"tail": 0.088,
+"phase": 0.2
+},
+"person": "P_stand",
+"person_x": -0.28,
+"pcost": 0.0069
+},
+{
+"i": 62,
+"t": 2.583,
+"state": "watch",
+"x_score": 3.999,
+"dog": "back_6",
+"x_place": 3.96283,
+"cost": 2.332,
+"terms": {
+"crouch": 0.874,
+"head": 0.61,
+"ear": 0.466,
+"moving": 0.024,
+"tail": 0.106,
+"phase": 0.252
+},
+"person": "P_stand",
+"person_x": -0.28,
+"pcost": 0.0025
+},
+{
+"i": 63,
+"t": 2.625,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 2.7311,
+"terms": {
+"crouch": 0.082,
+"head": 0.013,
+"moving": 2.635
+},
+"person": "P_stand",
+"person_x": -0.28,
+"pcost": 0.0011
+},
+{
+"i": 64,
+"t": 2.667,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 1.5482,
+"terms": {
+"crouch": 0.063,
+"moving": 1.48
+},
+"person": "P_stand",
+"person_x": -0.28,
+"pcost": 0.0004
+},
+{
+"i": 65,
+"t": 2.708,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0531,
+"terms": {
+"crouch": 0.051
+},
+"person": "P_stand",
+"person_x": -0.28,
+"pcost": 0.0001
+},
+{
+"i": 66,
+"t": 2.75,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0451,
+"terms": {
+"crouch": 0.044
+},
+"person": "P_stand",
+"person_x": -0.28,
+"pcost": 0.0001
+},
+{
+"i": 67,
+"t": 2.792,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0403,
+"terms": {
+"crouch": 0.039
+},
+"person": "P_stand",
+"person_x": -0.28,
+"pcost": 0.0
+},
+{
+"i": 68,
+"t": 2.833,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0376,
+"terms": {
+"crouch": 0.036
+},
+"person": "P_stand",
+"person_x": -0.28,
+"pcost": 0.0
+},
+{
+"i": 69,
+"t": 2.875,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0361,
+"terms": {
+"crouch": 0.035
+},
+"person": "P_stand",
+"person_x": -0.28,
+"pcost": 0.0
+},
+{
+"i": 70,
+"t": 2.917,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0356,
+"terms": {
+"crouch": 0.034
+},
+"person": "P_stand",
+"person_x": -0.28,
+"pcost": 0.0
+},
+{
+"i": 71,
+"t": 2.958,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0351,
+"terms": {
+"crouch": 0.034
+},
+"person": "P_stand",
+"person_x": -0.28,
+"pcost": 0.0
+},
+{
+"i": 72,
+"t": 3,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0352,
+"terms": {
+"crouch": 0.034
+},
+"person": "P_stand",
+"person_x": -0.28,
+"pcost": 0.0
+},
+{
+"i": 73,
+"t": 3.042,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0347,
+"terms": {
+"crouch": 0.033
+},
+"person": "P_stand",
+"person_x": -0.28,
+"pcost": 0.0
+},
+{
+"i": 74,
+"t": 3.083,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0347,
+"terms": {
+"crouch": 0.033
+},
+"person": "P_stand",
+"person_x": -0.28,
+"pcost": 0.0
+},
+{
+"i": 75,
+"t": 3.125,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0352,
+"terms": {
+"crouch": 0.034
+},
+"person": "P_stand",
+"person_x": -0.28,
+"pcost": 0.0
+},
+{
+"i": 76,
+"t": 3.167,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0353,
+"terms": {
+"crouch": 0.034
+},
+"person": "P_stand",
+"person_x": -0.28,
+"pcost": 0.0
+},
+{
+"i": 77,
+"t": 3.208,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0353,
+"terms": {
+"crouch": 0.034
+},
+"person": "P_stand",
+"person_x": -0.28,
+"pcost": 0.0
+},
+{
+"i": 78,
+"t": 3.25,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0353,
+"terms": {
+"crouch": 0.034
+},
+"person": "P_stand",
+"person_x": -0.28,
+"pcost": 0.0
+},
+{
+"i": 79,
+"t": 3.292,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0353,
+"terms": {
+"crouch": 0.034
+},
+"person": "P_stand",
+"person_x": -0.28,
+"pcost": 0.0
+},
+{
+"i": 80,
+"t": 3.333,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0353,
+"terms": {
+"crouch": 0.034
+},
+"person": "P_stand",
+"person_x": -0.28,
+"pcost": 0.0
+},
+{
+"i": 81,
+"t": 3.375,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0353,
+"terms": {
+"crouch": 0.034
+},
+"person": "P_stand",
+"person_x": -0.28,
+"pcost": 0.0
+},
+{
+"i": 82,
+"t": 3.417,
+"state": "refuse",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.1018,
+"terms": {
+"crouch": 0.061,
+"head": 0.015,
+"ear": 0.024
+},
+"person": "P_stand",
+"person_x": -0.28,
+"pcost": 0.7343
+},
+{
+"i": 83,
+"t": 3.458,
+"state": "refuse",
+"x_score": 4,
+"dog": "wary",
+"x_place": 3.99385,
+"cost": 0.0463,
+"terms": {
+"yaw": 0.016,
+"crouch": 0.026
+},
+"person": "P_stand",
+"person_x": -0.28,
+"pcost": 1.3986
+},
+{
+"i": 84,
+"t": 3.5,
+"state": "refuse",
+"x_score": 4,
+"dog": "wary",
+"x_place": 3.99385,
+"cost": 0.2773,
+"terms": {
+"yaw": 0.231,
+"head": 0.022,
+"ear": 0.018
+},
+"person": "P_reach",
+"person_x": -0.28,
+"pcost": 1.6395
+},
+{
+"i": 85,
+"t": 3.542,
+"state": "refuse",
+"x_score": 4,
+"dog": "q45_low",
+"x_place": 3.99385,
+"cost": 0.5508,
+"terms": {
+"yaw": 0.16,
+"crouch": 0.047,
+"head": 0.286,
+"ear": 0.04,
+"tail": 0.018
+},
+"person": "P_reach",
+"person_x": -0.28,
+"pcost": 0.8982
+},
+{
+"i": 86,
+"t": 3.583,
+"state": "refuse",
+"x_score": 4,
+"dog": "q45_low",
+"x_place": 3.99385,
+"cost": 0.2584,
+"terms": {
+"yaw": 0.06,
+"crouch": 0.024,
+"head": 0.144,
+"ear": 0.02
+},
+"person": "P_reach",
+"person_x": -0.28,
+"pcost": 0.4604
+},
+{
+"i": 87,
+"t": 3.625,
+"state": "refuse",
+"x_score": 4,
+"dog": "f90_low",
+"x_place": 3.99385,
+"cost": 0.3263,
+"terms": {
+"yaw": 0.184,
+"crouch": 0.012,
+"head": 0.113,
+"ear": 0.012
+},
+"person": "P_reach",
+"person_x": -0.28,
+"pcost": 0.2253
+},
+{
+"i": 88,
+"t": 3.667,
+"state": "refuse",
+"x_score": 4,
+"dog": "f90_low",
+"x_place": 3.99385,
+"cost": 0.1866,
+"terms": {
+"yaw": 0.115,
+"head": 0.055
+},
+"person": "P_reach",
+"person_x": -0.28,
+"pcost": 0.1048
+},
+{
+"i": 89,
+"t": 3.708,
+"state": "refuse",
+"x_score": 4,
+"dog": "q135_low",
+"x_place": 3.99385,
+"cost": 0.138,
+"terms": {
+"yaw": 0.121
+},
+"person": "P_reach",
+"person_x": -0.28,
+"pcost": 0.0462
+},
+{
+"i": 90,
+"t": 3.75,
+"state": "refuse",
+"x_score": 4,
+"dog": "q135_low",
+"x_place": 3.99385,
+"cost": 0.1173,
+"terms": {
+"yaw": 0.107
+},
+"person": "P_reach",
+"person_x": -0.28,
+"pcost": 0.0197
+},
+{
+"i": 91,
+"t": 3.792,
+"state": "refuse",
+"x_score": 4,
+"dog": "cower_R",
+"x_place": 3.99385,
+"cost": 0.3003,
+"terms": {
+"yaw": 0.287
+},
+"person": "P_reach",
+"person_x": -0.28,
+"pcost": 0.0078
+},
+{
+"i": 92,
+"t": 3.833,
+"state": "refuse",
+"x_score": 4,
+"dog": "cower_R",
+"x_place": 3.99385,
+"cost": 0.038,
+"terms": {
+"yaw": 0.027,
+"ear": 0.01
+},
+"person": "P_reach",
+"person_x": -0.28,
+"pcost": 0.003
+},
+{
+"i": 93,
+"t": 3.875,
+"state": "refuse",
+"x_score": 4,
+"dog": "cower_R",
+"x_place": 3.99385,
+"cost": 0.0109,
+"terms": {
+"ear": 0.011
+},
+"person": "P_reach",
+"person_x": -0.28,
+"pcost": 0.001
+},
+{
+"i": 94,
+"t": 3.917,
+"state": "refuse",
+"x_score": 4,
+"dog": "cower_R",
+"x_place": 3.99385,
+"cost": 0.0111,
+"terms": {
+"ear": 0.011
+},
+"person": "P_reach",
+"person_x": -0.28,
+"pcost": 0.0003
+},
+{
+"i": 95,
+"t": 3.958,
+"state": "refuse",
+"x_score": 4,
+"dog": "cower_R",
+"x_place": 3.99385,
+"cost": 0.0113,
+"terms": {
+"ear": 0.011
+},
+"person": "P_reach",
+"person_x": -0.28,
+"pcost": 0.0001
+},
+{
+"i": 96,
+"t": 4,
+"state": "refuse",
+"x_score": 4,
+"dog": "cower_R",
+"x_place": 3.99385,
+"cost": 0.0115,
+"terms": {
+"ear": 0.011
+},
+"person": "P_reach",
+"person_x": -0.28,
+"pcost": 0.0
+},
+{
+"i": 97,
+"t": 4.042,
+"state": "refuse",
+"x_score": 4,
+"dog": "cower_R",
+"x_place": 3.99385,
+"cost": 0.0116,
+"terms": {
+"ear": 0.011
+},
+"person": "P_reach",
+"person_x": -0.28,
+"pcost": 0.0
+},
+{
+"i": 98,
+"t": 4.083,
+"state": "refuse",
+"x_score": 4,
+"dog": "cower_R",
+"x_place": 3.99385,
+"cost": 0.0117,
+"terms": {
+"ear": 0.011
+},
+"person": "P_reach",
+"person_x": -0.28,
+"pcost": 0.0
+},
+{
+"i": 99,
+"t": 4.125,
+"state": "refuse",
+"x_score": 4,
+"dog": "cower_R",
+"x_place": 3.99385,
+"cost": 0.0117,
+"terms": {
+"ear": 0.011
+},
+"person": "P_reach",
+"person_x": -0.28,
+"pcost": 0.0
+},
+{
+"i": 100,
+"t": 4.167,
+"state": "refuse",
+"x_score": 4,
+"dog": "cower_R",
+"x_place": 3.99385,
+"cost": 0.0117,
+"terms": {
+"ear": 0.011
+},
+"person": "P_reach",
+"person_x": -0.28,
+"pcost": 0.0
+},
+{
+"i": 101,
+"t": 4.208,
+"state": "refuse",
+"x_score": 4,
+"dog": "cower_R",
+"x_place": 3.99385,
+"cost": 0.0117,
+"terms": {
+"ear": 0.011
+},
+"person": "P_reach",
+"person_x": -0.28,
+"pcost": 0.0
+},
+{
+"i": 102,
+"t": 4.25,
+"state": "refuse",
+"x_score": 4,
+"dog": "cower_R",
+"x_place": 3.99385,
+"cost": 0.0117,
+"terms": {
+"ear": 0.011
+},
+"person": "P_reach",
+"person_x": -0.28,
+"pcost": 0.0
+},
+{
+"i": 103,
+"t": 4.292,
+"state": "refuse",
+"x_score": 4,
+"dog": "cower_R",
+"x_place": 3.99385,
+"cost": 0.0117,
+"terms": {
+"ear": 0.011
+},
+"person": "P_reach",
+"person_x": -0.28,
+"pcost": 0.0
+},
+{
+"i": 104,
+"t": 4.333,
+"state": "refuse",
+"x_score": 4,
+"dog": "cower_R",
+"x_place": 3.99385,
+"cost": 0.0379,
+"terms": {
+"lie": 0.026,
+"ear": 0.011
+},
+"person": "P_reach",
+"person_x": -0.28,
+"pcost": 0.0
+},
+{
+"i": 105,
+"t": 4.375,
+"state": "refuse",
+"x_score": 4,
+"dog": "cower_R",
+"x_place": 3.99385,
+"cost": 0.1712,
+"terms": {
+"lie": 0.159,
+"ear": 0.011
+},
+"person": "P_reach",
+"person_x": -0.28,
+"pcost": 0.0
+},
+{
+"i": 106,
+"t": 4.417,
+"state": "refuse",
+"x_score": 4,
+"dog": "sink_R",
+"x_place": 3.99385,
+"cost": 0.3259,
+"terms": {
+"lie": 0.315,
+"ear": 0.011
+},
+"person": "P_reach",
+"person_x": -0.28,
+"pcost": 0.0
+},
+{
+"i": 107,
+"t": 4.458,
+"state": "refuse",
+"x_score": 4,
+"dog": "sink_R",
+"x_place": 3.99385,
+"cost": 0.1006,
+"terms": {
+"lie": 0.089,
+"ear": 0.011
+},
+"person": "P_reach",
+"person_x": -0.28,
+"pcost": 0.0
+},
+{
+"i": 108,
+"t": 4.5,
+"state": "refuse",
+"x_score": 4,
+"dog": "sink_R",
+"x_place": 3.99385,
+"cost": 0.0144,
+"terms": {
+"ear": 0.011
+},
+"person": "P_reach",
+"person_x": -0.28,
+"pcost": 0.0
+},
+{
+"i": 109,
+"t": 4.542,
+"state": "refuse",
+"x_score": 4,
+"dog": "sink_R",
+"x_place": 3.99385,
+"cost": 0.0366,
+"terms": {
+"lie": 0.025,
+"ear": 0.011
+},
+"person": "P_reach",
+"person_x": -0.28,
+"pcost": 0.0
+},
+{
+"i": 110,
+"t": 4.583,
+"state": "refuse",
+"x_score": 4,
+"dog": "sink_R",
+"x_place": 3.99385,
+"cost": 0.1305,
+"terms": {
+"lie": 0.119,
+"ear": 0.011
+},
+"person": "P_reach",
+"person_x": -0.28,
+"pcost": 0.0
+},
+{
+"i": 111,
+"t": 4.625,
+"state": "refuse",
+"x_score": 4,
+"dog": "sink_R",
+"x_place": 3.99385,
+"cost": 0.2659,
+"terms": {
+"lie": 0.255,
+"ear": 0.011
+},
+"person": "P_reach",
+"person_x": -0.28,
+"pcost": 0.7343
+},
+{
+"i": 112,
+"t": 4.667,
+"state": "refuse",
+"x_score": 4,
+"dog": "lie_R",
+"x_place": 3.99385,
+"cost": 0.354,
+"terms": {
+"lie": 0.343,
+"ear": 0.011
+},
+"person": "P_reach",
+"person_x": -0.28,
+"pcost": 1.3986
+},
+{
+"i": 113,
+"t": 4.708,
+"state": "refuse",
+"x_score": 4,
+"dog": "lie_R",
+"x_place": 3.99385,
+"cost": 0.2371,
+"terms": {
+"lie": 0.226,
+"ear": 0.011
+},
+"person": "P_stand",
+"person_x": -0.28,
+"pcost": 1.6395
+},
+{
+"i": 114,
+"t": 4.75,
+"state": "refuse",
+"x_score": 4,
+"dog": "lie_R",
+"x_place": 3.99385,
+"cost": 0.1591,
+"terms": {
+"lie": 0.148,
+"ear": 0.011
+},
+"person": "P_stand",
+"person_x": -0.28,
+"pcost": 0.8982
+},
+{
+"i": 115,
+"t": 4.792,
+"state": "refuse",
+"x_score": 4,
+"dog": "lie_R",
+"x_place": 3.99385,
+"cost": 0.1065,
+"terms": {
+"lie": 0.095,
+"ear": 0.011
+},
+"person": "P_stand",
+"person_x": -0.28,
+"pcost": 0.4604
+},
+{
+"i": 116,
+"t": 4.833,
+"state": "refuse",
+"x_score": 4,
+"dog": "lie_R",
+"x_place": 3.99385,
+"cost": 0.0725,
+"terms": {
+"lie": 0.061,
+"ear": 0.011
+},
+"person": "P_stand",
+"person_x": -0.28,
+"pcost": 0.2253
+},
+{
+"i": 117,
+"t": 4.875,
+"state": "refuse",
+"x_score": 4,
+"dog": "lie_R",
+"x_place": 3.99385,
+"cost": 0.0506,
+"terms": {
+"lie": 0.039,
+"ear": 0.011
+},
+"person": "P_stand",
+"person_x": -0.28,
+"pcost": 0.1048
+},
+{
+"i": 118,
+"t": 4.917,
+"state": "refuse",
+"x_score": 4,
+"dog": "lie_R",
+"x_place": 3.99385,
+"cost": 0.0366,
+"terms": {
+"lie": 0.025,
+"ear": 0.011
+},
+"person": "P_stand",
+"person_x": -0.28,
+"pcost": 0.0462
+},
+{
+"i": 119,
+"t": 4.958,
+"state": "refuse",
+"x_score": 4,
+"dog": "lie_R",
+"x_place": 3.99385,
+"cost": 0.0275,
+"terms": {
+"lie": 0.016,
+"ear": 0.011
+},
+"person": "P_stand",
+"person_x": -0.28,
+"pcost": 0.0197
+},
+{
+"i": 120,
+"t": 5,
+"state": "refuse",
+"x_score": 4,
+"dog": "lie_R",
+"x_place": 3.99385,
+"cost": 0.0213,
+"terms": {
+"lie": 0.01,
+"ear": 0.011
+},
+"person": "P_stand",
+"person_x": -0.28,
+"pcost": 0.0078
+},
+{
+"i": 121,
+"t": 5.042,
+"state": "refuse",
+"x_score": 4,
+"dog": "lie_R",
+"x_place": 3.99385,
+"cost": 0.0178,
+"terms": {
+"ear": 0.011
+},
+"person": "P_stand",
+"person_x": -0.28,
+"pcost": 0.003
+},
+{
+"i": 122,
+"t": 5.083,
+"state": "refuse",
+"x_score": 4,
+"dog": "lie_R",
+"x_place": 3.99385,
+"cost": 0.0153,
+"terms": {
+"ear": 0.011
+},
+"person": "P_stand",
+"person_x": -0.28,
+"pcost": 0.001
+},
+{
+"i": 123,
+"t": 5.125,
+"state": "refuse",
+"x_score": 4,
+"dog": "lie_R",
+"x_place": 3.99385,
+"cost": 0.0139,
+"terms": {
+"ear": 0.011
+},
+"person": "P_stand",
+"person_x": -0.28,
+"pcost": 0.0003
+},
+{
+"i": 124,
+"t": 5.167,
+"state": "refuse",
+"x_score": 4,
+"dog": "lie_R",
+"x_place": 3.99385,
+"cost": 0.0128,
+"terms": {
+"ear": 0.011
+},
+"person": "P_stand",
+"person_x": -0.28,
+"pcost": 0.0001
+},
+{
+"i": 125,
+"t": 5.208,
+"state": "refuse",
+"x_score": 4,
+"dog": "lie_R",
+"x_place": 3.99385,
+"cost": 0.0123,
+"terms": {
+"ear": 0.011
+},
+"person": "P_stand",
+"person_x": -0.28,
+"pcost": 0.0
+},
+{
+"i": 126,
+"t": 5.25,
+"state": "refuse",
+"x_score": 4,
+"dog": "lie_R",
+"x_place": 3.99385,
+"cost": 0.0119,
+"terms": {
+"ear": 0.011
+},
+"person": "P_stand",
+"person_x": -0.28,
+"pcost": 0.0
+},
+{
+"i": 127,
+"t": 5.292,
+"state": "refuse",
+"x_score": 4,
+"dog": "lie_R",
+"x_place": 3.99385,
+"cost": 0.0116,
+"terms": {
+"ear": 0.011
+},
+"person": "P_stand",
+"person_x": -0.28,
+"pcost": 0.0
+},
+{
+"i": 128,
+"t": 5.333,
+"state": "refuse",
+"x_score": 4,
+"dog": "lie_R",
+"x_place": 3.99385,
+"cost": 0.0115,
+"terms": {
+"ear": 0.011
+},
+"person": "P_stand",
+"person_x": -0.28,
+"pcost": 0.0
+},
+{
+"i": 129,
+"t": 5.375,
+"state": "refuse",
+"x_score": 4,
+"dog": "lie_R",
+"x_place": 3.99385,
+"cost": 0.0114,
+"terms": {
+"ear": 0.011
+},
+"person": "P_walk_0",
+"person_x": -0.28,
+"pcost": 0.0
+},
+{
+"i": 130,
+"t": 5.417,
+"state": "refuse",
+"x_score": 4,
+"dog": "lie_R",
+"x_place": 3.99385,
+"cost": 0.0113,
+"terms": {
+"ear": 0.011
+},
+"person": "P_walk_0",
+"person_x": -0.28,
+"pcost": 0.2005
+},
+{
+"i": 131,
+"t": 5.458,
+"state": "refuse",
+"x_score": 4,
+"dog": "lie_R",
+"x_place": 3.99385,
+"cost": 0.0113,
+"terms": {
+"ear": 0.011
+},
+"person": "P_walk_1",
+"person_x": -0.38667,
+"pcost": 0.0207
+},
+{
+"i": 132,
+"t": 5.5,
+"state": "refuse",
+"x_score": 4,
+"dog": "lie_R",
+"x_place": 3.99385,
+"cost": 0.0113,
+"terms": {
+"ear": 0.011
+},
+"person": "P_walk_1",
+"person_x": -0.38667,
+"pcost": 0.0939
+},
+{
+"i": 133,
+"t": 5.542,
+"state": "refuse",
+"x_score": 4,
+"dog": "lie_R",
+"x_place": 3.99385,
+"cost": 0.0113,
+"terms": {
+"ear": 0.011
+},
+"person": "P_walk_2",
+"person_x": -0.49333,
+"pcost": 0.088
+},
+{
+"i": 134,
+"t": 5.583,
+"state": "refuse",
+"x_score": 4,
+"dog": "lie_R",
+"x_place": 3.99385,
+"cost": 0.0113,
+"terms": {
+"ear": 0.011
+},
+"person": "P_walk_2",
+"person_x": -0.49333,
+"pcost": 0.0236
+},
+{
+"i": 135,
+"t": 5.625,
+"state": "refuse",
+"x_score": 4,
+"dog": "lie_R",
+"x_place": 3.99385,
+"cost": 0.0194,
+"terms": {
+"ear": 0.011
+},
+"person": "P_walk_3",
+"person_x": -0.6,
+"pcost": 0.192
+},
+{
+"i": 136,
+"t": 5.667,
+"state": "refuse",
+"x_score": 4,
+"dog": "lie_R",
+"x_place": 3.99385,
+"cost": 0.0635,
+"terms": {
+"rest": 0.052,
+"ear": 0.011
+},
+"person": "P_walk_3",
+"person_x": -0.6,
+"pcost": 0.0001
+},
+{
+"i": 137,
+"t": 5.708,
+"state": "refuse",
+"x_score": 4,
+"dog": "lie_R",
+"x_place": 3.99385,
+"cost": 0.1618,
+"terms": {
+"rest": 0.151,
+"ear": 0.011
+},
+"person": "P_walk_3",
+"person_x": -0.6,
+"pcost": 0.2092
+},
+{
+"i": 138,
+"t": 5.75,
+"state": "refuse",
+"x_score": 4,
+"dog": "lie_R",
+"x_place": 3.99385,
+"cost": 0.3146,
+"terms": {
+"rest": 0.303,
+"ear": 0.011
+},
+"person": "P_walk_4",
+"person_x": -0.70667,
+"pcost": 0.018
+},
+{
+"i": 139,
+"t": 5.792,
+"state": "refuse",
+"x_score": 4,
+"dog": "lie_R",
+"x_place": 3.99385,
+"cost": 0.5106,
+"terms": {
+"rest": 0.499,
+"ear": 0.011
+},
+"person": "P_walk_4",
+"person_x": -0.70667,
+"pcost": 0.0939
+},
+{
+"i": 140,
+"t": 5.833,
+"state": "refuse",
+"x_score": 4,
+"dog": "lie_R",
+"x_place": 3.99385,
+"cost": 0.7345,
+"terms": {
+"rest": 0.723,
+"ear": 0.011
+},
+"person": "P_walk_5",
+"person_x": -0.81333,
+"pcost": 0.0824
+},
+{
+"i": 141,
+"t": 5.875,
+"state": "refuse",
+"x_score": 4,
+"dog": "rest_R",
+"x_place": 3.99385,
+"cost": 0.5737,
+"terms": {
+"rest": 0.562,
+"ear": 0.011
+},
+"person": "P_walk_5",
+"person_x": -0.81333,
+"pcost": 0.0267
+},
+{
+"i": 142,
+"t": 5.917,
+"state": "refuse",
+"x_score": 4,
+"dog": "rest_R",
+"x_place": 3.99385,
+"cost": 0.4153,
+"terms": {
+"rest": 0.404,
+"ear": 0.011
+},
+"person": "P_walk_0",
+"person_x": -0.92,
+"pcost": 0.1837
+},
+{
+"i": 143,
+"t": 5.958,
+"state": "refuse",
+"x_score": 4,
+"dog": "rest_R",
+"x_place": 3.99385,
+"cost": 0.2977,
+"terms": {
+"rest": 0.286,
+"ear": 0.011
+},
+"person": "P_walk_0",
+"person_x": -0.92,
+"pcost": 0.0004
+},
+{
+"i": 144,
+"t": 6,
+"state": "refuse",
+"x_score": 4,
+"dog": "rest_R",
+"x_place": 3.99385,
+"cost": 0.2125,
+"terms": {
+"rest": 0.201,
+"ear": 0.011
+},
+"person": "P_walk_0",
+"person_x": -0.92,
+"pcost": 0.218
+},
+{
+"i": 145,
+"t": 6.042,
+"state": "refuse",
+"x_score": 4,
+"dog": "rest_R",
+"x_place": 3.99385,
+"cost": 0.1525,
+"terms": {
+"rest": 0.141,
+"ear": 0.011
+},
+"person": "P_walk_1",
+"person_x": -1.02667,
+"pcost": 0.018
+},
+{
+"i": 146,
+"t": 6.083,
+"state": "refuse",
+"x_score": 4,
+"dog": "rest_R",
+"x_place": 3.99385,
+"cost": 0.1085,
+"terms": {
+"rest": 0.097,
+"ear": 0.011
+},
+"person": "P_walk_1",
+"person_x": -1.02667,
+"pcost": 0.0999
+},
+{
+"i": 147,
+"t": 6.125,
+"state": "refuse",
+"x_score": 4,
+"dog": "rest_R",
+"x_place": 3.99385,
+"cost": 0.0788,
+"terms": {
+"rest": 0.068,
+"ear": 0.011
+},
+"person": "P_walk_2",
+"person_x": -1.13333,
+"pcost": 0.0769
+},
+{
+"i": 148,
+"t": 6.167,
+"state": "refuse",
+"x_score": 4,
+"dog": "rest_R",
+"x_place": 3.99385,
+"cost": 0.0574,
+"terms": {
+"rest": 0.046,
+"ear": 0.011
+},
+"person": "P_walk_2",
+"person_x": -1.13333,
+"pcost": 0.03
+},
+{
+"i": 149,
+"t": 6.208,
+"state": "refuse",
+"x_score": 4,
+"dog": "rest_R",
+"x_place": 3.99385,
+"cost": 0.0431,
+"terms": {
+"rest": 0.032,
+"ear": 0.011
+},
+"person": "P_walk_3",
+"person_x": -1.24,
+"pcost": 0.1756
+},
+{
+"i": 150,
+"t": 6.25,
+"state": "refuse",
+"x_score": 4,
+"dog": "rest_R",
+"x_place": 3.99385,
+"cost": 0.0329,
+"terms": {
+"rest": 0.022,
+"ear": 0.011
+},
+"person": "P_walk_3",
+"person_x": -1.24,
+"pcost": 0.0009
+},
+{
+"i": 151,
+"t": 6.292,
+"state": "refuse",
+"x_score": 4,
+"dog": "rest_R",
+"x_place": 3.99385,
+"cost": 0.0259,
+"terms": {
+"rest": 0.015,
+"ear": 0.011
+},
+"person": "P_walk_3",
+"person_x": -1.24,
+"pcost": 0.0096
+},
+{
+"i": 152,
+"t": 6.333,
+"state": "refuse",
+"x_score": 4,
+"dog": "rest_R",
+"x_place": 3.99385,
+"cost": 0.0213,
+"terms": {
+"rest": 0.01,
+"ear": 0.011
+},
+"person": "P_sit",
+"person_x": -1.25,
+"pcost": 0.3174
+},
+{
+"i": 153,
+"t": 6.375,
+"state": "refuse",
+"x_score": 4,
+"dog": "rest_R",
+"x_place": 3.99385,
+"cost": 0.0182,
+"terms": {
+"ear": 0.011
+},
+"person": "P_sit",
+"person_x": -1.25,
+"pcost": 0.2671
+},
+{
+"i": 154,
+"t": 6.417,
+"state": "refuse",
+"x_score": 4,
+"dog": "rest_R",
+"x_place": 3.99385,
+"cost": 0.0158,
+"terms": {
+"ear": 0.011
+},
+"person": "P_sit",
+"person_x": -1.25,
+"pcost": 0.2258
+},
+{
+"i": 155,
+"t": 6.458,
+"state": "refuse",
+"x_score": 4,
+"dog": "rest_R",
+"x_place": 3.99385,
+"cost": 0.0143,
+"terms": {
+"ear": 0.011
+},
+"person": "P_sit",
+"person_x": -1.25,
+"pcost": 0.1901
+},
+{
+"i": 156,
+"t": 6.5,
+"state": "refuse",
+"x_score": 4,
+"dog": "rest_R",
+"x_place": 3.99385,
+"cost": 0.0134,
+"terms": {
+"ear": 0.011
+},
+"person": "P_sit",
+"person_x": -1.25,
+"pcost": 0.1614
+},
+{
+"i": 157,
+"t": 6.542,
+"state": "refuse",
+"x_score": 4,
+"dog": "rest_R",
+"x_place": 3.99385,
+"cost": 0.0127,
+"terms": {
+"ear": 0.011
+},
+"person": "P_sit",
+"person_x": -1.25,
+"pcost": 0.135
+},
+{
+"i": 158,
+"t": 6.583,
+"state": "refuse",
+"x_score": 4,
+"dog": "rest_R",
+"x_place": 3.99385,
+"cost": 0.0122,
+"terms": {
+"ear": 0.011
+},
+"person": "P_sit",
+"person_x": -1.25,
+"pcost": 0.1143
+},
+{
+"i": 159,
+"t": 6.625,
+"state": "refuse",
+"x_score": 4,
+"dog": "rest_R",
+"x_place": 3.99385,
+"cost": 0.0119,
+"terms": {
+"ear": 0.011
+},
+"person": "P_sit",
+"person_x": -1.25,
+"pcost": 0.0953
+},
+{
+"i": 160,
+"t": 6.667,
+"state": "refuse",
+"x_score": 4,
+"dog": "rest_R",
+"x_place": 3.99385,
+"cost": 0.0117,
+"terms": {
+"ear": 0.011
+},
+"person": "P_sit",
+"person_x": -1.25,
+"pcost": 0.0807
+},
+{
+"i": 161,
+"t": 6.708,
+"state": "refuse",
+"x_score": 4,
+"dog": "rest_R",
+"x_place": 3.99385,
+"cost": 0.0115,
+"terms": {
+"ear": 0.011
+},
+"person": "P_sit",
+"person_x": -1.25,
+"pcost": 0.0674
+},
+{
+"i": 162,
+"t": 6.75,
+"state": "refuse",
+"x_score": 4,
+"dog": "rest_R",
+"x_place": 3.99385,
+"cost": 0.0114,
+"terms": {
+"ear": 0.011
+},
+"person": "P_sit",
+"person_x": -1.25,
+"pcost": 0.0565
+},
+{
+"i": 163,
+"t": 6.792,
+"state": "refuse",
+"x_score": 4,
+"dog": "rest_R",
+"x_place": 3.99385,
+"cost": 0.0114,
+"terms": {
+"ear": 0.011
+},
+"person": "P_sit",
+"person_x": -1.25,
+"pcost": 0.0475
+},
+{
+"i": 164,
+"t": 6.833,
+"state": "refuse",
+"x_score": 4,
+"dog": "rest_R",
+"x_place": 3.99385,
+"cost": 0.0113,
+"terms": {
+"ear": 0.011
+},
+"person": "P_sit",
+"person_x": -1.25,
+"pcost": 0.0706
+},
+{
+"i": 165,
+"t": 6.875,
+"state": "refuse",
+"x_score": 4,
+"dog": "rest_R",
+"x_place": 3.99385,
+"cost": 0.0113,
+"terms": {
+"ear": 0.011
+},
+"person": "P_sit",
+"person_x": -1.25,
+"pcost": 0.2085
+},
+{
+"i": 166,
+"t": 6.917,
+"state": "refuse",
+"x_score": 4,
+"dog": "rest_R",
+"x_place": 3.99385,
+"cost": 0.0113,
+"terms": {
+"ear": 0.011
+},
+"person": "P_sit",
+"person_x": -1.25,
+"pcost": 0.4874
+},
+{
+"i": 167,
+"t": 6.958,
+"state": "refuse",
+"x_score": 4,
+"dog": "rest_R",
+"x_place": 3.99385,
+"cost": 0.0113,
+"terms": {
+"ear": 0.011
+},
+"person": "P_sit",
+"person_x": -1.25,
+"pcost": 0.8776
+},
+{
+"i": 168,
+"t": 7,
+"state": "refuse",
+"x_score": 4,
+"dog": "rest_R",
+"x_place": 3.99385,
+"cost": 0.0113,
+"terms": {
+"ear": 0.011
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.7591
+},
+{
+"i": 169,
+"t": 7.042,
+"state": "refuse",
+"x_score": 4,
+"dog": "rest_R",
+"x_place": 3.99385,
+"cost": 0.0113,
+"terms": {
+"ear": 0.011
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.4759
+},
+{
+"i": 170,
+"t": 7.083,
+"state": "refuse",
+"x_score": 4,
+"dog": "rest_R",
+"x_place": 3.99385,
+"cost": 0.0113,
+"terms": {
+"ear": 0.011
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.2926
+},
+{
+"i": 171,
+"t": 7.125,
+"state": "refuse",
+"x_score": 4,
+"dog": "rest_R",
+"x_place": 3.99385,
+"cost": 0.0113,
+"terms": {
+"ear": 0.011
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.1781
+},
+{
+"i": 172,
+"t": 7.167,
+"state": "refuse",
+"x_score": 4,
+"dog": "rest_R",
+"x_place": 3.99385,
+"cost": 0.0113,
+"terms": {
+"ear": 0.011
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.1069
+},
+{
+"i": 173,
+"t": 7.208,
+"state": "refuse",
+"x_score": 4,
+"dog": "rest_R",
+"x_place": 3.99385,
+"cost": 0.0113,
+"terms": {
+"ear": 0.011
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0639
+},
+{
+"i": 174,
+"t": 7.25,
+"state": "refuse",
+"x_score": 4,
+"dog": "rest_R",
+"x_place": 3.99385,
+"cost": 0.0113,
+"terms": {
+"ear": 0.011
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0386
+},
+{
+"i": 175,
+"t": 7.292,
+"state": "refuse",
+"x_score": 4,
+"dog": "rest_R",
+"x_place": 3.99385,
+"cost": 0.0113,
+"terms": {
+"ear": 0.011
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0237
+},
+{
+"i": 176,
+"t": 7.333,
+"state": "refuse",
+"x_score": 4,
+"dog": "rest_R",
+"x_place": 3.99385,
+"cost": 0.0113,
+"terms": {
+"ear": 0.011
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0147
+},
+{
+"i": 177,
+"t": 7.375,
+"state": "refuse",
+"x_score": 4,
+"dog": "rest_R",
+"x_place": 3.99385,
+"cost": 0.0112,
+"terms": {
+"ear": 0.011
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0095
+},
+{
+"i": 178,
+"t": 7.417,
+"state": "refuse",
+"x_score": 4,
+"dog": "rest_R",
+"x_place": 3.99385,
+"cost": 0.0112,
+"terms": {
+"ear": 0.011
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.1057
+},
+{
+"i": 179,
+"t": 7.458,
+"state": "watch",
+"x_score": 4,
+"dog": "lookback_R",
+"x_place": 3.99385,
+"cost": 3.4077,
+"terms": {
+"lie": 0.026,
+"crouch": 0.412,
+"head": 0.232,
+"rest": 2.696,
+"ear": 0.04
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.1548
+},
+{
+"i": 180,
+"t": 7.5,
+"state": "watch",
+"x_score": 4,
+"dog": "lookback_R",
+"x_place": 3.99385,
+"cost": 2.8223,
+"terms": {
+"lie": 0.159,
+"crouch": 0.307,
+"head": 0.092,
+"rest": 2.26
+},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.091
+},
+{
+"i": 181,
+"t": 7.542,
+"state": "watch",
+"x_score": 4,
+"dog": "situp_R",
+"x_place": 3.99385,
+"cost": 2.2081,
+"terms": {
+"lie": 0.315,
+"head": 0.081,
+"rest": 1.807
+},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.0681
+},
+{
+"i": 182,
+"t": 7.583,
+"state": "watch",
+"x_score": 4,
+"dog": "situp_R",
+"x_place": 3.99385,
+"cost": 1.5231,
+"terms": {
+"lie": 0.089,
+"head": 0.01,
+"rest": 1.395,
+"ear": 0.024
+},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.0517
+},
+{
+"i": 183,
+"t": 7.625,
+"state": "watch",
+"x_score": 4,
+"dog": "situp_R",
+"x_place": 3.99385,
+"cost": 1.1199,
+"terms": {
+"rest": 1.051,
+"ear": 0.044
+},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.0433
+},
+{
+"i": 184,
+"t": 7.667,
+"state": "watch",
+"x_score": 4,
+"dog": "situp_R",
+"x_place": 3.99385,
+"cost": 0.9282,
+"terms": {
+"lie": 0.025,
+"crouch": 0.02,
+"head": 0.034,
+"rest": 0.774,
+"ear": 0.058,
+"tail": 0.016
+},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.0382
+},
+{
+"i": 185,
+"t": 7.708,
+"state": "watch",
+"x_score": 4,
+"dog": "situp_R",
+"x_place": 3.99385,
+"cost": 0.8838,
+"terms": {
+"lie": 0.119,
+"crouch": 0.032,
+"head": 0.082,
+"rest": 0.562,
+"ear": 0.066,
+"tail": 0.023
+},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.0354
+},
+{
+"i": 186,
+"t": 7.75,
+"state": "watch",
+"x_score": 4,
+"dog": "situp_R",
+"x_place": 3.99385,
+"cost": 0.9286,
+"terms": {
+"lie": 0.255,
+"crouch": 0.042,
+"head": 0.132,
+"rest": 0.404,
+"ear": 0.068,
+"tail": 0.028
+},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.0338
+},
+{
+"i": 187,
+"t": 7.792,
+"state": "watch",
+"x_score": 4,
+"dog": "rise_R",
+"x_place": 3.99385,
+"cost": 0.6447,
+"terms": {
+"lie": 0.343,
+"rest": 0.286
+},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.0324
+},
+{
+"i": 188,
+"t": 7.833,
+"state": "watch",
+"x_score": 4,
+"dog": "rise_R",
+"x_place": 3.99385,
+"cost": 0.447,
+"terms": {
+"lie": 0.226,
+"rest": 0.201
+},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.0318
+},
+{
+"i": 189,
+"t": 7.875,
+"state": "watch",
+"x_score": 4,
+"dog": "rise_R",
+"x_place": 3.99385,
+"cost": 0.3139,
+"terms": {
+"lie": 0.148,
+"crouch": 0.011,
+"rest": 0.141,
+"tail": 0.01
+},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.0311
+},
+{
+"i": 190,
+"t": 7.917,
+"state": "watch",
+"x_score": 4,
+"dog": "rise_R",
+"x_place": 3.99385,
+"cost": 0.2214,
+"terms": {
+"lie": 0.095,
+"crouch": 0.012,
+"rest": 0.097,
+"tail": 0.01
+},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.031
+},
+{
+"i": 191,
+"t": 7.958,
+"state": "watch",
+"x_score": 4,
+"dog": "rise_R",
+"x_place": 3.99385,
+"cost": 0.3308,
+"terms": {
+"yaw": 0.171,
+"lie": 0.061,
+"crouch": 0.013,
+"rest": 0.068,
+"tail": 0.01
+},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.0303
+},
+{
+"i": 192,
+"t": 8,
+"state": "watch",
+"x_score": 4,
+"dog": "rise_R",
+"x_place": 3.99385,
+"cost": 1.0874,
+"terms": {
+"yaw": 0.969,
+"lie": 0.039,
+"crouch": 0.013,
+"rest": 0.046,
+"tail": 0.01
+},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.0303
+},
+{
+"i": 193,
+"t": 8.042,
+"state": "watch",
+"x_score": 4,
+"dog": "f90_qleft",
+"x_place": 3.99385,
+"cost": 1.6127,
+"terms": {
+"yaw": 1.542,
+"lie": 0.025,
+"rest": 0.032
+},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.0302
+},
+{
+"i": 194,
+"t": 8.083,
+"state": "watch",
+"x_score": 4,
+"dog": "f90_qleft",
+"x_place": 3.99385,
+"cost": 0.4971,
+"terms": {
+"yaw": 0.446,
+"lie": 0.016,
+"rest": 0.022
+},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.0302
+},
+{
+"i": 195,
+"t": 8.125,
+"state": "watch",
+"x_score": 4,
+"dog": "f90_qleft",
+"x_place": 3.99385,
+"cost": 0.0608,
+"terms": {
+"yaw": 0.022,
+"lie": 0.01,
+"rest": 0.015
+},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.0302
+},
+{
+"i": 196,
+"t": 8.167,
+"state": "watch",
+"x_score": 4,
+"dog": "f90_qleft",
+"x_place": 3.99385,
+"cost": 0.1216,
+"terms": {
+"yaw": 0.092,
+"rest": 0.01
+},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.0302
+},
+{
+"i": 197,
+"t": 8.208,
+"state": "watch",
+"x_score": 4,
+"dog": "f90_qleft",
+"x_place": 3.99385,
+"cost": 0.5081,
+"terms": {
+"yaw": 0.484
+},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.0301
+},
+{
+"i": 198,
+"t": 8.25,
+"state": "watch",
+"x_score": 4,
+"dog": "q45_up",
+"x_place": 3.99385,
+"cost": 0.1547,
+"terms": {
+"yaw": 0.146
+},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.0301
+},
+{
+"i": 199,
+"t": 8.292,
+"state": "watch",
+"x_score": 4,
+"dog": "q45_up",
+"x_place": 3.99385,
+"cost": 0.0161,
+"terms": {},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.0301
+},
+{
+"i": 200,
+"t": 8.333,
+"state": "watch",
+"x_score": 4,
+"dog": "q45_up",
+"x_place": 3.99385,
+"cost": 0.0249,
+"terms": {
+"yaw": 0.02
+},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.0301
+},
+{
+"i": 201,
+"t": 8.375,
+"state": "watch",
+"x_score": 4,
+"dog": "q45_up",
+"x_place": 3.99385,
+"cost": 0.1228,
+"terms": {
+"yaw": 0.119
+},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.0301
+},
+{
+"i": 202,
+"t": 8.417,
+"state": "watch",
+"x_score": 4,
+"dog": "listen",
+"x_place": 3.99385,
+"cost": 0.862,
+"terms": {
+"yaw": 0.804,
+"crouch": 0.025,
+"head": 0.029
+},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.0301
+},
+{
+"i": 203,
+"t": 8.458,
+"state": "watch",
+"x_score": 4,
+"dog": "listen",
+"x_place": 3.99385,
+"cost": 0.6281,
+"terms": {
+"yaw": 0.57,
+"crouch": 0.025,
+"head": 0.03
+},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.03
+},
+{
+"i": 204,
+"t": 8.5,
+"state": "watch",
+"x_score": 4,
+"dog": "listen",
+"x_place": 3.99385,
+"cost": 0.4588,
+"terms": {
+"yaw": 0.401,
+"crouch": 0.025,
+"head": 0.03
+},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.03
+},
+{
+"i": 205,
+"t": 8.542,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.3088,
+"terms": {
+"yaw": 0.283,
+"crouch": 0.024
+},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.03
+},
+{
+"i": 206,
+"t": 8.583,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.2256,
+"terms": {
+"yaw": 0.2,
+"crouch": 0.024
+},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.03
+},
+{
+"i": 207,
+"t": 8.625,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.1649,
+"terms": {
+"yaw": 0.139,
+"crouch": 0.024
+},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.03
+},
+{
+"i": 208,
+"t": 8.667,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.1239,
+"terms": {
+"yaw": 0.099,
+"crouch": 0.024
+},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.03
+},
+{
+"i": 209,
+"t": 8.708,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0946,
+"terms": {
+"yaw": 0.069,
+"crouch": 0.024
+},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.03
+},
+{
+"i": 210,
+"t": 8.75,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0736,
+"terms": {
+"yaw": 0.049,
+"crouch": 0.023
+},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.03
+},
+{
+"i": 211,
+"t": 8.792,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0598,
+"terms": {
+"yaw": 0.035,
+"crouch": 0.023
+},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.03
+},
+{
+"i": 212,
+"t": 8.833,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0487,
+"terms": {
+"yaw": 0.024,
+"crouch": 0.023
+},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.03
+},
+{
+"i": 213,
+"t": 8.875,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0415,
+"terms": {
+"yaw": 0.017,
+"crouch": 0.023
+},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.03
+},
+{
+"i": 214,
+"t": 8.917,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0363,
+"terms": {
+"yaw": 0.012,
+"crouch": 0.022
+},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.03
+},
+{
+"i": 215,
+"t": 8.958,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0329,
+"terms": {
+"crouch": 0.022
+},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.03
+},
+{
+"i": 216,
+"t": 9,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0296,
+"terms": {
+"crouch": 0.022
+},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.03
+},
+{
+"i": 217,
+"t": 9.042,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.028,
+"terms": {
+"crouch": 0.022
+},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.03
+},
+{
+"i": 218,
+"t": 9.083,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0267,
+"terms": {
+"crouch": 0.022
+},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.03
+},
+{
+"i": 219,
+"t": 9.125,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0255,
+"terms": {
+"crouch": 0.022
+},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.03
+},
+{
+"i": 220,
+"t": 9.167,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.025,
+"terms": {
+"crouch": 0.022
+},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.03
+},
+{
+"i": 221,
+"t": 9.208,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.024,
+"terms": {
+"crouch": 0.021
+},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.03
+},
+{
+"i": 222,
+"t": 9.25,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0239,
+"terms": {
+"crouch": 0.021
+},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.03
+},
+{
+"i": 223,
+"t": 9.292,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0236,
+"terms": {
+"crouch": 0.021
+},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.03
+},
+{
+"i": 224,
+"t": 9.333,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0231,
+"terms": {
+"crouch": 0.021
+},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.03
+},
+{
+"i": 225,
+"t": 9.375,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0231,
+"terms": {
+"crouch": 0.021
+},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.03
+},
+{
+"i": 226,
+"t": 9.417,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0226,
+"terms": {
+"crouch": 0.02
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0847
+},
+{
+"i": 227,
+"t": 9.458,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0226,
+"terms": {
+"crouch": 0.02
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0476
+},
+{
+"i": 228,
+"t": 9.5,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0222,
+"terms": {
+"crouch": 0.02
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0151
+},
+{
+"i": 229,
+"t": 9.542,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0222,
+"terms": {
+"crouch": 0.02
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0069
+},
+{
+"i": 230,
+"t": 9.583,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0222,
+"terms": {
+"crouch": 0.02
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0025
+},
+{
+"i": 231,
+"t": 9.625,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0218,
+"terms": {
+"crouch": 0.02
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.001
+},
+{
+"i": 232,
+"t": 9.667,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0219,
+"terms": {
+"crouch": 0.02
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0004
+},
+{
+"i": 233,
+"t": 9.708,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0215,
+"terms": {
+"crouch": 0.019
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0001
+},
+{
+"i": 234,
+"t": 9.75,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0215,
+"terms": {
+"crouch": 0.019
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0001
+},
+{
+"i": 235,
+"t": 9.792,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0215,
+"terms": {
+"crouch": 0.019
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 236,
+"t": 9.833,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0212,
+"terms": {
+"crouch": 0.019
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 237,
+"t": 9.875,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0212,
+"terms": {
+"crouch": 0.019
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 238,
+"t": 9.917,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0213,
+"terms": {
+"crouch": 0.019
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 239,
+"t": 9.958,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0209,
+"terms": {
+"crouch": 0.018
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 240,
+"t": 10,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0209,
+"terms": {
+"crouch": 0.018
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 241,
+"t": 10.042,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0206,
+"terms": {
+"crouch": 0.018
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 242,
+"t": 10.083,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0207,
+"terms": {
+"crouch": 0.018
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 243,
+"t": 10.125,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0207,
+"terms": {
+"crouch": 0.018
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 244,
+"t": 10.167,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0203,
+"terms": {
+"crouch": 0.018
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 245,
+"t": 10.208,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0204,
+"terms": {
+"crouch": 0.018
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 246,
+"t": 10.25,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0204,
+"terms": {
+"crouch": 0.018
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 247,
+"t": 10.292,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0201,
+"terms": {
+"crouch": 0.017
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 248,
+"t": 10.333,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0201,
+"terms": {
+"crouch": 0.017
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 249,
+"t": 10.375,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0198,
+"terms": {
+"crouch": 0.017
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 250,
+"t": 10.417,
+"state": "watch",
+"x_score": 4,
+"dog": "listen",
+"x_place": 3.99385,
+"cost": 0.0482,
+"terms": {
+"crouch": 0.017,
+"head": 0.03
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0994
+},
+{
+"i": 251,
+"t": 10.458,
+"state": "watch",
+"x_score": 4,
+"dog": "listen",
+"x_place": 3.99385,
+"cost": 0.0482,
+"terms": {
+"crouch": 0.017,
+"head": 0.03
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.1505
+},
+{
+"i": 252,
+"t": 10.5,
+"state": "watch",
+"x_score": 4,
+"dog": "listen",
+"x_place": 3.99385,
+"cost": 0.0478,
+"terms": {
+"crouch": 0.017,
+"head": 0.03
+},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.0877
+},
+{
+"i": 253,
+"t": 10.542,
+"state": "watch",
+"x_score": 4,
+"dog": "listen",
+"x_place": 3.99385,
+"cost": 0.0478,
+"terms": {
+"crouch": 0.017,
+"head": 0.03
+},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.0657
+},
+{
+"i": 254,
+"t": 10.583,
+"state": "watch",
+"x_score": 4,
+"dog": "listen",
+"x_place": 3.99385,
+"cost": 0.0478,
+"terms": {
+"crouch": 0.017,
+"head": 0.03
+},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.0499
+},
+{
+"i": 255,
+"t": 10.625,
+"state": "watch",
+"x_score": 4,
+"dog": "listen",
+"x_place": 3.99385,
+"cost": 0.0474,
+"terms": {
+"crouch": 0.016,
+"head": 0.03
+},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.0418
+},
+{
+"i": 256,
+"t": 10.667,
+"state": "watch",
+"x_score": 4,
+"dog": "listen",
+"x_place": 3.99385,
+"cost": 0.0475,
+"terms": {
+"crouch": 0.016,
+"head": 0.03
+},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.037
+},
+{
+"i": 257,
+"t": 10.708,
+"state": "watch",
+"x_score": 4,
+"dog": "listen",
+"x_place": 3.99385,
+"cost": 0.0471,
+"terms": {
+"crouch": 0.016,
+"head": 0.03
+},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.0343
+},
+{
+"i": 258,
+"t": 10.75,
+"state": "watch",
+"x_score": 4,
+"dog": "listen",
+"x_place": 3.99385,
+"cost": 0.0471,
+"terms": {
+"crouch": 0.016,
+"head": 0.03
+},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.0331
+},
+{
+"i": 259,
+"t": 10.792,
+"state": "watch",
+"x_score": 4,
+"dog": "listen",
+"x_place": 3.99385,
+"cost": 0.0471,
+"terms": {
+"crouch": 0.016,
+"head": 0.03
+},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.0318
+},
+{
+"i": 260,
+"t": 10.833,
+"state": "watch",
+"x_score": 4,
+"dog": "listen",
+"x_place": 3.99385,
+"cost": 0.0467,
+"terms": {
+"crouch": 0.015,
+"head": 0.03
+},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.0312
+},
+{
+"i": 261,
+"t": 10.875,
+"state": "watch",
+"x_score": 4,
+"dog": "listen",
+"x_place": 3.99385,
+"cost": 0.0467,
+"terms": {
+"crouch": 0.015,
+"head": 0.03
+},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.0306
+},
+{
+"i": 262,
+"t": 10.917,
+"state": "watch",
+"x_score": 4,
+"dog": "listen",
+"x_place": 3.99385,
+"cost": 0.0468,
+"terms": {
+"crouch": 0.015,
+"head": 0.03
+},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.0306
+},
+{
+"i": 263,
+"t": 10.958,
+"state": "watch",
+"x_score": 4,
+"dog": "listen",
+"x_place": 3.99385,
+"cost": 0.0464,
+"terms": {
+"crouch": 0.015,
+"head": 0.03
+},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.03
+},
+{
+"i": 264,
+"t": 11,
+"state": "watch",
+"x_score": 4,
+"dog": "listen",
+"x_place": 3.99385,
+"cost": 0.0464,
+"terms": {
+"crouch": 0.015,
+"head": 0.03
+},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.03
+},
+{
+"i": 265,
+"t": 11.042,
+"state": "watch",
+"x_score": 4,
+"dog": "listen",
+"x_place": 3.99385,
+"cost": 0.0464,
+"terms": {
+"crouch": 0.015,
+"head": 0.03
+},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.03
+},
+{
+"i": 266,
+"t": 11.083,
+"state": "watch",
+"x_score": 4,
+"dog": "listen",
+"x_place": 3.99385,
+"cost": 0.0461,
+"terms": {
+"crouch": 0.015,
+"head": 0.03
+},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.03
+},
+{
+"i": 267,
+"t": 11.125,
+"state": "watch",
+"x_score": 4,
+"dog": "listen",
+"x_place": 3.99385,
+"cost": 0.0461,
+"terms": {
+"crouch": 0.015,
+"head": 0.03
+},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.03
+},
+{
+"i": 268,
+"t": 11.167,
+"state": "watch",
+"x_score": 4,
+"dog": "listen",
+"x_place": 3.99385,
+"cost": 0.0457,
+"terms": {
+"crouch": 0.014,
+"head": 0.03
+},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.03
+},
+{
+"i": 269,
+"t": 11.208,
+"state": "watch",
+"x_score": 4,
+"dog": "listen",
+"x_place": 3.99385,
+"cost": 0.0458,
+"terms": {
+"crouch": 0.014,
+"head": 0.03
+},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.03
+},
+{
+"i": 270,
+"t": 11.25,
+"state": "watch",
+"x_score": 4,
+"dog": "listen",
+"x_place": 3.99385,
+"cost": 0.0458,
+"terms": {
+"crouch": 0.014,
+"head": 0.03
+},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.03
+},
+{
+"i": 271,
+"t": 11.292,
+"state": "watch",
+"x_score": 4,
+"dog": "listen",
+"x_place": 3.99385,
+"cost": 0.0454,
+"terms": {
+"crouch": 0.014,
+"head": 0.03
+},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.03
+},
+{
+"i": 272,
+"t": 11.333,
+"state": "watch",
+"x_score": 4,
+"dog": "listen",
+"x_place": 3.99385,
+"cost": 0.0454,
+"terms": {
+"crouch": 0.014,
+"head": 0.03
+},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.03
+},
+{
+"i": 273,
+"t": 11.375,
+"state": "watch",
+"x_score": 4,
+"dog": "listen",
+"x_place": 3.99385,
+"cost": 0.0455,
+"terms": {
+"crouch": 0.014,
+"head": 0.03
+},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.03
+},
+{
+"i": 274,
+"t": 11.417,
+"state": "watch",
+"x_score": 4,
+"dog": "listen",
+"x_place": 3.99385,
+"cost": 0.0451,
+"terms": {
+"crouch": 0.014,
+"head": 0.03
+},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.03
+},
+{
+"i": 275,
+"t": 11.458,
+"state": "watch",
+"x_score": 4,
+"dog": "listen",
+"x_place": 3.99385,
+"cost": 0.0451,
+"terms": {
+"crouch": 0.014,
+"head": 0.03
+},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.03
+},
+{
+"i": 276,
+"t": 11.5,
+"state": "watch",
+"x_score": 4,
+"dog": "listen",
+"x_place": 3.99385,
+"cost": 0.0451,
+"terms": {
+"crouch": 0.014,
+"head": 0.03
+},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.03
+},
+{
+"i": 277,
+"t": 11.542,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0177,
+"terms": {
+"crouch": 0.013
+},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.03
+},
+{
+"i": 278,
+"t": 11.583,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0178,
+"terms": {
+"crouch": 0.013
+},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.03
+},
+{
+"i": 279,
+"t": 11.625,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0179,
+"terms": {
+"crouch": 0.013
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0847
+},
+{
+"i": 280,
+"t": 11.667,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0176,
+"terms": {
+"crouch": 0.013
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0476
+},
+{
+"i": 281,
+"t": 11.708,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0177,
+"terms": {
+"crouch": 0.013
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0151
+},
+{
+"i": 282,
+"t": 11.75,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0177,
+"terms": {
+"crouch": 0.013
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0069
+},
+{
+"i": 283,
+"t": 11.792,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0174,
+"terms": {
+"crouch": 0.013
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0025
+},
+{
+"i": 284,
+"t": 11.833,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0175,
+"terms": {
+"crouch": 0.013
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.001
+},
+{
+"i": 285,
+"t": 11.875,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0176,
+"terms": {
+"crouch": 0.013
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0004
+},
+{
+"i": 286,
+"t": 11.917,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0173,
+"terms": {
+"crouch": 0.012
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0001
+},
+{
+"i": 287,
+"t": 11.958,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0173,
+"terms": {
+"crouch": 0.012
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0001
+},
+{
+"i": 288,
+"t": 12,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0174,
+"terms": {
+"crouch": 0.012
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 289,
+"t": 12.042,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0171,
+"terms": {
+"crouch": 0.012
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 290,
+"t": 12.083,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0172,
+"terms": {
+"crouch": 0.012
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 291,
+"t": 12.125,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0172,
+"terms": {
+"crouch": 0.012
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 292,
+"t": 12.167,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.017,
+"terms": {
+"crouch": 0.012
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 293,
+"t": 12.208,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.017,
+"terms": {
+"crouch": 0.012
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 294,
+"t": 12.25,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0171,
+"terms": {
+"crouch": 0.012
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 295,
+"t": 12.292,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0171,
+"terms": {
+"crouch": 0.012
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 296,
+"t": 12.333,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0169,
+"terms": {
+"crouch": 0.012
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 297,
+"t": 12.375,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.017,
+"terms": {
+"crouch": 0.012
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 298,
+"t": 12.417,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.017,
+"terms": {
+"crouch": 0.012
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 299,
+"t": 12.458,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0168,
+"terms": {
+"crouch": 0.011
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 300,
+"t": 12.5,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0168,
+"terms": {
+"crouch": 0.011
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 301,
+"t": 12.542,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0169,
+"terms": {
+"crouch": 0.011
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 302,
+"t": 12.583,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0166,
+"terms": {
+"crouch": 0.011
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 303,
+"t": 12.625,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0167,
+"terms": {
+"crouch": 0.011
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 304,
+"t": 12.667,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0168,
+"terms": {
+"crouch": 0.011
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 305,
+"t": 12.708,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0168,
+"terms": {
+"crouch": 0.011
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 306,
+"t": 12.75,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0166,
+"terms": {
+"crouch": 0.011
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 307,
+"t": 12.792,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0166,
+"terms": {
+"crouch": 0.011
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 308,
+"t": 12.833,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0167,
+"terms": {
+"crouch": 0.011
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 309,
+"t": 12.875,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0165,
+"terms": {
+"crouch": 0.01
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 310,
+"t": 12.917,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0165,
+"terms": {
+"crouch": 0.01
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 311,
+"t": 12.958,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0166,
+"terms": {
+"crouch": 0.01
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 312,
+"t": 13,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0167,
+"terms": {
+"crouch": 0.01
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 313,
+"t": 13.042,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0164,
+"terms": {
+"crouch": 0.01
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 314,
+"t": 13.083,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0165,
+"terms": {
+"crouch": 0.01
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 315,
+"t": 13.125,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0166,
+"terms": {
+"crouch": 0.01
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 316,
+"t": 13.167,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0163,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 317,
+"t": 13.208,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0164,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 318,
+"t": 13.25,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0165,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 319,
+"t": 13.292,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0165,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 320,
+"t": 13.333,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0163,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 321,
+"t": 13.375,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0163,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 322,
+"t": 13.417,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0164,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 323,
+"t": 13.458,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0162,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 324,
+"t": 13.5,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0162,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 325,
+"t": 13.542,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0163,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 326,
+"t": 13.583,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0164,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 327,
+"t": 13.625,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0162,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 328,
+"t": 13.667,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0162,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 329,
+"t": 13.708,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0162,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 330,
+"t": 13.75,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0163,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 331,
+"t": 13.792,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0161,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 332,
+"t": 13.833,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0162,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 333,
+"t": 13.875,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0163,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 334,
+"t": 13.917,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0163,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 335,
+"t": 13.958,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0161,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 336,
+"t": 14,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0162,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 337,
+"t": 14.042,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0162,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 338,
+"t": 14.083,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0163,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 339,
+"t": 14.125,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0161,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 340,
+"t": 14.167,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0162,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 341,
+"t": 14.208,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0162,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 342,
+"t": 14.25,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0163,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 343,
+"t": 14.292,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.016,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 344,
+"t": 14.333,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0161,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 345,
+"t": 14.375,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0162,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 346,
+"t": 14.417,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0163,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 347,
+"t": 14.458,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0161,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 348,
+"t": 14.5,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0162,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 349,
+"t": 14.542,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0162,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 350,
+"t": 14.583,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0162,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 351,
+"t": 14.625,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0161,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 352,
+"t": 14.667,
+"state": "watch",
+"x_score": 4,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.0161,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 353,
+"t": 14.708,
+"state": "approach",
+"x_score": 3.996,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.149,
+"terms": {
+"crouch": 0.01,
+"moving": 0.117
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 354,
+"t": 14.75,
+"state": "approach",
+"x_score": 3.989,
+"dog": "watch",
+"x_place": 3.99385,
+"cost": 0.7477,
+"terms": {
+"crouch": 0.014,
+"head": 0.033,
+"ear": 0.027,
+"moving": 0.666
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 355,
+"t": 14.792,
+"state": "approach",
+"x_score": 3.978,
+"dog": "walk_7",
+"x_place": 3.96839,
+"cost": 1.392,
+"terms": {
+"head": 0.232,
+"moving": 1.138,
+"phase": 0.014
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 356,
+"t": 14.833,
+"state": "approach",
+"x_score": 3.967,
+"dog": "walk_7",
+"x_place": 3.96839,
+"cost": 0.7799,
+"terms": {
+"head": 0.14,
+"moving": 0.637
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 357,
+"t": 14.875,
+"state": "approach",
+"x_score": 3.956,
+"dog": "walk_7",
+"x_place": 3.96839,
+"cost": 0.4677,
+"terms": {
+"head": 0.078,
+"moving": 0.359,
+"phase": 0.03
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 358,
+"t": 14.917,
+"state": "approach",
+"x_score": 3.946,
+"dog": "walk_7",
+"x_place": 3.96839,
+"cost": 0.3409,
+"terms": {
+"head": 0.04,
+"moving": 0.202,
+"phase": 0.098
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 359,
+"t": 14.958,
+"state": "approach",
+"x_score": 3.935,
+"dog": "walk_7",
+"x_place": 3.96839,
+"cost": 0.3506,
+"terms": {
+"head": 0.02,
+"moving": 0.114,
+"phase": 0.215
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 360,
+"t": 15,
+"state": "approach",
+"x_score": 3.924,
+"dog": "walk_0",
+"x_place": 3.89962,
+"cost": 0.19,
+"terms": {
+"moving": 0.064,
+"phase": 0.116
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 361,
+"t": 15.042,
+"state": "approach",
+"x_score": 3.912,
+"dog": "walk_0",
+"x_place": 3.89962,
+"cost": 0.0716,
+"terms": {
+"moving": 0.036,
+"phase": 0.03
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 362,
+"t": 15.083,
+"state": "approach",
+"x_score": 3.901,
+"dog": "walk_0",
+"x_place": 3.89962,
+"cost": 0.0244,
+"terms": {
+"moving": 0.02
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 363,
+"t": 15.125,
+"state": "approach",
+"x_score": 3.89,
+"dog": "walk_0",
+"x_place": 3.89962,
+"cost": 0.0323,
+"terms": {
+"moving": 0.012,
+"phase": 0.018
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 364,
+"t": 15.167,
+"state": "approach",
+"x_score": 3.878,
+"dog": "walk_0",
+"x_place": 3.89962,
+"cost": 0.1,
+"terms": {
+"phase": 0.091
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 365,
+"t": 15.208,
+"state": "approach",
+"x_score": 3.867,
+"dog": "walk_0",
+"x_place": 3.89962,
+"cost": 0.2118,
+"terms": {
+"phase": 0.206
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 366,
+"t": 15.25,
+"state": "approach",
+"x_score": 3.855,
+"dog": "walk_1",
+"x_place": 3.83084,
+"cost": 0.1178,
+"terms": {
+"phase": 0.113
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 367,
+"t": 15.292,
+"state": "approach",
+"x_score": 3.844,
+"dog": "walk_1",
+"x_place": 3.83084,
+"cost": 0.0373,
+"terms": {
+"phase": 0.034
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 368,
+"t": 15.333,
+"state": "approach",
+"x_score": 3.832,
+"dog": "walk_1",
+"x_place": 3.83084,
+"cost": 0.0032,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 369,
+"t": 15.375,
+"state": "approach",
+"x_score": 3.82,
+"dog": "walk_1",
+"x_place": 3.83084,
+"cost": 0.0255,
+"terms": {
+"phase": 0.023
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 370,
+"t": 15.417,
+"state": "approach",
+"x_score": 3.808,
+"dog": "walk_1",
+"x_place": 3.83084,
+"cost": 0.1039,
+"terms": {
+"phase": 0.102
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 371,
+"t": 15.458,
+"state": "approach",
+"x_score": 3.796,
+"dog": "walk_2",
+"x_place": 3.76207,
+"cost": 0.2246,
+"terms": {
+"phase": 0.222
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 372,
+"t": 15.5,
+"state": "approach",
+"x_score": 3.784,
+"dog": "walk_2",
+"x_place": 3.76207,
+"cost": 0.0958,
+"terms": {
+"phase": 0.094
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 373,
+"t": 15.542,
+"state": "approach",
+"x_score": 3.772,
+"dog": "walk_2",
+"x_place": 3.76207,
+"cost": 0.0212,
+"terms": {
+"phase": 0.019
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 374,
+"t": 15.583,
+"state": "approach",
+"x_score": 3.76,
+"dog": "walk_2",
+"x_place": 3.76207,
+"cost": 0.0028,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 375,
+"t": 15.625,
+"state": "approach",
+"x_score": 3.747,
+"dog": "walk_2",
+"x_place": 3.76207,
+"cost": 0.0461,
+"terms": {
+"phase": 0.044
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 376,
+"t": 15.667,
+"state": "approach",
+"x_score": 3.735,
+"dog": "walk_2",
+"x_place": 3.76207,
+"cost": 0.144,
+"terms": {
+"phase": 0.142
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 377,
+"t": 15.708,
+"state": "approach",
+"x_score": 3.722,
+"dog": "walk_3",
+"x_place": 3.6933,
+"cost": 0.1614,
+"terms": {
+"phase": 0.16
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 378,
+"t": 15.75,
+"state": "approach",
+"x_score": 3.71,
+"dog": "walk_3",
+"x_place": 3.6933,
+"cost": 0.0561,
+"terms": {
+"phase": 0.054
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 379,
+"t": 15.792,
+"state": "approach",
+"x_score": 3.697,
+"dog": "walk_3",
+"x_place": 3.6933,
+"cost": 0.0043,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 380,
+"t": 15.833,
+"state": "approach",
+"x_score": 3.684,
+"dog": "walk_3",
+"x_place": 3.6933,
+"cost": 0.0183,
+"terms": {
+"phase": 0.017
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 381,
+"t": 15.875,
+"state": "approach",
+"x_score": 3.672,
+"dog": "walk_3",
+"x_place": 3.6933,
+"cost": 0.0897,
+"terms": {
+"phase": 0.088
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 382,
+"t": 15.917,
+"state": "approach",
+"x_score": 3.659,
+"dog": "walk_3",
+"x_place": 3.6933,
+"cost": 0.2285,
+"terms": {
+"phase": 0.227
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 383,
+"t": 15.958,
+"state": "approach",
+"x_score": 3.646,
+"dog": "walk_4",
+"x_place": 3.62452,
+"cost": 0.0912,
+"terms": {
+"phase": 0.09
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 384,
+"t": 16,
+"state": "approach",
+"x_score": 3.633,
+"dog": "walk_4",
+"x_place": 3.62452,
+"cost": 0.0153,
+"terms": {
+"phase": 0.014
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 385,
+"t": 16.042,
+"state": "approach",
+"x_score": 3.62,
+"dog": "walk_4",
+"x_place": 3.62452,
+"cost": 0.0053,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 386,
+"t": 16.083,
+"state": "approach",
+"x_score": 3.606,
+"dog": "walk_4",
+"x_place": 3.62452,
+"cost": 0.068,
+"terms": {
+"phase": 0.067
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 387,
+"t": 16.125,
+"state": "approach",
+"x_score": 3.593,
+"dog": "walk_4",
+"x_place": 3.62452,
+"cost": 0.1935,
+"terms": {
+"phase": 0.192
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 388,
+"t": 16.167,
+"state": "approach",
+"x_score": 3.58,
+"dog": "walk_5",
+"x_place": 3.55575,
+"cost": 0.1155,
+"terms": {
+"phase": 0.114
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 389,
+"t": 16.208,
+"state": "approach",
+"x_score": 3.566,
+"dog": "walk_5",
+"x_place": 3.55575,
+"cost": 0.0216,
+"terms": {
+"phase": 0.021
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 390,
+"t": 16.25,
+"state": "approach",
+"x_score": 3.553,
+"dog": "walk_5",
+"x_place": 3.55575,
+"cost": 0.0026,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 391,
+"t": 16.292,
+"state": "approach",
+"x_score": 3.539,
+"dog": "walk_5",
+"x_place": 3.55575,
+"cost": 0.0557,
+"terms": {
+"phase": 0.055
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 392,
+"t": 16.333,
+"state": "approach",
+"x_score": 3.525,
+"dog": "walk_5",
+"x_place": 3.55575,
+"cost": 0.184,
+"terms": {
+"phase": 0.183
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 393,
+"t": 16.375,
+"state": "approach",
+"x_score": 3.511,
+"dog": "walk_6",
+"x_place": 3.48697,
+"cost": 0.1131,
+"terms": {
+"phase": 0.112
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 394,
+"t": 16.417,
+"state": "approach",
+"x_score": 3.498,
+"dog": "walk_6",
+"x_place": 3.48697,
+"cost": 0.0247,
+"terms": {
+"phase": 0.024
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 395,
+"t": 16.458,
+"state": "approach",
+"x_score": 3.484,
+"dog": "walk_6",
+"x_place": 3.48697,
+"cost": 0.0026,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 396,
+"t": 16.5,
+"state": "approach",
+"x_score": 3.47,
+"dog": "walk_6",
+"x_place": 3.48697,
+"cost": 0.057,
+"terms": {
+"phase": 0.056
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 397,
+"t": 16.542,
+"state": "approach",
+"x_score": 3.456,
+"dog": "walk_6",
+"x_place": 3.48697,
+"cost": 0.1865,
+"terms": {
+"phase": 0.186
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 398,
+"t": 16.583,
+"state": "approach",
+"x_score": 3.441,
+"dog": "walk_7",
+"x_place": 3.4182,
+"cost": 0.1019,
+"terms": {
+"phase": 0.101
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 399,
+"t": 16.625,
+"state": "approach",
+"x_score": 3.427,
+"dog": "walk_7",
+"x_place": 3.4182,
+"cost": 0.0158,
+"terms": {
+"phase": 0.015
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 400,
+"t": 16.667,
+"state": "approach",
+"x_score": 3.413,
+"dog": "walk_7",
+"x_place": 3.4182,
+"cost": 0.006,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 401,
+"t": 16.708,
+"state": "approach",
+"x_score": 3.398,
+"dog": "walk_7",
+"x_place": 3.4182,
+"cost": 0.0801,
+"terms": {
+"phase": 0.079
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 402,
+"t": 16.75,
+"state": "approach",
+"x_score": 3.384,
+"dog": "walk_7",
+"x_place": 3.4182,
+"cost": 0.2265,
+"terms": {
+"phase": 0.226
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 403,
+"t": 16.792,
+"state": "approach",
+"x_score": 3.369,
+"dog": "walk_0",
+"x_place": 3.34943,
+"cost": 0.0752,
+"terms": {
+"phase": 0.075
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 404,
+"t": 16.833,
+"state": "approach",
+"x_score": 3.355,
+"dog": "walk_0",
+"x_place": 3.34943,
+"cost": 0.0067,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 405,
+"t": 16.875,
+"state": "approach",
+"x_score": 3.34,
+"dog": "walk_0",
+"x_place": 3.34943,
+"cost": 0.0179,
+"terms": {
+"phase": 0.017
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 406,
+"t": 16.917,
+"state": "approach",
+"x_score": 3.325,
+"dog": "walk_0",
+"x_place": 3.34943,
+"cost": 0.1164,
+"terms": {
+"phase": 0.116
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 407,
+"t": 16.958,
+"state": "approach",
+"x_score": 3.31,
+"dog": "walk_1",
+"x_place": 3.28065,
+"cost": 0.1675,
+"terms": {
+"phase": 0.167
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 408,
+"t": 17,
+"state": "approach",
+"x_score": 3.296,
+"dog": "walk_1",
+"x_place": 3.28065,
+"cost": 0.0464,
+"terms": {
+"phase": 0.046
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 409,
+"t": 17.042,
+"state": "approach",
+"x_score": 3.281,
+"dog": "walk_1",
+"x_place": 3.28065,
+"cost": 0.0005,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 410,
+"t": 17.083,
+"state": "approach",
+"x_score": 3.266,
+"dog": "walk_1",
+"x_place": 3.28065,
+"cost": 0.0423,
+"terms": {
+"phase": 0.042
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 411,
+"t": 17.125,
+"state": "approach",
+"x_score": 3.25,
+"dog": "walk_1",
+"x_place": 3.28065,
+"cost": 0.1823,
+"terms": {
+"phase": 0.182
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 412,
+"t": 17.167,
+"state": "approach",
+"x_score": 3.235,
+"dog": "walk_2",
+"x_place": 3.21188,
+"cost": 0.1044,
+"terms": {
+"phase": 0.104
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 413,
+"t": 17.208,
+"state": "approach",
+"x_score": 3.22,
+"dog": "walk_2",
+"x_place": 3.21188,
+"cost": 0.0133,
+"terms": {
+"phase": 0.013
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 414,
+"t": 17.25,
+"state": "approach",
+"x_score": 3.205,
+"dog": "walk_2",
+"x_place": 3.21188,
+"cost": 0.0096,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 415,
+"t": 17.292,
+"state": "approach",
+"x_score": 3.189,
+"dog": "walk_2",
+"x_place": 3.21188,
+"cost": 0.1022,
+"terms": {
+"phase": 0.102
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 416,
+"t": 17.333,
+"state": "approach",
+"x_score": 3.174,
+"dog": "walk_3",
+"x_place": 3.1431,
+"cost": 0.1851,
+"terms": {
+"phase": 0.185
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 417,
+"t": 17.375,
+"state": "approach",
+"x_score": 3.158,
+"dog": "walk_3",
+"x_place": 3.1431,
+"cost": 0.0436,
+"terms": {
+"phase": 0.043
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 418,
+"t": 17.417,
+"state": "approach",
+"x_score": 3.142,
+"dog": "walk_3",
+"x_place": 3.1431,
+"cost": 0.0006,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 419,
+"t": 17.458,
+"state": "approach",
+"x_score": 3.127,
+"dog": "walk_3",
+"x_place": 3.1431,
+"cost": 0.0509,
+"terms": {
+"phase": 0.051
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 420,
+"t": 17.5,
+"state": "approach",
+"x_score": 3.111,
+"dog": "walk_3",
+"x_place": 3.1431,
+"cost": 0.1996,
+"terms": {
+"phase": 0.199
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 421,
+"t": 17.542,
+"state": "approach",
+"x_score": 3.095,
+"dog": "walk_4",
+"x_place": 3.07433,
+"cost": 0.0835,
+"terms": {
+"phase": 0.083
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 422,
+"t": 17.583,
+"state": "approach",
+"x_score": 3.079,
+"dog": "walk_4",
+"x_place": 3.07433,
+"cost": 0.0045,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 423,
+"t": 17.625,
+"state": "approach",
+"x_score": 3.063,
+"dog": "walk_4",
+"x_place": 3.07433,
+"cost": 0.0253,
+"terms": {
+"phase": 0.025
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 424,
+"t": 17.667,
+"state": "approach",
+"x_score": 3.047,
+"dog": "walk_4",
+"x_place": 3.07433,
+"cost": 0.1452,
+"terms": {
+"phase": 0.145
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 425,
+"t": 17.708,
+"state": "approach",
+"x_score": 3.031,
+"dog": "walk_5",
+"x_place": 3.00556,
+"cost": 0.126,
+"terms": {
+"phase": 0.126
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 426,
+"t": 17.75,
+"state": "approach",
+"x_score": 3.015,
+"dog": "walk_5",
+"x_place": 3.00556,
+"cost": 0.0177,
+"terms": {
+"phase": 0.017
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 427,
+"t": 17.792,
+"state": "approach",
+"x_score": 2.999,
+"dog": "walk_5",
+"x_place": 3.00556,
+"cost": 0.0086,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 428,
+"t": 17.833,
+"state": "approach",
+"x_score": 2.982,
+"dog": "walk_5",
+"x_place": 3.00556,
+"cost": 0.1081,
+"terms": {
+"phase": 0.108
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 429,
+"t": 17.875,
+"state": "approach",
+"x_score": 2.966,
+"dog": "walk_6",
+"x_place": 2.93678,
+"cost": 0.1657,
+"terms": {
+"phase": 0.165
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 430,
+"t": 17.917,
+"state": "approach",
+"x_score": 2.95,
+"dog": "walk_6",
+"x_place": 2.93678,
+"cost": 0.0344,
+"terms": {
+"phase": 0.034
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 431,
+"t": 17.958,
+"state": "approach",
+"x_score": 2.933,
+"dog": "walk_6",
+"x_place": 2.93678,
+"cost": 0.003,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 432,
+"t": 18,
+"state": "approach",
+"x_score": 2.916,
+"dog": "walk_6",
+"x_place": 2.93678,
+"cost": 0.0843,
+"terms": {
+"phase": 0.084
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 433,
+"t": 18.042,
+"state": "approach",
+"x_score": 2.9,
+"dog": "walk_7",
+"x_place": 2.86801,
+"cost": 0.1983,
+"terms": {
+"phase": 0.198
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 434,
+"t": 18.083,
+"state": "approach",
+"x_score": 2.883,
+"dog": "walk_7",
+"x_place": 2.86801,
+"cost": 0.0441,
+"terms": {
+"phase": 0.044
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 435,
+"t": 18.125,
+"state": "approach",
+"x_score": 2.866,
+"dog": "walk_7",
+"x_place": 2.86801,
+"cost": 0.001,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 436,
+"t": 18.167,
+"state": "approach",
+"x_score": 2.849,
+"dog": "walk_7",
+"x_place": 2.86801,
+"cost": 0.0707,
+"terms": {
+"phase": 0.07
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 437,
+"t": 18.208,
+"state": "approach",
+"x_score": 2.832,
+"dog": "walk_0",
+"x_place": 2.79923,
+"cost": 0.2078,
+"terms": {
+"phase": 0.208
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 438,
+"t": 18.25,
+"state": "approach",
+"x_score": 2.816,
+"dog": "walk_0",
+"x_place": 2.79923,
+"cost": 0.0551,
+"terms": {
+"phase": 0.055
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 439,
+"t": 18.292,
+"state": "approach",
+"x_score": 2.798,
+"dog": "walk_0",
+"x_place": 2.79923,
+"cost": 0.0005,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 440,
+"t": 18.333,
+"state": "approach",
+"x_score": 2.781,
+"dog": "walk_0",
+"x_place": 2.79923,
+"cost": 0.065,
+"terms": {
+"phase": 0.065
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 441,
+"t": 18.375,
+"state": "approach",
+"x_score": 2.764,
+"dog": "walk_1",
+"x_place": 2.73046,
+"cost": 0.2176,
+"terms": {
+"phase": 0.217
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 442,
+"t": 18.417,
+"state": "approach",
+"x_score": 2.747,
+"dog": "walk_1",
+"x_place": 2.73046,
+"cost": 0.0536,
+"terms": {
+"phase": 0.053
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 443,
+"t": 18.458,
+"state": "approach",
+"x_score": 2.73,
+"dog": "walk_1",
+"x_place": 2.73046,
+"cost": 0.0003,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 444,
+"t": 18.5,
+"state": "approach",
+"x_score": 2.712,
+"dog": "walk_1",
+"x_place": 2.73046,
+"cost": 0.0667,
+"terms": {
+"phase": 0.066
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 445,
+"t": 18.542,
+"state": "approach",
+"x_score": 2.695,
+"dog": "walk_2",
+"x_place": 2.66169,
+"cost": 0.2147,
+"terms": {
+"phase": 0.214
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 446,
+"t": 18.583,
+"state": "approach",
+"x_score": 2.677,
+"dog": "walk_2",
+"x_place": 2.66169,
+"cost": 0.0461,
+"terms": {
+"phase": 0.046
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 447,
+"t": 18.625,
+"state": "approach",
+"x_score": 2.66,
+"dog": "walk_2",
+"x_place": 2.66169,
+"cost": 0.0009,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 448,
+"t": 18.667,
+"state": "approach",
+"x_score": 2.642,
+"dog": "walk_2",
+"x_place": 2.66169,
+"cost": 0.0758,
+"terms": {
+"phase": 0.075
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 449,
+"t": 18.708,
+"state": "approach",
+"x_score": 2.625,
+"dog": "walk_3",
+"x_place": 2.59291,
+"cost": 0.1994,
+"terms": {
+"phase": 0.199
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 450,
+"t": 18.75,
+"state": "approach",
+"x_score": 2.607,
+"dog": "walk_3",
+"x_place": 2.59291,
+"cost": 0.0391,
+"terms": {
+"phase": 0.039
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 451,
+"t": 18.792,
+"state": "approach",
+"x_score": 2.589,
+"dog": "walk_3",
+"x_place": 2.59291,
+"cost": 0.0033,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 452,
+"t": 18.833,
+"state": "approach",
+"x_score": 2.571,
+"dog": "walk_3",
+"x_place": 2.59291,
+"cost": 0.0938,
+"terms": {
+"phase": 0.093
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 453,
+"t": 18.875,
+"state": "approach",
+"x_score": 2.553,
+"dog": "walk_4",
+"x_place": 2.52414,
+"cost": 0.1619,
+"terms": {
+"phase": 0.161
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 454,
+"t": 18.917,
+"state": "approach",
+"x_score": 2.535,
+"dog": "walk_4",
+"x_place": 2.52414,
+"cost": 0.0234,
+"terms": {
+"phase": 0.023
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 455,
+"t": 18.958,
+"state": "approach",
+"x_score": 2.517,
+"dog": "walk_4",
+"x_place": 2.52414,
+"cost": 0.0103,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 456,
+"t": 19,
+"state": "approach",
+"x_score": 2.499,
+"dog": "walk_4",
+"x_place": 2.52414,
+"cost": 0.1232,
+"terms": {
+"phase": 0.123
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 457,
+"t": 19.042,
+"state": "approach",
+"x_score": 2.481,
+"dog": "walk_5",
+"x_place": 2.45536,
+"cost": 0.1281,
+"terms": {
+"phase": 0.128
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 458,
+"t": 19.083,
+"state": "approach",
+"x_score": 2.463,
+"dog": "walk_5",
+"x_place": 2.45536,
+"cost": 0.0118,
+"terms": {
+"phase": 0.011
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 459,
+"t": 19.125,
+"state": "approach",
+"x_score": 2.444,
+"dog": "walk_5",
+"x_place": 2.45536,
+"cost": 0.0257,
+"terms": {
+"phase": 0.025
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 460,
+"t": 19.167,
+"state": "approach",
+"x_score": 2.426,
+"dog": "walk_5",
+"x_place": 2.45536,
+"cost": 0.1675,
+"terms": {
+"phase": 0.167
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 461,
+"t": 19.208,
+"state": "approach",
+"x_score": 2.408,
+"dog": "walk_6",
+"x_place": 2.38659,
+"cost": 0.0897,
+"terms": {
+"phase": 0.089
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 462,
+"t": 19.25,
+"state": "approach",
+"x_score": 2.389,
+"dog": "walk_6",
+"x_place": 2.38659,
+"cost": 0.0017,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 463,
+"t": 19.292,
+"state": "approach",
+"x_score": 2.371,
+"dog": "walk_6",
+"x_place": 2.38659,
+"cost": 0.0479,
+"terms": {
+"phase": 0.047
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 464,
+"t": 19.333,
+"state": "approach",
+"x_score": 2.352,
+"dog": "walk_7",
+"x_place": 2.31782,
+"cost": 0.2263,
+"terms": {
+"phase": 0.226
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 465,
+"t": 19.375,
+"state": "approach",
+"x_score": 2.333,
+"dog": "walk_7",
+"x_place": 2.31782,
+"cost": 0.0456,
+"terms": {
+"phase": 0.045
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 466,
+"t": 19.417,
+"state": "approach",
+"x_score": 2.315,
+"dog": "walk_7",
+"x_place": 2.31782,
+"cost": 0.0021,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 467,
+"t": 19.458,
+"state": "approach",
+"x_score": 2.296,
+"dog": "walk_7",
+"x_place": 2.31782,
+"cost": 0.0932,
+"terms": {
+"phase": 0.093
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 468,
+"t": 19.5,
+"state": "approach",
+"x_score": 2.277,
+"dog": "walk_0",
+"x_place": 2.24904,
+"cost": 0.1522,
+"terms": {
+"phase": 0.152
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 469,
+"t": 19.542,
+"state": "approach",
+"x_score": 2.258,
+"dog": "walk_0",
+"x_place": 2.24904,
+"cost": 0.0163,
+"terms": {
+"phase": 0.016
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 470,
+"t": 19.583,
+"state": "approach",
+"x_score": 2.239,
+"dog": "walk_0",
+"x_place": 2.24904,
+"cost": 0.0204,
+"terms": {
+"phase": 0.02
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 471,
+"t": 19.625,
+"state": "approach",
+"x_score": 2.22,
+"dog": "walk_0",
+"x_place": 2.24904,
+"cost": 0.1642,
+"terms": {
+"phase": 0.164
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 472,
+"t": 19.667,
+"state": "approach",
+"x_score": 2.201,
+"dog": "walk_1",
+"x_place": 2.18027,
+"cost": 0.0844,
+"terms": {
+"phase": 0.084
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 473,
+"t": 19.708,
+"state": "approach",
+"x_score": 2.182,
+"dog": "walk_1",
+"x_place": 2.18027,
+"cost": 0.0013,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 474,
+"t": 19.75,
+"state": "approach",
+"x_score": 2.163,
+"dog": "walk_1",
+"x_place": 2.18027,
+"cost": 0.0589,
+"terms": {
+"phase": 0.058
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 475,
+"t": 19.792,
+"state": "approach",
+"x_score": 2.144,
+"dog": "walk_2",
+"x_place": 2.1115,
+"cost": 0.2051,
+"terms": {
+"phase": 0.204
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 476,
+"t": 19.833,
+"state": "approach",
+"x_score": 2.125,
+"dog": "walk_2",
+"x_place": 2.1115,
+"cost": 0.0364,
+"terms": {
+"phase": 0.036
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 477,
+"t": 19.875,
+"state": "approach",
+"x_score": 2.105,
+"dog": "walk_2",
+"x_place": 2.1115,
+"cost": 0.0091,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 478,
+"t": 19.917,
+"state": "approach",
+"x_score": 2.086,
+"dog": "walk_2",
+"x_place": 2.1115,
+"cost": 0.1272,
+"terms": {
+"phase": 0.126
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 479,
+"t": 19.958,
+"state": "approach",
+"x_score": 2.066,
+"dog": "walk_3",
+"x_place": 2.04272,
+"cost": 0.1063,
+"terms": {
+"phase": 0.105
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 480,
+"t": 20,
+"state": "approach",
+"x_score": 2.047,
+"dog": "walk_3",
+"x_place": 2.04272,
+"cost": 0.0045,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 481,
+"t": 20.042,
+"state": "approach",
+"x_score": 2.027,
+"dog": "walk_3",
+"x_place": 2.04272,
+"cost": 0.0492,
+"terms": {
+"phase": 0.048
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 482,
+"t": 20.083,
+"state": "approach",
+"x_score": 2.008,
+"dog": "walk_4",
+"x_place": 1.97395,
+"cost": 0.225,
+"terms": {
+"phase": 0.224
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 483,
+"t": 20.125,
+"state": "approach",
+"x_score": 1.988,
+"dog": "walk_4",
+"x_place": 1.97395,
+"cost": 0.0395,
+"terms": {
+"phase": 0.039
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 484,
+"t": 20.167,
+"state": "approach",
+"x_score": 1.968,
+"dog": "walk_4",
+"x_place": 1.97395,
+"cost": 0.008,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 485,
+"t": 20.208,
+"state": "approach",
+"x_score": 1.949,
+"dog": "walk_4",
+"x_place": 1.97395,
+"cost": 0.122,
+"terms": {
+"phase": 0.121
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 486,
+"t": 20.25,
+"state": "approach",
+"x_score": 1.929,
+"dog": "walk_5",
+"x_place": 1.90517,
+"cost": 0.1114,
+"terms": {
+"phase": 0.11
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 487,
+"t": 20.292,
+"state": "approach",
+"x_score": 1.909,
+"dog": "walk_5",
+"x_place": 1.90517,
+"cost": 0.004,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 488,
+"t": 20.333,
+"state": "approach",
+"x_score": 1.889,
+"dog": "walk_5",
+"x_place": 1.90517,
+"cost": 0.0522,
+"terms": {
+"phase": 0.051
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 489,
+"t": 20.375,
+"state": "approach",
+"x_score": 1.869,
+"dog": "walk_6",
+"x_place": 1.8364,
+"cost": 0.2067,
+"terms": {
+"phase": 0.206
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 490,
+"t": 20.417,
+"state": "approach",
+"x_score": 1.849,
+"dog": "walk_6",
+"x_place": 1.8364,
+"cost": 0.0323,
+"terms": {
+"phase": 0.031
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 491,
+"t": 20.458,
+"state": "approach",
+"x_score": 1.829,
+"dog": "walk_6",
+"x_place": 1.8364,
+"cost": 0.012,
+"terms": {
+"phase": 0.011
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 492,
+"t": 20.5,
+"state": "approach",
+"x_score": 1.809,
+"dog": "walk_6",
+"x_place": 1.8364,
+"cost": 0.1469,
+"terms": {
+"phase": 0.146
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 493,
+"t": 20.542,
+"state": "approach",
+"x_score": 1.789,
+"dog": "walk_7",
+"x_place": 1.76763,
+"cost": 0.0903,
+"terms": {
+"phase": 0.089
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 494,
+"t": 20.583,
+"state": "approach",
+"x_score": 1.768,
+"dog": "walk_7",
+"x_place": 1.76763,
+"cost": 0.0014,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 495,
+"t": 20.625,
+"state": "approach",
+"x_score": 1.748,
+"dog": "walk_7",
+"x_place": 1.76763,
+"cost": 0.0764,
+"terms": {
+"phase": 0.075
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 496,
+"t": 20.667,
+"state": "approach",
+"x_score": 1.728,
+"dog": "walk_0",
+"x_place": 1.69885,
+"cost": 0.1661,
+"terms": {
+"phase": 0.165
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 497,
+"t": 20.708,
+"state": "approach",
+"x_score": 1.707,
+"dog": "walk_0",
+"x_place": 1.69885,
+"cost": 0.0145,
+"terms": {
+"phase": 0.013
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 498,
+"t": 20.75,
+"state": "approach",
+"x_score": 1.687,
+"dog": "walk_0",
+"x_place": 1.69885,
+"cost": 0.0289,
+"terms": {
+"phase": 0.027
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 499,
+"t": 20.792,
+"state": "approach",
+"x_score": 1.666,
+"dog": "walk_0",
+"x_place": 1.69885,
+"cost": 0.2102,
+"terms": {
+"phase": 0.209
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 500,
+"t": 20.833,
+"state": "approach",
+"x_score": 1.646,
+"dog": "walk_1",
+"x_place": 1.63008,
+"cost": 0.051,
+"terms": {
+"phase": 0.049
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 501,
+"t": 20.875,
+"state": "approach",
+"x_score": 1.625,
+"dog": "walk_1",
+"x_place": 1.63008,
+"cost": 0.0066,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 502,
+"t": 20.917,
+"state": "approach",
+"x_score": 1.605,
+"dog": "walk_1",
+"x_place": 1.63008,
+"cost": 0.1238,
+"terms": {
+"phase": 0.122
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 503,
+"t": 20.958,
+"state": "approach",
+"x_score": 1.584,
+"dog": "walk_2",
+"x_place": 1.5613,
+"cost": 0.1019,
+"terms": {
+"phase": 0.1
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 504,
+"t": 21,
+"state": "approach",
+"x_score": 1.563,
+"dog": "walk_2",
+"x_place": 1.5613,
+"cost": 0.0022,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 505,
+"t": 21.042,
+"state": "approach",
+"x_score": 1.542,
+"dog": "walk_2",
+"x_place": 1.5613,
+"cost": 0.0743,
+"terms": {
+"phase": 0.073
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 506,
+"t": 21.083,
+"state": "approach",
+"x_score": 1.522,
+"dog": "walk_3",
+"x_place": 1.49253,
+"cost": 0.1701,
+"terms": {
+"phase": 0.168
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 507,
+"t": 21.125,
+"state": "approach",
+"x_score": 1.501,
+"dog": "walk_3",
+"x_place": 1.49253,
+"cost": 0.0158,
+"terms": {
+"phase": 0.014
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 508,
+"t": 21.167,
+"state": "approach",
+"x_score": 1.48,
+"dog": "walk_3",
+"x_place": 1.49253,
+"cost": 0.0325,
+"terms": {
+"phase": 0.031
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 509,
+"t": 21.208,
+"state": "approach",
+"x_score": 1.459,
+"dog": "walk_3",
+"x_place": 1.49253,
+"cost": 0.2192,
+"terms": {
+"phase": 0.217
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 510,
+"t": 21.25,
+"state": "approach",
+"x_score": 1.438,
+"dog": "walk_4",
+"x_place": 1.42376,
+"cost": 0.0415,
+"terms": {
+"phase": 0.04
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 511,
+"t": 21.292,
+"state": "approach",
+"x_score": 1.417,
+"dog": "walk_4",
+"x_place": 1.42376,
+"cost": 0.0109,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 512,
+"t": 21.333,
+"state": "approach",
+"x_score": 1.396,
+"dog": "walk_4",
+"x_place": 1.42376,
+"cost": 0.1514,
+"terms": {
+"phase": 0.149
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 513,
+"t": 21.375,
+"state": "approach",
+"x_score": 1.374,
+"dog": "walk_5",
+"x_place": 1.35498,
+"cost": 0.0725,
+"terms": {
+"phase": 0.07
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 514,
+"t": 21.417,
+"state": "approach",
+"x_score": 1.353,
+"dog": "walk_5",
+"x_place": 1.35498,
+"cost": 0.0028,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 515,
+"t": 21.458,
+"state": "approach",
+"x_score": 1.332,
+"dog": "walk_5",
+"x_place": 1.35498,
+"cost": 0.1048,
+"terms": {
+"phase": 0.103
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 516,
+"t": 21.5,
+"state": "approach",
+"x_score": 1.31,
+"dog": "walk_6",
+"x_place": 1.28621,
+"cost": 0.1122,
+"terms": {
+"phase": 0.11
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 517,
+"t": 21.542,
+"state": "approach",
+"x_score": 1.289,
+"dog": "walk_6",
+"x_place": 1.28621,
+"cost": 0.0037,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 518,
+"t": 21.583,
+"state": "approach",
+"x_score": 1.268,
+"dog": "walk_6",
+"x_place": 1.28621,
+"cost": 0.0668,
+"terms": {
+"phase": 0.065
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 519,
+"t": 21.625,
+"state": "approach",
+"x_score": 1.246,
+"dog": "walk_7",
+"x_place": 1.21743,
+"cost": 0.1605,
+"terms": {
+"phase": 0.158
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 520,
+"t": 21.667,
+"state": "approach",
+"x_score": 1.225,
+"dog": "walk_7",
+"x_place": 1.21743,
+"cost": 0.0135,
+"terms": {
+"phase": 0.011
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 521,
+"t": 21.708,
+"state": "approach",
+"x_score": 1.203,
+"dog": "walk_7",
+"x_place": 1.21743,
+"cost": 0.043,
+"terms": {
+"phase": 0.041
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 522,
+"t": 21.75,
+"state": "approach",
+"x_score": 1.181,
+"dog": "walk_0",
+"x_place": 1.14866,
+"cost": 0.2046,
+"terms": {
+"phase": 0.202
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 523,
+"t": 21.792,
+"state": "approach",
+"x_score": 1.16,
+"dog": "walk_0",
+"x_place": 1.14866,
+"cost": 0.0276,
+"terms": {
+"phase": 0.025
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 524,
+"t": 21.833,
+"state": "approach",
+"x_score": 1.138,
+"dog": "walk_0",
+"x_place": 1.14866,
+"cost": 0.0246,
+"terms": {
+"phase": 0.022
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 525,
+"t": 21.875,
+"state": "approach",
+"x_score": 1.116,
+"dog": "walk_0",
+"x_place": 1.14866,
+"cost": 0.2087,
+"terms": {
+"phase": 0.206
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 526,
+"t": 21.917,
+"state": "approach",
+"x_score": 1.095,
+"dog": "walk_1",
+"x_place": 1.07989,
+"cost": 0.0471,
+"terms": {
+"phase": 0.045
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 527,
+"t": 21.958,
+"state": "approach",
+"x_score": 1.073,
+"dog": "walk_1",
+"x_place": 1.07989,
+"cost": 0.0119,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 528,
+"t": 22,
+"state": "approach",
+"x_score": 1.051,
+"dog": "walk_1",
+"x_place": 1.07989,
+"cost": 0.1644,
+"terms": {
+"phase": 0.162
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 529,
+"t": 22.042,
+"state": "approach",
+"x_score": 1.029,
+"dog": "walk_2",
+"x_place": 1.01111,
+"cost": 0.065,
+"terms": {
+"phase": 0.062
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 530,
+"t": 22.083,
+"state": "approach",
+"x_score": 1.007,
+"dog": "walk_2",
+"x_place": 1.01111,
+"cost": 0.0061,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 531,
+"t": 22.125,
+"state": "approach",
+"x_score": 0.985,
+"dog": "walk_2",
+"x_place": 1.01111,
+"cost": 0.1351,
+"terms": {
+"phase": 0.132
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 532,
+"t": 22.167,
+"state": "approach",
+"x_score": 0.963,
+"dog": "walk_3",
+"x_place": 0.94234,
+"cost": 0.0859,
+"terms": {
+"phase": 0.083
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 533,
+"t": 22.208,
+"state": "approach",
+"x_score": 0.941,
+"dog": "walk_3",
+"x_place": 0.94234,
+"cost": 0.0032,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 534,
+"t": 22.25,
+"state": "approach",
+"x_score": 0.919,
+"dog": "walk_3",
+"x_place": 0.94234,
+"cost": 0.1088,
+"terms": {
+"phase": 0.106
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 535,
+"t": 22.292,
+"state": "approach",
+"x_score": 0.896,
+"dog": "walk_4",
+"x_place": 0.87356,
+"cost": 0.1008,
+"terms": {
+"phase": 0.098
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 536,
+"t": 22.333,
+"state": "approach",
+"x_score": 0.874,
+"dog": "walk_4",
+"x_place": 0.87356,
+"cost": 0.003,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 537,
+"t": 22.375,
+"state": "approach",
+"x_score": 0.853,
+"dog": "walk_4",
+"x_place": 0.87356,
+"cost": 0.0854,
+"terms": {
+"phase": 0.082
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 538,
+"t": 22.417,
+"state": "approach",
+"x_score": 0.834,
+"dog": "walk_5",
+"x_place": 0.80479,
+"cost": 0.1684,
+"terms": {
+"phase": 0.165
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 539,
+"t": 22.458,
+"state": "approach",
+"x_score": 0.815,
+"dog": "walk_5",
+"x_place": 0.80479,
+"cost": 0.0234,
+"terms": {
+"phase": 0.02
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 540,
+"t": 22.5,
+"state": "approach",
+"x_score": 0.798,
+"dog": "walk_5",
+"x_place": 0.80479,
+"cost": 0.0121,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 541,
+"t": 22.542,
+"state": "approach",
+"x_score": 0.782,
+"dog": "walk_5",
+"x_place": 0.80479,
+"cost": 0.1043,
+"terms": {
+"phase": 0.101
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 542,
+"t": 22.583,
+"state": "approach",
+"x_score": 0.768,
+"dog": "walk_6",
+"x_place": 0.73602,
+"cost": 0.2012,
+"terms": {
+"phase": 0.198
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 543,
+"t": 22.625,
+"state": "approach",
+"x_score": 0.754,
+"dog": "walk_6",
+"x_place": 0.73602,
+"cost": 0.0663,
+"terms": {
+"phase": 0.063
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 544,
+"t": 22.667,
+"state": "approach",
+"x_score": 0.741,
+"dog": "walk_6",
+"x_place": 0.73602,
+"cost": 0.0081,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 545,
+"t": 22.708,
+"state": "approach",
+"x_score": 0.729,
+"dog": "walk_6",
+"x_place": 0.73602,
+"cost": 0.013,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 546,
+"t": 22.75,
+"state": "approach",
+"x_score": 0.718,
+"dog": "walk_6",
+"x_place": 0.73602,
+"cost": 0.0666,
+"terms": {
+"phase": 0.063
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 547,
+"t": 22.792,
+"state": "approach",
+"x_score": 0.707,
+"dog": "walk_6",
+"x_place": 0.73602,
+"cost": 0.1666,
+"terms": {
+"phase": 0.163
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 548,
+"t": 22.833,
+"state": "approach",
+"x_score": 0.697,
+"dog": "walk_7",
+"x_place": 0.66724,
+"cost": 0.1751,
+"terms": {
+"phase": 0.172
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 549,
+"t": 22.875,
+"state": "approach",
+"x_score": 0.688,
+"dog": "walk_7",
+"x_place": 0.66724,
+"cost": 0.0875,
+"terms": {
+"phase": 0.084
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 550,
+"t": 22.917,
+"state": "approach",
+"x_score": 0.68,
+"dog": "walk_7",
+"x_place": 0.66724,
+"cost": 0.0353,
+"terms": {
+"phase": 0.032
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 551,
+"t": 22.958,
+"state": "approach",
+"x_score": 0.672,
+"dog": "walk_7",
+"x_place": 0.66724,
+"cost": 0.008,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 552,
+"t": 23,
+"state": "approach",
+"x_score": 0.664,
+"dog": "walk_7",
+"x_place": 0.66724,
+"cost": 0.0058,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 553,
+"t": 23.042,
+"state": "approach",
+"x_score": 0.657,
+"dog": "walk_7",
+"x_place": 0.66724,
+"cost": 0.0242,
+"terms": {
+"phase": 0.021
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 554,
+"t": 23.083,
+"state": "approach",
+"x_score": 0.651,
+"dog": "walk_7",
+"x_place": 0.66724,
+"cost": 0.0552,
+"terms": {
+"phase": 0.051
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 555,
+"t": 23.125,
+"state": "approach",
+"x_score": 0.645,
+"dog": "walk_7",
+"x_place": 0.66724,
+"cost": 0.1003,
+"terms": {
+"phase": 0.096
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 556,
+"t": 23.167,
+"state": "approach",
+"x_score": 0.639,
+"dog": "walk_7",
+"x_place": 0.66724,
+"cost": 0.1631,
+"terms": {
+"phase": 0.155
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 557,
+"t": 23.208,
+"state": "approach",
+"x_score": 0.634,
+"dog": "walk_7",
+"x_place": 0.66724,
+"cost": 0.2367,
+"terms": {
+"moving": 0.019,
+"phase": 0.214
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 558,
+"t": 23.25,
+"state": "approach",
+"x_score": 0.629,
+"dog": "walk_0",
+"x_place": 0.59847,
+"cost": 0.2344,
+"terms": {
+"moving": 0.05,
+"phase": 0.181
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 559,
+"t": 23.292,
+"state": "approach",
+"x_score": 0.624,
+"dog": "walk_0",
+"x_place": 0.59847,
+"cost": 0.2299,
+"terms": {
+"moving": 0.099,
+"phase": 0.127
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 560,
+"t": 23.333,
+"state": "approach",
+"x_score": 0.62,
+"dog": "walk_0",
+"x_place": 0.59847,
+"cost": 0.2654,
+"terms": {
+"moving": 0.171,
+"phase": 0.09
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 561,
+"t": 23.375,
+"state": "approach",
+"x_score": 0.616,
+"dog": "walk_0",
+"x_place": 0.59847,
+"cost": 0.3239,
+"terms": {
+"moving": 0.26,
+"phase": 0.06
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 562,
+"t": 23.417,
+"state": "approach",
+"x_score": 0.612,
+"dog": "walk_0",
+"x_place": 0.59847,
+"cost": 0.4097,
+"terms": {
+"moving": 0.37,
+"phase": 0.036
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 563,
+"t": 23.458,
+"state": "approach",
+"x_score": 0.609,
+"dog": "walk_0",
+"x_place": 0.59847,
+"cost": 0.5219,
+"terms": {
+"moving": 0.496,
+"phase": 0.022
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 564,
+"t": 23.5,
+"state": "approach",
+"x_score": 0.606,
+"dog": "walk_0",
+"x_place": 0.59847,
+"cost": 0.6487,
+"terms": {
+"moving": 0.634,
+"phase": 0.011
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 565,
+"t": 23.542,
+"state": "approach",
+"x_score": 0.602,
+"dog": "walk_0",
+"x_place": 0.59847,
+"cost": 0.7906,
+"terms": {
+"moving": 0.784
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 566,
+"t": 23.583,
+"state": "approach",
+"x_score": 0.6,
+"dog": "walk_0",
+"x_place": 0.59847,
+"cost": 0.9421,
+"terms": {
+"moving": 0.937
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 567,
+"t": 23.625,
+"state": "approach",
+"x_score": 0.597,
+"dog": "walk_0",
+"x_place": 0.59847,
+"cost": 1.1044,
+"terms": {
+"moving": 1.1
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 568,
+"t": 23.667,
+"state": "approach",
+"x_score": 0.595,
+"dog": "stand_low",
+"x_place": 0.56896,
+"cost": 1.2485,
+"terms": {
+"moving": 1.24
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 569,
+"t": 23.708,
+"state": "approach",
+"x_score": 0.592,
+"dog": "stand_low",
+"x_place": 0.56896,
+"cost": 1.1271,
+"terms": {
+"moving": 1.119
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 570,
+"t": 23.75,
+"state": "approach",
+"x_score": 0.59,
+"dog": "stand_low",
+"x_place": 0.56896,
+"cost": 1.0436,
+"terms": {
+"moving": 1.035
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 571,
+"t": 23.792,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "stand_low",
+"x_place": 0.56896,
+"cost": 0.0358,
+"terms": {
+"lie": 0.026
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 572,
+"t": 23.833,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "stand_low",
+"x_place": 0.56896,
+"cost": 0.1779,
+"terms": {
+"lie": 0.159,
+"head": 0.01
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 573,
+"t": 23.875,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "sit",
+"x_place": 0.56896,
+"cost": 0.3928,
+"terms": {
+"lie": 0.315,
+"head": 0.072
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 574,
+"t": 23.917,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "sit",
+"x_place": 0.56896,
+"cost": 0.1391,
+"terms": {
+"lie": 0.089,
+"head": 0.043
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 575,
+"t": 23.958,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "sit",
+"x_place": 0.56896,
+"cost": 0.0346,
+"terms": {
+"head": 0.024
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 576,
+"t": 24,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "sit",
+"x_place": 0.56896,
+"cost": 0.0456,
+"terms": {
+"lie": 0.025,
+"head": 0.013
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 577,
+"t": 24.042,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "sit",
+"x_place": 0.56896,
+"cost": 0.133,
+"terms": {
+"lie": 0.119
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 578,
+"t": 24.083,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "sit",
+"x_place": 0.56896,
+"cost": 0.2648,
+"terms": {
+"lie": 0.255
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 579,
+"t": 24.125,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "lie_up",
+"x_place": 0.56896,
+"cost": 0.3631,
+"terms": {
+"lie": 0.343,
+"head": 0.014
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 580,
+"t": 24.167,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "lie_up",
+"x_place": 0.56896,
+"cost": 0.243,
+"terms": {
+"lie": 0.226,
+"head": 0.011
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 581,
+"t": 24.208,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "lie_up",
+"x_place": 0.56896,
+"cost": 0.1633,
+"terms": {
+"lie": 0.148
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 582,
+"t": 24.25,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "lie_up",
+"x_place": 0.56896,
+"cost": 0.1097,
+"terms": {
+"lie": 0.095
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 583,
+"t": 24.292,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "lie_up",
+"x_place": 0.56896,
+"cost": 0.0748,
+"terms": {
+"lie": 0.061
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 584,
+"t": 24.333,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "lie_up",
+"x_place": 0.56896,
+"cost": 0.0525,
+"terms": {
+"lie": 0.039
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 585,
+"t": 24.375,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "lie_up",
+"x_place": 0.56896,
+"cost": 0.0385,
+"terms": {
+"lie": 0.025
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 586,
+"t": 24.417,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "lie_up",
+"x_place": 0.56896,
+"cost": 0.0294,
+"terms": {
+"lie": 0.016
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 587,
+"t": 24.458,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "lie_up",
+"x_place": 0.56896,
+"cost": 0.0232,
+"terms": {
+"lie": 0.01
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 588,
+"t": 24.5,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "lie_up",
+"x_place": 0.56896,
+"cost": 0.0197,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 589,
+"t": 24.542,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "lie_up",
+"x_place": 0.56896,
+"cost": 0.0171,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 590,
+"t": 24.583,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "lie_up",
+"x_place": 0.56896,
+"cost": 0.0157,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 591,
+"t": 24.625,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "lie_up",
+"x_place": 0.56896,
+"cost": 0.0146,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 592,
+"t": 24.667,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "lie_up",
+"x_place": 0.56896,
+"cost": 0.0144,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 593,
+"t": 24.708,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "lie_up",
+"x_place": 0.56896,
+"cost": 0.0139,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 594,
+"t": 24.75,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "lie_up",
+"x_place": 0.56896,
+"cost": 0.0136,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 595,
+"t": 24.792,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "lie_up",
+"x_place": 0.56896,
+"cost": 0.0134,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 596,
+"t": 24.833,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "lie_up",
+"x_place": 0.56896,
+"cost": 0.0133,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 597,
+"t": 24.875,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "lie_up",
+"x_place": 0.56896,
+"cost": 0.0133,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 598,
+"t": 24.917,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "lie_up",
+"x_place": 0.56896,
+"cost": 0.0132,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 599,
+"t": 24.958,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "lie_up",
+"x_place": 0.56896,
+"cost": 0.0132,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 600,
+"t": 25,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "lie_up",
+"x_place": 0.56896,
+"cost": 0.0131,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 601,
+"t": 25.042,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "lie_up",
+"x_place": 0.56896,
+"cost": 0.0131,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 602,
+"t": 25.083,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "lie_up",
+"x_place": 0.56896,
+"cost": 0.0131,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 603,
+"t": 25.125,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "lie_up",
+"x_place": 0.56896,
+"cost": 0.0131,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 604,
+"t": 25.167,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "lie_up",
+"x_place": 0.56896,
+"cost": 0.013,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 605,
+"t": 25.208,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "lie_up",
+"x_place": 0.56896,
+"cost": 0.0129,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 606,
+"t": 25.25,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "lie_up",
+"x_place": 0.56896,
+"cost": 0.0129,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 607,
+"t": 25.292,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "lie_up",
+"x_place": 0.56896,
+"cost": 0.0129,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 608,
+"t": 25.333,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "lie_up",
+"x_place": 0.56896,
+"cost": 0.0129,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 609,
+"t": 25.375,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "lie_up",
+"x_place": 0.56896,
+"cost": 0.0129,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 610,
+"t": 25.417,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "lie_up",
+"x_place": 0.56896,
+"cost": 0.0286,
+"terms": {
+"head": 0.023
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 611,
+"t": 25.458,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "lie_up",
+"x_place": 0.56896,
+"cost": 0.0666,
+"terms": {
+"head": 0.061
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 612,
+"t": 25.5,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "lie_up",
+"x_place": 0.56896,
+"cost": 0.1289,
+"terms": {
+"head": 0.124
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 613,
+"t": 25.542,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "lie_low",
+"x_place": 0.56896,
+"cost": 0.1173,
+"terms": {
+"head": 0.111
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 614,
+"t": 25.583,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "lie_low",
+"x_place": 0.56896,
+"cost": 0.068,
+"terms": {
+"head": 0.061
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 615,
+"t": 25.625,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "lie_low",
+"x_place": 0.56896,
+"cost": 0.0385,
+"terms": {
+"head": 0.032
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 616,
+"t": 25.667,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "lie_low",
+"x_place": 0.56896,
+"cost": 0.0222,
+"terms": {
+"head": 0.016
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 617,
+"t": 25.708,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "lie_low",
+"x_place": 0.56896,
+"cost": 0.0136,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 618,
+"t": 25.75,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "lie_low",
+"x_place": 0.56896,
+"cost": 0.0094,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 619,
+"t": 25.792,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "lie_low",
+"x_place": 0.56896,
+"cost": 0.0077,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 620,
+"t": 25.833,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "lie_low",
+"x_place": 0.56896,
+"cost": 0.007,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 621,
+"t": 25.875,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "lie_low",
+"x_place": 0.56896,
+"cost": 0.0068,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 622,
+"t": 25.917,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "lie_low",
+"x_place": 0.56896,
+"cost": 0.0067,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 623,
+"t": 25.958,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "lie_low",
+"x_place": 0.56896,
+"cost": 0.0068,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 624,
+"t": 26,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "lie_low",
+"x_place": 0.56896,
+"cost": 0.0068,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 625,
+"t": 26.042,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "lie_low",
+"x_place": 0.56896,
+"cost": 0.0068,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 626,
+"t": 26.083,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "lie_low",
+"x_place": 0.56896,
+"cost": 0.0068,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 627,
+"t": 26.125,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "lie_low",
+"x_place": 0.56896,
+"cost": 0.0068,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 628,
+"t": 26.167,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "lie_low",
+"x_place": 0.56896,
+"cost": 0.0068,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 629,
+"t": 26.208,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "lie_low",
+"x_place": 0.56896,
+"cost": 0.015,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 630,
+"t": 26.25,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "lie_low",
+"x_place": 0.56896,
+"cost": 0.0591,
+"terms": {
+"rest": 0.052
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 631,
+"t": 26.292,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "lie_low",
+"x_place": 0.56896,
+"cost": 0.1574,
+"terms": {
+"rest": 0.151
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 632,
+"t": 26.333,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "lie_low",
+"x_place": 0.56896,
+"cost": 0.3102,
+"terms": {
+"rest": 0.303
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 633,
+"t": 26.375,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "lie_low",
+"x_place": 0.56896,
+"cost": 0.5062,
+"terms": {
+"rest": 0.499
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 634,
+"t": 26.417,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "lie_low",
+"x_place": 0.56896,
+"cost": 0.7051,
+"terms": {
+"head": 0.022,
+"look": 0.089,
+"rest": 0.578,
+"ear": 0.015
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0994
+},
+{
+"i": 635,
+"t": 26.458,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "lie_low",
+"x_place": 0.56896,
+"cost": 1.1976,
+"terms": {
+"head": 0.132,
+"look": 0.467,
+"rest": 0.568,
+"ear": 0.03
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.1505
+},
+{
+"i": 636,
+"t": 26.5,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "lie_low",
+"x_place": 0.56896,
+"cost": 2.0249,
+"terms": {
+"head": 0.353,
+"look": 1.12,
+"rest": 0.504,
+"ear": 0.047
+},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.0877
+},
+{
+"i": 637,
+"t": 26.542,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "look_in",
+"x_place": 0.56896,
+"cost": 2.4818,
+"terms": {
+"head": 0.329,
+"look": 1.135,
+"rest": 0.417,
+"wag": 0.598
+},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.0657
+},
+{
+"i": 638,
+"t": 26.583,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "look_in",
+"x_place": 0.56896,
+"cost": 1.7215,
+"terms": {
+"head": 0.148,
+"look": 0.642,
+"rest": 0.333,
+"wag": 0.598
+},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.0499
+},
+{
+"i": 639,
+"t": 26.625,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "look_in",
+"x_place": 0.56896,
+"cost": 0.9011,
+"terms": {
+"head": 0.052,
+"look": 0.351,
+"rest": 0.256,
+"wag": 0.241
+},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.0418
+},
+{
+"i": 640,
+"t": 26.667,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "look_in",
+"x_place": 0.56896,
+"cost": 0.3923,
+"terms": {
+"head": 0.012,
+"look": 0.188,
+"rest": 0.192
+},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.037
+},
+{
+"i": 641,
+"t": 26.708,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "look_in",
+"x_place": 0.56896,
+"cost": 0.5323,
+"terms": {
+"look": 0.1,
+"rest": 0.141,
+"wag": 0.29
+},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.0343
+},
+{
+"i": 642,
+"t": 26.75,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "look_in_a",
+"x_place": 0.56896,
+"cost": 0.3709,
+"terms": {
+"look": 0.052,
+"rest": 0.103,
+"wag": 0.213
+},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.0331
+},
+{
+"i": 643,
+"t": 26.792,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "look_in_a",
+"x_place": 0.56896,
+"cost": 0.2191,
+"terms": {
+"head": 0.011,
+"look": 0.027,
+"rest": 0.073,
+"wag": 0.108
+},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.0318
+},
+{
+"i": 644,
+"t": 26.833,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "look_in_a",
+"x_place": 0.56896,
+"cost": 0.3512,
+"terms": {
+"head": 0.019,
+"look": 0.014,
+"rest": 0.051,
+"wag": 0.266
+},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.0312
+},
+{
+"i": 645,
+"t": 26.875,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "look_in",
+"x_place": 0.56896,
+"cost": 0.2512,
+"terms": {
+"head": 0.025,
+"rest": 0.036,
+"wag": 0.182
+},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.0306
+},
+{
+"i": 646,
+"t": 26.917,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "look_in",
+"x_place": 0.56896,
+"cost": 0.0911,
+"terms": {
+"head": 0.029,
+"rest": 0.025,
+"wag": 0.033
+},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.0306
+},
+{
+"i": 647,
+"t": 26.958,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "look_in_b",
+"x_place": 0.56896,
+"cost": 0.5225,
+"terms": {
+"head": 0.032,
+"rest": 0.018,
+"wag": 0.47
+},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.03
+},
+{
+"i": 648,
+"t": 27,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "look_in_b",
+"x_place": 0.56896,
+"cost": 0.1621,
+"terms": {
+"head": 0.033,
+"rest": 0.012,
+"wag": 0.115
+},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.03
+},
+{
+"i": 649,
+"t": 27.042,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "look_in_b",
+"x_place": 0.56896,
+"cost": 0.1422,
+"terms": {
+"head": 0.033,
+"wag": 0.099
+},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.03
+},
+{
+"i": 650,
+"t": 27.083,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "look_in_b",
+"x_place": 0.56896,
+"cost": 0.4131,
+"terms": {
+"head": 0.033,
+"wag": 0.373
+},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.03
+},
+{
+"i": 651,
+"t": 27.125,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "look_in",
+"x_place": 0.56896,
+"cost": 0.1077,
+"terms": {
+"head": 0.033,
+"wag": 0.07
+},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.03
+},
+{
+"i": 652,
+"t": 27.167,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "look_in",
+"x_place": 0.56896,
+"cost": 0.1619,
+"terms": {
+"head": 0.032,
+"wag": 0.126
+},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.03
+},
+{
+"i": 653,
+"t": 27.208,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "look_in_a",
+"x_place": 0.56896,
+"cost": 0.3433,
+"terms": {
+"head": 0.032,
+"wag": 0.309
+},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.03
+},
+{
+"i": 654,
+"t": 27.25,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "look_in_a",
+"x_place": 0.56896,
+"cost": 0.1204,
+"terms": {
+"head": 0.031,
+"wag": 0.087
+},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.03
+},
+{
+"i": 655,
+"t": 27.292,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "look_in_a",
+"x_place": 0.56896,
+"cost": 0.17,
+"terms": {
+"head": 0.031,
+"wag": 0.137
+},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.03
+},
+{
+"i": 656,
+"t": 27.333,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "look_in",
+"x_place": 0.56896,
+"cost": 0.4793,
+"terms": {
+"head": 0.031,
+"wag": 0.447
+},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.03
+},
+{
+"i": 657,
+"t": 27.375,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "look_in",
+"x_place": 0.56896,
+"cost": 0.0396,
+"terms": {
+"head": 0.031
+},
+"person": "P_sit_soft",
+"person_x": -1.25,
+"pcost": 0.03
+},
+{
+"i": 658,
+"t": 27.417,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "look_in",
+"x_place": 0.56896,
+"cost": 0.2994,
+"terms": {
+"head": 0.031,
+"wag": 0.268
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0847
+},
+{
+"i": 659,
+"t": 27.458,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "look_in_b",
+"x_place": 0.56896,
+"cost": 0.2356,
+"terms": {
+"head": 0.03,
+"wag": 0.205
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0476
+},
+{
+"i": 660,
+"t": 27.5,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "look_in_b",
+"x_place": 0.56896,
+"cost": 0.1108,
+"terms": {
+"head": 0.03,
+"wag": 0.08
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0151
+},
+{
+"i": 661,
+"t": 27.542,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "look_in_b",
+"x_place": 0.56896,
+"cost": 0.2355,
+"terms": {
+"head": 0.03,
+"wag": 0.205
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0069
+},
+{
+"i": 662,
+"t": 27.583,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "look_in",
+"x_place": 0.56896,
+"cost": 0.2986,
+"terms": {
+"head": 0.03,
+"wag": 0.268
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0025
+},
+{
+"i": 663,
+"t": 27.625,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "look_in",
+"x_place": 0.56896,
+"cost": 0.0386,
+"terms": {
+"head": 0.03
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.001
+},
+{
+"i": 664,
+"t": 27.667,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "look_in",
+"x_place": 0.56896,
+"cost": 0.4781,
+"terms": {
+"head": 0.03,
+"wag": 0.447
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0004
+},
+{
+"i": 665,
+"t": 27.708,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "look_in_a",
+"x_place": 0.56896,
+"cost": 0.1679,
+"terms": {
+"head": 0.03,
+"wag": 0.137
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0001
+},
+{
+"i": 666,
+"t": 27.75,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "look_in_a",
+"x_place": 0.56896,
+"cost": 0.1188,
+"terms": {
+"head": 0.03,
+"wag": 0.088
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0001
+},
+{
+"i": 667,
+"t": 27.792,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "look_in_a",
+"x_place": 0.56896,
+"cost": 0.3411,
+"terms": {
+"head": 0.03,
+"wag": 0.31
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 668,
+"t": 27.833,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "look_in",
+"x_place": 0.56896,
+"cost": 0.1566,
+"terms": {
+"head": 0.03,
+"wag": 0.126
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 669,
+"t": 27.875,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "look_in",
+"x_place": 0.56896,
+"cost": 0.1005,
+"terms": {
+"head": 0.03,
+"wag": 0.07
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 670,
+"t": 27.917,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "look_in_b",
+"x_place": 0.56896,
+"cost": 0.4038,
+"terms": {
+"head": 0.03,
+"wag": 0.373
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 671,
+"t": 27.958,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "look_in_b",
+"x_place": 0.56896,
+"cost": 0.13,
+"terms": {
+"head": 0.03,
+"wag": 0.099
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 672,
+"t": 28,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "look_in_b",
+"x_place": 0.56896,
+"cost": 0.3084,
+"terms": {
+"look": 0.089,
+"wag": 0.202
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 673,
+"t": 28.042,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "look_in_b",
+"x_place": 0.56896,
+"cost": 1.3609,
+"terms": {
+"head": 0.054,
+"look": 0.467,
+"rest": 0.052,
+"ear": 0.038,
+"wag": 0.749
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 674,
+"t": 28.083,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "lie_up",
+"x_place": 0.56896,
+"cost": 2.1219,
+"terms": {
+"head": 0.014,
+"look": 1.936,
+"rest": 0.151,
+"ear": 0.021
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 675,
+"t": 28.125,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "lie_up",
+"x_place": 0.56896,
+"cost": 1.4997,
+"terms": {
+"head": 0.015,
+"look": 1.135,
+"rest": 0.303,
+"ear": 0.045
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 676,
+"t": 28.167,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "lie_up",
+"x_place": 0.56896,
+"cost": 1.3173,
+"terms": {
+"head": 0.111,
+"look": 0.642,
+"rest": 0.499,
+"ear": 0.065
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 677,
+"t": 28.208,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "rest",
+"x_place": 0.56896,
+"cost": 1.3259,
+"terms": {
+"head": 0.2,
+"look": 0.351,
+"rest": 0.774
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 678,
+"t": 28.25,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "rest",
+"x_place": 0.56896,
+"cost": 0.8483,
+"terms": {
+"head": 0.097,
+"look": 0.188,
+"rest": 0.562
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 679,
+"t": 28.292,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "rest",
+"x_place": 0.56896,
+"cost": 0.5478,
+"terms": {
+"head": 0.043,
+"look": 0.1,
+"rest": 0.404
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 680,
+"t": 28.333,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "rest",
+"x_place": 0.56896,
+"cost": 0.3563,
+"terms": {
+"head": 0.017,
+"look": 0.052,
+"rest": 0.286
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 681,
+"t": 28.375,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "rest",
+"x_place": 0.56896,
+"cost": 0.2348,
+"terms": {
+"look": 0.027,
+"rest": 0.201
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 682,
+"t": 28.417,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "rest",
+"x_place": 0.56896,
+"cost": 0.1573,
+"terms": {
+"look": 0.014,
+"rest": 0.141
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 683,
+"t": 28.458,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "rest",
+"x_place": 0.56896,
+"cost": 0.105,
+"terms": {
+"rest": 0.097
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 684,
+"t": 28.5,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "rest",
+"x_place": 0.56896,
+"cost": 0.0715,
+"terms": {
+"rest": 0.068
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 685,
+"t": 28.542,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "rest",
+"x_place": 0.56896,
+"cost": 0.0484,
+"terms": {
+"rest": 0.046
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 686,
+"t": 28.583,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "rest",
+"x_place": 0.56896,
+"cost": 0.0333,
+"terms": {
+"rest": 0.032
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 687,
+"t": 28.625,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "rest",
+"x_place": 0.56896,
+"cost": 0.0228,
+"terms": {
+"rest": 0.022
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 688,
+"t": 28.667,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "rest",
+"x_place": 0.56896,
+"cost": 0.0155,
+"terms": {
+"rest": 0.015
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 689,
+"t": 28.708,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "rest",
+"x_place": 0.56896,
+"cost": 0.0108,
+"terms": {
+"rest": 0.01
+},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 690,
+"t": 28.75,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "rest",
+"x_place": 0.56896,
+"cost": 0.0075,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 691,
+"t": 28.792,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "rest",
+"x_place": 0.56896,
+"cost": 0.0051,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 692,
+"t": 28.833,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "rest",
+"x_place": 0.56896,
+"cost": 0.0036,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 693,
+"t": 28.875,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "rest",
+"x_place": 0.56896,
+"cost": 0.0027,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 694,
+"t": 28.917,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "rest",
+"x_place": 0.56896,
+"cost": 0.002,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 695,
+"t": 28.958,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "rest",
+"x_place": 0.56896,
+"cost": 0.0015,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 696,
+"t": 29,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "rest",
+"x_place": 0.56896,
+"cost": 0.0012,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 697,
+"t": 29.042,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "rest",
+"x_place": 0.56896,
+"cost": 0.0009,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 698,
+"t": 29.083,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "rest",
+"x_place": 0.56896,
+"cost": 0.0008,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 699,
+"t": 29.125,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "rest",
+"x_place": 0.56896,
+"cost": 0.0006,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 700,
+"t": 29.167,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "rest",
+"x_place": 0.56896,
+"cost": 0.0006,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 701,
+"t": 29.208,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "rest",
+"x_place": 0.56896,
+"cost": 0.0005,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 702,
+"t": 29.25,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "rest",
+"x_place": 0.56896,
+"cost": 0.0005,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 703,
+"t": 29.292,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "rest",
+"x_place": 0.56896,
+"cost": 0.0005,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 704,
+"t": 29.333,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "rest",
+"x_place": 0.56896,
+"cost": 0.0005,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 705,
+"t": 29.375,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "rest",
+"x_place": 0.56896,
+"cost": 0.0005,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 706,
+"t": 29.417,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "rest",
+"x_place": 0.56896,
+"cost": 0.0005,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 707,
+"t": 29.458,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "rest",
+"x_place": 0.56896,
+"cost": 0.0005,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 708,
+"t": 29.5,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "rest",
+"x_place": 0.56896,
+"cost": 0.0005,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 709,
+"t": 29.542,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "rest",
+"x_place": 0.56896,
+"cost": 0.0005,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 710,
+"t": 29.583,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "rest",
+"x_place": 0.56896,
+"cost": 0.0005,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 711,
+"t": 29.625,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "rest",
+"x_place": 0.56896,
+"cost": 0.0005,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 712,
+"t": 29.667,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "rest",
+"x_place": 0.56896,
+"cost": 0.0005,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 713,
+"t": 29.708,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "rest",
+"x_place": 0.56896,
+"cost": 0.0005,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 714,
+"t": 29.75,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "rest",
+"x_place": 0.56896,
+"cost": 0.0004,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 715,
+"t": 29.792,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "rest",
+"x_place": 0.56896,
+"cost": 0.0004,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 716,
+"t": 29.833,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "rest",
+"x_place": 0.56896,
+"cost": 0.0004,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 717,
+"t": 29.875,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "rest",
+"x_place": 0.56896,
+"cost": 0.0004,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 718,
+"t": 29.917,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "rest",
+"x_place": 0.56896,
+"cost": 0.0004,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 719,
+"t": 29.958,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "rest",
+"x_place": 0.56896,
+"cost": 0.0004,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 720,
+"t": 30,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "rest",
+"x_place": 0.56896,
+"cost": 0.0004,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 721,
+"t": 30.042,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "rest",
+"x_place": 0.56896,
+"cost": 0.0004,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 722,
+"t": 30.083,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "rest",
+"x_place": 0.56896,
+"cost": 0.0004,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 723,
+"t": 30.125,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "rest",
+"x_place": 0.56896,
+"cost": 0.0004,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 724,
+"t": 30.167,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "rest",
+"x_place": 0.56896,
+"cost": 0.0004,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 725,
+"t": 30.208,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "rest",
+"x_place": 0.56896,
+"cost": 0.0004,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 726,
+"t": 30.25,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "rest",
+"x_place": 0.56896,
+"cost": 0.0004,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 727,
+"t": 30.292,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "rest",
+"x_place": 0.56896,
+"cost": 0.0004,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 728,
+"t": 30.333,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "rest",
+"x_place": 0.56896,
+"cost": 0.0004,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 729,
+"t": 30.375,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "rest",
+"x_place": 0.56896,
+"cost": 0.0004,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 730,
+"t": 30.417,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "rest",
+"x_place": 0.56896,
+"cost": 0.0004,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 731,
+"t": 30.458,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "rest",
+"x_place": 0.56896,
+"cost": 0.0004,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 732,
+"t": 30.5,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "rest",
+"x_place": 0.56896,
+"cost": 0.0003,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 733,
+"t": 30.542,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "rest",
+"x_place": 0.56896,
+"cost": 0.0003,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 734,
+"t": 30.583,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "rest",
+"x_place": 0.56896,
+"cost": 0.0003,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 735,
+"t": 30.625,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "rest",
+"x_place": 0.56896,
+"cost": 0.0003,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 736,
+"t": 30.667,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "rest",
+"x_place": 0.56896,
+"cost": 0.0003,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 737,
+"t": 30.708,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "rest",
+"x_place": 0.56896,
+"cost": 0.0003,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 738,
+"t": 30.75,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "rest",
+"x_place": 0.56896,
+"cost": 0.0003,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 739,
+"t": 30.792,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "rest",
+"x_place": 0.56896,
+"cost": 0.0003,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 740,
+"t": 30.833,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "rest",
+"x_place": 0.56896,
+"cost": 0.0003,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 741,
+"t": 30.875,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "rest",
+"x_place": 0.56896,
+"cost": 0.0003,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 742,
+"t": 30.917,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "rest",
+"x_place": 0.56896,
+"cost": 0.0003,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 743,
+"t": 30.958,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "rest",
+"x_place": 0.56896,
+"cost": 0.0003,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 744,
+"t": 31,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "rest",
+"x_place": 0.56896,
+"cost": 0.0003,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 745,
+"t": 31.042,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "rest",
+"x_place": 0.56896,
+"cost": 0.0003,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 746,
+"t": 31.083,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "rest",
+"x_place": 0.56896,
+"cost": 0.0003,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 747,
+"t": 31.125,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "rest",
+"x_place": 0.56896,
+"cost": 0.0003,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 748,
+"t": 31.167,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "rest",
+"x_place": 0.56896,
+"cost": 0.0003,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 749,
+"t": 31.208,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "rest",
+"x_place": 0.56896,
+"cost": 0.0003,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 750,
+"t": 31.25,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "rest",
+"x_place": 0.56896,
+"cost": 0.0003,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 751,
+"t": 31.292,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "rest",
+"x_place": 0.56896,
+"cost": 0.0003,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 752,
+"t": 31.333,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "rest",
+"x_place": 0.56896,
+"cost": 0.0003,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 753,
+"t": 31.375,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "rest",
+"x_place": 0.56896,
+"cost": 0.0003,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 754,
+"t": 31.417,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "rest",
+"x_place": 0.56896,
+"cost": 0.0003,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 755,
+"t": 31.458,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "rest",
+"x_place": 0.56896,
+"cost": 0.0003,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 756,
+"t": 31.5,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "rest",
+"x_place": 0.56896,
+"cost": 0.0003,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 757,
+"t": 31.542,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "rest",
+"x_place": 0.56896,
+"cost": 0.0003,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 758,
+"t": 31.583,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "rest",
+"x_place": 0.56896,
+"cost": 0.0003,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 759,
+"t": 31.625,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "rest",
+"x_place": 0.56896,
+"cost": 0.0003,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 760,
+"t": 31.667,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "rest",
+"x_place": 0.56896,
+"cost": 0.0003,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 761,
+"t": 31.708,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "rest",
+"x_place": 0.56896,
+"cost": 0.0003,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 762,
+"t": 31.75,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "rest",
+"x_place": 0.56896,
+"cost": 0.0003,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 763,
+"t": 31.792,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "rest",
+"x_place": 0.56896,
+"cost": 0.0003,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 764,
+"t": 31.833,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "rest",
+"x_place": 0.56896,
+"cost": 0.0003,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 765,
+"t": 31.875,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "rest",
+"x_place": 0.56896,
+"cost": 0.0003,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 766,
+"t": 31.917,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "rest",
+"x_place": 0.56896,
+"cost": 0.0003,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+},
+{
+"i": 767,
+"t": 31.958,
+"state": "lie_down",
+"x_score": 0.59,
+"dog": "rest",
+"x_place": 0.56896,
+"cost": 0.0003,
+"terms": {},
+"person": "P_sit_low",
+"person_x": -1.25,
+"pcost": 0.0
+}
+]
+}

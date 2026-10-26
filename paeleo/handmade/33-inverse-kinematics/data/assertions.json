@@ -1,0 +1,69 @@
+{
+ "planted_paw_slip": {
+  "ok": true,
+  "max_m_per_frame": 0.0,
+  "rule": "a paw flagged planted does not move between frames"
+ },
+ "knees_and_elbows_bend_toward_pole": {
+  "ok": true,
+  "inverted": 0,
+  "rule": "fore elbows bend back, hind stifles forward (sign of bend vs pole)"
+ },
+ "reach_residual": {
+  "ok": false,
+  "note": "frames over tolerance on a swinging leg: the swing target is out of reach and the paw is carried on the leg end (drawn attached); frames over on a planted leg are real failures",
+  "tolerance_m": 0.01,
+  "frames_over": 8,
+  "worst": [
+   [
+    8.5417,
+    "RF",
+    0.08208,
+    false
+   ],
+   [
+    8.375,
+    "LF",
+    0.06919,
+    false
+   ],
+   [
+    8.5,
+    "RF",
+    0.02809,
+    true
+   ],
+   [
+    4.8333,
+    "RF",
+    0.02529,
+    false
+   ],
+   [
+    24.0,
+    "RF",
+    0.02517,
+    false
+   ],
+   [
+    4.875,
+    "RF",
+    0.02154,
+    false
+   ]
+  ],
+  "planted_frames_over": 2,
+  "rule": "|wrist - wrist target| per leg"
+ },
+ "chin_on_paws_residual": {
+  "max_m": 0.0063,
+  "rule": "settled chin target after 28.8 s"
+ },
+ "door_moves_after_contact": {
+  "ok": true,
+  "rule": "door angle constant (settled) until the hand contact, then held by static friction; see contacts.json",
+  "touch_t": 5.96,
+  "first_motion_t": 6.083
+ },
+ "all_ok": false
+}

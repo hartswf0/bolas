@@ -1,0 +1,40 @@
+REEL CRITIC, round 8: paeleo-01.mp4
+
+1. Verdict: DOES NOT PASS, narrowly. One part of the repair condition fails: label contrast. Two labels fall below 4.5:1. Every other condition I measured holds.
+
+What I inspected:
+- Picture: a mid-lens frame of all 54 lenses, plus frames at +0.15 s and +1.45 s of each lens. The title (1.5 s) and the end card (92 s).
+- Per-frame tracking of lenses 20, 25, 47, 48 and 52.
+- Contrast (WCAG, glyph core against its box) for about 30 labels, including every label in 25, 32 and 45.
+- x-heights for about 15 text styles.
+- Audio: mono mix in 10 ms RMS windows, plus spectral flux at all 55 cuts.
+
+I did not compare against the paeleo-00 reference. I did not check every frame of every lens.
+
+Repair condition, one item at a time:
+- Contrast, 32 and 45: pass. 32: 5.9 to 6.5. 45: "dog: behind" 10.2, "jamb: in front" 6.5.
+- Contrast, 25: pass at mid-lens. "refuse" is 4.74, the rest are 16 to 18.
+- Panel tops: pass. The panels in 20 and 52 start at y=112, below the header, which ends at y=104.
+- Lens 47 cue: pass. Waveforms are on the dog in all 40 frames (1.6 s): dark sine waves on a green dog for the first 11 frames, then white zigzags on a red dog for 28 frames.
+- Pre-cut dips: pass. The deepest 10 ms dip in the 300 ms before a cut is −18.1 dB, in lens 24. The level drops about 15 dB before every cut.
+- Onsets: pass. Every cut, including 4.0 s, rises 29 to 38 dB.
+- Other text checks: pass. Lowercase x-height is about 12 px on overlay labels (exactly the minimum), 14 px on the prompt line and 16 px on the look line. No text boxes intersect or leave the frame, and no text box sits on the dog.
+
+2. Lenses that still fail
+- 25 (38.40–38.82 s): during the first 10 frames, the active "watch" node is white text on a grey ellipse, measured at 3.15:1.
+- 48 (from 79.62 s to the cut): where the red trust label crosses the light porch jamb (x 1141–1164), "turned" measures 4.31 to 4.52, median 4.47. The box is translucent, so the jamb lightens it. On plain sky the same label is 5.1.
+
+3. Broken picture or collisions
+- Lens 25: the right ends of the "retreat" and "refuse" ellipses are cut off by the porch post at x≈1140, so the overlay sits under the scenery.
+- Colour jumps mid-lens: in 47 the dog jumps from green to red at 0.46 s. 25 (grey to red), 22, 39 and 51 also change colour inside the lens. These read as intended state changes, but they strain "continuous within a lens".
+- Lens 14: the ear in thumbnail 1 pokes above its box. This is trivial.
+
+4. Largest remaining gap
+Overlay labels in active states, or over light scenery, are not held to the contrast floor. The test to pass: on every frame, every overlay label measures at least 4.5:1, glyph core against the composited box pixels directly behind it. That includes 25's active "watch" fill (switch to dark text or a darker fill) and 48's label wherever it crosses the jamb (make the box opaque or move it left of x=1140). In addition, no overlay node in 25 is cut off by the porch post.
+
+5. Strengths to preserve
+- Each of the 54 lenses has its own formal language, readable at a glance. Examples: Reiniger silhouette, Whitney's light rig, the Sketchpad constraint checks, GrabCut box, BBW heatmap, the FK angle tags, the IK targets, the occlusion labels, the film-strip frame in 53, the provenance hashes in 54.
+- 24's close-up and the 29–31 order land as intended.
+- The cut-paper dog with its red collar stays recognisable throughout.
+- The header and prompt bars are consistent and clean.
+- The sound is disciplined: a duck before each cut, then a sharp onset on it.

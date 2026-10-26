@@ -1,0 +1,16 @@
+<!doctype html><meta charset="utf-8"><title>lenses</title><link rel="stylesheet" href="fonts/local.css">
+<body style="margin:0;background:#000"><canvas id="c" width="1280" height="720"></canvas>
+<script src="../../paeleo/threshold/machine.js"></script><script src="../../paeleo/threshold/stage.js"></script><script src="../../paeleo/scion/swarms.js"></script><script src="../../paeleo/scion/lenses.js"></script>
+<script>
+window.ready = (async () => { for (const f of ['600 17px "JetBrains Mono"', '400 17px "JetBrains Mono"', '900 40px "Big Shoulders Display"', '400 20px Literata', 'italic 400 20px Literata']) await document.fonts.load(f);
+  window.R = Scion.make(document.getElementById('c')); return true; })();
+// title and end cards for the reel
+window.card = (T, which) => { const c = document.getElementById('c'), g = c.getContext('2d'); g.setTransform(1, 0, 0, 1, 0, 0); g.globalAlpha = 1;
+  g.fillStyle = '#14110d'; g.fillRect(0, 0, 1280, 720); const a = which === 'head' ? Math.min(1, T / .6, (4 - T) / .5) : Math.min(1, T / .6, (5 - T) / .8); g.globalAlpha = Math.max(0, a); g.textAlign = 'center';
+  if (which === 'head') { g.font = '600 20px "JetBrains Mono"'; g.fillStyle = '#ff5a48'; g.fillText('PAELEO-01', 640, 250); g.font = '900 104px "Big Shoulders Display"'; g.fillStyle = '#fbf7ee'; g.fillText('SCION THROUGH THE DOG', 640, 350);
+    g.font = '600 24px "JetBrains Mono"'; g.fillStyle = 'rgba(251,247,238,.8)'; g.fillText('54 animation swarms · one dog · one porch', 640, 410); }
+  else { g.font = '900 64px "Big Shoulders Display"'; g.fillStyle = '#fbf7ee'; g.fillText('THE SAME DOG, 54 WAYS', 640, 300); g.font = '400 24px "JetBrains Mono"'; g.fillStyle = 'rgba(251,247,238,.85)';
+    ['each lens is one swarm\'s first move, made visible', 'the dog is the same machine in every one', 'SCION operator · PAELEO · Bolas · CRASH LAB · October 2026'].forEach((s, i) => g.fillText(s, 640, 380 + i * 46)); }
+  g.textAlign = 'left'; return c.toDataURL('image/jpeg', .93); };
+window.shot = (i, t, q) => { R.draw(i, t); return document.getElementById('c').toDataURL('image/jpeg', q || .85); };
+</script>

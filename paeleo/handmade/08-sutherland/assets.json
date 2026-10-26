@@ -1,0 +1,85 @@
+{
+ "about": "Every asset in SCION 08 (Sutherland). No image pixels from any source appear in the film; every visible mark is a point, line or arc computed here.",
+ "assets": [
+  {
+   "id": "dog-proportions",
+   "what": "bone-length ratios of the dog (neck/torso, head/torso, withers and croup heights/torso), median over 25 keyed frames",
+   "source_file": "paeleo/handmade/kit/archive-dog/pose_agent_v8.json",
+   "source_title": "Amateur Film New Jersey C (Home Movies collection)",
+   "archive_url": "https://archive.org/details/NewJerseyC",
+   "rights": "public domain (kit source.json: rights_statement public_domain)",
+   "operation": "measured: distances between rig keys (nose, neck, chest, tail, fore/hind feet) in each of 25 keys, median, divided by chest-tail; scaled to a declared torso of 0.62 m (build/world.py rig_ratios). Neck and head lengths then adjusted by hand (x0.95, x0.82) after viewing, because the rig's 'neck' key sits low on the neck.",
+   "measured_values": "see checks.json rig_ratios_from_archive"
+  },
+  {
+   "id": "score",
+   "what": "the dog's decision trace: state, x, act per frame; person, door, prompts, timeline",
+   "source_file": "paeleo/handmade/score/threshold-score.json",
+   "source_title": "PAELEO threshold score (paeleo/threshold/machine.js)",
+   "rights": "project material",
+   "operation": "read per frame as requests on the dog's constraint graph and as the pen script's schedule; not drawn"
+  },
+  {
+   "id": "dog-graph",
+   "what": "dog as a 24-point constraint graph (spine, neck, head, 3-segment tail, 4 legs of 4 points), 53 hard constraints (distances, joint-side limits, floor contacts) plus soft goals and leg-plane constraints",
+   "source_file": "build/world.py build_dog",
+   "rights": "made here",
+   "operation": "constructed + solved by relaxation each frame; outline attached to the bones"
+  },
+  {
+   "id": "person-graph",
+   "what": "person as a 17-point constraint graph, 35 hard constraints, point masses",
+   "source_file": "build/world.py build_person",
+   "rights": "made here",
+   "operation": "constructed + solved"
+  },
+  {
+   "id": "door",
+   "what": "door leaf: hinge points pinned, equal edges and equal diagonals; dragged by the pen",
+   "source_file": "build/world.py Door",
+   "rights": "made here",
+   "operation": "constructed + solved"
+  },
+  {
+   "id": "house-porch-dusk",
+   "what": "porch boards, clapboards, window, posts, steps, sill, door frame and casing, horizon, fence, crescent moon, stars",
+   "source_file": "build/world.py world_lines, build/render.py dusk",
+   "rights": "made here",
+   "operation": "drawn as 3-D line primitives, orthographic projection with 14 degree elevation"
+  },
+  {
+   "id": "light",
+   "what": "interior light and the pool on the boards",
+   "source_file": "build/render.py light_and_leaf",
+   "rights": "made here",
+   "operation": "Sutherland-Hodgman clipping of the opening against the leaf edge, filled with scan-line hatching"
+  },
+  {
+   "id": "stroke-font",
+   "what": "4x6 stroke font for all text",
+   "source_file": "build/font.py",
+   "rights": "made here",
+   "operation": "drawn by hand as polylines"
+  },
+  {
+   "id": "crt",
+   "what": "vector display: spot plotting, display-file-order refresh, P7 flash and persistence, glow",
+   "source_file": "build/render.py",
+   "rights": "made here",
+   "operation": "synthesized"
+  },
+  {
+   "id": "sound",
+   "what": "machine room bed, mains hum, relays, display buzz, teletype clicks, pen, voice tones, door creak and drone, paws, settling, tail thumps, breath, Schroeder reverb",
+   "source_file": "build/sound.py",
+   "rights": "made here",
+   "operation": "synthesized with numpy"
+  },
+  {
+   "id": "fonts-not-used",
+   "what": "tools/paeleo/fonts were not used; QuickDraw, archive frames, masks and found-frames were not used",
+   "rights": "n/a",
+   "operation": "none"
+  }
+ ]
+}

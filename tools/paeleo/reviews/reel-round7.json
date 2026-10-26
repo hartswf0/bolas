@@ -1,0 +1,13 @@
+{
+ "title": "Reel round 7",
+ "verdict": "does not pass",
+ "meta": "a seventh, fresh critic · four frames per lens, x-height from row profiles, WCAG contrast measured, 10 ms RMS at every cut",
+ "gap": "Label colours were picked for hue, not luminance: white on orange, mustard and coral in 25, 32 and 45 measured 2.75–3.74:1.",
+ "repair": "Every overlay label at 4.5:1 or better; no panel above y = 104; 47's sound cue visible for at least 1.2 s; and no 10 ms in the 300 ms before a cut more than 20 dB under that lens's median.",
+ "notes": [
+  "Passed from round 6: no text overlaps, nothing off-frame, nothing over the dog, x-heights at 12 px or more, no digital silence; 27, 38, 46, 49 and 52 clean.",
+  "Weak as claims: 47 read as a style swap; 09 hard to tell from 03, 26 and 50."
+ ],
+ "keep": "A clean caption system; 2, 6, 7, 8, 14, 22, 24, 25, 27, 29–31, 33, 36, 42, 45, 49, 51 and 54 read at a glance; the segmentation trio as a set; the 24 close-up.",
+ "done": "Labels measure their own backing and choose ink or paper for 4.5:1, darkening the backing if neither reaches it, and the layout check now measures every label's contrast (all pass); panels moved under the caption; 47's waves never stop; 09 shows its white mesh and yellow handles; voices and the door stop 0.15 s before a cut, each lens's chord releases over its last half second, and a room air under everything keeps the quietest 10 ms within 18 dB of the lens (tools/paeleo/reel_check.py)."
+}

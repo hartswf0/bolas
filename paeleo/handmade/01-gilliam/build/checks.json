@@ -1,0 +1,139 @@
+{
+ "choices": {
+  "retreat": {
+   "expected_t": 1.0,
+   "measured_onset_t": 1.0,
+   "signals_frames": {
+    "crouch": 24,
+    "door_head": 24,
+    "moves_away": 28
+   },
+   "signals_t": {
+    "crouch": 1.0,
+    "door_head": 1.0,
+    "moves_away": 1.1666666666666667
+   },
+   "pass_0.25s": true
+  },
+  "watch1": {
+   "expected_t": 2.333,
+   "measured_onset_t": 2.3333333333333335,
+   "signals_frames": {
+    "head_back": 56,
+    "crouch_released": 60
+   },
+   "signals_t": {
+    "head_back": 2.3333333333333335,
+    "crouch_released": 2.5
+   },
+   "pass_0.25s": true
+  },
+  "refuse": {
+   "expected_t": 3.417,
+   "measured_onset_t": 3.4166666666666665,
+   "signals_frames": {
+    "turn_starts": 82,
+    "back_shown": 84
+   },
+   "signals_t": {
+    "turn_starts": 3.4166666666666665,
+    "back_shown": 3.5
+   },
+   "pass_0.25s": true
+  },
+  "watch2": {
+   "expected_t": 7.458,
+   "measured_onset_t": 7.458333333333333,
+   "signals_frames": {
+    "front_shown": 183,
+    "turn_starts": 179
+   },
+   "signals_t": {
+    "front_shown": 7.625,
+    "turn_starts": 7.458333333333333
+   },
+   "pass_0.25s": true
+  },
+  "approach": {
+   "expected_t": 14.708,
+   "measured_onset_t": 14.833333333333334,
+   "signals_frames": {
+    "moves_in": 356
+   },
+   "signals_t": {
+    "moves_in": 14.833333333333334
+   },
+   "pass_0.25s": true
+  },
+  "lie": {
+   "expected_t": 23.792,
+   "measured_onset_t": 23.833333333333332,
+   "signals_frames": {
+    "body_down": 572,
+    "lying": 576
+   },
+   "signals_t": {
+    "body_down": 23.833333333333332,
+    "lying": 24.0
+   },
+   "pass_0.25s": true
+  },
+  "look_in": {
+   "expected_t": 26.4,
+   "measured_onset_t": 26.5,
+   "signals_frames": {
+    "head_lifts_into_door": 636,
+    "settled": 678
+   },
+   "signals_t": {
+    "head_lifts_into_door": 26.5,
+    "settled": 28.25
+   },
+   "pass_0.25s": true
+  }
+ },
+ "never_enters": {
+  "min_x_measured_m": 0.59,
+  "min_x_score_m": 0.59,
+  "pass": true
+ },
+ "ends_across_threshold": {
+  "final_bbox_stage": [
+   258,
+   528,
+   570,
+   638
+  ],
+  "door_opening_px": [
+   214.89999999999998,
+   385.1
+  ],
+  "px_inside_frame": 127.10000000000002,
+  "px_outside": 184.89999999999998,
+  "final_posture": "lying",
+  "pass": true
+ },
+ "x_follows_score": {
+  "max_abs_err_m": 0.032,
+  "mean_abs_err_m": 0.003,
+  "retreat_measured_m": 0.997,
+  "retreat_score_m": 0.996,
+  "approach_measured_m": 3.406,
+  "approach_score_m": 3.406,
+  "approach_seconds": 9.083,
+  "pass": true
+ },
+ "commands_push_away": {
+  "x_at_first_call": 3.003,
+  "x_after_calls": 4.0,
+  "pass": true
+ },
+ "circumstances_before_approach": {
+  "sits_t": 5.416666666666667,
+  "door_open_t": 6.208333333333333,
+  "hand_low_t": 6.833333333333333,
+  "soft_voice_t": 7.4,
+  "approach_t": 14.708333333333334,
+  "pass": true
+ }
+}

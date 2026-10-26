@@ -1,0 +1,27 @@
+REEL CRITIC, round 5: paeleo-01.mp4
+
+What I inspected: all 54 lenses as stills at three points each (+0.15 s, the middle, +1.45 s) at 1280x720 and at 320x180 phone size; full-resolution zooms of 01, 06, 31, 42, 48, 49, 53 and 54; 5 fps sequences of 13, 41, 45 and 47; the title (2 s, 3.5 s) and the end card (91 s, 95 s); and the mono audio in 50 ms RMS windows plus the 140–260 Hz band energy around every cut. I did not watch it at speed and could not listen to it.
+
+1. Verdict: does not pass. It is close. The previous critic's repair condition is met: the pad's 140–260 Hz energy in the 100 ms before each cut is 59–76 dB below that lens's middle, against a required 20 dB. The caption number is 22 px tall (rows 18–39, all 54 lenses) and the look text is 23 px from ascender to baseline (28 px with descenders), so it meets 22 px by the letter. It still fails because some overlays can't be read at phone size and one lens's label sits on the dog.
+
+2. Lenses that still fail:
+- 42 (69.6–71.2 s): part labels ("snout", "ll", "neck", "chest", "body") are about 10 px high, overlap each other and cover the dog's head.
+- 54 (88.8–90.4 s): about 9 commit-hash tags (about 11 px) pile up on the dog's legs and body, so the dog is hard to see.
+- 45 (74.4–76.0 s), "who is in front?": nothing passes in front of or behind the dog in any frame, so the claim doesn't read.
+- 41 (68.0–69.6 s), "inertia and restraint": across 8 frames the yellow dog barely shows the overshoot it claims.
+
+3. Broken picture or collisions:
+- The prompt line at bottom left ("say it softly…") has an x-height of about 6 px in the 720p frame, so it can't be read on a phone.
+- The text in 49's specimen card and 14's thumbnail tags is about 8–10 px.
+- Earlier notes that are now fixed: 06 reads clearly as a dog. 31 has a visible hair fringe, though nothing shows lace or smoke. 49's card ends near x=1256, inside the frame. 48's label stops about 8 px short of the post. 53's look text sits in the dark bar above the sprockets. 26 and 43 no longer have floating labels. 30, 42, 48 and 54 still have them.
+- Colour changes within a lens (22, 25, 39, 47) look intended; the dog stays in the same place and shape.
+
+4. Largest remaining gap: overlay text added inside a lens is far smaller than the caption.
+Repair condition: in every lens, any text drawn on the frame (part tags, hashes, card text, the prompt line) has an x-height of at least 12 px in 720p. No two text boxes overlap. No text box covers more than 15% of the dog's silhouette in pixels. Retest on 14, 30, 42, 48, 49 and 54.
+
+5. Strengths to preserve:
+- The cut sound is consistent: the pad fades to about −80 dBFS, then a hit of about −15 dBFS lands on the cut frame.
+- Voice events line up with the "calls" lenses (22, 24, 25, 39, 47, 48).
+- The caption bar is consistent and the right height.
+- The dog keeps the same pose and position in all 54 lenses.
+- The strongest lenses: 02 (shadow theatre), 06 (Whitney), 07 (Foldès), 08 (Sketchpad), 11 (puppet strings), 20 (node graph), 24 (Live2D close-up), 29 (GrabCut box), 36 (BBW heat map), 51 (Mouris trails) and 53 (film sprockets).

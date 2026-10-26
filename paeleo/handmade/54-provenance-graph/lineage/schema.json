@@ -1,0 +1,193 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "$id": "paeleo/handmade/54-provenance-graph/lineage/schema.json",
+ "title": "pg-lineage/1.1",
+ "type": "object",
+ "required": [
+  "schema",
+  "ops",
+  "nodes",
+  "roots"
+ ],
+ "properties": {
+  "schema": {
+   "const": "pg-lineage/1.1"
+  },
+  "ops": {
+   "type": "object",
+   "additionalProperties": {
+    "type": "object",
+    "required": [
+     "version",
+     "doc"
+    ]
+   }
+  },
+  "roots": {
+   "type": "object",
+   "description": "named entry points into the DAG used by the renderer (dog pieces, cast, plates)"
+  },
+  "nodes": {
+   "type": "object",
+   "additionalProperties": {
+    "oneOf": [
+     {
+      "type": "object",
+      "title": "source",
+      "required": [
+       "id",
+       "kind",
+       "type",
+       "sha256",
+       "rights",
+       "parents",
+       "tags"
+      ],
+      "properties": {
+       "id": {
+        "type": "string",
+        "pattern": "^[sd]_[0-9a-f]{16}$"
+       },
+       "kind": {
+        "const": "source"
+       },
+       "type": {
+        "enum": [
+         "frame",
+         "masks",
+         "strokes",
+         "drawn",
+         "font"
+        ]
+       },
+       "sha256": {
+        "type": "string"
+       },
+       "path": {
+        "type": "string"
+       },
+       "source_id": {
+        "type": "string",
+        "description": "immutable source id: archive:clip:frame"
+       },
+       "title": {
+        "type": "string"
+       },
+       "url": {
+        "type": "string"
+       },
+       "rights": {
+        "enum": [
+         "public_domain",
+         "CC-BY-4.0",
+         "OFL-1.1",
+         "self-made",
+         "unknown"
+        ]
+       },
+       "credit": {
+        "type": [
+         "string",
+         "null"
+        ]
+       },
+       "data": {},
+       "parents": {
+        "type": "array",
+        "maxItems": 0
+       },
+       "tags": {
+        "enum": [
+         "documented",
+         "inferred"
+        ]
+       }
+      }
+     },
+     {
+      "type": "object",
+      "title": "derivative",
+      "required": [
+       "id",
+       "kind",
+       "op",
+       "op_version",
+       "op_sig",
+       "parents",
+       "params",
+       "sha256",
+       "rights",
+       "tags"
+      ],
+      "properties": {
+       "id": {
+        "type": "string",
+        "pattern": "^n_[0-9a-f]{16}$",
+        "description": "content hash of the output"
+       },
+       "kind": {
+        "const": "derivative"
+       },
+       "op": {
+        "type": "string"
+       },
+       "op_version": {
+        "type": "integer"
+       },
+       "op_sig": {
+        "type": "string",
+        "description": "hash of op name, version and params"
+       },
+       "parents": {
+        "type": "array",
+        "minItems": 1,
+        "items": {
+         "type": "string"
+        }
+       },
+       "params": {
+        "type": "object"
+       },
+       "sha256": {
+        "type": "string"
+       },
+       "rights": {
+        "enum": [
+         "public_domain",
+         "CC-BY-4.0",
+         "OFL-1.1",
+         "self-made",
+         "unknown"
+        ]
+       },
+       "tags": {
+        "enum": [
+         "documented",
+         "inferred"
+        ]
+       },
+       "recipe": {
+        "type": "boolean"
+       },
+       "label": {
+        "type": [
+         "string",
+         "null"
+        ]
+       },
+       "size": {
+        "type": [
+         "array",
+         "null"
+        ]
+       }
+      }
+     }
+    ]
+   }
+  }
+ },
+ "x-render-deps": "lineage/render_deps.jsonl.gz: one line per scene frame {i, sha256_rgb, layers:[{node, M (2x3 affine, node px -> screen px), op, role, src?} | {synth, params, role}]}",
+ "x-time-base": "scene frame i at 24 fps, t = i/24 s, aligned to score/threshold-score.json frame i; film frame = i + 72 (3 s title card)",
+ "x-coordinates": "world metres: x along the porch as in the score (threshold 0, inside negative), y up from the porch floor; camera per frame in render.camera(t)"
+}

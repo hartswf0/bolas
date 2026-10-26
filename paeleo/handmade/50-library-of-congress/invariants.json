@@ -1,0 +1,66 @@
+{
+ "I1_choices": {
+  "ok": true,
+  "choices": [
+   {
+    "t": 1,
+    "to": "retreat",
+    "found_at": 1.0833,
+    "dt": 0.083,
+    "ok": true
+   },
+   {
+    "t": 2.333,
+    "to": "watch",
+    "found_at": 2.5,
+    "dt": 0.167,
+    "ok": true
+   },
+   {
+    "t": 3.417,
+    "to": "refuse",
+    "found_at": 3.4583,
+    "dt": 0.041,
+    "ok": true
+   },
+   {
+    "t": 7.458,
+    "to": "watch",
+    "found_at": 7.4583,
+    "dt": 0.0,
+    "ok": true
+   },
+   {
+    "t": 14.708,
+    "to": "approach",
+    "found_at": 14.7083,
+    "dt": 0.0,
+    "ok": true
+   },
+   {
+    "t": 23.792,
+    "to": "lie_down",
+    "found_at": 23.7917,
+    "dt": -0.0,
+    "ok": true
+   }
+  ]
+ },
+ "I2_threshold": {
+  "ok": true,
+  "min_x": 0.59,
+  "end_x": 0.59
+ },
+ "I3_direction": {
+  "ok": true,
+  "r": 1.0,
+  "n": 768,
+  "measure": "x_screen"
+ },
+ "I4_refusal": {
+  "ok": true,
+  "share_turned": 1.0,
+  "facing_when_watching": 1
+ },
+ "all_ok": true
+}

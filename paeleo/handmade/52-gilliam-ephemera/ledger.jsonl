@@ -1,0 +1,26 @@
+{"n": 1, "attempt": "cut v1", "change": "dog from f006 in 7 pieces, person collage, door substitution set", "saw": "standing dog reads; lying with big head card reads as a seal; chest triangle below floor; person legs boxy"}
+{"n": 2, "attempt": "cut v2", "change": "head cut at neck line; chest re-cut; trousers narrowed; drawn crate/shoes", "saw": "lying reads as a sphinx-lying dog; back-of-head first version too small and floating, ears pointy like a cat"}
+{"n": 3, "attempt": "cut v3", "change": "back-of-head enlarged, hanging ears, lowered onto chest", "saw": "reads as the back of a dog's head looking in"}
+{"n": 4, "attempt": "set v1", "change": "facade face-on, doorway hole, airbrushed sky, porch boards, stone pillar, lamplight", "saw": "pillar a grey slab, lawn a hard block; wall empty"}
+{"n": 5, "attempt": "set v2", "change": "pillar narrowed and darkened, lawn airbrushed, window from the door's curtained glass", "saw": "composition balanced enough; dog still small"}
+{"n": 6, "attempt": "person v2", "change": "face print found to look LEFT: head+jaw flopped, jaw hinge at the ear, black paper mouth", "saw": "jaw opening with black mouth reads at 1280x720 (looked at frame 40 zoom)"}
+{"n": 7, "attempt": "render v1", "change": "full 768 frames, trace measured", "saw": "checker ALL OK; measured look-back 0.625 s late (facing measured by position); feet slip 10 px at approach start"}
+{"n": 8, "attempt": "render v2", "change": "planted-start gait; facing = head card direction from neck pin; crisper first exposures at retreat/approach/lie", "saw": "all measured onsets within 0.02 s; max foot slip 1.89 px"}
+{"n": 9, "attempt": "render v3", "change": "looked-back head card angle corrected (+ lowers on flopped body)", "saw": "head comes round level-ish over the shoulder on frame 179"}
+{"n": 10, "attempt": "sound v1", "change": "flite voice, room tone, claws, taps, creak, chords", "saw": "room tone too loud (soft only 5 dB above)"}
+{"n": 11, "attempt": "sound v2", "change": "room tone and crickets lowered; soft voice -21", "saw": "soft 13.2 dB below calls, 15.5 dB above room tone (measured on stems)"}
+{"n": 12, "attempt": "encode v1", "change": "crf 25 -tune grain", "saw": "21 MB: over the 12 MB limit"}
+{"n": 13, "attempt": "encode v2", "change": "two-pass 2.1 Mb/s; disk had filled mid-attempt, re-run", "saw": "10.7 MB, 912 frames, 38.0 s; checked compressed frames: grain and cut edges survive"}
+{"n": 14, "attempt": "render v4", "change": "lying tilt levelled (rear not raised), low hand extended to 58 deg with lean", "saw": "stills look right: refusal back, watching, approach head low, lying half in the frame looking in"}
+{"n": 15, "attempt": "sound v3", "change": "leading silence trimmed; lines start 0.15-0.2 s before the choice; reach starts with second call", "saw": "mouth opens frame 21 (<24 retreat), 78 (<82 refuse), 174 (<179 look), 631 (<634 look in)"}
+{"n": 16, "attempt": "repair 1", "change": "head-low: lower pin (30 px) and -60 deg; measured by the head card's topmost pixel vs the withers column", "saw": "219/219 frames below, min 11 px; muzzle 60+ px below (frame 571 first measured 2 px: lie start fixed)"}
+{"n": 17, "attempt": "repair 2", "change": "look-back: f030 face card laid looking left on the lying flopped body, 7.458 until the turning card", "saw": "face reads at 7.5-8.0 in film frames; 100% facing the door"}
+{"n": 18, "attempt": "repair 3", "change": "regrade dog prints (blur 1.7, contrast .62, calmer palette, no unsharp); matte smoothed 2.2 px", "saw": "spots gone, back edge smooth at full res; photographic detail mostly gone too"}
+{"n": 19, "attempt": "repair 4", "change": "giant forearm print lowers the moon into the cloud 11.9-13.7 s; swishes + slide whistle", "saw": "visible in film frames 15.4-16.2; dog untouched; invariants unchanged"}
+{"n": 20, "attempt": "repair 5", "change": "back of head rebuilt: broad skull, thick neck, folded-tip ears, f046 muzzle tip at the side", "saw": "reads as a dog's head turned away (first rebuild read as a cat: ears broadened and folded)"}
+{"n": 21, "attempt": "encode", "change": "end card re-laid (text overlapped the footer); two-pass 2.1 Mb/s", "saw": "10.7 MB, 912 frames, 38.0 s"}
+{"n": 22, "attempt": "round 2 repair 1", "change": "back of head: hanging ears, muzzle tip over the skull up-right into the room; tilts +6/-3/+1 during the hold", "saw": "reads as a dog's head turned away (looked at 26.5-28.0 crops); moves twice"}
+{"n": 23, "attempt": "round 2 repair 2", "change": "torso back cut lower, matte smoothed 4 px, body levelled 4 deg, head pin 46 px down, swivel 32", "saw": "four approach crops read as a dog walking head low; head top 25+ px below the withers"}
+{"n": 24, "attempt": "round 2 repair 3", "change": "face card re-cut at print scale 0.74 (first try 0.89 gave ratio 0.69)", "saw": "39/68 = 0.57 of the torso card"}
+{"n": 25, "attempt": "round 2 optional", "change": "tail tucked 70/58 deg in the refusal; footfalls +9 dB; paw + thud at 23.84-23.9", "saw": "13 footfall transients >12 dB over the bed; thud 20 dB over"}
+{"n": 26, "attempt": "encode", "change": "two-pass 2.1 Mb/s", "saw": "10.7 MB, 912 frames, 38.0 s; check ALL OK"}
