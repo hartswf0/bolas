@@ -1422,19 +1422,490 @@
    "measured": true
   },
   "club_dress/club": {
-   "measured": false,
-   "reason": "no rig module: its paintings are catalogued, but no layered rig exists yet",
-   "gaps": []
+   "module": "club_dress__club",
+   "costume": "dress",
+   "drawings": 0,
+   "needs": [
+    {
+     "need": "stand, front",
+     "uses": "entrances, standing, the spin landing",
+     "covered_by": [],
+     "count": 0
+    },
+    {
+     "need": "stand, 3/4",
+     "uses": "walks, turns, bar and parlour blocking",
+     "covered_by": [],
+     "count": 0
+    },
+    {
+     "need": "stand, profile",
+     "uses": "walking across the frame, turn ring",
+     "covered_by": [],
+     "count": 0
+    },
+    {
+     "need": "stand, back",
+     "uses": "turn ring, backs of figures",
+     "covered_by": [],
+     "count": 0
+    },
+    {
+     "need": "walk stride, 3/4 or profile",
+     "uses": "walk cycles (legs apart, one foot forward)",
+     "covered_by": [],
+     "count": 0
+    },
+    {
+     "need": "walk stride, front",
+     "uses": "front walks",
+     "covered_by": [],
+     "count": 0
+    },
+    {
+     "need": "reach or point, arm out",
+     "uses": "grasp, point, offer, open arms",
+     "covered_by": [],
+     "count": 0
+    },
+    {
+     "need": "sit",
+     "uses": "armchair, cafe, kitchen seats",
+     "covered_by": [],
+     "count": 0
+    },
+    {
+     "need": "kneel or crouch",
+     "uses": "low actions, stooping for objects",
+     "covered_by": [],
+     "count": 0
+    },
+    {
+     "need": "lean or lunge",
+     "uses": "leaning on the bar, falter, lunge",
+     "covered_by": [],
+     "count": 0
+    },
+    {
+     "need": "lie or fall",
+     "uses": "falls, lying down, recovery",
+     "covered_by": [],
+     "count": 0
+    },
+    {
+     "need": "ring: 3/4",
+     "uses": "the spin, 3/4 slot",
+     "covered_by": [],
+     "count": 0
+    },
+    {
+     "need": "ring: profile",
+     "uses": "the spin, profile slot",
+     "covered_by": [],
+     "count": 0
+    },
+    {
+     "need": "ring: 3/4 back",
+     "uses": "the spin, 3/4 back slot",
+     "covered_by": [],
+     "count": 0
+    },
+    {
+     "need": "ring: back",
+     "uses": "the spin, back slot",
+     "covered_by": [],
+     "count": 0
+    }
+   ],
+   "gaps": [
+    {
+     "need": "stand, front",
+     "uses": "entrances, standing, the spin landing"
+    },
+    {
+     "need": "stand, 3/4",
+     "uses": "walks, turns, bar and parlour blocking"
+    },
+    {
+     "need": "stand, profile",
+     "uses": "walking across the frame, turn ring"
+    },
+    {
+     "need": "stand, back",
+     "uses": "turn ring, backs of figures"
+    },
+    {
+     "need": "walk stride, 3/4 or profile",
+     "uses": "walk cycles (legs apart, one foot forward)"
+    },
+    {
+     "need": "walk stride, front",
+     "uses": "front walks"
+    },
+    {
+     "need": "reach or point, arm out",
+     "uses": "grasp, point, offer, open arms"
+    },
+    {
+     "need": "sit",
+     "uses": "armchair, cafe, kitchen seats"
+    },
+    {
+     "need": "kneel or crouch",
+     "uses": "low actions, stooping for objects"
+    },
+    {
+     "need": "lean or lunge",
+     "uses": "leaning on the bar, falter, lunge"
+    },
+    {
+     "need": "lie or fall",
+     "uses": "falls, lying down, recovery"
+    },
+    {
+     "need": "ring: 3/4",
+     "uses": "the spin, 3/4 slot"
+    },
+    {
+     "need": "ring: profile",
+     "uses": "the spin, profile slot"
+    },
+    {
+     "need": "ring: 3/4 back",
+     "uses": "the spin, 3/4 back slot"
+    },
+    {
+     "need": "ring: back",
+     "uses": "the spin, back slot"
+    }
+   ],
+   "covered": 0,
+   "total": 15,
+   "measured": true
   },
   "club_shirt/club": {
-   "measured": false,
-   "reason": "no rig module: its paintings are catalogued, but no layered rig exists yet",
-   "gaps": []
+   "module": "club_shirt__club",
+   "costume": "shirt",
+   "drawings": 0,
+   "needs": [
+    {
+     "need": "stand, front",
+     "uses": "entrances, standing, the spin landing",
+     "covered_by": [],
+     "count": 0
+    },
+    {
+     "need": "stand, 3/4",
+     "uses": "walks, turns, bar and parlour blocking",
+     "covered_by": [],
+     "count": 0
+    },
+    {
+     "need": "stand, profile",
+     "uses": "walking across the frame, turn ring",
+     "covered_by": [],
+     "count": 0
+    },
+    {
+     "need": "stand, back",
+     "uses": "turn ring, backs of figures",
+     "covered_by": [],
+     "count": 0
+    },
+    {
+     "need": "walk stride, 3/4 or profile",
+     "uses": "walk cycles (legs apart, one foot forward)",
+     "covered_by": [],
+     "count": 0
+    },
+    {
+     "need": "walk stride, front",
+     "uses": "front walks",
+     "covered_by": [],
+     "count": 0
+    },
+    {
+     "need": "reach or point, arm out",
+     "uses": "grasp, point, offer, open arms",
+     "covered_by": [],
+     "count": 0
+    },
+    {
+     "need": "sit",
+     "uses": "armchair, cafe, kitchen seats",
+     "covered_by": [],
+     "count": 0
+    },
+    {
+     "need": "kneel or crouch",
+     "uses": "low actions, stooping for objects",
+     "covered_by": [],
+     "count": 0
+    },
+    {
+     "need": "lean or lunge",
+     "uses": "leaning on the bar, falter, lunge",
+     "covered_by": [],
+     "count": 0
+    },
+    {
+     "need": "lie or fall",
+     "uses": "falls, lying down, recovery",
+     "covered_by": [],
+     "count": 0
+    },
+    {
+     "need": "ring: 3/4",
+     "uses": "the spin, 3/4 slot",
+     "covered_by": [],
+     "count": 0
+    },
+    {
+     "need": "ring: profile",
+     "uses": "the spin, profile slot",
+     "covered_by": [],
+     "count": 0
+    },
+    {
+     "need": "ring: 3/4 back",
+     "uses": "the spin, 3/4 back slot",
+     "covered_by": [],
+     "count": 0
+    },
+    {
+     "need": "ring: back",
+     "uses": "the spin, back slot",
+     "covered_by": [],
+     "count": 0
+    }
+   ],
+   "gaps": [
+    {
+     "need": "stand, front",
+     "uses": "entrances, standing, the spin landing"
+    },
+    {
+     "need": "stand, 3/4",
+     "uses": "walks, turns, bar and parlour blocking"
+    },
+    {
+     "need": "stand, profile",
+     "uses": "walking across the frame, turn ring"
+    },
+    {
+     "need": "stand, back",
+     "uses": "turn ring, backs of figures"
+    },
+    {
+     "need": "walk stride, 3/4 or profile",
+     "uses": "walk cycles (legs apart, one foot forward)"
+    },
+    {
+     "need": "walk stride, front",
+     "uses": "front walks"
+    },
+    {
+     "need": "reach or point, arm out",
+     "uses": "grasp, point, offer, open arms"
+    },
+    {
+     "need": "sit",
+     "uses": "armchair, cafe, kitchen seats"
+    },
+    {
+     "need": "kneel or crouch",
+     "uses": "low actions, stooping for objects"
+    },
+    {
+     "need": "lean or lunge",
+     "uses": "leaning on the bar, falter, lunge"
+    },
+    {
+     "need": "lie or fall",
+     "uses": "falls, lying down, recovery"
+    },
+    {
+     "need": "ring: 3/4",
+     "uses": "the spin, 3/4 slot"
+    },
+    {
+     "need": "ring: profile",
+     "uses": "the spin, profile slot"
+    },
+    {
+     "need": "ring: 3/4 back",
+     "uses": "the spin, 3/4 back slot"
+    },
+    {
+     "need": "ring: back",
+     "uses": "the spin, back slot"
+    }
+   ],
+   "covered": 0,
+   "total": 15,
+   "measured": true
   },
   "club_jacket/club": {
-   "measured": false,
-   "reason": "no rig module: its paintings are catalogued, but no layered rig exists yet",
-   "gaps": []
+   "module": "club_jacket__club",
+   "costume": "jacket",
+   "drawings": 0,
+   "needs": [
+    {
+     "need": "stand, front",
+     "uses": "entrances, standing, the spin landing",
+     "covered_by": [],
+     "count": 0
+    },
+    {
+     "need": "stand, 3/4",
+     "uses": "walks, turns, bar and parlour blocking",
+     "covered_by": [],
+     "count": 0
+    },
+    {
+     "need": "stand, profile",
+     "uses": "walking across the frame, turn ring",
+     "covered_by": [],
+     "count": 0
+    },
+    {
+     "need": "stand, back",
+     "uses": "turn ring, backs of figures",
+     "covered_by": [],
+     "count": 0
+    },
+    {
+     "need": "walk stride, 3/4 or profile",
+     "uses": "walk cycles (legs apart, one foot forward)",
+     "covered_by": [],
+     "count": 0
+    },
+    {
+     "need": "walk stride, front",
+     "uses": "front walks",
+     "covered_by": [],
+     "count": 0
+    },
+    {
+     "need": "reach or point, arm out",
+     "uses": "grasp, point, offer, open arms",
+     "covered_by": [],
+     "count": 0
+    },
+    {
+     "need": "sit",
+     "uses": "armchair, cafe, kitchen seats",
+     "covered_by": [],
+     "count": 0
+    },
+    {
+     "need": "kneel or crouch",
+     "uses": "low actions, stooping for objects",
+     "covered_by": [],
+     "count": 0
+    },
+    {
+     "need": "lean or lunge",
+     "uses": "leaning on the bar, falter, lunge",
+     "covered_by": [],
+     "count": 0
+    },
+    {
+     "need": "lie or fall",
+     "uses": "falls, lying down, recovery",
+     "covered_by": [],
+     "count": 0
+    },
+    {
+     "need": "ring: 3/4",
+     "uses": "the spin, 3/4 slot",
+     "covered_by": [],
+     "count": 0
+    },
+    {
+     "need": "ring: profile",
+     "uses": "the spin, profile slot",
+     "covered_by": [],
+     "count": 0
+    },
+    {
+     "need": "ring: 3/4 back",
+     "uses": "the spin, 3/4 back slot",
+     "covered_by": [],
+     "count": 0
+    },
+    {
+     "need": "ring: back",
+     "uses": "the spin, back slot",
+     "covered_by": [],
+     "count": 0
+    }
+   ],
+   "gaps": [
+    {
+     "need": "stand, front",
+     "uses": "entrances, standing, the spin landing"
+    },
+    {
+     "need": "stand, 3/4",
+     "uses": "walks, turns, bar and parlour blocking"
+    },
+    {
+     "need": "stand, profile",
+     "uses": "walking across the frame, turn ring"
+    },
+    {
+     "need": "stand, back",
+     "uses": "turn ring, backs of figures"
+    },
+    {
+     "need": "walk stride, 3/4 or profile",
+     "uses": "walk cycles (legs apart, one foot forward)"
+    },
+    {
+     "need": "walk stride, front",
+     "uses": "front walks"
+    },
+    {
+     "need": "reach or point, arm out",
+     "uses": "grasp, point, offer, open arms"
+    },
+    {
+     "need": "sit",
+     "uses": "armchair, cafe, kitchen seats"
+    },
+    {
+     "need": "kneel or crouch",
+     "uses": "low actions, stooping for objects"
+    },
+    {
+     "need": "lean or lunge",
+     "uses": "leaning on the bar, falter, lunge"
+    },
+    {
+     "need": "lie or fall",
+     "uses": "falls, lying down, recovery"
+    },
+    {
+     "need": "ring: 3/4",
+     "uses": "the spin, 3/4 slot"
+    },
+    {
+     "need": "ring: profile",
+     "uses": "the spin, profile slot"
+    },
+    {
+     "need": "ring: 3/4 back",
+     "uses": "the spin, 3/4 back slot"
+    },
+    {
+     "need": "ring: back",
+     "uses": "the spin, back slot"
+    }
+   ],
+   "covered": 0,
+   "total": 15,
+   "measured": true
   },
   "vintage_man/suit": {
    "module": "vintage_man__suit",
@@ -3547,13 +4018,12 @@
    "blocked_by": [
     "poet/red_black_sunglasses",
     "poet_soul/soul",
-    "angel/robe"
-   ],
-   "not_measured": [
+    "angel/robe",
     "club_dress/club",
     "club_shirt/club",
     "club_jacket/club"
    ],
+   "not_measured": [],
    "staged_from_paintings_only": false
   },
   "09": {
@@ -3571,13 +4041,12 @@
     "ex/ex_jacket",
     "poet/red_black_sunglasses",
     "mother/poem09",
-    "father_elder/poem09"
-   ],
-   "not_measured": [
+    "father_elder/poem09",
     "club_dress/club",
     "club_shirt/club",
     "club_jacket/club"
    ],
+   "not_measured": [],
    "staged_from_paintings_only": false
   },
   "10": {
@@ -3678,8 +4147,8 @@
  },
  "summary": {
   "characters": 41,
-  "measured": 21,
-  "with_gaps": 21,
+  "measured": 24,
+  "with_gaps": 24,
   "poems": 14,
   "poems_clear": 0
  }
