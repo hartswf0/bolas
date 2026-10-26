@@ -192,6 +192,15 @@ window.CRANK_FILMS = {
     "game",
     "plates"
    ],
+   "made": {
+    "op": "Layers cut from clean plates",
+    "steps": [
+     "Took the five aligned At School plates and verified the alignment (best shift 0, 0 px).",
+     "Cut each layer by plate difference and by outline: the whole class, the lectern, the machine.",
+     "Built the game on the layers and recorded it played by a script."
+    ],
+    "learned": "Clean plates turn a postcard into a stage: the layers come out by subtraction, not by guessing."
+   },
    "work": "school-card",
    "role": "Game, played",
    "step": 3,
@@ -234,6 +243,25 @@ window.CRANK_FILMS = {
     "archive",
     "terry"
    ],
+   "made": {
+    "op": "Terry Gilliam, comic cutout metamorphosis",
+    "game": "Video Puppetry: perform the crank, do not key it",
+    "steps": [
+     "Cut three pieces: the boy above the waist, one pupil's head, the teacher's book.",
+     "Filled the holes with the card's own colours, pulled in from the edges (shorts/tools/cut.py).",
+     "Set a 3.5 s plate of a lecturer at a blackboard inside the opened book; the camera pushes into it until it fills the frame.",
+     "Kept the plate running only while the crank turns, and froze it when the boy stops."
+    ],
+    "critic": {
+     "verdict": "PARTLY",
+     "found": "The crank never visibly turned, so \"the lesson runs only while he turns\" was unproven; the book read as a television on the boy's chest.",
+     "fixed": "Drew the crank arm turning on the printed axle."
+    },
+    "learned": "The cause has to be on screen. A caption cannot carry what the picture does not show.",
+    "plates": [
+     "Letter From an Airline Pilot (Part I)"
+    ]
+   },
    "work": "school-card",
    "role": "Short",
    "step": 1,
@@ -275,7 +303,26 @@ window.CRANK_FILMS = {
    "tags": [
     "archive",
     "inverse"
-   ]
+   ],
+   "made": {
+    "op": "Inverse kinematics, contact and reach",
+    "game": "Sketchpad: drag a brush; the constraints keep the legs",
+    "steps": [
+     "Painted the printed legs out and cut the column and the two brushes.",
+     "Redrew the legs as brass rods solved by two-bone inverse kinematics from where the brushes are sent.",
+     "Ran the contact test over every frame: the largest slip is 0.000 card pixels.",
+     "Laid the 1957 Frigidaire stage upside down under a polish mask that grows where the brushes have been."
+    ],
+    "critic": {
+     "verdict": "PARTLY",
+     "found": "The brushes barely moved, the painted-out legs left brown smudges, and the reflection read as muddy wood.",
+     "fixed": "Larger strokes, holes refilled with copied parquet instead of blurred colour, a brighter mirror."
+    },
+    "learned": "A numeric test can pass while the picture fails. The contact test was perfect; the strokes were too small to see.",
+    "plates": [
+     "Frigidaire Finale 1957"
+    ]
+   }
   },
   {
    "id": "barber",
@@ -312,7 +359,26 @@ window.CRANK_FILMS = {
    "tags": [
     "archive",
     "forward"
-   ]
+   ],
+   "made": {
+    "op": "Forward kinematics, hierarchical body logic",
+    "game": "Character Animator: triggered states on a beat",
+    "steps": [
+     "Cut four rods of the arms and the lever as separate pieces, each turning about its own joint.",
+     "Made every joint angle a fixed multiple of the lever's angle: forward kinematics, parent to child.",
+     "Set the 1959 barber in the oval glass of both mirrors, toned to the card's greens.",
+     "For the game, tried to take the beat from the plate's measured motion; it was too flat, so the beat is the panel's own metronome."
+    ],
+    "critic": {
+     "verdict": "PARTLY",
+     "found": "The lever never visibly moved, so the arms had no cause; the mirror footage was grey against a green card.",
+     "fixed": "A larger lever throw, greener toning."
+    },
+    "learned": "Measured motion is not always usable rhythm. Say so, and set the beat by hand.",
+    "plates": [
+     "Barbers (1959)"
+    ]
+   }
   },
   {
    "id": "phono-cinema",
@@ -350,7 +416,27 @@ window.CRANK_FILMS = {
    "tags": [
     "archive",
     "sound"
-   ]
+   ],
+   "made": {
+    "op": "Sound to action",
+    "game": "JibJab: recast the answer, keep the performance",
+    "steps": [
+     "Cut the big horn, the receiver, the speaker's head and the woman on the screen.",
+     "Drove all three from the synthesiser's own loudness function, so picture and sound agree syllable by syllable.",
+     "Measured the 1914 dance frame by frame (shorts/tools/motion.py) and played the music as loud as the dancers move.",
+     "When keying the 1948 audience failed (its lower half is all dark), projected the whole card onto that audience's screen instead, with the heads in front."
+    ],
+    "critic": {
+     "verdict": "READS",
+     "found": "The footage sat beside the beam, not inside it.",
+     "fixed": "Left as is: the screen is where the beam lands."
+    },
+    "learned": "When a key fails, find the surface in the plate that already wants the picture: here, a screen.",
+    "plates": [
+     "Fatty's Magic Pants (1914)",
+     "Let's Go To The Movies (1948)"
+    ]
+   }
   },
   {
    "id": "air-cabs",
@@ -387,7 +473,25 @@ window.CRANK_FILMS = {
    "tags": [
     "archive",
     "multiplane"
-   ]
+   ],
+   "made": {
+    "op": "Multiplane parallax, spatial collage",
+    "game": "Rive: a cab that runs on states",
+    "steps": [
+     "Cut nine planes: the city, the nearest cab, the big cab and its two wings, a plane, the airship, two small flyers.",
+     "Moved each plane by the camera's movement divided by its depth.",
+     "Keyed a 1954 crop duster into the far sky; its thin wings broke into streaks, so it is seen through a soft gap in the sky instead."
+    ],
+    "critic": {
+     "verdict": "FAILS",
+     "found": "The incoming plane read as tape glitches, and the parallax was too small to see.",
+     "fixed": "The soft window for the plane, a wider camera move and deeper planes."
+    },
+    "learned": "Do not key thin things against similar tones. Give the archive its own window.",
+    "plates": [
+     "Airport America (1954)"
+    ]
+   }
   },
   {
    "id": "firemen",
@@ -426,7 +530,28 @@ window.CRANK_FILMS = {
    "tags": [
     "archive",
     "secondary"
-   ]
+   ],
+   "made": {
+    "op": "Secondary dynamics, inertia and restraint",
+    "game": "State machines: flyers that refuse",
+    "steps": [
+     "Cut the two left flyers as one piece and the flyer above the fire, and hung them on simulated springs that lag the wind.",
+     "Threw each drop of water from the nozzle's aim at the moment it left, so the jet whips.",
+     "Laid real flames (1958) and smoke (1923) over the card's own, through soft masks, so only their light adds.",
+     "Ended on a 1947 hose crew."
+    ],
+    "critic": {
+     "verdict": "PARTLY",
+     "found": "The jet was a thin line that barely changed, so the lag could not be seen.",
+     "fixed": "Three strands with droplets, and sharper swings of the nozzle."
+    },
+    "learned": "Secondary motion is only visible when the primary motion is sharp.",
+    "plates": [
+     "Watershed wildfire (1958)",
+     "The Balloonatic (1923)",
+     "Fire and Police Service (1947)"
+    ]
+   }
   },
   {
    "id": "skates",
@@ -464,7 +589,26 @@ window.CRANK_FILMS = {
    "tags": [
     "archive",
     "lotte"
-   ]
+   ],
+   "made": {
+    "op": "Lotte Reiniger, articulated shadow theatre",
+    "game": "Drawing substitution: when a pose fails, swap the drawing",
+    "steps": [
+     "Cut ten pieces with an automatic matte: a pixel is ground when it is near a ground colour and connected to the outside, so each figure's edge is the card's own drawing.",
+     "Brought a warm light up behind the card and darkened the pieces into shadow figures on hinged legs.",
+     "Set a 1927 crowd on the horizon and, behind everything, a real shadow play."
+    ],
+    "critic": {
+     "verdict": "FAILS",
+     "found": "Solid black silhouettes of overlapping figures came out as blobs with speckle, and nothing seemed to move.",
+     "fixed": "Speckle removed, the shadow figures lightened so the drawing shows through, a longer glide and stride."
+    },
+    "learned": "Overlapping figures do not survive as solid silhouettes. Reiniger cut her figures to be read in profile; a card drawn for colour needs its drawing kept.",
+    "plates": [
+     "Autoraces op boulevard Scheveningen (1927)",
+     "Industry on Parade"
+    ]
+   }
   },
   {
    "id": "town",
@@ -492,7 +636,18 @@ window.CRANK_FILMS = {
    "tags": [
     "town",
     "doodles"
-   ]
+   ],
+   "made": {
+    "op": "One world: a drawn power line from the crank, recastable handle-holders",
+    "steps": [
+     "Put the seven cards in a row under one power line drawn the Secondhand Motion way, with real Quick, Draw! doodles over them.",
+     "Made nothing run unless the crank in the school turns, with power reaching each card later the farther it is from the boy.",
+     "Gave each card a game with an operator its short did not use; all seven passed a headless play test with real inputs.",
+     "Cut the crank boy, the maid and the barber's lever man into performing upper bodies and planted legs so any can stand in another's place.",
+     "Stepped the same engine from a fixed script and rendered it frame by frame with a synthesised soundtrack."
+    ],
+    "learned": "A cast can be replaced without remaking the performance, if the performance is a function of the actor's height only."
+   }
   },
   {
    "id": "proof-school",
@@ -522,6 +677,16 @@ window.CRANK_FILMS = {
     "art department",
     "archive"
    ],
+   "made": {
+    "op": "Méliès's trick-film grammar",
+    "steps": [
+     "Fixed the camera and stood the card on a stage behind a proscenium, with curtains and footlights.",
+     "Turned the wall and window into the falling stars of The Eclipse (Méliès, 1907), re-printed live in the card's own darkest inks, keyed out by the card's wall and glass colours.",
+     "Made the teacher's book come out of the machine as a moon drawn from two Quick, Draw! records, and turn back into a book on his desk.",
+     "Ran the story's clock as fast as the boy cranks, shown at 16 frames a second with gate weave, flicker, scratches and dust."
+    ],
+    "learned": "An archive frame from the card's own decade, re-printed in the card's inks, can replace a surface of the card without reading as a seam. Not yet blind-reviewed."
+   },
    "work": "school-card",
    "role": "Proof scene",
    "step": 2,

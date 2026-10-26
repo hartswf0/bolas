@@ -40,7 +40,12 @@ for v in R['versions']:
         d, mb = probe(os.path.join(root, v['film']))
         films.append({'id': v['id'] + '-played', 'group': 'futuretown', 'card': 'school', 'kind': 'game', 'title': f"Version {v['tag']} · {v['title']}, played", 'date': v['date'], 'dur': d, 'mb': mb,
                       'line': v['line'], 'thumb': v['film'].replace('.mp4', '.jpg'), 'src': {'local': v['film']},
-                      'links': [{'label': 'Play it', 'href': v['play']}, {'label': 'How it was made', 'href': v['making']}], 'tags': ['game', 'plates']})
+                      'links': [{'label': 'Play it', 'href': v['play']}, {'label': 'How it was made', 'href': v['making']}], 'tags': ['game', 'plates'],
+                      'made': {'op': 'Layers cut from clean plates', 'steps': [
+                          'Took the five aligned At School plates and verified the alignment (best shift 0, 0 px).',
+                          'Cut each layer by plate difference and by outline: the whole class, the lectern, the machine.',
+                          'Built the game on the layers and recorded it played by a script.'],
+                          'learned': 'Clean plates turn a postcard into a stage: the layers come out by subtraction, not by guessing.'}})
 
 # ---- Futuretown: the shorts, the Town, the proofs
 for s in R['shorts']:
@@ -48,17 +53,31 @@ for s in R['shorts']:
     films.append({'id': s['id'], 'group': 'futuretown', 'kind': 'short', 'title': s['title'], 'date': '2026-10-24', 'dur': d, 'mb': mb, 'line': s['line'],
                   'thumb': s['poster'], 'src': {'local': s['film']}, 'card': s['id'], 'op': s['operator'], 'plates': s['plates'],
                   'links': [{'label': 'The game', 'href': s['game']['link']}, {'label': 'How it was made', 'href': 'shorts/index.html#' + s['id']}, {'label': 'The composition', 'href': s['page']}],
-                  'tags': ['archive'] + [s['operator'].split(',')[0].split(' ')[0].lower()]})
+                  'tags': ['archive'] + [s['operator'].split(',')[0].split(' ')[0].lower()],
+                  'made': {'op': s['operator'], 'game': s['game']['op'], 'steps': s['process'], 'critic': s['critic'], 'learned': s['learned'], 'plates': s['plates']}})
 T = R['town']
 d, mb = probe(os.path.join(root, T['film']))
 films.append({'id': 'town', 'group': 'futuretown', 'kind': 'cartoon', 'title': 'The Town', 'date': '2026-10-24', 'dur': d, 'mb': mb, 'line': T['line'], 'thumb': T['poster'], 'src': {'local': T['film']},
-              'links': [{'label': 'Play the Town', 'href': T['page']}, {'label': 'The method', 'href': 'docs/prompts/town.md'}], 'tags': ['town', 'doodles']})
+              'links': [{'label': 'Play the Town', 'href': T['page']}, {'label': 'The method', 'href': 'docs/prompts/town.md'}], 'tags': ['town', 'doodles'],
+              'made': {'op': 'One world: a drawn power line from the crank, recastable handle-holders', 'steps': [
+                  'Put the seven cards in a row under one power line drawn the Secondhand Motion way, with real Quick, Draw! doodles over them.',
+                  'Made nothing run unless the crank in the school turns, with power reaching each card later the farther it is from the boy.',
+                  'Gave each card a game with an operator its short did not use; all seven passed a headless play test with real inputs.',
+                  'Cut the crank boy, the maid and the barber\'s lever man into performing upper bodies and planted legs so any can stand in another\'s place.',
+                  'Stepped the same engine from a fixed script and rendered it frame by frame with a synthesised soundtrack.'],
+                  'learned': 'A cast can be replaced without remaking the performance, if the performance is a function of the actor\'s height only.'}})
 for p in T.get('proofs', []):
     d, mb = probe(os.path.join(root, p['film']))
     films.append({'id': 'proof-' + p['card'], 'group': 'futuretown', 'kind': 'proof', 'title': p['title'] + ' · proof scene', 'date': '2026-10-24', 'dur': d, 'mb': mb,
                   'line': 'The first call sheet of the art department made real: ' + p['aesthetic'] + '. A fixed camera, stop-substitutions, and the stars of The Eclipse (1907) re-printed in the card\'s own inks.',
                   'thumb': p['poster'], 'src': {'local': p['film']}, 'card': p['card'],
-                  'links': [{'label': 'The composition', 'href': p['page']}, {'label': 'The call sheets', 'href': 'shorts/requests.html#' + p['card']}], 'tags': ['art department', 'archive']})
+                  'links': [{'label': 'The composition', 'href': p['page']}, {'label': 'The call sheets', 'href': 'shorts/requests.html#' + p['card']}], 'tags': ['art department', 'archive'],
+                  'made': {'op': 'Méliès\'s trick-film grammar', 'steps': [
+                      'Fixed the camera and stood the card on a stage behind a proscenium, with curtains and footlights.',
+                      'Turned the wall and window into the falling stars of The Eclipse (Méliès, 1907), re-printed live in the card\'s own darkest inks, keyed out by the card\'s wall and glass colours.',
+                      'Made the teacher\'s book come out of the machine as a moon drawn from two Quick, Draw! records, and turn back into a book on his desk.',
+                      'Ran the story\'s clock as fast as the boy cranks, shown at 16 frames a second with gate weave, flicker, scratches and dust.'],
+                      'learned': 'An archive frame from the card\'s own decade, re-printed in the card\'s inks, can replace a surface of the card without reading as a seam. Not yet blind-reviewed.'}})
 
 # ---- Bolas
 PROC = {'bolas-videotext': 'pencil-test', 'the-physical': 'the-physical', 'crash-lab-film': 'crash-lab', 'cineosis-crash-lab': 'cineosis-crash-lab', 'cineosis-hybrid-pilot': 'hybrid-pilot',

@@ -11,6 +11,7 @@ One postcard, *À l'École* (At School, from *En l'an 2000*, attributed to Ville
 | [`index.html`](index.html) | **The album.** The versions as a grid (columns are the starting prompts, rows the AI programs), Compare, and About. Plays the opening film on a first visit. |
 | [`shorts/index.html`](shorts/index.html) | **Futuretown.** The seven cards as films, games and one town, each with its process, its blind critic and what it taught. |
 | [`shorts/world.html`](shorts/world.html) | **The Town.** Seven cards under one drawn power line, run by one boy's crank. `?d=<card id>` plays one district. |
+| [`watch.html`](watch.html) | **Watch.** One theatre for every film in watching order (works numbered), with the process under each film. |
 | [`films.html`](films.html) | **Films.** Every film here and in Bolas: 37 films and 6 more elsewhere, with search, filters and a player. Films that belong together are grouped in order (`registry/works.json`): the school card has three, and the Bolas families run in chains. |
 | [`kit.html`](kit.html) | **The kit.** Every cut piece, plate, ink, doodle, operator and tool. |
 | [`shorts/requests.html`](shorts/requests.html) | **The art department.** Call sheets for a new aesthetic for each card. |

@@ -87,7 +87,7 @@ page = f'''<!doctype html><html lang="en" data-root="../"><head><meta charset="u
 <p>One postcard printed in France in about 1910, a school in the year 2000, and what grew from it: seven versions of a game built by AI programs, an opening film, and Futuretown, where the series' seven cards become short films, games and one playable town. Every film and game uses a different operator from the SCION animation swarms, and every one lets in real archive film from the cineosis-lab library, the way CINEOSIS does.</p>
 <div class="cb-hero"><video controls preload="none" playsinline poster="{esc(T["poster"])}" src="{esc(T["film"])}" aria-label="The Town, the cartoon"></video>
 <div><h2>The Town</h2><p>{esc(T["line"])}</p>
-<div class="cb-act"><a href="shorts/world.html">Play the town</a><a href="shorts/index.html">Futuretown</a><a href="album.html">The album</a><a href="films.html">All {nfilms} films</a><a href="kit.html">The kit</a><a href="https://github.com/hartswf0/crank-boy">Source</a></div></div></div>
+<div class="cb-act"><a href="shorts/world.html">Play the town</a><a href="shorts/index.html">Futuretown</a><a href="album.html">The album</a><a href="watch.html">Watch all {nfilms} films</a><a href="films.html">The film library</a><a href="kit.html">The kit</a><a href="https://github.com/hartswf0/crank-boy">Source</a></div></div></div>
 <section class="sec"><div class="sechead"><h2>Also made</h2><p>a better Crank Boy, and the first proof of a new look</p></div>
 <div class="cb-tiles">{tiles}</div>
 <div class="cb-act"><a href="play/v9.html">Play version 9</a><a href="shorts/school-melies.html">The trick-film proof</a><a href="shorts/requests.html">The art department</a><a href="docs/futuretown.md">The write-up</a></div></section>
@@ -107,7 +107,7 @@ if os.path.exists(sm):
     t = open(sm, encoding='utf-8').read()
     m = re.search(r'<loc>(https?://[^<]*?/)this-side-up/</loc>', t)
     base = m.group(1) if m else 'https://hartswf0.github.io/bolas/'
-    add = ''.join(f'<url><loc>{base}crank-boy/{u}</loc></url>' for u in ['', 'album.html', 'films.html', 'kit.html', 'shorts/', 'shorts/world.html', 'shorts/requests.html', 'play/v9.html'] if f'crank-boy/{u}</loc>' not in t)
+    add = ''.join(f'<url><loc>{base}crank-boy/{u}</loc></url>' for u in ['', 'album.html', 'watch.html', 'films.html', 'kit.html', 'shorts/', 'shorts/world.html', 'shorts/requests.html', 'play/v9.html'] if f'crank-boy/{u}</loc>' not in t)
     if add:
         t = t.replace('</urlset>', add + '</urlset>')
         open(sm, 'w', encoding='utf-8').write(t)

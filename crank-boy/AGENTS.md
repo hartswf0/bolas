@@ -68,6 +68,7 @@ The prompt that puts an agent on this protocol is `docs/prompts/join-the-room.md
 | `shorts/index.html` | Futuretown: the seven cards as films, games and one town; the project page |
 | `shorts/world.html` | The Town, playable. `?d=<card id>` opens one district. `play/v9.html` is version 9 |
 | `shorts/requests.html` | The art department: call sheets for new aesthetics |
+| `watch.html` | The theatre: every playable film in order with its process (`made` in `films.js` for Crank Boy films, links for Bolas). `#<film id>` opens one |
 | `films.html` | Every film, from `registry/films.js`. `#<film id>` opens one; `#g:<group>` filters |
 | `kit.html` | Every element, from `registry/kit.js` |
 
