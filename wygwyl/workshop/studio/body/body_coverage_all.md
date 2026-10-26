@@ -1,6 +1,6 @@
 # Body coverage, every character and poem
 
-21 of 41 characters measured; 21 of those have gaps; 0 of 14 poems can be staged from paintings alone.
+24 of 41 characters measured; 24 of those have gaps; 0 of 14 poems can be staged from paintings alone.
 
 ## Poems
 
@@ -13,8 +13,8 @@
 | 05 | Bloodlines | poet/red_black_sunglasses, ancestor_robe/indigo_gold, ancestor_elder/white_silver | — |
 | 06 | Resurrecting Atlantis | poet/red_black_sunglasses, citizen_1/atlantis, traveler_1/atlantis, party_guest/guest | child_traveler/atlantis, elder_1/atlantis, gatekeeper/atlantis |
 | 07 | DJ Turn Me Up | poet/red_black_sunglasses, party_guest/guest, dj_cyber/cyber, ex/ex_jacket | — |
-| 08 | Newly Single | poet/red_black_sunglasses, poet_soul/soul, angel/robe | club_dress/club, club_shirt/club, club_jacket/club |
-| 09 | Yet, Heard | ex/ex_jacket, poet/red_black_sunglasses, mother/poem09, father_elder/poem09 | club_dress/club, club_shirt/club, club_jacket/club |
+| 08 | Newly Single | poet/red_black_sunglasses, poet_soul/soul, angel/robe, club_dress/club, club_shirt/club, club_jacket/club | — |
+| 09 | Yet, Heard | ex/ex_jacket, poet/red_black_sunglasses, mother/poem09, father_elder/poem09, club_dress/club, club_shirt/club, club_jacket/club | — |
 | 10 | Magic Ride | poet/red_black_sunglasses | family_misc/poem10 |
 | 11 | New Day | poet/red_black_sunglasses | — |
 | 12 | Reunion | brother_1/poem12, friend_1/poem12, poet/red_black_sunglasses | friend_2/poem12, elders/memory |
@@ -35,9 +35,9 @@
 | angel/robe | robe | 0 | 0 of 15 | stand, front; stand, 3/4; stand, profile; stand, back; walk stride, 3/4 or profile; walk stride, front; reach or point, arm out; sit; kneel or crouch; lean or lunge; lie or fall; ring: 3/4; ring: profile; ring: 3/4 back; ring: back |
 | dj_cyber/cyber | cyber | 0 | 0 of 15 | stand, front; stand, 3/4; stand, profile; stand, back; walk stride, 3/4 or profile; walk stride, front; reach or point, arm out; sit; kneel or crouch; lean or lunge; lie or fall; ring: 3/4; ring: profile; ring: 3/4 back; ring: back |
 | party_guest/guest | guest | 5 | 6 of 15 | stand, 3/4; stand, profile; walk stride, 3/4 or profile; walk stride, front; kneel or crouch; lean or lunge; lie or fall; ring: profile; ring: 3/4 back |
-| club_dress/club | — | — | NOT MEASURED | no rig module: its paintings are catalogued, but no layered rig exists yet |
-| club_shirt/club | — | — | NOT MEASURED | no rig module: its paintings are catalogued, but no layered rig exists yet |
-| club_jacket/club | — | — | NOT MEASURED | no rig module: its paintings are catalogued, but no layered rig exists yet |
+| club_dress/club | dress | 0 | 0 of 15 | stand, front; stand, 3/4; stand, profile; stand, back; walk stride, 3/4 or profile; walk stride, front; reach or point, arm out; sit; kneel or crouch; lean or lunge; lie or fall; ring: 3/4; ring: profile; ring: 3/4 back; ring: back |
+| club_shirt/club | shirt | 0 | 0 of 15 | stand, front; stand, 3/4; stand, profile; stand, back; walk stride, 3/4 or profile; walk stride, front; reach or point, arm out; sit; kneel or crouch; lean or lunge; lie or fall; ring: 3/4; ring: profile; ring: 3/4 back; ring: back |
+| club_jacket/club | jacket | 0 | 0 of 15 | stand, front; stand, 3/4; stand, profile; stand, back; walk stride, 3/4 or profile; walk stride, front; reach or point, arm out; sit; kneel or crouch; lean or lunge; lie or fall; ring: 3/4; ring: profile; ring: 3/4 back; ring: back |
 | vintage_man/suit | suit | 6 | 9 of 15 | walk stride, front; reach or point, arm out; sit; kneel or crouch; lean or lunge; lie or fall |
 | vintage_woman/gown | gown | 7 | 9 of 15 | stand, front; walk stride, front; sit; kneel or crouch; lean or lunge; lie or fall |
 | mother/poem09 | cardigan | 2 | 2 of 15 | stand, front; stand, 3/4; stand, profile; stand, back; walk stride, 3/4 or profile; walk stride, front; reach or point, arm out; kneel or crouch; lean or lunge; lie or fall; ring: 3/4; ring: 3/4 back; ring: back |
