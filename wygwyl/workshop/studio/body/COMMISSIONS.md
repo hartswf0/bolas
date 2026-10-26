@@ -25,6 +25,5 @@ Each line is a body pose the scenes use that no clean drawing of this actor cove
 4. **Kneel or crouch.** Full figure, 3/4 view.
 5. **Lean.** Full figure leaning, no baked-in prop.
 6. **Lie or fall.** Full figure falling or on the floor.
-7. **Ring, 3/4 back.** Covered by the existing back3q drawing only in a different costume; needs this costume.
 
 Source: studio/body_coverage.md (regenerate with `python3 -m studio.body_coverage`).
