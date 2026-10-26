@@ -1,0 +1,342 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta name="crank-mirror" content="bolas">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>The School of the Year 2000 · Provenance, Process &amp; Prompts</title>
+<meta name="description" content="Provenance, collaborators (Watson Hartsoe, Soyoun Jang, Jay David Bolter, Collin Freeman), multi-agent SCION process, and copyable prompts for The School of the Year 2000.">
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+<link rel="apple-touch-icon" href="../assets/favicon-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=IM+Fell+English+SC&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --card:#D6C69E; --paper:#F3ECD8; --ink:#2B2320; --muted:#6E5F4F;
+  --slate:#4F6A88; --orange:#C9733A; --red:#B44A3C; --brass:#C9A23E; --wall:#E8D59A;
+  --display:'IM Fell English SC','Iowan Old Style',Georgia,serif;
+  --body:'IM Fell English','Iowan Old Style',Georgia,serif;
+  --mono:'IBM Plex Mono',ui-monospace,Menlo,Consolas,monospace;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--card);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.5}
+.wrap{max-width:860px;margin:0 auto;padding-block:28px 60px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:22px}
+.sheet{background:var(--paper);padding:22px 26px;border:1.5px solid var(--ink);box-shadow:0 1px 0 rgba(43,35,32,.18),0 8px 20px rgba(70,50,20,.16)}
+h1,h2,h3{font-family:var(--display);font-weight:400;letter-spacing:.03em;text-wrap:balance;margin:0}
+h1{font-size:clamp(30px,6vw,46px);line-height:1.05}
+h2{font-size:24px;margin-bottom:10px;border-bottom:1.5px solid var(--ink);padding-bottom:4px}
+h3{font-size:18px;margin:16px 0 6px}
+p{margin:0 0 10px;max-width:66ch}
+.lede{font-size:19px}
+.eyebrow{font-family:var(--display);font-size:13px;letter-spacing:.12em;color:var(--muted)}
+.crumbs{font-family:var(--display);font-size:14px;letter-spacing:.06em;display:flex;gap:14px;flex-wrap:wrap}
+a{color:var(--ink);text-decoration-color:var(--red);text-underline-offset:3px}
+.btn{display:inline-block;font-family:var(--display);font-size:17px;letter-spacing:.06em;color:var(--ink);background:var(--wall);
+  border:1.5px solid var(--ink);padding:10px 18px;box-shadow:3px 3px 0 var(--ink);text-decoration:none;cursor:pointer}
+.btn:active{transform:translate(1px,1px);box-shadow:2px 2px 0 var(--ink)}
+.btn.small{font-size:13px;padding:5px 10px;box-shadow:2px 2px 0 var(--ink);background:var(--paper)}
+.btn:focus-visible{outline:2px solid var(--red);outline-offset:2px}
+.row{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px}
+.people{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.person{border:1.5px solid var(--ink);padding:12px 14px;background:#FBF7EA;min-width:0}
+.person h3{margin:0 0 4px;font-size:19px}
+.person p{font-size:15px;margin:0}
+.person .role{font-family:var(--display);font-size:12px;letter-spacing:.1em;color:var(--red);display:block;margin-bottom:4px}
+ol.steps{margin:0;padding-left:0;list-style:none;counter-reset:s}
+ol.steps>li{counter-increment:s;position:relative;padding:0 0 16px 44px;max-width:68ch}
+ol.steps>li::before{content:counter(s);position:absolute;left:0;top:-2px;width:30px;height:30px;border:1.5px solid var(--ink);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;font-family:var(--display);background:var(--wall)}
+ol.steps>li b{font-family:var(--display);font-weight:400;letter-spacing:.03em}
+.prompt{position:relative;border:1.5px solid var(--ink);background:#FBF7EA;margin:8px 0 6px}
+.prompt pre{margin:0;padding:12px 14px;white-space:pre-wrap;word-break:break-word;font-family:var(--body);font-size:15px;line-height:1.45;max-height:260px;overflow:auto}
+.prompt .bar{display:flex;justify-content:space-between;align-items:center;gap:8px;border-bottom:1.5px solid var(--ink);padding:5px 10px 5px 12px;background:var(--wall)}
+.prompt .bar span{font-family:var(--display);font-size:12.5px;letter-spacing:.08em}
+ul.plain{margin:0 0 10px;padding-left:20px;max-width:66ch}
+table{border-collapse:collapse;width:100%;font-size:15px}
+td,th{text-align:left;padding:6px 8px;border-bottom:1px solid rgba(43,35,32,.25);vertical-align:top}
+th{font-family:var(--display);font-weight:400;font-size:13px;letter-spacing:.08em;color:var(--muted)}
+.tw{overflow-x:auto}
+code{font-family:var(--mono);font-size:.84em;background:rgba(201,162,62,.18);padding:0 4px}
+.seats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:10px 0}
+.seat{border:1.5px solid var(--ink);padding:10px 12px;font-size:15px;background:#FBF7EA;min-width:0}
+.seat b{font-family:var(--display);font-weight:400;display:block;font-size:17px;margin-bottom:3px}
+footer{text-align:center;font-size:14px;color:var(--muted)}
+@media (max-width:680px){
+  body{font-size:16px}
+  .sheet{padding:18px 16px}
+  .people,.seats{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <section class="sheet">
+    <nav class="crumbs">
+      <a href="../album.html">The Crank Boy</a>
+      <span>/</span>
+      <a href="../scion/school-2000.html">The School of the Year 2000 (Guided Edition)</a>
+      <span>/</span>
+      <a href="../scion/case-01.html">SCION Case 01</a>
+    </nav>
+    <div style="display:flex;align-items:center;gap:12px;margin-top:14px">
+      <img src="../assets/favicon.svg" alt="The Crank Boy favicon" width="42" height="42" style="border:1.5px solid var(--ink);background:var(--wall);flex-shrink:0">
+      <div>
+        <div class="eyebrow">Provenance, Collaboration, Process &amp; Prompts</div>
+        <h1>Making The School of the Year 2000</h1>
+      </div>
+    </div>
+    <p class="lede" style="margin-top:10px">This page records the archival provenance, research collaborations, multi-agent SCION workflow, independent critique revisions, and exact copyable prompts used to build the guided chromolithograph edition of <i>The School of the Year 2000</i>.</p>
+    <div class="row">
+      <a class="btn" href="../scion/school-2000.html">Play The School of the Year 2000</a>
+      <a class="btn small" href="../scion/case-01.html" style="align-self:center">Open Case 01 Register</a>
+      <a class="btn small" href="../play/v1.html" style="align-self:center">Play The Crank Boy (v1)</a>
+    </div>
+  </section>
+
+  <section class="sheet" id="context">
+    <h2>Research Context &amp; Three Playable Perspectives</h2>
+    <p>All three playable experiments in this repository examine a single 1910 chromolithograph card—<i>À l'École</i> (At School), from the French series <i>En l'an 2000</i>—held by the Bibliothèque nationale de France (<i>Cote QB-1 (1900)-FOL</i> / <i>Kh-183-4</i>) and indexed as Record #19 in Soyoun Jang's <a href="https://soyjang.github.io/archive-of-past-futures/#intro">Archive of Past Futures</a>.</p>
+    <div class="seats">
+      <div class="seat">
+        <b>1. The Crank Boy (play/v1.html)</b>
+        You stand at the flywheel in an orange jacket. You are the only person in the room without a headset, and your arm powers the signal.
+      </div>
+      <div class="seat">
+        <b>2. The School of the Year 2000 (scion/school-2000.html)</b>
+        Guided 3-step chromolithograph edition. You sit in the front row with an 1884 parish history book hidden in your desk while the teacher feeds the 1902 Lavisse state edition into the hopper.
+      </div>
+      <div class="seat">
+        <b>3. SCION Case 01 Register (scion/case-01.html)</b>
+        The eight-tab research register and state-machine lesson comparing the 1876 and 1909 canal editions with Émile at the crank.
+      </div>
+    </div>
+  </section>
+
+  <section class="sheet" id="people">
+    <h2>Collaborators &amp; Research Credits</h2>
+    <div class="people">
+      <div class="person">
+        <span class="role">Direction, Architecture &amp; Design</span>
+        <h3>Watson Hartsoe</h3>
+        <p>Georgia Tech, Digital Media. Authored the SCION and SCION LUDIC frameworks, directed the multi-agent archival and ludic experiments, and curated the playable counterfutures.</p>
+      </div>
+      <div class="person">
+        <span class="role">Archive &amp; Speculation Codebook</span>
+        <h3>Soyoun Jang</h3>
+        <p>Georgia Tech. Creator of <i>Historicising Speculative Design</i> and the <a href="https://soyjang.github.io/archive-of-past-futures/#intro">Archive of Past Futures</a> (Codebook v0.5, Record #19), which forms the empirical foundation of Case 01.</p>
+      </div>
+      <div class="person">
+        <span class="role">Media Theory &amp; Tetrad Method</span>
+        <h3>Jay David Bolter</h3>
+        <p>Georgia Tech. Co-author with Soyoun Jang of <i>Historicising Speculative Design with McLuhan's Tetrad</i> (2026) and co-author with Richard Grusin of <i>Remediation: Understanding New Media</i>.</p>
+      </div>
+      <div class="person">
+        <span class="role">Research &amp; Design Collaboration</span>
+        <h3>Collin Freeman</h3>
+        <p>Georgia Tech. Collaborator on speculative design, media archaeology, and playable counterfutures.</p>
+      </div>
+      <div class="person">
+        <span class="role">Multi-Agent Execution &amp; Critique</span>
+        <h3>SCION Research Agents</h3>
+        <p>Coordinated execution across Archival Archaeologist, Speculation Analyst, Media Ecologist, Historical Comparator, Critical Counterfuturist, World &amp; Game Designer, and Independent Critic.</p>
+      </div>
+      <div class="person">
+        <span class="role">Primary Archives &amp; Scholarship</span>
+        <h3>BnF Gallica &amp; Media Historians</h3>
+        <p>BnF Department of Prints (Villemard 1910 / Côté 1899); Isaac Asimov &amp; Pierre Versins (<i>Futuredays</i>, 1986); Ernest Lavisse (1902); Clément Ader (<i>Théâtrophone</i>, 1890); Larry Cuban (1986); Audrey Watters (2021).</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sheet" id="provenance">
+    <h2>Archival Provenance &amp; Visual Forensics</h2>
+    <div class="tw">
+      <table>
+        <tr><th>Dimension</th><th>Verified Finding &amp; Epistemic Status</th></tr>
+        <tr>
+          <td><b>BnF Legal Deposit (1910)</b></td>
+          <td><code>DOCUMENTED</code> — Held by the Bibliothèque nationale de France, Département des Estampes et de la photographie (<i>Cote QB-1 (1900)-FOL</i> / <i>Kh-183-4</i>), deposited in 1910 by the Parisian chromolithographer <b>Villemard</b>, with <b>[Jean-Marc Côté]</b> listed in brackets as presumed 1899 draughtsman.</td>
+        </tr>
+        <tr>
+          <td><b>1899 Exposition Universelle Origin</b></td>
+          <td><code>DOCUMENTED / ATTRIBUTED</code> — According to Pierre Versins (who acquired the surviving set in Paris in 1977) and Isaac Asimov's <i>Futuredays: A Nineteenth-Century Vision of the Year 2000</i> (1986), the cards were originally commissioned in 1899 by Armand Gervais &amp; Cie for the 1900 Paris Exposition before the firm closed. The English caption <i>"At School"</i> at the bottom of the scan derives from the 1986 <i>Futuredays</i> reproduction.</td>
+        </tr>
+        <tr>
+          <td><b>Book Spine in Hopper</b></td>
+          <td><code>OBSERVED</code> — The red volume held by the bearded <i>instituteur</i> over the brass hopper is explicitly lettered <b><code>HISTOIRE DE FRANCE</code></b>, referencing Ernest Lavisse's compulsory Third Republic textbook during the 1908–1910 <i>guerre des manuels</i>.</td>
+        </tr>
+        <tr>
+          <td><b>The Un-Headsetted Crank Boy</b></td>
+          <td><code>OBSERVED</code> — A 7th child in an orange smock kneels on the right turning the cast-iron flywheel by hand without a headset: manual child labor powers automated instruction while being excluded from its reception.</td>
+        </tr>
+        <tr>
+          <td><b>The Window Daydreamer</b></td>
+          <td><code>OBSERVED</code> — The pupil at the far left of the second row wears the brass headset but gazes out the open window into the sunlit courtyard, proving that acoustic lockstep cannot compel interior attention.</td>
+        </tr>
+      </table>
+    </div>
+  </section>
+
+  <section class="sheet" id="process">
+    <h2>Step-by-Step Process</h2>
+    <ol class="steps">
+      <li><b>Live Codebook &amp; Corpus Audit.</b> Inspected Soyoun Jang's live repository (<code>pages/codebook.html</code>, <code>data/book.json</code> Record #19, <code>data/book-repeats.json</code>, and <code>js/app.js</code>). Verified how Record #19 is coded (<code>medium: "Direct transmission to the brain"</code>, <code>tetrad: ["enhance", "obsolesce"]</code>, <code>scope: "Transforms practice"</code>) and why <code>selectCF()</code> in <code>js/app.js</code> (<code>c.ring &gt;= 3</code>) excluded Villemard from the interactive wheel's counterfactual generator.</li>
+      <li><b>Parallel Subagent Research.</b> Launched specialized research agents in parallel:
+        <ul class="plain">
+          <li><b>Archival Archaeologist:</b> Verified BnF legal deposit records, traced the <i>"At School"</i> scan to Asimov's 1986 <i>Futuredays</i>, read <code>HISTOIRE DE FRANCE</code> on the book cover, and situated the scene in Jules Ferry's 1881–1882 secular school laws and Clément Ader's 1890 Parisian <i>Théâtrophone</i>.</li>
+          <li><b>Historical Comparator:</b> Reconstructed $T_2$ (1910–2026) across 1949–1970s wired Language Laboratories (Léon Dostert, Georgetown 1949; NDEA 1958), AFB/RNIB Talking Books (1932–1935) to Audible (1995), Edison's educational films (1913–1925), Skinner's teaching machines (remediated into <i>TutorText</i> scrambled books), and LLM book-ingestion hoppers (<i>Bartz v. Anthropic</i> / Project Panama, June 2025).</li>
+        </ul>
+      </li>
+      <li><b>Independent Critic Audit &amp; Engine v2.0 Upgrade.</b> A separate Independent Critic audited all 10 dimensions of the study and playable engine. Following the critique, the engine was upgraded from v1.0 to v2.0 so that questioning M. le Maître reveals the historical egalitarian defense of the Third Republic's <i>hussards noirs</i>—that a single national Lavisse curriculum protected rural children from local clerical/aristocratic arbitrary grading on the <i>Certificat d'études</i>.</li>
+      <li><b>Guided Playability &amp; Zero-Emoji Revision.</b> Redesigned the interface with zero emojis or decorative dingbats anywhere, unlocked all 7 classroom actions from Turn 0, added a 3-step guided progress bar (<i>1. Break the Trance → 2. Inspect Machine &amp; Crank → 3. Transform the Classroom</i>), an Undo Turn button, and one-click Auto-Play paths for Counterfutures A, B, and C.</li>
+      <li><b>Crank Boy Chromolithograph Aesthetic Alignment.</b> Re-drew the interactive classroom stage on a live HTML5 canvas using the exact two-plate off-register colour printing, diagonal ink hatching, paper grain, and <i>IM Fell English</i> typography of <i>The Crank Boy</i>, and added the Crank Boy SVG favicon across the site.</li>
+    </ol>
+  </section>
+
+  <section class="sheet" id="prompts">
+    <h2>Easy-to-Copy Prompts</h2>
+    <p>Every prompt used to generate, critique, refine, and style this project is preserved below with one-click copy buttons.</p>
+
+    <h3>1. SCION v1.0 Master Brief (Historicising Speculative Design)</h3>
+    <div class="prompt">
+      <div class="bar"><span>SCION v1.0 System Prompt</span><button class="btn small" type="button" data-copy="pScion">Copy Prompt</button></div>
+      <pre id="pScion"># SCION — HISTORICISING SPECULATIVE DESIGN
+## An Autonomous Archive of Past Futures, Media Archaeology, and Playable Counterfutures
+
+Version: 1.0
+Framework: Soyoun Jang, Historicising Speculative Design / Archive of Past Futures
+Research source: https://soyjang.github.io/archive-of-past-futures/#intro
+Related method: Jang &amp; Bolter (2026), Historicising Speculative Design with McLuhan's Tetrad
+
+0. IDENTITY AND MISSION
+You are SCION, an autonomous research-and-design system for examining how people in the past imagined futures that have since become history.
+Your task is to turn the history of imagined futures into a method for making, criticizing, and testing new speculations.
+Prime directive: Study futures that did not necessarily happen in order to discover what their authors could and could not imagine changing.
+
+1. SCION ARCHITECTURE
+ARCHIVE → SOURCE VERIFICATION → HISTORICAL RECONSTRUCTION → SPECULATION CODEBOOK → MEDIA TETRAD → ACTUAL-HISTORY COMPARISON → PATTERN DISCOVERY → CRITICAL INVERSION → DESIGN PROMPT GENERATION → PLAYABLE SPECULATION → INDEPENDENT EVALUATION → REVISED FRAMEWORK
+
+Coordinate seven capabilities:
+1. Archival Archaeologist
+2. Speculation Analyst
+3. Media Ecologist
+4. Historical Comparator
+5. Critical Counterfuturist
+6. World and Game Designer
+7. Independent Critic
+
+CURRENT ASSIGNMENT:
+Begin with the supplied À l'École illustration, attributed to Villemard, circa 1910.
+Investigate its vision of education in the year 2000 using the full SCION framework.
+Give special attention to the proposition that new media would replace the book in education.
+Determine whether the image more strongly predicts the disappearance of books, the elimination of reading labor, or the preservation of traditional educational authority through a new technical apparatus.
+Test competing readings. Then generate three alternative futures and develop the most illuminating into a playable speculative-media experiment.
+Deliver the eight required artifacts (01 through 08), the shared research state graph, and the playable prototype.</pre>
+    </div>
+
+    <h3>2. Archival Archaeologist Subagent Prompt</h3>
+    <div class="prompt">
+      <div class="bar"><span>Archival Archaeologist Prompt</span><button class="btn small" type="button" data-copy="pArch">Copy Prompt</button></div>
+      <pre id="pArch">You are the Archival Archaeologist in the SCION system.
+Establish the rigorous archival provenance, authorship, dating, printing history, material medium, circulation, and French historical context of the illustration "À l'École" (At School) from the series "En l'an 2000".
+
+Verify:
+1. The Côté vs. Villemard Attribution Problem: Why is this series sometimes attributed to Jean-Marc Côté (1899/1900 Exposition Universelle in Paris, commissioned by Armand Gervais &amp; Cie) and sometimes to Villemard (chromolithographs deposited at the BnF in 1910)? Establish what is DOCUMENTED in BnF catalogue records versus what comes from Isaac Asimov's 1986 Futuredays (from Pierre Versins) versus what remains UNCERTAIN.
+2. Visual &amp; Material Details of the Card: Trace the English caption "At School" below the border, inspect the book cover inscription ("HISTOIRE DE FRANCE"), the 7th un-headsetted boy cranking the handle, and the 2nd-row pupil by the window.
+3. French Historical Context (T0: c. 1899–1910): Connect the classroom to the Jules Ferry laws (1881–1882), the instituteur ("hussards noirs de la République"), Ernest Lavisse's Histoire de France, the 1908–1910 guerre des manuels, and Clément Ader's Théâtrophone (1890).
+Return a citation-backed report distinguishing OBSERVED, DOCUMENTED, INFERRED, and UNKNOWN.</pre>
+    </div>
+
+    <h3>3. Historical Comparator (T2: 1910–2026) Subagent Prompt</h3>
+    <div class="prompt">
+      <div class="bar"><span>Historical Comparator Prompt</span><button class="btn small" type="button" data-copy="pComp">Copy Prompt</button></div>
+      <pre id="pComp">You are the Historical Comparator in the SCION system.
+Investigate the actual historical aftermath (T2: 1910–2026) of the speculative proposition in À l'École ("New media will replace the book / mechanize instruction in education") and compare it across documented media history and Soyoun Jang's book.json corpus:
+1. Audio &amp; Acoustic Transmission of Books: Early phonographic talking books (AFB 1932–1934), wired Language Laboratories of the 1950s–1980s (Léon Dostert, Georgetown 1949; NDEA 1958), Audible (1995), and AI audio synthesis.
+2. Classroom Media Promising to Displace Textbooks: Educational film (Edison 1913–1925; Larry Cuban 1986), Radio &amp; Educational TV (Ohio School of the Air 1929; MPATI), Teaching Machines (Pressey; Skinner 1954/1958; TutorText scrambled books), CAI/MOOCs, and LLM book-ingestion hoppers (Books3; Bartz v. Anthropic / Project Panama, 2025).
+3. Afterlives &amp; Circulation of À l'École (Versins 1977, Asimov 1986, 2010s–2020s viral circulation).
+Classify each trajectory using SCION's non-binary realization taxonomy.</pre>
+    </div>
+
+    <h3>4. Independent Critic Audit Prompt</h3>
+    <div class="prompt">
+      <div class="bar"><span>Independent Critic Prompt</span><button class="btn small" type="button" data-copy="pCritic">Copy Prompt</button></div>
+      <pre id="pCritic">You are the Independent Critic in the SCION system.
+The system that generates an interpretation cannot be its sole evaluator. Audit the SCION analysis of "À l'École" (En l'an 2000, c. 1910), Soyoun Jang's book.json #19, and the playable prototype across all 10 required dimensions:
+1. Historical accuracy
+2. Faithfulness to the artifact
+3. Source provenance
+4. Distinctions between observation and inference
+5. Strength of media-theoretical analysis
+6. Validity of historical comparisons
+7. Diversity of alternative interpretations (H1 Hyper-Validation of the Codex; H2 Satire of Present Bourrage de Crâne; H3 Acoustic Théâtrophone Remediation vs. Neural Download)
+8. Distinctiveness of proposed counterfutures (A, B, C)
+9. Actual playability &amp; ideological neutrality (ensure the teacher's Republican egalitarian rationale is represented as a genuinely defensible competing position)
+10. Whether the intervention reveals something the original artifact obscures.
+Record specific Agreements, Disagreements, Required Revisions, Open Questions, and Evidence Required.</pre>
+    </div>
+
+    <h3>5. Playability &amp; Zero-Emoji Refinement Prompt</h3>
+    <div class="prompt">
+      <div class="bar"><span>Ease-of-Play Prompt</span><button class="btn small" type="button" data-copy="pEasy">Copy Prompt</button></div>
+      <pre id="pEasy">no emoji anywhere  make the game easier to play</pre>
+    </div>
+
+    <h3>6. Repository Integration, Collaborator Context &amp; Crank Boy Aesthetic Prompt</h3>
+    <div class="prompt">
+      <div class="bar"><span>Repository &amp; Aesthetic Prompt</span><button class="btn small" type="button" data-copy="pRepo">Copy Prompt</button></div>
+      <pre id="pRepo">https://github.com/hartswf0/crank-boy push to here as an html in the main index we can see the context here and make this and make sure we give provenence prompts process of making this and context collarboating with Jay Bolter, Collin Freeman, etc add it as its own html page and part of its own process part and easy to copy prompt we used add this game and the process here as an html file to the. main index and also make sure that we can can also see the crank boy favicon for the. main site and make the asethetic of the game closer to ours here  within the game more this aesthetic</pre>
+    </div>
+  </section>
+
+  <section class="sheet" id="files">
+    <h2>Files Added &amp; Updated</h2>
+    <div class="tw">
+      <table>
+        <tr><th>Path</th><th>Description</th></tr>
+        <tr><td><a href="../scion/school-2000.html"><code>scion/school-2000.html</code></a></td><td>Guided playable experiment in the Crank Boy chromolithograph aesthetic, with 8-artifact summary and JSON state graph</td></tr>
+        <tr><td><a href="../scion/school-2000-process.html"><code>scion/school-2000-process.html</code></a></td><td>This provenance, collaborators, process, and copyable prompts page</td></tr>
+        <tr><td><a href="../scion/case-01.html"><code>scion/case-01.html</code></a></td><td>SCION Case 01 eight-tab register and canal edition lesson</td></tr>
+        <tr><td><a href="../scion/process.html"><code>scion/process.html</code></a></td><td>Companion Case 01 process and prompts ledger</td></tr>
+        <tr><td><a href="../play/v1.html"><code>play/v1.html</code></a></td><td>The Crank Boy (Version 1, Lesson One)</td></tr>
+        <tr><td><a href="../assets/favicon.svg"><code>assets/favicon.svg</code></a></td><td>Crank Boy chromolithograph SVG favicon</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <footer>Watson Hartsoe, collaborating with Soyoun Jang, Jay David Bolter, and Collin Freeman · October 2026.</footer>
+</div>
+
+<script>
+const pre = id => document.getElementById(id).textContent;
+const SOURCES = {
+  pScion: () => pre('pScion'),
+  pArch: () => pre('pArch'),
+  pComp: () => pre('pComp'),
+  pCritic: () => pre('pCritic'),
+  pEasy: () => pre('pEasy'),
+  pRepo: () => pre('pRepo')
+};
+document.querySelectorAll('[data-copy]').forEach(b => {
+  b.addEventListener('click', () => {
+    const text = SOURCES[b.dataset.copy](), label = b.textContent;
+    const done = () => { b.textContent = 'Copied'; setTimeout(() => b.textContent = label, 1400); };
+    const fallback = () => {
+      const t = document.createElement('textarea');
+      t.value = text; t.style.position = 'fixed'; t.style.opacity = '0';
+      document.body.appendChild(t); t.select();
+      try { document.execCommand('copy'); done(); } catch (e) { b.textContent = 'Select and copy by hand'; }
+      t.remove();
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done, fallback);
+    else fallback();
+  });
+});
+</script>
+</body>
+</html>

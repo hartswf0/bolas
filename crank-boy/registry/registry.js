@@ -1,5 +1,5 @@
 window.CRANK = {
-  "updated": "2026-10-24",
+  "updated": "2026-10-26",
   "about": "Single source for the album index and its opening film. Six agents, three starting prompts, two models. Edit this file to add or change a version; do not edit index.html for content. JSON only between the first { and the last }.",
   "postcard": {
     "title": "À l'École (At School)",
@@ -162,7 +162,8 @@ window.CRANK = {
       "youPlay": "The crank boy, with the whole class around you",
       "line": "Lesson One again, with the whole class as a cast of layers on clean plates of the card. Turn the crank and six heads bow into the lesson. Stop, and they come up. Stop for long enough and the machine is gone: there was a lectern under it, and the teacher comes to it. Turn the handle again and the machine is back.",
       "made": "Built from Watson's image-model plates of the school card, which line up to the pixel. Layers come from the differences between plates, and the cast from his motion proof. Version 1's theory of play, play-tested in a browser with real input.",
-      "looks": "The card's own room, with the cast cut out and moving; a crank dial and three counts below."
+      "looks": "The card's own room, with the cast cut out and moving; a crank dial and three counts below.",
+      "film": "assets/shorts/films/v9.mp4"
     },
     {
       "id": "case01",
@@ -574,7 +575,8 @@ window.CRANK = {
       "handle": "A boy turns the crank. The machine runs only while he does.",
       "game": "The Crank Boy: six versions, in the album.",
       "status": "built",
-      "short": "shorts/index.html#school"
+      "short": "films.html#school",
+      "district": "shorts/world.html?d=school"
     },
     {
       "id": "scrubber",
@@ -583,8 +585,9 @@ window.CRANK = {
       "shows": "A scrubbing machine with brushes and arms works across a parquet floor.",
       "handle": "A maid steers it from the far end of a long rod.",
       "game": "You steer the scrubber. It cleans only where you push it. The mistress inspects the floor, and the machine takes the credit.",
-      "status": "not built",
-      "short": "shorts/index.html#scrubber"
+      "status": "film and district",
+      "short": "films.html#scrubber",
+      "district": "shorts/world.html?d=scrubber"
     },
     {
       "id": "barber",
@@ -593,8 +596,9 @@ window.CRANK = {
       "shows": "Mechanical arms comb and shave customers in barber chairs.",
       "handle": "One man works a panel of levers that runs every arm.",
       "game": "You work the levers. Each arm needs its lever at the right moment, and you see gauges, not faces.",
-      "status": "not built",
-      "short": "shorts/index.html#barber"
+      "status": "film and district",
+      "short": "films.html#barber",
+      "district": "shorts/world.html?d=barber"
     },
     {
       "id": "phono-cinema",
@@ -603,8 +607,9 @@ window.CRANK = {
       "shows": "One man talks into a horn; another leans back and watches a woman projected on a screen.",
       "handle": "Someone runs the recordings and the projector.",
       "game": "You run the machine that answers. Mix recorded voices with projected pictures, and decide what the woman on the screen says back.",
-      "status": "not built",
-      "short": "shorts/index.html#phono-cinema"
+      "status": "film and district",
+      "short": "films.html#phono-cinema",
+      "district": "shorts/world.html?d=phono-cinema"
     },
     {
       "id": "air-cabs",
@@ -613,8 +618,9 @@ window.CRANK = {
       "shows": "Winged cabs carry passengers over the boulevards and the Opéra.",
       "handle": "Each driver works the wings.",
       "game": "You fly a cab across Paris. Passengers call out routes, the wings tire, and the Opéra is in the way.",
-      "status": "not built",
-      "short": "shorts/index.html#air-cabs"
+      "status": "film and district",
+      "short": "films.html#air-cabs",
+      "district": "shorts/world.html?d=air-cabs"
     },
     {
       "id": "firemen",
@@ -623,8 +629,9 @@ window.CRANK = {
       "shows": "Winged firemen pull a child from a burning building.",
       "handle": "A steam pump in the street feeds the hose the flyers hold.",
       "game": "You run the pump in the street. The flyers can only fight the fire you send water to.",
-      "status": "not built",
-      "short": "shorts/index.html#firemen"
+      "status": "film and district",
+      "short": "films.html#firemen",
+      "district": "shorts/world.html?d=firemen"
     },
     {
       "id": "skates",
@@ -633,8 +640,9 @@ window.CRANK = {
       "shows": "Couples ride motorised roller skates through a park; one man has fallen.",
       "handle": "The card does not show who winds or mends the motors.",
       "game": "You keep the skates running. Wind them too far and riders fall; not enough and they stop in the road.",
-      "status": "not built",
-      "short": "shorts/index.html#skates"
+      "status": "film and district",
+      "short": "films.html#skates",
+      "district": "shorts/world.html?d=skates"
     }
   ],
   "lab": {

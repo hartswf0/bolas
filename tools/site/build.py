@@ -244,7 +244,7 @@ def guided_notes(f, up, here):
     print('notes', f['id'], n, 'parts with pictures')
     return h + LIGHTBOX
 def films():
-    path = 'films/index.html'; up = up_of(path); body = f'<section class="hero"><p class="eyebrow">Films</p><h1>Films<span class="stripe"></span></h1><p class="lede">{len(C.FILMS)} films, {mmss(sum(f["dur"] for f in C.FILMS))} in all, by program.</p></section>'
+    path = 'films/index.html'; up = up_of(path); body = f'<section class="hero"><p class="eyebrow">Films</p><h1>Films<span class="stripe"></span></h1><p class="lede">{len(C.FILMS)} films, {mmss(sum(f["dur"] for f in C.FILMS))} in all, by program. The films of the Crank Boy (the Futuretown shorts and the Town) are in <a href="{up}crank-boy/films.html">its film library</a>, which also lists these.</p></section>'
     for pid in ('family', 'cineosis', 'odyssey', 'wygwyl'):
         body += section(PROG[pid]['title'], grid([film_card(f, up) for f in C.FILMS if f['program'] == pid]))
     w(path, page(path, 'Films', body, f'All {len(C.FILMS)} CRASH LAB films with loglines.', 'media/thumbs/crash-lab-film.jpg', crumbs=[('Home', ''), ('Films', None)]))

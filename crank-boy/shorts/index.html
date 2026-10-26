@@ -1,10 +1,11 @@
 <!doctype html>
 <html lang="en">
 <head>
+<meta name="crank-mirror" content="bolas">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>The Town · seven cards, three ways each</title>
-<meta name="description" content="The seven En l'an 2000 cards, each made into a short film, a game and a place in one playable world, with real archive film and Quick, Draw! doodles.">
+<title>Futuretown · The Crank Boy</title>
+<meta name="description" content="Futuretown: the seven En l'an 2000 cards, each made into a short film, a game and a place in one playable world, with real archive film, Quick, Draw! doodles and an art department for new aesthetics.">
 <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="../assets/favicon-180.png">
 <link rel="stylesheet" href="../room/room.css">
@@ -25,20 +26,34 @@ table.map td{padding:6px 8px 6px 0;border-bottom:1px solid #cdbf98;vertical-alig
 ol.proc{margin:.3em 0;padding-left:1.3em;font-size:16px}
 .test td.ok{color:#3c6b2a}.test td.no{color:var(--red)}
 @media (max-width:760px){.hero,.two{grid-template-columns:1fr}}
+@media (max-width:760px){.hero,.two{grid-template-columns:1fr}}
+.hub{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 16px}
+.seven{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:16px}
+.seven .c{display:flex;flex-direction:column;gap:3px;min-width:0}
+.seven img{width:100%;aspect-ratio:16/10;object-fit:cover;object-position:top;border:1.5px solid var(--ink);display:block}
+.seven b{font-family:var(--display);font-weight:400;font-size:16.5px;line-height:1.12}
+.seven .l{display:flex;gap:4px 12px;flex-wrap:wrap;font-size:14px}
+.seven .o{font-size:13px;color:var(--muted)}
 </style>
 </head>
 <body>
+<script src="../room/site.js" data-root="../" data-here="futuretown"></script>
 <div class="wrap">
-<header class="top"><a class="room-return" href="../index.html#series">The album</a></header>
-<h1>The Town</h1>
+<h1>Futuretown</h1>
 <p class="lede" id="lede"></p>
+<div class="hub"><a class="btn" href="world.html">Play the Town</a><a class="btn" href="../films.html#g:futuretown">All the films</a><a class="btn" href="../kit.html">The kit</a><a class="btn" href="requests.html">The art department</a><a class="btn" href="school-melies.html">Proof: a trick film</a><a class="btn" href="../play/v9.html">A better Crank Boy</a><a class="btn" href="../docs/futuretown.md">The write-up</a></div>
 
 <section class="sheet" id="world">
 <div class="hero">
 <div><video controls preload="none" playsinline id="worldfilm" aria-label="The Town, the cartoon"></video><p class="meta">The cartoon: the same world as the game, stepped from a fixed script and rendered frame by frame, with a synthesised soundtrack.</p></div>
 <div><h2>One world, one crank</h2><p id="townline"></p>
-<div class="row"><a class="btn" href="world.html">Play the town</a><a class="btn" href="requests.html">The art department</a><a class="btn" href="school-melies.html">Proof: À l'école as a trick film</a><a class="btn" href="../docs/futuretown.md">The write-up</a><button type="button" data-copy="town">Copy the method</button><a class="btn" href="../docs/prompts/town.md">Read the method</a></div></div>
+<div class="row"><a class="btn" href="world.html">Play the Town</a><button type="button" data-copy="town">Copy the method</button><a class="btn" href="../docs/prompts/town.md">Read the method</a></div></div>
 </div>
+</section>
+
+<section class="sheet" id="seven">
+<h2>Seven cards</h2>
+<div class="seven" id="sevenOut"></div>
 </section>
 
 <section class="sheet">
@@ -96,6 +111,7 @@ const keyOf = doc => { const m = { 'gilliam-cutout-metamorphosis': 'op-gilliam',
 const card = id => R.series.find(s => s.id === id) || {};
 const holder = { school: 'the crank boy (recastable)', scrubber: 'the maid (recastable)', barber: 'the lever man (recastable)', 'phono-cinema': 'the man at the recordings', 'air-cabs': 'the cab driver', firemen: 'the pump in the street', skates: 'nobody the card shows' };
 document.getElementById('lede').textContent = A.line;
+document.getElementById('sevenOut').innerHTML = R.shorts.map(s => `<div class="c"><a href="#${esc(s.id)}"><img src="../${esc(card(s.card).image)}" alt="${esc(s.title)}" loading="lazy"></a><b>${esc(s.title)}</b><div class="l"><a href="../films.html#${esc(s.id)}">Film</a><a href="world.html?d=${esc(s.id)}">Game</a><a href="../kit.html#card-${esc(s.id)}">Pieces</a><a href="requests.html#${esc(s.id)}">Next look</a></div><div class="o">${esc(s.operator)}</div></div>`).join('');
 document.getElementById('townline').textContent = TW.line;
 const wf = document.getElementById('worldfilm'); wf.src = '../' + TW.film; wf.poster = '../' + TW.poster;
 document.getElementById('map').innerHTML = `<tr><th>Card</th><th>Who holds the handle</th><th>Film: operator</th><th>Game: operator</th><th>Archive</th><th>Proposed sign</th></tr>` +

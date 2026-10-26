@@ -1,0 +1,443 @@
+{
+  "schema_version": "SCION-1.0",
+  "case_id": "CASE-01-PAST-FUTURES-OF-THE-BOOK",
+  "updated_at": "2026-10-23T11:06:00-04:00",
+  "framework_reference": {
+    "author": "Soyoun Jang",
+    "project": "Historicising Speculative Design / Archive of Past Futures",
+    "url": "https://soyjang.github.io/archive-of-past-futures/#intro",
+    "paper": "Soyoun Jang and Jay D. Bolter (2026), 'Historicising Speculative Design with McLuhan's Tetrad', Proceedings of DRS2026, doi:10.21606/drs.2026.479"
+  },
+  "branch_separation_policy": "Objects on branch='historical' contain only OBSERVED, DOCUMENTED, INFERRED, or UNKNOWN claims grounded in archival/historical evidence. Objects on branch='counterfactual' contain explicitly invented COUNTERFACTUAL counterfutures and playable experiment rules and may never be cited as historical evidence.",
+  "branches": {
+    "historical": {
+      "ARTIFACTS": [
+        {
+          "id": "ART-VILLEMARD-1910-21",
+          "branch": "historical",
+          "title_fr": "À l'École (En l'an 2000)",
+          "title_en": "At School (In the Year 2000)",
+          "soyjang_corpus_id": 19,
+          "authors_attributed": [
+            {
+              "name": "Villemard (Imprimerie-Lithographie Villemard et fils, Paris)",
+              "role": "Lithographer / Printer (1910 BnF legal deposit)",
+              "epistemic_status": "DOCUMENTED"
+            },
+            {
+              "name": "Jean-Marc Côté",
+              "role": "Presumed Designer (1899 commission for Armand Gervais & Cie, Lyon)",
+              "epistemic_status": "DOCUMENTED_SECONDARY_CONTESTED"
+            }
+          ],
+          "dates": {
+            "bnf_legal_deposit": "1910",
+            "secondary_attributed_conception": "1899–1901",
+            "english_reproduction_scan": "1986 (Isaac Asimov, Futuredays, Henry Holt & Co.)",
+            "imagined_future_horizon": "2000"
+          },
+          "medium_and_genre": "Chromolithographic card / plate (BnF sheet 28.8 x 22.7 cm; individual trade card / postcard format c. 9 x 14 cm); visual futuristic satire / anticipatory ephemera",
+          "repository": "Bibliothèque nationale de France (BnF), Département des Estampes et de la Photographie, Cote QB-1 (1900)-FOL / Kh-183-4",
+          "local_file": "/Users/gaia/.gemini/antigravity/brain/76f6396c-1481-400a-ab04-e3b585c9e339/a_lecole_1910.jpg",
+          "links": {
+            "propositions": ["PROP-19-A", "PROP-19-B", "PROP-19-C", "PROP-19-D"],
+            "evidence": ["EVID-VIS-01", "EVID-VIS-02", "EVID-VIS-03", "EVID-BNF-01", "EVID-ASIMOV-86"]
+          }
+        }
+      ],
+      "PROPOSITIONS": [
+        {
+          "id": "PROP-19-A",
+          "branch": "historical",
+          "artifact_id": "ART-VILLEMARD-1910-21",
+          "statement": "By the year 2000, classroom instruction will be mechanized by feeding physical printed books into a hand-cranked hopper that transduces their contents into electrical-acoustic signals delivered via overhead wires to binaural headsets worn by seated students.",
+          "mode": "Is (depicted) — satirical chromolithograph",
+          "soyjang_coding_v05": {
+            "medium": "Direct transmission to the brain",
+            "medium_status": "Imagined",
+            "tetrad": ["enhance", "obsolesce"],
+            "scope": "Transforms practice",
+            "horizon": "Distant (the year 2000)",
+            "spatial": "Here",
+            "social": "Us",
+            "hypotheticality": "Is (depicted)",
+            "construal": "Concrete"
+          },
+          "scion_revised_coding": {
+            "medium": "Teaching machine (Electro-acoustic book-to-headset transducer)",
+            "tetrad": ["enhance", "obsolesce", "retrieve", "reverse"],
+            "scope_dual": "Replaces a medium (the student's desk copy of the textbook) AND Transforms practice (reading becomes passive listening), while preserving the teacher's master codex and the classroom institution"
+          },
+          "epistemic_status": "OBSERVED",
+          "links": {
+            "assumptions": ["ASSUMP-H-01", "ASSUMP-H-02", "ASSUMP-H-03", "ASSUMP-H-04"],
+            "invariants": ["INV-01", "INV-02", "INV-03", "INV-04", "INV-05"],
+            "outcomes": ["OUT-01", "OUT-02", "OUT-03", "OUT-04", "OUT-05"]
+          }
+        },
+        {
+          "id": "PROP-19-B",
+          "branch": "historical",
+          "artifact_id": "ART-VILLEMARD-1910-21",
+          "statement": "The machine eliminates the student labor of reading, deciphering, and turning pages, while leaving printed books ('HISTOIRE DE FRANCE') intact as the sole authoritative repository and fuel of school knowledge.",
+          "epistemic_status": "INFERRED",
+          "links": {
+            "evidence": ["EVID-VIS-01", "EVID-VIS-02"],
+            "contradictions": ["CONTRA-01"]
+          }
+        },
+        {
+          "id": "PROP-19-C",
+          "branch": "historical",
+          "artifact_id": "ART-VILLEMARD-1910-21",
+          "statement": "Competing Reading (Present-Tense Political Caricature): The illustration is not a literal forecast of year-2000 hardware, but a 1910 satirical allegory of Third Republic 'bourrage de crâne' (skull-cramming) during the 'guerre des manuels' (1908–1910), depicting how centralized state curricula (Lavisse's 'Histoire de France') already functioned as a mechanical grinder.",
+          "epistemic_status": "INFERRED",
+          "links": {
+            "evidence": ["EVID-VIS-01", "EVID-HIST-FERRY-LAVISSE"]
+          }
+        },
+        {
+          "id": "PROP-19-D",
+          "branch": "historical",
+          "artifact_id": "ART-VILLEMARD-1910-21",
+          "statement": "Sensory transmission does not guarantee cognitive capture: even when wired into a binaural headset, a pupil's attention can drift out the classroom window.",
+          "epistemic_status": "OBSERVED",
+          "links": {
+            "evidence": ["EVID-VIS-03"],
+            "contradictions": ["CONTRA-03"]
+          }
+        }
+      ],
+      "ASSUMPTIONS": [
+        {
+          "id": "ASSUMP-H-01",
+          "branch": "historical",
+          "statement": "Knowledge is a discrete substance stored inside state-certified bound codices ('HISTOIRE DE FRANCE') that can be mechanically extracted and poured into learners without interpretive dialogue.",
+          "epistemic_status": "INFERRED"
+        },
+        {
+          "id": "ASSUMP-H-02",
+          "branch": "historical",
+          "statement": "The physical book remains ontologically prior to electric media: even in the year 2000, authors and printers still produce bound books first so the school machine has something to ingest.",
+          "epistemic_status": "OBSERVED"
+        },
+        {
+          "id": "ASSUMP-H-03",
+          "branch": "historical",
+          "statement": "Intellectual automation for the majority requires manual physical labor by a subordinate assistant (the 7th boy cranking the handle without a headset).",
+          "epistemic_status": "OBSERVED"
+        },
+        {
+          "id": "ASSUMP-H-04",
+          "branch": "historical",
+          "statement": "Democratic Republican instruction ('enseignement simultané') means every student in a cohort receiving the identical national text at the identical second under the teacher's monopoly of selection.",
+          "epistemic_status": "DOCUMENTED"
+        }
+      ],
+      "ACTORS": [
+        {
+          "id": "ACT-H-INSTITUTEUR",
+          "branch": "historical",
+          "name": "Le Maître d'école / L'Instituteur ('Hussard noir de la République')",
+          "role_in_artifact": "Selects bound books ('HISTOIRE DE FRANCE') from the shelf and feeds them into the wooden hopper.",
+          "epistemic_status": "OBSERVED"
+        },
+        {
+          "id": "ACT-H-SEATED-PUPILS",
+          "branch": "historical",
+          "name": "Six Seated Pupils in Republican Smocks ('Sarraus')",
+          "role_in_artifact": "Sit in three rows of two-person wooden benches wearing overhead-wired binaural earpieces; five look down/forward in passive reception while the second-row far-left pupil looks toward the window.",
+          "epistemic_status": "OBSERVED"
+        },
+        {
+          "id": "ACT-H-CRANK-BOY",
+          "branch": "historical",
+          "name": "Seventh Boy / Monitorial Crank Operator ('Le Moniteur à la manivelle')",
+          "role_in_artifact": "Stands bent over the cast-iron crank handle in a brown jacket and blue trousers, supplying manual mechanical power while wearing no headset of his own.",
+          "epistemic_status": "OBSERVED"
+        }
+      ],
+      "MEDIA": [
+        {
+          "id": "MED-H-HOPPER-TRANSMITTER",
+          "branch": "historical",
+          "name": "Electro-Acoustic Book Grinder & Overhead Binaural Wire Bus",
+          "components": [
+            "Wooden trapezoidal hopper ('trémie') & cast-iron housing with hand crank ('manivelle'), spur gear, and belt flywheel",
+            "Porcelain-insulated front terminals & 4-to-6 overhead ceiling wire bus stenciled 'EN L'AN 2000'",
+            "Six suspended curved metal headbands with circular binaural earpieces ('écouteurs')"
+          ],
+          "historical_precursors": ["Clément Ader's Théâtrophone (1881/1890)", "Pathé phonograph listening parlors (1889–1900)", "Agro-industrial grain/coffee/meat grinders ('hachoirs / concasseurs')"],
+          "epistemic_status": "OBSERVED"
+        },
+        {
+          "id": "MED-H-PRINTED-CODEX",
+          "branch": "historical",
+          "name": "Printed & Bound School Textbook ('HISTOIRE DE FRANCE' / Petit Lavisse)",
+          "role_in_artifact": "Stored on the upper-right bookshelf and fed three at a time by the teacher into the hopper; completely absent from students' desks.",
+          "epistemic_status": "OBSERVED"
+        },
+        {
+          "id": "MED-H-WALL-CHARTS",
+          "branch": "historical",
+          "name": "Pedagogical Wall Charts ('Carte murale de France' & 'Tableaux muraux')",
+          "role_in_artifact": "Three framed charts hanging on the rear wall by triangular strings, unchanged by the electrical apparatus.",
+          "epistemic_status": "OBSERVED"
+        }
+      ],
+      "PRACTICES": [
+        {
+          "id": "PRAC-H-PASSIVE-AUDITION",
+          "branch": "historical",
+          "name": "Synchronized Binaural Audition",
+          "description": "Students sit with folded hands receiving a continuous audio stream without turning pages, taking notes, or speaking.",
+          "epistemic_status": "OBSERVED"
+        },
+        {
+          "id": "PRAC-H-MANUAL-CRANKING",
+          "branch": "historical",
+          "name": "Monitorial Hand-Cranking",
+          "description": "An un-headsetted pupil turns the heavy crank to drive the gear train and generator.",
+          "epistemic_status": "OBSERVED"
+        },
+        {
+          "id": "PRAC-H-WINDOW-DAYDREAMING",
+          "branch": "historical",
+          "name": "Sensory Dissociation / Looking Out the Window",
+          "description": "The second-row far-left pupil turns his head toward the sunlit window while his ears remain covered by the headset.",
+          "epistemic_status": "OBSERVED"
+        }
+      ],
+      "INVARIANTS": [
+        {
+          "id": "INV-01",
+          "branch": "historical",
+          "domain": "Institutional & Spatial Architecture",
+          "description": "The walled, age-graded Third Republic classroom with fixed two-seater wooden benches ('pupitres-bancs'), master's lectern, bookshelf, and wall maps remains completely intact.",
+          "epistemic_status": "OBSERVED"
+        },
+        {
+          "id": "INV-02",
+          "branch": "historical",
+          "domain": "Epistemic & Curricular Authority",
+          "description": "The adult male 'instituteur' retains absolute monopoly over selecting which book enters the hopper; students have zero input channels.",
+          "epistemic_status": "OBSERVED"
+        },
+        {
+          "id": "INV-03",
+          "branch": "historical",
+          "domain": "Ontological Primacy of the Printed Book",
+          "description": "Knowledge still originates exclusively in bound, state-approved printed books ('HISTOIRE DE FRANCE').",
+          "epistemic_status": "OBSERVED"
+        },
+        {
+          "id": "INV-04",
+          "branch": "historical",
+          "domain": "Division of Intellectual and Manual Labor",
+          "description": "For six children to sit with folded hands as pure cognitive receivers, a seventh child must perform uncredited manual labor at the crank while excluded from the lesson.",
+          "epistemic_status": "OBSERVED"
+        },
+        {
+          "id": "INV-05",
+          "branch": "historical",
+          "domain": "Synchronized Mass Pedagogy ('Enseignement Simultané')",
+          "description": "All seated pupils receive the same centralized feed at the same pace, preserving the Republican ideal of uniform national instruction.",
+          "epistemic_status": "INFERRED"
+        }
+      ],
+      "HISTORICAL_OUTCOMES": [
+        {
+          "id": "OUT-01",
+          "branch": "historical",
+          "period": "1949–1980s",
+          "title": "Wired Language Laboratories ('Laboratoires de langues')",
+          "classification": ["Directly realized", "Transformed into another practice"],
+          "summary": "Pioneered by Léon Dostert at Georgetown (1949) and scaled via the US NDEA (1958) and France's CREDIF (1959), wired language labs reproduced Villemard's exact physical morphology (central teacher console + trunk wiring + rows of students in binaural headsets), but were confined to behaviorist foreign-language phonetic drilling rather than general textbook replacement.",
+          "evidence_ids": ["EVID-HIST-LABS"]
+        },
+        {
+          "id": "OUT-02",
+          "branch": "historical",
+          "period": "1878; 1932–2026",
+          "title": "Talking Books, Kurzweil Reading Machine, Audiobooks & AI Audio Overviews",
+          "classification": ["Realized through a different mechanism", "Coexisting with the supposedly obsolete medium"],
+          "summary": "From AFB/RNIB phonographic Talking Books (1932–1935) and the Kurzweil Reading Machine (1976, optical scanner-to-speech) to Audible (1995) and Google NotebookLM Audio Overviews (2024), converting books into headphone audio succeeded via studio voice recording, OCR-TTS, and neural synthesis rather than mechanical grinding—always coexisting with print books.",
+          "evidence_ids": ["EVID-HIST-AUDIO"]
+        },
+        {
+          "id": "OUT-03",
+          "branch": "historical",
+          "period": "1913–2026",
+          "title": "Survival of the Codex Textbook Against Film, Radio, TV, Teaching Machines, and CAI",
+          "classification": ["Not realized within the available time horizon", "Coexisting with the supposedly obsolete medium"],
+          "summary": "Repeated predictions that film (Edison 1913/1922/1925), radio (Darrow 1929), ETV (Hennock 1955), teaching machines (Skinner 1958), computers (Suppes 1966, Papert 1984), or MOOCs (Thrun 2012) would replace textbooks or schools failed. As Larry Cuban (1986) and Audrey Watters (2021) showed, the codex textbook survived because it affords random access, student pacing, marginal annotation, and zero electrical/mechanical fragility—and 1960s teaching machines were actually absorbed back into printed 'programmed textbooks' (TutorText).",
+          "evidence_ids": ["EVID-HIST-CUBAN-WATTERS"]
+        },
+        {
+          "id": "OUT-04",
+          "branch": "historical",
+          "period": "2020–2025",
+          "title": "LLM Corpus Tokenization & Destructive Physical Book Scanning ('Project Panama')",
+          "classification": ["Realized through a different mechanism", "Coexisting with the supposedly obsolete medium"],
+          "summary": "As a striking structural rhyme (though not causal influence), generative AI training literally enacted the hopper metaphor: shadow libraries (Books3, 2020) and Anthropic's 'Project Panama' (documented in Bartz v. Anthropic, N.D. Cal., June 2025 summary judgment & late-2025 settlement) purchased millions of physical books, guillotined their spines, fed them through high-speed sheet-fed scanners into a digital hopper, and pulped the paper to train LLMs.",
+          "evidence_ids": ["EVID-HIST-LLM-PANAMA"]
+        },
+        {
+          "id": "OUT-05",
+          "branch": "historical",
+          "period": "1976–2026",
+          "title": "Afterlife of 'À l'École': From Forgotten Chromo to EdTech Keynote Meme",
+          "classification": ["Transformed into another practice"],
+          "summary": "Zero causal influence on 20th-century engineers. Rediscovered via Pierre Versins (1976), Christopher Hyde (1978), Isaac Asimov's 'Futuredays' (1986), and the BnF 'Utopie' exhibition (2000; uploaded to Wikimedia Commons in 2010), the image became the canonical visual critique of 'transmissionist' EdTech and AI corpus extraction.",
+          "evidence_ids": ["EVID-ASIMOV-86", "EVID-BNF-01"]
+        }
+      ],
+      "CONTRADICTIONS": [
+        {
+          "id": "CONTRA-01",
+          "branch": "historical",
+          "title": "Book Obsolescence vs. Ontological Book Dependency",
+          "description": "The image is cited as predicting the death of the book, yet the machine cannot operate without physical bound books ('HISTOIRE DE FRANCE') being continuously shoveled into its hopper. It abolishes student *reading* while fetishizing the *book* as the sole source of truth."
+        },
+        {
+          "id": "CONTRA-02",
+          "branch": "historical",
+          "title": "Effortless Electrical Automation vs. Excluded Child Crank Labor",
+          "description": "The seated students fold their hands in effortless reception, but three feet away a seventh child bends double cranking the iron flywheel without a headset—proving the apparatus merely displaces and concentrates physical labor onto an excluded operator."
+        },
+        {
+          "id": "CONTRA-03",
+          "branch": "historical",
+          "title": "Sensory Monopoly vs. Interior Attention (The Window-Gazer)",
+          "description": "Clamping binaural earpieces onto six pupils creates the institutional appearance of 100% synchronized reception, yet the second-row far-left pupil stares out the window—demonstrating that acoustic transmission captures the ear without capturing comprehension."
+        },
+        {
+          "id": "CONTRA-04",
+          "branch": "historical",
+          "title": "Republican Egalitarian Standardization vs. Epistemic Verification",
+          "description": "Transmitting one national text simultaneously protects rural pupils from parochial inequality, but stripping the physical codex from students' desks destroys the capacity to pause, flip back, compare editions, or verify omissions."
+        }
+      ],
+      "EVIDENCE": [
+        {
+          "id": "EVID-VIS-01",
+          "branch": "historical",
+          "type": "VISUAL_OBSERVATION",
+          "source": "/Users/gaia/.gemini/antigravity/brain/76f6396c-1481-400a-ab04-e3b585c9e339/a_lecole_1910.jpg (upper right)",
+          "detail": "Teacher in black frock coat holds red volume inscribed 'HISTOIRE / DE / FRANCE' in three lines of black capitals over the wooden hopper, with bookshelf at right and 'EN L'AN 2000' stenciled on the upper wire conduit."
+        },
+        {
+          "id": "EVID-VIS-02",
+          "branch": "historical",
+          "type": "VISUAL_OBSERVATION",
+          "source": "/Users/gaia/.gemini/antigravity/brain/76f6396c-1481-400a-ab04-e3b585c9e339/a_lecole_1910.jpg (lower right)",
+          "detail": "Seventh boy in brown jacket and blue trousers bends forward turning the iron crank handle ('manivelle') coupled to a spur gear; unlike the six seated pupils, he wears no headset."
+        },
+        {
+          "id": "EVID-VIS-03",
+          "branch": "historical",
+          "type": "VISUAL_OBSERVATION",
+          "source": "/Users/gaia/.gemini/antigravity/brain/76f6396c-1481-400a-ab04-e3b585c9e339/a_lecole_1910.jpg (middle left, by window)",
+          "detail": "The pupil seated at the far left of the second row (in a light-blue smock beside the nine-pane window) turns his head and gaze toward the window, away from the teacher and machine."
+        },
+        {
+          "id": "EVID-BNF-01",
+          "branch": "historical",
+          "type": "ARCHIVAL_RECORD",
+          "source": "Bibliothèque nationale de France (BnF), Département des Estampes et de la Photographie, Cote QB-1 (1900)-FOL / Kh-183-4; BnF Essentiels (https://essentiels.bnf.fr/fr/image/70f38a85-4c8d-494f-9f07-75890c40d23e-a-l-ecole-1)",
+          "detail": "1910 legal deposit of chromolithographic series 'En l'an 2000' (28.8 x 22.7 cm), crediting Villemard (lithographer, Paris, 1910) and Jean-Marc Côté (presumed designer)."
+        },
+        {
+          "id": "EVID-ASIMOV-86",
+          "branch": "historical",
+          "type": "PUBLISHED_COMPILATION",
+          "source": "Isaac Asimov, Futuredays: A Nineteenth-Century Vision of the Year 2000 (New York: Henry Holt & Co., 1986)",
+          "detail": "Source of the English caption 'At School' in the lower-left white margin of a_lecole_1910.jpg and the 1899 Armand Gervais -> Pierre Versins -> Christopher Hyde provenance narrative."
+        },
+        {
+          "id": "EVID-HIST-FERRY-LAVISSE",
+          "branch": "historical",
+          "type": "HISTORICAL_CONTEXT",
+          "source": "Jules Ferry Laws (16 June 1881 & 28 March 1882); Ernest Lavisse, Histoire de France (Armand Colin, 1884/1902); Clément Ader, Théâtrophone (1881/1890–1932)",
+          "detail": "Establishes the Third Republic secular classroom, the national history textbook, the 1908–1910 'guerre des manuels', and the Parisian wired binaural acoustic network."
+        },
+        {
+          "id": "EVID-HIST-LABS",
+          "branch": "historical",
+          "type": "HISTORICAL_COMPARISON",
+          "source": "Léon Dostert, Georgetown University Language Laboratory (1949); US NDEA (1958); CREDIF (France, 1959)",
+          "detail": "Documents the mid-20th-century realization of wired classroom booths with binaural headsets connected to a central teacher console."
+        },
+        {
+          "id": "EVID-HIST-AUDIO",
+          "branch": "historical",
+          "type": "HISTORICAL_COMPARISON",
+          "source": "Thomas Edison (North American Review, 1878); AFB Talking Books (1932–1934); RNIB (1935); Kurzweil Reading Machine (1976); Audible (1995); Google NotebookLM Audio Overviews (2024)",
+          "detail": "Documents the trajectory of book-to-audio transduction from phonograph discs and OCR-TTS to LLM synthetic podcasts."
+        },
+        {
+          "id": "EVID-HIST-CUBAN-WATTERS",
+          "branch": "historical",
+          "type": "HISTORICAL_SCHOLARSHIP",
+          "source": "Larry Cuban, Teachers and Machines: The Classroom Use of Technology Since 1920 (Teachers College Press, 1986); Audrey Watters, Teaching Machines: The History of Personalized Learning (MIT Press, 2021); Soyoun Jang, data/book.json (2026)",
+          "detail": "Documents why film, radio, ETV, and mechanical teaching machines failed to displace the codex textbook or the classroom teacher."
+        },
+        {
+          "id": "EVID-HIST-LLM-PANAMA",
+          "branch": "historical",
+          "type": "LEGAL_AND_TECHNICAL_RECORD",
+          "source": "Bartz et al. v. Anthropic PBC, Case No. 3:24-cv-05417 (N.D. Cal., Summary Judgment Order by Judge William Alsup, June 2025); EleutherAI 'The Pile' / Books3 (2020)",
+          "detail": "Documents Anthropic's 'Project Panama', which purchased millions of physical books, guillotined their bindings, scanned them through industrial sheet-fed hoppers, and pulped the paper to build LLM training corpora."
+        }
+      ]
+    },
+    "counterfactual": {
+      "COUNTERFUTURES": [
+        {
+          "id": "CF-A-BOOK-SURVIVES-AS-LEDGER",
+          "branch": "counterfactual",
+          "epistemic_status": "COUNTERFACTUAL",
+          "title": "Counterfuture A — The Book Survives: The Stream and the Verification Ledger",
+          "operations_applied": ["OPERATION 1 (Invert the Promise)", "OPERATION 3 (Retrieve the Obsolete)"],
+          "core_rule_change": "The electro-acoustic hopper transmits rapid daily summaries, but because electrical streams are ephemeral and vulnerable to pre-hopper excision or commutator drift, printed books acquire an indispensable legal and pedagogical role on students' desks as tamper-evident verification ledgers ('Livres-Témoins').",
+          "target_contradiction": "CONTRA-01"
+        },
+        {
+          "id": "CF-B-SCHOOL-DISAPPEARS-THEATROPHONE",
+          "branch": "counterfactual",
+          "epistemic_status": "COUNTERFACTUAL",
+          "operations_applied": ["OPERATION 4 (Break the Invariant)", "OPERATION 5 (Change the Material Conditions)"],
+          "title": "Counterfuture B — The School Disappears: The Deschooled Municipal Wire Grid",
+          "core_rule_change": "The machine works over long-distance copper lines (like the Parisian Théâtrophone), abolishing the physical school building and compulsory classroom rows; children plug in from rural kitchens, workshops, and tenements—exposing that the brick-and-mortar Republican school was a protective sanctuary against child labor.",
+          "target_contradiction": "CONTRA-02"
+        },
+        {
+          "id": "CF-C-STUDENTS-CONTROL-DUPLEX",
+          "branch": "counterfactual",
+          "epistemic_status": "COUNTERFACTUAL",
+          "operations_applied": ["OPERATION 2 (Change the Actor)", "OPERATION 6 (Follow an Unexpected User)"],
+          "title": "Counterfuture C — Students Control Transmission: The Monitorial Duplex Collator",
+          "core_rule_change": "The crank operator (Henri) and the window-gazing pupil (Paul) rewire the overhead bus into a bidirectional peer network with rotating crank duty, allowing students to pause the flywheel, interleave local 'cahiers' into the hopper, and debate competing interpretations across benches.",
+          "target_contradiction": "CONTRA-04"
+        }
+      ],
+      "EXPERIMENTS": [
+        {
+          "id": "EXP-SCHOOL-2000-V2",
+          "branch": "counterfactual",
+          "epistemic_status": "COUNTERFACTUAL",
+          "title": "The School of the Year 2000 (Playable State-Machine Prototype v2.0)",
+          "engine_path": "/Users/gaia/.gemini/antigravity/brain/76f6396c-1481-400a-ab04-e3b585c9e339/scratch/school_2000_engine.js",
+          "engine_v1_preserved_path": "/Users/gaia/.gemini/antigravity/brain/76f6396c-1481-400a-ab04-e3b585c9e339/scratch/school_2000_engine_v1.js",
+          "interactive_ui_artifact": "/Users/gaia/.gemini/antigravity/brain/76f6396c-1481-400a-ab04-e3b585c9e339/07_the_playable_experiment.html",
+          "verified_endings": [
+            "ENDING_A_CODEX_AS_VERIFICATION_LEDGER",
+            "ENDING_B_DESCHOOLED_THEATROPHONE_GRID",
+            "ENDING_C_STUDENT_DUPLEX_COLLATOR",
+            "ENDING_D_REPUBLICAN_SYNCHRONICITY"
+          ]
+        }
+      ]
+    }
+  }
+}

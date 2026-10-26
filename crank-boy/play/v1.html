@@ -1,0 +1,881 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta name="crank-mirror" content="bolas">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>The Crank Boy · Lesson 1</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../assets/favicon-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=IM+Fell+English+SC&display=swap">
+<style>
+/* Layout: the postcard (the room, live) on top; a printed control card below. One screen, no page scroll. */
+:root{
+  --card:#D6C69E;      /* the table the postcard lies on */
+  --paper:#F3ECD8;     /* postcard stock */
+  --ink:#2B2320;
+  --muted:#6E5F4F;
+  --slate:#4F6A88;     /* the machine */
+  --orange:#C9733A;    /* the crank boy's jacket */
+  --red:#B44A3C;
+  --brass:#C9A23E;
+  --display:'IM Fell English SC', 'Iowan Old Style', Georgia, serif;
+  --body:'IM Fell English', 'Iowan Old Style', Georgia, serif;
+  color-scheme:light;
+}
+[hidden]{display:none!important}
+html,body{height:100%}
+body{margin:0}
+body{background:var(--card);color:var(--ink);font-family:var(--body);font-size:15px;overflow:hidden}
+.app{height:100%;max-width:980px;margin:0 auto;display:flex;flex-direction:column;gap:10px;box-sizing:border-box;
+  padding-block:10px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.post{flex:0 0 auto;background:var(--paper);padding:8px 8px 4px;box-shadow:0 1px 0 rgba(43,35,32,.18),0 8px 20px rgba(70,50,20,.18)}
+.stage{position:relative;width:100%;aspect-ratio:8/5;max-height:50vh;max-height:50dvh;background:var(--paper);touch-action:manipulation}
+.stage canvas{position:absolute;inset:0;display:block;cursor:pointer}
+.caption{font-family:var(--body);text-align:left;font-size:13px;padding:3px 2px 1px;color:var(--ink);display:flex;justify-content:space-between;gap:8px}
+.caption .r{color:var(--muted);font-style:italic}
+.speech{position:absolute;left:50%;top:6px;transform:translateX(-50%);max-width:80%;background:var(--paper);border:1px solid var(--ink);
+  padding:4px 10px;font-style:italic;font-size:14px;line-height:1.25;text-align:center;box-shadow:2px 2px 0 rgba(43,35,32,.25)}
+.bench{flex:1 1 auto;min-height:0;display:grid;grid-template-columns:minmax(118px,32%) 1fr;grid-template-rows:auto minmax(0,1fr);gap:10px;
+  grid-template-areas:"wheel ctl" "slip slip"}
+.wheelbox{grid-area:wheel;display:flex;flex-direction:column;align-items:center;gap:4px}
+#wheel{width:100%;max-width:170px;aspect-ratio:1;touch-action:none;cursor:grab;user-select:none;-webkit-user-select:none}
+#wheel.off{opacity:.45;cursor:not-allowed}
+.wlabel{font-family:var(--display);font-size:12px;letter-spacing:.08em;color:var(--muted)}
+.ctl{grid-area:ctl;display:flex;flex-direction:column;gap:8px;min-width:0}
+.gauge{position:relative;height:26px;border:1.5px solid var(--ink);background:var(--paper);display:grid;grid-template-columns:20% 30% 50%}
+.gauge span{font-family:var(--display);font-size:11px;letter-spacing:.06em;display:flex;align-items:flex-end;justify-content:center;padding-bottom:2px;color:var(--muted)}
+.gauge span+span{border-left:1px solid var(--ink)}
+.gauge .ok{background:#E9DDB0;color:var(--ink)}
+.needle{position:absolute;top:-4px;bottom:-4px;width:3px;background:var(--red);left:0;transform:translateX(-1px);transition:left .08s linear}
+.btns{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+button{font-family:var(--display);font-size:14px;letter-spacing:.05em;color:var(--ink);background:var(--paper);border:1.5px solid var(--ink);
+  padding:9px 6px;cursor:pointer;box-shadow:2px 2px 0 var(--ink);touch-action:manipulation;user-select:none;-webkit-user-select:none}
+button:active{transform:translate(1px,1px);box-shadow:1px 1px 0 var(--ink)}
+button[aria-disabled="true"]{border-style:dashed;color:var(--muted);box-shadow:none}
+button:focus-visible,#wheel:focus-visible{outline:2px solid var(--red);outline-offset:2px}
+button.lit{background:#F0D9A8}
+.slip{grid-area:slip;min-height:0;overflow:auto;background:var(--paper);border:1px solid rgba(43,35,32,.5);padding:8px 12px;line-height:1.35}
+.slip p{margin:0 0 4px}
+.status p{color:var(--ink)}
+.status p.old{color:var(--muted)}
+.page h3,.sheet h2,.sheet h3{font-family:var(--display);font-weight:400;margin:0 0 4px;letter-spacing:.04em}
+.page h3{font-size:15px}
+.page .txt{font-size:16px}
+.page .sent{color:#A2968A;text-decoration:line-through;text-decoration-color:rgba(43,35,32,.25)}
+.tag{display:inline-block;font-family:var(--display);font-size:11px;letter-spacing:.06em;border:1px solid var(--muted);color:var(--muted);padding:0 5px;margin-left:6px;vertical-align:2px}
+.shelf{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.shelf button{font-size:13px;padding:6px 8px;box-shadow:1px 1px 0 var(--ink)}
+.shelf button i{display:inline-block;width:8px;height:12px;margin-right:6px;vertical-align:-1px;border:1px solid var(--ink)}
+.row{display:flex;gap:10px;align-items:flex-start}
+.row svg{flex:0 0 auto}
+.small{font-size:13px;color:var(--muted)}
+.links{display:flex;gap:14px;justify-content:flex-end}
+.links a,.linkbtn{font-family:var(--display);font-size:12px;letter-spacing:.06em;color:var(--muted);background:none;border:0;box-shadow:none;padding:0;text-decoration:underline;cursor:pointer}
+.sheet{position:fixed;inset:0;background:rgba(60,45,25,.45);display:flex;align-items:center;justify-content:center;z-index:5;
+  padding-block:16px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.sheet .card{background:var(--paper);max-width:600px;width:100%;max-height:100%;overflow:auto;padding:18px 20px;box-shadow:0 10px 30px rgba(40,25,10,.35);border:1px solid var(--ink)}
+.sheet h2{font-size:24px}
+.sheet h3{font-size:15px;margin-top:12px}
+.sheet p,.sheet li{line-height:1.4;max-width:62ch}
+.sheet ul{margin:4px 0;padding-left:18px}
+table{border-collapse:collapse;width:100%;font-size:14px;margin:6px 0}
+td,th{text-align:left;padding:4px 6px;border-bottom:1px solid rgba(43,35,32,.25);vertical-align:top}
+th{font-family:var(--display);font-weight:400;font-size:12px;letter-spacing:.06em;color:var(--muted)}
+.mark{display:inline-block;width:14px;height:14px;position:relative;vertical-align:-2px;margin-right:6px}
+.mark.ok::before{content:"";position:absolute;left:4px;top:0;width:5px;height:10px;border:solid var(--ink);border-width:0 2px 2px 0;transform:rotate(40deg)}
+.mark.no::before,.mark.no::after{content:"";position:absolute;left:6px;top:0;width:2px;height:14px;background:var(--red)}
+.mark.no::before{transform:rotate(45deg)}.mark.no::after{transform:rotate(-45deg)}
+.acts{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
+@media (max-width:520px){
+  body{font-size:14px}
+  button{font-size:13px;padding:8px 4px}
+  .page .txt{font-size:15px}
+}
+@media (prefers-reduced-motion:reduce){.needle{transition:none}}
+</style>
+</head>
+<body>
+
+<div class="app">
+  <div class="post">
+    <div class="stage" id="stage">
+      <canvas id="scene" aria-label="The classroom: six students in wired headsets, a teacher feeding books into a machine, and a boy at its crank."></canvas>
+      <div class="speech" id="speech" hidden></div>
+    </div>
+    <div class="caption"><span>At School</span><span class="r" id="lessonLabel">Lesson 1</span></div>
+  </div>
+
+  <div class="bench">
+    <div class="wheelbox">
+      <svg id="wheel" viewBox="-100 -100 200 200" tabindex="0" role="slider" aria-label="Crank. Drag around the wheel, or hold the space bar." aria-valuemin="0" aria-valuemax="3" aria-valuenow="0">
+        <circle r="92" fill="#4F6A88" stroke="#2B2320" stroke-width="3"/>
+        <circle r="78" fill="none" stroke="#2B2320" stroke-width="1" stroke-dasharray="2 5" opacity=".5"/>
+        <g id="spokes">
+          <line x1="0" y1="-84" x2="0" y2="84" stroke="#2B2320" stroke-width="7"/>
+          <line x1="-84" y1="0" x2="84" y2="0" stroke="#2B2320" stroke-width="7"/>
+          <line x1="0" y1="-84" x2="0" y2="84" stroke="#6F86A2" stroke-width="3"/>
+          <line x1="-84" y1="0" x2="84" y2="0" stroke="#6F86A2" stroke-width="3"/>
+          <circle cy="-64" r="15" fill="#8C6A44" stroke="#2B2320" stroke-width="3"/>
+          <circle cx="-3" cy="-67" r="4" fill="#B88F5E"/>
+        </g>
+        <circle r="15" fill="#C9A23E" stroke="#2B2320" stroke-width="3"/>
+      </svg>
+      <div class="wlabel" id="wlabel">The crank</div>
+    </div>
+    <div class="ctl">
+      <div class="gauge" aria-hidden="true"><span>Slow</span><span class="ok">Steady</span><span>Fast</span><div class="needle" id="needle"></div></div>
+      <div class="btns">
+        <button id="btnLid" type="button">Open the door</button>
+        <button id="btnSwap" type="button">Swap the book</button>
+        <button id="btnRead" type="button">Read aloud</button>
+        <button id="btnLeave" type="button">Let go</button>
+      </div>
+      <div class="links"><a href="../album.html#v1">The album</a><button class="linkbtn" id="btnLedger" type="button">Ledger</button></div>
+    </div>
+    <div class="slip" id="slip"><div class="status" id="status"><p>Turn the crank.</p></div></div>
+  </div>
+</div>
+
+<div class="sheet" id="sheet" hidden><div class="card" id="sheetCard"></div></div>
+
+<script>
+(()=>{
+const W=800,H=500,TAU=Math.PI*2;
+const INK='#2B2320';
+const BOOKS={
+  arith:{t:'Arithmétique Élémentaire',c:'#5E7F4E',prop:'arith',revs:7,text:'Nine and seven make sixteen. Sixteen less nine leaves seven. A sum is the same whichever way it is added.'},
+  geo:{t:'Géographie du Canton',c:'#B44A3C',prop:'east',revs:8,text:'The Verse rises in the hills above Brécourt and flows east, past the mill, to the sea at Port-Ancel.'},
+  hist:{t:'Histoire du Canton',c:'#B88B3A',prop:'hist',revs:7,text:'Brécourt was founded where the river leaves the hills. Its mill was built before its church.'},
+  miller:{t:'Livre du Meunier',c:'#7A5536',prop:'west',revs:8,text:'The Verse runs west from Brécourt. The mill wheel turns against the hill, and the water goes out to the marshes, never to the sea.'},
+  almanac:{t:'Almanach de 1910',c:'#4F6A88',prop:'weather',revs:6,text:'Rain in the first week. The river will stand high at the bridge until the feast day.'},
+  atlas:{t:'Atlas Ancien, Plate IV',c:'#3F5A44',prop:'west',revs:6,text:'The Canton. The Verse is drawn from the hills on the right to the marshes on the left. An arrow marks the current.'}
+};
+for(const id in BOOKS) BOOKS[id].words=BOOKS[id].text.split(' ');
+const STUDENT_DEF=[
+  {name:'Jeanne',x:205,y:168,k:.82,jacket:'#C98A92',hair:'#6B4A2E',att:.9,desk:256},
+  {name:'Louis', x:300,y:166,k:.82,jacket:'#9EB6D6',hair:'#3E2B1E',att:.95,desk:256},
+  {name:'Marthe',x:395,y:168,k:.82,jacket:'#7F9BC4',hair:'#7A5232',att:.85,desk:256,side:true},
+  {name:'Albert',x:165,y:214,k:1,jacket:'#6F90BA',hair:'#4A3322',att:.95,desk:300},
+  {name:'Paul',  x:285,y:212,k:1,jacket:'#B44A3C',hair:'#2F2118',att:.9,desk:300},
+  {name:'Lucie', x:405,y:214,k:1,jacket:'#89A7CF',hair:'#8A5E36',att:.85,desk:300}
+];
+const LESSON_LEN=120;
+const TX={hopper:652,map:505,watch:652,shelf:728,crank:584};
+const BACK=['toMap','atMap','toShelf','atShelf'];
+const WATCHING=['watch','toWatch','guard','toHopper','fixSwap','done'];
+
+let S, history=[], wary=false;
+function newLesson(){
+  S={t:0,phase:'play',lesson:history.length+1,
+    angle:0,omega:0,raw:0,dragging:false,lastA:0,prevAngle:0,keyHold:false,keyFast:false,
+    hopper:{book:null,progress:0,acc:0},lid:false,reading:false,left:false,leftT:0,
+    T:{state:'atShelf',timer:1.2,x:TX.shelf,holding:null,queue:['arith','geo','hist'],expected:null,guardT:0,doneT:0,said:{}},
+    susp:wary?0.3:0,silenceT:0,shelf:['miller','almanac','atlas'],sent:{},swaps:[],pagesRead:{},mapSeen:false,
+    students:STUDENT_DEF.map(d=>({...d,plugged:true,post:0,look:0,twitch:0,mouth:0,rec:{arith:{c:0,g:0},east:{c:0,g:0},west:{c:0,g:0},hist:{c:0,g:0},weather:{c:0,g:0}}})),
+    frags:[],firstSilence:false,tapped:false,hintShown:false,guarded:false,results:null};
+  document.getElementById('lessonLabel').textContent='Lesson '+S.lesson;
+  setSlip('status'); statusLines=[]; say('Turn the crank.');
+  updateButtons();
+}
+
+/* ---------- audio ---------- */
+let AC=null,osc,filt,gainN;
+function audioInit(){
+  if(AC) return;
+  try{
+    AC=new (window.AudioContext||window.webkitAudioContext)();
+    osc=AC.createOscillator(); osc.type='sawtooth';
+    filt=AC.createBiquadFilter(); filt.type='lowpass'; filt.frequency.value=380;
+    gainN=AC.createGain(); gainN.gain.value=0;
+    osc.connect(filt).connect(gainN).connect(AC.destination); osc.start();
+  }catch(e){AC=null}
+}
+function tone(f,dur,vol,type='sine'){
+  if(!AC) return;
+  const o=AC.createOscillator(),g=AC.createGain(); o.type=type; o.frequency.value=f;
+  g.gain.setValueAtTime(vol,AC.currentTime); g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+dur);
+  o.connect(g).connect(AC.destination); o.start(); o.stop(AC.currentTime+dur);
+}
+function bell(){[0,.35,.7].forEach(d=>setTimeout(()=>{tone(1320,1.2,.12);tone(1980,.8,.04)},d*1000))}
+function clunk(){tone(110,.25,.15,'triangle')}
+
+/* ---------- drawing helpers ---------- */
+const cv=document.getElementById('scene'),ctx=cv.getContext('2d');
+const view={s:1,ox:0,oy:0,dpr:1};
+function blob(g,build,fill,lw=1.5,off=true){
+  if(fill){g.save(); if(off) g.translate(1.3,.9); g.beginPath(); build(g); g.fillStyle=fill; g.fill(); g.restore();}
+  if(lw){g.beginPath(); build(g); g.lineWidth=lw; g.strokeStyle=INK; g.lineJoin='round'; g.lineCap='round'; g.stroke();}
+}
+function hatch(g,build,gap=4,a=.3,dir=1){
+  g.save(); g.beginPath(); build(g); g.clip();
+  g.strokeStyle=`rgba(43,35,32,${a})`; g.lineWidth=.7; g.beginPath();
+  for(let i=-700;i<1400;i+=gap){g.moveTo(i,-20); g.lineTo(i+dir*540,520);} g.stroke(); g.restore();
+}
+const R=(x,y,w,h)=>g=>g.rect(x,y,w,h);
+const CIRC=(x,y,r)=>g=>g.arc(x,y,r,0,TAU);
+const POLY=pts=>g=>{g.moveTo(pts[0],pts[1]); for(let i=2;i<pts.length;i+=2) g.lineTo(pts[i],pts[i+1]); g.closePath();};
+
+/* static room layer */
+let stat=document.createElement('canvas'); stat.width=W*2; stat.height=H*2;
+let grain=document.createElement('canvas'); grain.width=grain.height=160;
+(()=>{const g=grain.getContext('2d'),d=g.createImageData(160,160);
+  for(let i=0;i<d.data.length;i+=4){const v=Math.random()*255; d.data[i]=d.data[i+1]=d.data[i+2]=v; d.data[i+3]=255}
+  g.putImageData(d,0,0)})();
+let grainPat=null;
+
+function buildStatic(){
+  const g=stat.getContext('2d'); g.setTransform(2,0,0,2,0,0); g.clearRect(0,0,W,H);
+  // wall
+  blob(g,R(0,0,W,272),'#E8D59A',0,false);
+  hatch(g,R(0,0,W,26),3,.18);
+  blob(g,R(0,0,W,10),'#8C6A44',1.2,false);
+  // window
+  blob(g,R(18,62,128,202),'#9C7A50');
+  blob(g,R(28,72,108,182),'#DDE7E2');
+  g.strokeStyle=INK; g.lineWidth=2.4; g.beginPath(); g.moveTo(82,72); g.lineTo(82,254); g.moveTo(28,132); g.lineTo(136,132); g.moveTo(28,194); g.lineTo(136,194); g.stroke();
+  hatch(g,R(28,72,30,182),5,.12);
+  blob(g,g=>{g.moveTo(10,56);g.quadraticCurveTo(40,150,22,272);g.lineTo(8,272);g.closePath()},'#D5CDB8');
+  hatch(g,g=>{g.moveTo(10,56);g.quadraticCurveTo(40,150,22,272);g.lineTo(8,272);g.closePath()},4,.25);
+  // wainscot
+  blob(g,R(0,272,W,62),'#C89585',0,false);
+  g.strokeStyle='rgba(43,35,32,.45)'; g.lineWidth=1; g.beginPath(); for(let x=20;x<W;x+=38){g.moveTo(x,276);g.lineTo(x,334)} g.stroke();
+  blob(g,R(0,266,W,8),'#A86F62',1.2,false);
+  // floor
+  blob(g,R(0,334,W,166),'#CFA873',0,false);
+  g.strokeStyle='rgba(110,78,40,.7)'; g.lineWidth=1; g.beginPath();
+  for(let i=-8;i<=22;i++){const bx=i*55; g.moveTo(400+(bx-400)*.42,334); g.lineTo(bx,500)} g.stroke();
+  g.strokeStyle='rgba(110,78,40,.35)'; g.beginPath(); [372,420,476].forEach(y=>{g.moveTo(0,y);g.lineTo(W,y)}); g.stroke();
+  hatch(g,R(0,334,W,30),4,.15);
+  blob(g,R(0,331,W,4),'#7B5A3A',1,false);
+  // two framed charts
+  picture(g,220,96,52,44,()=>{g.fillStyle=INK;[8,16,24,32,40].forEach((x,i)=>g.fillRect(226+x-4,128-(i%3+1)*8,5,(i%3+1)*8))});
+  picture(g,322,96,52,44,()=>{g.strokeStyle=INK;g.lineWidth=1;g.beginPath();g.arc(348,118,13,0,TAU);for(let a=0;a<6;a++){g.moveTo(348,118);g.lineTo(348+13*Math.cos(a),118+13*Math.sin(a))}g.stroke()});
+  // the wall map
+  picture(g,420,92,100,72,()=>drawMapInto(g,420,92,100,72,false));
+  // lettering
+  g.fillStyle=INK; g.font='24px "IM Fell English SC", Georgia, serif'; g.textAlign='center'; g.fillText("EN L'AN 2000",612,40);
+  // shelf
+  blob(g,R(752,22,48,196),'#7A5536');
+  const spines=['#B44A3C','#5E7F4E','#C9A23E','#4F6A88','#8C3F35','#B88B3A','#3F5A44','#A86F62'];
+  [[34,70],[80,118],[126,164],[172,210]].forEach(([y0,y1],r)=>{
+    let x=756; for(let i=0;i<4;i++){const w=9+((i+r)%3)*2; blob(g,R(x,y0+((i+r)%2)*4,w,y1-y0-((i+r)%2)*4),spines[(i*3+r)%spines.length],1); x+=w+1}
+    blob(g,R(752,y1,48,4),'#5C3F28',1,false);
+  });
+  // ceiling bus and the wire bundle from the machine
+  g.strokeStyle=INK; g.lineWidth=3; g.beginPath(); g.moveTo(118,54); g.lineTo(744,54); g.stroke();
+  g.lineWidth=1.3; g.beginPath(); for(let i=0;i<6;i++){g.moveTo(733+i*2.4,54); g.lineTo(733+i*2.4,206)} g.stroke();
+  STUDENT_DEF.forEach(s=>{blob(g,CIRC(s.x,54,4.5),'#C9A23E',1.2)});
+  blob(g,CIRC(738,54,6),'#C9A23E',1.2);
+}
+function picture(g,x,y,w,h,inner){
+  g.strokeStyle=INK; g.lineWidth=1; g.beginPath(); g.moveTo(x+6,y); g.lineTo(x+w/2,y-12); g.lineTo(x+w-6,y); g.stroke();
+  blob(g,R(x-4,y-4,w+8,h+8),'#8C6A44',1.2);
+  blob(g,R(x,y,w,h),'#F0E4C0',1);
+  inner();
+}
+function drawMapInto(g,x,y,w,h,big){
+  const sx=v=>x+v*w, sy=v=>y+v*h, lw=big?1.6:1;
+  g.save(); g.beginPath(); g.rect(x,y,w,h); g.clip();
+  g.fillStyle='#E9D9A8'; g.fillRect(x,y,w,h);
+  // hills on the right
+  g.strokeStyle=INK; g.lineWidth=lw; g.beginPath();
+  for(let i=0;i<4;i++){const cx=sx(.78+(i%2)*.1), cy=sy(.2+i*.18); g.moveTo(cx-w*.06,cy); g.quadraticCurveTo(cx,cy-h*.12,cx+w*.06,cy)} g.stroke();
+  // marsh tufts on the left
+  g.beginPath(); for(let i=0;i<6;i++){const cx=sx(.06+(i%3)*.06), cy=sy(.55+Math.floor(i/3)*.16); g.moveTo(cx-3,cy); g.lineTo(cx,cy-5); g.moveTo(cx,cy); g.lineTo(cx,cy-7); g.moveTo(cx+3,cy); g.lineTo(cx,cy-5)} g.stroke();
+  // the river
+  g.strokeStyle='#4F6A88'; g.lineWidth=big?3:2; g.beginPath(); g.moveTo(sx(.82),sy(.3));
+  g.bezierCurveTo(sx(.65),sy(.55),sx(.5),sy(.35),sx(.38),sy(.55)); g.bezierCurveTo(sx(.28),sy(.7),sx(.2),sy(.6),sx(.12),sy(.68)); g.stroke();
+  // current arrow, pointing left
+  g.fillStyle=INK; g.beginPath(); const ax=sx(.45), ay=sy(.82); g.moveTo(ax-w*.08,ay); g.lineTo(ax,ay-h*.06); g.lineTo(ax,ay+h*.06); g.closePath(); g.fill();
+  g.lineWidth=lw; g.strokeStyle=INK; g.beginPath(); g.moveTo(ax,ay); g.lineTo(ax+w*.12,ay); g.stroke();
+  // town and compass
+  g.fillStyle=INK; g.fillRect(sx(.56)-2,sy(.42)-2,big?6:4,big?6:4);
+  g.font=(big?'13px':'7px')+' "IM Fell English", Georgia, serif'; g.textAlign='center';
+  g.fillText('N',sx(.9),sy(.12)); g.fillText('W',sx(.06),sy(.14)); g.fillText('E',sx(.96),sy(.94));
+  if(big){g.fillText('Brécourt',sx(.56),sy(.36)); g.fillText('hills',sx(.85),sy(.97)); g.fillText('marshes',sx(.14),sy(.97))}
+  g.restore();
+}
+
+/* ---------- live drawing ---------- */
+function drawStudent(s){
+  const k=s.k, x=s.x+(s.twitch?(Math.random()-.5)*2:0), hy=s.y+s.post*6*k;
+  const top=hy-17*k;
+  // wire
+  ctx.strokeStyle=INK; ctx.lineWidth=1.1; ctx.beginPath();
+  if(s.plugged){ctx.moveTo(x,58); const n=Math.floor((top-58)/6); for(let i=1;i<=n;i++) ctx.lineTo(x+(i%2?4:-4),58+i*(top-58)/n); ctx.lineTo(x,top);}
+  else{const end=58+(top-58)*.55; ctx.moveTo(s.x,58); for(let i=1;i<=8;i++) ctx.lineTo(s.x+6+(i%2?3:-3),58+i*(end-58)/8);}
+  ctx.stroke();
+  if(!s.plugged){blob(ctx,R(s.x+3,58+(top-58)*.55,6,7),'#C9A23E',1)}
+  // torso
+  const sh=hy+15*k, bot=s.desk+4;
+  const torso=g=>{g.moveTo(x-24*k,sh+6*k); g.quadraticCurveTo(x,sh-4*k,x+24*k,sh+6*k); g.lineTo(x+29*k,bot); g.lineTo(x-29*k,bot); g.closePath()};
+  blob(ctx,torso,s.jacket); hatch(ctx,g=>g.rect(x+6*k,sh,30*k,bot-sh),3.5,.32);
+  blob(ctx,POLY([x-7*k,sh+1*k,x+7*k,sh+1*k,x,sh+11*k]),'#F3ECD8',1);
+  // head
+  ctx.save(); ctx.translate(x,hy); ctx.rotate(s.post*.22+(s.side?.06:0));
+  blob(ctx,CIRC(0,0,14*k),'#EDC8A2');
+  blob(ctx,g=>{g.arc(0,0,14.2*k,Math.PI*1.02,Math.PI*1.98);g.closePath()},s.hair,1);
+  // eyes
+  ctx.fillStyle=INK; ctx.strokeStyle=INK; ctx.lineWidth=1.2;
+  if(s.look>.5){const dx=(s.side?1.5:2.2)*k*(s.look), dy=-1.5*k*s.look; ctx.beginPath(); ctx.arc(-5*k+dx,2*k+dy,1.6*k,0,TAU); ctx.arc(5*k+dx,2*k+dy,1.6*k,0,TAU); ctx.fill();}
+  else{ctx.beginPath(); ctx.moveTo(-8*k,3*k); ctx.quadraticCurveTo(-5*k,5*k,-2*k,3*k); ctx.moveTo(2*k,3*k); ctx.quadraticCurveTo(5*k,5*k,8*k,3*k); ctx.stroke();}
+  ctx.beginPath(); ctx.moveTo(-3*k,9*k); ctx.lineTo(3*k,9*k+(s.mouth>.5?2*k:0)); ctx.stroke();
+  // headset
+  blob(ctx,g=>{g.arc(0,-1*k,16*k,Math.PI,TAU);g.lineTo(13*k,-1*k);g.arc(0,-1*k,13*k,0,Math.PI,true);g.closePath()},'#C9A23E',1.2);
+  blob(ctx,CIRC(-15*k,1*k,4.5*k),'#C9A23E',1.1); blob(ctx,CIRC(15*k,1*k,4.5*k),'#C9A23E',1.1);
+  ctx.restore();
+}
+function drawBackDesk(){
+  blob(ctx,POLY([148,250,452,250,456,262,144,262]),'#B98B58');
+}
+function drawFrontDesk(){
+  STUDENT_DEF.slice(3).forEach(d=>{
+    const x=d.x;
+    [[-9,-1],[9,1]].forEach(([o,f])=>{
+      blob(ctx,POLY([x+o-6,318,x+o+6,318,x+o+7+f*2,372,x+o-5+f*2,372]),'#D8B44A',1.1);
+      blob(ctx,POLY([x+o-5+f*2,372,x+o+7+f*2,372,x+o+6+f*3,428,x+o-4+f*3,428]),'#C8D6E6',1.1);
+      blob(ctx,g=>g.ellipse(x+o+1+f*5,431,9,4,0,0,TAU),INK,1);
+    });
+  });
+  blob(ctx,POLY([96,294,488,294,494,310,90,310]),'#B98B58');
+  hatch(ctx,POLY([96,294,488,294,494,310,90,310]),5,.18);
+  blob(ctx,R(90,310,404,9),'#8E6439');
+  [[102,0],[476,0]].forEach(([lx])=>blob(ctx,R(lx,319,8,120),'#8E6439',1.2));
+  blob(ctx,R(108,380,370,5),'#8E6439',1);
+}
+function drawTeacher(){
+  const T=S.T, x=T.x, facing=!BACK.includes(T.state);
+  // legs
+  ctx.strokeStyle=INK; ctx.lineWidth=7; ctx.lineCap='round'; ctx.beginPath(); ctx.moveTo(x-9,380); ctx.lineTo(x-11,452); ctx.moveTo(x+9,380); ctx.lineTo(x+11,452); ctx.stroke();
+  ctx.strokeStyle='#2F3D5C'; ctx.lineWidth=4; ctx.stroke();
+  blob(ctx,g=>g.ellipse(x-14,455,10,4,0,0,TAU),INK,1); blob(ctx,g=>g.ellipse(x+14,455,10,4,0,0,TAU),INK,1);
+  // coat
+  const coat=g=>{g.moveTo(x-25,172); g.quadraticCurveTo(x,162,x+25,172); g.lineTo(x+31,392); g.lineTo(x-31,392); g.closePath()};
+  blob(ctx,coat,'#2F3D5C'); hatch(ctx,coat,3.5,.35);
+  if(facing){blob(ctx,POLY([x-9,168,x+9,168,x,212]),'#F3ECD8',1); blob(ctx,POLY([x-4,172,x+4,172,x,184]),'#8C3F35',1)}
+  // arms
+  let hand=null;
+  if(T.state==='atMap') hand=[x-62,112];
+  else if(T.state==='cranking') hand=crankHandle();
+  else if(T.holding) hand=[x-2,236];
+  ctx.strokeStyle=INK; ctx.lineWidth=9; ctx.beginPath();
+  if(hand){const [ex,ey]=ik(x-20,180,hand[0],hand[1],36,36,1); ctx.moveTo(x-20,180); ctx.lineTo(ex,ey); ctx.lineTo(hand[0],hand[1]);}
+  else{ctx.moveTo(x-22,182); ctx.lineTo(x-28,250);}
+  ctx.moveTo(x+22,182); ctx.lineTo(x+26,252); ctx.stroke();
+  ctx.strokeStyle='#2F3D5C'; ctx.lineWidth=5.5; ctx.stroke();
+  if(T.holding && T.state!=='atMap'){const b=BOOKS[T.holding]; blob(ctx,R(x-14,226,24,16),b.c,1.2)}
+  // head
+  blob(ctx,CIRC(x,150,16),'#EDC8A2');
+  ctx.fillStyle='#F6F1E6'; ctx.strokeStyle=INK; ctx.lineWidth=1;
+  if(facing){
+    [[-1],[1]].forEach(([d])=>{ctx.beginPath(); ctx.ellipse(x+d*14,148,5,8,d*.3,0,TAU); ctx.fill(); ctx.stroke();});
+    ctx.beginPath(); ctx.arc(x-6,149,4.5,0,TAU); ctx.moveTo(x+10.5,149); ctx.arc(x+6,149,4.5,0,TAU); ctx.moveTo(x-1.5,149); ctx.lineTo(x+1.5,149); ctx.stroke();
+    ctx.beginPath(); ctx.ellipse(x,159,7,2.5,0,0,TAU); ctx.fill(); ctx.stroke();
+    ctx.fillStyle='rgba(255,255,255,.7)'; ctx.beginPath(); ctx.ellipse(x-4,138,4,2,-.4,0,TAU); ctx.fill();
+  }else{
+    ctx.beginPath(); ctx.moveTo(x-16,146); ctx.quadraticCurveTo(x,172,x+16,146); ctx.lineTo(x+15,158); ctx.quadraticCurveTo(x,170,x-15,158); ctx.closePath(); ctx.fill(); ctx.stroke();
+  }
+}
+function crankHandle(){const a=S.angle-Math.PI/2; return [612+26*Math.cos(a),334+26*Math.sin(a)]}
+function ik(sx,sy,hx,hy,l1,l2,bend){
+  let dx=hx-sx,dy=hy-sy,d=Math.hypot(dx,dy); d=Math.min(d,l1+l2-.5); d=Math.max(d,.5);
+  const a=Math.atan2(dy,dx), c=(l1*l1+d*d-l2*l2)/(2*l1*d), ang=a+bend*Math.acos(Math.max(-1,Math.min(1,c)));
+  return [sx+l1*Math.cos(ang),sy+l1*Math.sin(ang)];
+}
+function drawMachine(){
+  const h=S.hopper, clar=clarity(S.omega);
+  // book sinking into the hopper
+  if(h.book){
+    const b=BOOKS[h.book], sink=h.progress*34;
+    ctx.save(); ctx.beginPath(); ctx.rect(600,120,170,86); ctx.clip();
+    blob(ctx,R(664,170+sink,42,46),b.c,1.4);
+    ctx.fillStyle='rgba(243,236,216,.85)'; ctx.fillRect(668,176+sink,34,4);
+    ctx.restore();
+  }
+  // hopper
+  blob(ctx,POLY([618,204,752,204,760,238,610,238]),'#3B5270'); hatch(ctx,POLY([700,204,752,204,760,238,700,238]),3.5,.3);
+  // inspection door on the hopper
+  if(S.lid){
+    blob(ctx,R(652,210,64,22),'#F3ECD8',1.2);
+    ctx.strokeStyle='rgba(43,35,32,.6)'; ctx.lineWidth=1; ctx.beginPath(); for(let i=0;i<4;i++){ctx.moveTo(657,215+i*4.5); ctx.lineTo(657+(i===3?30:54),215+i*4.5)} ctx.stroke();
+    blob(ctx,POLY([652,232,716,232,722,246,646,246]),'#4F6A88',1.2);
+  }else{
+    blob(ctx,R(652,210,64,22),'#4F6A88',1.2); blob(ctx,CIRC(710,221,2.5),'#C9A23E',1);
+  }
+  // cabinet
+  blob(ctx,R(612,238,146,206),'#4F6A88'); hatch(ctx,R(704,238,54,206),4,.33);
+  blob(ctx,R(606,236,158,8),'#3B5270',1.3);
+  for(let i=0;i<3;i++){
+    const cx=648+i*37, cy=268;
+    blob(ctx,CIRC(cx,cy,12),'#F1E7C9',1.3);
+    const a=-2.5+Math.min(1,S.omega/2.6)*3+(i-1)*.12*Math.sin(S.t*3+i);
+    ctx.strokeStyle=INK; ctx.lineWidth=1.4; ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(cx+9*Math.cos(a),cy+9*Math.sin(a)); ctx.stroke();
+  }
+  // signal bulb
+  const lit=S.omega>.15?clar:0;
+  ctx.fillStyle=`rgba(255,232,150,${.25+lit*.75})`; ctx.beginPath(); ctx.arc(744,224,6,0,TAU); ctx.fill(); ctx.strokeStyle=INK; ctx.lineWidth=1.1; ctx.stroke();
+  blob(ctx,R(640,296,92,112),'#3B5270',1.3);
+  ctx.strokeStyle=INK; ctx.lineWidth=1.6; ctx.beginPath(); for(let x=648;x<730;x+=9){ctx.moveTo(x,302); ctx.lineTo(x,402)} ctx.stroke();
+  blob(ctx,R(630,418,112,20),'#3B5270',1.3); blob(ctx,R(676,425,20,5),'#C9A23E',1);
+  // crank on the left side
+  blob(ctx,CIRC(612,334,11),'#3B5270',1.3);
+  const [hx,hy]=crankHandle();
+  ctx.strokeStyle=INK; ctx.lineWidth=6; ctx.lineCap='round'; ctx.beginPath(); ctx.moveTo(612,334); ctx.lineTo(hx,hy); ctx.stroke();
+  ctx.strokeStyle='#6F86A2'; ctx.lineWidth=2.5; ctx.stroke();
+  blob(ctx,CIRC(hx,hy,5),'#8C6A44',1.2);
+  blob(ctx,CIRC(612,334,4),'#C9A23E',1);
+}
+function drawBoy(){
+  if(S.left){
+    const x=518;
+    legs(x-6,396,x-10,470,x+6,396,x+10,470);
+    const torso=g=>{g.moveTo(x-16,330); g.lineTo(x+16,330); g.lineTo(x+19,400); g.lineTo(x-19,400); g.closePath()};
+    blob(ctx,torso,'#C9733A'); hatch(ctx,torso,3.5,.3);
+    ctx.strokeStyle=INK; ctx.lineWidth=8; ctx.beginPath(); ctx.moveTo(x-15,334); ctx.lineTo(x-20,392); ctx.moveTo(x+15,334); ctx.lineTo(x+20,392); ctx.stroke();
+    ctx.strokeStyle='#C9733A'; ctx.lineWidth=5; ctx.stroke();
+    head(x,312,-1); return;
+  }
+  const bob=S.omega>.15?Math.sin(S.angle)*2:0;
+  const hip=[544,394], sh=[574,334+bob];
+  legs(hip[0]-6,hip[1],516,470,hip[0]+6,hip[1],560,470);
+  const torso=g=>{g.moveTo(sh[0]-15,sh[1]-4); g.lineTo(sh[0]+12,sh[1]+4); g.lineTo(hip[0]+17,hip[1]+6); g.lineTo(hip[0]-17,hip[1]); g.closePath()};
+  blob(ctx,torso,'#C9733A'); hatch(ctx,torso,3.5,.3);
+  const hand=crankHandle();
+  [[sh[0]-6,sh[1]+2],[sh[0]+6,sh[1]+6]].forEach(([ax,ay],i)=>{
+    const [ex,ey]=ik(ax,ay,hand[0]-i*2,hand[1]+i*2,31,31,i?1:-1);
+    ctx.strokeStyle=INK; ctx.lineWidth=8; ctx.lineCap='round'; ctx.beginPath(); ctx.moveTo(ax,ay); ctx.lineTo(ex,ey); ctx.lineTo(hand[0]-i*2,hand[1]+i*2); ctx.stroke();
+    ctx.strokeStyle='#C9733A'; ctx.lineWidth=5; ctx.stroke();
+  });
+  head(sh[0]+12,sh[1]-20,1);
+}
+function legs(a,b,c,d,e,f,g2,h){
+  ctx.lineCap='round';
+  [[a,b,c,d],[e,f,g2,h]].forEach(([x1,y1,x2,y2])=>{
+    const kx=(x1+x2)/2+(x2>x1?-6:6), ky=(y1+y2)/2;
+    ctx.strokeStyle=INK; ctx.lineWidth=10; ctx.beginPath(); ctx.moveTo(x1,y1); ctx.lineTo(kx,ky); ctx.lineTo(x2,y2); ctx.stroke();
+    ctx.strokeStyle='#8EA3BC'; ctx.lineWidth=7; ctx.stroke();
+    blob(ctx,g=>g.ellipse(x2+4,y2+3,9,4,0,0,TAU),'#5C3F28',1);
+  });
+}
+function head(x,y,dir){
+  blob(ctx,CIRC(x,y,13),'#EDC8A2');
+  blob(ctx,g=>{g.arc(x,y,13.2,Math.PI*1.05,Math.PI*1.95);g.closePath()},'#6B4A2E',1);
+  ctx.fillStyle=INK; ctx.beginPath(); ctx.arc(x+dir*5,y+1,1.6,0,TAU); ctx.fill();
+}
+function drawClock(){
+  const cx=566,cy=112;
+  blob(ctx,CIRC(cx,cy,17),'#8C6A44',1.3); blob(ctx,CIRC(cx,cy,13),'#F3ECD8',1);
+  const f=Math.min(1,S.t/LESSON_LEN), a=-Math.PI/2+f*TAU;
+  ctx.strokeStyle='#B44A3C'; ctx.lineWidth=2; ctx.beginPath(); ctx.moveTo(cx,cy-13); ctx.lineTo(cx,cy-9); ctx.stroke();
+  ctx.strokeStyle=INK; ctx.lineWidth=1.6; ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(cx+10*Math.cos(a),cy+10*Math.sin(a)); ctx.stroke();
+}
+function wirePath(si){
+  const s=S.students[si], top=s.y+s.post*6*s.k-17*s.k;
+  return [[739,206],[739,54],[s.x,54],[s.x,top]];
+}
+function along(pts,d){
+  for(let i=1;i<pts.length;i++){
+    const [x0,y0]=pts[i-1],[x1,y1]=pts[i],L=Math.hypot(x1-x0,y1-y0);
+    if(d<=L) return [x0+(x1-x0)*d/L,y0+(y1-y0)*d/L];
+    d-=L;
+  }
+  return null;
+}
+function drawFrags(){
+  ctx.font='italic 10px "IM Fell English", Georgia, serif'; ctx.textAlign='center';
+  for(const f of S.frags){
+    let p;
+    if(f.kind==='wire') p=along(wirePath(f.si),f.d);
+    else{const s=S.students[f.si]; p=[f.x0+(s.x-f.x0)*f.d,f.y0+(s.y-f.y0)*f.d-Math.sin(f.d*Math.PI)*30]}
+    if(!p) continue;
+    ctx.fillStyle=f.g?'rgba(180,74,60,.95)':'rgba(43,35,32,.9)';
+    ctx.fillText(f.w,p[0],p[1]-3);
+  }
+}
+function draw(){
+  const d=view.dpr;
+  ctx.setTransform(1,0,0,1,0,0); ctx.fillStyle='#F3ECD8'; ctx.fillRect(0,0,cv.width,cv.height);
+  ctx.setTransform(d*view.s,0,0,d*view.s,d*view.ox,d*view.oy);
+  ctx.save(); ctx.beginPath(); ctx.rect(0,0,W,H); ctx.clip();
+  ctx.drawImage(stat,0,0,W,H);
+  drawClock();
+  S.students.slice(0,3).forEach(drawStudent);
+  drawBackDesk();
+  S.students.slice(3).forEach(drawStudent);
+  drawFrontDesk();
+  drawTeacher();
+  drawMachine();
+  drawBoy();
+  drawFrags();
+  if(!grainPat) grainPat=ctx.createPattern(grain,'repeat');
+  ctx.globalAlpha=.07; ctx.globalCompositeOperation='multiply'; ctx.fillStyle=grainPat; ctx.fillRect(0,0,W,H);
+  ctx.globalAlpha=1; ctx.globalCompositeOperation='source-over';
+  ctx.restore();
+  ctx.strokeStyle=INK; ctx.lineWidth=1.5; ctx.strokeRect(0,0,W,H);
+}
+
+/* ---------- rules ---------- */
+function clarity(w){if(w<.15)return 0; if(w<.6)return .35; if(w<=1.5)return 1; if(w<=2.3)return .5; return .1}
+function garbleOf(w){if(w<=1.5)return 0; if(w<=2.3)return .5; return .9}
+function scramble(w){const a=w.replace(/[.,]/g,'').split(''); for(let i=a.length-1;i>0;i--){if(Math.random()<.6){const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]}} return a.join('')}
+const silent=()=>S.omega<.15;
+const backTurned=()=>BACK.includes(S.T.state);
+
+function teacherSay(key,line,once=true){
+  if(once&&S.T.said[key]) return; S.T.said[key]=true;
+  const el=document.getElementById('speech'); el.textContent='The teacher: '+line; el.hidden=false;
+  clearTimeout(teacherSay.t); teacherSay.t=setTimeout(()=>{el.hidden=true},3200);
+}
+function walk(target,dt){const T=S.T,d=target-T.x,st=130*dt; if(Math.abs(d)<=st){T.x=target;return true} T.x+=Math.sign(d)*st; return false}
+
+function updateTeacher(dt){
+  const T=S.T,h=S.hopper;
+  switch(T.state){
+    case 'atShelf': T.timer-=dt; if(T.timer<=0){ if(T.queue.length){T.holding=T.queue.shift(); T.state='toHopper'} else {T.state='done'; T.doneT=0} } break;
+    case 'toShelf': if(walk(TX.shelf,dt)){T.state='atShelf'; T.timer=2.2} break;
+    case 'toHopper': if(walk(TX.hopper,dt)){
+        if(!h.book){h.book=T.holding; h.progress=S.sent[T.holding]||0; h.acc=h.progress*BOOKS[h.book].words.length; T.expected=T.holding; T.holding=null; clunk(); T.state='toMap'}
+        else T.state='watch';
+      } break;
+    case 'toMap': if(walk(TX.map,dt)){T.state='atMap'; T.timer=6} break;
+    case 'atMap': T.timer-=dt; if(T.timer<=0||(S.silenceT>5&&silent()&&!S.left)){ if(silent()&&!S.left) teacherSay('stop','Why has the machine stopped?'); T.state='toWatch'; checkSwap(); } break;
+    case 'toWatch': if(walk(TX.watch,dt)) T.state='watch'; break;
+    case 'watch':
+      if(S.left && h.book){S.leftT+=dt; if(S.leftT>4){teacherSay('crank','Then I will turn it myself.'); T.state='toCrank'}}
+      else if(!h.book){ if(T.queue.length) T.state='toShelf'; else {T.state='done'; T.doneT=0} }
+      break;
+    case 'toCrank': if(walk(TX.crank,dt)) T.state='cranking'; break;
+    case 'cranking': if(!S.left){T.state='toWatch'} else if(!h.book){T.state=T.queue.length?'toShelf':'done'; T.doneT=0} break;
+    case 'fixSwap': if(walk(TX.hopper,dt)){
+        const mine=h.book; S.shelf.push(mine); S.shelf=S.shelf.filter(b=>b!==T.expected);
+        h.book=T.expected; h.progress=S.sent[T.expected]||0; h.acc=h.progress*BOOKS[h.book].words.length;
+        S.swaps.push({kind:'undone',book:mine}); startGuard('This is not the book I put in. I will stand here.');
+      } break;
+    case 'guard': T.guardT-=dt; S.lid=false; if(T.guardT<=0){S.susp=.45; T.state='watch'} break;
+    case 'done': T.doneT+=dt; break;
+  }
+}
+function checkSwap(){
+  const T=S.T,h=S.hopper;
+  if(h.book&&T.expected&&h.book!==T.expected){
+    if(S.susp>.35||Math.random()<.3){T.state='fixSwap'}
+  }
+}
+function startGuard(line){
+  const T=S.T; T.state='guard'; T.guardT=10; S.lid=false; S.reading=false; S.guarded=true;
+  let replug=false; S.students.forEach(s=>{if(!s.plugged){s.plugged=true; replug=true}});
+  teacherSay('guard'+S.t.toFixed(0),line+(replug?' He plugs the wires back in.':''),false);
+  if(slipMode!=='status') setSlip('status');
+  updateButtons();
+}
+
+function update(dt){
+  if(S.phase!=='play') return;
+  S.t+=dt;
+  const T=S.T,h=S.hopper;
+  // crank dynamics
+  if(T.state==='cranking'){S.omega+=(.45-S.omega)*Math.min(1,dt*2); S.angle+=S.omega*TAU*dt}
+  else if(S.dragging&&!S.left){S.raw=Math.max(0,(S.angle-S.prevAngle)/(TAU*dt)); S.omega+=(S.raw-S.omega)*Math.min(1,dt*6)}
+  else if(S.keyHold&&!S.left){const tg=S.keyFast?2.5:1.0; S.omega+=(tg-S.omega)*Math.min(1,dt*3); S.angle+=S.omega*TAU*dt}
+  else{S.omega*=Math.exp(-1.6*dt); if(S.omega<.04)S.omega=0; S.angle+=S.omega*TAU*dt}
+  S.prevAngle=S.angle;
+
+  if(!silent()&&S.lid){S.lid=false; S.reading=false; if(slipMode!=='status') setSlip('status'); say('The door shuts when the machine turns.')}
+
+  // transmission
+  const cl=clarity(S.omega),ga=garbleOf(S.omega);
+  if(h.book&&!silent()&&T.state!=='toHopper'){
+    const b=BOOKS[h.book], dp=S.omega*dt/b.revs;
+    h.progress=Math.min(1,h.progress+dp); S.sent[h.book]=Math.max(S.sent[h.book]||0,h.progress);
+    S.students.forEach(s=>{if(s.plugged){const r=s.rec[b.prop]; r.c+=dp*cl*s.att; r.g+=dp*ga}});
+    h.acc+=dp*b.words.length;
+    while(h.acc>=1&&S.frags.length<60){
+      h.acc-=1;
+      const wi=Math.min(b.words.length-1,Math.floor(h.progress*b.words.length));
+      S.students.forEach((s,si)=>{if(s.plugged){const g=Math.random()<ga; S.frags.push({kind:'wire',si,d:0,w:g?scramble(b.words[wi]):b.words[wi].replace(/[.,]/g,''),g})}});
+    }
+    if(h.acc>=1) h.acc=0;
+    if(h.progress>=1){h.book=null; h.progress=0; h.acc=0; clunk()}
+  }
+  // reading aloud
+  if(S.reading){
+    if(!(silent()&&S.lid&&h.book&&T.state!=='guard')){S.reading=false}
+    else{
+      const b=BOOKS[h.book]; S.pagesRead[h.book]=true;
+      S.students.forEach(s=>{const r=s.rec[b.prop]; r.c+=dt*(s.plugged?.03:.13)});
+      if(Math.random()<dt*5){const si=Math.floor(Math.random()*6); const hd=S.left?[518,300]:[580,312];
+        S.frags.push({kind:'voice',si,d:0,x0:hd[0],y0:hd[1],w:b.words[Math.floor(Math.random()*b.words.length)].replace(/[.,]/g,''),g:false})}
+    }
+  }
+  // fragments
+  S.frags.forEach(f=>{f.d+=f.kind==='wire'?dt*280:dt*.8});
+  S.frags=S.frags.filter(f=>f.kind==='wire'?along(wirePath(f.si),f.d)!==null:f.d<1);
+
+  // silence and suspicion
+  const quiet=silent()&&!S.left&&T.state!=='cranking';
+  if(quiet){S.silenceT+=dt} else S.silenceT=0;
+  const watching=WATCHING.includes(T.state)&&T.state!=='guard';
+  if(T.state!=='guard'){
+    if(quiet) S.susp+=(watching?.22:.07)*dt;
+    if(S.reading) S.susp+=(watching?.35:.15)*dt;
+    if(!quiet&&!S.reading) S.susp=Math.max(0,S.susp-.04*dt);
+    if(S.reading&&S.susp>.6) teacherSay('read','Quiet. The machine does the reading.');
+    if(quiet&&watching&&S.silenceT>2.2) teacherSay('stop','Why has the machine stopped?');
+    if(S.susp>=1) startGuard('Keep turning. I will stand here.');
+  }
+  if(quiet&&!S.firstSilence&&S.students.some(s=>s.plugged)&&S.t>2){S.firstSilence=true; say('Six heads lift.')}
+  if(!S.hintShown&&S.t>14&&!S.tapped){S.hintShown=true; say('The students and the wall map can be tapped.')}
+
+  // students
+  const drift=S.omega>=.15&&S.omega<.6, fast=S.omega>1.5;
+  S.students.forEach(s=>{
+    let post=0,look=0;
+    if(!s.plugged){look=.75; post=0}
+    else if(quiet||S.reading){look=1}
+    else if(drift){post=1}
+    else if(fast){post=.2}
+    else look=s.side?.55:0;
+    if(S.left&&T.state!=='cranking'&&!s.plugged) look=1;
+    s.post+=(post-s.post)*Math.min(1,dt*3); s.look+=(look-s.look)*Math.min(1,dt*5);
+    s.twitch=s.plugged&&fast&&!silent();
+    s.mouth=s.plugged&&!silent()&&cl>.3?(Math.sin(S.t*12+s.x)>0?1:0):0;
+  });
+
+  updateTeacher(dt);
+  if(S.t>=LESSON_LEN||(T.state==='done'&&T.doneT>3)) endLesson();
+}
+
+/* ---------- results ---------- */
+function answers(s){
+  const r=s.rec;
+  let ar,arOk;
+  if(r.arith.c>=.5){ar='Sixteen.';arOk=true}
+  else if(r.arith.g>=.3){ar=['Nineteen?','Seventy-six.','Sixty-one, Monsieur.'][Math.floor(Math.random()*3)];arOk=false}
+  else{ar='I did not hear it, Monsieur.';arOk=false}
+  const e=r.east.c,w=r.west.c,g=r.east.g+r.west.g;
+  let rv,rvOk,note='';
+  if(e<.4&&w<.4){ if(g>.35){rv='It flows up the hill, toward the mill?';} else rv='I was not told, Monsieur.'; rvOk=false; note=''}
+  else if(e>=.4&&w>=.4&&Math.max(e,w)<1.6*Math.min(e,w)){rv='One book said east and one said west.';rvOk=false;note='Choose one.'}
+  else if(e>w){rv='East, to the sea at Port-Ancel.';rvOk=true}
+  else{rv='West, to the marshes. The mill turns against the hill.';rvOk=false;note='That is not what the book says.'}
+  return {ar,arOk,rv,rvOk,note};
+}
+function endLesson(){
+  S.phase='results'; S.reading=false; S.omega=0; bell();
+  const rows=S.students.map(s=>({name:s.name,plugged:s.plugged,...answers(s)}));
+  const arN=rows.filter(r=>r.arOk).length, rvN=rows.filter(r=>r.rvOk).length;
+  const sentList=Object.entries(S.sent).filter(([,v])=>v>.02).map(([id,v])=>BOOKS[id].t+(v>=.999?', whole':', '+Math.round(v*100)+'%'));
+  const read=Object.keys(S.pagesRead).map(id=>BOOKS[id].t);
+  const swapsDone=S.swaps.filter(x=>x.kind==='swap').length, undone=S.swaps.filter(x=>x.kind==='undone').length;
+  history.push({lesson:S.lesson,arN,rvN,swapsDone,undone,guarded:S.guarded});
+  wary=S.guarded;
+  const c=document.getElementById('sheetCard');
+  c.innerHTML=`
+    <h2>The bell</h2>
+    <p>The teacher asks: <i>Nine and seven? And which way does the Verse flow?</i></p>
+    <div style="overflow-x:auto"><table>
+      <tr><th>Student</th><th>Nine and seven</th><th>The Verse</th></tr>
+      ${rows.map(r=>`<tr><td>${r.name}${r.plugged?'':' <span class="small">(unplugged)</span>'}</td>
+        <td><span class="mark ${r.arOk?'ok':'no'}"></span>${r.ar}</td>
+        <td><span class="mark ${r.rvOk?'ok':'no'}"></span>${r.rv}${r.note?` <span class="small">Teacher: ${r.note}</span>`:''}</td></tr>`).join('')}
+    </table></div>
+    <p>He marked ${arN} of 6 correct on the sum and ${rvN} of 6 on the river. He graded from his own copy of <i>Géographie du Canton</i>, kept on his desk.</p>
+    <h3>Through the machine</h3>
+    <ul>${sentList.length?sentList.map(x=>`<li>${x}</li>`).join(''):'<li>Nothing went through.</li>'}</ul>
+    ${swapsDone||undone?`<p class="small">You swapped ${swapsDone} book${swapsDone===1?'':'s'}${undone?`; the teacher found ${undone} and put his own back`:''}.</p>`:''}
+    <h3>What you looked at</h3>
+    <ul>${read.length?read.map(x=>`<li>The page of ${x}</li>`).join(''):''}${S.mapSeen?'<li>The wall map</li>':''}${!read.length&&!S.mapSeen?'<li>Nothing outside the machine.</li>':''}</ul>
+    ${history.length>1?`<h3>Earlier lessons</h3><ul>${history.slice(0,-1).map(h=>`<li>Lesson ${h.lesson}: sum ${h.arN}/6, river ${h.rvN}/6${h.guarded?', the teacher stood guard':''}</li>`).join('')}</ul>`:''}
+    ${wary?'<p class="small">He stood at the machine this lesson. He will start the next one watching it more closely.</p>':''}
+    <div class="acts"><button id="next" type="button">Next lesson</button><button id="led2" type="button">Ledger</button></div>`;
+  S.resultsHTML=c.innerHTML;
+  openSheet(); bindResults();
+}
+function bindResults(){
+  const c=document.getElementById('sheetCard');
+  c.querySelector('#next').onclick=()=>{closeSheet(); newLesson()};
+  c.querySelector('#led2').onclick=showLedger;
+}
+function showLedger(){
+  const c=document.getElementById('sheetCard');
+  const back=S.phase==='results';
+  c.innerHTML=`
+    <h2>Ledger</h2>
+    <h3>Documented</h3>
+    <p><i>À l'École</i> (At School), from the <i>En l'an 2000</i> series of French illustrations, attributed to Villemard, about 1910. The room drawn here follows its layout: six students in headsets wired to a ceiling line, a teacher dropping books into a hopper, and a boy turning the machine's crank. Its research context is Soyoun Jang's <a href="https://soyjang.github.io/archive-of-past-futures/" target="_blank" rel="noopener">Archive of Past Futures</a>.</p>
+    <h3>Interpretation</h3>
+    <p>That the machine turns books into a signal, and that the signal carries what the book says. The postcard does not settle this.</p>
+    <h3>Invented for this game</h3>
+    <p>The river Verse, the town of Brécourt, Port-Ancel, every book title and page, the wall map, the teacher's question, the students' names and answers, and his grading. None of it is a historical record.</p>
+    <p class="small">The game does not say which way the Verse flows. The teacher's copy says one thing. Other sources in the room say another.</p>
+    <div class="acts"><button id="ledClose" type="button">${back?'Back to the results':'Back to the lesson'}</button></div>`;
+  openSheet();
+  c.querySelector('#ledClose').onclick=()=>{ if(back) endLessonRedraw(); else closeSheet(); };
+}
+function endLessonRedraw(){
+  document.getElementById('sheetCard').innerHTML=S.resultsHTML; bindResults();
+}
+let paused=false;
+function openSheet(){document.getElementById('sheet').hidden=false; paused=true}
+function closeSheet(){document.getElementById('sheet').hidden=true; paused=false}
+
+/* ---------- slip panel ---------- */
+let slipMode='status',statusLines=[];
+function say(msg){
+  statusLines.push(msg); if(statusLines.length>3) statusLines.shift();
+  if(slipMode==='status') renderStatus();
+}
+function renderStatus(){
+  document.getElementById('slip').innerHTML=`<div class="status">${statusLines.map((l,i)=>`<p class="${i<statusLines.length-1?'old':''}">${l}</p>`).join('')}</div>`;
+}
+function setSlip(mode){
+  slipMode=mode; const el=document.getElementById('slip');
+  if(mode==='status') renderStatus();
+  else if(mode==='page'){
+    const h=S.hopper;
+    if(!h.book){el.innerHTML='<div class="page"><h3>The hopper is empty</h3><p class="small">The teacher brings the next book from the shelf.</p></div>'; return}
+    const b=BOOKS[h.book], n=Math.floor(h.progress*b.words.length);
+    S.pagesRead[h.book]=true;
+    el.innerHTML=`<div class="page"><h3>${b.t}<span class="tag">invented page</span></h3>
+      <p class="txt">${b.words.map((w,i)=>i<n?`<span class="sent">${w}</span>`:w).join(' ')}</p>
+      <p class="small">Struck words have already gone down the wires.</p></div>`;
+  }else if(mode==='shelf'){
+    el.innerHTML=`<div class="page"><h3>The shelf</h3><p class="small">Put one of these in the hopper instead. What already went through stays taught.</p>
+      <div class="shelf">${S.shelf.map(id=>`<button type="button" data-b="${id}"><i style="background:${BOOKS[id].c}"></i>${BOOKS[id].t}</button>`).join('')}</div></div>`;
+    el.querySelectorAll('[data-b]').forEach(bt=>bt.onclick=()=>doSwap(bt.dataset.b));
+  }else if(mode==='map'){
+    el.innerHTML=`<div class="page row"><canvas width="300" height="216" style="width:150px;height:108px;border:1px solid #2B2320" aria-label="Wall map"></canvas>
+      <div><h3>The wall map<span class="tag">invented</span></h3><p>The Canton, drawn with north at the top. An arrow beside the river marks the current.</p></div></div>`;
+    const g=el.querySelector('canvas').getContext('2d'); g.scale(3,3); drawMapInto(g,0,0,100,72,true);
+  }
+}
+
+/* ---------- actions ---------- */
+function btnState(){
+  const h=S.hopper,T=S.T,guard=T.state==='guard';
+  return {
+    lid: guard?'The teacher is standing at the machine.': !silent()?'Stop the crank first. The door is locked while it turns.':null,
+    swap: guard?'The teacher is standing at the machine.': !silent()?'Stop the crank first.': !S.lid?'Open the door first.': !h.book?'The hopper is empty.': !backTurned()?'The teacher is watching the machine.':null,
+    read: guard?'The teacher is standing at the machine.': !silent()?'You cannot be heard over the machine.': !S.lid||!h.book?'Open the door on a book first.':null
+  };
+}
+function updateButtons(){
+  const st=btnState();
+  const set=(id,reason,label)=>{const b=document.getElementById(id); b.setAttribute('aria-disabled',reason?'true':'false'); if(label) b.textContent=label};
+  set('btnLid',st.lid&&!S.lid?st.lid:null,S.lid?'Close the door':'Open the door');
+  set('btnSwap',st.swap);
+  set('btnRead',st.read);
+  document.getElementById('btnRead').classList.toggle('lit',S.reading);
+  set('btnLeave',null,S.left?'Take the crank':'Let go');
+  document.getElementById('wheel').classList.toggle('off',S.left);
+  document.getElementById('wlabel').textContent=S.left?(S.T.state==='cranking'?'The teacher has it':'You let go'):'The crank';
+}
+document.getElementById('btnLid').onclick=()=>{
+  if(S.phase!=='play') return; audioInit();
+  if(S.lid){S.lid=false; S.reading=false; setSlip('status'); return}
+  const r=btnState().lid; if(r){say(r);return}
+  S.lid=true; setSlip('page');
+};
+document.getElementById('btnSwap').onclick=()=>{
+  if(S.phase!=='play') return;
+  const r=btnState().swap; if(r){say(r);return}
+  if(slipMode==='shelf') setSlip('page'); else setSlip('shelf');
+};
+function doSwap(id){
+  const r=btnState().swap; if(r){say(r); setSlip('status'); return}
+  const h=S.hopper, out=h.book;
+  S.shelf=S.shelf.filter(b=>b!==id); S.shelf.push(out);
+  h.book=id; h.progress=S.sent[id]||0; h.acc=h.progress*BOOKS[id].words.length;
+  S.swaps.push({kind:'swap',out,in:id}); clunk();
+  say(`${BOOKS[id].t} is in the hopper. ${BOOKS[out].t} is on the shelf.`);
+  setSlip('page');
+}
+const rb=document.getElementById('btnRead');
+rb.addEventListener('pointerdown',e=>{
+  if(S.phase!=='play') return; audioInit();
+  const r=btnState().read; if(r){say(r);return}
+  S.reading=true; rb.setPointerCapture(e.pointerId); updateButtons();
+});
+['pointerup','pointercancel','lostpointercapture'].forEach(ev=>rb.addEventListener(ev,()=>{S.reading=false; updateButtons()}));
+rb.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&!e.repeat){e.preventDefault(); const r=btnState().read; if(r){say(r);return} S.reading=true}});
+rb.addEventListener('keyup',e=>{if(e.key==='Enter'||e.key===' ') S.reading=false});
+document.getElementById('btnLeave').onclick=()=>{
+  if(S.phase!=='play') return; audioInit();
+  if(S.left){S.left=false; S.leftT=0; if(S.T.state==='cranking'||S.T.state==='toCrank'){S.T.state='toWatch'; S.omega=Math.min(S.omega,.5)} say('You take the crank back.')}
+  else{S.left=true; S.leftT=0; S.dragging=false; S.keyHold=false; say('You let go of the crank and step away.')}
+  updateButtons();
+};
+document.getElementById('btnLedger').onclick=showLedger;
+
+/* wheel input */
+const wheel=document.getElementById('wheel'),spokes=document.getElementById('spokes');
+function wAngle(e){const r=wheel.getBoundingClientRect(); return Math.atan2(e.clientY-(r.top+r.height/2),e.clientX-(r.left+r.width/2))}
+wheel.addEventListener('pointerdown',e=>{
+  audioInit(); if(S.phase!=='play') return;
+  if(S.left){say('Take the crank first.');return}
+  S.dragging=true; S.lastA=wAngle(e); wheel.setPointerCapture(e.pointerId); e.preventDefault();
+});
+wheel.addEventListener('pointermove',e=>{
+  if(!S.dragging) return;
+  const a=wAngle(e); let d=a-S.lastA; if(d>Math.PI)d-=TAU; if(d<-Math.PI)d+=TAU;
+  if(d>0) S.angle+=d;
+  S.lastA=a;
+});
+['pointerup','pointercancel','lostpointercapture'].forEach(ev=>wheel.addEventListener(ev,()=>{S.dragging=false}));
+window.addEventListener('keydown',e=>{
+  if(e.code==='Space'&&!e.repeat&&document.activeElement?.tagName!=='BUTTON'){e.preventDefault(); audioInit(); if(S.phase==='play'&&!S.left){S.keyHold=true; S.keyFast=e.shiftKey}}
+});
+window.addEventListener('keyup',e=>{if(e.code==='Space') S.keyHold=false});
+
+/* canvas taps: students, map */
+cv.addEventListener('pointerdown',e=>{
+  audioInit(); if(S.phase!=='play') return;
+  const r=cv.getBoundingClientRect(), x=(e.clientX-r.left-view.ox)/view.s, y=(e.clientY-r.top-view.oy)/view.s;
+  if(x>414&&x<526&&y>86&&y<170){S.tapped=true; S.mapSeen=true; setSlip('map'); return}
+  for(let i=5;i>=0;i--){
+    const s=S.students[i];
+    if(Math.abs(x-s.x)<26*s.k&&y>s.y-22*s.k&&y<s.desk){
+      S.tapped=true;
+      if(S.T.state==='guard'){say('The teacher is watching the wires.');return}
+      if(!silent()&&!S.left){say('Your hands are on the crank. Stop to reach the wires.');return}
+      s.plugged=!s.plugged;
+      say(s.plugged?`You plug ${s.name}'s wire back in.`:`You pull ${s.name}'s wire. ${s.name} hears nothing from the machine now.`);
+      return;
+    }
+  }
+});
+
+/* ---------- loop ---------- */
+function resize(){
+  const box=document.getElementById('stage').getBoundingClientRect();
+  view.dpr=Math.min(2,window.devicePixelRatio||1);
+  cv.width=Math.max(1,Math.round(box.width*view.dpr)); cv.height=Math.max(1,Math.round(box.height*view.dpr));
+  cv.style.width=box.width+'px'; cv.style.height=box.height+'px';
+  view.s=Math.min(box.width/W,box.height/H); view.ox=(box.width-W*view.s)/2; view.oy=(box.height-H*view.s)/2;
+}
+let last=performance.now(),btnTick=0;
+function frame(now){
+  const dt=Math.min(.05,(now-last)/1000); last=now;
+  if(!paused) update(dt);
+  draw();
+  const pct=Math.min(100,S.omega/3*100);
+  document.getElementById('needle').style.left=pct+'%';
+  spokes.setAttribute('transform',`rotate(${(S.angle*180/Math.PI)%360})`);
+  wheel.setAttribute('aria-valuenow',S.omega.toFixed(2));
+  if(AC){const t=AC.currentTime; osc.frequency.setTargetAtTime(38+S.omega*42,t,.05); gainN.gain.setTargetAtTime(Math.min(.05,S.omega*.03),t,.08); filt.frequency.setTargetAtTime(260+S.omega*260,t,.1)}
+  btnTick+=dt; if(btnTick>.15){btnTick=0; updateButtons()}
+  requestAnimationFrame(frame);
+}
+new ResizeObserver(resize).observe(document.getElementById('stage'));
+buildStatic();
+if(document.fonts&&document.fonts.ready) document.fonts.ready.then(buildStatic);
+newLesson(); resize();
+requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>

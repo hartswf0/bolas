@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta name="crank-mirror" content="bolas">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>The kit · The Crank Boy</title>
+<meta name="description" content="Every element we have made for the Crank Boy and Futuretown: the cut pieces of each card, the archive plates, each card's inks, the doodles, the cast of version 9, the operators and the tools.">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/favicon-180.png">
+<link rel="stylesheet" href="room/room.css">
+<style>
+@font-face{font-family:'IM Fell English';src:url(assets/shorts/fonts/IMFellEnglish.ttf) format('truetype');font-display:swap}
+@font-face{font-family:'IM Fell English SC';src:url(assets/shorts/fonts/IMFellEnglishSC.ttf) format('truetype');font-display:swap}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{background:var(--table);scroll-padding-top:60px}
+body{margin:0;color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.45;background:var(--table)}
+a{color:var(--ink);text-decoration-color:var(--red);text-underline-offset:3px}
+:focus-visible{outline:2px solid var(--red);outline-offset:2px}
+button{font:inherit;color:inherit;cursor:pointer}
+.wrap{max-width:1180px;margin:0 auto;padding:6px 16px 60px}
+h1,h2,h3{font-family:var(--display);font-weight:400;letter-spacing:.02em;margin:0}
+h1{font-size:36px;margin:8px 0 2px}
+h2{font-size:26px}
+h3{font-size:19px;margin:18px 0 6px}
+.lede{max-width:72ch;margin:4px 0 12px;color:#4a3f36}
+.jump{position:sticky;top:0;z-index:5;background:var(--table);padding:8px 0;border-bottom:1px solid rgba(43,35,32,.18);display:flex;gap:6px 8px;flex-wrap:wrap}
+.chip,.btn{font-family:var(--display);letter-spacing:.05em;border:1.5px solid var(--ink);background:var(--paper);padding:3px 11px;font-size:13.5px;text-decoration:none;display:inline-block;border-radius:999px}
+.btn{border-radius:0;padding:5px 12px;font-size:14px;box-shadow:2px 2px 0 var(--ink)}
+.chip:hover,.btn:hover{background:var(--wall)}
+section.k{margin:30px 0 0}
+section.k>header{border-bottom:3px solid var(--red);padding-bottom:4px;margin-bottom:12px;display:flex;gap:4px 16px;align-items:baseline;flex-wrap:wrap}
+section.k>header p{margin:0;flex:1 1 320px;font-size:15px;color:#4a3f36}
+.meta{font-family:var(--display);font-size:12.5px;letter-spacing:.05em;color:var(--muted)}
+.sheet{background:var(--paper);border:1.5px solid var(--ink);box-shadow:3px 3px 0 var(--ink);padding:12px 14px;margin:0 0 18px}
+.alpha{background:#d9ccaa repeating-conic-gradient(#e6dbbb 0 25%,#d3c6a2 0 50%) 0 0/16px 16px;border:1px solid rgba(43,35,32,.4)}
+.pieces{display:grid;grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:10px}
+.piece{display:flex;flex-direction:column;gap:3px;min-width:0;font-size:13px}
+.piece .alpha{display:flex;align-items:center;justify-content:center;height:110px;padding:4px}
+.piece img{max-width:100%;max-height:100%;object-fit:contain;display:block}
+.piece b{font-weight:400;font-family:var(--display);letter-spacing:.04em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.piece .slot{color:var(--red)}
+.cardrow{display:grid;grid-template-columns:minmax(0,230px) minmax(0,1fr);gap:16px;align-items:start}
+.cardrow>.l img{width:100%;display:block;border:1.5px solid var(--ink)}
+.cardrow .tags{display:flex;gap:5px;flex-wrap:wrap;margin:6px 0}
+.inks{display:flex;gap:0;margin:8px 0 2px;border:1.5px solid var(--ink);width:fit-content;max-width:100%}
+.inks button{width:34px;height:26px;border:0;border-right:1px solid rgba(43,35,32,.5);padding:0}
+.inks button:last-child{border-right:0}
+.inkname{font-family:var(--display);font-size:12.5px;letter-spacing:.05em;color:var(--muted);min-height:1.2em}
+.plates{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:16px}
+.plate video,.plate img{width:100%;display:block;aspect-ratio:4/3;object-fit:cover;background:#1e1713;border:1.5px solid var(--ink)}
+.plate .strip{display:block;width:100%;height:auto;aspect-ratio:auto;object-fit:contain;margin-top:4px;border:1px solid rgba(43,35,32,.5)}
+.plate h3{margin:6px 0 0;font-size:17px}
+.plate p{margin:2px 0;font-size:14.5px}
+.doods{display:grid;grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:10px}
+.dood{background:var(--paper);border:1px solid rgba(43,35,32,.4);padding:6px;display:flex;flex-direction:column;gap:2px;align-items:center;font-size:12.5px}
+.dood svg{width:100%;height:auto;max-width:92px;display:block}
+.dood b{font-weight:400;font-family:var(--display)}
+.twocol{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+table.t{border-collapse:collapse;width:100%;font-size:15px}
+table.t th{text-align:left;font-family:var(--display);font-weight:400;border-bottom:1.5px solid var(--ink);padding:4px 8px 4px 0}
+table.t td{padding:6px 8px 6px 0;border-bottom:1px solid #cdbf98;vertical-align:top}
+table.t code{font-size:13.5px}
+.said{font-size:13px;color:var(--muted);margin-left:6px}
+@media (max-width:760px){h1{font-size:28px}.cardrow,.twocol{grid-template-columns:1fr}.cardrow>.l{max-width:260px}.pieces{grid-template-columns:repeat(auto-fill,minmax(96px,1fr))}.jump{position:static}}
+</style>
+</head>
+<body>
+<script src="room/site.js" data-root="" data-here="kit"></script>
+<div class="wrap">
+<h1>The kit</h1>
+<p class="lede">Every element we have made for the Crank Boy and for Futuretown, in one place: the pieces cut from each card, the archive plates, each card's printing inks, the doodles, the cast of version 9, the operator prompts and the tools that make and publish them. Everything here is a plain file you can open or download.</p>
+<nav class="jump" aria-label="Sections"><a class="chip" href="#cards">Cards and cut pieces</a><a class="chip" href="#v9">Version 9: plates and cast</a><a class="chip" href="#plates">Archive plates</a><a class="chip" href="#doodles">Doodles</a><a class="chip" href="#operators">Operators</a><a class="chip" href="#tools">Tools</a><a class="chip" href="#prompts">Method</a></nav>
+
+<section class="k" id="cards"><header><h2>Cards and cut pieces</h2><p>Each card is the cast: pieces are cut from its own pixels (<code>shorts/tools/cut.py</code>) and the holes are filled from their surroundings. A piece marked slot is an actor another actor can be recast into. The eight inks are the card's own colours by k-means, darkest first; click one for its value.</p></header><div id="cardsOut"></div></section>
+
+<section class="k" id="v9"><header><h2>Version 9: plates and cast</h2><p>Five image-model plates of the school card line up with it to the pixel, each with less in it, so a layer is the difference between two plates. The cast was extracted from generated sprite sheets by connected alpha components. Both are Watson's; the model and prompts are not recorded.</p></header><div id="v9Out"></div></section>
+
+<section class="k" id="plates"><header><h2>Archive plates</h2><p>Cut-free stretches of single shots from the cineosis-lab library, trimmed and re-encoded without sound. Each plate names its source clip, so it can be found again.</p></header><div class="plates" id="platesOut"></div></section>
+
+<section class="k" id="doodles"><header><h2>Doodles</h2><p id="doodNote"></p></header><div class="doods" id="doodOut"></div></section>
+
+<section class="k" id="operators"><header><h2>Operators</h2><p>Prompts from the SCION animation swarms. Each short and each game in Futuretown was worked by one.</p></header><div class="sheet" style="overflow-x:auto"><table class="t" id="opOut"></table></div></section>
+
+<section class="k" id="tools"><header><h2>Tools</h2><p>The scripts that cut, print, compose, render and publish. Each file starts with what it does and how to run it.</p></header><div class="sheet" style="overflow-x:auto"><table class="t" id="toolOut"></table></div></section>
+
+<section class="k" id="prompts"><header><h2>Method</h2><p>How to make more of this.</p></header><div class="sheet" id="promptOut"></div></section>
+</div>
+<script src="registry/registry.js"></script>
+<script src="registry/library.js"></script>
+<script src="registry/kit.js"></script>
+<script>
+(() => {
+const K = window.CRANK_KIT, TX = window.CRANK_TEXT || {};
+const $ = id => document.getElementById(id);
+const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const hex = c => '#' + c.map(v => v.toString(16).padStart(2, '0')).join('');
+const piece = p => `<div class="piece"><div class="alpha"><img src="${esc(p.file)}" alt="${esc(p.name)}" loading="lazy"></div><b class="${p.slot ? 'slot' : ''}" title="${esc(p.name)}">${esc(p.name)}${p.slot ? ' · slot' : ''}</b><span class="meta">${p.w || p.size && p.size[0]} × ${p.h || p.size && p.size[1]}</span></div>`;
+$('cardsOut').innerHTML = K.cards.map(c => `<div class="sheet" id="card-${esc(c.id)}"><div class="cardrow"><div class="l"><img src="${esc(c.image)}" alt="${esc(c.title)}" loading="lazy"><div class="meta">${c.size[0]} × ${c.size[1]} px</div></div>
+  <div><h3 style="margin-top:0">${esc(c.title)}</h3>
+  <div class="tags"><span class="chip">${c.parts.length} pieces</span><span class="chip">${c.parts.filter(p => p.slot).length} slots</span>${c.film ? `<span class="chip">Film: ${esc(c.film)}</span>` : ''}${c.game ? `<span class="chip">Game: ${esc(c.game)}</span>` : ''}</div>
+  <div class="meta">The eight inks</div><div class="inks" role="group" aria-label="Inks">${c.inks.map((k, i) => `<button type="button" style="background:${hex(k)}" data-ink="${hex(k)}" aria-label="Ink ${i + 1} ${hex(k)}"></button>`).join('')}</div><div class="inkname" aria-live="polite">&nbsp;</div>
+  <div class="row" style="display:flex;gap:8px;flex-wrap:wrap;margin:6px 0 10px"><a class="btn" href="${esc(c.clean)}">The clean card</a>${c.empty ? `<a class="btn" href="${esc(c.empty)}">With the actors removed</a>` : ''}<a class="btn" href="shorts/${esc(c.id)}.html">Its film</a><a class="btn" href="shorts/world.html?d=${esc(c.id)}">Its game</a><a class="btn" href="shorts/requests.html#${esc(c.id)}">Its call sheet</a></div>
+  <div class="pieces">${c.parts.map(piece).join('')}</div></div></div></div>`).join('');
+$('cardsOut').querySelectorAll('[data-ink]').forEach(b => b.onclick = () => { const n = b.closest('.cardrow').querySelector('.inkname'); n.textContent = b.dataset.ink + ' (copied)'; if (navigator.clipboard) navigator.clipboard.writeText(b.dataset.ink).catch(() => {}); });
+const V = K.v9;
+$('v9Out').innerHTML = `<div class="sheet"><h3 style="margin-top:0">Aligned plates</h3><div class="pieces" style="grid-template-columns:repeat(auto-fill,minmax(220px,1fr))">${V.plates.map(p => `<div class="piece"><a href="${esc(p.file)}"><img src="${esc(p.file)}" alt="${esc(p.name)}" loading="lazy" style="border:1.5px solid var(--ink);width:100%"></a><b>${esc(p.name.replace(/-/g, ' '))}</b></div>`).join('')}</div>
+  <h3>Layers, cut by difference and by outline</h3><div class="pieces">${V.layers.map(piece).join('')}</div>
+  <h3>The cast</h3><div class="pieces">${V.cast.map(piece).join('')}</div><p class="meta">${V.rigs} rough head and body layers also in <code>assets/v9/cast/</code>. Method: <code>assets/v9/build_layers.py</code>. <a href="making/v9.html">How version 9 was made</a>.</p></div>`;
+$('platesOut').innerHTML = K.plates.map(p => `<div class="plate"><video src="${esc(p.video)}" muted loop playsinline preload="metadata" controls aria-label="${esc(p.title)}"></video><img class="strip" src="${esc(p.strip)}" alt="Six frames of ${esc(p.title)}" loading="lazy"><h3>${esc(p.title)}${p.year ? ' (' + p.year + ')' : ''}</h3><p>${esc(p.shows)}</p><p class="meta">clip ${esc(p.clip.slice(0, 8))} · ${p.in}–${p.out} s${p.short ? ' · in <a href="shorts/index.html#' + esc(p.short) + '">' + esc(p.short) + '</a>' : ''}${p.motion ? ' · motion measured' : ''}</p></div>`).join('');
+$('doodNote').textContent = K.doodleSource;
+const svg = d => { const paths = d.drawing.map(([xs, ys]) => 'M' + xs.map((x, i) => x + ' ' + ys[i]).join('L')).join(' '); return `<svg viewBox="-6 -6 268 268" role="img" aria-label="${esc(d.word)}"><path d="${paths}" fill="none" stroke="#2B2320" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>`; };
+$('doodOut').innerHTML = K.doodles.map(d => `<div class="dood" title="Quick, Draw! record ${esc(d.key_id)}">${svg(d)}<b>${esc(d.word)}</b><span class="meta">${esc(d.country || '')} · ${esc(d.key_id).slice(-6)}</span></div>`).join('');
+const copy = (b, key) => { const t = TX[key]; if (!t) return; const o = b.textContent; (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject()).then(() => { b.textContent = 'Copied'; setTimeout(() => b.textContent = o, 1400); }, () => { b.textContent = 'Copy blocked'; }); };
+$('opOut').innerHTML = '<tr><th>Operator</th><th>Used for</th><th></th></tr>' + K.operators.map(o => `<tr><td><b style="font-weight:400">${esc(o.title.replace('Operator: ', ''))}</b><br><span class="meta">${esc(o.file)} · ${Math.round(o.chars / 1000)}k characters</span></td><td>${o.filmFor.map(x => 'Film: ' + esc(x)).concat(o.gameFor.map(x => 'Game: ' + esc(x))).join('<br>') || esc(o.note)}</td><td><button class="btn" type="button" data-copy="${esc(o.key)}">Copy</button> <a class="btn" href="${esc(o.file)}">Open</a></td></tr>`).join('');
+$('toolOut').innerHTML = '<tr><th>Stage</th><th>File</th><th>What it does</th></tr>' + K.tools.map(t => `<tr><td>${esc(t.stage)}</td><td><a href="${esc(t.file)}"><code>${esc(t.file)}</code></a></td><td>${esc(t.what)}</td></tr>`).join('');
+$('promptOut').innerHTML = K.prompts.map(p => `<p style="margin:0 0 6px"><b style="font-weight:400">${esc(p.title)}</b> <button class="btn" type="button" data-copy="${esc(p.key)}">Copy</button> <a class="btn" href="${esc(p.file)}">Open</a></p>`).join('') + '<p class="meta">Other prompts: <a href="album.html#about">the album</a> lists every prompt used for the six games.</p>';
+document.addEventListener('click', e => { const b = e.target.closest('[data-copy]'); if (b) copy(b, b.dataset.copy); });
+})();
+</script>
+</body>
+</html>
