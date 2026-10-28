@@ -1,0 +1,108 @@
+{
+ "about": "Every asset in SCION 42 film; nothing fetched from the web, no generated images, no Quick, Draw! drawings, no archive-door frames used.",
+ "assets": [
+  {
+   "id": "archive-dog-frames",
+   "what": "frames of a real dog (384x288, 12 fps), the only source of the dog on screen",
+   "path": "paeleo/handmade/kit/archive-dog/frames/",
+   "source_title": "Amateur Film New Jersey C",
+   "collection": "Home Movies (Internet Archive collection)",
+   "archive_url": "https://archive.org/details/NewJerseyC",
+   "clip_page": "https://www.movingimagearchive.com/sources/amateur-film-new-jersey-c-c65a8960?clip=2fdacde1-8a23-58e1-b905-5407385bd039",
+   "rights": "public_domain",
+   "frames_used": {
+    "template (its pixels are the puppet)": [
+     8
+    ],
+    "training (few-shot)": [
+     8,
+     2,
+     5,
+     11,
+     13,
+     "42 mirrored",
+     "44 mirrored"
+    ],
+    "held-out test": [
+     3,
+     7,
+     10,
+     12,
+     "43 mirrored",
+     "45 mirrored"
+    ],
+    "motion library (re-fitted, masks frozen)": "0-13, 40-46 mirrored",
+    "visibility states shown whole (turns)": [
+     15,
+     16,
+     17,
+     31,
+     38,
+     40,
+     41
+    ]
+   },
+   "operation": "mask (kit SAM polygons, largest component), few-shot layer discovery (EM + gradient descent, numpy/scipy), per-layer affine motion fit, splat rendering with dusk/door-light tint; turn frames cut out whole with the SAM mask and scaled"
+  },
+  {
+   "id": "archive-dog-masks",
+   "what": "SAM masks per frame",
+   "path": "paeleo/handmade/kit/archive-dog/masks.json",
+   "rights": "derived from public-domain frames (kit)",
+   "operation": "rasterised; distance transform and coverage targets for the fit; alpha of the turn views"
+  },
+  {
+   "id": "archive-dog-keypoints",
+   "what": "hand-placed rig keys (nose, neck, chest, tail, feet)",
+   "path": "paeleo/handmade/kit/archive-dog/pose_agent_v8.json",
+   "rights": "kit annotation",
+   "operation": "used only (a) to name the learned parts (head, foreleg, hind, tail) and (b) to build the authored-rig control the learned layers are compared with; facing of turn views measured from its nose key; never used to define the learned parts"
+  },
+  {
+   "id": "learned-model",
+   "what": "the trained puppet: template points, layer labels/weights, per-frame per-layer affines, hinges, tree",
+   "path": "paeleo/handmade/42-neural-layered-puppet/model/puppet.npz",
+   "operation": "computed by build/fit.py"
+  },
+  {
+   "id": "motion-library",
+   "what": "per-layer affines re-fitted to source frames 0-13 and 40-46",
+   "path": "paeleo/handmade/42-neural-layered-puppet/model/library.npz",
+   "operation": "computed by build/library.py"
+  },
+  {
+   "id": "score",
+   "what": "PAELEO threshold score (dog decision trace, person, door, timeline)",
+   "path": "paeleo/handmade/score/threshold-score.json",
+   "operation": "drives every frame"
+  },
+  {
+   "id": "world",
+   "what": "house cut-away, stone wall and sill, door leaf, porch boards, dusk sky, tree-line, door light",
+   "path": "build/world.py",
+   "rights": "made here",
+   "operation": "synthesized (numpy noise fields, Pillow polygons)"
+  },
+  {
+   "id": "person",
+   "what": "coat silhouette person, authored layered rig (forward kinematics)",
+   "path": "build/person.py",
+   "rights": "made here",
+   "operation": "drawn (Pillow)"
+  },
+  {
+   "id": "sound",
+   "what": "crickets, room tone, formant-synthesized voice, door latch and hinge, light hum, steps, stool, dog pads/claws, settle thumps, sigh",
+   "path": "build/sound.py",
+   "rights": "made here",
+   "operation": "synthesized (numpy)"
+  },
+  {
+   "id": "fonts",
+   "what": "Big Shoulders Display, JetBrains Mono (cards)",
+   "path": "tools/paeleo/fonts/",
+   "rights": "SIL Open Font License (repo font kit)",
+   "operation": "typeset"
+  }
+ ]
+}

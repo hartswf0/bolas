@@ -1,0 +1,148 @@
+{
+ "about": "SCION 34 \u00b7 ARAP: every asset in the film, where it came from, its rights and the operation that made it.",
+ "assets": [
+  {
+   "id": "dog-profile",
+   "what": "the dog in profile: torso, neck, four legs (shoulder and thigh masses), tail; an engraving (ink lines on paper) whose hatch follows each part (lengthwise on the barrel, along the limbs, bunched at their edges as on a cylinder) and whose line width follows a computed light",
+   "source": "drawn in code: build/draw_dog.py (P_body) + build/engrave.py; proportions after the archive dog's rig keys (kit/archive-dog/pose_agent_v8.json, looked at as numbers only)",
+   "files": [
+    "assets/drawings/P_body.png",
+    "assets/drawings/P_body.json",
+    "assets/mesh/P_body.npz"
+   ],
+   "rights": "made here",
+   "operation": "drawn (synthesized engraving), triangulated, ARAP-deformed"
+  },
+  {
+   "id": "dog-head",
+   "what": "the dog's head in profile with pricked ears, eye, dark muzzle, nose: its own mesh riding the neck; eye and nose are protected features (rigidity weight 30); mirrored (a reflected rest shape) when it looks over its shoulder",
+   "source": "drawn in code: build/draw_dog.py (P_head)",
+   "files": [
+    "assets/drawings/P_head.png",
+    "assets/mesh/P_head.npz"
+   ],
+   "rights": "made here",
+   "operation": "drawn, triangulated, ARAP-deformed"
+  },
+  {
+   "id": "dog-rear",
+   "what": "rear view (haunches, tail, hind legs, the back receding) and the back of the head: substitution key for the turn away",
+   "source": "drawn in code: build/draw_dog.py (R0_body, R0_head)",
+   "files": [
+    "assets/drawings/R0_body.png",
+    "assets/drawings/R0_head.png",
+    "assets/mesh/R0_body.npz",
+    "assets/mesh/R0_head.npz"
+   ],
+   "rights": "made here",
+   "operation": "drawn, triangulated, ARAP-deformed"
+  },
+  {
+   "id": "dog-front",
+   "what": "front view with the head turned a quarter toward the door: substitution key for the turn back",
+   "source": "drawn in code: build/draw_dog.py (F0_body, F0_head)",
+   "files": [
+    "assets/drawings/F0_body.png",
+    "assets/drawings/F0_head.png",
+    "assets/mesh/F0_body.npz",
+    "assets/mesh/F0_head.npz"
+   ],
+   "rights": "made here",
+   "operation": "drawn, triangulated, ARAP-deformed"
+  },
+  {
+   "id": "person",
+   "what": "a woman in a long smock with her hair in a bun, in profile (standing, seated) and her near arm as its own mesh; no face is portrayed beyond a profile line",
+   "source": "drawn in code: build/draw_person.py; the figure is suggested by the woman in kit/archive-door (Straight Talk, 1992, NTIS, public domain, https://archive.org/details/gov.ntis.ava19144vnb1), who is seen only from behind there; no pixels of that footage are used",
+   "files": [
+    "assets/drawings/Q_stand.png",
+    "assets/drawings/Q_sit.png",
+    "assets/drawings/Q_arm.png"
+   ],
+   "rights": "made here",
+   "operation": "drawn, triangulated, ARAP-deformed"
+  },
+  {
+   "id": "place",
+   "what": "the cutaway: the wall cut at the door (poche), the far jamb, the sill, the door leaf, the room with a lamp, a picture and a stool, the porch boards, posts, the far railing, the eave, the dusk sky",
+   "source": "computed in screen space: build/world.py",
+   "rights": "made here",
+   "operation": "synthesized engraving (ruled lines), lit per frame by a computed light map"
+  },
+  {
+   "id": "quickdraw-moon-5431885159202816",
+   "what": "Quick, Draw! moon, stroked as pale chalk lines in the dusk sky",
+   "source": "/home/user/hartswf0/quickdraw/moon.part (copied: assets/quickdraw_used.ndjson)",
+   "key_id": "5431885159202816",
+   "source_title": "Quick, Draw! dataset",
+   "archive_url": "https://quickdraw.withgoogle.com/data",
+   "rights": "CC BY 4.0, Google Creative Lab and contributors",
+   "operation": "strokes rescaled and drawn"
+  },
+  {
+   "id": "quickdraw-tree-4593716037681152",
+   "what": "Quick, Draw! tree, stroked as pale chalk lines in the dusk sky",
+   "source": "/home/user/hartswf0/quickdraw/tree.part (copied: assets/quickdraw_used.ndjson)",
+   "key_id": "4593716037681152",
+   "source_title": "Quick, Draw! dataset",
+   "archive_url": "https://quickdraw.withgoogle.com/data",
+   "rights": "CC BY 4.0, Google Creative Lab and contributors",
+   "operation": "strokes rescaled and drawn"
+  },
+  {
+   "id": "quickdraw-tree-5194627692888064",
+   "what": "Quick, Draw! tree, stroked as pale chalk lines in the dusk sky",
+   "source": "/home/user/hartswf0/quickdraw/tree.part (copied: assets/quickdraw_used.ndjson)",
+   "key_id": "5194627692888064",
+   "source_title": "Quick, Draw! dataset",
+   "archive_url": "https://quickdraw.withgoogle.com/data",
+   "rights": "CC BY 4.0, Google Creative Lab and contributors",
+   "operation": "strokes rescaled and drawn"
+  },
+  {
+   "id": "quickdraw-tree-6718527320883200",
+   "what": "Quick, Draw! tree, stroked as pale chalk lines in the dusk sky",
+   "source": "/home/user/hartswf0/quickdraw/tree.part (copied: assets/quickdraw_used.ndjson)",
+   "key_id": "6718527320883200",
+   "source_title": "Quick, Draw! dataset",
+   "archive_url": "https://quickdraw.withgoogle.com/data",
+   "rights": "CC BY 4.0, Google Creative Lab and contributors",
+   "operation": "strokes rescaled and drawn"
+  },
+  {
+   "id": "voice",
+   "what": "the woman's voice: \"Come here.\" \"Come here!\" \"It's all right.\" (twice) \"Come in.\"",
+   "source": "synthesized: build/sound.py (glottal pulse source, three time-varying formant resonators, noise consonants)",
+   "rights": "made here",
+   "operation": "synthesized"
+  },
+  {
+   "id": "sound-world",
+   "what": "paw ticks on the boards at each footfall of the stepping simulation, the person's steps and stool, door latch and hinge creak, room hum, wind, insects, the dog's breath out, tail thumps, a struck plate on the cards",
+   "source": "synthesized: build/sound.py",
+   "rights": "made here",
+   "operation": "synthesized"
+  },
+  {
+   "id": "score",
+   "what": "the PAELEO threshold score (timing, x, acts, person, door, voice)",
+   "source": "paeleo/handmade/score/threshold-score.json",
+   "rights": "project data",
+   "operation": "read"
+  },
+  {
+   "id": "archive-dog-keys",
+   "what": "looked at only: the archive dog frames and rig keys, for proportion; not in the film",
+   "source": "paeleo/handmade/kit/archive-dog (Amateur Film New Jersey C, Home Movies, Internet Archive, https://archive.org/details/NewJerseyC)",
+   "rights": "public_domain",
+   "operation": "looked at"
+  },
+  {
+   "id": "fonts",
+   "what": "Caladea (cards, the spoken words), DejaVu Sans Mono (end card)",
+   "source": "/usr/share/fonts/truetype/crosextra, /usr/share/fonts/truetype/dejavu",
+   "rights": "Apache 2.0 / Bitstream Vera license",
+   "operation": "typeset"
+  }
+ ]
+}
