@@ -89,20 +89,20 @@ def main():
     bg = Image.new('RGB', (1280, 720), (14, 14, 24)); d = ImageDraw.Draw(bg)
     d.text((80, 60), 'What it is made of', font=font('f2.woff2', 52), fill=(240, 226, 200))
     txt = [
-        'The dog: the pixels of one frame of Amateur Film New Jersey C (Home Movies, Internet Archive, public domain),',
-        'split into %d layers by EM / gradient descent on %d frames of the same dog; the tail is cut from frame 6.' % (rep['K_final'], len(rep['train'])),
-        'Seams and pins: the learned layers and hinges. Their split only ties a hand-cut split (IoU %.2f vs %.2f);' % (hs['learned']['mean_iou'], hs['authored_rig']['mean_iou']),
-        'their learned motion beats hand-set poses on the same hinges. The turns are the puppet at those learned poses:',
+        'The dog: one frame of Amateur Film New Jersey C (Home Movies, Internet Archive, public domain), split into',
+        '%d layers by EM / gradient descent on %d frames (seams, pins); the split ties a hand-cut split (IoU %.2f / %.2f).' % (rep['K_final'], len(rep['train']), hs['learned']['mean_iou'], hs['authored_rig']['mean_iou']),
+        'The acting is rig-driven: backing off, the turned back, approach, lying, look back, look in are hand-set',
+        'rotations on the learned hinges, timed by the score. The learned model carries only the walk and the turns:',
     ]
     y = 140
     for ln in txt:
-        d.text((80, y), ln, font=font('f14.woff2', 18), fill=(215, 205, 190)); y += 30
+        d.text((80, y), ln, font=font('f14.woff2', 17), fill=(215, 205, 190)); y += 28
     # side by side: learned pose vs best hand-set pose of the same layers, on archive turning frames
     H_ = np.load(os.path.join(ROOT, 'model', 'handset_turn.npz')); Tn = np.load(os.path.join(ROOT, 'model', 'turn.npz'))
     rows = {r['frame']: r for r in lh['rows']}
     from puppet import to3, load_frame
     from scipy import ndimage as ndi
-    show = [15, 17, 19, 30, 32]
+    show = [15, 16, 17, 19, 32]
     pw, ph = 200, 150
     x0 = 80; y0 = y + 12
     d.text((x0, y0), 'learned', font=font('f14.woff2', 16), fill=(240, 200, 120))
@@ -128,7 +128,7 @@ def main():
             d.text((px + 4, py + ph - 20), 'f%02d  IoU %.2f' % (f, rows[f][key]), font=font('f14.woff2', 14), fill=colr)
     d.text((x0, y0 + 2 * ph + 60), 'Archive turning frames, real outline drawn over each pose. Learned better on %d of %d frames (mean %.2f vs %.2f).'
            % (lh['learned_better_on'], lh['n'], lh['mean_iou_learned'], lh['mean_iou_handset']), font=font('f14.woff2', 15), fill=(200, 190, 175))
-    d.text((x0, y0 + 2 * ph + 86), 'Hand-set on learned hinges (pale pins): leg swing, head low, lying, chin down, head swing, look in. Person, house,',
+    d.text((x0, y0 + 2 * ph + 86), 'Cut pieces of the same film: the tail (frame 6) and the head turned round at 7.5 s (frame 39). Person, house,',
            font=font('f14.woff2', 15), fill=(200, 190, 175))
     d.text((x0, y0 + 2 * ph + 108), 'porch, light: drawn here (numpy, Pillow). Sound synthesized here. Score: PAELEO threshold machine.',
            font=font('f14.woff2', 15), fill=(200, 190, 175))
