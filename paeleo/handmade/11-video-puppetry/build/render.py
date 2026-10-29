@@ -98,7 +98,7 @@ def frame(fr):
     # light on the dog: dusk everywhere, warm where it is in the doorway's light
     dl = float(max(0, light - .2) / .8 * np.exp(-((dg['sx'] - 330) / 190) ** 2))
     look = dg['pose']['look']
-    shade = 1 - .74 * look * HD  # looking in, the back of its head is toward us, in its own shadow
+    shade = 1 - .30 * look * HD  # looking in, its head is against the light
     col = (G * shade)[..., None] * (DUSK * (0.86 * dusk) + WARM * 0.55 * dl)
     col = col * 1.04
     can = can * (1 - A[..., None]) + col * A[..., None]

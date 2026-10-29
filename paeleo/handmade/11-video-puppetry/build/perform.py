@@ -26,6 +26,10 @@ STANCE = 0.65
 OFFS = {'h2': 0.0, 'f2': 0.25, 'h1': 0.5, 'f1': 0.75}   # four-beat walk (near hind, near fore, far hind, far fore)
 
 
+def lerp(a, b, t):
+    return a + (b - a) * t
+
+
 def sm(u):
     u = np.clip(u, 0, 1)
     return u * u * (3 - 2 * u)
@@ -44,7 +48,7 @@ def turn_axis(t):
         return 3.0 * ease_out((t - 3.417) / 0.44)
     # repair rounds 1-2: the head comes round first (from 7.46, the face to the camera by 7.59) while it is
     # still getting up (7.46-7.75, 7 frames); standing, it finishes the turn by 7.98
-    return 3.0 - 3.0 * sm((t - 7.60) / 0.45)
+    return 3.0 - 3.0 * sm((t - 7.80) / 0.45)
 
 
 def feet(x, moving, pxm_over_scale):
@@ -78,7 +82,7 @@ def build():
         crouch, tail, lie, rest, look = a['crouch'], a['tail'], a['lie'], a['rest'], a['look']
         # approach: the head is carried below the line of the back the whole way (the brief's lesson)
         if d['state'] == 'approach' or (14.5 < t < 23.9):
-            head = min(head, 0.24 + 0.6 * max(0, 14.85 - t)) if t > 14.6 else head
+            head = lerp(head, min(head, 0.24), sm((t - 14.58) / 0.21)) if t > 14.58 else head  # 5 frames, no snap
         # refusal: lying with its back turned, the chin goes down (score rest), head low
         if 3.417 <= t < 7.458:
             head = min(head, 0.3)
@@ -86,14 +90,18 @@ def build():
         if 7.458 <= t < 8.2:
             # still lying, it swings its head up and back over its shoulder toward the door (7.46-7.60),
             # then the head comes forward again as the body turns
-            head = 0.3 + 1.5 * sm((t - 7.458) / 0.14) - 0.9 * sm((t - 7.62) / 0.2)
+            # round 3: lying, the head is cut round to face the door (low, level) from 7.46 to 7.80
+            head = 0.5 + 0.4 * sm((t - 7.80) / 0.3)
         # lying at the sill: looks in (score look), then settles chin down (score rest)
         if 7.458 <= t < 8.0:
-            lie = min(lie, 1 - sm((t - 7.50) / 0.30)); rest = min(rest, lie); crouch = min(crouch, .3)
+            lie = min(1.0 if t < 7.78 else lie, 1 - sm((t - 7.78) / 0.30)); rest = min(rest, lie); crouch = min(crouch, .3)
         mov = a['moving']
         ft = feet(x, mov, PXM / sc) if lie < 0.5 else {}
         bob = -2.2 * abs(np.sin(2 * np.pi * (-x) / STRIDE * 2)) * mov if lie < .2 else 0.0
-        pose = dict(crouch=round(crouch, 4), head=round(float(head), 4), tail=round(tail, 4), wag=round(a['wag'], 4),
+        lookback = 1 if 7.458 <= t < 7.92 else 0
+        if lookback:
+            rest = 0.0
+        pose = dict(lookback=lookback, crouch=round(crouch, 4), head=round(float(head), 4), tail=round(tail, 4), wag=round(a['wag'], 4),
                     lie=round(lie, 4), rest=round(rest, 4), look=round(a['look'], 4), bob=round(float(bob), 3),
                     feet={kk: [round(v[0], 2), round(v[1], 2)] for kk, v in ft.items()})
         # person: stands in the doorway, steps aside along the wall (4.7-5.5), sits (score sit)

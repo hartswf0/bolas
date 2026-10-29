@@ -80,8 +80,9 @@ def raster_alpha(polys, W, H, ss=4, erode=True):
     return a
 
 
-def smooth_alpha(a, sigma=1.1):
+def smooth_alpha(a, sigma=1.6):
     """the SAM polygons are jagged at full film scale: smooth the contour (blur, re-threshold, 1 px feather)"""
+    a = ndimage.binary_closing(a > .5, iterations=2).astype(np.float32)  # close notches and pin-holes
     b = ndimage.gaussian_filter(a, sigma)
     b = np.clip((b - .5) / .12 + .5, 0, 1)
     return ndimage.gaussian_filter(b, .5)
@@ -137,12 +138,12 @@ def load():
         above = pieces['body']
         dn = side(s['neckcut'], s['h']['nose'])
         dt = side(s['tailcut'], s['h']['tailtip'])
-        pieces['neck'] = above * np.clip((dn + 5) / 6., 0, 1)
+        pieces['neck'] = above * np.clip((dn + 10) / 5., 0, 1)
         pieces['tail'] = above * np.clip((dt + 4) / 5., 0, 1) * (dn < 0)
         if s.get('notail'):   # frame 38: the tail is behind the dog, there is no tail to cut
             pieces['tail'] = pieces['tail'] * 0
             dt = dt * 0 - 100
-        pieces['body'] = above * np.clip((5 - dn) / 6., 0, 1) * np.clip((4 - dt) / 5., 0, 1)
+        pieces['body'] = above * np.clip((2 - dn) / 5., 0, 1) * np.clip((4 - dt) / 5., 0, 1)
         # where the head itself is (for measuring the head on the render)
         hn = (np.array(s['h']['nose']) + np.array(s['h']['skull'])) / 2
         rh = np.hypot(*(np.array(s['h']['nose']) - np.array(s['h']['skull']))) * .8 + 6

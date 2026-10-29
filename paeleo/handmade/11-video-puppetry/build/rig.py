@@ -59,10 +59,11 @@ def pose(canon, p, t=0.0, hg=1.0):
         a += c * (-6 if leg[0] == 'f' else 8)
         # lying: forelegs forward along the boards, hind legs folded forward under the haunch
         if lie > 0:
-            htop = max(0.0, -T[IDX[tp], 1] - 2)
-            a_floor = np.degrees(np.arccos(np.clip(htop / ln, 0, 1)))  # pivot just enough to keep the paw down
-            a = max(a, a_floor) if leg[0] == 'f' else max(a, min(100, a_floor * 1.15))
-            a = lerp(a, 84 if leg[0] == 'f' else 100, np.clip((lie - .75) / .25, 0, 1))
+            # round 3: going down or getting up the legs stay under the body (the boards hide what is below
+            # them, see warp); only at the end does the near foreleg go forward onto the boards
+            a = lerp(a, 0.0, np.clip(lie * 3, 0, 1))
+            if leg[0] == 'f':
+                a = lerp(a, 84, np.clip((lie - .75) / .25, 0, 1))
         T[ids] = rot(T[IDX[tp]] + seg, T[IDX[tp]], a)
     # stance feet rise a little when the rigid leg swings; let the body down by the same amount
     if feet:
@@ -81,8 +82,9 @@ def pose(canon, p, t=0.0, hg=1.0):
     T[hd] = canon[hd] - canon[IDX['neckbase']] + nb
     th = (0.9 - head) * 105
     th = lerp(th, 72, rest)
-    th = lerp(th, 22, look)
+    th = lerp(th, 40, look)   # level: the muzzle neither up toward the light nor down
     T[hd] = rot(T[hd], nb, -th * hg)
+    T[hd] += np.array([-24., -8.]) * look   # the neck reaches in over the sill, the muzzle into the lit room
     # --- tail: rigid about its root (0 high, 0.5 as filmed, 1.35 tucked), plus wag
     tr = T[IDX['tailroot']]
     tl = [IDX['tailmid'], IDX['tailtip']]
@@ -136,7 +138,7 @@ class DogRig:
             T[:, 0] = -T[:, 0]
         return anchor + T * scale
 
-    def warp(self, name, flip, T, x0, y0, w, h, params, step=3):
+    def warp(self, name, flip, T, x0, y0, w, h, params, step=3, ground=None):
         pz = self.P[name]
         Q = pz['src'].copy()
         img = pz['img']
@@ -158,7 +160,10 @@ class DogRig:
         hide = {n: float(np.clip((lie - .2) / .35, 0, 1)) for n in ['f1', 'h1', 'h2']}
         near = [n for n in NEAR if n not in far]
         look = params.get('look', 0)
-        wB = 1.0 if (name == 'L' and look >= .3) else 0.0   # a cut on the head's lift, not a dissolve
+        wB = 0.0   # round 3: the frame-0 back-of-head piece is retired (it read as a lump); see pose() for looking in
+        # round 3, turning to look (7.46): still lying with its back turned, the dog turns its head round to the
+        # door -- the head piece is cut to the unmirrored profile head (muzzle left), low and level, at the neck
+        wLB = 1.0 if (name == 'L' and flip and params.get('lookback', 0) >= .5) else 0.0
         order = far + ['tail', 'body'] + near + ['neck']
         for pc in order:
             if pc == 'body':
@@ -179,6 +184,11 @@ class DogRig:
             a = np.clip(ndimage.map_coordinates(pcs[pc], [fy, fx], order=1, mode='constant', cval=0), 0, 1)
             if pc in hide:
                 a = a * (1 - hide[pc])
+            if ground is not None and pc in LEGS and lie > 0:
+                a = a * np.clip((ground + 2 - yy) / 2., 0, 1)   # under the body, the boards hide the folded legs
+            if pc == 'neck' and wLB > 0:
+                hm0 = ndimage.map_coordinates(pcs['headmap'], [fy, fx], order=1, mode='constant', cval=0)
+                a = a * (1 - np.clip(hm0 * 4.0, 0, 1))
             if pc == 'neck' and wB > 0:   # the head part gives way to the back-of-head piece; the neck stays
                 hm0 = ndimage.map_coordinates(pcs['headmap'], [fy, fx], order=1, mode='constant', cval=0)
                 a = a * (1 - wB * np.clip(hm0 * 4.0, 0, 1))
@@ -195,6 +205,22 @@ class DogRig:
                 HW = hm * a + HW * (1 - a)
             else:
                 HW = HW * (1 - a)
+        if wLB > 0:
+            Q0 = pz['src']
+            hid = [IDX[n] for n in ('nose', 'skull', 'throat')]
+            Th = T[hid].copy()
+            bx = (Th[1, 0] + Th[2, 0]) / 2
+            Th[:, 0] = 2 * bx - Th[:, 0]          # the same head, turned round: muzzle toward the door
+            Th[:, 0] -= 10 * (np.hypot(*(T[IDX['withers']] - T[IDX['chest']])) / np.hypot(*(Q0[IDX['withers']] - Q0[IDX['chest']])))
+            qc, pc_, M = rigid_fit(Q0[hid], Th)
+            z = ((xx - pc_[0]) + 1j * (yy - pc_[1])) / M
+            fx, fy = z.real + qc[0], z.imag + qc[1]
+            P0 = pz['pieces']
+            a = np.clip(ndimage.map_coordinates(P0['neck'] * np.clip(P0['headmap'] * 3.0, 0, 1), [fy, fx], order=1, cval=0), 0, 1)
+            g = np.clip(ndimage.map_coordinates(pz['img'], [fy, fx], order=3, cval=0), 0, 1)
+            G = g * a + G * (1 - a)
+            A = a + A * (1 - a)
+            HW = a + HW * (1 - a)
         if wB > 0:
             # looking in: the head piece is replaced by the back of the head (kit frame 0), pinned at the neck
             B = self.P['B']
@@ -246,7 +272,7 @@ class DogRig:
             if ww <= 1e-3:
                 continue
             name, flip = KEYS[kk]
-            g, al, hw, d = self.warp(name, flip, T, x0, y0, w, h, params)
+            g, al, hw, d = self.warp(name, flip, T, x0, y0, w, h, params, ground=anchor[1])
             dets.append(d)
             if out is None:
                 out = [g * al * ww, al * ww, hw * al * ww]

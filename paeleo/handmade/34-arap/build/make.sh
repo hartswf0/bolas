@@ -3,7 +3,7 @@
 set -e
 cd "$(dirname "$0")"
 python3 draw_dog.py && python3 draw_dog.py views && python3 draw_person.py
-python3 mesh.py P_body P_head R0_body R0_head F0_body F0_head Q_stand Q_sit Q_arm
+python3 mesh.py P_body P_head P_lie L_head R0_body R0_head F0_body F0_head Q_stand Q_sit Q_arm
 python3 perform.py
 rm -f cache/measure_*.json
 python3 render.py 0 353 & P1=$!
