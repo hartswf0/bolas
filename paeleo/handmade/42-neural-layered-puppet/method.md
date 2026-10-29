@@ -39,30 +39,43 @@ learned hinges, and the turns are not the puppet at all but archive frames of th
   trunk and is used only for its head/neck local motion.
 - Confidence map: `proof/confidence.png` (per-point photometric residual, hinge rms rings).
 
+## Round 2: where the learned model beats hand-setting (measured)
+- `build/turn_fit.py`: the learned layers and the hand-cut rig fitted (masks frozen) to 16 archive turning frames
+  (14-21, 26-33): IoU 0.752 vs 0.752 - the learned *split* does not beat a hand-cut split.
+- Re-training the layers with turning frames added (`PUPPET_VIEWS=1`) did not help (turning frames held out: 0.759 vs
+  0.767; reverted, `data/fit_report_views_experiment.json`).
+- `build/hinge_control.py`: learned per-layer *motion* vs the best possible hand-set pose on the same learned hinges
+  (similarity + one rotation per hinge, optimised per frame): **IoU 0.752 vs 0.697, learned better on 13 of 16 frames,
+  photometric residual 0.92 vs 1.02** (`data/learned_vs_handset.json`). This is the measured win, and it is what the
+  turns now use. Caveat: the learned motion has more degrees of freedom (an affine per layer).
+
 ## How the dog moves
-Learned: layers, hinges, body motion of the walk (source poses looped), the slight head-low. Override (hand-set
-rotations about learned hinges; pale pins on screen; 74% of scene frames carry some override): leg swing keyed to the
-score's walk phase (stance sweep sized to the 0.55 m stride), head carried low (−48°/−18° on neck/head), lying (fore leg
-forward, hind leg folded, trunk lowered), chin down, the look in (head and neck carried forward into the room).
-Turns (3.42-3.88 s and 7.88-8.34 s): archive frames 15, 16, 17, 31, 38, 40, 41 shown whole in sequence (front of the
-dog toward the camera, then round). At 7.458 the lying dog's head and neck are drawn mirrored over its turned back
-(look-back), it rises, then the turn-back views.
+Learned: layers, hinges, walk body motion (source poses looped), and the turns: the puppet is carried into its learned
+fit of archive frame 15 (turn away) and 41-mirrored (into the turned back), where its silhouette coincides with the real
+frame, and dissolves into the real frames (15, 16, 17, 31, 38, 40, 41), which are blurred and tinted exactly like the
+puppet. The turn back (7.88-8.43) runs through the front views 38, 31, 17, 16 and dissolves out of archive 15 into its
+learned fit, which moves into the profile pose. The look in uses the anisotropic stretch the layers learned on archive
+frame 20 (head turned across the line of sight), darkened into a backlit silhouette against the lit room: the back of the
+head. Override (hand-set rotations or shifts on learned hinges; pale pins): leg swing keyed to the walk phase, head carried
+low (head and neck lowered and forward, drawn in front of the chest), lying (fore leg forward, hind leg folded behind the
+trunk, trunk on the boards), chin down, and the head swing at 7.458-7.71 (head and neck rotate up and over the learned
+neck hinge, mirrored as they pass vertical, the body still down). The tail is cut from archive frame 6 and pinned to the
+learned rump layer (the template frame shows only its root).
 
 ## Invariants (measured from the render, `trace.json` summary)
-Onsets: retreat 1.042 (+0.04), watch 2.375 (+0.04), refuse 3.417 (0), watch 7.458 (0), approach 14.708 (0), lie down
-23.792 (0), look in 26.292 (−0.11). Checker: ALL OK. Head under the back line for the whole approach: 9.6-14 px (median
-12.2). Ends at x = 0.59, alpha bbox x 328-548 across the door reveal (screen x 400-490): head inside, rump outside.
-Feet during the approach: 36% of foot-frames planted, median foot/body speed 0.72 (partial sliding remains).
-Sound: calls −20.6/−17.1 dBFS rms, soft lines −32 to −35 (≥ 11.6 dB quieter), room tone −54.8.
+Onsets: retreat 1.042 (+0.04), watch 2.375 (+0.04), refuse 3.417 (0), watch 7.458 (0; head left of its neck hinge, i.e.
+toward the door, from 7.625), approach 14.708 (0), lie down 23.792 (0), look in 26.25 (−0.15). Checker: ALL OK
+(refusal back 92.8%). Head 23-29 px under the back line for the whole approach. Ends at x = 0.59: alpha bbox x 328-608
+across the door reveal (400-490), tail x 530-608 on the porch. Feet during the approach: 31% planted, median foot/body
+speed 0.82 (sliding remains). Sound: calls −20.6/−17.1 dBFS, soft lines −32 to −35, room tone −54.8.
 
 ## What is weak / not done
-- The dog's surface is a lumpy grey archive texture; at film scale it reads as a dog mainly by outline and gait.
-- The look-back (7.46-7.88) is crude: a mirrored head over the back, with a visible seam.
-- Turn views are a different, smoother texture and scale-matched by eye-rule (area/height), not by the model.
-- Feet still slide part of the time; the far fore leg does not exist in the template (one fore leg in profile).
-- "Looking in" reads as reaching forward into the lit room; the head is never seen from behind (no such view in the source).
-- No rear-view, lying, or turning examples exist in the source: those are not learned, and are labelled as such.
-- Not done: rig-only control *film* (only the numeric comparison), operator page, independent critic run, crisp-layer K sweep.
-- Judged by looking at sampled frames only (contact sheets), not by watching at normal speed.
+- The dog's surface is a lumpy grey archive texture; it reads as a dog by outline, gait, tail and head.
+- The head swing is a dark head-and-neck wedge rotating over the back: continuous, but crude; one ghosted dissolve frame
+  at 7.92 s.
+- The look in reads in depth only moderately (stretch + darkening); the source has no back-of-head view.
+- Feet still slide part of the time; the template has one fore leg.
+- The learned split ties the hand-cut split; only the learned motion beats hand-set hinges.
+- Not done: rig-only control film, operator page, crisp-layer K sweep. Judged from sampled frames, not normal-speed viewing.
 
 Rebuild: `build/make.sh` (`--sweep` also re-runs the slow model-selection sweep).
