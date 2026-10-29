@@ -62,9 +62,9 @@ def P_body():
     d.add('near_hind', d.capsules_mask(HN, HR), 3, ('axis', HN, HR), tone=0.0, spacing=12)
     d.add('near_fore', d.capsules_mask(FN, FR), 3, ('axis', FN, FR), tone=-0.05, spacing=12)
     d.add('near_thigh', d.poly_mask(catmull([(150, 470), (250, 500), (300, 440), (275, 330), (225, 240), (170, 235),
-                                              (150, 300), (135, 400)], 8)), 3, ('axis', HN, [150, 110, 60, 40, 30]), tone=0.0, spacing=12)
+                                              (150, 300), (135, 400)], 8)), 3, ('axis', HN, [150, 110, 60, 40, 30]), tone=0.0, spacing=12, outline=0.0)
     d.add('near_shoulder', d.poly_mask(catmull([(-300, 520), (-215, 545), (-205, 450), (-225, 330), (-270, 300),
-                                                 (-305, 360), (-315, 450)], 8)), 3, ('axis', FN, [110, 80, 40, 30, 30]), tone=-0.05, spacing=12)
+                                                 (-305, 360), (-315, 450)], 8)), 3, ('axis', FN, [110, 80, 40, 30, 30]), tone=-0.05, spacing=12, outline=0.0)
     # saddle: a darker cape over the back (shepherd marking): drawn as a tone change inside the torso
     saddle = d.poly_mask(catmull([(-220, 600), (-100, 590), (60, 570), (200, 575), (300, 530), (250, 470), (100, 470),
                                   (-60, 480), (-200, 520)], 8))

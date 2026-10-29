@@ -181,7 +181,8 @@ def main():
         mode = 'profile-R' if facingR else 'profile-L'
         view = None; pup_o = 1.0; vid = None
         swung = swing if RISE[0] <= t < RISE[1] else None
-        split = RISE[0] <= t < TB0 + 0.5 * TURN_DUR      # head drawn as its own hard layer while it is turned
+        split = RISE[0] <= t < TB0 + 0.25 * TURN_DUR     # head drawn as its own hard layer while it is turned
+        G_head = None
         # ---- the turns, rendered with the puppet only: it is posed at its learned fits of the archive frames of the
         # dog turning (turn_fit.py; these beat the best hand-set hinge pose on 13 of 16 frames), each fit placed by its
         # own silhouette at the puppet's height.  At the front-on pose (frame 30) the fit is mirrored about the dog's
@@ -209,10 +210,10 @@ def main():
         if 0 <= u < 1:
             GL = np.einsum('ij,kjl->kil', np.array([[S_DOG, 0, X - S_DOG * ax], [0, S_DOG, Wo.FLOOR - S_DOG * ay], [0, 0, 1.0]]), T_pose)
             GR = np.einsum('ij,kjl->kil', np.array([[-S_DOG, 0, X + S_DOG * ax], [0, S_DOG, Wo.FLOOR - S_DOG * ay], [0, 0, 1.0]]), T_pose)
-            GR = swing_head(GR, 1.0)
             BACK = [(0, 'start'), (0.25, 'flip30'), (0.2501, ('t', 30)), (0.45, ('t', 17)), (0.65, ('t', 16)),
                     (0.82, ('t', 15)), (1.0001, 'end')]
             G, kk = run(BACK, u, GR, GL); mode = 'turn-learned'; view = kk if isinstance(kk, tuple) else None
+            G_head, _ = run(BACK, u, swing_head(GR, 1.0), GL)
         tint_img = np.broadcast_to(tint_map(np.arange(Wo.Wd, dtype=np.float32), lit)[None], (Wo.Ht, Wo.Wd, 3))
         sh_w = 0.55 * Wo.S * (1 + 0.25 * lie); sh = np.exp(-((xx - X) / sh_w) ** 2 - ((yy - Wo.FLOOR - 3) / 7.0) ** 2)
         can *= (1 - 0.55 * sh)[..., None]
@@ -225,14 +226,17 @@ def main():
         if pup_o > 0:
             cp = can.copy()
             if split:
-                hsH = (pp.lab == n['head'])
+                # the head proper (head layer above its hinge with the neck); the throat part of the layer stays
+                hpv = pp.pivot[(n['head'], int(pp.parent[n['head']]))]
+                hsH = (pp.lab == n['head']) & (pp.P[:, 1] < hpv[1] + 4)
                 if swung is not None:
-                    G = swing_head(G, swung)
+                    G_head = swing_head(G, swung)
                     if mode.startswith('profile'): mode = 'head-swing'; rec['mode'] = mode
                     info['override'] = 1.0; rec['override'] = 1.0
                 saved = pp.front; pp.front = []
+                if G_head is None: G_head = G
                 r0 = pp.render(G, I3, cp, tint=tint_img, sel=~hsH)
-                r1 = pp.render(G, I3, cp, tint=tint_img, sel=hsH, hard=True)
+                r1 = pp.render(G_head, I3, cp, tint=tint_img, sel=hsH, hard=True)
                 pp.front = saved
                 r = dict(alpha=np.maximum(r0['alpha'], r1['alpha']), q=np.where(hsH[:, None], r1['q'], r0['q']))
             else:
@@ -253,7 +257,7 @@ def main():
             can = cp; alpha = r['alpha']
         if r is not None and pup_o >= 0.5:
             q = r['q']
-            hk = pp.lab == n['head']
+            hk = hsH if split else (pp.lab == n['head'])
             rec['head_xy'] = q[hk].mean(0).tolist(); rec['head_top_y'] = float(q[hk][:, 1].min())
             bk = np.isin(pp.lab, [k for nm, k in n.items() if nm in ('trunk',) or nm.startswith('back')])
             rec['back_top_y'] = float(np.percentile(q[bk][:, 1], 3))
@@ -262,6 +266,9 @@ def main():
             rec['neck_hinge_xy'] = (G[nk] @ np.array([pv[0], pv[1], 1.0]))[:2].tolist()
             hk_ = n['head']; pvh = pp.pivot[(hk_, int(pp.parent[hk_]))]
             rec['head_hinge_xy'] = (G[hk_] @ np.array([pvh[0], pvh[1], 1.0]))[:2].tolist()
+            nose = KEYS[str(int(pp.M['template_frame']))]['nose']
+            Gh = G_head if (split and G_head is not None) else G
+            rec['nose_xy'] = (Gh[hk_] @ np.array([nose[0], nose[1], 1.0]))[:2].tolist()
             for nm in ('foreleg', 'hind'):
                 kk = pp.lab == n[nm]
                 lo = q[kk][np.argsort(q[kk][:, 1])[-40:]].mean(0); rec[nm + '_foot'] = lo.tolist()

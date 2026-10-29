@@ -97,13 +97,13 @@ class World:
         # far railing: top rail, bottom rail and balusters; posts
         rail = c.mask(polys=[[(X(0.05), Y(0.95)), (W, Y(0.95)), (W, Y(0.88)), (X(0.05), Y(0.88))],
                              [(X(0.05), Y(0.16)), (W, Y(0.16)), (W, Y(0.11)), (X(0.05), Y(0.11))]])
-        c.hatch(rail, 0.0, 3.0, 0.55)
+        c.hatch(rail, 0.0, 3.0, 0.38)
         bal = []
         x = 0.25
         while X(x) < W + 10:
             bal.append([(X(x), Y(0.88)), (X(x) + 0.035 * s, Y(0.88)), (X(x) + 0.035 * s, Y(0.16)), (X(x), Y(0.16))])
             x += 0.16
-        c.hatch(c.mask(polys=bal), 1.57, 2.6, 0.45)
+        c.hatch(c.mask(polys=bal), 1.57, 2.6, 0.3)
         posts = [[(X(px), Y(2.6)), (X(px) + 0.11 * s, Y(2.6)), (X(px) + 0.11 * s, Y(0.0)), (X(px), Y(0.0))] for px in (1.30, 4.40)]
         c.hatch(c.mask(polys=posts), 1.57, 3.0, 0.62)
         c.outline(posts, 1.0)

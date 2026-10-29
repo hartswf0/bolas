@@ -46,7 +46,7 @@ END = [
     '  (Home Movies, Internet Archive, public domain), cut out with their masks.',
     '  It is not drawn. Its body sheet is bent by moving-least-squares warps;',
     '  head-and-neck, tail and legs are rigid cut-outs of the same frames,',
-    '  pinned at the joints and turned there.',
+    '  pinned at the joints; the back of its head is its fur cut with a drawn mask.',
     'THE HAND is cut from The Door to Heaven (public domain), mirrored.',
     'THE PERSON\'S BODY, THE HOUSE, THE PORCH, THE DUSK: cut paper made in code.',
     'THE PERFORMANCE comes from the PAELEO score, frame for frame, not from',

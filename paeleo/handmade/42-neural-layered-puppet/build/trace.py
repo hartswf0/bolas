@@ -33,7 +33,7 @@ lo = np.nanmax(ht[at(1.4):at(2.2)])
 on.append(('retreat -> watch', 2.333, first(lambda i: ht[i] < lo - 2.0, 2.0), 'head rises: head top > 2 px above its lowest point of the retreat (1.4-2.2 s)'))
 on.append(('watch -> refuse', 3.417, first(lambda i: mode[i] in ('turn-learned', 'turn-blend', 'view'), 3.0), 'the turn away begins: first frame the puppet leaves its profile pose for the learned turning pose'))
 on.append(('refuse -> watch', 7.458, first(lambda i: mode[i] == 'head-swing', 7.0), 'the head starts to swing up and round (head-and-neck layers leave their resting pose)'))
-hd_door = first(lambda i: mode[i] == 'head-swing' and M[i]['head_xy'][0] < M[i]['head_hinge_xy'][0], 7.0)
+hd_door = first(lambda i: mode[i] == 'head-swing' and M[i]['nose_xy'][0] < M[i]['head_hinge_xy'][0], 7.0)
 i145 = at(14.5)
 on.append(('watch -> approach', 14.708, first(lambda i: xs[i] < xs[i145] - 1.0 or ht[i] > ht[i145] + 2.0, 14.5), 'centroid moves toward the door > 1 px, or the head drops > 2 px, from 14.5 s'))
 i236 = at(23.6)
@@ -56,7 +56,7 @@ def state_at(tq):
 
 def facing(r):
     if r['mode'] == 'head-swing':
-        return 1 if r['head_xy'][0] < r['head_hinge_xy'][0] else -1
+        return 1 if r['nose_xy'][0] < r['head_hinge_xy'][0] else -1
     if r.get('head_xy') is not None:
         return 1 if r['head_xy'][0] < r['x_screen'] else -1
     if 'nose_rel' in r: return 1 if r['nose_rel'] < 0 else -1

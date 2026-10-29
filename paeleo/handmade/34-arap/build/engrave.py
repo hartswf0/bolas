@@ -68,7 +68,7 @@ class Drawing:
         v = -(self.X - c[0]) * sa + (self.Y - c[1]) * ca
         return (u / rx) ** 2 + (v / ry) ** 2 <= 1
 
-    def add(self, name, mask, layer, hatch, tone=0.0, spacing=13.0, cross=0.92, outline=5.5):
+    def add(self, name, mask, layer, hatch, tone=0.0, spacing=13.0, cross=0.92, outline=7.0):
         """hatch: ('dir', angle) straight lines; ('axis', chain) lines along a limb, bunched at its edges;
         ('contour',) lines parallel to the part's outline."""
         self.parts.append(dict(name=name, mask=mask, layer=layer, hatch=hatch, tone=tone, spacing=spacing,
@@ -111,7 +111,7 @@ class Drawing:
             ink2 = (1 - np.clip((s * 0.575 - d2) - c * 0.35 * s + 0.5, 0, 1)) * (c > 0)
             # outline of this part
             pd = ndimage.distance_transform_edt(m)
-            ol = 1 - np.clip(pd - p['outline'], 0, 1)
+            ol = (1 - np.clip(pd - p['outline'], 0, 1)) if p['outline'] > 0 else np.zeros_like(pd)
             ink = np.clip(np.maximum(np.maximum(ink1, ink2), ol), 0, 1)
             col = PAPER[None, None, :] * (1 - ink[..., None]) + INK[None, None, :] * ink[..., None]
             rgb[m] = col[m]

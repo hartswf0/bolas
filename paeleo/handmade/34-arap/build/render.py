@@ -69,7 +69,7 @@ class Renderer:
             d = self.dog
             aa = dict(a)
             if sub['body'] == 'stand':
-                aa['lie'] = min(a['lie'], 0.55)
+                aa['lie'] = min(a['lie'], 0.5)      # the standing mesh never starts the fold: deep crouch only
             pose = pose_P(d, aa, paws={L: f['paws'][L] for L in LEGS}, lifts=f['lifts'])
             if sub['body'] == 'lie':
                 pose['body'] = 'lie'

@@ -36,7 +36,7 @@ LAT = 8.0          # template px: half body width, lateral depth of each leg col
 STRIDE, DUTY, LIFT = 0.42, 0.62, 0.045
 ROTKEYS = ['head', 'tail', 'ff_up', 'ff_lo', 'fn_up', 'fn_lo', 'hf_up', 'hf_lo', 'hn_up', 'hn_lo']
 # authored lying angles (the correction; the archive never shows a dog lying)
-LIE = {'ff_up': 1.3, 'ff_lo': 0.12, 'fn_up': 1.5, 'fn_lo': -0.05, 'hf_up': 1.45, 'hf_lo': -2.8, 'hn_up': 1.45, 'hn_lo': -2.85}
+LIE = {'ff_up': 1.3, 'ff_lo': 0.12, 'fn_up': 1.3, 'fn_lo': -0.3, 'hf_up': 1.45, 'hf_lo': -2.8, 'hn_up': 1.45, 'hn_lo': -2.85}
 # round 2: forelegs lie flat forward (paws at the front), hind legs fold tight and are drawn BEHIND the torso (tucked under)
 
 
@@ -236,6 +236,8 @@ def render_dog(p, info, H, W, c=None, mode='corrected'):
             g, a, bb = warp_layer(t, tpl.alpha[j], M[k], H, W, (0, 0), tpl.bbox[j], 1.0)
         if k[:2] in ('ff', 'hf') and lie > 0.6 and mode != 'raw':
             a = a * 0.0   # lying: the far legs are under the body
+        if k == 'hn_lo' and lie > 0.6 and mode != 'raw':
+            a = a * 0.0   # lying: the folded hind shin is tucked under the thigh
         if k[:2] in ('ff', 'hf'):
             # visibility layer: toward the front view the far legs pass behind the near legs and chest
             a = a * (0.0 if info['psi'] > 62 else 1.0)   # hard visibility switch, never translucent
@@ -246,4 +248,18 @@ def render_dog(p, info, H, W, c=None, mode='corrected'):
         C = C * (1 - a) + cfw * a
         A = A + a * (1 - A)
         layers[k] = a
+        if k == 'fn_lo' and lie > 0.5 and mode != 'raw':
+            # CORRECTION: a lying forepaw is a rounded pad resting on the boards, not the tip of a rotated shin
+            fp = (M['fn_lo'] @ np.r_[POINTS['f2'][1], 1])[:2]
+            kp = (M['fn_lo'] @ np.r_[SKEL['fn_lo']['pivot'], 1])[:2]
+            dvec = (fp - kp) / (np.hypot(*(fp - kp)) + 1e-6)
+            cpt = fp - dvec * 4
+            yy, xx = np.ogrid[0:H, 0:W]
+            ax, ay = 11.0, 6.5
+            uu = ((xx - cpt[0]) * dvec[0] + (yy - cpt[1]) * dvec[1]) / ax
+            vv = (-(xx - cpt[0]) * dvec[1] + (yy - cpt[1]) * dvec[0]) / ay
+            pa = np.clip((1 - np.sqrt(uu ** 2 + vv ** 2)) * 4, 0, 1).astype(np.float32) * smooth((lie - 0.5) / 0.3)
+            toes = 0.5 + 0.06 * np.cos(uu * 9)
+            out = out * (1 - pa) + toes.astype(np.float32) * pa
+            A = A + pa * (1 - A)
     return out, A, C, layers, M

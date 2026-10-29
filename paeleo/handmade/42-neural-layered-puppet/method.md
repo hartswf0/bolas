@@ -49,33 +49,40 @@ learned hinges, and the turns are not the puppet at all but archive frames of th
   photometric residual 0.92 vs 1.02** (`data/learned_vs_handset.json`). This is the measured win, and it is what the
   turns now use. Caveat: the learned motion has more degrees of freedom (an affine per layer).
 
-## How the dog moves
-Learned: layers, hinges, walk body motion (source poses looped), and the turns: the puppet is carried into its learned
-fit of archive frame 15 (turn away) and 41-mirrored (into the turned back), where its silhouette coincides with the real
-frame, and dissolves into the real frames (15, 16, 17, 31, 38, 40, 41), which are blurred and tinted exactly like the
-puppet. The turn back (7.88-8.43) runs through the front views 38, 31, 17, 16 and dissolves out of archive 15 into its
-learned fit, which moves into the profile pose. The look in uses the anisotropic stretch the layers learned on archive
-frame 20 (head turned across the line of sight), darkened into a backlit silhouette against the lit room: the back of the
-head. Override (hand-set rotations or shifts on learned hinges; pale pins): leg swing keyed to the walk phase, head carried
-low (head and neck lowered and forward, drawn in front of the chest), lying (fore leg forward, hind leg folded behind the
-trunk, trunk on the boards), chin down, and the head swing at 7.458-7.71 (head and neck rotate up and over the learned
-neck hinge, mirrored as they pass vertical, the body still down). The tail is cut from archive frame 6 and pinned to the
-learned rump layer (the template frame shows only its root).
+## How the dog moves (round 3)
+Every frame of the dog is the puppet: seamed and pinned throughout, no archive footage on screen.
+- **Turns are learned motion.** Both turns pose the puppet at its learned fits of the archive turning frames
+  (`turn_fit.py`; the poses that beat the best hand-set hinge pose on 13 of 16 frames). Turn away (3.417-3.97): profile
+  → fits of frames 15, 16, 17, 30 → the front-on fit 30 mirrored about the dog's centre line (where the body changes
+  side) → fits of 40 and 41 (mirrored source) → profile with the back to the door. Turn back (8.0-8.55): head already
+  round → mirrored fit 30 → fits 30, 17, 16, 15 → profile. Each fit is placed by its own fitted silhouette at the
+  puppet's height; the largest frame-to-frame height change inside the turn windows is under 10%.
+- **Look back (7.458-7.82).** The head proper (head layer above its learned hinge with the neck) pivots on that hinge,
+  the arc kept at shoulder height, mirrored as it passes vertical; the throat stays with the body. The muzzle tip (the
+  template's nose point) is left of the hinge, toward the door, from 7.625 s, and stays there while the dog rises
+  (7.56-8.0) and into the turn back.
+- **Look in (26.4-27.4).** The head lifts off the paws and the muzzle is brought level (head −38° on its hinge),
+  pointing left into the lit room; head centre reaches x = 345 px, the jamb is at 376.5 px.
+- **Head carried low** eases in over 3 frames after each change of intention (1.0 s, 14.708 s).
+- Override (hand-set rotations on learned hinges; pale pins): leg swing, head low, lying, chin down, look back, look in.
+  Learned: layers, hinges, walk body motion, both turns. The tail is cut from archive frame 6 and pinned to the rump layer.
+- Section 7: the learned *split* only ties the hand-cut split, so it is kept for its structure and said so on the cards;
+  the learned *motion* beats hand-setting, so it carries the turns. The end card shows learned and best hand-set poses
+  side by side on five archive turning frames with the real outline drawn over each.
 
 ## Invariants (measured from the render, `trace.json` summary)
-Onsets: retreat 1.042 (+0.04), watch 2.375 (+0.04), refuse 3.417 (0), watch 7.458 (0; head left of its neck hinge, i.e.
-toward the door, from 7.625), approach 14.708 (0), lie down 23.792 (0), look in 26.25 (−0.15). Checker: ALL OK
-(refusal back 92.8%). Head 23-29 px under the back line for the whole approach. Ends at x = 0.59: alpha bbox x 328-608
-across the door reveal (400-490), tail x 530-608 on the porch. Feet during the approach: 31% planted, median foot/body
-speed 0.82 (sliding remains). Sound: calls −20.6/−17.1 dBFS, soft lines −32 to −35, room tone −54.8.
+Onsets: retreat 1.083 (+0.08), watch 2.375 (+0.04), refuse 3.417 (0), watch 7.458 (0; muzzle toward the door from
+7.625), approach 14.708 (0), lie down 23.792 (0), look in 26.25 (−0.15). Checker: ALL OK. Head below the back line on
+99% of approach frames (median 26 px; the first frames ease in). Ends at x = 0.59, bbox x 302-582 across the reveal
+(376.5-462), tail x 504-582 on the porch. Feet: 33% planted, median foot/body speed 0.82. Camera: static, 1 m = 190 px,
+threshold at screen x 310.
 
 ## What is weak / not done
-- The dog's surface is a lumpy grey archive texture; it reads as a dog by outline, gait, tail and head.
-- The head swing is a dark head-and-neck wedge rotating over the back: continuous, but crude; one ghosted dissolve frame
-  at 7.92 s.
-- The look in reads in depth only moderately (stretch + darkening); the source has no back-of-head view.
-- Feet still slide part of the time; the template has one fore leg.
-- The learned split ties the hand-cut split; only the learned motion beats hand-set hinges.
-- Not done: rig-only control film, operator page, crisp-layer K sweep. Judged from sampled frames, not normal-speed viewing.
+- The turn poses are a profile texture carried onto 3/4 and front silhouettes: they read as a dog turning in outline, the
+  surface stays a side view; the front-on mirror at frame 30 is a one-frame change of side.
+- The look back is a small dark head turned over the shoulder at this scale; legible on single frames only up close.
+- Feet still slide part of the time; the template has one fore leg; texture is lumpy grey.
+- The learned split ties the hand-cut split; only the learned motion beats hand-setting.
+- Not done: rig-only control film, operator page, crisp-layer K sweep. Judged from sampled frames of the encoded film.
 
 Rebuild: `build/make.sh` (`--sweep` also re-runs the slow model-selection sweep).

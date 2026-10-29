@@ -272,7 +272,7 @@ LIE = {   # lying (sphinx): paw centre, ankle, knee, in the dog frame
     'HN': ((60, 22), (175, 40), (30, 110)), 'HF': ((-10, 22), (105, 40), (-40, 110)),
 }
 LIE_SH = np.array([5.0, -248.0]); LIE_HIP = np.array([15.0, -300.0])
-DEEP_SH = np.array([10.0, -125.0]); DEEP_HIP = np.array([10.0, -170.0])
+DEEP_SH = np.array([10.0, -100.0]); DEEP_HIP = np.array([10.0, -115.0])
 
 
 def lerp(a, b, t):
@@ -319,7 +319,7 @@ def pose_P(d, a, paws=None, lifts=None):
         sh_d = d.c_sh + DEEP_SH; hip_d = d.c_hip + DEEP_HIP
         legs_d = {L: [legs_s[L][0], legs_s[L][1]] for L in LEGS}
         for L in ('HN', 'HF'):
-            legs_d[L] = [legs_s[L][0], legs_s[L][0] + rot(d.hcent[L + '_ankle'] - d.hcent[L + '_paw'], -0.7)]
+            legs_d[L] = [legs_s[L][0], legs_s[L][0] + rot(d.hcent[L + '_ankle'] - d.hcent[L + '_paw'], -0.45)]
         for L in ('FN', 'FF'):     # forefeet reach forward on the way down
             legs_d[L] = [legs_s[L][0] + [-90, 0], legs_s[L][1] + [-110, -20]]
         kd = knees(sh_d, hip_d, legs_d, pit(sh_d, hip_d))
@@ -363,7 +363,7 @@ def pose_P(d, a, paws=None, lifts=None):
     r['neck_len'] = 1.0 + 0.14 * look
     r['ear'] = float(np.clip(a.get('ear', 1.0), 0, 1))
     t_ = float(a.get('tail', 0.5)); w = float(a.get('wag', 0)); ph = float(a.get('wph', 0))
-    ta = -(t_ - 0.5) * 1.0 + w * 0.45 * np.sin(ph)
+    ta = -(t_ - 0.5) * (1.0 if t_ <= 0.5 else 1.6) + w * 0.45 * np.sin(ph)   # tucked: the tail passes under, behind the thigh
     r['tail_a'] = ta * (1 - wl) + (0.5 + w * 0.3 * np.sin(ph)) * wl
     r['tail_curl'] = -0.35 * max(t_ - 0.8, 0) * (1 - wl) + 0.35 * wl
     # the lying body (its own mesh): arrives 70 mm high and settles; head and tail in its frame
