@@ -70,7 +70,7 @@ def build_static():
     roomc[fl & ((yy - 588) % 11 < 1.0)] *= 0.6
     roomc[(yy >= 572) & (yy < 588)] *= 0.55          # skirting
     # inner doorway to a hall, the deep light source of the room
-    hall = (xx > 60) & (xx < 170) & (yy > 300) & (yy < 588)
+    hall = (xx > 200) & (xx < 318) & (yy > 300) & (yy < 588)   # the lit inner doorway, the light the dog looks into
     roomc[hall] = np.array([1.0, 0.86, 0.6])
     img_room = roomc
     # wall (stone section) between WALL_IN and WALL_OUT, above the lintel, and the house front above

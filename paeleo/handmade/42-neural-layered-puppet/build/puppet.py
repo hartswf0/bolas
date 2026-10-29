@@ -208,7 +208,18 @@ class Puppet:
             e[:, 1:] |= (lb[:, 1:] != lb[:, :-1]) & (lb[:, 1:] >= 0) & (lb[:, :-1] >= 0)
             e[1:, :] |= (lb[1:, :] != lb[:-1, :]) & (lb[1:, :] >= 0) & (lb[:-1, :] >= 0)
             e = ndimage.gaussian_filter(e.astype(np.float32), 0.5)
-            rgb = rgb * (1 - 0.45 * np.clip(e * 2, 0, 1))[..., None]
+            rgb = rgb * (1 - 0.30 * np.clip(e * 2, 0, 1))[..., None]
+        hl = getattr(self, 'head_label', None)
+        if hl is not None:
+            # a legible head: the head layer's contrast lifted and its outline drawn as a thin pale rim
+            hm = ndimage.gaussian_filter((lb == hl).astype(np.float32), 0.8)
+            body = (a > 0.5)
+            edge = body & ~ndimage.binary_erosion(body, iterations=1)
+            edge = ndimage.binary_dilation(edge, iterations=0) if False else edge
+            mean = float(rgb[lb == hl].mean()) if np.any(lb == hl) else 0.0
+            rgb = rgb * (1 - hm[..., None]) + (mean + (rgb - mean) * 1.9 + 0.04) * hm[..., None]
+            rim = edge & (ndimage.binary_dilation(lb == hl, iterations=2))
+            rgb = np.where(rim[..., None], np.array([0.86, 0.80, 0.68]) * 0.9, rgb)
         reg = canvas_rgb[y0:y1, x0:x1]
         canvas_rgb[y0:y1, x0:x1] = reg * (1 - a[..., None]) + rgb * a[..., None]
         if canvas_a is not None: canvas_a[y0:y1, x0:x1] = np.maximum(canvas_a[y0:y1, x0:x1], a)

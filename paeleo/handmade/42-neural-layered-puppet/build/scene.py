@@ -28,7 +28,7 @@ OUT = os.path.join(HERE, 'cache', 'frames'); os.makedirs(OUT, exist_ok=True)
 T_REFUSE = SCORE['choices'][2]['t']; T_WATCH2 = SCORE['choices'][3]['t']
 TURN_DUR = 0.55
 MID_VIEWS = [16, 17, 31, 38, 40]
-SWING_DUR = 0.36                          # 7.458 -> 7.708: the head comes round while the body is still down
+SWING_DUR = 0.22                          # 7.458 -> 7.708: the head comes round while the body is still down
 RISE = (T_WATCH2, T_WATCH2 + 0.54)
 TB0 = RISE[1]
 S_DOG = 1.55
@@ -159,6 +159,9 @@ def main():
         breathe = 0.008 * np.sin(2 * np.pi * t / 1.7) * (1 - moving)
         pp.tail_angle = (a['wag'] * 0.35 * np.sin(2 * np.pi * 2.6 * t) + 0.3 * (a['tail'] - 0.5)) * (1 - min(1, lie)) - 0.12 * min(1, lie)
         pp.label_gain = None
+        pp.head_label = n['head']
+        if t >= 26.9:
+            look = 1.0; rest = min(rest, 0.25)      # it keeps looking in through the lit inner door
         T_pose, info = po.pose(phase=phase, moving=moving, head_low=min(1, head_low) * (1 - min(1, lie)), lie=lie,
                                rest=rest, look=look, crouch=crouch, breathe=breathe)
         def swing_head(Gin, sw):
@@ -190,7 +193,8 @@ def main():
         Hn = S_DOG * (pp.bbox[3] - pp.bbox[1]) * 0.9
         Fx = np.array([[-1.0, 0, 2 * X], [0, 1, 0], [0, 0, 1]])
         def knot(k):
-            if k == 'flip30': return np.einsum('ij,kjl->kil', Fx, VW.G_norm(('t', 30), X, Hn))
+            if isinstance(k, str) and k.startswith('flip'):
+                return np.einsum('ij,kjl->kil', Fx, VW.G_norm(('t', int(k[4:])), X, Hn))
             return VW.G_norm(k, X, Hn)
         def run(knots, u, G0, G1):
             for (ua, ka), (ub, kb) in zip(knots[:-1], knots[1:]):
@@ -203,14 +207,16 @@ def main():
         if 0 <= u < 1:
             GL = np.einsum('ij,kjl->kil', np.array([[S_DOG, 0, X - S_DOG * ax], [0, S_DOG, Wo.FLOOR - S_DOG * ay], [0, 0, 1.0]]), T_pose)
             GR = np.einsum('ij,kjl->kil', np.array([[-S_DOG, 0, X + S_DOG * ax], [0, S_DOG, Wo.FLOOR - S_DOG * ay], [0, 0, 1.0]]), T_pose)
-            AWAY = [(0, 'start'), (0.14, ('t', 15)), (0.28, ('t', 16)), (0.42, ('t', 17)), (0.56, ('t', 30)),
-                    (0.5601, 'flip30'), (0.72, ('m', 40)), (0.86, ('m', 41)), (1.0001, 'end')]
+            # through the 3/4 poses only (the front-on fits read as a two-humped tangle); the body changes side at the
+            # most frontal 3/4 pose (17), mirrored about the dog's centre line
+            AWAY = [(0, 'start'), (0.16, ('t', 15)), (0.32, ('t', 16)), (0.48, ('t', 17)), (0.4801, 'flip17'),
+                    (0.66, 'flip16'), (0.84, 'flip15'), (1.0001, 'end')]
             G, kk = run(AWAY, u, GL, GR); mode = 'turn-learned'; view = kk if isinstance(kk, tuple) else None
         u = (t - TB0) / TURN_DUR
         if 0 <= u < 1:
             GL = np.einsum('ij,kjl->kil', np.array([[S_DOG, 0, X - S_DOG * ax], [0, S_DOG, Wo.FLOOR - S_DOG * ay], [0, 0, 1.0]]), T_pose)
             GR = np.einsum('ij,kjl->kil', np.array([[-S_DOG, 0, X + S_DOG * ax], [0, S_DOG, Wo.FLOOR - S_DOG * ay], [0, 0, 1.0]]), T_pose)
-            BACK = [(0, 'start'), (0.25, 'flip30'), (0.2501, ('t', 30)), (0.45, ('t', 17)), (0.65, ('t', 16)),
+            BACK = [(0, 'start'), (0.16, 'flip15'), (0.32, 'flip16'), (0.48, 'flip17'), (0.4801, ('t', 17)), (0.66, ('t', 16)),
                     (0.82, ('t', 15)), (1.0001, 'end')]
             G, kk = run(BACK, u, GR, GL); mode = 'turn-learned'; view = kk if isinstance(kk, tuple) else None
             G_head, _ = run(BACK, u, swing_head(GR, 1.0), GL)
@@ -246,7 +252,7 @@ def main():
             for k, (jx, jy) in joints.items():
                 ov = abs(info['angles'].get(k, 0)) > 0.05 or (mode == 'head-swing' and k in (n['head'], n['neck']))
                 c = (150, 185, 235, int(150 * pup_o)) if ov else (225, 185, 110, int(150 * pup_o))
-                dd.ellipse([jx - 2.2, jy - 2.2, jx + 2.2, jy + 2.2], fill=c)
+                dd.ellipse([jx - 1.7, jy - 1.7, jx + 1.7, jy + 1.7], fill=c)
             cp = np.asarray(dr, np.float32) / 255.
         if vid is not None and pup_o > 0:
             can = cv * (1 - pup_o) + cp * pup_o
