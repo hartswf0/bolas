@@ -338,3 +338,26 @@ Measured after round 3:
 - Head below the back in 100% of the approach.
 - Inverted triangles over the film: 79, in 53 standing or walking frames.
 - Worst normalized energy 0.61, at the cower's end (2.0–2.6 s). The hip is lowered less there, so the spine bends more.
+
+
+## Round 4 (after critic round 3: DOES NOT PASS, very narrowly)
+
+1. **"Two rumps, a doubled tail, an extra thigh" at 3.85–4.5 s.** There was no second mesh: `perform.json` has
+   exactly one layer per frame (checked, max 1), and the renderer draws one mesh per frame. The doubling was inside the
+   one drawing:
+   - The near thigh and shoulder masses carried their own outline stroke inside the body, which read as a second rump.
+   - The tucked tail swung down along the back of the thigh, which read as a second tail.
+   - Fix: those two masses no longer draw an inner outline (only hatch direction changes there). A tucked tail now
+     rotates 1.6× further, so it passes under the belly behind the thigh. Crops of the encoded film at 3.88, 4.00, 4.25
+     and 4.50 s show one rump, one tail and four legs.
+2. **The hind legs at 7.5–8.3 s.** The standing mesh is now never driven past the deep crouch (score `lie` clipped to
+   0.5): the old path had started the lying fold on it before the swap to the lying mesh. The deep crouch is
+   shallower: hips −115 mm, shoulders −100 mm, hocks slanted 0.45 rad. The swap to and from the lying mesh is a
+   ~45 mm drop on the frame `lie` passes 0.55. Crops at 7.62 and 7.75 s on the encoded film show four distinct hind
+   and fore feet, nothing crossed.
+3. **Optional, done.** The figure outline is heavier (7 mm stroke, about 1.4 px wide in the wide shot). The far railing
+   is lighter (rail tone 0.55 → 0.38, balusters 0.45 → 0.30).
+
+Re-measured after a full re-render: `check_handmade.py` ALL OK. Onsets unchanged (0, 0, +0.208, 0, +0.042, 0, +0.058).
+0 inverted triangles in the lying frames. 79 single triangles over the film, in 53 standing or walking frames.
+The film is 2.92 MB.
