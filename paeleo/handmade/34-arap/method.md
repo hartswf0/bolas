@@ -1,6 +1,6 @@
 # SCION 34 · ARAP — the threshold, bent as rigidly as possible
 
-PAE-02 cohort 5. `film.mp4`: 38.0 s, 1280×720, 24 fps, H.264 + AAC, faststart, about 3.0 MB
+PAE-02 cohort 5. `film.mp4`: 38.0 s, 1280×720, 24 fps, H.264 + AAC, faststart, about 3.0 MB (2.96 MB after round 3)
 (912 frames: 72 title, 768 scene, 72 end card; the end card draws the rest mesh and the lying mesh with their
 handles). Rebuild: `bash build/make.sh`.
 
@@ -300,3 +300,41 @@ Still weak / unknown after round 2:
 - Worst normalized ARAP energy is 0.39, at a walk frame.
 - At the end, 0.54 of the dog's rendered area is inside the door frame.
 - No critic has seen round 2.
+
+
+## Round 3 (after critic round 2: DOES NOT PASS, narrowly)
+
+1. **No double images.** Every frame now shows exactly one drawing (`perform.py: view_for` returns one layer; the
+   stand/lie and profile/turned-in head changes are single-frame swaps in `render.py: expand`, not dissolves).
+   - Turn away: the profile narrows over 4 frames (100% → 52%, 3.46–3.58 s) as the head drops toward the door. A hard
+     swap at the narrowest frame (3.625) brings the rear view, arriving 12% wide and narrowing while its head swings
+     across. A hard swap at 3.83 brings the profile turned away, arriving at 50% width and widening over 4 frames.
+   - Turn back: the standing dog narrows (8.17–8.29 s), swaps to the front view (8.33–8.46), then swaps to the profile
+     facing the door at 50% width (8.50).
+   - Lie: the deep crouch was reshaped so its hip height (285 mm) matches the lying mesh's arrival height (286 mm).
+     The swap happens on the frame the score's `lie` passes 0.55, the beat when the dog drops.
+   - Look-in: the head swaps on the frame `look` passes 0.45.
+   - I extracted frames from the encoded `film.mp4` at 3.50, 3.58, 3.62, 3.67, 3.71, 3.83, 3.88, 3.92, 4.58, 4.62, 7.50,
+     7.62, 8.17, 8.25, 8.33, 8.46, 8.50, 26.50, 26.75 and 27.50 s and looked at them: one body and one head in each.
+2. **The over-the-shoulder head.** The turn away no longer uses a mirrored head: the profile head drops toward the door
+   as the body narrows. Looking back from 7.46, the mirrored head is set at an absolute angle of −0.12 rad, so the
+   muzzle points left to the door, level or a little down, at its back line. It is always solved from a rigid
+   placement, so it has no beak. In the encoded film at 7.50 and 7.62 the eye, the dark muzzle and nose, and both ears
+   read.
+3. **Looking in.** `L_head` has a foreshortened muzzle with mass: wider at the base, rounded at the end, with a dark
+   nose tip and highlight. The head is tilted 0.42 rad so the muzzle aims up and left into the lit room, above and
+   past the woman's hand.
+4. **Hind legs.**
+   - The cower lowers the hips 75 mm (was 125) and drops the hocks (the metatarsus slants back 0.4 rad × crouch).
+   - The deep crouch lowers the hips 170 mm (was 215), with the hocks at 0.7 rad.
+   - The two-bone IK keeps thigh and shank at their rest lengths.
+   - Looked at on the encoded film at 1.50, 1.83, 2.08 and 4.25 s: four distinct feet, no leg looping over itself.
+   - Measured inverted triangles: 3 in 1.5–2.1 s (single slivers), 0 in 4.0–4.5 s, 0 in all lying frames (23.79–32 s).
+
+Measured after round 3:
+- `check_handmade.py` ALL OK.
+- Onsets: retreat 0, watch 0, **refuse +0.208** (first rendered frame whose view faces away, 3.625; the narrowing and
+  head drop start at 3.458), watch 0, approach +0.042, lie down 0, looks in +0.058.
+- Head below the back in 100% of the approach.
+- Inverted triangles over the film: 79, in 53 standing or walking frames.
+- Worst normalized energy 0.61, at the cower's end (2.0–2.6 s). The hip is lowered less there, so the spine bends more.

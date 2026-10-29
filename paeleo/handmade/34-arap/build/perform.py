@@ -25,15 +25,15 @@ def view_for(i):
     frame where the outgoing drawing is narrowest (foreshortened by the turn) and the incoming one arrives as narrow,
     then widens: the swap is hidden in the narrowing, never dissolved."""
     r = R_ON
-    if i < r + 3:
+    if i <= r:
         return [('P', False, {}, 1.0)]
-    if i <= r + 6:                                  # 85-88: the head drops toward the door, the body narrows (turning)
-        return [('P', False, {'fs': 1.0 - 0.13 * (i - r - 2)}, 1.0)]
-    if i <= r + 10:                                 # 89-92: the rear view, its head swinging across behind the shoulders
-        u = (i - (r + 7)) / 3.0
+    if i <= r + 4:                                  # 83-86: the head drops toward the door, the body narrows (turning)
+        return [('P', False, {'fs': 1.0 - 0.12 * (i - r)}, 1.0)]
+    if i <= r + 9:                                  # 87-91: the rear view, its head swinging across behind the shoulders
+        u = (i - (r + 5)) / 4.0
         return [('R0', False, {'sx': 1.0 + 0.12 * (1 - u), 'head_dx': -40 + 90 * u}, 1.0)]
-    if i < W_ON:                                    # 93-: the profile facing away, arriving narrow and widening
-        k = i - (r + 11)
+    if i < W_ON:                                    # 92-: the profile facing away, arriving narrow and widening
+        k = i - (r + 10)
         return [('P', True, {'fs': min(1.0, 0.5 + 0.125 * k)}, 1.0)]
     w = W_ON
     if i < w + 17:
