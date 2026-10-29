@@ -35,7 +35,6 @@
     "tail piece (cut, pinned to the learned rump layer)": [
      6
     ],
-    "learned fits of turning frames (turn_fit.py; 15 and 41m bridge the turns)": "14-21, 26-33",
     "learned fits of turning frames (turn_fit.py); the turns show the puppet held at the fits of 15 and 16 (and their mirrors)": "14-21, 26-33 fitted; 15, 16 on screen"
    },
    "operation": "mask (kit SAM polygons, largest component); few-shot layer discovery (EM + gradient descent, numpy/scipy); per-layer affine motion fits (walk library, turning frames); rendered only through the learned puppet (template frame 8 pixels carried by the layers, splat, dusk/door-light tint, head contrast and rim, seams and pins). No archive frame is shown whole or dissolved in; the only other archive pixels on screen are the tail cut from frame 6."
@@ -70,7 +69,7 @@
    "id": "turn-fits",
    "what": "learned-layer and hand-cut-rig fits of archive turning frames 14-21, 26-33",
    "path": "paeleo/handmade/42-neural-layered-puppet/model/turn.npz",
-   "operation": "computed by build/turn_fit.py; compared with best hand-set hinge poses in build/hinge_control.py"
+   "operation": "computed by build/turn_fit.py; compared with best hand-set hinge poses in build/hinge_control.py (hand-set poses in model/handset_turn.npz); fits of 15 and 16 pose the puppet in both turns"
   },
   {
    "id": "score",

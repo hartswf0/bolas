@@ -49,23 +49,24 @@ learned hinges, and the turns are not the puppet at all but archive frames of th
   photometric residual 0.92 vs 1.02** (`data/learned_vs_handset.json`). This is the measured win, and it is what the
   turns now use. Caveat: the learned motion has more degrees of freedom (an affine per layer).
 
-## How the dog moves (round 4)
+## How the dog moves (round 5)
 **Plainly: the acting is rig-driven.** Backing off, the turned back, the approach, lying, the look back and the look in
-are hand-set rotations or shifts on the learned hinges, timed by the score. The learned model gives the parts and hinges,
-the walk's body motion, and the two turns (the cards say this).
-- **Turns** (3.417-3.97, 8.0-8.55): the puppet at its learned fits of archive turning frames 15, 16, 17 (which beat the
-  best hand-set hinge pose, 13 of 16 frames), placed by their own silhouettes at the puppet's height; the body changes
-  side at fit 17, mirrored about the dog's centre line. The front-on fits (30) were dropped: they read as a two-humped
-  tangle. Single back line on every frame.
-- **Look back** (7.458-7.68): the head proper narrows toward the camera on its learned hinge, then is replaced by a head
-  turned round, cut from archive frame 39 (3/4 view: muzzle, eye, collar), mirrored so the nose points to the door, pinned
-  at the hinge; held while the dog rises and until 8.09. Measured: nose left of the hinge from 7.583.
-- **Look in** (26.4 to the end): the lit inner doorway of the room is now beside the jamb (screen x 238-352), the seated
-  person beyond it at x 72; the head lifts, the muzzle comes level and is carried 12 template px into the doorway: the
-  muzzle tip sits inside the lit rectangle and stays there to 31 s.
-- **Legible head**: the head layer's contrast is lifted and its outer edge drawn as a thin pale rim; seams and pins are
-  fainter and smaller but visible.
-- Tail: cut from archive frame 6, pinned to the learned rump layer.
+are hand-set rotations, shifts or scalings on the learned hinges, timed by the score. The learned model gives the parts
+and hinges, the walk's body motion, and the two turns (cards say this). Nothing on screen is an archive frame shown whole
+or dissolved in; the only other archive pixels are the tail cut from frame 6.
+- **Turns** (3.417-3.97, 8.06-8.55): the puppet held, drawing to drawing, at its learned fits of archive turning frames
+  15 and 16 (and, on the far side, their mirrors), each placed by its own silhouette at the puppet's height; no
+  in-betweens except a short ease from and into the profile. Fits 17 and 30 were dropped (box body, two humps).
+- **Look back** (7.458-7.68, held to 8.06): the learned head layer above its hinge with the neck narrows toward the
+  camera, changes side at 35% width, and opens out as a mirrored copy pinned at the hinge, nose toward the door, brought
+  toward level; the throat stays with the chest. The body changes side at 8.06 straight into the left-facing fit 16, so
+  the head never faces away again. Nose left of the hinge from 7.583 (measured).
+- **Look in** (26.4 to the end): one lit doorway in the room (cream, framed in dark wood), beside the jamb, the seated
+  person beyond it; the door leaf now folds flat. The head lifts, is carried 22 template px into the doorway and is
+  foreshortened along its length to 55% and shrunk 10% about its hinge (turned into depth); the muzzle sits inside the lit
+  rectangle and stays there.
+- **Refusal**: stands with its back turned until 5.5 s, lies down 5.5-6.2 s (the score lies down earlier).
+- Head layer contrast lifted, thin pale rim; seams and pins fainter but visible.
 
 ## Invariants (measured from the render, `trace.json` summary)
 Onsets: retreat 1.083 (+0.08), watch 2.375 (+0.04), refuse 3.417 (0), watch 7.458 (0; nose toward the door from
@@ -77,8 +78,8 @@ threshold at screen x 310.
 ## What is weak / not done
 - The turn poses are a profile texture carried onto 3/4 and front silhouettes: they read as a dog turning in outline, the
   surface stays a side view; the front-on mirror at frame 30 is a one-frame change of side.
-- The look back borrows a head from archive frame 39 (a cut piece, not the learned layers); its join to the neck is soft
-  but visible up close.
+- The look back is the template's own head (raised, dark) mirrored: legible as a head pointing up-left, with a visible
+  cut edge where it meets the neck.
 - Feet still slide part of the time; the template has one fore leg; texture is lumpy grey.
 - The learned split ties the hand-cut split; only the learned motion beats hand-setting.
 - Not done: rig-only control film, operator page, crisp-layer K sweep. Judged from frames extracted from the encoded film, not normal-speed viewing.
