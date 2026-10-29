@@ -45,25 +45,39 @@ def endcard():
     X1, Xh1 = d.solve(lie, iters=60, X0=X0)
     im = Image.new('RGB', (W, H), BG)
     base = np.asarray(im).astype(np.float32) / 255
-    for X, Xh, ox in ((X0, Xh0, 300), (X1, Xh1, 900)):
-        pm = mesh_image(d, X, Xh, 0.36, ox, 360, (W, H), wire=0.85)
-        base = base * (1 - pm[..., 3:4]) + pm[..., :3] * np.array([0.95, 0.93, 0.88])
+    sc = 0.37
+    placed = []
+    for X, Xh, ox in ((X0, Xh0, 330), (X1, Xh1, 900)):
+        pm = mesh_image(d, X, Xh, sc, ox, 400, (W, H), wire=0.0)
+        base = base * (1 - pm[..., 3:4] * 0.55) + pm[..., :3] * 0.55 * np.array([0.95, 0.93, 0.88])
+        placed.append((X, Xh, ox))
     im = Image.fromarray((np.clip(base, 0, 1) * 255).astype(np.uint8))
+    wd = ImageDraw.Draw(im)
+    for X, Xh, ox in placed:
+        for V, T in ((X, d.body.T), (Xh, d.head.T)):
+            S = np.stack([ox + sc * V[:, 0], 400 - sc * V[:, 1]], 1)
+            E = np.unique(np.sort(np.vstack([T[:, [0, 1]], T[:, [1, 2]], T[:, [2, 0]]]), 1), axis=0)
+            for i, j in E:
+                wd.line([tuple(S[i]), tuple(S[j])], fill=(236, 150, 90), width=1)
+        for k, idx in d.H.items():
+            S = np.stack([ox + sc * X[idx, 0], 400 - sc * X[idx, 1]], 1)
+            for p in S:
+                wd.ellipse([p[0] - 1.6, p[1] - 1.6, p[0] + 1.6, p[1] + 1.6], fill=(120, 220, 255))
     dr = ImageDraw.Draw(im)
     f1 = ImageFont.truetype(SERIF, 30); f2 = ImageFont.truetype(SERIF_I, 21); f3 = ImageFont.truetype(MONO, 15)
-    dr.text((300 - dr.textlength('rest mesh', font=f2) / 2, 385), 'rest mesh', font=f2, fill=(200, 190, 170))
-    dr.text((900 - dr.textlength('the same triangles, lying', font=f2) / 2, 385), 'the same triangles, lying', font=f2, fill=(200, 190, 170))
+    dr.text((330 - dr.textlength('rest mesh', font=f2) / 2, 420), 'rest mesh (handles in blue)', font=f2, fill=(200, 190, 170))
+    dr.text((900 - dr.textlength('the same triangles, lying', font=f2) / 2, 420), 'the same triangles, lying', font=f2, fill=(200, 190, 170))
     t = 'What it is made of'
     dr.text(((W - dr.textlength(t, font=f1)) / 2, 40), t, font=f1, fill=INKL)
     lines = [
         'The dog, the woman and the place are engravings drawn here in code (no found pixels).',
         'Each figure is a Delaunay triangle mesh (dog: 1,086 + 265 vertices) bent by a local-global',
-        'as-rigid-as-possible solve (one rotation per vertex cell, hard handles, sparse LU) from',
-        '13-17 handles. The turns are substitutions between a profile, a rear and a front drawing.',
+        'as-rigid-as-possible solve (one rotation per vertex cell, hard handles, sparse LU) from 16 body',
+        'and 4 head handles. The turns are substitutions between a profile, a rear and a front drawing.',
         'Trees and moon: Quick, Draw! (CC BY 4.0, Google Creative Lab and contributors).',
         'Voice, boards, door and dusk are synthesized. Timing: the PAELEO threshold score.',
     ]
-    y = 450
+    y = 480
     for l in lines:
         dr.text(((W - dr.textlength(l, font=f3)) / 2, y), l, font=f3, fill=(176, 170, 160)); y += 26
     return im
