@@ -226,7 +226,7 @@ class World:
         warm = (in_col * 0.95 - out_col * 0.6)[None, None, :]
         Lf = fig_col[None, None, :] * (1 - ins) + (in_col * (0.55 + 0.6 * self.lampglow[..., None])) * ins
         Lobj = Lf + (in_col * 1.0 - fig_col * 0.75)[None, None, :] * air[..., None]
-        L = L + warm * (floor_b + 0.18 * air * (self.yy > self.Y(1.0)))[..., None]
+        L = L + warm * (1.15 * floor_b + 0.32 * air * (self.yy > self.Y(1.0)))[..., None]
         self.beam = air
         self.Lobj = np.clip(Lobj, 0, 1.25)
         return np.clip(L, 0, 1.25)

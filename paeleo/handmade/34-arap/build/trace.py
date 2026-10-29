@@ -66,9 +66,11 @@ on.append(dict(choice='refuse -> watch', score_t=7.458, t=frames[k]['t'], signal
 k0 = int(14.5 * FPS)
 k = first(lambda k: xw[k] < xw[k0] - 1.5 / CAMS['A']['s'], k0, 420)
 on.append(dict(choice='watch -> approach', score_t=14.708, t=frames[k]['t'], signal='body centre moves toward the door > 1.5 px'))
-k0 = int(23.5 * FPS)
-k = first(lambda k: frames[k]['posture'] != 'standing' or top[k] - top[k0] > 4, k0, 620)
-on.append(dict(choice='approach -> lie_down', score_t=23.792, t=frames[k]['t'], signal='rendered top of the dog 4 px below its walking height'))
+k0 = int(23.4 * FPS)
+wy = [meas[str(i)].get('withers_y', np.nan) for i in range(N_SCENE)]
+base = np.nanmax(wy[k0 - 8:k0 + 1])
+k = first(lambda k: wy[k] - base > 3, k0, 620)
+on.append(dict(choice='approach -> lie_down', score_t=23.792, t=frames[k]['t'], signal='rendered withers (shoulder patch) 3 px below its walking height'))
 k0 = int(26.2 * FPS)
 ny0 = meas[str(k0)]['nose'][1]
 k = first(lambda k: meas[str(k)]['nose'][1] < ny0 - 2, k0, 700)

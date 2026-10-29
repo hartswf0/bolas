@@ -1,0 +1,41 @@
+{
+ "about": "Counterexample set: ARAP against a naive warp with the same handles.\nNaive = Shepard (inverse-distance) interpolation of the handle displacements, a global point warp with no mesh energy.\nMeasured per pose: inverted triangles, mean and worst stretch of the triangles (|sigma - 1| of each triangle's Jacobian),\nand the same at the protected eye/nose. Writes proof/arap_vs_naive.jpg and proof/proof.json.",
+ "poses": {
+  "head low (approach)": {
+   "arap": {
+    "inverted": 0,
+    "mean_stretch": 0.081,
+    "p95_stretch": 0.284
+   },
+   "naive": {
+    "inverted": 51,
+    "mean_stretch": 0.191,
+    "p95_stretch": 0.825
+   }
+  },
+  "cowering (retreat)": {
+   "arap": {
+    "inverted": 0,
+    "mean_stretch": 0.153,
+    "p95_stretch": 0.376
+   },
+   "naive": {
+    "inverted": 40,
+    "mean_stretch": 0.368,
+    "p95_stretch": 0.964
+   }
+  },
+  "lying across the sill": {
+   "arap": {
+    "inverted": 0,
+    "mean_stretch": 0.242,
+    "p95_stretch": 0.61
+   },
+   "naive": {
+    "inverted": 274,
+    "mean_stretch": 0.515,
+    "p95_stretch": 1.002
+   }
+  }
+ }
+}

@@ -60,7 +60,9 @@ class Renderer:
             nose = Xh[d.G['nose']].mean(0); joint = Xh[d.G['skull']].mean(0)
             inv = d.solver.inverted(X) + d.hsolver.inverted(Xh) if not pose.get('head_flip') else d.solver.inverted(X)
             energy = d.solver.energy(X)
+            self.withers = X[d.H['shoulder']].mean(0)
         else:
+            self.withers = None
             v = self.views[view]
             aa = dict(a); aa.update(ex)
             if view == 'F0':
@@ -145,6 +147,8 @@ class Renderer:
         if nose is not None:
             ns = to_screen(nose[None])[0]; js = to_screen(joint[None])[0]
             m['nose'] = [float(ns[0]), float(ns[1])]; m['joint'] = [float(js[0]), float(js[1])]
+        if self.withers is not None:
+            m['withers_y'] = float(to_screen(self.withers[None])[0][1])
         m['inverted'] = int(inv); m['energy'] = round(float(energy), 5)
         m['x_world_measured'] = float(px_to_world_x(m['cx'], cam)) if 'cx' in m else None
         m['door_inside_share'] = None

@@ -69,8 +69,8 @@ class Gait:
                 continue
             neu = xb + sign * NEUTRAL[L]
             off = s['p'] - neu
-            if moving and off * d < -0.12:
-                cands.append((abs(off), L, neu + d * 0.13 + v * T_SWING))
+            if moving and off * d < -0.09:
+                cands.append((abs(off), L, neu + d * 0.09 + v * T_SWING))
             elif not moving and abs(off) > 0.05:
                 cands.append((abs(off) * 0.5, L, neu))
         cands.sort(reverse=True)

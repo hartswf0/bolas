@@ -281,11 +281,11 @@ def pose_P(d, a, paws=None, lifts=None):
     na_l = 0.25 + (0.7 - h) * 0.9; ha_l = 0.15 + 0.2 * (0.7 - h)
     rest_ = float(a.get('rest', 0)); look = float(a.get('look', 0))
     na_l = na_l * (1 - rest_) + 1.0 * rest_; ha_l = ha_l * (1 - rest_) + 0.25 * rest_
-    na_l = na_l * (1 - look) + 0.5 * look; ha_l = ha_l * (1 - look) - 0.22 * look
+    na_l = na_l * (1 - look) + 0.32 * look; ha_l = ha_l * (1 - look) - 0.30 * look
     wl = smooth(l)
     r['neck_a'] = na_s * (1 - wl) + na_l * wl
     r['head_a'] = ha_s * (1 - wl) + ha_l * wl
-    r['neck_len'] = 1.0 + 0.08 * look
+    r['neck_len'] = 1.0 + 0.14 * look
     r['ear'] = float(np.clip(a.get('ear', 1.0), 0, 1))
     t_ = float(a.get('tail', 0.5)); w = float(a.get('wag', 0)); ph = float(a.get('wph', 0))
     ta = -(t_ - 0.5) * 1.0 + w * 0.45 * np.sin(ph)
