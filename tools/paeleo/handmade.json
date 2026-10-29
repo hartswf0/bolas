@@ -92,6 +92,16 @@
    "trick": "A drawing that bends without ever folding: the dog keeps its shape by solving for it."
   },
   {
+   "id": 10,
+   "dir": "10-mls-deformation",
+   "name": "MLS deformation",
+   "kind": "One sheet warped by handles",
+   "dog": "one painted pelt, folded into a body by moving least squares",
+   "made": "A single flat image of a dog's coat, painted in code and laid out like a pelt: dark saddle, both flanks, four legs, head and tail. No archive frame, no skeleton, no cut pieces, no frame swaps. The swarm wrote the moving-least-squares solver itself, in its affine, similarity and rigid forms, and the end card shows the hide with its handles and the same pose in all three.",
+   "moved": "Only 48 point handles and 19 line handles move. Affine MLS lifts the flat hide into a body each frame: the flanks fold down like cloth, the legs reach the boards, the head is a rigid cluster of handles so the face does not shear. Paws stay planted until the body moves too far, then step on alternating diagonals.",
+   "trick": "There is no skeleton anywhere: the dog bends as one sheet, the way a hide would if handles pulled it."
+  },
+  {
    "id": 14,
    "dir": "14-pose2pose",
    "name": "Pose2Pose casting",

@@ -54,7 +54,7 @@ TRAIN = [(8, 0), (2, 0), (5, 0), (11, 0), (13, 0), (42, 1), (44, 1)]
 HOLDOUT = [(3, 0), (7, 0), (10, 0), (12, 0), (43, 1), (45, 1)]
 # expanded view examples (round 2): the dog turning toward the camera and standing front-on.  The learned split may
 # adapt to them; the hand-cut control cannot.  Held-out turning frames sit between the training ones.
-if os.environ.get('PUPPET_VIEWS', '1') == '1':
+if os.environ.get('PUPPET_VIEWS', '0') == '1':
     TRAIN = TRAIN + [(15, 0), (17, 0), (19, 0), (28, 0), (31, 0)]
     HOLDOUT = HOLDOUT + [(16, 0), (18, 0), (20, 0), (27, 0), (30, 0), (32, 0)]
 
