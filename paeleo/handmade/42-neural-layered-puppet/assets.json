@@ -1,5 +1,5 @@
 {
- "about": "Every asset in SCION 42 film; nothing fetched from the web, no generated images, no Quick, Draw! drawings, no archive-door frames used.",
+ "about": "Every asset in the SCION 42 film (round 5). Nothing fetched from the web, no generated images, no Quick, Draw! drawings, no archive-door frames.",
  "assets": [
   {
    "id": "archive-dog-frames",
@@ -36,23 +36,9 @@
      6
     ],
     "learned fits of turning frames (turn_fit.py; 15 and 41m bridge the turns)": "14-21, 26-33",
-    "visibility states shown whole, dissolved from/into their learned fits": [
-     15,
-     16,
-     17,
-     31,
-     38,
-     40,
-     41
-    ],
-    "head depth-turn stretch learned from": [
-     20
-    ],
-    "head turned round (look back, cut piece, mirrored)": [
-     39
-    ]
+    "learned fits of turning frames (turn_fit.py); the turns show the puppet held at the fits of 15 and 16 (and their mirrors)": "14-21, 26-33 fitted; 15, 16 on screen"
    },
-   "operation": "mask (kit SAM polygons, largest component), few-shot layer discovery (EM + gradient descent, numpy/scipy), per-layer affine motion fit, splat rendering with dusk/door-light tint; turn frames cut out whole with the SAM mask and scaled"
+   "operation": "mask (kit SAM polygons, largest component); few-shot layer discovery (EM + gradient descent, numpy/scipy); per-layer affine motion fits (walk library, turning frames); rendered only through the learned puppet (template frame 8 pixels carried by the layers, splat, dusk/door-light tint, head contrast and rim, seams and pins). No archive frame is shown whole or dissolved in; the only other archive pixels on screen are the tail cut from frame 6."
   },
   {
    "id": "archive-dog-masks",

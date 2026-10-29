@@ -128,7 +128,7 @@ def main():
             d.text((px + 4, py + ph - 20), 'f%02d  IoU %.2f' % (f, rows[f][key]), font=font('f14.woff2', 14), fill=colr)
     d.text((x0, y0 + 2 * ph + 60), 'Archive turning frames, real outline drawn over each pose. Learned better on %d of %d frames (mean %.2f vs %.2f).'
            % (lh['learned_better_on'], lh['n'], lh['mean_iou_learned'], lh['mean_iou_handset']), font=font('f14.woff2', 15), fill=(200, 190, 175))
-    d.text((x0, y0 + 2 * ph + 86), 'Cut pieces of the same film: the tail (frame 6) and the head turned round at 7.5 s (frame 39). Person, house,',
+    d.text((x0, y0 + 2 * ph + 86), 'One cut piece of the same film: the tail (frame 6). No archive frame is shown whole. Person, house,',
            font=font('f14.woff2', 15), fill=(200, 190, 175))
     d.text((x0, y0 + 2 * ph + 108), 'porch, light: drawn here (numpy, Pillow). Sound synthesized here. Score: PAELEO threshold machine.',
            font=font('f14.woff2', 15), fill=(200, 190, 175))

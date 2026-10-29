@@ -36,7 +36,7 @@ LAT = 8.0          # template px: half body width, lateral depth of each leg col
 STRIDE, DUTY, LIFT = 0.42, 0.62, 0.045
 ROTKEYS = ['head', 'tail', 'ff_up', 'ff_lo', 'fn_up', 'fn_lo', 'hf_up', 'hf_lo', 'hn_up', 'hn_lo']
 # authored lying angles (the correction; the archive never shows a dog lying)
-LIE = {'ff_up': 1.3, 'ff_lo': 0.12, 'fn_up': 1.3, 'fn_lo': -0.3, 'hf_up': 1.45, 'hf_lo': -2.8, 'hn_up': 1.45, 'hn_lo': -2.85}
+LIE = {'ff_up': 1.0, 'ff_lo': 0.45, 'fn_up': 1.05, 'fn_lo': 0.4, 'hf_up': 1.55, 'hf_lo': -2.85, 'hn_up': 1.6, 'hn_lo': -2.85}
 # round 2: forelegs lie flat forward (paws at the front), hind legs fold tight and are drawn BEHIND the torso (tucked under)
 
 
@@ -67,11 +67,8 @@ def backhead_layer():
     a = np.clip(a, 0, 1)
     # texture: the learned head layer's fur, seen in shadow, rim-lit where the room light catches the outline
     t0, _ = tex_at(j, 0.0)
-    g = t0 * 0.72
-    edge = np.clip(a - ndimage.grey_erosion(a, size=(3, 3)), 0, 1)
-    g = g * (1 - 0.5 * edge) + 0.75 * edge * 0.5 + g * 0.0
-    # a darker crease where the ears meet the skull
-    g = np.where((a > 0.5) & (np.abs(yy - 98) < 1.2) & (np.abs(np.arange(Wh)[None, :] - 112) < 12), g * 0.75, g)
+    g = t0 * 0.92                                  # the same fur, barely shaded: no flat fill, no rim line
+    a = np.clip(ndimage.gaussian_filter(a, 0.6) * 1.4, 0, 1)   # the same feather as the template layers
     return g.astype(np.float32), a.astype(np.float32)
 
 
@@ -201,6 +198,8 @@ def build_pose(c, mode='corrected'):
             p[up]['rot'], p[lo]['rot'] = t1, t2
         else:
             t2 = float(np.clip(t2, -0.6, 0.6))   # no hook-curled paws while standing
+            if l[0] == 'f':
+                p[up]['fy'] *= (1 - 0.3 * lie); p[lo]['fy'] *= (1 - 0.35 * lie)
             p[up]['rot'] = t1 * (1 - lie) + LIE[up] * lie
             p[lo]['rot'] = t2 * (1 - lie) + LIE[lo] * lie
     r = np.array([p[k]['rot'] for k in ROTKEYS])
@@ -227,7 +226,7 @@ def render_dog(p, info, H, W, c=None, mode='corrected'):
     lie = (c or {}).get('lie', 0.0)
     order = ORDER
     if lie > 0.5 and mode != 'raw':
-        order = ['tail', 'ff_up', 'ff_lo', 'hf_up', 'hf_lo', 'hn_up', 'hn_lo', 'fn_up', 'fn_lo', 'torso', 'head']
+        order = ['tail', 'ff_up', 'ff_lo', 'hf_up', 'hf_lo', 'hn_lo', 'fn_up', 'fn_lo', 'torso', 'hn_up', 'head']
     for k in order:
         j = PARTS.index(k)
         psi = info['psi_h'] if k == 'head' else info['psi']
@@ -252,7 +251,7 @@ def render_dog(p, info, H, W, c=None, mode='corrected'):
             a = a * 0.0   # lying: the folded hind shin is tucked under the thigh
         if k[:2] in ('ff', 'hf'):
             # visibility layer: toward the front view the far legs pass behind the near legs and chest
-            a = a * (0.0 if info['psi'] > 40 else 1.0)   # hard visibility switch, never translucent: <= 4 legs in any turn frame
+            a = a * (0.0 if info['psi'] > 80 else 1.0)   # hard visibility switch, never translucent: only the front view hides them
         if bb is None:
             continue
         cfw, _, _ = warp_layer(cf, tpl.alpha[j], M[k], H, W, (0, 0), tpl.bbox[j], 1.0)

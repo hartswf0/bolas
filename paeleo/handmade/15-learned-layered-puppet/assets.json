@@ -49,14 +49,14 @@
   },
   {
    "id": "correction-back-of-head",
-   "what": "hand-correction layer for the look into the room (26.4-28.4 s): outline = skull curve + two folded dog ears drawn in template space, united with the learned head layer's own lower part (neck) so it stays attached; fill = the learned head-layer fur texture (view bin 0) at 72% brightness, rim-lit along the outline",
+   "what": "hand-correction layer for the look into the room (26.4-28.4 s): outline = skull curve + two folded dog ears drawn in template space, united with the learned head layer's own neck (attached); fill = the learned head-layer fur texture at 92% brightness; edge feathered like the template layers (Gaussian 0.6 px), no rim line",
    "path": "build/dogmodel.py: backhead_layer()",
    "rights": "drawn here over a texture learned from the public-domain archive frames",
    "operation": "drawn outline + learned texture (hand correction; the archive has no back-of-head view)"
   },
   {
    "id": "correction-lying-legs",
-   "what": "hand-authored lying articulation: near foreleg flat forward (upper 1.3 rad, lower -0.3 rad), far legs and both hind leg segments hidden under the body, tail resting along the boards; slow breathing swell of the torso (2.2%, 2.3 s)",
+   "what": "hand-authored lying articulation (round 5): forelegs bent under the chest (upper 1.0-1.05 rad, lower 0.4-0.45 rad, both segments shortened 30-35%), drawn behind the torso so only the bent forearm and paw show; both hind leg segments and the far legs hidden under the body; tail curled forward along the haunch; slow breathing swell (2.2%, 2.3 s)",
    "path": "build/dogmodel.py: LIE, render_dog(); build/controls.py tail_rot",
    "rights": "authored here",
    "operation": "hand correction (the archive dog never lies down)"
@@ -70,7 +70,7 @@
   },
   {
    "id": "correction-turns-and-head",
-   "what": "other hand corrections on generated poses: whip-around turns that skip the 55-125 deg front view (turn back: 3 solid 3/4 intermediates), far legs hidden above 40 deg, head tipped toward camera in 3/4 views, reflected tilt for the look-back head, neck joint dropped for the head-low walk, lower-leg bend clamped to 0.6 rad",
+   "what": "other hand corrections on generated poses: refusal turn as a whip-around skipping 55-125 deg; turn back 8.0-8.5 s through three solid intermediates (~70, 90, 110 deg) without stepping; far legs hidden only in the front view (>80 deg); head tipped toward camera in 3/4 views; reflected tilt for the look-back head; neck joint dropped for the head-low walk; lower-leg bend clamped to 0.6 rad while standing",
    "path": "build/controls.py, build/dogmodel.py",
    "rights": "authored here",
    "operation": "hand correction"

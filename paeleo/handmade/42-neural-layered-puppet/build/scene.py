@@ -229,7 +229,9 @@ def main():
         if pup_o > 0:
             cp = can.copy()
             if split:
-                hsH = (pp.lab == n['head'])
+                # the head proper (head layer above its hinge with the neck) turns; the throat stays with the chest
+                hpv = pp.pivot[(n['head'], int(pp.parent[n['head']]))]
+                hsH = (pp.lab == n['head']) & (pp.P[:, 1] < hpv[1] + 6)
                 G_head = swing_head(G, swung)
                 if mode.startswith('profile'): mode = 'head-swing'; rec['mode'] = mode
                 info['override'] = 1.0; rec['override'] = 1.0

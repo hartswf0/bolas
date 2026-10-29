@@ -62,7 +62,7 @@ def controls():
         facing_left = phi < 90
         D += -(x - prev_x) * (1 if facing_left else -1); prev_x = x
         # turning in place: the feet step through the turn (a virtual walk of 0.5 m per half-turn)
-        Dturn += abs(phi - prev_phi) / 180 * 0.21; prev_phi = phi
+        Dturn += abs(phi - prev_phi) / 180 * (0.21 if t < 8.0 else 0.0); prev_phi = phi
         # head view: leads the refusal turn a little; at 7.46 comes round over the shoulder before the body
         phi_h = phi_body(t + 0.07) if t < 7.46 else phi
         if 7.46 <= t < 8.6:
@@ -91,7 +91,7 @@ def controls():
                 hr = hr * (1 - rest) + (-1.05) * rest
         tail = a['tail']; wag = a['wag']
         tail_rot = (tail - 0.5) * 1.15 + wag * 0.4 * np.sin(2 * np.pi * 2.4 * t) + 0.5 * lie
-        tail_rot = tail_rot * (1 - lie) + 0.4 * lie   # lying: the tail rests along the boards, not under the body
+        tail_rot = tail_rot * (1 - lie) + 2.1 * lie   # lying: the tail curls forward along the haunch, not trailing back
         crouch = a['crouch']
         pitch = 0.11 * crouch * (1 - lie)
         moving = a['moving']
