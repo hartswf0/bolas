@@ -76,7 +76,7 @@ def controls():
             away = look
             phi_h = 18 * (1 - min(1, look * 1.6))
             # looking in: the head lifts off the paws and the muzzle goes up into the lit doorway, back of the head to us
-            hr = hr * (1 - look) + (-0.3) * look
+            hr = hr * (1 - look) + (-0.12) * look   # level: the back-of-head layer is drawn upright
             if rest > 0.05 and not (27.0 <= t <= 28.2):
                 hr = hr * (1 - rest) + (-1.05) * rest
         tail = a['tail']; wag = a['wag']

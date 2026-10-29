@@ -80,9 +80,11 @@ def draw(p, ss=2):
     r = L['head'] * k
     d.ellipse([head[0] - r, head[1] - r * 1.08, head[0] + r * .95, head[1] + r * 1.0], fill=255)
     fa = p['lean'] + p['head'] * 0.5
-    nose = head + np.array([np.cos(fa), np.sin(fa)]) * r * 1.02 + np.array([0, .01 * k])
-    d.polygon([tuple(head + np.array([r * .6, -r * .3])), tuple(nose), tuple(head + np.array([r * .7, r * .45]))], fill=255)
-    d.ellipse([head[0] - r * 1.15, head[1] - r * .9, head[0] - r * .1, head[1] + r * .5], fill=255)
+    sd = 1.0 if p.get('face', 1.0) >= 0 else -1.0     # head profile direction (snaps; heads turn fast)
+    nose = head + np.array([sd * np.cos(fa), np.sin(fa)]) * r * 1.02 + np.array([0, .01 * k])
+    d.polygon([tuple(head + np.array([sd * r * .6, -r * .3])), tuple(nose), tuple(head + np.array([sd * r * .7, r * .45]))], fill=255)
+    hx0, hx1 = (head[0] - r * 1.15, head[0] - r * .1) if sd > 0 else (head[0] + r * .1, head[0] + r * 1.15)
+    d.ellipse([hx0, head[1] - r * .9, hx1, head[1] + r * .5], fill=255)
     # near leg, near arm, hand
     kn, ft = leg(p['th1'], p['sh1'])
     capsule(d, hip, kn, .08 * k, 255); capsule(d, kn, ft, .06 * k, 255); capsule(d, ft, ft + np.array([.14 * k, 0]), .038 * k, 255)
@@ -93,14 +95,5 @@ def draw(p, ss=2):
     da.ellipse([hd[0] - .055 * k, hd[1] - .04 * k, hd[0] + .055 * k, hd[1] + .04 * k], fill=255)
     a = np.asarray(im.resize((W, H), Image.LANCZOS), np.float32) / 255
     aa = np.asarray(am.resize((W, H), Image.LANCZOS), np.float32) / 255
-    f = p.get('face', 1.0)
-    if f < 0.999:
-        # turning toward the door: the silhouette is scaled through zero about the body's vertical axis
-        f = f if abs(f) > 0.12 else (0.12 if f >= 0 else -0.12)
-        cx = (hip / ss)[0]
-        xs = cx + (np.arange(W) - cx) / f
-        from scipy import ndimage as nd
-        yy = np.arange(H)[:, None] * np.ones((1, W)); xx = np.ones((H, 1)) * xs[None, :]
-        a = nd.map_coordinates(a, [yy, xx], order=1, cval=0).astype(np.float32)
-        aa = nd.map_coordinates(aa, [yy, xx], order=1, cval=0).astype(np.float32)
+    # round 2: the body never narrows edge-on; only the head turns toward the door (face < 0)
     return a, aa, (hd / ss)

@@ -29,7 +29,7 @@ T_REFUSE = SCORE['choices'][2]['t']; T_WATCH2 = SCORE['choices'][3]['t']
 TURN_DUR = 0.55
 MID_VIEWS = [16, 17, 31, 38, 40]
 SWING_DUR = 0.36                          # 7.458 -> 7.708: the head comes round while the body is still down
-RISE = (T_WATCH2, T_WATCH2 + 0.42)
+RISE = (T_WATCH2, T_WATCH2 + 0.54)
 TB0 = RISE[1]
 S_DOG = 1.55
 MSRC = np.array([[-1.0, 0, 383], [0, 1, 0], [0, 0, 1]])   # mirror of a 384-px-wide source frame
@@ -169,7 +169,10 @@ def main():
             phi = -(np.pi + 0.55) * sw
             R = np.eye(3); c_, s_ = np.cos(phi), np.sin(phi); R[:2, :2] = [[c_, -s_], [s_, c_]]; R[:2, 2] = js - R[:2, :2] @ js
             H_ = R @ np.array([[1, 0, 0], [0, -1, 2 * js[1]], [0, 0, 1.0]]) if sw >= 0.5 else R
-            Gout = Gin.copy(); Gout[hk] = H_ @ Gin[hk]; return Gout
+            # the head turns round at shoulder height (a dog looks back sideways, it does not rear up): the arc is
+            # flattened by carrying the head down by up to 26 px at mid-swing
+            Dn = np.eye(3); Dn[1, 2] = 26.0 * np.sin(np.pi * min(sw, 1.0))
+            Gout = Gin.copy(); Gout[hk] = Dn @ H_ @ Gin[hk]; return Gout
         BACK_SWITCH = TB0 + 0.25 * TURN_DUR
         facingR = T_REFUSE + TURN_DUR / 2 <= t < BACK_SWITCH
         place = np.array([[(-1 if facingR else 1) * S_DOG, 0, X + (1 if facingR else -1) * S_DOG * ax],

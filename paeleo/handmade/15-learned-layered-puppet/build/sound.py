@@ -35,7 +35,9 @@ def tts(text, name):
                     '-ar', str(SR), '-ac', '1', path], check=True)
     import wave
     w = wave.open(path); x = np.frombuffer(w.readframes(w.getnframes()), np.int16).astype(float) / 32768
-    return x / (np.abs(x).max() + 1e-9)
+    x = x / (np.abs(x).max() + 1e-9)
+    on = int(np.argmax(np.abs(x) > 0.03))           # trim flite's leading silence: the word starts at t=0
+    return x[max(0, on - int(0.01 * SR)):]
 
 
 def bp(x, lo, hi, order=2):
@@ -91,7 +93,7 @@ if __name__ == '__main__':
     call = tts('Come here.', 'call'); call2 = tts('Come here!', 'call2')
     soft1 = tts("It's all right.", 'soft1'); soft2 = tts("It's all right.", 'soft2'); comein = tts('Come in.', 'comein')
     G_CALL, G_SOFT = db(-9), db(-21)
-    put(voice(call), 1.0, G_CALL, -0.55); put(voice(call2), 3.4, G_CALL, -0.55)
+    put(voice(call), 0.95, G_CALL, -0.55); put(voice(call2), 3.36, G_CALL, -0.55)   # calls lead the gesture and the dog's reaction
     put(voice(soft1, True), 7.45, G_SOFT, -0.35); put(voice(soft2, True), 10.45, G_SOFT, -0.35)
     put(voice(comein, True), 26.4, G_SOFT, -0.45)
     levels = {}
@@ -140,6 +142,11 @@ if __name__ == '__main__':
     for t0 in [0.2, 35.2]:
         n = int(2.4 * SR); tt = np.arange(n) / SR
         put(np.sin(2 * np.pi * 110 * tt) * np.sin(np.pi * tt / 2.4) ** 2 * 0.5 + np.sin(2 * np.pi * 165 * tt) * np.sin(np.pi * tt / 2.4) ** 2 * 0.25, t0 - OFF, db(-30))
+    # measured call onsets (first sample of the voice above -40 dBFS envelope near each call)
+    def onset(t0):
+        i0 = int((t0 + OFF - 0.4) * SR); seg = np.abs(lp(np.abs(L[i0:i0 + SR] + R[i0:i0 + SR]), 60))
+        return round(t0 - 0.4 + float(np.argmax(seg > db(-40))) / SR, 3)
+    levels['call_onsets_measured'] = [onset(1.0), onset(3.42)]
     room = np.concatenate([L[int(3.2 * SR):int(3.9 * SR)]])
     levels['room_tone_rms_dbfs'] = round(float(20 * np.log10(np.sqrt((room ** 2).mean()))), 1)
     levels['soft_below_call_db'] = round(levels['call_rms_dbfs'] - levels['soft_rms_dbfs'], 1)

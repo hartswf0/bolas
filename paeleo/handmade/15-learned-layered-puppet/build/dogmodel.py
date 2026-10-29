@@ -36,7 +36,34 @@ LAT = 8.0          # template px: half body width, lateral depth of each leg col
 STRIDE, DUTY, LIFT = 0.42, 0.62, 0.045
 ROTKEYS = ['head', 'tail', 'ff_up', 'ff_lo', 'fn_up', 'fn_lo', 'hf_up', 'hf_lo', 'hn_up', 'hn_lo']
 # authored lying angles (the correction; the archive never shows a dog lying)
-LIE = {'ff_up': 1.2, 'ff_lo': 0.32, 'fn_up': 1.28, 'fn_lo': 0.26, 'hf_up': 1.15, 'hf_lo': -2.25, 'hn_up': 1.22, 'hn_lo': -2.35}
+LIE = {'ff_up': 1.3, 'ff_lo': 0.12, 'fn_up': 1.5, 'fn_lo': -0.05, 'hf_up': 1.45, 'hf_lo': -2.8, 'hn_up': 1.45, 'hn_lo': -2.85}
+# round 2: forelegs lie flat forward (paws at the front), hind legs fold tight and are drawn BEHIND the torso (tucked under)
+
+
+def backhead_layer():
+    """CORRECTION, the head turned away into the room: a back-of-head layer cut crisp from the learned head layer's
+    outline (skull curve + two ear tips + neck), shadowed, with a rim where the room light catches the fur."""
+    from PIL import Image, ImageDraw
+    j = PARTS.index('head')
+    Hh, Wh = tpl.alpha.shape[1:]
+    im = Image.new('L', (Wh * 4, Hh * 4), 0); d = ImageDraw.Draw(im)
+    S = 4
+    d.ellipse([(98) * S, (94) * S, (126) * S, (116) * S], fill=255)                 # skull, wider than tall
+    d.polygon([(100 * S, 101 * S), (101 * S, 86 * S), (110 * S, 97 * S)], fill=255)  # far ear
+    d.polygon([(114 * S, 96 * S), (123 * S, 84 * S), (125 * S, 102 * S)], fill=255)  # near ear
+    d.polygon([(106 * S, 110 * S), (124 * S, 106 * S), (128 * S, 120 * S), (112 * S, 121 * S)], fill=255)  # neck
+    a = np.asarray(im.resize((Wh, Hh), Image.LANCZOS), np.float32) / 255
+    a = np.minimum(a, 1.0) * (tpl.alpha[j] > -1)
+    t0, _ = tex_at(j, 0.0)
+    g = t0 * 0.6 + 0.04
+    edge = np.clip(a - ndimage.grey_erosion(a, size=(3, 3)), 0, 1)
+    g = g + 0.55 * edge
+    # ear inner line: a darker crease so the two ears separate from the skull
+    g = np.where((a > 0.5) & (np.abs(np.arange(Wh)[None, :] - 112) < 1) & (np.arange(Hh)[:, None] < 102), g * 0.6, g)
+    return g.astype(np.float32), a.astype(np.float32)
+
+
+_BACKHEAD = None
 
 
 def fx_of(psi, w):
@@ -100,12 +127,13 @@ def build_pose(c, mode='corrected'):
     p = neutral_pose()
     g = p['g']; g['mirror'] = mirror; g['s'] = S_SCREEN; g['rot'] = c.get('pitch', 0.0) * mirror
     p['torso']['fx'] = fx_of(psi, MJ['W_BODY'])
+    p['torso']['fy'] = 1.0 + 0.022 * np.sin(2 * np.pi * c['t'] / 2.3) * c['lie'] * (not raw)   # breathing while lying
     # raw: a head turned away from the camera is foreshortened exactly like one turned toward it (the 2.5D model
     # cannot tell front from back): it shows the 3/4 FACE. corrected: profile texture, shortened, face in shadow.
     hpsi = (35.0 * away) if raw else psi_h
     if raw:
         psi_h = hpsi
-    p['head']['fx'] = head_rel * fx_of(hpsi, MJ['W_HEAD']) * (1 - 0.3 * away * (not raw))
+    p['head']['fx'] = head_rel * fx_of(hpsi, MJ['W_HEAD']) * (1 - 0.3 * away * (not raw)) if (raw or away <= 0.35) else 1.0
     p['head']['fy'] = shape_at('head_fy', psi_h)
     # learned: in front views the archive dog's head layer sits tilted down (view regression of head rot)
     p['head']['rot'] = c['head_rot'] + (shape_at('head_rot', psi_h) - shape_at('head_rot', 0))
@@ -160,6 +188,7 @@ def build_pose(c, mode='corrected'):
             t1 = float(np.clip(t1, lo1, hi1)); t2 = float(np.clip(t2, lo2, hi2))
             p[up]['rot'], p[lo]['rot'] = t1, t2
         else:
+            t2 = float(np.clip(t2, -0.6, 0.6))   # no hook-curled paws while standing
             p[up]['rot'] = t1 * (1 - lie) + LIE[up] * lie
             p[lo]['rot'] = t2 * (1 - lie) + LIE[lo] * lie
     r = np.array([p[k]['rot'] for k in ROTKEYS])
@@ -182,7 +211,12 @@ def render_dog(p, info, H, W, c=None, mode='corrected'):
     out = np.zeros((H, W), np.float32); A = np.zeros((H, W), np.float32); C = np.zeros((H, W), np.float32)
     layers = {}
     away = (c or {}).get('away', 0.0) if mode != 'raw' else 0.0
-    for k in ORDER:
+    global _BACKHEAD
+    lie = (c or {}).get('lie', 0.0)
+    order = ORDER
+    if lie > 0.5 and mode != 'raw':
+        order = ['tail', 'ff_up', 'ff_lo', 'hf_up', 'hf_lo', 'hn_up', 'hn_lo', 'fn_up', 'fn_lo', 'torso', 'head']
+    for k in order:
         j = PARTS.index(k)
         psi = info['psi_h'] if k == 'head' else info['psi']
         t, cf = tex_at(j, psi)
@@ -193,7 +227,15 @@ def render_dog(p, info, H, W, c=None, mode='corrected'):
             dn = np.hypot(xx - 92, yy - 86); face = np.clip(1 - dn / 34.0, 0, 1)
             t = t * (1 - away * (0.25 + 0.55 * face))
             cf = cf * (1 - 0.7 * away)
-        g, a, bb = warp_layer(t, tpl.alpha[j], M[k], H, W, (0, 0), tpl.bbox[j], 1.0)
+        if k == 'head' and away > 0.35:
+            if _BACKHEAD is None:
+                _BACKHEAD = backhead_layer()
+            t, al = _BACKHEAD
+            g, a, bb = warp_layer(t, al, M[k], H, W, (0, 0), tpl.bbox[j], 1.0)
+        else:
+            g, a, bb = warp_layer(t, tpl.alpha[j], M[k], H, W, (0, 0), tpl.bbox[j], 1.0)
+        if k[:2] in ('ff', 'hf') and lie > 0.6 and mode != 'raw':
+            a = a * 0.0   # lying: the far legs are under the body
         if k[:2] in ('ff', 'hf'):
             # visibility layer: toward the front view the far legs pass behind the near legs and chest
             a = a * (0.0 if info['psi'] > 62 else 1.0)   # hard visibility switch, never translucent

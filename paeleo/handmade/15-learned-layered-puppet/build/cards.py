@@ -23,10 +23,11 @@ def end(strip):
     d.text((80, 50), 'What it is made of', font=BIG(44), fill=FG)
     lines = [
         'THE DOG  a layered puppet (11 layers) cut from one frame of Amateur Film New Jersey C (Internet Archive, public domain),',
-        '         fitted by render-loss optimisation to all 50 frames; its view-dependent shape and texture are learned',
-        '         from those fits. Turning, backing away, lying down, looking back and looking in are the model\'s own',
-        '         poses: the archive dog only walks, turns once and lowers its head to a bowl.',
-        'CORRECTED BY HAND  folded legs for lying, the head turned away, the look over the shoulder (below: model alone | film).',
+        '         fitted by render-loss optimisation to all 50 frames; its view-dependent shape and texture are learned from',
+        '         those fits. The model alone makes the turns, backing away and the head-low walk (the archive dog only walks,',
+        '         turns once and lowers its head to a bowl).',
+        'CORRECTED BY HAND  lying (folded legs), looking back over the shoulder, looking in (a back-of-head layer):',
+        '         the model alone cannot make these; below, model alone (top) | film (bottom).',
         'THE PLACE AND THE PERSON  drawn and computed (numpy/PIL); voices: flite speech synthesis; all sound synthesized.',
     ]
     y = 118
