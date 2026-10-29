@@ -33,9 +33,11 @@ CACHE = os.path.join(HERE, 'cache')
 
 NAMES = ['nose', 'skull', 'throat', 'withers', 'back', 'rump', 'tailroot', 'tailmid', 'tailtip',
          'chest', 'belly', 'flank', 'fk1', 'f1', 'fk2', 'f2', 'hk1', 'h1', 'hk2', 'h2',
-         'ft1', 'ft2', 'ht1', 'ht2']
-BODY = ['nose', 'skull', 'throat', 'withers', 'back', 'rump', 'tailroot', 'tailmid', 'tailtip',
-        'chest', 'belly', 'flank', 'ft1', 'ft2', 'ht1', 'ht2']
+         'ft1', 'ft2', 'ht1', 'ht2', 'neckbase']
+# repair round: only the body sheet bends; head-with-neck, tail and legs are rigid cut-outs pinned at a joint
+BODY = ['withers', 'back', 'rump', 'tailroot', 'chest', 'belly', 'flank', 'neckbase', 'ft1', 'ft2', 'ht1', 'ht2']
+NECK = ['nose', 'skull', 'throat', 'neckbase']
+TAILP = ['tailroot', 'tailmid', 'tailtip']
 # leg pieces: name -> (top, knee, foot); far legs are laid under the body, near legs over it
 LEGS = {'f1': ('ft1', 'fk1', 'f1'), 'h1': ('ht1', 'hk1', 'h1'), 'f2': ('ft2', 'fk2', 'f2'), 'h2': ('ht2', 'hk2', 'h2')}
 FAR, NEAR = ['f1', 'h1'], ['f2', 'h2']
@@ -49,7 +51,8 @@ SRC = {
         'back': (183, 116), 'rump': (213, 121), 'tailroot': (224, 130), 'tailmid': (246, 146),
         'tailtip': (270, 156), 'chest': (124, 150), 'belly': (163, 154), 'flank': (199, 158),
         'ft1': (121, 152), 'fk1': (122, 172), 'f1': (120, 190), 'ft2': (142, 152), 'fk2': (138, 178), 'f2': (131, 199),
-        'ht1': (188, 158), 'hk1': (192, 178), 'h1': (191, 195), 'ht2': (212, 158), 'hk2': (214, 182), 'h2': (210, 200)},
+        'ht1': (188, 158), 'hk1': (192, 178), 'h1': (191, 195), 'ht2': (212, 158), 'hk2': (214, 182), 'h2': (210, 200), 'neckbase': (138, 125)},
+        'neckcut': ((156, 103), (124, 150)), 'tailcut': ((219, 116), (226, 152)),
         'belly': [(110, 230), (113, 151), (124, 152), (163, 156), (199, 160), (215, 158), (224, 158), (228, 230)]},
     # frame 38 faces right in the source; its canon (facing left) is its mirror
     'F': {'frame': 38, 'anchor': (192, 198), 'flip_src': True, 'h': {
@@ -57,7 +60,8 @@ SRC = {
         'back': (180, 101), 'rump': (165, 102), 'tailroot': (160, 108), 'tailmid': (157, 113),
         'tailtip': (155, 118), 'chest': (209, 172), 'belly': (188, 166), 'flank': (170, 160),
         'ft1': (187, 165), 'fk1': (187, 180), 'f1': (186, 193), 'ft2': (206, 165), 'fk2': (214, 182), 'f2': (225, 199),
-        'ht1': (173, 158), 'hk1': (173, 168), 'h1': (172, 178), 'ht2': (161, 148), 'hk2': (161, 166), 'h2': (161, 182)},
+        'ht1': (173, 158), 'hk1': (173, 168), 'h1': (172, 178), 'ht2': (161, 148), 'hk2': (161, 166), 'h2': (161, 182), 'neckbase': (201, 140)},
+        'neckcut': ((196, 100), (205, 174)), 'tailcut': ((149, 0), (149, 300)),
         'belly': [(150, 160), (175, 162), (200, 168), (215, 168), (240, 168)]},
 }
 SCALE_FIX = {'L': 1.0, 'F': 1.06}  # F is a little farther from the home-movie camera
@@ -115,15 +119,24 @@ def load():
         for j, ln in enumerate(LEGS):
             pieces[ln] = a * below * (near == j)
         pieces['body'] = a * (1 - np.clip((yy - ycut) / 4., 0, 1))
-        # the head is its own cut-out (rigid), laid over the bending neck: a spinning head would fold
-        # the pixels of a single sheet (ledger attempt 3)
-        hp = [s['h'][n] for n in ('nose', 'skull', 'throat')]
-        hp.append(tuple(np.array(s['h']['skull']) * .55 + np.array(s['h']['throat']) * .45 +
-                        (np.array(s['h']['skull']) - np.array(s['h']['nose'])) * .35))
-        hm = raster_alpha([[hp[0], hp[1], hp[3], hp[2]]], W, H, erode=False)
-        hm = np.clip(ndimage.gaussian_filter(np.clip(ndimage.distance_transform_edt(hm < .5) < s.get('head_pad', 9), 0, 1)
-                                             .astype(np.float32), 2.0) * 1.3, 0, 1)
-        pieces['head'] = a * hm
+        # head-with-neck and tail are cut off the body sheet along a line, with a 5 px overlap each way
+        def side(cut, ref):
+            (ax, ay), (bx_, by_) = cut
+            L = np.hypot(bx_ - ax, by_ - ay)
+            d = ((bx_ - ax) * (yy - ay) - (by_ - ay) * (xx - ax)) / L
+            rx, ry = ref
+            sg = np.sign((bx_ - ax) * (ry - ay) - (by_ - ay) * (rx - ax))
+            return d * sg
+        above = pieces['body']
+        dn = side(s['neckcut'], s['h']['nose'])
+        dt = side(s['tailcut'], s['h']['tailtip'])
+        pieces['neck'] = above * np.clip((dn + 5) / 6., 0, 1)
+        pieces['tail'] = above * np.clip((dt + 4) / 5., 0, 1) * (dn < 0)
+        pieces['body'] = above * np.clip((5 - dn) / 6., 0, 1) * np.clip((4 - dt) / 5., 0, 1)
+        # where the head itself is (for measuring the head on the render)
+        hn = (np.array(s['h']['nose']) + np.array(s['h']['skull'])) / 2
+        rh = np.hypot(*(np.array(s['h']['nose']) - np.array(s['h']['skull']))) * .8 + 6
+        pieces['headmap'] = np.clip(1.5 - np.hypot(xx - hn[0], yy - hn[1]) / rh, 0, 1)
         src = np.array([s['h'][n] for n in NAMES], np.float64)
         anc = np.array(s['anchor'], np.float64)
         if s['flip_src']:
@@ -133,6 +146,17 @@ def load():
             anc[0] = W - 1 - anc[0]
         canon = (src - anc) * SCALE_FIX[k]
         out[k] = dict(img=g, alpha=a, pieces=pieces, src=src, canon=canon, frame=s['frame'], W=W, H=H)
+    # the back of the head, from kit frame 0: the dog looking away from the camera, up at the people.
+    # It replaces the head piece when the dog looks in through the door (repair 1).
+    fr0 = 0
+    im = Image.open(os.path.join(KIT, 'frames/f%03d.jpg' % fr0)).convert('L')
+    W, H = im.size
+    g = np.asarray(im, np.float32) / 255.
+    a = raster_alpha(masks[str(fr0)], W, H)
+    g = tone(g, a)
+    yy, xx = np.mgrid[0:H, 0:W].astype(np.float32)
+    a = a * np.clip((124 - yy) / 6., 0, 1) * np.clip((162 - xx) / 6., 0, 1)
+    out['B'] = dict(img=g, alpha=a, base=np.array([131., 118.]), top=np.array([129., 62.]), W=W, H=H)
     return out
 
 
@@ -140,6 +164,8 @@ if __name__ == '__main__':
     P = load()
     os.makedirs(os.path.join(HERE, '..', 'proof'), exist_ok=True)
     for k, p in P.items():
+        if k == 'B':
+            continue
         s = 4
         rgb = np.dstack([p['img']] * 3) * (0.35 + 0.65 * p['alpha'][..., None])
         im = Image.fromarray((rgb * 255).astype(np.uint8)).resize((p['W'] * s, p['H'] * s), Image.BICUBIC)
