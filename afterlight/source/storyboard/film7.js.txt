@@ -1,0 +1,582 @@
+// AFTERLIGHT film 7: The Man Who Stole the Month
+// Attic red-figure idiom: terracotta figures reserved on black gloss, relief lines, meander bands.
+(function () {
+  'use strict';
+  var CL = '#c96d3e', CLD = '#b45f34', LN = '#140d0a', DIL = '#7d4224', WH = '#efe5cf',
+      BK = '#18110d', RED = '#7e2416', WAX = '#6a3c1d', WAXL = '#8a5428';
+
+  function rng(seed) { var s = seed >>> 0; return function () { s = (s * 1664525 + 1013904223) >>> 0; return s / 4294967296; }; }
+  function rad(d) { return d * Math.PI / 180; }
+  function dirv(a, L) { return [Math.sin(rad(a)) * L, Math.cos(rad(a)) * L]; }
+  function add(p, v) { return [p[0] + v[0], p[1] + v[1]]; }
+
+  // ---------- ground: black gloss pot surface, meander bands ----------
+  function meander(ctx, y0, h) {
+    ctx.fillStyle = CL; ctx.fillRect(0, y0, 1280, h);
+    ctx.strokeStyle = LN; ctx.lineWidth = 3;
+    ctx.beginPath(); ctx.moveTo(0, y0 + 1.5); ctx.lineTo(1280, y0 + 1.5); ctx.moveTo(0, y0 + h - 1.5); ctx.lineTo(1280, y0 + h - 1.5); ctx.stroke();
+    var u = h * 1.05, t = y0 + 6, b = y0 + h - 6, hh = b - t;
+    ctx.lineWidth = Math.max(3, h * 0.12); ctx.lineCap = 'square'; ctx.lineJoin = 'miter';
+    for (var x = -u * 0.3; x < 1280 + u; x += u) {
+      var P = [[0, 0.88], [0, 0.12], [0.78, 0.12], [0.78, 0.66], [0.36, 0.66], [0.36, 0.42]];
+      ctx.beginPath();
+      P.forEach(function (p, i) { var X = x + p[0] * u, Y = t + p[1] * hh; if (i) ctx.lineTo(X, Y); else ctx.moveTo(X, Y); });
+      ctx.moveTo(x, t + 0.88 * hh); ctx.lineTo(x + u, t + 0.88 * hh);
+      ctx.stroke();
+    }
+    ctx.lineCap = 'butt';
+  }
+  function ground(ctx) {
+    ctx.fillStyle = BK; ctx.fillRect(0, 0, 1280, 720);
+    var g = ctx.createRadialGradient(640, 360, 80, 640, 360, 760);
+    g.addColorStop(0, '#271b15'); g.addColorStop(1, '#0b0806');
+    ctx.fillStyle = g; ctx.fillRect(0, 0, 1280, 720);
+    var s = ctx.createLinearGradient(260, 0, 460, 0);
+    s.addColorStop(0, 'rgba(255,240,220,0)'); s.addColorStop(0.5, 'rgba(255,240,220,0.045)'); s.addColorStop(1, 'rgba(255,240,220,0)');
+    ctx.fillStyle = s; ctx.fillRect(260, 0, 200, 720);
+    meander(ctx, 18, 40);
+    meander(ctx, 652, 46);
+  }
+
+  // ---------- drawing utilities ----------
+  function poly(ctx, pts, fill, lw, stroke) {
+    ctx.beginPath(); pts.forEach(function (p, i) { if (i) ctx.lineTo(p[0], p[1]); else ctx.moveTo(p[0], p[1]); }); ctx.closePath();
+    if (fill) { ctx.fillStyle = fill; ctx.fill(); }
+    if (lw) { ctx.strokeStyle = stroke || LN; ctx.lineWidth = lw; ctx.lineJoin = 'round'; ctx.stroke(); }
+  }
+  function line(ctx, pts, lw, col) {
+    ctx.beginPath(); pts.forEach(function (p, i) { if (i) ctx.lineTo(p[0], p[1]); else ctx.moveTo(p[0], p[1]); });
+    ctx.strokeStyle = col || LN; ctx.lineWidth = lw; ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.stroke();
+  }
+  function curve(ctx, a, c, b, lw, col) {
+    ctx.beginPath(); ctx.moveTo(a[0], a[1]); ctx.quadraticCurveTo(c[0], c[1], b[0], b[1]);
+    ctx.strokeStyle = col || LN; ctx.lineWidth = lw; ctx.lineCap = 'round'; ctx.stroke();
+  }
+  function disc(ctx, x, y, r, fill, lw, stroke) {
+    ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2);
+    if (fill) { ctx.fillStyle = fill; ctx.fill(); }
+    if (lw) { ctx.strokeStyle = stroke || LN; ctx.lineWidth = lw; ctx.stroke(); }
+  }
+  // tube segments: outline pass then fill pass so joints are seamless
+  function tubes(ctx, segs, lw) {
+    ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+    segs.forEach(function (s) { line(ctx, s.p, s.w + lw * 2, LN); });
+    segs.forEach(function (s) { line(ctx, s.p, s.w, s.c || CL); });
+  }
+
+  // hand at wrist w, pointing along absolute angle a (deg), in local figure coordinates
+  function hand(ctx, w, a, mode, lw) {
+    var palmC = add(w, dirv(a, 7));
+    var segs = [{ p: [w, palmC], w: 11 }];
+    function fing(off, L, wd) { var base = add(palmC, dirv(a, 3)); segs.push({ p: [add(palmC, dirv(a + off * 0.4, 2)), add(base, dirv(a + off, L))], w: wd || 3.4 }); }
+    if (mode === 'open') { fing(-28, 11); fing(-10, 13); fing(8, 13); fing(24, 11); segs.push({ p: [add(palmC, dirv(a + 70, 3)), add(palmC, dirv(a + 55, 11))], w: 3.6 }); }
+    else if (mode === 'point') { fing(0, 17, 3.6); fing(-10, 4); fing(-20, 3); segs.push({ p: [add(palmC, dirv(a + 70, 3)), add(palmC, dirv(a + 35, 9))], w: 3.6 }); }
+    else if (mode === 'count') { fing(-14, 15); fing(8, 15); fing(28, 4); segs.push({ p: [add(palmC, dirv(a + 70, 3)), add(palmC, dirv(a + 50, 8))], w: 3.6 }); }
+    else { // grip / fist
+      segs.push({ p: [palmC, add(palmC, dirv(a, 5))], w: 10 });
+      segs.push({ p: [add(palmC, dirv(a + 70, 3)), add(palmC, dirv(a + 30, 8))], w: 3.6 });
+    }
+    tubes(ctx, segs, lw);
+    if (mode === 'grip' || mode === 'fist') {
+      for (var i = -1; i <= 1; i++) { var q = add(palmC, dirv(a, 4)); var n = dirv(a + 90, i * 2.6); line(ctx, [add(q, n), add(add(q, n), dirv(a - 90, 3))], lw * 0.5, DIL); }
+    }
+  }
+
+  // ---------- head ----------
+  function head(ctx, o, lw) {
+    var nose = o.nose || 0, fem = o.fem;
+    var P = [[-9, -246], [-17, -262], [-19, -280], [-12, -294], [0, -298], [11, -292], [16, -282], [17, -277],
+             [24 + nose, -268 + nose * 0.2], [19, -265], [20, -261], [17, -259], [19, -256], [15, -251], [7, -248], [7, -238], [-8, -238]];
+    if (fem) { P[8] = [21, -269]; P[13] = [13, -252]; }
+    poly(ctx, P, CL, lw);
+    // eye
+    ctx.beginPath(); ctx.moveTo(6, -278); ctx.quadraticCurveTo(11, -282, 15, -278); ctx.quadraticCurveTo(11, -275.5, 6, -278);
+    ctx.strokeStyle = LN; ctx.lineWidth = lw * 0.8; ctx.stroke();
+    disc(ctx, 11.5, -278.3, 1.6, LN);
+    if (o.brow) curve(ctx, [5, -285], [11, -289 - o.brow], [16, -284], lw * 0.8);
+    // ear
+    curve(ctx, [-4, -277], [-10, -271], [-4, -265], lw * 0.7, DIL);
+    if (o.mouth === 'open') { ctx.beginPath(); ctx.ellipse(17, -259.5, 3, 2.4, 0, 0, Math.PI * 2); ctx.fillStyle = LN; ctx.fill(); }
+    else if (o.mouth === 'grin') curve(ctx, [12, -259], [16, -256], [20, -260], lw * 0.8);
+    else if (o.mouth === 'sleep') { curve(ctx, [6, -278], [11, -276], [15, -279], lw); }
+    // hair
+    if (o.hair === 'bald') {
+      poly(ctx, [[-10, -292], [-19, -284], [-20, -268], [-13, -258], [-8, -264], [-11, -276], [-6, -288]], WH, lw * 0.6, LN);
+      for (var i = 0; i < 4; i++) curve(ctx, [-16 + i * 2, -284 + i * 5], [-18 + i, -276 + i * 4], [-12 + i, -266 + i * 2], lw * 0.4, DIL);
+    } else if (o.hair === 'sakkos') {
+      poly(ctx, [[12, -293], [-2, -305], [-26, -300], [-38, -282], [-33, -262], [-16, -256], [-10, -270], [-4, -290]], CL, lw);
+      var r = rng(7); for (var k = 0; k < 9; k++) disc(ctx, -28 + r() * 22, -295 + r() * 32, 1.6, LN);
+      curve(ctx, [-30, -268], [-20, -260], [-10, -268], lw * 0.7);
+      poly(ctx, [[14, -289], [6, -296], [-2, -293], [4, -287], [10, -285]], LN, lw * 0.5, CL);
+    } else if (o.hair) {
+      poly(ctx, [[15, -287], [6, -299], [-10, -298], [-20, -286], [-19, -266], [-12, -258], [-7, -265], [-7, -280], [4, -289]], LN, lw * 0.6, CL);
+      ctx.save(); ctx.globalAlpha = 0.6; for (var j = 0; j < 4; j++) disc(ctx, 8 - j * 7, -294 + j, 1.4, null, lw * 0.4, CL); ctx.restore();
+    }
+    if (o.beard) {
+      var bc = o.beard === 'white' ? WH : LN;
+      poly(ctx, [[-6, -262], [-2, -255], [6, -252], [10, -253], [15, -251], [17, -244], [12, -232], [4, -230], [-6, -238], [-10, -250]], bc, lw * 0.6, o.beard === 'white' ? LN : CL);
+      if (o.beard === 'white') for (var m = 0; m < 4; m++) curve(ctx, [-2 + m * 4, -252], [0 + m * 4, -242], [2 + m * 3, -233], lw * 0.4, DIL);
+      if (o.mouth === 'open') { ctx.beginPath(); ctx.ellipse(16, -258.5, 3, 2.4, 0, 0, Math.PI * 2); ctx.fillStyle = LN; ctx.fill(); }
+    }
+  }
+
+  // ---------- figure ----------
+  // o: x,y (feet/ground origin), s scale, dir 1|-1, lean (rad), tilt (rad), garment 'chiton'|'peplos'|'himation'|'none',
+  // armF/armB [upperAngle, foreAngle] absolute degrees (0 = down, 90 = forward, 180 = up), handF/handB modes,
+  // legF/legB [thigh, shin], footF/footB angle, sit bool
+  function fig(ctx, o) {
+    var s = o.s, lw = 2.3 / s, lean = o.lean || 0, tilt = o.tilt || 0;
+    var res = {};
+    function rotUp(p) { var c = Math.cos(lean), sn = Math.sin(lean), dx = p[0], dy = p[1] + 150; return [dx * c - dy * sn, dy * c + dx * sn - 150]; }
+    function W(p, up) { var q = up ? rotUp(p) : p; return [o.x + o.dir * s * q[0], o.y + s * q[1]]; }
+    function arm(sh, a) { var e = add(sh, dirv(a[0], 50)); var w = add(e, dirv(a[1], 45)); return [sh, e, w]; }
+    function leg(hp, a) { var k = add(hp, dirv(a[0], 74)); var an = add(k, dirv(a[1], 72)); return [hp, k, an]; }
+    var aF = arm([7, -237], o.armF || [10, 20]), aB = arm([-7, -237], o.armB || [-8, 0]);
+    var lF = leg([6, -150], o.legF || [4, 0]), lB = leg([-6, -150], o.legB || [-6, -2]);
+    res.handF = W(add(aF[2], dirv(o.armF ? o.armF[1] : 20, 9)), true);
+    res.handB = W(add(aB[2], dirv(o.armB ? o.armB[1] : 0, 9)), true);
+    res.kneeF = W(lF[1], false); res.headTop = W([0, -298], true); res.face = W([20, -262], true);
+    ctx.save(); ctx.translate(o.x, o.y); ctx.scale(o.dir * s, s);
+    function legDraw(L, fa) {
+      var ft = add(L[2], dirv(fa == null ? 90 : fa, 17));
+      tubes(ctx, [{ p: [L[0], L[1]], w: 19 }, { p: [L[1], L[2]], w: 13 }, { p: [L[2], ft], w: 8 }], lw);
+      if (!o.sit) line(ctx, [add(L[1], [-3, -4]), add(L[1], [3, -2])], lw * 0.6, DIL);
+    }
+    function armDraw(A, mode, up) {
+      ctx.save(); if (up) { ctx.translate(0, -150); ctx.rotate(lean); ctx.translate(0, 150); }
+      tubes(ctx, [{ p: [A[0], A[1]], w: 13 }, { p: [A[1], A[2]], w: 10 }], lw);
+      var a = Math.atan2(A[2][0] - A[1][0], A[2][1] - A[1][1]) * 180 / Math.PI;
+      hand(ctx, A[2], a, mode || 'grip', lw);
+      ctx.restore();
+    }
+    armDraw(aB, o.handB, true);
+    legDraw(lB, o.footB); legDraw(lF, o.footF);
+    // garment
+    ctx.save(); ctx.translate(0, -150); ctx.rotate(lean); ctx.translate(0, 150);
+    var g = o.garment || 'chiton';
+    if (g !== 'none') {
+      var hem = o.sit ? -138 : (g === 'chiton' ? -76 : -10);
+      var flare = o.sit ? 2 : (g === 'chiton' ? 8 : 16);
+      var tp = [[-18, -242], [19, -242], [21, -200], [19, -165], [22 + flare, hem], [-22 - flare, hem], [-22, -170], [-21, -205]];
+      poly(ctx, tp, CL, lw);
+      var r = rng(o.seed || 3);
+      for (var i = 0; i < 6; i++) {
+        var x0 = -14 + i * 6 + r() * 2;
+        curve(ctx, [x0, -226], [x0 + 2 + r() * 2, (-226 + hem) / 2], [x0 * (1 + flare / 30) + r() * 3, hem - 2], lw * (i % 2 ? 0.45 : 0.6), i % 2 ? DIL : LN);
+      }
+      if (g === 'peplos') { line(ctx, [[-23, -186], [22, -186]], lw * 0.8); for (var d = -36; d < 38; d += 8) disc(ctx, d, hem - 6, 1.6, LN); line(ctx, [[-36, hem - 11], [38, hem - 11]], lw * 0.5); }
+      if (g === 'himation') {
+        poly(ctx, [[-19, -240], [-6, -244], [24, -165], [30, -60], [12, -40], [-4, -150]], CL, lw);
+        for (var h2 = 0; h2 < 4; h2++) curve(ctx, [-12 + h2 * 4, -232], [8 + h2 * 4, -170], [12 + h2 * 5, -60], lw * 0.5, h2 % 2 ? DIL : LN);
+      }
+      if (g === 'chiton') line(ctx, [[-21, -172], [20, -172]], lw * 0.7);
+    } else {
+      poly(ctx, [[-18, -242], [19, -242], [20, -195], [16, -150], [-18, -150], [-21, -200]], CL, lw);
+      curve(ctx, [2, -228], [12, -224], [16, -214], lw * 0.5, DIL);
+    }
+    if (o.sit && g !== 'none') {
+      var k = lF[1], long = g !== 'chiton';
+      poly(ctx, [[-22, -160], [k[0] - 6, k[1] - 12], [k[0] + 9, k[1] - 3], [k[0] + 8, k[1] + (long ? 58 : 24)], [k[0] - 14, k[1] + (long ? 62 : 28)], [k[0] - 12, k[1] + 6], [-22, -134]], CL, lw);
+      for (var f = 0; f < 3; f++) curve(ctx, [-12, -150 + f * 6], [k[0] * 0.5, k[1] - 4 + f * 5], [k[0] - 2 - f * 4, k[1] + 10 + f * 8], lw * 0.5, f % 2 ? DIL : LN);
+    }
+    // head
+    ctx.save(); ctx.translate(0, -242); ctx.rotate(tilt); ctx.translate(0, 242);
+    head(ctx, o, lw);
+    ctx.restore();
+    ctx.restore();
+    armDraw(aF, o.handF, true);
+    ctx.restore();
+    return res;
+  }
+
+  // ---------- props ----------
+  function moon(ctx, x, y, r) {
+    disc(ctx, x, y, r + 3, CL);
+    disc(ctx, x, y, r, WH, 2.4, LN);
+    ctx.save(); ctx.globalAlpha = 0.28;
+    disc(ctx, x - r * 0.3, y - r * 0.2, r * 0.22, DIL); disc(ctx, x + r * 0.25, y + r * 0.3, r * 0.16, DIL); disc(ctx, x + r * 0.35, y - r * 0.35, r * 0.1, DIL);
+    ctx.restore();
+  }
+  function star(ctx, x, y, r) {
+    ctx.fillStyle = WH; ctx.beginPath();
+    for (var i = 0; i < 8; i++) { var a = i * Math.PI / 4, rr = i % 2 ? r * 0.35 : r; ctx.lineTo(x + Math.cos(a) * rr, y + Math.sin(a) * rr); }
+    ctx.closePath(); ctx.fill();
+  }
+  function stars(ctx, seed, n, box) {
+    var r = rng(seed);
+    for (var i = 0; i < n; i++) star(ctx, box[0] + r() * (box[2] - box[0]), box[1] + r() * (box[3] - box[1]), 3 + r() * 3);
+  }
+  function sun(ctx, x, y, r) {
+    for (var i = 0; i < 16; i++) { var a = i * Math.PI / 8; line(ctx, [[x + Math.cos(a) * (r + 6), y + Math.sin(a) * (r + 6)], [x + Math.cos(a) * (r + (i % 2 ? 18 : 30)), y + Math.sin(a) * (r + (i % 2 ? 18 : 30))]], i % 2 ? 4 : 6, CL); }
+    disc(ctx, x, y, r, CL, 3, LN); disc(ctx, x, y, r * 0.72, null, 1.4, DIL);
+  }
+  // round crest-case (lophion): cylinder box
+  function box(ctx, x, y, w, h, open, lid) {
+    var rx = w / 2, ry = w * 0.16;
+    poly(ctx, [[x - rx, y], [x - rx, y + h], [x + rx, y + h], [x + rx, y]], CL, 2.4);
+    ctx.beginPath(); ctx.ellipse(x, y + h, rx, ry, 0, 0, Math.PI); ctx.fillStyle = CL; ctx.fill(); ctx.strokeStyle = LN; ctx.lineWidth = 2.4; ctx.stroke();
+    ctx.fillStyle = CL; ctx.fillRect(x - rx + 1.2, y + h - 2, w - 2.4, 4);
+    line(ctx, [[x - rx, y + h * 0.3], [x + rx, y + h * 0.3]], 1.6); line(ctx, [[x - rx, y + h * 0.7], [x + rx, y + h * 0.7]], 1.6);
+    for (var i = -rx + 10; i < rx - 4; i += 14) { line(ctx, [[x + i, y + h * 0.35], [x + i + 7, y + h * 0.5], [x + i, y + h * 0.65]], 1.4, DIL); }
+    ctx.beginPath(); ctx.ellipse(x, y, rx, ry, 0, 0, Math.PI * 2); ctx.fillStyle = open ? BK : CL; ctx.fill(); ctx.strokeStyle = LN; ctx.lineWidth = 2.4; ctx.stroke();
+    if (open) { ctx.beginPath(); ctx.ellipse(x, y, rx - 5, ry - 3, 0, 0, Math.PI * 2); ctx.strokeStyle = CL; ctx.lineWidth = 1.2; ctx.stroke(); }
+    if (lid) { // lid lying elsewhere: lid = [lx, ly, rotation]
+      ctx.save(); ctx.translate(lid[0], lid[1]); ctx.rotate(lid[2]);
+      ctx.beginPath(); ctx.ellipse(0, 0, rx + 3, ry + 2, 0, 0, Math.PI * 2); ctx.fillStyle = CL; ctx.fill(); ctx.strokeStyle = LN; ctx.lineWidth = 2.4; ctx.stroke();
+      ctx.beginPath(); ctx.ellipse(0, 0, rx * 0.6, ry * 0.6, 0, 0, Math.PI * 2); ctx.strokeStyle = DIL; ctx.lineWidth = 1.4; ctx.stroke();
+      disc(ctx, 0, -3, 5, CL, 2, LN);
+      ctx.restore();
+    }
+  }
+  // wax tablet: frame + wax inset; melt in 0..1
+  function tablet(ctx, x, y, w, h, rot, melt, seed) {
+    ctx.save(); ctx.translate(x, y); ctx.rotate(rot || 0);
+    poly(ctx, [[-w / 2, -h / 2], [w / 2, -h / 2], [w / 2, h / 2], [-w / 2, h / 2]], CL, 2.4);
+    var m = w * 0.1, r = rng(seed || 11);
+    if (!melt) {
+      poly(ctx, [[-w / 2 + m, -h / 2 + m], [w / 2 - m, -h / 2 + m], [w / 2 - m, h / 2 - m], [-w / 2 + m, h / 2 - m]], WAX, 1.4);
+      for (var row = 0; row < 5; row++) {
+        var yy = -h / 2 + m + (row + 0.8) * (h - 2 * m) / 6, xx = -w / 2 + m + 6;
+        ctx.beginPath(); ctx.moveTo(xx, yy);
+        while (xx < w / 2 - m - 8) { xx += 3 + r() * 4; ctx.lineTo(xx, yy + (r() - 0.5) * 6); }
+        ctx.strokeStyle = WAXL; ctx.lineWidth = 1.6; ctx.stroke();
+      }
+    } else {
+      // wax slumped to the lower edge, running over the frame
+      var top = -h / 2 + m + (h - 2 * m) * 0.45 * melt;
+      poly(ctx, [[-w / 2 + m, -h / 2 + m], [w / 2 - m, -h / 2 + m], [w / 2 - m, h / 2 - m], [-w / 2 + m, h / 2 - m]], '#8b4a28', 1.2);
+      ctx.beginPath(); ctx.moveTo(-w / 2 + m, h / 2 - m);
+      ctx.lineTo(-w / 2 + m, top + 10);
+      for (var i = 0; i <= 8; i++) { var X = -w / 2 + m + i * (w - 2 * m) / 8; ctx.lineTo(X, top + Math.sin(i * 1.7) * 6 + 4); }
+      ctx.lineTo(w / 2 - m, h / 2 - m); ctx.closePath(); ctx.fillStyle = WAX; ctx.fill();
+      var drips = [[-0.3, 0.9], [-0.05, 1.4], [0.22, 0.7], [0.36, 1.2]];
+      drips.forEach(function (d) {
+        var X = d[0] * w, L = d[1] * h * 0.42 * melt;
+        ctx.beginPath(); ctx.moveTo(X - 6, h / 2 - m); ctx.lineTo(X - 4, h / 2 + L - 6);
+        ctx.quadraticCurveTo(X, h / 2 + L + 6, X + 4, h / 2 + L - 6); ctx.lineTo(X + 6, h / 2 - m); ctx.closePath();
+        ctx.fillStyle = WAX; ctx.fill(); ctx.strokeStyle = LN; ctx.lineWidth = 1.2; ctx.stroke();
+      });
+      for (var k = 0; k < 3; k++) curve(ctx, [-w / 2 + m + 10, top + 16 + k * 12], [0, top + 22 + k * 12 + r() * 6], [w / 2 - m - 10, top + 14 + k * 12], 1.3, WAXL);
+    }
+    line(ctx, [[-w / 2 - 3, -h * 0.18], [-w / 2 - 3, h * 0.18]], 3);
+    ctx.restore();
+  }
+  function stone(ctx, x, y, r) {
+    ctx.beginPath(); ctx.ellipse(x, y, r, r * 0.8, 0.3, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(239,229,207,0.25)'; ctx.fill(); ctx.strokeStyle = WH; ctx.lineWidth = 2.2; ctx.stroke();
+    ctx.beginPath(); ctx.ellipse(x - r * 0.3, y - r * 0.25, r * 0.28, r * 0.14, 0.3, 0, Math.PI * 2); ctx.fillStyle = WH; ctx.fill();
+  }
+  function staff(ctx, top, bot) { line(ctx, [top, bot], 9, LN); line(ctx, [top, bot], 4.5, CL); }
+  function column(ctx, x, y0, y1, w) {
+    poly(ctx, [[x - w / 2, y0 + 30], [x + w / 2, y0 + 30], [x + w / 2 + 4, y1], [x - w / 2 - 4, y1]], CL, 2.4);
+    poly(ctx, [[x - w / 2 - 14, y0], [x + w / 2 + 14, y0], [x + w / 2 + 14, y0 + 14], [x - w / 2 - 14, y0 + 14]], CL, 2.4);
+    poly(ctx, [[x - w / 2 - 6, y0 + 14], [x + w / 2 + 6, y0 + 14], [x + w / 2, y0 + 30], [x - w / 2, y0 + 30]], CL, 2.4);
+    for (var i = 1; i < 5; i++) line(ctx, [[x - w / 2 + i * w / 5, y0 + 34], [x - w / 2 - 2 + i * (w + 4) / 5, y1 - 4]], 1.2, DIL);
+  }
+  function stool(ctx, x, y, w, h) {
+    poly(ctx, [[x - w / 2, y], [x + w / 2, y], [x + w / 2, y + 10], [x - w / 2, y + 10]], CL, 2.2);
+    [[-w / 2 + 6, 1], [w / 2 - 6, -1]].forEach(function (l) {
+      poly(ctx, [[x + l[0] - 5, y + 10], [x + l[0] + 5, y + 10], [x + l[0] + 3 + l[1] * 6, y + h], [x + l[0] - 3 + l[1] * 6, y + h]], CL, 2.2);
+    });
+    line(ctx, [[x - w / 2 + 8, y + h * 0.6], [x + w / 2 - 8, y + h * 0.6]], 4, LN);
+  }
+
+  // ---------- keyframe drawings ----------
+  function draw1(ctx, w, h) {
+    ctx.save(); ctx.scale(w / 1280, h / 720); ground(ctx);
+    // window with the Moon
+    poly(ctx, [[930, 120], [1170, 120], [1170, 360], [930, 360]], CL, 2.6);
+    poly(ctx, [[948, 138], [1152, 138], [1152, 342], [948, 342]], BK, 2);
+    stars(ctx, 41, 6, [960, 150, 1140, 330]);
+    moon(ctx, 1072, 220, 44);
+    line(ctx, [[1050, 138], [1050, 342]], 7, CL); line(ctx, [[1050, 138], [1050, 342]], 1.4, LN);
+    // lampstand with flame
+    line(ctx, [[880, 380], [880, 648]], 8, LN); line(ctx, [[880, 380], [880, 648]], 4, CL);
+    poly(ctx, [[856, 648], [904, 648], [880, 620]], CL, 2);
+    poly(ctx, [[860, 380], [904, 380], [912, 370], [852, 370]], CL, 2);
+    ctx.beginPath(); ctx.moveTo(908, 368); ctx.quadraticCurveTo(924, 350, 914, 330); ctx.quadraticCurveTo(904, 350, 908, 368); ctx.fillStyle = WH; ctx.fill();
+    ctx.beginPath(); ctx.moveTo(909, 366); ctx.quadraticCurveTo(917, 356, 913, 344); ctx.quadraticCurveTo(907, 356, 909, 366); ctx.fillStyle = RED; ctx.fill();
+    // son asleep on a low pallet, far left
+    poly(ctx, [[40, 560], [330, 560], [330, 590], [40, 590]], CL, 2.4);
+    [60, 310].forEach(function (x) { poly(ctx, [[x - 8, 590], [x + 8, 590], [x + 5, 648], [x - 5, 648]], CL, 2.2); });
+    ctx.beginPath(); ctx.moveTo(110, 560); ctx.bezierCurveTo(150, 500, 280, 505, 325, 545); ctx.lineTo(325, 560); ctx.closePath();
+    ctx.fillStyle = CL; ctx.fill(); ctx.strokeStyle = LN; ctx.lineWidth = 2.4; ctx.stroke();
+    for (var i = 0; i < 5; i++) curve(ctx, [130 + i * 38, 548], [150 + i * 38, 520], [175 + i * 36, 515 + i * 3], 1.2, i % 2 ? DIL : LN);
+    ctx.save(); ctx.translate(92, 548); ctx.rotate(-1.35); ctx.scale(0.95, 0.95); ctx.translate(0, 260);
+    head(ctx, { hair: 'young', mouth: 'sleep' }, 2.4); ctx.restore();
+    // couch (kline)
+    poly(ctx, [[400, 470], [860, 470], [860, 500], [400, 500]], CL, 2.6);
+    [[420, 1], [835, -1]].forEach(function (l) {
+      poly(ctx, [[l[0] - 10, 500], [l[0] + 10, 500], [l[0] + 6, 560], [l[0] + 12, 580], [l[0] + 6, 648], [l[0] - 6, 648], [l[0] - 12, 580], [l[0] - 6, 560]], CL, 2.4);
+      line(ctx, [[l[0] - 11, 580], [l[0] + 11, 580]], 1.4, DIL);
+    });
+    ctx.beginPath(); ctx.moveTo(400, 470); ctx.quadraticCurveTo(380, 420, 404, 392); ctx.quadraticCurveTo(424, 410, 430, 470); ctx.closePath(); ctx.fillStyle = CL; ctx.fill(); ctx.strokeStyle = LN; ctx.lineWidth = 2.4; ctx.stroke();
+    ctx.beginPath(); ctx.ellipse(445, 448, 34, 22, -0.5, 0, Math.PI * 2); ctx.fillStyle = CL; ctx.fill(); ctx.stroke();
+    line(ctx, [[422, 440], [468, 456]], 1.2, DIL);
+    // Strepsiades propped up, counting on his fingers
+    var S = fig(ctx, { x: 488, y: 470 + 150 * 1.5, s: 1.5, dir: 1, sit: true, lean: -0.32, tilt: -0.28,
+      garment: 'chiton', hair: 'bald', beard: 'white', nose: 6, mouth: 'open', brow: 3, seed: 5,
+      legF: [90, 92], legB: [88, 92], armB: [-40, 30], handB: 'grip', armF: [40, 150], handF: 'count' });
+    // blanket over legs
+    ctx.beginPath(); ctx.moveTo(520, 472); ctx.bezierCurveTo(560, 400, 700, 410, 790, 440); ctx.quadraticCurveTo(820, 455, 822, 486);
+    ctx.lineTo(826, 520); ctx.lineTo(530, 520); ctx.closePath(); ctx.fillStyle = CL; ctx.fill(); ctx.strokeStyle = LN; ctx.lineWidth = 2.4; ctx.stroke();
+    for (var b = 0; b < 6; b++) curve(ctx, [560 + b * 42, 515], [580 + b * 40, 470], [600 + b * 38, 430 + b * 3], 1.3, b % 2 ? DIL : LN);
+    line(ctx, [[540, 508], [820, 508]], 1.4, LN);
+    for (var d = 548; d < 816; d += 14) disc(ctx, d, 514, 1.8, LN);
+    // tablets on a stool by the couch
+    stool(ctx, 760, 560, 90, 88);
+    tablet(ctx, 748, 545, 70, 44, -0.08, 0, 3);
+    line(ctx, [[792, 540], [826, 520]], 3, LN);
+    ctx.restore();
+  }
+
+  function draw2(ctx, w, h) {
+    ctx.save(); ctx.scale(w / 1280, h / 720); ground(ctx);
+    stars(ctx, 77, 16, [40, 80, 1240, 300]);
+    // house corner at right edge, roof tiles
+    poly(ctx, [[1150, 300], [1280, 300], [1280, 648], [1150, 648]], CL, 2.6);
+    poly(ctx, [[1130, 300], [1280, 260], [1280, 300]], CL, 2.6);
+    for (var t = 1150; t < 1280; t += 18) line(ctx, [[t, 300], [t + 4, 296 - (t - 1130) * 0.27]], 1.2, DIL);
+    poly(ctx, [[1185, 420], [1250, 420], [1250, 648], [1185, 648]], BK, 2.4);
+    // the Thessalian woman, arms raised, palms toward the Moon
+    var Wt = fig(ctx, { x: 330, y: 648, s: 1.62, dir: 1, garment: 'peplos', fem: true, hair: 'sakkos', mouth: 'open', brow: 1, seed: 9,
+      lean: -0.08, tilt: -0.35, armF: [150, 158], handF: 'open', armB: [128, 150], handB: 'open', legF: [6, 2], legB: [-4, -2] });
+    // the Moon coming down
+    // Strepsiades holding up the open crest-case
+    var S = fig(ctx, { x: 905, y: 648, s: 1.55, dir: -1, garment: 'chiton', hair: 'bald', beard: 'white', nose: 6, mouth: 'grin', brow: 3, seed: 4,
+      lean: 0.22, tilt: -0.25, armF: [120, 145], handF: 'grip', armB: [100, 130], handB: 'grip', legF: [22, -6], legB: [-20, -10] });
+    var bx = (S.handF[0] + S.handB[0]) / 2, by = (S.handF[1] + S.handB[1]) / 2;
+    ctx.save(); ctx.globalAlpha = 0.5; for (var k2 = 0; k2 < 4; k2++) { ctx.beginPath(); ctx.arc(bx, by - 150 - k2 * 12, 40, Math.PI * 0.15, Math.PI * 0.85, true); ctx.strokeStyle = WH; ctx.lineWidth = 1.2; ctx.stroke(); } ctx.restore();
+    moon(ctx, bx, by - 62, 44);
+    box(ctx, bx, by - 6, 120, 70, true);
+    // redraw his gripping front hand over the box rim
+    fig(ctx, { x: 905, y: 648, s: 1.55, dir: -1, garment: 'chiton', hair: 'bald', beard: 'white', nose: 6, mouth: 'grin', brow: 3, seed: 4,
+      lean: 0.22, tilt: -0.25, armF: [120, 145], handF: 'grip', armB: [100, 130], handB: 'grip', legF: [22, -6], legB: [-20, -10] });
+    box(ctx, bx, by - 6, 120, 70, true);
+    ctx.restore();
+  }
+
+  function draw3(ctx, w, h) {
+    ctx.save(); ctx.scale(w / 1280, h / 720); ground(ctx);
+    sun(ctx, 150, 150, 48);
+    // clerk seated on a stool writing the suit
+    stool(ctx, 990, 520, 110, 128);
+    var C = fig(ctx, { x: 1000, y: 520 + 150 * 1.5 - 14, s: 1.5, dir: -1, sit: true, garment: 'himation', hair: 'young', mouth: null, seed: 8,
+      lean: 0.12, tilt: 0.25, legF: [88, 4], legB: [84, 0], footF: 90, footB: 90,
+      armB: [40, 92], handB: 'grip', armF: [30, 120], handF: 'grip' });
+    var tx = C.kneeF[0] + 8, ty = C.kneeF[1] - 44;
+    tablet(ctx, tx, ty, 120, 76, 0.22, 0, 21);
+    line(ctx, [[tx + 30, ty - 30], [tx - 2, ty + 4]], 4, LN); line(ctx, [[tx + 30, ty - 30], [tx - 2, ty + 4]], 1.6, CL);
+    // Strepsiades, sly, holding the transparent stone toward the sun line
+    var S = fig(ctx, { x: 360, y: 648, s: 1.58, dir: 1, garment: 'chiton', hair: 'bald', beard: 'white', nose: 6, mouth: 'grin', brow: 2, seed: 6,
+      lean: 0.1, tilt: 0.1, armF: [112, 104], handF: 'grip', armB: [30, 150], handB: 'point', legF: [18, -2], legB: [-14, -6], footB: 100 });
+    var st = [S.handF[0] + 10, S.handF[1] - 12];
+    // light: broad from the sun into the stone, narrow from the stone onto the wax
+    ctx.save();
+    ctx.beginPath(); ctx.moveTo(150 + 30, 150 - 30); ctx.lineTo(st[0] + 10, st[1] - 14); ctx.lineTo(st[0] - 10, st[1] + 14); ctx.lineTo(150 - 10, 150 + 44); ctx.closePath();
+    ctx.fillStyle = 'rgba(239,229,207,0.10)'; ctx.fill();
+    ctx.beginPath(); ctx.moveTo(st[0] + 6, st[1] - 10); ctx.lineTo(tx - 10, ty - 6); ctx.lineTo(st[0] + 6, st[1] + 10); ctx.closePath();
+    ctx.fillStyle = 'rgba(239,229,207,0.32)'; ctx.fill();
+    ctx.restore();
+    stone(ctx, st[0], st[1], 15);
+    disc(ctx, tx - 10, ty - 6, 6, WH);
+    ctx.beginPath(); ctx.ellipse(tx - 10, ty + 2, 8, 4, 0, 0, Math.PI * 2); ctx.fillStyle = WAX; ctx.fill();
+    ctx.restore();
+  }
+
+  function draw4(ctx, w, h) {
+    ctx.save(); ctx.scale(w / 1280, h / 720); ground(ctx);
+    // Strepsiades holds up the blank, dripping tablet
+    var S = fig(ctx, { x: 340, y: 648, s: 1.58, dir: 1, garment: 'chiton', hair: 'bald', beard: 'white', nose: 6, mouth: 'grin', brow: 4, seed: 6,
+      lean: -0.06, tilt: -0.12, armF: [135, 165], handF: 'grip', armB: [-50, 40], handB: 'fist', legF: [14, 0], legB: [-12, -4] });
+    tablet(ctx, S.handF[0] + 14, S.handF[1] - 32, 116, 76, 0.06, 1, 4);
+    fig(ctx, { x: 340, y: 648, s: 1.58, dir: 1, garment: 'chiton', hair: 'bald', beard: 'white', nose: 6, mouth: 'grin', brow: 4, seed: 6,
+      lean: -0.06, tilt: -0.12, armF: [135, 165], handF: 'grip', armB: [-50, 40], handB: 'fist', legF: [14, 0], legB: [-12, -4] });
+    // wax drops on the ground
+    [[402, 640], [420, 646], [388, 644]].forEach(function (p) { ctx.beginPath(); ctx.ellipse(p[0], p[1], 9, 3.5, 0, 0, Math.PI * 2); ctx.fillStyle = WAX; ctx.fill(); ctx.strokeStyle = LN; ctx.lineWidth = 1.2; ctx.stroke(); });
+    // second witness: taps his head (he remembers)
+    fig(ctx, { x: 1150, y: 648, s: 1.48, dir: -1, garment: 'chiton', hair: 'young', mouth: 'grin', seed: 13,
+      tilt: 0.05, armF: [150, 20], handF: 'point', armB: [-6, 6], handB: 'grip', legF: [6, 0], legB: [-6, -2] });
+    // first witness: hand raised, swearing
+    fig(ctx, { x: 990, y: 648, s: 1.52, dir: -1, garment: 'himation', hair: 'young', beard: 'black', mouth: null, brow: 1, seed: 12,
+      lean: 0.03, armF: [140, 172], handF: 'open', armB: [10, 70], handB: 'grip', legF: [10, 0], legB: [-8, -2] });
+    // creditor with his staff, pointing
+    var P = fig(ctx, { x: 790, y: 648, s: 1.6, dir: -1, garment: 'himation', hair: 'young', beard: 'black', nose: 2, mouth: 'open', brow: 3, seed: 10,
+      lean: 0.12, tilt: 0, armF: [100, 96], handF: 'point', armB: [40, 150], handB: 'grip', legF: [20, 0], legB: [-16, -6] });
+    staff(ctx, [P.handB[0] - 6, P.handB[1] - 120], [P.handB[0] + 24, 648]);
+    fig(ctx, { x: 790, y: 648, s: 1.6, dir: -1, garment: 'himation', hair: 'young', beard: 'black', nose: 2, mouth: 'open', brow: 3, seed: 10,
+      lean: 0.12, tilt: 0, armF: [100, 96], handF: 'point', armB: [40, 150], handB: 'grip', legF: [20, 0], legB: [-16, -6] });
+    ctx.restore();
+  }
+
+  function draw5(ctx, w, h) {
+    ctx.save(); ctx.scale(w / 1280, h / 720); ground(ctx);
+    stars(ctx, 19, 12, [40, 80, 1240, 260]);
+    // the Moon rising over the hill line, regardless
+    moon(ctx, 1150, 408, 64);
+    ctx.beginPath(); ctx.moveTo(760, 648); ctx.bezierCurveTo(860, 450, 1000, 430, 1100, 452); ctx.bezierCurveTo(1180, 468, 1240, 440, 1280, 430); ctx.lineTo(1280, 648); ctx.closePath();
+    ctx.fillStyle = BK; ctx.fill();
+    ctx.strokeStyle = CL; ctx.lineWidth = 3; ctx.stroke();
+    // house at left with doorway
+    poly(ctx, [[40, 300], [320, 300], [320, 648], [40, 648]], CL, 2.6);
+    poly(ctx, [[20, 300], [180, 236], [340, 300]], CL, 2.6);
+    for (var t = 40; t < 320; t += 22) line(ctx, [[t, 300], [t + (180 - t) * 0.08, 290 - Math.abs(180 - t) * 0.0]], 1.2, DIL);
+    poly(ctx, [[130, 410], [230, 410], [230, 648], [130, 648]], BK, 2.4);
+    // empty box, lid fallen off
+    box(ctx, 610, 560, 110, 70, true, [700, 640, 0.08]);
+    // Strepsiades kneeling at the empty box, looking up at the Moon
+    fig(ctx, { x: 470, y: 648 - 4 + 78 * 1.5 - 150 * 1.5 + 150 * 1.5, s: 1.5, dir: 1, sit: true, garment: 'chiton', hair: 'bald', beard: 'white', nose: 6, mouth: 'open', brow: 5, seed: 6,
+      lean: 0.18, tilt: -0.5, legF: [20, -88], legB: [16, -92], footF: -95, footB: -95, armF: [96, 120], handF: 'open', armB: [80, 110], handB: 'open' });
+    // witness pointing at the Moon
+    fig(ctx, { x: 1010, y: 648, s: 1.42, dir: 1, garment: 'chiton', hair: 'young', mouth: 'open', seed: 13,
+      tilt: -0.3, armF: [150, 158], handF: 'point', armB: [-10, 0], handB: 'grip', legF: [8, 0], legB: [-8, -2] });
+    // creditor, palm out for payment
+    var P = fig(ctx, { x: 830, y: 648, s: 1.6, dir: -1, garment: 'himation', hair: 'young', beard: 'black', nose: 2, mouth: 'grin', brow: 1, seed: 10,
+      lean: 0.06, armF: [80, 92], handF: 'open', armB: [30, 150], handB: 'grip', legF: [10, 0], legB: [-10, -4] });
+    staff(ctx, [P.handB[0] - 6, P.handB[1] - 120], [P.handB[0] + 22, 648]);
+    fig(ctx, { x: 830, y: 648, s: 1.6, dir: -1, garment: 'himation', hair: 'young', beard: 'black', nose: 2, mouth: 'grin', brow: 1, seed: 10,
+      lean: 0.06, armF: [80, 92], handF: 'open', armB: [30, 150], handB: 'grip', legF: [10, 0], legB: [-10, -4] });
+    ctx.restore();
+  }
+
+  // ---------- references (opened and checked 2026-10-28) ----------
+  var R = {
+    hickie: { kind: 'source text', title: 'The Clouds, trans. William James Hickie (1853), Project Gutenberg eBook #2562', creator: 'Aristophanes; trans. W. J. Hickie', date: '423 BCE (surviving revised text c. 419-416 BCE); trans. 1853', url: 'https://www.gutenberg.org/cache/epub/2562/pg2562-images.html', rights: 'public domain', verified: true },
+    lex749: { kind: 'source text', title: 'Clouds 749-751, Greek lemmas (Perseus vocabulary tool): σελήνη, καθαιρέω, νύκτωρ, καθείργνυμι, στρογγύλος, λοφεῖον', creator: 'Perseus Digital Library', date: 'Greek text ed. Hall & Geldart', url: 'https://vocab.perseus.org/word-list/urn:cts:greekLit:tlg0019.tlg003.perseus-grc2:749-751/?o=1', rights: 'CC BY-SA (Perseus text) — not checked per item', verified: true },
+    lex752: { kind: 'source text', title: 'Clouds 752-758, Greek lemmas: Θεσσαλός, γυνή, κάτοπτρον, ἀνατέλλω, δανείζω, ἀποδίδωμι', creator: 'Perseus Digital Library', date: 'Greek text ed. Hall & Geldart', url: 'https://vocab.perseus.org/word-list/urn:cts:greekLit:tlg0019.tlg003.perseus-grc2:752-758/?o=1', rights: 'CC BY-SA (Perseus text) — not checked per item', verified: true },
+    lex766: { kind: 'source text', title: 'Clouds 766-769, Greek lemmas: λίθος, φαρμακοπώλης, διαφανής', creator: 'Perseus Digital Library', date: 'Greek text ed. Hall & Geldart', url: 'https://vocab.perseus.org/word-list/urn:cts:greekLit:tlg0019.tlg003.perseus-grc2:766-769/?o=1', rights: 'CC BY-SA (Perseus text) — not checked per item', verified: true },
+    lex772: { kind: 'source text', title: 'Clouds 772, Greek lemmas: ἐκτήκω (melt out), γράμμα (letters), δίκη (suit), γραμματεύς in 770-772', creator: 'Perseus Digital Library', date: 'Greek text ed. Hall & Geldart', url: 'https://vocab.perseus.org/word-list/urn:cts:greekLit:tlg0019.tlg003.perseus-grc2:772/', rights: 'CC BY-SA (Perseus text) — not checked per item', verified: true },
+    tischbein: { kind: 'still image', title: 'Two women ... prepare to fight before the image of Diana Taurica (Hamilton vase plate; read by D. E. Hill 1973 as "drawing down the moon")', creator: 'J. H. W. Tischbein (publ.), collection of Sir William Hamilton', date: '1791', url: 'https://digitalcollections.nypl.org/items/c38b0eac-8e3a-e918-e040-e00a1806610c', rights: 'public domain', verified: true },
+    aglaonice: { kind: 'source text', title: 'Aglaonice (Wikipedia): Thessalian women said to draw down the Moon; eclipse-timing tradition', creator: 'Wikipedia contributors', date: 'accessed 2026-10-28', url: 'https://en.wikipedia.org/wiki/Aglaonice', rights: 'CC BY-SA 4.0', verified: true },
+    metTablets: { kind: 'museum object', title: 'Wooden Writing Tablets (wood and wax), acc. 14.2.4a–d', creator: 'Coptic, The Metropolitan Museum of Art', date: '500–700 CE', url: 'https://www.metmuseum.org/art/collection/search/473393', rights: 'public domain', verified: true },
+    metStylus: { kind: 'museum object', title: 'Bronze stylus, acc. 74.51.5495', creator: 'Cypriot, The Metropolitan Museum of Art', date: '4th–1st century BCE', url: 'https://www.metmuseum.org/art/collection/search/244374', rights: 'public domain', verified: true },
+    douris: { kind: 'museum object', title: 'Douris school cup, Berlin F2285 (BAPD 205092): writing tablet held and hung on the wall', creator: 'Douris (painter)', date: 'c. 500–450 BCE', url: 'https://www.hellenicaworld.com/Greece/LX/en/BerlinF2285.html', rights: 'unknown — not granted', verified: true },
+    blTablets: { kind: 'museum object', title: 'Keep taking the (wax) tablets: Add MS 34186, a Greek writing exercise in wax from Egypt', creator: 'British Library', date: '2nd century CE', url: 'https://www.bl.uk/stories/blogs/posts/keep-taking-the-wax-tablets', rights: 'unknown — not granted', verified: true },
+    nimrud: { kind: 'museum object', title: 'The Nimrud Lens (Layard Lens), rock crystal, BM 90959', creator: 'Neo-Assyrian; British Museum', date: '750–710 BCE', url: 'https://www.britishmuseum.org/collection/object/W_-90959', rights: 'unknown — not granted', verified: true },
+    pliny: { kind: 'source text', title: 'Pliny, Natural History 37.10: a crystal ball in the sun\'s rays as the best cautery', creator: 'Pliny the Elder; trans. Bostock & Riley', date: 'c. 77 CE; trans. 1855', url: 'http://data.perseus.org/citations/urn:cts:latinLit:phi0978.phi001.perseus-eng1:37.10', rights: 'public domain', verified: true },
+    hamm1: { kind: 'archive footage', title: 'Classic Television Commercials (Part I), shot 29: Hamm\'s, full moon over a lake (01:37:14:27)', creator: 'Various; Prelinger Archives', date: '1948–1969', url: 'https://archive.org/details/ClassicT1948', rights: 'public domain', verified: true },
+    hamm2: { kind: 'archive footage', title: 'Classic Television Commercials (Part II), Hamm\'s full-moon lake setting (01:37:14:27)', creator: 'Various; Prelinger Archives', date: '1948–1969', url: 'https://archive.org/details/ClassicT1948_2', rights: 'public domain', verified: true },
+    esoSet: { kind: 'archive footage', title: 'The crescent Moon setting over Paranal (19 s time-lapse; Wikimedia Commons file, mirror page)', creator: 'ESO / B. Tafreshi (TWAN)', date: '2011-10-27', url: 'https://download.osmand.net/wiki/File:The_crescent_Moon_setting_over_Paranal.ogv', rights: 'CC BY 4.0', verified: true },
+    esoRise: { kind: 'still image', title: 'A full moon rises (Picture of the Week potw2402a)', creator: 'P. Horálek / ESO', date: '2024-01-08', url: 'https://www.eso.org/public/images/potw2402a/', rights: 'unknown — not granted', verified: true },
+    calvin: { kind: 'archive footage', title: 'Calvin 0335 (Hesston "The Major Decision" outtakes), tagged "full moon views", "sunset views"', creator: 'Calvin Productions; Prelinger Archives', date: '1968', url: 'https://archive.org/details/200682_Calvin_0335', rights: 'unknown — not granted', verified: true },
+    lens: { kind: 'archive footage', title: 'Prove It With A Magnifying Glass', creator: 'Film Associates of California; Prelinger Archives', date: '1959', url: 'https://archive.org/details/0434_Prove_it_With_A_Magnifying_Glass_01_13_22_20', rights: 'unknown — not granted', verified: true },
+    helen: { kind: 'archive footage', title: 'Premiere of Euripides\' "Helen" at the ancient theatre of Epidaurus (Greek newsreel)', creator: 'Hellenic National Audiovisual Archive (ERT), via Europeana', date: '1962', url: 'https://www.europeana.eu/item/2051943/data_euscreenXL_EUS_5C85A2AC4FB3476594A3528EEABEF61E', rights: 'InC-EDU 1.0 — unknown — not granted for film use', verified: true }
+  };
+  function ref(k, use) { var r = R[k], o = {}; for (var p in r) o[p] = r[p]; o.use = use; return o; }
+
+  window.AFTERLIGHT_FILMS.push({
+    id: 'F7',
+    n: 7,
+    title: 'The Man Who Stole the Month',
+    role: 'Comedy, calendars, and power',
+    understand: 'Changing a representation does not necessarily change the institution acting through it. The record melts; the obligation survives.',
+    medium: 'Attic red-figure vase painting (terracotta figures reserved on black gloss, relief lines, added white for Moon and old man\'s hair, meander bands): the visual language of the Athens that laughed at the Clouds, and a figure style already made for comic gesture.',
+    archivePlan: 'Every frame is a black-gloss field framed by meander bands; the red-figure cast is cut-paper animation (INVENTED) matted over photographed plates where the plate carries the physical fact: the Moon in the window and the rising Moon are archive moon footage (PHOTOGRAPHED), the Moon being drawn down is the ESO time-lapse of a setting Moon (PHOTOGRAPHED), and the tablet, stylus and transparent stone are cut from museum photographs of a wax tablet, a bronze stylus and the Nimrud rock crystal (PHOTOGRAPHED). Frames 2-5 carry the slip "COMPOSED SCENE · archive fragments re-performed · not a recorded event"; frame 1 carries a paper-slip caption of Hickie\'s line "the moon bringing on the twentieths; for the interest is running on", and frames 2 and 3 carry slips citing Clouds 749-756 and 766-772. The joining of the two schemes, the creditor\'s witnesses at the melted tablet and the Moon rising over the empty box are labelled as our adaptation, not Aristophanes.',
+    basis: [
+      { title: 'Aristophanes, Clouds, trans. Hickie (Project Gutenberg #2562): opening (awake over debts, "the moon bringing on the twentieths"), the witch scheme, the burning-glass scheme, Pasias arriving with a summons-witness', url: 'https://www.gutenberg.org/cache/epub/2562/pg2562-images.html', note: 'Public-domain English text checked: "purchase a Thessalian witch, and draw down the moon by night ... shut it up, as if it were a mirror, in a round crest-case"; "because the money is lent out by the month"; "the beautiful and transparent [stone] ... from which they kindle fire" used "when the clerk was entering the suit ... and melt out the letters of my suit"; Socrates: "Cleverly done, by the Graces!" Gutenberg has no line numbers.', verified: true },
+      { title: 'Clouds Greek text, line-level lemmas (Perseus): 749-751 σελήνη/καθαιρέω/λοφεῖον; 752-758 Θεσσαλός/κάτοπτρον/ἀνατέλλω/δανείζω; 766-769 λίθος/φαρμακοπώλης/διαφανής; 772 ἐκτήκω/γράμμα/δίκη', url: 'https://vocab.perseus.org/word-list/urn:cts:greekLit:tlg0019.tlg003.perseus-grc2:749-751/?o=1', note: 'Places the Moon scheme at c. 749-756 and the burning-glass scheme at c. 766-772 (Perseus reader pages block automated fetch; the vocabulary tool on the same Perseus text was used to pin lines). The verb is "melt out the letters"; wax is implied by ἐκτήκω and the clerk\'s tablet, not named.', verified: true },
+      { title: 'Perseus English (perseus-eng2) word table for Clouds 732b-767', url: 'https://atlas.perseus.tufts.edu/library/passage/urn:cts:greekLit:tlg0019.tlg003.perseus-eng2:732b-767', note: 'Same wording as Hickie ("Thessalian witch", "round crest-case", "stone in the chemist\'s shops ... beautiful and transparent").', verified: true },
+      { title: 'Pliny, Natural History 37.10 (Bostock & Riley via Perseus)', url: 'http://data.perseus.org/citations/urn:cts:latinLit:phi0978.phi001.perseus-eng1:37.10', note: 'Crystal ball in sunlight used as a cautery: an ancient burning-glass practice. Supports the prop, not the comic plot.', verified: true },
+      { title: 'British Museum 90959, The Nimrud Lens', url: 'https://www.britishmuseum.org/collection/object/W_-90959', note: 'Rock crystal, 750-710 BCE. The museum suggests it was probably an inlay and its optical properties likely accidental; we use it only as a look reference for a "transparent stone", not as evidence of Assyrian burning glasses.', verified: true },
+      { title: 'Hamilton vase plate, Tischbein 1791 (NYPL)', url: 'https://digitalcollections.nypl.org/items/c38b0eac-8e3a-e918-e040-e00a1806610c', note: 'The image commonly offered as Thessalian women drawing down the Moon. NYPL titles it as two women preparing to fight before Diana Taurica; the moon reading is D. E. Hill\'s 1973 interpretation. Treat as contested; used for pose and costume only, not copied.', verified: true },
+      { title: 'Aglaonice (Wikipedia)', url: 'https://en.wikipedia.org/wiki/Aglaonice', note: 'Thessalian women were reputed to draw down the Moon; ancient commentators tie this to eclipse prediction. Context for the witch, not a claim the film makes about real magic.', verified: true }
+    ],
+    keyframes: [
+      { n: 1, t: 0.0, title: 'Awake under the Moon',
+        shot: 'WS interior, side-on like a vase frieze; couch across frame, window upper right',
+        action: 'Strepsiades lies propped on his couch, counting debts on his fingers and groaning at the Moon in the window, while his son sleeps soundly on a pallet. His tablets sit on the stool beside him.',
+        mechanism: 'Moon → window (shines, waxes) ; Moon ⇝ Strepsiades (a month is passing, interest is due) ; tablets ⊣ Strepsiades (the debts are written down)',
+        layers: [
+          { name: 'black-gloss ground and meander bands', source: 'INVENTED', ref: null },
+          { name: 'moon plate inside the window', source: 'PHOTOGRAPHED', ref: 2 },
+          { name: 'Strepsiades, son, couch, lampstand (red-figure cut paper)', source: 'INVENTED', ref: 3 },
+          { name: 'wax tablets on the stool', source: 'PHOTOGRAPHED', ref: 1 },
+          { name: 'paper-slip caption, Hickie: "the moon bringing on the twentieths"', source: 'PHOTOGRAPHED', ref: 0 }
+        ],
+        prompt: 'Attic red-figure vase painting, wide frieze composition: an old bald man with a white beard reclines propped on a carved couch, counting on raised fingers, mouth open in a groan; a young man sleeps under a blanket on a low pallet; a lampstand with a small flame; a window showing a white full moon and stars. Terracotta figures on glossy black ground, fine black relief lines, dilute brown folds, meander border top and bottom, comic and lively, no text, no logos',
+        draw: draw1,
+        refs: [
+          ref('hickie', 'citation and caption slip: opening scene, "I am not able, miserable man, to sleep"; "the moon bringing on the twentieths; for the interest is running on"; he calls for a lamp and his tablets'),
+          ref('metTablets', 'matte source for the tablets on the stool (wood frame, wax inset)'),
+          ref('hamm1', 'background plate: full-moon shot reframed inside the drawn window'),
+          ref('douris', 'costume and prop reference: how red-figure painters drew a writing tablet; not copied')
+        ] },
+      { n: 2, t: 13.0, title: 'The Moon into the box',
+        shot: 'WS night exterior, figures facing each other across the frame; Moon at centre top',
+        action: 'The hired Thessalian woman raises both palms and the Moon sinks out of the sky. Strepsiades leans in, grinning, holding the open round crest-case up to catch it.',
+        mechanism: 'witch ⊣ Moon (draws it down, in the fiction) ; Moon → box (confined) ; box ⇝ Strepsiades (no new month, so no interest)',
+        layers: [
+          { name: 'black-gloss ground, stars as added-white rosettes, meander bands', source: 'INVENTED', ref: null },
+          { name: 'descending Moon plate (setting Moon time-lapse)', source: 'PHOTOGRAPHED', ref: 3 },
+          { name: 'Thessalian woman and Strepsiades (red-figure cut paper)', source: 'INVENTED', ref: 1 },
+          { name: 'round crest-case', source: 'INVENTED', ref: null },
+          { name: 'slip: "COMPOSED SCENE · archive fragments re-performed · not a recorded event" and citation Clouds 749-756', source: 'INVENTED', ref: 0 }
+        ],
+        prompt: 'Attic red-figure vase painting at night: a woman in a peplos and patterned sakkos raises both open palms toward a white moon sinking from a starry black sky; facing her, an eager old bald man with a white beard leans forward on bent knees, grinning, holding up an open round lidless box to catch the moon. Terracotta figures on black gloss, fine relief lines, added white moon and stars, meander border, comic, no text, no logos',
+        draw: draw2,
+        refs: [
+          ref('lex752', 'citation for the caption slip: Thessalian woman, the Moon shut in like a mirror, money lent by the month (with lines 749-751, λοφεῖον = round crest-case)'),
+          ref('tischbein', 'pose and costume reference for two women in a ritual gesture; the moon reading is contested; not copied'),
+          ref('aglaonice', 'citation: the Thessalian moon-drawing tradition the joke depends on'),
+          ref('esoSet', 'background plate: the setting Moon, played as the Moon being drawn down; credit ESO/B. Tafreshi (TWAN)')
+        ] },
+      { n: 3, t: 26.0, title: 'The stone and the clerk',
+        shot: 'WS daylight, sun upper left, Strepsiades left, clerk seated right; the beam crosses the frame',
+        action: 'While the clerk writes the suit into his tablet, Strepsiades stands at a distance holding up the transparent stone. Sunlight gathers in the stone and lands as a bright spot on the wax.',
+        mechanism: 'sun → stone (concentrates) ; spot → wax (heats, softens) ; clerk ⊣ suit (enters it in writing)',
+        layers: [
+          { name: 'black-gloss ground, red-figure sun disc, meander bands', source: 'INVENTED', ref: null },
+          { name: 'clerk, stool and Strepsiades (red-figure cut paper)', source: 'INVENTED', ref: null },
+          { name: 'transparent stone, cut from a rock-crystal photograph', source: 'PHOTOGRAPHED', ref: 1 },
+          { name: 'focused light spot on wax (lens footage inset)', source: 'PHOTOGRAPHED', ref: 3 },
+          { name: 'slip: COMPOSED SCENE label and citation Clouds 766-772', source: 'INVENTED', ref: 0 }
+        ],
+        prompt: 'Attic red-figure vase painting in daylight: a radiant sun disc upper left; a sly old bald man with a white beard stands at a distance holding a small clear stone at arm\'s length, sunlight narrowing through it into a bright point on a wax writing tablet on the lap of a young clerk seated on a stool, stylus in hand. Terracotta figures on black gloss, fine black relief lines, meander border, comic, no text, no logos',
+        draw: draw3,
+        refs: [
+          ref('lex766', 'citation for the caption slip: the transparent stone sold by the druggists (with line 772, "melt out the letters of my suit")'),
+          ref('nimrud', 'matte source and look reference for the "transparent stone"; no claim that it was a burning glass'),
+          ref('pliny', 'citation: crystal in sunlight as a burning glass in antiquity'),
+          ref('lens', 'archive footage: a magnifying glass used outdoors, for the inset of a focused spot; rights not stated on the item page'),
+          ref('metStylus', 'prop reference for the clerk\'s stylus')
+        ] },
+      { n: 4, t: 40.0, title: 'Blank wax, three witnesses',
+        shot: 'MWS, Strepsiades left holding the tablet overhead; creditor and two witnesses enter from right',
+        action: 'Strepsiades lifts the tablet in triumph: the wax has run and the letters are gone. The creditor arrives anyway, pointing; one witness raises his hand to swear, the other taps his head.',
+        mechanism: 'heat → wax (melts; letters gone) ; creditor ⊣ Strepsiades (summons, before witnesses) ; witnesses ⇝ debt (remembered, not written)',
+        layers: [
+          { name: 'black-gloss ground and meander bands', source: 'INVENTED', ref: null },
+          { name: 'melted tablet, cut from a wax-tablet photograph and warped', source: 'PHOTOGRAPHED', ref: 1 },
+          { name: 'Strepsiades, creditor, witnesses (red-figure cut paper)', source: 'INVENTED', ref: 3 },
+          { name: 'slip: COMPOSED SCENE label; slip noting the witnesses come from Clouds\' later Pasias scene', source: 'INVENTED', ref: 0 }
+        ],
+        prompt: 'Attic red-figure vase painting: a gleeful old bald man with a white beard holds a wooden writing tablet high, its wax melted and dripping, the surface blank; from the right a bearded creditor in a himation with a staff points at him, a second man raises his open hand to swear, a third taps his own head. Terracotta figures on black gloss, fine relief lines, meander border, lively comedy, no text, no logos',
+        draw: draw4,
+        refs: [
+          ref('hickie', 'citation: Pasias enters with a summons-witness ("I think he will pay you"); in Aristophanes this follows a different scheme, so the slip marks the combination as ours'),
+          ref('metTablets', 'matte source for the tablet; wax texture to warp into the melt'),
+          ref('blTablets', 'look reference: a Greek school exercise written in wax (BL Add MS 34186)'),
+          ref('helen', 'staging reference for a small group of performers addressing one figure in an open-air Greek theatre; no plate use (rights not granted)')
+        ] },
+      { n: 5, t: 52.0, title: 'The Moon rises anyway',
+        shot: 'WS night, house left, Moon rising behind the hill line right; empty box centre',
+        action: 'The box lies open and empty, its lid fallen in the dust; Strepsiades kneels at it, staring up as the full Moon rises over the hill. The creditor holds out his palm and the witness points at the Moon: a new month.',
+        mechanism: 'Moon → sky (rises, as it does) ; Moon ⇝ calendar (new month, payment day) ; creditor ⊣ Strepsiades (the obligation still holds)',
+        layers: [
+          { name: 'black-gloss ground, stars, meander bands', source: 'INVENTED', ref: null },
+          { name: 'rising Moon plate', source: 'PHOTOGRAPHED', ref: 1 },
+          { name: 'house, hill line, empty box and lid (cut paper)', source: 'INVENTED', ref: null },
+          { name: 'Strepsiades, creditor, witness (red-figure cut paper)', source: 'INVENTED', ref: null },
+          { name: 'slip: COMPOSED SCENE label; "our ending, not Aristophanes"', source: 'INVENTED', ref: 0 }
+        ],
+        prompt: 'Attic red-figure vase painting at night: a large white full moon rises behind a dark hill on the right; an open, empty round box with its lid fallen beside it; an old bald man with a white beard kneels at the box, staring up open-mouthed; a bearded creditor with a staff holds out his open palm, a young witness points at the moon; a small house at left. Terracotta on black gloss, relief lines, meander border, no text, no logos',
+        draw: draw5,
+        refs: [
+          ref('hickie', 'citation: summons tied to the "Old and New" day at the new moon, the calendar the debt runs on'),
+          ref('hamm2', 'background plate: full moon over water, cropped to the moon disc and composited behind the drawn hill'),
+          ref('esoRise', 'lighting and scale reference for a full Moon rising above a ridge; licence not stated on the page'),
+          ref('calvin', 'alternative plate: 1968 outtakes tagged "full moon views"; timecode not given, rights not stated')
+        ] }
+    ]
+  });
+})();

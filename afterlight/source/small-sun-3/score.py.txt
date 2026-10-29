@@ -1,0 +1,231 @@
+# Small Sun (third cut): score and foley, driven by the film's own event log
+import json, wave, numpy as np
+from scipy import signal
+SR = 44100; END = 117.0
+N = int(SR * (END + 4))
+rng = np.random.default_rng(23)
+EV = json.load(open('/home/claude/afterlight/film3/build/events.json'))
+def at(k): return [e for e in EV if e['k'] == k]
+def first(k, d=None):
+    a = at(k); return a[0]['t'] if a else d
+
+mus = np.zeros(N); fx = np.zeros(N); amb = np.zeros(N)
+def put(buf, sig, t, g=1.0):
+    i = int(t * SR); n = min(len(sig), N - i)
+    if n > 0 and i >= 0: buf[i:i + n] += sig[:n] * g
+def env(n, a, r, sus=1.0):
+    e = np.ones(n) * sus; A = max(1, int(a * SR)); R = max(1, int(r * SR))
+    e[:A] = np.linspace(0, sus, A); e[-R:] *= np.linspace(1, 0, R); return e
+def mtof(m): return 440 * 2 ** ((m - 69) / 12)
+def bp(sig, lo, hi, order=2):
+    b, a = signal.butter(order, [lo / (SR / 2), hi / (SR / 2)], 'band'); return signal.lfilter(b, a, sig)
+def lp(sig, f, order=2):
+    b, a = signal.butter(order, f / (SR / 2), 'low'); return signal.lfilter(b, a, sig)
+def noise(n): return rng.standard_normal(n)
+
+# ---------- instruments ----------
+def kalimba(m, t, g=0.16, d=2.2, buf=None):
+    f = mtof(m); n = int(d * SR); tt = np.arange(n) / SR
+    s = (np.sin(2 * np.pi * f * tt) + 0.35 * np.sin(2 * np.pi * f * 2.01 * tt) * np.exp(-tt * 6) + 0.12 * np.sin(2 * np.pi * f * 5.4 * tt) * np.exp(-tt * 18))
+    s *= np.exp(-tt * 2.4) * np.minimum(1, tt / 0.003)
+    put(buf if buf is not None else mus, s, t, g)
+def pluck(m, t, g=0.1, d=0.6):  # pizzicato: Karplus-Strong
+    f = mtof(m); n = int(d * SR); L = max(2, int(SR / f)); buf = rng.uniform(-1, 1, L); out = np.zeros(n)
+    for i in range(n):
+        out[i] = buf[i % L]; buf[i % L] = 0.5 * (buf[i % L] + buf[(i + 1) % L]) * 0.994
+    put(mus, out * env(n, 0.002, 0.15), t, g)
+def flute(m, t, d, g=0.11, vib=5.2):
+    f = mtof(m); n = int(d * SR); tt = np.arange(n) / SR
+    ph = 2 * np.pi * np.cumsum(f * (1 + 0.006 * np.sin(2 * np.pi * vib * tt) * np.minimum(1, tt / 0.4))) / SR
+    s = np.sin(ph) + 0.18 * np.sin(2 * ph) + 0.05 * np.sin(3 * ph)
+    br = bp(noise(n), f * 0.8, min(f * 3, 15000)) * 0.08
+    put(mus, (s + br) * env(n, 0.12, min(0.5, d * 0.4)), t, g)
+def pad(ms, t, d, g=0.05, bright=1800):
+    n = int(d * SR); tt = np.arange(n) / SR; s = np.zeros(n)
+    for m in ms:
+        f = mtof(m)
+        for det in (-0.12, 0.0, 0.11):
+            s += signal.sawtooth(2 * np.pi * f * 2 ** (det / 12) * tt + rng.random() * 6.28) * 0.33
+    put(mus, lp(s, bright, 2) * env(n, min(2.0, d * 0.4), min(2.5, d * 0.45)) / len(ms), t, g)
+def bell(f, t, g=0.06, d=3.0, buf=None):
+    n = int(d * SR); tt = np.arange(n) / SR
+    s = sum(a * np.sin(2 * np.pi * f * r * tt) * np.exp(-tt * k) for r, a, k in [(1, 1, 1.4), (2.76, 0.45, 2.6), (5.4, 0.25, 4.5), (8.93, 0.12, 7)])
+    put(buf if buf is not None else mus, s * np.minimum(1, tt / 0.002), t, g)
+
+BEAT = 60 / 72
+def phrase(notes, t, inst='kal', g=None, oct=0):
+    for m, b in notes:
+        if m is not None:
+            if inst == 'kal': kalimba(m + oct, t, g or 0.15)
+            elif inst == 'plk': pluck(m + oct, t, g or 0.1)
+            else: flute(m + oct, t, b * BEAT * 1.05, g or 0.1)
+        t += b * BEAT
+    return t
+LONG = [(69, 1), (74, 1), (76, 1), (77, 2), (76, 1), (74, 2)]
+WARM = [(69, 1), (74, 1), (76, 1), (78, 2), (76, 1), (74, 1), (69, 1), (74, 3)]
+DOWN = [(77, 1), (76, 1), (74, 1), (72, 1), (69, 3)]
+
+# ---------- ambience ----------
+def room(t0, t1, g=0.06):
+    n = int((t1 - t0) * SR); put(amb, lp(noise(n), 240) * env(n, 0.8, 0.8), t0, g)
+def wind(t0, t1, g=0.05):
+    n = int((t1 - t0) * SR); tt = np.arange(n) / SR
+    w = bp(noise(n), 250, 1400) * (0.55 + 0.45 * np.sin(2 * np.pi * 0.09 * tt + 1) * np.sin(2 * np.pi * 0.023 * tt))
+    w += bp(noise(n), 2500, 6000) * 0.15 * (0.5 + 0.5 * np.sin(2 * np.pi * 0.13 * tt))
+    put(amb, w * env(n, 2.0, 2.0), t0, g)
+def crickets(t0, t1, g=0.012):
+    t = t0
+    while t < t1:
+        n = int(0.05 * SR); tt = np.arange(n) / SR; f = 4300 + rng.random() * 600
+        for k in range(3): put(amb, np.sin(2 * np.pi * f * tt) * np.sin(np.pi * tt / 0.05), t + k * 0.06, g * min(1, (t - t0) / 4))
+        t += 0.55 + rng.random() * 0.9
+room(0, 31.5, 0.06); wind(30.5, 86, 0.05); crickets(50, 85.5); room(85, END, 0.05); wind(85, 91.2, 0.03)
+
+# ---------- foley ----------
+for e in at('step'):
+    t = e['t']; n = int(0.09 * SR); tt = np.arange(n) / SR
+    if e.get('who') == 'cat':
+        put(fx, lp(noise(n), 900) * np.exp(-tt * 70), t, 0.05); continue
+    if e.get('surf') == 'wood':
+        s = np.sin(2 * np.pi * 95 * tt) * np.exp(-tt * 45) + bp(noise(n), 900, 3000) * 0.25 * np.exp(-tt * 70); put(fx, s, t, 0.2 if e.get('run') else 0.13)
+    else:
+        s = bp(noise(n), 700, 3800) * np.exp(-tt * 38) + np.sin(2 * np.pi * 70 * tt) * np.exp(-tt * 60) * 0.4; put(fx, s, t, 0.11 if e.get('run') else 0.07)
+for e in at('breath'):
+    n = int(0.9 * SR); tt = np.arange(n) / SR; sh = np.sin(np.pi * np.clip(tt / 0.9, 0, 1)) ** 1.5
+    put(fx, bp(noise(n), 500, 2400) * sh, e['t'] + 0.05, 0.03 if e.get('who') == 'gran' else 0.045)
+def creak(t, g=0.07):
+    n = int(1.0 * SR); tt = np.arange(n) / SR; f = 160 + 90 * np.sin(np.pi * tt / 1.0)
+    s = signal.sawtooth(2 * np.pi * np.cumsum(f) / SR) * (0.5 + 0.5 * (rng.random(n) > 0.6)); put(fx, lp(s, 1200) * env(n, 0.05, 0.3), t, g)
+for e in at('door'):
+    creak(e['t'])
+    if e.get('close'):
+        n = int(0.3 * SR); tt = np.arange(n) / SR; put(fx, np.sin(2 * np.pi * 70 * tt) * np.exp(-tt * 18) + lp(noise(n), 500) * np.exp(-tt * 30) * 0.4, e['t'] + 0.75, 0.22)
+for e in at('pounce'):  # a quick whoosh
+    n = int(0.35 * SR); tt = np.arange(n) / SR; w = bp(noise(n), 400, 3000) * np.sin(np.pi * tt / 0.35) ** 2; put(fx, w, e['t'], 0.05)
+    pluck(74, e['t'] + 0.02, 0.06); pluck(81, e['t'] + 0.1, 0.05)
+for e in at('land'):
+    n = int(0.12 * SR); tt = np.arange(n) / SR; put(fx, lp(noise(n), 700) * np.exp(-tt * 40) + np.sin(2 * np.pi * 110 * tt) * np.exp(-tt * 50) * 0.5, e['t'], 0.09)
+for e in at('sneeze'):
+    n = int(0.25 * SR); tt = np.arange(n) / SR; put(fx, bp(noise(n), 1800, 7000) * np.exp(-tt * 16) * np.minimum(1, tt / 0.01), e['t'], 0.12)
+    n = int(0.4 * SR); tt = np.arange(n) / SR; put(fx, bp(noise(n), 900, 2500) * np.sin(np.pi * tt / 0.4) ** 2, e['t'] - 0.45, 0.025)  # the inhale
+    bell(mtof(91), e['t'] + 0.05, 0.03)
+for e in at('grumble'):
+    n = int(0.9 * SR); tt = np.arange(n) / SR
+    g = signal.sawtooth(2 * np.pi * np.cumsum(78 + 6 * np.sin(2 * np.pi * 3 * tt)) / SR) * (0.6 + 0.4 * np.sin(2 * np.pi * 23 * tt))
+    put(fx, lp(g, 600) * env(n, 0.08, 0.3), e['t'], 0.06)
+for e in at('pick'): bell(1760, e['t'], 0.035, 1.0, fx)
+for e in at('lift'):
+    n = int(0.15 * SR); tt = np.arange(n) / SR; put(fx, np.sin(2 * np.pi * 85 * tt) * np.exp(-tt * 30), e['t'], 0.1)
+for k in ('kneel', 'give'):
+    for e in at(k):
+        n = int(0.15 * SR); tt = np.arange(n) / SR; put(fx, np.sin(2 * np.pi * 80 * tt) * np.exp(-tt * 30), e['t'], 0.1)
+
+# the purr: low rumble, gated at ~25 Hz, rising and falling with the cat's breath
+def purr(t0, t1, g=0.11):
+    n = int((t1 - t0) * SR); tt = np.arange(n) / SR
+    gate = (0.5 + 0.5 * np.sin(2 * np.pi * 25.5 * tt)) ** 2
+    br = 0.55 + 0.45 * np.sin(2 * np.pi * 0.42 * tt)
+    s = bp(noise(n), 40, 340) * gate * br + np.sin(2 * np.pi * 51 * tt) * gate * br * 0.3
+    put(fx, s * env(n, 0.8, 1.0), t0, g)
+p1, p1e = first('purr_on', 28.0), first('purr_off', 31.9)
+purr(p1, p1e)
+p2 = at('purr_on')[1]['t'] if len(at('purr_on')) > 1 else 67.6
+purr(p2, 84.3, 0.09); purr(85.4, 93.0, 0.07); purr(93.0, 112.0, 0.13)
+
+# ---------- music ----------
+# A: the cold house, the cat in the sun
+pad([50, 57, 62, 65], 0.5, 19, 0.03, 900)
+phrase(LONG, 2.0, 'kal', 0.12)
+for e in at('scoot'):  # each scoot: three little steps up
+    for i, m in enumerate([74, 76, 79]): pluck(m, e['t'] + 0.35 + i * 0.12, 0.08)
+for e in at('laugh'):
+    t = e['t']; notes = [86, 83, 86, 81] if not e.get('small') else [79, 76]
+    for i, m in enumerate(notes): kalimba(m, t + i * 0.11, 0.06 if not e.get('small') else 0.05, 0.8)
+kalimba(62, 14.6, 0.08); kalimba(57, 15.2, 0.07)  # the patch is gone
+# the chase: pizzicato in tempo, from the first spot until the cat is in the lap
+sp = first('spot', 20.9)
+t = sp; seq = [62, 69, 66, 69, 62, 71, 67, 71]
+k = 0
+while t < 27.4:
+    pluck(seq[k % 8], t, 0.07); k += 1; t += BEAT / 2
+pad([50, 57, 62, 66], sp, 7, 0.025, 1600)
+for e in at('flick'): bell(mtof(88), e['t'], 0.03, 1.2)
+kalimba(74, 27.4, 0.1); kalimba(78, 27.6, 0.09); kalimba(81, 27.8, 0.09)
+ss1 = first('sunset', 29.4)
+phrase(DOWN, ss1 - 0.4, 'kal', 0.08); pad([46, 53, 58, 62], ss1 - 0.5, 3.5, 0.03, 900)
+# the run
+rn = first('run', 31.4)
+t = rn + 0.3
+while t < 41.4:
+    for m in (62, 69, 74, 69):
+        kalimba(m, t, 0.065); t += BEAT / 2
+pad([50, 57, 62], rn, 10.5, 0.028, 1300)
+phrase(LONG, rn + 1.4, 'flute', 0.085)
+fl = at('flash')[1]['t'] if len(at('flash')) > 1 else 42.4
+bell(mtof(81), fl, 0.06); bell(mtof(88), fl + 0.12, 0.045)
+pad([53, 60, 65, 69], fl - 0.5, 5.5, 0.045, 2200)
+for i, m in enumerate([72, 77, 79, 81]): pluck(m, fl + 0.6 + i * 0.2, 0.07)
+ss2 = first('sunset2', 46.6)
+phrase(DOWN, ss2, 'flute', 0.08); pad([46, 53, 58, 62], ss2, 8, 0.035, 900)
+mr = first('moonrise', 49)
+flute(81, mr + 1.5, 5.0, 0.04, 3.5)
+cs = [e for e in at('spot') if e.get('cold')]
+if cs: bell(mtof(93), cs[0]['t'], 0.035)
+ls = [e for e in at('laugh') if e.get('small')]
+if ls: kalimba(64, ls[0]['t'] + 0.5, 0.06); kalimba(59, ls[0]['t'] + 0.85, 0.05)  # the cat is not impressed
+# fireflies: two voices in 3:2, pentatonic walk (Whitney)
+ff0 = first('ff_first', 56)
+penta = [74, 76, 79, 81, 83, 86, 88]; ia, ib = 2, 4
+for k in range(int((66.6 - ff0) / (2 / 3))):
+    t = ff0 + k * (2 / 3); dens = min(1.0, (t - ff0) / 5)
+    ia = int(np.clip(ia + rng.integers(-1, 2), 0, 6)); kalimba(penta[ia], t, 0.045 * dens + 0.012)
+for k in range(int((66.6 - ff0) / 1.0)):
+    t = ff0 + 0.33 + k; dens = min(1.0, (t - ff0) / 5)
+    ib = int(np.clip(ib + rng.integers(-1, 2), 0, 6)); kalimba(penta[ib] - 12, t, 0.04 * dens + 0.01)
+pad([50, 57, 62, 64, 69], ff0, 11, 0.03, 1600)
+fl_ = first('ff_land', 60.6); bell(mtof(98), fl_, 0.03, 2)
+ca = first('catch', 64.2); bell(mtof(86), ca, 0.045)
+rl = first('release', 66.4)
+for i, m in enumerate([74, 79, 81, 86, 88]): kalimba(m, rl + i * 0.15, 0.07)
+# frost: glass
+fr = first('frost', 65)
+for k in range(22): bell(mtof(96 + int(rng.integers(0, 5)) * 2), fr + k * 0.22 + rng.random() * 0.1, 0.012, 1.5)
+pad([45, 52, 57, 60], fr, 9, 0.03, 700)
+# the stone
+tch = first('touch', 74.1); wm = first('warm', 74.5)
+kalimba(50, tch, 0.17, 3.5)
+pad([50, 57, 62, 66, 69], wm, 9.5, 0.055, 2000)
+phrase(WARM, wm + 0.5, 'flute', 0.09)
+lf = first('lift', 78.7)
+t = lf + 1.6
+while t < 84.0:
+    for m in (62, 66, 69, 74): kalimba(m, t, 0.05); t += BEAT / 2
+# home
+hm = first('home', 85); pad([50, 57, 62], hm + 0.6, 6, 0.025, 800)
+gv = first('give', 94.15); hc = first('hands', 94.3)
+kalimba(74, gv - 0.6, 0.06); kalimba(78, gv - 0.1, 0.06)
+pad([50, 57, 62, 66], hc + 0.4, 8, 0.045, 1400)
+phrase(WARM, hc + 0.7, 'kal', 0.12)
+wr = first('warmth', 95.2)
+pad([38, 50, 57, 62, 66, 69], wr + 2.5, 16, 0.055, 2200)
+phrase(WARM, wr + 4.5, 'flute', 0.08)
+bell(mtof(78), first('head', 97.6), 0.03)
+phrase(LONG[:4] + [(74, 4)], 103.5, 'kal', 0.1)
+phrase([(72, 1), (74, 1), (69, 3)], 111.0, 'kal', 0.045)
+
+# ---------- mix ----------
+def reverb(sig, dur=2.6, mix=0.28):
+    n = int(dur * SR); tt = np.arange(n) / SR
+    ir = rng.standard_normal(n) * np.exp(-tt * 3.2); ir = lp(ir, 5000); ir /= np.sqrt((ir ** 2).sum())
+    wet = signal.fftconvolve(sig, ir)[:len(sig)]; return sig * (1 - mix) + wet * mix * 1.6
+duck = np.ones(N)  # a held breath at the first touch of the stone
+a, b = int((tch - 0.6) * SR), int((tch + 0.3) * SR); r = int(0.25 * SR)
+duck[a:b] = 0.25; duck[a - r:a] = np.linspace(1, 0.25, r); duck[b:b + r] = np.linspace(0.25, 1, r)
+mix = reverb(mus, 2.8, 0.3) * duck + reverb(fx, 1.0, 0.1) + amb * duck
+mix = mix[:int(END * SR)]
+fo = int(1.5 * SR); mix[-fo:] *= np.linspace(1, 0, fo)
+mix = np.tanh(mix / (np.abs(mix).max() * 0.7)) * 0.9
+st = np.stack([mix, np.roll(mix, int(0.0007 * SR))], 1)
+with wave.open('/home/claude/afterlight/film3/build/score.wav', 'wb') as w:
+    w.setnchannels(2); w.setsampwidth(2); w.setframerate(SR); w.writeframes((st * 32767).astype(np.int16).tobytes())
+print('ok', len(EV), 'events')

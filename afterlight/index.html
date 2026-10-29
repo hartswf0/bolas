@@ -23,7 +23,8 @@ body{display:flex;flex-direction:column}
 .rest .who{font:12px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:#a49a8c;margin:0}
 .go{all:unset;cursor:pointer;font:600 13px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:#0b0d10;background:var(--glow);padding:12px 20px;border-radius:2px}
 .go:hover{background:#fff}
-.go:focus-visible,.strip button:focus-visible,.nav2 button:focus-visible,.card a:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
+.rest .sets{font:12px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:#cfc4b2}
+.go:focus-visible,.strip button:focus-visible,.nav2 button:focus-visible,.card2 a:focus-visible,.setlink:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
 .playbtn{position:absolute;inset:0;display:grid;place-items:center;background:transparent;border:0;cursor:pointer}
 .playbtn span{width:78px;height:78px;border-radius:50%;background:rgba(0,0,0,.55);border:2px solid var(--glow);display:grid;place-items:center}
 .playbtn span::before{content:"";border-left:22px solid var(--glow);border-top:13px solid transparent;border-bottom:13px solid transparent;margin-left:6px}
@@ -34,8 +35,8 @@ body{display:flex;flex-direction:column}
 @media (min-width:980px){.strip{grid-row:2;grid-column:1}}
 .eras{display:flex;gap:18px;width:max-content}
 .era{display:grid;gap:6px;align-content:start}
-.era>b{font:600 10.5px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:#a49a8c;white-space:nowrap}
-.era>b i{font-style:normal;color:var(--ember)}
+.era b{font:600 10.5px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:#a49a8c;white-space:nowrap}
+.era b i{font-style:normal;color:var(--ember)}
 .era .row{display:flex;gap:4px}
 .strip button{all:unset;cursor:pointer;position:relative;width:88px;aspect-ratio:16/9;max-width:100%;background:#111 center/cover no-repeat;border-radius:1px;outline:1px solid #2a2a2a;opacity:.62;transition:opacity .15s}
 .strip button:hover{opacity:.95}
@@ -54,8 +55,10 @@ body{display:flex;flex-direction:column}
 .did{margin:0;font-size:15.5px;line-height:1.55;max-width:60ch}
 .how{margin:0;font:12.5px/1.6 var(--mono);color:var(--ink-2)}
 .how em{font-style:normal;color:var(--ink)}
-.card a.btn2{justify-self:start;font:600 12px var(--mono);letter-spacing:.06em;text-transform:uppercase;text-decoration:none;border:2px solid var(--ink);padding:8px 12px}
-.card a.btn2:hover{background:var(--amber);color:#0b0d10;border-color:#0b0d10}
+.card2 a.btn2{justify-self:start;font:600 12px var(--mono);letter-spacing:.06em;text-transform:uppercase;text-decoration:none;border:2px solid var(--ink);padding:8px 12px}
+.acts{display:flex;flex-wrap:wrap;gap:8px;margin:0}.card2 a.btn2.hot{background:var(--glow);border-color:var(--glow);color:#0b0d10}
+.setlink{text-decoration:none}.setlink:hover b{color:var(--glow)}
+.card2 a.btn2:hover{background:var(--amber);color:#0b0d10;border-color:#0b0d10}
 .nav2{display:flex;align-items:center;gap:8px;border-top:1px solid var(--rule);padding:10px max(16px,env(safe-area-inset-right,0px)) calc(10px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
 .nav2 button{all:unset;cursor:pointer;font:600 12px var(--mono);letter-spacing:.06em;text-transform:uppercase;padding:8px 10px;border:1px solid var(--rule)}
 .nav2 button:hover{border-color:var(--ink)}
@@ -74,6 +77,7 @@ body{display:flex;flex-direction:column}
       <h1>Afterlight<span class="stripe"></span></h1>
       <p class="prop">Light does not arrive in an empty world. What it becomes depends on what receives it, and what people do next.</p>
       <button class="go" id="begin" type="button">Begin at the first version</button>
+      <a class="sets" href="set/">Or choose films to watch and send</a>
     </div>
   </section>
   <nav class="strip" id="strip" aria-label="All versions in order"></nav>
@@ -82,7 +86,7 @@ body{display:flex;flex-direction:column}
       <p class="eyebrow">Twenty-one versions · five eras</p>
       <h2>What light leaves behind</h2>
       <p class="did">Afterlight began as an instrument for reasoning about light and heat and ended, for now, as ten sample studies of found sound and archive film. Each version on the strip was made in answer to a note on the one before it. The card shows that note, so the strip reads as an argument as well as a list.</p>
-      <p class="how">Eras: <em>Instrument</em> → <em>Essay</em> → <em>Story</em> → <em>Trailer</em> → <em>Mosaic</em>. A teal dot marks a live instrument rather than a film.</p>
+      <p class="how">Eras: <em>Instrument</em> → <em>Essay</em> → <em>Story</em> → <em>Trailer</em> → <em>Mosaic</em>. A teal dot marks a live instrument rather than a film. Each era name opens its set, which plays straight through and can be sent as one link or as the video files.</p>
       <p class="foot2">CRASH LAB · PAELEO · CINEOSIS LAB. Archive film and speech from movingimagearchive.com via the cineosis-lab library; music from the Warm Dome &amp; Golden Record sessions.</p>
     </div>
     <div class="nav2"><button type="button" id="prev" disabled>Prev</button><span class="pos" id="pos">0 / 21</span><button type="button" id="next">Next</button></div>
@@ -91,6 +95,7 @@ body{display:flex;flex-direction:column}
 <script>
 (()=>{
 const M='../media/afterlight/';
+const SETS=['instrument','essay','story','trailer','mosaic'];
 const ERAS=[
  ['I','Instrument','Light as a system you can operate.'],
  ['II','Essay','The archive tells the story of the stories.'],
@@ -167,7 +172,7 @@ const $=id=>document.getElementById(id), stage=$('stage'), strip=$('strip'), cbo
 let cur=-1;
 // strip
 const eras=document.createElement('div');eras.className='eras';
-ERAS.forEach((e,ei)=>{const g=document.createElement('div');g.className='era';g.innerHTML=`<b><i>${e[0]}</i> ${e[1]}</b><div class="row"></div>`;
+ERAS.forEach((e,ei)=>{const g=document.createElement('div');g.className='era';g.innerHTML=`<a class="setlink" href="set/${SETS[ei]}/"><b><i>${e[0]}</i> ${e[1]}</b></a><div class="row"></div>`;
   V.forEach((v,i)=>{if(v[1]!==ei)return;const b=document.createElement('button');b.type='button';b.dataset.i=i;if(v[7]&&v[3]==='instrument')b.classList.add('inst');
     b.style.backgroundImage=`url(${M}thumbs/${v[0]}.jpg)`;b.setAttribute('aria-label',`${String(i+1).padStart(2,'0')} ${v[2]}`);b.innerHTML=`<span class="k">${String(i+1).padStart(2,'0')}</span>`;
     g.querySelector('.row').appendChild(b)});eras.appendChild(g)});
@@ -195,7 +200,7 @@ function show(i,autoplay){
     <h2>${v[2]}</h2><p class="claim">${e[2]}</p>
     <p class="asked"><small>${i===0?'Started from':'Asked for, after the version before'}</small>${v[4]}</p>
     <p class="did">${v[5]}</p><p class="how">${v[6]}</p>
-    ${v[7]?`<a class="btn2" href="${v[7]}">Open ${v[3]==='instrument'?'the instrument':v[3]==='storyboard'?'the storyboard':v[7]==='listen/'?'the listening room':'the live scene'}</a>`:''}`;
+    <p class="acts"><a class="btn2 hot" href="v/${v[0].slice(4)}/">How it was made: prompts, process, critics</a>${v[7]?`<a class="btn2" href="${v[7]}">Open ${v[3]==='instrument'?'the instrument':v[3]==='storyboard'?'the storyboard':v[7]==='listen/'?'the listening room':'the live scene'}</a>`:''}<a class="btn2" href="set/${SETS[v[1]]}/">The ${e[1].toLowerCase()} set</a></p>`;
   cbody.scrollTop=0;pos.textContent=`${i+1} / ${V.length}`;prev.disabled=i===0;next.disabled=i===V.length-1;
 }
 const h=location.hash.slice(1);const j=V.findIndex(v=>v[0].slice(4)===h);if(j>=0)show(j);

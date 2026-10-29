@@ -1,0 +1,196 @@
+"""AFTERLIGHT trailer. Archive clips become spacetime volumes (x, y, t); the camera moves through the time they hold.
+usage: python3 trailer.py [worker_index n_workers] [t_list]"""
+import sys, os, json, math, numpy as np
+sys.path.insert(0, os.path.dirname(__file__))
+from spacetime import *
+from PIL import Image, ImageDraw, ImageFont, ImageFilter
+ROOT = '/home/claude/afterlight'; OUT = f'{ROOT}/trailer/frames'; os.makedirs(OUT, exist_ok=True)
+D = json.load(open(f'{ROOT}/archive/sheet_index.json'))
+def clip(k): return f'{ROOT}/archive/clips/{D[k]}.mp4'
+FPS = 24
+PAPER = (0.925, 0.905, 0.865); NIGHT = (0.016, 0.018, 0.026)
+FONT = f'{ROOT}/trailer/fonts/'
+def ease(u): u = min(1, max(0, u)); return u * u * (3 - 2 * u)
+def sm(a, b, t): return ease((t - a) / (b - a))
+def lerp(a, b, u): return a + (b - a) * u
+
+# ---------- sources: key, file, in, dur, ink
+SRC = {
+  'fog':    (clip('sun4'), 2.0, 7.0, 'paper'),
+  'runner': (clip('sun10'), 0.3, 3.8, 'paper'),
+  'moon':   (clip('moo10'), 0.0, 4.0, 'light'),
+  'mirror': (clip('mir6'), 2.0, 4.0, 'paper'),
+  'sunset': (clip('sun22'), 0.0, 3.0, 'light'),
+  'fire':   (clip('fir6'), 0.0, 3.4, 'light'),
+  'eye':    (clip('mir8'), 2.0, 4.0, 'paper'),
+  'barn':   (clip('sun11'), 4.0, 4.0, 'light'),
+  'road':   (clip('nig0'), 3.2, 4.0, 'light'),
+  'neon':   (clip('lam1'), 6.0, 4.0, 'light'),
+  'face':   (clip('han17'), 0.0, 2.4, 'paper'),
+  'hand':   (clip('han21'), 25.0, 4.0, 'light'),
+  'blaze':  (clip('fir14'), 0.0, 3.0, 'light'),
+  'stone':  (f'{ROOT}/film3/small-sun-3.mp4', 95.0, 4.2, 'light'),
+  'rays':   (clip('sun5'), 3.0, 4.0, 'paper'),
+  'poppy':  (clip('lam2'), 1.0, 4.0, 'light'),
+}
+VOL = {}
+def vol(k, per=None):
+    per = per or (20000 if SRC[k][3] == 'paper' else 12000)
+    if k not in VOL:
+        p, t0, dur, mode = SRC[k]
+        fr = load_clip(p, t0, dur, cache=f'{ROOT}/trailer/cache/{k}.npz')
+        VOL[k] = Volume(fr, mode, per=per, seed=sum(map(ord, k)))
+    return VOL[k]
+
+# ---------- shots: (src, start, end, cam from, cam to, opts)
+def C(yaw=0, pitch=0, dist=1050, fov=50, pz=0, cx=0, cy=0, roll=0): return dict(yaw=yaw, pitch=pitch, dist=dist, fov=fov, pz=pz, cx=cx, cy=cy, roll=roll)
+SHOTS = [
+  ('rays',   0.0, 6.6,  C(0.5, -0.1, 1500, pz=14), C(0.0, 0.0, 900), dict(tau=22, rate=1.0, first=1)),
+  ('runner', 6.2, 12.4, C(0, 0, 1150), C(0.1, -0.03, 230, pz=0), dict(tau=60, rate=0.9, op=0.95)),     # walk into his past
+  # BORROW
+  ('moon',   12.3, 15.5, C(0.05, 0, 1200, pz=2), C(1.2, -0.1, 1450, pz=24), dict(tau=50, rate=1.0)),
+  ('mirror', 15.3, 19.4, C(-0.15, 0.03, 820), C(0.04, 0, 600), dict(tau=3)),
+  # FOCUS
+  ('sunset', 19.2, 24.4, C(0, 0, 1250), C(-0.5, -0.06, 650, pz=8), dict(tau=36)),
+  # REVEAL: through the rafters
+  ('barn',   24.2, 29.0, C(-0.15, 0.03, 1150), C(0.05, 0, 170), dict(tau=40)),
+  # ANSWER
+  ('road',   28.8, 31.6, C(0, 0, 1000), C(0, 0, 160), dict(tau=50)),
+  ('neon',   31.4, 34.6, C(0.3, 0, 1150), C(-0.3, 0.04, 900), dict(tau=24)),
+  # EMBODY
+  ('face',   34.4, 38.4, C(0.12, 0, 860), C(-0.08, 0, 680), dict(tau=6, rate=0.6)),
+  # REMAIN
+  ('stone',  38.2, 44.4, C(0.2, 0, 1100), C(-0.05, 0, 760), dict(tau=20, rate=0.8)),
+]
+# the montage: each volume twice, face-on push, then side-on, tightening to a quarter second
+MKEYS = ['runner', 'moon', 'sunset', 'barn', 'neon', 'mirror', 'road', 'poppy', 'stone', 'rays', 'face', 'moon', 'neon', 'sunset', 'barn', 'stone', 'runner', 'road']
+t = 44.4
+for i, k in enumerate(MKEYS):
+    d = max(0.22, 0.75 * 0.92 ** i)
+    if i % 2 == 0: c0, c1 = C(0, 0, 1000), C(0.05, 0, 380)
+    else: y = 1.1 * (1 if i % 4 == 1 else -1); c0, c1 = C(y, -0.1, 1400, pz=20), C(y * 1.2, -0.05, 1250, pz=22)
+    SHOTS.append((k, t, t + d, c0, c1, dict(tau=60 if i % 2 else 30, hard=1, rate=1.4)))
+    t += d
+MONT_END = t
+CARDS = [  # (start, end, movement, question)
+  (7.8, 12.2, None, 'Twelve films about what light leaves behind.'),
+  (12.45, 19.2, 'BORROW', 'Who makes the light we see?'),
+  (19.35, 24.2, 'FOCUS', 'What changes when light is gathered?'),
+  (24.35, 28.8, 'REVEAL', 'What does an instrument make knowable?'),
+  (28.95, 34.4, 'ANSWER', 'When does a light become a message?'),
+  (34.55, 38.2, 'EMBODY', 'How does a body negotiate exposure?'),
+  (38.35, 44.2, 'REMAIN', 'What survives when the source is absent?'),
+]
+TITLE0 = MONT_END + 1.3
+CRED0 = TITLE0 + 6.2
+END = CRED0 + 2.8
+for k in ('mirror', 'face'): SRC[k] = SRC[k][:3] + ('light',)
+
+def shot_frame(s, t):
+    k, a, b, c0, c1, o = s
+    v = vol(k); mode = SRC[k][3]
+    u = ease((t - a) / (b - a))
+    cam = {kk: lerp(c0[kk], c1[kk], u) for kk in c0}
+    cam.update(fogNear=500, fogLen=3200 if mode == 'light' else 2400)
+    present = min(v.F - 1, max(0.0, (t - a + 0.4) * FPS * o.get('rate', 1.0)))
+    if o.get('hard'): asm = 1.0
+    elif o.get('first'): asm = sm(a, a + 3.2, t) * (1 - sm(b - 0.2, b + 0.6, t))
+    else: asm = sm(a - 0.25, a + 0.9, t) * (1 - sm(b - 0.2, b + 0.6, t))
+    acc = new_acc()
+    splat(v, cam, acc, present=present, tau=o.get('tau', 10), assemble=max(asm, 0.0), opacity=o.get('op', 1.0), scatter=650)
+    bg = PAPER if mode == 'paper' else NIGHT
+    img = resolve(acc, mode, bg, gain=2.2 if mode == 'paper' else 2.6)
+    return img, bg
+
+def title_vol():
+    if 'title' in VOL: return VOL['title']
+    w, h = 448, 252; im = Image.new('L', (w, h), 0); d = ImageDraw.Draw(im)
+    f = ImageFont.truetype(FONT + 'im-fell-english-sc-latin-400-normal.ttf', 62)
+    txt = 'AFTERLIGHT'; bw = d.textlength(txt, font=f); d.text(((w - bw) / 2, h / 2 - 58), txt, font=f, fill=255)
+    m = np.asarray(im, np.float32)[None] / 255
+    x = np.linspace(0, 1, w)[None, None, :]
+    col = np.stack([np.ones_like(m), 0.72 + 0.2 * x + 0 * m, 0.42 + 0.25 * x + 0 * m], -1) * m[..., None]   # warm, cooling to the right
+    VOL['title'] = Volume(col.astype(np.float32), 'light', per=60000, seed=5)
+    return VOL['title']
+
+# ---------- type
+_fc = {}
+def font(name, size):
+    if (name, size) not in _fc: _fc[(name, size)] = ImageFont.truetype(FONT + name, size)
+    return _fc[(name, size)]
+def overlay_text(img, t, dark_bg):
+    pil = Image.fromarray((img * 255).astype(np.uint8)); lay = Image.new('RGBA', (W, H), (0, 0, 0, 0)); d = ImageDraw.Draw(lay)
+    ink = (236, 230, 216) if dark_bg else (38, 32, 28)
+    for a, b, mv, q in CARDS:
+        al = sm(a - 0.05, a + 0.2, t) * (1 - sm(b - 0.35, b, t))
+        if al <= 0.01: continue
+        A = int(255 * al)
+        if mv:
+            f1 = font('im-fell-english-sc-latin-400-normal.ttf', 34); tw = d.textlength(mv, font=f1)
+            d.text(((W - tw) / 2, H - 196), mv, font=f1, fill=ink + (int(A * 0.75),))
+        f2 = font('im-fell-english-latin-400-italic.ttf', 54); tw = d.textlength(q, font=f2)
+        d.text(((W - tw) / 2, H - 150), q, font=f2, fill=ink + (A,))
+    # title block
+    if TITLE0 + 2.6 < t < CRED0:
+        al = sm(TITLE0 + 2.6, TITLE0 + 3.3, t) * (1 - sm(CRED0 - 0.5, CRED0, t))
+        f3 = font('im-fell-english-latin-400-italic.ttf', 40); s = 'Twelve short films. One feature.'; tw = d.textlength(s, font=f3)
+        d.text(((W - tw) / 2, H * 0.66), s, font=f3, fill=(236, 230, 216, int(255 * al)))
+    if t > CRED0:
+        al = sm(CRED0, CRED0 + 0.4, t)
+        for txt, fn, sz, y in [('CRASH LAB', 'im-fell-english-sc-latin-400-normal.ttf', 40, 0.36),
+                               ('Archive footage from movingimagearchive.com,', 'im-fell-english-latin-400-italic.ttf', 32, 0.50),
+                               ('via CINEOSIS LAB, rendered as spacetime volumes.', 'im-fell-english-latin-400-italic.ttf', 32, 0.57)]:
+            f = font(fn, sz); tw = d.textlength(txt, font=f); d.text(((W - tw) / 2, H * y), txt, font=f, fill=(226, 220, 206, int(255 * al)))
+    if lay.getbbox():
+        a = lay.split()[3]; sh = a.filter(ImageFilter.MaxFilter(9)).filter(ImageFilter.GaussianBlur(10)).point(lambda v: min(255, v * 3))
+        shade = Image.new('RGBA', (W, H), (0, 0, 0, 255) if dark_bg else (240, 234, 222, 255)); shade.putalpha(sh.point(lambda v: int(v * 0.8)))
+        pil = pil.convert('RGBA'); pil.alpha_composite(shade); pil.alpha_composite(lay); pil = pil.convert('RGB')
+    return np.asarray(pil, np.float32) / 255
+
+GRAIN = np.random.default_rng(3).standard_normal((H + 64, W + 64)).astype(np.float32)
+SPECK = np.random.default_rng(4).random((H, W)).astype(np.float32)
+def frame(t):
+    act = [s for s in SHOTS if (s[1] - 0.3 <= t < s[2] + 0.6) and not (s[5].get('hard') and not (s[1] <= t < s[2]))]
+    imgs, ws = [], []
+    for s in act:
+        a, b, o = s[1], s[2], s[5]
+        w = 1.0 if o.get('hard') else (sm(a - 0.3, a + 0.35, t) if not o.get('first') else 1.0) * (1 - sm(b - 0.1, b + 0.5, t))
+        if w <= 0.002: continue
+        im, bg = shot_frame(s, t); imgs.append(im); ws.append(w)
+    if not imgs: img = np.zeros((H, W, 3), np.float32) + np.asarray(NIGHT, np.float32)
+    else:
+        ws = np.array(ws); ws = ws / ws.sum() if ws.sum() > 1 else ws
+        img = sum(w * im for w, im in zip(ws, imgs)) + (1 - ws.sum()) * np.asarray(NIGHT, np.float32)
+    # the title: dust gathers into the word
+    if t >= MONT_END + 0.3:
+        tv = title_vol(); asm = sm(TITLE0 - 0.6, TITLE0 + 2.6, t) * (1 - 0.15 * sm(END - 3, END, t))
+        acc = new_acc(); cam = C(lerp(0.35, 0, sm(TITLE0 - 0.6, TITLE0 + 3, t)), 0, lerp(1250, 1000, sm(TITLE0, END, t))); cam.update(fogNear=600, fogLen=4000)
+        splat(tv, cam, acc, present=0, tau=5, assemble=asm, scatter=900, swirl=0.25 * (1 - asm))
+        ti = resolve(acc, 'light', NIGHT, gain=2.4)
+        # one mote before the word
+        mote = sm(MONT_END + 0.3, MONT_END + 1.0, t) * (1 - sm(TITLE0, TITLE0 + 1, t))
+        yy, xx = np.ogrid[:H, :W]; ti = ti + (mote * np.exp(-((xx - W / 2) ** 2 + (yy - H / 2) ** 2) / 30.0))[..., None] * np.array([1, 0.85, 0.6], np.float32)
+        img = ti
+    if t >= CRED0: img = np.zeros((H, W, 3), np.float32) + np.asarray(NIGHT, np.float32)
+    dark = float(img.mean()) < 0.45
+    img = overlay_text(img, t, dark)
+    # grain and paper specks (the archive's dust stays visible)
+    gx, gy = int(t * 97) % 64, int(t * 53) % 64
+    img = img + GRAIN[gy:gy + H, gx:gx + W, None] * (0.018 if dark else 0.012)
+    if not dark: img = img * (1 - 0.35 * (SPECK > 0.9993)[..., None])
+    img = img * (1 - sm(0, 0.8, 0) * 0) * (1 - sm(END - 1.2, END, t))
+    return np.clip(img, 0, 1)
+
+if __name__ == '__main__':
+    if len(sys.argv) > 3:   # stills
+        ts = [float(x) for x in sys.argv[3].split(',')]
+        ims = [Image.fromarray((frame(t) * 255).astype(np.uint8)).resize((640, 360)) for t in ts]
+        cols = 3; rows = (len(ims) + 2) // 3; S = Image.new('RGB', (640 * cols, 360 * rows))
+        for i, im in enumerate(ims): S.paste(im, ((i % 3) * 640, (i // 3) * 360))
+        S.save('/tmp/claude-0/tr/stills.jpg'); sys.exit()
+    wi, wn = int(sys.argv[1]), int(sys.argv[2]); n = int(END * FPS)
+    for i in range(wi, n, wn):
+        fn = f'{OUT}/{i:05d}.jpg'
+        if os.path.exists(fn): continue
+        Image.fromarray((frame(i / FPS) * 255).astype(np.uint8)).save(fn, quality=92)
+        if i % 120 == wi: print(i / FPS, flush=True)

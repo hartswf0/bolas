@@ -1,0 +1,66 @@
+# THE AFTERLIFE OF LIGHT — edit decision list, revision 2
+# kinds: clip (sheet key), still (png), anim (inserts.html), cold (Cold Hand excerpt), card, grab (frame from an earlier labelled segment)
+# slips: (text, start, end) in segment seconds. bed: score bed gain for this segment.
+EDL = [
+ dict(kind='anim', name='title', dur=6.0, slips=[], bed=0.6),
+ dict(kind='clip', key='sun1', inp=0.5, dur=6.0, slips=[('Every story here begins with light.', 0.8, 5.6)]),
+ dict(kind='clip', key='sun22', inp=0.0, dur=3.0, slow=0.75, slips=[('People kept asking it one question.', 0.4, 3.8)]),
+ dict(kind='card', text='', title='What does light leave behind?', dur=3.6, bed=0.5),
+
+ dict(kind='card', text='I', title='Borrowed light', dur=2.4),
+ dict(kind='clip', key='moo10', inp=0.0, dur=3.0, slow=0.6, slips=[('The Moon makes no light of its own. It returns about a tenth of the sunlight that reaches it, and gets the credit.', 0.3, 4.8)]),
+ dict(kind='anim', name='earthshine', dur=9.0, label='earth', slips=[('On a thin crescent the dark part glows faintly: sunlight off the Earth, carried back.', 0.6, 4.4), ('Leonardo worked this out around 1510.', 4.6, 6.6), ('Left behind: sunlight, passed on twice.', 6.8, 8.8)]),
+
+ dict(kind='card', text='II', title='A face in black glass', dur=2.4),
+ dict(kind='anim', name='obsidian', dur=8.0, label='obs', slips=[('Çatalhöyük, around 6000 BCE. Obsidian is ground until it shows a face.', 0.5, 4.2), ('Left behind: a face, buried with its owner.', 5.6, 7.8)]),
+ dict(kind='clip', key='mir6', inp=1.0, dur=5.0, slips=[('A mirror shows its owner the one face they cannot otherwise see.', 0.4, 4.8)]),
+
+ dict(kind='card', text='III', title='The hidden picture', dur=2.4),
+ dict(kind='anim', name='makyo', dur=12.0, label='mak', bed=0.35, slips=[('China, then Japan: the makyō, or magic mirror. It looks plain.', 0.4, 4.4), ('In sunlight it throws a figure onto the wall.', 6.0, 8.9), ('Left behind: a picture hidden in the shape of a surface.', 9.1, 11.8)]),
+
+ dict(kind='card', text='IV', title='Fire from the Sun, water from the Moon', dur=2.6),
+ dict(kind='anim', name='yangsui', dur=8.5, label='yang', slips=[('China, 2nd century BCE. The Huainanzi pairs two bronze instruments.', 0.3, 3.4), ('A concave mirror takes fire from the Sun.', 3.6, 6.0), ('The fire is real.', 6.6, 8.3)]),
+ dict(kind='cold', inp=20.5, dur=9.0, label='dew', slip_pos='top', slips=[('The dew comes from a clear night sky. The Moon gets the credit.', 3.2, 6.3), ('Left behind: credit, given to the wrong source.', 6.5, 8.8)]),
+
+ dict(kind='card', text='V', title='The debt that melted', dur=2.4),
+ dict(kind='still', png='storyboard/film7_k3.png', dur=6.0, move='in', slips=[("Athens, 423 BCE. In Aristophanes' Clouds a debtor plans to melt the letters of his lawsuit with a burning stone.", 0.3, 5.8)]),
+ dict(kind='still', png='storyboard/film7_k4.png', dur=5.2, move='left', label='debt', slips=[('Our reading: melting the letters would not cancel the debt.', 0.3, 2.6), ('Left behind: the obligation, not the writing.', 2.8, 5.0)]),
+
+ dict(kind='card', text='VI', title='Past the red', dur=2.4),
+ dict(kind='anim', name='prism', dur=6.0, slips=[('Newton, 1666–72: the colours were already in the sunlight.', 0.6, 5.8)]),
+ dict(kind='still', png='storyboard/film5_k5.png', dur=7.0, move='in', label='herschel', slips=[('1800. Herschel sets a thermometer past the red. Nothing shows there. It rises.', 0.3, 4.4), ('Left behind: heat where nothing shows.', 4.6, 6.8)]),
+
+ dict(kind='card', text='VII', title='Light without fire', dur=2.4),
+ dict(kind='anim', name='fireflies', dur=10.0, label='ffly', slips=[('Fireflies make light with almost no heat.', 0.4, 3.0), ('A Chinese saying, 囊螢映雪: one poor student read by a bag of fireflies, another by snowlight.', 3.2, 7.6), ('Left behind: what they read.', 7.8, 9.8)]),
+
+ dict(kind='card', text='VIII', title='Fires that are not there', dur=2.4),
+ dict(kind='anim', name='mirage', dur=9.5, label='mir', slips=[('On the Yatsushiro Sea, fishermen see lights where no boat is: shiranui.', 0.5, 3.8), ('Layers of warm and cold air bend the light of distant lamps and multiply it.', 4.0, 7.0), ('Left behind: a lamp, seen where it never was.', 7.2, 9.3)]),
+
+ dict(kind='card', text='IX', title='The body', dur=2.4),
+ dict(kind='clip', key='des5', inp=20.0, dur=4.5, slips=[('Bodies lost most of their fur and learned to sweat. Heat leaves as water.', 0.4, 4.3)]),
+ dict(kind='clip', key='ski22', inp=0.0, dur=1.9, slow=0.5, slips=[('Skin uses ultraviolet light to make vitamin D, and darkens to limit it.', 0.3, 3.7)]),
+ dict(kind='clip', key='sun10', inp=0.0, dur=4.2, label='body', slips=[('Left behind: sunlight, written into skin over many generations.', 0.3, 4.0)]),
+
+ dict(kind='card', text='X', title='Light for the dead', dur=2.4),
+ dict(kind='anim', name='daimonji', dur=12.0, label='dai', bed=0.3, slips=[('Kyoto, every 16 August.', 0.5, 3.0), ('Fires on the hills send the visiting dead back.', 4.6, 8.0), ('Left behind: a bond with the dead, kept by fire.', 8.6, 11.8)]),
+
+ dict(kind='card', text='XI', title='A letter from a star', dur=2.4),
+ dict(kind='clip', key='spa5', inp=8.0, dur=5.0, staged=True, slips=[('Starlight can arrive after its source has changed.', 0.4, 4.7)]),
+ dict(kind='still', png='storyboard/film8_k3.png', dur=5.0, move='in', label='star', slips=[('Supernova 1987A. The light seen in 1987 left about 168,000 years earlier.', 0.3, 4.8)]),
+ dict(kind='still', png='storyboard/film8_k5.png', dur=4.2, move='in', slips=[('Left behind: an image of a star that is no longer the same.', 0.3, 4.0)]),
+
+ dict(kind='card', text='', title='What does light leave behind?', dur=3.2, bed=0.5),
+ dict(kind='grab', src='earth', at=7.5, dur=1.9, slips=[('Sunlight, passed on.', 0.15, 1.85)]),
+ dict(kind='grab', src='obs', at=7.0, dur=1.8, slips=[('A face.', 0.15, 1.75)]),
+ dict(kind='grab', src='mak', at=10.5, dur=1.8, slips=[('A hidden picture.', 0.15, 1.75)]),
+ dict(kind='grab', src='dew', at=5.0, dur=1.8, slips=[('Credit, misplaced.', 0.15, 1.75)]),
+ dict(kind='grab', src='debt', at=3.0, dur=1.7, slips=[('An obligation.', 0.15, 1.65)]),
+ dict(kind='grab', src='herschel', at=5.5, dur=1.7, slips=[('Heat no one can see.', 0.15, 1.65)]),
+ dict(kind='grab', src='ffly', at=8.5, dur=1.6, slips=[('What was read.', 0.15, 1.55)]),
+ dict(kind='grab', src='mir', at=8.0, dur=1.6, slips=[('A lamp out of place.', 0.15, 1.55)]),
+ dict(kind='grab', src='body', at=2.0, dur=1.6, slips=[('Skin.', 0.15, 1.55)]),
+ dict(kind='grab', src='dai', at=10.5, dur=1.6, slips=[('A bond.', 0.15, 1.55)]),
+ dict(kind='grab', src='star', at=4.0, dur=1.8, slips=[('An old image.', 0.15, 1.75)]),
+ dict(kind='clip', key='sun1', inp=3.0, dur=6.0, slips=[('Something is always left behind.', 0.5, 2.9), ('Rarely the thing that gets the credit.', 3.1, 5.8)]),
+ dict(kind='anim', name='end', dur=9.0, slips=[], bed=0.5),
+]
