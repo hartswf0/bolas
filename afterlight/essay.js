@@ -13,12 +13,12 @@ function show(i,user){
   snd.onclick=()=>{v.muted=false;v.controls=true;snd.hidden=true;v.currentTime=0;v.play().catch(()=>{})};
   v.onended=()=>{if(i>=C.length-1)return;af.innerHTML=`<p>Next chapter</p><button type="button">${name(i+1)}</button>`;af.hidden=false;af.querySelector('button').onclick=()=>show(i+1,true)};
   rail.forEach((a,j)=>a.setAttribute('aria-current',j===i));
-  const ra=rail[i],rl=ra&&ra.parentElement;if(rl)rl.scrollLeft=Math.max(0,ra.offsetLeft-rl.clientWidth/2+ra.offsetWidth/2);
+  const ra=rail[i],rl=ra&&ra.parentElement;if(rl){const l=ra.offsetLeft,r=l+ra.offsetWidth;if(l<rl.scrollLeft+8)rl.scrollLeft=Math.max(0,l-8);else if(r>rl.scrollLeft+rl.clientWidth-8)rl.scrollLeft=r-rl.clientWidth+8}
   prev.disabled=i===0;next.disabled=i===C.length-1;
   next.textContent=i<C.length-1?'Next · '+C[i+1].querySelector('h2').textContent:'End';
   where.textContent=`${i+1} / ${C.length}`;
   const t=c.querySelector('.ctext');t.scrollTop=0;
-  if(user&&innerWidth<1000)scrollTo({top:0,behavior:'auto'});
+  
   history.replaceState(null,'','#'+c.id);
 }
 prev.onclick=()=>show(cur-1,true);next.onclick=()=>show(cur+1,true);
