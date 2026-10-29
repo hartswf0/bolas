@@ -14,5 +14,6 @@ python3 cards.py
 bash assemble.sh
 python3 trace.py
 python3 stills.py
+python3 proof.py
 python3 ../../../../tools/paeleo/check_handmade.py ..
 rm -rf cache/frames      # frames are regenerable; keep the folder lean

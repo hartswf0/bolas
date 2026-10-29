@@ -1,7 +1,8 @@
 # SCION 34 · ARAP — the threshold, bent as rigidly as possible
 
 PAE-02 cohort 5. `film.mp4`: 38.0 s, 1280×720, 24 fps, H.264 + AAC, faststart, about 3.6 MB
-(912 frames: 72 title, 768 scene, 72 end card). Rebuild: `bash build/make.sh`.
+(912 frames: 72 title, 768 scene, 72 end card; the end card draws the rest mesh and the lying mesh with their
+handles). Rebuild: `bash build/make.sh`.
 
 ## Thesis
 
@@ -126,7 +127,7 @@ and a width ("arrival") parameter drive them.
 - **Lie down (23.792).**
   - The pose goes from standing to a deep crouch (paws planted, forefeet reaching) to a sphinx lie. The forelegs lie
     straight forward, the hind legs fold under, the tail lies back along the boards and the back is flat.
-  - At rest 0.58 of the rendered dog is left of the door plane (head, chest, forelegs). The rump and tail stay on the
+  - At the end 0.56 of the rendered dog's area is left of the door plane (head, chest, forelegs). The rump and tail stay on the
     porch.
 - **Come in (26.4).** The neck stretches 14% and the head lifts and reaches into the lit room, ears pricked, tail
   sweeping the boards. From 28.3 the chin goes to the paws and it stays.
@@ -164,7 +165,7 @@ Choice onsets, measured from rendered signals (not from the state labels):
 | looks in | 26.4 | 26.458 | +0.058 | muzzle lifts and reaches into the doorway > 2 px |
 
 Solver bar:
-- **Inverted triangles: not zero.** About 51 of 768 frames (6.6%) keep 1–6 inverted triangles after repair. Most are
+- **Inverted triangles: not zero.** 38 of 768 frames (4.9%) keep 1–6 inverted triangles after repair (49 in all). Most are
   single sliver triangles at the front of the stifle or the wrist crease while the dog cowers, refuses or settles. They
   are not visible at film size, but the bar is not met. `trace.json` has the count per frame.
 - Normalized ARAP energy on the dog body: worst frame about 0.26.
@@ -221,7 +222,7 @@ In my judgement:
 
 ## What is still weak
 
-- **Residual single-triangle inversions** in about 6.6% of frames (above). The bar "no triangle inversions" is not met.
+- **Residual single-triangle inversions** in 4.9% of frames (above). The bar "no triangle inversions" is not met.
 - **Legs are rubbery and the dog is lean and leggy**, near a hyena or coyote. ARAP bends a strip along its length,
   so the cower and the walk look like bent tubes of hatching.
 - **The views are hard swaps.** Profile → rear → profile and lying-profile → front → profile change silhouette in one

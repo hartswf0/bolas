@@ -65,7 +65,7 @@ def endcard():
                 wd.ellipse([p[0] - 1.6, p[1] - 1.6, p[0] + 1.6, p[1] + 1.6], fill=(120, 220, 255))
     dr = ImageDraw.Draw(im)
     f1 = ImageFont.truetype(SERIF, 30); f2 = ImageFont.truetype(SERIF_I, 21); f3 = ImageFont.truetype(MONO, 15)
-    dr.text((330 - dr.textlength('rest mesh', font=f2) / 2, 420), 'rest mesh (handles in blue)', font=f2, fill=(200, 190, 170))
+    dr.text((330 - dr.textlength('rest mesh (handles in blue)', font=f2) / 2, 420), 'rest mesh (handles in blue)', font=f2, fill=(200, 190, 170))
     dr.text((900 - dr.textlength('the same triangles, lying', font=f2) / 2, 420), 'the same triangles, lying', font=f2, fill=(200, 190, 170))
     t = 'What it is made of'
     dr.text(((W - dr.textlength(t, font=f1)) / 2, 40), t, font=f1, fill=INKL)
