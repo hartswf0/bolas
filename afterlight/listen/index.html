@@ -1,0 +1,127 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}[hidden]{display:none!important}img{max-width:100%}</style>
+<title>Afterlight Listening Room</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=IM+Fell+English+SC&family=Atkinson+Hyperlegible:wght@400;700&family=Courier+Prime&display=swap">
+<style>
+/* A screening room over a listening room: one player on top, the ten studies below it, then every song with its spectrum and the map of its samples. Single dark look by choice. */
+:root{--bg:#07060a;--panel:#100e14;--line:#26212c;--ink:#ece4d4;--mute:#a29ca8;--ember:#e8913a;--gold:#f3c77c;--cool:#9fb3c8;
+  --f-title:'IM Fell English SC',Georgia,serif;--f-fell:'IM Fell English',Georgia,serif;--f-body:'Atkinson Hyperlegible',system-ui,sans-serif;--f-type:'Courier Prime',ui-monospace,monospace;color-scheme:dark}
+html,body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.wrap{max-width:1100px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 56px}
+.screen{position:sticky;top:env(safe-area-inset-top,0px);z-index:2;background:#000;margin-inline:calc(-1*max(16px,env(safe-area-inset-left,0px)))}
+@media (min-width:1132px){.screen{margin-inline:0;position:static}}
+video{display:block;width:100%;max-width:100%;aspect-ratio:16/9;background:#000}
+.now{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap;padding:8px max(16px,env(safe-area-inset-left,0px));font:13px var(--f-type);color:var(--mute);background:var(--bg);border-bottom:1px solid var(--line)}
+.now b{font:400 17px var(--f-title);color:var(--gold);letter-spacing:.04em}
+h1{font:400 34px var(--f-title);letter-spacing:.06em;margin:24px 0 2px;color:var(--gold);text-wrap:balance}
+h2{font:400 24px var(--f-title);letter-spacing:.05em;margin:40px 0 6px;color:var(--gold);text-wrap:balance}
+.sub{font:italic 17px var(--f-fell);color:var(--mute);margin:0 0 16px}
+p{line-height:1.6;max-width:68ch;margin:0 0 12px}
+.small{font-size:13px;color:var(--mute)}
+.reel{list-style:none;margin:18px 0 0;padding:0}
+.reel li{border-top:1px solid var(--line)}
+.reel button{all:unset;box-sizing:border-box;cursor:pointer;display:grid;grid-template-columns:56px minmax(0,1fr) auto;gap:4px 14px;width:100%;padding:14px 4px}
+.reel button:hover .t,.reel button[aria-current="true"] .t{color:var(--gold)}
+.reel button[aria-current="true"]{background:var(--panel)}
+.reel button:focus-visible,.trk button:focus-visible{outline:2px solid var(--gold);outline-offset:-2px}
+.reel button.wait{cursor:default;opacity:.55}
+.n{font:700 13px var(--f-type);color:var(--ember);padding-top:4px}
+.t{font:400 20px var(--f-title);letter-spacing:.03em;min-width:0}
+.d{font:12px var(--f-type);color:var(--mute);font-variant-numeric:tabular-nums;padding-top:5px;white-space:nowrap}
+.tech{grid-column:2/4;font:italic 16px/1.45 var(--f-fell);min-width:0}
+.samp{grid-column:2/4;font:12.5px/1.6 var(--f-type);color:var(--mute);min-width:0}
+.samp em{font-style:normal;color:var(--gold)}
+.pill{font:700 10px var(--f-body);letter-spacing:.1em;text-transform:uppercase;color:var(--bg);background:var(--mute);border-radius:3px;padding:2px 6px;margin-left:8px;vertical-align:3px}
+@media (max-width:520px){.reel button{grid-template-columns:40px minmax(0,1fr)}.d{grid-column:2;padding-top:0}.tech,.samp{grid-column:2}}
+/* listening room */
+.trk{border-top:1px solid var(--line);padding:14px 0 6px;display:grid;gap:8px}
+.trk .hd{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.trk .play{all:unset;cursor:pointer;width:34px;height:34px;border-radius:50%;border:1px solid var(--ember);display:grid;place-items:center;flex:none}
+.trk .play::before{content:"";width:0;height:0;border-left:10px solid var(--ember);border-top:6px solid transparent;border-bottom:6px solid transparent;margin-left:3px}
+.trk.on .play::before{width:10px;height:12px;border:0;margin:0;background:linear-gradient(90deg,var(--ember) 0 35%,transparent 35% 65%,var(--ember) 65%)}
+.trk .tt{font:400 18px var(--f-title);letter-spacing:.03em;min-width:0;flex:1}
+.trk .tc{font:12px var(--f-type);color:var(--mute);font-variant-numeric:tabular-nums}
+.lane{position:relative;cursor:pointer;min-width:0}
+.lane img{display:block;width:100%;height:84px;object-fit:fill;border-radius:2px}
+.lane canvas{display:block;width:100%;height:auto}
+.ph{position:absolute;top:0;bottom:0;width:1px;background:var(--gold);box-shadow:0 0 6px var(--gold);pointer-events:none;left:0}
+.tip{font:12px var(--f-type);color:var(--mute);min-height:1.4em}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font:11.5px var(--f-type);color:var(--mute)}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:-1px}
+</style>
+<div class="wrap">
+  <div class="screen"><video id="v" src="../../media/afterlight/afl-12-mix.mp4" poster="../../media/afterlight/thumbs/afl-12-mix.jpg" controls playsinline preload="metadata"></video>
+    <div class="now"><b id="nt">The mix</b><span id="nd">2:58</span></div></div>
+  <h1>Warm Dome Mosaics</h1>
+  <p class="sub">Ten sample studies for Afterlight · a film concept by Sosuke &amp; Watson</p>
+  <p>Each study is cut only from samples of one Warm Dome &amp; Golden Record track, never the whole track: loops, one-shots, slowed passages, frozen grains and long dark reverbs, re-sequenced on the track's own tempo. Each has its own picture technique built from archive film. The mix joins them into one set, with the tempo climbing from 83 to 128 bpm.</p>
+  <p>Sound design, on every study: a needle drop at the start; a reversed reverb that breathes in before each section; a filtered noise riser into each return; a sub tuned to the track's root that drops with every kick; long archive narration pitched down and smeared, only where the music thins out; an eighteen-second dark reverb under everything; and a tape bus with slight wow and the harshest highs rolled off.</p>
+  <ul class="reel" id="reel"></ul>
+
+  <h2 id="listen">Listening room</h2>
+  <p>All ten songs without the picture. Under each spectrum is the map of its samples: one row per layer, each bar one placement. Hover or tap a bar to see which track and timecode it was cut from; tap anywhere on the spectrum to jump there.</p>
+  <div class="legend" id="legend"></div>
+  <div id="room"></div>
+  <audio id="au" preload="none"></audio>
+  <p class="small" style="margin-top:26px">Loop lengths were measured from each track's onset pattern, so loops land on the track's own beat; the mixes were checked as spectrograms, not by ear. Footage is from movingimagearchive.com via the CINEOSIS LAB repository. CRASH LAB · PAELEO · CINEOSIS LAB</p>
+</div>
+<script>
+(()=>{
+const VID={mix:'../../media/afterlight/afl-12-mix.mp4',takumi:'../../media/afterlight/afl-13-takumi.mp4',phosphor:'../../media/afterlight/afl-14-phosphor.mp4',beckon:'../../media/afterlight/afl-15-beckon.mp4',circle:'../../media/afterlight/afl-16-circle.mp4',warmth:'../../media/afterlight/afl-17-warmth.mp4',dawn:'../../media/afterlight/afl-18-dawn.mp4',picture:'../../media/afterlight/afl-19-picture.mp4',sun:'../../media/afterlight/afl-20-sun.mp4',copper:'../../media/afterlight/afl-21-copper.mp4'};
+const READY=new Set(['mix','copper','phosphor','picture','takumi','warmth','circle','dawn','sun','beckon']);
+const R=[
+ ['mix','The mix','2:58','Each passage plays in its own source track’s picture technique; the seam between two techniques burns away and sheds embers.','Sun 0:00–0:09 and its groove → Copper Glow’s first line ten semitones down → Beckoning grains → Takumi phrases and a channel flip → the Magic Circle ring and <em>golden record</em> → Warmth over the Warm Dome groove → Picture one-shots → Copper Glow at 128 with <em>light-years</em>, <em>carry the glow</em>, <em>the room goes gold</em> → Dawn at half speed'],
+ ['takumi','Takumi Archive & Commercial Afterlight','1:24','A 1950s television set. Every cut in the music changes the channel, the last picture’s phosphor keeps glowing and sheds embers, the sound runs as a test pattern along the bottom, and at the end the set switches off to a line and then a dot.','Only 0:00–0:29: three two-bar phrases at 0:00, 0:09 and 0:18, re-cut in sixteenths like a turning dial, then slowed to three-quarter tape speed; tape stop'],
+ ['phosphor','Metal Fingers, Warm Phosphor','1:32','Long-exposure light painting: only the lights in the archive footage survive, painted into an exposure that turns and zooms with each kick.','The loop at 0:46 (after 0:43), pumped by its own kick; 2:00–2:07 and 2:40 frozen underneath; an echo throw over the breakdown'],
+ ['beckon','Metal Fingers Beckoning-02','1:20','Gaussian-splat places: archive frames lifted into depth as 70,000 soft splats under a slow orbiting camera. Each grain of sound flares a cluster of splats, which then lift off as embers.','Only 0:00–0:49: five granular freezes of the rising tones, seventy single grains scattered across the stereo field, a soft pulse from 0:37'],
+ ['circle','Dawn Remembers Again the Magic Circle','1:22','The study’s own spectrum pressed into a turning record, with time as angle and pitch as radius. The label is an archive moon wound into a spiral, and echoes ripple out from it.','From 1:00 on: the two-step loop at 1:01, a bar replayed in rotating slice order, echoes at each turn, a held ring from 1:06'],
+ ['warmth','Warmth, Air, Food, Water','1:28','Spacetime worms: whatever moves in the archive footage leaves a trail back through time. When the song ducks out, time stops.','Groove bars from 0:14, 0:30 and 0:44; duck-outs from 1:28 and 1:36; a freeze from 1:00; tape stop into the tail at 1:48'],
+ ['dawn','Dawn Remembers Again','1:20','Spectrogram terrain: each past moment of sound is a ridge further back, the newest at the front, and an archive sun rises behind the ridges.','0:30–1:02 at half speed, an octave down and low-passed; five swells re-placed, each with a twelve-second tail'],
+ ['picture','Thus the Picture Is Reassembled','1:08','Thirty-line Nipkow-disk television: each hit of the beat scans one more line of an archive frame back into place.','Ten one-shots cut from across the track (0:00.5 to 1:19.6) rebuilt into a new 120 bpm beat; the quiet passage at 0:58 stretched underneath'],
+ ['sun','Sun in Your Eyes, Light-Years Away','1:24','Retinal afterimage: the eye adapts to the archive’s suns and keeps a complementary afterimage when the picture changes. Every kick is a blink, with the light coming red through the eyelid.','The opening 0:00–0:09 and its kick at 0:09.3, looped and built out; the section from 0:20; the opening stretched to half speed underneath'],
+ ['copper','Copper Glow','1:39','The sung lines’ own spectrum as a ribbon of light across the frame. The strongest partials break off as embers into the wind, with porch lights and windows from the archive faint behind.','<em>Light-years in a second-hand song</em> 0:00–0:07 (slowed, then plain), <em>carry the glow / light-years to go</em> 0:46–1:00 (stuttered in sixteenths), <em>the room goes gold</em> 1:07–1:21, <em>golden record</em> 2:17, over the groove from 1:25']
+];
+const NAMES={takumi:'Takumi',phosphor:'Warm Phosphor',beckon:'Beckoning-02',circle:'Magic Circle',warmth:'Warmth, Air, Food, Water',dawn:'Dawn Remembers Again',picture:'Picture Reassembled',sun:'Sun in Your Eyes',copper:'Copper Glow',golden:'Warm Dome & Golden Record'};
+const COL={takumi:'#e8b04a',phosphor:'#d8743a',beckon:'#9fb3c8',circle:'#c9a0dc',warmth:'#f08a4b',dawn:'#e6c47a',picture:'#b7c98a',sun:'#ffd27a',copper:'#d9785f',golden:'#c7a35a','':'#5b5560'};
+const v=document.getElementById('v'),reel=document.getElementById('reel'),nt=document.getElementById('nt'),nd=document.getElementById('nd');
+const fmt=s=>s<0?'':`${Math.floor(s/60)}:${(s%60).toFixed(1).padStart(4,'0')}`;
+R.forEach(([k,t,d,tech,samp],i)=>{const ok=READY.has(k);const li=document.createElement('li');
+  li.innerHTML=`<button type="button" data-k="${k}" class="${ok?'':'wait'}"${i===0?' aria-current="true"':''}><span class="n">${i===0?'MIX':String(i).padStart(2,'0')}</span><span class="t">${t}${ok?'':'<span class="pill">rendering</span>'}</span><span class="d">${d}</span><span class="tech">${tech}</span><span class="samp">${samp}</span></button>`;reel.appendChild(li)});
+reel.addEventListener('click',e=>{const b=e.target.closest('button');if(!b||!READY.has(b.dataset.k))return;const r=R.find(x=>x[0]===b.dataset.k);
+  reel.querySelectorAll('button').forEach(x=>x.removeAttribute('aria-current'));b.setAttribute('aria-current','true');
+  au.pause();v.src=VID[r[0]];v.poster='';nt.textContent=r[1];nd.textContent=r[2];v.play().catch(()=>{});window.scrollTo({top:0,behavior:'smooth'})});
+// listening room
+const au=document.getElementById('au'),room=document.getElementById('room');let cur=null;
+document.getElementById('legend').innerHTML=Object.entries(NAMES).map(([k,n])=>`<span><i style="background:${COL[k]}"></i>${n}</span>`).join('');
+fetch('events.json').then(r=>r.json()).then(EV=>{
+  R.forEach(([k,t])=>{const E=EV[k];if(!E)return;
+    const d=document.createElement('div');d.className='trk';d.dataset.k=k;
+    d.innerHTML=`<div class="hd"><button type="button" class="play" aria-label="Play ${t}"></button><span class="tt">${t}</span><span class="tc">0:00.0 / ${fmt(E.dur)}</span></div>
+      <div class="lane"><img src="${k}_spec.jpg" alt="Spectrogram of ${t}" loading="lazy"><canvas></canvas><div class="ph"></div></div><div class="tip">&nbsp;</div>`;
+    room.appendChild(d);
+    const layers=[...new Set(E.ev.map(e=>e[0]))];const cv=d.querySelector('canvas');const lh=9,gap=2;
+    function draw(){const w=cv.clientWidth||900,dpr=Math.min(2,devicePixelRatio||1);cv.width=w*dpr;cv.height=(layers.length*(lh+gap)+4)*dpr;cv.style.height=(layers.length*(lh+gap)+4)+'px';
+      const c=cv.getContext('2d');c.scale(dpr,dpr);c.clearRect(0,0,w,cv.height);
+      E.ev.forEach(e=>{const y=layers.indexOf(e[0])*(lh+gap)+2,x=e[1]/E.dur*w,ww=Math.max(1.5,e[2]/E.dur*w);c.fillStyle=COL[e[3]]||COL[''];c.globalAlpha=.85;c.fillRect(x,y,ww,lh)});}
+    draw();addEventListener('resize',draw);
+    const tip=d.querySelector('.tip');
+    cv.addEventListener('pointermove',ev=>{const r=cv.getBoundingClientRect(),t=(ev.clientX-r.left)/r.width*E.dur,li=Math.floor((ev.clientY-r.top-2)/(lh+gap));
+      const hit=E.ev.find(e=>layers.indexOf(e[0])===li&&t>=e[1]&&t<=e[1]+Math.max(e[2],E.dur*0.004));
+      tip.textContent=hit?`${hit[0]} · ${fmt(hit[1])} · ${NAMES[hit[3]]||'texture'}${hit[4]>=0?' @ '+fmt(hit[4]):''} · ${hit[5]}`:' '});
+    d.querySelector('.lane').addEventListener('click',ev=>{const r=ev.currentTarget.getBoundingClientRect();play(k,(ev.clientX-r.left)/r.width*E.dur)});
+    d.querySelector('.play').addEventListener('click',()=>{if(cur===k&&!au.paused){au.pause()}else play(k,cur===k?au.currentTime:0)});
+  });
+  function play(k,t){v.pause();if(cur!==k){au.src=k+'.mp3';cur=k}
+    const go=()=>{au.currentTime=t;au.play().catch(()=>{})};au.readyState>0?go():au.addEventListener('loadedmetadata',go,{once:true});au.load&&cur===k&&au.readyState===0&&au.load()}
+  const tick=()=>{document.querySelectorAll('.trk').forEach(d=>{const on=d.dataset.k===cur&&!au.paused;d.classList.toggle('on',on);
+      if(d.dataset.k===cur){const E=EV[cur];d.querySelector('.ph').style.left=(au.currentTime/E.dur*100)+'%';d.querySelector('.tc').textContent=`${fmt(au.currentTime)} / ${fmt(E.dur)}`}});
+    requestAnimationFrame(tick)};tick();
+  v.addEventListener('play',()=>au.pause());
+}).catch(()=>{room.innerHTML='<p class="small">The sample maps could not load. Reload the page to try again.</p>'});
+})();
+</script>
+
+<p style="text-align:center;font:12px monospace;padding:16px"><a href="../" style="color:#f3c77c">Back to Afterlight</a></p></html>
