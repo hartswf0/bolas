@@ -28,7 +28,7 @@ OUT = os.path.join(HERE, 'cache', 'frames'); os.makedirs(OUT, exist_ok=True)
 T_REFUSE = SCORE['choices'][2]['t']; T_WATCH2 = SCORE['choices'][3]['t']
 TURN_DUR = 0.55
 MID_VIEWS = [16, 17, 31, 38, 40]
-SWING_DUR = 0.25                          # 7.458 -> 7.708: the head comes round while the body is still down
+SWING_DUR = 0.28                          # 7.458 -> 7.708: the head comes round while the body is still down
 RISE = (T_WATCH2, T_WATCH2 + 0.42)
 TB0 = RISE[1]
 S_DOG = 1.55
@@ -153,7 +153,7 @@ def main():
         swing = 0.0
         if RISE[0] <= t < RISE[1]:
             swing = smooth(RISE[0], RISE[0] + SWING_DUR, t)
-            lie = 1 - smooth(RISE[0] + 0.1, RISE[1], t); rest = max(0.0, 1 - swing * 3) * rest
+            lie = 1 - smooth(RISE[0] + 0.1, RISE[1], t); rest = rest * (1 - smooth(RISE[0], RISE[0] + 0.3, t))
         if TB0 <= t < 14.7:
             lie = 0.0; rest = 0.0
         breathe = 0.008 * np.sin(2 * np.pi * t / 1.7) * (1 - moving)

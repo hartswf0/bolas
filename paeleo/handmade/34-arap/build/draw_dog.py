@@ -240,7 +240,7 @@ def L_head():
     """Seen from behind and to the right: the back of the skull, the backs of both ears, the muzzle peeking past the
     left cheek and pointing away from us, into the room. Joint at (0, 0)."""
     d = Drawing(420, 380, 230, 260)
-    muz = catmull([(-60, 30), (-120, 50), (-175, 68), (-182, 82), (-150, 88), (-95, 80), (-55, 70)], 8)
+    muz = catmull([(-50, 18), (-110, 34), (-160, 52), (-190, 66), (-196, 88), (-170, 104), (-115, 104), (-60, 92)], 8)
     d.add('muzzle', d.poly_mask(muz), 0, ('dir', 0.25), tone=0.35, spacing=10)
     d.add('ear_far', d.poly_mask(catmull([(-85, 95), (-95, 205), (-35, 115)], 6)), 0, ('dir', 1.5), tone=0.35, spacing=10)
     d.add('ruff', d.ellipse_mask((5, 0), 78, 45), 1, ('dir', 1.45), tone=0.1, spacing=11)
@@ -248,10 +248,11 @@ def L_head():
     d.add('ear_near', d.poly_mask(catmull([(-15, 112), (40, 215), (68, 90)], 6)), 3, ('dir', 1.75), tone=0.2, spacing=10)
 
     def marks(dd, rgb, alpha):
-        rgb[dd.ellipse_mask((-176, 78), 14, 11)] = INK            # the nose tip, far side
         m = dd.parts[0]['mask']
-        rgb[m] = rgb[m] * 0.6 + INK * 0.4
-    d.points = {k: np.array(v, float) for k, v in dict(joint=(0, 0), nose=(-176, 78), ear_near_tip=(40, 210),
+        rgb[m] = rgb[m] * 0.75 + INK * 0.25
+        rgb[dd.ellipse_mask((-186, 82), 19, 15)] = INK            # the nose tip, far side
+        rgb[dd.ellipse_mask((-190, 87), 5, 4)] = PAPER * 0.85
+    d.points = {k: np.array(v, float) for k, v in dict(joint=(0, 0), nose=(-186, 82), ear_near_tip=(40, 210),
                                                         ear_far_tip=(-93, 200)).items()}
     rgba, label, layers = d.render(marks=[marks])
     save('L_head', d, rgba, label, layers)

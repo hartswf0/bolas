@@ -21,45 +21,30 @@ W_ON = 179          # 7.458 watch (turns back to look)
 
 
 def view_for(i):
-    """Layers [(view, mirror, extra, weight)] for frame i. A view change is never a cut: the outgoing drawing
-    foreshortens (and its head leads), the incoming one arrives wide and narrows, and they overlap for two frames."""
+    """Layers [(view, mirror, extra, weight)] for frame i: always ONE drawing. A view change is a hard swap on the
+    frame where the outgoing drawing is narrowest (foreshortened by the turn) and the incoming one arrives as narrow,
+    then widens: the swap is hidden in the narrowing, never dissolved."""
     r = R_ON
     if i < r + 3:
         return [('P', False, {}, 1.0)]
-    if i < r + 5:                                   # 85-86: the head leads, the body starts to foreshorten
-        return [('P', False, {'head_flip': True, 'fs': 1.0 - 0.12 * (i - r - 2)}, 1.0)]
-    if i == r + 5:
-        return [('P', False, {'head_flip': True, 'fs': 0.72}, 0.67), ('R0', False, {'sx': 1.7, 'head_dx': -60}, 0.33)]
-    if i == r + 6:
-        return [('R0', False, {'sx': 1.55, 'head_dx': -45}, 0.67), ('P', False, {'head_flip': True, 'fs': 0.64}, 0.33)]
-    if i <= r + 9:                                  # 89-91: the rear view narrows, the head swings across
-        u = (i - (r + 7)) / 2.0
-        return [('R0', False, {'sx': 1.38 - 0.33 * u, 'head_dx': -25 + 60 * u}, 1.0)]
-    if i == r + 10:
-        return [('R0', False, {'sx': 1.0, 'head_dx': 50}, 0.67), ('P', True, {'fs': 0.55}, 0.33)]
-    if i == r + 11:
-        return [('P', True, {'fs': 0.62}, 0.67), ('R0', False, {'sx': 0.95, 'head_dx': 55}, 0.33)]
-    if i < W_ON:
-        k = i - (r + 12)
-        return [('P', True, {'fs': min(1.0, 0.7 + 0.1 * k)}, 1.0)]
+    if i <= r + 6:                                  # 85-88: the head drops toward the door, the body narrows (turning)
+        return [('P', False, {'fs': 1.0 - 0.13 * (i - r - 2)}, 1.0)]
+    if i <= r + 10:                                 # 89-92: the rear view, its head swinging across behind the shoulders
+        u = (i - (r + 7)) / 3.0
+        return [('R0', False, {'sx': 1.0 + 0.12 * (1 - u), 'head_dx': -40 + 90 * u}, 1.0)]
+    if i < W_ON:                                    # 93-: the profile facing away, arriving narrow and widening
+        k = i - (r + 11)
+        return [('P', True, {'fs': min(1.0, 0.5 + 0.125 * k)}, 1.0)]
     w = W_ON
     if i < w + 17:
         return [('P', True, {'head_flip': True}, 1.0)]
-    if i == w + 17:
-        return [('P', True, {'head_flip': True, 'fs': 0.85}, 1.0)]
-    if i == w + 18:
-        return [('P', True, {'head_flip': True, 'fs': 0.72}, 0.67), ('F0', False, {'sx': 1.7}, 0.33)]
-    if i == w + 19:
-        return [('F0', False, {'sx': 1.55}, 0.67), ('P', True, {'head_flip': True, 'fs': 0.64}, 0.33)]
-    if i <= w + 22:
-        u = (i - (w + 20)) / 2.0
-        return [('F0', False, {'sx': 1.38 - 0.38 * u}, 1.0)]
-    if i == w + 23:
-        return [('F0', False, {'sx': 1.0}, 0.67), ('P', False, {'fs': 0.55}, 0.33)]
-    if i == w + 24:
-        return [('P', False, {'fs': 0.62}, 0.67), ('F0', False, {'sx': 0.95}, 0.33)]
-    k = i - (w + 25)
-    return [('P', False, {'fs': min(1.0, 0.7 + 0.1 * k)}, 1.0)]
+    if i <= w + 20:                                 # 196-199: standing, still looking back, the body narrows
+        return [('P', True, {'head_flip': True, 'fs': 1.0 - 0.13 * (i - w - 16)}, 1.0)]
+    if i <= w + 24:                                 # 200-203: the front view, head toward the door
+        u = (i - (w + 21)) / 3.0
+        return [('F0', False, {'sx': 1.0 + 0.1 * (1 - u)}, 1.0)]
+    k = i - (w + 25)                                # 204-: the profile facing the door, arriving narrow
+    return [('P', False, {'fs': min(1.0, 0.5 + 0.125 * k)}, 1.0)]
 
 
 class Gait:

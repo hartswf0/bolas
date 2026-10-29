@@ -7,7 +7,7 @@ for k in $(seq -f %03g 0 71); do echo "file '$C/cards/t$k.jpg'" >> "$L"; done
 for k in $(seq -f %04g 0 767); do echo "file '$C/frames/$k.jpg'" >> "$L"; done
 for k in $(seq -f %03g 0 71); do echo "file '$C/cards/e$k.jpg'" >> "$L"; done
 ffmpeg -hide_banner -loglevel error -y -r 24 -f concat -safe 0 -i "$L" -i "$C/sound.wav" -map 0:v -map 1:a \
-  -c:v libx264 -preset slow -crf 23 -pix_fmt yuv420p -r 24 -c:a aac -b:a 128k -t 38 -movflags +faststart "$R/film.mp4"
+  -c:v libx264 -preset slow -crf 25 -pix_fmt yuv420p -r 24 -c:a aac -b:a 128k -t 38 -movflags +faststart "$R/film.mp4"
 mkdir -p "$R/stills"
 for s in 03.6 09.0 19.0 28.0; do
   i=$(python3 -c "print('%04d' % round(float('$s')*24))"); cp "$C/frames/$i.jpg" "$R/stills/still_${s}s.jpg"

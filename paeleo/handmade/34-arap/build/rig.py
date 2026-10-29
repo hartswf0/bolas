@@ -211,7 +211,7 @@ class DogP:
         flip = bool(pose.get('head_flip', False))
         sg = -1.0 if flip else 1.0
         if flip:      # the head looks the other way: its rest shape reflected (a Jacobian of determinant -1)
-            ha = neck_a + pose.get('head_flip_a', 0.0)
+            ha = pose['head_flip_abs'] if 'head_flip_abs' in pose else neck_a + pose.get('head_flip_a', 0.0)
         hd = self.head
         V = hd.V * [sg, 1]
         gc = {k: v * [sg, 1] for k, v in self.gcent.items()}
@@ -272,7 +272,7 @@ LIE = {   # lying (sphinx): paw centre, ankle, knee, in the dog frame
     'HN': ((60, 22), (175, 40), (30, 110)), 'HF': ((-10, 22), (105, 40), (-40, 110)),
 }
 LIE_SH = np.array([5.0, -248.0]); LIE_HIP = np.array([15.0, -300.0])
-DEEP_SH = np.array([10.0, -125.0]); DEEP_HIP = np.array([10.0, -215.0])
+DEEP_SH = np.array([10.0, -125.0]); DEEP_HIP = np.array([10.0, -170.0])
 
 
 def lerp(a, b, t):
@@ -287,12 +287,15 @@ def pose_P(d, a, paws=None, lifts=None):
     br = float(a.get('breath', 0))
     pitch = 0.0
     # standing (with crouch): shoulder and hip patches
-    sh_s = d.c_sh + np.array([10 * c, -95 * c + br]); hip_s = d.c_hip + np.array([20 * c, -125 * c + br * 0.5])
+    sh_s = d.c_sh + np.array([10 * c, -95 * c + br]); hip_s = d.c_hip + np.array([20 * c, -75 * c + br * 0.5])
     legs_s = {}
     for L in LEGS:
         pc = np.array(paws[L], float) if paws and L in paws else d.hcent[L + '_paw']
         sw = (lifts or {}).get(L, 0.0)
-        an = pc + (d.hcent[L + '_ankle'] - d.hcent[L + '_paw'])
+        off = d.hcent[L + '_ankle'] - d.hcent[L + '_paw']
+        if L[0] == 'H':     # a cowering dog drops its hocks: the metatarsus slants back, the stifle need not loop
+            off = rot(off, -0.4 * c)
+        an = pc + off
         if sw > 0:      # a swinging foot flexes: the ankle trails, the paw tips
             an = an + np.array([25 * np.sin(np.pi * sw), 0.0])
         legs_s[L] = [pc, an]
@@ -315,6 +318,8 @@ def pose_P(d, a, paws=None, lifts=None):
         u = min(l / 0.5, 1.0); v = max((l - 0.5) / 0.5, 0.0)
         sh_d = d.c_sh + DEEP_SH; hip_d = d.c_hip + DEEP_HIP
         legs_d = {L: [legs_s[L][0], legs_s[L][1]] for L in LEGS}
+        for L in ('HN', 'HF'):
+            legs_d[L] = [legs_s[L][0], legs_s[L][0] + rot(d.hcent[L + '_ankle'] - d.hcent[L + '_paw'], -0.7)]
         for L in ('FN', 'FF'):     # forefeet reach forward on the way down
             legs_d[L] = [legs_s[L][0] + [-90, 0], legs_s[L][1] + [-110, -20]]
         kd = knees(sh_d, hip_d, legs_d, pit(sh_d, hip_d))
@@ -363,7 +368,7 @@ def pose_P(d, a, paws=None, lifts=None):
     r['tail_curl'] = -0.35 * max(t_ - 0.8, 0) * (1 - wl) + 0.35 * wl
     # the lying body (its own mesh): arrives 70 mm high and settles; head and tail in its frame
     vv = smooth(min(max((l - 0.5) / 0.5, 0), 1))
-    r['settle'] = 70.0 * (1 - vv)
+    r['settle'] = 105.0 * (1 - vv)
     r['neck_a_lie'] = na_l; r['head_a_lie'] = ha_l
     r['tail_a_lie'] = w * 0.35 * np.sin(ph)
     r['breath'] = br

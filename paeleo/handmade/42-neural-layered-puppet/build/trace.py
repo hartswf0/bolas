@@ -4,6 +4,7 @@ against the back line during the approach, feet against travel.  Also writes bui
 """
 import json, os
 import numpy as np
+import world as Wo
 
 HERE = os.path.dirname(os.path.abspath(__file__)); ROOT = os.path.dirname(HERE)
 SCORE = json.load(open(os.path.join(ROOT, '..', 'score', 'threshold-score.json')))
@@ -65,7 +66,9 @@ def facing(r):
 def posture(r):
     if r['mode'] == 'view': return 'turning (archive frame f%02d, whole)' % r['view']
     if r['mode'] == 'turn-blend': return 'turning (learned fit of archive frame f%02d dissolving with the frame)' % r['view']
-    if r['mode'] == 'turn-learned': return 'turning (puppet moving into / out of its learned fit of archive frame f%02d)' % r['view']
+    if r['mode'] == 'turn-learned':
+        v = r['view']
+        return 'turning: the puppet at / between its learned poses of archive turning frames' + ('' if not v else ' (near f%02d%s)' % (v[1], ' mirrored' if v[0] == 'm' else ''))
     if r['mode'] == 'head-swing': return 'lying then rising, head swinging round to the door'
     if r['lie'] > 0.5:
         if r['look'] > 0.5: return 'lying across the sill, head reaching in'
@@ -79,7 +82,7 @@ frames = []
 for r in M:
     f = dict(i=r['i'], t=round(r['t'], 4), state=state_at(r['t']), x_score=r['x_score'], x_screen=round(r['x_screen'], 2),
              y_screen=round(r['y_screen'], 2), facing=facing(r), posture=posture(r), visibility=r['mode'],
-             view_frame=r['view'], override=round(r['override'], 2), bbox=r['bbox'])
+             view_frame=r['view'][1] if isinstance(r['view'], list) else r['view'], override=round(r['override'], 2), bbox=r['bbox'])
     if r.get('head_top_y') is not None:
         f['head_top_y'] = round(r['head_top_y'], 1); f['back_top_y'] = round(r['back_top_y'], 1)
         f['head_below_back_px'] = round(r['head_top_y'] - r['back_top_y'], 1)
@@ -103,13 +106,13 @@ summary = dict(onsets_measured=onsets,
                feet_vs_travel_approach=dict(share_of_foot_frames_planted=planted, median_foot_to_body_speed=slide,
                                             note='a planted foot moves < 0.35 x the body per frame; 1.0 would be a foot that slides with the body'),
                head_toward_door_at=None if hd_door is None else float(t[hd_door]),
-               lying_end=dict(bbox_bottom=M[-1]['bbox'][3], floor_y=612, tail_x_range=M[-1].get('tail_x_range'), door_outer_face_x=490.0),
-               end=dict(x_score=frames[-1]['x_score'], bbox=frames[-1]['bbox'], door_reveal_screen_x=[330 + 0.35 * 200, 330 + 0.80 * 200]),
+               lying_end=dict(bbox_bottom=M[-1]['bbox'][3], floor_y=612, tail_x_range=M[-1].get('tail_x_range'), door_outer_face_x=Wo.X(Wo.WALL_OUT)),
+               end=dict(x_score=frames[-1]['x_score'], bbox=frames[-1]['bbox'], door_reveal_screen_x=[Wo.X(Wo.WALL_IN), Wo.X(Wo.WALL_OUT)]),
                override_share=float(np.mean([f['override'] > 0.05 for f in frames])),
                view_share=float(np.mean([f['visibility'] == 'view' for f in frames])),
                visibility_counts={v: sum(f['visibility'] == v for f in frames) for v in sorted(set(f['visibility'] for f in frames))})
 about = ("SCION 42 trace, measured from the render. x_screen/y_screen: centroid of the dog's rendered alpha (px, static "
-         "camera, 1 m = 200 px, threshold x=0 at screen x 330). facing: +1 toward the door (left); measured from the head "
+         "camera, 1 m = 190 px, threshold x=0 at screen x 310). facing: +1 toward the door (left); measured from the head "
          "layer's screen position against the centroid for the learned puppet, from the kit nose keypoint for archive "
          "views (0 = facing the camera). visibility: profile-L/-R = learned puppet, view = whole archive frame, "
          "turn-learned = puppet carried into its learned fit of an archive turning frame, turn-blend = that fit dissolving with the real frame, head-swing = head and neck layers swinging round their learned hinge. override: share of the pose that is a "

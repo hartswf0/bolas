@@ -7,8 +7,8 @@ import numpy as np
 from PIL import Image, ImageDraw, ImageFilter
 
 Wd, Ht = 1280, 720
-S = 200.0            # px per metre
-X0 = 330.0           # screen x of world x = 0
+S = 190.0            # px per metre
+X0 = 310.0           # screen x of world x = 0
 FLOOR = 612.0        # screen y where feet touch the boards
 WALL_IN, WALL_OUT = 0.35, 0.80     # the door reveal (stone wall thickness), world x
 LINTEL = FLOOR - 2.05 * S           # top of the door opening

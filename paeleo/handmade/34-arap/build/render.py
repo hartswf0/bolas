@@ -50,12 +50,10 @@ class Renderer:
             if L['view'] != 'P':
                 out.append((L['view'], L['mirror'], L['extra'], {}, L['w']))
                 continue
-            u = float(smoothstep(0.42, 0.62, a['lie'])); v = float(smoothstep(0.35, 0.6, a['look']))
-            for body, wb in (('stand', 1 - u), ('lie', u)):
-                for hv, wh in (('P', 1 - v), ('L', v)):
-                    w = L['w'] * wb * wh
-                    if w > 0.01:
-                        out.append(('P', L['mirror'], L['extra'], dict(body=body, head_view=hv), w))
+            # hard swaps (no dissolve): the lying mesh from lie >= 0.55, the head turned in from look >= 0.45
+            body = 'lie' if a['lie'] >= 0.55 else 'stand'
+            hv = 'L' if a['look'] >= 0.45 else 'P'
+            out.append(('P', L['mirror'], L['extra'], dict(body=body, head_view=hv), L['w']))
         tot = sum(o[-1] for o in out)
         return [(o[0], o[1], o[2], o[3], o[4] / tot) for o in out]
 
@@ -71,17 +69,17 @@ class Renderer:
             d = self.dog
             aa = dict(a)
             if sub['body'] == 'stand':
-                aa['lie'] = min(a['lie'], 0.5)
+                aa['lie'] = min(a['lie'], 0.55)
             pose = pose_P(d, aa, paws={L: f['paws'][L] for L in LEGS}, lifts=f['lifts'])
             if sub['body'] == 'lie':
                 pose['body'] = 'lie'
                 pose = dict(pose); pose.update({k: v for k, v in pose_P(d, a).items() if k in ('settle', 'neck_a_lie', 'head_a_lie', 'tail_a_lie', 'neck_len', 'ear')})
                 pose['breath'] = a['breath'] * 0.6
             if sub.get('head_view') == 'L':
-                pose['head_view'] = 'L'; pose['L_a'] = -0.22
+                pose['head_view'] = 'L'; pose['L_a'] = -0.42
             if ex.get('head_flip'):
                 pose['head_flip'] = True
-                pose['head_flip_a'] = 0.15 if f['t'] > 7 else -0.35
+                pose['head_flip_abs'] = -0.12      # muzzle level, a little down: at or below its back line
             if first and sub['body'] == 'stand':
                 d.solver.X = d.body.V.copy()
             X, Xh = d.solve(pose, iters=iters)
