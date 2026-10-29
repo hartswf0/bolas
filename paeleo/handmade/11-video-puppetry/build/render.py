@@ -121,7 +121,8 @@ def frame(fr):
                top=int(ys.min()) if len(ys) else None, bottom=int(ys.max()) if len(ys) else None,
                left=int(xs.min()) if len(xs) else None, right=int(xs.max()) if len(xs) else None,
                hx=float(hx.mean()) if len(hx) else None, hy=float(hy.mean()) if len(hy) else None,
-               det_min=L['det_min'], det_max=L['det_max'],
+               det_min=L['det_min'], det_max=L['det_max'], withers_y=L['withers'][1],
+               head_top=int(hy.min()) if len(hy) else None,
                in_door=float(((xs >= DOOR[0]) & (xs <= DOOR[2])).mean()) if len(xs) else 0.0)
     return rec
 

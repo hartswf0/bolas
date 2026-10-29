@@ -4,16 +4,17 @@ the dog's visible pixels, its rendered head and trunk samples in world metres, h
 What is measured (not copied from the score):
   x_screen, y_screen     centroid of the dog's visible pixels in the frame (after depth test against the set)
   x_world_measured       centroid of the rendered trunk samples along the porch, + 0.49 (back into score metres)
-  facing                 +1 when the rendered head lies toward the door from the trunk (head x < trunk x), -1 when away
+  facing                 +1 when the rendered head points toward the door (nose x < skull x), -1 when it points away
   back_z, head_top_z     95th-percentile height of the rendered trunk / head samples
-  posture                lying (back_z < 0.40), crouched (back_z < 0.50 standing), standing
+  posture                lying (back_z < 0.40 and not travelling), crouched (back_z < 0.50 standing), standing
   head_low               head top below the back line (head_top_z < back_z)
   looking_in             the nose handle (which the rendered muzzle passes through: MLS interpolates its handles) is inside
                          the door frame (x < 0) and points into the room (nose x < skull x - 0.12)
   state (measured)       refuse: facing -1 (back to the door)
                          lie_down: lying, facing the door, at the sill (trunk x < 0.75 m world)
-                         retreat: facing the door and moving away (> 0.10 m/s), or, once retreating, still cowering
-                                  (back_z < 0.47 and head below the back)
+                         retreat: facing the door and moving away (> 0.10 m/s) while the back is not coming up out of the
+                                  crouch (back_z rising > 2 cm over 3 frames ends it: it straightens to watch) and with its head
+                                  not up (head top < 0.62 m; the body's own pivot in the turn back is not a retreat)
                          approach: facing the door, moving toward it (< -0.10 m/s) or head-low and still advancing
                          watch: otherwise
   x_score                the score's x for the frame (what the dog was asked to do), kept for the I2 check"""
@@ -39,8 +40,10 @@ def main():
     frames = []
     state = 'watch'
     for i, r in enumerate(raws):
-        facing = 1 if hx[i] < xw[i] else -1
-        lying = back[i] < 0.40
+        nose, skull = r['nose_world'], r['skull_world']
+        facing = 1 if nose[0] < skull[0] else -1          # where the rendered head points: toward the door or away
+        rising = back[i] - back[max(i - 3, 0)] > 0.02     # the back coming up out of a crouch
+        lying = back[i] < 0.40 and abs(v[i]) < 0.15
         crouched = (not lying) and back[i] < 0.50
         head_low = htop[i] < back[i]
         nose, skull = r['nose_world'], r['skull_world']
@@ -49,7 +52,7 @@ def main():
             s = 'refuse'
         elif lying and xw[i] < 0.75:
             s = 'lie_down'
-        elif v[i] > 0.10 or (state == 'retreat' and back[i] < 0.47 and head_low):
+        elif v[i] > 0.10 and not rising and htop[i] < 0.62:
             s = 'retreat'
         elif v[i] < -0.10 or (state == 'approach' and head_low and not lying):
             s = 'approach'

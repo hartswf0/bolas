@@ -98,11 +98,24 @@ calls ≈ −19.7 dBFS, soft words −28.8 … −30.8 dBFS (≥ 8.9 dB quieter)
 - One artistic achievement judged only by viewing: whether the lifted pelt reads as one living dog in every frame of the
   turns and the lie-down — that is for the critic.
 
-ONSETS_PLACEHOLDER
+## Measured onsets (from the render, proof/onsets.json)
+
+| choice | score t | measured t | dt | measured by |
+|---|---|---|---|---|
+| retreat | 1 | 1 | +0.000 | rendered trunk moving away > 0.10 m/s, head not up |
+| watch | 2.333 | 2.292 | -0.041 | the back rising out of the crouch |
+| refuse | 3.417 | 3.583 | +0.166 | rendered head points away from the door (nose x > skull x) |
+| watch | 7.458 | 7.625 | +0.167 | rendered head points toward the door again |
+| approach | 14.708 | 14.708 | +0.000 | rendered trunk moving toward the door < −0.10 m/s |
+| lie_down | 23.792 | 24 | +0.208 | back top < 0.40 m, not travelling, at the sill |
+| looks in (head into the doorway) | 26.4 | 26.417 | +0.017 | nose handle inside the frame, pointing into the room |
+
+Back shown (head pointing away) by 3.583 s; head round toward the door by 7.625 s; head below the back line in 98.7% of approach frames; lying in 100% of frames after 28.5 s; at the end the hide reaches -0.648 m (inside the door frame, which spans −0.14…0 m, and past it) and its tail end lies at +0.791 m on the porch. The lie-down onset (+0.208 s) is the closest to the ±0.25 s limit. check_handmade.py: ALL OK (invariants.json).
+Film: 912 frames, 38.0 s, H.264 + AAC, faststart, 9.7 MB (ffprobe).
 
 ## What failed and what I changed
 
-See ledger.jsonl (17 entries). The decisive ones: the first turn folded the hide into a tangle (curl too strong, paws left
+See ledger.jsonl (20 entries). The decisive ones: the first turn folded the hide into a tangle (curl too strong, paws left
 behind) → softer curl and quick steps while turning; the gait gave every step to one diagonal → alternation; the back
 silhouette grew teeth between handles → line-segment handles and α = 2; the dog turned grey and box-like in the dusk light →
 light that keeps the coat's colour and a dog's section (deep chest, tucked belly).
@@ -114,6 +127,8 @@ light that keeps the coat's colour and a dog's section (deep chest, tucked belly
 - At 8.2 s the head is ahead of the body by 120° and the neck sheet twists across the shoulder.
 - Ears are thin in profile; the half-flat ears of the approach read as small wings.
 - The lying hind legs splay sideways more than a real dog's.
+- The person's low hand reads weakly in the close shot (the hand rests near the knees more than it reaches); the
+  capsule figure speckles in the close shot (point splats).
 - The voice is a formant synthesizer: the words are recognisable mainly with the captions.
 
 ## What I did not do

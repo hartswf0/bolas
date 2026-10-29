@@ -25,9 +25,9 @@ def onsets(ms, ctrl):
     out = {}
     # retreat: the body starts to lower (crouch) or move away from the door
     out['retreat'] = first((hgt < h0 - 2) | (cx > x0 + 2), 0.5)
-    # retreat -> watch: the crouch starts to come up again (height rises 2 px above its lowest in the retreat)
-    i1 = int(np.argmin(hgt[24:60])) + 24
-    out['watch'] = first(hgt > hgt[i1] + 2, t[i1])
+    # retreat -> watch: the crouched back starts to come up (top of the dog rises 2 px above its crouched level)
+    tc = np.median(top[(t >= 1.5) & (t <= 2.2)])
+    out['watch'] = first(top < tc - 2, 2.0)
     # refuse: the head direction swings more than 12 degrees off its watching direction
     hw = np.median(hd[60:80])
     dd = np.abs((hd - hw + 180) % 360 - 180)
@@ -36,9 +36,9 @@ def onsets(ms, ctrl):
     out['watch_again'] = first(nose_left, 7.0)
     # approach: the dog starts to travel toward the door
     out['approach'] = first(cx < cx[340] - 2, 14.0)
-    # lie_down: the body height starts to drop at the sill
-    hs = np.median(hgt[540:568])
-    out['lie_down'] = first(hgt < hs - 3, 22.5)
+    # lie_down: the top of the dog starts to drop at the sill (3 px below its standing level)
+    ts = np.median(top[540:568])
+    out['lie_down'] = first(top > ts + 3, 22.5)
     # look in: the head starts to turn away into the room (head turn control read with head direction change)
     hr = np.median(hd[620:630])
     out['look_in'] = first(np.abs((hd - hr + 180) % 360 - 180) > 8, 26.0)

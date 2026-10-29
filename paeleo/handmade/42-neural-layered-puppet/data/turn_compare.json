@@ -1,0 +1,139 @@
+{
+ "frames": [
+  14,
+  15,
+  16,
+  17,
+  18,
+  19,
+  20,
+  21,
+  26,
+  27,
+  28,
+  29,
+  30,
+  31,
+  32,
+  33
+ ],
+ "rows": [
+  {
+   "frame": 14,
+   "learned_iou": 0.796,
+   "authored_iou": 0.796,
+   "learned_photo": 0.756,
+   "authored_photo": 0.761
+  },
+  {
+   "frame": 15,
+   "learned_iou": 0.803,
+   "authored_iou": 0.795,
+   "learned_photo": 0.597,
+   "authored_photo": 0.614
+  },
+  {
+   "frame": 16,
+   "learned_iou": 0.807,
+   "authored_iou": 0.813,
+   "learned_photo": 0.77,
+   "authored_photo": 0.769
+  },
+  {
+   "frame": 17,
+   "learned_iou": 0.768,
+   "authored_iou": 0.792,
+   "learned_photo": 0.836,
+   "authored_photo": 0.791
+  },
+  {
+   "frame": 18,
+   "learned_iou": 0.708,
+   "authored_iou": 0.711,
+   "learned_photo": 0.812,
+   "authored_photo": 0.931
+  },
+  {
+   "frame": 19,
+   "learned_iou": 0.714,
+   "authored_iou": 0.702,
+   "learned_photo": 1.212,
+   "authored_photo": 1.037
+  },
+  {
+   "frame": 20,
+   "learned_iou": 0.753,
+   "authored_iou": 0.755,
+   "learned_photo": 1.304,
+   "authored_photo": 1.275
+  },
+  {
+   "frame": 21,
+   "learned_iou": 0.736,
+   "authored_iou": 0.707,
+   "learned_photo": 0.803,
+   "authored_photo": 0.938
+  },
+  {
+   "frame": 26,
+   "learned_iou": 0.781,
+   "authored_iou": 0.756,
+   "learned_photo": 0.961,
+   "authored_photo": 1.074
+  },
+  {
+   "frame": 27,
+   "learned_iou": 0.737,
+   "authored_iou": 0.742,
+   "learned_photo": 0.991,
+   "authored_photo": 1.07
+  },
+  {
+   "frame": 28,
+   "learned_iou": 0.741,
+   "authored_iou": 0.75,
+   "learned_photo": 0.775,
+   "authored_photo": 0.948
+  },
+  {
+   "frame": 29,
+   "learned_iou": 0.716,
+   "authored_iou": 0.733,
+   "learned_photo": 0.935,
+   "authored_photo": 0.992
+  },
+  {
+   "frame": 30,
+   "learned_iou": 0.727,
+   "authored_iou": 0.733,
+   "learned_photo": 0.97,
+   "authored_photo": 1.015
+  },
+  {
+   "frame": 31,
+   "learned_iou": 0.735,
+   "authored_iou": 0.763,
+   "learned_photo": 0.894,
+   "authored_photo": 0.943
+  },
+  {
+   "frame": 32,
+   "learned_iou": 0.75,
+   "authored_iou": 0.733,
+   "learned_photo": 1.013,
+   "authored_photo": 1.01
+  },
+  {
+   "frame": 33,
+   "learned_iou": 0.761,
+   "authored_iou": 0.751,
+   "learned_photo": 1.055,
+   "authored_photo": 0.884
+  }
+ ],
+ "mean_iou_learned": 0.7520625000000001,
+ "mean_iou_authored": 0.752,
+ "learned_better_on": 6,
+ "n": 16,
+ "note": "same template, same losses, same iterations, masks frozen; only the part split differs (learned layers vs keypoint-cut rig)"
+}

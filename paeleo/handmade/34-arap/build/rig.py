@@ -201,7 +201,7 @@ LIE = {   # lying (sphinx): paw centre, ankle, knee, in the dog frame
     'FN': ((-545, 22), (-470, 34), (-300, 40)), 'FF': ((-475, 22), (-400, 34), (-230, 40)),
     'HN': ((60, 22), (175, 40), (30, 110)), 'HF': ((-10, 22), (105, 40), (-40, 110)),
 }
-LIE_SH = np.array([40.0, -290.0]); LIE_HIP = np.array([-10.0, -305.0])
+LIE_SH = np.array([5.0, -290.0]); LIE_HIP = np.array([15.0, -300.0])
 DEEP_SH = np.array([10.0, -150.0]); DEEP_HIP = np.array([10.0, -215.0])
 
 
@@ -289,8 +289,8 @@ def pose_P(d, a, paws=None, lifts=None):
     r['ear'] = float(np.clip(a.get('ear', 1.0), 0, 1))
     t_ = float(a.get('tail', 0.5)); w = float(a.get('wag', 0)); ph = float(a.get('wph', 0))
     ta = -(t_ - 0.5) * 1.0 + w * 0.45 * np.sin(ph)
-    r['tail_a'] = ta * (1 - wl) + (-1.25 + w * 0.25 * np.sin(ph)) * wl
-    r['tail_curl'] = -0.35 * max(t_ - 0.8, 0) * (1 - wl)
+    r['tail_a'] = ta * (1 - wl) + (0.5 + w * 0.3 * np.sin(ph)) * wl
+    r['tail_curl'] = -0.35 * max(t_ - 0.8, 0) * (1 - wl) + 0.35 * wl
     return r
 
 

@@ -61,7 +61,7 @@ SRC = {
         'tailtip': (155, 118), 'chest': (209, 172), 'belly': (188, 166), 'flank': (170, 160),
         'ft1': (187, 165), 'fk1': (187, 180), 'f1': (186, 193), 'ft2': (206, 165), 'fk2': (214, 182), 'f2': (225, 199),
         'ht1': (173, 158), 'hk1': (173, 168), 'h1': (172, 178), 'ht2': (161, 148), 'hk2': (161, 166), 'h2': (161, 182), 'neckbase': (201, 140)},
-        'neckcut': ((196, 100), (205, 174)), 'tailcut': ((149, 0), (149, 300)),
+        'neckcut': ((196, 100), (205, 174)), 'tailcut': ((149, 0), (149, 300)), 'notail': True,
         'belly': [(150, 160), (175, 162), (200, 168), (215, 168), (240, 168)]},
 }
 SCALE_FIX = {'L': 1.0, 'F': 1.06}  # F is a little farther from the home-movie camera
@@ -132,6 +132,9 @@ def load():
         dt = side(s['tailcut'], s['h']['tailtip'])
         pieces['neck'] = above * np.clip((dn + 5) / 6., 0, 1)
         pieces['tail'] = above * np.clip((dt + 4) / 5., 0, 1) * (dn < 0)
+        if s.get('notail'):   # frame 38: the tail is behind the dog, there is no tail to cut
+            pieces['tail'] = pieces['tail'] * 0
+            dt = dt * 0 - 100
         pieces['body'] = above * np.clip((5 - dn) / 6., 0, 1) * np.clip((4 - dt) / 5., 0, 1)
         # where the head itself is (for measuring the head on the render)
         hn = (np.array(s['h']['nose']) + np.array(s['h']['skull'])) / 2
@@ -155,7 +158,7 @@ def load():
     a = raster_alpha(masks[str(fr0)], W, H)
     g = tone(g, a)
     yy, xx = np.mgrid[0:H, 0:W].astype(np.float32)
-    a = a * np.clip((124 - yy) / 6., 0, 1) * np.clip((162 - xx) / 6., 0, 1)
+    a = a * np.clip(1.6 - np.hypot((xx - 129) / 25., (yy - 92) / 33.) * 1.6, 0, 1)
     out['B'] = dict(img=g, alpha=a, base=np.array([131., 118.]), top=np.array([129., 62.]), W=W, H=H)
     return out
 

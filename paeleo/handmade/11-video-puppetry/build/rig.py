@@ -57,7 +57,7 @@ def pose(canon, p, t=0.0, hg=1.0):
             a = np.degrees(np.arcsin(np.clip(-dx / ln, -.8, .8)))
         a += c * (-6 if leg[0] == 'f' else 8)
         # lying: forelegs forward along the boards, hind legs folded forward under the haunch
-        a = lerp(a, 84 if leg[0] == 'f' else 74, np.clip(lie * 1.2, 0, 1))
+        a = lerp(a, 84 if leg[0] == 'f' else 104, np.clip(lie * 1.2, 0, 1))
         T[ids] = rot(T[IDX[tp]] + seg, T[IDX[tp]], a)
     # stance feet rise a little when the rigid leg swings; let the body down by the same amount
     if feet:
@@ -76,7 +76,7 @@ def pose(canon, p, t=0.0, hg=1.0):
     T[hd] = canon[hd] - canon[IDX['neckbase']] + nb
     th = (0.9 - head) * 105
     th = lerp(th, 72, rest)
-    th = lerp(th, 30, look)
+    th = lerp(th, 22, look)
     T[hd] = rot(T[hd], nb, -th * hg)
     # --- tail: rigid about its root (0 high, 0.5 as filmed, 1.35 tucked), plus wag
     tr = T[IDX['tailroot']]
@@ -146,7 +146,7 @@ class DogRig:
         G = np.zeros((h, w)); A = np.zeros((h, w)); HW = np.zeros((h, w))
         dets = []
         lie = params.get('lie', 0)
-        far = FAR + (['h2'] if lie > .4 else [])
+        far = FAR + (['h2'] if lie > .3 else [])
         near = [n for n in NEAR if n not in far]
         look = params.get('look', 0)
         wB = float(np.clip((look - .3) / .4, 0, 1)) if name == 'L' else 0.0
@@ -169,8 +169,10 @@ class DogRig:
                 z = ((xx - pc_[0]) + 1j * (yy - pc_[1])) / M
                 fx, fy = z.real + qc[0], z.imag + qc[1]
             a = np.clip(ndimage.map_coordinates(pcs[pc], [fy, fx], order=1, mode='constant', cval=0), 0, 1)
-            if pc == 'neck':
-                a = a * (1 - wB)
+            if pc == 'neck' and wB > 0:   # the head part gives way to the back-of-head piece; the neck stays
+                hm0 = ndimage.map_coordinates(pcs['headmap'], [fy, fx], order=1, mode='constant', cval=0)
+                a = a * (1 - wB * np.clip(hm0 * 1.6, 0, 1))
+                hc_t = np.array([(xx * a).sum(), (yy * a).sum()]) / max(a.sum(), 1)
             if a.max() < 1e-3:
                 continue
             g = np.clip(ndimage.map_coordinates(img, [fy, fx], order=3, mode='constant', cval=0), 0, 1)
@@ -186,16 +188,16 @@ class DogRig:
         if wB > 0:
             # looking in: the head piece is replaced by the back of the head (kit frame 0), pinned at the neck
             B = self.P['B']
-            nb = T[IDX['neckbase']]
             sc = np.hypot(*(T[IDX['withers']] - T[IDX['chest']])) / np.hypot(*(Q[IDX['withers']] - Q[IDX['chest']]))
             sgn = -1 if flip else 1
-            up = np.radians(-14 * sgn)  # tipped a little toward the door
-            Mb = sc * np.exp(1j * up)
-            base_t = nb + np.array([-6 * sgn, -4]) * sc
-            z = ((xx - base_t[0]) + 1j * (yy - base_t[1])) / Mb
-            bx, by = z.real + B['base'][0], z.imag + B['base'][1]
+            up = np.radians(-12 * sgn)  # tipped a little toward the door
+            Mb = sc * .92 * np.exp(1j * up)
+            hc = (T[IDX['skull']] * .6 + T[IDX['throat']] * .4)   # where the head was
+            bc = np.array([129., 96.])                             # the back of the head in frame 0
+            z = ((xx - hc[0]) + 1j * (yy - hc[1])) / Mb
+            bx, by = z.real + bc[0], z.imag + bc[1]
             if flip:
-                bx = 2 * B['base'][0] - bx
+                bx = 2 * bc[0] - bx
             a = np.clip(ndimage.map_coordinates(B['alpha'], [by, bx], order=1, cval=0), 0, 1) * wB
             g = np.clip(ndimage.map_coordinates(B['img'], [by, bx], order=3, cval=0), 0, 1)
             G = g * a + G * (1 - a)

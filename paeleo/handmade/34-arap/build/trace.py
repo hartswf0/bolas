@@ -84,7 +84,8 @@ summary = dict(onsets_measured=on,
                frames_with_inversions=int(sum(1 for fr in frames if fr['inverted_triangles'] > 0)),
                max_energy=max(fr['arap_energy'] for fr in frames),
                end_inside_door_share=frames[-1]['inside_door_share'],
-               head_below_back_approach=None)
+               head_below_back_approach=round(float(np.mean([meas[str(i)]['nose'][1] > meas[str(i)]['withers_y']
+                                                    for i in range(int(15.05 * FPS), int(23.79 * FPS))])), 3))
 about = ('SCION 34 trace, measured from the render: x_screen/y_screen = alpha centroid of the rendered dog (px, in that '
          "frame's camera); x_world_measured back-projects it through the camera (two fixed set-ups, a cut at 20.5 s); "
          'facing = +1 when the rendered muzzle points to the door; posture from the rendered height; x_score = the score x '

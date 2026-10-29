@@ -177,8 +177,8 @@ def build_static():
     front = np.zeros((H, W, 4), np.float32)
     fr = np.zeros((H, W, 3), np.float32)
     fasc = card(fr, [[(0, 688), (1250, 686), (1250, 720), (0, 720)]], hexc('#3a2f28'), 17, shadow=None)
-    post = card(fr, [[(1236, 330), (1258, 330), (1258, 720), (1236, 720)]], hexc('#2c2622'), 18, shadow=None)
-    step = card(fr, [[(1258, 640), (1280, 640), (1280, 720), (1258, 720)]], hexc('#4a3c32'), 19, shadow=None)
+    post = card(fr, [[(1262, 330), (1280, 330), (1280, 720), (1262, 720)]], hexc('#2c2622'), 18, shadow=None)
+    step = card(fr, [[(1250, 686), (1262, 686), (1262, 720), (1250, 720)]], hexc('#4a3c32'), 19, shadow=None)
     front[..., :3] = fr
     front[..., 3] = np.clip(fasc + post + step, 0, 1)
     return dict(back=back, wall=wall, floor=floor, front=front)

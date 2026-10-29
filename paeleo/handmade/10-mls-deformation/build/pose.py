@@ -53,8 +53,8 @@ def channels():
     C['th'] = PI + PI * back
     C['curl'] = 1.3 * np.sin(PI * back) * np.where(t < 7.4, 1, -1)
     # head lead (rad, added to the body heading): before the turn away the head swings first; at 7.46 the head comes round
-    lead1 = -0.0 + 0.9 * (ss(3.42, 3.75, t) - ss(3.9, 4.25, t))
-    lead2 = -2.1 * (ss(7.46, 7.85, t) - ss(8.15, 8.95, t))
+    lead1 = 1.55 * (ss(3.42, 3.64, t) - ss(3.85, 4.25, t))
+    lead2 = -2.1 * (ss(7.46, 7.66, t) - ss(8.15, 8.95, t))
     C['lead'] = lead1 + lead2
     return C
 

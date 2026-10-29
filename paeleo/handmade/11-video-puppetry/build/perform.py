@@ -42,7 +42,8 @@ def turn_axis(t):
         return 0.0
     if t < 7.458:
         return 3.0 * ease_out((t - 3.417) / 0.44)
-    return 3.0 - 3.0 * ease_out((t - 7.458) / 0.50)
+    # repair 3: it gets up first (7.46-7.62, head leading), then turns standing (7.56-8.0)
+    return 3.0 - 3.0 * sm((t - 7.56) / 0.44)
 
 
 def feet(x, moving, pxm_over_scale):
@@ -84,6 +85,8 @@ def build():
         if 7.458 <= t < 8.2:
             head = max(head, 0.35 + 0.6 * sm((t - 7.458) / 0.3))
         # lying at the sill: looks in (score look), then settles chin down (score rest)
+        if 7.458 <= t < 8.0:
+            lie = min(lie, 1 - sm((t - 7.458) / 0.16)); rest = min(rest, lie); crouch = min(crouch, .3)
         mov = a['moving']
         ft = feet(x, mov, PXM / sc) if lie < 0.5 else {}
         bob = -2.2 * abs(np.sin(2 * np.pi * (-x) / STRIDE * 2)) * mov if lie < .2 else 0.0

@@ -28,7 +28,7 @@ def keyed(t, keys):
     return dict(keys[-1][1])
 
 
-STAND = dict(X=-0.28, Z=0.0, hip=.93, lean=0.0, th1=0.03, sh1=0.0, th2=-0.03, sh2=0.0, arm=0.08, elb=0.15, arm2=-0.05, elb2=0.1, head=0.0)
+STAND = dict(face=1.0, X=-0.28, Z=0.0, hip=.93, lean=0.0, th1=0.03, sh1=0.0, th2=-0.03, sh2=0.0, arm=0.08, elb=0.15, arm2=-0.05, elb2=0.1, head=0.0)
 
 
 def pose_at(t, score_person):
@@ -43,7 +43,8 @@ def pose_at(t, score_person):
     soft = dict(low, head=0.42, lean=0.28)
     keys = [(0.0, S), (0.9, S), (1.15, call), (2.2, call), (2.6, S), (3.3, S), (3.75, reach), (4.5, reach), (4.75, S),
             (5.05, step), (5.35, stand_b), (6.3, sit), (6.75, sit), (7.15, low), (7.5, soft), (9.6, low), (10.4, soft),
-            (11.8, low), (26.3, low), (26.7, soft), (27.6, low)]
+            (11.8, low), (21.9, low), (22.5, dict(low, face=-1.0, arm=0.6, lean=0.25)), (26.3, dict(low, face=-1.0)),
+            (26.7, dict(soft, face=-1.0)), (27.6, dict(low, face=-1.0))]
     return keyed(t, keys)
 
 
@@ -92,4 +93,14 @@ def draw(p, ss=2):
     da.ellipse([hd[0] - .055 * k, hd[1] - .04 * k, hd[0] + .055 * k, hd[1] + .04 * k], fill=255)
     a = np.asarray(im.resize((W, H), Image.LANCZOS), np.float32) / 255
     aa = np.asarray(am.resize((W, H), Image.LANCZOS), np.float32) / 255
+    f = p.get('face', 1.0)
+    if f < 0.999:
+        # turning toward the door: the silhouette is scaled through zero about the body's vertical axis
+        f = f if abs(f) > 0.12 else (0.12 if f >= 0 else -0.12)
+        cx = (hip / ss)[0]
+        xs = cx + (np.arange(W) - cx) / f
+        from scipy import ndimage as nd
+        yy = np.arange(H)[:, None] * np.ones((1, W)); xx = np.ones((H, 1)) * xs[None, :]
+        a = nd.map_coordinates(a, [yy, xx], order=1, cval=0).astype(np.float32)
+        aa = nd.map_coordinates(aa, [yy, xx], order=1, cval=0).astype(np.float32)
     return a, aa, (hd / ss)
