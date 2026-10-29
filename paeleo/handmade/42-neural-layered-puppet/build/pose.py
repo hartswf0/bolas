@@ -145,7 +145,7 @@ class Poser:
             if n['neck'] >= 0: ang[n['neck']] = ang.get(n['neck'], 0) + np.radians(LOOK[0]) * look
             ang[n['head']] = ang.get(n['head'], 0) + np.radians(LOOK[1]) * look
             ov = max(ov, look)
-        look_reach = 12.0 * look
+        look_reach = 22.0 * look
         if wag and n['tail'] >= 0:
             ang[n['tail']] = ang.get(n['tail'], 0) + wag
         if head_lift:
@@ -160,9 +160,16 @@ class Poser:
             T[hk] = T[hk] @ C
         if look > 0:
             # the head carried into the lit inner doorway (override)
-            Tr = np.eye(3); Tr[0, 2] = -look_reach
+            Tr = np.eye(3); Tr[0, 2] = -look_reach; Tr[1, 2] = -8.0 * look
             for k in (n['head'], n['neck']):
                 if k >= 0: T[k] = Tr @ T[k]
+            # the head turned into depth: foreshortened along its length (to 55%) and a little smaller, about its
+            # hinge with the neck: the muzzle goes away from the camera, into the lit doorway (override)
+            hk = n['head']; nk = int(self.pp.parent[hk]); pv = self.pp.pivot[(hk, nk)]
+            c = (T[hk] @ np.array([pv[0], pv[1], 1.0]))[:2]
+            f = 1 - 0.45 * look; g = 1 - 0.1 * look
+            Sd = np.array([[f, 0, c[0] * (1 - f)], [0, g, c[1] * (1 - g)], [0, 0, 1.0]])
+            T[hk] = Sd @ T[hk]
         if head_low > 0:
             # head carried low: head and neck lowered and brought forward of the chest (override)
             Tr = np.eye(3); Tr[0, 2] = -7.0 * head_low; Tr[1, 2] = 24.0 * head_low

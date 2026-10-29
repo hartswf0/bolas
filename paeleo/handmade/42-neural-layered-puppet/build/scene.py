@@ -41,7 +41,7 @@ def smooth(a, b, t):
 
 def door_angle(t):
     # swings through square and on, back against the inside wall
-    return 0.25 + (3.08 - 0.25) * smooth(6.2, 7.1, t)
+    return 0.25 + (np.pi - 0.02 - 0.25) * smooth(6.2, 7.1, t)
 
 
 def tint_map(x_screen, lit):
@@ -112,22 +112,6 @@ class Views:
 def lerpG(A, B, u): return A * (1 - u) + B * u
 
 
-def head_piece():
-    """the dog's head turned toward the camera, cut from archive frame 39 (3/4 view, muzzle and eye clear), mirrored so
-    the nose points left (to the door).  It is the head's visibility state for the look back, pinned at the learned
-    head-neck hinge: the one place where the layers have no pose for a head turned round."""
-    im, mk = ViewFrame.get(39, False)['im'], ViewFrame.get(39, False)['a']
-    x0, x1, y0, y1 = 199, 242, 103, 154
-    g = ndimage.gaussian_filter(im, 0.4)[y0:y1, x0:x1][:, ::-1]
-    a = mk[y0:y1, x0:x1][:, ::-1].copy()
-    # soften the cut on the neck side (right after mirroring... the back of the head is now on the right)
-    ramp = np.clip((np.arange(x1 - x0)[::-1] - 2) / 6.0, 0, 1)[None, :]
-    a = a * np.clip(ramp + 0.0, 0, 1)
-    a = a * np.clip((np.arange(y1 - y0)[::-1] - 1) / 7.0, 0, 1)[:, None]      # and on the throat side
-    a = ndimage.gaussian_filter(a, 0.7)
-    return g, a, np.array([x1 - x0 - 6.0, 12.0])     # attach point (back of the skull) in the piece
-
-
 def main():
     t0 = time.time()
     pp = Puppet(); po = Poser(pp); n = po.n
@@ -145,7 +129,6 @@ def main():
     hl = np.array([float(np.clip((0.9 - f['dog']['act']['head']) / 0.45, 0, 1)) for f in frames])
     hl = np.where([f['dog']['state'] == 'approach' for f in frames], np.maximum(hl, 0.95), hl)
     HEADLOW = np.convolve(np.pad(hl, (3, 0), mode='edge'), np.ones(4) / 4, 'valid')   # eased over the 3 frames after a change
-    HG, HA, HATT = head_piece()
     hsel = np.isin(pp.lab, [k for k in (n['head'], n['neck']) if k >= 0])
     for fr in frames:
         i, t = fr['i'], fr['t']
@@ -167,6 +150,8 @@ def main():
         phase = a['walk_phase']; moving = a['moving']; crouch = a['crouch']
         if state == 'retreat' or (1.0 <= t < 2.9 and d['v'] > 0):
             phase = -phase                         # backing away: the walk run backwards
+        if state == 'refuse' and t < RISE[0]:
+            lie = smooth(5.5, 6.2, t); rest = rest * smooth(6.0, 6.6, t)    # stands with its back turned, then lies
         swing = 0.0
         if RISE[0] <= t < RISE[1]:
             swing = smooth(RISE[0], RISE[0] + SWING_DUR, t)
@@ -182,63 +167,56 @@ def main():
         T_pose, info = po.pose(phase=phase, moving=moving, head_low=min(1, head_low) * (1 - min(1, lie)), lie=lie,
                                rest=rest, look=look, crouch=crouch, breathe=breathe)
         def swing_head(Gin, sw):
-            # the head turns round on its learned hinge with the neck, the way a flat head turns in profile: it narrows
-            # toward the camera (foreshortened to 35%), passes front-on, and opens out on the other side, nose toward
-            # the door; it lifts a little as it goes
+            # the look back: the learned head layer itself, pinned at its learned hinge with the neck, turns round: it
+            # narrows (foreshortened toward the camera), changes side at its narrowest (35% width) and opens out as a
+            # mirrored copy pointing to the door; it lifts a little on the way
             hk = n['head']; nk = int(pp.parent[hk])
             pv = pp.pivot[(hk, nk)]
             js = (Gin[hk] @ np.array([pv[0], pv[1], 1.0]))[:2]
-            w = 1 - 0.65 * np.sin(np.pi * min(sw, 1.0))
-            sx = w if sw < 0.5 else -w
+            c0 = np.cos(np.pi * min(sw, 1.0))
+            sx = np.sign(c0 if abs(c0) > 1e-6 else -1) * max(abs(c0), 0.35)
             Sx = np.array([[sx, 0, js[0] * (1 - sx)], [0, 1, 0], [0, 0, 1.0]])
-            lift = -0.2 * np.sin(np.pi * min(sw, 1.0))
-            R = np.eye(3); c_, s_ = np.cos(lift * (1 if sx > 0 else -1)), np.sin(lift * (1 if sx > 0 else -1))
+            # once on the door side, the muzzle is brought down toward level (the template head is raised)
+            lift = (-0.18 * np.sin(np.pi * min(sw, 1.0)) if sx > 0 else -0.55 * smooth(0.5, 1.0, sw))
+            R = np.eye(3); c_, s_ = np.cos(lift), np.sin(lift)
             R[:2, :2] = [[c_, -s_], [s_, c_]]; R[:2, 2] = js - R[:2, :2] @ js
             Gout = Gin.copy(); Gout[hk] = R @ Sx @ Gin[hk]; return Gout
-        BACK_SWITCH = TB0 + 0.25 * TURN_DUR
-        facingR = T_REFUSE + TURN_DUR / 2 <= t < BACK_SWITCH
+        BACK_SWITCH = TB0 + 0.12 * TURN_DUR
+        facingR = T_REFUSE + 0.5 * TURN_DUR <= t < BACK_SWITCH
         place = np.array([[(-1 if facingR else 1) * S_DOG, 0, X + (1 if facingR else -1) * S_DOG * ax],
                           [0, S_DOG, Wo.FLOOR - S_DOG * ay], [0, 0, 1.0]])
         G = np.einsum('ij,kjl->kil', place, T_pose)
         mode = 'profile-R' if facingR else 'profile-L'
         view = None; pup_o = 1.0; vid = None
-        swung = swing if RISE[0] <= t < RISE[1] else None
-        split = RISE[0] <= t < TB0 + 0.16 * TURN_DUR     # head drawn as its own hard layer while it is turned
+        swung = swing if RISE[0] <= t < RISE[1] else (1.0 if RISE[1] <= t < BACK_SWITCH else None)
+        split = swung is not None
         G_head = None
-        # ---- the turns, rendered with the puppet only: it is posed at its learned fits of the archive frames of the
-        # dog turning (turn_fit.py; these beat the best hand-set hinge pose on 13 of 16 frames), each fit placed by its
-        # own silhouette at the puppet's height.  At the front-on pose (frame 30) the fit is mirrored about the dog's
-        # centre line: that is where the body changes side.
+        # ---- the turns: the puppet held at its learned fits of archive turning frames 15 and 16 (turn_fit.py; the
+        # learned poses beat the best hand-set hinge pose on 13 of 16 frames), drawing to drawing, no in-betweens; each
+        # fit placed by its own silhouette at the puppet's height.  The body changes side between fit 16 and its mirror.
         Hn = S_DOG * (pp.bbox[3] - pp.bbox[1]) * 0.9
         Fx = np.array([[-1.0, 0, 2 * X], [0, 1, 0], [0, 0, 1]])
         def knot(k):
             if isinstance(k, str) and k.startswith('flip'):
                 return np.einsum('ij,kjl->kil', Fx, VW.G_norm(('t', int(k[4:])), X, Hn))
             return VW.G_norm(k, X, Hn)
-        def run(knots, u, G0, G1):
-            for (ua, ka), (ub, kb) in zip(knots[:-1], knots[1:]):
-                if ua <= u < ub:
-                    A_ = G0 if ka == 'start' else G1 if ka == 'end' else knot(ka)
-                    B_ = G0 if kb == 'start' else G1 if kb == 'end' else knot(kb)
-                    return lerpG(A_, B_, smooth(ua, ub, u)), (ka if smooth(ua, ub, u) < 0.5 else kb)
-            return G1, 'end'
+        GL = np.einsum('ij,kjl->kil', np.array([[S_DOG, 0, X - S_DOG * ax], [0, S_DOG, Wo.FLOOR - S_DOG * ay], [0, 0, 1.0]]), T_pose)
+        GR = np.einsum('ij,kjl->kil', np.array([[-S_DOG, 0, X + S_DOG * ax], [0, S_DOG, Wo.FLOOR - S_DOG * ay], [0, 0, 1.0]]), T_pose)
         u = (t - T_REFUSE) / TURN_DUR
         if 0 <= u < 1:
-            GL = np.einsum('ij,kjl->kil', np.array([[S_DOG, 0, X - S_DOG * ax], [0, S_DOG, Wo.FLOOR - S_DOG * ay], [0, 0, 1.0]]), T_pose)
-            GR = np.einsum('ij,kjl->kil', np.array([[-S_DOG, 0, X + S_DOG * ax], [0, S_DOG, Wo.FLOOR - S_DOG * ay], [0, 0, 1.0]]), T_pose)
-            # through the 3/4 poses only (the front-on fits read as a two-humped tangle); the body changes side at the
-            # most frontal 3/4 pose (17), mirrored about the dog's centre line
-            AWAY = [(0, 'start'), (0.16, ('t', 15)), (0.32, ('t', 16)), (0.48, ('t', 17)), (0.4801, 'flip17'),
-                    (0.66, 'flip16'), (0.84, 'flip15'), (1.0001, 'end')]
-            G, kk = run(AWAY, u, GL, GR); mode = 'turn-learned'; view = kk if isinstance(kk, tuple) else None
+            mode = 'turn-learned'
+            if u < 0.10: G = lerpG(GL, knot(('t', 15)), smooth(0, 0.10, u)); view = ('t', 15)
+            elif u < 0.33: G = knot(('t', 15)); view = ('t', 15)
+            elif u < 0.50: G = knot(('t', 16)); view = ('t', 16)
+            elif u < 0.67: G = knot('flip16'); view = ('f', 16)
+            elif u < 0.84: G = knot('flip15'); view = ('f', 15)
+            else: G = lerpG(knot('flip15'), GR, smooth(0.84, 1.0, u)); view = ('f', 15)
         u = (t - TB0) / TURN_DUR
-        if 0 <= u < 1:
-            GL = np.einsum('ij,kjl->kil', np.array([[S_DOG, 0, X - S_DOG * ax], [0, S_DOG, Wo.FLOOR - S_DOG * ay], [0, 0, 1.0]]), T_pose)
-            GR = np.einsum('ij,kjl->kil', np.array([[-S_DOG, 0, X + S_DOG * ax], [0, S_DOG, Wo.FLOOR - S_DOG * ay], [0, 0, 1.0]]), T_pose)
-            BACK = [(0, 'start'), (0.16, 'flip15'), (0.32, 'flip16'), (0.48, 'flip17'), (0.4801, ('t', 17)), (0.66, ('t', 16)),
-                    (0.82, ('t', 15)), (1.0001, 'end')]
-            G, kk = run(BACK, u, GR, GL); mode = 'turn-learned'; view = kk if isinstance(kk, tuple) else None
-            G_head, _ = run(BACK, u, swing_head(GR, 1.0), GL)
+        if 0.12 <= u < 1:
+            mode = 'turn-learned'
+            if u < 0.40: G = knot(('t', 16)); view = ('t', 16)
+            elif u < 0.68: G = knot(('t', 15)); view = ('t', 15)
+            else: G = lerpG(knot(('t', 15)), GL, smooth(0.68, 1.0, u)); view = ('t', 15)
         tint_img = np.broadcast_to(tint_map(np.arange(Wo.Wd, dtype=np.float32), lit)[None], (Wo.Ht, Wo.Wd, 3))
         sh_w = 0.55 * Wo.S * (1 + 0.25 * lie); sh = np.exp(-((xx - X) / sh_w) ** 2 - ((yy - Wo.FLOOR - 3) / 7.0) ** 2)
         can *= (1 - 0.55 * sh)[..., None]
@@ -251,38 +229,14 @@ def main():
         if pup_o > 0:
             cp = can.copy()
             if split:
-                # the head proper (head layer above its hinge with the neck); the throat part of the layer stays
-                hpv = pp.pivot[(n['head'], int(pp.parent[n['head']]))]
-                hsH = (pp.lab == n['head']) & (pp.P[:, 1] < hpv[1] + 4)
-                if swung is not None:
-                    G_head = swing_head(G, swung)
-                    if mode.startswith('profile'): mode = 'head-swing'; rec['mode'] = mode
-                    info['override'] = 1.0; rec['override'] = 1.0
+                hsH = (pp.lab == n['head'])
+                G_head = swing_head(G, swung)
+                if mode.startswith('profile'): mode = 'head-swing'; rec['mode'] = mode
+                info['override'] = 1.0; rec['override'] = 1.0
                 saved = pp.front; pp.front = []; pp.rim = False
-                if G_head is None: G_head = G
-                hk_ = n['head']; pvh = pp.pivot[(hk_, int(pp.parent[hk_]))]
-                js_ = (G[hk_] @ np.array([pvh[0], pvh[1], 1.0]))[:2]
-                piece = (swung is not None and swung >= 0.5) or (swung is None and (t - TB0) < 0.16 * TURN_DUR)
-                r0 = pp.render(G, I3, cp, tint=tint_img, sel=~(pp.lab == n['head']) if piece else ~hsH)
-                pp.rim = True
-                if piece:
-                    # the turned-round head: archive head piece, at the hinge, nose to the door
-                    sc_ = 1.25
-                    hh, ww = HG.shape
-                    g2 = np.asarray(Image.fromarray((HG * 255).astype(np.uint8)).resize((int(ww * sc_), int(hh * sc_)), Image.BICUBIC), np.float32) / 255.
-                    a2 = np.asarray(Image.fromarray((HA * 255).astype(np.uint8)).resize((int(ww * sc_), int(hh * sc_)), Image.BICUBIC), np.float32) / 255.
-                    px0 = int(round(js_[0] - HATT[0] * sc_ + 4)); py0 = int(round(js_[1] - HATT[1] * sc_ - 14))
-                    h2_, w2_ = g2.shape
-                    reg = cp[py0:py0 + h2_, px0:px0 + w2_]
-                    tn = tint_img[py0:py0 + h2_, px0:px0 + w2_]
-                    m_ = g2.mean(); g2 = np.clip(m_ + (g2 - m_) * 1.3, 0, 1)
-                    cp[py0:py0 + h2_, px0:px0 + w2_] = reg * (1 - a2[..., None]) + g2[..., None] * tn * 1.1 * a2[..., None]
-                    al1 = np.zeros(cp.shape[:2], np.float32); al1[py0:py0 + h2_, px0:px0 + w2_] = a2
-                    r1 = dict(alpha=al1, q=r0['q'])
-                    rec['head_piece'] = [px0, py0, w2_, h2_]
-                else:
-                    r1 = pp.render(G_head, I3, cp, tint=tint_img, sel=hsH, hard=True)
+                r0 = pp.render(G, I3, cp, tint=tint_img, sel=~hsH)
                 pp.front = saved; pp.rim = True
+                r1 = pp.render(G_head, I3, cp, tint=tint_img, sel=hsH, hard=True)
                 r = dict(alpha=np.maximum(r0['alpha'], r1['alpha']), q=np.where(hsH[:, None], r1['q'], r0['q']))
             else:
                 r = pp.render(G, I3, cp, tint=tint_img)
