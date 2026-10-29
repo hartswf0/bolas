@@ -22,7 +22,7 @@ def main():
     Tfull = np.stack(np.nonzero(tf.mask)[::-1], 1).astype(float); _, nn = cKDTree(T.p).query(Tfull, k=4)
     wf = M['w'][nn].mean(1)
     ident = np.tile(np.eye(3), (K, 1, 1))
-    rows = []
+    rows = []; AH = []
     for j, f in enumerate(Tn['frames']):
         fr = F.Frame(int(f), 0)
         A_l = Tn['learned'][j]
@@ -41,7 +41,7 @@ def main():
             x = x0.copy(); x[1] = r0
             o = minimize(obj, x, method='Powell', options=dict(maxiter=6000, xtol=1e-3, ftol=1e-4))
             if best is None or o.fun < best.fun: best = o
-        A_h = pose(best.x)
+        A_h = pose(best.x); AH.append(A_h)
         mk, _ = F.splat_mask(Tfull, A_h, wf); iou_h = F.iou(mk, fr.mask)
         L_h, c_h = F.frame_loss(T, fr, A_h, M['w'], want_grad=False)
         rows.append(dict(frame=int(f), learned_iou=round(iou_l, 3), handset_iou=round(iou_h, 3),
@@ -50,6 +50,7 @@ def main():
     li = [r['learned_iou'] for r in rows]; hi = [r['handset_iou'] for r in rows]
     out = dict(rows=rows, mean_iou_learned=float(np.mean(li)), mean_iou_handset=float(np.mean(hi)),
                learned_better_on=int(sum(a > b for a, b in zip(li, hi))), n=len(rows), about=__doc__)
+    np.savez_compressed(os.path.join(ROOT, 'model', 'handset_turn.npz'), frames=Tn['frames'], handset=np.stack(AH))
     json.dump(out, open(os.path.join(ROOT, 'data', 'learned_vs_handset.json'), 'w'), indent=1)
     print({k: v for k, v in out.items() if k not in ('rows', 'about')})
 

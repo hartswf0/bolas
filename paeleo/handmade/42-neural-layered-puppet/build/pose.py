@@ -11,7 +11,8 @@ import os
 import numpy as np
 
 NAMES = None
-HL = [12, 18]   # neck, head (deg) for the head carried low: neck down, muzzle kept forward
+HL = [12, 18]
+LOOK = [4, -20]   # neck, head (deg): muzzle brought level, pointing into the room   # neck, head (deg) for the head carried low: neck down, muzzle kept forward
 
 
 def name_parts(pp):
@@ -141,8 +142,8 @@ class Poser:
         # look in (override): head lifts and reaches forward into the room
         if look > 0:
             # the look in: the head lifts off the paws (the turn into depth is head_depth, learned from frame 20)
-            if n['neck'] >= 0: ang[n['neck']] = ang.get(n['neck'], 0) + np.radians(12) * look
-            ang[n['head']] = ang.get(n['head'], 0) + np.radians(6) * look
+            if n['neck'] >= 0: ang[n['neck']] = ang.get(n['neck'], 0) + np.radians(LOOK[0]) * look
+            ang[n['head']] = ang.get(n['head'], 0) + np.radians(LOOK[1]) * look
             ov = max(ov, look)
         if wag and n['tail'] >= 0:
             ang[n['tail']] = ang.get(n['tail'], 0) + wag
