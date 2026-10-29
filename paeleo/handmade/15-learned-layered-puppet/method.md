@@ -14,29 +14,29 @@ The archive gives us 50 frames (4 s) of one real dog walking toward a person, tu
 | sparse example drawings | the 50 archive frames (+ 25 frames of agent keypoints); 37 used for learning after rejecting 19–25 (mask swallows the shadow, judged by eye on `proof/fits_sheet.jpg`), 23 and 49 (mask area). |
 | correspondence | per-frame fitted transforms template→frame for every layer (`proof/fits.json`), used to back-project each frame's pixels into template space. |
 | differentiable render loss | soft-alpha union of the warped layers vs the SAM mask at three blur levels + keypoints + priors + temporal prior; `scipy.optimize.least_squares` with **finite-difference** gradients (no autodiff; PyTorch not installed). 26 parameters per frame. |
-| visibility layers | occlusion by the layers above is computed per frame in back-projection; far legs fade toward the front view; at the 90° view the two mirror solutions swap (a 4°-wide crossfade). |
+| visibility layers | occlusion by the layers above is computed per frame in back-projection; far legs switch off (hard, never translucent) above 62°; the mirror solution swaps inside the skipped 55–125° band of each whip-around turn. |
 | uncertainty estimates | per-texel confidence of each learned atlas (support of the view kernel); per-frame OOD score = Mahalanobis distance of the generated joint rotations under the learned Gaussian × view support. It is written to `trace.json` (`ood`, `mahal`, `view_support`) and sonified as a faint detuned tone (−37 dBFS peak). |
 
 **What is learned** (`build/learn.py`, numbers in `proof/eval.json`, `proof/model.json`):
 - a view latent ψ (0 profile … 90 facing camera) per frame from the fitted torso foreshortening under an ellipse prior (width/length 0.38, stated assumption); head view ψ_h the same way. Left/right mirror symmetry of the dog is assumed.
 - Nadaraya–Watson regression on ψ of head tilt, head height, tail length, fore/hind leg length (e.g. the archive teaches that in front views the head layer sits tilted ~0.5 rad down and squashed to ~0.55 height).
 - per-layer, view-conditioned texture atlases (7 bins, 0–90°), kernel-weighted back-projection with shrinkage toward the f006 texture where support is low (`proof/learned_atlas.jpg`, blue = low confidence: the tail almost everywhere).
-- a Gaussian prior over 10 joint rotations. PCA of fitted poses: PC1 holds 34 % of variance and correlates r = 0.67 with the view latent (the archive's main variation is the turn).
+- a Gaussian prior over 10 joint rotations. PCA of fitted poses: PC1 holds 30 % of variance and correlates r = 0.80 with the view latent (the archive's main variation is the turn).
 
 ## Measured: how well it learned
 
-- Fit IoU (rendered silhouette vs SAM mask, at 96×72) mean **0.73** over 50 frames; profile 0.74, turning 0.68, front 0.80; worst 0.33 (frame 23, bad mask). First fit attempt at 192×144 reached 0.82–0.92 on profile frames but was too slow on the shared machine and was killed (ledger 2).
-- **Held-out appearance** (each frame reconstructed with an atlas built without frames i±2), mean abs. grey error: learned **0.098** vs single-drawing rig (f006 texture on the same fitted pose) **0.107** vs drawing swap (nearest-view other frame cut out and box-aligned) **0.098**. With a softer kernel (w²) the learned atlas reached 0.093. So: the learned appearance beats the one-drawing rig everywhere (profile 0.084 vs 0.091, turning 0.116 vs 0.125, front 0.110 vs 0.122) but only **ties** the drawing swap on appearance. Its advantage is shape: the swap matches the target silhouette at IoU 0.64, the fitted puppet at 0.73 — but the puppet is fitted to that silhouette, so this comparison favours it. Honest summary: the learned model adds articulation and view continuity; its textures are blurrier than a raw archive frame.
+- Fit IoU (rendered silhouette vs SAM mask, at 96×72) mean **0.71** over 50 frames (final end-to-end rebuild; 0.73 in round 1 with the older template); learning frames: profile 0.75, turning 0.67, front 0.76; worst frame 23 (bad mask). First fit attempt at 192×144 reached 0.82–0.92 on profile frames but was too slow on the shared machine and was killed (ledger 2).
+- **Held-out appearance** (each frame reconstructed with an atlas built without frames i±2), mean abs. grey error (final rebuild): learned **0.096** vs single-drawing rig (f006 texture on the same fitted pose) **0.109** vs drawing swap (nearest-view other frame cut out and box-aligned) **0.098**. By view: profile 0.075 / 0.085 / 0.092, turning 0.118 / 0.135 / 0.102, front 0.107 / 0.120 / 0.106. So the learned appearance beats the one-drawing rig in every view and beats the swap on profile frames, but loses to the swap while turning. Silhouette: swap IoU 0.68 vs fitted puppet 0.72 — the puppet is fitted to that silhouette, so this favours it. Honest summary: the learned model adds articulation and view continuity; its textures are blurrier than a raw archive frame.
 
 ## How the dog moves
 
 Score `act` values → controls (`build/controls.py`) → pose (`build/dogmodel.py`):
-- **view**: φ 0→180 for the refusal turn (3.42–3.82 s, through the front view), back 8.0–8.6 s; the head has its own view and **comes round over the shoulder at 7.46–7.72 s while the body is still lying facing away** (head layer reflected about its joint — a pose the archive never shows).
+- **view**: the refusal turn (3.42–3.82 s) and the turn back (8.0–8.5 s) are whip-arounds: 0→55° in ~5 frames, one cut to 125°, then →180°. No frame is shown between 55° and 125°, because the learned front view knots the legs (critic, round 1). Far legs are hidden by a hard visibility switch above 62°, never faded, and the mirror crossfade was removed (it made ghost limbs); the head has its own view and **comes round over the shoulder at 7.46–7.72 s while the body is still lying facing away** (head layer reflected about its joint — a pose the archive never shows).
 - **feet**: a planted-foot gait planner by distance walked (stride 0.42 m, duty 0.62, lateral-sequence phases); stance feet are fixed in the world and two-link IK solves each leg; walking backward (retreat) replays the same planner in reverse. Paw taps in the sound are emitted at the same stance onsets (46 taps).
 - **lying**: torso lowered to 26 template px; legs blend to authored folded angles (correction, below).
-- **head low** (approach): act.head 0.45 → head layer rotated ~0.85 rad down, below the back line for the whole approach.
-- **look in** (26.4 s): body stays; head muzzle levels into the lit doorway, foreshortened, face side in shadow (correction).
-- world X of the torso centre = score x − 0.35 m (static oblique camera, 210 px/m), so lying at x = 0.59 puts head and forelegs inside the door frame and the tail outside.
+- **head low** (approach): act.head 0.45 → head layer rotated ~0.6 rad down and its neck joint dropped 30 template px. Measured on the render, 15.0–23.5 s: top of the head layer is **13.4 px (min) / 19.4 px (mean)** below the withers point (`trace.json` → `head_low_approach`).
+- **look in** (26.4 s): the head lifts off the paws and raises into the lit doorway, foreshortened 30 %, face in shadow, so the back of the head reads against the light. Held fully from 27.0 to 28.2 s, then it settles back (correction).
+- world X of the torso centre = score x − 0.25 m, and the dog's path runs at Z = −0.25 m, nearer the camera than the door's centre line (static oblique camera, 210 px/m). The person sits on a crate at Z = 1.35 m, so the dog's feet are always lower in frame than the person's shoes and its body clears their legs (critic, round 1: it used to walk through the shins). Lying at x = 0.59 still puts head and forelegs inside the door frame and the tail outside.
 
 ## Model alone vs film (failures isolated, not hidden)
 
@@ -53,7 +53,7 @@ Criteria on the rendered dog: retreat = body lowers/moves away; watch = crouched
 | choice | score | measured | dt |
 |---|---|---|---|
 | retreat | 1.000 | 1.000 | 0.000 |
-| watch | 2.333 | 2.375 | +0.042 |
+| watch | 2.333 | 2.417 | +0.084 |
 | refuse | 3.417 | 3.417 | 0.000 |
 | watch (turns to look) | 7.458 | 7.625 | +0.167 |
 | approach | 14.708 | 14.750 | +0.042 |
@@ -62,7 +62,7 @@ Criteria on the rendered dog: retreat = body lowers/moves away; watch = crouched
 
 `check_handmade.py`: ALL OK (I1–I4). The first retreat→watch criterion (bbox height) caught gait bob at 1.83 s and failed I1; I changed the criterion to the top of the dog, not the animation (ledger 9).
 
-Sound (`proof/sound_levels.json`): calls −18.0 dBFS RMS, soft voice −31.0 (13 dB quieter), room tone −47.5. Voices are flite speech synthesis.
+Sound (`proof/sound_levels.json`): calls −18.0 dBFS RMS, soft voice −31.0 (13 dB quieter), room tone −44.9. Voices are flite speech synthesis.
 
 ## Protected / invariants
 
@@ -70,14 +70,14 @@ Numerical: the six choices ±0.25 s; dog never inside (x ≥ 0.56); position cor
 
 ## What is weak (looked at, not measured)
 
-- The dog is soft and blurry (384×288 archive, averaged atlases) and lilac-grey; the head reads as a dark mass without a clear muzzle in many frames.
-- The two front-view frames of each turn are still a knot of legs; the 3.6 s still catches one.
+- The dog is soft and blurry (384×288 archive, averaged atlases); door-light tint on the dog was reduced in round 2 so it stays grey. The head reads as a dark mass without a clear muzzle in many frames.
+- The turns are whip-arounds that skip the front view: honest about the model's limit, but a fast cut rather than a continuous turn.
 - The look-back head reads as "head turned back" mostly by silhouette; the look-in reads by darkening, not by a real back-of-head view.
 - The OOD score is not very discriminating: ~0.5 even while standing (the learned rotation Gaussian is narrow), 0.84–0.88 lying. It ranks correctly but is not calibrated.
 - Fits of frames 33–48 (head lowered to the bowl) are poor (IoU 0.54–0.75); their heads are misplaced, so head atlases at 45° are partly wrong.
 - Template changes (bigger knee caps) came after the fits; fits were not redone (learning was).
-- The person is a plain drawn silhouette; it turns toward the door at 22 s by scaling through edge-on.
+- The person is a plain drawn silhouette on a drawn crate; it turns toward the door at 22 s by scaling through edge-on.
 
 ## What I did not do
 
-No autodiff, no neural network (PyTorch not available; nothing large installed): "learned" here means optimisation-fitted poses plus nonparametric regression/averaging. No independent critic review yet. No operator page. No use of the door footage (a real 1992 face), Quick, Draw! or other found shots. The template skeleton and the corrections are hand-authored and listed above. Rebuild: `build/make.sh` (fit takes 10–40 min on a loaded machine).
+No autodiff, no neural network (PyTorch not available; nothing large installed): "learned" here means optimisation-fitted poses plus nonparametric regression/averaging. Round 1 independent critic: does not pass, narrowly; five repair conditions met in round 2 (see ledger 11–12). Round 2 not yet reviewed. The final film.mp4 is the make.sh output re-encoded once more at CRF 25 to leave size margin (11.9 MB → 5.0 MB); encode.sh now uses CRF 25 directly. No operator page. No use of the door footage (a real 1992 face), Quick, Draw! or other found shots. The template skeleton and the corrections are hand-authored and listed above. Rebuild: `build/make.sh` was run end to end in round 2 (about 75 min on the shared machine) and ended ALL OK.
