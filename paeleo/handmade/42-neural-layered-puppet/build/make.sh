@@ -11,6 +11,7 @@ mkdir -p cache
 PUPPET_K=8 python3 fit.py      # K fixed at 8: see data/model_selection.json
 python3 library.py
 python3 cards.py
+python3 confidence.py
 rm -rf cache/frames
 python3 scene.py
 python3 trace.py
