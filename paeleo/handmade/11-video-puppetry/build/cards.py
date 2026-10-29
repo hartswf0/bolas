@@ -42,11 +42,11 @@ def title(d):
 
 
 END = [
-    'THE DOG is a real dog: two frames (6 and 38) of Amateur Film New Jersey C',
+    'THE DOG is a real dog: frames 6, 38 and 0 of Amateur Film New Jersey C',
     '  (Home Movies, Internet Archive, public domain), cut out with their masks.',
-    '  It is not drawn. Every pose is those pixels bent: rigid moving-least-squares',
-    '  warps driven by 24 handles, a rigid head piece and four leg pieces;',
-    '  turning, it is swapped between the two frames and their mirrors.',
+    '  It is not drawn. Its body sheet is bent by moving-least-squares warps;',
+    '  head-and-neck, tail and legs are rigid cut-outs of the same frames,',
+    '  pinned at the joints; looking in, its head is the back of its own head.',
     'THE HAND is cut from The Door to Heaven (public domain), mirrored.',
     'THE PERSON\'S BODY, THE HOUSE, THE PORCH, THE DUSK: cut paper made in code.',
     'THE PERFORMANCE comes from the PAELEO score, frame for frame, not from',

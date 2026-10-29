@@ -149,7 +149,7 @@ class DogRig:
         far = FAR + (['h2'] if lie > .3 else [])
         near = [n for n in NEAR if n not in far]
         look = params.get('look', 0)
-        wB = float(np.clip((look - .3) / .4, 0, 1)) if name == 'L' else 0.0
+        wB = float(np.clip((look - .12) / .3, 0, 1)) if name == 'L' else 0.0
         wB = wB * wB * (3 - 2 * wB)
         order = far + ['tail', 'body'] + near + ['neck']
         for pc in order:

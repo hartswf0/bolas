@@ -82,7 +82,8 @@ for k, m in enumerate(M):
     fr.append(dict(i=m['i'], t=m['t'], state=states[k], x_score=PERF[k]['dog']['x'], x_screen=round(float(cx[k]), 2),
                    y_screen=round(float(cy[k]), 2), facing=face, posture=posture,
                    head_x=round(float(hx[k]), 1), head_y=round(float(hy[k]), 1), height_px=int(hgt[k]),
-                   in_door_frame_share=round(m['in_door'], 3), warp_det_min=round(m['det_min'], 3)))
+                   in_door_frame_share=round(m['in_door'], 3), warp_det_min=round(m['det_min'], 3),
+                   head_top_px=m.get('head_top'), withers_line_px=round(m.get('withers_y', 0), 1)))
 sc = np.array([f['dog']['x'] for f in SCORE['frames']])
 r = float(np.corrcoef(cx, sc)[0, 1])
 endshare = fr[-1]['in_door_frame_share']
@@ -90,7 +91,11 @@ out = dict(about=__doc__.strip(), camera='static (one fixed tabletop camera); x_
            mapping='screen x of the dog anchor = 320 + 200 px/m * x_score; the ground line draws in toward the sill for x < 1.75 m',
            summary=dict(onsets_measured=summary, corr_x_screen_vs_score_x=round(r, 4),
                         final_silhouette_share_inside_door_frame=endshare,
-                        final_posture=fr[-1]['posture'], stand_height_px=float(stand_h)),
+                        final_posture=fr[-1]['posture'], stand_height_px=float(stand_h),
+                        approach_14_8_to_23_7_frames_head_top_below_withers='%d/%d' % (
+                            sum(1 for f in fr if 14.8 <= f['t'] <= 23.7 and f['head_top_px'] is not None and f['head_top_px'] > f['withers_line_px']),
+                            sum(1 for f in fr if 14.8 <= f['t'] <= 23.7)),
+                        frames_with_body_sheet_fold=sum(1 for f in fr if f['warp_det_min'] < 0)),
            frames=fr)
 json.dump(out, open(os.path.join(HERE, '..', 'trace.json'), 'w'), indent=0)
 for s in summary:

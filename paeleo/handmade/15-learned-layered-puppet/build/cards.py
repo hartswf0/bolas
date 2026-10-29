@@ -34,7 +34,7 @@ def end(strip):
         d.text((80, y), l, font=MONO(15), fill=DIM if not l.startswith(('THE', 'CORR')) else FG); y += 26
     if strip is not None:
         im.paste(strip, ((1280 - strip.width) // 2, 300))
-    d.text((80, 680), 'SCION 15 after Poursaeed et al., Neural Puppet (2019) - an interpretation, not an endorsement', font=MONO(13), fill=DIM)
+    d.text((80, 688), 'SCION 15 after Poursaeed et al., Neural Puppet (2019) - an interpretation, not an endorsement', font=MONO(13), fill=DIM)
     return im
 
 
@@ -42,8 +42,8 @@ if __name__ == '__main__':
     t = title()
     sp = os.path.join(HERE, '..', 'proof', 'raw_vs_corrected_strip.jpg')
     strip = Image.open(sp).convert('RGB') if os.path.exists(sp) else None
-    if strip is not None and strip.width > 1180:
-        strip = strip.resize((1180, int(strip.height * 1180 / strip.width)))
+    if strip is not None and strip.width > 1000:
+        strip = strip.resize((1000, int(strip.height * 1000 / strip.width)))
     e = end(strip)
     for k in range(72):
         f = min(1, k / 10, (71 - k) / 10)
