@@ -1,5 +1,5 @@
 (()=>{
-const $=s=>document.querySelector(s), A=window.AFL, REEL=window.REEL, SITE=window.SITE, M='../media/afterlight/';
+const $=s=>document.querySelector(s), A=window.AFL, REEL=window.REEL, SITE=window.SITE, M=(window.ROOT||'../')+'media/afterlight/';
 const toast=$('#toast');const say=t=>{toast.textContent=t;toast.classList.add('on');clearTimeout(say.t);say.t=setTimeout(()=>toast.classList.remove('on'),3500)};
 async function copy(t){try{await navigator.clipboard.writeText(t);return true}catch(e){const a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();let ok=false;try{ok=document.execCommand('copy')}catch(_){}a.remove();return ok}}
 const pageUrl=x=>`${SITE}afterlight/v/${x.slug}/`;
@@ -15,7 +15,12 @@ async function sendVideo(x,btn){const name=`afterlight-${x.slug}.mp4`,u=M+x.id+'
   if(btn)btn.textContent=old}
 
 /* reel */
-const v=$('#rv'),bar=$('#rbar'),snd=$('#snd');let cur=-1,inReel=true;
+const v=$('#rv');if(!v){const grid=$('#cgrid');
+ grid.addEventListener('click',e=>{const b=e.target.closest('[data-play],[data-send],[data-file]');if(!b)return;
+  if(b.dataset.play)location.href=`../v/${A[+b.dataset.play].slug}/`;else if(b.dataset.send)sendPage(A[+b.dataset.send]);else sendVideo(A[+b.dataset.file],b)});
+ document.querySelector('.filt').addEventListener('click',e=>{const b=e.target.closest('button[data-f]');if(!b)return;const f=b.dataset.f;document.querySelectorAll('.filt button').forEach(x=>x.setAttribute('aria-pressed',x===b));grid.querySelectorAll('li').forEach(li=>li.hidden=!(f==='all'||(f==='best'?li.classList.contains('best'):li.dataset.era===f)))});
+ return}
+const bar=$('#rbar'),snd=$('#snd');let cur=-1,inReel=true;
 const tot=REEL.reduce((s,i)=>s+sec(A[i].rt),0);function sec(r){return /:/.test(r)?r.split(':').reduce((m,s)=>m*60+ +s,0):0}
 REEL.forEach((i,k)=>{const b=document.createElement('button');b.type='button';b.style.flexGrow=sec(A[i].rt);b.title=`${A[i].title} · ${A[i].rt}`;b.setAttribute('aria-label',`Play ${A[i].title}`);b.innerHTML='<span></span>';b.onclick=()=>play(i,true);bar.appendChild(b)});
 function play(i,user){const x=A[i];cur=i;inReel=REEL.includes(i);v.src=M+x.id+'.mp4';v.poster=M+'thumbs/'+x.id+'.jpg';
