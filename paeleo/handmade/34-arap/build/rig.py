@@ -180,7 +180,7 @@ class DogP:
         if pose.get('body') == 'lie':
             X, joint, neck_a = self.solve_lie(pose, iters)
             self.cur_body = self.lieb
-            ha = neck_a + pose.get('head_a', 0.0)
+            ha = neck_a + pose.get('head_a_lie', pose.get('head_a', 0.0))
         else:
             tg, neck_c, neck_a = self.targets(pose)
             X = self.solver.solve_repair(tg, iters=iters, X0=X0)
@@ -192,7 +192,7 @@ class DogP:
         if pose.get('head_view') == 'L':
             # the head turned into the room: the back of the skull to us, the muzzle aimed away into the lit hall
             lh = self.lhead; V = lh.V
-            ha = ha + pose.get('L_a', 0.0)
+            ha = pose.get('L_a', 0.0)
             gt = {}
             for k, idx in self.LG.items():
                 c = self.lgc[k]
@@ -361,6 +361,12 @@ def pose_P(d, a, paws=None, lifts=None):
     ta = -(t_ - 0.5) * 1.0 + w * 0.45 * np.sin(ph)
     r['tail_a'] = ta * (1 - wl) + (0.5 + w * 0.3 * np.sin(ph)) * wl
     r['tail_curl'] = -0.35 * max(t_ - 0.8, 0) * (1 - wl) + 0.35 * wl
+    # the lying body (its own mesh): arrives 70 mm high and settles; head and tail in its frame
+    vv = smooth(min(max((l - 0.5) / 0.5, 0), 1))
+    r['settle'] = 70.0 * (1 - vv)
+    r['neck_a_lie'] = na_l; r['head_a_lie'] = ha_l
+    r['tail_a_lie'] = w * 0.35 * np.sin(ph)
+    r['breath'] = br
     return r
 
 

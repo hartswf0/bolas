@@ -42,8 +42,9 @@ def turn_axis(t):
         return 0.0
     if t < 7.458:
         return 3.0 * ease_out((t - 3.417) / 0.44)
-    # repair 3: it gets up first (7.46-7.62, head leading), then turns standing (7.56-8.0)
-    return 3.0 - 3.0 * sm((t - 7.56) / 0.44)
+    # repair rounds 1-2: the head comes round first (from 7.46, the face to the camera by 7.59) while it is
+    # still getting up (7.46-7.75, 7 frames); standing, it finishes the turn by 7.98
+    return 3.0 - 3.0 * ease_out((t - 7.48) / 0.50)
 
 
 def feet(x, moving, pxm_over_scale):
@@ -77,7 +78,7 @@ def build():
         crouch, tail, lie, rest, look = a['crouch'], a['tail'], a['lie'], a['rest'], a['look']
         # approach: the head is carried below the line of the back the whole way (the brief's lesson)
         if d['state'] == 'approach' or (14.5 < t < 23.9):
-            head = min(head, 0.36 + 0.5 * max(0, 14.85 - t)) if t > 14.6 else head
+            head = min(head, 0.24 + 0.6 * max(0, 14.85 - t)) if t > 14.6 else head
         # refusal: lying with its back turned, the chin goes down (score rest), head low
         if 3.417 <= t < 7.458:
             head = min(head, 0.3)
@@ -86,7 +87,7 @@ def build():
             head = max(head, 0.35 + 0.6 * sm((t - 7.458) / 0.3))
         # lying at the sill: looks in (score look), then settles chin down (score rest)
         if 7.458 <= t < 8.0:
-            lie = min(lie, 1 - sm((t - 7.458) / 0.16)); rest = min(rest, lie); crouch = min(crouch, .3)
+            lie = min(lie, 1 - sm((t - 7.458) / 0.29)); rest = min(rest, lie); crouch = min(crouch, .3)
         mov = a['moving']
         ft = feet(x, mov, PXM / sc) if lie < 0.5 else {}
         bob = -2.2 * abs(np.sin(2 * np.pi * (-x) / STRIDE * 2)) * mov if lie < .2 else 0.0

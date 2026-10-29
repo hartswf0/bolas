@@ -36,40 +36,71 @@ class Renderer:
         self.views = {'R0': DogView('R0'), 'F0': DogView('F0')}
         self.per = Person()
         self.tex = {}
-        for n in ('P_body', 'P_head', 'R0_body', 'R0_head', 'F0_body', 'F0_head', 'Q_stand', 'Q_sit', 'Q_arm'):
-            self.tex[n] = Tex(os.path.join(DRAW, n + '.png'), scale=0.5)
+        for n in ('P_body', 'P_head', 'P_lie', 'L_head', 'R0_body', 'R0_head', 'F0_body', 'F0_head', 'Q_stand', 'Q_sit', 'Q_arm'):
+            self.tex[n] = Tex(os.path.join(DRAW, n + '.png'), scale=0.7)
         self.worlds = {k: World(v) for k, v in CAMS.items()}
         self.font = ImageFont.truetype(FONT_I, 30)
         self.prevX = {}
-        self.last_view = None
+        self.used = {}
 
-    def dog_pieces(self, f):
-        view, mirror, ex = f['view'], f['mirror'], f['extra']
+    def expand(self, f):
+        """The frame's layers, with the profile split further into stand/lie bodies and P/L heads where they blend."""
+        a = f['acts']; out = []
+        for L in f['layers']:
+            if L['view'] != 'P':
+                out.append((L['view'], L['mirror'], L['extra'], {}, L['w']))
+                continue
+            u = float(smoothstep(0.42, 0.62, a['lie'])); v = float(smoothstep(0.35, 0.6, a['look']))
+            for body, wb in (('stand', 1 - u), ('lie', u)):
+                for hv, wh in (('P', 1 - v), ('L', v)):
+                    w = L['w'] * wb * wh
+                    if w > 0.01:
+                        out.append(('P', L['mirror'], L['extra'], dict(body=body, head_view=hv), w))
+        tot = sum(o[-1] for o in out)
+        return [(o[0], o[1], o[2], o[3], o[4] / tot) for o in out]
+
+    def dog_layer(self, f, view, mirror, ex, sub):
         a = f['acts']
-        first = (view, mirror) != self.last_view
-        self.last_view = (view, mirror)
+        i = f['i']
+        key = view + ('_' + sub.get('body', '') if view == 'P' else '')
+        first = self.used.get(key, -9) != i - 1 and self.used.get(key, -9) != i
+        self.used[key] = i
         iters = 40 if first else 8
+        withers = None
         if view == 'P':
             d = self.dog
-            pose = pose_P(d, a, paws={L: f['paws'][L] for L in LEGS}, lifts=f['lifts'])
+            aa = dict(a)
+            if sub['body'] == 'stand':
+                aa['lie'] = min(a['lie'], 0.5)
+            pose = pose_P(d, aa, paws={L: f['paws'][L] for L in LEGS}, lifts=f['lifts'])
+            if sub['body'] == 'lie':
+                pose['body'] = 'lie'
+                pose = dict(pose); pose.update({k: v for k, v in pose_P(d, a).items() if k in ('settle', 'neck_a_lie', 'head_a_lie', 'tail_a_lie', 'neck_len', 'ear')})
+                pose['breath'] = a['breath'] * 0.6
+            if sub.get('head_view') == 'L':
+                pose['head_view'] = 'L'; pose['L_a'] = 0.05
             if ex.get('head_flip'):
                 pose['head_flip'] = True
                 pose['head_flip_a'] = 0.15 if f['t'] > 7 else -0.35
-            X, Xh = d.solve(pose, iters=iters, X0=None if not first else d.body.V.copy())
-            items = [(X, d.body, 'P_body'), (Xh, d.head, 'P_head')]
-            nose = Xh[d.G['nose']].mean(0); joint = Xh[d.G['skull']].mean(0)
-            inv = d.solver.inverted(X) + d.hsolver.inverted(Xh) if not pose.get('head_flip') else d.solver.inverted(X)
-            energy = d.solver.energy(X)
-            self.withers = X[d.H['shoulder']].mean(0)
+            if first and sub['body'] == 'stand':
+                d.solver.X = d.body.V.copy()
+            X, Xh = d.solve(pose, iters=iters)
+            body, head = d.cur_body, d.cur_head
+            items = [(X, body, body.name), (Xh, head, head.name)]
+            nose, joint = d.cur_head_nose, d.cur_head_joint
+            solver = d.lsolver if sub['body'] == 'lie' else d.solver
+            inv = solver.inverted(X) + {'P_head': (d.hsolver_m if pose.get('head_flip') else d.hsolver), 'L_head': d.lhsolver}[head.name].inverted(Xh)
+            energy = solver.energy(X)
+            withers = X[(d.K if sub['body'] == 'lie' else d.H)['shoulder']].mean(0)
         else:
-            self.withers = None
             v = self.views[view]
             aa = dict(a); aa.update(ex)
             if view == 'F0':
                 aa['crouch'] = a['crouch'] + 0.4 * a['lie']
                 aa['ear'] = max(a['ear'], 0.8)
+                aa['lie'] = 0.0
             else:
-                aa['ear'] = a['ear']
+                aa['ear'] = a['ear']; aa['lie'] = 0.0
             X, Xh = v.solve(aa, iters=iters, X0=None if not first else v.body.V.copy())
             if view == 'R0':
                 items = [(Xh, v.head, 'R0_head'), (X, v.body, 'R0_body')]
@@ -79,25 +110,33 @@ class Renderer:
                 nose = Xh[v.G['nose']].mean(0); joint = Xh[v.G['skull']].mean(0)
             inv = v.solver.inverted(X) + v.hsolver.inverted(Xh)
             energy = v.solver.energy(X)
-        return items, nose, joint, inv, energy
+        return items, nose, joint, inv, energy, withers
 
     def frame(self, f):
         t = f['t']
         cam = cam_for(t)
         world = self.worlds['A' if t < CUT_T else 'B']
         s = cam['s'] / 1000.0
-        # ---- dog
-        items, nose, joint, inv, energy = self.dog_pieces(f)
-        sign = -1.0 if f['mirror'] else 1.0
-        fs = f['extra'].get('fs', 1.0)
+        # ---- dog: one or more layers (a view change overlaps two drawings for two frames)
         cx, fy = world_to_px(f['x'], 0.0, cam)
+        layers = self.expand(f)
+        dog_pm = np.zeros((H, W, 4), np.float32)
+        inv = 0; prim = None
+        for view, mirror, ex, sub, w in layers:
+            items, nose_l, joint_l, inv_l, energy_l, withers_l = self.dog_layer(f, view, mirror, ex, sub)
+            sign = -1.0 if mirror else 1.0
+            fs = ex.get('fs', 1.0)
 
-        def to_screen(X):
-            return np.stack([cx + sign * fs * s * X[:, 0], fy - s * X[:, 1]], 1)
-        dog_items = []
-        for X, piece, tname in items:
-            dog_items.append((to_screen(X), piece.T, piece.uv, self.tex[tname], piece.layer, f['mirror']))
-        dog_pm, dog_bb = draw_pieces((W, H), dog_items, wire=[WIRE_DOG] * len(dog_items))
+            def to_screen(X, sign=sign, fs=fs):
+                return np.stack([cx + sign * fs * s * X[:, 0], fy - s * X[:, 1]], 1)
+            dog_items = [(to_screen(X), piece.T, piece.uv, self.tex[tname], piece.layer, mirror) for X, piece, tname in items]
+            pm, _ = draw_pieces((W, H), dog_items, ss=3, wire=None)
+            dog_pm += pm * w
+            inv += inv_l
+            if prim is None or w > prim[0]:
+                prim = (w, nose_l, joint_l, energy_l, withers_l, to_screen)
+        _, nose, joint, energy, withers, to_screen = prim
+        self.withers = withers
         # ---- person
         p = f['person']
         px_c = cam['door_px'] + cam['s'] * p['x']
@@ -109,7 +148,7 @@ class Renderer:
             if nm == 'sit':
                 Sx[:, 0] += 0.0
             pitems.append((Sx, piece.T, piece.uv, self.tex[tn], piece.layer, False))
-        per_pm, _ = draw_pieces((W, H), pitems, wire=[WIRE_PERSON] * len(pitems))
+        per_pm, _ = draw_pieces((W, H), pitems, ss=3, wire=None)
         # ---- contact shadows (soft ellipses on the boards)
         sh = np.zeros((H, W), np.float32)
         ys, xs = np.mgrid[0:H, 0:W]

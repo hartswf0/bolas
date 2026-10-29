@@ -10,6 +10,7 @@ Part names come from the kit's hand-placed keypoints on the template frame (nami
 import numpy as np
 
 NAMES = None
+HL = [12, 18]   # neck, head (deg) for the head carried low: neck down, muzzle kept forward
 
 
 def name_parts(pp):
@@ -57,6 +58,8 @@ class Poser:
             k = self.n[nm]
             if k >= 0: self.up_local[k] = local(up, k).mean(0)
         self.stand = up[self.loop[0]]
+        # authored depth: the head and neck are in front of the chest in profile
+        pp.front = [k for k in (self.n['neck'], self.n['head']) if k >= 0]
 
     def gait(self, phase):
         """learned pose at walk phase (radians): interpolate the looped example frames"""
@@ -100,14 +103,15 @@ class Poser:
                     ang[n['foreleg']] = ang.get(n['foreleg'], 0) + 0.5 * np.sin(np.pi * (u - 0.6) / 0.4) * min(1, moving)
         # head carried low (override beyond the learned head-low examples, which only lower it a little)
         if head_low > 0:
-            if n['neck'] >= 0: ang[n['neck']] = ang.get(n['neck'], 0) - np.radians(48) * head_low
-            ang[n['head']] = ang.get(n['head'], 0) - np.radians(18) * head_low
+            if n['neck'] >= 0: ang[n['neck']] = ang.get(n['neck'], 0) - np.radians(HL[0]) * head_low
+            ang[n['head']] = ang.get(n['head'], 0) - np.radians(HL[1]) * head_low
             ov = max(ov, 0.5 * head_low)
         # lying down (override): fore leg folded under the chest (elbow forward, paw tucked), hind leg folded up along
         # the belly (drawn behind the trunk, the haunch stays in front), trunk lowered on to the boards
         LA = dict(shoulder=10, foreleg=72, hind=120)
         if lie_angles: LA.update(lie_angles)
         self.pp.behind = {n['hind']} if lie > 0.5 else set()
+        self.pp.hard_set = {n['hind']} if lie > 0.3 else set()
         if lie > 0:
             if n['foreleg'] >= 0: ang[n['foreleg']] = ang.get(n['foreleg'], 0) + np.radians(LA['foreleg']) * lie
             if n['shoulder'] >= 0: ang[n['shoulder']] = ang.get(n['shoulder'], 0) + np.radians(LA['shoulder']) * lie
@@ -130,6 +134,11 @@ class Poser:
         if head_lift:
             ang[n['head']] = ang.get(n['head'], 0) + head_lift
         T = self.pp.articulate(rel, ang)
+        if head_low > 0:
+            # head carried low: head and neck lowered and brought forward of the chest (override)
+            Tr = np.eye(3); Tr[0, 2] = -7.0 * head_low; Tr[1, 2] = 24.0 * head_low
+            for k in (n['head'], n['neck']):
+                if k >= 0: T[k] = Tr @ T[k]
         if look > 0:
             # reaching in: head and neck carried forward, into the room (override)
             Tr = np.eye(3); Tr[0, 2] = -16.0 * look; Tr[1, 2] = -4.0 * look

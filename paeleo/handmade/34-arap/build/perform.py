@@ -21,26 +21,45 @@ W_ON = 179          # 7.458 watch (turns back to look)
 
 
 def view_for(i):
-    """(view, mirror, extra) for frame i."""
-    if R_ON <= i <= R_ON + 2:
-        return 'P', False, {}
-    if R_ON + 3 <= i <= R_ON + 5:
-        return 'P', False, {'head_flip': True}
-    if R_ON + 6 <= i <= R_ON + 10:
-        u = (i - (R_ON + 6)) / 4.0
-        return 'R0', False, {'sx': 1.35 - 0.35 * u, 'head_dx': -55 + 110 * u}
-    if R_ON + 11 <= i < W_ON:
-        k = i - (R_ON + 11)
-        return 'P', True, {'fs': min(1.0, 0.72 + 0.1 * k)}
-    if W_ON <= i <= W_ON + 18:
-        return 'P', True, {'head_flip': True}
-    if W_ON + 19 <= i <= W_ON + 25:
-        u = (i - (W_ON + 19)) / 6.0
-        return 'F0', False, {'sx': 1.3 - 0.3 * u}
-    if i >= W_ON + 26:
-        k = i - (W_ON + 26)
-        return 'P', False, {'fs': min(1.0, 0.72 + 0.1 * k)}
-    return 'P', False, {}
+    """Layers [(view, mirror, extra, weight)] for frame i. A view change is never a cut: the outgoing drawing
+    foreshortens (and its head leads), the incoming one arrives wide and narrows, and they overlap for two frames."""
+    r = R_ON
+    if i < r + 3:
+        return [('P', False, {}, 1.0)]
+    if i < r + 5:                                   # 85-86: the head leads, the body starts to foreshorten
+        return [('P', False, {'head_flip': True, 'fs': 1.0 - 0.12 * (i - r - 2)}, 1.0)]
+    if i == r + 5:
+        return [('P', False, {'head_flip': True, 'fs': 0.72}, 0.67), ('R0', False, {'sx': 1.7, 'head_dx': -60}, 0.33)]
+    if i == r + 6:
+        return [('R0', False, {'sx': 1.55, 'head_dx': -45}, 0.67), ('P', False, {'head_flip': True, 'fs': 0.64}, 0.33)]
+    if i <= r + 9:                                  # 89-91: the rear view narrows, the head swings across
+        u = (i - (r + 7)) / 2.0
+        return [('R0', False, {'sx': 1.38 - 0.33 * u, 'head_dx': -25 + 60 * u}, 1.0)]
+    if i == r + 10:
+        return [('R0', False, {'sx': 1.0, 'head_dx': 50}, 0.67), ('P', True, {'fs': 0.55}, 0.33)]
+    if i == r + 11:
+        return [('P', True, {'fs': 0.62}, 0.67), ('R0', False, {'sx': 0.95, 'head_dx': 55}, 0.33)]
+    if i < W_ON:
+        k = i - (r + 12)
+        return [('P', True, {'fs': min(1.0, 0.7 + 0.1 * k)}, 1.0)]
+    w = W_ON
+    if i < w + 17:
+        return [('P', True, {'head_flip': True}, 1.0)]
+    if i == w + 17:
+        return [('P', True, {'head_flip': True, 'fs': 0.85}, 1.0)]
+    if i == w + 18:
+        return [('P', True, {'head_flip': True, 'fs': 0.72}, 0.67), ('F0', False, {'sx': 1.7}, 0.33)]
+    if i == w + 19:
+        return [('F0', False, {'sx': 1.55}, 0.67), ('P', True, {'head_flip': True, 'fs': 0.64}, 0.33)]
+    if i <= w + 22:
+        u = (i - (w + 20)) / 2.0
+        return [('F0', False, {'sx': 1.38 - 0.38 * u}, 1.0)]
+    if i == w + 23:
+        return [('F0', False, {'sx': 1.0}, 0.67), ('P', False, {'fs': 0.55}, 0.33)]
+    if i == w + 24:
+        return [('P', False, {'fs': 0.62}, 0.67), ('F0', False, {'sx': 0.95}, 0.33)]
+    k = i - (w + 25)
+    return [('P', False, {'fs': min(1.0, 0.7 + 0.1 * k)}, 1.0)]
 
 
 class Gait:
@@ -135,7 +154,8 @@ def main():
         x = dg['x']
         xn = F[min(i + 1, N_SCENE - 1)]['dog']['x']; xp = F[max(i - 1, 0)]['dog']['x']
         v = (xn - xp) / (2.0 / FPS)
-        view, mirror, extra = view_for(i)
+        layers = view_for(i)
+        view, mirror, extra, _ = layers[0]
         key = (view, mirror)
         sign = -1 if mirror else 1
         if key != prev_view:
@@ -159,6 +179,7 @@ def main():
         # paw centres in the dog's own frame (mm): world offset from the body, mirrored when facing right
         pl = {L: (sign * (paws[L] - x) * 1000.0, 18.0 + 45.0 * np.sin(np.pi * lifts[L])) for L in paws}
         plan.append(dict(i=i, t=t, state=state, x=x, v=v, view=view, mirror=mirror, extra=extra, acts=acts,
+                         layers=[dict(view=a_, mirror=b_, extra=c_, w=w_) for a_, b_, c_, w_ in layers],
                          paws=pl, lifts=lifts, paws_world=paws, person=person_for(t, fr), door=fr['door'],
                          door_open=float(smoothstep(6.2, 7.3, t)), prompt=fr['prompt']))
     json.dump(plan, open(os.path.join(CACHE, 'perform.json'), 'w'))

@@ -80,6 +80,13 @@ def raster_alpha(polys, W, H, ss=4, erode=True):
     return a
 
 
+def smooth_alpha(a, sigma=1.1):
+    """the SAM polygons are jagged at full film scale: smooth the contour (blur, re-threshold, 1 px feather)"""
+    b = ndimage.gaussian_filter(a, sigma)
+    b = np.clip((b - .5) / .12 + .5, 0, 1)
+    return ndimage.gaussian_filter(b, .5)
+
+
 def tone(g, a):
     """lighting normalisation between keys: the dog walks from sun to shade in the source"""
     m = a > .5
@@ -95,7 +102,7 @@ def load():
         im = Image.open(os.path.join(KIT, 'frames/f%03d.jpg' % s['frame'])).convert('L')
         W, H = im.size
         g = np.asarray(im, np.float32) / 255.
-        a = raster_alpha(masks[str(s['frame'])], W, H)
+        a = smooth_alpha(raster_alpha(masks[str(s['frame'])], W, H))
         g = tone(g, a)
         # per-piece masks: below the belly line every masked pixel belongs to the nearest leg (distance to
         # that leg's top-knee-foot polyline); above it, to the body. Legs fade in over 8 px above the line
@@ -155,10 +162,13 @@ def load():
     im = Image.open(os.path.join(KIT, 'frames/f%03d.jpg' % fr0)).convert('L')
     W, H = im.size
     g = np.asarray(im, np.float32) / 255.
-    a = raster_alpha(masks[str(fr0)], W, H)
+    a = smooth_alpha(raster_alpha(masks[str(fr0)], W, H), .9)
     g = tone(g, a)
+    gb = ndimage.gaussian_filter(g, 1.2)
+    g = np.clip(g + 1.1 * (g - gb), 0, 1)   # unsharp: the source is soft at this size
     yy, xx = np.mgrid[0:H, 0:W].astype(np.float32)
-    a = a * np.clip(1.6 - np.hypot((xx - 129) / 25., (yy - 92) / 33.) * 1.6, 0, 1)
+    # keep the skull and ears: the mask's own outline above, a short feathered cut below (hidden on the neck)
+    a = a * np.clip((112 - yy) / 3., 0, 1) * np.clip((156 - xx) / 3., 0, 1)
     out['B'] = dict(img=g, alpha=a, base=np.array([131., 118.]), top=np.array([129., 62.]), W=W, H=H)
     return out
 

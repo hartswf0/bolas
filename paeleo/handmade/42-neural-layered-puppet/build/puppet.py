@@ -151,6 +151,14 @@ class Puppet:
         G = np.einsum('ij,kjl->kil', place, T)[:, :2]      # K+1 x 2 x 3 (the last is the tail piece)
         Pk = np.einsum('kij,nj->kni', G, self.Ph)
         wts = np.eye(self.K + 1)[self.lab] if hard else self.w
+        hs = getattr(self, 'hard_set', None)
+        if hs and not hard:
+            # layers folded far from their neighbours are cut free (no blend across the fold)
+            wts = wts.copy()
+            for k in hs:
+                wts[:, k] = 0
+                wts[self.lab == k] = np.eye(self.K + 1)[k]
+            wts /= wts.sum(1, keepdims=True)
         q = np.einsum('nk,kni->ni', wts, Pk)
         H, W = canvas_rgb.shape[:2]
         xi = np.round(q[:, 0]).astype(int); yi = np.round(q[:, 1]).astype(int)
@@ -160,6 +168,9 @@ class Puppet:
         if getattr(self, 'behind', None):
             b = np.isin(self.lab[order], list(self.behind))
             order = np.concatenate([order[b], order[~b]])
+        if getattr(self, 'front', None):
+            f = np.isin(self.lab[order], list(self.front))
+            order = np.concatenate([order[~f], order[f]])
         o = order[ok[order]]
         acc = np.zeros((H, W), np.float32); col = np.zeros((H, W), np.float32); lab = -np.ones((H, W), np.int16)
         acc[yi[o], xi[o]] = self.alpha[o]; col[yi[o], xi[o]] = self.col[o]; lab[yi[o], xi[o]] = self.lab[o]
@@ -177,6 +188,10 @@ class Puppet:
         rgb = c[..., None] * (tint if tint is not None else np.ones(3))[None, None] if tint is None or np.ndim(tint) == 1 else c[..., None] * tint[y0:y1, x0:x1]
         if seam:
             # the cuts between learned layers, drawn as a faint dark seam: the discovered structure, visible
+            # majority label in a 5x5 window: interleaved splats of two layers do not draw a speckled seam
+            labs = [k for k in np.unique(lb) if k >= 0]
+            sm = np.stack([ndimage.uniform_filter((lb == k).astype(np.float32), 5) for k in labs], 0)
+            lb = np.where(sm.max(0) > 0.05, np.array(labs)[np.argmax(sm, 0)], -1)
             e = np.zeros_like(filled)
             e[:, 1:] |= (lb[:, 1:] != lb[:, :-1]) & (lb[:, 1:] >= 0) & (lb[:, :-1] >= 0)
             e[1:, :] |= (lb[1:, :] != lb[:-1, :]) & (lb[1:, :] >= 0) & (lb[:-1, :] >= 0)

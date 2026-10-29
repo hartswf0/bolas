@@ -16,6 +16,7 @@ from puppets import NAMES, BODY, LEGS, FAR, NEAR, NECK, TAILP, load
 IDX = {n: i for i, n in enumerate(NAMES)}
 KEYS = [('L', False), ('F', False), ('F', True), ('L', True)]  # turn axis: L, F', F, R (flip = faces right)
 HEAD_GAIN = {'L': 1.0, 'F': 0.3}
+LIE_GAIN = {'L': 1.0, 'F': 0.45}
 
 
 def rot(v, c, deg):
@@ -57,7 +58,11 @@ def pose(canon, p, t=0.0, hg=1.0):
             a = np.degrees(np.arcsin(np.clip(-dx / ln, -.8, .8)))
         a += c * (-6 if leg[0] == 'f' else 8)
         # lying: forelegs forward along the boards, hind legs folded forward under the haunch
-        a = lerp(a, 84 if leg[0] == 'f' else 104, np.clip(lie * 1.2, 0, 1))
+        if lie > 0:
+            htop = max(0.0, -T[IDX[tp], 1] - 2)
+            a_floor = np.degrees(np.arccos(np.clip(htop / ln, 0, 1)))  # pivot just enough to keep the paw down
+            a = max(a, a_floor) if leg[0] == 'f' else max(a, min(100, a_floor * 1.15))
+            a = lerp(a, 84 if leg[0] == 'f' else 100, np.clip((lie - .75) / .25, 0, 1))
         T[ids] = rot(T[IDX[tp]] + seg, T[IDX[tp]], a)
     # stance feet rise a little when the rigid leg swings; let the body down by the same amount
     if feet:
@@ -125,7 +130,8 @@ class DogRig:
 
     def targets(self, key_i, params, anchor, scale, t):
         name, flip = KEYS[key_i]
-        T = pose(self.P[name]['canon'], params, t, HEAD_GAIN[name])
+        pp = dict(params); pp['lie'] = params.get('lie', 0) * LIE_GAIN[name]
+        T = pose(self.P[name]['canon'], pp, t, HEAD_GAIN[name])
         if flip:
             T[:, 0] = -T[:, 0]
         return anchor + T * scale
@@ -147,10 +153,12 @@ class DogRig:
         dets = []
         lie = params.get('lie', 0)
         far = FAR + (['h2'] if lie > .3 else [])
+        # lying: the far legs and the folded hind legs are under the dog, out of sight (no loop or hole under
+        # the belly); only the near foreleg lies forward on the boards
+        hide = {n: float(np.clip((lie - .35) / .4, 0, 1)) for n in ['f1', 'h1', 'h2']}
         near = [n for n in NEAR if n not in far]
         look = params.get('look', 0)
-        wB = float(np.clip((look - .12) / .3, 0, 1)) if name == 'L' else 0.0
-        wB = wB * wB * (3 - 2 * wB)
+        wB = 1.0 if (name == 'L' and look >= .3) else 0.0   # a cut on the head's lift, not a dissolve
         order = far + ['tail', 'body'] + near + ['neck']
         for pc in order:
             if pc == 'body':
@@ -169,9 +177,11 @@ class DogRig:
                 z = ((xx - pc_[0]) + 1j * (yy - pc_[1])) / M
                 fx, fy = z.real + qc[0], z.imag + qc[1]
             a = np.clip(ndimage.map_coordinates(pcs[pc], [fy, fx], order=1, mode='constant', cval=0), 0, 1)
+            if pc in hide:
+                a = a * (1 - hide[pc])
             if pc == 'neck' and wB > 0:   # the head part gives way to the back-of-head piece; the neck stays
                 hm0 = ndimage.map_coordinates(pcs['headmap'], [fy, fx], order=1, mode='constant', cval=0)
-                a = a * (1 - wB * np.clip(hm0 * 1.6, 0, 1))
+                a = a * (1 - wB * np.clip(hm0 * 2.2, 0, 1))
                 hc_t = np.array([(xx * a).sum(), (yy * a).sum()]) / max(a.sum(), 1)
             if a.max() < 1e-3:
                 continue
