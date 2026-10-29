@@ -219,7 +219,8 @@ class Puppet:
             mean = float(rgb[lb == hl].mean()) if np.any(lb == hl) else 0.0
             rgb = rgb * (1 - hm[..., None]) + (mean + (rgb - mean) * 1.9 + 0.04) * hm[..., None]
             rim = edge & (ndimage.binary_dilation(lb == hl, iterations=2))
-            rgb = np.where(rim[..., None], np.array([0.86, 0.80, 0.68]) * 0.9, rgb)
+            if getattr(self, 'rim', True):
+                rgb = np.where(rim[..., None], np.array([0.86, 0.80, 0.68]) * 0.9, rgb)
         reg = canvas_rgb[y0:y1, x0:x1]
         canvas_rgb[y0:y1, x0:x1] = reg * (1 - a[..., None]) + rgb * a[..., None]
         if canvas_a is not None: canvas_a[y0:y1, x0:x1] = np.maximum(canvas_a[y0:y1, x0:x1], a)

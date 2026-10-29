@@ -112,6 +112,22 @@ class Views:
 def lerpG(A, B, u): return A * (1 - u) + B * u
 
 
+def head_piece():
+    """the dog's head turned toward the camera, cut from archive frame 39 (3/4 view, muzzle and eye clear), mirrored so
+    the nose points left (to the door).  It is the head's visibility state for the look back, pinned at the learned
+    head-neck hinge: the one place where the layers have no pose for a head turned round."""
+    im, mk = ViewFrame.get(39, False)['im'], ViewFrame.get(39, False)['a']
+    x0, x1, y0, y1 = 199, 242, 103, 154
+    g = ndimage.gaussian_filter(im, 0.4)[y0:y1, x0:x1][:, ::-1]
+    a = mk[y0:y1, x0:x1][:, ::-1].copy()
+    # soften the cut on the neck side (right after mirroring... the back of the head is now on the right)
+    ramp = np.clip((np.arange(x1 - x0)[::-1] - 2) / 6.0, 0, 1)[None, :]
+    a = a * np.clip(ramp + 0.0, 0, 1)
+    a = a * np.clip((np.arange(y1 - y0)[::-1] - 1) / 7.0, 0, 1)[:, None]      # and on the throat side
+    a = ndimage.gaussian_filter(a, 0.7)
+    return g, a, np.array([x1 - x0 - 6.0, 12.0])     # attach point (back of the skull) in the piece
+
+
 def main():
     t0 = time.time()
     pp = Puppet(); po = Poser(pp); n = po.n
@@ -129,6 +145,7 @@ def main():
     hl = np.array([float(np.clip((0.9 - f['dog']['act']['head']) / 0.45, 0, 1)) for f in frames])
     hl = np.where([f['dog']['state'] == 'approach' for f in frames], np.maximum(hl, 0.95), hl)
     HEADLOW = np.convolve(np.pad(hl, (3, 0), mode='edge'), np.ones(4) / 4, 'valid')   # eased over the 3 frames after a change
+    HG, HA, HATT = head_piece()
     hsel = np.isin(pp.lab, [k for k in (n['head'], n['neck']) if k >= 0])
     for fr in frames:
         i, t = fr['i'], fr['t']
@@ -165,17 +182,19 @@ def main():
         T_pose, info = po.pose(phase=phase, moving=moving, head_low=min(1, head_low) * (1 - min(1, lie)), lie=lie,
                                rest=rest, look=look, crouch=crouch, breathe=breathe)
         def swing_head(Gin, sw):
-            # the head pivots on its learned hinge with the neck, up and round until the muzzle points to the door
+            # the head turns round on its learned hinge with the neck, the way a flat head turns in profile: it narrows
+            # toward the camera (foreshortened to 35%), passes front-on, and opens out on the other side, nose toward
+            # the door; it lifts a little as it goes
             hk = n['head']; nk = int(pp.parent[hk])
             pv = pp.pivot[(hk, nk)]
             js = (Gin[hk] @ np.array([pv[0], pv[1], 1.0]))[:2]
-            phi = -(np.pi + 0.55) * sw
-            R = np.eye(3); c_, s_ = np.cos(phi), np.sin(phi); R[:2, :2] = [[c_, -s_], [s_, c_]]; R[:2, 2] = js - R[:2, :2] @ js
-            H_ = R @ np.array([[1, 0, 0], [0, -1, 2 * js[1]], [0, 0, 1.0]]) if sw >= 0.5 else R
-            # the head turns round at shoulder height (a dog looks back sideways, it does not rear up): the arc is
-            # flattened by carrying the head down by up to 26 px at mid-swing
-            Dn = np.eye(3); Dn[1, 2] = 26.0 * np.sin(np.pi * min(sw, 1.0))
-            Gout = Gin.copy(); Gout[hk] = Dn @ H_ @ Gin[hk]; return Gout
+            w = 1 - 0.65 * np.sin(np.pi * min(sw, 1.0))
+            sx = w if sw < 0.5 else -w
+            Sx = np.array([[sx, 0, js[0] * (1 - sx)], [0, 1, 0], [0, 0, 1.0]])
+            lift = -0.2 * np.sin(np.pi * min(sw, 1.0))
+            R = np.eye(3); c_, s_ = np.cos(lift * (1 if sx > 0 else -1)), np.sin(lift * (1 if sx > 0 else -1))
+            R[:2, :2] = [[c_, -s_], [s_, c_]]; R[:2, 2] = js - R[:2, :2] @ js
+            Gout = Gin.copy(); Gout[hk] = R @ Sx @ Gin[hk]; return Gout
         BACK_SWITCH = TB0 + 0.25 * TURN_DUR
         facingR = T_REFUSE + TURN_DUR / 2 <= t < BACK_SWITCH
         place = np.array([[(-1 if facingR else 1) * S_DOG, 0, X + (1 if facingR else -1) * S_DOG * ax],
@@ -239,11 +258,31 @@ def main():
                     G_head = swing_head(G, swung)
                     if mode.startswith('profile'): mode = 'head-swing'; rec['mode'] = mode
                     info['override'] = 1.0; rec['override'] = 1.0
-                saved = pp.front; pp.front = []
+                saved = pp.front; pp.front = []; pp.rim = False
                 if G_head is None: G_head = G
-                r0 = pp.render(G, I3, cp, tint=tint_img, sel=~hsH)
-                r1 = pp.render(G_head, I3, cp, tint=tint_img, sel=hsH, hard=True)
-                pp.front = saved
+                hk_ = n['head']; pvh = pp.pivot[(hk_, int(pp.parent[hk_]))]
+                js_ = (G[hk_] @ np.array([pvh[0], pvh[1], 1.0]))[:2]
+                piece = (swung is not None and swung >= 0.5) or (swung is None and (t - TB0) < 0.16 * TURN_DUR)
+                r0 = pp.render(G, I3, cp, tint=tint_img, sel=~(pp.lab == n['head']) if piece else ~hsH)
+                pp.rim = True
+                if piece:
+                    # the turned-round head: archive head piece, at the hinge, nose to the door
+                    sc_ = 1.25
+                    hh, ww = HG.shape
+                    g2 = np.asarray(Image.fromarray((HG * 255).astype(np.uint8)).resize((int(ww * sc_), int(hh * sc_)), Image.BICUBIC), np.float32) / 255.
+                    a2 = np.asarray(Image.fromarray((HA * 255).astype(np.uint8)).resize((int(ww * sc_), int(hh * sc_)), Image.BICUBIC), np.float32) / 255.
+                    px0 = int(round(js_[0] - HATT[0] * sc_ + 4)); py0 = int(round(js_[1] - HATT[1] * sc_ - 14))
+                    h2_, w2_ = g2.shape
+                    reg = cp[py0:py0 + h2_, px0:px0 + w2_]
+                    tn = tint_img[py0:py0 + h2_, px0:px0 + w2_]
+                    m_ = g2.mean(); g2 = np.clip(m_ + (g2 - m_) * 1.3, 0, 1)
+                    cp[py0:py0 + h2_, px0:px0 + w2_] = reg * (1 - a2[..., None]) + g2[..., None] * tn * 1.1 * a2[..., None]
+                    al1 = np.zeros(cp.shape[:2], np.float32); al1[py0:py0 + h2_, px0:px0 + w2_] = a2
+                    r1 = dict(alpha=al1, q=r0['q'])
+                    rec['head_piece'] = [px0, py0, w2_, h2_]
+                else:
+                    r1 = pp.render(G_head, I3, cp, tint=tint_img, sel=hsH, hard=True)
+                pp.front = saved; pp.rim = True
                 r = dict(alpha=np.maximum(r0['alpha'], r1['alpha']), q=np.where(hsH[:, None], r1['q'], r0['q']))
             else:
                 r = pp.render(G, I3, cp, tint=tint_img)

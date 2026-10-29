@@ -93,7 +93,7 @@ if __name__ == '__main__':
     call = tts('Come here.', 'call'); call2 = tts('Come here!', 'call2')
     soft1 = tts("It's all right.", 'soft1'); soft2 = tts("It's all right.", 'soft2'); comein = tts('Come in.', 'comein')
     G_CALL, G_SOFT = db(-9), db(-21)
-    put(voice(call), 0.95, G_CALL, -0.55); put(voice(call2), 3.36, G_CALL, -0.55)   # calls lead the gesture and the dog's reaction
+    put(voice(call), 0.88, G_CALL, -0.55); put(voice(call2), 3.30, G_CALL, -0.55)   # calls lead the gesture and the dog's reaction
     put(voice(soft1, True), 7.45, G_SOFT, -0.35); put(voice(soft2, True), 10.45, G_SOFT, -0.35)
     put(voice(comein, True), 26.4, G_SOFT, -0.45)
     levels = {}
@@ -144,8 +144,12 @@ if __name__ == '__main__':
         put(np.sin(2 * np.pi * 110 * tt) * np.sin(np.pi * tt / 2.4) ** 2 * 0.5 + np.sin(2 * np.pi * 165 * tt) * np.sin(np.pi * tt / 2.4) ** 2 * 0.25, t0 - OFF, db(-30))
     # measured call onsets (first sample of the voice above -40 dBFS envelope near each call)
     def onset(t0):
-        i0 = int((t0 + OFF - 0.4) * SR); seg = np.abs(lp(np.abs(L[i0:i0 + SR] + R[i0:i0 + SR]), 60))
-        return round(t0 - 0.4 + float(np.argmax(seg > db(-40))) / SR, 3)
+        """first time the voice band (250-3000 Hz) rises 8x above the room tone and above -40 dBFS"""
+        m = bp(L + R, 250, 3000, 4)
+        e = np.sqrt(signal.lfilter(np.ones(480) / 480, 1, m ** 2))
+        base = np.median(e[int(3.2 * SR):int(3.9 * SR)])
+        i0 = int((t0 + OFF - 0.5) * SR); seg = e[i0:i0 + SR]
+        return round(t0 - 0.5 + float(np.argmax(seg > max(base * 8, db(-40)))) / SR, 3)
     levels['call_onsets_measured'] = [onset(1.0), onset(3.42)]
     room = np.concatenate([L[int(3.2 * SR):int(3.9 * SR)]])
     levels['room_tone_rms_dbfs'] = round(float(20 * np.log10(np.sqrt((room ** 2).mean()))), 1)

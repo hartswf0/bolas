@@ -12,7 +12,7 @@ import numpy as np
 
 NAMES = None
 HL = [12, 18]
-LOOK = [0, -38]   # neck, head (deg): muzzle brought level, pointing into the room   # neck, head (deg) for the head carried low: neck down, muzzle kept forward
+LOOK = [12, -26]   # neck, head (deg): muzzle brought level, pointing into the room   # neck, head (deg) for the head carried low: neck down, muzzle kept forward
 
 
 def name_parts(pp):
