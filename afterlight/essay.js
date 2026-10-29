@@ -1,6 +1,6 @@
 (()=>{
 const C=[...document.querySelectorAll('.chap')],rail=[...document.querySelectorAll('.rail a')],prev=document.getElementById('prev'),next=document.getElementById('next'),where=document.getElementById('where');
-let cur=-1;
+let cur=-1,sound=false;
 function name(i){const c=C[i];return (c.querySelector('.kn').textContent+' · '+c.querySelector('h2').textContent)}
 function show(i,user){
   if(i<0||i>=C.length)return;
@@ -8,10 +8,12 @@ function show(i,user){
   const c=C[i],v=c.querySelector('video'),snd=c.querySelector('.snd'),af=c.querySelector('.after');cur=i;c.hidden=false;af.hidden=true;
   if(!v.src)v.src=v.dataset.src;
   v.controls=true;
-  if(user){v.muted=false;snd.hidden=true;v.play().catch(()=>{})}
-  else{v.muted=true;v.play().then(()=>{snd.hidden=false;v.controls=false}).catch(()=>{snd.hidden=true})}
-  snd.onclick=()=>{v.muted=false;v.controls=true;snd.hidden=true;v.currentTime=0;v.play().catch(()=>{})};
-  v.onended=()=>{if(i>=C.length-1)return;af.innerHTML=`<p>Next chapter</p><button type="button">${name(i+1)}</button>`;af.hidden=false;af.querySelector('button').onclick=()=>show(i+1,true)};
+  const muteUI=()=>{snd.hidden=!v.muted;};
+  v.onvolumechange=()=>{if(!v.muted)sound=true;muteUI()};
+  const go=withSound=>{v.muted=!withSound;return v.play().then(muteUI)};
+  (user||sound?go(true):Promise.reject()).catch(()=>go(false)).catch(()=>{snd.hidden=false});
+  snd.onclick=()=>{sound=true;v.muted=false;v.play().catch(()=>{});muteUI()};
+  v.onended=()=>{if(i>=C.length-1)return;af.innerHTML=`<p>Next chapter</p><button type="button">${name(i+1)}</button>`;af.hidden=false;af.querySelector('button').onclick=()=>{sound=true;show(i+1,true)}};
   rail.forEach((a,j)=>a.setAttribute('aria-current',j===i));
   const ra=rail[i],rl=ra&&ra.parentElement;if(rl){const l=ra.offsetLeft,r=l+ra.offsetWidth;if(l<rl.scrollLeft+8)rl.scrollLeft=Math.max(0,l-8);else if(r>rl.scrollLeft+rl.clientWidth-8)rl.scrollLeft=r-rl.clientWidth+8}
   prev.disabled=i===0;next.disabled=i===C.length-1;
@@ -21,8 +23,8 @@ function show(i,user){
   
   history.replaceState(null,'','#'+c.id);
 }
-prev.onclick=()=>show(cur-1,true);next.onclick=()=>show(cur+1,true);
-rail.forEach((a,j)=>a.addEventListener('click',e=>{e.preventDefault();show(j,true)}));
+prev.onclick=()=>{sound=true;show(cur-1,true)};next.onclick=()=>{sound=true;show(cur+1,true)};
+rail.forEach((a,j)=>a.addEventListener('click',e=>{e.preventDefault();sound=true;show(j,true)}));
 addEventListener('keydown',e=>{if(e.target.closest('input,textarea,video'))return;if(e.key==='ArrowRight'){show(cur+1,true);e.preventDefault()}else if(e.key==='ArrowLeft'){show(cur-1,true);e.preventDefault()}});
 // old links (#08-warm-cave) go to that version's page
 const h=location.hash.slice(1);const k=C.findIndex(c=>c.id===h);
