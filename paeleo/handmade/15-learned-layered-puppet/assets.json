@@ -1,20 +1,119 @@
 {
  "about": "Every asset in SCION 15's threshold film, where it came from, its rights and the operation that made it. Rights unknown = not used. No image from the web, no generative model.",
  "assets": [
-  {"id": "archive-dog-frames", "what": "50 frames (384x288, 12 fps) of a dog by a house: the ONLY source of the dog's appearance and of everything the model learned",
-   "path": "paeleo/handmade/kit/archive-dog/frames/f000-f049.jpg", "source_title": "Amateur Film New Jersey C", "collection": "Home Movies (Internet Archive)",
-   "archive_url": "https://archive.org/details/NewJerseyC", "clip_page": "https://www.movingimagearchive.com/sources/amateur-film-new-jersey-c-c65a8960?clip=2fdacde1-8a23-58e1-b905-5407385bd039",
-   "rights": "public_domain (kit source.json)", "operation": "fit (render-loss optimisation of the layered template to every frame), back-projected into template space, averaged per view = learned atlas"},
-  {"id": "archive-dog-masks", "what": "SAM masks per frame (kit masks.json); frames 19-25 rejected by eye (mask swallows the shadow), 23 and 49 flagged by area", "path": "paeleo/handmade/kit/archive-dog/masks.json", "rights": "derived from the public-domain frames", "operation": "silhouette target of the render loss; visibility in back-projection"},
-  {"id": "archive-dog-keys", "what": "agent keypoints (nose, neck, chest, tail, 4 feet) on 25 frames (kit pose_agent_v8.json), linearly interpolated as weak keys between", "path": "paeleo/handmade/kit/archive-dog/pose_agent_v8.json", "rights": "derived", "operation": "keypoint term of the fit loss"},
-  {"id": "template-layers", "what": "11 layers (torso, head, tail, 4 legs x upper/lower) cut from f006 by bone-Voronoi over its mask; hand-authored skeleton (build/puppet.py SKEL)", "path": "sources/archive_dog_f006_template.jpg -> build/cache/template.npz, proof/template_layers.jpg", "rights": "public_domain source", "operation": "cut (mask x bone assignment), joint caps, nearest-pixel inpainting under occluders"},
-  {"id": "learned-model", "what": "view latent per frame, view regression of head/tail/leg shape, per-layer view-conditioned texture atlases (7 bins, 0-90 deg) with per-texel confidence, Gaussian joint-rotation prior", "path": "build/cache/model.npz, build/cache/model.json, proof/learned_atlas.jpg, proof/eval.json", "rights": "computed here", "operation": "learned (numpy/scipy) from the 50 fits"},
-  {"id": "dog-on-screen", "what": "every dog pixel in the scene: the learned atlas warped through the layered puppet's generated poses; colour graded for dusk and the door light", "path": "build/dogmodel.py, build/render.py", "rights": "computed from public-domain frames", "operation": "synthesized (generation); hand corrections listed in method.md"},
-  {"id": "place", "what": "porch, house wall and siding, door and casing, room, lamp glow, railing, sky, tree line, moon, light spill", "path": "build/stage.py", "rights": "drawn/computed here", "operation": "drawn (PIL polygons) and computed (numpy gradients, noise)"},
-  {"id": "person", "what": "a layered silhouette puppet (legs, coat, head, arms), no face", "path": "build/person.py", "rights": "drawn here", "operation": "drawn, key-posed to the score's person track"},
-  {"id": "voices", "what": "'Come here.' 'Come here!' 'It's all right.' (x2) 'Come in.'", "path": "build/sound.py -> build/cache/tts_*.wav", "rights": "synthesized here with ffmpeg's libflite (CMU Flite, BSD-style licence), voice slt", "operation": "speech synthesis; soft lines low-passed and 12 dB down"},
-  {"id": "sound", "what": "room tone, crickets, paw taps at planted-foot onsets, thumps, breaths, door latch and creak, person's steps, uncertainty tone", "path": "build/sound.py", "rights": "synthesized here", "operation": "synthesized (numpy/scipy)"},
-  {"id": "fonts", "what": "Big Shoulders Display, JetBrains Mono (cards only)", "path": "tools/paeleo/fonts/f5.woff2, f14.woff2", "rights": "SIL Open Font License (repository fonts)", "operation": "typeset"}
+  {
+   "id": "archive-dog-frames",
+   "what": "50 frames (384x288, 12 fps) of a dog by a house: the ONLY source of the dog's appearance and of everything the model learned",
+   "path": "paeleo/handmade/kit/archive-dog/frames/f000-f049.jpg",
+   "source_title": "Amateur Film New Jersey C",
+   "collection": "Home Movies (Internet Archive)",
+   "archive_url": "https://archive.org/details/NewJerseyC",
+   "clip_page": "https://www.movingimagearchive.com/sources/amateur-film-new-jersey-c-c65a8960?clip=2fdacde1-8a23-58e1-b905-5407385bd039",
+   "rights": "public_domain (kit source.json)",
+   "operation": "fit (render-loss optimisation of the layered template to every frame), back-projected into template space, averaged per view = learned atlas"
+  },
+  {
+   "id": "archive-dog-masks",
+   "what": "SAM masks per frame (kit masks.json); frames 19-25 rejected by eye (mask swallows the shadow), 23 and 49 flagged by area",
+   "path": "paeleo/handmade/kit/archive-dog/masks.json",
+   "rights": "derived from the public-domain frames",
+   "operation": "silhouette target of the render loss; visibility in back-projection"
+  },
+  {
+   "id": "archive-dog-keys",
+   "what": "agent keypoints (nose, neck, chest, tail, 4 feet) on 25 frames (kit pose_agent_v8.json), linearly interpolated as weak keys between",
+   "path": "paeleo/handmade/kit/archive-dog/pose_agent_v8.json",
+   "rights": "derived",
+   "operation": "keypoint term of the fit loss"
+  },
+  {
+   "id": "template-layers",
+   "what": "11 layers (torso, head, tail, 4 legs x upper/lower) cut from f006 by bone-Voronoi over its mask; hand-authored skeleton (build/puppet.py SKEL)",
+   "path": "sources/archive_dog_f006_template.jpg -> build/cache/template.npz, proof/template_layers.jpg",
+   "rights": "public_domain source",
+   "operation": "cut (mask x bone assignment), joint caps, nearest-pixel inpainting under occluders"
+  },
+  {
+   "id": "learned-model",
+   "what": "view latent per frame, view regression of head/tail/leg shape, per-layer view-conditioned texture atlases (7 bins, 0-90 deg) with per-texel confidence, Gaussian joint-rotation prior",
+   "path": "build/cache/model.npz, build/cache/model.json, proof/learned_atlas.jpg, proof/eval.json",
+   "rights": "computed here",
+   "operation": "learned (numpy/scipy) from the 50 fits"
+  },
+  {
+   "id": "dog-on-screen",
+   "what": "every dog pixel in the scene: the learned atlas warped through the layered puppet's generated poses; colour graded for dusk and the door light",
+   "path": "build/dogmodel.py, build/render.py",
+   "rights": "computed from public-domain frames",
+   "operation": "synthesized (generation); hand corrections listed in method.md"
+  },
+  {
+   "id": "correction-back-of-head",
+   "what": "hand-correction layer for the look into the room (26.4-28.4 s): outline = skull curve + two folded dog ears drawn in template space, united with the learned head layer's own lower part (neck) so it stays attached; fill = the learned head-layer fur texture (view bin 0) at 72% brightness, rim-lit along the outline",
+   "path": "build/dogmodel.py: backhead_layer()",
+   "rights": "drawn here over a texture learned from the public-domain archive frames",
+   "operation": "drawn outline + learned texture (hand correction; the archive has no back-of-head view)"
+  },
+  {
+   "id": "correction-lying-legs",
+   "what": "hand-authored lying articulation: near foreleg flat forward (upper 1.3 rad, lower -0.3 rad), far legs and both hind leg segments hidden under the body, tail resting along the boards; slow breathing swell of the torso (2.2%, 2.3 s)",
+   "path": "build/dogmodel.py: LIE, render_dog(); build/controls.py tail_rot",
+   "rights": "authored here",
+   "operation": "hand correction (the archive dog never lies down)"
+  },
+  {
+   "id": "correction-paw-pad",
+   "what": "rounded forepaw pad with faint toe banding drawn at the end of the lying foreleg",
+   "path": "build/dogmodel.py: render_dog() fn_lo branch",
+   "rights": "drawn here",
+   "operation": "drawn (hand correction: the rotated shin tip read as a talon)"
+  },
+  {
+   "id": "correction-turns-and-head",
+   "what": "other hand corrections on generated poses: whip-around turns that skip the 55-125 deg front view (turn back: 3 solid 3/4 intermediates), far legs hidden above 40 deg, head tipped toward camera in 3/4 views, reflected tilt for the look-back head, neck joint dropped for the head-low walk, lower-leg bend clamped to 0.6 rad",
+   "path": "build/controls.py, build/dogmodel.py",
+   "rights": "authored here",
+   "operation": "hand correction"
+  },
+  {
+   "id": "place",
+   "what": "porch, house wall and siding, door and casing, room, lamp glow, railing, sky, tree line, moon, light spill",
+   "path": "build/stage.py",
+   "rights": "drawn/computed here",
+   "operation": "drawn (PIL polygons) and computed (numpy gradients, noise)"
+  },
+  {
+   "id": "person",
+   "what": "a layered silhouette puppet (legs, coat, head, arms), no face",
+   "path": "build/person.py",
+   "rights": "drawn here",
+   "operation": "drawn, key-posed to the score's person track"
+  },
+  {
+   "id": "voices",
+   "what": "'Come here.' 'Come here!' 'It's all right.' (x2) 'Come in.'",
+   "path": "build/sound.py -> build/cache/tts_*.wav",
+   "rights": "synthesized here with ffmpeg's libflite (CMU Flite, BSD-style licence), voice slt",
+   "operation": "speech synthesis; soft lines low-passed and 12 dB down"
+  },
+  {
+   "id": "sound",
+   "what": "room tone, crickets, paw taps at planted-foot onsets, thumps, breaths, door latch and creak, person's steps, uncertainty tone",
+   "path": "build/sound.py",
+   "rights": "synthesized here",
+   "operation": "synthesized (numpy/scipy)"
+  },
+  {
+   "id": "fonts",
+   "what": "Big Shoulders Display, JetBrains Mono (cards only)",
+   "path": "tools/paeleo/fonts/f5.woff2, f14.woff2",
+   "rights": "SIL Open Font License (repository fonts)",
+   "operation": "typeset"
+  }
  ],
- "not_used": ["archive-door footage (a real 1992 face; the person is drawn instead)", "Quick, Draw! doodles", "found-frames.json shots"]
+ "not_used": [
+  "archive-door footage (a real 1992 face; the person is drawn instead)",
+  "Quick, Draw! doodles",
+  "found-frames.json shots"
+ ]
 }

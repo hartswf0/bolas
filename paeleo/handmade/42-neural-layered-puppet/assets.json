@@ -47,6 +47,9 @@
     ],
     "head depth-turn stretch learned from": [
      20
+    ],
+    "head turned round (look back, cut piece, mirrored)": [
+     39
     ]
    },
    "operation": "mask (kit SAM polygons, largest component), few-shot layer discovery (EM + gradient descent, numpy/scipy), per-layer affine motion fit, splat rendering with dusk/door-light tint; turn frames cut out whole with the SAM mask and scaled"

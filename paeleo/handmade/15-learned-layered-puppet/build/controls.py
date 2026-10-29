@@ -26,6 +26,16 @@ def head_rot(head):
     return -0.55 - 0.8 * ((0.9 - head) / 0.75) ** 0.6
 
 
+def whip_mid(p):
+    """turn back (round 4): 0->55 deg, then three solid 3/4 intermediates through the front, then ->180 (no dissolve)"""
+    p = float(np.clip(p, 0, 1))
+    if p < 0.35:
+        return 55.0 * sm(p / 0.35) ** 0.8
+    if p < 0.65:
+        return 55.0 + 70.0 * (p - 0.35) / 0.3
+    return 125.0 + 55.0 * sm((p - 0.65) / 0.35) ** 1.25
+
+
 def whip(p):
     """a turn as a whip-around: 0->55 deg, then one cut to 125, then ->180. No frame between 55 and 125 deg:
     the learned front view knots the legs (critic, round 1), so the dog is never shown edge-on."""
@@ -40,7 +50,7 @@ def phi_body(t):
         return 0.0
     if t < 8.0:
         return whip((t - 3.42) / 0.4)
-    return 180.0 - whip((t - 8.0) / 0.5)
+    return 180.0 - whip_mid((t - 8.0) / 0.5)
 
 
 def controls():
@@ -81,6 +91,7 @@ def controls():
                 hr = hr * (1 - rest) + (-1.05) * rest
         tail = a['tail']; wag = a['wag']
         tail_rot = (tail - 0.5) * 1.15 + wag * 0.4 * np.sin(2 * np.pi * 2.4 * t) + 0.5 * lie
+        tail_rot = tail_rot * (1 - lie) + 0.4 * lie   # lying: the tail rests along the boards, not under the body
         crouch = a['crouch']
         pitch = 0.11 * crouch * (1 - lie)
         moving = a['moving']

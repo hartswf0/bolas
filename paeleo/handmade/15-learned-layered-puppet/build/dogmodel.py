@@ -48,18 +48,30 @@ def backhead_layer():
     Hh, Wh = tpl.alpha.shape[1:]
     im = Image.new('L', (Wh * 4, Hh * 4), 0); d = ImageDraw.Draw(im)
     S = 4
-    d.ellipse([(98) * S, (94) * S, (126) * S, (116) * S], fill=255)                 # skull, wider than tall
-    d.polygon([(100 * S, 101 * S), (101 * S, 86 * S), (110 * S, 97 * S)], fill=255)  # far ear
-    d.polygon([(114 * S, 96 * S), (123 * S, 84 * S), (125 * S, 102 * S)], fill=255)  # near ear
-    d.polygon([(106 * S, 110 * S), (124 * S, 106 * S), (128 * S, 120 * S), (112 * S, 121 * S)], fill=255)  # neck
+    d.ellipse([98 * S, 93 * S, 127 * S, 116 * S], fill=255)                          # skull curve
+    # the dog's own ears (archive: soft, semi-erect, tips folding): rounded lobes, not points
+    def ear(cx, cy, ang, w, h):
+        th = np.radians(ang); pts = []
+        for u in np.linspace(0, 2 * np.pi, 24):
+            x, y = w * np.cos(u), h * np.sin(u)
+            y = y if y < 0 else y * 0.4                     # flat base, tapered tip (a folded dog ear)
+            x = x * (1 - 0.45 * max(0, -np.sin(u)))
+            pts.append(((cx + x * np.cos(th) - y * np.sin(th)) * S, (cy + x * np.sin(th) + y * np.cos(th)) * S))
+        d.polygon(pts, fill=255)
+    ear(102, 97, -28, 5.5, 11)
+    ear(122, 95, 24, 5.5, 11)
     a = np.asarray(im.resize((Wh, Hh), Image.LANCZOS), np.float32) / 255
-    a = np.minimum(a, 1.0) * (tpl.alpha[j] > -1)
+    # neck: the learned head layer's own lower part, so the swapped head stays attached to the body
+    yy = np.arange(Hh)[:, None]
+    a = np.maximum(a, tpl.alpha[j] * (yy >= 106))
+    a = np.clip(a, 0, 1)
+    # texture: the learned head layer's fur, seen in shadow, rim-lit where the room light catches the outline
     t0, _ = tex_at(j, 0.0)
-    g = t0 * 0.6 + 0.04
+    g = t0 * 0.72
     edge = np.clip(a - ndimage.grey_erosion(a, size=(3, 3)), 0, 1)
-    g = g + 0.55 * edge
-    # ear inner line: a darker crease so the two ears separate from the skull
-    g = np.where((a > 0.5) & (np.abs(np.arange(Wh)[None, :] - 112) < 1) & (np.arange(Hh)[:, None] < 102), g * 0.6, g)
+    g = g * (1 - 0.5 * edge) + 0.75 * edge * 0.5 + g * 0.0
+    # a darker crease where the ears meet the skull
+    g = np.where((a > 0.5) & (np.abs(yy - 98) < 1.2) & (np.abs(np.arange(Wh)[None, :] - 112) < 12), g * 0.75, g)
     return g.astype(np.float32), a.astype(np.float32)
 
 
@@ -153,7 +165,7 @@ def build_pose(c, mode='corrected'):
         p[up]['fy'] = fl if l[0] == 'f' else hl; p[lo]['fy'] = p[up]['fy']
         p[up]['dx'] = side * LAT * sinp * 0.9
     # body height: standing torso centre above the floor, lowered by crouch and lying
-    stand_h = 64.0 * (0.5 * (fl + hl))
+    stand_h = 55.0 * (0.5 * (fl + hl))
     lie = c['lie']
     h = stand_h * (1 - 0.16 * c['crouch']) * (1 - lie) + 26.0 * lie
     Xc = c['X']
@@ -236,11 +248,11 @@ def render_dog(p, info, H, W, c=None, mode='corrected'):
             g, a, bb = warp_layer(t, tpl.alpha[j], M[k], H, W, (0, 0), tpl.bbox[j], 1.0)
         if k[:2] in ('ff', 'hf') and lie > 0.6 and mode != 'raw':
             a = a * 0.0   # lying: the far legs are under the body
-        if k == 'hn_lo' and lie > 0.6 and mode != 'raw':
+        if k in ('hn_lo', 'hn_up') and lie > 0.6 and mode != 'raw':
             a = a * 0.0   # lying: the folded hind shin is tucked under the thigh
         if k[:2] in ('ff', 'hf'):
             # visibility layer: toward the front view the far legs pass behind the near legs and chest
-            a = a * (0.0 if info['psi'] > 62 else 1.0)   # hard visibility switch, never translucent
+            a = a * (0.0 if info['psi'] > 40 else 1.0)   # hard visibility switch, never translucent: <= 4 legs in any turn frame
         if bb is None:
             continue
         cfw, _, _ = warp_layer(cf, tpl.alpha[j], M[k], H, W, (0, 0), tpl.bbox[j], 1.0)

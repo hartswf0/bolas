@@ -145,6 +145,7 @@ class Poser:
             if n['neck'] >= 0: ang[n['neck']] = ang.get(n['neck'], 0) + np.radians(LOOK[0]) * look
             ang[n['head']] = ang.get(n['head'], 0) + np.radians(LOOK[1]) * look
             ov = max(ov, look)
+        look_reach = 12.0 * look
         if wag and n['tail'] >= 0:
             ang[n['tail']] = ang.get(n['tail'], 0) + wag
         if head_lift:
@@ -157,6 +158,11 @@ class Poser:
             Sm = np.eye(2) * (1 - head_depth) + self.head_depth_stretch * head_depth
             C = np.eye(3); C[:2, :2] = Sm; C[:2, 2] = piv - Sm @ piv
             T[hk] = T[hk] @ C
+        if look > 0:
+            # the head carried into the lit inner doorway (override)
+            Tr = np.eye(3); Tr[0, 2] = -look_reach
+            for k in (n['head'], n['neck']):
+                if k >= 0: T[k] = Tr @ T[k]
         if head_low > 0:
             # head carried low: head and neck lowered and brought forward of the chest (override)
             Tr = np.eye(3); Tr[0, 2] = -7.0 * head_low; Tr[1, 2] = 24.0 * head_low

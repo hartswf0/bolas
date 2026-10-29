@@ -203,7 +203,7 @@ def main():
         mode = 'profile-R' if facingR else 'profile-L'
         view = None; pup_o = 1.0; vid = None
         swung = swing if RISE[0] <= t < RISE[1] else None
-        split = RISE[0] <= t < TB0 + 0.25 * TURN_DUR     # head drawn as its own hard layer while it is turned
+        split = RISE[0] <= t < TB0 + 0.16 * TURN_DUR     # head drawn as its own hard layer while it is turned
         G_head = None
         # ---- the turns, rendered with the puppet only: it is posed at its learned fits of the archive frames of the
         # dog turning (turn_fit.py; these beat the best hand-set hinge pose on 13 of 16 frames), each fit placed by its

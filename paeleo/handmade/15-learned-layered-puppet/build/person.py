@@ -39,11 +39,11 @@ def pose_at(t, score_person):
     step = dict(S, X=0.22, Z=0.75, th1=0.35, th2=-0.3, arm=0.2, arm2=-0.2)
     stand_b = dict(S, X=0.45, Z=1.35, th1=0.05, th2=-0.05)
     sit = dict(S, X=0.45, Z=1.35, hip=0.45, lean=-0.12, th1=1.5, sh1=-1.5, th2=1.4, sh2=-1.35, arm=0.55, elb=0.6, arm2=0.3, elb2=0.8, head=0.12)
-    low = dict(sit, lean=0.22, arm=0.62, elb=0.25, head=0.32)
-    soft = dict(low, head=0.42, lean=0.28)
+    low = dict(sit, lean=0.55, arm=0.45, elb=0.12, head=0.4)   # hand below the knee, reaching toward the dog
+    soft = dict(low, head=0.48, lean=0.6)
     keys = [(0.0, S), (0.9, S), (1.15, call), (2.2, call), (2.6, S), (3.3, S), (3.75, reach), (4.5, reach), (4.75, S),
             (5.05, step), (5.35, stand_b), (6.3, sit), (6.75, sit), (7.15, low), (7.5, soft), (9.6, low), (10.4, soft),
-            (11.8, low), (21.9, low), (22.5, dict(low, face=-1.0, arm=0.6, lean=0.25)), (26.3, dict(low, face=-1.0)),
+            (11.8, low), (21.9, low), (22.5, dict(low, face=-1.0)), (26.3, dict(low, face=-1.0)),
             (26.7, dict(soft, face=-1.0)), (27.6, dict(low, face=-1.0))]
     return keyed(t, keys)
 
