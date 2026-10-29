@@ -11,7 +11,6 @@ Live: https://hartswf0.github.io/bolas/
 | [The Found Odyssey](found-odyssey/) | Homer's lines are asked by the CALL track and answered by archive speech; a drawn cast acts in graded archive plates. Each episode runs one formal experiment. |
 | [WYGWYL](wygwyl/) | The poet as a jointed paper cut-out made from his own photographs, set over the cineosis-lab cel cuts with the reading on the soundtrack. Every patch is built from the lab's cel database. |
 
-- [The Crank Boy](crank-boy/): seven En l'an 2000 postcards as short films, games and one playable town, with cineosis-lab archive film (mirrored from hartswf0/crank-boy); with version 9 on clean plates of the card, its art department and a first proof scene, the school as a Méliès trick film; write-up at crank-boy/docs/futuretown.md
 - [This Side Up](this-side-up/): case studies of the cardboard cut-out films, each with a full case page of versions, prompts, critic rounds and sheets
 - [PAELEO](paeleo/): Promptable Augmented Environments Lab · Ekphrastic Operations. One research program at three scales (AEL, PEO, PAELEO); its films are made with the SCION swarms, all 54 of which are written up and shown through the same paper dog at [paeleo/scion/](paeleo/scion/); six of them make the same scene from the bottom up at [paeleo/handmade/](paeleo/handmade/)
 - [Characters](characters/) · [Films](films/) (26) · [Process](process/) · [Docs and prompts](docs/)

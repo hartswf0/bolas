@@ -1,0 +1,363 @@
+# SCION 34 · ARAP — the threshold, bent as rigidly as possible
+
+PAE-02 cohort 5. `film.mp4`: 38.0 s, 1280×720, 24 fps, H.264 + AAC, faststart, about 3.0 MB (2.96 MB after round 3)
+(912 frames: 72 title, 768 scene, 72 end card; the end card draws the rest mesh and the lying mesh with their
+handles). Rebuild: `bash build/make.sh`.
+
+## Thesis
+
+The prompt's theorem: *bend engraved and photographed characters while preserving local proportions and recognizable
+material structure.* I took the engraving half.
+
+The dog is an engraving: ink lines on paper, with hatching that runs along each limb and around the barrel of the
+body. It is a triangle mesh, and every pose is an as-rigid-as-possible solve from a few constrained patches. A naive
+warp would stretch the hatching, crowd it and turn it over. ARAP keeps the line spacing and the eye and nose intact
+while the body cowers, turns its back, lies down, comes with its head low and lies across the sill.
+
+The passage that matters most is the refusal and the turn back (3.4–8.6 s). What would make it bland is a profile
+mirrored edge-on, or a mesh that rubber-bands.
+
+**Numerical invariant:** inverted triangles per frame, measured on every solved mesh (see below).
+**Judged only by viewing:** whether the dog reads as one creature in every frame of both turns, and on the sill.
+
+## Material: why not the photograph
+
+I first looked at the archive dog (`kit/archive-dog`, 50 frames at 384×288).
+- The dog in it is about 130 px long, blurred and grey.
+- Its SAM mask merges the hind legs and drops the tail.
+- At film size it reads as a smudge.
+
+Swarm 10 (MLS) warps one image. So I drew the dog in code instead, as an engraving (`build/engrave.py`,
+`build/draw_dog.py`):
+- Each part is a mask with its own hatch field: lengthwise on the torso, along the limb axis on the legs (bunched toward
+  the edges as on a cylinder), and along the muzzle on the head.
+- Line width follows a light computed from a "puffy" height field. Shadowed parts get cross-hatching. A darker saddle
+  is cut into the back.
+- The proportions (body length about 1.7 × chest height, neck about 0.3 of the body) were read as numbers from the
+  archive dog's rig keys. None of its pixels are in the film.
+
+The person and the place are engraved the same way, so the whole film is one material.
+
+## Swarm (merged roles; one builder ran all of them, in sequence)
+
+| role | artifact |
+|---|---|
+| Mesh tessellator | `build/mesh.py` → `assets/mesh/*.npz`: Poisson-disk outline samples (9 mm) and interior samples (17 mm, 8 mm inside protected features), triangulated by scipy Delaunay. A triangle is kept only if its centroid and six edge points are inside the drawing, which separates the legs and the ears. Dog profile: 1,086 vertices / 1,653 triangles; profile head 265 / 420; rear view 469 / 730 + 156 / 218; front view 503 / 786 + 267 / 406 |
+| Local-global solver | `build/arap.py` |
+| Control handle artist | `build/rig.py`, `build/prig.py`, `build/perform.py` (the score → handle targets; the stepping simulation; the turn schedule) |
+| Visual protector | rigidity weight 30 on the eye and nose triangles; the inversion repair and the flip guard |
+| Frame regression analyst | `build/render.py` measurements → `build/trace.py` → `trace.json`; `build/proof.py` → `proof/` |
+| Independent quality critic | **not done.** I do not approve my own work |
+
+## The solver: how it differs from Swarm 09 (Igarashi)
+
+I read only 09's `method.md`. It solves per-triangle rotations (2D Procrustes over each triangle's three
+cotangent-weighted edges) with soft handle penalties (λ), one banded Cholesky in JavaScript, on a grid mesh (6–9 px
+cells) over drawn, flat-filled paper figures.
+
+Mine differs in solve, mesh and material:
+- **Rotations per vertex cell, not per triangle** (Sorkine & Alexa 2007). For each vertex,
+  S_i = Σ_j w_ij (p_i − p_j)(x_i − x_j)ᵀ and the rotation has a closed form, θ_i = atan2(S01 − S10, S00 + S11).
+  The global right-hand side is Σ_j w_ij/2 (R_i + R_j)(p_i − p_j).
+- **Hard handles by elimination, not penalties.** Constrained vertices are removed from the system. The free block
+  L_FF of the cotangent Laplacian (weights clamped positive, scaled per triangle by its rigidity) is factored once per
+  mesh with SuperLU (`scipy.sparse.linalg.splu`). Each global step is two back-substitutions.
+- **Warm starts.** Each frame starts from the last solution and runs 8 iterations. A new view starts from rest with 40.
+  The solve is 10–30 ms per piece on this machine (numpy).
+- **Mesh.** A conforming Delaunay triangulation of Poisson samples that follows the drawing's outline, not a raster
+  grid.
+- **Material.** Engraved line fields, not filled paper. The structure ARAP protects is the hatching itself.
+- **Inversion repair.** When triangles turn over, they and their one-ring are stiffened ×3 (capped at ×400) and solved
+  again, up to 10 rounds. The stiffening then relaxes ×0.93 a frame back toward 1, so the repair map follows the pose
+  rather than piling up (my first version piled up; see failures). A last flip guard pulls the free vertices of any
+  still-inverted triangle halfway to their one-ring mean.
+- **The look over the shoulder is a Jacobian flip.** The head mesh has a second solver whose rest shape is reflected
+  (determinant −1, triangle order reversed). 09 swapped to a separately drawn head.
+- **Similar to 09, to say plainly:** the turns are substitutions between views bridged by ARAP, the head leads the
+  turn, and stiffening is used as a repair. The prompt's own §6 prescribes this ("change the handle topology, rest mesh
+  or add substitution art").
+
+## Handles: few, rigid patches; IK places the knees
+
+**Profile body: 16 handles.**
+- Shoulder patch and hip patch. Body pitch comes from the line between them.
+- Neck tip, swung about the shoulder by the head act.
+- Tail middle and tail tip (tail act, wag).
+- Four paws and four wrist/hock patches. Each is a few vertices.
+- Three knee patches placed by two-bone IK. The near hind knee has none, because the thigh drawing covers it and ARAP
+  decides that bend.
+- The knee and ankle patches turn with the bones measured from the IK joints. That fixed the first render's tangles
+  (see failures).
+
+**Head: 4 handles** (skull, nose, two ear tips). Ear act 0 folds the tips back by 1.25 rad, and ARAP bends the ears.
+
+Everything else is ARAP's: the bend of every leg, the belly, the neck, the chest's barrel, the fold of the ears, the
+crease when the dog lies.
+
+**Rear and front views:** 7–9 handles each (paws, back or chest, hip or neck, knees, tail tip). Crouch, a wagging tail
+and a width ("arrival") parameter drive them.
+
+## How the dog moves (score frame = scene frame; camera A wide to 20.5 s, then B closer on the sill)
+
+- **Watch (0–1.0).** The profile breathes (4 mm, 2.4 s). Head up, ears pricked.
+- **Retreat (1.0).**
+  - The score's crouch rises to 0.9: the shoulders drop 85 mm and the hips 110 mm. The head drops, the ears fold flat
+    and the tail tucks under, with its tip curled.
+  - It backs away 0.9 m on planted feet. Stepping is an event simulation: a planted paw never moves in the world. A paw
+    swings (0.22 s, 45 mm lift) only when it lags 9 cm behind its neutral place, at most two at a time and never both
+    of a pair.
+- **Refuse (3.417).**
+  1. 3.42–3.50: the head drops.
+  2. 3.54–3.63: the head mesh flips (the reflected rest shape), so the muzzle points away over its back.
+  3. 3.67–3.83: substitution to the rear view (haunches, tail, the back of the head). It arrives 35% wide and narrows,
+     and the head swings behind the shoulders from left to right.
+  4. 3.875: the profile again, facing away and arriving foreshortened (72% → 100% width over 3 frames). Head low, tail
+     tucked.
+  5. 4.3–5.0: it lies down with its back to the door. 5.8–6.5: its chin goes down (score `rest`).
+- **Watch (7.458).**
+  1. On the frame of the choice, the head mesh flips again: the lying dog looks back over its shoulder at the opened
+     door.
+  2. 7.5–8.2: it gets up (score `lie` 0.84 → 0.08) still looking back.
+  3. 8.25–8.50: the front view, with its head turned a quarter toward the door.
+  4. 8.54: the profile facing the door, arriving foreshortened.
+- **Approach (14.708).**
+  - It walks to the sill on planted feet. The head comes down over 0.35 s and is held below the back line.
+  - Measured: the rendered muzzle is below the rendered shoulder patch in **100%** of approach frames after 15.05 s.
+  - The tail is low with a small wag.
+- **Lie down (23.792).**
+  - The pose goes from standing to a deep crouch (paws planted, forefeet reaching) to a sphinx lie. The forelegs lie
+    straight forward, the hind legs fold under, the tail lies back along the boards and the back is flat.
+  - At the end 0.56 of the rendered dog's area is left of the door plane (head, chest, forelegs). The rump and tail stay on the
+    porch.
+- **Come in (26.4).** The neck stretches 14% and the head lifts and reaches into the lit room, ears pricked, tail
+  sweeping the boards. From 28.3 the chin goes to the paws and it stays.
+- **The person.**
+  - Engraved meshes: standing, seated, and the near arm as its own mesh (shoulder, elbow, hand handles).
+  - She beckons twice on the first call, then leans and reaches on the second.
+  - She backs into the room in three planted steps and bends toward the stool. The seated drawing takes over and
+    settles from 60 mm high.
+  - She offers the hand low from 6.8 and bows her head a little on each soft line.
+- **The place.**
+  - A cutaway, seen from the side. The wall is cut at the door (poché). The door leaf swings into the room, from a
+    sliver (ajar) to a full panel at 6.2–7.3.
+  - The light comes out with it: a warm band on the boards and warm air that lights the figures. The dog and the person
+    are lit by the same light map, so the dog warms as it enters the beam.
+  - Dusk darkens over the 32 s. Moon and trees are Quick, Draw! strokes in pale chalk.
+
+## Measured (from the render: `trace.json`, `proof/proof.json`, `build/cache/sound_levels.json`)
+
+`python3 tools/paeleo/check_handmade.py paeleo/handmade/34-arap`: **ALL OK** (I1–I4).
+- I3 uses `x_world_measured`: the rendered alpha centroid back-projected through each camera.
+- I4: the facing is measured on screen. The rendered muzzle points away, or the rear view shows, in 97% of refuse
+  frames. The first 3 frames are the head drop, still facing the door.
+
+Choice onsets, measured from rendered signals (not from the state labels):
+
+| choice | score t | measured t | dt | signal |
+|---|---|---|---|---|
+| retreat | 1.000 | 1.000 | 0 | dog drops > 3 px or moves away > 1.5 px |
+| watch | 2.333 | 2.333 | 0 | top of the dog rises 3 px above its cowering low |
+| refuse | 3.417 | 3.542 | +0.125 | rendered muzzle points away from the door |
+| (back shown in profile) | — | 3.875 | — | whole body facing away |
+| watch | 7.458 | 7.458 | 0 | rendered muzzle points to the door |
+| approach | 14.708 | 14.750 | +0.042 | centroid moves toward the door > 1.5 px |
+| lie down | 23.792 | 23.792 | 0 | rendered shoulder patch 3 px below its walking height |
+| looks in | 26.4 | 26.458 | +0.058 | muzzle lifts and reaches into the doorway > 2 px |
+
+Solver bar:
+- **Inverted triangles: not zero.** 38 of 768 frames (4.9%) keep 1–6 inverted triangles after repair (49 in all). Most are
+  single sliver triangles at the front of the stifle or the wrist crease while the dog cowers, refuses or settles. They
+  are not visible at film size, but the bar is not met. `trace.json` has the count per frame.
+- Normalized ARAP energy on the dog body: worst frame about 0.26.
+- **Against a naive warp** (`proof/arap_vs_naive.jpg`): same mesh, same handle targets, the naive warp being Shepard
+  inverse-distance interpolation of the handle moves. Body mesh only:
+
+| pose | ARAP inverted | naive inverted | mean / p95 stretch, ARAP | mean / p95 stretch, naive |
+|---|---|---|---|---|
+| head low | 0 | 51 | 0.081 / 0.28 | 0.19 / 0.83 |
+| cowering | 0 | 40 | 0.15 / 0.38 | 0.37 / 0.96 |
+| lying | 0 | 274 | 0.24 / 0.61 | 0.52 / 1.00 |
+
+Sound (`build/cache/sound_levels.json`, measured on the mix):
+- Calls −18.5 and −16.8 dBFS RMS. Soft lines −32.2, −31.1, −31.6: **14 dB quieter**.
+- Room tone −48 dBFS mid-film, −54 at the start.
+- Voice onsets 1.00, 3.40, 7.41, 10.41, 26.41 s. Peak −3 dBFS.
+
+## Looked at (perceptually judged by the builder only; not a critic's verdict)
+
+- Contact sheets of the whole scene at 1 s.
+- Every second frame of the refusal (3.17–4.08) and of the turn back (7.33–8.96).
+- The walk at 17.3–18.4 and the lie at 24–31 s, as close crops. The four stills and the end card.
+
+In my judgement:
+- the cower reads;
+- the head leads the turn away, the rear view reads as a dog seen from behind, and the turned profile shows its rump
+  to the door by 3.875;
+- the look back over the shoulder at 7.46 reads as a look back;
+- the front view with the head toward the door bridges the turn back;
+- the head is low throughout the approach;
+- the dog lies flat across the sill with the front inside the door frame and the tail on the porch.
+
+## What failed and what changed (`ledger.jsonl`)
+
+1. **The photograph** was too small and soft to carry a dog at film size. I changed to an engraving drawn in code.
+2. **The engraving had no light** (the height field was too flat) and showed fingerprint rings on contour hatching.
+   Fixes: a puffy height field, unclamped limb hatching, and directional hatch on the masses.
+3. **The dog vanished into the dusk:** the same light on figure and ground. Figures now get a paler light than the
+   background.
+4. **Lying inversions (11–19).** Wrist patches were rotated the wrong way, and paw and ankle patches touched (triangles
+   between two rigid patches cannot be repaired by any solve). I fixed the signs, separated the patches, and made joint
+   patches turn with their bones. The lying pose then had 0 inversions.
+5. **First full render: 62–140 inversions a frame in the cower and the refusal.** My stiffening compounded forever, and
+   the knee patches were held at angle 0 while the legs swung. I stopped the render, capped and decayed the stiffening,
+   rotated the joint patches with the bones and added a flip guard. The residual is above.
+6. **The look-away head** first showed as a crumpled "beak". The reflected head solver was warm-started from an
+   unreflected shape and ARAP cannot undo a reflection. It now cold-starts from the rest head placed rigidly.
+7. **Energy spikes of 0.8 in the walk** came from over-long hind steps. I shortened the step trigger and target (12/13 cm
+   → 9/9 cm). Worst energy is now 0.26.
+8. **Lie-down onset measured +0.58 s late.** The criterion used the top of the dog, which the rising head defines. It
+   now uses the rendered shoulder patch.
+9. **On the sill the back humped and the tail hung under the floor.** The lying shoulder and hip patches no longer
+   squeeze the spine, and the tail lies back along the boards.
+
+## What is still weak
+
+- **Residual single-triangle inversions** in 4.9% of frames (above). The bar "no triangle inversions" is not met.
+- **Legs are rubbery and the dog is lean and leggy**, near a hyena or coyote. ARAP bends a strip along its length,
+  so the cower and the walk look like bent tubes of hatching.
+- **The views are hard swaps.** Profile → rear → profile and lying-profile → front → profile change silhouette in one
+  frame. Width "arrival" and foreshortening soften this, but there are no drawn in-betweens.
+- **The rear and front views are smaller and plainer** than the profile.
+- **The camera A dog is small** (about 190 px long). The engraving lines are about 3 px apart there and may shimmer
+  under compression.
+- **The lit railing.** After the door opens, the beam's haze lightens the railing behind the dog, which flattens it.
+- **The voice is my own formant synthesizer.** I cannot hear it. It is likely robotic, so the words are also shown
+  quietly at the foot of the frame.
+- **The person** is plain. She has no mouth movement and her steps back are short shuffles under the smock.
+
+## What was not done / unknown
+
+- **No independent critic has seen this film.** Nothing here is a pass.
+- **No listening.** The sound was measured, not heard.
+- **No mobile operator page** and no side-by-side playback video. The counterexample set is stills (`proof/`).
+- **Feet are planted by construction** in the stepping simulation. That the rendered paw pixels do not slide was not
+  measured separately.
+- **The deformed mesh cache is not kept** (it is regenerated by `render.py`). The rendered frames are deleted after
+  encoding to keep the folder lean.
+
+
+## Round 2 (after critic round 1: DOES NOT PASS)
+
+The critic ranked five repair conditions. Each is listed below with what changed and what was measured. Everything
+was re-rendered (all 768 frames) and re-checked: `check_handmade.py` **ALL OK**; onsets unchanged (retreat 0, watch 0,
+refuse +0.125, watch 0, approach +0.042, lie down 0, looks in +0.058); head below the back in 100% of the approach.
+
+1. **Looking in, 26.4–27.5 s.** There is a new head drawing and mesh, `L_head`: the dog's head from three-quarters behind.
+   It shows the back of the skull and the backs of both ears; the muzzle peeks past the far cheek, aimed up and away
+   into the lit room, above the woman's hands. It cross-fades in from the profile head as the score's `look` rises
+   (0.35 → 0.6) and back out as it falls (by 28.3 s), and it is ARAP-solved like the other heads (ear tips fold with the
+   ear act). The dog uses the profile head toward her and this head toward the room.
+   Crops: `proof/look_in_crops.jpg` (26.25, 26.75, 27.50 s at 100%).
+2. **Hindquarters, 23.8–32 s.** I stopped asking ARAP to fold the standing mesh into a lie (the prompt's own §6: change
+   the rest mesh). The lying dog is its own engraved drawing and mesh, `P_lie` (857 vertices, 1,392 triangles): forelegs
+   along the boards, the near hind leg already folded (thigh, hock on the ground), the tail laid back.
+   - The standing mesh goes only as far as a deep crouch with the paws planted. Over the score's `lie` 0.42–0.62 it
+     dissolves into `P_lie`, which arrives 70 mm high and settles.
+   - On the lying mesh ARAP does only breathing, the neck and head, the settle and the tail sweep, so nothing has to
+     fold.
+   - **Measured: 0 inverted triangles in all 197 frames from 23.79 to 32 s** (the lie at the sill), and 0 in the refusal
+     lie too.
+   - The end card now shows the lying rest mesh solved, with no fold. Crops: `proof/lying_crops.jpg` (24.5, 27, 30 s at
+     100%, each labelled with its inversion count).
+3. **The turns.** No frame-to-frame cut changes the view any more (`build/perform.py: view_for`):
+   - The outgoing drawing foreshortens over two frames; in the turn away its head mesh has already flipped to lead the
+     turn.
+   - The two drawings then overlap for two frames, weighted 0.67 / 0.33 and then 0.33 / 0.67. In those frames the
+     incoming view arrives ARAP-widened (rear or front view handles at 1.7 → 1.55 × width) and narrows over three more
+     frames, while the rear view's head swings across behind the shoulders.
+   - The profile then arrives foreshortened (55% → 100% width).
+   - Refusal: 3.50–4.08 s; turn back: 8.17–8.67 s.
+   - What it is: deformed drawings plus a short two-frame cross-dissolve, not drawn in-betweens. A faint double image
+     shows in those overlap frames.
+4. **The standing silhouette.** The neck is shorter (the head joint 47 mm lower and 23 mm back) and the chest deeper
+   (40–45 mm lower brisket, 30 mm lower belly). The lying and crouching heights were changed to match.
+5. **Shimmer.**
+   - Hatching is 1.6× coarser on every figure: dog lines about 4 px apart in the wide shot, 6 px close.
+   - Cross-hatching is off: it made dotted patterns at film scale.
+   - The background's ruled lines are 1.45× wider; the dotted cross-hatch on the porch front, roof, posts, steps and
+     picture is replaced by solid tone or single lines.
+   - The scene wireframe overlay is removed: that was the "dotted fringe". The mesh is shown on the end card instead.
+   - The figures are rasterised at 3× supersampling with a texture pre-filtered to 0.7 px/mm.
+   - Looked at, at 100% crops, around 18 s and 27 s.
+
+Still weak / unknown after round 2:
+- **The standing and walking profile still turns 1–7 single triangles over in 56 of 768 frames** (107 in all). They sit
+  in the cower (1.7–2.3 s) and are recurring singles in the walk (15–21 s), at the hind leg's swing. None are in any
+  lying frame.
+- **The overlap frames of the turns show a ghosted double image** for two frames per view change.
+- **`L_head` is small at film size** (about 50 px). The back-of-head reading depends on the two ear backs and the muzzle
+  tip.
+- Worst normalized ARAP energy is 0.39, at a walk frame.
+- At the end, 0.54 of the dog's rendered area is inside the door frame.
+- No critic has seen round 2.
+
+
+## Round 3 (after critic round 2: DOES NOT PASS, narrowly)
+
+1. **No double images.** Every frame now shows exactly one drawing (`perform.py: view_for` returns one layer; the
+   stand/lie and profile/turned-in head changes are single-frame swaps in `render.py: expand`, not dissolves).
+   - Turn away: the profile narrows over 4 frames (100% → 52%, 3.46–3.58 s) as the head drops toward the door. A hard
+     swap at the narrowest frame (3.625) brings the rear view, arriving 12% wide and narrowing while its head swings
+     across. A hard swap at 3.83 brings the profile turned away, arriving at 50% width and widening over 4 frames.
+   - Turn back: the standing dog narrows (8.17–8.29 s), swaps to the front view (8.33–8.46), then swaps to the profile
+     facing the door at 50% width (8.50).
+   - Lie: the deep crouch was reshaped so its hip height (285 mm) matches the lying mesh's arrival height (286 mm).
+     The swap happens on the frame the score's `lie` passes 0.55, the beat when the dog drops.
+   - Look-in: the head swaps on the frame `look` passes 0.45.
+   - I extracted frames from the encoded `film.mp4` at 3.50, 3.58, 3.62, 3.67, 3.71, 3.83, 3.88, 3.92, 4.58, 4.62, 7.50,
+     7.62, 8.17, 8.25, 8.33, 8.46, 8.50, 26.50, 26.75 and 27.50 s and looked at them: one body and one head in each.
+2. **The over-the-shoulder head.** The turn away no longer uses a mirrored head: the profile head drops toward the door
+   as the body narrows. Looking back from 7.46, the mirrored head is set at an absolute angle of −0.12 rad, so the
+   muzzle points left to the door, level or a little down, at its back line. It is always solved from a rigid
+   placement, so it has no beak. In the encoded film at 7.50 and 7.62 the eye, the dark muzzle and nose, and both ears
+   read.
+3. **Looking in.** `L_head` has a foreshortened muzzle with mass: wider at the base, rounded at the end, with a dark
+   nose tip and highlight. The head is tilted 0.42 rad so the muzzle aims up and left into the lit room, above and
+   past the woman's hand.
+4. **Hind legs.**
+   - The cower lowers the hips 75 mm (was 125) and drops the hocks (the metatarsus slants back 0.4 rad × crouch).
+   - The deep crouch lowers the hips 170 mm (was 215), with the hocks at 0.7 rad.
+   - The two-bone IK keeps thigh and shank at their rest lengths.
+   - Looked at on the encoded film at 1.50, 1.83, 2.08 and 4.25 s: four distinct feet, no leg looping over itself.
+   - Measured inverted triangles: 3 in 1.5–2.1 s (single slivers), 0 in 4.0–4.5 s, 0 in all lying frames (23.79–32 s).
+
+Measured after round 3:
+- `check_handmade.py` ALL OK.
+- Onsets: retreat 0, watch 0, **refuse +0.208** (first rendered frame whose view faces away, 3.625; the narrowing and
+  head drop start at 3.458), watch 0, approach +0.042, lie down 0, looks in +0.058.
+- Head below the back in 100% of the approach.
+- Inverted triangles over the film: 79, in 53 standing or walking frames.
+- Worst normalized energy 0.61, at the cower's end (2.0–2.6 s). The hip is lowered less there, so the spine bends more.
+
+
+## Round 4 (after critic round 3: DOES NOT PASS, very narrowly)
+
+1. **"Two rumps, a doubled tail, an extra thigh" at 3.85–4.5 s.** There was no second mesh: `perform.json` has
+   exactly one layer per frame (checked, max 1), and the renderer draws one mesh per frame. The doubling was inside the
+   one drawing:
+   - The near thigh and shoulder masses carried their own outline stroke inside the body, which read as a second rump.
+   - The tucked tail swung down along the back of the thigh, which read as a second tail.
+   - Fix: those two masses no longer draw an inner outline (only hatch direction changes there). A tucked tail now
+     rotates 1.6× further, so it passes under the belly behind the thigh. Crops of the encoded film at 3.88, 4.00, 4.25
+     and 4.50 s show one rump, one tail and four legs.
+2. **The hind legs at 7.5–8.3 s.** The standing mesh is now never driven past the deep crouch (score `lie` clipped to
+   0.5): the old path had started the lying fold on it before the swap to the lying mesh. The deep crouch is
+   shallower: hips −115 mm, shoulders −100 mm, hocks slanted 0.45 rad. The swap to and from the lying mesh is a
+   ~45 mm drop on the frame `lie` passes 0.55. Crops at 7.62 and 7.75 s on the encoded film show four distinct hind
+   and fore feet, nothing crossed.
+3. **Optional, done.** The figure outline is heavier (7 mm stroke, about 1.4 px wide in the wide shot). The far railing
+   is lighter (rail tone 0.55 → 0.38, balusters 0.45 → 0.30).
+
+Re-measured after a full re-render: `check_handmade.py` ALL OK. Onsets unchanged (0, 0, +0.208, 0, +0.042, 0, +0.058).
+0 inverted triangles in the lying frames. 79 single triangles over the film, in 53 standing or walking frames.
+The film is 2.92 MB.

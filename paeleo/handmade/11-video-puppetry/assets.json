@@ -1,0 +1,78 @@
+{
+ "about": "SCION 11 \u00b7 Video Puppetry Tabletop \u2014 every asset in film.mp4, where it came from, its rights, and the operation that made it.",
+ "assets": [
+  {
+   "id": "dog-L",
+   "what": "the dog, profile facing left, head raised: the main puppet (watching, backing away, approaching, lying across the sill, looking in)",
+   "source": "paeleo/handmade/kit/archive-dog/frames/f006.jpg with its SAM mask (kit masks.json, frame 6)",
+   "source_title": "Amateur Film New Jersey C (Home Movies collection, Internet Archive)",
+   "archive_url": "https://archive.org/details/NewJerseyC",
+   "clip_page": "https://www.movingimagearchive.com/sources/amateur-film-new-jersey-c-c65a8960?clip=2fdacde1-8a23-58e1-b905-5407385bd039",
+   "rights": "public domain (kit source.json rights_statement)",
+   "operation": "mask, tone-normalised, split into per-piece masks: a body sheet bent by rigid moving-least-squares on 12 handles; head-with-neck (cut along a neck line), tail (cut along a tail line) and four legs (below a belly line, by distance to each leg's axis) as rigid cut-outs pinned at joints and placed by least-squares rigid fit of their handles; mirrored (R) for the turned back"
+  },
+  {
+   "id": "dog-F",
+   "what": "the same dog three-quarter to the camera: the middle of both turns (F and its mirror F')",
+   "source": "paeleo/handmade/kit/archive-dog/frames/f038.jpg with its SAM mask (frame 38)",
+   "source_title": "Amateur Film New Jersey C",
+   "archive_url": "https://archive.org/details/NewJerseyC",
+   "rights": "public domain",
+   "operation": "as dog-L (mask, tone, pieces, 24 handles: proof/handles_F.png), mirrored for F'; warped toward the profile keys' handle positions and dissolved over ~16% of a turn segment; F' and F swapped like cut-outs (no morph) with a 14% narrowing at the swap"
+  },
+  {
+   "id": "dog-back-of-head",
+   "what": "the back of the dog's head while it looks in through the door (26.46-28.2 s)",
+   "source": "real fur pixels of kit frame 6 (paeleo/handmade/kit/archive-dog/frames/f006.jpg, the dark mane at about x 117-147, y 91-140)",
+   "source_title": "Amateur Film New Jersey C",
+   "archive_url": "https://archive.org/details/NewJerseyC",
+   "rights": "public domain",
+   "operation": "cut with a crisp mask drawn here (ellipse skull, two triangular ears, feathered nape); 1 px dark outline; pinned on the neck by a rigid transform; hard cut in and out"
+  },
+  {
+   "id": "hand",
+   "what": "the person's forearm and hand (reaching, then offered low)",
+   "source": "/home/user/hartswf0/secondhand-motion/shots/hand-sam/frames/f000.jpg and its SAM mask (kit found-frames.json entry 'hand'); the forearm beyond the SAM mask cut by a hand-placed polygon",
+   "source_title": "The Door to Heaven (Internet Archive, via the kit's found-frames)",
+   "clip_id": "0870ef3a-b328-5284-890b-3e1ac18057c1",
+   "rights": "public domain (found-frames.json)",
+   "operation": "mask, tone-normalise, mirror (it reaches right), placed each frame by a two-point (elbow, wrist) similarity transform, tinted to the dusk; a real hand holding a card edge in the source, the card is masked out"
+  },
+  {
+   "id": "person-body",
+   "what": "the person's legs, coat, head, hair and upper arm",
+   "source": "drawn here: build/person.py (polygons and capsules)",
+   "rights": "made here",
+   "operation": "drawn as flat card pieces, moved by rigid tracked transforms per frame (stand, call lean, reach, step aside, sit, low arm) from the score's person channels"
+  },
+  {
+   "id": "stage",
+   "what": "dusk sky bands, cut-paper moon, tree line, yard, deck rail, clapboard house wall with window, door frame trim, door card (hinged, swings in), lit room with lamp and table, porch planks, sill stone, fascia, corner post",
+   "source": "drawn here: build/stage.py",
+   "rights": "made here",
+   "operation": "synthesized: polygons with jittered (scissor) edges, procedural paper-fibre texture, soft drop shadows between layers; light pool and wall glow computed from the door opening"
+  },
+  {
+   "id": "sound",
+   "what": "two calls 'come here', two soft 'it's all right', soft 'come in' (formant synthesis); wind and crickets; paw taps at every foot plant of the gait; paper rustles at turns and lie-downs; door latch and creak; a low room hum when the door opens; a breath when the dog settles",
+   "source": "synthesized here: build/sound.py",
+   "rights": "made here",
+   "operation": "synthesized (glottal pulse train through three time-varying formant resonators, filtered noise); levels measured in data/sound_levels.json"
+  },
+  {
+   "id": "fonts",
+   "what": "Big Shoulders Display, JetBrains Mono on the title and end cards",
+   "source": "tools/paeleo/fonts/f2.woff2, f5.woff2, f14.woff2",
+   "rights": "SIL Open Font License (repository font kit)",
+   "operation": "set type with PIL"
+  },
+  {
+   "id": "score",
+   "what": "the dog's decision trace that drives the performance",
+   "source": "paeleo/handmade/score/threshold-score.json",
+   "rights": "project data",
+   "operation": "read only: build/perform.py derives the performance clip data/performance.json from it"
+  }
+ ],
+ "not_used": "no web images, no commercial film, no generated images from any model; the kit's archive-door footage and Quick, Draw! drawings were looked at and not used; kit frame 0 (a back-of-head piece) was tried in repair rounds 1-2 and retired in round 3"
+}

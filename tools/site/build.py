@@ -38,7 +38,7 @@ def relocate():
 
 # ---------------------------------------------------------------- page frame
 FONTS = '<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800;900&family=JetBrains+Mono:wght@400;600&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&display=swap" rel="stylesheet">'
-NAV = [('lab/', 'Try it'), ('family/', 'The Family'), ('cineosis/', 'CINEOSIS'), ('found-odyssey/', 'The Found Odyssey'), ('wygwyl/', 'WYGWYL'), ('this-side-up/', 'This Side Up'), ('paeleo/', 'PAELEO'), ('crank-boy/', 'The Crank Boy'), ('films/', 'Films'), ('characters/', 'Characters'), ('process/', 'How it was made')]
+NAV = [('lab/', 'Try it'), ('family/', 'The Family'), ('cineosis/', 'CINEOSIS'), ('found-odyssey/', 'The Found Odyssey'), ('wygwyl/', 'WYGWYL'), ('this-side-up/', 'This Side Up'), ('paeleo/', 'PAELEO'), ('films/', 'Films'), ('characters/', 'Characters'), ('process/', 'How it was made')]
 def page(path, title, body, desc='', image='media/og.jpg', kind='website', extra_head='', crumbs=None):
     depth = path.count('/'); up = '../' * depth; here = path.rsplit('index.html', 1)[0]
     nav = ''.join(f'<a href="{up}{h}"{" aria-current=page" if here.startswith(h) else ""}>{n}</a>' for h, n in NAV)
@@ -61,7 +61,6 @@ def up_of(path): return '../' * path.count('/')
 
 # ---------------------------------------------------------------- pieces
 import cameo as CM
-import works as WK
 PREFIX = {'family': 'FAM', 'cineosis': 'CIN', 'odyssey': 'ODY', 'wygwyl': 'WYG'}
 TID = {}
 for _p in PREFIX:
@@ -116,8 +115,6 @@ def section(title, inner, sub=''):
 def grid(items, cls='grid'): return f'<div class="{cls}{" cams" if any("class=\"cam " in i for i in items) else ""}">{"".join(items)}</div>'
 
 # ---------------------------------------------------------------- pages
-# The Crank Boy is mirrored from hartswf0/crank-boy by its shorts/tools/to_bolas.py (static here; see crank-boy/)
-CRB_CARD = '<div class="chans"><a class="chan" href="crank-boy/" style="--c:#C9733A"><span class="shot"><img src="crank-boy/assets/shorts/films/world.jpg" alt="" loading="lazy"></span><span class="txt"><span class="meta"><span class="tid">CRB</span> 7 shorts · 7 games · 1 world</span><b>The Crank Boy</b><span class="line">The En l\'an 2000 cards brought to life: each a short film and a game with archive film from the cineosis-lab library, all seven joined as one playable town that runs on a boy\'s crank.</span></span></a></div>'
 # the This Side Up case pages are built by the session that made the films (they are static here; see this-side-up/<slug>/)
 TSU_CASES = ['gust', 'mammoth', 'kit', 'reference', 'bullet-time', 'cardboard', 'two-clocks', 'thaw', 'fall', 'trouttown', 'wygwyl']
 TSU_CARD = ('<div class="chans"><a class="chan" href="this-side-up/" style="--c:#b98a52"><span class="shot"><img src="this-side-up/media/still/tsu-ice.jpg" alt="" loading="lazy"></span>'
@@ -148,7 +145,6 @@ def home():
 {section('Try it', f'<div class="tries">{tiles}</div><p class="more"><a href="lab/">All five interactive pages</a></p>', 'interactive pages: every figure is computed in your browser')}
 {section('Four channels', f'<div class="chans">{rows}</div>')}
 {section('This Side Up', TSU_CARD, 'everything made of cardboard cut-outs')}
-{section('The Crank Boy', CRB_CARD, 'seven 1910 postcards, three ways each')}
 {section('PAELEO', PAELEO_CARD, 'prompt · ekphrasis · operation')}
 {section('Latest tests', grid([film_card(f, up) for f in latest]), 'every film has a test number, a logline and its notes')}
 <p class="more"><a href="process/">How it was made: 18 case studies</a> · <a href="characters/">Every character</a> · <a href="films/">All {len(C.FILMS)} films</a></p>"""
@@ -249,9 +245,9 @@ def guided_notes(f, up, here):
     print('notes', f['id'], n, 'parts with pictures')
     return h + LIGHTBOX
 def films():
-    path = 'films/index.html'; up = up_of(path); body = f'<section class="hero"><p class="eyebrow">Films</p><h1>Films<span class="stripe"></span></h1><p class="lede">{len(C.FILMS)} films, {mmss(sum(f["dur"] for f in C.FILMS))} in all, by program. The films of the Crank Boy (the Futuretown shorts and the Town) are in <a href="{up}crank-boy/films.html">its film library</a>, which also lists these.</p></section>'
+    path = 'films/index.html'; up = up_of(path); body = f'<section class="hero"><p class="eyebrow">Films</p><h1>Films<span class="stripe"></span></h1><p class="lede">{len(C.FILMS)} films, {mmss(sum(f["dur"] for f in C.FILMS))} in all, by program.</p></section>'
     for pid in ('family', 'cineosis', 'odyssey', 'wygwyl'):
-        body += section(PROG[pid]['title'], (f'<p class="worknote">{WK.lede(pid)}</p>' if WK.lede(pid) else '') + grid([film_card(f, up) for f in C.FILMS if f['program'] == pid]))
+        body += section(PROG[pid]['title'], grid([film_card(f, up) for f in C.FILMS if f['program'] == pid]))
     w(path, page(path, 'Films', body, f'All {len(C.FILMS)} CRASH LAB films with loglines.', 'media/thumbs/crash-lab-film.jpg', crumbs=[('Home', ''), ('Films', None)]))
     for f in C.FILMS:
         path = f'films/{f["id"]}/index.html'; up = up_of(path); p = PROG[f['program']]
@@ -265,7 +261,7 @@ def films():
         cams = ''.join(cam(wh, po, at, f['id']) for wh, po, at in CM.PLAYER.get(f['program'], []))
         body = f"""<section class="filmpage"><p class="eyebrow" style="color:{p['color']}"><span class="tid">Test {TID[f['id']]}</span> {esc(p['title'])}{' · ' + esc(f['kind']) if f.get('kind') else ''}</p><h1 class="ft">{esc(f['title'])}</h1><div class="player">{video}{cams}</div>
 <p class="logline">{esc(f['line'])}</p>
-<dl class="facts">{WK.row(f['id'], up)}<div><dt>Running time</dt><dd>{mmss(f['dur'])}</dd></div><div><dt>Made</dt><dd>{f['date']}</dd></div><div><dt>Program</dt><dd><a href="{up}{prog_link}">{esc(p['title'])}</a></dd></div><div><dt>Characters</dt><dd>{chars}</dd></div><div><dt>File</dt><dd>{'<a href="' + up + 'media/films/' + f['id'] + '.mp4">mp4</a>, 960 wide, ' + str(f['mb']) + ' MB' if f['ready'] else 'encoding'}</dd></div></dl>
+<dl class="facts"><div><dt>Running time</dt><dd>{mmss(f['dur'])}</dd></div><div><dt>Made</dt><dd>{f['date']}</dd></div><div><dt>Program</dt><dd><a href="{up}{prog_link}">{esc(p['title'])}</a></dd></div><div><dt>Characters</dt><dd>{chars}</dd></div><div><dt>File</dt><dd>{'<a href="' + up + 'media/films/' + f['id'] + '.mp4">mp4</a>, 960 wide, ' + str(f['mb']) + ' MB' if f['ready'] else 'encoding'}</dd></div></dl>
 {notes}</section>{section('More from ' + p['title'], grid([film_card(g, up) for g in rel]))}"""
         w(path, page(path, f['title'], body, f['line'], f'media/thumbs/{f["id"]}.jpg', 'video.other', f'<script type="application/ld+json">{json.dumps(ld)}</script><meta property="og:video" content="{C.BASE}media/films/{f["id"]}.mp4">',
                      crumbs=[('Home', ''), (p['title'], prog_link), (f['title'], None)]))
@@ -391,7 +387,7 @@ def docs():
         w(rel, page(rel, f'{f["title"]} · production notes', body, f['line'], f'media/thumbs/{f["id"]}.jpg', crumbs=[('Home', ''), ('Docs', 'docs/'), (f['title'], None)]))
 
 def extras():
-    urls = ['', 'lab/'] + [p['path'] for p in C.PROGRAMS] + ['this-side-up/'] + [f'this-side-up/{s}/' for s in TSU_CASES] + ['paeleo/', 'crank-boy/', 'crank-boy/shorts/', 'crank-boy/shorts/world.html'] + [f'paeleo/{s}/' for s in PAELEO_CASES] + ['found-odyssey/cast/', 'characters/', 'films/', 'process/', 'docs/'] + [f'films/{f["id"]}/' for f in C.FILMS] + [f'process/{s}/' for s in PROC] + [f'lab/{l["id"]}/' for l in C.LAB]
+    urls = ['', 'lab/'] + [p['path'] for p in C.PROGRAMS] + ['this-side-up/'] + [f'this-side-up/{s}/' for s in TSU_CASES] + ['paeleo/'] + [f'paeleo/{s}/' for s in PAELEO_CASES] + ['found-odyssey/cast/', 'characters/', 'films/', 'process/', 'docs/'] + [f'films/{f["id"]}/' for f in C.FILMS] + [f'process/{s}/' for s in PROC] + [f'lab/{l["id"]}/' for l in C.LAB]
     w('sitemap.xml', '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' + ''.join(f'<url><loc>{C.BASE}{u}</loc></url>' for u in urls) + '</urlset>\n')
     w('robots.txt', f'User-agent: *\nAllow: /\nSitemap: {C.BASE}sitemap.xml\n')
     w('catalog.json', json.dumps(dict(brand=C.BRAND, programs=C.PROGRAMS, characters=C.CHARACTERS, lab=C.LAB,
@@ -408,7 +404,6 @@ Live: {C.BASE}
 |---|---|
 """ + ''.join(f"| [{p['title']}]({p['path']}) | {p['line']} |\n" for p in C.PROGRAMS) + f"""
 - [This Side Up](this-side-up/): case studies of the cardboard cut-out films, each with a full case page of versions, prompts, critic rounds and sheets
-- [The Crank Boy](crank-boy/): seven En l'an 2000 postcards as short films, games and one playable town, with cineosis-lab archive film (mirrored from hartswf0/crank-boy)
 - [PAELEO](paeleo/): Promptable Augmented Environments Lab · Ekphrastic Operations. One research program at three scales (AEL, PEO, PAELEO); its films are made with the SCION swarms, all 54 of which are written up and shown through the same paper dog at [paeleo/scion/](paeleo/scion/); six of them make the same scene from the bottom up at [paeleo/handmade/](paeleo/handmade/)
 - [Characters](characters/) · [Films](films/) ({len(C.FILMS)}) · [Process](process/) · [Docs and prompts](docs/)
 - Lab pages: """ + ' · '.join(f"[{l['title']}](lab/{l['id']}/)" for l in C.LAB) + """

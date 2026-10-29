@@ -1,0 +1,91 @@
+"""Title card and end card (3 s each). The end card shows the mesh: the rest triangulation and the same triangles
+solved into the lying pose, with what the film is made of."""
+import json, os, sys
+import numpy as np
+from PIL import Image, ImageDraw, ImageFont
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from common import *
+from rig import DogP, pose_P
+from raster import Tex, draw_pieces
+
+SERIF = '/usr/share/fonts/truetype/crosextra/Caladea-Regular.ttf'
+SERIF_I = '/usr/share/fonts/truetype/crosextra/Caladea-Italic.ttf'
+MONO = '/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf'
+BG = (24, 26, 34)
+INKL = (232, 222, 200)
+
+
+def mesh_image(d, X, Xh, scale, ox, oy, size, tex=True, wire=0.9, body=None):
+    body = body or d.body
+    S = np.stack([ox + scale * X[:, 0], oy - scale * X[:, 1]], 1)
+    Sh = np.stack([ox + scale * Xh[:, 0], oy - scale * Xh[:, 1]], 1)
+    tb = Tex(os.path.join(DRAW, body.name + '.png')); th = Tex(os.path.join(DRAW, 'P_head.png'))
+    pm, _ = draw_pieces(size, [(S, body.T, body.uv, tb, body.layer, False), (Sh, d.head.T, d.head.uv, th, d.head.layer, False)],
+                        wire=None)
+    return pm
+
+
+def title():
+    im = Image.new('RGB', (W, H), BG)
+    dr = ImageDraw.Draw(im)
+    f1 = ImageFont.truetype(SERIF, 54); f2 = ImageFont.truetype(SERIF_I, 30); f3 = ImageFont.truetype(MONO, 18)
+    t1 = 'PAE-02 · SCION 34 · ARAP'
+    t2 = 'Preserve-Shape Deformation Swarm'
+    t3 = 'the threshold: an engraved dog bent as rigidly as possible'
+    for txt, f, y, col in ((t1, f1, 270, INKL), (t2, f2, 345, (200, 190, 170)), (t3, f3, 420, (150, 146, 140))):
+        w = dr.textlength(txt, font=f)
+        dr.text(((W - w) / 2, y), txt, font=f, fill=col)
+    return im
+
+
+def endcard():
+    d = DogP()
+    rest = pose_P(d, dict(head=0.9, ear=1.0, tail=0.5))
+    X0, Xh0 = d.solve(rest, iters=30, X0=d.body.V.copy()); X0, Xh0 = X0.copy(), Xh0.copy()
+    lie = pose_P(d, dict(lie=1.0, head=0.6, ear=0.7, tail=0.3)); lie['body'] = 'lie'
+    X1, Xh1 = d.solve(lie, iters=60)
+    im = Image.new('RGB', (W, H), BG)
+    base = np.asarray(im).astype(np.float32) / 255
+    sc = 0.37
+    placed = []
+    for X, Xh, ox, body, HH in ((X0, Xh0, 330, d.body, d.H), (X1, Xh1, 900, d.lieb, d.K)):
+        pm = mesh_image(d, X, Xh, sc, ox, 400, (W, H), wire=0.0, body=body)
+        base = base * (1 - pm[..., 3:4] * 0.55) + pm[..., :3] * 0.55 * np.array([0.95, 0.93, 0.88])
+        placed.append((X, Xh, ox, body, HH))
+    im = Image.fromarray((np.clip(base, 0, 1) * 255).astype(np.uint8))
+    wd = ImageDraw.Draw(im)
+    for X, Xh, ox, body, HH in placed:
+        for V, T in ((X, body.T), (Xh, d.head.T)):
+            S = np.stack([ox + sc * V[:, 0], 400 - sc * V[:, 1]], 1)
+            E = np.unique(np.sort(np.vstack([T[:, [0, 1]], T[:, [1, 2]], T[:, [2, 0]]]), 1), axis=0)
+            for i, j in E:
+                wd.line([tuple(S[i]), tuple(S[j])], fill=(236, 150, 90), width=1)
+        for k, idx in HH.items():
+            S = np.stack([ox + sc * X[idx, 0], 400 - sc * X[idx, 1]], 1)
+            for p in S:
+                wd.ellipse([p[0] - 1.6, p[1] - 1.6, p[0] + 1.6, p[1] + 1.6], fill=(120, 220, 255))
+    dr = ImageDraw.Draw(im)
+    f1 = ImageFont.truetype(SERIF, 30); f2 = ImageFont.truetype(SERIF_I, 21); f3 = ImageFont.truetype(MONO, 15)
+    dr.text((330 - dr.textlength('rest mesh (handles in blue)', font=f2) / 2, 420), 'rest mesh (handles in blue)', font=f2, fill=(200, 190, 170))
+    dr.text((900 - dr.textlength('lying: its own rest mesh, solved', font=f2) / 2, 420), 'lying: its own rest mesh, solved', font=f2, fill=(200, 190, 170))
+    t = 'What it is made of'
+    dr.text(((W - dr.textlength(t, font=f1)) / 2, 40), t, font=f1, fill=INKL)
+    lines = [
+        'The dog, the woman and the place are engravings drawn here in code (no found pixels).',
+        'Each figure is a Delaunay triangle mesh (dog: 1,066 standing, 857 lying, 265 head) bent by a local-global',
+        'as-rigid-as-possible solve (one rotation per vertex cell, hard handles, sparse LU) from 16 body',
+        'and 4 head handles. Turns and lying swap rest meshes (profile, rear, front, lying, head turned in),',
+        'bridged by foreshortened, overlapping deformed frames.',
+        'Trees and moon: Quick, Draw! (CC BY 4.0, Google Creative Lab and contributors).',
+        'Voice, boards, door and dusk are synthesized. Timing: the PAELEO threshold score.',
+    ]
+    y = 480
+    for l in lines:
+        dr.text(((W - dr.textlength(l, font=f3)) / 2, y), l, font=f3, fill=(176, 170, 160)); y += 26
+    return im
+
+
+if __name__ == '__main__':
+    out = os.path.join(CACHE, 'cards'); os.makedirs(out, exist_ok=True)
+    title().save(os.path.join(out, 'title.png'))
+    endcard().save(os.path.join(out, 'end.png'))

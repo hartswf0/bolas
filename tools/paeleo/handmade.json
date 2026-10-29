@@ -92,6 +92,26 @@
    "trick": "A drawing that bends without ever folding: the dog keeps its shape by solving for it."
   },
   {
+   "id": 10,
+   "dir": "10-mls-deformation",
+   "name": "MLS deformation",
+   "kind": "One sheet warped by handles",
+   "dog": "one painted pelt, folded into a body by moving least squares",
+   "made": "A single flat image of a dog's coat, painted in code and laid out like a pelt: dark saddle, both flanks, four legs, head and tail. No archive frame, no skeleton, no cut pieces, no frame swaps. The swarm wrote the moving-least-squares solver itself, in its affine, similarity and rigid forms, and the end card shows the hide with its handles and the same pose in all three.",
+   "moved": "Only 48 point handles and 19 line handles move. Affine MLS lifts the flat hide into a body each frame: the flanks fold down like cloth, the legs reach the boards, the head is a rigid cluster of handles so the face does not shear. Paws stay planted until the body moves too far, then step on alternating diagonals.",
+   "trick": "There is no skeleton anywhere: the dog bends as one sheet, the way a hide would if handles pulled it."
+  },
+  {
+   "id": 11,
+   "dir": "11-video-puppetry",
+   "name": "Video puppetry",
+   "kind": "Footage cut-outs moved as puppets",
+   "dog": "the archive dog's own pixels, cut into pieces and moved as a puppet",
+   "made": "Two frames of the public-domain home-movie dog (Amateur Film New Jersey C), cut out with their masks into a body sheet, a rigid head and neck, a tail and four legs; a three-quarter frame of the same dog is swapped in for the turns, a head turned toward the door is cut from the footage for the look back, and a back-of-head piece is cut from the dog's own dark fur with a drawn mask. The hand reaching for the dog is footage from a public-domain film; the person and porch are cut paper made in code. Nothing on the dog is drawn.",
+   "moved": "The body sheet bends by a rigid moving-least-squares warp; the head, tail and legs are stiff pieces pinned at the joints, so lying down and walking are rotations of real pixels rather than tears. The performance is computed from the score, not captured from a live puppeteer, and the end card says so.",
+   "trick": "Every pixel of the dog is the real dog; only the way its pieces are held changes."
+  },
+  {
    "id": 14,
    "dir": "14-pose2pose",
    "name": "Pose2Pose casting",
@@ -100,6 +120,17 @@
    "made": "An illustration bank drawn for this film: 41 ink-and-wash dog drawings set by hand from a construction kit (profile, three-quarter, front and back heads, legs, tail, a dark saddle, a pale ruff and socks), and 13 drawings of the person; the porch, door, room, light and sky drawn as paths. The archive dog was studied for build and markings; no pixel of it is used.",
    "moved": "Only by choosing one whole drawing per frame: each score frame becomes a pose vector, and a Viterbi path picks drawings by pose distance plus a transition cost, so turns pass through the drawn three-quarter and front views and nothing flickers. Walk and backing drawings sit on a gait chart so planted paws stay pinned. Nothing is tweened or warped.",
    "trick": "The performance is a path through a drawer of drawings: casting, not animating."
+  },
+  {
+   "id": 15,
+   "dir": "15-learned-layered-puppet",
+   "name": "Learned layered puppet",
+   "kind": "A layered puppet fitted to the archive dog",
+   "status": "repairs paused after critic round 5",
+   "dog": "an 11-layer puppet fitted to the archive dog, generating poses it never showed",
+   "made": "An 11-layer puppet (torso, head, tail, two-part legs) cut from one frame of the public-domain home-movie dog and fitted to its other frames by render-loss optimisation, learning each layer's texture per view and a model of joint angles that scores every generated pose. Hand corrections (lying legs, the look back, the back of the head) are listed on the end card beside the model's own output.",
+   "moved": "A gait planner plants the feet and two-joint IK solves the legs; turns are fast cuts through the learned three-quarter views; the head has its own view for the look back.",
+   "trick": "The end card shows what the model makes alone next to what had to be corrected by hand."
   },
   {
    "id": 16,
@@ -193,6 +224,16 @@
    "trick": "A command is a target the arm cannot reach; the threshold is a target the dog's own chain lays down across."
   },
   {
+   "id": 34,
+   "dir": "34-arap",
+   "name": "As-rigid-as-possible",
+   "kind": "Engraved mesh, shape kept by a local–global solve",
+   "dog": "an engraving on a triangle mesh, bent by an as-rigid-as-possible solve",
+   "made": "The dog, the woman and the place are hatch engravings drawn in code, the hatching running along the limbs. The dog is a Delaunay mesh (profile, rear, front, lying and head-turned-in rest shapes), with proportions taken as numbers from the public-domain archive dog. The swarm wrote the Sorkine–Alexa local–global solve itself, with sparse factorisation; the end card shows the rest meshes and their handles.",
+   "moved": "About twenty handles at shoulder, hip, neck, tail, paws and ankles drive the solve, which decides every leg bend, the neck, the belly and the ear folds. View changes are single-frame swaps between rest meshes, hidden as the outgoing drawing narrows. On the same handles, the solve keeps every lying frame free of inverted triangles where a naive warp folds dozens.",
+   "trick": "The dog bends where its triangles can keep their shape and nowhere else."
+  },
+  {
    "id": 38,
    "dir": "38-drawing-library",
    "name": "Dynamic pose selection",
@@ -221,6 +262,17 @@
    "made": "A dog solved and drawn in code from spheres and capsules: six torso spheres, neck and head, muzzle, four legs, two ear flaps, a seven-node tail, a collar with a tag; proportions and coat studied by eye from the archive dog, no archive pixel in the film. The person has a scarf; the door is wood on a hinge; there is a shrub.",
    "moved": "The primary motion follows the score, with planted feet that step. Everything secondary is solved, never keyframed: ears, tail, coat, tag, scarf, shrub and the door are springs and dampers pulled toward the pose, colliding with bodies, floor and lap, and dying away in the holds. The person's one push is sized so the door reaches its stop at 6.20 s.",
    "trick": "Nothing secondary is animated by hand, so stillness has to be earned: the holds are quiet because the energy has gone."
+  },
+  {
+   "id": 42,
+   "dir": "42-neural-layered-puppet",
+   "name": "Neural layered puppet",
+   "kind": "Parts and joints discovered from a few frames",
+   "status": "repairs paused after critic round 5",
+   "dog": "the archive dog's pixels in eight layers discovered by fitting, with seams and pins left visible",
+   "made": "Seven frames of the public-domain home-movie dog, fitted by gradient descent and EM until eight layers and five joints emerged (head, neck, shoulder, fore leg, trunk, back, rump, hind legs). The learned split ties a hand-cut rig on unseen frames; the learned turn poses beat hand-set ones on 13 of 16 archive turning frames, shown side by side on the end card.",
+   "moved": "Hand-set rotations on the learned hinges carry the acting; the turns are the puppet posed at its own learned fits of the archive turning frames.",
+   "trick": "Nobody drew where the dog's joints are: the fit found them, and the seams stay on screen."
   },
   {
    "id": 43,
