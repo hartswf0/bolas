@@ -68,7 +68,7 @@ class Drawing:
         v = -(self.X - c[0]) * sa + (self.Y - c[1]) * ca
         return (u / rx) ** 2 + (v / ry) ** 2 <= 1
 
-    def add(self, name, mask, layer, hatch, tone=0.0, spacing=13.0, cross=0.72, outline=5.5):
+    def add(self, name, mask, layer, hatch, tone=0.0, spacing=13.0, cross=0.92, outline=5.5):
         """hatch: ('dir', angle) straight lines; ('axis', chain) lines along a limb, bunched at its edges;
         ('contour',) lines parallel to the part's outline."""
         self.parts.append(dict(name=name, mask=mask, layer=layer, hatch=hatch, tone=tone, spacing=spacing,

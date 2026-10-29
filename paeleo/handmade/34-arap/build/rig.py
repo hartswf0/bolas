@@ -201,8 +201,8 @@ LIE = {   # lying (sphinx): paw centre, ankle, knee, in the dog frame
     'FN': ((-545, 22), (-470, 34), (-300, 40)), 'FF': ((-475, 22), (-400, 34), (-230, 40)),
     'HN': ((60, 22), (175, 40), (30, 110)), 'HF': ((-10, 22), (105, 40), (-40, 110)),
 }
-LIE_SH = np.array([5.0, -290.0]); LIE_HIP = np.array([15.0, -300.0])
-DEEP_SH = np.array([10.0, -150.0]); DEEP_HIP = np.array([10.0, -215.0])
+LIE_SH = np.array([5.0, -248.0]); LIE_HIP = np.array([15.0, -300.0])
+DEEP_SH = np.array([10.0, -125.0]); DEEP_HIP = np.array([10.0, -215.0])
 
 
 def lerp(a, b, t):
