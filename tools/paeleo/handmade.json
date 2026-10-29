@@ -122,6 +122,17 @@
    "trick": "The performance is a path through a drawer of drawings: casting, not animating."
   },
   {
+   "id": 15,
+   "dir": "15-learned-layered-puppet",
+   "name": "Learned layered puppet",
+   "kind": "A layered puppet fitted to the archive dog",
+   "status": "repairs paused after critic round 5",
+   "dog": "an 11-layer puppet fitted to the archive dog, generating poses it never showed",
+   "made": "An 11-layer puppet (torso, head, tail, two-part legs) cut from one frame of the public-domain home-movie dog and fitted to its other frames by render-loss optimisation, learning each layer's texture per view and a model of joint angles that scores every generated pose. Hand corrections (lying legs, the look back, the back of the head) are listed on the end card beside the model's own output.",
+   "moved": "A gait planner plants the feet and two-joint IK solves the legs; turns are fast cuts through the learned three-quarter views; the head has its own view for the look back.",
+   "trick": "The end card shows what the model makes alone next to what had to be corrected by hand."
+  },
+  {
    "id": 16,
    "dir": "16-jibjab",
    "name": "JibJab",
@@ -251,6 +262,17 @@
    "made": "A dog solved and drawn in code from spheres and capsules: six torso spheres, neck and head, muzzle, four legs, two ear flaps, a seven-node tail, a collar with a tag; proportions and coat studied by eye from the archive dog, no archive pixel in the film. The person has a scarf; the door is wood on a hinge; there is a shrub.",
    "moved": "The primary motion follows the score, with planted feet that step. Everything secondary is solved, never keyframed: ears, tail, coat, tag, scarf, shrub and the door are springs and dampers pulled toward the pose, colliding with bodies, floor and lap, and dying away in the holds. The person's one push is sized so the door reaches its stop at 6.20 s.",
    "trick": "Nothing secondary is animated by hand, so stillness has to be earned: the holds are quiet because the energy has gone."
+  },
+  {
+   "id": 42,
+   "dir": "42-neural-layered-puppet",
+   "name": "Neural layered puppet",
+   "kind": "Parts and joints discovered from a few frames",
+   "status": "repairs paused after critic round 5",
+   "dog": "the archive dog's pixels in eight layers discovered by fitting, with seams and pins left visible",
+   "made": "Seven frames of the public-domain home-movie dog, fitted by gradient descent and EM until eight layers and five joints emerged (head, neck, shoulder, fore leg, trunk, back, rump, hind legs). The learned split ties a hand-cut rig on unseen frames; the learned turn poses beat hand-set ones on 13 of 16 archive turning frames, shown side by side on the end card.",
+   "moved": "Hand-set rotations on the learned hinges carry the acting; the turns are the puppet posed at its own learned fits of the archive turning frames.",
+   "trick": "Nobody drew where the dog's joints are: the fit found them, and the seams stay on screen."
   },
   {
    "id": 43,
