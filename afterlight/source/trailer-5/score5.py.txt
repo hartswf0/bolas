@@ -1,0 +1,122 @@
+# AFTERLIGHT, fifth cut: the song is the bed; the archive is the lead.
+# One intelligible voice at a time: the song steps back under each speaker and returns when they finish.
+# Each voice's last word is held and tuned to the song's chord tones (B minor / D major, E persistent), so endings overlap.
+# After the song ends, a non-root E taken from the song's own last bars outlives everything. Writes score5.wav and env5.npy.
+import sys, wave, glob, subprocess, numpy as np
+from scipy import signal
+sys.path.insert(0, '/home/claude/afterlight/trailer5')
+import timeline5 as T
+SR = 44100; END = T.END; N = int(SR * (END + 3)); rng = np.random.default_rng(505)
+D5 = '/home/claude/afterlight/trailer5/'
+def load(p, t0=0, dur=None):
+    cmd = ['ffmpeg', '-v', 'error', '-ss', str(t0), '-i', p] + (['-t', str(dur)] if dur else []) + ['-ac', '1', '-ar', str(SR), '-f', 'f32le', '-']
+    return np.frombuffer(subprocess.run(cmd, capture_output=True).stdout, np.float32).astype(np.float64)
+def load2(p):
+    cmd = ['ffmpeg', '-v', 'error', '-i', p, '-ac', '2', '-ar', str(SR), '-f', 'f32le', '-']
+    return np.frombuffer(subprocess.run(cmd, capture_output=True).stdout, np.float32).astype(np.float64).reshape(-1, 2)
+def arch(fid): return glob.glob('/home/claude/afterlight/archive/clips/' + fid + '*.mp4')[0]
+L = np.zeros(N); R = np.zeros(N); RV = np.zeros(N); VO = np.zeros(N)
+def put(sig, t, g=1.0, pan=0.0, rev=0.0, vo=False):
+    i = int(t * SR); n = min(len(sig), N - i)
+    if n <= 0 or i < 0: return
+    s = sig[:n] * g; L[i:i + n] += s * np.sqrt(0.5 * (1 - pan)); R[i:i + n] += s * np.sqrt(0.5 * (1 + pan)); RV[i:i + n] += s * rev
+    if vo: VO[i:i + n] += np.abs(s)
+def env(n, a, r):
+    e = np.ones(n); A = max(1, int(a * SR)); Rr = max(1, int(r * SR)); e[:A] = np.linspace(0, 1, A); e[-Rr:] *= np.linspace(1, 0, Rr); return e
+def bp(x, lo, hi, o=2): b, a = signal.butter(o, [lo / (SR / 2), hi / (SR / 2)], 'band'); return signal.lfilter(b, a, x)
+def lp(x, f, o=2): b, a = signal.butter(o, min(f, SR / 2.2) / (SR / 2), 'low'); return signal.lfilter(b, a, x)
+def hp(x, f, o=2): b, a = signal.butter(o, f / (SR / 2), 'high'); return signal.lfilter(b, a, x)
+def norm(x): return x / (np.abs(x).max() + 1e-9)
+# chord tones of the song: B, D, E (the persistent note), F#, A, across octaves
+TONES = [123.47, 146.83, 164.81, 185.0, 220.0, 246.94, 293.66, 329.63, 369.99, 440.0, 493.88, 659.26]
+def tuned(x, freqs, Q=60, weights=None):
+    out = np.zeros_like(x)
+    for j, f in enumerate(freqs):
+        if f > SR / 2.3: continue
+        b, a = signal.iirpeak(f / (SR / 2), Q); out += signal.lfilter(b, a, x) * (weights[j] if weights is not None else (164.81 / f) ** 0.4)
+    return out
+def freeze(src, out_len, grain=0.18, dens=30):
+    fr = np.zeros(int(out_len * SR)); g = int(grain * SR); w = np.hanning(g)
+    for k in range(int(out_len * dens)):
+        o = int(rng.random() * max(1, len(src) - g)); s = int(k / dens * SR)
+        if s + g < len(fr) and o + g <= len(src): fr[s:s + g] += src[o:o + g] * w
+    return fr
+
+# ---------------- the song, stepping back under each speaker ----------------
+song = load2(D5 + 'song.ogg'); ns = len(song)
+duck = np.ones(ns)
+for (f, a_, b_, at, text) in T.VOICES:
+    s0 = int((at - 0.25) * SR); s1 = int((at + (b_ - a_) + 0.35) * SR)
+    duck[max(0, s0):min(ns, s1)] = 0.0
+k = int(0.35 * SR); duck = np.convolve(duck, np.ones(k) / k, 'same')
+depth = 0.42                                       # the song keeps 42% under a voice: present, not competing
+g = depth + (1 - depth) * duck
+# the song's middle band (where speech lives) steps back further than its lows, so warmth stays under the voice
+mid = np.stack([bp(song[:, c], 350, 3500) for c in (0, 1)], 1)
+sg = song * g[:, None] - mid * (1 - duck)[:, None] * 0.35
+L[:ns] += sg[:, 0] * 0.9; R[:ns] += sg[:, 1] * 0.9; RV[:ns] += sg.mean(1) * 0.05
+mono = song.mean(1)
+
+# ---------------- the voices, and what each leaves ----------------
+TAILS = []
+for i, (f, a_, b_, at, text) in enumerate(T.VOICES):
+    x = load(T.C2 + f, a_ - 0.05, (b_ - a_) + 0.15)
+    x = hp(x, 90); x = norm(x) * env(len(x), 0.03, 0.12)
+    loc = np.sqrt((mono[int(at * SR):int((at + b_ - a_) * SR)] ** 2).mean()) if at < T.SONG_END else 0.0
+    gv = 0.62 * max(1.0, loc / 0.09) ** 0.5                      # a speaker over the groove stands a little forward
+    put(x, at, gv, 0.0, 0.14, vo=True); print(text[:30], round(loc, 3), round(gv, 2))
+    last = x[-int(0.7 * SR):]; fr = freeze(last, 10)
+    tail = norm(tuned(fr, TONES, Q=70)) * env(len(fr), 1.0, 7.5)
+    TAILS.append(fr)
+    put(tail, at + (b_ - a_) - 0.2, 0.11, (-0.45, 0.45)[i % 2], 0.6)
+# 'only an echo': tape repeats that lose their top end and walk into the return
+ox = load(T.C2 + T.VOICES[-1][0], T.VOICES[-1][1] - 0.05, T.VOICES[-1][2] - T.VOICES[-1][1] + 0.15); ox = norm(hp(ox, 120))
+for k in range(1, 7):
+    rep = lp(bp(ox, 300, 3400), 3400 - k * 380) * 0.55 ** k
+    put(rep, T.VOICES[-1][3] + k * 0.268 * 2, 0.55, (-1) ** k * 0.4, 0.45)   # repeats on the song's beat (112 bpm, half notes)
+
+# ---------------- the return: every voice's afterlife, staggered, under the song ----------------
+a0, a1 = T.SEC['D']; n = int((a1 - a0 + 1.5) * SR)
+for i, fr in enumerate(TAILS):
+    s = fr[:n] if len(fr) >= n else np.pad(fr, (0, n - len(fr)))
+    st = 0.6 * i                                            # independent entrances
+    rel = 2.0 + 1.3 * ((i * 5) % 7)                         # unequal releases
+    seg = norm(tuned(s, TONES, Q=90)) * env(n, 0.6, 1.0)
+    cut = int(min(n, (a1 - a0 - st + rel - 2.0) * SR)); seg[cut:] = 0; seg[max(0, cut - int(1.2 * SR)):cut] *= np.linspace(1, 0, min(cut, int(1.2 * SR)))
+    put(seg, a0 + st, 0.075, (-0.6, -0.2, 0.2, 0.6)[i % 4], 0.5)
+# embers: sparse crackle where pictures burn
+def crackle(t0, dur, dens, g):
+    n = int(dur * SR); x = np.zeros(n); idx = rng.integers(0, n, int(dur * dens)); x[idx] = rng.random(len(idx)) ** 2.5 * rng.choice([-1, 1], len(idx))
+    x = bp(x, 1800, 9000) + lp(x, 600) * 0.4; put(x * env(n, 0.4, 0.6), t0, g, rng.uniform(-0.6, 0.6), 0.15)
+for s in T.SHOTS: crackle(s[2] - 1.0, 2.6, 45, 0.12)
+crackle(T.AV0, T.AV1 - T.AV0, 70, 0.08)
+
+# ---------------- the end: good night, then the E outlives the bass ----------------
+gx = load(T.C2 + '22ba9c11-a391-5b70-aa85-ec95c9fe45ba.mp4', 9.15, 0.95); gx = norm(hp(gx, 100)) * env(len(gx), 0.02, 0.15)
+put(gx, T.GOODNIGHT, 0.55, 0.0, 0.35, vo=True)
+src = mono[int(60.5 * SR):int(63.4 * SR)]                     # the song's own last full bars
+held = freeze(src, END - 63.0 + 1, grain=0.25, dens=24)
+E = norm(tuned(held, [329.63, 659.26, 164.81, 493.88], Q=160, weights=[1.0, 0.45, 0.35, 0.18]))
+e_env = np.clip((np.arange(len(E)) / SR - 0.6) / 1.5, 0, 1) * env(len(E), 0.01, 5.0)
+put(E * e_env, 63.0, 0.16, 0.1, 0.7)
+hiss = hp(rng.standard_normal(int((END - T.SILENCE + 1) * SR)), 3000)
+put(hiss * env(len(hiss), 0.4, 2), T.SILENCE, 0.008)
+
+# ---------------- mix ----------------
+def reverb(x, dur=5.0, damp=3200):
+    n = int(dur * SR); t_ = np.arange(n) / SR; ir = rng.standard_normal(n) * np.exp(-t_ * 1.5); ir = lp(ir, damp); ir /= np.sqrt((ir ** 2).sum())
+    return signal.fftconvolve(x, ir)[:len(x)]
+wet = reverb(RV)
+M = np.stack([L + wet * 0.45, R + np.roll(wet, int(0.019 * SR)) * 0.45], 1)[:int(END * SR)]
+fo = int(2.5 * SR); M[-fo:] *= np.linspace(1, 0, fo)[:, None]
+M = np.tanh(M / (np.abs(M).max() * 0.9) * 1.1) / np.tanh(1.1) * 0.9
+with wave.open(D5 + 'score5.wav', 'wb') as w:
+    w.setnchannels(2); w.setsampwidth(2); w.setframerate(SR); w.writeframes((M * 32767).astype(np.int16).tobytes())
+hop = SR // T.FPS; nf = int(END * T.FPS)
+def frames_of(sig, f=np.mean): return np.array([f(sig[i * hop:(i + 1) * hop]) if i * hop < len(sig) else 0 for i in range(nf)])
+v = frames_of(VO); v = np.convolve(v, np.ones(5) / 5, 'same'); v /= v.max() + 1e-9
+m = M.mean(1); a_ = frames_of(m ** 2) ** 0.5; a_ /= a_.max() + 1e-9
+low = lp(mono, 140); lo = frames_of(low ** 2) ** 0.5; lo = np.convolve(lo, np.ones(24) / 24, 'same'); lo /= lo.max() + 1e-9     # thermal mass: slow
+hi = hp(mono, 2500); hk = frames_of(np.abs(hi)); hk = np.maximum(hk - np.convolve(hk, np.ones(12) / 12, 'same'), 0); hk /= hk.max() + 1e-9   # attacks
+np.save(D5 + 'env5.npy', np.stack([v, a_, lo, hk], 1).astype(np.float32))
+print('ok', M.shape)

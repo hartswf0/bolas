@@ -1,0 +1,105 @@
+"""Shared picture tools for the mosaic videos: archive footage cache, the mosaic's own spectrogram, per-layer loudness, kicks,
+the thermal palette and an ember field that any engine can feed."""
+import numpy as np, json, os, subprocess, math, cv2
+from scipy.ndimage import gaussian_filter
+W, H = 1280, 720; FPS = 24
+ROOT = '/home/claude/afterlight/'
+AUD = ROOT + 'mosaic/audio/'
+FOOT = json.load(open(ROOT + 'mosaic/footage.json'))
+CACHE = ROOT + 'mosaic/fcache/'; os.makedirs(CACHE, exist_ok=True)
+TST = np.array([[0.02, 0.006, 0.01], [0.28, 0.04, 0.02], [0.70, 0.16, 0.03], [0.98, 0.46, 0.10], [1.0, 0.78, 0.45], [1.0, 0.95, 0.85]], np.float32)
+def thermal(x):
+    x = np.clip(x, 0, 1) * 5; i = np.clip(np.floor(x).astype(int), 0, 4); f = (x - i)[..., None]; return TST[i] * (1 - f) + TST[i + 1] * f
+def ease(u): u = min(1.0, max(0.0, u)); return u * u * (3 - 2 * u)
+def sm(a, b, t): return ease((t - a) / (b - a))
+YY, XX = np.mgrid[0:H, 0:W].astype(np.float32)
+
+def clip_frames(cid, w=320, h=240, fps=12, dur=12.0, t0=0.0):
+    """an archive clip as a small float array (F, h, w, 3), cached"""
+    p = CACHE + f'{cid}_{w}_{fps}_{t0}.npy'
+    if os.path.exists(p): return np.load(p)
+    src = ROOT + f'archive/clips/{cid}.mp4'
+    raw = subprocess.run(['ffmpeg', '-v', 'error', '-ss', str(t0), '-i', src, '-t', str(dur), '-vf', f'fps={fps},scale={w}:{h}:force_original_aspect_ratio=increase,crop={w}:{h}',
+                          '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-'], capture_output=True).stdout
+    f = np.frombuffer(raw, np.uint8).reshape(-1, h, w, 3).astype(np.float32) / 255
+    lo, hi = np.percentile(f, 1), np.percentile(f, 99.5); f = np.clip((f - lo) / max(hi - lo, 1e-3), 0, 1).astype(np.float16)
+    np.save(p, f); return f
+def footage(cats, n=8, seed=0):
+    r = np.random.default_rng(seed); out = []
+    for c in cats: out += [x[1] for x in FOOT.get(c, [])]
+    r.shuffle(out); return out[:n]
+
+class Ctx:
+    """everything an engine knows about its mosaic"""
+    def __init__(self, name):
+        self.name = name; J = json.load(open(AUD + name + '.json')); self.events = J['events']; self.kicks = np.array(sorted(J['kicks'])); self.dur = J['dur']
+        E = np.load(AUD + name + '_env.npz'); self.env = {k: E[k] for k in E.files}
+        self.nf = int(self.dur * FPS)
+        import librosa
+        y, sr = librosa.load(AUD + name + '.wav', sr=22050)
+        M = librosa.power_to_db(librosa.feature.melspectrogram(y=y, sr=sr, n_mels=128, hop_length=int(sr / FPS / 2), fmax=11000), ref=np.max)
+        self.mel = np.clip((M + 72) / 72, 0, 1).astype(np.float32)       # (128, 2 columns per frame)
+        self.melfps = FPS * 2
+        lo = librosa.feature.rms(y=librosa.effects.preemphasis(y, coef=-0.97), hop_length=int(sr / FPS))[0]; self.low = lo / (lo.max() + 1e-9)
+    def e(self, layer, t):
+        a = self.env.get(layer);
+        if a is None: return 0.0
+        return float(a[min(len(a) - 1, max(0, int(t * FPS)))])
+    def kick(self, t, decay=0.18):
+        """how recently a kick landed: 1 at the hit, falling off"""
+        k = self.kicks[self.kicks <= t]
+        return math.exp(-(t - k[-1]) / decay) if len(k) else 0.0
+    def active(self, t, layer=None):
+        return [e for e in self.events if e['t'] <= t < e['t'] + e['dur'] and (layer is None or e['layer'] == layer)]
+    def started(self, t0, t1, layer=None):
+        return [e for e in self.events if t0 <= e['t'] < t1 and (layer is None or e['layer'] == layer)]
+    def melcol(self, t):
+        i = min(self.mel.shape[1] - 1, max(0, int(t * self.melfps))); return self.mel[:, i]
+
+class Embers:
+    """a light field of embers in wind; engines call emit(), then step() and draw() each frame"""
+    def __init__(self, cap=40000, seed=1):
+        self.r = np.random.default_rng(seed); n = cap
+        self.x = np.zeros(n, np.float32); self.y = np.zeros(n, np.float32); self.vx = np.zeros(n, np.float32); self.vy = np.zeros(n, np.float32)
+        self.T = np.zeros(n, np.float32); self.age = np.zeros(n, np.float32); self.life = np.ones(n, np.float32); self.alive = np.zeros(n, bool)
+        self.ph = self.r.random(n).astype(np.float32) * 6.283; self.z = np.ones(n, np.float32)
+    def emit(self, xs, ys, vx=0, vy=-60, T=1.0, life=3.0, z=None, spread=20):
+        free = np.nonzero(~self.alive)[0][:len(xs)]; k = len(free)
+        if k == 0: return
+        r = self.r
+        self.x[free] = xs[:k]; self.y[free] = ys[:k]
+        self.vx[free] = (vx[:k] if np.ndim(vx) else vx) + r.normal(0, spread, k); self.vy[free] = (vy[:k] if np.ndim(vy) else vy) + r.normal(0, spread, k)
+        self.T[free] = T[:k] if np.ndim(T) else T; self.life[free] = (life * (0.6 + 0.8 * r.random(k))); self.age[free] = 0
+        self.z[free] = z[:k] if z is not None else 0.5 + r.random(k); self.alive[free] = True
+    def step(self, t, dt, wind=(60, -10), gust=0.0, buoy=-40):
+        a = self.alive; x, y = self.x[a], self.y[a]
+        u = np.sin(y * 0.006 + t * 0.7) * 40 + np.cos(x * 0.004 - t * 0.5) * 25
+        v = np.cos(x * 0.005 + t * 0.6) * 30
+        self.vx[a] += ((wind[0] + u) * (1 + gust) / self.z[a] - self.vx[a]) * min(1, dt * 1.5)
+        self.vy[a] += ((wind[1] + v + buoy) / self.z[a] - self.vy[a]) * min(1, dt * 0.8)
+        self.x[a] += self.vx[a] * dt; self.y[a] += self.vy[a] * dt; self.age[a] += dt
+        self.T[a] -= dt / np.maximum(self.life[a], 0.1) * 0.8
+        dead = a & ((self.age > self.life) | (self.y < -30) | (self.x < -40) | (self.x > W + 40) | (self.y > H + 40))
+        self.alive[dead] = False
+    def draw(self, t, gain=1.0, streak=0.06):
+        img = np.zeros((H, W, 3), np.float32); a = np.nonzero(self.alive)[0]
+        if len(a) == 0: return img
+        u = np.clip(self.age[a] / self.life[a], 0, 1); Tm = np.clip(self.T[a], 0, 1)
+        br = np.clip(self.age[a] / 0.15, 0, 1) * (1 - u) ** 0.7 * (0.7 + 0.3 * np.sin(t * 17 + self.ph[a] * 9)) * (0.5 + 1.5 * Tm ** 2) / np.maximum(self.z[a], 0.4) ** 0.5
+        col = thermal(0.15 + 0.85 * Tm)
+        for j in range(4):
+            f = j / 3; xs = self.x[a] - self.vx[a] * streak * f; ys = self.y[a] - self.vy[a] * streak * f
+            ok = (xs >= 0) & (xs < W - 1) & (ys >= 0) & (ys < H - 1); ix = xs[ok].astype(np.int32) + W * ys[ok].astype(np.int32); w = br[ok] * (1 - 0.6 * f) * gain
+            for ch in range(3): img[..., ch] += np.bincount(ix, w * col[ok, ch], W * H).reshape(H, W)
+        return img + gaussian_filter(img, (1.5, 1.5, 0)) * 1.2 + gaussian_filter(img, (6, 6, 0)) * 0.8
+
+def finish(img, t, dur, grain=0.012, vig=0.5, lb=0):
+    img = 1 - np.exp(-np.maximum(img, 0) * 1.2)
+    r2 = ((XX - W / 2) / (W / 2)) ** 2 + ((YY - H / 2) / (H / 2)) ** 2
+    img = img * (1 - vig * np.clip(r2, 0, 1) ** 1.6)[..., None]
+    g = np.random.default_rng(int(t * 97)).standard_normal((H, W)).astype(np.float32) * grain
+    img = img + g[..., None]
+    if lb: img[:lb] = 0; img[H - lb:] = 0
+    return np.clip(img * sm(0, 0.8, t) * (1 - sm(dur - 1.2, dur, t)), 0, 1)
+def up(small, interp=cv2.INTER_CUBIC):
+    return cv2.resize(np.ascontiguousarray(small.astype(np.float32)), (W, H), interpolation=interp)

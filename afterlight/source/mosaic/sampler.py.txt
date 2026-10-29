@@ -1,0 +1,153 @@
+"""Sampler toolkit for the AFTERLIGHT mosaics: chop, loop, stretch, pitch, smear, echo, duck.
+Every placement is logged as an event (layer, time, source track, source time, length) so the picture can show the samples."""
+import numpy as np, subprocess, json, os, librosa
+from scipy import signal
+SR = 44100
+SRC = '/home/claude/afterlight/mosaic/src/'
+_cache = {}
+def load(name):
+    if name not in _cache:
+        x = np.frombuffer(subprocess.run(['ffmpeg', '-v', 'error', '-i', SRC + name + '.wav', '-f', 'f32le', '-ac', '2', '-ar', str(SR), '-'], capture_output=True).stdout, np.float32)
+        _cache[name] = x.reshape(-1, 2).astype(np.float64)
+    return _cache[name]
+def load_any(path, t0=0, dur=None):
+    cmd = ['ffmpeg', '-v', 'error', '-ss', str(t0), '-i', path] + (['-t', str(dur)] if dur else []) + ['-f', 'f32le', '-ac', '2', '-ar', str(SR), '-']
+    return np.frombuffer(subprocess.run(cmd, capture_output=True).stdout, np.float32).reshape(-1, 2).astype(np.float64)
+def fade(x, a=0.01, r=0.01):
+    x = x.copy(); A = max(1, int(a * SR)); Rr = max(1, int(r * SR))
+    A = min(A, len(x) // 2); Rr = min(Rr, len(x) // 2)
+    x[:A] *= np.linspace(0, 1, A)[:, None]; x[len(x) - Rr:] *= np.linspace(1, 0, Rr)[:, None]; return x
+def cut(name, t0, t1, a=0.006, r=0.012):
+    x = load(name); return fade(x[int(t0 * SR):int(t1 * SR)], a, r)
+# ---------------- time: onsets, loop periods ----------------
+_oe = {}
+def onset_env(name):
+    if name not in _oe:
+        y = load(name).mean(1)
+        _oe[name] = librosa.onset.onset_strength(y=y.astype(np.float32), sr=SR, hop_length=256)
+    return _oe[name]
+def snap(name, t, win=0.12):
+    """nearest strong onset to t"""
+    oe = onset_env(name); fr = SR / 256; i0 = int((t - win) * fr); i1 = int((t + win) * fr)
+    i0 = max(0, i0); seg = oe[i0:i1]
+    return (i0 + int(np.argmax(seg))) / fr if len(seg) else t
+def period(name, t0, bpm, beats=4, tol=0.04):
+    """refine the length of `beats` beats at t0 by the self-similarity of the onset envelope"""
+    oe = onset_env(name); fr = SR / 256; P0 = 60 / bpm * beats
+    a = int(t0 * fr); n = int(P0 * fr * 2)
+    best, bp = -1, P0
+    for P in np.linspace(P0 * (1 - tol), P0 * (1 + tol), 81):
+        L = int(round(P * fr))
+        if a + L + n > len(oe): break
+        s = np.dot(oe[a:a + n], oe[a + L:a + L + n]) / (np.linalg.norm(oe[a:a + n]) * np.linalg.norm(oe[a + L:a + L + n]) + 1e-9)
+        if s > best: best, bp = s, P
+    return bp
+def loop(name, t0, P, reps, xf=0.02):
+    """repeat one period with short crossfades"""
+    seg = load(name)[int(t0 * SR):int((t0 + P) * SR + xf * SR)]
+    L = int(P * SR); X = int(xf * SR); out = np.zeros((L * reps + X + 4, 2))
+    for k in range(reps):
+        s = seg.copy(); s[:X] *= np.linspace(0, 1, X)[:, None] if k else 1; s[-X:] *= np.linspace(1, 0, X)[:, None]
+        out[k * L:k * L + len(s)] += s[:len(out) - k * L]
+    return out
+# ---------------- transformations ----------------
+def stretch(x, rate):
+    return np.stack([librosa.effects.time_stretch(x[:, c].astype(np.float32), rate=rate) for c in (0, 1)], 1).astype(np.float64)
+def pitch(x, semis):
+    return np.stack([librosa.effects.pitch_shift(x[:, c].astype(np.float32), sr=SR, n_steps=semis) for c in (0, 1)], 1).astype(np.float64)
+def resample(x, ratio):
+    """tape-speed change: pitch and time together (ratio < 1 = slower and lower)"""
+    n = int(len(x) / ratio); i = np.arange(n) * ratio
+    return np.stack([np.interp(i, np.arange(len(x)), x[:, c]) for c in (0, 1)], 1)
+def lp(x, f, o=2):
+    b, a = signal.butter(o, min(f, SR / 2.2) / (SR / 2), 'low'); return signal.lfilter(b, a, x, axis=0)
+def hp(x, f, o=2):
+    b, a = signal.butter(o, f / (SR / 2), 'high'); return signal.lfilter(b, a, x, axis=0)
+def bp(x, lo, hi, o=2):
+    b, a = signal.butter(o, [lo / (SR / 2), hi / (SR / 2)], 'band'); return signal.lfilter(b, a, x, axis=0)
+def sweep(x, f0, f1, kind='low'):
+    """time-varying filter (exponential cutoff ramp), in STFT"""
+    out = np.zeros_like(x)
+    for c in (0, 1):
+        S = librosa.stft(x[:, c].astype(np.float32), n_fft=2048, hop_length=512)
+        fr = librosa.fft_frequencies(sr=SR, n_fft=2048); T = S.shape[1]
+        fc = f0 * (f1 / f0) ** np.linspace(0, 1, T)
+        if kind == 'low': M = 1 / (1 + (fr[:, None] / fc[None]) ** 4)
+        else: M = 1 / (1 + (fc[None] / np.maximum(fr[:, None], 1)) ** 4)
+        out[:, c] = librosa.istft(S * M, hop_length=512, length=len(x))
+    return out
+_rng = np.random.default_rng(77)
+def reverb(x, secs=6.0, damp=2600, pre=0.02, wet=1.0):
+    """long, dark, stereo-decorrelated tail; secs ~ the time to fall 60 dB"""
+    n = int(secs * SR); t = np.arange(n) / SR; out = np.zeros((len(x) + n, 2))
+    for c in (0, 1):
+        ir = _rng.standard_normal(n) * np.exp(-6.9 * t / secs); ir = lp(ir[:, None], damp)[:, 0]
+        ir = np.concatenate([np.zeros(int(pre * SR)), ir])[:n]; ir /= np.sqrt((ir ** 2).sum())
+        y = signal.fftconvolve(x[:, c], ir)[:len(x) + n]; out[:len(y), c] = y
+    return out * wet
+def echo(x, delay, fb=0.5, n=6, damp=0.8, pan=0.5):
+    """tape echo: each repeat darker"""
+    D = int(delay * SR); out = np.zeros((len(x) + D * n, 2)); out[:len(x)] += x; y = x
+    for k in range(1, n + 1):
+        y = lp(y, 6000 * damp ** k) * fb; p = pan * (-1) ** k
+        g = np.array([np.sqrt(0.5 * (1 - p)), np.sqrt(0.5 * (1 + p))]) * np.sqrt(2)
+        out[k * D:k * D + len(y)] += y * g
+    return out
+def freeze(x, out_len, grain=0.2, dens=28, jitter=1.0):
+    """granular smear: the sound held still"""
+    src = x.mean(1); g = int(grain * SR); w = np.hanning(g); n = int(out_len * SR); out = np.zeros((n + g, 2))
+    for k in range(int(out_len * dens)):
+        o = int(_rng.random() * jitter * max(1, len(src) - g)); s = int(k / dens * SR); p = _rng.uniform(-0.7, 0.7)
+        if o + g <= len(src): out[s:s + g] += (src[o:o + g] * w)[:, None] * np.array([np.sqrt(0.5 * (1 - p)), np.sqrt(0.5 * (1 + p))])
+    out = out[:n]; return out / (np.abs(out).max() + 1e-9)
+def tapestop(x, dur=0.6):
+    """the last `dur` seconds slow to a halt"""
+    n = int(dur * SR); head = x[:-n] if len(x) > n else x[:0]; tail = x[-n:]
+    rate = np.linspace(1, 0.02, n); pos = np.cumsum(rate); pos = pos[pos < len(tail) - 1]
+    t = np.stack([np.interp(pos, np.arange(len(tail)), tail[:, c]) for c in (0, 1)], 1)
+    return np.concatenate([head, fade(t, 0.001, 0.05)])
+def crackle(dur, dens=40, g=0.3):
+    n = int(dur * SR); x = np.zeros(n); idx = _rng.integers(0, n, int(dur * dens)); x[idx] = _rng.random(len(idx)) ** 3 * _rng.choice([-1, 1], len(idx))
+    x = bp(x[:, None], 1200, 9000)[:, 0] + lp(x[:, None], 400)[:, 0] * 0.5
+    hiss = hp(_rng.standard_normal((n, 1)) * 0.02, 4000)[:, 0]
+    return np.stack([x + hiss, np.roll(x, 37) + hiss], 1) * g
+def norm(x, peak=1.0): return x / (np.abs(x).max() + 1e-9) * peak
+def rms(x): return float(np.sqrt((x ** 2).mean()) + 1e-12)
+
+# ---------------- the mix: layers, events, sidechain ----------------
+class Mix:
+    def __init__(self, dur):
+        self.n = int(dur * SR); self.dur = dur; self.layers = {}; self.events = []; self.kicks = []
+    def put(self, layer, x, t, g=1.0, src=None, src_t=None, tag=''):
+        if layer not in self.layers: self.layers[layer] = np.zeros((self.n, 2))
+        i = int(t * SR); n = min(len(x), self.n - i)
+        if n <= 0: return
+        if i < 0: x = x[-i:]; n = min(len(x), self.n); i = 0
+        self.layers[layer][i:i + n] += x[:n] * g
+        self.events.append(dict(layer=layer, t=round(t, 3), dur=round(n / SR, 3), src=src, src_t=src_t, tag=tag))
+    def kick_at(self, times): self.kicks += list(times)
+    def duck(self, layers, depth=0.6, attack=0.005, release=0.22):
+        """sidechain: these layers bow to each kick"""
+        env = np.ones(self.n)
+        for k in self.kicks:
+            i = int(k * SR); a = int(attack * SR); r = int(release * SR)
+            seg = np.concatenate([np.linspace(1, 1 - depth, a), 1 - depth * np.exp(-np.linspace(0, 5, r))])
+            j = min(self.n, i + len(seg)); env[i:j] = np.minimum(env[i:j], seg[:j - i])
+        for l in layers:
+            if l in self.layers: self.layers[l] *= env[:, None]
+    def render(self, gains=None, master_verb=0.0):
+        out = np.zeros((self.n, 2))
+        for k, v in self.layers.items(): out += v * (gains or {}).get(k, 1.0)
+        if master_verb: out += reverb(out * master_verb, 3.0, 3000)[:self.n]
+        out = np.tanh(out / (np.abs(out).max() * 0.92 + 1e-9) * 1.2) / np.tanh(1.2) * 0.9
+        return out
+    def save(self, path, out):
+        import wave
+        with wave.open(path, 'wb') as w:
+            w.setnchannels(2); w.setsampwidth(2); w.setframerate(SR); w.writeframes((np.clip(out, -1, 1) * 32767).astype(np.int16).tobytes())
+        json.dump(dict(events=self.events, kicks=self.kicks, dur=self.dur, layers=list(self.layers)), open(path.replace('.wav', '.json'), 'w'))
+        # per-layer loudness at 24 fps, for the picture
+        hop = SR // 24; nf = int(self.dur * 24)
+        L = {k: np.array([np.sqrt((v[i * hop:(i + 1) * hop] ** 2).mean()) for i in range(nf)]) for k, v in self.layers.items()}
+        m = out.mean(1); L['_mix'] = np.array([np.sqrt((m[i * hop:(i + 1) * hop] ** 2).mean()) for i in range(nf)])
+        np.savez(path.replace('.wav', '_env.npz'), **{k: (v / (v.max() + 1e-9)).astype(np.float32) for k, v in L.items()})

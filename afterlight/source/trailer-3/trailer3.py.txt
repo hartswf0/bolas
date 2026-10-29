@@ -1,0 +1,281 @@
+"""AFTERLIGHT trailer, third cut.
+Each archive clip is a spacetime volume (x, y, t). A light-speed scanline crosses the frame and deposits it; the streaks
+ahead of the scanline are the score's own spectrum. What has been seen stays as heat: older frames glow infrared,
+and when a source goes out the volume keeps breathing in the dark. Then the twenty-four swarms without films, then one ember.
+usage: python3 trailer3.py WORKER NWORKERS | python3 trailer3.py stills t1,t2,..."""
+import sys, os, math, numpy as np
+sys.path.insert(0, '/home/claude/afterlight/trailer'); sys.path.insert(0, '/home/claude/afterlight/trailer3')
+from spacetime import load_clip, Volume, rotmat, new_acc, W, H
+import timeline3 as T
+import swarms_demo as SW
+from scipy.ndimage import gaussian_filter, uniform_filter1d
+from PIL import Image, ImageDraw, ImageFont
+OUT = '/home/claude/afterlight/trailer3/frames'; os.makedirs(OUT, exist_ok=True)
+FONT = '/home/claude/afterlight/trailer/fonts/'
+CACHE = '/home/claude/afterlight/trailer/cache/'
+BANDS = np.load('/home/claude/afterlight/trailer3/bands.npy')
+BG = np.array([0.012, 0.012, 0.02], np.float32)
+def ease(u): u = min(1.0, max(0.0, u)); return u * u * (3 - 2 * u)
+def sm(a, b, t): return ease((t - a) / (b - a))
+def lerp(a, b, u): return a + (b - a) * u
+def band_at(t): return BANDS[min(len(BANDS) - 1, max(0, int(t * T.FPS)))]
+
+TSTOPS = np.array([[0.03, 0.01, 0.08], [0.32, 0.03, 0.22], [0.70, 0.07, 0.07], [0.97, 0.42, 0.06], [1.0, 0.86, 0.52]], np.float32)
+def thermal(x):
+    x = np.clip(x, 0, 1) * 4; i = np.clip(np.floor(x).astype(int), 0, 3); f = (x - i)[..., None]
+    return TSTOPS[i] * (1 - f) + TSTOPS[i + 1] * f
+
+VOL = {}
+def vol(k):
+    if k not in VOL:
+        src, t0, dur = T.SRC[k]
+        path = '/home/claude/afterlight/film3/small-sun-3.mp4' if src == 'SMALLSUN' else T.clip(src)
+        fr = load_clip(path, t0, dur, cache=CACHE + k + '.npz')
+        v = Volume(fr, 'light', per=13000, seed=sum(map(ord, k)))
+        v.lum = (v.c @ np.array([0.3, 0.59, 0.11], np.float32)).astype(np.float32)
+        VOL[k] = v
+    return VOL[k]
+
+def splat3(v, cam, acc, present, tau, heat=0.8, beam=1.0, breath=1.0, side=None, xf=0.0, dz=26.0, S=900.0, double=0):
+    age = present - v.s
+    born = age >= -0.5
+    a_vis = np.where(born, np.exp(-np.maximum(age, 0) / tau), 0) * np.clip(1 + age * 2, 0, 1) * beam
+    a_heat = np.where(born, heat * (0.6 * (1 - np.exp(-np.maximum(age, 0) / 3)) * np.exp(-np.maximum(age, 0) / (tau * 2.5 + 20))
+                                    + (1 - beam) * 0.95 * np.exp(-np.maximum(age, 0) / (tau * 3 + 30)) * breath), 0)
+    X = (v.u - 0.5) * v.aspect * S; Y = (v.v - 0.5) * S; Z = (age + v.rnd - 0.5) * dz
+    P = np.stack([X - cam.get('cx', 0), Y - cam.get('cy', 0), Z - cam.get('pz', 0) * dz], 1)
+    Q = P @ rotmat(cam['yaw'], cam['pitch'], cam.get('roll', 0)).T
+    z = Q[:, 2] + cam['dist']; f = (H / 2) / np.tan(np.radians(cam.get('fov', 50)) / 2)
+    a = a_vis + a_heat; ok = (z > 20) & (a > 0.003)
+    z = z[ok]; sx = Q[ok, 0] * f / z + W / 2; sy = Q[ok, 1] * f / z + H / 2
+    av, ah = a_vis[ok], a_heat[ok]
+    col = (v.c[ok] * av[:, None] + thermal(v.lum[ok] * 0.8 + 0.2) * ah[:, None]) / np.maximum(av + ah, 1e-6)[:, None]
+    a = (av + ah) * np.exp(-np.maximum(z - 500, 0) / 3200)
+    if side is not None:   # the scanline: left of it the new volume is deposited; right of it the old one remains, dimmed
+        r = v.rnd[ok]
+        if side == 'left': keep = sx < xf - 50 * r; a = a * (1 + 2.5 * np.exp(-np.maximum(xf - sx, 0) / 26))
+        else: keep = sx > xf + 30 * r; a = a * 0.18
+        a = a * keep
+    rad = 1.15 * cam['dist'] / z
+    inb = (sx >= 0) & (sx < W - 1) & (sy >= 0) & (sy < H - 1) & (a > 0.002)
+    sx, sy, col, a, rad = sx[inb], sy[inb], col[inb], a[inb], rad[inb]
+    if double:   # EMBODY: the same body twice, once in visible grain, once as heat, offset like a double exposure
+        sx2 = np.clip(sx + 16, 0, W - 2); hc = thermal(np.clip(col @ np.array([0.3, 0.59, 0.11], np.float32) * 1.2, 0, 1))
+        sx = np.concatenate([sx, sx2]); sy = np.concatenate([sy, sy]); col = np.concatenate([col, hc]); a = np.concatenate([a, a * 0.55]); rad = np.concatenate([rad, rad * 1.6])
+    ix = sx.astype(np.int32) + W * sy.astype(np.int32)
+    for b, (lo, hi) in enumerate([(0, 1.6), (1.6, 4.5), (4.5, 1e9)]):
+        m = (rad >= lo) & (rad < hi)
+        if not m.any(): continue
+        ww = a[m] * (1.0 if b == 0 else (1.0 / (1 + 0.25 * rad[m]) if b == 1 else 1.4 / (1 + 0.15 * rad[m])))
+        acc[b][..., 3] += np.bincount(ix[m], ww, W * H).reshape(H, W)
+        for ch in range(3): acc[b][..., ch] += np.bincount(ix[m], ww * col[m, ch], W * H).reshape(H, W)
+
+def resolve3(acc, gain=2.6):
+    sig = [0.6, 1.6, 4.2]; C = np.zeros((H, W, 3), np.float32); A = np.zeros((H, W), np.float32)
+    for b in range(3):
+        a = acc[b]
+        if not a[..., 3].any(): continue
+        bl = np.stack([gaussian_filter(a[..., ch], sig[b]) for ch in range(4)], -1); C += bl[..., :3]; A += bl[..., 3]
+    cov = 1 - np.exp(-A * 1.6 * gain); col = C / np.maximum(A, 1e-6)[..., None]
+    img = BG * (1 - cov[..., None]) + col * cov[..., None]
+    return img + gaussian_filter(np.clip(img - 0.55, 0, None), 10) * 1.2
+
+def shot_img(s, t, side=None, xf=0.0):
+    k, a, b, c0, c1, o = s; v = vol(k); u = ease((t - a) / (b - a))
+    cam = {kk: lerp(c0[kk], c1[kk], u) for kk in c0}
+    present = min(v.F - 1, max(0.0, (t - a + 0.4) * T.FPS * o.get('rate', 1.0)))
+    beam, breath = 1.0, 1.0
+    if 'beamout' in o:
+        beam = 1 - sm(o['beamout'], o['beamout'] + 0.5, t); breath = 0.82 + 0.18 * math.sin((t - o['beamout']) * 2 * math.pi / 3.2)
+        if t > o['beamout']: present = min(present, (o['beamout'] - a + 0.4) * T.FPS * o.get('rate', 1.0))
+    acc = new_acc()
+    splat3(v, cam, acc, present, o.get('tau', 10), o.get('heat', 0.8), beam, breath, side, xf, double=o.get('double', 0))
+    return resolve3(acc)
+
+# ---------------- light-speed streaks: the score's spectrum, crossing the frame ----------------
+BCOL = np.array([[0.9, 0.14, 0.10]] * 12 + [[1.0, 0.52, 0.12]] * 12 + [[1.0, 0.80, 0.40]] * 12 + [[0.40, 1.0, 0.55]] * 12, np.float32)
+RNG = np.random.default_rng(9); LINE_Y = [sorted(RNG.choice(15, 3, replace=False) + b * 15) for b in range(48)]
+SEG = RNG.random((48, 3, 8, 3)).astype(np.float32)
+def streaks(t, strength, x_min=0):
+    img = np.zeros((H, W, 3), np.float32); E = band_at(t)
+    if strength < 0.01: return img
+    for b in range(48):
+        e = float(E[47 - b]) if True else 0
+        if e < 0.08: continue
+        for li, y in enumerate(LINE_Y[b]):
+            n = 1 + int(e * 7)
+            for k in range(n):
+                r0, r1, r2 = SEG[b, li, k]
+                L = 40 + 520 * e * r1; vel = 4200 + 5200 * r2
+                x = (r0 * (W + 900) - t * vel) % (W + 900) - 450
+                x0, x1 = int(max(x, x_min)), int(min(x + L, W))
+                if x1 > x0: img[y, x0:x1] += BCOL[47 - b] * (0.35 + 0.65 * e) * strength
+    img = uniform_filter1d(img, 31, axis=1) * 3.5
+    img = img + gaussian_filter(img, (1.2, 0, 0)) * 0.8
+    return img
+
+# ---------------- type, with a light-speed shear on the way in and out ----------------
+_fc = {}
+def font(n, s):
+    if (n, s) not in _fc: _fc[(n, s)] = ImageFont.truetype(FONT + n, s)
+    return _fc[(n, s)]
+ROWR = np.random.default_rng(3).random(H).astype(np.float32)
+def sheared(layer, u_in, u_out):
+    """layer: RGBA float. u_in: 0..1 arrival, u_out: 0..1 departure. rows slide at different speeds and smear"""
+    if u_in >= 1 and u_out <= 0: return layer
+    ys = np.nonzero(layer[..., 3].max(1) > 0.01)[0]
+    if not len(ys): return layer
+    out = np.zeros_like(layer); y0, y1 = max(0, ys.min() - 4), min(H, ys.max() + 5)
+    k_out = u_out ** 2; k_in = (1 - u_in) ** 2
+    for y in range(y0, y1):
+        r = ROWR[y]; dx = int(-k_out * (300 + 1500 * r) + k_in * (300 + 1500 * r))
+        out[y] = np.roll(layer[y], dx, axis=0)
+        if dx > 0: out[y, :dx] = 0
+        elif dx < 0: out[y, dx:] = 0
+    sm_ = int(1 + (k_out + k_in) * 160)
+    if sm_ > 2: out[y0:y1] = uniform_filter1d(out[y0:y1], sm_, axis=1) * (1 + 0.004 * sm_)
+    tint = np.array([1.0, 0.7, 0.35, 1], np.float32); mix = min(1, (k_out + k_in) * 2)
+    return out * (1 - mix) + out * tint * mix
+
+def card_layer(t):
+    lay = Image.new('RGBA', (W, H), (0, 0, 0, 0)); d = ImageDraw.Draw(lay); u_in, u_out, any_ = 1.0, 0.0, False
+    for a, b, lab, q in T.CARDS:
+        if not (a - 0.05 <= t < b): continue
+        any_ = True; u_in = ease((t - a) / 0.3); u_out = ease((t - (b - 0.45)) / 0.45)
+        y = H - 150 if lab else H * 0.5 - 24
+        if lab: f1 = font('im-fell-english-sc-latin-400-normal.ttf', 34); tw = d.textlength(lab, font=f1); d.text(((W - tw) / 2, y - 46), lab, font=f1, fill=(236, 214, 170, 210))
+        f2 = font('im-fell-english-latin-400-italic.ttf', 54 if lab else 50); tw = d.textlength(q, font=f2); d.text(((W - tw) / 2, y), q, font=f2, fill=(240, 232, 216, 255))
+    if not any_: return None
+    L = np.asarray(lay, np.float32) / 255
+    sh = gaussian_filter(L[..., 3], 8) * 0.85
+    L = sheared(L, u_in, u_out); sh = sheared(np.dstack([np.zeros((H, W, 3), np.float32), sh]), u_in, u_out)[..., 3]
+    return L, sh
+
+def put_text(img, t):
+    r = card_layer(t)
+    if r is None: return img
+    L, sh = r; band = np.clip((np.arange(H) - H * 0.62) / (H * 0.2), 0, 1)[:, None, None] * 0.55 * (L[..., 3].max() > 0)
+    img = img * (1 - band) * (1 - np.clip(sh * 1.4, 0, 1)[..., None] * 0.85)
+    return img * (1 - L[..., 3:4]) + L[..., :3] * L[..., 3:4]
+
+# ---------------- the avalanche ----------------
+def avalanche(t):
+    for i, (a, b) in enumerate(T.AV_T):
+        if a <= t < b:
+            num, name = T.SWARMS[i]; u = (t - a) / (b - a); e = float(band_at(t)[:16].mean())
+            img = SW.render(num, u, t, e)
+            img = img * (0.92 + 0.08 * math.sin(t * 40))
+            k = max(0.0, 1 - (t - a) / 0.08)             # light-speed shear at each cut
+            if k > 0:
+                for y in range(0, H, 3): img[y:y + 3] = np.roll(img[y:y + 3], int(k * (200 + 900 * ROWR[y])), axis=1)
+                img = uniform_filter1d(img, int(1 + k * 90), axis=1)
+            pil = Image.fromarray((np.clip(img, 0, 1) * 255).astype(np.uint8)); d = ImageDraw.Draw(pil, 'RGBA')
+            f1 = font('courier-prime-latin-400-normal.ttf', 84); f2 = font('courier-prime-latin-400-normal.ttf', 44)
+            d.rectangle([24, H - 150, 64 + d.textlength(name, font=f2) + 150, H - 26], fill=(0, 0, 0, 150))
+            d.text((40, H - 150), f'{num:02d}', font=f1, fill=(120, 255, 160, 255)); d.text((180, H - 96), name, font=f2, fill=(255, 214, 140, 255))
+            return np.asarray(pil, np.float32) / 255, i
+    return None, -1
+
+# ---------------- the ember and the word ----------------
+TV = None
+def title_pts():
+    global TV
+    if TV is not None: return TV
+    im = Image.new('L', (W, H), 0); d = ImageDraw.Draw(im); f = font('im-fell-english-sc-latin-400-normal.ttf', 150)
+    tw = d.textlength('AFTERLIGHT', font=f); d.text(((W - tw) / 2, H * 0.30), 'AFTERLIGHT', font=f, fill=255)
+    m = np.asarray(im, np.float32) / 255; ys, xs = np.nonzero(m > 0.4); rng = np.random.default_rng(11)
+    idx = rng.choice(len(xs), 70000); TV = dict(x=xs[idx] + rng.random(70000), y=ys[idx] + rng.random(70000), r=rng.random(70000).astype(np.float32),
+                                                j=rng.standard_normal((70000, 2)).astype(np.float32), xs=(xs[idx] / W).astype(np.float32))
+    return TV
+def ember_frame(t):
+    img = np.zeros((H, W, 3), np.float32) + BG; cx, cy = W / 2, H * 0.42
+    yy, xx = np.ogrid[:H, :W]
+    if t < T.TITLE0 + 0.3:   # one ember, cooling from white to gold, breathing
+        u = (t - T.EMBER); g = 0.6 + 0.4 * math.sin(u * 5)
+        r2 = (xx - cx) ** 2 + (yy - cy) ** 2; core = np.exp(-r2 / 9.0); halo = np.exp(-r2 / (900 + 900 * g)) * 0.35
+        img = img + core[..., None] * np.array([1, 0.95, 0.8]) + halo[..., None] * np.array([1, 0.55, 0.18])
+    if t >= T.TITLE0 - 0.2:
+        P = title_pts(); u = ease((t - (T.TITLE0 - 0.2)) / 2.6); r = P['r']
+        uu = np.clip(u * 1.4 - r * 0.4, 0, 1)
+        x = lerp(cx + P['j'][:, 0] * 6, P['x'], uu); y = lerp(cy + P['j'][:, 1] * 6, P['y'], uu)
+        sw = (1 - uu) * 2.2; x, y = cx + (x - cx) * np.cos(sw) - (y - cy) * np.sin(sw), cy + (x - cx) * np.sin(sw) + (y - cy) * np.cos(sw)
+        dis = sm(T.END - 3.2, T.END - 0.6, t)   # at the end the letters lift into dust; the heat stays
+        x = x + dis * (P['j'][:, 0] * 50 + 120 * r); y = y - dis * (60 + 160 * r) + dis * P['j'][:, 1] * 30
+        vis = (0.55 + 0.45 * uu) * (1 - dis); heat = 0.35 + 0.65 * dis
+        col = np.stack([np.ones_like(r), 0.70 + 0.2 * P['xs'], 0.38 + 0.25 * P['xs']], 1) * vis[:, None] + thermal(0.55 - 0.2 * r)[...] * heat * (0.5 + 0.5 * dis)
+        acc = new_acc(); ok = (x >= 0) & (x < W - 1) & (y >= 0) & (y < H - 1); ix = x[ok].astype(int) + W * y[ok].astype(int)
+        a = np.full(ok.sum(), 0.9, np.float32); acc[0][..., 3] += np.bincount(ix, a, W * H).reshape(H, W)
+        for ch in range(3): acc[0][..., ch] += np.bincount(ix, a * col[ok, ch], W * H).reshape(H, W)
+        ti = resolve3(acc, 1.6); img = np.maximum(img, ti) if t < T.TITLE0 + 0.3 else ti
+    return img
+
+def credits(img, t):
+    pil = Image.fromarray((np.clip(img, 0, 1) * 255).astype(np.uint8)); d = ImageDraw.Draw(pil, 'RGBA')
+    def line(s, f, y, a, col=(236, 228, 210)):
+        tw = d.textlength(s, font=f); d.text(((W - tw) / 2, y), s, font=f, fill=col + (int(255 * a),))
+    fade_end = 1 - sm(T.END - 3.0, T.END - 1.6, t)
+    a1 = sm(T.TITLE0 + 2.4, T.TITLE0 + 3.2, t) * fade_end
+    if a1 > 0: line('Twelve short films. One feature.', font('im-fell-english-latin-400-italic.ttf', 38), H * 0.585, a1)
+    a2 = sm(T.CRED0, T.CRED0 + 0.6, t) * fade_end
+    if a2 > 0:
+        line('A FILM CONCEPT BY SOSUKE & WATSON', font('im-fell-english-sc-latin-400-normal.ttf', 32), H * 0.70, a2, (255, 214, 150))
+        line('CRASH LAB  ·  PAELEO  ·  CINEOSIS LAB', font('im-fell-english-sc-latin-400-normal.ttf', 26), H * 0.765, a2 * 0.9)
+        line('Archive footage from movingimagearchive.com,', font('im-fell-english-latin-400-italic.ttf', 30), H * 0.83, a2 * 0.85, (200, 196, 186))
+        line('rendered as optical and thermal spacetime volumes.', font('im-fell-english-latin-400-italic.ttf', 30), H * 0.885, a2 * 0.85, (200, 196, 186))
+    return np.asarray(pil, np.float32) / 255
+
+# ---------------- the dome: a little curvature, a vignette, grain ----------------
+yy, xx = np.mgrid[0:H, 0:W].astype(np.float32); nx = (xx - W / 2) / (W / 2); ny = (yy - H / 2) / (W / 2); r2 = nx * nx + ny * ny
+k = 0.045; sxm = (nx * (1 + k * r2)) * (W / 2) + W / 2; sym = (ny * (1 + k * r2)) * (W / 2) + H / 2
+DOME = (np.clip(sym, 0, H - 1).astype(np.int32), np.clip(sxm, 0, W - 1).astype(np.int32))
+VIG = (1 - 0.55 * np.clip(r2 * 1.1, 0, 1) ** 1.4)[..., None].astype(np.float32)
+GRAIN = np.random.default_rng(5).standard_normal((H + 64, W + 64)).astype(np.float32)
+
+def current_shot(t):
+    cur = [s for s in T.SHOTS if s[1] <= t < s[2]]
+    return cur[-1] if cur else None
+def frame(t):
+    if t < T.SHOTS[0][1]:     # the dark room, one carrier line
+        img = np.zeros((H, W, 3), np.float32) + BG
+        a = sm(0.7, 1.6, t); y = H // 2; L_ = int(W * ease((t - 0.8) / 1.6))
+        if L_ > 0:
+            img[y - 1:y + 2, W - L_:] += np.array([0.4, 1.0, 0.55]) * a
+            img = img + gaussian_filter(img, (3, 0, 0)) * 1.5
+        img = img + streaks(t, 0.25 * sm(1.2, 2.6, t), int(W * 0.55))
+    elif t < T.AV0:
+        s = current_shot(t); a = s[1]; dec = s[5].get('decode', 0.5)
+        if t - a < dec:   # the scanline sweeps: new volume to its left, the last one to its right
+            xf = W * ease((t - a) / dec); img = shot_img(s, t, 'left', xf)
+            prev = [p for p in T.SHOTS if p[2] > a - 0.01 and p[1] < a]
+            if prev: img = np.maximum(img, shot_img(prev[-1], min(t, prev[-1][2] - 0.01), 'right', xf))
+            st = streaks(t, 1.8, int(xf)); img = img + st
+            col = np.exp(-((np.arange(W) - xf) / 5.0) ** 2)[None, :, None] * np.array([0.6, 1.0, 0.7], np.float32)
+            img = img + col * 0.9
+        else:
+            img = shot_img(s, t) + streaks(t, 0.16, int(W * 0.7))
+        img = put_text(img, t)
+    elif t < T.EMBER:
+        img, i = avalanche(t)
+        if img is None: img = np.zeros((H, W, 3), np.float32)
+        img = img + streaks(t, 0.5, int(W * 0.6))
+    else:
+        img = ember_frame(t); img = credits(img, t)
+    img = np.clip(img, 0, 1.4)[DOME] * VIG
+    gx, gy = int(t * 97) % 64, int(t * 53) % 64
+    img = img + GRAIN[gy:gy + H, gx:gx + W, None] * 0.018
+    img = img * (1 - sm(T.END - 0.8, T.END, t)) * sm(0.0, 0.5, t + 0.25)
+    return np.clip(img, 0, 1)
+
+if __name__ == '__main__':
+    if sys.argv[1] == 'stills':
+        ts = [float(x) for x in sys.argv[2].split(',')]
+        ims = [Image.fromarray((frame(t) * 255).astype(np.uint8)).resize((640, 360)) for t in ts]
+        S = Image.new('RGB', (1920, 360 * ((len(ims) + 2) // 3)))
+        for i, im in enumerate(ims): S.paste(im, ((i % 3) * 640, (i // 3) * 360))
+        S.save('/tmp/claude-0/t3.jpg'); sys.exit()
+    wi, wn = int(sys.argv[1]), int(sys.argv[2]); n = int(T.END * T.FPS)
+    for i in range(wi, n, wn):
+        fn = f'{OUT}/{i:05d}.jpg'
+        if os.path.exists(fn): continue
+        Image.fromarray((frame(i / T.FPS) * 255).astype(np.uint8)).save(fn + '.tmp.jpg', quality=92); os.replace(fn + '.tmp.jpg', fn)
+        if i % 240 == wi: print(i / T.FPS, flush=True)
