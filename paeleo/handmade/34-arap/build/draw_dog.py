@@ -40,11 +40,11 @@ def leg_chain(top, knee, ankle, paw, toe):
 
 def P_body():
     d = Drawing(1240, 900, 640, 860)
-    torso = catmull([(-300, 300), (-350, 400), (-345, 500), (-300, 575), (-215, 605), (-100, 580), (30, 565), (160, 575),
-                     (270, 552), (330, 490), (335, 420), (300, 360), (235, 335), (120, 345), (0, 330), (-140, 300),
-                     (-235, 285)], 10)
-    neck = catmull([(-300, 560), (-250, 610), (-300, 680), (-350, 735), (-405, 745), (-440, 690), (-425, 600),
-                    (-380, 500), (-345, 430)], 10)
+    torso = catmull([(-300, 270), (-360, 390), (-352, 500), (-300, 580), (-215, 612), (-100, 590), (30, 572), (160, 580),
+                     (270, 555), (332, 490), (338, 420), (300, 360), (235, 335), (120, 330), (0, 300), (-140, 258),
+                     (-235, 245)], 10)
+    neck = catmull([(-300, 560), (-245, 612), (-280, 650), (-325, 688), (-385, 700), (-425, 655), (-418, 585),
+                    (-385, 490), (-350, 420)], 10)
     tail_chain = [(305, 515), (370, 500), (425, 450), (460, 380), (468, 300), (455, 235)]
     tail_r = [44, 46, 44, 38, 30, 18]
     # legs: shoulder/hip, elbow/stifle, wrist/hock, paw heel, toe
@@ -70,7 +70,7 @@ def P_body():
                                   (-60, 480), (-200, 520)], 8))
     d.parts[3]['mask_saddle'] = saddle
     pts = dict(withers=(-215, 590), hip=(215, 470), croup=(250, 540), chest=(-300, 330), belly=(0, 335),
-               neck_top=(-395, 715), neck_base=(-300, 560), throat=(-430, 640),
+               neck_top=(-372, 668), neck_base=(-300, 560), throat=(-418, 620),
                tail_root=(305, 515), tail_mid=(460, 380), tail_tip=(455, 240))
     for nm, ch in (('FN', FN), ('FF', FF), ('HN', HN), ('HF', HF)):
         pts[nm + '_top'], pts[nm + '_knee'], pts[nm + '_ankle'], pts[nm + '_heel'], pts[nm + '_toe'] = ch
@@ -81,7 +81,7 @@ def P_body():
         m = saddle & dd.parts[3]['mask']
         X, Y = dd.X, dd.Y
         phi = X * 0.35 + Y * 0.94
-        s = 9.0
+        s = 15.0
         dl = np.abs((phi / s) % 1 - 0.5) * s
         ink = 1 - np.clip((s / 2 - dl) - 1.6, 0, 1)
         cur = rgb[m]
@@ -235,6 +235,28 @@ def F0_head():
     save('F0_head', d, rgba, label, layers)
 
 
+# ------------------------------------------------------------------ the head turned into the room (three-quarter from behind)
+def L_head():
+    """Seen from behind and to the right: the back of the skull, the backs of both ears, the muzzle peeking past the
+    left cheek and pointing away from us, into the room. Joint at (0, 0)."""
+    d = Drawing(420, 380, 230, 260)
+    muz = catmull([(-60, 30), (-120, 50), (-175, 68), (-182, 82), (-150, 88), (-95, 80), (-55, 70)], 8)
+    d.add('muzzle', d.poly_mask(muz), 0, ('dir', 0.25), tone=0.35, spacing=10)
+    d.add('ear_far', d.poly_mask(catmull([(-85, 95), (-95, 205), (-35, 115)], 6)), 0, ('dir', 1.5), tone=0.35, spacing=10)
+    d.add('ruff', d.ellipse_mask((5, 0), 78, 45), 1, ('dir', 1.45), tone=0.1, spacing=11)
+    d.add('skull', d.ellipse_mask((-5, 62), 80, 68, 0.1), 2, ('dir', 1.25), tone=0.05, spacing=11)
+    d.add('ear_near', d.poly_mask(catmull([(-15, 112), (40, 215), (68, 90)], 6)), 3, ('dir', 1.75), tone=0.2, spacing=10)
+
+    def marks(dd, rgb, alpha):
+        rgb[dd.ellipse_mask((-176, 78), 14, 11)] = INK            # the nose tip, far side
+        m = dd.parts[0]['mask']
+        rgb[m] = rgb[m] * 0.6 + INK * 0.4
+    d.points = {k: np.array(v, float) for k, v in dict(joint=(0, 0), nose=(-176, 78), ear_near_tip=(40, 210),
+                                                        ear_far_tip=(-93, 200)).items()}
+    rgba, label, layers = d.render(marks=[marks])
+    save('L_head', d, rgba, label, layers)
+
+
 def preview_views():
     out = Image.new('RGBA', (1500, 700), (60, 70, 90, 255))
     x = 10
@@ -252,4 +274,4 @@ def preview_views():
 
 
 if __name__ == '__main__' and len(sys.argv) > 1 and sys.argv[1] == 'views':
-    R0_body(); R0_head(); F0_body(); F0_head(); preview_views()
+    R0_body(); R0_head(); F0_body(); F0_head(); L_head(); preview_views()

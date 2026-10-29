@@ -7,6 +7,7 @@ import numpy as np
 from PIL import Image, ImageDraw
 from scipy import ndimage
 
+SPACING_MUL = 1.6      # coarser engraving: lines >= 4 px apart on screen in the wide shot (no moire)
 PAPER = np.array([0.94, 0.90, 0.81])
 INK = np.array([0.10, 0.085, 0.075])
 
@@ -67,7 +68,7 @@ class Drawing:
         v = -(self.X - c[0]) * sa + (self.Y - c[1]) * ca
         return (u / rx) ** 2 + (v / ry) ** 2 <= 1
 
-    def add(self, name, mask, layer, hatch, tone=0.0, spacing=13.0, cross=0.58, outline=3.2):
+    def add(self, name, mask, layer, hatch, tone=0.0, spacing=13.0, cross=0.72, outline=5.5):
         """hatch: ('dir', angle) straight lines; ('axis', chain) lines along a limb, bunched at its edges;
         ('contour',) lines parallel to the part's outline."""
         self.parts.append(dict(name=name, mask=mask, layer=layer, hatch=hatch, tone=tone, spacing=spacing,
@@ -97,7 +98,7 @@ class Drawing:
             m = p['mask']
             if not m.any():
                 continue
-            s = p['spacing']
+            s = p['spacing'] * SPACING_MUL
             tone = np.clip(0.08 + 0.85 * (1 - lam) ** 1.3 + p['tone'], 0, 1)
             phi, phi2 = self._fields(p)
             # engraved line: width grows with tone

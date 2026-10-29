@@ -37,7 +37,7 @@ class Canvas:
 
     def hatch(self, m, angle, spacing, tone, cross=None):
         """Ink lines inside mask m; tone (scalar or map, 0..1) sets line width."""
-        s = spacing * SS
+        s = spacing * SS * 1.45
         n = (-np.sin(angle), np.cos(angle))
         phi = self.X * n[0] + self.Y * n[1]
         d = np.abs((phi / s) % 1 - 0.5) * s
