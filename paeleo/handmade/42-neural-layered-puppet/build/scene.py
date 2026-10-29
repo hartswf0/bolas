@@ -144,17 +144,17 @@ def main():
         pp.label_gain = {n['head']: 1 - 0.5 * look} if look > 0 else None
         T_pose, info = po.pose(phase=phase, moving=moving, head_low=min(1, head_low) * (1 - min(1, lie)), lie=lie,
                                rest=rest, look=look, crouch=crouch, breathe=breathe, head_depth=look)
-        facingR = T_REFUSE + TURN_DUR / 2 <= t < TB0 + TURN_DUR / 2
+        BACK_SWITCH = TB0 + 0.15 * TURN_DUR
+        facingR = T_REFUSE + TURN_DUR / 2 <= t < BACK_SWITCH
         place = np.array([[(-1 if facingR else 1) * S_DOG, 0, X + (1 if facingR else -1) * S_DOG * ax],
                           [0, S_DOG, Wo.FLOOR - S_DOG * ay], [0, 0, 1.0]])
         G = np.einsum('ij,kjl->kil', place, T_pose)
         mode = 'profile-R' if facingR else 'profile-L'
         view = None; pup_o = 1.0; vid = None
-        # ---- the turns: puppet -> its learned fit of an archive frame -> the archive frames -> back into the puppet
-        for T0, back in ((T_REFUSE, False), (TB0, True)):
-            u = (t - T0) / TURN_DUR
-            if not (0 <= u < 1): continue
-            if back: u = 1 - u - 1e-6
+        swung = swing if RISE[0] <= t < RISE[1] else (1.0 if RISE[1] <= t < BACK_SWITCH else None)
+        # ---- turn away: puppet -> its learned fit of archive 15 -> archive 15,16,17,31,38,40,41 -> learned fit of 41 -> puppet
+        u = (t - T_REFUSE) / TURN_DUR
+        if 0 <= u < 1:
             if u < 0.22:
                 mode = 'turn-learned'; G = lerpG(G, VW.G_fit(15, X), smooth(0, 0.22, u)); view = 15
             elif u < 0.32:
@@ -165,6 +165,18 @@ def main():
                 mode = 'turn-blend'; G = VW.G_fit(41, X); vid = 41; pup_o = (u - 0.72) / 0.10; view = 41
             else:
                 mode = 'turn-learned'; G = lerpG(VW.G_fit(41, X), G, smooth(0.82, 1.0, u)); view = 41
+        # ---- turn back (the head already faces the door): swung puppet dissolves into the front views 38, 31, then
+        # 17, 16, 15 bring the body round; archive 15 dissolves into its learned fit, which moves into the profile pose
+        u = (t - TB0) / TURN_DUR
+        if 0 <= u < 1:
+            if u < 0.15:
+                mode = 'turn-blend'; vid = 38; pup_o = 1 - u / 0.15; view = 38
+            elif u < 0.60:
+                mode = 'view'; vid = [38, 31, 17, 16][min(3, int((u - 0.15) / 0.45 * 4))]; pup_o = 0.0; view = vid
+            elif u < 0.70:
+                mode = 'turn-blend'; G = VW.G_fit(15, X); vid = 15; pup_o = (u - 0.60) / 0.10; view = 15
+            else:
+                mode = 'turn-learned'; G = lerpG(VW.G_fit(15, X), G, smooth(0.70, 1.0, u)); view = 15
         tint_img = np.broadcast_to(tint_map(np.arange(Wo.Wd, dtype=np.float32), lit)[None], (Wo.Ht, Wo.Wd, 3))
         sh_w = 0.55 * Wo.S * (1 + 0.25 * lie); sh = np.exp(-((xx - X) / sh_w) ** 2 - ((yy - Wo.FLOOR - 3) / 7.0) ** 2)
         can *= (1 - 0.55 * sh)[..., None]
@@ -176,15 +188,15 @@ def main():
             cv = can.copy(); alpha_v = VW.draw(vid, X, cv, tint_img)
         if pup_o > 0:
             cp = can.copy()
-            if RISE[0] <= t < RISE[1]:
+            if swung is not None:
                 # head and neck swing up and round their learned hinge (hard layer weights), body stays down
                 k_n = n['neck'] if n['neck'] >= 0 else n['head']
                 piv = pp.pivot[(k_n, int(pp.parent[k_n]))]
                 js = (G[k_n] @ np.array([piv[0], piv[1], 1.0]))[:2]
-                phi = -0.94 * np.pi * swing
+                phi = -0.94 * np.pi * swung
                 R = np.eye(3); c_, s_ = np.cos(phi), np.sin(phi); R[:2, :2] = [[c_, -s_], [s_, c_]]; R[:2, 2] = js - R[:2, :2] @ js
                 H = R
-                if swing >= 0.5:
+                if swung >= 0.5:
                     Fy = np.array([[1, 0, 0], [0, -1, 2 * js[1]], [0, 0, 1.0]]); H = R @ Fy
                 G2 = G.copy()
                 for k in (n['head'], n['neck']):
@@ -192,7 +204,8 @@ def main():
                 r0 = pp.render(G, I3, cp, tint=tint_img, sel=~hs_)
                 r1 = pp.render(G2, I3, cp, tint=tint_img, sel=hs_, hard=True)
                 r = dict(alpha=np.maximum(r0['alpha'], r1['alpha']), q=np.where(hs_[:, None], r1['q'], r0['q']))
-                G = G2; mode = 'head-swing'; info['override'] = 1.0; rec['mode'] = mode; rec['override'] = 1.0
+                G = G2; info['override'] = 1.0; rec['override'] = 1.0
+                if mode.startswith('profile'): mode = 'head-swing'; rec['mode'] = mode
             else:
                 r = pp.render(G, I3, cp, tint=tint_img)
             joints = pp.joint_screen(G, I3)

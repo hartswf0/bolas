@@ -32,7 +32,11 @@
      "45 mirrored"
     ],
     "motion library (re-fitted, masks frozen)": "0-13, 40-46 mirrored",
-    "visibility states shown whole (turns)": [
+    "tail piece (cut, pinned to the learned rump layer)": [
+     6
+    ],
+    "learned fits of turning frames (turn_fit.py; 15 and 41m bridge the turns)": "14-21, 26-33",
+    "visibility states shown whole, dissolved from/into their learned fits": [
      15,
      16,
      17,
@@ -40,6 +44,9 @@
      38,
      40,
      41
+    ],
+    "head depth-turn stretch learned from": [
+     20
     ]
    },
    "operation": "mask (kit SAM polygons, largest component), few-shot layer discovery (EM + gradient descent, numpy/scipy), per-layer affine motion fit, splat rendering with dusk/door-light tint; turn frames cut out whole with the SAM mask and scaled"
@@ -69,6 +76,12 @@
    "what": "per-layer affines re-fitted to source frames 0-13 and 40-46",
    "path": "paeleo/handmade/42-neural-layered-puppet/model/library.npz",
    "operation": "computed by build/library.py"
+  },
+  {
+   "id": "turn-fits",
+   "what": "learned-layer and hand-cut-rig fits of archive turning frames 14-21, 26-33",
+   "path": "paeleo/handmade/42-neural-layered-puppet/model/turn.npz",
+   "operation": "computed by build/turn_fit.py; compared with best hand-set hinge poses in build/hinge_control.py"
   },
   {
    "id": "score",

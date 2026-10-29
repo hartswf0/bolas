@@ -92,15 +92,15 @@
 490.0
 ]
 },
-"override_share": 0.7330729166666666,
-"view_share": 0.014322916666666666,
+"override_share": 0.7356770833333334,
+"view_share": 0.013020833333333334,
 "visibility_counts": {
 "head-swing": 11,
 "profile-L": 647,
 "profile-R": 83,
-"turn-blend": 5,
-"turn-learned": 11,
-"view": 11
+"turn-blend": 7,
+"turn-learned": 10,
+"view": 10
 }
 },
 "frames": [
@@ -4268,89 +4268,45 @@
 "t": 7.917,
 "state": "watch",
 "x_score": 4,
-"x_screen": 1112.03,
-"y_screen": 510.84,
+"x_screen": 1096.11,
+"y_screen": 516.69,
 "facing": -1,
-"posture": "turning (puppet moving into / out of its learned fit of archive frame f41)",
-"visibility": "turn-learned",
-"view_frame": 41,
-"override": 0.01,
+"posture": "turning (learned fit of archive frame f38 dissolving with the frame)",
+"visibility": "turn-blend",
+"view_frame": 38,
+"override": 1.0,
 "bbox": [
-971,
-445,
-1221,
-615
+951,
+417,
+1210,
+617
 ],
-"head_top_y": 443.8,
-"back_top_y": 459.0,
-"head_below_back_px": -15.2
+"head_top_y": 416.7,
+"back_top_y": 468.4,
+"head_below_back_px": -51.7
 },
 {
 "i": 191,
 "t": 7.958,
 "state": "watch",
 "x_score": 4,
-"x_screen": 1119.29,
-"y_screen": 498.01,
-"facing": -1,
-"posture": "turning (puppet moving into / out of its learned fit of archive frame f41)",
-"visibility": "turn-learned",
-"view_frame": 41,
-"override": 0.0,
+"x_screen": 1130.43,
+"y_screen": 515.23,
+"facing": 0,
+"posture": "turning (learned fit of archive frame f38 dissolving with the frame)",
+"visibility": "turn-blend",
+"view_frame": 38,
+"override": 1.0,
 "bbox": [
-1004,
-423,
-1216,
-612
-],
-"head_top_y": 467.3,
-"back_top_y": 430.7,
-"head_below_back_px": 36.5
+1070,
+439,
+1204,
+611
+]
 },
 {
 "i": 192,
 "t": 8,
-"state": "watch",
-"x_score": 4,
-"x_screen": 1121.41,
-"y_screen": 495.05,
-"facing": -1,
-"posture": "turning (learned fit of archive frame f41 dissolving with the frame)",
-"visibility": "turn-blend",
-"view_frame": 41,
-"override": 0.0,
-"bbox": [
-1009,
-416,
-1215,
-611
-],
-"head_top_y": 470.7,
-"back_top_y": 425.0,
-"head_below_back_px": 45.6
-},
-{
-"i": 193,
-"t": 8.042,
-"state": "watch",
-"x_score": 4,
-"x_screen": 1130.58,
-"y_screen": 509.12,
-"facing": -1,
-"posture": "turning (archive frame f40, whole)",
-"visibility": "view",
-"view_frame": 40,
-"override": 0.0,
-"bbox": [
-1057,
-431,
-1221,
-612
-]
-},
-{
-"i": 194,
-"t": 8.083,
 "state": "watch",
 "x_score": 4,
 "x_screen": 1130.43,
@@ -4368,8 +4324,8 @@
 ]
 },
 {
-"i": 195,
-"t": 8.125,
+"i": 193,
+"t": 8.042,
 "state": "watch",
 "x_score": 4,
 "x_screen": 1130.35,
@@ -4387,8 +4343,27 @@
 ]
 },
 {
-"i": 196,
-"t": 8.167,
+"i": 194,
+"t": 8.083,
+"state": "watch",
+"x_score": 4,
+"x_screen": 1130.35,
+"y_screen": 512.33,
+"facing": 0,
+"posture": "turning (archive frame f31, whole)",
+"visibility": "view",
+"view_frame": 31,
+"override": 0.0,
+"bbox": [
+1083,
+440,
+1193,
+612
+]
+},
+{
+"i": 195,
+"t": 8.125,
 "state": "watch",
 "x_score": 4,
 "x_screen": 1130.59,
@@ -4406,8 +4381,8 @@
 ]
 },
 {
-"i": 197,
-"t": 8.208,
+"i": 196,
+"t": 8.167,
 "state": "watch",
 "x_score": 4,
 "x_screen": 1130.4,
@@ -4421,31 +4396,31 @@
 1041,
 444,
 1219,
+612
+]
+},
+{
+"i": 197,
+"t": 8.208,
+"state": "watch",
+"x_score": 4,
+"x_screen": 1130.68,
+"y_screen": 518.88,
+"facing": 1,
+"posture": "turning (learned fit of archive frame f15 dissolving with the frame)",
+"visibility": "turn-blend",
+"view_frame": 15,
+"override": 0.0,
+"bbox": [
+1043,
+435,
+1227,
 612
 ]
 },
 {
 "i": 198,
 "t": 8.25,
-"state": "watch",
-"x_score": 4,
-"x_screen": 1130.4,
-"y_screen": 515.87,
-"facing": 1,
-"posture": "turning (archive frame f16, whole)",
-"visibility": "view",
-"view_frame": 16,
-"override": 0.0,
-"bbox": [
-1041,
-444,
-1219,
-612
-]
-},
-{
-"i": 199,
-"t": 8.292,
 "state": "watch",
 "x_score": 4,
 "x_screen": 1140.65,
@@ -4466,12 +4441,12 @@
 "head_below_back_px": -45.4
 },
 {
-"i": 200,
-"t": 8.333,
+"i": 199,
+"t": 8.292,
 "state": "watch",
 "x_score": 4,
-"x_screen": 1141.81,
-"y_screen": 516.76,
+"x_screen": 1141.31,
+"y_screen": 516.89,
 "facing": 1,
 "posture": "turning (puppet moving into / out of its learned fit of archive frame f15)",
 "visibility": "turn-learned",
@@ -4480,42 +4455,64 @@
 "bbox": [
 1044,
 431,
-1277,
+1276,
 613
 ],
-"head_top_y": 430.4,
-"back_top_y": 475.2,
-"head_below_back_px": -44.8
+"head_top_y": 430.5,
+"back_top_y": 475.5,
+"head_below_back_px": -45.0
 },
 {
-"i": 201,
-"t": 8.375,
+"i": 200,
+"t": 8.333,
 "state": "watch",
 "x_score": 4,
-"x_screen": 1144.27,
-"y_screen": 515.36,
+"x_screen": 1143.85,
+"y_screen": 516.1,
 "facing": 1,
 "posture": "turning (puppet moving into / out of its learned fit of archive frame f15)",
 "visibility": "turn-learned",
 "view_frame": 15,
 "override": 0.0,
 "bbox": [
-1040,
-429,
+1041,
+430,
 1279,
 613
 ],
-"head_top_y": 428.8,
-"back_top_y": 471.2,
-"head_below_back_px": -42.4
+"head_top_y": 429.6,
+"back_top_y": 473.0,
+"head_below_back_px": -43.4
+},
+{
+"i": 201,
+"t": 8.375,
+"state": "watch",
+"x_score": 4,
+"x_screen": 1144.71,
+"y_screen": 514.99,
+"facing": 1,
+"posture": "turning (puppet moving into / out of its learned fit of archive frame f15)",
+"visibility": "turn-learned",
+"view_frame": 15,
+"override": 0.0,
+"bbox": [
+1038,
+429,
+1279,
+615
+],
+"head_top_y": 428.3,
+"back_top_y": 469.9,
+"head_below_back_px": -41.5
 },
 {
 "i": 202,
 "t": 8.417,
 "state": "watch",
 "x_score": 4,
-"x_screen": 1145.52,
-"y_screen": 514.14,
+"x_screen": 1145.56,
+"y_screen": 514.08,
 "facing": 1,
 "posture": "turning (puppet moving into / out of its learned fit of archive frame f15)",
 "visibility": "turn-learned",
@@ -4528,8 +4525,8 @@
 617
 ],
 "head_top_y": 427.4,
-"back_top_y": 467.8,
-"head_below_back_px": -40.4
+"back_top_y": 467.7,
+"head_below_back_px": -40.3
 },
 {
 "i": 203,
