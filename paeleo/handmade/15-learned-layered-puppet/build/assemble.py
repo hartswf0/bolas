@@ -4,7 +4,7 @@ import numpy as np
 HERE = os.path.dirname(os.path.abspath(__file__)); ROOT = os.path.dirname(HERE); C = os.path.join(HERE, 'cache')
 sys.path.insert(0, HERE)
 import controls as CT
-from stage import U0, KX
+from stage import U0, KX, KZ
 
 def gather():
     M = {}
@@ -57,12 +57,17 @@ if __name__ == '__main__':
         if 86 <= m['i'] <= 92 or 192 <= m['i'] <= 206: post = 'turn'
         frames.append({'i': m['i'], 't': m['t'], 'state': st, 'state_score': c['state'], 'x_score': c['x_score'],
                        'x_screen': round(m['cx'], 1), 'y_screen': round(m['cy'], 1), 'facing': facing, 'posture': post,
-                       'x_world_measured': round((m['cx'] - U0) / KX + CT.X_OFF, 3),
+                       'x_world_measured': round((m['cx'] - U0 - KZ * CT.DOG_Z) / KX + CT.X_OFF, 3),
+                       'withers_y': m.get('withers_y'), 'head_top_y': m.get('head_top_y'),
                        **{k: m[k] for k in ['top', 'bottom', 'left', 'right', 'head_dir', 'body_dir', 'psi', 'psi_h', 'mirror', 'head_rel', 'ood', 'mahal', 'view_support', 'reach_err']}})
     sc = {'retreat': 1.0, 'watch': 2.333, 'refuse': 3.417, 'watch_again': 7.458, 'approach': 14.708, 'lie_down': 23.792, 'look_in': 26.4}
     tr = {'about': 'SCION 15 trace: measured from the rendered frames (alpha centroid, bbox, nose direction from the posed layers). state = segmentation by the measured onsets below; state_score = the score label.',
-          'mapping': 'torso centre world X = score x - %.2f m; screen u = %.0f + %.0f * X (oblique projection, static camera); x_world_measured = (centroid u - %.0f)/%.0f + %.2f' % (CT.X_OFF, U0, KX, U0, KX, CT.X_OFF),
+          'mapping': 'torso centre world X = score x - %.2f m; screen u = %.0f + %.0f * X (oblique projection, static camera); x_world_measured = (centroid u - %.0f - %.0f*%.2f)/%.0f + %.2f' % (CT.X_OFF, U0, KX, U0, KZ, CT.DOG_Z, KX, CT.X_OFF),
           'onsets_measured': {k: {'score': sc[k], 'measured': on[k], 'dt': None if on[k] is None else round(on[k] - sc[k], 3)} for k in sc},
           'frames': frames}
+    gap = [f['head_top_y'] - f['withers_y'] for f in frames if 15.0 <= f['t'] <= 23.5 and f['head_top_y'] is not None]
+    tr['head_low_approach'] = {'about': 'head top (topmost head-layer pixel) minus withers y, screen px, 15.0-23.5 s; positive = below',
+                               'min_px': round(min(gap), 1), 'mean_px': round(sum(gap) / len(gap), 1), 'n': len(gap)}
+    print('head low', tr['head_low_approach'])
     json.dump(tr, open(os.path.join(ROOT, 'trace.json'), 'w'), indent=0)
     print(json.dumps(tr['onsets_measured'], indent=1))

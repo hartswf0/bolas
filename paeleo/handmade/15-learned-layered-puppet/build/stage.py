@@ -172,3 +172,22 @@ class Stage:
         img = img * (1 - self.sill_mask[..., None]) + self.sill_mask[..., None] * (np.array([96, 74, 58]) + 60 * g)
         img = img * (1 - self.sill_face[..., None]) + self.sill_face[..., None] * np.array([46, 34, 28])
         return img, fan * g, lit
+
+
+CRATE = dict(x0=0.27, x1=0.66, z0=1.17, z1=1.55, h=0.43)
+
+
+def draw_crate(img):
+    """a wooden crate the person sits on (drawn): front face, right side, top."""
+    c = CRATE; x0, x1, z0, z1, h = c['x0'], c['x1'], c['z0'], c['z1'], c['h']
+    faces = [([P(x0, 0, z0), P(x1, 0, z0), P(x1, h, z0), P(x0, h, z0)], (74, 56, 44)),
+             ([P(x1, 0, z0), P(x1, 0, z1), P(x1, h, z1), P(x1, h, z0)], (52, 40, 33)),
+             ([P(x0, h, z0), P(x1, h, z0), P(x1, h, z1), P(x0, h, z1)], (96, 74, 58))]
+    for pts, col in faces:
+        m = mask_of(pts)
+        img = img * (1 - m[..., None]) + m[..., None] * np.array(col)
+    # slats on the front face
+    for yy in (0.14, 0.29):
+        m = mask_of([P(x0, yy, z0), P(x1, yy, z0), P(x1, yy + 0.012, z0), P(x0, yy + 0.012, z0)])
+        img = img * (1 - m[..., None]) + m[..., None] * np.array([36, 28, 24])
+    return img

@@ -1,0 +1,121 @@
+{
+ "rows": [
+  {
+   "frame": 14,
+   "learned_iou": 0.796,
+   "handset_iou": 0.77,
+   "learned_photo": 0.754,
+   "handset_photo": 0.599
+  },
+  {
+   "frame": 15,
+   "learned_iou": 0.803,
+   "handset_iou": 0.771,
+   "learned_photo": 0.598,
+   "handset_photo": 0.615
+  },
+  {
+   "frame": 16,
+   "learned_iou": 0.807,
+   "handset_iou": 0.731,
+   "learned_photo": 0.77,
+   "handset_photo": 0.856
+  },
+  {
+   "frame": 17,
+   "learned_iou": 0.768,
+   "handset_iou": 0.75,
+   "learned_photo": 0.836,
+   "handset_photo": 0.921
+  },
+  {
+   "frame": 18,
+   "learned_iou": 0.708,
+   "handset_iou": 0.763,
+   "learned_photo": 0.815,
+   "handset_photo": 0.879
+  },
+  {
+   "frame": 19,
+   "learned_iou": 0.714,
+   "handset_iou": 0.698,
+   "learned_photo": 1.21,
+   "handset_photo": 1.116
+  },
+  {
+   "frame": 20,
+   "learned_iou": 0.753,
+   "handset_iou": 0.782,
+   "learned_photo": 1.305,
+   "handset_photo": 1.188
+  },
+  {
+   "frame": 21,
+   "learned_iou": 0.736,
+   "handset_iou": 0.753,
+   "learned_photo": 0.803,
+   "handset_photo": 0.926
+  },
+  {
+   "frame": 26,
+   "learned_iou": 0.781,
+   "handset_iou": 0.653,
+   "learned_photo": 0.962,
+   "handset_photo": 1.245
+  },
+  {
+   "frame": 27,
+   "learned_iou": 0.737,
+   "handset_iou": 0.639,
+   "learned_photo": 0.992,
+   "handset_photo": 1.351
+  },
+  {
+   "frame": 28,
+   "learned_iou": 0.741,
+   "handset_iou": 0.678,
+   "learned_photo": 0.778,
+   "handset_photo": 1.129
+  },
+  {
+   "frame": 29,
+   "learned_iou": 0.716,
+   "handset_iou": 0.66,
+   "learned_photo": 0.932,
+   "handset_photo": 1.144
+  },
+  {
+   "frame": 30,
+   "learned_iou": 0.727,
+   "handset_iou": 0.639,
+   "learned_photo": 0.968,
+   "handset_photo": 1.019
+  },
+  {
+   "frame": 31,
+   "learned_iou": 0.735,
+   "handset_iou": 0.663,
+   "learned_photo": 0.897,
+   "handset_photo": 0.999
+  },
+  {
+   "frame": 32,
+   "learned_iou": 0.75,
+   "handset_iou": 0.599,
+   "learned_photo": 1.01,
+   "handset_photo": 1.216
+  },
+  {
+   "frame": 33,
+   "learned_iou": 0.761,
+   "handset_iou": 0.61,
+   "learned_photo": 1.054,
+   "handset_photo": 1.15
+  }
+ ],
+ "mean_iou_learned": 0.7520625000000001,
+ "mean_iou_handset": 0.6974374999999999,
+ "learned_better_on": 13,
+ "n": 16,
+ "about": "SCION 42 \u00b7 learned head swing / turn vs the hand-set control.\nFor each archive turning frame (14-21, 26-33) the same learned layers are posed two ways and scored against the real\nframe's SAM mask (IoU) and grey values:\n  learned  : per-layer motions fitted to the frame (turn_fit.py) - the turn and the head swing as the examples show them\n  hand-set : what this film did before with the rig: one similarity placement plus a rotation about each learned hinge;\n             the angles are optimised per frame (Powell), i.e. the best any hand-setting of those hinges could do.\nWrites ../data/learned_vs_handset.json"
+}

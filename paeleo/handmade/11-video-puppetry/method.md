@@ -24,7 +24,12 @@
 - **The rest are rigid cut-outs of the same frame, pinned at joints.** Head-with-neck is cut off along a neck line and the tail along a tail line. The four legs are split below a belly line by distance to each leg's axis. Each piece is placed by the least-squares rigid fit of its own handles to their targets. Big moves are joint rotations, not bends, so they cannot tear: the head going down to 57° for the approach and 72° for chin-on-floor, the legs folding for the lie, the tail tucking. This is Barnes's jointed paper puppet, with real footage as the paper. In version 1 a single sheet bent this far tore: there was a crescent swirl at the head and folded legs (ledger 1–3, 7).
 - **Walking.** This is a four-beat walk with a 0.46 m stride and 65% stance. Each leg swings rigidly about its top so that its foot sits where the planner puts it, and in stance that place exactly cancels the body's travel. The body is let down by the stance feet's rise. The retreat runs the same function backwards.
 - **Lying.** There is no lying dog in the source, and the brief's lesson asks for no standing legs. The body sheet goes down level (hindquarters as low as the shoulders). The forelegs rotate 84° forward onto the boards, and the hind legs rotate 104° forward and are laid behind the body.
-- **Looking in (26.4).** A profile head can only point at the person or up at the light. So while looking in, the head part of the neck piece is replaced by **the back of the dog's own head**, cut from kit frame 0, where the dog looks away from the camera up at the people. It is placed where the head was and tipped 12° toward the door: a dark back of a head against the lit room.
+- **Round 2.**
+  - Every dog mask is smoothed (blur 1.1 px, re-threshold, 0.5 px feather) so the back ridge and ear fringe hold at full size.
+  - Lying legs pivot so the paw stays on the floor while the body goes down. As it lies, the far legs and both hind legs fade out under the body, leaving a clean sphinx outline with one foreleg forward.
+  - At 7.46, still lying, the dog swings its head up and back over its shoulder (7.46–7.60). It rises over 7 frames (7.50–7.80) and turns standing (7.60–8.05).
+  - The approach head carry is lowered. Its top, ear tufts included (any pixel with a trace of the head), is at least 6.8 px below the withers line in every frame of 14.9–23.6 s (measured).
+- **Looking in (26.4).** A profile head can only point at the person or up at the light. So while looking in, the head part of the neck piece is replaced by **the back of the dog's own head**, cut from kit frame 0, where the dog looks away from the camera up at the people. It is placed where the head was and tipped 12° toward the door: a dark back of a head against the lit room. Since round 2 it keeps the mask's own skull-and-ear outline (smoothed, unsharp-masked) and is swapped by a hard cut on the head's lift (about 26.46 s, and back about 28.2 s), with the profile head hidden, so there is no dissolve and no double head.
 - **Turning.** The turn axis runs L → F' → F → R. Profile and three-quarter keys morph into each other: handle positions interpolate, and the images dissolve over the middle 16% of a segment. F' and F are mirror images, so they are swapped like cut-outs with a slight narrowing as the face passes the camera.
   - Refusal turn: 3.42–3.86 s.
   - At 7.46 the dog **gets up first**, head leading: lie goes 1→0 over 7.46–7.62 and the head rises from 7.46. Then it turns standing, 7.56–8.0. Version 1 turned while half lying and made a ball (ledger 10).
@@ -51,7 +56,7 @@
   - room tone −47 dB (soft is 15 dB above it)
 
   The synthesis-side numbers are in `data/sound_levels.json`.
-- Frames: 768 scene frames and 912 film frames, 38.0 s, H.264 + AAC, faststart, 11.11 MB.
+- Frames: 768 scene frames and 912 film frames, 38.0 s, H.264 + AAC, faststart, 11.08 MB.
 - **Numeric invariant "the footage bends but never folds"** (the Jacobian determinant of the body-sheet warp is > 0 inside the sheet), measured per frame as `warp_det_min`:
   - Version 1 broke it in 324/768 frames.
   - After the repair it breaks it in **7/768**, all inside the two turn morphs (3.46–3.71 s and 7.67–7.88 s).
@@ -61,13 +66,14 @@
 
 ## Looked at (perceptual, by me, the builder; not a verdict)
 
-Contact sheets of 20 film times, 1:1 crops of the turns (`proof/turn_*.jpg`), the look-in (`proof/look_in_*.jpg`) and the stills. After the repair: full-resolution crops of the refusal lie, the sill lie, the look-in and the approach (`proof/repair_*.jpg`), and look-in frames extracted from film.mp4 itself. The look-in reads as a dark back of a head against the lit room at 26.55–27.8 s. The frames at 26.45 and 28.2 are the dissolve to and from that piece and are ghosted.
+Contact sheets of 20 film times, 1:1 crops of the turns (`proof/turn_*.jpg`), the look-in (`proof/look_in_*.jpg`) and the stills. After the repair: full-resolution crops of the refusal lie, the sill lie, the look-in and the approach (`proof/repair_*.jpg`), and look-in frames extracted from film.mp4 itself. The look-in reads as a dark back of a head against the lit room at 26.55–27.8 s. Since round 2 there is no dissolve: the swap is one cut each way.
 
 ## What is weak
 
 - The dog is small (about 230 px long) in a wide fixed shot, and soft (384×288 source).
 - The chin-down head at the sill (28.4 s onward) is a dark, blurry mass rather than a crisp muzzle, ear and eye.
-- The dissolve to and from the back-of-head piece ghosts for 2–4 frames.
+- The back-of-head swap is a visible one-frame cut.
+- At 4.33 s, just before the lie, the legs are still angled out.
 - The mid-turn frames are blobby, and the swap between F' and F is a one-frame jump.
 - The rigid legs swing like a paper puppet's: there is no knee bend.
 - The voice is formant synthesis and sounds synthetic.

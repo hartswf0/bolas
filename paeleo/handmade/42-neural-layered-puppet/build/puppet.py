@@ -184,7 +184,19 @@ class Puppet:
         if hole.any():
             sa = ndimage.uniform_filter(a, 3) * 9 / np.maximum(cnt, 1); sc = ndimage.uniform_filter(c * filled, 3) * 9 / np.maximum(cnt, 1)
             a = np.where(hole, sa, a); c = np.where(hole, sc, c)
+        # close the gaps a folded layer leaves inside the silhouette (no background speckle through the body)
+        inside = ndimage.binary_closing(a > 0.3, iterations=3) & ~(a > 0.3)
+        if inside.any():
+            wsum = ndimage.gaussian_filter((a > 0.3).astype(np.float32), 2.0)
+            cfill = ndimage.gaussian_filter(c * (a > 0.3), 2.0) / np.maximum(wsum, 1e-3)
+            c = np.where(inside, cfill, c); a = np.where(inside, 1.0, a)
+            lb = np.where(inside & (lb < 0), lb, lb)
         a = ndimage.gaussian_filter(a, 0.6)
+        lg = getattr(self, 'label_gain', None)
+        if lg:
+            gimg = np.ones_like(c)
+            for k, gk in lg.items(): gimg[lb == k] = gk
+            c = c * ndimage.gaussian_filter(gimg, 1.0)
         rgb = c[..., None] * (tint if tint is not None else np.ones(3))[None, None] if tint is None or np.ndim(tint) == 1 else c[..., None] * tint[y0:y1, x0:x1]
         if seam:
             # the cuts between learned layers, drawn as a faint dark seam: the discovered structure, visible

@@ -36,9 +36,9 @@ def pose_at(t, score_person):
     S = STAND
     call = dict(S, lean=0.10, head=0.18, arm=0.35, elb=0.6)
     reach = dict(S, lean=0.42, head=0.25, arm=1.45, elb=0.05, th1=0.25, sh1=-0.05, th2=-0.18, X=-0.18)
-    step = dict(S, X=0.12, Z=0.55, th1=0.35, th2=-0.3, arm=0.2, arm2=-0.2)
-    stand_b = dict(S, X=0.28, Z=0.95, th1=0.05, th2=-0.05)
-    sit = dict(S, X=0.24, Z=0.95, hip=0.13, lean=-0.12, th1=1.45, sh1=-1.5, th2=1.35, sh2=-1.25, arm=0.55, elb=0.6, arm2=0.3, elb2=0.8, head=0.12)
+    step = dict(S, X=0.22, Z=0.75, th1=0.35, th2=-0.3, arm=0.2, arm2=-0.2)
+    stand_b = dict(S, X=0.45, Z=1.35, th1=0.05, th2=-0.05)
+    sit = dict(S, X=0.45, Z=1.35, hip=0.45, lean=-0.12, th1=1.5, sh1=-1.5, th2=1.4, sh2=-1.35, arm=0.55, elb=0.6, arm2=0.3, elb2=0.8, head=0.12)
     low = dict(sit, lean=0.22, arm=0.62, elb=0.25, head=0.32)
     soft = dict(low, head=0.42, lean=0.28)
     keys = [(0.0, S), (0.9, S), (1.15, call), (2.2, call), (2.6, S), (3.3, S), (3.75, reach), (4.5, reach), (4.75, S),

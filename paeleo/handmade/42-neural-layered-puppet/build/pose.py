@@ -7,6 +7,7 @@ Override:  rotations about the learned hinges, used only outside the examples (l
            in the trace as 'override' with the extrapolation amount.
 Part names come from the kit's hand-placed keypoints on the template frame (naming only; the parts were not drawn).
 """
+import os
 import numpy as np
 
 NAMES = None
@@ -58,6 +59,19 @@ class Poser:
             k = self.n[nm]
             if k >= 0: self.up_local[k] = local(up, k).mean(0)
         self.stand = up[self.loop[0]]
+        # learned depth-turn of the head: the anisotropic stretch of the head layer (relative to the neck) fitted to
+        # archive frame 20, where the dog's head is turned across the line of sight
+        try:
+            Tn = np.load(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'model', 'turn.npz'))
+            j = list(Tn['frames']).index(20); A = Tn['learned'][j]
+            def t3(a): m = np.eye(3); m[:2] = a; return m
+            hk, nk = self.n['head'], int(pp.parent[self.n['head']])
+            L = np.linalg.inv(t3(A[nk])) @ t3(A[hk])
+            U, S_, Vt = np.linalg.svd(L[:2, :2])
+            self.head_depth_stretch = Vt.T @ np.diag(S_ / S_.max()) @ Vt       # symmetric stretch, major axis 1
+            self.head_depth_src = dict(frame=20, singular_values=S_.tolist())
+        except Exception:
+            self.head_depth_stretch = None
         # authored depth: the head and neck are in front of the chest in profile
         pp.front = [k for k in (self.n['neck'], self.n['head']) if k >= 0]
 
@@ -83,7 +97,7 @@ class Poser:
         return rel
 
     def pose(self, phase=0.0, moving=0.0, head_low=0.0, lie=0.0, rest=0.0, look=0.0, crouch=0.0, breathe=0.0,
-             head_lift=0.0, wag=0.0, lie_angles=None):
+             head_lift=0.0, wag=0.0, lie_angles=None, head_depth=0.0):
         """returns (T: K x 3x3 dog space, info dict).  head_low 0..1 (1 = the learned head-low), lie/rest/look 0..1"""
         n = self.n
         rel = lerp_rel(self.stand, self.gait(phase), np.clip(moving, 0, 1))
@@ -126,22 +140,25 @@ class Poser:
             ov = max(ov, rest)
         # look in (override): head lifts and reaches forward into the room
         if look > 0:
-            if n['neck'] >= 0: ang[n['neck']] = ang.get(n['neck'], 0) - np.radians(8) * look
-            ang[n['head']] = ang.get(n['head'], 0) - np.radians(8) * look
+            # the look in: the head lifts off the paws (the turn into depth is head_depth, learned from frame 20)
+            if n['neck'] >= 0: ang[n['neck']] = ang.get(n['neck'], 0) + np.radians(12) * look
+            ang[n['head']] = ang.get(n['head'], 0) + np.radians(6) * look
             ov = max(ov, look)
         if wag and n['tail'] >= 0:
             ang[n['tail']] = ang.get(n['tail'], 0) + wag
         if head_lift:
             ang[n['head']] = ang.get(n['head'], 0) + head_lift
         T = self.pp.articulate(rel, ang)
+        if head_depth > 0 and self.head_depth_stretch is not None:
+            # the head turns in depth (learned stretch from frame 20), about the neck hinge
+            hk = n['head']; nk = int(self.pp.parent[hk])
+            piv = self.pp.pivot[(hk, nk)]
+            Sm = np.eye(2) * (1 - head_depth) + self.head_depth_stretch * head_depth
+            C = np.eye(3); C[:2, :2] = Sm; C[:2, 2] = piv - Sm @ piv
+            T[hk] = T[hk] @ C
         if head_low > 0:
             # head carried low: head and neck lowered and brought forward of the chest (override)
             Tr = np.eye(3); Tr[0, 2] = -7.0 * head_low; Tr[1, 2] = 24.0 * head_low
-            for k in (n['head'], n['neck']):
-                if k >= 0: T[k] = Tr @ T[k]
-        if look > 0:
-            # reaching in: head and neck carried forward, into the room (override)
-            Tr = np.eye(3); Tr[0, 2] = -16.0 * look; Tr[1, 2] = -4.0 * look
             for k in (n['head'], n['neck']):
                 if k >= 0: T[k] = Tr @ T[k]
         # trunk lowered (lie, crouch) and breathing: a translation/scale of the whole dog in dog space

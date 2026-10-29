@@ -7,7 +7,8 @@ import numpy as np
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCORE = json.load(open(os.path.normpath(os.path.join(HERE, '../../score/threshold-score.json'))))
 FR = SCORE['frames']
-X_OFF = 0.35          # torso centre (world X) = score x - X_OFF: lying at x=0.59 puts the head inside the frame
+X_OFF = 0.25          # torso centre (world X) = score x - X_OFF: lying at x=0.59 puts the head inside the frame
+DOG_Z = -0.25         # the dog's path runs 0.25 m nearer the camera than the door's centre line (in front of the seated person)
 
 
 def sm(t):
@@ -25,12 +26,21 @@ def head_rot(head):
     return -0.55 - 0.8 * ((0.9 - head) / 0.75) ** 0.6
 
 
+def whip(p):
+    """a turn as a whip-around: 0->55 deg, then one cut to 125, then ->180. No frame between 55 and 125 deg:
+    the learned front view knots the legs (critic, round 1), so the dog is never shown edge-on."""
+    p = float(np.clip(p, 0, 1))
+    if p < 0.5:
+        return 55.0 * sm(p / 0.5) ** 0.8
+    return 125.0 + 55.0 * sm((p - 0.5) / 0.5) ** 1.25
+
+
 def phi_body(t):
     if t < 3.42:
         return 0.0
     if t < 8.0:
-        return ramp(t, 3.42, 3.82, 0, 180)
-    return ramp(t, 8.0, 8.6, 180, 0)
+        return whip((t - 3.42) / 0.4)
+    return 180.0 - whip((t - 8.0) / 0.5)
 
 
 def controls():
@@ -46,7 +56,7 @@ def controls():
         # head view: leads the refusal turn a little; at 7.46 comes round over the shoulder before the body
         phi_h = phi_body(t + 0.07) if t < 7.46 else phi
         if 7.46 <= t < 8.6:
-            look_back = ramp(t, 7.46, 7.72, 180, 14)
+            look_back = max(14.0, 180.0 - whip((t - 7.46) / 0.26))
             phi_h = min(look_back, max(phi, 14)) if t >= 8.0 else look_back
         rest = a['rest']
         hr = head_rot(a['head'])
@@ -61,10 +71,13 @@ def controls():
         if t >= 24.0:
             look = a['look']
             phi_h = 18 * (1 - min(1, look * 1.6)) * (1 - 0.0)
+            if 27.0 <= t <= 28.2:
+                look = 1.0          # held: the look into the room lasts to 28.2 s
             away = look
-            # looking in: the muzzle levels and points through the door, not up
-            hr = hr * (1 - look) + (-1.0) * look
-            if rest > 0.05:
+            phi_h = 18 * (1 - min(1, look * 1.6))
+            # looking in: the head lifts off the paws and the muzzle goes up into the lit doorway, back of the head to us
+            hr = hr * (1 - look) + (-0.3) * look
+            if rest > 0.05 and not (27.0 <= t <= 28.2):
                 hr = hr * (1 - rest) + (-1.05) * rest
         tail = a['tail']; wag = a['wag']
         tail_rot = (tail - 0.5) * 1.15 + wag * 0.4 * np.sin(2 * np.pi * 2.4 * t) + 0.5 * lie

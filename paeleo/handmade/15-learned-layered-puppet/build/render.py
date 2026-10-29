@@ -28,7 +28,7 @@ def blend_dog(c, mode):
     p, info = DM.build_pose(c, mode)
     g, A, C, L, M = DM.render_dog(p, info, H, W, c, mode)
     phi = c['phi']
-    if 86 < phi < 94:
+    if False:  # crossfade removed (ghost limbs); turns never show 55-125 deg
         c2 = dict(c); c2['phi'] = 180 - phi if phi != 90 else 90.001
         c2['phi_h'] = 180 - c['phi_h']
         p2, info2 = DM.build_pose(c2, mode)
@@ -43,6 +43,8 @@ def render_frame(c, mode='corrected', want=False):
     t = c['t']
     wd = CT.world(t)
     img, fan, lit = STAGE.frame(wd['door'], wd['light'])
+    # the person's crate (behind the person, in front of the wall)
+    img = ST.draw_crate(img)
     # person
     pp = PE.pose_at(t, wd['person'])
     pa, parm, hand = PE.draw(pp)
@@ -66,10 +68,10 @@ def render_frame(c, mode='corrected', want=False):
         side = np.ones((1, W))
     gg = np.clip(g, 0, 1) ** 1.05
     amb = np.array([150, 140, 170]) * 1.0
-    col = gg[..., None] * amb + (gg[..., None] * 0.6 + 0.15) * np.array([255, 165, 95]) * (near * side)[..., None] * 0.75
+    col = gg[..., None] * amb + (gg[..., None] * 0.6 + 0.15) * np.array([255, 165, 95]) * (near * side)[..., None] * 0.32
     # contact shadow on the floor under the body
     if len(xs):
-        fy = P(X, 0, 0)[1]
+        fy = P(X, 0, CT.DOG_Z)[1]
         sh = np.zeros((H, W), np.float32)
         cx = 0.5 * (xs.min() + xs.max()); hw = 0.5 * (xs.max() - xs.min()) * 0.9
         yy, xx = np.ogrid[0:H, 0:W]
@@ -103,6 +105,12 @@ def measure(c, info, A, M, L):
     def pt(n):
         part, xy = POINTS[n]; return (M[part] @ np.r_[xy, 1])[:2]
     nose, neck, rump, chest = pt('nose'), pt('neck'), pt('rump'), pt('chest')
+    wy = float(pt('withers')[1])
+    hy = None
+    if 'head' in L:
+        hys = np.nonzero(L['head'].max(1) > 0.5)[0]
+        hy = int(hys.min()) if len(hys) else None
+    m['withers_y'] = round(wy, 1); m['head_top_y'] = hy
     hv = nose - neck
     m.update({'cx': float(xs.mean()), 'cy': float(ys.mean()), 'top': int(ys.min()), 'bottom': int(ys.max()),
               'left': int(xs.min()), 'right': int(xs.max()), 'area': int(len(xs)),

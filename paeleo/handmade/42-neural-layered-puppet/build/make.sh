@@ -10,6 +10,8 @@ mkdir -p cache
 [ "$1" = "--sweep" ] && ./sweep.sh
 PUPPET_K=8 python3 fit.py      # K fixed at 8: see data/model_selection.json
 python3 library.py
+python3 turn_fit.py         # learned fits of the archive turning frames (and the hand-cut control)
+python3 hinge_control.py    # learned motion vs best hand-set hinge rotations on those frames
 python3 cards.py
 python3 confidence.py
 rm -rf cache/frames

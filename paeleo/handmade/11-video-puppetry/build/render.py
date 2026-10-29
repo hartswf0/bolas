@@ -115,6 +115,7 @@ def frame(fr):
     m = A > .5
     ys, xs = np.nonzero(m)
     hm = (HD * A) > .35
+    ht = np.nonzero((HD * A) > .08)[0]  # head top with the ear tufts: any pixel with a trace of the head
     hy, hx = np.nonzero(hm)
     rec = dict(i=fr['i'], t=t, area=int(m.sum()),
                cx=float(xs.mean()) if len(xs) else None, cy=float(ys.mean()) if len(ys) else None,
@@ -122,7 +123,7 @@ def frame(fr):
                left=int(xs.min()) if len(xs) else None, right=int(xs.max()) if len(xs) else None,
                hx=float(hx.mean()) if len(hx) else None, hy=float(hy.mean()) if len(hy) else None,
                det_min=L['det_min'], det_max=L['det_max'], withers_y=L['withers'][1],
-               head_top=int(hy.min()) if len(hy) else None,
+               head_top=int(ht.min()) if len(ht) else None,
                in_door=float(((xs >= DOOR[0]) & (xs <= DOOR[2])).mean()) if len(xs) else 0.0)
     return rec
 

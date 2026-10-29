@@ -67,13 +67,19 @@ def main():
     sw = st.resize((int(st.width * 1.0), int(st.height * 1.0)))
     bg.paste(sw, (80, 210), sw)
     hs = rep['heldout_summary']
+    lh = json.load(open(os.path.join(ROOT, 'data', 'learned_vs_handset.json')))
     lines = ['%d archive frames in, %d layers out' % (len(rep['train']), rep['K_final']),
              'pins: where two layers carry one point together',
              '',
              'unseen frames, silhouette IoU:',
              '  learned layers  %.2f' % hs['learned']['mean_iou'],
              '  hand-cut rig    %.2f' % hs['authored_rig']['mean_iou'],
-             '  one rigid cut   %.2f' % hs['rigid_K1']['mean_iou']]
+             '  one rigid cut   %.2f' % hs['rigid_K1']['mean_iou'],
+             '',
+             '16 archive frames of the dog turning:',
+             '  learned motion      %.2f' % lh['mean_iou_learned'],
+             '  hand-set on hinges  %.2f' % lh['mean_iou_handset'],
+             '  (learned better on %d of %d)' % (lh['learned_better_on'], lh['n'])]
     y = 230
     for ln in lines:
         d.text((80 + sw.width + 50, y), ln, font=font('f14.woff2', 20), fill=(220, 210, 190)); y += 32
@@ -84,13 +90,13 @@ def main():
     d.text((80, 60), 'What it is made of', font=font('f2.woff2', 52), fill=(240, 226, 200))
     txt = [
         'The dog: the pixels of one frame of Amateur Film New Jersey C (Home Movies, Internet Archive, public domain),',
-        'split into %d layers by EM / gradient descent on %d frames of the same dog. Each layer moves by its own affine;' % (rep['K_final'], len(rep['train'])),
-        'the seams and pins you see are the learned layers and the learned hinges. On unseen frames the learned layers',
-        'fit about as well as a hand-cut rig (IoU %.2f vs %.2f), better than one rigid cut (%.2f).' % (hs['learned']['mean_iou'], hs['authored_rig']['mean_iou'], hs['rigid_K1']['mean_iou']),
-        'Body motion: the source dog\'s own walk, re-fitted to the layers.',
-        'Hand-set on the learned hinges (pale pins): the leg swing, the head carried low, lying down, the look in.',
-        'Turning: real archive frames of the dog turning (3/4 and front views), shown whole;',
-        'the layers never learned a turn.',
+        'split into %d layers by EM / gradient descent on %d frames of the same dog; the tail is cut from frame 6.' % (rep['K_final'], len(rep['train'])),
+        'Seams and pins are the learned layers and hinges. Unseen frames: learned split IoU %.2f, hand-cut split %.2f.' % (hs['learned']['mean_iou'], hs['authored_rig']['mean_iou']),
+        'Turning: the puppet moves into its learned fit of the archive turning frames (IoU %.2f against %.2f for the' % (lh['mean_iou_learned'], lh['mean_iou_handset']),
+        'best hand-set hinge pose) and dissolves into those real frames, then back out into the puppet.',
+        'The look in: the head takes the learned depth stretch of archive frame 20, darkened: the back of the head.',
+        'Hand-set on the learned hinges (pale pins): leg swing, head low, lying, chin down, head swing.',
+        'Body motion while walking: the source dog\'s own walk, re-fitted to the layers.',
         '',
         'The person, the house, the porch, the dusk and the light: drawn and computed here (numpy, Pillow).',
         'Sound: synthesized here, the voice included (formant synthesis).',

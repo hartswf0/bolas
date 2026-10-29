@@ -93,7 +93,7 @@ class World:
         self._qd(c, '6718527320883200', X(3.7), Y(1.95), 0.6 * s / 205, 2.2)
         # porch roof (eave) along the top
         roof = c.mask(polys=[[(X(0), 0), (W, 0), (W, Y(2.5)), (X(0), Y(2.62))]])
-        c.hatch(roof, -0.05, 3.2, 0.85, cross=1.2)
+        c.hatch(roof, -0.05, 3.2, 0.85)
         # far railing: top rail, bottom rail and balusters; posts
         rail = c.mask(polys=[[(X(0.05), Y(0.95)), (W, Y(0.95)), (W, Y(0.88)), (X(0.05), Y(0.88))],
                              [(X(0.05), Y(0.16)), (W, Y(0.16)), (W, Y(0.11)), (X(0.05), Y(0.11))]])
@@ -105,7 +105,7 @@ class World:
             x += 0.16
         c.hatch(c.mask(polys=bal), 1.57, 2.6, 0.45)
         posts = [[(X(px), Y(2.6)), (X(px) + 0.11 * s, Y(2.6)), (X(px) + 0.11 * s, Y(0.0)), (X(px), Y(0.0))] for px in (1.30, 4.40)]
-        c.hatch(c.mask(polys=posts), 1.57, 3.0, 0.62, cross=1.4)
+        c.hatch(c.mask(polys=posts), 1.57, 3.0, 0.62)
         c.outline(posts, 1.0)
         # porch floor (the boards seen a little from above) and the porch's front edge
         floor = c.mask(polys=[[(X(0), Y(0)), (W, Y(0)), (W, Y(-0.2)), (X(0), Y(-0.2))]])
@@ -116,12 +116,12 @@ class World:
             boards.append([(X(0), yb), (W, yb)])
         c.ink = np.maximum(c.ink, c.mask(lines=boards, width=1.0) * 0.9)
         front = c.mask(polys=[[(0, Y(-0.2)), (W, Y(-0.2)), (W, H), (0, H)]])
-        c.hatch(front, 0.0, 3.0, 0.9, cross=1.0)
+        c.solid(front, 0.86)
         # steps at the porch end (x = 4.9 in the score's metres)
         se = X(4.9 - DOOR_X)
         if se < W:
             st = c.mask(polys=[[(se, Y(0)), (W, Y(0)), (W, H), (se, H)]])
-            c.hatch(st, 0.0, 2.6, 0.95, cross=1.57)
+            c.hatch(st, 0.0, 2.6, 0.9)
         # --- inside: back wall, floor, ceiling shadow, skirting, a picture, the lamp, the stool
         inside = c.mask(polys=[[(0, Y(DOOR_H + 0.6)), (wall_in, Y(DOOR_H + 0.6)), (wall_in, Y(0)), (0, Y(0))]])
         vgrad = np.clip((c.Y / SS - Y(DOOR_H + 0.6)) / (Y(0) - Y(DOOR_H + 0.6)), 0, 1)
@@ -130,7 +130,7 @@ class World:
         c.hatch(ifloor, 0.0, 3.0, 0.45)
         c.ink = np.maximum(c.ink, c.mask(lines=[[(0, Y(0.12)), (wall_in, Y(0.12))]], width=1.4))
         pic = [(X(-1.05), Y(1.75)), (X(-0.62), Y(1.75)), (X(-0.62), Y(1.42)), (X(-1.05), Y(1.42))]
-        c.hatch(c.mask(polys=[pic]), 0.8, 2.6, 0.6, cross=1.4)
+        c.hatch(c.mask(polys=[pic]), 0.8, 2.6, 0.6)
         c.outline([pic], 1.6)
         lamp = (X(-0.42), Y(1.62))
         self.lamp = lamp

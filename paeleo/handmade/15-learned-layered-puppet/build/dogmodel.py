@@ -16,6 +16,7 @@ import numpy as np
 from scipy import ndimage
 from puppet import Template, PARTS, ORDER, SKEL, POINTS, transforms, warp_layer, neutral_pose, CACHE, rot
 from stage import P, KX, KZV
+from controls import DOG_Z
 
 tpl = Template()
 MJ = json.load(open(os.path.join(CACHE, 'model.json')))
@@ -104,7 +105,7 @@ def build_pose(c, mode='corrected'):
     hpsi = (35.0 * away) if raw else psi_h
     if raw:
         psi_h = hpsi
-    p['head']['fx'] = head_rel * fx_of(hpsi, MJ['W_HEAD']) * (1 - 0.42 * away * (not raw))
+    p['head']['fx'] = head_rel * fx_of(hpsi, MJ['W_HEAD']) * (1 - 0.3 * away * (not raw))
     p['head']['fy'] = shape_at('head_fy', psi_h)
     # learned: in front views the archive dog's head layer sits tilted down (view regression of head rot)
     p['head']['rot'] = c['head_rot'] + (shape_at('head_rot', psi_h) - shape_at('head_rot', 0))
@@ -113,6 +114,9 @@ def build_pose(c, mode='corrected'):
         p['head']['rot'] -= 0.85 * smooth((psi_h - 30) / 50)
     if head_rel < 0:
         p['head']['rot'] = -p['head']['rot']   # a head reflected about its pivot carries its tilt reflected too
+    # head carried low (approach, retreat): the neck joint itself drops, so the skull sits below the withers
+    if not raw:
+        p['head']['dy'] = 30.0 * float(np.clip((0.85 - c.get('head', 0.9)) / 0.4, 0, 1)) * (1 - c['lie'])
     p['tail']['fx'] = shape_at('tail_fx', psi) * c.get('tail_len', 1.0)
     p['tail']['rot'] = c['tail_rot']
     fl, hl = shape_at('fore_len', psi), shape_at('hind_len', psi)
@@ -125,7 +129,7 @@ def build_pose(c, mode='corrected'):
     lie = c['lie']
     h = stand_h * (1 - 0.16 * c['crouch']) * (1 - lie) + 26.0 * lie
     Xc = c['X']
-    u, v = P(Xc, 0, 0)
+    u, v = P(Xc, 0, DOG_Z)
     bob = c.get('bob', 0.0)
     g['tx'] = u; g['ty'] = v - (h + bob) * S_SCREEN
     # legs: IK to planted feet, blended with the lying fold
@@ -144,7 +148,7 @@ def build_pose(c, mode='corrected'):
         # target in screen: along the porch by home + gait, on the floor (near legs a little nearer the camera)
         Xf = Xc + mirror * home * S_SCREEN / KX + fwd * go
         zf = -0.07 * side * np.cos(np.radians(psi))
-        tu, tv = P(Xf, lift, zf)
+        tu, tv = P(Xf, lift, zf + DOG_Z)
         q = (Gi @ np.r_[tu, tv, 1])[:2]
         knee_t = np.array(SKEL[lo]['pivot'], float)
         b1 = knee_t - np.array(SKEL[up]['pivot'], float); b2 = ft - knee_t
@@ -192,7 +196,7 @@ def render_dog(p, info, H, W, c=None, mode='corrected'):
         g, a, bb = warp_layer(t, tpl.alpha[j], M[k], H, W, (0, 0), tpl.bbox[j], 1.0)
         if k[:2] in ('ff', 'hf'):
             # visibility layer: toward the front view the far legs pass behind the near legs and chest
-            a = a * (1 - 0.85 * smooth((info['psi'] - 45) / 30))
+            a = a * (0.0 if info['psi'] > 62 else 1.0)   # hard visibility switch, never translucent
         if bb is None:
             continue
         cfw, _, _ = warp_layer(cf, tpl.alpha[j], M[k], H, W, (0, 0), tpl.bbox[j], 1.0)

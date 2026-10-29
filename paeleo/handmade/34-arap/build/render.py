@@ -78,7 +78,7 @@ class Renderer:
                 pose = dict(pose); pose.update({k: v for k, v in pose_P(d, a).items() if k in ('settle', 'neck_a_lie', 'head_a_lie', 'tail_a_lie', 'neck_len', 'ear')})
                 pose['breath'] = a['breath'] * 0.6
             if sub.get('head_view') == 'L':
-                pose['head_view'] = 'L'; pose['L_a'] = 0.05
+                pose['head_view'] = 'L'; pose['L_a'] = -0.22
             if ex.get('head_flip'):
                 pose['head_flip'] = True
                 pose['head_flip_a'] = 0.15 if f['t'] > 7 else -0.35

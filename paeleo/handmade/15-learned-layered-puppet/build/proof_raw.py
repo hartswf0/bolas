@@ -6,7 +6,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import render as RD
 HERE = os.path.dirname(os.path.abspath(__file__))
 F = ImageFont.truetype(os.path.normpath(os.path.join(HERE, '../../../../tools/paeleo/fonts/f14.woff2')), 15)
-TIMES = [(3.62, 'turning (front view)'), (6.5, 'lying, back turned'), (7.62, 'looking back over the shoulder'),
+TIMES = [(3.55, 'turning (3/4 view)'), (6.5, 'lying, back turned'), (7.62, 'looking back over the shoulder'),
          (19.0, 'coming, head low'), (25.0, 'lying across the sill'), (27.3, 'looking in')]
 
 def crop(img, m, w=420, h=300):

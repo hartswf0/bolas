@@ -155,7 +155,7 @@ class DogRig:
         far = FAR + (['h2'] if lie > .3 else [])
         # lying: the far legs and the folded hind legs are under the dog, out of sight (no loop or hole under
         # the belly); only the near foreleg lies forward on the boards
-        hide = {n: float(np.clip((lie - .35) / .4, 0, 1)) for n in ['f1', 'h1', 'h2']}
+        hide = {n: float(np.clip((lie - .2) / .35, 0, 1)) for n in ['f1', 'h1', 'h2']}
         near = [n for n in NEAR if n not in far]
         look = params.get('look', 0)
         wB = 1.0 if (name == 'L' and look >= .3) else 0.0   # a cut on the head's lift, not a dissolve
@@ -181,7 +181,7 @@ class DogRig:
                 a = a * (1 - hide[pc])
             if pc == 'neck' and wB > 0:   # the head part gives way to the back-of-head piece; the neck stays
                 hm0 = ndimage.map_coordinates(pcs['headmap'], [fy, fx], order=1, mode='constant', cval=0)
-                a = a * (1 - wB * np.clip(hm0 * 2.2, 0, 1))
+                a = a * (1 - wB * np.clip(hm0 * 4.0, 0, 1))
                 hc_t = np.array([(xx * a).sum(), (yy * a).sum()]) / max(a.sum(), 1)
             if a.max() < 1e-3:
                 continue
