@@ -138,7 +138,7 @@ def load():
         above = pieces['body']
         dn = side(s['neckcut'], s['h']['nose'])
         dt = side(s['tailcut'], s['h']['tailtip'])
-        pieces['neck'] = above * np.clip((dn + 10) / 5., 0, 1)
+        pieces['neck'] = above * np.clip((dn + 14) / 10., 0, 1)   # wide feathered overlap: no seam at the join
         pieces['tail'] = above * np.clip((dt + 4) / 5., 0, 1) * (dn < 0)
         if s.get('notail'):   # frame 38: the tail is behind the dog, there is no tail to cut
             pieces['tail'] = pieces['tail'] * 0
@@ -171,6 +171,23 @@ def load():
     # keep the skull and ears: the mask's own outline above, a short feathered cut below (hidden on the neck)
     a = a * np.clip((112 - yy) / 3., 0, 1) * np.clip((156 - xx) / 3., 0, 1)
     out['B'] = dict(img=g, alpha=a, base=np.array([131., 118.]), top=np.array([129., 62.]), W=W, H=H)
+    # round 4: the back of the head, made in this swarm's material -- real fur pixels from kit frame 6 (the dark
+    # mane behind the dog's head) cut with a crisp drawn mask: a skull seen from behind with two pricked ears
+    L = out['L']
+    ss = 8
+    m = Image.new('L', (L['W'] * ss, L['H'] * ss), 0)
+    d = ImageDraw.Draw(m)
+    cx, cy = 132., 116.
+    P = lambda pts: [(x * ss, y * ss) for x, y in pts]
+    d.ellipse(P([(cx - 15, cy - 12), (cx + 15, cy + 13)]), fill=255)                  # skull
+    d.polygon(P([(cx - 16, cy - 4), (cx - 13, cy - 25), (cx - 4, cy - 9)]), fill=255)   # left ear
+    d.polygon(P([(cx + 16, cy - 4), (cx + 13, cy - 25), (cx + 4, cy - 9)]), fill=255)   # right ear
+    bm = np.asarray(m.resize((L['W'], L['H']), Image.LANCZOS), np.float32) / 255.
+    # the nape: fur running down into the neck, feathered so the join to the neck has no edge
+    yy, xx = np.mgrid[0:L['H'], 0:L['W']].astype(np.float32)
+    nape = np.clip(1 - np.abs(xx - cx) / 13., 0, 1) ** .5 * np.clip((cy + 24 - yy) / 14., 0, 1) * (yy > cy)
+    bm = np.maximum(bm, nape * .999)
+    out['BH'] = dict(img=L['img'], alpha=bm, ring=(bm > .5) * (yy < cy + 8), center=np.array([cx, cy]), W=L['W'], H=L['H'])
     return out
 
 

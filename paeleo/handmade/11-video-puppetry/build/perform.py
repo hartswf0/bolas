@@ -91,10 +91,13 @@ def build():
             # still lying, it swings its head up and back over its shoulder toward the door (7.46-7.60),
             # then the head comes forward again as the body turns
             # round 3: lying, the head is cut round to face the door (low, level) from 7.46 to 7.80
-            head = 0.5 + 0.4 * sm((t - 7.80) / 0.3)
+            head = 0.5 + 0.12 * sm((t - 7.80) / 0.3)
         # lying at the sill: looks in (score look), then settles chin down (score rest)
         if 7.458 <= t < 8.0:
             lie = min(1.0 if t < 7.78 else lie, 1 - sm((t - 7.78) / 0.30)); rest = min(rest, lie); crouch = min(crouch, .3)
+        # round 4: watching, the head is carried lower than the filmed howl (muzzle <= 30 deg above level)
+        if d['state'] == 'watch' and not (7.458 <= t < 8.2) and lie < .1:
+            head = min(head, 0.62)
         mov = a['moving']
         ft = feet(x, mov, PXM / sc) if lie < 0.5 else {}
         bob = -2.2 * abs(np.sin(2 * np.pi * (-x) / STRIDE * 2)) * mov if lie < .2 else 0.0

@@ -124,6 +124,8 @@ def frame(fr):
                hx=float(hx.mean()) if len(hx) else None, hy=float(hy.mean()) if len(hy) else None,
                det_min=L['det_min'], det_max=L['det_max'], withers_y=L['withers'][1],
                head_top=int(ht.min()) if len(ht) else None,
+               muzzle_deg=float(np.degrees(np.arctan2(-(L['T'][0][1] - (L['T'][1][1] + L['T'][2][1]) / 2),
+                                                     abs(L['T'][0][0] - (L['T'][1][0] + L['T'][2][0]) / 2)))),
                in_door=float(((xs >= DOOR[0]) & (xs <= DOOR[2])).mean()) if len(xs) else 0.0)
     return rec
 

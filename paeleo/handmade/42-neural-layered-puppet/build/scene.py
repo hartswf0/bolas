@@ -28,7 +28,7 @@ OUT = os.path.join(HERE, 'cache', 'frames'); os.makedirs(OUT, exist_ok=True)
 T_REFUSE = SCORE['choices'][2]['t']; T_WATCH2 = SCORE['choices'][3]['t']
 TURN_DUR = 0.55
 MID_VIEWS = [16, 17, 31, 38, 40]
-SWING_DUR = 0.28                          # 7.458 -> 7.708: the head comes round while the body is still down
+SWING_DUR = 0.36                          # 7.458 -> 7.708: the head comes round while the body is still down
 RISE = (T_WATCH2, T_WATCH2 + 0.42)
 TB0 = RISE[1]
 S_DOG = 1.55
@@ -125,10 +125,10 @@ def main():
     yy, xx = np.mgrid[0:Wo.Ht, 0:Wo.Wd].astype(np.float32)
     vign = (1 - 0.35 * (((xx - 640) / 900) ** 2 + ((yy - 380) / 600) ** 2)).clip(0.5, 1)[..., None]
     I3 = np.eye(3)
-    # head carried low: from the score's head intention, raised to 0.95 on the approach, then eased over 5 frames
+    # head carried low: from the score's head intention, raised to 0.95 on the approach, then eased over 3 frames
     hl = np.array([float(np.clip((0.9 - f['dog']['act']['head']) / 0.45, 0, 1)) for f in frames])
     hl = np.where([f['dog']['state'] == 'approach' for f in frames], np.maximum(hl, 0.95), hl)
-    HEADLOW = np.convolve(np.pad(hl, 3, mode='edge'), np.ones(7) / 7, 'valid')
+    HEADLOW = np.convolve(np.pad(hl, (3, 0), mode='edge'), np.ones(4) / 4, 'valid')   # eased over the 3 frames after a change
     hsel = np.isin(pp.lab, [k for k in (n['head'], n['neck']) if k >= 0])
     for fr in frames:
         i, t = fr['i'], fr['t']
@@ -257,6 +257,8 @@ def main():
             nk = n['neck'] if n['neck'] >= 0 else n['head']
             pv = pp.pivot[(nk, int(pp.parent[nk]))]
             rec['neck_hinge_xy'] = (G[nk] @ np.array([pv[0], pv[1], 1.0]))[:2].tolist()
+            hk_ = n['head']; pvh = pp.pivot[(hk_, int(pp.parent[hk_]))]
+            rec['head_hinge_xy'] = (G[hk_] @ np.array([pvh[0], pvh[1], 1.0]))[:2].tolist()
             for nm in ('foreleg', 'hind'):
                 kk = pp.lab == n[nm]
                 lo = q[kk][np.argsort(q[kk][:, 1])[-40:]].mean(0); rec[nm + '_foot'] = lo.tolist()

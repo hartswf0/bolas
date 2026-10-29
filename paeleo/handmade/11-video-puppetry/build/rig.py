@@ -82,9 +82,9 @@ def pose(canon, p, t=0.0, hg=1.0):
     T[hd] = canon[hd] - canon[IDX['neckbase']] + nb
     th = (0.9 - head) * 105
     th = lerp(th, 72, rest)
-    th = lerp(th, 40, look)   # level: the muzzle neither up toward the light nor down
+    th = lerp(th, 15, look)   # the neck lifts a little toward the opening (the head itself is the back-of-head piece)
     T[hd] = rot(T[hd], nb, -th * hg)
-    T[hd] += np.array([-24., -8.]) * look   # the neck reaches in over the sill, the muzzle into the lit room
+    T[hd] += np.array([-10., -4.]) * look
     # --- tail: rigid about its root (0 high, 0.5 as filmed, 1.35 tucked), plus wag
     tr = T[IDX['tailroot']]
     tl = [IDX['tailmid'], IDX['tailtip']]
@@ -160,7 +160,8 @@ class DogRig:
         hide = {n: float(np.clip((lie - .2) / .35, 0, 1)) for n in ['f1', 'h1', 'h2']}
         near = [n for n in NEAR if n not in far]
         look = params.get('look', 0)
-        wB = 0.0   # round 3: the frame-0 back-of-head piece is retired (it read as a lump); see pose() for looking in
+        wB = 0.0   # the frame-0 piece is retired (rounds 1-2)
+        wBH = 1.0 if (name == 'L' and not flip and look >= .3) else 0.0   # round 4: a hard cut, no dissolve
         # round 3, turning to look (7.46): still lying with its back turned, the dog turns its head round to the
         # door -- the head piece is cut to the unmirrored profile head (muzzle left), low and level, at the neck
         wLB = 1.0 if (name == 'L' and flip and params.get('lookback', 0) >= .5) else 0.0
@@ -187,8 +188,10 @@ class DogRig:
             if ground is not None and pc in LEGS and lie > 0:
                 a = a * np.clip((ground + 2 - yy) / 2., 0, 1)   # under the body, the boards hide the folded legs
             if pc == 'neck' and wLB > 0:
-                hm0 = ndimage.map_coordinates(pcs['headmap'], [fy, fx], order=1, mode='constant', cval=0)
-                a = a * (1 - np.clip(hm0 * 4.0, 0, 1))
+                continue   # its own (right-facing) head and neck give way to the turned-round neck piece
+            if pc == 'neck' and wBH > 0:   # the profile head gives way to the back of the head (feathered, wide)
+                hm1 = ndimage.map_coordinates(pcs['headmap'], [fy, fx], order=1, mode='constant', cval=0)
+                a = a * (1 - np.clip(hm1 * 2.0, 0, 1))
             if pc == 'neck' and wB > 0:   # the head part gives way to the back-of-head piece; the neck stays
                 hm0 = ndimage.map_coordinates(pcs['headmap'], [fy, fx], order=1, mode='constant', cval=0)
                 a = a * (1 - wB * np.clip(hm0 * 4.0, 0, 1))
@@ -205,22 +208,38 @@ class DogRig:
                 HW = hm * a + HW * (1 - a)
             else:
                 HW = HW * (1 - a)
+        sc = np.hypot(*(T[IDX['withers']] - T[IDX['chest']])) / np.hypot(*(Q[IDX['withers']] - Q[IDX['chest']]))
+
+        def lay(src_img, src_a, fx, fy, lift=1.0, outline=True, ring_src=None):
+            nonlocal G, A, HW
+            a = np.clip(ndimage.map_coordinates(src_a, [fy, fx], order=1, cval=0), 0, 1)
+            ar = a if ring_src is None else np.clip(ndimage.map_coordinates(ring_src, [fy, fx], order=1, cval=0), 0, 1)
+            g = np.clip(ndimage.map_coordinates(src_img, [fy, fx], order=3, cval=0) * lift, 0, 1)
+            if outline:  # a 1 px darker edge so the cut-out reads against the dog's own dark fur
+                ring = np.clip(ndimage.grey_dilation(ar, size=3) - a, 0, 1)
+                G = .08 * ring + G * (1 - ring); A = ring + A * (1 - ring)
+            G = g * a + G * (1 - a); A = a + A * (1 - a); HW = a + HW * (1 - a)
+            return a
+
         if wLB > 0:
+            # turning to look (7.46): the unmirrored head-and-neck piece pinned at the neck base, so the head lies
+            # turned back over the shoulder, muzzle toward the door, low and level
             Q0 = pz['src']
-            hid = [IDX[n] for n in ('nose', 'skull', 'throat')]
-            Th = T[hid].copy()
-            bx = (Th[1, 0] + Th[2, 0]) / 2
-            Th[:, 0] = 2 * bx - Th[:, 0]          # the same head, turned round: muzzle toward the door
-            Th[:, 0] -= 10 * (np.hypot(*(T[IDX['withers']] - T[IDX['chest']])) / np.hypot(*(Q0[IDX['withers']] - Q0[IDX['chest']])))
-            qc, pc_, M = rigid_fit(Q0[hid], Th)
+            nid = [IDX[n] for n in NECK]
+            V = (Q0[nid] - Q0[IDX['neckbase']]) * sc
+            V = rot(V, np.zeros(2), -44)                       # level: the filmed head is raised ~44 deg
+            Tn = T[IDX['neckbase']] + V + np.array([4, -2]) * sc
+            qc, pc_, M = rigid_fit(Q0[nid], Tn)
             z = ((xx - pc_[0]) + 1j * (yy - pc_[1])) / M
-            fx, fy = z.real + qc[0], z.imag + qc[1]
-            P0 = pz['pieces']
-            a = np.clip(ndimage.map_coordinates(P0['neck'] * np.clip(P0['headmap'] * 3.0, 0, 1), [fy, fx], order=1, cval=0), 0, 1)
-            g = np.clip(ndimage.map_coordinates(pz['img'], [fy, fx], order=3, cval=0), 0, 1)
-            G = g * a + G * (1 - a)
-            A = a + A * (1 - a)
-            HW = a + HW * (1 - a)
+            lay(pz['img'], pz['pieces']['neck'], z.real + qc[0], z.imag + qc[1], lift=1.18,
+                ring_src=pz['pieces']['neck'] * (pz['pieces']['headmap'] > .3))
+        if wBH > 0:
+            BH = self.P['BH']
+            hc = (T[IDX['skull']] * .5 + T[IDX['throat']] * .5) + np.array([2, -10]) * sc
+            Mh = sc * 1.05
+            z = ((xx - hc[0]) + 1j * (yy - hc[1])) / Mh
+            lay(BH['img'], BH['alpha'], z.real + BH['center'][0], z.imag + BH['center'][1], lift=1.0,
+                ring_src=BH['ring'].astype(np.float32))
         if wB > 0:
             # looking in: the head piece is replaced by the back of the head (kit frame 0), pinned at the neck
             B = self.P['B']
