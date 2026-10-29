@@ -80,7 +80,7 @@ class Poser:
         return rel
 
     def pose(self, phase=0.0, moving=0.0, head_low=0.0, lie=0.0, rest=0.0, look=0.0, crouch=0.0, breathe=0.0,
-             head_lift=0.0, wag=0.0):
+             head_lift=0.0, wag=0.0, lie_angles=None):
         """returns (T: K x 3x3 dog space, info dict).  head_low 0..1 (1 = the learned head-low), lie/rest/look 0..1"""
         n = self.n
         rel = lerp_rel(self.stand, self.gait(phase), np.clip(moving, 0, 1))
@@ -103,13 +103,17 @@ class Poser:
             if n['neck'] >= 0: ang[n['neck']] = ang.get(n['neck'], 0) - np.radians(48) * head_low
             ang[n['head']] = ang.get(n['head'], 0) - np.radians(18) * head_low
             ov = max(ov, 0.5 * head_low)
-        # lying down (override): fore leg forward along the boards, hind leg folded under, trunk lowered
+        # lying down (override): fore leg folded under the chest (elbow forward, paw tucked), hind leg folded up along
+        # the belly (drawn behind the trunk, the haunch stays in front), trunk lowered on to the boards
+        LA = dict(shoulder=10, foreleg=72, hind=120)
+        if lie_angles: LA.update(lie_angles)
+        self.pp.behind = {n['hind']} if lie > 0.5 else set()
         if lie > 0:
-            if n['foreleg'] >= 0: ang[n['foreleg']] = ang.get(n['foreleg'], 0) + np.radians(70) * lie
-            if n['shoulder'] >= 0: ang[n['shoulder']] = ang.get(n['shoulder'], 0) + np.radians(14) * lie
-            ang[n['hind']] = np.radians(92) * lie
+            if n['foreleg'] >= 0: ang[n['foreleg']] = ang.get(n['foreleg'], 0) + np.radians(LA['foreleg']) * lie
+            if n['shoulder'] >= 0: ang[n['shoulder']] = ang.get(n['shoulder'], 0) + np.radians(LA['shoulder']) * lie
+            ang[n['hind']] = np.radians(LA['hind']) * lie
             if n['tail'] >= 0 and int(self.pp.parent[n['tail']]) == n['hind']:
-                ang[n['tail']] = -np.radians(92) * lie - np.radians(6) * lie
+                ang[n['tail']] = -np.radians(LA['hind']) * lie
             ov = max(ov, lie)
         # chin down (override)
         if rest > 0:

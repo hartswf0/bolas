@@ -25,7 +25,7 @@ def structure_image(pp, scale=3, names=None, show_uncert=False):
     out = np.zeros((H, W, 4), np.float32)
     from scipy import ndimage
     ys, xs = np.nonzero(mk)
-    lab = pp.lab.reshape(-1, 9)[:, 4] if len(pp.lab) == 9 * len(xs) else None
+    lab = pp.lab[:9 * len(xs)].reshape(-1, 9)[:, 4]
     lab_img = -np.ones(mk.shape, int); lab_img[ys, xs] = lab
     big = np.kron(lab_img[y0:y1, x0:x1], np.ones((scale, scale), int))
     g = np.kron(im[y0:y1, x0:x1], np.ones((scale, scale)))

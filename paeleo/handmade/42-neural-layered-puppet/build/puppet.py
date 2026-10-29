@@ -74,6 +74,42 @@ class Puppet:
                 for k in range(self.K): rel[f, k] = R0 @ to3(A[f, k])
             self.lib[name] = rel
         self.order = np.argsort(self.depth_of_labels(), kind='stable')
+        self.add_tail()
+
+    def add_tail(self):
+        """the template frame shows only the root of the tail; the tail itself is cut from archive frame 6 of the same
+        dog (mask pixels right of x=224), pinned to the learned rump layer at its base, with its own wag hinge"""
+        import json as _j
+        n_ = None
+        kp = _j.load(open(os.path.join(KIT, 'pose_agent_v8.json')))[str(int(self.M['template_frame']))]
+        from scipy.spatial import cKDTree as _T
+        self.rump = int(self.M['lab'][_T(self.M['p']).query(kp['tail'])[1]])
+        im6, mk6 = load_frame(6)
+        ys, xs = np.nonzero(mk6); sel = xs >= 224; xs, ys = xs[sel], ys[sel]
+        off = np.array([-3.0, -6.0])
+        P = np.stack([xs, ys], 1).astype(np.float64)
+        offs = (np.arange(SUB) + 0.5) / SUB - 0.5
+        ox, oy = np.meshgrid(offs, offs)
+        P = (P[:, None, :] + np.stack([ox.ravel(), oy.ravel()], 1)[None]).reshape(-1, 2)
+        import fit as F
+        col = F.bil(ndimage.gaussian_filter(im6, 0.4), P[:, 0], P[:, 1])
+        soft = ndimage.gaussian_filter(mk6.astype(np.float32), 0.8)
+        al = np.clip(F.bil(soft, P[:, 0], P[:, 1]) * 1.6 - 0.3, 0, 1)
+        P = P + off
+        self.tail_base = np.array([221.0, 135.0])
+        nt = len(P); K = self.K
+        self.w = np.concatenate([np.concatenate([self.w, np.zeros((len(self.w), 1))], 1), np.tile(np.eye(K + 1)[K], (nt, 1))])
+        self.P = np.concatenate([self.P, P]); self.Ph = np.concatenate([self.P, np.ones((len(self.P), 1))], 1)
+        self.col = np.concatenate([self.col, col]); self.alpha = np.concatenate([self.alpha, al])
+        self.lab = np.concatenate([self.lab, np.full(nt, K)])
+        self.order = np.concatenate([np.arange(len(self.P) - nt, len(self.P)), self.order])   # tail drawn first (behind)
+        self.tail_angle = 0.0
+
+    def with_tail(self, T):
+        if T.shape[0] == self.K + 1: return T
+        c = self.tail_base; a = self.tail_angle
+        R = np.eye(3); cs, sn = np.cos(a), np.sin(a); R[:2, :2] = [[cs, -sn], [sn, cs]]; R[:2, 2] = c - R[:2, :2] @ c
+        return np.concatenate([T, (T[self.rump] @ R)[None]])
 
     def depth_of_labels(self):
         # authored layer order (manual override): the learned layers don't tell near from far; layers whose points sit
@@ -111,15 +147,20 @@ class Puppet:
     def render(self, T, place, canvas_rgb, canvas_a=None, tint=None, seam=True, pins=None, sel=None, hard=False):
         """T: K x 3x3 dog-space; place: 3x3 dog space -> screen.  Splats onto canvas (float HxWx3) in place.
         returns the screen points and alpha mask used for measurement"""
-        G = np.einsum('ij,kjl->kil', place, T)[:, :2]      # K x 2 x 3
+        T = self.with_tail(T)
+        G = np.einsum('ij,kjl->kil', place, T)[:, :2]      # K+1 x 2 x 3 (the last is the tail piece)
         Pk = np.einsum('kij,nj->kni', G, self.Ph)
-        wts = np.eye(self.K)[self.lab] if hard else self.w
+        wts = np.eye(self.K + 1)[self.lab] if hard else self.w
         q = np.einsum('nk,kni->ni', wts, Pk)
         H, W = canvas_rgb.shape[:2]
         xi = np.round(q[:, 0]).astype(int); yi = np.round(q[:, 1]).astype(int)
         ok = (xi >= 0) & (xi < W) & (yi >= 0) & (yi < H)
         if sel is not None: ok &= sel
-        o = self.order[ok[self.order]]
+        order = self.order
+        if getattr(self, 'behind', None):
+            b = np.isin(self.lab[order], list(self.behind))
+            order = np.concatenate([order[b], order[~b]])
+        o = order[ok[order]]
         acc = np.zeros((H, W), np.float32); col = np.zeros((H, W), np.float32); lab = -np.ones((H, W), np.int16)
         acc[yi[o], xi[o]] = self.alpha[o]; col[yi[o], xi[o]] = self.col[o]; lab[yi[o], xi[o]] = self.lab[o]
         x0, x1 = max(0, xi[ok].min() - 3), min(W, xi[ok].max() + 4)

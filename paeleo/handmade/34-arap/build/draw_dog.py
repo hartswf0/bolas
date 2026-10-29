@@ -257,6 +257,38 @@ def L_head():
     save('L_head', d, rgba, label, layers)
 
 
+# ------------------------------------------------------------------ lying (sphinx): its own rest mesh, so nothing folds
+def P_lie():
+    """The lying dog is its own drawing (the prompt's repair: change the rest mesh when ARAP reaches a good minimum but a
+    bad pose). Forelegs forward along the boards, the near hind leg folded with the hock on the ground, the tail laid
+    back. Same frame as P_body (facing left, ground 0); the neck tip is where P_head rides."""
+    d = Drawing(1320, 640, 680, 600)
+    FF = [(-165, 115), (-235, 52), (-405, 36), (-470, 26), (-505, 20)]
+    FN = [(-235, 120), (-300, 48), (-470, 34), (-540, 24), (-578, 18)]
+    FR = [56, 42, 31, 28, 22]
+    d.add('far_fore', d.capsules_mask(FF, FR), 0, ('axis', FF, FR), tone=0.22, spacing=12)
+    d.add('far_hind', d.capsules_mask([(70, 45), (25, 28), (-5, 22)], [30, 26, 22]), 0, ('dir', 0.05), tone=0.3, spacing=12)
+    tail = [(325, 235), (395, 190), (465, 125), (535, 72), (610, 44)]
+    d.add('tail', d.capsules_mask(tail, [42, 46, 40, 32, 18]), 1, ('axis', tail, [42, 46, 40, 32, 18]), tone=0.12, spacing=12)
+    torso = catmull([(-300, 30), (-368, 140), (-360, 250), (-305, 330), (-215, 362), (-100, 345), (30, 328), (160, 334),
+                     (270, 312), (335, 250), (348, 160), (322, 80), (255, 32), (150, 14), (0, 16), (-150, 20), (-250, 22)], 10)
+    d.add('torso', d.poly_mask(torso), 2, ('dir', -0.03), tone=0.0, spacing=14)
+    neck = catmull([(-300, 312), (-245, 364), (-280, 402), (-325, 440), (-385, 452), (-425, 407), (-418, 337),
+                    (-385, 242), (-350, 172)], 10)
+    d.add('neck', d.poly_mask(neck), 2, ('dir', 1.05), tone=-0.04, spacing=13)
+    d.add('near_shoulder', d.poly_mask(catmull([(-305, 275), (-215, 300), (-200, 205), (-225, 95), (-290, 70), (-330, 140),
+                                                 (-335, 220)], 8)), 3, ('dir', 1.35), tone=-0.05, spacing=12)
+    d.add('near_fore', d.capsules_mask(FN, FR), 3, ('axis', FN, FR), tone=-0.05, spacing=12)
+    d.add('near_thigh', d.ellipse_mask((200, 150), 118, 98, -0.25), 3, ('dir', 1.2), tone=0.0, spacing=12)
+    HN = [(285, 95), (300, 42), (200, 30), (120, 24), (82, 20)]
+    d.add('near_hind', d.capsules_mask(HN, [42, 32, 28, 26, 22]), 4, ('axis', HN, [42, 32, 28, 26, 22]), tone=0.05, spacing=12)
+    d.points = {k: np.array(v, float) for k, v in dict(
+        withers=(-215, 352), hip=(200, 160), neck_top=(-372, 420), tail_root=(325, 235), tail_mid=(465, 125),
+        tail_tip=(600, 46), FN_paw=(-545, 22), FF_paw=(-475, 24), HN_paw=(100, 22), HN_hock=(300, 42)).items()}
+    rgba, label, layers = d.render()
+    save('P_lie', d, rgba, label, layers)
+
+
 def preview_views():
     out = Image.new('RGBA', (1500, 700), (60, 70, 90, 255))
     x = 10
@@ -274,4 +306,4 @@ def preview_views():
 
 
 if __name__ == '__main__' and len(sys.argv) > 1 and sys.argv[1] == 'views':
-    R0_body(); R0_head(); F0_body(); F0_head(); L_head(); preview_views()
+    R0_body(); R0_head(); F0_body(); F0_head(); L_head(); P_lie(); preview_views()

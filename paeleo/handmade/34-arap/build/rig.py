@@ -66,7 +66,7 @@ class DogP:
         for L, part in LEGS.items():
             H[L + '_paw'] = b.group(p[L + '_heel'] + np.array([-25, -5]), 48, parts=[part], ymax=34)
             H[L + '_ankle'] = b.group(p[L + '_ankle'] + np.array([0, 12]), 20, parts=[part])
-            H[L + '_knee'] = b.group(p[L + '_knee'], 24, parts=[part])
+            H[L + '_knee'] = b.group(p[L + '_knee'], 30, parts=[part])
         self.H = {k: v for k, v in H.items() if len(v)}
         self.hcent = {k: b.V[v].mean(0) for k, v in self.H.items()}
         self.solver = ARAP(b.V, b.T, b.weight, self.H)
@@ -84,6 +84,29 @@ class DogP:
         self.neck_rest = self.hcent['neck']
         # where the head joint sits relative to the neck handle's centre, in rest
         self.joint_off = p['neck_top'] - self.neck_rest
+        # the lying body: its own rest mesh (nothing has to fold)
+        lb = Piece('P_lie'); self.lieb = lb; q = lb.pts
+        self.c_sh_l = np.array([-235.0, 222.0]); self.c_hip_l = np.array([200.0, 160.0])
+        K = {'shoulder': lb.group(self.c_sh_l, 52, parts=['torso', 'neck', 'near_shoulder']),
+             'hip': lb.group(self.c_hip_l, 55, parts=['torso', 'near_thigh']),
+             'neck': lb.group(q['neck_top'] + np.array([0, -15]), 42, parts=['neck']),
+             'tail_mid': lb.group(q['tail_mid'], 28, parts=['tail']),
+             'tail_tip': lb.group(q['tail_tip'] + np.array([-12, 0]), 26, parts=['tail']),
+             'FN_paw': lb.group(q['FN_paw'], 40, parts=['near_fore']), 'FF_paw': lb.group(q['FF_paw'], 36, parts=['far_fore']),
+             'HN_paw': lb.group(q['HN_paw'], 40, parts=['near_hind']), 'HN_hock': lb.group(q['HN_hock'], 28, parts=['near_hind'])}
+        self.K = {k: v for k, v in K.items() if len(v)}
+        self.kc = {k: lb.V[v].mean(0) for k, v in self.K.items()}
+        self.lsolver = ARAP(lb.V, lb.T, lb.weight, self.K)
+        self.neck_rest_l = self.kc['neck']; self.joint_off_l = q['neck_top'] - self.neck_rest_l
+        # the head turned into the room (three-quarter from behind)
+        lh = Piece('L_head'); self.lhead = lh
+        LG = {'skull': lh.group(np.array([0.0, 40.0]), 45, parts=['skull', 'ruff']),
+              'nose': lh.group(lh.pts['nose'] + np.array([14, -4]), 22, parts=['muzzle']),
+              'ear_near': lh.group(lh.pts['ear_near_tip'] + np.array([0, -14]), 18, parts=['ear_near']),
+              'ear_far': lh.group(lh.pts['ear_far_tip'] + np.array([0, -14]), 16, parts=['ear_far'])}
+        self.LG = {k: v for k, v in LG.items() if len(v)}
+        self.lgc = {k: lh.V[v].mean(0) for k, v in self.LG.items()}
+        self.lhsolver = ARAP(lh.V, lh.T, lh.weight, self.LG)
 
     # ---------------------------------------------------------------- pose -> handle targets
     def targets(self, pose):
@@ -129,13 +152,62 @@ class DogP:
                 tg[k] = rigid_targets(b.V, self.H[k], self.hcent[k], np.array([kx, ky]), pose.get('knee_a', {}).get(L, 0.0))
         return tg, neck_c, neck_a
 
+    def solve_lie(self, pose, iters=8):
+        lb = self.lieb
+        st = float(pose.get('settle', 0.0)); br = float(pose.get('breath', 0.0))
+        sh = self.c_sh_l + [0, st + br]; hip = self.c_hip_l + [0, 1.2 * st + 0.5 * br]
+        v0 = self.c_hip_l - self.c_sh_l; v1 = hip - sh
+        pitch = np.arctan2(v1[1], v1[0]) - np.arctan2(v0[1], v0[0])
+        tg = {'shoulder': rigid_targets(lb.V, self.K['shoulder'], self.c_sh_l, sh, pitch),
+              'hip': rigid_targets(lb.V, self.K['hip'], self.c_hip_l, hip, pitch)}
+        neck_a = pose.get('neck_a_lie', 0.0) + pitch
+        neck_c = sh + rot(self.neck_rest_l - self.c_sh_l, neck_a) * pose.get('neck_len', 1.0)
+        tg['neck'] = rigid_targets(lb.V, self.K['neck'], self.neck_rest_l, neck_c, neck_a)
+        ta = pose.get('tail_a_lie', 0.0)
+        root = lb.pts['tail_root']; root_new = hip + rot(root - self.c_hip_l, pitch)
+        tm = root_new + rot(self.kc['tail_mid'] - root, ta)
+        tt = root_new + rot(self.kc['tail_tip'] - root, ta * 1.3)
+        tg['tail_mid'] = rigid_targets(lb.V, self.K['tail_mid'], self.kc['tail_mid'], tm, ta)
+        tg['tail_tip'] = rigid_targets(lb.V, self.K['tail_tip'], self.kc['tail_tip'], tt, ta * 1.3)
+        for k in ('FN_paw', 'FF_paw', 'HN_paw', 'HN_hock'):
+            if k in self.K:
+                tg[k] = rigid_targets(lb.V, self.K[k], self.kc[k], self.kc[k] + [0, 0.25 * st if k == 'HN_hock' else 0], 0.0)
+        X = self.lsolver.solve_repair(tg, iters=iters)
+        nc = X[self.K['neck']].mean(0)
+        return X, nc + rot(self.joint_off_l, neck_a), neck_a
+
     def solve(self, pose, iters=8, X0=None, Xh0=None):
-        tg, neck_c, neck_a = self.targets(pose)
-        X = self.solver.solve_repair(tg, iters=iters, X0=X0)
-        # head: the joint rides the solved neck patch
-        nc = X[self.H['neck']].mean(0)
-        ha = neck_a + pose.get('head_a', 0.0)
-        joint = nc + rot(self.joint_off, neck_a)
+        if pose.get('body') == 'lie':
+            X, joint, neck_a = self.solve_lie(pose, iters)
+            self.cur_body = self.lieb
+            ha = neck_a + pose.get('head_a', 0.0)
+        else:
+            tg, neck_c, neck_a = self.targets(pose)
+            X = self.solver.solve_repair(tg, iters=iters, X0=X0)
+            nc = X[self.H['neck']].mean(0)
+            joint = nc + rot(self.joint_off, neck_a)
+            self.cur_body = self.body
+            ha = neck_a + pose.get('head_a', 0.0)
+        ear = pose.get('ear', 1.0)
+        if pose.get('head_view') == 'L':
+            # the head turned into the room: the back of the skull to us, the muzzle aimed away into the lit hall
+            lh = self.lhead; V = lh.V
+            ha = ha + pose.get('L_a', 0.0)
+            gt = {}
+            for k, idx in self.LG.items():
+                c = self.lgc[k]
+                fa = 0.0
+                if k.startswith('ear'):
+                    fa = -(1 - ear) * 0.9
+                    base = c + np.array([0, -95.0]); c2 = base + rot(c - base, fa)
+                else:
+                    c2 = c
+                gt[k] = rigid_targets(V, idx, c, joint + rot(c2, ha), ha + fa)
+            c_, s_ = np.cos(ha), np.sin(ha)
+            Xh0 = joint + np.stack([c_ * V[:, 0] - s_ * V[:, 1], s_ * V[:, 0] + c_ * V[:, 1]], 1)
+            Xh = self.lhsolver.solve_repair(gt, iters=10, X0=Xh0)
+            self.cur_head = lh; self.cur_head_nose = Xh[self.LG['nose']].mean(0); self.cur_head_joint = joint
+            return X, Xh
         flip = bool(pose.get('head_flip', False))
         sg = -1.0 if flip else 1.0
         if flip:      # the head looks the other way: its rest shape reflected (a Jacobian of determinant -1)
@@ -146,7 +218,6 @@ class DogP:
         gt = {}
         gt['skull'] = rigid_targets(V, self.G['skull'], gc['skull'], joint + rot(gc['skull'], ha), ha)
         gt['nose'] = rigid_targets(V, self.G['nose'], gc['nose'], joint + rot(gc['nose'], ha), ha)
-        ear = pose.get('ear', 1.0)
         for e, base in (('ear_near', hd.pts['ear_near_base']), ('ear_far', hd.pts['ear_near_base'] - [25, 0])):
             if e in self.G:
                 base = base * [sg, 1]
@@ -154,12 +225,11 @@ class DogP:
                 tip = base + rot(gc[e] - base, fa)
                 gt[e] = rigid_targets(V, self.G[e], gc[e], joint + rot(tip, ha), ha + fa)
         solver = self.hsolver_m if flip else self.hsolver
-        if flip != self._last_flip or getattr(self, '_cold', True):
-            c_, s_ = np.cos(ha), np.sin(ha)     # cold start: the rest head placed rigidly where it goes
-            Xh0 = joint + np.stack([c_ * V[:, 0] - s_ * V[:, 1], s_ * V[:, 0] + c_ * V[:, 1]], 1)
-            self._cold = False
-        Xh = solver.solve_repair(gt, iters=max(4, iters // 2), X0=Xh0)
-        self._last_flip = flip
+        c_, s_ = np.cos(ha), np.sin(ha)     # every frame starts from the rest head placed rigidly where it goes
+        Xh0 = joint + np.stack([c_ * V[:, 0] - s_ * V[:, 1], s_ * V[:, 0] + c_ * V[:, 1]], 1)
+        Xh = solver.solve_repair(gt, iters=10, X0=Xh0)
+        self.cur_head = hd; self.cur_head_flip = flip
+        self.cur_head_nose = Xh[self.G['nose']].mean(0); self.cur_head_joint = joint
         return X, Xh
 
 
@@ -170,7 +240,7 @@ def rest_pose(d):
         k = L + '_paw'
         pose['paws'][L] = (d.hcent[k][0], d.hcent[k][1], 0.0)
         pose['ankles'][L] = tuple(d.hcent[L + '_ankle'])
-    pose['knees'] = {L: tuple(d.hcent[L + '_knee']) for L in LEGS}
+    pose['knees'] = {L: tuple(d.hcent.get(L + '_knee', d.body.pts[L + '_knee'])) for L in LEGS}
     return pose
 
 
