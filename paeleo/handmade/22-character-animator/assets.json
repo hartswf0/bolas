@@ -1,0 +1,103 @@
+{
+ "about": "SCION 22 asset ledger. Nothing from the kit, the archive or the web is used: every piece of picture and sound is drawn or synthesized by the scripts in build/.",
+ "assets": [
+  {
+   "id": "felt_fibre",
+   "what": "the felt material: a 1024 px fibre tile (90,000 short random fibres + low-frequency mottling), fuzzy cut edges, drop shadows, running stitches",
+   "source": "build/felt.py",
+   "rights": "made here",
+   "operation": "synthesized"
+  },
+  {
+   "id": "dog_puppet",
+   "what": "the dog: layered puppet, named groups (Dog/Body/<view>/Torso, Saddle, Bib, Haunch, Shoulder; Dog/Legs/FN FF HN HF + Paw; Dog/Neck + Collar + Tag; Dog/Head/<view>/Skull, Cap, Muzzle, Nose, Mouth, Eye*/White Iris Pupil Glint Blink Brow, Ear near/far + Inner; Dog/Tail + Tip). Swap sets: body Side/Quarter/Back (mirrored), head Profile/QFront/QBack/Back",
+   "source": "build/rig.py (outlines drawn as Catmull-Rom control points in metres); tree exported to puppet/puppets.json",
+   "rights": "made here",
+   "operation": "drawn",
+   "note": "coat pattern (tan, dark saddle, cream chest and muzzle) is my own; no reference image was traced"
+  },
+  {
+   "id": "person_puppet",
+   "what": "the person: layered felt puppet, three-quarter view; mouth swap set of 12 visemes; ponytail dangle; limb IK",
+   "source": "build/rig.py",
+   "rights": "made here",
+   "operation": "drawn",
+   "note": "not a real or identifiable person"
+  },
+  {
+   "id": "set",
+   "what": "the felt-board set: dusk sky, moon, stitched stars, hills, trees, porch (deck, rail, post, roof, steps), house section (room, wallpaper, lamp, picture, bench, inner hall doorway, wall section, far door casing, sill), door leaf",
+   "source": "build/render.py",
+   "rights": "made here",
+   "operation": "drawn"
+  },
+  {
+   "id": "takes",
+   "what": "five takes (timed control tracks): capture (the PAELEO score's dog act tracks verbatim), triggers, head & body turner, eye gaze, person",
+   "source": "takes.json, from paeleo/handmade/score/threshold-score.json (PAELEO project)",
+   "rights": "project material",
+   "operation": "recorded as tracks; editor corrections listed in takes.json"
+  },
+  {
+   "id": "voice",
+   "what": "the person's five lines (Come here! x2, It's all right. x2, Come in.)",
+   "source": "build/voice.py (Klatt-style cascade formant synthesis, Rosenberg glottal pulse)",
+   "rights": "made here",
+   "operation": "synthesized; no recording, no TTS engine",
+   "levels": {
+    "lines": [
+     {
+      "text": "Come here!",
+      "start": 1.02,
+      "rms_dbfs_in_mix": -21.76
+     },
+     {
+      "text": "Come here!",
+      "start": 3.44,
+      "rms_dbfs_in_mix": -20.73
+     },
+     {
+      "text": "It's all right.",
+      "start": 7.46,
+      "rms_dbfs_in_mix": -32.39
+     },
+     {
+      "text": "It's all right.",
+      "start": 10.46,
+      "rms_dbfs_in_mix": -33.22
+     },
+     {
+      "text": "Come in.",
+      "start": 26.44,
+      "rms_dbfs_in_mix": -32.17
+     }
+    ],
+    "room_tone_dbfs_12_14s": -53.36,
+    "room_tone_dbfs_30_32s": -53.48,
+    "soft_below_calls_db": 10.41,
+    "soft_above_room_db": 20.14
+   }
+  },
+  {
+   "id": "visemes",
+   "what": "lip-sync track for the person",
+   "source": "puppet/visemes.json from build/visemes.py",
+   "rights": "made here",
+   "operation": "computed from the voice audio only (RMS, voicing, band-energy openness/frontness)"
+  },
+  {
+   "id": "sound",
+   "what": "crickets, air, claws on boards at the Walk behaviour's footfalls, collar tag, thumps and sighs, steps, bench, door creak (stick-slip pulses), clock and room hum after the door opens",
+   "source": "build/sound.py",
+   "rights": "made here",
+   "operation": "synthesized"
+  },
+  {
+   "id": "fonts",
+   "what": "card fonts Big Shoulders Display, JetBrains Mono",
+   "source": "tools/paeleo/fonts/ (repository copies, SIL Open Font License)",
+   "rights": "OFL",
+   "operation": "typeset on the cards"
+  }
+ ]
+}

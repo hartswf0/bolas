@@ -163,6 +163,16 @@
    "trick": "Discipline is what is not rigged: the drawing does the acting, the rig only carries it."
   },
   {
+   "id": 22,
+   "dir": "22-character-animator",
+   "name": "Character Animator",
+   "kind": "Performance puppet with behaviours",
+   "dog": "a layered felt puppet whose behaviours do the acting",
+   "made": "A digital felt the swarm made (a synthesized fibre texture, fuzzy cut edges, drop shadows between layers, running stitches), cut into named groups exported like a PSD puppet, with swap sets for the views: side, three-quarter and back bodies; profile, front, back three-quarter and back heads. The person and the place are made the same way; no kit or archive material is used.",
+   "moved": "A small runtime with Character Animator's behaviours: triggers, view swaps that cut rather than tween, gaze snapping to named targets, blink and breathe, dangle physics on the ears, tail and ponytail, planted-foot walking, and lip sync of the person from the voice track into the twelve standard mouth shapes. The dog's acting is five layered takes of timed control tracks; the end card says no camera or live performer exists here.",
+   "trick": "The puppet is never animated frame by frame: it is performed, and the performance is a file of takes."
+  },
+  {
    "id": 24,
    "dir": "24-live2d",
    "name": "Live2D lineage",
@@ -234,6 +244,16 @@
    "trick": "The dog bends where its triangles can keep their shape and nowhere else."
   },
   {
+   "id": 37,
+   "dir": "37-weighted-skinning",
+   "name": "Weighted skinning",
+   "kind": "One skin over a skeleton, weighted per vertex",
+   "dog": "one closed skinned mesh over 27 bones, coated in the archive dog's own film grain",
+   "made": "A single closed triangle mesh (about 7,200 vertices) grown by surface nets over a signed-distance sculpture on a 27-bone rest skeleton, with weights from heat diffusion on the cotangent Laplacian (the Pinocchio method), pruned to four bones per vertex. The coat is some 16,000 small patches of film pixels from the public-domain home-movie dog, kept hard-edged so the archive's grain shows. The person is a second skinned mesh in a wool coat.",
+   "moved": "Linear blend skinning and dual-quaternion skinning are both implemented; the film uses dual quaternions. A two-panel inset at the lie-down shows linear blend losing volume at the hock beside the fix, and the end card adds the weight maps and a 160° neck-twist stress test. Feet step on a gait clock with two-bone IK and do not slide.",
+   "trick": "The joints keep their girth because of how the skin is blended, and the film shows the version that does not."
+  },
+  {
    "id": 38,
    "dir": "38-drawing-library",
    "name": "Dynamic pose selection",
@@ -286,6 +306,16 @@
    "trick": "Each change to the dog is a named rule, so the film can say what it did and why."
   },
   {
+   "id": 44,
+   "dir": "44-multiplane-parallax",
+   "name": "Multiplane parallax",
+   "kind": "Spatial collage in depth, with a moving camera",
+   "dog": "thirty cut pieces of the archive dog, each at its own depth",
+   "made": "Fourteen collage planes at measured depths, from dusk clouds 140 m away (Top Of The Cloud) through trees, a real room behind the door (back wall, lamp, a hinged door leaf from Straight Talk), the clapboard wall at 0 m, the porch and a near railing. The dog is thirty cut-paper pieces textured from the home-movie dog, each set at its own depth so it has parallax of its own; the moon is a Quick, Draw! drawing, CC BY 4.0, credited.",
+   "moved": "The camera never rotates: it cranes down, trucks with the approach, and pushes through the railing to the doorway as the dog looks in, so depth is carried by how fast each plane moves. A foot planner keeps planted feet still; the pieces re-stack as the dog turns.",
+   "trick": "The room behind the door is a real deeper plane, so looking in has somewhere to go."
+  },
+  {
    "id": 45,
    "dir": "45-occlusion",
    "name": "Occlusion compositing",
@@ -315,6 +345,26 @@
    "made": "The seven spoken lines synthesized with CMU Flite, whose own phoneme timing is the film's clock; ten profile mouth shapes for the person; a dog of 172 distinct inked drawings in side, three-quarter and rear views; arcs at the mouth and at the dog's ear and paw ticks computed from the audio; every other sound synthesized and panned by screen position.",
    "moved": "A typed list of sound events places each line so that the vowel the dog answers, plus a hearing latency, lands on the score's choice; an exposure sheet names every frame's drawing, mouth, door and light. Drawings change on twos and the body moves only when a new drawing is shown, so planted feet stay planted; the turns pass through drawn views head first.",
    "trick": "The dog answers sounds, not lines: each choice is a measured lag after a vowel."
+  },
+  {
+   "id": 48,
+   "dir": "48-state-machines",
+   "name": "State machines",
+   "kind": "A dog whose refusal is its own decision",
+   "dog": "a segmented body posed by its own decision machine, cast into flip-discs",
+   "made": "The whole scene is a display board of 320×180 flip-discs and LEDs: what gives light is lit (the sky, the room), what receives light is flipped (dog, person, house). The dog is 27 rounded segments, posed each frame by the machine's body layer and cast into the discs with dark outlines, eye discs and a head line. The spoken words type out on a strip of the board; state names never appear.",
+   "moved": "A hierarchical utility state machine ticking 24 times a second, with drives (pressure, fear, memory of being pressed, curiosity, trust) and senses (it hears all round, but sees only where its head points, so with its back turned it misses the door and the low hand). Eleven parameters were tuned until its own choices fell on the score's times; the score's states are never an input. A relay clacks at each decision; the end card shows the states it took and the drive curves.",
+   "trick": "Nobody keyed the refusal: the dog decides it, and the board clacks when it does."
+  },
+  {
+   "id": 49,
+   "dir": "49-open-content-atelier",
+   "name": "Open-content atelier",
+   "kind": "Museum open-access objects, cut and recomposed",
+   "dog": "one pointer cut from a Currier & Ives print, hinged into every pose",
+   "made": "Every actor is a Smithsonian American Art Museum object marked CC0 on both the record and the image: the dog is the pointer from Currier & Ives, Woodcock Shooting (1973.122.4), cut into head, neck, torso, tail and two-part legs; the person is an Edouart cut-paper silhouette (1981.172.33) with an arm from another (1981.172.31); the door is José Dolores López's Screen Door (1989.30.3); the room is from E. F. Andrews's Interior of a House (1916.6.39); the dusk is MacGilvary's Twilight after the Rain (1913.3.3). The Getty hosts were refused by the proxy, so no Getty object is used, and the end card says so.",
+   "moved": "The same pieces of the one print are hinged differently for every pose: the creeping stalk of the original print for the approach, the head mirrored about the neck to look back over the shoulder, a fifteen-frame lowering into the lie, and the engraved head reaching level past the jamb into the lit room.",
+   "trick": "No line is drawn: every figure is a museum object, recomposed as an actor, with its object number on the card."
   },
   {
    "id": 50,
