@@ -54,7 +54,16 @@ were needed, not parameter tweaks: the arrival guard (approach used to give up 2
 only) from *unease* (a standing figure) so that backing stops when the calling stops.
 
 Machine decisions against the score (first frame in the new state, s): see `trace.json → machine_onsets`
-MACHINE_TABLE
+| choice | score | machine | dt |
+|---|---|---|---|
+| watch -> retreat | 1.0 | 1.125 | +0.125 |
+| retreat -> watch | 2.333 | 2.5 | +0.167 |
+| watch -> refuse | 3.417 | 3.5417 | +0.125 |
+| refuse -> watch | 7.458 | 7.5 | +0.042 |
+| watch -> approach | 14.708 | 14.6667 | -0.041 |
+| approach -> lie_down | 23.792 | 23.7917 | -0.000 |
+| lie_down.rest -> lie_down.look_in | 26.4 | 26.5 | +0.100 |
+| lie_down.look_in -> lie_down.rest | 28.1 | 28.0833 | -0.017 |
 
 ## The dog (build/render.py)
 
@@ -72,11 +81,22 @@ lain down, then the closer shot of the sill.
 
 ## Measured (from the render, trace.json → measured_onsets)
 
-MEASURED_TABLE
+| choice (measured on the board) | score | measured | dt |
+|---|---|---|---|
+| retreat (backs away) | 1.0 | 1.167 | +0.167 |
+| retreat -> watch (stops backing) | 2.333 | 2.375 | +0.042 |
+| refuse (head swings away) | 3.417 | 3.542 | +0.125 |
+| refuse -> watch (head comes round) | 7.458 | 7.5 | +0.042 |
+| approach (comes) | 14.708 | 14.625 | -0.083 |
+| lie_down (lowers onto the sill) | 23.792 | 23.917 | +0.125 |
+| looks in (head lifts into the doorway) | 26.4 | 26.375 | -0.025 |
+| settles (chin back down) | 28.1 | 28.125 | +0.025 |
 
-Invariants (tools/paeleo/check_handmade.py): INVARIANTS
+How measured: backing/coming = velocity of the torso cells cast onto the path; head swings = head-cell centroid moving > 6–8 px against the body cells; lying = height of the dog cells dropping 7 %. Smoothing (±2 frames) can pull an onset a frame or two early (approach −0.08, look-in −0.03 s).
 
-Sound (cache/sound_levels.json, measured on the synthesized stems): SOUND
+Invariants (tools/paeleo/check_handmade.py): ALL OK — I1 all six within 0.17 s (state = the machine's); I2 min x 0.6175, end 0.6175; I3 r = 0.998 on x_world_measured; I4 back turned in 98 % of refusal frames (facing measured from the cells).
+
+Sound (cache/sound_levels.json, measured on the synthesized stems): calls -16.5 dBFS RMS, soft phrases -28.3 (11.8 dB under the calls), room tone -47.6 (19.3 dB under the soft voice); peak 0.85.
 
 ## Protected conditions
 
@@ -93,8 +113,10 @@ looking in was a lift of the head toward the light. Each was repaired at its cau
 
 ## What is weak, unknown, not done
 
-- Scale: in the wide shot the dog is ~200 px long; the turn passes through a front view at about 3.9 s and 8.3 s that is
-  compact (face, chest, forelegs).
+- Scale: in the wide shot the dog is ~200 px long. The refusal turn passes through a rear view (rump, back of the head) at
+  3.6–3.8 s; the turn back passes a front view at 8.1–8.4 s, and while it rises (7.9–8.2 s) the legs unfold during the
+  first part of the turn and read busy.
+- Film checked on frames extracted from film.mp4 (proof/film_turn1.jpg, film_turn2.jpg, film_look.jpg, film_lie.jpg, film_wide.jpg).
 - The person is a secondary, simplified figure; the seated pose reads as a figure on the boards with bright hands, little more.
 - Voices are formant-synthesized: intelligible as prosody more than as words; the captions carry the words.
 - The board dither shimmers where things move (that is the material, but it costs detail).
