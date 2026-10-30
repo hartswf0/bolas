@@ -165,8 +165,8 @@ for leg in range(4):
         if y0 > 0.012 and y1 <= 0.012:
             x = sc[i]['feet'][leg][0]
             pan = max(-1, min(1, (330 + 200 * x) / 640 - 1))
-            g = 10 ** ((-34 + rng.uniform(-3, 2)) / 20)
-            place(knock(rng.uniform(170, 230), 0.012, 60, 0.9) / 2, OFF + i / 24, g, pan, 'paws'); paws += 1
+            g = 10 ** ((-17 + rng.uniform(-3, 2)) / 20)      # claws and pads on boards: audible over the room tone
+            kk = knock(rng.uniform(170, 230), 0.012, 60, 0.9); place(kk / np.max(np.abs(kk)), OFF + i / 24, g, pan, 'paws'); paws += 1
 for ts in (5.5, 5.8, 6.1):
     place(knock(95, 0.03, 120, 0.3) / 2, OFF + ts, 10 ** (-27 / 20), -0.8, 'steps')
 place(norm_rms(creak(0.4, 90, 60), -33), OFF + 6.55, 1.0, -0.8, 'crate')

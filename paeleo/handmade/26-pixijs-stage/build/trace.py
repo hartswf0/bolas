@@ -8,7 +8,7 @@ state: labelled from measured events, not copied from the score:
             (after refuse) the first frame the projected muzzle points back toward the door (head-led look back)
   approach  from the first frame the measured centroid moves toward the door (> 0.4 px/frame) after 14 s
   lie_down  from the first frame the body starts down at the sill (lie > 0.05)
-  look_in   (event, not a state) first frame the muzzle is > 0.1 m deeper in the scene than the skull (turned into the room)"""
+  look_in   (event, not a state) first frame the muzzle turns > 0.02 m deeper (relative to the skull) than when the head lies along the body (turned into the room)"""
 import json, os, math
 HERE = os.path.dirname(os.path.abspath(__file__)); FOLDER = os.path.dirname(HERE)
 ROOT = os.path.abspath(os.path.join(FOLDER, '../../..'))
@@ -30,7 +30,8 @@ on['refuse'] = first(lambda i: abs(fr[i]['q']['psiH'] - 168) > 12, 72)
 on['watch2'] = first(lambda i: fr[i]['muzzleDx'] < 0, 168)
 on['approach'] = first(lambda i: vel[i] < -0.4, 336)
 on['lie_down'] = first(lambda i: fr[i]['q']['lie'] > 0.05, 552)
-on['look_in'] = first(lambda i: fr[i]['muzzleDepth'] > 0.1, 600)
+base = fr[620]['muzzleDepth']   # lying, head along the body (which already lies into depth across the sill)
+on['look_in'] = first(lambda i: fr[i]['muzzleDepth'] > base + 0.02, 600)
 seq = [(0, 'watch'), (on['retreat'], 'retreat'), (on['watch1'], 'watch'), (on['refuse'], 'refuse'), (on['watch2'], 'watch'), (on['approach'], 'approach'), (on['lie_down'], 'lie_down')]
 def state(i):
     s = 'watch'

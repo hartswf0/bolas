@@ -1,0 +1,438 @@
+{
+ "about": "SCION 28 assets. Every picture element is a public-domain archive frame (copied into sources/) cut by masks and keys, or computed here. Quick, Draw! drawings are not used. No image from the web, no generative model.",
+ "unused_kit": [
+  "quickdraw",
+  "all other found-frames shots"
+ ],
+ "plates_measured": {
+  "yard_clean": {
+   "op": "tracked median of dog f000-f021 (camera.json track inverted), dog held out by SAM masks",
+   "source": "dog f000-f021",
+   "noise": 0.00581
+  },
+  "stone": {
+   "op": "crop of yard_clean: the stone pillar",
+   "source": "dog f000-f021",
+   "noise": 0.00581
+  },
+  "path": {
+   "op": "crop of yard_clean: the sunlit path (porch floor texture)",
+   "source": "dog f000-f021",
+   "noise": 0.00872
+  },
+  "door_leaf": {
+   "quad": [
+    [
+     112.0,
+     0.0
+    ],
+    [
+     239.0,
+     0.0
+    ],
+    [
+     218.0,
+     271.0
+    ],
+    [
+     122.0,
+     248.0
+    ]
+   ],
+   "op": "SAM mask of door f031, corner quad from the mask extremes",
+   "source": "door f031",
+   "noise": 0.00283
+  },
+  "wall": {
+   "op": "crop of door f031 right wall (switch masked by grade)",
+   "source": "door f031",
+   "noise": 0.00167
+  },
+  "room": {
+   "op": "door f031 whole frame as the far wall of the lit room (coats on hooks, closed inner door)",
+   "source": "door f031",
+   "noise": 0.00283
+  },
+  "floorwood": {
+   "op": "crop: wooden floor strip under the door",
+   "source": "door f031",
+   "noise": 0.00294
+  },
+  "woman0": {
+   "roto": [
+    [
+     262,
+     17
+    ],
+    [
+     283,
+     22
+    ],
+    [
+     290,
+     40
+    ],
+    [
+     288,
+     70
+    ],
+    [
+     296,
+     86
+    ],
+    [
+     318,
+     96
+    ],
+    [
+     325,
+     120
+    ],
+    [
+     325,
+     185
+    ],
+    [
+     318,
+     192
+    ],
+    [
+     312,
+     240
+    ],
+    [
+     305,
+     262
+    ],
+    [
+     282,
+     268
+    ],
+    [
+     272,
+     288
+    ],
+    [
+     215,
+     288
+    ],
+    [
+     212,
+     265
+    ],
+    [
+     212,
+     215
+    ],
+    [
+     205,
+     190
+    ],
+    [
+     197,
+     175
+    ],
+    [
+     196,
+     125
+    ],
+    [
+     205,
+     100
+    ],
+    [
+     226,
+     90
+    ],
+    [
+     240,
+     78
+    ],
+    [
+     236,
+     55
+    ],
+    [
+     240,
+     30
+    ]
+   ],
+   "op": "hand-drawn bezier roto (24 vertices, feather 1 px) of the woman in door f000",
+   "source": "door f000",
+   "noise": 0.00298
+  },
+  "stonewall": {
+   "op": "running-bond stone wall: 26x20 blocks resampled at random from the stone plate, darkened mortar",
+   "source": "dog f000-f021 (via stone)",
+   "noise": 0.00807
+  },
+  "flags": {
+   "op": "porch flagstones: 40x40 blocks resampled from the path plate, rotated, joints darkened",
+   "source": "dog f000-f021 (via path)",
+   "noise": 0.01359
+  },
+  "arm": {
+   "roto": [
+    [
+     186,
+     96
+    ],
+    [
+     192,
+     78
+    ],
+    [
+     212,
+     66
+    ],
+    [
+     240,
+     62
+    ],
+    [
+     282,
+     60
+    ],
+    [
+     330,
+     56
+    ],
+    [
+     384,
+     40
+    ],
+    [
+     384,
+     96
+    ],
+    [
+     340,
+     98
+    ],
+    [
+     296,
+     100
+    ],
+    [
+     262,
+     102
+    ],
+    [
+     232,
+     104
+    ],
+    [
+     206,
+     110
+    ],
+    [
+     192,
+     108
+    ]
+   ],
+   "op": "luma key (0.22..0.34) x bezier garbage matte excluding the card",
+   "source": "hand f010",
+   "noise": 0.00167
+  },
+  "seated": {
+   "op": "SAM mask x inverse luma key (snow > 0.93 removed)",
+   "source": "sleeping-bag f020",
+   "noise": 0.00844
+  }
+ },
+ "assets": [
+  {
+   "id": "dog-body",
+   "what": "the dog: body plate (torso without head and lower legs)",
+   "path": "sources/dog/f010.jpg + masks.json",
+   "operation": "SAM polygon re-drawn as a bezier mask (erode 0.6 px, feather 1.2 px) x subtract masks for head (expand -3) and belly line (feather 2.5); luma matched to mean 0.40 / std 0.21",
+   "source_title": "Amateur Film New Jersey C",
+   "archive_url": "https://archive.org/details/NewJerseyC",
+   "catalogue": "https://www.movingimagearchive.com/sources/amateur-film-new-jersey-c-c65a8960",
+   "clip_id": "2fdacde1-8a23-58e1-b905-5407385bd039",
+   "clip_video_url": "https://pub-075ff01374c04555b51c9bc50f258b42.r2.dev/sources/c65a8960-c79f-5f1c-a57a-832d4068764a/v4-conditional-luna-1/clips/2fdacde1-8a23-58e1-b905-5407385bd039.mp4",
+   "collection": "Home Movies (Internet Archive collection)",
+   "rights": "public_domain"
+  },
+  {
+   "id": "dog-legs",
+   "what": "the dog: fore-far, fore-near, hind legs (hind duplicated, darkened 0.72 and offset 8 px as the far hind leg)",
+   "path": "sources/dog/f010.jpg",
+   "operation": "bezier masks (8/6/6 vertices, feather 1.6) x SAM matte; rotated about shoulder/hip pivots with a foot lock (stance 60 %, stride 0.5 m)",
+   "source_title": "Amateur Film New Jersey C",
+   "archive_url": "https://archive.org/details/NewJerseyC",
+   "catalogue": "https://www.movingimagearchive.com/sources/amateur-film-new-jersey-c-c65a8960",
+   "clip_id": "2fdacde1-8a23-58e1-b905-5407385bd039",
+   "clip_video_url": "https://pub-075ff01374c04555b51c9bc50f258b42.r2.dev/sources/c65a8960-c79f-5f1c-a57a-832d4068764a/v4-conditional-luna-1/clips/2fdacde1-8a23-58e1-b905-5407385bd039.mp4",
+   "collection": "Home Movies (Internet Archive collection)",
+   "rights": "public_domain"
+  },
+  {
+   "id": "dog-head",
+   "what": "the dog: head + upper neck (watch, retreat, approach, lying, chin on paws, over-the-shoulder look back)",
+   "path": "sources/dog/f010.jpg",
+   "operation": "bezier mask 9 v, feather 2.2; rotated on the neck pivot to the score head/rest values",
+   "source_title": "Amateur Film New Jersey C",
+   "archive_url": "https://archive.org/details/NewJerseyC",
+   "catalogue": "https://www.movingimagearchive.com/sources/amateur-film-new-jersey-c-c65a8960",
+   "clip_id": "2fdacde1-8a23-58e1-b905-5407385bd039",
+   "clip_video_url": "https://pub-075ff01374c04555b51c9bc50f258b42.r2.dev/sources/c65a8960-c79f-5f1c-a57a-832d4068764a/v4-conditional-luna-1/clips/2fdacde1-8a23-58e1-b905-5407385bd039.mp4",
+   "collection": "Home Movies (Internet Archive collection)",
+   "rights": "public_domain"
+  },
+  {
+   "id": "dog-head-look",
+   "what": "the dog: back-of-head plate used while it looks in (26.5-28.35 s)",
+   "path": "sources/dog/f000.jpg",
+   "operation": "bezier mask 7 v x SAM; rotated -52 deg, scale 0.78, on the neck track; lit from behind",
+   "source_title": "Amateur Film New Jersey C",
+   "archive_url": "https://archive.org/details/NewJerseyC",
+   "catalogue": "https://www.movingimagearchive.com/sources/amateur-film-new-jersey-c-c65a8960",
+   "clip_id": "2fdacde1-8a23-58e1-b905-5407385bd039",
+   "clip_video_url": "https://pub-075ff01374c04555b51c9bc50f258b42.r2.dev/sources/c65a8960-c79f-5f1c-a57a-832d4068764a/v4-conditional-luna-1/clips/2fdacde1-8a23-58e1-b905-5407385bd039.mp4",
+   "collection": "Home Movies (Internet Archive collection)",
+   "rights": "public_domain"
+  },
+  {
+   "id": "dog-turn-plates",
+   "what": "the dog turning (3.45-3.95 s with its own head; 8.0-8.5 s with the head replaced on its neck track)",
+   "path": "sources/dog/f016,f026,f028,f032,f036,f040.jpg + pose_agent_v8.json (neck, nose)",
+   "operation": "SAM bezier matte; scaled to the f010 height, anchored at the feet; turn 2: head region subtracted (4-vertex mask along neck-nose, feather 3) and the f010 head parented to the plate neck key",
+   "source_title": "Amateur Film New Jersey C",
+   "archive_url": "https://archive.org/details/NewJerseyC",
+   "catalogue": "https://www.movingimagearchive.com/sources/amateur-film-new-jersey-c-c65a8960",
+   "clip_id": "2fdacde1-8a23-58e1-b905-5407385bd039",
+   "clip_video_url": "https://pub-075ff01374c04555b51c9bc50f258b42.r2.dev/sources/c65a8960-c79f-5f1c-a57a-832d4068764a/v4-conditional-luna-1/clips/2fdacde1-8a23-58e1-b905-5407385bd039.mp4",
+   "collection": "Home Movies (Internet Archive collection)",
+   "rights": "public_domain"
+  },
+  {
+   "id": "dog-camera-track",
+   "what": "the home movie camera motion track used to stabilise the yard",
+   "path": "sources/dog/camera.json",
+   "operation": "inverted per frame (verified: best integer shift equals -track, frames 5/10/15/20)",
+   "source_title": "Amateur Film New Jersey C",
+   "archive_url": "https://archive.org/details/NewJerseyC",
+   "catalogue": "https://www.movingimagearchive.com/sources/amateur-film-new-jersey-c-c65a8960",
+   "clip_id": "2fdacde1-8a23-58e1-b905-5407385bd039",
+   "clip_video_url": "https://pub-075ff01374c04555b51c9bc50f258b42.r2.dev/sources/c65a8960-c79f-5f1c-a57a-832d4068764a/v4-conditional-luna-1/clips/2fdacde1-8a23-58e1-b905-5407385bd039.mp4",
+   "collection": "Home Movies (Internet Archive collection)",
+   "rights": "public_domain"
+  },
+  {
+   "id": "stone-wall",
+   "what": "facade stone",
+   "path": "build/cache/plates/stone.jpg <- tracked median of f000-f021",
+   "operation": "tracked median clean plate (dog held out by SAM masks) -> pillar crop -> 26x18 px running-bond blocks resampled at random -> corner pin to the facade quad; dusk grade",
+   "source_title": "Amateur Film New Jersey C",
+   "archive_url": "https://archive.org/details/NewJerseyC",
+   "catalogue": "https://www.movingimagearchive.com/sources/amateur-film-new-jersey-c-c65a8960",
+   "clip_id": "2fdacde1-8a23-58e1-b905-5407385bd039",
+   "clip_video_url": "https://pub-075ff01374c04555b51c9bc50f258b42.r2.dev/sources/c65a8960-c79f-5f1c-a57a-832d4068764a/v4-conditional-luna-1/clips/2fdacde1-8a23-58e1-b905-5407385bd039.mp4",
+   "collection": "Home Movies (Internet Archive collection)",
+   "rights": "public_domain"
+  },
+  {
+   "id": "porch-flags",
+   "what": "porch floor",
+   "path": "build/cache/plates/path.jpg",
+   "operation": "path crop of the clean plate -> 40 px flagstones (random rotations) -> corner pin; dusk grade; door light pass",
+   "source_title": "Amateur Film New Jersey C",
+   "archive_url": "https://archive.org/details/NewJerseyC",
+   "catalogue": "https://www.movingimagearchive.com/sources/amateur-film-new-jersey-c-c65a8960",
+   "clip_id": "2fdacde1-8a23-58e1-b905-5407385bd039",
+   "clip_video_url": "https://pub-075ff01374c04555b51c9bc50f258b42.r2.dev/sources/c65a8960-c79f-5f1c-a57a-832d4068764a/v4-conditional-luna-1/clips/2fdacde1-8a23-58e1-b905-5407385bd039.mp4",
+   "collection": "Home Movies (Internet Archive collection)",
+   "rights": "public_domain"
+  },
+  {
+   "id": "door-leaf",
+   "what": "the door",
+   "path": "sources/door/f031.jpg + masks.json",
+   "operation": "SAM mask (feather 0.7), corner quad from mask extremes, corner-pinned to the leaf swing (24 deg ajar, 98 deg open from 6.2 s)",
+   "source_title": "Straight Talk (NTIS, 1992)",
+   "archive_url": "https://archive.org/details/gov.ntis.ava19144vnb1",
+   "catalogue": "https://www.movingimagearchive.com/sources/straight-talk-583ba802",
+   "clip_id": "271d80c7-4f56-51b8-90fe-012dfb984b4f",
+   "clip_video_url": "https://pub-075ff01374c04555b51c9bc50f258b42.r2.dev/sources/583ba802-c8e1-5981-ba5f-1af2ab829405/v4-conditional-luna-1/clips/271d80c7-4f56-51b8-90fe-012dfb984b4f.mp4",
+   "rights": "public_domain"
+  },
+  {
+   "id": "room",
+   "what": "the lit room seen through the door (far wall with coats, an inner door), side wall, wooden floor",
+   "path": "sources/door/f031.jpg",
+   "operation": "corner pins onto interior quads; warm lamp grade x lamp level",
+   "source_title": "Straight Talk (NTIS, 1992)",
+   "archive_url": "https://archive.org/details/gov.ntis.ava19144vnb1",
+   "catalogue": "https://www.movingimagearchive.com/sources/straight-talk-583ba802",
+   "clip_id": "271d80c7-4f56-51b8-90fe-012dfb984b4f",
+   "clip_video_url": "https://pub-075ff01374c04555b51c9bc50f258b42.r2.dev/sources/583ba802-c8e1-5981-ba5f-1af2ab829405/v4-conditional-luna-1/clips/271d80c7-4f56-51b8-90fe-012dfb984b4f.mp4",
+   "rights": "public_domain"
+  },
+  {
+   "id": "casing-sill",
+   "what": "door casing (white painted wall plate) and the sill board (floor strip)",
+   "path": "sources/door/f031.jpg",
+   "operation": "crops, corner pins, dusk grade; the sill front and top give the sill holdout matte",
+   "source_title": "Straight Talk (NTIS, 1992)",
+   "archive_url": "https://archive.org/details/gov.ntis.ava19144vnb1",
+   "catalogue": "https://www.movingimagearchive.com/sources/straight-talk-583ba802",
+   "clip_id": "271d80c7-4f56-51b8-90fe-012dfb984b4f",
+   "clip_video_url": "https://pub-075ff01374c04555b51c9bc50f258b42.r2.dev/sources/583ba802-c8e1-5981-ba5f-1af2ab829405/v4-conditional-luna-1/clips/271d80c7-4f56-51b8-90fe-012dfb984b4f.mp4",
+   "rights": "public_domain"
+  },
+  {
+   "id": "person-standing",
+   "what": "the person in the doorway, as a backlit silhouette",
+   "path": "sources/door/f000.jpg",
+   "operation": "hand-drawn 24-vertex bezier roto, plate extended 46 px below the frame edge (the source ends at mid-calf), graded to 7 % (silhouette); held out by the facade",
+   "source_title": "Straight Talk (NTIS, 1992)",
+   "archive_url": "https://archive.org/details/gov.ntis.ava19144vnb1",
+   "catalogue": "https://www.movingimagearchive.com/sources/straight-talk-583ba802",
+   "clip_id": "271d80c7-4f56-51b8-90fe-012dfb984b4f",
+   "clip_video_url": "https://pub-075ff01374c04555b51c9bc50f258b42.r2.dev/sources/583ba802-c8e1-5981-ba5f-1af2ab829405/v4-conditional-luna-1/clips/271d80c7-4f56-51b8-90fe-012dfb984b4f.mp4",
+   "rights": "public_domain"
+  },
+  {
+   "id": "person-seated",
+   "what": "the person sitting beside the door",
+   "path": "sources/sleeping-bag/f020.jpg + masks.json",
+   "operation": "SAM matte x inverse luma key (snow > 0.93 removed), mirrored, desaturated, dusk grade + door light",
+   "source_title": "Survival Stresses",
+   "archive_url": "https://archive.org/details/hmdvid-101704143",
+   "clip_id": "1d980180-c1d2-58d9-a3ae-de422a3e2db2",
+   "rights": "public_domain"
+  },
+  {
+   "id": "arm",
+   "what": "the reaching arm (3.4-4.6 s) and the low hand (6.8 s on)",
+   "path": "sources/hand/f010.jpg",
+   "operation": "luma key 0.22-0.34 x bezier garbage matte that leaves out the card; mirrored; parented to the person's shoulder",
+   "source_title": "Door to Heaven, The (1941)",
+   "archive_url": "https://archive.org/details/DoortoHe1941",
+   "clip_id": "0870ef3a-b328-5284-890b-3e1ac18057c1",
+   "rights": "public_domain"
+  },
+  {
+   "id": "light",
+   "what": "door light pass",
+   "path": "build/setplates.py light_at()",
+   "operation": "a lamp inside the room shining through the aperture left by the door leaf; one function lights the floor, the sill, the dog and the person",
+   "rights": "own computation"
+  },
+  {
+   "id": "sound",
+   "what": "all sound",
+   "path": "build/sound.py",
+   "operation": "formant-synthesized voice, footfalls on the rig's own foot plants, door creak, room hum, dusk crickets",
+   "rights": "own synthesis"
+  },
+  {
+   "id": "fonts",
+   "what": "card fonts",
+   "path": "tools/paeleo/fonts/f8.woff2, f14.woff2",
+   "operation": "used as is",
+   "rights": "SIL Open Font License (Big Shoulders Display, JetBrains Mono)"
+  }
+ ]
+}

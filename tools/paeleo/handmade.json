@@ -231,8 +231,7 @@
    "dog": "a dog of 652 public-domain archive fragments on a 3D skeleton",
    "made": "966 fragments in one 2048 px texture atlas, cut from public-domain archive shots in the kit (coat from the archive dog's own masks, pale fur from a lion, dark ears from a tiger), Quick, Draw! drawings and own work; atlas.json records each fragment's source, frame, crop and mask.",
    "moved": "PixiJS 7.4.2 in headless Chromium: six depth layers, an alpha mask cut to the door, five render textures per frame (dog body, dog head, person, light, stage), a threshold-and-outline shader that turns fragment clouds into a silhouette, and a grain pass; 31 draw calls a frame. The fragments are posed each frame on a skeleton with planted feet.",
-   "trick": "Hundreds of small fragments, texture-batched, are held together into one animal by masks and render-texture passes.",
-   "status": "in repair after critic round 1"
+   "trick": "Hundreds of small fragments, texture-batched, are held together into one animal by masks and render-texture passes."
   },
   {
    "id": 27,
@@ -243,6 +242,17 @@
    "made": "Real Remotion 4 with React, installed in the folder: the score compiled into a typed manifest, one record per frame, that fails on any missing value; frame-pure React components that draw each frame as SVG from its record alone; a dog of 34 tapered capsules and two ear triangles on a 3-D joint graph, its proportions the medians of the archive dog's rig keys; a matte composition of the same dog for measurement. All sound synthesized as events.",
    "moved": "Position along the porch is exactly the score's x; a stepping solver keeps each paw fixed until a step carries it; capsules seen end-on are discs, so both turns pass through the face. Ten frames rendered twice give identical hashes. The licence tier for Remotion's free use is flagged for the operator to confirm.",
    "trick": "The film is a pure function of its description: render it twice and every frame is the same."
+  },
+  {
+   "id": 28,
+   "dir": "28-mask-plate-foundry",
+   "name": "Mask and plate foundry",
+   "kind": "Compositor's film of archive plates",
+   "dog": "a dog composited from public-domain home-movie plates cut by animated masks",
+   "made": "Public-domain archive plates from the kit: Amateur Film New Jersey C (the dog, the facade and porch, stabilised and median-stacked into a clean plate), Straight Talk (door, room and standing person), Survival Stresses (the seated person) and Door to Heaven (1941, the arm). One standing dog frame is split by masks into body, legs and head; six of the dog's own turn frames carry the turns.",
+   "moved": "A layer compositor written for the film: keyframed bezier masks with feather and expand, parented transforms, corner pins from one locked camera, an inverted camera track, holdout mattes at the door frame and sill, luma keys, roto, and one door-light function lighting floor, sill, dog and person. The score drives the dog's root track; feet lock to the floor by distance travelled.",
+   "trick": "Plates from different films are pinned, held out and lit until they share one shot, and the dog performs by animating its masks.",
+   "status": "in repair after critic round 1"
   },
   {
    "id": 29,

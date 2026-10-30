@@ -147,35 +147,38 @@ function buildDogTimeline() {
     // body yaw (deg). 168 = toward the door. Turn away through the camera side (270) to 345; back the same way.
     let psi = 168;
     if (t >= 3.44 && t < 7.86) psi = lerp(168, 345, ss(3.44, 3.98, t));
-    if (t >= 7.86) psi = lerp(345, 168, ss(7.86, 8.62, t));
+    if (t >= 7.86) psi = t < 8.75 ? lerp(345, 528, ss(8.0, 8.75, t)) : 168;     // rises, then turns back through its far side (528 = 168 + 360)
     if (t >= 14.6) {
       const dzdx = (zPath(xb + 0.01) - zPath(xb - 0.01)) / 0.02;
       let tan = Math.atan2(-dzdx, -1) / D2R; if (tan < 0) tan += 360;   // heading when moving toward -x along the path
       psi = lerp(168, tan, ss(14.6, 15.3, t));
-      psi = lerp(psi, 162, ss(23.5, 24.5, t));
+      psi = lerp(psi, 138, ss(23.4, 24.3, t));           // lies across the sill in depth
     }
     // head yaw, world
     let psiH = psi;
     if (t >= 3.3 && t < 7.4) psiH = t < 3.98 ? lerp(168, 345, ss(3.38, 3.88, t)) : psi;       // the head goes first
-    if (t >= 7.4 && t < 7.86) psiH = lerp(345, 185, ss(7.40, 7.72, t));                     // head-led look back: muzzle to the door, body still down
-    if (t >= 7.86 && t < 8.62) psiH = psi - 160 * (1 - ss(7.86, 8.62, t));
+    // head-led look back: the head swings over the far shoulder (never face-on to the camera) to point at the door while the body is still down
+    if (t >= 7.38 && t < 8.75) psiH = Math.max(lerp(345, 530, ss(7.38, 7.6, t)), psi);
+    if (t >= 8.0 && t < 8.75) psiH = lerp(530, 528, ss(8.0, 8.75, t));
     if (t >= 23.5) psiH = lerp(psi, 92, a.look);                                             // looking in: muzzle into the room (+z)
     // head pitch (neck angle, deg)
     let hd = a.head;
     let neck = interp(hd, [0, 0.15, 0.45, 0.7, 0.9, 1.2], [-52, -46, -34, 6, 38, 48]);
     if (t > 7.4 && t < 7.9) neck = Math.max(neck, lerp(-46, 42, ss(7.4, 7.7, t)));
     if (t > 3.4 && t < 4.1) neck = Math.max(neck, 12 * Math.sin(Math.PI * clamp((t - 3.4) / 0.7)));        // head comes up with the look
-    if (t >= 14.6 && t < 23.6) neck = Math.min(neck, -30);                                    // head low for the whole approach
+    if (t >= 14.6 && t < 23.8) neck = Math.min(neck, lerp(-30, -46, ss(14.6, 15.2, t)));     // head low (below the back) for the whole approach
     neck = lerp(neck, -40, a.rest);
+    if (t > 7.95 && t < 8.85) neck = Math.min(neck, lerp(38, 14, Math.sin(Math.PI * clamp((t - 7.95) / 0.9))));   // keep the head level through the turn (no giraffe)
     if (t >= 23.5) neck = Math.min(neck, lerp(8, 2, a.look));
     let lie = a.lie;
-    if (t >= 23.0) lie = ss(23.79, 24.55, t);                                                // lies down on the sill, own timing
+    if (t >= 7.0 && t < 9.0) lie = 1 - ss(7.74, 8.1, t);                                      // stays down while the head looks; then rises
+    if (t >= 23.0) lie = ss(23.70, 24.30, t);                                                // lies down on the sill, own timing
     const crouch = a.crouch;
-    T.push({ i, t, x: xb, xs: x, z, psi, psiH, neck, lie, crouch, rest: a.rest, look: a.look, ear: a.ear, tail: a.tail, wag: a.wag, moving: a.moving });
+    T.push({ i, t, x: xb, xs: x, z, psi, psiH, neck, lie, crouch, rest: a.rest, look: a.look, ear: (t >= 14.6 && t < 23.8) ? Math.min(a.ear, 0.2) : a.ear, tail: a.tail, wag: a.wag, moving: a.moving });
   }
   // gait phase from distance travelled + turning (feet account for travel and for turning on the spot)
   for (let i = 0; i < n; i++) {
-    if (i > 0) { const p = T[i - 1], c = T[i]; phase += (Math.hypot(c.x - p.x, c.z - p.z) + 0.24 * Math.abs(c.psi - p.psi) * D2R) * 2 * Math.PI / 0.55; }
+    if (i > 0) { const p = T[i - 1], c = T[i]; phase += (Math.hypot(c.x - p.x, c.z - p.z) + 0.24 * Math.abs(((c.psi - p.psi + 540) % 360) - 180) * D2R) * 2 * Math.PI / 0.55; }
     T[i].phase = phase;
   }
   DOG.T = T;
@@ -564,8 +567,8 @@ function buildStage() {
   ST.lightC = new PIXI.Container();
   ST.lightPoly = new PIXI.Graphics(); ST.lightC.addChild(ST.lightPoly);
   ST.shadowC = new PIXI.Container(); ST.lightC.addChild(ST.shadowC);
-  ST.shadowSp = []; for (let k = 0; k < 260; k++) { const sp = new PIXI.Sprite(TEX.soft); sp.anchor.set(0.5); sp.tint = 0x000000; sp.visible = false; ST.shadowC.addChild(sp); ST.shadowSp.push(sp); }
-  ST.lightC.filters = [new PIXI.BlurFilter(5, 3)];
+  ST.shadowSp = []; for (let k = 0; k < 900; k++) { const sp = new PIXI.Sprite(TEX.soft); sp.anchor.set(0.5); sp.tint = 0x000000; sp.visible = false; ST.shadowC.addChild(sp); ST.shadowSp.push(sp); }
+  ST.lightC.filters = [new PIXI.BlurFilter(2, 2)];
   ST.lightSp = new PIXI.Sprite(ST.lightRT); ST.lightSp.scale.set(2); ST.lightSp.blendMode = PIXI.BLEND_MODES.ADD; ST.lightSp.tint = 0xffb878; L.floor.addChild(ST.lightSp);
   // contact shadows (multiplied darkness under feet and body)
   ST.contact = new PIXI.Container(); L.floor.addChild(ST.contact);
@@ -662,7 +665,7 @@ function renderScene(i) {
   const P = poolPoly(t);
   g.beginFill(0xffffff, 0.30 + 0.70 * open); g.drawPolygon(P.flatMap(p => { const s = proj(p); return [s[0] / 2, s[1] / 2]; })); g.endFill();
   g.beginFill(0xffffff, 0.5 * (0.3 + 0.7 * open)); const d0 = proj(V(0, 0, 0)); g.drawEllipse(d0[0] / 2, d0[1] / 2 + 6, 70 * (0.2 + 0.8 * open), 14); g.endFill();
-  const castPts = dogPts.filter((_, k) => k % 3 === 0).concat(perPts.filter((_, k) => k % 3 === 0));
+  const castPts = dogPts.concat(perPts.filter((_, k) => k % 2 === 0));
   let sk = 0;
   for (const p of castPts) {
     if (sk >= ST.shadowSp.length) break;
@@ -670,7 +673,7 @@ function renderScene(i) {
     const tt = LAMP.y / (LAMP.y - p.y), s = add(LAMP, mul(sub(p, LAMP), tt));
     if (s.z > 0.05 || s.z < -2.3) continue;
     const sp = ST.shadowSp[sk++], q = proj(s);
-    sp.visible = true; sp.position.set(q[0] / 2, q[1] / 2); sp.scale.set(0.11 * tt * S / 2 / 48 * 2.2, 0.06 * tt * S / 2 / 48 * 2.2); sp.alpha = 0.85;
+    sp.visible = true; sp.position.set(q[0] / 2, q[1] / 2); sp.scale.set(0.075 * Math.min(tt, 2.2) * S / 2 / 48 * 1.5, 0.05 * Math.min(tt, 2.2) * S / 2 / 48 * 1.5); sp.alpha = 0.6;
   }
   for (; sk < ST.shadowSp.length; sk++) ST.shadowSp[sk].visible = false;
   ST.lightSp.alpha = 0.9;
@@ -778,6 +781,9 @@ window.STAGE = {
       out.muzzleDx = mz[0] - sk[0]; out.muzzleDy = mz[1] - sk[1];
       out.muzzleDepth = dep(D.muz) - dep(D.skull);
       out.headY = proj(D.skull)[1]; out.backY = Math.min(proj(D.chest)[1], proj(D.rump)[1]) - D.G.torsoF.r1[1] * S * COS;
+      const upv = V(0, 1, 0), G = D.G;
+      out.headTopY = Math.min(proj(G.earL.p1)[1], proj(G.earR.p1)[1], proj(add(D.skull, mul(upv, 0.066)))[1]);
+      out.backTopY = Math.min(proj(add(G.torsoF.p1, mul(upv, G.torsoF.r1[1])))[1], proj(add(G.torsoF.p0, mul(upv, G.torsoF.r0[1])))[1], proj(add(G.torsoR.p0, mul(upv, G.torsoR.r0[1])))[1]);
       out.chestY = D.chest.y; out.feet = D.feet.map(f => [+f.p.x.toFixed(3), +f.p.y.toFixed(3), +f.p.z.toFixed(3)]);
       out.personX = res.Pp.q.x;
     }

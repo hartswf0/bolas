@@ -1,5 +1,6 @@
 {
- "about": "SCION-26 assets. Per-fragment provenance (file, frame, crop box, mask rule) is in build/atlas/atlas.json.",
+ "about": "SCION-26 assets, grouped by source shot. THE PER-FRAGMENT PROVENANCE RECORD IS build/atlas/atlas.json (kept in this folder): for every one of the atlas frames it gives the source file, shot, frame index, crop box in source pixels, mask rule and operation. Atlas frame names are <class>_<nnn> (fur_dog, fur_lion, fur_cat, dark, coat, sky, star, wood) or named cut-outs (hand, lantern, doorleaf, picture, cloudbank_k, qd_*); the prefix maps to the assets below.",
+ "provenance_record": "build/atlas/atlas.json",
  "atlas": "build/atlas/atlas.png (2048x2048, 966 frames)",
  "assets": [
   {
