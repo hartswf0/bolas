@@ -242,7 +242,7 @@ def render(rec, scene_t):
     if lamp > 0.02:
         al0 = cv.split()[3]
         edge = (np.array(al0).astype(float) - np.array(al0.filter(ImageFilter.MinFilter(5))).astype(float)) / 255
-        col = col + edge[:, :, None] * lamp * 150 * WARM
+        col = col + edge[:, :, None] * lamp * 55 * WARM
     a[:, :, :3] = col
     cvg = Image.fromarray(a.clip(0, 255).astype(np.uint8), 'RGBA')
     # contact shadow under the dog (computed from its own alpha, squashed to the floor)
