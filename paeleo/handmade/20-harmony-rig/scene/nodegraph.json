@@ -1,0 +1,493 @@
+{
+ "about": "SCION 20 node network. Pegs carry transforms, Elements expose drawings from the exposure sheet column, deformers bend drawing points before the peg, composites order the elements; Light mixes the dusk and lamp palettes.",
+ "nodes": [
+  {
+   "id": "XSHEET",
+   "type": "ExposureSheet",
+   "inputs": [],
+   "params": {
+    "file": "scene/xsheet.json"
+   },
+   "pos": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "LIB",
+   "type": "DrawingLibrary",
+   "inputs": [],
+   "params": {
+    "file": "scene/library.json"
+   },
+   "pos": [
+    0,
+    1
+   ]
+  },
+  {
+   "id": "PALETTE",
+   "type": "Palette",
+   "inputs": [],
+   "params": {
+    "file": "scene/palette.json",
+    "palettes": [
+     "dusk",
+     "lamp"
+    ]
+   },
+   "pos": [
+    0,
+    2
+   ]
+  },
+  {
+   "id": "CAM",
+   "type": "Camera",
+   "inputs": [
+    "XSHEET"
+   ],
+   "params": {
+    "X0": 315,
+    "K": 198,
+    "FLOOR": 620,
+    "zoom": "cam_z",
+    "center": [
+     "cam_cx",
+     "cam_cy"
+    ],
+    "note": "static wide until 23 s, then a push-in on the doorway"
+   },
+   "pos": [
+    0,
+    3
+   ]
+  },
+  {
+   "id": "LIGHT",
+   "type": "Light",
+   "inputs": [
+    "XSHEET",
+    "CAM"
+   ],
+   "params": {
+    "field": "spill",
+    "key_dusk": [
+     0.6,
+     -0.8
+    ],
+    "key_lamp": [
+     -0.93,
+     -0.36
+    ]
+   },
+   "pos": [
+    1,
+    3
+   ]
+  },
+  {
+   "id": "BG",
+   "type": "Background",
+   "inputs": [
+    "CAM"
+   ],
+   "params": {
+    "painted": "build/background.js"
+   },
+   "pos": [
+    1,
+    4
+   ]
+  },
+  {
+   "id": "PEG_door",
+   "type": "Peg",
+   "inputs": [
+    "CAM",
+    "XSHEET"
+   ],
+   "params": {
+    "x": 0.34,
+    "swing": "door"
+   },
+   "pos": [
+    1,
+    0
+   ]
+  },
+  {
+   "id": "DOOR",
+   "type": "Element",
+   "inputs": [
+    "PEG_door",
+    "LIB",
+    "PALETTE",
+    "LIGHT"
+   ],
+   "params": {
+    "column": null,
+    "element": "door",
+    "drawing": "panel",
+    "lamp": 0.85,
+    "tone": 0.0
+   },
+   "pos": [
+    2,
+    0
+   ]
+  },
+  {
+   "id": "PEG_person",
+   "type": "Peg",
+   "inputs": [
+    "CAM",
+    "XSHEET"
+   ],
+   "params": {
+    "x": "px"
+   },
+   "pos": [
+    1,
+    1
+   ]
+  },
+  {
+   "id": "PERSON",
+   "type": "Element",
+   "inputs": [
+    "PEG_person",
+    "LIB",
+    "PALETTE",
+    "LIGHT"
+   ],
+   "params": {
+    "column": "person",
+    "element": "person",
+    "lamp": 0.85,
+    "light_from": [
+     -0.75,
+     -0.66
+    ]
+   },
+   "pos": [
+    2,
+    1
+   ]
+  },
+  {
+   "id": "MOUTH",
+   "type": "Element",
+   "inputs": [
+    "PERSON",
+    "LIB",
+    "XSHEET"
+   ],
+   "params": {
+    "column": "mouth",
+    "element": "person_mouth",
+    "anchor": "mouth"
+   },
+   "pos": [
+    3,
+    1
+   ]
+  },
+  {
+   "id": "PEG_dog",
+   "type": "Peg",
+   "inputs": [
+    "CAM",
+    "XSHEET"
+   ],
+   "params": {
+    "x": "x_peg",
+    "y": "y",
+    "mirror": "mirror",
+    "scale": 1.12
+   },
+   "pos": [
+    1,
+    2
+   ]
+  },
+  {
+   "id": "BODY",
+   "type": "Element",
+   "inputs": [
+    "PEG_dog",
+    "LIB",
+    "PALETTE",
+    "LIGHT"
+   ],
+   "params": {
+    "column": "body",
+    "element": "dog_body"
+   },
+   "pos": [
+    2,
+    2
+   ]
+  },
+  {
+   "id": "PEG_head",
+   "type": "Peg",
+   "inputs": [
+    "PEG_dog",
+    "XSHEET"
+   ],
+   "params": {
+    "x": "hx",
+    "y": "hy",
+    "rot": "hrot",
+    "mirror": "head_rel"
+   },
+   "pos": [
+    2,
+    3
+   ]
+  },
+  {
+   "id": "NECK",
+   "type": "CurveDeformer",
+   "inputs": [
+    "BODY",
+    "PEG_head"
+   ],
+   "params": {
+    "base": "anchor:neck",
+    "rest_length": 0.15,
+    "widths": [
+     0.125,
+     0.1
+    ]
+   },
+   "pos": [
+    3,
+    3
+   ]
+  },
+  {
+   "id": "HEAD",
+   "type": "Element",
+   "inputs": [
+    "PEG_head",
+    "LIB",
+    "PALETTE",
+    "LIGHT"
+   ],
+   "params": {
+    "column": "head",
+    "element": "dog_head"
+   },
+   "pos": [
+    3,
+    4
+   ]
+  },
+  {
+   "id": "EAR",
+   "type": "Element",
+   "inputs": [
+    "HEAD",
+    "LIB"
+   ],
+   "params": {
+    "column": "ear",
+    "element": "dog_ear",
+    "layers": [
+     "under",
+     "over"
+    ],
+    "note": "drawn in the head frame: under = far ear behind the head, over = near ear"
+   },
+   "pos": [
+    4,
+    4
+   ]
+  },
+  {
+   "id": "PEG_tail",
+   "type": "Peg",
+   "inputs": [
+    "BODY"
+   ],
+   "params": {
+    "anchor": "tail"
+   },
+   "pos": [
+    3,
+    2
+   ]
+  },
+  {
+   "id": "CHAIN_tail",
+   "type": "ChainDeformer",
+   "inputs": [
+    "PEG_tail",
+    "XSHEET",
+    "LIB"
+   ],
+   "params": {
+    "rots": "tail_rots",
+    "joints": 6
+   },
+   "pos": [
+    4,
+    2
+   ]
+  },
+  {
+   "id": "TAIL",
+   "type": "Element",
+   "inputs": [
+    "CHAIN_tail",
+    "LIB",
+    "PALETTE",
+    "LIGHT"
+   ],
+   "params": {
+    "column": "tail",
+    "element": "dog_tail"
+   },
+   "pos": [
+    5,
+    2
+   ]
+  },
+  {
+   "id": "COMP_dog",
+   "type": "Composite",
+   "inputs": [
+    "TAIL",
+    "NECK",
+    "BODY",
+    "HEAD",
+    "EAR",
+    "XSHEET"
+   ],
+   "params": {
+    "order": "tail, [head if head_behind], neck+body, [head+ears], [tail if tail_front]",
+    "passes": "each element: Outline (matte dilated 1.3 px in ink) -> colour + line -> Tone (matte minus matte shifted toward the key light, multiply) -> Highlight (lit-edge band, screen)"
+   },
+   "pos": [
+    5,
+    3
+   ]
+  },
+  {
+   "id": "SHADOW_dog",
+   "type": "CastShadow",
+   "inputs": [
+    "COMP_dog",
+    "LIGHT",
+    "CAM"
+   ],
+   "params": {
+    "squash": 0.16,
+    "blur": 3
+   },
+   "pos": [
+    6,
+    3
+   ]
+  },
+  {
+   "id": "TEXT",
+   "type": "Text",
+   "inputs": [
+    "XSHEET"
+   ],
+   "params": {
+    "field": "sub",
+    "note": "the person's words, never the dog's state"
+   },
+   "pos": [
+    6,
+    0
+   ]
+  },
+  {
+   "id": "COMP_scene",
+   "type": "Composite",
+   "inputs": [
+    "BG",
+    "LIGHT",
+    "DOOR",
+    "PERSON",
+    "MOUTH",
+    "SHADOW_dog",
+    "COMP_dog",
+    "TEXT"
+   ],
+   "params": {
+    "order": "BG, LIGHT, DOOR, PERSON(+MOUTH), SHADOW_dog, COMP_dog, TEXT"
+   },
+   "pos": [
+    7,
+    2
+   ]
+  },
+  {
+   "id": "GRADE",
+   "type": "Grade",
+   "inputs": [
+    "COMP_scene"
+   ],
+   "params": {
+    "vignette": 0.32
+   },
+   "pos": [
+    8,
+    2
+   ]
+  },
+  {
+   "id": "WRITE",
+   "type": "Write",
+   "inputs": [
+    "GRADE"
+   ],
+   "params": {
+    "file": "film.mp4",
+    "size": [
+     1280,
+     720
+    ],
+    "fps": 24
+   },
+   "pos": [
+    9,
+    2
+   ]
+  }
+ ],
+ "topological_order": [
+  "XSHEET",
+  "LIB",
+  "PALETTE",
+  "CAM",
+  "TEXT",
+  "LIGHT",
+  "BG",
+  "PEG_door",
+  "PEG_person",
+  "PEG_dog",
+  "DOOR",
+  "PERSON",
+  "BODY",
+  "PEG_head",
+  "MOUTH",
+  "NECK",
+  "HEAD",
+  "PEG_tail",
+  "EAR",
+  "CHAIN_tail",
+  "TAIL",
+  "COMP_dog",
+  "SHADOW_dog",
+  "COMP_scene",
+  "GRADE",
+  "WRITE"
+ ]
+}

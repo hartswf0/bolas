@@ -1,0 +1,22 @@
+<!doctype html><html><head><meta charset="utf-8"><script src="harmony.js"></script></head><body style="margin:0;background:#888">
+<canvas id="c" width="1280" height="720"></canvas>
+<script>
+window.sheet = (LIB, PAL, which, cols, scale, lamp) => {
+  const c = document.getElementById('c'), ctx = c.getContext('2d');
+  ctx.fillStyle = '#d9d2c3'; ctx.fillRect(0,0,1280,720);
+  const pal = (s) => H$.mix(PAL.palettes.dusk[s] || '#ff00ff', PAL.palettes.lamp[s] || '#ff00ff', lamp);
+  const light = {tone: 0.55, toneColor: H$.mix(PAL.passes.tone_dusk, PAL.passes.tone_lamp, lamp), L: [-0.9,-0.4], toneD: 7, hl: 0.8, hlColor: H$.mix(PAL.passes.highlight_dusk, PAL.passes.highlight_lamp, lamp)};
+  const items = [];
+  for (const [el, id] of which) items.push([el, id, LIB.elements[el][id]]);
+  const cw = 1280/cols, rows = Math.ceil(items.length/cols), ch = 720/rows;
+  items.forEach(([el,id,dr],k) => {
+    const cx = (k%cols)*cw + cw/2, cy = Math.floor(k/cols)*ch + ch*0.82;
+    const M = H$.mul(H$.T(cx, cy), H$.S(scale, -scale));
+    let parts = [{dr, M}];
+    if (el === 'dog_ear') parts = [{dr, M, layer:'under'}, {dr, M, layer:'over'}];
+    H$.element(ctx, parts, pal, light, {});
+    ctx.fillStyle = '#333'; ctx.font = '11px monospace'; ctx.fillText(el.replace('dog_','')+':'+id, cx - cw/2 + 4, Math.floor(k/cols)*ch + 12);
+  });
+  return c.toDataURL('image/jpeg', 0.9);
+};
+</script></body></html>

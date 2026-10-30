@@ -1,0 +1,10 @@
+{"about": "machine-readable failure atlas: each breakdown seen in a test render, the frames, the cause, and the corrective added (only where a test revealed it)",
+ "entries": [
+  {"id": "F1", "test": "turn 1, frame 88 (3.67 s)", "failure": "front-on body with a hanging head reads as a lump", "cause": "head pitch -45 deg during the front view", "repair": "hold head >= 0.8 through the view switch; drop it after the turn", "status": "repaired"},
+  {"id": "F2", "test": "refusal frames 90-102", "failure": "flattened ears drawn edge-on as sticks", "cause": "flat ear tip coplanar with the ear base", "repair": "flat tip raised/spread; ear outline bulge 0.12 -> 0.30", "status": "repaired"},
+  {"id": "F3", "test": "lying frames, tests.js T2", "failure": "segment length drift 6 mm when lying", "cause": "paw z spread separately from the chain", "repair": "one z plane per leg", "status": "repaired"},
+  {"id": "F4", "test": "tests.js T4", "failure": "stance feet slide up to 7 mm", "cause": "stance offset scaled 0.92; fore IK over-reach at stride ends", "repair": "remove scale; stride 0.46 m", "status": "repaired (max 1.0 mm)"},
+  {"id": "F5", "test": "film frames 8.27 s", "failure": "body in back view shows the chest bib (reads as front)", "cause": "bib patch clipped to the torso regardless of view", "repair": "bib becomes a switch keyed on the body view bone (sin psi_b > -0.3)", "status": "repaired"},
+  {"id": "F6", "test": "ending 26.5-28 s", "failure": "look-in reads as looking at the person", "cause": "person seated inside, in the line of the muzzle", "repair": "person restaged on the porch beside the door; door opens flat to the inner wall", "status": "repaired"},
+  {"id": "F7", "test": "turn 1 frames 3.46-3.58", "failure": "front-on body is foreshortened to a short column; legs bunch", "cause": "continuous body yaw through 90 deg, no separate front body drawing", "repair": "not repaired: turn shortened to six frames so the column lasts two frames", "status": "open"}
+ ]}

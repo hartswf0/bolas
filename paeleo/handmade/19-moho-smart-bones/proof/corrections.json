@@ -1,0 +1,48 @@
+{
+ "version": "rig-v3",
+ "about": "versioned correction table: each Smart-Bone action, its driver bone and angle range, and what it sculpts",
+ "actions": [
+  {
+   "id": "neck-turn",
+   "driver": "head yaw relative to body (deg, |rel|)",
+   "a0": 25,
+   "a1": 120,
+   "effect": "shoulder bulge on the turning side (+0.045 m radius at the neck base, pushed 0.05 m toward the turn), neck shortened 12% so the jaw clears the shoulder, a skin fold stroke at the neck base, ears swing back 30% (they lead the turn)"
+  },
+  {
+   "id": "spine-curl",
+   "driver": "spine bone curl = crouch (0..1, 0.5 == 18 deg of hunch)",
+   "a0": 0.1,
+   "a1": 0.9,
+   "effect": "waist point raised 0.035 m (arched back), belly tucked (waist radius -0.018 m), rump dropped 0.03 m, tail tucks"
+  },
+  {
+   "id": "leg-fold-hind",
+   "driver": "stifle angle (deg between femur and tibia)",
+   "a0": 100,
+   "a1": 40,
+   "effect": "haunch mass grows (+0.035 m thigh radius at the hip, +0.03 m at mid thigh) and moves 0.03 m forward; hip point lowered so the folded thigh reads round, not as a stick"
+  },
+  {
+   "id": "leg-fold-fore",
+   "driver": "elbow angle (deg between humerus and radius)",
+   "a0": 120,
+   "a1": 60,
+   "effect": "elbow nub (0.032 m) appears behind the joint; chest point drops 0.06 m and shrinks 0.025 m so the chest lies on the floor between the forearms"
+  },
+  {
+   "id": "head-down",
+   "driver": "neck pitch (deg, below horizontal)",
+   "a0": -10,
+   "a1": -45,
+   "effect": "nape crest raised 0.02 m and neck base thickened 0.015 m so the line of the back flows into the lowered head; a throat fold stroke"
+  },
+  {
+   "id": "jaw-rest",
+   "driver": "rest (chin on paws, 0..1) through head pitch",
+   "a0": 0.2,
+   "a1": 0.9,
+   "effect": "chin pushed back 0.01 m and the jowl flattened onto the paw; eye lid half closed"
+  }
+ ]
+}

@@ -163,6 +163,37 @@
    "trick": "Discipline is what is not rigged: the drawing does the acting, the rig only carries it."
   },
   {
+   "id": 19,
+   "dir": "19-moho-smart-bones",
+   "name": "Moho Smart Bones",
+   "kind": "Smart-Bone rig with switch layers",
+   "dog": "an ochre dog in a variable-width ink line, rigged with bones whose angles re-draw it",
+   "made": "One variable-width ink line over flat fills on paper grain, drawn in code by the swarm: an ochre dog with a cream bib, muzzle and socks, a house shown in section, a person drawn the same way. Five head drawings (profile, three-quarter front, front, three-quarter back, back) from one landmark sheet. No kit or archive material is used; all sound is synthesized.",
+   "moved": "A Moho-style rig of 25 bones (spine, neck, head, two view-control bones, three-bone IK legs, tail and ears). Six Smart-Bone corrective actions are driven by bone angles: the neck turn bulges the shoulder and shortens the neck, the spine curls, the legs fold round the haunch and elbow, and the chin flattens on the paws. Switch layers pick the head view, and a footfall planner keeps weight-bearing feet planted.",
+   "trick": "The turns are not tweened: a view bone switches whole drawings while corrective shapes re-draw the joints it bends."
+  },
+  {
+   "id": 20,
+   "dir": "20-harmony-rig",
+   "name": "Toon Boom Harmony",
+   "kind": "Production rig: drawing substitution and node graph",
+   "dog": "a tan cel mutt swapped whole drawing to drawing from a turnaround library",
+   "made": "A library of 106 drawings made in code: 57 dog bodies (stand, crouch, three walk cycles, lowering, lying and front, back and three-quarter views), 9 heads including a back-of-head drawing for looking in, ears, tails, person poses and mouths. Ink, tone and rim-highlight passes over a painted dusk porch and a cutaway lit room, with a palette of 27 named colour styles. No kit or archive material; all sound is synthesized.",
+   "moved": "A 26-node graph (exposure sheet, library, palette, pegs, element nodes, a neck curve deformer, a tail chain, composites, cast shadow, grade) evaluated each frame. The acting is an exposure sheet shipped as xsheet.json and .tsv: holds on twos, walks on ones, walk drawings chosen by distance travelled so planted feet do not slide.",
+   "trick": "Every turn is a substitution that lands on a whole drawing, never a dissolve; the end card shows the real xsheet rows of the head-lead turn."
+  },
+  {
+   "id": 21,
+   "dir": "21-photo-to-actor",
+   "name": "Photo-to-Actor",
+   "kind": "Photographic actor rigged from stills",
+   "dog": "a public-domain home-movie dog turned into a rigged photographic actor",
+   "made": "Six frames of the public-domain home movie Amateur Film New Jersey C with their SAM masks: torso, neck, leg segments and tail cut from them and laid on a body template, and five angle heads (front, three-quarter, profile, lowered, back of head). The person, door leaf and lit hall come from Straight Talk (NTIS, public domain), the sky from Top of the Cloud; the house and light are computed and graded to the same grain.",
+   "moved": "Landmarks fitted to each head (the automatic fit was accepted on the front and three-quarter heads and corrected by hand on the profile, lowered and back views, with the failures recorded), expression patches for ears, brow and mouth, whole-body sprite replacement for the turns with hard cuts, and two-bone IK keeping planted paws still.",
+   "trick": "A dog that only ever walked to a bowl is retargeted, from a handful of stills, to perform all six choices of the score.",
+   "status": "in repair after critic round 1"
+  },
+  {
    "id": 22,
    "dir": "22-character-animator",
    "name": "Character Animator",
@@ -191,6 +222,17 @@
    "made": "An artboard of capsule shapes bound to bones: a two-capsule torso with tuck-up, neck, skull, muzzle, curved-triangle ears, a five-segment tapered tail and four two-bone IK legs, with the coat pattern clipped to the torso. Keyed poses (stand, crouch, lie, rest, look in) and looping clips (breath, wag) are mixed by 1D blend states. The house is drawn in section under an oblique camera. Proportions were studied from a public-domain home movie; no archive pixels are used. Rive itself was not available, so the swarm wrote a small runtime with Rive's primitives.",
    "moved": "Typed inputs (numbers, triggers, a boolean) feed three layered state machines: Facing, Body and Attention. Only Facing may rotate the body, and both turns go through the dog's front. A stepping solver plants each foot until its home moves too far, and the head layer leads the body round at 7.46 s.",
    "trick": "The score is played into the puppet as inputs; the dog's choices come out of its own state machine."
+  },
+  {
+   "id": 26,
+   "dir": "26-pixijs-stage",
+   "name": "PixiJS archive stage",
+   "kind": "GPU scene graph of archive fragments",
+   "dog": "a dog of 652 public-domain archive fragments on a 3D skeleton",
+   "made": "966 fragments in one 2048 px texture atlas, cut from public-domain archive shots in the kit (coat from the archive dog's own masks, pale fur from a lion, dark ears from a tiger), Quick, Draw! drawings and own work; atlas.json records each fragment's source, frame, crop and mask.",
+   "moved": "PixiJS 7.4.2 in headless Chromium: six depth layers, an alpha mask cut to the door, five render textures per frame (dog body, dog head, person, light, stage), a threshold-and-outline shader that turns fragment clouds into a silhouette, and a grain pass; 31 draw calls a frame. The fragments are posed each frame on a skeleton with planted feet.",
+   "trick": "Hundreds of small fragments, texture-batched, are held together into one animal by masks and render-texture passes.",
+   "status": "in repair after critic round 1"
   },
   {
    "id": 27,
