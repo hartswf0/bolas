@@ -141,7 +141,9 @@ def surface(P, n, mat, A, i):
     k = M('person')
     if k.any():
         r = A[k]
-        col = np.tile([.36, .30, .25], (k.sum(), 1))                                 # wool coat
+        col = np.tile([.17, .21, .29], (k.sum(), 1))                                 # dark blue wool coat
+        col[(np.abs(r[:, 2]) < .012) & (r[:, 0] > .05) & (r[:, 1] > .92) & (r[:, 1] < 1.46)] = [.08, .09, .12]   # front opening
+        col[(np.abs(r[:, 2]) < .07) & (r[:, 1] > 1.44) & (r[:, 1] < 1.53)] = [.78, .76, .70]   # shirt collar
         col[r[:, 1] < .86] = [.16, .16, .19]                                          # trousers
         col[r[:, 1] < .11] = [.10, .08, .07]                                          # shoes
         hand = (r[:, 1] < .86) & (np.abs(r[:, 2]) > .25) & (r[:, 1] > .65)
@@ -282,9 +284,9 @@ def inset(im, i):
     pose = {n: PF['dog_rot'][i, j] for j, n in enumerate(SK.names)}
     G = SK.fk(pose, PF['dog_root'][i]); S = SK.skin_mats(G)
     hk = G[SK.ix['hockR'], :3, 3]
-    cam = raster.Camera(hk + [.05, .16, .62], hk + [0, .05, 0], 560, 300, 220)
+    cam = raster.Camera(hk + [.05, .16, .62], hk + [0, .05, 0], 760, 390, 300)   # 2 x 390 x 300: over a quarter of the frame
     det = rig.blend_shrink(DOG['idx'], DOG['w'], S)
-    f = ImageFont.truetype(os.path.join(FONTS, 'f14.woff2'), 14)
+    f = ImageFont.truetype(os.path.join(FONTS, 'f14.woff2'), 17)
     panels = []
     for fn, lab in ((rig.lbs, 'linear blend: volume lost (red)'), (rig.dqs, 'dual quaternion (the film)')):
         P = fn(DOG['V'], DOG['idx'], DOG['w'], S)
@@ -300,10 +302,10 @@ def inset(im, i):
         img = np.tile([.08, .075, .07], (cam.W * cam.H, 1)); img[m] = col * (.35 + .65 * np.clip(fnn[tri[m]] @ L, 0, 1))[:, None]
         pi = Image.fromarray((np.clip(img.reshape(cam.H, cam.W, 3), 0, 1) * 255).astype(np.uint8))
         ImageDraw.Draw(pi).text((8, 6), lab, font=f, fill=(240, 220, 160)); panels.append(pi)
-    box = Image.new('RGB', (2 * 300 + 18, 220 + 12), (30, 28, 26))
-    box.paste(panels[0], (6, 6)); box.paste(panels[1], (312, 6))
+    box = Image.new('RGB', (2 * 390 + 18, 300 + 12), (30, 28, 26))
+    box.paste(panels[0], (6, 6)); box.paste(panels[1], (402, 6))
     mask = Image.new('L', box.size, int(255 * al))
-    im = im.copy(); im.paste(box, (24, 24), mask)
+    im = im.copy(); im.paste(box, (16, 16), mask)
     return im
 
 

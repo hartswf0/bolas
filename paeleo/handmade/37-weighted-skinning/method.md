@@ -64,11 +64,11 @@ vertices from the skinned bone chain, relative to the bind pose.
 | left hock, refusal lie 5.83 s | 0.71 | 0.90 |
 | left elbow, 4.54 s | 0.75 | 0.88 |
 | left stifle, 4.67 s | 0.78 | 0.88 |
-| neck, look-back 7.92 s | 0.97 | 1.00 |
+| neck, look-back | 0.95 | 1.00 |
 | smallest LBS blend determinant | 0.27 (hock, 5.83 s) | 1 by construction |
 | **stress test: neck twisted 160° at one joint** | **0.64**, det down to 0.03 (candy wrapper) | **0.86** |
 
-In the film's own motion the twist is spread over several neck joints, so LBS loses only about 3% at the neck. The bending
+In the film's own motion the twist is spread over several neck joints, so LBS loses only about 5% at the neck. The bending
 legs in the lies are where LBS fails in the film. The candy wrapper itself is shown in the stress test
 (`proof/stress_test_twist.mp4`, `proof/stress_twist_160.png`): the neck is wound to 160° under a printed ring ornament, which
 is the lineage's "tattoo held intact". DQS keeps girth but bulges slightly at extreme bends (ring up to 1.04). I judged that
@@ -85,14 +85,14 @@ records, not from the score's labels:
 |---|---|---|---|
 | retreat | 1.000 | 0.958 | body moves away / crouches by more than 1 cm |
 | watch | 2.333 | 2.333 | head rises more than 2 cm from its retreat low |
-| refuse | 3.417 | 3.417 | head pixels start to turn away (more than 3 px) |
+| refuse | 3.417 | 3.375 | head pixels start to turn away (more than 3 px) |
 | watch (turns to look) | 7.458 | 7.542 | head pixels start to come round |
-| approach | 14.708 | 14.750 | body moves toward the door by more than 1.5 cm |
+| approach | 14.708 | 14.792 | body moves toward the door by more than 1.5 cm |
 | lie down | 23.792 | 23.958 | back drops more than 2 cm below its walking low |
 | looks in | 26.4 | 26.417 | head moves toward the room |
 
 `check_handmade.py` reports **ALL OK** (I1–I4). Other measurements: 93% of refusal frames show the head turned away; the skull top (ears included) is below the back on 100% of approach frames (15.0–23.7 s, mean margin 9 cm); at the end, 30% of the visible dog is inside the door frame and 14% is inside the room, with the tail on the porch;
-the smallest dog in any frame is 13,278 px. Sound (`build/cache/levels.json`): calls −20.9 dBFS RMS, soft voice −32.9
+the smallest dog in any frame is 12,427 px. Sound (`build/cache/levels.json`): calls −20.9 dBFS RMS, soft voice −32.9
 (12.0 dB quieter), room tone −48.9 (the soft voice is 16 dB above it). Claw touch-downs on the approach: 17.1 dB above room tone per event, 7.2 dB over the whole approach window.
 
 ## Repair round 1 (after the independent critic: narrow fail on the rise)
@@ -110,6 +110,20 @@ the smallest dog in any frame is 13,278 px. Sound (`build/cache/levels.json`): c
 - **In the film itself:** a 1.35 s inset at 23.95–25.30 s compares the hock folding in the lie-down, side-on, under linear
   blend (stained red where the blended matrix loses volume) and under dual quaternions (what the film uses).
 - **Claws** are louder (see the levels above).
+
+## Repair round 2 (after the critic's narrow pass)
+
+- **Watching, 2.5–3.4 s and 8.5–14.6 s.** The neck had stood at about 45–56° with the ear tips 0.28 m above the withers.
+  A standing carriage lowers it: the neck segments are now at 29° and 22° from horizontal, and the ear tips are at most 0.18 m
+  above the visible back (measured from the render); the head length is about 0.2 m.
+- **Turning to look.** The 115° cap from round 1 had pointed the muzzle at the camera. While the dog is still down, the
+  head may now come up to 152° round, lifted clear of the body, so at 7.71 s the muzzle points screen-left toward the door.
+  The body then rises (7.72–8.08 s) and turns (7.90–8.85 s), and the cap returns to 115° as it stands.
+- **Archival coat.** The old quilt averaged the grain away: about 9,000 heavily feathered patches overlapped. Patch edges are
+  now near-hard, the patches finer (×1.4, 16,000 of them), the grain gain is 0.085, and an S-curve and unsharp mask are
+  applied. At 1:1 the 19 s and 28 s stills show the film grain.
+- **Inset** is now 2 × 390×300 px, more than a quarter of the frame. **The person** wears a dark blue wool coat with a
+  front opening and a light shirt collar.
 
 ## What failed and what I changed
 

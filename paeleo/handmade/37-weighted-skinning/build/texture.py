@@ -50,7 +50,9 @@ def quilt(patches, shape, scale, rng, n):
     """scatter upscaled archive patches with feathered edges over a canvas (a crude texture quilt)"""
     H, W = shape; acc = np.zeros(shape); wsum = np.zeros(shape) + 1e-6
     ps = patches[0][3].shape[0]; S = int(ps * scale)
-    yy, xx = np.mgrid[0:S, 0:S]; fe = np.exp(-(((xx - S / 2) / (S / 2.3)) ** 2 + ((yy - S / 2) / (S / 2.3)) ** 2) * 2)
+    yy, xx = np.mgrid[0:S, 0:S]
+    r2 = ((xx - S / 2) / (S / 2)) ** 2 + ((yy - S / 2) / (S / 2)) ** 2
+    fe = np.exp(-(r2 ** 4) * 3) + 1e-4          # near-hard patch edges: the quilt keeps each patch's own grain, little averaging
     for _ in range(n):
         p = patches[rng.integers(len(patches))][3]
         up = np.asarray(Image.fromarray((p * 255).astype(np.uint8)).resize((S, S), Image.BICUBIC), float) / 255
@@ -68,7 +70,7 @@ def main():
     pt = fur_patches(frames)
     lum = np.array([p[3].mean() for p in pt])
     print('archive fur patches', len(pt), 'from', len(frames), 'frames')
-    grain = quilt(pt, (TH, TW), 3.2, rng, 9000)
+    grain = quilt(pt, (TH, TW), 1.4, rng, 16000)
     grain = grain / (grain.std() + 1e-6)
     # region masks painted in the rest-pose side projection (u along the body, v up)
     def P(x, y): return ((x - LO[0]) / (HI[0] - LO[0]) * TW, (1 - (y - LO[1]) / (HI[1] - LO[1])) * TH)
@@ -81,7 +83,10 @@ def main():
     mask_dark = layer([[(.57, .70), (.80, .70), (.80, .80), (.57, .80)], [(.40, .86), (.50, .86), (.48, 1.0), (.38, 1.0)]], 6)
     socks = layer([[(-.40, -.02), (.40, -.02), (.40, .07), (-.40, .07)]], 5)
     base = .62 - .46 * saddle - .32 * mask_dark + .10 * socks
-    tex = np.clip(base + .05 * grain, 0, 1)
+    tex = np.clip(base + .085 * grain, 0, 1)
+    # the archive's own contrast: a gentle S-curve, then unsharp so the grain survives the rasterizer's filtering
+    tex = np.clip(.5 + (tex - .5) * 1.15, 0, 1)
+    tex = np.asarray(Image.fromarray((tex * 255).astype(np.uint8)).filter(ImageFilter.UnsharpMask(2, 90, 1)), float) / 255
     rgb = np.stack([tex * .95 + .05, tex * .80 + .04, tex * .60 + .03], -1)      # monochrome film on a warm base
     im = Image.fromarray((np.clip(rgb, 0, 1) * 255).astype(np.uint8))
     d = ImageDraw.Draw(im)
@@ -97,7 +102,7 @@ def main():
     s = Image.open(os.path.join(KIT, 'frames', 'f%03d.jpg' % 20)).convert('RGB'); sd = ImageDraw.Draw(s)
     for poly in json.load(open(os.path.join(KIT, 'masks.json')))['20']: sd.polygon([tuple(p) for p in poly], outline=(255, 200, 80))
     s.save(os.path.join(OUT, 'coat_source.png'))
-    json.dump({'frames': frames, 'patches': len(pt), 'patch_px': 10, 'upscale': 3.2, 'scatter': 9000, 'seed': 37},
+    json.dump({'frames': frames, 'patches': len(pt), 'patch_px': 10, 'upscale': 1.4, 'scatter': 16000, 'grain_gain': .085, 'seed': 37},
               open(os.path.join(OUT, 'coat.json'), 'w'))
 
 

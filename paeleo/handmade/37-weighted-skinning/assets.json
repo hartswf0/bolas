@@ -28,14 +28,14 @@
   {
    "id": "dog-coat",
    "what": "the coat texture (1024x660, sepia) in the mesh's bind-pose side-projection UV space: film grain and fur of the archive dog, arranged by painted region masks (dark saddle, dark muzzle and ear backs, lighter socks); the eye, nose and lip line painted on top",
-   "source": "paeleo/handmade/kit/archive-dog/frames f000..f048 (every second frame), masked by kit/archive-dog/masks.json (SAM polygons, eroded 3 px): 8,969 patches of 10x10 px of the dog's own pixels, upscaled x3.2 and scattered with feathered edges (seed 37). Source film: Amateur Film New Jersey C, Home Movies collection, Internet Archive, https://archive.org/details/NewJerseyC (via movingimagearchive.com clip 2fdacde1-8a23-58e1-b905-5407385bd039)",
+   "source": "paeleo/handmade/kit/archive-dog/frames f000..f048 (every second frame), masked by kit/archive-dog/masks.json (SAM polygons, eroded 3 px): 8,969 patches of 10x10 px of the dog's own pixels, upscaled x1.4 and scattered 16,000 times with near-hard edges, grain gain 0.085, S-curve + unsharp (seed 37). Source film: Amateur Film New Jersey C, Home Movies collection, Internet Archive, https://archive.org/details/NewJerseyC (via movingimagearchive.com clip 2fdacde1-8a23-58e1-b905-5407385bd039)",
    "files": ["assets/texture/coat.png", "assets/texture/coat.json", "assets/texture/regions.npy", "assets/texture/coat_source.png", "build/texture.py"],
    "rights": "public domain (kit source.json: rights_statement public_domain); painted marks made here",
    "operation": "mask, crop (patches), quilt, region-mask painting, sepia grade; eye/nose drawn"
   },
   {
    "id": "person",
-   "what": "the person: one closed skinned mesh (4,272 vertices, genus 0) with 19 deforming bones, faceless (a plain head with a dark cap of hair), wool coat, trousers; posed by keyed clips (stand, reach, step aside, sit, the low hand)",
+   "what": "the person: one closed skinned mesh (4,272 vertices, genus 0) with 19 deforming bones, faceless (a plain head with a dark cap of hair), dark blue wool coat with front opening and shirt collar, trousers; posed by keyed clips (stand, reach, step aside, sit, the low hand)",
    "source": "made here: build/mesh.py person_sdf + heat weights; build/perform.py person_track",
    "files": ["assets/mesh/person.npz", "assets/mesh/person.json"],
    "rights": "made here; no real person or face",
