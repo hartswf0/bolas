@@ -133,11 +133,12 @@ def main():
     for k in range(int(6.9) + 1, 32):
         place(bus['fx'], click(int(.02 * SR), 2.) * .5, k + .03, .012 * min(1, (k - 6.5) / 2), -.5)
     # the dog's paws: every touch-down in the gait solver is a claw on the boards
-    C = PF['contact']; lie = PF['lie']
+    C = PF['contact']; lie = PF['lie']; claw_t = []
     for i in range(1, len(C)):
         for k in range(4):
             if C[i, k] and not C[i - 1, k] and lie[i] < .5:
-                place(bus['claw'], click(bright=.8 + .4 * rng.random()), i / 24 + rng.random() * .01, .16, dog_pan(i))
+                tt = i / 24 + rng.random() * .01; claw_t.append(tt)
+                place(bus['claw'], click(bright=.8 + .4 * rng.random()), tt, .30, dog_pan(i))
     # lying down: the body meets the boards; settling sigh; tail knocks while it looks in
     place(bus['fx'], thump(.3, 65), 4.85, .20, dog_pan(116)); place(bus['fx'], thump(.3, 60), 24.40, .22, dog_pan(586))
     place(bus['fx'], sigh(), 28.55, .05, dog_pan(686))
@@ -156,6 +157,9 @@ def main():
           'room_tone_rms_db': rms_db(bus['tone'][0])}
     lv['soft_below_call_db'] = lv['call_rms_db'] - lv['soft_rms_db']
     lv['claw_approach_rms_db'] = rms_db(win(bus['claw'], [(15.0, 23.6)]))
+    ev = [(t, t + .03) for t in claw_t if 15.0 <= t < 23.6]
+    lv['claw_event_rms_db'] = rms_db(win(bus['claw'], ev)); lv['claw_events_approach'] = len(ev)
+    lv['claw_event_above_tone_db'] = lv['claw_event_rms_db'] - lv['room_tone_rms_db']
     lv['claw_above_tone_db'] = lv['claw_approach_rms_db'] - lv['room_tone_rms_db']
     lv['soft_above_tone_db'] = lv['soft_rms_db'] - lv['room_tone_rms_db']
     peak = np.abs(mix).max(); mix = mix / max(peak, 1e-9) * .89 if peak > .89 else mix
