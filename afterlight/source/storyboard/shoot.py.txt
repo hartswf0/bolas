@@ -1,0 +1,15 @@
+# usage: python3 shoot.py filmN.js  -> writes filmN_k1.png ... and prints errors
+import asyncio,sys,os
+from playwright.async_api import async_playwright
+f=sys.argv[1];base=os.path.splitext(f)[0]
+async def main():
+    async with async_playwright() as p:
+        b=await p.chromium.launch();pg=await b.new_page(viewport={'width':700,'height':800})
+        errs=[];pg.on('pageerror',lambda e:errs.append(str(e)))
+        await pg.goto(f'file:///home/claude/afterlight/storyboard/preview.html?f={f}');await pg.wait_for_timeout(400)
+        errs+=await pg.evaluate('window.__errs||[]')
+        cs=await pg.query_selector_all('canvas')
+        for i,c in enumerate(cs):await c.screenshot(path=f'/home/claude/afterlight/storyboard/{base}_k{i+1}.png')
+        print('canvases',len(cs),'errors',errs)
+        await b.close()
+asyncio.run(main())

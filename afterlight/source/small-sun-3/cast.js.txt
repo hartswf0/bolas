@@ -1,0 +1,311 @@
+/* SMALL SUN · cast. Authored drawings (cm, y up, origin at the feet / seat), in-betweened by arclength;
+   selectively rigged limbs (two-bone ribbons to targets, feet planted by a gait solver); chains for braid, scarf and tail.
+   Drawing helpers (crSample, resample, between, brush, ink, ik-free) come from SCION 18 saloon.js. */
+'use strict';
+const CPAL = {
+  skin: '#d9a07a', skinLine: '#6b3b22', skin2: '#c48a66',
+  dress: '#2f4a72', dressLine: '#14223a', dress2: '#26406a',
+  scarf: '#b8432c', scarfLine: '#4c1a10', hair: '#2a1a14', hairLine: '#120a07', shoe: '#2b1d17',
+  gShawl: '#7a5a48', gShawlLine: '#3a2418', gDress: '#4a3b46', gDressLine: '#201820', gHair: '#e3dccf', gHairLine: '#8a8274', gSkin: '#d6a17d',
+  cat: '#c9773a', catLine: '#4a2412', cat2: '#e9c79a', catDark: '#9a5426', nose: '#5a2a1a', eye: '#1a110c', chair: '#3a281c', chairLine: '#140c08',
+};
+function ik2(a, b, l1, l2, bendSign) {
+  const dx = b[0] - a[0], dy = b[1] - a[1]; let d = Math.hypot(dx, dy); d = Math.min(d, l1 + l2 - 0.01); d = Math.max(d, Math.abs(l1 - l2) + 0.01);
+  const ang = Math.atan2(dy, dx), c = (l1 * l1 + d * d - l2 * l2) / (2 * l1 * d), off = Math.acos(clamp(c, -1, 1)) * bendSign;
+  return [a[0] + Math.cos(ang + off) * l1, a[1] + Math.sin(ang + off) * l1];
+}
+function ribbon(pts, ws) { // centreline points + widths -> closed outline
+  const L = [], R = [];
+  for (let i = 0; i < pts.length; i++) {
+    const a = pts[Math.max(0, i - 1)], b = pts[Math.min(pts.length - 1, i + 1)];
+    let tx = b[0] - a[0], ty = b[1] - a[1]; const tl = Math.hypot(tx, ty) || 1; tx /= tl; ty /= tl;
+    L.push([pts[i][0] - ty * ws[i] / 2, pts[i][1] + tx * ws[i] / 2]); R.push([pts[i][0] + ty * ws[i] / 2, pts[i][1] - tx * ws[i] / 2]);
+  }
+  return [...L, ...R.reverse()];
+}
+function rot(p, c, a) { const dx = p[0] - c[0], dy = p[1] - c[1], ca = Math.cos(a), sa = Math.sin(a); return [c[0] + dx * ca - dy * sa, c[1] + dx * sa + dy * ca]; }
+function circlePts(c, r, n = 14, sx = 1, sy = 1) { const o = []; for (let k = 0; k < n; k++) { const a = k / n * 6.283; o.push([c[0] + r * sx * Math.cos(a), c[1] + r * sy * Math.sin(a)]); } return o; }
+// spring chain in world space (screen px), stepped once per frame
+function chain(n, len) { return { n, len, p: null, v: null }; }
+function stepChain(c, anchor, rest, stiff, damp, grav, wind) {
+  if (!c.p) { c.p = []; c.v = []; const R = typeof rest === 'function' ? rest : () => rest; let q = [anchor[0], anchor[1]]; for (let i = 0; i < c.n; i++) { if (i) { const r = R(i); q = [q[0] + r[0] * c.len, q[1] + r[1] * c.len]; } c.p.push(q); c.v.push([0, 0]); } }
+  const RR = typeof rest === 'function' ? rest : () => rest;
+  c.p[0] = [anchor[0], anchor[1]];
+  for (let i = 1; i < c.n; i++) {
+    const pv = c.p[i - 1], v = c.v[i];
+    const r = RR(i); v[0] += ((pv[0] + r[0] * c.len) - c.p[i][0]) * stiff + wind; v[1] += ((pv[1] + r[1] * c.len) - c.p[i][1]) * stiff + grav;
+    v[0] *= damp; v[1] *= damp; c.p[i][0] += v[0]; c.p[i][1] += v[1];
+    const dx = c.p[i][0] - pv[0], dy = c.p[i][1] - pv[1], d = Math.hypot(dx, dy) || 1; c.p[i] = [pv[0] + dx / d * c.len, pv[1] + dy / d * c.len];
+  }
+  return c.p;
+}
+function grade(col, k) { return col; }
+
+/* ===================== THE GIRL ===================== */
+const GIRL = {
+  dressStand: [[-6, 84], [6, 85], [9, 72], [12, 52], [17, 30], [8, 27.5], [-6, 27.5], [-16, 30], [-11, 52], [-8, 72]],
+  dressFlare: [[-5, 84], [7, 85], [10, 72], [16, 52], [27, 34], [12, 29], [-6, 28], [-25, 34], [-15, 54], [-8, 72]],
+  dressSit:   [[-6, 62], [7, 63], [9, 52], [10, 40], [26, 34], [30, 26], [10, 22], [-10, 22], [-11, 36], [-8, 50]],
+  torso: [[-6, 86], [6, 86], [8, 78], [6, 70], [-6, 70], [-8, 78]],
+  face: [[-8.5, 4], [-8, 12], [-3, 17], [4, 17.5], [8.5, 13.5], [9.5, 9], [11.2, 6.6], [9.4, 5.6], [9.6, 3.6], [8.6, 2.4], [8.6, 0.8], [5, -2.4], [-1, -2.2], [-6, 0]],
+  hair: [[-9.6, 2], [-9.8, 12], [-5, 18.6], [3, 19.4], [9, 15.6], [10.2, 11.6], [6, 13.2], [1, 12.6], [-2, 9.4], [-3.4, 4.6], [-6, 1.4]],
+  ear: [[-1.6, 6.2], [0.6, 7.2], [1, 4.4], [-1, 3.6]],
+  eye: [6.2, 8.2], brow: [[4.4, 11.2], [7.8, 11.6]], mouth: [8.6, 1.8], cheek: [5.6, 4.4],
+  arm: [18.5, 16.5], leg: [20, 20], head: 1.18,
+  dressKneel: [[-6, 62], [7, 63], [10, 50], [14, 34], [24, 12], [26, 3], [6, 1.5], [-16, 2], [-14, 22], [-9, 46]],
+};
+function newGirl() { return { braid: chain(8, 7), scarf: chain(7, 8), prev: null, phase: 0 }; }
+/* Q: x (world px), y (ground px), K (px per cm), face (+1 right / -1 left), mode: 'stand'|'gait'|'sit'|'kneel'|'crouch',
+   speed (cycles/s), stride (cm), duty, lean (rad), nod (rad), flare, handN/handF: [cm rel root] or null (gait swing),
+   blink, mouth, scarf (0/1), wind, sil (0..1 night silhouette), lit (0..1 warm light) */
+function drawGirl(ctx, G, Q, dt) {
+  const f = Q.face, K = Q.K;
+  const toS = p => [Q.x + f * p[0] * K, Q.y - p[1] * K];
+  // ---- legs & hip (cm, root at ground under hip)
+  let hip = [0, 39.6], footN, footF, bob = 0;
+  if (Q.mode === 'gait') {
+    G.phase += Q.speed * dt; const D = Q.stride, du = Q.duty;
+    const foot = ph => { const u = ((ph % 1) + 1) % 1; if (u < du) { const s = u / du; return [D * du * (0.5 - s), 0, 1]; } const s = (u - du) / (1 - du); return [D * du * (-0.5 + s), Math.sin(Math.PI * s) * (Q.lift || 7), 0]; };
+    const a = foot(G.phase), b = foot(G.phase + 0.5);
+    footN = [a[0], a[1]]; footF = [b[0], b[1]];
+    bob = Q.duty < 0.5 ? Math.abs(Math.sin(G.phase * Math.PI * 2)) * 3.5 : Math.cos(G.phase * Math.PI * 4) * 1.4;
+    hip = [0, 38.5 + bob];
+    if ((a[2] && !G._an) || (b[2] && !G._bn)) Q.onStep && Q.onStep();
+    G._an = a[2]; G._bn = b[2];
+  } else if (Q.mode === 'sit') { hip = [0, 26]; footN = [22, 2]; footF = [18, 0]; }
+  else if (Q.mode === 'kneel') { hip = [0, 24]; footN = [-14, 0]; footF = [-17, 0]; }
+  else if (Q.mode === 'crouch') { hip = [-2, 30 - (Q.crouch || 0) * 6]; footN = [6, 0]; footF = [-4, 0]; }
+  else { hip = [0, 39.6 + (Q.bob || 0)]; footN = [3, 0]; footF = [-3, 0]; }
+  const lean = Q.lean || 0;
+  const up = p => rot([p[0], p[1] + (hip[1] - 39.6)], [hip[0], hip[1]], -lean);
+  // ---- shapes
+  const flare = Q.mode === 'gait' ? clamp((Q.flare ?? 0.6) + 0.15 * Math.sin(G.phase * 6.283 * 2)) : (Q.flare || 0);
+  let dress = between(GIRL.dressStand, GIRL.dressFlare, flare, true, 90);
+  if (Q.mode === 'sit') dress = between(GIRL.dressSit, null, 0, true, 90); else if (Q.mode === 'kneel') dress = between(GIRL.dressKneel, null, 0, true, 90);
+  else dress = dress.map(up);
+  const shN = up([3, 82]), shF = up([-2, 82]), neck = up([1, 88]);
+  if (Q.mode === 'sit' || Q.mode === 'kneel') { const dy = 0; shN[1] = 60 + dy; shF[1] = 60 + dy; neck[1] = 66 + dy; shN[0] = 3; shF[0] = -2; neck[0] = 1;
+    const l = rot(neck, [0, 30], -lean); neck[0] = l[0]; neck[1] = l[1]; const a = rot(shN, [0, 30], -lean); shN[0] = a[0]; shN[1] = a[1]; const b = rot(shF, [0, 30], -lean); shF[0] = b[0]; shF[1] = b[1]; }
+  // ---- rise: blend a low pose (sit / kneel / crouch) into standing, so getting up is continuous, never a pop
+  const rise = (Q.mode === 'sit' || Q.mode === 'kneel' || Q.mode === 'crouch') ? clamp(Q.rise || 0) : 0;
+  if (rise > 0) {
+    const r = rise * rise * (3 - 2 * rise), hS = [0, 39.6], upS = p => rot(p, hS, -lean * (1 - r));
+    const dS = between(GIRL.dressStand, null, 0, true, 90).map(upS);
+    for (let i = 0; i < dress.length; i++) dress[i] = lp(dress[i], dS[i], r);
+    const B = (v, w) => { const q = lp(v, w, r); v[0] = q[0]; v[1] = q[1]; };
+    B(shN, upS([3, 82])); B(shF, upS([-2, 82])); B(neck, upS([1, 88]));
+    hip = lp(hip, hS, r); footN = lp(footN, [3, 0], r); footF = lp(footF, [-3, 0], r);
+  }
+  // ---- arms targets
+  let hN = Q.handN, hF = Q.handF;
+  if (!hN || !hF) { const sw = Q.mode === 'gait' ? Math.sin(G.phase * 6.283) : 0; const run = Q.duty < 0.5; const amp = run ? 15 : 8;
+    if (!hN) hN = [shN[0] + sw * amp + (run ? 6 : 2), shN[1] - (run ? 24 : 32) + Math.abs(sw) * 3];
+    if (!hF) hF = [shF[0] - sw * amp + (run ? 6 : 1), shF[1] - (run ? 24 : 32) + Math.abs(sw) * 3]; }
+  const sil = Q.sil || 0, mixc = (c) => sil > 0 ? mixHex(c, '#1a2238', sil * 0.75) : c;
+  const sk = mixc(CPAL.skin), skL = mixc(CPAL.skinLine), dr = mixc(CPAL.dress), drL = mixc(CPAL.dressLine);
+  const anchor = toS([0, 0]);
+  // far limbs
+  const legHip = hip;
+  const drawLeg = (foot, near) => {
+    let knee;
+    knee = ik2(legHip, foot, GIRL.leg[0], GIRL.leg[1], 1);
+    if (Q.mode === 'kneel') knee = lp([foot[0] + (near ? 20 : 17), 3.5], knee, rise);
+    const col = near ? mixc('#7a3a2e') : mixc('#5e2c24'); // wool stockings
+    const pts = crSample(ribbon([legHip, lp(legHip, knee, 0.5), knee, lp(knee, foot, 0.55), foot], [10, 8.6, 7.6, 6.6, 6]), true, 4).map(toS);
+    ink(ctx, pts, { fill: col, line: mixc('#2e120c'), lw: 1.5, seed: near ? 31 : 32, tex: 2, texA: 0.35, anchor });
+    const kn = Q.mode === 'kneel' && rise < 0.5;
+    const shoe = kn ? [[foot[0] - 5, foot[1]], [foot[0] + 3, foot[1]], [foot[0] + 3, foot[1] + 4.5], [foot[0] - 4, foot[1] + 3.6]]
+                    : [[foot[0] - 4.5, foot[1]], [foot[0] + 7.5, foot[1]], [foot[0] + 7, foot[1] + 3.6], [foot[0] + 1, foot[1] + 5], [foot[0] - 4, foot[1] + 4.4]];
+    ink(ctx, crSample(shoe, true, 3).map(toS), { fill: mixc(CPAL.shoe), line: '#0d0806', lw: 1.2, seed: near ? 33 : 34, tex: null });
+  };
+  const drawArm = (sh, hand, near) => {
+    const el = ik2(sh, hand, GIRL.arm[0], GIRL.arm[1], -1);
+    ink(ctx, crSample(ribbon([sh, el, hand], [7.2, 5.8, 4.8]), true, 4).map(toS), { fill: near ? sk : mixc(CPAL.skin2), line: skL, lw: 1.4, seed: near ? 41 : 42, tex: 2, texA: 0.3, anchor });
+    ink(ctx, circlePts(hand, 3.1, 10).map(toS), { fill: near ? sk : mixc(CPAL.skin2), line: skL, lw: 1.2, seed: near ? 43 : 44, tex: null });
+    // sleeve cap
+    ink(ctx, crSample(ribbon([sh, lp(sh, el, 0.45)], [9, 8]), true, 3).map(toS), { fill: near ? dr : mixc(CPAL.dress2), line: drL, lw: 1.3, seed: near ? 45 : 46, tex: 1, anchor });
+  };
+  // braid (behind head): anchor at back of head in screen px
+  
+  const hc = [neck[0] + 1, neck[1] + 10.5];
+  const nod = (Q.nod || 0) - lean * 0.4;
+  const hT = p => toS(rot([hc[0] + p[0] * GIRL.head, hc[1] + p[1] * GIRL.head], [hc[0], hc[1] - 2], -nod));
+  const vx = G.prev ? (anchor[0] - G.prev[0]) / Math.max(dt, 1e-3) : 0; G.prev = anchor;
+  const bA = hT([-8.5, 8]);
+  G.braid.len = 2.4 * K;
+  const bp = stepChain(G.braid, bA, [-f * 0.15, 1], 0.16, 0.82, 0.55 * K / 1.4, (Q.wind || 0) * 0.3 - vx * 0.0025);
+  ink(ctx, ribbon(bp, bp.map((_, i) => (4.4 - i * 0.35) * K)), { fill: mixc(CPAL.hair), line: CPAL.hairLine, lw: 1.2, seed: 51, tex: null });
+  ink(ctx, circlePts(bp[bp.length - 1], 2.2 * K, 10, 1, 1).map(p => p), { fill: mixc(CPAL.scarf), line: CPAL.scarfLine, lw: 1, seed: 52, tex: null });
+  drawLeg(footF, false); drawArm(shF, hF, false);
+  // scarf tail (behind body)
+  let sp = null;
+  if (Q.scarf) { const sA = toS([neck[0] - 3, neck[1] - 3]); G.scarf.len = 2.8 * K; sp = stepChain(G.scarf, sA, [-f * 0.55, 0.85], 0.12, 0.86, 0.45 * K / 1.4, (Q.wind || 0) * 0.5 - vx * 0.004);
+    ink(ctx, ribbon(sp, sp.map((_, i) => (5.6 - i * 0.3) * K)), { fill: mixc(CPAL.scarf), line: mixc(CPAL.scarfLine), lw: 1.3, seed: 53, tex: 0, anchor }); }
+  // dress and legs
+  drawLeg(footN, true);
+  ink(ctx, dress.map(toS), { fill: dr, line: drL, lw: 2.0, seed: 54, tex: 0, anchor });
+  // hem band
+  ctx.save(); polyPath(ctx, dress.map(toS)); ctx.clip();
+  const hemPts = dress.slice(); let minY = 1e9; for (const p of dress) minY = Math.min(minY, p[1]);
+  const hy = toS([0, minY + 3])[1]; ctx.fillStyle = mixc('#c9a24a'); ctx.globalAlpha = 0.75; ctx.fillRect(Q.x - 40 * K, hy - 1.6 * K, 80 * K, 2.2 * K); ctx.globalAlpha = 1; ctx.restore();
+  // head
+  ink(ctx, crSample(GIRL.face, true, 6).map(hT), { fill: sk, line: skL, lw: 1.6, seed: 55, tex: 2, texA: 0.28, anchor });
+  ink(ctx, crSample(GIRL.ear, true, 4).map(hT), { fill: mixc(CPAL.skin2), line: skL, lw: 1.1, seed: 56, tex: null });
+  ink(ctx, crSample(GIRL.hair, true, 6).map(hT), { fill: mixc(CPAL.hair), line: CPAL.hairLine, lw: 1.4, seed: 57, tex: 1, anchor });
+  if (sil < 0.85) {
+    const e = hT(GIRL.eye);
+    if ((Q.blink || 0) > 0.5) brush(ctx, [[GIRL.eye[0] - 1.4, GIRL.eye[1]], [GIRL.eye[0] + 1.4, GIRL.eye[1] - 0.2]].map(hT), false, 1.4, '#1b100b', 58);
+    else { ctx.fillStyle = '#1b100b'; ctx.beginPath(); ctx.ellipse(e[0], e[1], 1.3 * K, 1.7 * K, 0, 0, 6.283); ctx.fill(); ctx.fillStyle = 'rgba(255,255,255,0.8)'; ctx.beginPath(); ctx.arc(e[0] + 0.4 * K * f, e[1] - 0.5 * K, 0.4 * K, 0, 6.283); ctx.fill(); }
+    brush(ctx, GIRL.brow.map(p => [p[0], p[1] + (Q.browUp || 0)]).map(hT), false, 1.3, '#2a1a12', 59);
+    const m = GIRL.mouth;
+    if ((Q.mouth || 0) > 0.1) { ink(ctx, circlePts(m, 1.2, 10, 1, 1 + Q.mouth).map(hT), { fill: '#6a2418', line: '#2a0f0b', lw: 0.8, seed: 60, tex: null }); }
+    else brush(ctx, [[m[0] - 1.8, m[1] + 0.4 + (Q.smile || 0) * 0.6], [m[0] - 0.4, m[1] - (Q.smile || 0) * 0.3], [m[0] + 0.6, m[1] + 0.2 + (Q.smile || 0) * 0.5]].map(hT), false, 1.2, skL, 60);
+    const ch = hT(GIRL.cheek); const g = ctx.createRadialGradient(ch[0], ch[1], 0, ch[0], ch[1], 3 * K); g.addColorStop(0, `rgba(220,90,70,${0.35 * (1 - sil)})`); g.addColorStop(1, 'rgba(220,90,70,0)'); ctx.fillStyle = g; ctx.beginPath(); ctx.arc(ch[0], ch[1], 3 * K, 0, 6.283); ctx.fill();
+  }
+  // scarf knot at the neck
+  if (Q.scarf) ink(ctx, crSample([[neck[0] - 5, neck[1] - 2], [neck[0] + 4, neck[1] - 1], [neck[0] + 5, neck[1] - 6], [neck[0] - 5, neck[1] - 7]], true, 4).map(toS), { fill: mixc(CPAL.scarf), line: mixc(CPAL.scarfLine), lw: 1.4, seed: 61, tex: 0, anchor });
+  drawArm(shN, hN, true);
+  return { handN: toS(hN), handF: toS(hF), head: hT([2, 8]), neck: toS(neck), root: anchor, hip: toS(hip), toS };
+}
+function mixHex(a, b, u) { const p = c => [parseInt(c.slice(1, 3), 16), parseInt(c.slice(3, 5), 16), parseInt(c.slice(5, 7), 16)]; const A = p(a), B = p(b); return '#' + A.map((v, i) => Math.round(v + (B[i] - v) * u).toString(16).padStart(2, '0')).join(''); }
+
+/* ===================== THE GRANDMOTHER (seated) ===================== */
+const GRAN = {
+  skirt: [[-8, 64], [8, 64], [14, 58], [34, 54], [44, 46], [46, 24], [48, 4], [30, 3], [10, 3], [-14, 4], [-17, 30], [-14, 50]],
+  body: [[-9, 63], [9, 63], [13, 80], [12, 96], [5, 102], [-6, 100], [-11, 84]],
+  shawl: [[-12, 104], [0, 108], [12, 103], [17, 90], [16, 76], [4, 72], [-8, 78], [-15, 92]],
+  face: [[-8, 6], [-6.5, 15], [0.5, 18.5], [7.5, 16], [10, 10.5], [12.6, 7], [10.4, 5.4], [11, 3.2], [9.4, 1.2], [9.2, -1], [5.8, -3.6], [0, -3.4], [-6, 0]],
+  hair: [[-10, 4], [-9.5, 15], [-3, 20.6], [6, 19.8], [10.4, 14.6], [5, 15.6], [-1, 12.6], [-3, 6]],
+  bun: [-11.5, 13, 5.6], eye: [6.6, 8.4], brow: [[4.6, 11.4], [8.8, 11.2]], mouth: [9.2, 1.6], lines: [[[8.4, 4.4], [9.4, 3.0]], [[3.6, 10.6], [5.4, 10.2]]],
+  arm: [27, 25],
+};
+/* Q: x,y (seat front-bottom px), K, face, hunch (rad), nod, handN/handF (cm), blink, smile, sil, warm */
+function drawGran(ctx, Q) {
+  const f = Q.face, K = Q.K, toS = p => [Q.x + f * p[0] * K, Q.y - p[1] * K], anchor = toS([0, 0]);
+  const hunch = Q.hunch || 0, waist = [0, 62];
+  const up = p => rot(p, waist, -hunch);
+  const sil = Q.sil || 0, mixc = c => sil > 0 ? mixHex(c, '#1a2238', sil * 0.6) : c;
+  // chair
+  const chair = [[-22, 140], [-14, 140], [-14, 62], [40, 62], [40, 0], [34, 0], [34, 56], [-14, 56], [-14, 0], [-22, 0]];
+  ink(ctx, chair.map(toS), { fill: mixc(CPAL.chair), line: CPAL.chairLine, lw: 1.8, seed: 70, tex: 1, anchor });
+  const shN = up([10, 94]), shF = up([0, 95]), neck = up([5, 101]);
+  const hN = Q.handN || [42, 50], hF = Q.handF || [36, 54];
+  const arm = (sh, hand, near) => { const el = ik2(sh, hand, GRAN.arm[0], GRAN.arm[1], -1);
+    ink(ctx, crSample(ribbon([[sh[0], sh[1] + 3], sh, el, hand], [11, 11, 8.5, 6.5]), true, 5).map(toS), { fill: near ? mixc(CPAL.gShawl) : mixc('#5f4436'), line: CPAL.gShawlLine, lw: 1.7, seed: near ? 71 : 72, tex: 2, anchor });
+    const dir = Math.atan2(hand[1] - el[1], hand[0] - el[0]);
+    const shape = [[0, -2.6], [5.5, -2.4], [8, 0], [5.6, 2.4], [1, 2.8], [2.6, 4.8], [-1, 3]];
+    ink(ctx, crSample(shape.map(p => rot([hand[0] + p[0], hand[1] + p[1]], hand, dir)), true, 4).map(toS), { fill: mixc(CPAL.gSkin), line: CPAL.skinLine, lw: 1.3, seed: near ? 73 : 74, tex: null });
+  };
+  arm(shF, hF, false);
+  ink(ctx, GRAN.skirt.length ? crSample(GRAN.skirt, true, 6).map(toS) : [], { fill: mixc(CPAL.gDress), line: CPAL.gDressLine, lw: 2, seed: 75, tex: 0, anchor });
+  ink(ctx, crSample(GRAN.body, true, 6).map(up).map(toS), { fill: mixc(CPAL.gDress), line: CPAL.gDressLine, lw: 1.8, seed: 76, tex: 1, anchor });
+  // head
+  const hc = [neck[0], neck[1] + 4], nod = (Q.nod || 0) - hunch * 0.3;
+  const hT = p => toS(rot([hc[0] + p[0], hc[1] + p[1]], hc, -nod));
+  ink(ctx, crSample(GRAN.face, true, 6).map(hT), { fill: mixc(CPAL.gSkin), line: CPAL.skinLine, lw: 1.6, seed: 77, tex: 2, texA: 0.3, anchor });
+  ink(ctx, crSample(GRAN.hair, true, 6).map(hT), { fill: mixc(CPAL.gHair), line: CPAL.gHairLine, lw: 1.4, seed: 78, tex: 1, anchor });
+  ink(ctx, circlePts([GRAN.bun[0], GRAN.bun[1]], GRAN.bun[2], 14).map(hT), { fill: mixc(CPAL.gHair), line: CPAL.gHairLine, lw: 1.4, seed: 79, tex: 1 });
+  if (sil < 0.85) {
+    const e = hT(GRAN.eye);
+    if ((Q.blink || 0) > 0.5) brush(ctx, [[GRAN.eye[0] - 1.5, GRAN.eye[1]], [GRAN.eye[0] + 1.5, GRAN.eye[1] - 0.3]].map(hT), false, 1.4, '#1b100b', 80);
+    else { ctx.fillStyle = '#1b100b'; ctx.beginPath(); ctx.ellipse(e[0], e[1], 1.2 * K, 1.5 * K, 0, 0, 6.283); ctx.fill(); }
+    brush(ctx, GRAN.brow.map(hT), false, 1.3, '#8a8274', 81);
+    for (const l of GRAN.lines) brush(ctx, l.map(hT), false, 0.9, CPAL.skinLine, 82);
+    const m = GRAN.mouth, sm2 = Q.smile || 0;
+    brush(ctx, [[m[0] - 2, m[1] + 0.2 + sm2 * 0.8], [m[0] - 0.4, m[1] - sm2 * 0.4], [m[0] + 0.6, m[1] + sm2 * 0.6]].map(hT), false, 1.2, CPAL.skinLine, 83);
+  }
+  // shawl over the shoulders
+  ink(ctx, crSample(GRAN.shawl, true, 6).map(up).map(toS), { fill: mixc(CPAL.gShawl), line: CPAL.gShawlLine, lw: 1.8, seed: 84, tex: 2, anchor });
+  // fringe
+  const sh = crSample(GRAN.shawl, true, 6).map(up); for (let k = 0; k < sh.length; k += 3) { const p = sh[k]; if (p[1] < 84) brush(ctx, [p, [p[0] + 0.4, p[1] - 4]].map(toS), false, 1.0, CPAL.gShawlLine, 85 + k); }
+  arm(shN, hN, true);
+  return { handN: toS(hN), handF: toS(hF), head: hT([2, 8]), mouth: hT([GRAN.mouth[0] + 2, GRAN.mouth[1] + 1]), lap: toS([30, 58]), toS };
+}
+
+/* ===================== THE CAT ===================== */
+const CAT = {
+  // body outlines (cm, origin on the ground under the middle), facing right
+  body: {
+    curl:   [[-16, 6], [-12, 13], [-2, 15.5], [8, 14], [14, 9], [13, 3], [4, 0.6], [-8, 0.6], [-15, 2]],
+    sit:    [[-12, 2], [-14, 8], [-12, 14], [-6, 19], [1, 24.5], [6.5, 22], [8, 14], [7, 6], [4, 1], [-4, 0.5]],
+    stand:  [[-17, 17], [-12, 22.5], [-3, 20.5], [9, 22.5], [15, 21], [18, 14], [13, 9], [4, 9.5], [-6, 11.5], [-14, 10.5], [-18, 13]],
+    crouch: [[-17, 10], [-11, 15], [0, 13.5], [11, 12], [17, 10], [15, 5], [8, 3.2], [-4, 3.6], [-15, 4.4], [-19, 7]],
+    stretch:[[-23, 19], [-16, 22.5], [-2, 20.5], [14, 20.5], [21, 18], [21, 12.5], [13, 11], [0, 13], [-16, 12.5], [-24, 15]],
+  },
+  order: ['curl', 'sit', 'stand', 'crouch', 'stretch'],
+  head: { neck: { curl: [10, 9], sit: [5, 23], stand: [16, 20], crouch: [16, 11], stretch: [23, 19] },
+    face: [[-5, -1], [-6.5, 4], [-5, 8], [-6, 13], [-3.6, 10.2], [0, 10.6], [3, 10.6], [5.6, 13.2], [5.8, 8], [7.4, 4.8], [8.6, 2], [7, -0.4], [3, -2.4], [-2, -2.6]],
+    earIn: [[[-4.6, 9.4], [-5.2, 12], [-3.4, 10.4]], [[4.4, 10.4], [5.2, 12.4], [5.2, 9.6]]], eye: [3.6, 4.2], nose: [8.2, 2.4] },
+  legs: { stand: { front: [12, 15], back: [-12, 15] }, crouch: { front: [12, 7], back: [-12, 8] }, stretch: { front: [16, 16], back: [-17, 16] } },
+};
+function newCat() { return { tail: chain(9, 3.2), phase: 0, prev: null }; }
+/* Q: x,y (ground px), K, face, pose (0 curl .. 4 stretch), mode 'gait'|'still', speed, stride, lookUp, eyesClosed, sil, headTurn,
+   paws: optional cm offsets for the 4 paws (front near, front far, back near, back far) */
+function drawCat(ctx, C, Q, dt) {
+  const f = Q.face, K = Q.K, toS = p => [Q.x + f * p[0] * K, Q.y - p[1] * K], anchor = toS([0, 0]);
+  const pz = clamp(Q.pose, 0, 4), i0 = Math.floor(Math.min(pz, 3.999)), u = pz - i0;
+  const A = CAT.body[CAT.order[i0]], B = CAT.body[CAT.order[i0 + 1]];
+  let body = between(A, B, u, true, 80);
+  let bob = 0;
+  if (Q.mode === 'gait') { C.phase += Q.speed * dt; bob = Math.sin(C.phase * 12.566) * 0.8; }
+  body = body.map(p => [p[0], p[1] + bob + (Q.lift || 0)]);
+  const sil = Q.sil || 0, mixc = c => sil > 0 ? mixHex(c, '#1a2238', sil * 0.7) : c;
+  // tail from the rump
+  const rump = between(A, B, u, true, 80).reduce((m, p) => p[0] < m[0] ? p : m, [1e9, 0]);
+  const tA = toS([rump[0] + 1, rump[1] + bob + (Q.lift || 0) + clamp(1 - pz * 2) * 3]);
+  const vx = C.prev ? (anchor[0] - C.prev[0]) / Math.max(dt, 1e-3) : 0; C.prev = anchor;
+  const tu = Q.tailUp || 0, curlT = clamp(1 - pz * 2);
+  const tailRest = i => { const s = i / 8; // angle in screen space, measured from 'straight back'
+    const aUp = (-0.35 - 0.9 * tu - 0.25) * (1 - s) + (-1.6 - 0.6 * tu) * s; // rise, then hook forward at the tip
+    const aCurl = 1.5 + 1.95 * Math.min(1, s * 1.6); // sweep down and round the front along the ground
+    const a = lerp(aUp, aCurl, curlT); return [-f * Math.cos(a), Math.sin(a)]; };
+  C.tail.len = 3.3 * K;
+  const tp = stepChain(C.tail, tA, tailRest, 0.22, 0.8, 0, Math.sin(Q.t * 1.7) * 0.15 * (Q.tailFlick || 0.4) * K - clamp(vx * 0.0007, -3, 3));
+  // legs: plant paws (gait)
+  const legDef = pz >= 2 ? (pz < 3 ? { a: CAT.legs.stand, b: CAT.legs.crouch, u: pz - 2 } : { a: CAT.legs.crouch, b: CAT.legs.stretch, u: pz - 3 }) : null;
+  const legVis = clamp(pz - 1.2, 0, 1);
+  const drawLeg = (hip, paw, near) => { const isF = near.startsWith('front'); const lens = isF ? [7.8, 7.8] : [9, 8.5]; const knee = ik2(hip, paw, lens[0], lens[1], isF ? -1 : 1);
+    ink(ctx, crSample(ribbon([hip, knee, paw], isF ? [6.4, 4.4, 3.8] : [8.5, 4.6, 3.8]), true, 3).map(toS), { fill: near.endsWith('far') ? mixc(CPAL.catDark) : mixc(CPAL.cat), line: mixc(CPAL.catLine), lw: 1.2, seed: 90, tex: 2, anchor });
+    ink(ctx, circlePts([paw[0] + 1.2, paw[1] + 1], 2, 8, 1.3, 0.8).map(toS), { fill: mixc(CPAL.cat2), line: mixc(CPAL.catLine), lw: 1, seed: 91, tex: null }); };
+  let paws = null;
+  if (legDef && legVis > 0.01) {
+    const fr = lp(legDef.a.front, legDef.b.front, legDef.u), bk = lp(legDef.a.back, legDef.b.back, legDef.u);
+    const D = Q.stride || 14, du = 0.55;
+    const foot = (ph, base) => { if (Q.mode !== 'gait') return [base, 0]; const uu = ((ph % 1) + 1) % 1; if (uu < du) return [base + D * du * (0.5 - uu / du), 0]; const s = (uu - du) / (1 - du); return [base + D * du * (-0.5 + s), Math.sin(Math.PI * s) * 4]; };
+    paws = [foot(C.phase, fr[0] + 2), foot(C.phase + 0.5, fr[0] - 1), foot(C.phase + 0.25, bk[0] + 1), foot(C.phase + 0.75, bk[0] - 2)];
+    if (Q.lift) paws = paws.map(p => [p[0], p[1] + Q.lift * (Q.legsTuck || 0.6)]);
+    const hipF = [fr[0], fr[1] + bob + (Q.lift || 0)], hipB = [bk[0], bk[1] + bob + (Q.lift || 0)];
+    ctx.globalAlpha = legVis; drawLeg(hipF, paws[1], 'front-far'); drawLeg(hipB, paws[3], 'back-far'); ctx.globalAlpha = 1;
+    C._legs = { hipF, hipB };
+  }
+  const drawTail = () => ink(ctx, ribbon(tp, tp.map((_, i) => (3.4 - i * 0.2) * K)), { fill: mixc(CPAL.cat), line: mixc(CPAL.catLine), lw: 1.2, seed: 92, tex: 2, anchor });
+  if (curlT < 0.5) drawTail();
+  ink(ctx, body.map(toS), { fill: mixc(CPAL.cat), line: mixc(CPAL.catLine), lw: 1.8, seed: 93, tex: 2, anchor });
+  // tabby stripes along the back
+  ctx.save(); polyPath(ctx, body.map(toS)); ctx.clip();
+  for (let k = -4; k <= 4; k++) { const top = body.reduce((m, p) => Math.abs(p[0] - k * 4) < Math.abs(m[0] - k * 4) && p[1] > 8 ? p : m, [999, 0]); if (top[0] > 900) continue; brush(ctx, [[top[0] - 0.6, top[1] + 0.5], [top[0] + 0.8, top[1] - 4.5]].map(toS), false, 2.2, mixc(CPAL.catDark), 94 + k); }
+  // cream belly
+  ctx.globalAlpha = 0.85; ctx.fillStyle = mixc(CPAL.cat2); const bl = body.filter(p => p[1] < (pz < 1 ? 4 : 12) + bob); if (bl.length > 3 && (pz < 0.5 || pz > 1.6)) { ctx.beginPath(); bl.map(toS).forEach((p, i) => i ? ctx.lineTo(p[0], p[1]) : ctx.moveTo(p[0], p[1])); ctx.closePath(); ctx.fill(); }
+  ctx.globalAlpha = 1; ctx.restore();
+  if (curlT >= 0.5) drawTail();
+  if (paws && legVis > 0.01) { ctx.globalAlpha = legVis; drawLeg(C._legs.hipF, paws[0], 'front'); drawLeg(C._legs.hipB, paws[2], 'back'); ctx.globalAlpha = 1; }
+  if (pz > 0.5 && pz < 1.8) { const a = 1 - Math.abs(pz - 1) / 0.8; ctx.globalAlpha = clamp(a * 1.4);
+    ink(ctx, crSample(ribbon([[3, 16], [4.5, 8], [5, 1.5]], [5.5, 4.2, 3.8]), true, 3).map(toS), { fill: mixc(CPAL.cat2), line: mixc(CPAL.catLine), lw: 1.2, seed: 89, tex: 2, anchor });
+    ink(ctx, circlePts([6.4, 1.2], 2, 8, 1.3, 0.8).map(toS), { fill: mixc(CPAL.cat2), line: mixc(CPAL.catLine), lw: 1, seed: 91, tex: null }); ctx.globalAlpha = 1; }
+  // head
+  const nA = CAT.head.neck[CAT.order[i0]], nB = CAT.head.neck[CAT.order[i0 + 1]], nk = lp(nA, nB, u);
+  const hc = [nk[0], nk[1] + bob + (Q.lift || 0) + (pz < 0.6 ? -2 : 0)], ang = (Q.lookUp || 0) * 0.6 + (pz < 0.6 ? -0.4 : 0);
+  const hT = p => toS(rot([hc[0] + p[0] * 0.9, hc[1] + p[1] * 0.9], hc, ang));
+  ink(ctx, crSample(CAT.head.face, true, 5).map(hT), { fill: mixc(CPAL.cat), line: mixc(CPAL.catLine), lw: 1.6, seed: 95, tex: 2, anchor });
+  for (const e of CAT.head.earIn) ink(ctx, e.map(hT), { fill: mixc('#e2a487'), line: null, lw: 0, seed: 96, tex: null });
+  ink(ctx, circlePts([4.6, 0.6], 2.6, 10, 1.2, 0.9).map(hT), { fill: mixc(CPAL.cat2), line: null, lw: 0, seed: 97, tex: null });
+  if (sil < 0.95) {
+    const e = hT(CAT.head.eye);
+    if (Q.eyesClosed) brush(ctx, [[CAT.head.eye[0] - 1.6, CAT.head.eye[1] + 0.4], [CAT.head.eye[0], CAT.head.eye[1] - 0.6], [CAT.head.eye[0] + 1.6, CAT.head.eye[1] + 0.4]].map(hT), false, 1.3, '#1a110c', 98);
+    else { ctx.fillStyle = Q.night ? '#e7e2a0' : '#a8b84a'; ctx.beginPath(); ctx.ellipse(e[0], e[1], 1.7 * K, 1.9 * K, 0, 0, 6.283); ctx.fill(); ctx.fillStyle = '#120b08'; ctx.beginPath(); ctx.ellipse(e[0] + 0.3 * K * f, e[1], (Q.night ? 1.1 : 0.5) * K, 1.6 * K, 0, 0, 6.283); ctx.fill(); }
+    const n = hT(CAT.head.nose); ctx.fillStyle = CPAL.nose; ctx.beginPath(); ctx.arc(n[0], n[1], 0.9 * K, 0, 6.283); ctx.fill();
+    for (const s of [-0.3, 0.1, 0.4]) brush(ctx, [[6.4, 1.6], [12, 1.6 + s * 5]].map(hT), false, 0.6, 'rgba(240,230,210,0.7)', 99);
+  }
+  return { head: hT([2, 4]), back: toS([0, 20]), toS };
+}
+if (typeof window !== 'undefined') Object.assign(window, { drawGirl, newGirl, drawGran, drawCat, newCat, CPAL, mixHex, ik2, ribbon, rot, circlePts, stepChain, chain });

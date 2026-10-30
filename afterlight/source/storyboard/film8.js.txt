@@ -1,0 +1,576 @@
+// AFTERLIGHT film 8 — A Letter from a Dead Star
+// Keyframe module. Plain browser JS, Canvas 2D, deterministic (seeded RNG only).
+(function () {
+  'use strict';
+
+  // ---------- seeded helpers ----------
+  function rng(seed) {
+    let a = seed >>> 0;
+    return function () {
+      a = (a + 0x6D2B79F5) >>> 0;
+      let t = a;
+      t = Math.imul(t ^ (t >>> 15), t | 1);
+      t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+  function gauss(r) { return (r() + r() + r() + r() - 2) / 2; }
+
+  const PAPER = '#07090f';
+  const INK = [226, 220, 204];      // warm off-white stipple
+  const AMBER = [255, 178, 92];     // settlement light
+  const BLUEW = [196, 214, 255];    // hot blue-white of the source
+
+  function rgba(c, a) { return 'rgba(' + c[0] + ',' + c[1] + ',' + c[2] + ',' + a + ')'; }
+
+  function dot(ctx, x, y, r) { ctx.fillRect(x - r, y - r, r * 2, r * 2); }
+
+  // night sky: graded paper + stipple, denser toward a horizon glow
+  function sky(ctx, w, h, seed, horizonY, glow) {
+    const g = ctx.createLinearGradient(0, 0, 0, horizonY);
+    g.addColorStop(0, '#05070d');
+    g.addColorStop(1, glow ? '#18213a' : '#0a0e1a');
+    ctx.fillStyle = g;
+    ctx.fillRect(0, 0, w, h);
+    const r = rng(seed);
+    // grain of the night (fine stipple, density rising toward horizon)
+    for (let i = 0; i < 9000; i++) {
+      const x = r() * w;
+      const y = Math.pow(r(), 0.55) * horizonY;
+      const a = 0.05 + 0.18 * (y / horizonY);
+      ctx.fillStyle = rgba(INK, a * 0.6);
+      dot(ctx, x, y, 0.6);
+    }
+  }
+
+  function starfield(ctx, w, h, seed, n, maxY) {
+    const r = rng(seed);
+    for (let i = 0; i < n; i++) {
+      const x = r() * w, y = r() * maxY;
+      const m = Math.pow(r(), 3.2);
+      ctx.fillStyle = rgba(INK, 0.35 + 0.6 * m);
+      dot(ctx, x, y, 0.6 + m * 1.6);
+    }
+  }
+
+  // the particular star: a dense knot of dots with a stippled halo (no spikes, no glow sprite)
+  function theStar(ctx, x, y, s, seed, col) {
+    const r = rng(seed);
+    for (let i = 0; i < 700; i++) {
+      const d = Math.abs(gauss(r)) * s * 3.2;
+      const t = r() * Math.PI * 2;
+      ctx.fillStyle = rgba(col, Math.max(0.05, 0.7 - d / (s * 3.2)));
+      dot(ctx, x + Math.cos(t) * d, y + Math.sin(t) * d, 0.7);
+    }
+    ctx.fillStyle = rgba([255, 255, 255], 0.95);
+    dot(ctx, x, y, s * 0.55);
+  }
+
+  // dark planet ground with a slight curvature, sparse stipple
+  function ground(ctx, w, h, seed, yAt) {
+    ctx.beginPath();
+    ctx.moveTo(0, h);
+    for (let x = 0; x <= w; x += 8) ctx.lineTo(x, yAt(x));
+    ctx.lineTo(w, h);
+    ctx.closePath();
+    ctx.fillStyle = '#030406';
+    ctx.fill();
+    const r = rng(seed);
+    for (let i = 0; i < 2200; i++) {
+      const x = r() * w;
+      const y0 = yAt(x);
+      const y = y0 + Math.pow(r(), 1.4) * (h - y0);
+      ctx.fillStyle = rgba(INK, 0.05 + 0.07 * r());
+      dot(ctx, x, y, 0.7);
+    }
+  }
+
+  // a house silhouette with lit windows; returns nothing
+  function house(ctx, x, gy, s, r, lit) {
+    const bw = s * (1 + r() * 0.6), bh = s * (0.7 + r() * 0.35), rh = s * (0.45 + r() * 0.2);
+    ctx.fillStyle = '#020203';
+    ctx.beginPath();
+    ctx.moveTo(x, gy);
+    ctx.lineTo(x, gy - bh);
+    ctx.lineTo(x + bw / 2, gy - bh - rh);
+    ctx.lineTo(x + bw, gy - bh);
+    ctx.lineTo(x + bw, gy);
+    ctx.closePath();
+    ctx.fill();
+    // roof edge catching sky
+    ctx.strokeStyle = 'rgba(120,135,170,0.25)';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(x, gy - bh); ctx.lineTo(x + bw / 2, gy - bh - rh); ctx.lineTo(x + bw, gy - bh);
+    ctx.stroke();
+    if (lit) {
+      const nw = 1 + Math.floor(r() * 2);
+      for (let k = 0; k < nw; k++) {
+        const wx = x + bw * (0.22 + 0.42 * k) , wy = gy - bh * 0.62;
+        const ww = s * 0.18, wh = s * 0.22;
+        // light spill as stipple
+        const rr = rng(Math.floor(wx * 13 + wy));
+        for (let i = 0; i < 70; i++) {
+          const d = Math.abs(gauss(rr)) * s * 0.9, t = rr() * Math.PI * 2;
+          ctx.fillStyle = rgba(AMBER, 0.22 * Math.max(0, 1 - d / (s * 0.9)));
+          dot(ctx, wx + ww / 2 + Math.cos(t) * d, wy + wh / 2 + Math.sin(t) * d * 0.7, 0.8);
+        }
+        ctx.fillStyle = rgba(AMBER, 0.95);
+        ctx.fillRect(wx, wy, ww, wh);
+      }
+    }
+  }
+
+  function settlement(ctx, x0, x1, yAt, seed, extra) {
+    const r = rng(seed);
+    let x = x0;
+    let i = 0;
+    while (x < x1) {
+      const s = 14 + r() * 14;
+      const gy = yAt(x) + 2;
+      house(ctx, x, gy, s, r, r() < 0.8 || (extra && i === 3));
+      x += s * (1.3 + r() * 1.1);
+      i++;
+    }
+    if (extra) {
+      // a new house since the first night: raw roof frame, lit from inside
+      const nx = x1 + 6, gy = yAt(nx) + 2;
+      house(ctx, nx, gy, 22, rng(seed + 7), true);
+    }
+  }
+
+  // a standing person, seen from behind three-quarter; feet at (x,y), height s
+  // pose: { look: angle of head tilt up (rad), reach: arm raised toward (tx,ty) or null, lantern: 'hand'|'ground'|null, child:false }
+  function person(ctx, x, y, s, pose) {
+    const ink = '#010102';
+    ctx.save();
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+    ctx.fillStyle = ink;
+    ctx.strokeStyle = ink;
+    // legs
+    ctx.lineWidth = s * 0.075;
+    ctx.beginPath();
+    ctx.moveTo(x - s * 0.05, y - s * 0.46); ctx.lineTo(x - s * 0.07, y - s * 0.02);
+    ctx.moveTo(x + s * 0.05, y - s * 0.46); ctx.lineTo(x + s * 0.08, y - s * 0.02);
+    ctx.stroke();
+    // feet
+    ctx.lineWidth = s * 0.05;
+    ctx.beginPath();
+    ctx.moveTo(x - s * 0.08, y - s * 0.015); ctx.lineTo(x - s * 0.15, y);
+    ctx.moveTo(x + s * 0.08, y - s * 0.015); ctx.lineTo(x + s * 0.15, y);
+    ctx.stroke();
+    // coat
+    ctx.beginPath();
+    ctx.moveTo(x - s * 0.11, y - s * 0.82);
+    ctx.quadraticCurveTo(x - s * 0.15, y - s * 0.6, x - s * 0.17, y - s * 0.38);
+    ctx.lineTo(x + s * 0.16, y - s * 0.38);
+    ctx.quadraticCurveTo(x + s * 0.14, y - s * 0.6, x + s * 0.11, y - s * 0.82);
+    ctx.quadraticCurveTo(x, y - s * 0.86, x - s * 0.11, y - s * 0.82);
+    ctx.fill();
+    // neck + head (tilted back to look up)
+    const hx = x + s * 0.02 + Math.sin(pose.look) * s * 0.03;
+    const hy = y - s * 0.915;
+    ctx.lineWidth = s * 0.05;
+    ctx.beginPath(); ctx.moveTo(x, y - s * 0.83); ctx.lineTo(hx, hy + s * 0.03); ctx.stroke();
+    ctx.save();
+    ctx.translate(hx, hy);
+    ctx.rotate(-pose.look);
+    ctx.beginPath(); ctx.ellipse(0, 0, s * 0.058, s * 0.07, 0, 0, Math.PI * 2); ctx.fill();
+    ctx.restore();
+    // arms
+    ctx.lineWidth = s * 0.055;
+    const shL = [x - s * 0.1, y - s * 0.79], shR = [x + s * 0.1, y - s * 0.79];
+    // left arm: down, holding lantern or empty
+    const handL = pose.lantern === 'hand' ? [x - s * 0.2, y - s * 0.47] : [x - s * 0.16, y - s * 0.44];
+    ctx.beginPath(); ctx.moveTo(shL[0], shL[1]);
+    ctx.quadraticCurveTo(x - s * 0.2, y - s * 0.62, handL[0], handL[1]); ctx.stroke();
+    ctx.beginPath(); ctx.arc(handL[0], handL[1], s * 0.03, 0, Math.PI * 2); ctx.fill();
+    // right arm
+    if (pose.reach) {
+      const [tx, ty] = pose.reach;
+      const ang = Math.atan2(ty - shR[1], tx - shR[0]);
+      const el = [shR[0] + Math.cos(ang + 0.35) * s * 0.17, shR[1] + Math.sin(ang + 0.35) * s * 0.17];
+      const hd = [el[0] + Math.cos(ang) * s * 0.17, el[1] + Math.sin(ang) * s * 0.17];
+      ctx.beginPath(); ctx.moveTo(shR[0], shR[1]); ctx.lineTo(el[0], el[1]); ctx.lineTo(hd[0], hd[1]); ctx.stroke();
+      // open hand: palm + index finger toward the star
+      ctx.beginPath(); ctx.arc(hd[0], hd[1], s * 0.03, 0, Math.PI * 2); ctx.fill();
+      ctx.lineWidth = s * 0.016;
+      ctx.beginPath(); ctx.moveTo(hd[0], hd[1]);
+      ctx.lineTo(hd[0] + Math.cos(ang) * s * 0.06, hd[1] + Math.sin(ang) * s * 0.06); ctx.stroke();
+    } else {
+      const hd = [x + s * 0.17, y - s * 0.45];
+      ctx.beginPath(); ctx.moveTo(shR[0], shR[1]);
+      ctx.quadraticCurveTo(x + s * 0.2, y - s * 0.62, hd[0], hd[1]); ctx.stroke();
+      ctx.beginPath(); ctx.arc(hd[0], hd[1], s * 0.03, 0, Math.PI * 2); ctx.fill();
+    }
+    ctx.restore();
+    // lantern
+    if (pose.lantern) {
+      const lx = pose.lantern === 'hand' ? handL[0] : x - s * 0.34;
+      const ly = pose.lantern === 'hand' ? handL[1] + s * 0.1 : y - s * 0.06;
+      lantern(ctx, lx, ly, s * 0.09, pose.lantern === 'hand' ? handL : null);
+    }
+    // warm rim light on the lantern side, as dots along the coat edge
+    const rr = rng(Math.floor(x * 7 + s));
+    for (let i = 0; i < 120; i++) {
+      const t = rr();
+      const ex = x - s * (0.11 + 0.06 * t) - 0.5, ey = y - s * (0.82 - 0.44 * t);
+      ctx.fillStyle = rgba(AMBER, 0.25 + 0.3 * (1 - Math.abs(t - 0.75)));
+      dot(ctx, ex + gauss(rr) * 1.2, ey, 0.6);
+    }
+  }
+
+  function lantern(ctx, x, y, s, hand) {
+    const r = rng(Math.floor(x * 31 + y));
+    for (let i = 0; i < 500; i++) {
+      const d = Math.abs(gauss(r)) * s * 5, t = r() * Math.PI * 2;
+      ctx.fillStyle = rgba(AMBER, 0.35 * Math.max(0, 1 - d / (s * 5)));
+      dot(ctx, x + Math.cos(t) * d, y + Math.sin(t) * d, 0.8);
+    }
+    ctx.fillStyle = '#020203';
+    if (hand) { ctx.strokeStyle = '#020203'; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(hand[0], hand[1]); ctx.lineTo(x, y - s * 0.7); ctx.stroke(); }
+    ctx.fillRect(x - s * 0.45, y - s * 0.75, s * 0.9, s * 0.18);
+    ctx.fillStyle = rgba(AMBER, 1);
+    ctx.fillRect(x - s * 0.35, y - s * 0.55, s * 0.7, s * 1.0);
+    ctx.fillStyle = '#020203';
+    ctx.fillRect(x - s * 0.45, y + s * 0.45, s * 0.9, s * 0.16);
+  }
+
+  // shared night set: horizon, settlement, the particular star
+  const STAR = [0.70, 0.20];
+  function nightSet(ctx, w, h, opts) {
+    const yAt = (x) => h * 0.74 - Math.sin((x / w) * Math.PI) * h * 0.035 + (x < w * 0.38 ? -Math.pow((w * 0.38 - x) / (w * 0.38), 1.6) * h * 0.1 : 0);
+    sky(ctx, w, h, 811, h * 0.74, true);
+    starfield(ctx, w, h, 812, 520, h * 0.7);
+    const g2 = ctx.createRadialGradient(STAR[0] * w, STAR[1] * h, 0, STAR[0] * w, STAR[1] * h, h * 0.09);
+    g2.addColorStop(0, 'rgba(6,8,14,0.95)'); g2.addColorStop(1, 'rgba(6,8,14,0)');
+    ctx.fillStyle = g2; ctx.fillRect(STAR[0] * w - h * 0.1, STAR[1] * h - h * 0.1, h * 0.2, h * 0.2);
+    theStar(ctx, STAR[0] * w, STAR[1] * h, 4.2, 813, BLUEW);
+    ground(ctx, w, h, 814, yAt);
+    settlement(ctx, w * 0.46, w * 0.86, yAt, 815, opts.extra);
+    return yAt;
+  }
+
+  // a large stippled sphere with limb darkening (the source star)
+  function sphere(ctx, cx, cy, R, seed, n, col) {
+    const r = rng(seed);
+    for (let i = 0; i < n; i++) {
+      const u = Math.sqrt(r());
+      const t = r() * Math.PI * 2;
+      const x = cx + Math.cos(t) * u * R, y = cy + Math.sin(t) * u * R;
+      const mu = Math.sqrt(1 - u * u);          // limb darkening
+      if (r() > 0.25 + 0.75 * mu) continue;
+      ctx.fillStyle = rgba(col, 0.35 + 0.6 * mu);
+      dot(ctx, x, y, 0.8 + 0.6 * mu);
+    }
+  }
+
+  // a ring in perspective (ellipse) of stippled gas; beads>0 gives bright knots
+  function gasRing(ctx, cx, cy, rx, ry, tilt, seed, n, col, alpha, beads) {
+    const r = rng(seed);
+    ctx.save(); ctx.translate(cx, cy); ctx.rotate(tilt);
+    for (let i = 0; i < n; i++) {
+      const t = r() * Math.PI * 2;
+      const k = 1 + gauss(r) * 0.06;
+      ctx.fillStyle = rgba(col, alpha * (0.4 + 0.6 * r()));
+      dot(ctx, Math.cos(t) * rx * k, Math.sin(t) * ry * k, 0.7);
+    }
+    for (let b = 0; b < beads; b++) {
+      const t = (b / beads) * Math.PI * 2 + r() * 0.2;
+      const bx = Math.cos(t) * rx, by = Math.sin(t) * ry;
+      for (let i = 0; i < 40; i++) {
+        ctx.fillStyle = rgba([255, 244, 220], 0.85 * r());
+        dot(ctx, bx + gauss(r) * 2.2, by + gauss(r) * 2.2, 0.8);
+      }
+    }
+    ctx.restore();
+  }
+
+  // hand-drawn wobbling arc (pencil)
+  function pencilArc(ctx, cx, cy, R, a0, a1, seed, col, alpha, width) {
+    const r = rng(seed);
+    ctx.save();
+    ctx.strokeStyle = rgba(col, alpha);
+    ctx.lineWidth = width;
+    ctx.beginPath();
+    const steps = 160;
+    let wob = 0;
+    for (let i = 0; i <= steps; i++) {
+      const a = a0 + (a1 - a0) * (i / steps);
+      wob = wob * 0.85 + gauss(r) * 0.9;
+      const rr = R + wob;
+      const x = cx + Math.cos(a) * rr, y = cy + Math.sin(a) * rr;
+      if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  // ---------- keyframe drawings ----------
+
+  function draw1(ctx, w, h) {
+    const yAt = nightSet(ctx, w, h, { extra: false });
+    const fx = w * 0.24, fy = yAt(w * 0.24) + 4;
+    person(ctx, fx, fy, h * 0.42, { look: 0.45, reach: [STAR[0] * w, STAR[1] * h], lantern: 'hand' });
+  }
+
+  function draw2(ctx, w, h) {
+    ctx.fillStyle = PAPER; ctx.fillRect(0, 0, w, h);
+    starfield(ctx, w, h, 821, 700, h);
+    const cx = w * 0.5, cy = h * 0.5;
+    // shed gas from the star's earlier life (as in Sk -69 202's ring), faint
+    gasRing(ctx, cx, cy, h * 0.36, h * 0.15, -0.35, 822, 2600, [210, 150, 150], 0.22, 0);
+    // granular stippled photosphere
+    sphere(ctx, cx, cy, h * 0.17, 823, 26000, BLUEW);
+    // convection granules: denser clumps
+    const r = rng(824);
+    for (let g = 0; g < 40; g++) {
+      const u = Math.sqrt(r()) * 0.85, t = r() * Math.PI * 2;
+      const gx = cx + Math.cos(t) * u * h * 0.17, gy = cy + Math.sin(t) * u * h * 0.17;
+      for (let i = 0; i < 40; i++) {
+        ctx.fillStyle = rgba([255, 255, 255], 0.5 * r());
+        dot(ctx, gx + gauss(r) * 5, gy + gauss(r) * 5, 0.7);
+      }
+    }
+    // near rim of ring passes in front of the star
+    ctx.save();
+    ctx.beginPath(); ctx.rect(0, cy, w, h); ctx.clip();
+    gasRing(ctx, cx, cy, h * 0.36, h * 0.15, -0.35, 825, 900, [230, 170, 160], 0.3, 0);
+    ctx.restore();
+  }
+
+  function draw3(ctx, w, h) {
+    ctx.fillStyle = PAPER; ctx.fillRect(0, 0, w, h);
+    starfield(ctx, w, h, 821, 700, h);           // same field as frame 2
+    const cx = w * 0.5, cy = h * 0.5;
+    const r = rng(831);
+    // the envelope thrown outward: turbulent shell of dots with fingers
+    for (let i = 0; i < 30000; i++) {
+      const t = r() * Math.PI * 2;
+      const finger = 0.8 + 0.12 * Math.sin(t * 5 + 1.3) + 0.09 * Math.sin(t * 11 + 0.4) + 0.07 * Math.sin(t * 23 + 2.1) + 0.05 * Math.sin(t * 37 + 0.9) + gauss(r) * 0.05;
+      const d = h * 0.3 * finger * (0.55 + 0.45 * Math.pow(r(), 0.35));
+      const a = 0.15 + 0.6 * Math.pow(d / (h * 0.42), 2);
+      ctx.fillStyle = rgba(i % 5 === 0 ? [255, 200, 160] : BLUEW, Math.min(0.9, a));
+      dot(ctx, cx + Math.cos(t) * d, cy + Math.sin(t) * d * 0.95, 0.7);
+    }
+    // the old ring, now struck: bright beads
+    gasRing(ctx, cx, cy, h * 0.36, h * 0.15, -0.35, 822, 2000, [230, 170, 160], 0.35, 26);
+    // collapsed core: tiny, dense, white
+    for (let i = 0; i < 500; i++) {
+      const d = Math.abs(gauss(r)) * 9;
+      const t = r() * Math.PI * 2;
+      ctx.fillStyle = rgba([255, 255, 255], 0.9 - d / 14);
+      dot(ctx, cx + Math.cos(t) * d, cy + Math.sin(t) * d, 0.8);
+    }
+    ctx.fillStyle = '#fff'; dot(ctx, cx, cy, 2.2);
+  }
+
+  function draw4(ctx, w, h) {
+    ctx.fillStyle = PAPER; ctx.fillRect(0, 0, w, h);
+    starfield(ctx, w, h, 841, 900, h);
+    // source far upper-left: small remnant knot
+    const sx = w * 0.07, sy = h * 0.12;
+    const r = rng(842);
+    for (let i = 0; i < 700; i++) {
+      const d = Math.abs(gauss(r)) * 16, t = r() * Math.PI * 2;
+      ctx.fillStyle = rgba(i % 3 ? BLUEW : [230, 170, 160], 0.8 - d / 30);
+      dot(ctx, sx + Math.cos(t) * d, sy + Math.sin(t) * d, 0.7);
+    }
+    // hand-drawn spacetime structure: pencil arcs of earlier light, evenly spaced, reaching past the planet
+    for (let k = 1; k <= 14; k++) {
+      pencilArc(ctx, sx, sy, k * w * 0.105, -0.3, 1.9, 850 + k, INK, 0.13 + (k > 6 ? 0.05 : 0), 1.2);
+    }
+    // the front of the collapse light: a stippled band, still far from the planet
+    const Rf = w * 0.5;
+    for (let i = 0; i < 16000; i++) {
+      const a = -0.3 + r() * 2.2;
+      const d = Rf - Math.abs(gauss(r)) * w * 0.022;
+      ctx.fillStyle = rgba(BLUEW, 0.12 + 0.55 * Math.max(0, 1 - (Rf - d) / (w * 0.03)));
+      dot(ctx, sx + Math.cos(a) * d, sy + Math.sin(a) * d, 0.75);
+    }
+    // the dark planet, lower right, its night side carrying settlement lights
+    const px = w * 0.9, py = h * 1.2, PR = h * 0.62;
+    ctx.beginPath(); ctx.arc(px, py, PR, 0, Math.PI * 2); ctx.fillStyle = '#020306'; ctx.fill();
+    // thin daylit crescent on the far limb (its sun is elsewhere)
+    for (let i = 0; i < 3000; i++) {
+      const a = -Math.PI * 0.5 + (r() - 0.2) * 1.0;
+      const d = PR - Math.abs(gauss(r)) * 5;
+      ctx.fillStyle = rgba([150, 170, 210], 0.25 * r());
+      dot(ctx, px + Math.cos(a) * d, py + Math.sin(a) * d, 0.7);
+    }
+    // stippled surface texture
+    for (let i = 0; i < 2500; i++) {
+      const u = Math.sqrt(r()), t = r() * Math.PI * 2;
+      ctx.fillStyle = rgba(INK, 0.06);
+      dot(ctx, px + Math.cos(t) * u * PR, py + Math.sin(t) * u * PR, 0.7);
+    }
+    // settlements: small amber clusters on the night side
+    const towns = [[-2.35, 0.82], [-2.15, 0.9], [-1.95, 0.75], [-2.6, 0.7]];
+    towns.forEach(([a, f], j) => {
+      const tx = px + Math.cos(a) * PR * f, ty = py + Math.sin(a) * PR * f;
+      const n = j === 1 ? 260 : 140;
+      for (let i = 0; i < n; i++) {
+        ctx.fillStyle = rgba(AMBER, 0.4 + 0.5 * r());
+        dot(ctx, tx + gauss(r) * 14, ty + gauss(r) * 6, 1.1);
+      }
+    });
+    // one thread of road lights between two towns
+    for (let i = 0; i < 30; i++) {
+      const t = i / 30;
+      const a = -2.35 + 0.2 * t, f = 0.82 + 0.08 * t;
+      ctx.fillStyle = rgba(AMBER, 0.7);
+      dot(ctx, px + Math.cos(a) * PR * f, py + Math.sin(a) * PR * f, 1.0);
+    }
+  }
+
+  function draw5(ctx, w, h) {
+    const yAt = nightSet(ctx, w, h, { extra: true });
+    const fx = w * 0.24, fy = yAt(w * 0.24) + 4;
+    person(ctx, fx, fy, h * 0.42, { look: 0.45, reach: null, lantern: 'ground' });
+    // a second, smaller person beside, also looking up
+    const cx = w * 0.32, cy = yAt(w * 0.32) + 4;
+    person(ctx, cx, cy, h * 0.27, { look: 0.55, reach: [STAR[0] * w, STAR[1] * h], lantern: null });
+  }
+
+  // ---------- references (all URLs opened during research) ----------
+  const R = {
+    heavenly: { kind: 'archive footage', title: 'Heavenly Bodies (1920s, silent, b&w)', creator: 'Unknown; Prelinger Archives', date: '1920s', url: 'https://archive.org/details/Heavenly1920', rights: 'public domain', verified: true },
+    whosOut: { kind: 'archive footage', title: "Who's Out There? (1975)", creator: 'NASA; National Archives and Records Administration', date: '1975', url: 'https://www.movingimagearchive.com/sources/who-s-out-there-c61bdc68', rights: 'public domain', verified: true },
+    spaceNav: { kind: 'archive footage', title: 'Space Navigation (1967)', creator: 'National Archives and Records Administration', date: '1967', url: 'https://www.movingimagearchive.com/sources/space-navigation-d73b0c4e', rights: 'public domain', verified: true },
+    zoom: { kind: 'archive footage', title: 'A Zoom into Supernova 1987A', creator: 'NASA, ESA, and G. Bacon (STScI)', date: '2017', url: 'https://science.nasa.gov/asset/hubble/a-zoom-into-supernova-1987a/', rights: 'NASA media: not subject to US copyright; credit NASA, ESA, G. Bacon (STScI)', verified: true },
+    svs: { kind: 'archive footage', title: 'Blast Wave from Supernova 1987A (SVS 30863), scientific visualization', creator: 'NASA, ESA, F. Summers and G. Bacon (STScI); simulation S. Orlando (INAF)', date: '2017-03-03', url: 'https://svs.gsfc.nasa.gov/30863', rights: 'NASA media: not subject to US copyright; credit NASA, ESA, F. Summers and G. Bacon (STScI)', verified: true },
+    hstLapse: { kind: 'archive footage', title: 'Time-lapse of SN 1987A and its ring (heic1704a video), Hubble 1994-2016', creator: 'NASA, ESA, R. Kirshner, P. Challis', date: '2017-02-24', url: 'https://esahubble.org/videos/heic1704a/', rights: 'CC BY 4.0', verified: true },
+    hstImg: { kind: 'still image', title: 'New image of SN 1987A (heic1704a), Hubble WFC3, January 2017', creator: 'NASA, ESA, R. Kirshner, P. Challis', date: '2017-02-24', url: 'https://esahubble.org/images/heic1704a/', rights: 'CC BY 4.0', verified: true },
+    hstMontage: { kind: 'still image', title: 'Supernova 1987A over time (heic1704b), 1994-2016', creator: 'NASA, ESA, R. Kirshner, P. Challis', date: '2017', url: 'https://esahubble.org/images/heic1704b/', rights: 'CC BY 4.0', verified: true },
+    chandraAnim: { kind: 'archive footage', title: 'SN 1987A animations (3D visualization; ESO artist impression of the material around SN 1987A)', creator: 'NASA/CXC; NASA, ESA, F. Summers, G. Bacon (STScI); ESO/L. Calçada', date: '2017', url: 'https://chandra.cfa.harvard.edu/photo/2017/sn1987a/animations.html', rights: 'mixed per item: NASA items not subject to US copyright; ESO item under ESO terms (not checked)', verified: true },
+    tycho: { kind: 'still image', title: 'Tycho Brahe, star map of Cassiopeia with the new star of 1572, from De nova stella (1573)', creator: 'Tycho Brahe', date: '1573', url: 'https://en.wikipedia.org/wiki/File:Tycho_Cas_SN1572.jpg', rights: 'public domain', verified: true },
+    wikiSN: { kind: 'source text', title: 'SN 1987A (encyclopedia summary of distance, neutrino burst, progenitor Sk -69 202)', creator: 'Wikipedia contributors', date: 'accessed 2026-10-28', url: 'https://en.wikipedia.org/wiki/SN_1987A', rights: 'CC BY-SA 4.0', verified: true },
+    webb: { kind: 'research paper', title: 'Webb finds clues of a neutron star at the heart of SN 1987A (weic2404; Fransson et al., Science 2024)', creator: 'ESA/Webb; C. Fransson et al.', date: '2024-02-22', url: 'https://esawebb.org/news/weic2404', rights: 'CC BY 4.0 (ESA/Webb images); text cited only', verified: true },
+    jpl: { kind: 'source text', title: 'Webb finds evidence for neutron star at heart of young supernova remnant', creator: 'NASA JPL', date: '2024-02-22', url: 'https://www.jpl.nasa.gov/news/webb-finds-evidence-for-neutron-star-at-heart-of-young-supernova-remnant/', rights: 'public domain', verified: true },
+    betelNASA: { kind: 'source text', title: 'Hubble sees red supergiant Betelgeuse slowly recovering after blowing its top', creator: 'NASA, ESA, STScI', date: '2022', url: 'https://science.nasa.gov/missions/hubble/hubble-sees-red-supergiant-star-betelgeuse-slowly-recovering-after-blowing-its-top/', rights: 'NASA media: not subject to US copyright', verified: true },
+    journey: { kind: 'archive footage', title: 'Journey Into Light (c. 1973), filmed at Kitt Peak National Observatory', creator: 'Aura Productions; Prelinger Archives', date: 'c. 1973', url: 'https://archive.org/details/6238_Journey_Into_Light_01_01_03_01', rights: 'unknown — not granted', verified: true }
+  };
+  function ref(key, use) { return Object.assign({}, R[key], { use: use }); }
+
+  window.AFTERLIGHT_FILMS.push({
+    id: 'F8',
+    n: 8,
+    title: 'A Letter from a Dead Star',
+    role: 'The cosmic closing film',
+    understand: 'A real appearance can arrive from a source whose condition has already changed.',
+    medium: 'Stipple dot-field on black paper with a hand-pencilled spacetime structure: a star is only ever a field of arriving points, so drawing everything in dots keeps the appearance and the source in one material while the pencil arcs carry the time that separates them.',
+    archivePlan: 'Real observation enters as PHOTOGRAPHED plates: the Hubble 1994-2016 time-lapse and the NASA SVS SN 1987A visualization stand behind the source shots (the visualization labelled as a NASA simulation, not a recording), and the 1920s Prelinger "Heavenly Bodies" observatory shots and Tycho\'s 1573 Cassiopeia chart appear as paper-slip inserts on the cut between the two worlds. The observer, the settlement and the dark planet are INVENTED cut-paper and stipple layers matted over a re-stippled star plate; frames 1 and 5 carry "COMPOSED SCENE · archive fragments re-performed · not a recorded event". Captions are paper slips; the picture itself carries no text, and no glowing particle travels between star and planet: the light is drawn only as a widening front.',
+    basis: [
+      { title: 'SN 1987A: light and neutrinos arrived 23 Feb 1987; distance about 168,000 ly (51.4 kpc); 25 neutrinos (Kamiokande II 12, IMB 8, Baksan 5) detected 2-3 hours before the light', url: 'https://en.wikipedia.org/wiki/SN_1987A', note: 'Other agency pages round differently: JPL says 160,000 ly, ESA/Hubble about 170,000 ly. Neutrinos led because photons were delayed escaping the star, not because neutrinos are faster.', verified: true },
+      { title: 'SN 1987A remnant: JWST evidence (argon lines) for a neutron star, "most likely", not a direct detection', url: 'https://esawebb.org/news/weic2404', note: 'So "dead star" for SN 1987A means the blue supergiant Sk -69 202 has ended as a star; a compact object (probably a neutron star) remains.', verified: true },
+      { title: 'NASA/JPL summary of the SN 1987A neutrino burst and Webb result', url: 'https://www.jpl.nasa.gov/news/webb-finds-evidence-for-neutron-star-at-heart-of-young-supernova-remnant/', note: 'Gives 160,000 ly and the neutrino burst "a few seconds" long, about two hours before visible light.', verified: true },
+      { title: 'Betelgeuse distance: Joyce et al. 2020, 168 (+27/-15) pc, about 548 ly', url: 'https://arxiv.org/abs/2006.09837v5', note: 'Low end of the brief\'s range.', verified: true },
+      { title: 'Betelgeuse distance: Harper et al. 2017, 222 (+48/-34) pc, about 724 ly', url: 'https://ui.adsabs.harvard.edu/abs/2017AJ....154...11H/abstract', note: 'High end; the brief\'s "550-700 ly" is slightly narrow, published central values span about 550-725 ly. Betelgeuse has not exploded; it is not a dead star. The 2019-20 dimming was a dust cloud from a surface mass ejection (NASA/Hubble).', verified: true },
+      { title: 'SN 1572 (Tycho\'s star) was a Type Ia supernova', url: 'https://en.wikipedia.org/wiki/SN_1572', note: 'A white dwarf (already a stellar remnant) was disrupted; no neutron star or black hole is left, only an expanding gas shell. "Dead star" fits only loosely.', verified: true },
+      { title: 'The observer, the settlement and the dark planet are fiction', url: '', note: 'No real system is depicted in frames 1, 4 and 5. Frames 2-3 borrow the SN 1987A pattern (blue supergiant, pre-shed ring, core collapse) as a visual model only.', verified: false }
+    ],
+    keyframes: [
+      {
+        n: 1, t: 0.0,
+        title: 'The star she notices',
+        shot: 'WS, low angle from behind the observer on a rise at the settlement edge; horizon at lower third, star upper right',
+        action: 'At night on the edge of a small lit settlement, the observer lifts her arm toward one steady star. The lantern hangs at her side.',
+        mechanism: 'star → eye (light arrives) ; point of light ⇝ observer (reads it as "a star, now")',
+        layers: [
+          { name: 'night sky and star field, re-stippled', source: 'PHOTOGRAPHED', ref: 0 },
+          { name: 'observatory/night-sky insert slip', source: 'PHOTOGRAPHED', ref: 1 },
+          { name: 'dark planet ground and settlement', source: 'INVENTED', ref: null },
+          { name: 'observer figure, cut paper, matted', source: 'INVENTED', ref: null }
+        ],
+        prompt: 'Wide low-angle night shot from behind a lone woman in a long coat standing on a dark rise, one arm raised toward a single steady star in the upper right; a lantern hangs from her other hand. Below her, a small cluster of cut-paper houses with amber windows on a dark curved horizon. Rendered entirely in fine white stipple dots on black paper, deep blue-black sky, warm amber accents, no glow effects, no text, no logos',
+        draw: draw1,
+        refs: [
+          ref('zoom', 'background plate: its opening night-sky view of the Magellanic Clouds is re-stippled as the observer\'s sky'),
+          ref('heavenly', 'insert slip: observatory roof opening and stars through a telescope, as the period image of a person noticing a star'),
+          ref('whosOut', 'lighting reference: NASA night-sky and radio-astronomy shots (individual shots not yet logged)')
+        ]
+      },
+      {
+        n: 2, t: 12.0,
+        title: 'The source, earlier',
+        shot: 'MS on the source star, centred, with its shed gas ring tilted around it; no planet in frame',
+        action: 'Cut far back in time: the source is still a star, a hot blue-white sphere inside a ring of gas it shed long before. Nothing is sent; it simply shines.',
+        mechanism: 'star → space (radiates in every direction) ; no address, no intent',
+        layers: [
+          { name: 'Hubble SN 1987A ring plate, re-stippled', source: 'PHOTOGRAPHED', ref: 0 },
+          { name: 'stippled photosphere of the star before collapse', source: 'INVENTED', ref: null },
+          { name: 'Tycho 1573 Cassiopeia chart as paper slip on the cut', source: 'PHOTOGRAPHED', ref: 2 }
+        ],
+        prompt: 'Medium shot of a hot blue-white supergiant star centred in black space, its surface drawn as dense granular stipple darkening toward the limb, surrounded by a faint tilted ellipse of reddish shed gas that passes in front of the lower half of the star. Sparse background stars. Fine stipple dots on black paper, cool blue-white and dusty rose palette, scientific illustration crossed with printmaking, no text, no logos',
+        draw: draw2,
+        refs: [
+          ref('hstImg', 'matte source: the ring of gas shed about 20,000 years before the explosion sets the shape and tilt of the drawn ring'),
+          ref('chandraAnim', 'rotoscope reference: the 3D visualization starts from the progenitor star before the explosion'),
+          ref('tycho', 'insert slip: a 16th-century record of a "new star" in Cassiopeia, shown as the historical form of noticing one'),
+          ref('wikiSN', 'citation: the progenitor Sk -69 202 was a blue supergiant')
+        ]
+      },
+      {
+        n: 3, t: 24.0,
+        title: 'The source changes',
+        shot: 'Same MS, locked off; the frame fills with the thrown envelope',
+        action: 'The core collapses; the envelope is thrown outward in fingers, and the old ring is struck into bright beads. A small dense remnant is left at the centre. On the observer\'s world this is long before anything we saw.',
+        mechanism: 'core → collapse (neutron star likely remains) ; envelope → ring (shock heats gas) ; this change → observer (not yet: the light is far away)',
+        layers: [
+          { name: 'Hubble 1994-2016 ring time-lapse, re-stippled', source: 'PHOTOGRAPHED', ref: 0 },
+          { name: 'NASA SVS blast-wave visualization (simulation, labelled as such)', source: 'PHOTOGRAPHED', ref: 1 },
+          { name: 'stippled envelope and central remnant', source: 'INVENTED', ref: null }
+        ],
+        prompt: 'The same blue-white star seen a moment later: its outer layers thrown outward as a turbulent stippled shell with ragged fingers, a tilted elliptical ring around it lit into a string of bright white beads, and a tiny dense white point left at the centre. Black space, same background stars as before. Fine stipple dot field on black paper, blue-white with warm rose specks, no lens flare, no text, no logos',
+        draw: draw3,
+        refs: [
+          ref('hstLapse', 'background plate: the real brightening of the ring\'s hot spots, 1994-2016, as the timing model for the beads'),
+          ref('svs', 'rotoscope reference: simulated blast wave reaching the ring (a simulation, not footage of the event)'),
+          ref('hstMontage', 'texture: arrangement of the bright spots around the ring'),
+          ref('webb', 'citation: the central remnant is drawn as a small dense point because a neutron star is most likely present')
+        ]
+      },
+      {
+        n: 4, t: 38.0,
+        title: 'The light keeps travelling',
+        shot: 'EWS across interstellar space: remnant small at upper left, dark planet filling lower right',
+        action: 'Far from the remnant, the front of the collapse light is still crossing empty space. Behind it, older light keeps reaching the planet, where the settlements go on with their nights.',
+        mechanism: 'earlier light → planet (already arriving) ; collapse light → space (still travelling) ; settlement ⊣ nothing here: no one can see the change yet',
+        layers: [
+          { name: 'star field plate, re-stippled', source: 'PHOTOGRAPHED', ref: 0 },
+          { name: 'pencil spacetime arcs and stippled light front', source: 'INVENTED', ref: null },
+          { name: 'dark planet with settlement lights', source: 'INVENTED', ref: null }
+        ],
+        prompt: 'Extreme wide shot of interstellar space: a small knot of stippled gas at the far upper left, a vast curved band of fine white stipple sweeping across the middle of the frame as an expanding light front, faint hand-pencilled concentric arcs spaced evenly beyond it, and the dark curved limb of a planet in the lower right with tiny amber clusters of town lights on its night side. Black paper, stipple and pencil, no glowing particle, no text, no logos',
+        draw: draw4,
+        refs: [
+          ref('spaceNav', 'archive footage reference: NASA animation of celestial sightings across distance, for the scale and tempo of the wide shot (shots not yet logged)'),
+          ref('svs', 'lighting reference: how NASA visualizes an expanding front as a shell rather than a moving point'),
+          ref('wikiSN', 'citation: about 168,000 years of travel for SN 1987A, and neutrinos detected 2-3 hours before the light')
+        ]
+      },
+      {
+        n: 5, t: 52.0,
+        title: 'Which time this belongs to',
+        shot: 'WS, same set-up as frame 1; the lantern set down, a second person beside her',
+        action: 'Later nights on the same rise: a new house is lit, the lantern stands on the ground, and a child points at the same star. It looks exactly as it did in frame 1; this light left the star before it collapsed, and the collapse light is still on its way.',
+        mechanism: 'pre-collapse light → eye (arrives now) ; appearance ⇝ observers (taken as "the star now") ; collapse light → planet (still travelling)',
+        layers: [
+          { name: 'night sky and star field, same plate as frame 1', source: 'PHOTOGRAPHED', ref: 0 },
+          { name: 'Kitt Peak observatory insert slip', source: 'PHOTOGRAPHED', ref: 2 },
+          { name: 'dark planet ground and grown settlement', source: 'INVENTED', ref: null },
+          { name: 'observer and child figures, cut paper, matted', source: 'INVENTED', ref: null }
+        ],
+        prompt: 'Same wide low-angle night view as before from behind a woman in a long coat on a dark rise, her lantern now set on the ground, a child beside her pointing at the same single steady star in the upper right. Below, the cut-paper settlement with amber windows has one more lit house. Fine white stipple on black paper, deep blue-black sky, warm amber accents, still and plain, no text, no logos',
+        draw: draw5,
+        refs: [
+          ref('zoom', 'background plate: the same re-stippled night sky as frame 1, unchanged'),
+          ref('heavenly', 'archive footage: telescope view of a star field, as the closing insert slip'),
+          ref('journey', 'insert slip candidate: observatory activity at Kitt Peak (rights not stated on the item; do not use until cleared)'),
+          ref('betelNASA', 'citation: a familiar naked-eye star whose distance (about 550-725 ly) means its light left centuries ago; it has not exploded')
+        ]
+      }
+    ]
+  });
+})();

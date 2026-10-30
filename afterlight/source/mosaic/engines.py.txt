@@ -1,0 +1,366 @@
+"""Nine picture engines, one per track, each a different way of turning sound and archive film into light.
+Every engine: __init__(ctx), frame(t, dt) -> float image (H, W, 3) in linear light, before finish()."""
+import numpy as np, math, cv2
+from scipy.ndimage import gaussian_filter, map_coordinates
+from vis_common import *
+
+GOLD = np.array([1.0, 0.74, 0.40], np.float32); AMBER = np.array([1.0, 0.55, 0.18], np.float32)
+
+# ===================================================================== 1. TAKUMI: CRT channel flip
+_nx = (XX - W / 2) / (480); _ny = (YY - H / 2) / (360); _r2 = _nx ** 2 + _ny ** 2
+CRT_MX = (W / 2 + _nx * (1 + 0.09 * _r2) * 480).astype(np.float32); CRT_MY = (H / 2 + _ny * (1 + 0.09 * _r2) * 360).astype(np.float32)
+CRT_GLASS = (np.clip(1 - np.maximum(np.abs(_nx) ** 8 + np.abs(_ny) ** 8 - 0.55, 0) * 3, 0, 1) * (np.abs(_nx) < 1.02) * (np.abs(_ny) < 1.02))[..., None].astype(np.float32)
+class CRT:
+    """1956 television: the archive comes in through a phosphor screen; every cut in the music is a channel flip,
+    and each flip leaves the last picture's phosphor glowing while embers lift off it."""
+    def __init__(s, ctx, cats=('stu', 'rit', 'mir', 'lam', 'chi'), seed=1):
+        s.c = ctx; s.clips = [clip_frames(i, 320, 240, 12, 10) for i in footage(cats, 9, seed)]
+        s.ch = 0; s.buf = np.zeros((H, W, 3), np.float32); s.emb = Embers(20000, 3); s.roll = 0.0; s.last = -1
+        s.cuts = sorted(set(round(e['t'], 2) for e in ctx.events if e['layer'] in ('flip', 'loop', 'a', 'slow', 'echo')))
+        xm = (np.arange(W) % 3); s.mask = np.stack([(xm == 0) * 0.55 + 0.45, (xm == 1) * 0.55 + 0.45, (xm == 2) * 0.55 + 0.45], -1)[None].astype(np.float32)
+        s.scan = (0.72 + 0.28 * (np.sin(np.arange(H) * math.pi / 2.0) ** 2))[:, None, None].astype(np.float32)
+    def frame(s, t, dt):
+        c = s.c; k = sum(1 for x in s.cuts if x <= t)
+        if k != s.last:
+            s.last = k; s.ch = (s.ch + 1 + k % 3) % len(s.clips); s.roll = 1.0
+            # the old picture's brightest points lift off as embers
+            L = s.buf.mean(2); ys, xs = np.nonzero(L[::6, ::6] > 0.45); idx = np.random.default_rng(k).permutation(len(xs))[:500]
+            s.emb.emit(xs[idx] * 6.0, ys[idx] * 6.0, vx=30, vy=-50, T=0.9, life=2.5)
+        cl = s.clips[s.ch]; slow = c.e('slow', t) > 0.05
+        fi = int(t * (9 if slow else 12)) % len(cl); f = cl[fi].astype(np.float32)
+        img = cv2.resize(f, (960, 720), interpolation=cv2.INTER_LINEAR)
+        frame = np.zeros((H, W, 3), np.float32); frame[:, 160:1120] = img
+        s.roll *= 0.75
+        if s.roll > 0.02:
+            frame = np.roll(frame, int(s.roll * 260), 0)
+            band = (np.sin(YY[:, :1] * 0.05 + t * 40) > 0.6) * s.roll; frame = frame * (1 - band[..., None] * 0.6) + band[..., None] * 0.35
+        lum = frame @ np.array([0.3, 0.59, 0.11], np.float32)
+        warm = frame * np.array([1.0, 0.82, 0.6], np.float32) * 0.75 + thermal(lum * 0.8 + 0.1) * lum[..., None] ** 0.8 * 0.35
+        warm *= (0.85 + 0.35 * c.kick(t, 0.25) + 0.25 * c.e('_mix', t))
+        s.buf = np.maximum(s.buf * 0.80, warm)                    # phosphor persistence
+        out = s.buf * s.mask * s.scan * 1.25
+        out = cv2.remap(out, CRT_MX, CRT_MY, cv2.INTER_LINEAR) * CRT_GLASS
+        out = out + gaussian_filter(out, (6, 6, 0)) * 0.35
+        # the sound as a test pattern: the mosaic's spectrum in a phosphor band along the bottom
+        col = c.melcol(t); bars = np.zeros((90, W), np.float32)
+        xs = (np.arange(128) / 128 * (W - 320) + 160).astype(int)
+        for i, v in enumerate(col):
+            h = int(v ** 2 * 80); bars[90 - h:, xs[i]:xs[i] + 5] = v ** 1.5
+        out[H - 110:H - 20] += bars[..., None] * AMBER * 0.6
+        s.emb.step(t, dt, wind=(40, -20)); out += s.emb.draw(t, 0.8)
+        # the set switches off at the end: the picture folds to a line, then a point
+        off = sm(c.dur - 3.2, c.dur - 1.6, t)
+        if off > 0:
+            hh = max(2, int(H * (1 - off) ** 3)); m = np.zeros((H, W, 1), np.float32); m[H // 2 - hh // 2:H // 2 + hh // 2 + 1] = 1
+            out = out * m * (1 + 3 * off); p = sm(c.dur - 1.6, c.dur - 0.6, t)
+            if p > 0: out = out * (1 - p) + np.exp(-((XX - W / 2) ** 2 + (YY - H / 2) ** 2) / (30 + 400 * (1 - p)))[..., None] * 2 * (1 - p * 0.7)
+        return out
+
+# ===================================================================== 2. PHOSPHOR: long-exposure light painting
+class Trails:
+    """only the lights in the archive survive: each bright point is painted into a long exposure that turns and zooms with the kick"""
+    def __init__(s, ctx, cats=('lam', 'fir', 'nig', 'moo', 'spa'), seed=2):
+        s.c = ctx; s.clips = [clip_frames(i, 320, 240, 12, 10) for i in footage(cats, 8, seed)]
+        s.acc = np.zeros((360, 640, 3), np.float32); s.ch = 0; s.last = -1; s.emb = Embers(20000, 4)
+        s.cuts = sorted(set(round(e['t'], 2) for e in ctx.events if e['layer'] in ('loop', 'a')) | set(round(x, 2) for x in ctx.kicks[::8]))
+    def frame(s, t, dt):
+        c = s.c; k = sum(1 for x in s.cuts if x <= t)
+        if k != s.last: s.last = k; s.ch = (s.ch + 1) % len(s.clips)
+        cl = s.clips[s.ch]; f = cv2.resize(cl[int(t * 12) % len(cl)].astype(np.float32), (640, 360))
+        L = f @ np.array([0.3, 0.59, 0.11], np.float32); light = np.clip((L - 0.62) / 0.38, 0, 1) ** 2.2 * (1 - np.clip((cv2.blur(L, (31, 31)) - 0.6) / 0.3, 0, 1))
+        col = thermal(0.35 + 0.6 * L)[..., :3] * light[..., None]
+        kk = c.kick(t, 0.2)
+        ang = 0.25 * dt * (1 + 2 * c.e('_mix', t)); zoom = 1.0 + 0.004 + 0.03 * kk
+        M = cv2.getRotationMatrix2D((320, 180), math.degrees(ang), zoom)
+        d = 0.94 - 0.1 * kk
+        s.acc = cv2.warpAffine(s.acc, M, (640, 360), borderMode=cv2.BORDER_CONSTANT) * d
+        s.acc += col * (1 - d) * (2.2 + 2.0 * kk)
+        out = up(s.acc) * 1.1 * np.array([1.0, 0.72, 0.42], np.float32)
+        out = out + gaussian_filter(out, (8, 8, 0)) * 0.5
+        if kk > 0.9:
+            ys, xs = np.nonzero(light[::4, ::4] > 0.5); idx = np.random.default_rng(int(t * 100)).permutation(len(xs))[:300]
+            s.emb.emit(xs[idx] * 8.0, ys[idx] * 8.0, vx=0, vy=-90, T=1.0, life=2.0, spread=60)
+        s.emb.step(t, dt, wind=(30, -30), gust=kk); out += s.emb.draw(t, 1.0, 0.09)
+        return out
+
+# ===================================================================== 3. BECKON: Gaussian-splat places
+class Splats:
+    """places from the archive lifted into depth as soft Gaussian splats; each grain of sound flares a handful of them and lets them go"""
+    def __init__(s, ctx, cats=('han', 'sea', 'des', 'sno'), seed=3, N=70000):
+        s.c = ctx; s.ids = footage(cats, 6, seed); s.N = N; s.places = [s.lift(i, k) for k, i in enumerate(s.ids)]
+        s.emb = Embers(20000, 5); s.splats = sorted([e for e in ctx.events if e['tag'] in ('splat', 'grain')], key=lambda e: e['t']); s.si = 0
+        s.flare = np.zeros(N, np.float32); s.period = max(12.0, ctx.dur / len(s.places))
+    def lift(s, cid, seed):
+        f = clip_frames(cid, 320, 240, 12, 4)[6].astype(np.float32); L = f @ np.array([0.3, 0.59, 0.11], np.float32)
+        depth = gaussian_filter(1 - L, 6) * 0.6 + np.linspace(1, 0, 240)[:, None] * 0.6     # dark and high = far
+        r = np.random.default_rng(seed); p = (gaussian_filter(np.abs(np.gradient(L)[0]) + np.abs(np.gradient(L)[1]), 1) * 0.5 + 0.05 + L * 0.5).ravel(); p /= p.sum()
+        idx = r.choice(240 * 320, s.N, p=p); y, x = np.divmod(idx, 320)
+        return dict(X=(x / 320 - 0.5) * 4 * 260, Y=(y / 240 - 0.5) * 3 * 260, Z=depth[y, x] * 900, C=f[y, x], R=r.random(s.N), J=r.standard_normal((s.N, 3)))
+    def render(s, P, t, a, wgt):
+        yaw = 0.25 * math.sin(t * 0.11) + 0.15 * math.sin(t * 0.05); dist = 1050 - 180 * math.sin(t * 0.07)
+        X = P['X'] + P['J'][:, 0] * 40 * (1 - a); Y = P['Y'] + P['J'][:, 1] * 40 * (1 - a) - (1 - a) * 200 * P['R'] * (wgt < 0)
+        Z = P['Z']; cx, sx = math.cos(yaw), math.sin(yaw)
+        x2 = X * cx + Z * sx; z2 = -X * sx + Z * cx + dist
+        f = 640 / math.tan(math.radians(25)); sxp = x2 * f / z2 + W / 2; syp = Y * f / z2 + H / 2
+        rad = 4200 / z2 * (1 + 1.2 * s.flare); br = a * (0.9 + 2.0 * s.flare)
+        img = np.zeros((H, W, 3), np.float32)
+        for lo, hi, sg in ((0, 2.2, 0.8), (2.2, 5, 2.2), (5, 1e9, 5.0)):
+            m = (rad >= lo) & (rad < hi) & (sxp >= 0) & (sxp < W - 1) & (syp >= 0) & (syp < H - 1)
+            if not m.any(): continue
+            ix = sxp[m].astype(int) + W * syp[m].astype(int); acc = np.zeros((H, W, 3), np.float32)
+            for ch in range(3): acc[..., ch] = np.bincount(ix, br[m] * P['C'][m, ch], W * H).reshape(H, W)
+            img += gaussian_filter(acc, (sg, sg, 0)) * (1.0 + sg * 0.9)
+        return img, sxp, syp
+    def frame(s, t, dt):
+        c = s.c; k = min(len(s.places) - 1, int(t / s.period)); u = (t - k * s.period) / s.period
+        while s.si < len(s.splats) and s.splats[s.si]['t'] <= t:
+            e = s.splats[s.si]; s.si += 1; r = np.random.default_rng(s.si)
+            P = s.places[k]; cx, cy = r.uniform(-500, 500), r.uniform(-300, 300)
+            near = np.nonzero((P['X'] - cx) ** 2 + (P['Y'] - cy) ** 2 < 70 ** 2)[0]; s.flare[near] = np.maximum(s.flare[near], 1.0)
+        s.flare *= 0.94
+        a = sm(0, 0.18, u) * (1 - sm(0.85, 1.0, u)) if len(s.places) > 1 else 1.0
+        img, sxp, syp = s.render(s.places[k], t, max(a, 0.02), 1)
+        if u > 0.85 and k + 1 < len(s.places):
+            img2, _, _ = s.render(s.places[k + 1], t, sm(0.85, 1.0, u), 1); img += img2
+        hot = np.nonzero(s.flare > 0.7)[0][:400]
+        if len(hot): s.emb.emit(sxp[hot], syp[hot], vx=20, vy=-40, T=0.8, life=2.5)
+        s.emb.step(t, dt, wind=(25, -10)); img = img * (0.75 + 0.35 * c.e('_mix', t)) + s.emb.draw(t, 0.8)
+        return img * np.array([1.0, 0.8, 0.6], np.float32)
+
+# ===================================================================== 4. CIRCLE: the record
+class Record:
+    """the mosaic's spectrum pressed into a turning record: angle is time, radius is pitch; the label is a moon from the archive, wound into a spiral"""
+    def __init__(s, ctx, cats=('moo', 'rit', 'spa'), seed=4):
+        s.c = ctx; s.label = [clip_frames(i, 240, 240, 12, 6) for i in footage(cats, 3, seed)]
+        s.cx, s.cy = W / 2, H / 2 + 10; dx, dy = XX - s.cx, (YY - s.cy) * 1.0
+        s.R = np.sqrt(dx * dx + dy * dy); s.TH = np.arctan2(dy, dx); s.r0, s.r1 = 110.0, 352.0
+        s.ripples = []; s.emb = Embers(15000, 6); s.echoes = sorted([e['t'] for e in ctx.events if e['tag'] in ('echo', 'tail')])
+    def frame(s, t, dt):
+        c = s.c; w = 0.9                                        # radians per second of history
+        rot = t * w; hist = (rot - s.TH) % (2 * math.pi) / w        # seconds ago, for each pixel
+        col_t = np.clip(t - hist, 0, c.dur); ci = np.clip((col_t * c.melfps).astype(int), 0, c.mel.shape[1] - 1)
+        rb = np.clip((s.R - s.r0) / (s.r1 - s.r0) * 127, 0, 127).astype(int)
+        v = c.mel[rb, ci] * ((s.R > s.r0) & (s.R < s.r1)) * (t - hist >= 0)
+        groove = 0.55 + 0.45 * np.sin(s.R * 1.1) ** 2
+        fresh = np.exp(-hist / 3.0) * 0.8 + 0.2
+        img = (v ** 1.5 * groove * fresh * 1.8)[..., None] * thermal(0.35 + 0.6 * v)
+        sheen = np.maximum(np.cos(s.TH - t * 0.3), 0) ** 6 * ((s.R > s.r0) & (s.R < s.r1)) * 0.12
+        img += (sheen * groove)[..., None] * GOLD
+        # label: archive moon in a slow log-polar swirl
+        L = s.label[int(t / 9) % len(s.label)]; f = L[int(t * 12) % len(L)].astype(np.float32)
+        inside = s.R < s.r0 - 6; lr = np.log1p(s.R) / np.log1p(s.r0); th2 = (s.TH + t * 0.6 + lr * 2.0) % (2 * math.pi)
+        u = (120 + np.cos(th2) * lr * 118); vv = (120 + np.sin(th2) * lr * 118)
+        lab = np.stack([map_coordinates(f[..., ch], [vv[inside], u[inside]], order=1) for ch in range(3)], -1)
+        lab = lab * np.array([1.0, 0.8, 0.55]) * 0.8; img[inside] += lab.astype(np.float32)
+        # echoes as ripples
+        for e in s.echoes:
+            a = t - e
+            if 0 < a < 3: rr = s.r0 + a * 160; img += (np.exp(-((s.R - rr) / 3) ** 2) * (1 - a / 3) * 0.6)[..., None] * GOLD
+        kk = c.kick(t, 0.15)
+        if kk > 0.95:
+            th = np.random.default_rng(int(t * 50)).random(200) * 6.283
+            s.emb.emit(s.cx + np.cos(th) * s.r1, s.cy + np.sin(th) * s.r1, vx=-np.sin(th) * 160, vy=np.cos(th) * 160 - 30, T=1.0, life=2.0, spread=20)
+        s.emb.step(t, dt, wind=(0, -15), buoy=-20); img += s.emb.draw(t, 0.9, 0.08)
+        return img + gaussian_filter(img, (5, 5, 0)) * 0.4
+
+# ===================================================================== 5. WARMTH: spacetime worms
+class Worms:
+    """what moves in the archive leaves a body through time: each moving pixel is extruded backward along a slanting time axis"""
+    def __init__(s, ctx, cats=('fir', 'chi', 'han', 'sun'), seed=5):
+        s.c = ctx; s.clips = [clip_frames(i, 320, 240, 12, 10) for i in footage(cats, 8, seed)]
+        s.hist = []; s.ch = 0; s.last = -1; s.prev = None; s.ft = 0.0; s.emb = Embers(15000, 7)
+        s.cuts = sorted(set(round(e['t'], 2) for e in ctx.events if e['layer'] in ('loop', 'a')) | set(round(x, 2) for x in ctx.kicks[::12]))
+    def frame(s, t, dt):
+        c = s.c; k = sum(1 for x in s.cuts if x <= t)
+        if k != s.last: s.last = k; s.ch = (s.ch + 1) % len(s.clips); s.prev = None
+        frozen = c.e('duck', t) > 0.05
+        if not frozen: s.ft += dt
+        cl = s.clips[s.ch]; f = cl[int(s.ft * 12) % len(cl)].astype(np.float32)
+        L = f @ np.array([0.3, 0.59, 0.11], np.float32)
+        if s.prev is not None and not frozen:
+            mv = np.clip(np.abs(L - s.prev) * 6, 0, 1); mv = gaussian_filter(mv, 1.2)
+            s.hist.append((mv, f)); s.hist = s.hist[-40:]
+        s.prev = L
+        out = np.zeros((360, 640, 3), np.float32); n = len(s.hist)
+        kk = c.kick(t, 0.25)
+        for j, (mv, ff) in enumerate(s.hist):
+            age = n - 1 - j; ox = int(age * 5.5); oy = int(-age * 3.2); sc = 1 - age * 0.008
+            sl = cv2.resize(ff * mv[..., None], (int(400 * sc), int(300 * sc)))
+            x0 = 120 + ox + int(200 * (1 - sc)); y0 = 40 + oy + int(150 * (1 - sc)) + 20
+            x1, y1 = min(640, x0 + sl.shape[1]), min(360, y0 + sl.shape[0])
+            if x0 < 0 or y0 < 0 or x1 <= x0 or y1 <= y0: continue
+            heat = thermal(np.full(1, 0.95 - age / 45.0))[0]
+            out[y0:y1, x0:x1] = np.maximum(out[y0:y1, x0:x1], sl[:y1 - y0, :x1 - x0] * heat * (1.4 - age / 40.0))
+        cur = cv2.resize(f, (400, 300)) * 0.18; out[60:360, 120:520] += cur[:300]
+        img = up(out) * (0.9 + 0.5 * kk)
+        if kk > 0.95 and n:
+            ys, xs = np.nonzero(s.hist[-1][0][::3, ::3] > 0.4); idx = np.random.default_rng(int(t * 100)).permutation(len(xs))[:250]
+            s.emb.emit(xs[idx] * 3 * 400 / 320 * 2 + 240, ys[idx] * 3 * 300 / 240 * 2 + 120, vx=40, vy=-70, T=1.0, life=2.2)
+        s.emb.step(t, dt, wind=(70, -20), gust=kk); img += s.emb.draw(t, 0.9)
+        return img + gaussian_filter(img, (5, 5, 0)) * 0.4
+
+# ===================================================================== 6. DAWN: spectrogram terrain
+class Terrain:
+    """the mosaic's spectrum laid out as land: each past moment a ridge further away, the newest at the front; a sun from the archive rises behind it"""
+    def __init__(s, ctx, cats=('sun',), seed=6):
+        s.c = ctx; s.sky = [clip_frames(i, 320, 180, 12, 8) for i in footage(cats, 3, seed)]; s.emb = Embers(15000, 8)
+    def frame(s, t, dt):
+        c = s.c; rise = sm(0, c.dur * 0.8, t)
+        sk = s.sky[int(t / 25) % len(s.sky)]; f = up(sk[int(t * 12) % len(sk)].astype(np.float32))
+        grad = np.clip(1 - YY / (H * 0.62), 0, 1)[..., None]
+        img = (f * np.array([1.0, 0.7, 0.45]) * 0.35 * (0.3 + 0.7 * rise)) * grad
+        sy = H * (0.70 - 0.32 * rise); img += (np.exp(-((XX - W * 0.5) ** 2 + (YY - sy) ** 2) / 2600) * 1.4 + np.exp(-((XX - W * 0.5) ** 2 + (YY - sy) ** 2) / 60000) * 0.35)[..., None] * np.array([1.0, 0.62, 0.3]) * (0.3 + 0.7 * rise)
+        canvas = (img * 255).clip(0, 255).astype(np.uint8).copy()
+        glow = np.zeros((H, W), np.float32)
+        R = 46; xs = np.linspace(-0.2, 1.2, 128)
+        for i in range(R - 1, -1, -1):                          # back to front
+            tt = t - i * 0.18
+            if tt < 0: continue
+            col = c.melcol(tt); d = 1 + i * 0.09; base = H * 0.52 + 300 / d
+            hts = (gaussian_filter(col, 1.2) ** 1.8) * 260 / d
+            px = (W / 2 + (xs - 0.5) * W * 1.6 / d).astype(np.int32); py = (base - hts).astype(np.int32)
+            pts = np.concatenate([np.stack([px, py], 1), [[px[-1], H], [px[0], H]]]).astype(np.int32)
+            shade = int(8 + 10 * (1 - i / R))
+            cv2.fillPoly(canvas, [pts], (shade, shade // 2, shade // 3))
+            cv2.polylines(glow, [np.stack([px, py], 1).reshape(-1, 1, 2)], False, float(1.2 * (1 - i / R) ** 1.5 + 0.05), 1, cv2.LINE_AA)
+            if i == 0:
+                pk = np.nonzero((col > 0.75) & (np.r_[0, np.diff(col)] > 0))[0]
+                if len(pk): s.emb.emit(px[pk].astype(np.float32), py[pk].astype(np.float32), vx=10, vy=-50, T=0.9, life=3.0, spread=15)
+        img = canvas.astype(np.float32) / 255
+        g = glow + gaussian_filter(glow, 2) * 1.5
+        img += g[..., None] * thermal(np.full(1, 0.7))[0]
+        s.emb.step(t, dt, wind=(20, -15)); img += s.emb.draw(t, 0.8)
+        return img
+
+# ===================================================================== 7. PICTURE: Nipkow reassembly
+class Nipkow:
+    """thus the picture is reassembled: a thirty-line Nipkow disk scans archive frames back into being, one line per beat-hit,
+    the spinning disk behind it and every finished line holding its phosphor"""
+    def __init__(s, ctx, cats=('stu', 'mir', 'han', 'chi'), seed=7):
+        s.c = ctx; s.ids = footage(cats, 8, seed); s.clips = [clip_frames(i, 160, 120, 12, 6) for i in s.ids]
+        s.canvas = np.zeros((30, 120, 3), np.float32); s.line = 0.0; s.pic = 0
+        s.hits = sorted([e['t'] for e in ctx.events if e['layer'] in ('beat', 'pieces', 'c')]); s.hi = 0
+        s.emb = Embers(15000, 9)
+    def frame(s, t, dt):
+        c = s.c; n = 0
+        while s.hi < len(s.hits) and s.hits[s.hi] <= t: s.hi += 1; n += 1
+        s.line += n * 0.9 + dt * 2.0
+        cl = s.clips[s.pic % len(s.clips)]; tgt = cv2.resize(cl[int(t * 12) % len(cl)].astype(np.float32), (120, 30), interpolation=cv2.INTER_AREA)
+        while s.line >= 1:
+            li = int(s.canvas.shape[0] * 0 + (s.pic_line if hasattr(s, 'pic_line') else 0))
+            s.pic_line = (getattr(s, 'pic_line', 0) + 1); idx = (s.pic_line - 1) % 30
+            s.canvas[idx] = tgt[idx]
+            if idx == 29: s.pic += 1
+            row_y = 120 + idx * 16
+            xs = np.linspace(260, 1020, 60); s.emb.emit(xs, np.full(60, row_y, np.float32), vx=30, vy=-40, T=0.7, life=1.5, spread=10)
+            s.line -= 1
+        s.canvas *= 0.995
+        scan = (getattr(s, 'pic_line', 0)) % 30
+        big = cv2.resize(s.canvas, (760, 480), interpolation=cv2.INTER_NEAREST)
+        lines = (np.sin(np.arange(480) / 16 * math.pi) ** 2)[:, None, None] * 0.75 + 0.25
+        big = big * lines
+        img = np.zeros((H, W, 3), np.float32)
+        # the disk: a large dark wheel turning behind, its spiral of holes lit where the scan is
+        ang = t * 2 * math.pi * 1.0; dc = (W / 2, H / 2)
+        for h_ in range(30):
+            a = ang + h_ * 2 * math.pi / 30; rr = 300 - h_ * 4.5
+            x, y = dc[0] + math.cos(a) * rr, dc[1] + math.sin(a) * rr
+            on = 1.0 if h_ == scan else 0.12
+            cv2.circle(img, (int(x), int(y)), 3, tuple(float(v) * on for v in (1.0, 0.7, 0.4)), -1, cv2.LINE_AA)
+        img[120:600, 260:1020] += big * np.array([1.0, 0.82, 0.58]) * (0.9 + 0.4 * c.kick(t, 0.2))
+        sy = 120 + scan * 16 + 8; img[max(0, sy - 2):sy + 2, 260:1020] += np.array([1.0, 0.85, 0.6]) * 0.9
+        s.emb.step(t, dt, wind=(35, -25)); img += s.emb.draw(t, 0.6)
+        return img + gaussian_filter(img, (4, 4, 0)) * 0.5
+
+# ===================================================================== 8. SUN: retinal afterimage
+class Retina:
+    """the eye looking at the archive's suns: what it has adapted to returns as a complementary afterimage, and every kick is a blink
+    with the light coming red through the lid"""
+    def __init__(s, ctx, cats=('sun', 'des', 'sea'), seed=8):
+        s.c = ctx; s.clips = [clip_frames(i, 320, 180, 12, 10) for i in footage(cats, 8, seed)]
+        s.A = np.zeros((180, 320, 3), np.float32); s.ch = 0; s.last = -1; s.emb = Embers(12000, 10)
+        s.cuts = sorted(set(round(e['t'], 2) for e in ctx.events if e['layer'] in ('loop', 'intro', 'a')))
+    def frame(s, t, dt):
+        c = s.c; k = sum(1 for x in s.cuts if x <= t)
+        if k != s.last: s.last = k; s.ch = (s.ch + 1) % len(s.clips)
+        cl = s.clips[s.ch]; I = cv2.resize(cl[int(t * 12) % len(cl)].astype(np.float32), (320, 180))
+        I = I * np.array([1.0, 0.85, 0.62]) * (0.6 + 0.6 * c.e('_mix', t))
+        s.A += (I - s.A) * min(1, dt * 0.9)
+        after = np.clip(s.A - I * 0.8, 0, 1)                    # where the eye still holds light that has gone
+        comp = after.mean(2, keepdims=True) * np.array([0.35, 0.55, 1.0]) * 0.9 + after * 0.2
+        D = np.clip(I - s.A * 0.35, 0, None) * 1.3 + comp
+        img = up(D)
+        b = c.kick(t, 0.12)
+        if b > 0.05:                                            # the blink: light red through the lid
+            lid = np.exp(-((YY - H / 2) / (H * 0.5 * (1 - b) + 2)) ** 2)
+            img = img * (1 - b * 0.85) + (b * 0.5 * (1 - lid * 0.3))[..., None] * np.array([0.9, 0.18, 0.06])
+        L = img.mean(2); peak = np.unravel_index(np.argmax(gaussian_filter(L[::8, ::8], 2)), L[::8, ::8].shape)
+        px, py = peak[1] * 8, peak[0] * 8
+        flare = np.exp(-((YY - py) / 3) ** 2) * np.exp(-((XX - px) / 420) ** 2) * 0.35
+        img += flare[..., None] * np.array([1.0, 0.7, 0.4])
+        if b > 0.95: s.emb.emit(np.full(200, px, np.float32) + np.random.default_rng(int(t * 9)).normal(0, 40, 200), np.full(200, py, np.float32), vx=40, vy=-60, T=1.0, life=2.0, spread=70)
+        s.emb.step(t, dt, wind=(30, -20)); img += s.emb.draw(t, 0.8)
+        return img + gaussian_filter(img, (8, 8, 0)) * 0.3
+
+# ===================================================================== 9. COPPER: the voice's spectrum as embers
+class VoiceEmbers:
+    """the sung lines as a glowing ribbon of their own spectrum crossing the frame; the strongest partials break off as embers into wind,
+    and the archive's porch lights and windows show faintly through the glow"""
+    def __init__(s, ctx, cats=('lam', 'nig', 'han', 'chi'), seed=9):
+        s.c = ctx; s.clips = [clip_frames(i, 320, 240, 12, 10) for i in footage(cats, 6, seed)]; s.emb = Embers(40000, 11)
+        s.vox = [e for e in ctx.events if e['layer'] in ('vox', 'chop')]
+    def frame(s, t, dt):
+        c = s.c; img = np.zeros((H, W, 3), np.float32)
+        cl = s.clips[int(t / 8) % len(s.clips)]; f = up(cl[int(t * 12) % len(cl)].astype(np.float32))
+        L = f.mean(2); img += (np.clip(L - 0.5, 0, 1) ** 1.5)[..., None] * np.array([1.0, 0.7, 0.4]) * 0.3
+        vox = c.e('vox', t) + c.e('chop', t) * 0.7
+        # the ribbon: last 5 s of the spectrum, right to left; vocal band only
+        cols = int(5 * c.melfps); i1 = int(t * c.melfps); i0 = max(0, i1 - cols)
+        band = c.mel[18:90, i0:i1]
+        if band.shape[1] > 2:
+            rib = cv2.resize(band[::-1], (int(W * band.shape[1] / cols), 300), interpolation=cv2.INTER_LINEAR)
+            canvas = np.zeros((300, W), np.float32); canvas[:, W - rib.shape[1]:] = rib
+            age = np.linspace(1, 0, W)[None]                    # left is older
+            v = canvas ** 2 * 2.2 * (0.3 + 0.7 * (1 - age)) * (0.5 + 1.0 * min(1, vox * 1.5))
+            img[210:510] += v[..., None] * thermal(0.3 + 0.65 * canvas)
+            # the newest column's peaks leave as embers
+            col = band[:, -1]; pk = np.nonzero((col > 0.58) & (np.r_[0, np.diff(col)] > 0) & (np.r_[np.diff(col), 0] < 0))[0]
+            if len(pk):
+                ys = 210 + (1 - pk / band.shape[0]) * 300; n = len(pk) * 6
+                s.emb.emit(np.full(n, W - 30, np.float32) + np.random.default_rng(int(t * 99)).normal(0, 10, n), np.repeat(ys, 6).astype(np.float32), vx=-180, vy=-30, T=1.0, life=3.5, spread=25)
+        kk = c.kick(t, 0.2)
+        s.emb.step(t, dt, wind=(-160, -25), gust=kk * 0.8, buoy=-30); img += s.emb.draw(t, 1.0, 0.07)
+        for e in c.events:
+            if e['tag'] == 'goldenrecord' and 0 <= t - e['t'] < 2.5:
+                a = t - e['t']; img += (np.exp(-((np.sqrt((XX - W / 2) ** 2 + (YY - H / 2) ** 2) - (60 + a * 260)) / 4) ** 2) * (1 - a / 2.5))[..., None] * GOLD
+        return img + gaussian_filter(img, (6, 6, 0)) * 0.35
+
+ENGINES = dict(takumi=CRT, phosphor=Trails, beckon=Splats, circle=Record, warmth=Worms, dawn=Terrain, picture=Nipkow, sun=Retina, copper=VoiceEmbers)
+
+# ===================================================================== the mix: each passage in its source's engine, handed over through embers
+class MixEngine:
+    SECTIONS = [(0, 32.4, 'sun'), (32.4, 46.5, 'beckon'), (46.5, 72.0, 'takumi'), (72.0, 78.0, 'circle'), (78.0, 106.0, 'warmth'),
+                (106.0, 118.0, 'picture'), (118.0, 160.0, 'copper'), (160.0, 999.0, 'dawn')]
+    XF = 1.4
+    def __init__(s, ctx):
+        s.c = ctx; s.live = {}; r = np.random.default_rng(12)
+        f = gaussian_filter(r.random((H // 4, W // 4)), 10); f = (np.argsort(np.argsort(f.ravel())) / f.size).reshape(H // 4, W // 4)
+        s.nz = up(f.astype(np.float32)); s.emb = Embers(20000, 13)
+    def frame(s, t, dt):
+        out = None
+        for i, (a, b, nm) in enumerate(s.SECTIONS):
+            if not (a - s.XF - 2.0 <= t < b + s.XF): continue
+            if i not in s.live: s.live[i] = ENGINES[nm](s.c)
+            img = s.live[i].frame(t, dt)
+            if t < a - s.XF: continue                            # warming up unseen
+            u_in = 1.0 if i == 0 else np.clip(((t - (a - s.XF)) / s.XF) * 1.5 - s.nz * 0.5, 0, 1)
+            m = u_in[..., None] if np.ndim(u_in) else u_in
+            out = img * m if out is None else out * (1 - m) + img * m
+            if np.ndim(u_in) and 0.02 < float(np.mean(u_in)) < 0.98:      # the seam burns: embers along the front
+                edge = np.abs(u_in - 0.5) < 0.04; ys, xs = np.nonzero(edge[::8, ::8]); k = np.random.default_rng(int(t * 97)).permutation(len(xs))[:120]
+                s.emb.emit(xs[k] * 8.0, ys[k] * 8.0, vx=30, vy=-60, T=1.0, life=2.0, spread=30)
+        for i in list(s.live):
+            if t > s.SECTIONS[i][1] + s.XF: del s.live[i]
+        s.emb.step(t, dt, wind=(40, -20)); out = (out if out is not None else 0) + s.emb.draw(t, 1.0)
+        return out
+ENGINES['mix'] = MixEngine

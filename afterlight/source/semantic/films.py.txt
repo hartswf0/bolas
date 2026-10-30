@@ -1,0 +1,30 @@
+"""Section plans, cut to each song's marks. (start, end, mode, clips, bars per scene, caption)"""
+CAP = dict(lift='depth estimated from a single frame', sem='every point labeled: source, person, object, sky, world',
+           ghost='outside the frame: generated, not recorded', erase='edit: remove every class except SOURCE')
+GR = 60 / 88 * 4
+FILMS = {
+ '10-golden-record': dict(slug='10-golden-record', title='Golden Record', num='10', bpm=88, dur=122.73, title_at=1.0, title_out=8.5, credits_at=116.5,
+   sections=[(0, 10.91, 'lift', ['sun4'], 4, CAP['lift']),
+             (10.91, 32.73, 'orbit', ['sun22', 'sun8', 'sun2', 'sun14'], 2),
+             (32.73, 54.55, 'sem', ['sun11', 'sun5', 'sun10', 'sun8'], 2, CAP['sem']),
+             (54.55, 65.45, 'ghost', ['sun8'], 4, CAP['ghost']),
+             (65.45, 87.27, 'orbit', ['sun14', 'sun2', 'sea5', 'sun11'], 2),
+             (87.27, 109.09, 'sem', ['sun10', 'sun5', 'sea5', 'sun8'], 2),
+             (109.09, 122.73, 'erase', ['sun22'], 8, CAP['erase'])]),
+ '09-carry-the-glow': dict(slug='09-carry-the-glow', title='Carry the Glow', num='09', bpm=96, dur=112.5, title_at=0.8, title_out=8.0, credits_at=106.0,
+   sections=[(0, 10, 'lift', ['sun9'], 4, CAP['lift']),
+             (10, 30, 'orbit', ['lam1', 'fir7', 'lam7', 'lam2'], 2),
+             (30, 50, 'sem', ['lam1', 'fir7', 'sun10', 'lam7'], 2, CAP['sem']),
+             (50, 70, 'orbit', ['sea5', 'lam2', 'sun22', 'sun9', 'fir7', 'lam7', 'lam1', 'sun10'], 1),
+             (70, 80, 'ghost', ['lam7'], 4, CAP['ghost']),
+             (80, 100, 'sem', ['fir7', 'lam2', 'sun9', 'lam1'], 2),
+             (100, 112.5, 'erase', ['lam1'], 8, CAP['erase'])]),
+ '06-daimonji': dict(slug='06-daimonji', title='Daimonji', num='06', bpm=74, dur=145.95, title_at=1.2, title_out=10.5, credits_at=139.5, flash=0.8,
+   sections=[(0, 12.97, 'lift', ['fir1'], 4, CAP['lift']),
+             (12.97, 51.89, 'orbit', ['fir6', 'fir14', 'fir0', 'fir10', 'fir1'], 2),
+             (51.89, 64.86, 'ghost', ['fir14'], 4, CAP['ghost']),
+             (64.86, 90.81, 'sem', ['fir6', 'fir0', 'lam1'], 2, CAP['sem']),
+             (90.81, 103.78, 'ghost', ['fir10'], 4),
+             (103.78, 129.73, 'orbit', ['sun22', 'fir6', 'fir0'], 2),
+             (129.73, 145.95, 'erase', ['fir1'], 8, CAP['erase'])]),
+}
