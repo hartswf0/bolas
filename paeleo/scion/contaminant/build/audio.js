@@ -5,7 +5,8 @@
    switch = a two-note chime as the projector cools, projector = the reel's clatter and a held chord, splice = each join on the reel.
    Writes sound.wav (48 kHz, 16-bit mono). */
 const fs = require('fs'), path = require('path');
-const { duration, events } = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'events.json'), 'utf8'));
+const MOOD = !!process.env.MOOD, tag = MOOD ? '-mood' : '';
+const { duration, events } = JSON.parse(fs.readFileSync(path.join(__dirname, '..', MOOD ? 'mood' : '', 'events.json'), 'utf8'));
 const SR = 48000, N = Math.round(SR * duration), buf = new Float32Array(N);
 let s = 7; const rnd = () => ((s = (s * 1664525 + 1013904223) >>> 0) / 2 ** 32) * 2 - 1;
 
@@ -54,6 +55,6 @@ pcm.write('RIFF', 0); pcm.writeUInt32LE(36 + N * 2, 4); pcm.write('WAVEfmt ', 8)
 pcm.writeUInt16LE(1, 20); pcm.writeUInt16LE(1, 22); pcm.writeUInt32LE(SR, 24); pcm.writeUInt32LE(SR * 2, 28);
 pcm.writeUInt16LE(2, 32); pcm.writeUInt16LE(16, 34); pcm.write('data', 36); pcm.writeUInt32LE(N * 2, 40);
 for (let i = 0; i < N; i++) pcm.writeInt16LE(Math.round(Math.max(-1, Math.min(1, buf[i] * g)) * 32767), 44 + i * 2);
-fs.writeFileSync(path.join(__dirname, 'sound.wav'), pcm);
+fs.writeFileSync(path.join(__dirname, `sound${tag}.wav`), pcm);
 const counts = {}; for (const e of events) counts[e.type] = (counts[e.type] || 0) + 1;
 console.log(`sound.wav: ${duration} s; switch to cool at ${sw.toFixed(2)} s;`, JSON.stringify(counts));

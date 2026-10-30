@@ -4,18 +4,32 @@ const { chromium } = require('playwright');
 const { spawn } = require('child_process');
 const fs = require('fs'), path = require('path');
 const FPS = 24, DUR = 41, N = FPS * DUR, SEED = 8;
-const here = __dirname, out = path.join(here, '..'), page = path.resolve(here, '../../contaminant.html');
+// MOOD=1 renders the textless cut (archive frames instead of words) into ../mood/
+const MOOD = !!process.env.MOOD, tag = MOOD ? '-mood' : '';
+const here = __dirname, out = path.join(here, '..', MOOD ? 'mood' : ''), page = path.resolve(here, '../../contaminant.html');
+fs.mkdirSync(out, { recursive: true });
+
+// serve the repository over http so archive images load same-origin (file:// would taint the canvas)
+const http = require('http'), ROOT = path.resolve(here, '../../../..');
+const TYPES = {'.html': 'text/html', '.js': 'text/javascript', '.jpg': 'image/jpeg', '.png': 'image/png', '.json': 'application/json', '.css': 'text/css'};
+const server = http.createServer((req, res) => {
+  const f = path.join(ROOT, decodeURIComponent(req.url.split('?')[0]));
+  if (!f.startsWith(ROOT) || !fs.existsSync(f) || fs.statSync(f).isDirectory()) { res.writeHead(404); return res.end(); }
+  res.writeHead(200, {'Content-Type': TYPES[path.extname(f)] || 'application/octet-stream'}); fs.createReadStream(f).pipe(res);
+});
 
 (async () => {
+  await new Promise(r => server.listen(0, '127.0.0.1', r));
+  const base = `http://127.0.0.1:${server.address().port}/${path.relative(ROOT, page)}`;
   const browser = await chromium.launch();
   const p = await browser.newPage({ viewport: { width: 1280, height: 720 } });
   const errors = [];
   p.on('pageerror', e => errors.push(e.message));
-  await p.goto(`file://${page}?render=1&seed=${SEED}`);
+  await p.goto(`${base}?render=1&seed=${SEED}${MOOD ? '&mood=1' : ''}`);
   await p.waitForFunction(() => window.SCION_CONTAMINANT && window.SCION_CONTAMINANT.ledger().length > 0);
 
   const ff = spawn('ffmpeg', ['-y', '-loglevel', 'error', '-f', 'image2pipe', '-framerate', String(FPS), '-i', '-',
-    '-c:v', 'libx264', '-pix_fmt', 'yuv420p', '-crf', '24', '-preset', 'slow', '-tune', 'animation', path.join(here, 'video.mp4')],
+    '-c:v', 'libx264', '-pix_fmt', 'yuv420p', '-crf', '24', '-preset', 'slow', '-tune', 'animation', path.join(here, `video${tag}.mp4`)],
     { stdio: ['pipe', 'inherit', 'inherit'] });
   const closed = new Promise(r => ff.on('close', r));
   for (let i = 0; i < N; i++) {
@@ -29,7 +43,7 @@ const here = __dirname, out = path.join(here, '..'), page = path.resolve(here, '
   const events = await p.evaluate(() => window.SCION_CONTAMINANT.events());
   const stats = await p.evaluate(() => window.SCION_CONTAMINANT.stats());
   const ledger = await p.evaluate(() => window.SCION_CONTAMINANT.ledger());
-  await browser.close();
+  await browser.close(); server.close();
   fs.writeFileSync(path.join(out, 'events.json'), JSON.stringify({ fps: FPS, duration: DUR, seed: SEED, events }, null, 1));
   fs.writeFileSync(path.join(out, 'ledger.txt'), ledger.join('\n') + '\n');
   const violations = stats.v1 + stats.v2 + stats.v3 + stats.v4 + stats.v5;

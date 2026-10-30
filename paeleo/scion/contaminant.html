@@ -43,7 +43,13 @@ pre{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.55;font-size:.84re
 </div>
 
 <section class="panel">
-<h2>The film: third proof, 41 s</h2>
+<h2>The film without words</h2>
+<video controls playsinline preload="metadata" poster="contaminant/mood/stills/still_16.0s.jpg" src="contaminant/mood/film.mp4" style="width:100%;border-radius:.5rem;background:#000"></video>
+<p class="note">The same run (seed 8) with no text anywhere. Each fragment is a public-domain archive frame (<a href="contaminant/mood/sources.json" style="color:#a1bedf">sources</a>): sepia while the projector runs hot, blue-grey once it cools. A cut burns the frame like nitrate; a seam is a double exposure of its two parents; the reel projects the rescued frames themselves. The last frame the jellyfish touched hangs faint and blurred behind everything. Live: <a href="contaminant.html?mood=1" style="color:#a1bedf">open this page in mood mode</a>.</p>
+</section>
+
+<section class="panel">
+<h2>The film with words: third proof, 41 s</h2>
 <video controls playsinline preload="metadata" poster="contaminant/stills/still_16.0s.jpg" src="contaminant/film.mp4" style="width:100%;border-radius:.5rem;background:#f4f0e6"></video>
 <p class="note">Rendered from this page (<code>?render=1</code>, seed 8) at a fixed 1/24 s per frame, 1280×720. Hot for the first twelve seconds, then cool, then the reel of cuts from 26.5 s, each held for more than two seconds. The look follows the Afterlight films <a href="../../afterlight/v/20-sun/" style="color:#a1bedf">AFL-20 Sun in Your Eyes</a> and <a href="../../afterlight/v/18-dawn/" style="color:#a1bedf">AFL-18 Dawn Remembers Again</a>: the jellyfish is a sun with hairline tentacles that leave echoes, and it cools into its own blue afterimage; each censor's bell is a red blink. Every sound comes from an event in the run: projector hum while hot, the censor's bell, a thud as a cut sinks, a tape snip when the jelly rescues it, a low tone with a pink shimmer for each seam, the gear's ratchet, and the reel's clatter and splices. Rebuild with <code>contaminant/build/make.sh</code>. The run's events, ledger and invariant counts are in <a href="contaminant/invariants.json" style="color:#a1bedf">invariants.json</a> and <a href="contaminant/ledger.txt" style="color:#a1bedf">ledger.txt</a>.</p>
 </section>
@@ -153,6 +159,15 @@ Open paeleo/scion/contaminant.html and run it. Check I1 to I4. Get the independe
 'use strict';
 const W = 1200, H = 640, CAP = 30, CARRY_MAX = 3, DWELL = 4.2, GAP = 3.2, TN = 22, SEG = 13;
 const SEED = +(new URLSearchParams(location.search).get('seed')) || 8;
+// ?mood=1: the textless cut. Each fragment is a public-domain archive frame (rights recorded in the PAE-02 asset
+// manifests under paeleo/handmade/), in CORPUS order: the clockwork school, the archive's history, the care strand.
+const MOOD = new URLSearchParams(location.search).has('mood');
+const PICS = ['52-gilliam-ephemera/sources/light-bulb_f012.jpg', '52-gilliam-ephemera/sources/hat_f010.jpg', 'kit/archive-door/frames/f031.jpg',
+  '03-ernst/src/lion/f022.jpg', 'kit/archive-door/frames/f013.jpg', 'kit/archive-dog/frames/f030.jpg', '52-gilliam-ephemera/sources/yoga_f024.jpg',
+  '54-provenance-graph/sources/lantern-sam/f020.jpg', '01-gilliam/sources/butterfly/f060.jpg', '52-gilliam-ephemera/sources/yoga_f000.jpg',
+  'kit/archive-door/frames/f000.jpg', 'kit/archive-dog/frames/f006.jpg', '01-gilliam/sources/lantern/f030.jpg', '52-gilliam-ephemera/sources/cloud_f000.jpg']
+  .map(p => { const im = new Image(); if (MOOD) im.src = '../handmade/' + p; return im; });
+const picsReady = MOOD ? Promise.all(PICS.map(im => im.decode().catch(() => {}))) : Promise.resolve();
 const RENDER = new URLSearchParams(location.search).has('render'), FW = 1280, FH = 720, SWITCH = 12, REEL0 = 26.5, REEL1 = 38.2;
 const $ = id => document.getElementById(id);
 const cv = $('cv'), ctx = cv.getContext('2d');
@@ -282,7 +297,7 @@ function grab(f) {
 function release() {
   for (const f of J.carry) { f.held = false; f.tip = -1; setStage(f, 1); }
   evts.push({t: simT, type: 'hand', n: J.carry.length});
-  log(`${['one fragment', 'two fragments', 'three fragments'][J.carry.length - 1] || 'fragments'} handed to Stage 1`);
+  log(`${['one fragment', 'two fragments', 'three fragments'][J.carry.length - 1] || 'fragments'} handed to the archive in circulation`);
   // hot cinema: the censor's bell rings over the care strand (the kisses), and the cut follows
   // one bell per cut, staggered so each can be heard
   let nb = 0;
@@ -318,7 +333,7 @@ function contaminate(a, b, k) {
   const lineage = [...new Set([...a.lineage, ...b.lineage])];
   const src = a.src + '×' + b.src;
   const c = make('spec', 'mix', b.kw, text, src, lineage, (a.x + b.x) / 2, (a.y + b.y) / 2);
-  c.parents = [a.id, b.id]; c.kw = a.kw;
+  c.parents = [a.id, b.id]; c.kw = a.kw; c.imgs = [...new Set([...(a.imgs || []), ...(b.imgs || [])])].slice(0, 3);
   frags.push(c); setStage(c, k);
   seams.push({a: a.id, b: b.id, c: c.id, t0: simT});
   stats.contam++; lastEvent = simT;
@@ -372,6 +387,7 @@ function step(dt) {
   // a new aim: hold and turn toward it before going; then each stroke pushes it on; the bell makes it recoil
   const key = Math.round(J.tx / 40) + ':' + Math.round(J.ty / 40);
   if (key !== J.key && Math.hypot(J.tx - J.x, J.ty - J.y) > 60) { J.key = key; J.antic = .4; }
+  if (RENDER && filmT > REEL1 - 3) { J.tx = 230; J.ty = 250; }
   J.antic = Math.max(0, J.antic - dt);
   const dx = J.tx - J.x, dy = J.ty - J.y, dist = Math.hypot(dx, dy);
   const aim = dist > 20 ? Math.max(-.55, Math.min(.55, Math.atan2(dx, -dy) * .5)) : 0;
@@ -411,36 +427,30 @@ function step(dt) {
 }
 
 // Night ground after Afterlight (AFL-18 Dawn, AFL-20 Sun): dark water crossed by gold ridge hairlines, labels in pale gold.
+// The tank as AFL-18's terrain: no glass, no labels, near-black water. Each ridge is a past moment, the newest at the
+// front (bottom), older ones further back; a ridge swells where the archive was touched at that moment (a bell, a cut,
+// a rescue, a seam), so the water keeps the run's history.
+function pulseAt(t) { let v = 0; for (const e of evts) if (e.type === 'bell' || e.type === 'cut' || e.type === 'rescue' || e.type === 'seam') v += Math.exp(-(((t - e.t) / .3) ** 2)); return Math.min(1.5, v); }
 function drawTank() {
   const {x, y, w, h, wave} = TANK;
   ctx.save();
-  ctx.fillStyle = 'rgba(255,230,190,.04)'; ctx.fillRect(x, y, w, h);
   ctx.beginPath(); ctx.rect(x, y, w, h); ctx.clip();
-  const wv = i => wave + Math.sin(i * .04 + simT * 1.1) * 4;
-  ctx.beginPath(); ctx.moveTo(x, wv(0));
-  for (let i = 0; i <= w; i += 6) ctx.lineTo(x + i, wv(i));
-  ctx.lineTo(x + w, y + h); ctx.lineTo(x, y + h); ctx.closePath();
   const g = ctx.createLinearGradient(0, wave, 0, y + h);
-  g.addColorStop(0, '#1d2c35'); g.addColorStop(.5, '#111d24'); g.addColorStop(1, '#070d11');
-  ctx.fillStyle = g; ctx.fill();
-  // the water as spectrogram terrain: each ridge further down is further back, displaced a little less
-  for (let r = 0; r < 14; r++) {
-    const yy = wave + 40 + Math.pow(r / 13, 1.35) * (h - 70), amp = 7 * (1 - r / 16);
+  g.addColorStop(0, '#0c1317'); g.addColorStop(1, '#030506');
+  ctx.fillStyle = g; ctx.fillRect(x, wave, w, y + h - wave);
+  for (let r = 0; r < 16; r++) {
+    const tr = simT - r * .35, yy = y + h - 24 - Math.pow(r / 15, .85) * (h - 120), amp = (5 + 16 * pulseAt(tr)) * (1 - r / 20);
     ctx.beginPath();
     for (let i = 0; i <= w; i += 5) {
-      const yv = yy - amp * Math.max(0, Math.sin(i * .021 + r * .7 + simT * .35)) * Math.abs(Math.sin(i * .053 - r + simT * .2));
+      const yv = yy - amp * Math.max(0, Math.sin(i * .021 + r * .7 + tr * .35)) * Math.abs(Math.sin(i * .053 - r + tr * .2));
       if (i) ctx.lineTo(x + i, yv); else ctx.moveTo(x + i, yv);
     }
-    ctx.strokeStyle = `rgba(233,184,106,${(.32 - r * .016).toFixed(3)})`; ctx.lineWidth = .8; ctx.stroke();
+    ctx.strokeStyle = `rgba(233,184,106,${(.5 - r * .027).toFixed(3)})`; ctx.lineWidth = .8; ctx.stroke();
   }
-  ctx.strokeStyle = '#e9b86a'; ctx.lineWidth = 1.2; ctx.beginPath();
+  const wv = i => wave + Math.sin(i * .04 + simT * 1.1) * 4;
+  ctx.strokeStyle = 'rgba(233,184,106,.55)'; ctx.lineWidth = 1; ctx.beginPath();
   for (let i = 0; i <= w; i += 6) { if (i) ctx.lineTo(x + i, wv(i)); else ctx.moveTo(x + i, wv(i)); }
   ctx.stroke();
-  ctx.restore();
-  ctx.save();
-  ctx.strokeStyle = 'rgba(230,200,150,.18)'; ctx.lineWidth = 1; ctx.strokeRect(x, y, w, h);
-  ctx.globalAlpha = .4; ctx.fillStyle = '#a99577'; ctx.font = 'italic 12px Georgia, serif'; ctx.textAlign = 'center';
-  ctx.fillText('inherited visual grammar', x + w / 2, y + h + 26);
   ctx.restore();
 }
 function drawTankLabels() {
@@ -462,29 +472,20 @@ function drawConnectors() {
   }
 }
 // hot, the rings are suns with a halo; cool, they dim to magenta and maroon
+// The stages as suns seen through the eye: a small core and stroked concentric rings that breathe outward, gold while
+// hot, the afterimage's blue when cool. No filled disc is wider than the core's glow.
 function drawRings() {
   RINGS.forEach((R, i) => {
-    ctx.save();
-    ctx.setLineDash([2, 7]); ctx.strokeStyle = 'rgba(240,210,190,.14)'; ctx.lineWidth = 1;
-    ctx.beginPath(); ctx.arc(R.x, R.y, R.r + 14, 0, Math.PI * 2); ctx.stroke(); ctx.setLineDash([]);
-    if (heat > .02) {
-      ctx.globalCompositeOperation = 'lighter';
-      const halo = ctx.createRadialGradient(R.x, R.y, R.r * .6, R.x, R.y, R.r * 1.9);
-      halo.addColorStop(0, `rgba(245,170,80,${.32 * heat})`); halo.addColorStop(1, 'rgba(245,170,80,0)');
-      ctx.fillStyle = halo; ctx.beginPath(); ctx.arc(R.x, R.y, R.r * 1.9, 0, 7); ctx.fill();
-      ctx.globalCompositeOperation = 'source-over';
+    const rgb = hexRGB(mix('#8fa8ff', '#f5b25c', heat).replace(/rgb\((\d+),(\d+),(\d+)\)/, (_, a, b, c) => '#' + [a, b, c].map(v => (+v).toString(16).padStart(2, '0')).join(''))).join(',');
+    ctx.save(); ctx.globalCompositeOperation = 'lighter';
+    const g = ctx.createRadialGradient(R.x, R.y, 0, R.x, R.y, 56);
+    g.addColorStop(0, `rgba(255,246,228,${(.9).toFixed(2)})`); g.addColorStop(.25, `rgba(${rgb},.55)`); g.addColorStop(1, `rgba(${rgb},0)`);
+    ctx.fillStyle = g; ctx.beginPath(); ctx.arc(R.x, R.y, 56, 0, 7); ctx.fill();
+    for (let k = 0; k < 4; k++) {
+      const ph = (simT * .25 + k / 4 + i * .13) % 1, rr = R.r * (.35 + .75 * ph);
+      ctx.strokeStyle = `rgba(${rgb},${(.55 * (1 - ph)).toFixed(3)})`; ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.arc(R.x, R.y, rr, 0, 7); ctx.stroke();
     }
-    const g = ctx.createRadialGradient(R.x - R.r * .3, R.y - R.r * .3, 6, R.x, R.y, R.r);
-    g.addColorStop(0, mix(i === 2 ? '#6f86c8' : '#a9bff2', i === 2 ? '#f7c27a' : '#fff0cf', heat));
-    g.addColorStop(.55, mix(i === 2 ? '#2f3f78' : '#4d65a8', i === 2 ? '#d86a28' : '#f5b25c', heat));
-    g.addColorStop(1, mix(i === 2 ? '#0e1430' : '#18214a', i === 2 ? '#7a2a10' : '#c4561c', heat));
-    ctx.fillStyle = g; ctx.beginPath();
-    for (let a = 0; a <= Math.PI * 2 + .01; a += .1) {
-      const rr = R.r * (1 + .03 * Math.sin(a * 5 + simT * .7 + i * 2));
-      const px = R.x + Math.cos(a) * rr, py = R.y + Math.sin(a) * rr;
-      if (a) ctx.lineTo(px, py); else ctx.moveTo(px, py);
-    }
-    ctx.fill();
     ctx.restore();
   });
 }
@@ -502,12 +503,11 @@ function drawGear() {
     const a = i * Math.PI / 14, rr = i % 2 === 0 ? r + 9 : r;
     if (i) ctx.lineTo(Math.cos(a) * rr, Math.sin(a) * rr); else ctx.moveTo(Math.cos(a) * rr, Math.sin(a) * rr);
   }
-  ctx.closePath(); ctx.fillStyle = '#9a3d24'; ctx.fill(); ctx.strokeStyle = '#f0c48a'; ctx.lineWidth = 1.1; ctx.stroke();
+  ctx.closePath(); ctx.fillStyle = '#4a1d12'; ctx.fill(); ctx.strokeStyle = 'rgba(240,196,138,.6)'; ctx.lineWidth = 1; ctx.stroke();
   ctx.beginPath(); ctx.arc(0, 0, r * .45, 0, Math.PI * 2); ctx.fillStyle = '#120e0b'; ctx.fill(); ctx.stroke();
   ctx.restore();
   ctx.save();
-  ctx.globalAlpha = .5; ctx.fillStyle = '#e8b07a'; ctx.textAlign = 'center';
-  ctx.font = 'italic 11px Georgia, serif'; ctx.fillText('counter-archive', x, y - r - 12);
+  
   ctx.restore();
 }
 function drawSeams() {
@@ -533,6 +533,12 @@ function drawSeamInset() {
   ctx.save(); ctx.globalAlpha = al;
   ctx.fillStyle = 'rgba(12,9,8,.9)'; rr(790, 452, 402, 182, 6); ctx.fill();
   ctx.strokeStyle = 'rgba(233,184,106,.7)'; ctx.lineWidth = 1; ctx.stroke();
+  if (MOOD) {
+    ctx.strokeStyle = '#ee6aa6'; ctx.lineWidth = 1.5;
+    for (const px of [855, 1127]) { ctx.beginPath(); ctx.moveTo(px, 545); ctx.quadraticCurveTo(px, 575, px < 991 ? 916 : 1066, 575); ctx.stroke(); }
+    drawPic(a.imgs, 795, 458, 120, 87, al); drawPic(b.imgs, 1067, 458, 120, 87, al); drawPic(c.imgs, 916, 514, 150, 112, al);
+    ctx.restore(); return;
+  }
   ctx.fillStyle = '#e9b86a'; ctx.font = 'italic 12px Georgia, serif'; ctx.fillText('a seam: two fragments touch', 804, 472);
   const A = {...a, x: 893, y: 512, rot: 0}, B = {...b, x: 1093, y: 512, rot: 0}, C = {...c, x: 993, y: 596, rot: 0};
   ctx.strokeStyle = '#ee6aa6'; ctx.lineWidth = 1.5;
@@ -627,7 +633,7 @@ function drawBeam() {
   if (heat < .02) return;
   ctx.save();
   const g = ctx.createLinearGradient(GEAR.x, 0, W, 0);
-  g.addColorStop(0, `rgba(255,200,120,${.22 * heat})`); g.addColorStop(1, 'rgba(255,200,120,0)');
+  g.addColorStop(0, `rgba(255,200,120,${.12 * heat})`); g.addColorStop(1, 'rgba(255,200,120,0)');
   ctx.globalCompositeOperation = 'lighter';
   ctx.fillStyle = g; ctx.beginPath(); ctx.moveTo(GEAR.x, GEAR.y); ctx.lineTo(W, 30); ctx.lineTo(W, H - 40); ctx.closePath(); ctx.fill();
   ctx.fillStyle = `rgba(255,240,210,${.8 * heat})`;
@@ -665,7 +671,7 @@ function drawTemperature() {
   ctx.globalAlpha = 1;
   ctx.translate(W / 2, H / 2); ctx.scale(1, H / W * 1.15);
   const vg = ctx.createRadialGradient(0, 0, W * .26, 0, 0, W * .6);
-  vg.addColorStop(0, 'rgba(0,0,0,0)'); vg.addColorStop(.7, `rgba(0,0,0,${(.45 + .1 * heat).toFixed(3)})`); vg.addColorStop(1, 'rgba(0,0,0,.92)');
+  vg.addColorStop(0, 'rgba(0,0,0,0)'); vg.addColorStop(.6, 'rgba(0,0,0,.55)'); vg.addColorStop(.85, 'rgba(0,0,0,.9)'); vg.addColorStop(1, 'rgba(0,0,0,.97)');
   ctx.fillStyle = vg; ctx.fillRect(-W, -W, 2 * W, 2 * W);
   ctx.restore();
 }
@@ -677,8 +683,6 @@ function drawEmber(f, k = 1) {
   g.addColorStop(0, `rgba(${rgb},${(.75 * a).toFixed(3)})`); g.addColorStop(1, `rgba(${rgb},0)`);
   ctx.fillStyle = g; ctx.beginPath(); ctx.arc(f.x, f.y, 11, 0, 7); ctx.fill();
   ctx.fillStyle = `rgba(255,248,236,${a.toFixed(3)})`; ctx.beginPath(); ctx.arc(f.x, f.y, 1.8, 0, 7); ctx.fill();
-  ctx.globalCompositeOperation = 'source-over'; ctx.fillStyle = `rgba(${rgb},${(.62 * a).toFixed(3)})`;
-  ctx.font = 'italic 10.5px Georgia, serif'; ctx.fillText(f.kw, f.x + 7, f.y - 5);
   ctx.restore();
 }
 function jellyBox() {
@@ -692,12 +696,39 @@ const inter = (a, b) => area([Math.max(a[0], b[0]), Math.max(a[1], b[1]), Math.m
 // (keeping its last place while that stays clear), joined to the ember by a hairline. It is drawn above everything.
 const DIRS = [[0, -1], [1, 0], [-1, 0], [0, 1], [1, -1], [-1, -1], [1, 1], [-1, 1]];
 const SLOTS = [1, 2.4, 4].flatMap(d => DIRS.map(([x, y]) => [x * d, y * d]));
+function drawPic(imgs, x, y, w, h, a = 1, opt = {}) {
+  const hot = opt.hot != null ? opt.hot : heat;
+  ctx.save(); ctx.globalAlpha = a;
+  ctx.fillStyle = '#070504'; ctx.fillRect(x - 5, y - 5, w + 10, h + 10);
+  ctx.beginPath(); ctx.rect(x, y, w, h); ctx.clip();
+  ctx.filter = hot > .5 ? 'sepia(.85) saturate(1.25) contrast(1.08) brightness(.92)' : 'grayscale(1) contrast(1.15) brightness(.88)';
+  (imgs || []).forEach((k, i) => {
+    const im = PICS[k]; if (!im || !im.naturalWidth) return;
+    const sc = Math.max(w / im.naturalWidth, h / im.naturalHeight), iw = im.naturalWidth * sc, ih = im.naturalHeight * sc;
+    ctx.globalAlpha = a * (i ? .6 : 1); ctx.globalCompositeOperation = i ? 'screen' : 'source-over';
+    const dx = i ? Math.sin(simT * .7 + i) * 6 : 0;
+    ctx.drawImage(im, x + (w - iw) / 2 + dx, y + (h - ih) / 2, iw, ih);
+  });
+  ctx.filter = 'none';
+  if (hot <= .5) { ctx.globalCompositeOperation = 'multiply'; ctx.globalAlpha = a * .55; ctx.fillStyle = '#8aa4ff'; ctx.fillRect(x, y, w, h); }
+  if ((imgs || []).length > 1) { ctx.globalCompositeOperation = 'screen'; ctx.globalAlpha = a * .22; ctx.fillStyle = '#ee6aa6'; ctx.fillRect(x, y, w, h); }
+  ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = a;
+  const vg = ctx.createRadialGradient(x + w / 2, y + h / 2, Math.min(w, h) * .25, x + w / 2, y + h / 2, Math.max(w, h) * .7);
+  vg.addColorStop(0, 'rgba(0,0,0,0)'); vg.addColorStop(1, 'rgba(0,0,0,.6)'); ctx.fillStyle = vg; ctx.fillRect(x, y, w, h);
+  if (opt.burn > 0) {
+    const R = Math.max(w, h) * .75 * opt.burn, cx = x + w * .55, cy = y + h * .45;
+    const bg = ctx.createRadialGradient(cx, cy, R * .55, cx, cy, R);
+    bg.addColorStop(0, 'rgba(6,4,3,1)'); bg.addColorStop(.7, 'rgba(255,140,40,.95)'); bg.addColorStop(.85, 'rgba(255,230,170,.8)'); bg.addColorStop(1, 'rgba(255,200,120,0)');
+    ctx.fillStyle = bg; ctx.beginPath(); ctx.arc(cx, cy, R, 0, 7); ctx.fill();
+  }
+  ctx.restore();
+}
 function drawFocus() {
   const insetOn = seams.length && simT - seams[seams.length - 1].t0 <= 2.4;
-  const quiet = RENDER && (filmT < 3.2 || filmT > REEL0 - .1);
+  const quiet = RENDER && (filmT < (MOOD ? 1.2 : 3.2) || filmT > REEL0 - .1);
   const f = focusId != null && !insetOn && !quiet ? frags.find(g => g.id === focusId) : null;
   if (!f || f.gearT >= 0) return;
-  const s = .95, w = f.w * s, h = f.h * s, jb = jellyBox();
+  const s = .95, w = MOOD ? 150 : f.w * s, h = MOOD ? 112 : f.h * s, jb = jellyBox();
   const boxAt = i => { const [ox, oy] = SLOTS[i], cx = f.x + ox * (w / 2 + 22), cy = f.y + oy * (h / 2 + 22); return [cx - w / 2, cy - h / 2, cx + w / 2, cy + h / 2]; };
   const ok = b => b[0] >= 6 && b[1] >= 6 && b[2] <= W - 6 && b[3] <= H - 6;
   let best = focusSlot, bestOv = Infinity;
@@ -711,16 +742,35 @@ function drawFocus() {
   const card = {...f, x: (b[0] + b[2]) / 2, y: (b[1] + b[3]) / 2, rot: 0};
   ctx.save(); ctx.strokeStyle = 'rgba(255,236,200,.55)'; ctx.lineWidth = .8;
   ctx.beginPath(); ctx.moveTo(f.x, f.y); ctx.lineTo(Math.max(b[0], Math.min(b[2], f.x)), Math.max(b[1], Math.min(b[3], f.y))); ctx.stroke(); ctx.restore();
-  drawCard(card, s, 1);
+  if (MOOD) drawPic(f.imgs, b[0], b[1], w, h, 1, {burn: f.cutAt != null && f.rescuedAt == null && simT - f.cutAt < 1.4 ? (simT - f.cutAt) / 1.4 : 0});
+  else drawCard(card, s, 1);
+}
+// mood: the archive as atmosphere. The last frame the jellyfish touched hangs huge, blurred and faint behind
+// everything, crossfading to the next one, as archive footage sits under the Afterlight films.
+let ghost = {cur: null, prev: null, t: -9};
+function drawGhost() {
+  const f = focusId != null ? frags.find(g => g.id === focusId) : null;
+  if (f && f.imgs && f.imgs.join() !== (ghost.cur || []).join()) ghost = {cur: f.imgs, prev: ghost.cur, t: simT};
+  const k = Math.min(1, (simT - ghost.t) / 1.5);
+  for (const [imgs, a] of [[ghost.prev, 1 - k], [ghost.cur, k]]) {
+    if (!imgs || a <= 0) continue;
+    const im = PICS[imgs[0]]; if (!im || !im.naturalWidth) continue;
+    const sc = Math.max(W / im.naturalWidth, H / im.naturalHeight) * (1.06 + .02 * Math.sin(simT * .2));
+    ctx.save(); ctx.globalAlpha = a * .17;
+    ctx.filter = `blur(5px) ${heat > .5 ? 'sepia(.9) brightness(.8)' : 'grayscale(1) brightness(.75)'}`;
+    ctx.drawImage(im, (W - im.naturalWidth * sc) / 2, (H - im.naturalHeight * sc) / 2, im.naturalWidth * sc, im.naturalHeight * sc);
+    ctx.restore();
+  }
 }
 function draw() {
   ctx.fillStyle = '#120e0b'; ctx.fillRect(0, 0, W, H);
-  drawTank(); drawConnectors(); drawRings(); drawGear(); drawBeam();
-  tentacles(simT); drawJelly(); drawTankLabels();
+  if (MOOD) drawGhost();
+  drawTank(); drawRings(); drawGear(); drawBeam();
+  tentacles(simT); drawJelly();
   drawSeams();
   for (const f of frags) if (f.gearT < 0) drawEmber(f);
   for (const f of frags) if (f.gearT >= 0) drawEmber(f, 1 - Math.min(1, f.gearT / 1.4));
-  drawBells(); drawRingLabels();
+  drawBells();
   drawTemperature();
   // the open card and the seam close-up sit above the projection (cast, vignette, scratches), so they stay readable
   drawFocus();
@@ -748,13 +798,13 @@ function hud() {
 function reset() {
   seed = SEED; nextId = 1; frags = []; seams = []; ledger = []; evts = []; simT = 0; gearBoost = 0; lastEvent = -9; dirty = true;
   stats = {contam: 0, returns: 0, cuts: 0, rescued: 0, trans: 0, checks: 0, v1: 0, v2: 0, v3: 0, v4: 0, v5: 0, oob: [], focusFrames: 0, ovMax: 0, ovFrames: 0};
-  JHIST = []; focusId = null; focusSlot = 0; heat = 1; heatTarget = 1; auto = true; contamOn = false; reel = null; reelIdx = -1; syncBtn();
+  JHIST = []; ghost = {cur: null, prev: null, t: -9}; focusId = null; focusSlot = 0; heat = 1; heatTarget = 1; auto = true; contamOn = false; reel = null; reelIdx = -1; syncBtn();
   J = {x: 230, y: 330, tx: 230, ty: 330, tent: [], tips: [], carry: [], by: 330, pu: 1, sx: 1, sy: 1, sq: 0, tilt: 0, antic: 0, key: '', reach: {x: 230, y: 460, w: 0}};
   for (let i = 0; i < TN; i++) J.tent.push({ax: -70 + 140 * i / (TN - 1), seg: 8 + rand() * 4, ph: rand() * 6.28});
   for (const [kind, pool, kw, text] of CORPUS) {
     const src = 'S' + (frags.length + 1), a = anchor();
     const f = make(kind, pool, kw, text, src, [src], a.x, a.y);
-    f.anchor = a; frags.push(f);
+    f.anchor = a; f.imgs = [frags.length]; frags.push(f);
   }
   tentacles(0);
   log(`the projector runs hot; the jelly forages ${frags.length} fragments, and the censor's bell waits for the care strand`);
@@ -808,6 +858,12 @@ function panel(alpha, lines, y = 250, h = 220) {
   ctx.restore();
 }
 function filmOverlay(t, dur) {
+  if (MOOD) {
+    drawReel(t);
+    const k = Math.max(0, 1 - t / 1.5, (t - (dur - 2)) / 2);
+    if (k > 0) { ctx.save(); ctx.globalAlpha = Math.min(1, k); ctx.fillStyle = '#000'; ctx.fillRect(0, 0, FW, FH); ctx.restore(); }
+    return;
+  }
   ctx.save();
   ctx.fillStyle = 'rgba(169,149,119,.7)'; ctx.font = '12px "Helvetica Neue", Arial, sans-serif'; ctx.fillText('contaminant jelly', 40, 26);
   ctx.textAlign = 'right'; ctx.font = 'italic 13px Georgia, serif'; ctx.fillStyle = heat > .5 ? '#f0a35a' : '#9fb9ff';
@@ -846,11 +902,19 @@ function drawReel(t) {
   vg.addColorStop(0, 'rgba(60,30,10,0)'); vg.addColorStop(1, 'rgba(60,30,10,.45)'); ctx.fillStyle = vg; ctx.fillRect(fx, fy, fw, fh);
   ctx.textAlign = 'center';
   if (!reel.length) {
+    if (MOOD) { ctx.restore(); return; }
     ctx.fillStyle = '#2a1a12'; ctx.font = 'italic 30px Georgia, serif'; ctx.fillText('no cuts were made in this run', FW / 2, fy + fh / 2);
   } else {
     const n = reel.length, per = (REEL1 - REEL0 - .4) / n, rel = t - REEL0 - .2, k = Math.max(0, Math.min(n - 1, Math.floor(rel / per)));
     if (k !== reelIdx && rel >= 0 && t <= REEL1) { reelIdx = k; evts.push({t: simT, type: 'splice'}); }
-    const f = reel[k], m = wrap(f.text, 'italic 34px Georgia, serif', fw - 140);
+    const f = reel[k];
+    if (MOOD) {
+      drawPic(f.imgs, fx + 14, fy + 14, fw - 28, fh - 28, 1, {hot: 1});
+      ctx.fillStyle = `rgba(255,236,200,${(.06 + .05 * Math.sin(t * 61)).toFixed(3)})`; ctx.fillRect(fx, fy, fw, fh);
+      if (rel - k * per < .09) { ctx.fillStyle = 'rgba(255,255,255,.75)'; ctx.fillRect(fx, fy, fw, fh); }
+      ctx.restore(); return;
+    }
+    const m = wrap(f.text, 'italic 34px Georgia, serif', fw - 140);
     ctx.fillStyle = '#2a1a12'; ctx.font = 'italic 34px Georgia, serif';
     m.lines.forEach((l, i) => ctx.fillText(l, FW / 2, fy + fh / 2 - (m.lines.length - 1) * 22 + i * 44));
     ctx.font = '14px "Helvetica Neue", Arial, sans-serif'; ctx.fillStyle = '#7a5a40';
@@ -871,7 +935,7 @@ function filmFrame(i, fps, dur, noImage) {
 
 window.SCION_CONTAMINANT = {stats: () => ({...stats, population: frags.length, simT, contamOn, heat, carry: J.carry.length}),
   frame: filmFrame, events: () => evts, ledger: () => ledger.slice().reverse()};
-(document.fonts ? document.fonts.ready : Promise.resolve()).then(() => {
+Promise.all([document.fonts ? document.fonts.ready : Promise.resolve(), picsReady]).then(() => {
   if (RENDER) { cv.width = FW; cv.height = FH; reset(); return; }
   reset(); requestAnimationFrame(tick);
 });
