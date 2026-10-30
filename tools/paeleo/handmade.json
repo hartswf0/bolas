@@ -244,6 +244,16 @@
    "trick": "The dog bends where its triangles can keep their shape and nowhere else."
   },
   {
+   "id": 37,
+   "dir": "37-weighted-skinning",
+   "name": "Weighted skinning",
+   "kind": "One skin over a skeleton, weighted per vertex",
+   "dog": "one closed skinned mesh over 27 bones, coated in the archive dog's own film grain",
+   "made": "A single closed triangle mesh (about 7,200 vertices) grown by surface nets over a signed-distance sculpture on a 27-bone rest skeleton, with weights from heat diffusion on the cotangent Laplacian (the Pinocchio method), pruned to four bones per vertex. The coat is some 16,000 small patches of film pixels from the public-domain home-movie dog, kept hard-edged so the archive's grain shows. The person is a second skinned mesh in a wool coat.",
+   "moved": "Linear blend skinning and dual-quaternion skinning are both implemented; the film uses dual quaternions. A two-panel inset at the lie-down shows linear blend losing volume at the hock beside the fix, and the end card adds the weight maps and a 160° neck-twist stress test. Feet step on a gait clock with two-bone IK and do not slide.",
+   "trick": "The joints keep their girth because of how the skin is blended, and the film shows the version that does not."
+  },
+  {
    "id": 38,
    "dir": "38-drawing-library",
    "name": "Dynamic pose selection",
