@@ -73,7 +73,9 @@ def end_card(M):
     lines = ['A board of 320 x 180 flip-discs and LEDs, computed every frame:',
              'what gives light is lit (sky, room), what receives light is flipped.',
              f'The dog is not drawn: {NSEG} rounded segments posed by its own state',
-             'machine, cast into discs. No footage; no keys for its choices.',
+             'machine, cast into discs. No footage; no keys for its choices:',
+             'its 11 parameters were tuned (tune.py) until its own decisions',
+             'fell on the score\'s times; the score\'s states are never an input.',
              'Voices formant-synthesized. Every flip clicks; a relay clacks',
              'each time the machine decides.']
     for k, ln in enumerate(lines):
@@ -101,10 +103,10 @@ def end_card(M):
     pairs = {(x['from'], x['to']) for x in tr}
     for e in tr:
         arrow(e['from'], e['to'], f"{e['t']:.2f}s", off=11 if (e['to'], e['from']) in pairs else 0)
-    d.text((48, 232), 'utility per behaviour, every tick; the best wins', font=fs, fill=grey)
-    d.text((48, 249), 'if it beats the current one by a margin, and the', font=fs, fill=grey)
-    d.text((48, 266), 'current one has had its minimum time (danger may cut in).', font=fs, fill=grey)
-    d.text((48, 283), 'the dog sees only where its head points; it hears all round.', font=fs, fill=grey)
+    d.text((48, 262), 'utility per behaviour, every tick; the best wins', font=fs, fill=grey)
+    d.text((48, 279), 'if it beats the current one by a margin, and the', font=fs, fill=grey)
+    d.text((48, 296), 'current one has had its minimum time (danger may cut in).', font=fs, fill=grey)
+    d.text((48, 313), 'the dog sees only where its head points; it hears all round.', font=fs, fill=grey)
     # ---- drive curves
     x0, x1, y0, y1 = 70, 1230, 400, 640
     d.rectangle((x0, y0, x1, y1), outline=(40, 40, 42))

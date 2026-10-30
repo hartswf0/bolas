@@ -167,7 +167,7 @@ class Dog:
         Mt = T(0, drop + bob) @ T(792, 800) @ R(-pitch) @ T(-792, -800)
         sh = self.torso.piv['shoulder']; hip = self.HIP
         legs = []
-        for far, off, un in ((True, .5, 968), (True, .75, 668), (False, 0., 968), (False, .25, 668)):
+        for far, off, un in ((True, .5, 945), (True, .75, 668), (False, 0., 945), (False, .25, 668)):
             hindleg = un > 800
             F = self.foot(i, off, un + (8 if far else 0), t, 26 if hindleg else 20)
             top = hip if hindleg else sh
@@ -206,6 +206,8 @@ class Dog:
                 M1 = Mw @ T(*P) @ R(math.degrees(a_th - a_th0)) @ T(-895, -800)
                 M2 = Mw @ T(*Hk) @ R(math.degrees(a_sk - a_sk0)) @ T(-990, -838)
                 legs.append((far, [(th_, M1), (sk_, M2)]))
+                if not far:
+                    info['hind_paw'] = ap(M2, (1006, 888)); info['hind_target'] = ap(Mw, F); info['hind_reach_ok'] = abs(math.dist(P, F) - d) < 0.5
         for far, pcs in legs:
             if far:
                 for part, M in pcs: draw(body, part, M)
@@ -235,16 +237,16 @@ class Dog:
         lk = ease(min(1., look * 1.15)) if pl > 0.5 else 0.0
         view = 'profile'
         local_mirror = 1 if hx > 0 else -1
-        base_local = T(nk[0] + fwd - 34 * lk, nk[1] + drop_head)
+        base_local = T(nk[0] + fwd - (34 * lk if lk <= 0.55 else 12), nk[1] + drop_head)
         if lk > 0.55:
             view = 'back'
-            sb = lerp(0.82, 1.0, (lk - 0.55) / 0.45)
-            Mb = Mw @ Mt @ base_local @ T(-62, -36) @ Sc(sb, sb) @ T(-self.back.piv['neck'][0], -self.back.piv['neck'][1])
-            draw(headL, self.back, Mb, mult=(1.08, .97, .84)); hp = (self.back, Mb)
+            sb = lerp(0.74, 0.8, (lk - 0.55) / 0.45)
+            Mb = Mw @ Mt @ base_local @ T(-30, -14) @ Sc(sb, sb) @ T(-self.back.piv['nose'][0], -self.back.piv['nose'][1])
+            draw(headL, self.back, Mb, mult=(.98, .9, .8)); hp = (self.back, Mb)
         else:
             nx = lerp(1.0, 0.45, lk / 0.55) if lk > 0 else 1.0
             Mh = Mw @ Mt @ base_local @ Sc(local_mirror * abs(hx / hs) * nx, 1) @ R(ha * (1 - lk)) @ T(-nk[0], -nk[1])
-            draw(headL, self.head, Mh, mult=(lerp(1, 1.08, lk), lerp(1, .97, lk), lerp(1, .84, lk))); hp = (self.head, Mh)
+            draw(headL, self.head, Mh, mult=(lerp(1, .98, lk), lerp(1, .9, lk), lerp(1, .8, lk))); hp = (self.head, Mh)
         nose = ap(hp[1], hp[0].piv['nose']); neck = ap(hp[1], hp[0].piv['neck'])
         if view == 'profile' and abs(nose[0] - neck[0]) < 1: nose = (neck[0] - local_mirror * f, nose[1])
         back = ap(Mw @ Mt, self.torso.piv['back'])
@@ -405,10 +407,10 @@ def main(a, b):
                'mask_px': int(ab.sum() + ah.sum()), 'head_cx_screen': float(xh.mean()) if len(xh) else None,
                'head_top_screen': int(yh.min()) if len(yh) else None, 'head_w_screen': int(xh.max() - xh.min()) if len(xh) else None,
                'head_view': info.get('head_view'), 'cam_zoom': z}
-        for k in ('nose', 'neck', 'back'):
+        for k in ('nose', 'neck', 'back', 'hind_paw', 'hind_target'):
             if k in info: rec[k + '_screen'] = [round(info[k][0], 1), round(info[k][1], 1)]
         rec.update({k: info[k] for k in ('x_score', 'turn', 'lie', 'model', 'body_dir', 'posture')})
-        rec['person_x'] = pinfo['x']
+        rec['person_x'] = pinfo['x']; rec['hind_reach_ok'] = info.get('hind_reach_ok')
         meas[str(i)] = rec
         if i % 48 == 0: print('frame', i, flush=True)
     json.dump(meas, open(mfile, 'w'))
