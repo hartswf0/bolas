@@ -1,0 +1,404 @@
+{
+ "front": {
+  "sprite": "actor/parts/head_front.png",
+  "source_frame": 38,
+  "mirrored": false,
+  "head_diag_px": 128.2,
+  "auto": {
+   "eye_l": [
+    38.0,
+    40.0
+   ],
+   "eye_r": [
+    74.0,
+    45.0
+   ],
+   "nose": [
+    54.0,
+    75.0
+   ],
+   "ear_l": [
+    20.8,
+    26.2
+   ],
+   "ear_r": [
+    80.2,
+    26.2
+   ],
+   "chin": [
+    50.5,
+    98.2
+   ],
+   "jaw_hinge": [
+    26.7,
+    83.8
+   ]
+  },
+  "corrected": {
+   "eye_l": [
+    40,
+    34
+   ],
+   "eye_r": [
+    76,
+    36
+   ],
+   "nose": [
+    68,
+    70
+   ],
+   "ear_l": [
+    18,
+    14
+   ],
+   "ear_r": [
+    92,
+    10
+   ],
+   "chin": [
+    64,
+    92
+   ],
+   "jaw_hinge": [
+    36,
+    80
+   ]
+  },
+  "error_px": {
+   "eye_l": 6.3,
+   "eye_r": 9.2,
+   "nose": 14.9,
+   "ear_l": 12.5,
+   "ear_r": 20.0,
+   "chin": 14.9,
+   "jaw_hinge": 10.0
+  },
+  "mean_error_over_diag": 0.098,
+  "auto_anatomy_failures": [],
+  "corrected_anatomy_failures": [],
+  "verdict": "auto accepted",
+  "why": "near-frontal: the template is close; ear bases sit too low on these drop ears.",
+  "pivot": [
+   50,
+   98
+  ]
+ },
+ "tq": {
+  "sprite": "actor/parts/head_tq.png",
+  "source_frame": 37,
+  "mirrored": true,
+  "head_diag_px": 119.6,
+  "auto": {
+   "eye_l": [
+    23.0,
+    47.0
+   ],
+   "eye_r": [
+    56.0,
+    41.0
+   ],
+   "nose": [
+    40.0,
+    74.0
+   ],
+   "ear_l": [
+    18.3,
+    25.4
+   ],
+   "ear_r": [
+    75.7,
+    25.4
+   ],
+   "chin": [
+    47.0,
+    90.6
+   ],
+   "jaw_hinge": [
+    24.0,
+    77.6
+   ]
+  },
+  "corrected": {
+   "eye_l": [
+    56,
+    40
+   ],
+   "eye_r": [
+    34,
+    42
+   ],
+   "nose": [
+    24,
+    72
+   ],
+   "ear_l": [
+    76,
+    20
+   ],
+   "ear_r": [
+    16,
+    12
+   ],
+   "chin": [
+    34,
+    88
+   ],
+   "jaw_hinge": [
+    60,
+    72
+   ]
+  },
+  "error_px": {
+   "eye_l": 33.7,
+   "eye_r": 22.0,
+   "nose": 16.1,
+   "ear_l": 58.0,
+   "ear_r": 61.2,
+   "chin": 13.3,
+   "jaw_hinge": 36.4
+  },
+  "mean_error_over_diag": 0.288,
+  "auto_anatomy_failures": [],
+  "corrected_anatomy_failures": [],
+  "verdict": "auto rejected, hand-corrected",
+  "why": "three-quarter: closest to the template; eyes are near but the far eye snaps into the dark cheek and the chin sits on the chest.",
+  "pivot": [
+   52,
+   88
+  ]
+ },
+ "profile": {
+  "sprite": "actor/parts/head_profile.png",
+  "source_frame": 9,
+  "mirrored": false,
+  "head_diag_px": 108.0,
+  "auto": {
+   "eye_l": [
+    34.0,
+    39.0
+   ],
+   "eye_r": [
+    74.0,
+    41.0
+   ],
+   "nose": [
+    59.0,
+    59.0
+   ],
+   "ear_l": [
+    20.0,
+    19.8
+   ],
+   "ear_r": [
+    81.0,
+    19.8
+   ],
+   "chin": [
+    50.5,
+    67.8
+   ],
+   "jaw_hinge": [
+    26.1,
+    58.2
+   ]
+  },
+  "corrected": {
+   "eye_l": [
+    34,
+    20
+   ],
+   "eye_r": null,
+   "nose": [
+    12,
+    18
+   ],
+   "ear_l": [
+    58,
+    20
+   ],
+   "ear_r": null,
+   "chin": [
+    22,
+    38
+   ],
+   "jaw_hinge": [
+    46,
+    50
+   ]
+  },
+  "error_px": {
+   "eye_l": 19.0,
+   "eye_r": "auto placed a landmark that is not visible",
+   "nose": 62.4,
+   "ear_l": 38.0,
+   "ear_r": "auto placed a landmark that is not visible",
+   "chin": 41.2,
+   "jaw_hinge": 21.5
+  },
+  "mean_error_over_diag": 0.337,
+  "auto_anatomy_failures": [
+   "two eyes spread across a profile head (a profile shows one eye)",
+   "nose behind the eye: the muzzle of a left-facing head must lead the eyes"
+  ],
+  "corrected_anatomy_failures": [],
+  "verdict": "auto rejected, hand-corrected",
+  "why": "profile, muzzle raised 30 deg: the frontal template puts two eyes and a centred nose on a head that shows one eye; the dark snap finds the dark ear/neck patch behind the skull and calls it the nose.",
+  "pivot": [
+   64,
+   48
+  ]
+ },
+ "low": {
+  "sprite": "actor/parts/head_low.png",
+  "source_frame": 46,
+  "mirrored": true,
+  "head_diag_px": 153.1,
+  "auto": {
+   "eye_l": [
+    35.0,
+    65.0
+   ],
+   "eye_r": [
+    82.0,
+    61.0
+   ],
+   "nose": [
+    60.0,
+    103.0
+   ],
+   "ear_l": [
+    22.2,
+    36.0
+   ],
+   "ear_r": [
+    88.8,
+    36.0
+   ],
+   "chin": [
+    55.5,
+    126.0
+   ],
+   "jaw_hinge": [
+    28.9,
+    108.0
+   ]
+  },
+  "corrected": {
+   "eye_l": [
+    60,
+    62
+   ],
+   "eye_r": null,
+   "nose": [
+    18,
+    116
+   ],
+   "ear_l": [
+    80,
+    24
+   ],
+   "ear_r": null,
+   "chin": [
+    38,
+    132
+   ],
+   "jaw_hinge": [
+    66,
+    96
+   ]
+  },
+  "error_px": {
+   "eye_l": 25.2,
+   "eye_r": "auto placed a landmark that is not visible",
+   "nose": 44.0,
+   "ear_l": 59.0,
+   "ear_r": "auto placed a landmark that is not visible",
+   "chin": 18.5,
+   "jaw_hinge": 39.0
+  },
+  "mean_error_over_diag": 0.243,
+  "auto_anatomy_failures": [
+   "two eyes spread across a profile head (a profile shows one eye)",
+   "nose behind the eye: the muzzle of a left-facing head must lead the eyes"
+  ],
+  "corrected_anatomy_failures": [],
+  "verdict": "auto rejected, hand-corrected",
+  "why": "muzzle pointing down: the template chin lands on the white neck ruff, the nose window holds the dark eye.",
+  "pivot": [
+   90,
+   28
+  ]
+ },
+ "back": {
+  "sprite": "actor/parts/head_back.png",
+  "source_frame": 0,
+  "mirrored": false,
+  "head_diag_px": 107.6,
+  "auto": {
+   "eye_l": [
+    41.0,
+    49.0
+   ],
+   "eye_r": [
+    64.0,
+    42.0
+   ],
+   "nose": [
+    49.0,
+    56.0
+   ],
+   "ear_l": [
+    28.8,
+    25.0
+   ],
+   "ear_r": [
+    79.2,
+    25.0
+   ],
+   "chin": [
+    54.0,
+    85.0
+   ],
+   "jaw_hinge": [
+    33.8,
+    73.0
+   ]
+  },
+  "corrected": {
+   "eye_l": null,
+   "eye_r": null,
+   "nose": null,
+   "ear_l": [
+    26,
+    14
+   ],
+   "ear_r": [
+    56,
+    10
+   ],
+   "chin": null,
+   "jaw_hinge": null
+  },
+  "error_px": {
+   "eye_l": "auto placed a landmark that is not visible",
+   "eye_r": "auto placed a landmark that is not visible",
+   "nose": "auto placed a landmark that is not visible",
+   "ear_l": 11.4,
+   "ear_r": 27.6,
+   "chin": "auto placed a landmark that is not visible",
+   "jaw_hinge": "auto placed a landmark that is not visible"
+  },
+  "mean_error_over_diag": 0.181,
+  "auto_anatomy_failures": [
+   "face landmarks placed on the back of the head (no face is visible)",
+   "nose within 11 px of an eye: a dog muzzle is longer than a human nose"
+  ],
+  "corrected_anatomy_failures": [],
+  "verdict": "auto rejected, hand-corrected",
+  "why": "back of the head: no face is visible. The fitter still places two eyes, a nose and a chin on the fur - a face on the back of a head. Manual: ears only; the face landmarks are declared absent.",
+  "pivot": [
+   52,
+   86
+  ]
+ }
+}

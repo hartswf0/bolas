@@ -1,0 +1,50 @@
+{
+ "classifier": "rule learned from these five inspected heads: the frontal portrait rig is accepted only when the head is frontal or three-quarter AND mean landmark error < 0.12 of the head diagonal AND no anatomy test fails; profile, lowered and back-of-head cuts are routed to hand annotation.",
+ "heads": [
+  {
+   "head": "front",
+   "frame": 38,
+   "portrait_type": "archive animal, 16 mm b/w, ~40 px head",
+   "orientation": "frontal",
+   "auto_rig": "compatible",
+   "mean_error_over_diag": 0.098,
+   "n_anatomy_failures": 0
+  },
+  {
+   "head": "tq",
+   "frame": 37,
+   "portrait_type": "archive animal, 16 mm b/w, ~40 px head",
+   "orientation": "three-quarter",
+   "auto_rig": "incompatible",
+   "mean_error_over_diag": 0.288,
+   "n_anatomy_failures": 0
+  },
+  {
+   "head": "profile",
+   "frame": 9,
+   "portrait_type": "archive animal, 16 mm b/w, ~40 px head",
+   "orientation": "profile, raised",
+   "auto_rig": "incompatible",
+   "mean_error_over_diag": 0.337,
+   "n_anatomy_failures": 2
+  },
+  {
+   "head": "low",
+   "frame": 46,
+   "portrait_type": "archive animal, 16 mm b/w, ~40 px head",
+   "orientation": "profile-3/4, lowered",
+   "auto_rig": "incompatible",
+   "mean_error_over_diag": 0.243,
+   "n_anatomy_failures": 2
+  },
+  {
+   "head": "back",
+   "frame": 0,
+   "portrait_type": "archive animal, 16 mm b/w, ~40 px head",
+   "orientation": "back of head",
+   "auto_rig": "incompatible",
+   "mean_error_over_diag": 0.181,
+   "n_anatomy_failures": 2
+  }
+ ]
+}
