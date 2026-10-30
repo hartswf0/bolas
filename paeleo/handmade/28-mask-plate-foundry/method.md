@@ -35,7 +35,7 @@ Each primitive is a typed object:
   `light_at()`, models a lamp inside the room shining through the aperture the door leaf leaves open. That function
   lights the porch floor, the sill, the dog card and the person. The dusk ambient tint is shared. Each layer's grain
   is measured (high-pass MAD inside its eroded matte), and noise is added to reach a common target of 0.016. The
-  measured values are in `build/cache/measure.json` → `grain`.
+  measured values are in `build/cache/measure.json` → `grain`. One caveat: the shipped measure rounds luma to 1/255, so most layers read 0.00581, which is the quantisation floor and not their real grain. In practice every cut layer received a near-uniform grain of about 0.015. The matching is therefore weaker than its name suggests (ledger 8).
 
 ## The dog
 
@@ -87,8 +87,7 @@ Choice onsets, detected from the matte (movement, head height, the plate in use,
 - the audio, measured on the film's own AAC track: the calls average about −20.7 dBFS, the soft lines are about 13 dB
   under them and about 19 dB over the room tone.
 
-At the end the dog lies with 34 % of its matte past the threshold, and about 1,170 px are held out by the facade and
-sill. `check_handmade.py` reports ALL OK.
+At the end the dog lies with 34 % of its matte past the threshold, and 1,168 px are held out by the facade and sill. `check_handmade.py` reports ALL OK.
 
 ## Looked at
 
