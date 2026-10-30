@@ -57,14 +57,15 @@ SHOTS = held_cuts() + [
     (18.0, 21.0, "eye", 0.5, 1.0),          # the clatter stops; still held, nothing new to see
     (21.0, 25.3, "lantern", 0.62, 1.0),     # a hand lifts a light
     (25.3, 30.0, "eye", 0.5, 1.0),
-    (33.0, 41.0, "star", 0.5, 0.55),        # a flower opens inside the afterglow
+    (33.0, 41.0, "star", 0.5, 0.9),          # a flower opens inside the afterglow
     (41.0, 44.5, "eye", 0.5, 0.6),
 ]
 BLINKS = [25.0, 28.4, 43.0]                 # none before the release
 BLINK_LEN = 0.5
 DARK = (30.0, 41.0)                         # nothing is shown here but what the retina holds
-GLOW_PEAK = 0.40                            # the kept glow is never brighter than the pink it came from
-GLOW_FLOOR, GLOW_SPAN = 0.06, 0.45          # fixed scale, so a fading trace is seen to fade
+GLOW_PEAK = 0.32                            # the kept glow is never brighter than the pink it came from
+GLOW_FLOOR, GLOW_SPAN = 0.35, 0.35          # fixed scale, so a fading trace is seen to fade
+CARRY_RATE = 0.35                           # how fast the dark retina lets go (per second)
 
 
 def blink(t):
@@ -111,7 +112,7 @@ class Retina:
 
     def step(s, I, t, dt):
         ph = phase(t)
-        rate = {"held": 0.9, "release": 0.9, "carry": 0.16, "card": 0.16}[ph]
+        rate = {"held": 0.9, "release": 0.9, "carry": CARRY_RATE, "card": CARRY_RATE}[ph]
         s.A += (I - s.A) * min(1.0, dt * rate)
         b = blink(t)
         if b > 0:

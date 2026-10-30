@@ -61,8 +61,8 @@ if len(sys.argv) > 2:
     def luma(f):
         return f @ np.array([0.299, 0.587, 0.114], np.float32)
 
-    f = grab(29.5); y = luma(f) / 255; pink = f[(f[..., 0] > f[..., 1] + 20) & (y > 0.05)]
-    ref = luma(pink).max() if len(pink) else 74.0
+    f = grab(29.5); y = luma(f); pink = f[(f[..., 0] > f[..., 1] + 20) & (y > 12)]
+    ref = min(74.0, luma(pink).max()) if len(pink) else 74.0       # the critic's ceiling: the pink at 29.5 s, at most 74
     band = []
     for sec in (31, 34, 37, 40):
         f = grab(sec); y = luma(f)
