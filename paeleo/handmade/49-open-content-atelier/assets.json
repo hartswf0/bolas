@@ -906,6 +906,116 @@
      "stage_operation": ""
     },
     {
+     "part": "w_nape",
+     "role": "dog neck/nape fur (joins a turned head to the torso)",
+     "crop_box_in_kept_copy_px": [
+      658,
+      730,
+      723,
+      807
+     ],
+     "crop_box_in_original_px": [
+      1097,
+      1217,
+      1205,
+      1345
+     ],
+     "operation": "polygon cut + colour key (keep cream fur and liver patches; drop green/blue/dark ground) + closing + small-hole fill",
+     "polygon_in_kept_copy_px": [
+      [
+       720,
+       768
+      ],
+      [
+       719,
+       779
+      ],
+      [
+       714,
+       789
+      ],
+      [
+       708,
+       797
+      ],
+      [
+       699,
+       802
+      ],
+      [
+       690,
+       804
+      ],
+      [
+       681,
+       802
+      ],
+      [
+       672,
+       797
+      ],
+      [
+       666,
+       789
+      ],
+      [
+       661,
+       779
+      ],
+      [
+       660,
+       768
+      ],
+      [
+       661,
+       757
+      ],
+      [
+       666,
+       747
+      ],
+      [
+       672,
+       739
+      ],
+      [
+       681,
+       734
+      ],
+      [
+       690,
+       732
+      ],
+      [
+       699,
+       734
+      ],
+      [
+       708,
+       739
+      ],
+      [
+       714,
+       747
+      ],
+      [
+       719,
+       757
+      ]
+     ],
+     "pivots_in_part_px": {
+      "c": [
+       32,
+       38
+      ]
+     },
+     "cache_files": [
+      "build/cache/parts/w_nape.jpg",
+      "build/cache/parts/w_nape_a.jpg"
+     ],
+     "stage_operation": ""
+    },
+    {
      "part": "w_back",
      "role": "dog back of the head (composite of w_skull + w_ear twice, one mirrored)",
      "crop_box_in_kept_copy_px": [

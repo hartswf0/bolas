@@ -54,6 +54,8 @@ P = {
           (626, 797), (612, 788), (602, 768), (596, 745)], piv={'top': (618, 721)}, role='dog ear (for the back-of-head view)'),
  'w_skull': dict(src=WOOD, key='none', poly=[(712 + round(36 * __import__('math').cos(k / 20 * 6.2832)), 768 + round(42 * __import__('math').sin(k / 20 * 6.2832))) for k in range(20)],
           piv={'c': (712, 768)}, role='dog skull seen from behind (white fur of the same print)'),
+ 'w_nape': dict(src=WOOD, key='dog', poly=[(690 + round(30 * __import__('math').cos(k / 20 * 6.2832)), 768 + round(36 * __import__('math').sin(k / 20 * 6.2832))) for k in range(20)],
+          piv={'c': (690, 768)}, role='dog neck/nape fur (joins a turned head to the torso)'),
  # ---------------- the person (Edouart): standing man, faces right; pointing arm from the boy
  'm_upper': dict(src=FAM, key='dark', poly=[(505, 480), (600, 470), (650, 520), (700, 640), (700, 980), (660, 985),
           (520, 985), (505, 900)], piv={'hip': (590, 960), 'shoulder': (625, 640), 'neck': (615, 600)},
@@ -137,6 +139,18 @@ if __name__ == '__main__':
         e = e.rotate(8 if mir else -8, resample=Image.BICUBIC, expand=False); ea = ea.rotate(8 if mir else -8, resample=Image.BICUBIC, expand=False)
         y = 34
         cv.paste(e, (x, y), ea); ca.paste(Image.fromarray(np.maximum(np.asarray(ca.crop((x, y, x + e.width, y + e.height))), np.asarray(ea))), (x, y))
+    # shade it like the back of a head in dim light: the light is in front of the dog (the room), so we see its shadow side:
+    # darker toward the nape, ear bases in shadow, a soft warm rim along the top edge where the room light catches it
+    arr = np.asarray(cv).astype(float); al = np.asarray(ca).astype(float) / 255.
+    hh, ww = al.shape; yy, xx = np.mgrid[0:hh, 0:ww]
+    grad = np.clip(0.62 - 0.32 * (yy - 14) / 90., 0.28, 0.62)
+    base_b = 1 - 0.42 * np.exp(-((np.abs(xx - 85) - 28) / 12.) ** 2) * np.clip((100 - yy) / 40., 0, 1)
+    arr *= (grad * base_b)[..., None] * np.array([1.0, .97, .95])[None, None]
+    er = np.asarray(Image.fromarray((al * 255).astype(np.uint8)).filter(ImageFilter.MinFilter(7))).astype(float) / 255.
+    rim = np.clip(al - er, 0, 1) * np.clip(1 - (yy - 10) / 70., 0, 1)
+    rim = np.asarray(Image.fromarray((rim * 255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(1.5))).astype(float) / 255. * al
+    arr = arr * (1 - rim[..., None] * .8) + rim[..., None] * .8 * np.array([235, 200, 150])[None, None]
+    cv = Image.fromarray(np.clip(arr, 0, 255).astype(np.uint8))
     cv.save(os.path.join(OUT, 'w_back.jpg'), quality=95); ca.save(os.path.join(OUT, 'w_back_a.jpg'), quality=95)
     meta['w_back'] = {'src': WOOD, 'role': 'dog back of the head (composite of w_skull + w_ear twice, one mirrored)', 'key': 'none',
                       'bbox_in_source': meta['w_ear']['bbox_in_source'], 'composite_of': ['w_skull', 'w_ear', 'w_ear (mirrored)'],

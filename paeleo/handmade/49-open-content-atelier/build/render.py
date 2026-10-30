@@ -122,7 +122,7 @@ class Dog:
         self.fore = Part('w_fore', pw); self.fore_far = Part('w_fore', pw, tint=(.62, .6, .6))
         self.thigh = Part('w_thigh', pw); self.shank = Part('w_shank', pw)
         self.thigh_far = Part('w_thigh', pw, tint=(.62, .6, .6)); self.shank_far = Part('w_shank', pw, tint=(.62, .6, .6))
-        self.back = Part('w_back', pw)
+        self.back = Part('w_back', pw); self.nape = Part('w_nape', pw)
         self.C_W = (792, 886)
         self.HIP = (885, 808)
 
@@ -156,7 +156,7 @@ class Dog:
         info = {'x_score': x, 'turn': turn, 'lie': lie, 'model': 'woodcock'}
         f = 1 if turn >= 0 else -1
         Xc = wx(x)
-        hs = max(abs(turn), 0.62)
+        hs = 0.85 + 0.15 * abs(turn)           # never more than 15 % horizontal squash
         pl = ease(lie)                                 # folding toward lying (haunches lead)
         approach = 14.7 <= t < 23.6
         drop = 10 * crouch * (1 - pl) + 54 * pl
@@ -234,19 +234,30 @@ class Dog:
             c = math.cos(math.pi * u); hx = (1 if u < 0.5 else -1) * max(abs(c), 0.35) * hs
         elif t >= T_TURN_B[1] or turn >= 0: hx = hs
         # looking in: the head turns away from us into the room (profile narrows, then the back of the head)
-        lk = ease(min(1., look * 1.15)) if pl > 0.5 else 0.0
+        # looking in: the head turns away from us into the room: profile narrows (3 in-betweens), then the back of the head
+        # widens (3 in-betweens); the reverse from 28.04 s
+        if pl > 0.5 and 26.42 <= t < 28.29:
+            u = min(1., (t - 26.42) / 0.25) if t < 28.04 else max(0., 1 - (t - 28.04) / 0.25)
+        else:
+            u = 0.0
         view = 'profile'
         local_mirror = 1 if hx > 0 else -1
-        base_local = T(nk[0] + fwd - (34 * lk if lk <= 0.55 else 12), nk[1] + drop_head)
-        if lk > 0.55:
+        base_local = T(nk[0] + fwd - 20 * min(1., 2 * u), nk[1] + drop_head)
+        if u > 0 or local_mirror < 0:
+            # the neck: nape fur of the same dog, joining a turned head to the torso (shadow side when looking in)
+            nm = lerp(.95, .5, min(1., 2 * u)) if u > 0 else .95
+            Mn = Mw @ Mt @ (base_local if u > 0 else T(nk[0], nk[1] + drop_head)) @ T(-10 if u > 0 else -4, 4) @ Sc(0.95, 1.0) @ T(-690, -768)
+            draw(headL, self.nape, Mn, mult=(nm, nm * .97, nm * .95))
+        if u > 0.5:
             view = 'back'
-            sb = lerp(0.74, 0.8, (lk - 0.55) / 0.45)
-            Mb = Mw @ Mt @ base_local @ T(-30, -14) @ Sc(sb, sb) @ T(-self.back.piv['nose'][0], -self.back.piv['nose'][1])
-            draw(headL, self.back, Mb, mult=(.98, .9, .8)); hp = (self.back, Mb)
+            sbx = lerp(0.3, 1.0, (u - 0.5) / 0.5) * 0.8
+            Mb = Mw @ Mt @ base_local @ T(-30, -14) @ Sc(sbx, 0.8) @ T(-self.back.piv['nose'][0], -self.back.piv['nose'][1])
+            draw(headL, self.back, Mb); hp = (self.back, Mb)
         else:
-            nx = lerp(1.0, 0.45, lk / 0.55) if lk > 0 else 1.0
-            Mh = Mw @ Mt @ base_local @ Sc(local_mirror * abs(hx / hs) * nx, 1) @ R(ha * (1 - lk)) @ T(-nk[0], -nk[1])
-            draw(headL, self.head, Mh, mult=(lerp(1, .98, lk), lerp(1, .9, lk), lerp(1, .8, lk))); hp = (self.head, Mh)
+            nx = lerp(1.0, 0.25, u / 0.5)
+            dm = lerp(1.0, 0.7, u / 0.5)
+            Mh = Mw @ Mt @ base_local @ Sc(local_mirror * abs(hx / hs) * nx, 1) @ R(ha * (1 - u)) @ T(-nk[0], -nk[1])
+            draw(headL, self.head, Mh, mult=(dm, dm * .97, dm * .95)); hp = (self.head, Mh)
         nose = ap(hp[1], hp[0].piv['nose']); neck = ap(hp[1], hp[0].piv['neck'])
         if view == 'profile' and abs(nose[0] - neck[0]) < 1: nose = (neck[0] - local_mirror * f, nose[1])
         back = ap(Mw @ Mt, self.torso.piv['back'])
@@ -325,7 +336,7 @@ class Stage:
         # the door frame: two casing strips (wood from the same interior) under the lintel
         ly = self.sy(FEET - S * LINTEL)
         put(jamb, self.sx(WALL_OUT) - 9, ly, self.sx(WALL_OUT) + 1, fy - 16, (.42, .34, .28))
-        put(jamb, self.sx(WALL_IN) - 3, ly, self.sx(WALL_IN) + 4, fy - 16, (.55, .45, .36))
+        put(jamb, self.sx(WALL_IN) - 4, ly, self.sx(WALL_IN) + 6, fy - 16, (.26, .2, .16))
         # wall in section above the lintel and the lintel beam
         put(jamb, self.sx(WALL_IN), 0, self.sx(WALL_OUT), self.sy(FEET - S * LINTEL), (.30, .26, .24))
         put(jamb.transpose(Image.ROTATE_90), self.sx(WALL_IN) - 6, self.sy(FEET - S * LINTEL) - 16, self.sx(WALL_OUT) + 6, self.sy(FEET - S * LINTEL) + 4, (.55, .45, .38))

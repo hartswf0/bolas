@@ -49,8 +49,8 @@ Every pose is these same pieces hinged differently. Revision 1 swapped in *Juno*
   divided by a 0.28 m stride. The hind leg is two cuts solved by two-bone IK, with the hock behind. **Measured on the
   render:** across 82 weight-bearing frame pairs between 14.7 and 23.6 s, the near hind paw drifts at most 0.1 px. In
   swing it lifts up to 12.5 px (18–20 s). The paw clicks in the sound use the same formula.
-- **Turning.** The body foreshortens to no less than 0.62 of its width and the head travels with it. No frame is edge-on,
-  and there is no other print.
+- **Turning.** The body is never squashed by more than 15% (width 0.85–1.0); it flips at the middle of the turn and the
+  head travels with it. No frame is edge-on, and there is no other print.
 - **Lying** is an action, not a swap. Over 0.6 s (15 frames) the torso lowers 54 source px to the floor, and the rear goes
   down first (a 9° haunch pitch). The forelegs reach forward along the floor. The hind thigh folds forward along the belly,
   with the shank back along the floor; the angles are blended linearly so the leg swings down, never over the back. The tail
@@ -59,10 +59,15 @@ Every pose is these same pieces hinged differently. Revision 1 swapped in *Juno*
 - **The head leads at 7.458 s.** While the body still lies with its back to the door, the head narrows and mirrors about
   the neck over 4 frames (7.375–7.54 s), so the muzzle points back at the door over the shoulder. The body rises from
   7.62 s with the head held back, then comes round at 7.95–8.45 s.
-- **Looking in (26.4 s).** The head narrows as it turns away from us (26.4–26.5 s). Then, from 26.54 to 28.08 s, the
-  **back of the same dog's head** is shown: its own ear cut twice (once mirrored) either side of a crown cut from its own
-  white fur (`w_back`, composited in `parts.py`). It sits at the inner edge of the door frame, facing into the lit room,
-  away from us and the person's hand. Then the profile head returns and settles chin-down.
+- **Looking in (26.4 s), revision 3.** The head turns away from us into the room over in-between frames:
+  - 26.42–26.54 s: the profile narrows over 3 frames and darkens into shadow.
+  - 26.58–26.67 s: the **back of the same dog's head** widens over 3 frames. It is its own ear cut twice (once mirrored)
+    either side of a crown of its own white fur, shaded like a skull in dim light: darker toward the nape, ear bases in
+    shadow, a soft warm rim along the crown where the room light catches it (`w_back` in `parts.py`).
+  - Throughout, it is joined to the body by a neck of its own nape fur (`w_nape`) in shadow.
+  - It holds facing into the lit room until 28.04 s, then turns back out the same way (28.04–28.29 s).
+- **Look-back rise (7.54–8.17 s).** The same nape cut fills the chest under the head turned over the shoulder, so there
+  is no bare cut edge.
 
 **Stage.**
 - The house is shown in cutaway section, like a museum period-room diorama.
@@ -131,7 +136,7 @@ Frames were extracted from the final `film.mp4` every 0.25 s, with full-resoluti
 24.18 s. The lie-down was a one-frame swap landing 0.39 s late. The look-in showed a three-quarter face aimed at the
 hand. The torso was not inside the frame at 28 s. The hind feet were not seen to plant.
 
-**Revision 2** fixes these at the root:
+**Revision 2** fixes these at the root (round-2 critic: narrow pass, with a further repair asked for the look-in shading and in-betweens, the look-back neck, and the turn squash; done in revision 3):
 - One print's dog for every pose.
 - Lying is a 15-frame fold, haunches first.
 - The head looks back by mirroring about the neck.
@@ -143,8 +148,8 @@ hand. The torso was not inside the frame at 28 s. The hind feet were not seen to
 
 ## Still weak (known)
 
-- **The back-of-head is a construction.** It is the same ear twice on a crown of the same fur; no print shows this dog
-  from behind. At film size it reads as a dog's head from behind, but it is flatter and paler than the profile.
+- **The back-of-head is a construction.** It is the same ear twice on a shaded crown of the same fur; no print shows
+  this dog from behind. The shadowed nape is a fairly flat grey disc.
 - **Lying is a folded cut-out.** The legs are rigid cuts, so the lying dog is a "sphinx" with a low, lumpy outline, and the
   print's stalking torso stays fat.
 - **The walk is a creep**, true to the stalking print but not a natural trot.
