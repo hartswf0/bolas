@@ -233,31 +233,23 @@ class Dog:
             u = min(1., (t - (T_LOOKBACK - 0.0833)) / 0.1667)
             c = math.cos(math.pi * u); hx = (1 if u < 0.5 else -1) * max(abs(c), 0.35) * hs
         elif t >= T_TURN_B[1] or turn >= 0: hx = hs
-        # looking in: the head turns away from us into the room (profile narrows, then the back of the head)
-        # looking in: the head turns away from us into the room: profile narrows (3 in-betweens), then the back of the head
-        # widens (3 in-betweens); the reverse from 28.04 s
-        if pl > 0.5 and 26.42 <= t < 28.29:
-            u = min(1., (t - 26.42) / 0.25) if t < 28.04 else max(0., 1 - (t - 28.04) / 0.25)
+        # looking in (revision 4): the engraved profile head stays on; it lifts off the paws to level and the neck reaches
+        # forward so the muzzle goes past the room-side jamb into the lit room, then holds, then settles chin-down
+        if pl > 0.5 and 26.3 <= t < 28.6:
+            u = ease(min(1., (t - 26.3) / 0.45)) if t < 28.1 else ease(max(0., 1 - (t - 28.1) / 0.5))
         else:
             u = 0.0
         view = 'profile'
         local_mirror = 1 if hx > 0 else -1
-        base_local = T(nk[0] + fwd - 20 * min(1., 2 * u), nk[1] + drop_head)
+        reach = 52 * u                                      # local px (~0.14 m)
+        ha_l = lerp(ha, -5, u)                              # level, nose a touch down: into the room, below the hand
+        base_local = T(nk[0] + fwd * (1 - u) - reach, nk[1] + drop_head * (1 - u) + 6 * u)
         if u > 0 or local_mirror < 0:
-            # the neck: nape fur of the same dog, joining a turned head to the torso (shadow side when looking in)
-            nm = lerp(.95, .5, min(1., 2 * u)) if u > 0 else .95
-            Mn = Mw @ Mt @ (base_local if u > 0 else T(nk[0], nk[1] + drop_head)) @ T(-10 if u > 0 else -4, 4) @ Sc(0.95, 1.0) @ T(-690, -768)
-            draw(headL, self.nape, Mn, mult=(nm, nm * .97, nm * .95))
-        if u > 0.5:
-            view = 'back'
-            sbx = lerp(0.3, 1.0, (u - 0.5) / 0.5) * 0.8
-            Mb = Mw @ Mt @ base_local @ T(-30, -14) @ Sc(sbx, 0.8) @ T(-self.back.piv['nose'][0], -self.back.piv['nose'][1])
-            draw(headL, self.back, Mb); hp = (self.back, Mb)
-        else:
-            nx = lerp(1.0, 0.25, u / 0.5)
-            dm = lerp(1.0, 0.7, u / 0.5)
-            Mh = Mw @ Mt @ base_local @ Sc(local_mirror * abs(hx / hs) * nx, 1) @ R(ha * (1 - u)) @ T(-nk[0], -nk[1])
-            draw(headL, self.head, Mh, mult=(dm, dm * .97, dm * .95)); hp = (self.head, Mh)
+            # the neck: nape fur of the same dog, joining the reaching (or turned) head to the torso
+            Mn = Mw @ Mt @ (T(nk[0] - reach * 0.55, nk[1] + 4) if u > 0 else T(nk[0], nk[1] + drop_head) @ T(-4, 4)) @ Sc(0.95 + 0.6 * u * 0, 1.0) @ T(-690, -768)
+            draw(headL, self.nape, Mn, mult=(.97, .95, .93))
+        Mh = Mw @ Mt @ base_local @ Sc(local_mirror * abs(hx / hs), 1) @ R(ha_l) @ T(-nk[0], -nk[1])
+        draw(headL, self.head, Mh); hp = (self.head, Mh)
         nose = ap(hp[1], hp[0].piv['nose']); neck = ap(hp[1], hp[0].piv['neck'])
         if view == 'profile' and abs(nose[0] - neck[0]) < 1: nose = (neck[0] - local_mirror * f, nose[1])
         back = ap(Mw @ Mt, self.torso.piv['back'])
