@@ -192,8 +192,8 @@ class Dog:
                 if pl > 0:   # folded: thigh forward along the belly, shank back along the floor
                     tth = math.radians(172 - (8 if far else 0)); hk2 = (P[0] + A_ * math.cos(tth), P[1] + A_ * math.sin(tth))
                     tsk = math.atan2(886 - hk2[1], math.sqrt(max(B_ ** 2 - (886 - hk2[1]) ** 2, 1)))
-                    def blend(a1, a2, u):
-                        dd = (a2 - a1 + math.pi) % (2 * math.pi) - math.pi; return a1 + dd * u
+                    def blend(a1, a2, u):   # linear in angle: the leg swings down through the floor side, never over the back
+                        a1 = (a1 + math.pi) % (2 * math.pi) - math.pi; return a1 + (a2 - a1) * u
                     a_th = blend(a_th, tth, pl); Hk = (P[0] + A_ * math.cos(a_th), P[1] + A_ * math.sin(a_th))
                     a_sk = blend(a_sk, tsk, pl)
                 # keep the leg on or above the floor while it folds
