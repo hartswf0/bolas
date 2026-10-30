@@ -91,8 +91,7 @@ records, not from the score's labels:
 | lie down | 23.792 | 23.958 | back drops more than 2 cm below its walking low |
 | looks in | 26.4 | 26.417 | head moves toward the room |
 
-`check_handmade.py` reports **ALL OK** (I1–I4). Other measurements: the facing during the refusal is turned in the checked
-share; at the end, 30% of the visible dog is inside the door frame and 14% is inside the room, with the tail on the porch;
+`check_handmade.py` reports **ALL OK** (I1–I4). Other measurements: 93% of refusal frames show the head turned away; the skull top (ears included) is below the back on 98% of approach frames, and the head centroid on 100%; at the end, 30% of the visible dog is inside the door frame and 14% is inside the room, with the tail on the porch;
 the smallest dog in any frame is 13,362 px. Sound (`build/cache/levels.json`): calls −20.9 dBFS RMS, soft voice −32.9
 (12.0 dB quieter), room tone −48.9 (the soft voice is 16 dB above it).
 
