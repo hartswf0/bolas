@@ -55,6 +55,13 @@ frames blind first.
 - **Revision 1:** open flat hand with separated fingers and nails, charcoal as thin streaks on the pads. Rest
   pose keyed backwards from the contact point. Speculum arms and screw knobs that rotate with the clamp. Hard-edged
   strobe spot instead of a wash. Larger tear at the outer corner, clear of the hand. The title no longer states
-  the theme. The critic's review of this revision is pending.
+  the theme. **Verdict from a fresh critic: pass.** All four clauses of the repair condition were met. The
+  fingertip contact is narrow: the index and middle fingers sit on the bar, and the other two rest on the cheek.
+- **Open for revision 2.** The upper clamp withdraws at the same moment as the lower swivel, with nothing
+  touching it. That makes the release read as a timed mechanism rather than a consequence of the touch. Repair
+  condition: the upper clamp does not move until at least 6 frames after the lower clamp has cleared the lid.
+  The critic also reported that the pop plays as a 0.75 s fade that hides the tear. That does not match the
+  code: the light drops in one frame at frame 228, and the tear lands at frame 224. Check it frame by frame
+  before changing anything.
 
 Audio has not been judged by any critic. The review agents can see frames but cannot hear sound.
