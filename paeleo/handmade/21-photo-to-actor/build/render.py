@@ -235,9 +235,14 @@ def render(rec, scene_t):
     cv.putalpha(cv.split()[3].filter(ImageFilter.MinFilter(3)))   # trim the 1 px bright fringe the SAM masks carry
     a = np.array(cv).astype(float)
     g = a[:, :, :3].mean(axis=2, keepdims=True)
-    g = tone(g * 0.9)
+    g = tone(g * 0.66)
     lamp = light * math.exp(-max(0.0, rec['x'] - 0.3) / 1.6)
-    col = g * (DUSK * (0.86 - 0.1 * light) + WARM * 0.55 * lamp)
+    # round 2: the set's own dusk grade (the facade/porch tint, less blue) instead of a cold blue lift; no bright fringe
+    DOGT = np.array([0.80, 0.80, 0.88])
+    col = g * (DOGT * (0.95 - 0.1 * light) + WARM * 0.75 * lamp)
+    al_ = cv.split()[3]
+    band = (np.array(al_).astype(float) - np.array(al_.filter(ImageFilter.MinFilter(7))).astype(float)) / 255
+    col = col * (1 - 0.4 * band[:, :, None])
     # warm rim where the lamp light from the doorway catches the fur edge (contre-jour near the door)
     if lamp > 0.02:
         al0 = cv.split()[3]

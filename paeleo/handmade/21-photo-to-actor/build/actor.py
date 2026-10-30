@@ -232,6 +232,9 @@ def draw(pose):
         seg_place(cv, ln + '_1', None, None, t2c(k_), t2c(f), perp=K * 0.5)
     hv = pose['head_view']; H_ = HEADS[hv]
     himg = H_.compose(pose.get('ear', 0.6), pose.get('mouth', 0), pose.get('brow', 0))
+    if pose.get('head_tone', 1.0) != 1.0:      # backlit: the head turned into the lit room darkens
+        r_, g_, b_, a_ = himg.split(); k_ = pose['head_tone']
+        himg = Image.merge('RGBA', [c.point(lambda q: int(q * k_)) for c in (r_, g_, b_)] + [a_])
     scale = 0.5 * K * H_.norm * pose.get('head_scale', 1.0)     # sprite px -> canvas px
     flip = pose.get('head_flip', False)
     at = t2c(Pp) + np.asarray(pose.get('head_off', (0, 0))) * K

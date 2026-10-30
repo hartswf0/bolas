@@ -54,7 +54,7 @@ of a dog, or confetti in a dog-shaped cloud.
   back to the door; at 7.40 s the **head leads**: it swings round over the shoulder to the door (muzzle toward the door by
   7.58 s) while the body is still down; the body rises and turns back 7.86–8.62 s; ears up, it watches; from 14.7 s it comes
   with the head below the line of its back for the whole approach (measured: 100 % of approach frames), its path curving in
-  toward the wall; at the sill it lies down diagonally across it (yaw 162°), creeping its body 0.24 m forward so the head and
+  toward the wall; at the sill it lies down diagonally across it in depth (yaw 138°), creeping its body 0.24 m forward so the head and
   forelegs lie in the lit opening and the hindquarters and the tail (curled round on the floor) stay outside the right jamb;
   at 26.4 s it **looks in**: the head turns 70° into the room (muzzle 0.15 m deeper than the skull), the back of the head and
   the ears toward the viewer, with no lift (neck capped at 8°); then chin down on its paws, and stays.
@@ -92,10 +92,10 @@ render (GPU read-back of the dog texture for position; projected skull/muzzle fr
 | retreat | 1.000 | 1.000 (+0.000) | centroid moves away > 0.4 px/frame |
 | watch | 2.333 | 2.333 (+0.000) | head lifts > 2 px from its backing-away carriage |
 | refuse | 3.417 | 3.500 (+0.083) | head swings > 12° off the door |
-| watch (turns to look) | 7.458 | 7.583 (+0.125) | projected muzzle points back to the door |
+| watch (turns to look) | 7.458 | 7.500 (+0.042) | projected muzzle points back to the door (body still down) |
 | approach | 14.708 | 14.708 (+0.000) | centroid moves toward the door > 0.4 px/frame |
-| lie down | 23.792 | 23.917 (+0.125) | body starts down at the sill |
-| looks in | 26.4 | 26.458 (+0.058) | muzzle > 0.1 m deeper than the skull |
+| lie down | 23.792 | 23.792 (-0.000) | body starts down at the sill |
+| looks in | 26.4 | 26.458 (+0.058) | muzzle turns > 0.02 m deeper than when the head lies along the body |
 
 I3 uses `x_screen` (static camera). The body creeps 0.24 m toward the door in the last 2 s of the approach (inside the
 lie-down) so that its front lies in the doorway; the score's x is kept in `x_score`.
@@ -124,3 +124,21 @@ look) and were replaced by the criteria above, which match what a viewer sees.
 No mobile operator page, device benchmarks or pixel-difference comparisons (the SCION deliverable contract asks for them; out
 of scope for this film). No culling. No independent critic (not mine to run). No camera move. No real recorded voice. GPU
 time on real hardware not measured (SwiftShader only).
+
+## Repair round 1 (after the critic's DOES NOT PASS, reviews/round1.md)
+
+- **Turning to look (7.46).** The body now stays fully down until 7.74 s (lie held at 1), and the head swings round over the
+  *far* shoulder (never face-on to the camera) to a left profile: measured from the encoded build, the projected muzzle points
+  screen-left from 7.542 s, in every frame 7.542–7.792 s (7 consecutive frames) while the chest is within 10 % of its lowest
+  height (0.166–0.182 m). The body rises 7.74–8.10 s and only then turns back, 8.0–8.75 s, through its far side, with the
+  neck held level (no front-facing head over a side-on body; no bear-like twist). Frames checked from film.mp4.
+- **Head low.** Neck held at −46° and ears laid back for the whole approach: the top of the head (ear tips, skull top) is below
+  the top of the back in 218 / 218 frames of 14.7–23.8 s (projected, from the scene graph).
+- **Lying.** The fold now runs 23.70–24.30 s (lie 0.5 at 24.00 s; forelegs visibly folding in the 24.00 and 24.04 s frames of
+  film.mp4), and the dog lies diagonally *across* the sill in depth (yaw 138°): head and forelegs on the sill in the opening,
+  hindquarters and tail out on the porch.
+- **Paws.** Paw contacts raised to about −17 dB peak: in film.mp4 the walk window 15–23 s peaks at −16.1 dB against
+  −26.4 dB in the quiet window 11.8–14.4 s (room tone + room chord, no voice): +10.3 dB.
+- **Shadow.** Every dog fragment is now projected from the lamp (was every third), with smaller blobs and a lighter blur, so
+  the shadow in the light pool carries the dog's back, head and legs.
+- assets.json now names build/atlas/atlas.json as the per-fragment provenance record.
