@@ -9,7 +9,7 @@ for f in $(ls cache/frames/t*.jpg | sort) $(ls cache/frames/s*.jpg | sort) $(ls 
 done
 echo "frames: $k"
 [ "$k" -eq 912 ] || { echo "frame count wrong ($k)"; exit 1; }
-for crf in 23 25 27 29 31; do
+for crf in 17 19 21 23 25 27; do
   ffmpeg -y -loglevel error -framerate 24 -i cache/seq/%04d.jpg -i cache/sound.wav -map 0:v -map 1:a \
     -c:v libx264 -preset slow -crf $crf -pix_fmt yuv420p -r 24 -c:a aac -b:a 160k -movflags +faststart -shortest ../film.mp4
   sz=$(stat -c %s ../film.mp4)
