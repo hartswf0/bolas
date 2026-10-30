@@ -1,0 +1,629 @@
+{
+ "torso": {
+  "file": "actor/parts/torso.png",
+  "source": "paeleo/handmade/kit/archive-dog/frames/f009.jpg",
+  "frame": 9,
+  "box_src": [
+   97,
+   93,
+   219,
+   164
+  ],
+  "size": [
+   244,
+   142
+  ],
+  "scale_from_source": 2,
+  "mirrored": false,
+  "anchors": {
+   "S": [
+    54,
+    78
+   ],
+   "H": [
+    196,
+    90
+   ],
+   "N": [
+    32,
+    38
+   ],
+   "P": [
+    10,
+    2
+   ],
+   "T": [
+    222,
+    66
+   ]
+  },
+  "operation": "SAM mask n hand cut polygon, feathered 1.2 px"
+ },
+ "neck": {
+  "file": "actor/parts/neck.png",
+  "source": "paeleo/handmade/kit/archive-dog/frames/f009.jpg",
+  "frame": 9,
+  "box_src": [
+   86,
+   82,
+   130,
+   131
+  ],
+  "size": [
+   88,
+   98
+  ],
+  "scale_from_source": 2,
+  "mirrored": false,
+  "anchors": {
+   "a": [
+    56,
+    72
+   ],
+   "b": [
+    32,
+    26
+   ]
+  },
+  "operation": "SAM mask n strip a->b, feathered"
+ },
+ "fore_far_0": {
+  "file": "actor/parts/fore_far_0.png",
+  "source": "paeleo/handmade/kit/archive-dog/frames/f009.jpg",
+  "frame": 9,
+  "box_src": [
+   124,
+   130,
+   152,
+   184
+  ],
+  "size": [
+   56,
+   108
+  ],
+  "scale_from_source": 2,
+  "mirrored": false,
+  "anchors": {
+   "a": [
+    24,
+    20
+   ],
+   "b": [
+    32,
+    88
+   ]
+  },
+  "operation": "strip a->b n SAM mask, proximal alpha fade (blends into torso)"
+ },
+ "fore_far_1": {
+  "file": "actor/parts/fore_far_1.png",
+  "source": "paeleo/handmade/kit/archive-dog/frames/f009.jpg",
+  "frame": 9,
+  "box_src": [
+   128,
+   167,
+   149,
+   207
+  ],
+  "size": [
+   42,
+   80
+  ],
+  "scale_from_source": 2,
+  "mirrored": false,
+  "anchors": {
+   "a": [
+    24,
+    14
+   ],
+   "b": [
+    18,
+    66
+   ]
+  },
+  "operation": "strip a->b n SAM mask"
+ },
+ "hind_far_0": {
+  "file": "actor/parts/hind_far_0.png",
+  "source": "paeleo/handmade/kit/archive-dog/frames/f009.jpg",
+  "frame": 9,
+  "box_src": [
+   188,
+   128,
+   219,
+   192
+  ],
+  "size": [
+   62,
+   128
+  ],
+  "scale_from_source": 2,
+  "mirrored": false,
+  "anchors": {
+   "a": [
+    26,
+    24
+   ],
+   "b": [
+    36,
+    104
+   ]
+  },
+  "operation": "strip a->b n SAM mask, proximal alpha fade (blends into torso)"
+ },
+ "hind_far_1": {
+  "file": "actor/parts/hind_far_1.png",
+  "source": "paeleo/handmade/kit/archive-dog/frames/f009.jpg",
+  "frame": 9,
+  "box_src": [
+   197,
+   174,
+   216,
+   206
+  ],
+  "size": [
+   38,
+   64
+  ],
+  "scale_from_source": 2,
+  "mirrored": false,
+  "anchors": {
+   "a": [
+    18,
+    12
+   ],
+   "b": [
+    20,
+    52
+   ]
+  },
+  "operation": "strip a->b n SAM mask"
+ },
+ "fore_near_0": {
+  "file": "actor/parts/fore_near_0.png",
+  "source": "paeleo/handmade/kit/archive-dog/frames/f009.jpg",
+  "frame": 9,
+  "box_src": [
+   101,
+   130,
+   131,
+   178
+  ],
+  "size": [
+   60,
+   96
+  ],
+  "scale_from_source": 2,
+  "mirrored": false,
+  "anchors": {
+   "a": [
+    36,
+    20
+   ],
+   "b": [
+    24,
+    76
+   ]
+  },
+  "operation": "strip a->b n SAM mask, proximal alpha fade (blends into torso)"
+ },
+ "fore_near_1": {
+  "file": "actor/parts/fore_near_1.png",
+  "source": "paeleo/handmade/kit/archive-dog/frames/f009.jpg",
+  "frame": 9,
+  "box_src": [
+   89,
+   159,
+   123,
+   197
+  ],
+  "size": [
+   68,
+   76
+  ],
+  "scale_from_source": 2,
+  "mirrored": false,
+  "anchors": {
+   "a": [
+    48,
+    18
+   ],
+   "b": [
+    20,
+    62
+   ]
+  },
+  "operation": "strip a->b n SAM mask"
+ },
+ "hind_near_0": {
+  "file": "actor/parts/hind_near_0.png",
+  "source": "paeleo/handmade/kit/archive-dog/frames/f009.jpg",
+  "frame": 9,
+  "box_src": [
+   173,
+   129,
+   203,
+   189
+  ],
+  "size": [
+   60,
+   120
+  ],
+  "scale_from_source": 2,
+  "mirrored": false,
+  "anchors": {
+   "a": [
+    32,
+    22
+   ],
+   "b": [
+    28,
+    98
+   ]
+  },
+  "operation": "strip a->b n SAM mask, proximal alpha fade (blends into torso)"
+ },
+ "hind_near_1": {
+  "file": "actor/parts/hind_near_1.png",
+  "source": "paeleo/handmade/kit/archive-dog/frames/f009.jpg",
+  "frame": 9,
+  "box_src": [
+   180,
+   171,
+   199,
+   205
+  ],
+  "size": [
+   38,
+   68
+  ],
+  "scale_from_source": 2,
+  "mirrored": false,
+  "anchors": {
+   "a": [
+    14,
+    14
+   ],
+   "b": [
+    20,
+    54
+   ]
+  },
+  "operation": "strip a->b n SAM mask"
+ },
+ "tail": {
+  "file": "actor/parts/tail.png",
+  "source": "paeleo/handmade/kit/archive-dog/frames/f012.jpg",
+  "frame": 12,
+  "box_src": [
+   198,
+   147,
+   251,
+   170
+  ],
+  "size": [
+   106,
+   46
+  ],
+  "scale_from_source": 2,
+  "mirrored": false,
+  "anchors": {
+   "a": [
+    16,
+    18
+   ],
+   "b": [
+    96,
+    36
+   ]
+  },
+  "operation": "SAM mask n strip, frame 12"
+ },
+ "head_profile": {
+  "file": "actor/parts/head_profile.png",
+  "source": "paeleo/handmade/kit/archive-dog/frames/f009.jpg",
+  "frame": 9,
+  "box_src": [
+   72,
+   74,
+   124,
+   115
+  ],
+  "size": [
+   104,
+   82
+  ],
+  "scale_from_source": 2,
+  "mirrored": false,
+  "anchors": {
+   "pivot": [
+    64,
+    48
+   ]
+  },
+  "operation": "SAM mask (grown 3 px) n hand head cut",
+  "view": "profile"
+ },
+ "head_low": {
+  "file": "actor/parts/head_low.png",
+  "source": "paeleo/handmade/kit/archive-dog/frames/f046.jpg",
+  "frame": 46,
+  "box_src": [
+   226,
+   122,
+   283,
+   193
+  ],
+  "size": [
+   114,
+   142
+  ],
+  "scale_from_source": 2,
+  "mirrored": true,
+  "anchors": {
+   "pivot": [
+    90,
+    28
+   ]
+  },
+  "operation": "SAM mask (grown 3 px) n hand head cut, mirrored to face left",
+  "view": "low"
+ },
+ "head_tq": {
+  "file": "actor/parts/head_tq.png",
+  "source": "paeleo/handmade/kit/archive-dog/frames/f037.jpg",
+  "frame": 37,
+  "box_src": [
+   188,
+   102,
+   237,
+   155
+  ],
+  "size": [
+   98,
+   106
+  ],
+  "scale_from_source": 2,
+  "mirrored": true,
+  "anchors": {
+   "pivot": [
+    52,
+    88
+   ]
+  },
+  "operation": "SAM mask (grown 3 px) n hand head cut, mirrored to face left",
+  "view": "tq"
+ },
+ "head_front": {
+  "file": "actor/parts/head_front.png",
+  "source": "paeleo/handmade/kit/archive-dog/frames/f038.jpg",
+  "frame": 38,
+  "box_src": [
+   194,
+   105,
+   244,
+   162
+  ],
+  "size": [
+   100,
+   114
+  ],
+  "scale_from_source": 2,
+  "mirrored": false,
+  "anchors": {
+   "pivot": [
+    50,
+    98
+   ]
+  },
+  "operation": "SAM mask (grown 3 px) n hand head cut",
+  "view": "front"
+ },
+ "head_back": {
+  "file": "actor/parts/head_back.png",
+  "source": "paeleo/handmade/kit/archive-dog/frames/f000.jpg",
+  "frame": 0,
+  "box_src": [
+   112,
+   61,
+   164,
+   111
+  ],
+  "size": [
+   104,
+   100
+  ],
+  "scale_from_source": 2,
+  "mirrored": false,
+  "anchors": {
+   "pivot": [
+    52,
+    86
+   ]
+  },
+  "operation": "SAM mask (grown 3 px) n hand head cut",
+  "view": "back"
+ },
+ "body_front": {
+  "file": "actor/parts/body_front.png",
+  "source": "paeleo/handmade/kit/archive-dog/frames/f038.jpg",
+  "frame": 38,
+  "box_src": [
+   153,
+   92,
+   243,
+   206
+  ],
+  "size": [
+   180,
+   228
+  ],
+  "scale_from_source": 2,
+  "mirrored": true,
+  "anchors": {
+   "foot_mid": [
+    90.0,
+    218
+   ],
+   "top": [
+    90.0,
+    6
+   ]
+  },
+  "operation": "whole SAM mask, mirrored to face left",
+  "view": "front"
+ },
+ "body_tq": {
+  "file": "actor/parts/body_tq.png",
+  "source": "paeleo/handmade/kit/archive-dog/frames/f037.jpg",
+  "frame": 37,
+  "box_src": [
+   151,
+   90,
+   236,
+   199
+  ],
+  "size": [
+   170,
+   218
+  ],
+  "scale_from_source": 2,
+  "mirrored": true,
+  "anchors": {
+   "foot_mid": [
+    85.0,
+    208
+   ],
+   "top": [
+    85.0,
+    6
+   ]
+  },
+  "operation": "whole SAM mask, mirrored to face left",
+  "view": "tq"
+ },
+ "body_back": {
+  "file": "actor/parts/body_back.png",
+  "source": "paeleo/handmade/kit/archive-dog/frames/f000.jpg",
+  "frame": 0,
+  "box_src": [
+   110,
+   62,
+   228,
+   200
+  ],
+  "size": [
+   236,
+   276
+  ],
+  "scale_from_source": 2,
+  "mirrored": false,
+  "anchors": {
+   "foot_mid": [
+    118.0,
+    266
+   ],
+   "top": [
+    118.0,
+    6
+   ]
+  },
+  "operation": "whole SAM mask",
+  "view": "back"
+ },
+ "person_torso": {
+  "file": "actor/parts/person_torso.png",
+  "source": "paeleo/handmade/kit/archive-door/frames/f002.jpg",
+  "frame": 2,
+  "box_src": [
+   189,
+   7,
+   336,
+   276
+  ],
+  "size": [
+   294,
+   538
+  ],
+  "scale_from_source": 2,
+  "mirrored": false,
+  "anchors": {},
+  "operation": "hand cut polygon (no SAM mask covers the person), feathered"
+ },
+ "person_arm": {
+  "file": "actor/parts/person_arm.png",
+  "source": "paeleo/handmade/kit/archive-door/frames/f009.jpg",
+  "frame": 9,
+  "box_src": [
+   161,
+   79,
+   232,
+   190
+  ],
+  "size": [
+   142,
+   222
+  ],
+  "scale_from_source": 2,
+  "mirrored": false,
+  "anchors": {},
+  "operation": "hand cut polygon (no SAM mask covers the person), feathered"
+ },
+ "person_legs": {
+  "file": "actor/parts/person_legs.png",
+  "source": "paeleo/handmade/kit/archive-door/frames/f012.jpg",
+  "frame": 12,
+  "box_src": [
+   200,
+   193,
+   266,
+   291
+  ],
+  "size": [
+   132,
+   196
+  ],
+  "scale_from_source": 2,
+  "mirrored": false,
+  "anchors": {},
+  "operation": "hand cut polygon (no SAM mask covers the person), feathered"
+ },
+ "door_leaf": {
+  "file": "actor/parts/door_leaf.png",
+  "source": "paeleo/handmade/kit/archive-door/frames/f030.jpg",
+  "frame": 30,
+  "box_src": [
+   105,
+   -3,
+   242,
+   279
+  ],
+  "size": [
+   274,
+   564
+  ],
+  "scale_from_source": 2,
+  "mirrored": false,
+  "anchors": {},
+  "operation": "SAM mask of f030 (the door leaf)"
+ },
+ "room": {
+  "file": "actor/parts/room.png",
+  "source": "paeleo/handmade/kit/archive-door/frames/f021.jpg",
+  "frame": 21,
+  "box_src": [
+   216,
+   76,
+   236,
+   200
+  ],
+  "size": [
+   40,
+   248
+  ],
+  "scale_from_source": 2,
+  "mirrored": false,
+  "anchors": {},
+  "operation": "rectangular crop of the lit hallway past the door"
+ }
+}
