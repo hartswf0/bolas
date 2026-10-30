@@ -7,7 +7,7 @@ assigned between onsets. Detectors (all on the render):
   watch     first frame after 7.0 s that the drawn head points at the door (nose left of neck) while the body faces away
   approach  first frame after 14 s the body centroid moves toward the door by > 3 mm/frame
   lie_down  first frame after 23 s the body centroid sinks > 1.5 cm below the median of the previous 12 frames (world units)
-  look_in   (event) first frame after 26 s the nose moves > 3 cm toward the room from its 25.5-26.3 s median
+  look_in   (event) first frame after 26 s the drawn head narrows > 10% (turning away from us) or the back of the head is drawn
 x_world_measured = body-layer centroid x, un-done through the camera (the camera pushes in from 21 s)."""
 import json, math, os
 import numpy as np
@@ -44,8 +44,9 @@ on['refuse'] = first(lambda i: pt[i] - pt[i - 1] < -1.0 or width_proxy[i] < 0.99
 on['watch2'] = first(lambda i: fr[i]['body_dir'] == -1 and fr[i]['nose_screen'][0] < fr[i]['neck_screen'][0], 7.0)
 on['approach'] = first(lambda i: xw[i - 1] - xw[i] > 0.003, 14.0)
 on['lie_down'] = first(lambda i: np.median(yw[i - 12:i]) - yw[i] > 0.015, 23.0)
-base = np.median(nose_w[int(25.5 * FPS):int(26.3 * FPS)])
-on['look_in'] = first(lambda i: base - nose_w[i] > 0.03, 26.0)
+hw = np.array([f.get('head_w_screen') or 0 for f in fr], float)
+base = np.median(hw[int(25.5 * FPS):int(26.3 * FPS)])
+on['look_in'] = first(lambda i: hw[i] < 0.9 * base or fr[i].get('head_view') == 'back', 26.0)
 order = [('watch', 0), ('retreat', on['retreat']), ('watch', on['watch1']), ('refuse', on['refuse']), ('watch', on['watch2']),
          ('approach', on['approach']), ('lie_down', on['lie_down'])]
 
@@ -62,7 +63,7 @@ for i, f in enumerate(fr):
                    'x_world_measured': round(float(xw[i]), 4), 'y_world_measured': round(float(yw[i]), 4),
                    'facing': int(f['body_dir']), 'head_toward_door': bool(f['nose_screen'][0] < f['neck_screen'][0]),
                    'head_pitch_deg': round(float(pt[i]), 1), 'nose_x_world': round(float(nose_w[i]), 3),
-                   'posture': f['posture'], 'model': f['model'], 'cam_zoom': round(f['cam_zoom'], 4)})
+                   'head_view': f.get('head_view'), 'posture': f['posture'], 'model': f['model'], 'cam_zoom': round(f['cam_zoom'], 4)})
 score_t = {'retreat': 1.0, 'watch1': 2.333, 'refuse': 3.417, 'watch2': 7.458, 'approach': 14.708, 'lie_down': 23.792, 'look_in': 26.4}
 meas = [{'choice': k, 'score_t': score_t[k], 'measured_onset_t': None if v is None else round(v / FPS, 4),
          'dt': None if v is None else round(v / FPS - score_t[k], 3)} for k, v in on.items()]

@@ -153,7 +153,7 @@
       "build/cache/parts/w_head.jpg",
       "build/cache/parts/w_head_a.jpg"
      ],
-     "stage_operation": "rotated at the neck (head 0 down .. 1 up from the score), lowered for the approach"
+     "stage_operation": "rotated at the neck (head 0 down .. 1 up), lowered for the approach, chin to the paws for rest; mirrored about the neck to look back over the shoulder at 7.46 s; narrowed as it turns away at 26.4 s"
     },
     {
      "part": "w_torso",
@@ -271,7 +271,7 @@
       "build/cache/parts/w_torso.jpg",
       "build/cache/parts/w_torso_a.jpg"
      ],
-     "stage_operation": "translated along x by the score, pitched, lowered for crouch/lie, mirrored + foreshortened (>=0.62) through the turns"
+     "stage_operation": "translated along x by the score, pitched, lowered to the floor to lie (haunches first), mirrored + foreshortened (>=0.62) through the turns"
     },
     {
      "part": "w_tail",
@@ -720,502 +720,222 @@
       "build/cache/parts/w_hindfar_a.jpg"
      ],
      "stage_operation": ""
-    }
-   ]
-  },
-  {
-   "idsId": "SAAM-1973.122.5_1",
-   "title": "Juno",
-   "artist": "Nathaniel Currier, born Roxbury, MA 1813-died New York City 1888",
-   "date": "ca. 1837",
-   "medium": "hand-colored lithograph on paper",
-   "object_number": "1973.122.5",
-   "museum": "Smithsonian American Art Museum",
-   "unit_code": "SAAM",
-   "record_ID": "saam_1973.122.5",
-   "record_url": "https://americanart.si.edu/collections/search/artwork/?id=6074",
-   "item_uri": "http://n2t.net/ark:/65665/vk76289dcc0-e63b-478c-8c2e-f9b6ce91ccc7",
-   "media_uri": "http://n2t.net/ark:/65665/bj9a10fd477-acdf-48e2-a271-4f8b79b08da2",
-   "ids_media_url": "https://ids.si.edu/ids/deliveryService?id=SAAM-1973.122.5_1",
-   "credit_line": "Smithsonian American Art Museum, Transfer from the National Museum of American History, Division of Graphic Arts, Smithsonian Institution",
-   "licence": {
-    "metadata_usage.access": "CC0",
-    "online_media.usage.access": "CC0",
-    "objectRights": "CC0",
-    "statement": "Smithsonian Open Access: the museum marks this record and this image CC0 (no rights reserved)."
-   },
-   "fetched_from": "https://smithsonian-open-access.s3-us-west-2.amazonaws.com/media/saam/SAAM-1973.122.5_1.jpg",
-   "bytes_downloaded": 2741852,
-   "original_px": [
-    2850,
-    2382
-   ],
-   "kept_copy": "sources/media/SAAM-1973.122.5_1.jpg",
-   "kept_copy_scale": 0.6316,
-   "parts": [
+    },
     {
-     "part": "j_body",
-     "role": "dog lying body, legs folded",
+     "part": "w_ear",
+     "role": "dog ear (for the back-of-head view)",
      "crop_box_in_kept_copy_px": [
-      248,
-      638,
-      1597,
-      1145
+      594,
+      717,
+      659,
+      800
      ],
      "crop_box_in_original_px": [
-      393,
-      1010,
-      2528,
-      1813
+      990,
+      1195,
+      1098,
+      1333
      ],
-     "operation": "polygon cut + colour key (drop dark green-grey ground only) + hole fill",
+     "operation": "polygon cut (scissors line is the polygon)",
      "polygon_in_kept_copy_px": [
       [
-       250,
-       880
+       596,
+       722
       ],
       [
-       265,
-       790
-      ],
-      [
-       330,
-       730
-      ],
-      [
-       430,
-       690
+       615,
+       719
       ],
       [
        640,
-       662
+       725
       ],
       [
-       860,
-       648
+       652,
+       740
       ],
       [
-       1010,
-       640
+       656,
+       762
       ],
       [
-       1060,
-       690
-      ],
-      [
-       1190,
-       690
-      ],
-      [
-       1200,
+       650,
        780
       ],
       [
-       1215,
-       870
+       640,
+       795
       ],
       [
-       1290,
-       885
+       626,
+       797
       ],
       [
-       1450,
-       890
+       612,
+       788
       ],
       [
-       1572,
-       898
+       602,
+       768
       ],
       [
-       1594,
-       925
-      ],
-      [
-       1560,
-       950
-      ],
-      [
-       1370,
-       950
-      ],
-      [
-       1230,
-       975
-      ],
-      [
-       1140,
-       1000
-      ],
-      [
-       1138,
-       1092
-      ],
-      [
-       940,
-       1098
-      ],
-      [
-       860,
-       1062
-      ],
-      [
-       740,
-       1108
-      ],
-      [
-       600,
-       1092
-      ],
-      [
-       430,
-       1142
-      ],
-      [
-       285,
-       1108
-      ],
-      [
-       252,
-       1045
+       596,
+       745
       ]
      ],
      "pivots_in_part_px": {
-      "neck": [
-       872,
-       52
-      ],
-      "rump": [
-       7,
-       262
-      ],
-      "paw": [
-       1342,
-       287
-      ],
-      "floor": [
-       652,
-       462
+      "top": [
+       24,
+       4
       ]
      },
      "cache_files": [
-      "build/cache/parts/j_body.jpg",
-      "build/cache/parts/j_body_a.jpg"
+      "build/cache/parts/w_ear.jpg",
+      "build/cache/parts/w_ear_a.jpg"
      ],
-     "stage_operation": "substituted for the standing cut when the dog lies (refusal 4.0-7.8 s; sill 23.8 s on); mirrored to face the door at the end"
+     "stage_operation": ""
     },
     {
-     "part": "j_head",
-     "role": "dog head (lying), 3/4",
+     "part": "w_skull",
+     "role": "dog skull seen from behind (white fur of the same print)",
      "crop_box_in_kept_copy_px": [
-      1014,
-      403,
-      1401,
-      707
+      674,
+      724,
+      751,
+      813
      ],
      "crop_box_in_original_px": [
-      1605,
-      638,
-      2218,
-      1119
+      1123,
+      1207,
+      1252,
+      1355
      ],
      "operation": "polygon cut (scissors line is the polygon)",
      "polygon_in_kept_copy_px": [
       [
-       1030,
-       445
+       748,
+       768
       ],
       [
-       1060,
-       425
+       746,
+       781
       ],
       [
-       1090,
-       412
+       741,
+       793
       ],
       [
-       1160,
-       405
+       733,
+       802
       ],
       [
-       1240,
-       405
+       723,
+       808
       ],
       [
-       1268,
-       412
+       712,
+       810
       ],
       [
-       1300,
-       450
+       701,
+       808
       ],
       [
-       1335,
-       505
+       691,
+       802
       ],
       [
-       1342,
-       522
+       683,
+       793
       ],
       [
-       1372,
-       535
+       678,
+       781
       ],
       [
-       1398,
-       555
+       676,
+       768
       ],
       [
-       1396,
-       585
+       678,
+       755
       ],
       [
-       1370,
-       596
+       683,
+       743
       ],
       [
-       1312,
-       592
+       691,
+       734
       ],
       [
-       1262,
-       612
+       701,
+       728
       ],
       [
-       1215,
-       640
+       712,
+       726
       ],
       [
-       1196,
-       690
+       723,
+       728
       ],
       [
-       1130,
-       704
+       733,
+       734
       ],
       [
-       1060,
-       700
+       741,
+       743
       ],
       [
-       1024,
-       660
-      ],
-      [
-       1016,
-       560
-      ],
-      [
-       1022,
-       480
+       746,
+       755
       ]
      ],
      "pivots_in_part_px": {
-      "neck": [
-       106,
-       287
-      ],
-      "nose": [
-       376,
-       162
+      "c": [
+       38,
+       44
       ]
      },
      "cache_files": [
-      "build/cache/parts/j_head.jpg",
-      "build/cache/parts/j_head_a.jpg"
+      "build/cache/parts/w_skull.jpg",
+      "build/cache/parts/w_skull_a.jpg"
      ],
-     "stage_operation": "rotated/lowered for rest; moved about 11 cm forward (nose 14 cm inside the inner wall face), level, warmed by the room light with a rim, for the look in (26.4 s)"
+     "stage_operation": ""
     },
     {
-     "part": "j_neck",
-     "role": "dog neck (lying): stretches when the head reaches in",
+     "part": "w_back",
+     "role": "dog back of the head (composite of w_skull + w_ear twice, one mirrored)",
      "crop_box_in_kept_copy_px": [
-      1038,
-      613,
-      1201,
-      708
+      594,
+      717,
+      659,
+      800
      ],
      "crop_box_in_original_px": [
-      1643,
-      971,
-      1902,
-      1121
+      990,
+      1195,
+      1098,
+      1333
      ],
      "operation": "polygon cut (scissors line is the polygon)",
-     "polygon_in_kept_copy_px": [
-      [
-       1050,
-       615
-      ],
-      [
-       1180,
-       615
-      ],
-      [
-       1198,
-       650
-      ],
-      [
-       1188,
-       700
-      ],
-      [
-       1060,
-       705
-      ],
-      [
-       1040,
-       660
-      ]
-     ],
      "pivots_in_part_px": {
       "neck": [
-       82,
-       77
-      ]
-     },
-     "cache_files": [
-      "build/cache/parts/j_neck.jpg",
-      "build/cache/parts/j_neck_a.jpg"
-     ],
-     "stage_operation": "cut but unused in the final build (a stretched-neck filler that read as a gap; see method.md)"
-    }
-   ]
-  },
-  {
-   "idsId": "SAAM-1973.122.13_1",
-   "title": "American Field Sports. \"On a Point.\"",
-   "artist": "Charles Parsons, born Rowland's Castle, England 1821-died New York City 1910",
-   "date": "1857",
-   "medium": "hand-colored lithograph on paper",
-   "object_number": "1973.122.13",
-   "museum": "Smithsonian American Art Museum",
-   "unit_code": "SAAM",
-   "record_ID": "saam_1973.122.13",
-   "record_url": "https://americanart.si.edu/collections/search/artwork/?id=19248",
-   "item_uri": "http://n2t.net/ark:/65665/vk76555d16d-4467-474a-a580-4693b3d08fa3",
-   "media_uri": "http://n2t.net/ark:/65665/bj9e93408e1-8411-474c-926e-49be6160d676",
-   "ids_media_url": "https://ids.si.edu/ids/deliveryService?id=SAAM-1973.122.13_1",
-   "credit_line": "Smithsonian American Art Museum, Transfer from the National Museum of American History, Division of Graphic Arts, Smithsonian Institution",
-   "licence": {
-    "metadata_usage.access": "CC0",
-    "online_media.usage.access": "CC0",
-    "objectRights": "CC0",
-    "statement": "Smithsonian Open Access: the museum marks this record and this image CC0 (no rights reserved)."
-   },
-   "fetched_from": "https://smithsonian-open-access.s3-us-west-2.amazonaws.com/media/saam/SAAM-1973.122.13_1.jpg",
-   "bytes_downloaded": 1216669,
-   "original_px": [
-    3000,
-    2101
-   ],
-   "kept_copy": "sources/media/SAAM-1973.122.13_1.jpg",
-   "kept_copy_scale": 0.6,
-   "parts": [
-    {
-     "part": "o_head",
-     "role": "dog head looking back (3/4)",
-     "crop_box_in_kept_copy_px": [
-      853,
-      416,
-      1069,
-      615
-     ],
-     "crop_box_in_original_px": [
-      1422,
-      693,
-      1782,
-      1025
-     ],
-     "operation": "polygon cut (scissors line is the polygon)",
-     "polygon_in_kept_copy_px": [
-      [
-       855,
-       525
-      ],
-      [
-       868,
-       506
-      ],
-      [
-       886,
-       482
-      ],
-      [
-       890,
-       456
-      ],
-      [
-       898,
-       436
-      ],
-      [
-       950,
-       418
-      ],
-      [
-       990,
-       420
-      ],
-      [
-       1040,
-       440
-      ],
-      [
-       1064,
-       462
-      ],
-      [
-       1062,
-       520
-      ],
-      [
-       1066,
-       560
-      ],
-      [
-       1052,
-       598
-      ],
-      [
-       1002,
-       612
-      ],
-      [
-       962,
-       602
-      ],
-      [
-       932,
-       582
-      ],
-      [
-       900,
-       562
-      ],
-      [
-       872,
-       558
-      ],
-      [
-       855,
-       545
-      ]
-     ],
-     "pivots_in_part_px": {
-      "neck": [
-       147,
-       176
+       85,
+       140
       ],
       "nose": [
-       3,
-       118
+       85,
+       60
       ]
      },
      "cache_files": [
-      "build/cache/parts/o_head.jpg",
-      "build/cache/parts/o_head_a.jpg"
+      "build/cache/parts/w_back.jpg",
+      "build/cache/parts/w_back_a.jpg"
      ],
-     "stage_operation": "the head that leads at 7.46 s (looks back over the shoulder at the door) and the three-quarter head mid-turn"
+     "stage_operation": ""
     }
    ]
   },
@@ -1840,6 +1560,28 @@
   }
  ],
  "objects_fetched_reviewed_not_used": [
+  {
+   "idsId": "SAAM-1973.122.5_1",
+   "title": "Juno",
+   "artist": "Nathaniel Currier, born Roxbury, MA 1813-died New York City 1888",
+   "object_number": "1973.122.5",
+   "record_url": "https://americanart.si.edu/collections/search/artwork/?id=6074",
+   "licence": "CC0",
+   "metadata_licence": "CC0",
+   "bytes_downloaded": 2741852,
+   "kept_copy": "sources/media/SAAM-1973.122.5_1.jpg (reduced to 800 px review copy)"
+  },
+  {
+   "idsId": "SAAM-1973.122.13_1",
+   "title": "American Field Sports. \"On a Point.\"",
+   "artist": "Charles Parsons, born Rowland's Castle, England 1821-died New York City 1910",
+   "object_number": "1973.122.13",
+   "record_url": "https://americanart.si.edu/collections/search/artwork/?id=19248",
+   "licence": "CC0",
+   "metadata_licence": "CC0",
+   "bytes_downloaded": 1216669,
+   "kept_copy": "sources/media/SAAM-1973.122.13_1.jpg (reduced to 800 px review copy)"
+  },
   {
    "idsId": "SAAM-1986.65.292_1",
    "title": "Dalmatian",

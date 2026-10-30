@@ -31,10 +31,9 @@ title = card([
 ])
 end = card([
     (100, 90, 'Made of', F(BIG, 44), INK),
-    (100, 150, 'The dog: three pointers from three prints, cut and hinged at neck, legs and tail —', F(SERIF, 23), INK),
-    (120, 182, 'Currier & Ives, Woodcock Shooting (SAAM 1973.122.4): standing, walking, turning', F(SERIF, 21), INK),
-    (120, 210, 'N. Currier, Juno (SAAM 1973.122.5): lying down, resting, looking in', F(SERIF, 21), INK),
-    (120, 238, 'C. Parsons, American Field Sports, "On a Point" (SAAM 1973.122.13): the head that looks back', F(SERIF, 21), INK),
+    (100, 150, 'The dog: one pointer, from Currier & Ives, Woodcock Shooting (SAAM 1973.122.4),', F(SERIF, 23), INK),
+    (120, 182, 'cut into head, torso, tail, foreleg, thigh and shank, and hinged to walk, turn, lie,', F(SERIF, 21), INK),
+    (120, 210, 'look back and rest; the back of its head is its own ear, twice, on a crown of its own fur.', F(SERIF, 21), INK),
     (100, 280, 'The person: Auguste Edouart, cut-paper silhouettes, Father, Mother, and Boy (1981.172.33);', F(SERIF, 23), INK),
     (120, 310, 'the reaching arm from Boy with Dog (1981.172.31).', F(SERIF, 23), INK),
     (100, 350, 'The door: José Dolores López, Screen Door (1989.30.3). The room and floor: E. F. Andrews,', F(SERIF, 23), INK),

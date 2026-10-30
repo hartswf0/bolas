@@ -89,8 +89,15 @@ def main():
     hs = [r['height_px'] for r in rows]
     h_app = sum(hs[k] for k in range(int(22.5 * 24), int(23.3 * 24))) / (0.8 * 24)
     on['lie_down (lowers onto the sill)'] = first(lambda k: hs[k] < 0.93 * h_app, 23.0, 25.0)
-    r2 = rel(first(lambda k: True, 26.0, 26.1, 1))
-    on['looks in (head lifts into the doorway)'] = first(lambda k: rel(k) and math.hypot(rel(k)[0] - r2[0], rel(k)[1] - r2[1]) > 6, 26.1, 27.5)
+    # looking in: the head reverses its settling (it was sinking onto the paws) and rises/pushes forward by > 6 px
+    lo, li = None, None
+    for k in range(len(rows)):
+        if 25.9 <= T[k] <= 27.5 and rel(k):
+            dy = rel(k)[1]
+            lo = dy if lo is None else max(lo, dy)
+            if dy < lo - 6:
+                li = k; break
+    on['looks in (head lifts into the doorway)'] = li
     r3 = rel(first(lambda k: True, 27.6, 27.7, 1))
     on['settles (chin back down)'] = first(lambda k: rel(k) and math.hypot(rel(k)[0] - r3[0], rel(k)[1] - r3[1]) > 6, 27.7, 30.0)
     score_t = [1.0, 2.333, 3.417, 7.458, 14.708, 23.792, 26.4, 28.1]

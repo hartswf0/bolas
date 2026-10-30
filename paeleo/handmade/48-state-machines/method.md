@@ -89,10 +89,10 @@ lain down, then the closer shot of the sill.
 | refuse -> watch (head comes round) | 7.458 | 7.5 | +0.042 |
 | approach (comes) | 14.708 | 14.625 | -0.083 |
 | lie_down (lowers onto the sill) | 23.792 | 23.917 | +0.125 |
-| looks in (head lifts into the doorway) | 26.4 | 26.375 | -0.025 |
+| looks in (head lifts into the doorway) | 26.4 | 26.5 | +0.100 |
 | settles (chin back down) | 28.1 | 28.125 | +0.025 |
 
-How measured: backing/coming = velocity of the torso cells cast onto the path; head swings = head-cell centroid moving > 6–8 px against the body cells; lying = height of the dog cells dropping 7 %. Smoothing (±2 frames) can pull an onset a frame or two early (approach −0.08, look-in −0.03 s).
+How measured: backing/coming = velocity of the torso cells cast onto the path; head swings = head-cell centroid moving > 6–8 px against the body cells; lying = height of the dog cells dropping 7 %. Smoothing (±2 frames) can pull an onset a frame or two early (approach −0.08 s). Look-in is measured as the moment the settling head reverses and rises/pushes forward by more than 6 px.
 
 Invariants (tools/paeleo/check_handmade.py): ALL OK — I1 all six within 0.17 s (state = the machine's); I2 min x 0.6175, end 0.6175; I3 r = 0.998 on x_world_measured; I4 back turned in 98 % of refusal frames (facing measured from the cells).
 
@@ -113,6 +113,7 @@ looking in was a lift of the head toward the light. Each was repaired at its cau
 
 ## What is weak, unknown, not done
 
+- After the critic's round (ledger 13): the lying pose was refolded (hips below shoulders, hind legs flat, tail laid along the porch outside the jamb) and the close camera raised; the rise no longer swings the legs with the spine; the refusal turn keeps the tail and ears visible. One end-on frame remains at 3.63 s.
 - Scale: in the wide shot the dog is ~200 px long. The refusal turn passes through a rear view (rump, back of the head) at
   3.6–3.8 s; the turn back passes a front view at 8.1–8.4 s, and while it rises (7.9–8.2 s) the legs unfold during the
   first part of the turn and read busy.

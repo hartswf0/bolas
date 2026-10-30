@@ -50,8 +50,8 @@ for name, p in parts.items():
     rec['cache_files'] = [f'build/cache/parts/{name}.jpg'] + ([f'build/cache/parts/{name}_a.jpg'] if p['role'] != 'plate' else [])
     used[ids]['parts'].append(rec)
 STAGE = {
-    'w_head': 'rotated at the neck (head 0 down .. 1 up from the score), lowered for the approach',
-    'w_torso': 'translated along x by the score, pitched, lowered for crouch/lie, mirrored + foreshortened (>=0.62) through the turns',
+    'w_head': 'rotated at the neck (head 0 down .. 1 up), lowered for the approach, chin to the paws for rest; mirrored about the neck to look back over the shoulder at 7.46 s; narrowed as it turns away at 26.4 s',
+    'w_torso': 'translated along x by the score, pitched, lowered to the floor to lie (haunches first), mirrored + foreshortened (>=0.62) through the turns',
     'w_tail': 'rotated at the root (score tail + wag)', 'w_fore': 'near and far (darkened copy) forelegs: rotated + stretched (0.82-1.12) to a planted foot target',
     'w_thigh': 'two-bone IK with w_shank: hip -> hock -> paw; feet planted by distance travelled (no sliding)',
     'w_shank': 'two-bone IK with w_thigh', 'j_body': 'substituted for the standing cut when the dog lies (refusal 4.0-7.8 s; sill 23.8 s on); mirrored to face the door at the end',
@@ -63,7 +63,7 @@ STAGE = {
     'bench': 'the seat the person backs onto', 'room': 'room backdrop (warm, brighter when the door opens)',
     'dusk': 'the sky and trees beyond the porch (cooled)', 'floor': 'interior floor, threshold and porch boards (strips)',
     'jamb': 'wall in section above the lintel, and the lintel', 'reveal': 'seen through the doorway: the lit inner room',
-    'j_neck': 'cut but unused in the final build (a stretched-neck filler that read as a gap; see method.md)'}
+}
 for o in used.values():
     for p in o['parts']: p['stage_operation'] = STAGE.get(p['part'], '')
 
