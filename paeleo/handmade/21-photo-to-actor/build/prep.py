@@ -173,8 +173,8 @@ tex = tex * 0.7 + 0.3 * neck_mean                      # tone continuous with th
 tex = tex + (neck_mean - tex.mean()) * 0.5
 tex = tex * np.linspace(0.72, 1.0, tex.shape[0])[:, None, None]       # crown darker, lower skull at the neck's tone
 mk = Image.new('L', (Wb, Hb), 0); ImageDraw.Draw(mk).ellipse((27, 30, 83, 96), fill=255)
-mk = mk.filter(ImageFilter.GaussianBlur(2.2))
-mka = np.array(mk).astype(float) * np.clip((Hb - 2 - np.arange(Hb)) / 22.0, 0, 1)[:, None]   # soft bottom: merges into the neck
+mk = mk.filter(ImageFilter.GaussianBlur(1.2))   # round 5: opaque, firm edge
+mka = np.array(mk).astype(float) * np.clip((Hb - 2 - np.arange(Hb)) / 12.0, 0, 1)[:, None]   # soft bottom: merges into the neck
 hb = Image.fromarray(np.clip(tex, 0, 255).astype(np.uint8)); hb.putalpha(Image.fromarray(mka.astype(np.uint8)))
 hb.save(os.path.join(OUT, 'head_back.png'))
 EARS = {'l': {'centre': (43, 30), 'tilt': -14}, 'r': {'centre': (67, 30), 'tilt': 14}}
@@ -182,7 +182,7 @@ ear_pivots = {}
 for side, E in EARS.items():
     em = Image.new('L', (Wb, Hb), 0); cx_, cy_ = E['centre']
     ImageDraw.Draw(em).ellipse((cx_ - 8, cy_ - 15, cx_ + 8, cy_ + 13), fill=255)
-    em = em.rotate(-E['tilt'], resample=Image.BICUBIC, center=(cx_, cy_ + 12)).filter(ImageFilter.GaussianBlur(1.8))
+    em = em.rotate(-E['tilt'], resample=Image.BICUBIC, center=(cx_, cy_ + 12)).filter(ImageFilter.GaussianBlur(1.1))
     ei = Image.fromarray(np.clip(tex * 0.92, 0, 255).astype(np.uint8)); ei.putalpha(em)
     ei.save(os.path.join(OUT, 'head_back_ear_%s.png' % side))
     ear_pivots[side] = [cx_, cy_ + 12]

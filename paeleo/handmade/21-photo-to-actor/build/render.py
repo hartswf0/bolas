@@ -219,6 +219,7 @@ def grade_dog(cv, lamp, light, rim=55.0):
     return Image.fromarray(a.clip(0, 255).astype(np.uint8), 'RGBA')
 
 
+RINGS = {}
 CLOSE_WIN = (40, 360, 680, 720)        # round 3: the closer shot on the sill (2x), from outside the dog, for the look-in
 
 
@@ -226,6 +227,15 @@ def close_shot(img_bg, rec, light, lamp):
     """the same porch, closer: background window scaled 2x, the actor redrawn at 2x (its sprites are stored at 2x source)"""
     x0, y0, x1, y1 = CLOSE_WIN
     bg = img_bg.crop(CLOSE_WIN).resize((W, H), Image.LANCZOS).filter(ImageFilter.GaussianBlur(1.0))
+    # round 5: the hall lamp. The hall directly behind the dog's head is lit (a warm pool inside the door opening), so the
+    # dark rear head reads against light. Fixed for the whole close shot (no flicker).
+    b = np.array(bg).astype(float)
+    yy, xx = np.mgrid[0:H, 0:W]
+    gx, gy = 470.0, 330.0
+    pool = np.exp(-(((xx - gx) / 150.0) ** 2 + ((yy - gy) / 120.0) ** 2))
+    inside = ((xx > (DOOR_L - x0) * 2 + 4) & (xx < (DOOR_R - x0) * 2 - 4) & (yy < (GROUND - y0) * 2)).astype(float)
+    b[:, :, :3] += (pool * inside)[:, :, None] * 95 * np.array([1.0, 0.82, 0.55]) * light
+    bg = Image.fromarray(np.clip(b, 0, 255).astype(np.uint8), 'RGBA')
     save = (actor.K, actor.CW, actor.CH, actor.CC.copy(), actor.GROUND_C)
     actor.K = save[0] * 2; actor.CW, actor.CH = save[1] * 2, save[2] * 2; actor.CC = save[3] * 2
     actor.GROUND_C = actor.CC[1] + (spec.GROUND_Y - actor.C0[1]) * actor.K
@@ -243,6 +253,13 @@ def close_shot(img_bg, rec, light, lamp):
     bg.alpha_composite(shadow, (ox, oy + int(gc) - sh.height // 2 - 4))
     bg.alpha_composite(cvg, (ox, oy))
     ys, xs = np.nonzero(np.array(al) > 127)
+    # rings for the head-edge contrast check on the encoded film: inside / outside the dog's outline, head box only
+    hc = np.array(info['head_c']); hx, hy = int(hc[0] + ox), int(hc[1] + oy)
+    full = Image.new('L', (W, H), 0); full.paste(al, (ox, oy))
+    inner = (np.array(full.filter(ImageFilter.MinFilter(3))) > 200) & ~(np.array(full.filter(ImageFilter.MinFilter(9))) > 200)
+    outer = (np.array(full.filter(ImageFilter.MaxFilter(9))) > 50) & ~(np.array(full.filter(ImageFilter.MaxFilter(3))) > 50)
+    box = np.zeros((H, W), bool); box[max(0, hy - 110):hy + 5, max(0, hx - 80):hx + 70] = True
+    RINGS[rec['i']] = (inner & box, outer & box)
     return bg, [float(xs.mean() + ox), float(ys.mean() + oy)]
 
 
@@ -326,4 +343,5 @@ if __name__ == '__main__':
         M[rec['i']] = {'dog': meas, 'person': pinfo}
     json.dump(M, open(os.path.join(CACHE, 'measure_%04d_%04d.json' % (a0, a1)), 'w'))
     np.savez_compressed(os.path.join(CACHE, 'alpha_%04d_%04d.npz' % (a0, a1)), **{'f%04d' % k: v for k, v in ALPHA.items()})
+    if RINGS: np.savez_compressed(os.path.join(CACHE, 'rings_%04d_%04d.npz' % (a0, a1)), **{'i%04d' % k: v[0] for k, v in RINGS.items()}, **{'o%04d' % k: v[1] for k, v in RINGS.items()})
     print('rendered', a0, a1)

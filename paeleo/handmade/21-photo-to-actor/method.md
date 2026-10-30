@@ -165,4 +165,17 @@ All five were verified on frames and audio extracted from the final `film.mp4` (
 
 Measured: ALL OK, 9.03 MB, voice onsets unchanged, measured looks-in onset 26.417 s.
 
-**Stop condition:** watchable and the invariants hold. Round-4 critique is pending.
+## Repair round 5 (after critic round 4, `reviews/round4.md`)
+
+- **Rear head opaque, with edges that read against the hall.**
+  - The skull's alpha is firmer (feather 1.2, bottom fade 12 px), so it no longer looks translucent.
+  - In the close shot a fixed warm pool of hall-lamp light sits inside the door opening, directly behind the head.
+  - Measured on the encoded film (frames 641–671, 26.71–27.96 s): the mean grey just outside the head outline minus just inside is min 66, median 68, max 72 grey levels (inside about 43, outside about 111). The rings come from the render's alpha; the grey levels come from the decoded film.
+- **Head leading at 7.54–7.96.** It now passes through the three-quarter head for one frame (7.50), then shows the lowered-head photograph (f046: eye, white blaze, muzzle) mirrored back over the shoulder, with the muzzle level toward the door (screen left). This was checked on film frames 7.67 and 7.75. No flip, hood or smudge is reintroduced.
+- **Visible life in the hold.**
+  - Two ear flicks of 45° (27.08 and 27.58 s, 7 frames each). Measured on the film: 382 px change by more than 25 grey levels in the ear region between 27.00 and 27.25 s.
+  - The head tilts by ±4°.
+
+Result: ALL OK, 9.02 MB. Onsets and voices are unchanged.
+
+**Stop condition:** watchable and the invariants hold. This was the last repair round allowed.
