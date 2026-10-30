@@ -15,8 +15,7 @@ pixels.
 
 The two ontologies are kept side by side. The museum describes a *hand-coloured lithograph of a pointer in a woodcock
 cover*. The animator's tags for the same print are *walks, bends at neck, swings tail, legs hinge at shoulder and hip, hock
-folds back*. The museum describes *Juno* as a lithograph. To the animator it *lies, rests chin on paws, lifts head, reaches
-in*. The left pointer in *On a Point* has its head turned over its shoulder, so it *looks back*. Edouart's cut-paper
+folds back*. The same cuts, hinged differently, also *lie, rest chin on paws, look back over the shoulder, turn the head away*. Edouart's cut-paper
 silhouettes *stand, sit, reach*, and they hide their own seams because black paper joins invisibly. The screen door *opens
 out*. The historical metadata in `sources/meta/records_fetched.jsonl` is never altered.
 
@@ -37,52 +36,53 @@ out*. The historical metadata in `sources/meta/records_fetched.jsonl` is never a
 - **Faces.** No photographs of people are used. The person is a cut-paper silhouette by Edouart (1840s profiles, marked
   CC0); its only features are a profile outline and a white collar.
 
-## How the dog is made
+## How the dog is made (revision 2: one dog)
 
-Three hand-coloured lithographs of liver-and-white pointers, one breed and one printmaking family, used by role:
+**One pointer, one print.** The whole dog is cut from Currier & Ives, *Woodcock Shooting* (SAAM 1973.122.4): head with ear,
+torso with neck, tail, foreleg (near; the far one is a darkened copy), hind thigh and hind shank (near; far copies darkened).
+Every pose is these same pieces hinged differently. Revision 1 swapped in *Juno* (1973.122.5) for lying and *On a Point*
+(1973.122.13) for the look-back head; the critic saw three dogs, so both prints are now unused (kept as review copies).
 
-| role | object | parts |
-|---|---|---|
-| standing, walking, retreating, turning, approaching | Currier & Ives, *Woodcock Shooting* (SAAM 1973.122.4) | head+ear, torso+neck, tail, foreleg (near; far = darkened copy), hind thigh + hind shank (near; far = darkened copies) |
-| lying (refusal and the sill), resting, looking in | N. Currier, *Juno* (SAAM 1973.122.5) | lying body with folded legs and curled tail, head |
-| the head that leads at 7.46 s, and the three-quarter head mid-turn | C. Parsons, *American Field Sports, "On a Point"* (SAAM 1973.122.13) | head turned over the shoulder |
+- **Cutting.** Polygons were drawn on gridded crops (`build/grid.py`). A colour key keeps the cream fur and liver patches
+  and drops the green, blue and dark ground.
+- **Walking.** Position follows the score's `x`. Feet are planted by distance travelled, with a gait phase of distance
+  divided by a 0.28 m stride. The hind leg is two cuts solved by two-bone IK, with the hock behind. **Measured on the
+  render:** across 82 weight-bearing frame pairs between 14.7 and 23.6 s, the near hind paw drifts at most 0.1 px. In
+  swing it lifts up to 12.5 px (18–20 s). The paw clicks in the sound use the same formula.
+- **Turning.** The body foreshortens to no less than 0.62 of its width and the head travels with it. No frame is edge-on,
+  and there is no other print.
+- **Lying** is an action, not a swap. Over 0.6 s (15 frames) the torso lowers 54 source px to the floor, and the rear goes
+  down first (a 9° haunch pitch). The forelegs reach forward along the floor. The hind thigh folds forward along the belly,
+  with the shank back along the floor; the angles are blended linearly so the leg swings down, never over the back. The tail
+  lowers to the floor. This happens at 4.0–4.7 s (refusal, back to the door) and from 23.62 s (the sill).
+- **Rest.** The same head drops, chin toward the paws.
+- **The head leads at 7.458 s.** While the body still lies with its back to the door, the head narrows and mirrors about
+  the neck over 4 frames (7.375–7.54 s), so the muzzle points back at the door over the shoulder. The body rises from
+  7.62 s with the head held back, then comes round at 7.95–8.45 s.
+- **Looking in (26.4 s).** The head narrows as it turns away from us (26.4–26.5 s). Then, from 26.54 to 28.08 s, the
+  **back of the same dog's head** is shown: its own ear cut twice (once mirrored) either side of a crown cut from its own
+  white fur (`w_back`, composited in `parts.py`). It sits at the inner edge of the door frame, facing into the lit room,
+  away from us and the person's hand. Then the profile head returns and settles chin-down.
 
-**Cutting.** Polygons were drawn on gridded crops of each print (`build/grid.py`). A colour key keeps the cream fur and
-liver patches and drops the green, blue and dark ground. Then come morphological closing, small-hole fill and the largest
-component. Juno has its own key, because her dark liver patch matched the ground.
+**Stage.**
+- The house is shown in cutaway section, like a museum period-room diorama.
+- **Room:** Andrews, *Interior of a House* (1916.6.39). It continues to the outer face of the door frame, so the doorway is
+  an opening.
+- **Wall:** cut through, with a lintel and two casing strips. The door frame runs from 0.02 to 0.46 m, matching the score's
+  door opening; the threshold stone runs out to the sill at 0.56 m.
+- **Porch and dusk:** porch boards (strips of Andrews's floor); the dusk is MacGilvary's *Twilight after the Rain*
+  (1913.3.3).
+- **Door:** López's carved *Screen Door* (1989.30.3) opens outward (6.2–6.9 s) and the room's light falls onto the porch.
+- **Camera:** still until 21 s, then a push-in to 1.32× by 24.3 s. `x_world_measured` undoes the camera.
+- **At the end** the dog lies with the front of its torso, its forelegs and its head inside the door frame. Its rump is on
+  the porch, and its tail lies on the boards outside, against the screen door.
 
-**Moving.**
-- Position follows the score's `x`, at 185 px/m and the same pace. The retreat goes right and the approach goes left.
-- The forelegs are rigid cuts hinged at the shoulder. The hind leg is two cuts (hip to hock, hock to paw) solved by
-  two-bone IK, with the hock bending back as in the print.
-- Feet are planted by **distance travelled**: the gait phase is distance divided by a 0.28 m stride. A stance foot is
-  exactly world-fixed, and the paw clicks in the sound are triggered by the same formula.
-- Head angle, crouch, tail and wag come from the score's `act` channels.
-- **Turns are substitutions, not squashes.** The body foreshortens to no less than 0.62 of its width. The *On a Point*
-  three-quarter head swings through the frontal view, and the body flips behind it. No frame is edge-on.
-- **Lying is a substitution** to *Juno* once the puppet has folded its legs; this happens at 4.0–4.6 s and from 23.8 s.
-- **The head leads at 7.458 s.** The look-back head appears on Juno's lying body, muzzle to the door, and rises over 0.3 s.
-  The body rises at 7.8 s (substitution to the standing cut with the head still back) and comes round at 7.95–8.45 s.
-- **Looking in (26.4 s).** Juno's head rises off the paws and moves about 11 cm forward (nose to -0.121 m, 14 cm inside the inner wall face at +0.02 m), low and level, past the inner face of
-  the wall into the lit room. It is warmed by the room light and gets a rim. Then it settles back, chin on paws.
+**The person.** Edouart's standing man is cut at hip and knee (*Father, Mother, and Boy*, 1981.172.33). His arm is the
+pointing arm of *Boy with Dog* (1981.172.31): it reaches straight at the dog at 3.4 s and is offered low from 6.8 s. He backs
+onto a bench cut from Andrews's interior.
 
-**Stage.** The house is shown in cutaway section, like a museum period-room diorama. The room is on the left (Andrews,
-*Interior of a House*). The wall is cut through, with a lintel and two casing strips. The threshold stone runs out to the
-sill at 0.56 m, then the porch boards (strips of Andrews's floor). The dusk beyond is MacGilvary's *Twilight after the
-Rain*. López's carved *Screen Door* opens **outward**, as screen doors do, against the dusk. Its width is drawn as
-W·sin(angle) of its swing. When it opens (6.2–6.9 s) the room's light falls out onto the porch, and the room's clock and
-fire become audible. The camera holds still until 21 s, then pushes in to 1.32× by 24.3 s. `x_world_measured` in the trace
-undoes the camera.
-
-**The person.** Edouart's standing man is cut at hip and knee. Calls lean him forward. The reaching arm is the pointing arm
-of Edouart's *Boy with Dog*, mirrored and hinged at the shoulder. It goes straight at the dog at 3.4 s and is offered low
-from 6.8 s. He backs three steps onto a bench cut from Andrews's interior and sits.
-
-**Sound** (`build/sound.py`). The voices are flite speech synthesis: *Come here!* and *Come here! Come on!* are loud; *It's
-all right* (twice) and *Come in* are slower and low-passed. Everything else is synthesized: room tone, crickets outside,
-the room's clock and fire behind the door, the latch and creak, the person's steps and bench, paw clicks at every foot
-plant, thumps when the dog lies, tail thumps during the look-in, and a closing sigh. **Measured on the film's audio:**
-calls −20.9 dB RMS, soft lines −29.3 to −31.3 dB (≥ 8.3 dB quieter), room tone −44.4 dB.
+**Sound** (`build/sound.py`). The voices are flite speech synthesis; everything else is synthesized. **Measured on the
+mix:** calls −20.9 dB RMS, soft lines −29.2 to −31.3 dB (at least 8.3 dB quieter), room tone −44.4 dB.
 
 ## What is protected (tested numerically)
 
@@ -92,13 +92,13 @@ the drawn head's pitch and direction, body width, and how far the body has sunk.
 
 | choice | score | measured onset | dt |
 |---|---|---|---|
-| retreat (body centroid moves away > 3 mm/frame) | 1.000 | 1.000 | 0.000 |
+| retreat (body centroid moves away > 3 mm/frame) | 1.000 | 1.042 | +0.042 |
 | watch (head pitch starts to rise) | 2.333 | 2.333 | 0.000 |
 | refuse (head drops / body begins to turn) | 3.417 | 3.417 | 0.000 |
-| watch (drawn head points at the door while the body faces away) | 7.458 | 7.458 | 0.000 |
+| watch (drawn head points at the door while the body faces away) | 7.458 | 7.500 | +0.042 |
 | approach (centroid moves toward the door > 3 mm/frame) | 14.708 | 14.708 | 0.000 |
-| lie_down (body sinks > 1.5 cm below its last-0.5 s median) | 23.792 | 23.958 | +0.166 |
-| look in (nose moves > 3 cm into the room) | 26.4 | 26.375 | −0.025 |
+| lie_down (body sinks > 1.5 cm below its last-0.5 s median) | 23.792 | 23.750 | −0.042 |
+| look in (the drawn head narrows > 10 % / back of head drawn) | 26.4 | 26.458 | +0.058 |
 
 The body is turned away (facing −1) from 3.71 s; I4 share turned = 0.93. During the approach the drawn head's top is 15–30
 px below the back line (median 24 px). This is measured from the render geometry. Film: 912 frames, 38.000 s, 1280×720,
@@ -112,50 +112,54 @@ the parts actually drawn: the same matrices that drew the frame, not a separate 
 Frames were extracted from the final `film.mp4` every 0.25 s, with full-resolution crops of both turns (3.42–4.75 s and
 7.25–8.5 s), the approach and the lie (14.75–25 s), and the look-in (25–29 s). In those frames:
 
-- Every frame of both turns shows a dog.
+- Every frame of both turns, and of every lie and rise, shows the same dog (one print).
 - There are no dissolves anywhere, so no ghosting.
 - The back is turned by 3.8 s and kept until the head leads at 7.458 s.
-- The lying dog has no raised hindquarters. Its head and forelegs are inside the door frame and its rump and curled tail are
-  outside on the porch.
+- The lying dog has no raised hindquarters. Its head, forelegs and the front of its torso are inside the door frame, and
+  its rump and tail are outside on the porch.
 
 ## What failed and what changed (see `ledger.jsonl`)
 
-- The door opening inward hid the lit room. The screen door now opens outward.
-- The hind legs were single straight cuts and read as sticks. They are now two cuts with IK, and the neutral foot is set
-  back under the hock.
-- The mid-turn head was oversized and the body was squashed to 0.42 width (it read as a box). The head was re-cut and
-  scaled, and the body width floor is now 0.62.
-- *Juno* was 1.5× too big against the standing cut. She was rescaled.
-- **Look-in, four tries.**
-  1. A stretched neck made of copies of the head cut gave **double ears**. Rejected as a double image.
-  2. A black contre-jour silhouette was unreadable at film scale. Rejected.
-  3. A neck-only filler still left a gap.
-  4. The root fix: a thinner wall, so an 11 cm reach takes the muzzle 14 cm past the inner face with no stretch. This is kept.
-- The narrow lit "reveal" in the doorway read as a pillar and showed under the chin as an orange slab. The room now
-  continues to the outer wall face.
-- The look-back head popped up in one frame. It now rises over 0.3 s.
+**Revision 1** (before the critic):
+- The door opened inward and hid the room; it now opens outward.
+- The hind legs read as sticks; they became thigh and shank with IK.
+- The mid-turn head was oversized and the turning body squashed into a box; both were re-cut and limited.
+- The look-in failed four times: double ears, an unreadable silhouette, a neck gap, and finally a wall-thickness fix.
+- The narrow doorway reveal read as a pillar; the room now continues to the frame.
+
+**Critic verdict on revision 1: does not pass.** The dog was three dogs, with one-frame swaps at 4.467, 7.467, 7.80 and
+24.18 s. The lie-down was a one-frame swap landing 0.39 s late. The look-in showed a three-quarter face aimed at the
+hand. The torso was not inside the frame at 28 s. The hind feet were not seen to plant.
+
+**Revision 2** fixes these at the root:
+- One print's dog for every pose.
+- Lying is a 15-frame fold, haunches first.
+- The head looks back by mirroring about the neck.
+- The look-in shows the back of the same dog's head.
+- The door frame matches the score's door opening (to 0.46 m), so the lying torso enters it.
+- The hind neutral foot moved forward so the leg bends visibly; swing lift is 26 source px; paw drift is measured.
+- A linear angle blend stops the folding hind leg from flipping over the back.
+- No rim or neck stretch remains.
 
 ## Still weak (known)
 
-- **The dog changes print when it lies down and gets up.** The standing pointer (Woodcock) and *Juno* are different dogs:
-  different markings and a heavier chest. A viewer may read the 4.6 s and 7.8 s and 23.9 s swaps as cuts between dogs. The
-  end card names the three prints.
-- **Mid-turn heads come from a third print** (liver head with a blaze) for about four frames per turn.
-- **The look-in reads as "head pushed into the room".** It is low and level, past the inner wall face and away from the
-  person's hand, which is higher and further left. But the head stays the three-quarter cut, so the back of the head is
-  never shown. A critic may still read it as looking toward the person. This is the most likely failure.
-- The dog is small in the wide shot (about 250 px long) until the push-in.
-- Legs are rigid cuts with a slight stretch (0.82–1.12) along their axis. The walk is a creeping gait, true to the
-  stalking print but not a natural trot.
-- The person's seated legs show a step where the thigh cut meets the coat.
+- **The back-of-head is a construction.** It is the same ear twice on a crown of the same fur; no print shows this dog
+  from behind. At film size it reads as a dog's head from behind, but it is flatter and paler than the profile.
+- **Lying is a folded cut-out.** The legs are rigid cuts, so the lying dog is a "sphinx" with a low, lumpy outline, and the
+  print's stalking torso stays fat.
+- **The walk is a creep**, true to the stalking print but not a natural trot.
+- **The look-back head** is the profile head mirrored (it narrows over 4 frames first). There is no intermediate
+  three-quarter view.
+- The dog is small (about 250 px) in the wide shot.
+- **The step at the person's knee is not fixed** (optional repair).
 
 ## Not done
 
 - No Getty object (host refused).
-- No independent critic was run by this builder.
-- No mobile operator page. The SCION prompt asks for one; the brief's deliverables do not.
-- No 3D models (the bucket has `3d/`; avoided as a maquette).
-- No photographs of real people.
+- No independent critic was run by this builder; the verdict above came from the coordinator's critic.
+- No mobile operator page.
+- No 3D models.
+- No photographs of people.
 
 ## Rebuild
 
