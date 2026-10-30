@@ -3,7 +3,7 @@
 ## Thesis
 
 The dog is **one continuous skin** attached to a skeleton by per-vertex weights. It has no parts, cut-outs or substitutions:
-every frame shows the same closed surface (7,209 vertices, 14,416 triangles, Euler characteristic 2, no boundary edges)
+every frame shows the same closed surface (7,173 vertices, 14,344 triangles, Euler characteristic 2, no boundary edges)
 stretching and folding over moving bones. The swarm's primitives are its working objects: vertex-to-bone weights,
 bind/rest matrices, skeletal motion clips, region masks (the coat), and corrective deformation. Here the correction is
 dual-quaternion skinning, chosen over linear blend skinning because LBS was measured to collapse at the joints this film
@@ -43,7 +43,7 @@ uses hardest. A bland version would be a rigid maquette with a fur shader, or a 
 - **Across the sill:** from 24.45 s the head attends to the person's low hand (turned about 80° to the left). On *come in*
   (26.4 s) it swings into the room and stretches forward, with the muzzle past the jamb. From behind, the camera sees the
   back of the head (measured: muzzle pointing away from the camera in 100% of frames from 26.6 to 28.2 s; muzzle reaches
-  X = −0.35 m, inside the room, which starts at X = 0.20). Then the chin goes down on the paws and the dog stays.
+  X = −0.31 m, inside the room, which starts at X = 0.20). Then the chin goes down on the paws and the dog stays.
 - Ears, tail tuck and wag come from the score's acting channels. Signs were checked on renders after one error (ledger 11).
 
 The person is a second skinned mesh (19 bones, faceless). Their keyed clips follow the score's circumstances: call, reach,
@@ -64,14 +64,14 @@ vertices from the skinned bone chain, relative to the bind pose.
 | left hock, refusal lie 5.83 s | 0.71 | 0.90 |
 | left elbow, 4.54 s | 0.75 | 0.88 |
 | left stifle, 4.67 s | 0.78 | 0.88 |
-| neck, look-back 8.0 s | 0.94 | 1.00 |
+| neck, look-back 7.92 s | 0.97 | 1.00 |
 | smallest LBS blend determinant | 0.27 (hock, 5.83 s) | 1 by construction |
 | **stress test: neck twisted 160° at one joint** | **0.64**, det down to 0.03 (candy wrapper) | **0.86** |
 
-In the film's own motion the twist is spread over several neck joints, so LBS loses only about 6% at the neck. The bending
+In the film's own motion the twist is spread over several neck joints, so LBS loses only about 3% at the neck. The bending
 legs in the lies are where LBS fails in the film. The candy wrapper itself is shown in the stress test
 (`proof/stress_test_twist.mp4`, `proof/stress_twist_160.png`): the neck is wound to 160° under a printed ring ornament, which
-is the lineage's "tattoo held intact". DQS keeps girth but bulges slightly at extreme bends (ring up to 1.03). I judged that
+is the lineage's "tattoo held intact". DQS keeps girth but bulges slightly at extreme bends (ring up to 1.04). I judged that
 acceptable, so no extra corrective shapes were added. Side-by-side clips of the film's look-back and lie-down under both
 methods are in `proof/lbs_vs_dqs_stress.mp4`, with stills in `proof/lbs_vs_dqs_*.png`.
 
@@ -86,14 +86,30 @@ records, not from the score's labels:
 | retreat | 1.000 | 0.958 | body moves away / crouches by more than 1 cm |
 | watch | 2.333 | 2.333 | head rises more than 2 cm from its retreat low |
 | refuse | 3.417 | 3.417 | head pixels start to turn away (more than 3 px) |
-| watch (turns to look) | 7.458 | 7.500 | head pixels start to come round |
+| watch (turns to look) | 7.458 | 7.542 | head pixels start to come round |
 | approach | 14.708 | 14.750 | body moves toward the door by more than 1.5 cm |
 | lie down | 23.792 | 23.958 | back drops more than 2 cm below its walking low |
 | looks in | 26.4 | 26.417 | head moves toward the room |
 
-`check_handmade.py` reports **ALL OK** (I1–I4). Other measurements: 93% of refusal frames show the head turned away; the skull top (ears included) is below the back on 98% of approach frames, and the head centroid on 100%; at the end, 30% of the visible dog is inside the door frame and 14% is inside the room, with the tail on the porch;
-the smallest dog in any frame is 13,362 px. Sound (`build/cache/levels.json`): calls −20.9 dBFS RMS, soft voice −32.9
-(12.0 dB quieter), room tone −48.9 (the soft voice is 16 dB above it).
+`check_handmade.py` reports **ALL OK** (I1–I4). Other measurements: 93% of refusal frames show the head turned away; the skull top (ears included) is below the back on 100% of approach frames (15.0–23.7 s, mean margin 9 cm); at the end, 30% of the visible dog is inside the door frame and 14% is inside the room, with the tail on the porch;
+the smallest dog in any frame is 13,278 px. Sound (`build/cache/levels.json`): calls −20.9 dBFS RMS, soft voice −32.9
+(12.0 dB quieter), room tone −48.9 (the soft voice is 16 dB above it). Claw touch-downs on the approach: 17.1 dB above room tone per event, 7.2 dB over the whole approach window.
+
+## Repair round 1 (after the independent critic: narrow fail on the rise)
+
+- **The rise, 7.85–8.30 s.** The look-back had asked for up to 158° of head yaw while the body still faced away, so the neck
+  folded over the body into a knot. The body then yawed while rising with the neck upright, which read as a giraffe.
+  The new route: the dog rises in profile first (lie 1→0 by 8.00 s), then the body yaws (7.98–8.85 s). The head's yaw
+  relative to the body is capped at 115°, so it looks back over the near shoulder and never over the hip. The neck is
+  carried forward during the turn, and the head tilt is halved. I checked 12 frames from 7.60 to 8.60 s extracted from
+  `film.mp4`.
+- **The approach.** An extra neck drop and ears laid back. The skull top, ears included, is below the back on 100% of
+  frames from 15.0 to 23.7 s (mean margin 9 cm, measured).
+- **Proportions.** The muzzle is 4.5 cm shorter (mesh and weights rebuilt). The dark saddle mask now ends at the withers,
+  so there is no ridge along the neck.
+- **In the film itself:** a 1.35 s inset at 23.95–25.30 s compares the hock folding in the lie-down, side-on, under linear
+  blend (stained red where the blended matrix loses volume) and under dual quaternions (what the film uses).
+- **Claws** are louder (see the levels above).
 
 ## What failed and what I changed
 
