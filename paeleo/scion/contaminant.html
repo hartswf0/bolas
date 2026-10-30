@@ -43,9 +43,9 @@ pre{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.55;font-size:.84re
 </div>
 
 <section class="panel">
-<h2>The film: second proof, 41 s</h2>
+<h2>The film: third proof, 41 s</h2>
 <video controls playsinline preload="metadata" poster="contaminant/stills/still_16.0s.jpg" src="contaminant/film.mp4" style="width:100%;border-radius:.5rem;background:#f4f0e6"></video>
-<p class="note">Rendered from this page (<code>?render=1</code>, seed 7) at a fixed 1/24 s per frame, 1280×720. Hot for the first twelve seconds, then cool, then the reel of cuts from 26.5 s, each held for more than two seconds. The look follows the Afterlight films <a href="../../afterlight/v/20-sun/" style="color:#a1bedf">AFL-20 Sun in Your Eyes</a> and <a href="../../afterlight/v/18-dawn/" style="color:#a1bedf">AFL-18 Dawn Remembers Again</a>: the jellyfish is a sun with hairline tentacles that leave echoes, and it cools into its own blue afterimage; each censor's bell is a red blink. Every sound comes from an event in the run: projector hum while hot, the censor's bell, a thud as a cut sinks, a tape snip when the jelly rescues it, a low tone with a pink shimmer for each seam, the gear's ratchet, and the reel's clatter and splices. Rebuild with <code>contaminant/build/make.sh</code>. The run's events, ledger and invariant counts are in <a href="contaminant/invariants.json" style="color:#a1bedf">invariants.json</a> and <a href="contaminant/ledger.txt" style="color:#a1bedf">ledger.txt</a>.</p>
+<p class="note">Rendered from this page (<code>?render=1</code>, seed 8) at a fixed 1/24 s per frame, 1280×720. Hot for the first twelve seconds, then cool, then the reel of cuts from 26.5 s, each held for more than two seconds. The look follows the Afterlight films <a href="../../afterlight/v/20-sun/" style="color:#a1bedf">AFL-20 Sun in Your Eyes</a> and <a href="../../afterlight/v/18-dawn/" style="color:#a1bedf">AFL-18 Dawn Remembers Again</a>: the jellyfish is a sun with hairline tentacles that leave echoes, and it cools into its own blue afterimage; each censor's bell is a red blink. Every sound comes from an event in the run: projector hum while hot, the censor's bell, a thud as a cut sinks, a tape snip when the jelly rescues it, a low tone with a pink shimmer for each seam, the gear's ratchet, and the reel's clatter and splices. Rebuild with <code>contaminant/build/make.sh</code>. The run's events, ledger and invariant counts are in <a href="contaminant/invariants.json" style="color:#a1bedf">invariants.json</a> and <a href="contaminant/ledger.txt" style="color:#a1bedf">ledger.txt</a>.</p>
 </section>
 
 <div class="grid">
@@ -54,7 +54,7 @@ pre{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.55;font-size:.84re
 <h2>Invariants, checked every frame</h2>
 <div class="inv" id="inv"></div>
 <h2 style="margin-top:1.1rem">Independent critic</h2>
-<p class="note">Round 1, on the 32 s cut: <b>reference stronger</b>. A viewer could not tell which phrase came from where (seams dropped onto crowded piles, provenance given only as IDs), the reel flashed each card for about half a second, and the jellyfish glided without acting. Repairs: a close-up of every seam with both parents whole and the shared words highlighted, no IDs on screen, reel cards held 2.25 s, no builder text on screen, and a jellyfish that pauses, strokes, reaches, flinches at the bell and warms with each rescue. Round 2, on the 41 s cut: <b>reference stronger</b>. Passes: every seam's close-up (parents whole, shared words highlighted), no IDs on screen, reel cards held 2 s or more, no builder text. Fails: the jellyfish still covers cards it carries, and its flinch and warming do not read. The largest remaining gap is clutter: fourteen or more cards pile onto the stages and the jellyfish from 3 to 26 s, so the viewer cannot read what is cut, carried or returned until the reel. Next repair condition: before the reel, no card overlaps another card, the jellyfish or a panel by more than 10% of its area, and the card named in the caption is never covered. It also found that the oval vignette and scratches barely show, and that the cool rings go magenta rather than to the blue afterimage.</p>
+<p class="note">Round 1, on the 32 s cut: <b>reference stronger</b>. A viewer could not tell which phrase came from where (seams dropped onto crowded piles, provenance given only as IDs), the reel flashed each card for about half a second, and the jellyfish glided without acting. Repairs: a close-up of every seam with both parents whole and the shared words highlighted, no IDs on screen, reel cards held 2.25 s, no builder text on screen, and a jellyfish that pauses, strokes, reaches, flinches at the bell and warms with each rescue. Round 2, on the first 41 s cut: <b>reference stronger</b>. Passes: every seam's close-up (parents whole, shared words highlighted), no IDs on screen, reel cards held 2 s or more, no builder text. Fails: the jellyfish still covers cards it carries, and its flinch and warming do not read. The largest remaining gap is clutter: fourteen or more cards pile onto the stages and the jellyfish from 3 to 26 s, so the viewer cannot read what is cut, carried or returned until the reel. Next repair condition: before the reel, no card overlaps another card, the jellyfish or a panel by more than 10% of its area, and the card named in the caption is never covered. It also found that the oval vignette and scratches barely show, and that the cool rings go magenta rather than to the blue afterimage. Round 3 repairs: fragments are now glowing embers with a one-word label, and only the fragment the caption names opens as a card, placed clear of the jellyfish (I6, measured: 0 of 340 frames over 10% overlap); the counter and most diagram labels are gone; a heavier iris and visible scratches; cool rings in the afterimage's blue; a stronger flinch and an afterimage that warms with each rescue; no bell without a cut. The film now uses seed 8, chosen among twelve seeds for five cuts and three seams. Round 3 verdict: pending.</p>
 </section>
 </div>
 
@@ -144,7 +144,7 @@ Open paeleo/scion/contaminant.html and run it. Check I1 to I4. Get the independe
 </section>
 
 <section class="panel note">
-<strong>What this page shows, and what it does not.</strong> Measured here, in this browser, with a seeded run (<code>?seed=7</code> by default): the four invariants above. Structurally verified: contamination writes a child and never edits a parent. Not judged yet: whether a viewer reads the seams as thinking or as noise. Not included: sound, the film, and any scanned page. The fragments are our paraphrases, not quotations from the advertisement or the W&amp;F pages. Nothing here is endorsed by the people named.
+<strong>What this page shows, and what it does not.</strong> Measured here, in this browser, with a seeded run (<code>?seed=8</code> by default): the four invariants above. Structurally verified: contamination writes a child and never edits a parent. Not judged yet: whether a viewer reads the seams as thinking or as noise. Not included: sound, the film, and any scanned page. The fragments are our paraphrases, not quotations from the advertisement or the W&amp;F pages. Nothing here is endorsed by the people named.
 </section>
 </main>
 
@@ -152,7 +152,7 @@ Open paeleo/scion/contaminant.html and run it. Check I1 to I4. Get the independe
 (() => {
 'use strict';
 const W = 1200, H = 640, CAP = 30, CARRY_MAX = 3, DWELL = 4.2, GAP = 3.2, TN = 22, SEG = 13;
-const SEED = +(new URLSearchParams(location.search).get('seed')) || 7;
+const SEED = +(new URLSearchParams(location.search).get('seed')) || 8;
 const RENDER = new URLSearchParams(location.search).has('render'), FW = 1280, FH = 720, SWITCH = 12, REEL0 = 26.5, REEL1 = 38.2;
 const $ = id => document.getElementById(id);
 const cv = $('cv'), ctx = cv.getContext('2d');
@@ -199,7 +199,7 @@ let seed, frags, seams, ledger, evts, nextId, simT, J, stats, lastEvent, gearBoo
 let running = true, contamOn = false, speedK = 1, visible = true, last = performance.now(), hudT = 0;
 // temperature, after McLuhan's hot and cool media: 1 is hot (the projector, high definition, the censor's bell), 0 is cool
 // (low definition, gaps the viewer completes, cuts rescued, speculations touching). reel: the Paradiso reel of returned cuts.
-let heat = 1, heatTarget = 1, auto = true, reel = null, reelIdx = -1;
+let heat = 1, heatTarget = 1, auto = true, reel = null, reelIdx = -1, focusId = null, focusSlot = 0, filmT = -1;
 
 // seeded PRNG (mulberry32) so every reload of the same seed plays the same run
 function rand() {
@@ -240,7 +240,8 @@ function anchor() {
   return {x: 600, y: 560};
 }
 const slot = (R, i) => { const a = i * 2.399, rr = Math.min(R.r * .72, R.r * .3 + Math.sqrt(i) * R.r * .26); return {x: R.x + Math.cos(a) * rr, y: R.y + Math.sin(a) * rr}; };
-function log(msg) { ledger.unshift(fmtT(simT) + '  ' + msg); if (ledger.length > 60) ledger.length = 60; dirty = true; }
+// the caption names at most one fragment; that fragment, and only it, opens as a full card (see drawFocus)
+function log(msg, f) { ledger.unshift(fmtT(simT) + '  ' + msg); if (ledger.length > 60) ledger.length = 60; dirty = true; focusId = f ? f.id : null; }
 
 function stroke(t) { const ph = (t * .9) % 1; return ph < .2 ? Math.sin(ph / .2 * Math.PI / 2) : 1 - (ph - .2) / .8; }
 function flinchAt(t) { let v = 0; for (const e of evts) if (e.type === 'bell' && t >= e.t && t - e.t < .5) v = Math.max(v, 1 - (t - e.t) / .5); return v; }
@@ -273,21 +274,21 @@ function grab(f) {
   f.held = true; f.tip = bi; f.anchor = null; J.carry.push(f);
   if (f.cut) {
     f.cut = false; f.rescuedAt = simT; stats.rescued++;
-    evts.push({t: simT, type: 'rescue', src: f.src}); log(`the jellyfish lifts "${f.kw}" out of the cuts`); return;
+    evts.push({t: simT, type: 'rescue', src: f.src}); log(`the jellyfish lifts "${f.kw}" out of the cuts`, f); return;
   }
   evts.push({t: simT, type: 'lift', src: f.src});
-  log(`"${f.kw}" lifted by a tentacle`);
+  log(`"${f.kw}" lifted by a tentacle`, f);
 }
 function release() {
   for (const f of J.carry) { f.held = false; f.tip = -1; setStage(f, 1); }
   evts.push({t: simT, type: 'hand', n: J.carry.length});
-  log(`${J.carry.map(f => '"' + f.kw + '"').join(', ')} handed to Stage 1`);
+  log(`${['one fragment', 'two fragments', 'three fragments'][J.carry.length - 1] || 'fragments'} handed to Stage 1`);
   // hot cinema: the censor's bell rings over the care strand (the kisses), and the cut follows
   // one bell per cut, staggered so each can be heard
   let nb = 0;
-  for (const f of J.carry) if (heat > .5 && f.pool === 'pink' && !f.wasCut) {
+  for (const f of J.carry) if (heat > .5 && f.pool === 'pink' && !f.wasCut && !(auto && simT > SWITCH - 1.2)) {
     f.bellT = simT + .8 + nb * .6; evts.push({t: simT + .15 + nb * .6, type: 'bell', src: f.src}); nb++;
-    log(`the censor's bell rings over "${f.kw}"`);
+    log(`the censor's bell rings over "${f.kw}"`, f);
   }
   J.carry = [];
 }
@@ -295,10 +296,11 @@ function cutFrag(f) {
   f.bellT = null; f.cut = true; f.wasCut = true; f.cutAt = simT; f.stage = 0; f.dwell = 0; f.cycle++; stats.cuts++;
   f.anchor = {x: 80 + rand() * 330, y: 528 + rand() * 40};
   evts.push({t: simT, type: 'cut', src: f.src});
-  log(`"${f.kw}" is cut; it sinks into the tank and is kept`);
+  log(`"${f.kw}" is cut; it sinks into the tank and is kept`, f);
 }
 function setHeat(h, msg) {
   heatTarget = h; contamOn = h === 0;
+  if (!h) { for (const f of frags) f.bellT = null; evts = evts.filter(e => !(e.type === 'bell' && e.t > simT)); }
   evts.push({t: simT, type: 'switch', to: h ? 'hot' : 'cool'}); log(msg); syncBtn();
 }
 function setStage(f, s) {
@@ -309,7 +311,7 @@ function returnToField(f) {
   f.gearT = -1; f.stage = 0; f.dwell = 0; f.cycle++; stats.returns++;
   f.anchor = anchor();
   evts.push({t: simT, type: 'return', src: f.src});
-  log(`"${f.kw}" leaves the outcome gear and returns to the field`);
+  log(`"${f.kw}" leaves the outcome gear and returns to the field`, f);
 }
 function contaminate(a, b, k) {
   const text = TPL[(rand() * TPL.length) | 0](a.kw, b.kw);
@@ -321,7 +323,7 @@ function contaminate(a, b, k) {
   seams.push({a: a.id, b: b.id, c: c.id, t0: simT});
   stats.contam++; lastEvent = simT;
   evts.push({t: simT, type: 'seam', src, lineage});
-  log(`seam: "${a.kw}" meets "${b.kw}"`);
+  log(`seam: "${a.kw}" meets "${b.kw}"`, c);
 }
 
 function step(dt) {
@@ -375,7 +377,7 @@ function step(dt) {
   const aim = dist > 20 ? Math.max(-.55, Math.min(.55, Math.atan2(dx, -dy) * .5)) : 0;
   J.tilt += (aim - J.tilt) * Math.min(1, dt * 4);
   const fl = flinchAt(simT), push = J.antic > 0 ? 0 : (.35 + 1.8 * stroke(simT)) * (1 - fl);
-  J.x += dx * Math.min(1, dt * 1.1 * push) - fl * dt * 30; J.y += dy * Math.min(1, dt * 1.1 * push);
+  J.x += dx * Math.min(1, dt * 1.1 * push) - fl * dt * 110; J.y -= fl * dt * 60; J.y += dy * Math.min(1, dt * 1.1 * push);
   const near = free.length ? pick.reduce((m, f) => Math.hypot(f.x - J.x, f.y - J.y) < Math.hypot(m.x - J.x, m.y - J.y) ? f : m) : null;
   const reaching = !full && near && Math.hypot(near.x - J.x, near.y - J.y) < 230;
   if (reaching) { J.reach.x = near.x; J.reach.y = near.y; }
@@ -436,15 +438,14 @@ function drawTank() {
   ctx.stroke();
   ctx.restore();
   ctx.save();
-  ctx.strokeStyle = 'rgba(230,200,150,.4)'; ctx.lineWidth = 1.6; ctx.strokeRect(x, y, w, h);
-  ctx.lineWidth = .6; ctx.strokeRect(x + 6, y + 6, w - 12, h - 12);
-  ctx.fillStyle = '#a99577'; ctx.font = 'italic 12px Georgia, serif'; ctx.textAlign = 'center';
+  ctx.strokeStyle = 'rgba(230,200,150,.18)'; ctx.lineWidth = 1; ctx.strokeRect(x, y, w, h);
+  ctx.globalAlpha = .4; ctx.fillStyle = '#a99577'; ctx.font = 'italic 12px Georgia, serif'; ctx.textAlign = 'center';
   ctx.fillText('inherited visual grammar', x + w / 2, y + h + 26);
   ctx.restore();
 }
 function drawTankLabels() {
   const {x, wave} = TANK;
-  ctx.save(); ctx.fillStyle = '#cdb48a'; ctx.font = 'italic 13px Georgia, serif';
+  ctx.save(); ctx.globalAlpha = .45; ctx.fillStyle = '#cdb48a'; ctx.font = 'italic 13px Georgia, serif';
   ctx.fillText('professional standards', x + 20, wave - 16);
   ctx.fillText('visual authority', x + 28, 430);
   ctx.fillText('historical recognition', x + 28, 556);
@@ -455,10 +456,8 @@ function drawConnectors() {
   for (const c of CONN) {
     const p0 = pt(c.a), p2 = pt(c.b), m = bez(p0, c.c, p2, .5);
     ctx.save();
-    ctx.strokeStyle = 'rgba(233,160,80,.55)'; ctx.lineWidth = 1;
+    ctx.strokeStyle = 'rgba(233,160,80,.22)'; ctx.lineWidth = .8;
     ctx.beginPath(); ctx.moveTo(p0[0], p0[1]); ctx.quadraticCurveTo(c.c[0], c.c[1], p2[0], p2[1]); ctx.stroke();
-    ctx.fillStyle = '#d7a467'; ctx.font = 'italic 11px Georgia, serif'; ctx.textAlign = 'center';
-    ctx.fillText(c.label, m[0], m[1] - 6);
     ctx.restore();
   }
 }
@@ -466,7 +465,7 @@ function drawConnectors() {
 function drawRings() {
   RINGS.forEach((R, i) => {
     ctx.save();
-    ctx.setLineDash([3, 6]); ctx.strokeStyle = 'rgba(240,190,200,.3)'; ctx.lineWidth = 1;
+    ctx.setLineDash([2, 7]); ctx.strokeStyle = 'rgba(240,210,190,.14)'; ctx.lineWidth = 1;
     ctx.beginPath(); ctx.arc(R.x, R.y, R.r + 14, 0, Math.PI * 2); ctx.stroke(); ctx.setLineDash([]);
     if (heat > .02) {
       ctx.globalCompositeOperation = 'lighter';
@@ -476,9 +475,9 @@ function drawRings() {
       ctx.globalCompositeOperation = 'source-over';
     }
     const g = ctx.createRadialGradient(R.x - R.r * .3, R.y - R.r * .3, 6, R.x, R.y, R.r);
-    g.addColorStop(0, mix(i === 2 ? '#8a2f55' : '#c45a8c', i === 2 ? '#f7c27a' : '#fff0cf', heat));
-    g.addColorStop(.55, mix(i === 2 ? '#5e1d39' : '#99396a', i === 2 ? '#d86a28' : '#f5b25c', heat));
-    g.addColorStop(1, mix(i === 2 ? '#2e0d1a' : '#4f1534', i === 2 ? '#7a2a10' : '#c4561c', heat));
+    g.addColorStop(0, mix(i === 2 ? '#6f86c8' : '#a9bff2', i === 2 ? '#f7c27a' : '#fff0cf', heat));
+    g.addColorStop(.55, mix(i === 2 ? '#2f3f78' : '#4d65a8', i === 2 ? '#d86a28' : '#f5b25c', heat));
+    g.addColorStop(1, mix(i === 2 ? '#0e1430' : '#18214a', i === 2 ? '#7a2a10' : '#c4561c', heat));
     ctx.fillStyle = g; ctx.beginPath();
     for (let a = 0; a <= Math.PI * 2 + .01; a += .1) {
       const rr = R.r * (1 + .03 * Math.sin(a * 5 + simT * .7 + i * 2));
@@ -490,15 +489,12 @@ function drawRings() {
   });
 }
 function drawRingLabels() {
-  ctx.save(); ctx.fillStyle = '#ecd6b2'; ctx.textAlign = 'center';
-  RINGS.forEach(R => {
-    ctx.font = 'bold 12px "Helvetica Neue", Arial, sans-serif'; ctx.fillText(R.name, R.x, R.ly);
-    ctx.font = 'italic 11px Georgia, serif'; ctx.fillText(R.sub, R.x, R.ly + 14);
-  });
+  ctx.save(); ctx.globalAlpha = .5; ctx.fillStyle = '#ecd6b2'; ctx.textAlign = 'center';
+  RINGS.forEach(R => { ctx.font = 'italic 11px Georgia, serif'; ctx.fillText(R.sub, R.x, R.ly); });
   ctx.restore();
 }
 function drawGear() {
-  const {x, y, r} = GEAR, ang = simT * (.25 + gearBoost * 2.2);
+  const {x, y} = GEAR, r = GEAR.r * .7, ang = simT * (.25 + gearBoost * 2.2);
   ctx.save();
   ctx.translate(x, y); ctx.rotate(ang);
   ctx.beginPath();
@@ -510,9 +506,8 @@ function drawGear() {
   ctx.beginPath(); ctx.arc(0, 0, r * .45, 0, Math.PI * 2); ctx.fillStyle = '#120e0b'; ctx.fill(); ctx.stroke();
   ctx.restore();
   ctx.save();
-  ctx.fillStyle = '#e8b07a'; ctx.textAlign = 'center';
-  ctx.font = 'italic bold 12px Georgia, serif'; ctx.fillText('Outcome', x, y - r - 22);
-  ctx.font = 'italic 11px Georgia, serif'; ctx.fillText('counter-archive as intervention', x, y - r - 8);
+  ctx.globalAlpha = .5; ctx.fillStyle = '#e8b07a'; ctx.textAlign = 'center';
+  ctx.font = 'italic 11px Georgia, serif'; ctx.fillText('counter-archive', x, y - r - 12);
   ctx.restore();
 }
 function drawSeams() {
@@ -563,7 +558,7 @@ function drawCard(f, s, alpha, opt = {}) {
   // cool cinema is low definition: words drop out for the viewer to complete; seams (pool 'mix') arrive whole
   const gap = f.pool === 'mix' || opt.noGap ? 0 : .34 * (1 - heat), his = [].concat(opt.hi || []);
   f.lines.forEach((l, i) => {
-    const line = gap ? l.split(' ').map((w, j) => hash(f.id, i, j) < gap ? '_'.repeat(Math.min(6, w.length)) : w).join(' ') : l;
+    const line = gap ? l.split(' ').map((w, j) => hash(f.id, i, j) < gap && !w.toLowerCase().includes(f.kw.toLowerCase()) ? '_'.repeat(Math.min(6, w.length)) : w).join(' ') : l;
     for (const h of his) {
       const at = line.toLowerCase().indexOf(h.toLowerCase()); if (at < 0) continue;
       ctx.save(); ctx.fillStyle = 'rgba(238,106,166,.38)';
@@ -587,9 +582,10 @@ function snapJelly() {
 function drawJelly() {
   snapJelly();
   const SUN = [255, 205, 130], AFTER = [150, 185, 255];
-  const c = SUN.map((v, i) => Math.round(v + (AFTER[i] - v) * (1 - heat)));
+  const WARMED = [255, 196, 214], warmK = Math.min(1, stats.rescued / 5) * .65;
+  const c = SUN.map((v, i) => Math.round(v + (AFTER[i] + (WARMED[i] - AFTER[i]) * warmK - v) * (1 - heat)));
   const col = a => `rgba(${c[0]},${c[1]},${c[2]},${a})`;
-  const warm = Math.min(1, stats.rescued / 5), bright = (.8 + .25 * J.sq) * (1 - .45 * flinchAt(simT)) * (1 + .25 * warm);
+  const warm = Math.min(1, stats.rescued / 5), bright = (.8 + .25 * J.sq) * (1 - .7 * flinchAt(simT)) * (1 + .4 * warm);
   ctx.save(); ctx.globalCompositeOperation = 'lighter'; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
   for (const k of [3, 6, 9]) {
     const sn = JHIST[k]; if (!sn) continue;
@@ -645,7 +641,7 @@ function drawBells() {
   ctx.save(); ctx.strokeStyle = '#d9631e'; ctx.lineWidth = 2;
   for (const f of frags) if (f.bellT != null) {
     const k = Math.max(0, Math.min(1, 1 - (f.bellT - simT) / .8));
-    for (const d of [0, .35]) { const q = (k + d) % 1; ctx.globalAlpha = 1 - q; ctx.beginPath(); ctx.arc(f.x, f.y, 18 + q * 46, 0, Math.PI * 2); ctx.stroke(); }
+    for (const d of [0, .35]) { const q = (k + d) % 1; ctx.globalAlpha = 1 - q; ctx.beginPath(); ctx.arc(f.x, f.y, 8 + q * 40, 0, Math.PI * 2); ctx.stroke(); }
   }
   ctx.restore();
 }
@@ -660,33 +656,76 @@ function drawTemperature() {
   if (heat < .99) { ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = (1 - heat) * .09; ctx.fillStyle = DOTS; ctx.fillRect(0, 0, W, H); }
   const fr = Math.floor(simT * 24);
   ctx.globalCompositeOperation = 'lighter'; ctx.fillStyle = '#fff0d8';
-  for (let k = 0; k < 2; k++) if (hash(fr, k, 7) > .55) { ctx.globalAlpha = .12 + .18 * hash(fr, k, 13); ctx.fillRect(0, hash(fr, k, 11) * H, W, 1); }
+  for (let k = 0; k < 3; k++) if (hash(fr, k, 7) > .45) { ctx.globalAlpha = .22 + .3 * hash(fr, k, 13); ctx.fillRect(0, hash(fr, k, 11) * H, W, 1.4); }
+  if (hash(fr, 9, 3) > .8) { ctx.globalAlpha = .18; ctx.fillRect(hash(fr, 9, 5) * W, 0, 1, H); }
   let blink = 0;
   for (const e of evts) if (e.type === 'bell' && simT >= e.t && simT - e.t < .3) blink = Math.max(blink, 1 - (simT - e.t) / .3);
   ctx.globalCompositeOperation = 'source-over';
   if (blink) { ctx.globalAlpha = .5 * blink; ctx.fillStyle = '#a3260f'; ctx.fillRect(0, 0, W, H); }
   ctx.globalAlpha = 1;
   ctx.translate(W / 2, H / 2); ctx.scale(1, H / W * 1.15);
-  const vg = ctx.createRadialGradient(0, 0, W * .32, 0, 0, W * .64);
-  vg.addColorStop(0, 'rgba(0,0,0,0)'); vg.addColorStop(1, `rgba(0,0,0,${(.5 + .2 * heat).toFixed(3)})`);
+  const vg = ctx.createRadialGradient(0, 0, W * .26, 0, 0, W * .6);
+  vg.addColorStop(0, 'rgba(0,0,0,0)'); vg.addColorStop(.7, `rgba(0,0,0,${(.45 + .1 * heat).toFixed(3)})`); vg.addColorStop(1, 'rgba(0,0,0,.92)');
   ctx.fillStyle = vg; ctx.fillRect(-W, -W, 2 * W, 2 * W);
   ctx.restore();
+}
+const EMBER = {src: '241,216,111', hist: '156,195,234', note: '244,239,226', spec: '238,106,166'};
+function drawEmber(f, k = 1) {
+  const rgb = f.cut ? '224,96,58' : EMBER[f.kind], a = (f.cut ? .55 : 1) * k;
+  ctx.save(); ctx.globalCompositeOperation = 'lighter';
+  const g = ctx.createRadialGradient(f.x, f.y, 0, f.x, f.y, 11);
+  g.addColorStop(0, `rgba(${rgb},${(.75 * a).toFixed(3)})`); g.addColorStop(1, `rgba(${rgb},0)`);
+  ctx.fillStyle = g; ctx.beginPath(); ctx.arc(f.x, f.y, 11, 0, 7); ctx.fill();
+  ctx.fillStyle = `rgba(255,248,236,${a.toFixed(3)})`; ctx.beginPath(); ctx.arc(f.x, f.y, 1.8, 0, 7); ctx.fill();
+  ctx.globalCompositeOperation = 'source-over'; ctx.fillStyle = `rgba(${rgb},${(.62 * a).toFixed(3)})`;
+  ctx.font = 'italic 10.5px Georgia, serif'; ctx.fillText(f.kw, f.x + 7, f.y - 5);
+  ctx.restore();
+}
+function jellyBox() {
+  let x0 = J.x - 88, x1 = J.x + 88, y0 = J.by - 100, y1 = J.by + 14;
+  for (const T of J.tent) for (const [x, y] of T.pts) { x0 = Math.min(x0, x); x1 = Math.max(x1, x); y0 = Math.min(y0, y); y1 = Math.max(y1, y); }
+  return [x0, y0, x1, y1];
+}
+const area = b => Math.max(0, b[2] - b[0]) * Math.max(0, b[3] - b[1]);
+const inter = (a, b) => area([Math.max(a[0], b[0]), Math.max(a[1], b[1]), Math.min(a[2], b[2]), Math.min(a[3], b[3])]);
+// The open card sits beside its ember, at the first of eight places that is in frame and clear of the jellyfish
+// (keeping its last place while that stays clear), joined to the ember by a hairline. It is drawn above everything.
+const DIRS = [[0, -1], [1, 0], [-1, 0], [0, 1], [1, -1], [-1, -1], [1, 1], [-1, 1]];
+const SLOTS = [1, 2.4, 4].flatMap(d => DIRS.map(([x, y]) => [x * d, y * d]));
+function drawFocus() {
+  const insetOn = seams.length && simT - seams[seams.length - 1].t0 <= 2.4;
+  const quiet = RENDER && (filmT < 3.2 || filmT > REEL0 - .1);
+  const f = focusId != null && !insetOn && !quiet ? frags.find(g => g.id === focusId) : null;
+  if (!f || f.gearT >= 0) return;
+  const s = .95, w = f.w * s, h = f.h * s, jb = jellyBox();
+  const boxAt = i => { const [ox, oy] = SLOTS[i], cx = f.x + ox * (w / 2 + 22), cy = f.y + oy * (h / 2 + 22); return [cx - w / 2, cy - h / 2, cx + w / 2, cy + h / 2]; };
+  const ok = b => b[0] >= 6 && b[1] >= 6 && b[2] <= W - 6 && b[3] <= H - 6;
+  let best = focusSlot, bestOv = Infinity;
+  for (const i of [focusSlot, ...SLOTS.keys()]) {  // nearest first; a carried card moves out past the tentacles
+    const b = boxAt(i); if (!ok(b)) continue;
+    const ov = inter(b, jb) / area(b); if (ov < bestOv - 1e-6) { bestOv = ov; best = i; } if (ov === 0) break;
+  }
+  focusSlot = best;
+  const b = boxAt(best), ov = inter(b, jb) / area(b);
+  stats.focusFrames++; stats.ovMax = Math.max(stats.ovMax, ov); if (ov > .1) stats.ovFrames++;
+  const card = {...f, x: (b[0] + b[2]) / 2, y: (b[1] + b[3]) / 2, rot: 0};
+  ctx.save(); ctx.strokeStyle = 'rgba(255,236,200,.55)'; ctx.lineWidth = .8;
+  ctx.beginPath(); ctx.moveTo(f.x, f.y); ctx.lineTo(Math.max(b[0], Math.min(b[2], f.x)), Math.max(b[1], Math.min(b[3], f.y))); ctx.stroke(); ctx.restore();
+  drawCard(card, s, 1);
 }
 function draw() {
   ctx.fillStyle = '#120e0b'; ctx.fillRect(0, 0, W, H);
   drawTank(); drawConnectors(); drawRings(); drawGear(); drawBeam();
   tentacles(simT); drawJelly(); drawTankLabels();
-  ctx.save(); ctx.fillStyle = '#a99577'; ctx.font = 'italic 11px Georgia, serif'; ctx.fillText('field: fragments in circulation', 500, 622); ctx.restore();
   drawSeams();
-  for (const f of frags) if (!f.held && f.gearT < 0 && f.stage === 0) drawCard(f, f.cut ? .8 : .9, f.cut ? .62 : 1);
-  for (const f of frags) if (!f.held && f.gearT < 0 && f.stage > 0) drawCard(f, .72, 1);
-  for (const f of frags) if (f.gearT >= 0) drawCard(f, .72 * (1 - .7 * Math.min(1, f.gearT / 1.4)), 1 - .5 * Math.min(1, f.gearT / 1.4));
+  for (const f of frags) if (f.gearT < 0) drawEmber(f);
+  for (const f of frags) if (f.gearT >= 0) drawEmber(f, 1 - Math.min(1, f.gearT / 1.4));
   drawBells(); drawRingLabels();
-  for (const f of frags) if (f.held) drawCard(f, .8, 1);
-  drawSeamInset();
   drawTemperature();
+  // the open card and the seam close-up sit above the projection (cast, vignette, scratches), so they stay readable
+  drawFocus();
+  drawSeamInset();
 }
-
 function renderLedger() {
   const ol = $('ledger'); ol.innerHTML = '';
   for (const s of ledger.slice(0, 10)) { const li = document.createElement('li'); li.textContent = s; ol.appendChild(li); }
@@ -699,6 +738,7 @@ function hud() {
     `I3 stage monotone: ${stats.trans} transitions, ${stats.v3} violations`,
     `I4 population ≤ ${CAP}: ${frags.length} now, ${stats.v4} violations${frags.length >= CAP ? ' (at cap: seams paused)' : ''}`,
     `I5 cuts kept: ${stats.cuts} cut, ${stats.rescued} rescued, none deleted, ${stats.v5} violations`,
+    `I6 open card clear of the jellyfish: ${stats.focusFrames} frames shown, ${stats.ovFrames} over 10% overlap`,
     `cinema ${heat > .5 ? 'hot' : 'cool'} · returns from the gear: ${stats.returns}`,
     `<b>${bad ? 'INVARIANT BROKEN' : 'all five invariants hold (measured in this browser)'}</b>`].join('<br>');
   $('clock').textContent = `sim ${simT.toFixed(1)} s · seed ${SEED}`;
@@ -707,8 +747,8 @@ function hud() {
 
 function reset() {
   seed = SEED; nextId = 1; frags = []; seams = []; ledger = []; evts = []; simT = 0; gearBoost = 0; lastEvent = -9; dirty = true;
-  stats = {contam: 0, returns: 0, cuts: 0, rescued: 0, trans: 0, checks: 0, v1: 0, v2: 0, v3: 0, v4: 0, v5: 0, oob: []};
-  JHIST = []; heat = 1; heatTarget = 1; auto = true; contamOn = false; reel = null; reelIdx = -1; syncBtn();
+  stats = {contam: 0, returns: 0, cuts: 0, rescued: 0, trans: 0, checks: 0, v1: 0, v2: 0, v3: 0, v4: 0, v5: 0, oob: [], focusFrames: 0, ovMax: 0, ovFrames: 0};
+  JHIST = []; focusId = null; focusSlot = 0; heat = 1; heatTarget = 1; auto = true; contamOn = false; reel = null; reelIdx = -1; syncBtn();
   J = {x: 230, y: 330, tx: 230, ty: 330, tent: [], tips: [], carry: [], by: 330, pu: 1, sx: 1, sy: 1, sq: 0, tilt: 0, antic: 0, key: '', reach: {x: 230, y: 460, w: 0}};
   for (let i = 0; i < TN; i++) J.tent.push({ax: -70 + 140 * i / (TN - 1), seg: 8 + rand() * 4, ph: rand() * 6.28});
   for (const [kind, pool, kw, text] of CORPUS) {
@@ -769,10 +809,9 @@ function panel(alpha, lines, y = 250, h = 220) {
 }
 function filmOverlay(t, dur) {
   ctx.save();
-  ctx.fillStyle = '#a99577'; ctx.font = 'bold 13px "Helvetica Neue", Arial, sans-serif'; ctx.fillText('SCION · CONTAMINANT JELLY', 40, 26);
-  ctx.textAlign = 'right'; ctx.font = '13px "Helvetica Neue", Arial, sans-serif';
-  ctx.fillStyle = heat > .5 ? '#f0a35a' : '#ee7fb0';
-  ctx.fillText(`cinema ${heat > .5 ? 'hot' : 'cool'} · cuts ${stats.cuts} · rescued ${stats.rescued} · seams ${stats.contam} · ${t.toFixed(1)} s`, FW - 40, 26);
+  ctx.fillStyle = 'rgba(169,149,119,.7)'; ctx.font = '12px "Helvetica Neue", Arial, sans-serif'; ctx.fillText('contaminant jelly', 40, 26);
+  ctx.textAlign = 'right'; ctx.font = 'italic 13px Georgia, serif'; ctx.fillStyle = heat > .5 ? '#f0a35a' : '#9fb9ff';
+  ctx.fillText(heat > .5 ? 'hot' : 'cool', FW - 40, 26);
   const inReel = t >= REEL0 && t <= REEL1 && reel;
   const cap = inReel ? `the reel of cuts, returned: ${Math.min(reel.length, reelIdx + 1)} of ${reel.length}` : (ledger[0] || '').replace(/^\s*[\d.]+s\s+/, '');
   ctx.textAlign = 'left'; ctx.fillStyle = '#e9c9a0'; ctx.font = 'italic 15px Georgia, serif'; ctx.fillText(cap, 40, FH - 13);
@@ -815,19 +854,19 @@ function drawReel(t) {
     ctx.fillStyle = '#2a1a12'; ctx.font = 'italic 34px Georgia, serif';
     m.lines.forEach((l, i) => ctx.fillText(l, FW / 2, fy + fh / 2 - (m.lines.length - 1) * 22 + i * 44));
     ctx.font = '14px "Helvetica Neue", Arial, sans-serif'; ctx.fillStyle = '#7a5a40';
-    ctx.fillText(`cut at ${f.cutAt.toFixed(1)} s · ${f.rescuedAt != null ? `rescued at ${f.rescuedAt.toFixed(1)} s` : 'still in the tank'}`, FW / 2, fy + fh - 34);
+    ctx.fillText(f.rescuedAt != null ? 'cut while the projector ran hot · returned by the jellyfish' : 'cut while the projector ran hot · still in the tank', FW / 2, fy + fh - 34);
     if (rel - k * per < .09) { ctx.fillStyle = 'rgba(255,255,255,.75)'; ctx.fillRect(fx, fy, fw, fh); }
     ctx.strokeStyle = 'rgba(60,40,30,.55)'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(fx, fy + 3); ctx.lineTo(fx + fw, fy + 3); ctx.stroke();
   }
   ctx.restore();
 }
-function filmFrame(i, fps, dur) {
-  const t = i / fps;
+function filmFrame(i, fps, dur, noImage) {
+  const t = i / fps; filmT = t;
   if (i > 0) { simT += 1 / fps; step(1 / fps); }
   ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.fillStyle = '#0b0807'; ctx.fillRect(0, 0, FW, FH);
   ctx.setTransform(1, 0, 0, 1, 40, 40); draw();
   ctx.setTransform(1, 0, 0, 1, 0, 0); filmOverlay(t, dur);
-  return cv.toDataURL('image/png');
+  return noImage ? null : cv.toDataURL('image/png');
 }
 
 window.SCION_CONTAMINANT = {stats: () => ({...stats, population: frags.length, simT, contamOn, heat, carry: J.carry.length}),

@@ -1,15 +1,15 @@
 {
- "seed": 7,
+ "seed": 8,
  "fps": 24,
  "frames": 984,
  "pageErrors": [],
  "violations": 0,
  "I1_provenance": {
-  "seams": 2,
+  "seams": 3,
   "violations": 0
  },
  "I2_in_frame": {
-  "checks": 14876,
+  "checks": 15457,
   "violations": 0
  },
  "I3_stage_monotone": {
@@ -17,7 +17,7 @@
   "violations": 0
  },
  "I4_population_cap": {
-  "final": 16,
+  "final": 17,
   "violations": 0
  },
  "I5_cuts_kept": {
@@ -25,5 +25,10 @@
   "rescued": 5,
   "violations": 0
  },
- "returns": 12
+ "I6_open_card_clear": {
+  "framesShown": 340,
+  "maxOverlapWithJellyfish": 0,
+  "framesOver10pct": 0
+ },
+ "returns": 13
 }

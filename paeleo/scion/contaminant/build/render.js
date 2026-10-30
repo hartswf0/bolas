@@ -3,7 +3,7 @@
 const { chromium } = require('playwright');
 const { spawn } = require('child_process');
 const fs = require('fs'), path = require('path');
-const FPS = 24, DUR = 41, N = FPS * DUR, SEED = 7;
+const FPS = 24, DUR = 41, N = FPS * DUR, SEED = 8;
 const here = __dirname, out = path.join(here, '..'), page = path.resolve(here, '../../contaminant.html');
 
 (async () => {
@@ -40,6 +40,7 @@ const here = __dirname, out = path.join(here, '..'), page = path.resolve(here, '
     I3_stage_monotone: { transitions: stats.trans, violations: stats.v3 },
     I4_population_cap: { final: stats.population, violations: stats.v4 },
     I5_cuts_kept: { cuts: stats.cuts, rescued: stats.rescued, violations: stats.v5 },
+    I6_open_card_clear: { framesShown: stats.focusFrames, maxOverlapWithJellyfish: +stats.ovMax.toFixed(3), framesOver10pct: stats.ovFrames },
     returns: stats.returns }, null, 1));
   console.log(`ffmpeg exit ${code}; ${events.length} events; ${stats.cuts} cuts; ${stats.rescued} rescued; ${stats.contam} seams; ${violations} violations; ${errors.length} page errors`);
   if (code !== 0 || errors.length || violations) process.exit(1);
