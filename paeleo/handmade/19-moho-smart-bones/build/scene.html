@@ -1,0 +1,22 @@
+<!doctype html><html><head><meta charset="utf-8">
+<link rel="stylesheet" href="../../../../tools/paeleo/fonts/local.css">
+<style>html,body{margin:0;background:#efe4cc}canvas{display:block}</style></head>
+<body><canvas id="c" width="1280" height="720"></canvas><canvas id="m" width="640" height="360" style="display:none"></canvas>
+<script src="rig.js"></script><script src="perform.js"></script><script src="world.js"></script><script src="cards.js"></script>
+<script>
+window.renderFrame = function (i, q) {
+  const cv = document.getElementById('c'), ctx = cv.getContext('2d');
+  const r = Scene.draw(ctx, i, {});
+  // pixel measurement of the dog from a mask render (half resolution)
+  const mc = document.getElementById('m'), mx = mc.getContext('2d');
+  const c = Scene.drawMask(mx, i, 0.5);
+  const d = mx.getImageData(0, 0, 640, 360).data;
+  let n = 0, sx = 0, sy = 0, x0 = 1e9, x1 = -1, y0 = 1e9, y1 = -1, inside = 0;
+  const xWall = (0 - c.L) * c.s;     // outer wall face U = 0, at half resolution
+  for (let y = 0; y < 360; y++) for (let x = 0; x < 640; x++) { if (d[(y * 640 + x) * 4] > 127) { n++; sx += x; sy += y; if (x < x0) x0 = x; if (x > x1) x1 = x; if (y < y0) y0 = y; if (y > y1) y1 = y; if (x < xWall) inside++; } }
+  const meas = { n: n * 4, cx: n ? 2 * sx / n : null, cy: n ? 2 * sy / n : null, bbox: [2 * x0, 2 * y0, 2 * x1 + 1, 2 * y1 + 1], insideShare: n ? inside / n : 0 };
+  const url = cv.toDataURL('image/jpeg', q || 0.9);
+  const m = r.meas;
+  return { url, px: meas, cam: r.cam, rig: { psiB: m.psiB, psiH: m.psiH, rel: m.rel, layer: m.layer, facing: m.facing, headFacing: m.headFacing, backY: m.backY, headTopY: m.headTopY, skullTopY: m.skullTopY, noseW: m.noseW, skullW: m.skullW, pelvisW: m.pelvisW, withersW: m.withersW, tailTipW: m.tailTipW, legs: m.legs, corrections: m.corrections, lie: m.lie, alpha: m.alpha } };
+};
+</script></body></html>
