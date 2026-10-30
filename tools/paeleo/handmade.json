@@ -245,6 +245,17 @@
    "trick": "The film is a pure function of its description: render it twice and every frame is the same."
   },
   {
+   "id": 28,
+   "dir": "28-mask-plate-foundry",
+   "name": "Mask and plate foundry",
+   "kind": "Compositor's film of archive plates",
+   "dog": "a dog composited from public-domain home-movie plates cut by animated masks",
+   "made": "Public-domain archive plates from the kit: Amateur Film New Jersey C (the dog, the facade and porch, stabilised and median-stacked into a clean plate), Straight Talk (door, room and standing person), Survival Stresses (the seated person) and Door to Heaven (1941, the arm). One standing dog frame is split by masks into body, legs and head; six of the dog's own turn frames carry the turns.",
+   "moved": "A layer compositor written for the film: keyframed bezier masks with feather and expand, parented transforms, corner pins from one locked camera, an inverted camera track, holdout mattes at the door frame and sill, luma keys, roto, and one door-light function lighting floor, sill, dog and person. The score drives the dog's root track; feet lock to the floor by distance travelled.",
+   "trick": "Plates from different films are pinned, held out and lit until they share one shot, and the dog performs by animating its masks.",
+   "status": "in repair after critic round 1"
+  },
+  {
    "id": 29,
    "dir": "29-grabcut",
    "name": "GrabCut",
