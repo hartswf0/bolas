@@ -55,7 +55,7 @@ STAGE = {
     'w_tail': 'rotated at the root (score tail + wag)', 'w_fore': 'near and far (darkened copy) forelegs: rotated + stretched (0.82-1.12) to a planted foot target',
     'w_thigh': 'two-bone IK with w_shank: hip -> hock -> paw; feet planted by distance travelled (no sliding)',
     'w_shank': 'two-bone IK with w_thigh', 'j_body': 'substituted for the standing cut when the dog lies (refusal 4.0-7.8 s; sill 23.8 s on); mirrored to face the door at the end',
-    'j_head': 'rotated/lowered for rest; moved 12 cm forward, level, warmed by the room light with a rim, for the look in (26.4 s)',
+    'j_head': 'rotated/lowered for rest; moved about 11 cm forward (nose 14 cm inside the inner wall face), level, warmed by the room light with a rim, for the look in (26.4 s)',
     'o_head': 'the head that leads at 7.46 s (looks back over the shoulder at the door) and the three-quarter head mid-turn',
     'm_upper': 'person torso: leans for calls, lowered when sitting', 'm_thigh': 'rotated to sit', 'm_shin': 'hung at the knee',
     'b_arm': 'mirrored, rotated from hanging to reaching (3.4 s) and to offered low (6.8 s on)',

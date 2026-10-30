@@ -63,7 +63,7 @@ component. Juno has its own key, because her dark liver patch matched the ground
 - **Lying is a substitution** to *Juno* once the puppet has folded its legs; this happens at 4.0–4.6 s and from 23.8 s.
 - **The head leads at 7.458 s.** The look-back head appears on Juno's lying body, muzzle to the door, and rises over 0.3 s.
   The body rises at 7.8 s (substitution to the standing cut with the head still back) and comes round at 7.95–8.45 s.
-- **Looking in (26.4 s).** Juno's head rises off the paws and moves 12 cm forward, low and level, past the inner face of
+- **Looking in (26.4 s).** Juno's head rises off the paws and moves about 11 cm forward (nose to -0.121 m, 14 cm inside the inner wall face at +0.02 m), low and level, past the inner face of
   the wall into the lit room. It is warmed by the room light and gets a rim. Then it settles back, chin on paws.
 
 **Stage.** The house is shown in cutaway section, like a museum period-room diorama. The room is on the left (Andrews,
@@ -130,7 +130,7 @@ Frames were extracted from the final `film.mp4` every 0.25 s, with full-resoluti
   1. A stretched neck made of copies of the head cut gave **double ears**. Rejected as a double image.
   2. A black contre-jour silhouette was unreadable at film scale. Rejected.
   3. A neck-only filler still left a gap.
-  4. The root fix: a thinner wall, so a 12 cm reach takes the muzzle past the inner face with no stretch. This is kept.
+  4. The root fix: a thinner wall, so an 11 cm reach takes the muzzle 14 cm past the inner face with no stretch. This is kept.
 - The narrow lit "reveal" in the doorway read as a pillar and showed under the chin as an orange slab. The room now
   continues to the outer wall face.
 - The look-back head popped up in one frame. It now rises over 0.3 s.
