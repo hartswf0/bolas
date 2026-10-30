@@ -6,7 +6,7 @@ care, given so that the watching can go on. In *Pink Eye*, every drop pins anoth
 irritation has made the whole structure visible.
 
 ```bash
-python3 tools/pink_eye/pink_eye.py CLIP.mp4 OUT_DIR      # about 5 min; writes OUT_DIR/pink-eye-v0.mp4 (44 s)
+python3 tools/pink_eye/pink_eye.py CLIP.mp4 OUT_DIR      # writes OUT_DIR/pink-eye-v1.mp4 (49 s)
 ```
 
 `CLIP.mp4` is a local copy of the Ludovico sequence (the 4:21 excerpt, 640x360). The segment times in `SEGS` were checked
@@ -14,9 +14,15 @@ against half-second strips at each cut.
 
 | Part | Time | What happens |
 |---|---|---|
-| A · Exposure | 0–14 s | Archive cuts are pinned in torn-paper windows on twos and left to pile up. The sound follows the newest window. |
-| B · Drops | 14–28 s | The dropper and the woman doctor, with her own voice from the clip. Each drop adds a vessel to the eye. |
-| C · Pink eye | 28–40 s | The eye is pushed in on stepped pins, the vessels spread, and the other windows are torn away one by one. |
+| A · Exposure | 0–16 s | Archive layers surface and sink into one another, and the eye rises out of them. |
+| B · Drops | 16–32 s | The dropper and the doctor drift over the eye. Each drop starts a vessel growing. |
+| C · Pink eye | 32–44 s | The vessels spread, the paper flushes pink, and the other layers dissolve away. |
+
+**Version 1** answers a direct note on version 0, "horrible to watch": it should be more blended, less abrupt, less cutting up,
+with new sound. Nothing cuts. Footage plays in blended slow motion inside feathered, rounded paper scraps with three-second
+fades, and is printed into the paper fibre. The vessels grow like ink over about two seconds each. The sound is new and
+entirely synthesized: a low breathing room, a drone that thickens as the eye inflames, a slowing pulse, wine-glass partials
+that swell, a falling plink for each drop, and one shared dark reverb. No clip audio is used.
 
 ## Rights
 
