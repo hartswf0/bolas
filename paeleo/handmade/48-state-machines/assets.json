@@ -1,0 +1,93 @@
+{
+ "about": "SCION-48 STATE MACHINES asset ledger. Nothing in the film is footage, a photograph, a found drawing or a model-generated image. Everything the viewer sees is a cell of a computed display board, set every frame by the scripts in build/.",
+ "assets": [
+  {
+   "id": "dog-machine",
+   "what": "the dog's mind: a hierarchical utility state machine (watch, retreat, refuse{turn,sulk}, approach, lie_down{settle,rest,look_in}); perceptions gated by where its head points; drives fear, trust, curiosity, memory of being pressed; utilities, guards, hysteresis, dwell windows; a body layer (heading, head yaw, lie, rest, look, crouch, head, tail, wag, ear) driven by the chosen state",
+   "file": "build/machine.py + build/tuned.json (tuned by build/tune.py)",
+   "source": "written in this folder by SCION-48",
+   "rights": "own work",
+   "operation": "computed; parameters tuned against the score's choice times and x (the score's states are only the error target, never an input)"
+  },
+  {
+   "id": "dog-body",
+   "what": "the dog's body: 27 rounded segments (4 torso spheres, neck, skull, muzzle, nose, 2 ears, 4 legs solved by two-bone IK from foot targets, 3 tail segments) posed every frame from the machine's body layer; walking phase from its own travel",
+   "file": "build/render.py (dog_body, gait_tracks)",
+   "source": "written here",
+   "rights": "own work",
+   "operation": "computed, then ray-cast (signed distance field) into the board's cells: tone = dither density of flipped discs, a ring of black discs around it, black discs at depth breaks, where the head meets the body, and at the visible eyes"
+  },
+  {
+   "id": "person",
+   "what": "the person: rounded segments (torso, head, two-bone arms and legs); pose from the score's world data (reach, sit, low hand, voice, place); pushes the door open",
+   "file": "build/render.py (person_body)",
+   "source": "written here",
+   "rights": "own work",
+   "operation": "computed, ray-cast into discs"
+  },
+  {
+   "id": "world",
+   "what": "porch, house wall with siding, door casing, sill, door slab on a hinge, steps, yard, the lit room (back wall, floor, rug, a picture, a chair), dusk sky with tree line, moon and stars, lamp light through the doorway with the dog's and person's shadows",
+   "file": "build/render.py (world, shade_surface, lamp_vis, sky)",
+   "source": "written here",
+   "rights": "own work",
+   "operation": "analytic ray casting into the board; light sources (sky, room, moon) become LED cells, lit surfaces become flipped discs"
+  },
+  {
+   "id": "board",
+   "what": "the display: 320 x 180 cells at 4 px, each a black/straw flip-disc (two states, holds with no power) or an LED; 4x4 ordered dither; a cell that changes state is drawn mid-flip for one frame; the cut at 24.625 s is a column-by-column rewrite",
+   "file": "build/render.py (compose, disc_tile)",
+   "source": "written here",
+   "rights": "own work",
+   "operation": "synthesized"
+  },
+  {
+   "id": "world-timeline",
+   "what": "the circumstances: the person's posture, place, reach, low hand, mouth and voice, and the door, per frame",
+   "file": "paeleo/handmade/score/threshold-score.json (frames[].person, frames[].door, timeline)",
+   "source": "PAELEO score (machine.js decision trace)",
+   "rights": "project material",
+   "operation": "read as the WORLD the dog perceives; the score's dog fields (state, x, act) are used only as the tuning target in tune.py and for the checker"
+  },
+  {
+   "id": "voices",
+   "what": "'Come here.' x2, 'Come on.', 'It's all right.' x2 (+ 'all right'), 'Come in.'",
+   "file": "build/sound.py (phrase)",
+   "source": "formant synthesis written here (glottal pulse + three time-varying resonators + noise)",
+   "rights": "own work",
+   "operation": "synthesized; calls about 12 dB louder than the soft phrases (cache/sound_levels.json)"
+  },
+  {
+   "id": "sound-world",
+   "what": "disc clicks from the measured flip counts, a relay clack at each change of the machine's state, transformer hum, dusk air and crickets, hinge creak, room tone through the open door, the dog's pads (from its gait) and sighs",
+   "file": "build/sound.py",
+   "source": "synthesized here",
+   "rights": "own work",
+   "operation": "synthesized"
+  },
+  {
+   "id": "captions",
+   "what": "the spoken words on a strip of the board (bottom left) while they are spoken; never the dog's state",
+   "file": "build/cards.py (captions)",
+   "source": "written here; font DejaVu Sans Mono Bold rasterized to cells",
+   "rights": "own work; DejaVu fonts: Bitstream Vera licence (free use and redistribution)",
+   "operation": "text written into discs"
+  },
+  {
+   "id": "fonts",
+   "what": "Big Shoulders Display (end card heading), JetBrains Mono (end card text), DejaVu Sans / Sans Mono Bold (title, captions)",
+   "file": "tools/paeleo/fonts/f8.woff2, f14.woff2; /usr/share/fonts/truetype/dejavu/",
+   "source": "repository fonts (Google Fonts) and the system's DejaVu",
+   "rights": "SIL Open Font License 1.1 (Big Shoulders, JetBrains Mono); Bitstream Vera licence (DejaVu)",
+   "operation": "rendered as text"
+  },
+  {
+   "id": "not-used",
+   "what": "kit/archive-dog, kit/archive-door, Quick, Draw!, found-frames: looked at only by listing; none of their pixels, masks, keys or strokes are in the film",
+   "file": "-",
+   "source": "-",
+   "rights": "-",
+   "operation": "none"
+  }
+ ]
+}
