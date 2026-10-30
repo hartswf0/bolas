@@ -88,14 +88,15 @@ class Dog:
         L = []
         # ---------------- turn 1: plate substitution through the dog's own turn (f016 .. f040), heads its own
         if T_TURN1[0] <= t < T_TURN1[1]:
-            k = int((t - T_TURN1[0]) / (T_TURN1[1] - T_TURN1[0]) * len(DP.TURN))
-            return self.turn_plate(i, DP.TURN[k], own_head=True), dict(mode='turn1', plate=DP.TURN[k], body_facing=DP.TURN_FACING[DP.TURN[k]] or -1,
-                                                                        head_facing=DP.TURN_FACING[DP.TURN[k]] or -1, lie=0.0)
+            seq = DP.TURN1
+            k = min(len(seq) - 1, int((t - T_TURN1[0]) / (T_TURN1[1] - T_TURN1[0]) * len(seq)))
+            return self.turn_plate(i, seq[k]), dict(mode='turn1', plate=seq[k], body_facing=DP.TURN_FACING[seq[k]] or -1,
+                                                    head_facing=DP.TURN_FACING[seq[k]] or -1, lie=0.0)
         if T_TURN2[0] <= t < T_TURN2[1]:
-            seq = DP.TURN[::-1]
-            k = int((t - T_TURN2[0]) / (T_TURN2[1] - T_TURN2[0]) * len(seq))
-            return self.turn_plate(i, seq[k], own_head=False), dict(mode='turn2', plate=seq[k], body_facing=DP.TURN_FACING[seq[k]] or 1,
-                                                                     head_facing=1, lie=0.0)
+            seq = DP.TURN2
+            k = min(len(seq) - 1, int((t - T_TURN2[0]) / (T_TURN2[1] - T_TURN2[0]) * len(seq)))
+            return self.turn_plate(i, seq[k]), dict(mode='turn2', plate=seq[k], body_facing=DP.TURN_FACING[seq[k]] or 1,
+                                                    head_facing=1, lie=0.0)
         flip = T_TURN1[1] <= t < T_TURN2[0]          # body faces away from the door (its back to the person)
         R, s = self.root(i, flip)
         lie = a['lie']; crouch = a['crouch']
@@ -134,27 +135,34 @@ class Dog:
             # looking in: the head turns away from the camera into the room -- the f000 plate shows the back of the
             # dog's head; it is set level on the neck track (no lift), scaled a little smaller (receding into depth)
             hp = 'head00'; hd = DP.F00_HEAD
-            Hm = B @ mT(*DP.F10['head_pivot']) @ mT(-4, 2) @ mR(LOOK_ROT) @ mS(LOOK_SC) @ mT(-hd['pivot'][0], -hd['pivot'][1])
+            Hm = B @ mT(*DP.F10['head_pivot']) @ mT(4, 8) @ mR(LOOK_ROT) @ mS(LOOK_SC) @ mT(-hd['pivot'][0], -hd['pivot'][1])
             head_facing = 1; head_kind = 'look-in: back of head (f000) on the neck track'
         else:
             e = self.elevation(smooth_series('head', i), rest, approach)
             hp = 'head10'; pv = DP.F10['head_pivot']
             if flip and t >= T_HEADBACK:
-                # the head comes round first: an unmirrored head (facing the door) on the mirrored body's neck track
-                neck = apply(B, [pv])[0]
-                e = 20
-                Hm = mT(*neck) @ mS(SCALE) @ mR(e - self.e0) @ mT(-pv[0], -pv[1])
-                head_facing = 1; head_kind = 'head10 over shoulder'
+                # the head comes round first: the f038 head (face toward the camera) parented to the mirrored body at the
+                # NECK end -- mirrored with the body, its face turns toward the door while the body still lies away
+                hp = 'head38'; h38 = DP.F38_HEAD['pivot']
+                Hm = B @ mT(pv[0] - 4, pv[1] + 6) @ mT(-h38[0], -h38[1])
+                head_facing = 1; head_kind = 'f038 head on the neck (looking back)'
             else:
                 Hm = B @ mT(*pv) @ mR(e - self.e0) @ mT(-pv[0], -pv[1]) @ mT(0, 0)
                 head_facing = -1 if flip else 1; head_kind = 'head10 e=%d' % e
-            if rest > .3:
+            if rest > .3 and hp == 'head10':
                 Hm = Hm @ mT(*pv) @ mT(-6 * rest, 10 * rest) @ mT(-pv[0], -pv[1])
         f10 = self.p['f10'].rgb
         # stacking order: far legs, body, near legs, head (head on top of the near shoulder)
         for k in ('hind_far', 'fore_far'):
             M, al, _ = legrecs[k]
             L.append(('dog:' + k, f10 * (0.72 if k == 'hind_far' else 1.0), al, M))
+        # tail (f019) hinged on the f010 rump: hangs, tucks with the score's tail value, wags, lies on the floor
+        tb = DP.F19_TAIL['base']; tip = DP.F19_TAIL['tip']
+        a0 = np.degrees(np.arctan2(tip[1] - tb[1], tip[0] - tb[0]))           # its own angle below horizontal
+        want = float(np.interp(a['tail'], [0.2, 0.5, 1.35], [30, 48, 78]))
+        want = want * (1 - lie) + 34 * lie + 14 * a['wag'] * np.sin(2 * np.pi * 2.6 * t)
+        Tm = B @ mT(206, 132) @ mR(want - a0) @ mT(-tb[0], -tb[1])
+        L.append(('dog:tail', self.p['f19'].rgb, self.p['tail19'], Tm))
         lk = round(float(lie), 2)                      # the belly mask is keyed by the score's lie value (0 -> 1)
         if lk not in self._body_cache: self._body_cache[lk] = self.p['f10'].cut(self.p['body_masks'], lk)
         L.append(('dog:body', f10, self._body_cache[lk], B))
@@ -163,24 +171,21 @@ class Dog:
             L.append(('dog:' + k, f10, al, M))
         if hp == 'head00':
             L.append(('dog:head-look', self.p['f00'].rgb, self.p['head00'], Hm))
+        elif hp == 'head38':
+            L.append(('dog:head', self.p['f38'].rgb, self.p['head38'], Hm))
         else:
             L.append(('dog:head', f10, self.p['head10'], Hm))
         info = dict(mode='rig', body_facing=-1 if flip else 1, head_facing=head_facing, lie=float(lie), head=head_kind,
                     s=float(s), crouch=float(crouch))
         return L, info
 
-    def turn_plate(self, i, k, own_head):
+    def turn_plate(self, i, k):
         tp = self.p['turn'][k]; fit = self.turnfit[k]
         sc = SCALE * self.h10 / fit['height'] * 0.97
         x = FR[i]['dog']['x']; s = x - cam.OFFSET
         p, _ = cam.project(cam.path_point(s))
         M = mT(p[0, 0], p[0, 1]) @ mS(sc) @ mT(-fit['cx'], -fit['bottom'])
-        L = [('dog:turn%d' % k, tp['plate'].rgb, tp['alpha'] if own_head else tp['headless'], M)]
-        if not own_head:
-            pv = DP.F10['head_pivot']; neck = apply(M, [tp['neck']])[0]
-            Hm = mT(*neck) @ mS(SCALE) @ mR(24 - self.e0) @ mT(-pv[0], -pv[1])
-            L.append(('dog:head', self.p['f10'].rgb, self.p['head10'], Hm))
-        return L
+        return [('dog:turn%d' % k, tp['plate'].rgb, tp['alpha'], M)]
 
 
 # ---------------------------------------------------------------- the person
@@ -200,43 +205,48 @@ class Person:
             half = 30 - r * 0.25
             legs[r] *= np.clip(half - np.abs(xs - c), 0, 1)
         self.w_a = np.concatenate([self.w_a, legs], 0)
-        self.s_rgb, self.s_a = plate_loader('seated', True)
         self.arm_rgb, self.arm_a = plate_loader('arm', True)
+        # the arm plate ends at the frame edge: fade its last 50 px so it melts into the shoulder (no kink line)
+        xs = np.arange(self.arm_a.shape[1], dtype=np.float32)
+        self.arm_a = self.arm_a * np.clip((384 - xs) / 50.0, 0, 1)[None, :]
+        # one body throughout: the same roto split at the hip into torso and legs (parented at the hip pivot)
+        HIP = 196
+        yy = np.arange(self.w_a.shape[0], dtype=np.float32)[:, None]
+        self.torso_a = self.w_a * np.clip((HIP + 6 - yy) / 8, 0, 1)
+        self.legs_a = self.w_a * np.clip((yy - (HIP - 10)) / 8, 0, 1)
+        self.hip = (262.0, float(HIP))
 
     def frame(self, i):
         t = i / 24.0
         pf = FR[i]['person']
         L = []
-        # standing in the doorway (inside, s=-0.30), then stepping out to the left, then seated outside beside the door
+        # stands in the doorway (inside, s=-0.30), steps out to the left (4.6-5.4 s), sits on the porch floor beside the
+        # door (5.4-6.0 s): the torso lowers on the hip pivot while the legs swing forward to lie along the floor
         stand_P = cam.path_point(-0.30)
-        seat_P = np.array([-0.86, 0, 0.30])
+        seat_P = np.array([-0.80, 0, 0.32])
         u = ease((t - 4.6) / 0.8)
-        if t < 5.45:
-            P = stand_P * (1 - u) + seat_P * u
-            p, z = cam.project(P)
-            hpx = 1.62 * cam.F / z[0]
-            sc = hpx / 316.0
-            M = mT(p[0, 0], p[0, 1]) @ mS(sc) @ mT(-262, -334)
-            L.append(('person:standing', self.w_rgb, self.w_a, M, 'silhouette' if u < .5 else 'dusk'))
-            shoulder = apply(M, [(318, 100)])[0]
-            reach = pf['reach']
-            if reach > 0.02 or 3.4 <= t < 4.7:
-                ang = float(np.interp(reach, [0, 1], [78, 14]))     # degrees below horizontal, pointing at the dog
-                arm_sc = 0.55 * cam.F / z[0] / 200.0
-                Ma = mT(*shoulder) @ mR(ang) @ mS(-arm_sc, arm_sc) @ mT(-384, -70)
-                L.append(('person:arm', self.arm_rgb, self.arm_a, Ma, 'silhouette'))
-            return L, dict(person='standing', at=P.tolist())
-        p, z = cam.project(seat_P)
-        hpx = 0.86 * cam.F / z[0]
-        sc = hpx / 175.0
-        drop = (1 - ease((t - 5.45) / 0.4)) * 30
-        M = mT(p[0, 0], p[0, 1] - drop) @ mS(-sc, sc) @ mT(-205, -226)
-        L.append(('person:seated', self.s_rgb, self.s_a, M, 'dusk'))
-        low = pf['low']
-        if low > 0.02:
-            shoulder = apply(M, [(196, 104)])[0]
-            ang = float(np.interp(low, [0, 1], [80, 34]))
-            arm_sc = 0.62 * cam.F / z[0] / 200.0
+        sit = ease((t - 5.35) / 0.6)
+        P = stand_P * (1 - u) + seat_P * u
+        p, z = cam.project(P)
+        sc = 1.62 * cam.F / z[0] / 316.0
+        legL = 334 - self.hip[1]
+        kind = 'silhouette' if u < .5 else 'dusk'
+        # root at the feet when standing; when seated the hip comes down to 0.1 m above the floor
+        Mroot = mT(p[0, 0], p[0, 1]) @ mS(sc)
+        hip_y = -legL * (1 - sit) - 22 * sit           # hip height above the floor, source px
+        Mt = Mroot @ mT(0, hip_y) @ mT(-self.hip[0], -self.hip[1])
+        Ml = Mroot @ mT(0, hip_y) @ mR(-84 * sit) @ mT(-self.hip[0], -self.hip[1])
+        L.append(('person:legs', self.w_rgb, self.legs_a, Ml, kind))
+        L.append(('person:torso', self.w_rgb, self.torso_a, Mt, kind))
+        shoulder = apply(Mt, [(312, 104)])[0]
+        reach, low = pf['reach'], pf['low']
+        arm_sc = 0.62 * cam.F / z[0] / 200.0
+        if reach > 0.02 and t < 4.9:
+            ang = float(np.interp(reach, [0, 1], [80, 14])) + 3 * np.sin(2 * np.pi * 1.3 * t) * reach  # pointing at the dog
+            Ma = mT(*shoulder) @ mR(ang) @ mS(-arm_sc, arm_sc) @ mT(-384, -70)
+            L.append(('person:arm', self.arm_rgb, self.arm_a, Ma, kind))
+        elif low > 0.02:
+            ang = float(np.interp(low, [0, 1], [82, 30])) + 2 * np.sin(2 * np.pi * 0.4 * t)          # offered low, toward the sill
             Ma = mT(*shoulder) @ mR(ang) @ mS(-arm_sc, arm_sc) @ mT(-384, -70)
             L.append(('person:hand', self.arm_rgb, self.arm_a, Ma, 'hand'))
-        return L, dict(person='seated', at=seat_P.tolist())
+        return L, dict(person='standing' if sit < .5 else 'seated', at=P.tolist(), sit=float(sit))

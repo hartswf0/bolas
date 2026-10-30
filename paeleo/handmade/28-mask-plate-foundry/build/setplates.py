@@ -4,7 +4,7 @@ Exposes: Set.static (pre-composited far layers), Set.frame(t) -> (rgb, mattes{fa
 import os, json
 import numpy as np
 from PIL import Image
-from comp import W, H, load, homography, warp, Comp, grade, poly_matte, apply
+from comp import W, H, load, homography, warp, Comp, grade, poly_matte, apply, soften
 import camera as cam
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -90,7 +90,8 @@ class Set:
         self.side_piece, _ = pin(grade(wall, tint=WARM * 0.9, sat=.6), wa,
                                  [[1.5, 2.6, -0.2], [1.5, 2.6, -2.7], [1.5, 0, -2.7], [1.5, 0, -0.2]])
         fw, fa = plate('floorwood')
-        self.ifloor_piece, _ = pin(grade(tile(fw, 1, 10), tint=WARM * .7), np.ones((16 * 10, 320), np.float32),
+        fwl = np.asarray(Image.fromarray((fw * 255).astype(np.uint8)).resize((320, 320), Image.BICUBIC), np.float32) / 255
+        self.ifloor_piece, _ = pin(grade(fwl, gain=.8, tint=WARM * .7), np.ones((320, 320), np.float32),   # planks run into the room
                                    [[-1.6, 0, -2.7], [1.5, 0, -2.7], [1.5, 0, -0.0], [-1.6, 0, -0.0]])
         # exterior porch floor: tiled path plate, corner-pinned, graded to dusk
         ft, _ = plate('flags')
@@ -115,10 +116,10 @@ class Set:
                  [[DOOR_X[0] - cw, DOOR_H + cw, .02], [DOOR_X[1] + cw, DOOR_H + cw, .02], [DOOR_X[1] + cw, DOOR_H, .02], [DOOR_X[0] - cw, DOOR_H, .02]]]
         self.casing = [pin(trim, np.ones(trim.shape[:2], np.float32), q)[0] for q in quads]
         # the sill: a wooden board across the threshold, top face + front face
-        fwg = grade(fw, gain=.8, tint=DUSK, sat=.4)
+        fwg = grade(soften(fw, 1.5), gain=.45, tint=DUSK, sat=.4)   # softened: the plank joints made a dashed line
         self.sill_top, st = pin(fwg, np.ones(fw.shape[:2], np.float32),
                                 [[DOOR_X[0] - .05, .07, -WALL_T], [DOOR_X[1] + .05, .07, -WALL_T], [DOOR_X[1] + .05, .07, .07], [DOOR_X[0] - .05, .07, .07]])
-        self.sill_front, sf = pin(grade(fw, gain=.55, tint=DUSK, sat=.4), np.ones(fw.shape[:2], np.float32),
+        self.sill_front, sf = pin(grade(soften(fw, 1.5), gain=.32, tint=DUSK, sat=.4), np.ones(fw.shape[:2], np.float32),
                                   [[DOOR_X[0] - .05, .07, .07], [DOOR_X[1] + .05, .07, .07], [DOOR_X[1] + .05, 0, .07], [DOOR_X[0] - .05, 0, .07]])
         self.sill_matte = np.maximum(poly_matte([st.tolist()], (W, H)), poly_matte([sf.tolist()], (W, H)))
         lf, la = plate('door_leaf', alpha=True)
@@ -143,7 +144,7 @@ class Set:
         # inside the house (behind the facade plane), the lamp lights the card directly
         inside = self.card_P[:, 2] < 0
         d = np.linalg.norm(self.card_P - LAMP, axis=1)
-        cd = np.where(inside, lamp_level(t) * 1.2 / (d ** 2 + 0.6), cd)
+        cd = np.where(inside, lamp_level(t) * 5.0 / (d ** 2 + 0.6), cd)   # same law both sides: no seam at the sill
         return self.up(fl.reshape(self.qshape)), self.up(cd.reshape(self.qshape))
 
     def back(self, t, inside_layers=()):
@@ -181,5 +182,5 @@ class Set:
         for pc in (self.sill_top, self.sill_front):
             x0, y0, rgb, a = pc
             L = floor_light[y0:y0 + a.shape[0], x0:x0 + a.shape[1]] + .15 * lamp_level(t)
-            c.over((x0, y0, rgb * (1 + 4.0 * L[..., None] * WARM), a), name='sill')
+            c.over((x0, y0, rgb * (1 + 2.0 * L[..., None] * WARM), a), name='sill')
         return c

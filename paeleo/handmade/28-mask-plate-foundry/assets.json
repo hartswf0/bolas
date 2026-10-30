@@ -2,7 +2,7 @@
  "about": "SCION 28 assets. Every picture element is a public-domain archive frame (copied into sources/) cut by masks and keys, or computed here. Quick, Draw! drawings are not used. No image from the web, no generative model.",
  "unused_kit": [
   "quickdraw",
-  "all other found-frames shots"
+  "all other found-frames shots (the Survival Stresses seated figure used in round 0 was removed in round 1)"
  ],
  "plates_measured": {
   "yard_clean": {
@@ -281,10 +281,28 @@
    "rights": "public_domain"
   },
   {
+   "id": "dog-head-lookback",
+   "what": "the dog looking back over its shoulder at the door, 7.46-8.0 s, while its body still lies turned away",
+   "path": "sources/dog/f038.jpg",
+   "operation": "bezier mask 8 v x SAM matte; parented to the mirrored body at the NECK end, so mirrored with it the face turns toward the door",
+   "source_title": "Amateur Film New Jersey C",
+   "archive_url": "https://archive.org/details/NewJerseyC",
+   "rights": "public_domain"
+  },
+  {
+   "id": "dog-tail",
+   "what": "the tail: hangs, tucks with the score tail value, wags, lies on the porch",
+   "path": "sources/dog/f019.jpg",
+   "operation": "bezier mask 8 v x SAM matte; hinged on the f010 rump, drawn behind the body",
+   "source_title": "Amateur Film New Jersey C",
+   "archive_url": "https://archive.org/details/NewJerseyC",
+   "rights": "public_domain"
+  },
+  {
    "id": "dog-head-look",
    "what": "the dog: back-of-head plate used while it looks in (26.5-28.35 s)",
    "path": "sources/dog/f000.jpg",
-   "operation": "bezier mask 7 v x SAM; rotated -52 deg, scale 0.78, on the neck track; lit from behind",
+   "operation": "bezier mask 9 v (extended down the neck so it overlaps the body: no gap) x SAM; rotated -52 deg, scale 0.78, on the neck track; lit from behind",
    "source_title": "Amateur Film New Jersey C",
    "archive_url": "https://archive.org/details/NewJerseyC",
    "catalogue": "https://www.movingimagearchive.com/sources/amateur-film-new-jersey-c-c65a8960",
@@ -295,9 +313,9 @@
   },
   {
    "id": "dog-turn-plates",
-   "what": "the dog turning (3.45-3.95 s with its own head; 8.0-8.5 s with the head replaced on its neck track)",
-   "path": "sources/dog/f016,f026,f028,f032,f036,f040.jpg + pose_agent_v8.json (neck, nose)",
-   "operation": "SAM bezier matte; scaled to the f010 height, anchored at the feet; turn 2: head region subtracted (4-vertex mask along neck-nose, feather 3) and the f010 head parented to the plate neck key",
+   "what": "the dog turning: turn 1 (3.45-3.95 s) f013 f030 f032 f036, turn 2 (8.0-8.5 s) f038 f037 f013, three/four frames each, each plate with its own single head",
+   "path": "sources/dog/f013,f030,f032,f036,f037,f038.jpg",
+   "operation": "SAM bezier matte (choke 1.6 px, feather 1.1); scaled to the f010 height, anchored at the feet; chosen from a cut-out sheet of f013-f041 for one legible head (f016 rejected: head hidden; f040 rejected: smeared double head)",
    "source_title": "Amateur Film New Jersey C",
    "archive_url": "https://archive.org/details/NewJerseyC",
    "catalogue": "https://www.movingimagearchive.com/sources/amateur-film-new-jersey-c-c65a8960",
@@ -382,25 +400,15 @@
    "rights": "public_domain"
   },
   {
-   "id": "person-standing",
-   "what": "the person in the doorway, as a backlit silhouette",
+   "id": "person",
+   "what": "the person: one body through every stage (standing backlit in the doorway, stepping out, sitting on the porch)",
    "path": "sources/door/f000.jpg",
-   "operation": "hand-drawn 24-vertex bezier roto, plate extended 46 px below the frame edge (the source ends at mid-calf), graded to 7 % (silhouette); held out by the facade",
+   "operation": "hand-drawn 24-vertex bezier roto; plate extended 46 px below the frame edge (the source ends at mid-calf); split at the hip (y=196) into torso and legs, parented on a hip pivot: to sit, the torso lowers and the legs swing 84 deg forward; silhouette grade inside, dusk grade + door light outside",
    "source_title": "Straight Talk (NTIS, 1992)",
    "archive_url": "https://archive.org/details/gov.ntis.ava19144vnb1",
    "catalogue": "https://www.movingimagearchive.com/sources/straight-talk-583ba802",
    "clip_id": "271d80c7-4f56-51b8-90fe-012dfb984b4f",
    "clip_video_url": "https://pub-075ff01374c04555b51c9bc50f258b42.r2.dev/sources/583ba802-c8e1-5981-ba5f-1af2ab829405/v4-conditional-luna-1/clips/271d80c7-4f56-51b8-90fe-012dfb984b4f.mp4",
-   "rights": "public_domain"
-  },
-  {
-   "id": "person-seated",
-   "what": "the person sitting beside the door",
-   "path": "sources/sleeping-bag/f020.jpg + masks.json",
-   "operation": "SAM matte x inverse luma key (snow > 0.93 removed), mirrored, desaturated, dusk grade + door light",
-   "source_title": "Survival Stresses",
-   "archive_url": "https://archive.org/details/hmdvid-101704143",
-   "clip_id": "1d980180-c1d2-58d9-a3ae-de422a3e2db2",
    "rights": "public_domain"
   },
   {

@@ -45,7 +45,7 @@ The automatic fitter is a generic frontal portrait rig. It puts symmetric eyes a
 | three-quarter (f037, mirrored) | 0.117 | accepted at the edge of tolerance | first run 0.288 because mirroring swapped the left/right labels. That was our bug, fixed |
 | profile (f009) | 0.337 | rejected, hand-corrected | two eyes on a head that shows one; the nose snapped to the dark ear/neck patch, behind the eye |
 | lowered (f046) | 0.181 | rejected, hand-corrected | the same two failures; the template chin lands on the white neck ruff |
-| back of head (f000) | 0.181 (ears only) | rejected, hand-corrected | the fitter placed a whole face on the back of a head. The correction keeps the two ears and declares the face absent |
+| back of head (f000, not used in the film after round 2) | 0.181 (ears only) | rejected, hand-corrected | the fitter placed a whole face on the back of a head. The correction keeps the two ears and declares the face absent |
 
 The rule learned from these five inspections (`actor/compat.json`): accept the frontal rig only for frontal and three-quarter cuts with error below 0.12 and no failed anatomy test. Send profile, lowered and back views to hand annotation. The review pair shows what an uncorrected jaw would do: on the profile, the automatic jaw patch tears open the throat instead of the mouth.
 
@@ -109,4 +109,24 @@ The full record is `ledger.jsonl`. In short:
 - The hand-sam shot and Quick, Draw! drawings were not used.
 - No pixel of the dog is drawn by hand, but the house and porch are computed, not photographed.
 
-**Stop condition:** watchable and the invariants hold. Independent critique is pending.
+## Repair round 2 (after critic round 1, `reviews/round1.md`)
+
+1. **Voices late:** the 0.3–0.4 s delay was flite's leading silence. It is now trimmed (`flite()` in `build/sound.py`), and each line is placed 0.04–0.06 s before its score frame. Measured on the decoded film audio (speech band 250–3000 Hz, 30 %-of-peak onset):
+
+   | line | score (s) | onset (s) |
+   |---|---|---|
+   | call 1 | 1.00 | 0.98 |
+   | call 2 | 3.42 | 3.40 |
+   | soft | 7.42 | 7.40 |
+   | soft | 10.42 | 10.39 |
+   | soft "come in" | 26.42 | 26.39 |
+
+   At a 10 % threshold every onset is earlier still. Levels: calls −10/−11 dBFS, soft −23.5/−24.3, room −37.
+2. **Looking in:** the back-of-head artwork (f000) proved illegible at full crop and is no longer used for the look. At 26.4–28.3 s the head stays on the neck line (neck angle −186°). The profile photograph foreshortens to 0.5 width, recedes (×0.9) and darkens against the light (×0.55), with the muzzle pushed into the lit doorway. Measured: the leading edge moves 4–6 px into the doorway from 26.33 s; the head-end top stays at 539–545 px against a back line at 543 px. It is no longer lifted.
+3. **Back sprite at 8.00–8.12:** scaled to the neighbours' height (124 template px). Its head region is keyed to the dark fur, so there is no pale hood.
+4. **The 3.51→3.55 flip:** the mirrored three-quarter frame was removed. The turn is now three-quarter, front, front, then profile turned away from 3.58 s.
+5. **Cold blue glowing cut-out:** the dog now carries the set's dusk tint (0.80, 0.80, 0.88) at lower exposure, and its 3 px edge band is darkened 40 %. The doorway rim stays, only near the door.
+
+All five were verified on frames and audio extracted from the final `film.mp4` (912 frames, 9.07 MB). The end card now says four head frames plus a body back view.
+
+**Stop condition:** watchable and the invariants hold. Round-2 critique is pending.
