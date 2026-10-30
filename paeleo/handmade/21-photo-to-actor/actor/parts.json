@@ -425,24 +425,24 @@
   "frame": 0,
   "box_src": [
    112,
-   61,
-   164,
-   111
+   56,
+   167,
+   104
   ],
   "size": [
-   104,
-   100
+   110,
+   96
   ],
   "scale_from_source": 2,
   "mirrored": false,
   "anchors": {
    "pivot": [
-    52,
-    86
+    55,
+    88
    ]
   },
-  "operation": "SAM mask (grown 3 px) n hand head cut",
-  "view": "back"
+  "view": "back",
+  "operation": "f000 head fur (dark-fur key, bright path pixels in-filled from the fur), cut by a HAND polygon: skull ellipse + two ear flaps (round 3 repair: the SAM cut of this rear view was illegible)"
  },
  "body_front": {
   "file": "actor/parts/body_front.png",

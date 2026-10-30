@@ -102,7 +102,7 @@ The full record is `ledger.jsonl`. In short:
 
 ## Not done
 
-- No camera moves; no independent critic run by me.
+- One cut to a closer shot (26.42–28.21 s); otherwise a static camera. No independent critic run by me.
 - The hand corrections are by one annotator with no second pass.
 - The compatibility classifier is a rule from five inspected heads, not a trained model.
 - No mobile operator page.
@@ -129,4 +129,14 @@ The full record is `ledger.jsonl`. In short:
 
 All five were verified on frames and audio extracted from the final `film.mp4` (912 frames, 9.07 MB). The end card now says four head frames plus a body back view.
 
-**Stop condition:** watchable and the invariants hold. Round-2 critique is pending.
+## Repair round 3 (after critic round 2, `reviews/round2.md`)
+
+**Choice (also in the ledger):** a closer shot plus rear-view artwork assembled from the photographs.
+- **The cut.** At 26.42 s (frame 634) the film cuts to a 2× closer shot on the sill: the same porch, window x 40–680, y 360–720, background softened. The actor is redrawn at 2×; its sprites are stored at 2× source, so this is native resolution. The cut back to the wide shot is at 28.25 s.
+- **The turn, after the cut.** The head shows the profile at 26.42, foreshortens at 26.50, then from 26.58 to 28.17 shows the back of the head facing the viewer, dark against the warm hall with a warm rim, both ears and the skull outline, no muzzle. It returns to the profile at 28.21 and rests (chin down) in the wide shot from 28.25.
+- **How the rear view is made.** No kit frame has a legible back of head: f000/f001/f002/f014 were inspected at 8×. The rear view is therefore f000's own head fur, cut by a hand polygon that states the anatomy (skull ellipse plus two ear flaps). The bright path inside the cut is rolled down to fur tone, and the ear flaps take f000's fur moved up from the skull. The outline is a hand annotation; every pixel is the photograph.
+- **Before the look (25.5–26.4 s).** The lowered f046 head, which read as a pale hollow front face, is no longer used on the lying body. The profile stays level instead.
+- **Head leading (7.50–7.96 s).** The three-quarter photograph (f037, eye and muzzle legible) is turned toward the door, replacing the muddy mirrored profile.
+- **Measurement.** `x_world_measured` (the plate centroid in metres) is now in every trace frame, because the camera changes. The looks-in onset is measured at 26.417 s. Film: 912 frames, 9.02 MB, ALL OK. Voice onsets are unchanged: 0.97, 3.39, 7.37, 10.37, 26.37 s.
+
+**Stop condition:** watchable and the invariants hold. Round-3 critique is pending.

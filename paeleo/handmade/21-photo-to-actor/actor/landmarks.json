@@ -337,35 +337,35 @@
   "sprite": "actor/parts/head_back.png",
   "source_frame": 0,
   "mirrored": false,
-  "head_diag_px": 118.1,
+  "head_diag_px": 117.4,
   "auto": {
    "eye_l": [
-    41.0,
-    49.0
+    43.0,
+    51.0
    ],
    "eye_r": [
-    57.0,
-    32.0
-   ],
-   "nose": [
-    40.0,
+    64.0,
     52.0
    ],
+   "nose": [
+    49.0,
+    66.0
+   ],
    "ear_l": [
-    20.6,
-    22.6
+    26.3,
+    26.8
    ],
    "ear_r": [
-    79.4,
-    22.6
+    83.7,
+    26.8
    ],
    "chin": [
-    50.0,
-    84.8
+    55.0,
+    89.8
    ],
    "jaw_hinge": [
-    26.5,
-    72.4
+    32.0,
+    77.2
    ]
   },
   "corrected": {
@@ -373,12 +373,12 @@
    "eye_r": null,
    "nose": null,
    "ear_l": [
-    26,
-    14
+    28,
+    40
    ],
    "ear_r": [
-    56,
-    10
+    82,
+    40
    ],
    "chin": null,
    "jaw_hinge": null
@@ -387,22 +387,21 @@
    "eye_l": "auto placed a landmark that is not visible",
    "eye_r": "auto placed a landmark that is not visible",
    "nose": "auto placed a landmark that is not visible",
-   "ear_l": 10.2,
-   "ear_r": 26.6,
+   "ear_l": 13.3,
+   "ear_r": 13.3,
    "chin": "auto placed a landmark that is not visible",
    "jaw_hinge": "auto placed a landmark that is not visible"
   },
-  "mean_error_over_diag": 0.156,
+  "mean_error_over_diag": 0.113,
   "auto_anatomy_failures": [
-   "face landmarks placed on the back of the head (no face is visible)",
-   "nose within 3 px of an eye: a dog muzzle is longer than a human nose"
+   "face landmarks placed on the back of the head (no face is visible)"
   ],
   "corrected_anatomy_failures": [],
   "verdict": "auto rejected, hand-corrected",
   "why": "back of the head: no face is visible. The fitter still places two eyes, a nose and a chin on the fur - a face on the back of a head. Manual: ears only; the face landmarks are declared absent.",
   "pivot": [
-   52,
-   86
+   55,
+   88
   ],
   "used": "corrected"
  }

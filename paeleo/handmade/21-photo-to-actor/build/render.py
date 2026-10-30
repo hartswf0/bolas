@@ -201,6 +201,51 @@ def door_state(t):
     return float(np.clip((t - 6.2) / 0.8, 0, 1)) ** 0.8
 
 
+def grade_dog(cv, lamp, light, rim=55.0):
+    """develop grey, the set's dusk tint + lamp light by distance to the door, darkened edge band, warm rim near the door"""
+    cv.putalpha(cv.split()[3].filter(ImageFilter.MinFilter(3)))   # trim the 1 px bright fringe the SAM masks carry
+    a = np.array(cv).astype(float)
+    g = a[:, :, :3].mean(axis=2, keepdims=True)
+    g = tone(g * 0.66)
+    DOGT = np.array([0.80, 0.80, 0.88])
+    col = g * (DOGT * (0.95 - 0.1 * light) + WARM * 0.75 * lamp)
+    al_ = cv.split()[3]
+    band = (np.array(al_).astype(float) - np.array(al_.filter(ImageFilter.MinFilter(7))).astype(float)) / 255
+    col = col * (1 - 0.4 * band[:, :, None])
+    if lamp > 0.02:
+        edge = (np.array(al_).astype(float) - np.array(al_.filter(ImageFilter.MinFilter(5))).astype(float)) / 255
+        col = col + edge[:, :, None] * lamp * rim * WARM
+    a[:, :, :3] = col
+    return Image.fromarray(a.clip(0, 255).astype(np.uint8), 'RGBA')
+
+
+CLOSE_WIN = (40, 360, 680, 720)        # round 3: the closer shot on the sill (2x), from outside the dog, for the look-in
+
+
+def close_shot(img_bg, rec, light, lamp):
+    """the same porch, closer: background window scaled 2x, the actor redrawn at 2x (its sprites are stored at 2x source)"""
+    x0, y0, x1, y1 = CLOSE_WIN
+    bg = img_bg.crop(CLOSE_WIN).resize((W, H), Image.LANCZOS).filter(ImageFilter.GaussianBlur(1.0))
+    save = (actor.K, actor.CW, actor.CH, actor.CC.copy(), actor.GROUND_C)
+    actor.K = save[0] * 2; actor.CW, actor.CH = save[1] * 2, save[2] * 2; actor.CC = save[3] * 2
+    actor.GROUND_C = actor.CC[1] + (spec.GROUND_Y - actor.C0[1]) * actor.K
+    try:
+        cv, info = actor.draw(rec['pose'])
+    finally:
+        actor.K, actor.CW, actor.CH, actor.CC, actor.GROUND_C = save
+    cc = save[3] * 2; gc = save[3][1] * 2 + (spec.GROUND_Y - actor.C0[1]) * save[0] * 2
+    xd = sx(rec['x']) - DOG_OFF
+    ox, oy = int(round((xd - x0) * 2 - cc[0])), int(round((GROUND + 2 - y0) * 2 - gc))
+    cvg = grade_dog(cv, lamp, light, rim=95.0)
+    al = cv.split()[3]
+    sh = al.resize((al.width, max(1, al.height // 7))).filter(ImageFilter.GaussianBlur(9))
+    shadow = Image.new('RGBA', sh.size, (8, 8, 14, 0)); shadow.putalpha(sh.point(lambda q: int(q * 0.55)))
+    bg.alpha_composite(shadow, (ox, oy + int(gc) - sh.height // 2 - 4))
+    bg.alpha_composite(cvg, (ox, oy))
+    ys, xs = np.nonzero(np.array(al) > 127)
+    return bg, [float(xs.mean() + ox), float(ys.mean() + oy)]
+
+
 def render(rec, scene_t):
     t = scene_t
     op = door_state(t)
@@ -231,25 +276,9 @@ def render(rec, scene_t):
         cc = actor.CC
     xd = sx(rec['x']) - DOG_OFF
     ox, oy = int(round(xd - cc[0])), int(round(GROUND + 2 - actor.GROUND_C))
-    # grade the dog: develop grey, dusk ambient + lamp light by distance to the door
-    cv.putalpha(cv.split()[3].filter(ImageFilter.MinFilter(3)))   # trim the 1 px bright fringe the SAM masks carry
-    a = np.array(cv).astype(float)
-    g = a[:, :, :3].mean(axis=2, keepdims=True)
-    g = tone(g * 0.66)
     lamp = light * math.exp(-max(0.0, rec['x'] - 0.3) / 1.6)
-    # round 2: the set's own dusk grade (the facade/porch tint, less blue) instead of a cold blue lift; no bright fringe
-    DOGT = np.array([0.80, 0.80, 0.88])
-    col = g * (DOGT * (0.95 - 0.1 * light) + WARM * 0.75 * lamp)
-    al_ = cv.split()[3]
-    band = (np.array(al_).astype(float) - np.array(al_.filter(ImageFilter.MinFilter(7))).astype(float)) / 255
-    col = col * (1 - 0.4 * band[:, :, None])
-    # warm rim where the lamp light from the doorway catches the fur edge (contre-jour near the door)
-    if lamp > 0.02:
-        al0 = cv.split()[3]
-        edge = (np.array(al0).astype(float) - np.array(al0.filter(ImageFilter.MinFilter(5))).astype(float)) / 255
-        col = col + edge[:, :, None] * lamp * 55 * WARM
-    a[:, :, :3] = col
-    cvg = Image.fromarray(a.clip(0, 255).astype(np.uint8), 'RGBA')
+    cvg = grade_dog(cv, lamp, light)
+    img_bg = img.copy()
     # contact shadow under the dog (computed from its own alpha, squashed to the floor)
     al = cv.split()[3]
     sh = al.resize((al.width, max(1, al.height // 7))).filter(ImageFilter.GaussianBlur(5))
@@ -268,6 +297,10 @@ def render(rec, scene_t):
     meas['head'] = [float(hc[0] + ox), float(hc[1] + oy)]
     meas['_alpha'] = (np.array(al.resize((actor.CW // 2, actor.CH // 2), Image.BILINEAR)) > 127, ox, oy)
     meas['body_centre_screen'] = [float(xd), float(GROUND)]
+    meas['camera'] = 'wide'
+    if rec['pose'].get('close'):
+        img, cen = close_shot(img_bg, rec, light, lamp)
+        meas['camera'] = 'close'; meas['centroid_screen_close'] = cen
     # final film grade: tone, vignette, grain, faint flicker (one grain for every material)
     out = np.array(img.convert('RGB')).astype(float)
     out = tone(np.clip(out * 1.32, 0, 255))

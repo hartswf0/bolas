@@ -142,6 +142,40 @@ for hn, Hd in spec.HEADS.items():
                               op='SAM mask (grown 3 px) n hand head cut' + (', mirrored to face left' if mirror else ''))
     parts['head_' + hn]['view'] = hn
 
+# ---- round 3: the back of the head, assembled. f000's head is the only rear view in the kit and its SAM/luminance cut is a
+# smear with one point. The repair keeps f000's photographed fur but cuts it with a HAND polygon that states the anatomy a
+# rear view must show (skull outline + two ear flaps); bright path pixels inside the cut are replaced by f000's own dark fur,
+# blurred. The outline is a hand annotation (like every cut here); the pixels are the photograph.
+BX = (112, 56, 167, 104)
+f0 = develop(frame('dog', 0)).convert('RGB').crop(BX).resize(((BX[2] - BX[0]) * UP, (BX[3] - BX[1]) * UP), Image.LANCZOS)
+rgb0 = np.array(f0).astype(float); L0 = rgb0.mean(axis=2)
+fur = (L0 < 150).astype(float)
+fb = np.array(Image.fromarray((fur * 255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(9))).astype(float) / 255 + 1e-3
+fill = np.stack([np.array(Image.fromarray((rgb0[:, :, c] * fur).astype(np.uint8)).filter(ImageFilter.GaussianBlur(9))).astype(float) / 255 / fb * 255 for c in range(3)], -1)
+# compress the bright path inside the cut down to the fur's tones (a soft highlight roll-off, no hard key edges)
+Lb = np.array(Image.fromarray(L0.astype(np.uint8)).filter(ImageFilter.GaussianBlur(3))).astype(float)
+k_ = np.clip((Lb - 70) / 80, 0, 1)[:, :, None]
+# the ear flaps sit where f000 shows path; give them f000's own fur, moved up from the skull (photo texture, not flat grey)
+Hh, Ww = L0.shape
+furL = np.roll(np.roll(rgb0, -34, axis=0), -26, axis=1); furR = np.roll(np.roll(rgb0, -34, axis=0), 14, axis=1)
+xx_ = np.arange(Ww)[None, :, None]
+wR = np.clip((xx_ - (Ww / 2 - 12)) / 24.0, 0, 1)
+fur_src = furL * (1 - wR) + furR * wR
+fur_src = np.minimum(fur_src, 70 + 0.3 * (fur_src - 70))
+wy = np.clip((62 - np.arange(Hh)) / 20.0, 0, 1)[:, None, None]           # only the ear band (top of the cut)
+tex = rgb0 * (1 - k_) + (fur_src * wy + (70 + 0.22 * (rgb0 - 70)) * (1 - wy)) * k_
+Wb, Hb = f0.size
+BACK_POLY = [(20, 56), (14, 18), (26, 9), (46, 33), (64, 33), (84, 9), (96, 18), (90, 56)]
+mk = Image.new('L', (Wb, Hb), 0); dr = ImageDraw.Draw(mk)
+dr.ellipse((18, 28, 92, 94), fill=255); dr.polygon(BACK_POLY[:4], fill=255); dr.polygon(BACK_POLY[4:], fill=255)
+mk = mk.filter(ImageFilter.GaussianBlur(1.2))
+hb = Image.fromarray(np.clip(tex, 0, 255).astype(np.uint8)); hb.putalpha(mk)
+hb.save(os.path.join(OUT, 'head_back.png'))
+parts['head_back'] = {'file': 'actor/parts/head_back.png', 'source': '%s/frames/f000.jpg' % spec.KIT_DOG, 'frame': 0, 'box_src': list(BX),
+                      'size': [Wb, Hb], 'scale_from_source': UP, 'mirrored': False, 'anchors': {'pivot': [55, 88]}, 'view': 'back',
+                      'operation': 'f000 head fur (dark-fur key, bright path pixels in-filled from the fur), cut by a HAND polygon: '
+                                   'skull ellipse + two ear flaps (round 3 repair: the SAM cut of this rear view was illegible)'}
+
 # ---- whole-body angle artwork for the turns
 for bn, B in spec.BODY_VIEWS.items():
     i = B['frame']
