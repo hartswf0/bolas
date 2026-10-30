@@ -1,0 +1,173 @@
+{
+ "about": "numeric rig assertions, run on the same rig.js/perform.js that render the film",
+ "version": "rig-v3",
+ "T1_head_views": {
+  "views": [
+   {
+    "angle": 0,
+    "layer": "profile",
+    "skullTop": 0.8058,
+    "chin": 0.5488,
+    "earTip": 0.9332,
+    "noseY": 0.6198,
+    "skullDiscWidth": 0.2098
+   },
+   {
+    "angle": 45,
+    "layer": "three_quarter_front",
+    "skullTop": 0.8058,
+    "chin": 0.5488,
+    "earTip": 0.9332,
+    "noseY": 0.6198,
+    "skullDiscWidth": 0.2329
+   },
+   {
+    "angle": 90,
+    "layer": "front",
+    "skullTop": 0.8058,
+    "chin": 0.5488,
+    "earTip": 0.9332,
+    "noseY": 0.6198,
+    "skullDiscWidth": 0.2318
+   },
+   {
+    "angle": 135,
+    "layer": "three_quarter_front",
+    "skullTop": 0.8058,
+    "chin": 0.5488,
+    "earTip": 0.9332,
+    "noseY": 0.6198,
+    "skullDiscWidth": 0.2329
+   },
+   {
+    "angle": 180,
+    "layer": "profile",
+    "skullTop": 0.8058,
+    "chin": 0.5488,
+    "earTip": 0.9332,
+    "noseY": 0.6198,
+    "skullDiscWidth": 0.2098
+   },
+   {
+    "angle": 225,
+    "layer": "three_quarter_back",
+    "skullTop": 0.8058,
+    "chin": 0.5488,
+    "earTip": 0.9332,
+    "noseY": 0.6198,
+    "skullDiscWidth": 0.2329
+   },
+   {
+    "angle": 270,
+    "layer": "back",
+    "skullTop": 0.8058,
+    "chin": 0.5488,
+    "earTip": 0.9332,
+    "noseY": 0.6198,
+    "skullDiscWidth": 0.2318
+   },
+   {
+    "angle": 315,
+    "layer": "three_quarter_back",
+    "skullTop": 0.8058,
+    "chin": 0.5488,
+    "earTip": 0.9332,
+    "noseY": 0.6198,
+    "skullDiscWidth": 0.2329
+   }
+  ],
+  "headHeight": 0.3844,
+  "spread": {
+   "skullTop": 0,
+   "chin": 0,
+   "earTip": 0,
+   "noseY": 0
+  },
+  "ok": true,
+  "note": "Y extents are compared at one pitch; widths differ by design (they are the yaw projection of one head sheet). chin uses the lower of skull/muzzle."
+ },
+ "T2_leg_lengths": {
+  "maxError3D_m": 6.8e-16,
+  "maxErrorProjectedInProfile_m": 0.0000121,
+  "profileFrames": 752,
+  "ok": true
+ },
+ "T3_no_reversal": {
+  "bendSign": {
+   "fore": 1,
+   "hind": -1
+  },
+  "reversals": 0,
+  "ok": true
+ },
+ "T4_foot_hold": {
+  "stanceSamples": 591,
+  "maxSlip_m": 0.00101,
+  "framesOver2mm": 0,
+  "examples": [],
+  "ok": true
+ },
+ "T5_view_switch": {
+  "turn1": [
+   [
+    3.292,
+    "profile"
+   ],
+   [
+    3.458,
+    "three_quarter_front"
+   ],
+   [
+    3.5,
+    "front"
+   ],
+   [
+    3.542,
+    "three_quarter_front"
+   ],
+   [
+    3.583,
+    "profile"
+   ]
+  ],
+  "turn2": [
+   [
+    7.333,
+    "profile"
+   ],
+   [
+    7.542,
+    "three_quarter_back"
+   ],
+   [
+    7.583,
+    "back"
+   ],
+   [
+    7.625,
+    "three_quarter_back"
+   ],
+   [
+    7.667,
+    "profile"
+   ]
+  ],
+  "lookIn": [
+   [
+    26.292,
+    "profile"
+   ],
+   [
+    26.542,
+    "three_quarter_back"
+   ],
+   [
+    28.25,
+    "profile"
+   ]
+  ],
+  "everyFrameHasHead": true,
+  "ok": true
+ },
+ "all_ok": true
+}
