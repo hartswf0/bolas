@@ -1,0 +1,563 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>SCION · Contaminant Jelly</title><style>
+*{box-sizing:border-box}body{margin:0;background:#0d1117;color:#e6edf3;font-family:Inter,ui-sans-serif,system-ui,sans-serif}
+header{padding:1.25rem 1.25rem .5rem;max-width:1200px;margin:auto}
+.kicker{color:#8b949e;font-size:.72rem;letter-spacing:.18em;font-weight:700}.kicker a{color:inherit}
+h1{font-size:1.45rem;letter-spacing:-.03em;margin:.3rem 0 .5rem;line-height:1.25}
+.sub{color:#9199a5;font-size:.9rem;margin:0 0 .75rem;max-width:820px;line-height:1.55}
+main{max-width:1200px;margin:auto;padding:0 1rem 3rem;display:grid;gap:1rem}
+.sheet{background:#f4f0e6;border-radius:.6rem;overflow:hidden;border:1px solid #30363d}
+canvas{display:block;width:100%;height:auto}
+.bar{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center}
+button{font:inherit;cursor:pointer;padding:.55rem .75rem;border-radius:.45rem;border:1px solid #526779;background:#243247;color:#fff}
+button[aria-pressed=false]{background:transparent;color:#c9d1d9;border-color:#3f4653}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.panel{border:1px solid #30363d;border-radius:.7rem;background:#10161e;padding:1rem;min-width:0}
+.panel h2{font-size:1rem;margin:0 0 .6rem}
+ol.ledger{font-size:.8rem;line-height:1.55;color:#c9d1d9;padding-left:1.4rem;margin:0;max-height:250px;overflow:auto;font-family:ui-monospace,monospace}
+.inv{font-family:ui-monospace,monospace;font-size:.78rem;color:#9ccfa4;line-height:1.65}
+.note{color:#9199a5;font-size:.82rem;line-height:1.55;margin:.4rem 0 0}
+.chips{display:flex;flex-wrap:wrap;gap:.4rem;margin:.4rem 0 .8rem}
+.chip{font-size:.78rem;border-radius:999px;padding:.25rem .65rem;border:1px solid #30363d;background:#0d1117}
+.sw{display:inline-block;width:.7rem;height:.7rem;border-radius:2px;margin-right:.35rem;vertical-align:-1px}
+table{width:100%;border-collapse:collapse;font-size:.8rem;line-height:1.5}th,td{text-align:left;vertical-align:top;padding:.45rem .4rem;border-bottom:1px solid #30363d}th{color:#8b949e;font-weight:600}
+.prompt{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:.6rem}.prompt .ghost{background:transparent}
+pre{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.55;font-size:.84rem;font-family:ui-monospace,monospace;max-height:62dvh;overflow:auto;background:#0d1117;padding:1rem;border-radius:.5rem;border:1px solid #30363d;margin:0}
+@media(max-width:760px){.grid{grid-template-columns:1fr}main{padding:0 .75rem 2rem}}
+</style>
+
+<header>
+<div class="kicker"><a href="../">PAELEO</a> / <a href="./">SCION</a> / CONTAMINANT JELLY</div>
+<h1>A jellyfish carries the archive; speculations contaminate each other and keep their sources</h1>
+<p class="sub">A browser proof of motion for the counter-archive page. The jelly forages fragments from the field and hands them through three reconstruction stages. Where two fragments meet, a seam forms: the child is written beside its parents, which stay as they were, and it keeps both parents' sources. The outcome gear returns the fragments to the field, so the archive is recombined rather than preserved.</p>
+</header>
+
+<main>
+<div class="sheet"><canvas id="cv" role="img" aria-label="Animated diagram: a jellyfish in a water tank collects archive fragments from a field, carries them through three pink stage rings, where some fragments form seams, and returns them through an outcome gear."></canvas></div>
+
+<div class="bar">
+<button id="pause">Pause</button>
+<button id="contam" aria-pressed="true">Contamination: on</button>
+<button id="speed">Slow</button>
+<button id="reset">Reset</button>
+<span class="note" id="clock"></span>
+</div>
+
+<div class="grid">
+<section class="panel"><h2>Ledger</h2><ol class="ledger" id="ledger"></ol></section>
+<section class="panel">
+<h2>Invariants, checked every frame</h2>
+<div class="inv" id="inv"></div>
+<h2 style="margin-top:1.1rem">Independent critic</h2>
+<p class="note">Not run. A fresh viewer must watch the normal-speed loop with contamination off, then on, before any verdict is written here. Until then the verdict is unknown, not a pass.</p>
+</section>
+</div>
+
+<section class="panel">
+<h2>Roster: the swarm that made this proof</h2>
+<div class="chips">
+<span class="chip"><i class="sw" style="background:#f1d86f"></i>Archive curator: source and rights per fragment</span>
+<span class="chip"><i class="sw" style="background:#4f7fae"></i>Historian of the what-if: keeps paraphrases honest</span>
+<span class="chip"><i class="sw" style="background:#111"></i>Jelly rigger: tentacle chains, carry and release</span>
+<span class="chip"><i class="sw" style="background:#c2357a"></i>Seam writer: contamination templates, parents untouched</span>
+<span class="chip"><i class="sw" style="background:#d9822b"></i>Stage choreographer: dwell, gear, return</span>
+<span class="chip"><i class="sw" style="background:#5b1730"></i>Independent critic: sees the loop, not the builder's notes</span>
+</div>
+<table>
+<tr><th>Technique</th><th>Applies when</th><th>Observed failure, then repair</th><th>Rejected alternative</th></tr>
+<tr><td>Seam, not merge</td><td>Two speculations meet in the same stage</td><td>Merged text erased which claim came from where. Repair: write a child, keep both parents, carry the union of their sources.</td><td>Overwriting a parent's text</td></tr>
+<tr><td>Carry within reach</td><td>The jelly must lift a fragment</td><td>Pickup from across the tank read as teleporting. Repair: approach, then grab within 110 px of the bell.</td><td>Global pickup with no approach</td></tr>
+<tr><td>Return as counter-archive</td><td>A fragment leaves the outcome gear</td><td>Respawning fresh fragments broke the loop. Repair: re-enter the field with the cycle count increased.</td><td>Delete and respawn</td></tr>
+<tr><td>Cap as saturation</td><td>Population reaches 30</td><td>Unbounded seams swamp the frame. Repair: seams pause at the cap, shown in the readout.</td><td>Silently removing old speculations</td></tr>
+</table>
+</section>
+
+<section class="panel">
+<h2>Swarm prompt</h2>
+<div class="prompt">
+<button id="copy">Copy complete prompt</button>
+<button id="download" class="ghost">Save .md</button>
+</div>
+<pre id="prompt"># SCION // CONTAMINANT JELLY: ARCHIVE THAT SPECULATES AGAINST ITSELF
+## Autonomous evolving animation swarm · standalone prompt
+
+**Operator lineage:** counter-archive pages on an advertisement in AC (1979) and Beverly Walker's critique of A Clockwork Orange in W&amp;F (1972); Nel Noddings on engrossment, motivational displacement and the ethic of care; the Clockwork School and Clockwork Pink what-if.
+**Interpretation:** This is a new operational prompt. It does not claim that any named person wrote, endorsed or would endorse this system.
+
+You are **SCION-CONTAMINANT**, an autonomous animation swarm responsible for a **finished, watchable** animated piece, not an essay or asset dump. A jellyfish carries fragments of a feminist counter-archive through three stages of reconstruction. Speculations contaminate each other, and each contamination keeps its provenance.
+
+**INPUT**
+- `[WORK]`: the animated loop, plus the film it grows into.
+- `[DIRECTION_AND_REFERENCES]`: the counter-archive page, the three-stage diagram and the Clockwork School to Clockwork Pink what-if.
+- `[DELIVERY]`: 32 s, 24 fps, 1280x720, MP4 and an interactive browser build.
+- `[RESOURCES]`: the paeleo repository, a headless Chromium, and the time and compute budget.
+- `[RIGHTS_SCOPE]`: unknown is not permission. Scans of the advertisement and the W&amp;F pages are not redistributed; fragments are paraphrased and labelled as paraphrases.
+
+Resolve missing implementation details yourself. Ask only if permission or the creative objective depends on the answer.
+
+## 1 · Creative theorem to prove
+A counter-archive gains meaning by being recombined, not by being preserved. The viewer's central experience: the jelly is a collector that hands fragments onward, and every handoff leaves a seam that can be seen. What would make it bland: fragments that merge into one smooth new text; a jelly that only decorates; speculation with no visible source.
+
+## 2 · Native formal language
+Preserve these as first-class primitives: fragments typed as source (yellow), archive history (blue), annotation (outlined note) and speculation (dashed pink); stage rings 1 to 3; tentacle attachments that carry a fragment; the seam, a visible contamination between two fragments; the return path from the outcome gear to the field; the tank and its labels (professional standards, visual authority, historical recognition, inherited visual grammar).
+
+Numerical invariants, asserted in the build:
+- **I1 provenance:** a speculation's lineage contains the lineage of both parents, and parents are never edited.
+- **I2 in frame:** no fragment position leaves the canvas.
+- **I3 monotone stage:** a fragment's stage never decreases within one cycle.
+- **I4 population:** at most 30 fragments.
+
+Artistic achievement, judged only by viewing: a viewer can say which phrase came from which source, and still feels that the two have touched.
+
+## 3 · The smallest capable swarm
+Archive curator | Historian of the what-if | Jelly rigger | Seam writer | Stage choreographer | Independent critic.
+Merge roles when coupling costs more than parallel work. The critic receives the expected experience and the loop to watch, not the builders' self-assessment.
+
+## 4 · Hard proof first
+Build the 24-second loop in the browser (paeleo/scion/contaminant.html): one cycle of collect, stage 1, seam, stage 2, stage 3, gear, return, with contamination on and then off. Then add sound: a soft tick for each handoff and a low tone when a seam forms. Export the 32-second film from the same tank and the same seeded run. Save a snapshot before any risky change.
+
+## 5 · Acceptance tribunal
+The independent critic returns **pass / reference stronger / inconclusive**, with the exact seconds that support the verdict, the largest gap, a falsifiable repair condition and the strengths to preserve. Expected experience, for the critic to test: *the jelly hands fragments across three rings; some handoffs leave visible seams; the returned counter-archive is not the one that left.* Numerical invariants support the verdict; they do not replace it.
+
+## 6 · Inquiry, not blind retries
+If contamination reads as noise, compare the template choices on the same pair. If the jelly reads as decoration, test whether removing it changes which fragments reach stage 2. If two fixes fail on the same symptom, fork at most two branches with the same proof material and rerun the critic on each.
+
+## 7 · Method library
+Keep each entry as technique → applicable conditions → proof clip → observed failures → repair pattern → rejected alternatives. Starting entries: seam-not-merge; carry-within-reach; return-as-counter-archive; cap-as-saturation.
+
+## 8 · Deliverable
+A playable browser proof, an annotated note on each fragment's source and rights, the critic's verdict (or an honest "not yet"), and the next blocking failure. Publish only fragments whose source is public domain, briefly quoted or paraphrased.
+
+**Honest evidence:** label each claim as measured, structurally verified, perceptually judged or unknown. Never claim that a critic, a viewing or a rights check happened when it did not.
+
+Inherit the SCION operating doctrine (items 1 to 15) from paeleo/scion/operator.html.
+
+## START NOW
+Open paeleo/scion/contaminant.html and run it. Check I1 to I4. Get the independent critic's verdict on the normal-speed loop. Name the next blocking failure and repair it.
+</pre>
+</section>
+
+<section class="panel note">
+<strong>What this page shows, and what it does not.</strong> Measured here, in this browser, with a seeded run (<code>?seed=7</code> by default): the four invariants above. Structurally verified: contamination writes a child and never edits a parent. Not judged yet: whether a viewer reads the seams as thinking or as noise. Not included: sound, the film, and any scanned page. The fragments are our paraphrases, not quotations from the advertisement or the W&amp;F pages. Nothing here is endorsed by the people named.
+</section>
+</main>
+
+<script>
+(() => {
+'use strict';
+const W = 1200, H = 640, CAP = 30, CARRY_MAX = 3, DWELL = 4.2, GAP = .6, TN = 22, SEG = 13;
+const SEED = +(new URLSearchParams(location.search).get('seed')) || 7;
+const $ = id => document.getElementById(id);
+const cv = $('cv'), ctx = cv.getContext('2d');
+const SANS = '11.5px "Helvetica Neue", Arial, sans-serif', HAND = 'italic 12px Georgia, "Times New Roman", serif';
+const TANK = {x: 40, y: 70, w: 420, h: 520, wave: 116};
+const GEAR = {x: 560, y: 128, r: 44};
+const RINGS = [
+  {x: 800, y: 196, r: 92, name: 'Stage 1', sub: 'The Archive in Circulation', ly: 74},
+  {x: 694, y: 452, r: 98, name: 'Stage 2', sub: 'Comparative Reconstruction', ly: 584},
+  {x: 1030, y: 352, r: 86, name: 'Stage 3', sub: 'Co-theorization & Analysis', ly: 468}];
+const CONN = [
+  {a: 0, b: 1, c: [860, 330], label: 'decision to scale'},
+  {a: 1, b: 2, c: [900, 520], label: 'theoretical analysis'},
+  {a: 2, b: 'gear', c: [1120, 120], label: 'care · revision · risk'}];
+// kind: src (yellow), hist (blue), note (outlined), spec (pink). pool: which strand a fragment comes from.
+const CORPUS = [
+  ['src', 'school', 'reflex', 'Clockwork school: good conduct as a reflex that avoids penalty'],
+  ['src', 'school', 'metric', 'Data metrics and surveillance stand in for understanding'],
+  ['src', 'school', 'screen', 'Ludovico-style exposure: eyes held open, screens forced on'],
+  ['src', 'school', 'spectacle', 'Cinematic design turns the body into spectacle and décor'],
+  ['hist', 'archive', 'freedom', 'AC advertisement, 1979: a portable camera sold as bodily freedom (paraphrase)'],
+  ['hist', 'archive', 'seen', 'W&F 1972, Walker: a neutral apparatus does not decide how bodies are seen (paraphrase)'],
+  ['note', 'archive', 'mood', 'Note: is the uncanny a mood, or an intention the film declares?'],
+  ['note', 'archive', 'hand', 'Note: whose hand holds the camera, and whose body is held?'],
+  ['spec', 'pink', 'listen', 'Engrossment: receptive attention to the one being looked at'],
+  ['spec', 'pink', 'displace', "Motivational displacement: set your own aims down to see another's"],
+  ['spec', 'pink', 'proximity', 'Morality practised as proximity, not an architecture of isolation'],
+  ['spec', 'pink', 'circle', 'A restorative circle: the room is entered, not watched through glass'],
+  ['spec', 'pink', 'softness', 'Soft focus and somatic attention: a pink reclamation of the emotional body'],
+  ['spec', 'pink', 'care', 'Care for the fractured person, not only for the abstract social order']];
+const TPL = [
+  (a, b) => `what if "${a}" entered the room of "${b}"?`,
+  (a, b) => `${b}, read through ${a}`,
+  (a, b) => `"${a}" as proximity, not distance: ${b}`,
+  (a, b) => `seam: ${a} / ${b}`,
+  (a, b) => `a clockwork school that practises ${b}, and still ${a}`];
+const STYLE = {
+  src: {fill: '#f1d86f', ink: '#1e1b10', font: SANS},
+  hist: {fill: '#d5e5f2', ink: '#17324f', bar: '#4f7fae', font: SANS},
+  note: {fill: '#fffdf5', ink: '#111', stroke: '#111', lw: 1.3, font: HAND},
+  spec: {fill: 'rgba(253,230,242,.94)', ink: '#7a1d4f', stroke: '#c2357a', lw: 1.2, dash: [4, 3], font: SANS}};
+
+let seed, frags, seams, ledger, nextId, simT, J, stats, lastEvent, gearBoost, dirty;
+let running = true, contamOn = true, speedK = 1, visible = true, last = performance.now(), hudT = 0;
+
+// seeded PRNG (mulberry32) so every reload of the same seed plays the same run
+function rand() {
+  seed = (seed + 0x6d2b79f5) | 0; let z = seed;
+  z = Math.imul(z ^ (z >>> 15), z | 1); z ^= z + Math.imul(z ^ (z >>> 7), z | 61);
+  return ((z ^ (z >>> 14)) >>> 0) / 4294967296;
+}
+const bez = (p0, c, p2, t) => [0, 1].map(i => (1 - t) * (1 - t) * p0[i] + 2 * (1 - t) * t * c[i] + t * t * p2[i]);
+const fmtT = t => t.toFixed(1).padStart(5) + 's';
+
+function wrap(text, font, maxW) {
+  ctx.font = font;
+  const words = text.split(' '), lines = []; let cur = '';
+  for (const w of words) {
+    const trial = cur ? cur + ' ' + w : w;
+    if (ctx.measureText(trial).width > maxW && cur) { lines.push(cur); cur = w; } else cur = trial;
+  }
+  if (cur) lines.push(cur);
+  if (lines.length > 3) { lines.length = 3; lines[2] = lines[2].replace(/\s*\S*$/, '') + '…'; }
+  const wm = Math.max(...lines.map(l => ctx.measureText(l).width));
+  return {lines, w: Math.ceil(wm) + 14, h: lines.length * 14 + 10};
+}
+function make(kind, pool, kw, text, src, lineage, x, y) {
+  const m = wrap(text, kind === 'note' ? HAND : SANS, 150);
+  return {id: nextId++, kind, pool, kw, text, src, lineage, x, y, tx: x, ty: y, rot: 0, ph: rand() * 6.28,
+    w: m.w, h: m.h, lines: m.lines, stage: 0, dwell: 0, cycle: 0, held: false, tip: -1, gearT: -1, anchor: null, parents: null};
+}
+function anchor() {
+  for (let i = 0; i < 200; i++) {
+    const x = 500 + rand() * 600, y = 110 + rand() * 440;
+    if (RINGS.every(r => Math.hypot(x - r.x, y - r.y) > r.r + 46) && Math.hypot(x - GEAR.x, y - GEAR.y) > 80) return {x, y};
+  }
+  return {x: 600, y: 560};
+}
+const slot = (R, i) => { const a = i * 2.399, rr = Math.min(R.r * .72, R.r * .3 + Math.sqrt(i) * R.r * .26); return {x: R.x + Math.cos(a) * rr, y: R.y + Math.sin(a) * rr}; };
+function log(msg) { ledger.unshift(fmtT(simT) + '  ' + msg); if (ledger.length > 60) ledger.length = 60; dirty = true; }
+
+function tentacles(t) {
+  const by = J.y + Math.sin(t * 1.3) * 5, pu = 1 + .07 * Math.sin(t * 3.1);
+  J.by = by; J.pu = pu;
+  J.tent.forEach((T, k) => {
+    let x = J.x + T.ax * pu, y = by + 6 * pu;
+    T.pts = [[x, y]];
+    const splay = -T.ax / 80 * .5;
+    for (let i = 1; i <= SEG; i++) {
+      const ang = Math.PI / 2 + splay + Math.sin(t * 1.7 + T.ph + i * .55) * (.1 + i * .035) * (1 + .4 * Math.sin(t * .7 + k));
+      x += Math.cos(ang) * T.seg; y += Math.sin(ang) * T.seg;
+      T.pts.push([x, y]);
+    }
+  });
+  J.tips = J.tent.map(T => T.pts[T.pts.length - 1]);
+}
+function grab(f) {
+  let bi = 0, bd = 1e9;
+  J.tips.forEach((p, i) => { const d = Math.hypot(p[0] - f.x, p[1] - f.y); if (d < bd) { bd = d; bi = i; } });
+  f.held = true; f.tip = bi; f.anchor = null; J.carry.push(f);
+  log(`${f.src} lifted by tentacle ${bi + 1}`);
+}
+function release() {
+  for (const f of J.carry) { f.held = false; f.tip = -1; setStage(f, 1); }
+  log(`${J.carry.map(f => f.src).join(', ')} handed to Stage 1`);
+  J.carry = [];
+}
+function setStage(f, s) {
+  if (s !== 0 && s < f.stage) stats.v3++;
+  stats.trans++; f.stage = s; f.dwell = 0;
+}
+function returnToField(f) {
+  f.gearT = -1; f.stage = 0; f.dwell = 0; f.cycle++; stats.returns++;
+  f.anchor = anchor();
+  log(`${f.src} leaves the outcome gear and returns to the field (cycle ${f.cycle})`);
+}
+function contaminate(a, b, k) {
+  const text = TPL[(rand() * TPL.length) | 0](a.kw, b.kw);
+  const lineage = [...new Set([...a.lineage, ...b.lineage])];
+  const src = a.src + '×' + b.src;
+  const c = make('spec', 'mix', b.kw, text, src, lineage, (a.x + b.x) / 2, (a.y + b.y) / 2);
+  c.parents = [a.id, b.id];
+  frags.push(c); setStage(c, k);
+  seams.push({a: a.id, b: b.id, t0: simT});
+  stats.contam++; lastEvent = simT;
+  log(`seam: ${a.src} × ${b.src} → ${src}; sources kept [${lineage.join(' ')}]`);
+}
+
+function step(dt) {
+  for (const f of frags) {
+    if (f.gearT >= 0) { f.gearT += dt; f.rot += dt * 5; }
+    else if (f.stage > 0 && !f.held) {
+      f.dwell += dt;
+      if (f.dwell > DWELL) { if (f.stage < 3) setStage(f, f.stage + 1); else { f.gearT = 0; gearBoost = 1.2; } }
+    }
+  }
+  gearBoost = Math.max(0, gearBoost - dt);
+  for (const f of frags) if (f.gearT > 1.4) returnToField(f);
+
+  for (let k = 1; k <= 3; k++) {
+    const R = RINGS[k - 1];
+    frags.filter(f => f.stage === k && f.gearT < 0 && !f.held).sort((a, b) => a.id - b.id)
+      .forEach((f, i) => { const s = slot(R, i); f.tx = s.x; f.ty = s.y; });
+  }
+  for (const f of frags) {
+    if (f.gearT < 0 && !f.held) f.rot = Math.sin(simT * .5 + f.ph) * .04;
+    if (f.held) { const p = J.tips[f.tip]; if (p) { f.x += (p[0] - f.x) * Math.min(1, dt * 8); f.y += (p[1] + 12 - f.y) * Math.min(1, dt * 8); } }
+    else if (f.gearT >= 0) { f.x += (GEAR.x - f.x) * Math.min(1, dt * 2.2); f.y += (GEAR.y - f.y) * Math.min(1, dt * 2.2); }
+    else if (f.stage === 0) {
+      f.x += (f.anchor.x + Math.sin(simT * .45 + f.ph) * 12 - f.x) * Math.min(1, dt * 2);
+      f.y += (f.anchor.y + Math.cos(simT * .37 + f.ph) * 9 - f.y) * Math.min(1, dt * 2);
+    } else { f.x += (f.tx - f.x) * Math.min(1, dt * 3); f.y += (f.ty - f.y) * Math.min(1, dt * 3); }
+  }
+
+  const free = frags.filter(f => f.stage === 0 && !f.held && f.gearT < 0);
+  const full = J.carry.length >= CARRY_MAX || (J.carry.length > 0 && free.length === 0);
+  if (!full && free.length) {
+    let best = free[0], bd = 1e9;
+    for (const f of free) { const d = Math.hypot(f.x - J.x, f.y - J.y); if (d < bd) { bd = d; best = f; } }
+    J.tx = best.x - 70; J.ty = best.y;
+    if (bd < 110) grab(best);
+  } else if (J.carry.length) {
+    const R = RINGS[0]; J.tx = R.x - R.r - 70; J.ty = R.y;
+    if (Math.hypot(J.x - R.x, J.y - R.y) < R.r + 90) release();
+  } else { J.tx = 230; J.ty = 330; }
+  J.x += (J.tx - J.x) * Math.min(1, dt * 1.1); J.y += (J.ty - J.y) * Math.min(1, dt * 1.1);
+
+  if (contamOn && frags.length < CAP && simT - lastEvent > GAP) {
+    for (let k = 1; k <= 3; k++) {
+      const mem = frags.filter(f => f.stage === k && f.gearT < 0 && !f.held);
+      if (mem.length < 2 || rand() > dt * .5) continue;
+      const a = mem[(rand() * mem.length) | 0];
+      let cands = mem.filter(f => f !== a && f.pool !== a.pool);
+      if (!cands.length) cands = mem.filter(f => f !== a);
+      contaminate(a, cands[(rand() * cands.length) | 0], k);
+      break;
+    }
+  }
+
+  // invariants, checked every frame
+  const byId = new Map(frags.map(f => [f.id, f]));
+  for (const f of frags) {
+    stats.checks++;
+    if (f.x < 0 || f.x > W || f.y < 0 || f.y > H) stats.v2++;
+    if (f.parents) {
+      const pa = byId.get(f.parents[0]), pb = byId.get(f.parents[1]);
+      if (!pa || !pb || !pa.lineage.every(s => f.lineage.includes(s)) || !pb.lineage.every(s => f.lineage.includes(s))) stats.v1++;
+    }
+  }
+  if (frags.length > CAP) stats.v4++;
+}
+
+function drawTank() {
+  const {x, y, w, h, wave} = TANK;
+  ctx.save();
+  ctx.fillStyle = 'rgba(255,255,255,.45)'; ctx.fillRect(x, y, w, h);
+  ctx.beginPath(); ctx.rect(x, y, w, h); ctx.clip();
+  const wv = i => wave + Math.sin(i * .04 + simT * 1.1) * 4;
+  ctx.beginPath(); ctx.moveTo(x, wv(0));
+  for (let i = 0; i <= w; i += 6) ctx.lineTo(x + i, wv(i));
+  ctx.lineTo(x + w, y + h); ctx.lineTo(x, y + h); ctx.closePath();
+  const g = ctx.createLinearGradient(0, wave, 0, y + h);
+  g.addColorStop(0, '#c9dbe7'); g.addColorStop(.5, '#9fb9cc'); g.addColorStop(1, '#71899c');
+  ctx.fillStyle = g; ctx.fill();
+  ctx.strokeStyle = '#4f7fae'; ctx.lineWidth = 1.6; ctx.beginPath();
+  for (let i = 0; i <= w; i += 6) { if (i) ctx.lineTo(x + i, wv(i)); else ctx.moveTo(x + i, wv(i)); }
+  ctx.stroke();
+  ctx.restore();
+  ctx.save();
+  ctx.fillStyle = '#2c4a63'; ctx.font = 'italic 13px Georgia, serif';
+  ctx.fillText('professional standards', x + 20, wave - 16);
+  ctx.fillText('visual authority', x + 28, 430);
+  ctx.fillText('historical recognition', x + 28, 556);
+  ctx.strokeStyle = '#3b4450'; ctx.lineWidth = 2.2; ctx.strokeRect(x, y, w, h);
+  ctx.lineWidth = .8; ctx.strokeRect(x + 6, y + 6, w - 12, h - 12);
+  ctx.fillStyle = '#3b4450'; ctx.font = 'italic 12px Georgia, serif'; ctx.textAlign = 'center';
+  ctx.fillText('inherited visual grammar', x + w / 2, y + h + 26);
+  ctx.restore();
+}
+function drawConnectors() {
+  const pt = i => i === 'gear' ? [GEAR.x, GEAR.y] : [RINGS[i].x, RINGS[i].y];
+  for (const c of CONN) {
+    const p0 = pt(c.a), p2 = pt(c.b), m = bez(p0, c.c, p2, .5);
+    ctx.save();
+    ctx.strokeStyle = 'rgba(217,130,43,.85)'; ctx.lineWidth = 1.3;
+    ctx.beginPath(); ctx.moveTo(p0[0], p0[1]); ctx.quadraticCurveTo(c.c[0], c.c[1], p2[0], p2[1]); ctx.stroke();
+    ctx.fillStyle = '#b5651d'; ctx.font = 'italic 11px Georgia, serif'; ctx.textAlign = 'center';
+    ctx.fillText(c.label, m[0], m[1] - 6);
+    ctx.restore();
+  }
+}
+function drawRings() {
+  RINGS.forEach((R, i) => {
+    ctx.save();
+    ctx.setLineDash([3, 6]); ctx.strokeStyle = 'rgba(122,29,79,.5)'; ctx.lineWidth = 1.1;
+    ctx.beginPath(); ctx.arc(R.x, R.y, R.r + 14, 0, Math.PI * 2); ctx.stroke(); ctx.setLineDash([]);
+    const g = ctx.createRadialGradient(R.x - R.r * .35, R.y - R.r * .35, 6, R.x, R.y, R.r);
+    g.addColorStop(0, i === 2 ? '#a23b61' : '#f0a3c6'); g.addColorStop(1, i === 2 ? '#5b1730' : '#c2407f');
+    ctx.fillStyle = g; ctx.beginPath();
+    for (let a = 0; a <= Math.PI * 2 + .01; a += .1) {
+      const rr = R.r * (1 + .03 * Math.sin(a * 5 + simT * .7 + i * 2));
+      const px = R.x + Math.cos(a) * rr, py = R.y + Math.sin(a) * rr;
+      if (a) ctx.lineTo(px, py); else ctx.moveTo(px, py);
+    }
+    ctx.fill();
+    ctx.restore();
+  });
+}
+function drawRingLabels() {
+  ctx.save(); ctx.fillStyle = '#4a1530'; ctx.textAlign = 'center';
+  RINGS.forEach(R => {
+    ctx.font = 'bold 12px "Helvetica Neue", Arial, sans-serif'; ctx.fillText(R.name, R.x, R.ly);
+    ctx.font = 'italic 11px Georgia, serif'; ctx.fillText(R.sub, R.x, R.ly + 14);
+  });
+  ctx.restore();
+}
+function drawGear() {
+  const {x, y, r} = GEAR, ang = simT * (.25 + gearBoost * 2.2);
+  ctx.save();
+  ctx.translate(x, y); ctx.rotate(ang);
+  ctx.beginPath();
+  for (let i = 0; i < 28; i++) {
+    const a = i * Math.PI / 14, rr = i % 2 === 0 ? r + 9 : r;
+    if (i) ctx.lineTo(Math.cos(a) * rr, Math.sin(a) * rr); else ctx.moveTo(Math.cos(a) * rr, Math.sin(a) * rr);
+  }
+  ctx.closePath(); ctx.fillStyle = '#8e2b2b'; ctx.fill(); ctx.strokeStyle = '#2a1414'; ctx.lineWidth = 1.5; ctx.stroke();
+  ctx.beginPath(); ctx.arc(0, 0, r * .45, 0, Math.PI * 2); ctx.fillStyle = '#f4f0e6'; ctx.fill(); ctx.stroke();
+  ctx.restore();
+  ctx.save();
+  ctx.fillStyle = '#6e1f1f'; ctx.textAlign = 'center';
+  ctx.font = 'italic bold 12px Georgia, serif'; ctx.fillText('Outcome', x, y - r - 22);
+  ctx.font = 'italic 11px Georgia, serif'; ctx.fillText('counter-archive as intervention', x, y - r - 8);
+  ctx.restore();
+}
+function drawSeams() {
+  seams = seams.filter(s => simT - s.t0 < 2.2);
+  const byId = new Map(frags.map(f => [f.id, f]));
+  for (const s of seams) {
+    const a = byId.get(s.a), b = byId.get(s.b); if (!a || !b) continue;
+    ctx.save();
+    ctx.globalAlpha = (1 - (simT - s.t0) / 2.2) * .9;
+    ctx.strokeStyle = '#c2357a'; ctx.setLineDash([3, 4]); ctx.lineWidth = 1.4;
+    ctx.beginPath(); ctx.moveTo(a.x, a.y);
+    ctx.quadraticCurveTo((a.x + b.x) / 2, (a.y + b.y) / 2 - 30, b.x, b.y); ctx.stroke();
+    ctx.restore();
+  }
+}
+function rr(x, y, w, h, r) {
+  ctx.beginPath(); ctx.moveTo(x + r, y); ctx.arcTo(x + w, y, x + w, y + h, r); ctx.arcTo(x + w, y + h, x, y + h, r);
+  ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.closePath();
+}
+function drawCard(f, s, alpha) {
+  const st = STYLE[f.kind];
+  ctx.save();
+  ctx.globalAlpha = alpha; ctx.translate(f.x, f.y); ctx.rotate(f.rot); ctx.scale(s, s);
+  const x = -f.w / 2, y = -f.h / 2;
+  ctx.shadowColor = 'rgba(20,25,35,.22)'; ctx.shadowBlur = 6; ctx.shadowOffsetY = 2;
+  ctx.fillStyle = st.fill; rr(x, y, f.w, f.h, 3); ctx.fill();
+  ctx.shadowColor = 'transparent';
+  if (st.stroke) { ctx.strokeStyle = st.stroke; ctx.lineWidth = st.lw; ctx.setLineDash(st.dash || []); rr(x, y, f.w, f.h, 3); ctx.stroke(); ctx.setLineDash([]); }
+  if (st.bar) { ctx.fillStyle = st.bar; ctx.fillRect(x, y, 3, f.h); }
+  ctx.fillStyle = st.ink; ctx.font = st.font; ctx.textBaseline = 'top';
+  f.lines.forEach((l, i) => ctx.fillText(l, x + 7, y + 5 + i * 14));
+  ctx.restore();
+}
+function drawJelly() {
+  ctx.save(); ctx.lineCap = 'round';
+  for (const T of J.tent) {
+    for (let i = 1; i < T.pts.length; i++) {
+      const [x0, y0] = T.pts[i - 1], [x1, y1] = T.pts[i];
+      ctx.strokeStyle = `rgba(38,42,58,${(.62 - i * .03).toFixed(2)})`;
+      ctx.lineWidth = 2.2 - i * .13;
+      ctx.beginPath(); ctx.moveTo(x0, y0); ctx.lineTo(x1, y1); ctx.stroke();
+    }
+  }
+  ctx.translate(J.x, J.by); ctx.scale(1, J.pu);
+  ctx.beginPath(); ctx.moveTo(-80, 0); ctx.bezierCurveTo(-86, -96, 86, -96, 80, 0);
+  for (let i = 0; i <= 16; i++) ctx.lineTo(80 - i * 10, 6 + 7 * Math.abs(Math.sin(i * .9)));
+  ctx.closePath();
+  const g = ctx.createRadialGradient(0, -30, 4, 0, 0, 95);
+  g.addColorStop(0, 'rgba(255,255,255,.85)'); g.addColorStop(1, 'rgba(170,195,215,.5)');
+  ctx.fillStyle = g; ctx.fill();
+  ctx.strokeStyle = '#262a3a'; ctx.lineWidth = 1.5; ctx.stroke();
+  ctx.strokeStyle = 'rgba(38,42,58,.35)'; ctx.lineWidth = 1;
+  for (let k = 0; k < 10; k++) {
+    const xe = -72 + k * 16;
+    ctx.beginPath(); ctx.moveTo(0, -84); ctx.quadraticCurveTo(xe * .5, -30, xe, 2); ctx.stroke();
+  }
+  ctx.fillStyle = 'rgba(232,137,179,.35)'; ctx.beginPath(); ctx.ellipse(0, -40, 20, 22, 0, 0, Math.PI * 2); ctx.fill();
+  ctx.restore();
+}
+function draw() {
+  ctx.fillStyle = '#f4f0e6'; ctx.fillRect(0, 0, W, H);
+  drawTank(); drawConnectors(); drawRings(); drawGear();
+  ctx.save(); ctx.fillStyle = '#2d4a63'; ctx.font = 'italic 11px Georgia, serif'; ctx.fillText('field: fragments in circulation', 500, 622); ctx.restore();
+  drawSeams();
+  for (const f of frags) if (!f.held && f.gearT < 0 && f.stage === 0) drawCard(f, .9, 1);
+  for (const f of frags) if (!f.held && f.gearT < 0 && f.stage > 0) drawCard(f, .72, 1);
+  for (const f of frags) if (f.gearT >= 0) drawCard(f, .72 * (1 - .7 * Math.min(1, f.gearT / 1.4)), 1 - .5 * Math.min(1, f.gearT / 1.4));
+  drawRingLabels();
+  tentacles(simT); drawJelly();
+  for (const f of frags) if (f.held) drawCard(f, .8, 1);
+}
+
+function renderLedger() {
+  const ol = $('ledger'); ol.innerHTML = '';
+  for (const s of ledger.slice(0, 10)) { const li = document.createElement('li'); li.textContent = s; ol.appendChild(li); }
+}
+function hud() {
+  const bad = stats.v1 + stats.v2 + stats.v3 + stats.v4;
+  $('inv').innerHTML = [
+    `I1 provenance: ${stats.contam} seams, parents keep their lineage, ${stats.v1} violations`,
+    `I2 in frame: ${stats.checks} position checks, ${stats.v2} violations`,
+    `I3 stage monotone: ${stats.trans} transitions, ${stats.v3} violations`,
+    `I4 population ≤ ${CAP}: ${frags.length} now, ${stats.v4} violations${frags.length >= CAP ? ' (at cap: seams paused)' : ''}`,
+    `returns from the gear: ${stats.returns}`,
+    `<b>${bad ? 'INVARIANT BROKEN' : 'all four invariants hold (measured in this browser)'}</b>`].join('<br>');
+  $('clock').textContent = `sim ${simT.toFixed(1)} s · seed ${SEED}`;
+  if (dirty) { renderLedger(); dirty = false; }
+}
+
+function reset() {
+  seed = SEED; nextId = 1; frags = []; seams = []; ledger = []; simT = 0; gearBoost = 0; lastEvent = -9; dirty = true;
+  stats = {contam: 0, returns: 0, trans: 0, checks: 0, v1: 0, v2: 0, v3: 0, v4: 0};
+  J = {x: 230, y: 330, tx: 230, ty: 330, tent: [], tips: [], carry: [], by: 330, pu: 1};
+  for (let i = 0; i < TN; i++) J.tent.push({ax: -70 + 140 * i / (TN - 1), seg: 8 + rand() * 4, ph: rand() * 6.28});
+  for (const [kind, pool, kw, text] of CORPUS) {
+    const src = 'S' + (frags.length + 1), a = anchor();
+    const f = make(kind, pool, kw, text, src, [src], a.x, a.y);
+    f.anchor = a; frags.push(f);
+  }
+  tentacles(0);
+  log(`the jelly forages the field; ${frags.length} fragments in circulation`);
+}
+
+function tick(now) {
+  requestAnimationFrame(tick);
+  const real = Math.min(.05, (now - last) / 1000); last = now;
+  if (!visible) return;
+  if (running) { const dt = real * speedK; simT += dt; step(dt); }
+  draw();
+  if (now - hudT > 250) { hudT = now; hud(); }
+}
+
+function size() {
+  const dpr = Math.min(2, window.devicePixelRatio || 1);
+  cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+}
+size();
+new IntersectionObserver(es => { visible = es[0].isIntersecting; }).observe(cv);
+$('pause').onclick = e => { running = !running; e.target.textContent = running ? 'Pause' : 'Resume'; };
+$('contam').onclick = e => {
+  contamOn = !contamOn;
+  e.target.textContent = 'Contamination: ' + (contamOn ? 'on' : 'off');
+  e.target.setAttribute('aria-pressed', String(contamOn));
+};
+$('speed').onclick = e => { speedK = speedK === 1 ? .5 : 1; e.target.textContent = speedK === 1 ? 'Slow' : 'Normal'; };
+$('reset').onclick = () => reset();
+if (matchMedia('(prefers-reduced-motion: reduce)').matches) { speedK = .5; $('speed').textContent = 'Normal'; }
+
+const PROMPT_TEXT = $('prompt').textContent;
+$('copy').onclick = async e => {
+  try { await navigator.clipboard.writeText(PROMPT_TEXT); e.target.textContent = 'Copied'; }
+  catch (_) { e.target.textContent = 'Copy blocked: use Save .md'; }
+};
+$('download').onclick = () => {
+  const url = URL.createObjectURL(new Blob([PROMPT_TEXT], {type: 'text/markdown'}));
+  const a = document.createElement('a'); a.href = url; a.download = 'scion-contaminant-jelly.md'; a.click();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+};
+
+window.SCION_CONTAMINANT = {stats: () => ({...stats, population: frags.length, simT, contamOn, carry: J.carry.length})};
+(document.fonts ? document.fonts.ready : Promise.resolve()).then(() => { reset(); requestAnimationFrame(tick); });
+})();
+</script>
+</html>
