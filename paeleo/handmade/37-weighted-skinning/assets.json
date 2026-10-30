@@ -1,0 +1,78 @@
+{
+ "about": "SCION 37 · Weighted Skinning: every asset in the film, where it came from, its rights, and the operation that made it.",
+ "assets": [
+  {
+   "id": "dog-skin",
+   "what": "the dog: ONE closed triangle mesh (7,173 vertices, 14,344 triangles, Euler characteristic 2, no boundary) in its bind pose",
+   "source": "made here: build/mesh.py — a signed-distance sculpture (smooth union of round cones and ellipsoids laid on the rest skeleton) polygonised by surface nets at 1.75 cm, largest component kept, light Taubin smoothing",
+   "files": ["assets/mesh/dog.npz", "assets/mesh/dog.json"],
+   "rights": "made here",
+   "operation": "synthesized (SDF sculpture -> surface nets -> mesh)"
+  },
+  {
+   "id": "dog-skeleton",
+   "what": "27 deforming bones (pelvis, spine, chest, neck1, neck2, head, two ears, three tail bones, four 4-bone legs) with bind matrices Trans(rest joint) and their inverses",
+   "source": "made here: build/rig.py dog_skeleton(); proportions judged against the archive dog's rig keys (kit/archive-dog/pose_agent_v8.json, read as numbers only)",
+   "files": ["build/rig.py"],
+   "rights": "made here",
+   "operation": "authored (joint positions in metres)"
+  },
+  {
+   "id": "dog-weights",
+   "what": "per-vertex bone weights, top 4 per vertex, normalised (max |sum-1| < 1e-15)",
+   "source": "computed here: build/mesh.py heat_weights() — Pinocchio bone heat (Baran & Popovic 2007): (L + M H) w_j = M H p_j on the cotangent Laplacian, H = 12/d^2 to the nearest bone; limb bones barred from the flank and back (stands in for the visibility test)",
+   "files": ["assets/mesh/dog.npz (W full, idx/w top-4)", "proof/weights_*.png"],
+   "rights": "made here",
+   "operation": "computed (heat diffusion)"
+  },
+  {
+   "id": "dog-coat",
+   "what": "the coat texture (1024x660, sepia) in the mesh's bind-pose side-projection UV space: film grain and fur of the archive dog, arranged by painted region masks (dark saddle, dark muzzle and ear backs, lighter socks); the eye, nose and lip line painted on top",
+   "source": "paeleo/handmade/kit/archive-dog/frames f000..f048 (every second frame), masked by kit/archive-dog/masks.json (SAM polygons, eroded 3 px): 8,969 patches of 10x10 px of the dog's own pixels, upscaled x1.4 and scattered 16,000 times with near-hard edges, grain gain 0.085, S-curve + unsharp (seed 37). Source film: Amateur Film New Jersey C, Home Movies collection, Internet Archive, https://archive.org/details/NewJerseyC (via movingimagearchive.com clip 2fdacde1-8a23-58e1-b905-5407385bd039)",
+   "files": ["assets/texture/coat.png", "assets/texture/coat.json", "assets/texture/regions.npy", "assets/texture/coat_source.png", "build/texture.py"],
+   "rights": "public domain (kit source.json: rights_statement public_domain); painted marks made here",
+   "operation": "mask, crop (patches), quilt, region-mask painting, sepia grade; eye/nose drawn"
+  },
+  {
+   "id": "person",
+   "what": "the person: one closed skinned mesh (4,272 vertices, genus 0) with 19 deforming bones, faceless (a plain head with a dark cap of hair), dark blue wool coat with front opening and shirt collar, trousers; posed by keyed clips (stand, reach, step aside, sit, the low hand)",
+   "source": "made here: build/mesh.py person_sdf + heat weights; build/perform.py person_track",
+   "files": ["assets/mesh/person.npz", "assets/mesh/person.json"],
+   "rights": "made here; no real person or face",
+   "operation": "synthesized, skinned (DQS)"
+  },
+  {
+   "id": "world",
+   "what": "the porch deck and steps, the clapboard house front with doorway, sill and lit window, the green door (hinged, opens inward), the room (floor, walls, rug, picture, lamp), the crate; the dusk sky with a tree line and the yard",
+   "source": "made here: build/world.py (subdivided quads, procedural materials per pixel in build/render.py), sky and yard computed per ray",
+   "files": ["build/world.py", "build/render.py"],
+   "rights": "made here",
+   "operation": "modelled in code, rasterized, procedurally shaded"
+  },
+  {
+   "id": "sound",
+   "what": "all sound: crickets and air (room tone), the person's voice ('Come here.' x2, 'It's all right.' x2 soft, 'Come in.' soft) from a source-filter formant synthesizer, door creak, the room's clock once the door is open, the dog's claws at every gait touch-down, body settling, a sigh, the tail knocking the sill",
+   "source": "made here: build/sound.py (numpy/scipy synthesis); no recordings",
+   "files": ["build/sound.py", "build/cache/levels.json (regenerated)"],
+   "rights": "made here",
+   "operation": "synthesized"
+  },
+  {
+   "id": "fonts",
+   "what": "Big Shoulders Display, Literata, JetBrains Mono for the cards and the spoken-word subtitles",
+   "source": "tools/paeleo/fonts/ (read in place, not copied)",
+   "files": ["tools/paeleo/fonts/f5.woff2", "tools/paeleo/fonts/f27.woff2", "tools/paeleo/fonts/f34.woff2", "tools/paeleo/fonts/f14.woff2"],
+   "rights": "SIL Open Font License (as shipped with the repo's tools)",
+   "operation": "typeset"
+  },
+  {
+   "id": "score",
+   "what": "the dog's decision trace (32 s, 768 frames) that drives every channel of the performance",
+   "source": "paeleo/handmade/score/threshold-score.json (PAELEO machine)",
+   "files": ["paeleo/handmade/score/threshold-score.json"],
+   "rights": "project material",
+   "operation": "read; mapped to skeletal clips (build/perform.py)"
+  }
+ ],
+ "not_used": "no Quick, Draw! drawings, no found-frames shots, no archive-door frames, no web images, no generated images"
+}

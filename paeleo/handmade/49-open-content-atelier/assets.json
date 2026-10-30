@@ -1,0 +1,2022 @@
+{
+ "about": "PAE-02 · SCION 49 · Open-Content Atelier. Image asset registry and per-item rights manifest. Every visible picture element in the film is cut from one of the objects below; nothing is drawn by hand. Only the light (warm wedge, dusk grade, a rim on the head in the room light) and the title/end cards are computed.",
+ "source_distribution": {
+  "name": "Smithsonian Open Access (official S3 open-data distribution of EDAN records and media)",
+  "bucket": "https://smithsonian-open-access.s3-us-west-2.amazonaws.com/",
+  "metadata": "metadata/edan/saam/*.txt (line-delimited EDAN JSON), streamed and filtered by build/fetch_meta.py, fetch_grep.py",
+  "media": "media/saam/<idsId>.jpg, fetched by build/fetch_media.py only after checking both metadata_usage.access and online_media.usage.access == CC0",
+  "kept_records": [
+   "sources/meta/records_fetched.jsonl (full EDAN record of every fetched object)",
+   "sources/meta/candidates.tsv (index of 1,819 CC0-with-media SAAM records found by the dog/door/porch/seated, Muybridge and silhouette/Currier searches)"
+  ],
+  "download_log": "sources/downloads.jsonl",
+  "total_media_bytes_downloaded": 71803737,
+  "note": "metadata streamed: SAAM 256 shards read in full twice (~2 x 52 MB transferred, only matching rows kept)"
+ },
+ "refused_or_unreachable": {
+  "hosts": [
+   "api.si.edu",
+   "collections.si.edu",
+   "ids.si.edu",
+   "data.getty.edu",
+   "www.getty.edu",
+   "media.getty.edu",
+   "api.artic.edu",
+   "upload.wikimedia.org",
+   "commons.wikimedia.org",
+   "archive.org",
+   "images.metmuseum.org"
+  ],
+  "how": "CONNECT refused (403) by the session proxy on 2026-10-30; the Smithsonian S3 open-data bucket was reachable",
+  "consequence": "No Getty Open Content object is used. The swarm name keeps the Getty; the film does not."
+ },
+ "objects_used": [
+  {
+   "idsId": "SAAM-1973.122.4_1",
+   "title": "Woodcock Shooting",
+   "artist": "Nathaniel Currier, born Roxbury, MA 1813-died New York City 1888",
+   "date": "1855",
+   "medium": "hand-colored lithograph on paper",
+   "object_number": "1973.122.4",
+   "museum": "Smithsonian American Art Museum",
+   "unit_code": "SAAM",
+   "record_ID": "saam_1973.122.4",
+   "record_url": "https://americanart.si.edu/collections/search/artwork/?id=6089",
+   "item_uri": "http://n2t.net/ark:/65665/vk788270766-323c-45b8-800d-c42768957044",
+   "media_uri": "http://n2t.net/ark:/65665/bj935958df9-bebc-49e4-b95c-9912c73af670",
+   "ids_media_url": "https://ids.si.edu/ids/deliveryService?id=SAAM-1973.122.4_1",
+   "credit_line": "Smithsonian American Art Museum, Transfer from the National Museum of American History, Division of Graphic Arts, Smithsonian Institution",
+   "licence": {
+    "metadata_usage.access": "CC0",
+    "online_media.usage.access": "CC0",
+    "objectRights": "CC0",
+    "statement": "Smithsonian Open Access: the museum marks this record and this image CC0 (no rights reserved)."
+   },
+   "fetched_from": "https://smithsonian-open-access.s3-us-west-2.amazonaws.com/media/saam/SAAM-1973.122.4_1.jpg",
+   "bytes_downloaded": 2150976,
+   "original_px": [
+    3000,
+    2056
+   ],
+   "kept_copy": "sources/media/SAAM-1973.122.4_1.jpg",
+   "kept_copy_scale": 0.6,
+   "parts": [
+    {
+     "part": "w_head",
+     "role": "dog head + ear (profile)",
+     "crop_box_in_kept_copy_px": [
+      516,
+      702,
+      683,
+      817
+     ],
+     "crop_box_in_original_px": [
+      860,
+      1170,
+      1138,
+      1362
+     ],
+     "operation": "polygon cut + colour key (keep cream fur and liver patches; drop green/blue/dark ground) + closing + small-hole fill",
+     "polygon_in_kept_copy_px": [
+      [
+       518,
+       726
+      ],
+      [
+       536,
+       711
+      ],
+      [
+       575,
+       704
+      ],
+      [
+       612,
+       709
+      ],
+      [
+       645,
+       716
+      ],
+      [
+       668,
+       727
+      ],
+      [
+       680,
+       760
+      ],
+      [
+       678,
+       800
+      ],
+      [
+       660,
+       814
+      ],
+      [
+       628,
+       808
+      ],
+      [
+       608,
+       792
+      ],
+      [
+       585,
+       777
+      ],
+      [
+       560,
+       770
+      ],
+      [
+       535,
+       762
+      ],
+      [
+       518,
+       748
+      ]
+     ],
+     "pivots_in_part_px": {
+      "neck": [
+       152,
+       76
+      ],
+      "nose": [
+       11,
+       34
+      ]
+     },
+     "cache_files": [
+      "build/cache/parts/w_head.jpg",
+      "build/cache/parts/w_head_a.jpg"
+     ],
+     "stage_operation": "rotated at the neck (head 0 down .. 1 up), lowered for the approach, chin to the paws for rest; mirrored about the neck to look back over the shoulder at 7.46 s; reaches level into the room at 26.4-28.1 s (muzzle to -0.255 m, past the room-side jamb at +0.02 m)"
+    },
+    {
+     "part": "w_torso",
+     "role": "dog torso + neck",
+     "crop_box_in_kept_copy_px": [
+      638,
+      706,
+      943,
+      841
+     ],
+     "crop_box_in_original_px": [
+      1063,
+      1177,
+      1572,
+      1402
+     ],
+     "operation": "polygon cut + colour key (keep cream fur and liver patches; drop green/blue/dark ground) + closing + small-hole fill",
+     "polygon_in_kept_copy_px": [
+      [
+       640,
+       716
+      ],
+      [
+       700,
+       708
+      ],
+      [
+       780,
+       708
+      ],
+      [
+       860,
+       710
+      ],
+      [
+       905,
+       716
+      ],
+      [
+       930,
+       728
+      ],
+      [
+       940,
+       748
+      ],
+      [
+       925,
+       790
+      ],
+      [
+       905,
+       812
+      ],
+      [
+       870,
+       820
+      ],
+      [
+       830,
+       828
+      ],
+      [
+       790,
+       834
+      ],
+      [
+       740,
+       838
+      ],
+      [
+       700,
+       838
+      ],
+      [
+       668,
+       830
+      ],
+      [
+       652,
+       805
+      ],
+      [
+       646,
+       760
+      ]
+     ],
+     "pivots_in_part_px": {
+      "neck": [
+       30,
+       72
+      ],
+      "tail": [
+       292,
+       36
+      ],
+      "shoulder": [
+       52,
+       106
+      ],
+      "hip": [
+       257,
+       94
+      ],
+      "hip_far": [
+       212,
+       109
+      ],
+      "back": [
+       152,
+       6
+      ]
+     },
+     "cache_files": [
+      "build/cache/parts/w_torso.jpg",
+      "build/cache/parts/w_torso_a.jpg"
+     ],
+     "stage_operation": "translated along x by the score, pitched, lowered to the floor to lie (haunches first), mirrored + foreshortened (>=0.62) through the turns"
+    },
+    {
+     "part": "w_tail",
+     "role": "dog tail",
+     "crop_box_in_kept_copy_px": [
+      916,
+      726,
+      1065,
+      765
+     ],
+     "crop_box_in_original_px": [
+      1527,
+      1210,
+      1775,
+      1275
+     ],
+     "operation": "polygon cut + colour key (keep cream fur and liver patches; drop green/blue/dark ground) + closing + small-hole fill",
+     "polygon_in_kept_copy_px": [
+      [
+       918,
+       728
+      ],
+      [
+       960,
+       734
+      ],
+      [
+       1010,
+       744
+      ],
+      [
+       1062,
+       752
+      ],
+      [
+       1062,
+       762
+      ],
+      [
+       1000,
+       758
+      ],
+      [
+       950,
+       754
+      ],
+      [
+       918,
+       756
+      ]
+     ],
+     "pivots_in_part_px": {
+      "root": [
+       9,
+       18
+      ]
+     },
+     "cache_files": [
+      "build/cache/parts/w_tail.jpg",
+      "build/cache/parts/w_tail_a.jpg"
+     ],
+     "stage_operation": "rotated at the root (score tail + wag)"
+    },
+    {
+     "part": "w_fore",
+     "role": "dog near foreleg",
+     "crop_box_in_kept_copy_px": [
+      634,
+      806,
+      719,
+      893
+     ],
+     "crop_box_in_original_px": [
+      1057,
+      1343,
+      1198,
+      1488
+     ],
+     "operation": "polygon cut + colour key (keep cream fur and liver patches; drop green/blue/dark ground) + closing + small-hole fill",
+     "polygon_in_kept_copy_px": [
+      [
+       668,
+       808
+      ],
+      [
+       712,
+       808
+      ],
+      [
+       716,
+       834
+      ],
+      [
+       700,
+       850
+      ],
+      [
+       680,
+       868
+      ],
+      [
+       676,
+       882
+      ],
+      [
+       662,
+       890
+      ],
+      [
+       640,
+       890
+      ],
+      [
+       636,
+       876
+      ],
+      [
+       652,
+       860
+      ],
+      [
+       666,
+       838
+      ]
+     ],
+     "pivots_in_part_px": {
+      "top": [
+       56,
+       6
+      ],
+      "foot": [
+       18,
+       78
+      ]
+     },
+     "cache_files": [
+      "build/cache/parts/w_fore.jpg",
+      "build/cache/parts/w_fore_a.jpg"
+     ],
+     "stage_operation": "near and far (darkened copy) forelegs: rotated + stretched (0.82-1.12) to a planted foot target"
+    },
+    {
+     "part": "w_hind",
+     "role": "dog near hind leg",
+     "crop_box_in_kept_copy_px": [
+      876,
+      788,
+      1025,
+      899
+     ],
+     "crop_box_in_original_px": [
+      1460,
+      1313,
+      1708,
+      1498
+     ],
+     "operation": "polygon cut + colour key (keep cream fur and liver patches; drop green/blue/dark ground) + closing + small-hole fill",
+     "polygon_in_kept_copy_px": [
+      [
+       880,
+       790
+      ],
+      [
+       918,
+       792
+      ],
+      [
+       950,
+       812
+      ],
+      [
+       985,
+       832
+      ],
+      [
+       1000,
+       852
+      ],
+      [
+       1012,
+       872
+      ],
+      [
+       1022,
+       886
+      ],
+      [
+       1012,
+       896
+      ],
+      [
+       994,
+       892
+      ],
+      [
+       986,
+       868
+      ],
+      [
+       966,
+       848
+      ],
+      [
+       930,
+       836
+      ],
+      [
+       896,
+       822
+      ],
+      [
+       878,
+       806
+      ]
+     ],
+     "pivots_in_part_px": {
+      "top": [
+       19,
+       12
+      ],
+      "foot": [
+       130,
+       100
+      ]
+     },
+     "cache_files": [
+      "build/cache/parts/w_hind.jpg",
+      "build/cache/parts/w_hind_a.jpg"
+     ],
+     "stage_operation": ""
+    },
+    {
+     "part": "w_thigh",
+     "role": "dog hind thigh (hip to hock)",
+     "crop_box_in_kept_copy_px": [
+      872,
+      786,
+      1003,
+      851
+     ],
+     "crop_box_in_original_px": [
+      1453,
+      1310,
+      1672,
+      1418
+     ],
+     "operation": "polygon cut + colour key (keep cream fur and liver patches; drop green/blue/dark ground) + closing + small-hole fill",
+     "polygon_in_kept_copy_px": [
+      [
+       876,
+       788
+      ],
+      [
+       918,
+       790
+      ],
+      [
+       950,
+       810
+      ],
+      [
+       985,
+       824
+      ],
+      [
+       1000,
+       834
+      ],
+      [
+       994,
+       848
+      ],
+      [
+       966,
+       848
+      ],
+      [
+       930,
+       838
+      ],
+      [
+       896,
+       824
+      ],
+      [
+       874,
+       806
+      ]
+     ],
+     "pivots_in_part_px": {
+      "top": [
+       23,
+       14
+      ],
+      "hock": [
+       118,
+       52
+      ]
+     },
+     "cache_files": [
+      "build/cache/parts/w_thigh.jpg",
+      "build/cache/parts/w_thigh_a.jpg"
+     ],
+     "stage_operation": "two-bone IK with w_shank: hip -> hock -> paw; feet planted by distance travelled (no sliding)"
+    },
+    {
+     "part": "w_shank",
+     "role": "dog hind shank + paw (hock to paw)",
+     "crop_box_in_kept_copy_px": [
+      970,
+      824,
+      1027,
+      900
+     ],
+     "crop_box_in_original_px": [
+      1617,
+      1373,
+      1712,
+      1500
+     ],
+     "operation": "polygon cut + colour key (keep cream fur and liver patches; drop green/blue/dark ground) + closing + small-hole fill",
+     "polygon_in_kept_copy_px": [
+      [
+       972,
+       826
+      ],
+      [
+       1000,
+       828
+      ],
+      [
+       1012,
+       868
+      ],
+      [
+       1024,
+       886
+      ],
+      [
+       1014,
+       897
+      ],
+      [
+       994,
+       893
+      ],
+      [
+       986,
+       870
+      ],
+      [
+       976,
+       846
+      ]
+     ],
+     "pivots_in_part_px": {
+      "hock": [
+       20,
+       14
+      ],
+      "foot": [
+       36,
+       64
+      ]
+     },
+     "cache_files": [
+      "build/cache/parts/w_shank.jpg",
+      "build/cache/parts/w_shank_a.jpg"
+     ],
+     "stage_operation": "two-bone IK with w_thigh"
+    },
+    {
+     "part": "w_hindfar",
+     "role": "dog far hind leg",
+     "crop_box_in_kept_copy_px": [
+      810,
+      816,
+      881,
+      893
+     ],
+     "crop_box_in_original_px": [
+      1350,
+      1360,
+      1468,
+      1488
+     ],
+     "operation": "polygon cut + colour key (keep cream fur and liver patches; drop green/blue/dark ground) + closing + small-hole fill",
+     "polygon_in_kept_copy_px": [
+      [
+       812,
+       822
+      ],
+      [
+       862,
+       818
+      ],
+      [
+       878,
+       832
+      ],
+      [
+       872,
+       852
+      ],
+      [
+       862,
+       870
+      ],
+      [
+       858,
+       886
+      ],
+      [
+       842,
+       890
+      ],
+      [
+       832,
+       884
+      ],
+      [
+       842,
+       866
+      ],
+      [
+       846,
+       846
+      ],
+      [
+       822,
+       838
+      ]
+     ],
+     "pivots_in_part_px": {
+      "top": [
+       40,
+       -1
+      ],
+      "foot": [
+       36,
+       68
+      ]
+     },
+     "cache_files": [
+      "build/cache/parts/w_hindfar.jpg",
+      "build/cache/parts/w_hindfar_a.jpg"
+     ],
+     "stage_operation": ""
+    },
+    {
+     "part": "w_ear",
+     "role": "dog ear (for the back-of-head view)",
+     "crop_box_in_kept_copy_px": [
+      594,
+      717,
+      659,
+      800
+     ],
+     "crop_box_in_original_px": [
+      990,
+      1195,
+      1098,
+      1333
+     ],
+     "operation": "polygon cut (scissors line is the polygon)",
+     "polygon_in_kept_copy_px": [
+      [
+       596,
+       722
+      ],
+      [
+       615,
+       719
+      ],
+      [
+       640,
+       725
+      ],
+      [
+       652,
+       740
+      ],
+      [
+       656,
+       762
+      ],
+      [
+       650,
+       780
+      ],
+      [
+       640,
+       795
+      ],
+      [
+       626,
+       797
+      ],
+      [
+       612,
+       788
+      ],
+      [
+       602,
+       768
+      ],
+      [
+       596,
+       745
+      ]
+     ],
+     "pivots_in_part_px": {
+      "top": [
+       24,
+       4
+      ]
+     },
+     "cache_files": [
+      "build/cache/parts/w_ear.jpg",
+      "build/cache/parts/w_ear_a.jpg"
+     ],
+     "stage_operation": ""
+    },
+    {
+     "part": "w_skull",
+     "role": "dog skull seen from behind (white fur of the same print)",
+     "crop_box_in_kept_copy_px": [
+      674,
+      724,
+      751,
+      813
+     ],
+     "crop_box_in_original_px": [
+      1123,
+      1207,
+      1252,
+      1355
+     ],
+     "operation": "polygon cut (scissors line is the polygon)",
+     "polygon_in_kept_copy_px": [
+      [
+       748,
+       768
+      ],
+      [
+       746,
+       781
+      ],
+      [
+       741,
+       793
+      ],
+      [
+       733,
+       802
+      ],
+      [
+       723,
+       808
+      ],
+      [
+       712,
+       810
+      ],
+      [
+       701,
+       808
+      ],
+      [
+       691,
+       802
+      ],
+      [
+       683,
+       793
+      ],
+      [
+       678,
+       781
+      ],
+      [
+       676,
+       768
+      ],
+      [
+       678,
+       755
+      ],
+      [
+       683,
+       743
+      ],
+      [
+       691,
+       734
+      ],
+      [
+       701,
+       728
+      ],
+      [
+       712,
+       726
+      ],
+      [
+       723,
+       728
+      ],
+      [
+       733,
+       734
+      ],
+      [
+       741,
+       743
+      ],
+      [
+       746,
+       755
+      ]
+     ],
+     "pivots_in_part_px": {
+      "c": [
+       38,
+       44
+      ]
+     },
+     "cache_files": [
+      "build/cache/parts/w_skull.jpg",
+      "build/cache/parts/w_skull_a.jpg"
+     ],
+     "stage_operation": ""
+    },
+    {
+     "part": "w_nape",
+     "role": "dog neck/nape fur (joins a turned head to the torso)",
+     "crop_box_in_kept_copy_px": [
+      658,
+      730,
+      723,
+      807
+     ],
+     "crop_box_in_original_px": [
+      1097,
+      1217,
+      1205,
+      1345
+     ],
+     "operation": "polygon cut + colour key (keep cream fur and liver patches; drop green/blue/dark ground) + closing + small-hole fill",
+     "polygon_in_kept_copy_px": [
+      [
+       720,
+       768
+      ],
+      [
+       719,
+       779
+      ],
+      [
+       714,
+       789
+      ],
+      [
+       708,
+       797
+      ],
+      [
+       699,
+       802
+      ],
+      [
+       690,
+       804
+      ],
+      [
+       681,
+       802
+      ],
+      [
+       672,
+       797
+      ],
+      [
+       666,
+       789
+      ],
+      [
+       661,
+       779
+      ],
+      [
+       660,
+       768
+      ],
+      [
+       661,
+       757
+      ],
+      [
+       666,
+       747
+      ],
+      [
+       672,
+       739
+      ],
+      [
+       681,
+       734
+      ],
+      [
+       690,
+       732
+      ],
+      [
+       699,
+       734
+      ],
+      [
+       708,
+       739
+      ],
+      [
+       714,
+       747
+      ],
+      [
+       719,
+       757
+      ]
+     ],
+     "pivots_in_part_px": {
+      "c": [
+       32,
+       38
+      ]
+     },
+     "cache_files": [
+      "build/cache/parts/w_nape.jpg",
+      "build/cache/parts/w_nape_a.jpg"
+     ],
+     "stage_operation": ""
+    },
+    {
+     "part": "w_back",
+     "role": "dog back of the head (composite of w_skull + w_ear twice, one mirrored)",
+     "crop_box_in_kept_copy_px": [
+      594,
+      717,
+      659,
+      800
+     ],
+     "crop_box_in_original_px": [
+      990,
+      1195,
+      1098,
+      1333
+     ],
+     "operation": "polygon cut (scissors line is the polygon)",
+     "pivots_in_part_px": {
+      "neck": [
+       85,
+       140
+      ],
+      "nose": [
+       85,
+       60
+      ]
+     },
+     "cache_files": [
+      "build/cache/parts/w_back.jpg",
+      "build/cache/parts/w_back_a.jpg"
+     ],
+     "stage_operation": ""
+    }
+   ]
+  },
+  {
+   "idsId": "SAAM-1981.172.33_1",
+   "title": "Father, Mother, and Boy",
+   "artist": "Samuel Medford, n.d.",
+   "date": "1841",
+   "medium": "pasted paper and pencil on paper",
+   "object_number": "1981.172.33",
+   "museum": "Smithsonian American Art Museum",
+   "unit_code": "SAAM",
+   "record_ID": "saam_1981.172.33",
+   "record_url": "https://americanart.si.edu/collections/search/artwork/?id=17277",
+   "item_uri": "http://n2t.net/ark:/65665/vk7cbb615f3-f88c-47a3-9066-679ef3124dfb",
+   "media_uri": "http://n2t.net/ark:/65665/bj9ef59095c-9bec-412c-be80-4080b9093462",
+   "ids_media_url": "https://ids.si.edu/ids/deliveryService?id=SAAM-1981.172.33_1",
+   "credit_line": "Smithsonian American Art Museum, Gift of Mrs. Florence R. Perry",
+   "licence": {
+    "metadata_usage.access": "CC0",
+    "online_media.usage.access": "CC0",
+    "objectRights": "CC0",
+    "statement": "Smithsonian Open Access: the museum marks this record and this image CC0 (no rights reserved)."
+   },
+   "fetched_from": "https://smithsonian-open-access.s3-us-west-2.amazonaws.com/media/saam/SAAM-1981.172.33_1.jpg",
+   "bytes_downloaded": 1345858,
+   "original_px": [
+    2451,
+    3000
+   ],
+   "kept_copy": "sources/media/SAAM-1981.172.33_1.jpg",
+   "kept_copy_scale": 0.6,
+   "parts": [
+    {
+     "part": "m_upper",
+     "role": "person torso + head (silhouette)",
+     "crop_box_in_kept_copy_px": [
+      503,
+      468,
+      703,
+      988
+     ],
+     "crop_box_in_original_px": [
+      838,
+      780,
+      1172,
+      1647
+     ],
+     "operation": "polygon cut + threshold key on black paper (cut silhouette)",
+     "polygon_in_kept_copy_px": [
+      [
+       505,
+       480
+      ],
+      [
+       600,
+       470
+      ],
+      [
+       650,
+       520
+      ],
+      [
+       700,
+       640
+      ],
+      [
+       700,
+       980
+      ],
+      [
+       660,
+       985
+      ],
+      [
+       520,
+       985
+      ],
+      [
+       505,
+       900
+      ]
+     ],
+     "pivots_in_part_px": {
+      "hip": [
+       87,
+       492
+      ],
+      "shoulder": [
+       122,
+       172
+      ],
+      "neck": [
+       112,
+       132
+      ]
+     },
+     "cache_files": [
+      "build/cache/parts/m_upper.jpg",
+      "build/cache/parts/m_upper_a.jpg"
+     ],
+     "stage_operation": "person torso: leans for calls, lowered when sitting"
+    },
+    {
+     "part": "m_thigh",
+     "role": "person thighs",
+     "crop_box_in_kept_copy_px": [
+      538,
+      928,
+      663,
+      1078
+     ],
+     "crop_box_in_original_px": [
+      897,
+      1547,
+      1105,
+      1797
+     ],
+     "operation": "polygon cut + threshold key on black paper (cut silhouette)",
+     "polygon_in_kept_copy_px": [
+      [
+       540,
+       930
+      ],
+      [
+       660,
+       930
+      ],
+      [
+       660,
+       1075
+      ],
+      [
+       545,
+       1075
+      ]
+     ],
+     "pivots_in_part_px": {
+      "hip": [
+       57,
+       17
+      ],
+      "knee": [
+       62,
+       137
+      ]
+     },
+     "cache_files": [
+      "build/cache/parts/m_thigh.jpg",
+      "build/cache/parts/m_thigh_a.jpg"
+     ],
+     "stage_operation": "rotated to sit"
+    },
+    {
+     "part": "m_shin",
+     "role": "person shins + shoes",
+     "crop_box_in_kept_copy_px": [
+      518,
+      1048,
+      693,
+      1208
+     ],
+     "crop_box_in_original_px": [
+      863,
+      1747,
+      1155,
+      2013
+     ],
+     "operation": "polygon cut + threshold key on black paper (cut silhouette)",
+     "polygon_in_kept_copy_px": [
+      [
+       530,
+       1050
+      ],
+      [
+       680,
+       1050
+      ],
+      [
+       690,
+       1205
+      ],
+      [
+       520,
+       1205
+      ]
+     ],
+     "pivots_in_part_px": {
+      "knee": [
+       82,
+       14
+      ],
+      "heel": [
+       57,
+       142
+      ]
+     },
+     "cache_files": [
+      "build/cache/parts/m_shin.jpg",
+      "build/cache/parts/m_shin_a.jpg"
+     ],
+     "stage_operation": "hung at the knee"
+    }
+   ]
+  },
+  {
+   "idsId": "SAAM-1981.172.31_1",
+   "title": "Boy with Dog",
+   "artist": "Auguste Edouart, born Dunquerque, France 1788-died Quines, France 1861",
+   "date": "n.d.",
+   "medium": "paper and ink on paper",
+   "object_number": "1981.172.31",
+   "museum": "Smithsonian American Art Museum",
+   "unit_code": "SAAM",
+   "record_ID": "saam_1981.172.31",
+   "record_url": "https://americanart.si.edu/collections/search/artwork/?id=7902",
+   "item_uri": "http://n2t.net/ark:/65665/vk7bcf8a5a0-3076-4073-8fa1-9fa3ea9466a3",
+   "media_uri": "http://n2t.net/ark:/65665/bj9a487344e-2650-4f49-88b4-fdd40afcd5f7",
+   "ids_media_url": "https://ids.si.edu/ids/deliveryService?id=SAAM-1981.172.31_1",
+   "credit_line": "Smithsonian American Art Museum, Gift of Mrs. Florence R. Perry",
+   "licence": {
+    "metadata_usage.access": "CC0",
+    "online_media.usage.access": "CC0",
+    "objectRights": "CC0",
+    "statement": "Smithsonian Open Access: the museum marks this record and this image CC0 (no rights reserved)."
+   },
+   "fetched_from": "https://smithsonian-open-access.s3-us-west-2.amazonaws.com/media/saam/SAAM-1981.172.31_1.jpg",
+   "bytes_downloaded": 2641095,
+   "original_px": [
+    2670,
+    3000
+   ],
+   "kept_copy": "sources/media/SAAM-1981.172.31_1.jpg",
+   "kept_copy_scale": 0.6,
+   "parts": [
+    {
+     "part": "b_arm",
+     "role": "person reaching arm (pointing)",
+     "crop_box_in_kept_copy_px": [
+      666,
+      688,
+      915,
+      793
+     ],
+     "crop_box_in_original_px": [
+      1110,
+      1147,
+      1525,
+      1322
+     ],
+     "operation": "polygon cut + threshold key on black paper (cut silhouette)",
+     "polygon_in_kept_copy_px": [
+      [
+       668,
+       712
+      ],
+      [
+       760,
+       708
+      ],
+      [
+       840,
+       690
+      ],
+      [
+       905,
+       690
+      ],
+      [
+       912,
+       760
+      ],
+      [
+       840,
+       790
+      ],
+      [
+       760,
+       776
+      ],
+      [
+       680,
+       760
+      ]
+     ],
+     "pivots_in_part_px": {
+      "shoulder": [
+       224,
+       37
+      ],
+      "hand": [
+       14,
+       47
+      ]
+     },
+     "cache_files": [
+      "build/cache/parts/b_arm.jpg",
+      "build/cache/parts/b_arm_a.jpg"
+     ],
+     "stage_operation": "mirrored, rotated from hanging to reaching (3.4 s) and to offered low (6.8 s on)"
+    }
+   ]
+  },
+  {
+   "idsId": "SAAM-1916.6.39_1",
+   "title": "Interior of a House",
+   "artist": "Eliphalet Fraser Andrews, born Steubenville, OH 1835-died Washington, DC 1915",
+   "date": "n.d.",
+   "medium": "Oil on canvas",
+   "object_number": "1916.6.39",
+   "museum": "Smithsonian American Art Museum",
+   "unit_code": "SAAM",
+   "record_ID": "saam_1916.6.39",
+   "record_url": "https://americanart.si.edu/collections/search/artwork/?id=420",
+   "item_uri": "http://n2t.net/ark:/65665/vk7c68bbb2f-67aa-4ea8-bd61-c60fa3129a95",
+   "media_uri": "http://n2t.net/ark:/65665/bj9f4994b05-0cf4-4035-b34e-3f132d1ae29c",
+   "ids_media_url": "https://ids.si.edu/ids/deliveryService?id=SAAM-1916.6.39_1",
+   "credit_line": "Smithsonian American Art Museum, Given in memory of Eliphalet Fraser Andrews",
+   "licence": {
+    "metadata_usage.access": "CC0",
+    "online_media.usage.access": "CC0",
+    "objectRights": "CC0",
+    "statement": "Smithsonian Open Access: the museum marks this record and this image CC0 (no rights reserved)."
+   },
+   "fetched_from": "https://smithsonian-open-access.s3-us-west-2.amazonaws.com/media/saam/SAAM-1916.6.39_1.jpg",
+   "bytes_downloaded": 2541579,
+   "original_px": [
+    3000,
+    2102
+   ],
+   "kept_copy": "sources/media/SAAM-1916.6.39_1.jpg",
+   "kept_copy_scale": 0.6,
+   "parts": [
+    {
+     "part": "bench",
+     "role": "bench (seat)",
+     "crop_box_in_kept_copy_px": [
+      88,
+      803,
+      383,
+      1103
+     ],
+     "crop_box_in_original_px": [
+      147,
+      1338,
+      638,
+      1838
+     ],
+     "operation": "polygon cut (scissors line is the polygon)",
+     "polygon_in_kept_copy_px": [
+      [
+       90,
+       805
+      ],
+      [
+       380,
+       805
+      ],
+      [
+       380,
+       880
+      ],
+      [
+       362,
+       880
+      ],
+      [
+       362,
+       1100
+      ],
+      [
+       330,
+       1100
+      ],
+      [
+       330,
+       880
+      ],
+      [
+       135,
+       880
+      ],
+      [
+       135,
+       1100
+      ],
+      [
+       100,
+       1100
+      ],
+      [
+       100,
+       880
+      ],
+      [
+       90,
+       880
+      ]
+     ],
+     "pivots_in_part_px": {
+      "seat": [
+       147,
+       5
+      ]
+     },
+     "cache_files": [
+      "build/cache/parts/bench.jpg",
+      "build/cache/parts/bench_a.jpg"
+     ],
+     "stage_operation": "the seat the person backs onto"
+    },
+    {
+     "part": "room",
+     "role": "plate",
+     "crop_box_in_kept_copy_px": [
+      0,
+      0,
+      1120,
+      1261
+     ],
+     "crop_box_in_original_px": [
+      0,
+      0,
+      1867,
+      2102
+     ],
+     "operation": "rectangular crop (plate)",
+     "cache_files": [
+      "build/cache/parts/room.jpg"
+     ],
+     "stage_operation": "room backdrop (warm, brighter when the door opens)"
+    },
+    {
+     "part": "floor",
+     "role": "plate",
+     "crop_box_in_kept_copy_px": [
+      0,
+      1010,
+      1800,
+      1261
+     ],
+     "crop_box_in_original_px": [
+      0,
+      1683,
+      3000,
+      2102
+     ],
+     "operation": "rectangular crop (plate)",
+     "cache_files": [
+      "build/cache/parts/floor.jpg"
+     ],
+     "stage_operation": "interior floor, threshold and porch boards (strips)"
+    },
+    {
+     "part": "jamb",
+     "role": "plate",
+     "crop_box_in_kept_copy_px": [
+      470,
+      60,
+      560,
+      1000
+     ],
+     "crop_box_in_original_px": [
+      783,
+      100,
+      933,
+      1667
+     ],
+     "operation": "rectangular crop (plate)",
+     "cache_files": [
+      "build/cache/parts/jamb.jpg"
+     ],
+     "stage_operation": "wall in section above the lintel, and the lintel"
+    },
+    {
+     "part": "reveal",
+     "role": "plate",
+     "crop_box_in_kept_copy_px": [
+      590,
+      140,
+      960,
+      1000
+     ],
+     "crop_box_in_original_px": [
+      983,
+      233,
+      1600,
+      1667
+     ],
+     "operation": "rectangular crop (plate)",
+     "cache_files": [
+      "build/cache/parts/reveal.jpg"
+     ],
+     "stage_operation": "seen through the doorway: the lit inner room"
+    }
+   ]
+  },
+  {
+   "idsId": "SAAM-1989.30.3_1",
+   "title": "Screen Door",
+   "artist": "José Dolores López, born Cordova, NM 1868-died Cordova, NM 1937",
+   "date": "ca. 1930-1937",
+   "medium": "carved pine and aspen",
+   "object_number": "1989.30.3",
+   "museum": "Smithsonian American Art Museum",
+   "unit_code": "SAAM",
+   "record_ID": "saam_1989.30.3",
+   "record_url": "https://americanart.si.edu/collections/search/artwork/?id=14911",
+   "item_uri": "http://n2t.net/ark:/65665/vk7440123b8-5c1f-493e-bdee-705c0332f02a",
+   "media_uri": "http://n2t.net/ark:/65665/bj9d43450d1-c251-4b90-928d-1676ef62792e",
+   "ids_media_url": "https://ids.si.edu/ids/deliveryService?id=SAAM-1989.30.3_1",
+   "credit_line": "Smithsonian American Art Museum, Gift of Herbert Waide Hemphill, Jr.",
+   "licence": {
+    "metadata_usage.access": "CC0",
+    "online_media.usage.access": "CC0",
+    "objectRights": "CC0",
+    "statement": "Smithsonian Open Access: the museum marks this record and this image CC0 (no rights reserved)."
+   },
+   "fetched_from": "https://smithsonian-open-access.s3-us-west-2.amazonaws.com/media/saam/SAAM-1989.30.3_1.jpg",
+   "bytes_downloaded": 2613537,
+   "original_px": [
+    1531,
+    3000
+   ],
+   "kept_copy": "sources/media/SAAM-1989.30.3_1.jpg",
+   "kept_copy_scale": 0.6,
+   "parts": [
+    {
+     "part": "door",
+     "role": "door leaf",
+     "crop_box_in_kept_copy_px": [
+      58,
+      38,
+      863,
+      1763
+     ],
+     "crop_box_in_original_px": [
+      97,
+      63,
+      1438,
+      2938
+     ],
+     "operation": "polygon cut (scissors line is the polygon)",
+     "polygon_in_kept_copy_px": [
+      [
+       60,
+       40
+      ],
+      [
+       860,
+       40
+      ],
+      [
+       860,
+       1760
+      ],
+      [
+       60,
+       1760
+      ]
+     ],
+     "cache_files": [
+      "build/cache/parts/door.jpg",
+      "build/cache/parts/door_a.jpg"
+     ],
+     "stage_operation": "hinged at the outer wall face, opening outward; drawn at width W sin(angle)"
+    }
+   ]
+  },
+  {
+   "idsId": "SAAM-1913.3.3_2",
+   "title": "Twilight after the Rain",
+   "artist": "Norwood MacGilvary, born Bangkok, Siam 1874-died Pittsburgh, PA 1949",
+   "date": "1906",
+   "medium": "oil on canvas",
+   "object_number": "1913.3.3",
+   "museum": "Smithsonian American Art Museum",
+   "unit_code": "SAAM",
+   "record_ID": "saam_1913.3.3",
+   "record_url": "https://americanart.si.edu/collections/search/artwork/?id=15344",
+   "item_uri": "http://n2t.net/ark:/65665/vk7314185d7-64c7-4a6b-8a61-4d832b82027a",
+   "media_uri": "http://n2t.net/ark:/65665/bj9c11cb953-94df-49f5-b3a1-39936b0b4889",
+   "ids_media_url": "https://ids.si.edu/ids/deliveryService?id=SAAM-1913.3.3_2",
+   "credit_line": "Smithsonian American Art Museum, Gift of Frederick Fairchild Sherman",
+   "licence": {
+    "metadata_usage.access": "CC0",
+    "online_media.usage.access": "CC0",
+    "objectRights": "CC0",
+    "statement": "Smithsonian Open Access: the museum marks this record and this image CC0 (no rights reserved)."
+   },
+   "fetched_from": "https://smithsonian-open-access.s3-us-west-2.amazonaws.com/media/saam/SAAM-1913.3.3_2.jpg",
+   "bytes_downloaded": 7902544,
+   "original_px": [
+    2449,
+    3000
+   ],
+   "kept_copy": "sources/media/SAAM-1913.3.3_2.jpg",
+   "kept_copy_scale": 0.6,
+   "parts": [
+    {
+     "part": "dusk",
+     "role": "plate",
+     "crop_box_in_kept_copy_px": [
+      0,
+      60,
+      1469,
+      1150
+     ],
+     "crop_box_in_original_px": [
+      0,
+      100,
+      2448,
+      1917
+     ],
+     "operation": "rectangular crop (plate)",
+     "cache_files": [
+      "build/cache/parts/dusk.jpg"
+     ],
+     "stage_operation": "the sky and trees beyond the porch (cooled)"
+    }
+   ]
+  }
+ ],
+ "objects_fetched_reviewed_not_used": [
+  {
+   "idsId": "SAAM-1973.122.5_1",
+   "title": "Juno",
+   "artist": "Nathaniel Currier, born Roxbury, MA 1813-died New York City 1888",
+   "object_number": "1973.122.5",
+   "record_url": "https://americanart.si.edu/collections/search/artwork/?id=6074",
+   "licence": "CC0",
+   "metadata_licence": "CC0",
+   "bytes_downloaded": 2741852,
+   "kept_copy": "sources/media/SAAM-1973.122.5_1.jpg (reduced to 800 px review copy)"
+  },
+  {
+   "idsId": "SAAM-1973.122.13_1",
+   "title": "American Field Sports. \"On a Point.\"",
+   "artist": "Charles Parsons, born Rowland's Castle, England 1821-died New York City 1910",
+   "object_number": "1973.122.13",
+   "record_url": "https://americanart.si.edu/collections/search/artwork/?id=19248",
+   "licence": "CC0",
+   "metadata_licence": "CC0",
+   "bytes_downloaded": 1216669,
+   "kept_copy": "sources/media/SAAM-1973.122.13_1.jpg (reduced to 800 px review copy)"
+  },
+  {
+   "idsId": "SAAM-1986.65.292_1",
+   "title": "Dalmatian",
+   "artist": "Unidentified",
+   "object_number": "1986.65.292",
+   "record_url": "https://americanart.si.edu/collections/search/artwork/?id=24625",
+   "licence": "CC0",
+   "metadata_licence": "CC0",
+   "bytes_downloaded": 784937,
+   "kept_copy": "sources/media/SAAM-1986.65.292_1.jpg (reduced to 800 px review copy)"
+  },
+  {
+   "idsId": "SAAM-1895.10.1_1",
+   "title": "Fox Terrier and Rat",
+   "artist": "Edward Kemeys, born Savannah, GA 1843-died Washington, DC 1907",
+   "object_number": "1895.10.1",
+   "record_url": "https://americanart.si.edu/collections/search/artwork/?id=13542",
+   "licence": "CC0",
+   "metadata_licence": "CC0",
+   "bytes_downloaded": 1535796,
+   "kept_copy": "sources/media/SAAM-1895.10.1_1.jpg (reduced to 800 px review copy)"
+  },
+  {
+   "idsId": "SAAM-1971.458_1",
+   "title": "(Sleeping Dog)",
+   "artist": "Paul Wayland Bartlett, born New Haven, CT 1865-died Paris, France 1925",
+   "object_number": "1971.458",
+   "record_url": "https://americanart.si.edu/collections/search/artwork/?id=1457",
+   "licence": "CC0",
+   "metadata_licence": "CC0",
+   "bytes_downloaded": 1089548,
+   "kept_copy": "sources/media/SAAM-1971.458_1.jpg (reduced to 800 px review copy)"
+  },
+  {
+   "idsId": "SAAM-1929.8.342_1",
+   "title": "Water Spaniel",
+   "artist": "Unidentified",
+   "object_number": "1929.8.342",
+   "record_url": "https://americanart.si.edu/collections/search/artwork/?id=29589",
+   "licence": "CC0",
+   "metadata_licence": "CC0",
+   "bytes_downloaded": 4334191,
+   "kept_copy": "sources/media/SAAM-1929.8.342_1.jpg (reduced to 800 px review copy)"
+  },
+  {
+   "idsId": "SAAM-1939.4.1_1",
+   "title": "Young Girl and Dog",
+   "artist": "Percy Moran, born Philadelphia, PA 1862-died New York City 1935",
+   "object_number": "1939.4.1",
+   "record_url": "https://americanart.si.edu/collections/search/artwork/?id=17764",
+   "licence": "CC0",
+   "metadata_licence": "CC0",
+   "bytes_downloaded": 1826947,
+   "kept_copy": "sources/media/SAAM-1939.4.1_1.jpg (reduced to 800 px review copy)"
+  },
+  {
+   "idsId": "SAAM-2002.48.19_1",
+   "title": "Boy with Dog on Chair",
+   "artist": "Unidentified",
+   "object_number": "2002.48.19",
+   "record_url": "https://americanart.si.edu/collections/search/artwork/?id=71607",
+   "licence": "CC0",
+   "metadata_licence": "CC0",
+   "bytes_downloaded": 1398031,
+   "kept_copy": "sources/media/SAAM-2002.48.19_1.jpg (reduced to 800 px review copy)"
+  },
+  {
+   "idsId": "SAAM-1971.446.224_1",
+   "title": "Sleeping Dogs",
+   "artist": "Solon H. Borglum, born Ogden, UT 1868-died Stamford, CT 1922",
+   "object_number": "1971.446.224",
+   "record_url": "https://americanart.si.edu/collections/search/artwork/?id=2541",
+   "licence": "CC0",
+   "metadata_licence": "CC0",
+   "bytes_downloaded": 904620,
+   "kept_copy": "sources/media/SAAM-1971.446.224_1.jpg (reduced to 800 px review copy)"
+  },
+  {
+   "idsId": "SAAM-1971.446.119_1",
+   "title": "Dogs",
+   "artist": "Solon H. Borglum, born Ogden, UT 1868-died Stamford, CT 1922",
+   "object_number": "1971.446.119",
+   "record_url": "https://americanart.si.edu/collections/search/artwork/?id=2397",
+   "licence": "CC0",
+   "metadata_licence": "CC0",
+   "bytes_downloaded": 868917,
+   "kept_copy": "sources/media/SAAM-1971.446.119_1.jpg (reduced to 800 px review copy)"
+  },
+  {
+   "idsId": "SAAM-1972.84.86_1",
+   "title": "Dogs on the Hearth no. 1",
+   "artist": "J. Alden Weir, born West Point, NY 1852-died New York City 1919",
+   "object_number": "1972.84.86",
+   "record_url": "https://americanart.si.edu/collections/search/artwork/?id=27351",
+   "licence": "CC0",
+   "metadata_licence": "CC0",
+   "bytes_downloaded": 1949986,
+   "kept_copy": "sources/media/SAAM-1972.84.86_1.jpg (reduced to 800 px review copy)"
+  },
+  {
+   "idsId": "SAAM-1991.56.267_1",
+   "title": "Stromboli/Sleeping Dog",
+   "artist": "Miner Kilbourne Kellogg, born Manlius Square, NY 1814-died Toledo, OH 1889",
+   "object_number": "1991.56.267",
+   "record_url": "https://americanart.si.edu/collections/search/artwork/?id=34677",
+   "licence": "CC0",
+   "metadata_licence": "CC0",
+   "bytes_downloaded": 760703,
+   "kept_copy": "sources/media/SAAM-1991.56.267_1.jpg (reduced to 800 px review copy)"
+  },
+  {
+   "idsId": "SAAM-1929.8.264.21_1",
+   "title": "Dog",
+   "artist": "Unidentified",
+   "object_number": "1929.8.264.21",
+   "record_url": "https://americanart.si.edu/collections/search/artwork/?id=29617",
+   "licence": "CC0",
+   "metadata_licence": "CC0",
+   "bytes_downloaded": 4357757,
+   "kept_copy": "sources/media/SAAM-1929.8.264.21_1.jpg (reduced to 800 px review copy)"
+  },
+  {
+   "idsId": "SAAM-1972.84.51_1",
+   "title": "On the Porch",
+   "artist": "J. Alden Weir, born West Point, NY 1852-died New York City 1919",
+   "object_number": "1972.84.51",
+   "record_url": "https://americanart.si.edu/collections/search/artwork/?id=27404",
+   "licence": "CC0",
+   "metadata_licence": "CC0",
+   "bytes_downloaded": 1632388,
+   "kept_copy": "sources/media/SAAM-1972.84.51_1.jpg (reduced to 800 px review copy)"
+  },
+  {
+   "idsId": "SAAM-1994.91.185_1",
+   "title": "Woman on a Porch",
+   "artist": "Doris Ulmann, born New York City 1882-died New York City 1934",
+   "object_number": "1994.91.185",
+   "record_url": "https://americanart.si.edu/collections/search/artwork/?id=34403",
+   "licence": "CC0",
+   "metadata_licence": "CC0",
+   "bytes_downloaded": 1674214,
+   "kept_copy": "sources/media/SAAM-1994.91.185_1.jpg (reduced to 800 px review copy)"
+  },
+  {
+   "idsId": "SAAM-1973.122.1_1",
+   "title": "Water Rail Shooting",
+   "artist": "Nathaniel Currier, born Roxbury, MA 1813-died New York City 1888",
+   "object_number": "1973.122.1",
+   "record_url": "https://americanart.si.edu/collections/search/artwork/?id=6083",
+   "licence": "CC0",
+   "metadata_licence": "CC0",
+   "bytes_downloaded": 2144409,
+   "kept_copy": "sources/media/SAAM-1973.122.1_1.jpg (reduced to 800 px review copy)"
+  },
+  {
+   "idsId": "SAAM-1973.122.2_1",
+   "title": "Wild Duck Shooting",
+   "artist": "Nathaniel Currier, born Roxbury, MA 1813-died New York City 1888",
+   "object_number": "1973.122.2",
+   "record_url": "https://americanart.si.edu/collections/search/artwork/?id=6084",
+   "licence": "CC0",
+   "metadata_licence": "CC0",
+   "bytes_downloaded": 1923707,
+   "kept_copy": "sources/media/SAAM-1973.122.2_1.jpg (reduced to 800 px review copy)"
+  },
+  {
+   "idsId": "SAAM-1973.122.3_1",
+   "title": "Wild Duck Shooting. On the Wing",
+   "artist": "Unidentified",
+   "object_number": "1973.122.3",
+   "record_url": "https://americanart.si.edu/collections/search/artwork/?id=25432",
+   "licence": "CC0",
+   "metadata_licence": "CC0",
+   "bytes_downloaded": 2138292,
+   "kept_copy": "sources/media/SAAM-1973.122.3_1.jpg (reduced to 800 px review copy)"
+  },
+  {
+   "idsId": "SAAM-1973.122.15_1",
+   "title": "Camping Out. \"Some of the Right Sort\"",
+   "artist": "Louis Maurer, born Biebrich, Germany 1832-died New York City 1932",
+   "object_number": "1973.122.15",
+   "record_url": "https://americanart.si.edu/collections/search/artwork/?id=16518",
+   "licence": "CC0",
+   "metadata_licence": "CC0",
+   "bytes_downloaded": 1566106,
+   "kept_copy": "sources/media/SAAM-1973.122.15_1.jpg (reduced to 800 px review copy)"
+  },
+  {
+   "idsId": "SAAM-1973.122.10_1",
+   "title": "Life in the Woods. \"Starting Out.\"",
+   "artist": "Unidentified",
+   "object_number": "1973.122.10",
+   "record_url": "https://americanart.si.edu/collections/search/artwork/?id=24849",
+   "licence": "CC0",
+   "metadata_licence": "CC0",
+   "bytes_downloaded": 1396115,
+   "kept_copy": "sources/media/SAAM-1973.122.10_1.jpg (reduced to 800 px review copy)"
+  },
+  {
+   "idsId": "SAAM-1973.122.7_1",
+   "title": "Hunting, Fishing and Forest Scenes--Good Luck All Around",
+   "artist": "Unidentified",
+   "object_number": "1973.122.7",
+   "record_url": "https://americanart.si.edu/collections/search/artwork/?id=24773",
+   "licence": "CC0",
+   "metadata_licence": "CC0",
+   "bytes_downloaded": 1609887,
+   "kept_copy": "sources/media/SAAM-1973.122.7_1.jpg (reduced to 800 px review copy)"
+  },
+  {
+   "idsId": "SAAM-1981.172.9_1",
+   "title": "Lady",
+   "artist": "William Bache, born Broomsgrove, England 1771-died Wellsboro, PA 1845",
+   "object_number": "1981.172.9",
+   "record_url": "https://americanart.si.edu/collections/search/artwork/?id=788",
+   "licence": "CC0",
+   "metadata_licence": "CC0",
+   "bytes_downloaded": 1338437,
+   "kept_copy": "sources/media/SAAM-1981.172.9_1.jpg (reduced to 800 px review copy)"
+  },
+  {
+   "idsId": "SAAM-1981.172.11_1",
+   "title": "Lady",
+   "artist": "Unidentified",
+   "object_number": "1981.172.11",
+   "record_url": "https://americanart.si.edu/collections/search/artwork/?id=24820",
+   "licence": "CC0",
+   "metadata_licence": "CC0",
+   "bytes_downloaded": 1319609,
+   "kept_copy": "sources/media/SAAM-1981.172.11_1.jpg (reduced to 800 px review copy)"
+  },
+  {
+   "idsId": "SAAM-1981.172.25_1",
+   "title": "Lady",
+   "artist": "Unidentified (British)",
+   "object_number": "1981.172.25",
+   "record_url": "https://americanart.si.edu/collections/search/artwork/?id=24822",
+   "licence": "CC0",
+   "metadata_licence": "CC0",
+   "bytes_downloaded": 1089676,
+   "kept_copy": "sources/media/SAAM-1981.172.25_1.jpg (reduced to 800 px review copy)"
+  },
+  {
+   "idsId": "SAAM-1981.172.19_1",
+   "title": "Gentleman",
+   "artist": "Unidentified",
+   "object_number": "1981.172.19",
+   "record_url": "https://americanart.si.edu/collections/search/artwork/?id=24726",
+   "licence": "CC0",
+   "metadata_licence": "CC0",
+   "bytes_downloaded": 2383256,
+   "kept_copy": "sources/media/SAAM-1981.172.19_1.jpg (reduced to 800 px review copy)"
+  },
+  {
+   "idsId": "SAAM-1980.53.6_1",
+   "title": "Silhouette of a Seated Woman",
+   "artist": "Unidentified (German?)",
+   "object_number": "1980.53.6",
+   "record_url": "https://americanart.si.edu/collections/search/artwork/?id=25201",
+   "licence": "CC0",
+   "metadata_licence": "CC0",
+   "bytes_downloaded": 2333646,
+   "kept_copy": "sources/media/SAAM-1980.53.6_1.jpg (reduced to 800 px review copy)"
+  },
+  {
+   "idsId": "SAAM-1967.142.2_1",
+   "title": "Interior of a Westphalian Cottage",
+   "artist": "Worthington Whittredge, born Springfield, OH 1820-died Summit, NJ 1910",
+   "object_number": "1967.142.2",
+   "record_url": "https://americanart.si.edu/collections/search/artwork/?id=27659",
+   "licence": "CC0",
+   "metadata_licence": "CC0",
+   "bytes_downloaded": 1530469,
+   "kept_copy": "sources/media/SAAM-1967.142.2_1.jpg (reduced to 800 px review copy)"
+  },
+  {
+   "idsId": "SAAM-1973.122.54_1",
+   "title": "Twilight",
+   "artist": "Mary Nimmo Moran, born Strathaven, Scotland 1842-died East Hampton, NY 1899",
+   "object_number": "1973.122.54",
+   "record_url": "https://americanart.si.edu/collections/search/artwork/?id=17789",
+   "licence": "CC0",
+   "metadata_licence": "CC0",
+   "bytes_downloaded": 1364130,
+   "kept_copy": "sources/media/SAAM-1973.122.54_1.jpg (reduced to 800 px review copy)"
+  },
+  {
+   "idsId": "SAAM-1973.24.2_1-000001",
+   "title": "Two Doors--Interior",
+   "artist": "Wanda Gág, born New Ulm, MN 1893-died New York City 1946",
+   "object_number": "1973.24.2",
+   "record_url": "https://americanart.si.edu/collections/search/artwork/?id=8755",
+   "licence": "CC0",
+   "metadata_licence": "CC0",
+   "bytes_downloaded": 1887005,
+   "kept_copy": "sources/media/SAAM-1973.24.2_1-000001.jpg (reduced to 800 px review copy)"
+  },
+  {
+   "idsId": "SAAM-1993.6_1",
+   "title": "Interior with Portraits",
+   "artist": "Thomas Le Clear, born Owego, NY 1818-died Rutherford Park, NJ 1882",
+   "object_number": "1993.6",
+   "record_url": "https://americanart.si.edu/collections/search/artwork/?id=33492",
+   "licence": "CC0",
+   "metadata_licence": "CC0",
+   "bytes_downloaded": 1506848,
+   "kept_copy": "sources/media/SAAM-1993.6_1.jpg (reduced to 800 px review copy)"
+  }
+ ],
+ "non_image_assets": [
+  {
+   "what": "speech",
+   "source": "ffmpeg lavfi 'flite' filter (CMU Flite, voice 'rms'); lines: Come here! / Come here! Come on! / It's all right. (x2) / Come in.",
+   "rights": "synthesized here; Flite is free software (BSD-like licence)",
+   "operation": "tempo, low-pass for the soft lines, gain"
+  },
+  {
+   "what": "all other sound",
+   "source": "build/sound.py (numpy/scipy synthesis: room tone, crickets, clock, fire, door, steps, paw clicks at gait foot plants, thumps, sigh)",
+   "rights": "made here"
+  },
+  {
+   "what": "fonts (cards only)",
+   "source": "tools/paeleo/fonts (Big Shoulders Display, Literata, JetBrains Mono)",
+   "rights": "SIL Open Font License"
+  }
+ ]
+}
