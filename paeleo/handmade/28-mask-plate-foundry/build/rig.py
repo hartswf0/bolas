@@ -123,10 +123,12 @@ class Dog:
             if k.startswith('fore'):
                 fold = 90 * ease(lie / 0.8)
             else:
-                fold = 62 * ease(lie / 0.8)
+                fold = 105 * ease(lie / 0.8)           # tucked forward under the belly
             th = th * (1 - min(1, lie * 1.5)) + fold
             shift = mT(-8 if k == 'hind_far' else 0, 0)
-            M = B @ shift @ mT(*pv) @ mR(th) @ mS(1, max(.6, ys)) @ mT(-pv[0], -pv[1])
+            if not k.startswith('fore'):
+                ys = ys * (1 - 0.35 * ease(lie / 0.8))   # the folded hind leg is foreshortened
+            M = B @ shift @ mT(*pv) @ mR(th) @ mS(1, max(.55, ys)) @ mT(-pv[0], -pv[1])
             legrecs[k] = (M, lg['alpha'], far)
         # head: which plate, and its elevation
         approach = st == 'approach'
@@ -141,11 +143,13 @@ class Dog:
             e = self.elevation(smooth_series('head', i), rest, approach)
             hp = 'head10'; pv = DP.F10['head_pivot']
             if flip and t >= T_HEADBACK:
-                # the head comes round first: the f038 head (face toward the camera) parented to the mirrored body at the
-                # NECK end -- mirrored with the body, its face turns toward the door while the body still lies away
-                hp = 'head38'; h38 = DP.F38_HEAD['pivot']
-                Hm = B @ mT(pv[0] - 4, pv[1] + 6) @ mT(-h38[0], -h38[1])
-                head_facing = 1; head_kind = 'f038 head on the neck (looking back)'
+                # the head comes round first: the f010 PROFILE head, unmirrored, so the muzzle points screen-left at the
+                # door while the mirrored body still lies away; its pivot sits forward of and above the neck so the
+                # head is held up over the shoulders (round 1: not on the hips; round 2: not frontal)
+                neck = apply(B, [pv])[0]
+                e = 30
+                Hm = mT(neck[0] + 22, neck[1] - 16) @ mS(SCALE * 0.95) @ mR(e - self.e0) @ mT(-pv[0], -pv[1])
+                head_facing = 1; head_kind = 'f010 profile head on the neck, muzzle to the door'
             else:
                 Hm = B @ mT(*pv) @ mR(e - self.e0) @ mT(-pv[0], -pv[1]) @ mT(0, 0)
                 head_facing = -1 if flip else 1; head_kind = 'head10 e=%d' % e
@@ -153,9 +157,10 @@ class Dog:
                 Hm = Hm @ mT(*pv) @ mT(-6 * rest, 10 * rest) @ mT(-pv[0], -pv[1])
         f10 = self.p['f10'].rgb
         # stacking order: far legs, body, near legs, head (head on top of the near shoulder)
-        for k in ('hind_far', 'fore_far'):
+        back_legs = ('hind_far', 'fore_far', 'hind') if lie > 0.5 else ('hind_far', 'fore_far')
+        for k in back_legs:
             M, al, _ = legrecs[k]
-            L.append(('dog:' + k, f10 * (0.72 if k == 'hind_far' else 1.0), al, M))
+            L.append(('dog:' + k, f10 * (0.72 if k == 'hind_far' else 1.0), al, M))   # behind the body
         # tail (f019) hinged on the f010 rump: hangs, tucks with the score's tail value, wags, lies on the floor
         tb = DP.F19_TAIL['base']; tip = DP.F19_TAIL['tip']
         a0 = np.degrees(np.arctan2(tip[1] - tb[1], tip[0] - tb[0]))           # its own angle below horizontal
@@ -166,7 +171,7 @@ class Dog:
         lk = round(float(lie), 2)                      # the belly mask is keyed by the score's lie value (0 -> 1)
         if lk not in self._body_cache: self._body_cache[lk] = self.p['f10'].cut(self.p['body_masks'], lk)
         L.append(('dog:body', f10, self._body_cache[lk], B))
-        for k in ('hind', 'fore_near'):
+        for k in [x for x in ('hind', 'fore_near') if x not in back_legs]:
             M, al, _ = legrecs[k]
             L.append(('dog:' + k, f10, al, M))
         if hp == 'head00':

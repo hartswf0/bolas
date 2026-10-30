@@ -38,7 +38,9 @@ F10 = dict(
 F44_HEAD = dict(mask=[(206, 112), (232, 120), (252, 140), (268, 165), (272, 186), (256, 192), (236, 180), (220, 160), (204, 142)],
                 pivot=(214, 130), nose=(262, 182))
 # ---- the looking-in head: f000 (the back of the dog's head, toward the camera, muzzle away)
-F00_HEAD = dict(mask=[(104, 62), (142, 60), (158, 82), (162, 108), (158, 132), (150, 146), (128, 146), (118, 124), (104, 104)],
+# round 2: the mask now follows the dark back of the head and its pointed ear tips (no grey pavement around it)
+F00_HEAD = dict(mask=[(121, 94), (123, 80), (126, 73), (130, 82), (134, 68), (140, 71), (145, 83), (152, 94), (158, 104),
+                      (157, 124), (152, 142), (128, 142), (119, 122), (117, 104)],
                 pivot=(140, 130), nose=(120, 70))
 # ---- the look-back head: f038 (face toward the camera), mirrored at use so the face turns toward the door
 F38_HEAD = dict(mask=[(194, 106), (222, 108), (238, 116), (240, 140), (234, 160), (214, 165), (198, 154), (190, 128)],
@@ -89,7 +91,7 @@ def build():
     p19 = Plate(19); out['f19'] = p19
     out['tail19'] = p19.cut([BezierMask(F19_TAIL['mask'], feather=1.4)])
     p0 = Plate(0); out['f00'] = p0
-    out['head00'] = p0.cut([BezierMask(F00_HEAD['mask'], feather=2.2)])
+    out['head00'] = p0.cut([BezierMask(F00_HEAD['mask'], feather=1.2)])
     out['turn'] = {}
     for i in TURN:
         p = Plate(i)

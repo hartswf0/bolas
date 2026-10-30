@@ -83,7 +83,9 @@ class Renderer:
         amb = np.array(SP.DUSK, np.float32) * 0.95
         cdc = cd / (1 + 0.6 * cd)                      # soft shoulder so the lit dog keeps its texture
         light3 = amb[None, None] + 1.5 * cdc[..., None] * SP.WARM[None, None]
-        dlight = self.dog_amb[None, None] + 1.0 * cdc[..., None] * SP.WARM[None, None]   # the dog's matched light
+        # the dog's matched light: in the door-light cone the dusk ambient gives way to the lamp's warm colour (round 2)
+        wk = np.clip(cdc, 0, 1)[..., None]
+        dlight = self.dog_amb[None, None] * (1 - 0.45 * wk) + 1.5 * cdc[..., None] * np.array([1.0, 0.62, 0.30], np.float32)[None, None]
         c = S.back(t)
         fac = c.mattes  # empty here
         # facade etc. drawn now; person standing inside must be held out by the facade, so draw person first when inside
@@ -129,7 +131,17 @@ class Renderer:
         for nm, pc in pieces:
             pc = self.grain_match('dog', pc)
             # the back of the head faces away from the lamp: it is lit from behind (rim), darker toward us
-            lt = dlight * np.array([.55, .55, .6], np.float32) if nm == 'dog:head-look' else dlight
+            lt = dlight * np.array([.7, .7, .72], np.float32) if nm == 'dog:head-look' else dlight
+            if nm == 'dog:head-look':
+                # rim of hall light on the skull and ear silhouette (the lamp is beyond the head, in the room)
+                x0, y0, cc, aa = pc
+                er = np.asarray(Image.fromarray((aa * 255).astype(np.uint8)).filter(ImageFilter.MinFilter(3)), np.float32) / 255
+                rim = np.clip(aa - er, 0, 1)
+                ys_ = np.nonzero(aa.max(1) > .5)[0]
+                if len(ys_):    # only the skull and ear edge (upper 45 % of the head), where the hall light grazes it
+                    yy = np.arange(aa.shape[0])[:, None]
+                    rim = rim * np.clip((ys_.min() + 0.45 * (ys_.max() - ys_.min()) - yy) / 4, 0, 1)
+                pc = (x0, y0, cc + (rim * 0.7)[..., None] * np.array([1.0, .72, .42], np.float32) / np.maximum(lt[y0:y0 + aa.shape[0], x0:x0 + aa.shape[1]], .05), aa)
             c.over(pc, holdout=hold, light=lt, name='dog')
         img = c.rgb
         # final: bloom from the lit doorway, vignette, common grain, gentle toe
