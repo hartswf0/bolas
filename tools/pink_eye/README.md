@@ -24,6 +24,31 @@ fades, and is printed into the paper fibre. The vessels grow like ink over about
 entirely synthesized: a low breathing room, a drone that thickens as the eye inflames, a slowing pulse, wine-glass partials
 that swell, a falling plink for each drop, and one shared dark reverb. No clip audio is used.
 
+## The Past Under Another Light (`under_another_light.py`)
+
+The direct note on Pink Eye was "think more like a filmmaker, less gross to watch". Every Pink Eye version stared at the
+clamped eye and repeated the violence it meant to answer. The feminist archive filmmakers this follows (Hammer, Citron,
+Dunye with Leonard, Tajiri, Trinh) turn the camera on the apparatus and on the people handling the images, and they treat
+a gap as a choice. So this recut never shows the clamped eye or the screaming. The reel is projected onto a pinned paper
+sheet in a dark room, over a worktable with prints and typed slips under a desk lamp. The projector light is the
+institution's record, the lamp is the hand that handles it, and the spill is where one falls on the other. The camera
+moves only when a relation between images changes.
+
+| Part | Operation | What happens |
+|---|---|---|
+| I · Rearrange (0–26 s) | after Hammer, *History Lessons* | The attendant's reach with the dropper is repeated against a public-domain hand lifting a miner's lantern. Two prints are slid side by side. On the last repetition the two superimpose, and his reach carries the light. |
+| II · Reinterpret (26–52 s) | after Citron, *Daughter Rite*; Trinh, *Surname Viet Given Name Nam* | The reel slows almost to stillness on the woman doctor, the only woman in that room. Typed slips on the table do not agree with the picture. |
+| III · Invent (52–84 s) | after Dunye and Leonard, *The Watermelon Woman*; Hartman, "Venus in Two Acts" | The print of the eye lies face down: "eye, clamped. not shown." An invented record card is typed, and her account stays blank. The reel runs out to a white gate, the table is cleared, and the light falls on it. |
+
+```bash
+python3 tools/pink_eye/under_another_light.py CLIP.mp4 SHOTS_DIR OUT_DIR   # about 15 min; 84 s
+```
+
+`SHOTS_DIR` is `shots/` from hartswf0/secondhand-motion (only `lantern-sam` is read). The sound is synthesized: room
+tone, the projector's motor and gate, the lamp's faint buzz, a two-note motif that returns with each repetition in I, a
+held low tone under her face in II, typing for every slip and card, and the tail of the film slapping the reel at the
+run-out. It is a composed scene: archive fragments re-performed, not a recorded event. It stays local, like Pink Eye.
+
 ## Rights
 
 The film is under copyright. This tool reads a local copy and writes a local render. Neither the footage nor the render
