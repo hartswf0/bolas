@@ -1,0 +1,183 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<link rel="stylesheet" href="../../../../tools/paeleo/fonts/local.css">
+<script src="harmony.js"></script><script src="background.js"></script>
+</head><body style="margin:0;background:#000">
+<canvas id="c" width="1280" height="720"></canvas>
+<script>
+'use strict';
+// SCION 20 · render.html: evaluates scene/nodegraph.json for one frame at a time.
+let G = null, LIB, PAL, XS, GRAPH, BGC = null;
+const IMPL = {};
+const out = document.getElementById('c'), octx = out.getContext('2d');
+const dogLayer = H$.mk(), dogMatte = H$.mk(), headMatte = H$.mk(), shadowC = H$.mk(), small = H$.mk(640, 360);
+const NECK_DR = (() => { // the rest neck drawing for the curve deformer: a tube along +y, 0..0.15 m
+  const L = 0.15, n = 10, l = [], r = [];
+  for (let k = 0; k <= n; k++) { const y = L * k / n, w = 0.125 + (0.10 - 0.125) * k / n; l.push([-w / 2, y]); r.push([w / 2, y]); }
+  const f = [...l, ...r.reverse()];
+  return { shapes: [{ s: 'coat', f, l: [l, r.slice().reverse()], lw: 1 }] };
+})();
+const palFor = (amt) => (s) => H$.mix(PAL.palettes.dusk[s] || '#ff00ff', PAL.palettes.lamp[s] || '#ff00ff', amt);
+const norm = (v) => { const l = Math.hypot(v[0], v[1]) || 1; return [v[0] / l, v[1] / l]; };
+function lightFor(amt, from) {
+  const L = from || norm([0.6 + (-0.93 - 0.6) * amt, -0.8 + (-0.36 + 0.8) * amt]);
+  return { L, tone: 0.5, toneD: 8, toneColor: H$.mix(PAL.passes.tone_dusk, PAL.passes.tone_lamp, amt), hl: 0.45 + 0.45 * amt, hlW: 4.5, hlColor: H$.mix(PAL.passes.highlight_dusk, PAL.passes.highlight_lamp, amt) };
+}
+const pegParent = (V, ins) => { for (const i of ins) if (V[i] && V[i].M) return V[i]; return null; };
+const val = (fr, p) => typeof p === 'string' ? fr[p] : (p == null ? 0 : p);
+
+IMPL.ExposureSheet = (n, V, f) => XS.frames[f];
+IMPL.DrawingLibrary = () => LIB.elements;
+IMPL.Palette = () => PAL;
+IMPL.Camera = (n, V) => {
+  const p = n.params, fr = V.XSHEET, z = fr[p.zoom], cx = fr[p.center[0]], cy = fr[p.center[1]];
+  const view = H$.mul(H$.T(640, 360), H$.mul(H$.S(z, z), H$.T(-cx, -cy)));
+  return { ...p, z, view, base: H$.mul(H$.T(p.X0, p.FLOOR), H$.S(p.K, -p.K)), M: H$.mul(view, H$.mul(H$.T(p.X0, p.FLOOR), H$.S(p.K, -p.K))), floorY: H$.ap(view, [0, p.FLOOR])[1] };
+};
+IMPL.Light = (n, V) => {
+  const fr = V.XSHEET, s = fr.spill;
+  return { s, amtAt: (x) => Math.min(1, s * Math.max(0.18, Math.min(1, (3.7 - x) / 2.6)) + (x < 1.2 ? 0.08 : 0)), draw: (g, t) => drawLight(g, V.CAM, fr, t) };
+};
+IMPL.Background = (n, V) => { if (!BGC) BGC = paintBackground(V.CAM); return BGC; };
+const withView = (g, v, fn) => { g.save(); g.setTransform(v[0], v[1], v[2], v[3], v[4], v[5]); fn(); g.restore(); };
+IMPL.Peg = (n, V) => {
+  const fr = V.XSHEET, p = n.params, par = pegParent(V, n.inputs);
+  if (p.anchor) { const el = V[n.inputs[0]]; const a = el.drawing.anchors[p.anchor]; return { M: H$.mul(el.M, H$.T(a[0], a[1])) }; }
+  let M = H$.mul(par.M, H$.T(val(fr, p.x), val(fr, p.y)));
+  if (p.swing) M = H$.mul(M, H$.S(Math.max(0.02, Math.sin(fr[p.swing] * Math.PI / 180)), 1));
+  if (p.scale) M = H$.mul(M, H$.S(p.scale, p.scale));
+  if (p.mirror) M = H$.mul(M, H$.S(val(fr, p.mirror), 1));
+  if (p.rot) M = H$.mul(M, H$.Rot(val(fr, p.rot)));
+  return { M };
+};
+IMPL.ChainDeformer = (n, V) => {
+  const fr = V.XSHEET, peg = V[n.inputs[0]], dr = V.LIB.dog_tail[fr.tail];
+  return { M: peg.M, def: H$.chainDeformer(dr.chain, fr[n.params.rots]) };
+};
+IMPL.CurveDeformer = (n, V) => {
+  const fr = V.XSHEET, body = V[n.inputs[0]], a = body.drawing.anchors.neck, tip = [fr.hx, fr.hy];
+  const d = [tip[0] - a[0], tip[1] - a[1]];
+  const P = [a, [a[0] + d[0] * 0.33, a[1] + d[1] * 0.33 + 0.01], [a[0] + d[0] * 0.7, a[1] + d[1] * 0.7], tip];
+  return { el: 'neck', M: body.M, parts: [{ dr: NECK_DR, M: body.M, def: H$.curveDeformer(0.15, P) }], drawing: NECK_DR };
+};
+IMPL.Element = (n, V) => {
+  const fr = V.XSHEET, p = n.params, lib = V.LIB[p.element];
+  const id = p.column ? fr[p.column] : p.drawing, dr = lib[id];
+  if (!dr) throw new Error(`${n.id}: no drawing ${p.element}/${id}`);
+  const src = V[n.inputs[0]];
+  let M = src.M, def = src.def;
+  if (p.anchor) M = H$.mul(src.M, H$.T(src.drawing.anchors[p.anchor][0], src.drawing.anchors[p.anchor][1]));
+  const parts = p.layers ? p.layers.map((ly) => ({ dr, M, def, layer: ly })) : [{ dr, M, def }];
+  return { el: n.id, id, M, def, drawing: dr, parts, params: p };
+};
+IMPL.Composite = (n, V, f, t) => {
+  const fr = V.XSHEET;
+  if (n.id === 'COMP_dog') {
+    const g = dogLayer.getContext('2d'); g.clearRect(0, 0, 1280, 720);
+    dogMatte.getContext('2d').clearRect(0, 0, 1280, 720); headMatte.getContext('2d').clearRect(0, 0, 1280, 720);
+    const amt = V.LIGHT.amtAt(fr.x), pal = palFor(amt), light = lightFor(amt);
+    const z = V.CAM.z; light.toneD *= z; light.hlW *= z;
+    const E = (parts, o = {}) => H$.element(g, parts, pal, light, { accum: dogMatte, lw: 1.9 * Math.sqrt(z), outline: 1.3 * Math.sqrt(z), ...o });
+    const ear = V.EAR.parts, head = [ear[0], ...V.HEAD.parts, ear[1]];
+    if (!fr.tail_front) E(V.TAIL.parts);
+    if (fr.head_behind) { E(V.NECK.parts); E(head); }
+    E(fr.head_behind ? V.BODY.parts : [...V.NECK.parts, ...V.BODY.parts]);
+    if (!fr.head_behind) E(head);
+    if (fr.tail_front) E(V.TAIL.parts);
+    // head matte for measurement
+    const hm = headMatte.getContext('2d');
+    for (const pp of head) H$.drawShapes(hm, pp.dr, pp.M, pp.def, pal, { matte: true, layer: pp.layer });
+    return { canvas: dogLayer, matte: dogMatte, head: headMatte, amt };
+  }
+  // COMP_scene
+  const g = octx; g.globalCompositeOperation = 'source-over'; g.globalAlpha = 1; g.filter = 'none';
+  withView(g, V.CAM.view, () => { g.drawImage(V.BG, 0, 0, 1280, 720); V.LIGHT.draw(g, t); });
+  const zz = Math.sqrt(V.CAM.z);
+  H$.element(g, V.DOOR.parts, palFor(0.85), null, { outline: 1.0 * zz, lw: 1.9 * zz });
+  H$.element(g, [...V.PERSON.parts, ...V.MOUTH.parts], palFor(0.85), lightFor(0.85, norm(V.PERSON.params.light_from)), { lw: 1.9 * zz, outline: 1.3 * zz });
+  g.drawImage(V.SHADOW_dog, 0, 0);
+  g.drawImage(V.COMP_dog.canvas, 0, 0);
+  if (V.TEXT) {
+    g.font = 'italic 400 25px Literata, Georgia, serif'; g.textAlign = 'center';
+    g.fillStyle = 'rgba(10,8,16,0.55)'; const w = g.measureText(V.TEXT).width;
+    if (V.TEXT) { g.fillRect(640 - w / 2 - 14, 676, w + 28, 34); g.fillStyle = '#f4ead8'; g.fillText(V.TEXT, 640, 701); }
+    g.textAlign = 'left';
+  }
+  return { canvas: out };
+};
+IMPL.CastShadow = (n, V) => {
+  const c = shadowC.getContext('2d'), F = V.CAM.floorY, sq = n.params.squash; c.clearRect(0, 0, 1280, 720);
+  const amt = V.COMP_dog.amt, skew = -0.25 * (1 - amt) + 0.55 * amt;
+  c.save(); c.filter = `blur(${n.params.blur}px)`; c.globalAlpha = 0.42;
+  c.setTransform(1, 0, -skew, sq, skew * F, F * (1 - sq));
+  c.drawImage(V.COMP_dog.matte, 0, 0); c.restore();
+  c.globalCompositeOperation = 'source-in'; c.fillStyle = '#120c1a'; c.fillRect(0, 0, 1280, 720); c.globalCompositeOperation = 'source-over';
+  return shadowC;
+};
+IMPL.Text = (n, V) => V.XSHEET[n.params.field] || '';
+IMPL.Grade = (n, V) => {
+  const g = octx, vg = g.createRadialGradient(640, 380, 300, 640, 380, 820);
+  vg.addColorStop(0, 'rgba(0,0,0,0)'); vg.addColorStop(1, `rgba(8,4,16,${n.params.vignette})`); g.fillStyle = vg; g.fillRect(0, 0, 1280, 720);
+  return out;
+};
+IMPL.Write = () => out;
+
+function measure(V) {
+  const s = small.getContext('2d'), cam = V.CAM;
+  const stat = (cv) => {
+    s.clearRect(0, 0, 640, 360); s.drawImage(cv, 0, 0, 640, 360);
+    const d = s.getImageData(0, 0, 640, 360).data; let n = 0, sx = 0, sy = 0, x0 = 1e9, x1 = -1, y0 = 1e9, y1 = -1, inDoor = 0, inRoom = 0;
+    const OUT = H$.ap(cam.view, [cam.X0 + cam.K * 0.62, 0])[0] / 2, IN = H$.ap(cam.view, [cam.X0 + cam.K * 0.34, 0])[0] / 2;
+    for (let y = 0; y < 360; y++) for (let x = 0; x < 640; x++) { if (d[(y * 640 + x) * 4 + 3] > 100) { n++; sx += x; sy += y; if (x < x0) x0 = x; if (x > x1) x1 = x; if (y < y0) y0 = y; if (y > y1) y1 = y; if (x < OUT) inDoor++; if (x < IN) inRoom++; } }
+    return n ? { n: n * 4, cx: sx / n * 2, cy: sy / n * 2, x0: x0 * 2, x1: x1 * 2 + 2, y0: y0 * 2, y1: y1 * 2 + 2, in_door_frame: inDoor / n, in_room: inRoom / n } : { n: 0 };
+  };
+  return { dog: stat(V.COMP_dog.matte), head: stat(V.COMP_dog.head), cam: { z: cam.z, view: cam.view } };
+}
+
+window.init = (lib, pal, xs, graph) => {
+  LIB = lib; PAL = pal; XS = xs; GRAPH = graph;
+  const ids = new Set(graph.nodes.map((n) => n.id));
+  for (const n of graph.nodes) for (const i of n.inputs) if (!ids.has(i)) throw new Error(`broken dependency ${n.id} <- ${i}`);
+  for (const n of graph.nodes) if (!IMPL[n.type]) throw new Error(`no implementation for ${n.type}`);
+  return document.fonts.ready.then(() => graph.topological_order.length);
+};
+window.renderScene = (f, wantMeasure) => {
+  const t = f / 24, V = {};
+  const byId = Object.fromEntries(GRAPH.nodes.map((n) => [n.id, n]));
+  for (const id of GRAPH.topological_order) { const n = byId[id]; V[id] = IMPL[n.type](n, V, f, t); }
+  return { url: out.toDataURL('image/jpeg', 0.92), m: wantMeasure ? measure(V) : null };
+};
+// ---------------- cards
+window.card = (kind, k, info) => {
+  const g = octx; g.setTransform(1, 0, 0, 1, 0, 0); g.globalAlpha = 1; g.globalCompositeOperation = 'source-over'; g.filter = 'none';
+  g.fillStyle = '#14101c'; g.fillRect(0, 0, 1280, 720);
+  const fade = Math.min(1, k / 10, (71 - k) / 10);
+  if (kind === 'title') {
+    g.globalAlpha = Math.max(0, fade);
+    g.fillStyle = '#e9c58f'; g.font = '800 64px "Big Shoulders Display"'; g.fillText('PAE-02 · SCION 20 · Toon Boom Harmony', 110, 320);
+    g.fillStyle = '#d9cfe6'; g.font = '400 30px Literata'; g.fillText('Production Rig Foundry — the threshold, as a cel production', 112, 372);
+    g.fillStyle = '#9b90ad'; g.font = '400 18px "JetBrains Mono"'; g.fillText('node network · pegs · drawing substitution · deformation chains · palettes · exposure sheet', 112, 420);
+    g.globalAlpha = 1; return out.toDataURL('image/jpeg', 0.92);
+  }
+  // end card: what it is made of, the node graph and an excerpt of the exposure sheet (both drawn from the scene files)
+  g.globalAlpha = Math.max(0, fade);
+  g.fillStyle = '#e9c58f'; g.font = '800 34px "Big Shoulders Display"'; g.fillText(`Made of: ${Object.values(LIB.counts).reduce((a, b) => a + b, 0)} drawings in code, exposed on an xsheet, rendered through a ${GRAPH.nodes.length}-node graph`, 40, 52);
+  g.fillStyle = '#cfc4dd'; g.font = '400 15px Literata';
+  const words = info.lines.join(' ').split(' '); const wrapped = []; let cur = '';
+  for (const w of words) { if (g.measureText(cur + ' ' + w).width > 1190) { wrapped.push(cur); cur = w; } else cur = cur ? cur + ' ' + w : w; }
+  wrapped.push(cur); wrapped.forEach((s, j) => g.fillText(s, 40, 82 + j * 20));
+  // node graph
+  const N = GRAPH.nodes, ox = 40, oy = 222, dx = 76, dy = 46, pos = {};
+  N.forEach((n) => { pos[n.id] = [ox + n.pos[0] * dx * 0.86, oy + n.pos[1] * dy]; });
+  g.strokeStyle = 'rgba(200,170,120,0.45)'; g.lineWidth = 1;
+  N.forEach((n) => n.inputs.forEach((i) => { const a = pos[i], b = pos[n.id]; g.beginPath(); g.moveTo(a[0] + 58, a[1] + 8); g.bezierCurveTo(a[0] + 70, a[1] + 8, b[0] - 10, b[1] + 8, b[0], b[1] + 8); g.stroke(); }));
+  g.font = '600 10px "JetBrains Mono"';
+  N.forEach((n) => { const [x, y] = pos[n.id]; const col = { Peg: '#5d7f6e', Element: '#8a6a3d', Composite: '#6a5a8f', ChainDeformer: '#8f5a5a', CurveDeformer: '#8f5a5a' }[n.type] || '#4a4458'; g.fillStyle = col; g.fillRect(x, y, 58, 17); g.fillStyle = '#f4ead8'; g.fillText(n.id.slice(0, 10), x + 3, y + 12); });
+  g.fillStyle = '#9b90ad'; g.font = '400 13px "JetBrains Mono"'; g.fillText('scene/nodegraph.json (evaluated per frame, topological order)', 40, 470);
+  // xsheet excerpt
+  const X = info.xs; g.font = '400 11px "JetBrains Mono"'; const x0 = 700, y0 = 222;
+  g.fillStyle = '#9b90ad'; g.fillText('scene/xsheet.tsv, rows 178–205 (7.38–8.50 s): the head leads, then the body turns', x0, y0 - 10);
+  X.forEach((row, j) => { g.fillStyle = j === 0 ? '#e9c58f' : '#d9cfe6'; row.forEach((c, k) => g.fillText(String(c).slice(0, [5, 13, 16, 15, 8][k] || 10), x0 + [0, 40, 140, 262, 380][k], y0 + 12 + j * 13.2)); });
+  g.globalAlpha = 1; return out.toDataURL('image/jpeg', 0.92);
+};
+</script></body></html>
