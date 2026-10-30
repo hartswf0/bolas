@@ -32,14 +32,15 @@ const here = __dirname, out = path.join(here, '..'), page = path.resolve(here, '
   await browser.close();
   fs.writeFileSync(path.join(out, 'events.json'), JSON.stringify({ fps: FPS, duration: DUR, seed: SEED, events }, null, 1));
   fs.writeFileSync(path.join(out, 'ledger.txt'), ledger.join('\n') + '\n');
-  const violations = stats.v1 + stats.v2 + stats.v3 + stats.v4;
+  const violations = stats.v1 + stats.v2 + stats.v3 + stats.v4 + stats.v5;
   fs.writeFileSync(path.join(out, 'invariants.json'), JSON.stringify({
     seed: SEED, fps: FPS, frames: N, pageErrors: errors, violations,
     I1_provenance: { seams: stats.contam, violations: stats.v1 },
     I2_in_frame: { checks: stats.checks, violations: stats.v2 },
     I3_stage_monotone: { transitions: stats.trans, violations: stats.v3 },
     I4_population_cap: { final: stats.population, violations: stats.v4 },
+    I5_cuts_kept: { cuts: stats.cuts, rescued: stats.rescued, violations: stats.v5 },
     returns: stats.returns }, null, 1));
-  console.log(`ffmpeg exit ${code}; ${events.length} events; ${stats.contam} seams; ${violations} violations; ${errors.length} page errors`);
+  console.log(`ffmpeg exit ${code}; ${events.length} events; ${stats.cuts} cuts; ${stats.rescued} rescued; ${stats.contam} seams; ${violations} violations; ${errors.length} page errors`);
   if (code !== 0 || errors.length || violations) process.exit(1);
 })().catch(e => { console.error(e); process.exit(1); });
