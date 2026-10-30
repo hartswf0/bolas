@@ -717,7 +717,7 @@ def disc_tile(rx, ry):
 
 
 T_FULL = disc_tile(1.78, 1.78)
-T_FLIP = disc_tile(0.75, 1.78)
+T_FLIP = disc_tile(1.45, 1.78)       # caught mid-flip: a little narrower for one frame
 T_LED = disc_tile(1.9, 1.9)
 
 

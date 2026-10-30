@@ -90,7 +90,7 @@ for off in (0.0, 0.25, 0.5, 0.75):
         if math.floor(ph[i]) != math.floor(ph[i - 1]):     # a foot enters stance (forward) or leaves it (backing)
             t = i / 24; m = int(SR * .012)
             pan = max(-1, min(1, (xs[i] - 2.0) / 3))
-            add(bandpass(rng.standard_normal(m), 3200, 5) * env(m, .0005, .01), t, pan=pan, gain=0.09); clicks += 1
+            add(bandpass(rng.standard_normal(m), 2400, 3) * env(m, .0005, .012), t, pan=pan, gain=0.3); clicks += 1
 for t, g in ((4.62, .5), (24.25, .45)):
     m = int(SR * .25); tt = np.arange(m) / SR
     add(np.sin(2 * math.pi * 70 * tt) * np.exp(-tt * 18) + onepole(rng.standard_normal(m), 300) * .5 * np.exp(-tt * 25), t, pan=.2, gain=g * .5)

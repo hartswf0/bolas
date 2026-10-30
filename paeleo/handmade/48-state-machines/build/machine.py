@@ -77,7 +77,7 @@ def run(P=None, W=None):
         _, W = world_frames()
     d = dict(state='watch', sub='', since=0.0, x=3.0, v=0.0, psi=0.0, hy=0.0, F=0.2, T=0.2, C=0.1, M=0.0, press=0.0,
              m_sit=0.0, m_door=0.0, m_low=0.0, soft=0.0, lie=0.0, rest=0.0, look=0.0, crouch=0.05, head=0.9, tail=0.5,
-             ear=0.8, phase=0.0, wagph=0.0, lastvoice='none', lastdoor='ajar', lasthand='none', lying_since=None)
+             ear=0.8, phase=0.0, wagph=0.0, want=0.0, away=False, lastvoice='none', lastdoor='ajar', lasthand='none', lying_since=None)
     frames, events = [], []
     LAT = 2                                             # ticks of perceptual latency (about 80 ms)
     for i, w0 in enumerate(W):
@@ -164,7 +164,13 @@ def run(P=None, W=None):
         if d['x'] < P['goal']:
             d['x'], d['v'] = P['goal'], 0.0
         # ---------- the body layer (fast head, slow body) ----------
-        want = math.pi if S == 'refuse' else 0.0
+        # where the body should face; turns always go the same way round (unwrapped): away from the person turning its
+        # back to the viewer first, back toward the door with its face to the viewer
+        face_away = S == 'refuse'
+        if face_away != d['away']:
+            d['want'] -= math.pi
+            d['away'] = face_away
+        want = d['want']
         # sub-states and their action windows
         sub = ''
         if S == 'refuse':

@@ -121,10 +121,10 @@ def main():
          os.path.join(CACHE, 'title.jpg'))
     card([('What it is made of', SERIF_B, 32, (236, 222, 200)),
           ('Fourteen collage planes at measured depths, from sky (140 m) to the porch railing (2.1 m in front of the wall).', SANS, 18, (205, 200, 215)),
-          ('Found fragments, all public domain: clouds (Top Of The Cloud), trees keyed from Golden Gate windmill footage,', SANS, 18, (205, 200, 215)),
+          ('Found fragments (public domain unless noted), among them: clouds (Top Of The Cloud), trees keyed from Golden Gate windmill footage,', SANS, 18, (205, 200, 215)),
           ('the door, curtain and person cut from Straight Talk, the room wall from an Anthracite lantern shot, the bulb from', SANS, 18, (205, 200, 215)),
           ('Light Of Your Life, boards and railing from the logs of Billie, the Buffalo Baby; a Quick, Draw! moon (CC BY 4.0).', SANS, 18, (205, 200, 215)),
-          ('The dog: 36 pieces cut from the dog of Amateur Film New Jersey C, each at its own depth, re-stacked as it turns.', SANS, 18, (205, 200, 215)),
+          ('The dog: 30 pieces cut from the dog of Amateur Film New Jersey C, each at its own depth, re-stacked as it turns.', SANS, 18, (205, 200, 215)),
           ('Drawn by code: the door casing, the window frame, the table, the person\'s cut-paper profile. All sound synthesized.', SANS, 18, (205, 200, 215)),
           ('The camera only translates through the stack; parallax, occlusion and focus give the depth.', SANS, 18, (205, 200, 215)),
           ('The dog\'s choices follow the PAELEO threshold score.', SANS, 18, (160, 155, 175))],
