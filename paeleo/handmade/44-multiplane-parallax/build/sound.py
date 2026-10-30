@@ -224,7 +224,7 @@ def main():
         w = FR[i]['dog']['act']['wag']
         if w > 0.3:
             m = int(0.08 * SR)
-            th = np.sin(2 * math.pi * 95 * np.arange(m) / SR) * np.exp(-np.arange(m) / SR / 0.03) * 0.35 * w
+            th = np.sin(2 * math.pi * 95 * np.arange(m) / SR) * np.exp(-np.arange(m) / SR / 0.03) * 0.06 * w
             place(buf, th, tt, droot, ref=2.5)
         tt += 1 / 2.3 / 2
     # the sigh when it settles (28.6)

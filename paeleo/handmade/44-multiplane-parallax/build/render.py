@@ -201,6 +201,7 @@ def paste_clip(canvas, patch, u0, v0):
 
 # ---------------------------------------------------------------- collage pieces
 JIT = {}
+HEAD_RIM = {'skull', 'neck', 'muzzle', 'eara', 'earb'}
 
 
 def jitter(name, n):
@@ -290,10 +291,16 @@ def draw_piece(canvas, name, shape, texname, shade, cam, light, masks):
     lt = np.array(light) * shade
     tx = Image.fromarray(np.clip(np.asarray(tx, np.float32) * lt, 0, 255).astype(np.uint8))
     # cut paper edge: a thin pale rim where the scissors went
-    if rad > 4:
+    if rad > 3:
         inner = m.filter(ImageFilter.MinFilter(3))
-        rim = ImageChops.subtract(m, inner).point(lambda v: v * 0.45)
-        tx.paste(Image.new('RGB', tx.size, tuple(int(min(255, c * 235)) for c in lt / max(lt.max(), 1e-3) * 0.9)), (0, 0), rim)
+        if name in HEAD_RIM:
+            # the head carries a warm lit rim (light from the door side): it must never read as the tail
+            inner = m.filter(ImageFilter.MinFilter(5))
+            rim = ImageChops.subtract(m, inner).point(lambda v: v * 0.9)
+            tx.paste(Image.new('RGB', tx.size, (246, 222, 184)), (0, 0), rim)
+        else:
+            rim = ImageChops.subtract(m, inner).point(lambda v: v * 0.45)
+            tx.paste(Image.new('RGB', tx.size, tuple(int(min(255, c * 235)) for c in lt / max(lt.max(), 1e-3) * 0.9)), (0, 0), rim)
     # paper relief: a soft shadow of the piece on whatever is behind it
     if rad > 3:
         sh = m.filter(ImageFilter.GaussianBlur(1.6)).point(lambda v: v * 0.32)

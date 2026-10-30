@@ -9,6 +9,7 @@ SANS = '/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf'
 SERIF = '/usr/share/fonts/truetype/dejavu/DejaVuSerif.ttf'
 SERIF_B = '/usr/share/fonts/truetype/dejavu/DejaVuSerif-Bold.ttf'
 SIL = SCORE['places']['sill']
+MOON_KEY = json.loads(open('/home/user/hartswf0/quickdraw/moon.part').readline())['key_id']
 
 
 def card(lines, path):
@@ -123,7 +124,8 @@ def main():
           ('Fourteen collage planes at measured depths, from sky (140 m) to the porch railing (2.1 m in front of the wall).', SANS, 18, (205, 200, 215)),
           ('Found fragments (public domain unless noted), among them: clouds (Top Of The Cloud), trees keyed from Golden Gate windmill footage,', SANS, 18, (205, 200, 215)),
           ('the door, curtain and person cut from Straight Talk, the room wall from an Anthracite lantern shot, the bulb from', SANS, 18, (205, 200, 215)),
-          ('Light Of Your Life, boards and railing from the logs of Billie, the Buffalo Baby; a Quick, Draw! moon (CC BY 4.0).', SANS, 18, (205, 200, 215)),
+          ('Light Of Your Life, boards and railing from the logs of Billie, the Buffalo Baby.', SANS, 18, (205, 200, 215)),
+          ('The moon: a drawing from the Quick, Draw! dataset by Google Creative Lab and contributors, CC BY 4.0 (key_id ' + MOON_KEY + ').', SANS, 18, (205, 200, 215)),
           ('The dog: 30 pieces cut from the dog of Amateur Film New Jersey C, each at its own depth, re-stacked as it turns.', SANS, 18, (205, 200, 215)),
           ('Drawn by code: the door casing, the window frame, the table, the person\'s cut-paper profile. All sound synthesized.', SANS, 18, (205, 200, 215)),
           ('The camera only translates through the stack; parallax, occlusion and focus give the depth.', SANS, 18, (205, 200, 215)),

@@ -143,7 +143,7 @@ def treeline(Z, X0, X1, Ytop, seed, dark, fog, keys, scale):
             al[sl] = np.maximum(al[sl], aa)
         x += int(tw * r.uniform(.35, .6))
     gy = int(Ytop * p)
-    al[gy:] = 1.0; out[gy:] = np.array(dark, np.float32) * 0.45
+    al[gy:] = 1.0; out[gy:] = np.array(dark, np.float32) * 1.6 + 0.12
     return dict(name=f'trees_{Z:g}', kind='card', Z=Z, rect=(X0, X1, -1.5, Ytop), img=rgba(out, al), fog=fog)
 
 
@@ -249,9 +249,9 @@ def room_lamp():
     bm = Image.new('L', b.size, 0); bd = ImageDraw.Draw(bm)
     bd.ellipse((5, 2, 135, 200), fill=255); bd.rectangle((38, 150, 102, 240), fill=255)
     bm = bm.filter(ImageFilter.GaussianBlur(1))
-    bs = (int(0.32 * p), int(0.56 * p))
+    bs = (int(0.26 * p), int(0.455 * p))
     b = img(tint(arr(b), (1.25, 1.05, 0.75))).resize(bs, Image.BICUBIC); bm = bm.resize(bs, Image.BICUBIC)
-    bx, by = int(0.5 * p), int((Y1 - 0.70) * p) - bs[1]
+    bx, by = int(0.53 * p), int((Y1 - 0.70) * p) - bs[1]
     glow = Image.new('L', (w, h), 0); ImageDraw.Draw(glow).ellipse((bx - 60, by - 50, bx + bs[0] + 60, by + bs[1] + 30), fill=150)
     glow = glow.filter(ImageFilter.GaussianBlur(28))
     im.paste(Image.new('RGB', (w, h), (255, 200, 120)), (0, 0), ImageChops.invert(al))
@@ -339,7 +339,7 @@ def yard():
     w, h = int((Xb - Xa) * p), int((Zb - Za) * p)
     t = np.concatenate([f, f[:, ::-1]] * 4, 1)
     t = np.concatenate([t, t[::-1]] * 3, 0)
-    out = tint(arr(img(t).resize((w, h))), (0.18, 0.22, 0.22))[::-1]
+    out = tint(arr(img(t).resize((w, h))), (0.40, 0.42, 0.50))[::-1]
     corners = [(Xa, -0.5, Zb), (Xb, -0.5, Zb), (Xb, -0.5, Za), (Xa, -0.5, Za)]
     return dict(name='yard', kind='quad', corners=corners, img=rgba(out, np.ones((h, w), np.float32)), fog=0.12, Z=10)
 

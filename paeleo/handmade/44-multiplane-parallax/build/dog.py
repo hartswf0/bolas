@@ -289,7 +289,7 @@ def pieces(P):
     add('rump', 'body', ('cap', Hh - F * 0.06, Hh - F * 0.07 - UP * 0.05, 0.11, 0.09), 'flank', 1.05, -0.001)
     tp = P['tail']
     for s in range(3):
-        add(f'tail{s}', 'body', ('cap', tp[s], tp[s + 1], 0.04 - 0.008 * s, 0.032 - 0.009 * s), 'saddle' if s else 'flank', 1.0, 0)
+        add(f'tail{s}', 'body', ('cap', tp[s], tp[s + 1], 0.032 - 0.008 * s, 0.026 - 0.009 * s), 'flank', 1.15 + 0.05 * s, 0)   # a pale tail: never mistaken for the dark head
     add('neck', 'head', ('cap', NB - F * 0.03, HC, 0.085, 0.07), 'saddle', 1.0, 0)
     add('ruff', 'head', ('cap', NB + F * 0.03 - UP * 0.05, (NB + HC) / 2 - UP * 0.03, 0.07, 0.06), 'chest', 0.95, -0.001)
     add('skull', 'head', ('cap', HC - P['F'] * 0.0 + UP * 0.005, HC, 0.078, 0.078), 'face', 1.0, 0)
@@ -298,7 +298,7 @@ def pieces(P):
     for k, e in enumerate(P['eyes']):
         add(f'eye{k}', 'head', ('cap', e, e, 0.012, 0.012), 'eye', 1.0, -0.004)
     for side, base, tip in P['ears']:
-        add(f'ear{"a" if side > 0 else "b"}', 'head', ('tri', base, tip, 0.05), 'saddle', 1.0, 0)
+        add(f'ear{"a" if side > 0 else "b"}', 'head', ('tri', base, tip, 0.05), 'face', 0.9, 0)
     return out
 
 
