@@ -3,7 +3,7 @@
 const { chromium } = require('playwright');
 const { spawn } = require('child_process');
 const fs = require('fs'), path = require('path');
-const FPS = 24, DUR = 32, N = FPS * DUR, SEED = 7;
+const FPS = 24, DUR = 41, N = FPS * DUR, SEED = 7;
 const here = __dirname, out = path.join(here, '..'), page = path.resolve(here, '../../contaminant.html');
 
 (async () => {
