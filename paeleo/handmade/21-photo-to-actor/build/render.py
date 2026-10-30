@@ -236,7 +236,7 @@ def close_shot(img_bg, rec, light, lamp):
     cc = save[3] * 2; gc = save[3][1] * 2 + (spec.GROUND_Y - actor.C0[1]) * save[0] * 2
     xd = sx(rec['x']) - DOG_OFF
     ox, oy = int(round((xd - x0) * 2 - cc[0])), int(round((GROUND + 2 - y0) * 2 - gc))
-    cvg = grade_dog(cv, lamp, light, rim=95.0)
+    cvg = grade_dog(cv, lamp, light, rim=28.0)
     al = cv.split()[3]
     sh = al.resize((al.width, max(1, al.height // 7))).filter(ImageFilter.GaussianBlur(9))
     shadow = Image.new('RGBA', sh.size, (8, 8, 14, 0)); shadow.putalpha(sh.point(lambda q: int(q * 0.55)))

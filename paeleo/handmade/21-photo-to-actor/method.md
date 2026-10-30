@@ -139,4 +139,30 @@ All five were verified on frames and audio extracted from the final `film.mp4` (
 - **Head leading (7.50–7.96 s).** The three-quarter photograph (f037, eye and muzzle legible) is turned toward the door, replacing the muddy mirrored profile.
 - **Measurement.** `x_world_measured` (the plate centroid in metres) is now in every trace frame, because the camera changes. The looks-in onset is measured at 26.417 s. Film: 912 frames, 9.02 MB, ALL OK. Voice onsets are unchanged: 0.97, 3.39, 7.37, 10.37, 26.37 s.
 
-**Stop condition:** watchable and the invariants hold. Round-3 critique is pending.
+## Repair round 4 (after critic round 3, `reviews/round3.md`)
+
+- **A turn, not a swap.** The turn is now staged frame by frame inside the close shot:
+
+  | frames | time (s) | view |
+  |---|---|---|
+  | 634–635 | 26.42 | profile |
+  | 636–638 | 26.50–26.58 | profile foreshortening (0.8, 0.62, 0.45 width), darkening as it turns away |
+  | 639–640 | 26.62–26.67 | rear head coming round (0.55, 0.8 width) |
+  | 641–671 | 26.71–27.96 | rear head held |
+  | 672–677 | 28.00–28.21 | the same views in reverse |
+
+  The cut back to the wide shot rests at 28.25.
+- **This dog, not a cut-out.** The rear head is rebuilt:
+  - a narrower skull, toned toward the neck and darker at the crown, whose lower edge fades into the neck;
+  - two small, close-set, rounded ear flaps as separate sprites, all f000 fur;
+  - the close-shot warm rim cut from 95 to 28, so there is no pale contour line.
+- **Life in the hold.**
+  - The ears follow the score's ear value.
+  - The right ear flicks once at 27.08–27.33 s.
+  - The head tilts slowly by ±2.5°.
+  - The breath bob continues.
+- **End card.** It names the back-of-head angle artwork.
+
+Measured: ALL OK, 9.03 MB, voice onsets unchanged, measured looks-in onset 26.417 s.
+
+**Stop condition:** watchable and the invariants hold. Round-4 critique is pending.

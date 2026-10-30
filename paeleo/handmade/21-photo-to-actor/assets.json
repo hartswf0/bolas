@@ -361,7 +361,7 @@
    ],
    "mirrored": false,
    "rights": "public_domain (inherits its source frame)",
-   "operation": "f000 head fur (dark-fur key, bright path pixels in-filled from the fur), cut by a HAND polygon: skull ellipse + two ear flaps (round 3 repair: the SAM cut of this rear view was illegible)"
+   "operation": "f000 head fur (bright path pixels rolled down to fur tone), toned toward the neck; cut by HAND shapes: a skull ellipse fading into the neck + two small close-set rounded ear flaps as separate sprites (rounds 3-4)"
   },
   {
    "asset": "actor/parts/body_front.png",
@@ -516,6 +516,13 @@
    "what": "Big Shoulders Display, JetBrains Mono (tools/paeleo/fonts, woff2 -> ttf in build/cache)",
    "operation": "typeset",
    "rights": "SIL Open Font License (house fonts)"
+  },
+  {
+   "asset": "actor/parts/head_back_ear_l.png, head_back_ear_r.png",
+   "what": "rear-view ear flaps",
+   "source": "paeleo/handmade/kit/archive-dog/frames/f000.jpg",
+   "rights": "public_domain",
+   "operation": "f000 fur toned to the neck, cut by hand ellipses (small, close-set, rounded); rotate about their bases with the score's ear value and one flick"
   }
  ]
 }

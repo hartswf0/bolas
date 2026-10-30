@@ -41,6 +41,9 @@ TURN2 = {192: ('back', 1, None), 193: ('back', 1, None), 194: ('back', 1, None),
 FACING_R = range(86, 192)                                                  # body faces away (screen right) 3.54 .. 7.96 s
 
 
+BACK_SCALE = 0.70                 # the rear head's on-screen size matched to the profile head (set by eye on the film)
+
+
 def ease(x): x = min(1, max(0, x)); return x * x * (3 - 2 * x)
 
 
@@ -96,16 +99,25 @@ def run():
         if lie > 0.5 and head_view == 'low':
             # round 3: on the lying body the lowered (f046) head read as a pale hollow front face; use the profile, level
             head_view = 'profile'; muz = -178; neck = min(neck, -186) if rest < 0.5 else neck
-        if look > 0.08:
-            # round 3: the head turns INTO the lit hall. It stays profile until the cut (26.42), then turns on screen:
-            # profile -> foreshortened profile -> the back of the head (both ears, skull outline, no muzzle) facing the viewer.
-            neck = -186; muz = -178
-            if look < 0.3 or i < 634:
-                head_view = 'profile'
-            elif look < 0.6:
-                head_view = 'profile'; head_sx = 0.5; head_tone = 0.8
+        flick, head_tilt = 0.0, 0.0
+        if look > 0.08 or 634 <= i <= 677:
+            # round 4: the turn into the hall is staged frame by frame inside the close shot, both ways, with intermediate views:
+            # profile -> profile foreshortening (3 frames) -> rear head coming round (2 frames) -> rear head, held with life.
+            neck = -186; muz = -172
+            TURN_IN = {636: ('profile', 0.8, 0.92), 637: ('profile', 0.62, 0.84), 638: ('profile', 0.45, 0.78),
+                       639: ('back', 0.55, 0.9), 640: ('back', 0.8, 0.95)}
+            TURN_OUT = {672: ('back', 0.8, 0.95), 673: ('back', 0.55, 0.9), 674: ('profile', 0.45, 0.78),
+                        675: ('profile', 0.62, 0.84), 676: ('profile', 0.8, 0.92), 677: ('profile', 1.0, 1.0)}
+            if i in TURN_IN or i in TURN_OUT:
+                head_view, head_sx, head_tone = (TURN_IN.get(i) or TURN_OUT.get(i))
+            elif 641 <= i <= 671:
+                head_view = 'back'; head_sx = 1.0; head_tone = 1.0
+                head_tilt = 2.5 * math.sin(2 * math.pi * 0.35 * (t - 26.7))           # a slow, slight tilt while it looks
+                if 650 <= i <= 656: flick = 28 * math.sin(math.pi * (i - 650) / 6)  # one ear flick at 27.1 s
             else:
-                head_view = 'back'; head_tone = 0.85; head_off = (-2, 6)
+                head_view = 'profile'
+            if head_view == 'back':
+                head_off = (-2, 3); head_scale = BACK_SCALE
         # ---- the two turns and the head leading
         if i in TURN1:
             v, fc, hv = TURN1[i]
@@ -134,7 +146,7 @@ def run():
                      'pose': {'view': view, 'lie': lie, 'crouch': crouch, 'feet': feet, 'tail_ang': tail_ang, 'neck_ang': neck,
                               'head_view': head_view, 'head_flip': head_flip, 'muzzle_ang': muz, 'ear': ear, 'brow': brow,
                               'mouth': mouth, 'bob': bob + breath * (1 if lie > 0.5 else 0.3), 'head_sx': head_sx,
-                              'head_off': head_off, 'head_scale': head_scale, 'head_tone': head_tone, 'close': close, 'sprite_h': sprite_h or (112 - 14 * crouch)},
+                              'head_off': head_off, 'head_scale': head_scale, 'head_tone': head_tone, 'close': close, 'flick': flick, 'head_tilt': head_tilt, 'sprite_h': sprite_h or (112 - 14 * crouch)},
                      'person': f['person'], 'door': f['door']})
     return perf
 

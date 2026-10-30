@@ -165,16 +165,32 @@ fur_src = np.minimum(fur_src, 70 + 0.3 * (fur_src - 70))
 wy = np.clip((62 - np.arange(Hh)) / 20.0, 0, 1)[:, None, None]           # only the ear band (top of the cut)
 tex = rgb0 * (1 - k_) + (fur_src * wy + (70 + 0.22 * (rgb0 - 70)) * (1 - wy)) * k_
 Wb, Hb = f0.size
-BACK_POLY = [(20, 56), (14, 18), (26, 9), (46, 33), (64, 33), (84, 9), (96, 18), (90, 56)]
-mk = Image.new('L', (Wb, Hb), 0); dr = ImageDraw.Draw(mk)
-dr.ellipse((18, 28, 92, 94), fill=255); dr.polygon(BACK_POLY[:4], fill=255); dr.polygon(BACK_POLY[4:], fill=255)
-mk = mk.filter(ImageFilter.GaussianBlur(1.2))
-hb = Image.fromarray(np.clip(tex, 0, 255).astype(np.uint8)); hb.putalpha(mk)
+# round 4 geometry: f000's own rear view shows one soft point near the crown, so the ears are SMALL, CLOSE-SET, ROUNDED
+# shepherd flaps (separate sprites, so they can move), on a narrower skull whose lower edge fades into the neck.
+neck_img = np.array(Image.open(os.path.join(OUT, 'neck.png'))).astype(float)
+neck_mean = (neck_img[:, :, :3].mean(axis=2) * neck_img[:, :, 3]).sum() / neck_img[:, :, 3].sum()
+tex = tex * 0.7 + 0.3 * neck_mean                      # tone continuous with the neck it sits on
+tex = tex + (neck_mean - tex.mean()) * 0.5
+tex = tex * np.linspace(0.72, 1.0, tex.shape[0])[:, None, None]       # crown darker, lower skull at the neck's tone
+mk = Image.new('L', (Wb, Hb), 0); ImageDraw.Draw(mk).ellipse((27, 30, 83, 96), fill=255)
+mk = mk.filter(ImageFilter.GaussianBlur(2.2))
+mka = np.array(mk).astype(float) * np.clip((Hb - 2 - np.arange(Hb)) / 22.0, 0, 1)[:, None]   # soft bottom: merges into the neck
+hb = Image.fromarray(np.clip(tex, 0, 255).astype(np.uint8)); hb.putalpha(Image.fromarray(mka.astype(np.uint8)))
 hb.save(os.path.join(OUT, 'head_back.png'))
+EARS = {'l': {'centre': (43, 30), 'tilt': -14}, 'r': {'centre': (67, 30), 'tilt': 14}}
+ear_pivots = {}
+for side, E in EARS.items():
+    em = Image.new('L', (Wb, Hb), 0); cx_, cy_ = E['centre']
+    ImageDraw.Draw(em).ellipse((cx_ - 8, cy_ - 15, cx_ + 8, cy_ + 13), fill=255)
+    em = em.rotate(-E['tilt'], resample=Image.BICUBIC, center=(cx_, cy_ + 12)).filter(ImageFilter.GaussianBlur(1.8))
+    ei = Image.fromarray(np.clip(tex * 0.92, 0, 255).astype(np.uint8)); ei.putalpha(em)
+    ei.save(os.path.join(OUT, 'head_back_ear_%s.png' % side))
+    ear_pivots[side] = [cx_, cy_ + 12]
 parts['head_back'] = {'file': 'actor/parts/head_back.png', 'source': '%s/frames/f000.jpg' % spec.KIT_DOG, 'frame': 0, 'box_src': list(BX),
                       'size': [Wb, Hb], 'scale_from_source': UP, 'mirrored': False, 'anchors': {'pivot': [55, 88]}, 'view': 'back',
-                      'operation': 'f000 head fur (dark-fur key, bright path pixels in-filled from the fur), cut by a HAND polygon: '
-                                   'skull ellipse + two ear flaps (round 3 repair: the SAM cut of this rear view was illegible)'}
+                      'ears': {k: {'file': 'actor/parts/head_back_ear_%s.png' % k, 'pivot': v} for k, v in ear_pivots.items()},
+                      'operation': 'f000 head fur (bright path pixels rolled down to fur tone), toned toward the neck; cut by HAND shapes: a skull '
+                                   'ellipse fading into the neck + two small close-set rounded ear flaps as separate sprites (rounds 3-4)'}
 
 # ---- whole-body angle artwork for the turns
 for bn, B in spec.BODY_VIEWS.items():
