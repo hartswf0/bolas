@@ -17,7 +17,7 @@ SCORE = json.load(open(os.path.join(HERE, '..', '..', 'score', 'threshold-score.
 FR = SCORE['frames']; FPS = 24; N = len(FR)
 W, H = 1280, 720
 S, X0, FEET = 185.0, 340.0, 650.0
-WALL_IN, WALL_OUT, SILL, LINTEL = 0.02, 0.22, 0.56, 2.10
+WALL_IN, WALL_OUT, SILL, LINTEL = 0.02, 0.46, 0.56, 2.10
 META = json.load(open(os.path.join(PD, 'parts.json')))
 
 # ---------------------------------------------------------------- helpers: affine algebra
@@ -101,9 +101,9 @@ def dog_turn(t):
 
 
 def dog_lie(i, t):
-    if 4.0 <= t < 7.46: return max(sc(i, 'lie'), ease((t - 4.0) / 0.75))   # refusal: lies down, back to the door
-    if 7.46 <= t < 8.2: return max(0., 1 - ease((t - 7.6) / 0.45))
-    if t >= 23.79: return ease((t - 23.79) / 0.6)
+    if 4.0 <= t < 7.46: return min(1., (t - 4.0) / 0.7)                    # refusal: lies down, back to the door
+    if 7.46 <= t < 8.2: return max(0., 1 - (t - 7.62) / 0.45)
+    if t >= 23.62: return min(1., (t - 23.62) / 0.6)                        # the sill: 15 frames down
     return 0.0
 
 
@@ -114,26 +114,26 @@ SPEED = np.abs(np.gradient(XS)) * FPS
 
 
 class Dog:
+    """One dog: every pose is the Woodcock Shooting pointer's own cuts, hinged differently (no other print's dog)."""
     def __init__(self):
-        self.k_w = S * 1.05 / 398; self.k_j = S * 1.08 / 1342; self.k_o = 0.25 * S / 200
-        pw, pj, po = self.k_w * 1.4, self.k_j * 1.4, self.k_o * 1.4
+        self.k_w = S * 1.05 / 398
+        pw = self.k_w * 1.4
         self.head = Part('w_head', pw); self.torso = Part('w_torso', pw); self.tail = Part('w_tail', pw)
         self.fore = Part('w_fore', pw); self.fore_far = Part('w_fore', pw, tint=(.62, .6, .6))
         self.thigh = Part('w_thigh', pw); self.shank = Part('w_shank', pw)
         self.thigh_far = Part('w_thigh', pw, tint=(.62, .6, .6)); self.shank_far = Part('w_shank', pw, tint=(.62, .6, .6))
-        self.jbody = Part('j_body', pj); self.jhead = Part('j_head', pj); self.ohead = Part('o_head', po)
-        self.jneck = Part('j_neck', pj)  # used as neck filler when the head stretches in (clipped by drawing order)
-        self.C_W = (792, 886); self.C_J = (660, 1098)
-        self.HIP = (885, 808)   # hind legs re-hung at the hip (the far-hind cut is a straight, standing leg)
+        self.back = Part('w_back', pw)
+        self.C_W = (792, 886)
+        self.HIP = (885, 808)
 
     # ---- gait: foot target (local Woodcock px) for a leg with phase offset
-    def foot(self, i, offset, u_neutral, t):
+    def foot(self, i, offset, u_neutral, t, liftmax):
         Ls = 0.28 * S / self.k_w; duty = .62; A = duty * Ls
         ph = DIST[i] / 0.28 + offset; u = ph - math.floor(ph)
         mv = min(1.0, SPEED[i] / 0.12)
         if u < duty: off = A / 2 - u / duty * A; lift = 0
         else:
-            v = (u - duty) / (1 - duty); off = -A / 2 + ease(v) * A; lift = 15 * math.sin(math.pi * v) * mv
+            v = (u - duty) / (1 - duty); off = -A / 2 + ease(v) * A; lift = liftmax * math.sin(math.pi * v) * mv
         return (u_neutral - off, 886 - lift)
 
     def leg(self, part, top_local, foot0, top_src, F, Mt_local_to_screen):
@@ -153,69 +153,30 @@ class Dog:
         x = scx(i); turn = dog_turn(t); lie = dog_lie(i, t)
         crouch = sc(i, 'crouch'); headp = sc(i, 'head'); tail = sc(i, 'tail'); wag = sc(i, 'wag'); rest = sc(i, 'rest')
         look = sc(i, 'look')
-        info = {'x_score': x, 'turn': turn, 'lie': lie}
+        info = {'x_score': x, 'turn': turn, 'lie': lie, 'model': 'woodcock'}
         f = 1 if turn >= 0 else -1
         Xc = wx(x)
-        juno = (4.0 <= t < T_RISE and lie >= 0.62) or (t >= 23.79 and lie >= 0.62)
-        info['model'] = 'juno' if juno else 'woodcock'
-        if juno:
-            # ---- lying: Juno (native facing right). f=+1 (facing door, left) -> mirrored
-            g = -f
-            settle = 6 * (1 - ease((lie - 0.62) / 0.3))
-            Mj = cam @ T(Xc, FEET - settle) @ Sc(g * self.k_j, self.k_j) @ T(-self.C_J[0], -self.C_J[1])
-            draw(body, self.jbody, Mj)
-            nk = self.jbody.piv['neck']
-            if T_LOOKBACK <= t < T_RISE:
-                # head leads: the look-back head (On a Point), facing the door while the body is still down
-                rise = ease((t - T_LOOKBACK) / 0.3)
-                Mo = cam @ T(*ap(T(Xc, FEET - settle) @ Sc(g * self.k_j, self.k_j) @ T(-self.C_J[0], -self.C_J[1]), nk)) @ \
-                     T(10 * (1 - rise), 34 * (1 - rise)) @ Sc(self.k_o) @ R(-8 + 4 * rise - 14 * (1 - rise)) @ T(-self.ohead.piv['neck'][0], -self.ohead.piv['neck'][1])
-                draw(headL, self.ohead, Mo); hp = (self.ohead, Mo)
-            else:
-                # Juno's own head: rest lowers it toward the paws; look stretches it into the lit doorway
-                down = 48 * rest + 28 * max(0., 0.75 - headp) * (1 - rest)
-                lk = ease(look)
-                ext = 150 * lk; down = lerp(down, 16, lk)
-                dark = lerp(1.0, 0.9, lk)
-                sx = lerp(1.0, 0.92, lk)
-                rs = ease(rest) * (1 - lk)
-                Mh_local = T(nk[0] + ext + 120 * rs, nk[1] + 18 * lk + 235 * rs) @ R(down - 30 * rs) @ Sc(sx, 1) @ T(-nk[0], -nk[1])
-                Mbase = cam @ T(Xc, FEET - settle) @ Sc(g * self.k_j, self.k_j) @ T(-self.C_J[0], -self.C_J[1])
-                if lk > 0.02 and False:   # neck filler (unused: the head's own neck covers a 12 cm reach): the same head cut, drawn behind, partway along the stretch
-                    for fr in (0.15, 0.3, 0.45, 0.6, 0.75, 0.9):
-                        Mf = Mbase @ T(nk[0] + ext * fr, nk[1] + 18 * lk * fr) @ R(down * fr) @ T(-nk[0], -nk[1])
-                        draw(body, self.jneck, Mf, mult=(lerp(1, .75, lk * fr),) * 3)
-                draw(headL, self.jhead, Mbase @ Mh_local, mult=(dark, dark * .97, dark * .95))
-                info['silhouette'] = 0.55 * lk
-                hp = (self.jhead, Mbase @ Mh_local)
-            nose = ap(hp[1], hp[0].piv['nose']); neck = ap(hp[1], hp[0].piv['neck'])
-            info.update(nose=nose, neck=neck, body_dir=-g, posture='lie')
-            return body, headL, info
-
-        # ---- standing / walking puppet (Woodcock pointer, native facing left)
         hs = max(abs(turn), 0.62)
-        pl = min(lie / 0.62, 1.0)                     # how far the puppet itself has folded toward lying
-        approach = 14.7 <= t < 23.79
-        drop = 10 * crouch + 46 * ease(pl)
-        pitch = (6 if approach else 0) - 3 * crouch * (0 if approach else 1)
+        pl = ease(lie)                                 # folding toward lying (haunches lead)
+        approach = 14.7 <= t < 23.6
+        drop = 10 * crouch * (1 - pl) + 54 * pl
+        haunch = 9 * math.sin(math.pi * pl) if lie < 0.999 else 0.0   # the rear goes down first
+        pitch = ((6 if approach else 0) - 3 * crouch * (0 if approach else 1)) * (1 - pl) - haunch
         bob = 1.5 * math.sin(2 * math.pi * DIST[i] / 0.17) * min(1, SPEED[i] / .12)
         Mw0 = T(Xc, FEET) @ Sc(f * hs * self.k_w, self.k_w) @ T(-self.C_W[0], -self.C_W[1]); Mw = cam @ Mw0
         Mt = T(0, drop + bob) @ T(792, 800) @ R(-pitch) @ T(-792, -800)
-        # legs
         sh = self.torso.piv['shoulder']; hip = self.HIP
-        sh_l = ap(Mt, sh); hip_l = ap(Mt, hip)
         legs = []
-        for far, off, un in ((True, .5, 978), (True, .75, 668), (False, 0., 978), (False, .25, 668)):
+        for far, off, un in ((True, .5, 968), (True, .75, 668), (False, 0., 968), (False, .25, 668)):
             hindleg = un > 800
-            F = self.foot(i, off, un + (8 if far else 0), t)
+            F = self.foot(i, off, un + (8 if far else 0), t, 26 if hindleg else 20)
             top = hip if hindleg else sh
             P = ap(Mt, top)
-            if pl > 0:   # fold toward lying: forelegs reach forward along the floor, hind feet tuck forward under the hip
-                Lr = 145 if hindleg else 80
-                dv = max(0., min(Lr, 886 - P[1]))
-                fold = (P[0] - math.sqrt(max(Lr ** 2 - dv ** 2, 0)) * (0.55 if hindleg else 1.0), 886)
-                F = (lerp(F[0], fold[0], ease(pl)), lerp(F[1], fold[1], ease(pl)))
             if not hindleg:
+                if pl > 0:   # forelegs reach forward along the floor (sphinx)
+                    L0 = 80; dv = max(0., min(L0, 886 - P[1]))
+                    fold = (P[0] - math.sqrt(max(L0 ** 2 - dv ** 2, 0)) - (6 if far else 0), 886)
+                    F = (lerp(F[0], fold[0], pl), lerp(F[1], fold[1], pl))
                 part = self.fore_far if far else self.fore
                 legs.append((far, [(part, self.leg(part, P, (652, 884), (690, 812), F, Mw))]))
             else:
@@ -224,12 +185,24 @@ class Dog:
                 d = max(abs(A_ - B_) + 1, min(A_ + B_ - 1, math.dist(P, F)))
                 base = math.atan2(F[1] - P[1], F[0] - P[0])
                 al = math.acos(max(-1, min(1, (A_ ** 2 + d ** 2 - B_ ** 2) / (2 * A_ * d))))
-                # hock behind the line hip->foot (the dog faces -u in local coords, so 'behind' is +u)
                 c1 = base - al; c2 = base + al
                 Hc1 = (P[0] + A_ * math.cos(c1), P[1] + A_ * math.sin(c1)); Hc2 = (P[0] + A_ * math.cos(c2), P[1] + A_ * math.sin(c2))
                 Hk = Hc1 if Hc1[0] > Hc2[0] else Hc2
-                a_th0 = math.atan2(838 - 800, 990 - 895); a_sk0 = math.atan2(888 - 838, 1006 - 990)
                 a_th = math.atan2(Hk[1] - P[1], Hk[0] - P[0]); a_sk = math.atan2(F[1] - Hk[1], F[0] - Hk[0])
+                if pl > 0:   # folded: thigh forward along the belly, shank back along the floor
+                    tth = math.radians(172 - (8 if far else 0)); hk2 = (P[0] + A_ * math.cos(tth), P[1] + A_ * math.sin(tth))
+                    tsk = math.atan2(886 - hk2[1], math.sqrt(max(B_ ** 2 - (886 - hk2[1]) ** 2, 1)))
+                    def blend(a1, a2, u):
+                        dd = (a2 - a1 + math.pi) % (2 * math.pi) - math.pi; return a1 + dd * u
+                    a_th = blend(a_th, tth, pl); Hk = (P[0] + A_ * math.cos(a_th), P[1] + A_ * math.sin(a_th))
+                    a_sk = blend(a_sk, tsk, pl)
+                # keep the leg on or above the floor while it folds
+                if Hk[1] > 880:
+                    dy = 880 - P[1]; cx_ = math.cos(a_th); a_th = math.atan2(dy, math.copysign(math.sqrt(max(A_ ** 2 - dy ** 2, 1)), cx_ if abs(cx_) > 1e-3 else -1))
+                    Hk = (P[0] + A_ * math.cos(a_th), P[1] + A_ * math.sin(a_th))
+                if Hk[1] + B_ * math.sin(a_sk) > 888:
+                    dy = 888 - Hk[1]; cx_ = math.cos(a_sk); a_sk = math.atan2(dy, math.copysign(math.sqrt(max(B_ ** 2 - dy ** 2, 1)), cx_ if abs(cx_) > 1e-3 else 1))
+                a_th0 = math.atan2(838 - 800, 990 - 895); a_sk0 = math.atan2(888 - 838, 1006 - 990)
                 M1 = Mw @ T(*P) @ R(math.degrees(a_th - a_th0)) @ T(-895, -800)
                 M2 = Mw @ T(*Hk) @ R(math.degrees(a_sk - a_sk0)) @ T(-990, -838)
                 legs.append((far, [(th_, M1), (sk_, M2)]))
@@ -237,34 +210,47 @@ class Dog:
             if far:
                 for part, M in pcs: draw(body, part, M)
         draw(body, self.torso, Mw @ Mt)
-        # tail
-        ta = (tail - 0.5) * 48 + wag * 16 * math.sin(2 * math.pi * 2.6 * t) - 10 * pl
+        # tail: lowered to lie along the floor when the dog lies
         rt = self.tail.piv['root']
+        ta = (tail - 0.5) * 48 + wag * 16 * math.sin(2 * math.pi * 2.6 * t)
+        ta = lerp(ta, 34 + wag * 6 * math.sin(2 * math.pi * 2.6 * t), pl)
         draw(body, self.tail, Mw @ Mt @ T(*rt) @ R(ta) @ T(-rt[0], -rt[1]))
         for far, pcs in legs:
             if not far:
                 for part, M in pcs: draw(body, part, M)
-        # head
+        # head (always the same pointer's head)
         nk = self.torso.piv['neck']
-        lookback = (T_LOOKBACK <= t < T_TURN_B[1] and turn < 0.0) or (T_RISE <= t < T_TURN_B[0])
         ha = -40 + 60 * headp
         if approach: ha -= 4
-        drop_head = (12 if approach else 0) + 8 * crouch
-        if abs(turn) < 0.55 or lookback:
-            # three-quarter head (On a Point) through the turn, or looking back at the door over the shoulder
-            hf = 1 if lookback else f
-            pos = ap(Mw0 @ Mt, (nk[0], nk[1] + drop_head))
-            Mh_screen = cam @ T(*pos) @ Sc(hf * self.k_o, self.k_o) @ R(ha * 0.5 if not lookback else -4) \
-                @ T(-self.ohead.piv['neck'][0], -self.ohead.piv['neck'][1] + 30)
-            draw(headL, self.ohead, Mh_screen); hp = (self.ohead, Mh_screen)
+        drop_head = (12 if approach else 0) + 8 * crouch * (1 - pl)
+        rs = ease(rest) * pl
+        ha = lerp(ha, -34, rs); drop_head += 22 * rs; fwd = -14 * rs          # chin down toward the paws
+        # head turn: hx = +1 head along the body, -1 head looking back over the shoulder
+        hx = hs
+        if T_LOOKBACK - 0.0833 <= t < T_TURN_B[1] and f < 0:
+            u = min(1., (t - (T_LOOKBACK - 0.0833)) / 0.1667)
+            c = math.cos(math.pi * u); hx = (1 if u < 0.5 else -1) * max(abs(c), 0.35) * hs
+        elif t >= T_TURN_B[1] or turn >= 0: hx = hs
+        # looking in: the head turns away from us into the room (profile narrows, then the back of the head)
+        lk = ease(min(1., look * 1.15)) if pl > 0.5 else 0.0
+        view = 'profile'
+        local_mirror = 1 if hx > 0 else -1
+        base_local = T(nk[0] + fwd - 34 * lk, nk[1] + drop_head)
+        if lk > 0.55:
+            view = 'back'
+            sb = lerp(0.82, 1.0, (lk - 0.55) / 0.45)
+            Mb = Mw @ Mt @ base_local @ T(-62, -36) @ Sc(sb, sb) @ T(-self.back.piv['neck'][0], -self.back.piv['neck'][1])
+            draw(headL, self.back, Mb, mult=(1.08, .97, .84)); hp = (self.back, Mb)
         else:
-            Mh = Mw @ Mt @ T(nk[0], nk[1] + drop_head) @ R(ha) @ T(-nk[0], -nk[1])
-            draw(headL, self.head, Mh); hp = (self.head, Mh)
+            nx = lerp(1.0, 0.45, lk / 0.55) if lk > 0 else 1.0
+            Mh = Mw @ Mt @ base_local @ Sc(local_mirror * abs(hx / hs) * nx, 1) @ R(ha * (1 - lk)) @ T(-nk[0], -nk[1])
+            draw(headL, self.head, Mh, mult=(lerp(1, 1.08, lk), lerp(1, .97, lk), lerp(1, .84, lk))); hp = (self.head, Mh)
         nose = ap(hp[1], hp[0].piv['nose']); neck = ap(hp[1], hp[0].piv['neck'])
+        if view == 'profile' and abs(nose[0] - neck[0]) < 1: nose = (neck[0] - local_mirror * f, nose[1])
         back = ap(Mw @ Mt, self.torso.piv['back'])
         moving = SPEED[i] > 0.05
         posture = 'lie' if pl > 0.5 else ('turning' if abs(turn) < 0.95 else ('walk' if moving else ('crouch' if crouch > .5 else 'stand')))
-        info.update(nose=nose, neck=neck, back=back, body_dir=f, posture=posture)
+        info.update(nose=nose, neck=neck, back=back, body_dir=f, posture=posture, head_view=view)
         return body, headL, info
 
 
@@ -397,7 +383,7 @@ def main(a, b):
         lm = light_map(t, cam)
         for L in (body, headL):
             arr = np.asarray(L).astype(float)
-            if L is headL and info.get('silhouette', 0) > 0.02:
+            if False:
                 # contre-jour: the head has entered the room's light; a warm rim where the light wraps the edge
                 a = arr[..., 3] / 255.
                 er = np.asarray(Image.fromarray((a * 255).astype(np.uint8)).filter(ImageFilter.MinFilter(5))).astype(float) / 255.
@@ -417,7 +403,8 @@ def main(a, b):
         rec = {'i': i, 't': round(t, 4), 'body_cx_screen': cxs, 'body_cy_screen': float(ys.mean()) if len(ys) else None,
                'x_world_body_centroid': xw, 'mask_top_screen': int(ya.min()) if len(ya) else None,
                'mask_px': int(ab.sum() + ah.sum()), 'head_cx_screen': float(xh.mean()) if len(xh) else None,
-               'head_top_screen': int(yh.min()) if len(yh) else None, 'cam_zoom': z}
+               'head_top_screen': int(yh.min()) if len(yh) else None, 'head_w_screen': int(xh.max() - xh.min()) if len(xh) else None,
+               'head_view': info.get('head_view'), 'cam_zoom': z}
         for k in ('nose', 'neck', 'back'):
             if k in info: rec[k + '_screen'] = [round(info[k][0], 1), round(info[k][1], 1)]
         rec.update({k: info[k] for k in ('x_score', 'turn', 'lie', 'model', 'body_dir', 'posture')})

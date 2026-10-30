@@ -144,6 +144,15 @@ The full record is in ledger.jsonl.
   - Retreat flickered. It is now defined as backing away with the head below the back.
   - The refusal heading went from 360° to 378° so that its back is what we see.
 
+## Repair round (after the independent critic: PASS, narrow)
+
+- **Head versus tail, 3.9–7.4 s.** The head pieces (skull, neck, muzzle, ears) now carry a warm lit cut rim, and the ears are in the tan face fragment. The tail is in the pale flank fragment, thinner and tapered. The near-black yard and tree-ground field behind the dog was lifted to a mid dusk grey-blue. I checked film frames at 4.0, 5.5 and 7.0 s, and the rimmed head reads distinctly from the pale tail.
+- **Credit.** The end card now credits the moon to the Quick, Draw! dataset by Google Creative Lab and contributors, CC BY 4.0, with its key_id.
+- **Optional fixes.**
+  - Tail taps lowered: on the film audio, 26.4–27.4 s now peaks at −19.1 dBFS against a −6.6 dBFS call peak.
+  - Bulb scaled to 0.27× the table width.
+  - The head-lead onset was left unchanged; its first door-facing frame is 7.583 s.
+
 ## What is weak and what I did not do
 
 - **What is still weak.**

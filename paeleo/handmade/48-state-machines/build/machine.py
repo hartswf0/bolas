@@ -191,7 +191,7 @@ def run(P=None, W=None):
         # body: turns only when up; turning toward the camera side (psi rises 0 -> pi through +z)
         upf = clamp(1 - d['lie'] * 8.0)                   # stands up first, then turns: no turning while folded
         dpsi = want - d['psi']
-        rate = 4.2 * upf * DT
+        rate = 7.0 * upf * DT
         step = clamp(dpsi * 0.18 + math.copysign(0.035, dpsi) if abs(dpsi) > 1e-3 else 0, -rate, rate)
         if abs(dpsi) < 0.01:
             step = dpsi
@@ -208,7 +208,7 @@ def run(P=None, W=None):
         d['look'] = ease(d['look'], look_t, 0.22)
         head_t = {'watch': 0.9, 'retreat': 0.45, 'refuse': 0.5, 'approach': 0.22, 'lie_down': 0.6}[S] - 0.15 * F
         d['head'] = ease(d['head'], head_t, 0.2)
-        tail_t = clamp(0.25 + 1.1 * F + 0.4 * press, 0, 1.35) if S != 'approach' else 0.55
+        tail_t = clamp(0.25 + 1.1 * F + 0.4 * press, 0, 0.78)   # low, but carried clear of the hocks if S != 'approach' else 0.55
         if S == 'lie_down':
             tail_t = 0.3
         d['tail'] = ease(d['tail'], tail_t, 0.25)
@@ -216,7 +216,7 @@ def run(P=None, W=None):
         if S == 'lie_down' and sub == 'rest':
             wag *= 0.4
         d['wagph'] += DT * 2 * math.pi * (1.6 + 1.5 * T)
-        d['ear'] = ease(d['ear'], clamp(0.45 + 0.6 * C + (0.3 if S == 'watch' else 0) - 0.7 * F), 0.15)
+        d['ear'] = ease(d['ear'], clamp(0.45 + 0.6 * C + (0.3 if S == 'watch' else 0) - 0.7 * F, 0.3, 1.0), 0.15)
         d['phase'] += (abs(d['v']) * DT + abs(step) * 0.22) / 0.62
         frames.append({'i': i, 't': round(t, 4), 'state': S, 'sub': sub, 'x': round(d['x'], 4), 'v': round(d['v'], 4),
                        'drives': {'fear': round(F, 4), 'trust': round(T, 4), 'curiosity': round(C, 4), 'pressed_memory': round(d['M'], 3), 'pressure': round(press, 4), 'invitation': round(inv, 4)},

@@ -23,7 +23,7 @@ GW, GH, PITCH, SS = 320, 180, 4, 1
 F32 = np.float32
 
 # ------------------------------------------------------------------ cameras: a wide shot, and after the dog lies down a closer one
-CAMS = {'wide': ((5.35, 1.02, 6.0), (1.55, 0.62, -0.25), 43.0), 'close': ((3.612, 0.95, 2.026), (0.05, 0.62, -0.2), 46.0)}
+CAMS = {'wide': ((5.35, 1.02, 6.0), (1.55, 0.62, -0.25), 43.0), 'close': ((3.612, 1.35, 2.026), (0.05, 0.38, -0.2), 46.0)}
 CUT_T, CUT_LEN = 24.625, 8          # the cut is a sweep of flips across the board, 8 frames, left to right
 TANH = TANV = 1.0
 CAM = fw = rt = up = DIRS = None
@@ -336,7 +336,7 @@ def dog_body(b, x_score, gphase, gait):
         return X0 + hf * f + Y * y + hs * s
 
     # spine bend carries part of the head's turn (front half yaws about the body centre)
-    bend = max(-0.75, min(0.75, hy * 0.33))
+    bend = max(-0.4, min(0.4, hy * 0.2))     # the spine carries a little of the turn; the legs never follow it
     rem = hy - bend
     nyaw = max(-1.5, min(1.5, rem * 0.75))
     hyaw = rem - nyaw
@@ -348,12 +348,12 @@ def dog_body(b, x_score, gphase, gait):
 
     H = lerp(0.43 - 0.09 * c, 0.155, l)
     Hc = H + lerp(0.01 - 0.03 * c, -0.005, l)
-    Hr = H + lerp(0.025 - 0.05 * c, 0.01, l)
+    Hr = H + lerp(0.025 - 0.05 * c, -0.035, l)   # lying, the hips settle lower than the shoulders
     prims = []
     al_b = 0.86
     chest = WB(0.18, Hc - 0.015, 0); ribs = WB(0.05, H + 0.01, 0); loin = W(-0.10, H + 0.035 - 0.02 * l, 0); rump = W(-0.21, Hr + 0.005, 0)
     prims += [(chest, chest, 0.135, 0.135, 'torso', 0.95), (ribs, ribs, 0.118, 0.118, 'torso', al_b),
-              (loin, loin, 0.088, 0.088, 'torso', al_b), (rump, rump, 0.102, 0.102, 'torso', al_b * 0.92)]
+              (loin, loin, 0.088, 0.088, 'torso', al_b), (rump, rump, 0.102 - 0.01 * l, 0.102 - 0.01 * l, 'torso', al_b * 0.92)]
     # neck and head
     nb_f, nb_y = 0.25, Hc + 0.06
     nb = WB(nb_f, nb_y, 0)
@@ -399,22 +399,24 @@ def dog_body(b, x_score, gphase, gait):
     for name, f0, fa, sgn, off in [('lf', 0.19, 0.21, 1, 0.25), ('rf', 0.19, 0.21, -1, 0.75), ('lh', -0.21, -0.23, 1, 0.0), ('rh', -0.21, -0.23, -1, 0.5)]:
         front = name[1] == 'f'
         s0 = 0.072 * sgn
-        root = WB(f0, (Hc - 0.03) if front else (Hr - 0.01), s0) if front else W(f0, Hr - 0.01, s0)
+        root = W(f0, (Hc - 0.03) if front else (Hr - 0.01), s0)
         df, lift = gait_offset(gphase + off, A)
-        foot_s = WB(fa + df, 0.03 + 0.055 * lift * gait, 0.08 * sgn + 0.02 * c * sgn) if front else W(fa + df, 0.03 + 0.055 * lift * gait, 0.08 * sgn + 0.02 * c * sgn)
+        foot_s = W(fa + df, 0.03 + 0.055 * lift * gait, 0.08 * sgn + 0.02 * c * sgn)
         # one solve for every posture: the feet go where the posture puts them, the joints follow (no joint blending)
         if front:
-            paw_t = lerp(foot_s, WB(0.43, 0.028, 0.068 * sgn), l)
+            paw_t = lerp(foot_s, W(0.43, 0.028, 0.068 * sgn), l)
             bendv = -hf - Y * 0.6 * l
             m1, p1 = ik2(root, paw_t, 0.2, 0.215, bendv / np.linalg.norm(bendv))
             prims += [(root, m1, 0.05, 0.036, 'leg:' + name, 0.84), (m1, p1, 0.034, 0.03, 'leg:' + name, 0.88),
                       (p1, p1 + hf * 0.03, 0.031, 0.031, 'leg:' + name, 0.9)]
             joints[name] = p1
         else:
-            paw_t = lerp(foot_s, W(-0.06, 0.026, 0.13 * sgn), l)
-            hock_t = paw_t + lerp(-hf * 0.05 + Y * 0.10, -hf * 0.13 + Y * 0.02, l)
-            bendv = hf + hs * sgn * 0.7 * l
-            k1, h1 = ik2(root, hock_t, 0.21, 0.2, bendv / np.linalg.norm(bendv))
+            # lying: the hind leg folds flat along the body, paw forward under the belly, hock tucked under the hip
+            paw_t = lerp(foot_s, W(0.0, 0.024, 0.11 * sgn), l)
+            hock_t = paw_t + lerp(-hf * 0.05 + Y * 0.10, -hf * 0.17 + Y * 0.02, l)
+            bendv = hf + hs * sgn * 0.35 * l * l + Y * 0.3 * l
+            sc = 1 - 0.2 * l
+            k1, h1 = ik2(root, hock_t, 0.21 * sc, 0.2 * sc, bendv / np.linalg.norm(bendv))
             p1 = paw_t
             prims += [(root, k1, 0.075, 0.045, 'leg:' + name, 0.82), (k1, h1, 0.04, 0.03, 'leg:' + name, 0.84), (h1, p1, 0.028, 0.03, 'leg:' + name, 0.88),
                       (p1, p1 + hf * 0.025, 0.031, 0.031, 'leg:' + name, 0.9)]
@@ -429,7 +431,7 @@ def dog_body(b, x_score, gphase, gait):
         a_ -= math.radians(12 + 18 * max(0, tail - 0.8))
         dloc = np.array([-math.cos(a_) * math.cos(wa), math.sin(a_), math.cos(a_) * math.sin(wa)])
         pts.append(pts[-1] + hf * dloc[0] * 0.115 + Y * dloc[1] * 0.115 + hs * dloc[2] * 0.115)
-    lie_tail = [tb, W(-0.42, 0.07, 0.04 + wa * 0.1), W(-0.55, 0.03, 0.09 + wa * 0.2), W(-0.68, 0.03, 0.12 + wa * 0.3)]
+    lie_tail = [tb, W(-0.43, 0.05, -0.07 + wa * 0.05), W(-0.50, 0.03, -0.19 + wa * 0.08), W(-0.45, 0.03, -0.31 + wa * 0.1)]   # laid round the hip, on the porch
     pts = [lerp(p, q, l) for p, q in zip(pts, lie_tail)]
     for k in range(3):
         prims.append((pts[k], pts[k + 1], 0.04 - 0.008 * k, 0.032 - 0.008 * k, 'tail', 0.7 if k < 2 else 0.95))
@@ -485,7 +487,7 @@ def person_body(w, t):
         tgt = hand_rest
         if sgn == -1:
             hand_reach = shj + fx * 0.6 - Y * 0.28
-            hand_low = W(0.72, 0.10, -0.32)
+            hand_low = W(0.60, 0.10, -0.42)
             tgt = lerp(tgt, hand_reach, reach)
             tgt = lerp(tgt, hand_low, low)
             if w['voice'] == 'call' and reach < 0.2:
@@ -669,7 +671,7 @@ def render_frame(fr, t_scene, prev_on, gphase, gait):
     on_disc = (np.clip(tone_c, 0, 1.2) ** 0.85 > THR) & ~led
     # outline: a ring of black discs (and dimmed LEDs) around the dog and the person; depth breaks inside the dog
     for m in (dogm, perm):
-        ring = ndimage.binary_dilation(m) & ~m & ~(dogm if m is perm else perm)
+        ring = ndimage.binary_dilation(m) & ~m & (~dogm if m is perm else True)   # the dog's ring also cuts into the person behind it
         on_disc &= ~ring
         em_c[ring & led] *= 0.18
     dz = np.zeros_like(dogm)

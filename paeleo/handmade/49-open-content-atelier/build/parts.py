@@ -49,23 +49,11 @@ P = {
  'w_hindfar': dict(src=WOOD, key='dog', poly=[(812, 822), (862, 818), (878, 832), (872, 852), (862, 870), (858, 886), (842, 890),
           (832, 884), (842, 866), (846, 846), (822, 838)], piv={'top': (850, 815), 'foot': (846, 884)},
           role='dog far hind leg'),
- # ---------------- the dog, lying (Juno); faces right in the source
- 'j_body': dict(src=JUNO, key='juno', hole=40000, poly=[(250, 880), (265, 790), (330, 730), (430, 690), (640, 662), (860, 648), (1010, 640),
-          (1060, 690), (1190, 690), (1200, 780), (1215, 870), (1290, 885), (1450, 890), (1572, 898), (1594, 925), (1560, 950),
-          (1370, 950), (1230, 975), (1140, 1000), (1138, 1092), (940, 1098), (860, 1062), (740, 1108), (600, 1092),
-          (430, 1142), (285, 1108), (252, 1045)], piv={'neck': (1120, 690), 'rump': (255, 900), 'paw': (1590, 925),
-          'floor': (900, 1100)}, role='dog lying body, legs folded'),
- 'j_head': dict(src=JUNO, key='none', poly=[(1030, 445), (1060, 425), (1090, 412), (1160, 405), (1240, 405), (1268, 412),
-          (1300, 450), (1335, 505), (1342, 522), (1372, 535), (1398, 555), (1396, 585), (1370, 596), (1312, 592), (1262, 612),
-          (1215, 640), (1196, 690), (1130, 704), (1060, 700), (1024, 660), (1016, 560), (1022, 480)],
-          piv={'neck': (1120, 690), 'nose': (1390, 565)}, role='dog head (lying), 3/4'),
- 'j_neck': dict(src=JUNO, key='none', poly=[(1050, 615), (1180, 615), (1198, 650), (1188, 700), (1060, 705), (1040, 660)],
-          piv={'neck': (1120, 690)}, role='dog neck (lying): stretches when the head reaches in'),
- # ---------------- the look-back head (On a Point, left pointer, head turned over its shoulder); faces left
- 'o_head': dict(src=POINT, key='none', poly=[(855, 525), (868, 506), (886, 482), (890, 456), (898, 436), (950, 418),
-          (990, 420), (1040, 440), (1064, 462), (1062, 520), (1066, 560), (1052, 598), (1002, 612), (962, 602), (932, 582),
-          (900, 562), (872, 558), (855, 545)], piv={'neck': (1000, 592), 'nose': (856, 534)},
-          role='dog head looking back (3/4)'),
+ # ---------------- the back of the head (for looking in), from the same Woodcock pointer: its ear and a skull of its own fur
+ 'w_ear': dict(src=WOOD, key='none', poly=[(596, 722), (615, 719), (640, 725), (652, 740), (656, 762), (650, 780), (640, 795),
+          (626, 797), (612, 788), (602, 768), (596, 745)], piv={'top': (618, 721)}, role='dog ear (for the back-of-head view)'),
+ 'w_skull': dict(src=WOOD, key='none', poly=[(712 + round(36 * __import__('math').cos(k / 20 * 6.2832)), 768 + round(42 * __import__('math').sin(k / 20 * 6.2832))) for k in range(20)],
+          piv={'c': (712, 768)}, role='dog skull seen from behind (white fur of the same print)'),
  # ---------------- the person (Edouart): standing man, faces right; pointing arm from the boy
  'm_upper': dict(src=FAM, key='dark', poly=[(505, 480), (600, 470), (650, 520), (700, 640), (700, 980), (660, 985),
           (520, 985), (505, 900)], piv={'hip': (590, 960), 'shoulder': (625, 640), 'neck': (615, 600)},
@@ -138,6 +126,21 @@ if __name__ == '__main__':
     for n, (s, box) in plates().items():
         Image.open(os.path.join(SRC, s + '.jpg')).convert('RGB').crop(box).save(os.path.join(OUT, n + '.jpg'), quality=92)
         meta[n] = {'src': s, 'role': 'plate', 'key': 'none', 'bbox_in_source': list(box), 'size': [box[2] - box[0], box[3] - box[1]]}
+    # composite: the back of the head = skull oval + the ear on each side (one mirrored); all from Woodcock Shooting
+    ld = lambda n: (Image.open(os.path.join(OUT, n + '.jpg')).convert('RGB'), Image.open(os.path.join(OUT, n + '_a.jpg')).convert('L'))
+    (sk, ska), (er, era) = ld('w_skull'), ld('w_ear')
+    cv = Image.new('RGB', (170, 150), (0, 0, 0)); ca = Image.new('L', (170, 150), 0)
+    cv.paste(sk, (85 - sk.width // 2, 14)); ca.paste(ska, (85 - sk.width // 2, 14))
+    er = er.resize((round(er.width * .8), round(er.height * .85))); era = era.resize(er.size)
+    for mir, x in ((True, 85 - 36 - er.width + 24), (False, 85 + 36 - 24)):
+        e, ea = (er.transpose(Image.FLIP_LEFT_RIGHT), era.transpose(Image.FLIP_LEFT_RIGHT)) if mir else (er, era)
+        e = e.rotate(8 if mir else -8, resample=Image.BICUBIC, expand=False); ea = ea.rotate(8 if mir else -8, resample=Image.BICUBIC, expand=False)
+        y = 34
+        cv.paste(e, (x, y), ea); ca.paste(Image.fromarray(np.maximum(np.asarray(ca.crop((x, y, x + e.width, y + e.height))), np.asarray(ea))), (x, y))
+    cv.save(os.path.join(OUT, 'w_back.jpg'), quality=95); ca.save(os.path.join(OUT, 'w_back_a.jpg'), quality=95)
+    meta['w_back'] = {'src': WOOD, 'role': 'dog back of the head (composite of w_skull + w_ear twice, one mirrored)', 'key': 'none',
+                      'bbox_in_source': meta['w_ear']['bbox_in_source'], 'composite_of': ['w_skull', 'w_ear', 'w_ear (mirrored)'],
+                      'pivots': {'neck': [85, 140], 'nose': [85, 60]}, 'size': [170, 150]}
     json.dump(meta, open(os.path.join(OUT, 'parts.json'), 'w'), indent=1)
     # proof sheet: every masked part on mid-grey
     ims = []
