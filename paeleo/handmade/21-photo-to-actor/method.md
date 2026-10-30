@@ -66,7 +66,7 @@ Onsets are measured on the dog's rendered alpha layer, by the rule named in `tra
 - `check_handmade.py` reports **ALL OK** (I1–I4). The refusal shows the turned back in 94 of 97 refuse frames.
 - Head below the back line on the approach: the minimum is 17.5 px, the median 37 px. This is measured as the mean height of the leading quarter of the mask against the top of the mid-back. The leading quarter includes the forelegs, so it is a proxy.
 - Sound, measured on the film's decoded audio: calls −10 to −11 dBFS RMS, soft voice −24 dBFS (about 14 dB under), room tone about −41 dBFS.
-- Film: 912 frames, 38.0 s, H.264 + AAC, faststart, 9.07 MB.
+- Film: 912 frames, 38.0 s, H.264 + AAC, faststart, 9.24 MB.
 
 ## Looked at (perceptual, by the builder, not a verdict)
 
@@ -83,6 +83,7 @@ The full record is `ledger.jsonl`. In short:
 - heads had square corners, so they got an elliptical cut;
 - the lying dog was barely inside the frame, so the score x was mapped to the loins;
 - the look-in read as a lift toward the light, so the back of the head was keyed dark, lowered, widened, made smaller and rim-lit;
+- the warm rim first outlined the whole dog like a sticker, so its gain was cut from 150 to 55;
 - the person's arm crossed her body, so its anchors were fixed;
 - the film was 30 MB because of the grain, so the grain was halved and the CRF changed;
 - the dog was still facing the viewer at 3.6 s, so the turn was tightened;
