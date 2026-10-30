@@ -8,7 +8,7 @@ TH = np.radians(60)
 D = np.array([np.sin(TH), 0, np.cos(TH)])          # path direction, out of the house
 V = np.array([np.cos(TH), 0, -np.sin(TH)])         # horizontal view direction (perpendicular to the path)
 F = 1060.0
-OFFSET = 0.45   # the dog's centre stands OFFSET m nearer the house than the score's x (the score's x is its rear)
+OFFSET = 0.33   # the dog's centre stands OFFSET m nearer the house than the score's x (lying: front half past the sill, rear and tail on the porch)
 
 
 def path_point(s, y=0.0):

@@ -204,7 +204,7 @@ def noise_level(rgb, where=None):
     y = rgb @ np.array([.299, .587, .114], np.float32)
     im = Image.fromarray((np.clip(y, 0, 1) * 255).astype(np.uint8))
     b = np.asarray(im.filter(ImageFilter.BoxBlur(1)), np.float32) / 255
-    d = (np.round(y * 255) / 255 - b)
+    d = (y - soften(rgb, 0.8) @ np.array([.299, .587, .114], np.float32))
     d = d[where].ravel() if where is not None else d.ravel()
     return float(1.4826 * np.median(np.abs(d - np.median(d))))
 

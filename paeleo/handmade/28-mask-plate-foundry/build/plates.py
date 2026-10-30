@@ -103,12 +103,5 @@ y = fh @ np.array([.299, .587, .114], np.float32)
 key = np.clip((y - .22) / .12, 0, 1) * BezierMask(ARM, feather=1.2).raster((384, 288))
 save('arm', fh, key, roto=ARM, op='luma key (0.22..0.34) x bezier garbage matte excluding the card', source='hand f010')
 
-# the seated person: SAM mask refined by a luma key against the snow (Survival Stresses f020)
-fs = load(os.path.join(SRC, 'sleeping-bag', 'f020.jpg'))
-sm = json.load(open(os.path.join(SRC, 'sleeping-bag', 'masks.json')))['20']
-ys = fs @ np.array([.299, .587, .114], np.float32)
-a = poly_matte(sm, (fs.shape[1], fs.shape[0]), feather=1.0) * np.clip((.93 - ys) / .1, 0, 1)
-save('seated', fs, a, op='SAM mask x inverse luma key (snow > 0.93 removed)', source='sleeping-bag f020')
-
 json.dump(info, open(os.path.join(OUT, 'plates.json'), 'w'), indent=1)
 print(json.dumps({k: v.get('noise') for k, v in info.items()}))

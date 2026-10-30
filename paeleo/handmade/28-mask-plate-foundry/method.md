@@ -31,11 +31,11 @@ Each primitive is a typed object:
 - **Keys**: a luma key cuts the 1941 arm, inside a garbage matte that leaves out the card it holds. An inverse luma
   key removes the snow around the seated figure. A difference key of the woman against a stabilised clean plate was
   tried and failed (ledger 3), so she is a hand-drawn 24-vertex roto.
-- **Light and grain matching**: every dog plate is luma-matched (mean 0.40, std 0.21) before lighting. One function,
+- **Light and grain matching**: every dog plate is luma-matched (mean 0.30, std 0.15) and choked 1.6 px (no halo of the source's bright ground). Its ambient is set from the measured dusk band behind it (wall and floor at t = 1 s, luma 0.129): the dog sits at 1.35x that luma with half its blue tint, and a contact shadow from its own matte darkens the floor under it. One function,
   `light_at()`, models a lamp inside the room shining through the aperture the door leaf leaves open. That function
   lights the porch floor, the sill, the dog card and the person. The dusk ambient tint is shared. Each layer's grain
   is measured (high-pass MAD inside its eroded matte), and noise is added to reach a common target of 0.016. The
-  measured values are in `build/cache/measure.json` → `grain`. One caveat: the shipped measure rounds luma to 1/255, so most layers read 0.00581, which is the quantisation floor and not their real grain. In practice every cut layer received a near-uniform grain of about 0.015. The matching is therefore weaker than its name suggests (ledger 8).
+  measured values are in `build/cache/measure.json` → `grain`. Round 1 removed the 8-bit rounding from the measure; the values are now measured (the dog about 0.002 before matching), and about 0.016 is added (ledger 10).
 
 ## The dog
 
@@ -53,17 +53,19 @@ All of the dog comes from *Amateur Film New Jersey C*:
   phase.
 - **Head**: elevation is mapped from the score's head and rest values. During the approach it is held 33° below
   horizontal, under the line of the back.
-- **Lying**: the body drops by the leg length. The belly mask is keyed by the score's `lie` value (two keys:
+- **Lying across the sill**: the dog's centre is 0.33 m nearer the house than the score's x, so its head and forequarters lie in the lit doorway past the sill and its rump and tail lie outside the right casing, on the porch. The body drops by the leg length. The belly mask is keyed by the score's `lie` value (two keys:
   standing, then lying, which rounds the haunch). The forelegs rotate 90° to lie forward and the hind legs fold 62°.
   None of the materials has a lying dog, so this pose is built entirely from masks and transforms.
-- **Turn 1 (3.45–3.95 s)**: the dog's own turn plates (f016, f026, f028, f032, f036, f040), two frames each, with
-  hard cuts and no dissolves. It then reads as the mirrored rig with its back to the door, and it lies down
-  (4.2–5.0 s).
-- **Turn 2 (7.46 s)**: the head leads. An unmirrored head is set on the mirrored, still-lying body's neck, so the
-  muzzle points at the door. The body rises from 7.5 to 8.0 s. The turn plates then play in reverse with their heads
-  masked off, while the f010 head rides each plate's neck key.
+- **Turn 1 (3.45–3.95 s)**: the dog's own turn plates f013, f030, f032, f036, three frames each, with hard cuts and
+  no dissolves. Each plate was chosen from a cut-out sheet of f013–f041 because it shows one legible head; f016 (head
+  hidden) and f040 (smeared double head) were rejected in round 1. The dog then reads as the mirrored rig with its back
+  to the door, and it lies down (4.2–5.0 s). A tail from f019 hangs on the rump, tucks with the score's tail value,
+  wags, and lies on the porch.
+- **Turn 2 (7.46 s)**: the head leads. The f038 head (face toward the camera) is parented to the mirrored, still-lying
+  body at the neck end; mirrored with the body, its face turns toward the door. The body rises from 7.5 to 8.0 s. The
+  turn plates f038, f037, f013 then play, four frames each, each with its own single head.
 - **Looking in (26.5–28.2 s)**: the head is swapped for the f000 plate, which shows the back of the dog's head. It is
-  set level on the neck track, scaled to 0.78 and lit from behind, so its dark back faces the camera against the lit
+  set level on the neck track with its mask extended down the neck so it overlaps the body (no gap), scaled to 0.78 and lit from behind, so its dark back faces the camera against the lit
   room. In this camera the room's depth and the seated person both lie to screen-left. A profile head would therefore
   read as looking at the person (ledger 6), which is why the back of the head is used.
 
@@ -113,10 +115,9 @@ The full list is in `ledger.jsonl`:
 - The part seams (neck, shoulders) show on close viewing.
 - The stone facade, made from resampled blocks, is busy and a little CG-regular.
 - The back-of-head look-in reads as a dark rounded head turned away. It is ambiguous at small size.
-- The seated person is a different source figure from the standing one. Both are graded to silhouette and dusk, but
-  the change is a substitution.
+- The seated person is the standing roto with straight legs swung forward: a stiff sit.
 - The voice is a formant synthesizer and sounds synthetic.
-- There is no tail layer. The tail's tuck and wag are not performed.
+- The tail is thin (the f019 cut) and reads only at full size.
 
 ## Not done
 
@@ -126,3 +127,11 @@ The full list is in `ledger.jsonl`:
 - No 3-D model, and no generative model.
 - No editable project file for After Effects: the "editable composition" is the Python comp (`rig.py`,
   `setplates.py`).
+
+## Round 1 repair
+
+The critic's round 1 verdict was DOES NOT PASS (`reviews/round1.md`). Each repair condition and its fix is in
+ledger 9–10, and the measured evidence is in `build/cache/film_checks.json`. Also changed: the person is now one
+body throughout (the Straight Talk roto, split at the hip and sat down on a hip pivot), so the Survival Stresses
+figure is no longer used. The lamp law is identical inside and outside, which removed the light seam at the
+threshold. The sill holdout is dilated by 1 px, which removed the dashed line.
