@@ -26,7 +26,7 @@ Each primitive is a typed object:
   and 20. The pose keys (neck, nose) carry the replaced head in turn 2. The dog's root track is the score's x through
   the camera.
 - **Holdout**: a full-frame matte that removes a layer where something nearer stands in front. The doorway is a
-  holdout cut into the facade. The facade, casing and sill mattes hold out the dog wherever it is past the threshold
+  holdout cut into the facade. The facade, casing and sill mattes are also applied as a holdout to the dog wherever it is past the threshold
   (screen x < the path's crossing of the facade plane). They also hold out the standing person, who is inside.
 - **Keys**: a luma key cuts the 1941 arm, inside a garbage matte that leaves out the card it holds. An inverse luma
   key removes the snow around the seated figure. A difference key of the woman against a stabilised clean plate was
@@ -53,7 +53,7 @@ All of the dog comes from *Amateur Film New Jersey C*:
   phase.
 - **Head**: elevation is mapped from the score's head and rest values. During the approach it is held 33° below
   horizontal, under the line of the back.
-- **Lying across the sill**: the dog's centre is 0.33 m nearer the house than the score's x, so its head and forequarters lie in the lit doorway past the sill and its rump and tail lie outside the right casing, on the porch. The body drops by the leg length. The belly mask is keyed by the score's `lie` value (two keys:
+- **Lying across the sill**: the dog's centre is 0.33 m nearer the house than the score's x, so its head and forequarters lie in the lit doorway past the sill (round 2: 0.42 m) and its rump and tail lie outside the right casing, on the porch. The body drops by the leg length. The belly mask is keyed by the score's `lie` value (two keys:
   standing, then lying, which rounds the haunch). The forelegs rotate 90° to lie forward and the hind legs fold 62°.
   None of the materials has a lying dog, so this pose is built entirely from masks and transforms.
 - **Turn 1 (3.45–3.95 s)**: the dog's own turn plates f013, f030, f032, f036, three frames each, with hard cuts and
@@ -61,8 +61,9 @@ All of the dog comes from *Amateur Film New Jersey C*:
   hidden) and f040 (smeared double head) were rejected in round 1. The dog then reads as the mirrored rig with its back
   to the door, and it lies down (4.2–5.0 s). A tail from f019 hangs on the rump, tucks with the score's tail value,
   wags, and lies on the porch.
-- **Turn 2 (7.46 s)**: the head leads. The f038 head (face toward the camera) is parented to the mirrored, still-lying
-  body at the neck end; mirrored with the body, its face turns toward the door. The body rises from 7.5 to 8.0 s. The
+- **Turn 2 (7.46 s)**: the head leads. The f010 profile head, unmirrored, rides the mirrored, still-lying body's neck
+  track, held up over the shoulders, so the muzzle points screen-left at the door while the body still lies away
+  (round 2: the f038 frontal face of round 1 read as looking at the camera). The body rises from 7.5 to 8.0 s. The
   turn plates f038, f037, f013 then play, four frames each, each with its own single head.
 - **Looking in (26.5–28.2 s)**: the head is swapped for the f000 plate, which shows the back of the dog's head. It is
   set level on the neck track with its mask extended down the neck so it overlaps the body (no gap), scaled to 0.78 and lit from behind, so its dark back faces the camera against the lit
@@ -89,7 +90,7 @@ Choice onsets, detected from the matte (movement, head height, the plate in use,
 - the audio, measured on the film's own AAC track: the calls average about −20.7 dBFS, the soft lines are about 13 dB
   under them and about 19 dB over the room tone.
 
-At the end the dog lies with 34 % of its matte past the threshold, and 1,168 px are held out by the facade and sill. `check_handmade.py` reports ALL OK.
+At the end the dog lies with 34 % of its matte past the threshold, and the holdout removes a measured number of matte pixels (1,617 px in the final film). An independent critic (round 3) could not see any of the dog covered by the jamb or sill in the picture, so this is a measured number, not a visible occlusion. `check_handmade.py` reports ALL OK.
 
 ## Looked at
 
@@ -135,3 +136,16 @@ ledger 9–10, and the measured evidence is in `build/cache/film_checks.json`. A
 body throughout (the Straight Talk roto, split at the hip and sat down on a hip pivot), so the Survival Stresses
 figure is no longer used. The lamp law is identical inside and outside, which removed the light seam at the
 threshold. The sill holdout is dilated by 1 px, which removed the dashed line.
+
+## Round 2 repair (critic 2: PASS, narrow)
+
+- **Across the sill**: the dog's centre is now 0.42 m nearer the house than the score's x, so about a third of its
+  matte is past the threshold. The sill is a raised board (0.13 m), and its holdout removes part of the forelegs and lower
+  chest inside. The round 3 critic did not see this occlusion in the picture (the dog reads as in front of the jamb), so
+  it is not claimed as visible; the end card no longer claims a dog holdout. The rump overlaps the right casing, which is correct because it is
+  outside, in front of the casing. The tail hangs onto the porch.
+- **Look-back (7.46–8.0 s)**: a profile head with the muzzle to screen-left, at the neck end.
+- **Look-in**: the mask follows the dark back of the head and its pointed ear tips. A thin warm rim of hall light
+  grazes the skull edge (upper 45 % of the head only).
+- **Door light**: inside the cone the dog's dusk ambient gives way to a warm lamp colour (1.0, 0.62, 0.30).
+- **Hind legs**: when lying they fold 105° forward, foreshortened, and are drawn behind the body.

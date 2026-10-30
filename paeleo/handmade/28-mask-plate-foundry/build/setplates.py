@@ -12,6 +12,7 @@ P = os.path.join(HERE, 'cache', 'plates')
 PL = json.load(open(os.path.join(P, 'plates.json')))
 
 DOOR_X = (-0.46, 0.46); DOOR_H = 2.05; WALL_T = 0.16
+SILL_H = 0.13   # round 2: a raised threshold board, tall enough that its edge visibly hides the dog's forelegs inside
 LAMP = np.array([-0.95, 1.95, -1.5])
 DUSK = (0.50, 0.58, 0.80)      # exterior ambient tint
 WARM = np.array([1.0, 0.72, 0.40], np.float32)   # lamp colour
@@ -66,7 +67,7 @@ def light_at(Pw, t):
     Q = LAMP + d * s[:, None]
     soft = 0.05
     inx = np.clip((Q[:, 0] - x0) / soft + .5, 0, 1) * np.clip((x1 - Q[:, 0]) / soft + .5, 0, 1)
-    iny = np.clip((DOOR_H - Q[:, 1]) / soft + .5, 0, 1) * np.clip((Q[:, 1] - 0.05) / 0.03 + .5, 0, 1)
+    iny = np.clip((DOOR_H - Q[:, 1]) / soft + .5, 0, 1) * np.clip((Q[:, 1] - SILL_H) / 0.03 + .5, 0, 1)
     dist = np.linalg.norm(d, axis=1)
     out = (Pw[:, 2] > 0) * inx * iny * (5.0 / (dist ** 2 + 0.6))
     return out * lamp_level(t)
@@ -116,11 +117,11 @@ class Set:
                  [[DOOR_X[0] - cw, DOOR_H + cw, .02], [DOOR_X[1] + cw, DOOR_H + cw, .02], [DOOR_X[1] + cw, DOOR_H, .02], [DOOR_X[0] - cw, DOOR_H, .02]]]
         self.casing = [pin(trim, np.ones(trim.shape[:2], np.float32), q)[0] for q in quads]
         # the sill: a wooden board across the threshold, top face + front face
-        fwg = grade(soften(fw, 1.5), gain=.45, tint=DUSK, sat=.4)   # softened: the plank joints made a dashed line
+        fwg = grade(soften(fw, 1.5), gain=.62, tint=DUSK, sat=.4)   # softened: the plank joints made a dashed line
         self.sill_top, st = pin(fwg, np.ones(fw.shape[:2], np.float32),
-                                [[DOOR_X[0] - .05, .07, -WALL_T], [DOOR_X[1] + .05, .07, -WALL_T], [DOOR_X[1] + .05, .07, .07], [DOOR_X[0] - .05, .07, .07]])
+                                [[DOOR_X[0] - .05, SILL_H, -WALL_T], [DOOR_X[1] + .05, SILL_H, -WALL_T], [DOOR_X[1] + .05, SILL_H, .07], [DOOR_X[0] - .05, SILL_H, .07]])
         self.sill_front, sf = pin(grade(soften(fw, 1.5), gain=.32, tint=DUSK, sat=.4), np.ones(fw.shape[:2], np.float32),
-                                  [[DOOR_X[0] - .05, .07, .07], [DOOR_X[1] + .05, .07, .07], [DOOR_X[1] + .05, 0, .07], [DOOR_X[0] - .05, 0, .07]])
+                                  [[DOOR_X[0] - .05, SILL_H, .07], [DOOR_X[1] + .05, SILL_H, .07], [DOOR_X[1] + .05, 0, .07], [DOOR_X[0] - .05, 0, .07]])
         self.sill_matte = np.maximum(poly_matte([st.tolist()], (W, H)), poly_matte([sf.tolist()], (W, H)))
         lf, la = plate('door_leaf', alpha=True)
         self.leaf = (grade(lf, gain=.85, sat=.6), la, PL['door_leaf']['quad'])
