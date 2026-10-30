@@ -60,6 +60,7 @@ def path_heading(x):
 
 
 FINAL_HEADING = 128.0
+AWAY = 378.0      # the refusal: rear to the door and three-quarters to us (its back is what we see)
 
 
 def ease_angle(a, b, u):
@@ -69,22 +70,22 @@ def ease_angle(a, b, u):
 def body_heading(t, x):
     if t < 3.417:
         return 180.0
-    if t < 3.98:
-        return ease_angle(180, 360, (t - 3.417) / (3.98 - 3.417))
+    if t < 3.80:
+        return ease_angle(180, AWAY, (t - 3.417) / (3.80 - 3.417))
     if t < 7.85:
-        return 360.0
+        return AWAY
     if t < 8.75:
-        return ease_angle(360, 180, (t - 7.85) / 0.9)
+        return ease_angle(AWAY, 180, (t - 7.85) / 0.9)
     if t < 23.79:
         return path_heading(x)
     return ease_angle(path_heading(x), FINAL_HEADING, (t - 23.79) / 0.8)
 
 
 def head_heading(t, x, hb):
-    if 3.417 <= t < 3.98:
-        return ease_angle(180, 360, (t - 3.417) / 0.22) if t < 3.637 else 360.0
+    if 3.417 <= t < 3.80:
+        return ease_angle(180, AWAY, (t - 3.417) / 0.22) if t < 3.637 else AWAY
     if 7.458 <= t < 8.75:
-        h = ease_angle(360, 186, (t - 7.458) / 0.20)      # the head comes round to the door first
+        h = ease_angle(AWAY, 186, (t - 7.458) / 0.20)      # the head comes round to the door first
         if t > 7.85:
             h = min(h, max(hb, 180.0) + 6 * (1 - smooth((t - 7.85) / 0.9)))
         return h

@@ -1,7 +1,7 @@
 """Collections researcher: fetch CC0 images from the Smithsonian Open Access S3 distribution, by idsId.
 Checks the object's metadata row first (record + media usage must both be CC0), refuses files over 8 MB,
 keeps a <=1800 px JPEG copy in sources/media/ and logs every byte to sources/downloads.jsonl.
-Usage: python3 -I fetch_media.py <meta.jsonl> <idsId> [...]"""
+Usage: python3 -I fetch_media.py <meta.jsonl from fetch_meta/fetch_grep> <idsId> [...]"""
 import json, os, sys, io, time, urllib.request
 from PIL import Image
 B = 'https://smithsonian-open-access.s3-us-west-2.amazonaws.com'

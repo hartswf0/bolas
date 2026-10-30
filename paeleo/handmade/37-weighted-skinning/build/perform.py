@@ -95,9 +95,10 @@ def trunk_pose(i):
     tl = tail[i]
     w = wag[i] * .7 * np.sin(2 * np.pi * 2.4 * T[i])
     tl_l = tl * (1 - .6 * lie[i])
-    p['tail1'] = euler(yaw=w, pitch=.85 * (.5 - tl_l) - .25 * lie[i])
-    p['tail2'] = euler(yaw=.6 * w, pitch=-.35 * tl_l + .25 * lie[i])
-    p['tail3'] = euler(yaw=.4 * w, pitch=-.25 * tl_l + .1 * lie[i])
+    # the tail points backward (-x): a positive pitch about z swings it DOWN, so tucking is positive
+    p['tail1'] = euler(yaw=w, pitch=-.85 * (.5 - tl_l) + .25 * lie[i])
+    p['tail2'] = euler(yaw=.6 * w, pitch=.35 * tl_l - .25 * lie[i])
+    p['tail3'] = euler(yaw=.4 * w, pitch=.25 * tl_l - .1 * lie[i])
     return p
 
 

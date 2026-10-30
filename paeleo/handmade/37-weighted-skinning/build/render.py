@@ -77,15 +77,9 @@ def sky(cam, pix):
     return c
 
 
-def shade(cam, V, F, Mt, aux, i, extra=None):
-    tri, bary, zb = raster.rasterize(*cam.project(V), F, cam.W, cam.H)
-    m = tri >= 0; t = tri[m]; b = bary[m]
-    P = np.einsum('pi,pik->pk', b, V[F[t]])
-    A = np.einsum('pi,pik->pk', b, aux[F[t]])
-    fn = np.cross(V[F[:, 1]] - V[F[:, 0]], V[F[:, 2]] - V[F[:, 0]]); fn /= np.linalg.norm(fn, axis=1, keepdims=True) + 1e-12
-    n = fn[t]; mat = Mt[t]
-    base = np.zeros((len(t), 3)); emis = np.zeros((len(t), 3))
-    light = PF['light'][i]; door = PF['door'][i]
+def surface(P, n, mat, A, i):
+    base = np.zeros((len(P), 3)); emis = np.zeros((len(P), 3))
+    light = PF['light'][i]
     def M(name): return mat == MAT[name]
     k = M('floor') | M('step')
     if k.any():
@@ -156,6 +150,12 @@ def shade(cam, V, F, Mt, aux, i, extra=None):
         hair = headk & ((r[:, 1] > 1.74) | (r[:, 0] < -.035)); col[hair] = [.12, .10, .09]
         col[(r[:, 1] > .86) & (r[:, 1] < .95)] *= .7                                  # belt
         base[k] = col * (1 + .05 * np.sin(r[:, 0] * 90 + r[:, 1] * 140))[:, None]
+    return base, emis
+
+
+def lighting(P, n, mat, base, emis, i, extra):
+    light = PF['light'][i]; door = PF['door'][i]
+    def M(name): return mat == MAT[name]
     # ---------------------------------------------------------------- light
     inside = P[:, 0] < world.WALL_IN_X - .005
     # how much of the dusk outside reaches a point: a soft ramp across the doorway, none deeper in the room
@@ -172,11 +172,59 @@ def shade(cam, V, F, Mt, aux, i, extra=None):
         vis[flo] *= 1 - np.clip(grid_at(sh, P[flo]), 0, .85)
         amb[flo] *= (1 - np.clip(grid_at(ao, P[flo]), 0, .75))[:, None]
     dl = (vis * lam * light * 6.5 / (d * d + .5))[:, None] * np.array([1.0, .72, .42])
-    c = base * (amb + glow + dl) + emis
+    return base * (amb + glow + dl) + emis
+
+
+
+
+_STATIC = {}
+
+def static_layer(cam, i):
+    """the porch, house and room never move: rasterize and surface them once per camera set-up"""
+    key = (tuple(np.round(cam.eye, 6)), tuple(np.round(cam.target, 6)), round(cam.f, 4), cam.W)
+    if _STATIC.get('key') != key:
+        tri, bary, zb = raster.rasterize(*cam.project(SV), SF, cam.W, cam.H)
+        m = tri >= 0; t = tri[m]; b = bary[m]
+        P = np.einsum('pi,pik->pk', b, SV[SF[t]])
+        fn = np.cross(SV[SF[:, 1]] - SV[SF[:, 0]], SV[SF[:, 2]] - SV[SF[:, 0]]); fn /= np.linalg.norm(fn, axis=1, keepdims=True) + 1e-12
+        n = fn[t]; mat = SM[t]
+        base, emis = surface(P, n, mat, P, i)
+        skyc = sky(cam, np.nonzero(~m)[0])
+        _STATIC.clear(); _STATIC.update(key=key, m=m, zb=zb, P=P, n=n, mat=mat, base=base, emis=emis, sky=skyc,
+                                        emis_light=(mat == MAT['lamp']) | (mat == MAT['window']))
+    return _STATIC
+
+
+def shade(cam, V, F, Mt, aux, i, extra=None):
+    """V/F hold only the moving things (door, person, dog); the static layer comes from the cache"""
+    S = static_layer(cam, i)
+    tri, bary, zd = raster.rasterize(*cam.project(V), F, cam.W, cam.H)
+    dyn = (tri >= 0) & (zd < S['zb'])
+    m = S['m'] | dyn
+    # per covered pixel: static values, overwritten where a moving surface is nearer
+    sidx = np.full(cam.H * cam.W, -1); sidx[S['m']] = np.arange(S['m'].sum())
+    pix = np.nonzero(m)[0]; isd = dyn[pix]
+    P = np.zeros((len(pix), 3)); n = np.zeros((len(pix), 3)); mat = np.zeros(len(pix), int)
+    base = np.zeros((len(pix), 3)); emis = np.zeros((len(pix), 3))
+    st = sidx[pix[~isd]]
+    P[~isd] = S['P'][st]; n[~isd] = S['n'][st]; mat[~isd] = S['mat'][st]; base[~isd] = S['base'][st]; emis[~isd] = S['emis'][st]
+    # emissive lamp and window follow the room light
+    if S['emis_light'].any():
+        e2 = surface(S['P'][st][S['emis_light'][st]], S['n'][st][S['emis_light'][st]], S['mat'][st][S['emis_light'][st]],
+                     S['P'][st][S['emis_light'][st]], i)[1]
+        tmp = emis[~isd]; tmp[S['emis_light'][st]] = e2; emis[~isd] = tmp
+    t = tri[pix[isd]]; b = bary[pix[isd]]
+    Pd = np.einsum('pi,pik->pk', b, V[F[t]]); Ad = np.einsum('pi,pik->pk', b, aux[F[t]])
+    fn = np.cross(V[F[:, 1]] - V[F[:, 0]], V[F[:, 2]] - V[F[:, 0]]); fn /= np.linalg.norm(fn, axis=1, keepdims=True) + 1e-12
+    P[isd] = Pd; n[isd] = fn[t]; mat[isd] = Mt[t]
+    bd, ed = surface(Pd, fn[t], Mt[t], Ad, i); base[isd] = bd; emis[isd] = ed
+    c = lighting(P, n, mat, base, emis, i, extra)
     img = np.zeros((cam.H * cam.W, 3))
-    img[~m] = sky(cam, np.nonzero(~m)[0])
+    img[~m] = S['sky'][np.searchsorted(np.nonzero(~S['m'])[0], np.nonzero(~m)[0])]
     img[m] = c
-    out = {'img': img.reshape(cam.H, cam.W, 3), 'tri': tri, 'm': m, 'P': P, 'mat': mat, 't': t, 'b': b}
+    # for the measurements: the dog's pixels with their triangle and barycentrics (in the moving set)
+    tri_full = np.full(cam.H * cam.W, -1); tri_full[pix[isd]] = t
+    out = {'img': img.reshape(cam.H, cam.W, 3), 'tri': tri_full, 'm': dyn, 'P': Pd, 'mat': Mt[t], 't': t, 'b': b}
     return out
 
 
@@ -188,7 +236,7 @@ def assemble(i, mode='dqs', weights_view=None):
     c, s = np.cos(PF['door'][i]), np.sin(PF['door'][i])
     Rm = np.array([[c, 0, -s], [0, 1, 0], [s, 0, c]])
     aux_d = (Vd - [world.WALL_IN_X, 0, -world.DOOR_Z + .01]) @ Rm
-    parts = [(SV, SF, SM, SV), (Vd, Fd, Md, aux_d),
+    parts = [(Vd, Fd, Md, aux_d),
              (Pp, PER['F'], np.full(len(PER['F']), MAT['person']), PER['V']),
              (Pd, DOG['F'], np.full(len(DOG['F']), MAT['dog']), np.c_[DOG['UV'], np.zeros(len(DOG['V']))])]
     V, F, Mt, AX = [], [], [], []; off = 0; ranges = {}
@@ -254,7 +302,7 @@ def render(i, mode='dqs', cam=None, path=None, measure=True):
         py, px = idx // cam.W / SS, idx % cam.W / SS
         Pw = o['P'][isdog]
         # head-ness of each dog pixel, interpolated from the vertex weights of the head/neck bones
-        a, b_ = ranges[3]
+        a, b_ = ranges[2]
         hw = np.einsum('pi,pi->p', o['b'][isdog], DOG_HEADW[F[t[isdog]] - a])
         hd = hw > .5; bd = hw < .1
         res = {'i': i, 'dog_px': int(isdog.sum() / SS / SS)}

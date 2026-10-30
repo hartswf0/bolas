@@ -6,9 +6,8 @@
   "metadata": "metadata/edan/saam/*.txt (line-delimited EDAN JSON), streamed and filtered by build/fetch_meta.py, fetch_grep.py",
   "media": "media/saam/<idsId>.jpg, fetched by build/fetch_media.py only after checking both metadata_usage.access and online_media.usage.access == CC0",
   "kept_records": [
-   "sources/meta/saam.jsonl",
-   "sources/meta/sil.jsonl",
-   "sources/meta/muy.jsonl"
+   "sources/meta/records_fetched.jsonl (full EDAN record of every fetched object)",
+   "sources/meta/candidates.tsv (index of 1,819 CC0-with-media SAAM records found by the dog/door/porch/seated, Muybridge and silhouette/Currier searches)"
   ],
   "download_log": "sources/downloads.jsonl",
   "total_media_bytes_downloaded": 71803737,
@@ -1116,13 +1115,13 @@
      "part": "o_head",
      "role": "dog head looking back (3/4)",
      "crop_box_in_kept_copy_px": [
-      851,
+      853,
       416,
       1069,
       615
      ],
      "crop_box_in_original_px": [
-      1418,
+      1422,
       693,
       1782,
       1025
@@ -1190,25 +1189,25 @@
        582
       ],
       [
-       906,
-       570
+       900,
+       562
       ],
       [
        872,
-       566
+       558
       ],
       [
-       853,
-       546
+       855,
+       545
       ]
      ],
      "pivots_in_part_px": {
       "neck": [
-       149,
+       147,
        176
       ],
       "nose": [
-       5,
+       3,
        118
       ]
      },
@@ -1848,8 +1847,9 @@
    "object_number": "1986.65.292",
    "record_url": "https://americanart.si.edu/collections/search/artwork/?id=24625",
    "licence": "CC0",
+   "metadata_licence": "CC0",
    "bytes_downloaded": 784937,
-   "kept_copy": "sources/media/SAAM-1986.65.292_1.jpg"
+   "kept_copy": "sources/media/SAAM-1986.65.292_1.jpg (reduced to 800 px review copy)"
   },
   {
    "idsId": "SAAM-1895.10.1_1",
@@ -1858,8 +1858,9 @@
    "object_number": "1895.10.1",
    "record_url": "https://americanart.si.edu/collections/search/artwork/?id=13542",
    "licence": "CC0",
+   "metadata_licence": "CC0",
    "bytes_downloaded": 1535796,
-   "kept_copy": "sources/media/SAAM-1895.10.1_1.jpg"
+   "kept_copy": "sources/media/SAAM-1895.10.1_1.jpg (reduced to 800 px review copy)"
   },
   {
    "idsId": "SAAM-1971.458_1",
@@ -1868,8 +1869,9 @@
    "object_number": "1971.458",
    "record_url": "https://americanart.si.edu/collections/search/artwork/?id=1457",
    "licence": "CC0",
+   "metadata_licence": "CC0",
    "bytes_downloaded": 1089548,
-   "kept_copy": "sources/media/SAAM-1971.458_1.jpg"
+   "kept_copy": "sources/media/SAAM-1971.458_1.jpg (reduced to 800 px review copy)"
   },
   {
    "idsId": "SAAM-1929.8.342_1",
@@ -1878,8 +1880,9 @@
    "object_number": "1929.8.342",
    "record_url": "https://americanart.si.edu/collections/search/artwork/?id=29589",
    "licence": "CC0",
+   "metadata_licence": "CC0",
    "bytes_downloaded": 4334191,
-   "kept_copy": "sources/media/SAAM-1929.8.342_1.jpg"
+   "kept_copy": "sources/media/SAAM-1929.8.342_1.jpg (reduced to 800 px review copy)"
   },
   {
    "idsId": "SAAM-1939.4.1_1",
@@ -1888,8 +1891,9 @@
    "object_number": "1939.4.1",
    "record_url": "https://americanart.si.edu/collections/search/artwork/?id=17764",
    "licence": "CC0",
+   "metadata_licence": "CC0",
    "bytes_downloaded": 1826947,
-   "kept_copy": "sources/media/SAAM-1939.4.1_1.jpg"
+   "kept_copy": "sources/media/SAAM-1939.4.1_1.jpg (reduced to 800 px review copy)"
   },
   {
    "idsId": "SAAM-2002.48.19_1",
@@ -1898,8 +1902,9 @@
    "object_number": "2002.48.19",
    "record_url": "https://americanart.si.edu/collections/search/artwork/?id=71607",
    "licence": "CC0",
+   "metadata_licence": "CC0",
    "bytes_downloaded": 1398031,
-   "kept_copy": "sources/media/SAAM-2002.48.19_1.jpg"
+   "kept_copy": "sources/media/SAAM-2002.48.19_1.jpg (reduced to 800 px review copy)"
   },
   {
    "idsId": "SAAM-1971.446.224_1",
@@ -1908,8 +1913,9 @@
    "object_number": "1971.446.224",
    "record_url": "https://americanart.si.edu/collections/search/artwork/?id=2541",
    "licence": "CC0",
+   "metadata_licence": "CC0",
    "bytes_downloaded": 904620,
-   "kept_copy": "sources/media/SAAM-1971.446.224_1.jpg"
+   "kept_copy": "sources/media/SAAM-1971.446.224_1.jpg (reduced to 800 px review copy)"
   },
   {
    "idsId": "SAAM-1971.446.119_1",
@@ -1918,8 +1924,9 @@
    "object_number": "1971.446.119",
    "record_url": "https://americanart.si.edu/collections/search/artwork/?id=2397",
    "licence": "CC0",
+   "metadata_licence": "CC0",
    "bytes_downloaded": 868917,
-   "kept_copy": "sources/media/SAAM-1971.446.119_1.jpg"
+   "kept_copy": "sources/media/SAAM-1971.446.119_1.jpg (reduced to 800 px review copy)"
   },
   {
    "idsId": "SAAM-1972.84.86_1",
@@ -1928,8 +1935,9 @@
    "object_number": "1972.84.86",
    "record_url": "https://americanart.si.edu/collections/search/artwork/?id=27351",
    "licence": "CC0",
+   "metadata_licence": "CC0",
    "bytes_downloaded": 1949986,
-   "kept_copy": "sources/media/SAAM-1972.84.86_1.jpg"
+   "kept_copy": "sources/media/SAAM-1972.84.86_1.jpg (reduced to 800 px review copy)"
   },
   {
    "idsId": "SAAM-1991.56.267_1",
@@ -1938,8 +1946,9 @@
    "object_number": "1991.56.267",
    "record_url": "https://americanart.si.edu/collections/search/artwork/?id=34677",
    "licence": "CC0",
+   "metadata_licence": "CC0",
    "bytes_downloaded": 760703,
-   "kept_copy": "sources/media/SAAM-1991.56.267_1.jpg"
+   "kept_copy": "sources/media/SAAM-1991.56.267_1.jpg (reduced to 800 px review copy)"
   },
   {
    "idsId": "SAAM-1929.8.264.21_1",
@@ -1948,8 +1957,9 @@
    "object_number": "1929.8.264.21",
    "record_url": "https://americanart.si.edu/collections/search/artwork/?id=29617",
    "licence": "CC0",
+   "metadata_licence": "CC0",
    "bytes_downloaded": 4357757,
-   "kept_copy": "sources/media/SAAM-1929.8.264.21_1.jpg"
+   "kept_copy": "sources/media/SAAM-1929.8.264.21_1.jpg (reduced to 800 px review copy)"
   },
   {
    "idsId": "SAAM-1972.84.51_1",
@@ -1958,8 +1968,9 @@
    "object_number": "1972.84.51",
    "record_url": "https://americanart.si.edu/collections/search/artwork/?id=27404",
    "licence": "CC0",
+   "metadata_licence": "CC0",
    "bytes_downloaded": 1632388,
-   "kept_copy": "sources/media/SAAM-1972.84.51_1.jpg"
+   "kept_copy": "sources/media/SAAM-1972.84.51_1.jpg (reduced to 800 px review copy)"
   },
   {
    "idsId": "SAAM-1994.91.185_1",
@@ -1968,8 +1979,9 @@
    "object_number": "1994.91.185",
    "record_url": "https://americanart.si.edu/collections/search/artwork/?id=34403",
    "licence": "CC0",
+   "metadata_licence": "CC0",
    "bytes_downloaded": 1674214,
-   "kept_copy": "sources/media/SAAM-1994.91.185_1.jpg"
+   "kept_copy": "sources/media/SAAM-1994.91.185_1.jpg (reduced to 800 px review copy)"
   },
   {
    "idsId": "SAAM-1973.122.1_1",
@@ -1978,8 +1990,9 @@
    "object_number": "1973.122.1",
    "record_url": "https://americanart.si.edu/collections/search/artwork/?id=6083",
    "licence": "CC0",
+   "metadata_licence": "CC0",
    "bytes_downloaded": 2144409,
-   "kept_copy": "sources/media/SAAM-1973.122.1_1.jpg"
+   "kept_copy": "sources/media/SAAM-1973.122.1_1.jpg (reduced to 800 px review copy)"
   },
   {
    "idsId": "SAAM-1973.122.2_1",
@@ -1988,8 +2001,9 @@
    "object_number": "1973.122.2",
    "record_url": "https://americanart.si.edu/collections/search/artwork/?id=6084",
    "licence": "CC0",
+   "metadata_licence": "CC0",
    "bytes_downloaded": 1923707,
-   "kept_copy": "sources/media/SAAM-1973.122.2_1.jpg"
+   "kept_copy": "sources/media/SAAM-1973.122.2_1.jpg (reduced to 800 px review copy)"
   },
   {
    "idsId": "SAAM-1973.122.3_1",
@@ -1998,8 +2012,9 @@
    "object_number": "1973.122.3",
    "record_url": "https://americanart.si.edu/collections/search/artwork/?id=25432",
    "licence": "CC0",
+   "metadata_licence": "CC0",
    "bytes_downloaded": 2138292,
-   "kept_copy": "sources/media/SAAM-1973.122.3_1.jpg"
+   "kept_copy": "sources/media/SAAM-1973.122.3_1.jpg (reduced to 800 px review copy)"
   },
   {
    "idsId": "SAAM-1973.122.15_1",
@@ -2008,8 +2023,9 @@
    "object_number": "1973.122.15",
    "record_url": "https://americanart.si.edu/collections/search/artwork/?id=16518",
    "licence": "CC0",
+   "metadata_licence": "CC0",
    "bytes_downloaded": 1566106,
-   "kept_copy": "sources/media/SAAM-1973.122.15_1.jpg"
+   "kept_copy": "sources/media/SAAM-1973.122.15_1.jpg (reduced to 800 px review copy)"
   },
   {
    "idsId": "SAAM-1973.122.10_1",
@@ -2018,8 +2034,9 @@
    "object_number": "1973.122.10",
    "record_url": "https://americanart.si.edu/collections/search/artwork/?id=24849",
    "licence": "CC0",
+   "metadata_licence": "CC0",
    "bytes_downloaded": 1396115,
-   "kept_copy": "sources/media/SAAM-1973.122.10_1.jpg"
+   "kept_copy": "sources/media/SAAM-1973.122.10_1.jpg (reduced to 800 px review copy)"
   },
   {
    "idsId": "SAAM-1973.122.7_1",
@@ -2028,8 +2045,9 @@
    "object_number": "1973.122.7",
    "record_url": "https://americanart.si.edu/collections/search/artwork/?id=24773",
    "licence": "CC0",
+   "metadata_licence": "CC0",
    "bytes_downloaded": 1609887,
-   "kept_copy": "sources/media/SAAM-1973.122.7_1.jpg"
+   "kept_copy": "sources/media/SAAM-1973.122.7_1.jpg (reduced to 800 px review copy)"
   },
   {
    "idsId": "SAAM-1981.172.9_1",
@@ -2038,8 +2056,9 @@
    "object_number": "1981.172.9",
    "record_url": "https://americanart.si.edu/collections/search/artwork/?id=788",
    "licence": "CC0",
+   "metadata_licence": "CC0",
    "bytes_downloaded": 1338437,
-   "kept_copy": "sources/media/SAAM-1981.172.9_1.jpg"
+   "kept_copy": "sources/media/SAAM-1981.172.9_1.jpg (reduced to 800 px review copy)"
   },
   {
    "idsId": "SAAM-1981.172.11_1",
@@ -2048,8 +2067,9 @@
    "object_number": "1981.172.11",
    "record_url": "https://americanart.si.edu/collections/search/artwork/?id=24820",
    "licence": "CC0",
+   "metadata_licence": "CC0",
    "bytes_downloaded": 1319609,
-   "kept_copy": "sources/media/SAAM-1981.172.11_1.jpg"
+   "kept_copy": "sources/media/SAAM-1981.172.11_1.jpg (reduced to 800 px review copy)"
   },
   {
    "idsId": "SAAM-1981.172.25_1",
@@ -2058,8 +2078,9 @@
    "object_number": "1981.172.25",
    "record_url": "https://americanart.si.edu/collections/search/artwork/?id=24822",
    "licence": "CC0",
+   "metadata_licence": "CC0",
    "bytes_downloaded": 1089676,
-   "kept_copy": "sources/media/SAAM-1981.172.25_1.jpg"
+   "kept_copy": "sources/media/SAAM-1981.172.25_1.jpg (reduced to 800 px review copy)"
   },
   {
    "idsId": "SAAM-1981.172.19_1",
@@ -2068,8 +2089,9 @@
    "object_number": "1981.172.19",
    "record_url": "https://americanart.si.edu/collections/search/artwork/?id=24726",
    "licence": "CC0",
+   "metadata_licence": "CC0",
    "bytes_downloaded": 2383256,
-   "kept_copy": "sources/media/SAAM-1981.172.19_1.jpg"
+   "kept_copy": "sources/media/SAAM-1981.172.19_1.jpg (reduced to 800 px review copy)"
   },
   {
    "idsId": "SAAM-1980.53.6_1",
@@ -2078,8 +2100,9 @@
    "object_number": "1980.53.6",
    "record_url": "https://americanart.si.edu/collections/search/artwork/?id=25201",
    "licence": "CC0",
+   "metadata_licence": "CC0",
    "bytes_downloaded": 2333646,
-   "kept_copy": "sources/media/SAAM-1980.53.6_1.jpg"
+   "kept_copy": "sources/media/SAAM-1980.53.6_1.jpg (reduced to 800 px review copy)"
   },
   {
    "idsId": "SAAM-1967.142.2_1",
@@ -2088,8 +2111,9 @@
    "object_number": "1967.142.2",
    "record_url": "https://americanart.si.edu/collections/search/artwork/?id=27659",
    "licence": "CC0",
+   "metadata_licence": "CC0",
    "bytes_downloaded": 1530469,
-   "kept_copy": "sources/media/SAAM-1967.142.2_1.jpg"
+   "kept_copy": "sources/media/SAAM-1967.142.2_1.jpg (reduced to 800 px review copy)"
   },
   {
    "idsId": "SAAM-1973.122.54_1",
@@ -2098,8 +2122,9 @@
    "object_number": "1973.122.54",
    "record_url": "https://americanart.si.edu/collections/search/artwork/?id=17789",
    "licence": "CC0",
+   "metadata_licence": "CC0",
    "bytes_downloaded": 1364130,
-   "kept_copy": "sources/media/SAAM-1973.122.54_1.jpg"
+   "kept_copy": "sources/media/SAAM-1973.122.54_1.jpg (reduced to 800 px review copy)"
   },
   {
    "idsId": "SAAM-1973.24.2_1-000001",
@@ -2108,8 +2133,9 @@
    "object_number": "1973.24.2",
    "record_url": "https://americanart.si.edu/collections/search/artwork/?id=8755",
    "licence": "CC0",
+   "metadata_licence": "CC0",
    "bytes_downloaded": 1887005,
-   "kept_copy": "sources/media/SAAM-1973.24.2_1-000001.jpg"
+   "kept_copy": "sources/media/SAAM-1973.24.2_1-000001.jpg (reduced to 800 px review copy)"
   },
   {
    "idsId": "SAAM-1993.6_1",
@@ -2118,8 +2144,9 @@
    "object_number": "1993.6",
    "record_url": "https://americanart.si.edu/collections/search/artwork/?id=33492",
    "licence": "CC0",
+   "metadata_licence": "CC0",
    "bytes_downloaded": 1506848,
-   "kept_copy": "sources/media/SAAM-1993.6_1.jpg"
+   "kept_copy": "sources/media/SAAM-1993.6_1.jpg (reduced to 800 px review copy)"
   }
  ],
  "non_image_assets": [

@@ -65,10 +65,10 @@ def classify():
             state = 'lie_down'
         elif face == 'away':
             state = 'refuse'
-        elif v[i] < -0.06:
+        elif v[i] < -0.03:
             state = 'approach'
-        elif v[i] > 0.06 and (prev_state != 'retreat' or (head_ab is not None and head_ab < 0.0)):
-            state = 'retreat'          # backing away; it stops being a retreat when the head comes up above the back
+        elif v[i] > 0.06 and head_ab is not None and head_ab < 0.0:
+            state = 'retreat'          # backing away from the door with the head below the back
         else:
             state = 'watch'
         prev_state = state

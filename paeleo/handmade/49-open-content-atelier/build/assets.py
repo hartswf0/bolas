@@ -5,7 +5,7 @@ import json, os
 HERE = os.path.dirname(os.path.abspath(__file__)); ROOT = os.path.join(HERE, '..')
 parts = json.load(open(os.path.join(HERE, 'cache', 'parts', 'parts.json')))
 recs = {}
-for fn in ('saam.jsonl', 'sil.jsonl'):
+for fn in ('records_fetched.jsonl',):
     for l in open(os.path.join(ROOT, 'sources', 'meta', fn)):
         d = json.loads(l)
         for m in d['content']['descriptiveNonRepeating'].get('online_media', {}).get('media', []):
@@ -73,7 +73,8 @@ for ids, r in dl.items():
     d, m = recs[ids]
     reviewed.append({'idsId': ids, 'title': d['title'], 'artist': ft(d, 'name'), 'object_number': ft(d, 'identifier', 'Object number'),
                      'record_url': d['content']['descriptiveNonRepeating'].get('record_link'),
-                     'licence': m.get('usage', {}).get('access'), 'bytes_downloaded': r['bytes'], 'kept_copy': f'sources/media/{ids}.jpg'})
+                     'licence': m.get('usage', {}).get('access'), 'metadata_licence': d['content']['descriptiveNonRepeating'].get('metadata_usage', {}).get('access'),
+                     'bytes_downloaded': r['bytes'], 'kept_copy': f'sources/media/{ids}.jpg (reduced to 800 px review copy)'})
 total = sum(r['bytes'] for r in dl.values())
 out = {
     'about': 'PAE-02 · SCION 49 · Open-Content Atelier. Image asset registry and per-item rights manifest. Every visible picture '
@@ -83,7 +84,8 @@ out = {
                             'bucket': 'https://smithsonian-open-access.s3-us-west-2.amazonaws.com/',
                             'metadata': 'metadata/edan/saam/*.txt (line-delimited EDAN JSON), streamed and filtered by build/fetch_meta.py, fetch_grep.py',
                             'media': 'media/saam/<idsId>.jpg, fetched by build/fetch_media.py only after checking both metadata_usage.access and online_media.usage.access == CC0',
-                            'kept_records': ['sources/meta/saam.jsonl', 'sources/meta/sil.jsonl', 'sources/meta/muy.jsonl'],
+                            'kept_records': ['sources/meta/records_fetched.jsonl (full EDAN record of every fetched object)',
+                                             'sources/meta/candidates.tsv (index of 1,819 CC0-with-media SAAM records found by the dog/door/porch/seated, Muybridge and silhouette/Currier searches)'],
                             'download_log': 'sources/downloads.jsonl', 'total_media_bytes_downloaded': total,
                             'note': 'metadata streamed: SAAM 256 shards read in full twice (~2 x 52 MB transferred, only matching rows kept)'},
     'refused_or_unreachable': {'hosts': ['api.si.edu', 'collections.si.edu', 'ids.si.edu', 'data.getty.edu', 'www.getty.edu', 'media.getty.edu',
