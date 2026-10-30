@@ -160,8 +160,8 @@ class Dog:
         tb = DP.F19_TAIL['base']; tip = DP.F19_TAIL['tip']
         a0 = np.degrees(np.arctan2(tip[1] - tb[1], tip[0] - tb[0]))           # its own angle below horizontal
         want = float(np.interp(a['tail'], [0.2, 0.5, 1.35], [30, 48, 78]))
-        want = want * (1 - lie) + 34 * lie + 14 * a['wag'] * np.sin(2 * np.pi * 2.6 * t)
-        Tm = B @ mT(206, 132) @ mR(want - a0) @ mT(-tb[0], -tb[1])
+        want = want * (1 - lie) + 40 * lie + 14 * a['wag'] * np.sin(2 * np.pi * 2.6 * t)
+        Tm = B @ mT(206, 132) @ mR(want - a0) @ mS(1.35) @ mT(-tb[0], -tb[1])
         L.append(('dog:tail', self.p['f19'].rgb, self.p['tail19'], Tm))
         lk = round(float(lie), 2)                      # the belly mask is keyed by the score's lie value (0 -> 1)
         if lk not in self._body_cache: self._body_cache[lk] = self.p['f10'].cut(self.p['body_masks'], lk)

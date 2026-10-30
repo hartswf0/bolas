@@ -76,7 +76,7 @@ class Head:
         diag = math.hypot(W, H)
         self.patches = []
         holes = np.zeros((H, W))
-        for ek in ('ear_l', 'ear_r'):
+        for ek in (() if name == 'back' else ('ear_l', 'ear_r')):   # the assembled rear view keeps its ears whole (round 3)
             e = L.get(ek)
             if not e: continue
             r = 0.2 * diag

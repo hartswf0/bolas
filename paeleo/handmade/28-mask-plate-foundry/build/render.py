@@ -31,12 +31,12 @@ class Renderer:
 
     def _match_dog_ambient(self):
         """Light match: measure the dusk set (no door light, t=1 s) where the dog stands -- the wall and floor band
-        behind it -- and set the dog's ambient so its mean luma sits 1.2x that band, tinted half-way to the band's colour."""
+        behind it -- and set the dog's ambient so its mean luma sits 1.35x that band, tinted half-way to the band's colour."""
         c = self.set.back(1.0); fl, _ = self.set.light_maps(1.0); self.set.front(c, 1.0, fl)
         band = c.rgb[340:550, 620:1200].reshape(-1, 3)
         m = band.mean(0); lum = float(m @ np.array([.3, .59, .11]))
         tint = 0.5 * m / lum + 0.5
-        gain = 1.2 * lum / 0.30                      # 0.30: the dog plates' matched luma mean (dogplates.TARGET)
+        gain = 1.35 * lum / 0.30                      # 0.30: the dog plates' matched luma mean (dogplates.TARGET)
         self.amb_log = dict(band_rgb=[round(float(v), 4) for v in m], band_luma=round(lum, 4), dog_gain=round(gain, 4),
                             tint=[round(float(v), 4) for v in tint])
         return (tint * gain).astype(np.float32)

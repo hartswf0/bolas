@@ -36,7 +36,7 @@ MUZ_PROF = [(0.6, -178), (0.9, -155), (1.25, -140)]
 # ----- the sprite-replacement schedule for the two turns (frame -> view). Chosen by hand, in frames, from the score's times.
 TURN1 = {82: ('rig', 1, 'tq'), 83: ('tq', 1, None), 84: ('front', 1, None), 85: ('front', 1, None)}   # no mirrored repeat (round 1: L/R flip)
                                                                            # away from the call: through the front, 3.42-3.58 s
-HEADLEAD = {179: 'front', 180: 'tq'}                                       # 7.458 s: the head comes round first
+HEADLEAD = {179: 'front'}                                       # 7.458 s: the head comes round first
 TURN2 = {192: ('back', 1, None), 193: ('back', 1, None), 194: ('back', 1, None), 195: ('back', 1, None)}   # body follows, through the back
 FACING_R = range(86, 192)                                                  # body faces away (screen right) 3.54 .. 7.96 s
 
@@ -92,12 +92,20 @@ def run():
                 muz = muz + ((178 if head_view == 'low' else -178) - muz) * r
         head_sx, head_off, head_scale = 1.0, (0, 0), 1.0
         head_tone = 1.0
+        close = 634 <= i <= 677        # round 3: a closer shot on the sill for the look-in (26.42-28.21 s)
+        if lie > 0.5 and head_view == 'low':
+            # round 3: on the lying body the lowered (f046) head read as a pale hollow front face; use the profile, level
+            head_view = 'profile'; muz = -178; neck = min(neck, -186) if rest < 0.5 else neck
         if look > 0.08:
-            # round 2: the head stays level on the neck line and turns INTO the doorway (depth): the photographed profile
-            # foreshortens and recedes (narrower, a little smaller, backlit darker) with the muzzle pushed into the lit opening.
-            e_ = ease(min(1.0, look))
-            neck = -186; head_view = 'profile'; muz = -178
-            head_sx = 1.0 - 0.5 * e_; head_scale = 1.0 - 0.1 * e_; head_tone = 1.0 - 0.45 * e_; head_off = (-7 * e_, 1.5 * e_)
+            # round 3: the head turns INTO the lit hall. It stays profile until the cut (26.42), then turns on screen:
+            # profile -> foreshortened profile -> the back of the head (both ears, skull outline, no muzzle) facing the viewer.
+            neck = -186; muz = -178
+            if look < 0.3 or i < 634:
+                head_view = 'profile'
+            elif look < 0.6:
+                head_view = 'profile'; head_sx = 0.5; head_tone = 0.8
+            else:
+                head_view = 'back'; head_tone = 0.85; head_off = (-2, 6)
         # ---- the two turns and the head leading
         if i in TURN1:
             v, fc, hv = TURN1[i]
@@ -107,9 +115,10 @@ def run():
             view = TURN2[i][0]; facing = TURN2[i][1]; sprite_h = 124   # matched to the neighbours' height (round 1)
         if i in HEADLEAD:
             head_view = HEADLEAD[i]; head_flip = True
-        elif 181 <= i < 192:
-            head_flip = True; head_view = 'profile'
-            muz = -172; neck = -112 if lie < 0.5 else -128; head_off = (7, 0)   # muzzle level, back over the shoulder
+        elif 180 <= i < 192:
+            # round 3: the three-quarter photograph (f037: eye and muzzle legible) turned back toward the door
+            head_flip = True; head_view = 'tq'
+            neck = -112 if lie < 0.5 else -128; head_off = (6, 0)
         # ---- expression controls
         ear = a['ear']
         brow = min(1.0, crouch * 1.6) - 0.3 * max(0, a['wag'] - 0.3)
@@ -125,7 +134,7 @@ def run():
                      'pose': {'view': view, 'lie': lie, 'crouch': crouch, 'feet': feet, 'tail_ang': tail_ang, 'neck_ang': neck,
                               'head_view': head_view, 'head_flip': head_flip, 'muzzle_ang': muz, 'ear': ear, 'brow': brow,
                               'mouth': mouth, 'bob': bob + breath * (1 if lie > 0.5 else 0.3), 'head_sx': head_sx,
-                              'head_off': head_off, 'head_scale': head_scale, 'head_tone': head_tone, 'sprite_h': sprite_h or (112 - 14 * crouch)},
+                              'head_off': head_off, 'head_scale': head_scale, 'head_tone': head_tone, 'close': close, 'sprite_h': sprite_h or (112 - 14 * crouch)},
                      'person': f['person'], 'door': f['door']})
     return perf
 
