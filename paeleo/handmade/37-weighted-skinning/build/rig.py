@@ -123,7 +123,7 @@ def dog_skeleton():
     j('neck1', 'chest', .32, .60)
     j('neck2', 'neck1', .40, .70)
     j('head', 'neck2', .46, .79)
-    j('muzzle', 'head', .68, .74)                 # end
+    j('muzzle', 'head', .64, .74)                 # end
     for s, z in (('L', .045), ('R', -.045)):
         j('ear' + s, 'head', .455, .855, z); j('eartip' + s, 'ear' + s, .44, .965, z * 1.4)
     j('tail1', 'pelvis', -.36, .57); j('tail2', 'tail1', -.50, .52); j('tail3', 'tail2', -.63, .46); j('tailtip', 'tail3', -.77, .39)

@@ -155,7 +155,7 @@ def dog_sdf(P):
     core = smin(core, ellip(x, (.24, .57, 0), (.09, .07, .08)), .05)                 # withers
     core = smin(core, rcone(x, (.26, .55, 0), (.425, .745, 0), .115, .075), .06)     # neck
     head = ellip(x, (.465, .795, 0), (.094, .082, .074))
-    head = smin(head, rcone(x, (.52, .775, 0), (.69, .735, 0), .058, .032), .035)    # muzzle
+    head = smin(head, rcone(x, (.52, .775, 0), (.645, .738, 0), .060, .036), .035)    # muzzle (shortened after critique)
     head = smin(head, ellip(x, (.51, .745, 0), (.07, .045, .056)), .03)                 # jaw
     for z in (.042, -.042):
         ear = rcone(x, (.452, .85, z), (.43, .965, z * 1.5), .040, .009)

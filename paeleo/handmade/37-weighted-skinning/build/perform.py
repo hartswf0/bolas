@@ -35,12 +35,15 @@ state = [f['dog']['state'] for f in FR]
 # the turn back goes through -pi/2 (facing the camera), the head leading.
 yaw = np.full(N, np.pi)
 yaw = np.where(T >= 3.417, np.pi - np.pi * ss(3.417, 3.97, T), yaw)
-yaw = np.where(T >= 7.80, -np.pi * ss(7.80, 8.75, T), yaw)
+# turn back: rise in profile first (lie 1->0 by 8.00), THEN yaw the body round through the front view, head leading
+yaw = np.where(T >= 7.98, -np.pi * ss(7.98, 8.85, T), yaw)
 # lie: refusal lie is the score's; the turn-back rise starts once the head is round (7.62)
-lie = np.where((T > 7.4) & (T < 8.4), 1 - ss(7.62, 8.05, T), lie)
+lie = np.where((T > 7.4) & (T < 8.4), 1 - ss(7.60, 8.00, T), lie)
 lie = np.where((T > 23.6) & (T < 24.8), ss(23.80, 24.45, T), lie)
 # head-led look back: from 7.458 the head turns to the door before the body follows
-lookback = ss(7.458, 7.80, T) * (1 - ss(8.55, 8.95, T))
+lookback = ss(7.458, 7.80, T) * (1 - ss(8.65, 9.00, T))
+# while the body comes round, the neck is carried forward (never more upright than ~45 deg)
+turnback = ss(7.90, 8.20, T) * (1 - ss(8.75, 9.15, T))
 # lying across the sill: attends to the person's low hand (to its left), then on 'come in' turns into the room
 attend = ss(24.45, 25.0, T) * (1 - ss(26.40, 26.80, T))
 look_in = np.clip(look, 0, 1)
@@ -72,7 +75,8 @@ def trunk_pose(i):
     lb = lookback[i]
     need = 0.
     if lb > 0:
-        need = np.clip(-np.pi - yaw[i], -2.75, 0) * lb if yaw[i] <= 0.01 else 0.
+        # the head points at the door but never more than ~115 deg round from the body: it must not fold across the hips
+        need = np.clip(-np.pi - yaw[i], -2.0, 0) * lb if yaw[i] <= 0.01 else 0.
     yw = {'spine': .08, 'chest': .12, 'neck1': .22, 'neck2': .33, 'head': .25}
     att = -1.45 * attend[i]
     # head carriage
@@ -80,13 +84,14 @@ def trunk_pose(i):
     n1 = -1.30 * (1 - h); n2 = -.45 * (1 - h); hd = .80 * (1 - h)
     if h > 1: n1 = .55 * (h - 1); n2 = .3 * (h - 1); hd = -.2 * (h - 1)
     # chin on the paws while lying
-    n1 -= .42 * head_low[i]; hd += .22 * head_low[i]
+    n1 -= .68 * head_low[i]; n2 -= .10 * head_low[i]; hd += .42 * head_low[i]
+    n1 -= .45 * turnback[i]; n2 -= .12 * turnback[i]; hd += .30 * turnback[i]
     r = rest[i] * lie[i]
     n1 = n1 * (1 - r) + (-1.05) * r; n2 = n2 * (1 - r) + (-.30) * r; hd = hd * (1 - r) + .62 * r
     # looking in: the neck stretches forward and low through the door, the muzzle past the jamb
     li = look_in[i] * lie[i]
     n1 = n1 * (1 - li) + (-.55) * li; n2 = n2 * (1 - li) + (-.05) * li; hd = hd * (1 - li) + .30 * li
-    roll_lb = 1.0 * lb          # the head tilts as it comes round over the shoulder: twist along the neck
+    roll_lb = .55 * lb          # the head tilts as it comes round over the shoulder: twist along the neck
     p['spine'] = p['spine'] @ euler(yaw=yw['spine'] * need)
     p['chest'] = euler(yaw=yw['chest'] * need)
     p['neck1'] = euler(yaw=yw['neck1'] * need + .45 * att, pitch=n1, roll=.15 * roll_lb)
@@ -94,7 +99,8 @@ def trunk_pose(i):
     p['head'] = euler(yaw=yw['head'] * need + .20 * att, pitch=hd, roll=.55 * roll_lb)
     e = ear[i]
     for s, sg in (('L', 1), ('R', -1)):
-        p['ear' + s] = euler(pitch=-1.25 * (1 - min(e, 1.)), roll=sg * .25 * (1 - min(e, 1.)))
+        ef = min(e, 1.) * (1 - .45 * head_low[i])          # ears laid back a little while coming, head low
+        p['ear' + s] = euler(pitch=-1.25 * (1 - ef), roll=sg * .25 * (1 - ef))
     tl = tail[i]
     w = wag[i] * .7 * np.sin(2 * np.pi * 2.4 * T[i])
     tl_l = tl * (1 - .6 * lie[i])

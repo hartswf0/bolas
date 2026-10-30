@@ -33,7 +33,7 @@ end = card([
     (100, 90, 'Made of', F(BIG, 44), INK),
     (100, 150, 'The dog: one pointer, from Currier & Ives, Woodcock Shooting (SAAM 1973.122.4),', F(SERIF, 23), INK),
     (120, 182, 'cut into head, torso, tail, foreleg, thigh and shank, and hinged to walk, turn, lie,', F(SERIF, 21), INK),
-    (120, 210, 'look back and rest; the back of its head is its own ear, twice, on a crown of its own fur.', F(SERIF, 21), INK),
+    (120, 210, 'look back, rest, and reach its head into the house; its neck is its own nape fur.', F(SERIF, 21), INK),
     (100, 280, 'The person: Auguste Edouart, cut-paper silhouettes, Father, Mother, and Boy (1981.172.33);', F(SERIF, 23), INK),
     (120, 310, 'the reaching arm from Boy with Dog (1981.172.31).', F(SERIF, 23), INK),
     (100, 350, 'The door: José Dolores López, Screen Door (1989.30.3). The room and floor: E. F. Andrews,', F(SERIF, 23), INK),

@@ -272,6 +272,38 @@ def subtitle(im, i):
     return im
 
 
+INSET = (23.95, 25.30)      # a brief in-film look under the skin: the hock folding, linear blend vs dual quaternion
+
+def inset(im, i):
+    t = i / 24
+    if not (INSET[0] <= t < INSET[1]): return im
+    from PIL import ImageDraw, ImageFont
+    al = min(1, (t - INSET[0]) / .2, (INSET[1] - t) / .2)
+    pose = {n: PF['dog_rot'][i, j] for j, n in enumerate(SK.names)}
+    G = SK.fk(pose, PF['dog_root'][i]); S = SK.skin_mats(G)
+    hk = G[SK.ix['hockR'], :3, 3]; ce = PF['cam_eye'][i]
+    d = ce - hk; d[1] = 0; d /= np.linalg.norm(d)
+    cam = raster.Camera(hk + d * .62 + [0, .30, 0], hk + [0, .06, 0], 520, 300, 220)
+    f = ImageFont.truetype(os.path.join(FONTS, 'f14.woff2'), 14)
+    panels = []
+    for fn, lab in ((rig.lbs, 'linear blend'), (rig.dqs, 'dual quaternion')):
+        P = fn(DOG['V'], DOG['idx'], DOG['w'], S)
+        tri, b, _ = raster.rasterize(*cam.project(P), DOG['F'], cam.W, cam.H); m = tri >= 0
+        F_ = DOG['F']; fnn = np.cross(P[F_[:, 1]] - P[F_[:, 0]], P[F_[:, 2]] - P[F_[:, 0]]); fnn /= np.linalg.norm(fnn, axis=1, keepdims=True) + 1e-12
+        uv = np.einsum('pi,pik->pk', b[m], DOG['UV'][F_[tri[m]]])
+        u = np.clip(uv[:, 0], 0, 1) * (COAT.shape[1] - 1); v = (1 - np.clip(uv[:, 1], 0, 1)) * (COAT.shape[0] - 1)
+        col = np.stack([ndimage.map_coordinates(COAT[..., c], [v, u], order=1) for c in range(3)], 1)
+        L = np.array([.3, .8, .5]); L /= np.linalg.norm(L)
+        img = np.tile([.08, .075, .07], (cam.W * cam.H, 1)); img[m] = col * (.35 + .65 * np.clip(fnn[tri[m]] @ L, 0, 1))[:, None]
+        pi = Image.fromarray((np.clip(img.reshape(cam.H, cam.W, 3), 0, 1) * 255).astype(np.uint8))
+        ImageDraw.Draw(pi).text((8, 6), lab, font=f, fill=(240, 220, 160)); panels.append(pi)
+    box = Image.new('RGB', (2 * 300 + 18, 220 + 12), (30, 28, 26))
+    box.paste(panels[0], (6, 6)); box.paste(panels[1], (312, 6))
+    mask = Image.new('L', box.size, int(255 * al))
+    im = im.copy(); im.paste(box, (24, 24), mask)
+    return im
+
+
 def grade(img, i):
     rng = np.random.default_rng(1000 + i)
     h, w = img.shape[:2]
@@ -295,7 +327,7 @@ def render(i, mode='dqs', cam=None, path=None, measure=True):
     img = raster.downsample(o['img'], SS)
     img = grade(img, i)
     if path:
-        subtitle(Image.fromarray((img * 255).astype(np.uint8)), i).save(path, quality=93)
+        inset(subtitle(Image.fromarray((img * 255).astype(np.uint8)), i), i).save(path, quality=93)
     if measure:
         m = o['m']; t = o['t']; isdog = o['mat'] == MAT['dog']
         idx = np.nonzero(m)[0][isdog]

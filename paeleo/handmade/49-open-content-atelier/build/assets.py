@@ -50,7 +50,7 @@ for name, p in parts.items():
     rec['cache_files'] = [f'build/cache/parts/{name}.jpg'] + ([f'build/cache/parts/{name}_a.jpg'] if p['role'] != 'plate' else [])
     used[ids]['parts'].append(rec)
 STAGE = {
-    'w_head': 'rotated at the neck (head 0 down .. 1 up), lowered for the approach, chin to the paws for rest; mirrored about the neck to look back over the shoulder at 7.46 s; narrowed as it turns away at 26.4 s',
+    'w_head': 'rotated at the neck (head 0 down .. 1 up), lowered for the approach, chin to the paws for rest; mirrored about the neck to look back over the shoulder at 7.46 s; reaches level into the room at 26.4-28.1 s (muzzle to -0.255 m, past the room-side jamb at +0.02 m)',
     'w_torso': 'translated along x by the score, pitched, lowered to the floor to lie (haunches first), mirrored + foreshortened (>=0.62) through the turns',
     'w_tail': 'rotated at the root (score tail + wag)', 'w_fore': 'near and far (darkened copy) forelegs: rotated + stretched (0.82-1.12) to a planted foot target',
     'w_thigh': 'two-bone IK with w_shank: hip -> hock -> paw; feet planted by distance travelled (no sliding)',

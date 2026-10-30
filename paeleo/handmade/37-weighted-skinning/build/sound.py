@@ -114,7 +114,7 @@ def place(buf, x, t, gain=1., pan=0.):
 
 
 def main():
-    bus = {k: np.zeros((2, N)) for k in ('tone', 'voice', 'soft', 'fx')}
+    bus = {k: np.zeros((2, N)) for k in ('tone', 'voice', 'soft', 'fx', 'claw')}
     tone = crickets() * .010 + air() * .006
     bus['tone'] += tone
     # the dog's screen side for panning (projected root with the per-frame camera)
@@ -137,7 +137,7 @@ def main():
     for i in range(1, len(C)):
         for k in range(4):
             if C[i, k] and not C[i - 1, k] and lie[i] < .5:
-                place(bus['fx'], click(bright=.8 + .4 * rng.random()), i / 24 + rng.random() * .01, .045, dog_pan(i))
+                place(bus['claw'], click(bright=.8 + .4 * rng.random()), i / 24 + rng.random() * .01, .16, dog_pan(i))
     # lying down: the body meets the boards; settling sigh; tail knocks while it looks in
     place(bus['fx'], thump(.3, 65), 4.85, .20, dog_pan(116)); place(bus['fx'], thump(.3, 60), 24.40, .22, dog_pan(586))
     place(bus['fx'], sigh(), 28.55, .05, dog_pan(686))
@@ -155,6 +155,8 @@ def main():
           'soft_rms_db': rms_db(win(bus['soft'], [(7.5, 8.3), (10.5, 11.3), (26.45, 27.0)])),
           'room_tone_rms_db': rms_db(bus['tone'][0])}
     lv['soft_below_call_db'] = lv['call_rms_db'] - lv['soft_rms_db']
+    lv['claw_approach_rms_db'] = rms_db(win(bus['claw'], [(15.0, 23.6)]))
+    lv['claw_above_tone_db'] = lv['claw_approach_rms_db'] - lv['room_tone_rms_db']
     lv['soft_above_tone_db'] = lv['soft_rms_db'] - lv['room_tone_rms_db']
     peak = np.abs(mix).max(); mix = mix / max(peak, 1e-9) * .89 if peak > .89 else mix
     import wave

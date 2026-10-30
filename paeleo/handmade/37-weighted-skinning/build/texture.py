@@ -76,9 +76,9 @@ def main():
         im = Image.new('L', (TW, TH), 0); d = ImageDraw.Draw(im)
         for poly in polys: d.polygon([P(*q) for q in poly], fill=255)
         return np.asarray(im.filter(ImageFilter.GaussianBlur(blur)), float) / 255
-    saddle = layer([[(-.80, .37), (-.62, .50), (-.40, .60), (-.25, .58), (-.05, .55), (.12, .56), (.30, .62), (.38, .74),
-                     (.46, .86), (.40, .99), (.20, .99), (-.30, .99), (-.86, .99), (-.86, .40)]], 9)
-    mask_dark = layer([[(.60, .70), (.80, .70), (.80, .80), (.60, .80)], [(.40, .86), (.50, .86), (.48, 1.0), (.38, 1.0)]], 6)
+    saddle = layer([[(-.80, .37), (-.62, .50), (-.40, .60), (-.25, .58), (-.05, .55), (.12, .56), (.22, .60),
+                     (.25, .99), (.20, .99), (-.30, .99), (-.86, .99), (-.86, .40)]], 9)
+    mask_dark = layer([[(.57, .70), (.80, .70), (.80, .80), (.57, .80)], [(.40, .86), (.50, .86), (.48, 1.0), (.38, 1.0)]], 6)
     socks = layer([[(-.40, -.02), (.40, -.02), (.40, .07), (-.40, .07)]], 5)
     base = .62 - .46 * saddle - .32 * mask_dark + .10 * socks
     tex = np.clip(base + .05 * grain, 0, 1)
@@ -88,9 +88,9 @@ def main():
     def disc(x, y, r, c):
         (a, b) = P(x, y); s = r / (HI[0] - LO[0]) * TW; d.ellipse([a - s, b - s, a + s, b + s], fill=c)
     # painted by hand (the archive head is ~20 px): nose, eye, lip line
-    disc(.695, .742, .022, (14, 11, 10))
+    disc(.650, .744, .024, (14, 11, 10))
     disc(.535, .810, .017, (24, 16, 11)); disc(.539, .815, .005, (215, 205, 175))
-    d.line([P(.56, .727), P(.68, .722)], fill=(20, 14, 10), width=3)
+    d.line([P(.55, .727), P(.635, .723)], fill=(20, 14, 10), width=3)
     im.save(os.path.join(OUT, 'coat.png'))
     np.save(os.path.join(OUT, 'regions.npy'), np.stack([saddle, mask_dark, socks]).astype(np.float16))
     # the source frames with their masks, for the end card

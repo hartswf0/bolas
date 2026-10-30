@@ -59,13 +59,12 @@ Every pose is these same pieces hinged differently. Revision 1 swapped in *Juno*
 - **The head leads at 7.458 s.** While the body still lies with its back to the door, the head narrows and mirrors about
   the neck over 4 frames (7.375–7.54 s), so the muzzle points back at the door over the shoulder. The body rises from
   7.62 s with the head held back, then comes round at 7.95–8.45 s.
-- **Looking in (26.4 s), revision 3.** The head turns away from us into the room over in-between frames:
-  - 26.42–26.54 s: the profile narrows over 3 frames and darkens into shadow.
-  - 26.58–26.67 s: the **back of the same dog's head** widens over 3 frames. It is its own ear cut twice (once mirrored)
-    either side of a crown of its own white fur, shaded like a skull in dim light: darker toward the nape, ear bases in
-    shadow, a soft warm rim along the crown where the room light catches it (`w_back` in `parts.py`).
-  - Throughout, it is joined to the body by a neck of its own nape fur (`w_nape`) in shadow.
-  - It holds facing into the lit room until 28.04 s, then turns back out the same way (28.04–28.29 s).
+- **Looking in (26.4 s), revision 4.** There is no view change. The engraved profile head lifts off the paws to level
+  over 0.45 s (26.3–26.75 s), and a neck of the same dog's nape fur reaches forward. The muzzle tip goes to −0.255 m
+  (measured), 27 cm past the room-side jamb at +0.02 m, into the lit room. It points level and a touch down into the
+  room's depth, well below the person's offered hand. It holds there, then from 28.1 s settles back chin-down over 0.5 s.
+  Revisions 2–3 showed a constructed back of the head (the ear twice on a crown of fur); the critic read it as a blank
+  face toward the camera, so it was dropped.
 - **Look-back rise (7.54–8.17 s).** The same nape cut fills the chest under the head turned over the shoulder, so there
   is no bare cut edge.
 
@@ -103,7 +102,7 @@ the drawn head's pitch and direction, body width, and how far the body has sunk.
 | watch (drawn head points at the door while the body faces away) | 7.458 | 7.500 | +0.042 |
 | approach (centroid moves toward the door > 3 mm/frame) | 14.708 | 14.708 | 0.000 |
 | lie_down (body sinks > 1.5 cm below its last-0.5 s median) | 23.792 | 23.750 | −0.042 |
-| look in (the drawn head narrows > 10 % / back of head drawn) | 26.4 | 26.458 | +0.058 |
+| look in (nose moves > 3 cm into the room) | 26.4 | 26.417 | +0.017 |
 
 The body is turned away (facing −1) from 3.71 s; I4 share turned = 0.93. During the approach the drawn head's top is 15–30
 px below the back line (median 24 px). This is measured from the render geometry. Film: 912 frames, 38.000 s, 1280×720,
@@ -148,8 +147,8 @@ hand. The torso was not inside the frame at 28 s. The hind feet were not seen to
 
 ## Still weak (known)
 
-- **The back-of-head is a construction.** It is the same ear twice on a shaded crown of the same fur; no print shows
-  this dog from behind. The shadowed nape is a fairly flat grey disc.
+- **The look-in is a profile reach, not a turn of the head into depth.** It relies on the muzzle being visibly inside the
+  lit room.
 - **Lying is a folded cut-out.** The legs are rigid cuts, so the lying dog is a "sphinx" with a low, lumpy outline, and the
   print's stalking torso stays fat.
 - **The walk is a creep**, true to the stalking print but not a natural trot.
