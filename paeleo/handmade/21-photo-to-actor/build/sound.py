@@ -77,11 +77,11 @@ for k, (f0, rate, ph) in enumerate([(4300, 2.7, 0.0), (4700, 3.1, 1.3), (3900, 2
 
 # ---- the person: two calls (commands), then the soft voice (circumstances)
 c1 = flite('Come here!', 'v_call1'); c2 = flite('Come here. Come here!', 'v_call2')
-for x, at in ((c1, 0.98), (c2, 3.40)):
+for x, at in ((c1, 0.96), (c2, 3.38)):
     x = np.tanh(2.2 * x) / np.tanh(2.2)                 # pushed: a raised, hard voice
     put(voice_call, x / np.max(np.abs(x)) * 0.62, at)
 s1 = flite("It's all right.", 'v_soft1', 0.82); s2 = flite("It's all right.", 'v_soft2', 0.78); s3 = flite('Come in.', 'v_soft3', 0.8)
-for x, at in ((s1, 7.40), (s2, 10.40), (s3, 26.40)):
+for x, at in ((s1, 7.36), (s2, 10.36), (s3, 26.36)):
     x = lp_fast(x, 1900)
     put(voice_soft, x / np.max(np.abs(x)) * 0.17, at)
 
