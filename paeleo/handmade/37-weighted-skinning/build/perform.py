@@ -44,6 +44,8 @@ lookback = ss(7.458, 7.80, T) * (1 - ss(8.55, 8.95, T))
 # lying across the sill: attends to the person's low hand (to its left), then on 'come in' turns into the room
 attend = ss(24.45, 25.0, T) * (1 - ss(26.40, 26.80, T))
 look_in = np.clip(look, 0, 1)
+# coming, head low: on the approach the neck drops further so the skull (not only its centre) stays under the back line
+head_low = ss(14.70, 15.30, T) * (1 - ss(23.70, 24.20, T))
 
 sk = rig.dog_skeleton(); J = len(sk.names)
 LEGS = {'LF': ('shoulderL', 'elbowL', 'wristL', 'fpawL', 'chest'), 'RF': ('shoulderR', 'elbowR', 'wristR', 'fpawR', 'chest'),
@@ -78,6 +80,7 @@ def trunk_pose(i):
     n1 = -1.30 * (1 - h); n2 = -.45 * (1 - h); hd = .80 * (1 - h)
     if h > 1: n1 = .55 * (h - 1); n2 = .3 * (h - 1); hd = -.2 * (h - 1)
     # chin on the paws while lying
+    n1 -= .42 * head_low[i]; hd += .22 * head_low[i]
     r = rest[i] * lie[i]
     n1 = n1 * (1 - r) + (-1.05) * r; n2 = n2 * (1 - r) + (-.30) * r; hd = hd * (1 - r) + .62 * r
     # looking in: the neck stretches forward and low through the door, the muzzle past the jamb
