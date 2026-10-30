@@ -104,6 +104,11 @@ for i in range(N):
             prev_phi = None
             r['beat'] = 'watches'
         if i < 24: r['beat'] = 'watches'
+        # the two beats, as drawings: backing away head down, ears back, tail tucked (1.0-2.33); at 2.333 the head comes up to watch
+        if 24 <= i < 56: r.update(head_pose='low', ear='flat', tail='tucked')
+        if 56 <= i < 82:
+            r.update(head_pose='up', ear='pricked', tail='mid')
+            if r['body'].startswith('cwalk'): r['body'] = 'walk' + r['body'][-2:]
         r['head'] = 'profile_closed' if i in blinks else 'profile_open'
     # ---- B. the refusal turn: through the BACK view (rump to camera), whole drawings, 3 frames each
     elif i < 91:
@@ -116,7 +121,7 @@ for i in range(N):
     elif i < 179:
         r['mirror'] = -1; r['ear'] = 'flat'; r['beat'] = 'back turned'
         if i < 104: r.update(body='crouch', head_pose='low', tail='tucked')
-        elif i < 110: r.update(body='lower1', head_pose='low', tail='low')
+        elif i < 110: r.update(body='lower1', head_pose='low', tail='lie')
         elif i < 116: r.update(body='lower2', head_pose='lie_low', tail='lie')
         else:
             r.update(body='lie', tail='lie')
@@ -138,7 +143,7 @@ for i in range(N):
     elif i < 204:
         r.update(ear='pricked', tail='mid', beat='turns back to look')
         if i < 189: r.update(mirror=-1, body='lower2', head='profile_open', head_pose='look_back', head_rel=-1, tail='lie')
-        elif i < 192: r.update(mirror=-1, body='lower1', head='profile_open', head_pose='look_back', head_rel=-1, tail='low')
+        elif i < 192: r.update(mirror=-1, body='lower1', head='profile_open', head_pose='look_back', head_rel=-1, tail='lie')
         elif i < 195: r.update(mirror=-1, body='stand', head='profile_open', head_pose='look_back', head_rel=-1)
         elif i < 198: r.update(mirror=-1, body='q3front', head='q3front_open', head_pose='q3front', head_rel=-1)
         elif i < 201: r.update(mirror=1, body='front', head='q3front_open', head_pose='front', head_rel=1)
@@ -171,7 +176,7 @@ for i in range(N):
     elif i < 634:
         prev_phi = None
         r.update(ear='half', tail='lie', beat='lies down across the sill')
-        if i < 577: r.update(body='lower1', head_pose='low', tail='low')
+        if i < 577: r.update(body='lower1', head_pose='low', tail='lie')
         elif i < 583: r.update(body='lower2', head_pose='lie_up')
         else:
             r['body'] = 'lie'
@@ -182,9 +187,9 @@ for i in range(N):
     # ---- J. "come in": ears up, the head comes up and turns IN, away from us, muzzle into the lit room
     elif i < 677:
         r.update(body='lie', tail='lie', beat='looks in')
-        if i < 636: r.update(head_pose='lie_low', ear='half')
-        elif i < 640: r.update(head_pose='lie_mid', ear='pricked')
-        elif i < 642: r.update(head_pose='lie_up', ear='pricked')
+        if i < 635: r.update(head_pose='lie_low', ear='half')
+        elif i < 637: r.update(head_pose='lie_mid', ear='pricked')
+        elif i < 639: r.update(head_pose='lie_up', ear='pricked')
         else: r.update(head='deep', head_pose='look_in', ear='pricked')
         r['wag'] = a['wag']
     # ---- K. settles, chin on the paws, and stays
@@ -260,9 +265,10 @@ for i in range(N):
     elif i >= 172: d = 'sit_low'
     else: d = 'stand'
     # door swing (degrees): ajar 22, swings open 6.2-6.9 with a small settle
+    # the door swings all the way back against the inside of the front wall (seen edge-on in this section view)
     if t < 6.2: ang = 22
-    else: u = clamp((t - 6.2) / 0.7, 0, 1); ang = 22 + 80 * sm(u) + 5 * math.sin(math.pi * clamp((t - 6.75) / 0.5, 0, 1)) * (t > 6.75)
-    spill = sm((ang - 22) / 76)
+    else: u = clamp((t - 6.2) / 0.85, 0, 1); ang = 22 + 148 * sm(u) - 4 * math.sin(math.pi * clamp((t - 7.0) / 0.4, 0, 1)) * (t > 7.0)
+    spill = sm((ang - 22) / 90)
     # camera: wide until 23.0 s, then a slow push-in on the doorway (ease 23.0-25.2), held to the end
     u = sm((t - 23.0) / 2.2)
     cz, ccx, ccy = lerp(1.0, 1.55, u), lerp(640, 430, u), lerp(360, 466, u)

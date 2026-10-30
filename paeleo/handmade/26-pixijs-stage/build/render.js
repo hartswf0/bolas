@@ -23,7 +23,7 @@ function resolve(u) {
 function endText(b, mean, lo, hi) {
   return `The dog: ${b.dogFrags} small cut fragments (body and head in two render textures), placed each frame on a 3-D skeleton, depth-sorted and held together by an alpha-threshold + outline shader. The person: ${b.personFrags} fragments.\n\n` +
   `Coat cut inside the SAM masks of the archive dog (Amateur Film New Jersey C), a lion and a tiger (Andy's Animal Alphabet); hair from a cat (Gateways to the Mind). Coats and the door leaf: Straight Talk. Boards: fence rails (Billie, the Buffalo Baby) and a ladder (Robinson Crusoe C). The offered hand: The Door to Heaven. Lantern: Anthracite. Picture: Golden Gate City. Sky: Top of the Cloud; stars: Gift of Green. All public domain. Chalk lines: Quick, Draw! drawings, CC BY 4.0, Google Creative Lab and contributors.\n\n` +
-  `${b.atlasFrames} fragments in one 2048 px texture atlas. PixiJS ${b.version} (MIT), WebGL in headless Chromium (SwiftShader). ${mean.toFixed(1)} draw calls per scene frame (measured, ${lo}-${hi}).\n` +
+  `${b.atlasFrames} fragments in one 2048 px texture atlas. PixiJS ${b.version} (MIT), WebGL in headless Chromium (SwiftShader). ${mean.toFixed(1)} draw calls per scene frame (measured; min ${lo}, max ${hi}).\n` +
   `Computed, not cut: the sky gradient, the light polygon and its blur, the door-opening mask, the room's flat colours, and the sound (formant voice, room tone, paws timed to the rendered feet).`;
 }
 (async () => {

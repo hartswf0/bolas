@@ -23,11 +23,11 @@ frame	time	dog_body	dog_head	dog_ear	dog_tail	person	mouth	dog_x	mirror	door	act
 22	0.875	|	|	|	|	|	|	3.000	1	22	watches
 23	0.917	|	|	|	|	|	|	3.000	1	22	watches
 24	0.958	|	|	|	|	|	|	3.000	1	22	watches
-25	1.000	|	|	|	|	call	wide	3.004	1	22	watches
-26	1.042	walk08	|	profile_half	low	|	|	3.025	1	22	backs away
+25	1.000	|	|	profile_flat	tucked	call	wide	3.004	1	22	watches
+26	1.042	walk08	|	|	|	|	|	3.025	1	22	backs away
 27	1.083	|	|	|	|	|	|	3.025	1	22	backs away
-28	1.125	cwalk08	|	profile_flat	|	|	|	3.025	1	22	backs away
-29	1.167	cwalk07	|	|	tucked	|	|	3.059	1	22	backs away
+28	1.125	cwalk08	|	|	|	|	|	3.025	1	22	backs away
+29	1.167	cwalk07	|	|	|	|	|	3.059	1	22	backs away
 30	1.208	cwalk06	|	|	|	|	|	3.094	1	22	backs away
 31	1.250	|	|	|	|	|	closed	3.094	1	22	backs away
 32	1.292	cwalk05	|	|	|	|	open	3.128	1	22	backs away
@@ -55,13 +55,13 @@ frame	time	dog_body	dog_head	dog_ear	dog_tail	person	mouth	dog_x	mirror	door	act
 54	2.208	cwalk01	|	|	|	|	|	3.816	1	22	backs away
 55	2.250	cwalk00	|	|	|	|	|	3.850	1	22	backs away
 56	2.292	cwalk15	|	|	|	|	closed	3.884	1	22	backs away
-57	2.333	cwalk14	|	|	|	stand	|	3.919	1	22	eases back
-58	2.375	cwalk13	|	profile_half	|	|	|	3.953	1	22	eases back
+57	2.333	walk14	|	profile_pricked	mid	stand	|	3.919	1	22	eases back
+58	2.375	walk13	|	|	|	|	|	3.953	1	22	eases back
 59	2.417	|	|	|	|	|	|	3.953	1	22	eases back
-60	2.458	walk12	|	profile_pricked	low	|	|	3.987	1	22	eases back
+60	2.458	walk12	|	|	|	|	|	3.987	1	22	eases back
 61	2.500	|	|	|	|	|	|	3.987	1	22	eases back
 62	2.542	|	|	|	|	|	|	3.987	1	22	eases back
-63	2.583	|	|	|	mid	|	|	3.987	1	22	eases back
+63	2.583	|	|	|	|	|	|	3.987	1	22	eases back
 64	2.625	|	|	|	|	|	|	3.987	1	22	eases back
 65	2.667	|	|	|	|	|	|	3.987	1	22	eases back
 66	2.708	|	|	|	|	|	|	3.987	1	22	eases back
@@ -103,13 +103,13 @@ frame	time	dog_body	dog_head	dog_ear	dog_tail	person	mouth	dog_x	mirror	door	act
 102	4.208	|	|	|	|	|	|	4.000	-1	22	back turned
 103	4.250	|	|	|	|	|	|	4.000	-1	22	back turned
 104	4.292	|	|	|	|	|	|	4.000	-1	22	back turned
-105	4.333	lower1·R	|	|	low	|	closed	4.000	-1	22	back turned
+105	4.333	lower1·R	|	|	lie	|	closed	4.000	-1	22	back turned
 106	4.375	|	|	|	|	|	open	4.000	-1	22	back turned
 107	4.417	|	|	|	|	|	|	4.000	-1	22	back turned
 108	4.458	|	|	|	|	|	|	4.000	-1	22	back turned
 109	4.500	|	|	|	|	|	|	4.000	-1	22	back turned
 110	4.542	|	|	|	|	|	|	4.000	-1	22	back turned
-111	4.583	lower2·R	|	|	lie	|	closed	4.000	-1	22	back turned
+111	4.583	lower2·R	|	|	|	|	closed	4.000	-1	22	back turned
 112	4.625	|	|	|	|	reach1	|	4.000	-1	22	back turned
 113	4.667	|	|	|	|	|	|	4.000	-1	22	back turned
 114	4.708	|	|	|	|	|	|	4.000	-1	22	back turned
@@ -150,620 +150,620 @@ frame	time	dog_body	dog_head	dog_ear	dog_tail	person	mouth	dog_x	mirror	door	act
 149	6.167	|	|	|	|	|	|	4.000	-1	22	back turned
 150	6.208	|	|	|	|	|	|	4.000	-1	22	back turned
 151	6.250	|	|	profile_half	|	sitdown	|	4.000	-1	23	back turned
-152	6.292	|	|	|	|	|	|	4.000	-1	26	back turned
-153	6.333	|	|	|	|	|	|	4.000	-1	30	back turned
-154	6.375	|	|	|	|	|	|	4.000	-1	34	back turned
-155	6.417	|	|	profile_flat	|	|	|	4.000	-1	40	back turned
-156	6.458	|	|	|	|	|	|	4.000	-1	47	back turned
-157	6.500	|	|	|	|	|	|	4.000	-1	53	back turned
-158	6.542	|	|	|	|	|	|	4.000	-1	61	back turned
-159	6.583	|	|	|	|	sit	|	4.000	-1	68	back turned
-160	6.625	|	|	|	|	|	|	4.000	-1	75	back turned
-161	6.667	|	|	|	|	|	|	4.000	-1	81	back turned
-162	6.708	|	|	|	|	|	|	4.000	-1	87	back turned
-163	6.750	|	|	|	|	|	|	4.000	-1	93	back turned
-164	6.792	|	|	|	|	sit_low1	|	4.000	-1	98	back turned
-165	6.833	|	|	|	|	|	|	4.000	-1	102	back turned
-166	6.875	|	profile_open·R	|	|	|	|	4.000	-1	105	back turned
-167	6.917	|	|	|	|	|	|	4.000	-1	106	back turned
-168	6.958	|	|	|	|	|	|	4.000	-1	107	back turned
-169	7.000	|	|	|	|	|	|	4.000	-1	107	back turned
-170	7.042	|	|	|	|	|	|	4.000	-1	107	back turned
-171	7.083	|	|	profile_half	|	|	|	4.000	-1	106	back turned
-172	7.125	|	|	|	|	|	|	4.000	-1	106	back turned
-173	7.167	|	|	|	|	sit_low	|	4.000	-1	104	back turned
-174	7.208	|	|	profile_flat	|	|	|	4.000	-1	103	back turned
-175	7.250	|	|	|	|	|	|	4.000	-1	102	back turned
-176	7.292	|	|	|	|	|	|	4.000	-1	102	back turned
-177	7.333	|	|	|	|	|	|	4.000	-1	102	back turned
-178	7.375	|	|	|	|	|	|	4.000	-1	102	back turned
-179	7.417	|	|	|	|	|	|	4.000	-1	102	back turned
-180	7.458	|	q3front_open·R	q3front_half	|	|	soft	4.000	-1	102	turns back to look
-181	7.500	|	|	|	|	|	|	4.000	-1	102	turns back to look
-182	7.542	|	front_open·R	front_half	|	|	|	4.000	-1	102	turns back to look
-183	7.583	|	|	|	|	|	closed	4.000	-1	102	turns back to look
-184	7.625	|	q3front_open	q3front_half	|	|	soft	4.000	-1	102	turns back to look
-185	7.667	|	|	|	|	|	|	4.000	-1	102	turns back to look
-186	7.708	|	profile_open	profile_pricked	|	|	|	4.000	-1	102	turns back to look
-187	7.750	lower2·R	|	|	|	|	|	4.000	-1	102	turns back to look
-188	7.792	|	|	|	|	|	|	4.000	-1	102	turns back to look
-189	7.833	|	|	|	|	|	|	4.000	-1	102	turns back to look
-190	7.875	lower1·R	|	|	low	|	closed	4.000	-1	102	turns back to look
-191	7.917	|	|	|	|	|	soft	4.000	-1	102	turns back to look
-192	7.958	|	|	|	|	|	|	4.000	-1	102	turns back to look
-193	8.000	stand·R	|	|	mid	|	|	4.000	-1	102	turns back to look
-194	8.042	|	|	|	|	|	|	4.000	-1	102	turns back to look
-195	8.083	|	|	|	|	|	|	4.000	-1	102	turns back to look
-196	8.125	q3front·R	q3front_open	q3front_pricked	|	|	|	4.000	-1	102	turns back to look
-197	8.167	|	|	|	|	|	|	4.000	-1	102	turns back to look
-198	8.208	|	|	|	|	|	|	4.000	-1	102	turns back to look
-199	8.250	front	|	|	|	|	closed	4.000	1	102	turns back to look
-200	8.292	|	|	|	|	|	|	4.000	1	102	turns back to look
-201	8.333	|	|	|	|	|	|	4.000	1	102	turns back to look
-202	8.375	q3front	profile_open	profile_pricked	|	|	|	4.000	1	102	turns back to look
-203	8.417	|	|	|	|	|	|	4.000	1	102	turns back to look
-204	8.458	|	|	|	|	|	|	4.000	1	102	turns back to look
-205	8.500	stand	|	|	|	|	|	4.000	1	102	watches
-206	8.542	|	|	|	|	|	|	4.000	1	102	watches
-207	8.583	|	|	|	|	|	|	4.000	1	102	watches
-208	8.625	|	|	|	|	|	soft	4.000	1	102	watches
-209	8.667	|	|	|	|	|	|	4.000	1	102	watches
-210	8.708	|	|	|	|	|	|	4.000	1	102	watches
-211	8.750	|	|	|	|	|	closed	4.000	1	102	watches
-212	8.792	|	|	|	|	|	soft	4.000	1	102	watches
-213	8.833	|	|	|	|	|	|	4.000	1	102	watches
-214	8.875	|	|	|	|	|	|	4.000	1	102	watches
-215	8.917	|	|	|	|	|	|	4.000	1	102	watches
-216	8.958	|	|	|	|	|	|	4.000	1	102	watches
-217	9.000	|	|	|	|	|	closed	4.000	1	102	watches
-218	9.042	|	|	|	|	|	soft	4.000	1	102	watches
-219	9.083	|	|	|	|	|	|	4.000	1	102	watches
-220	9.125	|	|	|	|	|	|	4.000	1	102	watches
-221	9.167	|	|	|	|	|	|	4.000	1	102	watches
-222	9.208	|	|	|	|	|	|	4.000	1	102	watches
-223	9.250	|	|	|	|	|	|	4.000	1	102	watches
-224	9.292	|	|	|	|	|	|	4.000	1	102	watches
-225	9.333	|	|	|	|	|	|	4.000	1	102	watches
-226	9.375	|	|	|	|	|	closed	4.000	1	102	watches
-227	9.417	|	|	|	|	|	|	4.000	1	102	watches
-228	9.458	|	|	|	|	|	|	4.000	1	102	watches
-229	9.500	|	|	|	|	|	|	4.000	1	102	watches
-230	9.542	|	|	|	|	|	|	4.000	1	102	watches
-231	9.583	|	profile_closed	|	|	|	|	4.000	1	102	watches
-232	9.625	|	|	|	|	|	|	4.000	1	102	watches
-233	9.667	|	|	|	|	|	|	4.000	1	102	watches
-234	9.708	|	profile_open	|	|	|	|	4.000	1	102	watches
-235	9.750	|	|	|	|	|	|	4.000	1	102	watches
-236	9.792	|	|	|	|	|	|	4.000	1	102	watches
-237	9.833	|	|	|	|	|	|	4.000	1	102	watches
-238	9.875	|	|	|	|	|	|	4.000	1	102	watches
-239	9.917	|	|	|	|	|	|	4.000	1	102	watches
-240	9.958	|	|	|	|	|	|	4.000	1	102	watches
-241	10.000	|	|	|	|	|	|	4.000	1	102	watches
-242	10.042	|	|	|	|	|	|	4.000	1	102	watches
-243	10.083	|	|	|	|	|	|	4.000	1	102	watches
-244	10.125	|	|	|	|	|	|	4.000	1	102	watches
-245	10.167	|	|	|	|	|	|	4.000	1	102	watches
-246	10.208	|	|	|	|	|	|	4.000	1	102	watches
-247	10.250	|	|	|	|	|	|	4.000	1	102	watches
-248	10.292	|	|	|	|	|	|	4.000	1	102	watches
-249	10.333	|	|	|	|	|	|	4.000	1	102	watches
-250	10.375	|	|	|	|	|	|	4.000	1	102	watches
-251	10.417	|	|	profile_half	|	|	|	4.000	1	102	watches
-252	10.458	|	|	|	|	|	soft	4.000	1	102	watches
-253	10.500	|	|	profile_pricked	|	|	|	4.000	1	102	watches
-254	10.542	|	|	|	|	|	|	4.000	1	102	watches
-255	10.583	|	|	|	|	|	closed	4.000	1	102	watches
-256	10.625	|	|	|	|	|	soft	4.000	1	102	watches
-257	10.667	|	|	|	|	|	|	4.000	1	102	watches
-258	10.708	|	|	|	|	|	|	4.000	1	102	watches
-259	10.750	|	|	|	|	|	|	4.000	1	102	watches
-260	10.792	|	|	|	|	|	|	4.000	1	102	watches
-261	10.833	|	|	|	|	|	closed	4.000	1	102	watches
-262	10.875	|	|	|	|	|	|	4.000	1	102	watches
-263	10.917	|	|	|	|	|	soft	4.000	1	102	watches
-264	10.958	|	|	|	|	|	|	4.000	1	102	watches
-265	11.000	|	|	|	|	|	|	4.000	1	102	watches
-266	11.042	|	|	|	|	|	|	4.000	1	102	watches
-267	11.083	|	|	|	|	|	|	4.000	1	102	watches
-268	11.125	|	|	|	|	|	|	4.000	1	102	watches
-269	11.167	|	|	|	|	|	|	4.000	1	102	watches
-270	11.208	|	|	|	|	|	|	4.000	1	102	watches
-271	11.250	|	|	|	|	|	|	4.000	1	102	watches
-272	11.292	|	|	|	|	|	|	4.000	1	102	watches
-273	11.333	|	|	|	|	|	closed	4.000	1	102	watches
-274	11.375	|	|	|	|	|	|	4.000	1	102	watches
-275	11.417	|	|	|	|	|	|	4.000	1	102	watches
-276	11.458	|	|	|	|	|	|	4.000	1	102	watches
-277	11.500	|	|	|	|	|	|	4.000	1	102	watches
-278	11.542	|	|	|	|	|	|	4.000	1	102	watches
-279	11.583	|	|	|	|	|	|	4.000	1	102	watches
-280	11.625	|	|	|	|	|	|	4.000	1	102	watches
-281	11.667	|	|	|	|	|	|	4.000	1	102	watches
-282	11.708	|	|	|	|	|	|	4.000	1	102	watches
-283	11.750	|	|	|	|	|	|	4.000	1	102	watches
-284	11.792	|	|	|	|	|	|	4.000	1	102	watches
-285	11.833	|	|	|	|	|	|	4.000	1	102	watches
-286	11.875	|	|	|	|	|	|	4.000	1	102	watches
-287	11.917	|	|	|	|	|	|	4.000	1	102	watches
-288	11.958	|	|	|	|	|	|	4.000	1	102	watches
-289	12.000	|	|	|	|	|	|	4.000	1	102	watches
-290	12.042	|	|	|	|	|	|	4.000	1	102	watches
-291	12.083	|	|	|	|	|	|	4.000	1	102	watches
-292	12.125	|	|	|	|	|	|	4.000	1	102	watches
-293	12.167	|	|	|	|	|	|	4.000	1	102	watches
-294	12.208	|	profile_closed	|	|	|	|	4.000	1	102	watches
-295	12.250	|	|	|	|	|	|	4.000	1	102	watches
-296	12.292	|	|	|	|	|	|	4.000	1	102	watches
-297	12.333	|	profile_open	|	|	|	|	4.000	1	102	watches
-298	12.375	|	|	|	|	|	|	4.000	1	102	watches
-299	12.417	|	|	|	|	|	|	4.000	1	102	watches
-300	12.458	|	|	|	|	|	|	4.000	1	102	watches
-301	12.500	|	|	|	|	|	|	4.000	1	102	watches
-302	12.542	|	|	|	|	|	|	4.000	1	102	watches
-303	12.583	|	|	|	|	|	|	4.000	1	102	watches
-304	12.625	|	|	|	|	|	|	4.000	1	102	watches
-305	12.667	|	|	|	|	|	|	4.000	1	102	watches
-306	12.708	|	|	|	|	|	|	4.000	1	102	watches
-307	12.750	|	|	|	|	|	|	4.000	1	102	watches
-308	12.792	|	|	|	|	|	|	4.000	1	102	watches
-309	12.833	|	|	|	|	|	|	4.000	1	102	watches
-310	12.875	|	|	|	|	|	|	4.000	1	102	watches
-311	12.917	|	|	|	|	|	|	4.000	1	102	watches
-312	12.958	|	|	|	|	|	|	4.000	1	102	watches
-313	13.000	|	|	|	|	|	|	4.000	1	102	watches
-314	13.042	|	|	|	|	|	|	4.000	1	102	watches
-315	13.083	|	|	|	|	|	|	4.000	1	102	watches
-316	13.125	|	|	|	|	|	|	4.000	1	102	watches
-317	13.167	|	|	|	|	|	|	4.000	1	102	watches
-318	13.208	|	|	|	|	|	|	4.000	1	102	watches
-319	13.250	|	|	|	|	|	|	4.000	1	102	watches
-320	13.292	|	|	|	|	|	|	4.000	1	102	watches
-321	13.333	|	|	|	|	|	|	4.000	1	102	watches
-322	13.375	|	|	|	|	|	|	4.000	1	102	watches
-323	13.417	|	|	|	|	|	|	4.000	1	102	watches
-324	13.458	|	|	|	|	|	|	4.000	1	102	watches
-325	13.500	|	|	|	|	|	|	4.000	1	102	watches
-326	13.542	|	|	|	|	|	|	4.000	1	102	watches
-327	13.583	|	|	|	|	|	|	4.000	1	102	watches
-328	13.625	|	|	|	|	|	|	4.000	1	102	watches
-329	13.667	|	|	|	|	|	|	4.000	1	102	watches
-330	13.708	|	|	|	|	|	|	4.000	1	102	watches
-331	13.750	|	|	|	|	|	|	4.000	1	102	watches
-332	13.792	|	|	|	|	|	|	4.000	1	102	watches
-333	13.833	|	|	|	|	|	|	4.000	1	102	watches
-334	13.875	|	|	|	|	|	|	4.000	1	102	watches
-335	13.917	|	profile_closed	|	|	|	|	4.000	1	102	watches
-336	13.958	|	|	|	|	|	|	4.000	1	102	watches
-337	14.000	|	|	|	|	|	|	4.000	1	102	watches
-338	14.042	|	profile_open	|	|	|	|	4.000	1	102	watches
-339	14.083	|	|	|	|	|	|	4.000	1	102	watches
-340	14.125	|	|	|	|	|	|	4.000	1	102	watches
-341	14.167	|	|	|	|	|	|	4.000	1	102	watches
-342	14.208	|	|	|	|	|	|	4.000	1	102	watches
-343	14.250	|	|	|	|	|	|	4.000	1	102	watches
-344	14.292	|	|	|	|	|	|	4.000	1	102	watches
-345	14.333	|	|	|	|	|	|	4.000	1	102	watches
-346	14.375	|	|	|	|	|	|	4.000	1	102	watches
-347	14.417	|	|	|	|	|	|	4.000	1	102	watches
-348	14.458	|	|	|	|	|	|	4.000	1	102	watches
-349	14.500	|	|	|	|	|	|	4.000	1	102	watches
-350	14.542	|	|	|	|	|	|	4.000	1	102	watches
-351	14.583	|	|	|	|	|	|	4.000	1	102	watches
-352	14.625	|	|	|	|	|	|	4.000	1	102	watches
-353	14.667	|	|	|	|	|	|	4.000	1	102	watches
-354	14.708	lwalk12	|	profile_half	low	|	|	3.987	1	102	comes, head low
-355	14.750	|	|	|	|	|	|	3.987	1	102	comes, head low
-356	14.792	|	|	|	|	|	|	3.987	1	102	comes, head low
-357	14.833	lwalk13	|	|	|	|	|	3.953	1	102	comes, head low
-358	14.875	|	|	|	|	|	|	3.953	1	102	comes, head low
-359	14.917	|	|	|	|	|	|	3.953	1	102	comes, head low
-360	14.958	lwalk14	|	|	|	|	|	3.919	1	102	comes, head low
-361	15.000	|	|	|	|	|	|	3.919	1	102	comes, head low
-362	15.042	|	|	|	|	|	|	3.919	1	102	comes, head low
-363	15.083	lwalk15	|	|	|	|	|	3.884	1	102	comes, head low
-364	15.125	|	|	|	|	|	|	3.884	1	102	comes, head low
-365	15.167	|	|	|	|	|	|	3.884	1	102	comes, head low
-366	15.208	lwalk00	|	|	|	|	|	3.850	1	102	comes, head low
-367	15.250	|	|	|	|	|	|	3.850	1	102	comes, head low
-368	15.292	|	|	|	|	|	|	3.850	1	102	comes, head low
-369	15.333	lwalk01	|	|	|	|	|	3.816	1	102	comes, head low
-370	15.375	|	|	|	|	|	|	3.816	1	102	comes, head low
-371	15.417	|	|	|	|	|	|	3.816	1	102	comes, head low
-372	15.458	lwalk02	|	|	|	|	|	3.781	1	102	comes, head low
-373	15.500	|	|	|	|	|	|	3.781	1	102	comes, head low
-374	15.542	|	|	|	|	|	|	3.781	1	102	comes, head low
-375	15.583	lwalk03	|	|	|	|	|	3.747	1	102	comes, head low
-376	15.625	|	|	|	|	|	|	3.747	1	102	comes, head low
-377	15.667	|	|	|	|	|	|	3.747	1	102	comes, head low
-378	15.708	lwalk04	|	|	|	|	|	3.712	1	102	comes, head low
-379	15.750	|	|	|	|	|	|	3.712	1	102	comes, head low
-380	15.792	|	|	|	|	|	|	3.712	1	102	comes, head low
-381	15.833	lwalk05	|	|	|	|	|	3.678	1	102	comes, head low
-382	15.875	|	|	|	|	|	|	3.678	1	102	comes, head low
-383	15.917	lwalk06	|	|	|	|	|	3.644	1	102	comes, head low
-384	15.958	|	|	|	|	|	|	3.644	1	102	comes, head low
-385	16.000	|	|	|	|	|	|	3.644	1	102	comes, head low
-386	16.042	lwalk07	|	|	|	|	|	3.609	1	102	comes, head low
-387	16.083	|	|	|	|	|	|	3.609	1	102	comes, head low
-388	16.125	|	|	|	|	|	|	3.609	1	102	comes, head low
-389	16.167	lwalk08	|	|	|	|	|	3.575	1	102	comes, head low
-390	16.208	|	|	|	|	|	|	3.575	1	102	comes, head low
-391	16.250	lwalk09	|	|	|	|	|	3.541	1	102	comes, head low
-392	16.292	|	|	|	|	|	|	3.541	1	102	comes, head low
-393	16.333	|	|	|	|	|	|	3.541	1	102	comes, head low
-394	16.375	lwalk10	|	|	|	|	|	3.506	1	102	comes, head low
-395	16.417	|	|	|	|	|	|	3.506	1	102	comes, head low
-396	16.458	lwalk11	|	|	|	|	|	3.472	1	102	comes, head low
-397	16.500	|	|	|	|	|	|	3.472	1	102	comes, head low
-398	16.542	|	|	|	|	|	|	3.472	1	102	comes, head low
-399	16.583	lwalk12	|	|	|	|	|	3.438	1	102	comes, head low
-400	16.625	|	|	|	|	|	|	3.438	1	102	comes, head low
-401	16.667	lwalk13	|	|	|	|	|	3.403	1	102	comes, head low
-402	16.708	|	|	|	|	|	|	3.403	1	102	comes, head low
-403	16.750	lwalk14	|	|	|	|	|	3.369	1	102	comes, head low
-404	16.792	|	|	|	|	|	|	3.369	1	102	comes, head low
-405	16.833	|	|	|	|	|	|	3.369	1	102	comes, head low
-406	16.875	lwalk15	|	|	|	|	|	3.334	1	102	comes, head low
-407	16.917	|	|	|	|	|	|	3.334	1	102	comes, head low
-408	16.958	lwalk00	|	|	|	|	|	3.300	1	102	comes, head low
-409	17.000	|	|	|	|	|	|	3.300	1	102	comes, head low
-410	17.042	lwalk01	|	|	|	|	|	3.266	1	102	comes, head low
-411	17.083	|	|	|	|	|	|	3.266	1	102	comes, head low
-412	17.125	|	|	|	|	|	|	3.266	1	102	comes, head low
-413	17.167	lwalk02	|	|	|	|	|	3.231	1	102	comes, head low
-414	17.208	|	|	|	|	|	|	3.231	1	102	comes, head low
-415	17.250	lwalk03	|	|	|	|	|	3.197	1	102	comes, head low
-416	17.292	|	|	|	|	|	|	3.197	1	102	comes, head low
-417	17.333	lwalk04	|	|	|	|	|	3.163	1	102	comes, head low
-418	17.375	|	|	|	|	|	|	3.163	1	102	comes, head low
-419	17.417	lwalk05	|	|	|	|	|	3.128	1	102	comes, head low
-420	17.458	|	|	|	|	|	|	3.128	1	102	comes, head low
-421	17.500	|	|	|	|	|	|	3.128	1	102	comes, head low
-422	17.542	lwalk06	|	|	|	|	|	3.094	1	102	comes, head low
-423	17.583	|	|	|	|	|	|	3.094	1	102	comes, head low
-424	17.625	lwalk07	|	|	|	|	|	3.059	1	102	comes, head low
-425	17.667	|	|	|	|	|	|	3.059	1	102	comes, head low
-426	17.708	lwalk08	|	|	|	|	|	3.025	1	102	comes, head low
-427	17.750	|	|	|	|	|	|	3.025	1	102	comes, head low
-428	17.792	lwalk09	|	|	|	|	|	2.991	1	102	comes, head low
-429	17.833	|	|	|	|	|	|	2.991	1	102	comes, head low
-430	17.875	lwalk10	|	|	|	|	|	2.956	1	102	comes, head low
-431	17.917	|	|	|	|	|	|	2.956	1	102	comes, head low
-432	17.958	lwalk11	|	|	|	|	|	2.922	1	102	comes, head low
-433	18.000	|	|	|	|	|	|	2.922	1	102	comes, head low
-434	18.042	lwalk12	|	|	|	|	|	2.888	1	102	comes, head low
-435	18.083	|	|	|	|	|	|	2.888	1	102	comes, head low
-436	18.125	lwalk13	|	|	|	|	|	2.853	1	102	comes, head low
-437	18.167	|	|	|	|	|	|	2.853	1	102	comes, head low
-438	18.208	lwalk14	|	|	|	|	|	2.819	1	102	comes, head low
-439	18.250	|	|	|	|	|	|	2.819	1	102	comes, head low
-440	18.292	lwalk15	|	|	|	|	|	2.784	1	102	comes, head low
-441	18.333	|	|	|	|	|	|	2.784	1	102	comes, head low
-442	18.375	lwalk00	|	|	|	|	|	2.750	1	102	comes, head low
-443	18.417	|	|	|	|	|	|	2.750	1	102	comes, head low
-444	18.458	lwalk01	|	|	|	|	|	2.716	1	102	comes, head low
-445	18.500	|	|	|	|	|	|	2.716	1	102	comes, head low
-446	18.542	lwalk02	|	|	|	|	|	2.681	1	102	comes, head low
-447	18.583	|	|	|	|	|	|	2.681	1	102	comes, head low
-448	18.625	lwalk03	|	|	|	|	|	2.647	1	102	comes, head low
-449	18.667	|	|	|	|	|	|	2.647	1	102	comes, head low
-450	18.708	lwalk04	|	|	|	|	|	2.612	1	102	comes, head low
-451	18.750	|	|	|	|	|	|	2.612	1	102	comes, head low
-452	18.792	lwalk05	|	|	|	|	|	2.578	1	102	comes, head low
-453	18.833	|	|	|	|	|	|	2.578	1	102	comes, head low
-454	18.875	lwalk06	|	|	|	|	|	2.544	1	102	comes, head low
-455	18.917	|	|	|	|	|	|	2.544	1	102	comes, head low
-456	18.958	lwalk07	|	|	|	|	|	2.509	1	102	comes, head low
-457	19.000	|	|	|	|	|	|	2.509	1	102	comes, head low
-458	19.042	lwalk08	|	|	|	|	|	2.475	1	102	comes, head low
-459	19.083	|	|	|	|	|	|	2.475	1	102	comes, head low
-460	19.125	lwalk09	|	|	|	|	|	2.441	1	102	comes, head low
-461	19.167	|	|	|	|	|	|	2.441	1	102	comes, head low
-462	19.208	lwalk10	|	|	|	|	|	2.406	1	102	comes, head low
-463	19.250	lwalk11	|	|	|	|	|	2.372	1	102	comes, head low
-464	19.292	|	|	|	|	|	|	2.372	1	102	comes, head low
-465	19.333	lwalk12	|	|	|	|	|	2.337	1	102	comes, head low
-466	19.375	|	|	|	|	|	|	2.337	1	102	comes, head low
-467	19.417	lwalk13	|	|	|	|	|	2.303	1	102	comes, head low
-468	19.458	|	|	|	|	|	|	2.303	1	102	comes, head low
-469	19.500	lwalk14	|	|	|	|	|	2.269	1	102	comes, head low
-470	19.542	|	|	|	|	|	|	2.269	1	102	comes, head low
-471	19.583	lwalk15	profile_closed	|	|	|	|	2.234	1	102	comes, head low
-472	19.625	|	|	|	|	|	|	2.234	1	102	comes, head low
-473	19.667	lwalk00	|	|	|	|	|	2.200	1	102	comes, head low
-474	19.708	lwalk01	profile_open	|	|	|	|	2.166	1	102	comes, head low
-475	19.750	|	|	|	|	|	|	2.166	1	102	comes, head low
-476	19.792	lwalk02	|	|	|	|	|	2.131	1	102	comes, head low
-477	19.833	|	|	|	|	|	|	2.131	1	102	comes, head low
-478	19.875	lwalk03	|	|	|	|	|	2.097	1	102	comes, head low
-479	19.917	|	|	|	|	|	|	2.097	1	102	comes, head low
-480	19.958	lwalk04	|	|	|	|	|	2.062	1	102	comes, head low
-481	20.000	|	|	|	|	|	|	2.062	1	102	comes, head low
-482	20.042	lwalk05	|	|	|	|	|	2.028	1	102	comes, head low
-483	20.083	lwalk06	|	|	|	|	|	1.994	1	102	comes, head low
-484	20.125	|	|	|	|	|	|	1.994	1	102	comes, head low
-485	20.167	lwalk07	|	|	|	|	|	1.959	1	102	comes, head low
-486	20.208	|	|	|	|	|	|	1.959	1	102	comes, head low
-487	20.250	lwalk08	|	|	|	|	|	1.925	1	102	comes, head low
-488	20.292	|	|	|	|	|	|	1.925	1	102	comes, head low
-489	20.333	lwalk09	|	|	|	|	|	1.891	1	102	comes, head low
-490	20.375	lwalk10	|	|	|	|	|	1.856	1	102	comes, head low
-491	20.417	|	|	|	|	|	|	1.856	1	102	comes, head low
-492	20.458	lwalk11	|	|	|	|	|	1.822	1	102	comes, head low
-493	20.500	|	|	|	|	|	|	1.822	1	102	comes, head low
-494	20.542	lwalk12	|	|	|	|	|	1.788	1	102	comes, head low
-495	20.583	lwalk13	|	|	|	|	|	1.753	1	102	comes, head low
-496	20.625	|	|	|	|	|	|	1.753	1	102	comes, head low
-497	20.667	lwalk14	|	|	|	|	|	1.719	1	102	comes, head low
-498	20.708	|	|	|	|	|	|	1.719	1	102	comes, head low
-499	20.750	lwalk15	|	|	|	|	|	1.684	1	102	comes, head low
-500	20.792	lwalk00	|	|	|	|	|	1.650	1	102	comes, head low
-501	20.833	|	|	|	|	|	|	1.650	1	102	comes, head low
-502	20.875	lwalk01	|	|	|	|	|	1.616	1	102	comes, head low
-503	20.917	|	|	|	|	|	|	1.616	1	102	comes, head low
-504	20.958	lwalk02	|	|	|	|	|	1.581	1	102	comes, head low
-505	21.000	lwalk03	|	|	|	|	|	1.547	1	102	comes, head low
-506	21.042	|	|	|	|	|	|	1.547	1	102	comes, head low
-507	21.083	lwalk04	|	|	|	|	|	1.512	1	102	comes, head low
-508	21.125	|	|	|	|	|	|	1.512	1	102	comes, head low
-509	21.167	lwalk05	|	|	|	|	|	1.478	1	102	comes, head low
-510	21.208	lwalk06	|	|	|	|	|	1.444	1	102	comes, head low
-511	21.250	|	|	|	|	|	|	1.444	1	102	comes, head low
-512	21.292	lwalk07	|	|	|	|	|	1.409	1	102	comes, head low
-513	21.333	|	|	|	|	|	|	1.409	1	102	comes, head low
-514	21.375	lwalk08	|	|	|	|	|	1.375	1	102	comes, head low
-515	21.417	lwalk09	|	|	|	|	|	1.341	1	102	comes, head low
-516	21.458	|	|	|	|	|	|	1.341	1	102	comes, head low
-517	21.500	lwalk10	|	|	|	|	|	1.306	1	102	comes, head low
-518	21.542	lwalk11	|	|	|	|	|	1.272	1	102	comes, head low
-519	21.583	|	|	|	|	|	|	1.272	1	102	comes, head low
-520	21.625	lwalk12	|	|	|	|	|	1.238	1	102	comes, head low
-521	21.667	|	|	|	|	|	|	1.238	1	102	comes, head low
-522	21.708	lwalk13	|	|	|	|	|	1.203	1	102	comes, head low
-523	21.750	lwalk14	|	|	|	|	|	1.169	1	102	comes, head low
-524	21.792	|	|	|	|	|	|	1.169	1	102	comes, head low
-525	21.833	lwalk15	|	|	|	|	|	1.134	1	102	comes, head low
-526	21.875	lwalk00	|	|	|	|	|	1.100	1	102	comes, head low
-527	21.917	|	|	|	|	|	|	1.100	1	102	comes, head low
-528	21.958	lwalk01	|	|	|	|	|	1.066	1	102	comes, head low
-529	22.000	|	|	|	|	|	|	1.066	1	102	comes, head low
-530	22.042	lwalk02	|	|	|	|	|	1.031	1	102	comes, head low
-531	22.083	lwalk03	|	|	|	|	|	0.997	1	102	comes, head low
-532	22.125	|	|	|	|	|	|	0.997	1	102	comes, head low
-533	22.167	lwalk04	|	|	|	|	|	0.963	1	102	comes, head low
-534	22.208	lwalk05	|	|	|	|	|	0.928	1	102	comes, head low
-535	22.250	|	|	|	|	|	|	0.928	1	102	comes, head low
-536	22.292	lwalk06	|	|	|	|	|	0.894	1	102	comes, head low
-537	22.333	lwalk07	|	|	|	|	|	0.859	1	102	comes, head low
-538	22.375	|	|	|	|	|	|	0.859	1	102	comes, head low
-539	22.417	lwalk08	|	|	|	|	|	0.825	1	102	comes, head low
-540	22.458	|	|	|	|	|	|	0.825	1	102	comes, head low
-541	22.500	lwalk09	|	|	|	|	|	0.791	1	102	comes, head low
-542	22.542	|	|	|	|	|	|	0.791	1	102	comes, head low
-543	22.583	lwalk10	|	|	|	|	|	0.756	1	102	comes, head low
-544	22.625	|	|	|	|	|	|	0.756	1	102	comes, head low
-545	22.667	|	|	|	|	|	|	0.756	1	102	comes, head low
-546	22.708	lwalk11	|	|	|	|	|	0.722	1	102	comes, head low
-547	22.750	|	|	|	|	|	|	0.722	1	102	comes, head low
-548	22.792	|	|	|	|	|	|	0.722	1	102	comes, head low
-549	22.833	lwalk12	|	|	|	|	|	0.688	1	102	comes, head low
-550	22.875	|	|	|	|	|	|	0.688	1	102	comes, head low
-551	22.917	|	|	|	|	|	|	0.688	1	102	comes, head low
-552	22.958	|	|	|	|	|	|	0.688	1	102	comes, head low
-553	23.000	lwalk13	|	|	|	|	|	0.653	1	102	comes, head low
-554	23.042	|	|	|	|	|	|	0.653	1	102	comes, head low
-555	23.083	|	|	|	|	|	|	0.653	1	102	comes, head low
-556	23.125	|	|	|	|	|	|	0.653	1	102	comes, head low
-557	23.167	|	|	|	|	|	|	0.653	1	102	comes, head low
-558	23.208	lwalk14	|	|	|	|	|	0.619	1	102	comes, head low
-559	23.250	|	|	|	|	|	|	0.619	1	102	comes, head low
-560	23.292	|	|	|	|	|	|	0.619	1	102	comes, head low
-561	23.333	|	|	|	|	|	|	0.619	1	102	comes, head low
-562	23.375	|	|	|	|	|	|	0.619	1	102	comes, head low
-563	23.417	|	|	|	|	|	|	0.619	1	102	comes, head low
-564	23.458	|	|	|	|	|	|	0.619	1	102	comes, head low
-565	23.500	|	|	|	|	|	|	0.619	1	102	comes, head low
-566	23.542	|	|	|	|	|	|	0.619	1	102	comes, head low
-567	23.583	lwalk15	|	|	|	|	|	0.584	1	102	comes, head low
-568	23.625	|	|	|	|	|	|	0.584	1	102	comes, head low
-569	23.667	|	|	|	|	|	|	0.584	1	102	comes, head low
-570	23.708	|	|	|	|	|	|	0.584	1	102	comes, head low
-571	23.750	|	|	|	|	|	|	0.584	1	102	comes, head low
-572	23.792	lower1	|	|	|	|	|	0.590	1	102	lies down across the sill
-573	23.833	|	|	|	|	|	|	0.590	1	102	lies down across the sill
-574	23.875	|	|	|	|	|	|	0.590	1	102	lies down across the sill
-575	23.917	|	|	|	|	|	|	0.590	1	102	lies down across the sill
-576	23.958	|	|	|	|	|	|	0.590	1	102	lies down across the sill
-577	24.000	|	|	|	|	|	|	0.590	1	102	lies down across the sill
-578	24.042	lower2	|	|	lie	|	|	0.590	1	102	lies down across the sill
-579	24.083	|	|	|	|	|	|	0.590	1	102	lies down across the sill
-580	24.125	|	|	|	|	|	|	0.590	1	102	lies down across the sill
-581	24.167	|	|	|	|	|	|	0.590	1	102	lies down across the sill
-582	24.208	|	|	|	|	|	|	0.590	1	102	lies down across the sill
-583	24.250	|	|	|	|	|	|	0.590	1	102	lies down across the sill
-584	24.292	lie	|	|	|	|	|	0.590	1	102	lies down across the sill
-585	24.333	|	|	|	|	|	|	0.590	1	102	lies down across the sill
-586	24.375	|	|	|	|	|	|	0.590	1	102	lies down across the sill
-587	24.417	|	|	|	|	|	|	0.590	1	102	lies down across the sill
-588	24.458	|	|	|	|	|	|	0.590	1	102	lies down across the sill
-589	24.500	|	|	|	|	|	|	0.590	1	102	lies down across the sill
-590	24.542	|	|	|	|	|	|	0.590	1	102	lies down across the sill
-591	24.583	|	|	|	|	|	|	0.590	1	102	lies down across the sill
-592	24.625	|	|	|	|	|	|	0.590	1	102	lies down across the sill
-593	24.667	|	|	|	|	|	|	0.590	1	102	lies down across the sill
-594	24.708	|	|	|	|	|	|	0.590	1	102	lies down across the sill
-595	24.750	|	|	|	|	|	|	0.590	1	102	lies down across the sill
-596	24.792	|	|	|	|	|	|	0.590	1	102	lies down across the sill
-597	24.833	|	|	|	|	|	|	0.590	1	102	lies down across the sill
-598	24.875	|	|	|	|	|	|	0.590	1	102	lies down across the sill
-599	24.917	|	|	|	|	|	|	0.590	1	102	lies down across the sill
-600	24.958	|	|	|	|	|	|	0.590	1	102	lies down across the sill
-601	25.000	|	|	|	|	|	|	0.590	1	102	lies down across the sill
-602	25.042	|	|	|	|	|	|	0.590	1	102	lies down across the sill
-603	25.083	|	profile_closed	|	|	|	|	0.590	1	102	lies down across the sill
-604	25.125	|	|	|	|	|	|	0.590	1	102	lies down across the sill
-605	25.167	|	|	|	|	|	|	0.590	1	102	lies down across the sill
-606	25.208	|	profile_open	|	|	|	|	0.590	1	102	lies down across the sill
-607	25.250	|	|	|	|	|	|	0.590	1	102	lies down across the sill
-608	25.292	|	|	|	|	|	|	0.590	1	102	lies down across the sill
-609	25.333	|	|	|	|	|	|	0.590	1	102	lies down across the sill
-610	25.375	|	|	|	|	|	|	0.590	1	102	lies down across the sill
-611	25.417	|	|	|	|	|	|	0.590	1	102	lies down across the sill
-612	25.458	|	|	|	|	|	|	0.590	1	102	lies down across the sill
-613	25.500	|	|	|	|	|	|	0.590	1	102	lies down across the sill
-614	25.542	|	|	|	|	|	|	0.590	1	102	lies down across the sill
-615	25.583	|	|	|	|	|	|	0.590	1	102	lies down across the sill
-616	25.625	|	|	|	|	|	|	0.590	1	102	lies down across the sill
-617	25.667	|	|	|	|	|	|	0.590	1	102	lies down across the sill
-618	25.708	|	|	|	|	|	|	0.590	1	102	lies down across the sill
-619	25.750	|	|	|	|	|	|	0.590	1	102	lies down across the sill
-620	25.792	|	|	|	|	|	|	0.590	1	102	lies down across the sill
-621	25.833	|	|	|	|	|	|	0.590	1	102	lies down across the sill
-622	25.875	|	|	|	|	|	|	0.590	1	102	lies down across the sill
-623	25.917	|	|	|	|	|	|	0.590	1	102	lies down across the sill
-624	25.958	|	|	|	|	|	|	0.590	1	102	lies down across the sill
-625	26.000	|	|	|	|	|	|	0.590	1	102	lies down across the sill
-626	26.042	|	|	|	|	|	|	0.590	1	102	lies down across the sill
-627	26.083	|	|	|	|	|	|	0.590	1	102	lies down across the sill
-628	26.125	|	|	|	|	|	|	0.590	1	102	lies down across the sill
-629	26.167	|	|	|	|	|	|	0.590	1	102	lies down across the sill
-630	26.208	|	|	|	|	|	|	0.590	1	102	lies down across the sill
-631	26.250	|	|	|	|	|	|	0.590	1	102	lies down across the sill
-632	26.292	|	|	|	|	|	|	0.590	1	102	lies down across the sill
-633	26.333	|	|	|	|	|	|	0.590	1	102	lies down across the sill
-634	26.375	|	|	|	|	|	|	0.590	1	102	lies down across the sill
-635	26.417	|	|	|	|	|	|	0.590	1	102	looks in
-636	26.458	|	|	|	|	|	soft	0.590	1	102	looks in
-637	26.500	|	|	profile_pricked	|	|	|	0.590	1	102	looks in
-638	26.542	|	|	|	|	|	|	0.590	1	102	looks in
-639	26.583	|	|	|	|	|	|	0.590	1	102	looks in
-640	26.625	|	|	|	|	|	|	0.590	1	102	looks in
-641	26.667	|	|	|	|	|	|	0.590	1	102	looks in
-642	26.708	|	|	|	|	|	closed	0.590	1	102	looks in
-643	26.750	|	deep	deep_pricked	|	|	|	0.590	1	102	looks in
-644	26.792	|	|	|	|	|	soft	0.590	1	102	looks in
-645	26.833	|	|	|	|	|	|	0.590	1	102	looks in
-646	26.875	|	|	|	|	|	|	0.590	1	102	looks in
-647	26.917	|	|	|	|	|	|	0.590	1	102	looks in
-648	26.958	|	|	|	|	|	|	0.590	1	102	looks in
-649	27.000	|	|	|	|	|	|	0.590	1	102	looks in
-650	27.042	|	|	|	|	|	|	0.590	1	102	looks in
-651	27.083	|	|	|	|	|	|	0.590	1	102	looks in
-652	27.125	|	|	|	|	|	closed	0.590	1	102	looks in
-653	27.167	|	|	|	|	|	|	0.590	1	102	looks in
-654	27.208	|	|	|	|	|	|	0.590	1	102	looks in
-655	27.250	|	|	|	|	|	|	0.590	1	102	looks in
-656	27.292	|	|	|	|	|	|	0.590	1	102	looks in
-657	27.333	|	|	|	|	|	|	0.590	1	102	looks in
-658	27.375	|	|	|	|	|	|	0.590	1	102	looks in
-659	27.417	|	|	|	|	|	|	0.590	1	102	looks in
-660	27.458	|	|	|	|	|	|	0.590	1	102	looks in
-661	27.500	|	|	|	|	|	|	0.590	1	102	looks in
-662	27.542	|	|	|	|	|	|	0.590	1	102	looks in
-663	27.583	|	|	|	|	|	|	0.590	1	102	looks in
-664	27.625	|	|	|	|	|	|	0.590	1	102	looks in
-665	27.667	|	|	|	|	|	|	0.590	1	102	looks in
-666	27.708	|	|	|	|	|	|	0.590	1	102	looks in
-667	27.750	|	|	|	|	|	|	0.590	1	102	looks in
-668	27.792	|	|	|	|	|	|	0.590	1	102	looks in
-669	27.833	|	|	|	|	|	|	0.590	1	102	looks in
-670	27.875	|	|	|	|	|	|	0.590	1	102	looks in
-671	27.917	|	|	|	|	|	|	0.590	1	102	looks in
-672	27.958	|	|	|	|	|	|	0.590	1	102	looks in
-673	28.000	|	|	|	|	|	|	0.590	1	102	looks in
-674	28.042	|	|	|	|	|	|	0.590	1	102	looks in
-675	28.083	|	|	|	|	|	|	0.590	1	102	looks in
-676	28.125	|	|	|	|	|	|	0.590	1	102	looks in
-677	28.167	|	|	|	|	|	|	0.590	1	102	looks in
-678	28.208	|	profile_open	profile_half	|	|	|	0.590	1	102	settles and stays
-679	28.250	|	|	|	|	|	|	0.590	1	102	settles and stays
-680	28.292	|	|	|	|	|	|	0.590	1	102	settles and stays
-681	28.333	|	|	|	|	|	|	0.590	1	102	settles and stays
-682	28.375	|	|	|	|	|	|	0.590	1	102	settles and stays
-683	28.417	|	|	|	|	|	|	0.590	1	102	settles and stays
-684	28.458	|	|	|	|	|	|	0.590	1	102	settles and stays
-685	28.500	|	|	|	|	|	|	0.590	1	102	settles and stays
-686	28.542	|	|	|	|	|	|	0.590	1	102	settles and stays
-687	28.583	|	|	|	|	|	|	0.590	1	102	settles and stays
-688	28.625	|	|	|	|	|	|	0.590	1	102	settles and stays
-689	28.667	|	|	|	|	|	|	0.590	1	102	settles and stays
-690	28.708	|	|	|	|	|	|	0.590	1	102	settles and stays
-691	28.750	|	|	|	|	|	|	0.590	1	102	settles and stays
-692	28.792	|	|	|	|	|	|	0.590	1	102	settles and stays
-693	28.833	|	|	|	|	|	|	0.590	1	102	settles and stays
-694	28.875	|	|	|	|	|	|	0.590	1	102	settles and stays
-695	28.917	|	|	|	|	|	|	0.590	1	102	settles and stays
-696	28.958	|	|	|	|	|	|	0.590	1	102	settles and stays
-697	29.000	|	profile_closed	|	|	|	|	0.590	1	102	settles and stays
-698	29.042	|	|	|	|	|	|	0.590	1	102	settles and stays
-699	29.083	|	|	|	|	|	|	0.590	1	102	settles and stays
-700	29.125	|	profile_open	|	|	|	|	0.590	1	102	settles and stays
-701	29.167	|	|	profile_flat	|	|	|	0.590	1	102	settles and stays
-702	29.208	|	|	|	|	|	|	0.590	1	102	settles and stays
-703	29.250	|	|	|	|	|	|	0.590	1	102	settles and stays
-704	29.292	|	|	|	|	|	|	0.590	1	102	settles and stays
-705	29.333	|	|	|	|	|	|	0.590	1	102	settles and stays
-706	29.375	|	|	|	|	|	|	0.590	1	102	settles and stays
-707	29.417	|	|	|	|	|	|	0.590	1	102	settles and stays
-708	29.458	|	|	|	|	|	|	0.590	1	102	settles and stays
-709	29.500	|	|	|	|	|	|	0.590	1	102	settles and stays
-710	29.542	|	|	|	|	|	|	0.590	1	102	settles and stays
-711	29.583	|	|	|	|	|	|	0.590	1	102	settles and stays
-712	29.625	|	|	|	|	|	|	0.590	1	102	settles and stays
-713	29.667	|	|	|	|	|	|	0.590	1	102	settles and stays
-714	29.708	|	|	|	|	|	|	0.590	1	102	settles and stays
-715	29.750	|	|	|	|	|	|	0.590	1	102	settles and stays
-716	29.792	|	|	|	|	|	|	0.590	1	102	settles and stays
-717	29.833	|	|	|	|	|	|	0.590	1	102	settles and stays
-718	29.875	|	|	|	|	|	|	0.590	1	102	settles and stays
-719	29.917	|	|	|	|	|	|	0.590	1	102	settles and stays
-720	29.958	|	|	|	|	|	|	0.590	1	102	settles and stays
-721	30.000	|	|	|	|	|	|	0.590	1	102	settles and stays
-722	30.042	|	|	|	|	|	|	0.590	1	102	settles and stays
-723	30.083	|	|	|	|	|	|	0.590	1	102	settles and stays
-724	30.125	|	|	|	|	|	|	0.590	1	102	settles and stays
-725	30.167	|	profile_closed	|	|	|	|	0.590	1	102	settles and stays
-726	30.208	|	|	|	|	|	|	0.590	1	102	settles and stays
-727	30.250	|	|	|	|	|	|	0.590	1	102	settles and stays
-728	30.292	|	|	|	|	|	|	0.590	1	102	settles and stays
-729	30.333	|	|	|	|	|	|	0.590	1	102	settles and stays
-730	30.375	|	|	|	|	|	|	0.590	1	102	settles and stays
-731	30.417	|	|	|	|	|	|	0.590	1	102	settles and stays
-732	30.458	|	|	|	|	|	|	0.590	1	102	settles and stays
-733	30.500	|	|	|	|	|	|	0.590	1	102	settles and stays
-734	30.542	|	|	|	|	|	|	0.590	1	102	settles and stays
-735	30.583	|	|	|	|	|	|	0.590	1	102	settles and stays
-736	30.625	|	|	|	|	|	|	0.590	1	102	settles and stays
-737	30.667	|	|	|	|	|	|	0.590	1	102	settles and stays
-738	30.708	|	|	|	|	|	|	0.590	1	102	settles and stays
-739	30.750	|	|	|	|	|	|	0.590	1	102	settles and stays
-740	30.792	|	|	|	|	|	|	0.590	1	102	settles and stays
-741	30.833	|	|	|	|	|	|	0.590	1	102	settles and stays
-742	30.875	|	|	|	|	|	|	0.590	1	102	settles and stays
-743	30.917	|	|	profile_half	|	|	|	0.590	1	102	settles and stays
-744	30.958	|	|	|	|	|	|	0.590	1	102	settles and stays
-745	31.000	|	|	|	|	|	|	0.590	1	102	settles and stays
-746	31.042	|	|	profile_flat	|	|	|	0.590	1	102	settles and stays
-747	31.083	|	|	|	|	|	|	0.590	1	102	settles and stays
-748	31.125	|	|	|	|	|	|	0.590	1	102	settles and stays
-749	31.167	|	|	|	|	|	|	0.590	1	102	settles and stays
-750	31.208	|	|	|	|	|	|	0.590	1	102	settles and stays
-751	31.250	|	|	|	|	|	|	0.590	1	102	settles and stays
-752	31.292	|	|	|	|	|	|	0.590	1	102	settles and stays
-753	31.333	|	|	|	|	|	|	0.590	1	102	settles and stays
-754	31.375	|	|	|	|	|	|	0.590	1	102	settles and stays
-755	31.417	|	|	|	|	|	|	0.590	1	102	settles and stays
-756	31.458	|	|	|	|	|	|	0.590	1	102	settles and stays
-757	31.500	|	|	|	|	|	|	0.590	1	102	settles and stays
-758	31.542	|	|	|	|	|	|	0.590	1	102	settles and stays
-759	31.583	|	|	|	|	|	|	0.590	1	102	settles and stays
-760	31.625	|	|	|	|	|	|	0.590	1	102	settles and stays
-761	31.667	|	|	|	|	|	|	0.590	1	102	settles and stays
-762	31.708	|	|	|	|	|	|	0.590	1	102	settles and stays
-763	31.750	|	|	|	|	|	|	0.590	1	102	settles and stays
-764	31.792	|	|	|	|	|	|	0.590	1	102	settles and stays
-765	31.833	|	|	|	|	|	|	0.590	1	102	settles and stays
-766	31.875	|	|	|	|	|	|	0.590	1	102	settles and stays
-767	31.917	|	|	|	|	|	|	0.590	1	102	settles and stays
-768	31.958	|	|	|	|	|	|	0.590	1	102	settles and stays
+152	6.292	|	|	|	|	|	|	4.000	-1	27	back turned
+153	6.333	|	|	|	|	|	|	4.000	-1	32	back turned
+154	6.375	|	|	|	|	|	|	4.000	-1	38	back turned
+155	6.417	|	|	profile_flat	|	|	|	4.000	-1	46	back turned
+156	6.458	|	|	|	|	|	|	4.000	-1	55	back turned
+157	6.500	|	|	|	|	|	|	4.000	-1	64	back turned
+158	6.542	|	|	|	|	|	|	4.000	-1	75	back turned
+159	6.583	|	|	|	|	sit	|	4.000	-1	85	back turned
+160	6.625	|	|	|	|	|	|	4.000	-1	96	back turned
+161	6.667	|	|	|	|	|	|	4.000	-1	107	back turned
+162	6.708	|	|	|	|	|	|	4.000	-1	117	back turned
+163	6.750	|	|	|	|	|	|	4.000	-1	128	back turned
+164	6.792	|	|	|	|	sit_low1	|	4.000	-1	137	back turned
+165	6.833	|	|	|	|	|	|	4.000	-1	146	back turned
+166	6.875	|	profile_open·R	|	|	|	|	4.000	-1	154	back turned
+167	6.917	|	|	|	|	|	|	4.000	-1	160	back turned
+168	6.958	|	|	|	|	|	|	4.000	-1	165	back turned
+169	7.000	|	|	|	|	|	|	4.000	-1	169	back turned
+170	7.042	|	|	|	|	|	|	4.000	-1	169	back turned
+171	7.083	|	|	profile_half	|	|	|	4.000	-1	168	back turned
+172	7.125	|	|	|	|	|	|	4.000	-1	167	back turned
+173	7.167	|	|	|	|	sit_low	|	4.000	-1	166	back turned
+174	7.208	|	|	profile_flat	|	|	|	4.000	-1	166	back turned
+175	7.250	|	|	|	|	|	|	4.000	-1	166	back turned
+176	7.292	|	|	|	|	|	|	4.000	-1	167	back turned
+177	7.333	|	|	|	|	|	|	4.000	-1	168	back turned
+178	7.375	|	|	|	|	|	|	4.000	-1	169	back turned
+179	7.417	|	|	|	|	|	|	4.000	-1	170	back turned
+180	7.458	|	q3front_open·R	q3front_half	|	|	soft	4.000	-1	170	turns back to look
+181	7.500	|	|	|	|	|	|	4.000	-1	170	turns back to look
+182	7.542	|	front_open·R	front_half	|	|	|	4.000	-1	170	turns back to look
+183	7.583	|	|	|	|	|	closed	4.000	-1	170	turns back to look
+184	7.625	|	q3front_open	q3front_half	|	|	soft	4.000	-1	170	turns back to look
+185	7.667	|	|	|	|	|	|	4.000	-1	170	turns back to look
+186	7.708	|	profile_open	profile_pricked	|	|	|	4.000	-1	170	turns back to look
+187	7.750	lower2·R	|	|	|	|	|	4.000	-1	170	turns back to look
+188	7.792	|	|	|	|	|	|	4.000	-1	170	turns back to look
+189	7.833	|	|	|	|	|	|	4.000	-1	170	turns back to look
+190	7.875	lower1·R	|	|	|	|	closed	4.000	-1	170	turns back to look
+191	7.917	|	|	|	|	|	soft	4.000	-1	170	turns back to look
+192	7.958	|	|	|	|	|	|	4.000	-1	170	turns back to look
+193	8.000	stand·R	|	|	mid	|	|	4.000	-1	170	turns back to look
+194	8.042	|	|	|	|	|	|	4.000	-1	170	turns back to look
+195	8.083	|	|	|	|	|	|	4.000	-1	170	turns back to look
+196	8.125	q3front·R	q3front_open	q3front_pricked	|	|	|	4.000	-1	170	turns back to look
+197	8.167	|	|	|	|	|	|	4.000	-1	170	turns back to look
+198	8.208	|	|	|	|	|	|	4.000	-1	170	turns back to look
+199	8.250	front	|	|	|	|	closed	4.000	1	170	turns back to look
+200	8.292	|	|	|	|	|	|	4.000	1	170	turns back to look
+201	8.333	|	|	|	|	|	|	4.000	1	170	turns back to look
+202	8.375	q3front	profile_open	profile_pricked	|	|	|	4.000	1	170	turns back to look
+203	8.417	|	|	|	|	|	|	4.000	1	170	turns back to look
+204	8.458	|	|	|	|	|	|	4.000	1	170	turns back to look
+205	8.500	stand	|	|	|	|	|	4.000	1	170	watches
+206	8.542	|	|	|	|	|	|	4.000	1	170	watches
+207	8.583	|	|	|	|	|	|	4.000	1	170	watches
+208	8.625	|	|	|	|	|	soft	4.000	1	170	watches
+209	8.667	|	|	|	|	|	|	4.000	1	170	watches
+210	8.708	|	|	|	|	|	|	4.000	1	170	watches
+211	8.750	|	|	|	|	|	closed	4.000	1	170	watches
+212	8.792	|	|	|	|	|	soft	4.000	1	170	watches
+213	8.833	|	|	|	|	|	|	4.000	1	170	watches
+214	8.875	|	|	|	|	|	|	4.000	1	170	watches
+215	8.917	|	|	|	|	|	|	4.000	1	170	watches
+216	8.958	|	|	|	|	|	|	4.000	1	170	watches
+217	9.000	|	|	|	|	|	closed	4.000	1	170	watches
+218	9.042	|	|	|	|	|	soft	4.000	1	170	watches
+219	9.083	|	|	|	|	|	|	4.000	1	170	watches
+220	9.125	|	|	|	|	|	|	4.000	1	170	watches
+221	9.167	|	|	|	|	|	|	4.000	1	170	watches
+222	9.208	|	|	|	|	|	|	4.000	1	170	watches
+223	9.250	|	|	|	|	|	|	4.000	1	170	watches
+224	9.292	|	|	|	|	|	|	4.000	1	170	watches
+225	9.333	|	|	|	|	|	|	4.000	1	170	watches
+226	9.375	|	|	|	|	|	closed	4.000	1	170	watches
+227	9.417	|	|	|	|	|	|	4.000	1	170	watches
+228	9.458	|	|	|	|	|	|	4.000	1	170	watches
+229	9.500	|	|	|	|	|	|	4.000	1	170	watches
+230	9.542	|	|	|	|	|	|	4.000	1	170	watches
+231	9.583	|	profile_closed	|	|	|	|	4.000	1	170	watches
+232	9.625	|	|	|	|	|	|	4.000	1	170	watches
+233	9.667	|	|	|	|	|	|	4.000	1	170	watches
+234	9.708	|	profile_open	|	|	|	|	4.000	1	170	watches
+235	9.750	|	|	|	|	|	|	4.000	1	170	watches
+236	9.792	|	|	|	|	|	|	4.000	1	170	watches
+237	9.833	|	|	|	|	|	|	4.000	1	170	watches
+238	9.875	|	|	|	|	|	|	4.000	1	170	watches
+239	9.917	|	|	|	|	|	|	4.000	1	170	watches
+240	9.958	|	|	|	|	|	|	4.000	1	170	watches
+241	10.000	|	|	|	|	|	|	4.000	1	170	watches
+242	10.042	|	|	|	|	|	|	4.000	1	170	watches
+243	10.083	|	|	|	|	|	|	4.000	1	170	watches
+244	10.125	|	|	|	|	|	|	4.000	1	170	watches
+245	10.167	|	|	|	|	|	|	4.000	1	170	watches
+246	10.208	|	|	|	|	|	|	4.000	1	170	watches
+247	10.250	|	|	|	|	|	|	4.000	1	170	watches
+248	10.292	|	|	|	|	|	|	4.000	1	170	watches
+249	10.333	|	|	|	|	|	|	4.000	1	170	watches
+250	10.375	|	|	|	|	|	|	4.000	1	170	watches
+251	10.417	|	|	profile_half	|	|	|	4.000	1	170	watches
+252	10.458	|	|	|	|	|	soft	4.000	1	170	watches
+253	10.500	|	|	profile_pricked	|	|	|	4.000	1	170	watches
+254	10.542	|	|	|	|	|	|	4.000	1	170	watches
+255	10.583	|	|	|	|	|	closed	4.000	1	170	watches
+256	10.625	|	|	|	|	|	soft	4.000	1	170	watches
+257	10.667	|	|	|	|	|	|	4.000	1	170	watches
+258	10.708	|	|	|	|	|	|	4.000	1	170	watches
+259	10.750	|	|	|	|	|	|	4.000	1	170	watches
+260	10.792	|	|	|	|	|	|	4.000	1	170	watches
+261	10.833	|	|	|	|	|	closed	4.000	1	170	watches
+262	10.875	|	|	|	|	|	|	4.000	1	170	watches
+263	10.917	|	|	|	|	|	soft	4.000	1	170	watches
+264	10.958	|	|	|	|	|	|	4.000	1	170	watches
+265	11.000	|	|	|	|	|	|	4.000	1	170	watches
+266	11.042	|	|	|	|	|	|	4.000	1	170	watches
+267	11.083	|	|	|	|	|	|	4.000	1	170	watches
+268	11.125	|	|	|	|	|	|	4.000	1	170	watches
+269	11.167	|	|	|	|	|	|	4.000	1	170	watches
+270	11.208	|	|	|	|	|	|	4.000	1	170	watches
+271	11.250	|	|	|	|	|	|	4.000	1	170	watches
+272	11.292	|	|	|	|	|	|	4.000	1	170	watches
+273	11.333	|	|	|	|	|	closed	4.000	1	170	watches
+274	11.375	|	|	|	|	|	|	4.000	1	170	watches
+275	11.417	|	|	|	|	|	|	4.000	1	170	watches
+276	11.458	|	|	|	|	|	|	4.000	1	170	watches
+277	11.500	|	|	|	|	|	|	4.000	1	170	watches
+278	11.542	|	|	|	|	|	|	4.000	1	170	watches
+279	11.583	|	|	|	|	|	|	4.000	1	170	watches
+280	11.625	|	|	|	|	|	|	4.000	1	170	watches
+281	11.667	|	|	|	|	|	|	4.000	1	170	watches
+282	11.708	|	|	|	|	|	|	4.000	1	170	watches
+283	11.750	|	|	|	|	|	|	4.000	1	170	watches
+284	11.792	|	|	|	|	|	|	4.000	1	170	watches
+285	11.833	|	|	|	|	|	|	4.000	1	170	watches
+286	11.875	|	|	|	|	|	|	4.000	1	170	watches
+287	11.917	|	|	|	|	|	|	4.000	1	170	watches
+288	11.958	|	|	|	|	|	|	4.000	1	170	watches
+289	12.000	|	|	|	|	|	|	4.000	1	170	watches
+290	12.042	|	|	|	|	|	|	4.000	1	170	watches
+291	12.083	|	|	|	|	|	|	4.000	1	170	watches
+292	12.125	|	|	|	|	|	|	4.000	1	170	watches
+293	12.167	|	|	|	|	|	|	4.000	1	170	watches
+294	12.208	|	profile_closed	|	|	|	|	4.000	1	170	watches
+295	12.250	|	|	|	|	|	|	4.000	1	170	watches
+296	12.292	|	|	|	|	|	|	4.000	1	170	watches
+297	12.333	|	profile_open	|	|	|	|	4.000	1	170	watches
+298	12.375	|	|	|	|	|	|	4.000	1	170	watches
+299	12.417	|	|	|	|	|	|	4.000	1	170	watches
+300	12.458	|	|	|	|	|	|	4.000	1	170	watches
+301	12.500	|	|	|	|	|	|	4.000	1	170	watches
+302	12.542	|	|	|	|	|	|	4.000	1	170	watches
+303	12.583	|	|	|	|	|	|	4.000	1	170	watches
+304	12.625	|	|	|	|	|	|	4.000	1	170	watches
+305	12.667	|	|	|	|	|	|	4.000	1	170	watches
+306	12.708	|	|	|	|	|	|	4.000	1	170	watches
+307	12.750	|	|	|	|	|	|	4.000	1	170	watches
+308	12.792	|	|	|	|	|	|	4.000	1	170	watches
+309	12.833	|	|	|	|	|	|	4.000	1	170	watches
+310	12.875	|	|	|	|	|	|	4.000	1	170	watches
+311	12.917	|	|	|	|	|	|	4.000	1	170	watches
+312	12.958	|	|	|	|	|	|	4.000	1	170	watches
+313	13.000	|	|	|	|	|	|	4.000	1	170	watches
+314	13.042	|	|	|	|	|	|	4.000	1	170	watches
+315	13.083	|	|	|	|	|	|	4.000	1	170	watches
+316	13.125	|	|	|	|	|	|	4.000	1	170	watches
+317	13.167	|	|	|	|	|	|	4.000	1	170	watches
+318	13.208	|	|	|	|	|	|	4.000	1	170	watches
+319	13.250	|	|	|	|	|	|	4.000	1	170	watches
+320	13.292	|	|	|	|	|	|	4.000	1	170	watches
+321	13.333	|	|	|	|	|	|	4.000	1	170	watches
+322	13.375	|	|	|	|	|	|	4.000	1	170	watches
+323	13.417	|	|	|	|	|	|	4.000	1	170	watches
+324	13.458	|	|	|	|	|	|	4.000	1	170	watches
+325	13.500	|	|	|	|	|	|	4.000	1	170	watches
+326	13.542	|	|	|	|	|	|	4.000	1	170	watches
+327	13.583	|	|	|	|	|	|	4.000	1	170	watches
+328	13.625	|	|	|	|	|	|	4.000	1	170	watches
+329	13.667	|	|	|	|	|	|	4.000	1	170	watches
+330	13.708	|	|	|	|	|	|	4.000	1	170	watches
+331	13.750	|	|	|	|	|	|	4.000	1	170	watches
+332	13.792	|	|	|	|	|	|	4.000	1	170	watches
+333	13.833	|	|	|	|	|	|	4.000	1	170	watches
+334	13.875	|	|	|	|	|	|	4.000	1	170	watches
+335	13.917	|	profile_closed	|	|	|	|	4.000	1	170	watches
+336	13.958	|	|	|	|	|	|	4.000	1	170	watches
+337	14.000	|	|	|	|	|	|	4.000	1	170	watches
+338	14.042	|	profile_open	|	|	|	|	4.000	1	170	watches
+339	14.083	|	|	|	|	|	|	4.000	1	170	watches
+340	14.125	|	|	|	|	|	|	4.000	1	170	watches
+341	14.167	|	|	|	|	|	|	4.000	1	170	watches
+342	14.208	|	|	|	|	|	|	4.000	1	170	watches
+343	14.250	|	|	|	|	|	|	4.000	1	170	watches
+344	14.292	|	|	|	|	|	|	4.000	1	170	watches
+345	14.333	|	|	|	|	|	|	4.000	1	170	watches
+346	14.375	|	|	|	|	|	|	4.000	1	170	watches
+347	14.417	|	|	|	|	|	|	4.000	1	170	watches
+348	14.458	|	|	|	|	|	|	4.000	1	170	watches
+349	14.500	|	|	|	|	|	|	4.000	1	170	watches
+350	14.542	|	|	|	|	|	|	4.000	1	170	watches
+351	14.583	|	|	|	|	|	|	4.000	1	170	watches
+352	14.625	|	|	|	|	|	|	4.000	1	170	watches
+353	14.667	|	|	|	|	|	|	4.000	1	170	watches
+354	14.708	lwalk12	|	profile_half	low	|	|	3.987	1	170	comes, head low
+355	14.750	|	|	|	|	|	|	3.987	1	170	comes, head low
+356	14.792	|	|	|	|	|	|	3.987	1	170	comes, head low
+357	14.833	lwalk13	|	|	|	|	|	3.953	1	170	comes, head low
+358	14.875	|	|	|	|	|	|	3.953	1	170	comes, head low
+359	14.917	|	|	|	|	|	|	3.953	1	170	comes, head low
+360	14.958	lwalk14	|	|	|	|	|	3.919	1	170	comes, head low
+361	15.000	|	|	|	|	|	|	3.919	1	170	comes, head low
+362	15.042	|	|	|	|	|	|	3.919	1	170	comes, head low
+363	15.083	lwalk15	|	|	|	|	|	3.884	1	170	comes, head low
+364	15.125	|	|	|	|	|	|	3.884	1	170	comes, head low
+365	15.167	|	|	|	|	|	|	3.884	1	170	comes, head low
+366	15.208	lwalk00	|	|	|	|	|	3.850	1	170	comes, head low
+367	15.250	|	|	|	|	|	|	3.850	1	170	comes, head low
+368	15.292	|	|	|	|	|	|	3.850	1	170	comes, head low
+369	15.333	lwalk01	|	|	|	|	|	3.816	1	170	comes, head low
+370	15.375	|	|	|	|	|	|	3.816	1	170	comes, head low
+371	15.417	|	|	|	|	|	|	3.816	1	170	comes, head low
+372	15.458	lwalk02	|	|	|	|	|	3.781	1	170	comes, head low
+373	15.500	|	|	|	|	|	|	3.781	1	170	comes, head low
+374	15.542	|	|	|	|	|	|	3.781	1	170	comes, head low
+375	15.583	lwalk03	|	|	|	|	|	3.747	1	170	comes, head low
+376	15.625	|	|	|	|	|	|	3.747	1	170	comes, head low
+377	15.667	|	|	|	|	|	|	3.747	1	170	comes, head low
+378	15.708	lwalk04	|	|	|	|	|	3.712	1	170	comes, head low
+379	15.750	|	|	|	|	|	|	3.712	1	170	comes, head low
+380	15.792	|	|	|	|	|	|	3.712	1	170	comes, head low
+381	15.833	lwalk05	|	|	|	|	|	3.678	1	170	comes, head low
+382	15.875	|	|	|	|	|	|	3.678	1	170	comes, head low
+383	15.917	lwalk06	|	|	|	|	|	3.644	1	170	comes, head low
+384	15.958	|	|	|	|	|	|	3.644	1	170	comes, head low
+385	16.000	|	|	|	|	|	|	3.644	1	170	comes, head low
+386	16.042	lwalk07	|	|	|	|	|	3.609	1	170	comes, head low
+387	16.083	|	|	|	|	|	|	3.609	1	170	comes, head low
+388	16.125	|	|	|	|	|	|	3.609	1	170	comes, head low
+389	16.167	lwalk08	|	|	|	|	|	3.575	1	170	comes, head low
+390	16.208	|	|	|	|	|	|	3.575	1	170	comes, head low
+391	16.250	lwalk09	|	|	|	|	|	3.541	1	170	comes, head low
+392	16.292	|	|	|	|	|	|	3.541	1	170	comes, head low
+393	16.333	|	|	|	|	|	|	3.541	1	170	comes, head low
+394	16.375	lwalk10	|	|	|	|	|	3.506	1	170	comes, head low
+395	16.417	|	|	|	|	|	|	3.506	1	170	comes, head low
+396	16.458	lwalk11	|	|	|	|	|	3.472	1	170	comes, head low
+397	16.500	|	|	|	|	|	|	3.472	1	170	comes, head low
+398	16.542	|	|	|	|	|	|	3.472	1	170	comes, head low
+399	16.583	lwalk12	|	|	|	|	|	3.438	1	170	comes, head low
+400	16.625	|	|	|	|	|	|	3.438	1	170	comes, head low
+401	16.667	lwalk13	|	|	|	|	|	3.403	1	170	comes, head low
+402	16.708	|	|	|	|	|	|	3.403	1	170	comes, head low
+403	16.750	lwalk14	|	|	|	|	|	3.369	1	170	comes, head low
+404	16.792	|	|	|	|	|	|	3.369	1	170	comes, head low
+405	16.833	|	|	|	|	|	|	3.369	1	170	comes, head low
+406	16.875	lwalk15	|	|	|	|	|	3.334	1	170	comes, head low
+407	16.917	|	|	|	|	|	|	3.334	1	170	comes, head low
+408	16.958	lwalk00	|	|	|	|	|	3.300	1	170	comes, head low
+409	17.000	|	|	|	|	|	|	3.300	1	170	comes, head low
+410	17.042	lwalk01	|	|	|	|	|	3.266	1	170	comes, head low
+411	17.083	|	|	|	|	|	|	3.266	1	170	comes, head low
+412	17.125	|	|	|	|	|	|	3.266	1	170	comes, head low
+413	17.167	lwalk02	|	|	|	|	|	3.231	1	170	comes, head low
+414	17.208	|	|	|	|	|	|	3.231	1	170	comes, head low
+415	17.250	lwalk03	|	|	|	|	|	3.197	1	170	comes, head low
+416	17.292	|	|	|	|	|	|	3.197	1	170	comes, head low
+417	17.333	lwalk04	|	|	|	|	|	3.163	1	170	comes, head low
+418	17.375	|	|	|	|	|	|	3.163	1	170	comes, head low
+419	17.417	lwalk05	|	|	|	|	|	3.128	1	170	comes, head low
+420	17.458	|	|	|	|	|	|	3.128	1	170	comes, head low
+421	17.500	|	|	|	|	|	|	3.128	1	170	comes, head low
+422	17.542	lwalk06	|	|	|	|	|	3.094	1	170	comes, head low
+423	17.583	|	|	|	|	|	|	3.094	1	170	comes, head low
+424	17.625	lwalk07	|	|	|	|	|	3.059	1	170	comes, head low
+425	17.667	|	|	|	|	|	|	3.059	1	170	comes, head low
+426	17.708	lwalk08	|	|	|	|	|	3.025	1	170	comes, head low
+427	17.750	|	|	|	|	|	|	3.025	1	170	comes, head low
+428	17.792	lwalk09	|	|	|	|	|	2.991	1	170	comes, head low
+429	17.833	|	|	|	|	|	|	2.991	1	170	comes, head low
+430	17.875	lwalk10	|	|	|	|	|	2.956	1	170	comes, head low
+431	17.917	|	|	|	|	|	|	2.956	1	170	comes, head low
+432	17.958	lwalk11	|	|	|	|	|	2.922	1	170	comes, head low
+433	18.000	|	|	|	|	|	|	2.922	1	170	comes, head low
+434	18.042	lwalk12	|	|	|	|	|	2.888	1	170	comes, head low
+435	18.083	|	|	|	|	|	|	2.888	1	170	comes, head low
+436	18.125	lwalk13	|	|	|	|	|	2.853	1	170	comes, head low
+437	18.167	|	|	|	|	|	|	2.853	1	170	comes, head low
+438	18.208	lwalk14	|	|	|	|	|	2.819	1	170	comes, head low
+439	18.250	|	|	|	|	|	|	2.819	1	170	comes, head low
+440	18.292	lwalk15	|	|	|	|	|	2.784	1	170	comes, head low
+441	18.333	|	|	|	|	|	|	2.784	1	170	comes, head low
+442	18.375	lwalk00	|	|	|	|	|	2.750	1	170	comes, head low
+443	18.417	|	|	|	|	|	|	2.750	1	170	comes, head low
+444	18.458	lwalk01	|	|	|	|	|	2.716	1	170	comes, head low
+445	18.500	|	|	|	|	|	|	2.716	1	170	comes, head low
+446	18.542	lwalk02	|	|	|	|	|	2.681	1	170	comes, head low
+447	18.583	|	|	|	|	|	|	2.681	1	170	comes, head low
+448	18.625	lwalk03	|	|	|	|	|	2.647	1	170	comes, head low
+449	18.667	|	|	|	|	|	|	2.647	1	170	comes, head low
+450	18.708	lwalk04	|	|	|	|	|	2.612	1	170	comes, head low
+451	18.750	|	|	|	|	|	|	2.612	1	170	comes, head low
+452	18.792	lwalk05	|	|	|	|	|	2.578	1	170	comes, head low
+453	18.833	|	|	|	|	|	|	2.578	1	170	comes, head low
+454	18.875	lwalk06	|	|	|	|	|	2.544	1	170	comes, head low
+455	18.917	|	|	|	|	|	|	2.544	1	170	comes, head low
+456	18.958	lwalk07	|	|	|	|	|	2.509	1	170	comes, head low
+457	19.000	|	|	|	|	|	|	2.509	1	170	comes, head low
+458	19.042	lwalk08	|	|	|	|	|	2.475	1	170	comes, head low
+459	19.083	|	|	|	|	|	|	2.475	1	170	comes, head low
+460	19.125	lwalk09	|	|	|	|	|	2.441	1	170	comes, head low
+461	19.167	|	|	|	|	|	|	2.441	1	170	comes, head low
+462	19.208	lwalk10	|	|	|	|	|	2.406	1	170	comes, head low
+463	19.250	lwalk11	|	|	|	|	|	2.372	1	170	comes, head low
+464	19.292	|	|	|	|	|	|	2.372	1	170	comes, head low
+465	19.333	lwalk12	|	|	|	|	|	2.337	1	170	comes, head low
+466	19.375	|	|	|	|	|	|	2.337	1	170	comes, head low
+467	19.417	lwalk13	|	|	|	|	|	2.303	1	170	comes, head low
+468	19.458	|	|	|	|	|	|	2.303	1	170	comes, head low
+469	19.500	lwalk14	|	|	|	|	|	2.269	1	170	comes, head low
+470	19.542	|	|	|	|	|	|	2.269	1	170	comes, head low
+471	19.583	lwalk15	profile_closed	|	|	|	|	2.234	1	170	comes, head low
+472	19.625	|	|	|	|	|	|	2.234	1	170	comes, head low
+473	19.667	lwalk00	|	|	|	|	|	2.200	1	170	comes, head low
+474	19.708	lwalk01	profile_open	|	|	|	|	2.166	1	170	comes, head low
+475	19.750	|	|	|	|	|	|	2.166	1	170	comes, head low
+476	19.792	lwalk02	|	|	|	|	|	2.131	1	170	comes, head low
+477	19.833	|	|	|	|	|	|	2.131	1	170	comes, head low
+478	19.875	lwalk03	|	|	|	|	|	2.097	1	170	comes, head low
+479	19.917	|	|	|	|	|	|	2.097	1	170	comes, head low
+480	19.958	lwalk04	|	|	|	|	|	2.062	1	170	comes, head low
+481	20.000	|	|	|	|	|	|	2.062	1	170	comes, head low
+482	20.042	lwalk05	|	|	|	|	|	2.028	1	170	comes, head low
+483	20.083	lwalk06	|	|	|	|	|	1.994	1	170	comes, head low
+484	20.125	|	|	|	|	|	|	1.994	1	170	comes, head low
+485	20.167	lwalk07	|	|	|	|	|	1.959	1	170	comes, head low
+486	20.208	|	|	|	|	|	|	1.959	1	170	comes, head low
+487	20.250	lwalk08	|	|	|	|	|	1.925	1	170	comes, head low
+488	20.292	|	|	|	|	|	|	1.925	1	170	comes, head low
+489	20.333	lwalk09	|	|	|	|	|	1.891	1	170	comes, head low
+490	20.375	lwalk10	|	|	|	|	|	1.856	1	170	comes, head low
+491	20.417	|	|	|	|	|	|	1.856	1	170	comes, head low
+492	20.458	lwalk11	|	|	|	|	|	1.822	1	170	comes, head low
+493	20.500	|	|	|	|	|	|	1.822	1	170	comes, head low
+494	20.542	lwalk12	|	|	|	|	|	1.788	1	170	comes, head low
+495	20.583	lwalk13	|	|	|	|	|	1.753	1	170	comes, head low
+496	20.625	|	|	|	|	|	|	1.753	1	170	comes, head low
+497	20.667	lwalk14	|	|	|	|	|	1.719	1	170	comes, head low
+498	20.708	|	|	|	|	|	|	1.719	1	170	comes, head low
+499	20.750	lwalk15	|	|	|	|	|	1.684	1	170	comes, head low
+500	20.792	lwalk00	|	|	|	|	|	1.650	1	170	comes, head low
+501	20.833	|	|	|	|	|	|	1.650	1	170	comes, head low
+502	20.875	lwalk01	|	|	|	|	|	1.616	1	170	comes, head low
+503	20.917	|	|	|	|	|	|	1.616	1	170	comes, head low
+504	20.958	lwalk02	|	|	|	|	|	1.581	1	170	comes, head low
+505	21.000	lwalk03	|	|	|	|	|	1.547	1	170	comes, head low
+506	21.042	|	|	|	|	|	|	1.547	1	170	comes, head low
+507	21.083	lwalk04	|	|	|	|	|	1.512	1	170	comes, head low
+508	21.125	|	|	|	|	|	|	1.512	1	170	comes, head low
+509	21.167	lwalk05	|	|	|	|	|	1.478	1	170	comes, head low
+510	21.208	lwalk06	|	|	|	|	|	1.444	1	170	comes, head low
+511	21.250	|	|	|	|	|	|	1.444	1	170	comes, head low
+512	21.292	lwalk07	|	|	|	|	|	1.409	1	170	comes, head low
+513	21.333	|	|	|	|	|	|	1.409	1	170	comes, head low
+514	21.375	lwalk08	|	|	|	|	|	1.375	1	170	comes, head low
+515	21.417	lwalk09	|	|	|	|	|	1.341	1	170	comes, head low
+516	21.458	|	|	|	|	|	|	1.341	1	170	comes, head low
+517	21.500	lwalk10	|	|	|	|	|	1.306	1	170	comes, head low
+518	21.542	lwalk11	|	|	|	|	|	1.272	1	170	comes, head low
+519	21.583	|	|	|	|	|	|	1.272	1	170	comes, head low
+520	21.625	lwalk12	|	|	|	|	|	1.238	1	170	comes, head low
+521	21.667	|	|	|	|	|	|	1.238	1	170	comes, head low
+522	21.708	lwalk13	|	|	|	|	|	1.203	1	170	comes, head low
+523	21.750	lwalk14	|	|	|	|	|	1.169	1	170	comes, head low
+524	21.792	|	|	|	|	|	|	1.169	1	170	comes, head low
+525	21.833	lwalk15	|	|	|	|	|	1.134	1	170	comes, head low
+526	21.875	lwalk00	|	|	|	|	|	1.100	1	170	comes, head low
+527	21.917	|	|	|	|	|	|	1.100	1	170	comes, head low
+528	21.958	lwalk01	|	|	|	|	|	1.066	1	170	comes, head low
+529	22.000	|	|	|	|	|	|	1.066	1	170	comes, head low
+530	22.042	lwalk02	|	|	|	|	|	1.031	1	170	comes, head low
+531	22.083	lwalk03	|	|	|	|	|	0.997	1	170	comes, head low
+532	22.125	|	|	|	|	|	|	0.997	1	170	comes, head low
+533	22.167	lwalk04	|	|	|	|	|	0.963	1	170	comes, head low
+534	22.208	lwalk05	|	|	|	|	|	0.928	1	170	comes, head low
+535	22.250	|	|	|	|	|	|	0.928	1	170	comes, head low
+536	22.292	lwalk06	|	|	|	|	|	0.894	1	170	comes, head low
+537	22.333	lwalk07	|	|	|	|	|	0.859	1	170	comes, head low
+538	22.375	|	|	|	|	|	|	0.859	1	170	comes, head low
+539	22.417	lwalk08	|	|	|	|	|	0.825	1	170	comes, head low
+540	22.458	|	|	|	|	|	|	0.825	1	170	comes, head low
+541	22.500	lwalk09	|	|	|	|	|	0.791	1	170	comes, head low
+542	22.542	|	|	|	|	|	|	0.791	1	170	comes, head low
+543	22.583	lwalk10	|	|	|	|	|	0.756	1	170	comes, head low
+544	22.625	|	|	|	|	|	|	0.756	1	170	comes, head low
+545	22.667	|	|	|	|	|	|	0.756	1	170	comes, head low
+546	22.708	lwalk11	|	|	|	|	|	0.722	1	170	comes, head low
+547	22.750	|	|	|	|	|	|	0.722	1	170	comes, head low
+548	22.792	|	|	|	|	|	|	0.722	1	170	comes, head low
+549	22.833	lwalk12	|	|	|	|	|	0.688	1	170	comes, head low
+550	22.875	|	|	|	|	|	|	0.688	1	170	comes, head low
+551	22.917	|	|	|	|	|	|	0.688	1	170	comes, head low
+552	22.958	|	|	|	|	|	|	0.688	1	170	comes, head low
+553	23.000	lwalk13	|	|	|	|	|	0.653	1	170	comes, head low
+554	23.042	|	|	|	|	|	|	0.653	1	170	comes, head low
+555	23.083	|	|	|	|	|	|	0.653	1	170	comes, head low
+556	23.125	|	|	|	|	|	|	0.653	1	170	comes, head low
+557	23.167	|	|	|	|	|	|	0.653	1	170	comes, head low
+558	23.208	lwalk14	|	|	|	|	|	0.619	1	170	comes, head low
+559	23.250	|	|	|	|	|	|	0.619	1	170	comes, head low
+560	23.292	|	|	|	|	|	|	0.619	1	170	comes, head low
+561	23.333	|	|	|	|	|	|	0.619	1	170	comes, head low
+562	23.375	|	|	|	|	|	|	0.619	1	170	comes, head low
+563	23.417	|	|	|	|	|	|	0.619	1	170	comes, head low
+564	23.458	|	|	|	|	|	|	0.619	1	170	comes, head low
+565	23.500	|	|	|	|	|	|	0.619	1	170	comes, head low
+566	23.542	|	|	|	|	|	|	0.619	1	170	comes, head low
+567	23.583	lwalk15	|	|	|	|	|	0.584	1	170	comes, head low
+568	23.625	|	|	|	|	|	|	0.584	1	170	comes, head low
+569	23.667	|	|	|	|	|	|	0.584	1	170	comes, head low
+570	23.708	|	|	|	|	|	|	0.584	1	170	comes, head low
+571	23.750	|	|	|	|	|	|	0.584	1	170	comes, head low
+572	23.792	lower1	|	|	lie	|	|	0.590	1	170	lies down across the sill
+573	23.833	|	|	|	|	|	|	0.590	1	170	lies down across the sill
+574	23.875	|	|	|	|	|	|	0.590	1	170	lies down across the sill
+575	23.917	|	|	|	|	|	|	0.590	1	170	lies down across the sill
+576	23.958	|	|	|	|	|	|	0.590	1	170	lies down across the sill
+577	24.000	|	|	|	|	|	|	0.590	1	170	lies down across the sill
+578	24.042	lower2	|	|	|	|	|	0.590	1	170	lies down across the sill
+579	24.083	|	|	|	|	|	|	0.590	1	170	lies down across the sill
+580	24.125	|	|	|	|	|	|	0.590	1	170	lies down across the sill
+581	24.167	|	|	|	|	|	|	0.590	1	170	lies down across the sill
+582	24.208	|	|	|	|	|	|	0.590	1	170	lies down across the sill
+583	24.250	|	|	|	|	|	|	0.590	1	170	lies down across the sill
+584	24.292	lie	|	|	|	|	|	0.590	1	170	lies down across the sill
+585	24.333	|	|	|	|	|	|	0.590	1	170	lies down across the sill
+586	24.375	|	|	|	|	|	|	0.590	1	170	lies down across the sill
+587	24.417	|	|	|	|	|	|	0.590	1	170	lies down across the sill
+588	24.458	|	|	|	|	|	|	0.590	1	170	lies down across the sill
+589	24.500	|	|	|	|	|	|	0.590	1	170	lies down across the sill
+590	24.542	|	|	|	|	|	|	0.590	1	170	lies down across the sill
+591	24.583	|	|	|	|	|	|	0.590	1	170	lies down across the sill
+592	24.625	|	|	|	|	|	|	0.590	1	170	lies down across the sill
+593	24.667	|	|	|	|	|	|	0.590	1	170	lies down across the sill
+594	24.708	|	|	|	|	|	|	0.590	1	170	lies down across the sill
+595	24.750	|	|	|	|	|	|	0.590	1	170	lies down across the sill
+596	24.792	|	|	|	|	|	|	0.590	1	170	lies down across the sill
+597	24.833	|	|	|	|	|	|	0.590	1	170	lies down across the sill
+598	24.875	|	|	|	|	|	|	0.590	1	170	lies down across the sill
+599	24.917	|	|	|	|	|	|	0.590	1	170	lies down across the sill
+600	24.958	|	|	|	|	|	|	0.590	1	170	lies down across the sill
+601	25.000	|	|	|	|	|	|	0.590	1	170	lies down across the sill
+602	25.042	|	|	|	|	|	|	0.590	1	170	lies down across the sill
+603	25.083	|	profile_closed	|	|	|	|	0.590	1	170	lies down across the sill
+604	25.125	|	|	|	|	|	|	0.590	1	170	lies down across the sill
+605	25.167	|	|	|	|	|	|	0.590	1	170	lies down across the sill
+606	25.208	|	profile_open	|	|	|	|	0.590	1	170	lies down across the sill
+607	25.250	|	|	|	|	|	|	0.590	1	170	lies down across the sill
+608	25.292	|	|	|	|	|	|	0.590	1	170	lies down across the sill
+609	25.333	|	|	|	|	|	|	0.590	1	170	lies down across the sill
+610	25.375	|	|	|	|	|	|	0.590	1	170	lies down across the sill
+611	25.417	|	|	|	|	|	|	0.590	1	170	lies down across the sill
+612	25.458	|	|	|	|	|	|	0.590	1	170	lies down across the sill
+613	25.500	|	|	|	|	|	|	0.590	1	170	lies down across the sill
+614	25.542	|	|	|	|	|	|	0.590	1	170	lies down across the sill
+615	25.583	|	|	|	|	|	|	0.590	1	170	lies down across the sill
+616	25.625	|	|	|	|	|	|	0.590	1	170	lies down across the sill
+617	25.667	|	|	|	|	|	|	0.590	1	170	lies down across the sill
+618	25.708	|	|	|	|	|	|	0.590	1	170	lies down across the sill
+619	25.750	|	|	|	|	|	|	0.590	1	170	lies down across the sill
+620	25.792	|	|	|	|	|	|	0.590	1	170	lies down across the sill
+621	25.833	|	|	|	|	|	|	0.590	1	170	lies down across the sill
+622	25.875	|	|	|	|	|	|	0.590	1	170	lies down across the sill
+623	25.917	|	|	|	|	|	|	0.590	1	170	lies down across the sill
+624	25.958	|	|	|	|	|	|	0.590	1	170	lies down across the sill
+625	26.000	|	|	|	|	|	|	0.590	1	170	lies down across the sill
+626	26.042	|	|	|	|	|	|	0.590	1	170	lies down across the sill
+627	26.083	|	|	|	|	|	|	0.590	1	170	lies down across the sill
+628	26.125	|	|	|	|	|	|	0.590	1	170	lies down across the sill
+629	26.167	|	|	|	|	|	|	0.590	1	170	lies down across the sill
+630	26.208	|	|	|	|	|	|	0.590	1	170	lies down across the sill
+631	26.250	|	|	|	|	|	|	0.590	1	170	lies down across the sill
+632	26.292	|	|	|	|	|	|	0.590	1	170	lies down across the sill
+633	26.333	|	|	|	|	|	|	0.590	1	170	lies down across the sill
+634	26.375	|	|	|	|	|	|	0.590	1	170	lies down across the sill
+635	26.417	|	|	|	|	|	|	0.590	1	170	looks in
+636	26.458	|	|	profile_pricked	|	|	soft	0.590	1	170	looks in
+637	26.500	|	|	|	|	|	|	0.590	1	170	looks in
+638	26.542	|	|	|	|	|	|	0.590	1	170	looks in
+639	26.583	|	|	|	|	|	|	0.590	1	170	looks in
+640	26.625	|	deep	deep_pricked	|	|	|	0.590	1	170	looks in
+641	26.667	|	|	|	|	|	|	0.590	1	170	looks in
+642	26.708	|	|	|	|	|	closed	0.590	1	170	looks in
+643	26.750	|	|	|	|	|	|	0.590	1	170	looks in
+644	26.792	|	|	|	|	|	soft	0.590	1	170	looks in
+645	26.833	|	|	|	|	|	|	0.590	1	170	looks in
+646	26.875	|	|	|	|	|	|	0.590	1	170	looks in
+647	26.917	|	|	|	|	|	|	0.590	1	170	looks in
+648	26.958	|	|	|	|	|	|	0.590	1	170	looks in
+649	27.000	|	|	|	|	|	|	0.590	1	170	looks in
+650	27.042	|	|	|	|	|	|	0.590	1	170	looks in
+651	27.083	|	|	|	|	|	|	0.590	1	170	looks in
+652	27.125	|	|	|	|	|	closed	0.590	1	170	looks in
+653	27.167	|	|	|	|	|	|	0.590	1	170	looks in
+654	27.208	|	|	|	|	|	|	0.590	1	170	looks in
+655	27.250	|	|	|	|	|	|	0.590	1	170	looks in
+656	27.292	|	|	|	|	|	|	0.590	1	170	looks in
+657	27.333	|	|	|	|	|	|	0.590	1	170	looks in
+658	27.375	|	|	|	|	|	|	0.590	1	170	looks in
+659	27.417	|	|	|	|	|	|	0.590	1	170	looks in
+660	27.458	|	|	|	|	|	|	0.590	1	170	looks in
+661	27.500	|	|	|	|	|	|	0.590	1	170	looks in
+662	27.542	|	|	|	|	|	|	0.590	1	170	looks in
+663	27.583	|	|	|	|	|	|	0.590	1	170	looks in
+664	27.625	|	|	|	|	|	|	0.590	1	170	looks in
+665	27.667	|	|	|	|	|	|	0.590	1	170	looks in
+666	27.708	|	|	|	|	|	|	0.590	1	170	looks in
+667	27.750	|	|	|	|	|	|	0.590	1	170	looks in
+668	27.792	|	|	|	|	|	|	0.590	1	170	looks in
+669	27.833	|	|	|	|	|	|	0.590	1	170	looks in
+670	27.875	|	|	|	|	|	|	0.590	1	170	looks in
+671	27.917	|	|	|	|	|	|	0.590	1	170	looks in
+672	27.958	|	|	|	|	|	|	0.590	1	170	looks in
+673	28.000	|	|	|	|	|	|	0.590	1	170	looks in
+674	28.042	|	|	|	|	|	|	0.590	1	170	looks in
+675	28.083	|	|	|	|	|	|	0.590	1	170	looks in
+676	28.125	|	|	|	|	|	|	0.590	1	170	looks in
+677	28.167	|	|	|	|	|	|	0.590	1	170	looks in
+678	28.208	|	profile_open	profile_half	|	|	|	0.590	1	170	settles and stays
+679	28.250	|	|	|	|	|	|	0.590	1	170	settles and stays
+680	28.292	|	|	|	|	|	|	0.590	1	170	settles and stays
+681	28.333	|	|	|	|	|	|	0.590	1	170	settles and stays
+682	28.375	|	|	|	|	|	|	0.590	1	170	settles and stays
+683	28.417	|	|	|	|	|	|	0.590	1	170	settles and stays
+684	28.458	|	|	|	|	|	|	0.590	1	170	settles and stays
+685	28.500	|	|	|	|	|	|	0.590	1	170	settles and stays
+686	28.542	|	|	|	|	|	|	0.590	1	170	settles and stays
+687	28.583	|	|	|	|	|	|	0.590	1	170	settles and stays
+688	28.625	|	|	|	|	|	|	0.590	1	170	settles and stays
+689	28.667	|	|	|	|	|	|	0.590	1	170	settles and stays
+690	28.708	|	|	|	|	|	|	0.590	1	170	settles and stays
+691	28.750	|	|	|	|	|	|	0.590	1	170	settles and stays
+692	28.792	|	|	|	|	|	|	0.590	1	170	settles and stays
+693	28.833	|	|	|	|	|	|	0.590	1	170	settles and stays
+694	28.875	|	|	|	|	|	|	0.590	1	170	settles and stays
+695	28.917	|	|	|	|	|	|	0.590	1	170	settles and stays
+696	28.958	|	|	|	|	|	|	0.590	1	170	settles and stays
+697	29.000	|	profile_closed	|	|	|	|	0.590	1	170	settles and stays
+698	29.042	|	|	|	|	|	|	0.590	1	170	settles and stays
+699	29.083	|	|	|	|	|	|	0.590	1	170	settles and stays
+700	29.125	|	profile_open	|	|	|	|	0.590	1	170	settles and stays
+701	29.167	|	|	profile_flat	|	|	|	0.590	1	170	settles and stays
+702	29.208	|	|	|	|	|	|	0.590	1	170	settles and stays
+703	29.250	|	|	|	|	|	|	0.590	1	170	settles and stays
+704	29.292	|	|	|	|	|	|	0.590	1	170	settles and stays
+705	29.333	|	|	|	|	|	|	0.590	1	170	settles and stays
+706	29.375	|	|	|	|	|	|	0.590	1	170	settles and stays
+707	29.417	|	|	|	|	|	|	0.590	1	170	settles and stays
+708	29.458	|	|	|	|	|	|	0.590	1	170	settles and stays
+709	29.500	|	|	|	|	|	|	0.590	1	170	settles and stays
+710	29.542	|	|	|	|	|	|	0.590	1	170	settles and stays
+711	29.583	|	|	|	|	|	|	0.590	1	170	settles and stays
+712	29.625	|	|	|	|	|	|	0.590	1	170	settles and stays
+713	29.667	|	|	|	|	|	|	0.590	1	170	settles and stays
+714	29.708	|	|	|	|	|	|	0.590	1	170	settles and stays
+715	29.750	|	|	|	|	|	|	0.590	1	170	settles and stays
+716	29.792	|	|	|	|	|	|	0.590	1	170	settles and stays
+717	29.833	|	|	|	|	|	|	0.590	1	170	settles and stays
+718	29.875	|	|	|	|	|	|	0.590	1	170	settles and stays
+719	29.917	|	|	|	|	|	|	0.590	1	170	settles and stays
+720	29.958	|	|	|	|	|	|	0.590	1	170	settles and stays
+721	30.000	|	|	|	|	|	|	0.590	1	170	settles and stays
+722	30.042	|	|	|	|	|	|	0.590	1	170	settles and stays
+723	30.083	|	|	|	|	|	|	0.590	1	170	settles and stays
+724	30.125	|	|	|	|	|	|	0.590	1	170	settles and stays
+725	30.167	|	profile_closed	|	|	|	|	0.590	1	170	settles and stays
+726	30.208	|	|	|	|	|	|	0.590	1	170	settles and stays
+727	30.250	|	|	|	|	|	|	0.590	1	170	settles and stays
+728	30.292	|	|	|	|	|	|	0.590	1	170	settles and stays
+729	30.333	|	|	|	|	|	|	0.590	1	170	settles and stays
+730	30.375	|	|	|	|	|	|	0.590	1	170	settles and stays
+731	30.417	|	|	|	|	|	|	0.590	1	170	settles and stays
+732	30.458	|	|	|	|	|	|	0.590	1	170	settles and stays
+733	30.500	|	|	|	|	|	|	0.590	1	170	settles and stays
+734	30.542	|	|	|	|	|	|	0.590	1	170	settles and stays
+735	30.583	|	|	|	|	|	|	0.590	1	170	settles and stays
+736	30.625	|	|	|	|	|	|	0.590	1	170	settles and stays
+737	30.667	|	|	|	|	|	|	0.590	1	170	settles and stays
+738	30.708	|	|	|	|	|	|	0.590	1	170	settles and stays
+739	30.750	|	|	|	|	|	|	0.590	1	170	settles and stays
+740	30.792	|	|	|	|	|	|	0.590	1	170	settles and stays
+741	30.833	|	|	|	|	|	|	0.590	1	170	settles and stays
+742	30.875	|	|	|	|	|	|	0.590	1	170	settles and stays
+743	30.917	|	|	profile_half	|	|	|	0.590	1	170	settles and stays
+744	30.958	|	|	|	|	|	|	0.590	1	170	settles and stays
+745	31.000	|	|	|	|	|	|	0.590	1	170	settles and stays
+746	31.042	|	|	profile_flat	|	|	|	0.590	1	170	settles and stays
+747	31.083	|	|	|	|	|	|	0.590	1	170	settles and stays
+748	31.125	|	|	|	|	|	|	0.590	1	170	settles and stays
+749	31.167	|	|	|	|	|	|	0.590	1	170	settles and stays
+750	31.208	|	|	|	|	|	|	0.590	1	170	settles and stays
+751	31.250	|	|	|	|	|	|	0.590	1	170	settles and stays
+752	31.292	|	|	|	|	|	|	0.590	1	170	settles and stays
+753	31.333	|	|	|	|	|	|	0.590	1	170	settles and stays
+754	31.375	|	|	|	|	|	|	0.590	1	170	settles and stays
+755	31.417	|	|	|	|	|	|	0.590	1	170	settles and stays
+756	31.458	|	|	|	|	|	|	0.590	1	170	settles and stays
+757	31.500	|	|	|	|	|	|	0.590	1	170	settles and stays
+758	31.542	|	|	|	|	|	|	0.590	1	170	settles and stays
+759	31.583	|	|	|	|	|	|	0.590	1	170	settles and stays
+760	31.625	|	|	|	|	|	|	0.590	1	170	settles and stays
+761	31.667	|	|	|	|	|	|	0.590	1	170	settles and stays
+762	31.708	|	|	|	|	|	|	0.590	1	170	settles and stays
+763	31.750	|	|	|	|	|	|	0.590	1	170	settles and stays
+764	31.792	|	|	|	|	|	|	0.590	1	170	settles and stays
+765	31.833	|	|	|	|	|	|	0.590	1	170	settles and stays
+766	31.875	|	|	|	|	|	|	0.590	1	170	settles and stays
+767	31.917	|	|	|	|	|	|	0.590	1	170	settles and stays
+768	31.958	|	|	|	|	|	|	0.590	1	170	settles and stays

@@ -17,4 +17,4 @@ mkdir -p "$D/stills"
 for t in 03.6 09.0 19.0 28.0; do
   ffmpeg -y -loglevel error -ss $(python3 -c "print(3+float('$t')+0.5/24)") -i "$D/film.mp4" -frames:v 1 -q:v 2 "$D/stills/still_${t}s.jpg"
 done
-rm -rf "$S"
+rm -rf "$S" "$C/frames"   # rendered frames are not kept (shared disk)

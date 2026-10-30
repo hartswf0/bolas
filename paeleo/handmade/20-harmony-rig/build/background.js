@@ -51,7 +51,17 @@ window.paintBackground = (cam) => {
   rect(0, 640, OUT, 80, '#21160f'); g.strokeStyle = 'rgba(120,90,70,0.35)'; g.lineWidth = 1.5; for (let x = -80; x < OUT; x += 12) { g.beginPath(); g.moveTo(x, 720); g.lineTo(x + 80, 640); g.stroke(); }
   rect(0, 638, OUT, 4, '#9a7457');
   // picture on the wall, rug, the stool, a lamp on a little table
-  rect(250, 250, 86, 66, '#3d2a1e'); rect(256, 256, 74, 54, '#6f7d78'); g.fillStyle = '#c9a36b'; g.beginPath(); g.arc(300, 292, 9, 0, 7); g.fill(); rect(256, 296, 74, 14, '#4f5d50');
+  rect(112, 230, 70, 54, '#3d2a1e'); rect(117, 235, 60, 44, '#6f7d78'); g.fillStyle = '#c9a36b'; g.beginPath(); g.arc(150, 266, 7, 0, 7); g.fill(); rect(117, 268, 60, 11, '#4f5d50');
+  // an inner doorway in the back wall: a lit hall going away into the house (the depth the dog looks into)
+  { const hx0 = 236, hx1 = 340, hy0 = 330, hy1 = BACK;
+    rect(hx0 - 9, hy0 - 10, hx1 - hx0 + 18, hy1 - hy0 + 10, '#5a3a24');
+    g.fillStyle = lin(0, hy0, 0, hy1, [[0, '#e9b673'], [1, '#c98b4c']]); g.fillRect(hx0, hy0, hx1 - hx0, hy1 - hy0);
+    const vx = 292, vy = 450; // vanishing point: walls, ceiling and floor of the hall converge
+    g.fillStyle = '#b77a42'; g.beginPath(); g.moveTo(hx0, hy0); g.lineTo(vx - 16, vy - 40); g.lineTo(vx - 16, vy + 34); g.lineTo(hx0, hy1); g.fill();
+    g.fillStyle = '#c88d52'; g.beginPath(); g.moveTo(hx1, hy0); g.lineTo(vx + 16, vy - 40); g.lineTo(vx + 16, vy + 34); g.lineTo(hx1, hy1); g.fill();
+    g.fillStyle = '#9a6036'; g.beginPath(); g.moveTo(hx0, hy1); g.lineTo(vx - 16, vy + 34); g.lineTo(vx + 16, vy + 34); g.lineTo(hx1, hy1); g.fill();
+    g.fillStyle = '#ffe2a8'; g.fillRect(vx - 16, vy - 40, 32, 74); g.fillStyle = '#f6c77e'; g.fillRect(vx - 7, vy - 22, 14, 56);
+    g.strokeStyle = 'rgba(90,50,25,0.5)'; g.lineWidth = 1.2; for (let k = 1; k < 5; k++) { const yk = hy1 - (hy1 - vy - 34) * k / 5; g.beginPath(); g.moveTo(hx0 + (vx - 16 - hx0) * k / 5, yk); g.lineTo(hx1 - (hx1 - vx - 16) * k / 5, yk); g.stroke(); } }
   g.fillStyle = '#7a2e2a'; g.beginPath(); g.ellipse(250, 612, 120, 12, 0, 0, 7); g.fill(); g.strokeStyle = 'rgba(230,190,120,0.5)'; g.lineWidth = 2; g.beginPath(); g.ellipse(250, 612, 108, 9, 0, 0, 7); g.stroke();
   const stx = sx(-1.25); rect(stx - 38, FLOOR - 0.47 * K, 76, 10, '#6b4528'); rect(stx - 32, FLOOR - 0.47 * K + 10, 7, 0.47 * K - 10, '#55361f'); rect(stx + 25, FLOOR - 0.47 * K + 10, 7, 0.47 * K - 10, '#55361f'); rect(stx - 28, FLOOR - 40, 56, 5, '#55361f');
   rect(4, 470, 56, 6, '#5a3a24'); rect(10, 476, 5, 84, '#4a2e1c'); rect(50, 476, 5, 84, '#4a2e1c');

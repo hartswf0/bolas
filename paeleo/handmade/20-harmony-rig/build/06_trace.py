@@ -2,11 +2,11 @@
 and the head element's matte, read back from the canvas every frame) and the drawings the exposure sheet exposed.
 Choice onsets are MEASURED with the rules below; the trace's `state` switches at the measured onsets.
   retreat   first frame after 0.5 s whose matte centroid (in metres, camera undone) is > 0.02 m further out than at rest
-  watch     (2.33) first frame after the retreat onset where the head matte's top rises >= 0.04 m above its lowest point in the retreat
+  watch     (2.33) first frame after the retreat onset where the head matte's top rises >= 0.10 m above its lowest point in the retreat
   refuse    first frame where the matte narrows by >= 20 % (the body goes end-on) AND the exposed body drawing faces away
   watch     (7.46) first frame after 7 s where the head matte's centroid rises >= 0.05 m above the resting head (the head comes round)
   approach  first frame after 14 s where the matte centroid is >= 0.03 m nearer the door than its 13-14.5 s mean
-  lie_down  first frame after 23 s where the matte's height falls >= 12 % below its 23.0-23.6 s mean
+  lie_down  first frame after 23 s where the matte's centroid height falls >= 0.035 m below its 23.0-23.6 s mean (the body drops)
   looks in  (26.4, not a checked choice) first frame after 26 s where >= 50 % of the head matte is inside the inner face of the wall"""
 import json, os
 D = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -28,7 +28,7 @@ for i in range(N):
     x0w, y_top = world(dg['x0'], dg['y0'], v); x1w, y_bot = world(dg['x1'], dg['y1'], v)
     hx, hy = world(hd['cx'], hd['cy'], v) if hd.get('n') else (None, None)
     _, htop = world(hd['x0'], hd['y0'], v) if hd.get('n') else (None, None)
-    rows.append(dict(i=i, xw=xw, yw=yw, w=x1w - x0w, h=y_top - y_bot, hx=hx, hy=hy, htop=htop, in_room=hd.get('in_room', 0), in_door=dg.get('in_door_frame', 0),
+    rows.append(dict(i=i, x1=x1w, xw=xw, yw=yw, w=x1w - x0w, h=y_top - y_bot, hx=hx, hy=hy, htop=htop, in_room=hd.get('in_room', 0), in_door=dg.get('in_door_frame', 0),
                      sx=dg['cx'], sy=dg['cy']))
 def first(cond, start):
     return next(r['i'] for r in rows[start:] if cond(r))
@@ -36,7 +36,7 @@ rest_x = sum(r['xw'] for r in rows[0:20]) / 20
 on = {}
 on['retreat'] = first(lambda r: r['xw'] > rest_x + 0.02, 12)
 low = min(rows[on['retreat']:on['retreat'] + 40], key=lambda r: r['htop'])
-on['watch1'] = first(lambda r: r['htop'] >= low['htop'] + 0.04, low['i'])
+on['watch1'] = first(lambda r: r['htop'] >= low['htop'] + 0.10, low['i'])
 w_rest = sum(r['w'] for r in rows[60:78]) / 18
 def facing_away(i):
     fr = F[i]; body = LIB['dog_body'][fr['body']]
@@ -46,8 +46,8 @@ head_rest = sum(rows[k]['hy'] for k in range(160, 168)) / 8
 on['watch2'] = first(lambda r: r['hy'] >= head_rest + 0.05, 168)
 a_mean = sum(r['xw'] for r in rows[312:348]) / 36
 on['approach'] = first(lambda r: r['xw'] <= a_mean - 0.03, 336)
-h_mean = sum(r['h'] for r in rows[552:567]) / 15
-on['lie_down'] = first(lambda r: r['h'] <= 0.88 * h_mean, 552)
+y_mean = sum(r['yw'] for r in rows[552:567]) / 15
+on['lie_down'] = first(lambda r: r['yw'] <= y_mean - 0.035, 552)
 on['looks_in'] = first(lambda r: r['in_room'] >= 0.5 and F[r['i']]['head'] == 'deep', 624)
 seq = [(0, 'watch'), (on['retreat'], 'retreat'), (on['watch1'], 'watch'), (on['refuse'], 'refuse'), (on['watch2'], 'watch'), (on['approach'], 'approach'), (on['lie_down'], 'lie_down')]
 def state_at(i):
@@ -68,7 +68,7 @@ for r in rows:
                        x_world_measured=round(r['xw'], 4), facing=facing(fr), posture=LIB['dog_body'][fr['body']]['posture'],
                        body=fr['body'] + ('.R' if fr['mirror'] == -1 else ''), head=fr['head'], ear=fr['ear'], tail=fr['tail'],
                        head_y_m=None if r['hy'] is None else round(r['hy'], 4), head_in_room=round(r['in_room'], 3), dog_in_door_frame=round(r['in_door'], 3),
-                       width_m=round(r['w'], 3), height_m=round(r['h'], 3), cam_zoom=fr['cam_z'], voice=SC['frames'][r['i']]['person']['voice'], door=fr['door']))
+                       width_m=round(r['w'], 3), height_m=round(r['h'], 3), centroid_y_m=round(r['yw'], 4), cam_zoom=fr['cam_z'], voice=SC['frames'][r['i']]['person']['voice'], door=fr['door']))
 score_t = {'retreat': 1.0, 'watch1': 2.333, 'refuse': 3.417, 'watch2': 7.458, 'approach': 14.708, 'lie_down': 23.792, 'looks_in': 26.4}
 onsets = {k: dict(frame=v, t=round(v / 24, 3), score_t=score_t[k], dt=round(v / 24 - score_t[k], 3)) for k, v in on.items()}
 lev = json.load(open(os.path.join(D, 'build/cache/sound_levels.json')))

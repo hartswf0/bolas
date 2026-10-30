@@ -10,8 +10,10 @@ B=build; C=build/cache; mkdir -p $C stills proof
 python3 $B/atlas.py                                  # cut fragments -> build/atlas/atlas.png + atlas.json
 node $B/render.js film                               # stage -> build/cache/video.mp4 (912 frames) + measure.json
 python3 $B/sound.py                                  # -> build/cache/sound.wav (paws timed to measured feet)
-ffmpeg -y -loglevel error -i $C/video.mp4 -i $C/sound.wav -map 0:v -map 1:a -c:v copy -c:a aac -b:a 128k \
-  -shortest -movflags +faststart film.mp4
+# two-pass H.264 at 2.1 Mbit/s keeps the grain and stays under 12 MB
+(cd $C && ffmpeg -y -loglevel error -i video.mp4 -c:v libx264 -preset slow -b:v 2100k -pass 1 -passlogfile p2 -an -f null /dev/null && \
+ ffmpeg -y -loglevel error -i video.mp4 -i sound.wav -map 0:v -map 1:a -c:v libx264 -preset slow -b:v 2100k -pass 2 -passlogfile p2 \
+   -pix_fmt yuv420p -c:a aac -b:a 128k -shortest -movflags +faststart ../../film.mp4 && rm -f p2*)
 python3 $B/trace.py                                  # -> trace.json (measured onsets)
 python3 $B/assets.py                                 # -> assets.json
 # stills from the encoded film (scene t + 3 s title)

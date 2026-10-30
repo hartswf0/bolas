@@ -162,10 +162,12 @@ window.card = (kind, k, info) => {
   // end card: what it is made of, the node graph and an excerpt of the exposure sheet (both drawn from the scene files)
   g.globalAlpha = Math.max(0, fade);
   g.fillStyle = '#e9c58f'; g.font = '800 34px "Big Shoulders Display"'; g.fillText(`Made of: ${Object.values(LIB.counts).reduce((a, b) => a + b, 0)} drawings in code, exposed on an xsheet, rendered through a ${GRAPH.nodes.length}-node graph`, 40, 52);
-  g.fillStyle = '#cfc4dd'; g.font = '400 16px Literata';
-  const lines = info.lines; lines.forEach((s, j) => g.fillText(s, 40, 84 + j * 22));
+  g.fillStyle = '#cfc4dd'; g.font = '400 15px Literata';
+  const words = info.lines.join(' ').split(' '); const wrapped = []; let cur = '';
+  for (const w of words) { if (g.measureText(cur + ' ' + w).width > 1190) { wrapped.push(cur); cur = w; } else cur = cur ? cur + ' ' + w : w; }
+  wrapped.push(cur); wrapped.forEach((s, j) => g.fillText(s, 40, 82 + j * 20));
   // node graph
-  const N = GRAPH.nodes, ox = 40, oy = 210, dx = 76, dy = 46, pos = {};
+  const N = GRAPH.nodes, ox = 40, oy = 222, dx = 76, dy = 46, pos = {};
   N.forEach((n) => { pos[n.id] = [ox + n.pos[0] * dx * 0.86, oy + n.pos[1] * dy]; });
   g.strokeStyle = 'rgba(200,170,120,0.45)'; g.lineWidth = 1;
   N.forEach((n) => n.inputs.forEach((i) => { const a = pos[i], b = pos[n.id]; g.beginPath(); g.moveTo(a[0] + 58, a[1] + 8); g.bezierCurveTo(a[0] + 70, a[1] + 8, b[0] - 10, b[1] + 8, b[0], b[1] + 8); g.stroke(); }));
@@ -173,8 +175,8 @@ window.card = (kind, k, info) => {
   N.forEach((n) => { const [x, y] = pos[n.id]; const col = { Peg: '#5d7f6e', Element: '#8a6a3d', Composite: '#6a5a8f', ChainDeformer: '#8f5a5a', CurveDeformer: '#8f5a5a' }[n.type] || '#4a4458'; g.fillStyle = col; g.fillRect(x, y, 58, 17); g.fillStyle = '#f4ead8'; g.fillText(n.id.slice(0, 10), x + 3, y + 12); });
   g.fillStyle = '#9b90ad'; g.font = '400 13px "JetBrains Mono"'; g.fillText('scene/nodegraph.json (evaluated per frame, topological order)', 40, 470);
   // xsheet excerpt
-  const X = info.xs; g.font = '400 11px "JetBrains Mono"'; const x0 = 700, y0 = 200;
-  g.fillStyle = '#9b90ad'; g.fillText('scene/xsheet.tsv  7.42–8.50 s (frames 179–205): the head leads, then the body turns', x0, y0 - 10);
+  const X = info.xs; g.font = '400 11px "JetBrains Mono"'; const x0 = 700, y0 = 222;
+  g.fillStyle = '#9b90ad'; g.fillText('scene/xsheet.tsv, rows 178–205 (7.38–8.50 s): the head leads, then the body turns', x0, y0 - 10);
   X.forEach((row, j) => { g.fillStyle = j === 0 ? '#e9c58f' : '#d9cfe6'; row.forEach((c, k) => g.fillText(String(c).slice(0, [5, 13, 16, 15, 8][k] || 10), x0 + [0, 40, 140, 262, 380][k], y0 + 12 + j * 13.2)); });
   g.globalAlpha = 1; return out.toDataURL('image/jpeg', 0.92);
 };

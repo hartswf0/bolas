@@ -157,13 +157,13 @@ function buildDogTimeline() {
     // head yaw, world
     let psiH = psi;
     if (t >= 3.3 && t < 7.4) psiH = t < 3.98 ? lerp(168, 345, ss(3.38, 3.88, t)) : psi;       // the head goes first
-    if (t >= 7.4 && t < 7.86) psiH = lerp(345, 192, ss(7.40, 7.74, t));                     // head-led look back: muzzle to the door, body still down
-    if (t >= 7.86 && t < 8.62) psiH = psi - 153 * (1 - ss(7.86, 8.62, t));
+    if (t >= 7.4 && t < 7.86) psiH = lerp(345, 185, ss(7.40, 7.72, t));                     // head-led look back: muzzle to the door, body still down
+    if (t >= 7.86 && t < 8.62) psiH = psi - 160 * (1 - ss(7.86, 8.62, t));
     if (t >= 23.5) psiH = lerp(psi, 92, a.look);                                             // looking in: muzzle into the room (+z)
     // head pitch (neck angle, deg)
     let hd = a.head;
     let neck = interp(hd, [0, 0.15, 0.45, 0.7, 0.9, 1.2], [-52, -46, -34, 6, 38, 48]);
-    if (t > 7.4 && t < 7.9) neck = Math.max(neck, lerp(-46, 30, ss(7.4, 7.7, t)));
+    if (t > 7.4 && t < 7.9) neck = Math.max(neck, lerp(-46, 42, ss(7.4, 7.7, t)));
     if (t > 3.4 && t < 4.1) neck = Math.max(neck, 12 * Math.sin(Math.PI * clamp((t - 3.4) / 0.7)));        // head comes up with the look
     if (t >= 14.6 && t < 23.6) neck = Math.min(neck, -30);                                    // head low for the whole approach
     neck = lerp(neck, -40, a.rest);
@@ -218,7 +218,7 @@ function dogParts(i) {
   const yl = (q.psiH - q.psi) * D2R, nk = q.neck * D2R;
   const hfw = V(Math.cos(q.psiH * D2R), 0, Math.sin(q.psiH * D2R)), hlat = cross(hfw, up);
   const n0 = L(0.27, hb + 0.09 - 0.02 * lie, 0);
-  const ndir = norm(add(mul(norm(add(mul(fw, Math.cos(yl * 0.55)), mul(lat, Math.sin(yl * 0.55)))), Math.cos(nk)), mul(up, Math.sin(nk))));
+  const ndir = norm(add(mul(norm(add(mul(fw, Math.cos(yl * 0.72)), mul(lat, Math.sin(yl * 0.72)))), Math.cos(nk)), mul(up, Math.sin(nk))));
   let n1 = add(n0, mul(ndir, 0.2));
   if (n1.y < 0.11) n1.y = 0.11;
   const hp = (q.neck * 0.45 - 18) * D2R;    // muzzle pitch
@@ -247,9 +247,10 @@ function dogParts(i) {
   const tl = q.tail, wagA = q.wag * 0.6 * Math.sin(t * 2 * Math.PI * 2.1);
   let tp = L(-0.33, hb + 0.07 - 0.04 * cr, 0), tang = lerp(25, -75, tl / 1.35) * D2R;
   if (lie > 0.5) tang = lerp(tang, -8, ss(0.5, 1, lie));
+  const camSide = dot(lat, TOCAM) >= 0 ? 1 : -1, lw = ss(0.5, 1, lie);   // a lying tail curls round on the camera side
   for (let k = 0; k < 4; k++) {
-    const a2 = tang - k * 0.18 * (1 - tl / 1.35 * 0.5) + (lie > 0.5 ? k * 0.12 : 0);
-    const sway = wagA * (k + 1) / 4 + (lie > 0.5 ? (0.9 + 0.3 * (k / 3)) * ss(0.5, 1, lie) : 0);
+    const a2 = tang - k * 0.18 * (1 - tl / 1.35 * 0.5) + k * 0.12 * lw;
+    const sway = wagA * (k + 1) / 4 + camSide * (0.9 + 0.3 * (k / 3)) * lw;
     const dir = norm(add(add(mul(fw, -Math.cos(a2) * Math.cos(sway)), mul(up, Math.sin(a2))), mul(lat, Math.sin(sway))));
     let tq = add(tp, mul(dir, 0.085)); if (tq.y < 0.02) tq.y = 0.02;
     G['tail' + k] = { p0: tp, p1: tq, r0: [0.042 - k * 0.007, 0.046 - k * 0.007], r1: [0.035 - k * 0.007, 0.038 - k * 0.007], hint: up };
@@ -303,12 +304,12 @@ function buildDog() {
   for (const e of ['earL', 'earR']) { Hd.capsule(e, 12, 0.04, ['dark'], [0.42, 0.32, 0.26]); Hd.core(e, 2, 0, [0.25, 0.2, 0.17]); }
   for (let k = 0; k < 4; k++) { B.core('tail' + k, 1, 0, [0.45, 0.35, 0.26]); B.capsule('tail' + k, 10, 0.045, ['fur_lion', 'fur_dog'], k >= 2 ? saddle : [0.8, 0.6, 0.42]); }
   for (const kk of ['LH', 'LF', 'RH', 'RF']) {
-    B.core(kk + 'u', 3, 0, [0.62, 0.48, 0.34]); B.core(kk + 'l', 4, 0, [0.7, 0.58, 0.44]); B.core(kk + 'p', 2, 0, [0.7, 0.58, 0.44]);
-    if (kk[1] === 'H') B.core(kk + 'm', 3, 0, [0.7, 0.58, 0.44]);
+    B.core(kk + 'u', 3, 0, [0.62, 0.48, 0.34]); B.core(kk + 'l', 7, 0, [0.7, 0.58, 0.44]); B.core(kk + 'p', 2, 0, [0.5, 0.4, 0.3]);
+    if (kk[1] === 'H') B.core(kk + 'm', 5, 0, [0.7, 0.58, 0.44]);
     B.capsule(kk + 'u', 20, 0.045, furs, coat);
     B.capsule(kk + 'l', 12, 0.028, ['fur_lion', 'fur_dog'], [0.95, 0.82, 0.64]);
     if (kk[1] === 'H') B.capsule(kk + 'm', 7, 0.026, ['fur_lion'], [0.95, 0.82, 0.64]);
-    B.capsule(kk + 'p', 4, 0.024, ['fur_lion'], [0.9, 0.78, 0.62]);
+    B.capsule(kk + 'p', 4, 0.024, ['fur_dog'], [0.62, 0.5, 0.38]);
   }
   Hd.point('eyeL', 0.026, TEX.dot, [0.05, 0.04, 0.03], { front: 0.03 }); Hd.point('eyeR', 0.026, TEX.dot, [0.05, 0.04, 0.03], { front: 0.03 });
   Hd.point('nose', 0.04, TEX[CLS.dark[3]], [0.1, 0.08, 0.07], { front: 0.02 });
@@ -731,9 +732,9 @@ function renderCard(kind, k, info) {
   if (ST.cardKind !== kind) {
     ST.cardText.removeChildren(); ST.cardKind = kind;
     if (kind === 'title') {
-      txt('PAE-02 · SCION 26 · PixiJS — Archive Stage Rendering Engine', 50, 'Big Shoulders Display', 0xf0e2c8, 1000, 160, 220, { weight: 800 });
-      txt('The threshold. A dog at a door that may refuse, staged as a scene graph of small transparent archive fragments.', 26, 'Literata', 0xcfc4b0, 960, 160, 360);
-      txt('cohort 7 · 32 s at 24 fps, aligned frame for frame to the PAELEO score', 18, 'JetBrains Mono', 0x9a937f, 960, 470);
+      txt('PAE-02 · SCION 26 · PixiJS — Archive Stage Rendering Engine', 50, 'Big Shoulders Display', 0xf0e2c8, 1000, 160, 200, { weight: 800 });
+      txt('The threshold. A dog at a door that may refuse, staged as a scene graph of small transparent archive fragments.', 26, 'Literata', 0xcfc4b0, 960, 400);
+      txt('cohort 7 · 32 s at 24 fps, aligned frame for frame to the PAELEO score', 18, 'JetBrains Mono', 0x9a937f, 960, 500);
     } else {
       txt('What it is made of', 40, 'Big Shoulders Display', 0xf0e2c8, 1000, 160, 70, { weight: 800 });
       txt(info, 19, 'Literata', 0xd8cdb8, 980, 160, 140);
@@ -758,7 +759,7 @@ async function boot() {
   CLS = ATL.classes;
   await document.fonts.load('800 40px "Big Shoulders Display"'); await document.fonts.load('26px Literata'); await document.fonts.load('18px "JetBrains Mono"');
   buildDogTimeline(); DOGB = buildDog(); PERB = buildPerson(); buildStage(); buildCards();
-  return { dogFrags: DOGB.frags.length, personFrags: PERB.frags.length, atlasFrames: Object.keys(ATL.frames).length, version: PIXI.VERSION,
+  return { dogFrags: DOGB.frags.length + DOGB.head.frags.length, personFrags: PERB.frags.length, atlasFrames: Object.keys(ATL.frames).length, version: PIXI.VERSION,
     glRenderer: gl.getParameter(gl.RENDERER), stageSprites: countSprites(ST.stage) };
 }
 function countSprites(c) { let n = 0; c.children.forEach(ch => { if (ch instanceof PIXI.Sprite) n++; if (ch.children && ch.children.length) n += countSprites(ch); }); return n; }
