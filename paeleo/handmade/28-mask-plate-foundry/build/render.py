@@ -38,7 +38,9 @@ class Renderer:
         x0, y0, c, a = piece
         if name not in self.noise_cache:
             w = a > .9
-            n = noise_level(np.where(w[..., None], c / np.maximum(a, 1e-3)[..., None], .5)) if w.sum() > 400 else 0.0
+            from PIL import ImageFilter as _F
+            core = np.asarray(Image.fromarray((w * 255).astype(np.uint8)).filter(_F.MinFilter(5))) > 0
+            n = noise_level(c / np.maximum(a, 1e-3)[..., None], core) if core.sum() > 400 else 0.0
             add = float(np.sqrt(max(0.0, GRAIN_T ** 2 - n ** 2)))
             self.noise_cache[name] = add
             self.grain_log[name] = dict(measured=round(n, 5), added=round(add, 5))
@@ -53,7 +55,7 @@ class Renderer:
         S = self.set
         fl, cd = S.light_maps(t)
         lamp = SP.lamp_level(t)
-        amb = np.array(SP.DUSK, np.float32) * 0.85
+        amb = np.array(SP.DUSK, np.float32) * 0.95
         cdc = cd / (1 + 0.6 * cd)                      # soft shoulder so the lit dog keeps its texture
         light3 = amb[None, None] + 1.5 * cdc[..., None] * SP.WARM[None, None]
         c = S.back(t)

@@ -63,7 +63,7 @@ class Head:
     def __init__(self, name):
         self.name = name
         self.img = IMG['head_' + name]
-        L = LM[name]['corrected']; self.L = L
+        L = LM[name][LM[name].get('used', 'corrected')]; self.L = L   # the factory uses the automatic fit where it passed
         self.pivot = np.array(LM[name]['pivot'], float)
         W, H = self.img.size
         a = np.array(self.img)[:, :, 3].astype(float) / 255
@@ -255,6 +255,9 @@ def draw(pose):
         sa = H_.pivot
         if flip:
             himg = himg.transpose(Image.FLIP_LEFT_RIGHT); sa = np.array([himg.width - H_.pivot[0], H_.pivot[1]])
-        place_rot(cv, himg, sa, tilt, scale, at)
+        hsx = pose.get('head_sx', 1.0)
+        sb = np.asarray(sa, float) + np.array([20.0, 0])
+        db = at + 20 * scale * hsx * np.array([math.cos(tilt), math.sin(tilt)])
+        place(cv, himg, sa, sb, at, db, perp=scale)
     info.update({'head_c': t2c(Pp), 'S': Sc, 'H': Hc, 'feet': {k: t2c(v[2]) for k, v in legs.items()}})
     return cv, info

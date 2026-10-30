@@ -199,12 +199,13 @@ def match_stats(rgb, alpha, ref_mean, ref_std):
     return np.clip((rgb - m) * g + ref_mean, 0, 1).astype(np.float32), dict(src_mean=m, src_std=s, gain=g)
 
 
-def noise_level(rgb):
-    """Grain estimate: std of the high-pass (pixel minus 3x3 box mean) of luma, robust (MAD)."""
+def noise_level(rgb, where=None):
+    """Grain estimate: std of the high-pass (pixel minus 3x3 box mean) of luma, robust (MAD), optionally inside a mask."""
     y = rgb @ np.array([.299, .587, .114], np.float32)
-    im = Image.fromarray((y * 255).astype(np.uint8))
+    im = Image.fromarray((np.clip(y, 0, 1) * 255).astype(np.uint8))
     b = np.asarray(im.filter(ImageFilter.BoxBlur(1)), np.float32) / 255
-    d = (y - b).ravel()
+    d = (np.round(y * 255) / 255 - b)
+    d = d[where].ravel() if where is not None else d.ravel()
     return float(1.4826 * np.median(np.abs(d - np.median(d))))
 
 

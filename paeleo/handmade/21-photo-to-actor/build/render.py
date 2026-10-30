@@ -53,7 +53,7 @@ WARM = np.array([1.05, 0.80, 0.52])     # lamp light from the doorway
 def build_plate():
     pl = np.zeros((H, W, 3))
     # sky: a cloud photograph (Top of the Cloud, public domain) graded to dusk, upper band only
-    sky = Image.open(os.path.join('/home/user/hartswf0/secondhand-motion/shots/cloud-sam/frames/f020.jpg')).convert('L')
+    sky = Image.open(os.path.join(FOLDER, 'sources', 'cloud', 'f020.jpg')).convert('L')
     sky = ImageOps.autocontrast(sky).resize((W, int(W * 216 / 384)), Image.LANCZOS)
     s = np.array(sky).astype(float)[:H, :]
     sk = np.zeros((H, W))
@@ -168,14 +168,14 @@ def draw_person(frame, pr, light):
     actor_place(lay, silhouette(shin, k * 0.8), (lw / 2, 0), (lw / 2, shin.height), knee, foot)
     actor_place(lay, silhouette(thigh, k * 0.8), (lw / 2, 0), (lw / 2, thigh.height), hip, knee)
     # torso, leaning toward the dog when seated and further when the hand is offered low
-    tl = math.radians(-90 + 10 * sit + 18 * low)
+    tl = math.radians(-90 + 10 * sit + 24 * low)
     tw, th = tor.size
     top = hip + torso_h * np.array([math.cos(tl), math.sin(tl)])
     actor_place(lay, silhouette(tor, k), (tw * 0.47, th * 0.97), (tw * 0.47, 0), hip + [0, 8], top)
     # arm from the near shoulder: hangs, reaches out (the call), or is offered low (seated)
     sh = hip + (torso_h * 0.74) * np.array([math.cos(tl), math.sin(tl)]) + np.array([tw * s_t * 0.30, 0])
     aa = 95 - 85 * reach
-    if low > 0: aa = aa + (62 - aa) * low
+    if low > 0: aa = aa + (74 - aa) * low
     ar = PS['arm']; aw, ah = ar.size
     arm_len = 100.0
     a_r = math.radians(aa)
@@ -238,6 +238,11 @@ def render(rec, scene_t):
     g = tone(g * 0.9)
     lamp = light * math.exp(-max(0.0, rec['x'] - 0.3) / 1.6)
     col = g * (DUSK * (0.86 - 0.1 * light) + WARM * 0.55 * lamp)
+    # warm rim where the lamp light from the doorway catches the fur edge (contre-jour near the door)
+    if lamp > 0.02:
+        al0 = cv.split()[3]
+        edge = (np.array(al0).astype(float) - np.array(al0.filter(ImageFilter.MinFilter(5))).astype(float)) / 255
+        col = col + edge[:, :, None] * lamp * 150 * WARM
     a[:, :, :3] = col
     cvg = Image.fromarray(a.clip(0, 255).astype(np.uint8), 'RGBA')
     # contact shadow under the dog (computed from its own alpha, squashed to the floor)
@@ -256,6 +261,7 @@ def render(rec, scene_t):
     hc = np.array(info.get('head_c', actor.CC))
     if rec['facing'] < 0: hc = np.array([actor.CW - hc[0], hc[1]])
     meas['head'] = [float(hc[0] + ox), float(hc[1] + oy)]
+    meas['_alpha'] = (np.array(al.resize((actor.CW // 2, actor.CH // 2), Image.BILINEAR)) > 127, ox, oy)
     meas['body_centre_screen'] = [float(xd), float(GROUND)]
     # final film grade: tone, vignette, grain, faint flicker (one grain for every material)
     out = np.array(img.convert('RGB')).astype(float)
@@ -273,10 +279,13 @@ def render(rec, scene_t):
 if __name__ == '__main__':
     perf = json.load(open(os.path.join(CACHE, 'performance.json')))
     a0, a1 = (int(sys.argv[1]), int(sys.argv[2])) if len(sys.argv) > 2 else (0, len(perf) - 1)
-    M = {}
+    M = {}; ALPHA = {}
     for rec in perf[a0:a1 + 1]:
         im, meas, pinfo = render(rec, rec['t'])
         im.save(os.path.join(OUTF, '%04d.jpg' % rec['i']), quality=90)
+        al, aox, aoy = meas.pop('_alpha')
+        ALPHA[rec['i']] = al; meas['alpha_origin'] = [aox, aoy]
         M[rec['i']] = {'dog': meas, 'person': pinfo}
     json.dump(M, open(os.path.join(CACHE, 'measure_%04d_%04d.json' % (a0, a1)), 'w'))
+    np.savez_compressed(os.path.join(CACHE, 'alpha_%04d_%04d.npz' % (a0, a1)), **{'f%04d' % k: v for k, v in ALPHA.items()})
     print('rendered', a0, a1)

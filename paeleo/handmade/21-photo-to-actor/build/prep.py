@@ -173,5 +173,7 @@ json.dump({'dog': {str(i): DOGM[str(i)] for i in sorted(used['dog'])}, 'door': {
           open(os.path.join(FOLDER, 'sources', 'masks_used.json'), 'w'))
 shutil.copy(os.path.join(ROOT, spec.KIT_DOG, 'source.json'), os.path.join(FOLDER, 'sources', 'dog', 'source.json'))
 shutil.copy(os.path.join(ROOT, spec.KIT_DOOR, 'source.json'), os.path.join(FOLDER, 'sources', 'door', 'source.json'))
+os.makedirs(os.path.join(FOLDER, 'sources', 'cloud'), exist_ok=True)   # the sky: one frame of Top of the Cloud (public domain)
+shutil.copy('/home/user/hartswf0/secondhand-motion/shots/cloud-sam/frames/f020.jpg', os.path.join(FOLDER, 'sources', 'cloud', 'f020.jpg'))
 json.dump(parts, open(os.path.join(FOLDER, 'actor', 'parts.json'), 'w'), indent=1)
 print('parts', len(parts), 'dog frames', sorted(used['dog']), 'door frames', sorted(used['door']))

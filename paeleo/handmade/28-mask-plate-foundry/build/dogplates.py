@@ -30,6 +30,8 @@ F10 = dict(
     hind=[(176, 138), (216, 138), (216, 170), (206, 204), (180, 204), (178, 170)],
     hind_pivot=(196, 144), hind_foot=(192, 199),
     belly=[(56, 170), (100, 162), (122, 160), (150, 161), (178, 164), (226, 162), (226, 226), (56, 226)],
+    # lying key of the same 8 vertices: the cut rises under the chest and rounds the haunch (the folded hind leg)
+    belly_lying=[(56, 164), (100, 156), (122, 156), (150, 160), (178, 160), (226, 150), (226, 226), (56, 226)],
     ground=(150, 201), back=(165, 116), tail_end=(213, 150), nose=(80, 84), neck=(124, 120),
 )
 # ---- the approach head: f044 (head low, facing right); mirrored at use. pivot at the withers.
@@ -67,9 +69,10 @@ def build():
     for k in legs:
         out[k] = p10.cut([BezierMask(F10[k], feather=1.6)])
     # body: everything but the head, and the legs below the belly line
-    out['body10'] = p10.cut([BezierMask([(0, 0), (384, 0), (384, 288), (0, 288)], feather=0),
-                             BezierMask(F10['head'], feather=2.2, expand=-3, mode='sub'),
-                             BezierMask(F10['belly'], feather=2.5, mode='sub')])
+    out['body_masks'] = [BezierMask([(0, 0), (384, 0), (384, 288), (0, 288)], feather=0),
+                         BezierMask(F10['head'], feather=2.2, expand=-3, mode='sub'),
+                         BezierMask({0.0: F10['belly'], 1.0: F10['belly_lying']}, feather=2.5, mode='sub', name='belly (keyed by lie)')]
+    out['body10'] = p10.cut(out['body_masks'], 0.0)
     p44 = Plate(44); out['f44'] = p44
     out['head44'] = p44.cut([BezierMask(F44_HEAD['mask'], feather=2.2)])
     p0 = Plate(0); out['f00'] = p0

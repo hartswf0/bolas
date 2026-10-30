@@ -30,7 +30,7 @@ WHY = {
     'profile': 'profile, muzzle raised 30 deg: the frontal template puts two eyes and a centred nose on a head that shows one eye; '
                'the dark snap finds the dark ear/neck patch behind the skull and calls it the nose.',
     'low': 'muzzle pointing down: the template chin lands on the white neck ruff, the nose window holds the dark eye.',
-    'tq': 'three-quarter: closest to the template; eyes are near but the far eye snaps into the dark cheek and the chin sits on the chest.',
+    'tq': 'three-quarter: close to the template; accepted at the edge of tolerance (the far ear base lands on the forehead, the chin on the chest ruff).',
     'front': 'near-frontal: the template is close; ear bases sit too low on these drop ears.',
     'back': 'back of the head: no face is visible. The fitter still places two eyes, a nose and a chin on the fur - a face on the back of a head. '
             'Manual: ears only; the face landmarks are declared absent.',
@@ -95,6 +95,9 @@ for name in ['front', 'tq', 'profile', 'low', 'back']:
     img = Image.open(os.path.join(FOLDER, P['head_' + name]['file'])).convert('RGBA')
     auto, size = auto_fit(img)
     man = {k: to_sprite(name, MANUAL[name][k]) for k in NAMES}
+    if P['head_' + name]['mirrored']:      # mirroring a cut swaps which eye/ear is on the sprite's left
+        for a_, b_ in (('eye_l', 'eye_r'), ('ear_l', 'ear_r')):
+            man[a_], man[b_] = man[b_], man[a_]
     err = {}
     for k in NAMES:
         if man[k] is None: err[k] = 'auto placed a landmark that is not visible'
@@ -108,7 +111,7 @@ for name in ['front', 'tq', 'profile', 'low', 'back']:
                  'head_diag_px': round(size, 1), 'auto': auto, 'corrected': man, 'error_px': err, 'mean_error_over_diag': mean_err,
                  'auto_anatomy_failures': fails_auto, 'corrected_anatomy_failures': fails_man,
                  'verdict': 'auto accepted' if ok_auto else 'auto rejected, hand-corrected', 'why': WHY[name],
-                 'pivot': P['head_' + name]['anchors']['pivot']}
+                 'pivot': P['head_' + name]['anchors']['pivot'], 'used': 'auto' if ok_auto else 'corrected'}
     compat.append({'head': name, 'frame': P['head_' + name]['frame'], 'portrait_type': 'archive animal, 16 mm b/w, ~40 px head',
                    'orientation': {'front': 'frontal', 'tq': 'three-quarter', 'profile': 'profile, raised', 'low': 'profile-3/4, lowered', 'back': 'back of head'}[name],
                    'auto_rig': 'compatible' if ok_auto else 'incompatible', 'mean_error_over_diag': mean_err, 'n_anatomy_failures': len(fails_auto)})

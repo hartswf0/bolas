@@ -34,11 +34,11 @@ MUZ_LOW = [(0.15, 118), (0.45, 132), (0.6, 150)]
 MUZ_PROF = [(0.6, -178), (0.9, -155), (1.25, -140)]
 
 # ----- the sprite-replacement schedule for the two turns (frame -> view). Chosen by hand, in frames, from the score's times.
-TURN1 = {83: ('rig', 1, 'tq'), 84: ('tq', 1, None), 85: ('tq', 1, None), 86: ('front', 1, None), 87: ('front', 1, None),
-         88: ('tq', -1, None), 89: ('tq', -1, None)}                      # away from the call: through the front
+TURN1 = {82: ('rig', 1, 'tq'), 83: ('tq', 1, None), 84: ('front', 1, None), 85: ('tq', -1, None)}
+                                                                           # away from the call: through the front, 3.42-3.58 s
 HEADLEAD = {179: 'front', 180: 'tq'}                                       # 7.458 s: the head comes round first
 TURN2 = {192: ('back', 1, None), 193: ('back', 1, None), 194: ('back', 1, None), 195: ('back', 1, None)}   # body follows, through the back
-FACING_R = range(88, 192)                                                  # body faces away (screen right) 3.67 .. 7.96 s
+FACING_R = range(85, 192)                                                  # body faces away (screen right) 3.54 .. 7.96 s
 
 
 def ease(x): x = min(1, max(0, x)); return x * x * (3 - 2 * x)
@@ -56,6 +56,9 @@ def run():
         cum += abs(dx) * TPL_PER_M
         facing = -1 if i in FACING_R else 1
         lie, crouch, head, rest, look = a['lie'], a['crouch'], a['head'], a['rest'], a['look']
+        if d['state'] == 'approach':
+            # coming, head low: the head drops with the decision (over 4 frames) and stays below the back line
+            head = min(head, 0.9 + (0.42 - 0.9) * min(1.0, (i - 353) / 4.0))
         if lie > 0.6: cum = 0.0; lie_reset = True
         # ---- paws: planted while in stance, so the photographed feet carry the travel
         if abs(dx) > 1e-5: last_m = (1 if dx > 0 else -1) * facing
@@ -89,11 +92,11 @@ def run():
         head_sx, head_off, head_scale = 1.0, (0, 0), 1.0
         if look > 0.08:
             # the head turns away from the viewer, into the lit doorway: profile foreshortens, then the back of the head
-            neck = -186 + (-150 + 186) * ease(look)
+            neck = -186 + (-163 + 186) * ease(look)
             if look < 0.45:
-                head_view = 'profile'; muz = -170; head_sx = 1.0 - 0.9 * look
+                head_view = 'profile'; muz = -172; head_sx = 1.0 - 0.9 * look
             else:
-                head_view = 'back'
+                head_view = 'back'; head_sx = 1.25; head_scale = 0.92     # turned away into the room: a little smaller, further
         # ---- the two turns and the head leading
         if i in TURN1:
             v, fc, hv = TURN1[i]

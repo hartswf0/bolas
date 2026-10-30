@@ -81,7 +81,8 @@
   "pivot": [
    50,
    98
-  ]
+  ],
+  "used": "auto"
  },
  "tq": {
   "sprite": "actor/parts/head_tq.png",
@@ -120,24 +121,24 @@
   },
   "corrected": {
    "eye_l": [
-    56,
-    40
-   ],
-   "eye_r": [
     34,
     42
+   ],
+   "eye_r": [
+    56,
+    40
    ],
    "nose": [
     24,
     72
    ],
    "ear_l": [
-    76,
-    20
-   ],
-   "ear_r": [
     16,
     12
+   ],
+   "ear_r": [
+    76,
+    20
    ],
    "chin": [
     34,
@@ -149,23 +150,24 @@
    ]
   },
   "error_px": {
-   "eye_l": 33.7,
-   "eye_r": 22.0,
+   "eye_l": 12.1,
+   "eye_r": 1.0,
    "nose": 16.1,
-   "ear_l": 58.0,
-   "ear_r": 61.2,
+   "ear_l": 13.6,
+   "ear_r": 5.4,
    "chin": 13.3,
    "jaw_hinge": 36.4
   },
-  "mean_error_over_diag": 0.288,
+  "mean_error_over_diag": 0.117,
   "auto_anatomy_failures": [],
   "corrected_anatomy_failures": [],
-  "verdict": "auto rejected, hand-corrected",
-  "why": "three-quarter: closest to the template; eyes are near but the far eye snaps into the dark cheek and the chin sits on the chest.",
+  "verdict": "auto accepted",
+  "why": "three-quarter: close to the template; accepted at the edge of tolerance (the far ear base lands on the forehead, the chin on the chest ruff).",
   "pivot": [
    52,
    88
-  ]
+  ],
+  "used": "auto"
  },
  "profile": {
   "sprite": "actor/parts/head_profile.png",
@@ -246,7 +248,8 @@
   "pivot": [
    64,
    48
-  ]
+  ],
+  "used": "corrected"
  },
  "low": {
   "sprite": "actor/parts/head_low.png",
@@ -284,20 +287,20 @@
    ]
   },
   "corrected": {
-   "eye_l": [
+   "eye_l": null,
+   "eye_r": [
     60,
     62
    ],
-   "eye_r": null,
    "nose": [
     18,
     116
    ],
-   "ear_l": [
+   "ear_l": null,
+   "ear_r": [
     80,
     24
    ],
-   "ear_r": null,
    "chin": [
     38,
     132
@@ -308,15 +311,15 @@
    ]
   },
   "error_px": {
-   "eye_l": 25.2,
-   "eye_r": "auto placed a landmark that is not visible",
+   "eye_l": "auto placed a landmark that is not visible",
+   "eye_r": 22.0,
    "nose": 44.0,
-   "ear_l": 59.0,
-   "ear_r": "auto placed a landmark that is not visible",
+   "ear_l": "auto placed a landmark that is not visible",
+   "ear_r": 14.9,
    "chin": 18.5,
    "jaw_hinge": 39.0
   },
-  "mean_error_over_diag": 0.243,
+  "mean_error_over_diag": 0.181,
   "auto_anatomy_failures": [
    "two eyes spread across a profile head (a profile shows one eye)",
    "nose behind the eye: the muzzle of a left-facing head must lead the eyes"
@@ -327,7 +330,8 @@
   "pivot": [
    90,
    28
-  ]
+  ],
+  "used": "corrected"
  },
  "back": {
   "sprite": "actor/parts/head_back.png",
@@ -399,6 +403,7 @@
   "pivot": [
    52,
    86
-  ]
+  ],
+  "used": "corrected"
  }
 }

@@ -54,6 +54,7 @@ DP_PXM = cam.px_per_m_on_path() / SCALE      # source px per metre
 class Dog:
     def __init__(self):
         self.p = DP.build()
+        self._body_cache = {}
         self.g = Gait()
         F = DP.F10
         self.legs = {k: dict(alpha=self.p[k], pivot=np.array(F[k + '_pivot'], float), foot=np.array(F[k + '_foot'], float))
@@ -154,7 +155,9 @@ class Dog:
         for k in ('hind_far', 'fore_far'):
             M, al, _ = legrecs[k]
             L.append(('dog:' + k, f10 * (0.72 if k == 'hind_far' else 1.0), al, M))
-        L.append(('dog:body', f10, self.p['body10'], B))
+        lk = round(float(lie), 2)                      # the belly mask is keyed by the score's lie value (0 -> 1)
+        if lk not in self._body_cache: self._body_cache[lk] = self.p['f10'].cut(self.p['body_masks'], lk)
+        L.append(('dog:body', f10, self._body_cache[lk], B))
         for k in ('hind', 'fore_near'):
             M, al, _ = legrecs[k]
             L.append(('dog:' + k, f10, al, M))
