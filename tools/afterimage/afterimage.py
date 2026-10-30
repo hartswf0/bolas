@@ -63,7 +63,7 @@ SHOTS = held_cuts() + [
 BLINKS = [25.0, 28.4, 43.0]                 # none before the release
 BLINK_LEN = 0.5
 DARK = (30.0, 41.0)                         # nothing is shown here but what the retina holds
-GLOW_PEAK = 0.32                            # the kept glow is never brighter than the pink it came from
+GLOW_PEAK = 0.29                            # the kept glow is never brighter than the pink it came from
 GLOW_FLOOR, GLOW_SPAN = 0.35, 0.35          # fixed scale, so a fading trace is seen to fade
 CARRY_RATE = 0.35                           # how fast the dark retina lets go (per second)
 
