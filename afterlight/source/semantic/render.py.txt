@@ -19,7 +19,9 @@ def hsh(*a): return (hash(a) & 0xffffffff)
 
 _clips, _pts = {}, {}
 def clip(key):
-    if key not in _clips: _clips[key] = dict(np.load(D + 'cache/' + key + '.npz'))
+    if key not in _clips:
+        if len(_clips) >= 4: _clips.pop(next(iter(_clips)))
+        _clips[key] = dict(np.load(D + 'cache/' + key + '.npz'))
     return _clips[key]
 PEOPLE = {'sea5', 'sun10', 'lam7', 'fir7'}                            # clips that do contain people
 NOT_PERSON = {'lam2': 2, 'fir10': 2, 'fir6': 4, 'fir14': 4}                      # the human-segmentation net's false positives, relabeled
@@ -42,10 +44,10 @@ def points(key, i):
     """Points for frame i of clip key: base points (from the image) and generated points (the surround, reflected and pushed back)."""
     k = (key, i)
     if k in _pts: return _pts[k]
-    if len(_pts) > 120: _pts.clear()
+    if len(_pts) > 6: _pts.pop(next(iter(_pts)))
     c = clip(key); rgb = c['rgb'][i].astype(np.float32) / 255; inv = c['inv'][i].astype(np.float32); lab = relabel(key, rgb, c['lab'][i])
     rgb = expose(rgb)
-    inv = cv2.GaussianBlur(inv, (0, 0), 1.2)
+    inv = np.clip(np.nan_to_num(cv2.GaussianBlur(inv, (0, 0), 1.2), nan=0.5), 0, 1)
     vv, uu = np.mgrid[STEP // 2:SH:STEP, STEP // 2:SW:STEP]
     rng = np.random.default_rng(hsh(key, i) % 2**32)
     u = uu.ravel() + rng.uniform(-0.5, 0.5, uu.size); v = vv.ravel() + rng.uniform(-0.5, 0.5, uu.size)
@@ -116,14 +118,15 @@ def frame(film, t):
     key = clips[j % len(clips)]; u = (t - sc0) / max(sc1 - sc0, 1e-3); U = (t - t0) / (t1 - t0)
     b, k, ph = beatinfo(t, bpm); lb = (t - sc0) / spb
     c = clip(key); n = len(c['rgb'])
-    fi = int(lb * 2) % (2 * n - 2) if n > 1 else 0; fi = fi if fi < n else 2 * n - 2 - fi   # step the archive frame twice a beat, back and forth
+    cfps = float(c['fps']); fi = int((t - sc0) * cfps) % (2 * n - 2) if n > 1 else 0; fi = fi if fi < n else 2 * n - 2 - fi   # the archive plays at its own speed
     if mode == 'erase': fi = 0                                                  # the last image holds still while it is edited
     base, gen = points(key, fi)
     snare = (k % 2 == 1); pulse = np.exp(-ph * 5)
     rng = np.random.default_rng(hsh(film['slug'], j, int(t0 * 10)) % 2**32)
     yaw0, yaw1 = rng.uniform(-0.28, 0.28), rng.uniform(-0.28, 0.28); side = rng.choice([-1, 1])
     lam, sig, gsh, era = 1.0, 0.0, 0.0, 0.0
-    cam = np.array([side * 0.6 * (u - 0.5), -0.15 + 0.2 * np.sin(u * 2), 0.4 + 1.6 * u]); yaw = yaw0 + (yaw1 - yaw0) * sm(u); pitch = 0.05 * np.sin(u * 3)
+    kick = np.exp(-ph * 7) if k % 2 == 0 else 0.0
+    cam = np.array([side * 1.1 * (u - 0.5), -0.15 + 0.25 * np.sin(u * 2.5), 0.2 + 2.6 * u + 0.22 * kick]); yaw = yaw0 * 1.4 + (yaw1 - yaw0) * 1.4 * u; pitch = 0.06 * np.sin(u * 3)
     fog = CREAM.copy()
     if mode == 'lift':
         lam = sm((u - 0.12) / 0.7); cam = np.array([0.0, 0.0, 0.0]) + lam * np.array([0.45 * side, -0.25, 1.2]); yaw = -side * 0.22 * lam; pitch = 0.07 * lam

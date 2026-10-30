@@ -13,9 +13,11 @@ MEAN, STD = np.array([0.485, 0.456, 0.406], np.float32), np.array([0.229, 0.224,
 def prep(img, size):
     x = cv2.resize(img, (size, size), interpolation=cv2.INTER_AREA).astype(np.float32) / 255
     return ((x - MEAN) / STD).transpose(2, 0, 1)[None].astype(np.float32)
-def depth(img):
+def depth_raw(img):
     d = DEP.run(None, {DEP.get_inputs()[0].name: prep(img, 256)})[0][0]
-    d = cv2.resize(d, (W, H), interpolation=cv2.INTER_CUBIC); d = (d - d.min()) / (d.max() - d.min() + 1e-6)
+    return cv2.resize(d, (W, H), interpolation=cv2.INTER_CUBIC)
+def depth(img):
+    d = depth_raw(img); d = (d - d.min()) / (d.max() - d.min() + 1e-6)
     return d                                   # inverse depth: 1 near, 0 far
 def mask(sess, img):
     m = sess.run(None, {sess.get_inputs()[0].name: prep(img, 320)})[0][0, 0]
@@ -40,16 +42,23 @@ def frames(key, t0, t1, fps):
     raw = subprocess.run(['ffmpeg', '-v', 'error', '-ss', str(t0), '-t', str(t1 - t0), '-i', path, '-vf', f'fps={fps},scale={W}:{H}:force_original_aspect_ratio=increase,crop={W}:{H}',
                           '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-'], capture_output=True).stdout
     return np.frombuffer(raw, np.uint8).reshape(-1, H, W, 3)
-def run(key, t0=0.3, t1=None, fps=6):
+def run(key, t0=0.3, t1=None, fps=24, secs=6.0):
+    """Full frame rate. Depth on every frame, normalized with a slowly moving range and smoothed in time so the cloud does not flicker;
+    the two segmentation nets (slow) run every sixth frame and are held between."""
     path = A + 'clips/' + SI[key] + '.mp4'
     dur = float(subprocess.run(['ffprobe', '-v', 'error', '-show_entries', 'format=duration', '-of', 'csv=p=0', path], capture_output=True, text=True).stdout)
-    t1 = min(dur - 0.1, t1 or t0 + 5.0)
+    t1 = min(dur - 0.1, t1 or t0 + secs)
     F = frames(key, t0, t1, fps); rgb, inv, lab = [], [], []
+    lo = hi = None; prev = None
     for k, img in enumerate(F):
-        d = depth(img); s = mask(SAL, img); h = mask(HUM, img) if k % 2 == 0 or k == 0 else h
+        r = depth_raw(img); a, b = np.percentile(r, 1), np.percentile(r, 99)
+        lo = a if lo is None else 0.85 * lo + 0.15 * a; hi = b if hi is None else 0.85 * hi + 0.15 * b
+        d = np.clip((r - lo) / (hi - lo + 1e-6), 0, 1)
+        d = d if prev is None else 0.55 * d + 0.45 * prev; prev = d
+        if k % 6 == 0: s = mask(SAL, img); h = mask(HUM, img)
         rgb.append(img); inv.append(d.astype(np.float16)); lab.append(labels(img, d, s, h))
     np.savez_compressed(OUT + key + '.npz', rgb=np.array(rgb), inv=np.array(inv), lab=np.array(lab), fps=fps)
     counts = np.bincount(np.array(lab).ravel(), minlength=5) / np.array(lab).size
-    print(key, len(F), 'frames', {c: round(float(p), 3) for c, p in zip(CLASSES, counts)}, flush=True)
+    print(key, len(F), 'frames', {c: round(float(p_), 3) for c, p_ in zip(CLASSES, counts)}, flush=True)
 if __name__ == '__main__':
     for k in sys.argv[1:]: run(k)
