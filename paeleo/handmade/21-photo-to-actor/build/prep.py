@@ -133,7 +133,9 @@ for hn, Hd in spec.HEADS.items():
     if Hd.get('key') == 'dark':
         # the back of the head is the dark fur mass; the bright path behind it is keyed out by luminance
         L = np.array(develop(frame('dog', i)).filter(ImageFilter.GaussianBlur(1.2))).astype(float)
-        m = m * np.clip((Hd['key_level'] - L) / 45.0, 0, 1)
+        # solid matte, not a soft key (round 1: the soft key read as a ghosted smudge): threshold, close holes, keep the largest mass
+        k_ = Image.fromarray(((L < Hd['key_level']) * 255).astype(np.uint8)).filter(ImageFilter.MaxFilter(5)).filter(ImageFilter.MinFilter(5))
+        m = m * (np.array(k_) > 127)
     m = Image.fromarray((m * e).astype(np.uint8))
     mirror = Hd['faces'] == 'right'
     parts['head_' + hn] = cut('dog', i, m, name='head_' + hn, anchors={'pivot': Hd['pivot']}, mirror=mirror,
@@ -144,6 +146,12 @@ for hn, Hd in spec.HEADS.items():
 for bn, B in spec.BODY_VIEWS.items():
     i = B['frame']
     m = sam_mask('dog', i, grow=1)
+    if bn == 'back':   # round 1: the pale path inside the head cut read as a hood; key the head region (y < 108) to the dark fur
+        L = np.array(develop(frame('dog', i)).filter(ImageFilter.GaussianBlur(1.2))).astype(float)
+        k_ = Image.fromarray(((L < 150) * 255).astype(np.uint8)).filter(ImageFilter.MaxFilter(5)).filter(ImageFilter.MinFilter(5))
+        mm = np.array(m).astype(float); yy = np.mgrid[0:288, 0:384][0]
+        mm = np.where((yy < 108) & (np.array(k_) < 128), 0, mm)
+        m = Image.fromarray(mm.astype(np.uint8))
     bb = m.getbbox()
     anc = {'foot_mid': ((bb[0] + bb[2]) / 2, bb[3] - 2), 'top': ((bb[0] + bb[2]) / 2, bb[1])}
     mirror = B['faces'] == 'right'

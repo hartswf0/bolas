@@ -70,9 +70,9 @@ i5 = first(lambda i: vx[i] < -0.3, 14.0, 15.5); ON['approach'] = (i5, 'centroid 
 # 6 lie down: the body's back line drops 3 px below its walking height
 ref_back = np.median(back_top[540:565])
 i6 = first(lambda i: back_top[i] > ref_back + 3, 23.0, 24.5); ON['lie_down'] = (i6, 'back line drops 3 px below its height on the approach')
-# 7 (not a state change) looks in: the head end rises 4 px above its resting height
-rest_h = np.median(head_top[600:625])
-i7 = first(lambda i: head_top[i] < rest_h - 4, 26.0, 27.5); ON['looks_in'] = (i7, 'head end rises 4 px above its resting height')
+# 7 (not a state change) looks in: the muzzle pushes into the lit doorway: the leading edge moves 4 px toward the door
+x0_rest = np.median(bb[600:625, 0])
+i7 = first(lambda i: bb[i, 0] <= x0_rest - 4, 26.0, 27.5); ON['looks_in'] = (i7, 'leading edge (muzzle) moves 4 px into the doorway; head stays level (head-end top within 2 px)')
 
 order = [('retreat', 1.0), ('watch_1', 2.333), ('refuse', 3.417), ('watch_2', 7.458), ('approach', 14.708), ('lie_down', 23.792)]
 state = []
