@@ -112,8 +112,9 @@ def run():
                 head_view, head_sx, head_tone = (TURN_IN.get(i) or TURN_OUT.get(i))
             elif 641 <= i <= 671:
                 head_view = 'back'; head_sx = 1.0; head_tone = 1.0
-                head_tilt = 2.5 * math.sin(2 * math.pi * 0.35 * (t - 26.7))           # a slow, slight tilt while it looks
-                if 650 <= i <= 656: flick = 28 * math.sin(math.pi * (i - 650) / 6)  # one ear flick at 27.1 s
+                head_tilt = 4.0 * math.sin(2 * math.pi * 0.35 * (t - 26.7))           # a slow, slight tilt while it looks
+                for f0_ in (650, 662):                                                  # two ear flicks, 27.08 and 27.58 s
+                    if f0_ <= i <= f0_ + 7: flick = 45 * math.sin(math.pi * (i - f0_) / 7)
             else:
                 head_view = 'profile'
             if head_view == 'back':
@@ -127,9 +128,11 @@ def run():
             view = TURN2[i][0]; facing = TURN2[i][1]; sprite_h = 124   # matched to the neighbours' height (round 1)
         if i in HEADLEAD:
             head_view = HEADLEAD[i]; head_flip = True
-        elif 180 <= i < 192:
-            # round 3: the three-quarter photograph (f037: eye and muzzle legible) turned back toward the door
-            head_flip = True; head_view = 'tq'
+        elif i == 180:
+            head_flip = True; head_view = 'tq'; neck = -128; head_off = (6, 0)    # passing through three-quarter
+        elif 181 <= i < 192:
+            # round 5: the lowered head photograph (f046: eye, white blaze, muzzle) with its muzzle laid toward the door
+            head_flip = True; head_view = 'low'; muz = -172
             neck = -112 if lie < 0.5 else -128; head_off = (6, 0)
         # ---- expression controls
         ear = a['ear']
