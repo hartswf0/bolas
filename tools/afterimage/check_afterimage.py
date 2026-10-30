@@ -39,10 +39,15 @@ if af[dark].min() < 0.01:
 if af[np.searchsorted(t, A.CARRY_END - 1.3)] <= 0.005:
     fails.append("no glow left at the end")
 
-# 6. the cuts keep tightening right up to the stop: at least three shots under six frames
-short = [e - s for s, e, *_ in A.SHOTS if e <= A.HELD_END and e - s < 6 / A.FPS - 1e-6]
-if len(short) < 3:
-    fails.append(f"the cutting levels off: only {len(short)} shots under six frames")
+# 6. the cuts keep tightening right up to the stop: never more than 8 equal gaps in a row, two- or three-frame cuts at the end
+gaps = [round((e - s) * A.FPS) for s, e, *_ in A.SHOTS if e <= A.HELD_END]
+run = best = 1
+for a, b2 in zip(gaps, gaps[1:]):
+    run = run + 1 if a == b2 else 1; best = max(best, run)
+tail = [round((e - s) * A.FPS) for s, e, *_ in A.SHOTS if A.HELD_END - 2 <= s and e <= A.HELD_END]
+short = [g for g in gaps if g < 6]
+if best > 8 or not any(g in (2, 3) for g in tail):
+    fails.append(f"the cutting levels off: {best} equal gaps in a row; last 2 s cuts {tail}")
 
 # 7-8. read from the film itself (the critic's repair condition), when it is given
 if len(sys.argv) > 2:
@@ -56,13 +61,19 @@ if len(sys.argv) > 2:
     def luma(f):
         return f @ np.array([0.299, 0.587, 0.114], np.float32)
 
-    ref = luma(grab(29.5)).max()
+    f = grab(29.5); y = luma(f) / 255; pink = f[(f[..., 0] > f[..., 1] + 20) & (y > 0.05)]
+    ref = luma(pink).max() if len(pink) else 74.0
+    band = []
     for sec in (31, 34, 37, 40):
         f = grab(sec); y = luma(f)
         if (y < 20).mean() < 0.85 or y.mean() >= 15:
             fails.append(f"{sec}s is not dark: {100 * (y < 20).mean():.0f}% of pixels under 20, mean {y.mean():.1f}")
         if y.max() > ref:
-            fails.append(f"{sec}s has light brighter than the kept glow at 29.5 s ({y.max():.0f} > {ref:.0f})")
+            fails.append(f"{sec}s has light brighter than the pink at 29.5 s ({y.max():.0f} > {ref:.0f})")
+    for sec in (31, 36):
+        band.append(luma(grab(sec))[: A.H // 8].mean())
+    if band[1] > 0.5 * band[0]:
+        fails.append(f"the leftover at the top does not fade: {band[0]:.1f} -> {band[1]:.1f}")
     f = grab(37); y = luma(f); lit = f[y > np.percentile(y, 97)] / 255
     hs = np.array([colorsys.rgb_to_hsv(*p)[:2] for p in lit[:: max(1, len(lit) // 400)]])
     hue, sat = np.median(hs[:, 0]) * 360, np.median(hs[:, 1])

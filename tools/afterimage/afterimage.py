@@ -45,8 +45,10 @@ def held_cuts():
     while t < HELD_END - 1e-6:
         clip = "eye" if i % 2 == 0 else others[(i // 2) % len(others)]
         e = min(HELD_END, t + d)
+        if HELD_END - e < 1 / FPS:                       # no sliver of a shot before the stop
+            e = HELD_END
         shots.append((t, e, clip, 1.0, 1.0))
-        t, d, i = e, max(0.17, d * 0.88), i + 1      # keeps tightening to about four frames
+        t, d, i = e, max(2 / FPS, d * 0.915), i + 1  # tightens all the way to the stop, ending on two-frame cuts
     return shots
 
 
@@ -61,7 +63,8 @@ SHOTS = held_cuts() + [
 BLINKS = [25.0, 28.4, 43.0]                 # none before the release
 BLINK_LEN = 0.5
 DARK = (30.0, 41.0)                         # nothing is shown here but what the retina holds
-GLOW_PEAK = 0.62                            # the kept glow is never brighter than this
+GLOW_PEAK = 0.40                            # the kept glow is never brighter than the pink it came from
+GLOW_FLOOR, GLOW_SPAN = 0.06, 0.45          # fixed scale, so a fading trace is seen to fade
 
 
 def blink(t):
@@ -118,8 +121,7 @@ class Retina:
             # in the dark the screen shows only the brightest of what the retina is holding, in pink;
             # anything new (the flower) reaches the viewer only through that holding
             L = gaussian_filter(s.A.mean(2), 3)
-            q = np.percentile(L, 85)
-            g = np.clip((L - q) / max(L.max() - q, 1e-4), 0, 1) ** 1.2
+            g = np.clip((L - GLOW_FLOOR) / GLOW_SPAN, 0, 1) ** 1.2
             D = g[..., None] * PINK * GLOW_PEAK
         else:
             comp = after.mean(2, keepdims=True) * PINK
@@ -129,18 +131,31 @@ class Retina:
 
 
 YY, XX = np.mgrid[0:H, 0:W].astype(np.float32)
+_r = np.random.default_rng(21)
+SKIN = gaussian_filter(_r.normal(0, 1, (H, W)), 6) + 0.6 * gaussian_filter(_r.normal(0, 1, (H, W)), (1, 9))
+SKIN = (SKIN - SKIN.min()) / (SKIN.max() - SKIN.min())
 
 
 def finish(D, b, t):
     img = zoom(D, (H / PH, W / PW, 1), order=1)
     img = img + gaussian_filter(img, (10, 10, 0)) * (0.15 if DARK[0] <= t < DARK[1] else 0.35)   # halation
     if b > 0.02:                                                             # the lid closes from both edges
-        u = np.clip(1 - ((XX - W / 2) / (W * 0.62)) ** 2, 0, 1) ** 0.5   # the lid's edge is an arc
-        half = (H / 2) * (1 - b) * u + 1
-        open_ = (np.abs(YY - H / 2) < half).astype(np.float32)
-        open_ = gaussian_filter(open_, 14)[..., None]                       # soft, as flesh is
-        glow = (0.25 + img.mean()) * LID
+        # the upper lid does the work: it travels three times as far as the lower, and its edge is an arc
+        u = np.clip(1 - ((XX[0] - W / 2) / (W * 0.62)) ** 2, 0, 1) ** 0.5
+        top = H / 2 - (H / 2) * u + b * 0.75 * H * u
+        bot = H / 2 + (H / 2) * u - b * 0.25 * H * u
+        open_ = ((YY >= top) & (YY <= bot)).astype(np.float32)
+        open_ = gaussian_filter(open_, 8)[..., None]
+        skin = 0.82 + 0.18 * SKIN[..., None]                               # creases and pores lit from behind
+        glow = (0.25 + img.mean()) * LID * skin
         img = img * open_ + glow * (1 - open_)
+        if b > 0.15:                                                       # lashes on the closing edge
+            for x in range(8, W, 13):
+                y = int(top[x])
+                if 0 < y < H - 20 and u[x] > 0.2:
+                    for k in range(16):
+                        xx = min(W - 1, x + k // 3); yy = min(H - 1, y + k)
+                        img[yy, max(0, xx - 1):xx + 1] *= 0.25
     rng = np.random.default_rng(int(t * FPS))
     img = img + rng.normal(0, 0.025, (H // 2, W // 2, 1)).repeat(2, 0).repeat(2, 1)   # grain
     v = np.exp(-(((XX - W / 2) / (W * 0.62)) ** 2 + ((YY - H / 2) / (H * 0.62)) ** 2))
