@@ -1,0 +1,605 @@
+<title>The Moon That Warms</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Big+Shoulders+Display:wght@600;800&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: workbench. Sim on top (canvas: scene + six variable lanes), operator panel below; side-by-side at desktop width. Single dark theme: a darkened lab under a projected sky. */
+:root{
+  --bg:#090b10; --panel:#10131a; --raise:#171b25; --line:#252b3a;
+  --ink:#dde2ea; --mute:#828aa0;
+  --vis:#efe5c2; --ir:#d65a3c; --sem:#ab93df; --ctl:#62b9a7; --warn:#e3b14b;
+  --f-disp:'Big Shoulders Display','Arial Narrow',Impact,sans-serif;
+  --f-body:'Atkinson Hyperlegible',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --f-mono:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
+  color-scheme:dark;
+}
+html,body{height:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:14px;overflow:hidden}
+.app{height:100%;display:grid;grid-template-rows:54% 46%;grid-template-columns:minmax(0,1fr)}
+[hidden]{display:none!important}
+@media (min-width:960px){.app{grid-template-rows:none;grid-template-columns:minmax(0,1fr) 420px}}
+.sim{position:relative;min-height:0;min-width:0;border-bottom:1px solid var(--line)}
+@media (min-width:960px){.sim{border-bottom:0;border-right:1px solid var(--line)}}
+#stage{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none}
+.panel{min-height:0;display:flex;flex-direction:column;background:var(--panel);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:10px 0}
+.transport{display:flex;align-items:center;gap:10px;padding-bottom:8px}
+.play{flex:none;width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--raise);cursor:pointer;position:relative}
+.play::before{content:"";position:absolute;left:14px;top:11px;border-left:13px solid var(--ink);border-top:8px solid transparent;border-bottom:8px solid transparent}
+.play.on::before{left:12px;top:12px;width:4px;height:14px;border:0;background:var(--ink);box-shadow:9px 0 0 var(--ink)}
+.clock{font-family:var(--f-mono);font-size:12px;font-variant-numeric:tabular-nums;color:var(--mute);min-width:84px;line-height:1.25}
+.clock b{color:var(--ink);font-weight:600;font-size:14px}
+input[type=range]{width:100%;accent-color:var(--ctl);min-width:0}
+#scrub{flex:1}
+.tabs{display:flex;gap:2px;border-bottom:1px solid var(--line);overflow-x:auto;scrollbar-width:none}
+.tabs button{flex:none;background:none;border:0;border-bottom:2px solid transparent;color:var(--mute);font:600 12px var(--f-mono);letter-spacing:.06em;text-transform:uppercase;padding:8px 9px;cursor:pointer}
+.tabs button[aria-selected=true]{color:var(--ink);border-bottom-color:var(--ctl)}
+.body{flex:1;min-height:0;overflow:auto;padding-block:12px calc(14px + env(safe-area-inset-bottom,0px))}
+.body section{display:grid;gap:12px}
+button:focus-visible,input:focus-visible{outline:2px solid var(--warn);outline-offset:2px}
+.ctl{display:grid;gap:4px}
+.ctl .row{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.ctl label{font-weight:700}
+.ctl .val{font-family:var(--f-mono);font-size:12px;font-variant-numeric:tabular-nums}
+.ctl .why{font-size:12px;color:var(--mute);line-height:1.35}
+.op{font:600 10px var(--f-mono);letter-spacing:.08em;padding:1px 5px;border:1px solid currentColor;border-radius:3px;margin-left:6px;vertical-align:1px}
+.op.steer{color:var(--ctl)} .op.phys{color:var(--vis)} .op.sem{color:var(--sem)} .op.ir{color:var(--ir)}
+.seg{display:flex;border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.seg button{flex:1;background:var(--raise);color:var(--mute);border:0;padding:8px;font:600 13px var(--f-body);cursor:pointer}
+.seg button[aria-pressed=true]{background:var(--ink);color:var(--bg)}
+.btns{display:flex;gap:8px;flex-wrap:wrap}
+.btn{background:var(--raise);color:var(--ink);border:1px solid var(--line);border-radius:6px;padding:8px 12px;font:600 13px var(--f-body);cursor:pointer}
+.btn.kill{border-color:var(--ctl);color:var(--ctl)}
+.btn.kill[aria-pressed=true]{background:var(--ctl);color:var(--bg)}
+h3{font:800 20px/1 var(--f-disp);letter-spacing:.04em;text-transform:uppercase;margin:4px 0 0;text-wrap:balance}
+p{margin:0;line-height:1.45;max-width:65ch}
+.small{font-size:12px;color:var(--mute)}
+.board{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+@media (min-width:600px) and (max-width:959px){.board{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.frame{display:grid;gap:5px;background:none;border:0;padding:0;text-align:left;color:var(--ink);cursor:pointer;min-width:0}
+.frame canvas{width:100%;aspect-ratio:16/10;border:1px solid var(--line);border-radius:4px;display:block}
+.frame b{font:800 14px var(--f-disp);letter-spacing:.06em;text-transform:uppercase}
+.frame span{font-size:12px;color:var(--mute);line-height:1.35}
+.frame i{font:normal 11px var(--f-mono);color:var(--mute)}
+.ledger{display:grid;gap:10px}
+.entry{border-top:1px solid var(--line);padding-top:8px;display:grid;gap:4px;min-width:0}
+.entry .head{display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
+.entry code{font:600 11px var(--f-mono);color:var(--mute)}
+.tag{font:600 10px var(--f-mono);letter-spacing:.06em;text-transform:uppercase;padding:1px 6px;border-radius:3px;background:var(--raise);border:1px solid var(--line)}
+.tag.measured{color:var(--ctl)} .tag.inference{color:var(--warn)} .tag.designed{color:var(--sem)} .tag.unverified{color:var(--ir)} .tag.speculative{color:var(--sem)}
+.entry a{color:var(--ctl);word-break:break-all}
+pre{margin:0;background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:10px;font:11px/1.45 var(--f-mono);overflow:auto;max-height:52vh;white-space:pre}
+.tests{display:grid;gap:6px}
+.test{display:grid;grid-template-columns:62px minmax(0,1fr);gap:8px;font-size:13px;line-height:1.35}
+.pill{font:600 11px var(--f-mono);text-align:center;border-radius:3px;padding:2px 0;height:fit-content}
+.pill.pass{background:var(--ctl);color:var(--bg)} .pill.fail{background:var(--ir);color:var(--bg)} .pill.inc{background:var(--warn);color:var(--bg)}
+.verdict{border:1px solid var(--line);border-radius:6px;padding:10px;display:grid;gap:8px;background:var(--raise)}
+.verdict dl{margin:0;display:grid;gap:6px}
+.verdict dt{font:600 11px var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--mute)}
+.verdict dd{margin:0;line-height:1.4}
+ul{margin:0;padding-left:18px;display:grid;gap:4px;line-height:1.4}
+</style>
+
+<div class="app">
+  <div class="sim"><canvas id="stage" aria-label="Animated scene: sun, moon image, viewer, hidden infrared heater, and six variable lanes"></canvas></div>
+  <div class="panel">
+    <div class="transport">
+      <button class="play" id="play" aria-label="Play"></button>
+      <div class="clock" id="clock"><b>00.00 s</b><br>Act I</div>
+      <input type="range" id="scrub" min="0" max="40" step="0.01" value="0" aria-label="Scrub timeline">
+    </div>
+    <div class="tabs" role="tablist">
+      <button role="tab" aria-selected="true" data-tab="ctl">Controls</button>
+      <button role="tab" aria-selected="false" data-tab="board">Storyboard</button>
+      <button role="tab" aria-selected="false" data-tab="ledger">Ledger</button>
+      <button role="tab" aria-selected="false" data-tab="json">Worldscription</button>
+      <button role="tab" aria-selected="false" data-tab="critic">Critic</button>
+    </div>
+    <div class="body">
+      <section data-pane="ctl">
+        <p class="small">Film runs 0–12 s. The hold runs to 40 s and includes a night gap and a heat-free next-night re-exposure. Any change is written into the timeline at the playhead, so scrubbing back replays it exactly.</p>
+        <div class="ctl">
+          <div class="row"><label for="heater">Heater power<span class="op steer">⊣ STEER · operator</span></label><span class="val" id="heaterV"></span></div>
+          <input type="range" id="heater" min="0" max="300" step="5">
+          <div class="why">Sets IR irradiance at the skin. Only the IR, skin and report lanes should respond.</div>
+        </div>
+        <div class="ctl">
+          <div class="row"><label for="bright">Image brightness<span class="op phys">→ light only</span></label><span class="val" id="brightV"></span></div>
+          <input type="range" id="bright" min="0" max="1" step="0.01">
+          <div class="why">Dims the sky or screen. Skin temperature should not move beyond 0.0001 °C.</div>
+        </div>
+        <div class="ctl">
+          <div class="row"><label>Image on screen<span class="op phys">SUBSTITUTE</span></label></div>
+          <div class="seg" id="image"><button data-v="moon" aria-pressed="true">Moon</button><button data-v="sun" aria-pressed="false">Sun</button></div>
+          <div class="why">Changes appearance. The heater physics are identical either way.</div>
+        </div>
+        <div class="ctl">
+          <div class="row"><label for="delay">Thermal delay<span class="op steer">DESYNCHRONIZE</span></label><span class="val" id="delayV"></span></div>
+          <input type="range" id="delay" min="0" max="3" step="0.1">
+          <div class="why">Heat arrives this many seconds after the command.</div>
+        </div>
+        <div class="ctl">
+          <div class="row"><label>Participant control<span class="op steer">⊣ REDISTRIBUTE</span></label></div>
+          <div class="btns"><button class="btn kill" id="optout" aria-pressed="false">Opt out of warmth</button></div>
+          <div class="why">Overrides the operator. The image stays on.</div>
+        </div>
+        <div class="btns">
+          <button class="btn" id="hold">Go to hold (12 s)</button>
+          <button class="btn" id="reset">Reset to film</button>
+          <button class="btn" id="sound" aria-pressed="false">Sound off</button>
+        </div>
+        <p class="small" id="rev"></p>
+      </section>
+
+      <section data-pane="board" hidden>
+        <p class="small">Six frames from the canonical film. Tap a frame to jump there.</p>
+        <div class="board" id="board"></div>
+      </section>
+
+      <section data-pane="ledger" hidden>
+        <p class="small">Every claim the scene animates, with its status. Unknown rights are not treated as granted.</p>
+        <div class="ledger" id="ledger"></div>
+      </section>
+
+      <section data-pane="json" hidden>
+        <div class="btns"><button class="btn" id="copy">Copy JSON</button><span class="small" id="copied"></span></div>
+        <pre id="json"></pre>
+      </section>
+
+      <section data-pane="critic" hidden>
+        <div class="verdict" id="verdict"></div>
+        <h3>In-page invariant tests</h3>
+        <p class="small">Run in your browser on load against the canonical film. These are machine checks, separate from the critic.</p>
+        <div class="tests" id="tests"></div>
+        <h3>Open questions</h3>
+        <ul>
+          <li>Real forearm skin under a radiant panel responds over tens of seconds, not 2.5 s. What compression is acceptable before the film misleads?</li>
+          <li>Does a viewer who reads no labels conclude that moonlight warmed the person? This needs a five-viewer test with no captions.</li>
+          <li>Which safe irradiance limit and exposure time should bound the physical rig? Not sourced here.</li>
+          <li>The two user-supplied anchors (the 1977 Georgia Tech mirror array, Ichihashi's thermal displays) need citations before any scene depicts them.</li>
+        </ul>
+        <h3>Next smallest proof</h3>
+        <p>RECURRENCE with a real participant: run the next-night re-exposure (image, no heat) with five people who did and five who did not receive heat on night one. Expected observation if the hypothesis holds: higher warmth reports to the image alone in the heated group. Falsifier: no difference between groups.</p>
+      </section>
+    </div>
+  </div>
+</div>
+
+<script>
+(()=>{
+const T_FILM=12, T_END=40, HZ=120, SHZ=30;
+const K=0.012, TAU=2.5;               // designed skin model (D1)
+const MOON_VIS=0.0020;                // W/m², reflected sunlight at full moon, inference (L3)
+const MOON_TIR=0.025;                 // W/m², lunar thermal IR at full moon, inference (L4)
+const FILM=[
+  {t:0,k:'heater',v:0,by:'operator'},{t:0,k:'bright',v:1,by:'scene'},{t:0,k:'image',v:'moon',by:'scene'},
+  {t:0,k:'delay',v:0,by:'operator'},{t:0,k:'optout',v:0,by:'participant'},
+  {t:0,k:'attend',v:0,by:'scene'},{t:3,k:'heater',v:180,by:'operator'},{t:6,k:'attend',v:1,by:'scene'},{t:9.6,k:'optout',v:1,by:'participant'},
+  {t:20,k:'bright',v:0,by:'scene'},{t:20,k:'attend',v:0,by:'scene'},{t:26,k:'bright',v:1,by:'scene'},{t:26,k:'attend',v:1,by:'scene'}
+];
+const C={}; const cs=getComputedStyle(document.documentElement);
+['bg','panel','raise','line','ink','mute','vis','ir','sem','ctl','warn'].forEach(k=>C[k]=cs.getPropertyValue('--'+k).trim());
+const F={disp:"'Big Shoulders Display','Arial Narrow',sans-serif",body:"'Atkinson Hyperlegible',system-ui,sans-serif",mono:"'JetBrains Mono',ui-monospace,monospace"};
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+let events=FILM.map(e=>({...e}));
+const sortEv=a=>a.slice().sort((x,y)=>x.t-y.t);
+function valAt(s,k,t){let v;for(const e of s){if(e.t>t+1e-9)break;if(e.k===k)v=e.v}return v}
+
+function simulate(evs,tStop=T_END){
+  const s=sortEv(evs), N=Math.round(tStop*HZ), dt=1/HZ, step=HZ/SHZ;
+  let dT=0,aM=0,aS=0,rep=0,nextRep=4.5;
+  const o={vis:[],cmd:[],peff:[],dT:[],rep:[],aM:[],aS:[],img:[],opt:[],att:[]};
+  for(let i=0;i<=N;i++){
+    const t=i*dt;
+    const b=valAt(s,'bright',t), img=valAt(s,'image',t), d=valAt(s,'delay',t), opt=valAt(s,'optout',t), cmd=valAt(s,'heater',t);
+    const peff=opt?0:(t-d<0?0:valAt(s,'heater',t-d)); const att=valAt(s,'attend',t)?1:0; const sky=t<3?1:0;
+    if(t>=nextRep-1e-9){rep=Math.round(10*Math.min(1,dT/2.5));nextRep+=1.5}
+    if(i%step===0){o.vis.push(b);o.cmd.push(cmd);o.peff.push(peff);o.dT.push(dT);o.rep.push(t>=4.5?rep:null);o.aM.push(aM);o.aS.push(aS);o.img.push(img);o.opt.push(opt);o.att.push(att)}
+    dT+=dt*(K*(peff+sky*(b*MOON_VIS+MOON_TIR))-dT)/TAU;
+    const warm=Math.min(1,Math.max(0,dT/2));
+    const g=0.35*b*warm*att;
+    if(img==='moon'){aM+=dt*(g-0.02*aM);aS-=dt*0.02*aS}else{aS+=dt*(g-0.02*aS);aM-=dt*0.02*aM}
+  }
+  return o;
+}
+function st(tr,t){const j=Math.min(tr.dT.length-1,Math.max(0,Math.round(t*SHZ)));const r={};for(const k in tr)r[k]=tr[k][j];return r}
+const smooth=(a,b,x)=>{const u=Math.min(1,Math.max(0,(x-a)/(b-a)));return u*u*(3-2*u)};
+function actOf(t){return t<3?0:t<6?1:t<9?2:t<12?3:t<20?4:t<26?5:6}
+const ACTS=[
+  ['I · Borrowed light','Sunlight reaches the Moon. The Moon reflects a little of it toward the viewer.'],
+  ['II · Hidden source','The sky is a screen. The warmth comes from a heater under the arm.'],
+  ['III · A new association','Hypothesis, not finding: the viewer may come to link the moon image with warmth.'],
+  ['IV · Governance and after','The participant cuts the heat. The image stays lit. The skin cools.'],
+  ['Hold · your turn','Change the heater, the image, the delay. Watch which lanes move.'],
+  ['Between nights','No image, no heat. The stored association decays slowly.'],
+  ['Next night · recurrence','The image returns without heat. The dashed edge returns only as strongly as what was stored.']
+];
+function therm(x){ // skin ΔT 0..3 → cool blue to hot orange
+  const u=Math.min(1,Math.max(0,x/3)); const st=[[58,90,140],[150,80,120],[214,90,60],[240,190,90]];
+  const p=u*3,i=Math.min(2,Math.floor(p)),f=p-i,a=st[i],b=st[i+1];
+  return `rgb(${a.map((v,k)=>Math.round(v+(b[k]-v)*f)).join(',')})`;
+}
+function rgba(hex,a){const n=parseInt(hex.slice(1),16);return `rgba(${n>>16&255},${n>>8&255},${n&255},${a})`}
+
+// stars: fixed pseudo-random
+const STARS=[];{let s=7;const r=()=>(s=(s*16807)%2147483647)/2147483647;for(let i=0;i<70;i++)STARS.push([r()*820,r()*440,r()*1.3+.3])}
+
+const P={sun:[70,105],disk:[300,150],eye:[642,207],skin:[600,303],heaterTop:[600,395]};
+
+function beam(c,a,b,w0,w1,col,alpha,t,speed){
+  if(alpha<=0.01)return;
+  const dx=b[0]-a[0],dy=b[1]-a[1],L=Math.hypot(dx,dy),nx=-dy/L,ny=dx/L;
+  const g=c.createLinearGradient(a[0],a[1],b[0],b[1]);g.addColorStop(0,rgba(col,0.34*alpha));g.addColorStop(1,rgba(col,0.12*alpha));
+  c.fillStyle=g;c.beginPath();c.moveTo(a[0]+nx*w0,a[1]+ny*w0);c.lineTo(b[0]+nx*w1,b[1]+ny*w1);c.lineTo(b[0]-nx*w1,b[1]-ny*w1);c.lineTo(a[0]-nx*w0,a[1]-ny*w0);c.closePath();c.fill();
+  c.strokeStyle=rgba(col,0.9*alpha);c.lineWidth=2.4;c.lineCap='round';
+  const sp=34,ph=reduce?0:(t*speed)%sp;
+  for(let d=ph;d<L-4;d+=sp){const u=d/L,v=Math.min(1,(d+12)/L);c.beginPath();c.moveTo(a[0]+dx*u,a[1]+dy*u);c.lineTo(a[0]+dx*v,a[1]+dy*v);c.stroke()}
+  // arrowhead
+  const ux=dx/L,uy=dy/L,tip=[b[0],b[1]];c.fillStyle=rgba(col,alpha);c.beginPath();c.moveTo(tip[0],tip[1]);c.lineTo(tip[0]-ux*12+nx*6,tip[1]-uy*12+ny*6);c.lineTo(tip[0]-ux*12-nx*6,tip[1]-uy*12-ny*6);c.fill();
+}
+function wave(c,a,b,amp,alpha,t,lw){
+  if(alpha<=0.005)return;const dx=b[0]-a[0],dy=b[1]-a[1],L=Math.hypot(dx,dy),ux=dx/L,uy=dy/L,nx=-uy,ny=ux,ph=reduce?0:t*9;
+  c.save();c.strokeStyle=C.ir;c.fillStyle=C.ir;c.globalAlpha=alpha;c.lineWidth=lw;c.lineCap='round';c.beginPath();
+  for(let d=0;d<=L-12;d+=2){const o=Math.sin(d/7-ph)*amp,x=a[0]+ux*d+nx*o,y=a[1]+uy*d+ny*o;d?c.lineTo(x,y):c.moveTo(x,y)}c.stroke();
+  c.beginPath();c.moveTo(b[0],b[1]);c.lineTo(b[0]-ux*13+nx*6,b[1]-uy*13+ny*6);c.lineTo(b[0]-ux*13-nx*6,b[1]-uy*13-ny*6);c.fill();c.restore();
+}
+function wire(c,pts,col,alpha,glow,barDir){
+  c.save();c.globalAlpha=alpha;c.strokeStyle=col;c.lineWidth=glow?4:2;c.lineJoin='miter';
+  if(glow){c.shadowColor=col;c.shadowBlur=12}
+  c.beginPath();pts.forEach((p,i)=>i?c.lineTo(p[0],p[1]):c.moveTo(p[0],p[1]));c.stroke();
+  const e=pts[pts.length-1];c.lineWidth=4;c.beginPath();
+  if(barDir==='v'){c.moveTo(e[0],e[1]-10);c.lineTo(e[0],e[1]+10)}else{c.moveTo(e[0]-10,e[1]);c.lineTo(e[0]+10,e[1])}
+  c.stroke();c.restore();
+}
+function txt(c,s,x,y,px,sc,col,font,align){c.font=`${px/sc}px ${font||F.mono}`;c.fillStyle=col;c.textAlign=align||'left';c.textBaseline='middle';c.fillText(s,x,y)}
+
+function drawScene(c,t,S,evs,thumb,sc){
+  const lab=smooth(2.8,3.8,t), sky=1-lab, b=S.vis, img=S.img;
+  const lbl=thumb?0:1, full=!thumb&&sc>0.62, fs=11;
+  // stars: whole sky in Act I, screen only after
+  c.fillStyle=C.ink;
+  for(const [x,y,r] of STARS){const inScreen=x>40&&x<470&&y>50&&y<320;const a=(sky+(inScreen?lab:0))*0.5*(0.3+0.7*b);if(a<0.02)continue;c.globalAlpha=a;c.beginPath();c.arc(x,y,r,0,7);c.fill()}
+  c.globalAlpha=1;
+  // room
+  if(lab>0){
+    c.globalAlpha=lab;c.strokeStyle=C.line;c.lineWidth=2;c.beginPath();c.moveTo(0,442);c.lineTo(820,442);c.stroke();
+    c.strokeStyle=C.mute;c.lineWidth=3;c.strokeRect(40,50,430,270);
+    c.fillStyle=C.mute;c.fillRect(250,320,10,20);
+    if(full)txt(c,'projection screen · ☾ image',44,334,fs,sc,C.mute);
+    c.globalAlpha=1;
+  }
+  // sun (Act I only)
+  if(sky>0.01){
+    c.globalAlpha=sky;const g=c.createRadialGradient(...P.sun,4,...P.sun,46);g.addColorStop(0,'#fff6d8');g.addColorStop(.6,'#f2c96a');g.addColorStop(1,'rgba(242,201,106,0)');
+    c.fillStyle=g;c.beginPath();c.arc(...P.sun,46,0,7);c.fill();
+    if(full)txt(c,'☉ Sun (not to scale)',30,158,fs,sc,C.vis);
+    c.globalAlpha=1;
+    beam(c,[P.sun[0]+30,P.sun[1]+6],[P.disk[0]-46,P.disk[1]-8],16,30,C.vis,sky,t,40);
+    if(full)txt(c,'→ sunlight · 499 s to here',110,96,fs,sc,rgba(C.vis,sky));
+  }
+  // disk: moon or sun image
+  const [mx,my]=P.disk;
+  if(img==='sun'&&lab>0.5){
+    const g=c.createRadialGradient(mx,my,4,mx,my,62);g.addColorStop(0,`rgba(255,246,216,${0.3+0.7*b})`);g.addColorStop(.6,`rgba(242,201,106,${0.25+0.7*b})`);g.addColorStop(1,'rgba(242,201,106,0)');
+    c.fillStyle=g;c.beginPath();c.arc(mx,my,62,0,7);c.fill();
+  }else{
+    c.fillStyle=rgba('#d9d6cc',0.2+0.8*b);c.beginPath();c.arc(mx,my,44,0,7);c.fill();
+    c.fillStyle=rgba('#9b988f',0.35*(0.2+0.8*b));[[ -14,-10,9],[12,8,12],[-4,18,6],[18,-16,5]].forEach(([x,y,r])=>{c.beginPath();c.arc(mx+x,my+y,r,0,7);c.fill()});
+  }
+  if(full)txt(c,img==='sun'&&lab>0.5?'image: Sun':(sky>0.5?'☾ Moon · reflects sunlight, glows in IR':'image: Moon'),mx-60,sky>0.5?my-66:my+62,fs,sc,C.ink);
+  // lunar thermal IR (emitted, not reflected), Act I only
+  if(sky>0.01){wave(c,[mx+30,my+34],[586,298],2.5,0.55*sky,t,1.2);if(full)txt(c,'→ lunar thermal IR ≈0.025 W/m² · emitted',300,330,fs,sc,rgba(C.ir,sky))}
+  // visible beam to eye
+  beam(c,[mx+44,my+6],[P.eye[0]-10,P.eye[1]],22,4,C.vis,0.15+0.85*b,t,30);
+  if(full)txt(c,sky>0.5?'→ visible · 1.28 s Moon to Earth':'→ visible light from screen',388,214,fs,sc,rgba(C.vis,0.4+0.6*b));
+  // person (◉)
+  c.lineCap='round';c.lineJoin='round';
+  c.strokeStyle=C.mute;c.fillStyle=C.raise;c.lineWidth=14;
+  c.beginPath();c.moveTo(662,232);c.lineTo(690,330);c.lineTo(618,338);c.lineTo(616,436);c.stroke(); // torso, thigh, shin
+  c.strokeStyle=C.raise;c.lineWidth=10;c.beginPath();c.moveTo(662,232);c.lineTo(690,330);c.lineTo(618,338);c.lineTo(616,436);c.stroke();
+  c.strokeStyle=C.mute;c.lineWidth=12;c.beginPath();c.moveTo(664,250);c.lineTo(644,300);c.lineTo(560,305);c.stroke();
+  c.strokeStyle=C.raise;c.lineWidth=8;c.beginPath();c.moveTo(664,250);c.lineTo(644,300);c.lineTo(560,305);c.stroke();
+  c.fillStyle=C.raise;c.strokeStyle=C.mute;c.lineWidth=2;c.beginPath();c.arc(656,205,24,0,7);c.fill();c.stroke();
+  c.fillStyle=C.ink;c.beginPath();c.arc(P.eye[0]-2,P.eye[1],2.6,0,7);c.fill();
+  // chair
+  c.strokeStyle=C.line;c.lineWidth=4;c.beginPath();c.moveTo(712,250);c.lineTo(712,442);c.moveTo(640,350);c.lineTo(712,350);c.stroke();
+  if(full)txt(c,'◉ viewer',700,170,fs,sc,C.mute);
+  // skin patch (♁)
+  c.fillStyle=therm(S.dT);c.beginPath();c.ellipse(...P.skin,18,7,0,0,7);c.fill();
+  if(lbl){
+    const sup=n=>String(n).split('').map(ch=>'⁰¹²³⁴⁵⁶⁷⁸⁹'[+ch]).join('');const sci=x=>{if(x<=0)return '0';const e=Math.floor(Math.log10(x));return `${(x/10**e).toFixed(0)}×10⁻${sup(-e)}`};
+    const lab2=sky>0.5?`♁ skin +${sci(S.dT)} °C from the Moon`:`♁ skin +${S.dT.toFixed(2)} °C`;
+    txt(c,full?lab2:(sky>0.5?`+${sci(S.dT)} °C`:`+${S.dT.toFixed(2)} °C`),full?(sky>0.5?560:560):430,full?(sky>0.5?334:282):268,fs,sc,therm(Math.max(S.dT,1.2)));
+  }
+  // self-report bubble (designed)
+  if(S.rep!==null&&lab>0.5&&lbl){txt(c,full?`self-report ${S.rep}/10`:`report ${S.rep}`,full?690:690,full?148:132,fs,sc,C.ink)}
+  // lab equipment
+  if(lab>0.01){
+    c.globalAlpha=lab;
+    // heater
+    c.fillStyle=C.raise;c.strokeStyle=C.mute;c.lineWidth=2;c.fillRect(565,395,70,26);c.strokeRect(565,395,70,26);
+    c.fillStyle=rgba(C.ir,0.15+0.85*Math.min(1,S.peff/200));c.fillRect(569,395,62,5);
+    c.strokeStyle=C.mute;c.beginPath();c.moveTo(600,421);c.lineTo(600,442);c.stroke();
+    if(full)txt(c,'☉ IR heater, below view',642,410,fs,sc,C.ir);
+    // operator console (⌂)
+    c.fillStyle=C.raise;c.strokeStyle=C.mute;c.fillRect(300,404,100,36);c.strokeRect(300,404,100,36);
+    const ang=Math.PI*(0.75+1.5*(S.cmd/300));c.strokeStyle=C.ctl;c.lineWidth=3;c.beginPath();c.arc(326,422,10,0,7);c.stroke();c.beginPath();c.moveTo(326,422);c.lineTo(326+Math.cos(ang)*10,422+Math.sin(ang)*10);c.stroke();
+    if(lbl)txt(c,'⌂ operator',344,422,fs,sc,C.ink);
+    // participant switch at hand
+    c.fillStyle=S.opt?C.ctl:C.raise;c.strokeStyle=C.ctl;c.lineWidth=2;c.fillRect(528,296,24,18);c.strokeRect(528,296,24,18);
+    if(lbl&&S.opt)txt(c,'opted out',full?478:470,full?288:330,fs,sc,C.ctl);
+    // control wires ⊣
+    const recent=(who,keys)=>evs.some(e=>e.t>0&&e.by===who&&keys.includes(e.k)&&t>=e.t&&t-e.t<0.8);
+    wire(c,[[400,430],[585,430],[585,423]],C.ctl,1,recent('operator',['heater','delay']),'h');
+    wire(c,[[540,314],[540,408],[563,408]],C.ctl,1,recent('participant',['optout']),'v');
+    if(full){txt(c,'⊣ power',430,450,fs,sc,C.ctl);txt(c,'⊣ opt-out',470,370,fs,sc,C.ctl)}
+    c.globalAlpha=1;
+    // IR wave (invisible to the eye; drawn)
+    const pa=Math.min(1,S.peff/300);
+    if(pa>0.005){
+      wave(c,P.heaterTop,[600,313],4+5*pa,0.3+0.7*pa,t,1.5+2*pa);
+      if(lbl)txt(c,full?`→ IR ${Math.round(S.peff)} W/m² · invisible`:`IR ${Math.round(S.peff)}`,612,360,fs,sc,C.ir);
+    }
+  }
+  // semiotic ⇝ (hypothesis)
+  const a=Math.max(S.aM,S.aS);
+  if(a>0.02){
+    const pa=Math.min(1,a/1.5)*(S.att?1:0.35);
+    c.save();c.strokeStyle=C.sem;c.globalAlpha=0.15+0.85*pa;c.lineWidth=1.5+3*pa;c.setLineDash([10,8]);
+    const p0=[mx+30,my-34],cp=[490,10],p1=[640,182];
+    c.beginPath();c.moveTo(...p0);c.quadraticCurveTo(...cp,...p1);c.stroke();c.setLineDash([]);
+    c.fillStyle=C.bg;for(const u of [0.25,0.5,0.75]){const x=(1-u)**2*p0[0]+2*(1-u)*u*cp[0]+u*u*p1[0],y=(1-u)**2*p0[1]+2*(1-u)*u*cp[1]+u*u*p1[1];c.beginPath();c.arc(x,y,5,0,7);c.fill();c.stroke()}
+    c.restore();
+    if(lbl)txt(c,full?`⇝ ${S.aS>S.aM?'sun image':'moon image'} ↔ warmth · hypothesis ${a.toFixed(2)}`:'⇝ hypothesis',full?470:440,full?52:40,fs,sc,C.sem);
+  }
+}
+
+const LANES=[
+  {k:'vis',name:'image brightness',unit:'rel.',max:1,col:'vis'},
+  {k:'cmd',name:'IR command',unit:'W/m²',max:300,col:'ctl'},
+  {k:'peff',name:'IR at skin',unit:'W/m²',max:300,col:'ir'},
+  {k:'dT',name:'skin ΔT',unit:'°C',max:3.6,col:'ir',therm:true},
+  {k:'rep',name:'self-report',unit:'0–10',max:10,col:'ink',step:true},
+  {k:'aM',name:'association (hypothesis)',unit:'a.u.',max:2.5,col:'sem'}
+];
+function drawLanes(c,X,Y,W,H,t,tr){
+  c.fillStyle=C.panel;c.fillRect(X,Y,W,H);c.strokeStyle=C.line;c.lineWidth=1;c.beginPath();c.moveTo(X,Y+.5);c.lineTo(X+W,Y+.5);c.stroke();
+  const x0=X+12,w=W-24,top=Y+6,lh=(H-26)/LANES.length,xs=tt=>x0+tt/T_END*w;
+  // act divisions
+  c.font=`10px ${F.mono}`;c.textBaseline='bottom';
+  [0,3,6,9,12].forEach((a,i)=>{c.strokeStyle=C.line;c.beginPath();c.moveTo(xs(a)+.5,top);c.lineTo(xs(a)+.5,Y+H-12);c.stroke();c.fillStyle=C.mute;c.textAlign='left';c.fillText(['I','II','III','IV','HOLD'][i],xs(a)+3,Y+H-3)});
+  [[20,'NIGHT GAP'],[26,'NEXT NIGHT']].forEach(([a,l])=>{c.strokeStyle=C.line;c.setLineDash([3,3]);c.beginPath();c.moveTo(xs(a)+.5,top);c.lineTo(xs(a)+.5,Y+H-12);c.stroke();c.setLineDash([]);c.fillStyle=C.mute;c.textAlign='left';if(W>520)c.fillText(l,xs(a)+3,Y+H-3)});
+  c.textAlign='right';c.fillText('40 s',X+W-12,Y+H-3);
+  const n=tr.dT.length;
+  LANES.forEach((L,i)=>{
+    const y0=top+i*lh, y1=y0+lh-3, yv=v=>y1-(Math.min(v,L.max)/L.max)*(lh-14);
+    c.strokeStyle=rgba(C.line,0.6);c.beginPath();c.moveTo(x0,y1+.5);c.lineTo(x0+w,y1+.5);c.stroke();
+    for(const pass of [0,1]){
+      c.save();c.beginPath();if(pass)c.rect(x0,y0,xs(t)-x0,lh);else c.rect(xs(t),y0,w,lh);c.clip();
+      c.globalAlpha=pass?1:0.3;c.strokeStyle=C[L.col];c.lineWidth=1.6;c.beginPath();let started=false;
+      for(let j=0;j<n;j+=1){let v=tr[L.k][j];if(L.k==='aM')v=Math.max(v,tr.aS[j]);if(v===null||v===undefined){started=false;continue}
+        const x=xs(j/SHZ),y=yv(v);if(!started){c.moveTo(x,y);started=true}else if(L.step){c.lineTo(x,c._ly??y);c.lineTo(x,y)}else c.lineTo(x,y);c._ly=y}
+      c.stroke();c.restore();
+    }
+    const cur=st(tr,t);let v=cur[L.k];if(L.k==='aM')v=Math.max(cur.aM,cur.aS);
+    c.font=`10px ${F.mono}`;c.textBaseline='top';c.textAlign='left';c.fillStyle=C[L.col];
+    const vs=v===null?'—':L.k==='vis'?v.toFixed(2):L.k==='dT'?v.toFixed(3):L.k==='aM'?v.toFixed(2):String(Math.round(v));
+    c.fillText(`${L.name} · ${vs} ${L.unit}`,x0+2,y0+1);
+  });
+  c.strokeStyle=C.ink;c.lineWidth=1.5;c.beginPath();c.moveTo(xs(t),top);c.lineTo(xs(t),Y+H-12);c.stroke();
+}
+
+function draw(c,W,H,t,tr,evs,thumb){
+  const S=st(tr,t);
+  c.fillStyle=C.bg;c.fillRect(0,0,W,H);
+  const laneH=thumb?0:Math.round(H>W*0.75?H*0.36:H*0.34);
+  const capH=thumb?0:Math.max(38,Math.min(52,H*0.11));
+  const sh=H-laneH-capH;
+  const s=Math.min((W-12)/820,(sh-4)/450);
+  const ox=(W-820*s)/2, oy=capH+Math.max(2,(sh-450*s)/2)-6*s;
+  c.save();c.translate(ox,oy);c.scale(s,s);drawScene(c,t,S,evs,thumb,s);c.restore();
+  if(!thumb){
+    const a=ACTS[actOf(t)];
+    c.textBaseline='top';c.textAlign='left';
+    c.fillStyle=C.ink;c.font=`800 ${Math.round(Math.min(20,Math.max(15,W/40)))}px ${F.disp}`;c.fillText(a[0].toUpperCase(),12,8);
+    c.fillStyle=C.mute;c.font=`${W<480?11:13}px ${F.body}`;
+    // wrap one line if needed
+    const words=a[1].split(' ');let line='',y=8+Math.min(22,Math.max(17,W/36));
+    for(const w of words){const tl=line?line+' '+w:w;if(c.measureText(tl).width>W-24){c.fillText(line,12,y);line=w;y+=14}else line=tl}c.fillText(line,12,y);
+    drawLanes(c,0,H-laneH,W,laneH,t,tr);
+  }
+}
+
+// ---------- state and UI ----------
+let trace=simulate(events), cur=0, playing=!reduce, last=performance.now(), dragging=null;
+const cv=document.getElementById('stage'), ctx=cv.getContext('2d');
+function fit(){const r=cv.getBoundingClientRect(),d=Math.min(2,devicePixelRatio||1);cv.width=Math.round(r.width*d);cv.height=Math.round(r.height*d);ctx.setTransform(d,0,0,d,0,0)}
+new ResizeObserver(()=>{fit();render()}).observe(cv);
+const $=id=>document.getElementById(id);
+function hash(s){let h=5381;for(let i=0;i<s.length;i++)h=((h<<5)+h+s.charCodeAt(i))>>>0;return h.toString(16).padStart(8,'0')}
+function revision(){return hash(JSON.stringify(sortEv(events)))}
+
+function addEvent(k,v,by){
+  const t=+cur.toFixed(2);
+  const lastSame=events.filter(e=>e.k===k&&e.t<=t).sort((a,b)=>b.t-a.t)[0];
+  events=events.filter(e=>!(e.k===k&&e.t>t));
+  if(lastSame&&t-lastSame.t<0.15&&lastSame.t>0){lastSame.v=v;lastSame.by=by}
+  else{events=events.filter(e=>!(e.k===k&&e.t===t));events.push({t,k,v,by})}
+  trace=simulate(events);refreshDocs();render();
+}
+function syncControls(){
+  const s=sortEv(events);
+  const h=valAt(s,'heater',cur),b=valAt(s,'bright',cur),im=valAt(s,'image',cur),d=valAt(s,'delay',cur),o=valAt(s,'optout',cur);
+  if(dragging!=='heater')$('heater').value=h; $('heaterV').textContent=h+' W/m²';
+  if(dragging!=='bright')$('bright').value=b; $('brightV').textContent=(+b).toFixed(2);
+  if(dragging!=='delay')$('delay').value=d; $('delayV').textContent=(+d).toFixed(1)+' s';
+  document.querySelectorAll('#image button').forEach(x=>x.setAttribute('aria-pressed',x.dataset.v===im));
+  $('optout').setAttribute('aria-pressed',!!o);$('optout').textContent=o?'Opted out · tap to allow warmth':'Opt out of warmth';
+  if(dragging!=='scrub')$('scrub').value=cur;
+  $('clock').innerHTML=`<b>${cur.toFixed(2).padStart(5,'0')} s</b><br>${['Act I','Act II','Act III','Act IV','Hold','Between nights','Next night'][actOf(cur)]}`;
+}
+function render(){const r=cv.getBoundingClientRect();draw(ctx,r.width,r.height,cur,trace,events,false);syncControls();sound()}
+function setPlay(p){playing=p;$('play').classList.toggle('on',p);$('play').setAttribute('aria-label',p?'Pause':'Play');last=performance.now()}
+function loop(now){
+  if(playing){cur+=Math.min(0.1,(now-last)/1000);if(cur>=T_END){cur=T_END;setPlay(false)}}
+  last=now;render();requestAnimationFrame(loop);
+}
+$('play').onclick=()=>{if(cur>=T_END)cur=0;setPlay(!playing)};
+const scrub=$('scrub');
+scrub.addEventListener('input',()=>{dragging='scrub';cur=+scrub.value});
+scrub.addEventListener('change',()=>{dragging=null});
+for(const [id,by] of [['heater','operator'],['bright','scene'],['delay','operator']]){
+  const el=$(id);el.addEventListener('input',()=>{dragging=id;addEvent(id,+el.value,by)});el.addEventListener('change',()=>dragging=null);
+}
+document.querySelectorAll('#image button').forEach(b=>b.onclick=()=>addEvent('image',b.dataset.v,'scene'));
+$('optout').onclick=()=>{const o=valAt(sortEv(events),'optout',cur);addEvent('optout',o?0:1,'participant')};
+$('hold').onclick=()=>{cur=T_FILM;render()};
+$('reset').onclick=()=>{events=FILM.map(e=>({...e}));trace=simulate(events);cur=0;refreshDocs();setPlay(!reduce)};
+// tabs
+document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('.tabs button').forEach(x=>x.setAttribute('aria-selected',x===b));
+  document.querySelectorAll('[data-pane]').forEach(p=>p.hidden=p.dataset.pane!==b.dataset.tab);
+});
+// sound (designed sonification: hum level = IR at skin; tick on control events)
+let ac=null,osc,gain;
+$('sound').onclick=()=>{
+  if(!ac){try{ac=new (window.AudioContext||window.webkitAudioContext)();osc=ac.createOscillator();osc.type='triangle';osc.frequency.value=58;gain=ac.createGain();gain.gain.value=0;osc.connect(gain).connect(ac.destination);osc.start()}catch(e){ac=null;return}}
+  const on=$('sound').getAttribute('aria-pressed')!=='true';$('sound').setAttribute('aria-pressed',on);$('sound').textContent=on?'Sound on':'Sound off';
+  if(on)ac.resume();else ac.suspend();
+};
+let lastSoundT=0;
+function sound(){
+  if(!ac||ac.state!=='running')return;const S=st(trace,cur);
+  gain.gain.setTargetAtTime(playing?0.07*Math.min(1,S.peff/300):0,ac.currentTime,0.05);
+  osc.frequency.setTargetAtTime(58+30*Math.min(1,S.dT/3),ac.currentTime,0.1);
+  if(playing&&events.some(e=>e.t>0&&e.t>lastSoundT&&e.t<=cur&&e.k!=='bright')){const o=ac.createOscillator(),g=ac.createGain();o.frequency.value=880;g.gain.value=0.05;g.gain.setTargetAtTime(0,ac.currentTime,0.03);o.connect(g).connect(ac.destination);o.start();o.stop(ac.currentTime+0.15)}
+  lastSoundT=cur;
+}
+
+// ---------- storyboard ----------
+const FRAMES=[
+  [1.5,'Borrowed light','☉ →[visible|reflection] ☾ →[visible] ◉. The Moon adds no light of its own.'],
+  [3.6,'Relocate','The sky is a screen. The image keeps its look; its light now comes from a display.'],
+  [5.4,'Hidden source','Heater →[IR] skin. The skin warms. The image does not change.'],
+  [8.4,'A new association','◉ ⇝ moon image with warmth. Dashed: a hypothesis this setup could test.'],
+  [10.4,'Opt-out','◉ ⊣ heater. IR stops at once. The image stays lit.'],
+  [11.9,'After','Skin cooling, last report, association: three variables at three rates.']
+];
+const filmTrace=simulate(FILM);
+function buildBoard(){
+  const host=$('board');host.innerHTML='';
+  FRAMES.forEach(([t,name,cap],i)=>{
+    const b=document.createElement('button');b.className='frame';b.innerHTML=`<canvas width="320" height="200"></canvas><i>${String(i+1)} · t ${t.toFixed(1)} s</i><b>${name}</b><span>${cap}</span>`;
+    const c=b.querySelector('canvas').getContext('2d');draw(c,320,200,t,filmTrace,FILM,true);
+    b.onclick=()=>{events=FILM.map(e=>({...e}));trace=simulate(events);cur=t;setPlay(false);refreshDocs();render()};
+    host.appendChild(b);
+  });
+}
+
+// ---------- ledger ----------
+const LEDGER=[
+  ['L1','measured','Moon to Earth light time ≈ 1.28 s','Mean Earth–Moon distance 384,400 km divided by c.','NASA GSFC Moon Fact Sheet','https://nssdc.gsfc.nasa.gov/planetary/factsheet/moonfact.html','Facts, not subject to copyright'],
+  ['L2','measured','Sun to Earth light time ≈ 499 s','1 au = 149,597,870,700 m (IAU 2012 Resolution B2) divided by c.','IAU Resolution B2 (2012)','https://www.iau.org/static/resolutions/IAU2012_English.pdf','Facts'],
+  ['L3','inference','Reflected sunlight from the full Moon ≈ 2 mW/m²','Order-of-magnitude calculation: 1361 W/m² total solar irradiance × Bond albedo 0.11 × (1737.4 km / 384,400 km)² × 2/3 Lambertian full-phase factor. Opposition surge and spectrum ignored.','Kopp & Lean 2011, Geophysical Research Letters 38, L01706 (TSI); NASA Moon Fact Sheet (albedo, radius)','https://doi.org/10.1029/2010GL045777','Calculation by this build'],
+  ['L4','inference','Lunar thermal infrared at full moon ≈ 0.025 W/m²','The sunlit Moon re-emits the sunlight it absorbs: about (1 − 0.11) × 1361 W/m² × (R/d)². This is roughly ten times the reflected light. Both together give a skin rise near 3×10⁻⁴ °C under model D1. Correction from the critic’s first review: revision 1 counted reflected light only.','Same inputs as L3; independent critic, review 1','','Calculation by this build'],
+  ['D1','designed','Skin thermal model','First-order response: steady rise 0.012 °C per W/m², time constant 2.5 s. Real skin under a radiant panel responds over tens of seconds; the film compresses time roughly tenfold. Not measured.','This build','','Original'],
+  ['D2','speculative','Moon image ⇝ warmth association','A hypothesis the encounter could test. No psychological finding is claimed. The association grows only while the viewer attends to the image and feels warmth (from 6 s), and decays slowly. The next-night re-exposure at 26 s shows the image without heat. Rates are arbitrary and chosen to be visible.','This build','','Original'],
+  ['D3','designed','Self-report ratings','Simulated participant, sampled every 1.5 s from skin ΔT. No human testimony is shown or invented.','This build','','Original'],
+  ['U1','unverified','Georgia Tech solar mirror array, 1977','User-supplied context for the AFTERLIGHT program. Not checked in this build and not depicted in this scene.','Pending','','Unknown, not granted'],
+  ['U2','unverified','Sosuke Ichihashi, thermal displays','User-supplied context. The heater here is a generic radiant panel, not a model of that work. Not depicted.','Pending','','Unknown, not granted'],
+  ['R1','designed','Assets and rights','All imagery is drawn procedurally in this file. No footage or archive material. Sound is synthesized in the browser. Fonts: Big Shoulders Display, Atkinson Hyperlegible, JetBrains Mono, SIL Open Font License via Google Fonts.','This build','','Original; OFL fonts']
+];
+function buildLedger(){
+  $('ledger').innerHTML=LEDGER.map(([id,s,claim,body,src,url,rights])=>`<div class="entry"><div class="head"><code>${id}</code><span class="tag ${s}">${s}</span><b>${claim}</b></div><p>${body}</p><p class="small">Source: ${src}${url?` · <a href="${url}" target="_blank" rel="noopener">${url.replace('https://','')}</a>`:''} · Rights: ${rights}</p></div>`).join('');
+}
+
+// ---------- worldscription ----------
+function worldscription(){
+  return {
+    worldscription:'SCION-55 AFTERLIGHT · THE MOON THAT WARMS',version:'0.1',revision:revision(),
+    theorem:'The light you see comes from the Moon, then the screen. The warmth you feel comes from the heater under the arm.',
+    status_key:['measured','historical account','inference','speculative','designed'],
+    roles:{
+      sun:{glyph:'☉',role:'source (visible)',acts:['I']},
+      moon:{glyph:'☾',role:'medium: reflector of sunlight; also a thermal IR source (RECAST)',acts:['I']},
+      screen_image:{glyph:'☾',role:'medium: display image (Moon or Sun)',acts:['II','III','IV','HOLD']},
+      heater:{glyph:'☉',role:'source (infrared), hidden below view',acts:['II','III','IV','HOLD']},
+      skin:{glyph:'♁',role:'receiver; stores heat'},
+      viewer:{glyph:'◉',role:'senser and actor; holds opt-out'},
+      operator:{glyph:'⌂',role:'order; sets heater power and delay'},
+      clock:{glyph:'◷',role:'single deterministic timeline, 0–40 s; film 0–12, hold 12–20, night gap 20–26, next night 26–40'}
+    },
+    relations:[
+      {id:'E1',type:'→',label:'[visible|reflection]',source:'sun',destination:'moon',time:'0–3 s',status:'measured',evidence:'L2'},
+      {id:'E2',type:'→',label:'[visible|reflected sunlight]',source:'moon',destination:'viewer.eye',time:'0–3 s; transit 1.28 s',status:'measured',evidence:'L1'},
+      {id:'E3',type:'→',label:'[visible|reflection]',source:'moon',destination:'skin',time:'0–3 s',status:'inference',evidence:'L3',value:'≈0.002 W/m²'},
+      {id:'E3b',type:'→',label:'[thermal IR|emission]',source:'moon',destination:'skin',time:'0–3 s',status:'inference',evidence:'L4',value:'≈0.025 W/m²; E3+E3b ΔT ≈ 3×10⁻⁴ °C'},
+      {id:'E4',type:'→',label:'[visible|display emission]',source:'screen_image',destination:'viewer.eye',time:'3–40 s',status:'designed'},
+      {id:'E5',type:'→',label:'[infrared|absorption]',source:'heater',destination:'skin',time:'3–9.6 s in film',status:'designed',evidence:'D1'},
+      {id:'E6',type:'⇝',label:'[viewer|lab encounter]',source:'screen_image',destination:'viewer.association',time:'grows 6–9.6 s; decays; re-exposed without heat at 26 s',status:'speculative',evidence:'D2'},
+      {id:'E7',type:'⊣',label:'[operator|power W/m²]',source:'operator',destination:'heater',time:'3 s',status:'designed'},
+      {id:'E8',type:'⊣',label:'[participant|opt-out]',source:'viewer',destination:'heater',time:'9.6 s',status:'designed'},
+      {id:'E9',type:'⊣',label:'[operator|delay s]',source:'operator',destination:'heater',time:'hold',status:'designed',operator:'DESYNCHRONIZE'}
+    ],
+    variables:[
+      {name:'image_brightness',unit:'relative 0–1',moves:['E2','E4']},
+      {name:'ir_command',unit:'W/m²',moves:['E7']},
+      {name:'ir_at_skin',unit:'W/m²',moves:['E5']},
+      {name:'skin_delta_T',unit:'°C',moves:['E3','E5']},
+      {name:'self_report',unit:'0–10',status:'designed'},
+      {name:'association',unit:'arbitrary',status:'speculative'}
+    ],
+    layers:{
+      world:'Sun→Moon→eye in Act I; display→eye and heater→skin in the lab.',
+      read:'Only the viewer assigns meaning. The association is a hypothesis, drawn dashed.',
+      steer:'Operator sets power and delay; participant opt-out overrides the operator.',
+      after:'Skin cools (τ 2.5 s); last self-report holds; association decays slowly and is re-tested by a heat-free re-exposure the next night (26 s).',
+      test:'Zero heater → no warming; image swap → identical skin trace; brightness → no skin change; any scrub → same state.'
+    },
+    canonical_state:{events:sortEv(events)}
+  };
+}
+function refreshDocs(){$('json').textContent=JSON.stringify(worldscription(),null,2);$('rev').textContent=`Revision ${revision()} · ${events.length} timeline events${revision()===hash(JSON.stringify(sortEv(FILM)))?' · canonical film':' · forked from film'}`}
+$('copy').onclick=()=>{const s=$('json').textContent;navigator.clipboard?.writeText(s).then(()=>$('copied').textContent='Copied',()=>{const r=document.createRange();r.selectNodeContents($('json'));getSelection().removeAllRanges();getSelection().addRange(r);$('copied').textContent='Selected; copy with your keyboard'})};
+
+// ---------- invariant tests ----------
+function runTests(){
+  const base=filmTrace, out=[];
+  const maxAbs=(a,b)=>a.reduce((m,v,i)=>Math.max(m,Math.abs(v-b[i])),0);
+  const z=simulate(FILM.map(e=>e.k==='heater'?{...e,v:0}:e));const zmax=Math.max(...z.dT);
+  out.push([zmax<1e-3,`Heater at zero all film: maximum skin rise ${zmax.toExponential(1)} °C (reflected plus emitted moonlight only). Bar: below 0.001 °C.`]);
+  const sw=simulate([...FILM,{t:3,k:'image',v:'sun',by:'scene'}]);const d1=maxAbs(sw.dT,base.dT);
+  out.push([d1===0,`Moon image swapped for Sun at 3 s: skin trace difference ${d1} °C. Bar: exactly 0.`]);
+  const dim=simulate(FILM.map(e=>e.k==='bright'?{...e,v:0.1}:e));const d2=maxAbs(dim.dT,base.dT);
+  out.push([d2<1e-4,`Brightness 1.0 → 0.1: skin trace difference ${d2.toExponential(1)} °C. Bar: below 0.0001 °C.`]);
+  const part=simulate(FILM,7.3);const j=Math.round(7.3*SHZ);const d3=Math.abs(part.dT[part.dT.length-1]-base.dT[j]);
+  out.push([d3===0,`Scrub determinism: state at 7.30 s computed alone vs. from the full run differs by ${d3}. Bar: exactly 0.`]);
+  const after=base.peff.slice(Math.ceil(9.6*SHZ)).every(v=>v===0), cool=base.dT[Math.round(11.9*SHZ)]<base.dT[Math.round(9.6*SHZ)];
+  out.push([after&&cool,`Opt-out at 9.6 s: IR at skin is 0 afterward (${after}); skin at 11.9 s is cooler than at 9.6 s (${cool}).`]);
+  const keep=base.vis[Math.round(11*SHZ)]===1;
+  out.push([keep,`Image stays lit after opt-out: brightness at 11 s = ${base.vis[Math.round(11*SHZ)]}.`]);
+  const a6=base.aM[Math.round(5.9*SHZ)];out.push([a6===0,`Association before Act III: ${a6} at 5.9 s. Bar: exactly 0.`]);
+  const sk=base.dT[Math.round(30*SHZ)], rc=base.aM[Math.round(30*SHZ)];out.push([sk<0.01&&rc>0,`Next-night re-exposure at 30 s: skin ΔT ${sk.toFixed(4)} °C, stored association ${rc.toFixed(2)}. The image returns without heat.`]);
+  $('tests').innerHTML=out.map(([ok,s])=>`<div class="test"><span class="pill ${ok?'pass':'fail'}">${ok?'PASS':'FAIL'}</span><span>${s}</span></div>`).join('');
+}
+
+// ---------- critic (independent review, pasted in by the build) ----------
+const CRITIC={verdict:'FAIL',rev:'revision 1',
+  strongest:'The physics holds under intervention. Heater changes moved only the IR, skin, report and association lanes. A Sun image left the skin trace identical. The opt-out took IR at skin to 0 while the image stayed at 1.00. Scrubbing reproduced the same state. Visible light and IR are drawn as separate paths, so a viewer is unlikely to conclude that moonlight heated the person.',
+  violation:'Truth: the moonlight-to-skin edge was labelled broadband at ≈0.002 W/m². That counts only reflected sunlight. The Moon’s own thermal IR (≈0.025 W/m²) is about 10× larger. Secondary: there was no cultural-recurrence timescale, the association began growing in Act II, the IR edge had no arrowhead, two Act I labels overlapped, and phone labels sat on the figure.',
+  evidence:'Rendered in Chromium at 390×844 and 1400×860 at 1.5, 3.6, 5.4, 8.4, 10.4 and 11.9 s and through hold interventions. All six in-page tests passed and there was no horizontal scroll. The ledger’s 1.282 s, 499.0 s, TSI 1360.8 and 2.0 mW/m² figures check out.',
+  repair:'Relabel E3 as reflection and add lunar thermal IR as its own edge; fix the exponent; separate the Act I labels; give IR a solid stroke and an arrowhead; start association at 6 s; add a heat-free re-exposure; reflow the phone labels.',
+  applied:['E3 relabelled [visible|reflection]; new E3b → [thermal IR|emission] ≈0.025 W/m² drawn as its own IR wave in Act I; ledger L4 added','Exponent now reads ×10⁻⁴','Moon label moved above the disk','IR edges are solid waves with arrowheads','Association grows only while the viewer attends to the image (from 6 s)','Night gap 20–26 s and a heat-free next-night re-exposure at 26 s, with its own act caption and lane markers','Phone labels moved off the head and arm; scene given more height']};
+function buildCritic(){
+  const cls=CRITIC.verdict==='PASS'?'pass':CRITIC.verdict==='FAIL'?'fail':'inc';
+  $('verdict').innerHTML=`<div><span class="pill ${cls}" style="display:inline-block;padding:2px 8px">${CRITIC.verdict}</span> <span class="small">Independent critic: a separate agent that read the file and the acceptance tribunal, not the production notes.</span></div>
+  <dl><dt>Reviewed</dt><dd>${CRITIC.rev}. The verdict stands for that revision.</dd><dt>Strongest beat</dt><dd>${CRITIC.strongest}</dd><dt>Largest violation</dt><dd>${CRITIC.violation}</dd><dt>Evidence</dt><dd>${CRITIC.evidence}</dd><dt>Repair condition</dt><dd>${CRITIC.repair}</dd>
+  <dt>Repairs in this revision (${revision()===hash(JSON.stringify(sortEv(FILM)))?revision():'film '+hash(JSON.stringify(sortEv(FILM)))})</dt><dd><ul>${CRITIC.applied.map(x=>`<li>${x}</li>`).join('')}</ul></dd><dt>Re-review</dt><dd>Not yet run on this revision. Until it is, this revision has no critic verdict.</dd></dl>`;
+}
+
+buildLedger();refreshDocs();runTests();buildCritic();
+document.fonts?.ready.then(()=>{buildBoard();render()});buildBoard();
+setPlay(playing);fit();requestAnimationFrame(loop);
+})();
+</script>

@@ -1,0 +1,386 @@
+"""AFTERLIGHT, fifth cut: Warm Dome & Golden Record.
+Cut to the song. The archive leads in its open spaces. Every picture gathers out of a Gaussian cloud under the one before,
+which burns away above it; its light leaves as embers in wind and stays as stars. In the groove a dome of caustics breathes
+with the bass; in the break a record turns; in the return the swarms glow as heat while glints enter and release unevenly.
+Then the song ends, and an E and an ember outlive it.
+usage: python3 trailer5.py WORKER NWORKERS | python3 trailer5.py stills t1,t2,..."""
+import sys, os, math, numpy as np
+sys.path.insert(0, '/home/claude/afterlight/trailer'); sys.path.insert(0, '/home/claude/afterlight/trailer3'); sys.path.insert(0, '/home/claude/afterlight/trailer5')
+from spacetime import load_clip, Volume, rotmat, new_acc, W, H
+import timeline5 as T
+import swarms_demo as SW
+from scipy.ndimage import gaussian_filter
+from PIL import Image, ImageDraw, ImageFont
+import cv2
+OUT = '/home/claude/afterlight/trailer5/frames'; os.makedirs(OUT, exist_ok=True)
+CACHE = '/home/claude/afterlight/trailer4/cache/'; os.makedirs(CACHE, exist_ok=True)
+FONT = '/home/claude/afterlight/trailer/fonts/'
+ENV = np.load('/home/claude/afterlight/trailer5/env5.npy')
+BG = np.array([0.010, 0.008, 0.012], np.float32)
+def ease(u): u = min(1.0, max(0.0, u)); return u * u * (3 - 2 * u)
+def ease_np(u): return u * u * (3 - 2 * u)
+def sm(a, b, t): return ease((t - a) / (b - a))
+def lerp(a, b, u): return a + (b - a) * u
+def env_at(t): i = min(len(ENV) - 1, max(0, int(t * T.FPS))); return float(ENV[i, 0]), float(ENV[i, 1])
+def env_full(t): i = min(len(ENV) - 1, max(0, int(t * T.FPS))); return [float(x) for x in ENV[i]]
+def wind(t): return 0.55 + 0.45 * math.sin(0.17 * t + 0.6), 0.25 * math.sin(0.11 * t)
+TST = np.array([[0.03, 0.01, 0.06], [0.30, 0.03, 0.16], [0.72, 0.10, 0.05], [0.98, 0.45, 0.08], [1.0, 0.84, 0.50], [1.0, 0.97, 0.88]], np.float32)
+def thermal(x):
+    x = np.clip(x, 0, 1) * 5; i = np.clip(np.floor(x).astype(int), 0, 4); f = (x - i)[..., None]; return TST[i] * (1 - f) + TST[i + 1] * f
+
+VOL = {}
+def vol(k):
+    if k not in VOL:
+        p, t0, dur = T.SRC[k]
+        fr = load_clip(p, t0, dur, cache=CACHE + k + '.npz')
+        v = Volume(fr, 'light', per=12000, seed=sum(map(ord, k))); v.frames = fr
+        v.lum = (v.c @ np.array([0.3, 0.59, 0.11], np.float32)).astype(np.float32)
+        r = np.random.default_rng(sum(map(ord, k)) + 7); n = len(v.u)
+        v.r2 = r.random(n).astype(np.float32); v.ph = (r.random(n) * 6.283).astype(np.float32); v.jj = r.standard_normal((n, 3)).astype(np.float32)
+        VOL[k] = v
+    return VOL[k]
+
+EMBER_LIFE = 2.8
+def splat4(v, cam, acc, t, a, b, present, tau, heat=0.6, double=0, voice=0.0, dz=9.0, S=900.0, expo=1.0, gam=1.0):
+    age = present - v.s; born = age >= -0.5
+    vis = np.where(born, np.exp(-np.maximum(age, 0) / min(tau, 2.2)), 0) * np.clip(1 + age * 2, 0, 1)
+    vis = vis * (1 + 0.9 * voice * np.exp(-np.maximum(age, 0) / 2.0))
+    lum_c = v.lum * 0.85 + 0.15
+    hw = np.where(born, heat * 0.55 * (1 - np.exp(-np.maximum(age, 0) / 3)) * np.exp(-np.maximum(age, 0) / (tau * 2.5 + 20)), 0)
+    X = (v.u - 0.5) * v.aspect * S; Y = (v.v - 0.5) * S; Z = (age + v.rnd - 0.5) * dz
+    # arrival: the points gather out of a soft Gaussian cloud, large and dim, then settle small and sharp
+    ain = np.clip((t - a) / 2.6 * 1.6 - v.rnd * 0.6, 0, 1); k = (1 - ain) ** 2
+    wx, wy = wind(t)
+    X = X + v.jit[:, 0] * 150 * k - wx * 60 * k; Y = Y + v.jit[:, 1] * 95 * k + 40 * k; Z = Z + v.jit[:, 2] * 140 * k
+    radm = 1 + 6.0 * k
+    vis = vis * (0.12 + 0.88 * ain ** 1.5)
+    # departure: each point lets go at its own moment; four in ten rise as embers in the wind, cooling; the rest go dark
+    td = b - 1.4 + v.r2 * 2.6; tau_e = np.maximum(t - td, 0); gone = t > td
+    ember = v.rnd < 0.4
+    def disp(te):
+        rise = (te * 62 + te ** 2 * 80) * (0.6 + 0.8 * v.r2)
+        dX = np.sin(te * 1.4 + v.ph) * 26 * te + v.jj[:, 0] * 18 * te + wx * (te * 55 + te ** 2 * 85) * (0.5 + v.r2) + 16 * te * np.sin(Y * 0.012 + t * 1.3 + v.ph)
+        return dX, -rise + wy * te * 40, v.jj[:, 2] * 10 * te
+    ge_all = gone & ember
+    dX, dY, dZ = disp(tau_e)
+    X0, Y0, Z0 = X, Y, Z
+    X = X + np.where(ge_all, dX, 0); Y = Y + np.where(ge_all, dY, 0); Z = Z + np.where(ge_all, dZ, 0)
+    cool = np.clip(1 - tau_e / EMBER_LIFE, 0, 1)
+    e_op = np.where(gone, np.where(ember, 1.0, np.exp(-tau_e / 0.6)), 1.0)
+    young = np.clip(1 - np.maximum(age, 0) / 10, 0, 1)
+    evis = young * cool ** 1.2 * (0.55 + 0.45 * np.sin(tau_e * 19 + v.ph * 7)) * 1.9 * born
+    vis = np.where(ge_all, evis, vis * e_op); hw = hw * np.where(ge_all, 0.0, e_op)
+    ecol = thermal(0.25 + 0.75 * cool * (0.6 + 0.4 * lum_c))
+    vis = np.where(ge_all, vis, vis * 0.45); hw = hw * 0.6
+    # streaks: each ember is drawn again a little earlier along its own path (a long exposure of a spark)
+    sel = np.nonzero(ge_all & (tau_e > 0.05) & (evis > 0.02))[0]
+    XS, YS, ZS, VS, CS = [X], [Y], [Z], [vis], [None]
+    if len(sel):
+        for kk, wk in ((1, 0.7), (2, 0.48), (3, 0.3), (4, 0.16)):
+            te = np.maximum(tau_e[sel] - kk * 0.035, 0)
+            rise = (te * 62 + te ** 2 * 80) * (0.6 + 0.8 * v.r2[sel])
+            ddx = np.sin(te * 1.4 + v.ph[sel]) * 26 * te + v.jj[sel, 0] * 18 * te + wx * (te * 55 + te ** 2 * 85) * (0.5 + v.r2[sel]) + 16 * te * np.sin(Y0[sel] * 0.012 + t * 1.3 + v.ph[sel])
+            XS.append(X0[sel] + ddx); YS.append(Y0[sel] - rise + wy * te * 40); ZS.append(Z0[sel] + v.jj[sel, 2] * 10 * te); VS.append(evis[sel] * wk)
+    n0 = len(X); Xa = np.concatenate(XS); Ya = np.concatenate(YS); Za = np.concatenate(ZS); va = np.concatenate(VS)
+    idx_all = np.concatenate([np.arange(n0)] + [sel] * (len(XS) - 1))
+    ha = np.concatenate([hw] + [np.zeros(len(sel), np.float32)] * (len(XS) - 1))
+    gea = ge_all[idx_all]; streak = np.arange(len(Xa)) >= n0
+    P = np.stack([Xa - cam.get('cx', 0), Ya - cam.get('cy', 0), Za - cam.get('pz', 0) * dz], 1)
+    Q = P @ rotmat(cam['yaw'], cam['pitch'], cam.get('roll', 0)).T
+    z = Q[:, 2] + cam['dist']; f = (H / 2) / np.tan(np.radians(cam.get('fov', 50)) / 2)
+    tot = va + ha; ok = (z > 20) & (tot > 0.003)
+    z = z[ok]; sx = Q[ok, 0] * f / z + W / 2; sy = Q[ok, 1] * f / z + H / 2
+    ii = idx_all[ok]; av, ah = va[ok], ha[ok]; ge = gea[ok]
+    base = (v.c[ii] ** gam * expo * av[:, None] + thermal(lum_c[ii] * 0.8 + 0.15) * ah[:, None]) / np.maximum(av + ah, 1e-6)[:, None]
+    mixe = np.clip(tau_e[ii] / 0.5, 0, 1)[:, None] * ge[:, None]
+    col = base * (1 - mixe) + ecol[ii] * mixe
+    a_ = (av + ah) * np.exp(-np.maximum(z - 500, 0) / 3200)
+    rad = 1.15 * cam['dist'] / z * np.where(ge, np.where(streak[ok], 1.0, 1.6), radm[ii])
+    inb = (sx >= 0) & (sx < W - 1) & (sy >= 0) & (sy < H - 1) & (a_ > 0.002)
+    sx, sy, col, a_, rad = sx[inb], sy[inb], col[inb], a_[inb], rad[inb]
+    if double:
+        sx2 = np.clip(sx + 16, 0, W - 2); hc = thermal(np.clip(col @ np.array([0.3, 0.59, 0.11], np.float32) * 1.2, 0, 1))
+        sx = np.concatenate([sx, sx2]); sy = np.concatenate([sy, sy]); col = np.concatenate([col, hc]); a_ = np.concatenate([a_, a_ * 0.5]); rad = np.concatenate([rad, rad * 1.6])
+    ix = sx.astype(np.int32) + W * sy.astype(np.int32)
+    for bb, (lo, hi) in enumerate([(0, 1.6), (1.6, 4.5), (4.5, 1e9)]):
+        m = (rad >= lo) & (rad < hi)
+        if not m.any(): continue
+        ww = a_[m] * (1.0 if bb == 0 else (1.0 / (1 + 0.25 * rad[m]) if bb == 1 else 1.4 / (1 + 0.15 * rad[m])))
+        acc[bb][..., 3] += np.bincount(ix[m], ww, W * H).reshape(H, W)
+        for ch in range(3): acc[bb][..., ch] += np.bincount(ix[m], ww * col[m, ch], W * H).reshape(H, W)
+
+_r = np.random.default_rng(77)
+NZ = gaussian_filter(_r.random((H, W)), 38); NZ = NZ / NZ.std() + 0.1 * gaussian_filter(_r.random((H, W)), 6) / gaussian_filter(_r.random((H, W)), 6).std()
+NZ = (np.argsort(np.argsort(NZ.ravel())) / NZ.size).reshape(H, W).astype(np.float32)        # uniform burn order
+NZF = {}
+def noisef(seed):
+    if seed not in NZF:
+        r = np.random.default_rng(1000 + seed); f = gaussian_filter(r.random((H // 4, W // 4)), 14)
+        f = (np.argsort(np.argsort(f.ravel())) / f.size).reshape(H // 4, W // 4).astype(np.float32)
+        NZF[seed] = cv2.resize(f, (W, H), interpolation=cv2.INTER_CUBIC)
+    return NZF[seed]
+def picture(v, cam, t, a, b, present, voice, expo=1.0, gam=1.0, dz=9.0, S=900.0):
+    """the source frame itself, through the same camera: it condenses out of static and burns away from a noise front"""
+    i0 = int(present); f = present - i0; i1 = min(i0 + 1, v.F - 1)
+    fr = v.frames[i0] * (1 - f) + v.frames[i1] * f; h, w = fr.shape[:2]
+    cs = np.array([[0, 0], [1, 0], [1, 1], [0, 1]], np.float32)
+    P = np.stack([(cs[:, 0] - 0.5) * v.aspect * S - cam.get('cx', 0), (cs[:, 1] - 0.5) * S - cam.get('cy', 0), np.zeros(4) - cam.get('pz', 0) * dz], 1)
+    Q = P @ rotmat(cam['yaw'], cam['pitch'], cam.get('roll', 0)).T
+    z = Q[:, 2] + cam['dist']; fl = (H / 2) / np.tan(np.radians(cam.get('fov', 50)) / 2)
+    dst = np.stack([Q[:, 0] * fl / z + W / 2, Q[:, 1] * fl / z + H / 2], 1).astype(np.float32)
+    M = cv2.getPerspectiveTransform((cs * [w, h]).astype(np.float32), dst)
+    yy, xx = np.mgrid[0:h, 0:w]; fe = np.clip(np.minimum(np.minimum(xx, w - 1 - xx) / (0.10 * w), np.minimum(yy, h - 1 - yy) / (0.12 * h)), 0, 1) ** 1.5
+    pic4 = cv2.warpPerspective(np.ascontiguousarray(np.dstack([fr, fe]).astype(np.float32)), M, (W, H), flags=cv2.INTER_LINEAR, borderValue=0)
+    pic, fea = pic4[..., :3], pic4[..., 3]
+    ua = min(1.0, max(0.0, (t - a) / 2.8))
+    if ua < 1: pic = pic * ua + gaussian_filter(pic, (3 + 16 * (1 - ua), 3 + 16 * (1 - ua), 0)) * (1 - ua)
+    pic = np.clip(pic, 0, 1) ** gam * expo
+    lum = pic @ np.array([0.3, 0.59, 0.11], np.float32)
+    warm = pic * np.array([1.0, 0.84, 0.64], np.float32) * 0.72 + thermal(lum * 0.85 + 0.08) * lum[..., None] ** 0.6 * 0.38
+    warm = warm * (0.9 + 0.35 * voice)
+    nzo = noisef(int(a * 10)); nzi = noisef(int(a * 10) + 1)
+    ain = ease_np(np.clip((t - a) / 2.8 * 1.5 - nzi * 0.5, 0, 1))
+    td = b - 1.4 + nzo * 1.7; dt = t - td
+    al = ain * ease_np(np.clip(1 - dt / 1.5, 0, 1)) * np.clip(lum * 7, 0, 1) * fea
+    edge = np.exp(-((dt - 0.35) / 0.45) ** 2) * 0.38 * (dt > -0.2) * ain * np.clip(lum * 3, 0, 1) * fea   # the burning front
+    return warm, al, thermal(0.55 + 0.2 * nzo) * edge[..., None] * 0.75
+
+def resolve4(acc, gain=1.7):
+    sig = [0.6, 1.6, 4.2]; C = np.zeros((H, W, 3), np.float32); A = np.zeros((H, W), np.float32)
+    for bb in range(3):
+        a = acc[bb]
+        if not a[..., 3].any(): continue
+        bl = np.stack([gaussian_filter(a[..., ch], sig[bb]) for ch in range(4)], -1); C += bl[..., :3]; A += bl[..., 3]
+    cov = 1 - np.exp(-A * 1.6 * gain); col = C / np.maximum(A, 1e-6)[..., None]
+    return col * cov[..., None], cov
+
+# ---------------- the sky: every finished image leaves stars ----------------
+STARS = []
+for si, s in enumerate(T.SHOTS):
+    r = np.random.default_rng(100 + si); n = 600
+    STARS.append(dict(t0=s[2] + 0.6 + r.random(n) * 3.0, x=r.random(n) * W * 2.2 - W * 0.6, y=H * (-0.35 + 1.15 * r.random(n) ** 1.4),
+                      tw=r.random(n) * 6.283, sp=0.6 + r.random(n) * 2.2, br=0.25 + 0.75 * r.random(n) ** 3, k=s[0], ci=r.integers(0, 10 ** 9, n)))
+def sky(t, energy):
+    acc = np.zeros((H, W, 4), np.float32); ang = 0.010 * t; cx, cy = W * 0.5, H * 2.4
+    fade_all = 1 - sm(T.TITLE0 + 3.0, T.END - 1.0, t) * 0.6
+    for st in STARS:
+        on = np.clip((t - st['t0']) / 1.5, 0, 1)
+        if not on.any(): continue
+        v = vol(st['k']); col = v.c[st['ci'] % len(v.c)] * 0.6 + 0.4
+        x = (st['x'] - cx) * math.cos(ang) - (st['y'] - cy) * math.sin(ang) + cx; y = (st['x'] - cx) * math.sin(ang) + (st['y'] - cy) * math.cos(ang) + cy
+        b = on * st['br'] * (0.55 + 0.45 * np.sin(t * st['sp'] + st['tw'])) * (0.7 + 0.6 * energy) * fade_all
+        ok = (x >= 0) & (x < W - 1) & (y >= 0) & (y < H - 1) & (b > 0.01); ix = x[ok].astype(int) + W * y[ok].astype(int)
+        acc[..., 3] += np.bincount(ix, b[ok], W * H).reshape(H, W)
+        for ch in range(3): acc[..., ch] += np.bincount(ix, b[ok] * col[ok, ch], W * H).reshape(H, W)
+    img = gaussian_filter(acc[..., :3], (1.0, 1.0, 0)) * 14.0
+    return img + gaussian_filter(img, (3, 3, 0)) * 0.6
+
+# ---------------- the swarms, as heat ----------------
+SWE = {}
+def swarm_embers(i):
+    if i in SWE: return SWE[i]
+    num = T.SWARMS[i]; a, b = T.AV_T[i]; img = SW.render(num, 0.8, a + 0.8, 0.5); L_ = img @ np.array([0.3, 0.59, 0.11], np.float32)
+    r = np.random.default_rng(500 + i); p = (L_ ** 2).ravel() + 1e-6; idx = r.choice(W * H, 2600, p=p / p.sum())
+    y, x = np.divmod(idx, W); SWE[i] = dict(x=x.astype(np.float32), y=y.astype(np.float32), l=L_.ravel()[idx], ph=r.random(2600) * 6.283, j=r.standard_normal((2600, 2)), r=r.random(2600))
+    return SWE[i]
+def swarms(t, energy):
+    out = np.zeros((H, W, 3), np.float32)
+    for i, (a, b) in enumerate(T.AV_T):
+        if not (a <= t < b + EMBER_LIFE): continue
+        u = (t - a) / (b - a)
+        if t < b:
+            img = SW.render(T.SWARMS[i], min(u, 1), t, energy); L_ = img @ np.array([0.3, 0.59, 0.11], np.float32)
+            heat = thermal(np.clip(L_ * 0.75 + 0.03, 0, 0.8)) * (L_[..., None] ** 0.7) * 0.8 + img * 0.06
+            a_ = sm(0, 0.3, u) * (1 - sm(0.6, 1.0, u))
+            out = 1 - (1 - out) * (1 - np.clip(heat * a_, 0, 1))
+        e = swarm_embers(i); te = t - (a + 0.75 * (b - a))
+        if te > 0:
+            tau = te * (0.7 + 0.6 * e['r']); cool = np.clip(1 - tau / EMBER_LIFE, 0, 1)
+            x = e['x'] + np.sin(tau * 1.5 + e['ph']) * 30 * tau + e['j'][:, 0] * 20 * tau + wind(t)[0] * (tau * 50 + tau ** 2 * 70) * (0.5 + e['r']); y = e['y'] - (tau * 60 + tau ** 2 * 80) * (0.6 + 0.8 * e['r'])
+            br = cool ** 1.3 * (0.6 + 0.4 * np.sin(tau * 21 + e['ph'] * 5)) * (0.4 + 0.6 * e['l'])
+            ok = (x >= 0) & (x < W - 1) & (y >= 0) & (y < H - 1) & (br > 0.01); ix = x[ok].astype(int) + W * y[ok].astype(int)
+            col = thermal(0.25 + 0.75 * cool[ok])
+            acc = np.zeros((H, W, 3), np.float32)
+            for ch in range(3): acc[..., ch] = np.bincount(ix, br[ok] * col[:, ch], W * H).reshape(H, W)
+            acc = gaussian_filter(acc, (1.0, 1.0, 0)) * 3.0; out = 1 - (1 - out) * (1 - np.clip(acc, 0, 1))
+    return out
+
+# ---------------- the ember and the word ----------------
+TV = None
+def font(n, s): return ImageFont.truetype(FONT + n, s)
+def title_pts():
+    global TV
+    if TV is not None: return TV
+    im = Image.new('L', (W, H), 0); d = ImageDraw.Draw(im); f = font('im-fell-english-sc-latin-400-normal.ttf', 150)
+    tw = d.textlength('AFTERLIGHT', font=f); d.text(((W - tw) / 2, H * 0.30), 'AFTERLIGHT', font=f, fill=255)
+    m = np.asarray(im, np.float32) / 255; ys, xs = np.nonzero(m > 0.4); r = np.random.default_rng(11); idx = r.choice(len(xs), 70000)
+    TV = dict(x=xs[idx] + r.random(70000), y=ys[idx] + r.random(70000), r=r.random(70000).astype(np.float32), j=r.standard_normal((70000, 2)).astype(np.float32), xs=(xs[idx] / W).astype(np.float32), ph=r.random(70000) * 6.283)
+    return TV
+def title_layer(t):
+    img = np.zeros((H, W, 3), np.float32); cx, cy = W / 2, H * 0.42; yy, xx = np.ogrid[:H, :W]
+    if t < T.TITLE0 + 0.4:
+        u = t - T.SILENCE; g = 0.6 + 0.4 * math.sin(u * 4)
+        r2 = (xx - cx) ** 2 + (yy - cy) ** 2; img = img + np.exp(-r2 / 9.0)[..., None] * np.array([1, 0.92, 0.75]) * sm(T.SILENCE, T.SILENCE + 0.5, t) + np.exp(-r2 / (700 + 900 * g))[..., None] * np.array([1, 0.5, 0.15]) * 0.35 * sm(T.SILENCE, T.SILENCE + 0.8, t)
+    if t >= T.TITLE0 - 0.2:
+        P = title_pts(); u = ease((t - (T.TITLE0 - 0.2)) / 3.0); r = P['r']; uu = np.clip(u * 1.4 - r * 0.4, 0, 1)
+        x = lerp(cx + P['j'][:, 0] * 6, P['x'], uu); y = lerp(cy + P['j'][:, 1] * 6, P['y'], uu)
+        sw = (1 - uu) * 2.2; x, y = cx + (x - cx) * np.cos(sw) - (y - cy) * np.sin(sw), cy + (x - cx) * np.sin(sw) + (y - cy) * np.cos(sw)
+        dis = sm(T.END - 4.8, T.END - 1.6, t); tau = dis * 3
+        x = x + np.sin(tau * 1.3 + P['ph']) * 30 * tau + P['j'][:, 0] * 20 * tau; y = y - (tau * 60 + tau ** 2 * 70) * (0.5 + r)
+        cool = 1 - dis * 0.8
+        col = np.stack([np.ones_like(r), 0.70 + 0.2 * P['xs'], 0.38 + 0.25 * P['xs']], 1) * (0.55 + 0.45 * uu)[:, None] * (1 - dis) + thermal(0.3 + 0.6 * cool * (1 - r * 0.4)) * dis
+        br = (0.85 + 0.15 * np.sin(t * 3 + P['ph'])) * (1 - 0.5 * dis)
+        ok = (x >= 0) & (x < W - 1) & (y >= 0) & (y < H - 1); ix = x[ok].astype(int) + W * y[ok].astype(int)
+        acc = new_acc(); acc[0][..., 3] += np.bincount(ix, br[ok], W * H).reshape(H, W)
+        for ch in range(3): acc[0][..., ch] += np.bincount(ix, br[ok] * col[ok, ch], W * H).reshape(H, W)
+        c, cov = resolve4(acc, 1.6); ti = c + gaussian_filter(c, (4, 4, 0)) * 0.5
+        img = np.maximum(img, ti)
+    return img
+def credits(img, t):
+    if t < T.TITLE0 + 1.6: return img
+    pil = Image.fromarray((np.clip(img, 0, 1) * 255).astype(np.uint8)); d = ImageDraw.Draw(pil, 'RGBA')
+    fe = 1 - sm(T.END - 4.6, T.END - 3.4, t)
+    def line(s, f, y, a, col=(236, 228, 210)):
+        if a <= 0: return
+        tw = d.textlength(s, font=f); d.text(((W - tw) / 2, y), s, font=f, fill=col + (int(255 * a),))
+    line('W a r m   D o m e   &   G o l d e n   R e c o r d', font('im-fell-english-latin-400-italic.ttf', 30), H * 0.555, sm(T.TITLE0 + 1.6, T.TITLE0 + 2.6, t) * fe, (230, 200, 160))
+    line('Twelve short films. One feature.', font('im-fell-english-latin-400-italic.ttf', 30), H * 0.625, sm(T.TITLE0 + 3.0, T.TITLE0 + 3.9, t) * fe, (205, 198, 186))
+    a2 = sm(T.CRED0, T.CRED0 + 0.7, t) * fe
+    line('A FILM CONCEPT BY SOSUKE & WATSON', font('im-fell-english-sc-latin-400-normal.ttf', 32), H * 0.725, a2, (255, 214, 150))
+    line('CRASH LAB  ·  PAELEO  ·  CINEOSIS LAB', font('im-fell-english-sc-latin-400-normal.ttf', 26), H * 0.785, a2 * 0.9)
+    line('Voices and images from movingimagearchive.com', font('im-fell-english-latin-400-italic.ttf', 26), H * 0.845, a2 * 0.85, (205, 198, 186))
+    return np.asarray(pil, np.float32) / 255
+
+# ---------------- dome, vignette, grain, static ----------------
+yy, xx = np.mgrid[0:H, 0:W].astype(np.float32); nx = (xx - W / 2) / (W / 2); ny = (yy - H / 2) / (W / 2); r2 = nx * nx + ny * ny
+sxm = (nx * (1 + 0.04 * r2)) * (W / 2) + W / 2; sym = (ny * (1 + 0.04 * r2)) * (W / 2) + H / 2
+DOME = (np.clip(sym, 0, H - 1).astype(np.int32), np.clip(sxm, 0, W - 1).astype(np.int32))
+DOMEM = (((sym >= 0) & (sym <= H - 1) & (sxm >= 0) & (sxm <= W - 1)).astype(np.float32) * 1.0)[..., None]
+VIG = (1 - 0.6 * np.clip(r2 * 1.1, 0, 1) ** 1.4)[..., None].astype(np.float32)
+GRAIN = np.random.default_rng(5).standard_normal((H + 64, W + 64)).astype(np.float32)
+def static(t, amt):
+    if amt < 0.01: return 0
+    r = np.random.default_rng(int(t * 24) + 9); n = int(2600 * amt); x = r.integers(0, W, n); y = r.integers(0, H, n)
+    s = np.zeros((H, W), np.float32); s[y, x] = r.random(n) * 0.8; return gaussian_filter(s, 0.6)[..., None] * np.array([0.9, 0.85, 1.0], np.float32)
+
+# ---------------- the light the song makes: caustics, dome, record, glints, thermal horizon, the last thread ----------------
+_c = np.random.default_rng(31)
+def _nf(sig):
+    f = gaussian_filter(_c.standard_normal((180, 320)), sig); return (f / f.std()).astype(np.float32)
+CN = [_nf(7), _nf(7), _nf(9), _nf(9)]
+def caustic(t, sharp=0.07):
+    f1 = CN[0] * math.cos(0.31 * t) + CN[1] * math.sin(0.31 * t)
+    f2 = CN[2] * math.cos(0.23 * t + 1.3) + CN[3] * math.sin(0.23 * t + 1.3)
+    c = np.exp(-(f1 / sharp) ** 2) + np.exp(-(f2 / sharp) ** 2) * 0.8
+    c = cv2.resize(c.astype(np.float32), (W, H), interpolation=cv2.INTER_CUBIC)
+    return np.clip(c, 0, 2)
+GOLD = np.array([1.0, 0.76, 0.42], np.float32); COPPER = np.array([0.85, 0.36, 0.12], np.float32)
+YY, XX = np.mgrid[0:H, 0:W].astype(np.float32)
+def dome(t, amt):
+    amt = amt * 1.4
+    """close source, distant return: a caustic hemisphere whose rim carries the light"""
+    if amt < 0.01: return 0
+    cx, cy, Rr = W * 0.5, H * 1.08, W * 0.60
+    r = np.sqrt((XX - cx) ** 2 + (YY - cy) ** 2)
+    rim = np.exp(-((r - Rr) / 5.0) ** 2) * (0.55 + 0.45 * np.cos((XX - cx) / Rr * 2.2 + t * 0.4))
+    shell = np.exp(-np.maximum(Rr - r, 0) / 110) * (r < Rr) * caustic(t * 0.8, 0.06) * 0.55
+    return (rim + shell)[..., None] * GOLD * amt
+def record(t, amt, thread):
+    """the golden record: grooves catch the light in a slow sector; a horizontal line of sound runs into it"""
+    if amt < 0.01 and thread < 0.01: return 0
+    cx, cy = W * 0.58, H * 0.50; dx, dy = XX - cx, (YY - cy) * 1.35
+    r = np.sqrt(dx * dx + dy * dy); th = np.arctan2(dy, dx)
+    groove = (0.5 + 0.5 * np.cos(r * 0.85 + 0.6 * np.sin(r * 0.05))) ** 24 * ((r > 0.16 * H) & (r < 0.52 * H))
+    lit = np.maximum(np.cos(th - t * 0.45), 0) ** 4 + 0.35 * np.maximum(np.cos(th - t * 0.45 + 3.0), 0) ** 6
+    g = groove * lit * np.clip((r - 0.16 * H) / 20, 0, 1)
+    line = np.exp(-((YY - cy - 0.0) / 1.6) ** 2) * np.clip(1 - XX / (cx + 0.1 * W), 0, 1) ** 0.6 * (0.6 + 0.4 * np.sin(XX * 0.05 - t * 9) ** 2)
+    line = line + np.exp(-((YY - cy) / 9.0) ** 2) * np.clip(1 - XX / (cx), 0, 1) * 0.15
+    return (g * 0.7 * amt)[..., None] * GOLD + (line * thread)[..., None] * np.array([1.0, 0.62, 0.25], np.float32)
+GL = np.random.default_rng(91)
+GLINTS = [dict(x=W * (0.12 + 0.07 * i + 0.03 * GL.random()), y=H * (0.14 + 0.62 * GL.random()), t0=T.SEC['D'][0] + 0.6 * i, rel=2.0 + 1.3 * ((i * 5) % 7)) for i in range(9)]
+def glints(t):
+    """independent entrances, unequal releases: each glint keeps a horizontal tail of pixels that ends at its own length"""
+    out = np.zeros((H, W, 3), np.float32)
+    for g in GLINTS:
+        u = t - g['t0']
+        if u < 0: continue
+        life = sm(0, 0.25, u) * (1 - sm(g['rel'], g['rel'] + 1.2, u))
+        if life <= 0.005: continue
+        x0, y0 = g['x'], g['y']; x1, x2 = int(max(0, x0 - 90)), int(min(W, x0 + 520)); y1, y2 = int(max(0, y0 - 90)), int(min(H, y0 + 90))
+        xx = XX[y1:y2, x1:x2] - x0; yy = YY[y1:y2, x1:x2] - y0
+        tw = 0.8 + 0.2 * math.sin(t * 7 + x0)
+        star = np.exp(-(xx ** 2 + yy ** 2) / 6) * 1.6 + np.exp(-(yy / 1.0) ** 2 - (xx / 70) ** 2) * 0.7 + np.exp(-(xx / 1.0) ** 2 - (yy / 55) ** 2) * 0.7
+        halo = np.exp(-(xx ** 2 + yy ** 2) / 260) * 0.35
+        L_ = min(1.0, u / 2.5) * 460 * (0.5 + 0.5 * ((g['x'] * 13) % 1))
+        pix = (xx > 4) & (xx < L_) & (np.abs(yy) < 1.6) & (((xx.astype(np.int32) // 4) % 3) == 0)
+        tail = pix * np.clip(1 - xx / max(L_, 1), 0, 1) ** 1.3 * 0.9
+        blk = star[..., None] * np.array([1.0, 0.95, 0.85]) * tw + halo[..., None] * np.array([0.8, 0.35, 0.7]) + tail[..., None] * np.array([1.0, 0.66, 0.3])
+        out[y1:y2, x1:x2] += blk.astype(np.float32) * life
+    return out
+def horizon(amt):
+    if amt < 0.01: return 0
+    return (np.exp(-(H - YY) / 70.0) * (0.75 + 0.25 * np.sin(XX * 0.004)))[..., None] * COPPER * amt
+def last_thread(t):
+    """after everything: a hairline that breaks into four pixels refusing to go dark"""
+    a0 = T.END - 4.2
+    if t < a0: return 0
+    u = t - a0; y = H * 0.30; x0, x1 = W * 0.30, W * 0.30 + W * 0.42 * (1 - sm(1.2, 2.6, u) * 0.85)
+    th = np.exp(-((YY - y) / (0.9 - 0.4 * sm(0, 2.0, u))) ** 2) * ((XX > x0) & (XX < x1)) * sm(0, 0.8, u) * (1 - sm(1.4, 2.6, u))
+    out = th[..., None] * np.array([1.0, 0.6, 0.22], np.float32) * 0.8
+    for k in range(4):
+        px = W * (0.44 + 0.052 * k); pa = sm(1.6 + 0.1 * k, 2.2, u)
+        out = out + (np.exp(-((XX - px) ** 2 + (YY - y) ** 2) / 2.2) * pa)[..., None] * np.array([1.0, 0.8, 0.45], np.float32)
+    return out
+
+def frame(t):
+    voice, energy, low, hk = env_full(t)
+    img = np.zeros((H, W, 3), np.float32) + BG
+    img = img + sky(t, energy)
+    A0, A1 = T.SEC['A']; B0, B1 = T.SEC['B']; C0, C1 = T.SEC['C']; D0, D1 = T.SEC['D']
+    # under the pictures: thermal mass, the dome in the groove, the record in the break
+    img = img + horizon((sm(B0 - 0.5, B0 + 1.5, t) * (1 - sm(D1 - 0.5, D1 + 0.8, t))) * (0.12 + 0.4 * low))
+    img = img + dome(t, sm(B0 - 0.4, B0 + 2.0, t) * (1 - sm(B1 - 0.6, B1 + 1.2, t)) * (0.25 + 0.55 * low) + sm(D0 - 0.3, D0 + 1.5, t) * (1 - sm(D1 - 0.3, D1 + 0.6, t)) * (0.2 + 0.4 * low))
+    rec = sm(C0 - 1.0, C0 + 1.5, t) * (1 - sm(C1 - 0.4, C1 + 0.8, t))
+    img = img + record(t, rec * (0.7 + 0.5 * hk), rec * (0.25 + 0.75 * hk))
+    if t < T.SILENCE:
+        acc = new_acc(); any_ = False
+        live = [s_ for s_ in T.SHOTS if s_[1] - 0.1 <= t < s_[2] + 1.4 + EMBER_LIFE]
+        for s_ in sorted(live, key=lambda q: -q[1]):          # the incoming picture lies under the one that is burning away
+            k, a, b, c0, c1, o = s_
+            v = vol(k); u = ease((t - a) / (b + 1.4 - a)); cam = {kk: lerp(c0[kk], c1[kk], u) for kk in c0}
+            present = min(v.F - 1, max(0.0, (t - a + 0.4) * T.FPS * o.get('rate', 0.5)))
+            vv = voice if any(a < vt < b for (_, _, _, vt, _) in T.VOICES) else 0.0
+            pw, pa, pe = picture(v, cam, t, a, b, present, vv, o.get('exp', 1.0), o.get('gam', 1.0))
+            pw = pw * (0.92 + 0.16 * low)
+            img = img * (1 - pa[..., None] * 0.92) + pw * pa[..., None] + pe
+            splat4(v, cam, acc, t, a, b, present, o.get('tau', 10), o.get('heat', 0.6), o.get('double', 0), vv, expo=o.get('exp', 1.0), gam=o.get('gam', 1.0)); any_ = True
+        if any_:
+            c, cov = resolve4(acc); img = img * (1 - cov[..., None]) + c
+            img = img + gaussian_filter(np.clip(img - 0.75, 0, None), 10) * 0.35
+        img = img + record(t, rec * 0.22, 0) if rec > 0.01 else img
+        img = img + static(t, 0.03)
+        if t >= T.AV0 - 0.2: img = 1 - (1 - np.clip(img, 0, 1)) * (1 - swarms(t, energy))
+        img = img + glints(t)
+    else:
+        img = img + title_layer(t)
+    img = img + last_thread(t)
+    img = credits(img, t)
+    img = np.clip(img, 0, 1.4)[DOME] * VIG * DOMEM
+    gx, gy = int(t * 97) % 64, int(t * 53) % 64
+    img = img + GRAIN[gy:gy + H, gx:gx + W, None] * 0.016
+    img = img * (1 - sm(T.END - 0.8, T.END, t)) * sm(0.0, 1.0, t + 0.2)
+    return np.clip(img, 0, 1)
+
+if __name__ == '__main__':
+    if sys.argv[1] == 'stills':
+        ts = [float(x) for x in sys.argv[2].split(',')]
+        ims = [Image.fromarray((frame(t) * 255).astype(np.uint8)).resize((640, 360)) for t in ts]
+        S = Image.new('RGB', (1920, 360 * ((len(ims) + 2) // 3)))
+        for i, im in enumerate(ims): S.paste(im, ((i % 3) * 640, (i // 3) * 360))
+        S.save('/tmp/claude-0/t5.jpg'); sys.exit()
+    wi, wn = int(sys.argv[1]), int(sys.argv[2]); n = int(T.END * T.FPS)
+    for i in range(wi, n, wn):
+        fn = f'{OUT}/{i:05d}.jpg'
+        if os.path.exists(fn): continue
+        Image.fromarray((frame(i / T.FPS) * 255).astype(np.uint8)).save(fn + '.tmp.jpg', quality=92); os.replace(fn + '.tmp.jpg', fn)
+        if i % 240 == wi: print(i / T.FPS, flush=True)

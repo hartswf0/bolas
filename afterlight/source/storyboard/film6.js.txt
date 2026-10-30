@@ -1,0 +1,556 @@
+// AFTERLIGHT · F6 · The Sun at the Door
+// An adaptation of the Ama-no-Iwato episode (Kojiki, 712; Nihon Shoki, 720), read through
+// Chamberlain's 1882 and Aston's 1896 English translations. Not an account of Japanese belief at large.
+(function () {
+  const W = 1280, H = 720;
+
+  // ---------- deterministic helpers ----------
+  function rng(seed) {
+    return function () {
+      seed |= 0; seed = seed + 0x6D2B79F5 | 0;
+      let t = Math.imul(seed ^ seed >>> 15, 1 | seed);
+      t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+      return ((t ^ t >>> 14) >>> 0) / 4294967296;
+    };
+  }
+  const C = {
+    night: '#121830', night2: '#1b2340', ink: '#0a0d17',
+    rock: '#3a4358', rock2: '#2b3245', rockHi: '#58627a',
+    inside: '#efd38a', inside2: '#d9ad55', goldPale: '#f8e7b0', gold: '#eabf5c',
+    verm: '#c4412a', fire: '#e8782f', fire2: '#f6c34c',
+    white: '#f4efe3', cream: '#ece2cb', mirror: '#dfe4e1', bronze: '#9a7a45',
+    hair: '#16131a', straw: '#c9a75a', straw2: '#8e7034',
+    leaf: '#2f5a3d', leaf2: '#447652', ground: '#262631',
+    dayGround: '#cdb68a', dayGround2: '#b99f72', daySky: '#f2e2ab',
+    uzume: '#a9c39a', moss: '#4c7a3a', tajik: '#b7772f', futo: '#5d6f8f', koya: '#6b4a6e',
+    blue: '#5a7dab'
+  };
+  const SK = { night: '#6e5747', fire: '#d99a6c', day: '#e6c3a0', inside: '#efcfa8' };
+
+  function jit(R, pts, amp) {
+    const out = [];
+    const n = pts.length;
+    for (let i = 0; i < n; i++) {
+      const a = pts[i], b = pts[(i + 1) % n];
+      const L = Math.hypot(b[0] - a[0], b[1] - a[1]) || 1;
+      const k = Math.max(1, Math.floor(L / 16));
+      const nx = -(b[1] - a[1]) / L, ny = (b[0] - a[0]) / L;
+      for (let j = 0; j < k; j++) {
+        const t = j / k, d = (R() - 0.5) * amp;
+        out.push([a[0] + (b[0] - a[0]) * t + nx * d, a[1] + (b[1] - a[1]) * t + ny * d]);
+      }
+    }
+    return out;
+  }
+  function trace(ctx, pts) {
+    ctx.beginPath();
+    pts.forEach((p, i) => i ? ctx.lineTo(p[0], p[1]) : ctx.moveTo(p[0], p[1]));
+    ctx.closePath();
+  }
+  // one sheet of cut paper with a drop shadow
+  function paper(ctx, R, pts, col, amp, sh) {
+    amp = amp == null ? 3 : amp; sh = sh == null ? 0.32 : sh;
+    const p = amp ? jit(R, pts, amp) : pts;
+    if (sh > 0) {
+      ctx.save(); ctx.translate(4, 5); ctx.fillStyle = 'rgba(0,0,0,' + sh + ')'; trace(ctx, p); ctx.fill(); ctx.restore();
+    }
+    ctx.fillStyle = col; trace(ctx, p); ctx.fill();
+  }
+  function ell(cx, cy, rx, ry, n, rot) {
+    n = n || 28; rot = rot || 0;
+    const pts = [];
+    for (let i = 0; i < n; i++) {
+      const a = i / n * Math.PI * 2;
+      const x = Math.cos(a) * rx, y = Math.sin(a) * ry;
+      pts.push([cx + x * Math.cos(rot) - y * Math.sin(rot), cy + x * Math.sin(rot) + y * Math.cos(rot)]);
+    }
+    return pts;
+  }
+  function plane(ctx, col, pts) { ctx.fillStyle = col; trace(ctx, pts); ctx.fill(); }
+
+  // ---------- cast ----------
+  // o: x, y (feet), h, robe, under, skin, hair:'long'|'mizura', la, ra (arm angle from straight down, radians; + = outward),
+  //    back (seen from behind), mouth:'open'|'line', tilt (head offset x), seated, sash, headdress, lean
+  function figure(ctx, R, o) {
+    const h = o.h, x = o.x, y = o.y;
+    const hr = h * 0.075;
+    const lean = o.lean || 0;
+    const top = y - h;
+    const hx = x + (o.tilt || 0) + lean, hy = top + hr;
+    const sy = top + hr * 2.35;           // shoulder line
+    const sw = h * 0.22, hw = o.seated ? h * 0.5 : h * 0.34;
+    const skin = o.skin || SK.day;
+    // long hair behind
+    if (o.hair === 'long') paper(ctx, R, [[hx - hr * 1.05, hy - hr * 0.6], [hx + hr * 1.05, hy - hr * 0.6], [x + lean * 0.5 + hr * 1.3, sy + h * (o.back ? 0.38 : 0.3)], [x + lean * 0.5 - hr * 1.3, sy + h * (o.back ? 0.38 : 0.3)]], C.hair, 2, 0.2);
+    // robe body
+    const robe = o.seated
+      ? [[x + lean - sw / 2, sy], [x + lean + sw / 2, sy], [x + hw * 0.55, y - h * 0.12], [x + hw / 2, y], [x - hw / 2, y], [x - hw * 0.55, y - h * 0.12]]
+      : [[x + lean - sw / 2, sy], [x + lean + sw / 2, sy], [x + hw / 2, y], [x - hw / 2, y]];
+    paper(ctx, R, robe, o.robe, 3);
+    // under-robe hem + collar
+    if (o.under) {
+      if (!o.seated) paper(ctx, R, [[x - hw / 2 + 4, y - h * 0.06], [x + hw / 2 - 4, y - h * 0.06], [x + hw / 2, y], [x - hw / 2, y]], o.under, 1, 0);
+      if (!o.back) paper(ctx, R, [[hx - sw * 0.28, sy - 2], [hx + sw * 0.28, sy - 2], [x + lean * 0.7, sy + h * 0.16]], o.under, 1, 0);
+    }
+    if (o.sash) paper(ctx, R, [[x + lean * 0.6 - sw * 0.62, sy + h * 0.27], [x + lean * 0.6 + sw * 0.62, sy + h * 0.27], [x + lean * 0.6 + sw * 0.64, sy + h * 0.32], [x + lean * 0.6 - sw * 0.64, sy + h * 0.32]], o.sash, 2, 0.15);
+    // arms: wide sleeve + hand
+    const hands = [];
+    [[-1, o.la == null ? 0.25 : o.la], [1, o.ra == null ? 0.25 : o.ra]].forEach(([side, a]) => {
+      const S = [x + lean + side * sw * 0.44, sy + h * 0.02];
+      const L = h * 0.33;
+      const dx = Math.sin(a) * side, dy = Math.cos(a);
+      const E = [S[0] + dx * L, S[1] + dy * L];
+      const px = -dy, py = dx;
+      const w0 = h * 0.045, w1 = h * 0.075;
+      paper(ctx, R, [[S[0] + px * w0, S[1] + py * w0], [E[0] - dx * h * 0.03 + px * w1, E[1] - dy * h * 0.03 + py * w1], [E[0] - dx * h * 0.03 - px * w1, E[1] - dy * h * 0.03 - py * w1], [S[0] - px * w0, S[1] - py * w0]], o.robe, 2, 0.25);
+      const hp = [E[0] + dx * h * 0.012, E[1] + dy * h * 0.012];
+      if (!o.hideHands) paper(ctx, R, ell(hp[0], hp[1], h * 0.026, h * 0.03, 12, a * side), skin, 1, 0.15);
+      hands.push(hp);
+    });
+    // neck + head
+    paper(ctx, R, [[hx - hr * 0.35, hy + hr * 0.6], [hx + hr * 0.35, hy + hr * 0.6], [hx + hr * 0.4, sy + 2], [hx - hr * 0.4, sy + 2]], o.back ? C.hair : skin, 0, 0);
+    paper(ctx, R, ell(hx, hy, hr * 0.86, hr, 20), o.back ? C.hair : skin, 1.5, 0.25);
+    // hair cap / styles
+    if (!o.back) {
+      ctx.fillStyle = C.hair;
+      ctx.beginPath(); ctx.ellipse(hx, hy - hr * 0.35, hr * 0.92, hr * 0.7, 0, Math.PI, 0); ctx.fill();
+      if (o.hair === 'mizura') {
+        [-1, 1].forEach(s => { paper(ctx, R, ell(hx + s * hr * 1.05, hy + hr * 0.55, hr * 0.3, hr * 0.55, 12), C.hair, 1, 0); });
+        paper(ctx, R, ell(hx, hy - hr * 1.0, hr * 0.32, hr * 0.26, 10), C.hair, 0, 0);
+      }
+      // face
+      ctx.fillStyle = 'rgba(20,14,12,0.85)';
+      const ey = hy + hr * 0.05;
+      if (o.mouth === 'open') {
+        ctx.lineWidth = Math.max(1.5, hr * 0.12); ctx.strokeStyle = 'rgba(20,14,12,0.85)';
+        [-1, 1].forEach(s => { ctx.beginPath(); ctx.arc(hx + s * hr * 0.33, ey + hr * 0.04, hr * 0.14, Math.PI * 1.1, Math.PI * 1.9); ctx.stroke(); });
+        ctx.beginPath(); ctx.ellipse(hx, hy + hr * 0.5, hr * 0.24, hr * 0.17, 0, 0, Math.PI * 2); ctx.fill();
+      } else {
+        [-1, 1].forEach(s => { ctx.fillRect(hx + s * hr * 0.33 - hr * 0.13, ey, hr * 0.26, Math.max(1.5, hr * 0.08)); });
+        if (o.mouth === 'line') ctx.fillRect(hx - hr * 0.12, hy + hr * 0.5, hr * 0.24, Math.max(1, hr * 0.06));
+      }
+    } else if (o.hair === 'mizura') {
+      [-1, 1].forEach(s => { paper(ctx, R, ell(hx + s * hr * 1.0, hy + hr * 0.5, hr * 0.3, hr * 0.55, 12), C.hair, 1, 0); });
+    }
+    if (o.headdress) {   // spindle-tree sprig: leaves + berries
+      for (let i = 0; i < 7; i++) {
+        const a = Math.PI * (1.05 + i * 0.15);
+        paper(ctx, R, ell(hx + Math.cos(a) * hr * 1.05, hy + Math.sin(a) * hr * 1.0, hr * 0.32, hr * 0.14, 8, a), C.leaf2, 0, 0);
+        if (i % 2) paper(ctx, R, ell(hx + Math.cos(a) * hr * 1.25, hy + Math.sin(a) * hr * 1.2, hr * 0.1, hr * 0.1, 8), C.verm, 0, 0);
+      }
+    }
+    return { hands, head: [hx, hy], hr };
+  }
+
+  function fire(ctx, R, x, y, s) {
+    paper(ctx, R, [[x - 30 * s, y], [x - 18 * s, y - 60 * s], [x - 4 * s, y - 34 * s], [x + 6 * s, y - 92 * s], [x + 18 * s, y - 40 * s], [x + 28 * s, y - 64 * s], [x + 34 * s, y]], C.verm, 4 * s, 0);
+    paper(ctx, R, [[x - 18 * s, y], [x - 8 * s, y - 40 * s], [x + 4 * s, y - 62 * s], [x + 14 * s, y - 34 * s], [x + 22 * s, y]], C.fire, 3 * s, 0);
+    paper(ctx, R, [[x - 8 * s, y], [x + 2 * s, y - 32 * s], [x + 12 * s, y]], C.fire2, 2 * s, 0);
+    paper(ctx, R, [[x - 40 * s, y - 4 * s], [x + 44 * s, y - 10 * s], [x + 46 * s, y + 4 * s], [x - 42 * s, y + 8 * s]], '#3a2a20', 2, 0.2);
+  }
+  function glow(ctx, x, y, r, col, a) {
+    const g = ctx.createRadialGradient(x, y, 0, x, y, r);
+    g.addColorStop(0, col.replace('A', a)); g.addColorStop(1, col.replace('A', 0));
+    ctx.fillStyle = g; ctx.fillRect(x - r, y - r, r * 2, r * 2);
+  }
+  function rooster(ctx, R, x, y, s, flip) {
+    ctx.save(); ctx.translate(x, y); ctx.scale(flip ? -s : s, s);
+    paper(ctx, R, [[-10, 0], [-30, -40], [-48, -30], [-36, -6]], '#2c3a2e', 2, 0.2);   // tail
+    paper(ctx, R, [[-14, -2], [-34, -52], [-20, -30]], '#1f2a24', 1, 0);
+    paper(ctx, R, ell(0, -12, 20, 14, 14), '#6e3a22', 2, 0.25);                       // body
+    paper(ctx, R, ell(16, -30, 8, 9, 10), '#7c4426', 1, 0);                             // head
+    paper(ctx, R, [[12, -38], [16, -46], [19, -39], [22, -45], [24, -36]], C.verm, 1, 0); // comb
+    paper(ctx, R, [[23, -31], [32, -28], [23, -26]], C.gold, 0, 0);                       // beak
+    ctx.fillStyle = '#c9a75a'; ctx.fillRect(-4, 0, 2.5, 14); ctx.fillRect(4, 0, 2.5, 14);
+    ctx.restore();
+  }
+  function perch(ctx, R, x1, x2, y, col) {
+    paper(ctx, R, [[x1, y], [x2, y], [x2, y + 7], [x1, y + 7]], col, 1, 0.2);
+    paper(ctx, R, [[x1 + 10, y], [x1 + 18, y], [x1 + 18, y + 120], [x1 + 10, y + 120]], col, 1, 0.2);
+    paper(ctx, R, [[x2 - 18, y], [x2 - 10, y], [x2 - 10, y + 120], [x2 - 18, y + 120]], col, 1, 0.2);
+  }
+  // overturned tub (Aston: "a tub bottom upwards"; Kojiki: a sounding-board / ukefune)
+  function tub(ctx, R, x, y, w, h, lit) {
+    const body = lit || '#7a5532';
+    paper(ctx, R, [[x - w / 2, y - h], [x + w / 2, y - h], [x + w / 2 + 8, y], [x - w / 2 - 8, y]], body, 2);
+    ctx.fillStyle = 'rgba(0,0,0,0.18)';
+    for (let i = 1; i < 7; i++) { const xx = x - w / 2 + i * w / 7; ctx.fillRect(xx, y - h + 4, 2, h - 6); }
+    ['#3b2a1a', '#3b2a1a'].forEach((c, i) => paper(ctx, R, [[x - w / 2 - 2 - i * 4, y - h * (0.25 + i * 0.5)], [x + w / 2 + 2 + i * 4, y - h * (0.25 + i * 0.5)], [x + w / 2 + 3 + i * 4, y - h * (0.25 + i * 0.5) + 8], [x - w / 2 - 3 - i * 4, y - h * (0.25 + i * 0.5) + 8]], c, 1, 0));
+    paper(ctx, R, ell(x, y - h, w / 2, 9, 20), '#93693f', 1, 0);
+  }
+  // twisted straw rope with root-ends (Kojiki: "bottom-tied rope")
+  function rope(ctx, R, x1, y1, x2, y2, sag, tufts) {
+    const n = 26;
+    const P = t => [x1 + (x2 - x1) * t, y1 + (y2 - y1) * t + Math.sin(Math.PI * t) * sag];
+    ctx.lineCap = 'round';
+    ctx.strokeStyle = 'rgba(0,0,0,0.35)'; ctx.lineWidth = 16; ctx.beginPath();
+    for (let i = 0; i <= n; i++) { const p = P(i / n); i ? ctx.lineTo(p[0] + 4, p[1] + 5) : ctx.moveTo(p[0] + 4, p[1] + 5); } ctx.stroke();
+    ctx.strokeStyle = C.straw; ctx.lineWidth = 14; ctx.beginPath();
+    for (let i = 0; i <= n; i++) { const p = P(i / n); i ? ctx.lineTo(p[0], p[1]) : ctx.moveTo(p[0], p[1]); } ctx.stroke();
+    ctx.strokeStyle = C.straw2; ctx.lineWidth = 3;
+    for (let i = 0; i < n * 2; i++) { const a = P(i / (n * 2)), b = P((i + 0.6) / (n * 2)); ctx.beginPath(); ctx.moveTo(a[0] - 4, a[1] - 6); ctx.lineTo(b[0] + 4, b[1] + 6); ctx.stroke(); }
+    for (let k = 0; k < (tufts || 0); k++) {
+      const p = P((k + 0.5) / tufts);
+      paper(ctx, R, [[p[0] - 5, p[1] + 4], [p[0] + 5, p[1] + 4], [p[0] + 7 + (R() - .5) * 8, p[1] + 34 + R() * 10], [p[0] - 7, p[1] + 30 + R() * 10]], C.straw, 2, 0.15);
+    }
+    // the untrimmed root-end ("bottom-tied")
+    const e = P(1);
+    for (let i = 0; i < 6; i++) paper(ctx, R, [[e[0], e[1] - 4], [e[0] + 2, e[1] + 4], [e[0] + 18 + i * 3, e[1] - 14 + i * 7]], C.straw2, 1, 0);
+  }
+  // uprooted sakaki with jewels (upper), mirror (middle), offerings (lower)
+  function sakaki(ctx, R, x, yb, ht, mirrorFace) {
+    const yt = yb - ht;
+    // roots
+    for (let i = 0; i < 6; i++) paper(ctx, R, [[x - 4, yb - 6], [x + 4, yb - 6], [x + (i - 2.5) * 16, yb + 28 + (i % 2) * 10]], '#4a3826', 1, 0.15);
+    paper(ctx, R, [[x - 7, yb], [x + 7, yb], [x + 4, yt + 20], [x - 4, yt + 20]], '#4a3826', 2);
+    const tiers = [[yt + ht * 0.12, ht * 0.30], [yt + ht * 0.40, ht * 0.38], [yt + ht * 0.66, ht * 0.32]];
+    tiers.forEach(([ty, span], ti) => {
+      [-1, 1].forEach(s => {
+        paper(ctx, R, [[x, ty + 6], [x + s * span, ty - 14], [x + s * span, ty - 8], [x, ty + 12]], '#4a3826', 1, 0.1);
+        for (let i = 0; i < 9; i++) {
+          const t = 0.25 + i / 11;
+          paper(ctx, R, ell(x + s * span * t, ty - 4 - 14 * t + (i % 2 ? -9 : 9), 15, 6, 10, s * (0.4 + (i % 3) * 0.3)), i % 3 ? C.leaf : C.leaf2, 1, 0.12);
+        }
+      });
+    });
+    // upper: string of curved jewels (magatama)
+    const jy = tiers[0][0];
+    for (let i = 0; i < 9; i++) {
+      const t = i / 8, jx = x - ht * 0.24 + t * ht * 0.48, jyy = jy + 6 + Math.sin(Math.PI * t) * 34;
+      paper(ctx, R, ell(jx, jyy, 7, 9, 10), i % 2 ? '#3f8a77' : '#5aa58c', 0, 0.12);
+      ctx.fillStyle = '#2b5b4f'; ctx.beginPath(); ctx.arc(jx - 2, jyy - 3, 2, 0, 7); ctx.fill();
+    }
+    // middle: the mirror
+    const my = tiers[1][0] + 26, mr = ht * 0.085;
+    paper(ctx, R, ell(x, my, mr + 7, mr + 7, 30), C.bronze, 0, 0.35);
+    paper(ctx, R, ell(x, my, mr, mr, 30), C.mirror, 0, 0);
+    if (mirrorFace) mirrorFace(x, my, mr);
+    else { ctx.fillStyle = 'rgba(255,255,255,0.45)'; ctx.beginPath(); ctx.ellipse(x - mr * 0.35, my - mr * 0.35, mr * 0.35, mr * 0.18, -0.7, 0, 7); ctx.fill(); }
+    ctx.strokeStyle = '#6d4a2a'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(x, my - mr - 7); ctx.lineTo(x, my - mr - 26); ctx.stroke();
+    // lower: white and blue cloth offerings
+    const oy = tiers[2][0];
+    for (let i = 0; i < 6; i++) {
+      const ox = x - ht * 0.2 + i * ht * 0.08;
+      paper(ctx, R, [[ox - 7, oy], [ox + 7, oy], [ox + 9, oy + 60 + (i % 3) * 14], [ox - 5, oy + 64 + (i % 3) * 14]], i % 2 ? C.blue : C.white, 2, 0.2);
+    }
+    return { mirror: [x, my, mr] };
+  }
+  function rockMass(ctx, R, pts, col, amp) { paper(ctx, R, pts, col, amp || 10, 0.4); }
+  function shadow(ctx, x, y, len, ang, w) {
+    ctx.fillStyle = 'rgba(70,45,25,0.28)';
+    ctx.beginPath(); ctx.moveTo(x - w / 2, y); ctx.lineTo(x + w / 2, y);
+    ctx.lineTo(x + w / 2 + Math.cos(ang) * len, y + Math.sin(ang) * len * 0.25); ctx.lineTo(x - w / 2 + Math.cos(ang) * len, y + Math.sin(ang) * len * 0.25);
+    ctx.closePath(); ctx.fill();
+  }
+  function frameOn(ctx, w, h, fn) { ctx.save(); ctx.scale(w / W, h / H); fn(ctx); ctx.restore(); }
+  function grain(ctx, R, n, col) {
+    ctx.fillStyle = col;
+    for (let i = 0; i < n; i++) ctx.fillRect(R() * W, R() * H, 1 + R() * 2, 1 + R() * 2);
+  }
+
+  // ---------- references ----------
+  const REF = {
+    kojiki: { kind: 'source text', title: 'The Kojiki, Records of Ancient Matters — the Heavenly Rock-Dwelling episode', creator: 'trans. Basil Hall Chamberlain', date: '1882', url: 'https://sacred-texts.com/shi/kj/kj023.htm', rights: 'public domain', use: 'citation', verified: true },
+    aston: { kind: 'source text', title: 'Nihongi: Chronicles of Japan from the Earliest Times to A.D. 697, vol. 1 (Age of the Gods)', creator: 'trans. W. G. Aston', date: '1896', url: 'https://archive.org/details/nihongichronicl00astogoog', rights: 'public domain', use: 'citation', verified: true },
+    astonText: { kind: 'source text', title: 'From Nihongi vol. 1 (Aston 1896), reprinted in World Mythology vol. 1 — Rock-cave of Heaven passage', creator: 'trans. W. G. Aston; OER reprint, Maricopa Open', date: '1896', url: 'https://open.maricopa.edu/worldmythologyvolume1godsandcreation/chapter/from-nihongi-chronicles-of-japan-from-the-earliest-times-to-a-d-697-vol-1/', rights: 'public domain', use: 'citation', verified: true },
+    kunisada: { kind: 'still image', title: 'Iwato kagura no kigen (Origin of Iwato Kagura Dance), triptych', creator: 'Utagawa Kunisada (Toyokuni III)', date: '1857', url: 'https://en.wikipedia.org/wiki/File:Amaterasu_cave_edit2.jpg', rights: 'public domain', use: 'staging reference only (who stands where at the door); its line style is not copied', verified: true },
+    kunisadaVA: { kind: 'museum object', title: 'Origins of Sacred Dance at the Heavenly Rock Cave, woodblock triptych, E.5594-1886', creator: 'Utagawa Kunisada', date: '1857', url: 'https://collections.vam.ac.uk/item/O419478/origins-of-sacred-dance-at-woodblock-print-utagawa-kunisada/', rights: 'V&A non-commercial terms (image); work is public domain', use: 'costume reference (sleeves, sash, hair loops)', verified: true },
+    toshimasa: { kind: 'museum object', title: 'Origin of the Cave Door Dance, triptych KI 10404', creator: 'Shunsai Toshimasa (design), Kodama Matashichi (publisher)', date: '1889', url: 'https://sammlung.mak.at/en/collect/origin-of-the-cave-door-dance_196438', rights: 'work public domain; MAK page lists both PDM 1.0 and CC BY-NC-ND 4.0 without saying which applies', use: 'staging reference for the dance and the gathered crowd; not traced', verified: true },
+    hokkei: { kind: 'museum object', title: 'The Cave Door of Spring (pentaptych), 1940.990', creator: 'Totoya Hokkei', date: '1825', url: 'https://www.clevelandart.org/art/1940.990', rights: 'public domain', use: 'staging reference for tree, mirror and door; texture reference for embossed cloud paper', verified: true },
+    gion: { kind: 'archive footage', title: 'Gion Festival 001', creator: 'unknown (Prelinger Archives, uploaded by A/V Geeks)', date: 'undated', url: 'https://archive.org/details/rpgionfestival001', rights: 'unknown — not granted', use: 'matte source: crowd silhouettes at a festival, rotoscoped as gathering motion', verified: true },
+    nikko: { kind: 'archive footage', title: '[Home Movies: Tokyo, Japan and Trip to Nikko by Train]', creator: 'unknown amateur (Prelinger Archives)', date: '1928', url: 'https://archive.org/details/6310_HM_Tokyo_Japan_and_Trip_to_Nikko_by_Train_01_31_31_20', rights: 'unknown — not granted', use: 'background plate candidate: cedar and stone; contents not yet logged shot-by-shot', verified: true },
+    iseKagura: { kind: 'archive footage', title: 'Ise 2023 Dai Kagura at Echizen City restaurant', creator: 'G P Witteveen', date: '2023', url: 'https://archive.org/details/iseDaikagura2023soba', rights: 'CC BY-NC-ND 4.0', use: 'choreography and rhythm reference only; ND licence forbids compositing it as a plate', verified: true },
+    kyoto1911: { kind: 'archive footage', title: 'Rice Festival in Kyoto', creator: 'unknown (BFI National Archive)', date: '1911', url: 'https://player.bfi.org.uk/node/15243', rights: 'unknown — not granted', use: 'lighting reference: a shrine procession and open-air performance in daylight', verified: true },
+    takachiho: { kind: 'research paper', title: 'Takachiho Kagura: Kagura Hall (Iwato dances: Tajikarao, Uzume, Totori)', creator: 'Japan Tourism Agency multilingual commentary database', date: 'c. 2018', url: 'https://www.mlit.go.jp/tagengo-db/H30-01355.html', rights: 'unknown — not granted', use: 'citation: Iwato episode still performed as kagura; Tajikarao and Uzume dances', verified: true },
+    takachihoGAC: { kind: 'still image', title: 'The Myths, Legends, and Rituals of the Takachiho Night Kagura', creator: 'Ministry of Agriculture, Forestry and Fisheries; photographs Misa Nakagaki', date: 'undated', url: 'https://artsandculture.google.com/story/SwWhODoKDeKBKw', rights: 'unknown — not granted', use: 'costume reference: Tajikarao red mask and staff, Uzume mask (performance, not the myth itself)', verified: true },
+    ise: { kind: 'research paper', title: 'About Ise Jingu — Kotaijingu (Naiku)', creator: 'Jingu Administration Office', date: 'current', url: 'https://www.isejingu.or.jp/en/about/index.html', rights: 'unknown — not granted', use: 'citation: "the Holy Mirror (the symbol of Amaterasu-Omikami)"; informs restraint in how the mirror is shown', verified: true },
+    uzumeEOS: { kind: 'research paper', title: 'Encyclopedia of Shinto: Ame no Uzume', creator: 'Kokugakuin University', date: 'c. 2005', url: 'https://d-museum.kokugakuin.ac.jp/eos/detail/?id=9422', rights: 'unknown — not granted', use: 'citation: Uzume "stamping on an overturned tub"', verified: true }
+  };
+
+  window.AFTERLIGHT_FILMS = window.AFTERLIGHT_FILMS || [];
+  window.AFTERLIGHT_FILMS.push({
+    id: 'F6',
+    n: 6,
+    title: 'The Sun at the Door',
+    role: 'Myth and collective life',
+    understand: 'A mirror can matter through recognition, performance, and religious meaning—not only through optics.',
+    medium: 'Flat colour planes of torn and cut paper, layered with real drop shadows: a stage-like depth of sheets that suits a story told as performance (kagura) and keeps every figure an adaptation rather than an imitation of any print or living artist.',
+    archivePlan: 'Every frame opens with a paper slip: "ADAPTED from the Kojiki (712) and Nihon Shoki (720), after Chamberlain 1882 and Aston 1896 · one telling, not Japanese belief at large." The myth itself is INVENTED cut paper throughout; no archive image stands in for a deity. PHOTOGRAPHED material enters only at the community: crowd silhouettes rotoscoped from Prelinger "Gion Festival 001" and, if the log sheet confirms it, cedar and stone plates from the 1928 Nikko home movie, each matted under the paper figures and labelled PHOTOGRAPHED with its source slip; frames 2 and 5 carry "COMPOSED SCENE · archive fragments re-performed · not a recorded event". Living kagura footage (Ise Dai-kagura 2023, CC BY-NC-ND) is used only as rhythm reference and is never composited.',
+    basis: [
+      { title: 'Kojiki, trans. Chamberlain (1882), Heavenly Rock-Dwelling episode', url: REF.kojiki.url, note: 'Ishi-kori-dome makes the mirror, Tama-no-oya the jewels; Futo-tama holds the uprooted sakaki (jewels upper, mirror middle, white and blue offerings lower); Uzume stamps on a sounding-board (footnote: parallel text says tub) and the eight hundred myriad deities laugh; Amaterasu opens the door slightly and asks why; Uzume says there is a deity more illustrious than her; Koyane and Futo-tama push the mirror forward; she "gradually came forth"; Tajikarao, standing hidden, takes her hand; Futo-tama draws the bottom-tied rope behind her: "Thou must not go back further in than this!"; light returns.', verified: true },
+      { title: 'Nihongi, trans. Aston (1896), vol. 1', url: REF.aston.url, note: 'Main text: Koyane and Futo-dama dig up the sakaki and hang jewels, mirror, offerings; Uzume holds a spear wreathed with grass, kindles fires, places "a tub bottom upwards"; Tajikara-wo waits beside the door and leads her out by the hand; Nakatomi no Kami and Imibe no Kami draw "a bottom-tied rope (also called a left-hand rope)". In this version she peeps out and is led out; the mirror is hung but not shown to her and no laughter is recorded.', verified: true },
+      { title: 'Aston Nihongi text (OER reprint used to read the passage)', url: REF.astonText.url, note: 'Internet Archive full text was not reachable from this session; passage read from this reprint, which labels itself Aston 1896.', verified: true },
+      { title: 'Ise Jingu, About (Naiku)', url: REF.ise.url, note: 'States the Holy Mirror is the symbol of Amaterasu-Omikami, moved from the palace and later enshrined at Ise. The page does not itself say this is the Iwato mirror; that identification comes from the chronicles and later tradition.', verified: true },
+      { title: 'Takachiho Kagura (Japan Tourism Agency)', url: REF.takachiho.url, note: 'The episode is still performed as kagura (Tajikarao, Uzume, Totori dances); confirms the story lives as performance, which is the film\'s frame.', verified: true }
+    ],
+    keyframes: [
+      {
+        n: 1, t: 0.0,
+        title: 'The sealed door',
+        shot: 'Extreme wide, theatrical cutaway: rock in section, chamber at left, gathering at right; locked-off, eye level',
+        action: 'Inside, Amaterasu sits with her back to the sealed door in her own light. Outside, the gods gather in darkness, and the long-singing birds are set on a perch.',
+        mechanism: 'door ⊣ light (withheld from both worlds) ; withdrawal ⇝ gathering (the gods assemble at the boundary) ; seam → ground (only a thread of light leaks)',
+        layers: [
+          { name: 'background plate: night plane, rock in section', source: 'INVENTED', ref: null },
+          { name: 'chamber and seated Amaterasu', source: 'INVENTED', ref: 0 },
+          { name: 'gathering silhouettes (rotoscoped motion)', source: 'PHOTOGRAPHED', ref: 2 },
+          { name: 'perch and roosters', source: 'INVENTED', ref: 0 },
+          { name: 'paper slip: ADAPTED from the Kojiki and Nihon Shoki', source: 'INVENTED', ref: 1 }
+        ],
+        prompt: 'Cut-paper tableau in flat colour planes, theatrical cross-section of a rock cave: on the left a small warm golden chamber where a woman in a white robe with long black hair sits with her back to a sealed stone door; on the right a dark indigo night where robed figures in ancient Japanese dress gather in silence and roosters stand on a wooden perch. Torn paper edges, soft drop shadows, restrained palette, no text, no logos',
+        draw: (ctx, w, h) => frameOn(ctx, w, h, ctx => {
+          const R = rng(601);
+          ctx.fillStyle = C.night; ctx.fillRect(0, 0, W, H);
+          plane(ctx, C.night2, [[0, 470], [1280, 430], [1280, 720], [0, 720]]);
+          plane(ctx, C.ground, [[0, 585], [1280, 560], [1280, 720], [0, 720]]);
+          // rock mass in section
+          rockMass(ctx, R, [[-20, 60], [260, 30], [520, 90], [600, 220], [610, 610], [-20, 640]], C.rock2, 14);
+          rockMass(ctx, R, [[40, 120], [300, 90], [500, 150], [540, 260], [520, 330], [60, 320]], C.rock, 10);
+          // chamber, in her own light
+          const ch = jit(R, [[40, 300], [330, 270], [430, 330], [440, 585], [30, 590]], 8);
+          ctx.fillStyle = C.inside2; trace(ctx, ch); ctx.fill();
+          ctx.save(); trace(ctx, ch); ctx.clip();
+          plane(ctx, C.inside, [[60, 330], [320, 300], [400, 360], [410, 520], [70, 540]]);
+          glow(ctx, 210, 450, 260, 'rgba(255,245,210,A)', 0.55);
+          plane(ctx, '#c79a48', [[30, 545], [440, 530], [440, 600], [30, 600]]);
+          ctx.restore();
+          // Amaterasu seated, back to the door (she faces left / away)
+          figure(ctx, R, { x: 215, y: 548, h: 210, robe: C.white, under: C.verm, skin: SK.inside, hair: 'long', back: true, seated: true, la: 0.5, ra: 0.5, hideHands: true });
+          // sealed door slab with a thread of light at its seam
+          plane(ctx, C.goldPale, [[440, 335], [446, 335], [449, 585], [442, 585]]);
+          paper(ctx, R, [[448, 330], [560, 318], [575, 590], [450, 592]], C.rockHi, 6, 0.45);
+          ctx.fillStyle = 'rgba(248,231,176,0.18)';
+          ctx.beginPath(); ctx.moveTo(449, 590); ctx.lineTo(600, 600); ctx.lineTo(560, 606); ctx.lineTo(446, 594); ctx.fill();
+          // perch + long-singing birds
+          perch(ctx, R, 1010, 1210, 400, '#3a3226');
+          rooster(ctx, R, 1050, 400, 0.95, true); rooster(ctx, R, 1110, 400, 0.9, true); rooster(ctx, R, 1170, 400, 0.95, true);
+          // the gathering, in the dark, turned toward the door
+          const crowd = [[700, 600, 250, C.koya], [790, 612, 270, C.futo], [880, 596, 240, '#4d5a46'], [960, 620, 300, C.tajik], [1060, 606, 255, '#5b4a3a'], [1150, 625, 285, '#44506a'], [1240, 610, 260, '#5a4652']];
+          crowd.forEach(([x, y, hh, col], i) => {
+            const dark = col;
+            figure(ctx, R, { x, y, h: hh, robe: dark, under: '#22222a', skin: SK.night, hair: i % 3 === 0 ? 'long' : 'mizura', la: 0.15 + (i % 2) * 0.2, ra: 0.2, tilt: -6, mouth: 'line' });
+          });
+          // darkness over the outside world
+          ctx.fillStyle = 'rgba(8,10,22,0.42)'; ctx.fillRect(600, 0, 680, 720);
+          grain(ctx, R, 900, 'rgba(255,255,255,0.03)');
+        }),
+        refs: [REF.kojiki, REF.aston, REF.gion, REF.hokkei]
+      },
+      {
+        n: 2, t: 13.0,
+        title: 'Uzume on the tub',
+        shot: 'Low angle, medium wide from behind the front row of the gathering; fires frame the tub; the door is a dark mass at left',
+        action: 'Ame-no-Uzume dances on the overturned tub, stamping until it sounds. The gathered gods lean back and laugh in the firelight.',
+        mechanism: 'feet → tub (sounds) ; dance ⇝ gathering (laughter) ; laughter ⇝ door (a sound that reaches inside)',
+        layers: [
+          { name: 'background plate: rock and sealed door', source: 'INVENTED', ref: null },
+          { name: 'Uzume, tub, fires', source: 'INVENTED', ref: 0 },
+          { name: 'front-row crowd backs (rotoscoped from festival crowd)', source: 'PHOTOGRAPHED', ref: 3 },
+          { name: 'dance rhythm (timing only, not composited)', source: 'INVENTED', ref: 4 },
+          { name: 'slip: COMPOSED SCENE · archive fragments re-performed · not a recorded event', source: 'INVENTED', ref: null }
+        ],
+        prompt: 'Cut-paper scene in flat colour planes, low angle at night: a dancer in a pale green robe with a moss sash and leaf headdress stamps on an overturned wooden tub, arms raised, holding a bunch of bamboo leaves; two small fires light her; in the foreground the backs of laughing robed figures; a dark rock mass and sealed stone door at left; roosters on a perch. Layered torn paper, drop shadows, warm vermilion against indigo, no text, no logos',
+        draw: (ctx, w, h) => frameOn(ctx, w, h, ctx => {
+          const R = rng(602);
+          ctx.fillStyle = C.night; ctx.fillRect(0, 0, W, H);
+          plane(ctx, C.night2, [[0, 380], [1280, 360], [1280, 720], [0, 720]]);
+          rockMass(ctx, R, [[-20, 40], [230, 70], [330, 260], [340, 640], [-20, 650]], C.rock2, 14);
+          paper(ctx, R, [[150, 300], [300, 290], [312, 620], [160, 626]], C.rockHi, 6, 0.4);
+          plane(ctx, C.goldPale, [[146, 300], [151, 300], [156, 626], [150, 626]]);
+          plane(ctx, '#2f2a2a', [[0, 600], [1280, 580], [1280, 720], [0, 720]]);
+          perch(ctx, R, 1030, 1220, 250, '#3a3226');
+          rooster(ctx, R, 1080, 250, 0.9, true); rooster(ctx, R, 1150, 250, 0.85, true);
+          glow(ctx, 400, 560, 300, 'rgba(240,140,60,A)', 0.35);
+          glow(ctx, 900, 560, 300, 'rgba(240,140,60,A)', 0.35);
+          // mid-ground gathering, laughing
+          [[470, 600, 210, '#5b4a3a', 'mizura', 0.6, -0.3], [560, 596, 190, C.koya, 'long', 0.2, 0.9], [760, 598, 200, '#4d5a46', 'mizura', 1.0, 0.3], [850, 604, 215, C.futo, 'mizura', 0.3, 0.7], [1180, 610, 230, '#44506a', 'long', 0.2, 0.4], [380, 610, 220, '#5a4652', 'long', 0.3, 0.5]].forEach(([x, y, hh, col, hair, la, ra], i) => {
+            figure(ctx, R, { x, y, h: hh, robe: col, under: '#2a2420', skin: SK.fire, hair, la, ra, mouth: 'open', tilt: i % 2 ? 4 : -4 });
+          });
+          // the tub and Uzume
+          tub(ctx, R, 650, 600, 190, 105, '#8a5f36');
+          const u = figure(ctx, R, { x: 650, y: 497, h: 300, robe: C.uzume, under: C.verm, sash: C.moss, skin: SK.fire, hair: 'long', la: 2.55, ra: 2.2, mouth: 'open', headdress: true, lean: 6 });
+          // bamboo-grass posy in her left hand
+          const [px, py] = u.hands[0];
+          for (let i = 0; i < 7; i++) {
+            const a = -Math.PI / 2 - 0.7 + i * 0.22;
+            paper(ctx, R, [[px, py], [px + Math.cos(a) * 60 - 3, py + Math.sin(a) * 60], [px + Math.cos(a) * 64, py + Math.sin(a) * 64 - 2], [px + 4, py]], i % 2 ? C.leaf2 : '#5f9a5c', 1, 0.1);
+          }
+          // moss trailing from sash
+          for (let i = 0; i < 4; i++) paper(ctx, R, [[628 + i * 14, 440], [636 + i * 14, 440], [630 + i * 14 + (i - 1.5) * 6, 492], [624 + i * 14, 490]], C.moss, 1, 0.1);
+          fire(ctx, R, 400, 630, 1.3); fire(ctx, R, 905, 630, 1.25);
+          // foreground backs of the front row
+          [[150, 820, 470, '#2b2836', 'mizura'], [1090, 840, 500, '#2d2a24', 'long'], [1280, 800, 430, '#262a36', 'mizura']].forEach(([x, y, hh, col, hair], i) => {
+            figure(ctx, R, { x, y, h: hh, robe: col, under: '#18161c', skin: '#3a2c25', hair, back: true, la: 0.4, ra: 0.6, tilt: i === 1 ? -12 : 10 });
+          });
+          grain(ctx, R, 900, 'rgba(255,255,255,0.03)');
+        }),
+        refs: [REF.kojiki, REF.astonText, REF.toshimasa, REF.gion, REF.iseKagura]
+      },
+      {
+        n: 3, t: 26.0,
+        title: 'The door opens a crack',
+        shot: 'Wide, slightly high, from the gathering side; the sakaki in the right third, the door in the left third, a wedge of light on the ground between them',
+        action: 'Futo-tama holds up the uprooted sakaki hung with jewels, the mirror and cloth offerings while Koyane recites. Curious about the laughter, Amaterasu opens the door a crack, and Tajikarao waits pressed against the rock beside it.',
+        mechanism: 'laughter ⇝ Amaterasu (curiosity: "why do they make merry?") ; hand → door (opens a crack) ; crack → ground (a wedge of light toward the tree) ; sakaki ⊣ threshold (an offering placed in her line of sight)',
+        layers: [
+          { name: 'background plate: rock face and night ground', source: 'INVENTED', ref: null },
+          { name: 'sakaki with jewels, mirror, offerings', source: 'INVENTED', ref: 0 },
+          { name: 'door crack and Amaterasu at the gap', source: 'INVENTED', ref: 0 },
+          { name: 'staging after the 1825 pentaptych (placement only)', source: 'INVENTED', ref: 2 },
+          { name: 'Tajikarao costume (from present-day kagura photographs)', source: 'INVENTED', ref: 3 }
+        ],
+        prompt: 'Cut-paper night scene in flat colour planes: a great grey rock face with a stone door opened by a narrow golden crack, a hand and one eye visible in the gap; a wedge of warm light falls across dark ground toward an uprooted evergreen tree held upright by a robed man, hung with a string of green curved jewels, a round bronze mirror and white and blue cloth strips; a strong man in ochre robes presses against the rock beside the door. No text, no logos',
+        draw: (ctx, w, h) => frameOn(ctx, w, h, ctx => {
+          const R = rng(603);
+          ctx.fillStyle = C.night; ctx.fillRect(0, 0, W, H);
+          plane(ctx, C.ground, [[0, 560], [1280, 540], [1280, 720], [0, 720]]);
+          rockMass(ctx, R, [[-30, -20], [580, -20], [640, 200], [620, 640], [-30, 660]], C.rock2, 16);
+          rockMass(ctx, R, [[60, 90], [500, 70], [560, 200], [520, 260], [80, 250]], C.rock, 10);
+          // light wedge on ground from the crack
+          ctx.fillStyle = 'rgba(248,231,176,0.55)';
+          ctx.beginPath(); ctx.moveTo(470, 600); ctx.lineTo(484, 600); ctx.lineTo(1000, 690); ctx.lineTo(820, 700); ctx.closePath(); ctx.fill();
+          // crack: gold slit, Amaterasu's hand and eye
+          plane(ctx, C.inside, [[462, 230], [492, 228], [498, 600], [466, 602]]);
+          glow(ctx, 480, 400, 160, 'rgba(255,240,190,A)', 0.35);
+          ctx.save(); trace(ctx, [[462, 230], [492, 228], [498, 600], [466, 602]]); ctx.clip();
+          paper(ctx, R, [[470, 300], [520, 300], [520, 600], [470, 600]], C.hair, 0, 0);
+          paper(ctx, R, ell(500, 330, 26, 30, 18), SK.inside, 0, 0);
+          ctx.fillStyle = C.hair; ctx.fillRect(478, 322, 12, 3);
+          paper(ctx, R, [[470, 380], [520, 372], [520, 600], [470, 600]], C.white, 0, 0);
+          ctx.restore();
+          // the door slab, pushed open a little
+          paper(ctx, R, [[494, 226], [640, 212], [660, 606], [500, 604]], C.rockHi, 6, 0.45);
+          // fingers on the slab edge
+          for (let i = 0; i < 4; i++) paper(ctx, R, ell(497, 410 + i * 13, 7, 5, 10), SK.inside, 0, 0.15);
+          // Tajikarao pressed to the rock, hidden from her
+          figure(ctx, R, { x: 330, y: 600, h: 400, robe: C.tajik, under: '#5a2f17', skin: SK.night, hair: 'mizura', la: 0.35, ra: 0.75, tilt: 14, mouth: 'line', lean: 10 });
+          // Futo-tama holding the sakaki
+          sakaki(ctx, R, 830, 640, 470);
+          figure(ctx, R, { x: 920, y: 640, h: 330, robe: C.futo, under: '#283146', skin: SK.night, hair: 'mizura', la: 0.75, ra: 0.35, tilt: -8, mouth: 'line' });
+          // Koyane kneeling, reciting
+          figure(ctx, R, { x: 1070, y: 650, h: 230, robe: C.koya, under: '#2c1f2e', skin: SK.night, hair: 'mizura', seated: true, la: 2.4, ra: 2.4, tilt: -6, mouth: 'open' });
+          // background gathering, small, fires low
+          fire(ctx, R, 1200, 560, 0.6);
+          [[1150, 552, 120, '#5b4a3a'], [1240, 556, 130, '#4d5a46'], [1190, 560, 110, C.uzume]].forEach(([x, y, hh, col]) => figure(ctx, R, { x, y, h: hh, robe: col, skin: SK.night, hair: 'mizura', la: 0.3, ra: 0.3, tilt: -4 }));
+          ctx.fillStyle = 'rgba(8,10,22,0.22)'; ctx.fillRect(700, 0, 580, 720);
+          grain(ctx, R, 900, 'rgba(255,255,255,0.03)');
+        }),
+        refs: [REF.kojiki, REF.aston, REF.hokkei, REF.takachihoGAC, REF.kunisada]
+      },
+      {
+        n: 4, t: 39.0,
+        title: 'Recognition at the threshold',
+        shot: 'Medium shot, eye level at the doorway; Amaterasu in left-centre facing the mirror held at right; Tajikarao entering frame left',
+        action: 'The mirror is held out and Amaterasu, astonished, comes forward to look into it. Tajikarao takes her hand, and Futo-tama draws the straw rope across the door behind her.',
+        mechanism: 'mirror ⇝ Amaterasu (her own face, read as "a deity more illustrious") ; hand → hand (Tajikarao draws her out) ; rope ⊣ door (limit: "you must not go back further in than this")',
+        layers: [
+          { name: 'background plate: open doorway, interior gold', source: 'INVENTED', ref: null },
+          { name: 'Amaterasu and the mirror with her reflection', source: 'INVENTED', ref: 0 },
+          { name: 'Tajikarao, Futo-tama with the bottom-tied rope', source: 'INVENTED', ref: 1 },
+          { name: 'figure placement after the 1857 triptych (placement only)', source: 'INVENTED', ref: 2 },
+          { name: 'mirror handling note from Ise Jingu (restraint)', source: 'INVENTED', ref: 3 }
+        ],
+        prompt: 'Cut-paper scene in flat colour planes at a cave doorway glowing gold within: a woman in white and vermilion robes with long black hair steps forward, astonished, toward a round bronze mirror held up by a robed attendant, her own face visible in it; a large man in ochre robes takes her wrist from the left; behind her another figure stretches a twisted straw rope with root-ends across the door. Torn paper edges, drop shadows, no text, no logos',
+        draw: (ctx, w, h) => frameOn(ctx, w, h, ctx => {
+          const R = rng(604);
+          ctx.fillStyle = '#20263f'; ctx.fillRect(0, 0, W, H);
+          plane(ctx, '#3a3a40', [[0, 600], [1280, 580], [1280, 720], [0, 720]]);
+          rockMass(ctx, R, [[-30, -30], [700, -30], [720, 640], [-30, 660]], C.rock2, 16);
+          // open doorway
+          const gap = jit(R, [[300, 150], [520, 140], [560, 640], [290, 650]], 8);
+          ctx.fillStyle = C.inside; trace(ctx, gap); ctx.fill();
+          ctx.save(); trace(ctx, gap); ctx.clip(); glow(ctx, 420, 380, 260, 'rgba(255,248,220,A)', 0.8); ctx.restore();
+          paper(ctx, R, [[560, 140], [700, 128], [720, 650], [566, 648]], C.rockHi, 6, 0.45);
+          // light spilling out onto the gathering side
+          ctx.fillStyle = 'rgba(248,231,176,0.35)';
+          ctx.beginPath(); ctx.moveTo(290, 650); ctx.lineTo(560, 640); ctx.lineTo(1280, 700); ctx.lineTo(1280, 720); ctx.lineTo(200, 720); ctx.closePath(); ctx.fill();
+          // the rope, across the door behind her
+          rope(ctx, R, 250, 300, 600, 330, 40, 5);
+          // Futo-tama at left drawing the rope
+          figure(ctx, R, { x: 95, y: 680, h: 400, robe: C.futo, under: '#283146', skin: SK.fire, hair: 'mizura', la: 0.6, ra: 2.1, tilt: 8, mouth: 'line' });
+          // Amaterasu stepping out, facing right toward the mirror
+          figure(ctx, R, { x: 250, y: 760, h: 560, robe: C.tajik, under: '#5a2f17', skin: SK.fire, hair: 'mizura', la: 0.2, ra: 0.6, tilt: 10, mouth: 'line' });
+          const a = figure(ctx, R, { x: 520, y: 690, h: 500, robe: C.white, under: C.verm, skin: SK.inside, hair: 'long', la: 0.6, ra: 1.3, lean: 18, tilt: 6 });
+          // jewel string at her neck
+          for (let i = 0; i < 7; i++) paper(ctx, R, ell(510 + i * 9, 300 + Math.sin(i / 6 * Math.PI) * 14, 4, 5, 8), '#4f9c84', 0, 0);
+          // Tajikarao from left: big arm reaching to her left hand
+                    // clasp: his hand over her wrist
+          paper(ctx, R, ell(a.hands[0][0] - 6, a.hands[0][1], 22, 16, 14, 0.3), SK.fire, 1, 0.3);
+          ctx.strokeStyle = 'rgba(60,35,20,0.6)'; ctx.lineWidth = 2;
+          for (let i = 0; i < 3; i++) { ctx.beginPath(); ctx.moveTo(a.hands[0][0] - 10 + i * 6, a.hands[0][1] - 10); ctx.lineTo(a.hands[0][0] - 6 + i * 6, a.hands[0][1] + 10); ctx.stroke(); }
+          // Koyane holding the mirror up at right
+          const mx = 930, my = 330, mr = 78;
+          figure(ctx, R, { x: 1010, y: 700, h: 470, robe: C.koya, under: '#2c1f2e', skin: SK.fire, hair: 'mizura', la: 2.3, ra: 2.0, tilt: -10, mouth: 'line' });
+          paper(ctx, R, ell(mx, my, mr + 9, mr + 9, 34), C.bronze, 0, 0.4);
+          paper(ctx, R, ell(mx, my, mr, mr, 34), C.mirror, 0, 0);
+          // her reflection: face, hair, white collar
+          ctx.save(); ctx.beginPath(); ctx.arc(mx, my, mr, 0, 7); ctx.clip();
+          paper(ctx, R, [[mx - 46, my - 30], [mx + 46, my - 30], [mx + 56, my + 90], [mx - 56, my + 90]], C.hair, 0, 0);
+          paper(ctx, R, ell(mx, my - 2, 30, 36, 20), SK.inside, 0, 0);
+          ctx.fillStyle = C.hair; ctx.beginPath(); ctx.ellipse(mx, my - 22, 32, 22, 0, Math.PI, 0); ctx.fill();
+          ctx.fillRect(mx - 18, my - 4, 11, 3); ctx.fillRect(mx + 7, my - 4, 11, 3);
+          paper(ctx, R, [[mx - 40, my + 40], [mx + 40, my + 40], [mx + 60, my + 90], [mx - 60, my + 90]], C.white, 0, 0);
+          paper(ctx, R, [[mx - 12, my + 40], [mx + 12, my + 40], [mx, my + 62]], C.verm, 0, 0);
+          ctx.fillStyle = 'rgba(220,228,225,0.35)'; ctx.fillRect(mx - mr, my - mr, mr * 2, mr * 2);
+          ctx.restore();
+          // Koyane's hands on the rim
+          paper(ctx, R, ell(mx - mr - 4, my + 20, 14, 18, 12), SK.fire, 1, 0.2);
+          paper(ctx, R, ell(mx + mr + 4, my + 26, 14, 18, 12), SK.fire, 1, 0.2);
+          grain(ctx, R, 900, 'rgba(255,255,255,0.03)');
+        }),
+        refs: [REF.kojiki, REF.astonText, REF.kunisada, REF.ise, REF.kunisadaVA]
+      },
+      {
+        n: 5, t: 52.0,
+        title: 'Light on the gathering',
+        shot: 'Wide, eye level, on the community; the sun is off frame left and only the edge of Amaterasu\'s sleeve enters; the roped door small in the background',
+        action: 'Daylight falls across the gathering and their shadows stretch out behind them for the first time. Uzume sits on the tub to rest, people turn to one another, and the roosters walk on the warm ground.',
+        mechanism: 'Amaterasu → world (light returns to heaven and the reed plains) ; light → faces and ground (shadows) ; rope ⊣ door (the boundary now holds) ; return ⇝ community (a relationship restored)',
+        layers: [
+          { name: 'background plate: day ground, roped cave', source: 'INVENTED', ref: 0 },
+          { name: 'gathering in daylight (motion rotoscoped from festival crowd)', source: 'PHOTOGRAPHED', ref: 1 },
+          { name: 'cedar and stone texture plate (pending log-sheet check)', source: 'PHOTOGRAPHED', ref: 2 },
+          { name: 'Uzume, roosters, Amaterasu sleeve', source: 'INVENTED', ref: 0 },
+          { name: 'slip: COMPOSED SCENE · archive fragments re-performed · not a recorded event', source: 'INVENTED', ref: null }
+        ],
+        prompt: 'Cut-paper scene in flat colour planes in warm morning light: a gathering of robed figures in ancient Japanese dress, faces lit from the left, long shadows on pale ochre ground; a dancer in pale green rests on an overturned tub, laughing with a friend; roosters walk in the foreground; far behind, a rock cave door bound with a twisted straw rope; the edge of a white sleeve at the left frame edge. No sky emphasis, no text, no logos',
+        draw: (ctx, w, h) => frameOn(ctx, w, h, ctx => {
+          const R = rng(605);
+          ctx.fillStyle = C.daySky; ctx.fillRect(0, 0, W, H);
+          plane(ctx, '#e8cf93', [[0, 150], [1280, 120], [1280, 330], [0, 360]]);
+          // distant rock with the roped door
+          rockMass(ctx, R, [[720, 120], [900, 90], [1040, 140], [1080, 360], [700, 370]], '#8d8f97', 10);
+          paper(ctx, R, [[850, 200], [930, 196], [936, 350], [846, 352]], '#6f727c', 4, 0.25);
+          rope(ctx, R, 820, 210, 960, 214, 14, 4);
+          plane(ctx, C.dayGround2, [[0, 340], [1280, 320], [1280, 720], [0, 720]]);
+          plane(ctx, C.dayGround, [[0, 420], [1280, 400], [1280, 720], [0, 720]]);
+          // the gathering, lit from the left, shadows to the right
+          const people = [
+            [270, 520, 230, '#5b4a3a', 'mizura', 0.3, 1.6, 'open', 8],
+            [420, 540, 250, C.futo, 'mizura', 1.3, 0.3, 'open', -6],
+            [560, 530, 240, '#5a4652', 'long', 0.5, 0.4, 'line', -14],
+            [1000, 540, 250, '#44506a', 'long', 0.2, 1.1, 'open', -10],
+            [1130, 525, 230, '#4d5a46', 'mizura', 0.4, 0.3, 'line', -16],
+            [1230, 545, 250, C.tajik, 'mizura', 0.2, 0.2, 'line', -12]
+          ];
+          people.forEach(([x, y, hh]) => shadow(ctx, x, y, hh * 0.9, 0.1, hh * 0.28));
+          people.forEach(([x, y, hh, col, hair, la, ra, mouth, tilt]) => figure(ctx, R, { x, y, h: hh, robe: col, under: '#2a2420', skin: SK.day, hair, la, ra, mouth, tilt }));
+          // Uzume resting on the tub; Koyane beside her, laughing
+          shadow(ctx, 760, 640, 260, 0.1, 160);
+          tub(ctx, R, 760, 640, 150, 85, '#9a6c40');
+          figure(ctx, R, { x: 760, y: 555, h: 250, robe: C.uzume, under: C.verm, sash: C.moss, skin: SK.day, hair: 'long', seated: true, la: 0.6, ra: 0.9, mouth: 'open', headdress: true, tilt: -6 });
+          shadow(ctx, 880, 650, 300, 0.1, 90);
+          figure(ctx, R, { x: 900, y: 650, h: 330, robe: C.koya, under: '#2c1f2e', skin: SK.day, hair: 'mizura', la: 1.15, ra: 0.3, mouth: 'open', tilt: -10 });
+          // roosters in the foreground
+          [[180, 690, 1.3, false], [330, 700, 1.15, false], [1060, 700, 1.25, true]].forEach(([x, y, s, f]) => { shadow(ctx, x, y, 90 * s, 0.1, 40 * s); rooster(ctx, R, x, y, s, f); });
+          // edge of Amaterasu's sleeve, frame left; warm light from there
+          glow(ctx, -60, 360, 520, 'rgba(255,248,220,A)', 0.55);
+          paper(ctx, R, [[-20, 210], [70, 240], [96, 470], [40, 520], [-20, 520]], C.white, 5, 0.3);
+          paper(ctx, R, [[-20, 480], [50, 490], [40, 520], [-20, 520]], C.verm, 2, 0);
+          grain(ctx, R, 800, 'rgba(80,50,20,0.05)');
+        }),
+        refs: [REF.kojiki, REF.gion, REF.nikko, REF.kyoto1911, REF.takachiho]
+      }
+    ]
+  });
+})();

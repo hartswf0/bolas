@@ -1,0 +1,90 @@
+"""Sound design pass over each finished mosaic, without moving any existing event (the pictures stay in sync).
+Adds: reversed-reverb inhales into every section entry, a tuned sub that drops with each kick, noise risers into returns,
+a needle drop at the start, a Burial-style bed of long archive narration pitched down and smeared under the quiet passages,
+an Eno-length dark send on the whole, and a warm tape bus (gentle saturation, wow, the harsh highs rolled off).
+Writes audio/NAME_sd.wav.   usage: python3 sound_design.py [name ...]"""
+import sys, json, numpy as np, glob
+import sampler as S
+from sampler import SR, reverb, lp, hp, bp, resample, freeze, load_any, norm, rms
+from scipy import signal
+AUD = '/home/claude/afterlight/mosaic/audio/'
+ARCH = '/home/claude/afterlight/archive/'
+ROOT_HZ = dict(takumi=55.0, phosphor=51.91, beckon=55.0, circle=51.91, warmth=46.25, dawn=46.25, picture=43.65, sun=36.71, copper=55.0, mix=55.0)
+# long archive narration per study: (clip, start, seconds, semitones)
+BEDS = dict(takumi=('clips2/8095f755-7150-5d96-bde8-83d7e001fb57.mp4', 0, 21, -5), phosphor=('clips2/49073308-69cc-5104-b475-c2c72d6f8ca9.mp4', 0, 40, -7),
+            beckon=('clips2/a95bb4f0-0823-589c-b7e7-fac6eb482777.mp4', 0, 50, -5), circle=('clips2/1f03935f-5db5-5c2c-bbea-092b327ca8a7.mp4', 0, 8, -9),
+            warmth=('clips2/b3ef2f32-ea89-5744-8940-c804848c95e0.mp4', 0, 18, -5), dawn=('clips2/a95bb4f0-0823-589c-b7e7-fac6eb482777.mp4', 20, 30, -8),
+            picture=('clips2/8095f755-7150-5d96-bde8-83d7e001fb57.mp4', 0, 21, -3), sun=('clips2/22ba9c11-a391-5b70-aa85-ec95c9fe45ba.mp4', 0, 14, -6),
+            copper=('clips2/a95bb4f0-0823-589c-b7e7-fac6eb482777.mp4', 0, 50, -5), mix=('clips2/a95bb4f0-0823-589c-b7e7-fac6eb482777.mp4', 0, 50, -5))
+ENTRY_TAGS = {'loop', 'loopA', 'loopB', 'loopD', 'groove', 'pulse', 'intro', 'halfspeed', 'slow', 'dome', 'swell'}
+r = np.random.default_rng(909)
+def load_wav(p):
+    import wave
+    with wave.open(p) as w: return np.frombuffer(w.readframes(w.getnframes()), np.int16).reshape(-1, 2).astype(np.float64) / 32767
+def add(buf, x, t, g=1.0):
+    i = int(t * SR)
+    if i < 0: x = x[-i:]; i = 0
+    n = min(len(x), len(buf) - i)
+    if n > 0: buf[i:i + n] += x[:n] * g
+def wow(x, depth=0.0012, rate=0.55):
+    n = len(x); tt = np.arange(n) / SR; d = depth * SR * (np.sin(2 * np.pi * rate * tt) + 0.4 * np.sin(2 * np.pi * 3.1 * tt + 1))
+    idx = np.clip(np.arange(n) + d, 0, n - 1)
+    return np.stack([np.interp(idx, np.arange(n), x[:, c]) for c in (0, 1)], 1)
+def design(name):
+    J = json.load(open(AUD + name + '.json')); base = load_wav(AUD + name + '.wav'); n = len(base); dur = n / SR
+    ev = J['events']; kicks = sorted(J['kicks'])
+    fx = np.zeros((n, 2)); sub = np.zeros((n, 2)); bed = np.zeros((n, 2)); ris = np.zeros((n, 2))
+    # 1. needle drop
+    nd = np.zeros((int(0.6 * SR), 2)); nd[int(0.02 * SR)] = 0.9; nd = bp(nd, 300, 4000) + lp(nd, 120) * 3
+    add(fx, reverb(nd, 1.2, 3000, 0.0) * 0.6, 0.0)
+    # 2. inhales: the first beat of each section entry, reverbed and reversed, ending on the entry
+    entries = sorted(set(round(e['t'], 2) for e in ev if e['tag'] in ENTRY_TAGS))
+    entries = [t for i, t in enumerate(entries) if t > 1.0 and (i == 0 or t - entries[i - 1] > 3.5)]
+    for t in entries:
+        seg = base[int(t * SR):int((t + 0.6) * SR)]
+        if len(seg) < SR // 4: continue
+        w = reverb(seg, 4.0, 2400, 0.0)[::-1]; w = w / (np.abs(w).max() + 1e-9)
+        L = min(len(w), int(2.5 * SR)); w = w[-L:] * np.linspace(0, 1, L)[:, None] ** 2
+        add(fx, w * 0.28, t - L / SR)
+    # 3. risers into returns that follow a gap or a break (filtered noise, rising, cut at the entry)
+    for t in entries[1:]:
+        L = int(3.0 * SR); nz = r.standard_normal((L, 2)); nz = S.sweep(nz, 300, 7000, 'high') * np.linspace(0, 1, L)[:, None] ** 3
+        add(ris, nz * 0.05, t - 3.0)
+    # 4. the sub: a sine at the study's root under each kick, dropping a fifth as it decays (warm, felt more than heard)
+    f0 = ROOT_HZ.get(name, 55.0); Lk = int(0.55 * SR); tk = np.arange(Lk) / SR
+    fr = f0 * (1.5 - 0.5 * (1 - np.exp(-tk / 0.035))); ph = 2 * np.pi * np.cumsum(fr) / SR
+    k808 = np.sin(ph) * np.exp(-tk / 0.32) * np.minimum(tk / 0.003, 1); k808 = np.tanh(k808 * 1.6)[:, None] * np.ones(2)
+    for i, k in enumerate(kicks):
+        if i and k - kicks[i - 1] < 0.12: continue
+        add(sub, k808, k, 0.30)
+    # 5. archive bed: long narration, pitched down, smeared, under the quiet passages (where the song itself is thin)
+    p, a, d, st = BEDS[name]; nar = load_any(ARCH + p, a, d)
+    if len(nar) > SR:
+        nar = resample(nar, 2 ** (st / 12)); nar = lp(hp(nar, 120), 2600)
+        nar = nar * 0.6 + freeze(nar, len(nar) / SR, 0.25, 18) * rms(nar) * 2.5
+        wet = reverb(nar, 9.0, 1800, 0.04)[:len(nar) + 6 * SR]
+        hop = SR // 4; env = np.array([rms(base[i:i + hop]) for i in range(0, n, hop)]); env = env / (env.max() + 1e-9)
+        quiet = np.clip((0.35 - np.convolve(env, np.ones(8) / 8, 'same')) / 0.25, 0, 1); qa = np.repeat(quiet, hop)[:n]
+        t0 = 0.0
+        while t0 < dur:
+            add(bed, wet, t0); t0 += len(wet) / SR - 4
+        bed = bed * qa[:, None] * 0.16
+    # 6. the whole, through a dark Eno-length send and a warm tape bus
+    def band(x, lo, hi):
+        sos = signal.butter(4, [lo / (SR / 2), min(hi, SR / 2.1) / (SR / 2)], 'band', output='sos'); return float(np.sqrt((signal.sosfilt(sos, x.mean(1)) ** 2).mean()) + 1e-9)
+    if np.abs(sub).max() > 0:      # the sub sits level with the study's own low end (about +3 dB there), never above it alone
+        tgt = max(band(base, 30, 90), rms(base) * 0.18); sub *= tgt / band(sub, 30, 90)
+    if np.abs(ris).max() > 0:      # risers stay under the study's own top end
+        ris *= min(1.0, 0.5 * band(base, 2000, 16000) / band(ris, 2000, 16000))
+    out = base + fx + sub + bed + ris
+    send = reverb(lp(out, 3500) * 0.12, 18.0, 1500, 0.08)[:n]
+    out = out + send
+    out = wow(out); out = lp(out, 11000, 2) * 0.85 + lp(out, 16000, 1) * 0.15
+    out = np.tanh(out * 1.35) / np.tanh(1.35)
+    out = out / (np.abs(out).max() + 1e-9) * 0.93
+    import wave
+    with wave.open(AUD + name + '_sd.wav', 'wb') as w:
+        w.setnchannels(2); w.setsampwidth(2); w.setframerate(SR); w.writeframes((out * 32767).astype(np.int16).tobytes())
+    print(name, 'entries', len(entries), 'kicks', len(kicks), flush=True)
+if __name__ == '__main__':
+    for nm in (sys.argv[1:] or ['mix', 'takumi', 'phosphor', 'beckon', 'circle', 'warmth', 'dawn', 'picture', 'sun', 'copper']): design(nm)

@@ -1,0 +1,260 @@
+"""Stage 2: a stateless point-cloud renderer. Every output frame is a pure function of time t.
+Each archive frame becomes ~32k points (x, y from the pixel, z from MiDaS inverse depth), labeled by prep.py.
+Modes per section: lift (flat image pulled into depth), orbit (camera moves through the cloud; labels flash on the snare),
+sem (labels shown), ghost (camera pulls back past the frame; the missing surround is generated from the frame's edges),
+erase (every point not labeled SOURCE is removed and rises as an ember).
+python3 render.py film worker nworkers"""
+import sys, os, json, subprocess, numpy as np, cv2
+from PIL import Image, ImageDraw, ImageFont
+from films import FILMS
+D = '/home/claude/afterlight/semantic/'; SONGS = '/home/claude/afterlight/songs/out/'
+OW, OH = 640, 360; FW, FH = 1280, 720; FPS = 24
+SW, SH = 480, 270; F0 = 432.0; F = OW / SW * F0; ZFLAT = 4.5; STEP = 2
+PAL = np.array([[255, 196, 70], [232, 97, 60], [46, 128, 150], [140, 178, 222], [120, 98, 76], [178, 156, 230]], np.float32) / 255
+NAMES = ['SOURCE', 'PERSON', 'OBJECT', 'SKY', 'WORLD', 'GENERATED']
+CREAM = np.array([246, 236, 220], np.float32) / 255
+FONT_M = D + 'fonts/ibm-plex-mono-latin-400-normal.ttf'; FONT_I = D + 'fonts/im-fell-english-latin-400-italic.ttf'
+def sm(x): x = np.clip(x, 0, 1); return x * x * (3 - 2 * x)
+def hsh(*a): return (hash(a) & 0xffffffff)
+
+_clips, _pts = {}, {}
+def clip(key):
+    if key not in _clips:
+        if len(_clips) >= 4: _clips.pop(next(iter(_clips)))
+        _clips[key] = dict(np.load(D + 'cache/' + key + '.npz'))
+    return _clips[key]
+PEOPLE = {'sea5', 'sun10', 'lam7', 'fir7'}                            # clips that do contain people
+NOT_PERSON = {'lam2': 2, 'fir10': 2, 'fir6': 4, 'fir14': 4}                      # the human-segmentation net's false positives, relabeled
+def relabel(key, rgb, lab):
+    lab = lab.copy()
+    if key not in PEOPLE: lab[lab == 1] = NOT_PERSON.get(key, 4)
+    lum = rgb.mean(2); warm = rgb[..., 0] - rgb[..., 2]
+    sc = lum + 0.35 * np.clip(warm, 0, None)
+    thr = max(0.62, min(0.92, float(np.percentile(sc, 93))))
+    lab[(sc >= thr) & (lab != 1)] = 0
+    return lab
+def expose(rgb):
+    '''archive frames are often dark: bring the 90th percentile of luminance up to about 0.85, then a soft lift and a warm bias'''
+    p90 = float(np.percentile(rgb.mean(2), 90)); g = np.clip(0.85 / max(p90, 0.05), 1.0, 3.0)
+    x = np.clip(rgb * g, 0, 1); x = 1 - (1 - x) ** 1.35
+    x = np.clip(x * np.array([1.03, 1.0, 0.95], np.float32) + 0.03, 0, 1)
+    lift = np.clip((0.4 - float(x.mean())) / 0.4, 0, 1) * 0.32                 # night frames: milky warm blacks rather than black
+    return x * (1 - lift) + CREAM * lift
+def points(key, i):
+    """Points for frame i of clip key: base points (from the image) and generated points (the surround, reflected and pushed back)."""
+    k = (key, i)
+    if k in _pts: return _pts[k]
+    if len(_pts) > 6: _pts.pop(next(iter(_pts)))
+    c = clip(key); rgb = c['rgb'][i].astype(np.float32) / 255; inv = c['inv'][i].astype(np.float32); lab = relabel(key, rgb, c['lab'][i])
+    rgb = expose(rgb)
+    inv = np.clip(np.nan_to_num(cv2.GaussianBlur(inv, (0, 0), 1.2), nan=0.5), 0, 1)
+    vv, uu = np.mgrid[STEP // 2:SH:STEP, STEP // 2:SW:STEP]
+    rng = np.random.default_rng(hsh(key, i) % 2**32)
+    u = uu.ravel() + rng.uniform(-0.5, 0.5, uu.size); v = vv.ravel() + rng.uniform(-0.5, 0.5, uu.size)
+    iv = inv[vv, uu].ravel(); z = 2.0 + 9.0 * (1 - iv) ** 1.5
+    base = dict(u=u, v=v, z=z, col=rgb[vv, uu].reshape(-1, 3), lab=lab[vv, uu].ravel().astype(np.int32), r=rng.random(u.size))
+    inner = (u > 9) & (u < SW - 9) & (v > 7) & (v < SH - 7)                  # drop the archive's dark borders
+    base = {k_: a_[inner] for k_, a_ in base.items()}
+    # the surround: reflect the frame outward, push it back, thin it with distance from the edge
+    PX, PY = 240, 135
+    ergb = cv2.copyMakeBorder(cv2.GaussianBlur(rgb, (0, 0), 2), PY, PY, PX, PX, cv2.BORDER_REFLECT)
+    einv = cv2.copyMakeBorder(inv, PY, PY, PX, PX, cv2.BORDER_REFLECT)
+    gv, gu = np.mgrid[1:SH + 2 * PY:3, 1:SW + 2 * PX:3]; gv = gv.ravel(); gu = gu.ravel()
+    out = (gu < PX) | (gu >= PX + SW) | (gv < PY) | (gv >= PY + SH)
+    gv, gu = gv[out], gu[out]
+    dx = np.maximum(np.maximum(PX - gu, gu - (PX + SW - 1)), 0) / PX; dy = np.maximum(np.maximum(PY - gv, gv - (PY + SH - 1)), 0) / PY
+    dist = np.sqrt(dx ** 2 + dy ** 2)
+    keep = rng.random(gu.size) < 0.85 * (1 - dist) ** 0.7
+    gu, gv, dist = gu[keep], gv[keep], dist[keep]
+    gz = 2.0 + 9.0 * (1 - einv[gv, gu]) ** 1.5 + 2.5 * dist + rng.normal(0, 0.25, gu.size)
+    gc = ergb[gv, gu]; g = gc.mean(1, keepdims=True); gc = 0.35 * gc + 0.2 * g + 0.45 * PAL[5]
+    gen = dict(u=gu - PX + rng.uniform(-1, 1, gu.size), v=gv - PY + rng.uniform(-1, 1, gu.size), z=gz, col=gc, lab=np.full(gu.size, 5, np.int32), r=dist + 0.15 * rng.random(gu.size))
+    _pts[k] = (base, gen); return _pts[k]
+
+def rot(yaw, pitch, roll=0.0):
+    cy, sy, cp, sp, cr, sr = np.cos(yaw), np.sin(yaw), np.cos(pitch), np.sin(pitch), np.cos(roll), np.sin(roll)
+    Ry = np.array([[cy, 0, -sy], [0, 1, 0], [sy, 0, cy]]); Rx = np.array([[1, 0, 0], [0, cp, -sp], [0, sp, cp]]); Rz = np.array([[cr, -sr, 0], [sr, cr, 0], [0, 0, 1]])
+    return Rz @ Rx @ Ry
+
+def splat(P, col, size, bg, fill=True):
+    """P: Nx3 camera-space points. Painter's order, square splats of the given pixel size, written far to near."""
+    img = bg.copy(); Z = P[:, 2]; ok = Z > 0.3
+    x = F * P[ok, 0] / Z[ok] + OW / 2; y = F * P[ok, 1] / Z[ok] + OH / 2; s = np.clip(size[ok], 1, 7).astype(np.int32)
+    c = col[ok]; zz = Z[ok]
+    vis = (x > -8) & (x < OW + 8) & (y > -8) & (y < OH + 8)
+    x, y, s, c, zz = x[vis], y[vis], s[vis], c[vis], zz[vis]
+    o = np.argsort(-zz, kind='stable'); x, y, s, c = x[o], y[o], s[o], c[o]
+    n = s * s; idx = np.repeat(np.arange(len(s)), n)
+    first = np.repeat(np.cumsum(n) - n, n); loc = np.arange(len(idx)) - first; ss = s[idx]
+    px = (x[idx] - ss / 2 + loc % ss).astype(np.int32); py = (y[idx] - ss / 2 + loc // ss).astype(np.int32)
+    m = (px >= 0) & (px < OW) & (py >= 0) & (py < OH)
+    img[py[m], px[m]] = c[idx[m]]
+    if fill:
+        w = np.zeros((OH, OW), np.float32); w[py[m], px[m]] = 1
+        wb = cv2.GaussianBlur(w, (0, 0), 1.3); cb = cv2.GaussianBlur(img * w[..., None], (0, 0), 1.3)
+        hole = (w == 0) & (wb > 0.28)
+        img[hole] = cb[hole] / wb[hole][:, None]
+    return img
+
+def beatinfo(t, bpm):
+    b = t * bpm / 60; k = int(np.floor(b)); ph = b - k
+    return b, k, ph
+
+def section(film, t):
+    for s in film['sections']:
+        if s[0] <= t < s[1]: return s
+    return film['sections'][-1]
+
+_font = {}
+def font(p, n):
+    if (p, n) not in _font: _font[(p, n)] = ImageFont.truetype(p, n)
+    return _font[(p, n)]
+
+def frame(film, t):
+    bpm = film['bpm']; spb = 60 / bpm; bar = 4 * spb
+    s = section(film, t); t0, t1, mode, clips, nb = s[:5]; cap = s[5] if len(s) > 5 else None
+    # scene inside the section: nb bars each, cut on the downbeat
+    j = int((t - t0) // (nb * bar)); sc0 = t0 + j * nb * bar; sc1 = min(t1, sc0 + nb * bar)
+    key = clips[j % len(clips)]; u = (t - sc0) / max(sc1 - sc0, 1e-3); U = (t - t0) / (t1 - t0)
+    b, k, ph = beatinfo(t, bpm); lb = (t - sc0) / spb
+    c = clip(key); n = len(c['rgb'])
+    cfps = float(c['fps']); fi = int((t - sc0) * cfps) % (2 * n - 2) if n > 1 else 0; fi = fi if fi < n else 2 * n - 2 - fi   # the archive plays at its own speed
+    if mode == 'erase': fi = 0                                                  # the last image holds still while it is edited
+    base, gen = points(key, fi)
+    snare = (k % 2 == 1); pulse = np.exp(-ph * 5)
+    rng = np.random.default_rng(hsh(film['slug'], j, int(t0 * 10)) % 2**32)
+    yaw0, yaw1 = rng.uniform(-0.28, 0.28), rng.uniform(-0.28, 0.28); side = rng.choice([-1, 1])
+    lam, sig, gsh, era = 1.0, 0.0, 0.0, 0.0
+    kick = np.exp(-ph * 7) if k % 2 == 0 else 0.0
+    cam = np.array([side * 1.1 * (u - 0.5), -0.15 + 0.25 * np.sin(u * 2.5), 0.2 + 2.6 * u + 0.22 * kick]); yaw = yaw0 * 1.4 + (yaw1 - yaw0) * 1.4 * u; pitch = 0.06 * np.sin(u * 3)
+    fog = CREAM.copy()
+    if mode == 'lift':
+        lam = sm((u - 0.12) / 0.7); cam = np.array([0.0, 0.0, 0.0]) + lam * np.array([0.45 * side, -0.25, 1.2]); yaw = -side * 0.22 * lam; pitch = 0.07 * lam
+    elif mode == 'orbit':
+        sig = (0.65 * pulse if snare else 0.0) * film.get('flash', 1.0)
+    elif mode == 'sem':
+        sig = -1.0                                                               # per point: a labeling front sweeps back through depth
+    elif mode == 'ghost':
+        gsh = sm(u / 0.55); cam = np.array([side * 0.8 * np.sin(u * 2.2), -0.3 * gsh, 0.6 - 5.2 * sm(u / 0.7)]); yaw = side * 0.42 * np.sin(u * 2.5); pitch = 0.1 * gsh
+        sig = 0.25 * pulse * snare
+    elif mode == 'erase':
+        era = sm(U / 0.7); s0 = base['lab'] == 0
+        cx = float(((base['u'][s0] - SW / 2) / F0 * base['z'][s0]).mean()) if s0.sum() > 50 else 0.0
+        cy = float(((base['v'][s0] - SH / 2) / F0 * base['z'][s0]).mean()) if s0.sum() > 50 else 0.0
+        cam = np.array([0.6 * cx + 0.25 * np.sin(U * 2), 0.6 * cy, 0.3 - 1.4 * sm(U)]); yaw = 0.12 * np.sin(U * 2.4); pitch = 0.03
+        fog = CREAM * (1 - era) + np.array([0.93, 0.72, 0.60], np.float32) * era
+    # ---- assemble the cloud
+    z = ZFLAT + (base['z'] - ZFLAT) * lam
+    X = (base['u'] - SW / 2) / F0 * z; Y = (base['v'] - SH / 2) / F0 * z
+    col = base['col'].copy(); lab = base['lab']
+    lum = col.mean(1, keepdims=True)
+    if sig < 0:
+        zf = 1.5 + 13 * sm(u / 0.55); sp = np.clip((zf - base['z']) / 1.2, 0, 1)[:, None] * (0.95 - 0.25 * pulse * snare)
+        edge = np.exp(-((base['z'] - zf) / 0.35) ** 2)[:, None]
+        col = col * (1 - sp) + PAL[lab] * (0.6 + 0.55 * lum) * sp; col = np.clip(col + 0.35 * edge, 0, 1); sig = 1.0
+    elif sig > 0: col = col * (1 - sig) + PAL[lab] * (0.55 + 0.6 * lum) * sig
+    alive = np.ones(len(z), bool); size = F * STEP / F0 * (z / np.maximum(z, 1e-3))  # placeholder, replaced below
+    if era > 0:
+        die = (lab != 0)
+        age = np.clip((era * 1.25 - base['r']) * 3.0, 0, None) * die
+        Y = Y - 1.6 * age ** 2; X = X + 0.25 * age * np.sin(base['r'] * 40 + t); z = z - 0.4 * age
+        emb = np.clip(age * 2, 0, 1)[:, None]
+        col = col * (1 - emb) + np.array([1.0, 0.52, 0.22]) * emb
+        alive = (age < 1.0) & ~((age > 0) & (base['r'] * 7 % 1 > 0.22 + 0.3 * (1 - age)))
+        src = lab == 0; tw = 0.75 + 0.25 * np.sin(base['r'][src] * 50 + t * 6)[:, None]
+        col[src] = np.clip(col[src] * (1 - 0.7 * era) + np.array([1.0, 0.86, 0.5]) * 0.7 * era * tw, 0, 1)
+        thin = src & (base['r'] * 13 % 1 > 1 - 0.55 * era); alive &= ~thin
+    Pw = np.stack([X, Y, z], 1)[alive]; col = col[alive]; labA = lab[alive]
+    if gsh > 0:
+        gk = gen['r'] < gsh * 1.1
+        gz = gen['z'][gk]; gX = (gen['u'][gk] - SW / 2) / F0 * gz; gY = (gen['v'][gk] - SH / 2) / F0 * gz
+        gc = gen['col'][gk]
+        Pw = np.concatenate([Pw, np.stack([gX, gY, gz], 1)]); col = np.concatenate([col, gc]); labA = np.concatenate([labA, gen['lab'][gk]])
+    R = rot(yaw, pitch, 0.02 * np.sin(t * 0.3)); P = (Pw - cam) @ R.T
+    Z = P[:, 2]
+    size = F * (STEP * 1.5 / F0) * np.abs(Pw[:, 2]) / np.maximum(Z, 0.3); size[labA == 5] *= 1.15
+    if era > 0: size = np.where(labA == 0, size * (1 - 0.3 * era), size * 0.8)
+    fz = np.clip((Z - 6) / 14, 0, 0.75)[:, None]
+    col = col * (1 - fz) + fog * fz
+    # background: soft vertical gradient of the fog color
+    gy = np.linspace(0, 1, OH)[:, None, None]
+    bg = (fog * (1.02 - 0.06 * gy) + np.array([0.02, 0.0, -0.02]) * (1 - gy)).astype(np.float32) * np.ones((OH, OW, 1), np.float32)
+    img = splat(P, col.astype(np.float32), size + 0.35, np.clip(bg, 0, 1))
+    # glow from light sources
+    srcm = labA == 0
+    if srcm.any():
+        gl = splat(P[srcm], col[srcm].astype(np.float32), size[srcm] + 1, np.zeros((OH, OW, 3), np.float32), fill=False)
+        k1 = cv2.GaussianBlur(gl, (0, 0), 5) * (0.35 + 0.5 * era) + cv2.GaussianBlur(gl, (0, 0), 14) * 0.8 * era
+        img = 1 - (1 - img) * (1 - np.clip(k1, 0, 1))
+    img = cv2.resize(np.clip(img, 0, 1), (FW, FH), interpolation=cv2.INTER_CUBIC)
+    img = cv2.GaussianBlur(img, (0, 0), 0.7)
+    gr = np.random.default_rng(int(t * FPS)).normal(0, 0.012, (FH // 2, FW // 2, 1)).astype(np.float32)
+    img = np.clip(img + cv2.resize(gr, (FW, FH))[..., None], 0, 1)
+    # in lift mode, before the cloud is lifted, the original photograph is shown as photograph
+    if mode == 'lift' and lam < 1:
+        ph_ = expose(c['rgb'][fi].astype(np.float32) / 255)
+        ph_ = cv2.resize(ph_, (FW, FH), interpolation=cv2.INTER_CUBIC)
+        a = 1 - sm(lam / 0.25)
+        img = img * (1 - a) + ph_ * a
+    out = Image.fromarray((img * 255).astype(np.uint8)); d = ImageDraw.Draw(out, 'RGBA')
+    INK = (58, 44, 34)
+    arr = np.asarray(out)
+    def txt(x, y, s_, f, a, anchor='la', col=None):
+        if a <= 0.01: return
+        l, tp, r, bt = d.textbbox((x, y), s_, font=f, anchor=anchor)
+        reg = arr[max(0, int(tp) - 6):int(bt) + 6, max(0, int(l) - 6):int(r) + 6]
+        dark = reg.size and reg.mean() < 150
+        if col is None: col = (250, 242, 228) if dark else INK
+        sh = (40, 28, 20) if dark else (250, 242, 228)
+        al = int(255 * min(a, 1))
+        d.text((x + 1, y + 1), s_, font=f, fill=sh + (al // 2,), anchor=anchor)
+        d.text((x, y), s_, font=f, fill=col + (al,), anchor=anchor)
+    # title
+    T0 = film['title_at']; ta = sm((t - T0) / 1.0) * (1 - sm((t - film['title_out']) / 1.2))
+    if ta > 0:
+        d.rectangle([0, 0, FW, FH], fill=(246, 236, 220, int(0 * ta)))
+        txt(FW / 2, FH * 0.80, film['title'], font(FONT_I, 64), ta, 'mm')
+        txt(FW / 2, FH * 0.80 + 50, 'AFTERLIGHT  ·  ' + film['num'], font(FONT_M, 16), ta * 0.85, 'mm')
+    # caption, once per section, lower left
+    if cap:
+        ca = sm((t - t0 - 0.6) / 0.8) * (1 - sm((t - t0 - 5.5) / 1.0))
+        txt(56, FH - 64, cap, font(FONT_M, 18), ca)
+    # legend
+    la = (sig if mode == 'sem' else 0) + (gsh if mode == 'ghost' else 0) * 0.9 + (era * 0.9 if mode == 'erase' else 0)
+    la = min(1, la) * sm((t - t0) / 1.0) * (1 - sm((t - (t1 - 0.6)) / 0.6))
+    if la > 0.02:
+        names = [0, 1, 2, 3, 4] if mode != 'ghost' else [0, 1, 2, 3, 4, 5]
+        y0 = 48
+        for q, ci in enumerate(names):
+            a = la
+            if mode == 'erase': a = la * (1.0 if ci == 0 else max(0.25, 1 - era))
+            cc = tuple(int(v * 255) for v in PAL[ci])
+            d.rectangle([FW - 210, y0 + q * 26, FW - 196, y0 + q * 26 + 14], fill=cc + (int(255 * a),))
+            txt(FW - 184, y0 + q * 26 - 2, NAMES[ci], font(FONT_M, 15), a)
+            if mode == 'erase' and ci != 0 and era > 0.3:
+                d.line([FW - 186, y0 + q * 26 + 8, FW - 186 + 10 * len(NAMES[ci]), y0 + q * 26 + 8], fill=INK + (int(255 * a * min(1, (era - 0.3) * 3)),), width=2)
+    # credits
+    cr = sm((t - film['credits_at']) / 1.2)
+    if cr > 0:
+        txt(FW / 2, FH * 0.80, 'A FILM CONCEPT BY SOSUKE & WATSON', font(FONT_M, 20), cr, 'mm')
+        txt(FW / 2, FH * 0.80 + 36, 'CRASH LAB  ·  PAELEO  ·  CINEOSIS LAB', font(FONT_M, 15), cr * 0.85, 'mm')
+    end = sm((t - (film['dur'] - 1.2)) / 1.2)
+    a = np.asarray(out).astype(np.float32)
+    if end > 0: a = a * (1 - end) + np.array([246, 236, 220]) * end
+    return a.astype(np.uint8)
+
+def run(slug, w, nw):
+    film = FILMS[slug]; N = int(film['dur'] * FPS); fr = range(w * N // nw, (w + 1) * N // nw)
+    seg = D + f'out/{slug}.part{w}.mp4'; os.makedirs(D + 'out', exist_ok=True)
+    p = subprocess.Popen(['ffmpeg', '-y', '-v', 'error', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{FW}x{FH}', '-r', str(FPS), '-i', '-',
+                          '-c:v', 'libx264', '-preset', 'veryfast', '-crf', '18', '-pix_fmt', 'yuv420p', seg], stdin=subprocess.PIPE)
+    for i in fr:
+        p.stdin.write(frame(film, i / FPS).tobytes())
+        if i % 240 == 0: print(slug, w, i, '/', N, flush=True)
+    p.stdin.close(); p.wait()
+
+if __name__ == '__main__':
+    if sys.argv[1] == 'still':
+        film = FILMS[sys.argv[2]]
+        for t in map(float, sys.argv[3:]): Image.fromarray(frame(film, t)).save(f'/tmp/claude-0/-home-claude/21362850-8176-5f25-9feb-97722a7915b9/scratchpad/inv/st_{sys.argv[2]}_{t:.1f}.jpg', quality=85)
+    else: run(sys.argv[1], int(sys.argv[2]), int(sys.argv[3]))
