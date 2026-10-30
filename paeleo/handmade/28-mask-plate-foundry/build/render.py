@@ -112,7 +112,9 @@ class Renderer:
             c.over(pc, light=light, name='person')
         # the dog
         dl, dinfo = self.dog.frame(i)
-        hold = hold_wall * self.inside_ramp
+        # holdout choked open by 1 px: the antialiased sill edge let the held-out forelegs leak as a dashed light line
+        hw = Image.fromarray((np.clip(hold_wall, 0, 1) * 255).astype(np.uint8)).filter(ImageFilter.MaxFilter(3))
+        hold = np.asarray(hw, np.float32) / 255 * self.inside_ramp
         full = np.zeros((H, W), np.float32)
         pieces = []
         for nm, rgb, al, M in dl:
