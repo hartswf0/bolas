@@ -394,12 +394,18 @@ def main():
             X, Y, th = poses[fam]
             vx, vy, vt = vel[fam]
             pred = (X + 0.5 * vx, Y + 0.5 * vy, th + 0.5 * vt)
+            if fam == 'dog.head' and 'dog.body' in rec:
+                # the head card is pinned to the body card at the neck (puppet database): predict it there
+                bb = rec['dog.body']
+                bm = CARDS[bb['card']]
+                nx, ny = to_stage(bm['neck'], bm['anchor'], bb['X'], bb['Y'], bb['th'])
+                pred = (nx, ny, float(np.clip(th, -0.9, 0.9)))
             # identity first: find and read the marker near where the prediction puts the tab
             m = decode_at(pyr[0][0], tpls[fam], pred)
             ident = m['id'] if m else None
             how = 'flow'
             if m is None:
-                m = decode_at(pyr[0][0], tpls[fam], pred, r=130, near=60)
+                m = decode_at(pyr[0][0], tpls[fam], (pred[0], pred[1], float(np.clip(pred[2], -0.9, 0.9))), r=150, near=110)
                 how = 'reacquire' if m else 'flow-occluded'
                 ident = m['id'] if m else None
             if m is not None:
@@ -422,10 +428,10 @@ def main():
             tpls[fam] = tcache[nm]
             pose, info = lk(pyr, mattes, tpls[fam], pred, rot=(fam == 'dog.head'))
             # a flow step that runs away (support collapsed) is not trusted: hold the prediction
-            if info['support'] < 0.15 or abs(pose[0] - pred[0]) > 40 or abs(pose[1] - pred[1]) > 40:
+            if info['support'] < 0.15 or abs(pose[0] - pred[0]) > 40 or abs(pose[1] - pred[1]) > 40 or abs(pose[2]) > 1.0:
                 pose, how = pred, how + '-held'
             vel[fam] = tuple(np.array(pose) - np.array(poses[fam]))
-            vel[fam] = (float(np.clip(vel[fam][0], -20, 20)), float(np.clip(vel[fam][1], -20, 20)), float(np.clip(vel[fam][2], -.2, .2)))
+            vel[fam] = (float(np.clip(vel[fam][0], -40, 40)), float(np.clip(vel[fam][1], -40, 40)), float(np.clip(vel[fam][2], -.2, .2)))
             if how == 'swap':
                 vel[fam] = (0.0, 0.0, 0.0)
             poses[fam] = pose

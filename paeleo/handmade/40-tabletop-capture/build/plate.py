@@ -66,7 +66,7 @@ def stage_layer(pieces):
     if 'sheet' not in _cache:
         _cache['sheet'] = sheet.copy()
     img = sheet
-    order = ['light', 'door', 'person']
+    order = ['door', 'person', 'light']
     behind = CARDS[pieces['dog.body']['card']]['head_behind']
     order += ['dog.head', 'dog.body'] if behind else ['dog.body', 'dog.head']
     for pn in order:

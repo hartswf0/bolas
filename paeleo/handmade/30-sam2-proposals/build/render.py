@@ -206,19 +206,20 @@ for f in range(27, 38): FACING[(f, 0)] = 0         # facing the camera
 for f in range(38, 49): FACING[(f, 0)] = 1         # as shot: facing right (the door)
 
 WATCH = [(38, 0), (39, 0), (38, 0), (39, 0)]
-WALK = [42, 43, 44, 45]                 # as shot, a 4-frame step (42 ~ 46 by aligned mask IoU 0.73)
+WALK = [43, 44, 45]                     # as shot; f42 removed (garbled head, critic round 1); wrap 45->43 IoU 0.63
 STEP_M = 0.066
 LIE_BELLY = {4: 160}
 LEGS = {4: [(0, 160), (384, 160), (384, 288), (0, 288)]}          # correction stroke: legs (no source frame shows them folded)
 TAIL6 = [(211, 146), (254, 146), (254, 184), (211, 184)]         # tail part box on frame 19 (as shot), mirrored on use
 TAIL6_ROOT = (214, 150)                  # source y of the belly line (correction stroke: everything below is legs)                          # source world travel per source frame (camera pan 8.75 px / 130 px per m)
-REFUSE_TURN = [(38, 0), (36, 0), (33, 0), (30, 0), (28, 0), (26, 0), (26, 0), (17, 0), (17, 0), (16, 0), (14, 0), (5, 0), (3, 0), (2, 0)]
+REFUSE_TURN = [(38, 0), (36, 0), (33, 0), (30, 0), (28, 0), (26, 0), (26, 0), (5, 0), (5, 0), (3, 0), (3, 0), (2, 0)]
 REFUSE_HOLD = [(2, 0), (1, 0), (0, 0), (1, 0)]
-LOOK_BACK = [(17, 0), (17, 0), (26, 0), (29, 0), (32, 0), (33, 0), (33, 0), (34, 0), (34, 0), (35, 0), (35, 0), (36, 0), (36, 0), (38, 0), (38, 0), (39, 0), (39, 0)]
-CRINGE = [(39, 0), (40, 0), (41, 0), (42, 0)]
-RISE = [(42, 0), (41, 0), (40, 0), (39, 0)]
-HEAD_DOWN = [(39, 0), (40, 0), (41, 0), (42, 0)]
-ARRIVE = [(44, 0), (43, 0), (42, 0), (41, 0), (40, 0), (4, 1)]
+# head leads: the refusal body (f1) holds while head proposals that point at the door (f33, then f36) take its neck point
+LOOK_BACK = [(1, 0, 33), (1, 0, 33), (1, 0, 36), (1, 0, 36), (1, 0, 36), (1, 0, 36), (36, 0), (36, 0), (38, 0), (38, 0), (39, 0), (39, 0)]
+CRINGE = [(39, 0), (40, 0), (41, 0), (43, 0)]
+RISE = [(43, 0), (41, 0), (40, 0), (39, 0)]
+HEAD_DOWN = [(39, 0), (40, 0), (41, 0), (43, 0)]
+ARRIVE = [(44, 0), (43, 0), (41, 0), (40, 0), (40, 0), (4, 1)]
 
 CH = [c['t'] for c in SCORE['choices']]
 I_RETREAT, I_WATCH1, I_REFUSE, I_WATCH2, I_APPROACH, I_LIE = [round(t * FPS) for t in CH]
@@ -235,9 +236,9 @@ def walk_frame(i, i0, reverse=False, end_on=None, total=None):
     if end_on is not None and total is not None:
         # stretch the stride slightly so the last step lands on the lying proposal
         steps = total / STEP_M
-        want = math.floor(steps / 4) * 4 + WALK.index(end_on)
+        want = math.floor(steps / len(WALK)) * len(WALK) + WALK.index(end_on)
         n = n * want / steps if steps else n
-    k = int(n) % 4
+    k = int(n) % len(WALK)
     seq = WALK[::-1] if reverse else WALK
     return seq[k]
 
@@ -265,7 +266,10 @@ def dog_plan(i):
     if i < I_APPROACH:
         j = i - I_WATCH2
         if j < len(LOOK_BACK):
-            f, m = LOOK_BACK[j]; return dict(f=f, m=m, state='watch', posture='turning-back')
+            e = LOOK_BACK[j]
+            if len(e) == 3:
+                return dict(f=e[0], m=e[1], hswap=e[2], state='watch', posture='head-turns-back')
+            return dict(f=e[0], m=e[1], state='watch', posture='turning-back')
         f, m = WATCH[((j - len(LOOK_BACK)) // 8) % 4]; return dict(f=f, m=m, state='watch', posture='stand')
     if i < I_LIE:
         j = i - I_APPROACH
@@ -320,17 +324,18 @@ def place_dog(i, plan):
         # from f19 (a tail held clear of the body, lying back along the floor once mirrored), and head proposals substituted at the neck prompt:
         #   u40 head (level, muzzle forward) / u44 (lower) / u47 (lowest, nose down) -- each a real head of this dog
         t = i / FPS
+        hm = False
         if look > .1:
-            hf = 40
+            hf, hm = 1, True        # f1 head, mirrored: the back of the head and ears toward the viewer, muzzle away into the room
         elif rest > .3:
             hf = 47
         elif t >= 25.9:
             hf = 47 if t >= 26.1 else 44
         else:
             hf = 40
-        body, binfo = cut('dog', f, bool(m), keep=[neck_cut(f, 'body')], scale=S)
+        body, binfo = cut('dog', f, bool(m), keep=[neck_cut(f, 'body')], scale=S, feather=2.0)
         hk, hdisk = head_region(hf)
-        head, hinfo = cut('dog', hf, False, keep=hk, keep2=hdisk, scale=S)
+        head, hinfo = cut('dog', hf, hm, keep=hk, keep2=hdisk, scale=S, feather=2.0)
         tail, tinfo = cut('dog', 19, True, keep=[TAIL6], scale=S)
         fneck = to_piece(info, key(f, 'neck')); bneck = to_piece(binfo, key(f, 'neck'))
         bx = ox + fneck[0] - bneck[0]; by = oy + fneck[1] - bneck[1] + dy
@@ -343,15 +348,29 @@ def place_dog(i, plan):
             layer.alpha_composite(tail, (int(round(bx + btail[0] - ttail[0])), int(round(by + btail[1] - ttail[1]))))
             layer.alpha_composite(body, (int(round(bx)), int(round(by))))
             hneck = to_piece(hinfo, key(hf, 'neck'))
-            layer.alpha_composite(head, (int(round(bx + bneck[0] - hneck[0])), int(round(by + bneck[1] - hneck[1]))))
+            sink = 9 * S if hf == 1 else 0                 # f1's neck is raised; set its head 9 source px lower on the lying body
+            layer.alpha_composite(head, (int(round(bx + bneck[0] - hneck[0])), int(round(by + bneck[1] - hneck[1] + sink))))
         pieces_used = ([dict(src='dog', frame=f, mirror=bool(m), part='whole', legs='sinking behind the porch board')] if drop < .92 else
                        [dict(src='dog', frame=f, mirror=bool(m), part='body', legs='behind the porch board (no frame shows them folded)'),
-                        dict(src='dog', frame=19, mirror=True, part='tail'), dict(src='dog', frame=hf, mirror=False, part='head')])
+                        dict(src='dog', frame=19, mirror=True, part='tail'), dict(src='dog', frame=hf, mirror=hm, part='head')])
         # floor clip: below the floor line nothing of the dog is shown (legs refused), soft 6 px edge
         arr = np.asarray(layer).copy()
         ramp = np.clip((EDGE + 4 - np.arange(H)) / 3., 0, 1)
         arr[..., 3] = (arr[..., 3] * ramp[:, None]).astype(np.uint8)
         layer = Image.fromarray(arr, 'RGBA')
+    elif plan.get('hswap'):
+        hf = plan['hswap']
+        _, own = head_region(f, r_scale=1.35)          # the body's own raised head is removed with it (correction stroke)
+        body, binfo = cut('dog', f, bool(m), keep=[neck_cut(f, 'body')], sub=[own], scale=S, feather=2.0)
+        hk, hdisk = head_region(hf)
+        head, hinfo = cut('dog', hf, False, keep=hk, keep2=hdisk, scale=S, feather=2.0)
+        fneck = to_piece(info, key(f, 'neck')); bneck = to_piece(binfo, key(f, 'neck'))
+        bx = ox + fneck[0] - bneck[0]; by = oy + fneck[1] - bneck[1]
+        layer.alpha_composite(body, (int(round(bx)), int(round(by))))
+        hneck = to_piece(hinfo, key(hf, 'neck'))
+        lift = 14 * S                                   # head set 14 source px above the neck prompt: f1's neck is raised
+        layer.alpha_composite(head, (int(round(bx + bneck[0] - hneck[0])), int(round(by + bneck[1] - hneck[1] - lift))))
+        pieces_used = [dict(src='dog', frame=f, mirror=bool(m), part='body'), dict(src='dog', frame=hf, mirror=False, part='head')]
     else:
         layer.alpha_composite(full, (int(round(ox)), int(round(oy))))
     return layer, pieces_used
@@ -401,15 +420,15 @@ class Scene:
             base.alpha_composite(st, (px, py))
         else:
             sp = self.sit
-            base.alpha_composite(sp, (1012, int(EDGE - sp.size[1] + 20)))
+            base.alpha_composite(sp, (1078, int(EDGE - sp.size[1] + 20)))   # sits beside the door, clear of the dog's line into the room
         # the low hand, offered from 6.8
         if t >= 6.8:
             e = smooth((t - 6.8) / .6)
             hd = self.hand
             hw = int(hd.size[0] * .95); hh = int(hd.size[1] * .95)
             h2 = hd.resize((hw, hh), Image.LANCZOS)
-            back = 70 * smooth((t - 21.5) / 2.0)
-            hx = int(1150 - hw + 60 * (1 - e) + back); hy = int(EDGE - hh + 10)
+            back = 70 * smooth((t - 21.5) / 2.0) + 90 * smooth((t - 24.8) / 1.0)
+            hx = int(1205 - hw + 60 * (1 - e) + back); hy = int(EDGE - hh + 10)
             base.alpha_composite(h2, (hx, hy))
 
     def door_layer(self, t, base):
@@ -437,7 +456,7 @@ class Scene:
         xx = np.arange(W)[None, :]
         warm = (L * np.clip(1 - (WX0 - xx) / 560., 0, 1) ** 1.3)[..., None]
         if plan['state'] == 'lie_down':
-            warm = np.maximum(warm, (L * np.clip((xx - 880) / 140., 0, 1))[..., None])
+            warm = np.maximum(warm, (L * plan.get('drop', 0) * np.clip((xx - 880) / 140., 0, 1))[..., None])
         rgb = da[..., :3]
         cool = rgb * np.array([.78, .84, 1.0]) * .92
         hot = rgb * np.array([1.16, .98, .76])

@@ -57,21 +57,27 @@ def poly_and(alpha, poly, size):
 _cache = {}
 
 
-def cut(src, frame, mirror=False, keep=None, sub=(), add=(), scale=1.0, tone='dog', note=None, keep2=None):
+def cut(src, frame, mirror=False, keep=None, sub=(), add=(), scale=1.0, tone='dog', note=None, keep2=None, feather=0.0):
     """Return (RGBA PIL image at stage scale, info) for a proposal.
     keep: list of polygons; the piece is mask AND union(keep)  (e.g. a neck half-plane)
     info: 'origin' = source coords of the crop's top-left, 'scale', 'mirror', 'W' source width, so source points map."""
-    k = (src, frame, mirror, json.dumps(keep), json.dumps(keep2), json.dumps(sub), json.dumps(add), round(scale, 4), tone)
+    k = (src, frame, mirror, json.dumps(keep), json.dumps(keep2), json.dumps(sub), json.dumps(add), round(scale, 4), tone, feather)
     if k in _cache:
         return _cache[k]
     im = src_frame(src, frame)
     Wd, Hd = im.size
     polys = src_masks(src)[str(frame)]
     a = raster(polys, (Wd, Hd), add=add, sub=sub)
+    kk = np.ones((Hd, Wd), np.float32)
     if keep:
-        a = a * raster(keep, (Wd, Hd))
+        kk = kk * raster(keep, (Wd, Hd))
     if keep2:
-        a = a * raster([keep2], (Wd, Hd))
+        kk = kk * raster([keep2], (Wd, Hd))
+    if feather:
+        # a part boundary (neck line) is not an object edge: it is feathered so joined parts do not meet at a hard seam
+        kk = np.asarray(Image.fromarray((kk * 255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(feather)), np.float32) / 255.
+    elif keep or keep2:
+        a = a * kk; kk = None
     # 1 px choke so ground pixels at the SAM edge do not ride along
     a = np.clip((a - .3) / .7, 0, 1)
     # adjudicator: islands are not the object (SAM debris on the ground); keep the largest 4-connected component
@@ -79,6 +85,8 @@ def cut(src, frame, mirror=False, keep=None, sub=(), add=(), scale=1.0, tone='do
     grow = big.copy()
     grow[1:, :] |= big[:-1, :]; grow[:-1, :] |= big[1:, :]; grow[:, 1:] |= big[:, :-1]; grow[:, :-1] |= big[:, 1:]
     a = a * grow
+    if kk is not None and (keep or keep2):
+        a = a * kk
     ys, xs = np.nonzero(a > .02)
     if len(xs) == 0:
         return None

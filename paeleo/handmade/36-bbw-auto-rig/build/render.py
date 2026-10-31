@@ -59,7 +59,7 @@ def softplus(z, k=.35):
 def path(x):
     """the score's x (metres from the threshold) to a point on the porch floor: straight out of the door first,
     then bending along the porch toward the steps"""
-    u = 0.08 + 0.82 * x + 0.15 * softplus(x - 1.5)
+    u = 0.08 + 0.82 * x + 0.15 * softplus(x - 1.5) + 0.16 * min(1.0, max(0.0, 1.5 - x))
     v = -0.12 + 0.57 * x - 0.35 * softplus(x - 1.5)
     return u, v
 
@@ -196,15 +196,15 @@ def dog_plan(i):
     elif t < 8.3:
         # lying, facing the door: the head is up and toward the door while the hips stay down; then it rises
         view = 'W'; rise = min(1, max(0, (t - 7.8) / .45)); rise = rise * rise * (3 - 2 * rise)
-        p.update(neck=.25, fold=1 - rise, fold_front=1 - rise, swing=None, crouch=.2 * (1 - rise))
+        p.update(neck=.55, fold=1 - rise, fold_front=1 - rise, swing=None, crouch=.2 * (1 - rise))
     elif st == 'lie_down':
         view = 'W'
         lie = a['lie']; look = a['look']; rest = a['rest']
         p['fold'] = lie; p['swing'] = [s * (1 - lie) for s in swing]
         base = .55 + .5 * (1.0 - min(head, 1.0))
-        p['neck'] = min(1.05, base * (1 - look) + .95 * look + .12 * rest) * lie + ((1.0 - head) * 2.5 - .05) * (1 - lie)
+        p['neck'] = min(1.05, base * (1 - look) + .80 * look + .12 * rest) * lie + ((1.0 - head) * 2.5 - .05) * (1 - lie)
         p['chin'] = .06 * rest
-        p['push'] = 24.0 * look       # the muzzle goes in over the sill, level, not up
+        p['push'] = 34.0 * look       # the muzzle goes in over the sill, level, not up
         p['head'] = -.12 * look
     elif st == 'approach':
         view = 'W'; p['neck'] = (1.0 - head) * 2.5 - .05
@@ -291,7 +291,7 @@ def person_plan(i):
     f = score_at(i); pe = f['person']; t = i / FPS
     # place: doorway (score -0.28) -> beside (score -1.25): across the opening to the left, inside
     xs = pe['x']; k = min(1, max(0, (xs - (-0.28)) / (-1.25 + .28)))
-    u = .0 - .38 * k; v = -.28 - .32 * k
+    u = .0 - .50 * k; v = -.28 - .20 * k
     sit = pe['sit']
     reach = pe['reach']; low = pe['low']; mouth = pe['mouth']
     voice = pe['voice']
@@ -314,7 +314,7 @@ def person_layer(i, canvas, lit, leaf_open):
     lean = -.10 * q['reach'] - .14 * q['low'] + .03 * math.sin(q['t'] * 7) * (q['voice'] == 'call')
     Mc = rot(lean, sh)
     arm_a = np.array(H['arm']['a'])
-    arm = -1.05 * q['reach'] - .80 * q['low']
+    arm = -1.05 * q['reach'] - 1.25 * q['low']
     Ma = compose(Mc, rot(arm, arm_a))
     nod = (.06 * math.sin(q['t'] * 9) if q['voice'] == 'call' else 0) + (.10 if q['voice'] == 'soft' else 0)
     Mh = compose(Mc, rot(nod, np.array(H['head']['at'])))
