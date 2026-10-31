@@ -1,0 +1,75 @@
+{
+ "about": "SCION 23 geometry tests, measured in the runtime (skeleton cm; at the wide camera 1 cm = 1.9 px, at the closest 3.08 px). They test the representation; whether it reads is for the critic.",
+ "bone_length_under_IK": {
+  "max_abs_cm": 0.0,
+  "meaning": "link length after mixing + IK minus the link length the mixed pose asks for"
+ },
+ "bone_length_under_mixing": {
+  "max_rel": 0.24946,
+  "where": [
+   "hL_paw",
+   4.792
+  ],
+  "meaning": "outside the two turn clips, link length vs the bind length of the body view on screen (0 or 135 deg), for the links clips never re-key (lower legs, paws, chest, neck, tail tip)"
+ },
+ "feet_planted": {
+  "frames": 1292,
+  "max_slide_cm": 3.3909,
+  "p99_slide_cm": 1.007,
+  "meaning": "paw joint world motion between consecutive frames while planted and IK mix 1"
+ },
+ "ik_reach": {
+  "max_residual_cm": 8.156,
+  "where": [
+   "fR",
+   8.333
+  ],
+  "frames_over_1cm": 66,
+  "meaning": "planner target vs reached paw joint"
+ },
+ "lowest_joint": {
+  "y_cm": -3.262,
+  "where": [
+   "hR_mt",
+   5.083
+  ],
+  "meaning": "skeleton plane y of the lowest joint (0 = floor at the dog's depth; near-side joints sit up to -2 cm lower on screen by the camera tilt)"
+ },
+ "largest_joint_jump": [
+  {
+   "cm": 17.02,
+   "bone": "hL_sh",
+   "t": 1.917
+  },
+  {
+   "cm": 15.05,
+   "bone": "hR_sh",
+   "t": 1.5
+  },
+  {
+   "cm": 14.81,
+   "bone": "hR_sh",
+   "t": 2.333
+  },
+  {
+   "cm": 13.79,
+   "bone": "fR_paw",
+   "t": 18.208
+  },
+  {
+   "cm": 13.59,
+   "bone": "hL_mt",
+   "t": 8.625
+  },
+  {
+   "cm": 13.37,
+   "bone": "fR_lo",
+   "t": 1.875
+  }
+ ],
+ "head_below_back_on_approach": {
+  "max_skull_top_minus_withers_cm": -7.03,
+  "at": 14.708,
+  "meaning": "ear base (top of skull) minus chest joint + 14 cm (top of the back at the withers), over the whole approach 14.708-23.75 s; negative = head below the back"
+ }
+}

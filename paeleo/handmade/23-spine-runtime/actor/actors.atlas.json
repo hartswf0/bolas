@@ -1,0 +1,747 @@
+{
+ "page": "actors.png",
+ "size": [
+  2048,
+  257
+ ],
+ "ppm_atlas": 320,
+ "units": "skeleton cm; 1 atlas px = 0.3125 cm",
+ "regions": {
+  "torso_0": {
+   "xy": [
+    498,
+    2
+   ],
+   "size": [
+    246,
+    121
+   ],
+   "kind": "plane",
+   "ref": "root",
+   "origin_m": [
+    -0.37156,
+    0.63594
+   ]
+  },
+  "torso_45": {
+   "xy": [
+    98,
+    2
+   ],
+   "size": [
+    198,
+    139
+   ],
+   "kind": "plane",
+   "ref": "root",
+   "origin_m": [
+    -0.30281,
+    0.65625
+   ]
+  },
+  "torso_90": {
+   "xy": [
+    2,
+    2
+   ],
+   "size": [
+    94,
+    146
+   ],
+   "kind": "plane",
+   "ref": "root",
+   "origin_m": [
+    -0.14656,
+    0.66875
+   ]
+  },
+  "torso_135": {
+   "xy": [
+    298,
+    2
+   ],
+   "size": [
+    198,
+    139
+   ],
+   "kind": "plane",
+   "ref": "root",
+   "origin_m": [
+    -0.31844,
+    0.65625
+   ]
+  },
+  "head_0": {
+   "xy": [
+    1116,
+    2
+   ],
+   "size": [
+    125,
+    75
+   ],
+   "kind": "plane",
+   "ref": "head",
+   "origin_m": [
+    -0.34406,
+    0.11656
+   ]
+  },
+  "head_45": {
+   "xy": [
+    1369,
+    2
+   ],
+   "size": [
+    100,
+    73
+   ],
+   "kind": "plane",
+   "ref": "head",
+   "origin_m": [
+    -0.255,
+    0.13062
+   ]
+  },
+  "head_68": {
+   "xy": [
+    1573,
+    2
+   ],
+   "size": [
+    75,
+    72
+   ],
+   "kind": "plane",
+   "ref": "head",
+   "origin_m": [
+    -0.15813,
+    0.13375
+   ]
+  },
+  "head_90": {
+   "xy": [
+    1650,
+    2
+   ],
+   "size": [
+    64,
+    72
+   ],
+   "kind": "plane",
+   "ref": "head",
+   "origin_m": [
+    -0.10031,
+    0.13531
+   ]
+  },
+  "head_112": {
+   "xy": [
+    1716,
+    2
+   ],
+   "size": [
+    75,
+    72
+   ],
+   "kind": "plane",
+   "ref": "head",
+   "origin_m": [
+    -0.07531,
+    0.13375
+   ]
+  },
+  "head_135": {
+   "xy": [
+    1471,
+    2
+   ],
+   "size": [
+    100,
+    73
+   ],
+   "kind": "plane",
+   "ref": "head",
+   "origin_m": [
+    -0.05812,
+    0.13062
+   ]
+  },
+  "head_180": {
+   "xy": [
+    1243,
+    2
+   ],
+   "size": [
+    124,
+    75
+   ],
+   "kind": "plane",
+   "ref": "head",
+   "origin_m": [
+    -0.04563,
+    0.11656
+   ]
+  },
+  "up_f_near": {
+   "xy": [
+    1187,
+    150
+   ],
+   "size": [
+    97,
+    46
+   ],
+   "kind": "axis",
+   "ref": null,
+   "origin_m": [
+    -0.07162,
+    0.07162
+   ]
+  },
+  "up_f_far": {
+   "xy": [
+    1286,
+    150
+   ],
+   "size": [
+    97,
+    46
+   ],
+   "kind": "axis",
+   "ref": null,
+   "origin_m": [
+    -0.07162,
+    0.07162
+   ]
+  },
+  "lo_f_near": {
+   "xy": [
+    554,
+    216
+   ],
+   "size": [
+    90,
+    31
+   ],
+   "kind": "axis",
+   "ref": null,
+   "origin_m": [
+    -0.04863,
+    0.04863
+   ]
+  },
+  "lo_f_far": {
+   "xy": [
+    646,
+    216
+   ],
+   "size": [
+    90,
+    31
+   ],
+   "kind": "axis",
+   "ref": null,
+   "origin_m": [
+    -0.04863,
+    0.04863
+   ]
+  },
+  "paw_f_near": {
+   "xy": [
+    854,
+    216
+   ],
+   "size": [
+    53,
+    30
+   ],
+   "kind": "axis",
+   "ref": null,
+   "origin_m": [
+    -0.04262,
+    0.04662
+   ]
+  },
+  "paw_f_far": {
+   "xy": [
+    909,
+    216
+   ],
+   "size": [
+    53,
+    30
+   ],
+   "kind": "axis",
+   "ref": null,
+   "origin_m": [
+    -0.04262,
+    0.04662
+   ]
+  },
+  "th_h_near": {
+   "xy": [
+    434,
+    150
+   ],
+   "size": [
+    114,
+    61
+   ],
+   "kind": "axis",
+   "ref": null,
+   "origin_m": [
+    -0.09563,
+    0.09563
+   ]
+  },
+  "th_h_far": {
+   "xy": [
+    550,
+    150
+   ],
+   "size": [
+    114,
+    61
+   ],
+   "kind": "axis",
+   "ref": null,
+   "origin_m": [
+    -0.09563,
+    0.09563
+   ]
+  },
+  "sh_h_near": {
+   "xy": [
+    108,
+    216
+   ],
+   "size": [
+    101,
+    38
+   ],
+   "kind": "axis",
+   "ref": null,
+   "origin_m": [
+    -0.05962,
+    0.05962
+   ]
+  },
+  "sh_h_far": {
+   "xy": [
+    211,
+    216
+   ],
+   "size": [
+    101,
+    38
+   ],
+   "kind": "axis",
+   "ref": null,
+   "origin_m": [
+    -0.05962,
+    0.05962
+   ]
+  },
+  "mt_h_near": {
+   "xy": [
+    1068,
+    216
+   ],
+   "size": [
+    65,
+    27
+   ],
+   "kind": "axis",
+   "ref": null,
+   "origin_m": [
+    -0.04262,
+    0.04262
+   ]
+  },
+  "mt_h_far": {
+   "xy": [
+    1135,
+    216
+   ],
+   "size": [
+    65,
+    27
+   ],
+   "kind": "axis",
+   "ref": null,
+   "origin_m": [
+    -0.04262,
+    0.04262
+   ]
+  },
+  "paw_h_near": {
+   "xy": [
+    964,
+    216
+   ],
+   "size": [
+    50,
+    29
+   ],
+   "kind": "axis",
+   "ref": null,
+   "origin_m": [
+    -0.04162,
+    0.04562
+   ]
+  },
+  "paw_h_far": {
+   "xy": [
+    1016,
+    216
+   ],
+   "size": [
+    50,
+    29
+   ],
+   "kind": "axis",
+   "ref": null,
+   "origin_m": [
+    -0.04162,
+    0.04562
+   ]
+  },
+  "neck_dL": {
+   "xy": [
+    198,
+    150
+   ],
+   "size": [
+    116,
+    62
+   ],
+   "kind": "axis",
+   "ref": null,
+   "origin_m": [
+    -0.09763,
+    0.09763
+   ]
+  },
+  "neck_dR": {
+   "xy": [
+    316,
+    150
+   ],
+   "size": [
+    116,
+    62
+   ],
+   "kind": "axis",
+   "ref": null,
+   "origin_m": [
+    -0.09763,
+    0.09763
+   ]
+  },
+  "tail": {
+   "xy": [
+    666,
+    150
+   ],
+   "size": [
+    153,
+    57
+   ],
+   "kind": "axis",
+   "ref": null,
+   "origin_m": [
+    -0.05763,
+    0.08913
+   ]
+  },
+  "ear_side_near": {
+   "xy": [
+    1781,
+    150
+   ],
+   "size": [
+    49,
+    39
+   ],
+   "kind": "axis",
+   "ref": null,
+   "origin_m": [
+    -0.02,
+    0.061
+   ]
+  },
+  "ear_side_far": {
+   "xy": [
+    1832,
+    150
+   ],
+   "size": [
+    49,
+    39
+   ],
+   "kind": "axis",
+   "ref": null,
+   "origin_m": [
+    -0.02,
+    0.061
+   ]
+  },
+  "ear_back": {
+   "xy": [
+    1385,
+    150
+   ],
+   "size": [
+    49,
+    46
+   ],
+   "kind": "axis",
+   "ref": null,
+   "origin_m": [
+    -0.02,
+    0.072
+   ]
+  },
+  "p_head": {
+   "xy": [
+    1027,
+    2
+   ],
+   "size": [
+    87,
+    86
+   ],
+   "kind": "plane",
+   "ref": null,
+   "origin_m": [
+    -0.13438,
+    0.14375
+   ]
+  },
+  "p_torso": {
+   "xy": [
+    746,
+    2
+   ],
+   "size": [
+    279,
+    119
+   ],
+   "kind": "axis",
+   "ref": null,
+   "origin_m": [
+    -0.16562,
+    0.18563
+   ]
+  },
+  "p_neck": {
+   "xy": [
+    1710,
+    150
+   ],
+   "size": [
+    69,
+    42
+   ],
+   "kind": "axis",
+   "ref": null,
+   "origin_m": [
+    -0.06563,
+    0.06563
+   ]
+  },
+  "p_uarm_near": {
+   "xy": [
+    1436,
+    150
+   ],
+   "size": [
+    135,
+    45
+   ],
+   "kind": "axis",
+   "ref": null,
+   "origin_m": [
+    -0.07062,
+    0.07062
+   ]
+  },
+  "p_uarm_far": {
+   "xy": [
+    1573,
+    150
+   ],
+   "size": [
+    135,
+    45
+   ],
+   "kind": "axis",
+   "ref": null,
+   "origin_m": [
+    -0.07062,
+    0.07062
+   ]
+  },
+  "p_farm_near": {
+   "xy": [
+    314,
+    216
+   ],
+   "size": [
+    118,
+    38
+   ],
+   "kind": "axis",
+   "ref": null,
+   "origin_m": [
+    -0.05862,
+    0.05862
+   ]
+  },
+  "p_farm_far": {
+   "xy": [
+    434,
+    216
+   ],
+   "size": [
+    118,
+    38
+   ],
+   "kind": "axis",
+   "ref": null,
+   "origin_m": [
+    -0.05862,
+    0.05862
+   ]
+  },
+  "p_hand_near": {
+   "xy": [
+    738,
+    216
+   ],
+   "size": [
+    56,
+    31
+   ],
+   "kind": "axis",
+   "ref": null,
+   "origin_m": [
+    -0.04863,
+    0.04863
+   ]
+  },
+  "p_hand_far": {
+   "xy": [
+    796,
+    216
+   ],
+   "size": [
+    56,
+    31
+   ],
+   "kind": "axis",
+   "ref": null,
+   "origin_m": [
+    -0.04863,
+    0.04863
+   ]
+  },
+  "p_thigh_near": {
+   "xy": [
+    1793,
+    2
+   ],
+   "size": [
+    194,
+    64
+   ],
+   "kind": "axis",
+   "ref": null,
+   "origin_m": [
+    -0.10063,
+    0.10063
+   ]
+  },
+  "p_thigh_far": {
+   "xy": [
+    2,
+    150
+   ],
+   "size": [
+    194,
+    64
+   ],
+   "kind": "axis",
+   "ref": null,
+   "origin_m": [
+    -0.10063,
+    0.10063
+   ]
+  },
+  "p_shin_near": {
+   "xy": [
+    821,
+    150
+   ],
+   "size": [
+    181,
+    47
+   ],
+   "kind": "axis",
+   "ref": null,
+   "origin_m": [
+    -0.07362,
+    0.07362
+   ]
+  },
+  "p_shin_far": {
+   "xy": [
+    1004,
+    150
+   ],
+   "size": [
+    181,
+    47
+   ],
+   "kind": "axis",
+   "ref": null,
+   "origin_m": [
+    -0.07362,
+    0.07362
+   ]
+  },
+  "p_shoe_near": {
+   "xy": [
+    1883,
+    150
+   ],
+   "size": [
+    104,
+    39
+   ],
+   "kind": "axis",
+   "ref": null,
+   "origin_m": [
+    -0.06062,
+    0.06062
+   ]
+  },
+  "p_shoe_far": {
+   "xy": [
+    2,
+    216
+   ],
+   "size": [
+    104,
+    39
+   ],
+   "kind": "axis",
+   "ref": null,
+   "origin_m": [
+    -0.06062,
+    0.06062
+   ]
+  }
+ }
+}
