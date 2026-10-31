@@ -222,7 +222,7 @@ def words_layer(img, t):
                 if t >= on:
                     a = alpha_all
                     if soft:
-                        a *= min(1.0, (t - on) / 0.25)
+                        a *= min(1.0, 0.5 + (t - on) / 0.08)   # appears at its spoken frame
                     dy = 0
                     if wd['exit'] == 'drop' and t > s1:
                         k = (t - s1) / tail; dy = (k ** 2) * 500 * (0.6 + 0.4 * ((li * 37) % 7) / 7)

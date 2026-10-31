@@ -79,7 +79,7 @@ def build():
                      'room': pick(ROOM, temp, 'room' + temp), 'door': pick(DOOR, temp, 'door' + temp),
                      'interior': pick(INTERIOR, 'warm', 'int') if door_open else 'lamps.bulb.halo',
                      'hand': pick(HAND, temp, 'hand' + temp),
-                     'dog_body': pick(DOG_IDENT, 'cold', 'ident') if (temp == 'cold' and end - f >= 6) else pick(DOG, temp, 'dog' + temp),
+                     'dog_body': pick(DOG_IDENT, 'cold', 'ident') if (temp == 'cold' and end - f >= 6) else (pick(DOG_HEAD, 'warm', 'dogsill') if t >= 23.79 else pick(DOG, temp, 'dog' + temp)),
                      'dog_head_legs': pick(DOG_HEAD, temp, 'doghead' + temp)})
     # 26.4 come in: lamps only in the interior and on the facade
     for c in cuts:

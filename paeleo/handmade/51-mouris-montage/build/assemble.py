@@ -36,14 +36,22 @@ def cards():
           ('the threshold, by whole-image substitution on a measured cutting score', 'f34.woff2', 28, (200, 190, 172)),
           ('the Mouris collection itself was not viewed: these are independently licensed public-domain images', 'f14.woff2', 18, (150, 146, 140))],
          os.path.join(C, 'title.jpg'))
+    # name only what the viewer can see: the dog's images held >= 6 frames somewhere
+    seen = {}
+    for c in cs['cuts']:
+        for key in ('dog_body', 'dog_head_legs'):
+            if c['hold'] >= 6:
+                seen[c[key].split('.')[1].replace('-', ' ')] = 1
+    names = ', '.join(sorted(seen))
     card([('What it is made of', 'f8.woff2', 40, (236, 226, 206)),
-          ('The dog: one body of 165 spheres built here, its silhouette and shading held steady.', 'f34.woff2', 21, (214, 204, 186)),
-          (f'Its coat, eyes and paws are whole images, substituted {ncut} times on a cutting score:', 'f34.woff2', 21, (214, 204, 186)),
-          ('2-frame holds on the calls, 12 to 46 frames on the soft voice, the light and the stay,', 'f34.woff2', 21, (214, 204, 186)),
-          ('cropped from public-domain archive shots: cat, tiger, sheep, lion, horse, rabbit, broom, wheel, ladder, shovel.', 'f34.woff2', 21, (214, 204, 186)),
-          ('The wall, door and lit room are substituted on the same score (doors, lamps, train, clock, flower, basket, cloud).', 'f34.woff2', 21, (214, 204, 186)),
-          ('The words are letters cut from those images. Voices and sound are synthesized. Floor and figure drawn here.', 'f34.woff2', 21, (214, 204, 186)),
-          ('Sources: Internet Archive / Moving Image Archive public-domain films (see assets.json). No Mouris footage used.', 'f14.woff2', 17, (150, 146, 140))],
+          ('The dog: cut-outs from whole public-domain archive images, re-cut and substituted', 'f34.woff2', 21, (214, 204, 186)),
+          (f'{ncut} times on a cutting score (2-frame cuts on the calls, holds of 12 to 46 frames on the soft voice and the light).', 'f34.woff2', 21, (214, 204, 186)),
+          ('Its pieces come from: ' + names[:90], 'f34.woff2', 21, (214, 204, 186)),
+          (('  ' + names[90:]) if len(names) > 90 else ' ', 'f34.woff2', 21, (214, 204, 186)),
+          ('An invisible 3D pose of spheres decides where each piece is cut; its shading is not shown.', 'f34.woff2', 21, (214, 204, 186)),
+          ('The wall, door and lit room take images from the same archive. Letters are cut from those images.', 'f34.woff2', 21, (214, 204, 186)),
+          ('Voices and sound are synthesized; floor, house and person are drawn here. No Mouris footage was used.', 'f34.woff2', 21, (214, 204, 186)),
+          ('Sources: Internet Archive / Moving Image Archive public-domain films (see assets.json).', 'f14.woff2', 17, (150, 146, 140))],
          os.path.join(C, 'end.jpg'))
 
 
