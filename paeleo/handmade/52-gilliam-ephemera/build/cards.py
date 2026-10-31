@@ -65,8 +65,8 @@ def title():
 END = [
     ('The dog', 'one frame of a home movie dog (Amateur Film New Jersey C, Internet Archive, public domain), printed, cut into '
                 'twelve pieces (head, ear, body, tail, each leg in two at the wrist or hock) and pinned. A second frame of the same '
-                'dog is the turning card; a second print of its head is the look back. There is no print of the back of its head: '
-                'that card is its own fur laid over its muzzle. Eyes, noses and toes are retouched in ink, drawn here.'),
+                'dog is the turning card, a second print of its head the look back, and a third frame (f001), where it is seen '
+                'from behind, the back of its head as it looks in. Eyes, noses, ears and toes are retouched in ink, drawn here.'),
     ('The people and things', 'a face in a hat (Vision of the Wild), a smock, jeans and a door swinging (Straight Talk), a forearm '
                 'that held a card (Door to Heaven), and the same forearm enlarged, a lamp (Light Of Your Life B), trees (Behind the Lens), a cloud (Top Of The '
                 'Cloud), the stone of the dog\'s own house. All public domain.'),

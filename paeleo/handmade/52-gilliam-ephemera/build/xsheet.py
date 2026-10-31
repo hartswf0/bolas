@@ -200,15 +200,18 @@ def dog_pose(i, prev):
         if t >= 25.4: hd = smooth(-20, -38, (t - 25.4) / .7)
         p['head'] = hd
         label = 'lie_down: across the sill'
-        if LOOK_IN <= i < LOOK_OUT:
-            p['headpiece'] = 'dog_away'
-            # round 4: the head turned away into the room (a lost profile rising from behind the shoulders); the held
-            # look moves: it reaches a little further in, then eases back
-            p['head'] = 5 if t < 26.95 else (1 if t < 27.45 else (8 if t < 27.8 else 5))
-            label = 'lie_down: looks in through the door'
-        elif i >= LOOK_OUT:
-            p['head'] = smooth(-30, -75, (t - 28.08) / .55)
-            label = 'lie_down: stays' if t > 28.7 else 'lie_down: settles'
+        if i >= LOOK_IN:
+            # round 4 repair: the back of the head, a real print (f001), laid under the shoulders, level, no muzzle
+            # showing: the head is turned into the room. The held look moves (tilts toward the voice inside and back);
+            # from 28.08 it settles chin-down toward the sill, still turned in, and stays.
+            p['headpiece'] = 'dog_backprint'; p['neckdrop'] = 0
+            if i < LOOK_OUT:
+                p['head'] = 0 if t < 26.95 else (5 if t < 27.45 else (-4 if t < 27.8 else 0))
+                label = 'lie_down: looks in through the door'
+            else:
+                u = (t - 28.08) / .55
+                p['head'] = smooth(0, -3, u); p['hdrop'] = smooth(0, 12, u)
+                label = 'lie_down: stays' if t > 28.7 else 'lie_down: settles'
     for k in list(p):   # a hand places a card to about a degree and half a pixel: drift below that is a hold
         if isinstance(p[k], float): p[k] = round(p[k] * 2) / 2 if k == 'X' else float(round(p[k]))
     return p, label

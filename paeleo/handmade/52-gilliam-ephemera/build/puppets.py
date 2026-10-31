@@ -68,6 +68,11 @@ def draw_dog(canvas, pose, rec=None, tint=None):
     place(canvas, 'dog_tail', G @ R(pose.get('tail', 0), pin('dog_tail', 'tailroot')), tint=tint, record=rec)
     nk = pin('dog_torso', 'neck')
     hp = pose.get('headpiece', 'dog_head')
+    if hp == 'dog_backprint':
+        # round 4 repair: the back of the head (the f001 print) laid under the torso card at the nape, level or lowered
+        b = pin(hp, 'nape'); bx, by = pose.get('back_at', BACK_AT)
+        A = G @ T(nk[0] + bx, nk[1] + by + pose.get('hdrop', 0)) @ R(pose.get('head', 0)) @ T(-b[0], -b[1])
+        place(canvas, hp, A, tint=tint, record=rec)
     if hp == 'dog_away':
         # round 4: the head turned away into the room rises from behind the shoulders (laid under the torso card)
         b = pin(hp, 'neck')
@@ -80,7 +85,7 @@ def draw_dog(canvas, pose, rec=None, tint=None):
     place(canvas, 'dog_torso', G, tint=tint, record=rec)
     place_leg(canvas, G, pose, 'dog_hind', tint, rec)
     place_leg(canvas, G, pose, 'dog_fore', tint, rec)
-    if hp == 'dog_away':
+    if hp in ('dog_away', 'dog_backprint'):
         pass
     elif hp == 'dog_backhead':
         b = pin(hp, 'neck')
@@ -98,6 +103,7 @@ def draw_dog(canvas, pose, rec=None, tint=None):
 
 
 AWAY_FLIP = 1
+BACK_AT = (-20, 32)      # where the back-of-head print's nape pin sits (puppet px from the torso's neck pin)
 AWAY_AT = (-30, 36)      # where the turned-away head card sits on the neck (puppet px from the neck pin)
 LOW_ATTACH = (124 * 1.31, 126 * 1.31)
 LOW_ATTACH = (124 * 1.31, 126 * 1.31)    # the head-low card hangs from the front of the chest

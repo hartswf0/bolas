@@ -277,12 +277,12 @@ def head_away():
 # behind, its head turned away from the camera toward the person. Cut at the dog's own print scale (1.31), its matte
 # followed, kept sharp; pinned at the nape. Retouched in ink: the two ear flaps hanging at the sides of the skull and
 # the parting of the fur, as the print's ears are lost in its shadow.
-BACKP = [(134, 67), (142, 69), (148, 75), (151, 81), (155, 88), (158, 100), (156, 108), (151, 110), (147, 104), (146, 112),
-         (148, 124), (120, 124), (122, 112), (121, 104), (117, 110), (112, 108), (110, 100), (113, 88), (117, 81), (120, 75), (126, 69)]
+BACKP = [(134, 67), (142, 69), (148, 75), (151, 81), (155, 88), (158, 100), (156, 108), (151, 110), (147, 104), (146, 110),
+         (143, 116), (125, 116), (122, 110), (121, 104), (117, 110), (112, 108), (110, 100), (113, 88), (117, 81), (120, 75), (126, 69)]
 add(cut('dog_backprint', dogf(1), [BACKP], DS, 'dog', None, **dict(HG, smooth_mask=0, contrast=.9), seed=19, provenance=prov('dog', 1),
         pins={'nape': (134, 120), 'crown': (134, 67)}), op='crop+scissor cut+tint (the back of the head, a real print)')
-ink('dog_backprint', [('fill', [(118, 80), (113, 88), (110, 100), (112, 108), (117, 110), (122, 104), (123, 88)], .5),
-                      ('fill', [(150, 80), (155, 88), (158, 100), (156, 108), (151, 110), (146, 104), (145, 88)], .5),
+ink('dog_backprint', [('fill', [(118, 80), (113, 88), (110, 100), (112, 108), (117, 110), (122, 104), (123, 88)], .62),
+                      ('fill', [(150, 80), (155, 88), (158, 100), (156, 108), (151, 110), (146, 104), (145, 88)], .62),
                       ('line', [(134, 72), (134, 84), (133, 96)], .9, .3),
                       ('line', [(123, 101), (134, 104), (145, 101)], 1.2, .35),
                       ('lightfill', [(124, 71), (134, 67), (144, 71), (141, 73), (134, 71), (127, 73)], .55)])
