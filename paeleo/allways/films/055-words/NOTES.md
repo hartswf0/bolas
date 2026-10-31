@@ -72,3 +72,7 @@ The ledger records every cut against a source time range.
 
 **Critic verdict: PENDING.** I inspected frames and contact sheets; I did not watch at speed.
 **Largest unresolved limitation:** sound. The archive's sound clips are almost all narrated and there is no transcription, so the pivots cannot be carried by source sound as the prompt asks, and most of the film plays in silence.
+
+## Critic round 1 and repair
+
+See [../CRITIC-ROUND-1.md](../CRITIC-ROUND-1.md) for the verdict and the repair applied to this film. Shot tables above describe the cut before that repair; the current `edl.json` and ledger are authoritative.

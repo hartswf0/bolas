@@ -1,7 +1,7 @@
 # 059 · BALL
 
 **Operator:** SCION 059 · Ball — Graphic Constancy Across Sources
-**Runtime:** 40.2 s + 3 s source card · 640×480 · 24 fps
+**Runtime:** 39.8 s + 3 s source card · 640×480 · 24 fps
 **Files:** `059-ball.mp4` (registered cut) · `059-ball-control.mp4` (unregistered control, same sources and order, each frame fitted to the screen) · `edl.json` built by `mk.py` · ledgers · `registration-check.json` · `contact.jpg`, `contact-control.jpg`
 **Status:** proof in progress. Picture and timing were inspected by frame sheets, not watched at speed; the score was synthesised, not listened to. **Independent critic review: pending.**
 
@@ -47,8 +47,8 @@ The target is the screen centre with a rim radius of 134.4 px (0.28 of the frame
 | 10 | 26.45 | speaker grille and a pointer | *Finding His Voice*, 1929 | 2.3 / 2.1 |
 | 11 | 29.2 | film reel in a boy's hands | *Facts About Film*, 1948 | drifts ±25 px as he turns it (ellipse in perspective, hand-marked) |
 | 12 | 31.4 | motorcycle wheel, running | *Cycle Logic, Cycle Safety*, 1967 | ≈8 px by eye (detector re-reads the hub) |
-| 13 | 33.6 | jet intake | *Finale*, 2007 | 5.5 / 4.9 |
-| 14 | 35.6 | **exit:** whole frame, a painted moon drifts out and leaves the stars | *Highlights 1965 (Part III)*, 1965 | unregistered; fade out |
+| 13 | 33.6 | jet intake (ends 35.2, before the source's page-turn effect) | *Finale*, 2007 | 5.5 / 4.9 |
+| 14 | 35.2 | **exit:** whole frame, a painted moon drifts out and leaves the stars | *Highlights 1965 (Part III)*, 1965 | unregistered; fade out |
 
 Rim errors are re-measured on the rendered film (`regcheck.py`). The reel and wheel figures come from drawn overlays (`registration-check.json` shows that the detector locks onto hubs there).
 
@@ -74,3 +74,7 @@ Rim errors are re-measured on the rendered film (`regcheck.py`). The reel and wh
 ## Forage queue (for when the archive is reachable)
 
 Live searches to run against movingimagearchive.com's shot index for BALL v2: `a ball bouncing on a floor`, `children playing with a ball in a schoolyard`, `a baseball thrown toward the camera`, `a basketball dropping through a hoop`, `a bowling ball rolling down the lane`, `a mixing bowl seen from above`, `a dinner plate set on a table, overhead`, `a steering wheel turned by hands`, `a potter's wheel turning`, `a ball rolling out of frame`.
+
+## Critic round 1 and repair
+
+See [../CRITIC-ROUND-1.md](../CRITIC-ROUND-1.md) for the verdict and the repair applied to this film. Shot tables above describe the cut before that repair; the current `edl.json` and ledger are authoritative.

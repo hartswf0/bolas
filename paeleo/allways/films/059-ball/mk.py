@@ -31,7 +31,7 @@ SHOTS = [
     ("a speaker grille and a pointer", "09f05564-267d-5b2d-a056-d65ff834b162", "still", 0, 2.75, [0.5044, 0.4725], 0.4072, None, "paper", "voice"),
     ("a film reel in a boy's hands", "8266284b-8fbb-5b36-9d7f-3987ddc4af17", "clip", 6.4, 2.2, [0.51, 0.395], 0.35, None, "metal", "pictures"),
     ("a motorcycle wheel, running", "c1e30693-35b6-5d39-9540-a8e1b574c71a", "clip", 9.2, 2.2, [0.31, 0.49], 0.58, None, "rubber", "travel"),
-    ("a jet intake", "a393b728-390d-554d-a7dc-234de357c36d", "clip", 11.7, 2.0, [0.4894, 0.5075], 0.2222, 240, "metal", "flight"),
+    ("a jet intake", "a393b728-390d-554d-a7dc-234de357c36d", "clip", 11.7, 1.6, [0.4894, 0.5075], 0.2222, 240, "metal", "flight"),
     # exit: unregistered original moving shot, the moon drifts out of frame
     ("EXIT: a painted moon drifts out of frame", "201b010b-d025-5ea8-8ec8-714d0faf41ae", "clip", 17.6, 4.6, None, None, 240, "exit", "leaving"),
 ]
@@ -60,7 +60,7 @@ for (label, src, media, tin, dur, anchor, r, sh, mat, use) in SHOTS:
     events.append(ev)
     cuts.append((t, dur, mat))
     t += dur
-events.append({"dur": 3.0, "label": "source card", "card": {"lines": ["BALL", "fifteen round things from movingimagearchive.com, 1929–2007", "sources and transforms: see ledger"], "size": 22}, "fade_in": .4})
+events.append({"dur": 3.0, "label": "source card", "card": {"lines": ["BALL", "round things from thirteen films, 1929–2007", "movingimagearchive.com · see ledger"], "size": 22}, "fade_in": .4})
 
 # ---- score: newly composed taps, one per beat; timbre follows material; the beat at the release is omitted
 TOTAL = t + 3.0

@@ -108,10 +108,11 @@ def render_event(ev, i, W, H, fps, tmp, control=False):
     card = ev.get('card')
     if card:
         lines = card['lines']; sz = card.get('size', 24)
-        y0 = H / 2 - (len(lines) - 1) * sz * .8
+        y0 = card['y'] * H if 'y' in card else H / 2 - (len(lines) - 1) * sz * .8   # 'y': caption position (fraction of height)
         for li, t in enumerate(lines):
             fv.append(f"[{cur}]drawtext=fontfile={FONT}:text='{esc(t)}':fontcolor=0xf0eadc:fontsize={sz}:"
-                      f"x=(w-text_w)/2:y={y0 + li * sz * 1.6:.0f}[t{li}]")
+                      f"x=(w-text_w)/2:y={y0 + li * sz * 1.6:.0f}"
+                      + (':box=1:boxcolor=black@0.55:boxborderw=6' if 'y' in card else '') + f"[t{li}]")
             cur = f't{li}'
     fvi, fvo = float(ev.get('fade_in', 0)), float(ev.get('fade_out', 0))
     post = 'format=yuv420p'

@@ -49,3 +49,7 @@ One material behaviour leads to another through a transformation the viewer can 
 - *Structural checks:* every layer maps to source id, clip interval and film time in the ledger. Observed vs constructed status is written into each event `label` (OBSERVED / ANALOGY / CONSTRUCTED). No colour, speed or geometry transforms apart from uniform scale (grid cells).
 - **Largest unresolved limitation:** there is no contact sound, and there is no single sample filmed before and after one action. The chain is a montage of documented responses, not one material's history.
 - Critic verdict: **PENDING**.
+
+## Critic round 1 and repair
+
+See [../CRITIC-ROUND-1.md](../CRITIC-ROUND-1.md) for the verdict and the repair applied to this film. Shot tables above describe the cut before that repair; the current `edl.json` and ledger are authoritative.

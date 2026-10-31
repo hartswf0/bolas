@@ -58,3 +58,7 @@ Transforms: uniform scale + centre crop only (ledger). No retiming, mirroring, p
 - Automated: peak of finished mix −13.7 dBFS, no clipping (renderer limiter at 0.89 not engaged by overlaps; there are none). Source audio under unrelated subject: none (all audio is each shot's own track or digital silence).
 
 Largest unresolved limitation: no verified recording of laughter anywhere in the clip set; an audio classifier or a human listener should re-check the sound clips (esp. Inside the Fed 1.8–2.9 s, Powers Music School 2009 audience) before claiming the archive has none.
+
+## Critic round 1 and repair
+
+See [../CRITIC-ROUND-1.md](../CRITIC-ROUND-1.md) for the verdict and the repair applied to this film. Shot tables above describe the cut before that repair; the current `edl.json` and ledger are authoritative.

@@ -29,6 +29,7 @@ def first_para(md, heading):
 
 
 cards = []
+STATUS = json.loads((FILMS / 'status.json').read_text()) if (FILMS / 'status.json').exists() else {}
 for d in sorted(p for p in FILMS.iterdir() if p.is_dir() and re.match(r'\d{3}-', p.name)):
     n = int(d.name[:3]); op = SCION.get(n, {})
     edl = json.loads((d / 'edl.json').read_text()) if (d / 'edl.json').exists() else {}
@@ -52,7 +53,7 @@ for d in sorted(p for p in FILMS.iterdir() if p.is_dir() and re.match(r'\d{3}-',
     poster = f' poster="{d.name}/poster.jpg"'
     t = dur(main)
     cards.append(f'''<article class="film" id="f{n:03d}">
-<div class="film-head"><span class="label">SCION {n:03d} · {esc(op.get("title", ""))}</span><h3>{esc(title)}</h3><span class="label">{t:.0f} s · archive footage · critic review pending</span></div>
+<div class="film-head"><span class="label">SCION {n:03d} · {esc(op.get("title", ""))}</span><h3>{esc(title)}</h3><span class="label">{t:.0f} s · archive footage · {esc(STATUS.get(d.name, 'critic review pending'))}</span></div>
 <video controls preload="metadata" playsinline src="{d.name}/{main.name}"{poster}></video>
 <p class="theorem">{esc(theorem)}</p>
 <div class="links"><a href="{d.name}/NOTES.md">Forage log, cut and self-review ↗</a><a href="{d.name}/{main.stem}.ledger.json">Source ledger ↗</a><a href="{d.name}/edl.json">Edit list ↗</a>{alt_links}<a href="../operator.html#s{n}">Operator ↗</a></div>
@@ -81,7 +82,7 @@ page = f'''<!doctype html>
 <main id="main" class="wrap">
 <section class="intro"><span class="label">ALLWAYS · first batch · conceptual microfilms</span><h1>Foraged,<br>cut by hand.</h1>
 <p>Each film realises one SCION operator from the conceptual-microfilm family (055–065). Each is cut by hand from shots of public-domain educational, industrial, amateur and newsreel film on <a href="https://www.movingimagearchive.com">movingimagearchive.com</a>, as cached in <a href="https://hartswf0.github.io/cineosis-lab/">Cineosis Lab</a>.</p>
-<p>These are <strong>proofs in progress</strong>, not released works. Every film keeps a source ledger, an edit list, the comparison cut its operator asks for, and a forage log of what the archive did and did not return. None has had an independent critic yet.</p></section>
+<p>These are <strong>proofs in progress</strong>, not released works. Every film keeps a source ledger, an edit list, the comparison cut its operator asks for, and a forage log of what the archive did and did not return. Eight have had a first round from an independent critic agent; the verdicts and repairs are in <a href="CRITIC-ROUND-1.md">CRITIC-ROUND-1.md</a>. No human critic has screened them yet.</p></section>
 <div class="films">{"".join(cards)}</div>
 </main></body></html>
 '''
