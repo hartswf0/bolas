@@ -18,6 +18,7 @@ OBLIQUE = 0.22      # camera looks slightly down: depth toward the camera lowers
 SWING = 0.0         # radius (m) of the arc the shoulders and head swing toward the camera during a turn
 DEPTH = {'fn_upper': .065, 'fn_lower': .075, 'ff_upper': -.065, 'ff_lower': -.075, 'hn_upper': .065, 'hn_lower': .075,
          'hf_upper': -.065, 'hf_lower': -.075, 'ear_near': .045, 'ear_far': -.045}
+FLOOR = {'cage': 0.36, 'leg': 0.62, 'tail': 0.5, 'head': 0.45}
 PERSP = 0.0         # nearer groups grow by up to this fraction
 
 
@@ -125,7 +126,7 @@ def pose_affines(P, hs):
     dbeta = np.clip(74.0 * (0.9 - hval) / 0.45, -30, 95)
     rest_b = 91.0
     dbeta = dbeta * (1 - P['rest']) + rest_b * P['rest']
-    look_b = 52.0
+    look_b = 80.0
     dbeta = dbeta * (1 - P['look']) + look_b * P['look']
     lb = P.get('lookback', 0.0)
     dbeta = dbeta * (1 - lb) + 8.0 * lb
@@ -166,40 +167,43 @@ def pose_affines(P, hs):
     A = np.zeros((len(hs), 2, 3))
     yaw = P['yaw']
 
-    def Y(phi, k=1.0):
+    def Y(phi, floor=0.0):
+        """Yaw as seen by the camera. floor > 0: the shape of the paper never narrows below floor of its width; it flips
+        sides at 90 degrees instead (used for parts that are nearly symmetric when narrow: torso, legs, tail, head)."""
         f = np.radians(phi)
-        return k * np.array([[np.cos(f), 0.0], [OBLIQUE * np.sin(f), 1.0]])
+        c = np.cos(f)
+        if floor > 0:
+            c = (1 if phi <= 90 else -1) * max(abs(c), floor)
+        return np.array([[c, 0.0], [OBLIQUE * np.sin(f), 1.0]])
 
-    sf, sh, sr = (np.sin(np.radians(yaw[g])) for g in ('front', 'head', 'rear'))
-    # the shoulders swing out toward the camera on an arc, so mid-turn the front half comes forward, lower and larger
-    Cf = Cp + np.array([0.0, -OBLIQUE * SWING * sf])
-    kf, kh, kr = 1 + PERSP * sf, 1 + PERSP * max(sf, sh), 1 - 0.4 * PERSP * sr
-    Np_y = Cf + Y(yaw['front'], kf) @ (Np - Cp)
+    Np_y = Cp + Y(yaw['front']) @ (Np - Cp)
     for j, hd in enumerate(hs):
         Aj = out[hd['name']]
         g = hd['group']
+        name = hd['name']
         if g == 'head':
-            M = Y(yaw['head'], kh); piv_r, piv_n = Np, Np_y
+            phi, piv_r, piv_n, fl = yaw['head'], Np, Np_y, FLOOR['head']
         elif g == 'front':
-            M = Y(yaw['front'], kf); piv_r, piv_n = Cp, Cf
-        elif g == 'rear' and hd['name'].startswith('tail'):
-            # the tail never goes edge-on (a paper tail edge-on is a stick): it flicks across, like a wag
-            c = np.cos(np.radians(yaw['rear']))
-            cc = np.sign(c) * max(abs(c), 0.5) if abs(c) > 1e-6 else 0.5
-            M = kr * np.array([[cc, 0.0], [OBLIQUE * sr, 1.0]]); piv_r, piv_n = Cp, Cp
+            phi, piv_r, piv_n = yaw['front'], Cp, Cp
         elif g == 'rear':
-            M = Y(yaw['rear'], kr); piv_r, piv_n = Cp, Cp
+            phi, piv_r, piv_n = yaw['rear'], Cp, Cp
         else:
-            phi = .5 * (yaw['front'] + yaw['rear'])
-            M = Y(phi, .5 * (kf + kr)); piv_r, piv_n = Cp, .5 * (Cp + Cf)
-        Lin = M @ Aj[:, :2]
-        t = M @ (Aj[:, 2] - piv_r) + piv_n
+            phi, piv_r, piv_n = .5 * (yaw['front'] + yaw['rear']), Cp, Cp
+        if g != 'head':
+            fl = FLOOR['cage'] if hd['kind'] == 'cage' else FLOOR['tail'] if name.startswith('tail') else FLOOR['leg']
+        Mc, Mu = Y(phi, fl), Y(phi)
+        ref = np.array(hd['a'] if hd['kind'] == 'bone' else hd['p'], float)
+        q = Aj[:, :2] @ ref + Aj[:, 2]                       # where the handle's own point is, posed in profile
+        # torso cage and legs (front pair and hind pair stand nearly mirror-symmetric) take the clamped, flipping projection;
+        # head, neck and tail keep their true, continuous positions
+        Q = (Mc if (hd['kind'] == 'cage' or 'leg' in hd) else Mu) @ (q - piv_r) + piv_n
+        Lin = Mc @ Aj[:, :2]
+        t = Q - Lin @ ref
         # limbs have depth: near legs/ear at +z, far ones at -z; yawing the body swings them apart on screen, so a dog
         # seen head-on (or from behind) mid-turn shows two forelegs (two hind legs, two ears) side by side, as in 3D
-        z = DEPTH.get(hd['name'], 0.0)
+        z = DEPTH.get(name, 0.0)
         if z:
-            gy = 'head' if g == 'head' else ('front' if g == 'front' else 'rear')
-            t = t + np.array([-z * np.sin(np.radians(yaw[gy])), 0.0])
+            t = t + np.array([-z * np.sin(np.radians(phi)), 0.0])
         A[j, :, :2] = Lin; A[j, :, 2] = t
         A[j, 0, 2] += P['x']
     return A

@@ -16,7 +16,7 @@ FPS = 24
 X_OFFSET = -0.12          # my space: torso centre = score x - 0.12 m
 STRIDE = 0.50
 APPROACH_HEAD = 0.32
-LOOK_YAW = 38.0
+LOOK_YAW = 62.0
 LEG_PHASE = {'hn': 0.0, 'fn': 0.25, 'hf': 0.5, 'ff': 0.75}
 
 
@@ -46,8 +46,8 @@ def phi_body(t):
 # hips, so at no frame is the whole dog edge-on; mid-turn the dog is folded like a real U-turn seen from the side (head and
 # tail on the same side). Onsets are placed on the score's choices: refuse 3.417, watch 7.458.
 TURNS = [  # (direction +1 = turning away, onsets for head, front, rear)
-    (+1, 3.42, 3.52, 3.60),
-    (-1, 7.36, 8.02, 8.10),
+    (+1, 3.42, 3.54, 3.54),
+    (-1, 7.36, 8.00, 8.00),
 ]
 TURN_DUR = 0.34
 
@@ -116,7 +116,8 @@ def dog_poses():
         cap = 1 - smooth((t - 14.70) / 0.45) * (1 - smooth((t - 23.80) / 0.5))
         head = min(head, APPROACH_HEAD + (1.5 - APPROACH_HEAD) * cap)
         # looking in: no lift toward the light; the score's head > 1 becomes reach, not rise
-        head = min(head, 0.95) if look > 0.05 else head
+        if 26.2 <= t <= 28.8:      # looking in: the head stays low (no lift toward the hand); look = reach + yaw into the room
+            head = min(head, 0.30)
         # breathing: calm when lying, quick when afraid
         rate = 0.32 + 0.9 * crouch
         breath = 0.006 * np.sin(2 * np.pi * rate * t) * (1 + lie)
