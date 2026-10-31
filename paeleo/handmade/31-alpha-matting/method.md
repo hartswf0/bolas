@@ -51,8 +51,8 @@ says an independent critic will judge the film; I did not approve it.
 
 ## How the dog is built and moved
 
-**What it is made of.** 13 frames of the archive dog (*Amateur Film New Jersey C*, Home Movies, Internet Archive, public
-domain) appear: 9, 12–15, 26, 28, 31, 43–45, 48 and, for the head only, 5. All 50 are matted.
+**What it is made of.** 10 frames of the archive dog (*Amateur Film New Jersey C*, Home Movies, Internet Archive, public
+domain) appear: 9, 13, 14, 26, 30, 33, 45, and, for heads only, 5, 28 and 31. All 50 are matted.
 
 **How it moves: substitution of whole matted frames, chosen by the score.**
 
@@ -66,15 +66,23 @@ domain) appear: 9, 12–15, 26, 28, 31, 43–45, 48 and, for the head only, 5. A
   and steps back for 30%. The pairs are half a step apart. The gait starts 30 px and ends 26 px off the score, easing
   to it over 9 frames, so its head meets the bridge drawings. That offset is fed to the leg solver as body travel, so
   the planted paws still hold while it closes. At the stop, the bridge plays in reverse (54°, 36°, 18°) into frame 13.
-- *Turning its back* (3.42 s): a turn **through the dog's front**, chosen from its own frames at 12 fps: 14, 15 (three-quarter
-  left), 26, 28 (facing the camera), 31 (three-quarter right), then frame 9 mirrored (profile, facing away). The head goes
-  left → centre → right and never jumps sides. Then it **lies down with its back to them** (score lie = 1 from 4.5 s) and
-  lowers its chin. (Repair round 1: the archive's own turn, frames 16–22, read as dark tangles and was dropped.)
-- *Turning back to look* (7.46 s): the head comes round at once (a hard substitution, no dissolve), over the shoulder,
-  muzzle level toward the door (the head piece kept unmirrored and lifted clear of the back of the mirrored lying body);
-  it rises (7.66–8.0 s), then turns back through its front: 26, 26, 15, 14, then the watching frames.
-- *Coming, head low* (14.71 s): frames 14, 15 (head lowering), then the head-low walk mirrored, advanced by distance
-  travelled (3.4 m at the score's pace).
+- *Turning its back* (3.42 s): a turn **through the dog's front**, chosen from its own frames at 12 fps: 14 (three-quarter
+  left), 26 (facing the camera), then 30 and 33 (frontal body, head three-quarter right with a clear muzzle and ear), then
+  frame 9 mirrored (profile, facing away). The head goes left → centre → right and never jumps sides. Then it **lies down
+  with its back to them** (score lie = 1 from 4.5 s) and lowers its chin. (Repair round 1: the archive's own turn, frames
+  16–22, read as dark tangles and was dropped. Repair round 3: 28 and 31 replaced by 30 and 33; their heads were soft
+  masses.)
+- *Turning back to look* (7.46 s), **repair round 3**: the body stays down while the head comes round through the dog's
+  front over five frames. The steps are the away-facing head lifted off the paws, then the heads of frames 31
+  (three-quarter right), 28 (front) and 14 (three-quarter left), each cut by a soft box and seated on the lying dog's
+  neck, then the level door-facing profile at 7.625 s. Under a bridge head, the top of the old head (an ear-tip rim) is
+  cleared from the body so nothing is left floating. The dog rises (7.66–8.0 s), then turns back through its front:
+  33 and 30 mirrored (frontal body, muzzle toward the door), 14, 14, then the watching frames.
+- *Coming, head low* (14.71 s), **repair round 3**: the head lowers through the same bridge drawings as the retreat's duck
+  (frame 13, neck pivoted 18°/36°/54°). Then it walks on the **planted-paw gait** (frame 45 mirrored, head low), run
+  forward with a 60% stance: paws hold while planted and step forward lifted. The approach has no held-drawing changes.
+  The four archive walk drawings (43, 44, 45, 48) were dropped: their feet could not be registered within 15 px, because
+  frame 48 hides the front leg that frame 43 plants.
 - *Lying across the sill* (23.79 s) and *looking in* (26.4 s): **a labelled reconstruction.** The archive dog was never
   filmed lying. One solved matte (frame 9, profile, head up) is split by complementary soft masks into body, two forelegs,
   hind legs and head; the forelegs pivot forward at the elbows onto the floor, the hind legs fold (compress) under the
@@ -140,7 +148,7 @@ tone; premultiplication correct; no bright rim from the source daylight.
 10. **Repair round 2 (independent critic: DOES NOT PASS, narrowly).** Conditions and what changed. The original
     builder began this round (the gait, the calls moved earlier) but did not record it. Its successor finished, measured
     and recorded it. All numbers are measured on frames and audio decoded from the encoded `film.mp4` (`build/verify.py`
-    → `proof/round3_verify.json`, sheets `proof/r3_*.jpg`). The dog's mask on screen is |film − no-dog plate|, where the
+    → `proof/round3_verify.json`; its sheets were replaced by round 3's). The dog's mask on screen is |film − no-dog plate|, where the
     plate is the same frame rendered with `NODOG=1` (same grain seeds, same shadows).
     1. *Retreat skated (a forward walk slid backward):* the backing gait above. Each planted paw holds within **2.60 px**
        (fore pair, 5 plants) and **2.42 px** (hind pair, 4 plants) while the body travels 203 px.
@@ -167,23 +175,52 @@ tone; premultiplication correct; no bright rim from the source daylight.
        side the dog faces; the earlier outermost-column "nose" jumped to a forward paw. Its largest one-frame step is
        **22.1 px** in 0.83–2.54 s and **17.5 px** in 23.58–25.0 s (render: 21.6 and 7.6 px).
 
+11. **Repair round 3 (independent critic round 3: PASS, narrowly; one last round).** All numbers are measured on the
+    encoded film (`proof/round4_verify.json`, sheets `proof/r4_*.jpg`).
+    1. *Siding through the legs at 22.2–23.8 s; ghost legs at 23.62–23.79 s:* the matte was solid. The light wrap was
+       the cause: it weighted "edge" by distance from the interior, so a thin leg counted as all edge, and up to 60% of
+       its colour was replaced by the siding behind it. Wrap now acts only on truly fractional alpha (4a(1−a), none above
+       0.97). The approach no longer uses frame 45 as a held drawing (item 5), so its faded hind legs are gone. Measured:
+       the siding pattern (no-dog plate minus the same plate with unlined siding) regressed against the film inside the
+       dog's alpha ≥ 0.95. Body transfer is 0.002 (max 0.020); legs −0.016 (max 0.103), against a control of 0.085 (the
+       noise floor), so the dog is opaque within noise. The test was validated: it reads 1.01–1.04 outside the dog.
+       Render check: removing the siding lines changes solid dog pixels by 0.19 grey levels on average, against 4.78
+       outside.
+    2. *Look-back snap at 7.46 s:* the head now comes round through the dog's front over five frames (see "How it
+       moves"). The largest step of the head piece is **34.4 px** on the film (render 34.3). A rejected alternative,
+       swinging the profile head 180° over the back, left it floating on a stalk.
+    3. *Soft voice:* "It's all right" now starts at **7.11 s**, 0.35 s before the look-back. It is **9.96 dB** under the
+       quietest call.
+    4. *Frontal heads at 3.71–3.83 and 8.04–8.17 s:* frames 30 and 33 (head three-quarter, muzzle and ear clear), and
+       the same frames mirrored for the turn back. Local contrast alone (tested at 1.9× and 2.8×) only made the mottled
+       coat busier.
+    5. *Feet at drawing changes in the approach:* the approach now walks on the planted-paw gait (60% stance), so there
+       are **0** held-drawing changes. Planted paws hold within **2.38 px**, and the largest one-frame paw move (a swing)
+       is **15.9 px**. The head lowers at 14.71 s through the retreat's bridge drawings.
+    Protected, re-measured on the film: retreat paws within 1.74 px; calls at 0.63 / 1.60 / 2.95 s; at 9.0–10.2 s,
+    only 4–5 px edge pieces within 3 px of the body; look-in rim 48 edge px (under 6% of the edge in any frame),
+    0 specks; head steps 22.3 px (0.83–2.54 s) and 8.4 px (23.58–25.0 s).
+
 ## What is still weak (my own view; not a verdict)
+
+- The look-back bridge mixes heads of three archive frames on the lying body. Frame 14's head ends in a soft vertical
+  edge where its box cut runs through shoulder fur (one frame, 7.58 s), and at 7.46 s a crescent of sky shows between
+  the shoulder tuft and the lifted head.
+- The approach is now the same single drawing (frame 45, legs sheared in two pairs) as the retreat. It is steadier than
+  the four-drawing walk, but less varied: the body does not bob or change, only the legs move.
 
 - At the start and end of the retreat (1.13→1.17 s and 2.29→2.33 s) and at the sill (23.79→23.83 s) the head is now
   continuous, but the drawing still changes in one frame: upright to crouched body, and at the sill from the walk's
   white-collar side to the lying sprite's lighter side. The 54° bridge drawing shows a small notch at the withers.
 - The backing gait moves two leg pairs, each sheared as one piece (the two legs of a pair move together), and lifts a
   swinging paw only 5 px. Against the dark tree line the paws are low in contrast.
-- Outside the five repaired moments, the render's head point still jumps more than 30 px at the turns through the
-  front (3.46–3.88 s), at the look-back (7.46 s, by design a hard substitution), at each switch between frames 13 and
-  14 in the long watch, and at each loop seam of the head-low walk (33–36 px, about every 0.6 s).
+- The render's head point still jumps more than 30 px at the turns through the front (3.46–3.88 s, 8.0–8.2 s) and at
+  each switch between frames 13 and 14 in the long watch.
 
 
 - The turns are now three-drawing substitutions through the dog's front (0.4 s): legible frame by frame, but a cut
   sequence rather than a continuous turn; frame 26 (front, head low) is small and dark.
-- The walk loops four frames (42, 46, 47 dropped: head lost in a tangle); the loop seam and the skip 45→48 are visible to an attentive eye. Feet: frames advance by distance at a stride
-  estimated from the source, not measured per foot (the kit's rig keys for 44–49 are interpolated, not tracked).
-- The mirrored walk shows the other side of the dog (the white collar side) from the unmirrored holds.
+- The mirrored gait shows the other side of the dog (the white collar side) from the unmirrored holds.
 - The lying dog is a reconstruction; its folded hind legs are compressed and hidden rather than folded. The look-in head
   (frame 5 from behind) shows the skull and one clear ear tip; the muzzle is not visible, so depth rests on the back of the head.
 - The woman's legs are drawn shapes; her reach is a borrowed forearm, and her calling has no visible mouth (she is a
@@ -196,23 +233,23 @@ No independent critic was run by me. No human viewing. No listening. No Quick, D
 images. I did not import `paeleo/threshold/stage.js` or `paeleo/scion/lenses.js`, did not look at other swarms' folders,
 and did not run git. No operator page was published as an artifact; `operator.html` in this folder is a local page.
 
-## Evidence (last build: make.sh v6, then frames 630–689 re-rendered for the hard look-in substitution; measured)
+## Evidence (last build: make.sh v9 (v8 plus a corrected end card), which renders, encodes, checks, verifies on the film and deletes the frames)
 
 **Checker (`invariants.json`): ALL OK.** All six choices are on time (I1). The dog never goes past the sill and ends
 across it (I2). It moves in the score's direction (I3). Its back is turned through the refusal (I4).
 
-**Onsets measured from the render**: retreat_motion_starts 1.292 s (the head ducks from 1.000 s); retreat_motion_stops 2.500 s; turn_away_first_new_frame 3.458 s; back_turned_first_frame 3.708 s; head_toward_door_again 7.458 s; approach_motion_starts 14.875 s; approach_head_lowers_first_frame 14.708 s; lie_sequence_first_frame 23.833 s; lying_half_down 24.250 s; refusal_lies_down_full 4.917 s; looks_in_first_frame 26.500 s; looks_in_last_frame 28.250 s.
+**Onsets measured from the render**: retreat_motion_starts 1.292 s (the head ducks from 1.000 s); retreat_motion_stops 2.500 s; turn_away_first_new_frame 3.458 s; back_turned_first_frame 3.708 s; head_toward_door_again 7.458 s (comes round by 7.625 s); approach_motion_starts 14.708 s; lie_sequence_first_frame 23.833 s; lying_half_down 24.250 s; refusal_lies_down_full 4.917 s; looks_in_first_frame 26.500 s; looks_in_last_frame 28.250 s.
 
-**Measured on the encoded film** (`proof/round3_verify.json`): the five repair conditions, as listed in item 10 above.
+**Measured on the encoded film** (`proof/round4_verify.json`): the round 3 conditions and the protected ones, as listed in item 11.
 
 **End across the sill**: solid dog x 273.1–514.1 px vs door opening 243–417 px: 143.9 px inside the frame, 97.1 px outside.
 
-**Sound (RMS dBFS, as synthesized)**: calls −23.1 / −23.6 / −23.0; soft words −35.0 / −35.0; come in −33.6; room tone −58.6 / −51.7. The calls are 10.51 dB above the loudest soft word; the quietest soft word is 16.69 dB above the room tone. Measured from the film's AAC track: 9.96 dB. Not listened to.
+**Sound (RMS dBFS, as synthesized)**: calls −23.1 / −23.6 / −23.0; soft words −35.0 / −35.0; come in −33.6; room tone −58.6 / −51.7. Measured from the film's AAC track: the soft words are 9.96 dB under the quietest call. Not listened to.
 
 **Mattes**: premult_ok on 50/50 dog mattes and all world mattes. The stress fixture shows 0 premultiplication failures and 0 bright rims in 96 frames.
 
-**Film**: 1280×720, 24 fps, H.264 two-pass 2.1 Mb/s + AAC 160k, faststart (moov before mdat), 912 frames, 38.000 s, 10.67 MB; 768 scene frames. The rendered frames were deleted after encoding; the folder is 54 MB.
+**Film**: 1280×720, 24 fps, H.264 two-pass 2.1 Mb/s + AAC 160k, faststart (moov before mdat), 912 frames, 38.000 s, 10.65 MB. The rendered frames are deleted by make.sh; the folder is 54 MB.
 
-**Looked at**: frames decoded from film.mp4, full frame and cropped (1×–4×), in every repair window, plus full frames at nine other moments. **Not looked at**: normal-speed playback. **Not listened to**: the sound.
+**Looked at**: frames decoded from film.mp4, full frame and cropped (1×–3×), in every repair window. **Not looked at**: normal-speed playback. **Not listened to**: the sound.
 
-**Status**: repair round 2 done against the critic's five conditions; awaiting independent re-review. Not accepted.
+**Status**: repair round 3 done against the critic's five conditions; awaiting independent review. Not accepted.

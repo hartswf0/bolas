@@ -3,14 +3,14 @@
  "assets": [
   {
    "id": "dog-mattes",
-   "what": "the dog: 11 matted archive frames on screen (9, 13, 14 watching; 14/26/28/31 the turn through its front; 43-45/48 the head-low walk; 45 split into body, head and leg pairs for backing away on planted paws; 5 for the head turned away); all 50 frames are matted; detached matte debris removed by a largest-component filter, one attached fragment on frame 15 cut by hand (frame 15 and 12 no longer used)",
+   "what": "the dog: 10 matted archive frames on screen (9, 13, 14 watching; 13 with its head and neck pivoted down as the bridge into and out of walking; 14/26/30/33 the turn through its front, 33/30 mirrored for the turn back; 45 split into body, head and leg pairs for backing away and for coming, on planted paws; 5 for the head turned away (looking in); the heads of 31, 28 and 14 seated on the lying dog as it looks back); all 50 frames are matted; detached matte debris removed by a largest-component filter, attached fragments on frames 15 and 14 cut by hand (frames 12, 15, 43, 44, 48 no longer used)",
    "source_file": "paeleo/handmade/kit/archive-dog/frames/f000-f049.jpg + masks.json (SAM outlines)",
    "source_title": "Amateur Film New Jersey C",
    "collection": "Home Movies (Internet Archive collection)",
    "archive_url": "https://archive.org/details/NewJerseyC",
    "clip_page": "https://www.movingimagearchive.com/sources/amateur-film-new-jersey-c-c65a8960?clip=2fdacde1-8a23-58e1-b905-5407385bd039",
    "rights": "public_domain",
-   "operation": "SAM outline -> anti-aliased coverage prior -> fur-class trimap (erode 2 / dilate 3) -> colour-line alpha against locally extended F and B, confidence-weighted with the prior -> guided filter (r1, eps 2e-4) -> alpha contrast curve 0.06..0.94 -> foreground colour by inverting the compositing equation, clamped to +-0.15 of the extended interior (decontamination) -> premultiplied RGBA (build/prep_dog.py, build/lib_matte.py); in the film: mirrored for the head-low walk, scaled 1.55 in premultiplied form, regraded for dusk with per-frame grain inside alpha, light-wrapped"
+   "operation": "SAM outline -> anti-aliased coverage prior -> fur-class trimap (erode 2 / dilate 3) -> colour-line alpha against locally extended F and B, confidence-weighted with the prior -> guided filter (r1, eps 2e-4) -> alpha contrast curve 0.06..0.94 -> foreground colour by inverting the compositing equation, clamped to +-0.15 of the extended interior (decontamination) -> premultiplied RGBA (build/prep_dog.py, build/lib_matte.py); in the film: mirrored for the planted-paw gait and the turn back, scaled 1.55 in premultiplied form, regraded for dusk with per-frame grain inside alpha, light-wrapped"
   },
   {
    "id": "lying-dog",

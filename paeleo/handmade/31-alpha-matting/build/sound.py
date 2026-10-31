@@ -127,7 +127,7 @@ def main():
     v = come_here(1.0); add(L, v, 0.62, CALL_G / np.abs(v).max()); marks['call_1'] = (0.62, 0.62 + len(v) / SR)
     v = come_here(1.25); add(L, v, 2.95, CALL_G * 1.12 / np.abs(v).max()); marks['call_2'] = (2.95, 2.95 + len(v) / SR)
     v = come_here(1.1); add(L, v, 1.62, CALL_G * .9 / np.abs(v).max()); marks['call_1b'] = (1.62, 1.62 + len(v) / SR)
-    for t0, name in [(7.42, 'soft_1'), (10.42, 'soft_2')]:
+    for t0, name in [(7.10, 'soft_1'), (10.42, 'soft_2')]:   # round 4: 'it's all right' 0.36 s before the look-back at 7.46
         v = its_all_right(); add(L, v, t0, SOFT_G / np.abs(v).max()); marks[name] = (t0, t0 + len(v) / SR)
     v = come_in(); add(L, v, 25.85, SOFT_G * 1.05 / np.abs(v).max()); marks['come_in'] = (25.85, 25.85 + len(v) / SR)
     # claws on boards: one tick per walk-frame change measured in the render

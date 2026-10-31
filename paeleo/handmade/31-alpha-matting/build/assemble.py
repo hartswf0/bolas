@@ -42,11 +42,11 @@ def onsets(frames):
     i = next(k for k in range(60, 768) if frames[k]['facing'] == -1); m['back_turned_first_frame'] = frames[i]['t']
     i = next(k for k in range(150, 768) if frames[k]['facing'] == 1 and frames[k - 1]['facing'] == -1); m['head_toward_door_again'] = frames[i]['t']
     i = next(k for k in range(300, 768) if xs[300] - xs[k] > 1.0); m['approach_motion_starts'] = frames[i]['t']
-    i = next(k for k in range(300, 768) if frames[k]['source_frame'] == 14 and frames[k - 1]['source_frame'] != 14 and k > 340)
+    i = next(k for k in range(340, 768) if frames[k]['posture'] == 'head lowers')
     m['approach_head_lowers_first_frame'] = frames[i]['t']
     hts = np.array([f['dog_bottom'] - f['dog_top'] for f in frames])
     h0 = np.median(hts[500:560])
-    i = next(k for k in range(560, 768) if frames[k]['source_frame'] is None); m['lie_sequence_first_frame'] = frames[i]['t']
+    i = next(k for k in range(560, 768) if frames[k]['posture'] in ('lying down', 'lie')); m['lie_sequence_first_frame'] = frames[i]['t']
     hl = np.median(hts[620:640])
     i = next(k for k in range(560, 768) if hts[k] <= hl + .5 * (hts[i] - hl)); m['lying_half_down'] = frames[i]['t']
     i = next(k for k in range(90, 180) if frames[k]['posture'] == 'back turned, lying'); m['refusal_lies_down_full'] = frames[i]['t']
