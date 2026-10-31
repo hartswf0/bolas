@@ -34,8 +34,9 @@ def endcard():
         if h.size[0] > 330: h = h.resize((330, int(250 * 330 / h.size[0])))
         im.paste(h, (x, 100)); d.text((x, 360), cap, font=MONO(14), fill=DIM); x += h.size[0] + 22
     w = T['views']['W']
-    leak_b = sum(v['leg_leak_bbw']['mean'] for v in T['views'].values() if v['leg_leak_bbw']) / len(T['views'])
-    leak_s = sum(v['leg_leak_shepard_baseline']['mean'] for v in T['views'].values() if v['leg_leak_shepard_baseline']) / len(T['views'])
+    Lv = [v for v in T['views'].values() if v['leg_leak_bbw'] and v['leg_leak_shepard_baseline']]
+    leak_b = sum(v['leg_leak_bbw']['mean'] for v in Lv) / len(Lv)
+    leak_s = sum(v['leg_leak_shepard_baseline']['mean'] for v in Lv) / len(Lv)
     nb = T['stability_neighbours']
     stab = sum(v['mean_abs_dw'] for v in nb.values()) / len(nb)
     lines = [

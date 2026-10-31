@@ -85,3 +85,10 @@ re-adjudicated. The operator page, the separate critic agent and branch forks of
 - **Walk loop:** f42 (garbled head) is removed everywhere; the step is f43–f45.
 - **Seams and tint:** part boundaries are feathered (2 px at source scale), and the lying warm tint ramps with the drop.
 - Measured onsets now: 0.875, 2.417, 3.417, 7.458 (first head-part change), 14.625, 23.708, look in 26.417.
+
+## Round 2 repairs (critic: PASS narrowly, reviews/round2.md)
+
+- **Look-in head:** a curved correction stroke on f01 removes the straight SAM edge that ran down the person's coat, along with its pale throat band. The head edge is feathered 3 px. The swap is eased f47 → f40 (3 frames) → f01 mirrored, and the reverse on the way out.
+- **Backing away:** an evidence refusal. No frame shows this dog stepping backwards, so it no longer runs a forward stride in reverse. It backs in shuffles: 4 frames held, 2 moving, and the held drawing (f43/f44) changes only at a shuffle.
+- **Lying down:** the m4 body now sinks with the level f40 head, so the muzzle never rises above the withers. The raised m4 head is no longer shown.
+- **Measured onsets:** 0.875, 2.417, 3.417, 7.458, 14.625, 23.792; look in 26.417.
