@@ -3,10 +3,11 @@
 const { chromium } = require('playwright');
 const { spawn } = require('child_process');
 const fs = require('fs'), path = require('path');
-const FPS = 24, DUR = 41, N = FPS * DUR, SEED = 8;
+const CINE = !!process.env.CINEMA, FPS = 24, DUR = CINE ? 47 : 41, N = FPS * DUR, SEED = 8;
 // MOOD=1 renders the textless cut (archive frames instead of words) into ../mood/
-const MOOD = !!process.env.MOOD, tag = MOOD ? '-mood' : '';
-const here = __dirname, out = path.join(here, '..', MOOD ? 'mood' : ''), page = path.resolve(here, '../../contaminant.html');
+// CINEMA=1 renders the film as cinema (camera, inserts, intercut reel, coda) into ../cinema/
+const MOOD = !!process.env.MOOD, kind = CINE ? 'cinema' : MOOD ? 'mood' : '', tag = kind ? '-' + kind : '';
+const here = __dirname, out = path.join(here, '..', kind), page = path.resolve(here, '../../contaminant.html');
 fs.mkdirSync(out, { recursive: true });
 
 // serve the repository over http so archive images load same-origin (file:// would taint the canvas)
@@ -25,11 +26,11 @@ const server = http.createServer((req, res) => {
   const p = await browser.newPage({ viewport: { width: 1280, height: 720 } });
   const errors = [];
   p.on('pageerror', e => errors.push(e.message));
-  await p.goto(`${base}?render=1&seed=${SEED}${MOOD ? '&mood=1' : ''}`);
+  await p.goto(`${base}?render=1&seed=${SEED}${CINE ? '&cinema=1' : MOOD ? '&mood=1' : ''}`);
   await p.waitForFunction(() => window.SCION_CONTAMINANT && window.SCION_CONTAMINANT.ledger().length > 0);
 
   const ff = spawn('ffmpeg', ['-y', '-loglevel', 'error', '-f', 'image2pipe', '-framerate', String(FPS), '-i', '-',
-    '-c:v', 'libx264', '-pix_fmt', 'yuv420p', '-crf', '24', '-preset', 'slow', '-tune', 'animation', path.join(here, `video${tag}.mp4`)],
+    '-c:v', 'libx264', '-pix_fmt', 'yuv420p', '-crf', CINE ? '27' : '24', '-preset', 'slow', '-tune', CINE ? 'grain' : 'animation', path.join(here, `video${tag}.mp4`)],
     { stdio: ['pipe', 'inherit', 'inherit'] });
   const closed = new Promise(r => ff.on('close', r));
   for (let i = 0; i < N; i++) {

@@ -1,0 +1,476 @@
+{
+ "fps": 24,
+ "duration": 47,
+ "seed": 8,
+ "events": [
+  {
+   "t": 1.583333333333334,
+   "type": "lift",
+   "src": "S1",
+   "cued": true
+  },
+  {
+   "t": 1.8333333333333344,
+   "type": "lift",
+   "src": "S3",
+   "cued": true
+  },
+  {
+   "t": 2.8333333333333317,
+   "type": "lift",
+   "src": "S4",
+   "cued": true
+  },
+  {
+   "t": 4.624999999999998,
+   "type": "hand",
+   "n": 3,
+   "cued": true
+  },
+  {
+   "t": 4.666666666666665,
+   "type": "lift",
+   "src": "S12",
+   "cued": true
+  },
+  {
+   "t": 4.708333333333332,
+   "type": "lift",
+   "src": "S13",
+   "cued": true
+  },
+  {
+   "t": 6.25000000000001,
+   "type": "lift",
+   "src": "S8",
+   "cued": true
+  },
+  {
+   "t": 6.291666666666677,
+   "type": "hand",
+   "n": 3,
+   "cued": true
+  },
+  {
+   "t": 6.441666666666677,
+   "type": "bell",
+   "src": "S12",
+   "cued": true
+  },
+  {
+   "t": 7.041666666666677,
+   "type": "bell",
+   "src": "S13",
+   "cued": true
+  },
+  {
+   "t": 7.125000000000016,
+   "type": "cut",
+   "src": "S12",
+   "cued": true
+  },
+  {
+   "t": 7.7083333333333535,
+   "type": "cut",
+   "src": "S13",
+   "cued": true
+  },
+  {
+   "t": 8.208333333333352,
+   "type": "lift",
+   "src": "S9",
+   "cued": true
+  },
+  {
+   "t": 9.250000000000004,
+   "type": "lift",
+   "src": "S11",
+   "cued": true
+  },
+  {
+   "t": 9.333333333333336,
+   "type": "lift",
+   "src": "S14",
+   "cued": true
+  },
+  {
+   "t": 9.375000000000002,
+   "type": "hand",
+   "n": 3,
+   "cued": true
+  },
+  {
+   "t": 9.525000000000002,
+   "type": "bell",
+   "src": "S9",
+   "cued": true
+  },
+  {
+   "t": 10.125000000000002,
+   "type": "bell",
+   "src": "S11",
+   "cued": true
+  },
+  {
+   "t": 10.725000000000001,
+   "type": "bell",
+   "src": "S14",
+   "cued": true
+  },
+  {
+   "t": 10.124999999999991,
+   "type": "lift",
+   "src": "S6",
+   "cued": true
+  },
+  {
+   "t": 10.208333333333323,
+   "type": "cut",
+   "src": "S9",
+   "cued": true
+  },
+  {
+   "t": 10.791666666666648,
+   "type": "cut",
+   "src": "S11",
+   "cued": true
+  },
+  {
+   "t": 11.41666666666664,
+   "type": "cut",
+   "src": "S14",
+   "cued": true
+  },
+  {
+   "t": 11.791666666666634,
+   "type": "lift",
+   "src": "S10",
+   "cued": true
+  },
+  {
+   "t": 12.04166666666663,
+   "type": "switch",
+   "to": "cool",
+   "cued": true
+  },
+  {
+   "t": 12.958333333333284,
+   "type": "seam",
+   "src": "S1×S8",
+   "lineage": [
+    "S1",
+    "S8"
+   ],
+   "cued": true
+  },
+  {
+   "t": 16.208333333333247,
+   "type": "rescue",
+   "src": "S14",
+   "cued": true
+  },
+  {
+   "t": 16.208333333333247,
+   "type": "seam",
+   "src": "S1×S8",
+   "lineage": [
+    "S1",
+    "S8"
+   ],
+   "cued": true
+  },
+  {
+   "t": 18.24999999999997,
+   "type": "hand",
+   "n": 3,
+   "cued": true
+  },
+  {
+   "t": 18.66666666666665,
+   "type": "return",
+   "src": "S1",
+   "cued": true
+  },
+  {
+   "t": 18.66666666666665,
+   "type": "return",
+   "src": "S3",
+   "cued": true
+  },
+  {
+   "t": 18.66666666666665,
+   "type": "return",
+   "src": "S4",
+   "cued": true
+  },
+  {
+   "t": 20.333333333333364,
+   "type": "return",
+   "src": "S8",
+   "cued": true
+  },
+  {
+   "t": 20.58333333333337,
+   "type": "rescue",
+   "src": "S12",
+   "cued": true
+  },
+  {
+   "t": 21.37500000000006,
+   "type": "rescue",
+   "src": "S11",
+   "cued": true
+  },
+  {
+   "t": 21.833333333333407,
+   "type": "return",
+   "src": "S1×S8",
+   "cued": true
+  },
+  {
+   "t": 22.666666666666764,
+   "type": "rescue",
+   "src": "S13",
+   "cued": true
+  },
+  {
+   "t": 22.791666666666767,
+   "type": "return",
+   "src": "S1×S8",
+   "cued": true
+  },
+  {
+   "t": 23.208333333333446,
+   "type": "seam",
+   "src": "S14×S6",
+   "lineage": [
+    "S14",
+    "S6"
+   ],
+   "cued": true
+  },
+  {
+   "t": 25.04166666666683,
+   "type": "hand",
+   "n": 3,
+   "cued": true
+  },
+  {
+   "t": 26.500000000000206,
+   "type": "projector",
+   "dur": 11.700000000000003,
+   "cued": true
+  },
+  {
+   "t": 26.708333333333545,
+   "type": "splice",
+   "cued": true
+  },
+  {
+   "t": 27.37500000000023,
+   "type": "rescue",
+   "src": "S9",
+   "cued": true
+  },
+  {
+   "t": 29.000000000000277,
+   "type": "splice",
+   "cued": true
+  },
+  {
+   "t": 29.083333333333613,
+   "type": "lift",
+   "src": "S5",
+   "cued": true
+  },
+  {
+   "t": 30.208333333333645,
+   "type": "lift",
+   "src": "S1×S8",
+   "cued": true
+  },
+  {
+   "t": 31.25000000000034,
+   "type": "splice",
+   "cued": true
+  },
+  {
+   "t": 31.87500000000036,
+   "type": "hand",
+   "n": 3,
+   "cued": true
+  },
+  {
+   "t": 31.916666666667027,
+   "type": "lift",
+   "src": "S8",
+   "cued": true
+  },
+  {
+   "t": 32.29166666666701,
+   "type": "return",
+   "src": "S6",
+   "cued": true
+  },
+  {
+   "t": 32.29166666666701,
+   "type": "return",
+   "src": "S10",
+   "cued": true
+  },
+  {
+   "t": 32.29166666666701,
+   "type": "return",
+   "src": "S14",
+   "cued": true
+  },
+  {
+   "t": 32.29166666666701,
+   "type": "lift",
+   "src": "S10",
+   "cued": true
+  },
+  {
+   "t": 32.33333333333368,
+   "type": "lift",
+   "src": "S14",
+   "cued": true
+  },
+  {
+   "t": 32.75000000000032,
+   "type": "hand",
+   "n": 3,
+   "cued": true
+  },
+  {
+   "t": 32.791666666666984,
+   "type": "lift",
+   "src": "S6",
+   "cued": true
+  },
+  {
+   "t": 33.04166666666697,
+   "type": "return",
+   "src": "S14×S6",
+   "cued": true
+  },
+  {
+   "t": 33.04166666666697,
+   "type": "lift",
+   "src": "S14×S6",
+   "cued": true
+  },
+  {
+   "t": 33.50000000000028,
+   "type": "splice",
+   "cued": true
+  },
+  {
+   "t": 34.37500000000023,
+   "type": "lift",
+   "src": "S4",
+   "cued": true
+  },
+  {
+   "t": 34.41666666666689,
+   "type": "hand",
+   "n": 3,
+   "cued": true
+  },
+  {
+   "t": 35.75000000000015,
+   "type": "splice",
+   "cued": true
+  },
+  {
+   "t": 39.08333333333329,
+   "type": "return",
+   "src": "S11",
+   "cued": true
+  },
+  {
+   "t": 39.08333333333329,
+   "type": "return",
+   "src": "S12",
+   "cued": true
+  },
+  {
+   "t": 39.08333333333329,
+   "type": "return",
+   "src": "S13",
+   "cued": true
+  },
+  {
+   "t": 39.12499999999996,
+   "type": "lift",
+   "src": "S11",
+   "cued": true
+  },
+  {
+   "t": 39.99999999999991,
+   "type": "lift",
+   "src": "S12",
+   "cued": true
+  },
+  {
+   "t": 45.91666666666624,
+   "type": "return",
+   "src": "S5",
+   "cued": true
+  },
+  {
+   "t": 45.91666666666624,
+   "type": "return",
+   "src": "S9",
+   "cued": true
+  },
+  {
+   "t": 45.91666666666624,
+   "type": "return",
+   "src": "S1×S8",
+   "cued": true
+  },
+  {
+   "t": 46.04166666666623,
+   "type": "lift",
+   "src": "S1×S8",
+   "cued": true
+  },
+  {
+   "t": 46.083333333332895,
+   "type": "hand",
+   "n": 3,
+   "cued": true
+  },
+  {
+   "t": 46.12499999999956,
+   "type": "lift",
+   "src": "S9",
+   "cued": true
+  },
+  {
+   "t": 46.79166666666619,
+   "type": "return",
+   "src": "S8",
+   "cued": true
+  },
+  {
+   "t": 46.79166666666619,
+   "type": "return",
+   "src": "S10",
+   "cued": true
+  },
+  {
+   "t": 46.79166666666619,
+   "type": "return",
+   "src": "S14",
+   "cued": true
+  },
+  {
+   "t": 46.87499999999952,
+   "type": "lift",
+   "src": "S14",
+   "cued": true
+  }
+ ]
+}
