@@ -2,7 +2,7 @@
  "about": "The cutting score. Every cut is a whole-image substitution of the dog's coat/eyes/paws and of the room, held for `hold` frames at 24 fps; images are inventory ids (inventory.json). The dog's silhouette, pose and shading never cut: only what it is made of.",
  "fps": 24,
  "n_frames": 768,
- "n_cuts": 68,
+ "n_cuts": 67,
  "rhythm_by_section": [
   {
    "t0": 0.0,
@@ -164,24 +164,23 @@
    "t1": 23.792,
    "temperature": "warm",
    "why": "the approach: one cut per footfall (0.275 m of travel)",
-   "cuts": 14,
-   "cuts_per_s": 1.54,
-   "mean_hold_frames": 15.57,
+   "cuts": 13,
+   "cuts_per_s": 1.43,
+   "mean_hold_frames": 16.77,
    "holds": [
-    4,
-    23,
-    20,
+    15,
+    22,
     19,
+    18,
     16,
     16,
-    15,
-    15,
     14,
+    15,
     13,
     13,
-    12,
-    19,
-    19
+    13,
+    13,
+    31
    ]
   },
   {
@@ -239,7 +238,7 @@
    "door": "doors.door.open",
    "interior": "lamps.bulb.halo",
    "hand": "hands.lantern.grip",
-   "dog_body": "dog.lion.0",
+   "dog_body": "dog.horse.0",
    "dog_head_legs": "dog.flower.19"
   },
   {
@@ -253,7 +252,7 @@
    "door": "doors.door.panel",
    "interior": "lamps.bulb.halo",
    "hand": "hands.card",
-   "dog_body": "dog.dog.10",
+   "dog_body": "dog.cow.22",
    "dog_head_legs": "dog.sheep.0"
   },
   {
@@ -407,7 +406,7 @@
    "door": "doors.door.wall",
    "interior": "lamps.bulb.halo",
    "hand": "hands.basket",
-   "dog_body": "dog.horse.0",
+   "dog_body": "dog.tiger.0",
    "dog_head_legs": "dog.light-bulb.13"
   },
   {
@@ -421,7 +420,7 @@
    "door": "doors.door.open",
    "interior": "lamps.bulb.halo",
    "hand": "hands.lantern.grip",
-   "dog_body": "dog.sheep.0",
+   "dog_body": "dog.horse.0",
    "dog_head_legs": "dog.lantern.16"
   },
   {
@@ -435,7 +434,7 @@
    "door": "doors.door.panel",
    "interior": "lamps.bulb.halo",
    "hand": "hands.card",
-   "dog_body": "dog.lion.0",
+   "dog_body": "dog.cow.22",
    "dog_head_legs": "dog.basket.25"
   },
   {
@@ -449,7 +448,7 @@
    "door": "doors.door.wall",
    "interior": "lamps.bulb.halo",
    "hand": "hands.basket",
-   "dog_body": "dog.dog.10",
+   "dog_body": "dog.tiger.0",
    "dog_head_legs": "dog.sleeping-bag.25"
   },
   {
@@ -519,7 +518,7 @@
    "door": "doors.door.wall",
    "interior": "lamps.bulb.halo",
    "hand": "hands.card",
-   "dog_body": "dog.traffic-light.0",
+   "dog_body": "dog.wheel.13",
    "dog_head_legs": "dog.train.0"
   },
   {
@@ -575,7 +574,7 @@
    "door": "doors.door.wall",
    "interior": "lamps.bulb.halo",
    "hand": "hands.card",
-   "dog_body": "dog.alarm-clock.13",
+   "dog_body": "dog.tiger.20",
    "dog_head_legs": "dog.broom.0"
   },
   {
@@ -589,8 +588,8 @@
    "door": "doors.door.panel",
    "interior": "lamps.bulb.halo",
    "hand": "hands.card",
-   "dog_body": "dog.sheep.0",
-   "dog_head_legs": "dog.flower.19"
+   "dog_body": "dog.cow.22",
+   "dog_head_legs": "dog.sheep.0"
   },
   {
    "n": 26,
@@ -603,7 +602,7 @@
    "door": "doors.door.wall",
    "interior": "lamps.bulb.halo",
    "hand": "hands.basket",
-   "dog_body": "dog.lion.0",
+   "dog_body": "dog.tiger.0",
    "dog_head_legs": "dog.light-bulb.13"
   },
   {
@@ -617,7 +616,7 @@
    "door": "doors.door.open",
    "interior": "lamps.bulb.halo",
    "hand": "hands.lantern.grip",
-   "dog_body": "dog.dog.10",
+   "dog_body": "dog.horse.0",
    "dog_head_legs": "dog.lantern.16"
   },
   {
@@ -631,7 +630,7 @@
    "door": "doors.door.panel",
    "interior": "lamps.bulb.halo",
    "hand": "hands.card",
-   "dog_body": "dog.horse.0",
+   "dog_body": "dog.cow.22",
    "dog_head_legs": "dog.basket.25"
   },
   {
@@ -645,7 +644,7 @@
    "door": "doors.door.wall",
    "interior": "lamps.bulb.halo",
    "hand": "hands.basket",
-   "dog_body": "dog.sheep.0",
+   "dog_body": "dog.tiger.0",
    "dog_head_legs": "dog.sleeping-bag.25"
   },
   {
@@ -861,7 +860,7 @@
   {
    "n": 45,
    "frame": 353,
-   "hold": 4,
+   "hold": 15,
    "t": 14.708,
    "temperature": "warm",
    "why": "the approach: one cut per footfall (0.275 m of travel)",
@@ -874,9 +873,9 @@
   },
   {
    "n": 46,
-   "frame": 357,
-   "hold": 23,
-   "t": 14.875,
+   "frame": 368,
+   "hold": 22,
+   "t": 15.333,
    "temperature": "warm",
    "why": "the approach: one cut per footfall (0.275 m of travel)",
    "room": "lamps.bulb.halo",
@@ -888,9 +887,9 @@
   },
   {
    "n": 47,
-   "frame": 380,
-   "hold": 20,
-   "t": 15.833,
+   "frame": 390,
+   "hold": 19,
+   "t": 16.25,
    "temperature": "warm",
    "why": "the approach: one cut per footfall (0.275 m of travel)",
    "room": "soft.flower",
@@ -902,9 +901,9 @@
   },
   {
    "n": 48,
-   "frame": 400,
-   "hold": 19,
-   "t": 16.667,
+   "frame": 409,
+   "hold": 18,
+   "t": 17.042,
    "temperature": "warm",
    "why": "the approach: one cut per footfall (0.275 m of travel)",
    "room": "lamps.bulb.glow",
@@ -916,9 +915,9 @@
   },
   {
    "n": 49,
-   "frame": 419,
+   "frame": 427,
    "hold": 16,
-   "t": 17.458,
+   "t": 17.792,
    "temperature": "warm",
    "why": "the approach: one cut per footfall (0.275 m of travel)",
    "room": "soft.basket.weave",
@@ -930,9 +929,9 @@
   },
   {
    "n": 50,
-   "frame": 435,
+   "frame": 443,
    "hold": 16,
-   "t": 18.125,
+   "t": 18.458,
    "temperature": "warm",
    "why": "the approach: one cut per footfall (0.275 m of travel)",
    "room": "doors.door.wall",
@@ -944,9 +943,9 @@
   },
   {
    "n": 51,
-   "frame": 451,
-   "hold": 15,
-   "t": 18.792,
+   "frame": 459,
+   "hold": 14,
+   "t": 19.125,
    "temperature": "warm",
    "why": "the approach: one cut per footfall (0.275 m of travel)",
    "room": "soft.sleepingbag",
@@ -958,9 +957,9 @@
   },
   {
    "n": 52,
-   "frame": 466,
+   "frame": 473,
    "hold": 15,
-   "t": 19.417,
+   "t": 19.708,
    "temperature": "warm",
    "why": "the approach: one cut per footfall (0.275 m of travel)",
    "room": "doors.door.open",
@@ -972,9 +971,9 @@
   },
   {
    "n": 53,
-   "frame": 481,
-   "hold": 14,
-   "t": 20.042,
+   "frame": 488,
+   "hold": 13,
+   "t": 20.333,
    "temperature": "warm",
    "why": "the approach: one cut per footfall (0.275 m of travel)",
    "room": "lamps.lighthouse",
@@ -986,9 +985,9 @@
   },
   {
    "n": 54,
-   "frame": 495,
+   "frame": 501,
    "hold": 13,
-   "t": 20.625,
+   "t": 20.875,
    "temperature": "warm",
    "why": "the approach: one cut per footfall (0.275 m of travel)",
    "room": "doors.door.panel",
@@ -1000,9 +999,9 @@
   },
   {
    "n": 55,
-   "frame": 508,
+   "frame": 514,
    "hold": 13,
-   "t": 21.167,
+   "t": 21.417,
    "temperature": "warm",
    "why": "the approach: one cut per footfall (0.275 m of travel)",
    "room": "lamps.lantern.brass",
@@ -1014,9 +1013,9 @@
   },
   {
    "n": 56,
-   "frame": 521,
-   "hold": 12,
-   "t": 21.708,
+   "frame": 527,
+   "hold": 13,
+   "t": 21.958,
    "temperature": "warm",
    "why": "the approach: one cut per footfall (0.275 m of travel)",
    "room": "soft.cloud",
@@ -1028,9 +1027,9 @@
   },
   {
    "n": 57,
-   "frame": 533,
-   "hold": 19,
-   "t": 22.208,
+   "frame": 540,
+   "hold": 31,
+   "t": 22.5,
    "temperature": "warm",
    "why": "the approach: one cut per footfall (0.275 m of travel)",
    "room": "lamps.bulb.halo",
@@ -1042,11 +1041,11 @@
   },
   {
    "n": 58,
-   "frame": 552,
-   "hold": 19,
-   "t": 23.0,
+   "frame": 571,
+   "hold": 20,
+   "t": 23.792,
    "temperature": "warm",
-   "why": "the approach: one cut per footfall (0.275 m of travel)",
+   "why": "lies down across the sill",
    "room": "soft.flower",
    "door": "doors.door.panel",
    "interior": "lamps.bulb.halo",
@@ -1056,129 +1055,115 @@
   },
   {
    "n": 59,
-   "frame": 571,
+   "frame": 591,
    "hold": 20,
-   "t": 23.792,
+   "t": 24.625,
    "temperature": "warm",
    "why": "lies down across the sill",
    "room": "lamps.bulb.glow",
    "door": "doors.door.wall",
    "interior": "lamps.lantern.brass",
    "hand": "hands.basket",
-   "dog_body": "dog.basket.25",
-   "dog_head_legs": "dog.lantern.16"
+   "dog_body": "dog.lantern.16",
+   "dog_head_legs": "dog.light-bulb.13"
   },
   {
    "n": 60,
-   "frame": 591,
+   "frame": 611,
    "hold": 20,
-   "t": 24.625,
+   "t": 25.458,
    "temperature": "warm",
    "why": "lies down across the sill",
    "room": "soft.basket.weave",
    "door": "doors.door.open",
    "interior": "lamps.star.flare",
    "hand": "hands.lantern.grip",
-   "dog_body": "dog.lantern.16",
+   "dog_body": "dog.light-bulb.13",
    "dog_head_legs": "dog.sleeping-bag.25"
   },
   {
    "n": 61,
-   "frame": 611,
-   "hold": 20,
-   "t": 25.458,
+   "frame": 631,
+   "hold": 3,
+   "t": 26.292,
    "temperature": "warm",
    "why": "lies down across the sill",
    "room": "doors.door.wall",
    "door": "doors.door.panel",
    "interior": "lamps.bulb.glow",
    "hand": "hands.card",
-   "dog_body": "dog.light-bulb.13",
-   "dog_head_legs": "dog.flower.19"
+   "dog_body": "dog.flower.19",
+   "dog_head_legs": "dog.light-bulb.13"
   },
   {
    "n": 62,
-   "frame": 631,
-   "hold": 3,
-   "t": 26.292,
-   "temperature": "warm",
-   "why": "lies down across the sill",
-   "room": "soft.sleepingbag",
-   "door": "doors.door.wall",
-   "interior": "lamps.bulb.halo",
-   "hand": "hands.basket",
-   "dog_body": "dog.flower.19",
-   "dog_head_legs": "dog.basket.25"
-  },
-  {
-   "n": 63,
    "frame": 634,
    "hold": 24,
    "t": 26.417,
    "temperature": "warm",
    "why": "come in (soft): a single hold, lamps",
    "room": "lamps.lantern.brass",
-   "door": "doors.door.open",
+   "door": "doors.door.wall",
    "interior": "lamps.bulb.glow",
-   "hand": "hands.lantern.grip",
+   "hand": "hands.basket",
    "dog_body": "dog.basket.25",
+   "dog_head_legs": "dog.lantern.16"
+  },
+  {
+   "n": 63,
+   "frame": 658,
+   "hold": 24,
+   "t": 27.417,
+   "temperature": "warm",
+   "why": "stays: the rhythm slows to stillness",
+   "room": "doors.door.open",
+   "door": "doors.door.open",
+   "interior": "lamps.lantern.brass",
+   "hand": "hands.lantern.grip",
+   "dog_body": "dog.lantern.16",
    "dog_head_legs": "dog.flower.19"
   },
   {
    "n": 64,
-   "frame": 658,
-   "hold": 24,
-   "t": 27.417,
+   "frame": 682,
+   "hold": 30,
+   "t": 28.417,
    "temperature": "warm",
    "why": "stays: the rhythm slows to stillness",
    "room": "lamps.lighthouse",
    "door": "doors.door.panel",
    "interior": "lamps.star.flare",
    "hand": "hands.card",
-   "dog_body": "dog.lantern.16",
-   "dog_head_legs": "dog.light-bulb.13"
+   "dog_body": "dog.light-bulb.13",
+   "dog_head_legs": "dog.lantern.16"
   },
   {
    "n": 65,
-   "frame": 682,
-   "hold": 30,
-   "t": 28.417,
+   "frame": 712,
+   "hold": 36,
+   "t": 29.667,
    "temperature": "warm",
    "why": "stays: the rhythm slows to stillness",
    "room": "doors.door.panel",
    "door": "doors.door.wall",
    "interior": "lamps.bulb.glow",
    "hand": "hands.basket",
-   "dog_body": "dog.light-bulb.13",
+   "dog_body": "dog.flower.19",
    "dog_head_legs": "dog.sleeping-bag.25"
   },
   {
    "n": 66,
-   "frame": 712,
-   "hold": 36,
-   "t": 29.667,
+   "frame": 748,
+   "hold": 20,
+   "t": 31.167,
    "temperature": "warm",
    "why": "stays: the rhythm slows to stillness",
    "room": "lamps.lantern.brass",
    "door": "doors.door.open",
    "interior": "lamps.bulb.halo",
    "hand": "hands.lantern.grip",
-   "dog_body": "dog.flower.19",
-   "dog_head_legs": "dog.light-bulb.13"
-  },
-  {
-   "n": 67,
-   "frame": 748,
-   "hold": 20,
-   "t": 31.167,
-   "temperature": "warm",
-   "why": "stays: the rhythm slows to stillness",
-   "room": "soft.cloud",
-   "door": "doors.door.panel",
-   "interior": "lamps.lantern.brass",
-   "hand": "hands.card",
    "dog_body": "dog.basket.25",
-   "dog_head_legs": "dog.lantern.16"
+   "dog_head_legs": "dog.light-bulb.13"
   }
  ]
 }

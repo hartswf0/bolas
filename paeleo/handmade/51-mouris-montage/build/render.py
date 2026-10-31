@@ -412,16 +412,23 @@ def frame(i):
                 out[s] = sample(T, np.clip(u, 0, 1), np.clip(v_, 0, 1))
         # person
         s = (k >= nd)
-        if s.any():
-            s1 = s & (pa == 'pcoat'); L = sample(tex('soft.person.coat'), Pw[s1, 0] / 0.8 + Pw[s1, 2] / 0.8, 1 - Pw[s1, 1] / 1.0)
-            out[s1] = tint(L, 'neutral', 0.12, 0.42)
-            s2 = s & (pa == 'hand'); L = tri(tex(cut['hand']), 0.25)[s2]; out[s2] = tint(L, 'warm', 0.35, 0.95)
-            out[s & (pa == 'skin')] = np.array([0.62, 0.45, 0.34])
-            out[s & (pa == 'phead')] = np.array([0.12, 0.10, 0.09])
-            out[s & (pa == 'pleg')] = np.array([0.13, 0.13, 0.16])
-            out[s & (pa == 'pshoe')] = np.array([0.05, 0.05, 0.05])
+        if s.any():   # the person (round 3): flat cut-outs from public-domain images, like the dog; no shading
+            prp = project(Cp, SS); prp[:, 0] -= bx0 * SS; prp[:, 1] -= by0 * SS
+            radp = lib.FOCAL * SS * Rp / prp[:, 2]
+            pk = np.array(partp)
+            src = {'pcoat': 'soft.person.coat', 'pleg': 'person.suit', 'phead': 'person.head', 'skin': cut['hand'], 'hand': cut['hand'], 'pshoe': 'person.suit'}
+            for g, rid in src.items():
+                sg = s & (pa == g)
+                if not sg.any():
+                    continue
+                sel = pk == g
+                gx0, gx1 = (prp[sel, 0] - radp[sel]).min(), (prp[sel, 0] + radp[sel]).max()
+                gy0, gy1 = (prp[sel, 1] - radp[sel]).min(), (prp[sel, 1] + radp[sel]).max()
+                T = tex(rid, 384, color=True)
+                out[sg] = sample(T, np.clip((xx[sg] - gx0) / max(gx1 - gx0, 1), 0, 1), np.clip((yy[sg] - gy0) / max(gy1 - gy0, 1), 0, 1))
+            out[s & (pa == 'pshoe')] *= 0.4
         shade = amb[:, None] * np.array([0.78, 0.82, 0.95]) + (lamb * dlb * 1.5)[:, None] * warmL + (rim * 0.25)[:, None] * np.array([0.5, 0.55, 0.7])
-        shade[k < nd] = 1.0                      # no light on the dog but what is in its images
+        shade[:] = 1.0                           # no light on dog or person but what is in their images
         rgb[yy, xx] = out * shade
         gmap = np.full(vis.shape, -1, np.int32)
         if (k < nd).any():
@@ -442,8 +449,9 @@ def frame(i):
         for ax in (0, 1):   # the cut edges between pieces (body, neck, head, each leg, tail)
             gd = np.diff(gm, axis=ax, prepend=gm[:1] if ax == 0 else gm[:, :1])
             brk |= (gd != 0) & (gm >= 0)
-        paper = dilate(dogm, 2) & ~dogm                      # a thin paper margin left by the scissors
-        dark = (dilate(dogm, 4) & ~dilate(dogm, 2)) | (dilate(perm, 2) & ~perm)
+        bod = dogm | perm
+        paper = dilate(bod, 2) & ~bod                        # a thin paper margin left by the scissors
+        dark = dilate(bod, 4) & ~dilate(bod, 2)
         edge = dilate(brk, 1) & v
         sub = rgb[y0:y1, x0:x1]
         sub[paper & ~v] = np.array([0.90, 0.86, 0.76])

@@ -39,9 +39,9 @@ PAW = {'cold': pool('paw', ['cold']), 'neutral': pool('paw', ['neutral']), 'warm
 ROOM = {'cold': pool('room', ['cold']), 'neutral': pool('room', ['neutral']), 'warm': pool('room', ['warm', 'neutral'])}
 DOOR = {'cold': pool('door', ['cold', 'neutral']), 'neutral': pool('door', ['neutral']), 'warm': pool('door', ['neutral'])}
 INTERIOR = pool('interior', ['warm'])
-DOG = {'cold': pool('dog', ['cold']), 'neutral': pool('dog', ['neutral']), 'warm': pool('dog_ident', ['warm'])}
+DOG = {'cold': pool('dog', ['cold']), 'neutral': ['dog.cow.22', 'dog.horse.0', 'dog.tiger.0'], 'warm': pool('dog_ident', ['warm'])}
 DOG_HEAD = {'cold': pool('dog_head', ['cold']), 'neutral': pool('dog_head', ['neutral', 'warm']), 'warm': pool('dog_head', ['warm'])}
-DOG_IDENT = pool('dog_ident', ['cold'])
+DOG_IDENT = ['dog.tiger.0', 'dog.tiger.20', 'dog.wheel.13']   # the most legible at full frame (critic rounds 1-2)
 DOG_SILL = [x for x in DOG_HEAD['warm'] if x in pool('dog_ident', ['warm'])]
 HAND = {'cold': pool('hand', ['neutral']), 'neutral': pool('hand', ['neutral', 'warm']), 'warm': pool('hand', ['warm', 'neutral'])}
 

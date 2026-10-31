@@ -128,7 +128,7 @@ def dog_local(P):
     """Build the dog in its own local frame (x forward, y up, z left) from pose dict P. Returns Body with part-local R."""
     B = Body(); I = np.eye(3)
     lie, cr = P['lie'], P['crouch']
-    hh = lerp(0.47 - 0.10 * cr, 0.19, lie); sh = lerp(0.50 - 0.06 * cr, 0.21, lie)
+    hh = lerp(0.47 - 0.10 * cr, 0.145, lie); sh = lerp(0.50 - 0.06 * cr, 0.165, lie)   # lying: the belly on the boards
     Hp = np.array([-0.28, hh, 0.]); Sp = np.array([0.22, sh, 0.])
     # torso
     prof_r = [0.112, 0.118, 0.12, 0.122, 0.128, 0.138, 0.146, 0.15]
@@ -173,7 +173,7 @@ def dog_local(P):
     tb = Hp + np.array([-0.11, 0.03, 0])
     Rt = rot_y(wag)
     prev = tb
-    for k in range(14):
+    for k in range(14 if P['tail'] <= 1.0 else 8):   # tucked: short, pressed under the rump (no fifth-leg shape)
         a = ta - 0.06 * k * (1 if P['tail'] < 0.9 else -1)
         dvec = Rt @ np.array([-math.cos(a), math.sin(a), 0])
         if P['tail'] > 1.0:  # tucked: drops, then curls forward under the belly between the hind legs
