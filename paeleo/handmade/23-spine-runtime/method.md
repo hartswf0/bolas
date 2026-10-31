@@ -49,8 +49,8 @@ channel over its mix duration (positions linear, rotations by the short arc, IK 
 order switch at alpha 0.5. Track 1 (head) is layered over track 0 on the neck, head and ear channels and the head
 attachment; an empty entry mixes it out. At 7.40 s `look-back` on the head track lifts the head off the paws and
 turns it over the shoulder to the door while track 0 is still playing `lie`; `rise` starts on track 0 at 7.62 s;
-the head track hands back at 7.95 s. At 26.35 s `look-in` turns the head into the room (head view 68 deg: the back
-of the skull and both ears to the viewer, muzzle level, inside the lit doorway); `settle` lays the chin on the paws.
+the head track hands back at 7.95 s. At 26.35 s `look-in` turns the head into the room (head view 45 deg, three-quarter rear:
+back of the skull and the muzzle, level, pointing into the lit room); `settle` lays the chin on the paws.
 
 ### Feet
 
@@ -110,6 +110,10 @@ Numbers come from `proof/geometry.json` (runtime, skeleton cm; 1 cm = 1.9 px wid
 - The foot planner left hind paws 40 cm behind in the 0.76 m/s scramble backwards (gait rules blocked steps);
   fixed with a candidate loop that skips blocked legs and a diagonal-pair trot above 0.4 m/s.
 - The forelegs could not reach their footprint standing (2.5 cm short); lengthened 1 cm per segment.
+
+## Repair round 1
+
+After the critic: the look-in uses the 45 deg (3/4-rear) head, muzzle level and pointing into the lit room, head no higher than at 26.4 s (measured head-slot top 376-379 px vs 376); during the rise the neck and head are drawn over the shoulder so a neck joins head to shoulders; leg segments are tapered, flatter-shaded, and their distal ends feather into the next segment (no seam at knee or hock); paw falls are louder.
 
 ## What is weak
 
