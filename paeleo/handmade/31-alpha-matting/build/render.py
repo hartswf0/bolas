@@ -329,15 +329,16 @@ def gait_pieces():
     return GAIT
 
 
-def leg_offset(s_):
+def leg_offset(s_, stance=.7):
     """one leg pair's paw offset from its rest place (in steps) and lift, at gait phase s_ (cycles).
     stance (70 %): the paw is planted while the body moves away; swing (30 %): the paw steps back, lifted"""
     n = math.floor(s_); u = s_ - n
-    if u < .7:
-        return .35 - u, 0., n, True
-    v = (u - .7) / .3
+    h = stance / 2.
+    if u < stance:
+        return h - u, 0., n, True
+    v = (u - stance) / (1 - stance)
     e = v * v * (3 - 2 * v)
-    return -.35 + .7 * e, math.sin(math.pi * v), n, False
+    return -h + stance * e, math.sin(math.pi * v), n, False
 
 
 def shear_leg(P, ytop, ybot, D, lift):
@@ -351,7 +352,7 @@ def shear_leg(P, ytop, ybot, D, lift):
     return o
 
 
-def gait_sprite(x_body, x_start, head_raise=0.):
+def gait_sprite(x_body, x_start, head_raise=0., stance=.7):
     """backing away on planted paws: the body follows the score; each leg pair is planted, then steps back"""
     g = gait_pieces()
     out = np.zeros_like(g['body'])
@@ -362,8 +363,8 @@ def gait_sprite(x_body, x_start, head_raise=0.):
     for k in ('hind', 'fore'):
         L = LEGS[k]
         s_ = (x_body - x_start) / GAIT_LS + L['phase']
-        D, lift, n, planted = leg_offset(s_)
-        D0, _, _, _ = leg_offset(L['phase'])
+        D, lift, n, planted = leg_offset(s_, stance)
+        D0, _, _, _ = leg_offset(L['phase'], stance)
         Dpx = (D - D0) * step_px          # zero at the start: the dog starts standing on its own frame
         leg = shear_leg(g[k], L['ytop'], L['paw'][1], Dpx, 5 * lift)
         out = over(out, leg)
@@ -530,7 +531,7 @@ def dog_pose(i):
         # not form one walk: their feet could not be registered within 15 px)
         k2 = i - I_APP_G; k3 = I_LIE_ - 1 - i
         e0 = 1 - float(smooth(0, GAIT_EASE, k2)); e1 = 1 - float(smooth(0, GAIT_EASE, k3))
-        return dict(kind='gait', gi0=I_APP_G, facing=1, posture='walk head low', head_raise=max(0., 1 - k2 / 7.),
+        return dict(kind='gait', gi0=I_APP_G, facing=1, posture='walk head low', head_raise=max(0., 1 - k2 / 7.), stance=.6,
                     xoff_px=APP_OFF[0] * e0 + APP_OFF[1] * e1)
     # lies down across the sill; hears "come in": looks in, then settles
     L = LIE_L0 + (1 - LIE_L0) * float(smooth(T_LIE, T_LIE + .75, t))   # round 3: starts already part-lowered, like the crouched walk frame
@@ -573,7 +574,8 @@ def dog_sprite(i):
         p['anchor'] = anchor(piece_canvas(*dog_frame(13, False)))
     elif p['kind'] == 'gait':
         i0 = p.get('gi0', I_RET + len(FLINCH))
-        A, info = gait_sprite(FR[i]['dog']['x'] + p['xoff_px'] / PPM, FR[i0]['dog']['x'] + dog_pose(i0)['xoff_px'] / PPM, p.get('head_raise', 0.))
+        A, info = gait_sprite(FR[i]['dog']['x'] + p['xoff_px'] / PPM, FR[i0]['dog']['x'] + dog_pose(i0)['xoff_px'] / PPM, p.get('head_raise', 0.),
+                              p.get('stance', .7))
         p['legs'] = info
         P, b = A, (0, 0, A.shape[1], A.shape[0])        # uncropped: the body keeps one fixed anchor
         p['anchor'] = gait_pieces()['anchor']

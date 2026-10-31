@@ -46,7 +46,7 @@ def onsets(frames):
     m['approach_head_lowers_first_frame'] = frames[i]['t']
     hts = np.array([f['dog_bottom'] - f['dog_top'] for f in frames])
     h0 = np.median(hts[500:560])
-    i = next(k for k in range(560, 768) if frames[k]['source_frame'] is None); m['lie_sequence_first_frame'] = frames[i]['t']
+    i = next(k for k in range(560, 768) if frames[k]['posture'] in ('lying down', 'lie')); m['lie_sequence_first_frame'] = frames[i]['t']
     hl = np.median(hts[620:640])
     i = next(k for k in range(560, 768) if hts[k] <= hl + .5 * (hts[i] - hl)); m['lying_half_down'] = frames[i]['t']
     i = next(k for k in range(90, 180) if frames[k]['posture'] == 'back turned, lying'); m['refusal_lies_down_full'] = frames[i]['t']

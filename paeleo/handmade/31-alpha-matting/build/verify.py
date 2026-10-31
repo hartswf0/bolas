@@ -17,6 +17,7 @@ HERE = os.path.dirname(os.path.abspath(__file__)); C = os.path.join(HERE, 'cache
 FILM = os.path.join(OUT, 'film.mp4')
 W, H, GY = 1280, 720, render.GY
 TR = json.load(open(os.path.join(C, 'render_trace.json')))
+DIFF = None
 
 
 def film_frames(i0, i1):
@@ -31,8 +32,10 @@ def film_frames(i0, i1):
 
 
 def mask_of(film, i):
+    global DIFF
     plate, _, _ = render.render(i)
     d = np.abs(film.astype(np.int16) - plate.astype(np.int16)).max(2)
+    DIFF = d
     m = d > 22
     # clean codec noise: keep pixels with at least 4 of 8 neighbours set
     p = np.pad(m, 1)
@@ -115,8 +118,12 @@ def paws_of(m, p, i):
         x0, x1 = int(ex - 16), int(ex + 16)
         ys, xs = np.nonzero(rows[:, max(x0, 0):x1])
         if len(xs):
-            low = ys >= ys.max() - 3
-            out[leg] = dict(x=round(float(xs[low].mean() + max(x0, 0)), 2), plant=L['plant'], planted=L['planted'], expected=ex)
+            # difference-weighted centroid of the paw's lowest rows (steadier than the binary mask's edge under codec noise)
+            y0r = (GY - 10 if leg == 'fore' else GY - 30) + ys.max() - 5
+            D = DIFF[y0r:y0r + 6, max(x0, 0):x1].astype(np.float32)
+            w = np.clip(D - 12, 0, 60)
+            cx = float((w.sum(0) * np.arange(w.shape[1])).sum() / max(w.sum(), 1e-6)) + max(x0, 0)
+            out[leg] = dict(x=round(cx, 2), plant=L['plant'], planted=L['planted'], expected=ex)
     return out
 
 
@@ -224,16 +231,23 @@ def main():
         b0 = min(a0 + 20, 572); FF = film_frames(a0, b0)
         for k, i in enumerate(range(a0, b0)):
             m, plate = mask_of(FF[k], i)
-            mf = m.astype(np.float32); inner = blur(mf, 2, 1) > .999
+            # where the dog is: the render's own alpha placed on screen (the film mask is biased here: it drops out
+            # exactly where dark fur meets the dark siding lines)
+            os.environ.pop('NODOG', None)
+            _, Ps_, lft, tp, _ = render.dog_layer(i)
+            os.environ['NODOG'] = '1'
+            al = np.zeros((H, W), np.float32); X0, Y0 = int(round(lft)), int(round(tp)); hh, ww = Ps_.shape[:2]
+            al[max(Y0, 0):Y0 + hh, max(X0, 0):X0 + ww] = Ps_[max(-Y0, 0):H - Y0, max(-X0, 0):W - X0, 3][:min(hh, H - max(Y0, 0)), :min(ww, W - max(X0, 0))]
+            inner = blur((al >= .95).astype(np.float32), 1, 1) > .999
             Lf, Lp = lum(FF[k]), lum(plate)
             yy = np.arange(H)[:, None] * np.ones((1, W))
             xx = np.ones((H, 1)) * np.arange(W)[None, :]
-            wall = (xx < 596) & (yy < 584) & ~((xx >= 229) & (xx < 431) & (yy >= 181))   # siding, not the door or casing
+            wall = (xx < 596) & (yy < 584) & ~((xx >= 229) & (xx < 432) & (yy >= 181))   # siding, not the door or casing
             line = (yy % 22) < 1.5
             nb = ((yy % 22) >= 4) & ((yy % 22) < 8)
             def contrast(L, sel):
                 a_, b_ = L[sel & line], L[sel & nb]
-                return (float(b_.mean()) - float(a_.mean())) if len(a_) > 20 and len(b_) > 20 else None
+                return (float(b_.mean()) - float(a_.mean())) if len(a_) > 8 and len(b_) > 8 else None
             for zone, store in ((inner & wall, tr_all), (inner & wall & (yy >= 540), tr_leg)):
                 cf, cp = contrast(Lf, zone), contrast(Lp, zone)
                 if cf is not None and cp:
@@ -245,7 +259,7 @@ def main():
         max_transfer_legs=max(t for _, t, _ in tr_leg) if tr_leg else None, mean_transfer_legs=round(float(np.mean([t for _, t, _ in tr_leg])), 3) if tr_leg else None,
         implied_min_alpha_legs=round(1 - max(t for _, t, _ in tr_leg), 3) if tr_leg else None,
         per_frame_body=tr_all, per_frame_legs=tr_leg,
-        method='inside the film mask (eroded 2 px) over the siding: (neighbour rows - line rows) luminance in the film / the same in the no-dog plate; ~ 1 - alpha. legs = rows 540-583')
+        method='inside the render alpha >= 0.95 (eroded 1 px), placed on screen, over the siding: (neighbour rows - line rows) luminance in the film / the same in the no-dog plate; ~ 1 - alpha. legs = rows 540-583')
     # R4-2: 7.38-7.79 s, the head coming round: the head piece placed by the render, and on the film the centroid of the
     # dog mask inside that piece's box (grown 6 px)
     lb = film_frames(177, 188); hp_r = {}; hp_f = {}; lb_imgs = []

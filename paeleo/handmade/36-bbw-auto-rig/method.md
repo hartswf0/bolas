@@ -35,7 +35,7 @@ input is one facing bit (head left or right).
 ## How the dog is built and moved
 * **Views (whole frames)**: f010 (profile to the left, head up) carries watching, retreat, approach, lying across the
   sill, looking in. The same frame **mirrored** carries the turned back (refusal, lying with chin down). The two turns go
-  through the archive's **own** turning frames f019 → f026 → f030 → f036 → f040 (the found dog really turns from left
+  through the archive's **own** turning frames f026 → f030 → f036 → f040 (the found dog really turns from left
   through facing the camera to right in those frames), each auto-rigged the same way; reversed and lying for the turn back
   at 7.46 s. No cross-dissolve anywhere: a frame is replaced by the next frame of the same archive motion.
 * **Movement**: the BBW-skinned mesh does the acting: the neck bone lowers the head (below the back on the approach),
@@ -56,14 +56,64 @@ input is one facing bit (head left or right).
   (no words), calls pressed and loud, the soft voice breathy and ≥ 6 dB lower; paws on the walk phase, latch, creak, hum.
 
 ## Numeric invariants (measured, `proof/tests.json`)
-RESULTS_PLACEHOLDER
+All measured by `build/rigs.py` on the meshes the film is skinned with.
+| frame | vertices | BBW solve | bounds | partition of unity (max err) | sum before normalising | mean leak across leg gaps, BBW / shape-blind baseline | max leak, BBW / baseline |
+|---|---|---|---|---|---|---|---|
+| f010 (W, and mirrored) | 2245 | 0.62 s | [0, 1] | 3e-16 | 0.995–1.193 | 0.0020 / 0.0062 | 0.198 / 0.176 |
+| f026 | 1350 | 0.36 s | [0, 1] | 2e-16 | 0.999–1.130 | 0.0041 / 0.0124 | 0.089 / 0.086 |
+| f030 | 1162 | 0.29 s | [0, 1] | 2e-16 | 0.979–1.204 | 0.0000 / 0.0082 | 0.000 / 0.047 |
+| f036 | 1311 | 0.27 s | [0, 1] | 2e-16 | 0.999–1.131 | 0.0042 / 0.0111 | 0.140 / 0.077 |
+| f040 | 1778 | 0.45 s | [0, 1] | 2e-16 | 0.999–1.061 | 0.0078 / 0.0120 | 0.162 / 0.111 |
+| f046 (test only) | — | — | [0, 1] | — | — | 0.0106 / 0.0184 | 0.317 / 0.242 |
+| f044 (test only) | — | — | [0, 1] | — | — | 0.0005 / 0.0023 | 0.014 / 0.013 |
+
+* **Bounds and partition of unity**: hold exactly on every view (bounded active set, then normalisation). Before
+  normalisation the per-handle solves already sum to 0.98–1.20.
+* **Locality across the gaps between legs** (lower 60 % of each leg, vertices more than 8 px from the other leg):
+  the MEAN leak is 2–10× lower than the shape-blind inverse-distance baseline on every frame. The MAX leak is **not**
+  lower: on the blurred frames a few vertices near where two legs join the body carry 0.1–0.3 of the other leg. Honest
+  result: BBW keeps the leg gaps clean on average, but the found silhouettes' merged leg tops still leak locally.
+* **Stability across silhouettes**: neighbouring archive frames f008, f009, f011 rigged by the same code and mapped onto
+  f010 by an affine fit of their automatic joints: mean |Δw| 0.049, 0.028, 0.036 (95th percentile 0.34, 0.20, 0.21).
+  Across all 10 rigged dog frames, the weight spread of each named handle (RMS radius / body height) varies little:
+  head 0.106 ± 0.021, neck 0.178 ± 0.041, back 0.189 ± 0.048, front leg 0.190 ± 0.031, hind leg 0.168 ± 0.029.
+  Weight MASS varies more (back 0.20 ± 0.12) because the number of legs found differs per frame (2–4).
+* Runtime: one frame of LBS + rasterisation of the dog is ~0.1 s in numpy; the scene renders 768 frames in ~6 min on 4 cores.
+* Person (Straight Talk f000): 2911 vertices, 4 handles, bounds [0, 1], partition error 2e-16.
+
+**Measured onsets** (from the render's own geometry, `trace.json: onsets_measured`): retreat 1.125 s (+0.125),
+watch 2.292 s (−0.041), refuse 3.417 s (0.000, the flinch: head drops >8 %), turn back to look 7.625 s (+0.167, head on
+the door side of the tail while lying), approach 14.750 s (+0.042), lie down 23.833 s (+0.041), look in 26.417 s
+(+0.017). `check_handmade.py`: ALL OK (I3 r = 0.997 on x_world_measured, refusal share turned 0.94).
+**Sound** measured from the encoded film (mono RMS): calls −10.3 / −9.3 dB, soft voice −22.8 / −22.9 / −22.5 dB
+(≥ 12 dB under the calls), room tone −34.5 dB. The first call starts at 0.92 s, before the retreat (1.125 s); the soft
+voice starts at 7.40 s before the turn back, and "come in" at 26.30 s before the look in.
 
 ## What failed and what I changed
-LEDGER_PLACEHOLDER
+See `ledger.jsonl` for every attempt. In short:
+* Skeleton pruning ate the legs (8-connected staircase corners read as branch points) → graph links diagonals only when no
+  4-neighbour links them; pruning in two passes only.
+* Leg-leak metric first counted vertices where two found legs overlap → measured only across real gaps (> 8 px).
+* View A (f046, head in the bowl) skinned into a shapeless lying blob → the refusal uses f010 mirrored; f046/f044 kept
+  only as test silhouettes.
+* Turn frame f019 read as a double image (two heads, motion blur) → removed; the turn uses f026–f040.
+* First camera: the lying dog sheared steeply and read as climbing → path made diagonal near the door, shear clipped and
+  halved while lying, a visible sill board added, the camera closes in on the sill.
+* The rest pose folded the head under the chest (neck 2.1 rad) → lying neck capped at 1.05 rad.
+* Hind leg hung down while lying → folds 1.45 rad forward and compresses.
+* Person mask kept the door edge as a "head" and later lost the head → cut the edge, close the thin neck.
+* The person sat in front of the dog's muzzle → moved left; the dog's lying spot moved right so the muzzle is over the
+  lit floor.
 
 ## What I did not do / what is unknown
 * No cage handles. No independent critic run by me. No real lying dog exists in the materials: lying is made by the
   BBW deformation of the standing profile (sinking body, forelegs forward, hind legs folded).
 * The person's legs are not in the found frame; she is cropped by the half door, then by shadow.
-* Back-of-head view: the archive has none usable at the sill; looking in is the muzzle pushed level into the lit room.
+* Back-of-head view: the archive has none usable at the sill; looking in is the muzzle pushed level over the sill
+  into the lit room (a ~34 source-px push of the neck and head handles). It is a modest movement; a critic may find it small.
+* The turn frames are the archive's own motion but each lasts 1–2 film frames; the lying turn back (7.40–7.60 s) goes
+  through four small curled frontal frames and is fast. Frontal frames read smaller than the profile.
+* The person is a back view used as a silhouette; her "hand offered low" is the arm bone swung down to the floor, a dark
+  wedge, not a drawn hand.
+* No independent critic verdict exists yet; I have only looked at my own frames (extracted from the encoded film).
 * Front/hind leg labels are automatic and sometimes wrong on the blurred frontal turn frames; there they only shorten.
