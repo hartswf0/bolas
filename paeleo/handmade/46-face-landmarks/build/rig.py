@@ -112,10 +112,10 @@ def build():
         elev_t = (1 - wa) * (-30 + 85 * min(1.2, head)) + wa * (-38.0 + 6 * math.sin(t * 1.3))
         if lie > 0.5 and t > 23.8:
             rest = a['rest']; look = a['look']
-            elev_t = (1 - rest) * (-5 + 55 * min(1.2, head)) + rest * (-62)
+            elev_t = (1 - rest) * (-5 + 55 * min(1.2, head)) + rest * (-28)   # settles forward over its paws, not sunk into its chest (critic round 3)
         elif lie > 0.5:
             elev_t = -40 - 25 * a['rest']
-        if 3.40 <= t < 4.15: elev_t = max(elev_t, 18.0)
+        if 3.40 <= t < 4.15: elev_t = max(elev_t, 18.0 + 22.0 * smoothstep(3.40, 3.56, t) + 14.0 * smoothstep(3.44, 3.60, t) * (1 - smoothstep(3.80, 4.10, t)))   # through the turn the head is carried up (critic round 3: small, sunk at 3.667 s)
         if 4.15 <= t < 8.20: elev_t = max(elev_t, 38.0)   # refusing, lying turned away: head held up, its skull and ears above the back line   # during the turn the head stays above the back line: never a headless body
         elev = elev_f(elev_t)
         hpitch = hp_f(-12 + 22 * min(1.2, head) - 30 * wa - 25 * a['rest'] * lie * (not (4.15 <= t < 8.2)))
