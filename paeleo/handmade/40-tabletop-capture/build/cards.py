@@ -514,7 +514,7 @@ def build_door(style, ids, meta, outdir):
         d.polygon(pts, fill=(255, 214, 120, 255))
     else:
         d.polygon(pts, fill=(250, 226, 120, 255)); d.line(pts + [pts[0]], fill=(150, 120, 40, 255), width=SS)
-    tab = dict(marker=(LA[0] + 30, LA[1] - 34), base=(LA[0] + 30, LA[1] - 14), id=ids['light'])
+    tab = dict(marker=(LS[0] - 60, LA[1] - 40), base=(LS[0] - 60, LA[1] - 20), id=ids['light'])
     draw_tab(d, tab, style)
     im = big.resize(LS, Image.LANCZOS)
     if style == 'skin':
@@ -522,7 +522,7 @@ def build_door(style, ids, meta, outdir):
     else:
         im = paste_marker(im, tab)
     im.save(os.path.join(outdir, 'light.png'))
-    meta['light'] = dict(kind='light', size=LS, anchor=LA, id=ids['light'], tab=dict(marker=list(tab['marker']), grip=[LA[0] + 80, LA[1] + 6]))
+    meta['light'] = dict(kind='light', size=LS, anchor=LA, id=ids['light'], tab=dict(marker=list(tab['marker']), grip=[LS[0] - 60 + 21, LA[1] - 38]))
 
 
 def all_names():

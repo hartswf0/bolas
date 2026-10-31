@@ -132,16 +132,20 @@ def main():
         hands = []
         for hn, hd in HANDS.items():
             pres, piece = 0.0, None
+            ang = hd['ang']
             for (pn, t0, t1) in hd['eng']:
                 if t0 - 0.35 <= t <= t1 + 0.35:
                     pres = smooth((t - (t0 - 0.35)) / 0.35) * (1 - smooth((t - t1) / 0.35))
                     piece = pn
+                    if hn == 'A' and t0 == 3.3:
+                        ang = math.radians(28)     # body hand comes from below-right while the head is to the right
+
             if piece is None or pres <= 0:
                 continue
             pp = pieces[piece]
             cm = CARDS[pp['card']]
             gx, gy = to_stage(cm['tab']['grip'], cm['anchor'], pp['X'], pp['Y'], pp['th'])
-            hands.append(dict(hand=hn, piece=piece, grip=[gx, gy], ang=hd['ang'], mirror=hd['mirror'], presence=round(pres, 4), held=pres > 0.999))
+            hands.append(dict(hand=hn, piece=piece, grip=[gx, gy], ang=ang, mirror=hd['mirror'], presence=round(pres, 4), held=pres > 0.999))
         # a held piece trembles a little with the fingers
         for h in hands:
             if h['held']:
