@@ -12,7 +12,7 @@ const write = (ff, buf) => new Promise(r => { if (!ff.stdin.write(buf)) ff.stdin
   const mode = process.argv[2];
   const b = await chromium.launch(); const p = await b.newPage({ viewport: { width: 1280, height: 720 } });
   p.on('pageerror', e => { console.log('PAGE ERR', e.message); process.exitCode = 1; }); p.on('console', m => console.log('console', m.text()));
-  await p.goto('file://' + path.join(HERE, 'render.html')); await p.evaluate(() => window.ready);
+  await p.goto('file://' + path.join(HERE, 'render.html')); const fontsOk = await p.evaluate(() => window.ready); if (!fontsOk) { console.log('FONTS NOT LOADED'); process.exit(2); }
   const score = fs.readFileSync(SCORE, 'utf8');
   const grab = async (k, draw, label) => { const r = await p.evaluate(([k, d, l]) => window.frame(k, d, l), [k, draw, label || '']); return { buf: r.img && Buffer.from(r.img.split(',')[1], 'base64'), m: r.m }; };
   if (mode === 'film') {

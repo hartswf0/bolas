@@ -19,7 +19,7 @@ end = mx(E('body', 31.5, 32.0)); check('no endless oscillation: body-coat energy
 # 4 the ears flick after each soft voice onset, not before (reaction 0.04-0.35 s after the onset)
 for tv in (7.36, 10.36, 26.36):
     seg = [(m['t'], m['energy']['ears']) for m in M if tv - 0.3 <= m['t'] <= tv + 0.6]
-    before = mx([e for t, e in seg if t < tv]); tp, ep = max(seg, key=lambda x: x[1])
+    before = mx([e for t, e in seg if t < tv]); tp, ep = max([x for x in seg if x[0] <= tv + 0.35], key=lambda x: x[1])  # the flick's peak inside the reaction window (at 26.4 the ears are then lowered on purpose, a later, separate swing)
     check(f'ear flick follows the soft voice at {tv:.2f} s', tv + 0.04 <= tp <= tv + 0.35 and ep > 2 * max(before, 0.05), peak_t=tp, peak=round(ep, 2), before=round(before, 2))
 # 5 the coat flattens on the refusal: fur tips sit closer to the body axis than while watching
 def spread(a, b): v = [m['fur_radial'] for m in M if a <= m['t'] <= b]; return sum(v) / len(v)

@@ -41,7 +41,7 @@
   // grav: gravity scale, drag: air drag toward the wind velocity (1/s). 'none' pins every secondary node to its rest shape;
   // 'generic' gives every link the same oscillator and ignores intention (no flattening, no flick).
   const MAT = {
-    fur:     { k: 70, kFear: 230, c: 7, cFear: 17, grav: 0.35, drag: 1.4 },  // crepe-paper fringe: light, papery, quick to settle
+    fur:     { k: 80, kFear: 230, c: 9, cFear: 17, grav: 0.35, drag: 1.4 },  // crepe-paper fringe: light, papery, quick to settle
     ruff:    { k: 60, kFear: 210, c: 6.5, cFear: 16, grav: 0.35, drag: 1.4 },
     ear:     { k: 120, c: 7.5, grav: 0.55, drag: 0.6 },                       // layered tissue flap, a little heavier
     feather: { k: 45, c: 6, grav: 0.45, drag: 1.6 },                          // fringe hung on a moving link (2nd order)
@@ -74,13 +74,14 @@
     let rest = ss(t, 5.5, 6.3) * (1 - ss(t, 7.40, 7.56));
     if (t >= 23) rest = ss(t, 25.3, 26.0) * (1 - ss(t, 26.42, 26.65)) + ss(t, 28.3, 29.0) * 0.92;
     const look = ss(t, 26.45, 26.95) * (1 - 0.6 * ss(t, 28.25, 28.9));
+    const earHang = ss(t, 26.55, 27.0) * (1 - 0.6 * ss(t, 28.25, 28.9));
     const hh = track(t, [[0, 0.9], [0.98, 0.9], [1.3, 0.25], [2.33, 0.3], [2.9, 0.85], [3.42, 0.85], [3.8, 0.15], [7.42, 0.15], [7.62, 0.62], [8.3, 0.62], [8.9, 0.9], [14.62, 0.9], [15.15, 0.0], [23.79, 0.0], [24.4, 0.62], [25.3, 0.55], [26.0, 0.35], [26.45, 0.35], [26.9, 0.42], [28.2, 0.42], [28.9, 0.25]]);
     const fear = track(t, [[0, 0], [0.98, 0], [1.25, 1], [2.33, 1], [2.9, 0.35], [3.42, 0.35], [3.62, 1], [7.42, 1], [8.6, 0.25], [14.7, 0.12], [23.79, 0.12], [24.5, 0]]);
-    let ear = a.ear; if (t > 26.3) ear = Math.min(ear, 0.72);
+    let ear = a.ear; if (t > 26.3) ear = Math.min(ear, lerp(0.72, 0.3, ss(t, 26.5, 26.8)));
     if (t > 7.38 && t < 8.6) ear = Math.max(ear, 0.95 * ss(t, 7.42, 7.52));
     const crouch = (t > 23.5 ? 0 : a.crouch) * (1 - Math.max(lieF, lieR));
     const turnStep = Math.max(ss(t, 3.42, 3.55) * (1 - ss(t, 3.75, 3.9)), ss(t, 8.05, 8.2) * (1 - ss(t, 8.7, 8.85)));
-    return { t, i, x: f.dog.x, th, hw, lieF, lieR, rest, look, hh, fear, ear, crouch, tail: a.tail, wag: a.wag, moving: a.moving, turnStep, state: f.dog.state };
+    return { t, i, earHang, x: f.dog.x, th, hw, lieF, lieR, rest, look, hh, fear, ear, crouch, tail: a.tail, wag: a.wag, moving: a.moving, turnStep, state: f.dog.state };
   }
   function personPrimary(i) {
     const f = SC.frames[i], p = f.person, t = f.t;
@@ -134,7 +135,7 @@
       if (ph < 0.62) o = STRIDE * (0.31 - ph); else { const q = (ph - 0.62) / 0.38; o = STRIDE * (-0.31 + 0.62 * q); lift = 0.075 * Math.sin(PI * q); }
       lift = lift * P.moving + P.turnStep * 0.06 * Math.max(0, Math.sin(TAU * (t * 2.6 + lg.off)));
       const stand = at(lg.f + (lg.fore ? 0.02 : -0.02) + o * P.moving, 0.03 + lift, lg.l * 1.05);
-      const lying = lg.fore ? at(0.75 + 0.1 * P.look, 0.035, lg.l * 0.85) : at(-0.03, 0.04, lg.l * 2.0);
+      const lying = lg.fore ? at(0.84 + 0.06 * P.look, 0.035, lg.l * 2.1) : at(-0.03, 0.04, lg.l * 2.0);
       const paw = lerp3(stand, lying, lieL);
       const hint = lg.fore ? comb(F, -1, UP, -0.15 * lieL) : comb(F, 1, L, Math.sign(lg.l) * 1.2 * lieL, UP, -0.4 * lieL);
       const k = ik(J, paw, lg.fore ? 0.22 : 0.24, lg.fore ? 0.245 : 0.25, hint);
@@ -188,14 +189,14 @@
       const f = f0 + (R() - 0.5) * 0.045, a = a0 + (R() - 0.5) * 0.3 + (ri % 2) * 0.24;
       const top = Math.cos(a);
       const col = R() < 0.28 ? ALT[ROWC[ai]] : ROWC[ai];
-      const L0 = (top > -0.3 ? 0.17 : 0.11) + 0.08 * R() + (f > 0.25 ? 0.03 : 0);
+      const L0 = (top > 0.55 ? 0.17 : top > -0.3 ? 0.12 : 0.055) + (top > -0.3 ? 0.06 : 0.03) * R() + (f > 0.25 && top > -0.3 ? 0.03 : 0);
       DOG.body.push(Strand({ kind: 'fur', group: 'dog', part: 'body', mat: 'fur', f, a, ai, ri, n: 4, seg: L0 / 3, col, w: 0.06 + 0.03 * R(), seed: R() * 1e6 | 0, jit: R(), mask: { floor: 1, dog: 1, reed: 0 } }));
     }));
     // neck ruff: 2 rings × 10
     [0.3, 0.66].forEach((u, ri) => { for (let k = 0; k < 10; k++) { const a = -PI + (k + 0.5) * TAU / 10; DOG.ruff.push(Strand({ kind: 'fur', group: 'dog', part: 'neck', mat: 'ruff', u, a, n: 4, seg: (0.17 + 0.04 * R()) / 3, col: Math.cos(a) > 0.3 ? 'char' : (R() < 0.5 ? 'cream' : 'oat'), w: 0.055, seed: R() * 1e6 | 0, jit: R(), mask: { floor: 1, dog: 1 } })); } });
     // head: forelock, cheek tufts, beard
-    const hs = [['fore', 0, 0.08], ['fore', 0.045, 0.075], ['fore', -0.045, 0.075], ['cheek', 1, 0.12], ['cheek', -1, 0.12], ['cheekb', 1, 0.13], ['cheekb', -1, 0.13], ['beard', 0.025, 0.08], ['beard', -0.025, 0.08], ['beard', 0, 0.095]];
-    hs.forEach(([w, v, l]) => DOG.head.push(Strand({ kind: 'fur', group: 'dog', part: 'head', mat: 'ruff', where: w, q: v, n: 3, seg: l / 2, col: w === 'beard' ? 'cream' : w === 'fore' ? 'oat' : 'cream', w: 0.045, seed: R() * 1e6 | 0, jit: R(), mask: { floor: 1, dog: 1 } })));
+    const hs = [['fore', 0, 0.08], ['fore', 0.045, 0.075], ['fore', -0.045, 0.075], ['cheek', 1, 0.09], ['cheek', -1, 0.09], ['cheekb', 1, 0.11], ['cheekb', -1, 0.11], ['beard', 0.025, 0.05], ['beard', -0.025, 0.05], ['beard', 0, 0.06]];
+    hs.forEach(([w, v, l]) => DOG.head.push(Strand({ kind: 'fur', group: 'dog', part: 'head', mat: 'ruff', where: w, q: v, n: 3, seg: l / 2, col: w === 'beard' ? 'oat' : w === 'fore' ? 'oat' : 'ochre', w: 0.045, seed: R() * 1e6 | 0, jit: R(), mask: { floor: 1, dog: 1 } })));
     // ears: a 4-node tissue flap per side, with 2 feather strips per node
     [1, -1].forEach(sg => {
       const e = Strand({ kind: 'ear', group: 'dog', part: 'head', mat: 'ear', sg, n: 5, seg: 0.062, curl: 0.05, kTip: 0.7, col: 'rust', w: 0.075, mask: { floor: 1, dog: 1 } });
@@ -258,7 +259,8 @@
       const e = PRESET === 'generic' ? 0.6 : P.ear;
       const flat = norm(comb(md, -0.75, Uh, -0.45, Lh, 0.3 * s.sg));
       const prick = norm(comb(Uh, 0.55, md, 0.35, Lh, 0.8 * s.sg));
-      return { root, dir: norm(lerp3(flat, prick, 0.85 * clamp(e, 0, 1))) };
+      const hang = norm(comb(DOWN, 1, Lh, 0.1 * s.sg, md, -0.3));
+      return { root, dir: norm(lerp3(norm(lerp3(flat, prick, 0.85 * clamp(e, 0, 1))), hang, PRESET === 'generic' ? 0 : P.earHang)) };
     }
     if (s.kind === 'tail') {
       const tau = PRESET === 'generic' ? 0.5 : P.tail;

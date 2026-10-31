@@ -27,7 +27,7 @@ oscillation on everything (see `proof/compare_none_generic_tuned.mp4`).
 - **Solver.** Per node: a = k(r − p) − c(v − v_r) + g·grav + drag(w − v), semi-implicit Euler, 4 substeps per frame
   (dt = 1/96 s), inextensible links by follow-the-leader projection, then collisions, then a speed clamp. r is the rest
   shape the primary piece carries this substep (interpolated between frames), v_r its velocity, w the wind.
-- **Material presets** (k 1/s², c 1/s, gravity scale, drag 1/s): crepe fur 70 / 7 / 0.35 / 1.4, rising to 230 / 17 when
+- **Material presets** (k 1/s², c 1/s, gravity scale, drag 1/s): crepe fur 80 / 9 / 0.35 / 1.4, rising to 230 / 17 when
   afraid (the coat is held flat, sleek and back along the body); ruff 60 / 6.5; ear 120 / 7.5 / 0.55 / 0.6; feathers 45 / 6;
   tail 95 / 8; dewlap 22 / 3.2 / 0.8 (loose, it lags); curtain 6 / 2.2 / 1 / 2.4; reed 140 / 2.6 (springy, little damping,
   stiffer at the root); hair 28 / 4.2; scarf 9 / 4.2; coat tails 30 / 6. Tip nodes are softer (k × 0.35–0.7).
@@ -77,6 +77,10 @@ See `ledger.jsonl`. In short: a picket-fence/mop coat → overlapping shingles; 
 in" into looking at us → camera moved to the porch side; the near jamb cut the lying dog in two → house cut at the door's
 edge; the curtain hid the head → drawn to the far half; the facing measure (head vs torso centroid) was late for the
 over-the-shoulder look → measured from snout vs skull; a nose drawn over the back of the skull → depth-ordered muzzle.
+
+## Repair round 1
+
+After the critic's round 1: ears hang down beside the skull while looking in (no strip streams into the room), the folded forepaws are drawn and visible while lying, the belly fringe is shorter so the legs and feet show on the walk, the cards load and fit the credited fonts, the curtain stays behind the dog once it lies, and the cheek strips no longer read as fangs. See ledger entry 12.
 
 ## What is weak (looked at, not fixed)
 
