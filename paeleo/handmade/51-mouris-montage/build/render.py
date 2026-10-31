@@ -64,6 +64,7 @@ def tint(L, temp, lo=0.0, hi=1.0):
 
 # ------------------------------------------------------------- static environment (2x)
 LAMP = np.array([-0.05, 1.9, -1.7])
+GROUP = {'torso': 'body', 'neck': 'neck', 'head': 'head', 'muzzle': 'head', 'ear': 'head', 'tail': 'tail', 'leg': 'leg', 'paw': 'leg', 'eye': 'eye', 'nose': 'nose'}
 ENV_IDS = {'sky': 0, 'floor': 1, 'yard': 2, 'facade': 3, 'trim': 4, 'jamb': 5, 'lintel': 6, 'sill': 7, 'ifloor': 8, 'back': 9, 'side': 10, 'ceil': 11, 'leaf': 12}
 
 
@@ -221,7 +222,7 @@ def words_layer(img, t):
                 if t >= on:
                     a = alpha_all
                     if soft:
-                        a *= min(1.0, (t - on) / 0.25)
+                        a *= min(1.0, 0.5 + (t - on) / 0.08)   # appears at its spoken frame
                     dy = 0
                     if wd['exit'] == 'drop' and t > s1:
                         k = (t - s1) / tail; dy = (k ** 2) * 500 * (0.6 + 0.4 * ((li * 37) % 7) / 7)
@@ -389,20 +390,26 @@ def frame(i):
         lamb = np.clip((Nrm * tl_).sum(-1), 0, 1)
         rim = np.clip(1 - np.abs((Nrm * (-D[yy, xx])).sum(-1)), 0, 1) ** 3
         warmL = np.array([1.0, 0.72, 0.42])
-        # dog
-        for nm, layer, lo, hi, sc in (('torso', 'coat', 0.30, 0.78, 0.85), ('neck', 'coat', 0.30, 0.78, 0.85), ('tail', 'coat', 0.30, 0.78, 0.85), ('leg', 'coat', 0.28, 0.74, 0.85), ('muzzle', 'coat', 0.30, 0.78, 0.85), ('head', 'coat', 0.30, 0.78, 0.85),
-                                      ('ear', 'coat', 0.18, 0.55, 0.85), ('paw', 'paw', 0.30, 0.75, 0.35)):
-            s = (pa == nm) & (k < nd)
-            if s.any():
-                L = tri(tex(cut[layer]), sc)[s]
-                out[s] = tint(L, temp, lo, hi)
-        s = (pa == 'eye') & (k < nd)
-        if s.any():
-            ue = 0.5 + nl[s, 2] * 0.0 + np.arctan2(nl[s, 2], nl[s, 0]) / 3.0
-            ve = 0.5 - nl[s, 1] * 0.5
-            L = sample(tex(cut['eye']), ue, ve)
-            out[s] = tint(L, temp, 0.0, 0.85) * 0.9
-        s = (pa == 'nose'); out[s] = np.array([0.05, 0.04, 0.04])
+        # dog (round 2): every part is a flat cut from a whole image, untinted, unshaded; the cut makes the silhouette
+        sd = k < nd
+        if sd.any():
+            pr2 = project(Cd, SS); pr2[:, 0] -= bx0 * SS; pr2[:, 1] -= by0 * SS
+            rad2 = lib.FOCAL * SS * Rd / pr2[:, 2]
+            gk = np.array([GROUP.get(p if not p[-1].isdigit() else p[:-1], p) + (p[-1] if p[:3] in ('leg', 'paw') else '') for p in partd])
+            gpx = gk[np.minimum(k, nd - 1)]
+            for g in np.unique(gk):
+                s = sd & (gpx == g)
+                if not s.any():
+                    continue
+                if g in ('eye', 'nose'):
+                    out[s] = np.array([0.07, 0.05, 0.04]) if g == 'eye' else np.array([0.03, 0.025, 0.02]); continue
+                sel = gk == g
+                gx0, gx1 = (pr2[sel, 0] - rad2[sel]).min(), (pr2[sel, 0] + rad2[sel]).max()
+                gy0, gy1 = (pr2[sel, 1] - rad2[sel]).min(), (pr2[sel, 1] + rad2[sel]).max()
+                rid = cut['dog_body'] if g in ('body', 'neck', 'tail') else cut['dog_head_legs']
+                T = tex(rid, 384, color=True)
+                u = (xx[s] - gx0) / max(gx1 - gx0, 1); v_ = (yy[s] - gy0) / max(gy1 - gy0, 1)
+                out[s] = sample(T, np.clip(u, 0, 1), np.clip(v_, 0, 1))
         # person
         s = (k >= nd)
         if s.any():
@@ -414,7 +421,12 @@ def frame(i):
             out[s & (pa == 'pleg')] = np.array([0.13, 0.13, 0.16])
             out[s & (pa == 'pshoe')] = np.array([0.05, 0.05, 0.05])
         shade = amb[:, None] * np.array([0.78, 0.82, 0.95]) + (lamb * dlb * 1.5)[:, None] * warmL + (rim * 0.25)[:, None] * np.array([0.5, 0.55, 0.7])
+        shade[k < nd] = 1.0                      # no light on the dog but what is in its images
         rgb[yy, xx] = out * shade
+        gmap = np.full(vis.shape, -1, np.int32)
+        if (k < nd).any():
+            gk_ids = {g: n for n, g in enumerate(np.unique(gk))}
+            gmap[yy[k < nd], xx[k < nd]] = np.array([gk_ids[g] for g in gpx[k < nd]])
     # contours: silhouette and depth breaks (legs over legs, head over body)
     if vis.any():
         ys_, xs_ = np.nonzero(vis)
@@ -426,11 +438,17 @@ def frame(i):
         for ax in (0, 1):
             dd = np.abs(np.diff(dep, axis=ax, prepend=dep[:1] if ax == 0 else dep[:, :1]))
             brk |= (dd > 0.07) & v
-        sil = (dilate(dogm, 3) & ~dogm) | (dilate(perm, 2) & ~perm)
+        gm = gmap[y0:y1, x0:x1]
+        for ax in (0, 1):   # the cut edges between pieces (body, neck, head, each leg, tail)
+            gd = np.diff(gm, axis=ax, prepend=gm[:1] if ax == 0 else gm[:, :1])
+            brk |= (gd != 0) & (gm >= 0)
+        paper = dilate(dogm, 2) & ~dogm                      # a thin paper margin left by the scissors
+        dark = (dilate(dogm, 4) & ~dilate(dogm, 2)) | (dilate(perm, 2) & ~perm)
         edge = dilate(brk, 1) & v
         sub = rgb[y0:y1, x0:x1]
-        sub[sil & ~v] = np.array([0.04, 0.035, 0.03])
-        sub[edge] *= 0.25
+        sub[paper & ~v] = np.array([0.90, 0.86, 0.76])
+        sub[dark & ~v & ~paper] = np.array([0.04, 0.035, 0.03])
+        sub[edge] *= 0.3
     # ---------------- downsample the box to 1x and lay it into the frame
     hb, wb = by1 - by0, bx1 - bx0
     rgb1[by0:by1, bx0:bx1] = rgb[:hb * SS, :wb * SS].reshape(hb, SS, wb, SS, 3).mean((1, 3))
@@ -439,7 +457,7 @@ def frame(i):
     vw = words_layer(pil, t)
     pil.save(os.path.join(FR_DIR, f's{i:03d}.jpg'), quality=92)
     meas = measure(i, D, tb, ib, vis, nd, partd, Cd, bx0 * SS, by0 * SS)
-    meas['cut'] = cut['n']; meas['coat'] = cut['coat']; meas['words'] = vw; meas['camera'] = key
+    meas['cut'] = cut['n']; meas['coat'] = cut['dog_body']; meas['dog_head_legs'] = cut['dog_head_legs']; meas['words'] = vw; meas['camera'] = key
     json.dump(meas, open(os.path.join(MEAS, f'{i:03d}.json'), 'w'))
 
 
