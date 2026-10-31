@@ -1,0 +1,784 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PAE-03 · SCION 14 · Pose2Pose</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f4f1ea; --panel:#fbf9f4; --ink:#1f1a14; --mute:#6b6257; --line:#d9d2c4; --accent:#8a3b1c;
+  --ok:#2f6b3a; --bad:#a3271b; --chip:#ece6d9;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#16140f; --panel:#1d1a15; --ink:#ece5d6; --mute:#a59c8c; --line:#3a342b; --accent:#e08a5d;
+    --ok:#7cc48a; --bad:#ef8a7c; --chip:#2a251e;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#16140f; --panel:#1d1a15; --ink:#ece5d6; --mute:#a59c8c; --line:#3a342b; --accent:#e08a5d;
+  --ok:#7cc48a; --bad:#ef8a7c; --chip:#2a251e;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;overflow:hidden;background:var(--bg);color:var(--ink);font-family:"IBM Plex Sans",system-ui,sans-serif}
+#app{display:grid;grid-template-columns:minmax(0,1fr) 400px;height:100vh;height:100dvh}
+#stage{position:relative;display:flex;align-items:center;justify-content:center;background:#0f0d0a;min-height:0;min-width:0}
+#film{display:block;max-width:100%;max-height:100%;aspect-ratio:16/9;width:100%;height:auto}
+#panel{background:var(--panel);border-left:1px solid var(--line);display:flex;flex-direction:column;min-height:0}
+#bar{padding:10px 14px;border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:8px}
+#bar .row{display:flex;align-items:center;gap:10px}
+#bar a{color:var(--accent);font:500 12px "IBM Plex Mono",monospace;text-decoration:none;border:1px solid var(--line);padding:2px 7px;border-radius:3px}
+h1{font:600 14px "IBM Plex Sans",sans-serif;margin:0;letter-spacing:.02em;flex:1}
+button{background:var(--chip);color:var(--ink);border:1px solid var(--line);border-radius:4px;height:30px;min-width:34px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;padding:0 8px;font:500 12px "IBM Plex Mono",monospace}
+button svg{width:14px;height:14px;fill:currentColor}
+input[type=range]{flex:1;accent-color:var(--accent);min-width:0}
+#tc{font:500 12px "IBM Plex Mono",monospace;color:var(--mute);min-width:96px;text-align:right}
+#scroll{overflow:auto;padding:12px 14px 18px;min-height:0;flex:1}
+.thesis{font:500 13px/1.45 "IBM Plex Sans",sans-serif;margin:0 0 10px;color:var(--accent)}
+h2{font:600 11px "IBM Plex Mono",monospace;text-transform:uppercase;letter-spacing:.08em;color:var(--mute);margin:14px 0 5px}
+p{font-size:13px;line-height:1.5;margin:0 0 6px}
+#sheetWrap{border:1px solid var(--line);border-radius:4px;background:#efe6d1;padding:4px}
+#sheet{width:100%;display:block}
+#idx{font:500 11px "IBM Plex Mono",monospace;color:var(--mute);margin-top:5px;line-height:1.5}
+table{width:100%;border-collapse:collapse;font:400 11.5px "IBM Plex Mono",monospace}
+td,th{padding:3px 4px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{color:var(--mute);font-weight:500}
+.H{color:var(--ok);font-weight:500}.B{color:var(--bad);font-weight:500}
+@media (max-width:820px){
+  #app{grid-template-columns:1fr;grid-template-rows:50vh 50vh;grid-template-rows:50dvh 50dvh}
+  #panel{border-left:0;border-top:1px solid var(--line)}
+  #bar{padding:8px 16px}
+  #scroll{padding:10px 16px 16px}
+}
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="stage"><canvas id="film" width="1280" height="720"></canvas></div>
+  <div id="panel">
+    <div id="bar">
+      <div class="row"><h1>SCION 14 · Pose2Pose</h1><a href="../index.html">PAE-03</a><button id="theme" title="Page theme" aria-label="Toggle page theme"><svg viewBox="0 0 16 16"><path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zm0 2v10a5 5 0 0 1 0-10z"/></svg></button></div>
+      <div class="row">
+        <button id="play" aria-label="Play or pause"><svg id="icoPause" viewBox="0 0 16 16"><rect x="3" y="2" width="3.5" height="12"/><rect x="9.5" y="2" width="3.5" height="12"/></svg><svg id="icoPlay" viewBox="0 0 16 16" style="display:none"><path d="M3 2l11 6-11 6z"/></svg></button>
+        <input id="scrub" type="range" min="0" max="767" value="0" step="1" aria-label="Frame">
+        <span id="tc">f000 0.00s</span>
+      </div>
+    </div>
+    <div id="scroll">
+      <p class="thesis">Performance is casting: every frame, pick one whole drawing from the bank, and never draw between them.</p>
+      <h2>Drawing bank (chosen drawing lit)</h2>
+      <div id="sheetWrap"><canvas id="sheet" width="760" height="300"></canvas></div>
+      <div id="idx"></div>
+      <h2>Made of</h2>
+      <p id="madeOf"></p>
+      <h2>Moved by</h2>
+      <p id="movedBy"></p>
+      <h2>Measured from the render</h2>
+      <table id="checks"></table>
+    </div>
+  </div>
+</div>
+<script>
+"use strict";
+/* =====================================================================
+   SCION 14 · POSE2POSE — casting from a drawing bank
+   Units: metres. Sack/prop drawings are authored in local coordinates
+   (origin at the base, y up). Outline points: [x, y, tag]; a tag marks a
+   hard corner: fl/fr = base corners (feet), el/er = ear tips (top corners),
+   c = other hard corner. Everything between corners is drawn as a smooth
+   ink run through the authored points.
+   ===================================================================== */
+const FPS=24, NF=768;
+
+/* ------------------------- THE SACK BANK -------------------------- */
+// p: pose vector as authored (s squash -1..1, l lean -1..1, lift corners 0..1, sweep corner sweep -1..1)
+// ph: travel phase (shuffle only). air: no base contact. pen: penny socket on top.
+const SACK=[
+{id:'D00',fam:'rest',p:{s:.2,l:0,lift:0,sweep:0},
+ o:[[-.33,0,'fl'],[-.355,.10],[-.335,.24],[-.29,.38],[-.36,.46,'el'],[-.23,.53],[-.08,.505],[.06,.51],[.22,.535],[.355,.47,'er'],[.285,.385],[.33,.25],[.36,.11],[.33,0,'fr'],[0,-.006]],
+ f:[[-.15,.45,-.04,.41,.10,.44],[-.24,.06,-.16,.16,-.15,.24],[.20,.04,.26,.15],[-.27,.40,-.21,.43]]},
+{id:'D01',fam:'rest',p:{s:.15,l:0,lift:0,sweep:.2},
+ o:[[-.33,0,'fl'],[-.35,.12],[-.32,.27],[-.27,.40],[-.33,.49,'el'],[-.20,.535],[-.05,.50],[.09,.515],[.24,.53],[.38,.45,'er'],[.29,.37],[.335,.23],[.355,.10],[.325,0,'fr'],[0,-.005]],
+ f:[[-.12,.44,0,.405,.12,.43],[-.22,.05,-.18,.19],[.16,.06,.25,.12,.27,.20],[.26,.41,.31,.44]]},
+{id:'D02',fam:'flinchS',p:{s:1,l:-.3,lift:.4,sweep:.5},
+ o:[[-.40,0,'fl'],[-.44,.09],[-.42,.20],[-.36,.31],[-.38,.40,'el'],[-.26,.42],[-.10,.41],[.06,.42],[.20,.43],[.36,.49,'er'],[.30,.36],[.37,.24],[.42,.11],[.39,0,'fr'],[0,-.008]],
+ f:[[-.30,.15,-.16,.20,-.02,.18],[.05,.26,.20,.30,.30,.28],[-.20,.34,-.05,.36],[.22,.10,.32,.14]]},
+{id:'D03',fam:'flinchA',air:1,p:{s:-.5,l:-.8,lift:.3,sweep:.8},
+ o:[[-.20,.02,'fl'],[-.26,.12],[-.31,.28],[-.35,.44],[-.42,.58,'el'],[-.28,.64],[-.13,.63],[0,.62],[.12,.66],[.31,.71,'er'],[.15,.52],[.17,.36],[.22,.18],[.26,.03,'fr'],[.03,0]],
+ f:[[-.22,.40,-.09,.30,.05,.22],[-.14,.53,.02,.45],[-.20,.12,-.10,.08]]},
+{id:'D04',fam:'flinchL',p:{s:.5,l:-.4,lift:.2,sweep:.6},
+ o:[[-.37,0,'fl'],[-.40,.10],[-.37,.22],[-.31,.34],[-.35,.42,'el'],[-.22,.46],[-.06,.44],[.08,.45],[.20,.46],[.40,.44,'er'],[.28,.35],[.35,.23],[.40,.10],[.37,0,'fr'],[0,-.007]],
+ f:[[-.26,.12,-.12,.16],[.10,.30,.24,.33],[-.14,.40,-.02,.37,.08,.39],[.26,.05,.33,.09]]},
+{id:'D05',fam:'settle',p:{s:0,l:-.2,lift:.2,sweep:-.5},
+ o:[[-.32,0,'fl'],[-.34,.12],[-.32,.28],[-.29,.42],[-.43,.50,'el'],[-.25,.57],[-.10,.55],[.04,.555],[.18,.575],[.25,.535,'er'],[.27,.42],[.32,.26],[.35,.11],[.32,0,'fr'],[0,-.005]],
+ f:[[-.18,.46,-.06,.44,.08,.46],[-.22,.06,-.17,.20],[.22,.08,.25,.18],[.13,.52,.19,.49]]},
+{id:'D06',fam:'flinchS',p:{s:.5,l:-.2,lift:.3,sweep:.3},
+ o:[[-.37,0,'fl'],[-.39,.11],[-.37,.24],[-.31,.36],[-.36,.44,'el'],[-.23,.48],[-.08,.465],[.07,.47],[.21,.485],[.37,.47,'er'],[.29,.37],[.35,.24],[.39,.10],[.36,0,'fr'],[0,-.007]],
+ f:[[-.24,.14,-.10,.19,.02,.17],[-.14,.41,0,.38,.10,.41],[.20,.07,.29,.12]]},
+{id:'D07',fam:'flinchA',air:1,p:{s:-.2,l:-.4,lift:.2,sweep:.5},
+ o:[[-.28,.02,'fl'],[-.32,.13],[-.32,.29],[-.31,.43],[-.38,.53,'el'],[-.24,.58],[-.09,.565],[.05,.57],[.18,.59],[.36,.57,'er'],[.24,.45],[.27,.29],[.31,.13],[.30,.02,'fr'],[.01,0]],
+ f:[[-.16,.36,-.04,.28],[-.12,.50,0,.47,.10,.50],[-.22,.10,-.14,.15]]},
+{id:'D08',fam:'settle',p:{s:.15,l:-.1,lift:.1,sweep:.2},
+ o:[[-.33,0,'fl'],[-.355,.11],[-.33,.26],[-.28,.39],[-.34,.48,'el'],[-.21,.53],[-.07,.51],[.07,.515],[.22,.53],[.37,.48,'er'],[.28,.38],[.33,.24],[.36,.10],[.33,0,'fr'],[0,-.005]],
+ f:[[-.13,.45,-.02,.42,.11,.45],[-.25,.08,-.19,.17],[.18,.05,.22,.12,.21,.21]]},
+{id:'D09',fam:'watch',p:{s:0,l:.1,lift:.1,sweep:0},
+ o:[[-.33,0,'fl'],[-.35,.11],[-.32,.26],[-.26,.40],[-.30,.49,'el'],[-.17,.535],[-.02,.515],[.12,.52],[.26,.53],[.40,.46,'er'],[.31,.37],[.35,.23],[.36,.10],[.33,0,'fr'],[0,-.005]],
+ f:[[-.08,.46,.04,.43,.15,.46],[-.21,.07,-.15,.18],[.22,.06,.28,.15],[-.25,.30,-.20,.36]]},
+{id:'D10',fam:'watch',p:{s:-.1,l:.2,lift:.2,sweep:0},
+ o:[[-.32,0,'fl'],[-.33,.12],[-.30,.28],[-.24,.42],[-.27,.52,'el'],[-.13,.56],[.02,.545],[.15,.55],[.28,.555],[.41,.50,'er'],[.32,.40],[.35,.25],[.355,.11],[.32,0,'fr'],[0,-.005]],
+ f:[[-.04,.48,.08,.455,.19,.48],[-.20,.09,-.13,.21],[.24,.04,.29,.16]]},
+{id:'D11',fam:'notice',p:{s:-.2,l:.3,lift:1,sweep:0},
+ o:[[-.31,0,'fl'],[-.32,.12],[-.29,.28],[-.22,.44],[-.26,.62,'el'],[-.14,.55],[0,.535],[.14,.55],[.30,.58],[.40,.66,'er'],[.32,.46],[.35,.28],[.35,.12],[.31,0,'fr'],[0,-.005]],
+ f:[[-.20,.47,-.15,.52],[.29,.49,.34,.55],[-.06,.47,.06,.45,.17,.48],[-.18,.08,-.12,.20]]},
+{id:'D12',fam:'notice',p:{s:-.15,l:.45,lift:.8,sweep:-.3},
+ o:[[-.31,0,'fl'],[-.31,.13],[-.26,.30],[-.17,.45],[-.27,.60,'el'],[-.08,.55],[.06,.54],[.20,.555],[.34,.57],[.39,.635,'er'],[.36,.46],[.37,.29],[.355,.12],[.31,0,'fr'],[0,-.005]],
+ f:[[-.14,.47,-.11,.53],[.02,.48,.14,.46,.25,.49],[-.17,.07,-.08,.22,-.02,.30],[.25,.10,.30,.18]]},
+{id:'D13',fam:'resolve',p:{s:.15,l:.55,lift:.4,sweep:-.2},
+ o:[[-.33,0,'fl'],[-.35,.13],[-.31,.30],[-.20,.45],[-.05,.50],[.10,.48],[.20,.47,'el'],[.27,.43],[.40,.40,'er'],[.34,.30],[.37,.18],[.35,.07],[.32,0,'fr'],[0,-.006]],
+ f:[[-.14,.40,0,.43,.12,.40],[.20,.36,.28,.33],[-.24,.08,-.14,.15],[.18,.06,.27,.10]]},
+/* approach shuffle: hunched forward, the leading shoulder is the highest point, the two ear corners
+   trail behind it (left), the bottom pools wider than the top. Base contact alternates; feet pinned while held. */
+{id:'S1a',fam:'shuffle',ph:0/8,p:{s:.1,l:.6,lift:.3,sweep:-.1},
+ o:[[-0.19,0,'fl'],[-0.33,.02],[-0.42,.08],[-0.428,.16],[-0.363,.24],[-0.271,.30],[-0.307,.355,'el'],[-0.203,.37],[-0.236,.40,'er'],[-0.123,.43],[-0.032,.465],[0.041,.465],[0.134,.425],[0.258,.34],[0.374,.23],[0.43,.12],[0.41,.04],[0.31,.005],[0.19,0,'fr'],[0.0,-.005]],
+ f:[[-0.36,0.05,-0.22,0.14,-0.079,0.2],[0.065,0.42,0.175,0.36,0.28,0.26],[0.18,0.05,0.3,0.08]]},
+{id:'S2a',fam:'shuffle',ph:1/8,p:{s:-.1,l:.65,lift:.3,sweep:-.3},
+ o:[[-0.2,0,'fl'],[-0.34,.02],[-0.43,.08],[-0.437,.17],[-0.37,.25],[-0.276,.31],[-0.321,.36,'el'],[-0.209,.375],[-0.248,.405,'er'],[-0.129,.435],[-0.032,.47],[0.046,.47],[0.145,.43],[0.27,.35],[0.386,.25],[0.449,.15],[0.42,.085],[0.3,.05,'fr'],[0.05,.01]],
+ f:[[-0.36,0.06,-0.199,0.15,-0.059,0.22],[0.076,0.43,0.187,0.37,0.292,0.28],[0.22,0.1,0.34,0.12]]},
+{id:'S3a',fam:'shuffle',ph:2/8,p:{s:.2,l:.7,lift:.3,sweep:-.4},
+ o:[[-0.3,0,'fl'],[-0.4,.025],[-0.46,.08],[-0.458,.16],[-0.392,.24],[-0.289,.30],[-0.335,.35,'el'],[-0.221,.365],[-0.262,.395,'er'],[-0.139,.425],[-0.039,.455],[0.044,.455],[0.145,.415],[0.271,.33],[0.386,.22],[0.44,.11],[0.42,.035],[0.318,0,'fr'],[0.0,-.006]],
+ f:[[-0.4,0.05,-0.26,0.12,-0.099,0.17],[0.053,0.41,0.159,0.36,0.282,0.25],[0.1,0.05,0.24,0.08]]},
+{id:'S4a',fam:'shuffle',ph:3/8,p:{s:.1,l:.6,lift:.3,sweep:-.2},
+ o:[[-0.191,.05,'fl'],[-0.333,.06],[-0.442,.11],[-0.468,.19],[-0.407,.26],[-0.308,.315],[-0.345,.37,'el'],[-0.235,.385],[-0.269,.415,'er'],[-0.152,.44],[-0.056,.475],[0.021,.475],[0.12,.435],[0.26,.345],[0.388,.235],[0.452,.125],[0.43,.04],[0.31,0,'fr'],[0.037,.012]],
+ f:[[-0.355,0.1,-0.2,0.18,-0.07,0.23],[0.055,0.43,0.167,0.37,0.284,0.27],[0.19,0.04,0.299,0.07]]},
+{id:'S1b',fam:'shuffle',ph:4/8,p:{s:.1,l:.6,lift:.3,sweep:0},
+ o:[[-0.19,0,'fl'],[-0.33,.02],[-0.42,.075],[-0.433,.155],[-0.369,.235],[-0.272,.295],[-0.314,.35,'el'],[-0.205,.365],[-0.246,.395,'er'],[-0.125,.425],[-0.026,.46],[0.049,.46],[0.143,.42],[0.269,.335],[0.385,.225],[0.435,.115],[0.41,.035],[0.31,.005],[0.19,0,'fr'],[0.0,-.005]],
+ f:[[-0.34,0.04,-0.18,0.12,-0.02,0.16],[0.079,0.42,0.193,0.355],[0.052,0.3,0.19,0.24,0.298,0.16]]},
+{id:'S2b',fam:'shuffle',ph:5/8,p:{s:-.1,l:.65,lift:.3,sweep:-.2},
+ o:[[-0.2,0,'fl'],[-0.34,.02],[-0.43,.085],[-0.442,.165],[-0.371,.245],[-0.278,.305],[-0.32,.355,'el'],[-0.211,.37],[-0.244,.40,'er'],[-0.13,.43],[-0.032,.465],[0.048,.465],[0.148,.425],[0.273,.345],[0.388,.245],[0.449,.15],[0.42,.085],[0.3,.055,'fr'],[0.05,.012]],
+ f:[[-0.38,0.08,-0.219,0.16,-0.059,0.2],[0.065,0.42,0.171,0.37],[0.2,0.12,0.32,0.14]]},
+{id:'S3b',fam:'shuffle',ph:6/8,p:{s:.2,l:.7,lift:.3,sweep:-.3},
+ o:[[-0.3,0,'fl'],[-0.4,.025],[-0.465,.085],[-0.462,.165],[-0.39,.245],[-0.287,.305],[-0.328,.355,'el'],[-0.219,.37],[-0.255,.40,'er'],[-0.137,.43],[-0.039,.46],[0.043,.46],[0.143,.42],[0.269,.335],[0.385,.225],[0.445,.115],[0.42,.035],[0.318,0,'fr'],[0.0,-.006]],
+ f:[[-0.42,0.06,-0.28,0.13,-0.119,0.18],[0.065,0.42,0.175,0.36,0.286,0.27],[-0.02,0.06,0.12,0.09]]},
+{id:'S4b',fam:'shuffle',ph:7/8,p:{s:.1,l:.6,lift:.3,sweep:-.1},
+ o:[[-0.191,.05,'fl'],[-0.333,.065],[-0.442,.115],[-0.473,.195],[-0.41,.265],[-0.31,.32],[-0.354,.37,'el'],[-0.239,.385],[-0.275,.41,'er'],[-0.155,.44],[-0.056,.47],[0.022,.47],[0.123,.43],[0.263,.34],[0.391,.23],[0.452,.12],[0.43,.04],[0.31,0,'fr'],[0.037,.012]],
+ f:[[-0.377,0.12,-0.221,0.2,-0.07,0.24],[0.063,0.43,0.176,0.37],[0.212,0.05,0.321,0.08]]},
+{id:'D22',fam:'arrive',p:{s:.1,l:.6,lift:.2,sweep:-.5},
+ o:[[-0.24,0,'fl'],[-0.36,.02],[-0.44,.08],[-0.447,.17],[-0.379,.25],[-0.285,.31],[-0.323,.37,'el'],[-0.215,.38],[-0.24,.42,'er'],[-0.125,.445],[-0.037,.48],[0.038,.48],[0.127,.44],[0.24,.36],[0.339,.25],[0.38,.13],[0.35,.04],[0.24,0,'fr'],[0.0,-.005]],
+ f:[[-0.38,0.06,-0.22,0.14,-0.079,0.19],[0.06,0.44,0.152,0.38,0.252,0.29],[0.14,0.05,0.26,0.07]]},
+/* prop: spread wide, right flank traced flush to the tower's leaning face; press / ease / re-press */
+{id:'D23',fam:'prop',flank:1,p:{s:.3,l:1,lift:.2,sweep:-.2},
+ o:[[-.42,0,'fl'],[-.47,.08],[-.44,.19],[-.35,.31],[-.24,.43],[-.14,.53],[-.20,.62,'el'],[-.03,.615],[.09,.61],[.19,.65,'er'],[.20,.55,'k'],[.22,.44,'k'],[.24,.32,'k'],[.265,.20,'k'],[.34,.08],[.36,0,'fr'],[0,-.007]],
+ f:[[-.34,.06,-.16,.24,.04,.42],[-.18,.10,0,.26,.14,.40],[.02,.55,.12,.52]]},
+{id:'D24',fam:'prop',flank:1,p:{s:-.1,l:.7,lift:0,sweep:.3},
+ o:[[-.34,0,'fl'],[-.38,.10],[-.36,.23],[-.29,.37],[-.21,.50],[-.13,.60],[-.21,.665,'el'],[-.04,.68],[.08,.675],[.19,.70,'er'],[.20,.58,'k'],[.22,.45,'k'],[.24,.32,'k'],[.265,.19,'k'],[.33,.07],[.34,0,'fr'],[0,-.006]],
+ f:[[.17,.50,.06,.46,-.04,.45],[-.26,.08,-.18,.18],[.10,.08,.20,.12]]},
+{id:'D24b',fam:'prop',flank:1,p:{s:.4,l:1,lift:.7,sweep:-.8},
+ o:[[-.46,0,'fl'],[-.51,.07],[-.48,.17],[-.39,.28],[-.27,.40],[-.16,.50],[-.29,.60,'el'],[-.06,.585],[.08,.585],[.20,.635,'er'],[.20,.54,'k'],[.22,.43,'k'],[.24,.31,'k'],[.265,.19,'k'],[.35,.07],[.37,0,'fr'],[0,-.007]],
+ f:[[-.40,.06,-.20,.22,.02,.40],[-.22,.06,-.02,.20,.14,.32],[-.12,.47,-.02,.52]]},
+/* brace: compress under the cut; hit / hold / push */
+{id:'D25',fam:'brace',flank:1,p:{s:1,l:.8,lift:0,sweep:.6},
+ o:[[-.54,0,'fl'],[-.60,.07],[-.57,.16],[-.46,.26],[-.32,.36],[-.18,.43],[-.24,.50,'el'],[-.06,.485],[.08,.48],[.215,.50,'er'],[.215,.42,'k'],[.232,.34,'k'],[.255,.24,'k'],[.30,.13],[.38,.05],[.40,0,'fr'],[0,-.007]],
+ f:[[-.30,.14,-.16,.17,-.02,.15],[-.18,.32,-.04,.36,.10,.33],[.02,.50,.12,.47],[-.36,.05,-.28,.08],[.14,.20,.24,.22]]},
+{id:'D26',fam:'brace',flank:1,p:{s:.6,l:.95,lift:.1,sweep:0},
+ o:[[-.50,0,'fl'],[-.56,.08],[-.53,.18],[-.42,.28],[-.29,.38],[-.17,.45],[-.25,.505,'el'],[-.05,.51],[.08,.505],[.21,.525,'er'],[.214,.44,'k'],[.233,.35,'k'],[.256,.25,'k'],[.30,.14],[.38,.05],[.40,0,'fr'],[0,-.007]],
+ f:[[-.28,.16,-.12,.19],[-.10,.30,.06,.34,.16,.31],[.04,.49,.13,.46],[-.06,.10,.06,.12]]},
+{id:'D26b',fam:'brace',flank:1,p:{s:.4,l:1,lift:.5,sweep:-.6},
+ o:[[-.52,0,'fl'],[-.58,.07],[-.55,.17],[-.44,.27],[-.31,.37],[-.18,.45],[-.32,.535,'el'],[-.08,.53],[.07,.525],[.21,.565,'er'],[.214,.46,'k'],[.233,.36,'k'],[.256,.26,'k'],[.30,.14],[.38,.05],[.40,0,'fr'],[0,-.007]],
+ f:[[-.46,.05,-.24,.20,0,.34],[-.26,.05,-.04,.18,.14,.26],[0,.47,.12,.45]]},
+{id:'D27',fam:'crouch',p:{s:.95,l:.4,lift:0,sweep:0},
+ o:[[-.42,0,'fl'],[-.47,.08],[-.44,.18],[-.35,.28],[-.22,.36],[-.22,.43,'el'],[-.08,.40],[.08,.405],[.22,.43],[.36,.47,'er'],[.33,.36],[.39,.24],[.45,.11],[.43,0,'fr'],[0,-.008]],
+ f:[[-.34,.12,-.20,.16,-.06,.15],[-.10,.30,.06,.33,.20,.31],[.12,.10,.26,.12,.36,.08]]},
+{id:'D28',fam:'leap',air:1,p:{s:-1,l:.6,lift:.2,sweep:-.9},
+ o:[[-.24,.03,'fl'],[-.33,.09],[-.36,.20],[-.33,.34],[-.26,.48],[-.18,.61],[-.12,.72],[-.17,.86,'el'],[-.04,.80],[.06,.83],[.16,.93,'er'],[.16,.80],[.13,.68],[.14,.55],[.18,.42],[.24,.28],[.29,.15],[.26,.05],[.16,.01,'fr'],[-.04,-.01]],
+ f:[[-.28,.12,-.20,.34,-.08,.56,.02,.70],[.06,.08,.16,.14]]},
+{id:'D29',fam:'leap',air:1,p:{s:-.7,l:.3,lift:.4,sweep:-.6},
+ o:[[-.22,.03,'fl'],[-.32,.10],[-.34,.22],[-.30,.36],[-.24,.50],[-.20,.62],[-.26,.76,'el'],[-.12,.72],[.01,.73],[.14,.80,'er'],[.13,.66],[.14,.52],[.19,.38],[.25,.24],[.28,.12],[.24,.03],[.13,0,'fr'],[-.04,-.01]],
+ f:[[-.24,.12,-.16,.32,-.08,.52],[.08,.08,.18,.14]]},
+{id:'D30',fam:'catch',air:1,pen:1,p:{s:-.5,l:.1,lift:.8,sweep:-.2},
+ o:[[-.21,.03,'fl'],[-.25,.14],[-.24,.32],[-.20,.50],[-.24,.71,'el'],[-.10,.655],[0,.645],[.10,.655],[.23,.715,'er'],[.21,.50],[.25,.32],[.26,.14],[.21,0,'fr'],[0,0]],
+ f:[[-.20,.18,-.10,.34,-.02,.50],[.12,.10,.18,.22]]},
+{id:'D31',fam:'fall',air:1,pen:1,p:{s:-.3,l:0,lift:1,sweep:0},
+ o:[[-.24,.02,'fl'],[-.28,.12],[-.27,.28],[-.22,.45],[-.27,.66,'el'],[-.11,.60],[0,.59],[.11,.60],[.28,.67,'er'],[.23,.45],[.28,.28],[.29,.12],[.24,.02,'fr'],[0,0]],
+ f:[[-.22,.14,-.12,.30,-.04,.44],[.14,.06,.22,.12]]},
+{id:'D32',fam:'land',pen:1,p:{s:1,l:0,lift:.6,sweep:0},
+ o:[[-.46,0,'fl'],[-.50,.08],[-.47,.18],[-.38,.27],[-.51,.33,'el'],[-.28,.36],[-.10,.375],[0,.37],[.10,.375],[.28,.36],[.51,.33,'er'],[.38,.27],[.47,.18],[.50,.08],[.46,0,'fr'],[0,-.008]],
+ f:[[-.38,.10,-.20,.15,0,.14,.18,.10],[.20,.04,.34,.06]]},
+{id:'D33',fam:'recover',pen:1,p:{s:-.35,l:0,lift:0,sweep:0},
+ o:[[-.29,0,'fl'],[-.31,.13],[-.29,.31],[-.25,.49],[-.37,.52,'el'],[-.20,.62],[-.06,.635],[.06,.635],[.20,.62],[.36,.515,'er'],[.25,.49],[.29,.31],[.31,.13],[.29,0,'fr'],[0,-.005]],
+ f:[[-.20,.08,-.12,.26,-.06,.42],[.14,.06,.20,.14]]},
+{id:'D34',fam:'still',pen:1,p:{s:.15,l:0,lift:0,sweep:0},
+ o:[[-.33,0,'fl'],[-.355,.11],[-.33,.26],[-.28,.40],[-.33,.50,'el'],[-.19,.545],[-.05,.55],[.06,.55],[.19,.545],[.33,.50,'er'],[.28,.40],[.33,.26],[.355,.11],[.33,0,'fr'],[0,-.006]],
+ f:[[-.26,.06,-.16,.16,-.06,.22],[.16,.05,.24,.12]]},
+/* gather: fuller and fuller; wrinkles leave as the cloth goes taut */
+{id:'G1',fam:'gather',pen:1,p:{s:.1,l:0,lift:.1,sweep:0},
+ o:[[-.33,0,'fl'],[-.355,.12],[-.335,.28],[-.29,.43],[-.35,.53,'el'],[-.21,.585],[-.06,.575],[.08,.58],[.22,.59],[.36,.535,'er'],[.29,.43],[.335,.27],[.36,.12],[.33,0,'fr'],[0,-.006]],
+ f:[[-.26,.06,-.16,.18,-.04,.26],[.16,.06,.24,.14]]},
+{id:'G2',fam:'gather',pen:1,p:{s:.05,l:0,lift:.25,sweep:0},
+ o:[[-.33,0,'fl'],[-.35,.13],[-.335,.31],[-.30,.48],[-.345,.595,'el'],[-.21,.645],[-.06,.635],[.08,.64],[.22,.65],[.345,.605,'er'],[.30,.48],[.335,.30],[.355,.13],[.33,0,'fr'],[0,-.006]],
+ f:[[-.24,.08,-.16,.22,-.08,.32],[.18,.08,.24,.18]]},
+{id:'G3',fam:'gather',pen:1,p:{s:0,l:0,lift:.4,sweep:0},
+ o:[[-.33,0,'fl'],[-.35,.14],[-.34,.34],[-.315,.53],[-.355,.665,'el'],[-.205,.705],[-.06,.698],[.08,.70],[.22,.71],[.34,.675,'er'],[.31,.53],[.34,.34],[.355,.14],[.33,0,'fr'],[0,-.006]],
+ f:[[-.24,.10,-.17,.26,-.12,.38],[.20,.10,.24,.20]]},
+{id:'G4',fam:'gather',pen:1,p:{s:0,l:0,lift:.5,sweep:0},
+ o:[[-.33,0,'fl'],[-.345,.15],[-.34,.37],[-.32,.58],[-.35,.735,'el'],[-.20,.765],[-.06,.758],[.08,.762],[.215,.77],[.355,.74,'er'],[.32,.58],[.34,.37],[.35,.15],[.33,0,'fr'],[0,-.006]],
+ f:[[-.24,.12,-.19,.28],[.21,.16,.24,.28]]},
+{id:'G5',fam:'gather',pen:1,p:{s:0,l:0,lift:.6,sweep:0},
+ o:[[-.34,0,'fl'],[-.38,.10],[-.37,.24],[-.34,.40],[-.33,.56],[-.34,.72],[-.40,.83,'el'],[-.22,.80],[-.06,.79],[.08,.795],[.22,.805],[.40,.82,'er'],[.33,.71],[.33,.56],[.34,.40],[.37,.24],[.38,.10],[.34,0,'fr'],[0,-.006]],
+ f:[[-.30,.10,-.24,.20],[.24,.08,.28,.16]]},
+{id:'G6',fam:'gather',pen:1,p:{s:0,l:0,lift:.7,sweep:0},
+ o:[[-.35,0,'fl'],[-.39,.10],[-.38,.25],[-.35,.42],[-.33,.60],[-.34,.78],[-.41,.90,'el'],[-.23,.865],[-.07,.855],[.08,.86],[.23,.87],[.41,.895,'er'],[.33,.77],[.33,.60],[.35,.42],[.38,.25],[.39,.10],[.35,0,'fr'],[0,-.006]],
+ f:[[-.30,.08,-.25,.18],[.26,.06,.30,.16]]},
+{id:'G7',fam:'gather',pen:1,p:{s:-.15,l:0,lift:.8,sweep:0},
+ o:[[-.36,0,'fl'],[-.40,.10],[-.39,.25],[-.35,.42],[-.33,.60],[-.33,.78],[-.34,.88],[-.42,.98,'el'],[-.25,.925],[-.08,.91],[.07,.91],[.22,.92],[.42,.97,'er'],[.34,.87],[.33,.75],[.33,.60],[.35,.42],[.39,.25],[.40,.10],[.36,0,'fr'],[0,-.006]],
+ f:[[-.32,.06,-.27,.16],[.28,.05,.32,.14]]},
+/* full: pear-built, weight pooled into a base wider than the waist, two clear ear corners */
+{id:'F1',fam:'full',pen:1,p:{s:0,l:0,lift:.6,sweep:0},
+ o:[[-.36,0,'fl'],[-.405,.09],[-.40,.24],[-.36,.40],[-.335,.56],[-.33,.72],[-.34,.85],[-.43,.985,'el'],[-.26,.925],[-.10,.905],[.04,.905],[.18,.915],[.30,.93],[.42,.98,'er'],[.34,.84],[.33,.70],[.335,.55],[.355,.40],[.395,.24],[.405,.09],[.36,0,'fr'],[0,-.006]],
+ f:[[-.32,.06,-.28,.15],[.29,.05,.32,.13],[.05,.18,.10,.34]]},
+{id:'F2',fam:'stay',pen:1,p:{s:0,l:0,lift:.9,sweep:0},
+ o:[[-.36,0,'fl'],[-.41,.10],[-.40,.25],[-.355,.41],[-.33,.57],[-.325,.73],[-.33,.87],[-.40,1.03,'el'],[-.25,.95],[-.10,.92],[.04,.915],[.17,.925],[.29,.945],[.43,1.02,'er'],[.335,.86],[.325,.71],[.33,.56],[.355,.41],[.40,.25],[.41,.10],[.36,0,'fr'],[0,-.006]],
+ f:[[-.33,.05,-.29,.14],[.30,.06,.33,.14],[-.06,.22,-.02,.40]]},
+];
+
+/* ------------------------- geometry helpers ------------------------ */
+function cr(p0,p1,p2,p3,t){const t2=t*t,t3=t2*t;return[
+ .5*((2*p1[0])+(-p0[0]+p2[0])*t+(2*p0[0]-5*p1[0]+4*p2[0]-p3[0])*t2+(-p0[0]+3*p1[0]-3*p2[0]+p3[0])*t3),
+ .5*((2*p1[1])+(-p0[1]+p2[1])*t+(2*p0[1]-5*p1[1]+4*p2[1]-p3[1])*t2+(-p0[1]+3*p1[1]-3*p2[1]+p3[1])*t3)];}
+// outline -> sampled polygon; corners stay sharp, runs between corners are smooth ink runs
+function samplePath(o,n){n=n||7;const N=o.length,isC=i=>!!o[i][2]&&o[i][2]!=='k';let s=o.findIndex((p,i)=>isC(i));if(s<0)s=0;
+ const pts=[],at={};let i=s,guard=0;
+ do{let j=(i+1)%N;const run=[i];while(!isC(j)&&j!==s){run.push(j);j=(j+1)%N;}run.push(j);
+  for(let k=0;k<run.length-1;k++){const P=q=>o[run[Math.max(0,Math.min(run.length-1,q))]];
+   at[run[k]]=pts.length;for(let u=0;u<n;u++)pts.push(cr(P(k-1),P(k),P(k+1),P(k+2),u/n));}
+  i=j;}while(i!==s&&++guard<200);
+ return{pts,at};}
+function area(p){let a=0;for(let i=0;i<p.length;i++){const q=p[(i+1)%p.length];a+=p[i][0]*q[1]-q[0]*p[i][1];}return Math.abs(a)/2;}
+
+// tower lean stages (top offset in metres), needed here because prop/brace flanks are traced against the face
+const LEAN={TLa:.07,TL1:.08,TL2:.105,TL3:.13,TL4:.16,TL5:.195,TC3:.16};
+/* ------------------------- prepare the sack bank ------------------- */
+// One fixed height factor per drawing (computed once, never animated) so that each
+// drawing's area matches its class: half-empty = D00's area, full = F1's area.
+// Gather drawings keep their authored area; it IS their fullness.
+const raw=s=>area(samplePath(s.o).pts);
+const A_H=raw(SACK[0]), A_F=raw(SACK.find(s=>s.id==='G7'));
+SACK.forEach(s=>{
+ const a0=raw(s);let target=null;
+ if(s.fam==='gather'){s.trim=1;}
+ else{target=(s.fam==='full'||s.fam==='stay')?A_F:A_H;s.trim=target/a0;}
+ const k=s.trim;s.o=s.o.map(p=>[p[0],p[1]*k,p[2]]);s.f=s.f.map(l=>l.map((v,i)=>i%2?v*k:v));
+ if(s.flank){ // trace the flank against the tower's leaning face (sack stands with its base centre at x=+0.40)
+  const cx=(s.o[0][0]+s.o.find(p=>p[2]==='fr')[0])/2;
+  for(let it=0;it<6;it++){s.o.forEach(p=>{if(p[2]==='k')p[0]=cx+(.80-.40)-.13-LEAN.TL4*Math.pow(p[1]/.935,1.6)-.004;});
+   const a1=raw(s);const kk=target/a1;s.o=s.o.map(p=>[p[0],p[1]*kk,p[2]]);s.f=s.f.map(l=>l.map((v,i)=>i%2?v*kk:v));s.trim*=kk;}}
+ const sp=samplePath(s.o);s.poly=sp.pts;s.A=area(sp.pts);s.fu=Math.max(0,Math.min(1,(s.A-A_H)/(A_F-A_H)));
+ const ix=t=>s.o.findIndex(p=>p[2]===t);
+ s.FL=s.o[ix('fl')];s.FR=s.o[ix('fr')];s.EL=s.o[ix('el')];s.ER=s.o[ix('er')];
+ s.cx=(s.FL[0]+s.FR[0])/2;let ys=s.poly.map(p=>p[1]);s.top=Math.max(...ys);s.bot=Math.min(...ys);
+ // penny socket: highest sampled point on the run between the two ears
+ const a=sp.at[ix('el')],b=sp.at[ix('er')];let best=null;
+ const mx=(s.EL[0]+s.ER[0])/2; // the socket sits in the middle of the top seam, between the ears
+ for(let q=(a+3)%s.poly.length;q!==b;q=(q+1)%s.poly.length){const p=s.poly[q];if(!best||Math.abs(p[0]-mx)<Math.abs(best[0]-mx))best=p;}
+ const q0=s.poly.indexOf(best),pa=s.poly[(q0-2+s.poly.length)%s.poly.length],pb=s.poly[(q0+2)%s.poly.length];
+ s.sock=best;s.sockAng=Math.atan2(pb[1]-pa[1],pb[0]-pa[0]);
+ s.lifted=[s.FL[1]>.01,s.FR[1]>.01];
+});
+const BY={};SACK.forEach((s,i)=>{s.i=i;BY[s.id]=s;});
+const TRIMS=SACK.filter(s=>s.fam!=='gather').map(s=>s.trim);
+
+/* ------------------------- TOWER / PILE / KNIFE / PENNY banks ------- */
+const TX=0.80;               // the tower's place on the table
+const TOP=.935;
+const T0=[[-.32,0,'c'],[-.30,.035],[-.26,.075],[-.24,.10,'c'],[-.205,.40],[-.17,.68],[-.13,.86],[-.08,.915],[0,TOP],[.08,.915],[.13,.86],[.17,.68],[.205,.40],[.24,.10,'c'],[.26,.075],[.30,.035],[.32,0,'c']];
+const T1=[[-.13,0,'c'],[-.13,.30],[-.13,.60],[-.13,.86,'c'],[-.08,.915],[0,TOP],[.08,.915],[.13,.86],[.17,.68],[.205,.40],[.24,.10,'c'],[.26,.075],[.30,.035],[.32,0,'c']];
+const T2=[[-.13,0,'c'],[-.13,.20],[-.13,.40],[-.13,.60],[-.13,.75],[-.13,.86,'c'],[-.08,.915],[0,TOP],[.08,.915],[.13,.86,'c'],[.13,.75],[.13,.60],[.13,.40],[.13,.20],[.13,0,'c']];
+// lean stages: the cut column traced again with its top carried left (a shear: area is kept)
+const leanX=(x,y,D)=>x-D*Math.pow(Math.max(0,y)/TOP,1.6);
+const lean=(T,D)=>T.map(p=>[leanX(p[0],p[1],D),p[1],p[2]]);
+const TLa=lean(T2,LEAN.TLa),TL1=lean(T2,LEAN.TL1),TL2=lean(T2,LEAN.TL2),TL3=lean(T2,LEAN.TL3),TL4=lean(T2,LEAN.TL4),TL5=lean(T2,LEAN.TL5);
+// cut 3 takes a wedge off the lower right face of the leaning column
+const yW=TOP*Math.pow((.13-.05)/LEAN.TC3,1/1.6);
+const TC3=[[-.13,0,'c'],[-.13,.20],[-.13,.40],[-.13,.60],[-.13,.75],[-.13,.86,'c'],[-.08,.915],[0,TOP],[.08,.915],[.13,.86,'c'],[.13,.80]].map(p=>[leanX(p[0],p[1],LEAN.TC3),p[1],p[2]]).concat([[.05,yW,'c'],[.05,yW*.5],[.05,0,'c']]);
+const TOWER={T0,T1,T2,TLa,TL1,TL2,TL3,TL4,TL5,TC3};
+const TPOLY={};for(const k in TOWER)TPOLY[k]=samplePath(TOWER[k],5).pts;
+const TA={};for(const k in TPOLY)TA[k]=area(TPOLY[k]);
+// slices that the knife takes, and the heaps they become (heap height set so heap area = slice area)
+const SLICE1=TA.T0-TA.T1, SLICE2=TA.T1-TA.T2, WEDGE3=TA.TL4-TA.TC3;
+function heapShape(cx,w,A,seed){ // a lumpy mound, each authored with its own lumps
+ const L=[[ -1,0,'c'],[-.78,.30],[-.52,.66],[-.22,.92],[.06,1],[.34,.84],[.62,.52],[.84,.22],[1,0,'c']];
+ const lump=[0,.05,-.06,.04,-.03,.06,-.05,.03,0];
+ let pts=L.map((p,i)=>[cx+p[0]*w,p[1]*(1+lump[(i+seed)%9]),p[2]]);
+ const a1=area(samplePath(pts,5).pts);const h=A/a1;return pts.map(p=>[p[0],p[1]*h,p[2]]);}
+const H1=heapShape(-.40,.15,SLICE1,0), H2=heapShape(.40,.15,SLICE2,3), H3=heapShape(.22,.12,WEDGE3,5);
+// the falling slices: the cut slab drawn tipping (two drawings each)
+function sliceTip(side,stage){ // authored slabs for the two side slices and the wedge
+ if(side===1)return stage===0?[[-.32,0,'c'],[-.24,.09],[-.20,.42],[-.16,.70],[-.13,.86,'c'],[-.13,0,'c']].map(p=>[p[0]-.03-(p[1]*.10),p[1]*.96,p[2]])
+  :[[-.50,0,'c'],[-.36,.10],[-.18,.20,'c'],[-.16,.12],[-.14,0,'c']];
+ if(side===2)return stage===0?[[.13,0,'c'],[.13,.86,'c'],[.16,.70],[.20,.42],[.24,.09],[.32,0,'c']].map(p=>[p[0]+.03+(p[1]*.10),p[1]*.96,p[2]])
+  :[[.14,0,'c'],[.16,.12],[.18,.20,'c'],[.36,.10],[.50,0,'c']];
+ return stage===0?[[.05,0,'c'],[.05+.02,yW*.9,'c'],[.13,.05],[.16,0,'c']]:[[.08,0,'c'],[.16,.07,'c'],[.30,0,'c']];
+}
+// collapse: authored crumble drawings (chunks), and pile drawings
+const C1=[[[-.17,0,'c'],[-.19,.30],[-.20,.42,'c'],[-.02,.47,'c'],[.05,.40],[.05,0,'c']],
+          [[-.24,.46,'c'],[-.27,.70],[-.30,.86,'c'],[-.24,.93],[-.15,.95],[-.10,.90,'c'],[-.07,.70],[-.04,.50,'c']]];
+const C2=[[[-.22,0,'c'],[-.24,.18],[-.20,.30,'c'],[-.04,.33,'c'],[.10,.20],[.14,0,'c']],
+          [[-.40,.28,'c'],[-.46,.46],[-.42,.62,'c'],[-.24,.60],[-.16,.52,'c'],[-.22,.36]],
+          [[-.06,.36,'c'],[.10,.50],[.20,.44,'c'],[.18,.32],[.06,.30,'c']]];
+const C3=[[[-.62,0,'c'],[-.50,.10],[-.34,.20],[-.20,.24],[-.04,.27],[.10,.22],[.24,.20],[.40,.12],[.56,.04],[.62,0,'c']],
+          [[-.46,.16,'c'],[-.40,.28],[-.30,.30,'c'],[-.30,.20]],[[.14,.20,'c'],[.22,.30],[.32,.26,'c'],[.30,.16]]];
+const PILE_SRC=[ // P0..P7 authored: each lower, the middle scooped toward the sack
+ [[-.66,0,'c'],[-.56,.10],[-.44,.22],[-.30,.32],[-.16,.38],[-.04,.40],[.08,.37],[.20,.40],[.34,.34],[.48,.20],[.60,.08],[.68,0,'c']],
+ [[-.66,0,'c'],[-.56,.10],[-.44,.21],[-.31,.30],[-.17,.35],[-.04,.35],[.08,.33],[.21,.37],[.35,.31],[.49,.19],[.60,.08],[.68,0,'c']],
+ [[-.65,0,'c'],[-.56,.09],[-.45,.20],[-.32,.28],[-.19,.31],[-.05,.29],[.08,.28],[.22,.33],[.36,.28],[.49,.17],[.60,.07],[.67,0,'c']],
+ [[-.64,0,'c'],[-.55,.09],[-.45,.18],[-.33,.25],[-.20,.26],[-.06,.22],[.08,.22],[.23,.28],[.37,.24],[.49,.15],[.59,.06],[.66,0,'c']],
+ [[-.63,0,'c'],[-.54,.08],[-.45,.16],[-.34,.21],[-.21,.20],[-.07,.15],[.08,.16],[.24,.22],[.37,.20],[.49,.12],[.58,.05],[.65,0,'c']],
+ [[-.62,0,'c'],[-.54,.07],[-.45,.13],[-.35,.17],[-.23,.14],[-.08,.08],[.08,.09],[.25,.16],[.38,.16],[.48,.10],[.57,.04],[.63,0,'c']],
+ [[-.60,0,'c'],[-.53,.06],[-.45,.11],[-.36,.13],[-.25,.09],[-.10,.04],[.08,.04],[.26,.10],[.38,.12],[.47,.08],[.55,.03],[.61,0,'c']],
+ [[-.58,0,'c'],[-.52,.05],[-.45,.09],[-.37,.10],[-.27,.06],[-.12,.02],[.08,.02],[.27,.06],[.38,.09],[.46,.06],[.53,.02],[.59,0,'c']],
+];
+const FLOUR_TOTAL=TA.T0;   // every grain in the film started in the tower
+function trimTo(pts,A){const a=area(samplePath(pts,5).pts);const k=A/a;return pts.map(p=>[p[0],p[1]*k,p[2]]);}
+// crumbles: each drawing (all its chunks + the three heaps) holds the whole tower's flour
+function crumble(ch){const heaps=area(samplePath(H1,5).pts)+area(samplePath(H2,5).pts)+area(samplePath(H3,5).pts);
+ const a=ch.reduce((s,c)=>s+area(samplePath(c,5).pts),0);const k=(FLOUR_TOTAL-heaps)/a;
+ return ch.map(c=>c.map(p=>[p[0],p[1]*k,p[2]]));}
+// C4, C5: the crumble settling into the pile; the heaps are swallowed into these two drawings
+const C4=[[[-.66,0,'c'],[-.56,.07],[-.44,.16],[-.40,.20],[-.30,.22],[-.16,.30],[-.02,.33],[.10,.28],[.22,.25],[.30,.26],[.42,.16],[.58,.06],[.68,0,'c']],
+          [[-.24,.26,'c'],[-.16,.36],[-.06,.34,'c'],[-.10,.28]]];
+const C5=[[[-.66,0,'c'],[-.56,.09],[-.44,.20],[-.32,.28],[-.18,.34],[-.04,.37],[.08,.34],[.20,.36],[.34,.31],[.48,.19],[.60,.08],[.68,0,'c']]];
+function whole(ch){const a=ch.reduce((s,c)=>s+area(samplePath(c,5).pts),0);const k=FLOUR_TOTAL/a;return ch.map(c=>c.map(p=>[p[0],p[1]*k,p[2]]));}
+const CR=[crumble(C1),crumble(C2),crumble(C3),whole(C4),whole(C5)];
+// pile stages: P0 holds everything; stage k holds what is left after the sack took its share
+const GATHER=SACK.filter(s=>s.fam==='gather');
+const PILE=[trimTo(PILE_SRC[0],FLOUR_TOTAL)];
+GATHER.forEach((g,k)=>PILE.push(trimTo(PILE_SRC[k+1],FLOUR_TOTAL-(g.A-A_H))));
+const PPOLY=PILE.map(p=>samplePath(p,5).pts),PA=PPOLY.map(area);
+
+/* ------------------------- THE SCORE (cue sheet) -------------------- */
+// [frame, family, s, l, lift, sweep]
+const CUE=[
+ [0,'rest',.2,0,0,0],[24,'flinchS',1,-.3,.4,.5],[26,'flinchA',-.5,-.8,.3,.8],[32,'flinchL',.5,-.4,.2,.6],
+ [36,'settle',0,-.2,.2,-.5],[46,'rest',.15,0,0,.2],[62,'watch',0,.1,.1,0],
+ [96,'flinchS',.5,-.2,.3,.3],[98,'flinchA',-.2,-.4,.2,.5],[102,'settle',.15,-.1,.1,.2],[112,'watch',0,.1,.1,0],[134,'watch',-.1,.2,.2,0],
+ [156,'notice',-.2,.3,1,0],[174,'notice',-.15,.45,.8,-.3],[202,'resolve',.15,.55,.4,-.2],
+ [216,'shuffle',0,.6,.3,0],[336,'arrive',.1,.6,.2,-.5],
+ ...(()=>{const o=[],P=[[.3,1,.2,-.2],[-.1,.7,0,.3],[.4,1,.7,-.8]],B=[[1,.8,0,.6],[.6,.95,.1,0],[.4,1,.5,-.6]];
+   for(let f=348,i=0;f<432;f+=10,i++){const q=P[[0,1,2,1][i%4]];o.push([f,'prop',...q]);}
+   for(let f=432,i=0;f<504;f+=10,i++){const q=B[i===0?0:[1,2,1,0][i%4]];o.push([f,'brace',...q]);}return o;})(),
+ [504,'crouch',.95,.4,0,0],[514,'leap',-1,.6,.2,-.9],[524,'leap',-.7,.3,.4,-.6],
+ [538,'catch',-.5,.1,.8,-.2],[546,'fall',-.3,0,1,0],[552,'land',1,0,.6,0],[560,'recover',-.35,0,0,0],[568,'still',.15,0,0,0],
+ [588,'gather',0,0,.4,0],[684,'full',0,0,.6,0],[720,'stay',0,0,.9,0],[758,'full',0,0,.6,0]];
+const cueAt=f=>{let c=CUE[0];for(const k of CUE)if(k[0]<=f)c=k;return c;};
+const sstep=(a,b,x)=>{x=Math.max(0,Math.min(1,(x-a)/(b-a)));return x*x*(3-2*x);};
+// approach: 32 shuffle steps (8 strides) between frames 216 and 336, eased at both ends
+const STEPS=32;
+function stepsAt(f){const u=(f-216)/120;if(u<=0)return 0;if(u>=1)return STEPS;
+ const r=.05; // ramp share
+ const area_=1-r; let d;
+ if(u<r)d=.5*u*u/r;else if(u>1-r)d=(1-r/2)-(.5*(1-u)*(1-u)/r)-(0); else d=u-r/2;
+ return STEPS*d/area_;}
+function fullAt(f){return Math.max(0,Math.min(1,(f-588)/96));}
+// exposures: twos everywhere; threes through the slow approach
+const EXPO=[];{let f=0;while(f<NF){const len=(f>=216&&f<336)?3:2;EXPO.push([f,Math.min(len,NF-f)]);f+=len;}}
+
+function target(f){const c=cueAt(f);const t={fam:c[1],s:c[2],l:c[3],lift:c[4],sweep:c[5],fu:0,ph:null};
+ if(f>=568)t.fu=0; if(t.fam==='gather')t.fu=fullAt(f+1); if(t.fam==='full'||t.fam==='stay')t.fu=1;
+ if(t.fam==='shuffle'){const st=stepsAt(f);t.ph=((st/8)%1+1)%1;t.steps=st;}
+ return t;}
+function poseCost(d,t){
+ if(d.fam!==t.fam)return 1e6; // the score names the family; only its members are candidates
+ let c=0;
+ c+=1.0*(d.p.s-t.s)**2+1.2*(d.p.l-t.l)**2+.8*(d.p.lift-t.lift)**2+.6*(d.p.sweep-t.sweep)**2+14*(d.fu-t.fu)**2;
+ if(t.ph!=null&&d.ph!=null){let dp=Math.abs(d.ph-t.ph);dp=Math.min(dp,1-dp);c+=40*dp*dp;}
+ return c;}
+const SH=SACK.filter(s=>s.fam==='shuffle');
+function transCost(a,b){
+ if(a===b)return 0;
+ const A=SACK[a],B=SACK[b];
+ let c=.5+.25*((A.p.s-B.p.s)**2+(A.p.l-B.p.l)**2+(A.p.lift-B.p.lift)**2+(A.fu-B.fu)**2);
+ const sa=A.fam==='shuffle',sb=B.fam==='shuffle';
+ if(sa&&sb){const ia=SH.indexOf(A),ib=SH.indexOf(B);if(ib!==(ia+1)%SH.length)return 1e6;}
+ else if(!sa&&sb){if(B.id!=='S1a')return 1e6;}
+ else if(sa&&!sb){if(!(A.id==='S1a'||A.id==='S1b'))return 1e6;}
+ if(A.fam==='gather'&&B.fam==='gather'&&B.A<A.A)return 1e6; // fullness never goes back
+ if(B.fam==='gather'&&(A.fam==='full'||A.fam==='stay'))return 1e6;
+ return c;}
+// Viterbi over exposures, with the hold length in the state: a held drawing may not exceed
+// 24 frames (except the full drawings F1/F2, which are meant to stand still).
+const HMAX=24;
+function viterbi(){
+ const E=EXPO.length,K=SACK.length,H=HMAX+1,INF=1e18;
+ const cap=k=>(SACK[k].id==='F1'||SACK[k].id==='F2')?1e9:HMAX;
+ let cost=new Float64Array(K*H).fill(INF);const back=[];
+ const T0=target(EXPO[0][0]);for(let k=0;k<K;k++)cost[k*H+Math.min(EXPO[0][1],HMAX)]=poseCost(SACK[k],T0);
+ for(let e=1;e<E;e++){const t=target(EXPO[e][0]),len=EXPO[e][1];const nc=new Float64Array(K*H).fill(INF),bk=new Int32Array(K*H).fill(-1);
+  const best=new Float64Array(K).fill(INF),bestH=new Int16Array(K);
+  for(let i=0;i<K;i++)for(let h=0;h<H;h++){const v=cost[i*H+h];if(v<best[i]){best[i]=v;bestH[i]=h;}}
+  for(let j=0;j<K;j++){const pc=poseCost(SACK[j],t);if(pc>=1e6)continue;
+   let bv=INF,bi=-1;for(let i=0;i<K;i++){if(i===j||best[i]>=INF)continue;const v=best[i]+transCost(i,j);if(v<bv){bv=v;bi=i;}}
+   const hn=Math.min(len,HMAX);if(bi>=0&&bv+pc<nc[j*H+hn]){nc[j*H+hn]=bv+pc;bk[j*H+hn]=bi*H+bestH[bi];}
+   for(let h=0;h<H;h++){const v=cost[j*H+h];if(v>=INF)continue;let h2=h+len;if(h2>cap(j))continue;h2=Math.min(h2,HMAX);
+    if(v+pc<nc[j*H+h2]){nc[j*H+h2]=v+pc;bk[j*H+h2]=j*H+h;}}}
+  back.push(bk);cost=nc;}
+ let s0=0,b=INF;for(let q=0;q<K*H;q++)if(cost[q]<b){b=cost[q];s0=q;}
+ const path=new Array(E);path[E-1]=Math.floor(s0/H);for(let e=E-2;e>=0;e--){s0=back[e][s0];path[e]=Math.floor(s0/H);}
+ return path;}
+const PATH=viterbi();
+
+/* ------------------------- placement: pins and hops ----------------- */
+// Grounded drawings never move while held. On a change, the foot planted in both
+// drawings stays where it is. Airborne drawings ride the hop/leap arc (the cel is re-laid
+// along the arc each exposure; its shape does not change).
+function airPath(f){const t=f/FPS;
+ if(t>=1.08&&t<1.33){const u=(t-1.08)/.25;return{x:-1.30-.15*u,y:.10*4*u*(1-u)+.02};}
+ if(t>=4.08&&t<4.25){const u=(t-4.08)/.17;return{x:-1.45-.05*u,y:.05*4*u*(1-u)+.01};}
+ if(t>=21.40&&t<23.0){let y;if(t<22.0){const u=(t-21.4)/.6;y=.58*(1-(1-u)*(1-u));}
+   else if(t<22.4){y=.58+.03*Math.sin((t-22.0)/.4*Math.PI);}else{const v=(t-22.4)/.6;y=.58*(1-v*v);}
+   const x=t<22.4?.40+.36*sstep(21.4,22.4,t):.76+.04*sstep(22.4,23.0,t);return{x,y};}
+ if(t<1.08)return{x:-1.30,y:0};if(t<4.08)return{x:-1.45,y:0};if(t<21)return{x:-1.5,y:0};return{x:.80,y:0};}
+const PLACE=[];{let prev=null,px=0;
+ EXPO.forEach((ex,e)=>{const d=SACK[PATH[e]];let x,y=0;
+  if(d.air){const a=airPath(ex[0]);x=a.x-d.cx;y=a.y;}
+  else if(!prev||prev.air){const a=airPath(ex[0]);x=a.x-d.cx;}
+  else if(prev===d){x=px;}
+  else{let pin;
+   if(prev.lifted[0])pin='R';else if(prev.lifted[1])pin='L';else if(d.lifted[0])pin='R';else if(d.lifted[1])pin='L';else pin='C';
+   const pw=pin==='L'?px+prev.FL[0]:pin==='R'?px+prev.FR[0]:px+prev.cx;
+   x=pw-(pin==='L'?d.FL[0]:pin==='R'?d.FR[0]:d.cx);}
+  PLACE.push({x,y});prev=d;px=x;});}
+const EXP_OF=new Int16Array(NF);EXPO.forEach((ex,e)=>{for(let f=ex[0];f<ex[0]+ex[1];f++)EXP_OF[f]=e;});
+
+/* ------------------------- prop cue sheets -------------------------- */
+function towerAt(f){const t=f/FPS;
+ if(t<1)return'T0';if(t<4)return'T1';if(t<6.5)return'T2';if(t<7.25)return'TLa';if(t<9.5)return'TL1';if(t<12)return'TL2';if(t<13.5)return'TL3';
+ if(t<14.25)return'TL4';if(t<14.5)return'TL5';if(t<18)return'TL4';if(t<21)return'TC3';
+ if(f<508)return'C1';if(f<514)return'C2';if(f<520)return'C3';if(f<522)return'C4';if(f<524)return'C5';return'PILE';}
+const CUTS=[{t:1.0,x:-.13},{t:4.0,x:.13},{t:18.0,x:.05},{t:21.0,x:-.01}];
+function knifeAt(f){const t=f/FPS;
+ for(const c of CUTS){const d=t-c.t;const cx=TX+c.x;
+  if(d>=-.42&&d<-.084)return{k:'hi',x:cx,tip:1.40};
+  if(d>=-.084&&d<0)return{k:'smear',x:cx,tip:.30,from:1.40};
+  if(d>=0&&d<.25)return{k:'in',x:cx,tip:-.005};
+  if(d>=.25&&d<.42)return{k:'out',x:cx,tip:.62};
+  if(d>=.42&&d<.58)return{k:'smearUp',x:cx,tip:1.55,from:.62};}
+ if(t>=29.5&&t<30)return{k:'hi',x:TX+.04,tip:1.62};
+ if(t>=30&&t<31.2){const n=Math.floor((t-30)/(4/FPS))%2;return{k:n?'hover2':'hover1',x:TX+.04,tip:n?1.125:1.105};}
+ if(t>=31.2&&t<31.45)return{k:'smearUp',x:TX+.04,tip:1.75,from:1.12};
+ return null;}
+// slices: [cut time, side]
+function slicesAt(f){const t=f/FPS,out=[];
+ const S=[[1,1],[4,2],[18,3]];
+ for(const [tc,side] of S){if(t<tc)continue;const d=t-tc;
+  if(f>=520)continue; // swallowed by the settling drawings C4, C5 and the pile
+  const SA=side===1?SLICE1:side===2?SLICE2:WEDGE3;
+  if(d<.17)out.push({poly:trimTo(sliceTip(side,0),SA),k:side});else if(d<.33)out.push({poly:trimTo(sliceTip(side,1),SA),k:side});
+  else out.push({poly:side===1?H1:side===2?H2:H3,k:side,heap:1});}
+ return out;}
+
+/* ------------------------- per-frame state (geometry used by render and trace) */
+function sackWorld(f){const e=EXP_OF[f];const d=SACK[PATH[e]];const pl=PLACE[e];
+ const W=p=>[p[0]+pl.x,p[1]+pl.y];
+ return{d,pl,e,poly:d.poly.map(W),EL:W(d.EL),ER:W(d.ER),FL:W(d.FL),FR:W(d.FR),sock:W(d.sock),x:pl.x+d.cx,y:pl.y,top:d.top+pl.y,A:d.A};}
+const BALL=(function(){ // penny pop: from tower top at cut 4 to the sack's top at the catch exposure
+ const f0=504,fC=538;const top0=[TX+leanX(0,TOP,LEAN.TC3),TOP+.012];
+ const sk=sackWorld(fC);const p1=[sk.sock[0],sk.sock[1]+.012];const tau=(fC-f0)/FPS,g=3.0;
+ return{f0,fC,p0:top0,vx:(p1[0]-top0[0])/tau,vy:(p1[1]-top0[1]+.5*g*tau*tau)/tau,g};})();
+function pennyAt(f,sk){
+ if(f<BALL.f0){const tw=towerAt(f);const D=LEAN[tw]||0;
+  const x=TX+leanX(0,TOP,D),dx=1e-3,s=(leanX(dx,TOP,D)-leanX(-dx,TOP,D));
+  return{x,y:TOP+.012,ang:-D*.9,k:D>0?'tilt':'flat'};}
+ if(f<BALL.fC){const fe=f-((f-BALL.f0)%2); // the penny is redrawn on twos
+  const tau=(fe-BALL.f0)/FPS;const ks=['edge','spin1','flat','spin2'];
+  return{x:BALL.p0[0]+BALL.vx*tau,y:BALL.p0[1]+BALL.vy*tau-.5*BALL.g*tau*tau,ang:0,k:ks[((fe-BALL.f0)/2)%4],air:1};}
+ return{x:sk.sock[0],y:sk.sock[1]+.012,ang:sk.d.sockAng,k:'flat',on:1};}
+
+function frameState(f){
+ const sk=sackWorld(f);const tw=towerAt(f);
+ let towerPolys=[],towerArea=0,pileK=-1;
+ if(TOWER[tw]){towerPolys=[TPOLY[tw]];towerArea=TA[tw];}
+ else if(tw[0]==='C'){const c=CR[+tw[1]-1];towerPolys=c.map(ch=>samplePath(ch,5).pts);towerArea=towerPolys.reduce((s,p)=>s+area(p),0);}
+ else{ // pile: chosen by what the sack has taken
+  const d=sk.d;if(d.fam==='gather')pileK=GATHER.indexOf(d)+1;else if(d.fam==='full'||d.fam==='stay')pileK=GATHER.length;else pileK=0;}
+ const sl=slicesAt(f);let slA=0;const slP=sl.map(s=>{const p=samplePath(s.poly,5).pts;slA+=area(p);return p;});
+ const pileA=pileK>=0?PA[pileK]:0;
+ const pen=pennyAt(f,sk);const kn=knifeAt(f);
+ const sackFlour=sk.A-A_H; // flour beyond the half-empty sack came from the plate
+ return{f,sk,tw,towerPolys,towerArea,sl,slP,slA,pileK,pileA,pen,kn,flour:towerArea+slA+pileA+(pileK>=0?sackFlour:0)};}
+
+/* ------------------------- RENDER (ink and wash) -------------------- */
+const cv=document.getElementById('film'),g=cv.getContext('2d');
+const S=285,X0=640,Y0=578;
+const sx=x=>X0+x*S,sy=y=>Y0-y*S;
+const INK='#2a2017';
+// paper grain, laid once
+const grain=document.createElement('canvas');grain.width=1280;grain.height=720;
+{const q=grain.getContext('2d');let seed=7;const R=()=>(seed=(seed*16807)%2147483647)/2147483647;
+ for(let i=0;i<9000;i++){q.fillStyle=`rgba(90,60,30,${.02+R()*.05})`;q.fillRect(R()*1280,R()*720,1+R()*1.5,1+R()*1.5);}
+ for(let i=0;i<60;i++){q.strokeStyle=`rgba(120,90,50,${.03+R()*.03})`;q.lineWidth=1;q.beginPath();const x=R()*1280,y=R()*720;q.moveTo(x,y);q.lineTo(x+20+R()*60,y+(R()-.5)*4);q.stroke();}}
+function polyPath(c,P,ox,oy,sc){c.beginPath();P.forEach((p,i)=>{const X=ox+p[0]*sc,Y=oy-p[1]*sc;i?c.lineTo(X,Y):c.moveTo(X,Y);});c.closePath();}
+function inkPoly(c,P,ox,oy,sc,base,heavyFn){ // variable-weight ink: heavier where weight pools / shadow side
+ const n=P.length;c.lineCap='round';c.lineJoin='round';c.strokeStyle=INK;
+ for(let i=0;i<n;i++){const a=P[i],b=P[(i+1)%n];const w=base*(heavyFn?heavyFn(a,b):1);c.lineWidth=w;c.beginPath();c.moveTo(ox+a[0]*sc,oy-a[1]*sc);c.lineTo(ox+b[0]*sc,oy-b[1]*sc);c.stroke();}}
+function drawBackground(){
+ g.fillStyle='#efe5cf';g.fillRect(0,0,1280,720);
+ // wall wash with faint wallpaper stripes
+ const wg=g.createLinearGradient(0,0,0,Y0);wg.addColorStop(0,'#d9c8a6');wg.addColorStop(1,'#eadcbf');g.fillStyle=wg;g.fillRect(0,0,1280,Y0);
+ g.strokeStyle='rgba(120,85,50,.10)';g.lineWidth=1;for(let x=10;x<1280;x+=34){g.beginPath();g.moveTo(x,0);g.lineTo(x+2,Y0-70);g.stroke();}
+ g.fillStyle='rgba(120,85,50,.07)';for(let x=27;x<1280;x+=34)for(let y=24;y<Y0-80;y+=46){g.beginPath();g.ellipse(x,y,2.2,3.4,0,0,7);g.fill();}
+ // wainscot rail
+ g.fillStyle='rgba(110,75,45,.18)';g.fillRect(0,Y0-78,1280,10);g.strokeStyle='rgba(60,40,25,.35)';g.beginPath();g.moveTo(0,Y0-78);g.lineTo(1280,Y0-78);g.stroke();
+ // table top (seen nearly edge on) and front
+ g.fillStyle='#b98d5e';g.fillRect(sx(-2.0),Y0-2,sx(2.0)-sx(-2.0),18);
+ const tg=g.createLinearGradient(0,Y0+16,0,720);tg.addColorStop(0,'#8e6440');tg.addColorStop(1,'#5f4029');g.fillStyle=tg;g.fillRect(sx(-1.94),Y0+16,sx(1.94)-sx(-1.94),40);
+ g.fillStyle='#6b4a2f';g.fillRect(sx(-1.86),Y0+56,26,200);g.fillRect(sx(1.86)-26,Y0+56,26,200);
+ g.strokeStyle=INK;g.lineWidth=2.2;g.beginPath();g.moveTo(sx(-2.0),Y0);g.lineTo(sx(2.0),Y0);g.stroke();
+ g.lineWidth=1.6;g.beginPath();g.moveTo(sx(-2.0),Y0+16);g.lineTo(sx(2.0),Y0+16);g.moveTo(sx(-2.0),Y0-1);g.lineTo(sx(-2.0),Y0+16);g.moveTo(sx(2.0),Y0-1);g.lineTo(sx(2.0),Y0+16);g.stroke();
+ g.strokeStyle='rgba(40,25,15,.35)';g.lineWidth=1;for(let i=0;i<7;i++){g.beginPath();const y=Y0+22+i*5;g.moveTo(sx(-1.9),y);g.bezierCurveTo(sx(-.8),y+3,sx(.4),y-3,sx(1.9),y+1);g.stroke();}
+ // plate
+ g.fillStyle='#f6f3ec';g.beginPath();g.ellipse(sx(TX),Y0+1,.58*S,9,0,0,7);g.fill();
+ g.strokeStyle='#5f7fa6';g.lineWidth=1.4;g.beginPath();g.ellipse(sx(TX),Y0+1,.52*S,7,0,0,7);g.stroke();
+ g.strokeStyle=INK;g.lineWidth=1.6;g.beginPath();g.ellipse(sx(TX),Y0+1,.58*S,9,0,0,7);g.stroke();
+}
+function flourFill(P,ox,oy,sc,cut){
+ polyPath(g,P,ox,oy,sc);g.fillStyle='#f8f3e6';g.fill();
+ g.save();polyPath(g,P,ox,oy,sc);g.clip();
+ let minx=1e9,maxx=-1e9,miny=1e9,maxy=-1e9;P.forEach(p=>{minx=Math.min(minx,p[0]);maxx=Math.max(maxx,p[0]);miny=Math.min(miny,p[1]);maxy=Math.max(maxy,p[1]);});
+ const lg=g.createLinearGradient(ox+minx*sc,0,ox+maxx*sc,0);lg.addColorStop(0,'rgba(190,170,130,.10)');lg.addColorStop(1,'rgba(150,125,90,.42)');g.fillStyle=lg;g.fillRect(ox+minx*sc-2,oy-maxy*sc-2,(maxx-minx)*sc+4,(maxy-miny)*sc+4);
+ g.restore();}
+function drawTowerPoly(P,ox){flourFill(P,ox,Y0,S);inkPoly(g,P,ox,Y0,S,1.9,(a,b)=>((a[0]+b[0])>0?1.25:1));}
+function stipple(cx,cy,w,h,n,seed,alpha){let s=seed;const R=()=>(s=(s*16807)%2147483647)/2147483647;g.fillStyle=`rgba(60,40,20,${alpha})`;for(let i=0;i<n;i++){const x=cx+(R()-.5)*w,y=cy-R()*h;g.fillRect(sx(x),sy(y),1.6,1.6);}}
+function drawTower(st){const ox=sx(TX);
+ if(st.pileK>=0){const P=PPOLY[st.pileK];flourFill(P,ox,Y0,S);inkPoly(g,P,ox,Y0,S,1.7);stipple(TX,.0,1.1,PILE[st.pileK].reduce((m,p)=>Math.max(m,p[1]),0)*.9,60,11+st.pileK,.25);}
+ st.towerPolys.forEach(P=>drawTowerPoly(P,ox));
+ // cut faces: hatching along a cut edge
+ if(st.tw!=='T0'&&TOWER[st.tw]){g.strokeStyle='rgba(60,40,20,.35)';g.lineWidth=1;const D=LEAN[st.tw]||0;
+  for(let y=.05;y<.84;y+=.045){const xa=leanX(-.13,y,D);g.beginPath();g.moveTo(sx(TX+xa+.008),sy(y));g.lineTo(sx(TX+xa+.03),sy(y-.02));g.stroke();
+   if(st.tw!=='T1'&&!(st.tw==='TC3'&&y<yW)){const xb=leanX(.13,y,D);g.beginPath();g.moveTo(sx(TX+xb-.008),sy(y));g.lineTo(sx(TX+xb-.03),sy(y-.02));g.stroke();}}}
+ st.sl.forEach((s,i)=>{const P=st.slP[i];flourFill(P,ox,Y0,S);inkPoly(g,P,ox,Y0,S,1.5);});
+}
+function drawSack(c,d,ox,oy,sc,lw){ // one whole drawing from the bank
+ const P=d.poly;
+ // contact shadow (wash)
+ if(!d.air&&oy===Y0){c.fillStyle='rgba(70,45,25,.18)';c.beginPath();c.ellipse(ox+d.cx*sc,oy+2,(Math.abs(d.FR[0]-d.FL[0])/2+.06)*sc,6*sc/S,0,0,7);c.fill();}
+ polyPath(c,P,ox,oy,sc);c.fillStyle='#e6d6b4';c.fill();
+ c.save();polyPath(c,P,ox,oy,sc);c.clip();
+ let minx=1e9,maxx=-1e9,maxy=-1e9;P.forEach(p=>{minx=Math.min(minx,p[0]);maxx=Math.max(maxx,p[0]);maxy=Math.max(maxy,p[1]);});
+ const lg=c.createLinearGradient(ox+minx*sc,oy-maxy*sc,ox+maxx*sc,oy);lg.addColorStop(0,'rgba(255,250,235,.35)');lg.addColorStop(.55,'rgba(180,150,105,.05)');lg.addColorStop(1,'rgba(120,90,55,.45)');
+ c.fillStyle=lg;c.fillRect(ox+minx*sc-4,oy-maxy*sc-4,(maxx-minx)*sc+8,maxy*sc+8);
+ // weight pools: darker wash in the bottom band
+ const bg=c.createLinearGradient(0,oy-d.bot*sc,0,oy-(d.bot+.16)*sc);bg.addColorStop(0,'rgba(110,80,45,.30)');bg.addColorStop(1,'rgba(110,80,45,0)');c.fillStyle=bg;c.fillRect(ox+minx*sc-4,oy-(d.bot+.17)*sc,(maxx-minx)*sc+8,.18*sc);
+ // the sack's printed band (part of each drawing's fabric)
+ c.restore();
+ // folds
+ c.strokeStyle=INK;c.lineCap='round';
+ d.f.forEach(l=>{c.lineWidth=lw*.62;c.beginPath();for(let i=0;i<l.length;i+=2){const X=ox+l[i]*sc,Y=oy-l[i+1]*sc;i?c.lineTo(X,Y):c.moveTo(X,Y);}c.stroke();});
+ // outline: heavier where the weight sits and on the shadow side
+ const h=d.top-d.bot||1;
+ inkPoly(c,P,ox,oy,sc,lw,(a,b)=>{const y=((a[1]+b[1])/2-d.bot)/h,x=(a[0]+b[0])/2-d.cx;return .8+.75*Math.max(0,.45-y)/.45+(x>0?.25:0);});
+}
+function drawPenny(p){const x=sx(p.x),y=sy(p.y);g.save();g.translate(x,y);g.rotate(-p.ang||0);
+ const R=.05*S;const kind=p.k;let rx=R,ry=R*.28;if(kind==='spin1'){rx=R*.55;ry=R*.9;}else if(kind==='spin2'){rx=R*.25;ry=R*.95;}else if(kind==='edge'){rx=R;ry=R*.10;}
+ g.fillStyle='#b9692f';g.beginPath();g.ellipse(0,0,rx,ry,0,0,7);g.fill();
+ g.fillStyle='rgba(255,210,150,.55)';g.beginPath();g.ellipse(-rx*.25,-ry*.25,rx*.5,ry*.45,0,0,7);g.fill();
+ g.strokeStyle=INK;g.lineWidth=1.5;g.beginPath();g.ellipse(0,0,rx,ry,0,0,7);g.stroke();
+ if(kind==='flat'||kind==='tilt'){g.fillStyle='#7d3f17';g.fillRect(-rx,0,rx*2,2.4);g.beginPath();g.moveTo(-rx,0);g.lineTo(-rx,2.4);g.moveTo(rx,0);g.lineTo(rx,2.4);g.stroke();}
+ g.restore();}
+function drawKnife(k){if(!k)return;const x=sx(k.x);const tip=sy(k.tip);
+ g.save();
+ if(k.k==='smear'||k.k==='smearUp'){const a=sy(k.from),b=tip;const top=Math.min(a,b),bot=Math.max(a,b);
+  const sg=g.createLinearGradient(0,top,0,bot);sg.addColorStop(k.k==='smear'?0:1,'rgba(170,175,180,0)');sg.addColorStop(k.k==='smear'?1:0,'rgba(150,155,160,.55)');
+  g.fillStyle=sg;g.fillRect(x-14,top-160,26,bot-top+160);g.strokeStyle='rgba(40,30,20,.5)';g.lineWidth=1;
+  for(let i=-10;i<=10;i+=5){g.beginPath();g.moveTo(x+i,top-120);g.lineTo(x+i,bot);g.stroke();}}
+ const ang=k.k==='hover2'?-.07:k.k==='hi'?.04:0;g.translate(x,tip);g.rotate(ang);
+ const BL=.56*S,BW=.085*S;
+ // blade (tip at origin, edge on the left), bolster, handle
+ g.fillStyle='#d4d7d9';g.beginPath();g.moveTo(0,0);g.quadraticCurveTo(-BW*.15,-BL*.35,-BW*.15,-BL);g.lineTo(BW*.85,-BL);g.lineTo(BW*.85,-BL*.25);g.quadraticCurveTo(BW*.6,-BL*.05,0,0);g.closePath();g.fill();
+ g.fillStyle='rgba(120,130,140,.35)';g.fillRect(BW*.35,-BL,BW*.5,BL*.72);
+ g.strokeStyle=INK;g.lineWidth=1.7;g.stroke();
+ g.fillStyle='#6f4a2b';g.fillRect(-BW*.2,-BL-.27*S,BW*1.1,.25*S);g.strokeRect(-BW*.2,-BL-.27*S,BW*1.1,.25*S);
+ g.fillStyle='#9aa0a4';g.fillRect(-BW*.2,-BL-.03*S,BW*1.1,.03*S);g.strokeRect(-BW*.2,-BL-.03*S,BW*1.1,.03*S);
+ g.fillStyle='#d9d2c0';[.08,.17].forEach(r=>{g.beginPath();g.arc(BW*.35,-BL-r*S,2.4,0,7);g.fill();g.stroke();});
+ if(k.k==='out'){g.fillStyle='#f6f0e2';g.fillRect(-BW*.1,-BL*.5,BW*.3,BL*.42);}
+ g.restore();}
+function drawSpray(f){const t=f/FPS;
+ for(const c of CUTS.slice(0,3)){const d=t-c.t;if(d>=0&&d<.5){const st=Math.floor(d/(2/FPS));const r=.04+st*.035;
+  let s=101+st;const R=()=>(s=(s*16807)%2147483647)/2147483647;g.fillStyle='rgba(250,246,236,.95)';g.strokeStyle='rgba(60,40,20,.5)';
+  const n=26-st*2;for(let i=0;i<n;i++){const a=R()*Math.PI*(c.x<0?-1:1)*.9-Math.PI/2*(c.x<0?1:-1)*.2,rr=r*(.4+R());
+   const x=TX+c.x+Math.cos(a)*rr*(c.x<0?-1:1),y=.55+R()*.35-st*.06+Math.sin(a)*rr*.6;g.beginPath();g.arc(sx(x),sy(y),1.8+R()*1.6,0,7);g.fill();g.stroke();}}}
+ // sifting off the leaning cut face
+ if(t>=6.5&&t<21){const st=Math.floor(f/4)%2;let s=31+st;const R=()=>(s=(s*16807)%2147483647)/2147483647;const D=LEAN[towerAt(f)]||LEAN.TL4;
+  g.fillStyle='rgba(70,50,30,.55)';for(let i=0;i<14;i++){const y0=.3+R()*.5;const x=TX+leanX(-.13,y0,D)-.01-R()*.03;const y=y0-R()*y0;g.fillRect(sx(x),sy(y),1.5,2.4);}}
+ // collapse dust
+ if(t>=21&&t<22.2){const st=Math.floor((t-21)/(2/FPS));drawPuffs(TX,.35+st*.01,.18+st*.03,.3-st*.02,200+st);}
+ // landing cloud
+ // gather streams: grains drawn off the pile into the sack
+ if(t>=24.5&&t<28.5){const st=Math.floor(f/2)%3;let s=401+st;const R=()=>(s=(s*16807)%2147483647)/2147483647;g.fillStyle='rgba(60,40,20,.6)';
+  for(const side of[-1,1])for(let i=0;i<16;i++){const u=(i/16+st/48);const xa=TX+side*(.62-.28*u),ya=.10+.12*Math.sin(u*Math.PI)+R()*.03;g.fillRect(sx(xa),sy(ya),1.8,1.8);
+   if(i%3===0){g.strokeStyle='rgba(60,40,20,.35)';g.lineWidth=1;g.beginPath();g.moveTo(sx(xa),sy(ya));g.lineTo(sx(xa-side*.03),sy(ya+.008));g.stroke();}}}
+}
+function drawPuffs(cx,cy,w,a,seed){let s=seed;const R=()=>(s=(s*16807)%2147483647)/2147483647;
+ for(let i=0;i<14;i++){const x=cx+(R()-.5)*w*2.2,y=cy*R()+.02,r=(.03+R()*.06)*S;g.fillStyle=`rgba(250,246,236,${a})`;g.beginPath();g.arc(sx(x),sy(y),r,0,7);g.fill();
+  g.strokeStyle=`rgba(80,60,40,${a*.5})`;g.lineWidth=1;g.beginPath();g.arc(sx(x),sy(y),r,3.6,5.6);g.stroke();}}
+function render(f){const st=frameState(f);
+ drawBackground();drawTower(st);{const t=f/FPS;if(t>=23&&t<24.3){const q=Math.floor((t-23)/(3/FPS));drawPuffs(.80,.10,.30+q*.05,.42-q*.045,300+q);}} // landing cloud: behind the sack
+ drawSack(g,st.sk.d,sx(st.sk.pl.x),sy(st.sk.pl.y),S,2.5);
+ drawPenny(st.pen);drawSpray(f);drawKnife(st.kn);
+ g.globalAlpha=1;g.drawImage(grain,0,0);
+ // vignette
+ const vg=g.createRadialGradient(640,360,300,640,360,820);vg.addColorStop(0,'rgba(0,0,0,0)');vg.addColorStop(1,'rgba(40,25,10,.28)');g.fillStyle=vg;g.fillRect(0,0,1280,720);
+ return st;}
+
+/* ------------------------- MEASURE (from the same geometry) --------- */
+const TRACE=[];
+for(let f=0;f<NF;f++){const st=frameState(f);const sk=st.sk;
+ TRACE.push({f,t:+(f/FPS).toFixed(4),drawing:sk.d.id,sackX:+sk.x.toFixed(4),sackBaseY:+sk.y.toFixed(4),sackTop:+sk.top.toFixed(4),sackArea:+sk.A.toFixed(5),
+  earL:[+sk.EL[0].toFixed(4),+sk.EL[1].toFixed(4)],earR:[+sk.ER[0].toFixed(4),+sk.ER[1].toFixed(4)],
+  footL:[+sk.FL[0].toFixed(4),+sk.FL[1].toFixed(4)],footR:[+sk.FR[0].toFixed(4),+sk.FR[1].toFixed(4)],
+  shoulder:+Math.max(...sk.poly.map(p=>p[1])).toFixed(4),
+  penny:[+st.pen.x.toFixed(4),+st.pen.y.toFixed(4)],pennyOn:!!st.pen.on,tower:st.tw,pileArea:+st.pileA.toFixed(5),flour:+st.flour.toFixed(5),
+  knife:st.kn?{k:st.kn.k,x:+st.kn.x.toFixed(3),tip:+st.kn.tip.toFixed(3)}:null,
+  _poly:sk.poly});}
+function towerLeftFaceX(y,D){return TX+leanX(-.13,y,D);}
+function check(){const T=TRACE,at=t=>Math.round(t*FPS);const find=(a,b,fn)=>{for(let f=at(a);f<=at(b)&&f<NF;f++)if(fn(T[f],f))return f/FPS;return null;};
+ const restTop=T.slice(0,20).reduce((s,r)=>s+r.sackTop,0)/20;
+ const earY=r=>(r.earL[1]+r.earR[1])/2-r.sackBaseY;const restEar=T.slice(0,20).reduce((s,r)=>s+earY(r),0)/20;
+ const C={};
+ C.flinch1=find(.5,3,r=>r.sackTop<.92*restTop);
+ const x1a=T[at(.9)].sackX,x1b=T[at(3.5)].sackX;
+ C.flinch2=find(3,6,r=>r.sackTop<.96*T[at(3.5)].sackTop);
+ const x2b=T[at(6)].sackX;
+ const dip1=1-Math.min(...T.slice(at(.9),at(2)).map(r=>r.sackTop))/restTop, dip2=1-Math.min(...T.slice(at(3.9),at(5)).map(r=>r.sackTop))/T[at(3.5)].sackTop;
+ C.flinchLess={dip1,dip2,push1:x1a-x1b,push2:x1b-x2b,holds:dip2<dip1&&(x1b-x2b)<(x1a-x1b)};
+ C.notice=find(5,9,r=>earY(r)-restEar>.08);
+ const xw=T[at(8.4)].sackX;C.comes=find(8.4,12,r=>r.sackX>xw+.015);
+ C.xAt14=T[at(14)].sackX;
+ // props: the sack's right silhouette lies flush (within 3 cm) along the tower's leaning face at 3 heights
+ const flush=(r)=>{const hs=[.26,.32,.38];let ok=0;for(const h of hs){let xr=-9;const P=r._poly;for(let i=0;i<P.length;i++){const a=P[i],b=P[(i+1)%P.length];if((a[1]-h)*(b[1]-h)<=0&&a[1]!==b[1]){const x=a[0]+(h-a[1])/(b[1]-a[1])*(b[0]-a[0]);if(x>xr)xr=x;}}
+   const D=LEAN[r.tower]||LEAN.TL4;if(Math.abs(xr-towerLeftFaceX(h,D))<.03)ok++;}return ok===3;};
+ C.props=find(13.5,17,r=>/^D2[3-6]/.test(r.drawing)&&(r.tower==='TL4'||r.tower==='TL5'||r.tower==='TC3')&&flush(r));
+ const propTop=T[at(17.5)].sackTop;C.braces=find(17,20.5,r=>/^D2[3-6]/.test(r.drawing)&&r.sackTop<.94*propTop&&flush(r));
+ C.braceHoldsPlace=Math.max(...T.slice(at(18),at(21)).map(r=>Math.abs(r.sackX-T[at(17.9)].sackX)));
+ C.leaps=find(21,22.5,r=>r.sackBaseY>.02);
+ C.catches=find(21.5,23,r=>r.pennyOn);
+ C.lands=find(22.6,24,(r,f)=>r.sackBaseY===0&&f>0&&T[f-1].sackBaseY>0);
+ C.gathers=find(24,27,r=>r.sackArea>A_H*1.04);
+ // stays: knife tip hovers within 25 cm above the penny while the sack stays still
+ C.stays=find(29,31.2,(r,f)=>r.knife&&r.knife.k.startsWith('hover')&&r.knife.tip-r.penny[1]<.25&&Math.abs(r.sackX-T[f-12].sackX)<1e-6);
+ const half=T.filter(r=>r.t<24.5).map(r=>r.sackArea),full=T.filter(r=>r.t>=28.5).map(r=>r.sackArea);
+ const rng=(a,ref)=>[Math.min(...a)/ref-1,Math.max(...a)/ref-1];
+ C.volumeHalf=rng(half,A_H);C.volumeFull=rng(full,A_F);
+ const fl=T.map(r=>r.flour);C.flourRange=rng(fl,FLOUR_TOTAL);
+ const g0=T[at(24.4)],g1=T[at(28.6)];C.gatherSackGain=g1.sackArea-g0.sackArea;C.gatherPileLoss=g0.pileArea-g1.pileArea;
+ // feet never slide while a drawing is held
+ let slide=0;for(let f=1;f<NF;f++){const a=T[f-1],b=T[f];if(a.drawing===b.drawing&&a.sackBaseY===0&&b.sackBaseY===0){slide=Math.max(slide,Math.abs(a.footL[0]-b.footL[0]),Math.abs(a.footR[0]-b.footR[0]));}}
+ C.heldSlide=slide;
+ // head low during the approach: the ears sit below the shoulder line
+ const ap=T.filter(r=>r.t>=9&&r.t<14);C.headLowShare=ap.filter(r=>Math.max(r.earL[1],r.earR[1])<r.shoulder-.04).length/ap.length;
+ // ear drag: lag (frames) at which ear offset best anti-correlates with body travel
+ const ex=T.map(r=>(r.earL[0]+r.earR[0])/2-r.sackX),vx=T.map((r,f)=>f?r.sackX-T[f-1].sackX:0);
+ let bestL=0,bestC=-1e9;for(let L=0;L<=8;L++){let c=0;for(let f=12;f<NF;f++)c+=-ex[f]*vx[f-L];if(c>bestC){bestC=c;bestL=L;}}C.earLagFrames=bestL;
+ // holds: drawings change on twos or threes at the fastest
+ let minHold=99,run=1;for(let f=1;f<NF;f++){if(T[f].drawing===T[f-1].drawing)run++;else{minHold=Math.min(minHold,run);run=1;}}C.minHoldFrames=minHold;
+ // selection honesty: frames whose chosen drawing is outside the cue's family
+ C.outOfFamilyFrames=0;C.outOfFamilyList={};for(let f=0;f<NF;f++){const fam=target(f).fam,d=BY[T[f].drawing];if(d.fam!==fam){C.outOfFamilyFrames++;const k=fam+'>'+d.id;C.outOfFamilyList[k]=(C.outOfFamilyList[k]||0)+1;}}
+ // longest hold while propping and bracing
+ let mh=0,rn=1;for(let f=at(14.5)+1;f<at(21);f++){if(T[f].drawing===T[f-1].drawing)rn++;else rn=1;mh=Math.max(mh,rn);}C.maxHoldPropBrace=mh;
+ C.propBraceDrawings=[...new Set(T.slice(at(14.5),at(21)).map(r=>r.drawing))];
+ // tower lean before the notice (degrees, axis from base centre to the top point)
+ C.leanDegAt7=Math.atan2(LEAN[T[at(7)].tower]||0,TOP)*180/Math.PI;
+ // collapse: largest single-frame change of the flour mass's width, 21.0..22.5
+ const wid=r=>{const st=frameState(r.f);let a=1e9,b=-1e9;const add=P=>P.forEach(p=>{a=Math.min(a,p[0]);b=Math.max(b,p[0]);});st.towerPolys.forEach(add);st.slP.forEach(add);if(st.pileK>=0)add(PPOLY[st.pileK]);return b-a;};
+ let wj=0;for(let f=at(21.6);f<at(22.5);f++){const w0=wid(T[f]),w1=wid(T[f+1]);wj=Math.max(wj,Math.abs(w1-w0)/w0);}C.collapseWidthJump=wj;
+ // shuffle drawings: ears below and left of the top's highest point; base wider than the top seam
+ C.shuffleShape=SH.every(d=>{const hi=d.poly.reduce((m,p)=>p[1]>m[1]?p:m);return d.EL[0]<hi[0]&&d.ER[0]<hi[0]&&d.EL[1]<hi[1]&&d.ER[1]<hi[1]&&Math.abs(d.EL[0]-d.ER[0])>.03;});
+ // approach: base width vs width near the top, and frame-to-frame height change
+ const widthAt=(d,y)=>{let a=1e9,b=-1e9;const P=d.poly;for(let i=0;i<P.length;i++){const p=P[i],q=P[(i+1)%P.length];if((p[1]-y)*(q[1]-y)<=0&&p[1]!==q[1]){const x=p[0]+(y-p[1])/(q[1]-p[1])*(q[0]-p[0]);a=Math.min(a,x);b=Math.max(b,x);}}return b-a;};
+ const apD=[...new Set(T.filter(r=>r.t>=9&&r.t<14.5).map(r=>r.drawing))].map(id=>BY[id]).filter(d=>!d.air);
+ C.approachBaseOverTop=Math.min(...apD.map(d=>widthAt(d,.06*d.top/.5)/widthAt(d,.85*d.top)-1));
+ let hj=0;for(let f=at(9)+1;f<at(14.5);f++){const a=T[f-1].sackTop,b=T[f].sackTop;hj=Math.max(hj,Math.abs(b-a)/a);}C.approachHeightJump=hj;
+ let lh=0,lr=1,lid='';for(let f=1;f<=NF;f++){if(f<NF&&T[f].drawing===T[f-1].drawing)lr++;else{const id=T[f-1].drawing;if(id!=='F1'&&id!=='F2'&&lr>lh){lh=lr;lid=id;}lr=1;}}C.longestHoldOther=lh;C.longestHoldOtherId=lid;
+ let tr=99,tn=1;const tk=r=>r.tower==='PILE'?'P'+frameState(r.f).pileK:r.tower;for(let f=at(21)+1;f<=at(22);f++){if(tk(T[f])===tk(T[f-1]))tn++;else{tr=Math.min(tr,tn);tn=1;}}C.collapseShortestRun=tr;
+ // full drawings: base wider than waist by >= 8%
+ C.fullBaseOverWaist=['F1','F2'].map(id=>{const d=BY[id];const w=y=>{let a=1e9,b=-1e9;const P=d.poly;for(let i=0;i<P.length;i++){const p=P[i],q=P[(i+1)%P.length];if((p[1]-y)*(q[1]-y)<=0&&p[1]!==q[1]){const x=p[0]+(y-p[1])/(q[1]-p[1])*(q[0]-p[0]);a=Math.min(a,x);b=Math.max(b,x);}}return b-a;};
+  const base=w(.09*d.top/.95),waist=Math.min(w(.55*d.top/.95),w(.70*d.top/.95));return base/waist-1;});
+ const L=T[NF-1];C.endX=L.sackX;C.endTop=L.sackTop;C.endPennyOn=L.pennyOn;
+ let clear=9;T.forEach(r=>{if(r.knife&&r.t>29)clear=Math.min(clear,r.knife.tip-r.sackTop);});C.knifeClearance=clear;
+ C.drawingsUsed=[...new Set(T.map(r=>r.drawing))].length;C.bankSize=SACK.length;
+ C.trimRange=[Math.min(...TRIMS),Math.max(...TRIMS)];
+ return C;}
+const CHK=check();
+window.PAE_TRACE=TRACE.map(({_poly,...r})=>r);
+window.PAE_CHECK=CHK;
+
+/* ------------------------- PANEL ------------------------------------ */
+document.getElementById('madeOf').textContent=
+ `The sack is a bank of ${SACK.length} separate ink-and-wash drawings, each an outline of hand-placed points with its own fold lines and corner shapes (slumped, flinching, watching, noticing, eight head-low shuffle drawings, propping, bracing, leaping, catching, landing, seven gather drawings at rising fullness, full). The tower, slices, heaps, crumbles, pile, knife and penny are their own small banks; each sack drawing carries one fixed height trim (${CHK.trimRange[0].toFixed(3)} to ${CHK.trimRange[1].toFixed(3)}) so its area matches its class, and pile drawings are sized so the flour they hold plus the sack's share equals the tower.`;
+document.getElementById('movedBy').textContent=
+ `Each exposure of the score becomes a pose vector (fullness, squash, lean, travel phase, corner lift and sweep) plus a family that the score names (flinch, watch, notice, shuffle, prop, brace, leap, gather and so on). A Viterbi path over pose distance plus a change cost chooses one whole drawing per exposure, only among that family's members, held on twos (threes during the approach) and never longer than 24 frames except the full standing drawings. Nothing is interpolated. A held drawing never moves on the table: when the drawing changes, the base corner planted in both stays put, so the approach travels only through alternating shuffle contacts, and only drawings with no base contact are laid along the hop and leap arcs.`;
+const fmt=v=>v==null?'--':v.toFixed(2);
+const rows=[
+ ['flinch',1.00,CHK.flinch1],['flinch less',4.00,CHK.flinch2,CHK.flinchLess.holds],['notice',6.50,CHK.notice],['come, head low',9.00,CHK.comes],
+ ['prop',14.50,CHK.props],['brace',18.00,CHK.braces],['leap',21.40,CHK.leaps],['catch',22.40,CHK.catches],['land',23.00,CHK.lands],
+ ['gather',24.50,CHK.gathers],['stay',30.00,CHK.stays]];
+let html='<tr><th>choice</th><th>score</th><th>measured</th><th></th></tr>';
+rows.forEach(r=>{const ok=r[2]!=null&&Math.abs(r[2]-r[1])<=.25&&(r[3]===undefined||r[3]);html+=`<tr><td>${r[0]}</td><td>${r[1].toFixed(2)}</td><td>${fmt(r[2])}</td><td class="${ok?'H':'B'}">${ok?'HOLDS':'BREAKS'}</td></tr>`;});
+const pct=a=>`${(a[0]*100).toFixed(1)}..${(a[1]*100).toFixed(1)}%`;
+const extra=[
+ ['flinch 2 smaller',`dip ${(CHK.flinchLess.dip1*100).toFixed(0)}%→${(CHK.flinchLess.dip2*100).toFixed(0)}%, push ${CHK.flinchLess.push1.toFixed(2)}→${CHK.flinchLess.push2.toFixed(2)} m`,CHK.flinchLess.holds],
+ ['x at 14.0 s (0.40)',CHK.xAt14.toFixed(3)+' m',Math.abs(CHK.xAt14-.4)<.05],
+ ['head low on approach',(CHK.headLowShare*100).toFixed(0)+'% of frames',CHK.headLowShare>.95],
+ ['volume, half-empty',pct(CHK.volumeHalf),Math.abs(CHK.volumeHalf[0])<=.06&&Math.abs(CHK.volumeHalf[1])<=.06],
+ ['volume, full',pct(CHK.volumeFull),Math.abs(CHK.volumeFull[0])<=.06&&Math.abs(CHK.volumeFull[1])<=.06],
+ ['gather: sack gain / pile loss',`${CHK.gatherSackGain.toFixed(4)} / ${CHK.gatherPileLoss.toFixed(4)} m²`,Math.abs(CHK.gatherSackGain-CHK.gatherPileLoss)<.005],
+ ['flour total, whole film',pct(CHK.flourRange),Math.abs(CHK.flourRange[0])<.03&&Math.abs(CHK.flourRange[1])<.03],
+ ['base slide while held',(CHK.heldSlide*1000).toFixed(1)+' mm',CHK.heldSlide<1e-6],
+ ['shortest hold',CHK.minHoldFrames+' frames',CHK.minHoldFrames>=2],
+ ['ear lag behind travel',CHK.earLagFrames+' frames',CHK.earLagFrames>=1],
+ ['brace keeps place',(CHK.braceHoldsPlace*1000).toFixed(0)+' mm',CHK.braceHoldsPlace<.01],
+ ['end x (0.80)',CHK.endX.toFixed(3)+' m',Math.abs(CHK.endX-.8)<.05],
+ ['end height (0.95)',CHK.endTop.toFixed(3)+' m',Math.abs(CHK.endTop-.95)<.04],
+ ['penny on top at end',CHK.endPennyOn?'yes':'no',CHK.endPennyOn],
+ ['knife clearance at hover',(CHK.knifeClearance*100).toFixed(0)+' cm',CHK.knifeClearance>0],
+ ['out-of-family picks (info)',CHK.outOfFamilyFrames+' frames; family is a hard filter',null],
+ ['longest hold, prop + brace',CHK.maxHoldPropBrace+' frames ('+CHK.propBraceDrawings.length+' drawings)',CHK.maxHoldPropBrace<=12&&CHK.propBraceDrawings.length>=6],
+ ['tower lean at 7.0 s',CHK.leanDegAt7.toFixed(1)+'°',CHK.leanDegAt7>=4],
+ ['collapse width jump',(CHK.collapseWidthJump*100).toFixed(0)+'% per frame',CHK.collapseWidthJump<=.2],
+ ['approach: base over top width','+'+(CHK.approachBaseOverTop*100).toFixed(0)+'%',CHK.approachBaseOverTop>=.15],
+ ['approach: height jump per frame',(CHK.approachHeightJump*100).toFixed(0)+'%',CHK.approachHeightJump<=.15],
+ ['longest hold (not F1/F2)',CHK.longestHoldOther+' frames ('+CHK.longestHoldOtherId+')',CHK.longestHoldOther<=24],
+ ['collapse: shortest drawing run',CHK.collapseShortestRun+' frames',CHK.collapseShortestRun>=2],
+ ['shuffle: ears trail the shoulder',CHK.shuffleShape?'all 8':'no',CHK.shuffleShape],
+ ['full: base over waist',CHK.fullBaseOverWaist.map(v=>'+'+(v*100).toFixed(0)+'%').join(' / '),CHK.fullBaseOverWaist.every(v=>v>=.08)],
+ ['drawings used / bank',CHK.drawingsUsed+' / '+CHK.bankSize,true]];
+html+='<tr><th colspan="4" style="padding-top:10px">invariants</th></tr>';
+extra.forEach(r=>{html+=`<tr><td>${r[0]}</td><td colspan="2">${r[1]}</td><td class="${r[2]===null?'':r[2]?'H':'B'}">${r[2]===null?'info':r[2]?'HOLDS':'BREAKS'}</td></tr>`;});
+document.getElementById('checks').innerHTML=html;
+
+/* model sheet */
+const sh=document.getElementById('sheet'),sg=sh.getContext('2d');
+const COLS=11,CW=760/COLS,ROWS=Math.ceil(SACK.length/COLS),RH=300/ROWS;
+function drawSheet(cur){sg.fillStyle='#efe6d1';sg.fillRect(0,0,760,300);
+ SACK.forEach((d,i)=>{const cx=(i%COLS+.5)*CW,by=(Math.floor(i/COLS)+1)*RH-12;
+  if(i===cur){sg.fillStyle='rgba(176,72,32,.18)';sg.fillRect(cx-CW/2+1,by-RH+13,CW-2,RH-2);sg.strokeStyle='#b04820';sg.lineWidth=2;sg.strokeRect(cx-CW/2+1,by-RH+13,CW-2,RH-2);}
+  const sc=Math.min(56,(RH-22)/Math.max(.6,d.top-d.bot));
+  drawSack(sg,d,cx-d.cx*sc,by+d.bot*sc,sc,1.1);
+  sg.fillStyle=i===cur?'#8a3b1c':'#6b6257';sg.font='9px "IBM Plex Mono",monospace';sg.textAlign='center';sg.fillText(d.id,cx,by+10);});}
+
+/* ------------------------- PLAYBACK --------------------------------- */
+let frame=0,playing=true,last=performance.now(),acc=0,lastSheet=-1;
+const scrub=document.getElementById('scrub'),tc=document.getElementById('tc'),idx=document.getElementById('idx');
+function show(f){frame=((f%NF)+NF)%NF;const st=render(frame);scrub.value=frame;
+ tc.textContent=`f${String(frame).padStart(3,'0')} ${(frame/FPS).toFixed(2)}s`;
+ const d=st.sk.d;if(d.i!==lastSheet){drawSheet(d.i);lastSheet=d.i;}
+ idx.textContent=`sack ${d.id} (#${d.i+1}/${SACK.length}) · exposure ${st.sk.e+1}/${EXPO.length} · tower ${st.tw==='PILE'?'P'+st.pileK:st.tw}${st.kn?' · knife '+st.kn.k:''} · penny ${st.pen.k}`;}
+function loop(now){const dt=now-last;last=now;if(playing){acc+=dt;const step=1000/FPS;if(acc>=step){const n=Math.floor(acc/step);acc-=n*step;show(frame+n);}}requestAnimationFrame(loop);}
+document.getElementById('play').onclick=()=>{playing=!playing;document.getElementById('icoPause').style.display=playing?'':'none';document.getElementById('icoPlay').style.display=playing?'none':'';};
+scrub.oninput=()=>{playing=false;document.getElementById('icoPause').style.display='none';document.getElementById('icoPlay').style.display='';show(+scrub.value);};
+document.getElementById('theme').onclick=()=>{const r=document.documentElement;const dark=r.dataset.theme?r.dataset.theme==='dark':matchMedia('(prefers-color-scheme: dark)').matches;r.dataset.theme=dark?'light':'dark';};
+window.PAE_SEEK=t=>{playing=false;document.getElementById('icoPause').style.display='none';document.getElementById('icoPlay').style.display='';show(Math.round(t*FPS));};
+show(0);requestAnimationFrame(loop);
+</script>
+</body>
+</html>

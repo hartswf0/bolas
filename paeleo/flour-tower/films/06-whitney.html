@@ -1,0 +1,516 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PAE-03 · SCION 06 · Whitney</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fff;--fg:#000;--mut:#4a4a4a;--line:#000;--hold:#0a7f6e;--brk:#c81414;--chip:#f2f2f2}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#000;--fg:#fff;--mut:#b4b4b4;--line:#fff;--hold:#19e6c8;--brk:#ff2e2e;--chip:#111}}
+:root[data-theme="dark"]{--bg:#000;--fg:#fff;--mut:#b4b4b4;--line:#fff;--hold:#19e6c8;--brk:#ff2e2e;--chip:#111}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;overflow:hidden;background:var(--bg);color:var(--fg);font:12px/1.45 'IBM Plex Mono',ui-monospace,monospace}
+#app{display:grid;grid-template-columns:minmax(0,1fr) 410px;height:100vh;height:100dvh}
+#film{position:relative;background:#000;min-height:0;min-width:0}
+#film canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+#panel{overflow-y:auto;overflow-x:hidden;border-left:1px solid var(--line);padding:12px 14px 18px;min-height:0}
+@media (max-width:760px){#app{grid-template-columns:minmax(0,1fr);grid-template-rows:50% 50%;height:100dvh}
+ #panel{border-left:0;border-top:1px solid var(--line);padding:10px 16px 16px}}
+.top{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.top a{color:var(--fg)}
+h1{font-size:13px;margin:0;font-weight:600;letter-spacing:.02em}
+.ctl{display:flex;align-items:center;gap:8px;margin:10px 0 4px}
+button{font:inherit;background:var(--bg);color:var(--fg);border:1px solid var(--line);height:30px;min-width:34px;padding:0 8px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:6px}
+button svg{width:14px;height:14px;fill:currentColor}
+input[type=range]{flex:1;min-width:0;accent-color:#19e6c8}
+#tc{font-variant-numeric:tabular-nums;color:var(--mut);white-space:nowrap}
+p{margin:6px 0}
+.lbl{font-weight:600}
+.thesis{border-left:3px solid #19e6c8;padding-left:8px;margin:10px 0}
+table{border-collapse:collapse;width:100%;margin:6px 0;font-size:11px}
+td,th{border-bottom:1px solid var(--line);padding:2px 3px;text-align:left;vertical-align:top}
+th{font-weight:600}
+td.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.H{color:var(--hold);font-weight:600}.B{color:var(--brk);font-weight:600}
+#ledger{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;margin:6px 0}
+#ledger div{background:var(--chip);padding:4px;border:1px solid var(--line)}
+#ledger b{display:block;font-size:14px;font-variant-numeric:tabular-nums}
+#bank{width:100%;height:64px;display:block;background:#000;margin:4px 0}
+.sm{color:var(--mut);font-size:11px}
+</style>
+</head>
+<body>
+<div id="app">
+ <div id="film"><canvas id="cv"></canvas></div>
+ <div id="panel">
+  <div class="top"><h1>SCION 06 · WHITNEY · digital harmony</h1><a href="../index.html">PAE-03</a></div>
+  <div class="ctl">
+   <button id="bp" aria-label="play or pause"><svg viewBox="0 0 14 14" id="ip"><rect x="2" y="1" width="3.5" height="12"/><rect x="8.5" y="1" width="3.5" height="12"/></svg></button>
+   <input id="sc" type="range" min="0" max="767" step="1" value="0" aria-label="frame">
+   <span id="tc">0.00 s · f0</span>
+  </div>
+  <div class="ctl" style="margin-top:2px">
+   <button id="bs" aria-label="sound"><svg viewBox="0 0 14 14"><path d="M1 5h3l4-3v10L4 9H1z"/><rect x="10" y="4" width="1.4" height="6"/><rect x="12.2" y="2.5" width="1.4" height="9"/></svg><span id="bsl">sound off</span></button>
+   <button id="bt" aria-label="theme"><svg viewBox="0 0 14 14"><circle cx="7" cy="7" r="5.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M7 1.5a5.5 5.5 0 0 1 0 11z"/></svg>theme</button>
+  </div>
+  <div id="ledger"></div>
+  <canvas id="bank" width="760" height="120"></canvas>
+  <p class="sm">Inset: the five sack oscillators as phasors of phase error (psi_j minus j times psi_1). Vertical and aligned is locked. The same phases drive the ripple on the sack's outline, the spacing of its cloth dots, and the spiral angle of its flour dots.</p>
+  <table id="checks"><thead><tr><th>choice</th><th>score s</th><th>measured s</th><th></th></tr></thead><tbody></tbody></table>
+  <table id="inv"><tbody></tbody></table>
+  <p class="sm">Measured from the rendered geometry in window.PAE_TRACE (one row per frame); onsets in window.PAE_CHECK. Tolerance 0.25 s.</p>
+  <p class="thesis">A sack is a chord: knocked out of tune by the knife, it comes into tune as it decides, and it is full when every partial locks.</p>
+  <p><span class="lbl">Made of.</span> Every visible thing is a computed point of light on a black field: the sack is about 150 cloth dots on a closed curve whose radius is a sum of harmonics (sin and sin 3 terms whose weights and phase put gravity in the outline, so the lower third is always wider than the upper and the bottom flattens where it meets the table; cos 2 and cos 4 for width and shoulders, two Fejer sums of 12 cosines for the two corners, a short cosine sum for the dip of the crown) plus one flour dot inside for every unit of its volume, laid on a phyllotaxis spiral. The tower is 11 stacked levels of three concentric rings of dots, the knife is a dotted blade, the penny a ring of amber dots, and the flour is 996 individual dots (600 in the sack, 396 in the tower) that are counted every frame and never created or destroyed.</p>
+  <p><span class="lbl">Moved by.</span> The score's times are a conductor: at each one, oscillators get a new target, a new coupling, or an impulse. Every shape between comes from integrated damped harmonic oscillators (squash, lean, droop, tilt, table contact, gravity harmonic, corner height and angle, tower lean, knife rest, camera), plus a bank of five phase oscillators whose n:1 coupling is the sack's mood: detuned and kicked by each cut, locking as it decides, a pure lock when full. Its jitter amplitude is what scatters the cloth and flour dots, so the interior drifts continuously from stipple to lock. Two things are scheduled rather than integrated, and named here plainly: the gait is a fixed sequence of cycloid step blocks (1 hop at 0.96 s, 1 at 3.97 s, 7 between 9.0 and 14.0 s, a planted 0.08 m push step into the tower at 18.0 s, the leap at 21.4 s) whose phase gives the travel, so the base is still at every contact; the knife's strike is a scheduled window: one turn of a raised cosine to the 10th power, 0.5 s long, centred on each cut time, added to its rest spring; and every grain's fall, cloud throw and gather flight is a quarter or half turn of its own phasor over a fixed duration, released by the cut time, a fixed-period sift clock, or a sweeping beam. The penny falls by an integrated ballistic step (gravity plus air drag, Euler at 240 Hz) from release at 21.0 s, with the gravity constant solved once by bisection so that it meets the crown at 22.4 s; it never rises. The tower's lean is a driven oscillator clamped each sample by the sack's outline: it rests on the sack and is never pushed back more than 0.022 rad, and the sack's area is rescaled every frame to exactly (dots inside) x (area per dot).</p>
+ </div>
+</div>
+<script>
+'use strict';
+const FPS=24,DUR=32,NF=DUR*FPS,SR=240,NS=DUR*SR+1,TAU=Math.PI*2,PI=Math.PI;
+const PZ=0.2; // oblique depth: z back appears higher
+function hsh(n){const x=Math.sin(n*127.1+311.7)*43758.5453;return x-Math.floor(x);}
+const clamp=(v,a,b)=>v<a?a:v>b?b:v;
+
+/* ===================== flour ledger: tower dots ===================== */
+const TOWER={cx:0.8,h:0.93,pv:-0.10}; // pivot = foot of the first cut face (local x)
+const LEVELS=11, RINGS=[[0.32,18],[0.21,12],[0.10,6]];
+const SACK0=600;
+const tdots=[];
+for(let L=0;L<LEVELS;L++){const ly=0.045+L*(0.86/(LEVELS-1));const off=(L%2)*0.5;
+ for(const [r,n] of RINGS){for(let a=0;a<n;a++){const ang=TAU*(a+off+0.25*(r<0.15))/n;tdots.push({lx:r*Math.cos(ang),lz:r*Math.sin(ang),ly,L,id:tdots.length});}}}
+const NT=tdots.length, NTOT=SACK0+NT;
+
+/* ===================== the knife: one turn per cut ===================== */
+const CUTS=[{t:1.0,q:-0.10,s:-1,k:1.0,heap:'L'},{t:4.0,q:0.22,s:1,k:0.55,heap:'R'},{t:18.0,q:0.16,s:1,k:0.5,heap:'R'},{t:21.0,q:0.03,s:1,k:0.8,heap:'C'}];
+const KT=0.5; // one knife revolution
+const KP=10;  // ((1-cos)/2)^10 : a trig polynomial of degree 10
+function kpulse(t){let d=0;for(const c of CUTS){const ph=(t-(c.t-KT/2))/KT;if(ph>0&&ph<1)d=Math.max(d,Math.pow((1-Math.cos(TAU*ph))/2,KP));}return d;}
+function cutTimeAtHeight(c,h,rest){const f=1-h/rest;const s=Math.pow(clamp(f,0,1),1/KP);const phi=Math.acos(1-2*s);return c.t-KT/2+phi/TAU*KT;}
+
+/* ===================== heaps (static slot lattices on the plate) ===================== */
+function makeHeap(cx,wx,wz,layers,seed){const out=[];const GA=PI*(3-Math.sqrt(5));
+ for(let l=0;l<layers;l++){const sc=1-0.85*l/layers;const n=Math.max(4,Math.round(70*sc*sc*(wx/0.17)));const lay=[];
+  for(let k=0;k<n;k++){const rr=Math.sqrt((k+0.5)/n),a=k*GA+l*1.3+seed;lay.push({x:cx+wx*sc*rr*Math.cos(a),z:wz*sc*rr*Math.sin(a),y:0.012+l*0.024});}
+  lay.sort((a,b)=>hsh(a.x*71+a.z*13+seed)-hsh(b.x*71+b.z*13+seed));out.push(...lay);}
+ return out;}
+const HEAPS={L:makeHeap(0.55,0.17,0.32,8,11),R:makeHeap(1.09,0.15,0.30,8,23),C:makeHeap(0.86,0.40,0.42,7,37)};
+const heapUse={L:0,R:0,C:0};
+
+/* ===================== schedule every tower dot ===================== */
+const KREST=1.30;
+const inTower=new Array(NT).fill(true);
+for(const d of tdots){d.launch=Infinity;}
+CUTS.forEach((c,ci)=>{for(const d of tdots){if(!inTower[d.id])continue;if(c.s*(d.lx-c.q)>0){inTower[d.id]=false;d.launch=cutTimeAtHeight(c,d.ly,KREST);d.kind='cut';d.ci=ci;d.heap=c.heap;d.pop=0.05+0.05*hsh(d.id);}}
+ if(ci===2){ // sift: grains fall off the cut face while the tower leans (6.5 to 18), at the ticks of a 0.42 s oscillator
+ }});
+// sift: choose dots near the first cut face in the upper levels, ticks of a fixed-period oscillator
+{let k=0;const cand=tdots.filter(d=>d.launch>4.5&&d.lx<-0.04&&d.L>=5).sort((a,b)=>b.ly-a.ly||a.lx-b.lx);
+ for(const d of cand){const t=6.6+k*0.42;if(t>17.6||k>=12)break;d.launch=t;d.kind='sift';d.heap='L';d.pop=0.0;k++;}}
+// remaining fall in the collapse at 21.0: wave from the top of the slab, 0.02 s per level
+for(const d of tdots){if(d.launch===Infinity){d.launch=21.04+0.022*(LEVELS-1-d.L)+0.01*hsh(d.id*7);d.kind='collapse';d.heap='C';d.pop=0.03;}}
+// flight durations: rate classes 4/3,1,4/5 of a sqrt-height base
+for(const d of tdots){const cls=[4/3,1,4/5][d.id%3];d.fdur=(0.28+0.5*Math.sqrt(d.ly+0.05))/cls;if(d.ci===2){d.launch=18.0+0.04*(d.id%4);d.pop=0.01;d.fdur=0.30+0.30*Math.sqrt(d.ly+0.05);}d.land=d.launch+d.fdur;}
+// assign heap slots in landing order
+[...tdots].sort((a,b)=>a.land-b.land).forEach(d=>{const H=HEAPS[d.heap];d.slot=H[heapUse[d.heap]++];});
+// cloud on landing (23.0): plate dots under the landing point are thrown outward on half-turns
+const LANDX=0.80;
+for(const d of tdots){d.cloud=null;const s=d.slot;if(d.land<22.95&&Math.abs(s.x-LANDX)<0.34&&s.z>-0.2){const side=(s.x>=LANDX?1:-1);const cls=[1,2,3][d.id%3];
+ d.cloud={t0:23.0+0.03*(d.id%5),dur:0.55+0.45/cls,to:{x:s.x+side*(0.30+0.18*hsh(d.id)),z:s.z*0.6-0.12,y:0.012+0.02*hsh(d.id*3)},lift:0.18+0.32/cls};}}
+// gather sweep: a beam turning at 1 rev/s for 3 turns releases each grain when it passes the grain's angle
+const GC={x:0.80,y:0.30};
+for(const d of tdots){const p=d.cloud?d.cloud.to:d.slot;const sy=p.y+p.z*PZ;d.b=PI*1.02-Math.atan2(sy-GC.y,p.x-GC.x);d.b=((d.b%TAU)+TAU)%TAU;}
+{let bm=TAU;for(const d of tdots)bm=Math.min(bm,d.b);for(const d of tdots){const b=d.b-bm;const turn=d.id%3;
+ d.g0=24.5+0.02+(turn+b/TAU)*1.0*(3.05/3);const cls=[3,4,5][(d.id>>1)%3];d.gdur=0.9/cls;d.garr=d.g0+d.gdur;d.glift=0.12+0.25/cls;}}
+const arrivals=tdots.map(d=>d.garr).sort((a,b)=>a-b);
+[...tdots].sort((a,b)=>a.garr-b.garr).forEach((d,r)=>{d.sk=SACK0+r;});
+function sackN(t){let lo=0,hi=arrivals.length;while(lo<hi){const m=(lo+hi)>>1;if(arrivals[m]<=t)lo=m+1;else hi=m;}return SACK0+lo;}
+
+/* ===================== gait oscillator: cycloid steps ===================== */
+const X0=-1.30, XPROP=0.22, XEND=0.80, BRSTEP=0.08;
+const STEPS=[{t0:0.96,n:1,dur:0.34,stride:-0.20,lift:0.06,kind:'hop'},{t0:3.97,n:1,dur:0.26,stride:-0.07,lift:0.022,kind:'hop'},
+ {t0:9.0,n:7,dur:5/7,stride:0,lift:0.055,kind:'hop'},{t0:18.0,n:1,dur:0.30,stride:BRSTEP,lift:0.0,kind:'hop'},{t0:21.4,n:1,dur:1.6,stride:0,lift:0.10,kind:'leap'}];
+STEPS[2].stride=(XPROP-(X0-0.27))/7;STEPS[4].stride=XEND-XPROP-BRSTEP;
+function gaitAt(t){let xb=X0,lift=0,vx=0,vy=0,u=0,on=false;
+ for(const s of STEPS){if(t<s.t0)break;const T=s.n*s.dur;if(t-s.t0>=T){xb+=s.stride*s.n;continue;}
+  const w=(t-s.t0)/s.dur,n=Math.floor(w),fr=w-n;on=true;u=fr;
+  if(s.kind==='leap'){const a=0.6;xb+=s.stride*(fr-a*Math.sin(TAU*fr)/TAU);vx=s.stride*(1-a*Math.cos(TAU*fr))/s.dur;lift=s.lift*Math.sin(PI*fr);vy=s.lift*PI*Math.cos(PI*fr)/s.dur;}
+  else{xb+=s.stride*(n+fr-Math.sin(TAU*fr)/TAU);vx=s.stride*(1-Math.cos(TAU*fr))/s.dur;lift=s.lift*Math.pow(Math.sin(PI*fr),2);vy=s.lift*PI*Math.sin(TAU*fr)/s.dur;}
+  break;}
+ return {xb,lift,vx,vy,u,on};}
+
+/* ===================== the sack's shape: a sum of harmonics ===================== */
+const NE=6,ND=3;
+function fejer(phi,N){// normalized Fejer kernel, peak 1, via Chebyshev recurrence
+ const c1=Math.cos(phi);let cm=1,c=c1,s=1;for(let n=1;n<=N;n++){s+=2*(1-n/(N+1))*c;const nx=2*c1*c-cm;cm=c;c=nx;}return s/(N+1);}
+const MJ=[3,5,6,7,9];
+function unitR(th,p){
+ let r=1+p.P*(-Math.sin(th))+p.G*(-Math.sin(3*th))+0.12*Math.cos(2*th)-0.06*Math.cos(4*th)
+  +p.E*(fejer(th-p.thL,NE)+fejer(th-p.thR,NE))-p.dip*fejer(th-PI/2,ND);
+ const a=p.rip;for(let j=0;j<5;j++)r+=a*Math.sin(MJ[j]*th+p.psi[j])/Math.sqrt(j+1);
+ return r;}
+const MO=150;
+// build: p = shape params, N = flour dots inside, g = {xb,lift}; contact = {px,th,top} or null
+function buildSack(p,N,g,contact,want){
+ const V=N*AREA_PER_DOT;
+ const ths=new Float64Array(MO),ux=new Float64Array(MO),uy=new Float64Array(MO);let minY=1e9;
+ const cr=Math.cos(p.rot),sr=Math.sin(p.rot);const RT=(x,y)=>[x*cr-y*sr,x*sr+y*cr];let maxY=-1e9;
+ for(let i=0;i<MO;i++){const th=-PI/2+TAU*i/MO+(TAU/MO)*0.45*p.D*Math.sin(p.psi[i%5]+2.3*i);ths[i]=th;const r=unitR(th,p);const q=RT(r*Math.cos(th),r*Math.sin(th));ux[i]=q[0];uy[i]=q[1];if(uy[i]<minY)minY=uy[i];if(uy[i]>maxY)maxY=uy[i];}
+ const sx=1/Math.sqrt(p.asp),sy=Math.sqrt(p.asp);
+ const fd=Math.max(0,p.fl-0.6*g.lift)*(maxY-minY)*sy; // table contact: the bottom is squeezed flat (quadratic below 2*fd)
+ const SQ=(y)=>fd<=1e-6?y:(y<2*fd?y*y/(4*fd):y-fd);
+ const X=new Float64Array(MO),Y=new Float64Array(MO);
+ const HH=(maxY-minY)*sy;const DRP=(x,y)=>y*(1-p.droop*x/HH);
+ for(let i=0;i<MO;i++){const yy=SQ((uy[i]-minY)*sy);X[i]=ux[i]*sx+p.lean*yy+p.bend*yy*yy;Y[i]=DRP(ux[i]*sx,yy);}
+ let A=area(X,Y);const k=Math.sqrt(V/A);
+ // stage 2: flatten against the tower face (if pressed) and restore the area about the far side
+ let k2=1,ax=0,xR=0;let flat=false;
+ const T1=(x,y)=>[x*k+g.xb,y*k+g.lift];
+ const ctop=contact?Math.min(contact.top,g.lift+SHOULDER*(maxY-minY)*sy*k):0;const FL=(q)=>{if(!contact)return q;const nx=Math.cos(contact.th),ny=Math.sin(contact.th);const d=(q[0]-contact.px)*nx+q[1]*ny;if(d>0&&q[1]<ctop){flat=true;return [q[0]-d*nx,q[1]-d*ny];}return q;};
+ const P=[];for(let i=0;i<MO;i++)P.push(T1(X[i],Y[i]));
+ if(contact){let Q=P.map(FL);if(flat){let xmax=-1e9;for(const q of Q)xmax=Math.max(xmax,q[0]);xR=xmax;const A1=areaP(Q);k2=Math.sqrt(V/A1);}}
+ const T2=(q)=>k2===1?q:[xR-(xR-q[0])*Math.pow(k2,FLA),g.lift+(q[1]-g.lift)*Math.pow(k2,2-FLA)];
+ const map=(ux0,uy0)=>{const [ux_,uy_]=RT(ux0,uy0);const yy=SQ((uy_-minY)*sy);const x0=ux_*sx+p.lean*yy+p.bend*yy*yy;return FL(T2(FL(T1(x0,DRP(ux_*sx,yy)))));};
+ let pts=[];const mk=()=>{pts=[];for(let i=0;i<MO;i++){const r=unitR(ths[i],p);pts.push(map(r*Math.cos(ths[i]),r*Math.sin(ths[i])));}};mk();
+ if(flat){for(let it=0;it<4;it++){const a=areaP(pts);if(Math.abs(a/V-1)<0.002)break;k2*=Math.sqrt(V/a);mk();}}
+ const crownR=unitR(PI/2,p);const crown=map(0,crownR);
+ const rl=unitR(p.thL,p),rr=unitR(p.thR,p);
+ const earL=map(rl*Math.cos(p.thL),rl*Math.sin(p.thL)),earR=map(rr*Math.cos(p.thR),rr*Math.sin(p.thR));
+ const o={pts,crown,earL,earR,map,p,N,flat,area:areaP(pts)};
+ return o;}
+function area(X,Y){let s=0;const n=X.length;for(let i=0;i<n;i++){const j=(i+1)%n;s+=X[i]*Y[j]-X[j]*Y[i];}return Math.abs(s)/2;}
+function areaP(P){let s=0;const n=P.length;for(let i=0;i<n;i++){const a=P[i],b=P[(i+1)%n];s+=a[0]*b[1]-b[0]*a[1];}return Math.abs(s)/2;}
+function widthAt(P,y){let x0=1e9,x1=-1e9;const n=P.length;for(let i=0;i<n;i++){const a=P[i],b=P[(i+1)%n];if((a[1]-y)*(b[1]-y)<=0&&a[1]!==b[1]){const x=a[0]+(b[0]-a[0])*(y-a[1])/(b[1]-a[1]);x0=Math.min(x0,x);x1=Math.max(x1,x);}}return x1>x0?x1-x0:0;}
+function thirds(P){const b=bbox(P);const h=b.y1-b.y0;let lo=0,up=0;for(let k=1;k<=10;k++){lo=Math.max(lo,widthAt(P,b.y0+h*(k/30)));up=Math.max(up,widthAt(P,b.y0+h*(2/3+k/30-0.001)));}return [lo,up];}
+function cornerShape(s){// per side: corner height above the crown dip, and that corner's base width at the dip height
+ const cy=s.crown[1],cxx=s.crown[0];const out=[];for(const [e,side] of [[s.earL,-1],[s.earR,1]]){let x0=1e9,x1=-1e9;for(const q of s.pts){if(q[1]>=cy&&side*(q[0]-cxx)>=0){x0=Math.min(x0,q[0]);x1=Math.max(x1,q[0]);}}
+ const h=e[1]-cy,w=Math.max(1e-6,x1-x0);out.push({h:+h.toFixed(4),w:+w.toFixed(4),r:+(h/w).toFixed(3)});}return out;}
+function bbox(P){let x0=1e9,x1=-1e9,y0=1e9,y1=-1e9;for(const q of P){x0=Math.min(x0,q[0]);x1=Math.max(x1,q[0]);y0=Math.min(y0,q[1]);y1=Math.max(y1,q[1]);}return {x0,x1,y0,y1};}
+function centroid(P){let A=0,cx=0,cy=0;const n=P.length;for(let i=0;i<n;i++){const a=P[i],b=P[(i+1)%n];const c=a[0]*b[1]-b[0]*a[1];A+=c;cx+=(a[0]+b[0])*c;cy+=(a[1]+b[1])*c;}return [cx/(3*A),cy/(3*A)];}
+
+/* ===================== conductor: targets switch at score times ===================== */
+const SHOULDER=0.66;
+let FLA=0;
+const AREA_PER_DOT=0.30/600;
+const PSPEC={bk:[1,1],G:[1.2,0.6],rot:[1.1,0.55],droop:[1.1,0.55],fl:[1.5,0.6],cx:[0.22,0.95],cw:[0.22,0.95],asp:[3.0,0.30],lean:[1.3,0.45],bend:[1.2,0.5],dip:[2.4,0.55],E:[1.9,0.3],gam:[1.6,0.38],P:[1.0,0.6],dl:[0.9,0.30],press:[2.0,0.6],K:[0.45,1.0],D:[0.45,1.0],tl:[0.35,0.9],kx:[1.1,0.75],ky:[1.0,0.8]};
+const PK=Object.keys(PSPEC);
+let A_HALF=1,A_FULL=1; // calibrated below
+const PROPLEAN=0.42,BK=0;
+const POSE=[
+ [0.0, {asp:'H',lean:0,bend:0,rot:0,dip:0.12,E:0.30,gam:0.65,P:0.20,G:0.14,fl:0.12,droop:0,press:0,K:0.15,D:0.8,tl:0,kx:0.74,ky:KREST,cx:-0.45,cw:3.3}],
+ [0.96,{lean:-0.06,E:0.25,gam:0.70,P:0.22,G:0.16,fl:0.16,D:1}],
+ [1.30,{kx:1.00}],
+ [4.30,{kx:0.90}],
+ [6.5, {lean:0.05,E:0.40,gam:0.62,dip:0.04,asp:'H*1.12',P:0.18,G:0.13,fl:0.10,K:1.3,D:0.65,tl:0.10,cx:-0.25,cw:3.7}],
+ [9.0, {lean:0.30,bend:0.12,rot:-0.10,droop:0.55,dip:0.0,asp:'H*0.95',E:0.36,gam:0.66,G:0.14,fl:0.14,K:2.3,D:0.42,cx:0.1}],
+ [11.0,{tl:0.07}],
+ [14.15,{lean:0.50,bend:0.06,rot:0,droop:0,dip:0.25,asp:'H*0.80',E:0.30,gam:0.66,G:0.14,fl:0.14,press:0.035,K:3.0,D:0.30,tl:0.32,cx:0.42,cw:2.9}],
+ [18.0,{aspz:1.0,asp:'H*0.52',lean:0.50,bk:BK,droop:0,rot:0,dip:0.25,E:0.40,press:0.06,fl:0.22,tl:0.42}],
+ [18.3,{kx:0.83}],
+ [21.0,{aspz:0,bk:0,asp:'H*0.66',lean:0.06,bend:0,rot:0,droop:0,press:0,dip:0.04,tl:0,fl:0.10}],
+ [21.4,{asp:'H*1.20',lean:0.10,E:0.34,gam:0.66,dip:0.0,G:0.04,fl:0,cx:0.62}],
+ [21.6,{kx:1.75,ky:2.5}],
+ [23.0,{asp:'H',lean:0,E:0.28,G:0.14,fl:0.18}],
+ [24.5,{asp:'FILL',dip:0.07,E:0.30,gam:0.62,P:0.13,G:0.08,fl:0.08,K:4.5,D:0.12,cx:0.78,cw:2.5}],
+ [28.5,{K:7.0,D:0}],
+ [29.3,{kx:0.80,ky:'HOVER'}],
+ [31.2,{kx:1.2,ky:2.1}],
+];
+const KICKS=[[0.96,{asp:-15,lean:-1.1,E:-0.9,tl:0}],[3.97,{asp:-7.5,lean:-0.5,E:-0.45}],[18.0,{press:0.25}],[21.0,{asp:-0.6}],[22.4,{asp:-0.7}],[23.0,{asp:-3.0,E:-1.4}]];
+const PHASEKICK=[[1.0,1.0],[4.0,0.55],[18.0,0.5],[21.0,0.8],[23.0,0.6]];
+POSE.sort((a,b)=>a[0]-b[0]);
+function poseAt(t){const o={};for(const [ts,v] of POSE){if(ts>t)break;Object.assign(o,v);}return o;}
+let HOVERY=1.18;
+function resolveTarget(key,val,N){if(key==='asp'){if(val==='H')return A_HALF;if(val==='FILL'){const f=(N-SACK0)/NT;return A_HALF*Math.pow(A_FULL/A_HALF,f);}if(typeof val==='string')return A_HALF*parseFloat(val.split('*')[1]);}
+ if(val==='HOVER')return HOVERY;return val;}
+
+/* five phase oscillators: natural rates j*f0*(1+D*dj), coupled n:1 to psi_1 with strength K */
+const F0=0.75,DJ=[0,0.137,-0.211,0.173,-0.097];
+
+/* ===================== integrate everything once (deterministic) ===================== */
+const S={};for(const k of PK)S[k]=new Float32Array(NS);
+const PSI=[0,1,2,3,4].map(()=>new Float64Array(NS)),DPSI=[0,1,2,3,4].map(()=>new Float64Array(NS));
+function simulate(){
+ const st={},vel={};const p0=poseAt(0);for(const k of PK){st[k]=p0[k]===undefined?0:resolveTarget(k,p0[k],SACK0);vel[k]=0;}
+ const psi=[0,0.9,2.1,4.0,5.2],pv=[0,0,0,0,0];
+ const sub=4,dt=1/(SR*sub);let ki=0,pk=0;
+ for(let i=0;i<NS;i++){const t=i/SR;
+  for(const k of PK)S[k][i]=st[k];for(let j=0;j<5;j++)PSI[j][i]=psi[j];
+  for(let s=0;s<sub;s++){const tt=t+s*dt;const pose=poseAt(tt);const g=gaitAt(tt);const N=sackN(tt);
+   while(ki<KICKS.length&&KICKS[ki][0]<=tt){for(const k in KICKS[ki][1])vel[k]+=KICKS[ki][1][k];ki++;}
+   while(pk<PHASEKICK.length&&PHASEKICK[pk][0]<=tt){for(let j=1;j<5;j++)pv[j]+=PHASEKICK[pk][1]*(1.3+2.1*hsh(j*7+pk*13))/0.35;pk++;}
+   for(const k of PK){let T=pose[k]===undefined?0:resolveTarget(k,pose[k],N);
+    if(k==="dl")T=0.30*g.vx;
+    if(k==='lean'&&pose.bk)T+=pose.bk*(0.80-st.asp/A_HALF);
+    if(k==='E')T-=0.04*g.vy;
+    if(k==='asp')T*=1+0.018*Math.sin(psi[0]);
+    let [f,z]=PSPEC[k];if(k==='asp'&&pose.aspz)z=pose.aspz;const w=TAU*f;const a=w*w*(T-st[k])-2*z*w*vel[k];vel[k]+=a*dt;st[k]+=vel[k]*dt;}
+   const D=st.D,K=st.K;
+   for(let j=0;j<5;j++){const n=j+1;const w=TAU*F0*n*(1+D*DJ[j]*1.6);let dp=w;if(j>0)dp+=K*Math.sin(n*psi[0]-psi[j]);dp+=pv[j];pv[j]-=pv[j]*dt/0.35;psi[j]+=dp*dt;if(s===0)DPSI[j][i]=dp;}
+  }}
+}
+function P_at(t){const i=clamp(Math.round(t*SR),0,NS-1);const o={};for(const k of PK)o[k]=S[k][i];
+ o.psi=[PSI[0][i],PSI[1][i],PSI[2][i],PSI[3][i],PSI[4][i]];
+ o.thL=PI/2+o.gam+o.dl;o.thR=PI/2-o.gam+o.dl;o.rip=0.008+0.028*o.D;o.D=Math.max(0,o.D);
+ let e=0;for(let j=1;j<5;j++)e+=Math.sin(o.psi[j]-(j+1)*o.psi[0]);o.eps=e/4;
+ let cx=0,cy=0;for(let j=1;j<5;j++){const d=o.psi[j]-(j+1)*o.psi[0];cx+=Math.cos(d);cy+=Math.sin(d);}o.R=Math.hypot(cx,cy)/4;
+ o.alpha=PI*(3-Math.sqrt(5));
+ return o;}
+
+/* calibrate the rest aspect so the half sack stands 0.55 and the full sack 0.95 */
+function heightFor(p,N){const s=buildSack(p,N,{xb:0,lift:0},null);let y=0;for(const q of s.pts)y=Math.max(y,q[1]);return y;}
+function calib(pose,N,H){const base=Object.assign({psi:[0,0,0,0,0],rip:0.010,D:0,dl:0},pose);base.thL=PI/2+base.gam;base.thR=PI/2-base.gam;
+ let lo=0.2,hi=6;for(let it=0;it<40;it++){const m=Math.sqrt(lo*hi);base.asp=m;if(heightFor(base,N)<H)lo=m;else hi=m;}return Math.sqrt(lo*hi);}
+A_HALF=calib({lean:0,bend:0,dip:0.12,E:0.30,gam:0.65,P:0.20,G:0.14,fl:0.12,droop:0,rot:0},SACK0,0.55);
+A_FULL=calib({lean:0,bend:0,dip:0.07,E:0.30,gam:0.62,P:0.13,G:0.08,fl:0.08,droop:0,rot:0},NTOT,0.95);
+simulate();
+
+/* ===================== tower lean: driven, clamped by the sack's body ===================== */
+const PIVX=TOWER.cx+TOWER.pv;
+const THT=new Float32Array(NS),PRESS=new Float32Array(NS);
+function contactAngle(pts,press){// smallest tower lean at which the face reaches `press` into the sack
+ const f=(th)=>{let m=-1e9;const c=Math.cos(th),s=Math.sin(th);let ymx=0;for(const q of pts)ymx=Math.max(ymx,q[1]);for(const q of pts){if(q[1]<=0.001||q[1]>TOWER.h||q[1]>SHOULDER*ymx)continue;const d=(q[0]-PIVX)*c+q[1]*s;if(d>m)m=d;}return m;};
+ if(f(-0.05)>press)return -0.05;if(f(0.7)<press)return 0.7;let lo=-0.05,hi=0.7;for(let it=0;it<30;it++){const m=(lo+hi)/2;if(f(m)>press)hi=m;else lo=m;}return lo;}
+for(let i=0;i<NS;i++){const t=i/SR;if(t>=21.0){THT[i]=THT[i-1];PRESS[i]=0;continue;}
+ const p=P_at(t);const drv=S.tl[i];
+ if(t<6.0){THT[i]=Math.max(0,drv);continue;}
+ const s=buildSack(p,sackN(t),gaitAt(t),null);const tc=contactAngle(s.pts,0.0);
+ // the tower rests on the sack: it leans freely until its face meets the sack's outline, and is never pushed back upright
+ // after the brace the sack's push may right the tower a little (at most 0.022 rad), slowly
+ const prev=THT[i-1];const floor=t>=18.0?Math.max(prev-0.03/SR,THT[Math.round(17.99*SR)]-0.022):prev;THT[i]=Math.max(0,Math.min(drv,Math.max(floor,tc)));PRESS[i]=1;}
+const thT=(t)=>THT[clamp(Math.round(t*SR),0,NS-1)];
+function towerXY(lx,ly,lz,th){const dx=lx-TOWER.pv;const c=Math.cos(th),s=Math.sin(th);return [PIVX+dx*c-ly*s,dx*s+ly*c+lz*PZ];}
+
+function sackAt(t){const p=P_at(t);const g=gaitAt(t);const i=clamp(Math.round(t*SR),0,NS-1);
+ const th=THT[i];const contact=(t<21.0&&t>=6.0)?{px:PIVX,th,top:TOWER.h*Math.cos(th)}:null;
+ const s=buildSack(p,sackN(t),g,contact);s.g=g;s.contactOn=!!contact&&s.flat;return s;}
+
+/* ===================== penny: tower top, half-turn to the catch, then the sack's crown ===================== */
+const TP=21.0,TC=22.4,PEN_R=0.055,PEN_H=0.012;
+const penny0=towerXY(0,TOWER.h+PEN_H,0,thT(TP));
+const catchS=sackAt(TC);const pennyC=[catchS.crown[0],catchS.crown[1]+PEN_H];
+const PEN_DRAG=1.2,PEN_N=Math.round((TC-TP)*SR);
+function penFall(g){const Y=new Float64Array(PEN_N+1);let y=penny0[1],v=0;const dt=1/SR;Y[0]=y;for(let i=1;i<=PEN_N;i++){v+=(-g-PEN_DRAG*v)*dt;y+=v*dt;Y[i]=y;}return Y;}
+let PEN_G=1;{let lo=0,hi=50;for(let it=0;it<60;it++){const m=(lo+hi)/2;const Y=penFall(m);if(Y[PEN_N]>pennyC[1])lo=m;else hi=m;}PEN_G=(lo+hi)/2;}
+const PEN_Y=penFall(PEN_G),PEN_VX=(pennyC[0]-penny0[0])/(TC-TP);
+function pennyAt(t,s){if(t<TP)return towerXY(0,TOWER.h+PEN_H,0,thT(t));
+ if(t<TC){const i=clamp(Math.round((t-TP)*SR),0,PEN_N);return [penny0[0]+PEN_VX*(t-TP),PEN_Y[i]];}
+ const ss=s||sackAt(t);return [ss.crown[0],ss.crown[1]+PEN_H];}
+HOVERY=sackAt(29.0).crown[1]+0.24;
+// re-run the knife rest spring with the hover height now known
+(function(){const st={x:S.kx[0],y:S.ky[0]},v={x:0,y:0};const sub=4,dt=1/(SR*sub);
+ for(let i=0;i<NS;i++){const t=i/SR;S.kx[i]=st.x;S.ky[i]=st.y;for(let s=0;s<sub;s++){const pose=poseAt(t+s*dt);
+  const Tx=pose.kx,Ty=resolveTarget('ky',pose.ky,0);const fw=(t>31.1)?0.42:1;for(const [k,T,f,z] of [['x',Tx,1.1*fw,0.75],['y',Ty,1.0*fw,0.8]]){const w=TAU*f;v[k]+=(w*w*(T-st[k])-2*z*w*v[k])*dt;st[k]+=v[k]*dt;}}}})();
+function knifeAt(t){const i=clamp(Math.round(t*SR),0,NS-1);let x=S.kx[i],y=S.ky[i];
+ const d=kpulse(t);y=y-y*d;if(t>29.6&&t<31.4)y+=0.012*Math.sin(TAU*3*t);return [x,y];}
+
+/* ===================== flour dot position and state at time t ===================== */
+// state codes 0 tower 1 air 2 plate 3 sack
+function heapXY(sl){return [sl.x,sl.y+sl.z*PZ];}
+function flourAt(d,t,sack){
+ if(t<d.launch)return {st:0,xy:towerXY(d.lx,d.ly,d.lz,thT(Math.min(t,21.0)))};
+ if(t<d.land){const A=towerXY(d.lx,d.ly,d.lz,thT(Math.min(d.launch,21.0)));const B=heapXY(d.slot);const ph=(PI/2)*(t-d.launch)/d.fdur;
+  return {st:1,xy:[A[0]+(B[0]-A[0])*Math.sin(ph),A[1]+(B[1]-A[1])*(1-Math.cos(ph))+d.pop*Math.sin(2*ph)]};}
+ const c=d.cloud;
+ if(c&&t>=c.t0&&t<c.t0+c.dur){const A=heapXY(d.slot),B=heapXY(c.to);const ph=PI*(t-c.t0)/c.dur;const k=(1-Math.cos(ph))/2;return {st:1,xy:[A[0]+(B[0]-A[0])*k,A[1]+(B[1]-A[1])*k+c.lift*Math.sin(ph)]};}
+ const rest=(c&&t>=c.t0+c.dur)?c.to:d.slot;
+ if(t<d.g0)return {st:2,xy:heapXY(rest),z:rest.z};
+ if(t<d.garr){const A=heapXY(rest);const B=sackDot(sack,d.sk,d.sk+1);const ph=PI*(t-d.g0)/d.gdur;const k=(1-Math.cos(ph))/2;return {st:1,xy:[A[0]+(B[0]-A[0])*k,A[1]+(B[1]-A[1])*k+d.glift*Math.sin(ph)]};}
+ return {st:3};}
+// flour inside the sack: phyllotaxis index k, spiral angle alpha from the oscillator bank
+function sackDotUnit(p,k,Nn){const rho=clamp(0.90*Math.sqrt((k+0.5)/Nn)+0.045*p.D*Math.sin(p.psi[k%5]+2.399*k),0,0.95);
+ const th=k*p.alpha+0.3+0.10*p.D*Math.sin(p.psi[(k+2)%5]+1.7*k)/Math.max(0.15,rho);const r=unitR(th,p)*rho;return [r*Math.cos(th),r*Math.sin(th)];}
+function sackDot(s,k,N){const p=s.p;const Nn=Math.max(N,s.N);const rho=clamp(0.90*Math.sqrt((k+0.5)/Nn)+0.045*p.D*Math.sin(p.psi[k%5]+2.399*k),0,0.95);
+ const th=k*p.alpha+0.3+0.10*p.D*Math.sin(p.psi[(k+2)%5]+1.7*k)/Math.max(0.15,rho);const r=unitR(th,p)*rho;return s.map(r*Math.cos(th),r*Math.sin(th));}
+
+/* ===================== one frame of geometry (used by render and trace) ===================== */
+function frameGeom(t){const s=sackAt(t);const pen=pennyAt(t,s);const kn=knifeAt(t);
+ let cnt=[0,0,0,0],gfly=0;for(const d of tdots){const f=flourAt(d,t,s);cnt[f.st]++;if(f.st===1&&t>=d.g0)gfly++;}cnt[3]=s.N; // sack count is N (600 + arrived)
+ return {s,pen,kn,cnt,gfly};}
+
+/* ===================== trace + checks ===================== */
+const TRACE=[];let PREV=null;
+for(let f=0;f<NF;f++){const t=f/FPS;const G=frameGeom(t);const s=G.s;const bb=bbox(s.pts);const c=centroid(s.pts);
+ const th3=thirds(s.pts);const sc=Math.sqrt(s.area);const cur=[];for(let k=0;k<SACK0;k+=3){const q=sackDotUnit(s.p,k,s.N);cur.push(q);}
+ let jump=0;if(PREV){for(let k=0;k<cur.length;k++)jump+=Math.hypot(cur[k][0]-PREV[k][0],cur[k][1]-PREV[k][1]);jump/=cur.length;}PREV=cur;
+ TRACE.push({f,t:+t.toFixed(4),x:+c[0].toFixed(4),xb:+s.g.xb.toFixed(4),top:+(bb.y1-bb.y0).toFixed(4),topY:+bb.y1.toFixed(4),bottomY:+bb.y0.toFixed(4),width:+(bb.x1-bb.x0).toFixed(4),
+  crown:[+s.crown[0].toFixed(4),+s.crown[1].toFixed(4)],area:+s.area.toFixed(5),dots:s.N,earL:[+s.earL[0].toFixed(4),+s.earL[1].toFixed(4)],earR:[+s.earR[0].toFixed(4),+s.earR[1].toFixed(4)],
+  penny:[+G.pen[0].toFixed(4),+G.pen[1].toFixed(4)],knife:[+G.kn[0].toFixed(4),+G.kn[1].toFixed(4)],towerLean:+thT(Math.min(t,21)).toFixed(4),towerLeanDriven:+S.tl[Math.round(t*SR)].toFixed(4),
+  pressed:s.contactOn?1:0,rightX:+bb.x1.toFixed(4),lowerW:+th3[0].toFixed(4),upperW:+th3[1].toFixed(4),interiorJump:+jump.toFixed(4),camW:+S.cw[Math.round(t*SR)].toFixed(3),camX:+S.cx[Math.round(t*SR)].toFixed(3),flour:{tower:G.cnt[0],air:G.cnt[1],plate:G.cnt[2],sack:G.cnt[3],gathering:G.gfly,total:G.cnt[0]+G.cnt[1]+G.cnt[2]+G.cnt[3]},lockR:+P_at(t).R.toFixed(3)});}
+window.PAE_TRACE=TRACE;
+
+function computeChecks(){const T=TRACE;const at=(t)=>T[clamp(Math.round(t*FPS),0,NF-1)];
+ const vx=(f)=>(T[Math.min(NF-1,f+1)].x-T[Math.max(0,f-1)].x)*FPS/2;
+ const first=(t0,t1,fn)=>{for(let f=Math.ceil(t0*FPS);f<=Math.min(NF-1,Math.floor(t1*FPS));f++)if(fn(T[f],f))return T[f].t;return null;};
+ const R={};
+ R.flinch1=first(0.5,3,(r,f)=>vx(f)<-0.15);
+ R.flinch2=first(3.5,6,(r,f)=>vx(f)<-0.06);
+ const dx1=at(3.4).x-at(0.5).x,dx2=at(6.2).x-at(3.4).x;
+ const sq1=Math.min(...T.slice(18,60).map(r=>r.top))/at(0.5).top,sq2=Math.min(...T.slice(90,130).map(r=>r.top))/at(3.6).top;
+ const earY=(r)=>(r.earL[1]+r.earR[1])/2;const base6=earY(at(6.2));
+ R.notice=first(6.2,9,(r)=>earY(r)-base6>0.015);
+ R.comes=first(7.5,15,(r,f)=>vx(f)>0.06&&vx(f+2)>0.0);
+ let hl=0,hn=0;for(let f=Math.round(9.5*FPS);f<=Math.round(13.5*FPS);f++){hn++;const r=T[f];if(r.crown[1]<r.earL[1]-0.01&&r.crown[0]>r.x+0.02)hl++;}
+ const pxPerM=(r)=>Math.min(870/r.camW,720/(0.66*r.camW));
+ const hops=[];for(let k=0;k<7;k++){let m=0,mp=0;for(let f=Math.round((9+k*5/7)*FPS);f<Math.round((9+(k+1)*5/7)*FPS);f++){if(T[f].bottomY>m){m=T[f].bottomY;mp=m*pxPerM(T[f]);}}hops.push(+mp.toFixed(1));}
+ let pearFail=[];for(const r of T){if(r.t>=21.0)break;if(!(r.lowerW>r.upperW))pearFail.push(r.t);}
+ const pearAt=[0,2,5.5,10.5,12,16].map(t=>{const r=at(t);return [t,+(r.lowerW/r.upperW).toFixed(2)];});
+ const jumps=T.slice(1).map(r=>r.interiorJump);const jmed=[...jumps].sort((a,b)=>a-b)[jumps.length>>1];const jmax=Math.max(...jumps);const jmaxT=T[1+jumps.indexOf(jmax)].t;
+ const rec=(t0)=>{const pre=at(t0-0.06).top;let mn=1e9,mx=0;for(let f=Math.round(t0*FPS);f<=Math.round(t0*FPS)+3;f++)mn=Math.min(mn,T[f].top);for(let f=Math.round(t0*FPS)+3;f<=Math.round((t0+0.6)*FPS);f++)mx=Math.max(mx,T[f].top);return {squash:+(1-mn/pre).toFixed(3),stretchBack:+(mx/pre-1).toFixed(3)};};
+ const rec1=rec(1.0),rec2=rec(4.0);const hop1End=STEPS[0].t0+STEPS[0].dur;
+ const pre18=at(17.9).top;let bmax=0,bmaxRest=0;for(let f=Math.round(18.25*FPS);f<=Math.round(20.9*FPS);f++){bmax=Math.max(bmax,T[f].top/pre18);bmaxRest=Math.max(bmaxRest,T[f].top/0.55);}
+ R.props=first(13,18,(r)=>r.pressed===1&&r.towerLean<r.towerLeanDriven-0.004);
+ let held=0,hn2=0;for(let f=Math.round(15*FPS);f<Math.round(20.9*FPS);f++){hn2++;if(T[f].pressed&&T[f].towerLean<T[f].towerLeanDriven-0.02)held++;}
+ const top17=at(17.6).top;R.braces=first(17.6,20.5,(r)=>r.top<top17*0.97);
+ const brW=T.slice(Math.round(17.9*FPS),Math.round(20.9*FPS)+1).map(r=>r.x);const xr=-(Math.max(...brW)-Math.min(...brW));
+ let twoC=0,twoN=0;for(let f=Math.round(18*FPS);f<Math.round(21*FPS);f++){twoN++;const c=cornerShape(sackAt(T[f].t));if(c[0].h>0.02&&c[1].h>0.02)twoC++;}
+ const cornerAt=[7.5,22.5,30.0].map(t=>[t,Math.max(...cornerShape(sackAt(t)).map(c=>c.r))]);
+ const lw=T.slice(Math.round(14.6*FPS),Math.round(20.9*FPS)+1).map(r=>r.towerLean);const leanSpan=Math.max(...lw)-Math.min(...lw);
+ let penUp=0;for(let f=Math.round(21*FPS)+1;f<=Math.round(22.4*FPS);f++)penUp=Math.max(penUp,T[f].penny[1]-T[f-1].penny[1]);
+ let towerSpread=0;for(let f=Math.round(18.3*FPS);f<Math.round(20.9*FPS);f+=6){const t=T[f].t;let n=0,m=0;for(const d of tdots){if(t<d.launch){n++;m=Math.max(m,Math.abs(d.lx));}}towerSpread=Math.max(towerSpread,n);}
+ R.leaps=first(21,22.4,(r)=>r.bottomY>0.01);
+ const pd=(r)=>Math.hypot(r.penny[0]-r.crown[0],r.penny[1]-(r.crown[1]+PEN_H));
+ R.catches=first(21.5,23.5,(r)=>pd(r)<0.004);
+ let pennyStays=true;if(R.catches!=null)for(let f=Math.round(R.catches*FPS);f<NF;f++)if(pd(T[f])>0.004)pennyStays=false;
+ R.lands=first(22.6,24.5,(r,f)=>r.bottomY<=0.002&&T[f-1].bottomY>0.002);
+ R.gathers=first(24,29,(r)=>r.flour.gathering>0);
+ R.stays=first(29,32,(r)=>Math.abs(r.knife[0]-r.penny[0])<0.12&&r.knife[1]-r.penny[1]<0.35);
+ const still=T.slice(Math.round(29.5*FPS),NF);const sx=Math.max(...still.map(r=>r.x))-Math.min(...still.map(r=>r.x));
+ const kmin=Math.min(...T.slice(Math.round(29*FPS)).map(r=>r.knife[1]-r.penny[1]));
+ const withdraw=first(30.6,32,(r,f)=>r.knife[1]-T[f-1].knife[1]>0.004);
+ // volume
+ const A0=T[0].area;let ex=[1e9,-1e9],gin=[1e9,-1e9];let cons=[1e9,-1e9];let perDot=[1e9,-1e9];
+ for(const r of T){const rel=r.area/(r.dots*AREA_PER_DOT);perDot=[Math.min(perDot[0],rel),Math.max(perDot[1],rel)];
+  if(r.t<24.5||r.t>28.5){const a=(r.t<24.5?r.area/A0:r.area/T[NF-1].area);ex=[Math.min(ex[0],a),Math.max(ex[1],a)];}
+  cons=[Math.min(cons[0],r.flour.total),Math.max(cons[1],r.flour.total)];}
+ const g0=at(24.4),g1=at(28.6);const sackGain=g1.dots-g0.dots,plateLoss=(g0.flour.plate+g0.flour.air)-(g1.flour.plate+g1.flour.air);
+ // ears drag: lag of corner offset behind body velocity, leap window
+ const off=(r)=>((r.earL[0]+r.earR[0])/2-r.crown[0]);
+ let lag=null;{const f0=Math.round(21.2*FPS),f1=Math.round(23.6*FPS);let best=-1e9,bl=0;for(let L=0;L<=10;L++){let s=0;for(let f=f0;f<f1;f++)s+=-vx(f)*off(T[f+L]);if(s>best){best=s;bl=L;}}lag=bl;}
+ let lagA=null;{const f0=Math.round(9*FPS),f1=Math.round(14*FPS);let best=-1e9,bl=0;for(let L=0;L<=10;L++){let s=0;for(let f=f0;f<f1;f++)s+=-vx(f)*off(T[f+L]);if(s>best){best=s;bl=L;}}lagA=bl;}
+ const fin=T[NF-1];
+ const C={onsets:R,score:{flinch1:1.0,flinch2:4.0,notice:6.5,comes:9.0,props:14.5,braces:18.0,leaps:21.4,catches:22.4,lands:23.0,gathers:24.5,stays:30.0},
+  flinch:{dx1:+dx1.toFixed(3),dx2:+dx2.toFixed(3),squash1:+sq1.toFixed(3),squash2:+sq2.toFixed(3),secondSmaller:Math.abs(dx2)<Math.abs(dx1)&&sq2>sq1},
+  headLowFraction:+(hl/hn).toFixed(3),braceTwoCorners:+(twoC/twoN).toFixed(3),cornerHeightOverBase:cornerAt.map(a=>[a[0],+a[1].toFixed(2)]),towerLeanSpan14_6to20_9:+leanSpan.toFixed(4),pennyMaxRiseDuringFall:+penUp.toFixed(5),hopClearancePx1280:hops,shape:{lowerOverUpperAt:pearAt,framesFailingBefore21:pearFail.length},interior:{maxJump:+jmax.toFixed(4),atT:jmaxT,medianJump:+jmed.toFixed(4)},recoil:{cut1:rec1,cut2:rec2,hop1Ends:+hop1End.toFixed(2)},brace:{maxHeightRatio18to20_9:+bmax.toFixed(3),maxHeightOverRest:+bmaxRest.toFixed(3)},propHeldFraction:+(held/hn2).toFixed(3),braceRetreat:+xr.toFixed(3),pennyStaysOnTop:pennyStays,
+  volume:{outsideGatherRange:[+ex[0].toFixed(4),+ex[1].toFixed(4)],areaOverDotsTimesUnit:[+perDot[0].toFixed(4),+perDot[1].toFixed(4)],sackGainDots:sackGain,plateAndAirLossDots:plateLoss,start:+A0.toFixed(4),end:+fin.area.toFixed(4)},
+  flourTotalRange:cons,earLagFrames:{leap:lag,approach:lagA},
+  final:{x:fin.x,height:fin.top,penny:fin.penny,knifeMinGapAbovePenny:+kmin.toFixed(3),knifeWithdraws:withdraw,sackStillAfter29_5:+sx.toFixed(4)},
+  sackXat14:at(14).x,towerLeanAtProp:{driven:at(17).towerLeanDriven,actual:at(17).towerLean}};
+ return C;}
+const CHECK=computeChecks();window.PAE_CHECK=CHECK;
+
+/* ===================== panel ===================== */
+(function(){const tb=document.querySelector('#checks tbody');const R=CHECK.onsets,Sc=CHECK.score;
+ const rows=[['flinches','flinch1'],['flinches, less','flinch2'],['notices','notice'],['comes, head low','comes'],['props','props'],['braces','braces'],['leaps','leaps'],['catches','catches'],['lands','lands'],['gathers','gathers'],['stays','stays']];
+ const extra={flinch2:CHECK.flinch.secondSmaller,comes:CHECK.headLowFraction>0.9,braces:CHECK.braceRetreat>-0.02,catches:CHECK.pennyStaysOnTop};
+ for(const [n,k] of rows){const m=R[k];const ok=m!=null&&Math.abs(m-Sc[k])<=0.25&&(extra[k]===undefined||extra[k]);
+  tb.insertAdjacentHTML('beforeend',`<tr><td>${n}</td><td class="n">${Sc[k].toFixed(2)}</td><td class="n">${m==null?'none':m.toFixed(2)}</td><td class="${ok?'H':'B'}">${ok?'HOLDS':'BREAKS'}</td></tr>`);}
+ const iv=document.querySelector('#inv tbody');const V=CHECK.volume;const F=CHECK.final;
+ const add=(a,b,ok)=>iv.insertAdjacentHTML('beforeend',`<tr><td>${a}</td><td class="n">${b}</td><td class="${ok?'H':'B'}">${ok?'HOLDS':'BREAKS'}</td></tr>`);
+ add('second flinch smaller (dx, squash)',`${CHECK.flinch.dx1} / ${CHECK.flinch.dx2}`,CHECK.flinch.secondSmaller);
+ add('outline wider in lower third, 0 to 21 s (frames failing)',`${CHECK.shape.framesFailingBefore21}`,CHECK.shape.framesFailingBefore21===0);
+ add('lower/upper width at 0, 2, 5.5, 10.5, 12, 16',CHECK.shape.lowerOverUpperAt.map(a=>a[1]).join(' '),CHECK.shape.lowerOverUpperAt.every(a=>a[1]>1.1));
+ add('interior: max frame jump / median',`${CHECK.interior.maxJump} / ${CHECK.interior.medianJump}`,CHECK.interior.maxJump<6*CHECK.interior.medianJump+0.01);
+ add('recoil cut 1 (squash in 3 f / stretch back)',`${(CHECK.recoil.cut1.squash*100).toFixed(0)}% / ${(CHECK.recoil.cut1.stretchBack*100).toFixed(0)}%`,CHECK.recoil.cut1.squash>=0.15&&CHECK.recoil.cut1.stretchBack>0);
+ add('recoil cut 2 (squash in 3 f / stretch back)',`${(CHECK.recoil.cut2.squash*100).toFixed(0)}% / ${(CHECK.recoil.cut2.stretchBack*100).toFixed(0)}%`,CHECK.recoil.cut2.squash>=0.08&&CHECK.recoil.cut2.stretchBack>0);
+ add('first hop left ends (s)',CHECK.recoil.hop1Ends.toFixed(2),CHECK.recoil.hop1Ends<=1.4);
+ add('head low and forward, 9.5 to 13.5 (crown ahead, below rear corner)',`${(CHECK.headLowFraction*100).toFixed(0)}%`,CHECK.headLowFraction>0.9);
+ add('approach hops clear the table (px at 1280)',CHECK.hopClearancePx1280.join(' '),Math.min(...CHECK.hopClearancePx1280)>=4);
+ add('brace: max height 18.25 to 20.9 / rest height 0.55 (and / height at 17.9)',`${CHECK.brace.maxHeightOverRest.toFixed(3)} (${CHECK.brace.maxHeightRatio18to20_9.toFixed(3)})`,CHECK.brace.maxHeightOverRest<=0.85);
+ add('prop: tower held below its driven lean, 15 to 20.9',`${(CHECK.propHeldFraction*100).toFixed(0)}%`,CHECK.propHeldFraction>0.95);
+ add('brace: centroid x travel, 17.9 to 20.9 (m)',(-CHECK.braceRetreat).toFixed(3),CHECK.braceRetreat>-0.02);
+ add('brace: two corners above crown, 18 to 21',`${(CHECK.braceTwoCorners*100).toFixed(0)}%`,CHECK.braceTwoCorners>0.99);
+ add('corner height / base width at 7.5, 22.5, 30',CHECK.cornerHeightOverBase.map(a=>a[1]).join(' '),CHECK.cornerHeightOverBase.every(a=>a[1]<=1.5));
+ add('tower lean span, 14.6 to 20.9 (rad)',CHECK.towerLeanSpan14_6to20_9.toFixed(3),CHECK.towerLeanSpan14_6to20_9<0.03);
+ add('penny rise during fall 21.0 to 22.4 (m)',CHECK.pennyMaxRiseDuringFall.toFixed(4),CHECK.pennyMaxRiseDuringFall<=0);
+ add('tower lean held at 17 s (driven / actual rad)',`${CHECK.towerLeanAtProp.driven.toFixed(3)} / ${CHECK.towerLeanAtProp.actual.toFixed(3)}`,CHECK.towerLeanAtProp.actual<CHECK.towerLeanAtProp.driven-0.01);
+ add('volume outside gather (area / start)',`${V.outsideGatherRange[0].toFixed(3)} to ${V.outsideGatherRange[1].toFixed(3)}`,V.outsideGatherRange[0]>0.94&&V.outsideGatherRange[1]<1.06);
+ add('area / (dots x unit), all frames',`${V.areaOverDotsTimesUnit[0].toFixed(3)} to ${V.areaOverDotsTimesUnit[1].toFixed(3)}`,V.areaOverDotsTimesUnit[0]>0.94&&V.areaOverDotsTimesUnit[1]<1.06);
+ add('gather: sack gain = plate+air loss (dots)',`${V.sackGainDots} = ${V.plateAndAirLossDots}`,V.sackGainDots===V.plateAndAirLossDots);
+ add('flour total, every frame',`${CHECK.flourTotalRange[0]} to ${CHECK.flourTotalRange[1]}`,CHECK.flourTotalRange[0]===NTOT&&CHECK.flourTotalRange[1]===NTOT);
+ add('corner lag behind body (frames, leap / walk)',`${CHECK.earLagFrames.leap} / ${CHECK.earLagFrames.approach}`,CHECK.earLagFrames.leap>=1);
+ add('penny stays on top after catch','',CHECK.pennyStaysOnTop);
+ add('ends at x, height',`${F.x.toFixed(3)}, ${F.height.toFixed(3)}`,Math.abs(F.x-0.8)<0.06&&Math.abs(F.height-0.95)<0.05);
+ add('knife min gap above penny / withdraws',`${F.knifeMinGapAbovePenny} / ${F.knifeWithdraws==null?'no':F.knifeWithdraws.toFixed(2)}`,F.knifeMinGapAbovePenny>0.05&&F.knifeWithdraws!=null);
+ add('sack x at 14.0 (score 0.40)',CHECK.sackXat14.toFixed(3),Math.abs(CHECK.sackXat14-0.4)<0.1);
+})();
+
+/* ===================== render ===================== */
+const cv=document.getElementById('cv'),cx=cv.getContext('2d');
+const VIEW={x0:-2.1,x1:2.1,y0:-0.30,y1:1.55};
+let W=0,H=0,DPR=1,SC=1,OX=0,OY=0;
+function resize(){const r=cv.getBoundingClientRect();DPR=Math.min(2,window.devicePixelRatio||1);W=Math.max(1,Math.round(r.width*DPR));H=Math.max(1,Math.round(r.height*DPR));cv.width=W;cv.height=H;
+ draw(cur);}
+// camera: two damped oscillators (centre x, field width) that follow the action; ground sits 22% up the frame
+function camera(t){const i=clamp(Math.round(t*SR),0,NS-1);const cw=S.cw[i],cc=S.cx[i];
+ SC=Math.min(W/cw,H/(0.66*cw));OX=W/2-cc*SC;OY=H*0.78+0.0*SC;VIEW.y1=(OY)/SC;}
+const sx_=(x)=>OX+x*SC,sy_=(y)=>OY-y*SC;
+function dot(x,y,r){const R=Math.max(0.8,r*SC);cx.fillRect(sx_(x)-R/2,sy_(y)-R/2,R,R);}
+// static table and plate dot lists
+const TABLE=[];for(let x=-2;x<=2.0001;x+=0.04){TABLE.push([x,-0.12,0.5],[x,0.12,0.22]);}for(let x=-2;x<=2.0001;x+=0.08)for(let k=1;k<=3;k++)TABLE.push([x+(k%2)*0.04,-0.12-k*0.04,0.28-k*0.06]);
+for(let z=-0.6;z<=0.6;z+=0.06){TABLE.push([-2,z*PZ,0.4],[2,z*PZ,0.4]);}
+const PLATE=[];for(let i=0;i<64;i++){const a=TAU*i/64;PLATE.push([TOWER.cx+0.5*Math.cos(a),0.5*Math.sin(a)*PZ,Math.sin(a)]);}
+function draw(t){if(!W)return;camera(t);const G=frameGeom(t);const s=G.s;
+ cx.globalCompositeOperation='source-over';cx.fillStyle='#000';cx.fillRect(0,0,W,H);
+ const DR=0.0105;
+ // table
+ for(const [x,y,a] of TABLE){cx.fillStyle=`rgba(59,130,246,${a})`;dot(x,y,DR*0.8);}
+ for(const [x,y,z] of PLATE){if(z>0){cx.fillStyle='rgba(230,236,255,0.35)';dot(x,y,DR*0.8);}}
+ // flour: tower, back plate grains
+ const air=[],front=[];
+ for(const d of tdots){const f=flourAt(d,t,s);if(f.st===0){const bright=0.6+0.4*(-d.lz/0.32+1)/2;cx.fillStyle=`rgba(255,244,222,${bright})`;dot(f.xy[0],f.xy[1],DR);}
+  else if(f.st===1)air.push(f.xy);else if(f.st===2){if(f.z<0)front.push(f.xy);else{cx.fillStyle='rgba(255,244,222,0.62)';dot(f.xy[0],f.xy[1],DR);}}}
+ // sack: dark body occludes what is behind it, then its flour, then its cloth
+ cx.fillStyle='#000';cx.beginPath();s.pts.forEach((q,i)=>{const X=sx_(q[0]),Y=sy_(q[1]);i?cx.lineTo(X,Y):cx.moveTo(X,Y);});cx.closePath();cx.fill();
+ cx.fillStyle='rgba(255,240,214,0.40)';for(let k=0;k<s.N;k++){const q=sackDot(s,k,s.N);dot(q[0],q[1],DR*0.85);}
+ cx.fillStyle='#19e6c8';for(const q of s.pts)dot(q[0],q[1],DR*1.25);
+ // front plate grains and rim
+ cx.fillStyle='rgba(255,244,222,0.7)';for(const q of front)dot(q[0],q[1],DR);
+ for(const [x,y,z] of PLATE){if(z<=0){cx.fillStyle='rgba(230,236,255,0.6)';dot(x,y,DR*0.9);}}
+ // grains in the air
+ cx.fillStyle='rgba(255,252,240,0.95)';for(const q of air)dot(q[0],q[1],DR*1.05);
+ // penny
+ const pn=G.pen;cx.fillStyle='#ffd23f';for(let i=0;i<14;i++){const a=TAU*i/14;dot(pn[0]+PEN_R*Math.cos(a),pn[1]+PEN_R*0.28*Math.sin(a),DR*1.2);}dot(pn[0],pn[1],DR*1.2);
+ // knife: blade edge dense, spine sparse, handle
+ const [kx,ky]=G.kn;
+ if(ky<VIEW.y1+0.2){cx.fillStyle='#ffffff';for(let y=0;y<=0.62;y+=0.009)dot(kx-0.004+0.03*Math.max(0,0.08-y)/0.08,ky+y,DR*0.9);
+  cx.fillStyle='#8fb6ff';for(let y=0.02;y<=0.62;y+=0.022)dot(kx+0.06,ky+y,DR*0.9);for(let x=0;x<=0.06;x+=0.015)dot(kx+x,ky+0.62,DR*0.9);
+  cx.fillStyle='#3b82f6';for(let y=0.64;y<=0.92;y+=0.02){dot(kx+0.005,ky+y,DR);dot(kx+0.055,ky+y,DR);}}
+ drawBank(t);updateLedger(G);
+}
+const bank=document.getElementById('bank'),bx=bank.getContext('2d');
+function drawBank(t){const p=P_at(t);const w=bank.width,h=bank.height;bx.fillStyle='#000';bx.fillRect(0,0,w,h);
+ for(let j=0;j<5;j++){const c=w*(0.08+0.19*j),cy=h/2,r=h*0.36;bx.fillStyle='rgba(59,130,246,0.6)';for(let a=0;a<24;a++){const q=TAU*a/24;bx.fillRect(c+r*Math.cos(q)-1,cy+r*Math.sin(q)-1,2,2);}
+  const d=j===0?0:p.psi[j]-(j+1)*p.psi[0];bx.fillStyle=j===0?'#ffd23f':'#19e6c8';for(let k=0;k<=8;k++){const rr=r*k/8;bx.fillRect(c+rr*Math.sin(d)-2,cy-rr*Math.cos(d)-2,4,4);}
+  bx.fillStyle='#fff';bx.font='18px IBM Plex Mono, monospace';bx.fillText(j===0?'1':(j+1)+':1',c+r+6,cy+6);}
+ bx.fillStyle='#fff';bx.fillText('R '+p.R.toFixed(2),w-90,h-8);}
+const ledger=document.getElementById('ledger');
+function updateLedger(G){const c=G.cnt;ledger.innerHTML=`<div>tower<b>${c[0]}</b></div><div>air<b>${c[1]}</b></div><div>plate<b>${c[2]}</b></div><div>sack<b>${c[3]}</b></div><div>total<b>${c[0]+c[1]+c[2]+c[3]}</b></div>`;}
+
+/* ===================== transport ===================== */
+let cur=0,playing=true,last=null;
+const scr=document.getElementById('sc'),tc=document.getElementById('tc'),ip=document.getElementById('ip');
+function setIcon(){ip.innerHTML=playing?'<rect x="2" y="1" width="3.5" height="12"/><rect x="8.5" y="1" width="3.5" height="12"/>':'<path d="M2 1l11 6-11 6z"/>';}
+function show(t){cur=t;const f=Math.min(NF-1,Math.floor(t*FPS+1e-6));scr.value=f;tc.textContent=t.toFixed(2)+' s · f'+f;draw(t);sound(t);}
+function loop(ts){if(playing){if(last!=null){cur+=(ts-last)/1000;if(cur>=DUR)cur-=DUR;}last=ts;show(Math.floor(cur*FPS)/FPS);}else last=null;requestAnimationFrame(loop);}
+document.getElementById('bp').onclick=()=>{playing=!playing;setIcon();};
+scr.oninput=()=>{playing=false;setIcon();cur=+scr.value/FPS;show(cur);};
+document.getElementById('bt').onclick=()=>{const r=document.documentElement;const dark=r.dataset.theme?r.dataset.theme==='dark':matchMedia('(prefers-color-scheme: dark)').matches;r.dataset.theme=dark?'light':'dark';};
+window.PAE_SEEK=(t)=>{playing=false;setIcon();cur=clamp(t,0,DUR-1/FPS);show(cur);return true;};
+window.addEventListener('resize',resize);
+
+/* ===================== sound: the same oscillator bank ===================== */
+let AC=null,OSC=[],GN=[],KN=null,KG=null,MG=null;
+document.getElementById('bs').onclick=()=>{if(!AC){AC=new (window.AudioContext||window.webkitAudioContext)();MG=AC.createGain();MG.gain.value=0.16;MG.connect(AC.destination);
+  for(let j=0;j<5;j++){const o=AC.createOscillator();o.type='sine';const g=AC.createGain();g.gain.value=0;o.connect(g);g.connect(MG);o.start();OSC.push(o);GN.push(g);}
+  KN=AC.createOscillator();KN.type='triangle';KG=AC.createGain();KG.gain.value=0;KN.connect(KG);KG.connect(MG);KN.start();document.getElementById('bsl').textContent='sound on';}
+ else if(AC.state==='running'){AC.suspend();document.getElementById('bsl').textContent='sound off';}else{AC.resume();document.getElementById('bsl').textContent='sound on';}};
+function sound(t){if(!AC||AC.state!=='running')return;const i=clamp(Math.round(t*SR),0,NS-1);const now=AC.currentTime;
+ for(let j=0;j<5;j++){const f=110*DPSI[j][i]/(TAU*F0);OSC[j].frequency.setTargetAtTime(Math.max(20,f),now,0.03);GN[j].gain.setTargetAtTime(0.5/(j+1),now,0.05);}
+ const d=kpulse(t);KN.frequency.setTargetAtTime(1760*(1+0.5*d),now,0.01);KG.gain.setTargetAtTime(0.6*d,now,0.005);}
+
+setIcon();resize();requestAnimationFrame(loop);
+</script>
+</body>
+</html>

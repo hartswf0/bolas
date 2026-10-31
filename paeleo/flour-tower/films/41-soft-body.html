@@ -1,0 +1,770 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PAE-03 · SCION 41 · Soft Body</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f2efe8;--panel:#fbfaf6;--ink:#1d1b17;--mute:#6b665c;--line:#d9d3c6;--ok:#2f6b3a;--bad:#a3322a;--acc:#8a5a2b}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#141310;--panel:#1c1a16;--ink:#ece7dc;--mute:#9d978a;--line:#34302a;--ok:#7cc48a;--bad:#e5806f;--acc:#d6a46a}}
+:root[data-theme="dark"]{--bg:#141310;--panel:#1c1a16;--ink:#ece7dc;--mute:#9d978a;--line:#34302a;--ok:#7cc48a;--bad:#e5806f;--acc:#d6a46a}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;overflow:hidden;background:var(--bg);color:var(--ink);font:13px/1.45 "IBM Plex Sans",system-ui,sans-serif}
+#app{display:flex;height:100vh;height:100dvh}
+#stage{flex:1 1 auto;min-width:0;display:flex;align-items:center;justify-content:center;background:#0f0e0c;position:relative}
+#film{display:block;max-width:100%;max-height:100%}
+#busy{position:absolute;left:12px;bottom:10px;font:11px "IBM Plex Mono",monospace;color:#d8d2c4;opacity:.85}
+#panel{flex:0 0 380px;display:flex;flex-direction:column;border-left:1px solid var(--line);background:var(--panel);min-height:0}
+#ctl{display:flex;align-items:center;gap:8px;padding:10px 14px;border-bottom:1px solid var(--line)}
+#ctl button{width:34px;height:30px;border:1px solid var(--line);background:transparent;border-radius:6px;color:var(--ink);cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0}
+#scrub{flex:1;accent-color:var(--acc)}
+#tc{font:12px "IBM Plex Mono",monospace;min-width:92px;text-align:right}
+#cards{overflow:auto;padding:12px 14px 18px;min-height:0}
+h1{font:600 14px "IBM Plex Mono",monospace;margin:0 0 2px;letter-spacing:.02em}
+h2{font:600 11px "IBM Plex Mono",monospace;text-transform:uppercase;letter-spacing:.08em;color:var(--mute);margin:14px 0 4px}
+p{margin:0 0 6px}
+a{color:var(--acc)}
+.thesis{font-style:italic;color:var(--mute)}
+table{border-collapse:collapse;width:100%;font:11px "IBM Plex Mono",monospace}
+td,th{padding:2px 4px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{color:var(--mute);font-weight:400}
+.H{color:var(--ok);font-weight:600}.B{color:var(--bad);font-weight:600}
+#counts{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;font:11px "IBM Plex Mono",monospace}
+#counts div{border:1px solid var(--line);border-radius:6px;padding:4px 6px}
+#counts b{display:block;font-size:14px}
+.top{display:flex;justify-content:space-between;align-items:baseline}
+@media (max-width:820px){#app{flex-direction:column}#stage{flex:0 0 50%;height:50%}#panel{flex:1 1 50%;border-left:0;border-top:1px solid var(--line)}}
+</style>
+</head>
+<body>
+<div id="app">
+<div id="stage"><canvas id="film" width="1280" height="720"></canvas><div id="busy"></div></div>
+<div id="panel">
+<div id="ctl">
+<button id="pp" aria-label="play or pause"><svg width="14" height="14" viewBox="0 0 14 14"><g id="ppi"><rect x="2" y="1" width="3.5" height="12" fill="currentColor"/><rect x="8.5" y="1" width="3.5" height="12" fill="currentColor"/></g></svg></button>
+<input id="scrub" type="range" min="0" max="767" value="0" step="1" aria-label="frame">
+<span id="tc">00.00 s · 0</span>
+<button id="th" aria-label="toggle theme"><svg width="14" height="14" viewBox="0 0 14 14"><circle cx="7" cy="7" r="5.5" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M7 1.5a5.5 5.5 0 0 1 0 11z" fill="currentColor"/></svg></button>
+</div>
+<div id="cards">
+<div class="top"><h1>SCION 41 · Soft Body</h1><a href="../index.html">PAE-03</a></div>
+<p class="thesis">A sack is a bag of flour: if the cloth and the grains are simulated, weight, drag and volume come out of the physics, and the only acting left is when the sack chooses to pull a muscle.</p>
+<h2>Flour count (measured)</h2>
+<div id="counts"><div>tower<b id="cT">0</b></div><div>pile<b id="cP">0</b></div><div>sack<b id="cS">0</b></div><div>total<b id="cA">0</b></div></div>
+<h2>Made of</h2>
+<p>The sack is a closed ring of 48 Verlet points with near-inextensible stretch links, a weak bend link and an area constraint, plus two corner flaps that are 4-point spring chains; inside it are 327 simulated flour grains (1.2 cm discs with collision, friction and gravity; grains at rest are drawn merged into one powder surface) that pool at the bottom and press the cloth out. The tower, the pile and the sack's filling are the same 753 grains: the 426 tower grains are held by a packing frame until the knife (a kinematic blade) cuts them loose, and the cloth's rest lengths grow with the count of grains inside, so the sack is only as big as the flour it holds (the pale puffs are uncounted dust motes).</p>
+<h2>Moved by</h2>
+<p>The score sets only muscles: a net-force-free pull of the ring toward a pose (squash, lean, a mid-height bend that carries the line of action, spread, crouch, stretch), ear stiffness, and push-offs that act only while the cloth touches the table; everything after is integrated at a fixed 1/144 s step (gravity is set to 1.8 m/s² as a style choice: slow, weighty falls that read at this scale over 32 s) and cached per frame, so scrubbing replays the run. Travel is hops: a cloth point touching the table keeps its x (static friction) until the next push-off; while bracing, the table's friction holds the body's centre so it does not give ground.</p>
+<p>Scored world events, not simulated: the tower is a rigid packed frame whose lean is a scheduled creep (accelerating as it is undermined) that the sack's measured contact push slows to zero; while the sack braces, a push beyond holding rights the tower at no more than 2° per second; the knife's strokes are timed; the fourth stroke flicks the penny straight up with a fixed small drift that knows nothing of the sack, and the tower releases all its grains at once. The leap reads the falling penny and aims to meet it; once the penny touches the sack's top it rides that point of cloth, sliding along the top seam only where the seam is steeper than its friction (the ear flaps stop it at the seam's ends); the sack then balances it, tipping its top so the penny's side rises, and it settles in the seam's dip. In the gather a flow field at the open top draws loose grains in; a grain that reaches the mouth is moved 12% of the way toward the centre and counted inside.</p>
+<h2>Checks (from the simulated geometry)</h2>
+<table id="chk"><tr><th>choice</th><th>score</th><th>measured</th><th></th></tr></table>
+<p id="chkx" style="margin-top:6px;font:11px 'IBM Plex Mono',monospace;color:var(--mute)"></p>
+</div>
+</div>
+</div>
+<script>
+// ===== SCION 41 · soft body: deterministic Verlet cloth ring + granular flour =====
+var SIM=(function(){
+'use strict';
+const FPS=24, NF=768, SUB=6, DT=1/(FPS*SUB), G=1.8;
+const R=0.012, HEXA=2*Math.sqrt(3)*R*R, AEFF=HEXA*1.35;
+const N=48, TOWER_X=0.8, PLATE_HW=0.52, PLATE_Y=0.02, TH=0.93;
+const RW=1/3;           // inverse mass of a cloth point (a grain has 1)
+const PEN_R=0.006, PEN_HW=0.045;
+let seed=41041; function rnd(){seed=(Math.imul(seed,1664525)+1013904223)>>>0;return seed/4294967296;}
+function sstep(a,b,t){t=Math.min(1,Math.max(0,(t-a)/(b-a)));return t*t*(3-2*t);}
+function lerp(a,b,u){return a+(b-a)*u;}
+function groundY(x){ if(x<-2||x>2) return -0.85; return Math.abs(x-TOWER_X)<PLATE_HW?PLATE_Y:0; }
+
+// ---------------- tower grains (hex packed mound) ----------------
+const towerLocal=[];
+{ const s=2*R, rowH=s*Math.sqrt(3)/2; let row=0;
+  for(let y=PLATE_Y+R; y<=PLATE_Y+TH-R+1e-9; y+=rowH,row++){
+    const yy=y-PLATE_Y; const hw=0.10+0.22*Math.exp(-yy/0.11)-0.012*Math.max(0,(yy-0.80)/0.13)-R;
+    const off=(row%2)?R:0; const n=Math.floor((2*hw-off)/s+1e-9)+1; const x0=-((n-1)*s)/2;
+    for(let k=0;k<n;k++) towerLocal.push([TOWER_X+x0+k*s,y]);
+  }
+}
+const NT=towerLocal.length;
+const SFILL=+(globalThis.SFILL||1); const H_HALF=0.55, H_FULL=0.95, A_HALF=0.22;
+const A_FULL=A_HALF+NT*AEFF;
+const S0=Math.round(SFILL*A_HALF/AEFF); // half empty: the flour fills the lower part, air and slack cloth above
+const NG=NT+S0;
+
+// ---------------- sack rest shapes ----------------
+const I_TR=18, I_TOP=24, I_TL=30;
+const shapeMemo=new Map(); const PMU=+(globalThis.PMU||0.05), PSL=+(globalThis.PSL||10); const DISH=+(globalThis.DISH||0.06); const BULGE=+(globalThis.BUL||0.22);
+function baseShape(f){
+  const key=Math.round(f*2000); if(shapeMemo.has(key)) return shapeMemo.get(key);
+  f=key/2000;
+  const h=lerp(H_HALF,H_FULL,f), A=lerp(A_HALF,A_FULL,f);
+  const w=A/(h*0.9), wb=w*(1.12-0.08*f), wt=w*(0.84+0.10*f);
+  const P=[[0,0],[wb/2,0],[wt/2,h],[-wt/2,h],[-wb/2,0]];
+  const runs=[[P[0],P[1],6],[P[1],P[2],12],[P[2],P[3],12],[P[3],P[4],12],[P[4],P[0],6]];
+  let pts=[]; for(const [a,b,n] of runs) for(let k=0;k<n;k++){const u=k/n; pts.push([lerp(a[0],b[0],u),lerp(a[1],b[1],u)]);}
+  { const dish=DISH; pts=pts.map(p=>{ if(p[1]>h*0.98){ const xn=p[0]/(wt/2); return [p[0],p[1]-dish*Math.max(0,1-xn*xn)]; } return p; }); }
+  { const bul=BULGE*f*f; pts=pts.map(p=>{ const yn=p[1]/h, b=Math.exp(-Math.pow((yn-0.2)/0.17,2)); return [p[0]*(1+bul*b),p[1]]; }); }
+  for(let pass=0;pass<3;pass++){ const q=pts.map((p,i)=>{const a=pts[(i+N-1)%N],b=pts[(i+1)%N]; return [0.5*p[0]+0.25*(a[0]+b[0]),0.5*p[1]+0.25*(a[1]+b[1])];}); pts=q; }
+  let ar=0; for(let i=0;i<N;i++){const p=pts[i],q=pts[(i+1)%N]; ar+=p[0]*q[1]-q[0]*p[1];} ar/=2;
+  let miny=1e9,maxy=-1e9; for(const p of pts){miny=Math.min(miny,p[1]);maxy=Math.max(maxy,p[1]);}
+  const sy=h/(maxy-miny), sx=A/(ar*sy);
+  let mx=0,my=0; for(const p of pts){mx+=p[0];my+=p[1];} mx/=N; my/=N;
+  const out=new Float64Array(2*N); let rl=new Float64Array(N);
+  for(let i=0;i<N;i++){out[2*i]=(pts[i][0]-mx)*sx; out[2*i+1]=(pts[i][1]-my)*sy;}
+  for(let i=0;i<N;i++){const j=(i+1)%N; rl[i]=Math.hypot(out[2*j]-out[2*i],out[2*j+1]-out[2*i+1]);}
+  const res={p:out,rest:rl,minY:(miny-my)*sy,h:h}; shapeMemo.set(key,res); return res;
+}
+
+// ---------------- state ----------------
+const gx=new Float64Array(NG),gy=new Float64Array(NG),gpx=new Float64Array(NG),gpy=new Float64Array(NG);
+const gs=new Uint8Array(NG);   // 0 packed in tower, 1 loose (pile/cloud/table), 2 in sack, 3 drawn by gather flow
+const grel=new Float64Array(2*NT);
+const gdraw=new Float64Array(NG).fill(1e9); // time at which the gather flow takes a grain
+const rx=new Float64Array(N),ry=new Float64Array(N),rpx=new Float64Array(N),rpy=new Float64Array(N);
+const TAP=+(globalThis.TAP||1.5); const PVY=+(globalThis.PVY||1.3); const EARSTOP=+(globalThis.ES||3); const BAL=+(globalThis.BAL||3); const VMAX=+(globalThis.VMAX||1.4); const CK=+(globalThis.CK||0.06); const GLAG=+(globalThis.GLAG||1); const EN=4, ESEG=0.05, EARK=+(globalThis.EARK||0.03);
+const ex=new Float64Array(2*EN),ey=new Float64Array(2*EN),epx=new Float64Array(2*EN),epy=new Float64Array(2*EN);
+const tower={px:TOWER_X-0.32,py:PLATE_Y,th:0,thd:0,push:0,alive:true,pivotSet:false};
+const pen={x:0,y:0,px:0,py:0,st:0,lx:0,ly:0,onSack:false,ang:0,contactT:-1};
+const knife={x:2.35,y:1.75,hx:0.8,hy:1.2,cut:-1};
+const SACK_X0=-1.3;
+let inSack=S0, fill=0, mouth=-1, flowM=0;
+let dust=[];
+const ev={}; // event log (sim facts)
+
+// tower
+for(let i=0;i<NT;i++){ gs[i]=0; gx[i]=gpx[i]=towerLocal[i][0]; gy[i]=gpy[i]=towerLocal[i][1]; }
+function towerTopY(){ let m=0; for(let i=0;i<NT;i++) if(gs[i]===0&&gy[i]>m) m=gy[i]; return m; }
+function setPivot(){ // left base corner of what remains of the tower
+  let minx=1e9; for(let i=0;i<NT;i++) if(gs[i]===0&&gy[i]<PLATE_Y+3*R) minx=Math.min(minx,gx[i]);
+  tower.px=minx-R; tower.py=PLATE_Y; tower.th=0;
+  for(let i=0;i<NT;i++){ grel[2*i]=gx[i]-tower.px; grel[2*i+1]=gy[i]-tower.py; }
+  pen.lx=pen.x-tower.px; pen.ly=pen.y-tower.py; tower.pivotSet=true;
+}
+{ let top=-1; for(let i=0;i<NT;i++) if(Math.abs(towerLocal[i][0]-TOWER_X)<0.04) top=Math.max(top,towerLocal[i][1]);
+  pen.x=pen.px=TOWER_X; pen.y=pen.py=top+R+PEN_R; }
+// ring
+{ const s=baseShape(0); let cx=SACK_X0, by=-s.minY+0.002;
+  for(let i=0;i<N;i++){ rx[i]=rpx[i]=cx+s.p[2*i]; ry[i]=rpy[i]=by+s.p[2*i+1]; } }
+// sack grains, settled loosely into the bottom of the ring
+{ let k=NT; const s=2*R*1.04, rowH=s*0.9;
+  for(let y=R+0.006,row=0; k<NG; y+=rowH,row++){
+    const xs=[]; for(let i=0;i<N;i++){const j=(i+1)%N; if((ry[i]<=y)!==(ry[j]<=y)) xs.push(rx[i]+(y-ry[i])/(ry[j]-ry[i])*(rx[j]-rx[i]));}
+    xs.sort((a,b)=>a-b); if(xs.length<2) break;
+    for(let x=xs[0]+R*1.5+((row%2)?s/2:0); x<xs[xs.length-1]-R*1.5&&k<NG; x+=s){ gx[k]=gpx[k]=x; gy[k]=gpy[k]=y; gs[k]=2; k++; }
+  }
+  if(k<NG) throw new Error('sack grains did not fit');
+}
+// ears
+function earDir(e,P){ // target direction of an ear in world, from the muscle
+  const up=e?[0.55,0.83]:[-0.55,0.83], dn=e?[0.85,-0.5]:[-0.85,-0.5];
+  let a1=Math.atan2(up[1],up[0]), a0=Math.atan2(dn[1],dn[0]);
+  let a=lerp(a0,a1,P.ear)-P.tilt; return [Math.cos(a),Math.sin(a)];
+}
+for(let e=0;e<2;e++){ const r=e?I_TR:I_TL; const d=earDir(e,{ear:0.05,tilt:0});
+  for(let j=0;j<EN;j++){const k=e*EN+j; ex[k]=epx[k]=rx[r]+d[0]*j*ESEG; ey[k]=epy[k]=ry[r]+d[1]*j*ESEG;} }
+
+// ---------------- the score: knife (kinematic) ----------------
+const CUTS=[{t:1.0,side:-1,depth:0.11},{t:4.0,side:1,depth:0.10},{t:18.0,side:1,depth:0.09},{t:21.0,side:1,depth:0,penny:true}];
+const KREST=[2.35,1.75];
+function knifeAt(t){
+  if(t>=29.2){
+    if(t<30.0){const u=sstep(29.2,30.0,t); return [lerp(KREST[0],knife.hx,u),lerp(KREST[1],knife.hy,u),-1];}
+    if(t<31.2){return [knife.hx+0.006*Math.sin((t-30)*7),knife.hy+0.012*Math.sin((t-30)*3.2),-1];}
+    const u=sstep(31.2,31.95,t); return [lerp(knife.hx,KREST[0],u),lerp(knife.hy,KREST[1],u),-1];
+  }
+  for(let c=0;c<CUTS.length;c++){ const C=CUTS[c];
+    if(t<C.t-0.75||t>C.t+0.95) continue;
+    const xc=C.xc!==undefined?C.xc:KREST[0];
+    const te=C.t+(C.penny?0.14:0); // the fourth stroke is timed to meet the penny's rim at C.t
+    if(t<te-0.2){const u=sstep(C.t-0.75,te-0.2,t); return [lerp(KREST[0],xc,u),lerp(KREST[1],1.25,u),-1];}
+    if(t<te){const u=(t-(te-0.2))/0.2; return [xc,lerp(1.25,PLATE_Y+0.003,u*u*(3-2*u)),c];}
+    if(t<te+0.3) return [xc,PLATE_Y+0.003,c];
+    const u=sstep(te+0.3,C.t+0.95,t); return [lerp(xc,KREST[0],u),lerp(PLATE_Y+0.003,KREST[1],u),-1];
+  }
+  return [KREST[0],KREST[1],-1];
+}
+function decideCut(c){ // where the blade goes: decided from the tower as it stands
+  const C=CUTS[c]; if(C.xc!==undefined) return;
+  if(C.penny){ C.xc=pen.x+PEN_HW*0.2; return; }
+  // local frame: x measured from the pivot along the tower's base
+  const cth=Math.cos(tower.th),sth=Math.sin(tower.th);
+  let ext=C.side<0?1e9:-1e9;
+  for(let i=0;i<NT;i++){ if(gs[i]!==0) continue; const lx=(gx[i]-tower.px)*cth+(gy[i]-tower.py)*sth, ly=-(gx[i]-tower.px)*sth+(gy[i]-tower.py)*cth;
+    if(ly<0.07) ext=C.side<0?Math.min(ext,lx):Math.max(ext,lx); }
+  C.lc=ext-C.side*C.depth; C.xc=tower.px+C.lc*cth-0.5*sth;
+}
+
+// ---------------- the score: the sack's muscles ----------------
+// pose: tilt (rad, + leans toward +x), shear (+x per unit height), sy (height scale; width = 1/sy), k (tone), ear (0 droop..1 up)
+const BRT=+(globalThis.BRT||0.2);
+const POSES=[
+ [0.00,{tilt:0.00,shear:0.00,sy:0.97,k:0.020,ear:0.05,curve:0.00},0.1],
+ [1.02,{tilt:-0.07,shear:-0.10,sy:0.76,k:0.070,ear:0.30,curve:-0.10},0.06], // flinch 1
+ [1.32,{tilt:-0.04,shear:-0.04,sy:1.06,k:0.040,ear:0.12,curve:-0.06},0.20],
+ [1.90,{tilt:-0.01,shear:0.00,sy:0.96,k:0.020,ear:0.05,curve:-0.02},0.60],
+ [4.02,{tilt:-0.04,shear:-0.05,sy:0.86,k:0.050,ear:0.15,curve:-0.06},0.07], // flinch 2 (less)
+ [4.30,{tilt:-0.02,shear:0.00,sy:1.02,k:0.030,ear:0.08,curve:-0.02},0.2],
+ [4.90,{tilt:0.00,shear:0.00,sy:0.96,k:0.020,ear:0.05,curve:0.00},0.6],
+ [6.52,{tilt:0.04,shear:0.02,sy:1.06,k:0.050,ear:1.00,curve:0.20},0.18],  // notices: corners rise, leans toward
+ [8.40,{tilt:0.05,shear:0.02,sy:1.05,k:0.050,ear:0.90,curve:0.24},0.4],
+ [9.00,{tilt:0.30,shear:0.04,sy:0.90,k:0.055,ear:0.40,curve:0.38},0.30],  // comes, head low
+ [13.9,{tilt:0.30,shear:0.04,sy:0.90,k:0.055,ear:0.40,curve:0.38},0.1],
+ [14.40,{tilt:0.10,shear:0.16,sy:1.00,k:0.075,ear:0.65,curve:0.34},0.40], // props, spread wide
+ [18.02,{tilt:+(globalThis.BTI||0.15),shear:+(globalThis.BSH||0.40),sy:+(globalThis.BSY||0.86),k:0.120,ear:0.25,curve:0.16},BRT], // braces
+ [20.90,{tilt:0.08,shear:0.14,sy:0.76,k:0.100,ear:0.40,curve:0.16},0.1],
+ [21.02,{tilt:0.02,shear:0.04,sy:0.72,k:0.090,ear:0.90,curve:0.00},0.25], // anticipation crouch
+ [21.40,{tilt:0.00,shear:0.00,sy:+(globalThis.LSY||1.2),k:0.090,ear:1.00,curve:0.00},+(globalThis.LTR||0.4)], // leaps, stretched long
+ [22.25,{tilt:0.00,shear:0.00,sy:1.12,k:0.050,ear:0.80,curve:0.00},0.3],
+ [22.85,{tilt:0.00,shear:0.00,sy:1.00,k:0.010,ear:0.70,curve:0.00},0.15], // goes soft for the landing
+ [23.35,{tilt:0.00,shear:0.00,sy:0.97,k:0.030,ear:0.55,curve:0.00},0.5],
+ [24.50,{tilt:0.00,shear:0.00,sy:1.00,k:0.055,ear:0.75,curve:0.00},1.0],  // gathers
+ [28.50,{tilt:0.00,shear:0.00,sy:1.00,k:0.065,ear:0.55,curve:0.00},0.8],
+ [99.0,{tilt:0.00,shear:0.00,sy:1.00,k:0.065,ear:0.55,curve:0.00},0.1]
+];
+const poseStart=[POSES[0][1]];
+function poseFrom(i,t){ const [ti,P,tr]=POSES[i]; const S=poseStart[i]; const u=sstep(ti,ti+tr,t); const o={}; for(const k in P) o[k]=lerp(S[k],P[k],u); return o; }
+for(let i=1;i<POSES.length;i++) poseStart[i]=poseFrom(i-1,POSES[i][0]);
+const HOPS=[{t:1.06,kind:"flinch",vx:-0.46,vy:0.42},{t:4.06,kind:'flinch',vx:-0.20,vy:0.24}];
+const NCOME=6; for(let k=0;k<NCOME;k++) HOPS.push({t:9.05+k*0.80,kind:'come',left:NCOME-k});
+HOPS.push({t:14.25,kind:'prop'});
+HOPS.push({t:18.0,kind:'dig',vx:+(globalThis.DIG||0.15),vy:0.0}); // digs its base in toward the tower as it squashes
+HOPS.push({t:21.40,kind:'leap'});
+function TAPER(t){ return TAP*sstep(21.3,21.45,t)*(1-sstep(22.45,22.9,t)); }
+function poseAt(t){
+  let i=0; while(i<POSES.length-1&&POSES[i+1][0]<=t) i++;
+  const P=poseFrom(i,t);
+  for(const h of HOPS){ if(h.kind!=='come') continue; const d=t-h.t; // crouch before each step, reach after it
+    if(d>-0.2&&d<0) P.sy*=1-0.10*Math.sin(Math.PI*(d+0.2)/0.2);
+    else if(d>=0&&d<0.3) P.sy*=1+0.06*Math.sin(Math.PI*d/0.3); }
+  return P;
+}
+
+// ---------------- helpers ----------------
+function ringArea(){let a=0;for(let i=0;i<N;i++){const j=(i+1)%N;a+=rx[i]*ry[j]-rx[j]*ry[i];}return a/2;}
+function ringCentroid(){let a=0,cx=0,cy=0;for(let i=0;i<N;i++){const j=(i+1)%N,c=rx[i]*ry[j]-rx[j]*ry[i];a+=c;cx+=(rx[i]+rx[j])*c;cy+=(ry[i]+ry[j])*c;}a/=2;return [cx/(6*a),cy/(6*a),a];}
+function settleV(){ let v=0; for(let i=0;i<N;i++) v+=ry[i]-rpy[i]; return v/N/DT; }
+const sup=new Uint8Array(N);
+function contacts(){let n=0;for(let i=0;i<N;i++) if(ry[i]<=groundY(rx[i])+0.003||sup[i]) n++; return n;}
+function inside(px,py){let c=false;for(let i=0,j=N-1;i<N;j=i++){if(((ry[i]>py)!==(ry[j]>py))&&(px<(rx[j]-rx[i])*(py-ry[i])/(ry[j]-ry[i])+rx[i]))c=!c;}return c;}
+const NE={d:0,i:0,u:0,x:0,y:0};
+function nearestEdge(px,py){ let best=1e9;
+  for(let i=0;i<N;i++){const j=(i+1)%N,ax=rx[i],ay=ry[i],ux=rx[j]-ax,uy=ry[j]-ay,L2=ux*ux+uy*uy;
+    let u=((px-ax)*ux+(py-ay)*uy)/(L2||1); u=u<0?0:u>1?1:u; const qx=ax+u*ux,qy=ay+u*uy,d=(px-qx)*(px-qx)+(py-qy)*(py-qy);
+    if(d<best){best=d;NE.i=i;NE.u=u;NE.x=qx;NE.y=qy;}}
+  NE.d=Math.sqrt(best); return NE; }
+// body point p against the cloth edge; wantInside: which side is allowed; wb inverse mass of the body. returns correction applied to the body
+const OUT=[0,0];
+function edgeContact(px,py,rad,wantInside,wb){
+  OUT[0]=0;OUT[1]=0;
+  const e=nearestEdge(px,py); const ins=inside(px,py);
+  let nx,ny; // normal pointing to the allowed side
+  if(e.d>1e-7){ nx=(px-e.x)/e.d; ny=(py-e.y)/e.d; if(ins!==wantInside){nx=-nx;ny=-ny;} }
+  else { const j=(e.i+1)%N, ux=rx[j]-rx[e.i], uy=ry[j]-ry[e.i], L=Math.hypot(ux,uy)||1; nx=-uy/L; ny=ux/L; if(!wantInside){nx=-nx;ny=-ny;} }
+  const sd=(ins===wantInside)?e.d:-e.d; const C=sd-rad; if(C>=0) return 0;
+  const rw=wb>0&&wb<1.1?RW*LOOSEW:RW; const a=1-e.u,b=e.u,den=wb+(a*a+b*b)*rw, s=-C/den, i=e.i, j=(i+1)%N;
+  rx[i]-=a*rw*s*nx; ry[i]-=a*rw*s*ny; rx[j]-=b*rw*s*nx; ry[j]-=b*rw*s*ny;
+  OUT[0]=wb*s*nx; OUT[1]=wb*s*ny; return s;
+}
+// spatial hash for grains
+const CS=2*R, HX0=-2.4, HY0=-0.95, HW=Math.ceil(4.8/CS), HHn=Math.ceil(3.4/CS);
+const cellStart=new Int32Array(HW*HHn+1), cellItems=new Int32Array(NG), cellOf=new Int32Array(NG), fillp=new Int32Array(HW*HHn);
+function cidx(x,y){let cx=Math.floor((x-HX0)/CS),cy=Math.floor((y-HY0)/CS);cx=cx<0?0:cx>=HW?HW-1:cx;cy=cy<0?0:cy>=HHn?HHn-1:cy;return cy*HW+cx;}
+function buildHash(){cellStart.fill(0);for(let i=0;i<NG;i++){const c=cidx(gx[i],gy[i]);cellOf[i]=c;cellStart[c+1]++;}
+  for(let c=0;c<HW*HHn;c++)cellStart[c+1]+=cellStart[c]; fillp.set(cellStart.subarray(0,HW*HHn)); for(let i=0;i<NG;i++)cellItems[fillp[cellOf[i]]++]=i;}
+function zone(s){return s===2?2:1;} // inside the sack vs the outside world
+function grainContacts(){
+  buildHash(); const d2=4*R*R;
+  for(let i=0;i<NG;i++){ const si=gs[i]; if(si===0||si===3) continue;
+    const c=cellOf[i],cx=c%HW,cy=(c/HW)|0;
+    for(let oy=-1;oy<=1;oy++){const yy=cy+oy; if(yy<0||yy>=HHn) continue;
+      for(let ox=-1;ox<=1;ox++){const xx=cx+ox; if(xx<0||xx>=HW) continue; const cc=yy*HW+xx;
+        for(let q=cellStart[cc];q<cellStart[cc+1];q++){ const j=cellItems[q]; if(j===i) continue; const sj=gs[j];
+          if(sj===3||zone(si)!==zone(sj)) continue; if(sj!==0&&j<i) continue;
+          const dx=gx[j]-gx[i],dy=gy[j]-gy[i],dd=dx*dx+dy*dy; if(dd>=d2||dd<1e-14) continue;
+          const d=Math.sqrt(dd),p=2*R-d,nx=dx/d,ny=dy/d;
+          if(sj===0){ gx[i]-=nx*p; gy[i]-=ny*p;
+            const vt=-(gx[i]-gpx[i])*ny+(gy[i]-gpy[i])*nx; gx[i]-=-ny*vt*0.25; gy[i]-=nx*vt*0.25; }
+          else { gx[i]-=nx*p*0.5; gy[i]-=ny*p*0.5; gx[j]+=nx*p*0.5; gy[j]+=ny*p*0.5;
+            const rvx=(gx[j]-gpx[j])-(gx[i]-gpx[i]), rvy=(gy[j]-gpy[j])-(gy[i]-gpy[i]); const vt=-rvx*ny+rvy*nx, f=vt*0.1;
+            gx[i]+=-ny*f; gy[i]+=nx*f; gx[j]-=-ny*f; gy[j]-=nx*f; }
+        }}}
+  }
+}
+let cxS=0,cyS=0,inR=0,bx0=0,by0=0,bx1=0,by1=0;
+let contactY=0;
+function clothVsGrains(){
+  const c=ringCentroid(); cxS=c[0]; cyS=c[1]; inR=nearestEdge(cxS,cyS).d;
+  bx0=by0=1e9; bx1=by1=-1e9; for(let i=0;i<N;i++){bx0=Math.min(bx0,rx[i]);by0=Math.min(by0,ry[i]);bx1=Math.max(bx1,rx[i]);by1=Math.max(by1,ry[i]);}
+  let push=0;
+  for(let k=0;k<NG;k++){ const s=gs[k]; if(s===3) continue; const px=gx[k],py=gy[k];
+    if(s===2){ const dx=px-cxS,dy=py-cyS; if(dx*dx+dy*dy<(inR-2.2*R)*(inR-2.2*R)) continue;
+      edgeContact(px,py,R,true,1); gx[k]+=OUT[0]; gy[k]+=OUT[1];
+    } else {
+      if(px<bx0-R||px>bx1+R||py<by0-R||py>by1+R) continue;
+      LOOSEW=0.15; const sp=edgeContact(px,py,R,false,s===0?0:1); LOOSEW=1; gx[k]+=OUT[0]; gy[k]+=OUT[1];
+      if(s===1&&sp>0){ const i=NE.i,j=(i+1)%N,u=NE.u; const evx=(rx[i]-rpx[i])*(1-u)+(rx[j]-rpx[j])*u, gvx=gx[k]-gpx[k];
+        const dv=(evx-gvx)*0.35, wsum=1+RW*0.15; gpx[k]-=dv*1/wsum; rpx[i]+=dv*RW*0.15*(1-u)/wsum; rpx[j]+=dv*RW*0.15*u/wsum;
+        // a grain resting on the table is part of the ground: cloth standing on it gets the table's static friction
+        if(gy[k]<=groundY(gx[k])+3*R&&NE.y>gy[k]){ sup[u<0.5?i:j]=1; } }
+      if(s===0&&sp>0){ push+=sp; if(py>contactY) contactY=py; }
+    }
+  }
+  return push;
+}
+function addDust(x,y,vx,vy,life,size){ if(dust.length>=520) return; dust.push({x,y,vx,vy,age:0,life,size}); }
+
+// ---------------- one substep ----------------
+const BRP=+(globalThis.BRP||8); const SETV=+(globalThis.SV||0.015); const STICK=+(globalThis.STK||0.6); const FALL=+(globalThis.FALL||0.045), RIGHT=+(globalThis.RIGHT||0.035); const TMIN=+(globalThis.TMIN||0.06); const TBK=+(globalThis.TBK||2); const BDG=+(globalThis.BDG||10000); let braceX=null, plantOn=false, hopGrace=0, LOOSEW=1; const COMEX=+(globalThis.CX||0.26); const HOLDP=0.004, LEAPVY=+(globalThis.LVY||1.35), FR=+(globalThis.FR||0.65), VXK=+(globalThis.VXK||1.6), PVX=+(globalThis.PVX||0.04), PRESS=+(globalThis.PR||8); let T=0, stepN=0, lastPush=0, pushAvg=0, airborne=false, landed=false, gatherOn=false;
+const hopDone=new Set();
+function substep(){
+  const t=T, P=poseAt(t);
+  // balancing the penny (a choice): once it is caught, the sack tips its top so the penny's side rises and it rolls into the seam's dip
+  if(pen.st===2&&t<30){ let mx=0; for(let i=0;i<N;i++) mx+=rx[i]; mx/=N; const e=pen.x-mx; P.tilt+=Math.max(-0.22,Math.min(0.22,-BAL*e)); }
+  // fill and rest lengths follow the flour actually inside
+  fill=(inSack-S0)/NT; const shape=baseShape(fill); const Atarget=A_HALF+(inSack-S0)*AEFF;
+  // ---- knife (kinematic) ----
+  for(let c=0;c<CUTS.length;c++) if(t>=CUTS[c].t-0.75&&CUTS[c].xc===undefined) decideCut(c);
+  if(t>=29.2&&knife.hx===0.8&&!knife.hset){ knife.hx=pen.x; knife.hy=pen.y+0.30; knife.hset=true; }
+  const K=knifeAt(t); const kvx=(K[0]-knife.x)/DT, kvy=(K[1]-knife.y)/DT; knife.x=K[0]; knife.y=K[1]; knife.cut=K[2];
+  // ---- tower ----
+  if(t>=6.2&&!tower.pivotSet) setPivot();
+  if(tower.alive&&tower.pivotSet){
+    let base=0.16*sstep(6.2,6.32,t)*(1-sstep(6.6,7.0,t))+0.022*sstep(6.6,7.0,t)*(1-0.6*sstep(9.5,10.5,t))+FALL*sstep(12.6,13.8,t); // undermined by the sifting, it starts to go
+    pushAvg+= (lastPush-pushAvg)*0.05;
+    const hold=Math.min(1,pushAvg/HOLDP);
+    tower.thd=base*(1-hold); if(t>17.98&&pushAvg>HOLDP&&tower.th>TMIN) tower.thd-=Math.min(RIGHT,TBK*Math.min(1,(pushAvg-HOLDP)/(4*HOLDP))); tower.th+=tower.thd*DT; // a push beyond holding rights the tower a little
+  }
+  if(tower.alive){
+    const cth=Math.cos(tower.th),sth=Math.sin(tower.th);
+    for(let i=0;i<NT;i++) if(gs[i]===0){ gpx[i]=gx[i]; gpy[i]=gy[i];
+      if(tower.pivotSet){ gx[i]=tower.px+cth*grel[2*i]-sth*grel[2*i+1]; gy[i]=tower.py+sth*grel[2*i]+cth*grel[2*i+1]; } }
+    if(pen.st===0&&tower.pivotSet){ pen.px=pen.x; pen.py=pen.y; pen.x=tower.px+cth*pen.lx-sth*pen.ly; pen.y=tower.py+sth*pen.lx+cth*pen.ly; pen.ang=tower.th; }
+  }
+  // the blade frees packed grains on its outer side, below the height it has passed
+  if(knife.cut>=0&&tower.alive){ const C=CUTS[knife.cut];
+    for(let i=0;i<NT;i++){ if(gs[i]!==0) continue; if(gy[i]<knife.y) continue;
+      if(C.penny){ continue; }
+      const lx=(gx[i]-tower.px)*Math.cos(tower.th)+(gy[i]-tower.py)*Math.sin(tower.th);
+      if((C.side<0&&lx<C.lc)||(C.side>0&&lx>C.lc)){ gs[i]=1; const vx=C.side*(0.25+0.45*rnd()), vy=0.15+0.5*rnd()*(gy[i]>0.3?1:0.5);
+        gpx[i]=gx[i]-vx*DT; gpy[i]=gy[i]-vy*DT; if(rnd()<0.5) addDust(gx[i],gy[i],vx*0.8,vy*0.6+0.05,1.4,0.03+0.03*rnd()); } }
+    if(C.penny&&pen.st===0&&knife.y<pen.y+0.01){ // the blade's edge strikes the penny's rim: it flips up and away from the blade
+      pen.st=1; // the flick is world (score): the penny is sent toward the tower's place
+      const pvx=PVX; /* a fixed flick: the blade's stroke sends the penny up with a small drift; it knows nothing of the sack */ pen.px=pen.x-pvx*DT; pen.py=pen.y-PVY*DT; ev.pennyVx=pvx; ev.pennyFlick=t;
+      // the cut removes the last support: the tower comes apart, toppling left
+      tower.alive=false; ev.collapse=t;
+      for(let i=0;i<NT;i++) if(gs[i]===0){ gs[i]=1; const ryl=gy[i]-tower.py;
+        const vx=0.25*(rnd()-0.5)+CK*ryl, vy=0.05*rnd(); /* the cut-free tower slumps onto the plate, away from the sack */
+        gpx[i]=gx[i]-vx*DT; gpy[i]=gy[i]-vy*DT; if(rnd()<0.18) addDust(gx[i],gy[i],vx*0.5,vy*0.5+0.06,1.6,0.04+0.04*rnd()); }
+    }
+  }
+  // flour sifts off the cut faces once the tower leans
+  if(tower.alive&&tower.pivotSet&&t>6.3&&(stepN%(t<9?4:10)===0)){
+    // choose an exposed packed grain on the low (left) face
+    let best=-1,bs=-1e9; for(let tries=0;tries<10;tries++){ const i=(rnd()*NT)|0; if(gs[i]!==0) continue;
+      const sc=-grel[2*i]+0.4*grel[2*i+1]; if(sc>bs){bs=sc;best=i;} }
+    if(best>=0){ let open=true; const L=grel[2*best]; for(let i=0;i<NT;i++){ if(gs[i]===0&&Math.abs(grel[2*i+1]-grel[2*best+1])<R&&grel[2*i]<L-R){open=false;break;} }
+      if(open){ gs[best]=1; gpx[best]=gx[best]+0.06*DT; gpy[best]=gy[best]; } }
+  }
+  // ---- integrate ----
+  const g2=G*DT*DT;
+  for(let i=0;i<N;i++){ const vx=(rx[i]-rpx[i])*0.999, vy=(ry[i]-rpy[i])*0.999; rpx[i]=rx[i]; rpy[i]=ry[i]; rx[i]+=vx; ry[i]+=vy-g2; }
+  for(let k=0;k<NG;k++){ const s=gs[k]; if(s===0) continue;
+    if(s===3){ // drawn by the flow field of the open top
+      const vx=gx[k]-gpx[k], vy=gy[k]-gpy[k]; gpx[k]=gx[k]; gpy[k]=gy[k];
+      const m=mouthPos(); const tx=m[0], ty=m[1]+0.07; let dx=tx-gx[k], dy=ty-gy[k]; const d=Math.hypot(dx,dy)||1;
+      const sp=Math.min(1.1,0.25+1.4*d); let wx=dx/d*sp, wy=dy/d*sp+0.6*Math.min(1,d*2)*(gy[k]<ty?1:0);
+      const nvx=vx+(wx*DT-vx)*0.3, nvy=vy+(wy*DT-vy)*0.3; gx[k]+=nvx; gy[k]+=nvy;
+      if(d<0.05){ // enters through the gathered top
+        const cc=ringCentroid(); const ix=m[0]+(cc[0]-m[0])*0.12, iy=m[1]+(cc[1]-m[1])*0.12;
+        gs[k]=2; gx[k]=ix; gy[k]=iy; gpx[k]=ix; gpy[k]=iy+0.4*DT; inSack++; if(ev.firstIn===undefined) ev.firstIn=t; }
+      continue; }
+    let vx=(gx[k]-gpx[k])*0.998, vy=(gy[k]-gpy[k])*0.998;
+    if(s===1){ const sp=Math.hypot(vx,vy), mx=VMAX*DT; if(sp>mx){ vx*=mx/sp; vy*=mx/sp; } } // loose flour is light and draggy: air drag caps its speed
+    gpx[k]=gx[k]; gpy[k]=gy[k]; gx[k]+=vx; gy[k]+=vy-g2; }
+  for(let k=0;k<2*EN;k++){ if(k%EN===0) continue; const vx=(ex[k]-epx[k])*0.994, vy=(ey[k]-epy[k])*0.994; epx[k]=ex[k]; epy[k]=ey[k]; ex[k]+=vx; ey[k]+=vy-g2; }
+  if(pen.st===1){ const vx=(pen.x-pen.px)*0.999, vy=(pen.y-pen.py)*0.999; pen.px=pen.x; pen.py=pen.y; pen.x+=vx; pen.y+=vy-g2; }
+  // ---- hops: push-off impulses, only while the cloth touches the table ----
+  const nC=contacts();
+  for(let h=0;h<HOPS.length;h++){ const H=HOPS[h]; if(hopDone.has(h)||t<H.t) continue; if(nC<3) continue; if(H.kind==='come'&&Math.abs(settleV())>SETV) continue; hopDone.add(h);
+    const c=ringCentroid(); let vx=H.vx, vy=H.vy;
+    if(H.kind==='prop'){ vy=0.35; const tau=2*vy/G; vx=(0.40-c[0])/tau; }
+    if(H.kind==='come'){ vy=+(globalThis.CVY||0.7); const tau=2*vy/G; vx=(COMEX-c[0])/H.left/tau; }
+    if(H.kind==='leap'){ // aim: be under the penny one second from now, top meeting it
+      vy=LEAPVY; const tf=2*vy/G; // where the penny will be when the rising sack meets it decides the push
+      const tc=Math.max(0.3,22.45-t), aim=pen.x+(pen.x-pen.px)/DT*tc; vx=(aim-c[0])/tc*VXK; ev.leapAim=aim; } // the sack reads the falling penny and leaps to meet it
+    H.vxUsed=vx; H.vyUsed=vy; ev['hop'+h]=t; hopGrace=H.kind==='leap'?40:(H.kind==='come'?30:(H.kind==='dig'?12:3));
+    const dx=vx*DT, dy=vy*DT;
+    for(let i=0;i<N;i++){rpx[i]-=dx;rpy[i]-=dy;} for(let k=0;k<2*EN;k++){epx[k]-=dx;epy[k]-=dy;}
+    { const gl=H.kind==='leap'?GLAG:1; for(let k=0;k<NG;k++) if(gs[k]===2){gpx[k]-=dx*gl;gpy[k]-=dy*gl*(H.kind==='leap'?(0.8+0.4*Math.min(1,Math.max(0,(gy[k]-ry[0])/0.3))):1);} } // the cloth pulls; the flour, heaviest low, follows a beat late
+  }
+  // ---- the muscle: pull the ring toward the posed shape about its own centre (no net force) ----
+  { let mx=0,my=0; for(let i=0;i<N;i++){mx+=rx[i];my+=ry[i];} mx/=N; my/=N;
+    const sy=P.sy, sx=1/sy, ca=Math.cos(-P.tilt), sa=Math.sin(-P.tilt), k=P.k;
+    let ddx=0,ddy=0; const tx=new Float64Array(N),ty=new Float64Array(N);
+    const hh=shape.h; for(let i=0;i<N;i++){ const yn=(shape.p[2*i+1]-shape.minY)/hh; // 0 at the base, 1 at the top
+      const taper=1-TAPER(t)*(yn-0.35);
+      const X=shape.p[2*i]*sx*taper+P.shear*shape.p[2*i+1]*sy+P.curve*hh*sy*(yn*yn-0.33), Y=shape.p[2*i+1]*sy;
+      tx[i]=(mx+ca*X-sa*Y-rx[i])*k; ty[i]=(my+sa*X+ca*Y-ry[i])*k; ddx+=tx[i]; ddy+=ty[i]; }
+    ddx/=N; ddy/=N;
+    // standing on the table, the muscle pushes against it: the pose is set down on the base and the table takes the vertical reaction
+    if(nC>=3&&hopGrace===0&&!(t>=21.38&&t<22.6)){ let tmin=1e9,rmin=1e9; for(let i=0;i<N;i++){ const ty0=my+ty[i]/k+ry[i]-my; tmin=Math.min(tmin,ry[i]+ty[i]/k); rmin=Math.min(rmin,ry[i]-groundY(rx[i])); }
+      let tminT=1e9; for(let i=0;i<N;i++) tminT=Math.min(tminT,ry[i]+ty[i]/k-groundY(rx[i])); ddy=tminT*k;
+      // bracing: the feet hold their place; the table's friction keeps the body's centre where it stood when the cut came
+      if(t>=17.98&&t<20.95){ // the squash is placed so the body's area centre stays over the feet
+        const cA=ringCentroid()[0]; if(braceX===null) braceX=cA;
+        let a2=0,cx2=0; for(let i=0;i<N;i++){ const j=(i+1)%N, xi=rx[i]+tx[i]/k, yi=ry[i]+ty[i]/k, xj=rx[j]+tx[j]/k, yj=ry[j]+ty[j]/k, c=xi*yj-xj*yi; a2+=c; cx2+=(xi+xj)*c; }
+        cx2/=3*a2; ddx=k*(cx2-braceX); } }
+    for(let i=0;i<N;i++){ rx[i]+=tx[i]-ddx; ry[i]+=ty[i]-ddy; } }
+  // ---- the brace: the base is driven toward the tower whenever the body's centre would give ground (feet dig in; friction allows forward travel only) ----
+  if(t>=17.98&&t<20.95&&braceX!==null){ const cA=ringCentroid()[0]; const d=braceX-cA; if(d>0){ const c=ringCentroid(); const f=Math.min(200,d*BDG)*DT*DT; for(let i=0;i<N;i++) if(ry[i]<c[1]) rx[i]+=f; } } // a force from the table on the lower cloth (the reaction of the feet pushing back)
+  // ---- the press: during the prop the upper body pushes toward the tower; the table's friction takes the reaction ----
+  const press=PRESS*sstep(14.5,15.0,t)*(1-sstep(20.95,21.05,t))*(1+BRP*sstep(17.98,18.08,t));
+  if(press>0&&nC>0){ const c=ringCentroid(); for(let i=0;i<N;i++) rx[i]+=press*DT*DT*(ry[i]>c[1]?1.4:0.6); }
+  // ---- constraints ----
+  lastPush=0; sup.fill(0); contactY=0;
+  for(let it=0;it<3;it++){
+    // stretch (canvas nearly inextensible; slack allowed)
+    for(let i=0;i<N;i++){ const j=(i+1)%N, dx=rx[j]-rx[i], dy=ry[j]-ry[i], d=Math.hypot(dx,dy), L=shape.rest[i]*1.03;
+      if(d>L){ const c=(d-L)/d*0.5; rx[i]+=dx*c; ry[i]+=dy*c; rx[j]-=dx*c; ry[j]-=dy*c; } }
+    // bend: a weak link over two segments that resists folding
+    for(let i=0;i<N;i++){ const j=(i+2)%N, dx=rx[j]-rx[i], dy=ry[j]-ry[i], d=Math.hypot(dx,dy), L=(shape.rest[i]+shape.rest[(i+1)%N])*0.75;
+      if(d<L&&d>1e-9){ const c=(d-L)/d*0.06; rx[i]+=dx*c; ry[i]+=dy*c; rx[j]-=dx*c; ry[j]-=dy*c; } }
+    // area (the flour and air inside: volume)
+    { const A=ringArea(), C=A-Atarget; let den=0; const gxA=new Float64Array(N),gyA=new Float64Array(N);
+      for(let i=0;i<N;i++){const ip=(i+1)%N,im=(i+N-1)%N; gxA[i]=0.5*(ry[ip]-ry[im]); gyA[i]=0.5*(rx[im]-rx[ip]); den+=gxA[i]*gxA[i]+gyA[i]*gyA[i];}
+      const s=-C/den*0.9; for(let i=0;i<N;i++){rx[i]+=s*gxA[i]; ry[i]+=s*gyA[i];} }
+    grainContacts();
+    lastPush+=clothVsGrains();
+    // ground
+    // ground with position-based static friction: a point pressed into the table keeps the x it had at the start of the step
+    for(let i=0;i<N;i++){ const g=groundY(rx[i]); if(ry[i]<g+0.0016||sup[i]){ if(ry[i]<g) ry[i]=g; if(hopGrace===0&&!(press>0&&rx[i]>rpx[i])&&!(t>=21.38&&t<22.6)) rx[i]=rpx[i]; } }
+    for(let k=0;k<NG;k++){ const s=gs[k]; if(s===0||s===3) continue; const g=groundY(gx[k])+R; if(gy[k]<g) gy[k]=g; if(gx[k]<-1.98){gx[k]=-1.98;} if(gx[k]>1.98){gx[k]=1.98;} }
+    // penny vs cloth and table
+    if(pen.st===2){ // caught: static friction holds it on the cloth where it landed
+      const i=pen.ei,j=(i+1)%N,u=pen.eu; const qx=rx[i]*(1-u)+rx[j]*u, qy=ry[i]*(1-u)+ry[j]*u; let tx=rx[j]-rx[i],ty=ry[j]-ry[i]; const L=Math.hypot(tx,ty)||1;
+      let nx=ty/L, ny=-tx/L; if(ny<0){nx=-nx;ny=-ny;}
+      if(it===0){ const sl=ty/L; const tx_=tx/L; // slope along the cloth: slide downhill if steeper than the friction angle
+        if(Math.abs(sl)>PMU){ const v=-(sl-Math.sign(sl)*PMU)*PSL*DT; /* along increasing ring index; sl>0 means that way is uphill */ let m=pen.ei+pen.eu+v/L; m=Math.max(I_TR+EARSTOP,Math.min(I_TL-EARSTOP-1e-6,m)); /* the ear flaps stand at the seam's ends and stop it */ pen.ei=Math.floor(m); pen.eu=m-pen.ei; } }
+      pen.px=pen.x; pen.py=pen.y; pen.x=qx+nx*PEN_R; pen.y=qy+ny*PEN_R; pen.ang=Math.atan2(ty,tx); if(pen.ang>1.6) pen.ang-=Math.PI; if(pen.ang<-1.6) pen.ang+=Math.PI;
+      if(it===0){ const w=0.0006; ry[i]-=w*(1-u); ry[j]-=w*u; }
+    }
+    if(pen.st===1){
+      const wasIn=edgeContact(pen.x,pen.y,PEN_R,false,1.2);
+      if(wasIn>0){ pen.x+=OUT[0]; pen.y+=OUT[1];
+        const i=NE.i,j=(i+1)%N; // friction: the penny takes the cloth's motion
+        const evx=(rx[i]-rpx[i])*(1-NE.u)+(rx[j]-rpx[j])*NE.u, evy=(ry[i]-rpy[i])*(1-NE.u)+(ry[j]-rpy[j])*NE.u;
+        pen.px=pen.x-evx; if(pen.y-pen.py<evy) pen.py=pen.y-evy;
+        pen.ang=Math.atan2(ry[j]-ry[i],rx[j]-rx[i]); if(pen.ang>1.6) pen.ang-=Math.PI; if(pen.ang<-1.6) pen.ang+=Math.PI;
+        if(i>=I_TR-1&&i<=I_TL){ if(!pen.onSack){ pen.onSack=true; ev.catch=t; pen.st=2; pen.ei=i; pen.eu=NE.u; } } }
+      const g=groundY(pen.x)+PEN_R; if(pen.y<g){ pen.y=g; pen.px=pen.x-(pen.x-pen.px)*0.3; pen.onSack=false; }
+    }
+  }
+  // ears: chains from the two top corners, pulled toward a pose direction, dragged by inertia
+  for(let e=0;e<2;e++){ const r=e?I_TR:I_TL, b=e*EN; ex[b]=rx[r]; ey[b]=ry[r]; epx[b]=rpx[r]; epy[b]=rpy[r];
+    const d=earDir(e,P); const ks=EARK*(0.3+0.7*P.ear);
+    for(let j=1;j<EN;j++){ const k=b+j; const tx=ex[k-1]+d[0]*ESEG, ty=ey[k-1]+d[1]*ESEG; ex[k]+=(tx-ex[k])*ks; ey[k]+=(ty-ey[k])*ks; }
+    for(let it=0;it<2;it++) for(let j=1;j<EN;j++){ const k=b+j, dx=ex[k]-ex[k-1], dy=ey[k]-ey[k-1], dd=Math.hypot(dx,dy)||1, c=(dd-ESEG)/dd;
+      if(j===1){ ex[k]-=dx*c; ey[k]-=dy*c; } else { ex[k]-=dx*c*0.5; ey[k]-=dy*c*0.5; ex[k-1]+=dx*c*0.5; ey[k-1]+=dy*c*0.5; } }
+    for(let j=1;j<EN;j++){ const k=b+j, g=groundY(ex[k]); if(ey[k]<g) ey[k]=g; }
+  }
+  // friction with the table: a cloth point that touches does not slide unless pushed hard
+  // (static friction: a touching cloth point keeps its x; only a push-off, which lasts until the cloth leaves the table, lets it go)
+  if(hopGrace>0){ hopGrace--; let mb=1e9; for(let i=0;i<N;i++) mb=Math.min(mb,ry[i]-groundY(rx[i])); if(mb>0.002) hopGrace=0; }
+  else for(let i=0;i<N;i++){ const g=groundY(rx[i]); if(ry[i]<=g+0.003){ const vx=rx[i]-rpx[i];
+      if(press>0&&vx>0) continue; // the press is the muscle pushing along the table
+      if(Math.abs(vx)<STICK*DT){ rx[i]=rpx[i]; } else rpx[i]=rx[i]-vx*0.55; } }
+  for(let k=0;k<NG;k++){ const s=gs[k]; if(s!==1) continue; const g=groundY(gx[k])+R; if(gy[k]<=g+1e-5){ const vx=gx[k]-gpx[k]; gpx[k]=gx[k]-vx*0.6; } }
+  // plant: after the leap, the first touch down grips the pile; its friction takes the horizontal speed
+  if(t>22.5&&t<24.5){ let mb=1e9; for(let i=0;i<N;i++) mb=Math.min(mb,ry[i]-groundY(rx[i]));
+    if(mb<0.07||plantOn){ if(!plantOn){plantOn=true; ev.plant=t;} const k=0.06;
+      for(let i=0;i<N;i++){ const vx=rx[i]-rpx[i]; rpx[i]+=vx*k; }
+      for(let q=0;q<NG;q++) if(gs[q]===2){ const vx=gx[q]-gpx[q]; gpx[q]+=vx*k; } } }
+  // gather: once the sack has settled after the catch, its open top draws the loose flour in
+  if(t>=24.5&&!gatherOn){ gatherOn=true; ev.gatherStart=t; const c=ringCentroid();
+    mouth=(pen.x>c[0])?I_TOP+4:I_TOP-4;
+    const loose=[]; for(let k=0;k<NG;k++) if(gs[k]===1){ const m=mouthPos(); loose.push([Math.hypot(gx[k]-m[0],gy[k]-m[1]),k]); }
+    loose.sort((a,b)=>a[0]-b[0]||a[1]-b[1]); flowM=loose.length;
+    loose.forEach((q,n)=>{ gdraw[q[1]]=24.55+2.2*Math.pow(n/Math.max(1,flowM-1),0.85); }); }
+  if(gatherOn){ for(let k=0;k<NG;k++) if(gs[k]===1&&t>=gdraw[k]){ gs[k]=3; } }
+  // dust (render-only motes; not counted as flour)
+  for(let n=dust.length-1;n>=0;n--){ const d=dust[n]; d.age+=DT; d.x+=d.vx*DT; d.y+=d.vy*DT; d.vx*=0.985; d.vy=d.vy*0.985+0.02*DT; if(d.age>d.life) dust.splice(n,1); }
+  // landing puffs: loose grains kicked fast
+  if(stepN%3===0){ for(let k=0;k<NG;k++){ if(gs[k]!==1) continue; const vx=(gx[k]-gpx[k])/DT, vy=(gy[k]-gpy[k])/DT; if(vx*vx+vy*vy>0.6&&rnd()<0.08) addDust(gx[k],gy[k],vx*0.4,vy*0.3+0.08,1.3,0.03+0.04*rnd()); } }
+  T+=DT; stepN++;
+}
+function mouthPos(){ const i=mouth<0?I_TOP:mouth; return [rx[i],ry[i]]; }
+
+// ---------------- frame driver ----------------
+let frame=0; const frames=[];
+function snapshot(){
+  const c=ringCentroid(); let top=-1e9,bot=1e9; for(let i=0;i<N;i++){top=Math.max(top,ry[i]);bot=Math.min(bot,ry[i]);}
+  let nTower=0,nLoose=0,nIn=0,nFlow=0,escaped=0;
+  for(let k=0;k<NG;k++){ const s=gs[k]; if(s===0)nTower++; else if(s===1)nLoose++; else if(s===2){nIn++; if(!inside(gx[k],gy[k])) escaped++;} else nFlow++; }
+  const g=new Float32Array(2*NG); for(let k=0;k<NG;k++){g[2*k]=gx[k];g[2*k+1]=gy[k];}
+  const r=new Float32Array(2*N); for(let i=0;i<N;i++){r[2*i]=rx[i];r[2*i+1]=ry[i];}
+  const e=new Float32Array(4*EN); for(let k=0;k<2*EN;k++){e[2*k]=ex[k];e[2*k+1]=ey[k];}
+  const d=new Float32Array(dust.length*4); dust.forEach((q,n)=>{d[4*n]=q.x;d[4*n+1]=q.y;d[4*n+2]=1-q.age/q.life;d[4*n+3]=q.size;});
+  // head low: leading top corner vs trailing top corner (shoulder)
+  return {f:frame,t:frame/FPS,g,s:gs.slice(),r,e,d,pen:[pen.x,pen.y,pen.ang,pen.onSack?1:0,pen.st===2?pen.ei+pen.eu:-1],knife:[knife.x,knife.y],th:tower.th,
+    cx:c[0],cy:c[1],area:c[2],areaTarget:A_HALF+(inSack-S0)*AEFF,top,bot,head:ry[I_TR],shoulder:ry[I_TL],
+    counts:[nTower,nLoose+nFlow,nIn,NG],nFlow,escaped,contacts:contacts(),push:pushAvg,mouth,fill,
+    earTips:[ex[EN-1],ey[EN-1],ex[2*EN-1],ey[2*EN-1]],contactY,towerTop:towerTopY()};
+}
+frames.push(snapshot());
+function step(){ if(frame>=NF-1) return false; for(let s=0;s<SUB;s++) substep(); frame++; frames.push(snapshot()); return true; }
+return {step,frames,NF,FPS,NG,NT,S0,N,EN,I_TR,I_TL,I_TOP,R,TOWER_X,PLATE_HW,PLATE_Y,ev,A_HALF,A_FULL,H_HALF,H_FULL,HOPS,CUTS,PEN_HW,G};
+})();
+if(typeof module!=='undefined') module.exports=SIM;
+// ===== render, playback, measurement =====
+(function(){
+'use strict';
+const S=SIM, FPS=S.FPS, NF=S.NF, N=S.N, EN=S.EN;
+const cv=document.getElementById('film'), ctx=cv.getContext('2d');
+const W=1280,H=720, SC=292, OX=640, OY=598;
+const X=x=>OX+x*SC, Y=y=>OY-y*SC;
+let cur=0, playing=true, last=0, acc=0;
+
+// ---- static backdrop (drawn once) ----
+const bg=document.createElement('canvas'); bg.width=W; bg.height=H;
+(function(){ const b=bg.getContext('2d');
+  let g=b.createLinearGradient(0,0,0,OY); g.addColorStop(0,'#3b3128'); g.addColorStop(1,'#5a4a3b'); b.fillStyle=g; b.fillRect(0,0,W,OY);
+  // wallpaper stripes
+  b.globalAlpha=0.07; for(let x=0;x<W;x+=46){ b.fillStyle='#e9dcc4'; b.fillRect(x,0,14,OY);} b.globalAlpha=1;
+  // wainscot rail
+  b.fillStyle='#2c241d'; b.fillRect(0,OY-170,W,10); b.fillStyle='#463a2f'; b.fillRect(0,OY-160,W,160);
+  for(let x=20;x<W;x+=160){ b.strokeStyle='rgba(0,0,0,.25)'; b.lineWidth=2; b.strokeRect(x,OY-145,130,120); }
+  // window light falling on the wall
+  b.save(); b.globalCompositeOperation='screen'; const lg=b.createRadialGradient(X(0.2),Y(1.2),40,X(0.2),Y(1.0),620); lg.addColorStop(0,'rgba(255,228,180,.22)'); lg.addColorStop(1,'rgba(255,228,180,0)'); b.fillStyle=lg; b.fillRect(0,0,W,OY); b.restore();
+  // table top (seen slightly from above: a thin top surface band)
+  const tx0=X(-2.0), tx1=X(2.0);
+  g=b.createLinearGradient(0,OY-14,0,OY+4); g.addColorStop(0,'#9b6a3f'); g.addColorStop(1,'#7d532f'); b.fillStyle=g; b.fillRect(tx0,OY-14,tx1-tx0,16);
+  b.strokeStyle='rgba(60,35,15,.35)'; b.lineWidth=1; for(let k=0;k<5;k++){ b.beginPath(); b.moveTo(tx0,OY-12+k*3); for(let x=tx0;x<=tx1;x+=40) b.lineTo(x,OY-12+k*3+Math.sin(x*0.013+k)*1.2); b.stroke(); }
+  // apron and legs
+  g=b.createLinearGradient(0,OY,0,H); g.addColorStop(0,'#5b3a20'); g.addColorStop(1,'#3a2414'); b.fillStyle=g; b.fillRect(tx0,OY+2,tx1-tx0,46);
+  b.fillStyle='#2f1d10'; b.fillRect(tx0+30,OY+48,34,H-OY); b.fillRect(tx1-64,OY+48,34,H-OY);
+  b.fillStyle='rgba(0,0,0,.35)'; b.fillRect(tx0,OY+2,tx1-tx0,4);
+  // floor
+  b.fillStyle='#211812'; b.fillRect(0,OY+48,tx0+30,H); b.fillRect(tx1-30,OY+48,W,H); b.fillRect(tx0+64,OY+48,tx1-tx0-128,H);
+  b.fillStyle='#2f1d10'; b.fillRect(tx0+30,OY+48,34,H-OY); b.fillRect(tx1-64,OY+48,34,H-OY);
+  // plate: a flat dish on the table
+  const p0=X(S.TOWER_X-S.PLATE_HW), p1=X(S.TOWER_X+S.PLATE_HW), py=Y(S.PLATE_Y);
+  b.fillStyle='rgba(0,0,0,.25)'; b.beginPath(); b.ellipse((p0+p1)/2,OY+1,(p1-p0)/2+6,5,0,0,7); b.fill();
+  g=b.createLinearGradient(0,py,0,OY); g.addColorStop(0,'#f1ece2'); g.addColorStop(1,'#bdb5a6'); b.fillStyle=g;
+  b.beginPath(); b.moveTo(p0-6,py); b.lineTo(p1+6,py); b.lineTo(p1-14,OY); b.lineTo(p0+14,OY); b.closePath(); b.fill();
+  b.strokeStyle='#8f877a'; b.lineWidth=1; b.stroke();
+  b.strokeStyle='#4f6f8f'; b.lineWidth=1.5; b.beginPath(); b.moveTo(p0+2,py+2.5); b.lineTo(p1-2,py+2.5); b.stroke();
+})();
+
+// ---- drawing helpers ----
+function smoothClosed(c,pts,n){ // pts flat array in canvas space
+  c.beginPath(); const mx=(i)=>(pts[2*(i%n)]+pts[2*((i+1)%n)])/2, my=(i)=>(pts[2*(i%n)+1]+pts[2*((i+1)%n)+1])/2;
+  c.moveTo(mx(n-1),my(n-1)); for(let i=0;i<n;i++) c.quadraticCurveTo(pts[2*i],pts[2*i+1],mx(i),my(i)); c.closePath(); }
+function drawSack(fr){
+  const r=fr.r, P=new Float32Array(2*N); for(let i=0;i<N;i++){P[2*i]=X(r[2*i]);P[2*i+1]=Y(r[2*i+1]);}
+  // contact shadow
+  let minx=1e9,maxx=-1e9,maxy=-1e9; for(let i=0;i<N;i++){minx=Math.min(minx,P[2*i]);maxx=Math.max(maxx,P[2*i]);maxy=Math.max(maxy,P[2*i+1]);}
+  const gnd=(fr.cx>S.TOWER_X-S.PLATE_HW&&fr.cx<S.TOWER_X+S.PLATE_HW)?Y(S.PLATE_Y):OY; const lift=Math.max(0,gnd-maxy);
+  ctx.fillStyle=`rgba(20,10,4,${0.35*Math.max(0.15,1-lift/220)})`; ctx.beginPath(); ctx.ellipse((minx+maxx)/2,gnd+2,(maxx-minx)/2*(1-lift/700)+6,4.5,0,0,7); ctx.fill();
+  // ears behind the body (back corners)
+  drawEars(fr,P,true);
+  // body
+  smoothClosed(ctx,P,N);
+  const top=Y(fr.top), bot=Y(fr.bot);
+  let g=ctx.createLinearGradient(minx,0,maxx,0); g.addColorStop(0,'#cdbf9f'); g.addColorStop(0.35,'#eee4cc'); g.addColorStop(0.75,'#e2d6ba'); g.addColorStop(1,'#b9aa88');
+  ctx.fillStyle=g; ctx.fill();
+  ctx.save(); smoothClosed(ctx,P,N); ctx.clip();
+  // weight: shading where the flour pools (bottom) and where the cloth is taut (top highlights)
+  g=ctx.createLinearGradient(0,top,0,bot); g.addColorStop(0,'rgba(255,250,235,.25)'); g.addColorStop(0.55,'rgba(0,0,0,0)'); g.addColorStop(1,'rgba(70,50,25,.28)'); ctx.fillStyle=g; ctx.fillRect(minx-5,top-5,maxx-minx+10,bot-top+10);
+  // weave texture
+  ctx.globalAlpha=0.09; ctx.strokeStyle='#5a4a30'; ctx.lineWidth=1;
+  for(let y=top;y<bot;y+=4){ctx.beginPath();ctx.moveTo(minx,y);ctx.lineTo(maxx,y);ctx.stroke();}
+  ctx.globalAlpha=1;
+  // printed band: across the cloth between mirrored side points (material coordinates)
+  bandStrip(P,[11,12,13],'rgba(40,74,120,.85)'); bandStrip(P,[9.6,10.1],'rgba(150,40,35,.8)'); bandStrip(P,[14.4,14.9],'rgba(150,40,35,.8)');
+  // fold creases: from the measured curvature of the ring at the bottom corners
+  ctx.strokeStyle='rgba(90,70,40,.35)'; ctx.lineWidth=1.3;
+  for(const [a,b] of [[S.I_TL,40],[S.I_TR,8]]){ ctx.beginPath(); ctx.moveTo(P[2*a],P[2*a+1]); ctx.quadraticCurveTo((P[2*a]+P[2*b])/2+((a===S.I_TL)?8:-8),(P[2*a+1]+P[2*b+1])/2,P[2*b],P[2*b+1]); ctx.stroke(); }
+  ctx.restore();
+  // outline + stitched seam along the sides and bottom
+  smoothClosed(ctx,P,N); ctx.strokeStyle='#6f5f43'; ctx.lineWidth=1.6; ctx.stroke();
+  ctx.save(); ctx.setLineDash([4,4]); ctx.strokeStyle='rgba(95,75,45,.8)'; ctx.lineWidth=1.1; ctx.beginPath();
+  const inset=(i,k)=>{ const cx=X(fr.cx),cy=Y(fr.cy); const x=P[2*i],y=P[2*i+1],dx=cx-x,dy=cy-y,d=Math.hypot(dx,dy)||1; return [x+dx/d*k,y+dy/d*k]; };
+  for(let i=S.I_TL+1;i<=N+S.I_TR-1;i++){ const q=inset(i%N,6); if(i===S.I_TL+1) ctx.moveTo(q[0],q[1]); else ctx.lineTo(q[0],q[1]); } ctx.stroke(); ctx.restore();
+  // the top hem (and, while gathering, the open mouth)
+  ctx.strokeStyle='#7a6a4c'; ctx.lineWidth=2.2; ctx.beginPath(); for(let i=S.I_TR;i<=S.I_TL;i++){ const q=inset(i,5); if(i===S.I_TR) ctx.moveTo(q[0],q[1]); else ctx.lineTo(q[0],q[1]); } ctx.stroke();
+  if(fr.nFlow>0&&fr.mouth>=0){ const i=fr.mouth; ctx.fillStyle='#3a2e1d'; ctx.beginPath(); ctx.ellipse(P[2*i],P[2*i+1]+1,10,3.2,Math.atan2(P[2*i+3]-P[2*i-1],P[2*i+2]-P[2*i-2]),0,7); ctx.fill(); }
+  drawEars(fr,P,false);
+}
+function lerpPt(P,f){ const i=Math.floor(f), u=f-i, j=(i+1)%N; return [P[2*i]*(1-u)+P[2*j]*u, P[2*i+1]*(1-u)+P[2*j+1]*u]; }
+function bandStrip(P,fs,col){ // right side material index f, left side mirrored N-f... (I_TL side = 48-f)
+  const a=fs[0], b=fs[fs.length-1]; const steps=6; ctx.beginPath();
+  for(let k=0;k<=steps;k++){ const q=lerpPt(P,a+(b-a)*k/steps); k?ctx.lineTo(q[0],q[1]):ctx.moveTo(q[0],q[1]); }
+  for(let k=steps;k>=0;k--){ const q=lerpPt(P,N-(a+(b-a)*k/steps)); ctx.lineTo(q[0],q[1]); }
+  ctx.closePath(); ctx.fillStyle=col; ctx.fill(); }
+function drawEars(fr,P,back){
+  const e=fr.e;
+  for(let s=0;s<2;s++){ const root=s?S.I_TR:S.I_TL; const pts=[[P[2*root],P[2*root+1]]];
+    for(let j=1;j<EN;j++){ pts.push([X(e[2*(s*EN+j)]),Y(e[2*(s*EN+j)+1])]); }
+    // a flap: the chain is its centre line, width tapers
+    const L=[],Rr=[]; for(let j=0;j<pts.length;j++){ const a=pts[Math.max(0,j-1)], b=pts[Math.min(pts.length-1,j+1)]; let dx=b[0]-a[0],dy=b[1]-a[1],d=Math.hypot(dx,dy)||1; const w=(j===0?9:7*(1-j/(pts.length))+1.5); L.push([pts[j][0]-dy/d*w,pts[j][1]+dx/d*w]); Rr.push([pts[j][0]+dy/d*w,pts[j][1]-dx/d*w]); }
+    ctx.beginPath(); ctx.moveTo(L[0][0],L[0][1]); for(let j=1;j<L.length;j++) ctx.lineTo(L[j][0],L[j][1]);
+    const tip=pts[pts.length-1]; ctx.lineTo(tip[0],tip[1]); for(let j=Rr.length-1;j>=0;j--) ctx.lineTo(Rr[j][0],Rr[j][1]); ctx.closePath();
+    ctx.fillStyle=back?'#b3a37f':'#e4d8bd'; ctx.fill(); ctx.strokeStyle='#6f5f43'; ctx.lineWidth=1.3; ctx.stroke();
+    if(back) continue; }
+}
+function drawGrains(fr){
+  const g=fr.g, s=fr.s, rr=S.R*SC;
+  // packed tower: one silhouette of discs, slightly larger so the mass reads as packed
+  ctx.fillStyle='#eae3d3';
+  ctx.beginPath(); for(let k=0;k<S.NG;k++){ if(s[k]!==0) continue; const x=X(g[2*k]),y=Y(g[2*k+1]); ctx.moveTo(x+rr*1.45,y); ctx.arc(x,y,rr*1.45,0,7); } ctx.fill();
+  ctx.fillStyle='rgba(175,165,145,.28)';
+  ctx.beginPath(); for(let k=0;k<S.NG;k++){ if(s[k]!==0||(k*13)%5) continue; const x=X(g[2*k]),y=Y(g[2*k+1]); ctx.moveTo(x+rr*0.5,y+1); ctx.arc(x+0.6,y+1,rr*0.5,0,7); } ctx.fill();
+  // loose flour: grains at rest on the table or plate merge into one powder surface; moving grains are drawn small
+  const prev=fr.f>0?S.frames[fr.f-1]:fr, pg=prev.g;
+  ctx.fillStyle='#eee8db';
+  ctx.beginPath(); for(let k=0;k<S.NG;k++){ if(s[k]!==1) continue; const v=Math.abs(g[2*k]-pg[2*k])+Math.abs(g[2*k+1]-pg[2*k+1]); if(v>0.004) continue; const x=X(g[2*k]),y=Y(g[2*k+1]); ctx.moveTo(x+rr*1.5,y); ctx.arc(x,y,rr*1.5,0,7); } ctx.fill();
+  ctx.fillStyle='#f8f5ee';
+  ctx.beginPath(); for(let k=0;k<S.NG;k++){ if(s[k]!==1) continue; const v=Math.abs(g[2*k]-pg[2*k])+Math.abs(g[2*k+1]-pg[2*k+1]); if(v>0.004) continue; const x=X(g[2*k]),y=Y(g[2*k+1])-rr*0.35; ctx.moveTo(x+rr*1.1,y); ctx.arc(x,y,rr*1.1,0,7); } ctx.fill();
+  ctx.fillStyle='rgba(248,245,236,.9)';
+  ctx.beginPath(); for(let k=0;k<S.NG;k++){ const st=s[k]; if(st!==1&&st!==3) continue; const v=Math.abs(g[2*k]-pg[2*k])+Math.abs(g[2*k+1]-pg[2*k+1]); if(st===1&&v<=0.004) continue; const x=X(g[2*k]),y=Y(g[2*k+1]), q=rr*0.7; ctx.moveTo(x+q,y); ctx.arc(x,y,q,0,7); } ctx.fill();
+  // fine powder trailing each moving grain
+  ctx.fillStyle='rgba(248,245,236,.35)';
+  for(let k=0;k<S.NG;k++){ const st=s[k]; if(st!==1&&st!==3) continue; const dx=g[2*k]-pg[2*k], dy=g[2*k+1]-pg[2*k+1]; if(Math.abs(dx)+Math.abs(dy)<=0.004) continue;
+    for(let m=1;m<=3;m++){ const x=X(g[2*k]-dx*m*0.5)+((k*7+m*3)%5-2), y=Y(g[2*k+1]-dy*m*0.5)+((k*11+m)%5-2); ctx.fillRect(x,y,1.6,1.6); } }
+}
+const puff=document.createElement('canvas'); puff.width=puff.height=64; { const p=puff.getContext('2d'); const g=p.createRadialGradient(32,32,0,32,32,32); g.addColorStop(0,'rgba(252,249,240,.55)'); g.addColorStop(0.45,'rgba(248,244,234,.22)'); g.addColorStop(1,'rgba(248,244,234,0)'); p.fillStyle=g; p.fillRect(0,0,64,64); }
+function drawDust(fr){ const d=fr.d; ctx.save();
+  // each dust record is a small cloud: a faint haze plus a scatter of fine specks
+  for(let n=0;n<d.length;n+=4){ const a=d[n+2], r=d[n+3]*SC*(2.0-1.0*a); ctx.globalAlpha=0.28*a; ctx.drawImage(puff,X(d[n])-r,Y(d[n+1])-r,2*r,2*r); }
+  ctx.globalAlpha=1; ctx.fillStyle='rgba(250,247,240,.75)';
+  for(let n=0;n<d.length;n+=4){ const a=d[n+2], r=d[n+3]*SC*(2.0-1.0*a), cx=X(d[n]), cy=Y(d[n+1]); const sd=(n*2654435761)>>>0;
+    for(let m=0;m<8;m++){ const h=((sd^(m*40503))*2246822519)>>>0, ang=(h%628)/100, rad=r*((h>>>10)%100)/100; if(((h>>>17)%100)/100>a) continue; ctx.fillRect(cx+Math.cos(ang)*rad,cy+Math.sin(ang)*rad,1.3,1.3); } }
+  ctx.restore(); }
+function drawPenny(fr){ const p=fr.pen, x=X(p[0]), y=Y(p[1]); ctx.save(); ctx.translate(x,y); ctx.rotate(-p[2]);
+  const w=S.PEN_HW*SC; let g=ctx.createLinearGradient(-w,0,w,0); g.addColorStop(0,'#7a3c18'); g.addColorStop(0.5,'#d98a4a'); g.addColorStop(1,'#8a4a20');
+  ctx.fillStyle=g; ctx.beginPath(); ctx.ellipse(0,0,w,3.6,0,0,7); ctx.fill(); ctx.fillStyle='#e9a468'; ctx.beginPath(); ctx.ellipse(0,-1.4,w*0.92,2.2,0,0,7); ctx.fill(); ctx.restore(); }
+function drawKnife(fr){ const k=fr.knife, x=X(k[0]), y=Y(k[1]); if(x>W+60) return;
+  const bl=0.46*SC, bw=0.075*SC;
+  ctx.save(); ctx.translate(x,y);
+  ctx.fillStyle='rgba(0,0,0,.18)'; ctx.fillRect(4,-bl,bw,bl);
+  let g=ctx.createLinearGradient(0,0,bw,0); g.addColorStop(0,'#f4f6f8'); g.addColorStop(0.25,'#c3c9cf'); g.addColorStop(1,'#8c939b'); ctx.fillStyle=g;
+  ctx.beginPath(); ctx.moveTo(0,0); ctx.lineTo(bw*0.55,-bw*0.9); ctx.lineTo(bw,-bl*0.35); ctx.lineTo(bw,-bl); ctx.lineTo(0,-bl); ctx.closePath(); ctx.fill();
+  ctx.strokeStyle='#5c6268'; ctx.lineWidth=1; ctx.stroke();
+  ctx.fillStyle='#d8cdb6'; ctx.fillRect(-2,-bl-6,bw+4,6);
+  g=ctx.createLinearGradient(0,0,bw,0); g.addColorStop(0,'#3a2213'); g.addColorStop(0.5,'#6b4126'); g.addColorStop(1,'#2c180c'); ctx.fillStyle=g;
+  ctx.beginPath(); ctx.roundRect(-1,-bl-6-0.32*SC,bw+2,0.32*SC,6); ctx.fill();
+  ctx.fillStyle='#c9b07a'; for(const yy of [0.08,0.2]){ ctx.beginPath(); ctx.arc(bw/2,-bl-6-yy*SC,2.4,0,7); ctx.fill(); }
+  ctx.restore(); }
+function render(fr){
+  ctx.drawImage(bg,0,0);
+  drawKnife(fr);
+  drawGrains(fr);
+  drawSack(fr);
+  drawPenny(fr);
+  drawDust(fr);
+  // vignette
+  const v=ctx.createRadialGradient(W/2,H*0.55,H*0.35,W/2,H*0.55,H*0.95); v.addColorStop(0,'rgba(0,0,0,0)'); v.addColorStop(1,'rgba(0,0,0,.45)'); ctx.fillStyle=v; ctx.fillRect(0,0,W,H);
+  const c=fr.counts; el('cT').textContent=c[0]; el('cP').textContent=c[1]; el('cS').textContent=c[2]; el('cA').textContent=c[0]+c[1]+c[2];
+}
+function el(id){return document.getElementById(id);}
+
+// ---- simulate ahead, caching each frame (scrubbing replays the cache) ----
+const busy=el('busy');
+function simulateTo(f){ while(S.frames.length-1<f&&S.step()){} }
+function pump(){ const t0=performance.now(); while(S.frames.length<NF&&performance.now()-t0<12) S.step();
+  busy.textContent=S.frames.length<NF?('simulating '+Math.round(100*S.frames.length/NF)+'%'):'';
+  if(S.frames.length<NF) setTimeout(pump,0); else finish(); }
+let finished=false;
+function finish(){ if(finished) return; finished=true; measure(); }
+
+// ---- trace + checks from the simulated geometry ----
+function measure(){
+  const F=S.frames, tr=[];
+  for(const q of F) tr.push({t:+q.t.toFixed(4),x:+q.cx.toFixed(4),top:+q.top.toFixed(4),height:+(q.top-q.bot).toFixed(4),area:+q.area.toFixed(5),
+    earL:[+q.earTips[0].toFixed(3),+q.earTips[1].toFixed(3)],earR:[+q.earTips[2].toFixed(3),+q.earTips[3].toFixed(3)],penny:[+q.pen[0].toFixed(3),+q.pen[1].toFixed(3)],pennyOnSack:q.pen[3],
+    headMinusShoulder:+(q.head-q.shoulder).toFixed(4),towerLean:+q.th.toFixed(4),push:+q.push.toFixed(5),grains:{tower:q.counts[0],pile:q.counts[1],sack:q.counts[2]},escaped:q.escaped});
+  window.PAE_TRACE=tr;
+  const at=(t)=>F[Math.min(F.length-1,Math.round(t*FPS))];
+  const first=(a,b,fn)=>{ for(let f=Math.round(a*FPS);f<=Math.round(b*FPS)&&f<F.length;f++) if(fn(F[f],f)) return F[f].t; return null; };
+  const vx=(f)=>(F[Math.min(F.length-1,f+1)].cx-F[Math.max(0,f-1)].cx)*FPS/2;
+  const h=(q)=>q.top-q.bot;
+  const h0=h(at(0.9)), h4=h(at(3.9)), hb=h(at(17.9));
+  const earUp=(q)=>((q.earTips[1]-q.top)+(q.earTips[3]-q.top))/2;
+  const eu0=earUp(at(5.9));
+  const x1a=at(0.95).cx, x1b=Math.min(...F.slice(24,72).map(q=>q.cx)), x2a=at(3.95).cx, x2b=Math.min(...F.slice(96,144).map(q=>q.cx));
+  const C={
+    flinch1:{score:1.00,t:first(0.8,1.8,(q,f)=>h(q)<0.94*h0||vx(f)<-0.15),note:`travel ${(x1b-x1a).toFixed(2)} m`},
+    flinch2:{score:4.00,t:first(3.8,4.8,(q,f)=>h(q)<0.96*h4||vx(f)<-0.08),note:`travel ${(x2b-x2a).toFixed(2)} m`},
+    notice:{score:6.50,t:first(6.0,8.9,(q)=>earUp(q)>eu0+0.08),note:''},
+    comes:{score:9.00,t:first(8.5,13,(q,f)=>vx(f)>0.12&&q.head<q.shoulder-0.03),note:`head below shoulder by ${((at(11).shoulder-at(11).head)*100).toFixed(0)} cm`},
+    props:{score:14.50,t:first(13.5,17.5,(q,f)=>{ const r0=(F[312].th-F[300].th)/0.5, r=(F[f+12].th-F[f].th)/0.5; return q.push>0.001&&r<0.2*r0; }),note:''},
+    braces:{score:18.00,t:first(17.8,20.5,(q)=>h(q)<0.95*hb),note:''},
+    leaps:{score:21.40,t:first(21.0,22.5,(q)=>q.bot>0.04),note:''},
+    catches:{score:22.40,t:first(21.5,23.5,(q)=>q.pen[3]===1),note:""},
+    lands:{score:23.00,t:null,note:''},
+    gathers:{score:24.50,t:first(24.0,28,(q,f)=>f>0&&q.counts[2]>F[f-1].counts[2]||q.nFlow>0),note:''},
+    stays:{score:30.00,t:null,note:''}
+  };
+  const lt=C.leaps.t; if(lt!=null){ const tl=first(lt+0.3,25,(q)=>q.bot<0.03); C.lands.t=tl; const ql=at(23.0); C.lands.note=`x ${F[Math.round((tl||23)*FPS)].cx.toFixed(2)}`; }
+  // stays: still and full from 30.0 to 31.2
+  { let mv=0; for(let f=720;f<=749;f++) mv=Math.max(mv,Math.abs(F[f].cx-F[720].cx)); const q=at(30); C.stays.t=(mv<0.01&&q.top>0.85)?30.0:null; C.stays.note=`moved ${(mv*100).toFixed(1)} cm`; }
+  // the prop must hold the tower: lean rate while propped
+  { let ret=0; for(let f=432;f<=446;f++) ret=Math.max(ret,F[432].cx-F[f].cx); const hb=F[431].top-F[431].bot; let hm=1e9; for(let f=432;f<=442;f++) hm=Math.min(hm,F[f].top-F[f].bot);
+    C.braces.note=`squash ${((1-hm/hb)*100).toFixed(0)}%, gives ground ${(ret*100).toFixed(1)} cm`; C.braces.retreat=ret; }
+  { const a=at(15.5).th, b=at(17.9).th; C.props.note=`tower lean ${(a*57.3).toFixed(1)} to ${(b*57.3).toFixed(1)} deg`; }
+  { const c0=C.catches.t==null?NF:Math.round(C.catches.t*FPS); C.catches.note=`penny on cloth to 32 s: ${c0<NF&&F.slice(c0).every(z=>z.pen[3]===1)?'yes':'no'}`; }
+  { const tl=C.notice.t, f6=Math.round((tl||6.5)*FPS); C.notice.note=`ears rise with tower already leaning ${(F[f6].th*57.3).toFixed(1)} deg`; }
+  // volume: cloth area against the area the flour count calls for
+  let vr=[1e9,-1e9], vrAll=[1e9,-1e9]; const A0=F[0].area;
+  for(const q of F){ const r=q.area/A0; if(q.t<24.5||q.t>=28.5+2.0){} if(q.t<24.5){vr[0]=Math.min(vr[0],r);vr[1]=Math.max(vr[1],r);} const r2=q.area/q.areaTarget; vrAll[0]=Math.min(vrAll[0],r2); vrAll[1]=Math.max(vrAll[1],r2); }
+  let tot=[1e9,-1e9], esc=0; for(const q of F){ const s=q.counts[0]+q.counts[1]+q.counts[2]; tot[0]=Math.min(tot[0],s); tot[1]=Math.max(tot[1],s); esc=Math.max(esc,q.escaped); }
+  const end=F[F.length-1];
+  const out={}; for(const k in C) out[k]={score:C[k].score,measured:C[k].t==null?null:+C[k].t.toFixed(3),holds:C[k].t!=null&&Math.abs(C[k].t-C[k].score)<=0.25,note:C[k].note};
+  out.braces.retreatCm=+(C.braces.retreat*100).toFixed(2); out.braces.holds=out.braces.holds&&C.braces.retreat<=0.005;
+  // cut 3 must not straighten the tower
+  { let d=0; const f0=Math.round(18.0*FPS); for(let f=f0;f<=Math.round(18.6*FPS);f++) d=Math.max(d,Math.abs(F[f].th-F[f0].th)*57.2958);
+    out.cut3Lean={window:[18.0,18.6],maxChangeDeg:+d.toFixed(2),holds:d<=1.5}; }
+  // the penny ends on the top
+  { let dx=0,below=0; for(let f=Math.round(23.2*FPS);f<F.length;f++){ dx=Math.max(dx,Math.abs(F[f].pen[0]-F[f].cx)); below=Math.max(below,F[f].top-F[f].pen[1]); }
+    const onSeam=F.slice(Math.round(23.2*FPS)).every(z=>z.pen[3]===1&&z.pen[4]>=S.I_TR&&z.pen[4]<=S.I_TL);
+    out.pennyOnTop={window:[23.2,32.0],maxOffCentreM:+dx.toFixed(3),maxBelowTopCornerM:+below.toFixed(3),onTopSeam:onSeam,holds:dx<=0.10&&onSeam}; }
+  // weight low in the leap
+  { const share=q=>{ const mid=(q.top+q.bot)/2; let a=0,n=0; for(let k=0;k<S.NG;k++) if(q.s[k]===2){ n++; if(q.g[2*k+1]<mid) a++; } return a/n; };
+    let mn=1; for(let f=Math.round(21.6*FPS);f<=Math.round(22.4*FPS);f++) mn=Math.min(mn,share(F[f]));
+    out.leapWeightLow={window:[21.6,22.4],minLowerHalfGrainShare:+mn.toFixed(3),holds:mn>=0.62}; }
+  // the prop holds a visible fall
+  { const rate=(a,b)=>(F[Math.round(b*FPS)].th-F[Math.round(a*FPS)].th)/(b-a)*57.2958; let cY=0,tt=0; for(let f=Math.round(14.5*FPS);f<Math.round(17.9*FPS);f++) if(F[f].contactY>cY){cY=F[f].contactY;tt=F[f].towerTop;}
+    const rb=rate(13.9,14.4), ra=rate(14.8,15.0); out.propHolds={rateBeforeDegPerS:+rb.toFixed(2),rateAfterDegPerS:+ra.toFixed(2),contactHeightM:+cY.toFixed(3),towerMidM:+(tt/2).toFixed(3),holds:rb>=2&&ra<=0.2&&cY>tt/2}; }
+  out.volume={rangeBeforeGather:[+vr[0].toFixed(4),+vr[1].toFixed(4)],areaOverFlourDemand:[+vrAll[0].toFixed(4),+vrAll[1].toFixed(4)],holds:vr[0]>0.94&&vr[1]<1.06&&vrAll[0]>0.94&&vrAll[1]<1.06};
+  out.flour={total:[tot[0],tot[1]],holds:tot[0]===tot[1],maxEscaped:esc,endSack:end.counts[2],endPile:end.counts[1]};
+  out.end={x:+end.cx.toFixed(3),top:+end.top.toFixed(3),pennyOnTop:end.pen[3]===1,pennyX:+end.pen[0].toFixed(3),holds:Math.abs(end.cx-0.8)<0.12&&end.top>0.88&&end.pen[3]===1};
+  window.PAE_CHECK=out;
+  const tb=el('chk'); const names={flinch1:'flinches',flinch2:'flinches, less',notice:'notices',comes:'comes, head low',props:'props',braces:'braces',leaps:'leaps',catches:'catches',lands:'lands',gathers:'gathers',stays:'stays'};
+  for(const k in names){ const o=out[k]; const tr_=document.createElement('tr'); tr_.innerHTML=`<td>${names[k]}<br><span style="color:var(--mute)">${o.note}</span></td><td>${o.score.toFixed(2)}</td><td>${o.measured==null?'none':o.measured.toFixed(2)}</td><td class="${o.holds?'H':'B'}">${o.holds?'HOLDS':'BREAKS'}</td>`; tb.appendChild(tr_); }
+  const add=(a,b,c,d)=>{const tr_=document.createElement('tr'); tr_.innerHTML=`<td>${a}</td><td>${b}</td><td>${c}</td><td class="${d?'H':'B'}">${d?'HOLDS':'BREAKS'}</td>`; tb.appendChild(tr_);};
+  add('cut 3: tower lean change','≤1.5°',`${out.cut3Lean.maxChangeDeg.toFixed(2)}°`,out.cut3Lean.holds);
+  add('penny centred on top 23.2–32','≤0.10 m',`${out.pennyOnTop.maxOffCentreM.toFixed(3)} m`,out.pennyOnTop.holds);
+  add('leap: flour in lower half','≥62%',`${(out.leapWeightLow.minLowerHalfGrainShare*100).toFixed(0)}%`,out.leapWeightLow.holds);
+  add('prop: fall stopped','≥2 → ≤0.2°/s',`${out.propHolds.rateBeforeDegPerS.toFixed(1)} → ${out.propHolds.rateAfterDegPerS.toFixed(2)}, contact ${out.propHolds.contactHeightM.toFixed(2)} m`,out.propHolds.holds);
+  add('volume before gather','±6%',`${((vr[0]-1)*100).toFixed(1)}..${((vr[1]-1)*100).toFixed(1)}%`,out.volume.holds);
+  add('flour total','constant',`${tot[0]}..${tot[1]}`,out.flour.holds&&esc===0);
+  add('ends at tower, full, penny','x 0.80',`x ${out.end.x.toFixed(2)}, top ${out.end.top.toFixed(2)}`,out.end.holds);
+  el('chkx').textContent=`Cloth area tracks the flour inside it within ${((vrAll[0]-1)*100).toFixed(1)}..${((vrAll[1]-1)*100).toFixed(1)}% across all 768 frames; grains outside their side of the cloth: max ${esc}. Sack ${S.S0} grains at start, ${end.counts[2]} at end; tower ${S.NT} grains.`;
+}
+
+// ---- playback ----
+function show(f){ cur=Math.max(0,Math.min(NF-1,f|0)); simulateTo(cur); render(S.frames[cur]); el('scrub').value=cur; el('tc').textContent=(cur/FPS).toFixed(2).padStart(5,'0')+' s · '+cur; }
+function tick(ts){ if(playing){ if(!last) last=ts; acc+=(ts-last)/1000; last=ts; let adv=0; while(acc>=1/FPS){acc-=1/FPS;adv++;}
+    if(adv){ let nf=cur+adv; if(nf>=NF) nf=0; if(S.frames.length-1<nf){ nf=S.frames.length-1; } show(nf); } } else last=ts; requestAnimationFrame(tick); }
+el('pp').onclick=()=>{ playing=!playing; el('ppi').innerHTML=playing?'<rect x="2" y="1" width="3.5" height="12" fill="currentColor"/><rect x="8.5" y="1" width="3.5" height="12" fill="currentColor"/>':'<path d="M3 1 L12 7 L3 13 Z" fill="currentColor"/>'; };
+el('scrub').oninput=(e)=>{ show(+e.target.value); };
+el('th').onclick=()=>{ const r=document.documentElement; const dark=r.dataset.theme?r.dataset.theme==='dark':matchMedia('(prefers-color-scheme: dark)').matches; r.dataset.theme=dark?'light':'dark'; };
+window.PAE_SEEK=(t)=>{ playing=false; show(Math.round(t*FPS)); if(S.frames.length>=NF) finish(); return cur; };
+window.PAE_READY=()=>{ simulateTo(NF-1); finish(); return true; };
+show(0); requestAnimationFrame(tick); setTimeout(pump,30);
+})();
+</script>
+</body>
+</html>
