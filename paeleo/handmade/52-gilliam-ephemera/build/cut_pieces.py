@@ -118,7 +118,7 @@ HEAD_INK = [('lightfill', [(84, 80), (100, 80), (110, 88), (106, 100), (94, 100)
 ink('dog_head', HEAD_INK)
 # round 4: the ear, cut free from the same print and pinned at its root, so it can prick, flick and fall (the watch)
 EAR = [(110, 81), (122, 82), (130, 88), (137, 106), (128, 119), (115, 109), (109, 92)]
-add(cut('dog_ear', dogf(6), [EAR], DS, 'dog', M6, **HG, seed=9, provenance=P6, pins={'root': (115, 85)}),
+add(cut('dog_ear', dogf(6), [EAR], DS, 'dog', M6, **HG, rim=.3, seed=9, provenance=P6, pins={'root': (115, 85)}),
     op='crop+matte+scissor cut+tint (the ear, a separate card pinned at its root)')
 ink('dog_ear', [('fill', EAR, .55), ('line', [(117, 88), (126, 100), (128, 112)], .9, .5)])
 # legs: each cut in two at the elbow / hock, so they can fold
@@ -208,7 +208,7 @@ def back_of_head():
             'pins': {'neck': [40, 74]}, 'palette': 'dog', 'source_print': os.path.relpath(dogf(6), ROOT),
             'provenance': prov('dog', 6), 'notes': 'constructed: skull and hanging, folded ears cut from the f006 saddle fur; '
             'the muzzle tip is a scrap of f046 showing over the skull, turned into the room', 'op': 'constructed collage of two prints'}
-add(back_of_head())
+# add(back_of_head())   # round 4: replaced in the film by dog_away (head_away below); not cut any more
 
 
 def head_away():

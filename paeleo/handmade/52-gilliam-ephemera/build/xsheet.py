@@ -113,10 +113,10 @@ def gait(s):
 
 
 # round 4: folded legs. Each leg is two cards (upper on the shoulder/hip pin, lower on the knee pin): forelegs bent at the
-# wrist with the paw forward on the boards (sphinx), hind legs folded at the hock under the haunch.
-LIE = {'fore': 60, 'fore_lo': 90, 'farfore': 55, 'farfore_lo': 88, 'hind': 75, 'hind_lo': -95, 'farhind': 70, 'farhind_lo': -95}
+# wrist with the paw forward on the boards (sphinx), hind legs folded: the haunch forward, the hind paw under it.
+LIE = {'fore': 60, 'fore_lo': 90, 'farfore': 55, 'farfore_lo': 88, 'hind': 95, 'hind_lo': 90, 'farhind': 90, 'farhind_lo': 90}
 def flops(p, l):             # lying, the lower foreleg cards are flopped so the paws lie toes-down
-    if l > .5: p['fore_flop'] = p['farfore_flop'] = 1
+    if l > .5: p['fore_flop'] = p['farfore_flop'] = p['hind_flop'] = p['farhind_flop'] = 1
 def lie_from(g, k):          # the standing angle a leg card folds from (a lower card follows its upper one by default)
     return g.get(k, g.get(k.split('_')[0], 0)) if g else 0
 
@@ -175,13 +175,13 @@ def dog_pose(i, prev):
         p['head'] = -15; p['ear'] = 0; p['tail'] = 10
         if t >= 8.75: p['ear'] = -18
         if t >= 9.6:
-            p['drop'] = 5; p['tail'] = 2; p['head'] = -19
+            p['tail'] = 0; p['head'] = -19          # settles: the head and tail come down
         if 10.7 <= t < 11.9:
             p['head'] = -19 + 13; p['ear'] = 12
         if 12.5 <= t:
             p['head'] = smooth(-19, -30, (t - 12.5) / 1.5); p['ear'] = smooth(-18, 0, (t - 12.5) / 1.5)
         if 14.0 <= t < 14.5:
-            p['fore'] = 22; p['fore_lo'] = 70
+            p['fore'] = 28; p['fore_lo'] = -15     # lifted, the paw hanging from the bent wrist
         label = 'watch'
     elif i < CH['lie']:                                      # coming, head low, below the line of the back
         g, _ = gait((4.0 - x) * K)
@@ -204,7 +204,7 @@ def dog_pose(i, prev):
             p['headpiece'] = 'dog_away'
             # round 4: the head turned away into the room (a lost profile rising from behind the shoulders); the held
             # look moves: it reaches a little further in, then eases back
-            p['head'] = -10 if t < 26.95 else (-15 if t < 27.45 else (-7 if t < 27.8 else -10))
+            p['head'] = 5 if t < 26.95 else (1 if t < 27.45 else (8 if t < 27.8 else 5))
             label = 'lie_down: looks in through the door'
         elif i >= LOOK_OUT:
             p['head'] = smooth(-30, -75, (t - 28.08) / .55)

@@ -61,8 +61,13 @@ SPECS = [
          cut=[(58, 72), (108, 72), (112, 108), (104, 128), (72, 124), (58, 104)],
          anchors=dict(neck=(102, 114), nose=(68, 96))),
     dict(id='head_low_f048', type='dog.head', tags=['low', 'collar'], src=DOGSRC, f=48, sam=True, flip=True,
-         cut=[(220, 116), (292, 116), (292, 200), (220, 200)],
-         anchors=dict(neck=(229, 132), nose=(281, 182))),
+         cut=[(236, 121), (252, 125), (275, 139), (292, 160), (293, 200), (238, 200), (231, 188), (227, 168), (226, 142), (229, 128)],
+         feather_radial=((263, 164), 38, 10), anchors=dict(neck=(229, 132), nose=(281, 182))),  # round 6: no straight cut: shaped to the head, neck side faded into the body
+    # round 6: the BACK of the dog's head, from f001 (the dog seen from behind, its head raised to its person): skull, ears and
+    # neck, the lower edge faded into the body. 'nose' here is the crown (the muzzle is hidden: it points away from the viewer).
+    dict(id='head_back_f001', type='dog.head', tags=['back', 'look-in'], src=DOGSRC, f=1, sam=True,
+         cut=[(113, 66), (122, 60), (134, 60), (146, 74), (160, 90), (178, 98), (196, 104), (204, 114), (198, 132), (172, 130), (146, 122), (126, 112), (115, 100), (111, 82)],
+         feather_line=((206, 112), (128, 126), 12), anchors=dict(neck=(178, 120), nose=(128, 64))),
     # round 4: the head in true profile, cut from the turning frame f033 (the dog's own head turned to look sideways,
     # muzzle level, collar behind the jaw); mirrored so its native muzzle points left. Used for turning to look (7.46)
     # and for looking in (26.4): a level muzzle, never raised toward the bulb.
@@ -176,6 +181,11 @@ def cut(spec):
         if (cx - x1) * nx + (cy - y1) * ny < 0: dist = -dist
         ramp = np.clip(dist / wd + 0.0, 0, 1) ** 1.2
         m = Image.fromarray((np.asarray(m).astype(float) * ramp).astype(np.uint8))
+    if spec.get('feather_radial'):  # round 6: the neck side ends on an arc round the head (no straight cut line)
+        (cx, cy), R, wd = spec['feather_radial']
+        yy, xx = np.mgrid[0:H, 0:W].astype(float)
+        ramp = np.clip((R - np.hypot(xx - cx, yy - cy)) / wd, 0, 1) ** 1.2
+        m = Image.fromarray((np.asarray(m).astype(float) * ramp).astype(np.uint8))
     if spec.get('feather_y'):  # the neck fades into the body instead of ending on a straight cut
         ye, wd, side = spec['feather_y']
         yy = np.arange(H)[:, None].astype(float)
@@ -236,7 +246,7 @@ def cut(spec):
                 anchors={k: [round(v[0], 2), round(v[1], 2)] for k, v in anchors.items()},
                 source=dict(spec['src'], frame=spec['f'], frame_file=os.path.relpath(frame_path(spec['src'], spec['f']), ROOT) if frame_path(spec['src'], spec['f']).startswith(ROOT) else frame_path(spec['src'], spec['f'])),
                 operation=('SAM mask ∩ ' if spec.get('sam') else '') + ('scissors polygon' if spec.get('cut') else 'SAM mask') +
-                          (' · luminance key' if spec.get('key') else '') + (' · mirrored' if spec.get('flip') else '') + (' · tone crushed (back-lit)' if spec.get('tone') == 'backlit' else '') + (' · graded join (feather)' if spec.get('feather') or spec.get('feather_y') or spec.get('feather_line') else '') + (' · tone stretch' if spec['type'].startswith(('dog', 'person.body', 'person.torso', 'person.legs')) else '') + (' · paper rim' if spec.get('edge', 0 if spec['type'].startswith('dog') else 1) else ''),
+                          (' · luminance key' if spec.get('key') else '') + (' · mirrored' if spec.get('flip') else '') + (' · tone crushed (back-lit)' if spec.get('tone') == 'backlit' else '') + (' · graded join (feather)' if spec.get('feather') or spec.get('feather_y') or spec.get('feather_line') or spec.get('feather_radial') else '') + (' · tone stretch' if spec['type'].startswith(('dog', 'person.body', 'person.torso', 'person.legs')) else '') + (' · paper rim' if spec.get('edge', 0 if spec['type'].startswith('dog') else 1) else ''),
                 cut=spec.get('cut'))
 
 

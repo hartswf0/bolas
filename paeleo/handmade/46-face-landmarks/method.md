@@ -25,8 +25,8 @@ this time into the lit room (*looks in*), and stays. Bland would be: one head pl
 - **Landmark vector.** The dog has a body vector (withers, rump, chest, brisket, belly, neck base, shoulder and hip
   joints, flanks, tail base) and a head vector (skull pivot, nose tip, stop, both eyes, both ear bases, chin, throat,
   cranium, occiput, cheeks), in metres, dog-local. The person's face has its own (bridge, nose tip, upper lip, mouth, chin, pivot) in source pixels.
-- **Fits.** Every dog plate carries its landmarks in its own (canonical, orthographic) frame. Each frame it is placed only by a
-  least-squares affine fit from those landmarks to the solver's projected landmarks (`registration.json` keeps view, mirror side,
+- **Fits.** Every dog plate carries its landmarks in its own (canonical, orthographic) frame. Each frame it is placed by a
+  least-squares affine fit from those landmarks to the solver's projected landmarks (a size-keeping similarity fit on 36 head frames where the view is far from its plate) (`registration.json` keeps view, mirror side,
   the 2×3 fit, its residual and anisotropy per frame). Ears and neck use two-point fits (base→tip, neck pivot→skull pivot).
   The person's face, a source portrait, is placed by **similarity only** (never sheared). The door, a source photograph, is
   rectified by a projective fit and re-projected each frame by another projective fit onto its swinging panel.
@@ -92,7 +92,7 @@ down, wind and crickets. Measured: see *Evidence*.
 
 **Checker** (`tools/paeleo/check_handmade.py`): I1 choices True, I2 threshold True (min x_score 0.6051, end 0.6051), I3 direction True (r = 1.0, x_world_measured), I4 refusal True (share turned 0.959).
 
-**SCION numeric invariants (proof/invariants_numeric.json):** head attachment error max 0.943 cm (mean 0.354); eyes inside their head plate 100% of 587 drawn eyes; planted-foot drift max 0.001289 m/frame; source face similarity-only (anisotropy 1, shear 0); head below the withers for 100% of the approach (worst margin 0.021 m); 11 head and 6 body substitutions.
+**SCION numeric invariants (proof/invariants_numeric.json):** head attachment error max 0.943 cm (mean 0.354); eyes inside their head plate 100% of 587 drawn eyes; planted-foot drift max 0.001289 m/frame; source face similarity-only (anisotropy 1, shear 0); head below the withers for 96.3% of 14.9-23.8 s (re-measured in repair round 3: the 8 frames above it, 14.92-15.21 s, are the head's 0.7 s lowering at the start of the approach; the earlier '100%' was stale); 11 head and 6 body substitutions.
 
 **Sound levels (measured from the stems, build/cache/sound_levels.json):** calls -17.15 dBFS RMS, soft voice -30.67 (-13.52 dB vs calls), room tone -43.73 (soft is 13.06 dB above it). Heard: never (I cannot listen).
 
@@ -124,3 +124,47 @@ face returns (watch) at 7.625 s (≤ 7.70); look-in onset 26.583 s. The near cas
 ## Repair round 2 (after critic round 2: pass, narrowly on craft)
 
 The collar now sits only high on the neck, under the head, so no white band crosses the head plate or the withers. While refusing, the head stays up, with its skull and ears above the back line (5.0-7.4 s), and stays visible through the turn back (7.40-7.70 s). The person squats on his feet as he sits. The face's jaw line ends at the chin, and the hair meets the face along a curve. The six choices were re-measured and are unchanged: watch returns at 7.625 s. The checker reports ALL OK. Looked at: crops at 5.0, 6.25, 7.0, 7.33, 7.5, 7.58, 7.67, 22.5, 23.58 and 23.75 s.
+
+## Repair round 3 (after critic round 3: does not pass, narrowly; continued by a new builder)
+
+**Already done before this round was recorded.** `film.mp4`, `render.py`, `cards.py` and `register.py` were newer than the round 3
+review, so the previous builder had begun this repair without writing it down. I checked what it had done in the encoded film
+before changing anything. The collar is no longer drawn, and no light band crosses the neck or back-of-head plates from 14 to 32 s.
+After 7.625 s the head stays on face views (`register.py` holds them from 7.62 to 8.65 s). On all 585 frames the nose points
+toward the door or room, and the withdrawn 135/180 plates appear only from the look-in at 26.58 s. The end card already said the
+legs and tail are pivot-chain outlines.
+
+**What I changed:**
+1. **Head in front of its chest, 28.1-32 s.** The head was already painted last. Two things still made the chest read as over it:
+   - the bloom pass took its source from the whole frame, so the door-lit white chest glowed across the head;
+   - the settle (neck elevation -62 deg) sank the head into the bib.
+
+   Now the bloom source masks out the figures, so only the lamp and the doorway glow. While the dog lies at the sill, the head
+   casts a soft shadow onto its chest and the floor. The settle rests the head forward at -28 deg, still a visible lowering from
+   61 deg during the look-in.
+2. **3.6-3.7 s.** The 135 head plate's affine fit squeezed it (scale 181-183 against about 222; anisotropy 1.38-1.46), and it sat
+   low behind the far shoulder. In the refusal turn, a fit with anisotropy over 1.2 now keeps its size: a similarity fit pinned to
+   the skull pivot. The head is also carried up to 54 deg from 3.55 to 3.85 s. Measured: head scale 209-224 from 3.58 to 3.75 s.
+   The visible share of the head group (head, neck and ears) is 0.75-0.92, and what is hidden is the neck's base and the lower
+   jaw behind the far shoulder.
+3. **End card.** It said "placed only by affine fits", but 36 head frames use the size-keeping similarity fit (87-89, 180 and
+   642-673). It now says so, names the paws as two-point fits, and says each leg and the tail are one outline through a solved
+   pivot chain.
+
+**Unchanged, re-measured:**
+- the choices: refuse 3.583, watch 7.625, approach 14.75, lie down 23.875, look-in 26.583;
+- the soft voice, -13.52 dB against the calls;
+- the checker reports ALL OK.
+
+**Looked at,** in 2x crops of frames decoded from the encoded film:
+- every frame from 3.50 to 3.83 s;
+- every second frame from 7.54 to 8.54 s;
+- every 0.5 s from 14 to 32 s;
+- every frame from 27.92 to 28.33 s;
+- the full frame at 30.83 s;
+- the end card and the stills.
+
+**Still weak:**
+- At 3.667 s, the frame of the torso swap, the lower half of the head is behind the far shoulder, though at full size.
+- The bright white chest still sits just below the jaw in the final hold.
+- I did not hear the sound.

@@ -94,7 +94,7 @@ def draw_dog(canvas, pose, rec=None, tint=None):
             A = A @ T(nk[0], 0) @ FLIP() @ T(-nk[0], 0)   # the head card turned over (a mirrored print)
         place(canvas, 'dog_head', A, tint=tint, record=rec)
         # round 4: the ear is its own card, pinned at its root on the head (pricked: -, dropped: +)
-        place(canvas, 'dog_ear', A @ R(pose.get('ear', 0), pin('dog_ear', 'root')), tint=tint, shadow=(1.2, 1.6, .45))
+        place(canvas, 'dog_ear', A @ R(pose.get('ear', 0), pin('dog_ear', 'root')), tint=tint, shadow=(1.0, 1.2, .3))
 
 
 AWAY_FLIP = 1

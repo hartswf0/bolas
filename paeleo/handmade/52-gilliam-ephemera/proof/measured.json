@@ -83,7 +83,7 @@
   ],
   "part_inside_frame": true,
   "part_outside_frame": true,
-  "share_of_dog_pixels_inside_frame": 0.484,
+  "share_of_dog_pixels_inside_frame": 0.494,
   "end_posture": "lying",
   "end_facing": 1
  },
@@ -93,5 +93,321 @@
   "min_frames_per_exposure": 2,
   "share_on_twos_or_longer": 1.0,
   "longest_hold_frames": 24
+ },
+ "round4": {
+  "look_back": {
+   "head_card": "dog_lookback (eye, nostril, ear retouched)",
+   "card_height_px": 63,
+   "torso_card_height_px": 79,
+   "ratio": 0.8,
+   "first_frame_t": 7.4583,
+   "share_frames_7.458_8.08_facing_door": 1.0,
+   "muzzle_direction_deg_at_7.458": 169.0,
+   "note": "180 = level toward the door (left)"
+  },
+  "watch": {
+   "acting_changes_8.33_14.71": [
+    {
+     "t": 8.75,
+     "changed": {
+      "ear": [
+       0,
+       -18
+      ]
+     }
+    },
+    {
+     "t": 9.667,
+     "changed": {
+      "head": [
+       -15,
+       -19
+      ]
+     }
+    },
+    {
+     "t": 10.75,
+     "changed": {
+      "ear": [
+       -18,
+       12
+      ],
+      "head": [
+       -19,
+       -6
+      ]
+     }
+    },
+    {
+     "t": 11.917,
+     "changed": {
+      "ear": [
+       12,
+       -18
+      ],
+      "head": [
+       -6,
+       -19
+      ]
+     }
+    },
+    {
+     "t": 12.667,
+     "changed": {
+      "ear": [
+       -18,
+       -17.0
+      ]
+     }
+    },
+    {
+     "t": 12.75,
+     "changed": {
+      "head": [
+       -19.0,
+       -20.0
+      ]
+     }
+    },
+    {
+     "t": 12.833,
+     "changed": {
+      "ear": [
+       -17.0,
+       -16.0
+      ]
+     }
+    },
+    {
+     "t": 12.917,
+     "changed": {
+      "ear": [
+       -16.0,
+       -15.0
+      ],
+      "head": [
+       -20.0,
+       -21.0
+      ]
+     }
+    },
+    {
+     "t": 13.0,
+     "changed": {
+      "ear": [
+       -15.0,
+       -13.0
+      ],
+      "head": [
+       -21.0,
+       -22.0
+      ]
+     }
+    },
+    {
+     "t": 13.083,
+     "changed": {
+      "ear": [
+       -13.0,
+       -12.0
+      ],
+      "head": [
+       -22.0,
+       -23.0
+      ]
+     }
+    },
+    {
+     "t": 13.167,
+     "changed": {
+      "ear": [
+       -12.0,
+       -10.0
+      ],
+      "head": [
+       -23.0,
+       -24.0
+      ]
+     }
+    },
+    {
+     "t": 13.25,
+     "changed": {
+      "ear": [
+       -10.0,
+       -9.0
+      ]
+     }
+    },
+    {
+     "t": 13.333,
+     "changed": {
+      "ear": [
+       -9.0,
+       -8.0
+      ],
+      "head": [
+       -24.0,
+       -25.0
+      ]
+     }
+    },
+    {
+     "t": 13.417,
+     "changed": {
+      "ear": [
+       -8.0,
+       -6.0
+      ],
+      "head": [
+       -25.0,
+       -26.0
+      ]
+     }
+    },
+    {
+     "t": 13.5,
+     "changed": {
+      "ear": [
+       -6.0,
+       -5.0
+      ],
+      "head": [
+       -26.0,
+       -27.0
+      ]
+     }
+    },
+    {
+     "t": 13.583,
+     "changed": {
+      "ear": [
+       -5.0,
+       -3.0
+      ],
+      "head": [
+       -27.0,
+       -28.0
+      ]
+     }
+    },
+    {
+     "t": 13.667,
+     "changed": {
+      "ear": [
+       -3.0,
+       -2.0
+      ],
+      "head": [
+       -28.0,
+       -29.0
+      ]
+     }
+    },
+    {
+     "t": 13.75,
+     "changed": {
+      "ear": [
+       -2.0,
+       -1.0
+      ]
+     }
+    },
+    {
+     "t": 13.833,
+     "changed": {
+      "head": [
+       -29.0,
+       -30.0
+      ]
+     }
+    },
+    {
+     "t": 13.917,
+     "changed": {
+      "ear": [
+       -1.0,
+       0.0
+      ]
+     }
+    },
+    {
+     "t": 14.0,
+     "changed": {
+      "fore": [
+       0,
+       28
+      ],
+      "fore_lo": [
+       null,
+       -15
+      ]
+     }
+    },
+    {
+     "t": 14.5,
+     "changed": {
+      "fore": [
+       28,
+       0
+      ],
+      "fore_lo": [
+       -15,
+       null
+      ]
+     }
+    }
+   ],
+   "n": 22
+  },
+  "look_in": {
+   "frames_with_away_card": 40,
+   "first_t": 26.4167,
+   "last_t": 28.0417,
+   "muzzle_tip_xy": [
+    381.5,
+    495.4
+   ],
+   "muzzle_tip_inside_door_opening_x": true,
+   "muzzle_tip_above_sill": true,
+   "muzzle_direction_deg": 24.2,
+   "note": "the person and the offered hand are to the left (180 deg); the lamp is up (~95 deg); the card is flopped so the muzzle points up-right, into the lit room"
+  },
+  "lying": {
+   "paw_y_minus_floor_px_at": {
+    "6.0": {
+     "dog_fore": 3.5,
+     "dog_farfore": 6.4,
+     "dog_hind": -13.9,
+     "dog_farhind": -12.5
+    },
+    "25.0": {
+     "dog_fore": -0.5,
+     "dog_farfore": 2.4,
+     "dog_hind": -17.9,
+     "dog_farhind": -16.5
+    },
+    "30.0": {
+     "dog_fore": -0.5,
+     "dog_farfore": 2.4,
+     "dog_hind": -17.9,
+     "dog_farhind": -16.5
+    }
+   },
+   "leg_card_angles_lying": {
+    "fore": 60.0,
+    "farfore": 55.0,
+    "hind": 95.0,
+    "farhind": 90.0,
+    "fore_lo": 90.0,
+    "farfore_lo": 88.0,
+    "hind_lo": 90.0,
+    "farhind_lo": 90.0,
+    "fore_flop": 1,
+    "farfore_flop": 1,
+    "hind_flop": 1,
+    "farhind_flop": 1
+   }
+  }
  }
 }
