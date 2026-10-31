@@ -21,11 +21,11 @@ One builder ran these roles in sequence. No separate agents ran, and no independ
   1. View keys interpolated with a monotone cubic over body yaw, head yaw/pitch and stand→lie.
   2. The score's acting values per frame: head, crouch, ears, tail, wag, rest, look and walk phase. Paws are planted from the score's walk phase (11.5 rad/m, measured), so stance feet hold in the world.
 - **Motion stretch.** A handle that moves faster than the body is drawn out along its motion, capped at 7 px, so fast swings smear the dots.
-- **View prints (13).** The full list and contact sheet are in `assets.json` and `proof/view_prints.jpg`: profile, three-quarter, rear, lying, look-back and look-in. A print swaps at the midpoint of a swing. Both prints are warped to the same handles on that frame, so the swap happens behind the gesture. There is no cross-dissolve anywhere.
+- **View prints (17).** The full list and contact sheet are in `assets.json` and `proof/view_prints.jpg`: profile, three-quarter, rear, lying, look-back and look-in. A print swaps at the midpoint of a swing. Both prints are warped to the same handles on that frame, so the swap happens behind the gesture. There is no cross-dissolve anywhere.
 - **The guide.** A 37-point stick guide places the shapes and handles. It is never drawn. What you see is always a print bent by MLS.
 
 ## Distortion, measured and shown
-Every frame records, per layer, the singular values of the warp on an 8-print-px grid: anisotropy of the dot grid (s1/s2), area range, folded cells and handle error. The foot of every frame prints the largest anisotropy per family.
+Every frame records, per layer, the singular values of the warp on an 8-print-px grid: anisotropy of the dot grid (s1/s2), area range, folded cells and handle error. The measured numbers are stated on the end card (no readout in the scene since round 1).
 
 | family | median max-anisotropy | 95th percentile | max |
 |---|---|---|---|
@@ -90,3 +90,10 @@ That measurement is why the neck became similarity.
 - No operator page.
 - No GPU.
 - No git.
+
+## Round 1 critic repairs (verified on frames extracted from the encoded film)
+1. **Look-in (26.4–27.4).** L_in head yaw raised to 84° relative, so the back of the skull and both ears face the viewer inside the lit doorway. The low hand returns to the lap between 25.85 and 26.35.
+2. **Doorway.** It is now a distinct lit aperture between a post (x = 180) and the jamb. The room plane stays dim (light level ≤ 0.45). The door leaf is hinged on the post and swings back into the room.
+3. **Refusal turn.** It now uses four extra view prints (202.5, 247.5, 292.5 and 337.5°) with evenly spaced keys from 3.40 to 4.10, so no print is warped more than 11° from its own view. Off profile the neck is carried at a fixed 22°, so the head stays visible and never towers over the rump. Total visible dog area changes by at most about 23% per frame (frame 92, 3.83 s), so the ≤15% torso-area condition is not fully met by that measure.
+4. **Strain readout.** Removed from the scene; the measured medians and 95th percentiles are now on the end card. The rigid family is described honestly as a rigid fit that stretches up to 2.5 during fast view swings.
+5. **Turn-back neck.** At 8.2–8.34 the neck is carried at 32° off profile. Handle length (withers to poll) is 0.48–0.75× its profile length.
