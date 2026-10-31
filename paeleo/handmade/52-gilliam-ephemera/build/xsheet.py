@@ -115,6 +115,8 @@ def gait(s):
 # round 4: folded legs. Each leg is two cards (upper on the shoulder/hip pin, lower on the knee pin): forelegs bent at the
 # wrist with the paw forward on the boards (sphinx), hind legs folded at the hock under the haunch.
 LIE = {'fore': 60, 'fore_lo': 90, 'farfore': 55, 'farfore_lo': 88, 'hind': 75, 'hind_lo': -95, 'farhind': 70, 'farhind_lo': -95}
+def flops(p, l):             # lying, the lower foreleg cards are flopped so the paws lie toes-down
+    if l > .5: p['fore_flop'] = p['farfore_flop'] = 1
 def lie_from(g, k):          # the standing angle a leg card folds from (a lower card follows its upper one by default)
     return g.get(k, g.get(k.split('_')[0], 0)) if g else 0
 
@@ -151,13 +153,15 @@ def dog_pose(i, prev):
         p['head'] = smooth(-40, -25, l) + (-50) * rest
         p['tail'] = smooth(70, 58, l)          # tucked down between the hind legs
         for k in LIE: p[k] = LIE[k] * l
+        flops(p, l)
         p['drop'] = 50 * l + 4; p['tilt'] = 2 * l + 2 * (1 - l)
         label = 'refuse: back turned' + (', lying' if l > .5 else '')
     elif i < 194:                                            # the head card turned over: looks back; then rises
         p['face'] = -1; p['headflop'] = 1; p['headpiece'] = 'dog_lookback'   # the face card, looking back at the door
         l = a['lie']
-        p['head'] = 0
+        p['head'] = 20          # round 4: the muzzle level, at the door (0 pointed it up at the sky)
         for k in LIE: p[k] = LIE[k] * l
+        flops(p, l)
         p['drop'] = 50 * l; p['tilt'] = 2 * l; p['tail'] = 25 * l
         label = 'watch: looks back over the shoulder' + (', rising' if l > .1 else '')
     elif i < 200:
@@ -190,6 +194,7 @@ def dog_pose(i, prev):
         g, _ = gait((4.0 - 0.59) * K)
         l = max(a['lie'], .3)          # the first exposure of the choice already folds the legs a third of the way
         for k in LIE: p[k] = smooth(lie_from(g, k), LIE[k], l)
+        flops(p, l)
         p['drop'] = 50 * l; p['tilt'] = 2 * l; p['tail'] = smooth(18, 25, l)
         hd = smooth(-32, -20, (l - .3) / .7); p['neckdrop'] = 46 * (1 - min(1, max(0, l - .3) / .6))
         if t >= 25.4: hd = smooth(-20, -38, (t - 25.4) / .7)
@@ -199,7 +204,7 @@ def dog_pose(i, prev):
             p['headpiece'] = 'dog_away'
             # round 4: the head turned away into the room (a lost profile rising from behind the shoulders); the held
             # look moves: it reaches a little further in, then eases back
-            p['head'] = 0 if t < 26.95 else (-5 if t < 27.45 else (-2 if t < 27.8 else 0))
+            p['head'] = -10 if t < 26.95 else (-15 if t < 27.45 else (-7 if t < 27.8 else -10))
             label = 'lie_down: looks in through the door'
         elif i >= LOOK_OUT:
             p['head'] = smooth(-30, -75, (t - 28.08) / .55)

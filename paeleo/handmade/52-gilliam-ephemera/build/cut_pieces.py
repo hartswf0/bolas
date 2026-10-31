@@ -134,6 +134,11 @@ leg('dog_fore', FORE, 'shoulder', (141, 150), (138, 176), (133, 201), 'dog', 3, 
 leg('dog_farfore', FARFORE, 'shoulder', (126, 154), (124, 178), (123, 193), 'dogfar', 4, 178)
 leg('dog_hind', HIND, 'hip', (213, 151), (212, 178), (210, 202), 'dog', 5, 178)
 leg('dog_farhind', FARHIND, 'hip', (198, 152), (194, 178), (191, 196), 'dogfar', 6, 178)
+# round 4: toes inked on each paw (lying, the paws had read as flippers)
+def toes(name, fx, fy, d=1):
+    ink(name, [('line', [(fx - 7 * d, fy - 3), (fx - 8 * d, fy + 4)], .8, .85), ('line', [(fx - 3 * d, fy - 3), (fx - 4 * d, fy + 4)], .8, .85),
+               ('line', [(fx + 1 * d, fy - 3), (fx, fy + 4)], .8, .7), ('dot', fx - 11 * d, fy + 3, 1.0, .9)])
+toes('dog_fore_lo', 133, 201); toes('dog_farfore_lo', 125, 193); toes('dog_hind_lo', 212, 202); toes('dog_farhind_lo', 193, 195)
 add(cut('dog_tail', dogf(6), [TAIL, ('disc', 239, 136, 8)], DS, 'dog', M6, **DG, seed=7, provenance=P6,
         pins={'tailroot': (238, 136), 'tip': (282, 158)}), op='crop+matte+scissor cut+tint')
 # the turning card: a second print, the same dog facing the camera with its head turning (f030), one whole piece,
@@ -233,25 +238,32 @@ def head_away():
     # 1. the muzzle: the inked f006 head card, its nose up and to the left, laid first
     hd = pieces['dog_head']; hi_ = Image.open(os.path.join(FOLDER, hd['file'])).convert('RGBA')
     nose = (88.5 * hd['scale'] - hd['origin'][0], 85.5 * hd['scale'] - hd['origin'][1])
-    hi_ = hi_.rotate(-8, Image.BICUBIC, expand=True, center=nose)
-    nx, ny = 7, 17
+    hi_ = hi_.rotate(-20, Image.BICUBIC, expand=False, center=nose)
+    nx, ny = 7, 12
     layer = Image.new('RGBA', (W, H), (0, 0, 0, 0)); layer.alpha_composite(hi_, (int(nx - nose[0]), int(ny - nose[1])))
     la = np.asarray(layer).astype(np.float32) / 255
     lay(la[..., :3] * .92, la[..., 3])
     # 2. the far ear, just showing at the right edge of the skull
     lay(fur((160, 112, 200, 148), .45), mask([('p', [(64, 22), (78, 30), (82, 54), (76, 66), (70, 52)])]))
     # 3. the back of the skull and the nape, widening into the shoulders: hides the eye and the cheek
-    lay(fur((150, 108, 204, 152), .9), mask([('e', (22, 12, 72, 62)), ('p', [(26, 46), (70, 46), (90, 100), (14, 100)])]))
+    lay(fur((150, 108, 204, 152), .72), mask([('e', (26, 14, 76, 64)), ('p', [(30, 48), (74, 48), (66, 100), (40, 100)])]))
     # 4. the near ear from behind (its dark outer side), hanging on the muzzle side of the skull
-    lay(fur((160, 112, 200, 148), .5), mask([('p', [(25, 17), (36, 16), (44, 30), (42, 56), (34, 74), (24, 66), (22, 38)])]))
+    lay(fur((160, 112, 200, 148), .5), mask([('p', [(23, 19), (36, 17), (45, 30), (43, 56), (36, 74), (26, 66), (20, 36)])]))
     yy, xx = np.mgrid[0:H, 0:W]
     # the parting of the fur down the back of the skull and neck (the nape), and the skull's shadow on the neck
     rgb *= (1 - .25 * np.exp(-((xx - (52 + (yy - 30) * .14)) ** 2) / 10) * (yy > 30))[..., None]
+    # the lamp in the room lights the side of the head that faces it: a warm rim along the upper-left edges (the
+    # muzzle and the crown), painted on the print as a retoucher would; the back of the skull stays in shadow
+    sh = np.zeros_like(a); sh[3:, 3:] = a[:-3, :-3]
+    rim = np.asarray(Image.fromarray((np.clip(a - sh, 0, 1) * 255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(.8))).astype(np.float32) / 255
+    rgb = rgb * (1 - rim[..., None] * .8) + np.array([1.0, .78, .5]) * rim[..., None] * .8
     A = Image.fromarray((a * 255).astype(np.uint8)); er = np.asarray(A.filter(ImageFilter.MinFilter(3))).astype(np.float32) / 255
     e = np.clip(a - er, 0, 1)
-    rgb = rgb * (1 - e[..., None] * .75) + np.array([.93, .9, .82]) * e[..., None] * .75
+    rgb = rgb * (1 - e[..., None] * .6) + np.array([.93, .9, .82]) * e[..., None] * .6
+    nd = mask([('e', (nx - 3.6, ny - 3, nx + 3.6, ny + 3))])        # the nose, re-inked over the rim
+    rgb = rgb * (1 - nd[..., None] * .95) + np.array([.07, .04, .03]) * nd[..., None] * .95
     fn = os.path.join(CACHE, 'pieces', 'dog_away.png')
-    K_ = .84    # the construction is printed down to the head card's size before it is cut out (a reduced print)
+    K_ = .96    # the construction is printed down to the head card's size before it is cut out (a reduced print)
     out = Image.fromarray(np.dstack([np.clip(rgb, 0, 1) * 255, a * 255]).astype(np.uint8), 'RGBA')
     out = out.resize((round(W * K_), round(H * K_)), Image.LANCZOS); out.save(fn)
     return {'name': 'dog_away', 'file': os.path.relpath(fn, FOLDER), 'origin': [0, 0], 'size': list(out.size), 'scale': K_,

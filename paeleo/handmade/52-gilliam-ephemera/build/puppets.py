@@ -98,7 +98,7 @@ def draw_dog(canvas, pose, rec=None, tint=None):
 
 
 AWAY_FLIP = 1
-AWAY_AT = (12, 36)      # where the turned-away head card sits on the neck (puppet px from the neck pin)
+AWAY_AT = (-20, 36)      # where the turned-away head card sits on the neck (puppet px from the neck pin)
 LOW_ATTACH = (124 * 1.31, 126 * 1.31)
 LOW_ATTACH = (124 * 1.31, 126 * 1.31)    # the head-low card hangs from the front of the chest
 FACE_ATTACH = (132 * 1.31, 118 * 1.31)   # the look-back card sits on the neck, over the shoulders

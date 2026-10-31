@@ -44,7 +44,7 @@
  "approach_head_low": {
   "frames": 218,
   "share_head_centroid_below_back_line": 1.0,
-  "min_px_below": 45.0,
+  "min_px_below": 45.1,
   "median_px_below": 49.9,
   "head_card_top_below_withers": {
    "frames": 219,
@@ -53,15 +53,15 @@
    "median_px": 29.0
   },
   "muzzle_below_withers": {
-   "min_px": 46.2,
+   "min_px": 46.0,
    "median_px": 54.0
   }
  },
  "look_back": {
   "frames_7.458_to_8.1": 16,
   "head_pieces": [
-   "dog_face",
-   "dog_front"
+   "dog_front",
+   "dog_lookback"
   ],
   "share_facing_door": 1.0
  },
@@ -73,9 +73,9 @@
  "end_on_sill": {
   "end_bbox": [
    295,
-   509,
+   510,
    516,
-   609
+   611
   ],
   "door_frame_px": [
    193,
@@ -83,12 +83,12 @@
   ],
   "part_inside_frame": true,
   "part_outside_frame": true,
-  "share_of_dog_pixels_inside_frame": 0.493,
+  "share_of_dog_pixels_inside_frame": 0.484,
   "end_posture": "lying",
   "end_facing": 1
  },
  "camera_interval": {
-  "exposures": 257,
+  "exposures": 261,
   "frames": 768,
   "min_frames_per_exposure": 2,
   "share_on_twos_or_longer": 1.0,
