@@ -1,0 +1,229 @@
+{
+ "id": "064-parabolas",
+ "title": "Parabolas (etc.) \u2014 Curves With Different Causes",
+ "size": [
+  640,
+  480
+ ],
+ "fps": 24,
+ "source_gain_db": 0,
+ "score": null,
+ "events": [
+  {
+   "dur": 7.6,
+   "label": "HANGING (static outline, context): woman pegs a sheet on a clothesline; the lines run obliquely from the post (Health: Your Posture, 1953)",
+   "layers": [
+    {
+     "src": "0f8a091e-f966-5adb-831a-d3ad8f0eea94",
+     "media": "clip",
+     "in": 24.0,
+     "fit": "cover",
+     "audio": false,
+     "gain_db": -4,
+     "afade_in": 0.1,
+     "afade_out": 0.15
+    }
+   ],
+   "fade_in": 0.6
+  },
+  {
+   "dur": 5.0,
+   "label": "HANGING (closer, loaded): laundry strung between buildings; the line carries the garments (Story of a City: New York, 1946)",
+   "layers": [
+    {
+     "src": "30fe8bbc-4e09-52fd-85a8-2d3314fad7c1",
+     "media": "clip",
+     "in": 0.5,
+     "fit": "cover",
+     "audio": false,
+     "gain_db": -4,
+     "afade_in": 0.1,
+     "afade_out": 0.15
+    }
+   ]
+  },
+  {
+   "dur": 2.2,
+   "label": "TRAJECTORY (tracked candidate): a diver runs off the board and enters the water; camera pans slightly (Industry on Parade: Sylacauga Saga, undated)",
+   "layers": [
+    {
+     "src": "652e9a2d-1bf9-57bb-9a49-33397e9432e5",
+     "media": "clip",
+     "in": 2.4,
+     "fit": "cover",
+     "audio": true,
+     "gain_db": -4,
+     "afade_in": 0.1,
+     "afade_out": 0.15
+    }
+   ]
+  },
+  {
+   "dur": 3.6,
+   "label": "TRAJECTORY seen by a following camera: a diver tumbles from a high platform; the camera keeps him near frame centre (Selected scenes of sport personalities, 1951)",
+   "layers": [
+    {
+     "src": "f24053fe-dabf-5f7d-be92-0d4890c81b66",
+     "media": "clip",
+     "in": 0.3,
+     "fit": "cover",
+     "audio": false,
+     "gain_db": -4,
+     "afade_in": 0.1,
+     "afade_out": 0.15
+    }
+   ]
+  },
+  {
+   "dur": 7.2,
+   "label": "TRAJECTORY seen by a tilting camera, possibly slowed: high dive against clouds (Century of Progress Exposition, 1933)",
+   "layers": [
+    {
+     "src": "55c605ed-9ddd-563f-89b4-acf69aaed8f6",
+     "media": "clip",
+     "in": 9.2,
+     "fit": "cover",
+     "audio": false,
+     "gain_db": -4,
+     "afade_in": 0.1,
+     "afade_out": 0.15
+    }
+   ]
+  },
+  {
+   "dur": 2.1,
+   "label": "JET (moving fluid, static shape): firefighters' hose stream (Structure Protection Strategies, 2003)",
+   "layers": [
+    {
+     "src": "dab44545-fcdd-5775-9611-c4c1eeaf62bf",
+     "media": "clip",
+     "in": 12.3,
+     "fit": "cover",
+     "audio": true,
+     "gain_db": -4,
+     "afade_in": 0.1,
+     "afade_out": 0.15
+    }
+   ]
+  },
+  {
+   "dur": 3.75,
+   "label": "ARCH (built, static outline): train enters an arched station hall; camera moves forward (Berlin: Symphony of a Great City, 1927)",
+   "layers": [
+    {
+     "src": "b6e217eb-832b-528a-9214-cb8174e2834f",
+     "media": "clip",
+     "in": 0.0,
+     "fit": "cover",
+     "audio": false,
+     "gain_db": -4,
+     "afade_in": 0.1,
+     "afade_out": 0.15
+    }
+   ]
+  },
+  {
+   "dur": 3.0,
+   "label": "ARCH (built, static camera): a round-headed doorway at the end of a sculpture gallery (Miss Clark Introduces Panorama, 1960)",
+   "layers": [
+    {
+     "src": "ec168197-19a9-5b9a-bd02-3a0ea2e8e1db",
+     "media": "clip",
+     "in": 0.0,
+     "fit": "cover",
+     "audio": false,
+     "gain_db": -4,
+     "afade_in": 0.1,
+     "afade_out": 0.15
+    }
+   ]
+  },
+  {
+   "dur": 2.0,
+   "label": "REPLAY + GUIDE A (model overlay): diver hip positions, camera pan compensated; fitted x linear / y quadratic in t",
+   "layers": [
+    {
+     "src": "652e9a2d-1bf9-57bb-9a49-33397e9432e5",
+     "media": "clip",
+     "in": 2.6,
+     "fit": "cover",
+     "audio": true,
+     "gain_db": -4,
+     "afade_in": 0.1,
+     "afade_out": 0.15
+    }
+   ]
+  },
+  {
+   "dur": 6.4,
+   "label": "REPLAY + GUIDE B (model overlay, departs): screen-space track of the high diver with the same model; camera tilt makes the fit fail",
+   "layers": [
+    {
+     "src": "55c605ed-9ddd-563f-89b4-acf69aaed8f6",
+     "media": "clip",
+     "in": 9.4,
+     "fit": "cover",
+     "audio": false,
+     "gain_db": -4,
+     "afade_in": 0.1,
+     "afade_out": 0.15
+    }
+   ]
+  },
+  {
+   "dur": 3.0,
+   "label": "REPLAY + GUIDE C (model overlay): the gallery doorway enlarged x3 (uniform scale only); rim marked by eye; parabola and circle fitted to the same crown samples",
+   "layers": [
+    {
+     "src": "ec168197-19a9-5b9a-bd02-3a0ea2e8e1db",
+     "media": "clip",
+     "in": 0.0,
+     "fit": "register",
+     "audio": false,
+     "gain_db": -4,
+     "afade_in": 0.1,
+     "afade_out": 0.15,
+     "anchor": [
+      0.471875,
+      0.5625
+     ],
+     "to": [
+      0.5,
+      0.5
+     ],
+     "k": 6.0
+    }
+   ]
+  },
+  {
+   "dur": 4.8,
+   "label": "RETURN, no guides: the clothesline as the sheet is pegged and let go (Health: Your Posture, 1953)",
+   "layers": [
+    {
+     "src": "0f8a091e-f966-5adb-831a-d3ad8f0eea94",
+     "media": "clip",
+     "in": 27.0,
+     "fit": "cover",
+     "audio": false,
+     "gain_db": -4,
+     "afade_in": 0.1,
+     "afade_out": 0.15
+    }
+   ],
+   "fade_out": 0.6
+  },
+  {
+   "dur": 3.0,
+   "label": "source card",
+   "layers": [],
+   "card": {
+    "lines": [
+     "Sources: movingimagearchive.com \u00b7 see ledger"
+    ],
+    "size": 20
+   },
+   "fade_in": 0.3,
+   "fade_out": 0.5
+  }
+ ]
+}

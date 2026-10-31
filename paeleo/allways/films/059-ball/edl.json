@@ -1,0 +1,351 @@
+{
+ "id": "059-ball",
+ "title": "BALL",
+ "size": [
+  640,
+  480
+ ],
+ "fps": 24,
+ "operator": "SCION 059 \u00b7 Ball \u2014 Graphic Constancy Across Sources",
+ "registration": {
+  "target_radius_px": 134.4,
+  "target_centre": [
+   0.5,
+   0.5
+  ],
+  "transforms": "translation + uniform scale only"
+ },
+ "score": {
+  "file": "score.wav",
+  "gain_db": 0,
+  "note": "newly composed synthetic taps; no source audio used"
+ },
+ "events": [
+  {
+   "dur": 3.5,
+   "label": "sun through cloud \u00b7 use: light \u00b7 material: sky",
+   "layers": [
+    {
+     "src": "1ec03509-6d16-5a31-8672-48137c55b5ac",
+     "media": "clip",
+     "in": 0.6,
+     "audio": false,
+     "fit": "register",
+     "anchor": [
+      0.4256,
+      0.4025
+     ],
+     "to": [
+      0.5,
+      0.5
+     ],
+     "k": 2.3609
+    }
+   ]
+  },
+  {
+   "dur": 2.25,
+   "label": "the Earth, painted globe \u00b7 use: model \u00b7 material: sky",
+   "layers": [
+    {
+     "src": "13bb478b-a1ef-5b30-91e7-0a0aa8fe07cd",
+     "media": "still",
+     "in": 0,
+     "audio": false,
+     "fit": "register",
+     "anchor": [
+      0.4931,
+      0.4875
+     ],
+     "to": [
+      0.5,
+      0.5
+     ],
+     "k": 2.0202
+    }
+   ]
+  },
+  {
+   "dur": 2.25,
+   "label": "a lens over the moon map \u00b7 use: looking \u00b7 material: glass",
+   "layers": [
+    {
+     "src": "0f379c56-af09-52cd-bf67-bdc2e4151a18",
+     "media": "still",
+     "in": 0,
+     "audio": false,
+     "fit": "register",
+     "anchor": [
+      0.3281,
+      0.4275
+     ],
+     "to": [
+      0.5,
+      0.5
+     ],
+     "k": 3.1603
+    }
+   ]
+  },
+  {
+   "dur": 2.25,
+   "label": "a lens over a signature \u00b7 use: looking \u00b7 material: glass",
+   "layers": [
+    {
+     "src": "3bbf2026-6f83-5ccb-8a3e-2af0f8dbace2",
+     "media": "still",
+     "in": 0,
+     "audio": false,
+     "fit": "register",
+     "anchor": [
+      0.6431,
+      0.3825
+     ],
+     "to": [
+      0.5,
+      0.5
+     ],
+     "k": 1.8654
+    }
+   ]
+  },
+  {
+   "dur": 2.5,
+   "label": "a lens over an eye \u00b7 use: looking back \u00b7 material: glass",
+   "layers": [
+    {
+     "src": "72063aac-2b6a-547f-ad1c-0e721a2582e7",
+     "media": "still",
+     "in": 0,
+     "audio": false,
+     "fit": "register",
+     "anchor": [
+      0.4894,
+      0.4275
+     ],
+     "to": [
+      0.5,
+      0.5
+     ],
+     "k": 1.8319
+    }
+   ]
+  },
+  {
+   "dur": 2.5,
+   "label": "a wall clock \u00b7 use: time \u00b7 material: metal",
+   "layers": [
+    {
+     "src": "adfad259-0558-53eb-82f8-350609a70480",
+     "media": "clip",
+     "in": 1.5,
+     "audio": false,
+     "fit": "register",
+     "anchor": [
+      0.4631,
+      0.5025
+     ],
+     "to": [
+      0.5,
+      0.5
+     ],
+     "k": 0.8018
+    }
+   ]
+  },
+  {
+   "dur": 2.25,
+   "label": "a slide-rule dial, BORON \u00b7 use: calculation \u00b7 material: metal",
+   "layers": [
+    {
+     "src": "3eb9d17a-4cce-5cd1-9df5-4deaecaf1f5d",
+     "media": "still",
+     "in": 0,
+     "audio": false,
+     "fit": "register",
+     "anchor": [
+      0.2081,
+      0.5125
+     ],
+     "to": [
+      0.5,
+      0.5
+     ],
+     "k": 1.9986
+    }
+   ]
+  },
+  {
+   "dur": 2.75,
+   "label": "an octagonal clock: the rim fails \u00b7 use: time \u00b7 material: plastic",
+   "layers": [
+    {
+     "src": "0d3b87de-0fbb-5930-adfb-54557a5d0acf",
+     "media": "still",
+     "in": 0,
+     "audio": false,
+     "fit": "register",
+     "anchor": [
+      0.52,
+      0.43
+     ],
+     "to": [
+      0.5,
+      0.5
+     ],
+     "k": 1.6471
+    }
+   ]
+  },
+  {
+   "dur": 3.45,
+   "label": "RELEASE: a hand at the gauge panel \u00b7 use: control \u00b7 material: release",
+   "layers": [
+    {
+     "src": "18c68920-99d5-5367-abf3-43d755b5a2ce",
+     "media": "clip",
+     "in": 7.4,
+     "audio": false,
+     "fit": "cover"
+    }
+   ]
+  },
+  {
+   "dur": 2.75,
+   "label": "a shower rose \u00b7 use: water \u00b7 material: metal",
+   "layers": [
+    {
+     "src": "4dc7dd14-6b64-5aa2-8cde-1d32038426d9",
+     "media": "still",
+     "in": 0,
+     "audio": false,
+     "fit": "register",
+     "anchor": [
+      0.2606,
+      0.4275
+     ],
+     "to": [
+      0.5,
+      0.5
+     ],
+     "k": 1.7462
+    }
+   ]
+  },
+  {
+   "dur": 2.75,
+   "label": "a speaker grille and a pointer \u00b7 use: voice \u00b7 material: paper",
+   "layers": [
+    {
+     "src": "09f05564-267d-5b2d-a056-d65ff834b162",
+     "media": "still",
+     "in": 0,
+     "audio": false,
+     "fit": "register",
+     "anchor": [
+      0.5044,
+      0.4725
+     ],
+     "to": [
+      0.5,
+      0.5
+     ],
+     "k": 0.6876
+    }
+   ]
+  },
+  {
+   "dur": 2.2,
+   "label": "a film reel in a boy's hands \u00b7 use: pictures \u00b7 material: metal",
+   "layers": [
+    {
+     "src": "8266284b-8fbb-5b36-9d7f-3987ddc4af17",
+     "media": "clip",
+     "in": 6.4,
+     "audio": false,
+     "fit": "register",
+     "anchor": [
+      0.51,
+      0.395
+     ],
+     "to": [
+      0.5,
+      0.5
+     ],
+     "k": 1.6
+    }
+   ]
+  },
+  {
+   "dur": 2.2,
+   "label": "a motorcycle wheel, running \u00b7 use: travel \u00b7 material: rubber",
+   "layers": [
+    {
+     "src": "c1e30693-35b6-5d39-9540-a8e1b574c71a",
+     "media": "clip",
+     "in": 9.2,
+     "audio": false,
+     "fit": "register",
+     "anchor": [
+      0.31,
+      0.49
+     ],
+     "to": [
+      0.5,
+      0.5
+     ],
+     "k": 0.9655
+    }
+   ]
+  },
+  {
+   "dur": 2.0,
+   "label": "a jet intake \u00b7 use: flight \u00b7 material: metal",
+   "layers": [
+    {
+     "src": "a393b728-390d-554d-a7dc-234de357c36d",
+     "media": "clip",
+     "in": 11.7,
+     "audio": false,
+     "fit": "register",
+     "anchor": [
+      0.4894,
+      0.5075
+     ],
+     "to": [
+      0.5,
+      0.5
+     ],
+     "k": 2.5203
+    }
+   ]
+  },
+  {
+   "dur": 4.6,
+   "label": "EXIT: a painted moon drifts out of frame \u00b7 use: leaving \u00b7 material: exit",
+   "layers": [
+    {
+     "src": "201b010b-d025-5ea8-8ec8-714d0faf41ae",
+     "media": "clip",
+     "in": 17.6,
+     "audio": false,
+     "fit": "cover"
+    }
+   ],
+   "fade_out": 1.2
+  },
+  {
+   "dur": 3.0,
+   "label": "source card",
+   "card": {
+    "lines": [
+     "BALL",
+     "fifteen round things from movingimagearchive.com, 1929\u20132007",
+     "sources and transforms: see ledger"
+    ],
+    "size": 22
+   },
+   "fade_in": 0.4
+  }
+ ]
+}
