@@ -31,7 +31,7 @@ def dog_pose(i, f, walk):
     if t < T_REFUSE:
         yaw = 0.0
     elif t < 7.62:
-        yaw = ang_ease(0, YAW_AWAY, T_REFUSE, 3.95, t)
+        yaw = ang_ease(0, YAW_AWAY, T_REFUSE + 0.04, 4.0, t)
     else:
         yaw = ang_ease(YAW_AWAY, 0, 7.62, 8.55, t)
     P['yaw'] = yaw
@@ -49,16 +49,17 @@ def dog_pose(i, f, walk):
     if T_REFUSE <= t < 7.458:                 # turns its back, head droops, then lies with chin down
         k = smooth(T_REFUSE, 4.0, t); neck, muz = lerp(50, 8, k), lerp(-12, -40, k)
         k2 = smooth(4.4, 5.6, t); neck, muz = lerp(neck, -24, k2), lerp(muz, -10, k2)
-        hyw = yaw
+        hyw = ang_ease(0, YAW_AWAY, T_REFUSE, 3.72, t)     # the head turns away first, the body follows
     if 7.458 <= t < 9.0:                      # the head leads: comes round to the door, muzzle level, body still down
         k = smooth(7.458, 7.72, t)
         neck, muz = lerp(-24, 28, k), lerp(-10, -4, k)
         hyw = lerp(YAW_AWAY, 0.0, k)
         k3 = smooth(8.3, 8.9, t); neck, muz = lerp(neck, 50, k3), lerp(muz, -12, k3)
     if T_APPROACH <= t < T_LIE:               # comes, head low: below the line of the back for the whole approach
-        k = smooth(T_APPROACH - 0.05, T_APPROACH + 0.35, t); neck, muz = lerp(50, -30, k), lerp(-12, -38, k)
+        k = smooth(T_APPROACH - 0.05, T_APPROACH + 0.35, t); neck, muz = lerp(50, -40, k), lerp(-12, -36, k)
+        P['ear'] = lerp(P['ear'], 0.12, k)
     if t >= T_LIE:                            # lies across the sill, head up a little, then chin lowers
-        k = smooth(T_LIE, 24.5, t); neck, muz = lerp(-30, 6, k), lerp(-38, -10, k)
+        k = smooth(T_LIE, 24.5, t); neck, muz = lerp(-40, 6, k), lerp(-36, -10, k)
         k2 = smooth(25.4, 26.1, t); neck, muz = lerp(neck, -10, k2), lerp(muz, -8, k2)
     if t >= T_LOOK:                           # looks IN: head turns into the lit room, level, pushed forward; then settles
         k = smooth(T_LOOK, 26.9, t); k_out = smooth(28.2, 29.0, t)
@@ -77,7 +78,7 @@ def dog_pose(i, f, walk):
 def person_pose(i, f, walk, prev_xz):
     t = i / FPS; p = f['person']
     Q = {'sit': p['sit'], 'reach': p['reach'], 'low': p['low'], 'lean': 0.0, 'bow': 0.0, 'beckon': 0.0, 'moving': 0.0, 'walk': walk}
-    a, b, c = np.array([0.14, -0.34]), np.array([0.02, 0.16]), np.array([-0.98, 0.42])
+    a, b, c = np.array([0.14, -0.34]), np.array([0.02, 0.16]), np.array([-1.15, 0.42])
     k = smooth(4.6, 5.45, t)
     if k < 0.5:
         xz = lerp(a, b, k * 2)

@@ -192,7 +192,7 @@ def letter_sprite(ch, size, rid, temp, seed, soft):
 
 def word_anchor(wd):
     """fixed places in the frame, chosen so the letters never cover the dog (checked on the frames)"""
-    return {'above_person': (300, 70), 'by_hand': (640, 600), 'by_hand2': (680, 612), 'in_doorway': (150, 110)}.get(wd['anchor'], (W / 2, H / 3))
+    return {'above_person': (300, 70), 'by_hand': (640, 600), 'by_hand2': (680, 612), 'in_doorway': (880, 130)}.get(wd['anchor'], (W / 2, H / 3))
 
 
 def words_layer(img, t):
@@ -463,9 +463,14 @@ def measure(i, D, tb, ib, vis, nd, partd, Cd, ox=0, oy=0):
     if hd.any():
         res['head_top_y'] = float(np.percentile(Pw[hd, 1], 95)); res['head_z'] = float(Pw[hd, 2].mean())
         res['head_x'] = float(Pw[hd, 0].mean())
-    mz = (pa == 'muzzle') | (pa == 'nose'); sk = pa == 'head'
-    if mz.sum() > 4 and sk.sum() > 4:
-        dv = Pw[mz].mean(0) - Pw[sk].mean(0)
+    mz = (pa == 'muzzle') | (pa == 'nose'); sk = pa == 'head'; nk = pa == 'neck'
+    if mz.sum() > 4 * SS * SS and sk.sum() > 4:
+        dv = Pw[mz].mean(0) - Pw[sk].mean(0); res['head_dir_from'] = 'muzzle-skull'
+    elif hd.sum() > 4 and nk.sum() > 4:      # muzzle hidden (back of the head to the camera): neck -> head
+        dv = Pw[hd].mean(0) - Pw[nk].mean(0); res['head_dir_from'] = 'neck-head'
+    else:
+        dv = None
+    if dv is not None:
         res['muzzle_dir_xz'] = [float(dv[0]), float(dv[2])]; res['muzzle_dy'] = float(dv[1])
     res['frac_past_outer_face'] = round(float((Pw[:, 2] < 0).mean()), 3)
     tl = pa == 'tail'

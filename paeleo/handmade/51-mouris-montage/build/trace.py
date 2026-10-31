@@ -4,10 +4,11 @@ States are derived from those measurements by a fixed protocol (below), not copi
   head angle a  = horizontal angle between the measured muzzle direction (mean visible muzzle pixels - mean visible skull
                   pixels) and the direction to the door (-z). facing: |a|<=60 'door', |a|>=100 'away', else 'side'.
   speed v       = d/dt of x_world_measured (mean world z of visible torso pixels, mapped back to score metres), 5-frame smoothed.
-  retreat       : facing the door and v > +0.12 m/s (backing away)
-  watch         : facing the door, |v| <= 0.12 m/s, standing or lying with the head toward the door
-  refuse        : the head has turned more than 30 deg away from the door (and stays beyond 30 deg) after a call
-  approach      : v < -0.12 m/s toward the door
+  retreat       : facing the door (|a|<=30) and v > +0.12 m/s sustained for 8 frames (backing away)
+  watch         : after a retreat, when the head comes back up (measured head top > 0.75 m) or v <= 0.05;
+                  after a refusal, when the head is back within 90 deg of the door
+  refuse        : standing, after 3.0 s (the second call), the head turned more than 30 deg away from the door
+  approach      : standing, facing the door, v < -0.12 m/s sustained for 8 frames
   lie_down      : torso mean height < 0.33 m at the sill
 The first frame of each new state is its measured onset."""
 import json, math, os
@@ -31,20 +32,23 @@ def build():
         ang.append(a)
     ang = np.array(ang)
     frames = []; state = 'watch'
+    ht = np.array([m.get('head_top_y', 0) for m in M])
+    def sustained(i, cond, n=8):
+        return all(cond(j) for j in range(i, min(len(M), i + n)))
     for i, m in enumerate(M):
         t = i / FPS; a = abs(ang[i]); post = 'lying' if m['torso_mean_y'] < 0.33 else ('crouched' if m['torso_mean_y'] < 0.40 else 'standing')
         facing = 'door' if a <= 60 else ('away' if a >= 100 else 'side')
         sc = SCORE['frames'][i]
-        # measured state machine
-        if state in ('watch',) and a > 30 and t > 3.0 and m['torso_mean_y'] > 0.3 and xw[i] > 3.5:
+        # measured state machine (thresholds fixed in the docstring)
+        if state == 'watch' and t > 3.0 and a > 30 and post == 'standing':
             state = 'refuse'
-        elif state == 'watch' and v[i] > 0.12 and a <= 30:
+        elif state == 'watch' and a <= 30 and sustained(i, lambda j: v[j] > 0.12):
             state = 'retreat'
-        elif state == 'retreat' and v[i] <= 0.12:
+        elif state == 'retreat' and (ht[i] > 0.75 or v[i] <= 0.05):
             state = 'watch'
         elif state == 'refuse' and a < 90:
             state = 'watch'
-        elif state == 'watch' and v[i] < -0.12:
+        elif state == 'watch' and post == 'standing' and a <= 30 and sustained(i, lambda j: v[j] < -0.12):
             state = 'approach'
         elif state == 'approach' and m['torso_mean_y'] < 0.33:
             state = 'lie_down'
@@ -61,7 +65,7 @@ def build():
         if frames[k]['state'] != frames[k - 1]['state']:
             on.append({'t': frames[k]['t'], 'from': frames[k - 1]['state'], 'to': frames[k]['state']})
     # looking in (26.4): first frame after 26.0 the measured head angle leaves the door axis toward the room (-x) by > 12 deg
-    look = next((f['t'] for f in frames if f['t'] >= 26.0 and f['head_angle_to_door_deg'] < -12), None)
+    look = next((f['t'] for f in frames if f['t'] >= 26.0 and abs(f['head_angle_to_door_deg']) > 12), None)
     ap = [f for f in frames if f['state'] == 'approach']
     summary = {'measured_onsets': on, 'look_in_onset_s': look,
                'approach_head_below_back_share': round(sum(f['head_below_back'] for f in ap) / max(1, len(ap)), 3),

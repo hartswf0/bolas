@@ -94,4 +94,4 @@ if __name__ == '__main__':
     import sys
     cards(); audio()
     if 'encode' in sys.argv:
-        p = encode(int(os.environ.get('CRF', '27'))); print(json.dumps(probe(p))); stills()
+        p = encode(int(os.environ.get('CRF', '21'))); print(json.dumps(probe(p))); stills()

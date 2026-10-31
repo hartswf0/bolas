@@ -238,7 +238,8 @@ def clip_specs():
     def rise_fn(t, p):
         u = ease(min(1, max(0, (t - 0.42) / 0.8)))
         phi = 135 * (1 - u)
-        return dict(phi=phi, neck_yaw=max(0.0, min(116.0, phi - 19)) if t > 0.42 else 116.0)
+        return dict(phi=phi, neck_yaw=max(0.0, min(116.0, phi - 19)) if t > 0.42 else 116.0,
+                    head_over=1.0 if phi > 30 else 0.0)   # the neck shows over the shoulder while it comes round
     C['rise'] = dict(duration=1.3, fn=rise_fn,
                      keys=[(0, dict(rest, neck_elev=21, head_pitch=-6, ear=0.95, ikmix=0)),
                            (0.3, dict(lie=0.35, crouch=0.3, ikmix=0.2)),
@@ -264,12 +265,12 @@ def clip_specs():
                            note='lies down across the sill: forelegs and head inside, haunches and tail outside')
     lyin = dict(phi=0, lie=1, crouch=0.1, neck_elev=10, head_pitch=-14, ear=0.7, tail=0.3, ikmix=0)
     C['look-in'] = dict(track='head', duration=0.7,
-                        keys=[(0, dict(lyin)), (0.25, dict(neck_yaw=-30, neck_elev=15, head_pitch=-10, ear=0.95)),
-                              (0.55, dict(neck_yaw=-72, neck_elev=16, head_pitch=-7, ear=1.0)), (0.7, dict())],
+                        keys=[(0, dict(lyin)), (0.25, dict(neck_yaw=-24, neck_elev=8, head_pitch=-9, ear=0.95)),
+                              (0.55, dict(neck_yaw=-54, neck_elev=6, head_pitch=-6, ear=1.0)), (0.7, dict())],
                         events=[dict(time=0.05, name='jingle')],
                         note='HEAD TRACK: turns the head into the room, away from the camera: the back of the skull'
                              ' and both ears to the viewer, the muzzle level inside the lit doorway')
-    C['settle'] = dict(duration=2.0, keys=[(0, dict(lyin, neck_yaw=-72, neck_elev=16, head_pitch=-7, ear=1.0)),
+    C['settle'] = dict(duration=2.0, keys=[(0, dict(lyin, neck_yaw=-54, neck_elev=6, head_pitch=-6, ear=1.0)),
                                            (0.35, dict(neck_yaw=-30, neck_elev=8, head_pitch=-12, ear=0.7)),
                                            (0.9, dict(neck_yaw=-6, neck_elev=-25, head_pitch=-21, ear=0.4)),
                                            (2.0, dict())],

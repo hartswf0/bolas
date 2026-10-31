@@ -1,7 +1,7 @@
 """SCION 51 · shared geometry: camera, porch/door/room, the steady dog (a body of spheres in my own construction, a stable
 silhouette whose surface carries the substituted images) and the person.
 World: metres. x along the facade (door centre 0), y up, z out of the house (facade outer face z=0, inner face z=-0.15).
-Score mapping: the dog's body centre stands at world z = x_score - 0.10 on the line x = 0 (straight at the door)."""
+Score mapping: the dog's body centre stands at world z = x_score - 0.34 on the line x = 0 (straight at the door)."""
 import json, math, os
 import numpy as np
 
@@ -12,7 +12,7 @@ SCORE = json.load(open(os.path.join(REPO, 'paeleo/handmade/score/threshold-score
 FPS = 24
 W, H = 1280, 720
 SS = 2                      # supersampling for the render
-Z_OFF = -0.10               # world z = x_score + Z_OFF
+Z_OFF = -0.34               # world z = x_score + Z_OFF
 DOOR_HW, DOOR_H, WALL_T = 0.46, 2.05, 0.15
 
 # ---------------------------------------------------------------- camera (static)
@@ -33,7 +33,7 @@ U, V, Wd = cam_basis()
 # camera keys: wide while the dog refuses and waits; a slow push toward the door over the approach
 CAM_KEYS = [(0.0, (3.9, 1.5, 5.9), (-0.25, 0.75, 1.9), 1300.0),
             (15.2, (3.9, 1.5, 5.9), (-0.25, 0.75, 1.9), 1300.0),
-            (23.6, (1.55, 1.30, 3.75), (-0.22, 0.42, 0.25), 1240.0)]
+            (23.6, (2.5, 1.25, 2.9), (-0.15, 0.35, 0.1), 1250.0)]
 
 
 def cam_at(t):
@@ -188,6 +188,9 @@ def dog_local(P):
             foot = P['feet'][('F' if front else 'H') + ('L' if s > 0 else 'R')]
             foot = np.array(foot, float)
             jt = ik2(root, foot, l1, l2, -1 if front else 1)
+            if not front and lie > 0:   # lying: the thigh lies flat along the flank, knee forward, hock back on the floor
+                kl = smooth(0.2, 0.95, lie)
+                jt = lerp(jt, np.array([Hp[0] + 0.21, 0.10, s * 0.14]), kl)
             R1 = align(np.array([0, -1., 0]), jt - root); R2 = align(np.array([0, -1., 0]), foot - jt)
             B.chain(root, jt, 0.06 if front else 0.07, 0.045, 12, 'leg', R1, end=False)
             B.chain(jt, foot, 0.043, 0.031, 12, 'leg', R2, end=False)
@@ -214,7 +217,7 @@ def feet_for(P, walk):
         if key[0] == 'F':
             lyp = np.array([0.52, 0.035, z0 * 0.9])
         else:
-            lyp = np.array([-0.08, 0.04, z0 * 1.85])
+            lyp = np.array([-0.31, 0.04, z0 * 1.75])
         feet[key] = lerp(stand, lyp, smooth(0.15, 0.95, lie)) if lie > 0 else stand
         if cr > 0 and lie < 0.5:
             feet[key][0] += (-0.03 if key[0] == 'H' else 0.04) * cr
