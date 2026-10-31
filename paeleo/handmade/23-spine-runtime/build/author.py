@@ -247,12 +247,12 @@ def clip_specs():
                      note='gets up still looking at the door, then the body comes round 135 -> 0 deg under the '
                           'head (attachments swap back, far legs go behind again)')
     C['stalk-walk'] = dict(duration=1.0, loop=True,
-                           keys=[(0, dict(phi=0, crouch=0.14, neck_elev=-16, head_pitch=-30, ear=0.55, tail=0.32,
+                           keys=[(0, dict(phi=0, crouch=0.14, neck_elev=-32, head_pitch=-22, ear=0.5, tail=0.32,
                                           tail_yaw=-9, ikmix=1)),
                                  (0.5, dict(tail_yaw=9)), (1.0, dict(tail_yaw=-9))],
                            note='comes, head low below the line of the back; the legs are not keyed: the foot planner'
                                 ' plants each paw (IK) as the root travels with the score')
-    C['lie-across'] = dict(duration=2.6, keys=[(0, dict(phi=0, crouch=0.1, neck_elev=-10, head_pitch=-26, ear=0.6,
+    C['lie-across'] = dict(duration=2.6, keys=[(0, dict(phi=0, crouch=0.1, neck_elev=-30, head_pitch=-22, ear=0.6,
                                                         tail=0.3, ikmix=1)),
                                                (0.15, dict(ikmix=0.0)),
                                                (0.4, dict(lie=0.6, crouch=0.1, neck_elev=-6, head_pitch=-22)),

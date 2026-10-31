@@ -166,7 +166,12 @@ function dogItems(st) {
       ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.strokeStyle = shade(lg.fore ? COL.oat : COL.ochre, warmAt(lg.knee), lg.near ? 0.8 : 0.62);
       ctx.lineWidth = 0.085 * CAM.s; ctx.beginPath(); ctx.moveTo(P[0][0], P[0][1]); ctx.lineTo(P[1][0], P[1][1]); ctx.stroke();
       ctx.lineWidth = 0.062 * CAM.s; ctx.beginPath(); ctx.moveTo(P[1][0], P[1][1]); ctx.lineTo(P[2][0], P[2][1]); ctx.stroke();
-      blob(ctx, lg.paw, 0.042, 940 + k, shade(COL.char, warmAt(lg.paw), lg.near ? 1 : 0.8), 0.7);
+      if (!(lg.fore && P.lieF > 0.5)) blob(ctx, lg.paw, 0.042, 940 + k, shade(COL.char, warmAt(lg.paw), lg.near ? 1 : 0.8), 0.7);
+    }, 'limb');
+    if (lg.fore && P.lieF > 0.5) item(depth(dg.head.c) + 0.08 + (lg.near ? 0.01 : 0), ctx => {
+      const a = P3(lerp3(lg.knee, lg.paw, 0.35)), b = P3(lg.paw); ctx.lineCap = 'round'; ctx.strokeStyle = shade(COL.oat, warmAt(lg.paw), lg.near ? 0.85 : 0.7); ctx.lineWidth = 0.06 * CAM.s; ctx.beginPath(); ctx.moveTo(a[0], a[1]); ctx.lineTo(b[0], b[1]); ctx.stroke();
+      blob(ctx, lg.paw, 0.048, 940 + k, shade(COL.char, warmAt(lg.paw), lg.near ? 1 : 0.85), 0.62);
+      const q = P3(lg.paw); ctx.strokeStyle = 'rgba(20,14,12,0.6)'; ctx.lineWidth = 1.2; for (let j = -1; j <= 1; j++) { ctx.beginPath(); ctx.moveTo(q[0] + j * 0.014 * CAM.s - 0.03 * CAM.s, q[1] - 0.008 * CAM.s); ctx.lineTo(q[0] + j * 0.014 * CAM.s - 0.045 * CAM.s, q[1] + 0.01 * CAM.s); ctx.stroke(); }
     }, 'limb');
   });
   // fringe strands
@@ -217,7 +222,7 @@ function dogItems(st) {
   item(-99, ctx => { const q = P3([M[0], 0.002, M[2]]); ctx.fillStyle = 'rgba(10,10,24,0.35)'; ctx.beginPath(); ctx.ellipse(q[0], q[1], (0.62 * Math.abs(R[0]) + 0.3) * CAM.s * cP, 0.09 * CAM.s, 0, 0, 7); ctx.fill(); }, 'shadow');
 }
 function curtainItems() {
-  SCENE.CURTAIN.forEach((s, k) => { const d = depth([s.p[0][0], 0.95, s.p[0][2]]); item(d, ctx => ribbon(ctx, s.p, s.w, s.w * 0.92, s.seed, shade(COL[s.col], 0.15 + 0.35 * warmAt([-0.2, 1, s.z]), 0.8, 0.5), shade([90, 40, 30], 0.4, 1, 0.25)), 'curtain'); });
+  SCENE.CURTAIN.forEach((s, k) => { const d = depth([s.p[0][0], 0.95, s.p[0][2]]) - (ST && ST.P.lieF > 0.05 ? 1 : 0); item(d, ctx => ribbon(ctx, s.p, s.w, s.w * 0.92, s.seed, shade(COL[s.col], 0.15 + 0.35 * warmAt([-0.2, 1, s.z]), 0.8, 0.5), shade([90, 40, 30], 0.4, 1, 0.25)), 'curtain'); });
 }
 function reedItems(back) {
   SCENE.REEDS.forEach(s => {
@@ -351,6 +356,7 @@ window.frame = (i, draw, label) => {
   const img = draw ? cv.toDataURL('image/jpeg', 0.93) : null;
   return { img, m: res };
 };
+const fitText = (txt, x, y, font, px, maxW) => { let p = px; do { g.font = font.replace('{px}', p + 'px'); p -= 1; } while (g.measureText(txt).width > maxW && p > 10); g.fillText(txt, x, y); };
 window.card = (kind, lines) => {
   g.globalCompositeOperation = 'source-over'; g.fillStyle = '#15172a'; g.fillRect(0, 0, W, H);
   // a few torn tissue strips as the card's ground
@@ -358,13 +364,13 @@ window.card = (kind, lines) => {
   for (let k = 0; k < 46; k++) { const x = 80 + R() * 1120, y = kind === 'title' ? 470 + R() * 160 : 600 + R() * 80, l = 60 + R() * 120, w = 10 + R() * 12, a = Math.PI / 2 + (R() - 0.5) * 0.5; const c = cols[k % 5]; g.fillStyle = `rgba(${c},0.8)`; g.beginPath(); g.moveTo(x, y); g.lineTo(x + Math.cos(a) * l - w / 2, y + Math.sin(a) * l * 0.6); for (let j = 0; j < 4; j++) g.lineTo(x + Math.cos(a) * l + (j - 2) * w / 4, y + Math.sin(a) * l * 0.6 + (j % 2 ? 6 : 0)); g.lineTo(x + w, y); g.closePath(); g.fill(); }
   g.fillStyle = '#efe2c2';
   if (kind === 'title') {
-    g.font = '800 64px "Big Shoulders Display"'; g.fillText('PAE-02 · SCION 13 · Nora Willett — Secondary Motion', 80, 250);
-    g.font = '400 30px Literata'; g.fillStyle = 'rgba(239,226,196,0.85)'; g.fillText('The threshold. A dog of crepe-paper fringe; every strip a spring-damper.', 80, 320);
+    fitText('PAE-02 · SCION 13 · Nora Willett — Secondary Motion', 80, 250, '800 {px} "Big Shoulders Display"', 64, 1120);
+    g.fillStyle = 'rgba(239,226,196,0.85)'; fitText('The threshold. A dog of crepe-paper fringe; every strip a spring-damper.', 80, 320, '400 {px} Literata', 30, 1120);
   } else {
     g.font = '800 44px "Big Shoulders Display"'; g.fillText('What this is made of', 80, 110);
-    g.font = '400 23px Literata'; g.fillStyle = 'rgba(239,226,196,0.9)'; (lines || []).forEach((l, k) => g.fillText(l, 80, 170 + k * 38));
+    g.fillStyle = 'rgba(239,226,196,0.9)'; (lines || []).forEach((l, k) => fitText(l, 80, 170 + k * 38, '400 {px} Literata', 23, 1120));
   }
   g.globalCompositeOperation = 'overlay'; g.globalAlpha = 0.3; g.drawImage(GRAIN, 0, 0); g.globalAlpha = 1; g.globalCompositeOperation = 'source-over';
   return cv.toDataURL('image/jpeg', 0.95);
 };
-window.ready = document.fonts.ready.then(() => true);
+window.ready = Promise.all(['800 64px "Big Shoulders Display"', '600 26px "Big Shoulders Display"', '400 30px Literata'].map(f => document.fonts.load(f))).then(() => document.fonts.ready).then(() => document.fonts.check('400 30px Literata') && document.fonts.check('800 64px "Big Shoulders Display"'));

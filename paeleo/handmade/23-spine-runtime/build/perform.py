@@ -20,7 +20,7 @@ TIMELINE = [
     (0, 'rise', 7.62, 0.25, 'the body follows: gets up and comes round'),
     (1, None, 7.95, 0.35, 'head track hands back to the body'),
     (0, 'idle', 8.90, 0.35, 'stands facing the door and watches'),
-    (0, 'stalk-walk', 14.66, 0.30, 'in its own time: comes, head low'),
+    (0, 'stalk-walk', 14.46, 0.30, 'in its own time: comes, head low'),
     (0, 'lie-across', 23.62, 0.2, 'reaches the sill and lies down across it'),
     (1, 'look-in', 26.35, 0.20, '"come in" (voice from 26.25 s): looks in, into the room'),
     (0, 'settle', 28.25, 0.50, 'and stays: chin on the paws'),

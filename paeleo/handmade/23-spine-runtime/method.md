@@ -70,7 +70,30 @@ cut-out actor.
 
 ## Protected (and how it was checked)
 
-MEASURED_BLOCK
+Numbers come from `proof/geometry.json` (runtime, skeleton cm; 1 cm = 1.9 px wide, 3.1 px at the closest framing),
+`proof/levels.json` (sound) and `trace.json` (rendered pixels). Labelled: **measured** unless stated.
+
+- **Invariants** (`tools/paeleo/check_handmade.py`): see `invariants.json` (ALL OK).
+- **Choice onsets, measured on the rendered dog** (trace.json summary): see the table there; each is the first frame
+  where a pixel measure crosses its threshold (centroid travel, head-slot travel, silhouette drop).
+- **Head leads at 7.46**: the head-slot centroid moves first (look-back on the head track starts 7.40 s); the body
+  track's `rise` starts 7.62 s. (The whole-dog centroid moves at 7.50 s, but it includes the head, so it is not a clean
+  body measure.)
+- **Bone lengths under IK**: link length after mixing + IK minus the length the pose asks for: 0.0 cm (max).
+- **Bone lengths under mixing**: outside the two turn clips, lower legs, paws, chest and neck stay within 25% of the
+  view's bind length; the largest change is the hind paw folding toward the camera while lying (that is foreshortening
+  baked from the turnaround, not stretch). Inside turns, lengths change on purpose (views).
+- **Feet**: 1292 planted frames (IK mix 1): p99 paw motion 1.0 cm/frame, max 3.4 cm; IK residual > 1 cm in 66 leg-frames,
+  max 8.2 cm (fore right, 8.33 s, during the rise-and-turn). Paws are not glued during the fast scramble back.
+- **Floor**: no joint below the floor in the 3D sheet (turnaround check); in 2D the lowest joint is -3.3 cm, a
+  near-side hind joint while lying in the 135 deg view (near-side depth puts it lower on screen).
+- **Nothing interpenetrates the person**: dog and person alpha overlap 0 px in every frame (rendered masks).
+- **Head below the back on the approach**: top of the skull 7 to 11 cm below the withers line from 14.708 to 23.75 s.
+- **Voice**: calls -18.2 dBFS RMS, soft voice -27.8 (9.5 dB under), ambience -54 (soft voice 26 dB over); voices start
+  0.88 (call), 3.30 (call), 7.30, 10.40 (soft), 26.25 (soft) s, each before the dog's reaction.
+- **Perceptual (by me, not a critic)**: both turns, frame by frame, cropped: a dog in every frame, view changing
+  0->45->90->135 and back; the refusal shows the back and saddle from 3.9 s; lying across the sill with forelegs and
+  head on the room's floor and the tail on the porch; the look-in shows the back of the skull and both ears.
 
 ## What failed and what I changed (ledger.jsonl has each attempt)
 
@@ -90,7 +113,14 @@ MEASURED_BLOCK
 
 ## What is weak
 
-WEAK_BLOCK
+- At the wide framing (0-17 s) the dog is about 250 px long; the turns are legible but small.
+- The fast scramble back (1.0-2.4 s) is a trot of pairs at 0.76 m/s; paws are held, but some knee positions change fast
+  (largest joint jump 17 cm in a frame at 1.9 s) and it reads busy rather than fearful.
+- In the rise-and-turn (8.0-8.8 s) the fore paws do not always reach their planted marks (up to 8 cm).
+- Folded legs while lying read as plain sticks; the neck can read as a tube; the person is crude.
+- The cross-section staging means the doorway is a jamb strip and a change of floor, not a door seen face on; the
+  lying-across reads by the floors and the jamb behind the dog.
+- The voice is a formant murmur, not words; the subtitles carry the words.
 
 ## What I did not do
 
