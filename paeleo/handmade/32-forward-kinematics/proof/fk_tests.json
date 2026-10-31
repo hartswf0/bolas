@@ -11,7 +11,7 @@
  },
  "T2_multiply_order": {
   "max_abs_matrix_err": {
-   "dog": 2.220446049250313e-16,
+   "dog": 4.440892098500626e-16,
    "person": 4.440892098500626e-16
   },
   "order": "world = parent_world * T(pivot offset) * RY(yaw) * RZ(pitch) * RX(roll), root first"
@@ -72,7 +72,7 @@
    ],
    "children_follow_max_err": 4.440892098500626e-16,
    "non_descendants_max_change": 0,
-   "largest_descendant_move_m": 0.1499
+   "largest_descendant_move_m": 0.1562
   },
   {
    "who": "dog",

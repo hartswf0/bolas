@@ -246,7 +246,7 @@
     const lookBack = ramp(t, 7.44, 7.72) * (1 - ramp(t, 8.0, 8.7));
     if (lookBack > 0) {
       neckYaw = lerp(neckYaw, -88 * D2R, lookBack); headYaw = lerp(headYaw, -58 * D2R, lookBack);
-      neckPitch = lerp(neckPitch, 4 * D2R, lookBack); headPitch = lerp(headPitch, -4 * D2R, lookBack); headRoll = lerp(0, -0.12, lookBack);
+      neckPitch = lerp(neckPitch, 22 * D2R, lookBack); headPitch = lerp(headPitch, -16 * D2R, lookBack); headRoll = lerp(0, -0.12, lookBack);
     }
     // lying: rest = chin on the paws
     if (lieE > 0) {
@@ -259,8 +259,8 @@
     // looking in (26.4): the head pushes level into the doorway and turns into the room, away from the camera
     const look = clamp(a.look, 0, 1);
     if (look > 0) {
-      neckPitch = lerp(neckPitch, 2 * D2R, look); headPitch = lerp(headPitch, -3 * D2R, look);
-      neckYaw = lerp(neckYaw, 16 * D2R, look); headYaw = lerp(headYaw, 22 * D2R, look);
+      neckPitch = lerp(neckPitch, 6 * D2R, look); headPitch = lerp(headPitch, -9 * D2R, look);
+      neckYaw = lerp(neckYaw, 28 * D2R, look); headYaw = lerp(headYaw, 30 * D2R, look);
     }
     ang.neck = [neckYaw, neckPitch, 0];
     ang.head = [headYaw, headPitch, headRoll];
@@ -379,8 +379,8 @@
   // A: wide, low, three-quarter from the porch (0-14.6). Then a slow dolly that keeps the dog in a near-profile three-quarter
   // through the approach and settles behind its right shoulder at the sill (from 23.6), where the doorway is seen in depth.
   function camera(t, score) {
-    const A = { pos: [4.1, 0.58, 5.3], tgt: [-0.35, 0.6, 2.25], fov: 34 };
-    const B = { pos: [1.22, 0.98, 2.15], tgt: [-0.12, 0.2, -0.05], fov: 38 };
+    const A = { pos: [4.6, 0.62, 4.1], tgt: [-0.45, 0.5, 2.1], fov: 36 };
+    const B = { pos: [1.05, 0.9, 1.75], tgt: [-0.15, 0.25, -0.2], fov: 40 };
     if (t < 14.6) return A;
     // tracking: keep a low near-profile on the walking dog (so head-below-back reads), then swing behind its shoulder at the sill
     const dz = score ? dogZAt(score, t) : 2.0;

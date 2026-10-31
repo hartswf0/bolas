@@ -43,9 +43,12 @@ def say(phones, f0, start, gain, breath=0.06, pan=0.0):
     for j in range(6): tracks[:, j] = np.interp(t, keys_t, kv[:, j])
     ft, fv = zip(*f0); F0 = np.interp(t, ft, fv) * (1 + 0.012 * np.sin(2 * math.pi * 5.2 * t))
     ph = np.cumsum(F0 / SR) % 1.0
-    pulse = np.where(ph < 0.6, np.sin(math.pi * ph / 0.6) ** 2, 0.0); src = np.diff(pulse, prepend=0) * 18
+    # Rosenberg glottal pulse: slow opening, abrupt closure (the closure spike carries the upper harmonics)
+    pulse = np.where(ph < 0.4, 0.5 * (1 - np.cos(math.pi * ph / 0.4)), np.where(ph < 0.56, np.cos(0.5 * math.pi * (ph - 0.4) / 0.16), 0.0))
+    src = np.diff(pulse, prepend=0) * 18
     src = src * tracks[:, 3] + rng.normal(0, 1, n) * breath * tracks[:, 3]
-    v = reson(src, tracks[:, 0], 90) + 0.6 * reson(src, tracks[:, 1], 120) + 0.3 * reson(src, tracks[:, 2], 160)
+    v = reson(src, tracks[:, 0], 90) + 1.2 * reson(src, tracks[:, 1], 120) + 0.9 * reson(src, tracks[:, 2], 160)
+    v = np.diff(v, prepend=0) * 6 + v  # lip radiation: a little pre-emphasis
     nz = rng.normal(0, 1, n) * tracks[:, 4]
     nzf = reson(nz, np.maximum(tracks[:, 5], 200), 1400) * 0.5
     y = v + nzf

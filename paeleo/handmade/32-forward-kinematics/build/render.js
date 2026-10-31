@@ -55,10 +55,10 @@ const strip = d => Buffer.from(d.slice(d.indexOf(',') + 1), 'base64');
     const order = ['waist', 'tail0', 'hipR', 'hipL', 'neck', 'cloth', 'shoulderR', 'shoulderL', 'earR0', 'earL0', 'flapR0', 'flapL0'];
     for (const k in kids) kids[k].sort((a, b) => (order.indexOf(a) + 99) % 99 - (order.indexOf(b) + 99) % 99);
     const nodes = []; let leaf = 0;
-    const short = { root: 'root', pelvis: 'pelvis', waist: 'waist pin', neck: 'neck', head: 'head  (anchor: profile / 3-4 / rear)', cloth: 'saddle cloth', tail0: 'tail', tail4: 'x5 beads' };
+    const short = { root: 'root', pelvis: 'pelvis', waist: 'waist', neck: 'neck', head: 'head*', cloth: 'cloth', tail0: 'tail', tail4: 'x5 beads' };
     (function lay(n, d, parent) {
       const ch = kids[n] || []; let y;
-      if (!ch.length) { y = leaf++ * 25; }
+      if (!ch.length) { y = leaf++ * 26; }
       else { const ys = ch.map(c => lay(c, d + 1, n)); y = (ys[0] + ys[ys.length - 1]) / 2; }
       const prop = /^cloth|^flap/.test(n);
       let label = short[n] || ((/(R|L)1$/.test(n) || /paw/.test(n)) ? n : (/^(hip|shoulder)/.test(n) ? n : null));

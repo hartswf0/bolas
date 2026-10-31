@@ -227,7 +227,7 @@ window.cardCanvas = function () { return cv; };
 
 // ---------- the title and end cards (2D canvas) ----------
 window.drawCard = async function (kind, data) {
-  await document.fonts.load('800 40px "Big Shoulders Display"'); await document.fonts.load('400 16px "JetBrains Mono"'); await document.fonts.load('400 18px Literata');
+  await document.fonts.load('800 40px "Big Shoulders Display"'); await document.fonts.load('400 16px "JetBrains Mono"'); await document.fonts.load('600 16px "JetBrains Mono"'); await document.fonts.load('400 18px Literata');
   const k = document.getElementById('k'), c = k.getContext('2d');
   const BG = '#141722', INK = '#efe4cf', DIM = '#9aa0b4', RED = '#c8343a', BRASS = '#d4a443', FELT = '#9e1f2c';
   c.fillStyle = BG; c.fillRect(0, 0, 1280, 720);
@@ -249,6 +249,8 @@ window.drawCard = async function (kind, data) {
     c.lineWidth = 2;
     for (const n of G.nodes) if (n.parent) { const p = G.nodes.find(q => q.name === n.parent); c.strokeStyle = n.prop ? FELT : '#6d7388'; c.beginPath(); c.moveTo(ox + p.x, oy + p.y); c.lineTo(ox + n.x, oy + n.y); c.stroke(); }
     for (const n of G.nodes) { pin(ox + n.x, oy + n.y, n.name === 'root' ? 6 : 4); if (n.label) { c.fillStyle = n.prop ? '#e07a7f' : INK; c.font = '400 11.5px "JetBrains Mono"'; c.fillText(n.label, ox + n.x + 7, oy + n.y + 4); } }
+    c.fillStyle = DIM; c.font = '400 12px "JetBrains Mono"'; c.fillText('* head pivot = view-specific anchor (profile / three-quarter / rear), blended by its angle to the camera', ox, oy + 262);
+    c.fillStyle = '#e07a7f'; c.fillText('red = props on the tree: felt saddle cloth and its flaps', ox, oy + 280);
     // angle curve: right hind hip and knee over the 32 s, planted spans shaded
     const C = data.curves, gx = 690, gy = 430, gw = 540, gh = 210;
     c.fillStyle = INK; c.font = '600 15px "JetBrains Mono"'; c.fillText('right hind leg: local angles, as rendered (deg)', gx, gy - 24);

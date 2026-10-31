@@ -205,7 +205,10 @@ def pose_affines(P, hs):
         # seen head-on (or from behind) mid-turn shows two forelegs (two hind legs, two ears) side by side, as in 3D
         z = DEPTH.get(name, 0.0)
         if z:
-            t = t + np.array([-z * np.sin(np.radians(phi)), 0.0])
+            sp = np.sin(np.radians(phi))
+            if g == 'head' and sp < 0:
+                sp = 0.0    # looking in (head yawed away): the ears stay rooted on the skull, no depth spread
+            t = t + np.array([-z * sp, 0.0])
         A[j, :, :2] = Lin; A[j, :, 2] = t
         A[j, 0, 2] += P['x']
     return A
