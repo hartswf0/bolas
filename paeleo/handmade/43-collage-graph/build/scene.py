@@ -119,7 +119,7 @@ def anc(fid, k): return tuple(LIB[fid]['anchors'][k])
 # ------------------------------------------------------------------ the scene-event contract: score frame -> dog graph state
 TURN1 = (3.417, 3.583, 3.75)       # profile-L | f027 | f030 | profile-R   (back shown from 3.75)
 TURN2 = (7.75, 7.917, 8.083)       # lying, head round to the door | f030 | f027 | profile-L (the found turn comes in promptly)
-LOOKIN_ANG = 33.0   # look-in: neck->crown of the back-of-head piece (the muzzle is hidden)
+LOOKIN_ANG = 50.0   # look-in: neck->crown of the back-of-head piece (the muzzle is hidden)
 LOOKIN_HL = 0.46    # its neck->crown length, local metres
 LOOKBACK = 7.458                   # REPLACE head by its mirror: the head comes round to the door first
 
@@ -333,7 +333,7 @@ def draw_dog(canvas, i, log=None):
     look_in = 'looks in' in ' '.join(g['rules'])
     hl = LOOKIN_HL if hid == 'head_back_f001' else 0.30
     if look_in:
-        N = (S[0], S[1] + 0.02)   # the neck rises from the shoulders; the head, seen from behind, is inside the lit opening
+        N = (S[0] - 0.06, S[1] + 0.02)   # the neck rises from the shoulders; the head, seen from behind, is inside the lit opening
     elif g['head_mirror']:
         N = (N[0] - 0.02, N[1] + 0.21)   # turning to look: the head comes up clear of the back and round, level, to the door
     if hid == 'head_side_f033' and not look_in and not g['head_mirror']:
