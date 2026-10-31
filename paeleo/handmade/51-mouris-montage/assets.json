@@ -2,6 +2,31 @@
  "about": "SCION 51 assets. Every image is a whole crop from one public-domain frame, copied unchanged into sources/. Imagery classes and temperatures are in inventory.json; where and when each is used is in cutting-score.json and words.json.",
  "assets": [
   {
+   "id": "fur.cat.chest",
+   "what": "fur image (warm)",
+   "imagery_class": "fur",
+   "temperature": "warm",
+   "path": "sources/cat_f000.jpg",
+   "original_path": "/home/user/hartswf0/secondhand-motion/shots/cat-sam/frames/f000.jpg",
+   "crop_norm": [
+    0.02,
+    0.62,
+    0.3,
+    0.98
+   ],
+   "source_title": "Gateways to the Mind",
+   "archive_url": "https://archive.org/details/gateways_to_the_mind",
+   "clip_id": "ccf4e561-d837-5b58-845e-c4b5414938bb",
+   "shot": "cat-sam",
+   "frame": "f000.jpg",
+   "rights": "public_domain",
+   "rights_basis": "kit/found-frames.json lists this shot as public_domain (Internet Archive / Moving Image Archive)",
+   "used_as": [
+    "coat"
+   ],
+   "operation": "whole crop, luminance-normalised, duotone-tinted by the cut's temperature, mapped onto the dog's body in its rest-pose coordinates (pinned, turns with the body), multiplied by the steady 3D shading"
+  },
+  {
    "id": "fur.cat.breast",
    "what": "fur image (warm)",
    "imagery_class": "fur",
@@ -19,6 +44,56 @@
    "clip_id": "ccf4e561-d837-5b58-845e-c4b5414938bb",
    "shot": "cat-sam",
    "frame": "f040.jpg",
+   "rights": "public_domain",
+   "rights_basis": "kit/found-frames.json lists this shot as public_domain (Internet Archive / Moving Image Archive)",
+   "used_as": [
+    "coat"
+   ],
+   "operation": "whole crop, luminance-normalised, duotone-tinted by the cut's temperature, mapped onto the dog's body in its rest-pose coordinates (pinned, turns with the body), multiplied by the steady 3D shading"
+  },
+  {
+   "id": "fur.horse.mane",
+   "what": "fur image (warm)",
+   "imagery_class": "fur",
+   "temperature": "warm",
+   "path": "sources/horse_f000.jpg",
+   "original_path": "/home/user/hartswf0/secondhand-motion/shots/horse-sam/frames/f000.jpg",
+   "crop_norm": [
+    0.22,
+    0.02,
+    0.58,
+    0.45
+   ],
+   "source_title": "Billie, the Buffalo Baby",
+   "archive_url": "https://archive.org/details/Billieth1956",
+   "clip_id": "fd0a7bab-8330-57e5-8c1b-5943070d0605",
+   "shot": "horse-sam",
+   "frame": "f000.jpg",
+   "rights": "public_domain",
+   "rights_basis": "kit/found-frames.json lists this shot as public_domain (Internet Archive / Moving Image Archive)",
+   "used_as": [
+    "coat"
+   ],
+   "operation": "whole crop, luminance-normalised, duotone-tinted by the cut's temperature, mapped onto the dog's body in its rest-pose coordinates (pinned, turns with the body), multiplied by the steady 3D shading"
+  },
+  {
+   "id": "fur.rabbit.back",
+   "what": "fur image (warm)",
+   "imagery_class": "fur",
+   "temperature": "warm",
+   "path": "sources/rabbit_f026.jpg",
+   "original_path": "/home/user/hartswf0/secondhand-motion/shots/rabbit-sam/frames/f026.jpg",
+   "crop_norm": [
+    0.5,
+    0.4,
+    0.8,
+    0.68
+   ],
+   "source_title": "Frances and Her Rabbit",
+   "archive_url": "https://archive.org/details/frances_and_her_rabbit",
+   "clip_id": "16866ed1-bc06-5d59-a8fe-81d8665d0d75",
+   "shot": "rabbit-sam",
+   "frame": "f026.jpg",
    "rights": "public_domain",
    "rights_basis": "kit/found-frames.json lists this shot as public_domain (Internet Archive / Moving Image Archive)",
    "used_as": [
@@ -890,10 +965,11 @@
    "rights": "public_domain",
    "rights_basis": "kit/found-frames.json lists this shot as public_domain (Internet Archive / Moving Image Archive)",
    "used_as": [
+    "coat",
     "letters",
     "room"
    ],
-   "operation": "glyph-shaped cut (Big Shoulders Display / Literata) filled with the crop, on a cut-paper chip; whole crop stretched across the facade plane (mirrored repeat), low contrast, under drawn clapboard lines"
+   "operation": "whole crop, luminance-normalised, duotone-tinted by the cut's temperature, mapped onto the dog's body in its rest-pose coordinates (pinned, turns with the body), multiplied by the steady 3D shading; glyph-shaped cut (Big Shoulders Display / Literata) filled with the crop, on a cut-paper chip; whole crop stretched across the facade plane (mirrored repeat), low contrast, under drawn clapboard lines"
   },
   {
    "id": "soft.basket.weave",
@@ -999,7 +1075,7 @@
   },
   {
    "id": "dog.body",
-   "what": "the dog: ~250 spheres (torso, neck, skull, muzzle, nose, eyes, ears, tail, four two-bone legs, paws) built in build/lib.py",
+   "what": "the dog: 165 spheres (torso, neck, skull, muzzle, nose, eyes, ears, tail, four two-bone legs, paws) built in build/lib.py",
    "source_title": "made here",
    "rights": "own work",
    "operation": "constructed; posed per frame from the score (build/choreo.py); ray-cast with depth (build/render.py); dark contour and depth-break lines drawn from the depth buffer"

@@ -37,9 +37,9 @@ def cards():
           ('the Mouris collection itself was not viewed: these are independently licensed public-domain images', 'f14.woff2', 18, (150, 146, 140))],
          os.path.join(C, 'title.jpg'))
     card([('What it is made of', 'f8.woff2', 40, (236, 226, 206)),
-          ('The dog: one body of spheres built here, its silhouette and shading held steady.', 'f34.woff2', 21, (214, 204, 186)),
+          ('The dog: one body of 165 spheres built here, its silhouette and shading held steady.', 'f34.woff2', 21, (214, 204, 186)),
           (f'Its coat, eyes and paws are whole images, substituted {ncut} times on a cutting score:', 'f34.woff2', 21, (214, 204, 186)),
-          ('2-frame holds on the calls, 16 to 46 frames on the soft voice and the light,', 'f34.woff2', 21, (214, 204, 186)),
+          ('2-frame holds on the calls, 12 to 46 frames on the soft voice, the light and the stay,', 'f34.woff2', 21, (214, 204, 186)),
           ('cropped from public-domain archive shots: cat, tiger, sheep, lion, horse, rabbit, broom, wheel, ladder, shovel.', 'f34.woff2', 21, (214, 204, 186)),
           ('The wall, door and lit room are substituted on the same score (doors, lamps, train, clock, flower, basket, cloud).', 'f34.woff2', 21, (214, 204, 186)),
           ('The words are letters cut from those images. Voices and sound are synthesized. Floor and figure drawn here.', 'f34.woff2', 21, (214, 204, 186)),

@@ -29,7 +29,7 @@ for r in inv:
                    'rights_basis': 'kit/found-frames.json lists this shot as public_domain (Internet Archive / Moving Image Archive)',
                    'used_as': sorted(used[r['id']]), 'operation': '; '.join(ops[u] for u in sorted(used[r['id']]))})
 assets += [
-    {'id': 'dog.body', 'what': 'the dog: ~250 spheres (torso, neck, skull, muzzle, nose, eyes, ears, tail, four two-bone legs, paws) built in build/lib.py',
+    {'id': 'dog.body', 'what': 'the dog: 165 spheres (torso, neck, skull, muzzle, nose, eyes, ears, tail, four two-bone legs, paws) built in build/lib.py',
      'source_title': 'made here', 'rights': 'own work', 'operation': 'constructed; posed per frame from the score (build/choreo.py); ray-cast with depth (build/render.py); dark contour and depth-break lines drawn from the depth buffer'},
     {'id': 'person.body', 'what': 'the person: spheres, built in build/lib.py', 'source_title': 'made here', 'rights': 'own work', 'operation': 'constructed and posed'},
     {'id': 'porch.house', 'what': 'porch floor planks, sill, facade planes, door frame, door leaf, lit room', 'source_title': 'made here', 'rights': 'own work',

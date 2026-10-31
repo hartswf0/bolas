@@ -34,12 +34,12 @@ SECTIONS = [
 ]
 
 COAT = {'cold': pool('coat', ['cold']), 'neutral': pool('coat', ['neutral']), 'warm': pool('coat', ['warm'])}
-EYE = {'cold': pool('eye', ['cold']), 'neutral': pool('eye', ['neutral']), 'warm': pool('eye', ['warm'])}
-PAW = {'cold': pool('paw', ['cold']), 'neutral': pool('paw', ['neutral']), 'warm': pool('paw', ['warm'])}
+EYE = {'cold': pool('eye', ['cold']), 'neutral': pool('eye', ['neutral']), 'warm': pool('eye', ['warm', 'neutral'])}
+PAW = {'cold': pool('paw', ['cold']), 'neutral': pool('paw', ['neutral']), 'warm': pool('paw', ['warm', 'neutral'])}
 ROOM = {'cold': pool('room', ['cold']), 'neutral': pool('room', ['neutral']), 'warm': pool('room', ['warm', 'neutral'])}
 DOOR = {'cold': pool('door', ['cold', 'neutral']), 'neutral': pool('door', ['neutral']), 'warm': pool('door', ['neutral'])}
 INTERIOR = pool('interior', ['warm'])
-HAND = {'cold': pool('hand', ['neutral']), 'neutral': pool('hand', ['neutral', 'warm']), 'warm': pool('hand', ['warm'])}
+HAND = {'cold': pool('hand', ['neutral']), 'neutral': pool('hand', ['neutral', 'warm']), 'warm': pool('hand', ['warm', 'neutral'])}
 
 
 def build():
@@ -61,7 +61,9 @@ def build():
     def pick(d, temp, key):
         L = d[temp] if isinstance(d, dict) else d
         n = ctr.get(key, 0); ctr[key] = n + 1
-        return L[(n * 5 + 1) % len(L)] if len(L) > 2 else L[n % len(L)]
+        m = len(L)
+        stride = next((s for s in (5, 3, 2, 7) if math.gcd(s, m) == 1), 1)   # visit every image of the class
+        return L[(n * stride + 1) % m]
     for k, (f, temp, why) in enumerate(starts):
         end = starts[k + 1][0] if k + 1 < len(starts) else N
         if end <= f:

@@ -5,7 +5,7 @@
 I did **not** view, download or use anything from the Academy Film Archive's Caroline and Frank Mouris Collection. It is not
 accessible from here, and this swarm had no network access to it. What this film tests are montage *mechanisms*
 associated with collage filmmaking in general (an inventory of found images sorted into imagery classes, a measured shot
-rhythm, narrated words treated as image), on independently licensed material: 30 public-domain archive frames from the
+rhythm, narrated words treated as image), on independently licensed material: 39 public-domain archive frames (`sources/`) from the
 kit's found shots (`kit/found-frames.json`), plus my own drawing, geometry and synthesis. No claim of formal influence
 from specific Mouris films is made, because I have not seen them.
 
@@ -54,7 +54,7 @@ cold cuts make a dry splice tick, warm cuts a soft brush, so the rhythm can be h
 
 ## How the dog is built and moved
 
-- **Body.** About 250 spheres built in `build/lib.py`: a 15-sphere torso with a chest, a neck, skull, muzzle, nose, two eyes,
+- **Body.** 165 spheres built in `build/lib.py`: a 15-sphere torso with a chest, a neck, skull, muzzle, nose, two eyes,
   two ears, a 14-sphere tail, four two-bone legs (12 spheres per bone) and paws. The renderer ray-casts them exactly, with
   depth. The silhouette, the 3D shading (dusk key light, the warm door light, a rim light) and a dark contour drawn from the
   depth buffer never cut. **Only what the dog is made of cuts.**
@@ -100,6 +100,26 @@ cold cuts make a dry splice tick, warm cuts a soft brush, so the rhythm can be h
   `trace.json → summary`.
 - Voices: `sound-levels.json`, RMS of each spoken-word window on the final mix.
 
+
+### Measured onsets of this film (`trace.json → summary`, checker `invariants.json`: ALL OK)
+
+| score | measured | dt |
+|---|---|---|
+| 1.000 watch → retreat | 1.000 | 0.000 |
+| 2.333 retreat → watch | 2.458 | +0.125 |
+| 3.417 watch → refuse | 3.542 | +0.125 |
+| 7.458 refuse → watch (head leads) | 7.583 | +0.125 |
+| 14.708 watch → approach | 14.708 | 0.000 |
+| 23.792 approach → lie down | 23.833 | +0.041 |
+| 26.4 *come in*: looks in | 26.625 (head leaves the door axis by > 12°) | +0.225 |
+
+The I3 position correlation is r = 1.0 on `x_world_measured`. On the approach, the head is below the back in 96.3% of
+frames. At the end, 18.5% of the visible dog pixels are past the outer face of the door (forelegs and head), the tail is at
+z = 0.80 m (outside), and the posture is lying. During the refusal the dog faces away in 97.9% of frames. Voices: calls
+−14.9 dBFS mean, soft −25.3 (10.3 dB under; loudest soft word −22.9 vs quietest call −16.0), room tone −47.7. Every
+voice starts at or before the reaction it causes: 1.0/1.0, 3.4/3.54, 7.4/7.58, 26.4/26.6. The film is 912 frames, 38.0 s,
+5.9 MB.
+
 ## Protected invariants
 
 Numeric: the six choices within ±0.25 s, the dog never inside (x ≥ sill), the dog's position correlates with the score's x,
@@ -126,7 +146,8 @@ See `ledger.jsonl`. In short:
 
 ## What is still weak (my view; the critic decides)
 
-- The person is a plain, rather puppet-like body of spheres.
+- The person is a plain, rather puppet-like body of spheres. In the end framing the offered hand points toward the
+  camera's left rather than toward the dog.
 - The coat substitutions on the soft passages are all warm and similar, so the change there is gentle and may read as
   shimmer rather than as a cut.
 - The formant voice is intelligible only with the letters' help.
