@@ -8,6 +8,7 @@ cd "$(dirname "$0")"
 case "${1:-}" in
   mood) export MOOD=1; tag=-mood; dir=../mood ;;
   cinema) export CINEMA=1; tag=-cinema; dir=../cinema ;;
+  rushes) export RUSHES=1; tag=-rushes; dir=../rushes ;;
   *) tag=; dir=.. ;;
 esac
 node render.js

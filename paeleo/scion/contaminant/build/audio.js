@@ -5,7 +5,7 @@
    switch = a two-note chime as the projector cools, projector = the reel's clatter and a held chord, splice = each join on the reel.
    Writes sound.wav (48 kHz, 16-bit mono). */
 const fs = require('fs'), path = require('path');
-const kind = process.env.CINEMA ? 'cinema' : process.env.MOOD ? 'mood' : '', tag = kind ? '-' + kind : '';
+const kind = process.env.RUSHES ? 'rushes' : process.env.CINEMA ? 'cinema' : process.env.MOOD ? 'mood' : '', tag = kind ? '-' + kind : '';
 const { duration, events } = JSON.parse(fs.readFileSync(path.join(__dirname, '..', kind, 'events.json'), 'utf8'));
 const SR = 48000, N = Math.round(SR * duration), buf = new Float32Array(N);
 let s = 7; const rnd = () => ((s = (s * 1664525 + 1013904223) >>> 0) / 2 ** 32) * 2 - 1;

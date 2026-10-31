@@ -43,6 +43,12 @@ pre{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.55;font-size:.84re
 </div>
 
 <section class="panel">
+<h2>Two cuts of one take (SCION 093)</h2>
+<video controls playsinline preload="metadata" src="contaminant/film093/film.mp4" style="width:100%;border-radius:.5rem;background:#000"></video>
+<p class="note">After Kogonada's <i>What Is Neorealism?</i>: one continuous take of the jellyfish gathering the archive, cut twice to the same 28 seconds. After the amber leader, the censor's cut keeps the delivery and the clockwork school and never shows the care strand. After the blue leader, the jellyfish's cut gives the same time to the archive's people. After the white leader, a diagnostic plays both side by side on the take's clock. Same source, same length, same grade, same music cue, matched loudness; the edit-decision lists and checks are in <a href="contaminant/film093/README.md" style="color:#a1bedf">film093</a>.</p>
+</section>
+
+<section class="panel">
 <h2>The film</h2>
 <video controls playsinline preload="metadata" poster="contaminant/cinema/stills/still_24.0s.jpg" src="contaminant/cinema/film.mp4" style="width:100%;border-radius:.5rem;background:#000"></video>
 <p class="note">47 s, sound on. The same seeded run, made as cinema: a camera that follows the jellyfish and holds close on the tank floor as it sinks onto the charred photographs, takes one in its tentacles and carries it up; hard cuts to the archive itself, moving where public-domain footage exists (a dog approaching a person, a woman at a door, a person in the snow, a cloud); every censor's bell a flare of the lamp and every cut a nitrate burn with a beat of black; each rescued frame returning as a double exposure with the one before; the reel intercut with the jellyfish warming back to gold as it watches; its afterimage left on black. An original score composed in code follows the run. Built with <code>contaminant/build/make.sh cinema</code>; <a href="contaminant/mood/sources.json" style="color:#a1bedf">archive sources</a>.</p>
@@ -169,7 +175,11 @@ const SEED = +(new URLSearchParams(location.search).get('seed')) || 8;
 // manifests under paeleo/handmade/), in CORPUS order: the clockwork school, the archive's history, the care strand.
 // ?cinema=1 (implies mood): the film as cinema, with a director's camera, full-screen archive inserts, the reel
 // intercut with the jellyfish watching it, and a coda that leaves its afterimage on black.
-const CINEMA = new URLSearchParams(location.search).has('cinema');
+// ?rushes=1 (implies cinema): the shared source take for SCION 093's two edits. One continuous master, no censor, no
+// cooling, no cut-aways: the jellyfish gathers fragments, and each one it lifts plays full screen for 3 s. Every frame
+// records what it shows (frameMeta), so the edit-decision lists can be built from the take graph.
+const RUSHES = new URLSearchParams(location.search).has('rushes'), RUSH_LEN = 72;
+const CINEMA = RUSHES || new URLSearchParams(location.search).has('cinema');
 const MOOD = CINEMA || new URLSearchParams(location.search).has('mood');
 // a source is a still, or a moving sequence of frames [dir, count] played at 12 fps
 const SRC = ['52-gilliam-ephemera/sources/light-bulb_f012.jpg', '52-gilliam-ephemera/sources/hat_f010.jpg', 'kit/archive-door/frames/f031.jpg',
@@ -238,7 +248,7 @@ let running = true, contamOn = false, speedK = 1, visible = true, last = perform
 // (low definition, gaps the viewer completes, cuts rescued, speculations touching). reel: the Paradiso reel of returned cuts.
 let heat = 1, heatTarget = 1, auto = true, reel = null, reelIdx = -1, focusId = null, focusSlot = 0, filmT = -1;
 // cinema state: the camera, the inserts cued by events, how much heat the reel has given back, the coda's afterimage
-let cam = null, inserts = [], bellN = 0, reelGlow = 0, afterimg = null, lastRescue = null, travel = 0, ended = false;
+let frameMeta = null, cam = null, inserts = [], bellN = 0, reelGlow = 0, afterimg = null, lastRescue = null, travel = 0, ended = false;
 
 // seeded PRNG (mulberry32) so every reload of the same seed plays the same run
 function rand() {
@@ -326,7 +336,7 @@ function release() {
   // hot cinema: the censor's bell rings over the care strand (the kisses), and the cut follows
   // one bell per cut, staggered so each can be heard
   let nb = 0;
-  for (const f of J.carry) if (heat > .5 && f.pool === 'pink' && !f.wasCut && !(auto && simT > SWITCH - 1.2)) {
+  for (const f of J.carry) if (!RUSHES && heat > .5 && f.pool === 'pink' && !f.wasCut && !(auto && simT > SWITCH - 1.2)) {
     f.bellT = simT + .8 + nb * .6; evts.push({t: simT + .15 + nb * .6, type: 'bell', src: f.src}); nb++;
     log(`the censor's bell rings over "${f.kw}"`, f);
   }
@@ -367,7 +377,7 @@ function contaminate(a, b, k) {
 }
 
 function step(dt) {
-  if (auto && heatTarget === 1 && simT >= SWITCH) setHeat(0, 'the projector cools: the jelly may rescue the cuts, and speculations may touch');
+  if (!RUSHES && auto && heatTarget === 1 && simT >= SWITCH) setHeat(0, 'the projector cools: the jelly may rescue the cuts, and speculations may touch');
   heat += (heatTarget - heat) * Math.min(1, dt * 1.2);
   for (const f of frags) if (f.bellT != null && simT >= f.bellT && f.stage === 1 && !f.held) cutFrag(f);
   for (const f of frags) {
@@ -397,7 +407,9 @@ function step(dt) {
 
   // while hot the cuts stay with the censor; once cool the jelly goes to them first, reaching down into the tank
   const free = frags.filter(f => f.stage === 0 && !f.held && f.gearT < 0 && (!f.cut || heat < .5));
-  const cutsFree = free.filter(f => f.cut), pick = cutsFree.length ? cutsFree : free;
+  // in the take it seeks out fragments not yet opened, so the source pool holds every one
+  const cutsFree = free.filter(f => f.cut), unseen = RUSHES ? free.filter(f => !inserts.some(x => x.f === f)) : [];
+  const pick = cutsFree.length ? cutsFree : unseen.length ? unseen : free;
   const full = J.carry.length >= CARRY_MAX || (J.carry.length > 0 && free.length === 0);
   if (!full && free.length) {
     let best = pick[0], bd = 1e9;
@@ -866,6 +878,7 @@ function reset() {
   stats = {contam: 0, returns: 0, cuts: 0, rescued: 0, trans: 0, checks: 0, v1: 0, v2: 0, v3: 0, v4: 0, v5: 0, oob: [], focusFrames: 0, ovMax: 0, ovFrames: 0};
   REEL0 = RENDER && CINEMA ? 90 : 26.5; REEL1 = REEL0 + 11.7; reelCued = false;
   cam = null; inserts = []; bellN = 0; reelGlow = 0; afterimg = null; lastRescue = null; travel = 0; ended = false;
+  if (RUSHES) { auto = false; contamOn = false; }
   JHIST = []; ghost = {cur: null, prev: null, t: -9}; focusId = null; focusSlot = 0; heat = 1; heatTarget = 1; auto = true; contamOn = false; reel = null; reelIdx = -1; syncBtn();
   J = {x: 230, y: 330, tx: 230, ty: 330, tent: [], tips: [], carry: [], by: 330, pu: 1, sx: 1, sy: 1, sq: 0, tilt: 0, antic: 0, key: '', reach: {x: 230, y: 460, w: 0}};
   for (let i = 0; i < TN; i++) J.tent.push({ax: -70 + 140 * i / (TN - 1), seg: 8 + rand() * 4, ph: rand() * 6.28});
@@ -1016,6 +1029,12 @@ function scanEvents() {
     const f = e.src ? frags.find(g => g.src === e.src) : null; if (!f) continue;
     // the censor's cuts always cut in; a rescue or a seam cuts in only after two seconds of the world, so the film breathes
     const lastEnd = inserts.reduce((m, x) => Math.max(m, x.t1), -9), room = e.t - lastEnd >= 2;
+    if (RUSHES) {   // the take: each lift opens its fragment for 3 s, with at least 1.2 s of the world between
+      // every fragment's first lift opens it; repeats open only once all fourteen have been seen
+      const shown = new Set(inserts.map(x => x.f.src)), fresh = !shown.has(f.src), allSeen = shown.size >= CORPUS.length;
+      if (e.type === 'lift' && e.t - lastEnd >= 1.0 && (fresh || allSeen)) inserts.push({kind: 'show', f, t0: e.t + .3, t1: e.t + 3.3});
+      continue;
+    }
     if (e.type === 'bell') { inserts.push({kind: 'cut', f, t0: e.t, t1: e.t + (CUTDUR[bellN] || .8)}); bellN++; }
     else if (e.type === 'rescue') { inserts.push({kind: 'rescue', f, t0: e.t + 1.5, t1: e.t + 3.6, with: lastRescue}); lastRescue = f; }
     else if (e.type === 'seam' && room) inserts.push({kind: 'seam', f, t0: e.t + .15, t1: e.t + 2.2});
@@ -1110,7 +1129,7 @@ function filmFrame(i, fps, dur, noImage) {
   if (i > 0) { simT += 1 / fps; step(1 / fps); }
   if (CINEMA) {
     // an ellipsis: when the jellyfish is only travelling, cut ahead to the next thing that happens (up to 2.5 s)
-    if (simT > SWITCH + 1 && simT < REEL0 - 1) {
+    if (!RUSHES && simT > SWITCH + 1 && simT < REEL0 - 1) {
       travel = activeInsert() || J.dive || J.reach.w > .3 ? 0 : travel + 1 / fps;
       if (travel > 1.1) {
         const n0 = evts.length;
@@ -1119,6 +1138,12 @@ function filmFrame(i, fps, dur, noImage) {
       }
     }
     cinemaFrame(t, dur);
+    if (RUSHES) {
+      const ins = activeInsert(), since = type => { for (let k = evts.length - 1; k >= 0; k--) if (evts[k].type === type && evts[k].t <= simT) return simT - evts[k].t; return 99; };
+      frameMeta = {t: +t.toFixed(4), sim: +simT.toFixed(4), shot: ins ? 'insert' : 'world', src: ins ? ins.f.src : null, kw: ins ? ins.f.kw : null,
+        strand: ins ? ins.f.pool : null, jelly: since('hand') < .9 ? 'handoff' : since('lift') < .9 ? 'lift' : since('return') < .9 ? 'return' : J.carry.length ? 'carry' : 'forage'};
+      if (simT > RUSH_LEN) ended = true;
+    }
     if (ended) return 'END';
     return noImage ? null : cv.toDataURL('image/png');
   }
@@ -1129,7 +1154,7 @@ function filmFrame(i, fps, dur, noImage) {
 }
 
 window.SCION_CONTAMINANT = {stats: () => ({...stats, population: frags.length, simT, contamOn, heat, carry: J.carry.length}),
-  frame: filmFrame, events: () => evts, ledger: () => ledger.slice().reverse()};
+  frame: filmFrame, meta: () => frameMeta, events: () => evts, ledger: () => ledger.slice().reverse()};
 Promise.all([document.fonts ? document.fonts.ready : Promise.resolve(), picsReady]).then(() => {
   if (RENDER) { cv.width = FW; cv.height = FH; reset(); return; }
   reset(); requestAnimationFrame(tick);
