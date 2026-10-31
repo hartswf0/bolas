@@ -395,6 +395,16 @@
    "trick": "It solves the turns, the place every earlier swarm failed, by never pretending the dog is a solid."
   },
   {
+   "id": 40,
+   "dir": "40-tabletop-capture",
+   "name": "Tabletop capture",
+   "kind": "Paper performance, captured and replayed",
+   "dog": "a paper card dog moved by archive hands on a table, tracked from the pixels and replayed",
+   "made": "No camera, table or performer existed, and the film says so: a synthesized overhead tabletop plate of white-card puppets with printed fiducial tabs, moved by public-domain archive hands from The Door to Heaven (1941) matted by their SAM masks. The film itself uses new paper skins cut here: 37 body cards and 11 head cards on a cut-away house at dusk. All sound is synthesized.",
+   "moved": "Every piece is tracked from the plate's pixels alone: corner-fiducial calibration, per-card fiducials refined by Lucas–Kanade on the card's own printed texture with hand pixels weighted out, texture identification when a hand hides a marker, and hand mattes from a clean-plate difference plus a learned skin model. The recovered rigid transforms and a 358-event stream drive the film; a corner inset shows the capture with its tracks and mattes.",
+   "trick": "The acting exists only as data recovered from fingers moving paper, and the film replays it."
+  },
+  {
    "id": 41,
    "dir": "41-secondary-dynamics",
    "name": "Secondary dynamics",
