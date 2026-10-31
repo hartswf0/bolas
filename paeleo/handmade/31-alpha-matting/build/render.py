@@ -325,7 +325,20 @@ def gait_pieces():
     head_m = soft_region(shp, lambda x, y: x < 142, 2)          # the head with a neck root that overlaps the body
     core = soft_region(shp, lambda x, y: x < 128, 2)            # what the body gives up to it
     GAIT['head'] = A * (body_m * head_m)[..., None]
-    GAIT['body'] = A * (body_m * (1 - core))[..., None]
+    # round 4: the pale fringe hanging below the rump (tail / far hind leg, partly transparent: it read as a ghost leg
+    # over the siding) is cut; the rump keeps its own edge above it
+    hang = soft_region(shp, lambda x, y: (x >= 225) & (y >= 140), 2)
+    GAIT['body'] = A * (body_m * (1 - core) * (1 - hang))[..., None]
+    # the far hind leg, bent and lifted in this frame, is hidden behind the near one (cut below the haunch); the near
+    # hind leg is lengthened from the hip so its paw stands on the floor line, level with the front paw
+    far = soft_region(shp, lambda x, y: (x >= 202) & (y >= 159), 2)
+    hd_ = GAIT['hind'] * (1 - far)[..., None]
+    ys_, xs_ = np.nonzero(hd_[..., 3] > .5); low = ys_.max()
+    yt, yf = LEGS['hind']['ytop'], LEGS['fore']['paw'][1] + 3
+    sc_ = (yf - yt) / float(low - yt)
+    ch = [np.asarray(Image.fromarray(hd_[..., c]).transform(hd_.shape[1::-1], Image.AFFINE, (1, 0, 0, 0, 1 / sc_, yt - yt / sc_), Image.BICUBIC)) for c in range(4)]
+    GAIT['hind'] = np.clip(np.stack(ch, 2), 0, 1).astype(np.float32)
+    GAIT['hind_paw_y'] = yf
     cx, by = anchor(A)
     GAIT['anchor'] = (cx, by)
     return GAIT
@@ -368,7 +381,7 @@ def gait_sprite(x_body, x_start, head_raise=0., stance=.7):
         D, lift, n, planted = leg_offset(s_, stance)
         D0, _, _, _ = leg_offset(L['phase'], stance)
         Dpx = (D - D0) * step_px          # zero at the start: the dog starts standing on its own frame
-        leg = shear_leg(g[k], L['ytop'], L['paw'][1], Dpx, 5 * lift)
+        leg = shear_leg(g[k], L['ytop'], g['hind_paw_y'] if k == 'hind' else L['paw'][1], Dpx, 5 * lift)
         out = over(out, leg)
         info[k] = dict(paw_src_x=L['paw'][0] + Dpx, plant=int(n), planted=bool(planted))
     out = over(out, g['body'])
@@ -377,10 +390,11 @@ def gait_sprite(x_body, x_start, head_raise=0., stance=.7):
     else:
         out = over(out, g['head'])
     out = out * main_component(out[..., 3])[..., None]
+    # round 4: no see-through fur in the walking dog: alpha is hardened (0.2 -> 0, 0.75 -> 1), colour kept
     a = out[..., 3]
-    inner = blur((a > .5).astype(np.float32), 3, 2) > .999
-    k = inner & (a < 1)
-    out[k, :3] = out[k, :3] / np.maximum(a[k, None], 1e-4); out[k, 3] = 1.0
+    F = out[..., :3] / np.maximum(a[..., None], 1e-4)
+    a2 = np.clip((a - .2) / .55, 0, 1)
+    out = np.concatenate([F * a2[..., None], a2[..., None]], 2).astype(np.float32)
     return out, info
 
 
@@ -977,10 +991,18 @@ def render(i):
             band = (np.arange(sol.shape[1]) <= cs2.min() + 45) if pose.get('facing', 1) == 1 else (np.arange(sol.shape[1]) >= cs2.max() - 45)
             yy_, xx_ = np.nonzero(sol & band[None, :])
             hx, hy = round(left + float(xx_.mean()), 1), round(top + float(yy_.mean()), 1)
+    # hip: the top of the back over the rear fifth of the dog (the side away from where it faces)
+    hip = (None, None)
+    if len(cs):
+        c0, c1 = cs.min(), cs.max(); wd = c1 - c0
+        rc = np.arange(c1 - int(.2 * wd), c1 + 1) if pose.get('facing', 1) == 1 else np.arange(c0, c0 + int(.2 * wd) + 1)
+        tops = [np.nonzero(ah[:, c] > .5)[0].min() for c in rc if (ah[:, c] > .5).any()]
+        if tops:
+            hip = (round(left + float(rc.mean()), 1), round(top + float(np.mean(tops)), 1))
     hp_ = pose.get('head_src')
     if hp_:   # the head piece of the lying dog, on screen
         hp_ = dict(x=round(left + hp_['cx'] * DS, 1), y=round(top + hp_['cy'] * DS, 1), box=[round(v * DS + o, 1) for v, o in zip(hp_['box'], (left, top, left, top))])
-    meas = dict(headpiece=hp_, head_x=hx, head_y=hy, nose_x=nose[0], nose_y=nose[1], x_screen=round(mx, 2), y_screen=round(my, 2), dog_left=round(left + xs.min(), 1), dog_right=round(left + xs.max(), 1),
+    meas = dict(hip_x=hip[0], hip_y=hip[1], headpiece=hp_, head_x=hx, head_y=hy, nose_x=nose[0], nose_y=nose[1], x_screen=round(mx, 2), y_screen=round(my, 2), dog_left=round(left + xs.min(), 1), dog_right=round(left + xs.max(), 1),
                 dog_top=round(top + ys.min(), 1), dog_bottom=round(top + ys.max(), 1), door_open=round(opened, 3))
     return img, pose, meas
 
