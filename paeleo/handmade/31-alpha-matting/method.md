@@ -84,7 +84,8 @@ domain) appear: 9, 13, 14, 26, 30, 33, 45, and, for heads only, 5, 28 and 31. Al
   The four archive walk drawings (43, 44, 45, 48) were dropped: their feet could not be registered within 15 px, because
   frame 48 hides the front leg that frame 43 plants.
 - *Lying across the sill* (23.79 s) and *looking in* (26.4 s): **a labelled reconstruction.** The archive dog was never
-  filmed lying. One solved matte (frame 9, profile, head up) is split by complementary soft masks into body, two forelegs,
+  filmed lying. It is built from frame 9's matte (profile, head up), with heads from frames 5, 14, 28 and 31 and a tail
+  tuft from frame 13, as the end card says. Frame 9's matte is split by complementary soft masks into body, two forelegs,
   hind legs and head; the forelegs pivot forward at the elbows onto the floor, the hind legs fold (compress) under the
   haunch, the body lowers, the head stays up (sphinx), then is **substituted** by frame 5's head, which the camera saw from
   behind (the dog looking up and away: back of the skull and ears toward the viewer), then pivots down to rest the chin
