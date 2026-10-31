@@ -209,6 +209,8 @@ WATCH = [(38, 0), (39, 0), (38, 0), (39, 0)]
 WALK = [43, 44, 45]                     # as shot; f42 removed (garbled head, critic round 1); wrap 45->43 IoU 0.63
 STEP_M = 0.066
 LIE_BELLY = {4: 160}
+F1_COAT = [(97 + 28 * math.cos(a), 102 + 34 * math.sin(a)) for a in np.linspace(0, 2 * math.pi, 40, endpoint=False)]
+# correction stroke on f1: the SAM edge ran straight down the person's coat, carrying a pale band of throat fur; a curved stroke removes it
 LEGS = {4: [(0, 160), (384, 160), (384, 288), (0, 288)]}          # correction stroke: legs (no source frame shows them folded)
 TAIL6 = [(211, 146), (254, 146), (254, 184), (211, 184)]         # tail part box on frame 19 (as shot), mirrored on use
 TAIL6_ROOT = (214, 150)                  # source y of the belly line (correction stroke: everything below is legs)                          # source world travel per source frame (camera pan 8.75 px / 130 px per m)
@@ -219,7 +221,7 @@ LOOK_BACK = [(1, 0, 33), (1, 0, 33), (1, 0, 36), (1, 0, 36), (1, 0, 36), (1, 0, 
 CRINGE = [(39, 0), (40, 0), (41, 0), (43, 0)]
 RISE = [(43, 0), (41, 0), (40, 0), (39, 0)]
 HEAD_DOWN = [(39, 0), (40, 0), (41, 0), (43, 0)]
-ARRIVE = [(44, 0), (43, 0), (41, 0), (40, 0), (40, 0), (4, 1)]
+ARRIVE = [(44, 0), (43, 0), (41, 0), (40, 0), (40, 0), (40, 0)]
 
 CH = [c['t'] for c in SCORE['choices']]
 I_RETREAT, I_WATCH1, I_REFUSE, I_WATCH2, I_APPROACH, I_LIE = [round(t * FPS) for t in CH]
@@ -252,7 +254,14 @@ def dog_plan(i):
         j = i - I_RETREAT
         if j < 2 * len(CRINGE):
             f, m = CRINGE[j // 2]; return dict(f=f, m=m, state='retreat', posture='crouch')
-        return dict(f=walk_frame(i, I_RETREAT + 2 * len(CRINGE), reverse=True), m=0, state='retreat', posture='crouch-backing')
+        # no frame shows this dog stepping backwards: it backs in small shuffles between held frames (4 held, 2 moving);
+        # the held drawing changes only at a shuffle, so it never reads as a forward stride run backwards
+        i0 = I_RETREAT + 2 * len(CRINGE)
+        k = (i - i0) // 6; ph = (i - i0) % 6
+        a = 0.0 if ph < 4 else (ph - 3) / 2.
+        xa = FR[min(i0 + 6 * k, 767)]['dog']['x']; xb = FR[min(i0 + 6 * (k + 1), 767)]['dog']['x']
+        xq = xa + (xb - xa) * smooth(a)
+        return dict(f=(43, 44)[k % 2], m=0, state='retreat', posture='crouch-backing', xq=xq)
     if i < I_REFUSE:
         j = i - I_WATCH1
         if j < 2 * len(RISE):
@@ -307,7 +316,7 @@ def dog_piece(f, m, legs=True, part=None):
 
 def place_dog(i, plan):
     """compose the dog layer (RGBA, full frame) for frame i, plus its shadow; returns (layer, shadow_alpha, meta)"""
-    x = FR[i]['dog']['x']
+    x = plan.get('xq', FR[i]['dog']['x'])
     layer = Image.new('RGBA', (W, H), (0, 0, 0, 0))
     f, m = plan['f'], plan['m']
     full, info, g = dog_piece(f, m)
@@ -325,8 +334,10 @@ def place_dog(i, plan):
         #   u40 head (level, muzzle forward) / u44 (lower) / u47 (lowest, nose down) -- each a real head of this dog
         t = i / FPS
         hm = False
-        if look > .1:
+        if look > .5:
             hf, hm = 1, True        # f1 head, mirrored: the back of the head and ears toward the viewer, muzzle away into the room
+        elif look > .1:
+            hf = 40                 # in-between head (level) eases the swap in and out
         elif rest > .3:
             hf = 47
         elif t >= 25.9:
@@ -335,24 +346,23 @@ def place_dog(i, plan):
             hf = 40
         body, binfo = cut('dog', f, bool(m), keep=[neck_cut(f, 'body')], scale=S, feather=2.0)
         hk, hdisk = head_region(hf)
-        head, hinfo = cut('dog', hf, hm, keep=hk, keep2=hdisk, scale=S, feather=2.0)
+        head, hinfo = cut('dog', hf, hm, keep=hk, keep2=hdisk, sub=[F1_COAT] if hf == 1 else (), scale=S, feather=3.0 if hf == 1 else 2.0)
         tail, tinfo = cut('dog', 19, True, keep=[TAIL6], scale=S)
         fneck = to_piece(info, key(f, 'neck')); bneck = to_piece(binfo, key(f, 'neck'))
         bx = ox + fneck[0] - bneck[0]; by = oy + fneck[1] - bneck[1] + dy
         btail = to_piece(binfo, key(f, 'tail')); ttail = to_piece(tinfo, TAIL6_ROOT)
-        if drop < .92:
-            # still going down: the whole m4 proposal (legs and all) sinks behind the porch board; nothing is cut
-            layer.alpha_composite(full, (int(round(ox)), int(round(oy + dy))))
-            hf = 4
+        if False:
+            pass
         else:
             layer.alpha_composite(tail, (int(round(bx + btail[0] - ttail[0])), int(round(by + btail[1] - ttail[1]))))
             layer.alpha_composite(body, (int(round(bx)), int(round(by))))
             hneck = to_piece(hinfo, key(hf, 'neck'))
             sink = 20 * S if hf == 1 else 0               # f1 neck is raised (it looked up at its person); set its head 20 source px lower on the lying body
             layer.alpha_composite(head, (int(round(bx + bneck[0] - hneck[0])), int(round(by + bneck[1] - hneck[1] + sink))))
-        pieces_used = ([dict(src='dog', frame=f, mirror=bool(m), part='whole', legs='sinking behind the porch board')] if drop < .92 else
-                       [dict(src='dog', frame=f, mirror=bool(m), part='body', legs='behind the porch board (no frame shows them folded)'),
+        pieces_used = ([dict(src='dog', frame=f, mirror=bool(m), part='body', legs='behind the porch board (no frame shows them folded)'),
                         dict(src='dog', frame=19, mirror=True, part='tail'), dict(src='dog', frame=hf, mirror=hm, part='head')])
+        if drop < .92:
+            pieces_used[0]['legs'] = 'sinking behind the porch board'
         # floor clip: below the floor line nothing of the dog is shown (legs refused), soft 6 px edge
         arr = np.asarray(layer).copy()
         ramp = np.clip((EDGE + 4 - np.arange(H)) / 3., 0, 1)
