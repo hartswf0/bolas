@@ -180,7 +180,17 @@ def lie_pieces():
     head_m = np.clip(head_m, 0, 1) * (yy < 140)
     core = np.clip((1 - np.hypot((xx - 96) / 23., (yy - 96) / 27.)) * 6, 0, 1) * (yy < 140)
     body_m = body_m * (1 - core)
+    # round 4: the neck crest above the line of the back is cut; with the head pivoted it stood up as a sharp fin
+    crest = np.clip((104 + .004 * (xx - 135) ** 2 - yy) / 2. + .5, 0, 1) * soft_region(shp, lambda x, y: (x >= 95) & (x < 165), 4)   # a rounded shoulder
+    body_m = body_m * (1 - crest)
     LIE['body'] = A * body_m[..., None]
+    # a tail tuft (frame 9 shows none): frame 13's feathered tail, cut by a soft box, seated at the rump
+    P13, b13 = dog_frame(13, False)
+    A13 = piece_canvas(P13, b13)
+    tm = soft_region(shp, lambda x, y: (x >= 198) & (y >= 132) & (y < 168), 2)
+    T = A13 * tm[..., None]
+    ta = T[..., 3]; tf = T[..., :3] / np.maximum(ta[..., None], 1e-4); ta2 = np.clip((ta - .08) / .45, 0, 1)   # a tuft, not a veil
+    LIE['tail'] = np.concatenate([tf * ta2[..., None], ta2[..., None]], 2).astype(np.float32)
     LIE['foreA'] = A * (legs_m * (xx < 113))[..., None]          # the foreleg already reaching forward
     LIE['fore'] = A * (legs_m * (xx >= 113) * (xx < 152))[..., None]   # the upright foreleg
     LIE['hind'] = A * (legs_m * (xx >= 152))[..., None]
@@ -249,6 +259,9 @@ def lying_sprite(L, head_up, look, rest, face_right=False, look_back=0.0, swing=
     fore = rot_premult(fore, 0, 0, 0, dx=-4 * L, dy=drop if L < 1e-3 else (1 - L) * drop + L * ground(fore, gl))
     foreA = rot_premult(foreA, 0, 0, 0, dx=-2 * L, dy=drop if L < 1e-3 else (1 - L) * drop + L * ground(foreA, gl - 1))
     out = np.zeros_like(body)
+    # tail: root of frame 13's tail (198, 150) to frame 9's rump (206, 128 + drop), resting down toward the boards
+    tail = rot_premult(p['tail'], TAIL_ANG * L, 198, 150, dx=TAIL_DX, dy=-22 + drop + TAIL_DY)
+    out = over(out, tail)
     out = over(out, hind); out = over(out, foreA); out = over(out, fore); out = over(out, body)
     ang = 52 * rest - 4 * head_up
     hd = rot_premult(p['head'], ang, NECK[0], NECK[1], dx=-3 * rest, dy=drop + 10 * rest)
@@ -367,7 +380,22 @@ def shear_leg(P, ytop, ybot, D, lift):
     return o
 
 
-def gait_sprite(x_body, x_start, head_raise=0., stance=.7):
+def sink_rear(P, sink, x0=150., x1=215., floor=214):
+    """round 4: the hindquarters sink before lying down. Each column is shifted down by sink * ramp(x) (0 at the
+    shoulder, 1 at the rump) and nothing goes below the floor line: the hind leg folds (is clipped at the boards)."""
+    H_, W_ = P.shape[:2]
+    sh = sink * np.clip((np.arange(W_) - x0) / (x1 - x0), 0, 1)
+    ys = np.arange(H_)[:, None] - sh[None, :]
+    y0 = np.floor(ys).astype(int); f = (ys - y0)[..., None]
+    y0c, y1c = np.clip(y0, 0, H_ - 1), np.clip(y0 + 1, 0, H_ - 1)
+    xx = np.arange(W_)[None, :].repeat(H_, 0)
+    out = P[y0c, xx] * (1 - f) + P[y1c, xx] * f
+    out[(ys < 0)] = 0
+    out[floor:] = np.where((sh[None, :, None] > 0), 0, out[floor:])
+    return out.astype(np.float32)
+
+
+def gait_sprite(x_body, x_start, head_raise=0., stance=.7, sink=0.):
     """backing away on planted paws: the body follows the score; each leg pair is planted, then steps back"""
     g = gait_pieces()
     out = np.zeros_like(g['body'])
@@ -389,6 +417,8 @@ def gait_sprite(x_body, x_start, head_raise=0., stance=.7):
         out = over(out, rot_premult(g["head"], -HEAD_RAISE_DEG * head_raise, 136, 150))
     else:
         out = over(out, g['head'])
+    if sink > 0:
+        out = sink_rear(out, sink, floor=int(g['anchor'][1]))
     out = out * main_component(out[..., 3])[..., None]
     # round 4: no see-through fur in the walking dog: alpha is hardened (0.2 -> 0, 0.75 -> 1), colour kept
     a = out[..., 3]
@@ -468,8 +498,13 @@ FRONTAL = (26, 30, 33)    # round 4: the frontal turn drawings get face detail
 FACE_DETAIL = float(os.environ.get('FACE_DETAIL', 1.9))
 FACE_LIFT = float(os.environ.get('FACE_LIFT', 1.25))
 LOOK_BRIDGE = [('away', 8, 0), (31, 12, 10), (28, 15, 0), (14, 27, -12)]   # (head, lift px, dx px)   # head substitutions from 7.458 s, then the look-back head
-LIE_L0 = float(os.environ.get('LIE_L0', .45))      # round 3: the lie starts part-lowered (bridges the crouched walk frame)
+LIE_L0 = float(os.environ.get('LIE_L0', .15))      # round 3: the lie starts part-lowered (bridges the crouched walk frame)
 LIE_LEAD = 24.            # px
+REACH_LEAD = 6            # frames (0.25 s)
+LAST_REACH = [0.]
+TAIL_DX, TAIL_DY = float(os.environ.get('TAIL_DX', 10)), float(os.environ.get('TAIL_DY', 0))
+TAIL_ANG = float(os.environ.get('TAIL_ANG', -10))
+SINK, SINK_N = float(os.environ.get('SINK', 34)), 5   # source px the rump sinks over the last SINK_N walking frames
 LIE_REST0 = float(os.environ.get('LIE_REST0', .9))   # and its head carried forward-low, not curled under
 CALL_WINDOWS = [(0.62, 1.38), (1.62, 2.30), (2.95, 3.70)]   # the voice comes first (sound.py places the calls here)
 WALK = [43, 44, 45, 48]                 # the archive dog's head-low walk, mirrored to face the door (42, 46, 47: head lost in a tangle, skipped)
@@ -548,7 +583,8 @@ def dog_pose(i):
         k2 = i - I_APP_G; k3 = I_LIE_ - 1 - i
         e0 = 1 - float(smooth(0, GAIT_EASE, k2)); e1 = 1 - float(smooth(0, GAIT_EASE, k3))
         return dict(kind='gait', gi0=I_APP_G, facing=1, posture='walk head low', head_raise=max(0., 1 - k2 / 7.), stance=.6,
-                    xoff_px=APP_OFF[0] * e0 + APP_OFF[1] * e1)
+                    xoff_px=APP_OFF[0] * e0 + APP_OFF[1] * e1,
+                    sink=SINK * max(0., 1 - k3 / float(SINK_N)) if k3 < SINK_N else 0.)   # round 4: hindquarters sink before it lies down
     # lies down across the sill; hears "come in": looks in, then settles
     L = LIE_L0 + (1 - LIE_L0) * float(smooth(T_LIE, T_LIE + .75, t))   # round 3: starts already part-lowered, like the crouched walk frame
     look = float(smooth(T_COMEIN, T_COMEIN + .16, t) * (1 - smooth(28.15, 28.35, t)))
@@ -591,7 +627,7 @@ def dog_sprite(i):
     elif p['kind'] == 'gait':
         i0 = p.get('gi0', I_RET + len(FLINCH))
         A, info = gait_sprite(FR[i]['dog']['x'] + p['xoff_px'] / PPM, FR[i0]['dog']['x'] + dog_pose(i0)['xoff_px'] / PPM, p.get('head_raise', 0.),
-                              p.get('stance', .7))
+                              p.get('stance', .7), p.get('sink', 0.))
         p['legs'] = info
         P, b = A, (0, 0, A.shape[1], A.shape[0])        # uncropped: the body keeps one fixed anchor
         p['anchor'] = gait_pieces()['anchor']
@@ -745,7 +781,9 @@ def person(canvas, i, t, light):
     legcol = np.array([.035, .04, .06], np.float32) + light * np.array([.05, .03, .015])
     canvas[:] = canvas * (1 - cov[..., None]) + legcol * cov[..., None]
     # hand + forearm (Door to Heaven): reaching at shoulder height, or offered low from the seat
-    reach, low = pr['reach'], pr['low']
+    # round 4: she reaches REACH_LEAD frames ahead of the score, so the reach begins before the turn it causes
+    reach, low = FR[min(i + REACH_LEAD, 767)]['person']['reach'], pr['low']
+    LAST_REACH[0] = reach
     hand_amt = max(reach, low)
     if hand_amt > 0.02:
         Hs = grade_dusk(scale_premult(HAND, 0.56), warm=.25 * light, dark=.26, grain=.02, seed=i * 7 + 2)
@@ -1002,7 +1040,7 @@ def render(i):
     hp_ = pose.get('head_src')
     if hp_:   # the head piece of the lying dog, on screen
         hp_ = dict(x=round(left + hp_['cx'] * DS, 1), y=round(top + hp_['cy'] * DS, 1), box=[round(v * DS + o, 1) for v, o in zip(hp_['box'], (left, top, left, top))])
-    meas = dict(hip_x=hip[0], hip_y=hip[1], headpiece=hp_, head_x=hx, head_y=hy, nose_x=nose[0], nose_y=nose[1], x_screen=round(mx, 2), y_screen=round(my, 2), dog_left=round(left + xs.min(), 1), dog_right=round(left + xs.max(), 1),
+    meas = dict(reach=round(LAST_REACH[0], 3), hip_x=hip[0], hip_y=hip[1], headpiece=hp_, head_x=hx, head_y=hy, nose_x=nose[0], nose_y=nose[1], x_screen=round(mx, 2), y_screen=round(my, 2), dog_left=round(left + xs.min(), 1), dog_right=round(left + xs.max(), 1),
                 dog_top=round(top + ys.min(), 1), dog_bottom=round(top + ys.max(), 1), door_open=round(opened, 3))
     return img, pose, meas
 
@@ -1018,7 +1056,7 @@ def main():
     for i in range(a, b):
         img, pose, meas = render(i)
         Image.fromarray(img).save(os.path.join(od, 's%04d.jpg' % i), quality=93)
-        p = {k: v for k, v in pose.items() if k in ('kind', 'f', 'm', 'facing', 'posture', 'L', 'look', 'rest', 'looking_in', 'legs', 'dissolve', 'theta', 'head_raise', 'bridge', 'face_detail')}
+        p = {k: v for k, v in pose.items() if k in ('kind', 'f', 'm', 'facing', 'posture', 'L', 'look', 'rest', 'looking_in', 'legs', 'dissolve', 'theta', 'head_raise', 'bridge', 'face_detail', 'sink')}
         tr[i] = dict(pose=p, **meas)
     json.dump(tr, open(os.path.join(C, 'trace_part_%04d_%04d.json' % (a, b)), 'w'))
     print('rendered', a, b)

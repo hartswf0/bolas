@@ -42,7 +42,7 @@ def endcard():
     lines = [
         'The dog: %d whole frames of a real dog (f%s), one mesh each, never cut into' % (len(FR), ', '.join('%d' % f for f in FR)),
         'pieces; SAM edge, blur and grain as found (Amateur Film New Jersey C, public domain); f010, f007 also mirrored;',
-        'two small areas darkened for legibility (f005 cheek edge, f007 tail tip).',
+        'two small areas regraded for legibility (f005 cheek edge darkened, f007 tail tip lightened).',
         'Each frame: auto-triangulated, handles placed from its medial axis (points: nose, tail tip; bones: neck, back,',
         'tail, legs), weights solved as bounded biharmonic weights; nothing painted by hand. Heat maps above.',
         'Tests: weights in [0, 1], partition of unity to %.0e; mean leak across the gaps between legs %.4f' % (

@@ -150,7 +150,7 @@ def main():
     lum = band.mean(2, keepdims=True)
     r['tex'][y0:y0 + 66, x0:x0 + 22, :3] = np.where(lum > .42, band * .42 / np.maximum(lum, 1e-6) * .8, band)
     r['recoloured'] = 'pale band x0..x0+22, y0..y0+66 darkened to skull tone'
-    # f007 (lying): its found tail is a thin mid-grey line that vanishes on the lit boards; darken the tail's own
+    # f007 (lying): its found tail is a thin mid-grey line that vanishes against the dark porch; lighten the tail's own
     # pixels (where the tail handles dominate) so it reads at film size
     r = rigs['r7']; jt = [r['names'].index(k) for k in ('tailtip',)]
     wt = r['W'][:, jt].sum(1)
@@ -160,8 +160,8 @@ def main():
     from scipy import ndimage as ndi2
     tm = ndi2.grey_dilation(tm, size=(3, 3)); tm = ndi2.gaussian_filter(tm, 1.0)
     k = np.clip((tm - .30) / .3, 0, 1)[..., None]
-    r['tex'][..., :3] = r['tex'][..., :3] * (1 - .55 * k)
-    r['recoloured'] = 'tail tip pixels darkened (tail-tip weight > 0.3)'
+    r['tex'][..., :3] = np.clip(r['tex'][..., :3] * (1 + .9 * k) + .12 * k, 0, 1)
+    r['recoloured'] = 'tail tip pixels lightened (tail-tip weight > 0.3): it lies against the dark porch'
     # the refusal view: the same whole frame, mirrored (the archive dog turned away); weights carry over exactly
     rigs['Wm'] = mirror(rigs['W']); rigs['r7m'] = mirror(rigs['r7'])
     # stability across neighbouring archive frames (same handle code, different ragged silhouettes)
