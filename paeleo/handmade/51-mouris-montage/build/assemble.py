@@ -51,7 +51,8 @@ def cards():
           (names2, 'f34.woff2', 21, (214, 204, 186)),
           ('An invisible 3D pose of spheres decides where each piece is cut; its shading is not shown.', 'f34.woff2', 21, (214, 204, 186)),
           ('The wall, door and lit room take images from the same archive. Letters are cut from those images.', 'f34.woff2', 21, (214, 204, 186)),
-          ('Voices and sound are synthesized; floor, house and person are drawn here. No Mouris footage was used.', 'f34.woff2', 21, (214, 204, 186)),
+          ('The person is cut the same way (a jacket, a suit, a head and hands from the same archive). Floor and house are', 'f34.woff2', 21, (214, 204, 186)),
+          ('ray-cast planes made here; voices and sound are synthesized. No Mouris footage was used.', 'f34.woff2', 21, (214, 204, 186)),
           ('Sources: Internet Archive / Moving Image Archive public-domain films (see assets.json).', 'f14.woff2', 17, (150, 146, 140))],
          os.path.join(C, 'end.jpg'))
 

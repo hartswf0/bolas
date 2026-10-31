@@ -68,6 +68,8 @@ RAW = [
     ('soft.flower', 'flower', 19, [0.20, 0.15, 0.85, 0.85], 'soft', 'warm', ['room', 'letters']),
     ('soft.cloud', 'cloud', 30, [0.0, 0.25, 1.0, 0.85], 'soft', 'neutral', ['room']),
     ('soft.person.coat', 'hat', 16, [0.0, 0.55, 0.60, 1.0], 'soft', 'neutral', ['person']),
+    ('person.head', 'trumpet', 0, [0.62, 0.20, 0.86, 0.50], 'hands', 'neutral', ['person']),
+    ('person.suit', 'trumpet', 0, [0.55, 0.60, 0.95, 1.0], 'soft', 'neutral', ['person']),
 ]
 
 

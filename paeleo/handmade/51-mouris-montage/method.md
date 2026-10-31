@@ -113,11 +113,11 @@ In round 2 **the viewer sees only cut images**:
 | 26.4 *come in*: looks in | 26.625 (head leaves the door axis by > 12°) | +0.225 |
 
 The I3 position correlation is r = 1.0 on `x_world_measured`. On the approach, the head is below the back in 96.8% of
-frames. At the end, 18.6% of the visible dog pixels are past the outer face of the door (forelegs and head), the tail is at
+frames. At the end, 19.5% of the visible dog pixels are past the outer face of the door (forelegs and head), the tail is at
 z = 0.80 m (outside), and the posture is lying. During the refusal the dog faces away in 97.9% of frames. Voices: calls
 −14.9 dBFS mean, soft −25.3 (10.3 dB under; loudest soft word −22.9 vs quietest call −16.0), room tone −47.7. Every
 voice starts at or before the reaction it causes: 1.0/1.0, 3.4/3.54, 7.4/7.58, 26.4/26.6. The film is 912 frames, 38.0 s,
-6.4 MB (round 2).
+6.6 MB (round 3).
 
 ## Protected invariants
 
@@ -143,6 +143,18 @@ See `ledger.jsonl`. In short:
 - The offered hand read as a knob: the person now leans toward the dog and opens a palm.
 - The apostrophe was missing from the cut letters.
 
+## Round 3 (critic round 2: PASS, narrowly; one last repair round)
+
+- **4.0–5.3 s:** the recognisable 8-frame holds on the calls now draw only on the three most legible subjects (tiger,
+  tiger, wheel). The neutral holds after the call are cow, horse and tiger, so 4.25–4.58 shows a tiger, 4.58–4.83 a cow,
+  4.83–5.17 a tiger and 5.17–5.58 a horse.
+- **Lying:** the torso drops to the boards (hip 0.145 m, shoulder 0.165 m), so the belly meets its shadow.
+- **Legs:** the stepping during turns in place is reduced to a small shuffle, and the tucked tail is short and pressed under
+  the rump, so it no longer reads as a fifth leg at 3.83–3.92 or 8.04.
+- **Person:** now in the same cut-image language. Flat crops sit inside the same paper margin and scissor line: a blue
+  jacket (hat:16), a dark suit and the back of a head (trumpet:0), and hands from the hands class. There is no shading.
+  The end card says so.
+
 ## Round 2 verification (on the encoded film.mp4, proof/r2_*.jpg)
 
 The tiger is recognisable on the body at 1.25–1.58 s and 1.83–2.17 s. On the soft passages the body carries cat, rabbit,
@@ -155,8 +167,8 @@ images held for at least 6 frames on the dog.
 - The head piece is small, so its image is mostly texture. Pieces are mapped to their screen boxes, so the images inside
   the moving legs slide as the legs swing.
 
-- The person is a plain, rather puppet-like body of spheres. In the end framing the offered hand points toward the
-  camera's left rather than toward the dog.
+- The person's outline is still a body of spheres, cut flat. In the end framing the offered hand points toward
+  camera-left rather than toward the dog.
 - The formant voice is intelligible only with the letters' help.
 - The interior is suggested by lamp images rather than built.
 

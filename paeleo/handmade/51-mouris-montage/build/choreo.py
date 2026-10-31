@@ -116,7 +116,7 @@ def build():
         walk += -(z - prevz); prevz = z
         P = dog_pose(i, f, walk)
         dyaw = abs(P['yaw'] - prev_yaw); prev_yaw = P['yaw']
-        walk += dyaw * 0.22 * (1 - P['lie'])         # feet step round while it turns in place
+        walk += dyaw * 0.07 * (1 - P['lie']) ** 3    # feet shuffle round while it turns in place (small, so legs never scissor)
         P['walk'] = walk
         # foot amplitude follows real travel (no sliding when held)
         poses.append(P)
