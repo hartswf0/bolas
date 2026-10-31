@@ -135,7 +135,7 @@
       if (ph < 0.62) o = STRIDE * (0.31 - ph); else { const q = (ph - 0.62) / 0.38; o = STRIDE * (-0.31 + 0.62 * q); lift = 0.075 * Math.sin(PI * q); }
       lift = lift * P.moving + P.turnStep * 0.06 * Math.max(0, Math.sin(TAU * (t * 2.6 + lg.off)));
       const stand = at(lg.f + (lg.fore ? 0.02 : -0.02) + o * P.moving, 0.03 + lift, lg.l * 1.05);
-      const lying = lg.fore ? at(0.74 + 0.08 * P.look, 0.035, lg.l * 1.9) : at(-0.03, 0.04, lg.l * 2.0);
+      const lying = lg.fore ? at(0.84 + 0.06 * P.look, 0.035, lg.l * 2.1) : at(-0.03, 0.04, lg.l * 2.0);
       const paw = lerp3(stand, lying, lieL);
       const hint = lg.fore ? comb(F, -1, UP, -0.15 * lieL) : comb(F, 1, L, Math.sign(lg.l) * 1.2 * lieL, UP, -0.4 * lieL);
       const k = ik(J, paw, lg.fore ? 0.22 : 0.24, lg.fore ? 0.245 : 0.25, hint);
@@ -195,8 +195,8 @@
     // neck ruff: 2 rings × 10
     [0.3, 0.66].forEach((u, ri) => { for (let k = 0; k < 10; k++) { const a = -PI + (k + 0.5) * TAU / 10; DOG.ruff.push(Strand({ kind: 'fur', group: 'dog', part: 'neck', mat: 'ruff', u, a, n: 4, seg: (0.17 + 0.04 * R()) / 3, col: Math.cos(a) > 0.3 ? 'char' : (R() < 0.5 ? 'cream' : 'oat'), w: 0.055, seed: R() * 1e6 | 0, jit: R(), mask: { floor: 1, dog: 1 } })); } });
     // head: forelock, cheek tufts, beard
-    const hs = [['fore', 0, 0.08], ['fore', 0.045, 0.075], ['fore', -0.045, 0.075], ['cheek', 1, 0.12], ['cheek', -1, 0.12], ['cheekb', 1, 0.13], ['cheekb', -1, 0.13], ['beard', 0.025, 0.05], ['beard', -0.025, 0.05], ['beard', 0, 0.06]];
-    hs.forEach(([w, v, l]) => DOG.head.push(Strand({ kind: 'fur', group: 'dog', part: 'head', mat: 'ruff', where: w, q: v, n: 3, seg: l / 2, col: w === 'beard' ? 'oat' : w === 'fore' ? 'oat' : 'cream', w: 0.045, seed: R() * 1e6 | 0, jit: R(), mask: { floor: 1, dog: 1 } })));
+    const hs = [['fore', 0, 0.08], ['fore', 0.045, 0.075], ['fore', -0.045, 0.075], ['cheek', 1, 0.09], ['cheek', -1, 0.09], ['cheekb', 1, 0.11], ['cheekb', -1, 0.11], ['beard', 0.025, 0.05], ['beard', -0.025, 0.05], ['beard', 0, 0.06]];
+    hs.forEach(([w, v, l]) => DOG.head.push(Strand({ kind: 'fur', group: 'dog', part: 'head', mat: 'ruff', where: w, q: v, n: 3, seg: l / 2, col: w === 'beard' ? 'oat' : w === 'fore' ? 'oat' : 'ochre', w: 0.045, seed: R() * 1e6 | 0, jit: R(), mask: { floor: 1, dog: 1 } })));
     // ears: a 4-node tissue flap per side, with 2 feather strips per node
     [1, -1].forEach(sg => {
       const e = Strand({ kind: 'ear', group: 'dog', part: 'head', mat: 'ear', sg, n: 5, seg: 0.062, curl: 0.05, kTip: 0.7, col: 'rust', w: 0.075, mask: { floor: 1, dog: 1 } });

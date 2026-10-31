@@ -168,7 +168,7 @@ function dogItems(st) {
       ctx.lineWidth = 0.062 * CAM.s; ctx.beginPath(); ctx.moveTo(P[1][0], P[1][1]); ctx.lineTo(P[2][0], P[2][1]); ctx.stroke();
       if (!(lg.fore && P.lieF > 0.5)) blob(ctx, lg.paw, 0.042, 940 + k, shade(COL.char, warmAt(lg.paw), lg.near ? 1 : 0.8), 0.7);
     }, 'limb');
-    if (lg.fore && P.lieF > 0.5) item(depth(dg.head.c) + 0.08 + (lg.near ? 0.01 : 0), ctx => {
+    if (lg.fore && P.lieF > 0.5) item(depth(dg.head.c) + 0.25 + (lg.near ? 0.01 : 0), ctx => {
       const a = P3(lerp3(lg.knee, lg.paw, 0.35)), b = P3(lg.paw); ctx.lineCap = 'round'; ctx.strokeStyle = shade(COL.oat, warmAt(lg.paw), lg.near ? 0.85 : 0.7); ctx.lineWidth = 0.06 * CAM.s; ctx.beginPath(); ctx.moveTo(a[0], a[1]); ctx.lineTo(b[0], b[1]); ctx.stroke();
       blob(ctx, lg.paw, 0.048, 940 + k, shade(COL.char, warmAt(lg.paw), lg.near ? 1 : 0.85), 0.62);
       const q = P3(lg.paw); ctx.strokeStyle = 'rgba(20,14,12,0.6)'; ctx.lineWidth = 1.2; for (let j = -1; j <= 1; j++) { ctx.beginPath(); ctx.moveTo(q[0] + j * 0.014 * CAM.s - 0.03 * CAM.s, q[1] - 0.008 * CAM.s); ctx.lineTo(q[0] + j * 0.014 * CAM.s - 0.045 * CAM.s, q[1] + 0.01 * CAM.s); ctx.stroke(); }
