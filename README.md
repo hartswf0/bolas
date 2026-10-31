@@ -14,6 +14,7 @@ Live: https://hartswf0.github.io/bolas/
 
 - [This Side Up](this-side-up/): case studies of the cardboard cut-out films, each with a full case page of versions, prompts, critic rounds and sheets
 - [PAELEO](paeleo/): Promptable Augmented Environments Lab · Ekphrastic Operations. One research program at three scales (AEL, PEO, PAELEO); its films are made with the SCION swarms, all 54 of which are written up and shown through the same paper dog at [paeleo/scion/](paeleo/scion/); six of them make the same scene from the bottom up at [paeleo/handmade/](paeleo/handmade/)
+- [ALLWAYS](paeleo/allways/): Cinema from the rest of the frame. The studio philosophy and [59 new cinema, documentary and interactive SCION prompts, 055–113](paeleo/allways/operator.html), with source notes and proposed proof scenes.
 - [Characters](characters/) · [Films](films/) (26) · [Process](process/) · [Docs and prompts](docs/)
 - Lab pages: [Bolas Pencil Test](lab/pencil-test/) · [Bolas Range Test](lab/range-test/) · [The Physical](lab/the-physical/) · [Dramaturgy Crash Lab](lab/crash-lab/)
 
@@ -31,3 +32,4 @@ from the rig at one shared scale (`cameos.json` records each strip's frame size 
 `site/cameo.py` says who appears around which program's films and what they say; `assets/cameo.js` places them, animates
 them and has them react to the player (they sit down and turn to watch on play, turn back on pause, cheer at the end).
 A new character is a set of sprites plus one entry for its size and lines. The poet is a real person: he appears but never speaks.
+

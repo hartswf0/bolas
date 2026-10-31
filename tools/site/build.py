@@ -121,8 +121,9 @@ TSU_CARD = ('<div class="chans"><a class="chan" href="this-side-up/" style="--c:
             '<span class="txt"><span class="meta"><span class="tid">TSU</span> 10 case studies</span><b>This Side Up</b>'
             '<span class="line">Boone, a handmade cardboard puppet, cut into parts and set into worlds where time stops for everything except him. How each film was made, with something to try.</span></span></a></div>')
 # PAELEO is built by tools/paeleo/build_pages.py (static here; see paeleo/)
-PAELEO_CARD = ('<div class="chans"><a class="chan" href="paeleo/" style="--c:#d42a1e"><span class="shot"><img src="paeleo/media/still/threshold-sill.jpg" alt="" loading="lazy"></span><span class="txt"><span class="meta"><span class="tid">PAE</span> a new channel · 8 films · 54 swarms</span><b>PAELEO</b><span class="line">Promptable Augmented Environments Lab · Ekphrastic Operations. Descriptions that act on worlds: the first film is a paper dog that can refuse, and you can try to earn its trust. Then six swarms make the same scene from the bottom up.</span></span></a></div>')
-PAELEO_CASES = ['threshold', 'scion', 'handmade']
+PAELEO_CARD = ('<div class="chans"><a class="chan" href="paeleo/" style="--c:#d42a1e"><span class="shot"><img src="paeleo/media/still/threshold-sill.jpg" alt="" loading="lazy"></span><span class="txt"><span class="meta"><span class="tid">PAE</span> a new channel · 8 films · 54 swarms</span><b>PAELEO</b><span class="line">Promptable Augmented Environments Lab · Ekphrastic Operations. Descriptions that act on worlds: the first film is a paper dog that can refuse, and you can try to earn its trust. Then six swarms make the same scene from the bottom up.</span></span></a></div><p class="more"><a href="paeleo/allways/">ALLWAYS · Cinema from the rest of the frame</a> · <a href="paeleo/allways/operator.html">59 new SCION prompt specifications · 055–113</a></p>')
+# ALLWAYS has prompt specifications, not the lead film required by PROGRAMS/home().
+PAELEO_CASES = ['threshold', 'scion', 'handmade', 'allways']
 def home():
     up = ''
     floor = ''.join(cam(w, p, 'f lo' if x < 50 else 'f hi', lines=False, style=f'left:{x}%' + (';top:calc(var(--floor) - var(--cam) * .3)' if w == 'critic' else '')) for w, p, x in CM.BAY)
@@ -387,7 +388,7 @@ def docs():
         w(rel, page(rel, f'{f["title"]} · production notes', body, f['line'], f'media/thumbs/{f["id"]}.jpg', crumbs=[('Home', ''), ('Docs', 'docs/'), (f['title'], None)]))
 
 def extras():
-    urls = ['', 'lab/'] + [p['path'] for p in C.PROGRAMS] + ['this-side-up/'] + [f'this-side-up/{s}/' for s in TSU_CASES] + ['paeleo/'] + [f'paeleo/{s}/' for s in PAELEO_CASES] + ['found-odyssey/cast/', 'characters/', 'films/', 'process/', 'docs/'] + [f'films/{f["id"]}/' for f in C.FILMS] + [f'process/{s}/' for s in PROC] + [f'lab/{l["id"]}/' for l in C.LAB]
+    urls = ['', 'lab/'] + [p['path'] for p in C.PROGRAMS] + ['this-side-up/'] + [f'this-side-up/{s}/' for s in TSU_CASES] + ['paeleo/'] + [f'paeleo/{s}/' for s in PAELEO_CASES] + ['paeleo/allways/operator.html'] + ['found-odyssey/cast/', 'characters/', 'films/', 'process/', 'docs/'] + [f'films/{f["id"]}/' for f in C.FILMS] + [f'process/{s}/' for s in PROC] + [f'lab/{l["id"]}/' for l in C.LAB]
     w('sitemap.xml', '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' + ''.join(f'<url><loc>{C.BASE}{u}</loc></url>' for u in urls) + '</urlset>\n')
     w('robots.txt', f'User-agent: *\nAllow: /\nSitemap: {C.BASE}sitemap.xml\n')
     w('catalog.json', json.dumps(dict(brand=C.BRAND, programs=C.PROGRAMS, characters=C.CHARACTERS, lab=C.LAB,
@@ -405,6 +406,7 @@ Live: {C.BASE}
 """ + ''.join(f"| [{p['title']}]({p['path']}) | {p['line']} |\n" for p in C.PROGRAMS) + f"""
 - [This Side Up](this-side-up/): case studies of the cardboard cut-out films, each with a full case page of versions, prompts, critic rounds and sheets
 - [PAELEO](paeleo/): Promptable Augmented Environments Lab · Ekphrastic Operations. One research program at three scales (AEL, PEO, PAELEO); its films are made with the SCION swarms, all 54 of which are written up and shown through the same paper dog at [paeleo/scion/](paeleo/scion/); six of them make the same scene from the bottom up at [paeleo/handmade/](paeleo/handmade/)
+- [ALLWAYS](paeleo/allways/): Cinema from the rest of the frame. The studio philosophy and [59 new cinema, documentary and interactive SCION prompts, 055–113](paeleo/allways/operator.html), with source notes and proposed proof scenes.
 - [Characters](characters/) · [Films](films/) ({len(C.FILMS)}) · [Process](process/) · [Docs and prompts](docs/)
 - Lab pages: """ + ' · '.join(f"[{l['title']}](lab/{l['id']}/)" for l in C.LAB) + """
 
@@ -444,3 +446,4 @@ def main():
         if os.path.exists(f): git('rm', '-q', '--cached', os.path.relpath(f, R)); os.remove(f)
     print('built', len(C.FILMS), 'films', sum(f['ready'] for f in C.FILMS), 'ready')
 if __name__ == '__main__': main()
+
