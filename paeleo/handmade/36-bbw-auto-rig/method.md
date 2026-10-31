@@ -137,3 +137,15 @@ See `ledger.jsonl` for every attempt. In short:
   front legs swing together and hind legs together (no tearing between overlapping found legs).
 * Measured onsets: retreat 1.083, watch 2.417, refuse 3.458, turn back 7.417, approach 14.792, lie down 23.833,
   look in 26.542 s (head 4 px higher on screen).
+
+## Repair round 3 (after critic round 3)
+* f005's pale cheek and muzzle edge at the left of the head is regraded to the skull tone, so nothing pale points at
+  the coat. f007's tail tip is lightened and widened by its own tail-tip handle, so it reads on the dark porch. Both
+  are grades of found pixels (listed in assets.json and on the end card). Nothing else is regraded.
+* The first turn now passes through every usable found in-between: f010 → 13 → 16 → 21 → 24 → 25 → 26 → 30 → 33 → 36
+  → 40, then f010 mirrored. On-screen silhouette area jumps measured from the render are 5–23 %, except f025→f026 (33 %;
+  f023, the only frame between them, has a broken mask) and f040→f010 mirrored (26 %; no archive frame between them).
+  f022 was a dark double image and was dropped. f006 was tried between f005 and f007: it raised those jumps to 42 %, so
+  the direct swaps (6–15 %) stay. No blended frames anywhere.
+* The lie-down uses f007 from its first frame; its hind leg folds fast; the floor clip applies from the first lying frame.
+* In the refusal lie the forepaws are drawn ahead of the chest so the folded legs read.

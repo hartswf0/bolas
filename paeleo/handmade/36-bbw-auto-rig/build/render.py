@@ -168,9 +168,9 @@ set_camera(0.0)
 def score_at(i): return SF[min(max(i, 0), N - 1)]
 
 
-T1 = (3.55, 3.97)     # first turn (away): the archive's own in-betweens
+T1 = (3.46, 3.97)     # first turn (away): the archive's own in-betweens
 T2 = (7.40, 7.60)     # turn back to look, lying: head first, hips down
-SEQ = ['t26', 't30', 't36', 't40']
+SEQ = ['t13', 't16', 't21', 't24', 't25', 't26', 't30', 't33', 't36', 't40']   # the found turn, frame by frame
 
 
 def dog_plan(i):
@@ -186,7 +186,7 @@ def dog_plan(i):
         view = 'W'; p['neck'] = (1.0 - head) * 2.0 - .05
     elif t < T1[1]:
         k = int((t - T1[0]) / (T1[1] - T1[0]) * len(SEQ)); view = SEQ[min(k, len(SEQ) - 1)]
-        p.update(neck=0.0, crouch=.45, swing=None, frontal=view in ('t26', 't30', 't36'), tail=.4)
+        p.update(neck=0.0 if view in ('t24', 't25', 't26', 't30', 't33', 't36', 't40') else .5, crouch=.45, swing=None, frontal=view in ('t24', 't25', 't26', 't30', 't33', 't36'), tail=.4)
     elif t < T2[0]:
         # the turned back: f010 mirrored standing, then f007 mirrored (the next found frame, with its own tail and
         # folding hind leg) as it lies down, chin toward the boards
@@ -195,8 +195,10 @@ def dog_plan(i):
         p['fold'] = lie; p['chin'] = .25 * a['rest']
         p['neck'] = (.85 + .2 * a['rest']) if view == 'r7m' else (1.0 - head) * 1.5
     elif t < T2[1]:
-        # turning to look, lying: the head comes up and round (f005, the back of the skull to the camera) ...
-        view = 'r5'; p.update(neck=.25, fold=1.0, swing=None, tail=.3, crouch=0, tuck=True)
+        # turning to look, lying: the head comes up and round (f005, the back of the skull to the camera), through
+        # the next found frame (f006) ...
+        view = 'r5'
+        p.update(neck=.25, fold=1.0, swing=None, tail=.3, crouch=0, tuck=True)
     elif t < 8.3:
         # ... and settles toward the door, muzzle level, hips still down (f007 lying); then it rises (f010)
         rise = min(1, max(0, (t - 7.8) / .45)); rise = rise * rise * (3 - 2 * rise)
@@ -205,8 +207,8 @@ def dog_plan(i):
                  swing=None, crouch=.2 * (1 - rise))
     elif st == 'lie_down':
         lie = a['lie']; look = a['look']; rest = a['rest']
-        view = 'r7' if lie > .45 else 'W'
-        p['fold'] = lie; p['swing'] = [s * (1 - lie) for s in swing]
+        view = 'r7' if lie > 0 else 'W'
+        p['fold'] = lie; p['fold_hind'] = min(1.0, 2.5 * lie); p['swing'] = [s * (1 - lie) for s in swing]
         if view == 'W':
             p['neck'] = (1.0 - head) * 2.5 - .05
         else:
@@ -280,16 +282,16 @@ def dog_layer(i, canvas, light):
     canvas *= (1 - .55 * sh[..., None])
     fold = p.get('fold', 0.0) or 0.0
     clip = None
-    if fold > .5:
+    if fold > 0:
         # lying: nothing of the dog goes below the boards it lies on
         slope = P[1, 0] / P[0, 0] if P[0, 0] else 0.0
         clip = np.clip((gy + slope * (xx - gx) + 5 - yy) / 3, 0, 1).astype(np.float32)
-    px, py, al = raster(canvas, None, Vs, r['V'], r['T'], tex, depth(r, fold), clip=clip)
+    px, py, al = raster(canvas, None, Vs, r['V'], r['T'], tex, depth(r, fold, front_ahead=(view == 'r7m')), clip=clip)
     # measurements from the render
     names = r['names']
     hd = Vs[np.argmax(r['W'][:, names.index('head')])]
-    tl = Vs[np.argmax(r['W'][:, names.index('tailtip')])] if 'tailtip' in names else Vs[np.argmax(r['W'][:, names.index('back')])]
-    bk = Vs[r['W'][:, names.index('back')] > .5]
+    tl = Vs[np.argmax(r['W'][:, names.index('tailtip')])] if 'tailtip' in names else Vs[np.argmax(r['W'][:, names.index('back' if 'back' in names else names[1])])]
+    bk = Vs[r['W'][:, names.index('back' if 'back' in names else names[1])] > .5]
     cov = al > .5
     legs = [j for j, k in enumerate(names) if k.startswith('leg')]
     pinned = np.concatenate([r['sets'][names[j]] for j in legs]) if legs else np.arange(len(Vs))
@@ -299,7 +301,7 @@ def dog_layer(i, canvas, light):
     gp = np.array([ground_xy(xg) for xg in xs_grid])
     xw = float(xs_grid[np.argmin(np.abs(gp[:, 0] - contact[0]))])
     meas = dict(x_world_measured=xw, contact=[float(contact[0]), float(contact[1])], zoom=ZOOM,view=view, frame=r['fi'], x_screen=float(px[cov].mean()) if cov.any() else float(gx),
-                y_screen=float(py[cov].mean()) if cov.any() else float(gy), ground=[float(gx), float(gy)],
+                y_screen=float(py[cov].mean()) if cov.any() else float(gy), area=float(al.sum()), ground=[float(gx), float(gy)],
                 head=[float(hd[0]), float(hd[1])], tail=[float(tl[0]), float(tl[1])],
                 back_y=float(bk[:, 1].mean()) if len(bk) else None, top=float(py[cov].min()) if cov.any() else None,
                 scale=float(s), facing=-1 if hd[0] < tl[0] else 1, pose={k: (v if not isinstance(v, list) else None) for k, v in p.items()})

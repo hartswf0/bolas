@@ -24,7 +24,7 @@ def leg_len(H, k):
 
 
 DEFAULT = dict(drop=0.0, crouch=0.0, neck=0.0, head=0.0, push=0.0, tail=0.0, wag=0.0, swing=None, fold=0.0,
-               fold_front=None, frontal=False, chin=0.0, tuck=False)
+               fold_front=None, fold_hind=None, frontal=False, chin=0.0, tuck=False)
 
 
 def mats(rig, **kw):
@@ -52,15 +52,18 @@ def mats(rig, **kw):
     ta = np.array(H['tail']['a'])
     tb = np.array(H['tail']['b'])
     # lying: the tail lies out behind on the boards, a little longer than the found stub so its tip shows
-    Mt = compose(root, rot(-f * (p['tail'] * (1 - fold) + (0 if p['frontal'] else .1) * fold), ta), scale_along(ta, tb - ta, 1.0))
+    # lying: the found tail is a thin grey line; it is thickened across its own axis so it reads at film size
+    Mt = compose(root, rot(-f * (p['tail'] * (1 - fold) + (0 if p['frontal'] else .1) * fold), ta),
+                 scale_along(ta, tb - ta, 1.0, 1.0))
     out['tail'] = Mt
     tdir = np.array([-f * .85, .5])                     # out behind and down onto the boards
-    ext = (0 if p['frontal'] else 34.0) * fold          # lying: the tail tip lies out a few px further on the boards
-    out['tailtip'] = compose(Mt, trans(tdir * ext), rot(-f * p['tail'] * .6 + p['wag'], tb))
+    ext = (0 if p['frontal'] else 14.0) * fold           # lying: the tail tip lies out a few px further on the boards
+    out['tailtip'] = compose(Mt, trans(tdir * ext), rot(-f * p['tail'] * .6 + p['wag'], tb),
+                             scale_along(tb, tb - ta, 1.0, 1 + (0 if p['frontal'] else 1.8) * fold))
     for i, k in enumerate(legs):
         l, a, b = leg_len(H, k)
         front = H[k].get('kind') == 'front'
-        fo = ffold if front else fold
+        fo = ffold if front else (fold if p['fold_hind'] is None else p['fold_hind'])
         front0 = H[k].get('kind') == 'front'
         sw = 0.0 if p['swing'] is None else (p['swing'][0] if front0 else p['swing'][-1])
         comp = 1 - .16 * p['crouch'] / max(l / Lh, .5)
@@ -79,9 +82,9 @@ def mats(rig, **kw):
     return np.stack([out[k] for k in names])
 
 
-def depth(rig, fold=0.0):
+def depth(rig, fold=0.0, front_ahead=False):
     d = {'head': -.2, 'neck': -.1, 'back': 0.0, 'tail': .4, 'tailtip': .5}
     def leg(k):
-        if rig['H'][k].get('kind') == 'front': return .8                              # lying: tucked behind the chest
+        if rig['H'][k].get('kind') == 'front': return (-.05 if front_ahead and fold > .5 else .8)   # lying: behind the chest, or paws shown ahead
         return .8
     return rig['W'] @ np.array([d[k] if k in d else leg(k) for k in rig['names']])
