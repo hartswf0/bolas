@@ -1,0 +1,373 @@
+{
+ "about": "same handles, same print, four family assignments; per layer: max/mean anisotropy of the dot grid, area range, folds, handle error (px)",
+ "stats": {
+  "all affine": {
+   "leg_hl": {
+    "family": "affine",
+    "aniso_max": 1.021,
+    "aniso_mean": 1.0109,
+    "area_min": 0.9582,
+    "area_max": 1.002,
+    "folds": 0,
+    "handle_err": 0.0
+   },
+   "ear_l": {
+    "family": "similarity",
+    "aniso_max": 1.0,
+    "aniso_mean": 1.0,
+    "area_min": 1.0,
+    "area_max": 1.0,
+    "folds": 0,
+    "handle_err": 0.0
+   },
+   "leg_fl": {
+    "family": "affine",
+    "aniso_max": 1.0446,
+    "aniso_mean": 1.0251,
+    "area_min": 0.9589,
+    "area_max": 1.0126,
+    "folds": 0,
+    "handle_err": 0.0
+   },
+   "torso": {
+    "family": "affine",
+    "aniso_max": 1.0268,
+    "aniso_mean": 1.019,
+    "area_min": 0.9748,
+    "area_max": 0.9993,
+    "folds": 0,
+    "handle_err": 0.0
+   },
+   "neck": {
+    "family": "affine",
+    "aniso_max": 20.9191,
+    "aniso_mean": 2.5759,
+    "area_min": 0.054,
+    "area_max": 1.2293,
+    "folds": 0,
+    "handle_err": 0.0
+   },
+   "head": {
+    "family": "affine",
+    "aniso_max": 1.0,
+    "aniso_mean": 1.0,
+    "area_min": 1.0,
+    "area_max": 1.0,
+    "folds": 0,
+    "handle_err": 0.0
+   },
+   "tail": {
+    "family": "affine",
+    "aniso_max": 3.3842,
+    "aniso_mean": 1.9631,
+    "area_min": 0.4651,
+    "area_max": 0.9194,
+    "folds": 0,
+    "handle_err": 0.0
+   },
+   "ear_r": {
+    "family": "similarity",
+    "aniso_max": 1.0,
+    "aniso_mean": 1.0,
+    "area_min": 1.0,
+    "area_max": 1.0,
+    "folds": 0,
+    "handle_err": 0.0
+   },
+   "leg_fr": {
+    "family": "affine",
+    "aniso_max": 13.9047,
+    "aniso_mean": 2.0695,
+    "area_min": 0.1045,
+    "area_max": 1.0705,
+    "folds": 0,
+    "handle_err": 0.0
+   },
+   "leg_hr": {
+    "family": "affine",
+    "aniso_max": 1.0221,
+    "aniso_mean": 1.0111,
+    "area_min": 0.9581,
+    "area_max": 1.0035,
+    "folds": 0,
+    "handle_err": 0.0
+   }
+  },
+  "all similarity": {
+   "leg_hl": {
+    "family": "similarity",
+    "aniso_max": 1.0261,
+    "aniso_mean": 1.0067,
+    "area_min": 0.9596,
+    "area_max": 1.0018,
+    "folds": 0,
+    "handle_err": 0.0
+   },
+   "ear_l": {
+    "family": "similarity",
+    "aniso_max": 1.0,
+    "aniso_mean": 1.0,
+    "area_min": 1.0,
+    "area_max": 1.0,
+    "folds": 0,
+    "handle_err": 0.0
+   },
+   "leg_fl": {
+    "family": "similarity",
+    "aniso_max": 1.0483,
+    "aniso_mean": 1.0125,
+    "area_min": 0.9556,
+    "area_max": 1.0135,
+    "folds": 0,
+    "handle_err": 0.0
+   },
+   "torso": {
+    "family": "similarity",
+    "aniso_max": 1.0316,
+    "aniso_mean": 1.0127,
+    "area_min": 0.9582,
+    "area_max": 1.0035,
+    "folds": 0,
+    "handle_err": 0.0
+   },
+   "neck": {
+    "family": "similarity",
+    "aniso_max": 12.3033,
+    "aniso_mean": 1.8417,
+    "area_min": 0.0721,
+    "area_max": 1.0643,
+    "folds": 0,
+    "handle_err": 0.0
+   },
+   "head": {
+    "family": "similarity",
+    "aniso_max": 1.0,
+    "aniso_mean": 1.0,
+    "area_min": 1.0,
+    "area_max": 1.0,
+    "folds": 0,
+    "handle_err": 0.0
+   },
+   "tail": {
+    "family": "similarity",
+    "aniso_max": 3.5124,
+    "aniso_mean": 1.2935,
+    "area_min": 0.4555,
+    "area_max": 1.0695,
+    "folds": 0,
+    "handle_err": 0.0
+   },
+   "ear_r": {
+    "family": "similarity",
+    "aniso_max": 1.0,
+    "aniso_mean": 1.0,
+    "area_min": 1.0,
+    "area_max": 1.0,
+    "folds": 0,
+    "handle_err": 0.0
+   },
+   "leg_fr": {
+    "family": "similarity",
+    "aniso_max": 1.9457,
+    "aniso_mean": 1.2223,
+    "area_min": 0.2817,
+    "area_max": 1.0185,
+    "folds": 0,
+    "handle_err": 0.0
+   },
+   "leg_hr": {
+    "family": "similarity",
+    "aniso_max": 1.0221,
+    "aniso_mean": 1.0065,
+    "area_min": 0.9598,
+    "area_max": 1.0019,
+    "folds": 0,
+    "handle_err": 0.0
+   }
+  },
+  "all rigid": {
+   "leg_hl": {
+    "family": "rigid",
+    "aniso_max": 1.0557,
+    "aniso_mean": 1.0132,
+    "area_min": 0.9468,
+    "area_max": 1.0029,
+    "folds": 0,
+    "handle_err": 0.0
+   },
+   "ear_l": {
+    "family": "rigid",
+    "aniso_max": 1.0,
+    "aniso_mean": 1.0,
+    "area_min": 1.0,
+    "area_max": 1.0,
+    "folds": 0,
+    "handle_err": 0.0
+   },
+   "leg_fl": {
+    "family": "rigid",
+    "aniso_max": 1.0672,
+    "aniso_mean": 1.0169,
+    "area_min": 0.9372,
+    "area_max": 1.0108,
+    "folds": 0,
+    "handle_err": 0.0
+   },
+   "torso": {
+    "family": "rigid",
+    "aniso_max": 1.0483,
+    "aniso_mean": 1.0132,
+    "area_min": 0.9544,
+    "area_max": 1.0032,
+    "folds": 0,
+    "handle_err": 0.0
+   },
+   "neck": {
+    "family": "rigid",
+    "aniso_max": 82.9495,
+    "aniso_mean": 2.7182,
+    "area_min": 0.0173,
+    "area_max": 1.1109,
+    "folds": 8,
+    "handle_err": 0.0
+   },
+   "head": {
+    "family": "rigid",
+    "aniso_max": 1.0,
+    "aniso_mean": 1.0,
+    "area_min": 1.0,
+    "area_max": 1.0,
+    "folds": 0,
+    "handle_err": 0.0
+   },
+   "tail": {
+    "family": "rigid",
+    "aniso_max": 4.7242,
+    "aniso_mean": 1.3244,
+    "area_min": 0.2761,
+    "area_max": 1.1152,
+    "folds": 0,
+    "handle_err": 0.0
+   },
+   "ear_r": {
+    "family": "rigid",
+    "aniso_max": 1.0,
+    "aniso_mean": 1.0,
+    "area_min": 1.0,
+    "area_max": 1.0,
+    "folds": 0,
+    "handle_err": 0.0
+   },
+   "leg_fr": {
+    "family": "rigid",
+    "aniso_max": 30.8587,
+    "aniso_mean": 1.7046,
+    "area_min": 0.0334,
+    "area_max": 1.1217,
+    "folds": 8,
+    "handle_err": 0.0
+   },
+   "leg_hr": {
+    "family": "rigid",
+    "aniso_max": 1.0555,
+    "aniso_mean": 1.0133,
+    "area_min": 0.947,
+    "area_max": 1.0028,
+    "folds": 0,
+    "handle_err": 0.0
+   }
+  },
+  "per region (film)": {
+   "leg_hl": {
+    "family": "similarity",
+    "aniso_max": 1.0261,
+    "aniso_mean": 1.0067,
+    "area_min": 0.9596,
+    "area_max": 1.0018,
+    "folds": 0,
+    "handle_err": 0.0
+   },
+   "ear_l": {
+    "family": "rigid",
+    "aniso_max": 1.0,
+    "aniso_mean": 1.0,
+    "area_min": 1.0,
+    "area_max": 1.0,
+    "folds": 0,
+    "handle_err": 0.0
+   },
+   "leg_fl": {
+    "family": "similarity",
+    "aniso_max": 1.0483,
+    "aniso_mean": 1.0125,
+    "area_min": 0.9556,
+    "area_max": 1.0135,
+    "folds": 0,
+    "handle_err": 0.0
+   },
+   "torso": {
+    "family": "affine",
+    "aniso_max": 1.0268,
+    "aniso_mean": 1.019,
+    "area_min": 0.9748,
+    "area_max": 0.9993,
+    "folds": 0,
+    "handle_err": 0.0
+   },
+   "neck": {
+    "family": "similarity",
+    "aniso_max": 12.3033,
+    "aniso_mean": 1.8417,
+    "area_min": 0.0721,
+    "area_max": 1.0643,
+    "folds": 0,
+    "handle_err": 0.0
+   },
+   "head": {
+    "family": "rigid",
+    "aniso_max": 1.0,
+    "aniso_mean": 1.0,
+    "area_min": 1.0,
+    "area_max": 1.0,
+    "folds": 0,
+    "handle_err": 0.0
+   },
+   "tail": {
+    "family": "similarity",
+    "aniso_max": 3.5124,
+    "aniso_mean": 1.2935,
+    "area_min": 0.4555,
+    "area_max": 1.0695,
+    "folds": 0,
+    "handle_err": 0.0
+   },
+   "ear_r": {
+    "family": "rigid",
+    "aniso_max": 1.0,
+    "aniso_mean": 1.0,
+    "area_min": 1.0,
+    "area_max": 1.0,
+    "folds": 0,
+    "handle_err": 0.0
+   },
+   "leg_fr": {
+    "family": "similarity",
+    "aniso_max": 1.9457,
+    "aniso_mean": 1.2223,
+    "area_min": 0.2817,
+    "area_max": 1.0185,
+    "folds": 0,
+    "handle_err": 0.0
+   },
+   "leg_hr": {
+    "family": "similarity",
+    "aniso_max": 1.0221,
+    "aniso_mean": 1.0065,
+    "area_min": 0.9598,
+    "area_max": 1.0019,
+    "folds": 0,
+    "handle_err": 0.0
+   }
+  }
+ }
+}
