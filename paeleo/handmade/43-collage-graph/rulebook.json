@@ -11,7 +11,8 @@
    "fragments": [
     "head_alert_f006",
     "head_level_f012",
-    "head_low_f048"
+    "head_low_f048",
+    "head_side_f033"
    ],
    "motif": "head up = attention; head low = the decision to come (f048: the dog lowering its head to its bowl, re-used as trust)"
   },
@@ -23,7 +24,7 @@
    "precondition": "state becomes watch (7.458, on its own frame) while the body still faces away; legibility: muzzle left of the neck, level (<= 20 deg), head at normal scale, clear of the back, with its own paper rim; the body stays lying (no hybrid) until the found turn frames at 7.75",
    "preserved": "neck anchor",
    "fragments": [
-    "head_alert_f006 rotated level about its neck (muzzle to the door, 8 deg)"
+    "head_side_f033 (the found profile head from the turning frame f033, muzzle level, 3 deg), lifted clear of the back; then whole_f030 mirrored so the muzzle stays toward the door through the turn"
    ],
    "motif": "the head comes round first: turning to look"
   },
@@ -93,8 +94,8 @@
    "id": "R9 ENTER head -> the door light (look in)",
    "kind": "enter",
    "input": "dog.head",
-   "output": "head_low_f048 rotated about its neck to a level muzzle (10 deg), the neck reaching in past the jamb at sill height, muzzle into the room",
-   "precondition": "score act.look > 0.2 (on hearing \"come in\"); legibility: muzzle inside the door frame at sill height, no more than 20 deg above horizontal (measured on the rendered frame), pointing into the room, not at the bulb",
+   "output": "head_side_f033 (found profile head, muzzle level, 4 deg), the neck reaching in past the jamb at sill height, muzzle into the room; held 26.42-28.46",
+   "precondition": "score act.look > 0.1, or lying and 26.40 <= t < 28.46 (on hearing \"come in\"); legibility: muzzle inside the door frame at sill height, no more than 20 deg above horizontal (measured on the rendered frame), pointing into the room, not at the bulb",
    "preserved": "neck anchor (the neck runs from inside the chest)",
    "motif": "the head that came low to trust now reaches level into the house; nothing drawn"
   },
@@ -161,7 +162,7 @@
    "i": 179,
    "state": "watch",
    "rules": [
-    "REPLACE head by head_alert_f006 rotated level about its neck, muzzle to the door, on the turned-away body (turns back to look)"
+    "REPLACE head by head_side_f033 (found profile head, muzzle level) mirrored to the door, on the turned-away lying body (turns back to look)"
    ],
    "materials": {
     "head": 0.0,
@@ -179,7 +180,7 @@
    "i": 186,
    "state": "watch",
    "rules": [
-    "MERGE dog->whole_f030 (turn back, 1/2)"
+    "MERGE dog->whole_f030 mirrored, its head still turned to the door (turn back, 1/2)"
    ],
    "materials": null
   },
@@ -375,6 +376,43 @@
   {
    "t": 24.333,
    "i": 584,
+   "state": "lie_down",
+   "rules": [
+    "R8 SPLIT torso at the threshold"
+   ],
+   "materials": {
+    "head": 1.0,
+    "chest": 1.0,
+    "haunch": 0.0,
+    "fore_n": 1.0,
+    "fore_f": 1.0,
+    "hind_n": 0.0,
+    "hind_f": 0.0,
+    "tail": 0.0
+   }
+  },
+  {
+   "t": 26.417,
+   "i": 634,
+   "state": "lie_down",
+   "rules": [
+    "ENTER head->door light: REPLACE head by head_side_f033 (the found profile head, muzzle level), neck reaching in past the jamb at sill height, muzzle into the room (looks in)",
+    "R8 SPLIT torso at the threshold"
+   ],
+   "materials": {
+    "head": 1.0,
+    "chest": 1.0,
+    "haunch": 0.0,
+    "fore_n": 1.0,
+    "fore_f": 1.0,
+    "hind_n": 0.0,
+    "hind_f": 0.0,
+    "tail": 0.0
+   }
+  },
+  {
+   "t": 28.5,
+   "i": 684,
    "state": "lie_down",
    "rules": [
     "R8 SPLIT torso at the threshold"

@@ -400,7 +400,27 @@ def dog_parts(cam, f, p, r):
         draw_eyes(pt, vh, side_h, Mh, f, Lh)
     # ear depth ordering relative to the skull
     ear_d = {s: proj(cam, ears[s][0])[1] for s in ears}
+    lying_front = f['lie'] > 0.5 and f['t'] > 23.8
+    def head_shadow(pt):
+        """lying at the sill, the head rests in front of its chest: its silhouette casts a soft shadow onto the chest
+        and floor below it, so the chest reads as behind the head (critic round 3, 28.1-32 s)"""
+        sil = HEADS[vh]['shapes'][0]
+        P = catmull(sil['pts'], sil['closed']) * np.array([1, -1])
+        Q = apply(Mh, P) * SS
+        sc = np.sqrt(abs(np.linalg.det(Mh[:, :2])))
+        Q = Q + np.array([0.012, 0.035]) * sc * SS
+        pad = int(0.06 * sc * SS) + 4
+        x0, y0 = np.floor(Q.min(0)).astype(int) - pad; x1, y1 = np.ceil(Q.max(0)).astype(int) + pad
+        x0, y0 = max(0, x0), max(0, y0); x1, y1 = min(WW, x1), min(HH, y1)
+        if x1 - x0 < 4 or y1 - y0 < 4: return
+        m = Image.new('L', (x1 - x0, y1 - y0), 0)
+        ImageDraw.Draw(m).polygon([(q[0] - x0, q[1] - y0) for q in Q], fill=255)
+        m = np.asarray(m.filter(ImageFilter.GaussianBlur(float(0.02 * sc * SS))), float)[..., None] / 255.0
+        reg_ = pt.img.crop((x0, y0, x1, y1))
+        a = np.asarray(reg_, float) * (1 - 0.42 * m)
+        pt.img.paste(Image.fromarray(a.astype(np.uint8)), (x0, y0))
     def head_group(pt):
+        if lying_front: head_shadow(pt)
         for s in ears:
             if ear_d[s] > sd: ear(pt, s)
         neck(pt)
@@ -787,12 +807,16 @@ def render_frame(f, p, r):
     pparts, _ = person_parts(cam, f)
     allp = [(d, fn) for d, fn in parts] + [(d, fn) for d, fn in pparts]
     allp.sort(key=lambda x: -x[0])
+    before = np.asarray(img.reduce(SS), float)
     for d, fn in allp: fn(pt)
     small = img.reduce(SS)
     a = np.asarray(small, float)
-    # bloom around the brightest light (door light and lamp)
-    lum = a.mean(2)
-    br = np.clip(lum - 150, 0, 255)[..., None] * (a / (lum[..., None] + 1))
+    # bloom around the brightest light (door light and lamp) of the world only: the figures are masked out of its source,
+    # so a lit part of the dog (its white chest) never glows across its own head (critic round 3)
+    fig = (np.abs(a - before).sum(2) > 0)
+    src = a * (~fig)[..., None]
+    lum = src.mean(2)
+    br = np.clip(lum - 150, 0, 255)[..., None] * (src / (lum[..., None] + 1))
     bl = np.asarray(Image.fromarray(np.clip(br, 0, 255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(18)), float)
     a = a + 0.55 * bl
     # vignette and grain

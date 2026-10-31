@@ -112,7 +112,11 @@ def gait(s):
     return out, phase
 
 
-LIE = {'fore': 80, 'farfore': 72, 'hind': 110, 'farhind': 105}
+# round 4: folded legs. Each leg is two cards (upper on the shoulder/hip pin, lower on the knee pin): forelegs bent at the
+# wrist with the paw forward on the boards (sphinx), hind legs folded at the hock under the haunch.
+LIE = {'fore': 60, 'fore_lo': 90, 'farfore': 55, 'farfore_lo': 88, 'hind': 75, 'hind_lo': -95, 'farhind': 70, 'farhind_lo': -95}
+def lie_from(g, k):          # the standing angle a leg card folds from (a lower card follows its upper one by default)
+    return g.get(k, g.get(k.split('_')[0], 0)) if g else 0
 
 
 def dog_pose(i, prev):
@@ -160,14 +164,20 @@ def dog_pose(i, prev):
         p = {'X': p['X'], 'card': 'front', 'face': -1}
         label = 'watch: turning card'
     elif i < CH['approach']:                                 # watching the open door
-        p['head'] = -15
-        tilt = 0
-        for t0 in (7.4, 10.4):
-            if t0 + .3 <= t < t0 + 1.6:
-                tilt = 7                                     # the listening tilt of the head card at the soft voice
-        if 12.5 <= t: p['head'] = smooth(-15, -30, (t - 12.5) / 1.5)
-        p['head'] += tilt
-        p['tail'] = 10 - 10 * math.sin(t * 5) * a['wag'] * 3
+        # round 4: the watch acts (score: ears up .95, crouch easing, tail slowly down; the soft voice at 10.4):
+        # 8.75 the ear pricks; 9.6 it settles (weight eases down, tail lowers); 10.7-11.9 the listening cock of the
+        # head at the second soft voice, ear dropped forward; 12.5-14.0 the head lowers, the ear relaxes (deciding);
+        # 14.0-14.5 a forepaw lifts and is put down again (the intention to come), before the approach at 14.71
+        p['head'] = -15; p['ear'] = 0; p['tail'] = 10
+        if t >= 8.75: p['ear'] = -18
+        if t >= 9.6:
+            p['drop'] = 5; p['tail'] = 2; p['head'] = -19
+        if 10.7 <= t < 11.9:
+            p['head'] = -19 + 13; p['ear'] = 12
+        if 12.5 <= t:
+            p['head'] = smooth(-19, -30, (t - 12.5) / 1.5); p['ear'] = smooth(-18, 0, (t - 12.5) / 1.5)
+        if 14.0 <= t < 14.5:
+            p['fore'] = 22; p['fore_lo'] = 70
         label = 'watch'
     elif i < CH['lie']:                                      # coming, head low, below the line of the back
         g, _ = gait((4.0 - x) * K)
@@ -179,16 +189,17 @@ def dog_pose(i, prev):
     else:                                                    # lies down across the sill
         g, _ = gait((4.0 - 0.59) * K)
         l = max(a['lie'], .3)          # the first exposure of the choice already folds the legs a third of the way
-        for k in LIE: p[k] = smooth(g[k], LIE[k], l)
+        for k in LIE: p[k] = smooth(lie_from(g, k), LIE[k], l)
         p['drop'] = 50 * l; p['tilt'] = 2 * l; p['tail'] = smooth(18, 25, l)
         hd = smooth(-32, -20, (l - .3) / .7); p['neckdrop'] = 46 * (1 - min(1, max(0, l - .3) / .6))
         if t >= 25.4: hd = smooth(-20, -38, (t - 25.4) / .7)
         p['head'] = hd
         label = 'lie_down: across the sill'
         if LOOK_IN <= i < LOOK_OUT:
-            p['headpiece'] = 'dog_backhead'
-            # the held look moves: a tilt toward the voice inside, then back, then an ear-flick of the whole card
-            p['head'] = 0 if t < 26.95 else (6 if t < 27.45 else (-3 if t < 27.8 else 1))
+            p['headpiece'] = 'dog_away'
+            # round 4: the head turned away into the room (a lost profile rising from behind the shoulders); the held
+            # look moves: it reaches a little further in, then eases back
+            p['head'] = 0 if t < 26.95 else (-5 if t < 27.45 else (-2 if t < 27.8 else 0))
             label = 'lie_down: looks in through the door'
         elif i >= LOOK_OUT:
             p['head'] = smooth(-30, -75, (t - 28.08) / .55)

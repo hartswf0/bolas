@@ -63,6 +63,12 @@ SPECS = [
     dict(id='head_low_f048', type='dog.head', tags=['low', 'collar'], src=DOGSRC, f=48, sam=True, flip=True,
          cut=[(220, 116), (292, 116), (292, 200), (220, 200)],
          anchors=dict(neck=(229, 132), nose=(281, 182))),
+    # round 4: the head in true profile, cut from the turning frame f033 (the dog's own head turned to look sideways,
+    # muzzle level, collar behind the jaw); mirrored so its native muzzle points left. Used for turning to look (7.46)
+    # and for looking in (26.4): a level muzzle, never raised toward the bulb.
+    dict(id='head_side_f033', type='dog.head', tags=['profile', 'level', 'look'], src=DOGSRC, f=33, sam=True, flip=True,
+         cut=[(194, 99), (204, 98), (213, 101), (222, 110), (227, 120), (226, 130), (216, 138), (200, 141), (188, 140), (181, 132), (179, 122), (181, 113), (186, 105)],
+         feather_line=((180, 95), (180, 145), 6), anchors=dict(neck=(186, 126), nose=(226, 124))),
     # legs: narrow scissor strips along each found leg (f012, the dog mid-stride toward its person)
     dict(id='fore_a_f012', type='dog.leg.fore', src=DOGSRC, f=12, sam=True,
          cut=[(104, 146), (123, 148), (117, 172), (107, 193), (93, 193), (101, 170)], anchors=dict(top=(113, 152), foot=(99, 190))),

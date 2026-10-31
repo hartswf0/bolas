@@ -69,7 +69,8 @@ def main():
         src = np.array([ph['lm'][k] for k in ph['keys']]) * np.array([1, -1])
         dst = np.array([P(head[k if side_h > 0 else mirror_key(k)]) for k in ph['keys']])
         Mh = fit_affine(src, dst); fb = False
-        if anisotropy(Mh) > 1.5:
+        # in the refusal turn a squeezed fit read as a small head on the far shoulder (critic round 3, 3.667 s): keep size sooner
+        if anisotropy(Mh) > (1.2 if 3.40 <= f['t'] < 4.15 else 1.5):
             fb = True   # a view far from its plate would squeeze the head: keep its size (similarity fit)
             from geom import fit_similarity_reflect
             Mh = fit_similarity_reflect(src, dst)

@@ -23,7 +23,7 @@ i14 = int(14 * 24)
 on['approach (comes, head low)'] = first(lambda i: X[i] < X[i14] - 1.5 or abs(hy[i] - hy[i14]) > 3, 14.0)
 i23 = int(23.5 * 24)
 on['lie_down (lies across the sill)'] = first(lambda i: top[i] > top[i23] + 6 or asp[i] < asp[i23] - .05, 23.5)
-on['looks in (head card turned into the doorway)'] = first(lambda i: tr[i]['head_piece'] == 'dog_backhead', 26.0)
+on['looks in (head card turned into the doorway)'] = first(lambda i: tr[i]['head_piece'] in ('dog_backhead', 'dog_away'), 26.0)
 score = {'retreat (backs away)': 1.0, 'watch (stops backing, head comes up)': 2.333, 'refuse (back turned)': 3.417,
          'watch (turns back to look)': 7.458, 'approach (comes, head low)': 14.708, 'lie_down (lies across the sill)': 23.792,
          'looks in (head card turned into the doorway)': 26.4}

@@ -210,7 +210,7 @@ for t0 in (0.2, 35.1):
     add(pp / np.max(np.abs(pp)) * db(-30), t0)
 
 L *= fade; R *= fade
-PEAK = db(-3.5)  # the calls peak at or below -3 dBFS: the whole mix is scaled so its loudest sample sits at -3.5 dBFS
+PEAK = db(-5.0)  # the calls peak at or below -3 dBFS: the mix is scaled so its loudest sample sits at -5 dBFS (AAC overshoot headroom)
 mx = max(np.max(np.abs(L)), np.max(np.abs(R)))
 L *= PEAK / mx; R *= PEAK / mx; VST *= PEAK / mx
 
