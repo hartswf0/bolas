@@ -36,8 +36,8 @@ only from public-domain prints in the kit and card I made.
 - **Physical materials**: prints are toned and hand-tinted (a three-stop dye ramp and an uneven wash), cut tight with the
   light paper core showing at the scissor edge, and cast a small shadow on what lies under them. Card pieces I made
   (crate, shoes, moon, black paper behind the jaw) are listed as drawn.
-- **Cuts / pivots**: the dog is one print (home movie frame f006) cut into seven pieces: head, torso, tail, near and far
-  forelegs, near and far hind legs, with pins at neck, shoulders, hips and tail root, and overlapping joint discs so a
+- **Cuts / pivots**: the dog is one print (home movie frame f006) cut into twelve pieces (round 3 repair): head, ear, torso, tail,
+  and each of the four legs in two at the wrist or hock, with pins at neck, shoulders, hips and tail root, and overlapping joint discs so a
   turned joint shows no gap. The person is a collage, as the method does it: a face in a hat (Vision of the Wild f010,
   flopped to face the dog) with its chin cut free and pinned at the ear over a scrap of black paper (the hinged jaw), a
   smock (Straight Talk f000), jeans cut at the knee (Straight Talk f013), a forearm that held a card (Door to Heaven f000).
@@ -74,9 +74,9 @@ only from public-domain prints in the kit and card I made.
   swivel flat (forelegs forward along the boards, hind legs folded), the body card comes down onto the boards, rear not
   raised. It ends with 50% of its pixels inside the door frame on screen (head and shoulders in the lit doorway, hindquarters
   and tail outside), on the porch plane: it never goes through.
-- **Looking in (26.4 s)**: there is no print of the back of the dog's head; I constructed one (skull and folded-tip ears
-  cut from the same print's saddle fur, with the tip of the muzzle from f046 showing past the skull) and substitute it for
-  the head card from 26.42 s to 28.08 s, so the back of the head is toward the viewer and the muzzle is into the room. Then the
+- **Looking in (26.4 s)**: there is no print of the back of the dog's head; it is constructed (round 3 repair: a lost
+  profile, the fur of skull, nape and ears laid over the muzzle print, flopped so the muzzle points into the lit doorway)
+  and substituted for the head card from 26.42 s to 28.08 s. Then the
   profile head comes back and lowers, chin on paws, and stays.
 
 The person: calls with the hinged jaw opening on the voice (the jaw is driven by a mouth chart read from the voice takes,
@@ -155,6 +155,49 @@ the sound levels):
 5. (optional) **Footfalls audible**: claw-and-board clicks raised 9 dB; 13 transients more than 12 dB over the bed during
    the approach, plus a paw and a body thud at 23.84–23.9 s (20 dB over the bed). Measured, not listened to.
 
+## Repair round 3 (critic: does not pass) - by a second builder
+
+The first builder left before finishing this round; a second agent continued from its files (its unfinished edits: legs
+cut in two at wrist and hock, eyes and noses inked on the head and the turning card). All times are scene time.
+
+1. **The look back, 7.458-8.08.** The look-back card is a second print of the f006 profile head at 1.12 (was 0.82, which
+   became a featureless lump under the regrade): 63 px tall, 0.80 of the torso card, kept sharp, eye, nostril, mouth line
+   and ear retouched in ink. It is laid on the choice frame with the muzzle level at the door. Measured from the placed
+   transform: muzzle direction 169 deg (180 = level toward the door); 100% of frames 7.458-8.08 face the door. Looked at
+   in film frames at 7.46, 7.58, 7.71, 7.92, 8.04 (2x crops): a face with an eye and a nose turned back over the shoulder.
+   This deliberately undoes round 2's size condition (<= 0.6), which round 3 found had cost the features.
+2. **The front card (3.42-3.54, 8.08-8.29).** The f030 turning card kept sharp and retouched (two eyes, nose, ear edges,
+   a lighter muzzle wash). Looked at in film frames 3.42, 3.50, 8.12, 8.25: a dog's face and forelegs.
+3. **Looking in, 26.42-28.04.** A new constructed card (`dog_away`), a lost profile: the inked f006 head card laid first,
+   and over it the back of the skull, the nape and both ears cut from the f006 saddle fur, hiding the eye and the cheek,
+   so only the muzzle tip and nose show past the skull. It is laid *under* the torso card, so the nape rises out of the
+   shoulders, and **flopped**: unflopped, its muzzle pointed straight at the offered hand (tried, rejected). Flopped, the
+   muzzle points 24 deg above level to the right, into the lit doorway, away from the person and the hand, and well
+   below the lamp (about 95 deg). A warm rim of room light is painted on the side facing the room. Measured: muzzle tip
+   inside the door opening (x 193-387) and above the sill on all 40 frames. During the hold the card reaches a little
+   further in at 26.95, eases back at 27.45 and settles at 27.8 (4-7 deg). Judged by eye only on film frames; whether a
+   cold viewer reads it as "into the room" is the critic's call.
+4. **The watch, 8.33-14.71.** The ear is now its own card, cut from the same print and pinned at its root. Acting beats
+   (from the exposure sheet, all visible in film-frame crops): 8.75 the ear pricks; 9.67 head and tail settle; 10.75-11.9
+   the listening cock of the head at the second "It's all right", ear dropped forward; 12.5-14.0 the head lowers and the
+   ear relaxes (deciding); 14.0-14.5 a forepaw lifts, hanging from the bent wrist, and is set down. The approach onset
+   is unchanged (14.708).
+5. **Folded legs lying (4.5-7.4, 24.2-32).** Each leg is two cards. Lying, forelegs 60 deg on the shoulder pin with the
+   lower card level (90) and **flopped** (mirrored across its own axis) so the paw lies toes-down instead of toes-up (the
+   flipper); hind legs 95/90, flopped: the haunch forward with the hind paw under it. Toes inked on all four paws.
+   Rejected: rotating the lower card past 90 (it lifts like a boot); folding the hind leg backward (it goes through the
+   boards). Measured: forepaws within 6 px of the board line; the hind paw lies 14-18 px above it, under the haunch.
+
+Also this round: `build/assets.py` regenerates `assets.json` from the pieces as cut (it had fallen behind the cutter);
+the unused f046 back-of-head card is no longer cut and its source copy is removed; the end card now says twelve pieces
+and declares the ink retouching as drawn here. Kept unchanged: timing of all choices, the head-low approach (topmost
+head pixel 25-29 px below the withers on all 219 frames), the lie-down across the sill, the moon beat, the sound
+(soft voice 13.2 dB under the calls, 15.5 dB over room tone, voices before the reactions).
+
+Still weak (my view): the ear card's cut edge makes a slightly boxy outline on the lying head; the hind fold reads as a
+haunch more than as a leg; the look-in's muzzle tip is small at full frame (about 15 px); the rise from lying (7.5-8.0)
+passes through half-folded leg cards for a few exposures.
+
 ## What failed and what I changed (see ledger.jsonl)
 
 - First head cut took the whole mane: lying, the dog read as a seal. Cut the head smaller at the neck line.
@@ -174,12 +217,11 @@ the sound levels):
 - The dog is small in a wide, locked-off shot (about 210 px long). The regrade removed the spots but also most of the
   photographic detail: the dog now reads as a smooth tinted card more than as a photograph.
 - The lowered head hangs from the chest: below the withers as required, but the neck can read long.
-- The small face card at the look-back is only 39 px tall; at that size its eyes are barely readable.
 - The giant hand is in the sky, away from the dog; whether it reads as absurd or as a distraction is for the viewer.
 - The half-way exposures of lying down and getting up (legs part-swivelled) look like a sprawl for two or three
   exposures.
 - The person is crude: a box-edged hat card, wide smock, the face mostly in shadow; the closed jaw shows its cut as a line.
-- The back-of-head card is constructed, not found; its ears could still read as a fox's.
+- The turned-away head card is constructed, not found (there is no print of the back of this dog's head).
 - Rigid single-piece legs cannot bend, so the crouch is mild.
 - The voice is synthetic; music and effects are synthetic.
 

@@ -23,7 +23,7 @@ i14 = int(14 * 24)
 on['approach (comes, head low)'] = first(lambda i: X[i] < X[i14] - 1.5 or abs(hy[i] - hy[i14]) > 3, 14.0)
 i23 = int(23.5 * 24)
 on['lie_down (lies across the sill)'] = first(lambda i: top[i] > top[i23] + 6 or asp[i] < asp[i23] - .05, 23.5)
-on['looks in (head card turned into the doorway)'] = first(lambda i: tr[i]['head_piece'] == 'dog_backhead', 26.0)
+on['looks in (head card turned into the doorway)'] = first(lambda i: tr[i]['head_piece'] in ('dog_backhead', 'dog_away'), 26.0)
 score = {'retreat (backs away)': 1.0, 'watch (stops backing, head comes up)': 2.333, 'refuse (back turned)': 3.417,
          'watch (turns back to look)': 7.458, 'approach (comes, head low)': 14.708, 'lie_down (lies across the sill)': 23.792,
          'looks in (head card turned into the doorway)': 26.4}
@@ -68,8 +68,46 @@ sill = {'end_bbox': end['bbox'], 'door_frame_px': [193, 387], 'part_inside_frame
 holds = [e['n'] for e in ex]
 interval = {'exposures': len(ex), 'frames': sum(holds), 'min_frames_per_exposure': min(holds),
             'share_on_twos_or_longer': round(sum(h >= 2 for h in holds) / len(holds), 3), 'longest_hold_frames': max(holds)}
+# ---- round 4 (critic round 3 conditions), measured from the placed transforms and the rendered trace
+import puppets as PU
+from table import PIECES as PC, T as TT, R as RR, FLIP as FF
+from world import OPEN_L, OPEN_R, FLOOR
+def ex_at(i): return next(e for e in ex if e['f0'] <= i < e['f0'] + e['n'])
+def ang(v): return round(math.degrees(math.atan2(-v[1], v[0])), 1)   # screen angle, 0 = right, 90 = up
+lbf = [f for f in tr if 7.458 - 1e-6 <= f['t'] < 8.08]
+lb_e = ex_at(179)['dog']; G = PU.dog_global(lb_e); A = PU.head_low_aff(G, lb_e, 'dog_lookback')
+nz = A.apply(PC['dog_lookback']['pins']['nose']); nk = A.apply(PC['dog_lookback']['pins']['neck'])
+lb_card_h = PC['dog_lookback']['size'][1]; torso_h = PC['dog_torso']['size'][1]
+look_back4 = {'head_card': 'dog_lookback (eye, nostril, ear retouched)', 'card_height_px': lb_card_h, 'torso_card_height_px': torso_h,
+              'ratio': round(lb_card_h / torso_h, 2), 'first_frame_t': lbf[0]['t'], 'share_frames_7.458_8.08_facing_door': round(sum(f['facing'] == 1 for f in lbf) / len(lbf), 3),
+              'muzzle_direction_deg_at_7.458': ang((nz[0] - nk[0], nz[1] - nk[1])), 'note': '180 = level toward the door (left)'}
+# the watch: every exposure in 8.33-14.71 whose dog card placement changes, and what changed
+acts = []
+wex = [e for e in ex if 200 <= e['f0'] < 353]
+for a_, b_ in zip(wex, wex[1:]):
+    ch = sorted(k for k in set(a_['dog']) | set(b_['dog']) if a_['dog'].get(k) != b_['dog'].get(k) and k not in ('tail',))
+    if ch: acts.append({'t': b_['t'], 'changed': {k: [a_['dog'].get(k), b_['dog'].get(k)] for k in ch}})
+watch4 = {'acting_changes_8.33_14.71': acts, 'n': len(acts)}
+# the look-in: where the turned-away card's muzzle points and lies
+li = ex_at(640)['dog']; Gl = PU.dog_global(li); nkl = PC['dog_torso']['pins']['neck']; b = PC['dog_away']['pins']['neck']
+aw = li.get('away_at', PU.AWAY_AT)
+Al = Gl @ TT(nkl[0] + aw[0], nkl[1] + aw[1]) @ RR(li.get('head', 0))
+if li.get('awayflip', PU.AWAY_FLIP): Al = Al @ FF()
+Al = Al @ TT(-b[0], -b[1])
+nzl = Al.apply(PC['dog_away']['pins']['nose']); skull = Al.apply((50 * PC['dog_away']['scale'], 38 * PC['dog_away']['scale']))
+look_in4 = {'frames_with_away_card': sum(f['head_piece'] == 'dog_away' for f in tr), 'first_t': next(f['t'] for f in tr if f['head_piece'] == 'dog_away'),
+            'last_t': max(f['t'] for f in tr if f['head_piece'] == 'dog_away'), 'muzzle_tip_xy': [round(nzl[0], 1), round(nzl[1], 1)],
+            'muzzle_tip_inside_door_opening_x': bool(OPEN_L < nzl[0] < OPEN_R), 'muzzle_tip_above_sill': bool(nzl[1] < FLOOR),
+            'muzzle_direction_deg': ang((nzl[0] - skull[0], nzl[1] - skull[1])),
+            'note': 'the person and the offered hand are to the left (180 deg); the lamp is up (~95 deg); the card is flopped so the muzzle points up-right, into the lit room'}
+# lying: the paws on the boards (lower-card foot pins vs the floor line the dog stands on)
+def paws(i):
+    f = next(q for q in tr if q['i'] == i); return {k: round(v[1] - PU.FLOOR_DOG, 1) for k, v in (f['feet'] or {}).items()}
+lying4 = {'paw_y_minus_floor_px_at': {str(t_): paws(int(t_ * 24)) for t_ in (6.0, 25.0, 30.0)},
+          'leg_card_angles_lying': {k: v for k, v in ex_at(720)['dog'].items() if k.split('_')[0] in ('fore', 'farfore', 'hind', 'farhind')}}
 out = {'about': 'measured from trace.json (the rendered dog layer) and xsheet.json', 'onsets': onsets, 'refusal_back': back,
-       'approach_head_low': head_low, 'look_back': look_back, 'feet_while_walking': feet, 'end_on_sill': sill, 'camera_interval': interval}
+       'approach_head_low': head_low, 'look_back': look_back, 'feet_while_walking': feet, 'end_on_sill': sill, 'camera_interval': interval,
+       'round4': {'look_back': look_back4, 'watch': watch4, 'look_in': look_in4, 'lying': lying4}}
 os.makedirs(os.path.join(FOLDER, 'proof'), exist_ok=True)
 json.dump(out, open(os.path.join(FOLDER, 'proof', 'measured.json'), 'w'), indent=1)
 print(json.dumps(out, indent=1))

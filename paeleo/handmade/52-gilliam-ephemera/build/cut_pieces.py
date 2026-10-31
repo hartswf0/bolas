@@ -70,7 +70,7 @@ def ink(name, ops):
     tr = lambda x, y: ((x * sc - ox) * S, (y * sc - oy) * S)
     layers = []
     for op in ops:
-        if op[0] in ('light', 'lightfill'):
+        if op[0] in ('light', 'lightfill', 'midfill'):
             continue
         if op[0] == 'dot':
             _, x, y, rr, dk = op; cx, cy = tr(x, y); R = rr * sc * S
@@ -87,6 +87,13 @@ def ink(name, ops):
             _, pts, dk = op; dl.polygon([tr(*p) for p in pts], fill=int(255 * dk))
     kl = np.asarray(ml.resize((W, H), Image.BOX).filter(ImageFilter.GaussianBlur(1))).astype(np.float32)[..., None] / 255
     a[..., :3] = a[..., :3] * (1 - kl) + np.array([196, 164, 122], np.float32) * kl
+    # round 4: a mid fur tone (the skull under a separately cut ear card)
+    mm = Image.new('L', (W * S, H * S), 0); dm = ImageDraw.Draw(mm)
+    for op in ops:
+        if op[0] == 'midfill':
+            _, pts, dk = op; dm.polygon([tr(*p) for p in pts], fill=int(255 * dk))
+    km = np.asarray(mm.resize((W, H), Image.BOX).filter(ImageFilter.GaussianBlur(1.2))).astype(np.float32)[..., None] / 255
+    a[..., :3] = a[..., :3] * (1 - km) + np.array([112, 78, 52], np.float32) * km
     k = np.asarray(m.resize((W, H), Image.BOX)).astype(np.float32)[..., None] / 255
     inkc = np.array([18, 10, 8], np.float32)
     a[..., :3] = a[..., :3] * (1 - k) + inkc * k
@@ -104,10 +111,16 @@ def ink(name, ops):
 add(cut('dog_head', dogf(6), [HEAD, ('disc', 128, 112, 11)], DS, 'dog', M6, **HG, seed=2, provenance=P6,
         pins={'neck': (128, 112), 'nose': (88, 86), 'eye': (102, 92)}), op='crop+matte+scissor cut+tint')
 HEAD_INK = [('lightfill', [(84, 80), (100, 80), (110, 88), (106, 100), (94, 100), (84, 92)], .6),
-            ('fill', [(112, 84), (127, 89), (134, 106), (126, 116), (114, 106)], .6),
+            ('midfill', [(111, 83), (128, 88), (135, 106), (127, 117), (113, 107)], .85),
+            ('fill', [(112, 84), (127, 89), (134, 106), (126, 116), (114, 106)], .25),
             ('dot', 88.5, 85.5, 2.8, .97), ('dot', 104, 89.5, 2.0, .97), ('light', 104.6, 88.9, .6, .8),
             ('line', [(90, 91), (97, 95), (104, 97)], 1.0, .75)]
 ink('dog_head', HEAD_INK)
+# round 4: the ear, cut free from the same print and pinned at its root, so it can prick, flick and fall (the watch)
+EAR = [(110, 81), (122, 82), (130, 88), (137, 106), (128, 119), (115, 109), (109, 92)]
+add(cut('dog_ear', dogf(6), [EAR], DS, 'dog', M6, **HG, rim=.3, seed=9, provenance=P6, pins={'root': (115, 85)}),
+    op='crop+matte+scissor cut+tint (the ear, a separate card pinned at its root)')
+ink('dog_ear', [('fill', EAR, .55), ('line', [(117, 88), (126, 100), (128, 112)], .9, .5)])
 # legs: each cut in two at the elbow / hock, so they can fold
 def leg(name, poly, piv_name, piv, knee, foot, pal, seed, kneecut):
     up = [p for p in poly]  # clipped by y below with a hole
@@ -121,6 +134,11 @@ leg('dog_fore', FORE, 'shoulder', (141, 150), (138, 176), (133, 201), 'dog', 3, 
 leg('dog_farfore', FARFORE, 'shoulder', (126, 154), (124, 178), (123, 193), 'dogfar', 4, 178)
 leg('dog_hind', HIND, 'hip', (213, 151), (212, 178), (210, 202), 'dog', 5, 178)
 leg('dog_farhind', FARHIND, 'hip', (198, 152), (194, 178), (191, 196), 'dogfar', 6, 178)
+# round 4: toes inked on each paw (lying, the paws had read as flippers)
+def toes(name, fx, fy, d=1):
+    ink(name, [('line', [(fx - 7 * d, fy - 3), (fx - 8 * d, fy + 4)], .8, .85), ('line', [(fx - 3 * d, fy - 3), (fx - 4 * d, fy + 4)], .8, .85),
+               ('line', [(fx + 1 * d, fy - 3), (fx, fy + 4)], .8, .7), ('dot', fx - 11 * d, fy + 3, 1.0, .9)])
+toes('dog_fore_lo', 133, 201); toes('dog_farfore_lo', 125, 193); toes('dog_hind_lo', 212, 202); toes('dog_farhind_lo', 193, 195)
 add(cut('dog_tail', dogf(6), [TAIL, ('disc', 239, 136, 8)], DS, 'dog', M6, **DG, seed=7, provenance=P6,
         pins={'tailroot': (238, 136), 'tip': (282, 158)}), op='crop+matte+scissor cut+tint')
 # the turning card: a second print, the same dog facing the camera with its head turning (f030), one whole piece,
@@ -136,7 +154,7 @@ ink('dog_front', [('lightfill', [(170, 104), (190, 104), (204, 112), (212, 120),
                   ('dot', 211, 125, 3.4, .97), ('line', [(203, 129), (208, 133), (213, 131)], 1.0, .8)])
 # the look back (7.458): the same profile head, a smaller print (0.82: ~0.6 of the torso card's height), retouched,
 # laid turned over the shoulder so its muzzle points at the door
-add(cut('dog_lookback', dogf(6), [HEAD, ('disc', 128, 112, 9)], 0.82, 'dog', M6, **dict(HG, soften=.6, contrast=.8, sharpen=False), seed=10, provenance=P6,
+add(cut('dog_lookback', dogf(6), [HEAD, ('disc', 128, 112, 9)], 1.12, 'dog', M6, **dict(HG, soften=.6, contrast=.8, sharpen=False), seed=10, provenance=P6,
         pins={'neck': (128, 112), 'nose': (88, 86), 'top': (95, 76)}), op='crop+matte+scissor cut+tint (substitute head card: looking back)')
 ink('dog_lookback', [('lightfill', [(84, 80), (100, 80), (110, 88), (106, 100), (94, 100), (84, 92)], .7),
                      ('fill', [(112, 84), (127, 89), (134, 106), (126, 116), (114, 106)], .75),
@@ -190,7 +208,70 @@ def back_of_head():
             'pins': {'neck': [40, 74]}, 'palette': 'dog', 'source_print': os.path.relpath(dogf(6), ROOT),
             'provenance': prov('dog', 6), 'notes': 'constructed: skull and hanging, folded ears cut from the f006 saddle fur; '
             'the muzzle tip is a scrap of f046 showing over the skull, turned into the room', 'op': 'constructed collage of two prints'}
-add(back_of_head())
+# add(back_of_head())   # round 4: replaced in the film by dog_away (head_away below); not cut any more
+
+
+def head_away():
+    """Round 4: the head turned away into the room, seen from behind and a little to the side (a lost profile).
+    Collage of two prints: the muzzle is the f006 head card itself (the same inked nose), laid first; over it the back of
+    the skull and the nape, cut from the f006 saddle fur, hide the eye and the cheek; the near ear (seen from behind,
+    its dark outer side) hangs on the muzzle side, the far ear just shows at the other edge of the skull. The muzzle
+    tip is all that shows of the face: it points away from the viewer, into the doorway."""
+    from cutlib import ramp
+    im = Image.open(dogf(6)).convert('RGB')
+    W, H = 96, 100
+    def fur(box, dark=1.0):
+        f = im.crop(box).resize((W, H), Image.BICUBIC).filter(ImageFilter.GaussianBlur(1))
+        L = np.asarray(f.convert('L')).astype(np.float32) / 255
+        lo, hi = np.percentile(L, (4, 96)); L = np.clip((L - lo) / (hi - lo + 1e-6), 0, 1) * .55 + .2
+        return ramp(L * dark, PALETTES['dog'])
+    def mask(shapes):
+        s = 4; m = Image.new('L', (W * s, H * s), 0); d = ImageDraw.Draw(m)
+        for kind, pts in shapes:
+            if kind == 'e': d.ellipse([v * s for v in pts], fill=255)
+            else: d.polygon([(x * s, y * s) for x, y in pts], fill=255)
+        return np.asarray(m.resize((W, H), Image.BOX)).astype(np.float32) / 255
+    rgb = np.zeros((H, W, 3), np.float32); a = np.zeros((H, W), np.float32)
+    def lay(col, al):
+        nonlocal rgb, a
+        rgb = rgb * (1 - al[..., None]) + col * al[..., None]; a = a + al * (1 - a)
+    # 1. the muzzle: the inked f006 head card, its nose up and to the left, laid first
+    hd = pieces['dog_head']; hi_ = Image.open(os.path.join(FOLDER, hd['file'])).convert('RGBA')
+    nose = (88.5 * hd['scale'] - hd['origin'][0], 85.5 * hd['scale'] - hd['origin'][1])
+    hi_ = hi_.rotate(-20, Image.BICUBIC, expand=False, center=nose)
+    nx, ny = 7, 12
+    layer = Image.new('RGBA', (W, H), (0, 0, 0, 0)); layer.alpha_composite(hi_, (int(nx - nose[0]), int(ny - nose[1])))
+    la = np.asarray(layer).astype(np.float32) / 255
+    lay(la[..., :3] * .92, la[..., 3])
+    # 2. the far ear, just showing at the right edge of the skull
+    lay(fur((160, 112, 200, 148), .45), mask([('p', [(64, 22), (78, 30), (82, 54), (76, 66), (70, 52)])]))
+    # 3. the back of the skull and the nape, widening into the shoulders: hides the eye and the cheek
+    lay(fur((150, 108, 204, 152), .72), mask([('e', (26, 14, 76, 64)), ('p', [(30, 48), (74, 48), (66, 100), (40, 100)])]))
+    # 4. the near ear from behind (its dark outer side), hanging on the muzzle side of the skull
+    lay(fur((160, 112, 200, 148), .5), mask([('p', [(23, 19), (36, 17), (45, 30), (43, 56), (36, 74), (26, 66), (20, 36)])]))
+    yy, xx = np.mgrid[0:H, 0:W]
+    # the parting of the fur down the back of the skull and neck (the nape), and the skull's shadow on the neck
+    rgb *= (1 - .25 * np.exp(-((xx - (52 + (yy - 30) * .14)) ** 2) / 10) * (yy > 30))[..., None]
+    # the lamp in the room lights the side of the head that faces it: a warm rim along the upper-left edges (the
+    # muzzle and the crown), painted on the print as a retoucher would; the back of the skull stays in shadow
+    sh = np.zeros_like(a); sh[3:, 3:] = a[:-3, :-3]
+    rim = np.asarray(Image.fromarray((np.clip(a - sh, 0, 1) * 255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(.8))).astype(np.float32) / 255
+    rgb = rgb * (1 - rim[..., None] * .8) + np.array([1.0, .78, .5]) * rim[..., None] * .8
+    A = Image.fromarray((a * 255).astype(np.uint8)); er = np.asarray(A.filter(ImageFilter.MinFilter(3))).astype(np.float32) / 255
+    e = np.clip(a - er, 0, 1)
+    rgb = rgb * (1 - e[..., None] * .6) + np.array([.93, .9, .82]) * e[..., None] * .6
+    nd = mask([('e', (nx - 3.6, ny - 3, nx + 3.6, ny + 3))])        # the nose, re-inked over the rim
+    rgb = rgb * (1 - nd[..., None] * .95) + np.array([.07, .04, .03]) * nd[..., None] * .95
+    fn = os.path.join(CACHE, 'pieces', 'dog_away.png')
+    K_ = .96    # the construction is printed down to the head card's size before it is cut out (a reduced print)
+    out = Image.fromarray(np.dstack([np.clip(rgb, 0, 1) * 255, a * 255]).astype(np.uint8), 'RGBA')
+    out = out.resize((round(W * K_), round(H * K_)), Image.LANCZOS); out.save(fn)
+    return {'name': 'dog_away', 'file': os.path.relpath(fn, FOLDER), 'origin': [0, 0], 'size': list(out.size), 'scale': K_,
+            'pins': {'neck': [50 * K_, 94 * K_], 'nose': [nx * K_, ny * K_]}, 'palette': 'dog', 'source_print': os.path.relpath(dogf(6), ROOT),
+            'provenance': prov('dog', 6), 'notes': 'constructed (round 4): a lost profile. The muzzle is the inked f006 head '
+            'card; over it the back of the skull, the nape and both ears cut from the f006 saddle fur hide the eye and cheek, '
+            'so only the muzzle tip shows, pointing away into the doorway', 'op': 'constructed collage (print + print)'}
+add(head_away())
 
 # ---------------------------------------------------------------- the person: a collage, as the method does it
 # head: Vision of the Wild f010 (a face looking down and to the right, in a white hat); jaw cut free and pinned

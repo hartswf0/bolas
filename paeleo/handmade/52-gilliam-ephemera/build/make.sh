@@ -4,6 +4,7 @@ set -e
 B=$(cd "$(dirname "$0")" && pwd)
 cd "$B"
 python3 cut_pieces.py          # cut every piece from its source print -> cache/pieces, proof/cutting_sheet.jpg
+python3 assets.py              # ../assets.json from the pieces as cut
 python3 voice.py               # the voice takes and the mouth chart read from them
 python3 xsheet.py              # the exposure sheet -> ../xsheet.json
 rm -f cache/frames/*.jpg

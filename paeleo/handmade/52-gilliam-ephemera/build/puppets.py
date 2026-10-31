@@ -26,6 +26,9 @@ def leg_affs(G, pose, p):
     Au = G @ R(pose.get(k, 0), piv)
     rel = pose.get(k + '_lo', pose.get(k, 0)) - pose.get(k, 0)
     Al = Au @ R(rel, pin(p, 'knee'))
+    if pose.get(k + '_flop'):     # round 4: the lower card flopped (mirrored print) across its own axis: lying, the paw
+        kx = pin(p, 'knee')[0]    # turns toes-down onto the boards instead of toes-up
+        Al = Al @ T(kx, 0) @ FLIP() @ T(-kx, 0)
     return Au, Al
 
 
@@ -63,15 +66,26 @@ def draw_dog(canvas, pose, rec=None, tint=None):
     place_leg(canvas, G, pose, 'dog_farhind', tint, rec)
     place_leg(canvas, G, pose, 'dog_farfore', tint, rec)
     place(canvas, 'dog_tail', G @ R(pose.get('tail', 0), pin('dog_tail', 'tailroot')), tint=tint, record=rec)
+    nk = pin('dog_torso', 'neck')
+    hp = pose.get('headpiece', 'dog_head')
+    if hp == 'dog_away':
+        # round 4: the head turned away into the room rises from behind the shoulders (laid under the torso card)
+        b = pin(hp, 'neck')
+        aw = pose.get('away_at', AWAY_AT)
+        A = G @ T(nk[0] + aw[0], nk[1] + aw[1]) @ R(pose.get('head', 0))
+        if pose.get('awayflip', AWAY_FLIP):   # the print flopped: the muzzle points back over the dog's own shoulder,
+            A = A @ FLIP()                    # into the lit room and away from the person and the hand
+        A = A @ T(-b[0], -b[1])
+        place(canvas, hp, A, tint=tint, record=rec)
     place(canvas, 'dog_torso', G, tint=tint, record=rec)
     place_leg(canvas, G, pose, 'dog_hind', tint, rec)
     place_leg(canvas, G, pose, 'dog_fore', tint, rec)
-    nk = pin('dog_torso', 'neck')
-    hp = pose.get('headpiece', 'dog_head')
-    if hp == 'dog_backhead':
-        b = pin('dog_backhead', 'neck')
+    if hp == 'dog_away':
+        pass
+    elif hp == 'dog_backhead':
+        b = pin(hp, 'neck')
         A = G @ T(nk[0] - 14, nk[1] + 20) @ R(pose.get('head', 0)) @ T(-b[0], -b[1])
-        place(canvas, 'dog_backhead', A, tint=tint, record=rec)
+        place(canvas, hp, A, tint=tint, record=rec)
     elif hp in ('dog_head_low', 'dog_lookback'):
         place(canvas, hp, head_low_aff(G, pose, hp), tint=tint, record=rec)
     else:
@@ -79,8 +93,12 @@ def draw_dog(canvas, pose, rec=None, tint=None):
         if pose.get('headflop'):
             A = A @ T(nk[0], 0) @ FLIP() @ T(-nk[0], 0)   # the head card turned over (a mirrored print)
         place(canvas, 'dog_head', A, tint=tint, record=rec)
+        # round 4: the ear is its own card, pinned at its root on the head (pricked: -, dropped: +)
+        place(canvas, 'dog_ear', A @ R(pose.get('ear', 0), pin('dog_ear', 'root')), tint=tint, shadow=(1.0, 1.2, .3))
 
 
+AWAY_FLIP = 1
+AWAY_AT = (-30, 36)      # where the turned-away head card sits on the neck (puppet px from the neck pin)
 LOW_ATTACH = (124 * 1.31, 126 * 1.31)
 LOW_ATTACH = (124 * 1.31, 126 * 1.31)    # the head-low card hangs from the front of the chest
 FACE_ATTACH = (132 * 1.31, 118 * 1.31)   # the look-back card sits on the neck, over the shoulders
