@@ -10,14 +10,14 @@
   "joint": "waist",
   "parent": "pelvis",
   "length_m": 0.2526,
-  "max_err_m": 2.33e-16,
+  "max_err_m": 3.11e-16,
   "view_anchor": false
  },
  {
   "joint": "neck",
   "parent": "waist",
   "length_m": 0.3188,
-  "max_err_m": 1.94e-16,
+  "max_err_m": 2.72e-16,
   "view_anchor": false
  },
  {
@@ -31,7 +31,7 @@
   "joint": "earR0",
   "parent": "head",
   "length_m": 0.1151,
-  "max_err_m": 1.94e-16,
+  "max_err_m": 2.72e-16,
   "view_anchor": false
  },
  {
@@ -66,7 +66,7 @@
   "joint": "flapR0",
   "parent": "cloth",
   "length_m": 0.1163,
-  "max_err_m": 1.75e-16,
+  "max_err_m": 1.94e-16,
   "view_anchor": false
  },
  {
@@ -80,14 +80,14 @@
   "joint": "flapL0",
   "parent": "cloth",
   "length_m": 0.1163,
-  "max_err_m": 1.75e-16,
+  "max_err_m": 1.94e-16,
   "view_anchor": false
  },
  {
   "joint": "flapL1",
   "parent": "flapL0",
   "length_m": 0.0771,
-  "max_err_m": 7.77e-17,
+  "max_err_m": 6.8e-17,
   "view_anchor": false
  },
  {
@@ -101,14 +101,14 @@
   "joint": "elbowR",
   "parent": "shoulderR",
   "length_m": 0.2109,
-  "max_err_m": 2.33e-16,
+  "max_err_m": 3.89e-16,
   "view_anchor": false
  },
  {
   "joint": "fpawR",
   "parent": "elbowR",
   "length_m": 0.2109,
-  "max_err_m": 4.27e-16,
+  "max_err_m": 5.05e-16,
   "view_anchor": false
  },
  {
@@ -122,7 +122,7 @@
   "joint": "elbowL",
   "parent": "shoulderL",
   "length_m": 0.2109,
-  "max_err_m": 4.27e-16,
+  "max_err_m": 5.44e-16,
   "view_anchor": false
  },
  {
@@ -136,7 +136,7 @@
   "joint": "hipR",
   "parent": "pelvis",
   "length_m": 0.1096,
-  "max_err_m": 1.75e-16,
+  "max_err_m": 2.33e-16,
   "view_anchor": false
  },
  {
@@ -171,21 +171,21 @@
   "joint": "hpawL",
   "parent": "kneeL",
   "length_m": 0.2109,
-  "max_err_m": 2.33e-16,
+  "max_err_m": 1.94e-16,
   "view_anchor": false
  },
  {
   "joint": "tail0",
   "parent": "pelvis",
   "length_m": 0.1693,
-  "max_err_m": 4.27e-16,
+  "max_err_m": 3.89e-16,
   "view_anchor": false
  },
  {
   "joint": "tail1",
   "parent": "tail0",
   "length_m": 0.0728,
-  "max_err_m": 4.57e-16,
+  "max_err_m": 4.37e-16,
   "view_anchor": false
  },
  {

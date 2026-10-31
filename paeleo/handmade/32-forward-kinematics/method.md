@@ -44,6 +44,12 @@ How it moves — every degree of freedom is a local angle:
 - **Turning its back (3.42 s)**: the head swings away first (neck and head yaw, 3.42–3.66), the body yaws 155° about its
   middle from 3.47 to 4.05, each paw stepping up three times; then it lies down facing away (the lying fold is an authored key
   pose) and rests its chin.
+- **Turning back to look (7.46 s), after round 1**: the head swings round on the near (camera) side, low and at muzzle level
+  (neck and head yaw share 205° relative to the body, the chest block curls a little), 7.44–7.66: the face and an eye are seen
+  as it comes round and the muzzle points at the door by 7.62 with the hips on the boards. It rises 7.72–8.1, stands square
+  (each paw set under its pin while the legs are free) and turns back under its held head on the same side, 205° over 2.1 s at
+  a near-constant speed with four paw steps, so planted paws slide at most 29 mm a frame.
+- **Lying across the sill**: the last fold is spread over 0.6 s (23.72–24.32), at most 14° per frame on any joint.
 - **Turning back to look (7.46 s)**: while the body still lies, the neck yaws 88° and the head 58° over the shoulder, muzzle
   level, toward the open door (7.44–7.72); the body rises at 7.62–8.05 and turns back 7.95–8.75 as the neck unwinds.
 - **Coming, head low (14.7 s)**: the neck is carried 58° down while approaching: the top of the head stays about 10 cm under
@@ -71,10 +77,11 @@ All measured from the rig over all 768 scene frames.
 | | pelvis pitch +8° (700, lying) | 29 descendants, 3.3e-16 |
 | | person right shoulder +10° (600) | elbow, wrist, thumb and the **cardigan cuff** follow, 4.4e-16; others 0 |
 | | person spine −8° (600) | 16 descendants incl. both **hem panels**, 4.4e-16 |
-| T4 walking slip | planted paw (stance phase while the score moves), horizontal displacement per frame | mean **1.5 mm**, max 9.0 mm (610 paw-frames) |
-| T4 stance drift | touchdown to lift-off, per stance | mean 11.7 mm, max **21 mm** (36 stances) |
+| T4 walking slip | planted paw (stance phase while the score moves), horizontal displacement per frame | mean **1.9 mm**, max 9.0 mm in the stride; max 18.9 mm at the set-off (14.7–15.4 s), where the square stance hands back to the stride keys (607 paw-frames) |
+| T4 stance drift | touchdown to lift-off, per stance | mean 16.5 mm; max 21 mm in the stride, **146 mm** for the first stance of the set-off (the hand-back) (36 stances) |
 | T4 standing | planted while the dog stands | mean 0.05 mm, max 6.4 mm (at turn ends) |
-| T4 turning in place | planted paws while the body yaws 155° in 0.6 s | mean 36 mm/frame, **max 95 mm/frame** (41 paw-frames): visible sliding, see weak points |
+| T4 turning away (3.47–4.05) | planted paws while the body yaws 155° in 0.6 s | mean 33 mm/frame, **max 84 mm/frame** (18 paw-frames): visible scuffing |
+| T4 turning back (7.95–10.1) | body yaws 205° on a trapezoid speed profile, standing square, four paw steps | mean 19.6 mm/frame, **max 28.7 mm/frame** (76 paw-frames) |
 | T4 height | planted paw sole vs the boards | sinks 0.3–13 mm (never floats) |
 
 `proof/errors_by_joint.json` lists every joint. `proof/joint_overlay.jpg` draws the joint graph projected over four frames
@@ -95,7 +102,7 @@ rig's nose and skull projected with that frame's camera. All within ±0.25 s; `c
 | backs away | 1.000 | 1.042 | +0.04 | silhouette centroid, back-projected to the dog's line, > 2 cm away from the door |
 | stops, watches | 2.333 | 2.375 | +0.04 | top of the visible head rises > 2 cm above its lowest point in the retreat |
 | turns its back | 3.417 | 3.458 | +0.04 | muzzle direction on screen turns > 10° (the head leads); muzzle points away from the door from **3.625 s** |
-| turns back to look | 7.458 | 7.542 | +0.08 | muzzle-to-door angle on screen falls > 10° (head comes round over the shoulder while the body still lies; the body rises 7.62–8.05) |
+| turns back to look | 7.458 | 7.542 | +0.08 | muzzle-to-door angle on screen falls > 10° (the head swings round low on the near side, face and eye to the camera, muzzle on the door by 7.62 while the hips stay down; the body rises 7.72–8.1) |
 | comes, head low | 14.708 | 14.833 | +0.13 | centroid > 2 cm toward the door; top of the head ~10 cm under the withers (rig) for the whole approach |
 | lies across the sill | 23.792 | 23.708 | −0.08 | top of the visible silhouette (metres over the floor at the dog) drops > 2 cm |
 | looks in | 26.4 | 26.292 | −0.11 | visible head centroid moves > 4 px (it first lowers, then lifts level and turns into the room) |
@@ -129,12 +136,12 @@ timings (re-measured from every render by `build/trace.py`); the dog never cross
 
 ## What is weak, and what I did not do
 
-- **Turning in place slides.** Pure FK with sagittal legs cannot hold a paw while the body yaws; the stepping hides part of
-  it, but planted paws slide up to 95 mm per frame in the two 0.6 s turns. I report it rather than adding a solver.
+- **Turning away still slides.** Pure FK with sagittal legs cannot hold a paw while the body yaws; the quick 0.6 s refusal
+  turn slides planted paws up to 84 mm a frame (kept quick so the back shows by 3.9). The slow turn back stays within 29 mm.
+- **The set-off at 14.7** hands the square stance back to the stride keys: one stance drifts 146 mm over 0.8 s (≤19 mm/frame).
 - **Paws sink** up to 13 mm into the boards at a few moments (start of the lie-down, crouched backing).
 - **The dog is small in the wide** (about 110 px tall at x = 4) because the door, the person and the dog at 4 m must share it.
-- The look-back at 7.46 is seen slightly from behind: the head comes over the shoulder and points at the door, which is
-  away from the camera, so the muzzle is foreshortened.
+- The look-back's head swing (205° relative to the body) is more than a real dog's neck; the toy's swivel peg allows it.
 - The person is stiff (a peg figure); its step aside is three authored strides with its feet sliding (not measured).
 - The look-in is a modest movement (lift level, turn into the room); the camera sees the back of the skull and both ears.
 

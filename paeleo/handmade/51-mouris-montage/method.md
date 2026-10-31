@@ -105,19 +105,19 @@ In round 2 **the viewer sees only cut images**:
 | score | measured | dt |
 |---|---|---|
 | 1.000 watch → retreat | 1.000 | 0.000 |
-| 2.333 retreat → watch | 2.458 | +0.125 |
+| 2.333 retreat → watch | 2.500 | +0.167 |
 | 3.417 watch → refuse | 3.542 | +0.125 |
 | 7.458 refuse → watch (head leads) | 7.583 | +0.125 |
 | 14.708 watch → approach | 14.708 | 0.000 |
 | 23.792 approach → lie down | 23.833 | +0.041 |
 | 26.4 *come in*: looks in | 26.625 (head leaves the door axis by > 12°) | +0.225 |
 
-The I3 position correlation is r = 1.0 on `x_world_measured`. On the approach, the head is below the back in 96.3% of
-frames. At the end, 18.5% of the visible dog pixels are past the outer face of the door (forelegs and head), the tail is at
+The I3 position correlation is r = 1.0 on `x_world_measured`. On the approach, the head is below the back in 96.8% of
+frames. At the end, 18.6% of the visible dog pixels are past the outer face of the door (forelegs and head), the tail is at
 z = 0.80 m (outside), and the posture is lying. During the refusal the dog faces away in 97.9% of frames. Voices: calls
 −14.9 dBFS mean, soft −25.3 (10.3 dB under; loudest soft word −22.9 vs quietest call −16.0), room tone −47.7. Every
 voice starts at or before the reaction it causes: 1.0/1.0, 3.4/3.54, 7.4/7.58, 26.4/26.6. The film is 912 frames, 38.0 s,
-5.9 MB.
+6.4 MB (round 2).
 
 ## Protected invariants
 
@@ -143,14 +143,21 @@ See `ledger.jsonl`. In short:
 - The offered hand read as a knob: the person now leans toward the dog and opens a palm.
 - The apostrophe was missing from the cut letters.
 
+## Round 2 verification (on the encoded film.mp4, proof/r2_*.jpg)
+
+The tiger is recognisable on the body at 1.25–1.58 s and 1.83–2.17 s. On the soft passages the body carries cat, rabbit,
+lantern, light bulb and flower. At the sill it lies with the hind legs folded under and a long-muzzled head; the images
+there are basket, light bulb, flower and lantern. The second "it's" is on screen at 10.417 s. The end card names only
+images held for at least 6 frames on the dog.
+
 ## What is still weak (my view; the critic decides)
+
+- The head piece is small, so its image is mostly texture. Pieces are mapped to their screen boxes, so the images inside
+  the moving legs slide as the legs swing.
 
 - The person is a plain, rather puppet-like body of spheres. In the end framing the offered hand points toward the
   camera's left rather than toward the dog.
-- The coat substitutions on the soft passages are all warm and similar, so the change there is gentle and may read as
-  shimmer rather than as a cut.
 - The formant voice is intelligible only with the letters' help.
-- The dog's sphere construction shows faint ridges on the legs.
 - The interior is suggested by lamp images rather than built.
 
 ## What I did not do

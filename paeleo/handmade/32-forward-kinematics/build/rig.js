@@ -175,9 +175,20 @@
     return out;
   }
 
-  function yawAt(t) { // the body's heading, authored: turn away 3.45-4.05 (head leads), turn back 7.95-8.75
-    const away = ramp(t, 3.47, 4.05) - ramp(t, 7.95, 8.75);
-    return { yaw: lerp(HEAD_DOOR, HEAD_AWAY, away), away };
+  // a trapezoid speed profile (ease in, constant turning speed, ease out): lower peak speed than a smoothstep
+  function trap(u, k = 0.25) {
+    u = clamp(u, 0, 1); const v = 1 / (1 - k);              // peak speed
+    if (u < k) return v * u * u / (2 * k);
+    if (u > 1 - k) return 1 - v * (1 - u) * (1 - u) / (2 * k);
+    return v * (u - k / 2);
+  }
+  // the body's heading, authored: turn away 3.47-4.05 (head leads, via the far side: a rear view), turn back 7.95-9.85
+  // through the near side (205 deg, the side the head came round on), slowly enough that planted paws stay within ~30 mm/frame
+  const BACK_T0 = 7.95, BACK_T1 = 10.1, YAW_HOME = HEAD_DOOR + 2 * Math.PI;
+  function yawAt(t) {
+    const away = ramp(t, 3.47, 4.05);
+    const yaw = t < 6 ? lerp(HEAD_DOOR, HEAD_AWAY, away) : lerp(HEAD_AWAY, YAW_HOME, trap((t - BACK_T0) / (BACK_T1 - BACK_T0)));
+    return { yaw, away };
   }
 
   function dogPose(score, tl, i, cam) {
@@ -187,7 +198,8 @@
     const dyaw = (yawAt(t + 1 / 24).yaw - yawAt(t - 1 / 24).yaw) * 12; // rad/s
     // body height: lie and crouch
     let lie = a.lie;
-    if (t > 7.4 && t < 8.3) lie = 1 - ramp(t, 7.62, 8.05);  // rises after the head has come round
+    if (t > 7.4 && t < 8.3) lie = 1 - ramp(t, 7.72, 8.1);   // rises after the head has come round
+    if (t > 23.5) lie = clamp((t - 23.72) / 0.6, 0, 1);       // the last lie-down folds over 0.6 s
     const crouch = clamp(a.crouch, 0, 1);
     const H = lerp(H_UP, H_LOW, crouch);
     const lieE = ease(lie);
@@ -199,12 +211,12 @@
     const rootWorld = M.mul(M.mul(M.mul(M.T(0, rootY * SC, Zmid), M.RY(yaw)), M.S(SC, SC, SC)), M.T(-MID, 0, 0));
     ang.root = [0, 0, 0];
     ang.pelvis = [0, 0, 0];
-    ang.waist = [clamp(dyaw * 0.10, -0.3, 0.3), 0, 0];
+    ang.waist = [t < 6 ? clamp(dyaw * 0.10, -0.3, 0.3) : 0, 0, 0];   // no spine bend in the slow turn back (it would drag the front paws)
     // turning in place: the walk cycle does not advance (the root does not travel); instead the animator steps each paw up
     // in turn through the swing of the heading (a lift wave keyed to the heading). Planted paws are dragged by the rotation:
     // that slip is measured and reported separately as turn slip.
     const turnU = (yaw - HEAD_DOOR) / (HEAD_AWAY - HEAD_DOOR);       // 0 facing the door .. 1 turned away
-    const turning = (Math.abs(dyaw) > 0.01 || (t > 3.44 && t < 4.12) || (t > 7.93 && t < 8.8)) && lieE < 0.5;
+    const turning = (Math.abs(dyaw) > 0.01 || (t > 3.44 && t < 4.12) || (t > 7.93 && t < BACK_T1 + 0.05)) && lieE < 0.5;
     const mv = clamp(a.moving, 0, 1);
     const legs = {};
     const TURN_OFF = { shoulderR: 0, hipL: 0.25, shoulderL: 0.5, hipR: 0.75 };
@@ -217,6 +229,12 @@
         const th = lerp(tu[0], tlw[0], crouch), tk = lerp(tu[1], tlw[1], crouch);
         hip = lerp(hip, th, 1 - mv); knee = lerp(knee, tk, 1 - mv);
       }
+      // after it gets up from the refusal, the animator stands it square (every paw under its pin, the mid-stance key) while
+      // the legs are still free (rising), so the slow turn back sweeps the paws on the smallest circle; the square stance
+      // hands back to the stride keys as it sets off at 14.7 s
+      const square = ramp(t, 7.75, 8.05) * (1 - ramp(t, 14.62, 15.45));
+      if (square > 0) { const nu = keyInterp(KEYS[kind].up, 0.3), nl = keyInterp(KEYS[kind].low, 0.3);
+        hip = lerp(hip, lerp(nu[0], nl[0], crouch), square); knee = lerp(knee, lerp(nu[1], nl[1], crouch), square); }
       let paw = -(hip + knee);                     // the paw block is counter-rotated to stay flat (an authored choice)
       if (pp >= DUTY) paw += 0.45 * Math.sin(Math.PI * (pp - DUTY) / (1 - DUTY)) * mv; // toe flick in swing
       // turn steps: a lift wave, each paw up for a quarter of the turn
@@ -243,10 +261,16 @@
     const leadAway = ramp(t, 3.42, 3.66) - ramp(t, 3.85, 4.1);
     neckYaw += 0.55 * leadAway; headYaw += 0.35 * leadAway;
     // turning back to look (7.46): head comes round over the shoulder, muzzle level, while the body still lies
-    const lookBack = ramp(t, 7.44, 7.72) * (1 - ramp(t, 8.0, 8.7));
-    if (lookBack > 0) {
-      neckYaw = lerp(neckYaw, -88 * D2R, lookBack); headYaw = lerp(headYaw, -58 * D2R, lookBack);
-      neckPitch = lerp(neckPitch, 22 * D2R, lookBack); headPitch = lerp(headPitch, -16 * D2R, lookBack); headRoll = lerp(0, -0.12, lookBack);
+    // The head swings round on the near side (toward the camera), low and at muzzle level, so the face and an eye are seen as it
+    // comes round; it then holds on the door while the body turns back under it on the same side (relative yaw = door - body).
+    const hold = ease((t - 7.44) / 0.22);
+    const lookBack = hold * (1 - ramp(t, BACK_T1 - 0.9, BACK_T1));       // weight of the look-back head carriage
+    if (t > 7.4 && t < BACK_T1 + 0.1) {
+      const rel = hold * (YAW_HOME - yaw);                                  // 205 deg at the start, 0 when the body faces the door
+      const curl = 0.18 * rel * lieE;                                      // lying, the chest block curls toward the look
+      ang.waist[0] += curl;
+      neckYaw = lerp(neckYaw, 0, hold) + 0.5 * (rel - curl); headYaw = lerp(headYaw, 0, hold) + 0.5 * (rel - curl);
+      neckPitch = lerp(neckPitch, 6 * D2R, lookBack); headPitch = lerp(headPitch, -6 * D2R, lookBack); headRoll = lerp(0, 0.1, lookBack);
     }
     // lying: rest = chin on the paws
     if (lieE > 0) {
