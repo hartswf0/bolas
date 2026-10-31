@@ -192,6 +192,33 @@ const PICS = SRC.map(sv => {
   return paths.map(p => { const im = new Image(); if (MOOD) im.src = '../handmade/' + p; return im; });
 });
 const picsReady = MOOD ? Promise.all(PICS.flat().map(im => im.decode().catch(() => {}))) : Promise.resolve();
+// The joints of each archive image, recorded by looking at it (normalized x, y): the features by which it can be matched
+// to another image, and, where something is touched, the touch. After the golden-river operators: meaning is use, track
+// only physical evidence (Stratum, Cineosis); cut at the natural joint (Golden Butcher); every step a "therefore", never
+// an "and then" (Divergent Gardener). So the jellyfish collects by rhyme, each image sharing a visible feature with the
+// last, and the censor cuts by evidence: every image in which something is touched.
+const JOINT = [
+  {glow: [.5, .35]},                                                          // 0 a bare bulb
+  {hand: [.45, .75], person: [.7, .5], touch: [.45, .75]},                    // 1 hands gripping a tool
+  {door: [.6, .45]},                                                          // 2 a closed door
+  {animal: [.27, .45], ground: [.5, .85]},                                    // 3 a lion at rest
+  {hand: [.43, .6], door: [.6, .4], touch: [.43, .6]},                        // 4 a hand opening a door
+  {animal: [.45, .5], ground: [.5, .85]},                                     // 5 a dog
+  {body: [.48, .45], up: [.48, .2]},                                          // 6 a handstand
+  {glow: [.47, .42], hand: [.42, .8], touch: [.42, .8]},                      // 7 hands holding a lantern
+  {hand: [.4, .5], touch: [.4, .5]},                                          // 8 a hand holding a butterfly
+  {up: [.5, .35]},                                                            // 9 a cloud
+  {door: [.6, .4], person: [.6, .45], hand: [.52, .62], touch: [.52, .62]},   // 10 a woman's hand on a door
+  {person: [.7, .2], animal: [.45, .55]},                                     // 11 a dog approaching a person
+  {person: [.45, .5], body: [.45, .5], ground: [.5, .85], touch: [.45, .5]},  // 12 a person holding themselves in the snow
+  {body: [.47, .45], up: [.47, .25]}];                                        // 13 a woman leaping
+// glow → hand → hand → hand → door → door → person → animal → animal → ground → body → body → up
+const CHAIN = [0, 7, 8, 1, 4, 2, 10, 11, 5, 3, 12, 6, 13, 9];
+const LINK = CHAIN.slice(0, -1).map((k, i) => Object.keys(JOINT[k]).find(t => t !== 'touch' && JOINT[CHAIN[i + 1]][t]));
+const chainPos = k => CHAIN.indexOf(k), RHYME = MOOD;
+// within an image: the joint it shares with the image before (entry) and with the image after (exit)
+function joints(k) { const p = chainPos(k), c = [.5, .45]; return {entry: p > 0 ? JOINT[k][LINK[p - 1]] : c, exit: p < LINK.length ? JOINT[k][LINK[p]] : c}; }
+const isTouch = f => RHYME ? !!(f.imgs && f.imgs.length === 1 && JOINT[f.imgs[0]].touch) : f.pool === 'pink';
 // the frame of source k at time t: sequences play forward and back at 12 fps, so a loop never jumps
 function picAt(k, t) {
   const fr = PICS[k]; if (!fr) return null; if (fr.length === 1) return fr[0];
@@ -248,7 +275,7 @@ let running = true, contamOn = false, speedK = 1, visible = true, last = perform
 // (low definition, gaps the viewer completes, cuts rescued, speculations touching). reel: the Paradiso reel of returned cuts.
 let heat = 1, heatTarget = 1, auto = true, reel = null, reelIdx = -1, focusId = null, focusSlot = 0, filmT = -1;
 // cinema state: the camera, the inserts cued by events, how much heat the reel has given back, the coda's afterimage
-let frameMeta = null, cam = null, inserts = [], bellN = 0, reelGlow = 0, afterimg = null, lastRescue = null, travel = 0, ended = false;
+let coolAt = 1e9, frameMeta = null, cam = null, inserts = [], bellN = 0, reelGlow = 0, afterimg = null, lastRescue = null, travel = 0, ended = false;
 
 // seeded PRNG (mulberry32) so every reload of the same seed plays the same run
 function rand() {
@@ -321,6 +348,7 @@ function grab(f) {
   let bi = 0, bd = 1e9;
   J.tips.forEach((p, i) => { const d = Math.hypot(p[0] - f.x, p[1] - f.y); if (d < bd) { bd = d; bi = i; } });
   f.held = true; f.tip = bi; f.anchor = null; J.carry.push(f);
+  if (RHYME && f.imgs && f.imgs.length === 1) J.lastPos = chainPos(f.imgs[0]);
   if (f.cut && CINEMA) J.lift = 1.5;
   if (f.cut) {
     f.cut = false; f.rescuedAt = simT; stats.rescued++;
@@ -336,7 +364,7 @@ function release() {
   // hot cinema: the censor's bell rings over the care strand (the kisses), and the cut follows
   // one bell per cut, staggered so each can be heard
   let nb = 0;
-  for (const f of J.carry) if (!RUSHES && heat > .5 && f.pool === 'pink' && !f.wasCut && !(auto && simT > SWITCH - 1.2)) {
+  for (const f of J.carry) if (!RUSHES && heat > .5 && heatTarget === 1 && isTouch(f) && !f.wasCut && !(auto && !CINEMA && simT > SWITCH - 1.2)) {
     f.bellT = simT + .8 + nb * .6; evts.push({t: simT + .15 + nb * .6, type: 'bell', src: f.src}); nb++;
     log(`the censor's bell rings over "${f.kw}"`, f);
   }
@@ -349,7 +377,7 @@ function cutFrag(f) {
   log(`"${f.kw}" is cut; it sinks into the tank and is kept`, f);
 }
 function setHeat(h, msg) {
-  heatTarget = h; contamOn = h === 0;
+  heatTarget = h; contamOn = h === 0 && !CINEMA; if (!h) coolAt = simT;   // the cinema cut's touching is the rescue's double exposure
   if (!h) { for (const f of frags) f.bellT = null; evts = evts.filter(e => !(e.type === 'bell' && e.t > simT)); inserts = inserts.filter(x => !(x.kind === 'cut' && x.t0 > simT)); }
   evts.push({t: simT, type: 'switch', to: h ? 'hot' : 'cool'}); log(msg); syncBtn();
 }
@@ -377,7 +405,8 @@ function contaminate(a, b, k) {
 }
 
 function step(dt) {
-  if (!RUSHES && auto && heatTarget === 1 && simT >= SWITCH) setHeat(0, 'the projector cools: the jelly may rescue the cuts, and speculations may touch');
+  const lastCut = (evts.filter(e => e.type === 'cut').pop() || {t: 1e9}).t;
+  if (!RUSHES && auto && heatTarget === 1 && (CINEMA ? (stats.cuts >= 4 && simT - lastCut > 1.4) || simT >= 26 : simT >= SWITCH)) setHeat(0, 'the projector cools: the jelly may rescue the cuts, and speculations may touch');
   heat += (heatTarget - heat) * Math.min(1, dt * 1.2);
   for (const f of frags) if (f.bellT != null && simT >= f.bellT && f.stage === 1 && !f.held) cutFrag(f);
   for (const f of frags) {
@@ -409,10 +438,17 @@ function step(dt) {
   const free = frags.filter(f => f.stage === 0 && !f.held && f.gearT < 0 && (!f.cut || heat < .5));
   // in the take it seeks out fragments not yet opened, so the source pool holds every one
   const cutsFree = free.filter(f => f.cut), unseen = RUSHES ? free.filter(f => !inserts.some(x => x.f === f)) : [];
-  const pick = cutsFree.length ? cutsFree : unseen.length ? unseen : free;
-  const full = J.carry.length >= CARRY_MAX || (J.carry.length > 0 && free.length === 0);
+  let pick = cutsFree.length ? cutsFree : unseen.length ? unseen : free;
+  if (RHYME) {   // therefore, not and then: the next image is the one that shares a feature with the last
+    const after = f => f.imgs && f.imgs.length === 1 ? (chainPos(f.imgs[0]) - (J.lastPos == null ? -1 : J.lastPos) - 1 + 28) % 14 : 99;
+    const best = cutsFree.length ? cutsFree.slice().sort((a, b) => chainPos(a.imgs[0]) - chainPos(b.imgs[0]))[0] : free.slice().sort((a, b) => after(a) - after(b))[0];
+    if (best) pick = [best];
+  }
+  J.tgt = null;
+  const full = J.carry.length >= (CINEMA ? 1 : CARRY_MAX) || (J.carry.length > 0 && free.length === 0);
   if (!full && free.length) {
     let best = pick[0], bd = 1e9;
+    J.tgt = RHYME ? pick[0] : null;
     for (const f of pick) { const d = Math.hypot(f.x - J.x, f.y - J.y); if (d < bd) { bd = d; best = f; } }
     // cuts in the tank and low fragments are approached from above, so the tentacles (and the card they lift) stay in frame
     J.dive = !!best.cut;
@@ -434,9 +470,9 @@ function step(dt) {
   const dx = J.tx - J.x, dy = J.ty - J.y, dist = Math.hypot(dx, dy);
   const aim = dist > 20 ? Math.max(-.55, Math.min(.55, Math.atan2(dx, -dy) * .5)) : 0;
   J.tilt += (aim - J.tilt) * Math.min(1, dt * 4);
-  const fl = flinchAt(simT), push = J.antic > 0 ? 0 : (.35 + 1.8 * stroke(simT)) * (1 - fl) * (CINEMA && simT > SWITCH ? 2.3 : 1);  // cool: it dives with purpose
+  const fl = flinchAt(simT), push = J.antic > 0 ? 0 : (.35 + 1.8 * stroke(simT)) * (1 - fl) * (CINEMA ? (simT > coolAt ? 2.6 : 1.8) : 1);  // cool: it dives with purpose
   // the cinema cut's reel waits for the last rescue to rise and open, then begins
-  if (RENDER && CINEMA && !reelCued && stats.cuts && stats.rescued === stats.cuts && simT > SWITCH) { reelCued = true; REEL0 = simT + 3.7; REEL1 = REEL0 + 10.8; }
+  if (RENDER && CINEMA && !reelCued && stats.cuts && stats.rescued === stats.cuts && simT > coolAt) { reelCued = true; REEL0 = simT + 1.2; REEL1 = REEL0 + 7.2; }
   J.x += dx * Math.min(1, dt * 1.1 * push) - fl * dt * 110; J.y -= fl * dt * 60; J.y += dy * Math.min(1, dt * 1.1 * push);
   const near = free.length ? pick.reduce((m, f) => Math.hypot(f.x - J.x, f.y - J.y) < Math.hypot(m.x - J.x, m.y - J.y) ? f : m) : null;
   const reaching = !full && near && Math.hypot(near.x - J.x, near.y - J.y) < 230;
@@ -743,9 +779,9 @@ const EMBER = {src: '241,216,111', hist: '156,195,234', note: '244,239,226', spe
 function drawEmber(f, k = 1) {
   const rgb = f.cut ? '224,96,58' : EMBER[f.kind], a = (f.cut ? .55 : 1) * k;
   ctx.save(); ctx.globalCompositeOperation = 'lighter';
-  const g = ctx.createRadialGradient(f.x, f.y, 0, f.x, f.y, 11);
+  const er = CINEMA ? 7 : 11, g = ctx.createRadialGradient(f.x, f.y, 0, f.x, f.y, er);
   g.addColorStop(0, `rgba(${rgb},${(.75 * a).toFixed(3)})`); g.addColorStop(1, `rgba(${rgb},0)`);
-  ctx.fillStyle = g; ctx.beginPath(); ctx.arc(f.x, f.y, 11, 0, 7); ctx.fill();
+  ctx.fillStyle = g; ctx.beginPath(); ctx.arc(f.x, f.y, er, 0, 7); ctx.fill();
   ctx.fillStyle = `rgba(255,248,236,${a.toFixed(3)})`; ctx.beginPath(); ctx.arc(f.x, f.y, 1.8, 0, 7); ctx.fill();
   ctx.restore();
 }
@@ -768,10 +804,13 @@ function drawPic(imgs, x, y, w, h, a = 1, opt = {}) {
   ctx.filter = hot > .5 ? 'sepia(.85) saturate(1.25) contrast(1.08) brightness(.92)' : 'grayscale(1) contrast(1.15) brightness(.88)';
   (imgs || []).forEach((k, i) => {
     const im = picAt(k, simT); if (!im || !im.naturalWidth) return;
-    const sc = Math.max(w / im.naturalWidth, h / im.naturalHeight), iw = im.naturalWidth * sc, ih = im.naturalHeight * sc;
+    const zoom = opt.at ? (opt.zoom || 1.3) : 1, sc = Math.max(w / im.naturalWidth, h / im.naturalHeight) * zoom, iw = im.naturalWidth * sc, ih = im.naturalHeight * sc;
     ctx.globalAlpha = a * (i ? (opt.second || .6) : 1); ctx.globalCompositeOperation = i ? 'screen' : 'source-over';
-    const dx = i ? Math.sin(simT * .7 + i) * 6 : 0;
-    ctx.drawImage(im, x + (w - iw) / 2 + dx, y + (h - ih) / 2, iw, ih);
+    let ox = x + (w - iw) / 2 + (i ? Math.sin(simT * .7 + i) * 6 : 0), oy = y + (h - ih) / 2;
+    const jp = opt.at && opt.joints && opt.joints[i];
+    if (jp) { ox = opt.at[0] - jp[0] * iw; oy = opt.at[1] - jp[1] * ih; }   // exact: the frame may show black beyond the print
+    ctx.drawImage(im, ox, oy, iw, ih);
+    if (i === 0 && jp) opt.jointOn = [ox + jp[0] * iw, oy + jp[1] * ih];
   });
   ctx.filter = 'none';
   if (hot <= .5) { ctx.globalCompositeOperation = 'multiply'; ctx.globalAlpha = a * .55; ctx.fillStyle = '#8aa4ff'; ctx.fillRect(x, y, w, h); }
@@ -780,7 +819,7 @@ function drawPic(imgs, x, y, w, h, a = 1, opt = {}) {
   const vg = ctx.createRadialGradient(x + w / 2, y + h / 2, Math.min(w, h) * .25, x + w / 2, y + h / 2, Math.max(w, h) * .7);
   vg.addColorStop(0, 'rgba(0,0,0,0)'); vg.addColorStop(1, 'rgba(0,0,0,.6)'); ctx.fillStyle = vg; ctx.fillRect(x, y, w, h);
   if (opt.burn > 0) {
-    const R = Math.max(w, h) * .75 * opt.burn, cx = x + w * .55, cy = y + h * .45;
+    const R = Math.max(w, h) * .75 * opt.burn, cx = opt.jointOn ? opt.jointOn[0] : x + w * .55, cy = opt.jointOn ? opt.jointOn[1] : y + h * .45;   // it burns from the touch
     const bg = ctx.createRadialGradient(cx, cy, R * .55, cx, cy, R);
     bg.addColorStop(0, 'rgba(6,4,3,1)'); bg.addColorStop(.7, 'rgba(255,140,40,.95)'); bg.addColorStop(.85, 'rgba(255,230,170,.8)'); bg.addColorStop(1, 'rgba(255,200,120,0)');
     const rag = (k, sc) => { ctx.beginPath(); for (let i = 0; i <= 72; i++) { const a = i / 72 * 2 * Math.PI, n = .16 * Math.sin(a * 5 + 1.3) + .09 * Math.sin(a * 11 + simT * 1.7) + .05 * Math.sin(a * 23 - simT * 3); const r = R * k * (1 + n * sc); if (i) ctx.lineTo(cx + Math.cos(a) * r, cy + Math.sin(a) * r); else ctx.moveTo(cx + Math.cos(a) * r, cy + Math.sin(a) * r); } ctx.closePath(); };
@@ -848,6 +887,12 @@ function draw() {
     ctx.restore();
   }
   for (const f of frags) if (f.gearT >= 0) drawEmber(f, 1 - Math.min(1, f.gearT / 1.4));
+  if (RHYME && J.tgt && !J.tgt.held && J.tgt.gearT < 0) {
+    const g = J.tgt, r = 9 + 3 * Math.sin(simT * 5);
+    ctx.save(); ctx.strokeStyle = 'rgba(255,230,180,.85)'; ctx.lineWidth = 1.6; ctx.setLineDash([3, 4]);
+    ctx.beginPath(); ctx.moveTo(J.x, J.by + 20); ctx.lineTo(g.x, g.y); ctx.stroke(); ctx.setLineDash([]);
+    ctx.beginPath(); ctx.arc(g.x, g.y, r, 0, 7); ctx.stroke(); ctx.restore();
+  }
   drawBells();
   drawTemperature();
   // the open card and the seam close-up sit above the projection (cast, vignette, scratches), so they stay readable
@@ -876,7 +921,7 @@ function hud() {
 function reset() {
   seed = SEED; nextId = 1; frags = []; seams = []; ledger = []; evts = []; simT = 0; gearBoost = 0; lastEvent = -9; dirty = true;
   stats = {contam: 0, returns: 0, cuts: 0, rescued: 0, trans: 0, checks: 0, v1: 0, v2: 0, v3: 0, v4: 0, v5: 0, oob: [], focusFrames: 0, ovMax: 0, ovFrames: 0};
-  REEL0 = RENDER && CINEMA ? 90 : 26.5; REEL1 = REEL0 + 11.7; reelCued = false;
+  coolAt = 1e9; REEL0 = RENDER && CINEMA ? 90 : 26.5; REEL1 = REEL0 + 11.7; reelCued = false;
   cam = null; inserts = []; bellN = 0; reelGlow = 0; afterimg = null; lastRescue = null; travel = 0; ended = false;
   if (RUSHES) { auto = false; contamOn = false; }
   JHIST = []; ghost = {cur: null, prev: null, t: -9}; focusId = null; focusSlot = 0; heat = 1; heatTarget = 1; auto = true; contamOn = false; reel = null; reelIdx = -1; syncBtn();
@@ -964,7 +1009,7 @@ function filmOverlay(t, dur) {
     ['13px "Helvetica Neue", Arial, sans-serif', '#cdb48a', 'SCION · contaminant jelly']], 270, 170);
 }
 function buildReel() {
-    return frags.filter(f => f.wasCut).sort((a, b) => a.cutAt - b.cutAt).slice(0, 5);
+    return frags.filter(f => f.wasCut).sort((a, b) => RHYME ? chainPos(a.imgs[0]) - chainPos(b.imgs[0]) : a.cutAt - b.cutAt).slice(0, 6);
 }
 // the Paradiso reel: the cuts come back as a spliced strip, each held a beat, with the splice flashing between them
 function drawReel(t) {
@@ -990,7 +1035,7 @@ function drawReel(t) {
     if (k !== reelIdx && rel >= 0 && t <= REEL1) { reelIdx = k; evts.push({t: simT, type: 'splice'}); }
     const f = reel[k];
     if (MOOD) {
-      drawPic(f.imgs, fx + 14, fy + 14, fw - 28, fh - 28, 1, {hot: 1});
+      drawPic(f.imgs, fx + 14, fy + 14, fw - 28, fh - 28, 1, RHYME && JOINT[f.imgs[0]] ? {hot: 1, at: [FW * .5, fy + fh * .48], joints: [JOINT[f.imgs[0]].touch || [.5, .45]], zoom: 1.3} : {hot: 1});
       ctx.fillStyle = `rgba(255,236,200,${(.06 + .05 * Math.sin(t * 61)).toFixed(3)})`; ctx.fillRect(fx, fy, fw, fh);
       if (rel - k * per < (CINEMA ? .045 : .09)) { ctx.fillStyle = 'rgba(255,255,255,.75)'; ctx.fillRect(fx, fy, fw, fh); }
       ctx.restore(); return;
@@ -1010,7 +1055,7 @@ function drawReel(t) {
 // and seam, a hard cut to the archive frame itself, full screen, moving, with gate weave and grain (a cut burns like
 // nitrate); the reel intercut with close-ups of the jellyfish warming as it watches; and a coda that leaves its
 // complementary afterimage on black.
-const CUTDUR = [2.5, 2.3, 2.3, 2.3, 2.3];
+const CUTDUR = [2.4, 2.1, 2.0, 2.0, 2.0];   // each long enough for the burn to finish (1.75 s) and a beat of black
 const GRAIN = (() => {
   const tiles = [];
   for (let n = 0; n < 4; n++) {
@@ -1028,26 +1073,44 @@ function scanEvents() {
     if (e.cued) continue; e.cued = true;
     const f = e.src ? frags.find(g => g.src === e.src) : null; if (!f) continue;
     // the censor's cuts always cut in; a rescue or a seam cuts in only after two seconds of the world, so the film breathes
-    const lastEnd = inserts.reduce((m, x) => Math.max(m, x.t1), -9), room = e.t - lastEnd >= 2;
+    const lastEnd = inserts.reduce((m, x) => Math.max(m, x.t1), -9), at = cue(e.t), room = at - lastEnd >= 2;
     if (RUSHES) {   // the take: each lift opens its fragment for 3 s, with at least 1.2 s of the world between
       // every fragment's first lift opens it; repeats open only once all fourteen have been seen
       const shown = new Set(inserts.map(x => x.f.src)), fresh = !shown.has(f.src), allSeen = shown.size >= CORPUS.length;
       if (e.type === 'lift' && e.t - lastEnd >= 1.0 && (fresh || allSeen)) inserts.push({kind: 'show', f, t0: e.t + .3, t1: e.t + 3.3});
       continue;
     }
-    if (e.type === 'bell') { inserts.push({kind: 'cut', f, t0: e.t, t1: e.t + (CUTDUR[bellN] || .8)}); bellN++; }
-    else if (e.type === 'rescue') { inserts.push({kind: 'rescue', f, t0: e.t + 1.5, t1: e.t + 3.6, with: lastRescue}); lastRescue = f; }
-    else if (e.type === 'seam' && room) inserts.push({kind: 'seam', f, t0: e.t + .15, t1: e.t + 2.2});
+    if (e.type === 'bell') { const t0 = Math.max(at, lastEnd); inserts.push({kind: 'cut', f, t0, t1: t0 + (CUTDUR[bellN] || 2)}); evts.push({t: e.t, type: 'burncue', at: t0}); bellN++; }
+    else if (e.type === 'rescue') { inserts.push({kind: 'rescue', f, t0: at + 1.3, t1: at + 3.0, with: lastRescue}); lastRescue = f; }
+    else if (e.type === 'seam' && room) inserts.push({kind: 'seam', f, t0: at + .15, t1: at + 2.2});
+    else if (RHYME && e.type === 'lift' && !f.cut && !f.wasCut && heat > .5 && at - lastEnd >= .3) inserts.push({kind: 'show', f, t0: at + .2, t1: at + 1.5});
   }
 }
-function activeInsert() { let a = null; for (const x of inserts) if (x.t0 <= simT && simT < x.t1 && (!a || x.t0 > a.t0)) a = x; return a; }
+// In the cinema cut an insert runs on the film's clock and the world waits while it is on screen, so every burn completes
+// and every choice is made in view. (The rushes take keeps one clock: it is a continuous source for SCION 093.)
+const INS_FILM = CINEMA && !RUSHES;
+const iclock = () => INS_FILM ? filmT : simT, cue = t => INS_FILM ? filmT + (t - simT) : t;
+function activeInsert() { const c = iclock(); let a = null; for (const x of inserts) if (x.t0 <= c && c < x.t1 && (!a || x.t0 > a.t0)) a = x; return a; }
 function drawInsert(ins) {
-  const fr = Math.floor(simT * 24), u = (simT - ins.t0) / (ins.t1 - ins.t0), z = 1.04 + .07 * u;
+  const now = iclock(), fr = Math.floor(now * 24), u = (now - ins.t0) / (ins.t1 - ins.t0), z = 1.04 + .07 * u;
   const w = FW * z, h = FH * z, x = (FW - w) / 2 + (hash(fr, 1, 3) - .5) * 3, y = (FH - h) / 2 + (hash(fr, 2, 3) - .5) * 4;
-  const burn = ins.kind === 'cut' ? clamp01((simT - ins.t0 - .65) / 1.1) : 0;
+  const burn = ins.kind === 'cut' ? clamp01((now - ins.t0 - .65) / 1.1) : 0;
   // a rescued frame comes back touching the one rescued before it (or the cloud, for the first)
   const imgs = ins.kind === 'rescue' ? [ins.f.imgs[0], ins.with ? ins.with.imgs[0] : 9] : ins.f.imgs;
-  drawPic(imgs, x, y, w, h, 1, ins.kind === 'rescue' ? {hot: 1, second: .45, noPink: true} : {burn, hot: ins.kind === 'cut' ? 1 : undefined});
+  // the joint lands at the same point on screen in every insert, so consecutive images meet there
+  const k0 = imgs[0], at = [FW * .5, FH * .48], ease = v => v * v * (3 - 2 * v);
+  let jA = null;
+  if (RHYME && JOINT[k0]) {
+    if (ins.kind === 'show') { const {entry, exit} = joints(k0), q = ease(clamp01(u)); jA = [entry[0] + (exit[0] - entry[0]) * q, entry[1] + (exit[1] - entry[1]) * q]; }
+    else if (ins.kind === 'cut' && JOINT[k0].touch) {   // land on the rhyme with the image before, then slide to the touch it will burn from
+      const e0 = joints(k0).entry, t = JOINT[k0].touch, q = ease(clamp01((now - ins.t0) / .6));
+      jA = [e0[0] + (t[0] - e0[0]) * q, e0[1] + (t[1] - e0[1]) * q];
+    } else jA = JOINT[k0].touch || joints(k0).entry;
+  }
+  const j1 = imgs[1] != null && JOINT[imgs[1]] ? (JOINT[imgs[1]].touch || joints(imgs[1]).entry) : null;
+  const opt = ins.kind === 'rescue' ? {hot: 1, second: .7, noPink: true} : {burn, hot: ins.kind === 'cut' ? 1 : undefined};
+  if (jA) { opt.at = at; opt.joints = [jA, j1]; opt.zoom = 1.35; }
+  drawPic(imgs, x, y, w, h, 1, opt);
   ctx.save();
   if (ins.kind === 'rescue') {
     ctx.globalCompositeOperation = 'screen';
@@ -1056,9 +1119,9 @@ function drawInsert(ins) {
     ctx.fillStyle = g; ctx.fillRect(0, 0, FW, FH);
   }
   // the bell: the lamp flares, the picture overexposes and comes back
-  if (ins.kind === 'cut' && simT - ins.t0 < .45) { ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = .75 * (1 - (simT - ins.t0) / .45); ctx.fillStyle = '#ffd7a0'; ctx.fillRect(0, 0, FW, FH); }
+  if (ins.kind === 'cut' && now - ins.t0 < .45) { ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = .75 * (1 - (now - ins.t0) / .45); ctx.fillStyle = '#ffd7a0'; ctx.fillRect(0, 0, FW, FH); }
   // after the burn, a beat of black
-  if (burn >= 1) { ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = clamp01((simT - ins.t0 - 1.75) / .15); ctx.fillStyle = '#000'; ctx.fillRect(0, 0, FW, FH); }
+  if (burn >= 1) { ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = clamp01((now - ins.t0 - 1.75) / .15); ctx.fillStyle = '#000'; ctx.fillRect(0, 0, FW, FH); }
   ctx.restore();
 }
 function worldShot(dt, closeup) {
@@ -1067,7 +1130,7 @@ function worldShot(dt, closeup) {
   if (ff && !closeup) { tx = tx * .5 + ff.x * .5; ty = ty * .5 + ff.y * .5; tz = 1.85; }
   if (filmT < 5) { const k = clamp01(filmT / 5), e = k * k * (3 - 2 * k); tz = 3.4 - 1.9 * e; tx = J.x; ty = J.by - 10 + 40 * e; }
   if (filmT > REEL1 + .3) { const k = clamp01((filmT - REEL1 - .3) / 4); tz = 1.5 - .38 * k; tx += (W / 2 - tx) * k; ty += (H / 2 - ty) * k; }
-  if ((J.dive || J.lift > 0) && J.diveAt && !closeup && simT > SWITCH) { tx = J.diveAt.x; ty = J.diveAt.y - 70; tz = 2.3; }  // hold still on the floor: let it sink, take hold, and rise
+  if ((J.dive || J.lift > 0) && J.diveAt && !closeup && simT > coolAt) { tx = J.diveAt.x; ty = J.diveAt.y - 70; tz = 2.3; }  // hold still on the floor: let it sink, take hold, and rise
   if (closeup) { tz = 3.3 + .5 * (closeup === true ? 0 : closeup); tx = J.x + 12 * (closeup === true ? 0 : closeup); ty = J.by - 24; }
   if (!cam || closeup || filmT < 5) cam = {x: tx, y: ty, z: tz};
   else { const k = Math.min(1, dt * 1.6); cam.x += (tx - cam.x) * k; cam.y += (ty - cam.y) * k; cam.z += (tz - cam.z) * Math.min(1, dt * 1.2); }
@@ -1083,7 +1146,7 @@ function filmLook() {
   ctx.globalCompositeOperation = 'overlay'; ctx.globalAlpha = .12; ctx.fillStyle = GRAIN[fr % 4];
   ctx.translate(-((fr * 37) % 256), -((fr * 91) % 256)); ctx.fillRect(0, 0, FW + 256, FH + 256); ctx.setTransform(1, 0, 0, 1, 0, 0);
   ctx.globalCompositeOperation = 'lighter'; ctx.fillStyle = '#fff0d8';
-  for (let k = 0; k < 2; k++) if (hash(fr, k, 17) > .62) { ctx.globalAlpha = .08 + .18 * hash(fr, k, 23); ctx.fillRect(0, hash(fr, k, 29) * FH, FW, 1.2); }
+  for (let k = 0; k < 2; k++) if (hash(fr, k, 17) > .82) { ctx.globalAlpha = .08 + .18 * hash(fr, k, 23); ctx.fillRect(0, hash(fr, k, 29) * FH, FW, 1.2); }
   if (hash(fr, 5, 19) > .86) { ctx.globalAlpha = .14; ctx.fillRect(hash(fr, 5, 31) * FW, 0, 1, FH); }
   ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 1;
   ctx.translate(FW / 2, FH / 2); ctx.scale(1, FH / FW * 1.12);
@@ -1100,7 +1163,8 @@ function cinemaFrame(t, dur) {
     drawReel(st);
     const n = Math.max(1, (reel || []).length), span = REEL1 - REEL0 - .4, per = span / n, rel = st - REEL0 - .2, local = rel - Math.floor(rel / per) * per;
     reelGlow = clamp01(rel / span);
-    if (rel > 0 && st < REEL1 && local > per - .5) { ctx.fillStyle = '#000'; ctx.fillRect(0, 0, FW, FH); worldShot(1 / 24, clamp01((local - per + .5) / .5) || 1e-3); }
+    // one look back at the jellyfish, after the run of hands
+    if (rel > span - 1.6 && st < REEL1) { ctx.fillStyle = '#000'; ctx.fillRect(0, 0, FW, FH); worldShot(1 / 24, clamp01((local - per + .5) / .5) || 1e-3); }
   } else {
     if (st > REEL1) reelGlow = 1;
     const ins = activeInsert();
@@ -1126,10 +1190,10 @@ function cinemaFrame(t, dur) {
 }
 function filmFrame(i, fps, dur, noImage) {
   const t = i / fps; filmT = t;
-  if (i > 0) { simT += 1 / fps; step(1 / fps); }
+  if (i > 0 && !(INS_FILM && activeInsert())) { simT += 1 / fps; step(1 / fps); }
   if (CINEMA) {
     // an ellipsis: when the jellyfish is only travelling, cut ahead to the next thing that happens (up to 2.5 s)
-    if (!RUSHES && simT > SWITCH + 1 && simT < REEL0 - 1) {
+    if (!RUSHES && simT > coolAt + 1 && simT < REEL0 - 1) {
       travel = activeInsert() || J.dive || J.reach.w > .3 ? 0 : travel + 1 / fps;
       if (travel > 1.1) {
         const n0 = evts.length;
@@ -1141,7 +1205,7 @@ function filmFrame(i, fps, dur, noImage) {
     if (RUSHES) {
       const ins = activeInsert(), since = type => { for (let k = evts.length - 1; k >= 0; k--) if (evts[k].type === type && evts[k].t <= simT) return simT - evts[k].t; return 99; };
       frameMeta = {t: +t.toFixed(4), sim: +simT.toFixed(4), shot: ins ? 'insert' : 'world', src: ins ? ins.f.src : null, kw: ins ? ins.f.kw : null,
-        strand: ins ? ins.f.pool : null, jelly: since('hand') < .9 ? 'handoff' : since('lift') < .9 ? 'lift' : since('return') < .9 ? 'return' : J.carry.length ? 'carry' : 'forage'};
+        strand: ins ? (isTouch(ins.f) ? 'touch' : ins.f.pool) : null, jelly: since('hand') < .9 ? 'handoff' : since('lift') < .9 ? 'lift' : since('return') < .9 ? 'return' : J.carry.length ? 'carry' : 'forage'};
       if (simT > RUSH_LEN) ended = true;
     }
     if (ended) return 'END';

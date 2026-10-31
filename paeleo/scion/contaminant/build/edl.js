@@ -14,7 +14,8 @@ fs.mkdirSync(out, { recursive: true });
 // annotate each source frame: what it shows and what it is for
 const ann = meta.map((m, i) => {
   if (i < SKIP_OPEN) return 'opening';
-  if (m.shot === 'insert') return m.strand === 'pink' ? 'care' : m.strand === 'school' ? 'school' : 'archive';
+  // care is now physical evidence: an image in which something is touched (the censor's rule); the rest are the archive
+  if (m.shot === 'insert') return m.strand === 'touch' ? 'care' : 'archive';
   return {handoff: 'handoff', lift: 'lift', carry: 'carry', return: 'return'}[m.jelly] || 'forage';
 });
 // insert runs, so an editor can take the head of one, or the moment before or after it
@@ -34,9 +35,9 @@ function toIntervals(take) { const r = []; for (let i = 0; i < frames; i++) if (
 
 const A = cut([
   (r, add) => { if (r.k === 'handoff' || r.k === 'lift') add(r.a, r.b); },
-  (r, add) => { if (r.k === 'school') add(r.a, r.a + Math.round(1.6 * fps)); },
+  (r, add) => { if (r.k === 'archive') add(r.a, r.a + Math.round(1.6 * fps)); },
   (r, add) => { if (r.k === 'carry' || r.k === 'return') add(r.a, r.b); },
-], ['care', 'archive']);   // the censor never shows the care strand, nor the archive's people
+], ['care']);   // the censor never shows a touch
 const B = cut([
   (r, add) => { if (r.k === 'care') add(r.a, r.b); },
   (r, add) => { if (r.k === 'archive') add(r.a, r.b); },

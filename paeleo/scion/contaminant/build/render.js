@@ -5,7 +5,7 @@ const { spawn } = require('child_process');
 const fs = require('fs'), path = require('path');
 // the cinema cut ends when its story does (the page returns 'END'); DUR is then only a ceiling
 // RUSHES=1 renders SCION 093's shared source take into ../rushes/, with a per-frame record of what each frame shows
-const RUSH = !!process.env.RUSHES, CINE = RUSH || !!process.env.CINEMA, FPS = 24, DUR = RUSH ? 80 : CINE ? 60 : 41, N = FPS * DUR, SEED = 8;
+const RUSH = !!process.env.RUSHES, CINE = RUSH || !!process.env.CINEMA, FPS = 24, DUR = RUSH ? 80 : CINE ? 90 : 41, N = FPS * DUR, SEED = 8;
 // MOOD=1 renders the textless cut (archive frames instead of words) into ../mood/
 // CINEMA=1 renders the film as cinema (camera, inserts, intercut reel, coda) into ../cinema/
 const MOOD = !!process.env.MOOD, kind = RUSH ? 'rushes' : CINE ? 'cinema' : MOOD ? 'mood' : '', tag = kind ? '-' + kind : '';
@@ -32,7 +32,7 @@ const server = http.createServer((req, res) => {
   await p.waitForFunction(() => window.SCION_CONTAMINANT && window.SCION_CONTAMINANT.ledger().length > 0);
 
   const ff = spawn('ffmpeg', ['-y', '-loglevel', 'error', '-f', 'image2pipe', '-framerate', String(FPS), '-i', '-',
-    '-c:v', 'libx264', '-pix_fmt', 'yuv420p', '-crf', CINE ? '27' : '24', '-preset', 'slow', '-tune', CINE ? 'grain' : 'animation', path.join(here, `video${tag}.mp4`)],
+    '-c:v', 'libx264', '-pix_fmt', 'yuv420p', '-crf', CINE ? '28' : '24', '-preset', 'slow', '-tune', CINE ? 'grain' : 'animation', path.join(here, `video${tag}.mp4`)],
     { stdio: ['pipe', 'inherit', 'inherit'] });
   const closed = new Promise(r => ff.on('close', r));
   let frames = 0; const meta = [];

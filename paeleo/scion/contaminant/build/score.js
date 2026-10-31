@@ -98,7 +98,7 @@ for (const e of at('bell')) {
   voice(e.t, 2.6, t => B.reduce((v, [r, a, d]) => v + a * Math.exp(-t / d) * Math.sin(TAU * 523.25 * r * t + r), 0) * (1 + .12 * Math.sin(TAU * 3.2 * t)) + .08 * Math.exp(-t / .006) * rnd(), .2, .55);
   voice(e.t, .5, t => .35 * Math.exp(-t / .1) * Math.sin(TAU * (48 - 20 * t) * t), 0, .1);   // the hard cut's thud
 }
-for (const e of at('cut')) for (let k = 0; k < 40; k++) { const dt = Math.abs(rnd()) * 1.1; click(e.t + dt, .06 + .1 * Math.abs(rnd()), .0015, rnd() * .6, .2); }
+for (const e of raw.events.filter(x => x.type === 'burncue').map(x => ({t: x.at + .65}))) for (let k = 0; k < 40; k++) { const dt = Math.abs(rnd()) * 1.1; click(e.t + dt, .06 + .1 * Math.abs(rnd()), .0015, rnd() * .6, .2); }
 for (const e of at('rescue')) {
   const ch = [57, 60, 64, 69, 72, 76]; ch.forEach((m, k) => harp(e.t + .1 + k * .07, m, .16, -.4 + k * .16));
 }
