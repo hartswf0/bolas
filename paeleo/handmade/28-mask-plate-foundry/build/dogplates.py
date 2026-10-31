@@ -9,10 +9,10 @@ HERE = os.path.dirname(os.path.abspath(__file__)); SRC = os.path.join(os.path.di
 SAM = json.load(open(os.path.join(SRC, 'masks.json')))
 POSE = json.load(open(os.path.join(SRC, 'pose_agent_v8.json')))
 SIZE = (384, 288)
-TARGET = (0.40, 0.21)   # luma mean / std every dog plate is matched to before the light pass
+TARGET = (0.30, 0.15)   # luma mean / std every dog plate is matched to before the light pass
 
 
-def sam_mask(i, expand=-0.6, feather=1.2):
+def sam_mask(i, expand=-1.6, feather=1.1):   # choked 1.6 px: removes the bright source-ground fringe (halo)
     polys = sorted(SAM[str(i)], key=len, reverse=True)
     P = np.array(polys[0], float)
     if len(P) > 90: P = P[::max(1, len(P) // 90)]
@@ -38,11 +38,22 @@ F10 = dict(
 F44_HEAD = dict(mask=[(206, 112), (232, 120), (252, 140), (268, 165), (272, 186), (256, 192), (236, 180), (220, 160), (204, 142)],
                 pivot=(214, 130), nose=(262, 182))
 # ---- the looking-in head: f000 (the back of the dog's head, toward the camera, muzzle away)
-F00_HEAD = dict(mask=[(104, 62), (142, 60), (158, 82), (162, 108), (150, 124), (122, 124), (104, 104)],
-                pivot=(142, 118), nose=(120, 70))
+# round 2: the mask now follows the dark back of the head and its pointed ear tips (no grey pavement around it)
+F00_HEAD = dict(mask=[(121, 94), (123, 80), (126, 73), (130, 82), (134, 68), (140, 71), (145, 83), (152, 94), (158, 104),
+                      (157, 124), (152, 142), (128, 142), (119, 122), (117, 104)],
+                pivot=(140, 130), nose=(120, 70))
+# ---- the look-back head: f038 (face toward the camera), mirrored at use so the face turns toward the door
+F38_HEAD = dict(mask=[(194, 106), (222, 108), (238, 116), (240, 140), (234, 160), (214, 165), (198, 154), (190, 128)],
+                pivot=(208, 150))
+# ---- the tail: f019 (the only frame with the tail held clear of the body); base hinges on the f010 rump
+F19_TAIL = dict(mask=[(206, 139), (219, 141), (233, 151), (246, 162), (242, 169), (226, 167), (213, 161), (204, 152)],
+                base=(209, 146), tip=(243, 165))
 # ---- whole-body turn plates (yaw order, facing left -> camera -> facing right); their own pose keys give the neck track
-TURN = [16, 26, 28, 32, 36, 40]
-TURN_FACING = {16: 1, 26: 1, 28: 0, 32: -1, 36: -1, 40: -1}
+# chosen by eye from a cut-out sheet of f013-f041 for ONE legible head each (f016: head hidden; f040: smeared double head)
+TURN1 = [13, 30, 32, 36]          # facing the door -> head and body turned away
+TURN2 = [38, 37, 13]              # coming back round: face toward the camera, then the door
+TURN = sorted(set(TURN1 + TURN2))
+TURN_FACING = {13: 1, 30: -1, 32: -1, 36: -1, 37: 0, 38: 0}
 
 
 class Plate:
@@ -75,16 +86,14 @@ def build():
     out['body10'] = p10.cut(out['body_masks'], 0.0)
     p44 = Plate(44); out['f44'] = p44
     out['head44'] = p44.cut([BezierMask(F44_HEAD['mask'], feather=2.2)])
+    p38 = Plate(38); out['f38'] = p38
+    out['head38'] = p38.cut([BezierMask(F38_HEAD['mask'], feather=2.0)])
+    p19 = Plate(19); out['f19'] = p19
+    out['tail19'] = p19.cut([BezierMask(F19_TAIL['mask'], feather=1.4)])
     p0 = Plate(0); out['f00'] = p0
-    out['head00'] = p0.cut([BezierMask(F00_HEAD['mask'], feather=2.2)])
+    out['head00'] = p0.cut([BezierMask(F00_HEAD['mask'], feather=1.2)])
     out['turn'] = {}
     for i in TURN:
         p = Plate(i)
-        n = np.array(POSE[str(i)]['nose'], float); nk = np.array(POSE[str(i)]['neck'], float)
-        # head-off version (turn 2): subtract a mask around nose..neck so a parented head can replace it
-        d = n - nk; L = np.hypot(*d) + 1e-6; u = d / L; v = np.array([-u[1], u[0]])
-        hm = [nk - v * 14 - u * 4, n - v * 14 + u * 10, n + v * 14 + u * 10, nk + v * 14 - u * 4]
-        out['turn'][i] = dict(plate=p, alpha=p.alpha, headless=p.cut([BezierMask([(0, 0), (384, 0), (384, 288), (0, 288)], feather=0),
-                                                                        BezierMask(hm, feather=3, mode='sub')]),
-                              neck=nk, nose=n)
+        out['turn'][i] = dict(plate=p, alpha=p.alpha)
     return out

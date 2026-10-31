@@ -1,0 +1,48 @@
+{
+ "segments": [
+  {
+   "t": 0.88,
+   "kind": "call",
+   "rms_db": -18.1
+  },
+  {
+   "t": 1.65,
+   "kind": "call",
+   "rms_db": -19.01
+  },
+  {
+   "t": 3.3,
+   "kind": "call",
+   "rms_db": -17.59
+  },
+  {
+   "t": 7.3,
+   "kind": "soft",
+   "rms_db": -28.16
+  },
+  {
+   "t": 10.4,
+   "kind": "soft",
+   "rms_db": -28.61
+  },
+  {
+   "t": 26.25,
+   "kind": "soft",
+   "rms_db": -26.53
+  }
+ ],
+ "call_rms_db": -18.23,
+ "soft_rms_db": -27.77,
+ "soft_under_calls_db": 9.53,
+ "ambience_rms_db": -53.98,
+ "soft_over_ambience_db": 26.21,
+ "voice_onsets": [
+  0.88,
+  1.65,
+  3.3,
+  7.3,
+  10.4,
+  26.25
+ ],
+ "note": "measured on the synthesized voice track (active samples only) and the ambience bed, dBFS"
+}

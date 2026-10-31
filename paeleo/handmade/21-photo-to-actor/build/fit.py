@@ -24,7 +24,7 @@ MANUAL = {
     'low':     {'eye_l': (253, 153), 'eye_r': None, 'nose': (274, 180), 'ear_l': (243, 134), 'ear_r': None, 'chin': (264, 188), 'jaw_hinge': (250, 170)},
     'tq':      {'eye_l': (209, 122), 'eye_r': (220, 123), 'nose': (225, 138), 'ear_l': (199, 112), 'ear_r': (229, 108), 'chin': (220, 146), 'jaw_hinge': (207, 138)},
     'front':   {'eye_l': (214, 122), 'eye_r': (232, 123), 'nose': (228, 140), 'ear_l': (203, 112), 'ear_r': (240, 110), 'chin': (226, 151), 'jaw_hinge': (212, 145)},
-    'back':    {'eye_l': None, 'eye_r': None, 'nose': None, 'ear_l': (125, 68), 'ear_r': (140, 66), 'chin': None, 'jaw_hinge': None},
+    'back':    {'eye_l': None, 'eye_r': None, 'nose': None, 'ear_l': (126, 76), 'ear_r': (153, 76), 'chin': None, 'jaw_hinge': None},
 }
 WHY = {
     'profile': 'profile, muzzle raised 30 deg: the frontal template puts two eyes and a centred nose on a head that shows one eye; '

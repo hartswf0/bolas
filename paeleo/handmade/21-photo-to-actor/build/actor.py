@@ -76,7 +76,7 @@ class Head:
         diag = math.hypot(W, H)
         self.patches = []
         holes = np.zeros((H, W))
-        for ek in ('ear_l', 'ear_r'):
+        for ek in (() if name == 'back' else ('ear_l', 'ear_r')):   # the assembled rear view keeps its ears whole (round 3)
             e = L.get(ek)
             if not e: continue
             r = 0.2 * diag
@@ -110,8 +110,17 @@ class Head:
             self.patch_imgs.append((kind, piv, Image.fromarray(np.dstack([rgb, m * 255]).clip(0, 255).astype(np.uint8), 'RGBA')))
         self.area = float(a.sum())
 
-    def compose(self, ear=0.6, mouth=0.0, brow=0.0):
-        """ear: 0 flat .. 1 pricked ; mouth: 0 shut .. 1 open ; brow: -1 down .. 1 raised (worried)"""
+    def compose(self, ear=0.6, mouth=0.0, brow=0.0, flick=0.0):
+        """ear: 0 flat .. 1 pricked ; mouth: 0 shut .. 1 open ; brow: -1 down .. 1 raised (worried); flick: ear flick (deg)"""
+        if self.name == 'back':      # rear view: skull + two ear sprites that rotate about their bases (behind the skull)
+            out = Image.new('RGBA', self.base.size, (0, 0, 0, 0))
+            for side, sg in (('l', -1), ('r', 1)):
+                e = P['head_back']['ears'][side]
+                im = BACK_EARS[side]
+                ang = sg * (1.0 - ear) * 22 + (flick if side == 'r' else 0)
+                out.alpha_composite(im.rotate(-ang, resample=Image.BICUBIC, center=tuple(e['pivot'])))
+            out.alpha_composite(self.base)
+            return out
         out = self.base.copy()
         W, H = out.size
         for kind, piv, im in self.patch_imgs:
@@ -130,6 +139,7 @@ class Head:
         return out
 
 
+BACK_EARS = {k: Image.open(os.path.join(FOLDER, v['file'])).convert('RGBA') for k, v in P['head_back'].get('ears', {}).items()}
 HEADS = {n: Head(n) for n in ('profile', 'low', 'tq', 'front', 'back')}
 # normalise head sizes by photographed area (each frame's camera distance differs); the profile head is the reference
 for n, h in HEADS.items():
@@ -231,7 +241,10 @@ def draw(pose):
         seg_place(cv, ln + '_0', None, None, t2c(r), t2c(k_), perp=K * 0.5)
         seg_place(cv, ln + '_1', None, None, t2c(k_), t2c(f), perp=K * 0.5)
     hv = pose['head_view']; H_ = HEADS[hv]
-    himg = H_.compose(pose.get('ear', 0.6), pose.get('mouth', 0), pose.get('brow', 0))
+    himg = H_.compose(pose.get('ear', 0.6), pose.get('mouth', 0), pose.get('brow', 0), pose.get('flick', 0.0))
+    if pose.get('head_tone', 1.0) != 1.0:      # backlit: the head turned into the lit room darkens
+        r_, g_, b_, a_ = himg.split(); k_ = pose['head_tone']
+        himg = Image.merge('RGBA', [c.point(lambda q: int(q * k_)) for c in (r_, g_, b_)] + [a_])
     scale = 0.5 * K * H_.norm * pose.get('head_scale', 1.0)     # sprite px -> canvas px
     flip = pose.get('head_flip', False)
     at = t2c(Pp) + np.asarray(pose.get('head_off', (0, 0))) * K

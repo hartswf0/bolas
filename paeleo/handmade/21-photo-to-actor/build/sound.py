@@ -23,6 +23,11 @@ def flite(text, name, tempo=1.0):
                     '-af', af, '-ar', str(SR), '-ac', '1', path], check=True)
     with wave.open(path) as w:
         x = np.frombuffer(w.readframes(w.getnframes()), dtype=np.int16).astype(float) / 32768
+    # trim flite's leading silence so the first phoneme lands on the score frame (critic round 1: voices were 0.3-0.4 s late)
+    k = int(0.005 * SR); env = np.sqrt(np.convolve(x ** 2, np.ones(k) / k, 'same'))
+    on = int(np.argmax(env > 0.06 * env.max()))
+    x = x[max(0, on - int(0.01 * SR)):]
+    x[:int(0.01 * SR)] *= np.linspace(0, 1, int(0.01 * SR))
     return x
 
 
@@ -72,11 +77,11 @@ for k, (f0, rate, ph) in enumerate([(4300, 2.7, 0.0), (4700, 3.1, 1.3), (3900, 2
 
 # ---- the person: two calls (commands), then the soft voice (circumstances)
 c1 = flite('Come here!', 'v_call1'); c2 = flite('Come here. Come here!', 'v_call2')
-for x, at in ((c1, 1.0), (c2, 3.40)):
+for x, at in ((c1, 0.96), (c2, 3.38)):
     x = np.tanh(2.2 * x) / np.tanh(2.2)                 # pushed: a raised, hard voice
     put(voice_call, x / np.max(np.abs(x)) * 0.62, at)
 s1 = flite("It's all right.", 'v_soft1', 0.82); s2 = flite("It's all right.", 'v_soft2', 0.78); s3 = flite('Come in.', 'v_soft3', 0.8)
-for x, at in ((s1, 7.45), (s2, 10.45), (s3, 26.4)):
+for x, at in ((s1, 7.36), (s2, 10.36), (s3, 26.36)):
     x = lp_fast(x, 1900)
     put(voice_soft, x / np.max(np.abs(x)) * 0.17, at)
 
@@ -133,6 +138,13 @@ lv = {'call_rms_dbfs': round(rms_db(active(voice_call)), 2), 'soft_rms_dbfs': ro
 lv['soft_under_call_db'] = round(lv['call_rms_dbfs'] - lv['soft_rms_dbfs'], 2)
 lv['soft_over_room_db'] = round(lv['soft_rms_dbfs'] - lv['room_tone_rms_dbfs'], 2)
 lv['paw_touchdowns'] = len(steps)
+def onsets(x, t0s):
+    k = int(0.005 * SR); env = np.sqrt(np.convolve(x ** 2, np.ones(k) / k, 'same')); out = []
+    for t0 in t0s:
+        seg = env[int((t0 - 0.3) * SR):int((t0 + 1.0) * SR)]
+        out.append(round(t0 - 0.3 + int(np.argmax(seg > 0.06 * env.max())) / SR, 3))
+    return out
+lv['voice_onsets_s'] = {'calls': onsets(voice_call, [1.0, 3.42]), 'soft': onsets(voice_soft, [7.42, 10.42, 26.42])}
 json.dump(lv, open(os.path.join(FOLDER, 'sound-levels.json'), 'w'), indent=1)
 with wave.open(os.path.join(CACHE, 'scene.wav'), 'w') as w:
     w.setnchannels(1); w.setsampwidth(2); w.setframerate(SR)

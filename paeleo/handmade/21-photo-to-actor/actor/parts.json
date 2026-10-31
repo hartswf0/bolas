@@ -425,24 +425,40 @@
   "frame": 0,
   "box_src": [
    112,
-   61,
-   164,
-   111
+   56,
+   167,
+   104
   ],
   "size": [
-   104,
-   100
+   110,
+   96
   ],
   "scale_from_source": 2,
   "mirrored": false,
   "anchors": {
    "pivot": [
-    52,
-    86
+    55,
+    88
    ]
   },
-  "operation": "SAM mask (grown 3 px) n hand head cut",
-  "view": "back"
+  "view": "back",
+  "ears": {
+   "l": {
+    "file": "actor/parts/head_back_ear_l.png",
+    "pivot": [
+     43,
+     42
+    ]
+   },
+   "r": {
+    "file": "actor/parts/head_back_ear_r.png",
+    "pivot": [
+     67,
+     42
+    ]
+   }
+  },
+  "operation": "f000 head fur (bright path pixels rolled down to fur tone), toned toward the neck; cut by HAND shapes: a skull ellipse fading into the neck + two small close-set rounded ear flaps as separate sprites (rounds 3-4)"
  },
  "body_front": {
   "file": "actor/parts/body_front.png",

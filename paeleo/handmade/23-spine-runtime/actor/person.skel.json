@@ -1,0 +1,436 @@
+{
+ "skeleton": {
+  "name": "person",
+  "units": "cm",
+  "yUp": true,
+  "images": "actors.png",
+  "atlas": "actors.atlas"
+ },
+ "bones": [
+  {
+   "name": "root",
+   "parent": null,
+   "length": 0,
+   "transform": "noScale",
+   "x": 0.0,
+   "y": 0.0,
+   "rotation": 0.0,
+   "scaleX": 1.0
+  },
+  {
+   "name": "pelvis",
+   "parent": "root",
+   "length": 52,
+   "transform": "noScale",
+   "x": 0.0,
+   "y": 95.0,
+   "rotation": 86.0,
+   "scaleX": 1.0
+  },
+  {
+   "name": "neck",
+   "parent": "pelvis",
+   "length": 9,
+   "transform": "noScale",
+   "x": 52.0,
+   "y": 0.0,
+   "rotation": 0,
+   "scaleX": 1.0
+  },
+  {
+   "name": "head",
+   "parent": "neck",
+   "length": 0,
+   "transform": "noScale",
+   "x": 20.0,
+   "y": 0.0,
+   "rotation": -90,
+   "scaleX": 1.0
+  },
+  {
+   "name": "uarm_f",
+   "parent": "pelvis",
+   "length": 29,
+   "transform": "noScale",
+   "x": 46.791,
+   "y": 2.993,
+   "rotation": 176.0,
+   "scaleX": 1.0
+  },
+  {
+   "name": "farm_f",
+   "parent": "uarm_f",
+   "length": 26,
+   "transform": "noScale",
+   "x": 29.0,
+   "y": 0.0,
+   "rotation": 6.0,
+   "scaleX": 1.0
+  },
+  {
+   "name": "hand_f",
+   "parent": "farm_f",
+   "length": 8,
+   "transform": "noScale",
+   "x": 26.0,
+   "y": -0.0,
+   "rotation": 4.0,
+   "scaleX": 1.0
+  },
+  {
+   "name": "thigh_f",
+   "parent": "pelvis",
+   "length": 43,
+   "transform": "noScale",
+   "x": -0.349,
+   "y": 4.988,
+   "rotation": -176.0,
+   "scaleX": 1.0
+  },
+  {
+   "name": "shin_f",
+   "parent": "thigh_f",
+   "length": 43,
+   "transform": "noScale",
+   "x": 43.0,
+   "y": 0.0,
+   "rotation": 0.0,
+   "scaleX": 1.0
+  },
+  {
+   "name": "foot_f",
+   "parent": "shin_f",
+   "length": 21,
+   "transform": "noScale",
+   "x": 43.0,
+   "y": 0.0,
+   "rotation": 90,
+   "scaleX": 1.0
+  },
+  {
+   "name": "thigh_n",
+   "parent": "pelvis",
+   "length": 43,
+   "transform": "noScale",
+   "x": 0.209,
+   "y": -2.993,
+   "rotation": -176.0,
+   "scaleX": 1.0
+  },
+  {
+   "name": "shin_n",
+   "parent": "thigh_n",
+   "length": 43,
+   "transform": "noScale",
+   "x": 43.0,
+   "y": 0.0,
+   "rotation": 0.0,
+   "scaleX": 1.0
+  },
+  {
+   "name": "foot_n",
+   "parent": "shin_n",
+   "length": 21,
+   "transform": "noScale",
+   "x": 43.0,
+   "y": 0.0,
+   "rotation": 90,
+   "scaleX": 1.0
+  },
+  {
+   "name": "uarm_n",
+   "parent": "pelvis",
+   "length": 29,
+   "transform": "noScale",
+   "x": 47.14,
+   "y": -1.995,
+   "rotation": 179.0,
+   "scaleX": 1.0
+  },
+  {
+   "name": "farm_n",
+   "parent": "uarm_n",
+   "length": 26,
+   "transform": "noScale",
+   "x": 29.0,
+   "y": 0.0,
+   "rotation": 7.0,
+   "scaleX": 1.0
+  },
+  {
+   "name": "hand_n",
+   "parent": "farm_n",
+   "length": 8,
+   "transform": "noScale",
+   "x": 26.0,
+   "y": -0.0,
+   "rotation": 4.0,
+   "scaleX": 1.0
+  }
+ ],
+ "slots": [
+  {
+   "name": "uarm_f",
+   "bone": "uarm_f",
+   "attachment": "p_uarm_far"
+  },
+  {
+   "name": "farm_f",
+   "bone": "farm_f",
+   "attachment": "p_farm_far"
+  },
+  {
+   "name": "hand_f",
+   "bone": "hand_f",
+   "attachment": "p_hand_far"
+  },
+  {
+   "name": "thigh_f",
+   "bone": "thigh_f",
+   "attachment": "p_thigh_far"
+  },
+  {
+   "name": "shin_f",
+   "bone": "shin_f",
+   "attachment": "p_shin_far"
+  },
+  {
+   "name": "foot_f",
+   "bone": "foot_f",
+   "attachment": "p_shoe_far"
+  },
+  {
+   "name": "pelvis",
+   "bone": "pelvis",
+   "attachment": "p_torso"
+  },
+  {
+   "name": "neck",
+   "bone": "neck",
+   "attachment": "p_neck"
+  },
+  {
+   "name": "head",
+   "bone": "head",
+   "attachment": "p_head"
+  },
+  {
+   "name": "thigh_n",
+   "bone": "thigh_n",
+   "attachment": "p_thigh_near"
+  },
+  {
+   "name": "shin_n",
+   "bone": "shin_n",
+   "attachment": "p_shin_near"
+  },
+  {
+   "name": "foot_n",
+   "bone": "foot_n",
+   "attachment": "p_shoe_near"
+  },
+  {
+   "name": "uarm_n",
+   "bone": "uarm_n",
+   "attachment": "p_uarm_near"
+  },
+  {
+   "name": "farm_n",
+   "bone": "farm_n",
+   "attachment": "p_farm_near"
+  },
+  {
+   "name": "hand_n",
+   "bone": "hand_n",
+   "attachment": "p_hand_near"
+  }
+ ],
+ "ik": [],
+ "skins": [
+  {
+   "name": "default",
+   "attachments": {
+    "uarm_f": {
+     "p_uarm_far": {
+      "type": "region",
+      "path": "p_uarm_far",
+      "x": 14.032,
+      "y": 0.031,
+      "rotation": 0,
+      "width": 42.188,
+      "height": 14.062,
+      "inheritScale": false
+     }
+    },
+    "farm_f": {
+     "p_farm_far": {
+      "type": "region",
+      "path": "p_farm_far",
+      "x": 12.575,
+      "y": -0.075,
+      "rotation": 0,
+      "width": 36.875,
+      "height": 11.875,
+      "inheritScale": false
+     }
+    },
+    "hand_f": {
+     "p_hand_far": {
+      "type": "region",
+      "path": "p_hand_far",
+      "x": 3.887,
+      "y": 0.019,
+      "rotation": 0,
+      "width": 17.5,
+      "height": 9.688,
+      "inheritScale": false
+     }
+    },
+    "thigh_f": {
+     "p_thigh_far": {
+      "type": "region",
+      "path": "p_thigh_far",
+      "x": 20.25,
+      "y": 0.063,
+      "rotation": 0,
+      "width": 60.625,
+      "height": 20.0,
+      "inheritScale": false
+     }
+    },
+    "shin_f": {
+     "p_shin_far": {
+      "type": "region",
+      "path": "p_shin_far",
+      "x": 20.919,
+      "y": 0.018,
+      "rotation": 0,
+      "width": 56.562,
+      "height": 14.688,
+      "inheritScale": false
+     }
+    },
+    "foot_f": {
+     "p_shoe_far": {
+      "type": "region",
+      "path": "p_shoe_far",
+      "x": 10.188,
+      "y": -0.032,
+      "rotation": 0,
+      "width": 32.5,
+      "height": 12.188,
+      "inheritScale": false
+     }
+    },
+    "pelvis": {
+     "p_torso": {
+      "type": "region",
+      "path": "p_torso",
+      "x": 27.032,
+      "y": -0.031,
+      "rotation": 0,
+      "width": 87.188,
+      "height": 37.188,
+      "inheritScale": false
+     }
+    },
+    "neck": {
+     "p_neck": {
+      "type": "region",
+      "path": "p_neck",
+      "x": 4.218,
+      "y": 0.0,
+      "rotation": 0,
+      "width": 21.562,
+      "height": 13.125,
+      "inheritScale": false
+     }
+    },
+    "head": {
+     "p_head": {
+      "type": "region",
+      "path": "p_head",
+      "x": 0.156,
+      "y": 0.937,
+      "rotation": 0,
+      "width": 27.188,
+      "height": 26.875,
+      "inheritScale": false
+     }
+    },
+    "thigh_n": {
+     "p_thigh_near": {
+      "type": "region",
+      "path": "p_thigh_near",
+      "x": 20.25,
+      "y": 0.063,
+      "rotation": 0,
+      "width": 60.625,
+      "height": 20.0,
+      "inheritScale": false
+     }
+    },
+    "shin_n": {
+     "p_shin_near": {
+      "type": "region",
+      "path": "p_shin_near",
+      "x": 20.919,
+      "y": 0.018,
+      "rotation": 0,
+      "width": 56.562,
+      "height": 14.688,
+      "inheritScale": false
+     }
+    },
+    "foot_n": {
+     "p_shoe_near": {
+      "type": "region",
+      "path": "p_shoe_near",
+      "x": 10.188,
+      "y": -0.032,
+      "rotation": 0,
+      "width": 32.5,
+      "height": 12.188,
+      "inheritScale": false
+     }
+    },
+    "uarm_n": {
+     "p_uarm_near": {
+      "type": "region",
+      "path": "p_uarm_near",
+      "x": 14.032,
+      "y": 0.031,
+      "rotation": 0,
+      "width": 42.188,
+      "height": 14.062,
+      "inheritScale": false
+     }
+    },
+    "farm_n": {
+     "p_farm_near": {
+      "type": "region",
+      "path": "p_farm_near",
+      "x": 12.575,
+      "y": -0.075,
+      "rotation": 0,
+      "width": 36.875,
+      "height": 11.875,
+      "inheritScale": false
+     }
+    },
+    "hand_n": {
+     "p_hand_near": {
+      "type": "region",
+      "path": "p_hand_near",
+      "x": 3.887,
+      "y": 0.019,
+      "rotation": 0,
+      "width": 17.5,
+      "height": 9.688,
+      "inheritScale": false
+     }
+    }
+   }
+  }
+ ]
+}

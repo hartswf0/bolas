@@ -112,6 +112,26 @@
    "trick": "Every pixel of the dog is the real dog; only the way its pieces are held changes."
   },
   {
+   "id": 12,
+   "dir": "12-localized-weights",
+   "name": "Localized weights",
+   "kind": "Bounded biharmonic weights on a lace mesh",
+   "dog": "a red cut-paper lace dog, pierced with holes, bent by bounded weights",
+   "made": "One cut-paper profile of a dog drawn in code, pierced with lace holes, legs 10–25 mm apart and the ears side by side, in a cut-away dollhouse view of the doorway at dusk; the person is made the same way. No kit or archive material; all sound is synthesized.",
+   "moved": "A triangle mesh (5,565 vertices) with 12 bones, 2 point handles and a 6-vertex torso cage; bounded biharmonic weights solved here (cotangent Laplacian, active-set solve), bounded, summing to one and mostly exactly zero, then linear blend skinning. Lifting one foreleg moves the other 0 mm, against 66 mm with naive weights; the end card shows the heat maps.",
+   "trick": "Legs a few millimetres apart on a sheet full of holes move independently because the weights stay local across every gap."
+  },
+  {
+   "id": 13,
+   "dir": "13-secondary-motion",
+   "name": "Secondary motion",
+   "kind": "Paper figures with secondary dynamics",
+   "dog": "a long-coated dog of torn crepe and tissue strips whose coat is its body",
+   "made": "Torn crepe and tissue paper strips drawn in code, hung in overlapping rows on hidden paper discs, with no solid outline; a paper puppet person with hair, scarf and coat tails, a doorway curtain and reeds by the porch, in a cutaway house seen from the porch side. No kit or archive material; all sound is synthesized.",
+   "moved": "Performed primary paths for the rigid pieces (torso discs, neck, skull, muzzle, two-bone legs), and 264 secondary chains on the dog plus curtain, reeds, hair and scarf: spring-dampers toward a rest shape at four substeps a frame, with gravity, gust wind, the draft when the door opens, and collisions with the floor, the dog and the person.",
+   "trick": "The secondary motion carries the story: the coat sleeks and stiffens on the refusal, the ears flick to the soft voice, and the coat spreads and settles as the dog lies down."
+  },
+  {
    "id": 14,
    "dir": "14-pose2pose",
    "name": "Pose2Pose casting",
@@ -190,8 +210,7 @@
    "dog": "a public-domain home-movie dog turned into a rigged photographic actor",
    "made": "Six frames of the public-domain home movie Amateur Film New Jersey C with their SAM masks: torso, neck, leg segments and tail cut from them and laid on a body template, and five angle heads (front, three-quarter, profile, lowered, back of head). The person, door leaf and lit hall come from Straight Talk (NTIS, public domain), the sky from Top of the Cloud; the house and light are computed and graded to the same grain.",
    "moved": "Landmarks fitted to each head (the automatic fit was accepted on the front and three-quarter heads and corrected by hand on the profile, lowered and back views, with the failures recorded), expression patches for ears, brow and mouth, whole-body sprite replacement for the turns with hard cuts, and two-bone IK keeping planted paws still.",
-   "trick": "A dog that only ever walked to a bowl is retargeted, from a handful of stills, to perform all six choices of the score.",
-   "status": "in repair after critic round 1"
+   "trick": "A dog that only ever walked to a bowl is retargeted, from a handful of stills, to perform all six choices of the score."
   },
   {
    "id": 22,
@@ -202,6 +221,16 @@
    "made": "A digital felt the swarm made (a synthesized fibre texture, fuzzy cut edges, drop shadows between layers, running stitches), cut into named groups exported like a PSD puppet, with swap sets for the views: side, three-quarter and back bodies; profile, front, back three-quarter and back heads. The person and the place are made the same way; no kit or archive material is used.",
    "moved": "A small runtime with Character Animator's behaviours: triggers, view swaps that cut rather than tween, gaze snapping to named targets, blink and breathe, dangle physics on the ears, tail and ponytail, planted-foot walking, and lip sync of the person from the voice track into the twelve standard mouth shapes. The dog's acting is five layered takes of timed control tracks; the end card says no camera or live performer exists here.",
    "trick": "The puppet is never animated frame by frame: it is performed, and the performance is a file of takes."
+  },
+  {
+   "id": 23,
+   "dir": "23-spine-runtime",
+   "name": "Spine runtime",
+   "kind": "Skeletal runtime with mixed action clips",
+   "dog": "a painted game-art dog played by its own skeletal runtime",
+   "made": "Painted game-art parts made in code (tan coat, dark saddle, banded gouache shading, brush strokes, a broken outline) packed into one texture atlas of 46 regions: seven head views, four body views as weighted meshes, ears, and lit and shaded leg segments. The set and the person are painted the same way; all sound is synthesized.",
+   "moved": "A Spine-shaped skeleton JSON (28 bones, 20 slots in draw order, four two-bone IK legs) and a library of ten action clips (idle, cringe-back, turn-away, lie, look-back, rise, stalk-walk, lie-across, look-in, settle), mixed by a runtime written here on a body track with a head track layered over it. Turns are attachment swaps and slot reorders through 0, 45, 90 and 135 degree views.",
+   "trick": "The head leads because it plays on its own track over the body; the end card draws the real track timeline."
   },
   {
    "id": 24,
@@ -251,8 +280,7 @@
    "dog": "a dog composited from public-domain home-movie plates cut by animated masks",
    "made": "Public-domain archive plates from the kit: Amateur Film New Jersey C (the dog, the facade and porch, stabilised and median-stacked into a clean plate), Straight Talk (door, room and standing person), Survival Stresses (the seated person) and Door to Heaven (1941, the arm). One standing dog frame is split by masks into body, legs and head; six of the dog's own turn frames carry the turns.",
    "moved": "A layer compositor written for the film: keyframed bezier masks with feather and expand, parented transforms, corner pins from one locked camera, an inverted camera track, holdout mattes at the door frame and sill, luma keys, roto, and one door-light function lighting floor, sill, dog and person. The score drives the dog's root track; feet lock to the floor by distance travelled.",
-   "trick": "Plates from different films are pinned, held out and lit until they share one shot, and the dog performs by animating its masks.",
-   "status": "in repair after critic round 1"
+   "trick": "Plates from different films are pinned, held out and lit until they share one shot, and the dog performs by animating its masks."
   },
   {
    "id": 29,
@@ -269,11 +297,21 @@
    "dir": "31-alpha-matting",
    "name": "Alpha Matting",
    "kind": "Soft-edged matted archive frames",
-   "status": "in repair after critic round 2",
+   "status": "narrow pass at critic round 3; final repair round",
    "dog": "the archive dog itself, lifted out of its frames with soft fur edges",
    "made": "Every archive frame of the dog is matted with a fur-class alpha, so the edges are fractional, not cut. The woman and the door come from another public-domain film; the lying dog is cut from one matte and labelled as reconstruction.",
    "moved": "By swapping whole matted frames, and by pivoting pieces of a single matte. Premultiplied compositing keeps the edges from picking up the background.",
    "trick": "The dog's edges hold against sky and siding, because the matte, not the outline, decides what is dog."
+  },
+  {
+   "id": 32,
+   "dir": "32-forward-kinematics",
+   "name": "Forward kinematics",
+   "kind": "Jointed toy moved only by forward kinematics",
+   "dog": "a carved and painted wooden toy dog on visible brass pins",
+   "made": "Cream-painted carved blocks on brass pins, a red felt saddle cloth with two flaps, black drop ears and a red and cream bead tail, rendered in WebGL; a peg-figure person with a cardigan. Everything is made in code; all sound is synthesized.",
+   "moved": "A 31-joint graph for the dog and 25 for the person, every world transform the parent times a pivot offset times local rotations, root first, with no IK anywhere. The head pivot has view anchors for profile, three-quarter and rear, blended by angle. Feet are planted only by hand-keyed hip and knee angles, and the remaining foot slip is measured and stated on the end card.",
+   "trick": "The joint graph you see is the one that moves it: change a hip and exactly its children follow, saddle cloth and all."
   },
   {
    "id": 33,
@@ -427,6 +465,16 @@
    "made": "One plate, Pl. I, The Threshold: a sectional elevation of a wall, doorway and porch at dusk, line-engraved and hand-coloured. The dog is traced by hand from one frame of Amateur Film New Jersey C into eleven pieces, each engraved with a line screen from the scan's own tone; both turns are the film's own frames, some printed as reversed impressions. The door from Straight Talk, the hand from The Door to Heaven. No Library of Congress item is used or claimed.",
    "moved": "Pieces rotate about hand-placed joints, legs by two-bone IK with stance feet pinned. Under the image a key shows the scan frame in use, its source and rights, and the state of the drawing: as photographed, printed reversed, or, in red with red pins at the joints, re-posed as invented motion.",
    "trick": "Every frame says whether the dog in it was photographed or invented."
+  },
+  {
+   "id": 51,
+   "dir": "51-mouris-montage",
+   "name": "Mouris montage research",
+   "kind": "Montage on a measured cutting score",
+   "dog": "one steady dog whose coat, eyes and paws are substituted image by image on a cutting rhythm",
+   "made": "44 crops from 39 public-domain kit frames, tagged by imagery class (fur, hard, eyes, paws, doors, lamps, hands, voices, soft) and temperature, cut flat with a paper margin and a scissor line into the dog's body, neck, head, legs and tail and into the person; cut-letter words. The Mouris collection itself was not viewed or used, and the cards say so; an invisible sphere pose guides the outline, as the end card states.",
+   "moved": "A cutting score of whole-image substitutions over the scene: two-frame holds of hard, cold images on the calls, long warm holds on the soft voice, one cut per footfall on the approach; the narrated words appear as letters cut from class-matched images at their spoken frames.",
+   "trick": "The rhythm of the cuts carries the drama while the dog stays one animal."
   },
   {
    "id": 52,

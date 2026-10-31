@@ -133,17 +133,75 @@ for hn, Hd in spec.HEADS.items():
     if Hd.get('key') == 'dark':
         # the back of the head is the dark fur mass; the bright path behind it is keyed out by luminance
         L = np.array(develop(frame('dog', i)).filter(ImageFilter.GaussianBlur(1.2))).astype(float)
-        m = m * np.clip((Hd['key_level'] - L) / 45.0, 0, 1)
+        # solid matte, not a soft key (round 1: the soft key read as a ghosted smudge): threshold, close holes, keep the largest mass
+        k_ = Image.fromarray(((L < Hd['key_level']) * 255).astype(np.uint8)).filter(ImageFilter.MaxFilter(5)).filter(ImageFilter.MinFilter(5))
+        m = m * (np.array(k_) > 127)
     m = Image.fromarray((m * e).astype(np.uint8))
     mirror = Hd['faces'] == 'right'
     parts['head_' + hn] = cut('dog', i, m, name='head_' + hn, anchors={'pivot': Hd['pivot']}, mirror=mirror,
                               op='SAM mask (grown 3 px) n hand head cut' + (', mirrored to face left' if mirror else ''))
     parts['head_' + hn]['view'] = hn
 
+# ---- round 3: the back of the head, assembled. f000's head is the only rear view in the kit and its SAM/luminance cut is a
+# smear with one point. The repair keeps f000's photographed fur but cuts it with a HAND polygon that states the anatomy a
+# rear view must show (skull outline + two ear flaps); bright path pixels inside the cut are replaced by f000's own dark fur,
+# blurred. The outline is a hand annotation (like every cut here); the pixels are the photograph.
+BX = (112, 56, 167, 104)
+f0 = develop(frame('dog', 0)).convert('RGB').crop(BX).resize(((BX[2] - BX[0]) * UP, (BX[3] - BX[1]) * UP), Image.LANCZOS)
+rgb0 = np.array(f0).astype(float); L0 = rgb0.mean(axis=2)
+fur = (L0 < 150).astype(float)
+fb = np.array(Image.fromarray((fur * 255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(9))).astype(float) / 255 + 1e-3
+fill = np.stack([np.array(Image.fromarray((rgb0[:, :, c] * fur).astype(np.uint8)).filter(ImageFilter.GaussianBlur(9))).astype(float) / 255 / fb * 255 for c in range(3)], -1)
+# compress the bright path inside the cut down to the fur's tones (a soft highlight roll-off, no hard key edges)
+Lb = np.array(Image.fromarray(L0.astype(np.uint8)).filter(ImageFilter.GaussianBlur(3))).astype(float)
+k_ = np.clip((Lb - 70) / 80, 0, 1)[:, :, None]
+# the ear flaps sit where f000 shows path; give them f000's own fur, moved up from the skull (photo texture, not flat grey)
+Hh, Ww = L0.shape
+furL = np.roll(np.roll(rgb0, -34, axis=0), -26, axis=1); furR = np.roll(np.roll(rgb0, -34, axis=0), 14, axis=1)
+xx_ = np.arange(Ww)[None, :, None]
+wR = np.clip((xx_ - (Ww / 2 - 12)) / 24.0, 0, 1)
+fur_src = furL * (1 - wR) + furR * wR
+fur_src = np.minimum(fur_src, 70 + 0.3 * (fur_src - 70))
+wy = np.clip((62 - np.arange(Hh)) / 20.0, 0, 1)[:, None, None]           # only the ear band (top of the cut)
+tex = rgb0 * (1 - k_) + (fur_src * wy + (70 + 0.22 * (rgb0 - 70)) * (1 - wy)) * k_
+Wb, Hb = f0.size
+# round 4 geometry: f000's own rear view shows one soft point near the crown, so the ears are SMALL, CLOSE-SET, ROUNDED
+# shepherd flaps (separate sprites, so they can move), on a narrower skull whose lower edge fades into the neck.
+neck_img = np.array(Image.open(os.path.join(OUT, 'neck.png'))).astype(float)
+neck_mean = (neck_img[:, :, :3].mean(axis=2) * neck_img[:, :, 3]).sum() / neck_img[:, :, 3].sum()
+tex = tex * 0.7 + 0.3 * neck_mean                      # tone continuous with the neck it sits on
+tex = tex + (neck_mean - tex.mean()) * 0.5
+tex = tex * np.linspace(0.72, 1.0, tex.shape[0])[:, None, None]       # crown darker, lower skull at the neck's tone
+mk = Image.new('L', (Wb, Hb), 0); ImageDraw.Draw(mk).ellipse((27, 30, 83, 96), fill=255)
+mk = mk.filter(ImageFilter.GaussianBlur(1.2))   # round 5: opaque, firm edge
+mka = np.array(mk).astype(float) * np.clip((Hb - 2 - np.arange(Hb)) / 12.0, 0, 1)[:, None]   # soft bottom: merges into the neck
+hb = Image.fromarray(np.clip(tex, 0, 255).astype(np.uint8)); hb.putalpha(Image.fromarray(mka.astype(np.uint8)))
+hb.save(os.path.join(OUT, 'head_back.png'))
+EARS = {'l': {'centre': (43, 30), 'tilt': -14}, 'r': {'centre': (67, 30), 'tilt': 14}}
+ear_pivots = {}
+for side, E in EARS.items():
+    em = Image.new('L', (Wb, Hb), 0); cx_, cy_ = E['centre']
+    ImageDraw.Draw(em).ellipse((cx_ - 8, cy_ - 15, cx_ + 8, cy_ + 13), fill=255)
+    em = em.rotate(-E['tilt'], resample=Image.BICUBIC, center=(cx_, cy_ + 12)).filter(ImageFilter.GaussianBlur(1.1))
+    ei = Image.fromarray(np.clip(tex * 0.92, 0, 255).astype(np.uint8)); ei.putalpha(em)
+    ei.save(os.path.join(OUT, 'head_back_ear_%s.png' % side))
+    ear_pivots[side] = [cx_, cy_ + 12]
+parts['head_back'] = {'file': 'actor/parts/head_back.png', 'source': '%s/frames/f000.jpg' % spec.KIT_DOG, 'frame': 0, 'box_src': list(BX),
+                      'size': [Wb, Hb], 'scale_from_source': UP, 'mirrored': False, 'anchors': {'pivot': [55, 88]}, 'view': 'back',
+                      'ears': {k: {'file': 'actor/parts/head_back_ear_%s.png' % k, 'pivot': v} for k, v in ear_pivots.items()},
+                      'operation': 'f000 head fur (bright path pixels rolled down to fur tone), toned toward the neck; cut by HAND shapes: a skull '
+                                   'ellipse fading into the neck + two small close-set rounded ear flaps as separate sprites (rounds 3-4)'}
+
 # ---- whole-body angle artwork for the turns
 for bn, B in spec.BODY_VIEWS.items():
     i = B['frame']
     m = sam_mask('dog', i, grow=1)
+    if bn == 'back':   # round 1: the pale path inside the head cut read as a hood; key the head region (y < 108) to the dark fur
+        L = np.array(develop(frame('dog', i)).filter(ImageFilter.GaussianBlur(1.2))).astype(float)
+        k_ = Image.fromarray(((L < 150) * 255).astype(np.uint8)).filter(ImageFilter.MaxFilter(5)).filter(ImageFilter.MinFilter(5))
+        mm = np.array(m).astype(float); yy = np.mgrid[0:288, 0:384][0]
+        mm = np.where((yy < 108) & (np.array(k_) < 128), 0, mm)
+        m = Image.fromarray(mm.astype(np.uint8))
     bb = m.getbbox()
     anc = {'foot_mid': ((bb[0] + bb[2]) / 2, bb[3] - 2), 'top': ((bb[0] + bb[2]) / 2, bb[1])}
     mirror = B['faces'] == 'right'

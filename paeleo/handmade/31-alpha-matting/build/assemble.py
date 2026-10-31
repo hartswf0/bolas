@@ -70,11 +70,12 @@ def gait_and_pops(frames, tr):
         best = 0.
         for i in range(i0 + 1, i1):
             a, b = tr[str(i)], tr[str(i - 1)]
-            if a.get('nose_x') is None or b.get('nose_x') is None: continue
-            best = max(best, ((a['nose_x'] - b['nose_x']) ** 2 + (a['nose_y'] - b['nose_y']) ** 2) ** .5)
+            if a.get('head_x') is None or b.get('head_x') is None: continue
+            best = max(best, ((a['head_x'] - b['head_x']) ** 2 + (a['head_y'] - b['head_y']) ** 2) ** .5)
         return round(best, 1)
     return dict(planted_paw_max_drift_px={k: round(v, 2) for k, v in drift.items()}, planted_frame_pairs=n_planted,
-                head_lead_point_max_jump_px={'0.92-1.60s': jump(22, 39), '2.00-2.71s': jump(48, 65), '23.75-24.17s': jump(570, 581)})
+                head_point_max_jump_px={'0.92-1.60s': jump(22, 39), '2.00-2.71s': jump(48, 65), '23.58-24.50s': jump(566, 589)},
+                head_point_def='centroid of the solid matte (alpha>0.5, above the floor contact rows) in the 45 px nearest the side the dog faces')
 
 
 def main():

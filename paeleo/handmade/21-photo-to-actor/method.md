@@ -45,7 +45,7 @@ The automatic fitter is a generic frontal portrait rig. It puts symmetric eyes a
 | three-quarter (f037, mirrored) | 0.117 | accepted at the edge of tolerance | first run 0.288 because mirroring swapped the left/right labels. That was our bug, fixed |
 | profile (f009) | 0.337 | rejected, hand-corrected | two eyes on a head that shows one; the nose snapped to the dark ear/neck patch, behind the eye |
 | lowered (f046) | 0.181 | rejected, hand-corrected | the same two failures; the template chin lands on the white neck ruff |
-| back of head (f000) | 0.181 (ears only) | rejected, hand-corrected | the fitter placed a whole face on the back of a head. The correction keeps the two ears and declares the face absent |
+| back of head (f000, not used in the film after round 2) | 0.181 (ears only) | rejected, hand-corrected | the fitter placed a whole face on the back of a head. The correction keeps the two ears and declares the face absent |
 
 The rule learned from these five inspections (`actor/compat.json`): accept the frontal rig only for frontal and three-quarter cuts with error below 0.12 and no failed anatomy test. Send profile, lowered and back views to hand annotation. The review pair shows what an uncorrected jaw would do: on the profile, the automatic jaw patch tears open the throat instead of the mouth.
 
@@ -102,11 +102,80 @@ The full record is `ledger.jsonl`. In short:
 
 ## Not done
 
-- No camera moves; no independent critic run by me.
+- One cut to a closer shot (26.42–28.21 s); otherwise a static camera. No independent critic run by me.
 - The hand corrections are by one annotator with no second pass.
 - The compatibility classifier is a rule from five inspected heads, not a trained model.
 - No mobile operator page.
 - The hand-sam shot and Quick, Draw! drawings were not used.
 - No pixel of the dog is drawn by hand, but the house and porch are computed, not photographed.
 
-**Stop condition:** watchable and the invariants hold. Independent critique is pending.
+## Repair round 2 (after critic round 1, `reviews/round1.md`)
+
+1. **Voices late:** the 0.3–0.4 s delay was flite's leading silence. It is now trimmed (`flite()` in `build/sound.py`), and each line is placed 0.04–0.06 s before its score frame. Measured on the decoded film audio (speech band 250–3000 Hz, 30 %-of-peak onset):
+
+   | line | score (s) | onset (s) |
+   |---|---|---|
+   | call 1 | 1.00 | 0.98 |
+   | call 2 | 3.42 | 3.40 |
+   | soft | 7.42 | 7.40 |
+   | soft | 10.42 | 10.39 |
+   | soft "come in" | 26.42 | 26.39 |
+
+   At a 10 % threshold every onset is earlier still. Levels: calls −10/−11 dBFS, soft −23.5/−24.3, room −37.
+2. **Looking in:** the back-of-head artwork (f000) proved illegible at full crop and is no longer used for the look. At 26.4–28.3 s the head stays on the neck line (neck angle −186°). The profile photograph foreshortens to 0.5 width, recedes (×0.9) and darkens against the light (×0.55), with the muzzle pushed into the lit doorway. Measured: the leading edge moves 4–6 px into the doorway from 26.33 s; the head-end top stays at 539–545 px against a back line at 543 px. It is no longer lifted.
+3. **Back sprite at 8.00–8.12:** scaled to the neighbours' height (124 template px). Its head region is keyed to the dark fur, so there is no pale hood.
+4. **The 3.51→3.55 flip:** the mirrored three-quarter frame was removed. The turn is now three-quarter, front, front, then profile turned away from 3.58 s.
+5. **Cold blue glowing cut-out:** the dog now carries the set's dusk tint (0.80, 0.80, 0.88) at lower exposure, and its 3 px edge band is darkened 40 %. The doorway rim stays, only near the door.
+
+All five were verified on frames and audio extracted from the final `film.mp4` (912 frames, 9.07 MB). The end card now says four head frames plus a body back view.
+
+## Repair round 3 (after critic round 2, `reviews/round2.md`)
+
+**Choice (also in the ledger):** a closer shot plus rear-view artwork assembled from the photographs.
+- **The cut.** At 26.42 s (frame 634) the film cuts to a 2× closer shot on the sill: the same porch, window x 40–680, y 360–720, background softened. The actor is redrawn at 2×; its sprites are stored at 2× source, so this is native resolution. The cut back to the wide shot is at 28.25 s.
+- **The turn, after the cut.** The head shows the profile at 26.42, foreshortens at 26.50, then from 26.58 to 28.17 shows the back of the head facing the viewer, dark against the warm hall with a warm rim, both ears and the skull outline, no muzzle. It returns to the profile at 28.21 and rests (chin down) in the wide shot from 28.25.
+- **How the rear view is made.** No kit frame has a legible back of head: f000/f001/f002/f014 were inspected at 8×. The rear view is therefore f000's own head fur, cut by a hand polygon that states the anatomy (skull ellipse plus two ear flaps). The bright path inside the cut is rolled down to fur tone, and the ear flaps take f000's fur moved up from the skull. The outline is a hand annotation; every pixel is the photograph.
+- **Before the look (25.5–26.4 s).** The lowered f046 head, which read as a pale hollow front face, is no longer used on the lying body. The profile stays level instead.
+- **Head leading (7.50–7.96 s).** The three-quarter photograph (f037, eye and muzzle legible) is turned toward the door, replacing the muddy mirrored profile.
+- **Measurement.** `x_world_measured` (the plate centroid in metres) is now in every trace frame, because the camera changes. The looks-in onset is measured at 26.417 s. Film: 912 frames, 9.02 MB, ALL OK. Voice onsets are unchanged: 0.97, 3.39, 7.37, 10.37, 26.37 s.
+
+## Repair round 4 (after critic round 3, `reviews/round3.md`)
+
+- **A turn, not a swap.** The turn is now staged frame by frame inside the close shot:
+
+  | frames | time (s) | view |
+  |---|---|---|
+  | 634–635 | 26.42 | profile |
+  | 636–638 | 26.50–26.58 | profile foreshortening (0.8, 0.62, 0.45 width), darkening as it turns away |
+  | 639–640 | 26.62–26.67 | rear head coming round (0.55, 0.8 width) |
+  | 641–671 | 26.71–27.96 | rear head held |
+  | 672–677 | 28.00–28.21 | the same views in reverse |
+
+  The cut back to the wide shot rests at 28.25.
+- **This dog, not a cut-out.** The rear head is rebuilt:
+  - a narrower skull, toned toward the neck and darker at the crown, whose lower edge fades into the neck;
+  - two small, close-set, rounded ear flaps as separate sprites, all f000 fur;
+  - the close-shot warm rim cut from 95 to 28, so there is no pale contour line.
+- **Life in the hold.**
+  - The ears follow the score's ear value.
+  - The right ear flicks once at 27.08–27.33 s.
+  - The head tilts slowly by ±2.5°.
+  - The breath bob continues.
+- **End card.** It names the back-of-head angle artwork.
+
+Measured: ALL OK, 9.03 MB, voice onsets unchanged, measured looks-in onset 26.417 s.
+
+## Repair round 5 (after critic round 4, `reviews/round4.md`)
+
+- **Rear head opaque, with edges that read against the hall.**
+  - The skull's alpha is firmer (feather 1.2, bottom fade 12 px), so it no longer looks translucent.
+  - In the close shot a fixed warm pool of hall-lamp light sits inside the door opening, directly behind the head.
+  - Measured on the encoded film (frames 641–671, 26.71–27.96 s): the mean grey just outside the head outline minus just inside is min 66, median 68, max 72 grey levels (inside about 43, outside about 111). The rings come from the render's alpha; the grey levels come from the decoded film.
+- **Head leading at 7.54–7.96.** It now passes through the three-quarter head for one frame (7.50), then shows the lowered-head photograph (f046: eye, white blaze, muzzle) mirrored back over the shoulder, with the muzzle level toward the door (screen left). This was checked on film frames 7.67 and 7.75. No flip, hood or smudge is reintroduced.
+- **Visible life in the hold.**
+  - Two ear flicks of 45° (27.08 and 27.58 s, 7 frames each). Measured on the film: 382 px change by more than 25 grey levels in the ear region between 27.00 and 27.25 s.
+  - The head tilts by ±4°.
+
+Result: ALL OK, 9.02 MB. Onsets and voices are unchanged.
+
+**Stop condition:** watchable and the invariants hold. This was the last repair round allowed.

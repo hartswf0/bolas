@@ -27,6 +27,31 @@ class Renderer:
         self.inside_ramp = np.broadcast_to(np.clip((XS0 + 3 - xs) / 6, 0, 1)[None, :], (H, W))
         self.vign = self._vignette()
         self.grain_log = {}
+        self.dog_amb = self._match_dog_ambient()
+
+    def _match_dog_ambient(self):
+        """Light match: measure the dusk set (no door light, t=1 s) where the dog stands -- the wall and floor band
+        behind it -- and set the dog's ambient so its mean luma sits 1.35x that band, tinted half-way to the band's colour."""
+        c = self.set.back(1.0); fl, _ = self.set.light_maps(1.0); self.set.front(c, 1.0, fl)
+        band = c.rgb[340:550, 620:1200].reshape(-1, 3)
+        m = band.mean(0); lum = float(m @ np.array([.3, .59, .11]))
+        tint = 0.5 * m / lum + 0.5
+        gain = 1.35 * lum / 0.30                      # 0.30: the dog plates' matched luma mean (dogplates.TARGET)
+        self.amb_log = dict(band_rgb=[round(float(v), 4) for v in m], band_luma=round(lum, 4), dog_gain=round(gain, 4),
+                            tint=[round(float(v), 4) for v in tint])
+        return (tint * gain).astype(np.float32)
+
+    def contact_shadow(self, full):
+        """a soft dark ellipse on the floor under the dog's own matte (its feet / belly line), width from the matte."""
+        ys, xs = np.nonzero(full > .5)
+        if len(xs) < 50: return None
+        x0, x1, yb = xs.min(), xs.max(), ys.max()
+        w = (x1 - x0) * 0.55; cx = (x0 + x1) / 2
+        im = Image.new('L', (W // 2, H // 2), 0)
+        from PIL import ImageDraw as _D
+        _D.Draw(im).ellipse([(cx - w) / 2, (yb - 9) / 2, (cx + w) / 2, (yb + 7) / 2], fill=255)
+        im = im.filter(ImageFilter.GaussianBlur(4)).resize((W, H), Image.BILINEAR)
+        return np.asarray(im, np.float32) / 255 * (1 - np.clip(full, 0, 1))
 
     def _vignette(self):
         yy, xx = np.mgrid[0:H, 0:W].astype(np.float32)
@@ -58,11 +83,14 @@ class Renderer:
         amb = np.array(SP.DUSK, np.float32) * 0.95
         cdc = cd / (1 + 0.6 * cd)                      # soft shoulder so the lit dog keeps its texture
         light3 = amb[None, None] + 1.5 * cdc[..., None] * SP.WARM[None, None]
+        # the dog's matched light: in the door-light cone the dusk ambient gives way to the lamp's warm colour (round 2)
+        wk = np.clip(cdc, 0, 1)[..., None]
+        dlight = self.dog_amb[None, None] * (1 - 0.45 * wk) + 1.5 * cdc[..., None] * np.array([1.0, 0.62, 0.30], np.float32)[None, None]
         c = S.back(t)
         fac = c.mattes  # empty here
         # facade etc. drawn now; person standing inside must be held out by the facade, so draw person first when inside
         plist, pinfo = self.person.frame(i)
-        inside_person = [L for L in plist if L[4] == 'silhouette' and pinfo['person'] == 'standing' and t < 5.0]
+        inside_person = [L for L in plist if L[4] == 'silhouette' and t < 5.0]
         for nm, rgb, al, M, kind in inside_person:
             pc = warp(rgb * 0.07 + np.array([.02, .015, .01], np.float32), al, M)
             c.over(pc, name='person')
@@ -79,25 +107,42 @@ class Renderer:
                 col = (g[..., None] * .5 + rgb * .5) * 0.6; light = light3
             else:
                 g = rgb @ np.array([.3, .59, .11], np.float32)
-                col = np.repeat(g[..., None], 3, 2) * 0.30; light = light3
+                col = np.repeat(g[..., None], 3, 2) * 0.20; light = light3
             pc = warp(col, al, M)
             if pc is None: continue
             pc = self.grain_match(nm, pc)
             c.over(pc, light=light, name='person')
         # the dog
         dl, dinfo = self.dog.frame(i)
-        hold = hold_wall * self.inside_ramp
+        # holdout choked open by 1 px: the antialiased sill edge let the held-out forelegs leak as a dashed light line
+        hw = Image.fromarray((np.clip(hold_wall, 0, 1) * 255).astype(np.uint8)).filter(ImageFilter.MaxFilter(3))
+        hold = np.asarray(hw, np.float32) / 255 * self.inside_ramp
         full = np.zeros((H, W), np.float32)
+        pieces = []
         for nm, rgb, al, M in dl:
             pc = warp(rgb, al, M)
             if pc is None: continue
             x0, y0, cc, aa = pc
             sub = full[y0:y0 + aa.shape[0], x0:x0 + aa.shape[1]]; np.maximum(sub, aa, out=sub)
+            pieces.append((nm, pc))
+        sh = self.contact_shadow(full)
+        if sh is not None:
+            c.rgb *= (1 - 0.55 * sh * (1 - hold))[..., None]
+        for nm, pc in pieces:
             pc = self.grain_match('dog', pc)
             # the back of the head faces away from the lamp: it is lit from behind (rim), darker toward us
-            lt = light3 * np.array([.55, .55, .6], np.float32) if nm == 'dog:head-look' else light3
+            lt = dlight * np.array([.7, .7, .72], np.float32) if nm == 'dog:head-look' else dlight
+            if nm == 'dog:head-look':
+                # rim of hall light on the skull and ear silhouette (the lamp is beyond the head, in the room)
+                x0, y0, cc, aa = pc
+                er = np.asarray(Image.fromarray((aa * 255).astype(np.uint8)).filter(ImageFilter.MinFilter(3)), np.float32) / 255
+                rim = np.clip(aa - er, 0, 1)
+                ys_ = np.nonzero(aa.max(1) > .5)[0]
+                if len(ys_):    # only the skull and ear edge (upper 45 % of the head), where the hall light grazes it
+                    yy = np.arange(aa.shape[0])[:, None]
+                    rim = rim * np.clip((ys_.min() + 0.45 * (ys_.max() - ys_.min()) - yy) / 4, 0, 1)
+                pc = (x0, y0, cc + (rim * 0.7)[..., None] * np.array([1.0, .72, .42], np.float32) / np.maximum(lt[y0:y0 + aa.shape[0], x0:x0 + aa.shape[1]], .05), aa)
             c.over(pc, holdout=hold, light=lt, name='dog')
-        # contact shadow under the dog (ambient occlusion from the dog's own full matte, squashed onto the floor)
         img = c.rgb
         # final: bloom from the lit doorway, vignette, common grain, gentle toe
         y = img @ np.array([.3, .59, .11], np.float32)
@@ -157,7 +202,7 @@ def main():
         for im in cards.end_frames():
             ff.stdin.write(im.tobytes()); n += 1
         ff.stdin.close(); ff.wait()
-        json.dump(dict(frames_written=n, scene_frames=len(meas), xs0=XS0, grain=R.grain_log, frames=meas),
+        json.dump(dict(frames_written=n, scene_frames=len(meas), xs0=XS0, grain=R.grain_log, dog_light_match=R.amb_log, frames=meas),
                   open(os.path.join(CACHE, 'measure.json'), 'w'))
         print('written', n)
 

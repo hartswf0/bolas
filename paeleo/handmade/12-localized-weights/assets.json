@@ -1,0 +1,62 @@
+{
+ "about": "Every asset in PAE-02 SCION 12. Nothing was taken from the kit, the archive, the web or a model: every shape is drawn in code (polygons, unions and pierced holes), every weight is solved here, every sound is synthesized here.",
+ "assets": [
+  {
+   "id": "lace-dog",
+   "what": "the dog: one cut-paper (papercut) profile with 30 pierced lace holes, legs and ears a finger apart, curled tail",
+   "source": "build/dog.py (drawn in code as unions of tapered strokes and a Catmull-Rom torso, holes as petals, circles and slits)",
+   "rights": "made here (SCION 12), no third-party material",
+   "operation": "drawn; constrained Delaunay triangulation (triangle library); bounded biharmonic weights solved in build/bbw.py"
+  },
+  {
+   "id": "dog-rig",
+   "what": "12 bones (neck, head, 2 per leg, 2 tail), 2 point handles (ear tips), a 6-vertex torso cage",
+   "source": "build/dog.py handles(), build/rig.py",
+   "rights": "made here",
+   "operation": "computed: per-handle affines from the score's acting state; linear blend skinning"
+  },
+  {
+   "id": "coat-person",
+   "what": "the person: ink-blue cut paper, long coat with pierced hem, rosette, coat vent",
+   "source": "build/person.py",
+   "rights": "made here",
+   "operation": "drawn; triangulated; bounded biharmonic weights (8 bones, 1 point, 4-vertex coat cage)"
+  },
+  {
+   "id": "house-porch-dusk",
+   "what": "room with lace wallpaper, lamp, picture, rug; door leaf; wall section hatched in pierced slots; sill; porch floor, lattice skirt, scalloped fascia, roof with gingerbread trim, post, steps; sky, stars, moon, hills and trees",
+   "source": "build/world.py",
+   "rights": "made here",
+   "operation": "drawn in code as polygons with holes; procedural paper-fibre texture (numpy noise)"
+  },
+  {
+   "id": "voice",
+   "what": "the person's lines (Come here. x2, It's all right. x2, Come in.)",
+   "source": "build/sound.py speak(): sawtooth glottal source through three time-varying formant resonators, phoneme targets typed by hand",
+   "rights": "made here; no recorded voice",
+   "operation": "synthesized"
+  },
+  {
+   "id": "sound",
+   "what": "paper footfalls on each paw plant (same gait as the picture), paper rustles on each yaw ripple and on lying down, door latch and creak, stool creak, crickets, dusk air, warm pad when the light comes out",
+   "source": "build/sound.py",
+   "rights": "made here",
+   "operation": "synthesized (filtered noise, resonators, sines)"
+  },
+  {
+   "id": "fonts",
+   "what": "Literata (captions), Big Shoulders Display (title), JetBrains Mono (numbers)",
+   "source": "tools/paeleo/fonts/*.woff2 (shared in the repo), converted to TTF in build/cache/fonts",
+   "rights": "SIL Open Font License",
+   "operation": "type set on the captions and cards"
+  },
+  {
+   "id": "score",
+   "what": "the dog's decision trace (timing, x, acting state, the person's circumstances, the door)",
+   "source": "paeleo/handmade/score/threshold-score.json",
+   "rights": "project material",
+   "operation": "read; drives every pose"
+  }
+ ],
+ "not_used": "kit/archive-dog, kit/archive-door, Quick, Draw!, found-frames: none of them are in this film."
+}
