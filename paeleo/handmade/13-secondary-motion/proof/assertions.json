@@ -1,12 +1,12 @@
 {
  "about": "numeric assertions from the solver/mask measurements; perceptual judgment is the critic's",
- "all_ok": true,
+ "all_ok": false,
  "assertions": [
   {
    "name": "coat settles after lying down: body-coat kinetic energy 25.0-25.3 s < 15% of its 23.8-24.7 s peak",
    "ok": true,
-   "peak": 141.7,
-   "after": 0.26
+   "peak": 154.08,
+   "after": 0.12
   },
   {
    "name": "coat lags the body: fur energy peaks after the lying onset (23.79 s)",
@@ -16,7 +16,7 @@
   {
    "name": "no endless oscillation: body-coat energy 31.5-32 s < 25% of the lying peak",
    "ok": true,
-   "end": 0.78
+   "end": 0.58
   },
   {
    "name": "ear flick follows the soft voice at 7.36 s",
@@ -34,16 +34,16 @@
   },
   {
    "name": "ear flick follows the soft voice at 26.36 s",
-   "ok": true,
-   "peak_t": 26.458,
-   "peak": 21.03,
+   "ok": false,
+   "peak_t": 26.792,
+   "peak": 25.29,
    "before": 0.2
   },
   {
    "name": "coat flattens on the refusal: mean fur-tip distance from the spine axis drops",
    "ok": true,
-   "watching": 0.2484,
-   "refusing": 0.1972
+   "watching": 0.2049,
+   "refusing": 0.1751
   },
   {
    "name": "tail tucks on the refusal: tail tip lower than while watching",
