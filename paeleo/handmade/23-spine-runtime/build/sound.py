@@ -123,7 +123,7 @@ def main():
         t = e['t']
         if e['name'] == 'step':
             m = int(0.05 * SR)
-            x = band(rng.normal(0, 1, m), 150, 2200) * np.exp(-np.arange(m) / (0.008 * SR)) * rng.uniform(0.02, 0.035)
+            x = band(rng.normal(0, 1, m), 150, 2200) * np.exp(-np.arange(m) / (0.008 * SR)) * rng.uniform(0.05, 0.08)
             place(fx, x, t)
         elif e['name'] == 'thump':
             m = int(0.35 * SR)

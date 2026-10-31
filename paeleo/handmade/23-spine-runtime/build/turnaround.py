@@ -53,7 +53,7 @@ def blen(name):
 
 
 DEFAULT = dict(phi=0.0, lie=0.0, crouch=0.0, rear_drop=0.0, neck_elev=48.0, neck_yaw=0.0, head_pitch=-12.0,
-               head_yaw=0.0, ear=0.85, tail=0.5, tail_yaw=0.0, splay=0.0, fore_reach=0.0, body_y=0.0)
+               head_yaw=0.0, ear=0.85, tail=0.5, tail_yaw=0.0, splay=0.0, fore_reach=0.0, body_y=0.0, head_over=0.0)
 
 
 def lerp(a, b, t): return a + (b - a) * t
@@ -240,7 +240,7 @@ def bake(P):
         local[name] = dict(x=round(float(d[0]), 3), y=round(float(d[1]), 3), rotation=round(r, 3),
                            scaleX=round(float(sc), 4))
     psi = phi - p['neck_yaw'] - p['head_yaw']
-    att, order = attachments_and_order(phi, psi)
+    att, order = attachments_and_order(phi, psi, p.get('head_over', 0) > 0.5)
     return dict(local=local, world=world, attachments=att, drawOrder=order, phi=phi, psi=psi, joints=S2,
                 depth=DEP, params=p)
 
@@ -253,7 +253,7 @@ SLOTS = (SLOTS_LEG['fL'] + SLOTS_LEG['fR'] + SLOTS_LEG['hL'] + SLOTS_LEG['hR'] +
          ['tail', 'torso', 'neck', 'head', 'earL', 'earR'])
 
 
-def attachments_and_order(phi, psi):
+def attachments_and_order(phi, psi, head_over=False):
     near = 'L' if phi < 90 else 'R'
     far = 'R' if near == 'L' else 'L'
     tv = nearest(phi, [0, 45, 90, 135])
@@ -276,17 +276,20 @@ def attachments_and_order(phi, psi):
     headgrp = ears_back + ['head'] + ears_front
     up_near = [SLOTS_LEG['f' + near][2], SLOTS_LEG['h' + near][3]]
     lo_near = SLOTS_LEG['h' + near][:3] + SLOTS_LEG['f' + near][:2]
-    if 67.5 <= phi <= 112.5:
+    if 67.5 <= phi <= 112.5 and head_over:
+        order = (SLOTS_LEG['f' + far] + SLOTS_LEG['f' + near] + ['torso'] +
+                 SLOTS_LEG['h' + far] + SLOTS_LEG['h' + near] + ['tail', 'neck'] + headgrp)
+    elif 67.5 <= phi <= 112.5:
         order = (SLOTS_LEG['f' + far] + SLOTS_LEG['f' + near] + ['neck'] + headgrp + ['torso'] +
                  SLOTS_LEG['h' + far] + SLOTS_LEG['h' + near] + ['tail'])
     else:
-        head_front = phi < 32 or phi > 148
+        head_front = phi < 32 or phi > 148 or head_over
         tail_front = 50 <= phi <= 130
         order = SLOTS_LEG['f' + far] + SLOTS_LEG['h' + far]
         if not tail_front: order += ['tail']
         if not head_front: order += headgrp
-        order += ['neck'] + up_near + ['torso']
+        order += ([] if head_over else ['neck']) + up_near + ['torso']
         if tail_front: order += ['tail']
         order += lo_near
-        if head_front: order += headgrp
+        if head_front: order += (['neck'] if head_over else []) + headgrp
     return att, order

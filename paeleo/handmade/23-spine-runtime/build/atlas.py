@@ -148,7 +148,7 @@ def crop(col, alpha, origin, pad=8):
 
 
 def paint_capsule(L, r0, r1, base, far, light_angle, bulge=0.0, tip=None, back_stripe=None, seed=0, stroke_angle=0.0,
-                  side_outline=True, stripe_side=-1):
+                  side_outline=True, stripe_side=-1, soft_end=False, flat=0.0):
     (X, Y), alpha, ncam, (x0, y1, w, h) = P.capsule_field(L, r0, r1, PPM, pad=10, bulge=bulge)
     alb = np.zeros(alpha.shape + (3,)) + base
     if tip is not None:
@@ -159,13 +159,15 @@ def paint_capsule(L, r0, r1, base, far, light_angle, bulge=0.0, tip=None, back_s
         sw = sstep(0.05, 0.7, stripe_side * Y / max(r0, r1))
         alb = alb * (1 - sw[..., None]) + np.asarray(back_stripe) * sw[..., None]
     col = P.shade(ncam, alb, light=P.light_for(light_angle), up_axis=P.vec_for(light_angle, (0, 1, 0)))
+    if flat: col = col * (1 - flat) + alb * 0.86 * flat   # flatter: painted, not turned on a lathe
     if far: col = col * FAR
     ow = None
     if side_outline:   # outline the long sides only: the round ends tuck under the neighbouring part
         ow = np.clip(1 - np.maximum(sstep(0.0, -0.6 * r0, X), sstep(L, L + 0.6 * r1, X)), 0, 1)
     col, alpha = P.finish(col, alpha, np.random.default_rng(seed), angle=stroke_angle, outline=4,
                           stroke_len=(8, 20), stroke_w=(2, 4), amount=0.2, density=3.0, outline_w=ow)
-    # fur: a few hair flicks along the edges
+    if soft_end:   # the distal end melts into the next segment: no dowel seam at the knee or hock
+        alpha = alpha * (1 - sstep(L - 0.1 * r1, L + 0.95 * r1, X))
     return col, alpha, (x0, y1)
 
 
@@ -218,14 +220,15 @@ def main():
         col, al, org = crop(col, al, org)
         put('head_%d' % psi, col, al, org, 'plane', 'head')
         print('head', psi, al.shape)
-    LEG = dict(up_f=(0.18, 0.056, 0.036, TAN, None), lo_f=(0.19, 0.033, 0.026, TAN * 0.97 + CREAM * 0.03, None),
-               paw_f=(0.075, 0.027, 0.031, CREAM * 0.92, None), th_h=(0.20, 0.08, 0.046, TAN, None),
-               sh_h=(0.21, 0.044, 0.029, TAN, None), mt_h=(0.12, 0.027, 0.024, TAN * 0.9 + CREAM * 0.1, None),
+    LEG = dict(up_f=(0.18, 0.064, 0.031, TAN, None), lo_f=(0.19, 0.031, 0.021, TAN, None),
+               paw_f=(0.075, 0.027, 0.031, CREAM * 0.92, None), th_h=(0.20, 0.09, 0.04, TAN, None),
+               sh_h=(0.21, 0.041, 0.022, TAN, None), mt_h=(0.12, 0.023, 0.019, TAN * 0.95 + CREAM * 0.05, None),
                paw_h=(0.07, 0.026, 0.03, CREAM * 0.92, None))
     k = 0
     for nm, (L, r0, r1, base, _) in LEG.items():
         for nf in ('near', 'far'):
-            col, al, org = paint_capsule(L, r0, r1, base, nf == 'far', -90, seed=300 + k, stroke_angle=0)
+            col, al, org = paint_capsule(L, r0, r1, base, nf == 'far', -90, seed=300 + k, stroke_angle=0,
+                                         soft_end=not nm.startswith('paw'), flat=0.45)
             put('%s_%s' % (nm, nf), col, al, org, 'axis')
             k += 1
     for nm, sgn in (('neck_dL', -1), ('neck_dR', 1)):   # dorsal stripe on the -y (facing left) or +y side
