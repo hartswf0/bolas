@@ -50,7 +50,7 @@ def inset(img, i, fr, Hs2p):
     fr_ = Image.new('RGB', (w + 6, h + 26), (18, 16, 18))
     fr_.paste(pl, (3, 3))
     dd = ImageDraw.Draw(fr_)
-    dd.text((6, h + 7), 'CAPTURE (synthesized) %05.2fs  tracked: cyan  hand matte: red' % (i / FPS), fill=(220, 214, 200), font=font('mono', 11))
+    dd.text((6, h + 7), 'CAPTURE, synthesized  %05.2fs  cyan: tracked  red: hand matte' % (i / FPS), fill=(220, 214, 200), font=font('mono', 11))
     img.paste(fr_, (x0 - 3, y0 - 3))
 
 
@@ -108,8 +108,8 @@ def segment(M):
         elif st == 'refuse' and fac == 1:
             nxt = 'watch'; rest_x = None
         elif st == 'watch' and any(o['to'] == 'refuse' for o in onsets):
-            recent = (recent + [m['x']])[-12:]
-            if rest_x is None and fac == 1 and len(recent) == 12 and max(recent) - min(recent) < 1.5:
+            recent = (recent + [m['x']])[-12:] if ratio > 0.92 else []
+            if rest_x is None and fac == 1 and ratio > 0.92 and len(recent) == 12 and max(recent) - min(recent) < 1.5:
                 rest_x = float(np.mean(recent))     # the dog has come to rest, facing the door
             if rest_x is not None and t - onsets[-1]['t'] > 1.0 and rest_x - m['x'] > 3:
                 nxt = 'approach'

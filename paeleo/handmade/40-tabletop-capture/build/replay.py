@@ -64,13 +64,6 @@ def compose(pieces):
         k = (a / 255)[..., None]
         base[..., :3] = base[..., :3] * (1 - k) + scr * k
         img = Image.fromarray(base.astype(np.uint8), 'RGBA')
-        # the beam in the air through the door: a soft wedge
-        beam = Image.new('L', (W, H), 0)
-        ex = WALL[1] + (pieces['light']['X'] - 8) / (WALL[0] - 8) * 260
-        ImageDraw.Draw(beam).polygon([(WALL[1], LINTEL + 10), (WALL[1], GROUND), (ex + 60, GROUND + 6), (ex - 40, GROUND - 40)], fill=int(70 * u))
-        beam = beam.filter(ImageFilter.GaussianBlur(18))
-        bl = Image.new('RGBA', (W, H), (255, 214, 140, 255)); bl.putalpha(beam)
-        img.alpha_composite(bl)
     # the dog: body and head cards, its shadow on the floor
     bl_ = layer(pieces['dog.body'])
     hl_ = layer(pieces['dog.head'])

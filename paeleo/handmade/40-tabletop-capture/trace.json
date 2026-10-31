@@ -1,5 +1,5 @@
 {
-"about": "SCION 40 \u00b7 trace measured from the replayed render (not copied from the score).\nx_screen, y_screen: centroid of the dog's rendered layers (body card + head card alpha > .5), px.\nfacing: +1 when the rendered head card's muzzle point lies left of its skull point (toward the door), -1 right, 0 when the head is round the far side of the body (rear views) or the muzzle is hidden.\nposture: rendered body-card height against its height in the first half second (standing > .88, crouched > .66, else lying).\nstate: segmented at onsets measured on these signals (see data/onsets.json).\nx_score: the recovered body-card anchor X mapped back to score metres (the sill 0.56 m sits on the wall line).\ndog_px_extent: the rendered dog's leftmost and rightmost pixel; the wall line (threshold) is x = 330 px.",
+"about": "SCION 40 \u00b7 trace measured from the replayed render (not copied from the score).\nx_screen, y_screen: centroid of the dog's rendered layers (body card + head card alpha > .5), px.\nfacing: +1 when the rendered head card's muzzle point lies left of its skull point (toward the door), -1 right, 0 when the head is round the far side of the body (rear views) or the muzzle is hidden.\nposture: from the rendered body card: its height and the height of its hindquarters (the third away from the head) against the first half second; lying = hindquarters < .7 and height < .75.\nstate: segmented at onsets measured on these signals (see data/onsets.json).\nx_score: the recovered body-card anchor X mapped back to score metres (the sill 0.56 m sits on the wall line).\ndog_px_extent: the rendered dog's leftmost and rightmost pixel; the wall line (threshold) is x = 330 px.",
 "camera": "static",
 "frames": [
 {
@@ -3456,7 +3456,7 @@
 {
 "i": 203,
 "t": 8.4583,
-"state": "approach",
+"state": "watch",
 "x_score": 3.9987,
 "x_screen": 1012.45,
 "y_screen": 514.89,
@@ -3473,7 +3473,7 @@
 {
 "i": 204,
 "t": 8.5,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0,
 "x_screen": 1010.2,
 "y_screen": 522.93,
@@ -3490,7 +3490,7 @@
 {
 "i": 205,
 "t": 8.5417,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0025,
 "x_screen": 1010.65,
 "y_screen": 523.08,
@@ -3507,7 +3507,7 @@
 {
 "i": 206,
 "t": 8.5833,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0027,
 "x_screen": 1010.72,
 "y_screen": 522.97,
@@ -3524,7 +3524,7 @@
 {
 "i": 207,
 "t": 8.625,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0001,
 "x_screen": 1004.04,
 "y_screen": 514.6,
@@ -3541,7 +3541,7 @@
 {
 "i": 208,
 "t": 8.6667,
-"state": "approach",
+"state": "watch",
 "x_score": 3.9998,
 "x_screen": 1003.96,
 "y_screen": 514.78,
@@ -3558,7 +3558,7 @@
 {
 "i": 209,
 "t": 8.7083,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0,
 "x_screen": 1004.03,
 "y_screen": 514.58,
@@ -3575,7 +3575,7 @@
 {
 "i": 210,
 "t": 8.75,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0028,
 "x_screen": 1004.58,
 "y_screen": 515.06,
@@ -3592,7 +3592,7 @@
 {
 "i": 211,
 "t": 8.7917,
-"state": "approach",
+"state": "watch",
 "x_score": 3.9999,
 "x_screen": 1003.93,
 "y_screen": 514.9,
@@ -3609,7 +3609,7 @@
 {
 "i": 212,
 "t": 8.8333,
-"state": "approach",
+"state": "watch",
 "x_score": 3.9999,
 "x_screen": 1004.0,
 "y_screen": 514.56,
@@ -3626,7 +3626,7 @@
 {
 "i": 213,
 "t": 8.875,
-"state": "approach",
+"state": "watch",
 "x_score": 3.9997,
 "x_screen": 1003.98,
 "y_screen": 515.11,
@@ -3643,7 +3643,7 @@
 {
 "i": 214,
 "t": 8.9167,
-"state": "approach",
+"state": "watch",
 "x_score": 3.9996,
 "x_screen": 1003.91,
 "y_screen": 514.83,
@@ -3660,7 +3660,7 @@
 {
 "i": 215,
 "t": 8.9583,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.29,
 "y_screen": 514.86,
@@ -3677,7 +3677,7 @@
 {
 "i": 216,
 "t": 9.0,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.29,
 "y_screen": 514.86,
@@ -3694,7 +3694,7 @@
 {
 "i": 217,
 "t": 9.0417,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.29,
 "y_screen": 514.86,
@@ -3711,7 +3711,7 @@
 {
 "i": 218,
 "t": 9.0833,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.28,
 "y_screen": 514.85,
@@ -3728,7 +3728,7 @@
 {
 "i": 219,
 "t": 9.125,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.29,
 "y_screen": 514.85,
@@ -3745,7 +3745,7 @@
 {
 "i": 220,
 "t": 9.1667,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.29,
 "y_screen": 514.85,
@@ -3762,7 +3762,7 @@
 {
 "i": 221,
 "t": 9.2083,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.3,
 "y_screen": 514.85,
@@ -3779,7 +3779,7 @@
 {
 "i": 222,
 "t": 9.25,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.26,
 "y_screen": 514.83,
@@ -3796,7 +3796,7 @@
 {
 "i": 223,
 "t": 9.2917,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.25,
 "y_screen": 514.82,
@@ -3813,7 +3813,7 @@
 {
 "i": 224,
 "t": 9.3333,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.23,
 "y_screen": 514.81,
@@ -3830,7 +3830,7 @@
 {
 "i": 225,
 "t": 9.375,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.26,
 "y_screen": 514.83,
@@ -3847,7 +3847,7 @@
 {
 "i": 226,
 "t": 9.4167,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.3,
 "y_screen": 514.85,
@@ -3864,7 +3864,7 @@
 {
 "i": 227,
 "t": 9.4583,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.29,
 "y_screen": 514.85,
@@ -3881,7 +3881,7 @@
 {
 "i": 228,
 "t": 9.5,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.29,
 "y_screen": 514.86,
@@ -3898,7 +3898,7 @@
 {
 "i": 229,
 "t": 9.5417,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.29,
 "y_screen": 514.87,
@@ -3915,7 +3915,7 @@
 {
 "i": 230,
 "t": 9.5833,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.27,
 "y_screen": 514.88,
@@ -3932,7 +3932,7 @@
 {
 "i": 231,
 "t": 9.625,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.28,
 "y_screen": 514.89,
@@ -3949,7 +3949,7 @@
 {
 "i": 232,
 "t": 9.6667,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.27,
 "y_screen": 514.91,
@@ -3966,7 +3966,7 @@
 {
 "i": 233,
 "t": 9.7083,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.25,
 "y_screen": 514.94,
@@ -3983,7 +3983,7 @@
 {
 "i": 234,
 "t": 9.75,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.24,
 "y_screen": 514.96,
@@ -4000,7 +4000,7 @@
 {
 "i": 235,
 "t": 9.7917,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.26,
 "y_screen": 514.98,
@@ -4017,7 +4017,7 @@
 {
 "i": 236,
 "t": 9.8333,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.2,
 "y_screen": 514.98,
@@ -4034,7 +4034,7 @@
 {
 "i": 237,
 "t": 9.875,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.24,
 "y_screen": 515.03,
@@ -4051,7 +4051,7 @@
 {
 "i": 238,
 "t": 9.9167,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.22,
 "y_screen": 515.05,
@@ -4068,7 +4068,7 @@
 {
 "i": 239,
 "t": 9.9583,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.25,
 "y_screen": 515.1,
@@ -4085,7 +4085,7 @@
 {
 "i": 240,
 "t": 10.0,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.23,
 "y_screen": 515.1,
@@ -4102,7 +4102,7 @@
 {
 "i": 241,
 "t": 10.0417,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.2,
 "y_screen": 515.11,
@@ -4119,7 +4119,7 @@
 {
 "i": 242,
 "t": 10.0833,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.22,
 "y_screen": 515.13,
@@ -4136,7 +4136,7 @@
 {
 "i": 243,
 "t": 10.125,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.22,
 "y_screen": 515.15,
@@ -4153,7 +4153,7 @@
 {
 "i": 244,
 "t": 10.1667,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.18,
 "y_screen": 515.16,
@@ -4170,7 +4170,7 @@
 {
 "i": 245,
 "t": 10.2083,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.18,
 "y_screen": 515.15,
@@ -4187,7 +4187,7 @@
 {
 "i": 246,
 "t": 10.25,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.18,
 "y_screen": 515.17,
@@ -4204,7 +4204,7 @@
 {
 "i": 247,
 "t": 10.2917,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.19,
 "y_screen": 515.19,
@@ -4221,7 +4221,7 @@
 {
 "i": 248,
 "t": 10.3333,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.19,
 "y_screen": 515.2,
@@ -4238,7 +4238,7 @@
 {
 "i": 249,
 "t": 10.375,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.17,
 "y_screen": 515.2,
@@ -4255,7 +4255,7 @@
 {
 "i": 250,
 "t": 10.4167,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.19,
 "y_screen": 515.22,
@@ -4272,7 +4272,7 @@
 {
 "i": 251,
 "t": 10.4583,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.17,
 "y_screen": 515.22,
@@ -4289,7 +4289,7 @@
 {
 "i": 252,
 "t": 10.5,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.14,
 "y_screen": 515.21,
@@ -4306,7 +4306,7 @@
 {
 "i": 253,
 "t": 10.5417,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.13,
 "y_screen": 515.22,
@@ -4323,7 +4323,7 @@
 {
 "i": 254,
 "t": 10.5833,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.13,
 "y_screen": 515.22,
@@ -4340,7 +4340,7 @@
 {
 "i": 255,
 "t": 10.625,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.12,
 "y_screen": 515.21,
@@ -4357,7 +4357,7 @@
 {
 "i": 256,
 "t": 10.6667,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.11,
 "y_screen": 515.21,
@@ -4374,7 +4374,7 @@
 {
 "i": 257,
 "t": 10.7083,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.11,
 "y_screen": 515.22,
@@ -4391,7 +4391,7 @@
 {
 "i": 258,
 "t": 10.75,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.12,
 "y_screen": 515.22,
@@ -4408,7 +4408,7 @@
 {
 "i": 259,
 "t": 10.7917,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.11,
 "y_screen": 515.21,
@@ -4425,7 +4425,7 @@
 {
 "i": 260,
 "t": 10.8333,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.12,
 "y_screen": 515.22,
@@ -4442,7 +4442,7 @@
 {
 "i": 261,
 "t": 10.875,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.13,
 "y_screen": 515.22,
@@ -4459,7 +4459,7 @@
 {
 "i": 262,
 "t": 10.9167,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.14,
 "y_screen": 515.21,
@@ -4476,7 +4476,7 @@
 {
 "i": 263,
 "t": 10.9583,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.18,
 "y_screen": 515.23,
@@ -4493,7 +4493,7 @@
 {
 "i": 264,
 "t": 11.0,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.18,
 "y_screen": 515.22,
@@ -4510,7 +4510,7 @@
 {
 "i": 265,
 "t": 11.0417,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.17,
 "y_screen": 515.2,
@@ -4527,7 +4527,7 @@
 {
 "i": 266,
 "t": 11.0833,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.19,
 "y_screen": 515.2,
@@ -4544,7 +4544,7 @@
 {
 "i": 267,
 "t": 11.125,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.19,
 "y_screen": 515.19,
@@ -4561,7 +4561,7 @@
 {
 "i": 268,
 "t": 11.1667,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.18,
 "y_screen": 515.16,
@@ -4578,7 +4578,7 @@
 {
 "i": 269,
 "t": 11.2083,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.19,
 "y_screen": 515.15,
@@ -4595,7 +4595,7 @@
 {
 "i": 270,
 "t": 11.25,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.21,
 "y_screen": 515.16,
@@ -4612,7 +4612,7 @@
 {
 "i": 271,
 "t": 11.2917,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.23,
 "y_screen": 515.15,
@@ -4629,7 +4629,7 @@
 {
 "i": 272,
 "t": 11.3333,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.22,
 "y_screen": 515.13,
@@ -4646,7 +4646,7 @@
 {
 "i": 273,
 "t": 11.375,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.2,
 "y_screen": 515.11,
@@ -4663,7 +4663,7 @@
 {
 "i": 274,
 "t": 11.4167,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.25,
 "y_screen": 515.11,
@@ -4680,7 +4680,7 @@
 {
 "i": 275,
 "t": 11.4583,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.24,
 "y_screen": 515.1,
@@ -4697,7 +4697,7 @@
 {
 "i": 276,
 "t": 11.5,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.22,
 "y_screen": 515.06,
@@ -4714,7 +4714,7 @@
 {
 "i": 277,
 "t": 11.5417,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.24,
 "y_screen": 515.03,
@@ -4731,7 +4731,7 @@
 {
 "i": 278,
 "t": 11.5833,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.24,
 "y_screen": 515.0,
@@ -4748,7 +4748,7 @@
 {
 "i": 279,
 "t": 11.625,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.22,
 "y_screen": 514.98,
@@ -4765,7 +4765,7 @@
 {
 "i": 280,
 "t": 11.6667,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.26,
 "y_screen": 514.99,
@@ -4782,7 +4782,7 @@
 {
 "i": 281,
 "t": 11.7083,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.23,
 "y_screen": 514.95,
@@ -4799,7 +4799,7 @@
 {
 "i": 282,
 "t": 11.75,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.26,
 "y_screen": 514.94,
@@ -4816,7 +4816,7 @@
 {
 "i": 283,
 "t": 11.7917,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.24,
 "y_screen": 514.91,
@@ -4833,7 +4833,7 @@
 {
 "i": 284,
 "t": 11.8333,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.27,
 "y_screen": 514.88,
@@ -4850,7 +4850,7 @@
 {
 "i": 285,
 "t": 11.875,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.28,
 "y_screen": 514.87,
@@ -4867,7 +4867,7 @@
 {
 "i": 286,
 "t": 11.9167,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.3,
 "y_screen": 514.86,
@@ -4884,7 +4884,7 @@
 {
 "i": 287,
 "t": 11.9583,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.29,
 "y_screen": 514.85,
@@ -4901,7 +4901,7 @@
 {
 "i": 288,
 "t": 12.0,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.31,
 "y_screen": 514.83,
@@ -4918,7 +4918,7 @@
 {
 "i": 289,
 "t": 12.0417,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.34,
 "y_screen": 514.82,
@@ -4935,7 +4935,7 @@
 {
 "i": 290,
 "t": 12.0833,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.34,
 "y_screen": 514.79,
@@ -4952,7 +4952,7 @@
 {
 "i": 291,
 "t": 12.125,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.3,
 "y_screen": 514.74,
@@ -4969,7 +4969,7 @@
 {
 "i": 292,
 "t": 12.1667,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.33,
 "y_screen": 514.73,
@@ -4986,7 +4986,7 @@
 {
 "i": 293,
 "t": 12.2083,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.35,
 "y_screen": 514.71,
@@ -5003,7 +5003,7 @@
 {
 "i": 294,
 "t": 12.25,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.4,
 "y_screen": 514.75,
@@ -5020,7 +5020,7 @@
 {
 "i": 295,
 "t": 12.2917,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.34,
 "y_screen": 514.7,
@@ -5037,7 +5037,7 @@
 {
 "i": 296,
 "t": 12.3333,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.38,
 "y_screen": 514.69,
@@ -5054,7 +5054,7 @@
 {
 "i": 297,
 "t": 12.375,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.36,
 "y_screen": 514.63,
@@ -5071,7 +5071,7 @@
 {
 "i": 298,
 "t": 12.4167,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.39,
 "y_screen": 514.63,
@@ -5088,7 +5088,7 @@
 {
 "i": 299,
 "t": 12.4583,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.4,
 "y_screen": 514.63,
@@ -5105,7 +5105,7 @@
 {
 "i": 300,
 "t": 12.5,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.4,
 "y_screen": 514.62,
@@ -5122,7 +5122,7 @@
 {
 "i": 301,
 "t": 12.5417,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.44,
 "y_screen": 514.63,
@@ -5139,7 +5139,7 @@
 {
 "i": 302,
 "t": 12.5833,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.43,
 "y_screen": 514.61,
@@ -5156,7 +5156,7 @@
 {
 "i": 303,
 "t": 12.625,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.41,
 "y_screen": 514.57,
@@ -5173,7 +5173,7 @@
 {
 "i": 304,
 "t": 12.6667,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.38,
 "y_screen": 514.54,
@@ -5190,7 +5190,7 @@
 {
 "i": 305,
 "t": 12.7083,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.4,
 "y_screen": 514.54,
@@ -5207,7 +5207,7 @@
 {
 "i": 306,
 "t": 12.75,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.4,
 "y_screen": 514.53,
@@ -5224,7 +5224,7 @@
 {
 "i": 307,
 "t": 12.7917,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.43,
 "y_screen": 514.53,
@@ -5241,7 +5241,7 @@
 {
 "i": 308,
 "t": 12.8333,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.48,
 "y_screen": 514.55,
@@ -5258,7 +5258,7 @@
 {
 "i": 309,
 "t": 12.875,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.51,
 "y_screen": 514.55,
@@ -5275,7 +5275,7 @@
 {
 "i": 310,
 "t": 12.9167,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.5,
 "y_screen": 514.54,
@@ -5292,7 +5292,7 @@
 {
 "i": 311,
 "t": 12.9583,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.49,
 "y_screen": 514.54,
@@ -5309,7 +5309,7 @@
 {
 "i": 312,
 "t": 13.0,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.49,
 "y_screen": 514.54,
@@ -5326,7 +5326,7 @@
 {
 "i": 313,
 "t": 13.0417,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.5,
 "y_screen": 514.55,
@@ -5343,7 +5343,7 @@
 {
 "i": 314,
 "t": 13.0833,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.5,
 "y_screen": 514.55,
@@ -5360,7 +5360,7 @@
 {
 "i": 315,
 "t": 13.125,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.5,
 "y_screen": 514.55,
@@ -5377,7 +5377,7 @@
 {
 "i": 316,
 "t": 13.1667,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.5,
 "y_screen": 514.55,
@@ -5394,7 +5394,7 @@
 {
 "i": 317,
 "t": 13.2083,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.5,
 "y_screen": 514.55,
@@ -5411,7 +5411,7 @@
 {
 "i": 318,
 "t": 13.25,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.5,
 "y_screen": 514.55,
@@ -5428,7 +5428,7 @@
 {
 "i": 319,
 "t": 13.2917,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.49,
 "y_screen": 514.54,
@@ -5445,7 +5445,7 @@
 {
 "i": 320,
 "t": 13.3333,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.49,
 "y_screen": 514.54,
@@ -5462,7 +5462,7 @@
 {
 "i": 321,
 "t": 13.375,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.51,
 "y_screen": 514.55,
@@ -5479,7 +5479,7 @@
 {
 "i": 322,
 "t": 13.4167,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.48,
 "y_screen": 514.55,
@@ -5496,7 +5496,7 @@
 {
 "i": 323,
 "t": 13.4583,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.43,
 "y_screen": 514.53,
@@ -5513,7 +5513,7 @@
 {
 "i": 324,
 "t": 13.5,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.42,
 "y_screen": 514.53,
@@ -5530,7 +5530,7 @@
 {
 "i": 325,
 "t": 13.5417,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.39,
 "y_screen": 514.54,
@@ -5547,7 +5547,7 @@
 {
 "i": 326,
 "t": 13.5833,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.38,
 "y_screen": 514.54,
@@ -5564,7 +5564,7 @@
 {
 "i": 327,
 "t": 13.625,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.4,
 "y_screen": 514.57,
@@ -5581,7 +5581,7 @@
 {
 "i": 328,
 "t": 13.6667,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.44,
 "y_screen": 514.61,
@@ -5598,7 +5598,7 @@
 {
 "i": 329,
 "t": 13.7083,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.44,
 "y_screen": 514.63,
@@ -5615,7 +5615,7 @@
 {
 "i": 330,
 "t": 13.75,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.4,
 "y_screen": 514.62,
@@ -5632,7 +5632,7 @@
 {
 "i": 331,
 "t": 13.7917,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.39,
 "y_screen": 514.62,
@@ -5649,7 +5649,7 @@
 {
 "i": 332,
 "t": 13.8333,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.4,
 "y_screen": 514.63,
@@ -5666,7 +5666,7 @@
 {
 "i": 333,
 "t": 13.875,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.36,
 "y_screen": 514.63,
@@ -5683,7 +5683,7 @@
 {
 "i": 334,
 "t": 13.9167,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.4,
 "y_screen": 514.69,
@@ -5700,7 +5700,7 @@
 {
 "i": 335,
 "t": 13.9583,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.33,
 "y_screen": 514.69,
@@ -5717,7 +5717,7 @@
 {
 "i": 336,
 "t": 14.0,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.39,
 "y_screen": 514.74,
@@ -5734,7 +5734,7 @@
 {
 "i": 337,
 "t": 14.0417,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.36,
 "y_screen": 514.71,
@@ -5751,7 +5751,7 @@
 {
 "i": 338,
 "t": 14.0833,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.34,
 "y_screen": 514.73,
@@ -5768,7 +5768,7 @@
 {
 "i": 339,
 "t": 14.125,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.3,
 "y_screen": 514.74,
@@ -5785,7 +5785,7 @@
 {
 "i": 340,
 "t": 14.1667,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.36,
 "y_screen": 514.8,
@@ -5802,7 +5802,7 @@
 {
 "i": 341,
 "t": 14.2083,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.33,
 "y_screen": 514.81,
@@ -5819,7 +5819,7 @@
 {
 "i": 342,
 "t": 14.25,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.3,
 "y_screen": 514.82,
@@ -5836,7 +5836,7 @@
 {
 "i": 343,
 "t": 14.2917,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.25,
 "y_screen": 514.82,
@@ -5853,7 +5853,7 @@
 {
 "i": 344,
 "t": 14.3333,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.29,
 "y_screen": 514.86,
@@ -5870,7 +5870,7 @@
 {
 "i": 345,
 "t": 14.375,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.29,
 "y_screen": 514.88,
@@ -5887,7 +5887,7 @@
 {
 "i": 346,
 "t": 14.4167,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.28,
 "y_screen": 514.89,
@@ -5904,7 +5904,7 @@
 {
 "i": 347,
 "t": 14.4583,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0013,
 "x_screen": 1004.26,
 "y_screen": 514.91,
@@ -5921,7 +5921,7 @@
 {
 "i": 348,
 "t": 14.5,
-"state": "approach",
+"state": "watch",
 "x_score": 3.9989,
 "x_screen": 1003.73,
 "y_screen": 515.15,
@@ -5938,7 +5938,7 @@
 {
 "i": 349,
 "t": 14.5417,
-"state": "approach",
+"state": "watch",
 "x_score": 4.002,
 "x_screen": 1004.35,
 "y_screen": 515.05,
@@ -5955,7 +5955,7 @@
 {
 "i": 350,
 "t": 14.5833,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0017,
 "x_screen": 1004.29,
 "y_screen": 515.16,
@@ -5972,7 +5972,7 @@
 {
 "i": 351,
 "t": 14.625,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0002,
 "x_screen": 1003.96,
 "y_screen": 514.87,
@@ -5989,7 +5989,7 @@
 {
 "i": 352,
 "t": 14.6667,
-"state": "approach",
+"state": "watch",
 "x_score": 4.0011,
 "x_screen": 1004.22,
 "y_screen": 515.37,
@@ -9729,12 +9729,12 @@
 {
 "i": 572,
 "t": 23.8333,
-"state": "approach",
+"state": "lie_down",
 "x_score": 0.5891,
 "x_screen": 317.9,
 "y_screen": 536.18,
 "facing": 1,
-"posture": "standing",
+"posture": "crouched",
 "body_card": "b_settle_L",
 "head_card": "h_L_low",
 "head_below_back": true,
@@ -9746,12 +9746,12 @@
 {
 "i": 573,
 "t": 23.875,
-"state": "approach",
+"state": "lie_down",
 "x_score": 0.5895,
 "x_screen": 318.01,
 "y_screen": 535.75,
 "facing": 1,
-"posture": "standing",
+"posture": "crouched",
 "body_card": "b_settle_L",
 "head_card": "h_L_low",
 "head_below_back": true,
@@ -9763,12 +9763,12 @@
 {
 "i": 574,
 "t": 23.9167,
-"state": "approach",
+"state": "lie_down",
 "x_score": 0.5885,
 "x_screen": 317.74,
 "y_screen": 535.46,
 "facing": 1,
-"posture": "standing",
+"posture": "crouched",
 "body_card": "b_settle_L",
 "head_card": "h_L_low",
 "head_below_back": true,
@@ -9780,12 +9780,12 @@
 {
 "i": 575,
 "t": 23.9583,
-"state": "approach",
+"state": "lie_down",
 "x_score": 0.5897,
 "x_screen": 318.06,
 "y_screen": 535.6,
 "facing": 1,
-"posture": "standing",
+"posture": "crouched",
 "body_card": "b_settle_L",
 "head_card": "h_L_low",
 "head_below_back": true,
@@ -9797,12 +9797,12 @@
 {
 "i": 576,
 "t": 24.0,
-"state": "approach",
+"state": "lie_down",
 "x_score": 0.5909,
 "x_screen": 318.31,
 "y_screen": 535.65,
 "facing": 1,
-"posture": "standing",
+"posture": "crouched",
 "body_card": "b_settle_L",
 "head_card": "h_L_low",
 "head_below_back": true,
@@ -9814,12 +9814,12 @@
 {
 "i": 577,
 "t": 24.0417,
-"state": "approach",
+"state": "lie_down",
 "x_score": 0.5913,
 "x_screen": 318.34,
 "y_screen": 535.54,
 "facing": 1,
-"posture": "standing",
+"posture": "crouched",
 "body_card": "b_settle_L",
 "head_card": "h_L_low",
 "head_below_back": true,
@@ -9831,12 +9831,12 @@
 {
 "i": 578,
 "t": 24.0833,
-"state": "approach",
+"state": "lie_down",
 "x_score": 0.5899,
 "x_screen": 318.09,
 "y_screen": 535.66,
 "facing": 1,
-"posture": "standing",
+"posture": "crouched",
 "body_card": "b_settle_L",
 "head_card": "h_L_low",
 "head_below_back": true,
@@ -9848,12 +9848,12 @@
 {
 "i": 579,
 "t": 24.125,
-"state": "approach",
+"state": "lie_down",
 "x_score": 0.5895,
 "x_screen": 318.0,
 "y_screen": 535.54,
 "facing": 1,
-"posture": "standing",
+"posture": "crouched",
 "body_card": "b_settle_L",
 "head_card": "h_L_low",
 "head_below_back": true,
@@ -9865,12 +9865,12 @@
 {
 "i": 580,
 "t": 24.1667,
-"state": "approach",
+"state": "lie_down",
 "x_score": 0.59,
 "x_screen": 318.04,
 "y_screen": 535.88,
 "facing": 1,
-"posture": "standing",
+"posture": "crouched",
 "body_card": "b_settle_L",
 "head_card": "h_L_low",
 "head_below_back": true,

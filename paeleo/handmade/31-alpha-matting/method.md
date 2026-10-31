@@ -51,8 +51,8 @@ says an independent critic will judge the film; I did not approve it.
 
 ## How the dog is built and moved
 
-**What it is made of.** 13 frames of the archive dog (*Amateur Film New Jersey C*, Home Movies, Internet Archive, public
-domain) appear: 9, 12–15, 26, 28, 31, 43–45, 48 and, for the head only, 5. All 50 are matted.
+**What it is made of.** 10 frames of the archive dog (*Amateur Film New Jersey C*, Home Movies, Internet Archive, public
+domain) appear: 9, 13, 14, 26, 30, 33, 45, and, for heads only, 5, 28 and 31. All 50 are matted.
 
 **How it moves: substitution of whole matted frames, chosen by the score.**
 
@@ -182,12 +182,12 @@ tone; premultiplication correct; no bright rim from the source daylight.
        its colour was replaced by the siding behind it. Wrap now acts only on truly fractional alpha (4a(1−a), none above
        0.97). The approach no longer uses frame 45 as a held drawing (item 5), so its faded hind legs are gone. Measured:
        the siding pattern (no-dog plate minus the same plate with unlined siding) regressed against the film inside the
-       dog's alpha ≥ 0.95. Body transfer is 0.003 (max 0.025); legs −0.034 (max 0.121), against a control of 0.093 (the
+       dog's alpha ≥ 0.95. Body transfer is 0.002 (max 0.020); legs −0.016 (max 0.103), against a control of 0.085 (the
        noise floor), so the dog is opaque within noise. The test was validated: it reads 1.01–1.04 outside the dog.
        Render check: removing the siding lines changes solid dog pixels by 0.19 grey levels on average, against 4.78
        outside.
     2. *Look-back snap at 7.46 s:* the head now comes round through the dog's front over five frames (see "How it
-       moves"). The largest step of the head piece is **34.7 px** on the film (render 34.3). A rejected alternative,
+       moves"). The largest step of the head piece is **34.4 px** on the film (render 34.3). A rejected alternative,
        swinging the profile head 180° over the back, left it floating on a stalk.
     3. *Soft voice:* "It's all right" now starts at **7.11 s**, 0.35 s before the look-back. It is **9.96 dB** under the
        quietest call.
@@ -195,11 +195,11 @@ tone; premultiplication correct; no bright rim from the source daylight.
        the same frames mirrored for the turn back. Local contrast alone (tested at 1.9× and 2.8×) only made the mottled
        coat busier.
     5. *Feet at drawing changes in the approach:* the approach now walks on the planted-paw gait (60% stance), so there
-       are **0** held-drawing changes. Planted paws hold within **2.51 px**, and the largest one-frame paw move (a swing)
-       is **12.8 px**. The head lowers at 14.71 s through the retreat's bridge drawings.
-    Protected, re-measured on the film: retreat paws within 2.10 px; calls at 0.63 / 1.60 / 2.95 s; at 9.0–10.2 s,
-    only 4–5 px edge pieces within 4 px of the body; look-in rim 43 of 5,644 edge px, 0 specks; head steps 21.7 px
-    (0.83–2.54 s) and 8.0 px (23.58–25.0 s).
+       are **0** held-drawing changes. Planted paws hold within **2.38 px**, and the largest one-frame paw move (a swing)
+       is **15.9 px**. The head lowers at 14.71 s through the retreat's bridge drawings.
+    Protected, re-measured on the film: retreat paws within 1.74 px; calls at 0.63 / 1.60 / 2.95 s; at 9.0–10.2 s,
+    only 4–5 px edge pieces within 3 px of the body; look-in rim 48 edge px (under 6% of the edge in any frame),
+    0 specks; head steps 22.3 px (0.83–2.54 s) and 8.4 px (23.58–25.0 s).
 
 ## What is still weak (my own view; not a verdict)
 
@@ -233,7 +233,7 @@ No independent critic was run by me. No human viewing. No listening. No Quick, D
 images. I did not import `paeleo/threshold/stage.js` or `paeleo/scion/lenses.js`, did not look at other swarms' folders,
 and did not run git. No operator page was published as an artifact; `operator.html` in this folder is a local page.
 
-## Evidence (last build: make.sh v8, which renders, encodes, checks, verifies on the film and deletes the frames)
+## Evidence (last build: make.sh v9 (v8 plus a corrected end card), which renders, encodes, checks, verifies on the film and deletes the frames)
 
 **Checker (`invariants.json`): ALL OK.** All six choices are on time (I1). The dog never goes past the sill and ends
 across it (I2). It moves in the score's direction (I3). Its back is turned through the refusal (I4).
@@ -248,7 +248,7 @@ across it (I2). It moves in the score's direction (I3). Its back is turned throu
 
 **Mattes**: premult_ok on 50/50 dog mattes and all world mattes. The stress fixture shows 0 premultiplication failures and 0 bright rims in 96 frames.
 
-**Film**: 1280×720, 24 fps, H.264 two-pass 2.1 Mb/s + AAC 160k, faststart (moov before mdat), 912 frames, 38.000 s, 10.65 MB. The rendered frames are deleted by make.sh; the folder is 55 MB.
+**Film**: 1280×720, 24 fps, H.264 two-pass 2.1 Mb/s + AAC 160k, faststart (moov before mdat), 912 frames, 38.000 s, 10.65 MB. The rendered frames are deleted by make.sh; the folder is 54 MB.
 
 **Looked at**: frames decoded from film.mp4, full frame and cropped (1×–3×), in every repair window. **Not looked at**: normal-speed playback. **Not listened to**: the sound.
 

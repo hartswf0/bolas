@@ -15,7 +15,8 @@ os.makedirs(CACHE, exist_ok=True); os.makedirs(PROOF, exist_ok=True)
 
 # the views: whole archive frames, one mesh each.  facing: -1 head to the left, +1 to the right
 VIEWS = {'W': (10, -1),                      # profile to the left, head up: watching, retreat, approach, lying, looking in
-         'r1': (1, -1), 'r3': (3, -1), 'r5': (5, -1), 'r7': (7, -1),   # the archive's own look back over the shoulder (back of the skull)
+         'r1': (1, -1), 'r3': (3, -1), 'r5': (5, -1), 'r6': (6, -1), 'r7': (7, -1),
+         't13': (13, -1), 't16': (16, -1), 't21': (21, -1),   # in-betweens of the found turn   # the archive's own look back over the shoulder (back of the skull)
          't26': (26, 1), 't30': (30, 1), 't36': (36, 1), 't40': (40, 1)}  # the archive's own turn
 FRONTAL = {'t26', 't30', 't36'}
 STABILITY = [8, 9, 11]
@@ -142,6 +143,25 @@ def main():
         im, _ = heat_image(r); im.save(os.path.join(PROOF, 'heat_%s_f%03d.png' % (name, fi)))
         print(name, fi, tests['views'][name]['vertices'], r['names'], 'leak', tests['views'][name]['leg_leak_bbw'],
               'vs', tests['views'][name]['leg_leak_shepard_baseline'], '%.2fs' % r['solve_s'], flush=True)
+    # f005 (looking in): the pale cheek and muzzle edge at the far left of the head would read as a muzzle aimed at the
+    # person; recolour the pale pixels of that band to the skull's dark tone (a grade, no pixels moved or removed)
+    r = rigs['r5']; ys, xs = np.nonzero(r['mask']); x0, y0 = xs.min(), ys.min()
+    band = r['tex'][y0:y0 + 66, x0:x0 + 22, :3]
+    lum = band.mean(2, keepdims=True)
+    r['tex'][y0:y0 + 66, x0:x0 + 22, :3] = np.where(lum > .42, band * .42 / np.maximum(lum, 1e-6) * .8, band)
+    r['recoloured'] = 'pale band x0..x0+22, y0..y0+66 darkened to skull tone'
+    # f007 (lying): its found tail is a thin mid-grey line that vanishes on the lit boards; darken the tail's own
+    # pixels (where the tail handles dominate) so it reads at film size
+    r = rigs['r7']; jt = [r['names'].index(k) for k in ('tailtip',)]
+    wt = r['W'][:, jt].sum(1)
+    tm = np.zeros(r['mask'].shape, np.float32)
+    vv = r['V'].astype(int)
+    tm[np.clip(vv[:, 1], 0, tm.shape[0] - 1), np.clip(vv[:, 0], 0, tm.shape[1] - 1)] = wt
+    from scipy import ndimage as ndi2
+    tm = ndi2.grey_dilation(tm, size=(3, 3)); tm = ndi2.gaussian_filter(tm, 1.0)
+    k = np.clip((tm - .30) / .3, 0, 1)[..., None]
+    r['tex'][..., :3] = r['tex'][..., :3] * (1 - .55 * k)
+    r['recoloured'] = 'tail tip pixels darkened (tail-tip weight > 0.3)'
     # the refusal view: the same whole frame, mirrored (the archive dog turned away); weights carry over exactly
     rigs['Wm'] = mirror(rigs['W']); rigs['r7m'] = mirror(rigs['r7'])
     # stability across neighbouring archive frames (same handle code, different ragged silhouettes)

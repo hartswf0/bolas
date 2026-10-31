@@ -52,11 +52,14 @@ def mats(rig, **kw):
     ta = np.array(H['tail']['a'])
     tb = np.array(H['tail']['b'])
     # lying: the tail lies out behind on the boards, a little longer than the found stub so its tip shows
-    Mt = compose(root, rot(-f * (p['tail'] * (1 - fold) + (0 if p['frontal'] else .1) * fold), ta), scale_along(ta, tb - ta, 1.0))
+    # lying: the found tail is a thin grey line; it is thickened across its own axis so it reads at film size
+    Mt = compose(root, rot(-f * (p['tail'] * (1 - fold) + (0 if p['frontal'] else .1) * fold), ta),
+                 scale_along(ta, tb - ta, 1.0, 1.0))
     out['tail'] = Mt
     tdir = np.array([-f * .85, .5])                     # out behind and down onto the boards
-    ext = (0 if p['frontal'] else 34.0) * fold          # lying: the tail tip lies out a few px further on the boards
-    out['tailtip'] = compose(Mt, trans(tdir * ext), rot(-f * p['tail'] * .6 + p['wag'], tb))
+    ext = (0 if p['frontal'] else 14.0) * fold           # lying: the tail tip lies out a few px further on the boards
+    out['tailtip'] = compose(Mt, trans(tdir * ext), rot(-f * p['tail'] * .6 + p['wag'], tb),
+                             scale_along(tb, tb - ta, 1.0, 1 + (0 if p['frontal'] else 1.0) * fold))
     for i, k in enumerate(legs):
         l, a, b = leg_len(H, k)
         front = H[k].get('kind') == 'front'

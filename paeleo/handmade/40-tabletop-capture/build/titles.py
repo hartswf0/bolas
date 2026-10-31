@@ -44,7 +44,7 @@ def end():
         '(The Door to Heaven, 1941, archive.org; SAM-matted) into an overhead plate (the inset).',
         'From that plate\'s pixels alone: 4 corner fiducials calibrate the camera; fiducials + Lucas-Kanade flow recover',
         'each piece\'s rigid transform and which card is down; a skin-chroma model mattes out the hands.',
-        'The film replays the recovered transforms with new paper skins on a new paper set. The dog is %d body cards' % 41,
+        'The film replays the recovered transforms with new paper skins on a new paper set. The dog is %d body cards' % sum(1 for v in json.load(open(os.path.join(DATA, 'cards.json'))).values() if v['kind'] == 'dog_body'),
         'and 11 head cards, cut here; it moves only by those transforms and by card swaps. Sound: synthesized.',
     ]
     for l in lines:
