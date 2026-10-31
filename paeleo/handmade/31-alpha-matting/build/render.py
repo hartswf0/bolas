@@ -53,9 +53,11 @@ def static_layers():
     wall = np.zeros((H, W, 3), np.float32) + np.array([.17, .185, .25])
     board = (yy % 22) / 22.
     wall *= (0.86 + 0.14 * board)[..., None]
+    wall_nl = wall.copy()
     wall[(yy % 22) < 1.5] *= .6
     wall *= (1 - .25 * (yy / H))[..., None]
     S['wall'] = wall
+    S['wall_nolines'] = wall_nl * (1 - .25 * (yy / H))[..., None]   # verification only (verify.py: the siding pattern = plate - this plate)
     # porch floor: boards parallel to the wall, widening toward the camera
     fl = np.zeros((H, W, 3), np.float32) + np.array([.15, .14, .16])
     d = np.clip((yy - 586) / (700 - 586), 0, 1)
@@ -610,7 +612,7 @@ def derim_edge(S, D, band_r=5, core_r=8):
     den = blur(core, core_r, 2)
     Lc = blur(L * core, core_r, 2) / np.maximum(den, 1e-4)
     Lc = np.where(den > .01, Lc, L)
-    Lb = blur(D.mean(2), 3, 2)
+    Lb = blur(D.mean(2), 11, 3)    # round 4: averaged over a whole clapboard (22 px), so the cap does not print the siding lines on thin legs
     cap = np.maximum(Lc, Lb)
     band = (a > .004) & (core < .5)
     k = np.where(band & (L > cap), cap / np.maximum(L, 1e-4), 1.0).astype(np.float32)
@@ -635,7 +637,7 @@ def place(canvas, P, x, y, wrap=0.0, wrap_col=None, derim=False):
         bgb = blur(D.copy(), 1, 1) if wrap_col is None else wrap_col[cy0:cy1, cx0:cx1]   # only light actually behind the edge
         # round 4: wrap only where coverage is truly fractional (4a(1-a), zero on solid fur). Weighting by distance from
         # the interior had made thin solid legs count as all edge, so up to 60% of their colour was the siding behind them
-        edge = np.clip(4 * a * (1 - a), 0, 1)
+        edge = np.clip(4 * a * (1 - a), 0, 1) * np.clip((.97 - a) / .07, 0, 1)   # none on (near-)solid fur
         k = np.clip(edge * wrap, 0, .6)
         # energy-conserving wrap: a share of the edge's own colour is replaced by the light behind it, never added,
         # so an edge can never be brighter than the brighter of fur and background

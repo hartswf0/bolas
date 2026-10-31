@@ -239,27 +239,33 @@ def main():
             al = np.zeros((H, W), np.float32); X0, Y0 = int(round(lft)), int(round(tp)); hh, ww = Ps_.shape[:2]
             al[max(Y0, 0):Y0 + hh, max(X0, 0):X0 + ww] = Ps_[max(-Y0, 0):H - Y0, max(-X0, 0):W - X0, 3][:min(hh, H - max(Y0, 0)), :min(ww, W - max(X0, 0))]
             inner = blur((al >= .95).astype(np.float32), 1, 1) > .999
-            Lf, Lp = lum(FF[k]), lum(plate)
+            # the siding pattern alone: this plate minus the same plate with unlined siding (the shared grain cancels);
+            # transfer = regression of the film's vertical high-pass on that pattern inside the dog (~ 1 - alpha)
+            wl = render.ST['wall']; render.ST['wall'] = render.ST['wall_nolines']
+            plate_nl, _, _ = render.render(i); render.ST['wall'] = wl
+            pat = lum(plate) - lum(plate_nl)
+            def hp(L):
+                k_ = np.ones(9) / 9.
+                return L - np.apply_along_axis(lambda c: np.convolve(c, k_, 'same'), 0, L)
+            hf = hp(lum(FF[k])); hpat = hp(pat)
             yy = np.arange(H)[:, None] * np.ones((1, W))
             xx = np.ones((H, 1)) * np.arange(W)[None, :]
             wall = (xx < 596) & (yy < 584) & ~((xx >= 229) & (xx < 432) & (yy >= 181))   # siding, not the door or casing
-            line = (yy % 22) < 1.5
-            nb = ((yy % 22) >= 4) & ((yy % 22) < 8)
-            def contrast(L, sel):
-                a_, b_ = L[sel & line], L[sel & nb]
-                return (float(b_.mean()) - float(a_.mean())) if len(a_) > 8 and len(b_) > 8 else None
             for zone, store in ((inner & wall, tr_all), (inner & wall & (yy >= 540), tr_leg)):
-                cf, cp = contrast(Lf, zone), contrast(Lp, zone)
-                if cf is not None and cp:
-                    store.append((i, round(cf / cp, 3), int(zone.sum())))
+                den = float((hpat[zone] ** 2).sum())
+                if zone.sum() > 30 and den > 0:
+                    sh = np.roll(hpat, 11, 0)
+                    store.append((i, round(float((hf[zone] * hpat[zone]).sum()) / den, 3), int(zone.sum()),
+                                  round(float((hf[zone] * sh[zone]).sum()) / max(float((sh[zone] ** 2).sum()), 1e-9), 3)))
             if i in (533, 545, 557, 567, 569, 571):
                 sid_imgs.append((i, FF[k]))
     R['r4_1_siding_through_dog_22.2-23.8s'] = dict(
-        max_transfer_body=max(t for _, t, _ in tr_all) if tr_all else None, mean_transfer_body=round(float(np.mean([t for _, t, _ in tr_all])), 3) if tr_all else None,
-        max_transfer_legs=max(t for _, t, _ in tr_leg) if tr_leg else None, mean_transfer_legs=round(float(np.mean([t for _, t, _ in tr_leg])), 3) if tr_leg else None,
-        implied_min_alpha_legs=round(1 - max(t for _, t, _ in tr_leg), 3) if tr_leg else None,
+        max_transfer_body=max(t[1] for t in tr_all) if tr_all else None, mean_transfer_body=round(float(np.mean([t[1] for t in tr_all])), 3) if tr_all else None,
+        max_transfer_legs=max(t[1] for t in tr_leg) if tr_leg else None, mean_transfer_legs=round(float(np.mean([t[1] for t in tr_leg])), 3) if tr_leg else None,
+        mean_control_legs=round(float(np.mean([t[3] for t in tr_leg])), 3) if tr_leg else None,
+        implied_min_alpha_legs=round(1 - max(t[1] for t in tr_leg), 3) if tr_leg else None,
         per_frame_body=tr_all, per_frame_legs=tr_leg,
-        method='inside the render alpha >= 0.95 (eroded 1 px), placed on screen, over the siding: (neighbour rows - line rows) luminance in the film / the same in the no-dog plate; ~ 1 - alpha. legs = rows 540-583')
+        method='inside the render alpha >= 0.95 (eroded 1 px) placed on screen, over the siding: regression of the film luminance vertical high-pass on the siding pattern (no-dog plate minus no-dog plate with unlined siding, high-passed); ~ 1 - alpha. control = pattern shifted half a clapboard. per frame: (i, transfer, px, control). legs = rows 540-583')
     # R4-2: 7.38-7.79 s, the head coming round: the head piece placed by the render, and on the film the centroid of the
     # dog mask inside that piece's box (grown 6 px)
     lb = film_frames(177, 188); hp_r = {}; hp_f = {}; lb_imgs = []
