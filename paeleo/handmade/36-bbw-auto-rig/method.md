@@ -124,3 +124,16 @@ See `ledger.jsonl` for every attempt. In short:
   wedge, not a drawn hand.
 * No independent critic verdict exists yet; I have only looked at my own frames (extracted from the encoded film).
 * Front/hind leg labels are automatic and sometimes wrong on the blurred frontal turn frames; there they only shorten.
+
+## Repair round 2 (after critic round 2)
+* Lying (refusal, mirrored, and at the sill) now uses **f007**, the found frame next to f010, auto-rigged the same way:
+  it has its own tail, a hind leg that folds into a curl and forepaws that lie forward. f010 has no separable tail in its
+  SAM mask, so the round-1 lengthened tail is gone.
+* Looking in: a held swap at 26.54 s to **f005** lying (the archive dog's own look over its shoulder): the head turned
+  away from the camera, up into the lit room, back of the skull and ears to us; back to f007 at 28.0 s with the head low.
+  No intermediate neck-lift frames. The person sits half behind the left jamb, out of the head's line.
+* Turn back (7.40–7.80): f005 lying (head up and round) then f007 lying with the muzzle toward the door; no frontal frames.
+* Legs pin only their lower 70 % and rotate about the elbow/stifle (removes the sprig); masks opened by 1 px;
+  front legs swing together and hind legs together (no tearing between overlapping found legs).
+* Measured onsets: retreat 1.083, watch 2.417, refuse 3.458, turn back 7.417, approach 14.792, lie down 23.833,
+  look in 26.542 s (head 4 px higher on screen).

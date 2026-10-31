@@ -427,6 +427,23 @@ def main():
                 tcache[nm] = Template(nm)
             tpls[fam] = tcache[nm]
             pose, info = lk(pyr, mattes, tpls[fam], pred, rot=(fam == 'dog.head'))
+            if m is None and fam in ('dog.body', 'dog.head'):
+                # marker hidden: identify the card by its printed texture instead (puppet-database matching):
+                # align every card of the family at the prediction and keep the one the unoccluded pixels fit best
+                def score(inf):
+                    return inf['resid'] * (2.0 - inf['support'])
+                best, bs, bp = nm, score(info), (pose, info)
+                for cn in [n for n in CARDS if fam_of(n) == fam and n != nm]:
+                    if cn not in tcache:
+                        tcache[cn] = Template(cn)
+                    pc, ic = lk(pyr, mattes, tcache[cn], pred, iters=(6, 4, 3), rot=(fam == 'dog.head'))
+                    if ic['support'] > 0.3 and score(ic) < bs * 0.8 and math.hypot(pc[0] - pred[0], pc[1] - pred[1]) < 30:
+                        best, bs, bp = cn, score(ic), (pc, ic)
+                if best != nm:
+                    nm = cards_now[fam] = best
+                    tpls[fam] = tcache[best]
+                    pose, info = bp
+                    how = 'texture-id'
             # a flow step that runs away (support collapsed) is not trusted: hold the prediction
             if info['support'] < 0.15 or abs(pose[0] - pred[0]) > 40 or abs(pose[1] - pred[1]) > 40 or abs(pose[2]) > 1.0:
                 pose, how = pred, how + '-held'

@@ -6,19 +6,19 @@
  "pieces": {
   "dog.body": {
    "frames": 768,
-   "card_id_correct": 0.9909,
-   "pos_err_px_mean": 0.304,
-   "pos_err_px_p95": 0.45,
+   "card_id_correct": 0.9427,
+   "pos_err_px_mean": 0.297,
+   "pos_err_px_p95": 0.446,
    "pos_err_px_max": 0.514,
    "angle_err_deg_mean": 0.0,
    "angle_err_deg_max": 0.0
   },
   "dog.head": {
    "frames": 768,
-   "card_id_correct": 0.9583,
-   "pos_err_px_mean": 0.472,
-   "pos_err_px_p95": 0.502,
-   "pos_err_px_max": 18.959,
+   "card_id_correct": 0.9609,
+   "pos_err_px_mean": 0.618,
+   "pos_err_px_p95": 0.501,
+   "pos_err_px_max": 108.316,
    "angle_err_deg_mean": 0.158,
    "angle_err_deg_max": 9.305
   },
@@ -34,8 +34,8 @@
   "door": {
    "frames": 768,
    "card_id_correct": 1.0,
-   "pos_err_px_mean": 0.705,
-   "pos_err_px_p95": 5.237,
+   "pos_err_px_mean": 0.702,
+   "pos_err_px_p95": 4.617,
    "pos_err_px_max": 13.08,
    "angle_err_deg_mean": 0.0,
    "angle_err_deg_max": 0.0
@@ -43,16 +43,16 @@
   "light": {
    "frames": 768,
    "card_id_correct": 1.0,
-   "pos_err_px_mean": 3.706,
-   "pos_err_px_p95": 13.004,
-   "pos_err_px_max": 40.855,
+   "pos_err_px_mean": 0.433,
+   "pos_err_px_p95": 0.282,
+   "pos_err_px_max": 24.506,
    "angle_err_deg_mean": 0.0,
    "angle_err_deg_max": 0.0
   }
  },
  "hand_matte_iou": {
   "frames": 158,
-  "mean": 0.727,
+  "mean": 0.725,
   "p10": 0.612
  }
 }

@@ -37,8 +37,9 @@ def main():
     on['approach'] = k(lambda i: xw[i] < x14 - .02, 14.0)
     b0 = back_h[int(23.5 * FPS)]
     on['lie_down'] = k(lambda i: back_h[i] < b0 * .92, 23.3)
-    hx0 = headx[int(26.2 * FPS)]
-    on['look_in'] = k(lambda i: headx[i] < hx0 - 3, 26.2)
+    heady = np.array([m['dog']['head'][1] for m in M])
+    hy0 = heady[int(26.2 * FPS)]
+    on['look_in'] = k(lambda i: heady[i] < hy0 - 4, 26.2)
     order = [('watch', 0), ('retreat', on['retreat']), ('watch', on['watch_1']), ('refuse', on['refuse']),
              ('watch', on['watch_2']), ('approach', on['approach']), ('lie_down', on['lie_down'])]
     frames = []
@@ -61,7 +62,7 @@ def main():
            'watch_2': 'first frame the measured head is again on the door side of the tail (facing the door)',
            'approach': 'first frame the measured floor position moves toward the door by > 2 cm',
            'lie_down': 'first frame the measured back line sinks more than 8 % below its height at 23.5 s',
-           'look_in': 'first frame the head moves 3 px toward the doorway from where it was at 26.2 s'}
+           'look_in': 'first frame the head is 4 px higher on screen (further into the room) than at 26.2 s'}
     json.dump({'about': 'Measured per scene frame from the rendered, skinned meshes (build/render.py writes meas_*.json, '
                         'build/trace.py turns them into this). The camera closes in from 21.5 s to 25 s, so x_world_measured '
                         '(the dog\'s floor contact inverted through that frame\'s camera, metres along the score\'s x) is the '
