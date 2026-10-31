@@ -93,7 +93,9 @@ celesta(END + .3, 88, .1, .5); celesta(END + 1.4, 84, .07, -.4);
 
 // events: the censor's bell and thud, the burn's crackle, rescues, seams, splices
 for (const e of at('bell')) {
-  voice(e.t, 2.2, t => Math.exp(-t / .75) * (.12 * Math.sin(TAU * 880 * t) + .05 * Math.sin(TAU * 1763 * t) + .06 * Math.sin(TAU * 2429 * t) + .025 * Math.sin(TAU * 4752 * t)) * (1 + .15 * Math.sin(TAU * 4.5 * t)), .2, .5);
+  // a handbell, not a bleep: hum, prime, minor-third tierce, quint and nominal, each decaying at its own rate, with a struck onset
+  const B = [[.5, .06, 1.6], [1, .1, 1.1], [1.2, .06, .8], [1.5, .035, .6], [2, .05, .45], [2.66, .02, .25], [3.2, .015, .15]];
+  voice(e.t, 2.6, t => B.reduce((v, [r, a, d]) => v + a * Math.exp(-t / d) * Math.sin(TAU * 523.25 * r * t + r), 0) * (1 + .12 * Math.sin(TAU * 3.2 * t)) + .08 * Math.exp(-t / .006) * rnd(), .2, .55);
   voice(e.t, .5, t => .35 * Math.exp(-t / .1) * Math.sin(TAU * (48 - 20 * t) * t), 0, .1);   // the hard cut's thud
 }
 for (const e of at('cut')) for (let k = 0; k < 40; k++) { const dt = Math.abs(rnd()) * 1.1; click(e.t + dt, .06 + .1 * Math.abs(rnd()), .0015, rnd() * .6, .2); }

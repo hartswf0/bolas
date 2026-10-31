@@ -45,7 +45,7 @@ pre{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.55;font-size:.84re
 <section class="panel">
 <h2>The film</h2>
 <video controls playsinline preload="metadata" poster="contaminant/cinema/stills/still_24.0s.jpg" src="contaminant/cinema/film.mp4" style="width:100%;border-radius:.5rem;background:#000"></video>
-<p class="note">39 s, sound on. The same seeded run, made as cinema: a camera that follows the jellyfish and holds still to watch it dive; hard cuts to the archive itself, moving where public-domain footage exists (a dog approaching a person, a woman at a door, a person in the snow, a cloud); every censor's bell a flare of the lamp and every cut a nitrate burn with a beat of black; each rescued frame returning as a double exposure with the one before; the reel intercut with the jellyfish warming back to gold as it watches; its afterimage left on black. An original score composed in code follows the run. Built with <code>contaminant/build/make.sh cinema</code>; <a href="contaminant/mood/sources.json" style="color:#a1bedf">archive sources</a>.</p>
+<p class="note">47 s, sound on. The same seeded run, made as cinema: a camera that follows the jellyfish and holds close on the tank floor as it sinks onto the charred photographs, takes one in its tentacles and carries it up; hard cuts to the archive itself, moving where public-domain footage exists (a dog approaching a person, a woman at a door, a person in the snow, a cloud); every censor's bell a flare of the lamp and every cut a nitrate burn with a beat of black; each rescued frame returning as a double exposure with the one before; the reel intercut with the jellyfish warming back to gold as it watches; its afterimage left on black. An original score composed in code follows the run. Built with <code>contaminant/build/make.sh cinema</code>; <a href="contaminant/mood/sources.json" style="color:#a1bedf">archive sources</a>.</p>
 </section>
 
 <section class="panel">
@@ -311,6 +311,7 @@ function grab(f) {
   let bi = 0, bd = 1e9;
   J.tips.forEach((p, i) => { const d = Math.hypot(p[0] - f.x, p[1] - f.y); if (d < bd) { bd = d; bi = i; } });
   f.held = true; f.tip = bi; f.anchor = null; J.carry.push(f);
+  if (f.cut && CINEMA) J.lift = 1.5;
   if (f.cut) {
     f.cut = false; f.rescuedAt = simT; stats.rescued++;
     evts.push({t: simT, type: 'rescue', src: f.src}); log(`the jellyfish lifts "${f.kw}" out of the cuts`, f); return;
@@ -403,13 +404,15 @@ function step(dt) {
     for (const f of pick) { const d = Math.hypot(f.x - J.x, f.y - J.y); if (d < bd) { bd = d; best = f; } }
     // cuts in the tank and low fragments are approached from above, so the tentacles (and the card they lift) stay in frame
     J.dive = !!best.cut;
-    if (best.cut || best.y > 420) { J.tx = Math.max(150, Math.min(W - 150, best.x)); J.ty = best.y - 110; if (bd < 125) grab(best); }
+    if (!J.dive && best.cut) J.diveAt = {x: best.x, y: best.y};
+    if (best.cut || best.y > 420) { J.tx = Math.max(150, Math.min(W - 150, best.x)); J.ty = best.y - 110; if (bd < 125 && !(J.lift > 0)) grab(best); }
     else { J.tx = best.x - 70; J.ty = best.y; if (bd < 110) grab(best); }
   } else if (J.carry.length) {
     J.dive = false;
     const R = RINGS[0]; J.tx = R.x - R.r - 70; J.ty = R.y;
     if (Math.hypot(J.x - R.x, J.y - R.y) < R.r + 90) release();
   } else { J.tx = 230; J.ty = 330; }
+  if (J.lift > 0) { J.lift -= dt; J.tx = J.x; J.ty = Math.max(150, J.y - 220); }  // up, carrying what it found
   // a new aim: hold and turn toward it before going; then each stroke pushes it on; the bell makes it recoil
   const key = Math.round(J.tx / 40) + ':' + Math.round(J.ty / 40);
   if (key !== J.key && Math.hypot(J.tx - J.x, J.ty - J.y) > 60) { J.key = key; J.antic = .4; }
@@ -420,7 +423,8 @@ function step(dt) {
   const aim = dist > 20 ? Math.max(-.55, Math.min(.55, Math.atan2(dx, -dy) * .5)) : 0;
   J.tilt += (aim - J.tilt) * Math.min(1, dt * 4);
   const fl = flinchAt(simT), push = J.antic > 0 ? 0 : (.35 + 1.8 * stroke(simT)) * (1 - fl) * (CINEMA && simT > SWITCH ? 2.3 : 1);  // cool: it dives with purpose
-  if (RENDER && CINEMA && !reelCued && stats.cuts && stats.rescued === stats.cuts && simT > SWITCH) { reelCued = true; REEL0 = Math.min(REEL0, simT + 2.2); REEL1 = REEL0 + 11.7; }
+  // the cinema cut's reel waits for the last rescue to rise and open, then begins
+  if (RENDER && CINEMA && !reelCued && stats.cuts && stats.rescued === stats.cuts && simT > SWITCH) { reelCued = true; REEL0 = simT + 3.7; REEL1 = REEL0 + 10.8; }
   J.x += dx * Math.min(1, dt * 1.1 * push) - fl * dt * 110; J.y -= fl * dt * 60; J.y += dy * Math.min(1, dt * 1.1 * push);
   const near = free.length ? pick.reduce((m, f) => Math.hypot(f.x - J.x, f.y - J.y) < Math.hypot(m.x - J.x, m.y - J.y) ? f : m) : null;
   const reaching = !full && near && Math.hypot(near.x - J.x, near.y - J.y) < 230;
@@ -460,6 +464,21 @@ function step(dt) {
 // a rescue, a seam), so the water keeps the run's history.
 function pulseAt(t) { let v = 0; for (const e of evts) if (e.type === 'bell' || e.type === 'cut' || e.type === 'rescue' || e.type === 'seam') v += Math.exp(-(((t - e.t) / .3) ** 2)); return Math.min(1.5, v); }
 function drawTank() {
+  if (CINEMA) {
+    const {x, y, w, h, wave} = TANK;
+    ctx.save();
+    const g = ctx.createLinearGradient(0, wave, 0, y + h + 40);
+    g.addColorStop(0, 'rgba(14,26,32,.7)'); g.addColorStop(1, 'rgba(2,5,7,0)');
+    ctx.fillStyle = g; ctx.beginPath(); ctx.ellipse(x + w / 2, (wave + y + h) / 2, w * .62, (y + h - wave) * .62, 0, 0, 7); ctx.fill();
+    ctx.fillStyle = 'rgba(200,220,235,.5)';
+    for (let i = 0; i < 70; i++) {   // marine snow, sinking slowly
+      const px = x + hash(i, 1, 1) * w + Math.sin(simT * .3 + i) * 6, py = wave + ((hash(i, 2, 1) * (h + 40) + simT * (6 + 10 * hash(i, 3, 1))) % (h + 40));
+      ctx.globalAlpha = .15 + .35 * hash(i, 4, 1); ctx.fillRect(px, py, 1.4, 1.4);
+    }
+    ctx.globalAlpha = .35; ctx.strokeStyle = '#e9b86a'; ctx.lineWidth = 1; ctx.beginPath();
+    for (let i = 0; i <= w; i += 6) { const yv = wave + Math.sin(i * .04 + simT * 1.1) * 4; if (i) ctx.lineTo(x + i, yv); else ctx.moveTo(x + i, yv); }
+    ctx.stroke(); ctx.restore(); return;
+  }
   const {x, y, w, h, wave} = TANK;
   ctx.save();
   ctx.beginPath(); ctx.rect(x, y, w, h); ctx.clip();
@@ -738,13 +757,13 @@ function drawPic(imgs, x, y, w, h, a = 1, opt = {}) {
   (imgs || []).forEach((k, i) => {
     const im = picAt(k, simT); if (!im || !im.naturalWidth) return;
     const sc = Math.max(w / im.naturalWidth, h / im.naturalHeight), iw = im.naturalWidth * sc, ih = im.naturalHeight * sc;
-    ctx.globalAlpha = a * (i ? .6 : 1); ctx.globalCompositeOperation = i ? 'screen' : 'source-over';
+    ctx.globalAlpha = a * (i ? (opt.second || .6) : 1); ctx.globalCompositeOperation = i ? 'screen' : 'source-over';
     const dx = i ? Math.sin(simT * .7 + i) * 6 : 0;
     ctx.drawImage(im, x + (w - iw) / 2 + dx, y + (h - ih) / 2, iw, ih);
   });
   ctx.filter = 'none';
   if (hot <= .5) { ctx.globalCompositeOperation = 'multiply'; ctx.globalAlpha = a * .55; ctx.fillStyle = '#8aa4ff'; ctx.fillRect(x, y, w, h); }
-  if ((imgs || []).length > 1) { ctx.globalCompositeOperation = 'screen'; ctx.globalAlpha = a * .22; ctx.fillStyle = '#ee6aa6'; ctx.fillRect(x, y, w, h); }
+  if ((imgs || []).length > 1 && !opt.noPink) { ctx.globalCompositeOperation = 'screen'; ctx.globalAlpha = a * .22; ctx.fillStyle = '#ee6aa6'; ctx.fillRect(x, y, w, h); }
   ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = a;
   const vg = ctx.createRadialGradient(x + w / 2, y + h / 2, Math.min(w, h) * .25, x + w / 2, y + h / 2, Math.max(w, h) * .7);
   vg.addColorStop(0, 'rgba(0,0,0,0)'); vg.addColorStop(1, 'rgba(0,0,0,.6)'); ctx.fillStyle = vg; ctx.fillRect(x, y, w, h);
@@ -752,7 +771,9 @@ function drawPic(imgs, x, y, w, h, a = 1, opt = {}) {
     const R = Math.max(w, h) * .75 * opt.burn, cx = x + w * .55, cy = y + h * .45;
     const bg = ctx.createRadialGradient(cx, cy, R * .55, cx, cy, R);
     bg.addColorStop(0, 'rgba(6,4,3,1)'); bg.addColorStop(.7, 'rgba(255,140,40,.95)'); bg.addColorStop(.85, 'rgba(255,230,170,.8)'); bg.addColorStop(1, 'rgba(255,200,120,0)');
-    ctx.fillStyle = bg; ctx.beginPath(); ctx.arc(cx, cy, R, 0, 7); ctx.fill();
+    const rag = (k, sc) => { ctx.beginPath(); for (let i = 0; i <= 72; i++) { const a = i / 72 * 2 * Math.PI, n = .16 * Math.sin(a * 5 + 1.3) + .09 * Math.sin(a * 11 + simT * 1.7) + .05 * Math.sin(a * 23 - simT * 3); const r = R * k * (1 + n * sc); if (i) ctx.lineTo(cx + Math.cos(a) * r, cy + Math.sin(a) * r); else ctx.moveTo(cx + Math.cos(a) * r, cy + Math.sin(a) * r); } ctx.closePath(); };
+    ctx.fillStyle = bg; rag(1, 1); ctx.fill();
+    ctx.fillStyle = 'rgba(6,4,3,.96)'; rag(.6, 1.4); ctx.fill();   // the char, ragged inside the glowing rim
   }
   ctx.restore();
 }
@@ -801,7 +822,19 @@ function draw() {
   drawTank(); drawRings(); drawGear(); drawBeam();
   tentacles(simT); drawJelly();
   drawSeams();
-  for (const f of frags) if (f.gearT < 0) drawEmber(f);
+  for (const f of frags) if (f.gearT < 0) {
+    const lifting = f.held && f.rescuedAt != null && simT - f.rescuedAt < 1.7;
+    if (CINEMA && (f.cut || lifting)) continue;
+    drawEmber(f);
+  }
+  if (CINEMA) for (const f of frags) {
+    const lifting = f.held && f.rescuedAt != null && simT - f.rescuedAt < 1.7;
+    if (!(f.cut || lifting)) continue;
+    const w = 190, h = 142;
+    ctx.save(); if (!lifting) { ctx.translate(f.x, f.y); ctx.rotate(f.rot * .6); ctx.translate(-f.x, -f.y); }
+    drawPic(f.imgs, f.x - w / 2, f.y - h / 2 + (lifting ? 40 : 0), w, h, lifting ? 1 : .8, {burn: .62, hot: 1});
+    ctx.restore();
+  }
   for (const f of frags) if (f.gearT >= 0) drawEmber(f, 1 - Math.min(1, f.gearT / 1.4));
   drawBells();
   drawTemperature();
@@ -831,7 +864,7 @@ function hud() {
 function reset() {
   seed = SEED; nextId = 1; frags = []; seams = []; ledger = []; evts = []; simT = 0; gearBoost = 0; lastEvent = -9; dirty = true;
   stats = {contam: 0, returns: 0, cuts: 0, rescued: 0, trans: 0, checks: 0, v1: 0, v2: 0, v3: 0, v4: 0, v5: 0, oob: [], focusFrames: 0, ovMax: 0, ovFrames: 0};
-  REEL0 = 26.5; REEL1 = 38.2; reelCued = false;
+  REEL0 = RENDER && CINEMA ? 90 : 26.5; REEL1 = REEL0 + 11.7; reelCued = false;
   cam = null; inserts = []; bellN = 0; reelGlow = 0; afterimg = null; lastRescue = null; travel = 0; ended = false;
   JHIST = []; ghost = {cur: null, prev: null, t: -9}; focusId = null; focusSlot = 0; heat = 1; heatTarget = 1; auto = true; contamOn = false; reel = null; reelIdx = -1; syncBtn();
   J = {x: 230, y: 330, tx: 230, ty: 330, tent: [], tips: [], carry: [], by: 330, pu: 1, sx: 1, sy: 1, sq: 0, tilt: 0, antic: 0, key: '', reach: {x: 230, y: 460, w: 0}};
@@ -984,7 +1017,7 @@ function scanEvents() {
     // the censor's cuts always cut in; a rescue or a seam cuts in only after two seconds of the world, so the film breathes
     const lastEnd = inserts.reduce((m, x) => Math.max(m, x.t1), -9), room = e.t - lastEnd >= 2;
     if (e.type === 'bell') { inserts.push({kind: 'cut', f, t0: e.t, t1: e.t + (CUTDUR[bellN] || .8)}); bellN++; }
-    else if (e.type === 'rescue') { inserts.push({kind: 'rescue', f, t0: e.t + .1, t1: e.t + 2.0, with: lastRescue}); lastRescue = f; }
+    else if (e.type === 'rescue') { inserts.push({kind: 'rescue', f, t0: e.t + 1.5, t1: e.t + 3.6, with: lastRescue}); lastRescue = f; }
     else if (e.type === 'seam' && room) inserts.push({kind: 'seam', f, t0: e.t + .15, t1: e.t + 2.2});
   }
 }
@@ -995,7 +1028,7 @@ function drawInsert(ins) {
   const burn = ins.kind === 'cut' ? clamp01((simT - ins.t0 - .65) / 1.1) : 0;
   // a rescued frame comes back touching the one rescued before it (or the cloud, for the first)
   const imgs = ins.kind === 'rescue' ? [ins.f.imgs[0], ins.with ? ins.with.imgs[0] : 9] : ins.f.imgs;
-  drawPic(imgs, x, y, w, h, 1, {burn, hot: ins.kind === 'cut' ? 1 : undefined});
+  drawPic(imgs, x, y, w, h, 1, ins.kind === 'rescue' ? {hot: 1, second: .45, noPink: true} : {burn, hot: ins.kind === 'cut' ? 1 : undefined});
   ctx.save();
   if (ins.kind === 'rescue') {
     ctx.globalCompositeOperation = 'screen';
@@ -1012,10 +1045,10 @@ function drawInsert(ins) {
 function worldShot(dt, closeup) {
   let tx = J.x + (J.tx - J.x) * .25, ty = J.by + 30, tz = 1.5;
   const ff = focusId != null ? frags.find(g => g.id === focusId) : null;
-  if (ff && !closeup) { tx = tx * .7 + ff.x * .3; ty = ty * .7 + ff.y * .3; }
+  if (ff && !closeup) { tx = tx * .5 + ff.x * .5; ty = ty * .5 + ff.y * .5; tz = 1.85; }
   if (filmT < 5) { const k = clamp01(filmT / 5), e = k * k * (3 - 2 * k); tz = 3.4 - 1.9 * e; tx = J.x; ty = J.by - 10 + 40 * e; }
   if (filmT > REEL1 + .3) { const k = clamp01((filmT - REEL1 - .3) / 4); tz = 1.5 - .38 * k; tx += (W / 2 - tx) * k; ty += (H / 2 - ty) * k; }
-  if (J.dive && !closeup && simT > SWITCH) { tx = TANK.x + TANK.w / 2 + 40; ty = 400; tz = 1.42; }  // hold still: let it sink through the frame
+  if ((J.dive || J.lift > 0) && J.diveAt && !closeup && simT > SWITCH) { tx = J.diveAt.x; ty = J.diveAt.y - 70; tz = 2.3; }  // hold still on the floor: let it sink, take hold, and rise
   if (closeup) { tz = 3.3 + .5 * (closeup === true ? 0 : closeup); tx = J.x + 12 * (closeup === true ? 0 : closeup); ty = J.by - 24; }
   if (!cam || closeup || filmT < 5) cam = {x: tx, y: ty, z: tz};
   else { const k = Math.min(1, dt * 1.6); cam.x += (tx - cam.x) * k; cam.y += (ty - cam.y) * k; cam.z += (tz - cam.z) * Math.min(1, dt * 1.2); }
@@ -1056,13 +1089,13 @@ function cinemaFrame(t, dur) {
   }
   filmLook();
   const fadeT = REEL1 + 3.6;
-  if (st > fadeT + 3.4) ended = true;
+  if (st > fadeT + 2.4) ended = true;
   if (t < 1.2) { ctx.fillStyle = `rgba(0,0,0,${(1 - t / 1.2).toFixed(3)})`; ctx.fillRect(0, 0, FW, FH); }
   if (st > fadeT - 1.2) { ctx.fillStyle = `rgba(0,0,0,${clamp01((st - fadeT + 1.2) / 1.2).toFixed(3)})`; ctx.fillRect(0, 0, FW, FH); }
   if (st >= fadeT) {
     // the picture is gone; what the eye keeps is the jellyfish in its complementary colour, fading
-    if (!afterimg) afterimg = {x: FW / 2 + cam.z * (J.x - cam.x), y: FH / 2 + cam.z * (J.by - 34 - cam.y), r: 95 * cam.z};
-    const a = Math.min(1, (st - fadeT) / .25) * Math.exp(-(st - fadeT) / 1.6), A = afterimg;
+    if (!afterimg) afterimg = {x: FW / 2 + cam.z * (J.x - cam.x), y: FH / 2 + cam.z * (J.by - 34 - cam.y), r: 150 * cam.z};
+    const a = Math.min(1, (st - fadeT) / .2) * Math.exp(-(st - fadeT) / 1.0), A = afterimg;
     ctx.save(); ctx.globalCompositeOperation = 'lighter';
     const g = ctx.createRadialGradient(A.x, A.y, 0, A.x, A.y, A.r * 1.6);
     g.addColorStop(0, `rgba(150,190,255,${a.toFixed(3)})`); g.addColorStop(.45, `rgba(90,130,240,${(a * .55).toFixed(3)})`); g.addColorStop(1, 'rgba(60,90,200,0)');
