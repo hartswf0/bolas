@@ -30,7 +30,7 @@ only from public-domain prints in the kit and card I made.
 
 ## Native formal language, as it exists in the project
 
-- **Source prints**: `sources/` holds copies of the 16 frames used (dog, door, face, forearm, lamp, trees, cloud). Each
+- **Source prints**: `sources/` holds copies of the 17 frames used (dog, door, face, forearm, lamp, trees, cloud). Each
   piece in `assets.json` names its frame, archive URL, clip id and rights (all public domain), and its cut polygon in
   source pixels.
 - **Physical materials**: prints are toned and hand-tinted (a three-stop dye ramp and an uneven wash), cut tight with the
@@ -74,9 +74,8 @@ only from public-domain prints in the kit and card I made.
   swivel flat (forelegs forward along the boards, hind legs folded), the body card comes down onto the boards, rear not
   raised. It ends with 50% of its pixels inside the door frame on screen (head and shoulders in the lit doorway, hindquarters
   and tail outside), on the porch plane: it never goes through.
-- **Looking in (26.4 s)**: there is no print of the back of the dog's head; it is constructed (round 3 repair: a lost
-  profile, the fur of skull, nape and ears laid over the muzzle print, flopped so the muzzle points into the lit doorway)
-  and substituted for the head card from 26.42 s to 28.08 s. Then the
+- **Looking in (26.4 s)**: from 26.42 s the head card is substituted by a print of the back of the same dog's head
+  (f001, round 4 repair), level, ears hanging; from 28.08 it lowers toward the sill and stays turned in. Then the
   profile head comes back and lowers, chin on paws, and stays.
 
 The person: calls with the hinged jaw opening on the voice (the jaw is driven by a mouth chart read from the voice takes,
@@ -198,6 +197,19 @@ Still weak (my view): the ear card's cut edge makes a slightly boxy outline on t
 haunch more than as a leg; the look-in's muzzle tip is small at full frame (about 15 px); the rise from lying (7.5-8.0)
 passes through half-folded leg cards for a few exposures.
 
+## Repair round 4 (critic: does not pass, on the look-in only)
+
+The round-3 lost-profile card read at full frame as a head lifted upward, its muzzle tip above the ear line. Replaced:
+the look-in head is now a **real print of the back of this dog's head**: Amateur Film New Jersey C f001 (public domain),
+where the dog is seen from behind looking at the person. It is scissor-cut at the dog's own print scale (1.31) to a
+crown, two ears hanging evenly and a short nape (the print's ears are lost in its shadow, so the ear flaps and the
+parting of the fur are retouched in ink), and laid under the torso card at the nape, level. No muzzle shows. Measured
+from the placed transforms: crown at x 333.5 (inside the opening 193-387) on the choice frame 26.417; the card's angle
+during the hold is 0, +5, -4, 0 deg (26.95, 27.45, 27.8); from 28.08 it slides 12 px down (crown y 495 -> 507), chin
+toward the sill, and stays: it never swaps back to the profile facing the hand. 134 frames (26.42-31.96). The
+constructed lost-profile card is no longer cut. Looked at in film frames, full frame and 2x (26.42, 27.0, 27.6, 28.0,
+28.5, 31.95). Nothing else changed. The profile head may still read as an otter (optional condition, not done).
+
 ## What failed and what I changed (see ledger.jsonl)
 
 - First head cut took the whole mane: lying, the dog read as a seal. Cut the head smaller at the neck line.
@@ -221,7 +233,6 @@ passes through half-folded leg cards for a few exposures.
 - The half-way exposures of lying down and getting up (legs part-swivelled) look like a sprawl for two or three
   exposures.
 - The person is crude: a box-edged hat card, wide smock, the face mostly in shadow; the closed jaw shows its cut as a line.
-- The turned-away head card is constructed, not found (there is no print of the back of this dog's head).
 - Rigid single-piece legs cannot bend, so the crouch is mild.
 - The voice is synthetic; music and effects are synthetic.
 

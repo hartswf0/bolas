@@ -23,7 +23,7 @@ i14 = int(14 * 24)
 on['approach (comes, head low)'] = first(lambda i: X[i] < X[i14] - 1.5 or abs(hy[i] - hy[i14]) > 3, 14.0)
 i23 = int(23.5 * 24)
 on['lie_down (lies across the sill)'] = first(lambda i: top[i] > top[i23] + 6 or asp[i] < asp[i23] - .05, 23.5)
-on['looks in (head card turned into the doorway)'] = first(lambda i: tr[i]['head_piece'] in ('dog_backhead', 'dog_away'), 26.0)
+on['looks in (head card turned into the doorway)'] = first(lambda i: tr[i]['head_piece'] in ('dog_backhead', 'dog_away', 'dog_backprint'), 26.0)
 score = {'retreat (backs away)': 1.0, 'watch (stops backing, head comes up)': 2.333, 'refuse (back turned)': 3.417,
          'watch (turns back to look)': 7.458, 'approach (comes, head low)': 14.708, 'lie_down (lies across the sill)': 23.792,
          'looks in (head card turned into the doorway)': 26.4}
@@ -88,18 +88,22 @@ for a_, b_ in zip(wex, wex[1:]):
     ch = sorted(k for k in set(a_['dog']) | set(b_['dog']) if a_['dog'].get(k) != b_['dog'].get(k) and k not in ('tail',))
     if ch: acts.append({'t': b_['t'], 'changed': {k: [a_['dog'].get(k), b_['dog'].get(k)] for k in ch}})
 watch4 = {'acting_changes_8.33_14.71': acts, 'n': len(acts)}
-# the look-in: where the turned-away card's muzzle points and lies
-li = ex_at(640)['dog']; Gl = PU.dog_global(li); nkl = PC['dog_torso']['pins']['neck']; b = PC['dog_away']['pins']['neck']
-aw = li.get('away_at', PU.AWAY_AT)
-Al = Gl @ TT(nkl[0] + aw[0], nkl[1] + aw[1]) @ RR(li.get('head', 0))
-if li.get('awayflip', PU.AWAY_FLIP): Al = Al @ FF()
-Al = Al @ TT(-b[0], -b[1])
-nzl = Al.apply(PC['dog_away']['pins']['nose']); skull = Al.apply((50 * PC['dog_away']['scale'], 38 * PC['dog_away']['scale']))
-look_in4 = {'frames_with_away_card': sum(f['head_piece'] == 'dog_away' for f in tr), 'first_t': next(f['t'] for f in tr if f['head_piece'] == 'dog_away'),
-            'last_t': max(f['t'] for f in tr if f['head_piece'] == 'dog_away'), 'muzzle_tip_xy': [round(nzl[0], 1), round(nzl[1], 1)],
-            'muzzle_tip_inside_door_opening_x': bool(OPEN_L < nzl[0] < OPEN_R), 'muzzle_tip_above_sill': bool(nzl[1] < FLOOR),
-            'muzzle_direction_deg': ang((nzl[0] - skull[0], nzl[1] - skull[1])),
-            'note': 'the person and the offered hand are to the left (180 deg); the lamp is up (~95 deg); the card is flopped so the muzzle points up-right, into the lit room'}
+# the look-in (round 4 repair): the back-of-head print, where its crown lies and how it moves
+from world import OPEN_L as OL, OPEN_R as OR_
+def crown(i):
+    d = ex_at(i)['dog']; G_ = PU.dog_global(d); nk_ = PC['dog_torso']['pins']['neck']; b_ = PC['dog_backprint']['pins']['nape']
+    bx, by = d.get('back_at', PU.BACK_AT)
+    A_ = G_ @ TT(nk_[0] + bx, nk_[1] + by + d.get('hdrop', 0)) @ RR(d.get('head', 0)) @ TT(-b_[0], -b_[1])
+    return A_.apply(PC['dog_backprint']['pins']['crown']), A_.apply(b_)
+bp = [f for f in tr if f['head_piece'] == 'dog_backprint']
+hold = [e for e in ex if 634 <= e['f0'] < 674]
+c0, n0 = crown(634)
+look_in4 = {'card': 'dog_backprint (Amateur Film New Jersey C f001: the dog from behind)', 'frames_with_card': len(bp),
+            'first_t': bp[0]['t'], 'last_t': bp[-1]['t'], 'card_angles_during_hold_deg': sorted(set(e['dog'].get('head', 0) for e in hold)),
+            'crown_xy_at_26.42': [round(c0[0], 1), round(c0[1], 1)], 'crown_inside_door_opening_x': bool(OL < c0[0] < OR_),
+            'crown_above_nape_px': round(n0[1] - c0[1], 1),
+            'crown_y_at_t': {str(t_): round(crown(int(t_ * 24))[0][1], 1) for t_ in (26.42, 27.2, 27.6, 28.0, 28.7, 31.9)},
+            'note': 'no muzzle on this card; it is never rotated up beyond 5 deg and from 28.08 it slides 12 px down (chin toward the sill)'}
 # lying: the paws on the boards (lower-card foot pins vs the floor line the dog stands on)
 def paws(i):
     f = next(q for q in tr if q['i'] == i); return {k: round(v[1] - PU.FLOOR_DOG, 1) for k, v in (f['feet'] or {}).items()}

@@ -8,7 +8,8 @@ WHAT = {'dog_torso': 'dog torso', 'dog_head': 'dog head (profile), retouched: ey
         'dog_ear': 'dog ear, a separate card pinned at its root on the head (pricks, flicks, drops)',
         'dog_tail': 'dog tail', 'dog_front': 'turning card: the same dog facing the camera, retouched (eyes, nose inked)',
         'dog_lookback': 'the look back: a second, larger print of the profile head, retouched',
-        'dog_away': 'the head turned away into the room (a lost profile): constructed collage'}
+        'dog_away': 'the head turned away into the room (a lost profile): constructed collage',
+        'dog_backprint': 'the back of the head, looking in: a real print (f001, the dog seen from behind), ear flaps and fur parting retouched in ink'}
 for k in ('fore', 'farfore', 'hind', 'farhind'):
     WHAT['dog_' + k] = 'dog %s leg, upper card (shoulder/hip to wrist/hock)' % k
     WHAT['dog_' + k + '_lo'] = 'dog %s leg, lower card (wrist/hock to paw), toes inked' % k

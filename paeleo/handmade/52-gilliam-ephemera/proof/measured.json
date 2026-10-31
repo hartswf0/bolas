@@ -73,7 +73,7 @@
  "end_on_sill": {
   "end_bbox": [
    295,
-   510,
+   507,
    516,
    611
   ],
@@ -83,12 +83,12 @@
   ],
   "part_inside_frame": true,
   "part_outside_frame": true,
-  "share_of_dog_pixels_inside_frame": 0.494,
+  "share_of_dog_pixels_inside_frame": 0.509,
   "end_posture": "lying",
   "end_facing": 1
  },
  "camera_interval": {
-  "exposures": 261,
+  "exposures": 260,
   "frames": 768,
   "min_frames_per_exposure": 2,
   "share_on_twos_or_longer": 1.0,
@@ -361,17 +361,30 @@
    "n": 22
   },
   "look_in": {
-   "frames_with_away_card": 40,
+   "card": "dog_backprint (Amateur Film New Jersey C f001: the dog from behind)",
+   "frames_with_card": 134,
    "first_t": 26.4167,
-   "last_t": 28.0417,
-   "muzzle_tip_xy": [
-    371.5,
+   "last_t": 31.9583,
+   "card_angles_during_hold_deg": [
+    -4,
+    0,
+    5
+   ],
+   "crown_xy_at_26.42": [
+    333.5,
     495.1
    ],
-   "muzzle_tip_inside_door_opening_x": true,
-   "muzzle_tip_above_sill": true,
-   "muzzle_direction_deg": 24.2,
-   "note": "the person and the offered hand are to the left (180 deg); the lamp is up (~95 deg); the card is flopped so the muzzle points up-right, into the lit room"
+   "crown_inside_door_opening_x": true,
+   "crown_above_nape_px": 69.4,
+   "crown_y_at_t": {
+    "26.42": 495.1,
+    "27.2": 495.6,
+    "27.6": 495.1,
+    "28.0": 495.1,
+    "28.7": 507.1,
+    "31.9": 507.1
+   },
+   "note": "no muzzle on this card; it is never rotated up beyond 5 deg and from 28.08 it slides 12 px down (chin toward the sill)"
   },
   "lying": {
    "paw_y_minus_floor_px_at": {
