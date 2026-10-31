@@ -405,7 +405,7 @@ def main():
             ident = m['id'] if m else None
             how = 'flow'
             if m is None:
-                m = decode_at(pyr[0][0], tpls[fam], (pred[0], pred[1], float(np.clip(pred[2], -0.9, 0.9))), r=150, near=110)
+                m = decode_at(pyr[0][0], tpls[fam], (pred[0], pred[1], 0.0 if fam == 'dog.head' else pred[2]), r=170, near=150)
                 how = 'reacquire' if m else 'flow-occluded'
                 ident = m['id'] if m else None
             if m is not None:
