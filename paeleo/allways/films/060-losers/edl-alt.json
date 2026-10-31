@@ -1,0 +1,120 @@
+{
+ "size": [
+  640,
+  480
+ ],
+ "fps": 24,
+ "source_gain_db": 8,
+ "score": null,
+ "id": "060-losers-wide",
+ "title": "Losers \u2014 wide-opening comparison",
+ "events": [
+  {
+   "dur": 3.0,
+   "label": "ESTABLISHING (still frame only): the shot that precedes the huddle in the source \u2014 girls in a curve along the wall, boys in the foreground, empty floor between (source 490.66\u2013499.87 s; held thumbnail, motion not available locally)",
+   "layers": [
+    {
+     "src": "22a114dd-18bf-5c1b-b129-b292311e52f3",
+     "media": "still",
+     "in": 0,
+     "box": [
+      0,
+      0,
+      1,
+      1
+     ],
+     "fit": "contain",
+     "audio": false,
+     "gain_db": 10,
+     "afade_in": 0.1,
+     "afade_out": 0.15
+    }
+   ],
+   "fade_in": 0.4
+  },
+  {
+   "dur": 6.95,
+   "label": "TIGHT: a huddle of boys in suits; one is talked at, nudged; the others turn away and he is left in frame smiling (source 499.87\u2013506.84 s)",
+   "layers": [
+    {
+     "src": "3b640aa6-b569-5c66-9c06-bde121133cbe",
+     "media": "clip",
+     "in": 0.0,
+     "box": [
+      0,
+      0,
+      1,
+      1
+     ],
+     "fit": "contain",
+     "audio": true,
+     "gain_db": 10,
+     "afade_in": 0.1,
+     "afade_out": 0.15
+    }
+   ]
+  },
+  {
+   "dur": 10.15,
+   "label": "WIDE (the source's next shot): the room \u2014 girls lined along the far wall, boys cross the open floor; one boy asks a girl in a white dress and they begin to dance (source 506.84\u2013516.99 s)",
+   "layers": [
+    {
+     "src": "3b640aa6-b569-5c66-9c06-bde121133cbe",
+     "media": "clip",
+     "in": 7.0,
+     "box": [
+      0,
+      0,
+      1,
+      1
+     ],
+     "fit": "contain",
+     "audio": true,
+     "gain_db": 10,
+     "afade_in": 0.1,
+     "afade_out": 0.15
+    }
+   ]
+  },
+  {
+   "dur": 1.0,
+   "label": "black seam: what follows is a LATER scene of the same film, not the same moment",
+   "layers": []
+  },
+  {
+   "dur": 14.6,
+   "label": "CODA, montage relation (same film, ~95 s later): packed dance floor; then a girl seated at the margin by a table, a boy beside her looks up; neither resolves (source 594.76\u2013609.36 s)",
+   "layers": [
+    {
+     "src": "22ba9c11-a391-5b70-aa85-ec95c9fe45ba",
+     "media": "clip",
+     "in": 0.0,
+     "box": [
+      0,
+      0,
+      1,
+      1
+     ],
+     "fit": "contain",
+     "audio": true,
+     "gain_db": 10,
+     "afade_in": 0.1,
+     "afade_out": 0.15
+    }
+   ]
+  },
+  {
+   "dur": 4,
+   "label": "source card",
+   "fade_in": 0.5,
+   "fade_out": 0.8,
+   "card": {
+    "lines": [
+     "Beginning to Date (1953) \u00b7 a staged social-guidance film",
+     "Sources: movingimagearchive.com \u00b7 see ledger"
+    ],
+    "size": 18
+   }
+  }
+ ]
+}

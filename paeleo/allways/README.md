@@ -32,7 +32,7 @@ Its question is **what else was happening?** Its name joins *always* and *all wa
 
 ## Status
 
-The statement, development slate, and 59 prompt specifications are published here. The twelve named ALLWAYS films remain concepts. The proposed proof scenes in the new prompt corpus have not yet been executed. Reference films are cited as lineages, not claimed as our productions.
+The statement, development slate, and 59 prompt specifications are published here. The first batch of archive proofs, SCION 055–065 cut by hand from movingimagearchive.com footage, is in [films/](films/) with edit lists, source ledgers, forage logs and a first critic round. These are proofs in progress, not released works. The twelve named ALLWAYS films remain concepts. The proposed proof scenes in the new prompt corpus have not yet been executed. Reference films are cited as lineages, not claimed as our productions.
 
 Earlier work remains under its established project names: [Afterlight](../../afterlight/), [The Found Odyssey](../../found-odyssey/), [CINEOSIS](../../cineosis/), [WYGWYL](../../wygwyl/), and [PAELEO's handmade threshold studies](../handmade/). The ALLWAYS page connects to these precedents without changing their credits or production status.
 
