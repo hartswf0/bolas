@@ -58,7 +58,7 @@ def mirror(r, Wsrc=384):
     for k, v in r['H'].items():
         if isinstance(v, dict):
             v = dict(v)
-            for e in ('a', 'b', 'k', 'at'):
+            for e in ('a', 'b', 'k', 'at', 'p'):
                 if e in v: v[e] = fx(v[e])
             if 'path' in v: v['path'] = [fx(p) for p in v['path']]
         H[k] = v
@@ -143,7 +143,7 @@ def main():
         print(name, fi, tests['views'][name]['vertices'], r['names'], 'leak', tests['views'][name]['leg_leak_bbw'],
               'vs', tests['views'][name]['leg_leak_shepard_baseline'], '%.2fs' % r['solve_s'], flush=True)
     # the refusal view: the same whole frame, mirrored (the archive dog turned away); weights carry over exactly
-    rigs['Wm'] = mirror(rigs['W'])
+    rigs['Wm'] = mirror(rigs['W']); rigs['r7m'] = mirror(rigs['r7'])
     # stability across neighbouring archive frames (same handle code, different ragged silhouettes)
     for fi in STABILITY:
         r = rig_frame(fi, -1); r['body'] = body_metrics(r)

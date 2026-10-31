@@ -39,7 +39,13 @@ def load_mask(fi, W=384, H=288):
     lab, n = ndi.label(m)
     if n > 1:
         sizes = ndi.sum(m, lab, range(1, n + 1)); m = lab == (1 + int(np.argmax(sizes)))
-    return ndi.binary_fill_holes(m), P
+    m = ndi.binary_fill_holes(m)
+    # slivers under 3 px (a mask tooth along a blurred ear or the frame's edge) cannot carry a weight field; drop them
+    o = ndi.binary_opening(m, iterations=1)
+    lab, n = ndi.label(o)
+    if n > 1:
+        sizes = ndi.sum(o, lab, range(1, n + 1)); o = lab == (1 + int(np.argmax(sizes)))
+    return o, P
 
 
 def _area(p):
@@ -245,7 +251,8 @@ def layout_handles(mask, facing):
         kind = 'front' if abs(j - shoulder) <= abs(j - hip) else 'hind'
         lp = [xy(q) for q in leg][::-1]  # top (joint) -> foot
         m = len(lp) // 2
-        H['leg%d' % li] = {'type': 'bone', 'kind': kind, 'a': lp[0], 'k': lp[m], 'b': lp[-1], 'path': lp}
+        H['leg%d' % li] = {'type': 'bone', 'kind': kind, 'a': lp[0], 'k': lp[m], 'b': lp[-1], 'path': lp,
+                           'p': lp[int(.3 * len(lp))]}   # pivot: the top of the pinned part (elbow / stifle)
     return H, adj, dist
 
 
@@ -273,8 +280,13 @@ def handle_vertices(V, H, r=1.6, joint_gap=3.0):
             d = np.hypot(*(V - np.asarray(v['at'])).T)
             sets[k] = np.nonzero(d <= max(r, d.min() + .01))[0]
         else:
-            d = _poly_dist(V, v['path'])
-            da = np.hypot(*(V - np.asarray(v['path'][0])).T); db = np.hypot(*(V - np.asarray(v['path'][-1])).T)
+            path = v['path']
+            if v.get('kind'):
+                # a leg pins only its lower 70 %: the shoulder and haunch above it belong to the body, so a folded
+                # leg cannot drag a sliver of the back up with it
+                path = path[int(.3 * len(path)):]
+            d = _poly_dist(V, path)
+            da = np.hypot(*(V - np.asarray(path[0])).T); db = np.hypot(*(V - np.asarray(path[-1])).T)
             sel = (d <= r) & (da > joint_gap) & (db > joint_gap)
             sets[k] = np.nonzero(sel)[0]
     # a vertex claimed twice goes to neither

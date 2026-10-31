@@ -14,24 +14,24 @@ def body_metrics(rig):
     H = rig['H']
     feet = np.array(H['feet']) if H['feet'] else np.array([[xs.mean(), ys.max()]])
     ground = float(ys.max())
-    return dict(ground=ground, back=float(np.median(tops)), body_h=ground - float(np.median(tops)),
+    return dict(cx=float(xs.mean()), ground=ground, back=float(np.median(tops)), body_h=ground - float(np.median(tops)),
                 anchor=np.array([float(feet[:, 0].mean()), ground]), x0=float(x0), x1=float(x1))
 
 
 def leg_len(H, k):
-    a, b = np.array(H[k]['a']), np.array(H[k]['b'])
+    a, b = np.array(H[k].get('p', H[k]['a'])), np.array(H[k]['b'])
     return float(np.linalg.norm(b - a)), a, b
 
 
 DEFAULT = dict(drop=0.0, crouch=0.0, neck=0.0, head=0.0, push=0.0, tail=0.0, wag=0.0, swing=None, fold=0.0,
-               fold_front=None, frontal=False, chin=0.0)
+               fold_front=None, frontal=False, chin=0.0, tuck=False)
 
 
 def mats(rig, **kw):
     p = dict(DEFAULT); p.update(kw)
     H = rig['H']; f = rig['facing']; names = rig['names']
     legs = [k for k in names if k.startswith('leg')]
-    L = [leg_len(H, k)[0] for k in legs] or [rig['body']['body_h'] * .6]
+    L = [float(np.linalg.norm(np.array(H[k]['b']) - np.array(H[k]['a']))) for k in legs] or [rig['body']['body_h'] * .6]
     Lh = float(np.mean(L))
     fold = p['fold']; ffold = fold if p['fold_front'] is None else p['fold_front']
     # the body sinks by the fold (lying) and the crouch; feet stay on the ground (legs compress or fold)
@@ -52,23 +52,29 @@ def mats(rig, **kw):
     ta = np.array(H['tail']['a'])
     tb = np.array(H['tail']['b'])
     # lying: the tail lies out behind on the boards, a little longer than the found stub so its tip shows
-    Mt = compose(root, rot(-f * (p['tail'] * (1 - fold) + (0 if p['frontal'] else .1) * fold), ta), scale_along(ta, tb - ta, 1 + (0 if p['frontal'] else 1.0) * fold))
+    Mt = compose(root, rot(-f * (p['tail'] * (1 - fold) + (0 if p['frontal'] else .1) * fold), ta), scale_along(ta, tb - ta, 1.0))
     out['tail'] = Mt
-    out['tailtip'] = compose(Mt, rot(-f * p['tail'] * .6 + p['wag'], np.array(H['tail']['b'])))
+    tdir = np.array([-f * .85, .5])                     # out behind and down onto the boards
+    ext = (0 if p['frontal'] else 34.0) * fold          # lying: the tail tip lies out a few px further on the boards
+    out['tailtip'] = compose(Mt, trans(tdir * ext), rot(-f * p['tail'] * .6 + p['wag'], tb))
     for i, k in enumerate(legs):
         l, a, b = leg_len(H, k)
         front = H[k].get('kind') == 'front'
         fo = ffold if front else fold
-        sw = 0.0 if p['swing'] is None else p['swing'][i % len(p['swing'])]
+        front0 = H[k].get('kind') == 'front'
+        sw = 0.0 if p['swing'] is None else (p['swing'][0] if front0 else p['swing'][-1])
         comp = 1 - .16 * p['crouch'] / max(l / Lh, .5)
         if p['frontal']:
             M = compose(root, scale_along(a, b - a, comp * (1 - .9 * fo), 1 + .15 * fo))
+        elif front and p['tuck']:
+            # forepaws drawn in under the chest (no pale paw reaching out ahead of the head)
+            M = compose(root, rot(-f * .5 * fo, a), scale_along(a, b - a, .3))
         elif front:
             # forelegs reach forward and lie flat (sphinx), a little shortened
             M = compose(root, rot(-f * (sw + .95 * fo), a), scale_along(a, b - a, comp * (1 - .45 * fo)))
         else:
             # hind legs fold under the hip: rotate forward and compress
-            M = compose(root, rot(-f * (sw + 1.45 * fo), a), scale_along(a, b - a, comp * (1 - .62 * fo), 1 + .2 * fo))
+            M = compose(root, rot(-f * (sw + 1.65 * fo), a), scale_along(a, b - a, comp * (1 - .45 * fo), 1 + .1 * fo))
         out[k] = M
     return np.stack([out[k] for k in names])
 

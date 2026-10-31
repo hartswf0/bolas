@@ -59,7 +59,7 @@ def softplus(z, k=.35):
 def path(x):
     """the score's x (metres from the threshold) to a point on the porch floor: straight out of the door first,
     then bending along the porch toward the steps"""
-    u = 0.08 + 0.82 * x + 0.15 * softplus(x - 1.5) + 0.06 * min(1.0, max(0.0, 1.5 - x))
+    u = 0.08 + 0.82 * x + 0.15 * softplus(x - 1.5) + 0.10 * min(1.0, max(0.0, 1.5 - x))
     v = -0.12 + 0.57 * x - 0.35 * softplus(x - 1.5)
     return u, v
 
@@ -180,7 +180,7 @@ def dog_plan(i):
     wag = a['wag'] * .45 * math.sin(t * 2 * math.pi * 2.3)
     mv = a['moving']; ph = a['walk_phase']
     amp = .18 * mv
-    swing = [amp * math.sin(ph), amp * math.sin(ph + math.pi), amp * math.sin(ph + math.pi * .5), amp * math.sin(ph + math.pi * 1.5)]
+    swing = [amp * math.sin(ph), amp * math.sin(ph + math.pi)]   # (front, hind): legs that overlap in the found frame swing together, no tearing between them
     p = dict(tail=tail, wag=wag, crouch=crouch, swing=swing)
     if t < T1[0]:
         view = 'W'; p['neck'] = (1.0 - head) * 2.0 - .05
@@ -188,30 +188,33 @@ def dog_plan(i):
         k = int((t - T1[0]) / (T1[1] - T1[0]) * len(SEQ)); view = SEQ[min(k, len(SEQ) - 1)]
         p.update(neck=0.0, crouch=.45, swing=None, frontal=view in ('t26', 't30', 't36'), tail=.4)
     elif t < T2[0]:
-        view = 'Wm'; p['neck'] = (1.0 - head) * 1.5
-        p['fold'] = a['lie']; p['chin'] = .35 * a['rest']
+        # the turned back: f010 mirrored standing, then f007 mirrored (the next found frame, with its own tail and
+        # folding hind leg) as it lies down, chin toward the boards
+        lie = a['lie']
+        view = 'r7m' if lie > .5 else 'Wm'
+        p['fold'] = lie; p['chin'] = .25 * a['rest']
+        p['neck'] = (.85 + .2 * a['rest']) if view == 'r7m' else (1.0 - head) * 1.5
     elif t < T2[1]:
-        SQ2 = ['t36', 't30', 't26']; k = int((t - T2[0]) / (T2[1] - T2[0]) * len(SQ2)); view = SQ2[min(k, len(SQ2) - 1)]
-        p.update(neck=0.0, fold=1.0, swing=None, frontal=True, tail=.3, crouch=0)
+        # turning to look, lying: the head comes up and round (f005, the back of the skull to the camera) ...
+        view = 'r5'; p.update(neck=.25, fold=1.0, swing=None, tail=.3, crouch=0, tuck=True)
     elif t < 8.3:
-        # lying, facing the door: the head is up and toward the door while the hips stay down; then it rises
-        view = 'W'; rise = min(1, max(0, (t - 7.8) / .45)); rise = rise * rise * (3 - 2 * rise)
-        p.update(neck=.55, fold=1 - rise, fold_front=1 - rise, swing=None, crouch=.2 * (1 - rise))
+        # ... and settles toward the door, muzzle level, hips still down (f007 lying); then it rises (f010)
+        rise = min(1, max(0, (t - 7.8) / .45)); rise = rise * rise * (3 - 2 * rise)
+        view = 'r7' if rise < .5 else 'W'
+        p.update(neck=.75 * (1 - rise) + .1 * rise if view == 'r7' else .1, fold=1 - rise, fold_front=1 - rise,
+                 swing=None, crouch=.2 * (1 - rise))
     elif st == 'lie_down':
-        view = 'W'
         lie = a['lie']; look = a['look']; rest = a['rest']
+        view = 'r7' if lie > .45 else 'W'
         p['fold'] = lie; p['swing'] = [s * (1 - lie) for s in swing]
-        base = .55 + .5 * (1.0 - min(head, 1.0))
-        p['neck'] = min(1.05, base * (1 - look) + .80 * look + .12 * rest) * lie + ((1.0 - head) * 2.5 - .05) * (1 - lie)
-        p['chin'] = .06 * rest
-        if look > .08:
-            # the archive's own look back over the shoulder (f007 -> f005, played backwards): the head
-            # comes round and up into the lit room, the back of the skull to the camera; the body stays lying
-            seq = ['r7', 'r5']
-            view = seq[min(len(seq) - 1, int((look - .08) / .92 * len(seq)))]
-            p['neck'] = .20; p['push'] = 0.0; p['chin'] = 0.0
+        if view == 'W':
+            p['neck'] = (1.0 - head) * 2.5 - .05
         else:
-            p['push'] = 0.0
+            p['neck'] = .85 + .25 * rest; p['chin'] = .06 * rest
+        if look > .5:
+            # looking in: the archive's own look over the shoulder (f005), held while the score looks in: the head
+            # turns away from the camera, up into the lit room, back of the skull and ears to us; body still lying
+            view = 'r5'; p['neck'] = .25; p['chin'] = 0.0; p['tuck'] = True
     elif st == 'approach':
         view = 'W'; p['neck'] = (1.0 - head) * 2.5 - .05
     else:
@@ -233,10 +236,15 @@ def placement(r, x, view, lie=0.0):
     metres = math.hypot(pu - qu, pv - qv)
     fr = np.linalg.norm(a - b) / (metres * F / d)
     fr = min(1.0, .35 + .65 * fr)
+    if lie > .5:
+        fr = max(fr, .55 + .3 * lie)     # lying: the body keeps most of its length
     k = float(np.clip(k, -.38, .38)) * (1 - .4 * lie)
     if r.get('frontal'):
         k *= .3; fr = 1.0
-    an = r['body']['anchor']
+    an = r['body']['anchor'].copy()
+    if lie > .5:
+        # lying: anchor on the middle of the body, so every lying view sits across the same spot of the sill
+        an[0] = r['body']['cx']
     A = np.array([[s * fr, 0], [s * fr * k, s]])
     return np.hstack([A, (g - A @ an)[:, None]]), s
 
@@ -303,7 +311,7 @@ def person_plan(i):
     f = score_at(i); pe = f['person']; t = i / FPS
     # place: doorway (score -0.28) -> beside (score -1.25): across the opening to the left, inside
     xs = pe['x']; k = min(1, max(0, (xs - (-0.28)) / (-1.25 + .28)))
-    u = .0 - .50 * k; v = -.28 - .20 * k
+    u = .0 - .54 * k; v = -.28 - .05 * k
     sit = pe['sit']
     reach = pe['reach']; low = pe['low']; mouth = pe['mouth']
     voice = pe['voice']
