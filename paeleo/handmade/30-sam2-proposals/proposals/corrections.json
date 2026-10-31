@@ -1,0 +1,135 @@
+{
+ "note": "correction strokes, in source coordinates; every one changes a model mask and says why",
+ "strokes": [
+  {
+   "id": "c1",
+   "piece": "dog lying body",
+   "src": "dog",
+   "frame": 4,
+   "op": "sub",
+   "polygon": [
+    [
+     0,
+     160
+    ],
+    [
+     384,
+     160
+    ],
+    [
+     384,
+     288
+    ],
+    [
+     0,
+     288
+    ]
+   ],
+   "why": "legs: no source frame shows this dog lying or its legs folded; the region is not made, and on stage it is behind the porch board"
+  },
+  {
+   "id": "c2",
+   "piece": "dog tail",
+   "src": "dog",
+   "frame": 19,
+   "op": "keep",
+   "polygon": [
+    [
+     211,
+     146
+    ],
+    [
+     254,
+     146
+    ],
+    [
+     254,
+     184
+    ],
+    [
+     211,
+     184
+    ]
+   ],
+   "mirror": true,
+   "why": "tail part box; frame 19 holds the tail clear of the body. Mirrored so it lies back from a right-facing body"
+  },
+  {
+   "id": "c3",
+   "piece": "dog heads",
+   "src": "dog",
+   "frames": [
+    40,
+    44,
+    47
+   ],
+   "op": "keep",
+   "rule": "neck half-plane (5 px behind the neck prompt) AND disk around nose/neck prompts",
+   "why": "head part proposals substituted on the lying body at the neck prompt point"
+  },
+  {
+   "id": "c4",
+   "piece": "every dog piece",
+   "src": "dog",
+   "op": "adjudicate",
+   "rule": "1 px choke; keep largest 4-connected component",
+   "why": "SAM debris on gravel next to the dog (e.g. frames 12, 13, 15 tail region)"
+  },
+  {
+   "id": "c5",
+   "piece": "hand",
+   "src": "hand",
+   "frames": [
+    20,
+    30
+   ],
+   "op": "add",
+   "rule": "box (270,62)-(384,116), luminance > 0.42, largest component",
+   "why": "the \"a hand.\" proposal stops at the wrist; the forearm is in the frame"
+  },
+  {
+   "id": "c6",
+   "piece": "sitter",
+   "src": "sitter",
+   "frame": 36,
+   "op": "sub",
+   "polygon": [
+    [
+     272,
+     0
+    ],
+    [
+     384,
+     0
+    ],
+    [
+     384,
+     256
+    ],
+    [
+     272,
+     256
+    ]
+   ],
+   "why": "empty bag spread"
+  },
+  {
+   "id": "c7",
+   "piece": "person",
+   "src": "door",
+   "frame": 2,
+   "op": "close",
+   "rule": "dilate 5 / erode 5",
+   "why": "pale hair clip left a hole in the silhouette"
+  },
+  {
+   "id": "c8",
+   "piece": "person",
+   "src": "door",
+   "frame": 2,
+   "op": "fade",
+   "rule": "alpha fades over the lowest 22% of the proposal",
+   "why": "the source frame cuts the person at mid-thigh; the legs are not made, they stay in the dark of the doorway"
+  }
+ ]
+}

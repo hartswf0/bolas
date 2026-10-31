@@ -293,6 +293,17 @@
    "trick": "The cut is the film: every edge of the dog is an argument about where it ends."
   },
   {
+   "id": 30,
+   "dir": "30-sam2-proposals",
+   "name": "SAM 2 proposals",
+   "kind": "Evidence-bounded mask proposals",
+   "dog": "the real archive dog assembled only from accepted mask proposals, with nothing invented",
+   "made": "Precomputed SAM 2.1 mask proposals from public-domain archive films in the kit: 48 accepted frames of the dog in Amateur Film New Jersey C under one object ID, the door from Straight Talk, a hand from Door to Heaven (1941) and a sitter from Survival Stresses. Recorded correction strokes and evidence refusals: no frame shows the dog lying, so its legs are hidden behind a porch board rather than made up.",
+   "moved": "Substitution of real frames placed by their measured centroids on the score: the source dog's own step and turn played forward and backward, a confidence proxy (stability times edge agreement) that rejected frames which leak, and a contact sheet of every source frame with its object ID and confidence on the end card.",
+   "trick": "Nothing is drawn: when the archive has no evidence of a pose, the film stages around it instead of inventing it.",
+   "status": "in repair after critic round 1"
+  },
+  {
    "id": 31,
    "dir": "31-alpha-matting",
    "name": "Alpha Matting",
@@ -332,6 +343,17 @@
    "made": "The dog, the woman and the place are hatch engravings drawn in code, the hatching running along the limbs. The dog is a Delaunay mesh (profile, rear, front, lying and head-turned-in rest shapes), with proportions taken as numbers from the public-domain archive dog. The swarm wrote the Sorkine–Alexa local–global solve itself, with sparse factorisation; the end card shows the rest meshes and their handles.",
    "moved": "About twenty handles at shoulder, hip, neck, tail, paws and ankles drive the solve, which decides every leg bend, the neck, the belly and the ear folds. View changes are single-frame swaps between rest meshes, hidden as the outgoing drawing narrows. On the same handles, the solve keeps every lying frame free of inverted triangles where a naive warp folds dozens.",
    "trick": "The dog bends where its triangles can keep their shape and nowhere else."
+  },
+  {
+   "id": 35,
+   "dir": "35-mls-gesture-warp",
+   "name": "MLS gesture warp",
+   "kind": "Risograph print bent by moving least squares",
+   "dog": "a two-colour risograph dog whose dot screen stretches where it bends",
+   "made": "A two-colour risograph print made in code: an orange coat plate and a blue shade and key-line plate, screened in the dog's own print space, in 13 view prints (profile, three-quarter, rear, lying, look-back, look-in). The porch is screened in screen space at a finer pitch. No kit material; all sound is synthesized.",
+   "moved": "37 named control anchors with typed moving-least-squares families per layer (rigid skull and ears, similarity legs, tail and neck, affine coat), inverse-distance falloff, a fold guard, and print swaps at the midpoint of fast swings with no cross-dissolve. The dot-grid strain is measured every frame.",
+   "trick": "The warp is honest about itself: wherever the print is bent, its dot screen visibly stretches.",
+   "status": "in repair after critic round 1"
   },
   {
    "id": 37,
