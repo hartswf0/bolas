@@ -74,13 +74,14 @@
     let rest = ss(t, 5.5, 6.3) * (1 - ss(t, 7.40, 7.56));
     if (t >= 23) rest = ss(t, 25.3, 26.0) * (1 - ss(t, 26.42, 26.65)) + ss(t, 28.3, 29.0) * 0.92;
     const look = ss(t, 26.45, 26.95) * (1 - 0.6 * ss(t, 28.25, 28.9));
+    const earHang = ss(t, 26.62, 27.4) * (1 - 0.6 * ss(t, 28.25, 28.9));
     const hh = track(t, [[0, 0.9], [0.98, 0.9], [1.3, 0.25], [2.33, 0.3], [2.9, 0.85], [3.42, 0.85], [3.8, 0.15], [7.42, 0.15], [7.62, 0.62], [8.3, 0.62], [8.9, 0.9], [14.62, 0.9], [15.15, 0.0], [23.79, 0.0], [24.4, 0.62], [25.3, 0.55], [26.0, 0.35], [26.45, 0.35], [26.9, 0.42], [28.2, 0.42], [28.9, 0.25]]);
     const fear = track(t, [[0, 0], [0.98, 0], [1.25, 1], [2.33, 1], [2.9, 0.35], [3.42, 0.35], [3.62, 1], [7.42, 1], [8.6, 0.25], [14.7, 0.12], [23.79, 0.12], [24.5, 0]]);
     let ear = a.ear; if (t > 26.3) ear = Math.min(ear, 0.72);
     if (t > 7.38 && t < 8.6) ear = Math.max(ear, 0.95 * ss(t, 7.42, 7.52));
     const crouch = (t > 23.5 ? 0 : a.crouch) * (1 - Math.max(lieF, lieR));
     const turnStep = Math.max(ss(t, 3.42, 3.55) * (1 - ss(t, 3.75, 3.9)), ss(t, 8.05, 8.2) * (1 - ss(t, 8.7, 8.85)));
-    return { t, i, x: f.dog.x, th, hw, lieF, lieR, rest, look, hh, fear, ear, crouch, tail: a.tail, wag: a.wag, moving: a.moving, turnStep, state: f.dog.state };
+    return { t, i, earHang, x: f.dog.x, th, hw, lieF, lieR, rest, look, hh, fear, ear, crouch, tail: a.tail, wag: a.wag, moving: a.moving, turnStep, state: f.dog.state };
   }
   function personPrimary(i) {
     const f = SC.frames[i], p = f.person, t = f.t;
@@ -259,7 +260,7 @@
       const flat = norm(comb(md, -0.75, Uh, -0.45, Lh, 0.3 * s.sg));
       const prick = norm(comb(Uh, 0.55, md, 0.35, Lh, 0.8 * s.sg));
       const hang = norm(comb(DOWN, 1, Lh, 0.22 * s.sg, md, -0.35));
-      return { root, dir: norm(lerp3(norm(lerp3(flat, prick, 0.85 * clamp(e, 0, 1))), hang, PRESET === 'generic' ? 0 : P.look)) };
+      return { root, dir: norm(lerp3(norm(lerp3(flat, prick, 0.85 * clamp(e, 0, 1))), hang, PRESET === 'generic' ? 0 : P.earHang)) };
     }
     if (s.kind === 'tail') {
       const tau = PRESET === 'generic' ? 0.5 : P.tail;
