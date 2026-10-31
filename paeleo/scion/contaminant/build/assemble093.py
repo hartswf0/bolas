@@ -61,7 +61,7 @@ run(['-f', 'lavfi', '-i', f'color=black:s={W}x{H}:r={FPS}:d=1.5', '-f', 'lavfi',
 seq = ['lA', 'vA', 'lB', 'vB', 'lD', 'vD', 'tail']
 ins = sum((['-i', tmp(f'{s}.mp4')] for s in seq), [])
 run([*ins, '-filter_complex', ''.join(f'[{i}:v][{i}:a]' for i in range(len(seq))) + f'concat=n={len(seq)}:v=1:a=1[v][a]',
-     '-map', '[v]', '-map', '[a]', *[x if x != '24' else '29' for x in VENC], *AENC, '-movflags', '+faststart', os.path.join(OUT, 'film.mp4')])
+     '-map', '[v]', '-map', '[a]', *[('29' if (i and VENC[i - 1] == '-crf') else x) for i, x in enumerate(VENC)], *AENC, '-movflags', '+faststart', os.path.join(OUT, 'film.mp4')])
 
 # 4 · loudness of each version (integrated LUFS), the controlled variable the critic must not be confounded by
 def lufs(f):

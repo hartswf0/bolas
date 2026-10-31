@@ -41,8 +41,8 @@ const B = cut([
   (r, add) => { if (r.k === 'care') add(r.a, r.b); },
   (r, add) => { if (r.k === 'archive') add(r.a, r.b); },
   (r, add) => { if (r.k === 'care' || r.k === 'archive') { add(r.b, r.b + Math.round(1.1 * fps)); add(r.a - Math.round(.9 * fps), r.a); } },
-  (r, add) => { if (r.k === 'forage') add(r.a, r.b); },
-], ['school']);
+  (r, add) => { if (r.k === 'forage' || r.k === 'return') add(r.a, r.b); },
+], ['school', 'handoff', 'lift', 'carry']);   // B leaves the jellyfish's work out: it appears only drifting between people
 
 const label = iv => { const c = {}; for (let i = iv.a; i < iv.b; i++) c[ann[i]] = (c[ann[i]] || 0) + 1; return Object.entries(c).sort((x, y) => y[1] - x[1]).map(([k]) => k).join('+'); };
 const edl = (name, ivs) => ({version: name, source: 'rushes/film.mp4', fps, frames: ivs.reduce((s, v) => s + v.b - v.a, 0),

@@ -6,8 +6,8 @@ Built with SCION 093 *What Is Neorealism?* (counterfactual cuts from shared mate
 
 **The film** (`film.mp4`, about 81 s, no text): amber leader, **A** (28 s); blue leader, **B** (28 s); white leader, the **diagnostic** (both cuts side by side on the take's clock at 3.6x, each panel dark where its version omitted that moment, bars of retained intervals, a playhead).
 
-- **A, the censor's cut**: the delivery. The jellyfish lifting, carrying and handing fragments on; the clockwork school's images briefly. The care strand is never shown.
-- **B, the jellyfish's cut**: the peripheral life. The archive's people held for their full length, the moment before each opens and after it goes. The handoffs are left out.
+- **A, the censor's cut**: the delivery. The jellyfish lifting, carrying and handing fragments on; the clockwork school's images briefly. The archive's people are never given the frame: they appear only as small thumbnails the jellyfish tows.
+- **B, the jellyfish's cut**: the peripheral life. The archive's people held for their full length, and the moment after each goes. The jellyfish's work (lifting, carrying, handing on) is left out; it appears only drifting between them.
 
 ## Shared source pool
 
@@ -18,7 +18,7 @@ One continuous take, `../rushes/film.mp4` (72 s), rendered from the page in `?ru
 - Same source take, no added footage; both versions in source order (`checks.json`).
 - Equal length: both exactly 672 frames (28 s at 24 fps). This is also the deliverable's equal-duration variant.
 - Same grade (the take's own), same splice treatment (25 ms audio fades at every cut).
-- Sound: the take's own sound is cut with the picture; one identical newly composed cue (`build/cue.js`) runs under each at the same level. Integrated loudness is in `loudness.json` (A −17.4, B −17.3 LUFS).
+- Sound: the take's own sound is cut with the picture; one identical newly composed cue (`build/cue.js`) runs under each at the same level. Integrated loudness is in `loudness.json` (A −17.4, B −17.4 LUFS).
 - The diagnostic is visually distinct from ordinary playback (two panels, bars, a playhead, 3.6x) and quieter.
 
 ## Files
@@ -31,4 +31,13 @@ One continuous take, `../rushes/film.mp4` (72 s), rendered from the page in `?ru
 
 ## Status
 
-Independent critic (093 tribunal, watching both versions before the argument): pending at the time of writing.
+Independent critic, round 1 (093 tribunal; it wrote down what it saw before reading the argument): **pass**. It found the change in what counts "clear": the same people as tiny cargo in A and full frame in B, B's steady 3-second holds against A's 1–2 s cuts, matched loudness and cue. It found two faults:
+- B did not omit the jellyfish's work (about 7 s, opening on a handoff).
+- The film had been encoded at 29 fps by a build bug.
+
+Repairs, verified by measurement but not yet re-watched by a critic:
+- B now holds 0 s of handoff, lift and carry, and opens on an archive image (`checks.json`).
+- The film is 24 fps (1941 frames).
+- A's description now says what the critic saw: the people appear in A only as towed thumbnails.
+
+Not repaired, for a later round: the critic could not tell whether the leaping woman upside down is a handstand or a flipped image (it is a handstand, frame `yoga_f024`). The diagnostic is mainly rhythm at 3.6x.
