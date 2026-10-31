@@ -16,7 +16,7 @@ FPS = 24
 X_OFFSET = -0.12          # my space: torso centre = score x - 0.12 m
 STRIDE = 0.50
 APPROACH_HEAD = 0.32
-LOOK_YAW = 62.0
+LOOK_YAW = 70.0
 LEG_PHASE = {'hn': 0.0, 'fn': 0.25, 'hf': 0.5, 'ff': 0.75}
 
 
@@ -50,13 +50,14 @@ TURNS = [  # (direction +1 = turning away, onsets for head, front, rear)
     (-1, 7.36, 8.00, 8.00),
 ]
 TURN_DUR = 0.34
+HEAD_TURN_DUR = 0.22    # the head comes round faster, so it is in clear profile while the body folds
 
 
 def yaw_at(t):
     out = {}
     for gi, g in enumerate(('head', 'front', 'rear')):
         phi = 0.0
-        dur = TURN_DUR
+        dur = HEAD_TURN_DUR if (g == 'head' and t < 6) else TURN_DUR
         for d, *ons in TURNS:
             e = smooth((t - ons[gi]) / dur)
             phi = phi + 180.0 * e if d > 0 else phi - 180.0 * e
@@ -121,8 +122,11 @@ def dog_poses():
         # breathing: calm when lying, quick when afraid
         rate = 0.32 + 0.9 * crouch
         breath = 0.006 * np.sin(2 * np.pi * rate * t) * (1 + lie)
+        ear = a['ear']
+        if lie > 0.5:                # lying: ears stay half up, never flattened into the skull line
+            ear = max(ear, 0.68)
         poses.append({'x': XS[i] + X_OFFSET, 'yaw': yaw, 'lie': lie, 'crouch': crouch, 'head': head, 'rest': rest,
-                      'look': look, 'ear': a['ear'], 'tail': a['tail'], 'wag': a['wag'], 'wag_phase': 2 * np.pi * 2.3 * t,
+                      'look': look, 'ear': ear, 'tail': a['tail'], 'wag': a['wag'], 'wag_phase': 2 * np.pi * 2.3 * t,
                       'breath': breath, 'paws': paws, 'lookback': float(lookback), 'state': f['dog']['state'], 't': t, 'i': i})
     return poses
 

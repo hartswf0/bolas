@@ -124,7 +124,7 @@ def pose_affines(P, hs):
     Np = root(N) + np.array([-0.05 * P['look'], 0.0])
     hval = P['head']
     dbeta = np.clip(74.0 * (0.9 - hval) / 0.45, -30, 95)
-    rest_b = 91.0
+    rest_b = 76.0
     dbeta = dbeta * (1 - P['rest']) + rest_b * P['rest']
     look_b = 80.0
     dbeta = dbeta * (1 - P['look']) + look_b * P['look']
@@ -139,7 +139,9 @@ def pose_affines(P, hs):
     # head direction: follows the neck partly, levels when resting / looking / looking back
     hd_abs = head_rest + np.radians(0.40 * dbeta) + alpha
     level = max(P['rest'], P['look'], lb)
-    hd_abs = lerp_ang(hd_abs, head_rest + np.radians(-6.0), level)
+    hd_abs = lerp_ang(hd_abs, head_rest + np.radians(-6.0), max(P['look'], lb))
+    # chin on the paws: nose tipped down, so neck and head do not line up into one long snout
+    hd_abs = lerp_ang(hd_abs, head_rest + np.radians(-22.0), P['rest'] * (1 - max(P['look'], lb)))
     hd_abs += np.radians(P.get('head_tilt', 0.0))
     Rh = rot(hd_abs - head_rest)
     out['head'] = aff(Rh, H, Hp)
