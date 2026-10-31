@@ -17,3 +17,5 @@ wait $P1 $P2 $P3
 python3 assemble.py          # trace.json, stills, sound (sound.py), film.mp4
 ls cache/frames | wc -l
 python3 ../../../../tools/paeleo/check_handmade.py ..
+python3 verify.py > /dev/null   # round 3: the repair conditions measured on the encoded film -> ../proof/round3_verify.json, r3_*.jpg
+rm -rf cache/frames cache/trace_part_*.json cache/seq.txt   # rendered frames are not kept (shared disk)

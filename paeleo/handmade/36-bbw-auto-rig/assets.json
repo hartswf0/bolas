@@ -1,0 +1,69 @@
+{
+ "about": "Every asset of SCION-36 (Bounded Biharmonic Weights) PAE-02. The dog and the person are whole public-domain archive frames, each one auto-triangulated, auto-rigged from its medial axis and skinned with bounded biharmonic weights (build/autorig.py, build/rigs.py, build/skin.py). Everything else is computed. No web images, no generated images, no drawing of the dog.",
+ "assets": [
+  {
+   "name": "dog views",
+   "what": "whole frames of a real dog, each used as ONE mesh with its own SAM edge, blur and grain",
+   "frames_in_film": {
+    "W": 10,
+    "Wm": "10 mirrored (the turned back)",
+    "t19": 19,
+    "t26": 26,
+    "t30": 30,
+    "t36": 36,
+    "t40": 40
+   },
+   "frames_for_tests_only": [
+    8,
+    9,
+    11,
+    44,
+    46
+   ],
+   "path": "paeleo/handmade/kit/archive-dog/frames/fNNN.jpg + masks.json (copies: sources/archive-dog/)",
+   "source_title": "Amateur Film New Jersey C",
+   "collection": "Home Movies (Internet Archive)",
+   "archive_url": "https://archive.org/details/NewJerseyC",
+   "shot_page_url": "https://www.movingimagearchive.com/sources/amateur-film-new-jersey-c-c65a8960?clip=2fdacde1-8a23-58e1-b905-5407385bd039",
+   "clip_id": "2fdacde1-8a23-58e1-b905-5407385bd039",
+   "rights": "public_domain",
+   "operation": "SAM polygon -> raster mask (largest component, holes filled) -> grid auto-triangulation (2 px) -> medial-axis handles (points: nose, tail tip; bones: neck, back, tail, legs) -> bounded biharmonic weights (active set) -> linear blend skinning per frame -> textured rasterisation; graded for dusk; one frame mirrored for the refusal"
+  },
+  {
+   "name": "person",
+   "what": "one frame of a woman at a door, seen from behind, kept as a contre-jour silhouette",
+   "path": "paeleo/handmade/kit/archive-door/frames/f000.jpg (copy: sources/archive-door/f000.jpg)",
+   "source_title": "Straight Talk",
+   "source_year": "1992",
+   "archive_url": "https://archive.org/details/gov.ntis.ava19144vnb1",
+   "shot_page_url": "https://www.movingimagearchive.com/sources/straight-talk-583ba802?clip=271d80c7-4f56-51b8-90fe-012dfb984b4f",
+   "clip_id": "271d80c7-4f56-51b8-90fe-012dfb984b4f",
+   "rights": "public_domain",
+   "operation": "cut from the white door by colour (the kit masks are the door, not her), auto-rigged with the same BBW code (head point, chest and hip bones, arm bone), darkened to a silhouette; no face is visible"
+  },
+  {
+   "name": "porch, wall, half door, window, post, room, light pool",
+   "what": "computed set",
+   "operation": "synthesized in numpy by build/render.py from a pinhole camera (projection of a floor, a facade plane and a room); the light pool is the opening projected from a lamp point",
+   "rights": "made here"
+  },
+  {
+   "name": "sound",
+   "what": "room tone, crickets, projector whir, formant-synth voice murmurs (no words), paws, latch, creak, hum, settle",
+   "operation": "synthesized by build/sound.py (no samples)",
+   "rights": "made here"
+  },
+  {
+   "name": "fonts",
+   "what": "Big Shoulders Display, JetBrains Mono",
+   "path": "tools/paeleo/fonts/",
+   "rights": "SIL Open Font License"
+  },
+  {
+   "name": "score",
+   "what": "PAELEO threshold score, 768 frames",
+   "path": "paeleo/handmade/score/threshold-score.json",
+   "rights": "project"
+  }
+ ]
+}

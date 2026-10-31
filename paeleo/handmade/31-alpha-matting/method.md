@@ -58,8 +58,14 @@ domain) appear: 9, 12–15, 26, 28, 31, 43–45, 48 and, for the head only, 5. A
 
 - *Watching* (0–1 s, 2.33–3.42 s): held frames 9 and 13, the grain renewed each frame. The long watch (8.8–14.7 s)
   shifts among the archive dog's own frames 12–13–14 (its small attention changes), never a frozen still.
-- *Backing away* (1.0–2.33 s): the archive dog's head-low walk (43, 44, 45, 48), mirrored to face the door, **played backward**,
-  one frame per 0.068 m of the score's travel, so the feet account for the distance. Head low, as the score's crouch.
+- *Backing away* (1.0–2.33 s), **rebuilt in repair round 2**: first the head ducks. Frame 13 is cut along a soft
+  diagonal from the chest to the withers, and its head and neck pivot down about the withers (0°, 18°, 36°, 54°), held
+  where it stands so its paws do not move. Then a **backing gait made from one matte**: frame 45 (head low) mirrored to
+  face the door, split into body, fore pair and hind pair, overlapping under the body. The body follows the score. Each
+  leg pair is sheared so its paw stays planted for 70% of a 0.22 m step while the body moves back over it, then lifts
+  and steps back for 30%. The pairs are half a step apart. The gait starts 30 px and ends 26 px off the score, easing
+  to it over 9 frames, so its head meets the bridge drawings. That offset is fed to the leg solver as body travel, so
+  the planted paws still hold while it closes. At the stop, the bridge plays in reverse (54°, 36°, 18°) into frame 13.
 - *Turning its back* (3.42 s): a turn **through the dog's front**, chosen from its own frames at 12 fps: 14, 15 (three-quarter
   left), 26, 28 (facing the camera), 31 (three-quarter right), then frame 9 mirrored (profile, facing away). The head goes
   left → centre → right and never jumps sides. Then it **lies down with its back to them** (score lie = 1 from 4.5 s) and
@@ -131,7 +137,47 @@ tone; premultiplication correct; no bright rim from the source daylight.
       ring); speck filter tightened (alpha support test r6 > 0.18); walk frames 42, 46, 47 dropped (headless blobs).
    Optional: claws on the approach raised 6 dB, with a second paw half a step later.
 
+10. **Repair round 2 (independent critic: DOES NOT PASS, narrowly).** Conditions and what changed. The original
+    builder began this round (the gait, the calls moved earlier) but did not record it. Its successor finished, measured
+    and recorded it. All numbers are measured on frames and audio decoded from the encoded `film.mp4` (`build/verify.py`
+    → `proof/round3_verify.json`, sheets `proof/r3_*.jpg`). The dog's mask on screen is |film − no-dog plate|, where the
+    plate is the same frame rendered with `NODOG=1` (same grain seeds, same shadows).
+    1. *Retreat skated (a forward walk slid backward):* the backing gait above. Each planted paw holds within **2.60 px**
+       (fore pair, 5 plants) and **2.42 px** (hind pair, 4 plants) while the body travels 203 px.
+    2. *Calls on the reaction frame:* "come here" now starts at **0.63 s** (0.37 s before the retreat at 1.00 s; the body
+       moves from 1.29 s). The repeat comes at 1.60 s, and the second call at **2.95 s**, 0.47 s before the turn and the
+       reach at 3.42 s. "It's all right" starts at 7.43 s, before the look-back at 7.46 s; "come in" at 25.90 s, before the
+       look-in at 26.4 s. The calls are −23.3 to −24.0 dBFS and the soft words −33.9 to −35.4 dBFS: **9.96 dB** between
+       the quietest call and the loudest soft word.
+    3. *Matte debris at 9.2–10.0 s:* this was a hooked strand above the shoulder in frame 14, attached to the outline, so
+       the largest-component filter kept it. It is cut by hand (source px 149–165 × 100–110). On the film, the only extra
+       pieces at 9.0–10.2 s are 4–7 px edge pieces within **3 px** of the body. Looked at 4×, they are the tail tip and a
+       leg edge, cut off by the tree line in the mask, and one fur wisp.
+    4. *Pale rim at 26.5–28.3 s:* the light grey of the throat fur, lifted by the warm door grade, made a pale contour
+       against the dark lower doorway. A new edge-colour stage (`derim_edge`, applied wherever the dog is placed): inside
+       a 5 px band at the edge, a pixel may be no lighter than the brighter of the fur core beside it and the backdrop
+       behind it. Against the bright doorway nothing changes; against the dark lower doorway the edge falls to the fur's
+       own value. On the film, **18 of 5,298** edge pixels against the lower doorway are lighter than both sides by more
+       than 0.03 (at most 2.8% of the edge in any frame); on average the edge is 0.032 darker than the brighter side.
+       There are **0** ear-tip specks. The look-in head is now a hard substitution; the earlier 0.16 s dissolve had left a
+       faint double head at 26.50 and 28.29 s.
+    5. *Pops at 2.375 and 23.833 s:* the retreat is bridged as described above. The lie-down now starts 45% lowered,
+       with the head carried forward-low (no longer curled under). Its inward slide has its own ramp, starting 24 px back,
+       so it meets the crouched walk frame. The head point is the centroid of the solid matte in the 45 px nearest the
+       side the dog faces; the earlier outermost-column "nose" jumped to a forward paw. Its largest one-frame step is
+       **22.1 px** in 0.83–2.54 s and **17.5 px** in 23.58–25.0 s (render: 21.6 and 7.6 px).
+
 ## What is still weak (my own view; not a verdict)
+
+- At the start and end of the retreat (1.13→1.17 s and 2.29→2.33 s) and at the sill (23.79→23.83 s) the head is now
+  continuous, but the drawing still changes in one frame: upright to crouched body, and at the sill from the walk's
+  white-collar side to the lying sprite's lighter side. The 54° bridge drawing shows a small notch at the withers.
+- The backing gait moves two leg pairs, each sheared as one piece (the two legs of a pair move together), and lifts a
+  swinging paw only 5 px. Against the dark tree line the paws are low in contrast.
+- Outside the five repaired moments, the render's head point still jumps more than 30 px at the turns through the
+  front (3.46–3.88 s), at the look-back (7.46 s, by design a hard substitution), at each switch between frames 13 and
+  14 in the long watch, and at each loop seam of the head-low walk (33–36 px, about every 0.6 s).
+
 
 - The turns are now three-drawing substitutions through the dog's front (0.4 s): legible frame by frame, but a cut
   sequence rather than a continuous turn; frame 26 (front, head low) is small and dark.
@@ -150,20 +196,23 @@ No independent critic was run by me. No human viewing. No listening. No Quick, D
 images. I did not import `paeleo/threshold/stage.js` or `paeleo/scion/lenses.js`, did not look at other swarms' folders,
 and did not run git. No operator page was published as an artifact; `operator.html` in this folder is a local page.
 
-## Evidence (last build: make.sh v5, then frames 80–91, 192–205, 350–361 re-rendered; measured)
+## Evidence (last build: make.sh v6, then frames 630–689 re-rendered for the hard look-in substitution; measured)
 
-**Checker (`invariants.json`): ALL OK.** I1 retreat 1.000 s (dt +0.000), watch 2.333 s (dt +0.000), refuse 3.458 s (dt +0.041), watch 7.458 s (dt +0.000), approach 14.708 s (dt +0.000), lie_down 23.833 s (dt +0.041). I2 min x_score 0.59, end 0.59. I3 r = 0.999. I4 back turned in 0.938 of refusal frames. State labels in `trace.json` are read from the pose the render chose.
+**Checker (`invariants.json`): ALL OK.** All six choices are on time (I1). The dog never goes past the sill and ends
+across it (I2). It moves in the score's direction (I3). Its back is turned through the refusal (I4).
 
-**Onsets measured from the render**: retreat_motion_starts 1.208 s; retreat_motion_stops 2.375 s; turn_away_first_new_frame 3.458 s; back_turned_first_frame 3.708 s; head_toward_door_again 7.458 s; approach_motion_starts 14.875 s; approach_head_lowers_first_frame 14.708 s; lie_sequence_first_frame 23.833 s; lying_half_down 24.167 s; refusal_lies_down_full 4.917 s; looks_in_first_frame 26.500 s; looks_in_last_frame 28.208 s.
+**Onsets measured from the render**: retreat_motion_starts 1.292 s (the head ducks from 1.000 s); retreat_motion_stops 2.500 s; turn_away_first_new_frame 3.458 s; back_turned_first_frame 3.708 s; head_toward_door_again 7.458 s; approach_motion_starts 14.875 s; approach_head_lowers_first_frame 14.708 s; lie_sequence_first_frame 23.833 s; lying_half_down 24.250 s; refusal_lies_down_full 4.917 s; looks_in_first_frame 26.500 s; looks_in_last_frame 28.250 s.
 
-**End across the sill**: solid dog x 272.8–513.8 px vs door opening 243–417 px: 144.2 px inside the frame, 96.8 px outside.
+**Measured on the encoded film** (`proof/round3_verify.json`): the five repair conditions, as listed in item 10 above.
 
-**Sound (RMS dBFS)**: calls -23.1 / -23.6 / -23.0; soft words -35.0 / -35.0; come in -33.6; room tone -58.8 / -51.7. Calls − loudest soft word 10.51 dB; quietest soft word − room tone 16.69 dB. Not listened to.
+**End across the sill**: solid dog x 273.1–514.1 px vs door opening 243–417 px: 143.9 px inside the frame, 97.1 px outside.
 
-**Mattes**: premult_ok on 50/50 dog mattes and all world mattes; stress fixture: 0 premultiplication failures, 0 bright rims in 96 frames. Lying sprite: minimum alpha inside the silhouette 1.000 over 21 lie values × 3 configurations (refusal, look-back rise, sill).
+**Sound (RMS dBFS, as synthesized)**: calls −23.1 / −23.6 / −23.0; soft words −35.0 / −35.0; come in −33.6; room tone −58.6 / −51.7. The calls are 10.51 dB above the loudest soft word; the quietest soft word is 16.69 dB above the room tone. Measured from the film's AAC track: 9.96 dB. Not listened to.
 
-**Film**: 1280×720, 24 fps, H.264 two-pass 2.1 Mb/s + AAC 160k, faststart, 912 frames, 38.000 s, 10.69 MB; 768 scene frames.
+**Mattes**: premult_ok on 50/50 dog mattes and all world mattes. The stress fixture shows 0 premultiplication failures and 0 bright rims in 96 frames.
 
-**Looked at**: extracted frames only (contact sheets, frame-by-frame sheets of both turn windows, 2× crops of the sill). **Not**: normal-speed playback, the sound.
+**Film**: 1280×720, 24 fps, H.264 two-pass 2.1 Mb/s + AAC 160k, faststart (moov before mdat), 912 frames, 38.000 s, 10.67 MB; 768 scene frames. The rendered frames were deleted after encoding; the folder is 54 MB.
 
-**Status**: repair round 1 done against the critic's five conditions; awaiting re-review. Not accepted.
+**Looked at**: frames decoded from film.mp4, full frame and cropped (1×–4×), in every repair window, plus full frames at nine other moments. **Not looked at**: normal-speed playback. **Not listened to**: the sound.
+
+**Status**: repair round 2 done against the critic's five conditions; awaiting independent re-review. Not accepted.

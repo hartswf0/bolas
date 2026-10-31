@@ -8,15 +8,16 @@ video{width:100%;height:auto;background:#000}h1{font-size:20px;margin:.2em 0}h2{
 a{color:var(--amb)}code{color:var(--dim)}li{margin:.2em 0}
 </style></head><body>
 <h1>SCION 31 · Alpha Matting — the threshold</h1>
-<p>PAE-02 cohort 4 · revision: build v5 (repair round 1: union alpha, turns through the front, edge colour match, level look-back, look-in head).</p>
+<p>PAE-02 cohort 4 · revision: build v6 (repair round 2: backing gait on planted paws, calls before the reactions, frame-14 strand cut, edge-to-backdrop colour cap, bridged pops, hard look-in substitution).</p>
 <video src="film.mp4" controls playsinline preload="metadata"></video>
-<h2>Critic verdict</h2><p>Round 1: DOES NOT PASS (independent critic). Repairs for all five conditions made in v5; awaiting re-review.</p>
+<h2>Critic verdict</h2><p>Round 1: DOES NOT PASS. Round 2: DOES NOT PASS (narrowly). Repairs for the five round-2 conditions made in v6, measured on the encoded film (<a href="proof/round3_verify.json">round3_verify.json</a>); awaiting re-review.</p>
 <h2>Next blocking failure (builder's guess, untested)</h2>
-<p>Unknown until re-review. Builder guess: the turn is a short cut sequence through the front (0.4 s); the four-frame walk loop seam.</p>
+<p>Unknown until re-review. Builder guess: at the start and end of the retreat (1.13 and 2.33 s) and at the sill (23.83 s) the drawing still changes body shape and side in one frame, though the head is now continuous; the turns are short cut sequences through the front.</p>
 <h2>Artifacts</h2><ul>
 <li><a href="trace.json">trace.json</a> · <a href="invariants.json">invariants.json</a> · <a href="assets.json">assets.json</a> · <a href="method.md">method.md</a> · <a href="ledger.jsonl">ledger.jsonl</a></li>
 <li>Matte diagnostics: <a href="proof/dog_matte_diagnostics.jpg">dog</a>, <a href="proof/world_matte_diagnostics.jpg">world</a>, <a href="proof/fork_fur_ABC.jpg">fur fork A/B/C</a></li>
 <li>Stress composite: <a href="proof/stress_composite.mp4">light / dark / moving, turning and rotating</a> · <a href="proof/edge_log.json">edge acceptance log</a> · RGBA variants in <code>proof/rgba/</code></li>
+<li>Round 3 proof, cut from the encoded film: <a href="proof/r3_retreat_paws_crop.jpg">retreat paws</a> · <a href="proof/r3_retreat_full.jpg">retreat full</a> · <a href="proof/r3_watch_9.0-10.2_crop.jpg">9.0-10.2 s</a> · <a href="proof/r3_lookin_rim_crop3x.jpg">look-in 3x</a> · <a href="proof/r3_lookin_full.jpg">look-in full</a> · <a href="proof/r3_sill_pop_crop.jpg">sill</a></li>
 <li>Stills: <a href="stills/still_03.6s.jpg">3.6 s</a> · <a href="stills/still_09.0s.jpg">9 s</a> · <a href="stills/still_19.0s.jpg">19 s</a> · <a href="stills/still_28.0s.jpg">28 s</a></li>
 </ul>
 <p>Rebuild: <code>build/make.sh</code>. Accepted checkpoint: none yet (no critic pass).</p>

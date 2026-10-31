@@ -1,0 +1,70 @@
+{
+ "about": "SCION 35 \u00b7 every asset in the film, where it came from, its rights and the operation that made it. Nothing is photographed, filmed, recorded or taken from the kit, the web or a model: everything visible and audible is computed by the scripts in build/.",
+ "assets": [
+  {
+   "id": "dog-view-prints",
+   "what": "the dog: 13 view prints of one tan dog with a dark saddle (P_prof profile facing the door; R1_r34, R2_rear, R3_r34 rear three-quarter / rear / rear three-quarter for the refusal turn; P_right profile facing away; L_right lying facing away; LB_look lying with the head turned back to the door; SB_look getting up with the head on the door; RT3, RT2, RT1 the body coming round behind the head; L_prof lying across the sill; L_in lying with the head turned in through the door). Each is ten layered cut parts (torso, neck, head, two ears, four legs, tail) with 37 named anchors.",
+   "source": "drawn in code: build/dogprint.py. Shapes are capsule strokes, discs and ear wedges placed from a 37-point stick guide (metres) projected at each print's body yaw / head yaw / pitch; the guide is never shown, it only fixes where the shapes and the anchors go so the same anchor name means the same body point in every print.",
+   "files": [
+    "build/cache/prints/<name>.npz (regenerable)",
+    "build/cache/prints/<name>.json",
+    "proof/view_prints.jpg"
+   ],
+   "rights": "made here (SCION 35), no third-party material",
+   "operation": "drawn (capsules, discs, wedges) -> flat riso painting per layer (orange coat plate with lighter socks and muzzle, blue plate: rim shade from a blurred mask, saddle, solid key line, eye, nose) -> halftone screened IN PRINT SPACE (cell 18 print px = 9 film px; blue 15 deg, orange 75 deg, orange plate misregistered by 3,-2 px) -> per frame: bent by MLS (rigid skull and ears, similarity neck, legs and tail, affine coat) and forward-splatted into the film"
+  },
+  {
+   "id": "person-prints",
+   "what": "the person: two view prints (standing, sitting), profile facing the porch, dark clothes (blue plate), hands and a sliver of face side in the orange plate, no facial features",
+   "source": "drawn in code: build/personprint.py",
+   "files": [
+    "build/cache/prints/PERSON_stand.*",
+    "build/cache/prints/PERSON_sit.*"
+   ],
+   "rights": "made here; not a real or identifiable person",
+   "operation": "drawn -> screened in print space -> bent by MLS (rigid head, similarity arms/legs, affine torso): call lean, reach, stepping aside, sit (print swap behind the sitting gesture), low hand, nods"
+  },
+  {
+   "id": "porch-print",
+   "what": "the place: dusk sky with a moon, far hedge, porch roof edge and post, railing, perspective floor boards, steps at x = 4.9 m, the cut-away room (striped wallpaper, an empty picture frame, a bench, floor), far jamb, sill, the door leaf on its hinge, the light out of the door, cast shadows",
+   "source": "computed in build/render.py (static_place, interior, door_panel)",
+   "files": [
+    "build/render.py"
+   ],
+   "rights": "made here",
+   "operation": "continuous tone fields per plate -> halftone screened in SCREEN space every frame (cell 5 px, blue 15 deg, orange 75 deg, orange misregistered 1.5,-1 px) -> multiplicative ink overprint on cream stock with a fixed paper grain"
+  },
+  {
+   "id": "sound",
+   "what": "the person's voice (Come here. / Come here! / It's all right. x2 / Come in.), the dog's nails on the boards at each planted paw, the turn scrabble, lying-down thumps and exhale, the head-turn breath, tail thumps, the settling sigh, the person's steps and bench creak, the door latch and creak, the room's hum once the door is open, crickets, room tone, the riso drum under the cards",
+   "source": "synthesised in build/sound.py: a source-filter formant voice (glottal pulse train through three time-varying resonators, noise bursts and fricatives), filtered noise and sines",
+   "files": [
+    "build/cache/audio.wav (regenerable)",
+    "build/cache/audio.json"
+   ],
+   "rights": "made here",
+   "operation": "synthesised; voice onsets placed at or before the dog's reaction; levels measured from the mix (audio.json, also in trace.json summary)"
+  },
+  {
+   "id": "score",
+   "what": "the dog's decision trace (state, x, act) and the person's circumstances, 768 frames",
+   "source": "paeleo/handmade/score/threshold-score.json (PAELEO machine, this repo)",
+   "rights": "project material",
+   "operation": "read: keys the view changes, drives the handle trajectories (head, crouch, ears, tail, wag, rest, look, walk phase) and the dog's x"
+  },
+  {
+   "id": "fonts",
+   "what": "Caladea Bold/Regular (cards), DejaVu Sans Mono (cards, the strain readout)",
+   "source": "/usr/share/fonts/truetype/crosextra/Caladea-*.ttf, /usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf (system packages fonts-crosextra-caladea, fonts-dejavu)",
+   "rights": "Caladea: Apache License 2.0; DejaVu: Bitstream Vera / public-domain changes (free licence)",
+   "operation": "typeset in solid ink plates (blue, with an off-register orange plate)"
+  },
+  {
+   "id": "kit",
+   "what": "paeleo/handmade/kit (archive dog, archive door, Quick, Draw!, found frames)",
+   "source": "not used",
+   "rights": "n/a",
+   "operation": "not used: the dog and the place are drawn and screened in code"
+  }
+ ]
+}
