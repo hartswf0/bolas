@@ -1,0 +1,89 @@
+{
+ "about": "Every asset in SCION 13's threshold film. Nothing found is drawn or played: no kit footage, no Quick, Draw! drawing, no archive frame, no photograph, no recording. The picture and the sound are computed by the scripts in build/ from the score.",
+ "assets": [
+  {
+   "id": "score",
+   "what": "the dog's decision trace (state, x, act intentions per frame), the person's circumstances, the door, the voice timeline",
+   "source": "paeleo/handmade/score/threshold-score.json (PAELEO machine, paeleo/threshold/machine.js)",
+   "rights": "Bolas project material",
+   "operation": "read; drives the primary trajectories: dog x, crouch, ear, tail, wag, moving; person x, sit, reach, low hand, mouth; door ajar/open; voice onsets"
+  },
+  {
+   "id": "dog-primary",
+   "what": "the dog's rigid pieces: six torso discs (spheres) on a spine that bends for crouch and lying, two neck discs, a skull, two muzzle discs, a nose, two eyes, four two-bone legs with paws",
+   "source": "build/scene.js dogGeom()",
+   "rights": "made here",
+   "operation": "synthesized: performed trajectories (heading, head heading, lie, rest, look, head height, fear) keyed to the score's choice times; legs by 2-bone IK with stance feet planted by distance travelled"
+  },
+  {
+   "id": "dog-coat",
+   "what": "180 body fringe strips (15 rings x 12 rows), 20 neck-ruff strips, 10 head strips (forelock, cheeks, beard), 3 dewlap strips, 2 five-node ear flaps with 16 feather strips, a six-node tail with 20 feather strips, 12 leg-feather strips",
+   "source": "build/scene.js buildRig()",
+   "rights": "made here",
+   "operation": "synthesized secondary links (inertial spring-dampers, gravity, wind drag, collision masks); drawn in build/draw.js as torn crepe/tissue ribbons with rounded glued tops, a crease line and torn tips, palette cream/oat/ochre/rust/charcoal"
+  },
+  {
+   "id": "person",
+   "what": "a person in a long coat and scarf: torso, head (profile disc, nose, eye, hair cap), arms and legs as paper pieces; hair (7 strands), scarf (2 tails), coat (3 tails) as secondary links",
+   "source": "build/scene.js personGeom(), personRest(); build/draw.js personItems()",
+   "rights": "made here; not a likeness of any real person",
+   "operation": "synthesized"
+  },
+  {
+   "id": "set",
+   "what": "the house cut in section at the doorway (room floor, back wall, rug, picture, standing lamp, door leaf on a spring-damper hinge, outside siding, jamb, sill), the porch (boards, back rail, posts, steps), the yard, dusk sky bands, hills, moon",
+   "source": "build/draw.js buildSet(), drawScene()",
+   "rights": "made here",
+   "operation": "synthesized torn-edge polygons projected by an orthographic diorama camera (yaw 16 deg, pitch 12 deg)"
+  },
+  {
+   "id": "curtain",
+   "what": "8 tissue strips hung from the lintel, drawn to the far side of the doorway",
+   "source": "build/scene.js",
+   "rights": "made here",
+   "operation": "secondary links; collide with the dog's body and the person's arm; a draft blows them when the door opens"
+  },
+  {
+   "id": "reeds",
+   "what": "34 reeds (yard by the steps, behind the rail)",
+   "source": "build/scene.js",
+   "rights": "made here",
+   "operation": "secondary links rooted in the ground; wind; collide with the dog"
+  },
+  {
+   "id": "grain",
+   "what": "paper-fibre overlay",
+   "source": "build/draw.js buildGrain()",
+   "rights": "made here",
+   "operation": "synthesized (9000 seeded strokes), overlay blend"
+  },
+  {
+   "id": "voices",
+   "what": "\"Come here.\" x2 (calls), \"It's all right.\" x2 and \"Come in.\" (soft)",
+   "source": "build/sound.py say()",
+   "rights": "made here",
+   "operation": "formant synthesis (glottal pulse train, aspiration, 3 cascade resonators per phoneme with glides); levels in build/cache/voice_levels.json"
+  },
+  {
+   "id": "foley",
+   "what": "dusk wind, crepe rustle of the dog, reeds, curtain, coat/scarf, paw taps, ear flaps, door creak, room hum, card tears",
+   "source": "build/sound.py",
+   "rights": "made here",
+   "operation": "filtered noise and tones driven by the solver's measured energies, gusts, paw touchdowns and hinge speed"
+  },
+  {
+   "id": "fonts",
+   "what": "Big Shoulders Display, Literata (cards)",
+   "source": "tools/paeleo/fonts/ (local.css, woff2)",
+   "rights": "SIL Open Font License",
+   "operation": "used for the title and end cards only"
+  },
+  {
+   "id": "kit-not-used",
+   "what": "archive-dog, archive-door, quickdraw, found-frames",
+   "source": "paeleo/handmade/kit/",
+   "rights": "public domain / CC BY 4.0 as recorded there",
+   "operation": "not used; the dog's proportions are invented (a long-coated, bearded-collie-type build)"
+  }
+ ]
+}
