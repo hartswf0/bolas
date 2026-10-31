@@ -23,7 +23,7 @@ out += [
     dict(id='sound', kind='sound', file='build/sound.py', source='synthesized here in numpy: formant voice (source-filter), door latch/creak, warm pad, paw taps from the gait solver, paper snips at rewrites, crickets, room tone',
          rights='made here', operation='synthesized; no recordings used'),
     dict(id='heads', kind='note', source_title='Amateur Film New Jersey C', rights='public_domain',
-         operation='no frame shows the back of the dog\'s head: turning to look uses the f006 head rotated level about its neck (muzzle to the door); looking in uses the f048 head rotated level about its neck, reaching in past the jamb. Nothing of the dog is drawn.'),
+         operation='no frame shows the back of the dog\'s head: turning to look (7.46) and looking in (26.4) use head_side_f033, the dog\'s own head in profile cut from the turning frame f033 (mirrored, muzzle level); for the look-in its neck reaches in past the jamb at sill height. Nothing of the dog is drawn.'),
     dict(id='not used', kind='note', operation='No Quick, Draw! drawings, no web images, no model-generated images, nothing of unknown rights.'),
 ]
 json.dump(dict(about='SCION 43 source ledger: every piece of the film, its source, rights and operation', assets=out),

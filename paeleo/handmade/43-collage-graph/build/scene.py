@@ -132,7 +132,7 @@ def dog_state(i):
     # facing / merge for turns
     if TURN1[0] <= t < TURN1[1]: g['mode'] = 'whole'; g['whole'] = ('whole_f027', False); g['rules'].append('MERGE dog->whole_f027 (turn away, 1/2)')
     elif TURN1[1] <= t < TURN1[2]: g['mode'] = 'whole'; g['whole'] = ('whole_f030', False); g['rules'].append('MERGE dog->whole_f030 (turn away, 2/2)')
-    elif TURN2[0] <= t < TURN2[1]: g['mode'] = 'whole'; g['whole'] = ('whole_f030', False); g['rules'].append('MERGE dog->whole_f030 (turn back, 1/2)')
+    elif TURN2[0] <= t < TURN2[1]: g['mode'] = 'whole'; g['whole'] = ('whole_f030', True); g['rules'].append('MERGE dog->whole_f030 mirrored, its head still turned to the door (turn back, 1/2)')
     elif TURN2[1] <= t < TURN2[2]: g['mode'] = 'whole'; g['whole'] = ('whole_f027', True); g['rules'].append('MERGE dog->whole_f027 mirrored (turn back, 2/2)')
     else: g['mode'] = 'graph'
     g['facing'] = -1 if TURN1[2] <= t < TURN2[0] else (+1 if g['mode'] == 'graph' else 0)
@@ -149,8 +149,8 @@ def dog_state(i):
     # head choice: REPLACE head node by the drawing whose native angle fits the intention
     hv, look, rest = a['head'], a['look'], a['rest']
     sun_head = st in ('approach', 'lie_down')
-    if look > 0.2:
-        g['head'] = ('head_low_f048', 10.0); g['rules'].append('ENTER head->door light: REPLACE head pose: head_low_f048 rotated about its neck to 10 deg, neck reaching in past the jamb, muzzle level into the room (looks in)')
+    if look > 0.1 or (st == 'lie_down' and 26.40 <= t < 28.46):  # hears 'come in' (26.4): looks in, and holds the look to 28.4
+        g['head'] = ('head_side_f033', 4.0); g['rules'].append('ENTER head->door light: REPLACE head by head_side_f033 (the found profile head, muzzle level), neck reaching in past the jamb at sill height, muzzle into the room (looks in)')
     elif sun_head:
         if g['lie'] >= 0.99 and rest > 0.5: g['head'] = ('head_low_f048', -14.0)
         elif g['lie'] >= 0.99: g['head'] = ('head_low_f048', -12.0)  # lying at the sill, head down on its paws until it hears 'come in'
@@ -161,11 +161,13 @@ def dog_state(i):
         elif g['crouch'] >= 0.5: g['head'] = ('head_level_f012', -6.0)
         elif hv >= 0.8 or (st == 'watch' and 2.3 < t < 3.417 and hv >= 0.6): g['head'] = ('head_alert_f006', 40.0)  # stops backing: head up to look
         else: g['head'] = ('head_level_f012', 14.0)
+    if st == 'watch' and t >= TURN2[2] and g['mode'] == 'graph' and g['lie'] < 0.3:
+        g['head'] = ('head_side_f033', 6.0)  # having turned back, it keeps watching the door: the same level profile head, not a raised one
     g['head_mirror'] = (st == 'watch' and LOOKBACK <= t < TURN2[0])  # looks back over its shoulder
     if g['head_mirror']:
-        g['head'] = ('head_alert_f006', 8.0)
+        g['head'] = ('head_side_f033', 3.0)
         g['lie'] = 1.0  # no hybrid: it stays lying until the found turning frames take over
-        g['rules'].append('REPLACE head by head_alert_f006 rotated level about its neck, muzzle to the door, on the turned-away body (turns back to look)')
+        g['rules'].append('REPLACE head by head_side_f033 (found profile head, muzzle level) mirrored to the door, on the turned-away lying body (turns back to look)')
     return g
 
 
@@ -329,9 +331,11 @@ def draw_dog(canvas, i, log=None):
     look_in = 'looks in' in ' '.join(g['rules'])
     hl = 0.30
     if look_in:
-        N = (N[0] + 0.07, N[1] + 0.04)   # the neck reaches in over the sill; the muzzle stays level, into the room
+        N = (N[0] + 0.07, N[1] - 0.03)   # the neck reaches in over the sill; the muzzle stays level at sill height, into the room
     elif g['head_mirror']:
-        N = (N[0] + 0.03, N[1] + 0.12)   # turning to look: the head comes up clear of the back and round, level, to the door
+        N = (N[0] - 0.02, N[1] + 0.21)   # turning to look: the head comes up clear of the back and round, level, to the door
+    if hid == 'head_side_f033' and not look_in and not g['head_mirror']:
+        N = (N[0] - 0.06, N[1] + 0.02)   # the profile head sits back on the neck, not hung in front of the chest
     if False:
         pass
     else:

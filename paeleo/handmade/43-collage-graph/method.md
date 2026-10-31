@@ -47,8 +47,9 @@ surprise-and-readability critic is external (the brief's critic); I do not appro
 ## How the dog is built and moved
 
 Every fragment drawn as the dog comes from one source: *Amateur Film New Jersey C* (Home Movies, Internet Archive, public
-domain), frames 6, 12, 27, 30, 45, 48 (`trace.json → invariants.dog_sources = ["archive-dog"]`). Torso, alert head and tail
-(cut tapered along the found tail) from f006; level head and the four legs from f012; turning frames f027/f030; ; sunlit torso, chest and legs from f045 (mirrored); low
+domain), frames 6, 12, 27, 30, 33, 45, 48 (`trace.json → invariants.dog_sources = ["archive-dog"]`). Torso, alert head and tail
+(cut tapered along the found tail) from f006; level head and the four legs from f012; turning frames f027/f030; the
+profile head (`head_side_f033`, its own head turned sideways in the turning frame f033); sunlit torso, chest and legs from f045 (mirrored); low
 head with the white collar from f048 (mirrored). Each piece is the SAM mask of its frame intersected with my scissors
 polygon, toned by the whole dog of its frame (not stretched on its own); one paper rim is cut around the assembled dog.
 **Nothing of the dog is drawn.**
@@ -60,10 +61,11 @@ polygon, toned by the whole dog of its frame (not stretched on its own); one pap
   frames (f027 three-quarter, f030 front), then R4 SPLITs into the mirrored profile. The back is shown from 3.75 s.
 - **Refusal**: stands with its back turned, then lies down (R6), tail toward the person, head low on its paws, whole dog in
   frame (right edge ≤ 1219 px, 61 px clear); the hind legs EXIT (fold under the haunch) from the 2/3 drawing on.
-- **Turning to look (7.458)**: R2: on the still-turned lying body, on the choice's own frame, the head is replaced by the
-  f006 head rotated level about its neck (muzzle 8° above horizontal, measured on the frame), pointing left to the door,
-  clear of the back with its own paper rim. The body stays lying (no hybrid) until the found turning frames take over at
-  7.75 (f030, then f027 mirrored), and it stands facing the door from 8.08.
+- **Turning to look (7.458)**: R2: on the still-turned lying body, on the choice's own frame, the head is replaced by
+  `head_side_f033` (the dog's own profile head, mirrored), lifted clear of the back, muzzle level (3° above horizontal,
+  measured) and pointing left to the door. The body stays lying (no hybrid) until the found turning frames take over at
+  7.75: f030 *mirrored* (so the muzzle stays toward the door), then f027 mirrored; it stands facing the door from 8.08 and
+  keeps watching it with the same level profile head (6°) until it decides to come.
 - **Coming, head low (14.708)**: R1+R7: the head is replaced by f048 (head below the back line, collar showing) for the
   whole approach; the walk is the gait solver with found legs.
 - **Lying across the sill (23.79)**: composed (no frame of this dog lies down). On the choice's own frame it is already half
@@ -71,9 +73,11 @@ polygon, toned by the whole dog of its frame (not stretched on its own); one pap
   folded away. R7/R8 bring the sunlit chest and forelegs in by weight as they enter the light (over ~0.6 s of walking,
   never a one-frame swap), laid over the shaded body with a feathered rear edge; the door's light itself falls off softly
   across the body. Haunch and tail stay shaded, outside.
-- **Looking in (26.4)**: R9: lying at the sill its head has rested on its paws since it lay down; on "come in" the f048
-  head is rotated level about its neck (muzzle 10° above horizontal, measured) and the neck reaches in past the jamb at sill
-  height, muzzle pointing left into the room, not up at the bulb. Then it settles, head on its paws, and stays.
+- **Looking in (26.4)**: R9: lying at the sill its head has rested on its paws since it lay down; on "come in" (from
+  26.417, held to 28.458) the head is replaced by `head_side_f033`, muzzle level (4° above horizontal, measured), the neck
+  reaching in past the jamb at sill height: nose at (241, 474) px, inside the door opening (x 171–385), 31 px above the
+  sill, below the bulb. It is a profile into the room, not the back of the head (no frame of this dog shows the back of
+  its head). Then it settles, head on its paws, and stays.
 
 The world is other found images becoming buildings and tools: the home movie's stone pillar is the house wall, its path the
 porch, its shrubs the hedge, its coat the porch timber; Straight Talk's door (closing swing, played backward) is the door; a
@@ -129,21 +133,39 @@ reads as a dog; whether the material rewrite reads as cause (the light) and not 
    light falloff, feet stay put while the body lowers.
 5. Lie onset late → on its own frame (23.792) the dog is already half down.
 
-### Repair round 3 (independent critic: does not pass; head direction at 26.4 and 7.46)
+### Repair round 3 (after critic round 2; critic round 3: does not pass)
 
-1. Look-in: the raised f009 head read as lifting toward the light → the f048 head rotated level (10°) about its neck,
-   reaching in past the jamb at sill height; before "come in" the head rests on its paws, so the look-in is a visible change.
-2. Turning to look: f006 head rotated level (8°), muzzle left, clear of the back with its own rim.
-3. No hybrid lying-body/standing-leg frame: it stays lying with the head round until the found turn frames at 7.75.
-4. The seated person and the offered hand stay inside the frame (my staging seats the person just left of the door).
-5. The calls start 0.30 s (7 frames) before the choices they cause (0.70 → 1.0, 3.10 → 3.417); the mix peaks at −3.5 dBFS.
-   The voice arcs travel with the voice and reach the dog as it reacts.
+The f009 looking-away head was used for the look-back and the look-in. Critic round 3: the look-in head pointed steeply up
+at the bulb; the look-back muzzle was thrown ~45° up; a hybrid lying/standing frame at 7.55; the person cut at the left
+edge; calls near clipping and on the reaction frame.
+
+### Repair round 4 (previous builder, not logged until ledger line 16)
+
+Rotated the f006 head level for the look-back and the f048 head level for the look-in; kept it lying until 7.75; calls
+lead by 0.30 s; mix peak −3.5 dBFS; the person seated just left of the door. On re-examination (this builder) the rotated
+heads were illegible at 2× (a dark wedge; a triangular collar wedge), and the unmirrored f030 turned the muzzle back to the
+right at 7.75–7.92.
+
+### Repair round 5 (this builder, for the five conditions of critic round 3)
+
+1. Look-in: a new found fragment, `head_side_f033` (the dog's own head in profile, SAM mask ∩ scissors, rounded back
+   edge feathered into the neck), level (4°), muzzle inside the jamb at sill height, held over the whole window
+   26.417–28.458 (it had started at 26.67 and ended at 28.1).
+2. Turning to look: the same profile head on the lying body, lifted clear of the back, muzzle left at 3°, from 7.458;
+   the found turn frame f030 is now mirrored so the muzzle never swings back to the right; the standing watch afterwards
+   keeps the level profile head (the f006 head at 40° up is no longer used after 7.46).
+3. No hybrid: lying + head 7.458–7.708, whole found frames 7.75–8.0, standing graph from 8.083 (checked on every frame).
+4. Person and hand: inside the frame on every scene frame from 6 s (bbox x 45–211 px, measured per frame).
+5. Sound: mix normalised to −5.0 dBFS (AAC headroom); measured on the AAC decoded from film.mp4: peak −5.03 dBFS; call
+   onsets 0.700 and 3.100 s vs reactions measured at 1.000 and 3.417 (7.2 and 7.6 frames lead).
 
 ## What is still weak (my view; the critic decides)
 
 - The home-movie dog is blurred and grey; the profile composite reads as a dog at film size but its parts are soft and the
   legs thick. The walk is a solver over four found legs, not a found walk.
-- Looking in is a level head reaching in at the sill: a profile, not the back of the head; legibility is the critic's call.
+- Looking in and turning to look use one found profile head: small (about 70 px long) and soft, as the home movie is.
+  It is a profile into the room, not the back of the head; whether it reads as looking *in* is the critic's call.
+- The found turn frames at 7.75–8.0 are frontal; the step from lying (7.708) to standing (7.75) is a cut, not a rise.
 - The person is stiff (substitution in thirds), the found face is small.
 - The voice is a formant synthesizer: intelligibility of "come here / it's all right / come in" is **unknown** (I cannot
   listen). Levels are measured; the timbre is not judged.
