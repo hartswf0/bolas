@@ -68,31 +68,24 @@
 {"t": 3.2917, "i": 79, "piece": "dog.head", "ev": "hand_on"}
 {"t": 3.4167, "i": 82, "piece": "person", "ev": "swap", "frm": "p_stand", "to": "p_reach"}
 {"t": 3.4167, "i": 82, "piece": "dog.head", "ev": "move", "dx": 0.2, "dth": 0.036}
-{"t": 3.4583, "i": 83, "piece": "dog.body", "ev": "move", "dx": 1.7, "dth": 0.0}
+{"t": 3.4583, "i": 83, "piece": "dog.body", "ev": "swap", "frm": "b_stand_L", "to": "b_turn45"}
 {"t": 3.4583, "i": 83, "piece": "dog.head", "ev": "swap", "frm": "h_L", "to": "h_45"}
-{"t": 3.5833, "i": 86, "piece": "dog.body", "ev": "move", "dx": 1.2, "dth": 0.0}
+{"t": 3.5833, "i": 86, "piece": "dog.body", "ev": "swap", "frm": "b_turn45", "to": "b_turn90"}
 {"t": 3.5833, "i": 86, "piece": "dog.head", "ev": "swap", "frm": "h_45", "to": "h_90"}
 {"t": 3.5833, "i": 86, "piece": "dog.head", "ev": "move", "dx": 52.3, "dth": 0.001}
-{"t": 3.75, "i": 90, "piece": "dog.body", "ev": "move", "dx": 2.0, "dth": 0.0}
-{"t": 3.75, "i": 90, "piece": "dog.head", "ev": "hand_off"}
-{"t": 3.75, "i": 90, "piece": "dog.head", "ev": "move", "dx": -67.9, "dth": -0.228}
-{"t": 3.875, "i": 93, "piece": "dog.head", "ev": "swap", "frm": "h_90", "to": "h_135"}
-{"t": 3.875, "i": 93, "piece": "dog.head", "ev": "hand_on"}
-{"t": 3.9167, "i": 94, "piece": "dog.head", "ev": "hand_off"}
-{"t": 4.0, "i": 96, "piece": "dog.head", "ev": "move", "dx": -17.3, "dth": -0.511}
-{"t": 4.0417, "i": 97, "piece": "dog.body", "ev": "move", "dx": -6.3, "dth": 0.0}
-{"t": 4.375, "i": 105, "piece": "dog.body", "ev": "move", "dx": -2.7, "dth": 0.0}
-{"t": 4.375, "i": 105, "piece": "dog.head", "ev": "hand_on"}
-{"t": 4.375, "i": 105, "piece": "dog.head", "ev": "move", "dx": -2.7, "dth": 0.0}
+{"t": 3.75, "i": 90, "piece": "dog.body", "ev": "swap", "frm": "b_turn90", "to": "b_turn135"}
+{"t": 3.75, "i": 90, "piece": "dog.head", "ev": "swap", "frm": "h_90", "to": "h_135"}
+{"t": 3.75, "i": 90, "piece": "dog.head", "ev": "move", "dx": 52.1, "dth": -0.0}
+{"t": 3.9583, "i": 95, "piece": "dog.body", "ev": "swap", "frm": "b_turn135", "to": "b_stand_R"}
+{"t": 3.9583, "i": 95, "piece": "dog.head", "ev": "swap", "frm": "h_135", "to": "h_R"}
+{"t": 3.9583, "i": 95, "piece": "dog.head", "ev": "move", "dx": 21.3, "dth": -0.449}
+{"t": 4.375, "i": 105, "piece": "dog.body", "ev": "swap", "frm": "b_stand_R", "to": "b_settle_R"}
+{"t": 4.375, "i": 105, "piece": "dog.head", "ev": "move", "dx": -2.1, "dth": 0.0}
 {"t": 4.625, "i": 111, "piece": "person", "ev": "swap", "frm": "p_reach", "to": "p_stand"}
-{"t": 4.75, "i": 114, "piece": "dog.body", "ev": "move", "dx": 2.8, "dth": 0.0}
-{"t": 4.75, "i": 114, "piece": "dog.head", "ev": "move", "dx": 2.8, "dth": 0.0}
+{"t": 4.75, "i": 114, "piece": "dog.body", "ev": "swap", "frm": "b_settle_R", "to": "b_lie_R"}
+{"t": 4.75, "i": 114, "piece": "dog.head", "ev": "move", "dx": -3.9, "dth": 0.0}
 {"t": 4.7917, "i": 115, "piece": "person", "ev": "hand_off"}
-{"t": 4.8333, "i": 116, "piece": "dog.body", "ev": "hand_off"}
-{"t": 5.0417, "i": 121, "piece": "dog.body", "ev": "swap", "frm": "b_stand_L", "to": "b_lie_R"}
-{"t": 5.0417, "i": 121, "piece": "dog.body", "ev": "move", "dx": -3.2, "dth": 0.0}
-{"t": 5.0417, "i": 121, "piece": "dog.head", "ev": "move", "dx": 141.0, "dth": 0.361}
-{"t": 5.0833, "i": 122, "piece": "dog.head", "ev": "swap", "frm": "h_135", "to": "h_R"}
+{"t": 5.0417, "i": 121, "piece": "dog.body", "ev": "hand_off"}
 {"t": 5.25, "i": 126, "piece": "person", "ev": "hand_on"}
 {"t": 5.4167, "i": 130, "piece": "person", "ev": "swap", "frm": "p_stand", "to": "p_step"}
 {"t": 5.4167, "i": 130, "piece": "person", "ev": "move", "dx": -11.3, "dth": 0.0}
@@ -120,11 +113,10 @@
 {"t": 8.0, "i": 192, "piece": "dog.head", "ev": "move", "dx": 2.3, "dth": -0.001}
 {"t": 8.125, "i": 195, "piece": "dog.body", "ev": "swap", "frm": "b_stand_R", "to": "b_turn225"}
 {"t": 8.125, "i": 195, "piece": "dog.head", "ev": "move", "dx": -22.0, "dth": 0.004}
-{"t": 8.2917, "i": 199, "piece": "dog.body", "ev": "move", "dx": 4.6, "dth": 0.0}
+{"t": 8.2917, "i": 199, "piece": "dog.body", "ev": "swap", "frm": "b_turn225", "to": "b_turn270"}
 {"t": 8.2917, "i": 199, "piece": "dog.head", "ev": "swap", "frm": "h_L", "to": "h_315"}
 {"t": 8.2917, "i": 199, "piece": "dog.head", "ev": "move", "dx": -52.3, "dth": -0.003}
-{"t": 8.5, "i": 204, "piece": "dog.body", "ev": "swap", "frm": "b_turn225", "to": "b_turn315"}
-{"t": 8.5, "i": 204, "piece": "dog.body", "ev": "move", "dx": -3.4, "dth": 0.0}
+{"t": 8.5, "i": 204, "piece": "dog.body", "ev": "swap", "frm": "b_turn270", "to": "b_turn315"}
 {"t": 8.5, "i": 204, "piece": "dog.head", "ev": "move", "dx": -52.4, "dth": 0.0}
 {"t": 8.625, "i": 207, "piece": "dog.body", "ev": "swap", "frm": "b_turn315", "to": "b_stand_L"}
 {"t": 8.625, "i": 207, "piece": "dog.head", "ev": "swap", "frm": "h_315", "to": "h_L"}
@@ -289,9 +281,9 @@
 {"t": 22.0417, "i": 529, "piece": "dog.body", "ev": "swap", "frm": "b_walk_0", "to": "b_walk_1"}
 {"t": 22.0417, "i": 529, "piece": "dog.body", "ev": "move", "dx": -12.2, "dth": 0.0}
 {"t": 22.0417, "i": 529, "piece": "dog.head", "ev": "move", "dx": -12.2, "dth": -0.001}
+{"t": 22.1667, "i": 532, "piece": "dog.body", "ev": "swap", "frm": "b_walk_1", "to": "b_walk_2"}
 {"t": 22.1667, "i": 532, "piece": "dog.body", "ev": "move", "dx": -13.3, "dth": 0.0}
 {"t": 22.1667, "i": 532, "piece": "dog.head", "ev": "move", "dx": -12.1, "dth": -0.001}
-{"t": 22.2083, "i": 533, "piece": "dog.body", "ev": "swap", "frm": "b_walk_1", "to": "b_walk_2"}
 {"t": 22.2917, "i": 535, "piece": "dog.body", "ev": "swap", "frm": "b_walk_2", "to": "b_walk_3"}
 {"t": 22.2917, "i": 535, "piece": "dog.body", "ev": "move", "dx": -12.1, "dth": 0.0}
 {"t": 22.2917, "i": 535, "piece": "dog.head", "ev": "move", "dx": -13.1, "dth": 0.001}
