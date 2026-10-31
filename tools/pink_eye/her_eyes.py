@@ -41,7 +41,18 @@ def load_real(clip, key):
     raw = subprocess.run(["ffmpeg", "-v", "error", "-ss", str(a), "-i", clip, "-t", str(b - a), "-vf",
                           f"fps=12,crop={w}:{h}:{x}:{y},scale={W}:{H}:flags=lanczos", "-f", "rawvideo", "-pix_fmt", "rgb24", "-"],
                          capture_output=True).stdout
-    return np.frombuffer(raw, np.uint8).reshape(-1, H, W, 3)
+    fr = np.frombuffer(raw, np.uint8).reshape(-1, H, W, 3)
+    return single_shot(fr)
+
+
+def single_shot(fr):
+    """keep only the longest unbroken run of one shot, so a stray frame of another (Alex's clamped eyes at the end of
+    her close-up, his strapped head at the start of the desk shot) can never flash up, even when the loop turns"""
+    small = fr[:, ::8, ::8].astype(np.float32)
+    d = np.abs(np.diff(small, axis=0)).mean((1, 2, 3))
+    cuts = [0] + [i + 1 for i in range(len(d)) if d[i] > 4 * np.median(d) + 8] + [len(fr)]
+    a, b = max(zip(cuts, cuts[1:]), key=lambda r: r[1] - r[0])
+    return fr[a:b]
 
 
 def load_pd(shots, name):
