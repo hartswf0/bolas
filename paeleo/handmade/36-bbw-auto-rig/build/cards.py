@@ -40,8 +40,9 @@ def endcard():
     nb = T['stability_neighbours']
     stab = sum(v['mean_abs_dw'] for v in nb.values()) / len(nb)
     lines = [
-        'The dog: %d whole frames of a real dog (%s), one mesh each, never cut into' % (len(FR), ', '.join('f%03d' % f for f in FR)),
-        'pieces; ragged SAM edge, blur and grain as found (Amateur Film New Jersey C, public domain); f010 also mirrored.',
+        'The dog: %d whole frames of a real dog (f%s), one mesh each, never cut into' % (len(FR), ', '.join('%d' % f for f in FR)),
+        'pieces; SAM edge, blur and grain as found (Amateur Film New Jersey C, public domain); f010, f007 also mirrored;',
+        'two small areas darkened for legibility (f005 cheek edge, f007 tail tip).',
         'Each frame: auto-triangulated, handles placed from its medial axis (points: nose, tail tip; bones: neck, back,',
         'tail, legs), weights solved as bounded biharmonic weights; nothing painted by hand. Heat maps above.',
         'Tests: weights in [0, 1], partition of unity to %.0e; mean leak across the gaps between legs %.4f' % (
@@ -49,9 +50,9 @@ def endcard():
         '(shape-blind inverse-distance weights %.4f); neighbouring archive frames f008, f009, f011: mean |dw| %.3f.' % (leak_s, stab),
         'The person: one frame of Straight Talk (NTIS 1992, public domain), rigged the same way, kept in shadow.',
         'Porch, door, light and sound are computed. Score: PAELEO threshold, 768 frames.']
-    y = 400
+    y = 392
     for ln in lines:
-        d.text((60, y), ln, font=MONO(16), fill=INK if not ln.startswith('Tests') else WARM); y += 30
+        d.text((60, y), ln, font=MONO(16), fill=INK if not ln.startswith('Tests') else WARM); y += 28
     im.save(os.path.join(CACHE, 'endcard.png'))
 
 

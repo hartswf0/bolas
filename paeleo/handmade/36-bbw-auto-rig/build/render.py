@@ -170,7 +170,7 @@ def score_at(i): return SF[min(max(i, 0), N - 1)]
 
 T1 = (3.46, 3.97)     # first turn (away): the archive's own in-betweens
 T2 = (7.40, 7.60)     # turn back to look, lying: head first, hips down
-SEQ = ['t13', 't16', 't21', 't22', 't24', 't25', 't26', 't30', 't33', 't36', 't40']   # the found turn, frame by frame
+SEQ = ['t13', 't16', 't21', 't24', 't25', 't26', 't30', 't33', 't36', 't40']   # the found turn, frame by frame
 
 
 def dog_plan(i):
@@ -208,7 +208,7 @@ def dog_plan(i):
     elif st == 'lie_down':
         lie = a['lie']; look = a['look']; rest = a['rest']
         view = 'r7' if lie > 0 else 'W'
-        p['fold'] = lie; p['swing'] = [s * (1 - lie) for s in swing]
+        p['fold'] = lie; p['fold_hind'] = min(1.0, 2.5 * lie); p['swing'] = [s * (1 - lie) for s in swing]
         if view == 'W':
             p['neck'] = (1.0 - head) * 2.5 - .05
         else:
@@ -282,11 +282,11 @@ def dog_layer(i, canvas, light):
     canvas *= (1 - .55 * sh[..., None])
     fold = p.get('fold', 0.0) or 0.0
     clip = None
-    if fold > .2:
+    if fold > 0:
         # lying: nothing of the dog goes below the boards it lies on
         slope = P[1, 0] / P[0, 0] if P[0, 0] else 0.0
         clip = np.clip((gy + slope * (xx - gx) + 5 - yy) / 3, 0, 1).astype(np.float32)
-    px, py, al = raster(canvas, None, Vs, r['V'], r['T'], tex, depth(r, fold), clip=clip)
+    px, py, al = raster(canvas, None, Vs, r['V'], r['T'], tex, depth(r, fold, front_ahead=(view == 'r7m')), clip=clip)
     # measurements from the render
     names = r['names']
     hd = Vs[np.argmax(r['W'][:, names.index('head')])]
