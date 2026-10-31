@@ -271,7 +271,21 @@ def head_away():
             'provenance': prov('dog', 6), 'notes': 'constructed (round 4): a lost profile. The muzzle is the inked f006 head '
             'card; over it the back of the skull, the nape and both ears cut from the f006 saddle fur hide the eye and cheek, '
             'so only the muzzle tip shows, pointing away into the doorway', 'op': 'constructed collage (print + print)'}
-add(head_away())
+# add(head_away())   # round 4 repair: replaced in the film by the f001 back-of-head print (dog_backprint)
+
+# round 4 repair: a real print of the back of the dog's head. Amateur Film New Jersey C f001 shows the same dog from
+# behind, its head turned away from the camera toward the person. Cut at the dog's own print scale (1.31), its matte
+# followed, kept sharp; pinned at the nape. Retouched in ink: the two ear flaps hanging at the sides of the skull and
+# the parting of the fur, as the print's ears are lost in its shadow.
+BACKP = [(134, 67), (142, 69), (148, 75), (151, 81), (155, 88), (158, 100), (156, 108), (151, 110), (147, 104), (146, 112),
+         (148, 124), (120, 124), (122, 112), (121, 104), (117, 110), (112, 108), (110, 100), (113, 88), (117, 81), (120, 75), (126, 69)]
+add(cut('dog_backprint', dogf(1), [BACKP], DS, 'dog', None, **dict(HG, smooth_mask=0, contrast=.9), seed=19, provenance=prov('dog', 1),
+        pins={'nape': (134, 120), 'crown': (134, 67)}), op='crop+scissor cut+tint (the back of the head, a real print)')
+ink('dog_backprint', [('fill', [(118, 80), (113, 88), (110, 100), (112, 108), (117, 110), (122, 104), (123, 88)], .5),
+                      ('fill', [(150, 80), (155, 88), (158, 100), (156, 108), (151, 110), (146, 104), (145, 88)], .5),
+                      ('line', [(134, 72), (134, 84), (133, 96)], .9, .3),
+                      ('line', [(123, 101), (134, 104), (145, 101)], 1.2, .35),
+                      ('lightfill', [(124, 71), (134, 67), (144, 71), (141, 73), (134, 71), (127, 73)], .55)])
 
 # ---------------------------------------------------------------- the person: a collage, as the method does it
 # head: Vision of the Wild f010 (a face looking down and to the right, in a white hat); jaw cut free and pinned
