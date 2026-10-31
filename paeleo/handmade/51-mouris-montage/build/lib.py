@@ -152,21 +152,22 @@ def dog_local(P):
     phi = math.radians(P['muzzle'])
     Rh = Ry @ rot_z(phi)
     md = Rh @ np.array([1, 0, 0]); up = Rh @ np.array([0, 1, 0]); side = Rh @ np.array([0, 0, 1])
-    B.add(Hc, 0.088, 'head', Rh)
-    B.add(Hc - md * 0.03 + up * 0.01, 0.082, 'head', Rh)
-    for k in range(4):
-        B.add(Hc + md * (0.06 + 0.035 * k) - up * (0.025 + 0.004 * k), lerp(0.058, 0.04, k / 3), 'muzzle', Rh)
-    B.add(Hc + md * 0.19 - up * 0.032, 0.027, 'nose', Rh)
+    B.add(Hc, 0.082, 'head', Rh)
+    B.add(Hc - md * 0.03 + up * 0.008, 0.076, 'head', Rh)
+    for k in range(6):   # a dog's muzzle: long, tapering, a little below the skull line
+        B.add(Hc + md * (0.05 + 0.034 * k) - up * (0.028 + 0.003 * k), lerp(0.058, 0.036, k / 5), 'muzzle', Rh)
+    B.add(Hc + md * 0.245 - up * 0.038, 0.026, 'nose', Rh)
     for s in (1, -1):
-        B.add(Hc + md * 0.055 + side * s * 0.045 + up * 0.03, 0.021, 'eye', Rh)
-    # ears: pricked (ear=1) up and a bit forward; flat (0) laid back
+        B.add(Hc + md * 0.05 + side * s * 0.045 + up * 0.03, 0.019, 'eye', Rh)
+    # ears: small and soft, set wide; pricked (ear=1) up and out with tips tipping forward; flat (0) laid back
     e = P['ear']
     for s in (1, -1):
-        base = Hc + side * s * 0.05 + up * 0.055 - md * 0.02
-        ed = lerp(-md * 0.85 + up * 0.25 + side * s * 0.3, up * 0.95 + md * 0.15 + side * s * 0.15, e)
+        base = Hc + side * s * 0.055 + up * 0.05 - md * 0.025
+        ed = lerp(-md * 0.85 + up * 0.2 + side * s * 0.35, up * 0.8 + side * s * 0.45 + md * 0.12, e)
         ed = ed / np.linalg.norm(ed)
-        for k in range(7):
-            B.add(base + ed * 0.016 * k, lerp(0.04, 0.012, k / 6), 'ear', Rh)
+        for k in range(6):
+            tip = md * 0.012 * max(0, k - 3) * e
+            B.add(base + ed * 0.013 * k + tip, lerp(0.034, 0.018, k / 5), 'ear', Rh)
     # tail
     ta = math.radians(48 - 100 * P['tail']); wag = P['wag'] * math.radians(32) * math.sin(P['t'] * 11)
     tb = Hp + np.array([-0.11, 0.03, 0])
@@ -181,8 +182,8 @@ def dog_local(P):
         c = prev + dvec * 0.025; prev = c
         B.add(c, lerp(0.042, 0.016, k / 13), 'tail', I)
     # legs
-    for front in (True, False):
-        for s in (1, -1):
+    for li, (front, s) in enumerate(((True, 1), (True, -1), (False, 1), (False, -1))):
+        if True:
             root = (Sp + [0.0, -0.04, s * 0.075]) if front else (Hp + [0.02, -0.03, s * 0.08])
             l1, l2 = (0.25, 0.25) if front else (0.27, 0.26)
             foot = P['feet'][('F' if front else 'H') + ('L' if s > 0 else 'R')]
@@ -190,13 +191,13 @@ def dog_local(P):
             jt = ik2(root, foot, l1, l2, -1 if front else 1)
             if not front and lie > 0:   # lying: the thigh lies flat along the flank, knee forward, hock back on the floor
                 kl = smooth(0.2, 0.95, lie)
-                jt = lerp(jt, np.array([Hp[0] + 0.21, 0.10, s * 0.14]), kl)
+                jt = lerp(jt, np.array([Hp[0] + 0.20, 0.07, s * 0.09]), kl)
             R1 = align(np.array([0, -1., 0]), jt - root); R2 = align(np.array([0, -1., 0]), foot - jt)
-            B.chain(root, jt, 0.06 if front else 0.07, 0.045, 12, 'leg', R1, end=False)
-            B.chain(jt, foot, 0.043, 0.031, 12, 'leg', R2, end=False)
+            B.chain(root, jt, 0.06 if front else 0.07, 0.045, 12, f'leg{li}', R1, end=False)
+            B.chain(jt, foot, 0.043, 0.031, 12, f'leg{li}', R2, end=False)
             fwd = np.array([1., 0, 0])
-            B.add(foot + [0.02, 0.005, 0], 0.037, 'paw', I)
-            B.add(foot + fwd * 0.045 + [0, -0.002, 0], 0.03, 'paw', I)
+            B.add(foot + [0.02, 0.005, 0], 0.037, f'paw{li}', I)
+            B.add(foot + fwd * 0.045 + [0, -0.002, 0], 0.03, f'paw{li}', I)
     return B
 
 
@@ -217,7 +218,7 @@ def feet_for(P, walk):
         if key[0] == 'F':
             lyp = np.array([0.52, 0.035, z0 * 0.9])
         else:
-            lyp = np.array([-0.31, 0.04, z0 * 1.75])
+            lyp = np.array([-0.26, 0.035, z0 * 0.8])   # hind paws tucked under the hip
         feet[key] = lerp(stand, lyp, smooth(0.15, 0.95, lie)) if lie > 0 else stand
         if cr > 0 and lie < 0.5:
             feet[key][0] += (-0.03 if key[0] == 'H' else 0.04) * cr

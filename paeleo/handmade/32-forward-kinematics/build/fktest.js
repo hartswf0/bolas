@@ -26,7 +26,7 @@ for (let i = 0; i < N; i++) {
       if (!p) continue;
       const L = Math.hypot(...off[n]), d = R.dist3(pos(W[n]), pos(W[p])) / sc;
       const key = who + '.' + n;
-      if (n === 'head') { anchorLen.min = Math.min(anchorLen.min, d); anchorLen.max = Math.max(anchorLen.max, d); }
+      if (n === 'head' && who === 'dog') { anchorLen.min = Math.min(anchorLen.min, d); anchorLen.max = Math.max(anchorLen.max, d); }
       const e = Math.abs(d - L);
       T1[key] = T1[key] || { joint: n, parent: p, length_m: +(L * sc).toFixed(4), max_err_m: 0, view_anchor: n === 'head' && who === 'dog' };
       if (n === 'head' && who === 'dog') continue;   // its offset changes by design (view anchor); checked against the anchor in use

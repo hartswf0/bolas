@@ -4,7 +4,7 @@
   "joints": 54,
   "frames": 768,
   "head_anchor_length_range_m": [
-   0.098,
+   0.1491,
    0.1692
   ],
   "note": "every bone keeps its length to float precision; the neck->head pivot is a view-specific anchor whose offset is blended between three authored values, so its length is checked against the anchor in use that frame"

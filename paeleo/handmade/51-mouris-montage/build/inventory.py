@@ -71,10 +71,40 @@ RAW = [
 ]
 
 
+# The dog's own pieces (round 2): whole subjects, cut by the SAM mask's bounding box (+6%), shown in their own colour.
+# (shot, frame, imagery class, temperature, has_face, identifiable on the calls)
+DOG = [
+    ('tiger', 0, 'fur', 'cold', True, True), ('tiger', 20, 'fur', 'cold', True, True), ('wheel', 13, 'hard', 'cold', False, True),
+    ('ladder', 0, 'hard', 'cold', False, False), ('broom', 0, 'fur', 'cold', False, False), ('train', 0, 'hard', 'cold', False, True),
+    ('alarm-clock', 13, 'voices', 'cold', False, True), ('traffic-light', 0, 'hard', 'cold', False, True), ('frying-pan', 13, 'hard', 'cold', False, False),
+    ('sheep', 0, 'fur', 'neutral', False, True), ('lion', 0, 'fur', 'neutral', True, True), ('dog', 10, 'fur', 'neutral', True, True), ('horse', 0, 'fur', 'neutral', True, True),
+    ('cat', 0, 'fur', 'warm', True, True), ('cat', 40, 'fur', 'warm', True, True), ('horse', 30, 'fur', 'warm', True, True), ('rabbit', 26, 'fur', 'warm', True, True),
+    ('flower', 19, 'soft', 'warm', False, True), ('sleeping-bag', 25, 'soft', 'warm', False, False), ('basket', 25, 'soft', 'warm', False, True),
+    ('lantern', 16, 'lamps', 'warm', False, True), ('cow', 22, 'fur', 'warm', True, True), ('monkey', 0, 'fur', 'warm', True, True), ('light-bulb', 13, 'lamps', 'warm', False, True),
+]
+
+
+def mask_crop(cat, fr):
+    m = json.load(open(os.path.join(SHOTS, cat + '-sam', 'masks.json')))
+    im = Image.open(os.path.join(SHOTS, cat + '-sam', 'frames', sorted(os.listdir(os.path.join(SHOTS, cat + '-sam', 'frames')))[fr])); w, h = im.size
+    best = None
+    for p in m.get(str(fr), []):
+        xs = [q[0] for q in p]; ys = [q[1] for q in p]; a = (max(xs) - min(xs)) * (max(ys) - min(ys))
+        if best is None or a > best[0]:
+            best = (a, min(xs), min(ys), max(xs), max(ys))
+    if not best:
+        return [0, 0, 1, 1]
+    _, x0, y0, x1, y1 = best; mx, my = (x1 - x0) * 0.06, (y1 - y0) * 0.06
+    return [round(max(0, x0 - mx) / w, 3), round(max(0, y0 - my) / h, 3), round(min(w, x1 + mx) / w, 3), round(min(h, y1 + my) / h, 3)]
+
+
 def build():
     os.makedirs(os.path.join(OUT, 'sources'), exist_ok=True)
     inv = []
-    for rid, cat, fr, crop, cls, temp, layers in RAW:
+    rows = list(RAW)
+    for cat, fr, cls, temp, face, ident in DOG:
+        rows.append((f'dog.{cat}.{fr}', cat, fr, mask_crop(cat, fr), cls, temp, ['dog'] + ([] if face else ['dog_head']) + (['dog_ident'] if ident else [])))
+    for rid, cat, fr, crop, cls, temp, layers in rows:
         d = os.path.join(SHOTS, cat + '-sam', 'frames')
         fs = sorted(os.listdir(d)); fr = min(fr, len(fs) - 1); fn = fs[fr]
         dst = os.path.join('sources', f'{cat}_{fn}')
@@ -83,7 +113,7 @@ def build():
         s = FOUND[cat]
         inv.append({'id': rid, 'class': cls, 'temperature': temp, 'layers': layers, 'file': dst, 'crop_norm': crop,
                     'shot': cat + '-sam', 'frame': fn, 'source_title': s['source_title'], 'source_url': s['source_url'],
-                    'clip_id': s.get('clip_id'), 'rights': s['rights'],
+                    'clip_id': s.get('clip_id'), 'rights': s['rights'], 'crop_from': 'SAM mask bounding box of the largest subject, +6%' if rid.startswith('dog.') else 'chosen by eye',
                     'original_path': os.path.join(d, fn)})
     json.dump({'about': 'Collection inventory: every image used by SCION 51, by imagery class. A record is source frame + crop; '
                'the film substitutes whole crops (never tiles) on the cutting score.', 'records': inv},

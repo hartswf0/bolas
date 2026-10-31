@@ -70,7 +70,7 @@ const strip = d => Buffer.from(d.slice(d.indexOf(',') + 1), 'base64');
     const f1 = v => v.toFixed(2);
     const T4 = T.T4_contact;
     const lines = [
-      'The dog: a carved, painted wooden toy drawn in code: 30 blocks on brass pins, joints set by local angles only.',
+      'The dog: a carved, painted wooden toy drawn in code: 30 parts on brass pins, posed by local joint angles only.',
       'Every pose = parent x pivot offset x local rotation, multiplied down the tree from the root. No IK solve anywhere.',
       'Its felt saddle cloth, ear leaves and bead tail are chains on the same tree; the person\'s cuffs and hem too.',
       '!Bone lengths constant over 768 frames: max error ' + T.T1_bone_lengths.max_err_m.toExponential(0) + ' m.  Turn a hip 12 deg: every descendant',

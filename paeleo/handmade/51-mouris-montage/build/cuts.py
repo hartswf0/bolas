@@ -18,9 +18,9 @@ def pool(layer, temps):
 # sections: (t0, t1, hold frames (list = decelerating sequence), temperature, why)
 SECTIONS = [
     (0.0, 1.0, [12], 'neutral', 'dusk, waiting: slow'),
-    (1.0, 2.333, [2], 'cold', 'call 1 (come here): the cut accelerates to 2 frames, hard cold images'),
+    (1.0, 2.333, ('cycle', [2, 2, 2, 8]), 'cold', 'call 1 (come here): 2-frame cuts, with every fourth image held 8 frames so it can be recognised'),
     (2.333, 3.417, [3, 4, 5, 6, 8, 10], 'neutral', 'the call ends: the rhythm decelerates'),
-    (3.417, 4.6, [2], 'cold', 'call 2 + reach: 2-frame cuts, hard images'),
+    (3.417, 4.6, ('cycle', [2, 2, 2, 8]), 'cold', 'call 2 + reach: 2-frame cuts, every fourth held 8 frames'),
     (4.6, 6.2, [6, 8, 10, 12], 'neutral', 'the person steps aside and sits: slowing'),
     (6.2, 7.4, [12, 12], 'warm', 'the door opens, light comes out, the hand is offered low'),
     (7.4, 9.4, [16], 'warm', 'soft voice (it\'s all right): long holds, soft warm images'),
@@ -39,6 +39,9 @@ PAW = {'cold': pool('paw', ['cold']), 'neutral': pool('paw', ['neutral']), 'warm
 ROOM = {'cold': pool('room', ['cold']), 'neutral': pool('room', ['neutral']), 'warm': pool('room', ['warm', 'neutral'])}
 DOOR = {'cold': pool('door', ['cold', 'neutral']), 'neutral': pool('door', ['neutral']), 'warm': pool('door', ['neutral'])}
 INTERIOR = pool('interior', ['warm'])
+DOG = {'cold': pool('dog', ['cold']), 'neutral': pool('dog', ['neutral']), 'warm': pool('dog', ['warm'])}
+DOG_HEAD = {'cold': pool('dog_head', ['cold']), 'neutral': pool('dog_head', ['neutral', 'warm']), 'warm': pool('dog_head', ['warm'])}
+DOG_IDENT = pool('dog_ident', ['cold'])
 HAND = {'cold': pool('hand', ['neutral']), 'neutral': pool('hand', ['neutral', 'warm']), 'warm': pool('hand', ['warm', 'neutral'])}
 
 
@@ -56,7 +59,8 @@ def build():
             continue
         f = f0; j = 0
         while f < f1:
-            starts.append((f, temp, why)); f += holds[min(j, len(holds) - 1)]; j += 1
+            starts.append((f, temp, why))
+            f += holds[1][j % len(holds[1])] if isinstance(holds, tuple) else holds[min(j, len(holds) - 1)]; j += 1
     cuts = []; ctr = {}
     def pick(d, temp, key):
         L = d[temp] if isinstance(d, dict) else d
@@ -74,9 +78,13 @@ def build():
                      'coat': pick(COAT, temp, 'coat' + temp), 'eye': pick(EYE, temp, 'eye' + temp), 'paw': pick(PAW, temp, 'paw' + temp),
                      'room': pick(ROOM, temp, 'room' + temp), 'door': pick(DOOR, temp, 'door' + temp),
                      'interior': pick(INTERIOR, 'warm', 'int') if door_open else 'lamps.bulb.halo',
-                     'hand': pick(HAND, temp, 'hand' + temp)})
+                     'hand': pick(HAND, temp, 'hand' + temp),
+                     'dog_body': pick(DOG_IDENT, 'cold', 'ident') if (temp == 'cold' and end - f >= 6) else pick(DOG, temp, 'dog' + temp),
+                     'dog_head_legs': pick(DOG_HEAD, temp, 'doghead' + temp)})
     # 26.4 come in: lamps only in the interior and on the facade
     for c in cuts:
+        if c['dog_head_legs'] == c['dog_body']:
+            L = DOG_HEAD[c['temperature']]; c['dog_head_legs'] = L[(L.index(c['dog_head_legs']) + 1) % len(L)]
         if 26.4 <= c['t'] < 27.4:
             c['room'] = 'lamps.lantern.brass'; c['interior'] = 'lamps.bulb.glow'
     tot = sum(c['hold'] for c in cuts); assert tot == N, tot

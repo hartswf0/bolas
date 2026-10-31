@@ -9,7 +9,7 @@ The primitives of this swarm are **joint graph, local transform, parent transfor
 view-specific anchors**. They are the working project, not a style laid over pixels:
 
 - `build/rig.js` holds the **typed joint graph**: each joint is `[name, parent, pivot offset in the parent's frame]` with a
-  fixed rotation order. The dog has 31 joints, the person 26. Every world transform is
+  fixed rotation order. The dog has 31 joints, the person 25. Every world transform is
   `parent_world × T(pivot offset) × RY(yaw) × RZ(pitch) × RX(roll)`, evaluated root-first. Nothing else positions a part.
 - **No IK anywhere.** No per-frame solve, no constraint pass, no look-at. Poses are local angles only.
 - **Bone lengths** are the pivot offsets; they never change. The toy is built in its own units and stands on the porch at
@@ -58,22 +58,69 @@ and sits against the wall beside the door, then offers the right hand low, palm 
 
 ## Proof: the transform test suite (`build/fktest.js` → `proof/fk_tests.json`, `proof/errors_by_joint.json`)
 
-NUMBERS_HERE
+All measured from the rig over all 768 scene frames.
+
+| test | what | result |
+|---|---|---|
+| T1 bone lengths | every joint's world distance to its parent ÷ 1.4 vs its pivot offset (54 bones, dog and person) | max error **4.6e-16 m** |
+| T1 view anchor | the neck→head pivot changes by design between its three anchors | world length 0.149–0.169 m, equal to the anchor in use every frame |
+| T2 multiply order | each world matrix re-derived by walking its chain root-first | max matrix error 4.4e-16 |
+| T3 propagation | right hip +12° (frame 400) | its 2 descendants follow the hip's own rigid change to 5.3e-16; the other 28 joints move **0** |
+| | left shoulder −15° (400) | 2 descendants, 4.4e-16; others 0 |
+| | waist yaw +20° (216) | 17 descendants incl. **saddle cloth and both flap chains**, neck, head, ears, front legs: 4.4e-16; others 0 |
+| | pelvis pitch +8° (700, lying) | 29 descendants, 3.3e-16 |
+| | person right shoulder +10° (600) | elbow, wrist, thumb and the **cardigan cuff** follow, 4.4e-16; others 0 |
+| | person spine −8° (600) | 16 descendants incl. both **hem panels**, 4.4e-16 |
+| T4 walking slip | planted paw (stance phase while the score moves), horizontal displacement per frame | mean **1.5 mm**, max 9.0 mm (610 paw-frames) |
+| T4 stance drift | touchdown to lift-off, per stance | mean 11.7 mm, max **21 mm** (36 stances) |
+| T4 standing | planted while the dog stands | mean 0.05 mm, max 6.4 mm (at turn ends) |
+| T4 turning in place | planted paws while the body yaws 155° in 0.6 s | mean 36 mm/frame, **max 95 mm/frame** (41 paw-frames): visible sliding, see weak points |
+| T4 height | planted paw sole vs the boards | sinks 0.3–13 mm (never floats) |
+
+`proof/errors_by_joint.json` lists every joint. `proof/joint_overlay.jpg` draws the joint graph projected over four frames
+of the final film, with the right hip +12° and right shoulder −15° in blue: only their descendants move.
+The paw taps in the sound are placed on the touchdown events T4 reports (64 footfalls).
+
+The **numeric invariant** is T1+T3: bone lengths constant and children following parents exactly.
+The **artistic achievement judged only by viewing** is whether a pinned wooden toy, moved only by angles, reads as a dog that
+chooses: backing from the call, turning its back, looking round at the open door, coming head low, lying across the sill.
 
 ## The six choices, measured on the render
 
-ONSETS_HERE
+Measured by `build/trace.py` from the id pass of each rendered frame (visible pixels, same camera and depth test) and the
+rig's nose and skull projected with that frame's camera. All within ±0.25 s; `check_handmade.py`: **ALL OK** (I1–I4).
+
+| choice | score | measured | dt | measure |
+|---|---|---|---|---|
+| backs away | 1.000 | 1.042 | +0.04 | silhouette centroid, back-projected to the dog's line, > 2 cm away from the door |
+| stops, watches | 2.333 | 2.375 | +0.04 | top of the visible head rises > 2 cm above its lowest point in the retreat |
+| turns its back | 3.417 | 3.458 | +0.04 | muzzle direction on screen turns > 10° (the head leads); muzzle points away from the door from **3.625 s** |
+| turns back to look | 7.458 | 7.542 | +0.08 | muzzle-to-door angle on screen falls > 10° (head comes round over the shoulder while the body still lies; the body rises 7.62–8.05) |
+| comes, head low | 14.708 | 14.833 | +0.13 | centroid > 2 cm toward the door; top of the head ~10 cm under the withers (rig) for the whole approach |
+| lies across the sill | 23.792 | 23.708 | −0.08 | top of the visible silhouette (metres over the floor at the dog) drops > 2 cm |
+| looks in | 26.4 | 26.292 | −0.11 | visible head centroid moves > 4 px (it first lowers, then lifts level and turns into the room) |
+
+The dog is in every frame (minimum 9,812 visible dog pixels). It never passes the score's sill position (x ≥ 0.59); at the end
+its chest block and head are inside the door frame, its hind block and bead tail outside.
 
 ## Sound
 
 All synthesized (`build/sound.py`): a source-filter formant voice (glottal pulses and breath through three resonators per
 phoneme), wooden knocks on every paw touchdown that FK reports (`cache/footfalls.json`), the clatter of blocks and a felt rustle
 when it lies, the door creak, the person's steps, crickets, wind and a warm room hum once the door is open.
-SOUND_HERE
+Levels (RMS of the mixed track, measured): calls −15.3 and −15.2 dBFS; soft phrases −29.7, −31.2, −28.2 dBFS: the soft
+voice is **12.9 dB under the calls** and 17.7 dB above the room tone (−48.9 dBFS). Voice onsets (scene time): calls 0.95 and
+3.34 s, soft 7.30, 10.40, *come in* 26.30 s, each at or before the dog's reaction. The voice is a synthesizer: it has the shape
+and pitch of the phrases, not necessarily words a listener will make out.
 
 ## What failed and what I changed
 
-See `ledger.jsonl` for every attempt. LEDGER_HERE
+See `ledger.jsonl` for every attempt. In short: the first wide made the dog tiny and the dog read as a cow (patches, horn-like ears); I rebuilt the ears as drop
+ears, cut the patches, built the toy 1.4× and re-staged the wide nearly in profile so the refusal shows the dog's flank with
+its rump to the door and the look-back reads as a profile turn of the head. Turning about the hind pin slid the paws 0.2 m a
+frame; turning about the body's middle with stepping paws halved that (still the weakest contact). The look-in did not read
+from a low side camera (the jamb hid the head); the end camera now looks over the dog's back into the lit room. The voice
+first had almost no upper harmonics (a hum); a Rosenberg pulse and lip radiation gave it formants.
 
 ## What is protected
 
@@ -82,7 +129,18 @@ timings (re-measured from every render by `build/trace.py`); the dog never cross
 
 ## What is weak, and what I did not do
 
-WEAK_HERE
+- **Turning in place slides.** Pure FK with sagittal legs cannot hold a paw while the body yaws; the stepping hides part of
+  it, but planted paws slide up to 95 mm per frame in the two 0.6 s turns. I report it rather than adding a solver.
+- **Paws sink** up to 13 mm into the boards at a few moments (start of the lie-down, crouched backing).
+- **The dog is small in the wide** (about 110 px tall at x = 4) because the door, the person and the dog at 4 m must share it.
+- The look-back at 7.46 is seen slightly from behind: the head comes over the shoulder and points at the door, which is
+  away from the camera, so the muzzle is foreshortened.
+- The person is stiff (a peg figure); its step aside is three authored strides with its feet sliding (not measured).
+- The look-in is a modest movement (lift level, turn into the room); the camera sees the back of the skull and both ears.
+
+What I did not do: no IK, no physics, no secondary-dynamics solver (all chains are authored angles); no kit material, no web
+images, no recordings; no independent critic run (the builder does not approve its own work); no mobile operator page;
+I did not listen to the sound (levels and spectrograms only).
 
 ## Evidence labels
 
