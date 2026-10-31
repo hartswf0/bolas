@@ -119,6 +119,8 @@ def anc(fid, k): return tuple(LIB[fid]['anchors'][k])
 # ------------------------------------------------------------------ the scene-event contract: score frame -> dog graph state
 TURN1 = (3.417, 3.583, 3.75)       # profile-L | f027 | f030 | profile-R   (back shown from 3.75)
 TURN2 = (7.75, 7.917, 8.083)       # lying, head round to the door | f030 | f027 | profile-L (the found turn comes in promptly)
+LOOKIN_ANG = 50.0   # look-in: neck->crown of the back-of-head piece (the muzzle is hidden)
+LOOKIN_HL = 0.46    # its neck->crown length, local metres
 LOOKBACK = 7.458                   # REPLACE head by its mirror: the head comes round to the door first
 
 
@@ -150,7 +152,7 @@ def dog_state(i):
     hv, look, rest = a['head'], a['look'], a['rest']
     sun_head = st in ('approach', 'lie_down')
     if look > 0.1 or (st == 'lie_down' and 26.40 <= t < 28.46):  # hears 'come in' (26.4): looks in, and holds the look to 28.4
-        g['head'] = ('head_side_f033', 4.0); g['rules'].append('ENTER head->door light: REPLACE head by head_side_f033 (the found profile head, muzzle level), neck reaching in past the jamb at sill height, muzzle into the room (looks in)')
+        g['head'] = ('head_back_f001', LOOKIN_ANG); g['rules'].append('ENTER head->door light: REPLACE head by head_back_f001 (the back of the dog\'s own head and neck, found in f001), neck rising from the shoulders inside the lit opening, muzzle hidden: it looks into the room (looks in)')
     elif sun_head:
         if g['lie'] >= 0.99 and rest > 0.5: g['head'] = ('head_low_f048', -14.0)
         elif g['lie'] >= 0.99: g['head'] = ('head_low_f048', -12.0)  # lying at the sill, head down on its paws until it hears 'come in'
@@ -329,9 +331,9 @@ def draw_dog(canvas, i, log=None):
     hid, ang = g['head']
     hf_ = 1 if not g['head_mirror'] else -1  # mirrored head looks the other way
     look_in = 'looks in' in ' '.join(g['rules'])
-    hl = 0.30
+    hl = LOOKIN_HL if hid == 'head_back_f001' else 0.30
     if look_in:
-        N = (N[0] + 0.07, N[1] - 0.03)   # the neck reaches in over the sill; the muzzle stays level at sill height, into the room
+        N = (S[0] - 0.06, S[1] + 0.02)   # the neck rises from the shoulders; the head, seen from behind, is inside the lit opening
     elif g['head_mirror']:
         N = (N[0] - 0.02, N[1] + 0.21)   # turning to look: the head comes up clear of the back and round, level, to the door
     if hid == 'head_side_f033' and not look_in and not g['head_mirror']:

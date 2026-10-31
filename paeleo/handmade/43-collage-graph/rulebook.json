@@ -12,7 +12,8 @@
     "head_alert_f006",
     "head_level_f012",
     "head_low_f048",
-    "head_side_f033"
+    "head_side_f033",
+    "head_back_f001"
    ],
    "motif": "head up = attention; head low = the decision to come (f048: the dog lowering its head to its bowl, re-used as trust)"
   },
@@ -94,8 +95,8 @@
    "id": "R9 ENTER head -> the door light (look in)",
    "kind": "enter",
    "input": "dog.head",
-   "output": "head_side_f033 (found profile head, muzzle level, 4 deg), the neck reaching in past the jamb at sill height, muzzle into the room; held 26.42-28.46",
-   "precondition": "score act.look > 0.1, or lying and 26.40 <= t < 28.46 (on hearing \"come in\"); legibility: muzzle inside the door frame at sill height, no more than 20 deg above horizontal (measured on the rendered frame), pointing into the room, not at the bulb",
+   "output": "head_back_f001: the back of the dog's own head and neck (f001, the dog seen from behind), neck rising from the shoulders inside the lit opening, muzzle hidden; held 26.42-28.46",
+   "precondition": "score act.look > 0.1, or lying and 26.40 <= t < 28.46 (on hearing \"come in\"); legibility (critic round 4): the back of the head toward the viewer, skull, ears and neck continuous with the body, muzzle hidden inside the lit opening; no straight cut edge",
    "preserved": "neck anchor (the neck runs from inside the chest)",
    "motif": "the head that came low to trust now reaches level into the house; nothing drawn"
   },
@@ -396,7 +397,7 @@
    "i": 634,
    "state": "lie_down",
    "rules": [
-    "ENTER head->door light: REPLACE head by head_side_f033 (the found profile head, muzzle level), neck reaching in past the jamb at sill height, muzzle into the room (looks in)",
+    "ENTER head->door light: REPLACE head by head_back_f001 (the back of the dog's own head and neck, found in f001), neck rising from the shoulders inside the lit opening, muzzle hidden: it looks into the room (looks in)",
     "R8 SPLIT torso at the threshold"
    ],
    "materials": {

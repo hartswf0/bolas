@@ -2337,10 +2337,10 @@
 "t": 26.417,
 "state": "lie_down",
 "rules": [
-"ENTER head->door light: REPLACE head by head_side_f033 (the found profile head, muzzle level), neck reaching in past the jamb at sill height, muzzle into the room (looks in)"
+"ENTER head->door light: REPLACE head by head_back_f001 (the back of the dog's own head and neck, found in f001), neck rising from the shoulders inside the lit opening, muzzle hidden: it looks into the room (looks in)"
 ],
 "mode": "graph",
-"head": "head_side_f033",
+"head": "head_back_f001",
 "head_mirror": false,
 "split_at_threshold": true,
 "materials": {
@@ -2410,7 +2410,7 @@
 ],
 [
 "dog.head",
-"head_side_f033"
+"head_back_f001"
 ],
 [
 "voice.arcs",

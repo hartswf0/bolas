@@ -74,10 +74,10 @@ polygon, toned by the whole dog of its frame (not stretched on its own); one pap
   never a one-frame swap), laid over the shaded body with a feathered rear edge; the door's light itself falls off softly
   across the body. Haunch and tail stay shaded, outside.
 - **Looking in (26.4)**: R9: lying at the sill its head has rested on its paws since it lay down; on "come in" (from
-  26.417, held to 28.458) the head is replaced by `head_side_f033`, muzzle level (4° above horizontal, measured), the neck
-  reaching in past the jamb at sill height: nose at (241, 474) px, inside the door opening (x 171–385), 31 px above the
-  sill, below the bulb. It is a profile into the room, not the back of the head (no frame of this dog shows the back of
-  its head). Then it settles, head on its paws, and stays.
+  26.417, held to 28.458) the head is replaced by `head_back_f001`: the back of its own head and neck, from f001 (the dog
+  seen from behind, raising its head to its person). The neck rises from the shoulders at 50° inside the lit opening, skull
+  and ear toward the viewer, muzzle hidden: it looks into the room. Its left edge is at x 257 px (door leaf 235, hand tip
+  211). Then it settles, head on its paws (f048, recut with a radial fade: no straight edge), and stays.
 
 The world is other found images becoming buildings and tools: the home movie's stone pillar is the house wall, its path the
 porch, its shrubs the hedge, its coat the porch timber; Straight Talk's door (closing swing, played backward) is the door; a
@@ -170,6 +170,13 @@ right at 7.75–7.92.
 - The voice is a formant synthesizer: intelligibility of "come here / it's all right / come in" is **unknown** (I cannot
   listen). Levels are measured; the timbre is not judged.
 - The steps at 4.9 m are off-frame; the porch end is implied.
+
+### Repair round 6 (after critic round 4: does not pass, narrowly; look-in only)
+
+The level profile head pointed at the offered hand. Now the look-in shows the back of the head (`head_back_f001`, f001),
+neck continuous with the body, muzzle hidden, centred in the lit opening; the low head f048 is recut with a radial fade
+(no straight cut edge). Neck angles 30–45° put the head beside the hand; 62° climbed onto the bulb; 50° chosen. Still
+weak: the f001 head is soft and small, a dark skull with one ear bump; the head is 46 px from the hand (no muzzle line).
 
 ## What I did not do
 

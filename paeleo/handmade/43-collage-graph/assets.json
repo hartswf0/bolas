@@ -203,33 +203,142 @@
    "frame_file": "paeleo/handmade/kit/archive-dog/frames/f048.jpg",
    "archive_url": "https://archive.org/details/NewJerseyC",
    "rights": "public_domain",
-   "operation": "SAM mask \u2229 scissors polygon \u00b7 mirrored \u00b7 tone stretch",
+   "operation": "SAM mask \u2229 scissors polygon \u00b7 mirrored \u00b7 graded join (feather) \u00b7 tone stretch",
    "scissors_polygon_source_px": [
     [
-     220,
-     116
+     236,
+     121
+    ],
+    [
+     252,
+     125
+    ],
+    [
+     275,
+     139
     ],
     [
      292,
-     116
+     160
     ],
     [
-     292,
+     293,
      200
     ],
     [
-     220,
+     238,
      200
+    ],
+    [
+     231,
+     188
+    ],
+    [
+     227,
+     168
+    ],
+    [
+     226,
+     142
+    ],
+    [
+     229,
+     128
     ]
    ],
    "anchors_fragment_px": {
     "neck": [
      55,
-     22
+     6
     ],
     "nose": [
      3,
-     72
+     56
+    ]
+   }
+  },
+  {
+   "id": "head_back_f001",
+   "kind": "fragment",
+   "typed_as": "dog.head",
+   "motif_tags": [
+    "back",
+    "look-in"
+   ],
+   "used_in_film": true,
+   "source_title": "Amateur Film New Jersey C",
+   "source_shot": "archive-dog",
+   "source_frame": 1,
+   "frame_file": "paeleo/handmade/kit/archive-dog/frames/f001.jpg",
+   "archive_url": "https://archive.org/details/NewJerseyC",
+   "rights": "public_domain",
+   "operation": "SAM mask \u2229 scissors polygon \u00b7 graded join (feather) \u00b7 tone stretch",
+   "scissors_polygon_source_px": [
+    [
+     113,
+     66
+    ],
+    [
+     122,
+     60
+    ],
+    [
+     134,
+     60
+    ],
+    [
+     146,
+     74
+    ],
+    [
+     160,
+     90
+    ],
+    [
+     178,
+     98
+    ],
+    [
+     196,
+     104
+    ],
+    [
+     204,
+     114
+    ],
+    [
+     198,
+     132
+    ],
+    [
+     172,
+     130
+    ],
+    [
+     146,
+     122
+    ],
+    [
+     126,
+     112
+    ],
+    [
+     115,
+     100
+    ],
+    [
+     111,
+     82
+    ]
+   ],
+   "anchors_fragment_px": {
+    "neck": [
+     70,
+     62
+    ],
+    "nose": [
+     20,
+     6
     ]
    }
   },
@@ -2442,7 +2551,7 @@
    "kind": "note",
    "source_title": "Amateur Film New Jersey C",
    "rights": "public_domain",
-   "operation": "no frame shows the back of the dog's head: turning to look (7.46) and looking in (26.4) use head_side_f033, the dog's own head in profile cut from the turning frame f033 (mirrored, muzzle level); for the look-in its neck reaches in past the jamb at sill height. Nothing of the dog is drawn."
+   "operation": "turning to look (7.46) uses head_side_f033, the dog's own head in profile from the turning frame f033 (mirrored, muzzle level); looking in (26.4) uses head_back_f001, the back of its head and neck from f001 (the dog seen from behind, raising its head to its person), set on the shoulders inside the lit opening. Nothing of the dog is drawn."
   },
   {
    "id": "not used",
