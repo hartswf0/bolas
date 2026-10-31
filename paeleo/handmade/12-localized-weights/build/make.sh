@@ -2,6 +2,8 @@
 # Rebuild PAE-02 / SCION 12 from nothing but this folder, the score and the shared fonts.
 # Needs: python3 with numpy, Pillow, scipy, triangle, shapely, fontTools+brotli; ffmpeg.
 set -e
+# packages: pip install triangle shapely   (scipy, numpy, Pillow, fontTools, brotli were already installed here)
+python3 -c "import triangle, shapely" 2>/dev/null || pip install triangle shapely
 cd "$(dirname "$0")"
 mkdir -p cache/fonts cache/frames cache/meas cache/cards
 python3 - <<'PY'

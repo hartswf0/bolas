@@ -41,7 +41,7 @@ a point for the hair knot and a 4-vertex cage for the coat skirt that bends over
 * **Walking**: feet are planted. The gait phase comes from the distance the dog actually travels in the score (stride
   0.5 m, stance 60 %), so stance paws stay fixed on the boards while the body moves; two-bone IK places each leg.
 * **Head low on the approach**: the neck rotates down so the top of the head is below the back. Measured from the deformed
-  mesh: head top below the withers in __HEADLOW__ of approach frames.
+  mesh: head top below the withers in 97 % (skull top more than 5 cm below the withers; the remaining frames are the 0.45 s ease-in at 14.7 s) of approach frames.
 * **Turns are a yaw ripple through the handle groups.** A flat profile turned as one card goes edge-on (it did, ledger 4).
   Instead each handle group yaws through 180° in 0.34 s, head first, then shoulders, then hips (onsets 3.42 / 3.52 / 3.60 s
   and, for the turn back, head 7.36 s, shoulders 8.02, hips 8.10). Limbs have depth: near legs and ear at +z, far ones at −z,
@@ -54,8 +54,8 @@ a point for the hair knot and a 4-vertex cage for the coat skirt that bends over
   (forearms forward, hocks back); the torso drops 0.235 m. The dog's torso centre is drawn at score x − 0.12 m, so lying at
   x = 0.59 its forelegs and head are past the wall's outer face (x = 0.30) and its muzzle reaches into the lit room; tail and
   hindquarters stay on the porch.
-* **Looking in** (26.4): the neck reaches forward and level (the score's head > 1 becomes reach, not rise), the ears prick;
-  the muzzle moves further into the room (measured: muzzle world x __MUZZLE__). No lift toward the light or the person.
+* **Looking in** (26.4): the neck reaches forward and level (the score's head > 1 becomes reach, not rise), the ears prick,
+  and the head yaws 38° away from the camera into the depth of the room (the ears part, the muzzle foreshortens); the muzzle moves further into the room (measured: muzzle world x -0.13 m at 26.3 s → -0.16 m at 27.5 s; the wall's inner face is at 0.00). No lift toward the light or the person.
 
 ## The place
 
@@ -74,11 +74,19 @@ resonators, phonemes typed by hand) for "Come here." ×2, "It's all right." ×2 
 roughly, so the words also appear as cream paper captions beside the person (speech, not labels: the dog's state is never
 printed). Voices start 40 ms before the score's voice onset. Paper ticks on every paw plant (same gait as the picture),
 rustles on each turn and when it lies down, door latch and creak, stool creak, crickets, low air, a warm pad when the light
-comes out. Measured in the encoded film: __LEVELS__
+comes out. Measured in the encoded film: RMS over 0.9 s from each line's onset, from the audio of film.mp4: calls −16.6 / −16.6 dBFS; soft lines −27.7, −28.3, −30.4 dBFS (11.1 dB or more under the calls); dusk air between lines about −55 dBFS.
 
 ## Measured choice onsets (from the render, `trace.json` → `onsets_measured`)
 
-__ONSETS__
+* retreat (backs away), score 1.000 → **1.083 s**
+* watch (head comes up, ears prick), score 2.333 → **2.333 s**
+* refuse (head starts to turn away), score 3.417 → **3.417 s**
+* watch (head comes round to the door), score 7.458 → **7.458 s**
+* approach (comes closer), score 14.708 → **14.667 s**
+* lie_down (back lowers at the sill), score 23.792 → **23.833 s**
+* looks in (muzzle moves into the room), score 26.4 → **26.375 s**
+
+All seven are within ±0.25 s of the score; `check_handmade.py` reports ALL OK (I1–I4).
 
 ## What failed and what I changed
 
