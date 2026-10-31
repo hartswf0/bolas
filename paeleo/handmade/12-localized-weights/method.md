@@ -70,6 +70,16 @@ a point for the hair knot and a 4-vertex cage for the coat skirt that bends over
 * **Lace:** 30 bolder holes instead of 34 small ones; the end card's count comes from the mesh.
 * **Sound:** voices get a 0.16 s release and a short room reverb; the second call no longer stops dead.
 
+## Repair round 2 (critic: PASS, narrowly)
+
+* First turn: the head now comes round in 0.22 s, so at 3.62–3.67 it is in profile, with muzzle and eye, on the top layer
+  while the body folds.
+* Looking in: the head yaws 70° away from the camera, and the paper behind the eye hole closes as it turns (the eye goes out
+  of sight). What faces the viewer is the back of the head and the two ears; the head stays level and low.
+* Lying (4.6–7.4, 28.5–32): chin on the paws with the nose tipped down 22° and the neck bent less, so the neck and head no
+  longer line up into one long snout; ears stay at least two-thirds up while lying.
+* assets.json now says 30 holes, matching the cards and the mesh.
+
 ## The place
 
 A dollhouse section through the doorway, all cut paper drawn in code (`build/world.py`): the room with lace wallpaper whose
