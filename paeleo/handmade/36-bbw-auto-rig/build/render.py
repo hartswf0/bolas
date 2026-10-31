@@ -59,7 +59,7 @@ def softplus(z, k=.35):
 def path(x):
     """the score's x (metres from the threshold) to a point on the porch floor: straight out of the door first,
     then bending along the porch toward the steps"""
-    u = 0.08 + 0.82 * x + 0.15 * softplus(x - 1.5) + 0.16 * min(1.0, max(0.0, 1.5 - x))
+    u = 0.08 + 0.82 * x + 0.15 * softplus(x - 1.5) + 0.06 * min(1.0, max(0.0, 1.5 - x))
     v = -0.12 + 0.57 * x - 0.35 * softplus(x - 1.5)
     return u, v
 
@@ -179,7 +179,7 @@ def dog_plan(i):
     head = a['head']; crouch = a['crouch']; tail = (a['tail'] - .5) * 1.1
     wag = a['wag'] * .45 * math.sin(t * 2 * math.pi * 2.3)
     mv = a['moving']; ph = a['walk_phase']
-    amp = .26 * mv
+    amp = .18 * mv
     swing = [amp * math.sin(ph), amp * math.sin(ph + math.pi), amp * math.sin(ph + math.pi * .5), amp * math.sin(ph + math.pi * 1.5)]
     p = dict(tail=tail, wag=wag, crouch=crouch, swing=swing)
     if t < T1[0]:
@@ -191,7 +191,7 @@ def dog_plan(i):
         view = 'Wm'; p['neck'] = (1.0 - head) * 1.5
         p['fold'] = a['lie']; p['chin'] = .35 * a['rest']
     elif t < T2[1]:
-        k = int((t - T2[0]) / (T2[1] - T2[0]) * len(SEQ)); view = SEQ[::-1][min(k, len(SEQ) - 1)]
+        SQ2 = ['t36', 't30', 't26']; k = int((t - T2[0]) / (T2[1] - T2[0]) * len(SQ2)); view = SQ2[min(k, len(SQ2) - 1)]
         p.update(neck=0.0, fold=1.0, swing=None, frontal=True, tail=.3, crouch=0)
     elif t < 8.3:
         # lying, facing the door: the head is up and toward the door while the hips stay down; then it rises
@@ -204,8 +204,14 @@ def dog_plan(i):
         base = .55 + .5 * (1.0 - min(head, 1.0))
         p['neck'] = min(1.05, base * (1 - look) + .80 * look + .12 * rest) * lie + ((1.0 - head) * 2.5 - .05) * (1 - lie)
         p['chin'] = .06 * rest
-        p['push'] = 34.0 * look       # the muzzle goes in over the sill, level, not up
-        p['head'] = -.12 * look
+        if look > .08:
+            # the archive's own look back over the shoulder (f007 -> f005, played backwards): the head
+            # comes round and up into the lit room, the back of the skull to the camera; the body stays lying
+            seq = ['r7', 'r5']
+            view = seq[min(len(seq) - 1, int((look - .08) / .92 * len(seq)))]
+            p['neck'] = .20; p['push'] = 0.0; p['chin'] = 0.0
+        else:
+            p['push'] = 0.0
     elif st == 'approach':
         view = 'W'; p['neck'] = (1.0 - head) * 2.5 - .05
     else:
@@ -264,7 +270,13 @@ def dog_layer(i, canvas, light):
     tilt = (P[1, 0] / P[0, 0]) if P[0, 0] else 0
     sh = np.exp(-(((xx - cxs) / rx) ** 2 + ((yy - (gyl + tilt * (xx - gx)) - 2) / ry) ** 2) * 1.6)
     canvas *= (1 - .55 * sh[..., None])
-    px, py, al = raster(canvas, None, Vs, r['V'], r['T'], tex, depth(r, p.get('fold', 0.0) or 0.0))
+    fold = p.get('fold', 0.0) or 0.0
+    clip = None
+    if fold > .5:
+        # lying: nothing of the dog goes below the boards it lies on
+        slope = P[1, 0] / P[0, 0] if P[0, 0] else 0.0
+        clip = np.clip((gy + slope * (xx - gx) + 5 - yy) / 3, 0, 1).astype(np.float32)
+    px, py, al = raster(canvas, None, Vs, r['V'], r['T'], tex, depth(r, fold), clip=clip)
     # measurements from the render
     names = r['names']
     hd = Vs[np.argmax(r['W'][:, names.index('head')])]

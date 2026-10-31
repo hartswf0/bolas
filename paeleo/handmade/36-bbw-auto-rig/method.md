@@ -33,8 +33,10 @@ input is one facing bit (head left or right).
 * Time base: the score's 24 fps frame index; one score frame = one film frame.
 
 ## How the dog is built and moved
-* **Views (whole frames)**: f010 (profile to the left, head up) carries watching, retreat, approach, lying across the
-  sill, looking in. The same frame **mirrored** carries the turned back (refusal, lying with chin down). The two turns go
+* **Views (whole frames)**: f010 (profile to the left, head up) carries watching, retreat, approach and lying across
+  the sill. Looking in (26.4–28.0 s) plays the archive's own look back over the shoulder backwards: f010 → f007 → f005,
+  each lying (folded by its own auto-rig), so the head comes round and up into the lit room with the back of the skull
+  and the ears to the camera; it returns f005 → f007 → f010 as the dog settles, chin down. The same frame **mirrored** carries the turned back (refusal, lying with chin down). The two turns go
   through the archive's **own** turning frames f026 → f030 → f036 → f040 (the found dog really turns from left
   through facing the camera to right in those frames), each auto-rigged the same way; reversed and lying for the turn back
   at 7.46 s. No cross-dissolve anywhere: a frame is replaced by the next frame of the same archive motion.
@@ -42,8 +44,12 @@ input is one facing bit (head left or right).
   legs swing on the score's walk phase, the body sinks and the legs fold (forelegs forward, hind legs tucked) to lie, the
   tail tucks, the muzzle pushes level through the doorway to look in. The dog slides along the score's x through a
   pinhole camera; it sits on a contact shadow.
-* **Turn back to look (7.46 s)**: lying, hips down, the dog comes round through the reversed turn frames and is facing
-  the door, still lying, by 7.71 s; it rises only from 7.8 s.
+* **Turn back to look (7.40–7.60 s)**: lying, hips down, the dog comes round through three turn frames (f036, f030, f026)
+  whose legs are fully compressed under a lowered body, and faces the door, still lying, by 7.62 s; it rises only from 7.8 s.
+* **Lying (round 2)**: the body tilts so the hindquarters sit lower than the shoulders, the hind leg folds forward under
+  the belly, the forelegs tuck (less stretch), the tail bone lies out behind and is lengthened so its tip shows outside
+  the door frame, and nothing of the dog is drawn below the boards it lies on (a floor clip; this hides a second hind leg
+  the auto-rig had not separated from the body).
 
 ## The person, the place, the sound
 * Person: one frame of *Straight Talk* (NTIS 1992, public domain), a woman seen from behind, cut by colour and rigged
@@ -109,8 +115,9 @@ See `ledger.jsonl` for every attempt. In short:
 * No cage handles. No independent critic run by me. No real lying dog exists in the materials: lying is made by the
   BBW deformation of the standing profile (sinking body, forelegs forward, hind legs folded).
 * The person's legs are not in the found frame; she is cropped by the half door, then by shadow.
-* Back-of-head view: the archive has none usable at the sill; looking in is the muzzle pushed level over the sill
-  into the lit room (a ~34 source-px push of the neck and head handles). It is a modest movement; a critic may find it small.
+* Round 1 critic: DOES NOT PASS (look in, lie down, tail, turn back rise, end card count). Round 2 repairs are listed in
+  the ledger; f001 and f003 were rigged but rejected (f003: no legs found; f001: the tail path ran into a hind leg).
+* The lengthened tail is a deformation of the found tail stub, not found tail.
 * The turn frames are the archive's own motion but each lasts 1–2 film frames; the lying turn back (7.40–7.60 s) goes
   through four small curled frontal frames and is fast. Frontal frames read smaller than the profile.
 * The person is a back view used as a silhouette; her "hand offered low" is the arm bone swung down to the floor, a dark

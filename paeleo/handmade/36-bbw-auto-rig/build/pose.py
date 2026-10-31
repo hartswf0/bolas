@@ -36,7 +36,11 @@ def mats(rig, **kw):
     fold = p['fold']; ffold = fold if p['fold_front'] is None else p['fold_front']
     # the body sinks by the fold (lying) and the crouch; feet stay on the ground (legs compress or fold)
     drop = (.62 * max(fold, ffold * .6) + .16 * p['crouch']) * Lh + p['drop']
-    root = trans((0, drop))
+    # lying: the hindquarters settle lower than the shoulders (the body tilts about the shoulder)
+    tilt = .12 * fold
+    root = compose(trans((0, drop)), rot(-f * tilt, np.array(H['neck']['a'])))
+    if p['frontal']:
+        root = trans((0, drop + .3 * fold * Lh))
     out = {}
     sh = np.array(H['neck']['a'])
     neck_ang = f * (p['neck'] + p['chin'])
@@ -46,7 +50,9 @@ def mats(rig, **kw):
     out['head'] = compose(Mn, rot(f * p['head'], hd))
     out['back'] = root
     ta = np.array(H['tail']['a'])
-    Mt = compose(root, rot(-f * p['tail'], ta))
+    tb = np.array(H['tail']['b'])
+    # lying: the tail lies out behind on the boards, a little longer than the found stub so its tip shows
+    Mt = compose(root, rot(-f * (p['tail'] * (1 - fold) + (0 if p['frontal'] else .1) * fold), ta), scale_along(ta, tb - ta, 1 + (0 if p['frontal'] else 1.0) * fold))
     out['tail'] = Mt
     out['tailtip'] = compose(Mt, rot(-f * p['tail'] * .6 + p['wag'], np.array(H['tail']['b'])))
     for i, k in enumerate(legs):
@@ -56,10 +62,10 @@ def mats(rig, **kw):
         sw = 0.0 if p['swing'] is None else p['swing'][i % len(p['swing'])]
         comp = 1 - .16 * p['crouch'] / max(l / Lh, .5)
         if p['frontal']:
-            M = compose(root, scale_along(a, b - a, comp * (1 - .7 * fo), 1 + .15 * fo))
+            M = compose(root, scale_along(a, b - a, comp * (1 - .9 * fo), 1 + .15 * fo))
         elif front:
             # forelegs reach forward and lie flat (sphinx), a little shortened
-            M = compose(root, rot(-f * (sw + 1.25 * fo), a), scale_along(a, b - a, comp * (1 - .3 * fo)))
+            M = compose(root, rot(-f * (sw + .95 * fo), a), scale_along(a, b - a, comp * (1 - .45 * fo)))
         else:
             # hind legs fold under the hip: rotate forward and compress
             M = compose(root, rot(-f * (sw + 1.45 * fo), a), scale_along(a, b - a, comp * (1 - .62 * fo), 1 + .2 * fo))
@@ -70,6 +76,6 @@ def mats(rig, **kw):
 def depth(rig, fold=0.0):
     d = {'head': -.2, 'neck': -.1, 'back': 0.0, 'tail': .4, 'tailtip': .5}
     def leg(k):
-        if rig['H'][k].get('kind') == 'front': return .8 * (1 - fold) + .05 * fold   # lying: just behind the chest
+        if rig['H'][k].get('kind') == 'front': return .8                              # lying: tucked behind the chest
         return .8
     return rig['W'] @ np.array([d[k] if k in d else leg(k) for k in rig['names']])
