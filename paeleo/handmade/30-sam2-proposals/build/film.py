@@ -126,7 +126,7 @@ def main():
 def measure_onsets(fr):
     """onsets measured from the render (not from the plan): the first frame of a visible change near each choice."""
     out = []
-    cx = np.array([f['x_screen'] for f in fr]); y0 = np.array([f['bbox'][1] for f in fr]); iou = np.array([f['iou_prev'] for f in fr])
+    cy = np.array([f['y_screen'] for f in fr]); cx = np.array([f['x_screen'] for f in fr]); y0 = np.array([f['bbox'][1] for f in fr]); iou = np.array([f['iou_prev'] for f in fr])
     v = np.diff(cx, prepend=cx[0])
     def first(cond, lo, hi):
         for i in range(max(1, lo), min(len(fr) - 7, hi)):
@@ -148,16 +148,17 @@ def measure_onsets(fr):
             k = first(lambda i: any(p.get('part') == 'head' for p in fr[i]['proposals']) and iou[i] < .97, lo, hi)
             sig = 'first rendered frame where a head part pointing at the door replaces the held head (silhouette change, body held)'
         elif nm == 'lie_down':
-            k = first(lambda i: all(y0[j + 1] >= y0[j] for j in range(i, i + 6)) and y0[i + 6] - y0[i] >= 6, lo, hi)
-            sig = 'body top starts a sustained lowering (>= 6 px over 6 frames)'
+            k = first(lambda i: cy[i] - cy[i - 1] >= 1 and all(cy[j + 1] >= cy[j] for j in range(i, i + 6)) and cy[i + 6] - cy[i - 1] >= 6, lo, hi)
+            sig = 'body centroid starts a sustained lowering (>= 6 px over 6 frames)'
         else:
             k = first(busy, lo, hi); sig = 'the silhouette starts changing every frame or two (>= 3 changes of IoU<0.97 in 6 frames), where the idle hold changes once in 7'
         out.append(dict(choice=nm, score_t=c, measured_t=None if k is None else round(k / FPS, 3),
                         dt=None if k is None else round(k / FPS - c, 3), signal=sig))
     # look in: head proposal changes to the level head (u40) after 26.0
-    k = next((f['i'] for f in fr if f['t'] >= 26.0 and any(p.get('part') == 'head' and p.get('frame') == 1 for p in f['proposals'])), None)
+    hd = lambda f: next((p['frame'] for p in f['proposals'] if p.get('part') == 'head'), None)
+    k = next((f['i'] for f in fr if f['t'] >= 26.0 and hd(f) is not None and hd(fr[f['i'] - 1]) is not None and hd(f) != hd(fr[f['i'] - 1]) and hd(fr[f['i'] - 1]) == 47), None)
     out.append(dict(choice='look in', score_t=26.4, measured_t=None if k is None else round(k / FPS, 3),
-                    dt=None if k is None else round(k / FPS - 26.4, 3), signal='head proposal f47 (nose down) -> f01 mirrored (back of the head to the viewer, muzzle away into the room)'))
+                    dt=None if k is None else round(k / FPS - 26.4, 3), signal='head lifts: f47 (nose down) -> f40 (level, 3 frames) -> f01 mirrored (back of the head to the viewer, into the room)'))
     return out
 
 
