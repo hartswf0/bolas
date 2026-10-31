@@ -25,7 +25,7 @@ Everything below marked *looked at* was judged by me, the builder, on frames fro
 | object | file | what it is |
 |---|---|---|
 | collection inventory | `inventory.json`, `proof/inventory_sheet.jpg` | 44 typed records: source shot, frame, crop, **imagery class** (fur, hard, eyes, paws, doors, lamps, hands, voices, soft), **temperature** (cold / neutral / warm), allowed layers |
-| cutting score (shot rhythm) | `cutting-score.json` | 80 cuts over 768 frames. Each cut is a whole-image substitution, held for a measured number of frames, with its reason |
+| cutting score (shot rhythm) | `cutting-score.json` | 68 cuts over 768 frames. Each cut is a whole-image substitution, held for a measured number of frames, with its reason |
 | narrated words | `words.json` | each spoken phrase as cut letters, with its letter sources, one word per syllable onset, and the voice that speaks it |
 | pose state | `build/cache/poses.json` (regenerable by `choreo.py`) | per frame: the dog's position, yaw, head yaw, neck and muzzle angles, lying, crouch, ears, tail, walk distance; the person's pose |
 | rights | `assets.json` | source title, archive URL, clip id, rights and the operation for every asset |
@@ -38,44 +38,43 @@ the dog's body centre is at z = x_score − 0.34 on the line x = 0.
 | section | cuts | mean hold (frames) | temperature |
 |---|---|---|---|
 | 0–1.0 s, dusk | 2 | 12 | neutral |
-| 1.0–2.33 s, *come here* | 16 | 2.0 | cold, hard (tiger, broom, wheel, ladder, shovel; facade: train, signal, clock, trumpet) |
+| 1.0–2.33 s, *come here* | 10 | 3.2 (2-2-2-8 cycle) | cold, hard (tiger, alarm clock, wheel, traffic light, ladder, broom, frying pan; facade: train, signal, clock, trumpet) |
 | 2.33–3.42 s | 5 | 5.2 (3, 4, 5, 6, 8) | neutral, slowing |
-| 3.42–4.6 s, call + reach | 15 | 2.3 | cold, hard |
+| 3.42–4.6 s, call + reach | 9 | 3.8 (2-2-2-8 cycle) | cold, hard |
 | 4.6–6.2 s, steps aside, sits | 4 | 8.3 | neutral |
 | 6.2–7.4 s, door opens, hand low | 3 | 9.7 | warm (lamps begin in the room) |
-| 7.4–9.4 s, *it's all right* | 3 | 16 | warm, soft (cat, horse mane, rabbit, sleeping bag; flower, basket) |
+| 7.4–9.4 s, *it's all right* | 3 | 16 | warm (cat, rabbit, lantern on the body) |
 | 10.4–11.6 s, soft again | 2 | 21 | warm |
 | 14.7–23.8 s, approach | 14 | 15.6 | warm; **one cut per footfall** (every 0.275 m of travel) |
 | 26.4–27.4 s, *come in* | 1 | 24 | lamps only |
 | 27.4–32 s, stays | 4 | 27.5 (24, 30, 36, 46) | warm, slowing to stillness |
 
-The calls cut at 12 substitutions per second. The soft voice and the light cut at 1 to 1.5 per second. Each cut is audible:
+The calls cut about 7–8 times per second, three 2-frame flashes and then one 8-frame recognisable hold. The soft voice and the light cut at 1 to 1.5 per second. Each cut is audible:
 cold cuts make a dry splice tick, warm cuts a soft brush, so the rhythm can be heard as well as seen.
 
-## How the dog is built and moved
+## How the dog is built and moved (round 2, after critic round 1: DOES NOT PASS)
 
-- **Body.** 165 spheres built in `build/lib.py`: a 15-sphere torso with a chest, a neck, skull, muzzle, nose, two eyes,
-  two ears, a 14-sphere tail, four two-bone legs (12 spheres per bone) and paws. The renderer ray-casts them exactly, with
-  depth. The silhouette, the 3D shading (dusk key light, the warm door light, a rim light) and a dark contour drawn from the
-  depth buffer never cut. **Only what the dog is made of cuts.**
-- **Substitution.** At every cut the coat (torso, neck, head, ears, legs, tail), the eyes and the paws each take a new whole
-  image from the class that fits the moment. The image is luminance-normalised, then tinted to the moment's temperature
-  (cold blue-grey, neutral, warm amber), held to a narrow value range, and **pinned to the body** in rest-pose coordinates
-  with tri-planar projection, so it turns with the dog and does not slide over it. This is what keeps the dog one dog:
-  shape, value and outline stay constant while texture and colour change.
-- **Moving.** The position is the score's `x`. The legs walk by distance: a trot whose feet are planted in the world during
-  stance (stride 0.55 m, from the walk distance actually travelled), and they also step round during turns in place.
-  Turns are true 3D yaw rotations of the body, so there is no edge-on collapse. Acting follows the score's channels
-  (crouch, ears, tail, lie, wag), with direction where the lessons require it:
-  - **refusal:** the head turns away first (3.42–3.72 s), the body follows (3.46–4.0 s) and ends in profile with its back to
-    the door. It then lies with its chin down (4.2–5.6 s), facing away.
-  - **7.46 s:** the head leads. Lifted and with the muzzle level, it comes round to the door by 7.72 s while the body is still
-    lying turned away. The body rises and turns from 7.62 to 8.55 s.
-  - **approach:** the neck is at −40° and the ears are laid back, so the head is below the line of the back.
-  - **sill:** it lies across the sill in depth: forelegs extended and its head inside the door frame, hind legs folded flat
-    along the flank, tail on the porch.
-  - **26.4 s, come in:** the head pushes forward and turns into the lit room, toward −x, away from the camera, kept level and
-    never lifted. The back of the head and both ears face the viewer. It settles again at 28.2–29.2 s.
+Round 1 showed a shaded 3D figure with a faint duotone texture. The critic called it a maquette with a style laid over it.
+In round 2 **the viewer sees only cut images**:
+
+- **What you see.** The dog is a collage of flat cut-outs: body, neck, head, four legs and tail. Each piece is a cut from a
+  whole public-domain image: the subject's SAM-mask box, so a tiger, a cat's face, a wheel, a lantern. The image keeps its
+  own colour and light, with no tint and no shading. The cut makes the silhouette: a thin paper margin, then a dark scissor
+  line, with dark cut lines where the pieces meet or overlap. At every cut on the score the body, neck and tail take one
+  new image (`dog_body`) and the head and legs take another (`dog_head_legs`, images without faces, so the head reads by its
+  dog shape: small soft ears, a long muzzle, a dark nose). Each image is mapped flat onto its piece's screen box, so the
+  content shows large: on the calls the tiger fills the body.
+- **What drives it (invisible).** The round-1 pose solve of about 170 spheres is kept only as the scissors' path and the
+  layer order: which piece is in front, and where its outline runs. It walks by distance (planted trot, stride 0.55 m) and
+  turns in true 3D yaw. Its shading is not rendered on the dog.
+- **Recognition on the calls.** The calls cut in a 2-2-2-8 cycle. Every fourth image is held for 8 frames and drawn from the
+  identifiable pool (tiger, wheel, train, alarm clock, traffic light), so at least one is recognisable every second.
+- **Soft voice, light, sill.** Only recognisable warm images go on the body: cat, cow, rabbit, horse, monkey, flower,
+  basket, lantern, light bulb. From 23.79 s the body takes only images without faces (flower, basket, lantern, bulb), so the
+  head at the sill reads as a dog.
+- **Acting** is unchanged from round 1: the head leads the refusal turn and the turn back at 7.46; head low on the approach;
+  lying across the sill with forelegs and head inside the frame. **Lying, the hind legs now fold under the body.** At
+  26.4 s the head turns into the lit room, level, with the back of the head toward the viewer.
 - **Room.** The facade, the door leaf and the lit interior are planes ray-cast per pixel, and they take whole images on the
   same score: hard images on the calls; doors and lamps once the door opens. The floor planks, clapboard lines and door
   frame are drawn and stay constant, to anchor the space. The camera is static to 15.2 s, then pushes in toward the door

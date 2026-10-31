@@ -39,9 +39,10 @@ PAW = {'cold': pool('paw', ['cold']), 'neutral': pool('paw', ['neutral']), 'warm
 ROOM = {'cold': pool('room', ['cold']), 'neutral': pool('room', ['neutral']), 'warm': pool('room', ['warm', 'neutral'])}
 DOOR = {'cold': pool('door', ['cold', 'neutral']), 'neutral': pool('door', ['neutral']), 'warm': pool('door', ['neutral'])}
 INTERIOR = pool('interior', ['warm'])
-DOG = {'cold': pool('dog', ['cold']), 'neutral': pool('dog', ['neutral']), 'warm': pool('dog', ['warm'])}
+DOG = {'cold': pool('dog', ['cold']), 'neutral': pool('dog', ['neutral']), 'warm': pool('dog_ident', ['warm'])}
 DOG_HEAD = {'cold': pool('dog_head', ['cold']), 'neutral': pool('dog_head', ['neutral', 'warm']), 'warm': pool('dog_head', ['warm'])}
 DOG_IDENT = pool('dog_ident', ['cold'])
+DOG_SILL = [x for x in DOG_HEAD['warm'] if x in pool('dog_ident', ['warm'])]
 HAND = {'cold': pool('hand', ['neutral']), 'neutral': pool('hand', ['neutral', 'warm']), 'warm': pool('hand', ['warm', 'neutral'])}
 
 
@@ -75,11 +76,10 @@ def build():
         t = f / FPS
         door_open = t >= 6.2
         cuts.append({'n': len(cuts), 'frame': f, 'hold': end - f, 't': round(t, 3), 'temperature': temp, 'why': why,
-                     'coat': pick(COAT, temp, 'coat' + temp), 'eye': pick(EYE, temp, 'eye' + temp), 'paw': pick(PAW, temp, 'paw' + temp),
                      'room': pick(ROOM, temp, 'room' + temp), 'door': pick(DOOR, temp, 'door' + temp),
                      'interior': pick(INTERIOR, 'warm', 'int') if door_open else 'lamps.bulb.halo',
                      'hand': pick(HAND, temp, 'hand' + temp),
-                     'dog_body': pick(DOG_IDENT, 'cold', 'ident') if (temp == 'cold' and end - f >= 6) else (pick(DOG_HEAD, 'warm', 'dogsill') if t >= 23.79 else pick(DOG, temp, 'dog' + temp)),
+                     'dog_body': pick(DOG_IDENT, 'cold', 'ident') if (temp == 'cold' and end - f >= 6) else (pick(DOG_SILL, 'warm', 'dogsill') if t >= 23.79 else pick(DOG, temp, 'dog' + temp)),
                      'dog_head_legs': pick(DOG_HEAD, temp, 'doghead' + temp)})
     # 26.4 come in: lamps only in the interior and on the facade
     for c in cuts:

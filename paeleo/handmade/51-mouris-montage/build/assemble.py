@@ -42,12 +42,13 @@ def cards():
         for key in ('dog_body', 'dog_head_legs'):
             if c['hold'] >= 6:
                 seen[c[key].split('.')[1].replace('-', ' ')] = 1
-    names = ', '.join(sorted(seen))
+    nl = sorted(seen); half = (len(nl) + 1) // 2
+    names1, names2 = ', '.join(nl[:half]) + ',', ', '.join(nl[half:]) + '.'
     card([('What it is made of', 'f8.woff2', 40, (236, 226, 206)),
           ('The dog: cut-outs from whole public-domain archive images, re-cut and substituted', 'f34.woff2', 21, (214, 204, 186)),
           (f'{ncut} times on a cutting score (2-frame cuts on the calls, holds of 12 to 46 frames on the soft voice and the light).', 'f34.woff2', 21, (214, 204, 186)),
-          ('Its pieces come from: ' + names[:90], 'f34.woff2', 21, (214, 204, 186)),
-          (('  ' + names[90:]) if len(names) > 90 else ' ', 'f34.woff2', 21, (214, 204, 186)),
+          ('Its pieces are cut from: ' + names1, 'f34.woff2', 21, (214, 204, 186)),
+          (names2, 'f34.woff2', 21, (214, 204, 186)),
           ('An invisible 3D pose of spheres decides where each piece is cut; its shading is not shown.', 'f34.woff2', 21, (214, 204, 186)),
           ('The wall, door and lit room take images from the same archive. Letters are cut from those images.', 'f34.woff2', 21, (214, 204, 186)),
           ('Voices and sound are synthesized; floor, house and person are drawn here. No Mouris footage was used.', 'f34.woff2', 21, (214, 204, 186)),

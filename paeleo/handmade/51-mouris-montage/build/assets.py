@@ -7,13 +7,13 @@ cuts = json.load(open(os.path.join(OUT, 'cutting-score.json')))['cuts']
 words = json.load(open(os.path.join(OUT, 'words.json')))['words']
 used = {}
 for c in cuts:
-    for k in ('coat', 'eye', 'paw', 'room', 'door', 'interior', 'hand'):
+    for k in ('dog_body', 'dog_head_legs', 'room', 'door', 'interior', 'hand'):
         used.setdefault(c[k], set()).add(k)
 for w in words:
     for r in w['letters_from']:
         used.setdefault(r, set()).add('letters')
 used.setdefault('soft.person.coat', set()).add('person coat')
-ops = {'coat': 'whole crop, luminance-normalised, duotone-tinted by the cut\'s temperature, mapped onto the dog\'s body in its rest-pose coordinates (pinned, turns with the body), multiplied by the steady 3D shading',
+ops = {'dog_body': 'the subject cut by its SAM-mask bounding box, untinted, then cut again into the shape of the dog\'s body, neck and tail (flat, mapped onto each piece\'s screen box); substituted on the cutting score', 'dog_head_legs': 'the same kind of cut for the dog\'s head and each leg (images without faces)', 'coat': 'whole crop, luminance-normalised, duotone-tinted by the cut\'s temperature, mapped onto the dog\'s body in its rest-pose coordinates (pinned, turns with the body), multiplied by the steady 3D shading',
        'eye': 'whole crop mapped onto the eye spheres (spherical coordinates)', 'paw': 'whole crop mapped onto the paw spheres',
        'room': 'whole crop stretched across the facade plane (mirrored repeat), low contrast, under drawn clapboard lines',
        'door': 'whole crop on the inner face of the door leaf', 'interior': 'whole crop on the back and side walls of the lit room',
@@ -29,8 +29,8 @@ for r in inv:
                    'rights_basis': 'kit/found-frames.json lists this shot as public_domain (Internet Archive / Moving Image Archive)',
                    'used_as': sorted(used[r['id']]), 'operation': '; '.join(ops[u] for u in sorted(used[r['id']]))})
 assets += [
-    {'id': 'dog.body', 'what': 'the dog: 165 spheres (torso, neck, skull, muzzle, nose, eyes, ears, tail, four two-bone legs, paws) built in build/lib.py',
-     'source_title': 'made here', 'rights': 'own work', 'operation': 'constructed; posed per frame from the score (build/choreo.py); ray-cast with depth (build/render.py); dark contour and depth-break lines drawn from the depth buffer'},
+    {'id': 'dog.body', 'what': 'the dog\'s invisible pose driver: about 170 spheres (torso, neck, skull, muzzle, nose, eyes, ears, tail, four two-bone legs, paws) built in build/lib.py; only their outline is used, as the scissors\' path',
+     'source_title': 'made here', 'rights': 'own work', 'operation': 'posed per frame from the score (build/choreo.py); ray-cast for its outline, depth order and piece boundaries only (build/render.py); no shading shown on the dog'},
     {'id': 'person.body', 'what': 'the person: spheres, built in build/lib.py', 'source_title': 'made here', 'rights': 'own work', 'operation': 'constructed and posed'},
     {'id': 'porch.house', 'what': 'porch floor planks, sill, facade planes, door frame, door leaf, lit room', 'source_title': 'made here', 'rights': 'own work',
      'operation': 'planes ray-cast per pixel; floor planks and clapboard lines synthesized; light pool computed through the door opening'},
