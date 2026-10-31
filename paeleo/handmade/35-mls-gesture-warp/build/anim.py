@@ -34,7 +34,7 @@ def rest(name):
 # behind the swing, warped to the same handles as the print it replaces (no dissolve).
 VIEW_KEYS = [
     (0.0, 'P_prof'), (3.40, 'P_prof'),
-    (3.53, 'R1_r34'), (3.65, 'R2_rear'), (3.77, 'R3_r34'), (3.90, 'P_right'),     # refusal: turns its back
+    (3.485, 'R0_t'), (3.57, 'R1_r34'), (3.655, 'R1b_t'), (3.74, 'R2_rear'), (3.825, 'R2b_t'), (3.91, 'R3_r34'), (4.005, 'R3b_t'), (4.10, 'P_right'),     # refusal: turns its back
     (4.28, 'P_right'), (4.86, 'L_right'),                                          # lies down, back turned
     (7.34, 'L_right'), (7.54, 'LB_look'),                                          # 7.46: the head comes round first
     (7.80, 'LB_look'), (8.06, 'SB_look'),                                          # gets up, head still on the door
@@ -139,6 +139,10 @@ def dog_pose(i, with_stretch=True):
     sn = float(np.clip((0.9 - head) * 105, -15, 50)); sh_ = float(np.clip((0.9 - head) * 28, -10, 18))
     ln = rest_ * 38 + float(np.clip((0.7 - head) * 25, -12, 12)) + 30 * look; lh = rest_ * 16 + 6 * look   # looking in: neck forward, level, not lifted
     th_n = sn * (1 - lie_t) + ln * lie_t; th_h = sh_ * (1 - lie_t) + lh * lie_t
+    # off profile (rear / three-quarter views) the neck is carried at a moderate 22 deg: the head stays visible over
+    # the shoulders (no headless ball) and never stands up over the rump (no giraffe)
+    prof_t = abs(np.cos(np.deg2rad(curves()['psi'](t))))
+    th_n = th_n * (1 - (1 - prof_t) * (1 - lie_t)) + (22.0 if t < 7.5 else 32.0) * (1 - prof_t) * (1 - lie_t)
     G, psi, lie, shown, trans = base_geom(t, th_n, th_h)
     fs = -np.cos(np.deg2rad(psi))          # +1 facing screen-left (the door), -1 facing away
     prof = abs(np.cos(np.deg2rad(psi)))   # 1 in profile, 0 in rear view
@@ -253,7 +257,7 @@ def person_pose(i):
         q['ft_f'] = q['ft_f'] - np.array([sw, abs(sw) * 0.3]); q['an_f'] = q['an_f'] - np.array([sw * 0.9, abs(sw) * 0.3])
         q['kn_f'] = q['kn_f'] - np.array([sw * 0.5, 0])
     # hand offered low (6.8 ->): near hand forward and down, near the floor, toward the sill
-    low = smoothstep(6.75, 7.35, t)
+    low = smoothstep(6.75, 7.35, t) * (1 - smoothstep(25.85, 26.35, t))   # the hand goes back to the lap before 'come in'
     if low > 0:
         sh = q['sh']
         tgt_e = sh + np.array([0.30 * m, 0.24 * m]); tgt_h = np.array([0.72 * m, -0.27 * m])
@@ -274,6 +278,6 @@ def person_pose(i):
 
 def world(i):
     t = i / FPS
-    door = 34.0 + (100.0 - 34.0) * smoothstep(6.2, 6.9, t)      # degrees the door stands open
+    door = 34.0 + (150.0 - 34.0) * smoothstep(6.2, 6.9, t)      # degrees the door stands open
     light = 0.12 + 0.88 * smoothstep(6.25, 6.95, t)               # the room light reaching the porch
     return dict(door=door, light=light, t=t)

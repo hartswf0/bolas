@@ -348,7 +348,7 @@ def place_dog(i, plan):
             layer.alpha_composite(tail, (int(round(bx + btail[0] - ttail[0])), int(round(by + btail[1] - ttail[1]))))
             layer.alpha_composite(body, (int(round(bx)), int(round(by))))
             hneck = to_piece(hinfo, key(hf, 'neck'))
-            sink = 9 * S if hf == 1 else 0                 # f1's neck is raised; set its head 9 source px lower on the lying body
+            sink = 20 * S if hf == 1 else 0               # f1 neck is raised (it looked up at its person); set its head 20 source px lower on the lying body
             layer.alpha_composite(head, (int(round(bx + bneck[0] - hneck[0])), int(round(by + bneck[1] - hneck[1] + sink))))
         pieces_used = ([dict(src='dog', frame=f, mirror=bool(m), part='whole', legs='sinking behind the porch board')] if drop < .92 else
                        [dict(src='dog', frame=f, mirror=bool(m), part='body', legs='behind the porch board (no frame shows them folded)'),

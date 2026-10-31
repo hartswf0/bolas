@@ -29,7 +29,7 @@ measured alpha centroid on the score's `x` (`x_screen ≈ 985 − 205·(x − 0.
 - **Watch:** f38/f39 as shot (three-quarter, facing the door, face visible), alternating every 7 frames.
 - **Retreat (1.0 s):** the head drops (f39→f42), then the f42–f45 step is played **backwards**, with its phase locked to the distance from the score, so the dog backs away step by step.
 - **Refusal turn (3.42 s):** the source's own 180° turn played in reverse (f38→f36→…→f26→f17→f14→f5→f3→f2). The dog turns through facing the camera to its side, and by 3.71 s (f17) its side and rump are toward the door. It holds f2/f1/f0, the rear three-quarter view with the dark back of the head, from 3.96 s to 7.46 s.
-- **Turn back (7.46 s):** the same source turn played forward (f17→f26→f29→f32…f39). In f29–f36 the source dog's head is already turned right toward the door while its body still faces the camera, so the head leads by evidence, from about 7.58 s, and no head was composited.
+- **Turn back (7.46 s):** the same source turn played forward (f17→f26→f29→f32…f39). In f29–f36 the source dog's head is already turned right toward the door while its body still faces the camera, (superseded in round 1: see below).
 - **Approach (14.71 s):** the head lowers (f39→f42), then f42–f45 (a four-frame step; f42 ≈ f46 by aligned-mask IoU 0.73) is played forward, phase-locked to distance. The source dog was walking to its bowl, so its head is below its back for the whole walk.
 - **Lying (23.79 s):** no frame shows this dog lying. The f04 proposal (level back, mirrored so it faces the door) **sinks whole behind the porch board** as the score's `lie` rises. The camera stands low in the yard, so the board hides everything below the floor line. Once it is down, the lying dog is an assembly: the f04 body, a tail part from f19 (lying back outside the door), and head part proposals substituted at the neck prompt point. These are f40 (level, muzzle forward), f44 (lower) and f47 (nose down). Its front half is past the wall section into the lit room, and the tail is outside.
 - **Looking in (26.4 s):** the head proposal changes from f47 (nose down) to f40 (level, muzzle forward into the lit room) at 26.417 s, and settles back to f47 at about 28.3 s.
@@ -76,3 +76,12 @@ step. The lying body is a straight-backed torso whose lower half is hidden. The 
 score's ear/tail/wag and lying-during-refusal are not performed (no evidence). The voice is a synthetic flite voice.
 Not done: no new segmentation model was run here (no GPU/network). The proposals are the precomputed SAM 2.1 masks,
 re-adjudicated. The operator page, the separate critic agent and branch forks of the SCION prompt were not run. No human has watched the film.
+
+## Round 1 repairs (critic: DOES NOT PASS, reviews/round1.md)
+
+- **Looking in:** restaged. From 26.417 s the lying body takes the f01 head, mirrored. That is the rear three-quarter head with the dark back of the skull and ears toward the viewer, and the back of the head has evidence in f0–f2. It is set 20 source px lower because f1's neck is raised. The sitter moved right and the low hand withdraws by 25.8 s, so the head points into the lit room above her, not onto her lap.
+- **Turn back at 7.46:** the f01 refusal body is held while the head parts f33 and then f36 (both pointing toward the door) take its neck point for 6 frames, a composite of real heads. The body changes view at 7.71 through f36, f38 and f39. The lumpy f17/f26 frames are gone. This replaces my earlier claim that the forward source turn led with the head: the critic saw the whole dog swap view at once.
+- **Refusal turn:** f17, f16 and f14 are removed (f26 → f5 → f3 → f2), so every frame from 3.72 to 3.93 is legible.
+- **Walk loop:** f42 (garbled head) is removed everywhere; the step is f43–f45.
+- **Seams and tint:** part boundaries are feathered (2 px at source scale), and the lying warm tint ramps with the drop.
+- Measured onsets now: 0.875, 2.417, 3.417, 7.458 (first head-part change), 14.625, 23.708, look in 26.417.

@@ -45,31 +45,48 @@ def title():
     return card(lines, specimen_q=(sh, Q))
 
 
-END = [
-    'What this is made of',
-    '',
-    'A two-colour risograph print made in code: a blue plate and an orange plate,',
-    'screened into dots, on cream stock. No photographs, no footage, no recordings.',
-    '',
-    'The dog is thirteen view prints (profile, three-quarter, rear, lying), each bent',
-    'every frame by moving-least-squares handles: a rigid skull, similarity legs and',
-    'tail, an affine coat and neck. Its views change behind a swing of the body.',
-    'Where the warp strains the print the dots stretch; that is left in, and the',
-    'largest strain per family is printed at the foot of every frame.',
-    '',
-    'The person is printed and bent the same way. The porch is screened in place.',
-    'Sound: synthesised here: a formant voice, nails on boards, a door, crickets.',
-]
+def end_lines():
+    import json
+    from dogprint import PRINTS
+    words = {13: 'thirteen', 15: 'fifteen', 17: 'seventeen', 19: 'nineteen'}
+    n = words.get(len(PRINTS), str(len(PRINTS)))
+    L = [
+        'What this is made of',
+        '',
+        'A two-colour risograph print made in code: a blue plate and an orange plate,',
+        'screened into dots, on cream stock. No photographs, no footage, no recordings.',
+        '',
+        'The dog is %s view prints (profile, three-quarter, rear, lying), each bent' % n,
+        'every frame by moving-least-squares handles: a rigid skull, similarity legs,',
+        'neck and tail, an affine coat. Its views change behind a swing of the body.',
+        'Where the warp strains the print, the dots stretch; that is left in.',
+    ]
+    p = os.path.join(os.path.dirname(CACHE), '..', 'trace.json')
+    if os.path.exists(p):
+        d = json.load(open(p))['summary']['distortion_by_family']
+        g = sum(v.get('fold_guard_layer_frames', 0) for v in d.values())
+        L += ['',
+              'Measured dot stretch, largest per layer (median / 95th percentile over the film):',
+              'coat %.2f / %.2f   legs, neck, tail %.2f / %.2f   skull and ears %.2f / %.2f.' % (
+                  d['affine']['aniso_max_median'], d['affine']['aniso_max_p95'], d['similarity']['aniso_max_median'],
+                  d['similarity']['aniso_max_p95'], d['rigid']['aniso_max_median'], d['rigid']['aniso_max_p95']),
+              'The skull is a rigid fit: in a fast view swing its handles change shape and it stretches',
+              'up to %.1f. No folded cells; %d layer-frames (mostly the neck) fell back to a two-handle fit.' % (d['rigid']['aniso_max_max'], g)]
+    L += ['', 'The person is printed and bent the same way. The porch is screened in place.',
+          'Sound: synthesised here: a formant voice, nails on boards, a door, crickets.']
+    return L
 
 
 def end():
-    f1 = ImageFont.truetype(SERIF, 40); f2 = ImageFont.truetype(SERIF_R, 25)
+    f1 = ImageFont.truetype(SERIF, 38); f2 = ImageFont.truetype(SERIF_R, 22)
+
+    END = end_lines()
 
     def lines(d, ox, oy):
-        y = 92
+        y = 60
         for k, s in enumerate(END):
             d.text((92 + ox, y + oy), s, font=f1 if k == 0 else f2, fill=255)
-            y += 52 if k == 0 else 34
+            y += 48 if k == 0 else 29
     return card(lines)
 
 

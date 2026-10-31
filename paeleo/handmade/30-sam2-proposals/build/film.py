@@ -144,6 +144,9 @@ def measure_onsets(fr):
         i0 = int(round(c * FPS)); lo, hi = i0 - 12, i0 + 13
         if nm == 'watch' and c < 3:
             k = first(lambda i: departs(i, 12), lo, hi); sig = 'leaves the backing gait: head comes up (IoU below the gait minimum of the half second before)'
+        elif nm == 'watch':
+            k = first(lambda i: any(p.get('part') == 'head' for p in fr[i]['proposals']) and iou[i] < .97, lo, hi)
+            sig = 'first rendered frame where a head part pointing at the door replaces the held head (silhouette change, body held)'
         elif nm == 'lie_down':
             k = first(lambda i: all(y0[j + 1] >= y0[j] for j in range(i, i + 6)) and y0[i + 6] - y0[i] >= 6, lo, hi)
             sig = 'body top starts a sustained lowering (>= 6 px over 6 frames)'

@@ -1,0 +1,812 @@
+{
+ "1_retreat_planted_paws": {
+  "max_paw_x_range_while_planted_px": {
+   "fore": 3.28,
+   "hind": 1.28
+  },
+  "plants": [
+   {
+    "leg": "fore",
+    "plant": 0,
+    "frames": [
+     28,
+     29
+    ],
+    "n": 2,
+    "paw_x_range_px": 0.64
+   },
+   {
+    "leg": "fore",
+    "plant": 1,
+    "frames": [
+     31,
+     33
+    ],
+    "n": 3,
+    "paw_x_range_px": 2.72
+   },
+   {
+    "leg": "fore",
+    "plant": 2,
+    "frames": [
+     35,
+     38
+    ],
+    "n": 4,
+    "paw_x_range_px": 2.41
+   },
+   {
+    "leg": "fore",
+    "plant": 3,
+    "frames": [
+     41,
+     45
+    ],
+    "n": 5,
+    "paw_x_range_px": 3.28
+   },
+   {
+    "leg": "fore",
+    "plant": 4,
+    "frames": [
+     50,
+     55
+    ],
+    "n": 6,
+    "paw_x_range_px": 0.9
+   },
+   {
+    "leg": "hind",
+    "plant": 0,
+    "frames": [
+     28,
+     31
+    ],
+    "n": 4,
+    "paw_x_range_px": 0.83
+   },
+   {
+    "leg": "hind",
+    "plant": 1,
+    "frames": [
+     33,
+     35
+    ],
+    "n": 3,
+    "paw_x_range_px": 0.83
+   },
+   {
+    "leg": "hind",
+    "plant": 2,
+    "frames": [
+     38,
+     42
+    ],
+    "n": 5,
+    "paw_x_range_px": 0.69
+   },
+   {
+    "leg": "hind",
+    "plant": 3,
+    "frames": [
+     45,
+     53
+    ],
+    "n": 9,
+    "paw_x_range_px": 1.28
+   }
+  ],
+  "body_travel_px": 203.2,
+  "method": "film mask = |film - no-dog plate| > 22/255; paw x = mean column of the lowest 4 mask rows within +-16 px of the render trace paw, rows GY-10..GY+4 (fore), GY-30..GY+4 (hind)"
+ },
+ "5_head_jumps_film": {
+  "0.83-2.54s": {
+   "max_jump_px": 21.7,
+   "at_frame": 58,
+   "at_s": 2.417,
+   "per_frame": {
+    "21": 0.1,
+    "22": 0.1,
+    "23": 0.1,
+    "24": 17.0,
+    "25": 18.1,
+    "26": 21.6,
+    "27": 20.9,
+    "28": 12.3,
+    "29": 5.1,
+    "30": 0.8,
+    "31": 6.1,
+    "32": 12.9,
+    "33": 16.3,
+    "34": 18.3,
+    "35": 17.1,
+    "36": 9.2,
+    "37": 6.9,
+    "38": 6.0,
+    "39": 5.3,
+    "40": 5.9,
+    "41": 6.0,
+    "42": 6.0,
+    "43": 6.1,
+    "44": 6.2,
+    "45": 5.9,
+    "46": 6.2,
+    "47": 4.7,
+    "48": 4.8,
+    "49": 5.9,
+    "50": 6.6,
+    "51": 7.9,
+    "52": 8.0,
+    "53": 8.8,
+    "54": 11.3,
+    "55": 14.0,
+    "56": 16.2,
+    "57": 21.1,
+    "58": 21.7,
+    "59": 18.4,
+    "60": 0.2
+   }
+  },
+  "23.58-25.0s": {
+   "max_jump_px": 8.2,
+   "at_frame": 580,
+   "at_s": 24.167,
+   "per_frame": {
+    "567": 0.4,
+    "568": 0.7,
+    "569": 0.8,
+    "570": 1.0,
+    "571": 0.7,
+    "572": 2.3,
+    "573": 1.9,
+    "574": 2.6,
+    "575": 1.6,
+    "576": 3.0,
+    "577": 0.5,
+    "578": 4.2,
+    "579": 7.1,
+    "580": 8.2,
+    "581": 6.6,
+    "582": 5.5,
+    "583": 6.7,
+    "584": 5.9,
+    "585": 5.4,
+    "586": 6.2,
+    "587": 4.4,
+    "588": 0.9,
+    "589": 0.4,
+    "590": 2.1,
+    "591": 0.0,
+    "592": 1.9,
+    "593": 2.1,
+    "594": 2.1,
+    "595": 1.9,
+    "596": 0.4,
+    "597": 0.3,
+    "598": 0.8,
+    "599": 0.2,
+    "600": 1.9
+   }
+  }
+ },
+ "5_head_jumps_render_all_frames": {
+  "over_30px": [
+   [
+    63.3,
+    83,
+    3.458
+   ],
+   [
+    67.3,
+    89,
+    3.708
+   ],
+   [
+    76.4,
+    93,
+    3.875
+   ],
+   [
+    184.9,
+    179,
+    7.458
+   ],
+   [
+    47.3,
+    193,
+    8.042
+   ],
+   [
+    61.7,
+    201,
+    8.375
+   ],
+   [
+    61.7,
+    223,
+    9.292
+   ],
+   [
+    61.7,
+    244,
+    10.167
+   ],
+   [
+    61.7,
+    287,
+    11.958
+   ],
+   [
+    61.7,
+    309,
+    12.875
+   ]
+  ]
+ },
+ "3_fragments_9.0-10.2s": {
+  "frames": 30,
+  "pieces_ge4px_size_and_gap_px": [
+   [
+    225,
+    [
+     [
+      6,
+      2
+     ]
+    ]
+   ],
+   [
+    227,
+    [
+     [
+      6,
+      2
+     ]
+    ]
+   ],
+   [
+    229,
+    [
+     [
+      4,
+      5
+     ]
+    ]
+   ],
+   [
+    231,
+    [
+     [
+      7,
+      2
+     ]
+    ]
+   ],
+   [
+    239,
+    [
+     [
+      4,
+      4
+     ]
+    ]
+   ]
+  ],
+  "max_gap_px": 5,
+  "method": "4-connected pieces of the film mask where the backdrop is sky (plate luminance > 0.3); the dog is the largest; gap = px between a piece and the dog body (99 = more than 12 px)"
+ },
+ "4_rim_lower_doorway_26.5-28.3s": {
+  "edge_px_total": 5440,
+  "rim_px_total": 23,
+  "max_rim_share": 0.03,
+  "mean_edge_minus_brighter_side": -0.0303,
+  "per_frame": [
+   [
+    636,
+    135,
+    4,
+    0.03,
+    -0.027
+   ],
+   [
+    637,
+    146,
+    0,
+    0.0,
+    -0.0309
+   ],
+   [
+    638,
+    128,
+    0,
+    0.0,
+    -0.0313
+   ],
+   [
+    639,
+    125,
+    0,
+    0.0,
+    -0.0281
+   ],
+   [
+    640,
+    129,
+    3,
+    0.023,
+    -0.0313
+   ],
+   [
+    641,
+    139,
+    0,
+    0.0,
+    -0.027
+   ],
+   [
+    642,
+    134,
+    0,
+    0.0,
+    -0.0296
+   ],
+   [
+    643,
+    128,
+    2,
+    0.016,
+    -0.0324
+   ],
+   [
+    644,
+    125,
+    2,
+    0.016,
+    -0.03
+   ],
+   [
+    645,
+    127,
+    1,
+    0.008,
+    -0.0275
+   ],
+   [
+    646,
+    131,
+    1,
+    0.008,
+    -0.0305
+   ],
+   [
+    647,
+    141,
+    0,
+    0.0,
+    -0.0302
+   ],
+   [
+    648,
+    132,
+    0,
+    0.0,
+    -0.0294
+   ],
+   [
+    649,
+    127,
+    1,
+    0.008,
+    -0.0278
+   ],
+   [
+    650,
+    141,
+    0,
+    0.0,
+    -0.0298
+   ],
+   [
+    651,
+    125,
+    0,
+    0.0,
+    -0.0311
+   ],
+   [
+    652,
+    121,
+    0,
+    0.0,
+    -0.0316
+   ],
+   [
+    653,
+    113,
+    0,
+    0.0,
+    -0.0302
+   ],
+   [
+    654,
+    125,
+    1,
+    0.008,
+    -0.029
+   ],
+   [
+    655,
+    127,
+    0,
+    0.0,
+    -0.0296
+   ],
+   [
+    656,
+    119,
+    2,
+    0.017,
+    -0.0251
+   ],
+   [
+    657,
+    119,
+    3,
+    0.025,
+    -0.0286
+   ],
+   [
+    658,
+    124,
+    0,
+    0.0,
+    -0.0305
+   ],
+   [
+    659,
+    107,
+    0,
+    0.0,
+    -0.031
+   ],
+   [
+    660,
+    108,
+    0,
+    0.0,
+    -0.0286
+   ],
+   [
+    661,
+    107,
+    0,
+    0.0,
+    -0.0311
+   ],
+   [
+    662,
+    115,
+    0,
+    0.0,
+    -0.0311
+   ],
+   [
+    663,
+    121,
+    2,
+    0.017,
+    -0.0294
+   ],
+   [
+    664,
+    129,
+    0,
+    0.0,
+    -0.029
+   ],
+   [
+    665,
+    101,
+    0,
+    0.0,
+    -0.0315
+   ],
+   [
+    666,
+    125,
+    0,
+    0.0,
+    -0.0282
+   ],
+   [
+    667,
+    123,
+    0,
+    0.0,
+    -0.0311
+   ],
+   [
+    668,
+    116,
+    0,
+    0.0,
+    -0.0331
+   ],
+   [
+    669,
+    116,
+    0,
+    0.0,
+    -0.0297
+   ],
+   [
+    670,
+    122,
+    0,
+    0.0,
+    -0.0298
+   ],
+   [
+    671,
+    108,
+    0,
+    0.0,
+    -0.0314
+   ],
+   [
+    672,
+    116,
+    0,
+    0.0,
+    -0.032
+   ],
+   [
+    673,
+    129,
+    0,
+    0.0,
+    -0.0332
+   ],
+   [
+    674,
+    139,
+    1,
+    0.007,
+    -0.0288
+   ],
+   [
+    675,
+    125,
+    0,
+    0.0,
+    -0.0283
+   ],
+   [
+    676,
+    126,
+    0,
+    0.0,
+    -0.0316
+   ],
+   [
+    677,
+    113,
+    0,
+    0.0,
+    -0.0295
+   ],
+   [
+    678,
+    111,
+    0,
+    0.0,
+    -0.0325
+   ],
+   [
+    679,
+    122,
+    0,
+    0.0,
+    -0.0428
+   ]
+  ],
+  "method": "edge = outermost 1-2 px of the film mask inside x245-415 y542-584; rim = edge luminance > max(fur 5 px in, plate backdrop outside) + 0.03"
+ },
+ "4_ear_tip_specks": {
+  "frames_with_specks": [],
+  "max_px": 0
+ },
+ "r4_1_siding_through_dog_22.2-23.8s": {
+  "max_transfer_body": -1.787,
+  "mean_transfer_body": -2.027,
+  "max_transfer_legs": null,
+  "mean_transfer_legs": null,
+  "implied_min_alpha_legs": null,
+  "per_frame_body": [
+   [
+    533,
+    -1.787,
+    801
+   ],
+   [
+    535,
+    -2.306,
+    782
+   ],
+   [
+    536,
+    -2.217,
+    719
+   ],
+   [
+    538,
+    -1.798,
+    775
+   ]
+  ],
+  "per_frame_legs": [],
+  "method": "inside the film mask (eroded 2 px) over the siding: (neighbour rows - line rows) luminance in the film / the same in the no-dog plate; ~ 1 - alpha. legs = rows 540-583"
+ },
+ "r4_2_look_back_7.38-7.79s": {
+  "max_step_render_px": 34.3,
+  "max_step_film_px": 34.7,
+  "frames_head_moving": [
+   179,
+   180,
+   181,
+   182,
+   183,
+   185,
+   186,
+   187
+  ],
+  "steps_render": {
+   "178": 1.0,
+   "179": 34.3,
+   "180": 27.2,
+   "181": 17.6,
+   "182": 5.2,
+   "183": 27.1,
+   "184": 0.9,
+   "185": 5.6,
+   "186": 8.9,
+   "187": 10.6
+  },
+  "steps_film": {
+   "178": 1.2,
+   "179": 34.7,
+   "180": 28.4,
+   "181": 13.0,
+   "182": 4.2,
+   "183": 24.6,
+   "184": 1.2,
+   "185": 6.5,
+   "186": 8.3,
+   "187": 10.0
+  },
+  "bridge": [
+   null,
+   null,
+   [
+    "away",
+    8,
+    0
+   ],
+   [
+    31,
+    12,
+    10
+   ],
+   [
+    28,
+    15,
+    0
+   ],
+   [
+    14,
+    27,
+    -12
+   ],
+   null,
+   null,
+   null,
+   null,
+   null
+  ],
+  "method": "render: alpha centroid of the head piece on screen; film: centroid of the film mask inside that piece box grown 6 px"
+ },
+ "r4_5_approach_feet": {
+  "held_drawing_changes_during_approach": 0,
+  "max_paw_x_range_while_planted_px": {
+   "fore": 6.01,
+   "hind": 2.58
+  },
+  "max_paw_move_one_frame_px": {
+   "fore": 20.38,
+   "hind": 17.5
+  },
+  "plants": 32,
+  "worst_plants": [
+   {
+    "leg": "fore",
+    "plant": 0,
+    "frames": [
+     357,
+     366
+    ],
+    "n": 10,
+    "paw_x_range_px": 6.01
+   },
+   {
+    "leg": "fore",
+    "plant": -1,
+    "frames": [
+     373,
+     384
+    ],
+    "n": 12,
+    "paw_x_range_px": 3.86
+   },
+   {
+    "leg": "fore",
+    "plant": -2,
+    "frames": [
+     390,
+     400
+    ],
+    "n": 11,
+    "paw_x_range_px": 2.79
+   },
+   {
+    "leg": "fore",
+    "plant": -3,
+    "frames": [
+     405,
+     415
+    ],
+    "n": 11,
+    "paw_x_range_px": 2.7
+   }
+  ],
+  "method": "as the retreat; one-frame move = largest |paw x(i) - paw x(i-1)| of either pair, planted or swinging"
+ },
+ "2_sound_from_film": {
+  "voice": {
+   "call_1": {
+    "onset_scene_s": 0.63,
+    "rms_dBFS": -23.43
+   },
+   "call_2": {
+    "onset_scene_s": 2.95,
+    "rms_dBFS": -23.3
+   },
+   "call_1b": {
+    "onset_scene_s": 1.6,
+    "rms_dBFS": -23.97
+   },
+   "soft_1": {
+    "onset_scene_s": 7.11,
+    "rms_dBFS": -35.4
+   },
+   "soft_2": {
+    "onset_scene_s": 10.43,
+    "rms_dBFS": -35.42
+   },
+   "come_in": {
+    "onset_scene_s": 25.9,
+    "rms_dBFS": -33.93
+   }
+  },
+  "reactions": {
+   "retreat_motion_starts": 1.2917,
+   "turn_choice": 3.417,
+   "turn_away_first_new_frame": 3.4583,
+   "look_back": 7.4583
+  },
+  "call_1_lead_s": 0.66,
+  "call_2_lead_before_turn_3417_s": 0.47,
+  "quietest_call_minus_loudest_soft_dB": 9.96,
+  "soft_1_lead_before_look_back_7458_s": 0.35,
+  "method": "voice band 150-1600 Hz, 10 ms RMS; onset = first window 12 dB over the 3.1-3.6 s film-time floor"
+ }
+}
