@@ -1,0 +1,38 @@
+{
+ "voices": [
+  {
+   "kind": "call",
+   "t_start": 0.95,
+   "dur": 0.72,
+   "rms_db": -17.55
+  },
+  {
+   "kind": "call",
+   "t_start": 3.36,
+   "dur": 0.72,
+   "rms_db": -15.68
+  },
+  {
+   "kind": "soft",
+   "t_start": 7.36,
+   "dur": 0.988,
+   "rms_db": -29.51
+  },
+  {
+   "kind": "soft",
+   "t_start": 10.36,
+   "dur": 1.012,
+   "rms_db": -29.69
+  },
+  {
+   "kind": "soft",
+   "t_start": 26.36,
+   "dur": 0.718,
+   "rms_db": -27.22
+  }
+ ],
+ "room_tone_rms_db": -60.69,
+ "quietest_call_minus_loudest_soft_db": 9.67,
+ "softest_voice_minus_room_db": 31.0,
+ "note": "rms of each utterance alone; room = 13-14 s of the scene mix without voice"
+}

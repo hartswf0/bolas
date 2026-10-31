@@ -1,0 +1,84 @@
+{
+ "onsets": [
+  {
+   "score_t": 1,
+   "to": "retreat",
+   "measured_t": 1.0,
+   "dt": 0.0
+  },
+  {
+   "score_t": 2.333,
+   "to": "watch",
+   "measured_t": 2.333,
+   "dt": 0.0
+  },
+  {
+   "score_t": 3.417,
+   "to": "refuse",
+   "measured_t": 3.458,
+   "dt": 0.041
+  },
+  {
+   "score_t": 7.458,
+   "to": "watch",
+   "measured_t": 7.458,
+   "dt": 0.0
+  },
+  {
+   "score_t": 14.708,
+   "to": "approach",
+   "measured_t": 14.708,
+   "dt": 0.0
+  },
+  {
+   "score_t": 23.792,
+   "to": "lie_down",
+   "measured_t": 23.833,
+   "dt": 0.041
+  },
+  {
+   "score_t": 26.4,
+   "to": "looks_in",
+   "measured_t": 26.583,
+   "dt": 0.183
+  }
+ ],
+ "raw": [
+  {
+   "t": 1.0,
+   "i": 24,
+   "frm": "watch",
+   "to": "retreat"
+  },
+  {
+   "t": 2.333,
+   "i": 56,
+   "frm": "retreat",
+   "to": "watch"
+  },
+  {
+   "t": 3.458,
+   "i": 83,
+   "frm": "watch",
+   "to": "refuse"
+  },
+  {
+   "t": 7.458,
+   "i": 179,
+   "frm": "refuse",
+   "to": "watch"
+  },
+  {
+   "t": 14.708,
+   "i": 353,
+   "frm": "watch",
+   "to": "approach"
+  },
+  {
+   "t": 23.833,
+   "i": 572,
+   "frm": "approach",
+   "to": "lie_down"
+  }
+ ]
+}

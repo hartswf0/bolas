@@ -1,0 +1,58 @@
+{
+ "calibration_err_px": {
+  "mean": 0.32655941530388416,
+  "max": 0.7291037961521727
+ },
+ "pieces": {
+  "dog.body": {
+   "frames": 768,
+   "card_id_correct": 1.0,
+   "pos_err_px_mean": 0.304,
+   "pos_err_px_p95": 0.451,
+   "pos_err_px_max": 0.514,
+   "angle_err_deg_mean": 0.0,
+   "angle_err_deg_max": 0.0
+  },
+  "dog.head": {
+   "frames": 768,
+   "card_id_correct": 1.0,
+   "pos_err_px_mean": 0.473,
+   "pos_err_px_p95": 0.502,
+   "pos_err_px_max": 18.959,
+   "angle_err_deg_mean": 0.152,
+   "angle_err_deg_max": 9.305
+  },
+  "person": {
+   "frames": 768,
+   "card_id_correct": 1.0,
+   "pos_err_px_mean": 0.209,
+   "pos_err_px_p95": 0.222,
+   "pos_err_px_max": 0.276,
+   "angle_err_deg_mean": 0.0,
+   "angle_err_deg_max": 0.0
+  },
+  "door": {
+   "frames": 768,
+   "card_id_correct": 1.0,
+   "pos_err_px_mean": 0.702,
+   "pos_err_px_p95": 4.617,
+   "pos_err_px_max": 13.08,
+   "angle_err_deg_mean": 0.0,
+   "angle_err_deg_max": 0.0
+  },
+  "light": {
+   "frames": 768,
+   "card_id_correct": 1.0,
+   "pos_err_px_mean": 0.433,
+   "pos_err_px_p95": 0.282,
+   "pos_err_px_max": 24.506,
+   "angle_err_deg_mean": 0.0,
+   "angle_err_deg_max": 0.0
+  }
+ },
+ "hand_matte_iou": {
+  "frames": 158,
+  "mean": 0.725,
+  "p10": 0.612
+ }
+}
