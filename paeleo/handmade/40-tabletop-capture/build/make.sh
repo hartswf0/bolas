@@ -13,3 +13,4 @@ python3 render.py         # replay with skins from recovered data, trace.json, o
 python3 sound.py          # voice + paper foley driven by the recovered events
 python3 titles.py         # title and end cards
 sh assemble.sh            # encode film.mp4, stills, clean frames
+python3 assets.py         # assets.json

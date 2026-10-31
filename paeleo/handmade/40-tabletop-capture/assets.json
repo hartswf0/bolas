@@ -1,0 +1,137 @@
+{
+ "about": "SCION 40 \u00b7 Physical Tabletop Capture: every asset in film.mp4. Nothing from the web; no generated images from models; no faces.",
+ "assets": [
+  {
+   "id": "archive-hands",
+   "what": "the performers' hands in the capture plate (inset and title card only; never in the replayed scene)",
+   "source": "/home/user/hartswf0/secondhand-motion/shots/hand-sam/frames f000-f061 + masks.json",
+   "source_title": "Door to Heaven, The (1941)",
+   "archive_url": "https://archive.org/details/DoortoHe1941",
+   "clip_page": "https://www.movingimagearchive.com/sources/door-to-heaven-the?clip=0870ef3a-b328-5284-890b-3e1ac18057c1",
+   "rights": "public domain (public_domain, kit found-frames.json)",
+   "operation": "SAM 2.1 hand mask per frame; forearm traced column by column as the bright run continuous with the wrist; arm extended beyond the frame edge by repeating its last columns along its slope; tinted warm; scaled 1.5x, rotated and placed with fingertips on each puppet tab (build/hands.py, build/plate.py); mirrored for the two left hands"
+  },
+  {
+   "id": "dog-body-cards",
+   "what": "37 paper body cards of the dog (stand, 8 walk-low, 8 back-away crouched, 8 upright steps, 3+3 turn views, settle and lie, facing both ways)",
+   "cards": [
+    "b_walk_0",
+    "b_walk_1",
+    "b_walk_2",
+    "b_walk_3",
+    "b_walk_4",
+    "b_walk_5",
+    "b_walk_6",
+    "b_walk_7",
+    "b_step_0",
+    "b_step_1",
+    "b_step_2",
+    "b_step_3",
+    "b_step_4",
+    "b_step_5",
+    "b_step_6",
+    "b_step_7",
+    "b_back_0",
+    "b_back_1",
+    "b_back_2",
+    "b_back_3",
+    "b_back_4",
+    "b_back_5",
+    "b_back_6",
+    "b_back_7",
+    "b_stand_L",
+    "b_crouch_L",
+    "b_turn45",
+    "b_turn90",
+    "b_turn135",
+    "b_stand_R",
+    "b_settle_R",
+    "b_lie_R",
+    "b_turn225",
+    "b_turn270",
+    "b_turn315",
+    "b_settle_L",
+    "b_lie_L"
+   ],
+   "source": "drawn here (build/cards.py)",
+   "rights": "made for this film (SCION 40); no source material",
+   "operation": "silhouettes drawn from a small geometric guide (ellipsoids and limbs posed per card, orthographic view at a fixed yaw) only to keep the views consistent; each card cut once as flat paper (scissor-wobble edge, grain, marker line); cut twice: plate style (white card + fiducial tab) and skin style (ochre paper, dark saddle)"
+  },
+  {
+   "id": "dog-head-cards",
+   "what": "11 paper head cards (profile both ways, ears up/back/flat, rear and front views, the back-of-head look-in card)",
+   "cards": [
+    "h_L",
+    "h_L_low",
+    "h_L_flat",
+    "h_45",
+    "h_90",
+    "h_135",
+    "h_R",
+    "h_225",
+    "h_270",
+    "h_315",
+    "h_in"
+   ],
+   "source": "drawn here (build/cards.py)",
+   "rights": "made for this film",
+   "operation": "as the body cards; pinned at the neck by the contact constraint in the replay"
+  },
+  {
+   "id": "person-cards",
+   "what": "7 paper cards of the person (stand, call, reach, step, going down, sit, sit with a low hand)",
+   "source": "drawn here (build/cards.py)",
+   "rights": "made for this film",
+   "operation": "capsule shapes cut as paper; drawn face, not a real person"
+  },
+  {
+   "id": "door-and-light",
+   "what": "3 door-leaf cards (ajar, mid, open) and a yellow tissue light piece",
+   "source": "drawn here",
+   "rights": "made for this film",
+   "operation": "cut paper; the light is slid out through the doorway by a hand; the room's lit/dark mix follows that recovered slide"
+  },
+  {
+   "id": "layout-sheet",
+   "what": "the layout sheet on the table: pencil floor line, wall, doorway, metre ruler, 4 corner fiducials",
+   "source": "drawn here (build/set.py)",
+   "rights": "made for this film",
+   "operation": "drawn; synthesized onto a procedural wood table under a synthesized overhead camera (homography, lamp falloff, blur, noise, JPEG)"
+  },
+  {
+   "id": "finished-set",
+   "what": "torn-paper dusk sky, moon, hills, fence, porch boards and steps, cut-away house and room (lamp, table, picture), dark and lit versions",
+   "source": "drawn here (build/set.py)",
+   "rights": "made for this film",
+   "operation": "procedural torn and cut paper with grain and lifted shadows"
+  },
+  {
+   "id": "fiducials",
+   "what": "8-bit-id square markers (7 id bits, complement, parity, orientation cells)",
+   "source": "designed here (build/common.py)",
+   "rights": "made for this film",
+   "operation": "printed on each plate card tab and the sheet corners; decoded by build/track.py"
+  },
+  {
+   "id": "sound",
+   "what": "voice (Come here x2, It's all right x2, Come in), paper foley driven by the recovered event stream, room tone, crickets",
+   "source": "synthesized here (build/sound.py, numpy formant synthesis)",
+   "rights": "made for this film",
+   "operation": "synthesized; no recorded audio used"
+  },
+  {
+   "id": "fonts",
+   "what": "Big Shoulders Display, JetBrains Mono, Literata",
+   "source": "tools/paeleo/fonts",
+   "rights": "SIL Open Font License (repo fonts)",
+   "operation": "title and end cards, inset caption"
+  },
+  {
+   "id": "score",
+   "what": "the dog's decision trace",
+   "source": "paeleo/handmade/score/threshold-score.json",
+   "rights": "PAELEO project",
+   "operation": "read to write the performers' sheet (perform.py) and to check the invariants"
+  }
+ ]
+}

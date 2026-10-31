@@ -143,7 +143,8 @@ def door_leaf():
 def person_stand():
     """person#1: our box+colour proposal on Straight Talk f2, used as a backlit silhouette; the lower legs are not in
     the source frame, so the silhouette fades into the dark of the doorway floor instead of being completed."""
-    m = np.asarray(Image.open(os.path.join(CACHE, 'person_f002.png')), dtype=np.float32) / 255.
+    mi = Image.open(os.path.join(CACHE, 'person_f002.png')).filter(ImageFilter.MaxFilter(5)).filter(ImageFilter.MinFilter(5))
+    m = np.asarray(mi, dtype=np.float32) / 255.      # closing (dilate 5, erode 5) fills the pale hair clip
     ys, xs = np.nonzero(m > .5)
     m = m[ys.min():ys.max() + 1, xs.min():xs.max() + 1]
     h, w = m.shape
@@ -176,17 +177,20 @@ def hand_piece(frame=20, silhouette=False):
     return Image.fromarray(np.dstack([rgb, a[y0:y1, x0:x1] * 255]).astype(np.uint8), 'RGBA')
 
 
-def sitter_piece(frame=25):
-    """sitter#1: SAM proposal on Survival Stresses f25 (a person sitting hunched in a sleeping bag), graded to lamp light"""
+def sitter_piece(frame=36):
+    """sitter#1: SAM proposal on Survival Stresses f36 (a hooded person sitting hunched in a sleeping bag, facing left),
+    graded to lamp light; correction stroke removes the empty bag spread right of x=272 so the figure fits the room"""
     im = src_frame('sitter', frame)
-    a = raster(src_masks('sitter')[str(frame)], im.size)
+    cutr = [(272, 0), (384, 0), (384, 256), (272, 256)]
+    a = raster(src_masks('sitter')[str(frame)], im.size, sub=[cutr])
+    record(piece='sitter', src='sitter', frame=frame, op='sub', polygon=cutr, why='empty sleeping-bag spread; the room is narrow')
     ys, xs = np.nonzero(a > .05)
     x0, y0, x1, y1 = xs.min(), ys.min(), xs.max() + 1, ys.max() + 1
     rgb = np.asarray(im, dtype=np.float32)[y0:y1, x0:x1] / 255.
     g = rgb @ np.array([.299, .587, .114])
-    rgb = np.stack([g * 150 + 18, g * 100 + 12, g * 70 + 10], -1)
+    rgb = np.clip(rgb * np.array([1.05, .86, .66]) * 1.3 * 255, 0, 255)     # colour kept, lamp-warmed
     pim = Image.fromarray(np.dstack([rgb, a[y0:y1, x0:x1] * 255]).astype(np.uint8), 'RGBA')
-    sc = 150. / pim.size[1]
+    sc = 225. / pim.size[1]
     return pim.resize((int(pim.size[0] * sc), int(pim.size[1] * sc)), Image.LANCZOS)
 
 
@@ -201,22 +205,20 @@ for f in range(18, 27): FACING[(f, 0)] = -1        # turning toward camera, head
 for f in range(27, 38): FACING[(f, 0)] = 0         # facing the camera
 for f in range(38, 49): FACING[(f, 0)] = 1         # as shot: facing right (the door)
 
-WATCH = [(3, 1), (4, 1), (3, 1), (4, 1)]
+WATCH = [(38, 0), (39, 0), (38, 0), (39, 0)]
 WALK = [42, 43, 44, 45]                 # as shot, a 4-frame step (42 ~ 46 by aligned mask IoU 0.73)
 STEP_M = 0.066
 LIE_BELLY = {4: 160}
 LEGS = {4: [(0, 160), (384, 160), (384, 288), (0, 288)]}          # correction stroke: legs (no source frame shows them folded)
-TAIL6 = [(211, 138), (254, 138), (254, 184), (211, 184)]         # tail part box on frame 19 (as shot), mirrored on use
+TAIL6 = [(211, 146), (254, 146), (254, 184), (211, 184)]         # tail part box on frame 19 (as shot), mirrored on use
 TAIL6_ROOT = (214, 150)                  # source y of the belly line (correction stroke: everything below is legs)                          # source world travel per source frame (camera pan 8.75 px / 130 px per m)
-REFUSE_TURN = [(44, 0), (42, 0), (40, 0), (38, 0), (36, 0), (33, 0), (30, 0), (28, 0), (26, 0), (26, 0), (17, 0), (17, 0),
-               (16, 0), (14, 0), (5, 0), (3, 0), (2, 0)]
+REFUSE_TURN = [(38, 0), (36, 0), (33, 0), (30, 0), (28, 0), (26, 0), (26, 0), (17, 0), (17, 0), (16, 0), (14, 0), (5, 0), (3, 0), (2, 0)]
 REFUSE_HOLD = [(2, 0), (1, 0), (0, 0), (1, 0)]
-LOOK_BACK = [(17, 0), (17, 0), (26, 0), (29, 0), (32, 0), (33, 0), (33, 0), (34, 0), (34, 0), (35, 0), (35, 0), (36, 0), (36, 0),
-             (38, 0), (38, 0), (40, 0), (40, 0), (40, 0), (40, 0), (14, 1), (14, 1), (14, 1), (5, 1), (5, 1), (5, 1)]
-CRINGE = [(13, 1), (14, 1), (15, 1), (16, 1), (17, 1)]
-RISE = [(17, 1), (16, 1), (15, 1), (14, 1), (5, 1)]
-HEAD_DOWN = [(5, 1), (14, 1), (16, 1), (17, 1)]
-ARRIVE = [(17, 1), (16, 1), (15, 1), (14, 1), (5, 1), (4, 1)]
+LOOK_BACK = [(17, 0), (17, 0), (26, 0), (29, 0), (32, 0), (33, 0), (33, 0), (34, 0), (34, 0), (35, 0), (35, 0), (36, 0), (36, 0), (38, 0), (38, 0), (39, 0), (39, 0)]
+CRINGE = [(39, 0), (40, 0), (41, 0), (42, 0)]
+RISE = [(42, 0), (41, 0), (40, 0), (39, 0)]
+HEAD_DOWN = [(39, 0), (40, 0), (41, 0), (42, 0)]
+ARRIVE = [(44, 0), (43, 0), (42, 0), (41, 0), (40, 0), (39, 0)]
 
 CH = [c['t'] for c in SCORE['choices']]
 I_RETREAT, I_WATCH1, I_REFUSE, I_WATCH2, I_APPROACH, I_LIE = [round(t * FPS) for t in CH]
@@ -367,7 +369,7 @@ class Scene:
         self.stand = person_stand()
         self.arm = hand_piece(20, silhouette=True)
         self.hand = hand_piece(30, silhouette=False)
-        self.sit = sitter_piece(25)
+        self.sit = sitter_piece(36)
         self.sill = sill_layer()
         self.noise = [rng.normal(0, 1, (H, W, 1)).astype(np.float32) for _ in range(6)]
         yy, xx = np.mgrid[0:H, 0:W]
@@ -393,7 +395,7 @@ class Scene:
             base.alpha_composite(st, (px, py))
         else:
             sp = self.sit
-            base.alpha_composite(sp, (int(1180 - sp.size[0] / 2), int(EDGE - sp.size[1] + 26)))
+            base.alpha_composite(sp, (1012, int(EDGE - sp.size[1] + 20)))
         # the low hand, offered from 6.8
         if t >= 6.8:
             e = smooth((t - 6.8) / .6)
