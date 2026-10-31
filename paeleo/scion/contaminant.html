@@ -43,7 +43,13 @@ pre{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.55;font-size:.84re
 </div>
 
 <section class="panel">
-<h2>The film without words</h2>
+<h2>The film</h2>
+<video controls playsinline preload="metadata" poster="contaminant/cinema/stills/still_24.0s.jpg" src="contaminant/cinema/film.mp4" style="width:100%;border-radius:.5rem;background:#000"></video>
+<p class="note">39 s, sound on. The same seeded run, made as cinema: a camera that follows the jellyfish and holds still to watch it dive; hard cuts to the archive itself, moving where public-domain footage exists (a dog approaching a person, a woman at a door, a person in the snow, a cloud); every censor's bell a flare of the lamp and every cut a nitrate burn with a beat of black; each rescued frame returning as a double exposure with the one before; the reel intercut with the jellyfish warming back to gold as it watches; its afterimage left on black. An original score composed in code follows the run. Built with <code>contaminant/build/make.sh cinema</code>; <a href="contaminant/mood/sources.json" style="color:#a1bedf">archive sources</a>.</p>
+</section>
+
+<section class="panel">
+<h2>The film without words (proof)</h2>
 <video controls playsinline preload="metadata" poster="contaminant/mood/stills/still_16.0s.jpg" src="contaminant/mood/film.mp4" style="width:100%;border-radius:.5rem;background:#000"></video>
 <p class="note">The same run (seed 8) with no text anywhere. Each fragment is a public-domain archive frame (<a href="contaminant/mood/sources.json" style="color:#a1bedf">sources</a>): sepia while the projector runs hot, blue-grey once it cools. A cut burns the frame like nitrate; a seam is a double exposure of its two parents; the reel projects the rescued frames themselves. The last frame the jellyfish touched hangs faint and blurred behind everything. Live: <a href="contaminant.html?mood=1" style="color:#a1bedf">open this page in mood mode</a>.</p>
 </section>
@@ -168,9 +174,9 @@ const MOOD = CINEMA || new URLSearchParams(location.search).has('mood');
 // a source is a still, or a moving sequence of frames [dir, count] played at 12 fps
 const SRC = ['52-gilliam-ephemera/sources/light-bulb_f012.jpg', '52-gilliam-ephemera/sources/hat_f010.jpg', 'kit/archive-door/frames/f031.jpg',
   '03-ernst/src/lion/f022.jpg', 'kit/archive-door/frames/f013.jpg', 'kit/archive-dog/frames/f030.jpg', '52-gilliam-ephemera/sources/yoga_f024.jpg',
-  '54-provenance-graph/sources/lantern-sam/f020.jpg', '01-gilliam/sources/butterfly/f060.jpg', '52-gilliam-ephemera/sources/yoga_f000.jpg',
-  ['53-civic-footage/sources/door/frames', 32], ['53-civic-footage/sources/dog/frames', 50], ['53-civic-footage/sources/seated/frames', 50],
-  ['31-alpha-matting/sources/cloud', 62]];
+  '54-provenance-graph/sources/lantern-sam/f020.jpg', '01-gilliam/sources/butterfly/f060.jpg', ['31-alpha-matting/sources/cloud', 62],
+  ['53-civic-footage/sources/door/frames', 20], ['53-civic-footage/sources/dog/frames', 50], ['53-civic-footage/sources/seated/frames', 50],
+  '52-gilliam-ephemera/sources/yoga_f000.jpg'];
 const PICS = SRC.map(sv => {
   const paths = typeof sv === 'string' ? [sv] : Array.from({length: sv[1]}, (_, i) => `${sv[0]}/f${String(i).padStart(3, '0')}.jpg`);
   return paths.map(p => { const im = new Image(); if (MOOD) im.src = '../handmade/' + p; return im; });
@@ -182,7 +188,9 @@ function picAt(k, t) {
   const n = fr.length, i = Math.floor(Math.max(0, t) * 12 + k * 5) % (2 * n - 2);
   return fr[i < n ? i : 2 * n - 2 - i];
 }
-const RENDER = new URLSearchParams(location.search).has('render'), FW = 1280, FH = 720, SWITCH = 12, REEL0 = 26.5, REEL1 = 38.2;
+const RENDER = new URLSearchParams(location.search).has('render'), FW = 1280, FH = 720, SWITCH = 12;
+// the reel's window; the cinema cut starts it as soon as the last cut is rescued
+let REEL0 = 26.5, REEL1 = 38.2, reelCued = false;
 const $ = id => document.getElementById(id);
 const cv = $('cv'), ctx = cv.getContext('2d');
 const SANS = '11.5px "Helvetica Neue", Arial, sans-serif', HAND = 'italic 12px Georgia, "Times New Roman", serif';
@@ -230,7 +238,7 @@ let running = true, contamOn = false, speedK = 1, visible = true, last = perform
 // (low definition, gaps the viewer completes, cuts rescued, speculations touching). reel: the Paradiso reel of returned cuts.
 let heat = 1, heatTarget = 1, auto = true, reel = null, reelIdx = -1, focusId = null, focusSlot = 0, filmT = -1;
 // cinema state: the camera, the inserts cued by events, how much heat the reel has given back, the coda's afterimage
-let cam = null, inserts = [], bellN = 0, reelGlow = 0, afterimg = null;
+let cam = null, inserts = [], bellN = 0, reelGlow = 0, afterimg = null, lastRescue = null, travel = 0, ended = false;
 
 // seeded PRNG (mulberry32) so every reload of the same seed plays the same run
 function rand() {
@@ -394,22 +402,25 @@ function step(dt) {
     let best = pick[0], bd = 1e9;
     for (const f of pick) { const d = Math.hypot(f.x - J.x, f.y - J.y); if (d < bd) { bd = d; best = f; } }
     // cuts in the tank and low fragments are approached from above, so the tentacles (and the card they lift) stay in frame
+    J.dive = !!best.cut;
     if (best.cut || best.y > 420) { J.tx = Math.max(150, Math.min(W - 150, best.x)); J.ty = best.y - 110; if (bd < 125) grab(best); }
     else { J.tx = best.x - 70; J.ty = best.y; if (bd < 110) grab(best); }
   } else if (J.carry.length) {
+    J.dive = false;
     const R = RINGS[0]; J.tx = R.x - R.r - 70; J.ty = R.y;
     if (Math.hypot(J.x - R.x, J.y - R.y) < R.r + 90) release();
   } else { J.tx = 230; J.ty = 330; }
   // a new aim: hold and turn toward it before going; then each stroke pushes it on; the bell makes it recoil
   const key = Math.round(J.tx / 40) + ':' + Math.round(J.ty / 40);
   if (key !== J.key && Math.hypot(J.tx - J.x, J.ty - J.y) > 60) { J.key = key; J.antic = .4; }
-  if (RENDER && CINEMA && filmT > REEL1 - .5) { J.tx = RINGS[0].x - 30; J.ty = RINGS[0].y + 70; if (filmT > REEL1) heatTarget = .45; }  // the coda: into the light
+  if (RENDER && CINEMA && simT > REEL1 - .5) { J.tx = RINGS[0].x - 30; J.ty = RINGS[0].y + 70; if (simT > REEL1) heatTarget = .45; }  // the coda: into the light
   else if (RENDER && filmT > REEL1 - 3) { J.tx = 230; J.ty = 250; }
   J.antic = Math.max(0, J.antic - dt);
   const dx = J.tx - J.x, dy = J.ty - J.y, dist = Math.hypot(dx, dy);
   const aim = dist > 20 ? Math.max(-.55, Math.min(.55, Math.atan2(dx, -dy) * .5)) : 0;
   J.tilt += (aim - J.tilt) * Math.min(1, dt * 4);
-  const fl = flinchAt(simT), push = J.antic > 0 ? 0 : (.35 + 1.8 * stroke(simT)) * (1 - fl);
+  const fl = flinchAt(simT), push = J.antic > 0 ? 0 : (.35 + 1.8 * stroke(simT)) * (1 - fl) * (CINEMA && simT > SWITCH ? 2.3 : 1);  // cool: it dives with purpose
+  if (RENDER && CINEMA && !reelCued && stats.cuts && stats.rescued === stats.cuts && simT > SWITCH) { reelCued = true; REEL0 = Math.min(REEL0, simT + 2.2); REEL1 = REEL0 + 11.7; }
   J.x += dx * Math.min(1, dt * 1.1 * push) - fl * dt * 110; J.y -= fl * dt * 60; J.y += dy * Math.min(1, dt * 1.1 * push);
   const near = free.length ? pick.reduce((m, f) => Math.hypot(f.x - J.x, f.y - J.y) < Math.hypot(m.x - J.x, m.y - J.y) ? f : m) : null;
   const reaching = !full && near && Math.hypot(near.x - J.x, near.y - J.y) < 230;
@@ -454,7 +465,7 @@ function drawTank() {
   ctx.beginPath(); ctx.rect(x, y, w, h); ctx.clip();
   const g = ctx.createLinearGradient(0, wave, 0, y + h);
   g.addColorStop(0, '#0c1317'); g.addColorStop(1, '#030506');
-  ctx.fillStyle = g; ctx.fillRect(x, wave, w, y + h - wave);
+  if (!CINEMA) { ctx.fillStyle = g; ctx.fillRect(x, wave, w, y + h - wave); }
   for (let r = 0; r < 16; r++) {
     const tr = simT - r * .35, yy = y + h - 24 - Math.pow(r / 15, .85) * (h - 120), amp = (5 + 16 * pulseAt(tr)) * (1 - r / 20);
     ctx.beginPath();
@@ -512,6 +523,7 @@ function drawRingLabels() {
   ctx.restore();
 }
 function drawGear() {
+  if (CINEMA) return;
   const {x, y} = GEAR, r = GEAR.r * .7, ang = simT * (.25 + gearBoost * 2.2);
   ctx.save();
   ctx.translate(x, y); ctx.rotate(ang);
@@ -528,6 +540,7 @@ function drawGear() {
   ctx.restore();
 }
 function drawSeams() {
+  if (CINEMA) return;
   seams = seams.filter(s => simT - s.t0 < 4);
   const byId = new Map(frags.map(f => [f.id, f]));
   for (const s of seams) {
@@ -662,6 +675,7 @@ function drawBeam() {
   ctx.restore();
 }
 function drawBells() {
+  if (CINEMA) return;
   ctx.save(); ctx.strokeStyle = '#d9631e'; ctx.lineWidth = 2;
   for (const f of frags) if (f.bellT != null) {
     const k = Math.max(0, Math.min(1, 1 - (f.bellT - simT) / .8));
@@ -744,7 +758,7 @@ function drawPic(imgs, x, y, w, h, a = 1, opt = {}) {
 }
 function drawFocus() {
   const insetOn = seams.length && simT - seams[seams.length - 1].t0 <= 2.4;
-  const quiet = RENDER && (filmT < (MOOD ? 1.2 : 3.2) || filmT > REEL0 - .1);
+  const quiet = RENDER && (filmT < (MOOD ? 1.2 : 3.2) || (CINEMA ? simT : filmT) > REEL0 - .1);
   const f = focusId != null && !insetOn && !quiet ? frags.find(g => g.id === focusId) : null;
   if (!f || f.gearT >= 0) return;
   const s = .95, w = MOOD ? 150 : f.w * s, h = MOOD ? 112 : f.h * s, jb = jellyBox();
@@ -817,7 +831,8 @@ function hud() {
 function reset() {
   seed = SEED; nextId = 1; frags = []; seams = []; ledger = []; evts = []; simT = 0; gearBoost = 0; lastEvent = -9; dirty = true;
   stats = {contam: 0, returns: 0, cuts: 0, rescued: 0, trans: 0, checks: 0, v1: 0, v2: 0, v3: 0, v4: 0, v5: 0, oob: [], focusFrames: 0, ovMax: 0, ovFrames: 0};
-  cam = null; inserts = []; bellN = 0; reelGlow = 0; afterimg = null;
+  REEL0 = 26.5; REEL1 = 38.2; reelCued = false;
+  cam = null; inserts = []; bellN = 0; reelGlow = 0; afterimg = null; lastRescue = null; travel = 0; ended = false;
   JHIST = []; ghost = {cur: null, prev: null, t: -9}; focusId = null; focusSlot = 0; heat = 1; heatTarget = 1; auto = true; contamOn = false; reel = null; reelIdx = -1; syncBtn();
   J = {x: 230, y: 330, tx: 230, ty: 330, tent: [], tips: [], carry: [], by: 330, pu: 1, sx: 1, sy: 1, sq: 0, tilt: 0, antic: 0, key: '', reach: {x: 230, y: 460, w: 0}};
   for (let i = 0; i < TN; i++) J.tent.push({ax: -70 + 140 * i / (TN - 1), seg: 8 + rand() * 4, ph: rand() * 6.28});
@@ -931,7 +946,7 @@ function drawReel(t) {
     if (MOOD) {
       drawPic(f.imgs, fx + 14, fy + 14, fw - 28, fh - 28, 1, {hot: 1});
       ctx.fillStyle = `rgba(255,236,200,${(.06 + .05 * Math.sin(t * 61)).toFixed(3)})`; ctx.fillRect(fx, fy, fw, fh);
-      if (rel - k * per < .09) { ctx.fillStyle = 'rgba(255,255,255,.75)'; ctx.fillRect(fx, fy, fw, fh); }
+      if (rel - k * per < (CINEMA ? .045 : .09)) { ctx.fillStyle = 'rgba(255,255,255,.75)'; ctx.fillRect(fx, fy, fw, fh); }
       ctx.restore(); return;
     }
     const m = wrap(f.text, 'italic 34px Georgia, serif', fw - 140);
@@ -949,7 +964,7 @@ function drawReel(t) {
 // and seam, a hard cut to the archive frame itself, full screen, moving, with gate weave and grain (a cut burns like
 // nitrate); the reel intercut with close-ups of the jellyfish warming as it watches; and a coda that leaves its
 // complementary afterimage on black.
-const CUTDUR = [2.1, 1.6, 1.15, .9, .8];
+const CUTDUR = [2.5, 2.3, 2.3, 2.3, 2.3];
 const GRAIN = (() => {
   const tiles = [];
   for (let n = 0; n < 4; n++) {
@@ -963,12 +978,13 @@ const GRAIN = (() => {
 const clamp01 = v => Math.max(0, Math.min(1, v));
 function scanEvents() {
   for (const e of evts) {
+    if (e.ft == null && e.t <= simT) e.ft = filmT;   // when it is seen: the film's clock, for the score
     if (e.cued) continue; e.cued = true;
     const f = e.src ? frags.find(g => g.src === e.src) : null; if (!f) continue;
     // the censor's cuts always cut in; a rescue or a seam cuts in only after two seconds of the world, so the film breathes
     const lastEnd = inserts.reduce((m, x) => Math.max(m, x.t1), -9), room = e.t - lastEnd >= 2;
     if (e.type === 'bell') { inserts.push({kind: 'cut', f, t0: e.t, t1: e.t + (CUTDUR[bellN] || .8)}); bellN++; }
-    else if (e.type === 'rescue' && room) inserts.push({kind: 'rescue', f, t0: e.t + .1, t1: e.t + 1.8});
+    else if (e.type === 'rescue') { inserts.push({kind: 'rescue', f, t0: e.t + .1, t1: e.t + 2.0, with: lastRescue}); lastRescue = f; }
     else if (e.type === 'seam' && room) inserts.push({kind: 'seam', f, t0: e.t + .15, t1: e.t + 2.2});
   }
 }
@@ -977,7 +993,9 @@ function drawInsert(ins) {
   const fr = Math.floor(simT * 24), u = (simT - ins.t0) / (ins.t1 - ins.t0), z = 1.04 + .07 * u;
   const w = FW * z, h = FH * z, x = (FW - w) / 2 + (hash(fr, 1, 3) - .5) * 3, y = (FH - h) / 2 + (hash(fr, 2, 3) - .5) * 4;
   const burn = ins.kind === 'cut' ? clamp01((simT - ins.t0 - .65) / 1.1) : 0;
-  drawPic(ins.f.imgs, x, y, w, h, 1, {burn, hot: ins.kind === 'cut' ? 1 : undefined});
+  // a rescued frame comes back touching the one rescued before it (or the cloud, for the first)
+  const imgs = ins.kind === 'rescue' ? [ins.f.imgs[0], ins.with ? ins.with.imgs[0] : 9] : ins.f.imgs;
+  drawPic(imgs, x, y, w, h, 1, {burn, hot: ins.kind === 'cut' ? 1 : undefined});
   ctx.save();
   if (ins.kind === 'rescue') {
     ctx.globalCompositeOperation = 'screen';
@@ -985,7 +1003,10 @@ function drawInsert(ins) {
     g.addColorStop(0, `rgba(255,190,200,${(.4 * clamp01(u * 2)).toFixed(3)})`); g.addColorStop(1, 'rgba(255,190,200,0)');
     ctx.fillStyle = g; ctx.fillRect(0, 0, FW, FH);
   }
-  if (ins.kind === 'cut' && simT - ins.t0 < .3) { ctx.globalAlpha = .55 * (1 - (simT - ins.t0) / .3); ctx.fillStyle = '#a3260f'; ctx.fillRect(0, 0, FW, FH); }
+  // the bell: the lamp flares, the picture overexposes and comes back
+  if (ins.kind === 'cut' && simT - ins.t0 < .45) { ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = .75 * (1 - (simT - ins.t0) / .45); ctx.fillStyle = '#ffd7a0'; ctx.fillRect(0, 0, FW, FH); }
+  // after the burn, a beat of black
+  if (burn >= 1) { ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = clamp01((simT - ins.t0 - 1.75) / .15); ctx.fillStyle = '#000'; ctx.fillRect(0, 0, FW, FH); }
   ctx.restore();
 }
 function worldShot(dt, closeup) {
@@ -994,7 +1015,8 @@ function worldShot(dt, closeup) {
   if (ff && !closeup) { tx = tx * .7 + ff.x * .3; ty = ty * .7 + ff.y * .3; }
   if (filmT < 5) { const k = clamp01(filmT / 5), e = k * k * (3 - 2 * k); tz = 3.4 - 1.9 * e; tx = J.x; ty = J.by - 10 + 40 * e; }
   if (filmT > REEL1 + .3) { const k = clamp01((filmT - REEL1 - .3) / 4); tz = 1.5 - .38 * k; tx += (W / 2 - tx) * k; ty += (H / 2 - ty) * k; }
-  if (closeup) { tz = 3.6; tx = J.x; ty = J.by - 24; }
+  if (J.dive && !closeup && simT > SWITCH) { tx = TANK.x + TANK.w / 2 + 40; ty = 400; tz = 1.42; }  // hold still: let it sink through the frame
+  if (closeup) { tz = 3.3 + .5 * (closeup === true ? 0 : closeup); tx = J.x + 12 * (closeup === true ? 0 : closeup); ty = J.by - 24; }
   if (!cam || closeup || filmT < 5) cam = {x: tx, y: ty, z: tz};
   else { const k = Math.min(1, dt * 1.6); cam.x += (tx - cam.x) * k; cam.y += (ty - cam.y) * k; cam.z += (tz - cam.z) * Math.min(1, dt * 1.2); }
   const hw = FW / 2 / cam.z, hh = FH / 2 / cam.z;
@@ -1020,25 +1042,27 @@ function filmLook() {
 }
 function cinemaFrame(t, dur) {
   scanEvents();
+  const st = simT;
   ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.fillStyle = '#000'; ctx.fillRect(0, 0, FW, FH);
-  if (t >= REEL0 && t <= REEL1 + .6) {
-    drawReel(t);
-    const n = Math.max(1, (reel || []).length), span = REEL1 - REEL0 - .4, per = span / n, rel = t - REEL0 - .2;
+  if (st >= REEL0 && st <= REEL1 + .6) {
+    drawReel(st);
+    const n = Math.max(1, (reel || []).length), span = REEL1 - REEL0 - .4, per = span / n, rel = st - REEL0 - .2, local = rel - Math.floor(rel / per) * per;
     reelGlow = clamp01(rel / span);
-    if (rel > 0 && t < REEL1 && rel - Math.floor(rel / per) * per > per - .7) { ctx.fillStyle = '#000'; ctx.fillRect(0, 0, FW, FH); worldShot(1 / 24, true); }
+    if (rel > 0 && st < REEL1 && local > per - .5) { ctx.fillStyle = '#000'; ctx.fillRect(0, 0, FW, FH); worldShot(1 / 24, clamp01((local - per + .5) / .5) || 1e-3); }
   } else {
-    if (t > REEL1) reelGlow = 1;
+    if (st > REEL1) reelGlow = 1;
     const ins = activeInsert();
     if (ins) drawInsert(ins); else worldShot(1 / 24, false);
   }
   filmLook();
-  const fadeT = dur - 3.4;
+  const fadeT = REEL1 + 3.6;
+  if (st > fadeT + 3.4) ended = true;
   if (t < 1.2) { ctx.fillStyle = `rgba(0,0,0,${(1 - t / 1.2).toFixed(3)})`; ctx.fillRect(0, 0, FW, FH); }
-  if (t > fadeT - 1.2) { ctx.fillStyle = `rgba(0,0,0,${clamp01((t - fadeT + 1.2) / 1.2).toFixed(3)})`; ctx.fillRect(0, 0, FW, FH); }
-  if (t >= fadeT) {
+  if (st > fadeT - 1.2) { ctx.fillStyle = `rgba(0,0,0,${clamp01((st - fadeT + 1.2) / 1.2).toFixed(3)})`; ctx.fillRect(0, 0, FW, FH); }
+  if (st >= fadeT) {
     // the picture is gone; what the eye keeps is the jellyfish in its complementary colour, fading
     if (!afterimg) afterimg = {x: FW / 2 + cam.z * (J.x - cam.x), y: FH / 2 + cam.z * (J.by - 34 - cam.y), r: 95 * cam.z};
-    const a = Math.min(1, (t - fadeT) / .25) * Math.exp(-(t - fadeT) / 1.6), A = afterimg;
+    const a = Math.min(1, (st - fadeT) / .25) * Math.exp(-(st - fadeT) / 1.6), A = afterimg;
     ctx.save(); ctx.globalCompositeOperation = 'lighter';
     const g = ctx.createRadialGradient(A.x, A.y, 0, A.x, A.y, A.r * 1.6);
     g.addColorStop(0, `rgba(150,190,255,${a.toFixed(3)})`); g.addColorStop(.45, `rgba(90,130,240,${(a * .55).toFixed(3)})`); g.addColorStop(1, 'rgba(60,90,200,0)');
@@ -1051,7 +1075,20 @@ function cinemaFrame(t, dur) {
 function filmFrame(i, fps, dur, noImage) {
   const t = i / fps; filmT = t;
   if (i > 0) { simT += 1 / fps; step(1 / fps); }
-  if (CINEMA) { cinemaFrame(t, dur); return noImage ? null : cv.toDataURL('image/png'); }
+  if (CINEMA) {
+    // an ellipsis: when the jellyfish is only travelling, cut ahead to the next thing that happens (up to 2.5 s)
+    if (simT > SWITCH + 1 && simT < REEL0 - 1) {
+      travel = activeInsert() || J.dive || J.reach.w > .3 ? 0 : travel + 1 / fps;
+      if (travel > 1.1) {
+        const n0 = evts.length;
+        for (let k = 0; k < 60 && simT < REEL0 - 1; k++) { simT += 1 / fps; step(1 / fps); if (J.dive || evts.length > n0 || J.reach.w > .3) break; }
+        travel = 0; cam = null; JHIST = [];
+      }
+    }
+    cinemaFrame(t, dur);
+    if (ended) return 'END';
+    return noImage ? null : cv.toDataURL('image/png');
+  }
   ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.fillStyle = '#0b0807'; ctx.fillRect(0, 0, FW, FH);
   ctx.setTransform(1, 0, 0, 1, 40, 40); draw();
   ctx.setTransform(1, 0, 0, 1, 0, 0); filmOverlay(t, dur);

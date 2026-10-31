@@ -6,14 +6,16 @@
    splices. Coda: C major held, the theme's last phrase, a high note over the afterimage.
    Writes sound-cinema.wav (48 kHz, 16-bit stereo). */
 const fs = require('fs'), path = require('path');
-const { duration, events } = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'cinema', 'events.json'), 'utf8'));
+const raw = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'cinema', 'events.json'), 'utf8')), duration = raw.duration;
+// events carry the simulation's time (t) and the film's (ft); the film cuts travel away, so sound follows ft
+const events = raw.events.filter(e => e.ft != null).map(e => ({...e, t: e.ft}));
 const SR = 48000, N = Math.round(SR * duration);
 const dry = [new Float32Array(N), new Float32Array(N)], send = [new Float32Array(N), new Float32Array(N)];
 let seed = 11; const rnd = () => ((seed = (seed * 1664525 + 1013904223) >>> 0) / 2 ** 32) * 2 - 1;
 const m2f = m => 440 * 2 ** ((m - 69) / 12), TAU = 2 * Math.PI;
 const at = type => events.filter(e => e.type === type);
 const SW = (at('switch')[0] || { t: 12 }).t, PROJ = at('projector')[0] || { t: 26.5, dur: 11.7 }, R0 = PROJ.t, R1 = PROJ.t + PROJ.dur;
-const END = duration - 3.4;
+const END = Math.min(duration - 3.4, R1 + 3.6);
 
 // add a voice: fn(t) -> sample, panned (-1 left .. 1 right), with a share sent to the reverb
 function voice(t0, len, fn, pan = 0, wet = .35) {
