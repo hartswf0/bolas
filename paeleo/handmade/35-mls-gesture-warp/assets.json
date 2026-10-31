@@ -3,7 +3,7 @@
  "assets": [
   {
    "id": "dog-view-prints",
-   "what": "the dog: 13 view prints of one tan dog with a dark saddle (P_prof profile facing the door; R1_r34, R2_rear, R3_r34 rear three-quarter / rear / rear three-quarter for the refusal turn; P_right profile facing away; L_right lying facing away; LB_look lying with the head turned back to the door; SB_look getting up with the head on the door; RT3, RT2, RT1 the body coming round behind the head; L_prof lying across the sill; L_in lying with the head turned in through the door). Each is ten layered cut parts (torso, neck, head, two ears, four legs, tail) with 37 named anchors.",
+   "what": "the dog: 17 view prints (the 13 below plus R0_t, R1b_t, R2b_t, R3b_t in-between turn views at 202.5/247.5/292.5/337.5 deg) of one tan dog with a dark saddle (P_prof profile facing the door; R1_r34, R2_rear, R3_r34 rear three-quarter / rear / rear three-quarter for the refusal turn; P_right profile facing away; L_right lying facing away; LB_look lying with the head turned back to the door; SB_look getting up with the head on the door; RT3, RT2, RT1 the body coming round behind the head; L_prof lying across the sill; L_in lying with the head turned in through the door). Each is ten layered cut parts (torso, neck, head, two ears, four legs, tail) with 37 named anchors.",
    "source": "drawn in code: build/dogprint.py. Shapes are capsule strokes, discs and ear wedges placed from a 37-point stick guide (metres) projected at each print's body yaw / head yaw / pitch; the guide is never shown, it only fixes where the shapes and the anchors go so the same anchor name means the same body point in every print.",
    "files": [
     "build/cache/prints/<name>.npz (regenerable)",

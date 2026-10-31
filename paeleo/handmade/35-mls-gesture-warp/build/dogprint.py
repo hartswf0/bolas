@@ -326,9 +326,13 @@ def make_print(name, psi, posture='stand', head_yaw=0.0, head_pitch=0.0, note=''
 PRINTS = [
     # name, body yaw (180 = facing the door, screen-left), posture, head yaw rel. body, head pitch, note
     ('P_prof', 180, 'stand', 0, 0, 'profile, facing the door'),
+    ('R0_t', 202.5, 'stand', 0, 0, 'turning away, a quarter of the way'),
     ('R1_r34', 225, 'stand', 0, 0, 'rear three-quarter, turning away'),
+    ('R1b_t', 247.5, 'stand', 0, 0, 'turning away, almost rear'),
     ('R2_rear', 270, 'stand', 0, 0, 'rear view: back to the viewer'),
+    ('R2b_t', 292.5, 'stand', 0, 0, 'rear, coming round to the far profile'),
     ('R3_r34', 315, 'stand', 0, 0, 'rear three-quarter, other side'),
+    ('R3b_t', 337.5, 'stand', 0, -4, 'almost in profile, back to the door'),
     ('P_right', 360, 'stand', 0, -8, 'profile, back turned to the door'),
     ('L_right', 360, 'lie', 0, -5, 'lying, back to the door'),
     ('LB_look', 360, 'lie', -160, 6, 'lying, back to the door, head turned over the shoulder to the door'),
@@ -337,7 +341,7 @@ PRINTS = [
     ('RT2', 270, 'stand', -82, 0, 'rear view, head in profile toward the door'),
     ('RT1', 225, 'stand', -40, 0, 'rear three-quarter, almost round'),
     ('L_prof', 180, 'lie', 0, 0, 'lying across the sill, head up'),
-    ('L_in', 180, 'lie', 56, 2, 'lying, head turned in through the door: back of the head to the viewer'),
+    ('L_in', 180, 'lie', 84, 0, 'lying, head turned in through the door: back of the head to the viewer'),
 ]
 
 

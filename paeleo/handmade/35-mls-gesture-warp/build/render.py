@@ -14,6 +14,7 @@ YY, XX = np.mgrid[0:H, 0:W].astype(np.float32)
 FLOOR_FAR, FLOOR_NEAR = 560.0, 652.0
 VP = (700.0, 250.0)
 INSIDE_X = SILL_X - 12.0
+AP_X0 = 180.0      # the doorway: a lit aperture between this post and the jamb at the sill
 
 # ------------------------------------------------------------------------------------------------ print loading
 _prints = {}
@@ -244,11 +245,11 @@ def interior(L):
 def door_panel(theta_deg, L):
     """the door leaf, hinged at the far jamb, swung theta degrees into the room. Drawn in perspective."""
     th = np.deg2rad(theta_deg)
-    hx = INSIDE_X + 10
-    xf = hx - 194 * np.sin(th)
+    hx = AP_X0                                   # hinge on the room-side post of the doorway
+    xf = hx + (SILL_X - 4 - AP_X0) * np.cos(th)  # closed: spans the opening; open past 90: lies back into the room
     yb_h, yt_h = FLOOR_FAR + 2, 162
-    yb_f = FLOOR_FAR + 2 + (FLOOR_NEAR - FLOOR_FAR - 6) * np.cos(th)
-    yt_f = 162 + 18 * np.cos(th)
+    yb_f = FLOOR_FAR + 2 + (FLOOR_NEAR - FLOOR_FAR - 6) * np.sin(th) * 0.5
+    yt_f = 162 + 10 * np.sin(th)
     im = Image.new('L', (W, H), 0)
     d = ImageDraw.Draw(im)
     d.polygon([(hx, yt_h), (hx, yb_h), (xf, yb_f), (xf, yt_f)], fill=255)
@@ -291,7 +292,13 @@ def frame(i):
     wd = anim.world(i)
     L = wd['light']
     B = PLACE_B.copy(); O = PLACE_O.copy()
-    Bi, Oi, ins = interior(L)
+    x, y = XX, YY
+    Bi, Oi, ins = interior(0.12 + 0.33 * L)            # the room plane stays dim; the light is in the doorway
+    ap = (x >= AP_X0) & (x < INSIDE_X) & (y >= 162) & (y < FLOOR_NEAR)
+    gl = np.clip(1 - (y - 162) / 700.0, 0.55, 1) * L
+    Bi[ap] = (Bi[ap] * (1 - gl[ap]) + 0.02 * gl[ap]); Oi[ap] = (Oi[ap] * (1 - gl[ap]) + 0.24 * gl[ap])
+    post = ((x >= AP_X0 - 9) & (x < AP_X0) & (y >= 154) & (y < FLOOR_FAR + 2)) | ((x >= AP_X0 - 9) & (x < INSIDE_X) & (y >= 152) & (y < 162))
+    Bi[post] = 0.95; Oi[post] = 0.5
     B[ins] = Bi[ins]; O[ins] = Oi[ins]
     # light out of the door, across the sill and the porch floor (and a little up the railing)
     x, y = XX, YY
@@ -342,12 +349,6 @@ def frame(i):
     img = img * (1 - dcov[..., None]) + drgb * amb * dcov[..., None]
     img = img * GRAIN[..., None]
     out = Image.fromarray((np.clip(img, 0, 1) * 255).astype(np.uint8))
-    # ---- the strain readout in the margin (what the warp is doing to the dots, reported, not hidden)
-    st_c = max([v['aniso_max'] for k, v in strain.items() if v['family'] == 'affine'] or [1])
-    st_l = max([v['aniso_max'] for k, v in strain.items() if v['family'] == 'similarity'] or [1])
-    st_h = max([v['aniso_max'] for k, v in strain.items() if v['family'] == 'rigid'] or [1])
-    txt = 'dot strain  coat/affine %.2f  legs/similarity %.2f  skull/rigid %.2f' % (st_c, st_l, st_h)
-    ImageDraw.Draw(out).text((W - 8 - FONT.getlength(txt), H - 18), txt, font=FONT, fill=(214, 204, 186))
     # ---- measurements from the rendered layers
     ys_, xs_ = np.nonzero(dcov > 0.5)
     hc = dlay.get('head')
