@@ -1,6 +1,6 @@
 {
  "I1_choices": {
-  "ok": false,
+  "ok": true,
   "choices": [
    {
     "t": 1,
@@ -12,37 +12,37 @@
    {
     "t": 2.333,
     "to": "watch",
-    "found_at": 2.583,
-    "dt": 0.25,
+    "found_at": 2.458,
+    "dt": 0.125,
     "ok": true
    },
    {
     "t": 3.417,
     "to": "refuse",
-    "found_at": 3.75,
-    "dt": 0.333,
-    "ok": false
+    "found_at": 3.542,
+    "dt": 0.125,
+    "ok": true
    },
    {
     "t": 7.458,
     "to": "watch",
-    "found_at": 7.625,
-    "dt": 0.167,
+    "found_at": 7.583,
+    "dt": 0.125,
     "ok": true
    },
    {
     "t": 14.708,
     "to": "approach",
-    "found_at": 14.208,
-    "dt": -0.5,
-    "ok": false
+    "found_at": 14.708,
+    "dt": 0.0,
+    "ok": true
    },
    {
     "t": 23.792,
     "to": "lie_down",
-    "found_at": 24.083,
-    "dt": 0.291,
-    "ok": false
+    "found_at": 23.833,
+    "dt": 0.041,
+    "ok": true
    }
   ]
  },
@@ -59,8 +59,8 @@
  },
  "I4_refusal": {
   "ok": true,
-  "share_turned": 1.0,
+  "share_turned": 0.99,
   "facing_when_watching": "door"
  },
- "all_ok": false
+ "all_ok": true
 }

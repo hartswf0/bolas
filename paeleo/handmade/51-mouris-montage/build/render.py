@@ -216,9 +216,6 @@ def words_layer(img, t):
             for ch in wword:
                 rid = wd['letters_from'][li % len(wd['letters_from'])]
                 sp = letter_sprite(ch, wd['size'], rid, wd['temperature'], wn * 100 + li, soft)
-                if ch == "'":
-                    x += 6; li += 1
-                    continue
                 on = ton + (0.0 if soft else 0.0) + li * (0.0 if not soft else 0.0)
                 yj = rng.uniform(-8, 8)
                 if t >= on:

@@ -78,6 +78,8 @@ a point for the hair knot and a 4-vertex cage for the coat skirt that bends over
   of sight). What faces the viewer is the back of the head and the two ears; the head stays level and low.
 * Lying (4.6–7.4, 28.5–32): chin on the paws with the nose tipped down 22° and the neck bent less, so the neck and head no
   longer line up into one long snout; ears stay at least two-thirds up while lying.
+* Round 3 honesty fix: while looking in (scene 26.42–28.96 s, frames 634–695) the ears no longer spread in depth, so the far
+  ear stays attached to the skull (it had floated 10–15 px above it). Other frames are unchanged apart from encoding.
 * assets.json now says 30 holes, matching the cards and the mesh.
 
 ## The place

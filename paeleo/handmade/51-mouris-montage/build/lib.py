@@ -246,6 +246,7 @@ def person_world(Q):
     pel = np.array([lerp(0, -0.05, sit), pel_h, 0])
     tdir = np.array([math.sin(lean), math.cos(lean), 0])
     tdir = lerp(tdir, np.array([-0.25, 0.97, 0]), sit * 0.6); tdir /= np.linalg.norm(tdir)
+    tdir = lerp(tdir, np.array([0.38, 0.92, 0]), low * sit); tdir /= np.linalg.norm(tdir)   # leans toward the dog to offer the hand
     neck = pel + tdir * 0.58
     for k in range(12):
         B.add(pel + tdir * 0.58 * k / 11, lerp(0.17, 0.15, k / 11), 'pcoat', I)
@@ -277,7 +278,7 @@ def person_world(Q):
         if s == -1:
             hand_rest = sh + [0.05, -0.55, -0.03]
             hand_reach = sh + [0.58, -0.25, 0.05]
-            hand_low = pel + [0.62, -0.08 if sit > 0.5 else -0.5, -0.05]
+            hand_low = pel + [0.66, -0.10 if sit > 0.5 else -0.5, -0.16]
             hand_beck = sh + [0.35, 0.08, -0.02]
             hand = hand_rest
             hand = lerp(hand, hand_beck, Q['beckon'])
@@ -288,9 +289,10 @@ def person_world(Q):
         el = lerp(sh, hand, 0.5) + [-0.04, -0.05, 0]
         B.chain(sh, el, 0.07, 0.06, 7, 'pcoat', I)
         B.chain(el, hand, 0.055, 0.045, 7, 'pcoat', I)
-        B.add(hand + [0.03, 0, 0], 0.05, 'hand' if s == -1 else 'skin', I)
-        if s == -1:
-            B.add(hand + [0.08, -0.005, 0], 0.04, 'hand', I)
+        B.add(hand + [0.03, 0, 0], 0.055 if s == -1 else 0.05, 'hand' if s == -1 else 'skin', I)
+        if s == -1:   # the offered hand: an open palm, fingers forward
+            for kk in range(1, 6):
+                B.add(hand + [0.03 + 0.03 * kk, -0.006 * kk, 0], 0.055 - 0.005 * kk, 'hand', I)
     b = Q['yaw']
     h = np.array([math.sin(b), 0, math.cos(b)]); left = np.cross(h, [0, 1, 0]) * -1
     Rw = np.stack([h, [0, 1, 0], left], 1)

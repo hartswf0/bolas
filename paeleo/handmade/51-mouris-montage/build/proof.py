@@ -42,5 +42,5 @@ if __name__ == '__main__':
     sheet('turn_back_7.3-8.9s', list(range(175, 215, 3)))
     sheet('calls_rapid_cuts_1.0-1.6s', list(range(24, 40)))
     sheet('approach_head_low', [356, 380, 410, 440, 470, 500, 530, 560])
-    sheet('sill_lie_lookin', [575, 590, 620, 640, 650, 660, 680, 767], cols=2, cropit=False, scale=0.5)
+    sheet('sill_lie_lookin', [575, 590, 620, 640, 650, 660, 680, 760], cols=2, cropit=False, scale=0.5)
     print('proof sheets written')

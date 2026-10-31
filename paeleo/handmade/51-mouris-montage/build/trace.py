@@ -6,10 +6,10 @@ States are derived from those measurements by a fixed protocol (below), not copi
   speed v       = d/dt of x_world_measured (mean world z of visible torso pixels, mapped back to score metres), 5-frame smoothed.
   retreat       : facing the door (|a|<=30) and v > +0.12 m/s sustained for 8 frames (backing away)
   watch         : after a retreat, when the cowering head (top < 0.70 m) comes back up above 0.75 m, or v <= 0.05;
-                  after a refusal, when the head is back within 90 deg of the door
+                  after a refusal (once turned >= 100 deg away), when the head is back within 90 deg of the door
   refuse        : standing, after 3.0 s (the second call), the head turned more than 30 deg away from the door
   approach      : standing, facing the door, v < -0.12 m/s sustained for 8 frames
-  lie_down      : torso mean height < 0.33 m at the sill
+  lie_down      : the torso starts going down (mean height < 0.46 m, approach height is ~0.49) and reaches < 0.33 m (lying) within 0.5 s
 The first frame of each new state is its measured onset."""
 import json, math, os
 import numpy as np
@@ -31,7 +31,8 @@ def build():
         a = math.degrees(math.atan2(d[0], -d[1]))   # 0 = toward the door (-z); + toward +x
         ang.append(a)
     ang = np.array(ang)
-    frames = []; state = 'watch'; low_seen = False
+    ang = np.array([np.median(ang[max(0, k - 2):k + 3]) for k in range(len(ang))])   # 5-frame median: the end-on turn is noisy
+    frames = []; state = 'watch'; low_seen = False; peak = 0.0
     ht = np.array([m.get('head_top_y', 0) for m in M])
     def sustained(i, cond, n=8):
         return all(cond(j) for j in range(i, min(len(M), i + n)))
@@ -40,6 +41,7 @@ def build():
         facing = 'door' if a <= 60 else ('away' if a >= 100 else 'side')
         sc = SCORE['frames'][i]
         low_seen = (low_seen or ht[i] < 0.70) if state == 'retreat' else False
+        peak = max(peak, a) if state == 'refuse' else 0.0
         # measured state machine (thresholds fixed in the docstring)
         if state == 'watch' and t > 3.0 and a > 30 and post == 'standing':
             state = 'refuse'
@@ -47,11 +49,11 @@ def build():
             state = 'retreat'
         elif state == 'retreat' and ((low_seen and ht[i] > 0.75) or v[i] <= 0.05):
             state = 'watch'
-        elif state == 'refuse' and a < 90:
+        elif state == 'refuse' and a < 90 and peak >= 100:
             state = 'watch'
         elif state == 'watch' and post == 'standing' and a <= 30 and sustained(i, lambda j: v[j] < -0.12):
             state = 'approach'
-        elif state == 'approach' and m['torso_mean_y'] < 0.33:
+        elif state == 'approach' and m['torso_mean_y'] < 0.46 and any(M[j]['torso_mean_y'] < 0.33 for j in range(i, min(len(M), i + 12))):
             state = 'lie_down'
         frames.append({'i': i, 't': round(t, 3), 'state': state, 'x_score': sc['dog']['x'], 'x_world_measured': round(float(xw[i]), 4),
                        'x_screen': m['x_screen'], 'y_screen': m['y_screen'], 'facing': facing, 'head_angle_to_door_deg': round(float(ang[i]), 1),
