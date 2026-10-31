@@ -109,7 +109,8 @@ def load_npz(path):
 
 
 DOG = {}
-DEBRIS = {15: [(163, 98, 183, 119)]}   # frame 15: a fragment standing on the back (source px)
+DEBRIS = {15: [(163, 98, 183, 119)],    # frame 15: a fragment standing on the back (source px)
+          14: [(149, 100, 160, 107), (160, 100, 165, 104), (149, 104, 155, 110)]}   # frame 14: a hooked strand above the shoulder (round 3, seen 9.2-10.0 s)
 
 
 def dog_frame(i, mirror):
@@ -324,6 +325,35 @@ def gait_sprite(x_body, x_start, head_raise=0.):
     return out, info
 
 
+FL = {}
+FL_PIVOT = (122, 124)    # frame 13: base of the neck at the withers (source px)
+
+
+def flinch_sprite(theta):
+    """round 3 bridge between the upright watching frame 13 and the head-low backing gait: frame 13 split along a soft
+    diagonal (from the chest at (95,128) to the withers at (142,100)) into head+neck and body; the head+neck piece pivots
+    down by theta degrees about the withers. The body overlaps the cut by 6 px so no gap opens on the back. The body is
+    not moved: its paws stay where they stand."""
+    if theta in FL:
+        return FL[theta]
+    P, b = dog_frame(13, False)
+    A = piece_canvas(P, b)
+    shp = A.shape[:2]
+    yy, xx = np.mgrid[:shp[0], :shp[1]].astype(np.float32)
+    line = 128 - (xx - 95) * (28. / 47.)                 # y of the cut at column x
+    head_m = np.clip((line - yy) / 2. + .5, 0, 1) * soft_region(shp, lambda x, y: x < 146, 2)
+    body_m = 1 - np.clip((line - 6 - yy) / 2. + .5, 0, 1) * soft_region(shp, lambda x, y: x < 140, 2)
+    head = rot_premult(A * head_m[..., None], theta, FL_PIVOT[0], FL_PIVOT[1])
+    body = A * body_m[..., None]
+    out = head + body * (1 - head[..., 3:4])
+    a = out[..., 3]
+    inner = blur((a > .5).astype(np.float32), 3, 2) > .999
+    k = inner & (a < 1)
+    out[k, :3] = out[k, :3] / np.maximum(a[k, None], 1e-4); out[k, 3] = 1.0
+    FL[theta] = out
+    return out
+
+
 def main_component(a, thr=.08, grow=2):
     """mask of the largest connected piece of matte (grown by `grow` px so fur strands touching the body stay);
     label propagation in numpy (no scipy here)"""
@@ -357,8 +387,13 @@ CH = {c['to'] + ('' if c['to'] != 'watch' else str(k)): c['t'] for k, c in enume
 T_RET, T_W1, T_REF, T_W2, T_APP, T_LIE = [c['t'] for c in SCORE['choices']]
 T_COMEIN = 26.4
 I_RET, I_W1 = int(math.ceil(T_RET * 24)), int(math.ceil(T_W1 * 24))
-FLINCH = [13]             # from frame 9 to 13 (nose within 11 px), then the gait with its head raised, lowering
-RISE = []                 # the gait raises its head before it stops, then frame 13
+FLINCH = [0, 18, 36, 54]  # round 3: frame 13, its head+neck lowered about the withers (deg), held in place, then the gait
+RISE = [54, 36, 18]       # the gait raises its head before it stops, then frame 13 lifts its head again (no pop)
+GAIT_OFF = (-30., -26.)   # px at the first / last gait frame (measured head points of the bridge drawings, see method.md)
+GAIT_EASE = 9.
+LIE_L0 = float(os.environ.get('LIE_L0', .45))      # round 3: the lie starts part-lowered (bridges the crouched walk frame)
+LIE_LEAD = 24.            # px
+LIE_REST0 = float(os.environ.get('LIE_REST0', .9))   # and its head carried forward-low, not curled under
 CALL_WINDOWS = [(0.62, 1.38), (1.62, 2.30), (2.95, 3.70)]   # the voice comes first (sound.py places the calls here)
 WALK = [43, 44, 45, 48]                 # the archive dog's head-low walk, mirrored to face the door (42, 46, 47: head lost in a tangle, skipped)
 STRIDE = 0.068                           # metres travelled per walk frame (≈ the source's own advance per frame)
@@ -389,14 +424,17 @@ def dog_pose(i):
     if t < T_W1:   # flinch: the head drops through the dog's own frames 14-15-16, then it backs away on planted paws
         k = i - I_RET
         if k < len(FLINCH):
-            return dict(kind='frame', f=FLINCH[k], m=False, facing=1, posture='back away')
+            return dict(kind='flinch', theta=FLINCH[k], xi=I_RET, facing=1, posture='back away')
         k2 = i - (I_RET + len(FLINCH)); k3 = I_W1 - 1 - i
         hr = max(0., 1 - k2 / 7.) if k2 < 7 else (max(0., 1 - k3 / 7.) if k3 < 7 else 0.)
-        return dict(kind='gait', facing=1, posture='back away', head_raise=hr)
+        # round 3: the gait starts and ends GAIT_OFF px from the score (eased over GAIT_EASE frames) so its head meets the
+        # bridge drawings; the offset is fed to the leg solver as body travel, so planted paws stay planted while it closes
+        e0 = 1 - float(smooth(0, GAIT_EASE, k2)); e1 = 1 - float(smooth(0, GAIT_EASE, k3))
+        return dict(kind='gait', facing=1, posture='back away', head_raise=hr, xoff_px=GAIT_OFF[0] * e0 + GAIT_OFF[1] * e1)
     if t < T_REF:  # stops and lifts its head again through 16-15-14 to 13 (no pop)
         k = i - I_W1
         if k < len(RISE):
-            return dict(kind='frame', f=RISE[k], m=False, facing=1, posture='watch')
+            return dict(kind='flinch', theta=RISE[k], xi=I_W1 + len(RISE), facing=1, posture='watch')
         return dict(kind='frame', f=13, m=False, facing=1, posture='watch')
     if t < T_W2:   # turns its back: the archive dog's own turn at its own rate, then lies down with its back to them
         k = int((t - T_REF) * 12)
@@ -425,11 +463,12 @@ def dog_pose(i):
         k = int(d / STRIDE) % len(WALK)
         return dict(kind='frame', f=WALK[k], m=True, facing=1, posture='walk head low')
     # lies down across the sill; hears "come in": looks in, then settles
-    L = float(smooth(T_LIE, T_LIE + .75, t))
+    L = LIE_L0 + (1 - LIE_L0) * float(smooth(T_LIE, T_LIE + .75, t))   # round 3: starts already part-lowered, like the crouched walk frame
     look = float(smooth(T_COMEIN, T_COMEIN + .16, t) * (1 - smooth(28.15, 28.35, t)))
+    look = 1.0 if look >= .5 else 0.0      # round 3: a hard substitution (the dissolve left a double head at 26.50 and 28.29 s)
     rest = float(smooth(28.2, 28.9, t))
     head_up = float(L * (1 - rest))
-    rest = max(rest, .5 * L, 1.65 * (1 - float(smooth(T_LIE, T_LIE + .5, t))))   # head comes up from the walk's low carriage, then held level
+    rest = max(rest, .5 * L, LIE_REST0 * (1 - float(smooth(T_LIE, T_LIE + .5, t))))   # head comes up from the walk's low carriage, then held level
     return dict(kind='lie', L=L, head_up=head_up, look=look, rest=rest, facing=1,
                 posture='lie' if L > .95 else 'lying down', looking_in=look > .5)
 
@@ -442,6 +481,9 @@ def pose_key(i):
 def x_drawn(i):
     """substitution: a drawing (matted frame) is placed where the score has the dog when that drawing appears and
     stays there while it is held, so nothing slides under a held frame; the next drawing carries the travel"""
+    p = dog_pose(i)
+    if 'xi' in p:            # a bridge drawing held where the dog stood when the bridge began
+        return FR[p['xi']]['dog']['x']
     k = pose_key(i)
     if k is None:
         return FR[i]['dog']['x']
@@ -455,8 +497,13 @@ def dog_sprite(i):
     p = dog_pose(i)
     if p['kind'] == 'frame':
         P, b = dog_frame(p['f'], p['m'])
+    elif p['kind'] == 'flinch':
+        A = flinch_sprite(p['theta'])
+        P, b = A, (0, 0, A.shape[1], A.shape[0])       # uncropped, frame 13's own anchor: the body and paws do not move
+        p['anchor'] = anchor(piece_canvas(*dog_frame(13, False)))
     elif p['kind'] == 'gait':
-        A, info = gait_sprite(FR[i]['dog']['x'], FR[I_RET + len(FLINCH)]['dog']['x'], p.get('head_raise', 0.))
+        i0 = I_RET + len(FLINCH)
+        A, info = gait_sprite(FR[i]['dog']['x'] + p['xoff_px'] / PPM, FR[i0]['dog']['x'] + dog_pose(i0)['xoff_px'] / PPM, p.get('head_raise', 0.))
         p['legs'] = info
         P, b = A, (0, 0, A.shape[1], A.shape[0])        # uncropped: the body keeps one fixed anchor
         p['anchor'] = gait_pieces()['anchor']
@@ -476,7 +523,29 @@ def anchor(P):
 
 
 # ---------------------------------------------------------------- compositing helpers
-def place(canvas, P, x, y, wrap=0.0, wrap_col=None):
+def derim_edge(S, D, band_r=5, core_r=8):
+    """edge colour match against the actual backdrop (round 3): inside a band_r px band at the silhouette edge, a fur
+    pixel may not be lighter than the brighter of (a) the solid fur core beside it and (b) the backdrop behind it.
+    Where the backdrop is dark (the lower doorway at dusk) the edge falls to the core's value, so no pale line is drawn
+    round the head; against bright light the cap is the light itself and nothing changes. Premultiplied in, out."""
+    a = S[..., 3]
+    F = S[..., :3] / np.maximum(a[..., None], 1e-4)
+    L = F.mean(2)
+    solid = (a > .97).astype(np.float32)
+    core = (blur(solid, band_r, 2) > .999).astype(np.float32)
+    den = blur(core, core_r, 2)
+    Lc = blur(L * core, core_r, 2) / np.maximum(den, 1e-4)
+    Lc = np.where(den > .01, Lc, L)
+    Lb = blur(D.mean(2), 3, 2)
+    cap = np.maximum(Lc, Lb)
+    band = (a > .004) & (core < .5)
+    k = np.where(band & (L > cap), cap / np.maximum(L, 1e-4), 1.0).astype(np.float32)
+    out = S.copy()
+    out[..., :3] = S[..., :3] * k[..., None]
+    return out
+
+
+def place(canvas, P, x, y, wrap=0.0, wrap_col=None, derim=False):
     """premultiplied over at integer offset; optional light wrap (the background bleeds light into fractional edges)"""
     h, w = P.shape[:2]
     X0, Y0 = int(round(x)), int(round(y))
@@ -486,6 +555,8 @@ def place(canvas, P, x, y, wrap=0.0, wrap_col=None):
     S = P[cy0 - Y0:cy1 - Y0, cx0 - X0:cx1 - X0]
     D = canvas[cy0:cy1, cx0:cx1]
     a = S[..., 3:4]
+    if derim:
+        S = derim_edge(S, D)
     if wrap > 0:
         bgb = blur(D.copy(), 1, 1) if wrap_col is None else wrap_col[cy0:cy1, cx0:cx1]   # only light actually behind the edge
         inner = blur(S[..., 3], 3, 2)[..., None]
@@ -678,7 +749,12 @@ def dog_layer(i):
     else:
         cx, by = anchor(Ps)
     xd = x_drawn(i)
-    left = sx(xd) - cx - (48 * pose['L'] if pose['kind'] == 'lie' and not pose.get('face_right') else 0)
+    if pose['kind'] == 'lie' and not pose.get('face_right'):     # set further in as it lies down (round 3: its own ramp,
+        r_in = float(smooth(T_LIE, T_LIE + .75, i / 24.))         # starting LIE_LEAD px back so it meets the walk frame)
+        inward = 48 * r_in - LIE_LEAD * (1 - r_in)
+    else:
+        inward = 0.
+    left = sx(xd) - cx - inward + pose.get('xoff_px', 0.)
     top = GY + 4 - by
     if pose['kind'] == 'gait':
         for k, v in pose['legs'].items():
@@ -780,7 +856,8 @@ def render(i):
     can *= (1 - .8 * ca[..., None])
     # light wrap only from what is behind the dog in depth (the wall, the doorway, the sky), never from the floor
     wc = blur(can.copy(), 1, 1); wc[584:] = 0
-    place(can, Pd, left, top, wrap=wrapk, wrap_col=wc)
+    if not os.environ.get('NODOG'):      # NODOG: verification plate, the same frame (shadows included) without the dog itself
+        place(can, Pd, left, top, wrap=wrapk, wrap_col=wc, derim=True)
     # dusk air: haze in the door's beam, density from the solved cloud matte (smoke), drifting slowly
     hz = cloud(int(t * 0.7) % 62)[..., 3]
     hz = np.asarray(Image.fromarray(hz).resize((W, H), Image.BILINEAR))
@@ -793,6 +870,8 @@ def render(i):
     can *= vig[..., None]
     can += np.random.default_rng(i).normal(0, .012, (H, W, 1)).astype(np.float32)
     img = (np.clip(can, 0, 1) ** (1 / 1.05) * 255).astype(np.uint8)
+    if os.environ.get('NODOG'):
+        return img, pose, {}
     # measured from what was drawn: dog alpha centroid and footprint on screen
     ah = Pd[..., 3]
     cols = ah.sum(0); rows = ah.sum(1)
@@ -807,7 +886,16 @@ def render(i):
         nose = (round(left + c, 1), round(top + float(rr.mean()), 1))
     else:
         nose = (None, None)
-    meas = dict(nose_x=nose[0], nose_y=nose[1], x_screen=round(mx, 2), y_screen=round(my, 2), dog_left=round(left + xs.min(), 1), dog_right=round(left + xs.max(), 1),
+    # head point: centroid of the solid matte in the 45 px nearest the side it faces, above the floor contact rows
+    hx, hy = None, None
+    if len(cs):
+        sol = (ah > .5); sol[max(0, int(GY - 14 - top)):] = False
+        cs2 = np.nonzero(sol.sum(0) > 0)[0]
+        if len(cs2):
+            band = (np.arange(sol.shape[1]) <= cs2.min() + 45) if pose.get('facing', 1) == 1 else (np.arange(sol.shape[1]) >= cs2.max() - 45)
+            yy_, xx_ = np.nonzero(sol & band[None, :])
+            hx, hy = round(left + float(xx_.mean()), 1), round(top + float(yy_.mean()), 1)
+    meas = dict(head_x=hx, head_y=hy, nose_x=nose[0], nose_y=nose[1], x_screen=round(mx, 2), y_screen=round(my, 2), dog_left=round(left + xs.min(), 1), dog_right=round(left + xs.max(), 1),
                 dog_top=round(top + ys.min(), 1), dog_bottom=round(top + ys.max(), 1), door_open=round(opened, 3))
     return img, pose, meas
 
@@ -823,7 +911,7 @@ def main():
     for i in range(a, b):
         img, pose, meas = render(i)
         Image.fromarray(img).save(os.path.join(od, 's%04d.jpg' % i), quality=93)
-        p = {k: v for k, v in pose.items() if k in ('kind', 'f', 'm', 'facing', 'posture', 'L', 'look', 'rest', 'looking_in', 'legs', 'dissolve')}
+        p = {k: v for k, v in pose.items() if k in ('kind', 'f', 'm', 'facing', 'posture', 'L', 'look', 'rest', 'looking_in', 'legs', 'dissolve', 'theta', 'head_raise')}
         tr[i] = dict(pose=p, **meas)
     json.dump(tr, open(os.path.join(C, 'trace_part_%04d_%04d.json' % (a, b)), 'w'))
     print('rendered', a, b)
