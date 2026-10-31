@@ -16,7 +16,7 @@ os.makedirs(CACHE, exist_ok=True); os.makedirs(PROOF, exist_ok=True)
 # the views: whole archive frames, one mesh each.  facing: -1 head to the left, +1 to the right
 VIEWS = {'W': (10, -1),                      # profile to the left, head up: watching, retreat, approach, lying, looking in
          'r1': (1, -1), 'r3': (3, -1), 'r5': (5, -1), 'r6': (6, -1), 'r7': (7, -1),
-         't13': (13, -1), 't16': (16, -1), 't21': (21, -1),   # in-betweens of the found turn   # the archive's own look back over the shoulder (back of the skull)
+         't13': (13, -1), 't16': (16, -1), 't21': (21, -1), 't22': (22, -1), 't24': (24, 1), 't25': (25, 1), 't33': (33, 1),   # in-betweens of the found turn   # the archive's own look back over the shoulder (back of the skull)
          't26': (26, 1), 't30': (30, 1), 't36': (36, 1), 't40': (40, 1)}  # the archive's own turn
 FRONTAL = {'t26', 't30', 't36'}
 STABILITY = [8, 9, 11]

@@ -168,9 +168,9 @@ set_camera(0.0)
 def score_at(i): return SF[min(max(i, 0), N - 1)]
 
 
-T1 = (3.50, 3.97)     # first turn (away): the archive's own in-betweens
-T2 = (7.40, 7.66)     # turn back to look, lying: head first, hips down
-SEQ = ['t13', 't16', 't21', 't26', 't30', 't36', 't40']   # the found turn, frame by frame
+T1 = (3.46, 3.97)     # first turn (away): the archive's own in-betweens
+T2 = (7.40, 7.60)     # turn back to look, lying: head first, hips down
+SEQ = ['t13', 't16', 't21', 't22', 't24', 't25', 't26', 't30', 't33', 't36', 't40']   # the found turn, frame by frame
 
 
 def dog_plan(i):
@@ -186,7 +186,7 @@ def dog_plan(i):
         view = 'W'; p['neck'] = (1.0 - head) * 2.0 - .05
     elif t < T1[1]:
         k = int((t - T1[0]) / (T1[1] - T1[0]) * len(SEQ)); view = SEQ[min(k, len(SEQ) - 1)]
-        p.update(neck=0.0 if view in ('t26', 't30', 't36', 't40') else .5, crouch=.45, swing=None, frontal=view in ('t26', 't30', 't36'), tail=.4)
+        p.update(neck=0.0 if view in ('t24', 't25', 't26', 't30', 't33', 't36', 't40') else .5, crouch=.45, swing=None, frontal=view in ('t24', 't25', 't26', 't30', 't33', 't36'), tail=.4)
     elif t < T2[0]:
         # the turned back: f010 mirrored standing, then f007 mirrored (the next found frame, with its own tail and
         # folding hind leg) as it lies down, chin toward the boards
@@ -197,7 +197,7 @@ def dog_plan(i):
     elif t < T2[1]:
         # turning to look, lying: the head comes up and round (f005, the back of the skull to the camera), through
         # the next found frame (f006) ...
-        view = 'r5' if t < 7.575 else 'r6'
+        view = 'r5'
         p.update(neck=.25, fold=1.0, swing=None, tail=.3, crouch=0, tuck=True)
     elif t < 8.3:
         # ... and settles toward the door, muzzle level, hips still down (f007 lying); then it rises (f010)
@@ -213,8 +213,6 @@ def dog_plan(i):
             p['neck'] = (1.0 - head) * 2.5 - .05
         else:
             p['neck'] = .85 + .25 * rest; p['chin'] = .06 * rest
-        if .25 < look <= .5:
-            view = 'r6'; p['neck'] = .5; p['chin'] = 0.0; p['tuck'] = True
         if look > .5:
             # looking in: the archive's own look over the shoulder (f005), held while the score looks in: the head
             # turns away from the camera, up into the lit room, back of the skull and ears to us; body still lying
