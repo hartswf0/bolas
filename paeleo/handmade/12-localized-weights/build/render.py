@@ -18,6 +18,7 @@ PV, PF, PW, PH = person.load()
 POSES = perform.dog_poses()
 HEAD_J = [h['name'] for h in DH].index('head')
 NECK_J = [h['name'] for h in DH].index('neck')
+EYE_V = np.where((((DV[:, 0] + 0.455) / 0.024) ** 2 + ((DV[:, 1] - 0.715) / 0.017) ** 2) < 1.0)[0]   # ring around the eye hole
 
 
 def smooth(e):
@@ -146,6 +147,16 @@ def render(i):
         m = Wd.tri_mask(Xpx, tri)
         Wd.comp(c, m, dcol, shadow=(-6, 4, 4, .5), edge=Wd.PAL['dog_edge'])
         total = np.maximum(total, m)
+    # looking in, the head turns away from the camera: its eye turns out of sight (the paper behind the eye hole closes),
+    # leaving the back of the head and the two ears toward the viewer
+    if P['look'] > 0.05:
+        ring = X[EYE_V]
+        ctr = ring.mean(0)
+        hull = cam.px(ring[:, 0], ring[:, 1])
+        ang = np.arctan2(hull[:, 1] - hull[:, 1].mean(), hull[:, 0] - hull[:, 0].mean())
+        poly = hull[np.argsort(ang)]
+        em = Wd.mask_from([poly]) * float(np.clip((P['look'] - 0.05) / 0.5, 0, 1))
+        Wd.comp(c, em, dcol)
     caption(c, cam, i, (pp['x'], pp['sit']))
     out = np.clip(c, 0, 255).astype(np.uint8)
     Image.fromarray(out).save(os.path.join(OUT, '%04d.jpg' % i), quality=93)
