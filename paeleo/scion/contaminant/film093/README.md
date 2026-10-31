@@ -2,11 +2,13 @@
 
 Built with SCION 093 *What Is Neorealism?* (counterfactual cuts from shared material) as the spine.
 
+**Revision 2 (after the golden-river operators).** The care strand is no longer a list chosen in advance: it is defined by physical evidence, an image in which something is touched, the same rule the cinema cut's censor applies. The take's jellyfish collects by rhyme (each image shares a visible feature with the last). The take was re-rendered and both cuts rebuilt; they have not been re-watched by a critic since.
+
 **The editorial question.** Given one take of a jellyfish gathering an archive, what does the film treat as consequential when it is cut for the delivery, and what when it is cut for the peripheral life?
 
 **The film** (`film.mp4`, about 81 s, no text): amber leader, **A** (28 s); blue leader, **B** (28 s); white leader, the **diagnostic** (both cuts side by side on the take's clock at 3.6x, each panel dark where its version omitted that moment, bars of retained intervals, a playhead).
 
-- **A, the censor's cut**: the delivery. The jellyfish lifting, carrying and handing fragments on; the clockwork school's images briefly. The archive's people are never given the frame: they appear only as small thumbnails the jellyfish tows.
+- **A, the censor's cut**: the delivery. The jellyfish lifting, carrying and handing fragments on; the untouched archive images briefly. No image in which something is touched is ever given the frame: those appear only as small thumbnails the jellyfish tows.
 - **B, the jellyfish's cut**: the peripheral life. The archive's people held for their full length, and the moment after each goes. The jellyfish's work (lifting, carrying, handing on) is left out; it appears only drifting between them.
 
 ## Shared source pool
@@ -18,7 +20,7 @@ One continuous take, `../rushes/film.mp4` (72 s), rendered from the page in `?ru
 - Same source take, no added footage; both versions in source order (`checks.json`).
 - Equal length: both exactly 672 frames (28 s at 24 fps). This is also the deliverable's equal-duration variant.
 - Same grade (the take's own), same splice treatment (25 ms audio fades at every cut).
-- Sound: the take's own sound is cut with the picture; one identical newly composed cue (`build/cue.js`) runs under each at the same level. Integrated loudness is in `loudness.json` (A −17.4, B −17.4 LUFS).
+- Sound: the take's own sound is cut with the picture; one identical newly composed cue (`build/cue.js`) runs under each at the same level. Integrated loudness is in `loudness.json` (A −17.2, B −16.8 LUFS in revision 2).
 - The diagnostic is visually distinct from ordinary playback (two panels, bars, a playhead, 3.6x) and quieter.
 
 ## Files
