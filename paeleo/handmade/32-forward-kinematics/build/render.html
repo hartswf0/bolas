@@ -1,0 +1,268 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>SCION 32 render</title>
+<style>body{margin:0;background:#000}canvas{display:block}</style>
+<link rel="stylesheet" href="../../../../tools/paeleo/fonts/local.css">
+<script src="rig.js"></script><script src="scene.js"></script>
+</head><body>
+<canvas id="c" width="1280" height="720"></canvas><canvas id="k" width="1280" height="720" style="display:none"></canvas>
+<script>
+'use strict';
+const W = 1280, H = 720;
+const cv = document.getElementById('c');
+const gl = cv.getContext('webgl2', { antialias: true, preserveDrawingBuffer: true });
+const { M } = RIG;
+
+// ---------- matrices for the camera and lights ----------
+function lookAt(e, t, up = [0, 1, 0]) {
+  let z = [e[0] - t[0], e[1] - t[1], e[2] - t[2]]; let l = Math.hypot(...z); z = z.map(v => v / l);
+  let x = [up[1] * z[2] - up[2] * z[1], up[2] * z[0] - up[0] * z[2], up[0] * z[1] - up[1] * z[0]]; l = Math.hypot(...x); x = x.map(v => v / l);
+  const y = [z[1] * x[2] - z[2] * x[1], z[2] * x[0] - z[0] * x[2], z[0] * x[1] - z[1] * x[0]];
+  return [x[0], y[0], z[0], 0, x[1], y[1], z[1], 0, x[2], y[2], z[2], 0, -(x[0] * e[0] + x[1] * e[1] + x[2] * e[2]), -(y[0] * e[0] + y[1] * e[1] + y[2] * e[2]), -(z[0] * e[0] + z[1] * e[1] + z[2] * e[2]), 1];
+}
+function persp(fovy, asp, n, f) { const t = 1 / Math.tan(fovy * Math.PI / 360); return [t / asp, 0, 0, 0, 0, t, 0, 0, 0, 0, (f + n) / (n - f), -1, 0, 0, 2 * f * n / (n - f), 0]; }
+function ortho(l, r, b, t, n, f) { return [2 / (r - l), 0, 0, 0, 0, 2 / (t - b), 0, 0, 0, 0, -2 / (f - n), 0, -(r + l) / (r - l), -(t + b) / (t - b), -(f + n) / (f - n), 1]; }
+function project(VP, p) { const x = VP[0] * p[0] + VP[4] * p[1] + VP[8] * p[2] + VP[12], y = VP[1] * p[0] + VP[5] * p[1] + VP[9] * p[2] + VP[13], w = VP[3] * p[0] + VP[7] * p[1] + VP[11] * p[2] + VP[15]; return [(x / w * 0.5 + 0.5) * W, (1 - (y / w * 0.5 + 0.5)) * H, w]; }
+
+// ---------- shaders ----------
+const VS = `#version 300 es
+layout(location=0) in vec3 aPos; layout(location=1) in vec3 aNor; layout(location=2) in vec3 aCol; layout(location=3) in float aMat; layout(location=4) in vec2 aUV;
+uniform mat4 uModel, uVP, uLampVP, uMoonVP;
+out vec3 vW; out vec3 vN; out vec3 vCol; out vec3 vL; out float vMat; out vec2 vUV; out vec4 vLamp; out vec4 vMoon;
+void main(){ vec4 w = uModel*vec4(aPos,1.0); vW=w.xyz; vN=mat3(uModel)*aNor; vCol=aCol; vMat=aMat; vUV=aUV; vL=aPos; vLamp=uLampVP*w; vMoon=uMoonVP*w; gl_Position=uVP*w; }`;
+const FS = `#version 300 es
+precision highp float; precision highp sampler2DShadow;
+in vec3 vW; in vec3 vN; in vec3 vCol; in vec3 vL; in float vMat; in vec2 vUV; in vec4 vLamp; in vec4 vMoon;
+uniform vec3 uCam, uLampPos, uMoonDir; uniform float uLampI, uSeed, uDim;
+uniform sampler2DShadow uLampSh, uMoonSh;
+out vec4 o;
+float h3(vec3 p){ p=fract(p*0.3183099+vec3(0.1,0.2,0.3)); p*=17.0; return fract(p.x*p.y*p.z*(p.x+p.y+p.z)); }
+float vn(vec3 x){ vec3 i=floor(x), f=fract(x); f=f*f*(3.0-2.0*f);
+  return mix(mix(mix(h3(i),h3(i+vec3(1,0,0)),f.x),mix(h3(i+vec3(0,1,0)),h3(i+vec3(1,1,0)),f.x),f.y),
+             mix(mix(h3(i+vec3(0,0,1)),h3(i+vec3(1,0,1)),f.x),mix(h3(i+vec3(0,1,1)),h3(i+vec3(1,1,1)),f.x),f.y),f.z); }
+float shadowOf(sampler2DShadow s, vec4 c, float bias, float spread){
+  vec3 p = c.xyz/c.w*0.5+0.5; if(c.w<=0.0 || p.x<0.0||p.x>1.0||p.y<0.0||p.y>1.0||p.z>1.0) return 1.0;
+  float acc=0.0; for(int i=-1;i<=1;i++) for(int j=-1;j<=1;j++) acc+=texture(s, vec3(p.xy+vec2(i,j)*spread*1.6, p.z-bias));
+  return acc/9.0; }
+void main(){
+  int m = int(vMat+0.5);
+  vec3 V = normalize(uCam-vW);
+  if(m==6){ // sky: painted dusk gradient, a moon disc, a few stars
+    vec3 d = normalize(vW-uCam); float y = d.y;
+    vec3 col = mix(vec3(0.80,0.47,0.40), vec3(0.30,0.27,0.45), smoothstep(-0.02,0.16,y));
+    col = mix(col, vec3(0.07,0.09,0.22), smoothstep(0.14,0.6,y));
+    col = mix(vec3(0.20,0.18,0.24), col, smoothstep(-0.08,0.0,y));
+    vec3 md = normalize(vec3(-0.78,0.22,-0.58)); float mm = dot(d,md);
+    col = mix(col, vec3(1.0,0.95,0.8), smoothstep(0.99935,0.99950,mm));
+    col += vec3(0.25,0.22,0.2)*pow(max(mm,0.0),400.0);
+    float st = h3(floor(d*900.0)); col += vec3(0.8)*step(0.9985,st)*smoothstep(0.12,0.4,y);
+    o = vec4(pow(col,vec3(1.0/1.15))*uDim,1.0); return; }
+  vec3 base = vCol;
+  vec3 N = normalize(vN); if(dot(N,V)<0.0) N=-N;
+  float spec = 0.0, shin = 20.0;
+  if(m==0 || m==10){ // painted wood: brush streaks along the part, a little grain through the paint
+    float br = vn(vec3(vL.x*14.0, vL.y*140.0, vL.z*140.0)+uSeed);
+    base *= 0.93+0.09*br;
+    if(m==10){ // hand-painted patches on the dog's carved parts
+      float n = vn(vL*11.0+vec3(3.1,7.7,1.3)) + 0.45*vn(vL*31.0+vec3(5.0));
+      float k = smoothstep(0.98,1.01,n);
+      base = mix(base, vec3(0.36,0.21,0.12), k);
+    }
+    spec = 0.18; shin = 28.0; }
+  else if(m==1){ base *= 0.82+0.3*vn(vL*700.0); float fz=vn(vL*180.0); base*=0.92+0.12*fz; spec=0.0; }
+  else if(m==2){ spec = 1.1; shin = 60.0; base *= 0.8+0.25*vn(vL*60.0); }
+  else if(m==3){ float g = vn(vec3(vL.x*26.0, vL.y*26.0, vL.z*1.2)); float r = fract(g*7.0 + vL.y*3.0); base *= 0.80+0.16*g+0.07*smoothstep(0.0,0.5,r)*smoothstep(1.0,0.5,r); spec=0.12; }
+  else if(m==4){ o = vec4(pow(base*1.25, vec3(1.0/1.15)),1.0); return; }
+  else if(m==5){ float rib = 0.5+0.5*sin((vL.x*1.3+vL.z)*420.0); base *= 0.86+0.14*rib; base *= 0.9+0.15*vn(vL*240.0); spec=0.0; }
+  else if(m==7){ spec = 1.4; shin = 90.0; }
+  else if(m==8){ base *= 0.6+0.5*vn(vW*3.0)+0.2*vn(vW*30.0); }
+  else if(m==9){ float f = fract(vW.y/0.165); base *= 0.78+0.22*smoothstep(0.0,0.18,f); base *= 0.95+0.08*vn(vec3(vW.x*3.0,vW.y*40.0,vW.z*3.0)); spec=0.05; }
+  bool inside = vW.z < -0.125;
+  // dusk sky light (hemisphere) + moonlight with a soft shadow + the lamp through the door with its shadow
+  vec3 hemi = mix(vec3(0.10,0.08,0.10), vec3(0.30,0.33,0.52), 0.5+0.5*N.y) * (inside ? 0.15 : 0.45);
+  float ms = shadowOf(uMoonSh, vMoon, 0.0016, 1.0/1400.0);
+  vec3 moon = vec3(0.40,0.45,0.70)*0.55*max(dot(N,uMoonDir),0.0)*ms*(inside?0.0:1.0);
+  vec3 Lv = uLampPos - vW; float d = length(Lv); Lv/=d;
+  float ls = shadowOf(uLampSh, vLamp, 0.0022, 1.0/1300.0);
+  float att = uLampI/(1.0+0.09*d*d);
+  vec3 lampC = vec3(1.0,0.66,0.36);
+  vec3 lamp = lampC*att*max(dot(N,Lv),0.0)*ls;
+  vec3 col = base*(hemi+moon+lamp+ (inside? lampC*0.10*uLampI/(1.0+0.1*d*d) : vec3(0.0)));
+  vec3 Hh = normalize(Lv+V); col += spec*lampC*att*ls*pow(max(dot(N,Hh),0.0),shin)*0.7;
+  vec3 Hm = normalize(uMoonDir+V); col += spec*vec3(0.5,0.55,0.8)*0.25*ms*pow(max(dot(N,Hm),0.0),shin);
+  float dist = length(vW-uCam); col = mix(col, vec3(0.16,0.15,0.25), 1.0-exp(-max(dist-6.0,0.0)*0.06));
+  col = col/(1.0+0.55*col);
+  col = pow(col, vec3(1.0/1.9));
+  vec2 q = gl_FragCoord.xy/vec2(${W}.0,${H}.0)-0.5; col *= 1.0-0.55*dot(q,q);
+  col += (h3(vec3(gl_FragCoord.xy, uSeed))-0.5)*0.025;
+  o = vec4(col*uDim,1.0); }`;
+const VS_D = `#version 300 es
+layout(location=0) in vec3 aPos; uniform mat4 uModel, uVP; void main(){ gl_Position = uVP*uModel*vec4(aPos,1.0); }`;
+const FS_D = `#version 300 es
+precision mediump float; out vec4 o; void main(){ o=vec4(1.0); }`;
+const FS_ID = `#version 300 es
+precision mediump float; uniform vec3 uId; out vec4 o; void main(){ o=vec4(uId,1.0); }`;
+function prog(vs, fs) {
+  const p = gl.createProgram();
+  for (const [t, s] of [[gl.VERTEX_SHADER, vs], [gl.FRAGMENT_SHADER, fs]]) { const sh = gl.createShader(t); gl.shaderSource(sh, s); gl.compileShader(sh); if (!gl.getShaderParameter(sh, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(sh)); gl.attachShader(p, sh); }
+  gl.linkProgram(p); if (!gl.getProgramParameter(p, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(p));
+  const u = {}; const n = gl.getProgramParameter(p, gl.ACTIVE_UNIFORMS); for (let i = 0; i < n; i++) { const a = gl.getActiveUniform(p, i); u[a.name] = gl.getUniformLocation(p, a.name); }
+  return { p, u };
+}
+const PM = prog(VS, FS), PD = prog(VS_D, FS_D), PI = prog(VS_D, FS_ID);
+function upload(mesh) {
+  const vao = gl.createVertexArray(); gl.bindVertexArray(vao);
+  const b = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, b); gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(mesh.v), gl.STATIC_DRAW);
+  const S = 48; [[0, 3, 0], [1, 3, 12], [2, 3, 24], [3, 1, 36], [4, 2, 40]].forEach(([l, n, o]) => { gl.enableVertexAttribArray(l); gl.vertexAttribPointer(l, n, gl.FLOAT, false, S, o); });
+  gl.bindVertexArray(null); return { vao, n: mesh.v.length / 12 };
+}
+function shadowFBO(size) {
+  const t = gl.createTexture(); gl.bindTexture(gl.TEXTURE_2D, t);
+  gl.texImage2D(gl.TEXTURE_2D, 0, gl.DEPTH_COMPONENT32F, size, size, 0, gl.DEPTH_COMPONENT, gl.FLOAT, null);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_COMPARE_MODE, gl.COMPARE_REF_TO_TEXTURE); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_COMPARE_FUNC, gl.LEQUAL);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+  const f = gl.createFramebuffer(); gl.bindFramebuffer(gl.FRAMEBUFFER, f); gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT, gl.TEXTURE_2D, t, 0);
+  gl.drawBuffers([gl.NONE]); gl.readBuffer(gl.NONE);
+  gl.bindFramebuffer(gl.FRAMEBUFFER, null); return { t, f, size };
+}
+let G = null;
+window.init = function (score) {
+  window.SCORE = score;
+  const dp = SCENE.dogParts(RIG), pp = SCENE.personParts();
+  const wm = SCENE.world();
+  // split the sky (last mesh pushed) from the casting world for the shadow passes: sky is the last 10*20*2*3 vertices
+  const skyN = 10 * 20 * 2 * 3 * 12; const skyMesh = { v: wm.v.slice(wm.v.length - skyN) }, worldMesh = { v: wm.v.slice(0, wm.v.length - skyN) };
+  G = { world: upload(worldMesh), sky: upload(skyMesh), door: upload(SCENE.doorLeaf()), dog: {}, person: {} };
+  for (const k in dp) G.dog[k] = upload(dp[k]);
+  for (const k in pp) G.person[k] = upload(pp[k]);
+  G.lampSh = shadowFBO(1536); G.moonSh = shadowFBO(1536);
+  // measurement target
+  G.idW = 640; G.idH = 360;
+  G.idFB = gl.createFramebuffer(); gl.bindFramebuffer(gl.FRAMEBUFFER, G.idFB);
+  const rb = gl.createRenderbuffer(); gl.bindRenderbuffer(gl.RENDERBUFFER, rb); gl.renderbufferStorage(gl.RENDERBUFFER, gl.RGBA8, G.idW, G.idH);
+  gl.framebufferRenderbuffer(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.RENDERBUFFER, rb);
+  const db = gl.createRenderbuffer(); gl.bindRenderbuffer(gl.RENDERBUFFER, db); gl.renderbufferStorage(gl.RENDERBUFFER, gl.DEPTH_COMPONENT24, G.idW, G.idH);
+  gl.framebufferRenderbuffer(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT, gl.RENDERBUFFER, db);
+  gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+  G.tl = RIG.dogTimeline(score);
+  G.px = new Uint8Array(G.idW * G.idH * 4);
+  return Object.keys(G.dog).length + ' dog parts, ' + Object.keys(G.person).length + ' person parts, world tris ' + G.world.n / 3;
+};
+const LAMP = [-0.02, 1.92, -1.45];
+const MOON_DIR = (() => { const d = [-0.42, 0.78, 0.46]; const l = Math.hypot(...d); return d.map(v => v / l); })();
+function drawList(state) { // [vao, model, idColor]
+  const L = [[G.world, M.I(), [0, 0, 0]]];
+  const hinge = M.mul(M.T(-0.46, 0.0, -0.118), M.RY(state.door));
+  L.push([G.door, hinge, [0, 0, 0]]);
+  for (const k in G.person) L.push([G.person[k], state.P.W[k], [1, 1, 0]]);
+  for (const k in G.dog) L.push([G.dog[k], state.D.W[k], k === 'head' || k.startsWith('ear') ? [0, 1, 0] : k.startsWith('tail') ? [0, 0, 1] : [1, 0, 0]]);
+  return L;
+}
+function pose(i) {
+  const t = i / 24, cam = window.CAM_OVERRIDE || RIG.camera(t, SCORE);
+  const D = RIG.dogPose(SCORE, G.tl, i, cam), P = RIG.personPose(SCORE, i);
+  return { t, cam, D, P, door: RIG.doorAngle(t) };
+}
+window.renderFrame = function (i, opts = {}) {
+  const st = pose(i);
+  const L = drawList(st);
+  gl.enable(gl.DEPTH_TEST);
+  // shadow passes
+  const lampVP = M.mul(persp(118, 1, 0.15, 14), lookAt(LAMP, [0.15, -0.3, 1.6]));
+  const mc = [0.0, 0, 1.6], md = MOON_DIR;
+  const moonVP = M.mul(ortho(-5.5, 5.5, -5.5, 5.5, 0.1, 30), lookAt([mc[0] + md[0] * 12, mc[1] + md[1] * 12, mc[2] + md[2] * 12], mc));
+  gl.useProgram(PD.p);
+  for (const [S, VP] of [[G.lampSh, lampVP], [G.moonSh, moonVP]]) {
+    gl.bindFramebuffer(gl.FRAMEBUFFER, S.f); gl.viewport(0, 0, S.size, S.size); gl.clear(gl.DEPTH_BUFFER_BIT);
+    gl.uniformMatrix4fv(PD.u.uVP, false, VP);
+    for (const [g, mdl] of L) { gl.uniformMatrix4fv(PD.u.uModel, false, mdl); gl.bindVertexArray(g.vao); gl.drawArrays(gl.TRIANGLES, 0, g.n); }
+  }
+  // main pass
+  gl.bindFramebuffer(gl.FRAMEBUFFER, null); gl.viewport(0, 0, W, H);
+  gl.clearColor(0.05, 0.05, 0.08, 1); gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+  const VP = M.mul(persp(st.cam.fov, W / H, 0.05, 200), lookAt(st.cam.pos, st.cam.tgt));
+  gl.useProgram(PM.p);
+  gl.uniformMatrix4fv(PM.u.uVP, false, VP); gl.uniformMatrix4fv(PM.u.uLampVP, false, lampVP); gl.uniformMatrix4fv(PM.u.uMoonVP, false, moonVP);
+  gl.uniform3fv(PM.u.uCam, st.cam.pos); gl.uniform3fv(PM.u.uLampPos, LAMP); gl.uniform3fv(PM.u.uMoonDir, MOON_DIR);
+  gl.uniform1f(PM.u.uLampI, 4.2); gl.uniform1f(PM.u.uSeed, (i % 97) * 0.37); gl.uniform1f(PM.u.uDim, opts.dim == null ? 1 : opts.dim);
+  gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, G.lampSh.t); gl.uniform1i(PM.u.uLampSh, 0);
+  gl.activeTexture(gl.TEXTURE1); gl.bindTexture(gl.TEXTURE_2D, G.moonSh.t); gl.uniform1i(PM.u.uMoonSh, 1);
+  gl.uniformMatrix4fv(PM.u.uModel, false, M.T(st.cam.pos[0], 0, st.cam.pos[2])); gl.bindVertexArray(G.sky.vao); gl.drawArrays(gl.TRIANGLES, 0, G.sky.n);
+  for (const [g, mdl] of L) { gl.uniformMatrix4fv(PM.u.uModel, false, mdl); gl.bindVertexArray(g.vao); gl.drawArrays(gl.TRIANGLES, 0, g.n); }
+  // measurement pass: the same scene, flat ids, at half resolution: what of the dog is visible, and where
+  gl.bindFramebuffer(gl.FRAMEBUFFER, G.idFB); gl.viewport(0, 0, G.idW, G.idH);
+  gl.clearColor(0, 0, 0, 1); gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+  gl.useProgram(PI.p); gl.uniformMatrix4fv(PI.u.uVP, false, VP);
+  for (const [g, mdl, id] of L) { gl.uniformMatrix4fv(PI.u.uModel, false, mdl); gl.uniform3fv(PI.u.uId, id); gl.bindVertexArray(g.vao); gl.drawArrays(gl.TRIANGLES, 0, g.n); }
+  gl.readPixels(0, 0, G.idW, G.idH, gl.RGBA, gl.UNSIGNED_BYTE, G.px);
+  gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+  const acc = { dog: [0, 0, 0], head: [0, 0, 0], tail: [0, 0, 0], person: [0, 0, 0] };
+  let minx = 1e9, maxx = -1e9, miny = 1e9, maxy = -1e9, hminy = 1e9;
+  const px = G.px, sx = W / G.idW;
+  for (let y = 0; y < G.idH; y++) for (let x = 0; x < G.idW; x++) {
+    const o = (y * G.idW + x) * 4, r = px[o], g = px[o + 1], b = px[o + 2];
+    if (!(r | g | b)) continue;
+    const X = (x + 0.5) * sx, Y = (G.idH - 1 - y + 0.5) * sx;
+    let k = null;
+    if (r > 127 && g > 127) k = 'person'; else if (g > 127) k = 'head'; else if (b > 127) k = 'tail'; else if (r > 127) k = 'dog';
+    if (!k) continue;
+    acc[k][0] += X; acc[k][1] += Y; acc[k][2]++; if (k === 'head') hminy = Math.min(hminy, Y);
+    if (k !== 'person') { acc.dog[0] += k !== 'dog' ? X : 0; acc.dog[1] += k !== 'dog' ? Y : 0; acc.dog[2] += k !== 'dog' ? 1 : 0; minx = Math.min(minx, X); maxx = Math.max(maxx, X); miny = Math.min(miny, Y); maxy = Math.max(maxy, Y); }
+  }
+  const cen = a => a[2] ? [a[0] / a[2], a[1] / a[2], a[2] * sx * sx] : null;
+  const dW = st.D.W;
+  const nose = project(VP, M.p(dW.head, [0.15, -0.008, 0])), skull = project(VP, M.p(dW.head, [0, 0, 0])), withers = project(VP, M.p(dW.waist, [0.12, 0.112, 0]));
+  const headTop = project(VP, M.p(dW.head, [0, 0.064, 0]));
+  const meas = {
+    i, t: st.t, cam: st.cam, VP,
+    dog: cen(acc.dog), head: cen(acc.head), tail: cen(acc.tail), person: cen(acc.person), bbox: acc.dog[2] ? [minx, miny, maxx, maxy] : null,
+    nose, skull, withers, headTop,
+    head_top_px: hminy < 1e9 ? hminy : null, zmid: st.D.Zmid, g0: project(VP, [0, 0, st.D.Zmid]), g1: project(VP, [0, 1, st.D.Zmid]), door: project(VP, [0, 0.5, -0.6]),
+    rootWorld: M.p(dW.root, [0, 0, 0]), yaw: st.D.yaw, lie: st.D.lie, anchor: st.D.anchor, weights: st.D.weights,
+  };
+  if (opts.noImage) return { meas };
+  return { meas, jpeg: cv.toDataURL('image/jpeg', opts.q || 0.9) };
+};
+window.cardCanvas = function () { return cv; };
+
+// ---------- the title and end cards (2D canvas) ----------
+window.drawCard = async function (kind, data) {
+  await document.fonts.load('800 40px "Big Shoulders Display"'); await document.fonts.load('400 16px "JetBrains Mono"'); await document.fonts.load('600 16px "JetBrains Mono"'); await document.fonts.load('400 18px Literata');
+  const k = document.getElementById('k'), c = k.getContext('2d');
+  const BG = '#141722', INK = '#efe4cf', DIM = '#9aa0b4', RED = '#c8343a', BRASS = '#d4a443', FELT = '#9e1f2c';
+  c.fillStyle = BG; c.fillRect(0, 0, 1280, 720);
+  const pin = (x, y, r = 5) => { c.beginPath(); c.arc(x, y, r, 0, 7); c.fillStyle = BRASS; c.fill(); c.beginPath(); c.arc(x - r * 0.3, y - r * 0.3, r * 0.35, 0, 7); c.fillStyle = '#f6dc8c'; c.fill(); };
+  if (kind === 'title') {
+    if (data && data.img) { const im = new Image(); im.src = data.img; await im.decode(); c.globalAlpha = 0.55; c.drawImage(im, 0, 0, 1280, 720); c.globalAlpha = 1; const g = c.createLinearGradient(0, 0, 900, 0); g.addColorStop(0, 'rgba(20,23,34,0.97)'); g.addColorStop(0.75, 'rgba(20,23,34,0.6)'); g.addColorStop(1, 'rgba(20,23,34,0)'); c.fillStyle = g; c.fillRect(0, 0, 1280, 720); }
+    c.fillStyle = DIM; c.font = '400 20px "JetBrains Mono"'; c.fillText('PAE-02 · SCION 32 · Forward Kinematics', 88, 250);
+    c.fillStyle = INK; c.font = '800 92px "Big Shoulders Display"'; c.fillText('The threshold,', 84, 350); c.fillText('pinned joint by joint', 84, 440);
+    c.fillStyle = DIM; c.font = '400 22px Literata'; c.fillText('Hierarchical body logic: a carved wooden dog whose every pose', 88, 510);
+    c.fillText('is local joint angles carried down a tree from its root.', 88, 542);
+    pin(88 - 2, 590, 7); c.fillStyle = BRASS; c.font = '400 15px "JetBrains Mono"'; c.fillText('no IK  ·  bone lengths fixed  ·  feet measured', 104, 595);
+  } else {
+    c.fillStyle = INK; c.font = '800 44px "Big Shoulders Display"'; c.fillText('What it is made of', 60, 74);
+    c.fillStyle = DIM; c.font = '400 15.5px "JetBrains Mono"';
+    const lines = data.lines; lines.forEach((l, j) => { c.fillStyle = l.startsWith('!') ? BRASS : DIM; c.fillText(l.replace(/^!/, ''), 60, 112 + j * 23); });
+    // joint graph: the dog's tree, drawn as pins and bones
+    const G = data.graph, ox = 60, oy = 420;
+    c.fillStyle = INK; c.font = '600 15px "JetBrains Mono"'; c.fillText('joint graph (dog, 31 joints)', ox, oy - 14);
+    c.lineWidth = 2;
+    for (const n of G.nodes) if (n.parent) { const p = G.nodes.find(q => q.name === n.parent); c.strokeStyle = n.prop ? FELT : '#6d7388'; c.beginPath(); c.moveTo(ox + p.x, oy + p.y); c.lineTo(ox + n.x, oy + n.y); c.stroke(); }
+    for (const n of G.nodes) { pin(ox + n.x, oy + n.y, n.name === 'root' ? 6 : 4); if (n.label) { c.fillStyle = n.prop ? '#e07a7f' : INK; c.font = '400 11.5px "JetBrains Mono"'; c.fillText(n.label, ox + n.x + 7, oy + n.y + 4); } }
+    c.fillStyle = DIM; c.font = '400 12px "JetBrains Mono"'; c.fillText('* head pivot = view-specific anchor (profile / three-quarter / rear), blended by its angle to the camera', ox, oy + 262);
+    c.fillStyle = '#e07a7f'; c.fillText('red = props on the tree: felt saddle cloth and its flaps', ox, oy + 280);
+    // angle curve: right hind hip and knee over the 32 s, planted spans shaded
+    const C = data.curves, gx = 690, gy = 430, gw = 540, gh = 210;
+    c.fillStyle = INK; c.font = '600 15px "JetBrains Mono"'; c.fillText('right hind leg: local angles, as rendered (deg)', gx, gy - 24);
+    c.strokeStyle = '#3a3f52'; c.lineWidth = 1; c.strokeRect(gx, gy, gw, gh);
+    const X = t => gx + gw * t / 32, Y = v => gy + gh / 2 - v * (gh / 2) / 190;
+    c.fillStyle = 'rgba(212,164,67,0.16)';
+    for (let i = 0; i < C.t.length; i++) if (C.planted[i]) c.fillRect(X(C.t[i]) - 0.5, gy, gw / 768 + 1, gh);
+    for (const [key, col] of [['hip', '#efe4cf'], ['knee', '#e0606a']]) { c.strokeStyle = col; c.lineWidth = 1.6; c.beginPath(); C.t.forEach((t, i) => { const y = Y(C[key][i]); i ? c.lineTo(X(t), y) : c.moveTo(X(t), y); }); c.stroke(); }
+    c.font = '400 12px "JetBrains Mono"'; c.fillStyle = '#efe4cf'; c.fillText('hip', gx + 6, gy + 16); c.fillStyle = '#e0606a'; c.fillText('knee', gx + 40, gy + 16); c.fillStyle = BRASS; c.fillText('paw planted', gx + 86, gy + 16);
+    c.fillStyle = DIM; for (const t of [0, 8, 16, 24, 32]) c.fillText(t + ' s', X(t) - 8, gy + gh + 16);
+    for (const [t, l] of data.marks) { c.strokeStyle = 'rgba(200,52,58,0.7)'; c.beginPath(); c.moveTo(X(t), gy); c.lineTo(X(t), gy + gh); c.stroke(); c.fillStyle = '#e07a7f'; c.fillText(l, X(t) + 3, gy + gh - 6); }
+  }
+  return k.toDataURL('image/png');
+};
+</script></body></html>

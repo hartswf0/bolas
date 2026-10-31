@@ -304,6 +304,17 @@
    "trick": "The dog's edges hold against sky and siding, because the matte, not the outline, decides what is dog."
   },
   {
+   "id": 32,
+   "dir": "32-forward-kinematics",
+   "name": "Forward kinematics",
+   "kind": "Jointed toy moved only by forward kinematics",
+   "dog": "a carved and painted wooden toy dog on visible brass pins",
+   "made": "Cream-painted carved blocks on brass pins, a red felt saddle cloth with two flaps, black drop ears and a red and cream bead tail, rendered in WebGL; a peg-figure person with a cardigan. Everything is made in code; all sound is synthesized.",
+   "moved": "A 31-joint graph for the dog and 25 for the person, every world transform the parent times a pivot offset times local rotations, root first, with no IK anywhere. The head pivot has view anchors for profile, three-quarter and rear, blended by angle. Feet are planted only by hand-keyed hip and knee angles, and the remaining foot slip is measured and stated on the end card.",
+   "trick": "The joint graph you see is the one that moves it: change a hip and exactly its children follow, saddle cloth and all.",
+   "status": "narrow pass at critic round 1; repair round"
+  },
+  {
    "id": 33,
    "dir": "33-inverse-kinematics",
    "name": "Inverse kinematics",

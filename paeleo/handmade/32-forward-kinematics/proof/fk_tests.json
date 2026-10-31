@@ -1,0 +1,292 @@
+{
+ "T1_bone_lengths": {
+  "max_err_m": 4.565792188770956e-16,
+  "joints": 54,
+  "frames": 768,
+  "head_anchor_length_range_m": [
+   0.1491,
+   0.1692
+  ],
+  "note": "every bone keeps its length to float precision; the neck->head pivot is a view-specific anchor whose offset is blended between three authored values, so its length is checked against the anchor in use that frame"
+ },
+ "T2_multiply_order": {
+  "max_abs_matrix_err": {
+   "dog": 4.440892098500626e-16,
+   "person": 4.440892098500626e-16
+  },
+  "order": "world = parent_world * T(pivot offset) * RY(yaw) * RZ(pitch) * RX(roll), root first"
+ },
+ "T3_propagation": [
+  {
+   "who": "dog",
+   "joint": "hipR",
+   "change_deg": 12,
+   "axis": "pitch",
+   "frame": 400,
+   "descendants": [
+    "kneeR",
+    "hpawR"
+   ],
+   "children_follow_max_err": 5.273559366969494e-16,
+   "non_descendants_max_change": 0,
+   "largest_descendant_move_m": 0.0574
+  },
+  {
+   "who": "dog",
+   "joint": "shoulderL",
+   "change_deg": -15,
+   "axis": "pitch",
+   "frame": 400,
+   "descendants": [
+    "elbowL",
+    "fpawL"
+   ],
+   "children_follow_max_err": 4.440892098500626e-16,
+   "non_descendants_max_change": 0,
+   "largest_descendant_move_m": 0.0949
+  },
+  {
+   "who": "dog",
+   "joint": "waist",
+   "change_deg": 20,
+   "axis": "yaw",
+   "frame": 216,
+   "descendants": [
+    "neck",
+    "head",
+    "earR0",
+    "earR1",
+    "earL0",
+    "earL1",
+    "cloth",
+    "flapR0",
+    "flapR1",
+    "flapL0",
+    "flapL1",
+    "shoulderR",
+    "elbowR",
+    "fpawR",
+    "shoulderL",
+    "elbowL",
+    "fpawL"
+   ],
+   "children_follow_max_err": 4.440892098500626e-16,
+   "non_descendants_max_change": 0,
+   "largest_descendant_move_m": 0.1562
+  },
+  {
+   "who": "dog",
+   "joint": "pelvis",
+   "change_deg": 8,
+   "axis": "pitch",
+   "frame": 700,
+   "descendants": [
+    "waist",
+    "neck",
+    "head",
+    "earR0",
+    "earR1",
+    "earL0",
+    "earL1",
+    "cloth",
+    "flapR0",
+    "flapR1",
+    "flapL0",
+    "flapL1",
+    "shoulderR",
+    "elbowR",
+    "fpawR",
+    "shoulderL",
+    "elbowL",
+    "fpawL",
+    "hipR",
+    "kneeR",
+    "hpawR",
+    "hipL",
+    "kneeL",
+    "hpawL",
+    "tail0",
+    "tail1",
+    "tail2",
+    "tail3",
+    "tail4"
+   ],
+   "children_follow_max_err": 3.3306690738754696e-16,
+   "non_descendants_max_change": 0,
+   "largest_descendant_move_m": 0.1268
+  },
+  {
+   "who": "person",
+   "joint": "shoulderR",
+   "change_deg": 10,
+   "axis": "pitch",
+   "frame": 600,
+   "descendants": [
+    "elbowR",
+    "wristR",
+    "cuffR",
+    "thumbR"
+   ],
+   "children_follow_max_err": 4.440892098500626e-16,
+   "non_descendants_max_change": 0,
+   "largest_descendant_move_m": 0.0937
+  },
+  {
+   "who": "person",
+   "joint": "spine",
+   "change_deg": -8,
+   "axis": "pitch",
+   "frame": 600,
+   "descendants": [
+    "chest",
+    "neck",
+    "head",
+    "jaw",
+    "hemR",
+    "hemL",
+    "shoulderR",
+    "elbowR",
+    "wristR",
+    "cuffR",
+    "thumbR",
+    "shoulderL",
+    "elbowL",
+    "wristL",
+    "cuffL",
+    "thumbL"
+   ],
+   "children_follow_max_err": 4.440892098500626e-16,
+   "non_descendants_max_change": 0,
+   "largest_descendant_move_m": 0.0696
+  }
+ ],
+ "T4_contact": {
+  "per_paw": {
+   "fpawR": {
+    "walk_slip_per_frame": {
+     "n": 144,
+     "max_mm": 8.23,
+     "mean_mm": 1.75
+    },
+    "stand_slip_per_frame": {
+     "n": 179,
+     "max_mm": 4.47,
+     "mean_mm": 0.044
+    },
+    "turn_slip_per_frame": {
+     "n": 11,
+     "max_mm": 95.36,
+     "mean_mm": 55.104
+    },
+    "stance_drift": {
+     "n": 9,
+     "max_mm": 18.39,
+     "mean_mm": 13.151
+    },
+    "planted_height_mm": {
+     "min": -7.7,
+     "max": -0.4
+    }
+   },
+   "fpawL": {
+    "walk_slip_per_frame": {
+     "n": 166,
+     "max_mm": 8.52,
+     "mean_mm": 1.513
+    },
+    "stand_slip_per_frame": {
+     "n": 180,
+     "max_mm": 6.44,
+     "mean_mm": 0.043
+    },
+    "turn_slip_per_frame": {
+     "n": 9,
+     "max_mm": 65.59,
+     "mean_mm": 39.201
+    },
+    "stance_drift": {
+     "n": 10,
+     "max_mm": 21.1,
+     "mean_mm": 10.858
+    },
+    "planted_height_mm": {
+     "min": -13.1,
+     "max": -0.3
+    }
+   },
+   "hpawR": {
+    "walk_slip_per_frame": {
+     "n": 134,
+     "max_mm": 7.36,
+     "mean_mm": 1.611
+    },
+    "stand_slip_per_frame": {
+     "n": 179,
+     "max_mm": 2.86,
+     "mean_mm": 0.083
+    },
+    "turn_slip_per_frame": {
+     "n": 14,
+     "max_mm": 41.01,
+     "mean_mm": 13.37
+    },
+    "stance_drift": {
+     "n": 8,
+     "max_mm": 15.47,
+     "mean_mm": 13.114
+    },
+    "planted_height_mm": {
+     "min": -6.4,
+     "max": -0.6
+    }
+   },
+   "hpawL": {
+    "walk_slip_per_frame": {
+     "n": 166,
+     "max_mm": 8.95,
+     "mean_mm": 1.343
+    },
+    "stand_slip_per_frame": {
+     "n": 180,
+     "max_mm": 0.26,
+     "mean_mm": 0.01
+    },
+    "turn_slip_per_frame": {
+     "n": 7,
+     "max_mm": 65.9,
+     "mean_mm": 45.827
+    },
+    "stance_drift": {
+     "n": 9,
+     "max_mm": 17.37,
+     "mean_mm": 9.848
+    },
+    "planted_height_mm": {
+     "min": -6.4,
+     "max": -0.4
+    }
+   }
+  },
+  "walk": {
+   "n": 610,
+   "max_mm": 8.95,
+   "mean_mm": 1.544
+  },
+  "stand": {
+   "n": 718,
+   "max_mm": 6.44,
+   "mean_mm": 0.045
+  },
+  "turn": {
+   "n": 41,
+   "max_mm": 95.36,
+   "mean_mm": 35.779
+  },
+  "stance_drift": {
+   "n": 36,
+   "max_mm": 21.1,
+   "mean_mm": 11.68
+  },
+  "how": "contact point = paw block sole; planted = the animator's stance phase while walking, or standing, or not lifted in a turn step; slip = horizontal world displacement between consecutive frames while planted in both; stance drift = displacement from touchdown to lift-off"
+ }
+}
