@@ -137,7 +137,7 @@ def dog_pose(i, with_stretch=True):
     # neck and head carriage, as handle moves on the guide (so they hold in every view): standing = the score's head
     # (0 down .. 1 up); lying = rest (chin to the paws)
     sn = float(np.clip((0.9 - head) * 105, -15, 50)); sh_ = float(np.clip((0.9 - head) * 28, -10, 18))
-    ln = rest_ * 38 + float(np.clip((0.7 - head) * 25, -12, 12)); lh = rest_ * 16
+    ln = rest_ * 38 + float(np.clip((0.7 - head) * 25, -12, 12)) + 30 * look; lh = rest_ * 16 + 6 * look   # looking in: neck forward, level, not lifted
     th_n = sn * (1 - lie_t) + ln * lie_t; th_h = sh_ * (1 - lie_t) + lh * lie_t
     G, psi, lie, shown, trans = base_geom(t, th_n, th_h)
     fs = -np.cos(np.deg2rad(psi))          # +1 facing screen-left (the door), -1 facing away

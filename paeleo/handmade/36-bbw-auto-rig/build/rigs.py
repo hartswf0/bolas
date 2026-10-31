@@ -15,7 +15,7 @@ os.makedirs(CACHE, exist_ok=True); os.makedirs(PROOF, exist_ok=True)
 
 # the views: whole archive frames, one mesh each.  facing: -1 head to the left, +1 to the right
 VIEWS = {'W': (10, -1),                      # profile to the left, head up: watching, retreat, approach, lying, looking in
-         't19': (19, -1), 't26': (26, 1), 't30': (30, 1), 't36': (36, 1), 't40': (40, 1)}  # the archive's own turn
+         't26': (26, 1), 't30': (30, 1), 't36': (36, 1), 't40': (40, 1)}  # the archive's own turn
 FRONTAL = {'t26', 't30', 't36'}
 STABILITY = [8, 9, 11]
 EXTRA = {'A46': (46, 1), 'A44': (44, 1)}   # rigged for the tests only (not in the film)                       # neighbours of W rigged with the same code for the stability test

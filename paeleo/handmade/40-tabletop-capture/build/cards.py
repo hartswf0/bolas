@@ -306,11 +306,11 @@ HEADS = [  # name, yaw, ears, mouth
     ('h_L', 0, 1.0, 0), ('h_L_low', 0, 0.35, 0), ('h_L_flat', 0, 0.05, 0),
     ('h_45', 45, 0.6, 0), ('h_90', 90, 0.5, 0), ('h_135', 135, 0.2, 0), ('h_R', 180, 0.1, 0),
     ('h_225', 225, 0.8, 0), ('h_270', 270, 0.9, 0), ('h_315', 315, 1.0, 0),
-    ('h_in', 40, 1.0, 0),          # looking in: back of the head toward us, muzzle going into the room
+    ('h_in', 58, 1.0, 0),          # looking in: back of the head toward us, muzzle going into the room
 ]
 
 BODY_SIZE, BODY_ANCHOR = (380, 340), (190, 300)
-HEAD_SIZE, HEAD_ANCHOR = (170, 170), (85, 100)
+HEAD_SIZE, HEAD_ANCHOR = (170, 230), (85, 160)
 BODY_TAB = (190, 92)          # marker centre, same for every body card so a swap keeps the tab in place
 HEAD_TAB = (85, 22)
 HS = 1.22                     # head cards are cut a little large: they carry the acting
@@ -384,7 +384,7 @@ def person_pose(name):
         J['knee_n'] = (ax + 68, hipy - 62); J['foot_n'] = (ax + 104, ay - 6)
         J['knee_f'] = (ax + 62, hipy - 56); J['foot_f'] = (ax + 96, ay - 8)
         if name == 'p_sit_low':
-            J['elb_n'] = (ax + 46, hipy - 70); J['hand_n'] = (ax + 120, hipy - 28)
+            J['elb_n'] = (ax + 46, hipy - 56); J['hand_n'] = (ax + 100, hipy - 2)
         else:
             J['elb_n'] = (ax + 30, hipy - 80); J['hand_n'] = (ax + 66, hipy - 64)
         J['elb_f'] = (ax + 24, hipy - 78); J['hand_f'] = (ax + 60, hipy - 66)

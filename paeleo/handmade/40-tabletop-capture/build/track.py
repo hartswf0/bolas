@@ -216,7 +216,7 @@ def pyramid(G):
     return out
 
 
-def lk(pyr, mattes, tpl, pose, iters=(10, 8, 6)):
+def lk(pyr, mattes, tpl, pose, iters=(10, 8, 6), rot=True):
     X, Y, th = pose
     a_, b_ = 1.0, 0.0
     info = {}
@@ -240,7 +240,11 @@ def lk(pyr, mattes, tpl, pose, iters=(10, 8, 6)):
             J = np.stack([gx / s, gy / s, gx * dxdt + gy * dydt, -T, -np.ones_like(T)], 1)
             Jw = J * w[:, None]
             A = J.T @ Jw + np.diag([1e-3, 1e-3, 10.0, 1e-2, 1e-2]) * (w.sum() + 1) * 1e-4
+            if not rot:
+                A[2, :] = 0; A[:, 2] = 0; A[2, 2] = 1.0
             g = Jw.T @ e
+            if not rot:
+                g[2] = 0
             try:
                 d = -np.linalg.solve(A, g)
             except np.linalg.LinAlgError:
@@ -416,7 +420,7 @@ def main():
             if nm not in tcache:
                 tcache[nm] = Template(nm)
             tpls[fam] = tcache[nm]
-            pose, info = lk(pyr, mattes, tpls[fam], pred)
+            pose, info = lk(pyr, mattes, tpls[fam], pred, rot=(fam == 'dog.head'))
             # a flow step that runs away (support collapsed) is not trusted: hold the prediction
             if info['support'] < 0.15 or abs(pose[0] - pred[0]) > 40 or abs(pose[1] - pred[1]) > 40:
                 pose, how = pred, how + '-held'

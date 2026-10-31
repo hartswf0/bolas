@@ -23,10 +23,10 @@ W_, H_ = 1280, 720
 RIGS = pickle.load(open(os.path.join(CACHE, 'rigs.pkl'), 'rb'))
 
 # ------------------------------------------------------------------ camera and the porch (metres)
-F0, CX0, UC, VC, HC, YH0 = 1050.0, 685.0, 2.2, 6.0, 2.4, 10.0
+F0, CX0, UC, VC, HC, YH0 = 1250.0, 640.0, 2.2, 6.0, 2.4, 0.0
 F, CX, YH = F0, CX0, YH0
 ZOOM = None
-FOCUS = (0.15, 0.15, 0.25)          # a point by the sill the camera closes in on
+FOCUS = (0.25, 0.15, 0.25)          # a point by the sill the camera closes in on
 FOCUS_TO = (600.0, 470.0)
 
 
@@ -39,7 +39,7 @@ def set_camera(z):
     """z 0 (the whole porch) .. 1 (closer on the sill): F scales, the focus point slides to FOCUS_TO"""
     global F, CX, YH, SET, OPEN_M, OL, OR, OT, OB, ZOOM
     if ZOOM is not None and abs(z - ZOOM) < 1e-6: return
-    Z = 1 + .62 * z
+    Z = 1 + .40 * z
     uf, vf, hf = FOCUS; df = VC - vf
     s0 = np.array([CX0 + F0 * (uf - UC) / df, YH0 + F0 * (HC - hf) / df])
     sp = s0 + (np.array(FOCUS_TO) - s0) * z
@@ -59,7 +59,7 @@ def softplus(z, k=.35):
 def path(x):
     """the score's x (metres from the threshold) to a point on the porch floor: straight out of the door first,
     then bending along the porch toward the steps"""
-    u = -0.12 + 0.82 * x + 0.35 * softplus(x - 1.5)
+    u = 0.08 + 0.82 * x + 0.15 * softplus(x - 1.5)
     v = -0.12 + 0.57 * x - 0.35 * softplus(x - 1.5)
     return u, v
 
@@ -170,7 +170,7 @@ def score_at(i): return SF[min(max(i, 0), N - 1)]
 
 T1 = (3.55, 3.97)     # first turn (away): the archive's own in-betweens
 T2 = (7.40, 7.60)     # turn back to look, lying: head first, hips down
-SEQ = ['t19', 't26', 't30', 't36', 't40']
+SEQ = ['t26', 't30', 't36', 't40']
 
 
 def dog_plan(i):
@@ -186,7 +186,7 @@ def dog_plan(i):
         view = 'W'; p['neck'] = (1.0 - head) * 2.0 - .05
     elif t < T1[1]:
         k = int((t - T1[0]) / (T1[1] - T1[0]) * len(SEQ)); view = SEQ[min(k, len(SEQ) - 1)]
-        p.update(neck=.5 if view == 't19' else 0.0, crouch=.45, swing=None, frontal=view in ('t26', 't30', 't36'), tail=.4)
+        p.update(neck=0.0, crouch=.45, swing=None, frontal=view in ('t26', 't30', 't36'), tail=.4)
     elif t < T2[0]:
         view = 'Wm'; p['neck'] = (1.0 - head) * 1.5
         p['fold'] = a['lie']; p['chin'] = .35 * a['rest']
@@ -204,7 +204,7 @@ def dog_plan(i):
         base = .55 + .5 * (1.0 - min(head, 1.0))
         p['neck'] = min(1.05, base * (1 - look) + .95 * look + .12 * rest) * lie + ((1.0 - head) * 2.5 - .05) * (1 - lie)
         p['chin'] = .06 * rest
-        p['push'] = 14.0 * look       # the muzzle goes in over the sill, level, not up
+        p['push'] = 24.0 * look       # the muzzle goes in over the sill, level, not up
         p['head'] = -.12 * look
     elif st == 'approach':
         view = 'W'; p['neck'] = (1.0 - head) * 2.5 - .05
@@ -291,7 +291,7 @@ def person_plan(i):
     f = score_at(i); pe = f['person']; t = i / FPS
     # place: doorway (score -0.28) -> beside (score -1.25): across the opening to the left, inside
     xs = pe['x']; k = min(1, max(0, (xs - (-0.28)) / (-1.25 + .28)))
-    u = .0 - .40 * k; v = -.28 - .55 * k
+    u = .0 - .38 * k; v = -.28 - .32 * k
     sit = pe['sit']
     reach = pe['reach']; low = pe['low']; mouth = pe['mouth']
     voice = pe['voice']
@@ -326,11 +326,9 @@ def person_layer(i, canvas, lit, leaf_open):
     Vs = apply(P, Vd)
     tex = r['tex'].copy()
     # contre-jour: the room's light is behind her
-    tex[..., :3] = tex[..., :3] * .30 + np.array([.03, .025, .02], np.float32)
+    tex[..., :3] = tex[..., :3] * .20 + np.array([.03, .025, .02], np.float32)
     # behind the closed lower leaf she is hidden below its top edge (until the leaf opens)
-    clip = np.ones((H_, W_), np.float32)
-    leaf_top = proj(0, 0, LEAF_H)[1]
-    clip[int(leaf_top):, :] = leaf_open
+    clip = np.ones((H_, W_), np.float32)     # the lower leaf, drawn after her, hides what it covers
     # her legs are out of the frame: the lower edge fades into the floor's shadow
     bottom_y = apply(P, np.array([[r['cx'], r['bottom']]]))[0, 1]
     fade = np.clip((bottom_y - yy) / 18, 0, 1)

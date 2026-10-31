@@ -218,7 +218,7 @@ LOOK_BACK = [(17, 0), (17, 0), (26, 0), (29, 0), (32, 0), (33, 0), (33, 0), (34,
 CRINGE = [(39, 0), (40, 0), (41, 0), (42, 0)]
 RISE = [(42, 0), (41, 0), (40, 0), (39, 0)]
 HEAD_DOWN = [(39, 0), (40, 0), (41, 0), (42, 0)]
-ARRIVE = [(44, 0), (43, 0), (42, 0), (41, 0), (40, 0), (39, 0)]
+ARRIVE = [(44, 0), (43, 0), (42, 0), (41, 0), (40, 0), (4, 1)]
 
 CH = [c['t'] for c in SCORE['choices']]
 I_RETREAT, I_WATCH1, I_REFUSE, I_WATCH2, I_APPROACH, I_LIE = [round(t * FPS) for t in CH]
@@ -328,19 +328,25 @@ def place_dog(i, plan):
             hf = 47 if t >= 26.1 else 44
         else:
             hf = 40
-        body, binfo = cut('dog', f, bool(m), keep=[neck_cut(f, 'body')], sub=[LEGS[f]], scale=S)
+        body, binfo = cut('dog', f, bool(m), keep=[neck_cut(f, 'body')], scale=S)
         hk, hdisk = head_region(hf)
         head, hinfo = cut('dog', hf, False, keep=hk, keep2=hdisk, scale=S)
         tail, tinfo = cut('dog', 19, True, keep=[TAIL6], scale=S)
         fneck = to_piece(info, key(f, 'neck')); bneck = to_piece(binfo, key(f, 'neck'))
         bx = ox + fneck[0] - bneck[0]; by = oy + fneck[1] - bneck[1] + dy
         btail = to_piece(binfo, key(f, 'tail')); ttail = to_piece(tinfo, TAIL6_ROOT)
-        layer.alpha_composite(tail, (int(round(bx + btail[0] - ttail[0])), int(round(by + btail[1] - ttail[1]))))
-        layer.alpha_composite(body, (int(round(bx)), int(round(by))))
-        hneck = to_piece(hinfo, key(hf, 'neck'))
-        layer.alpha_composite(head, (int(round(bx + bneck[0] - hneck[0])), int(round(by + bneck[1] - hneck[1]))))
-        pieces_used = [dict(src='dog', frame=f, mirror=bool(m), part='body', legs='kept out of view below the belly stroke'),
-                       dict(src='dog', frame=19, mirror=True, part='tail'), dict(src='dog', frame=hf, mirror=False, part='head')]
+        if drop < .92:
+            # still going down: the whole m4 proposal (legs and all) sinks behind the porch board; nothing is cut
+            layer.alpha_composite(full, (int(round(ox)), int(round(oy + dy))))
+            hf = 4
+        else:
+            layer.alpha_composite(tail, (int(round(bx + btail[0] - ttail[0])), int(round(by + btail[1] - ttail[1]))))
+            layer.alpha_composite(body, (int(round(bx)), int(round(by))))
+            hneck = to_piece(hinfo, key(hf, 'neck'))
+            layer.alpha_composite(head, (int(round(bx + bneck[0] - hneck[0])), int(round(by + bneck[1] - hneck[1]))))
+        pieces_used = ([dict(src='dog', frame=f, mirror=bool(m), part='whole', legs='sinking behind the porch board')] if drop < .92 else
+                       [dict(src='dog', frame=f, mirror=bool(m), part='body', legs='behind the porch board (no frame shows them folded)'),
+                        dict(src='dog', frame=19, mirror=True, part='tail'), dict(src='dog', frame=hf, mirror=False, part='head')])
         # floor clip: below the floor line nothing of the dog is shown (legs refused), soft 6 px edge
         arr = np.asarray(layer).copy()
         ramp = np.clip((EDGE + 4 - np.arange(H)) / 3., 0, 1)

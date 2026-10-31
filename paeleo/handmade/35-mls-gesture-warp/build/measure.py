@@ -50,9 +50,10 @@ i0 = at(14.4)
 i = first(lambda i: cx[i0] - cx[i] > 1.0, 14.4)
 onsets.append(dict(choice='watch -> approach', to='approach', score_t=14.708, i=i, signal='dog centroid moves > 1 px toward the door'))
 # 6 approach -> lie_down: the top of the rendered dog drops > 5 px below its height at 23.5 s
+ttop = np.array([m['torso_top'] for m in M])
 i0 = at(23.5)
-i = first(lambda i: top[i] - top[i0] > 5.0, 23.5)
-onsets.append(dict(choice='approach -> lie_down', to='lie_down', score_t=23.792, i=i, signal='top of the rendered dog drops > 5 px'))
+i = first(lambda i: ttop[i] - ttop[i0] > 5.0, 23.5)
+onsets.append(dict(choice='approach -> lie_down', to='lie_down', score_t=23.792, i=i, signal='top of the rendered back (torso layer) drops > 5 px'))
 # 7 (hears come in) looks in: the rendered head moves into the doorway / turns (centre shifts > 3 px) after 26.2 s
 i0 = at(26.2)
 i = first(lambda i: np.hypot(hx[i] - hx[i0], hy[i] - hy[i0]) > 3.0, 26.2)
@@ -89,12 +90,13 @@ for i, m in enumerate(M):
 fam = {}
 for m in M:
     for k, v in m['strain'].items():
-        f = fam.setdefault(v['family'], dict(aniso=[], area_min=[], area_max=[], folds=0, handle_err=0.0))
+        f = fam.setdefault(v['family'], dict(aniso=[], area_min=[], area_max=[], folds=0, handle_err=0.0, guard=0))
+        f['guard'] += int(v.get('fold_guard', False))
         f['aniso'].append(v['aniso_max']); f['area_min'].append(v['area_min']); f['area_max'].append(v['area_max'])
         f['folds'] += v['folds']; f['handle_err'] = max(f['handle_err'], v['handle_err'])
 dist = {k: dict(aniso_max_median=round(float(np.median(v['aniso'])), 3), aniso_max_p95=round(float(np.percentile(v['aniso'], 95)), 3),
                 aniso_max_max=round(float(np.max(v['aniso'])), 3), area_min=round(float(np.min(v['area_min'])), 3),
-                area_max=round(float(np.max(v['area_max'])), 3), folded_cells_total=v['folds'], handle_error_px_max=v['handle_err'])
+                area_max=round(float(np.max(v['area_max'])), 3), folded_cells_total=v['folds'], handle_error_px_max=v['handle_err'], fold_guard_layer_frames=v['guard'])
         for k, v in fam.items()}
 end = M[-1]
 summary = dict(onsets_measured=onsets, look_in=look, distortion_by_family=dist,

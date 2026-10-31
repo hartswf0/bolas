@@ -39,8 +39,8 @@ def end_card(used, props):
     d = ImageDraw.Draw(im)
     rows = {r['frame']: r for r in props['dog']['rows']}
     frames = sorted(set(f for f, m in used))
-    tw, th = 96, 72
-    cols = 12
+    tw, th = 112, 84
+    cols = 10
     x0, y0 = 32, 64
     d.text((32, 22), 'what the dog is made of: accepted SAM 2 proposals, object dog#1, Amateur Film New Jersey C (public domain)',
            font=font('f14.woff2', 17), fill=(220, 210, 190))
@@ -49,19 +49,19 @@ def end_card(used, props):
         a = raster(src_masks('dog')[str(f)], fr.size)
         arr = np.asarray(fr, np.float32) * (0.28 + 0.72 * a[..., None])
         t = Image.fromarray(arr.astype(np.uint8)).resize((tw, th), Image.LANCZOS)
-        x = x0 + (k % cols) * (tw + 6); y = y0 + (k // cols) * (th + 24)
+        x = x0 + (k % cols) * (tw + 10); y = y0 + (k // cols) * (th + 24)
         im.paste(t, (x, y))
         parts = sorted(set().union(*[used[(f, m)] for m in (0, 1) if (f, m) in used]))
         mir = 'm' if any(m for (ff, m) in used if ff == f) else ''
         d.text((x, y + th + 2), 'f%02d %s c%.2f %s' % (f, mir, rows[f]['conf'], ','.join(p[0] for p in parts)),
-               font=font('f14.woff2', 11), fill=(170, 170, 180))
+               font=font('f14.woff2', 12), fill=(170, 170, 180))
     yb = y0 + ((len(frames) + cols - 1) // cols) * (th + 24) + 8
     lines = [
         'c = confidence proxy (mask stability x edge agreement); m = proposal mirrored; w whole, b body, h head, t tail part',
         'rejected: f23, f49 (mask leaked into ground and shadow). Lying: no frame shows this dog lying, so its legs are not',
-        'made: the body (f04) rests behind the porch board, with a tail (f19) and heads (f40, f44, f47) set at the neck point.',
+        'made: f04 sinks behind the porch board; lying, its body takes a tail (f19) and heads (f40, f44, f47) at the neck point.',
         'door leaf: Straight Talk f31 (door#5)   person: Straight Talk f02, our box+colour proposal, shown as a silhouette',
-        'sitting person: Survival Stresses f25   hand: Door to Heaven (1941) f20, f30 + forearm stroke   all public domain',
+        'sitting person: Survival Stresses f36   hand: Door to Heaven (1941) f20, f30 + forearm stroke   all public domain',
         'porch, room, light and sky computed; voice synthesized (flite); sound synthesized. Nothing of the dog is drawn.',
     ]
     for k, ln in enumerate(lines):
@@ -135,6 +135,8 @@ def measure_onsets(fr):
         """the silhouette changes more than any idle substitution in the second before (departure from the hold)"""
         base = iou[max(1, i - win):i]
         return len(base) > 0 and iou[i] < base.min() - .03
+    def busy(i):
+        return iou[i] < .97 and int((iou[i:i + 6] < .97).sum()) >= 3
     for c, nm in zip(CH, names):
         i0 = int(round(c * FPS)); lo, hi = i0 - 12, i0 + 13
         if nm == 'watch' and c < 3:
@@ -143,7 +145,7 @@ def measure_onsets(fr):
             k = first(lambda i: all(y0[j + 1] >= y0[j] for j in range(i, i + 6)) and y0[i + 6] - y0[i] >= 6, lo, hi)
             sig = 'body top starts a sustained lowering (>= 6 px over 6 frames)'
         else:
-            k = first(departs, lo, hi); sig = 'silhouette departs from the hold (IoU with previous frame below the idle minimum of the second before)'
+            k = first(busy, lo, hi); sig = 'the silhouette starts changing every frame or two (>= 3 changes of IoU<0.97 in 6 frames), where the idle hold changes once in 7'
         out.append(dict(choice=nm, score_t=c, measured_t=None if k is None else round(k / FPS, 3),
                         dt=None if k is None else round(k / FPS - c, 3), signal=sig))
     # look in: head proposal changes to the level head (u40) after 26.0

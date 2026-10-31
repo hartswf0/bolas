@@ -53,7 +53,7 @@ LAYER_FALLOFF = {'head': 1.0, 'ear_l': 1.0, 'ear_r': 1.0, 'neck': 1.4, 'torso': 
 LAYER_ANCHORS = {
     'head': ['skull', 'nose', 'jaw', 'eye_l', 'eye_r', 'poll', 'ear_lb', 'ear_rb'],
     'ear_l': ['ear_lb', 'ear_lt', 'skull'], 'ear_r': ['ear_rb', 'ear_rt', 'skull'],
-    'neck': ['withers', 'chest', 'throat', 'poll', 'skull', 'jaw'],
+    'neck': ['withers', 'chest', 'poll', 'skull'],
     'torso': ['withers', 'back', 'croup', 'rump', 'chest', 'belly', 'tail0'],
     'tail': ['rump', 'tail0', 'tail1', 'tail2', 'tail3'],
 }

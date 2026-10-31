@@ -94,11 +94,11 @@ def dog_cards(i):
 def person_cards(i):
     t = i / FPS
     p = FR[i]['person']
-    PX = 268 + (p['x'] + 0.28) / (-0.97) * (-190)
+    PX = 268 + (p['x'] + 0.28) / (-0.97) * (-228)
     card = seq(t, [(0, 'p_stand'), (1.0, 'p_call'), (2.3, 'p_stand'), (3.4, 'p_reach'), (4.6, 'p_stand'),
                    (5.4, 'p_step'), (5.62, 'p_stand'), (5.8, 'p_step'), (6.0, 'p_down'), (6.3, 'p_sit'), (6.8, 'p_sit_low')])
     if t >= 6.3:
-        PX = 268 - 190
+        PX = 268 - 228
     return card, PX
 
 

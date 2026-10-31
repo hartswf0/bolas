@@ -1,0 +1,15 @@
+{"n": 1, "what": "read brief, SCION 30 prompt, score; surveyed archive-dog (50 frames), door-sam, hand-sam, found frames", "saw": "only one dog source exists (50 frames); views: rear-3/4 f0-2, side-left f3-17, turning f18-25, front f26-37, front-right/right f38-48; no lying frame"}
+{"n": 2, "what": "proposals.py: confidence proxy (stability x edge) + area check over all dog, door, hand, sitter frames", "saw": "rejected f23 and f49; identity broke into dog#1..3 at the rejected f23"}
+{"n": 3, "what": "linker changed to link across rejected proposals", "saw": "one dog#1 over 48 accepted frames; door splits into door#1-5 (occluded by the person)"}
+{"n": 4, "what": "first stage: frontal cut-away, floor band, dog at 1.4x", "saw": "dog small; lying from f44 with legs clipped at the floor: head under the sill, a leg sticking out"}
+{"n": 5, "what": "lying from f04 with its own head rotated about the neck point", "saw": "open-jaw artefact (white chest under the rotated head); rotation is a pose the source never shows -> rejected"}
+{"n": 6, "what": "head part proposals (f40/f44/f47) substituted on the f04 body", "saw": "neck half-plane took forelegs with the head; added disk around nose/neck prompts -> clean heads"}
+{"n": 7, "what": "camera lowered: porch front board hides everything below the floor line", "saw": "feet sliding hidden, legs of the lying dog honestly out of view"}
+{"n": 8, "what": "tail part from f06", "saw": "grey box with background; switched to f19 tail (clear of the body), mirrored"}
+{"n": 9, "what": "watch on mirrored m9-m11, then m3/m4", "saw": "head pointed at the sky, reads as howling; switched to f38/f39 as shot"}
+{"n": 10, "what": "refusal turn path through f21/f19", "saw": "double body (mask included the shadow) for two frames; removed"}
+{"n": 11, "what": "sitter f25", "saw": "the SAM mask is only the bag, no head; switched to f36 (hooded head in the mask), colour kept"}
+{"n": 12, "what": "full render 1: onsets measured by IoU < idle minimum", "saw": "refuse measured 3.708 (+0.29): the idle f38/f39 swap is as large as the first turn frames; changed signal to rate of change"}
+{"n": 13, "what": "lying: legless body lowered", "saw": "floating loaf for ~0.6 s; now the whole f04 proposal sinks behind the board and the assembly appears only when down"}
+{"n": 14, "what": "full render 3 + finish", "saw": "912 frames, 38.0 s, ~7 MB; checker ALL OK; onsets -0.125, +0.084, 0, 0, 0, -0.084, look +0.017"}
+{"n": 15, "what": "end card claim check", "saw": "said sitter f25 (wrong) -> f36; thumbnails enlarged"}

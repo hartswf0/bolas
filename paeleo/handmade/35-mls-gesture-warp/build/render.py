@@ -85,18 +85,29 @@ def warp_print(name, Q, out_h=H, out_w=W):
         gx, gy = np.meshgrid(gxs, gys)
         V = np.stack([gx.ravel(), gy.ravel()], 1)
         # MLS runs in film units: the print is at 2x, so handles and grid are scaled by 1/2 first (rigid admits no scale)
-        F = mls(V * 0.5, p * 0.5, q, fam, meta['falloff'][k]).reshape(len(gys), len(gxs), 2)
+        if len(p) < 2:   # every handle of this layer merged into one (e.g. the head seen from behind): translate it
+            F = (V * 0.5 - p[0] * 0.5 + q[0]).reshape(len(gys), len(gxs), 2)
+        else:
+            F = mls(V * 0.5, p * 0.5, q, fam, meta['falloff'][k]).reshape(len(gys), len(gxs), 2)
         # distortion: singular values of the map, normalised so the rest scale (1/2) reads 1.0
         s1, s2, det = jac_svals(F / (G_SP * 0.5))
         cy = ((gys[:-1] + G_SP / 2).astype(int)).clip(0, L['amask'].shape[0] - 1)
         cx = ((gxs[:-1] + G_SP / 2).astype(int)).clip(0, L['amask'].shape[1] - 1)
         wa = L['amask'][np.ix_(cy, cx)] > 0.5
+        guard = False
+        if wa.any() and ((det[wa] <= 0).any() or (s1 / np.maximum(s2, 1e-6))[wa].max() > 6) and len(p) > 2:
+            # fold guard: the handles crossed (a hidden pair separating mid-swing). Re-solve with the two handles that
+            # are farthest apart, as a similarity: it can bend and turn but cannot fold. Logged per frame.
+            dd = ((p[:, None] - p[None]) ** 2).sum(-1); a_, b_ = np.unravel_index(dd.argmax(), dd.shape)
+            p2, q2 = p[[a_, b_]], q[[a_, b_]]
+            F = mls(V * 0.5, p2 * 0.5, q2, 'similarity', meta['falloff'][k]).reshape(len(gys), len(gxs), 2)
+            s1, s2, det = jac_svals(F / (G_SP * 0.5)); guard = True
         if wa.any():
             an = (s1 / np.maximum(s2, 1e-6))[wa]
             ar = (s1 * s2)[wa]
-            strain[k] = dict(family=fam, aniso_max=float(an.max()), aniso_mean=float(an.mean()),
+            strain[k] = dict(family=fam, fold_guard=guard, aniso_max=float(an.max()), aniso_mean=float(an.mean()),
                              area_min=float(ar.min()), area_max=float(ar.max()), folds=int((det[wa] <= 0).sum()),
-                             handle_err=float(np.abs(mls(p * 0.5, p * 0.5, q, fam, meta['falloff'][k]) - q).max()))
+                             handle_err=float(np.abs((mls(p * 0.5, p * 0.5, q, fam, meta['falloff'][k]) if len(p) > 1 else q) - q).max()))
         # bilinear lookup of the grid at every print sample
         u = (L['xs'] - gxs[0]) / G_SP; v = (L['ys'] - gys[0]) / G_SP
         i0 = np.clip(np.floor(u).astype(int), 0, len(gxs) - 2); j0 = np.clip(np.floor(v).astype(int), 0, len(gys) - 2)
