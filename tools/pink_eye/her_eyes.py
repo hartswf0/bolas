@@ -103,14 +103,14 @@ def picture(S, t):
     lily = lambda: at(S["lily"], t, 0.4); fly = lambda: at(S["fly"], t - 14, 0.5); swan = lambda: at(S["swan"], t - 22, 0.5)
     if t < 7:
         a = double(glow(), lily(), 0.25 * smooth((t - 2) / 4))
-    elif t < 14:
-        a = glow() * (1 - smooth((t - 7) / 3)) + double(desk(), lily(), 0.75) * smooth((t - 7) / 3)
-    elif t < 24:
+    elif t < 13:                                             # each branch starts exactly where its dissolve starts
+        a = double(glow(), lily(), 0.25) * (1 - smooth((t - 7) / 3)) + double(desk(), lily(), 0.75) * smooth((t - 7) / 3)
+    elif t < 23:
         a = double(desk(), lily(), 0.75) * (1 - smooth((t - 13) / 3)) + double(face(), fly(), 0.85) * smooth((t - 13) / 3)
-    elif t < 32:
+    elif t < 31:
         a = double(face(), fly(), 0.85) * (1 - smooth((t - 23) / 3.5)) + fly() * smooth((t - 23) / 3.5)
         a = a * (1 - smooth((t - 27.5) / 3.5)) + swan() * smooth((t - 27.5) / 3.5)
-    elif t < 43:
+    elif t < 42:
         a = swan() * (1 - smooth((t - 31) / 3.5)) + double(face2(), swan(), 0.9) * smooth((t - 31) / 3.5)
     elif t < 51:
         a = double(face2(), swan(), 0.9) * (1 - smooth((t - 42) / 3.5)) + double(glow(), lily(), 0.8) * smooth((t - 42) / 3.5)
