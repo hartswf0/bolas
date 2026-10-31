@@ -201,9 +201,42 @@ tone; premultiplication correct; no bright rim from the source daylight.
     only 4–5 px edge pieces within 3 px of the body; look-in rim 48 edge px (under 6% of the edge in any frame),
     0 specks; head steps 22.3 px (0.83–2.54 s) and 8.4 px (23.58–25.0 s).
 
+12. **Repair round 4 (independent critic round 4: DOES NOT PASS, narrowly; the last round before a pause).**
+    *My round 3 claim that the legs were opaque was wrong.* My siding test sampled only the dog's alpha ≥ 0.95, so it
+    never looked at the pale limb: a partly transparent fringe (tail or far hind leg) hanging below frame 45's rump.
+    Frame 45 also has its hind pair lifted mid-stride, so the gait carried floating hind feet through the approach (in
+    the retreat the tree line hid them). Numbers below are measured on the encoded film (`proof/round5_verify.json`,
+    sheets `proof/r5_*.jpg`), and the crops were looked at at 2×: `proof/r5_crop_22.25s.jpg`, `r5_crop_23.00s.jpg`,
+    `r5_crop_23.75s.jpg`.
+    1. *Ghost leg, siding through legs and rump:* the hanging fringe is cut. The bent far hind leg is hidden behind the
+       near one (a reconstruction: the dog shows one hind leg in side view). Alpha in the gait is hardened (0.2→0,
+       0.75→1). Now every dog pixel with alpha ≥ 0.3 over the siding is measured: transfer 0.012 mean, 0.043 max (rear
+       half 0.044; legs 0.116 max against a control of 0.017). At most 2.6% of the dog's pixels (its outer fringe) are
+       below alpha 0.95.
+    2. *Hind feet:* the near hind leg is lengthened from the hip, so its paw stands on the floor line. Planted hind feet
+       are within **2 px** of the floor on the film (1 px in the render) and level with the front paw within 5 px.
+    3. *The 23.79→23.83 swap:* over its last five walking frames the walker's hindquarters sink (34 source px, a
+       per-column shift from the shoulder to the rump, with the hind leg folding at the boards). The lie-down then starts
+       15% lowered. At the swap, the hip drops **3.6 px** and the head moves **28.2 px**. The largest hip drop in any
+       frame of 23.33–24.42 s is 15.6 px. The drawing still changes tone and length there (the lying sprite is the other,
+       lighter side of the dog).
+    4. *The fin and the tail:* the fin was the corner where a straight crest cut met the hole left for the head. The
+       shoulder is now cut to a rounded line. A tail tuft (frame 13's tail, its alpha hardened, seated at the rump) shows
+       outside the jamb at the sill and at the rear in the refusal. It is small: frame 9 has no tail, so the tuft is a
+       reconstruction.
+    5. *Reach:* she reaches 6 frames ahead of the score, so the hand is out from **3.167 s**, 0.25 s before the turn.
+    Kept, re-measured: look-back largest step 34.9 px; soft voice 0.35 s ahead of the look, 9.96 dB under the calls;
+    frontal heads; retreat paws 1.55 px; approach paws 2.18 px, with 0 held-drawing changes; fragments at 9–10 s within
+    6 px of the body; look-in rim 37 edge px, 0 specks.
+
 ## What is still weak (my own view; not a verdict)
 
-- The look-back bridge mixes heads of three archive frames on the lying body. Frame 14's head ends in a soft vertical
+- At 23.83 s the walker is replaced by the lying reconstruction. Head and hip carry through, but the dog's tone and
+  length change in one frame. The tail tuft is small.
+- The walking dog shows one hind leg (the far one is hidden), and the near one is lengthened from the hip.
+- Whole-body swaps between frames 13 and 14 in the long watch (9.33 and 10.17 s) are not bridged.
+
+- The look-back bridge joins heads from three archive frames on the lying body. Frame 14's head ends in a soft vertical
   edge where its box cut runs through shoulder fur (one frame, 7.58 s), and at 7.46 s a crescent of sky shows between
   the shoulder tuft and the lifted head.
 - The approach is now the same single drawing (frame 45, legs sheared in two pairs) as the retreat. It is steadier than
@@ -233,23 +266,20 @@ No independent critic was run by me. No human viewing. No listening. No Quick, D
 images. I did not import `paeleo/threshold/stage.js` or `paeleo/scion/lenses.js`, did not look at other swarms' folders,
 and did not run git. No operator page was published as an artifact; `operator.html` in this folder is a local page.
 
-## Evidence (last build: make.sh v9 (v8 plus a corrected end card), which renders, encodes, checks, verifies on the film and deletes the frames)
+## Evidence (last build: make.sh v10, which renders, encodes, checks, verifies on the film and deletes the frames)
 
 **Checker (`invariants.json`): ALL OK.** All six choices are on time (I1). The dog never goes past the sill and ends
 across it (I2). It moves in the score's direction (I3). Its back is turned through the refusal (I4).
 
-**Onsets measured from the render**: retreat_motion_starts 1.292 s (the head ducks from 1.000 s); retreat_motion_stops 2.500 s; turn_away_first_new_frame 3.458 s; back_turned_first_frame 3.708 s; head_toward_door_again 7.458 s (comes round by 7.625 s); approach_motion_starts 14.708 s; lie_sequence_first_frame 23.833 s; lying_half_down 24.250 s; refusal_lies_down_full 4.917 s; looks_in_first_frame 26.500 s; looks_in_last_frame 28.250 s.
+**Measured on the encoded film** (`proof/round5_verify.json`): the round 4 conditions and the kept ones, as listed in
+item 12. The round 3 numbers in `proof/round4_verify.json` include a siding test that did not sample the pale limb; do not rely on it.
 
-**Measured on the encoded film** (`proof/round4_verify.json`): the round 3 conditions and the protected ones, as listed in item 11.
+**End across the sill**: head and forelegs inside the door frame, haunch and tail tuft outside (see `trace.json`, `end`).
 
-**End across the sill**: solid dog x 273.1–514.1 px vs door opening 243–417 px: 143.9 px inside the frame, 97.1 px outside.
+**Sound**: calls −23.3 to −24.0 dBFS and soft words −35.4 dBFS on the film's AAC track: 9.96 dB apart. Not listened to.
 
-**Sound (RMS dBFS, as synthesized)**: calls −23.1 / −23.6 / −23.0; soft words −35.0 / −35.0; come in −33.6; room tone −58.6 / −51.7. Measured from the film's AAC track: the soft words are 9.96 dB under the quietest call. Not listened to.
+**Film**: 1280×720, 24 fps, H.264 two-pass 2.1 Mb/s + AAC 160k, faststart, 912 frames, 38.000 s, 10.66 MB. The folder is 56 MB, with frames deleted.
 
-**Mattes**: premult_ok on 50/50 dog mattes and all world mattes. The stress fixture shows 0 premultiplication failures and 0 bright rims in 96 frames.
+**Looked at**: frames decoded from film.mp4, full frame and cropped at 1×–3×, in every repair window. **Not looked at**: normal-speed playback. **Not listened to**: the sound.
 
-**Film**: 1280×720, 24 fps, H.264 two-pass 2.1 Mb/s + AAC 160k, faststart (moov before mdat), 912 frames, 38.000 s, 10.65 MB. The rendered frames are deleted by make.sh; the folder is 54 MB.
-
-**Looked at**: frames decoded from film.mp4, full frame and cropped (1×–3×), in every repair window. **Not looked at**: normal-speed playback. **Not listened to**: the sound.
-
-**Status**: repair round 3 done against the critic's five conditions; awaiting independent review. Not accepted.
+**Status**: repair round 4 done; awaiting independent review. Not accepted.

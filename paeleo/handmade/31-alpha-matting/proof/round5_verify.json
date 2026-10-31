@@ -1,0 +1,2705 @@
+{
+ "1_retreat_planted_paws": {
+  "max_paw_x_range_while_planted_px": {
+   "fore": 1.44,
+   "hind": 1.55
+  },
+  "plants": [
+   {
+    "leg": "fore",
+    "plant": 0,
+    "frames": [
+     28,
+     29
+    ],
+    "n": 2,
+    "paw_x_range_px": 0.38
+   },
+   {
+    "leg": "fore",
+    "plant": 1,
+    "frames": [
+     31,
+     33
+    ],
+    "n": 3,
+    "paw_x_range_px": 0.33
+   },
+   {
+    "leg": "fore",
+    "plant": 2,
+    "frames": [
+     35,
+     38
+    ],
+    "n": 4,
+    "paw_x_range_px": 1.44
+   },
+   {
+    "leg": "fore",
+    "plant": 3,
+    "frames": [
+     41,
+     45
+    ],
+    "n": 5,
+    "paw_x_range_px": 1.2
+   },
+   {
+    "leg": "fore",
+    "plant": 4,
+    "frames": [
+     50,
+     55
+    ],
+    "n": 6,
+    "paw_x_range_px": 0.48
+   },
+   {
+    "leg": "hind",
+    "plant": 0,
+    "frames": [
+     28,
+     31
+    ],
+    "n": 4,
+    "paw_x_range_px": 0.89
+   },
+   {
+    "leg": "hind",
+    "plant": 1,
+    "frames": [
+     33,
+     35
+    ],
+    "n": 3,
+    "paw_x_range_px": 1.47
+   },
+   {
+    "leg": "hind",
+    "plant": 2,
+    "frames": [
+     38,
+     42
+    ],
+    "n": 5,
+    "paw_x_range_px": 1.07
+   },
+   {
+    "leg": "hind",
+    "plant": 3,
+    "frames": [
+     45,
+     53
+    ],
+    "n": 9,
+    "paw_x_range_px": 1.55
+   }
+  ],
+  "body_travel_px": 207.3,
+  "method": "film mask = |film - no-dog plate| > 22/255; paw x = mean column of the lowest 4 mask rows within +-16 px of the render trace paw, rows GY-10..GY+4 (fore), GY-30..GY+4 (hind)"
+ },
+ "5_head_jumps_film": {
+  "0.83-2.54s": {
+   "max_jump_px": 21.7,
+   "at_frame": 58,
+   "at_s": 2.417,
+   "per_frame": {
+    "21": 0.3,
+    "22": 1.3,
+    "23": 0.1,
+    "24": 17.0,
+    "25": 18.3,
+    "26": 21.7,
+    "27": 20.9,
+    "28": 12.1,
+    "29": 5.2,
+    "30": 0.4,
+    "31": 7.2,
+    "32": 12.6,
+    "33": 16.9,
+    "34": 16.5,
+    "35": 18.0,
+    "36": 5.4,
+    "37": 12.5,
+    "38": 6.2,
+    "39": 5.3,
+    "40": 5.8,
+    "41": 6.0,
+    "42": 6.1,
+    "43": 6.0,
+    "44": 6.1,
+    "45": 6.1,
+    "46": 6.3,
+    "47": 4.7,
+    "48": 4.0,
+    "49": 5.6,
+    "50": 6.9,
+    "51": 7.2,
+    "52": 7.7,
+    "53": 9.5,
+    "54": 11.0,
+    "55": 14.7,
+    "56": 15.3,
+    "57": 21.4,
+    "58": 21.7,
+    "59": 18.3,
+    "60": 0.2
+   }
+  },
+  "23.58-25.0s": {
+   "max_jump_px": 28.2,
+   "at_frame": 572,
+   "at_s": 23.833,
+   "per_frame": {
+    "567": 0.8,
+    "568": 0.5,
+    "569": 2.3,
+    "570": 0.1,
+    "571": 0.2,
+    "572": 28.2,
+    "573": 2.7,
+    "574": 0.4,
+    "575": 1.8,
+    "576": 1.8,
+    "577": 1.1,
+    "578": 4.5,
+    "579": 4.6,
+    "580": 9.7,
+    "581": 11.6,
+    "582": 8.9,
+    "583": 7.3,
+    "584": 7.9,
+    "585": 3.9,
+    "586": 5.3,
+    "587": 6.0,
+    "588": 3.7,
+    "589": 0.3,
+    "590": 0.1,
+    "591": 0.3,
+    "592": 0.9,
+    "593": 0.1,
+    "594": 0.2,
+    "595": 0.0,
+    "596": 0.2,
+    "597": 0.5,
+    "598": 0.7,
+    "599": 0.2,
+    "600": 0.7
+   }
+  }
+ },
+ "5_head_jumps_render_all_frames": {
+  "over_30px": [
+   [
+    63.3,
+    83,
+    3.458
+   ],
+   [
+    67.3,
+    89,
+    3.708
+   ],
+   [
+    79.4,
+    93,
+    3.875
+   ],
+   [
+    200.1,
+    179,
+    7.458
+   ],
+   [
+    49.3,
+    193,
+    8.042
+   ],
+   [
+    61.7,
+    201,
+    8.375
+   ],
+   [
+    61.7,
+    223,
+    9.292
+   ],
+   [
+    61.7,
+    244,
+    10.167
+   ],
+   [
+    61.7,
+    287,
+    11.958
+   ],
+   [
+    61.7,
+    309,
+    12.875
+   ]
+  ]
+ },
+ "3_fragments_9.0-10.2s": {
+  "frames": 30,
+  "pieces_ge4px_size_and_gap_px": [
+   [
+    218,
+    [
+     [
+      9,
+      2
+     ],
+     [
+      4,
+      6
+     ]
+    ]
+   ],
+   [
+    220,
+    [
+     [
+      6,
+      2
+     ]
+    ]
+   ],
+   [
+    222,
+    [
+     [
+      7,
+      2
+     ]
+    ]
+   ],
+   [
+    223,
+    [
+     [
+      6,
+      2
+     ]
+    ]
+   ],
+   [
+    224,
+    [
+     [
+      6,
+      2
+     ]
+    ]
+   ],
+   [
+    227,
+    [
+     [
+      4,
+      2
+     ]
+    ]
+   ],
+   [
+    228,
+    [
+     [
+      7,
+      4
+     ]
+    ]
+   ],
+   [
+    229,
+    [
+     [
+      6,
+      3
+     ]
+    ]
+   ],
+   [
+    231,
+    [
+     [
+      5,
+      2
+     ]
+    ]
+   ],
+   [
+    232,
+    [
+     [
+      4,
+      4
+     ]
+    ]
+   ],
+   [
+    233,
+    [
+     [
+      4,
+      3
+     ]
+    ]
+   ],
+   [
+    235,
+    [
+     [
+      6,
+      4
+     ]
+    ]
+   ],
+   [
+    237,
+    [
+     [
+      4,
+      2
+     ]
+    ]
+   ],
+   [
+    238,
+    [
+     [
+      4,
+      2
+     ],
+     [
+      4,
+      4
+     ]
+    ]
+   ],
+   [
+    240,
+    [
+     [
+      4,
+      5
+     ]
+    ]
+   ],
+   [
+    241,
+    [
+     [
+      7,
+      2
+     ],
+     [
+      4,
+      4
+     ]
+    ]
+   ],
+   [
+    243,
+    [
+     [
+      5,
+      3
+     ]
+    ]
+   ],
+   [
+    245,
+    [
+     [
+      4,
+      2
+     ]
+    ]
+   ]
+  ],
+  "max_gap_px": 6,
+  "method": "4-connected pieces of the film mask where the backdrop is sky (plate luminance > 0.3); the dog is the largest; gap = px between a piece and the dog body (99 = more than 12 px)"
+ },
+ "4_rim_lower_doorway_26.5-28.3s": {
+  "edge_px_total": 5636,
+  "rim_px_total": 37,
+  "max_rim_share": 0.024,
+  "mean_edge_minus_brighter_side": -0.0299,
+  "per_frame": [
+   [
+    636,
+    124,
+    1,
+    0.008,
+    -0.0349
+   ],
+   [
+    637,
+    120,
+    0,
+    0.0,
+    -0.0289
+   ],
+   [
+    638,
+    125,
+    3,
+    0.024,
+    -0.0307
+   ],
+   [
+    639,
+    121,
+    1,
+    0.008,
+    -0.0305
+   ],
+   [
+    640,
+    118,
+    2,
+    0.017,
+    -0.0295
+   ],
+   [
+    641,
+    138,
+    3,
+    0.022,
+    -0.0325
+   ],
+   [
+    642,
+    123,
+    3,
+    0.024,
+    -0.0282
+   ],
+   [
+    643,
+    129,
+    2,
+    0.016,
+    -0.0295
+   ],
+   [
+    644,
+    133,
+    3,
+    0.023,
+    -0.029
+   ],
+   [
+    645,
+    124,
+    2,
+    0.016,
+    -0.0313
+   ],
+   [
+    646,
+    132,
+    1,
+    0.008,
+    -0.0313
+   ],
+   [
+    647,
+    129,
+    3,
+    0.023,
+    -0.03
+   ],
+   [
+    648,
+    115,
+    2,
+    0.017,
+    -0.0331
+   ],
+   [
+    649,
+    135,
+    0,
+    0.0,
+    -0.0323
+   ],
+   [
+    650,
+    136,
+    2,
+    0.015,
+    -0.0301
+   ],
+   [
+    651,
+    114,
+    2,
+    0.018,
+    -0.0295
+   ],
+   [
+    652,
+    119,
+    1,
+    0.008,
+    -0.0318
+   ],
+   [
+    653,
+    129,
+    0,
+    0.0,
+    -0.0291
+   ],
+   [
+    654,
+    128,
+    0,
+    0.0,
+    -0.032
+   ],
+   [
+    655,
+    130,
+    2,
+    0.015,
+    -0.0282
+   ],
+   [
+    656,
+    124,
+    0,
+    0.0,
+    -0.0293
+   ],
+   [
+    657,
+    129,
+    1,
+    0.008,
+    -0.0294
+   ],
+   [
+    658,
+    136,
+    0,
+    0.0,
+    -0.0296
+   ],
+   [
+    659,
+    122,
+    0,
+    0.0,
+    -0.029
+   ],
+   [
+    660,
+    131,
+    0,
+    0.0,
+    -0.0291
+   ],
+   [
+    661,
+    127,
+    0,
+    0.0,
+    -0.0276
+   ],
+   [
+    662,
+    118,
+    0,
+    0.0,
+    -0.0285
+   ],
+   [
+    663,
+    136,
+    0,
+    0.0,
+    -0.0275
+   ],
+   [
+    664,
+    130,
+    0,
+    0.0,
+    -0.0319
+   ],
+   [
+    665,
+    129,
+    0,
+    0.0,
+    -0.0301
+   ],
+   [
+    666,
+    128,
+    0,
+    0.0,
+    -0.0273
+   ],
+   [
+    667,
+    123,
+    0,
+    0.0,
+    -0.03
+   ],
+   [
+    668,
+    131,
+    0,
+    0.0,
+    -0.0278
+   ],
+   [
+    669,
+    122,
+    0,
+    0.0,
+    -0.0304
+   ],
+   [
+    670,
+    130,
+    0,
+    0.0,
+    -0.0305
+   ],
+   [
+    671,
+    116,
+    0,
+    0.0,
+    -0.0283
+   ],
+   [
+    672,
+    129,
+    0,
+    0.0,
+    -0.0294
+   ],
+   [
+    673,
+    134,
+    0,
+    0.0,
+    -0.0285
+   ],
+   [
+    674,
+    116,
+    0,
+    0.0,
+    -0.0295
+   ],
+   [
+    675,
+    139,
+    1,
+    0.007,
+    -0.026
+   ],
+   [
+    676,
+    127,
+    0,
+    0.0,
+    -0.0305
+   ],
+   [
+    677,
+    138,
+    0,
+    0.0,
+    -0.0296
+   ],
+   [
+    678,
+    139,
+    1,
+    0.007,
+    -0.0304
+   ],
+   [
+    679,
+    160,
+    1,
+    0.006,
+    -0.0345
+   ]
+  ],
+  "method": "edge = outermost 1-2 px of the film mask inside x245-415 y542-584; rim = edge luminance > max(fur 5 px in, plate backdrop outside) + 0.03"
+ },
+ "4_ear_tip_specks": {
+  "frames_with_specks": [],
+  "max_px": 0
+ },
+ "r5_1_siding_through_dog_22.0-23.8s": {
+  "transfer": {
+   "solid": {
+    "mean": 0.003,
+    "max": 0.038,
+    "control_mean": -0.002,
+    "frames": 44
+   },
+   "all": {
+    "mean": 0.012,
+    "max": 0.043,
+    "control_mean": 0.005,
+    "frames": 44
+   },
+   "rear": {
+    "mean": 0.018,
+    "max": 0.044,
+    "control_mean": 0.0,
+    "frames": 44
+   },
+   "legs": {
+    "mean": 0.024,
+    "max": 0.116,
+    "control_mean": 0.017,
+    "frames": 44
+   }
+  },
+  "render_alpha_inside_dog": {
+   "max_share_below_095": 0.0257,
+   "min_alpha": 0.307
+  },
+  "per_frame": {
+   "solid": [
+    [
+     528,
+     0.002,
+     13883,
+     -0.005
+    ],
+    [
+     529,
+     0.008,
+     14072,
+     -0.001
+    ],
+    [
+     530,
+     -0.009,
+     14153,
+     0.009
+    ],
+    [
+     531,
+     0.005,
+     14088,
+     0.013
+    ],
+    [
+     532,
+     -0.018,
+     13914,
+     0.004
+    ],
+    [
+     533,
+     -0.005,
+     13738,
+     -0.004
+    ],
+    [
+     534,
+     -0.001,
+     13558,
+     -0.002
+    ],
+    [
+     535,
+     0.016,
+     13417,
+     0.0
+    ],
+    [
+     536,
+     0.022,
+     13212,
+     -0.006
+    ],
+    [
+     537,
+     0.003,
+     12941,
+     -0.009
+    ],
+    [
+     538,
+     0.009,
+     12680,
+     0.007
+    ],
+    [
+     539,
+     0.026,
+     12463,
+     0.016
+    ],
+    [
+     540,
+     0.007,
+     12214,
+     0.021
+    ],
+    [
+     541,
+     -0.004,
+     12037,
+     0.023
+    ],
+    [
+     542,
+     -0.012,
+     11874,
+     0.004
+    ],
+    [
+     543,
+     -0.014,
+     11587,
+     0.011
+    ],
+    [
+     544,
+     -0.006,
+     11247,
+     -0.012
+    ],
+    [
+     545,
+     -0.01,
+     10794,
+     -0.003
+    ],
+    [
+     546,
+     -0.008,
+     10552,
+     0.016
+    ],
+    [
+     547,
+     -0.006,
+     10370,
+     -0.011
+    ],
+    [
+     548,
+     -0.006,
+     10184,
+     0.003
+    ],
+    [
+     549,
+     -0.002,
+     10096,
+     -0.023
+    ],
+    [
+     550,
+     -0.007,
+     9947,
+     -0.003
+    ],
+    [
+     551,
+     -0.007,
+     9841,
+     -0.001
+    ],
+    [
+     552,
+     -0.011,
+     9686,
+     -0.001
+    ],
+    [
+     553,
+     0.002,
+     9599,
+     -0.006
+    ],
+    [
+     554,
+     0.011,
+     9501,
+     -0.01
+    ],
+    [
+     555,
+     -0.001,
+     9322,
+     -0.006
+    ],
+    [
+     556,
+     0.01,
+     9212,
+     -0.01
+    ],
+    [
+     557,
+     0.026,
+     9131,
+     -0.015
+    ],
+    [
+     558,
+     0.021,
+     9046,
+     -0.01
+    ],
+    [
+     559,
+     0.026,
+     8942,
+     -0.008
+    ],
+    [
+     560,
+     0.019,
+     8940,
+     -0.009
+    ],
+    [
+     561,
+     0.001,
+     8852,
+     0.001
+    ],
+    [
+     562,
+     -0.002,
+     8761,
+     -0.012
+    ],
+    [
+     563,
+     0.009,
+     8748,
+     0.006
+    ],
+    [
+     564,
+     -0.004,
+     8676,
+     -0.0
+    ],
+    [
+     565,
+     0.011,
+     8594,
+     -0.013
+    ],
+    [
+     566,
+     0.002,
+     8591,
+     -0.007
+    ],
+    [
+     567,
+     0.038,
+     8473,
+     0.01
+    ],
+    [
+     568,
+     -0.024,
+     8435,
+     -0.022
+    ],
+    [
+     569,
+     -0.012,
+     8303,
+     -0.012
+    ],
+    [
+     570,
+     0.006,
+     8218,
+     -0.012
+    ],
+    [
+     571,
+     0.015,
+     8154,
+     -0.008
+    ]
+   ],
+   "all": [
+    [
+     528,
+     0.015,
+     15039,
+     0.009
+    ],
+    [
+     529,
+     0.015,
+     15207,
+     0.008
+    ],
+    [
+     530,
+     0.002,
+     15263,
+     0.02
+    ],
+    [
+     531,
+     0.015,
+     15200,
+     0.023
+    ],
+    [
+     532,
+     -0.01,
+     15028,
+     0.012
+    ],
+    [
+     533,
+     0.001,
+     14848,
+     0.006
+    ],
+    [
+     534,
+     0.005,
+     14629,
+     0.012
+    ],
+    [
+     535,
+     0.024,
+     14466,
+     0.009
+    ],
+    [
+     536,
+     0.031,
+     14243,
+     0.006
+    ],
+    [
+     537,
+     0.013,
+     13961,
+     0.001
+    ],
+    [
+     538,
+     0.015,
+     13666,
+     0.015
+    ],
+    [
+     539,
+     0.035,
+     13471,
+     0.024
+    ],
+    [
+     540,
+     0.018,
+     13185,
+     0.031
+    ],
+    [
+     541,
+     0.008,
+     12985,
+     0.029
+    ],
+    [
+     542,
+     -0.002,
+     12841,
+     0.015
+    ],
+    [
+     543,
+     -0.003,
+     12510,
+     0.021
+    ],
+    [
+     544,
+     0.003,
+     12113,
+     0.0
+    ],
+    [
+     545,
+     -0.002,
+     11629,
+     0.007
+    ],
+    [
+     546,
+     -0.001,
+     11360,
+     0.018
+    ],
+    [
+     547,
+     0.005,
+     11143,
+     -0.004
+    ],
+    [
+     548,
+     0.001,
+     10968,
+     0.008
+    ],
+    [
+     549,
+     0.008,
+     10877,
+     -0.021
+    ],
+    [
+     550,
+     0.009,
+     10694,
+     -0.001
+    ],
+    [
+     551,
+     0.005,
+     10617,
+     0.003
+    ],
+    [
+     552,
+     0.0,
+     10439,
+     0.009
+    ],
+    [
+     553,
+     0.01,
+     10359,
+     -0.001
+    ],
+    [
+     554,
+     0.02,
+     10266,
+     -0.002
+    ],
+    [
+     555,
+     0.007,
+     10056,
+     0.0
+    ],
+    [
+     556,
+     0.019,
+     9948,
+     -0.003
+    ],
+    [
+     557,
+     0.031,
+     9858,
+     -0.009
+    ],
+    [
+     558,
+     0.031,
+     9761,
+     -0.003
+    ],
+    [
+     559,
+     0.03,
+     9677,
+     -0.003
+    ],
+    [
+     560,
+     0.027,
+     9665,
+     -0.006
+    ],
+    [
+     561,
+     0.011,
+     9556,
+     0.008
+    ],
+    [
+     562,
+     0.008,
+     9472,
+     -0.004
+    ],
+    [
+     563,
+     0.017,
+     9462,
+     0.013
+    ],
+    [
+     564,
+     0.009,
+     9373,
+     0.007
+    ],
+    [
+     565,
+     0.018,
+     9296,
+     -0.01
+    ],
+    [
+     566,
+     0.01,
+     9279,
+     -0.0
+    ],
+    [
+     567,
+     0.043,
+     9119,
+     0.012
+    ],
+    [
+     568,
+     -0.013,
+     9090,
+     -0.017
+    ],
+    [
+     569,
+     -0.006,
+     8923,
+     -0.014
+    ],
+    [
+     570,
+     0.026,
+     8821,
+     -0.013
+    ],
+    [
+     571,
+     0.02,
+     8715,
+     -0.007
+    ]
+   ],
+   "rear": [
+    [
+     528,
+     0.011,
+     8189,
+     -0.015
+    ],
+    [
+     529,
+     0.025,
+     8521,
+     -0.015
+    ],
+    [
+     530,
+     0.016,
+     8762,
+     0.005
+    ],
+    [
+     531,
+     0.025,
+     8910,
+     0.011
+    ],
+    [
+     532,
+     0.012,
+     8987,
+     0.005
+    ],
+    [
+     533,
+     0.014,
+     9040,
+     -0.004
+    ],
+    [
+     534,
+     0.023,
+     9049,
+     -0.001
+    ],
+    [
+     535,
+     0.031,
+     9040,
+     -0.01
+    ],
+    [
+     536,
+     0.035,
+     9039,
+     -0.018
+    ],
+    [
+     537,
+     0.016,
+     8995,
+     -0.026
+    ],
+    [
+     538,
+     0.025,
+     8969,
+     -0.009
+    ],
+    [
+     539,
+     0.041,
+     8984,
+     0.003
+    ],
+    [
+     540,
+     0.009,
+     8995,
+     0.008
+    ],
+    [
+     541,
+     0.013,
+     9031,
+     0.013
+    ],
+    [
+     542,
+     0.005,
+     9041,
+     0.004
+    ],
+    [
+     543,
+     0.009,
+     9039,
+     0.019
+    ],
+    [
+     544,
+     0.024,
+     9045,
+     0.007
+    ],
+    [
+     545,
+     0.007,
+     9043,
+     0.009
+    ],
+    [
+     546,
+     0.011,
+     9043,
+     0.017
+    ],
+    [
+     547,
+     0.019,
+     9039,
+     0.002
+    ],
+    [
+     548,
+     0.015,
+     9058,
+     0.011
+    ],
+    [
+     549,
+     0.023,
+     9053,
+     -0.015
+    ],
+    [
+     550,
+     0.026,
+     9039,
+     0.003
+    ],
+    [
+     551,
+     0.019,
+     9048,
+     -0.0
+    ],
+    [
+     552,
+     0.009,
+     9043,
+     0.011
+    ],
+    [
+     553,
+     0.018,
+     9046,
+     0.001
+    ],
+    [
+     554,
+     0.02,
+     9037,
+     0.004
+    ],
+    [
+     555,
+     0.007,
+     9012,
+     0.006
+    ],
+    [
+     556,
+     0.019,
+     8996,
+     0.002
+    ],
+    [
+     557,
+     0.033,
+     8998,
+     -0.006
+    ],
+    [
+     558,
+     0.032,
+     8991,
+     0.001
+    ],
+    [
+     559,
+     0.029,
+     8998,
+     -0.003
+    ],
+    [
+     560,
+     0.022,
+     8987,
+     -0.003
+    ],
+    [
+     561,
+     0.01,
+     8971,
+     0.012
+    ],
+    [
+     562,
+     0.009,
+     8983,
+     -0.002
+    ],
+    [
+     563,
+     0.02,
+     8973,
+     0.016
+    ],
+    [
+     564,
+     0.009,
+     8979,
+     0.008
+    ],
+    [
+     565,
+     0.02,
+     8999,
+     -0.008
+    ],
+    [
+     566,
+     0.013,
+     8982,
+     0.003
+    ],
+    [
+     567,
+     0.044,
+     8921,
+     0.012
+    ],
+    [
+     568,
+     -0.013,
+     8892,
+     -0.017
+    ],
+    [
+     569,
+     -0.006,
+     8824,
+     -0.014
+    ],
+    [
+     570,
+     0.026,
+     8722,
+     -0.014
+    ],
+    [
+     571,
+     0.02,
+     8616,
+     -0.007
+    ]
+   ],
+   "legs": [
+    [
+     528,
+     0.116,
+     1344,
+     0.051
+    ],
+    [
+     529,
+     0.098,
+     1261,
+     0.029
+    ],
+    [
+     530,
+     0.109,
+     1265,
+     0.099
+    ],
+    [
+     531,
+     0.08,
+     1245,
+     0.134
+    ],
+    [
+     532,
+     -0.089,
+     1190,
+     0.018
+    ],
+    [
+     533,
+     0.017,
+     1188,
+     0.011
+    ],
+    [
+     534,
+     0.011,
+     1186,
+     0.023
+    ],
+    [
+     535,
+     0.086,
+     1210,
+     0.08
+    ],
+    [
+     536,
+     0.087,
+     1213,
+     0.087
+    ],
+    [
+     537,
+     0.08,
+     1187,
+     0.096
+    ],
+    [
+     538,
+     -0.001,
+     1175,
+     0.095
+    ],
+    [
+     539,
+     0.06,
+     1186,
+     0.121
+    ],
+    [
+     540,
+     0.048,
+     1192,
+     0.108
+    ],
+    [
+     541,
+     0.085,
+     1206,
+     0.114
+    ],
+    [
+     542,
+     0.049,
+     1205,
+     0.081
+    ],
+    [
+     543,
+     -0.049,
+     1137,
+     0.042
+    ],
+    [
+     544,
+     -0.078,
+     926,
+     -0.044
+    ],
+    [
+     545,
+     -0.036,
+     732,
+     0.031
+    ],
+    [
+     546,
+     0.044,
+     663,
+     -0.011
+    ],
+    [
+     547,
+     -0.054,
+     616,
+     -0.021
+    ],
+    [
+     548,
+     0.043,
+     607,
+     -0.019
+    ],
+    [
+     549,
+     0.03,
+     608,
+     -0.069
+    ],
+    [
+     550,
+     0.03,
+     596,
+     -0.038
+    ],
+    [
+     551,
+     0.004,
+     608,
+     -0.088
+    ],
+    [
+     552,
+     0.022,
+     601,
+     -0.046
+    ],
+    [
+     553,
+     -0.011,
+     606,
+     -0.058
+    ],
+    [
+     554,
+     0.032,
+     599,
+     -0.028
+    ],
+    [
+     555,
+     -0.044,
+     579,
+     -0.058
+    ],
+    [
+     556,
+     0.007,
+     569,
+     -0.094
+    ],
+    [
+     557,
+     0.022,
+     571,
+     -0.08
+    ],
+    [
+     558,
+     0.037,
+     562,
+     -0.02
+    ],
+    [
+     559,
+     -0.004,
+     572,
+     0.003
+    ],
+    [
+     560,
+     0.073,
+     562,
+     -0.021
+    ],
+    [
+     561,
+     0.097,
+     556,
+     0.045
+    ],
+    [
+     562,
+     0.022,
+     571,
+     0.039
+    ],
+    [
+     563,
+     -0.062,
+     554,
+     0.034
+    ],
+    [
+     564,
+     -0.022,
+     557,
+     0.019
+    ],
+    [
+     565,
+     -0.011,
+     579,
+     0.011
+    ],
+    [
+     566,
+     -0.036,
+     561,
+     0.052
+    ],
+    [
+     567,
+     0.049,
+     626,
+     0.012
+    ],
+    [
+     568,
+     0.037,
+     765,
+     -0.049
+    ],
+    [
+     569,
+     -0.093,
+     1110,
+     0.083
+    ],
+    [
+     570,
+     0.061,
+     1555,
+     -0.015
+    ],
+    [
+     571,
+     0.088,
+     2053,
+     -0.023
+    ]
+   ]
+  },
+  "per_frame_alpha": [
+   [
+    528,
+    0.0245,
+    0.33
+   ],
+   [
+    529,
+    0.0235,
+    0.33
+   ],
+   [
+    530,
+    0.0242,
+    0.33
+   ],
+   [
+    531,
+    0.024,
+    0.33
+   ],
+   [
+    532,
+    0.0234,
+    0.33
+   ],
+   [
+    533,
+    0.0228,
+    0.33
+   ],
+   [
+    534,
+    0.0222,
+    0.33
+   ],
+   [
+    535,
+    0.0221,
+    0.33
+   ],
+   [
+    536,
+    0.0214,
+    0.33
+   ],
+   [
+    537,
+    0.023,
+    0.33
+   ],
+   [
+    538,
+    0.0233,
+    0.33
+   ],
+   [
+    539,
+    0.0257,
+    0.33
+   ],
+   [
+    540,
+    0.0241,
+    0.33
+   ],
+   [
+    541,
+    0.0232,
+    0.33
+   ],
+   [
+    542,
+    0.0242,
+    0.33
+   ],
+   [
+    543,
+    0.0244,
+    0.33
+   ],
+   [
+    544,
+    0.0241,
+    0.33
+   ],
+   [
+    545,
+    0.0232,
+    0.33
+   ],
+   [
+    546,
+    0.0226,
+    0.33
+   ],
+   [
+    547,
+    0.0213,
+    0.33
+   ],
+   [
+    548,
+    0.0227,
+    0.307
+   ],
+   [
+    549,
+    0.0223,
+    0.33
+   ],
+   [
+    550,
+    0.0216,
+    0.33
+   ],
+   [
+    551,
+    0.0233,
+    0.33
+   ],
+   [
+    552,
+    0.0228,
+    0.33
+   ],
+   [
+    553,
+    0.0232,
+    0.33
+   ],
+   [
+    554,
+    0.0222,
+    0.33
+   ],
+   [
+    555,
+    0.0234,
+    0.33
+   ],
+   [
+    556,
+    0.0231,
+    0.33
+   ],
+   [
+    557,
+    0.0221,
+    0.33
+   ],
+   [
+    558,
+    0.0237,
+    0.33
+   ],
+   [
+    559,
+    0.0252,
+    0.33
+   ],
+   [
+    560,
+    0.0238,
+    0.33
+   ],
+   [
+    561,
+    0.023,
+    0.33
+   ],
+   [
+    562,
+    0.0244,
+    0.33
+   ],
+   [
+    563,
+    0.0252,
+    0.33
+   ],
+   [
+    564,
+    0.0251,
+    0.33
+   ],
+   [
+    565,
+    0.0251,
+    0.33
+   ],
+   [
+    566,
+    0.0248,
+    0.33
+   ],
+   [
+    567,
+    0.0242,
+    0.446
+   ],
+   [
+    568,
+    0.0256,
+    0.446
+   ],
+   [
+    569,
+    0.0242,
+    0.505
+   ],
+   [
+    570,
+    0.0239,
+    0.466
+   ],
+   [
+    571,
+    0.022,
+    0.502
+   ]
+  ],
+  "method": "render alpha placed on screen; zones: all = alpha >= 0.3 less its outer pixel (includes any pale limb), solid = alpha >= 0.95, rear = rear half, legs = rows 540-583; transfer = regression of the film luminance vertical high-pass on the siding pattern (no-dog plate minus the same plate with unlined siding), ~ 1 - alpha; control = pattern shifted half a clapboard; validated at 1.01-1.04 outside the dog"
+ },
+ "r5_2_feet_on_floor_22.0-23.8s": {
+  "floor_line_y": 603,
+  "planted_hind_film_max_gap_px": 2,
+  "planted_hind_render_max_gap_px": 1,
+  "hind_vs_fore_film_max_px": 5,
+  "per_frame": [
+   {
+    "i": 528,
+    "fore_render_bottom": 602,
+    "fore_film_bottom": 598,
+    "fore_planted": true,
+    "hind_render_bottom": 595,
+    "hind_film_bottom": 594,
+    "hind_planted": false
+   },
+   {
+    "i": 529,
+    "fore_render_bottom": 602,
+    "fore_film_bottom": 598,
+    "fore_planted": true,
+    "hind_render_bottom": 597,
+    "hind_film_bottom": 596,
+    "hind_planted": false
+   },
+   {
+    "i": 530,
+    "fore_render_bottom": 602,
+    "fore_film_bottom": 598,
+    "fore_planted": true,
+    "hind_render_bottom": 602,
+    "hind_film_bottom": 601,
+    "hind_planted": true
+   },
+   {
+    "i": 531,
+    "fore_render_bottom": 602,
+    "fore_film_bottom": 598,
+    "fore_planted": false,
+    "hind_render_bottom": 602,
+    "hind_film_bottom": 601,
+    "hind_planted": true
+   },
+   {
+    "i": 532,
+    "fore_render_bottom": 596,
+    "fore_film_bottom": 595,
+    "fore_planted": false,
+    "hind_render_bottom": 602,
+    "hind_film_bottom": 601,
+    "hind_planted": true
+   },
+   {
+    "i": 533,
+    "fore_render_bottom": 595,
+    "fore_film_bottom": 590,
+    "fore_planted": false,
+    "hind_render_bottom": 602,
+    "hind_film_bottom": 601,
+    "hind_planted": true
+   },
+   {
+    "i": 534,
+    "fore_render_bottom": 597,
+    "fore_film_bottom": 593,
+    "fore_planted": false,
+    "hind_render_bottom": 602,
+    "hind_film_bottom": 601,
+    "hind_planted": true
+   },
+   {
+    "i": 535,
+    "fore_render_bottom": 602,
+    "fore_film_bottom": 602,
+    "fore_planted": true,
+    "hind_render_bottom": 602,
+    "hind_film_bottom": 601,
+    "hind_planted": true
+   },
+   {
+    "i": 536,
+    "fore_render_bottom": 602,
+    "fore_film_bottom": 602,
+    "fore_planted": true,
+    "hind_render_bottom": 602,
+    "hind_film_bottom": 601,
+    "hind_planted": false
+   },
+   {
+    "i": 537,
+    "fore_render_bottom": 602,
+    "fore_film_bottom": 602,
+    "fore_planted": true,
+    "hind_render_bottom": 597,
+    "hind_film_bottom": 596,
+    "hind_planted": false
+   },
+   {
+    "i": 538,
+    "fore_render_bottom": 602,
+    "fore_film_bottom": 602,
+    "fore_planted": true,
+    "hind_render_bottom": 595,
+    "hind_film_bottom": 594,
+    "hind_planted": false
+   },
+   {
+    "i": 539,
+    "fore_render_bottom": 602,
+    "fore_film_bottom": 602,
+    "fore_planted": true,
+    "hind_render_bottom": 596,
+    "hind_film_bottom": 596,
+    "hind_planted": false
+   },
+   {
+    "i": 540,
+    "fore_render_bottom": 602,
+    "fore_film_bottom": 596,
+    "fore_planted": true,
+    "hind_render_bottom": 600,
+    "hind_film_bottom": 599,
+    "hind_planted": false
+   },
+   {
+    "i": 541,
+    "fore_render_bottom": 602,
+    "fore_film_bottom": 596,
+    "fore_planted": true,
+    "hind_render_bottom": 602,
+    "hind_film_bottom": 601,
+    "hind_planted": true
+   },
+   {
+    "i": 542,
+    "fore_render_bottom": 602,
+    "fore_film_bottom": 597,
+    "fore_planted": true,
+    "hind_render_bottom": 602,
+    "hind_film_bottom": 601,
+    "hind_planted": true
+   },
+   {
+    "i": 543,
+    "fore_render_bottom": 599,
+    "fore_film_bottom": 595,
+    "fore_planted": false,
+    "hind_render_bottom": 602,
+    "hind_film_bottom": 601,
+    "hind_planted": true
+   },
+   {
+    "i": 544,
+    "fore_render_bottom": 596,
+    "fore_film_bottom": 594,
+    "fore_planted": false,
+    "hind_render_bottom": 602,
+    "hind_film_bottom": 601,
+    "hind_planted": true
+   },
+   {
+    "i": 545,
+    "fore_render_bottom": 595,
+    "fore_film_bottom": 595,
+    "fore_planted": false,
+    "hind_render_bottom": 602,
+    "hind_film_bottom": 601,
+    "hind_planted": true
+   },
+   {
+    "i": 546,
+    "fore_render_bottom": 595,
+    "fore_film_bottom": 595,
+    "fore_planted": false,
+    "hind_render_bottom": 602,
+    "hind_film_bottom": 601,
+    "hind_planted": true
+   },
+   {
+    "i": 547,
+    "fore_render_bottom": 596,
+    "fore_film_bottom": 596,
+    "fore_planted": false,
+    "hind_render_bottom": 602,
+    "hind_film_bottom": 601,
+    "hind_planted": true
+   },
+   {
+    "i": 548,
+    "fore_render_bottom": 598,
+    "fore_film_bottom": 598,
+    "fore_planted": false,
+    "hind_render_bottom": 602,
+    "hind_film_bottom": 601,
+    "hind_planted": true
+   },
+   {
+    "i": 549,
+    "fore_render_bottom": 599,
+    "fore_film_bottom": 600,
+    "fore_planted": false,
+    "hind_render_bottom": 602,
+    "hind_film_bottom": 601,
+    "hind_planted": true
+   },
+   {
+    "i": 550,
+    "fore_render_bottom": 602,
+    "fore_film_bottom": 603,
+    "fore_planted": false,
+    "hind_render_bottom": 602,
+    "hind_film_bottom": 601,
+    "hind_planted": true
+   },
+   {
+    "i": 551,
+    "fore_render_bottom": 602,
+    "fore_film_bottom": 603,
+    "fore_planted": true,
+    "hind_render_bottom": 602,
+    "hind_film_bottom": 601,
+    "hind_planted": true
+   },
+   {
+    "i": 552,
+    "fore_render_bottom": 602,
+    "fore_film_bottom": 603,
+    "fore_planted": true,
+    "hind_render_bottom": 602,
+    "hind_film_bottom": 601,
+    "hind_planted": true
+   },
+   {
+    "i": 553,
+    "fore_render_bottom": 602,
+    "fore_film_bottom": 603,
+    "fore_planted": true,
+    "hind_render_bottom": 602,
+    "hind_film_bottom": 601,
+    "hind_planted": true
+   },
+   {
+    "i": 554,
+    "fore_render_bottom": 602,
+    "fore_film_bottom": 603,
+    "fore_planted": true,
+    "hind_render_bottom": 601,
+    "hind_film_bottom": 600,
+    "hind_planted": false
+   },
+   {
+    "i": 555,
+    "fore_render_bottom": 602,
+    "fore_film_bottom": 603,
+    "fore_planted": true,
+    "hind_render_bottom": 599,
+    "hind_film_bottom": 599,
+    "hind_planted": false
+   },
+   {
+    "i": 556,
+    "fore_render_bottom": 602,
+    "fore_film_bottom": 603,
+    "fore_planted": true,
+    "hind_render_bottom": 598,
+    "hind_film_bottom": 597,
+    "hind_planted": false
+   },
+   {
+    "i": 557,
+    "fore_render_bottom": 602,
+    "fore_film_bottom": 603,
+    "fore_planted": true,
+    "hind_render_bottom": 597,
+    "hind_film_bottom": 596,
+    "hind_planted": false
+   },
+   {
+    "i": 558,
+    "fore_render_bottom": 602,
+    "fore_film_bottom": 603,
+    "fore_planted": true,
+    "hind_render_bottom": 596,
+    "hind_film_bottom": 596,
+    "hind_planted": false
+   },
+   {
+    "i": 559,
+    "fore_render_bottom": 602,
+    "fore_film_bottom": 603,
+    "fore_planted": true,
+    "hind_render_bottom": 596,
+    "hind_film_bottom": 595,
+    "hind_planted": false
+   },
+   {
+    "i": 560,
+    "fore_render_bottom": 602,
+    "fore_film_bottom": 603,
+    "fore_planted": true,
+    "hind_render_bottom": 595,
+    "hind_film_bottom": 594,
+    "hind_planted": false
+   },
+   {
+    "i": 561,
+    "fore_render_bottom": 602,
+    "fore_film_bottom": 603,
+    "fore_planted": true,
+    "hind_render_bottom": 595,
+    "hind_film_bottom": 594,
+    "hind_planted": false
+   },
+   {
+    "i": 562,
+    "fore_render_bottom": 602,
+    "fore_film_bottom": 603,
+    "fore_planted": true,
+    "hind_render_bottom": 595,
+    "hind_film_bottom": 594,
+    "hind_planted": false
+   },
+   {
+    "i": 563,
+    "fore_render_bottom": 602,
+    "fore_film_bottom": 603,
+    "fore_planted": true,
+    "hind_render_bottom": 595,
+    "hind_film_bottom": 594,
+    "hind_planted": false
+   },
+   {
+    "i": 564,
+    "fore_render_bottom": 602,
+    "fore_film_bottom": 603,
+    "fore_planted": true,
+    "hind_render_bottom": 595,
+    "hind_film_bottom": 594,
+    "hind_planted": false
+   },
+   {
+    "i": 565,
+    "fore_render_bottom": 602,
+    "fore_film_bottom": 603,
+    "fore_planted": true,
+    "hind_render_bottom": 595,
+    "hind_film_bottom": 594,
+    "hind_planted": false
+   },
+   {
+    "i": 566,
+    "fore_render_bottom": 602,
+    "fore_film_bottom": 603,
+    "fore_planted": true,
+    "hind_render_bottom": 596,
+    "hind_film_bottom": 595,
+    "hind_planted": false
+   },
+   {
+    "i": 567,
+    "fore_render_bottom": 602,
+    "fore_film_bottom": 603,
+    "fore_planted": true,
+    "hind_render_bottom": 601,
+    "hind_film_bottom": 601,
+    "hind_planted": false
+   },
+   {
+    "i": 568,
+    "fore_render_bottom": 602,
+    "fore_film_bottom": 603,
+    "fore_planted": true,
+    "hind_render_bottom": 602,
+    "hind_film_bottom": 602,
+    "hind_planted": false
+   },
+   {
+    "i": 569,
+    "fore_render_bottom": 602,
+    "fore_film_bottom": 603,
+    "fore_planted": true,
+    "hind_render_bottom": 602,
+    "hind_film_bottom": 602,
+    "hind_planted": false
+   },
+   {
+    "i": 570,
+    "fore_render_bottom": 602,
+    "fore_film_bottom": 603,
+    "fore_planted": true,
+    "hind_render_bottom": 602,
+    "hind_film_bottom": 602,
+    "hind_planted": false
+   },
+   {
+    "i": 571,
+    "fore_render_bottom": 602,
+    "fore_film_bottom": 603,
+    "fore_planted": true,
+    "hind_render_bottom": 602,
+    "hind_film_bottom": 602,
+    "hind_planted": false
+   }
+  ],
+  "method": "lowest row of the film mask / render alpha within +-16 px of each leg pair paw; floor line = GY+3"
+ },
+ "kept_look_back_7.38-7.79s": {
+  "max_step_render_px": 34.0,
+  "max_step_film_px": 34.9,
+  "frames_head_moving": [
+   179,
+   180,
+   181,
+   182,
+   183,
+   185,
+   186,
+   187
+  ],
+  "steps_render": {
+   "178": 0.0,
+   "179": 34.0,
+   "180": 27.9,
+   "181": 17.7,
+   "182": 5.2,
+   "183": 26.8,
+   "184": 0.9,
+   "185": 5.6,
+   "186": 8.9,
+   "187": 10.6
+  },
+  "steps_film": {
+   "178": 0.1,
+   "179": 34.9,
+   "180": 28.0,
+   "181": 13.6,
+   "182": 4.7,
+   "183": 24.0,
+   "184": 1.1,
+   "185": 6.5,
+   "186": 8.2,
+   "187": 9.9
+  },
+  "bridge": [
+   null,
+   null,
+   [
+    "away",
+    8,
+    0
+   ],
+   [
+    31,
+    12,
+    10
+   ],
+   [
+    28,
+    15,
+    0
+   ],
+   [
+    14,
+    27,
+    -12
+   ],
+   null,
+   null,
+   null,
+   null,
+   null
+  ],
+  "method": "render: alpha centroid of the head piece on screen; film: centroid of the film mask inside that piece box grown 6 px"
+ },
+ "kept_approach_feet": {
+  "held_drawing_changes_during_approach": 0,
+  "max_paw_x_range_while_planted_px": {
+   "fore": 1.73,
+   "hind": 2.18
+  },
+  "max_paw_move_one_frame_px": {
+   "fore": 14.8,
+   "hind": 13.09
+  },
+  "plants": 31,
+  "worst_plants": [
+   {
+    "leg": "hind",
+    "plant": -7,
+    "frames": [
+     454,
+     460
+    ],
+    "n": 7,
+    "paw_x_range_px": 2.18
+   },
+   {
+    "leg": "hind",
+    "plant": -9,
+    "frames": [
+     477,
+     483
+    ],
+    "n": 7,
+    "paw_x_range_px": 1.79
+   },
+   {
+    "leg": "hind",
+    "plant": -1,
+    "frames": [
+     365,
+     375
+    ],
+    "n": 11,
+    "paw_x_range_px": 1.74
+   },
+   {
+    "leg": "fore",
+    "plant": -4,
+    "frames": [
+     421,
+     429
+    ],
+    "n": 9,
+    "paw_x_range_px": 1.73
+   }
+  ],
+  "method": "as the retreat; one-frame move = largest |paw x(i) - paw x(i-1)| of either pair, planted or swinging"
+ },
+ "r5_3_lie_handoff_23.33-24.42s": {
+  "film_max_hip_drop_px": 15.6,
+  "film_max_head_step_px": 28.2,
+  "render_max_hip_drop_px": 10.5,
+  "hip_steps_film": {
+   "561": 0.6,
+   "562": -0.4,
+   "563": 0.6,
+   "564": 0.2,
+   "565": 0.4,
+   "566": -2.2,
+   "567": 11.5,
+   "568": 11.7,
+   "569": 10.7,
+   "570": 7.4,
+   "571": 15.6,
+   "572": 3.6,
+   "573": 0.3,
+   "574": 3.6,
+   "575": 3.3,
+   "576": 4.5,
+   "577": 3.9,
+   "578": 4.5,
+   "579": 4.0,
+   "580": 6.0,
+   "581": 0.9,
+   "582": 7.8,
+   "583": 7.8,
+   "584": 2.7,
+   "585": 5.6
+  },
+  "head_steps_film": {
+   "561": 1.1,
+   "562": 0.9,
+   "563": 0.8,
+   "564": 0.5,
+   "565": 1.5,
+   "566": 0.5,
+   "567": 0.8,
+   "568": 0.5,
+   "569": 2.3,
+   "570": 0.1,
+   "571": 0.2,
+   "572": 28.2,
+   "573": 2.7,
+   "574": 0.4,
+   "575": 1.8,
+   "576": 1.8,
+   "577": 1.1,
+   "578": 4.5,
+   "579": 4.6,
+   "580": 9.7,
+   "581": 11.6,
+   "582": 8.9,
+   "583": 7.3,
+   "584": 7.9,
+   "585": 3.9
+  },
+  "swap_frame_571_572": {
+   "hip_drop_film": 3.6,
+   "head_step_film": 28.2
+  },
+  "method": "hip = mean top row of the film mask over the rear fifth of the dog; head = head point (45 px nearest the facing side)"
+ },
+ "r5_5_reach": {
+  "first_reach_frame": 76,
+  "first_reach_s": 3.167,
+  "lead_before_turn_3417_s": 0.25
+ },
+ "2_sound_from_film": {
+  "voice": {
+   "call_1": {
+    "onset_scene_s": 0.63,
+    "rms_dBFS": -23.43
+   },
+   "call_2": {
+    "onset_scene_s": 2.95,
+    "rms_dBFS": -23.3
+   },
+   "call_1b": {
+    "onset_scene_s": 1.6,
+    "rms_dBFS": -23.97
+   },
+   "soft_1": {
+    "onset_scene_s": 7.11,
+    "rms_dBFS": -35.4
+   },
+   "soft_2": {
+    "onset_scene_s": 10.43,
+    "rms_dBFS": -35.42
+   },
+   "come_in": {
+    "onset_scene_s": 25.9,
+    "rms_dBFS": -33.93
+   }
+  },
+  "reactions": {
+   "retreat_motion_starts": 1.3333,
+   "turn_choice": 3.417,
+   "turn_away_first_new_frame": 3.4583,
+   "look_back": 7.4583
+  },
+  "call_1_lead_s": 0.7,
+  "call_2_lead_before_turn_3417_s": 0.47,
+  "quietest_call_minus_loudest_soft_dB": 9.96,
+  "soft_1_lead_before_look_back_7458_s": 0.35,
+  "method": "voice band 150-1600 Hz, 10 ms RMS; onset = first window 12 dB over the 3.1-3.6 s film-time floor"
+ }
+}

@@ -303,7 +303,7 @@ def main():
     def steps(d):
         return {str(i): round(float(np.hypot(d[i][0] - d[i - 1][0], d[i][1] - d[i - 1][1])), 1) for i in sorted(d) if i - 1 in d}
     sr, sf = steps(hp_r), steps(hp_f)
-    R['r5_2_look_back_7.38-7.79s'] = dict(max_step_render_px=max(sr.values()), max_step_film_px=max(sf.values()),
+    R['kept_look_back_7.38-7.79s'] = dict(max_step_render_px=max(sr.values()), max_step_film_px=max(sf.values()),
                                          frames_head_moving=[int(i) for i, v in sr.items() if v > 3],
                                          steps_render=sr, steps_film=sf, bridge=[TR[str(i)]['pose'].get('bridge') for i in range(177, 188)],
                                          method='render: alpha centroid of the head piece on screen; film: centroid of the film mask inside that piece box grown 6 px')
@@ -323,7 +323,7 @@ def main():
     ad, aplants, astep = plant_stats(apaws)
     held_changes = sum(1 for i in range(354, 572) if TR[str(i)]['pose'].get('kind') == 'frame' and TR[str(i - 1)]['pose'].get('kind') == 'frame'
                        and TR[str(i)]['pose'].get('f') != TR[str(i - 1)]['pose'].get('f'))
-    R['r5_5_approach_feet'] = dict(held_drawing_changes_during_approach=held_changes, max_paw_x_range_while_planted_px=ad,
+    R['kept_approach_feet'] = dict(held_drawing_changes_during_approach=held_changes, max_paw_x_range_while_planted_px=ad,
                                    max_paw_move_one_frame_px=astep, plants=len(aplants), worst_plants=sorted(aplants, key=lambda d: -d['paw_x_range_px'])[:4],
                                    method='as the retreat; one-frame move = largest |paw x(i) - paw x(i-1)| of either pair, planted or swinging')
     # R5-3: the standing-to-crouching hand-off at 23.79 -> 23.83: head point and hip (top of the back over the rear fifth),
