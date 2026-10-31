@@ -1,17 +1,17 @@
 {
  "mesh": {
-  "vertices": 5565,
-  "triangles": 10104,
-  "holes": 34,
+  "vertices": 5512,
+  "triangles": 9924,
+  "holes": 30,
   "handles": {
    "bones": 12,
    "points": 2,
    "cage_vertices": 6
   }
  },
- "solve_seconds_including_triangulation": 7.81,
+ "solve_seconds_including_triangulation": 8.0,
  "active_set": {
-  "max_iterations": 26,
+  "max_iterations": 27,
   "all_converged": true
  },
  "bounds": {
@@ -20,26 +20,26 @@
  },
  "partition_of_unity_max_error": 3.3306690738754696e-16,
  "raw_sum_before_normalising": [
-  0.842,
-  2.019
+  0.876,
+  2.098
  ],
  "sparsity": {
-  "share_of_weights_exactly_zero": 0.8389128481581312,
-  "share_below_1e-3": 0.8656154537286612,
-  "mean_handles_per_vertex_above_0.01": 2.407726864330638
+  "share_of_weights_exactly_zero": 0.8455007256894049,
+  "share_below_1e-3": 0.8653029753265602,
+  "mean_handles_per_vertex_above_0.01": 2.388788098693759
  },
  "locality_max_weight_across_leg_gap": {
   "bbw": {
    "fn_lower on ff paw/shin": 0.0,
    "ff_lower on fn paw/shin": 0.0,
-   "hn_lower on hf paw/shin": 0.0,
+   "hn_lower on hf paw/shin": -0.0,
    "hf_lower on hn paw/shin": 0.0
   },
   "naive_inverse_distance": {
-   "fn_lower on ff paw/shin": 0.1626,
-   "ff_lower on fn paw/shin": 0.1181,
-   "hn_lower on hf paw/shin": 0.1979,
-   "hf_lower on hn paw/shin": 0.2099
+   "fn_lower on ff paw/shin": 0.1273,
+   "ff_lower on fn paw/shin": 0.1238,
+   "hn_lower on hf paw/shin": 0.2031,
+   "hf_lower on hn paw/shin": 0.2111
   }
  },
  "lift_near_foreleg_50deg": {
@@ -48,15 +48,15 @@
    "folded_triangles": 0
   },
   "naive_inverse_distance": {
-   "far_foreleg_max_displacement_m": 0.0656,
-   "folded_triangles": 94
+   "far_foreleg_max_displacement_m": 0.0563,
+   "folded_triangles": 86
   }
  },
- "runtime_ms_per_pose_and_skin": 3.37,
+ "runtime_ms_per_pose_and_skin": 2.96,
  "performance_folded_triangles": {
-  "frames_checked": 725,
-  "max": 239,
-  "mean": 64.78,
-  "share_of_triangles_max": 0.0237
+  "frames_checked": 679,
+  "max": 231,
+  "mean": 65.82,
+  "share_of_triangles_max": 0.0233
  }
 }

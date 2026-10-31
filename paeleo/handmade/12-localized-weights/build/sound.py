@@ -83,7 +83,7 @@ def speak(text, f0_start, f0_peak, f0_end, loud, breath, tempo=1.0):
     sos = butter(4, 3500, 'hp', fs=SR, output='sos')
     out += sosfilt(sos, noise) * nz * 0.25
     out = out / (np.abs(out).max() + 1e-9)
-    env = np.minimum(1, np.minimum(t / 0.02, (total - t) / 0.04))
+    env = np.minimum(1, np.minimum(t / 0.02, (total - t) / 0.16)) ** 1.5   # a natural release, not a cut
     return out * env * loud
 
 
@@ -134,14 +134,22 @@ def build_scene():
         gate = ((t + c0) % 0.9) < 0.22
         out += chirp * gate * 0.0035
     levels = {}
+    vbus = np.zeros(n)
     # voices, placed where the score turns the voice on (onset 40 ms early, so the voice is at or before the dog's reaction)
     for a, b, text, kind in perform.WORDS:
         if kind == 'call':
             sig = speak(text, 190, 290, 180, 0.50, 0.08, tempo=1.0)
         else:
             sig = speak(text, 175, 200, 150, 0.115, 0.45, tempo=1.25)
-        place(out, sig, a - 0.04)
+        place(vbus, sig, a - 0.04)
         levels.setdefault(text + ' @%.2f' % a, 20 * np.log10(np.sqrt(np.mean(sig[np.abs(sig) > 1e-4] ** 2)) + 1e-12))
+    # the voices sound in the room: a short decaying reverb tail (porch and doorway), so no line stops dead
+    from scipy.signal import fftconvolve
+    m = int(0.7 * SR); ti = np.arange(m) / SR
+    ir = rng.normal(0, 1, m) * np.exp(-ti / 0.16)
+    ir = sosfilt(butter(2, [300, 3500], 'bp', fs=SR, output='sos'), ir)
+    ir = ir / np.sqrt((ir ** 2).sum())
+    out += vbus + 0.22 * fftconvolve(vbus, ir)[:n]
     # dog: a paper tick at each paw plant (same gait as the picture), rustles on each yaw ripple
     P = perform.dog_poses()
     prev = None

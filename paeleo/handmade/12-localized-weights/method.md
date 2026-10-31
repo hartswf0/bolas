@@ -11,10 +11,10 @@ dragging the leg a finger away, and the lace holes do not tear.
 
 | primitive | here |
 |---|---|
-| character mesh | one red cut-paper dog in profile (`build/dog.py`): unions of tapered strokes and a Catmull-Rom torso, pierced with **34 lace holes** (two seven-petal rosettes, a medallion, a row of back piercings, belly crescents, eye, ear slits, a thigh drop). Near and far legs sit 10–25 mm apart; the two ears share a base. Triangulated with constrained Delaunay (the `triangle` library) with every handle as a PSLG constraint: **5,565 vertices, 10,104 triangles**. |
+| character mesh | one red cut-paper dog in profile (`build/dog.py`): unions of tapered strokes and a Catmull-Rom torso, pierced with **30 lace holes**, each at least about 2 cm across its narrow side so they read at the wide shot (two six-petal rosettes, a medallion with four drops, four back piercings, three belly crescents, eye, ear slits, chest and thigh drops). Near and far legs sit 10–25 mm apart; the two ears share a base. Triangulated with constrained Delaunay (the `triangle` library) with every handle as a PSLG constraint: **5,512 vertices, 9,924 triangles**. |
 | point / bone / cage handles | **12 bones** (neck, head, upper and lower segment of each of four legs, two tail segments), **2 points** (ear tips), and a **6-vertex torso cage** whose edges run through the mesh interior (weights linear along cage edges, as in the paper). |
 | bounded weights | for each handle j: minimise ½ wⱼᵀ (L M⁻¹ L) wⱼ (cotangent Laplacian L, lumped mass M), wⱼ = 1 on handle j and 0 on the others, 0 ≤ wⱼ ≤ 1; solved as a box-constrained QP by a primal-dual active-set method I wrote in `build/bbw.py` (scipy sparse LU per active set); then normalised to a partition of unity. |
-| sparsity and smoothness | the lower bound is active on most of the mesh: 84 % of all weights are exactly 0; on average 2.4 handles per vertex carry more than 0.01. |
+| sparsity and smoothness | the lower bound is active on most of the mesh: 85 % of all weights are exactly 0; on average 2.4 handles per vertex carry more than 0.01. |
 | rest-pose shape controls | each handle carries a full affine; the posed affines come from the score's acting state (`build/rig.py`), then linear blend skinning. |
 
 The person is the swarm prompt's second proof subject, "a coat-wearing human": ink-blue paper, the same solver, 8 bones,
@@ -29,9 +29,9 @@ a point for the hair knot and a 4-vertex cage for the coat skirt that bends over
 * **locality across the gap**: the largest weight a lower-leg bone has on the neighbouring leg's shin and paw is **0.000**
   for all four pairs; naive inverse-distance (Shepard, power 2) weights give 0.12–0.21.
 * **lift test**: rotate the near foreleg 50° at the shoulder (and 95° at the wrist), all other handles still: the far
-  foreleg moves **0 mm** with BBW; with the naive weights it is dragged up to **66 mm** and 94 triangles fold. Both results are
+  foreleg moves **0 mm** with BBW; with the naive weights it is dragged up to **56 mm** and 86 triangles fold. Both results are
   drawn on the end card from the same mesh.
-* folding through the performance: in frames where the whole dog faces one way, at most 239 of 10,104 triangles (2.4 %)
+* folding through the performance: in frames where the whole dog faces one way, at most 231 of 9,924 triangles (2.3 %)
   fold, at the hip and neck joints in the deepest bends (lying, chin on paws). They are inside the silhouette (one sheet, one
   colour), so they do not show, but they exist; LBS with bone weights folds at sharp joint bends, and I did not add a
   dual-quaternion or ARAP correction.
@@ -43,8 +43,8 @@ a point for the hair knot and a 4-vertex cage for the coat skirt that bends over
 * **Head low on the approach**: the neck rotates down so the top of the head is below the back. Measured from the deformed
   mesh: head top below the withers in 97 % (skull top more than 5 cm below the withers; the remaining frames are the 0.45 s ease-in at 14.7 s) of approach frames.
 * **Turns are a yaw ripple through the handle groups.** A flat profile turned as one card goes edge-on (it did, ledger 4).
-  Instead each handle group yaws through 180° in 0.34 s, head first, then shoulders, then hips (onsets 3.42 / 3.52 / 3.60 s
-  and, for the turn back, head 7.36 s, shoulders 8.02, hips 8.10). Limbs have depth: near legs and ear at +z, far ones at −z,
+  Instead each handle group yaws through 180° in 0.34 s, head first, then shoulders and hips together (onsets 3.42 / 3.54 s
+  and, for the turn back, head 7.36 s, body 8.00 s; see the repair round below). Limbs have depth: near legs and ear at +z, far ones at −z,
   so mid-turn the projection puts two forelegs (two hind legs, two ears) side by side, as a dog seen head-on. While the groups
   face different ways the dog is drawn as paper layers in depth order, each with its own cut edge and shadow. The tail never
   goes below half width (a paper tail edge-on is a stick); it flicks across.
@@ -55,7 +55,20 @@ a point for the hair knot and a 4-vertex cage for the coat skirt that bends over
   x = 0.59 its forelegs and head are past the wall's outer face (x = 0.30) and its muzzle reaches into the lit room; tail and
   hindquarters stay on the porch.
 * **Looking in** (26.4): the neck reaches forward and level (the score's head > 1 becomes reach, not rise), the ears prick,
-  and the head yaws 38° away from the camera into the depth of the room (the ears part, the muzzle foreshortens); the muzzle moves further into the room (measured: muzzle world x -0.13 m at 26.3 s → -0.16 m at 27.5 s; the wall's inner face is at 0.00). No lift toward the light or the person.
+  and the head yaws 62° away from the camera into the depth of the room (the ears part, the muzzle foreshortens); the muzzle moves further into the room (measured: muzzle world x -0.13 m at 26.3 s → -0.16 m at 27.5 s; the wall's inner face is at 0.00). No lift toward the light or the person.
+
+## Repair round 1 (after the critic's DOES NOT PASS)
+
+* **Turns (3.5–3.9 s, 8.0–8.35 s):** each handle's *shape* (its affine's linear part) no longer narrows below a floor of its
+  width: torso cage 42 %, legs 85 %, head 50 %, tail 50 %; at 90° it flips sides instead. The torso and the leg pairs are
+  nearly mirror-symmetric, so the flip does not show; the head, neck and tail keep their true continuous positions, and the
+  head leads by 0.12 s (shoulders and hips now turn together). Checked frame by frame on film.mp4: every frame has a head and
+  legs about 6 px or more wide at the wide shot.
+* **Looking in (26.4–26.9):** the head stays low (no lift toward the hand); it reaches forward and yaws 62° away from the
+  camera, so the muzzle foreshortens into the doorway and the two ears part.
+* **Muzzle:** redrawn shorter and deeper with a nose; the weights were re-solved automatically.
+* **Lace:** 30 bolder holes instead of 34 small ones; the end card's count comes from the mesh.
+* **Sound:** voices get a 0.16 s release and a short room reverb; the second call no longer stops dead.
 
 ## The place
 
@@ -74,7 +87,7 @@ resonators, phonemes typed by hand) for "Come here." ×2, "It's all right." ×2 
 roughly, so the words also appear as cream paper captions beside the person (speech, not labels: the dog's state is never
 printed). Voices start 40 ms before the score's voice onset. Paper ticks on every paw plant (same gait as the picture),
 rustles on each turn and when it lies down, door latch and creak, stool creak, crickets, low air, a warm pad when the light
-comes out. Measured in the encoded film: RMS over 0.9 s from each line's onset, from the audio of film.mp4: calls −16.6 / −16.6 dBFS; soft lines −27.7, −28.3, −30.4 dBFS (11.1 dB or more under the calls); dusk air between lines about −55 dBFS.
+comes out. Measured in the encoded film: RMS over 0.9 s from each line's onset, from the audio of film.mp4: calls about −16.6 dBFS; soft lines about −28 to −30 dBFS (11 dB or more under the calls); dusk air between lines about −55 dBFS.
 
 ## Measured choice onsets (from the render, `trace.json` → `onsets_measured`)
 
@@ -96,8 +109,8 @@ into a lump (fixed with depth layers, limb depth, a flicking tail); a smiling mo
 
 ## What is still weak (my own view; an independent critic judges)
 
-* Mid-turn frames (about 3.55–3.75 s and 8.05–8.25 s) are compact and partly tangled: a profile cut cannot show a true
-  frontal face; the limb-depth spread and layering make them read as a dog seen head-on, but not cleanly in every frame.
+* Mid-turn frames (about 3.62–3.72 s, 8.12–8.18 s) are still compact: the head folds over the chest for two or three
+  frames, and the shape flip at 90° is a small one-frame change, near-invisible because torso and leg pairs are near-symmetric.
 * The voice is a crude formant synthesizer; the captions carry the words.
 * Some triangles fold at hip and neck in deep bends (invisible in one colour, but present).
 * "Across the sill in depth" is solved as a section view, not as a 3/4 view into depth.

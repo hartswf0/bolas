@@ -60,10 +60,10 @@ def shape():
                      (0.335, 0.49), (0.35, 0.40), (0.31, 0.33), (0.20, 0.315), (0.10, 0.31), (-0.05, 0.285), (-0.20, 0.27),
                      (-0.30, 0.31)])
     neck = taper((-0.27, 0.47), (-0.39, 0.655), 0.095, 0.07)
-    skull = ellipse((-0.425, 0.70), 0.075, 0.066, -8)
-    muzzle = taper((-0.46, 0.685), (-0.605, 0.655), 0.052, 0.03)
-    jaw = taper((-0.44, 0.655), (-0.575, 0.635), 0.03, 0.02)
-    nose = Point((-0.607, 0.66)).buffer(0.024, 16)
+    skull = ellipse((-0.43, 0.705), 0.08, 0.07, -8)
+    muzzle = taper((-0.47, 0.682), (-0.555, 0.660), 0.056, 0.037)
+    jaw = taper((-0.45, 0.652), (-0.54, 0.636), 0.034, 0.024)
+    nose = Point((-0.565, 0.668)).buffer(0.027, 16)
     ear_n = Polygon([(-0.452, 0.735), (-0.392, 0.748), (-0.418, 0.885)]).buffer(0.008, 8)
     ear_f = Polygon([(-0.392, 0.738), (-0.338, 0.742), (-0.352, 0.868)]).buffer(0.008, 8)
     legs = []
@@ -83,29 +83,29 @@ def shape():
 
 
 def lace_holes():
+    """Bold lace: every piercing is at least 2 cm across its narrow side, so it still reads at the wide shot (~180 px/m)."""
     H = []
-    # shoulder and hip rosettes: a ring of 7 petals around a round eye
-    for c, r in (((-0.165, 0.415), 0.0), ((0.165, 0.408), 0.0)):
-        H.append(Point(c).buffer(0.013, 16))
-        for k in range(7):
-            H.append(petal(c, 90 + k * 360 / 7, 0.024, 0.043, 0.0095))
+    # shoulder and hip rosettes: six petals around a round eye
+    for c in ((-0.165, 0.405), (0.165, 0.405)):
+        H.append(Point(c).buffer(0.017, 20))
+        for k in range(6):
+            H.append(petal(c, k * 60, 0.024, 0.050, 0.012))
     # a row of round piercings along the back (above the cage line)
-    for x in np.linspace(-0.08, 0.10, 5):
-        H.append(Point((x, 0.494)).buffer(0.0095, 12))
-    # crescents (as slim ellipses) along the belly, below the cage line
+    for x in np.linspace(-0.07, 0.09, 4):
+        H.append(Point((x, 0.495)).buffer(0.0125, 16))
+    # crescents along the belly, below the cage line
     for x, a in ((-0.10, 6), (-0.03, 2), (0.04, -2)):
-        H.append(ellipse((x, 0.316), 0.021, 0.0065, a))
+        H.append(ellipse((x, 0.316), 0.027, 0.0085, a))
     # centre medallion: diamond and four drops
-    c = (0.0, 0.415)
-    H.append(Polygon([(c[0], c[1] + 0.03), (c[0] + 0.022, c[1]), (c[0], c[1] - 0.03), (c[0] - 0.022, c[1])]))
+    c = (0.0, 0.405)
+    H.append(Polygon([(c[0], c[1] + 0.036), (c[0] + 0.026, c[1]), (c[0], c[1] - 0.036), (c[0] - 0.026, c[1])]))
     for ang in (0, 90, 180, 270):
-        H.append(petal(c, ang + 45, 0.032, 0.046, 0.008))
-    # neck: two drops; eye; ear slits; thigh drop; tail dots
-    H.append(petal((-0.315, 0.455), -70, 0.0, 0.035, 0.011))
-    H.append(ellipse((-0.462, 0.712), 0.013, 0.008, -12))       # eye
-    H.append(ellipse((-0.418, 0.795), 0.006, 0.022, 78))        # near ear slit
-    H.append(ellipse((-0.358, 0.79), 0.005, 0.018, 82))         # far ear slit
-    H.append(petal((0.255, 0.40), -100, 0.0, 0.03, 0.011))     # thigh drop (below the cage, beside the hip bones)
+        H.append(petal(c, ang + 45, 0.040, 0.054, 0.0105))
+    H.append(petal((-0.315, 0.455), -70, 0.0, 0.035, 0.013))   # chest drop
+    H.append(ellipse((-0.455, 0.715), 0.016, 0.0105, -12))      # eye
+    H.append(ellipse((-0.418, 0.80), 0.008, 0.026, 78))         # near ear slit
+    H.append(ellipse((-0.358, 0.795), 0.007, 0.021, 82))        # far ear slit
+    H.append(petal((0.255, 0.40), -100, 0.0, 0.032, 0.013))    # thigh drop
     return unary_union(H)
 
 
@@ -115,7 +115,7 @@ CAGE = [(-0.265, 0.475), (0.0, 0.465), (0.27, 0.47), (0.28, 0.345), (0.0, 0.335)
 def handles():
     hs = []
     hs.append({'name': 'neck', 'kind': 'bone', 'a': (-0.315, 0.535), 'b': (-0.375, 0.635), 'group': 'head'})
-    hs.append({'name': 'head', 'kind': 'bone', 'a': (-0.425, 0.69), 'b': (-0.575, 0.66), 'group': 'head'})
+    hs.append({'name': 'head', 'kind': 'bone', 'a': (-0.43, 0.695), 'b': (-0.545, 0.665), 'group': 'head'})
     for k, (a, b, c) in LEGS.items():
         a, b, c = np.array(a), np.array(b), np.array(c)
         hs.append({'name': k + '_upper', 'kind': 'bone', 'a': tuple(a + (b - a) * 0.12), 'b': tuple(a + (b - a) * 0.80),
