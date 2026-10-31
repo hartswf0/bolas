@@ -8,16 +8,16 @@ video{width:100%;height:auto;background:#000}h1{font-size:20px;margin:.2em 0}h2{
 a{color:var(--amb)}code{color:var(--dim)}li{margin:.2em 0}
 </style></head><body>
 <h1>SCION 31 · Alpha Matting — the threshold</h1>
-<p>PAE-02 cohort 4 · revision: build v8 (repair round 3: wrap only on fractional alpha, head comes round through the front at 7.46 s, soft voice at 7.11 s, frontal frames 30/33, approach on the planted-paw gait).</p>
+<p>PAE-02 cohort 4 · revision: build v10 (repair round 4: no pale limb and hind feet on the floor in the walking dog, the hindquarters sink before it lies down, rounded shoulder and a tail tuft, the reach before the turn).</p>
 <video src="film.mp4" controls playsinline preload="metadata"></video>
-<h2>Critic verdict</h2><p>Round 1: DOES NOT PASS. Round 2: DOES NOT PASS (narrowly). Round 3: PASS (narrowly), with one last repair round. Its five conditions repaired in v8, measured on the encoded film (<a href="proof/round4_verify.json">round4_verify.json</a>); awaiting review.</p>
+<h2>Critic verdict</h2><p>Round 1: DOES NOT PASS. Round 2: DOES NOT PASS (narrowly). Round 3: PASS (narrowly). Round 4: DOES NOT PASS (narrowly); its five conditions repaired in v10, measured on the encoded film (<a href="proof/round5_verify.json">round5_verify.json</a>); awaiting review.</p>
 <h2>Next blocking failure (builder's guess, untested)</h2>
-<p>Unknown until re-review. Builder guess: the look-back bridge mixes heads of three archive frames (a soft cut edge at 7.58 s); the approach is one drawing with moving legs; the body still changes shape in one frame where the head is bridged.</p>
+<p>Unknown until re-review. Builder guess: at 23.83 s the walker is replaced by the lighter, longer lying reconstruction in one frame (head and hip carry through); the tail tuft is small.</p>
 <h2>Artifacts</h2><ul>
 <li><a href="trace.json">trace.json</a> · <a href="invariants.json">invariants.json</a> · <a href="assets.json">assets.json</a> · <a href="method.md">method.md</a> · <a href="ledger.jsonl">ledger.jsonl</a></li>
 <li>Matte diagnostics: <a href="proof/dog_matte_diagnostics.jpg">dog</a>, <a href="proof/world_matte_diagnostics.jpg">world</a>, <a href="proof/fork_fur_ABC.jpg">fur fork A/B/C</a></li>
 <li>Stress composite: <a href="proof/stress_composite.mp4">light / dark / moving, turning and rotating</a> · <a href="proof/edge_log.json">edge acceptance log</a> · RGBA variants in <code>proof/rgba/</code></li>
-<li>Proof cut from the encoded film: <a href="proof/r4_siding_22.2-23.8_crop.jpg">legs over the siding</a> · <a href="proof/r4_look_back_crop.jpg">look-back</a> · <a href="proof/r4_frontal_heads_crop.jpg">frontal heads</a> · <a href="proof/r4_approach_full.jpg">approach</a> · <a href="proof/r4_retreat_paws_crop.jpg">retreat paws</a> · <a href="proof/r4_watch_9.0-10.2_crop.jpg">9.0-10.2 s</a> · <a href="proof/r4_lookin_rim_crop3x.jpg">look-in 3x</a> · <a href="proof/r4_sill_pop_crop.jpg">sill</a></li>
+<li>Proof cut from the encoded film: <a href="proof/r5_crop_22.25s.jpg">22.25 s</a> · <a href="proof/r5_crop_23.00s.jpg">23.0 s</a> · <a href="proof/r5_crop_23.75s.jpg">23.75 s</a> · <a href="proof/r5_lie_handoff_crop.jpg">lie hand-off</a> · <a href="proof/r5_lying_sill_shoulder_tail_2x.jpg">sill shoulder and tail</a> · <a href="proof/r5_lying_refusal_shoulder_tail_2x.jpg">refusal shoulder and tail</a> · <a href="proof/r5_reach_crop.jpg">reach</a> · <a href="proof/r5_look_back_crop.jpg">look-back</a> · <a href="proof/r5_frontal_heads_crop.jpg">frontal heads</a></li>
 <li>Stills: <a href="stills/still_03.6s.jpg">3.6 s</a> · <a href="stills/still_09.0s.jpg">9 s</a> · <a href="stills/still_19.0s.jpg">19 s</a> · <a href="stills/still_28.0s.jpg">28 s</a></li>
 </ul>
 <p>Rebuild: <code>build/make.sh</code>. Accepted checkpoint: none yet (no critic pass).</p>
