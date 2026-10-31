@@ -66,15 +66,23 @@ domain) appear: 9, 12–15, 26, 28, 31, 43–45, 48 and, for the head only, 5. A
   and steps back for 30%. The pairs are half a step apart. The gait starts 30 px and ends 26 px off the score, easing
   to it over 9 frames, so its head meets the bridge drawings. That offset is fed to the leg solver as body travel, so
   the planted paws still hold while it closes. At the stop, the bridge plays in reverse (54°, 36°, 18°) into frame 13.
-- *Turning its back* (3.42 s): a turn **through the dog's front**, chosen from its own frames at 12 fps: 14, 15 (three-quarter
-  left), 26, 28 (facing the camera), 31 (three-quarter right), then frame 9 mirrored (profile, facing away). The head goes
-  left → centre → right and never jumps sides. Then it **lies down with its back to them** (score lie = 1 from 4.5 s) and
-  lowers its chin. (Repair round 1: the archive's own turn, frames 16–22, read as dark tangles and was dropped.)
-- *Turning back to look* (7.46 s): the head comes round at once (a hard substitution, no dissolve), over the shoulder,
-  muzzle level toward the door (the head piece kept unmirrored and lifted clear of the back of the mirrored lying body);
-  it rises (7.66–8.0 s), then turns back through its front: 26, 26, 15, 14, then the watching frames.
-- *Coming, head low* (14.71 s): frames 14, 15 (head lowering), then the head-low walk mirrored, advanced by distance
-  travelled (3.4 m at the score's pace).
+- *Turning its back* (3.42 s): a turn **through the dog's front**, chosen from its own frames at 12 fps: 14 (three-quarter
+  left), 26 (facing the camera), then 30 and 33 (frontal body, head three-quarter right with a clear muzzle and ear), then
+  frame 9 mirrored (profile, facing away). The head goes left → centre → right and never jumps sides. Then it **lies down
+  with its back to them** (score lie = 1 from 4.5 s) and lowers its chin. (Repair round 1: the archive's own turn, frames
+  16–22, read as dark tangles and was dropped. Repair round 3: 28 and 31 replaced by 30 and 33; their heads were soft
+  masses.)
+- *Turning back to look* (7.46 s), **repair round 3**: the body stays down while the head comes round through the dog's
+  front over five frames. The steps are the away-facing head lifted off the paws, then the heads of frames 31
+  (three-quarter right), 28 (front) and 14 (three-quarter left), each cut by a soft box and seated on the lying dog's
+  neck, then the level door-facing profile at 7.625 s. Under a bridge head, the top of the old head (an ear-tip rim) is
+  cleared from the body so nothing is left floating. The dog rises (7.66–8.0 s), then turns back through its front:
+  33 and 30 mirrored (frontal body, muzzle toward the door), 14, 14, then the watching frames.
+- *Coming, head low* (14.71 s), **repair round 3**: the head lowers through the same bridge drawings as the retreat's duck
+  (frame 13, neck pivoted 18°/36°/54°). Then it walks on the **planted-paw gait** (frame 45 mirrored, head low), run
+  forward with a 60% stance: paws hold while planted and step forward lifted. The approach has no held-drawing changes.
+  The four archive walk drawings (43, 44, 45, 48) were dropped: their feet could not be registered within 15 px, because
+  frame 48 hides the front leg that frame 43 plants.
 - *Lying across the sill* (23.79 s) and *looking in* (26.4 s): **a labelled reconstruction.** The archive dog was never
   filmed lying. One solved matte (frame 9, profile, head up) is split by complementary soft masks into body, two forelegs,
   hind legs and head; the forelegs pivot forward at the elbows onto the floor, the hind legs fold (compress) under the
