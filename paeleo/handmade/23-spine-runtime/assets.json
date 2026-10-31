@@ -1,0 +1,75 @@
+{
+ "about": "SCION 23 assets. No found footage, no kit images, no Quick, Draw! drawings and no web images were used; everything on screen and in the sound was made by the scripts in build/.",
+ "assets": [
+  {
+   "id": "dog-atlas-regions",
+   "what": "the dog's painted parts: torso for body views 0/45/90/135 deg, head for views 0/45/68/90/112/135/180, neck (dorsal stripe left/right), three ears (side near/far, back), seven leg segments in near (lit) and far (shadowed) versions, tail",
+   "source": "painted in code: build/atlas.py + build/paint.py -> actor/actors.png, actor/actors.atlas, actor/actors.atlas.json",
+   "rights": "made here",
+   "operation": "drawn/synthesized: silhouettes of torso and head laid out from ellipsoid volumes on a projected turnaround sheet (build/turnaround.py, a guide ray-cast once at paint time), rounded and shaded as a soft height field in banded gouache tones (cool shadows, warm lights), dry-brush strokes, wash, paper grain, a broken warm outline; limbs, neck, tail and ears are painted 2D tapered shapes"
+  },
+  {
+   "id": "person-atlas-regions",
+   "what": "the person: profile head with hair, torso, arms, hands, legs, shoes (near/far)",
+   "source": "build/person_atlas.py -> actor/actors.png",
+   "rights": "made here",
+   "operation": "painted in code, same gouache; no likeness"
+  },
+  {
+   "id": "dog-skeleton",
+   "what": "runtime skeleton JSON: 28 bones, 20 slots, 4 IK constraints, default skin with region and weighted mesh attachments",
+   "source": "build/author.py -> actor/dog.skel.json",
+   "rights": "made here",
+   "operation": "authored: setup pose and attachment placement baked from the turnaround sheet"
+  },
+  {
+   "id": "dog-clips",
+   "what": "clip library: idle, cringe-back, turn-away, lie, look-back (head track), rise, stalk-walk, lie-across, look-in (head track), settle",
+   "source": "build/author.py -> actor/dog.clips.json",
+   "rights": "made here",
+   "operation": "keyed acting parameters, baked every 2 frames to absolute 2D bone values, attachment, draw-order and IK-mix timelines, events"
+  },
+  {
+   "id": "dog-timeline",
+   "what": "the track timeline the film plays",
+   "source": "build/perform.py -> actor/dog.timeline.json",
+   "rights": "made here",
+   "operation": "authored against the score's choice times"
+  },
+  {
+   "id": "person-actor",
+   "what": "person skeleton and its one clip baked from the score's person channels",
+   "source": "build/person.py -> actor/person.skel.json, actor/person.clips.json",
+   "rights": "made here",
+   "operation": "authored 2D poses blended by the score (sit, reach, hand low, voice)"
+  },
+  {
+   "id": "set",
+   "what": "porch and room cross-section at dusk, door leaf, light from the doorway",
+   "source": "build/set.py",
+   "rights": "made here",
+   "operation": "painted in code (gouache layers, strokes, grain); door mapped onto its swing per angle"
+  },
+  {
+   "id": "sound",
+   "what": "formant voice (calls, soft voice), crickets, room tone, paw falls, thump, whimper, collar jingle, sigh, door creak, the room's warmth",
+   "source": "build/sound.py",
+   "rights": "made here",
+   "operation": "synthesized; paw falls are the runtime foot planner's touch-down events, the rest are clip events"
+  },
+  {
+   "id": "fonts",
+   "what": "Big Shoulders Display, JetBrains Mono, Literata",
+   "source": "tools/paeleo/fonts/",
+   "rights": "SIL Open Font License (repository font set)",
+   "operation": "title, subtitles, end card"
+  },
+  {
+   "id": "score",
+   "what": "the PAELEO threshold score",
+   "source": "paeleo/handmade/score/threshold-score.json",
+   "rights": "project material",
+   "operation": "read: root x, choice times, person channels, door, voice windows"
+  }
+ ]
+}

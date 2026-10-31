@@ -1,0 +1,62 @@
+{
+ "about": "SCION 32 \u00b7 Forward Kinematics \u2014 every asset in the film, where it came from, its rights and the operation that made it. No found image, footage or drawing appears on screen; no kit material is used. Everything visible is geometry and paint written in code here and rendered here.",
+ "assets": [
+  {
+   "id": "dog",
+   "what": "the dog: a carved and painted wooden toy of 30 blocks on brass pins (hind block, chest block, neck, head with muzzle, nose bead, painted eyes and mouth; two-leaf drop ears; four legs of two boards and a paw block; a five-bead tail on a cord), with a red felt saddle cloth buttoned to the waist pin and two hanging felt flaps per side",
+   "source": "build/scene.js dogParts() (meshes in each joint's local frame), build/rig.js DOG (the typed joint graph)",
+   "rights": "made here",
+   "operation": "drawn in code: superquadric carved blocks with flat facets, cylinders for pins; painted in the fragment shader (brush streaks, a few hand-painted patches on the hind block, felt fuzz, brass)"
+  },
+  {
+   "id": "dog-motion",
+   "what": "every pose of the dog",
+   "source": "build/rig.js dogPose(): local joint angles from the score's act values and the animator's keys, multiplied down the joint graph from the root",
+   "rights": "made here",
+   "operation": "forward kinematics only; walk from 8 hand-laid stride keys per cycle (two body heights), interpolated; no IK"
+  },
+  {
+   "id": "person",
+   "what": "the person: a carved wooden figure with a hinged jaw, brass pins at shoulders, elbows, hips and knees, a knitted mustard cardigan with hanging front panels and ribbed cuffs on their own joints, navy trousers, painted face (dots for eyes)",
+   "source": "build/scene.js personParts(), build/rig.js PERSON and personPose()",
+   "rights": "made here (not a real person; no likeness)",
+   "operation": "drawn in code, posed by FK from the score's person values (call, reach, step aside, sit, hand offered low, mouth)"
+  },
+  {
+   "id": "place",
+   "what": "a painted wooden house and porch at dusk: clapboard wall, door with panels on brass hinges, sill board, lit window, interior (floor, walls, rug, pendant lamp, side table, chair, picture), porch boards, steps, picket fence, toy trees, painted sky with a moon",
+   "source": "build/scene.js world(), doorLeaf()",
+   "rights": "made here",
+   "operation": "drawn in code (boxes, cylinders, carved blocks), lit in build/render.html: dusk hemisphere light, moonlight and the lamp through the door, both with shadow maps"
+  },
+  {
+   "id": "renderer",
+   "what": "the WebGL2 renderer, shaders, shadow maps and the id pass used for measurement",
+   "source": "build/render.html, build/render.js (headless Chromium via Playwright, SwiftShader)",
+   "rights": "made here; Playwright/Chromium are tools, nothing of theirs appears on screen",
+   "operation": "rasterized, piped as JPEG into ffmpeg"
+  },
+  {
+   "id": "sound",
+   "what": "all sound: two calls and three soft phrases from a formant voice synthesizer, wooden paw knocks on the rig's own footfalls, lying-down clatter and felt rustle, door creak, the person's steps, crickets, wind, a room hum",
+   "source": "build/sound.py",
+   "rights": "made here (synthesized; no recordings)",
+   "operation": "synthesized"
+  },
+  {
+   "id": "fonts",
+   "what": "Big Shoulders Display, JetBrains Mono, Literata on the title and end cards",
+   "source": "tools/paeleo/fonts/ (read in place, not copied)",
+   "rights": "SIL Open Font License (as used across the repo)",
+   "operation": "typeset"
+  },
+  {
+   "id": "score",
+   "what": "the PAELEO threshold score (timing and the dog's act values)",
+   "source": "paeleo/handmade/score/threshold-score.json",
+   "rights": "project data",
+   "operation": "read; drives the rig"
+  }
+ ],
+ "not_used": "paeleo/handmade/kit (archive dog, archive door, Quick, Draw!), found-frames: not used. No web images, no model-generated images."
+}

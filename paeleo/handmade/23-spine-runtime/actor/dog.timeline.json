@@ -1,0 +1,118 @@
+{
+ "about": "SCION 23 track timeline: clips queued on animation tracks with mix durations. Track 0 = body, track 1 = head (layered over the body on neck, head and ears). clip null = empty (mix the track out). Root x comes from the score; feet from the foot planner.",
+ "fps": 24,
+ "entries": [
+  {
+   "track": 0,
+   "clip": "idle",
+   "start": 0.0,
+   "mix": 0.0,
+   "loop": true,
+   "why": "watching the person in the doorway"
+  },
+  {
+   "track": 0,
+   "clip": "cringe-back",
+   "start": 0.96,
+   "mix": 0.12,
+   "loop": false,
+   "why": "the call (voice from 0.88 s): crouches and backs away"
+  },
+  {
+   "track": 0,
+   "clip": "idle",
+   "start": 2.3,
+   "mix": 0.45,
+   "loop": true,
+   "why": "the call stops: watches again"
+  },
+  {
+   "track": 0,
+   "clip": "turn-away",
+   "start": 3.4,
+   "mix": 0.1,
+   "loop": false,
+   "why": "called again and reached for (voice from 3.30 s): turns its back"
+  },
+  {
+   "track": 0,
+   "clip": "lie",
+   "start": 4.3,
+   "mix": 0.25,
+   "loop": false,
+   "why": "lies down, back to the door"
+  },
+  {
+   "track": 1,
+   "clip": "look-back",
+   "start": 7.4,
+   "mix": 0.12,
+   "loop": false,
+   "why": "door open, hand low, soft voice from 7.30 s: the head turns back first"
+  },
+  {
+   "track": 0,
+   "clip": "rise",
+   "start": 7.62,
+   "mix": 0.25,
+   "loop": false,
+   "why": "the body follows: gets up and comes round"
+  },
+  {
+   "track": 1,
+   "clip": null,
+   "start": 7.95,
+   "mix": 0.35,
+   "loop": false,
+   "why": "head track hands back to the body"
+  },
+  {
+   "track": 0,
+   "clip": "idle",
+   "start": 8.9,
+   "mix": 0.35,
+   "loop": true,
+   "why": "stands facing the door and watches"
+  },
+  {
+   "track": 0,
+   "clip": "stalk-walk",
+   "start": 14.66,
+   "mix": 0.3,
+   "loop": true,
+   "why": "in its own time: comes, head low"
+  },
+  {
+   "track": 0,
+   "clip": "lie-across",
+   "start": 23.62,
+   "mix": 0.2,
+   "loop": false,
+   "why": "reaches the sill and lies down across it"
+  },
+  {
+   "track": 1,
+   "clip": "look-in",
+   "start": 26.35,
+   "mix": 0.2,
+   "loop": false,
+   "why": "\"come in\" (voice from 26.25 s): looks in, into the room"
+  },
+  {
+   "track": 0,
+   "clip": "settle",
+   "start": 28.25,
+   "mix": 0.5,
+   "loop": false,
+   "why": "and stays: chin on the paws"
+  },
+  {
+   "track": 1,
+   "clip": null,
+   "start": 28.3,
+   "mix": 0.5,
+   "loop": false,
+   "why": "head track hands back to the body"
+  }
+ ]
+}
