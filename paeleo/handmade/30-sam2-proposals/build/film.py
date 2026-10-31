@@ -27,8 +27,11 @@ def used_dog_frames():
     for i in range(768):
         p = dog_plan(i)
         if p['state'] == 'lie_down':
-            for f, m, part in ((4, 1, 'body'), (19, 1, 'tail'), (40, 0, 'head'), (44, 0, 'head'), (47, 0, 'head')):
+            for f, m, part in ((4, 1, 'body'), (19, 1, 'tail'), (1, 1, 'head'), (40, 0, 'head'), (44, 0, 'head'), (47, 0, 'head')):
                 used.setdefault((f, m), set()).add(part)
+        elif p.get('hswap'):
+            used.setdefault((p['f'], p['m']), set()).add('body')
+            used.setdefault((p['hswap'], 0), set()).add('head')
         else:
             used.setdefault((p['f'], p['m']), set()).add('whole')
     return used
@@ -59,7 +62,7 @@ def end_card(used, props):
     lines = [
         'c = confidence proxy (mask stability x edge agreement); m = proposal mirrored; w whole, b body, h head, t tail part',
         'rejected: f23, f49 (mask leaked into ground and shadow). Lying: no frame shows this dog lying, so its legs are not',
-        'made: f04 sinks behind the porch board; lying, its body takes a tail (f19) and heads (f40, f44, f47) at the neck point.',
+        'made: f04 sinks behind the porch board; lying, its body takes a tail (f19) and heads (f40, f44, f47; f01 m) at the neck point.',
         'door leaf: Straight Talk f31 (door#5)   person: Straight Talk f02, our box+colour proposal, shown as a silhouette',
         'sitting person: Survival Stresses f36   hand: Door to Heaven (1941) f20, f30 + forearm stroke   all public domain',
         'porch, room, light and sky computed; voice synthesized (flite); sound synthesized. Nothing of the dog is drawn.',
@@ -141,6 +144,9 @@ def measure_onsets(fr):
         i0 = int(round(c * FPS)); lo, hi = i0 - 12, i0 + 13
         if nm == 'watch' and c < 3:
             k = first(lambda i: departs(i, 12), lo, hi); sig = 'leaves the backing gait: head comes up (IoU below the gait minimum of the half second before)'
+        elif nm == 'watch':
+            k = first(lambda i: any(p.get('part') == 'head' for p in fr[i]['proposals']) and iou[i] < .97, lo, hi)
+            sig = 'first rendered frame where a head part pointing at the door replaces the held head (silhouette change, body held)'
         elif nm == 'lie_down':
             k = first(lambda i: all(y0[j + 1] >= y0[j] for j in range(i, i + 6)) and y0[i + 6] - y0[i] >= 6, lo, hi)
             sig = 'body top starts a sustained lowering (>= 6 px over 6 frames)'
@@ -149,9 +155,9 @@ def measure_onsets(fr):
         out.append(dict(choice=nm, score_t=c, measured_t=None if k is None else round(k / FPS, 3),
                         dt=None if k is None else round(k / FPS - c, 3), signal=sig))
     # look in: head proposal changes to the level head (u40) after 26.0
-    k = next((f['i'] for f in fr if f['t'] >= 26.0 and any(p.get('part') == 'head' and p.get('frame') == 40 for p in f['proposals'])), None)
+    k = next((f['i'] for f in fr if f['t'] >= 26.0 and any(p.get('part') == 'head' and p.get('frame') == 1 for p in f['proposals'])), None)
     out.append(dict(choice='look in', score_t=26.4, measured_t=None if k is None else round(k / FPS, 3),
-                    dt=None if k is None else round(k / FPS - 26.4, 3), signal='head proposal u47 (nose down) -> u40 (level, muzzle into the room)'))
+                    dt=None if k is None else round(k / FPS - 26.4, 3), signal='head proposal f47 (nose down) -> f01 mirrored (back of the head to the viewer, muzzle away into the room)'))
     return out
 
 
