@@ -101,7 +101,7 @@ for s in foot:
 for t0 in (4.45, 23.95):   # lying down: blocks settle, the felt rustles
     for k, dt in enumerate([0.0, 0.11, 0.19, 0.33]): knock(OFF + t0 + dt, f=700 - 60 * k, amp=0.05, decay=0.05)
     noise_burst(OFF + t0, 0.6, 0.05, a=0.08)
-for t0 in (7.75, 8.0):     # getting up
+for t0 in (7.85, 8.08):    # getting up
     knock(OFF + t0, f=760, amp=0.04)
 # the door: a creak from 6.2 to 7.0, then a soft stop
 n = int(0.85 * SR); tt = np.arange(n) / SR
@@ -113,7 +113,7 @@ knock(OFF + 7.08, f=180, amp=0.08, decay=0.08)
 for t0 in (4.7, 4.98, 5.27):  knock(OFF + t0, f=160, amp=0.09, decay=0.06, pan=0.2)   # the person's steps
 knock(OFF + 5.95, f=120, amp=0.1, decay=0.1, pan=0.1)                                   # sits on the boards
 for t0 in np.arange(3.5, 4.1, 0.09): knock(OFF + t0, f=2600, amp=0.006, decay=0.008)    # pins ticking in the turns
-for t0 in np.arange(7.95, 8.75, 0.1): knock(OFF + t0, f=2600, amp=0.006, decay=0.008)
+for t0 in np.arange(8.0, 10.05, 0.14): knock(OFF + t0, f=2600, amp=0.006, decay=0.008)
 
 # fades at the card edges
 fade = np.clip(t / 1.0, 0, 1) * np.clip((TOTAL - t) / 1.5, 0, 1)

@@ -70,7 +70,7 @@ for (const [who, g, joint, axis, deg, i] of [['dog', R.DOG, 'hipR', 1, 12, 400],
 const PAWS = { shoulderR: 'fpawR', shoulderL: 'fpawL', hipR: 'hpawR', hipL: 'hpawL' };
 const contact = (W, paw) => M.p(W[paw], [0.02, -R.PAW_H, 0]);
 const slip = {}; const curves = { t: [], hip: [], knee: [], planted: [], ph: [], slip: [] };
-for (const leg in PAWS) slip[leg] = { walk: [], stand: [], turn: [], height: [], perStance: [] };
+for (const leg in PAWS) slip[leg] = { walk: [], stand: [], turn: [], turnAway: [], turnBack: [], height: [], perStance: [] };
 for (let i = 1; i < N; i++) {
   const a = poses[i - 1].D, b = poses[i].D;
   for (const leg in PAWS) {
@@ -81,6 +81,7 @@ for (let i = 1; i < N; i++) {
       const d = Math.hypot(pb[0] - pa[0], pb[2] - pa[2]);
       const moving = S.frames[i].dog.act.moving > 0.05;
       (lb.turning ? slip[leg].turn : moving ? slip[leg].walk : slip[leg].stand).push(d);
+      if (lb.turning) (i / 24 < 6 ? slip[leg].turnAway : slip[leg].turnBack).push(d);
     }
   }
   const L = b.legs.hipR; const pa = contact(a.W, 'hpawR'), pb = contact(b.W, 'hpawR');
@@ -108,7 +109,7 @@ const summary = {
   T1_bone_lengths: { max_err_m: Math.max(...Object.values(T1).map(v => v.max_err_m)), joints: Object.keys(T1).length, frames: N, head_anchor_length_range_m: [+(anchorLen.min * R.SC).toFixed(4), +(anchorLen.max * R.SC).toFixed(4)], note: 'every bone keeps its length to float precision; the neck->head pivot is a view-specific anchor whose offset is blended between three authored values, so its length is checked against the anchor in use that frame' },
   T2_multiply_order: { max_abs_matrix_err: T2, order: 'world = parent_world * T(pivot offset) * RY(yaw) * RZ(pitch) * RX(roll), root first' },
   T3_propagation: T3,
-  T4_contact: { per_paw: T4, walk: st(all('walk')), stand: st(all('stand')), turn: st(all('turn')), stance_drift: st(all('perStance')), how: 'contact point = paw block sole; planted = the animator\'s stance phase while walking, or standing, or not lifted in a turn step; slip = horizontal world displacement between consecutive frames while planted in both; stance drift = displacement from touchdown to lift-off' },
+  T4_contact: { per_paw: T4, walk: st(all('walk')), stand: st(all('stand')), turn: st(all('turn')), turn_away_3_5s: st(all('turnAway')), turn_back_8_10s: st(all('turnBack')), stance_drift: st(all('perStance')), how: 'contact point = paw block sole; planted = the animator\'s stance phase while walking, or standing, or not lifted in a turn step; slip = horizontal world displacement between consecutive frames while planted in both; stance drift = displacement from touchdown to lift-off' },
 };
 fs.writeFileSync(path.join(OUT, 'fk_tests.json'), JSON.stringify(summary, null, 1));
 fs.writeFileSync(path.join(OUT, 'errors_by_joint.json'), JSON.stringify(Object.values(T1).map(v => ({ ...v, max_err_m: +v.max_err_m.toExponential(2) })), null, 1));

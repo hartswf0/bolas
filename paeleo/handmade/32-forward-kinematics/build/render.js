@@ -76,7 +76,7 @@ const strip = d => Buffer.from(d.slice(d.indexOf(',') + 1), 'base64');
       '!Bone lengths constant over 768 frames: max error ' + T.T1_bone_lengths.max_err_m.toExponential(0) + ' m.  Turn a hip 12 deg: every descendant',
       '!moves by exactly the hip\'s own change (max error ' + Math.max(...T.T3_propagation.map(x => x.children_follow_max_err)).toExponential(0) + '); nothing else moves (0).',
       '!Planted paws, from hand-keyed hip/knee angles: walking slip ' + T4.walk.mean_mm.toFixed(1) + ' mm/frame (max ' + T4.walk.max_mm.toFixed(0) + '), drift <= ' + T4.stance_drift.max_mm.toFixed(0) + ' mm per step;',
-      '!turning in place they slide (max ' + T4.turn.max_mm.toFixed(0) + ' mm/frame): measured, not hidden.',
+      '!turning in place they slide: turning away (0.6 s) up to ' + T4.turn_away_3_5s.max_mm.toFixed(0) + ' mm/frame; turning back (2.1 s, stepped) up to ' + T4.turn_back_8_10s.max_mm.toFixed(0) + '.',
       'Choices measured on the render: back away ' + f1(ons[0].t) + ' s, turn its back ' + f1(ons[2].t) + ', head round ' + f1(ons[3].t) + ', come ' + f1(ons[4].t) + ', lie ' + f1(ons[5].t) + ', look in ' + f1(ons[6].t) + '.',
       'Sound synthesized: soft voice ' + snd.soft_vs_call_db.toFixed(0) + ' dB under the calls; the paw taps fall on the rig\'s own footfalls.',
     ];
