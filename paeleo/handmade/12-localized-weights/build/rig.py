@@ -18,7 +18,7 @@ OBLIQUE = 0.22      # camera looks slightly down: depth toward the camera lowers
 SWING = 0.0         # radius (m) of the arc the shoulders and head swing toward the camera during a turn
 DEPTH = {'fn_upper': .065, 'fn_lower': .075, 'ff_upper': -.065, 'ff_lower': -.075, 'hn_upper': .065, 'hn_lower': .075,
          'hf_upper': -.065, 'hf_lower': -.075, 'ear_near': .045, 'ear_far': -.045}
-FLOOR = {'cage': 0.36, 'leg': 0.62, 'tail': 0.5, 'head': 0.45}
+FLOOR = {'cage': 0.42, 'leg': 0.85, 'tail': 0.5, 'head': 0.5}
 PERSP = 0.0         # nearer groups grow by up to this fraction
 
 

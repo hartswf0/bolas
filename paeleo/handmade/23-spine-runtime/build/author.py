@@ -265,12 +265,12 @@ def clip_specs():
                            note='lies down across the sill: forelegs and head inside, haunches and tail outside')
     lyin = dict(phi=0, lie=1, crouch=0.1, neck_elev=10, head_pitch=-14, ear=0.7, tail=0.3, ikmix=0)
     C['look-in'] = dict(track='head', duration=0.7,
-                        keys=[(0, dict(lyin)), (0.25, dict(neck_yaw=-24, neck_elev=8, head_pitch=-9, ear=0.95)),
-                              (0.55, dict(neck_yaw=-54, neck_elev=6, head_pitch=-6, ear=1.0)), (0.7, dict())],
+                        keys=[(0, dict(lyin)), (0.25, dict(neck_yaw=-24, neck_elev=6, head_pitch=-9, ear=0.72)),
+                              (0.55, dict(neck_yaw=-54, neck_elev=3, head_pitch=-6, ear=0.72)), (0.7, dict())],
                         events=[dict(time=0.05, name='jingle')],
                         note='HEAD TRACK: turns the head into the room, away from the camera: the back of the skull'
                              ' and both ears to the viewer, the muzzle level inside the lit doorway')
-    C['settle'] = dict(duration=2.0, keys=[(0, dict(lyin, neck_yaw=-54, neck_elev=6, head_pitch=-6, ear=1.0)),
+    C['settle'] = dict(duration=2.0, keys=[(0, dict(lyin, neck_yaw=-54, neck_elev=3, head_pitch=-6, ear=0.72)),
                                            (0.35, dict(neck_yaw=-30, neck_elev=8, head_pitch=-12, ear=0.7)),
                                            (0.9, dict(neck_yaw=-6, neck_elev=-25, head_pitch=-21, ear=0.4)),
                                            (2.0, dict())],
