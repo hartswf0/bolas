@@ -74,7 +74,12 @@ def work(args):
     behind = CARDS[P['dog.body']['card']]['head_behind']
     # how much of the head is actually seen (not hidden behind the body in the render)
     seen = float((Hh & ~B).sum() / max(Hh.sum(), 1)) if behind else 1.0
-    return dict(i=i, x=float(xs.mean()), y=float(ys.mean()), body_h=float(bys.max() - bys.min()), body_top=float(bys.min()),
+    # the hindquarters: the third of the body card away from the head
+    bx0, bx1 = bxs.min(), bxs.max()
+    third = (bx1 - bx0) / 3
+    rear = (bxs > bx1 - third) if hxs.mean() < bxs.mean() else (bxs < bx0 + third)
+    hip_h = float(bys.max() - bys[rear].min()) if rear.any() else float(bys.max() - bys.min())
+    return dict(i=i, hip_h=hip_h, x=float(xs.mean()), y=float(ys.mean()), body_h=float(bys.max() - bys.min()), body_top=float(bys.min()),
                 head_y=float(hys.mean()), head_x=float(hxs.mean()), muzzle_x=mz[0], skull_x=sk[0], muzzle_hidden=hm['muzzle_hidden'],
                 behind=behind, head_seen=seen, gap=gap, X=P['dog.body']['X'], card=P['dog.body']['card'], head=hp['card'],
                 xmin=float(xs.min()), xmax=float(xs.max()))
@@ -83,6 +88,8 @@ def work(args):
 def segment(M):
     """states from measured signals only"""
     h0 = np.median([m['body_h'] for m in M[:12]])
+    hip0 = np.median([m['hip_h'] for m in M[:12]])
+    recent = []
     x0 = np.median([m['x'] for m in M[:12]])
     st = 'watch'
     states, onsets = [], []
@@ -101,11 +108,12 @@ def segment(M):
         elif st == 'refuse' and fac == 1:
             nxt = 'watch'; rest_x = None
         elif st == 'watch' and any(o['to'] == 'refuse' for o in onsets):
-            if rest_x is None and ratio > 0.92 and fac == 1:
-                rest_x = m['x']
+            recent = (recent + [m['x']])[-12:]
+            if rest_x is None and fac == 1 and len(recent) == 12 and max(recent) - min(recent) < 1.5:
+                rest_x = float(np.mean(recent))     # the dog has come to rest, facing the door
             if rest_x is not None and t - onsets[-1]['t'] > 1.0 and rest_x - m['x'] > 3:
                 nxt = 'approach'
-        elif st == 'approach' and ratio < 0.8:
+        elif st == 'approach' and m['hip_h'] / hip0 < 0.7:
             nxt = 'lie_down'
         if nxt != st:
             onsets.append(dict(t=round(t, 3), i=m['i'], frm=st, to=nxt))
@@ -132,18 +140,19 @@ def main():
             dx = m['muzzle_x'] - m['skull_x']
             m['facing'] = 1 if dx < -4 else (-1 if dx > 4 else 0)
     states, onsets, h0 = segment(M)
+    hip0 = np.median([m['hip_h'] for m in M[:12]])
     frames = []
     for m, s in zip(M, states):
         r = m['body_h'] / h0
         frames.append(dict(i=m['i'], t=round(m['i'] / FPS, 4), state=s, x_score=round(x_score_from_stage(m['X']), 4), x_screen=round(m['x'], 2),
-                           y_screen=round(m['y'], 2), facing=m['facing'], posture='standing' if r > 0.88 else ('crouched' if r > 0.66 else 'lying'),
+                           y_screen=round(m['y'], 2), facing=m['facing'], posture=('lying' if m['hip_h'] / hip0 < 0.7 and r < 0.75 else ('crouched' if (m['hip_h'] / hip0 < 0.7 or r < 0.88) else 'standing')),
                            body_card=m['card'], head_card=m['head'], head_below_back=bool(m['head_y'] > m['body_top'] + 8),
                            dog_px_extent=[round(m['xmin'], 1), round(m['xmax'], 1)]))
     about = ("SCION 40 · trace measured from the replayed render (not copied from the score).\n"
              "x_screen, y_screen: centroid of the dog's rendered layers (body card + head card alpha > .5), px.\n"
              "facing: +1 when the rendered head card's muzzle point lies left of its skull point (toward the door), -1 right, "
              "0 when the head is round the far side of the body (rear views) or the muzzle is hidden.\n"
-             "posture: rendered body-card height against its height in the first half second (standing > .88, crouched > .66, else lying).\n"
+             "posture: from the rendered body card: its height and the height of its hindquarters (the third away from the head) against the first half second; lying = hindquarters < .7 and height < .75.\n"
              "state: segmented at onsets measured on these signals (see data/onsets.json).\n"
              "x_score: the recovered body-card anchor X mapped back to score metres (the sill 0.56 m sits on the wall line).\n"
              "dog_px_extent: the rendered dog's leftmost and rightmost pixel; the wall line (threshold) is x = %d px." % SILL_X)
