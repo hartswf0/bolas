@@ -22,9 +22,10 @@ def title():
 
 def endcard():
     T = json.load(open(os.path.join(PROOF, 'tests.json')))
+    FR = json.load(open(os.path.join(OUT, 'assets.json')))['assets'][0]['distinct_archive_frames_in_film']
     im = Image.new('RGB', (1280, 720), BG); d = ImageDraw.Draw(im)
     d.text((60, 34), 'what it is made of', font=BIG(40), fill=INK)
-    tiles = [('heat_W_f010.png', 'f010  watch · walk · lie · look'), ('heat_t26_f026.png', 'f026  in the turn'),
+    tiles = [('heat_W_f010.png', 'f010  watch · walk · lie · look'), ('heat_r5_f005.png', 'f005  looking in'),
              ('heat_t40_f040.png', 'f040  in the turn'), ('heat_P_person.png', 'Straight Talk f000  the person')]
     x = 60
     for fn, cap in tiles:
@@ -38,8 +39,8 @@ def endcard():
     nb = T['stability_neighbours']
     stab = sum(v['mean_abs_dw'] for v in nb.values()) / len(nb)
     lines = [
-        'The dog: %d whole frames of a real dog (Amateur Film New Jersey C, public domain), one mesh each, never cut' % len({v['frame'] for v in T['views'].values()}),
-        'into pieces; ragged SAM edge, blur and grain as found. One frame is also shown mirrored for the turned back.',
+        'The dog: %d whole frames of a real dog (%s), one mesh each, never cut into' % (len(FR), ', '.join('f%03d' % f for f in FR)),
+        'pieces; ragged SAM edge, blur and grain as found (Amateur Film New Jersey C, public domain); f010 also mirrored.',
         'Each frame: auto-triangulated, handles placed from its medial axis (points: nose, tail tip; bones: neck, back,',
         'tail, legs), weights solved as bounded biharmonic weights; nothing painted by hand. Heat maps above.',
         'Tests: weights in [0, 1], partition of unity to %.0e; mean leak across the gaps between legs %.4f' % (
