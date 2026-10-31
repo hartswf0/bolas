@@ -290,8 +290,8 @@ def dog_layer(i, canvas, light):
     # measurements from the render
     names = r['names']
     hd = Vs[np.argmax(r['W'][:, names.index('head')])]
-    tl = Vs[np.argmax(r['W'][:, names.index('tailtip')])] if 'tailtip' in names else Vs[np.argmax(r['W'][:, names.index('back')])]
-    bk = Vs[r['W'][:, names.index('back')] > .5]
+    tl = Vs[np.argmax(r['W'][:, names.index('tailtip')])] if 'tailtip' in names else Vs[np.argmax(r['W'][:, names.index('back' if 'back' in names else names[1])])]
+    bk = Vs[r['W'][:, names.index('back' if 'back' in names else names[1])] > .5]
     cov = al > .5
     legs = [j for j, k in enumerate(names) if k.startswith('leg')]
     pinned = np.concatenate([r['sets'][names[j]] for j in legs]) if legs else np.arange(len(Vs))

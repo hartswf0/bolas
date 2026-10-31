@@ -52,7 +52,7 @@ They occlude markers and cards, which is the point: hand exclusion has to work. 
 ## The dog
 
 What the viewer sees of the dog is **paper cards** moved by **recovered rigid transforms** and **swaps**:
-41 body cards (stand; 8 walk-low cards carrying the head under the back line; 8 crouched back-away cards; 8 upright
+37 body cards (stand; 8 walk-low cards carrying the head under the back line; 8 crouched back-away cards; 8 upright
 steps; rear-three-quarter / rear / rear-three-quarter / right turns; settle and lie both ways; front-three-quarter /
 front / front-three-quarter for the turn back) and 11 head cards (profiles with ears up / back / flat; 45°, rear,
 135° and the 58° "looking in" card with the back of the head to us and the muzzle going into the room; front views).
@@ -71,7 +71,29 @@ porch, with a contact shadow under it.
 
 See `invariants.json` (checker), `data/onsets.json` (choices measured on the rendered layers),
 `data/tracking_error.json` (recovered vs the synthesized truth), `data/contact.json`, `data/sound_levels.json`.
-RESULTS_BLOCK
+| choice | score t | measured on render | dt |
+|---|---|---|---|
+| retreat | 1.000 | 1.0 | 0.0 |
+| watch | 2.333 | 2.333 | 0.0 |
+| refuse | 3.417 | 3.458 | 0.041 |
+| watch | 7.458 | 7.458 | 0.0 |
+| approach | 14.708 | 14.708 | 0.0 |
+| lie_down | 23.792 | 23.833 | 0.041 |
+| looks_in | 26.400 | 26.583 | 0.183 |
+
+Tracking (recovered from the plate vs the synthesized truth, all 768 frames): calibration 0.33 px mean / 0.73 px max over the stage (fiducial reprojection 1.18 px rms).
+
+| piece | card id correct | position err mean / p95 / max px | angle err mean / max deg |
+|---|---|---|---|
+| dog.body | 100.0% | 0.30 / 0.45 / 0.5 | 0.00 / 0.0 |
+| dog.head | 100.0% | 0.47 / 0.50 / 19.0 | 0.15 / 9.3 |
+| person | 100.0% | 0.21 / 0.22 / 0.3 | 0.00 / 0.0 |
+| door | 100.0% | 0.70 / 4.62 / 13.1 | 0.00 / 0.0 |
+| light | 100.0% | 0.43 / 0.28 / 24.5 | 0.00 / 0.0 |
+
+Hand matte IoU against the true matte: 0.72 mean, 0.61 at the 10th percentile (158 frames). Head-to-neck gap before the contact constraint: 0.52 px mean, 0.84 p95, 19.0 max (one-frame occlusion outliers). Sound: quietest call is 9.7 dB above the loudest soft line; softest voice 31.0 dB above room tone; every voice starts before or at the dog's reaction (0.95 / 3.36 / 7.36 / 10.36 / 26.36 s). Film: 912 frames, 38.0 s, 1.9 MB.
+
+Looked at (perceptually, by the builder, on frames extracted from the encoded film.mp4): contact sheets at 16 times, frame-by-frame strips of both turns (3.40–4.10 s, 7.85–8.75 s), crops of 7.3/7.5 (head comes round, hips down) and 27/28 s (back of the head toward us, muzzle in the lit room, tail on the porch), stills, title and end card. Not looked at: every frame; the audio was measured, not listened to.
 
 ## What failed and what changed
 
@@ -93,3 +115,14 @@ lying dog's muzzle touched the person's hand so looking in read as looking at th
   skin was not made.
 - No independent critic was run by this swarm; no human watched it. The mobile operator page was not made.
 - Voice is a crude formant synthesizer, not a recorded voice.
+
+## Still weak (builder's view; the critic decides)
+
+- The dog is small in the frame (about 190 px long) and the cards are clean and diagrammatic; the paper reads as
+  paper, but the drawing is plainer than hand-cut work.
+- The rear-three-quarter turn cards crowd four legs into a small space for ~4 frames each; they read as a dog turning,
+  not as a beautiful drawing.
+- Substitution is visible as substitution: walk cards step on 3–5 frame holds (stop-motion cadence), and head turns are
+  three-card swaps over ~0.2 s.
+- The tracked head has a few single-frame errors under hand occlusion (max 19 px before the neck constraint pins it).
+- The synthesized voice is robotic.
