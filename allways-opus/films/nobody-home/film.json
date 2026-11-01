@@ -1,0 +1,294 @@
+{
+ "slug": "nobody-home",
+ "title": "NOBODY HOME",
+ "state": "proof in progress",
+ "summary": "A boy crosses a fixed 1951 room, lifts a chair to the window and leaves it. The same seconds again with him erased: the chair moves by itself, then seventeen seconds of an empty room under his film's own sound. Recorded and derived are shown side by side, and the mask is shown.",
+ "video": {
+  "src": "nobody-home.mp4",
+  "poster": "poster.jpg",
+  "duration": 51.71,
+  "width": 800,
+  "height": 600,
+  "card": "ends with a 5 s card naming every source"
+ },
+ "searches": [
+  {
+   "q": "a person walks into an empty room and sits in a chair, fixed camera",
+   "results": 24,
+   "sheet": "img/sheet-a-person-walks-into-an-empty-room-and-sits-in-a-chair-fixed-0cf9.jpg"
+  },
+  {
+   "q": "a woman comes into a kitchen and puts a cup on the table",
+   "results": 24,
+   "sheet": "img/sheet-a-woman-comes-into-a-kitchen-and-puts-a-cup-on-the-table-0feb.jpg"
+  },
+  {
+   "q": "a man leaves the room and closes the door",
+   "results": 24,
+   "sheet": "img/sheet-a-man-leaves-the-room-and-closes-the-door-7a9b.jpg"
+  },
+  {
+   "q": "someone moves a chair and leaves the room",
+   "results": 24,
+   "sheet": "img/sheet-someone-moves-a-chair-and-leaves-the-room-68dc.jpg"
+  },
+  {
+   "q": "an empty rocking chair rocking",
+   "results": 24,
+   "sheet": "img/sheet-an-empty-rocking-chair-rocking-0207.jpg"
+  },
+  {
+   "q": "a woman walks across a living room and goes out",
+   "results": 24,
+   "sheet": "img/sheet-a-woman-walks-across-a-living-room-and-goes-out-e227.jpg"
+  },
+  {
+   "q": "birthday cake blowing out the candles",
+   "results": 24,
+   "sheet": "img/sheet-birthday-cake-blowing-out-the-candles-47e5.jpg"
+  },
+  {
+   "q": "a door closes in an empty room",
+   "results": 24,
+   "sheet": "img/sheet-a-door-closes-in-an-empty-room-28fe.jpg"
+  },
+  {
+   "q": "a person gets up from the table and goes out",
+   "results": 24,
+   "sheet": "img/sheet-a-person-gets-up-from-the-table-and-goes-out-332a.jpg"
+  }
+ ],
+ "looks": [
+  {
+   "img": "img/strip-2.jpg",
+   "clip": 2,
+   "label": "#2 One Week (1920)",
+   "used": [],
+   "in_cut": false
+  },
+  {
+   "img": "img/strip-12.jpg",
+   "clip": 12,
+   "label": "#12 The Electric House (1922)",
+   "used": [],
+   "in_cut": false
+  },
+  {
+   "img": "img/strip-26.jpg",
+   "clip": 26,
+   "label": "#26 Family Life (1949)",
+   "used": [],
+   "in_cut": false
+  },
+  {
+   "img": "img/strip-109.jpg",
+   "clip": 109,
+   "label": "#109 Speaking of Rubber (Part I) (1951)",
+   "used": [
+    1
+   ],
+   "in_cut": true
+  },
+  {
+   "img": "img/strip-109_0-26.jpg",
+   "clip": 109,
+   "label": "#109 Speaking of Rubber (Part I) (1951)",
+   "used": [
+    1
+   ],
+   "in_cut": true
+  },
+  {
+   "img": "img/strip-110.jpg",
+   "clip": 110,
+   "label": "#110 Something New From Something Old (1958)",
+   "used": [],
+   "in_cut": false
+  },
+  {
+   "img": "img/strip-117.jpg",
+   "clip": 117,
+   "label": "#117 Folding Up The TV (1959)",
+   "used": [],
+   "in_cut": false
+  }
+ ],
+ "shots": [
+  {
+   "position": 1,
+   "at": 0.0,
+   "dur": 7.542,
+   "source": "Speaking of Rubber (Part I)",
+   "year": 1951,
+   "slug": "speaking-of-rubber-part-i-75ff5d47",
+   "clip": "8f806ff1-f16e-591d-aa4d-51d48f96a1ae",
+   "source_in": 528.11,
+   "source_out": 535.66,
+   "transforms": [],
+   "why": "intact and recorded: a boy in a staged 1951 room lifts a chair across to the window. Locked-off, so every pixel behind him can be found elsewhere in the shot.",
+   "url": "https://pub-075ff01374c04555b51c9bc50f258b42.r2.dev/sources/75ff5d47-b2f9-570d-b2ad-1a89c059a2a5/v4-conditional-luna-1/clips/8f806ff1-f16e-591d-aa4d-51d48f96a1ae.mp4",
+   "clip_start": 526.36,
+   "source_slug": "speaking-of-rubber-part-i-75ff5d47"
+  },
+  {
+   "position": 2,
+   "at": 7.542,
+   "dur": 7.583,
+   "source": "derived, person removed (Speaking of Rubber, 1951)",
+   "year": null,
+   "slug": null,
+   "clip": "erase/derived.mp4",
+   "source_in": 0.0,
+   "source_out": 7.6,
+   "transforms": [],
+   "why": "return to the same seconds, person removed, same sound. The chair goes on its own. Replacement pixels come from this same shot; see erase/removal.json.",
+   "sound_from": [
+    {
+     "source": "Speaking of Rubber (Part I)",
+     "year": 1951,
+     "source_in": 528.11,
+     "source_out": 535.71
+    }
+   ]
+  },
+  {
+   "position": 3,
+   "at": 15.125,
+   "dur": 17.042,
+   "source": "derived, person removed (Speaking of Rubber, 1951)",
+   "year": null,
+   "slug": null,
+   "clip": "erase/derived.mp4",
+   "source_in": 7.6,
+   "source_out": 24.65,
+   "transforms": [],
+   "why": "the aftermath, held for its whole length. What he did for the next seventeen seconds is gone and his film's sound continues.",
+   "sound_from": [
+    {
+     "source": "Speaking of Rubber (Part I)",
+     "year": 1951,
+     "source_in": 535.71,
+     "source_out": 552.76
+    }
+   ]
+  },
+  {
+   "position": 4,
+   "at": 32.167,
+   "dur": 7.5,
+   "source": "recorded beside derived",
+   "year": null,
+   "slug": null,
+   "clip": "compare.mp4",
+   "source_in": 0,
+   "source_out": 7.5,
+   "transforms": [],
+   "why": "accessible comparison",
+   "sound_from": [
+    {
+     "source": "Speaking of Rubber (Part I)",
+     "year": 1951,
+     "source_in": 531.36,
+     "source_out": 538.86
+    }
+   ]
+  },
+  {
+   "position": 5,
+   "at": 39.667,
+   "dur": 7.0,
+   "source": "the mask",
+   "year": null,
+   "slug": null,
+   "clip": "maskview.mp4",
+   "source_in": 0,
+   "source_out": 7.0,
+   "transforms": [],
+   "why": "keeps the intervention inspectable",
+   "sound_from": [
+    {
+     "source": "Speaking of Rubber (Part I)",
+     "year": 1951,
+     "source_in": 531.36,
+     "source_out": 538.36
+    }
+   ]
+  }
+ ],
+ "reel": "img/reel.jpg",
+ "reviews": [
+  {
+   "round": 1,
+   "who": "independent critic (fresh Claude Sonnet 5.5 agent)",
+   "verdict": "reference stronger",
+   "text": "VERDICT: reference stronger (leaning inconclusive on sound; I cannot hear the film, and the transcript's \"Chug\"/\"Little\"/\"Fiamco\" are probably hiss false-positives).\n\nNoticed before the brief: at 0:00-0:12 a boy crosses a fixed-camera room, carries a chair to the window, climbs on it and appears to fiddle with the blinds, and leaves it tipped over at 0:11. From 0:13 to ~0:31 the room is empty and the frames are almost static. A figure flickers at 0:23 (a hat or head at the desk), a possible removal artifact. At 0:32-0:39 a split screen shows left recorded, right removed. At 0:40-0:46 a red mask appears over the figure.\n\nLargest gap: there is no cup and no routine. The brief wants an intact passage, then the same passage with the person removed while the chair movement remains. Here the person is gone from frame 0:13 on, and about 18 s of empty room follows with almost no change (loudness is flat near -18.5 dB). Nothing is established as ordinary, so no deviation can register. The film is also 46.7 s, not 60 s.\n\nRepairs:\n1. Show the intact passage and the removed passage back to back, not the split screen. Check: by 0:20 the same chair movement appears with the boy visible, then without him.\n2. Cut the empty hold at 0:14-0:31 to a length that has a visible event. Check: something in the room changes (chair settles, blind moves) at least every 5 s.\n3. Remove the 0:23 flicker, or show it deliberately. Check: a frame-by-frame look shows no stray figure in the empty stretch.\n\nStrength to protect: the red-mask explanation at 0:40-0:46, with its caption, makes the intervention inspectable.",
+   "builder_note": "No cup and no routine cannot be fixed with this footage; the brief wants a newly recorded room. The 0:23 flicker was real (tracking left a carried object visible for about two seconds) and was masked by hand afterwards. The film already shows the intact and removed passages back to back (0-32 s) before the split screen.",
+   "packet": {
+    "sheet": "img/critic-r1-sheet.jpg",
+    "transcript": "critic/transcript-r1.txt",
+    "note": "the cut before the stray-object flicker was masked"
+   }
+  }
+ ],
+ "repairs": [
+  "Masked the stray object that flickered in the empty room at 0:23."
+ ],
+ "notes": {
+  "worked": [
+   "A locked-off staged room (Speaking of Rubber, Part I, 1951) is the one kind of shot where removal is honest: the pixels behind him are visible elsewhere in the same shot.",
+   "The mask comes from 14 clicks on 5 frames, placed by eye; replacement is the per-pixel median of frames where that pixel is unmasked; pixels never revealed are listed in the unknown map and filled by a visible-in-the-log inpaint.",
+   "The film shows the intact take, the derived take, a side-by-side, and the mask, each captioned."
+  ],
+  "failed": [
+   "The first full removal run took about 85 minutes and looked dead, so I wrote a lighter second stage while it was still running. When the first finished it overwrote the patched files; the final files were regenerated from the patched mask.",
+   "Tracking left an object he carried visible for about two seconds. I added a hand-drawn box to the mask for 15.0-17.3 s, disclosed in removal.json.",
+   "There is no cup and no routine. The brief wants a newly recorded room; this film has archival staged footage, so what is 'ordinary' before the removal rests on one action by one boy."
+  ],
+  "open": [
+   "Record a room sequence for real (a person enters, places a cup, moves a chair, leaves) and run the same removal on it.",
+   "Give the empty room an event at least every five seconds, as the critic asked."
+  ]
+ },
+ "extras": [
+  {
+   "title": "Removal: recorded, revealed, invented",
+   "html": "<p>The person mask comes from SAM 2.1 (small), tracked from clicks placed by eye. Under the mask, each pixel is replaced by the median of the same pixel in nearby frames where it was not masked (a window of about 2.5 s, recomputed every half second; where a pixel was masked for the whole window, the median over the whole shot).</p><p><b>What is recorded, what is revealed, what is invented.</b> The frame outside the mask is recorded. Inside it, the replacement is <i>revealed</i>: computed from recorded pixels of the same shot at other moments, so it shows the room as it was when he stood elsewhere, not what the camera saw at that instant (film grain, flicker and any light change are averaged away). It is not generated. No pixel is hidden in every frame (0.00% of the frame), so nothing needed to be invented; any pixel that had been would be white in the map below, and the map is empty.</p><p>Tracking left a carried object visible for about two seconds, and a hand-drawn box was added to the mask for derived seconds 15.0-17.3. The tracked mask and every parameter are in removal.json.</p>",
+   "images": [
+    {
+     "src": "img/mask-montage.jpg",
+     "caption": "The mask, one frame per second."
+    },
+    {
+     "src": "img/derived-montage.jpg",
+     "caption": "The derived shot, one frame per second: the chair moves and he is gone."
+    },
+    {
+     "src": "img/patch-check.jpg",
+     "caption": "After the hand patch: derived 15.9 s, 16.6 s, and the published print."
+    },
+    {
+     "src": "img/never-revealed.png",
+     "caption": "Pixels hidden in every frame (would be white): none."
+    }
+   ],
+   "video": {
+    "src": "compare.mp4",
+    "caption": "Recorded (left) and derived (right), as shown in the film."
+   }
+  }
+ ],
+ "files": [
+  {
+   "path": "edl.json",
+   "label": "edit list: every in, out, gain and reason, as written"
+  },
+  {
+   "path": "ledger.json",
+   "label": "ledger: each shot traced to its source seconds"
+  },
+  {
+   "path": "brief.md",
+   "label": "the brief the critic received"
+  }
+ ]
+}
