@@ -1,0 +1,381 @@
+{
+ "id": "059-ball",
+ "title": "BALL",
+ "size": [
+  640,
+  480
+ ],
+ "fps": 24,
+ "operator": "SCION 059 \u00b7 Ball \u2014 Graphic Constancy Across Sources",
+ "registration": {
+  "target_radius_px": 134.4,
+  "target_centre": [
+   0.5,
+   0.5
+  ],
+  "transforms": "translation + uniform scale only"
+ },
+ "score": {
+  "file": "score.wav",
+  "gain_db": 0,
+  "note": "newly composed synthetic taps; no source audio used"
+ },
+ "events": [
+  {
+   "dur": 3.5,
+   "label": "sun through cloud. The opening anchor. A sun behind cloud is the plainest circle in the archive, bright enough to set the target size and centre. Held 3.5 s so the viewer learns where the rim lives before anything changes.",
+   "use": "light",
+   "material": "sky",
+   "layers": [
+    {
+     "src": "1ec03509-6d16-5a31-8672-48137c55b5ac",
+     "media": "clip",
+     "in": 0.6,
+     "audio": false,
+     "fit": "register",
+     "anchor": [
+      0.4256,
+      0.4025
+     ],
+     "to": [
+      0.5,
+      0.5
+     ],
+     "k": 2.3609
+    }
+   ]
+  },
+  {
+   "dur": 2.25,
+   "label": "the Earth, painted globe. A painted globe from a climate film. The first change of kind: from a sky object to a model of one. The rim lands within 5 px of the sun's.",
+   "use": "model",
+   "material": "sky",
+   "layers": [
+    {
+     "src": "13bb478b-a1ef-5b30-91e7-0a0aa8fe07cd",
+     "media": "still",
+     "in": 0,
+     "audio": false,
+     "fit": "register",
+     "anchor": [
+      0.4931,
+      0.4875
+     ],
+     "to": [
+      0.5,
+      0.5
+     ],
+     "k": 2.0202
+    }
+   ]
+  },
+  {
+   "dur": 2.25,
+   "label": "a lens over the moon map. First of three lenses (moon map, signature, eye), from two films twenty years apart. The archive keeps showing someone looking through a circle. Chosen because the use changes while the pose stays the same.",
+   "use": "looking",
+   "material": "glass",
+   "layers": [
+    {
+     "src": "0f379c56-af09-52cd-bf67-bdc2e4151a18",
+     "media": "still",
+     "in": 0,
+     "audio": false,
+     "fit": "register",
+     "anchor": [
+      0.3281,
+      0.4275
+     ],
+     "to": [
+      0.5,
+      0.5
+     ],
+     "k": 3.1603
+    }
+   ]
+  },
+  {
+   "dur": 2.25,
+   "label": "a lens over a signature. Second lens, over a handwritten signature. The rim is the lens's own metal ring, so it registers within 4 px.",
+   "use": "looking",
+   "material": "glass",
+   "layers": [
+    {
+     "src": "3bbf2026-6f83-5ccb-8a3e-2af0f8dbace2",
+     "media": "still",
+     "in": 0,
+     "audio": false,
+     "fit": "register",
+     "anchor": [
+      0.6431,
+      0.3825
+     ],
+     "to": [
+      0.5,
+      0.5
+     ],
+     "k": 1.8654
+    }
+   ]
+  },
+  {
+   "dur": 2.5,
+   "label": "a lens over an eye. Third lens: the circle looks back. An eye behind glass, in the same place on screen as the sun was.",
+   "use": "looking back",
+   "material": "glass",
+   "layers": [
+    {
+     "src": "72063aac-2b6a-547f-ad1c-0e721a2582e7",
+     "media": "still",
+     "in": 0,
+     "audio": false,
+     "fit": "register",
+     "anchor": [
+      0.4894,
+      0.4275
+     ],
+     "to": [
+      0.5,
+      0.5
+     ],
+     "k": 1.8319
+    }
+   ]
+  },
+  {
+   "dur": 2.5,
+   "label": "a wall clock. A wall clock from a 1966 earthquake film: the first circle that measures something. The second hand keeps moving inside the held rim. The source clip is 720\u00d7480, so the anchor is about 22 px off.",
+   "use": "time",
+   "material": "metal",
+   "layers": [
+    {
+     "src": "adfad259-0558-53eb-82f8-350609a70480",
+     "media": "clip",
+     "in": 1.5,
+     "audio": false,
+     "fit": "register",
+     "anchor": [
+      0.4631,
+      0.5025
+     ],
+     "to": [
+      0.5,
+      0.5
+     ],
+     "k": 0.8018
+    }
+   ]
+  },
+  {
+   "dur": 2.25,
+   "label": "a slide-rule dial, BORON. A slide-rule dial. A second measuring circle; its twin on the right is cut by the crop. Rim error under 3 px.",
+   "use": "calculation",
+   "material": "metal",
+   "layers": [
+    {
+     "src": "3eb9d17a-4cce-5cd1-9df5-4deaecaf1f5d",
+     "media": "still",
+     "in": 0,
+     "audio": false,
+     "fit": "register",
+     "anchor": [
+      0.2081,
+      0.5125
+     ],
+     "to": [
+      0.5,
+      0.5
+     ],
+     "k": 1.9986
+    }
+   ]
+  },
+  {
+   "dur": 2.75,
+   "label": "an octagonal clock: the rim fails. The irregular object. An octagonal clock whose edge is not a circle. The anchor was set by hand and left approximate (rim about 29 px small), so the registration visibly fails here instead of being corrected.",
+   "use": "time",
+   "material": "plastic",
+   "layers": [
+    {
+     "src": "0d3b87de-0fbb-5930-adfb-54557a5d0acf",
+     "media": "still",
+     "in": 0,
+     "audio": false,
+     "fit": "register",
+     "anchor": [
+      0.52,
+      0.43
+     ],
+     "to": [
+      0.5,
+      0.5
+     ],
+     "k": 1.6471
+    }
+   ]
+  },
+  {
+   "dur": 3.45,
+   "label": "RELEASE: a hand at the gauge panel. The contextual release. Unregistered and whole frame, with the expected beat withheld. A hand turns a control beside the gauge panel: the first shot in which a circle is used rather than shown.",
+   "use": "control",
+   "material": "release",
+   "layers": [
+    {
+     "src": "18c68920-99d5-5367-abf3-43d755b5a2ce",
+     "media": "clip",
+     "in": 7.4,
+     "audio": false,
+     "fit": "cover"
+    }
+   ]
+  },
+  {
+   "dur": 2.75,
+   "label": "a shower rose. After the instruments, the bathroom. A shower head from a 1956 appliance film, rim within 3 px. The taps return here, slower.",
+   "use": "water",
+   "material": "metal",
+   "layers": [
+    {
+     "src": "4dc7dd14-6b64-5aa2-8cde-1d32038426d9",
+     "media": "still",
+     "in": 0,
+     "audio": false,
+     "fit": "register",
+     "anchor": [
+      0.2606,
+      0.4275
+     ],
+     "to": [
+      0.5,
+      0.5
+     ],
+     "k": 1.7462
+    }
+   ]
+  },
+  {
+   "dur": 2.75,
+   "label": "a speaker grille and a pointer. A speaker grille and a pointer from a 1929 cartoon. A paper-surfaced circle that looks like a dial and turns out to be a voice.",
+   "use": "voice",
+   "material": "paper",
+   "layers": [
+    {
+     "src": "09f05564-267d-5b2d-a056-d65ff834b162",
+     "media": "still",
+     "in": 0,
+     "audio": false,
+     "fit": "register",
+     "anchor": [
+      0.5044,
+      0.4725
+     ],
+     "to": [
+      0.5,
+      0.5
+     ],
+     "k": 0.6876
+    }
+   ]
+  },
+  {
+   "dur": 2.2,
+   "label": "a film reel in a boy's hands. A film reel in a boy's hands: the archive's own medium turns up as a circle. The tilted ellipse and the boy's movement make the registration drift about 25 px, kept as an honest seam. It stands in for the prompt's object used in play.",
+   "use": "pictures",
+   "material": "metal",
+   "layers": [
+    {
+     "src": "8266284b-8fbb-5b36-9d7f-3987ddc4af17",
+     "media": "clip",
+     "in": 6.4,
+     "audio": false,
+     "fit": "register",
+     "anchor": [
+      0.51,
+      0.395
+     ],
+     "to": [
+      0.5,
+      0.5
+     ],
+     "k": 1.6
+    }
+   ]
+  },
+  {
+   "dur": 2.2,
+   "label": "a motorcycle wheel, running. A motorcycle wheel. The rim was marked by hand on gridded frames because the detector kept reading the hub. The wheel moves, so it drifts: the first circle that goes somewhere.",
+   "use": "travel",
+   "material": "rubber",
+   "layers": [
+    {
+     "src": "c1e30693-35b6-5d39-9540-a8e1b574c71a",
+     "media": "clip",
+     "in": 9.2,
+     "audio": false,
+     "fit": "register",
+     "anchor": [
+      0.31,
+      0.49
+     ],
+     "to": [
+      0.5,
+      0.5
+     ],
+     "k": 0.9655
+    }
+   ]
+  },
+  {
+   "dur": 1.6,
+   "label": "a jet intake. A jet intake, 2007: the last registered circle and the largest dark disc. It ends at 35.2 s, before the source clip's own page-turn transition.",
+   "use": "flight",
+   "material": "metal",
+   "layers": [
+    {
+     "src": "a393b728-390d-554d-a7dc-234de357c36d",
+     "media": "clip",
+     "in": 11.7,
+     "audio": false,
+     "fit": "register",
+     "anchor": [
+      0.4894,
+      0.5075
+     ],
+     "to": [
+      0.5,
+      0.5
+     ],
+     "k": 2.5203
+    }
+   ]
+  },
+  {
+   "dur": 4.6,
+   "label": "EXIT: a painted moon drifts out of frame. The exit. Unregistered. In a 1965 space-animation clip a painted moon drifts out to the left and leaves the starfield empty, then the image fades. The circle leaves the frame in a moving shot, as the prompt asks.",
+   "use": "leaving",
+   "material": "exit",
+   "layers": [
+    {
+     "src": "201b010b-d025-5ea8-8ec8-714d0faf41ae",
+     "media": "clip",
+     "in": 17.6,
+     "audio": false,
+     "fit": "cover"
+    }
+   ],
+   "fade_out": 1.2
+  },
+  {
+   "dur": 3.0,
+   "label": "source card",
+   "card": {
+    "lines": [
+     "BALL",
+     "round things from thirteen films, 1929\u20132007",
+     "movingimagearchive.com \u00b7 see ledger"
+    ],
+    "size": 22
+   },
+   "fade_in": 0.4
+  }
+ ]
+}
