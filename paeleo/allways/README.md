@@ -32,9 +32,13 @@ Its question is **what else was happening?** Its name joins *always* and *all wa
 
 ## Status
 
-The statement, development slate, and 59 prompt specifications are published here. The first batch of archive proofs, SCION 055–065 cut by hand from movingimagearchive.com footage, is in [films/](films/) with edit lists, source ledgers, forage logs and a first critic round. These are proofs in progress, not released works. The twelve named ALLWAYS films remain concepts. The proposed proof scenes in the new prompt corpus have not yet been executed. Reference films are cited as lineages, not claimed as our productions.
+The statement, development slate, and 59 prompt specifications are published here. The first batch of archive proofs, SCION 055–065 cut by hand from movingimagearchive.com footage, is in the [Sonnet edition](allways-sonnet/) with edit lists, source ledgers, forage logs and a first critic round. These are proofs in progress, not released works. The twelve named ALLWAYS films remain concepts. The proposed proof scenes in the new prompt corpus have not yet been executed. Reference films are cited as lineages, not claimed as our productions.
 
 Earlier work remains under its established project names: [Afterlight](../../afterlight/), [The Found Odyssey](../../found-odyssey/), [CINEOSIS](../../cineosis/), [WYGWYL](../../wygwyl/), and [PAELEO's handmade threshold studies](../handmade/). The ALLWAYS page connects to these precedents without changing their credits or production status.
+
+## Editions
+
+Each maker's pass at the operators is an *edition*, listed in [`editions.json`](editions.json) and compared by operator on the [editions page](editions.html). The first is [allways-sonnet](allways-sonnet/): eleven films with a case study each (forage images, the reason for every shot, critic round, copyable prompts). Gemini, Argon and OpenAI Sol editions are expected; [EDITIONS.md](EDITIONS.md) says how to add one.
 
 ## Source and build
 

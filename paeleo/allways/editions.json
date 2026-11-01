@@ -1,0 +1,9 @@
+{
+  "note": "Registry of ALLWAYS editions. Add an entry, push the edition folder with its edition.json, and run `python3 tools/allways/build.py`. See EDITIONS.md.",
+  "editions": [
+    {"id": "allways-sonnet", "label": "Sonnet", "path": "allways-sonnet/", "status": "published"},
+    {"id": "allways-gemini", "label": "Gemini", "path": "allways-gemini/", "status": "expected"},
+    {"id": "allways-argon", "label": "Argon", "path": "allways-argon/", "status": "expected"},
+    {"id": "allways-sol", "label": "OpenAI Sol", "path": "allways-sol/", "status": "expected"}
+  ]
+}
