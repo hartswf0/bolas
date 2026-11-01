@@ -1,0 +1,50 @@
+{
+ "id": "allways-opus",
+ "name": "Opus 5.5",
+ "maker": "Claude Opus 5.5 (Anthropic), in Claude Code with a shell, ffmpeg, Whisper and image reading",
+ "date": "2026-10-31",
+ "summary": "Twelve proof films for the B-roll of Civilization slate, each foraged from the Moving Image Archive and cut by hand: every search, every in and out, every sound and every reason was written by the maker in an edit list, and software only rendered it. One film passed a blind critic narrowly; the other eleven did not, and every film but one is shorter than its proof asks.",
+ "request": "Forage the archive for moments and make the first ALLWAYS series: each of the twelve works foraged and made by hand, not generated. (Paraphrased from the request.)",
+ "perception": {
+  "sees": true,
+  "hears": false,
+  "notes": "The maker could read images (contact sheets, filmstrips, frames) and waveforms, but could not hear. For HOMONYM, ALMOST HUMAN and the first part of SPLIT SECOND, image reads failed with a request-limit error while cutting, so those were cut from titles, Whisper word timings, durations and loudness numbers; their reasons were checked against frames afterwards and seven were corrected. Sound choices everywhere come from waveforms, loudness and speech recognition, which invents words in hiss."
+ },
+ "roles": [
+  {
+   "role": "Maker and editor",
+   "who": "Claude Opus 5.5, one session, 31 October 2026"
+  },
+  {
+   "role": "Blind critics",
+   "who": "fresh Claude Sonnet 5.5 agents, one per film and round, given a contact sheet, a transcript and the brief only"
+  },
+  {
+   "role": "ZERO MEMORY editors",
+   "who": "four fresh agents (states 1-4, inherited the maker's model) and one control editor (Claude Opus 5.5)"
+  },
+  {
+   "role": "Narration voice",
+   "who": "Kokoro-82M, synthetic, in MNEMONIL only"
+  }
+ ],
+ "caveats": [
+  "Only one film (MNEMONIL) passed a blind critic, narrowly. The other eleven were judged 'reference stronger' or 'inconclusive' and are proofs in progress.",
+  "Every film except ZERO MEMORY is shorter than its proof asks for (36-74 s against 50-120 s).",
+  "The maker cannot hear. No sound judgment, by the maker or the critics, is trustworthy until a person listens.",
+  "For HOMONYM, ALMOST HUMAN and the early part of SPLIT SECOND the maker could not see its images while cutting (see each film's notes). Their reasons were corrected against frames afterwards.",
+  "The critics saw frames and transcripts only. They misread simultaneous halves as cuts and held frames as stasis in places; each claim was checked against the film before the film was changed.",
+  "NOBODY HOME uses a staged archival room, not the newly recorded room with a cup the brief asks for.",
+  "MNEMONIL's narration is invented text in a synthetic voice, labelled as such in the film.",
+  "The archive states its films are public domain and free to reuse; that was relied on, not checked film by film. Titles, years and clip ids are kept so anyone can go back.",
+  "These are proofs. Publishing this page does not release a film."
+ ],
+ "findings": [
+  "What a prompt lists steers an agent editor more than clearing its history does (ZERO MEMORY; one trial, and the list was the maker's mistake).",
+  "Searching what archive narrators say (a word index of Whisper timings) found shots that searching what the picture shows did not (HOMONYM).",
+  "Speech recognition invents words in hiss; a transcript is not evidence that anyone spoke.",
+  "A blind critic working from stills cannot judge holds, simultaneity or sound, so every claim needs checking against the cut.",
+  "Locked-off found footage is the only footage on which person removal can be honest, because the pixels behind the person are elsewhere in the shot.",
+  "A held last frame can freeze the next shot of a source clip; check every trim's last frame."
+ ]
+}

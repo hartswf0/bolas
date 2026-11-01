@@ -12,8 +12,8 @@ cached in a local clone of [cineosis-lab](https://github.com/hartswf0/cineosis-l
 | shape scan | `python3 circles.py still` or `python3 circles.py clip` → `circles-*.json` (Hough circles scored by rim-edge support). This is how BALL was foraged. |
 | measure | `python3 measure.py <id-prefix> still\|clip [t] --out check.jpg` measures the registration circle for one image. |
 | render | `python3 render.py allways-sonnet/<id>/edl.json [--control]` → `<id>.mp4` + `<id>.ledger.json` |
-| case studies | `python3 build_casestudies.py` builds the Sonnet edition's index, atlas and a case-study page per film (frames from the finished films, candidate strips from the local archive cache, the critic round, copyable prompts) |
-| editions | `python3 ../allways/build.py` validates every edition and rebuilds the landing page and `editions.html` |
+| case studies | `python3 build_casestudies.py` builds the Sonnet run's index, atlas and a case-study page per film (frames from the finished films, candidate strips from the local archive cache, the critic round, copyable prompts) |
+| runs | `python3 ../allways/build.py` rebuilds the ALLWAYS landing page and its Runs section from `paeleo/allways/runs.json` |
 
 The renderer only translates and uniformly scales sources: no mirroring, warping, rotation or retiming. `--control` renders every registered layer as a plain full-frame fit, giving the unregistered comparison cut. The ledger records, for every shot, the source film, its archive page, its time in the source film and the transform applied. The EDL schema is in the `render.py` docstring.
 

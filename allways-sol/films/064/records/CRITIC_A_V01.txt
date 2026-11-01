@@ -1,0 +1,48 @@
+ALLWAYS064 — CRITIC A / V01
+Verdict: INCONCLUSIVE, with a blocking geometry-record issue in the diver samples. The visual essay's distinction between resemblance and cause is promising; mathematical residuals reproduce, but at least two declared source-time body centers do not belong to the visible body at those source times within stated uncertainty. A bad fit cannot teach about camera motion if it partly comes from wrongly attached observations. Native-speed/audio acceptance remains INCONCLUSIVE.
+
+Inspection: Actual output first: all four ordered1-second sheets spanning60seconds. Only afterward read prompt.txt, FITS.json and source timeline. Extracted full-resolution actual overlay frames26,32,38seconds. Inspected original diver source0–6 at5fps, native frames around1.7–1.9 and2.9–3.1, and stage source9–21 at2fps. Recomputed all three quadratic fit residuals independently from saved samples. Individually extracted the eight declared diver sample times, fitted source images uniformly into960x640 with aspect preserved, and marked the declared point on each frame. No build script read, no native normal-speed playback or audio audition. Contact/frame methods and numerical checks are different kinds of evidence.
+
+First picture impression, before fit diagnostics:
+2–10 stage swags offer an immediately readable curved fabric edge in a supported/decorative setting.
+10–16 diver leaves platform, rotates in flight and enters water. Camera visibly follows; a clean static screen arc is not obvious without tracking, which can be productive rather than fatal.
+16–24 machine makes curling metal; long chip detaches and shorter curls develop. Cause/material difference is genuinely visible, not merely a similar outline placed beside another one.
+24–26 explicitly separates three curves/different causes and identifies sampled outlines/screen trace, not a measured law.
+26–32 static stage replay with overlapping model guides illustrates underdetermination: close curves do not identify the physical construction.
+32–38 diver freeze with numbered screen samples and quadratic guide is explicitly not world-space flight.
+38–44 metal freeze makes single-valued quadratic's failure visible against a curl turning back on itself.
+44–56 unannotated moving stage returns. Dancers/curtain action continue while supported fabric remains, distinguishing bodily movement from decorative outline. It gains some interest after comparison, though the source's later curtain closure changes the image rather than showing a chain released.56–60 closing adaptation card.
+
+Geometric audit that passes:
+Curtain quadratic coefficients recompute exactly, RMS1.1856px; steel quadratic RMS36.2297px; diver parametric quadratic RMS25.2728px. These match FITS.json. This verifies arithmetic on the supplied points, not point truth.
+Actual26-second source image and curtain dots appear attached to the intended swag. Amber/blue guides remain overlays; source boundary is retained. Two close fits are visually plausible and their tiny residual difference is far below the declared~8px outline uncertainty. It would be unwarranted to use the numerical difference to select a physical cause; the film appropriately does not.
+Actual38-second metal dots/guide correspond to a projected curl segment in the native image. A single-valued y(x) quadratic misses the turning-back outline visibly; this is a useful model-class limitation, not proof of a helix, parabola or force law. The “neither is a flight path” wording protects evidence type.
+Uniform fitting/padding preserves the4:3 diver source's aspect within960x640 picture space. No nonuniform geometric warp was needed for these source checks. This is not a complete byte-level transform audit of every export frame.
+
+BLOCKING diver source-time integrity:
+FITS.json calls samples body-center positions at specified source times, with about16px body-center uncertainty. My individual-frame overlay audit shows clear departures:
+At source1.8s, saved point(534,208) lies well left of the actual diver body, whose center is approximately(620,230) in the same960x640 fitted coordinates. The discrepancy is much larger than16px.
+At source3.0s, saved point(560,265) lies well right of the body, approximately(460,250). Again the discrepancy is far beyond the declared uncertainty.
+Other points are closer, but some additional offsets exist. These two examples suffice to block certification. Actual native neighboring frames confirm these positions; this is not a source dissolve or changing body pose alone, and not an artifact of expecting every time sample to lie on the single displayed freeze. I checked each point against its OWN declared time.
+Evidence artifacts: criticA_diver_sample_check.jpg overlays all eight declared points on their individual source frames; criticA_samples_native.jpg shows neighboring native frames. Approximate body-center estimates above are visual diagnostics, not a replacement certified tracker.
+Therefore the current25.27px RMS is a residual of the saved coordinate list, not yet a valid empirical mismatch for the declared source trace. “Camera moves; simple fit misses” may be qualitatively true, but the particular illustrated measurements must be corrected before that test supports the claim.
+
+Falsifiable required repair:
+Re-extract exact source frames for every sample using stored frame indices plus timestamps; mark each chosen body center on its own image and independently inspect that it is within the declared uncertainty. Then recompute the parametric fit/RMS, replace the overlay/record, and review actual output32–38. Do not preserve an exaggerated residual simply because a failed fit suits the essay. If corrected data fits closely, retain the separate claim that a following camera invalidates world-space ballistic inference; that does not require falsely claiming a visibly poor screen fit. If a manual body-center definition is used, state its practical landmark consistently across changing poses.
+
+Other issues, optional rather than blocking:
+The original observations2–24 precede guides, so this does not begin as an overlay lesson. Title already names cause, which does prime the interpretation; a more observational opening could leave the thesis less settled, but it is not required to repair integrity.
+At26–32 two very close guides are difficult to distinguish visually at smaller scale. Their near coincidence is the point; don't enlarge differences beyond source uncertainty for drama.
+Static annotated holds are six seconds each. I can verify allocation, not whether reading pace feels generous or inert at normal playback.
+Return44–56 is a contextual reconsideration, not the literal prompted chain release. The film candidly labels archival substitute material; no full original chain/toss/hand-bent-strip proof was performed.
+
+Strengths to protect:
+Static supported fabric, followed-camera body trace and projected material outline stay explicitly separate.
+Tool/chip generation is a visible different cause.
+Physical law is not inferred from an exact-looking two-dimensional guide.
+The steel mismatch is visually useful and model-specific.
+Source footage remains visible underneath guides.
+Returning unannotated performance loosens the diagram form.
+Credit/adaptation boundaries and uncertainty caveats are specific.
+
+Acceptance boundary: GEOMETRIC ARITHMETIC ON RECORDED POINTS VERIFIED; DIVER POINT-TO-SOURCE INTEGRITY NOT VERIFIED/FAILS STATED UNCERTAINTY IN CHECKED EXAMPLES. OVERALL VISUAL ESSAY ACCEPTANCE INCONCLUSIVE PENDING THAT REPAIR. ORIGINAL THREE-OBSERVATION PERFORMANCE NOT PERFORMED. NORMAL-SPEED RHYTHM/SOUND/WHOLE-FILM AV ACCEPTANCE INCONCLUSIVE. No inspected comparable reference permits “reference stronger.”

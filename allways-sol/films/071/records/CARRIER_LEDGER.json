@@ -1,0 +1,85 @@
+{
+  "A": {
+    "parent_source": "batch69_73/media/203.mp4",
+    "source_time": 2.5,
+    "dimensions_pixels": [
+      320,
+      240
+    ],
+    "physical_dimensions": "unknown",
+    "display_dimensions": [
+      288,
+      216
+    ],
+    "display_scale": 0.9
+  },
+  "B": {
+    "parent": "A",
+    "transform": "duplicate + new red crop rectangle",
+    "crop_box": [
+      64,
+      128,
+      256,
+      240
+    ],
+    "crop_dimensions": [
+      192,
+      112
+    ],
+    "annotation_origin": "new edit, not original mark"
+  },
+  "C": {
+    "parent": "A",
+    "selection_from": "B crop box",
+    "crop_box": [
+      64,
+      128,
+      256,
+      240
+    ],
+    "resample": "Pillow BOX to48x28, display NEAREST at288x168",
+    "dimensions_pixels": [
+      48,
+      28
+    ],
+    "display_scale": 6
+  },
+  "rulers": {
+    "A": {
+      "pixels_in_ruler": 100,
+      "screen_length": 90
+    },
+    "C": {
+      "pixels_in_ruler": 10,
+      "screen_length": 60
+    }
+  },
+  "narration": [
+    {
+      "id": "A",
+      "text": "The reel is real in the source record. This panel is a decoded copy. Its file is three hundred and twenty pixels wide. That does not tell us the width of the physical film.",
+      "origin": "new libflite slt synthesis",
+      "audition": "not performed"
+    },
+    {
+      "id": "B",
+      "text": "The red box is my selection, not an original production mark. It excludes the face. The physical gauge of the pictured film remains unresolved.",
+      "origin": "new libflite slt synthesis",
+      "audition": "not performed"
+    },
+    {
+      "id": "C",
+      "text": "This derivative follows that box. One hundred ninety two by one hundred twelve source pixels become forty eight by twenty eight. The blocks are a new sampling decision, not recovered grain.",
+      "origin": "new libflite slt synthesis",
+      "audition": "not performed"
+    },
+    {
+      "id": "relation",
+      "text": "One record becomes a selection, then a lower resolution file. They share a parent. They no longer carry the same detail.",
+      "origin": "new libflite slt synthesis",
+      "audition": "not performed"
+    }
+  ],
+  "end": "images removed from digital table; pixel rulers and new red mark remain",
+  "unperformed": "physical scan/print/display carriers, real hands, handling sound, known millimetre gauge, historical recollection"
+}

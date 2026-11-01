@@ -1,0 +1,165 @@
+{
+  "fiction": true,
+  "cases": [
+    {
+      "id": "M01",
+      "name": "Ivo Senn",
+      "action": "Set a cup on the table",
+      "object": "CUP-01 / detached handle",
+      "report": "Heard a break before the cup reached the table.",
+      "refs": [
+        "M02",
+        "M06"
+      ],
+      "duration": 17,
+      "voice": "Ivo Senn set down a cup. He reported a break before it touched the table. Only the handle was retained. For its time, see Mara Pell."
+    },
+    {
+      "id": "M02",
+      "name": "Mara Pell",
+      "action": "Wound Ivo Senn\u2019s clock",
+      "object": "CLOCK-01 / face without hands",
+      "report": "Placed M01\u2019s break at twelve. The face has no hands.",
+      "refs": [
+        "M01",
+        "M04"
+      ],
+      "duration": 16,
+      "voice": "Mara Pell wound Ivo Senn\u2019s clock. She placed the break at twelve. The retained face has no hands. She said case four had removed them."
+    },
+    {
+      "id": "M03",
+      "name": "Neri Vale",
+      "action": "Closed a window",
+      "object": "GLASS-01 / clear sliver",
+      "report": "Saw CUP-01 intact after the reported break.",
+      "refs": [
+        "M01"
+      ],
+      "duration": 17,
+      "voice": "Neri Vale closed a window. She reported seeing the cup intact after the break. Her sliver fits a window, but no submitted drawing shows which window."
+    },
+    {
+      "id": "M04",
+      "name": null,
+      "action": null,
+      "object": "KEY-04 / object file present",
+      "report": "No case entry. M02\u2019s timing claim cannot be assigned a witness.",
+      "refs": [
+        "M02",
+        "M05"
+      ],
+      "duration": 10,
+      "missing": true,
+      "voice": "Entry four is withheld. Its key is present. Without the entry, the directory cannot assign a witness to Mara Pell\u2019s claim."
+    },
+    {
+      "id": "M05",
+      "name": "Sila Rook",
+      "action": "Sorted the retained keys",
+      "object": "KEY-04 / opens the record cabinet",
+      "report": "The recurring tick is the cabinet latch, not a clock.",
+      "refs": [
+        "M04",
+        "M02"
+      ],
+      "duration": 17,
+      "voice": "Sila Rook sorted the keys. Key four opened this cabinet. The tick marking these entries is its latch, she reported, not the clock named in case two."
+    },
+    {
+      "id": "M06",
+      "name": "Orin Fenn",
+      "action": "Picked up CUP-01\u2019s handle",
+      "object": "CUP-01 / same retained drawing",
+      "report": "Heard the break through a receiver, later. Was not at the table.",
+      "refs": [
+        "M01",
+        "M02"
+      ],
+      "duration": 17,
+      "voice": "Orin Fenn picked up the handle. He heard the break later, through a receiver. He had not been at the table. The directory had filed both reports as observations."
+    }
+  ],
+  "timeline": [
+    {
+      "id": "M01",
+      "output": [
+        4.0,
+        21.0
+      ]
+    },
+    {
+      "id": "M02",
+      "output": [
+        21.0,
+        37.0
+      ]
+    },
+    {
+      "id": "M03",
+      "output": [
+        37.0,
+        54.0
+      ]
+    },
+    {
+      "id": "M04",
+      "output": [
+        54.0,
+        64.0
+      ]
+    },
+    {
+      "id": "M05",
+      "output": [
+        64.0,
+        81.0
+      ]
+    },
+    {
+      "id": "M06",
+      "output": [
+        81.0,
+        98.0
+      ]
+    }
+  ],
+  "missing_register": [
+    {
+      "id": "M04",
+      "status": "intentionally withheld record",
+      "object_present": "KEY-04",
+      "consequence": "M02 timing attribution has no assignable witness; M05 can access cabinet but cannot recover missing account"
+    }
+  ],
+  "contradictions": [
+    {
+      "cases": [
+        "M01",
+        "M03"
+      ],
+      "status": "deliberate unresolved temporal contradiction"
+    },
+    {
+      "cases": [
+        "M02",
+        "M05"
+      ],
+      "status": "deliberate clock-versus-latch source uncertainty"
+    },
+    {
+      "cases": [
+        "M01",
+        "M06"
+      ],
+      "status": "different witnesses/media/times, not auto-corrected into one event"
+    }
+  ],
+  "schema_revision": {
+    "before": "disputed_observation: string",
+    "after": "unverified_report: {claim, medium, witness, hearing_time}",
+    "cause": "M06 exposes reception through a receiver at a later time; M04 prevents witness assignment"
+  },
+  "sound": "new libflite slt speech and composed tick/latch cue, no recorded room sound",
+  "audition": "not performed"
+}

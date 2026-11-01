@@ -1,0 +1,20 @@
+{
+  "film": 74,
+  "title": "THE MISSING MINUTE",
+  "version": "V02",
+  "duration_seconds": 110,
+  "scope_and_limits": "Six wholly fictional directory records use original vector portraits and objects. M04 is missing. M02 reports that M04 removed clock hands; the missing account leaves that claim uncorroborated, not without a known reporter. M06 distinguishes receiver-mediated hearing from witnessing at the table. V01 text clipping and epistemic overstatement repaired. Revised populated case in CASE_DATABASE.json is a project-data example, not an onscreen row. Synthetic libflite narration and numerical ticks; no archive faces assigned fictional conditions.",
+  "reference_lineage": "Peter Greenaway, The Falls (1980), a fictional directory of people affected by an unexplained event; BFI documents the catalog structure and invented biographies.",
+  "reference_urls": [
+    "https://player.bfi.org.uk/subscription/film/watch-the-falls-1980-online",
+    "https://www.bfi.org.uk/film/ea1ef441-8707-5dea-b630-a7c3232118de/the-falls"
+  ],
+  "reference_inspection": "BFI The Falls, Focus Features Babies, Argot Sacred press, official Baraka and Samsara descriptions inspected; full reference films not watched; no reference-stronger or close formal fidelity claim. PBS Sacred about page failed; Argot supplied a primary fallback.",
+  "archive_foraging": "MovingImageArchive searches and cached/Internet Archive candidates inspected through metadata and sampled frames. Babies and Breadwinners was rejected: polio public campaign rather than the intended child play. Our Baby and two other cached nature candidates unused. Search results are discovery, not full-film viewing or rights clearance.",
+  "render": "960x720,30fps,H264/yuv420p,AAC. Transfer durations preserved with frame duplicate/drop normalization; no historical camera-speed reconstruction. Original still holds and vector portraits expressly identified.",
+  "sound_review": "Audio not auditioned and normal-speed audiovisual experience not assessed. Authored silence is PCM silence before encoding, not a claim about source ambience.",
+  "rights": "Uploader/public archive metadata retained; reuse rights and participant/guardian consent history not independently audited. No public publication or external messages.",
+  "rebuild": "From kit root: python3 filmNN/build.py. Python3,Pillow,numpy,ffmpeg/ffprobe with libflite. Run batch74_78/finalize.py on generated stage JSON paths; editorial state reproducible, byte-identical encoding not guaranteed.",
+  "next_prompt": 75,
+  "058_status": "incomplete; earlier private publication/export permission still pending"
+}

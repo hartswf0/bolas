@@ -1,0 +1,192 @@
+{
+  "relation": [
+    {
+      "variant": "offset",
+      "visible": "A",
+      "description_target": "B",
+      "output": [
+        4,
+        22
+      ],
+      "narration_start": 4.7,
+      "digital_cover": [
+        12,
+        20
+      ],
+      "fully_hidden": [
+        20,
+        22
+      ],
+      "original_preserved": true
+    },
+    {
+      "variant": "offset",
+      "visible": "B",
+      "description_target": "C",
+      "output": [
+        22,
+        44
+      ],
+      "narration_start": 22.7,
+      "digital_cover": [
+        30,
+        42
+      ],
+      "fully_hidden": [
+        42,
+        44
+      ],
+      "original_preserved": true
+    },
+    {
+      "variant": "offset",
+      "visible": "C",
+      "description_target": "D",
+      "output": [
+        44,
+        62
+      ],
+      "narration_start": 44.7,
+      "digital_cover": [
+        52,
+        60
+      ],
+      "fully_hidden": [
+        60,
+        62
+      ],
+      "original_preserved": true
+    },
+    {
+      "variant": "offset",
+      "visible": "D",
+      "description_target": "E",
+      "output": [
+        62,
+        80
+      ],
+      "narration_start": 62.7,
+      "digital_cover": [
+        70,
+        78
+      ],
+      "fully_hidden": [
+        78,
+        80
+      ],
+      "original_preserved": true
+    },
+    {
+      "variant": "synchronized",
+      "visible": "A",
+      "description_target": "A",
+      "output": [
+        4,
+        22
+      ],
+      "narration_start": 4.7,
+      "digital_cover": [
+        12,
+        20
+      ],
+      "fully_hidden": [
+        20,
+        22
+      ],
+      "original_preserved": true
+    },
+    {
+      "variant": "synchronized",
+      "visible": "B",
+      "description_target": "B",
+      "output": [
+        22,
+        44
+      ],
+      "narration_start": 22.7,
+      "digital_cover": [
+        30,
+        42
+      ],
+      "fully_hidden": [
+        42,
+        44
+      ],
+      "original_preserved": true
+    },
+    {
+      "variant": "synchronized",
+      "visible": "C",
+      "description_target": "C",
+      "output": [
+        44,
+        62
+      ],
+      "narration_start": 44.7,
+      "digital_cover": [
+        52,
+        60
+      ],
+      "fully_hidden": [
+        60,
+        62
+      ],
+      "original_preserved": true
+    },
+    {
+      "variant": "synchronized",
+      "visible": "D",
+      "description_target": "D",
+      "output": [
+        62,
+        80
+      ],
+      "narration_start": 62.7,
+      "digital_cover": [
+        70,
+        78
+      ],
+      "fully_hidden": [
+        78,
+        80
+      ],
+      "original_preserved": true
+    }
+  ],
+  "images": {
+    "A": {
+      "source": "batch64_68/media/0.mp4",
+      "source_time": 3.8,
+      "file": "copies/A_archive_frame.png"
+    },
+    "B": {
+      "source": "batch64_68/media/26.mp4",
+      "source_time": 4.6,
+      "file": "copies/B_archive_frame.png"
+    },
+    "C": {
+      "source": "film61/forage/346.mp4",
+      "source_time": 0.1,
+      "file": "copies/C_archive_frame.png"
+    },
+    "D": {
+      "source": "batch64_68/media/394.mp4",
+      "source_time": 2.4,
+      "file": "copies/D_archive_frame.png"
+    }
+  },
+  "descriptions": {
+    "A": "A stage curtain hangs in two shallow curves. Small figures pass beneath it. The fabric stays where it was.",
+    "B": "A white cup turns under a brush. A narrow dark band circles its rim. A hand steadies it from below.",
+    "C": "A bright ribbon curls out from a dark block. Three loose turns rise from the tool. The upper turn leaves the picture.",
+    "D": "A body hangs above water. The knees are folded. At the right edge, a dark platform has almost left the frame.",
+    "E": "A red paper boat sits beneath an empty chair. One wet corner has folded inward. There is no picture of it here."
+  },
+  "E": {
+    "display_status": "withheld",
+    "asset_required": false,
+    "authored_description_only": true
+  },
+  "transform": "digital compositing of duplicate frame extracts; not filmed tabletop or physical sheets",
+  "speech": "new synthesized libflite slt; verbatim authored captions, not historical speech or personal recollection"
+}

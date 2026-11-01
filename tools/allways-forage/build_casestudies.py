@@ -1,11 +1,11 @@
-"""Build the ALLWAYS Sonnet edition: an index, an atlas and one case-study page per film.
+"""Build the ALLWAYS Sonnet run: an index, an atlas and one case-study page per film.
 
   python3 tools/allways-forage/build_casestudies.py [--lab /home/user/cineosis-lab]
 
 Reads  allways-sonnet/<NNN-slug>/ (edl.json, ledgers, mp4s, NOTES.md), BRIEF.md,
        assignments.json, status.json, the SCION prompts and the critic review.
 Writes <film>/index.html, <film>/poster.jpg, <film>/frames/*.jpg, <film>/cands/*.jpg,
-       allways-sonnet/index.html, atlas.html, edition.json.
+       allways-sonnet/index.html, atlas.html.
 Frames and candidate strips are cut from the rendered films and from the local archive cache,
 so the page shows the images that were actually looked at. Standard library + PIL + ffmpeg.
 """
@@ -126,7 +126,7 @@ def head(title, desc, depth, extra=''):
 def crumbs(depth, tail):
     up = '../' * depth
     return (f'<header class="site-header"><div class="wrap sitebar"><div class="parents"><a href="{up}">CRASH LAB</a><span>/</span><a href="{up}paeleo/">PAELEO</a><span>/</span>'
-            f'<a href="{up}paeleo/allways/">ALLWAYS</a><span>/</span><a href="{up}paeleo/allways/#editions">EDITIONS</a>{tail}</div></div></header>')
+            f'<a href="{up}paeleo/allways/">ALLWAYS</a><span>/</span><a href="{up}paeleo/allways/#runs">RUNS</a>{tail}</div></div></header>')
 
 
 def ghfix(page, folder):
@@ -153,7 +153,7 @@ def main():
     CRIT = {}
     for m in re.finditer(r'^## (\d{3}) .*?(?=^## |\Z)', crit, re.S | re.M): CRIT[m.group(1)] = m.group(0)
     films = sorted(p.name for p in ED.iterdir() if p.is_dir() and re.match(r'\d{3}-', p.name))
-    cards = []; edition_films = []
+    cards = []
     for fi, fid in enumerate(films):
         d = ED / fid; num = int(fid[:3]); op = SCION[num]
         led = json.load(open(d / f'{fid}.ledger.json')); edl = json.load(open(d / 'edl.json'))
@@ -269,26 +269,24 @@ def main():
 <section id="prompts"><h2>The prompts, to copy</h2><p class="lead">Everything needed to run this film again. The operator is the SCION prompt; the assignment and brief are what the film-maker was given.</p>{prompts}</section>
 <section id="notes"><h2>Working notes as written</h2><p class="note">The film-maker’s own NOTES.md, unedited. Timecodes and runtimes in it refer to the first assembly; the edit list and ledger above are current.</p><div class="md">{notes_html}</div></section>
 <nav class="pn"><a href="../{prv}/">← {esc(prv[4:].replace("-", " ").title())}</a><a href="../">All films</a><a href="../{nxt}/">{esc(nxt[4:].replace("-", " ").title())} →</a></nav>
-</main><footer><div class="wrap"><div class="footer-row"><p>ALLWAYS Sonnet edition · proofs in progress, not released works. Source footage © its holders; shots link back to movingimagearchive.com.</p></div></div></footer>{JS}</body></html>'''
+</main><footer><div class="wrap"><div class="footer-row"><p>ALLWAYS Sonnet run · proofs in progress, not released works. Source footage © its holders; shots link back to movingimagearchive.com.</p></div></div></footer>{JS}</body></html>'''
         (d / 'index.html').write_text(ghfix(page, f'allways-sonnet/{fid}'))
         cards.append(dict(id=fid, num=num, name=name, op=op_short, dur=round(led['duration']), verdict=verdict, note=MODEL_NOTE[fid], kb=size_kb, srcs=len(used)))
-        edition_films.append(dict(id=fid, operator=num, title=name, duration=round(led['duration']), film=f'{fid}/{fid}.mp4', poster=f'{fid}/poster.jpg',
-                                  page=f'{fid}/', verdict=verdict, sources=len(used)))
         print(fid, len(order), 'candidates', len(led['events']), 'events')
-    # ---- edition index
+    # ---- run index
     grid = ''.join(
         f'<a class="fcard" href="{c["id"]}/"><img loading="lazy" src="{c["id"]}/poster.jpg" alt="Still from {esc(c["name"])}" width="640" height="480"><div><span class="label">SCION {c["num"]:03d} · {c["dur"]} s</span>'
         f'<h3>{esc(c["name"])}</h3><p>{esc(c["note"])}</p><span class="vline v-{tone(c["verdict"])}"><span class="dot"></span>{esc(c["verdict"])}</span></div></a>' for c in cards)
     stats = {'shots': len(IDX), 'clips': sum('clip' in e['media'] for e in IDX), 'loops': sum('loop' in e['media'] for e in IDX), 'stills': sum('still' in e['media'] for e in IDX)}
     total_src = sum(c['srcs'] for c in cards)
-    idx_page = head('ALLWAYS Sonnet edition', 'Eleven conceptual microfilms cut by hand from archive footage, each with its forage, frames, critic round and prompts.', 1) + \
+    idx_page = head('ALLWAYS Sonnet run', 'Eleven conceptual microfilms cut by hand from archive footage, each with its forage, frames, critic round and prompts.', 1) + \
         f'<body class="case"><a class="skip" href="#main">Skip to content</a>{IDX_CRUMB}' + f'''
 <main id="main" class="wrap">
-<section class="caseTop one"><div><span class="label">ALLWAYS edition · SCION 055–065 · October 2026</span><h1>Sonnet</h1>
+<section class="caseTop one"><div><span class="label">ALLWAYS run · SCION 055–065 · October 2026</span><h1>Sonnet</h1>
 <p class="lede">Eleven films, one for each conceptual-microfilm operator, foraged and cut by hand from public-domain footage on movingimagearchive.com. Every film comes with the images that were looked at, the reason for each shot, an independent critic round where one has run, and the prompts to make it again.</p>
-<p class="note">Other editions of the same operators sit beside this one on the <a href="../paeleo/allways/editions.html">editions page</a>.</p></div></section>
+<p class="note">Other runs at the same operators are listed in the <a href="../paeleo/allways/#runs">Runs section of ALLWAYS</a>.</p></div></section>
 <section><h2>The films</h2><div class="fgrid">{grid}</div></section>
-<section id="method"><h2>How the edition was made</h2>
+<section id="method"><h2>How the run was made</h2>
 <ol class="steps wide"><li><b>Index</b><span>{stats["shots"]:,} archive shots held in a local cache: {stats["clips"]} clips with sound, {stats["loops"]} silent loops, {stats["stills"]:,} stills, each with the archive queries that returned it, CLIP subjects, colour and sound features.</span></li>
 <li><b>Forage</b><span>Text search first, then shape, colour and sound scans, then eyes: contact sheets of every clip, read frame by frame. The archive’s own search was unreachable, so nothing was searched live.</span></li>
 <li><b>Choose</b><span>Each shot picked for what its frames show, not for the words that found it. Substitutions for the prompts’ imagined scenes are listed in each film’s notes.</span></li>
@@ -296,16 +294,16 @@ def main():
 <li><b>Render</b><span>One renderer produces the film and a ledger: source film, year, archive page, time in the source and transform for every shot.</span></li>
 <li><b>Critic</b><span>A separate agent reviewed eight of the films from frame sheets and sound levels. It could not listen. Three films have not been reviewed yet.</span></li>
 <li><b>Repair</b><span>Four films repaired from the first round; four have open repairs. A human screening has not happened.</span></li></ol></section>
-<section id="limits"><h2>What this edition cannot claim</h2><ul class="plain">
+<section id="limits"><h2>What this run cannot claim</h2><ul class="plain">
 <li>Nobody has listened to or watched these at speed. Picture and sound were judged from still frames, cut lengths and sound-level plots.</li>
 <li>The critic is an AI agent. Its verdicts are readings, not audience results.</li>
 <li>The prompts imagine newly filmed material. These are found-footage substitutes, and each film says what it had to swap.</li>
 <li>Source footage keeps its holders’ rights; this is a research proof, not a release.</li></ul></section>
 <section id="files"><h2>Everything else</h2><div class="links">
 <a href="atlas.html">Atlas of all 405 local sound clips</a><a href="BRIEF.md">The shared brief</a><a href="CRITIC-ROUND-1.md">Critic round 1, with the repair log</a><a href="assignments.json">Assignments as sent</a>
-<a href="../tools/allways-forage/README.md">The forage toolkit</a><a href="edition.json">edition.json</a></div>
+<a href="../tools/allways-forage/README.md">The forage toolkit</a></div>
 <div class="pbar big" style="margin-top:22px"><button type="button" class="btn solid" data-copy="p-brief">Copy the shared brief</button></div><script type="text/plain" id="p-brief">{BRIEF.replace("</script", "<\\/script")}</script></section>
-</main><footer><div class="wrap"><div class="footer-row"><p>ALLWAYS Sonnet edition · a cinema practice by Watson Hartsoe within PAELEO.</p></div></div></footer>{JS}</body></html>'''
+</main><footer><div class="wrap"><div class="footer-row"><p>ALLWAYS Sonnet run · a cinema practice by Watson Hartsoe within PAELEO.</p></div></div></footer>{JS}</body></html>'''
     (ED / 'index.html').write_text(ghfix(idx_page, 'allways-sonnet'))
     # ---- atlas
     at = json.load(open(ED / 'atlas' / 'atlas.json'))
@@ -316,10 +314,7 @@ def main():
 <main id="main" class="wrap"><section class="caseTop one"><div><span class="label">The forage floor</span><h1>Atlas</h1><p class="lede">All 405 local sound clips, eight frames across each, sorted by film title. Each row shows its number, the first eight letters of its id and its film. Most films in this edition were picked from these sheets by eye.</p>
 <label class="find" for="q">Find a film</label><input id="q" type="search" placeholder="title, year or id" autocomplete="off"><ul id="hits" class="hits"></ul></div></section>{secs}</main>
 <script>var R={rows};var q=document.getElementById('q'),h=document.getElementById('hits');q.addEventListener('input',function(){{var s=q.value.trim().toLowerCase();h.textContent='';if(s.length<2)return;R.filter(function(r){{return (r[3]+' '+r[4]+' '+r[2]).toLowerCase().indexOf(s)>=0}}).slice(0,40).forEach(function(r){{var li=document.createElement('li'),a=document.createElement('a');a.href='#s'+(Math.floor(r[0]/24)*24);a.textContent='row '+r[0]+' · '+r[3]+' ('+(r[4]||'undated')+') · '+r[2];li.appendChild(a);h.appendChild(li)}})}});</script></body></html>''')
-    json.dump({'id': 'allways-sonnet', 'label': 'Sonnet', 'made': '2026-10-31', 'operators': [55, 65],
-               'summary': 'Eleven conceptual microfilms (SCION 055–065) foraged and cut by hand from movingimagearchive.com footage, each with a case study.',
-               'status': 'published', 'page': './', 'cover': '059-ball/poster.jpg', 'films': edition_films}, open(ED / 'edition.json', 'w'), indent=1, ensure_ascii=False)
-    print('edition index, atlas, edition.json written')
+    print('run index and atlas written')
 
 
 if __name__ == '__main__':

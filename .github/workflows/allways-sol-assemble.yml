@@ -1,0 +1,36 @@
+name: Assemble ALLWAYS SOL media
+on:
+  push:
+    branches: [allways-sol-stage]
+    paths:
+      - 'allways-sol/**'
+      - '.github/workflows/allways-sol-assemble.yml'
+permissions:
+  contents: write
+concurrency:
+  group: allways-sol-assembly
+  cancel-in-progress: false
+jobs:
+  assemble:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          sparse-checkout: |
+            allways-sol
+            .github/workflows
+      - name: Preserve changes already on main
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git fetch origin main:refs/remotes/origin/main --filter=blob:none --deepen=100
+          git merge --no-edit origin/main
+      - name: Reconstruct and verify ordinary MP4 files
+        run: python3 allways-sol/assemble_media.py
+      - name: Commit verified films to main
+        run: |
+          git add allways-sol
+          git commit -m 'Publish verified ALLWAYS 055–078 films, comparisons and critics'
+          git push origin HEAD:main

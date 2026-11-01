@@ -1,0 +1,68 @@
+{
+  "revision": "V03",
+  "duration_seconds": 50,
+  "expected_video_frames": 1500,
+  "source_audio": "same compiled stream in main/control; no fabricated contact sound",
+  "transformation_status": "observed archive actions; staged advertising identified; all cross-sample joins constructed analogies",
+  "geometric_transform": "uniform fitting; finalpaper matched crop declared",
+  "files": [
+    {
+      "file": "ALLWAYS_061_ENDPOINT_CONTROL_V03.mp4",
+      "sha256": "7fbb143781209da5adfd7db2b300a91e60926b294613ee9b01ed959d6d50b5d2",
+      "probe": {
+        "programs": [],
+        "streams": [
+          {
+            "codec_type": "video",
+            "width": 960,
+            "height": 768,
+            "duration": "50.000000",
+            "nb_read_frames": "1500"
+          },
+          {
+            "codec_type": "audio",
+            "duration": "50.000000",
+            "nb_read_frames": "2344"
+          }
+        ]
+      }
+    },
+    {
+      "file": "ALLWAYS_061_WHAT_STAYS_V03.mp4",
+      "sha256": "4416d16da04b1833e69fa95dbb3aaa6f16854a68bd7ff321f15579bf849ce81e",
+      "probe": {
+        "programs": [],
+        "streams": [
+          {
+            "codec_type": "video",
+            "width": 960,
+            "height": 768,
+            "duration": "50.000000",
+            "nb_read_frames": "1500"
+          },
+          {
+            "codec_type": "audio",
+            "duration": "50.000000",
+            "nb_read_frames": "2344"
+          }
+        ]
+      }
+    }
+  ],
+  "full_decode": {
+    "main_V03": "ffmpeg -xerror complete successful",
+    "control_V03": "ffmpeg -xerror complete successful"
+  },
+  "decoded_audio_sha256_main_control": [
+    "83d81b30386ea9247b36886f717912f9625dc7051a7d2c80ea489a1e9d04fb00",
+    "83d81b30386ea9247b36886f717912f9625dc7051a7d2c80ea489a1e9d04fb00"
+  ],
+  "decoded_audio_equal": true,
+  "audio_review": "No listening assessment; equal waveform does not certify contact recording",
+  "header_fix_sample_check": {
+    "scope": "actual38s comparison frames V02vsV03 belowheader80px",
+    "mean_absolute_rgb_difference": 0.24442274305555556,
+    "fraction_difference_gt30": 0.0,
+    "interpretation": "sampled comparator content unchanged apart from low-level encoding noise; not framewisewholefilmidentity"
+  }
+}

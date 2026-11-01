@@ -1,0 +1,181 @@
+{
+  "units": [
+    {
+      "variant": "ALLWAYS_078_A_FORM_THEN_A_PAGE_V02",
+      "source": "batch74_78/media/papermans_paper_512kb.mp4",
+      "interval": [
+        124,
+        129
+      ],
+      "output": [
+        3.0,
+        8.0
+      ],
+      "label": "Q / a dark printing form / source unit before the cut",
+      "same_object_across_cuts": false,
+      "retiming": false
+    },
+    {
+      "variant": "ALLWAYS_078_A_FORM_THEN_A_PAGE_V02",
+      "source": "batch74_78/media/Printing1947_512kb.mp4",
+      "interval": [
+        303,
+        330
+      ],
+      "output": [
+        13.0,
+        40.0
+      ],
+      "label": "P / FORM LABOUR / a separate industrial record",
+      "same_object_across_cuts": false,
+      "retiming": false
+    },
+    {
+      "variant": "ALLWAYS_078_A_FORM_THEN_A_PAGE_V02",
+      "source": "batch74_78/media/Printing1947_512kb.mp4",
+      "interval": [
+        330,
+        345
+      ],
+      "output": [
+        40.0,
+        55.0
+      ],
+      "label": "P / PAPER AND PRESS / original source cuts retained",
+      "same_object_across_cuts": false,
+      "retiming": false
+    },
+    {
+      "variant": "ALLWAYS_078_A_FORM_THEN_A_PAGE_V02",
+      "source": "batch74_78/media/papermans_paper_512kb.mp4",
+      "interval": [
+        125,
+        146
+      ],
+      "output": [
+        57.0,
+        78.0
+      ],
+      "label": "Q / form, then printed page / source-native cut retained",
+      "same_object_across_cuts": false,
+      "retiming": false
+    },
+    {
+      "variant": "ALLWAYS_078_A_FORM_THEN_A_PAGE_V02",
+      "source": "batch74_78/media/papermans_paper_512kb.mp4",
+      "interval": [
+        146,
+        160
+      ],
+      "output": [
+        78.0,
+        92.0
+      ],
+      "label": "Q / the publication is handled and read",
+      "same_object_across_cuts": false,
+      "retiming": false
+    },
+    {
+      "variant": "ALLWAYS_078_A_FORM_THEN_A_PAGE_V02",
+      "source": "batch74_78/media/papermans_paper_512kb.mp4",
+      "interval": [
+        129.25,
+        135.75
+      ],
+      "output": [
+        108.0,
+        114.5
+      ],
+      "label": "RETURN / the printed page is lifted and displayed",
+      "same_object_across_cuts": false,
+      "retiming": false
+    },
+    {
+      "variant": "ALLWAYS_078_SOURCE_CONTEXTS_V02",
+      "source": "batch74_78/media/Printing1947_512kb.mp4",
+      "interval": [
+        303,
+        345
+      ],
+      "output": [
+        3.0,
+        45.0
+      ],
+      "label": "P / continuous source interval; native camera cuts retained",
+      "same_object_across_cuts": false,
+      "retiming": false
+    },
+    {
+      "variant": "ALLWAYS_078_SOURCE_CONTEXTS_V02",
+      "source": "batch74_78/media/papermans_paper_512kb.mp4",
+      "interval": [
+        124,
+        160
+      ],
+      "output": [
+        45.0,
+        81.0
+      ],
+      "label": "Q / form-to-page cut / subsequent lift and readership",
+      "same_object_across_cuts": false,
+      "retiming": false
+    }
+  ],
+  "opening": {
+    "source": "Q",
+    "interval": [
+      124,
+      129
+    ],
+    "held_reference": 128
+  },
+  "repair": "V01 unchanged tape return replaced by visible form/page state pair and continuous printed-page lift/display",
+  "source_cut": {
+    "approximate_time": 129.196,
+    "separates": "bare form camera unit from already printed page setup",
+    "claim": "no same individual form/sheet or observed blank-paper impression asserted"
+  },
+  "ending": {
+    "moving_unit": [
+      129.25,
+      135.75
+    ],
+    "output": [
+      108,
+      114.5
+    ],
+    "hold_output": [
+      114.5,
+      118
+    ],
+    "evidence": "durable printed trace visible while lifted/displayed within post-cut unit",
+    "reprise": true
+  },
+  "material_edges": [
+    {
+      "from": "form",
+      "to": "printed page",
+      "status": "source-native editorial association / class contrast, not tracked transformation"
+    },
+    {
+      "from": "printed page",
+      "to": "readers",
+      "status": "same source record, object-instance identity unverified"
+    },
+    {
+      "from": "readership",
+      "to": "return",
+      "status": "editorial state comparison, no physical renewal asserted"
+    }
+  ],
+  "verified_within_unit": "post-cut page flat\u2192lifted/displayed,129.25\u2013135.75",
+  "absent": [
+    "cleanup",
+    "reuse",
+    "new observed post-shift room",
+    "closed material cycle"
+  ],
+  "music": "new numerical phrase with altered harmonic mixture; original source tracks muted",
+  "original_full_cycle_status": "unperformed/inconclusive, not supplied by a caption",
+  "native_AV": "not auditioned"
+}

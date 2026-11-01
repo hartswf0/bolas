@@ -1,0 +1,14 @@
+SCION058 / CURRENT CHECKPOINT
+
+058 is unfinished. Descript is now connected; its Underlord tools supply transcripts but explicitly do not listen or classify sound. A local official YAMNet classifier is operational and has screened22 accessible files. One final-window candidate in cooking-class clip319 scores0.5859375 for Laughter;21 sources have no threshold hits. This is not a listening verdict, a complete laugh/recovery, or proof of absence in the rest.
+
+Three additional archive excerpts successfully imported into Descript; the combined composition is36.950117s and has not been published. Direct media fetches are403, native export returned no tool-readable file, and timeline export is plan-restricted. Next concrete action is a private publish/export link for that composition, pending explicit user authorization under the Descript publish-project skill. See descript/SESSION_STATE.json for exact project/composition IDs and resume conversation ID.
+
+No generated laughter, no fabricated source reactions and no finished-film or auditory critic pass is claimed. The original context reel remains preparatory.
+
+CLASSIFIER REBUILD
+Install requirements-audio.txt (plus ffmpeg). Run:
+ python3 film58/classify_audio.py film58/forage/*.mp4 film58/expanded_cache/*.mp4 --output film58/ALL_22_AUDIO_SCORES.json
+The exact official model, its embedded labels, SHA256 and Apache2.0 license are bundled. Runtime installation itself is not bundled.
+
+The original context reel can be rebuilt with make_review.py using numpy,scipy,Pillow,ffmpeg. See the original historical status and independent visual-context critic for earlier observations.

@@ -1,6 +1,6 @@
 # Brief given to each film-making agent
 
-This is the shared brief used for every film in the ALLWAYS Sonnet edition. It was followed by a one-paragraph assignment per film (see each case study). Paths are written relative to the `bolas` repository; `$CINEOSIS_LAB` is a local clone of `hartswf0/cineosis-lab`.
+This is the shared brief used for every film in the ALLWAYS Sonnet run. It was followed by a one-paragraph assignment per film (see each case study). Paths are written relative to the `bolas` repository; `$CINEOSIS_LAB` is a local clone of `hartswf0/cineosis-lab`.
 
 ---
 

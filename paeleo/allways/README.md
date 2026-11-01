@@ -18,6 +18,7 @@ Its question is **what else was happening?** Its name joins *always* and *all wa
 - [Editorial decisions](EDITORIAL.md): what the competing drafts contributed and what changed.
 - [SCION operator](operator.html): search, read, copy, and download all 59 new prompts, IDs 055–113.
 - [SCION files](scion/README.md): individual prompts, registry JSON, source audit, complete book, and reviews.
+- [Runs](RUNS.md): how a maker adds a run. [allways-opus](../../allways-opus/) made the twelve proofs of the slate, with every search, cut, review and prompt kept. [allways-sol](../../allways-sol/) is its own site for operators 055–078.
 
 ## One practice, distinct roles
 
@@ -32,16 +33,12 @@ Its question is **what else was happening?** Its name joins *always* and *all wa
 
 ## Status
 
-The statement, development slate, and 59 prompt specifications are published here. The first batch of archive proofs, SCION 055–065 cut by hand from movingimagearchive.com footage, is in the [Sonnet edition](../../allways-sonnet/) with edit lists, source ledgers, forage logs and a first critic round. These are proofs in progress, not released works. The twelve named ALLWAYS films remain concepts. The proposed proof scenes in the new prompt corpus have not yet been executed. Reference films are cited as lineages, not claimed as our productions.
+The statement, development slate, and 59 prompt specifications are published here. The twelve named ALLWAYS works remain development concepts. Runs by different makers have attempted their proofs (see the Runs section of the landing page and RUNS.md); a proof is not a released work, and one blind critic's narrow pass is the strongest verdict any of the twelve has had. Reference films are cited as lineages, not claimed as our productions.
 
 Earlier work remains under its established project names: [Afterlight](../../afterlight/), [The Found Odyssey](../../found-odyssey/), [CINEOSIS](../../cineosis/), [WYGWYL](../../wygwyl/), and [PAELEO's handmade threshold studies](../handmade/). The ALLWAYS page connects to these precedents without changing their credits or production status.
 
-## Editions
-
-Each maker's pass at the operators is an *edition*, listed in [`editions.json`](editions.json) and compared by operator on the [editions page](editions.html). Editions sit at the repository root: [allways-sonnet](../../allways-sonnet/) (eleven films with a case study each: forage images, the reason for every shot, critic round, copyable prompts) and [allways-sol](../../allways-sol/) (SCION 055–078). Gemini and Argon editions are expected; [EDITIONS.md](EDITIONS.md) says how to add one.
-
 ## Source and build
 
-`works.json` is the structured development slate. The Markdown files above are the editorial sources. Run `python3 tools/allways/build.py` from the repository root to rebuild the landing page; the script uses the Python standard library and preserves the independent SCION reader and corpus. Styling is in `allways.css`.
+`works.json` is the structured development slate. The Markdown files above are the editorial sources. Run `python3 tools/allways/build.py` from the repository root to rebuild the landing page; the script uses the Python standard library and preserves the independent SCION reader and corpus. Styling is in `allways.css` and, for runs, `run.css`. `python3 tools/allways/runs.py` builds the run and case-study pages from each generated run's JSON, and `build.py` reads `runs.json` for the landing page's Runs section.
 
 Existing PAELEO and homepage build sources include links to this section. The original 54-prompt animation operator remains separate and unchanged. No new license for earlier media is implied by these pages; each work retains its source-specific terms and credits.

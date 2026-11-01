@@ -1,0 +1,89 @@
+{
+  "participants": [
+    {
+      "id": "P1",
+      "description": "Chaplin staged character, dark coat/bowler; person physically restrained and accused"
+    },
+    {
+      "id": "P2",
+      "description": "younger woman at right; participates in money discovery and addresses uniformed figure"
+    },
+    {
+      "id": "P3",
+      "description": "older woman held by P2 in earlier context; film intertitle says mother lost her money"
+    },
+    {
+      "id": "P4",
+      "description": "uniformed figure restraining P1; not assigned a real-world diagnosis/identity"
+    }
+  ],
+  "boundaries": [
+    {
+      "id": "E1",
+      "source": [
+        396,
+        428
+      ],
+      "visible": "source lost-money intertitle; three-person arrangement; P1 handles money, reaches toward P2 near pocket, withdraws hand; source cuts to observing uniformed figure",
+      "interpretation_limit": "covert transfer is inferred from hand direction and later discovery, not a visible banknote close-up or access to motive",
+      "retained_ranges": [
+        [
+          396,
+          404
+        ],
+        [
+          412,
+          428
+        ]
+      ],
+      "omitted_counting": [
+        404,
+        412
+      ]
+    },
+    {
+      "id": "E2",
+      "source": [
+        430,
+        443
+      ],
+      "visible": "uniformed figure contacts/restrains P1; P1 gestures; original intertitle accuses him of pickpocketing",
+      "ownership": "original same-source scene. Restriction conceals power relation temporarily; control reveals it immediately"
+    },
+    {
+      "id": "E3",
+      "source": [
+        443,
+        457
+      ],
+      "visible": "P2 checks/displays money and addresses P4; P1 gestures; all three remain engaged; P4 demeanor begins changing before cut. No apology is certified.",
+      "ownership": "original continuation of E2; no borrowed reaction",
+      "interpretation_limit": "revises accusation within staged fiction; does not establish real actor motives or facts about a social group"
+    }
+  ],
+  "editorial_label_history": [
+    {
+      "version": "V02",
+      "label": "IN THE FRAME",
+      "reason": "does not call any person a loser; accusation is original fiction intertitle, not our narrator"
+    },
+    {
+      "version": "V02",
+      "label": "Moments earlier / Back at the encounter",
+      "reason": "make source reordering explicit"
+    }
+  ],
+  "staging": "persistent on-screen STAGED FICTION label; not a newly commissioned performance or claim of contemporary performer consent",
+  "protected": "All reactions remain attached to their original scene. Silent output cannot fabricate spoken responses.",
+  "repair_history": [
+    {
+      "version": "V01",
+      "independent_response": "Two critics passed core reframing; A questioned tidy departure; B questioned long counting and transfer clarity."
+    },
+    {
+      "version": "V02",
+      "changes": "Remove source404\u2013412 redundant counting; retain426\u2013428 immediate aftermath; end at457 beforedeparture. 61s instead70s.",
+      "protect": "originalobserverinsert/same-scenereactions; no explanatorygiftassertion; samecontroltimeline"
+    }
+  ]
+}

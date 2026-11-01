@@ -1,0 +1,33 @@
+{
+  "scope": "Technical validation of preparatory context reel ONLY",
+  "decode": "passed",
+  "duration": 51,
+  "picture_frames": 1275,
+  "audio_video_duration_match": "passed",
+  "raw_audio_clipping": "not introduced",
+  "cross_source_audio_overlap": false,
+  "acoustic_laughter_verification": "not performed",
+  "finished_film_acceptance": "not established",
+  "sha256": "efac2f03ea1f530cdac870006c96d5c2ab4d41a85be04df3b159cbb2f12edca5",
+  "ffprobe": {
+    "programs": [],
+    "streams": [
+      {
+        "codec_type": "video",
+        "width": 960,
+        "height": 720,
+        "duration": "51.000000",
+        "nb_frames": "1275"
+      },
+      {
+        "codec_type": "audio",
+        "duration": "51.000000",
+        "nb_frames": "2392"
+      }
+    ],
+    "format": {
+      "duration": "51.000000",
+      "size": "11250770"
+    }
+  }
+}

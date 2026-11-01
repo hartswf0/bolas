@@ -1,0 +1,54 @@
+{
+  "ALLWAYS_056_IN_DIFFERENT_HANDS_V02.mp4": {
+    "decode": "passed",
+    "ffprobe": {
+      "programs": [],
+      "streams": [
+        {
+          "codec_type": "video",
+          "width": 720,
+          "height": 1248,
+          "r_frame_rate": "25/1",
+          "duration": "35.000000",
+          "nb_frames": "875"
+        },
+        {
+          "codec_type": "audio",
+          "r_frame_rate": "0/0",
+          "duration": "35.000000",
+          "nb_frames": "1642"
+        }
+      ],
+      "format": {
+        "duration": "35.000000",
+        "size": "10071744"
+      }
+    }
+  },
+  "ALLWAYS_056_SEQUENTIAL_CONTROL_V02.mp4": {
+    "decode": "passed",
+    "ffprobe": {
+      "programs": [],
+      "streams": [
+        {
+          "codec_type": "video",
+          "width": 720,
+          "height": 624,
+          "r_frame_rate": "25/1",
+          "duration": "60.000000",
+          "nb_frames": "1500"
+        }
+      ],
+      "format": {
+        "duration": "60.000000",
+        "size": "9884518"
+      }
+    }
+  },
+  "panel_identity_and_timing": "passed",
+  "no_hidden_crops_mirrors_or_speed_changes": "passed",
+  "score_no_clipping": "passed",
+  "closing_silence": "passed",
+  "technical_checks_are_not_artistic_approval": true,
+  "critics_reviewed_same_750_picture_frames": "passed"
+}

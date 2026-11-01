@@ -1,0 +1,103 @@
+{
+  "events": [
+    {
+      "time": 5,
+      "sign": "unfold",
+      "response": [
+        5.3,
+        9
+      ],
+      "status": "obey"
+    },
+    {
+      "time": 13,
+      "sign": "turn",
+      "response": [
+        13.3,
+        17
+      ],
+      "status": "obey"
+    },
+    {
+      "time": 17,
+      "sign": "unfold",
+      "response": [
+        17.3,
+        20
+      ],
+      "status": "obey"
+    },
+    {
+      "time": 24,
+      "sign": "turn",
+      "response": [
+        24.3,
+        27
+      ],
+      "status": "obey"
+    },
+    {
+      "time": 27,
+      "sign": "repeat",
+      "response": [
+        27.3,
+        33
+      ],
+      "status": "obey with accumulating creases"
+    },
+    {
+      "time": 33,
+      "sign": "repeat",
+      "response": [
+        33.3,
+        39
+      ],
+      "status": "obey with adjustment"
+    },
+    {
+      "time": 39,
+      "sign": "repeat",
+      "response": [
+        39.3,
+        44
+      ],
+      "status": "refuse; hold fold; turn sign-bearing tray face down"
+    },
+    {
+      "time": 45,
+      "sign": "repeat",
+      "response": [
+        45,
+        50
+      ],
+      "status": "expected cue omitted; no sign surface remains"
+    }
+  ],
+  "scene_output_offset": 7,
+  "rules": {
+    "unfold": "open the folded sheet",
+    "turn": "rotate sheet90 degrees",
+    "repeat": "repeat a fold/unfold demand; the sign occupies the put-away tray"
+  },
+  "physical_consequence": "authored accumulating crease lines and uneven edges, not a physical mechanics simulation",
+  "intention": "fold paper and put it into the tray",
+  "refusal": "after local39 cue the puppet keeps folded paper and turns the sign-bearing tray face down; next expected45 cue omitted",
+  "layer_order": [
+    "background",
+    "puppet head/torso",
+    "table",
+    "tray",
+    "signs",
+    "paper",
+    "arms/hands"
+  ],
+  "sound": "new numerical tones and stylized noise texture, no archival contact audio or real foley claimed",
+  "archive_source": {
+    "file": "film61/forage/200400_Fold_Paper_Cartons_master.intros.mp4",
+    "interval": [
+      28,
+      32
+    ]
+  },
+  "audition": "not performed"
+}

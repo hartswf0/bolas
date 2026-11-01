@@ -1,0 +1,84 @@
+{
+  "revision": "V03",
+  "samples": [
+    {
+      "sample": "P",
+      "identity": "printed/pre-creased carton stock; formulation unknown",
+      "status": "recorded industrial time-study task, not our original experiment",
+      "source_intervals": [
+        [
+          27.5,
+          37.5
+        ],
+        [
+          37.5,
+          45.5
+        ]
+      ],
+      "before": "carton already partly erected; not a pristine dry sheet",
+      "contact": "fingers act on flaps/edges",
+      "visible_response": "panels/flaps change angle; carton assembled and handled",
+      "after": "hands may still hold/work material; no unloaded recovery test",
+      "landmarks": "printed front wall, top flaps and edges, supporting fingers",
+      "comparison_crop": [
+        160,
+        255,
+        630,
+        475
+      ],
+      "comparison_source_times": [
+        27.5,
+        36.0
+      ],
+      "sample_identity_limit": "second passage is the next carton task shown in the source; no unique physical sample tracking or changed-load trial"
+    },
+    {
+      "sample": "W",
+      "identity": "white paper towel in dark liquid, advertising demonstration; liquid chemistry/preparation unknown",
+      "status": "staged advertising demonstration, not an independent controlled experiment",
+      "source_intervals": [
+        [
+          21.1,
+          26.1
+        ]
+      ],
+      "before": "light sheet edge adjacent to dark pool; source contains entry dissolve",
+      "contact": "sheet edge reaches liquid in the same supplied shot",
+      "visible_response": "dark front spreads upward through sheet",
+      "after": "darkened sheet remains in contact; no drying/recovery shown",
+      "landmarks": "bottom contact edge, boundary of dark front, embossed sheet texture",
+      "comparison_crop": null,
+      "comparison_source_times": [
+        21.8,
+        25.0
+      ],
+      "limits": "source speed, preparation, possible production manipulations and mechanism not independently authenticated; visible change is not a quantitative absorption test; advertising words remain source claims"
+    },
+    {
+      "sample": "S",
+      "identity": "machined metal and curled swarf; title says steel, exact alloy unknown",
+      "status": "recorded industrial process; cutting already underway",
+      "source_intervals": [
+        [
+          0,
+          10
+        ]
+      ],
+      "source_offset": 384.551,
+      "before": "cutting tool engaged and curl already present",
+      "contact": "tool/workpiece contact remains in view",
+      "visible_response": "curl grows; fragments separate/fly; cutting continues",
+      "after": "later active cutting state, not relaxed/recovered endpoint",
+      "landmarks": "tool edge, workpiece top/contact line, spiral strand and separated chips",
+      "comparison_crop": null,
+      "comparison_source_times": [
+        1.2,
+        5.2
+      ],
+      "limits": "no claim of irreversible deformation, hardness, alloy composition or recovery inferred from these shots"
+    }
+  ],
+  "editing": "all sample-to-sample joins constructed associations, not physical continuations; explicit analogy card17\u201319; return marked another carton; end is separate-source selected states",
+  "transform": "uniform fit to960x720 above48pxfooter; no retiming beyond fps normalization; no simulated physical response; final paper pairs use same declared crop; all originals retained",
+  "comparison_states": "COMPARISON_STATES_V03.json"
+}
