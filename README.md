@@ -15,6 +15,7 @@ Live: https://hartswf0.github.io/bolas/
 - [This Side Up](this-side-up/): case studies of the cardboard cut-out films, each with a full case page of versions, prompts, critic rounds and sheets
 - [PAELEO](paeleo/): Promptable Augmented Environments Lab · Ekphrastic Operations. One research program at three scales (AEL, PEO, PAELEO); its films are made with the SCION swarms, all 54 of which are written up and shown through the same paper dog at [paeleo/scion/](paeleo/scion/); six of them make the same scene from the bottom up at [paeleo/handmade/](paeleo/handmade/)
 - [ALLWAYS](paeleo/allways/): Cinema from the rest of the frame. The studio philosophy and [59 new cinema, documentary and interactive SCION prompts, 055–113](paeleo/allways/operator.html), with source notes and proposed proof scenes.
+- [ALLWAYS / SOL](allways-sol/): Watch the first 23 completed archive adaptations, 16 comparison edits and the full critic records for operators 055–078. 058 remains an unfinished source study.
 - [Characters](characters/) · [Films](films/) (26) · [Process](process/) · [Docs and prompts](docs/)
 - Lab pages: [Bolas Pencil Test](lab/pencil-test/) · [Bolas Range Test](lab/range-test/) · [The Physical](lab/the-physical/) · [Dramaturgy Crash Lab](lab/crash-lab/)
 
