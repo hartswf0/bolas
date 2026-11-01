@@ -1,0 +1,202 @@
+{
+ "id": "063-breath",
+ "title": "Breath \u2014 Invisible Force, Visible Consequence (archive draft)",
+ "size": [
+  640,
+  480
+ ],
+ "fps": 24,
+ "source_gain_db": 0,
+ "score": null,
+ "events": [
+  {
+   "dur": 3.75,
+   "label": "HUMAN / inhale: a young man draws on a cigarette as the lighter is held to it; the draw is breath, its trace (the lit tip, a faint haze at the end) barely visible in daylight. Source voices are NOT his breath (his mouth is closed on the cigarette) -> source audio muted, recorded here (Ask Me, Don't Tell Me, 1961)",
+   "fade_in": 0.5,
+   "layers": [
+    {
+     "src": "cde56cc9-0c21-5742-8baa-89c4aa3cbbae",
+     "media": "clip",
+     "in": 1.95,
+     "box": [
+      0,
+      0,
+      1,
+      1
+     ],
+     "fit": "cover",
+     "audio": false,
+     "afade_in": 0.05,
+     "afade_out": 0.12
+    }
+   ]
+  },
+  {
+   "dur": 0.9,
+   "label": "rest: black, digital silence (unequal recovery)"
+  },
+  {
+   "dur": 9.35,
+   "label": "HUMAN / exhale shaped as song: singer in close-up, sync song with accompaniment; the audible breaks in the voice near 4.0 s and 8.9 s of the source are his intakes of breath (spectrogram gaps + mouth closing), cut just after the second (Under Western Stars, Republic feature; index year blank)",
+   "layers": [
+    {
+     "src": "233bd201-4769-5637-9c20-462a82689d3c",
+     "media": "clip",
+     "in": 0.0,
+     "box": [
+      0,
+      0,
+      1,
+      1
+     ],
+     "fit": "cover",
+     "audio": true,
+     "afade_in": 0.05,
+     "afade_out": 0.12
+    }
+   ]
+  },
+  {
+   "dur": 5.3,
+   "label": "BRIDGE that exists in the source: the same singer, full figure on stage, while film of a rolling dust storm is projected behind him; voice and wind are joined by that film, not by this edit (Under Western Stars, source t=33.2)",
+   "layers": [
+    {
+     "src": "233bd201-4769-5637-9c20-462a82689d3c",
+     "media": "clip",
+     "in": 33.2,
+     "box": [
+      0,
+      0,
+      1,
+      1
+     ],
+     "fit": "cover",
+     "audio": true,
+     "afade_in": 0.05,
+     "afade_out": 0.12
+    }
+   ]
+  },
+  {
+   "dur": 7.6,
+   "label": "ENVIRONMENTAL wind: a sail cart driven across sand; the cause is unseen, the bellied sail is the trace. Source narration muted (recorded) (The American Road, 1953)",
+   "layers": [
+    {
+     "src": "c0ae8b26-775b-506d-9e73-95148566ec2c",
+     "media": "clip",
+     "in": 0.0,
+     "box": [
+      0,
+      0,
+      1,
+      1
+     ],
+     "fit": "cover",
+     "audio": false,
+     "afade_in": 0.05,
+     "afade_out": 0.12
+    }
+   ]
+  },
+  {
+   "dur": 3.0,
+   "label": "MECHANICAL: the machine is shown first, then the burst of steam/smoke it releases (Master Hands, silent loop)",
+   "layers": [
+    {
+     "src": "642c98e9-31df-5c92-b9bd-8b2f9fd3aaf9",
+     "media": "loop",
+     "in": 0.0,
+     "box": [
+      0,
+      0,
+      1,
+      1
+     ],
+     "fit": "cover",
+     "audio": false,
+     "afade_in": 0.05,
+     "afade_out": 0.12
+    }
+   ]
+  },
+  {
+   "dur": 9.2,
+   "label": "MECHANICAL: a jet of steam from plant machinery expands and thins; silent print (Steel Mill, 1937 \u2014 same shot also appears in The River, 1937, with score)",
+   "layers": [
+    {
+     "src": "8990d9ac-15a6-51c6-977c-6fe022845e77",
+     "media": "clip",
+     "in": 0.0,
+     "box": [
+      0,
+      0,
+      1,
+      1
+     ],
+     "fit": "cover",
+     "audio": true,
+     "afade_in": 0.05,
+     "afade_out": 0.12
+    }
+   ]
+  },
+  {
+   "dur": 4.6,
+   "label": "MECHANICAL: stack steam billowing; source score muted (recorded) (Valley Town, 1940)",
+   "layers": [
+    {
+     "src": "8b6bda0f-783b-5a25-94a2-0be543261165",
+     "media": "clip",
+     "in": 0.0,
+     "box": [
+      0,
+      0,
+      1,
+      1
+     ],
+     "fit": "cover",
+     "audio": false,
+     "afade_in": 0.05,
+     "afade_out": 0.12
+    }
+   ]
+  },
+  {
+   "dur": 0.7,
+   "label": "rest: black, digital silence"
+  },
+  {
+   "dur": 9.5,
+   "label": "RELEASE / stillness: valley mist lying almost unmoved; no source audio; the absence of motion after wind and steam (Valley Fog, 2006)",
+   "layers": [
+    {
+     "src": "151521f7-95ef-59b2-b39e-18d2c7a0c37a",
+     "media": "clip",
+     "in": 0.0,
+     "box": [
+      0,
+      0,
+      1,
+      1
+     ],
+     "fit": "cover",
+     "audio": true,
+     "afade_in": 0.05,
+     "afade_out": 0.12
+    }
+   ],
+   "fade_out": 1.5
+  },
+  {
+   "dur": 3.5,
+   "label": "source card",
+   "fade_in": 0.4,
+   "card": {
+    "lines": [
+     "Sources: movingimagearchive.com \u00b7 see ledger"
+    ],
+    "size": 20
+   }
+  }
+ ]
+}
