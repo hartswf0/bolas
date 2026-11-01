@@ -1,0 +1,68 @@
+{
+  "revision": "V02",
+  "expected_duration": 61,
+  "expected_frames": 1830,
+  "same_source_order": true,
+  "same_sound": "digital silence",
+  "staging_label": "present on all generated frames by common base() compositor; manually inspected sheets across whole films",
+  "source_title_year": "persistent footer",
+  "source_reactions": "same-source intervals; map retained",
+  "probes": [
+    {
+      "file": "ALLWAYS_060_IN_THE_FRAME_V02.mp4",
+      "sha256": "24676625cc76926d36e5ee12468346858aec848454e36105235552165a108d2d",
+      "probe": {
+        "programs": [],
+        "streams": [
+          {
+            "codec_type": "video",
+            "width": 960,
+            "height": 768,
+            "duration": "61.000000",
+            "nb_read_frames": "1830"
+          },
+          {
+            "codec_type": "audio",
+            "duration": "61.000000",
+            "nb_read_frames": "2860"
+          }
+        ]
+      }
+    },
+    {
+      "file": "ALLWAYS_060_WIDE_OPENING_V02.mp4",
+      "sha256": "114085d1cebb08ee0bbdc90efc16e6a9f39736fb0b1822e1460ab603aa52a865",
+      "probe": {
+        "programs": [],
+        "streams": [
+          {
+            "codec_type": "video",
+            "width": 960,
+            "height": 768,
+            "duration": "61.000000",
+            "nb_read_frames": "1830"
+          },
+          {
+            "codec_type": "audio",
+            "duration": "61.000000",
+            "nb_read_frames": "2860"
+          }
+        ]
+      }
+    }
+  ],
+  "full_decode": {
+    "main": "ffmpeg -xerror successful",
+    "control": "ffmpeg -xerror successful"
+  },
+  "IN_THE_FRAME_audio": {
+    "decoded_max_abs_sample": 0,
+    "samples": 5857280,
+    "all_zero": true
+  },
+  "WIDE_OPENING_audio": {
+    "decoded_max_abs_sample": 0,
+    "samples": 5857280,
+    "all_zero": true
+  }
+}

@@ -1,5 +1,10 @@
 name: Assemble ALLWAYS SOL media
-on: workflow_dispatch
+on:
+  push:
+    branches: [allways-sol-stage]
+    paths:
+      - 'allways-sol/**'
+      - '.github/workflows/allways-sol-assemble.yml'
 permissions:
   contents: write
 concurrency:
@@ -20,7 +25,7 @@ jobs:
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git fetch origin main --deepen=100
+          git fetch origin main:refs/remotes/origin/main --filter=blob:none --deepen=100
           git merge --no-edit origin/main
       - name: Reconstruct and verify ordinary MP4 files
         run: python3 allways-sol/assemble_media.py

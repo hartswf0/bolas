@@ -1,0 +1,156 @@
+{
+  "coordinate_space": "960x640 fitted picture region, original aspect preserved; manual samples ~8px outline / ~24px approximate torso-landmark uncertainty (blur and pose)",
+  "curtain": {
+    "type": "static projected fabric outline",
+    "source_time": 3.8,
+    "samples": [
+      [
+        303.0,
+        420.0
+      ],
+      [
+        325.0,
+        435.0
+      ],
+      [
+        350.0,
+        449.0
+      ],
+      [
+        375.0,
+        455.0
+      ],
+      [
+        400.0,
+        451.0
+      ],
+      [
+        425.0,
+        441.0
+      ],
+      [
+        445.0,
+        423.0
+      ]
+    ],
+    "quadratic_coefficients_x_minus_375": [
+      -0.006518149381309275,
+      0.026420907399263845,
+      454.36004197272945
+    ],
+    "quadratic_vertical_rms_px": 1.185598675345792,
+    "catenary_family": {
+      "rms_vertical_px": 1.7413700287833715,
+      "scale": 800.0,
+      "linear_coefficients": [
+        -8370.613337889836,
+        8825.02355549207
+      ]
+    },
+    "claim": "Neither model identifies a physical law or chain shape; decorative fabric under unknown supports/perspective."
+  },
+  "diver": {
+    "type": "unregistered screen-space approximate torso-landmark positions, not world trajectory",
+    "samples_time_xy": [
+      [
+        1.2,
+        596.0,
+        282.0
+      ],
+      [
+        1.5,
+        614.0,
+        276.0
+      ],
+      [
+        1.8,
+        624.0,
+        240.0
+      ],
+      [
+        2.1,
+        556.0,
+        212.0
+      ],
+      [
+        2.4,
+        534.0,
+        226.0
+      ],
+      [
+        2.7,
+        484.0,
+        220.0
+      ],
+      [
+        3.0,
+        452.0,
+        234.0
+      ],
+      [
+        3.3,
+        444.0,
+        276.0
+      ]
+    ],
+    "parametric_quadratic_coefficients": [
+      [
+        -28.3068783068783,
+        35.476190476190396,
+        614.8571428571431
+      ],
+      [
+        55.95238095238091,
+        -263.6111111111109,
+        529.1785714285713
+      ]
+    ],
+    "rms_2d_px": 21.57717323381135,
+    "claim": "Camera follows; changing body pose and camera motion invalidate ballistic inference."
+  },
+  "steel": {
+    "type": "projected coil outline",
+    "source_time": 0.1,
+    "samples": [
+      [
+        518.0,
+        296.0
+      ],
+      [
+        470.0,
+        263.0
+      ],
+      [
+        436.0,
+        230.0
+      ],
+      [
+        421.0,
+        193.0
+      ],
+      [
+        448.0,
+        177.0
+      ],
+      [
+        500.0,
+        183.0
+      ],
+      [
+        567.0,
+        218.0
+      ],
+      [
+        615.0,
+        269.0
+      ]
+    ],
+    "quadratic_coefficients_x_minus_500": [
+      -0.001177277685278427,
+      0.3356125469511345,
+      234.37980959641231
+    ],
+    "rms_vertical_px": 36.22974363000345,
+    "claim": "Single-valued quadratic poorly describes curling material; not a measured helix or parabola."
+  }
+}

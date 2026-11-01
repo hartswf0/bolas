@@ -1,0 +1,41 @@
+ALLWAYS058 / AUDIO CLASSIFICATION AUDIT
+
+Current result: ONE tentative above-threshold laughter window among22 accessible clips, found by the final end-of-clip coverage check.21 clips have no above-threshold windows. This is a computational screening result, not a listening verification or a finished-film verdict.
+
+Google YAMNet classification model was downloaded from its official MediaPipe host and run locally using ai-edge-litert2.3.0. Input16kHz mono;15600-sample windows(0.975s),0.24s stride, plus a final full window. Raw source amplitude, no manufactured laugh track. Embedded class labels were used. Max of six laughter-related class scores was screened at0.5. Scores are not calibrated probabilities.
+
+File / maximum laughter-related score / threshold-hit windows
+film58/forage/153.mp4 / 0.000000 / 0
+film58/forage/229.mp4 / 0.000000 / 0
+film58/forage/243.mp4 / 0.000000 / 0
+film58/forage/259.mp4 / 0.003906 / 0
+film58/forage/295.mp4 / 0.000000 / 0
+film58/forage/306.mp4 / 0.000000 / 0
+film58/forage/34.mp4 / 0.000000 / 0
+film58/forage/39.mp4 / 0.000000 / 0
+film58/forage/403.mp4 / 0.000000 / 0
+film58/forage/47.mp4 / 0.003906 / 0
+film58/expanded_cache/123.mp4 / 0.000000 / 0
+film58/expanded_cache/170.mp4 / 0.000000 / 0
+film58/expanded_cache/175.mp4 / 0.000000 / 0
+film58/expanded_cache/236.mp4 / 0.003906 / 0
+film58/expanded_cache/251.mp4 / 0.000000 / 0
+film58/expanded_cache/319.mp4 / 0.585938 / 1
+film58/expanded_cache/329.mp4 / 0.000000 / 0
+film58/expanded_cache/373.mp4 / 0.003906 / 0
+film58/expanded_cache/376.mp4 / 0.058594 / 0
+film58/expanded_cache/390.mp4 / 0.000000 / 0
+film58/expanded_cache/65.mp4 / 0.000000 / 0
+film58/expanded_cache/77.mp4 / 0.000000 / 0
+
+Tentative candidate: Thanksgiving Cooking Class11/20/20, cached clip319, source-local5.510–6.485s, Laughter score0.5859375; Snicker0.33203125, Chuckle/chortle0.19921875. The hit appears only in the final full analysis window, so it is a single-window candidate, not evidence of a complete onset/recovery or a calibrated probability. No source has been promoted into an accepted audible-laughter sequence. No detection can include false negatives; a positive can be mistaken. Context and listening review remain necessary.
+
+DESCRIPT WORK
+Created private working project ALLWAYS058 — Laughs — Audio Verification in Watson Hartsoe's Drive. All10 initial candidates imported successfully and remain in Original Candidate Contexts. Agent Underlord explicitly reported it cannot hear audio or classify audio events; it read source transcripts with query_media_library_v2 only. It reported narration/dialogue in many candidates, and no laughter was verified from transcript gaps.
+
+Three fresh archive excerpts imported into Additional Archive Contexts — Unverified(36.950117s): Court to Court(January2005), Humor and Health—An NIH Public Affairs Forum, and Modesta. These files are available in Descript but direct original media fetches in this runtime returned403.
+
+A native MP4 export was started by Agent Underlord, but its tool returned no accessible download artifact. The independent timeline export tool is unavailable on the current plan. No share publication has been made. A private Publish action can provide a downloadable export, but the publish-project skill requires explicit user authorization first. The37-second composition is concrete and available for review at:
+https://web.descript.com/5837e52a-663e-4595-a4fd-89239a4e91d7/d8e60
+
+Capability discovery and source import are complete; actual analysis of these three new waveforms is pending media access. Full45-second acoustic-chain proof, listening review and final acceptance remain pending.

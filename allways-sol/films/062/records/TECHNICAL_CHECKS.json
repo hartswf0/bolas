@@ -1,0 +1,123 @@
+{
+  "revision": "V02",
+  "expected_duration": 60,
+  "expected_frames": 1800,
+  "files": [
+    {
+      "file": "ALLWAYS_062_IN_USE_V02.mp4",
+      "sha256": "e19b1ca6cac52700246a90a15a5f9ed6e6c3e91f1205c2b80d415c5e7c2c660f",
+      "probe": {
+        "programs": [],
+        "streams": [
+          {
+            "codec_type": "video",
+            "width": 960,
+            "height": 540,
+            "color_range": "tv",
+            "color_space": "bt709",
+            "color_transfer": "bt709",
+            "color_primaries": "bt709",
+            "duration": "60.000000",
+            "nb_read_frames": "1800"
+          },
+          {
+            "codec_type": "audio",
+            "duration": "60.000000",
+            "nb_read_frames": "2813"
+          }
+        ]
+      },
+      "full_decode": "success",
+      "video_packet_hash": "SHA256=0f3ce6ab7924d381075338ccf5f55b7db358a34dd0b17a54f8b87a2befcdc4d8"
+    },
+    {
+      "file": "ALLWAYS_062_PICTURE_ONLY_V02.mp4",
+      "sha256": "ed2e02a6ab3f91b51a94406ffca55d7566948e03d18f021c1d06e993b292752f",
+      "probe": {
+        "programs": [],
+        "streams": [
+          {
+            "codec_type": "video",
+            "width": 960,
+            "height": 540,
+            "color_range": "tv",
+            "color_space": "bt709",
+            "color_transfer": "bt709",
+            "color_primaries": "bt709",
+            "duration": "60.000000",
+            "nb_read_frames": "1800"
+          }
+        ]
+      },
+      "full_decode": "success",
+      "video_packet_hash": "SHA256=0f3ce6ab7924d381075338ccf5f55b7db358a34dd0b17a54f8b87a2befcdc4d8"
+    }
+  ],
+  "reference_pixel_checks": [
+    {
+      "shot": "blue_red",
+      "output_frame": 1050,
+      "mean_abs_RGB_error_0_255": 1.5931995884773662,
+      "p95_abs_RGB_error": 5.0,
+      "max_abs_RGB_error": 39.0,
+      "interpretation": "encoded/decoded export versus prepared ungraded RGB frame, includes compression and chroma resampling. Does not establish physical source colorimetry or a universal perceptual threshold."
+    },
+    {
+      "shot": "blue_wait_work",
+      "output_frame": 780,
+      "mean_abs_RGB_error_0_255": 1.2825308641975308,
+      "p95_abs_RGB_error": 4.0,
+      "max_abs_RGB_error": 17.0,
+      "interpretation": "encoded/decoded export versus prepared ungraded RGB frame, includes compression and chroma resampling. Does not establish physical source colorimetry or a universal perceptual threshold."
+    },
+    {
+      "shot": "red_can",
+      "output_frame": 1380,
+      "mean_abs_RGB_error_0_255": 0.9115952932098765,
+      "p95_abs_RGB_error": 3.0,
+      "max_abs_RGB_error": 22.0,
+      "interpretation": "encoded/decoded export versus prepared ungraded RGB frame, includes compression and chroma resampling. Does not establish physical source colorimetry or a universal perceptual threshold."
+    },
+    {
+      "shot": "red_cup",
+      "output_frame": 1260,
+      "mean_abs_RGB_error_0_255": 0.6835866769547325,
+      "p95_abs_RGB_error": 3.0,
+      "max_abs_RGB_error": 28.0,
+      "interpretation": "encoded/decoded export versus prepared ungraded RGB frame, includes compression and chroma resampling. Does not establish physical source colorimetry or a universal perceptual threshold."
+    },
+    {
+      "shot": "shared_return",
+      "output_frame": 1470,
+      "mean_abs_RGB_error_0_255": 1.270110596707819,
+      "p95_abs_RGB_error": 4.0,
+      "max_abs_RGB_error": 51.0,
+      "interpretation": "encoded/decoded export versus prepared ungraded RGB frame, includes compression and chroma resampling. Does not establish physical source colorimetry or a universal perceptual threshold."
+    },
+    {
+      "shot": "yellow_blue",
+      "output_frame": 570,
+      "mean_abs_RGB_error_0_255": 1.5458712705761317,
+      "p95_abs_RGB_error": 5.0,
+      "max_abs_RGB_error": 36.0,
+      "interpretation": "encoded/decoded export versus prepared ungraded RGB frame, includes compression and chroma resampling. Does not establish physical source colorimetry or a universal perceptual threshold."
+    },
+    {
+      "shot": "yellow_vessel",
+      "output_frame": 120,
+      "mean_abs_RGB_error_0_255": 1.1109625771604938,
+      "p95_abs_RGB_error": 4.0,
+      "max_abs_RGB_error": 52.0,
+      "interpretation": "encoded/decoded export versus prepared ungraded RGB frame, includes compression and chroma resampling. Does not establish physical source colorimetry or a universal perceptual threshold."
+    },
+    {
+      "shot": "yellow_work",
+      "output_frame": 270,
+      "mean_abs_RGB_error_0_255": 1.403366769547325,
+      "p95_abs_RGB_error": 4.0,
+      "max_abs_RGB_error": 25.0,
+      "interpretation": "encoded/decoded export versus prepared ungraded RGB frame, includes compression and chroma resampling. Does not establish physical source colorimetry or a universal perceptual threshold."
+    }
+  ],
+  "same_encoded_video": true
+}

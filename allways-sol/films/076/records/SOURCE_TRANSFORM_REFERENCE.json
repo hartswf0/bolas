@@ -1,0 +1,20 @@
+{
+  "film": 76,
+  "title": "TWO PUBLIC EDGES",
+  "version": "V01",
+  "duration_seconds": 120,
+  "scope_and_limits": "Public-camera fragments of the 1939\u201340 New York Worlds Fair and the 1941 Rex parade in New Orleans. Later reel fragments add commercial amusement and street portrait context, not verified event aftermath or same-person continuity. No local collaborator, participant access, private preparation, translated exchange or common religious doctrine. Source tracks muted; editorial silence. Grouped comparison preserves more local source ordering.",
+  "reference_lineage": "Thomas Lennon, Sacred (2016); WNET/PBS describes contributions from international filmmakers assembled around life passages without explanatory narration.",
+  "reference_urls": [
+    "https://www.pbs.org/wnet/sacred/about/",
+    "https://argotpictures.com/film/sacred/press"
+  ],
+  "reference_inspection": "BFI The Falls, Focus Features Babies, Argot Sacred press, official Baraka and Samsara descriptions inspected; full reference films not watched; no reference-stronger or close formal fidelity claim. PBS Sacred about page failed; Argot supplied a primary fallback.",
+  "archive_foraging": "MovingImageArchive searches and cached/Internet Archive candidates inspected through metadata and sampled frames. Babies and Breadwinners was rejected: polio public campaign rather than the intended child play. Our Baby and two other cached nature candidates unused. Search results are discovery, not full-film viewing or rights clearance.",
+  "render": "960x720,30fps,H264/yuv420p,AAC. Transfer durations preserved with frame duplicate/drop normalization; no historical camera-speed reconstruction. Original still holds and vector portraits expressly identified.",
+  "sound_review": "Audio not auditioned and normal-speed audiovisual experience not assessed. Authored silence is PCM silence before encoding, not a claim about source ambience.",
+  "rights": "Uploader/public archive metadata retained; reuse rights and participant/guardian consent history not independently audited. No public publication or external messages.",
+  "rebuild": "From kit root: python3 filmNN/build.py. Python3,Pillow,numpy,ffmpeg/ffprobe with libflite. Run batch74_78/finalize.py on generated stage JSON paths; editorial state reproducible, byte-identical encoding not guaranteed.",
+  "next_prompt": 77,
+  "058_status": "incomplete; earlier private publication/export permission still pending"
+}

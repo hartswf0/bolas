@@ -1,0 +1,32 @@
+ALLWAYS 055 / TURN / V03
+
+A 55-second adaptation of SCION 055 (Words — Polysemic Relay).
+One film, eight passages, seven source clips. The organizing word appears only after the image sequence. No synthetic imagery. Aspect ratio preserved; low-resolution archival clips upscaled without generative restoration.
+
+V03 changes from recovered V02:
+- Removes opening explanatory title so the viewer can infer the word.
+- Holds the radio through its illuminated state, ending before the next source action.
+- Uses 11–17 seconds of the dance excerpt to emphasize the visible turn.
+- Adds a newly composed instrumental score. It is neither source sound nor reconstructed historical sound.
+- Silences the page passage (35.6–40.6) and the final look (46.6–48.88).
+
+SELF-REVIEW / INCONCLUSIVE
+Inspected sampled frames from all seven recovered clips and eight-frame motion strips from reel, radio, page and dance. Reviewed sampled final-output frames; this is not a claim of continuous normal-speed viewing or an independent viewer test.
+Strongest proposed pivot: 17.2–28.8, turning a control changes the radio's visible state.
+Largest gap: reel and clay repeat rotation; their semantic separation is weaker than the radio's switch to 'turn on'.
+Observable repair condition: a viewer should infer at least two meanings without the end title. If the viewer reports only circles/spinning, replace one rotational shot with a visibly established 'take turns' action.
+The return uses an overlapping interval from the same child excerpt; no later historical event or changed emotional state is claimed.
+
+Prompt departures remain explicit:
+- TURN adapts the prompt's proposed DRAW; this does not satisfy the literal drawing/curtain/drawer proof.
+- Source audio has been omitted; required source-sound bridges remain untested.
+- Independent word-identification and emotional-direction judgments remain pending.
+- Source rights are unverified; the ledger records access/provenance, not permission clearance.
+
+Fresh forage during this pass:
+Three Moving Image Archive searches: 'a hand spinning a ball', 'people taking turns playing a game', and 'a hand drawing a line on paper'. Each returned 24 candidates. Original responses are included. Thumbnail requests and the site's poster route failed with access errors, so these fresh candidates were NOT visually verified and were NOT inserted into the film. The film uses inspected recovered Cineosis cache excerpts only.
+
+REBUILD
+Unzip to an empty folder. With Python 3, numpy, scipy, Pillow, ffmpeg and ffprobe installed, run:
+  python3 film55/make.py
+The script expects the bundled editkit paths relative to its parent folder. It recreates the score, picture assembly, ledger and MP4. No online source downloads are required.

@@ -1,0 +1,121 @@
+{
+  "revision": "V02",
+  "duration_seconds": 38,
+  "expected_video_frames": 1140,
+  "unique_still_images": 12,
+  "order": [
+    1,
+    2,
+    3,
+    4,
+    11,
+    6,
+    7,
+    5,
+    8,
+    9,
+    10,
+    12
+  ],
+  "timing_control_identical_by_construction": true,
+  "center_residual_max_px": 0.0,
+  "radius_residual_max_px": 0.0,
+  "residual_interpretation": "algebra on manual annotations, not independent image measurement",
+  "files": [
+    {
+      "file": "ALLWAYS_059_EQUIVALENT_RADIUS_V01.mp4",
+      "sha256": "e2b8e24a81084800f54a4a6993a08105189dfe360b273fa9505ac7558ec40e36",
+      "probe": {
+        "programs": [],
+        "streams": [
+          {
+            "codec_type": "video",
+            "width": 960,
+            "height": 720,
+            "duration": "38.000000",
+            "nb_read_frames": "1140"
+          },
+          {
+            "codec_type": "audio",
+            "duration": "38.000000",
+            "nb_read_frames": "1782"
+          }
+        ]
+      }
+    },
+    {
+      "file": "ALLWAYS_059_EQUIVALENT_RADIUS_V02.mp4",
+      "sha256": "8bc5f1beb3c9b2718ac381c5a7f9ceb6f670bb289a4215351b68574f2077da63",
+      "probe": {
+        "programs": [],
+        "streams": [
+          {
+            "codec_type": "video",
+            "width": 960,
+            "height": 720,
+            "duration": "38.000000",
+            "nb_read_frames": "1140"
+          },
+          {
+            "codec_type": "audio",
+            "duration": "38.000000",
+            "nb_read_frames": "1782"
+          }
+        ]
+      }
+    },
+    {
+      "file": "ALLWAYS_059_UNREGISTERED_CONTROL_V01.mp4",
+      "sha256": "caaacf742561cf66717e1bc5a183dea2b407dce0ff10ed1a66cd2ccb9541df46",
+      "probe": {
+        "programs": [],
+        "streams": [
+          {
+            "codec_type": "video",
+            "width": 960,
+            "height": 720,
+            "duration": "38.000000",
+            "nb_read_frames": "1140"
+          },
+          {
+            "codec_type": "audio",
+            "duration": "38.000000",
+            "nb_read_frames": "1782"
+          }
+        ]
+      }
+    },
+    {
+      "file": "ALLWAYS_059_UNREGISTERED_CONTROL_V02.mp4",
+      "sha256": "35398676801ce84bc2c94813d28b9ddf58020f023f516837e3a9e5f17824c303",
+      "probe": {
+        "programs": [],
+        "streams": [
+          {
+            "codec_type": "video",
+            "width": 960,
+            "height": 720,
+            "duration": "38.000000",
+            "nb_read_frames": "1140"
+          },
+          {
+            "codec_type": "audio",
+            "duration": "38.000000",
+            "nb_read_frames": "1782"
+          }
+        ]
+      }
+    }
+  ],
+  "sound_checks": {
+    "peak_dbfs": -14.068120740589825,
+    "rms_dbfs": -42.72154988092058,
+    "omitted_14s_beat_max_abs": 0.0,
+    "clipped_samples": 0,
+    "listening_review": "not available"
+  },
+  "full_decode_V02": {
+    "registered": "ffmpeg -xerror full decode succeeded",
+    "control": "ffmpeg -xerror full decode succeeded"
+  }
+}

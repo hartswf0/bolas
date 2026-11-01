@@ -1,0 +1,36 @@
+{
+  "decode": "passed",
+  "picture_frames": 1176,
+  "duration": 47.04,
+  "picture_audio_duration_match": "passed",
+  "continuous_intervals": "passed",
+  "child_source_split_without_overlap": "passed",
+  "unbridged_page_silence": "passed",
+  "score_no_clipping": "passed",
+  "technical_checks_are_not_critic_verdict": true,
+  "ffprobe": {
+    "programs": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "codec_type": "video",
+        "width": 960,
+        "height": 720,
+        "r_frame_rate": "25/1",
+        "duration": "47.040000",
+        "nb_frames": "1176"
+      },
+      {
+        "codec_name": "aac",
+        "codec_type": "audio",
+        "r_frame_rate": "0/0",
+        "duration": "47.040000",
+        "nb_frames": "2206"
+      }
+    ],
+    "format": {
+      "duration": "47.040000",
+      "size": "16906842"
+    }
+  }
+}

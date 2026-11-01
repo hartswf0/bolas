@@ -1,0 +1,100 @@
+{
+  "main": [
+    {
+      "id": "title",
+      "duration": 3,
+      "output_start": 0,
+      "output_end": 3
+    },
+    {
+      "id": "human",
+      "source": "human",
+      "start": 472,
+      "duration": 16,
+      "output_start": 3,
+      "output_end": 19
+    },
+    {
+      "id": "cause",
+      "duration": 2,
+      "output_start": 19,
+      "output_end": 21
+    },
+    {
+      "id": "connection",
+      "source": "engine",
+      "start": 438,
+      "duration": 8.5,
+      "output_start": 21,
+      "output_end": 29.5
+    },
+    {
+      "id": "full_bag",
+      "source": "engine",
+      "start": 449.5,
+      "duration": 3.5,
+      "output_start": 29.5,
+      "output_end": 33.0
+    },
+    {
+      "id": "full_bag_driving",
+      "source": "engine",
+      "start": 490.5,
+      "duration": 5,
+      "output_start": 33.0,
+      "output_end": 38.0
+    },
+    {
+      "id": "depletion",
+      "source": "engine",
+      "start": 511,
+      "duration": 17.8,
+      "output_start": 38.0,
+      "output_end": 55.8
+    },
+    {
+      "id": "end",
+      "duration": 5,
+      "output_start": 55.8,
+      "output_end": 60.8
+    }
+  ],
+  "original_scene_timing": [
+    {
+      "id": "title",
+      "duration": 3,
+      "output_start": 0,
+      "output_end": 3
+    },
+    {
+      "id": "human",
+      "source": "human",
+      "start": 472,
+      "duration": 16,
+      "output_start": 3,
+      "output_end": 19
+    },
+    {
+      "id": "cause",
+      "duration": 2,
+      "output_start": 19,
+      "output_end": 21
+    },
+    {
+      "id": "original_engine",
+      "source": "engine",
+      "start": 438,
+      "duration": 93.5,
+      "output_start": 21,
+      "output_end": 114.5
+    },
+    {
+      "id": "end",
+      "duration": 5,
+      "output_start": 114.5,
+      "output_end": 119.5
+    }
+  ],
+  "human_timing": "same native transfer duration in both; no retiming",
+  "mechanical_edit": "main ellipses446.5\u2013449.5,453\u2013490.5 and495.5\u2013511; no change to playback speed within excerpts"
+}
