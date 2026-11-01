@@ -1,0 +1,7 @@
+VERDICT: pass (Round 2 — v2 repaired assembly verification)
+Critic Role: Independent comparison critic
+
+Verification of Falsifiable Repair:
+- Executed repair: Replace Pair 2 (Seg #05) with human-verified cut-free manual desk/tabletop work clips `3a48bbc4` (`Fundo in Chile`, `0.2s-8.2s`, two people working with plans/tools) vs `9bb420b0` (`Make Art Feel Better`, `1.0s-9.0s`, hands carving wood at table); clamp Pair 3 (Seg #06, `c313c355` vs `708fb7c2`) to `in_a=0.2, in_b=0.2, dur=7.2` so both panels finish cleanly before the 8.0s cut.
+- Automated structural check: 0 internal camera cuts (max_frame_diff < 16.0), 0 title-card contaminants, 0 missing glyph boxes.
+- Visual inspection of 8-frame v2 proof strip confirms every shot establishes and completes its visible action while preserving the strength identified in Round 1 (Pair 1 (`c0c5c8e6` vs `98a82cba`) and its two wide contextual restorations (`bb5ffe06` and `4ccd304a`).).

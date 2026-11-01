@@ -1,0 +1,19 @@
+VERDICT: repair_required (Round 1 — v1 assembly audit)
+Critic Role: Independent orientation critic
+
+Observed Defects on v1 Proof Strip:
+- Seg #02 (t=03.50s-08.30s): `fc800614` cuts between highway overpass and trucks with no human runner.
+- Seg #03 (t=08.30s-13.10s): `0d499ab1` is a static building facade (MotionΔ: 1.9).
+- Seg #06 (t=23.10s-29.10s): `90a40e37` (`Road Runners`) shows mechanical pressure gauges instead of a person waiting.
+
+Largest Gap:
+Seg #02-#03 lack moving human figures establishing pursuit momentum, and Seg #06 shows pressure gauges instead of a person waiting/recovering.
+
+Causal Hypothesis:
+Title keyword false positive on `Road Runners` (`90a40e37`) and static cityscape match on `0d499ab1`.
+
+Falsifiable Repair Condition:
+Replace Seg #02 with human-verified crowd streaming through gates (`d2ed8576`, `0.1s-4.9s`) and Seg #03 with human-verified camera following walkers (`93053686`, `1.5s-6.3s`); replace Seg #06 with human-verified shot of a man sitting alone on rocks waiting (`398f8815`, `3.3s-7.8s`, clamped before the cut at 9.0s).
+
+Strength to Preserve:
+The lone figure sprinting across the open heath (`0143d900`), `5efa1b7b`, the head-on vector reversal (`36645c54`), deceleration (`e35796d0`), and stopping on the sidewalk while street traffic moves past (`12a45513`).

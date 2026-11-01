@@ -1,0 +1,203 @@
+{
+  "slug": "BROLL_06_Kinetic",
+  "version": "v2",
+  "series": "BROLL_OF_CIVILIZATION",
+  "kicker": "B-ROLL OF CIVILIZATION 06 \u00b7 SCION 083 + 079 + 078",
+  "title": "KINETIC",
+  "subtitle": "Labor and interruption \u2014 coordinated work rhythms broken by maintenance and rest",
+  "scion_id": 83,
+  "supporting_scions": [
+    79,
+    78
+  ],
+  "lineage": "Primary: SCION 083 (Berlin: Symphony of a Great City) \u00b7 Supporting: SCION 079 (Qatsi), SCION 078 (Samsara)",
+  "theorem": "Make a passage from three documented work processes. Establish a repeated movement in each, briefly coordinate their rhythms through a sound phrase, break that coordination with one complete maintenance/waiting interval at normal speed, widen to context, and end when a mechanism stops.",
+  "boundary_note": "Contextual wide shots prevent the shared rhythmic pulse from erasing the different historical conditions of watchmaking (1947), weaving, and auto assembly (1936).",
+  "critic_tribunal": {
+    "film_id": "BROLL_06_Kinetic",
+    "scion_id": 83,
+    "critic_role": "Independent systems critic",
+    "v1_verdict": "pass",
+    "v1_defect_timecodes": [
+      "Optional v2 enhancement \u2014 Seg #05 (t=18.60s-23.80s): Upgrade 'THREE WORKSHOPS ALIGNED' from a single-stream shot to a synchronized 3-panel triptych locking Processes 01, 02, and 03 visually to the pulse."
+    ],
+    "largest_gap": "All v1 shots were clean and cut-free; upgrading Seg #05 to a 3-panel triptych makes the three-workshop rhythmic coordination visually explicit.",
+    "causal_hypothesis": "Single-stream segment mode used in v1 for Seg #05.",
+    "falsifiable_repair": "Use `mode='triptych'` with `clips=['6ee8ef44', '9b8b1f1e', 'aeebdc87']` in Seg #05 so watchmaking, loom shuttle, and factory stamping lock together visually before the normal-speed maintenance interruption (`2ab95576`).",
+    "strength_to_preserve": "All three work processes, the normal-speed bearing-oiling maintenance interruption (`2ab95576`), the wide factory-floor contextual reveal (`eba7d1c4`), and the worker stopping at the close (`135e3a64`).",
+    "v2_verdict": "pass"
+  },
+  "duration_seconds": 48.71,
+  "video_file": "films/BROLL_06_Kinetic.mp4",
+  "source_count": 7,
+  "sources_summary": [
+    "6ee8ef44 \u00b7 What Makes a Fine Watch Fine? (1947)",
+    "9b8b1f1e \u00b7 Labor of Thy Hands (undated)",
+    "aeebdc87 \u00b7 Master Hands (Part III) (1936)",
+    "2ab95576 \u00b7 Farmer Miller Goes Into High Gear (Part II) (1920)",
+    "da09f0cb \u00b7 Automatic Emergency Parking Brakes (as required by 30 CFR 75.523-3) (1992)",
+    "eba7d1c4 \u00b7 Master Hands (Part IV) (1936)",
+    "135e3a64 \u00b7 Twenty-Four Hours of Progress (Part II) (1950)"
+  ],
+  "edl": [
+    {
+      "seg_idx": 1,
+      "type": "title_card",
+      "title": "KINETIC",
+      "phase": "OPENING SLATE",
+      "action": "Labor and interruption \u2014 coordinated work rhythms broken by maintenance and rest",
+      "start_sec": 0.0,
+      "end_sec": 3.0,
+      "dur_s": 3.0
+    },
+    {
+      "type": "shot",
+      "clip_id": "6ee8ef44-caa0-5a46-ad61-8c24c17d2698",
+      "source_title": "What Makes a Fine Watch Fine?",
+      "source_year": 1947,
+      "source_page": "https://www.movingimagearchive.com/sources/what-makes-a-fine-watch-fine-add8e772?clip=6ee8ef44-caa0-5a46-ad61-8c24c17d2698",
+      "in_s": 0.1,
+      "out_s": 2.91,
+      "dur_s": 3.0,
+      "phase": "PROCESS 01 \u00b7 PRECISION WATCHMAKING (1947)",
+      "action": "What Makes a Fine Watch Fine (1947): Repeated fine hand movement at a watchmaker's lathe",
+      "nearmatch": "WORK CYCLE A \u00b7 PRECISION",
+      "seg_idx": 2,
+      "start_sec": 3.0,
+      "end_sec": 6.0
+    },
+    {
+      "type": "shot",
+      "clip_id": "9b8b1f1e-6341-5d24-a212-17626e047a0a",
+      "source_title": "Labor of Thy Hands",
+      "source_year": null,
+      "source_page": "https://www.movingimagearchive.com/sources/labor-of-thy-hands-76935910?clip=9b8b1f1e-6341-5d24-a212-17626e047a0a",
+      "in_s": 0.5,
+      "out_s": 6.0,
+      "dur_s": 5.5,
+      "phase": "PROCESS 02 \u00b7 TEXTILE LOOM SHUTTLE",
+      "action": "Labor of Thy Hands: Hands throwing and beating the shuttle in a rhythmic cycle",
+      "nearmatch": "WORK CYCLE B \u00b7 WEAVING",
+      "seg_idx": 3,
+      "start_sec": 6.0,
+      "end_sec": 11.5
+    },
+    {
+      "type": "shot",
+      "clip_id": "aeebdc87-f047-572e-8eb1-213362ec3707",
+      "source_title": "Master Hands (Part III)",
+      "source_year": 1936,
+      "source_page": "https://www.movingimagearchive.com/sources/master-hands-part-iii-d981bcb7?clip=aeebdc87-f047-572e-8eb1-213362ec3707",
+      "in_s": 0.5,
+      "out_s": 6.0,
+      "dur_s": 5.5,
+      "phase": "PROCESS 03 \u00b7 FACTORY LINE STAMPING (1936)",
+      "action": "Master Hands, Part III (1936): Coordinated mechanical repetition on the shop floor",
+      "nearmatch": "WORK CYCLE C \u00b7 INDUSTRIAL",
+      "seg_idx": 4,
+      "start_sec": 11.5,
+      "end_sec": 17.0
+    },
+    {
+      "type": "triptych_shot",
+      "clips": [
+        {
+          "id": "6ee8ef44-caa0-5a46-ad61-8c24c17d2698",
+          "title": "What Makes a Fine Watch Fine?",
+          "year": 1947
+        },
+        {
+          "id": "9b8b1f1e-6341-5d24-a212-17626e047a0a",
+          "title": "Labor of Thy Hands",
+          "year": null
+        },
+        {
+          "id": "aeebdc87-f047-572e-8eb1-213362ec3707",
+          "title": "Master Hands (Part III)",
+          "year": 1936
+        }
+      ],
+      "dur_s": 5.2,
+      "phase": "COORDINATED RHYTHM \u00b7 THREE WORKSHOPS ALIGNED IN TRIPTYCH",
+      "action": "Watchmaking (1947) | Loom Weaving | Auto Stamping (1936) locked simultaneously to the shared pulse phrase",
+      "nearmatch": "TEMPORARY RHYTHMIC LOCK (3-PANEL)",
+      "seg_idx": 5,
+      "start_sec": 17.0,
+      "end_sec": 22.2
+    },
+    {
+      "type": "shot",
+      "clip_id": "2ab95576-43f7-5127-ae6a-3b2c70e7b6be",
+      "source_title": "Farmer Miller Goes Into High Gear (Part II)",
+      "source_year": 1920,
+      "source_page": "https://www.movingimagearchive.com/sources/farmer-miller-goes-into-high-gear-part-ii-5bff8843?clip=2ab95576-43f7-5127-ae6a-3b2c70e7b6be",
+      "in_s": 0.5,
+      "out_s": 8.0,
+      "dur_s": 7.5,
+      "phase": "INTERRUPTION \u00b7 COMPLETE MAINTENANCE INTERVAL (NORMAL SPEED)",
+      "action": "Farmer Miller Goes Into High Gear (1920): Workers stop the machine to oil and inspect bearings at normal speed",
+      "nearmatch": "PULSE BROKEN BY MAINTENANCE",
+      "seg_idx": 6,
+      "start_sec": 22.2,
+      "end_sec": 29.7
+    },
+    {
+      "type": "shot",
+      "clip_id": "da09f0cb-72fd-5255-815a-3e4794a1e7a0",
+      "source_title": "Automatic Emergency Parking Brakes (as required by 30 CFR 75.523-3)",
+      "source_year": 1992,
+      "source_page": "https://www.movingimagearchive.com/sources/automatic-emergency-parking-brakes-as-required-by-30-cfr-75-523-3-fc52b4d4?clip=da09f0cb-72fd-5255-815a-3e4794a1e7a0",
+      "in_s": 0.5,
+      "out_s": 6.0,
+      "dur_s": 5.5,
+      "phase": "INTERRUPTION B \u00b7 ADJUSTING THE MECHANISM (1992)",
+      "action": "Automatic Emergency Parking Brake (1992): Hand calibration and waiting interval before restarting",
+      "nearmatch": "MAINTENANCE & WAITING",
+      "seg_idx": 7,
+      "start_sec": 29.7,
+      "end_sec": 35.2
+    },
+    {
+      "type": "shot",
+      "clip_id": "eba7d1c4-6e39-5ccc-9c11-f5d25825823a",
+      "source_title": "Master Hands (Part IV)",
+      "source_year": 1936,
+      "source_page": "https://www.movingimagearchive.com/sources/master-hands-part-iv-3b3cd82f?clip=eba7d1c4-6e39-5ccc-9c11-f5d25825823a",
+      "in_s": 0.5,
+      "out_s": 6.0,
+      "dur_s": 5.5,
+      "phase": "RETURN WITH WIDER CONTEXT \u00b7 FULL FACTORY FLOOR",
+      "action": "Master Hands, Part IV (1936): Wide view reveals the surrounding stations excluded by the tight crop",
+      "nearmatch": "CONTEXTUAL REVEAL",
+      "seg_idx": 8,
+      "start_sec": 35.2,
+      "end_sec": 40.7
+    },
+    {
+      "type": "shot",
+      "clip_id": "135e3a64-1bed-5a94-b7db-c91968135bff",
+      "source_title": "Twenty-Four Hours of Progress (Part II)",
+      "source_year": 1950,
+      "source_page": "https://www.movingimagearchive.com/sources/twenty-four-hours-of-progress-part-ii-8aae7e31?clip=135e3a64-1bed-5a94-b7db-c91968135bff",
+      "in_s": 0.2,
+      "out_s": 4.7,
+      "dur_s": 4.5,
+      "phase": "CLOSURE \u00b7 WORKER & MECHANISM STOP",
+      "action": "Twenty-Four Hours of Progress (1950): Hard-hatted worker pauses, head bowed, as the cycle ends",
+      "nearmatch": "CESSATION OF WORK",
+      "seg_idx": 9,
+      "start_sec": 40.7,
+      "end_sec": 45.2
+    },
+    {
+      "seg_idx": 10,
+      "type": "closing_ledger",
+      "title": "SOURCE ATTRIBUTION & BOUNDARY NOTE",
+      "phase": "CLOSING LEDGER",
+      "action": "Contextual wide shots prevent the shared rhythmic pulse from erasing the different historical conditions of watchmaking (1947), weaving, and auto assembly (1936).",
+      "start_sec": 45.2,
+      "end_sec": 48.7,
+      "dur_s": 3.5
+    }
+  ]
+}

@@ -1,0 +1,138 @@
+{
+  "slug": "SCION_067_Nostalgia_Temporal_Offset",
+  "version": "v2",
+  "series": "SERIES_C_STRUCTURAL",
+  "kicker": "SCION 067 \u00b7 STRUCTURAL & FOUND-FOOTAGE CINEMA",
+  "title": "(nostalgia) \u2014 Temporal Offset Between Caption and Image",
+  "subtitle": "Each caption describes the next archival photograph before it appears",
+  "scion_id": 67,
+  "supporting_scions": [
+    74,
+    106
+  ],
+  "lineage": "Lineage: Hollis Frampton, (nostalgia) (1971)",
+  "theorem": "Displace commentary one step ahead of the visible record so the viewer splits attention between anticipating the next image and remembering the description when that image finally arrives.",
+  "boundary_note": "The +1 index offset (`Caption[n+1]` over `Image[n]`) is explicitly declared in the HUD so the mismatch is recognized as a temporal structure rather than a labeling error.",
+  "critic_tribunal": {
+    "critic_role": "Independent temporal critic",
+    "v1_verdict": "repair_required",
+    "v2_verdict": "pass",
+    "v1_defect_timecodes": [
+      "Seg #06 (t=28.50s-34.50s): `aaf17c56` at 1.0s-7.0s showed hands over a type-case rather than a flame/smoke in darkness."
+    ],
+    "largest_gap": "Replaced Seg #06 with verified fire/smoke flare in darkness (`b45f3dbf`, `Watershed wildfire`, `0.2s-6.2s`) so the described flame and smoke visibly arrive while Image [06] remains withheld.",
+    "falsifiable_repair": "Every segment explicitly pairs `IMAGE [k]` with `VOICE/TEXT [k+1]` across `b51dad21`, `b066405d`, `8b47cb5b`, `df8ac203`, and `b45f3dbf`."
+  },
+  "duration_seconds": 38.0,
+  "video_file": "films/SCION_067_Nostalgia_Temporal_Offset.mp4",
+  "source_count": 5,
+  "sources_summary": [
+    "b51dad21 \u00b7 THE PHOTOGRAPHER (1948)",
+    "b066405d \u00b7 Farmer Miller Goes Into High Gear (Part II) (1920)",
+    "8b47cb5b \u00b7 Cataloochee - The Center of the World (1993)",
+    "df8ac203 \u00b7 Belmont Historical Society Presents Roger Hagopian (2019)",
+    "b45f3dbf \u00b7 Watershed wildfire (1958)"
+  ],
+  "edl": [
+    {
+      "seg_idx": 1,
+      "type": "title_card",
+      "title": "(nostalgia) \u2014 Temporal Offset Between Caption and Image",
+      "phase": "OPENING SLATE",
+      "action": "Each caption describes the next archival photograph before it appears",
+      "start_sec": 0.0,
+      "end_sec": 3.0,
+      "dur_s": 3.0
+    },
+    {
+      "type": "shot",
+      "clip_id": "b51dad21-c55a-5eed-9e41-ddd50c11eba3",
+      "source_title": "THE PHOTOGRAPHER",
+      "source_year": 1948,
+      "source_page": "https://www.movingimagearchive.com/sources/the-photographer?clip=b51dad21-c55a-5eed-9e41-ddd50c11eba3",
+      "in_s": 0.5,
+      "out_s": 7.0,
+      "dur_s": 6.5,
+      "phase": "IMAGE [01] (1948 TRIPOD) \u00b7 CAPTION [02] (ANTICIPATING PHOTOGRAPHS)",
+      "action": "THE PHOTOGRAPHER (1948): While we watch the tripod camera, the text describes the next record",
+      "nearmatch": "OFFSET: IMAGE #01 + DESCRIPTION #02",
+      "seg_idx": 2,
+      "start_sec": 3.0,
+      "end_sec": 9.5
+    },
+    {
+      "type": "shot",
+      "clip_id": "b066405d-4f5b-57af-a7a6-25139e979938",
+      "source_title": "Farmer Miller Goes Into High Gear (Part II)",
+      "source_year": 1920,
+      "source_page": "https://www.movingimagearchive.com/sources/farmer-miller-goes-into-high-gear-part-ii-5bff8843?clip=b066405d-4f5b-57af-a7a6-25139e979938",
+      "in_s": 0.2,
+      "out_s": 6.08,
+      "dur_s": 6.0,
+      "phase": "IMAGE [02] ARRIVES (1920 SNAPSHOTS) \u00b7 CAPTION [03] (ANTICIPATING SEPIA PORTRAIT)",
+      "action": "Farmer Miller (1920): The snapshots described a moment ago now appear, while text moves to #03",
+      "nearmatch": "OFFSET: IMAGE #02 + DESCRIPTION #03",
+      "seg_idx": 3,
+      "start_sec": 9.5,
+      "end_sec": 15.5
+    },
+    {
+      "type": "shot",
+      "clip_id": "8b47cb5b-8c10-5295-b12f-fb4cc3da1001",
+      "source_title": "Cataloochee - The Center of the World",
+      "source_year": 1993,
+      "source_page": "https://www.movingimagearchive.com/sources/cataloochee-the-center-of-the-world-efe0d93b?clip=8b47cb5b-8c10-5295-b12f-fb4cc3da1001",
+      "in_s": 0.5,
+      "out_s": 7.0,
+      "dur_s": 6.5,
+      "phase": "IMAGE [03] ARRIVES (SEPIA CONTACT SHEET) \u00b7 CAPTION [04] (ANTICIPATING PARLOR GROUP)",
+      "action": "Cataloochee (1993): The sepia contact sheet arrives in memory as the parlor portrait is foretold",
+      "nearmatch": "OFFSET: IMAGE #03 + DESCRIPTION #04",
+      "seg_idx": 4,
+      "start_sec": 15.5,
+      "end_sec": 22.0
+    },
+    {
+      "type": "shot",
+      "clip_id": "df8ac203-7bcc-57ed-9eb0-662fe004f871",
+      "source_title": "Belmont Historical Society Presents Roger Hagopian",
+      "source_year": 2019,
+      "source_page": "https://www.movingimagearchive.com/sources/belmont-historical-society-presents-roger-hagopian-55d2e672?clip=df8ac203-7bcc-57ed-9eb0-662fe004f871",
+      "in_s": 0.5,
+      "out_s": 7.0,
+      "dur_s": 6.5,
+      "phase": "IMAGE [04] ARRIVES (PARLOR PHOTOGRAPH) \u00b7 CAPTION [05] (ANTICIPATING FIRE & SMOKE)",
+      "action": "Belmont Historical Society (2019): The parlor photograph is inspected under the final warning",
+      "nearmatch": "OFFSET: IMAGE #04 + DESCRIPTION #05",
+      "seg_idx": 5,
+      "start_sec": 22.0,
+      "end_sec": 28.5
+    },
+    {
+      "type": "shot",
+      "clip_id": "b45f3dbf-0ee8-50cb-846e-c284e5f27f76",
+      "source_title": "Watershed wildfire",
+      "source_year": 1958,
+      "source_page": "https://www.movingimagearchive.com/sources/watershed-wildfire-03feb5e2?clip=b45f3dbf-0ee8-50cb-846e-c284e5f27f76",
+      "in_s": 0.2,
+      "out_s": 6.01,
+      "dur_s": 6.0,
+      "phase": "IMAGE [05] ARRIVES (FIRE & SMOKE IN DARKNESS) \u00b7 CAPTION [06] (UNSHOWN FINAL RECORD)",
+      "action": "Watershed Wildfire (1958): Fire and smoke flare in darkness while the last described image is withheld",
+      "nearmatch": "OFFSET: IMAGE #05 + WITHHELD IMAGE #06",
+      "seg_idx": 6,
+      "start_sec": 28.5,
+      "end_sec": 34.5
+    },
+    {
+      "seg_idx": 7,
+      "type": "closing_ledger",
+      "title": "SOURCE ATTRIBUTION & BOUNDARY NOTE",
+      "phase": "CLOSING LEDGER",
+      "action": "The +1 index offset (`Caption[n+1]` over `Image[n]`) is explicitly declared in the HUD so the mismatch is recognized as a temporal structure rather than a labeling error.",
+      "start_sec": 34.5,
+      "end_sec": 38.0,
+      "dur_s": 3.5
+    }
+  ]
+}

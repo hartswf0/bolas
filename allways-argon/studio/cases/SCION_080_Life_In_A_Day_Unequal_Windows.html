@@ -1,0 +1,436 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>SCION 080 · OBSERVATIONAL &amp; COLLECTIVE DOCUMENTARIES · Life in a Day — Diurnal Window Comparison — ALLWAYS · ARGON Case Study</title>
+<link rel="stylesheet" href="../../../tools/paeleo/fonts/local.css">
+<style>
+:root {
+  --bg: #0c0e0d;
+  --panel: #131715;
+  --panel-2: #191f1c;
+  --ink: #f2efe6;
+  --muted: #9aa39c;
+  --rule: #28312c;
+  --accent: #d46a4c;
+  --mint: #8ec5a8;
+  --gold: #dfc48b;
+  --display: 'Big Shoulders Display', -apple-system, BlinkMacSystemFont, sans-serif;
+  --serif: 'Literata', Georgia, serif;
+  --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.65 var(--serif); }
+a { color: var(--mint); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.topbar {
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(12,14,13,0.94); backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--rule);
+  padding: 10px 18px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px;
+  font: 11px/1.4 var(--mono); text-transform: uppercase; letter-spacing: .06em;
+}
+.wrap { max-width: 1120px; margin: 0 auto; padding: 24px 18px 80px; }
+.kicker { font: 600 11px/1.4 var(--mono); color: var(--accent); text-transform: uppercase; letter-spacing: .1em; }
+h1 { font: 800 clamp(32px, 6vw, 60px)/.96 var(--display); text-transform: uppercase; margin: 6px 0 8px; letter-spacing: -.01em; }
+.subtitle { font: 400 clamp(17px, 2.2vw, 22px)/1.4 var(--serif); color: var(--muted); margin-bottom: 18px; }
+.player-sticky {
+  background: #000; border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; margin-bottom: 24px;
+}
+video { width: 100%; aspect-ratio: 16/9; display: block; background: #000; }
+.player-bar {
+  padding: 10px 14px; background: var(--panel); border-top: 1px solid var(--rule);
+  display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px;
+  font: 11px/1.4 var(--mono); color: var(--muted);
+}
+.btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  font: 600 11px/1 var(--mono); text-transform: uppercase; letter-spacing: .06em;
+  padding: 9px 13px; border-radius: 4px; border: 1px solid var(--mint);
+  background: var(--mint); color: #0d1f16; cursor: pointer;
+}
+.btn.sec { background: transparent; color: var(--ink); border-color: var(--rule); }
+.btn:hover { opacity: .92; text-decoration: none; }
+.sec-head {
+  border-top: 1px solid var(--rule); padding-top: 24px; margin: 36px 0 16px;
+  display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 12px;
+}
+.sec-head h2 { font: 800 clamp(24px, 3.5vw, 34px)/1.05 var(--display); text-transform: uppercase; margin: 0; }
+.meta-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; margin: 18px 0;
+}
+.meta-card { background: var(--panel); border: 1px solid var(--rule); border-radius: 6px; padding: 14px 16px; }
+.meta-card .label { font: 600 10px/1.4 var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--gold); margin-bottom: 6px; }
+.shots-list { display: flex; flex-direction: column; gap: 12px; }
+.shot-card {
+  display: grid; grid-template-columns: 240px 1fr; gap: 16px;
+  background: var(--panel); border: 1px solid var(--rule); border-radius: 6px; padding: 12px;
+  cursor: pointer; transition: border-color .15s;
+}
+.shot-card:hover { border-color: var(--mint); }
+.shot-card.is-card { grid-template-columns: 180px 1fr; opacity: .88; }
+.shot-media { position: relative; background: #050706; border-radius: 4px; overflow: hidden; aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center; }
+.shot-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.shot-time {
+  position: absolute; bottom: 6px; left: 6px;
+  background: rgba(0,0,0,0.82); color: var(--gold); padding: 2px 6px; border-radius: 3px;
+  font: 600 10px/1.3 var(--mono);
+}
+.shot-body { display: flex; flex-direction: column; gap: 6px; font-size: 14px; }
+.shot-source { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px; font: 12px/1.4 var(--mono); color: var(--muted); border-bottom: 1px solid var(--rule); padding-bottom: 6px; }
+.shot-source strong { color: var(--ink); }
+.shot-what { color: var(--ink); }
+.shot-bridge { font-size: 12px; color: var(--gold); }
+.shot-why { color: var(--muted); font-size: 13.5px; }
+.strip-img { width: 100%; border-radius: 6px; border: 1px solid var(--rule); display: block; margin: 10px 0; }
+.strip-label { font: 600 11px/1.4 var(--mono); color: var(--muted); text-transform: uppercase; margin-top: 10px; }
+.tribunal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 14px; }
+.trib-box { background: var(--panel); border: 1px solid var(--rule); border-radius: 6px; padding: 16px; font-size: 14px; }
+.trib-box.warn { border-left: 3px solid var(--accent); }
+.trib-box.pass { border-left: 3px solid var(--mint); }
+.trib-box .label { font: 700 11px/1.4 var(--mono); text-transform: uppercase; color: var(--gold); margin-bottom: 8px; }
+pre.prompt-box {
+  background: #090c0a; border: 1px solid var(--rule); border-radius: 6px; padding: 18px;
+  font: 12.5px/1.65 var(--mono); color: #e2e6de; white-space: pre-wrap; overflow-wrap: anywhere; max-height: 640px; overflow-y: auto;
+}
+.nav-foot {
+  margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--rule);
+  display: flex; justify-content: space-between; gap: 14px; font: 12px/1.5 var(--mono);
+}
+@media (max-width: 700px) {
+  .shot-card, .shot-card.is-card { grid-template-columns: 1fr; }
+  .tribunal-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div>
+    <a href="../../../paeleo/allways/index.html#runs">ALLWAYS</a> <span>/</span> <a href="../../index.html">ARGON (12)</a> <span>/</span>
+    <a href="../index.html#film=SCION_080_Life_In_A_Day_Unequal_Windows">ARGON SCREENING ROOM (85)</a> <span>/</span>
+    <span style="color:var(--ink)">#29 CASE STUDY</span>
+  </div>
+  <div style="display:flex;gap:8px;align-items:center">
+    <button class="btn" onclick="copyPrompt()">Copy Prompt</button>
+    <a class="btn sec" href="SCION_080_Life_In_A_Day_Unequal_Windows.md" download>Case Study .md</a>
+    <a class="btn sec" href="../manifests/SCION_080_Life_In_A_Day_Unequal_Windows.json" target="_blank">EDL .json</a>
+  </div>
+</header>
+<main class="wrap">
+  <div class="kicker">SCION 080 · OBSERVATIONAL &amp; COLLECTIVE DOCUMENTARIES · C · Phase, Scale &amp; Collective · FILM #29 OF 85</div>
+  <h1>Life in a Day — Diurnal Window Comparison</h1>
+  <div class="subtitle">Bath, shave/mirror, telephone call, and night gathering held across unequal material conditions</div>
+
+  <div class="player-sticky">
+    <video id="v" controls playsinline preload="metadata" src="../films/SCION_080_Life_In_A_Day_Unequal_Windows.mp4"></video>
+    <div class="player-bar">
+      <span>32.3s · 3 archival cuts · 7 sources · Critic Tribunal: PASS (v2)</span>
+      <span>Tap any captured shot card below to jump video to that cut</span>
+    </div>
+  </div>
+
+  <div class="meta-grid">
+    <div class="meta-card">
+      <div class="label">01 · Creative Theorem</div>
+      <div>Align intimate daily acts—washing, looking into a mirror, speaking on the phone, and gathering at night—while keeping the unequal economic, technological, and historical conditions of each window explicitly visible.</div>
+    </div>
+    <div class="meta-card">
+      <div class="label">02 · Lineage & Reference</div>
+      <div>Lineage: Kevin Macdonald, Life in a Day (2011)</div>
+      <div style="margin-top:8px;font-size:12px;color:var(--muted)"><strong>Boundary Contract:</strong> Unlike a synchronized single-day broadcast, this archival edition explicitly displays the decade gap between windows (`1938` vs `1951` vs `2014`) so parallel form never implies simultaneous recording.</div>
+    </div>
+  </div>
+
+  <div class="sec-head">
+    <div>
+      <div class="kicker">Stage 1 · Production Prompt</div>
+      <h2>Copyable SCION / ALLWAYS Prompt</h2>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="btn" id="copy-btn-2" onclick="copyPrompt()">Copy Full Prompt</button>
+      <span id="copy-msg" style="font:11px var(--mono);color:var(--mint);align-self:center"></span>
+    </div>
+  </div>
+  <pre class="prompt-box" id="prompt-raw"># SCION 080 // Life in a Day — A Shared Date, Unequal Windows
+## Autonomous evolving cinema / documentary / database swarm · standalone prompt
+
+**Family:** Observational and collective documentaries
+**Operator lineage:** Kevin Macdonald, Life in a Day (2011), executive-produced by Ridley Scott from participant recordings made on July 24, 2010; a separate Life in a Day 2020 premiered in 2021.
+**Requested reference:** Life in a Day (2011) — Kevin Macdonald &amp; Ridley Scott
+**Reference status:** verified_description. See the research record below.
+**Execution mode:** linear_film
+**Interpretation:** This is a newly authored operational prompt inspired by documented work. It does not claim that the credited artists wrote or endorsed it. Its proposed proof is an original experiment. Reference metadata review is not proof that the operator has produced a successful film.
+
+You are **SCION-080-LIFE-IN-A-DAY-A-SHARED-DATE-UNEQUAL-WINDOWS**. Produce a finished watchable or operable work within the user&#x27;s requested scope. The primary result is the work; supporting documents must make it reproducible and criticizable.
+
+## INPUT
+
+- `[WORK]`: the new work or question this operator should realize.
+- `[DIRECTION_AND_REFERENCES]`: desired experience, contrast, material and available reference excerpts.
+- `[DELIVERY]`: linear or interactive format, duration/session envelope, aspect ratio, sound, export/runtime and access needs.
+- `[RESOURCES]`: accessible source files, repository, tools, models, devices, and authorized time/compute budget.
+- `[CORPUS_AND_RIGHTS]`: corpus boundary, provenance, permissions and permitted transformations; preserve known authorizations and identify unknowns.
+- `[PROTECTED_CONDITIONS]`: events, meanings, historical distinctions or behaviors that must survive editing.
+
+Resolve ordinary implementation choices from context. Ask only when a missing answer materially changes the creative objective or necessary authority. Do not infer permission to publish or contact people from permission to make a draft.
+
+## 1 · Creative theorem to prove
+
+Make one bounded day perceptible through contributors’ self-chosen windows while revealing who could record, who could not, and what the common prompt fails to contain. Participation must shape the film rather than merely supply interchangeable clips.
+
+**What makes this operator distinct:** Babies follows a small observed cohort over time; this operator coordinates many self-recorded perspectives through an explicit shared-date protocol.
+
+## 2 · Native formal language
+
+Preserve and manipulate these as explicit working objects:
+
+- Contributor IDs and chosen self-descriptions
+- Declared recording date, local time, zone, and uncertainty
+- Prompt-response units with start/end context
+- Contributor edit restrictions and withdrawal state
+- Coverage map showing missing periods and places
+- Editorial day-phase sequence with explicit temporal interpretation
+
+**Protected conditions:**
+
+- State whether the project means one local date or one shared UTC interval.
+- Never infer simultaneity from similar light or routine.
+- Retain contributor attribution and meaningful first-person context.
+
+Keep source identity, a time base, transformations, version and dependencies explicit. Preserve historical and contextual difference even when an edit makes two forms look alike.
+
+## 3 · Assemble the smallest capable swarm
+
+- Participation editor produces a precise, accessible recording invitation.
+- Contribution steward maintains permissions, dates, and missing-data records.
+- Assembly editor builds day phases from complete participant units.
+- Sound/subtitle editor retains distinct voices and linguistic context.
+- Independent representation critic checks the actual film against its declared sample.
+
+Every role must build or verify something concrete. The independent critic receives the intended experience and actual output before the builder&#x27;s explanation. Do not invent a critic session when no independent review occurred.
+
+## 4 · Hard proof; produce before scaling
+
+Using already authorized submissions from one explicitly defined date, assemble a two-minute passage around opening something at the start of an activity. Begin with a contributor stating where they are and why they chose to film a small shop shutter. Preserve the shutter’s resistance and the surrounding sound. Move to another contributor opening a lunch container during a night shift, displaying the local time without pretending it is morning everywhere. A third submission can be a voice and a still room: the contributor explains that filming outside was not possible or that they did not want to record another person. Let this limitation change the form instead of discarding the contribution. Return to the first shop later in its actual recorded day for one consequence of opening. End with the night worker closing the container, leaving their day unfinished. Use only answers and actions present in the sources. The common prompt provides coherence, while time differences and unequal opportunities remain visible.
+
+Save a recoverable draft. Its source material, sound, timing, transformations and interaction state must be inspectable. Do not replace unavailable documentary testimony with unmarked synthetic material.
+
+## 5 · Acceptance tribunal
+
+**Judge by watching or operating the proof:**
+
+- The shared-date rule can be understood from the presentation.
+- At least three contributors retain distinct reasons for recording.
+- A gap or limitation survives as evidence rather than being patched with stock footage.
+- Day-phase editing does not falsely synchronize local events.
+- The proof feels authored with participants rather than assembled from anonymous scenery.
+
+**Structural or automated checks, only where the representation supports them:**
+
+- Validate declared timestamps against the chosen date rule, retaining unknown rather than fabricated zones.
+- Check final segments against contributor-specific inclusion and withdrawal states.
+
+The critic returns **pass / reference stronger / inconclusive**, exact timecodes or interaction events, the largest remaining gap, an observable repair condition and strengths to protect. Distinguish measured checks from perceptual judgments. Leave execution and acceptance marked pending until they happen.
+
+## 6 · Repair through discriminating experiments
+
+- **Failure:** The film becomes a collage of picturesque routines. **Hypothesis:** Selection favors polished images and suppresses explanations or inaccessible activities. **Experiment:** Compare image-quality selection with a cut organized by contributors’ stated reasons; inspect which perspectives disappear.
+- **Failure:** The temporal structure confuses viewers. **Hypothesis:** Local time, UTC time, and narrative order are conflated. **Experiment:** Test a brief declared local-day structure against a UTC-aligned version using identical sources; retain the one whose temporal claim is both legible and supportable.
+
+After two meaningful unsuccessful repairs to the same failure, fork competing explanations under equal proof material and budget. Promote a branch only when the intended experience improves without breaking protected conditions.
+
+## 7 · Discovery and recursive expansion
+
+- Increase participation only after the contribution protocol and source map survive the proof.
+- Develop a whole-day arc through returning contributors, while publishing coverage gaps as context rather than treating the sample as humanity itself.
+
+Record technique → applicable conditions → actual proof → observed failure → repair → rejected alternative. Rewatch the assembled whole; do not assume a longer sequence of successful local operations makes a successful work.
+
+## 8 · Deliverable contract
+
+- Playable collaborative day-film passage with clear temporal framing.
+- Contribution/source ledger, coverage-and-gap view, subtitles, and representation-critic notes.
+- A reproducible assembly manifest retaining participant restrictions.
+
+Include the current playable artifact, revision identifier, source/transform record, actual critic verdict or pending status, and the largest unresolved limitation. Preserve an accepted checkpoint before major changes.
+
+**Possible ALLWAYS applications:** ANYBODY ANYWHERE, EVERDAY, MEANWHILE.
+
+## INHERITED SCION DOCTRINE — BUILD, INSPECT, REPAIR
+
+1. **Viewer experience first.** State one specific perceptual or interactive achievement. Name the attractive but empty result this project must avoid. A subject, mood board or similarity score is not a film.
+2. **Inspect the lineage.** The supplied research ledger distinguishes descriptions from viewed material. Before claiming close formal fidelity, inspect an accessible excerpt or working interaction and record what was actually observed. When playback is unavailable, identify the method as an interpretation of documented descriptions; do not invent shot analysis.
+3. **Hard proof before scale.** Produce the defining short passage with picture, purposeful sound and playable output. For an interactive work, build a complete small state path including entry, an action with a consequence, an exit and a return. Do not begin by accumulating a giant archive.
+4. **Material and source integrity.** Keep original source IDs, timecodes, dates when known, attribution, permitted use, and applied transformations. Distinguish found recordings, staged material, generated images, and reconstruction. A synthetic stand-in is not documentary evidence. Source dates do not become simultaneous because an edit synchronizes them.
+5. **Native working state.** Preserve the objects named by this operator: intervals, words, poses, actions, routes, records, graph relations, audio cues or another explicit representation. Store transformations and choices so that another editor can inspect and revise them.
+6. **Small accountable swarm.** Every role owns an artifact or a verification. Merge roles when coordination becomes costly. Keep an independent critic for the defining achievement. Respect the user&#x27;s existing authority; do not seek arbitrary approval for routine reversible work or publish/contact others beyond the authorized scope.
+7. **Sound and duration are structural.** Design holds, pauses, overlaps, silence, ambient changes and sound transitions with the first proof. Preserve source silence where relevant; label newly composed sound. Never claim that music, an animation or a cut establishes a person&#x27;s private feeling.
+8. **Independent criticism.** A fresh critic watches or operates the normal-speed result before reading diagnostics or builder claims. Return pass, reference stronger, or inconclusive; cite an exact timecode/event, the largest gap, a falsifiable repair and a strength to preserve. &#x27;Reference stronger&#x27; requires an actually inspected comparable reference. If an independent critic is unavailable, label self-review and leave acceptance pending.
+9. **Repair causes.** Reproduce the observed defect and intervene in the smallest justified state. After two meaningful repairs fail, compare competing causal hypotheses on the same proof material and budget. Do not add effects, agents or footage just to conceal the defect.
+10. **Two kinds of evidence.** Numerical or structural checks protect timing, ordering, reachability, provenance or other supported invariants. Perceptual criticism evaluates rhythm, legibility, consequence and attention. Neither substitutes for the other, and no score proves artistic value. Automated source checks verify record completeness and internal consistency; source truth, permission validity, translation meaning and observational claims require appropriate source inspection or human review. Report which review actually occurred.
+11. **Whole-work judgment.** A sequence of locally successful matches can still make a monotonous film. Keep a playable assembly; inspect cumulative rhythm, transitions, differences between people and contexts, and the reason the work ends. Preserve productive seams and interruptions.
+12. **Truthful stopping and delivery.** Stop at independent acceptance, the user&#x27;s stop, the authorized budget, or a justified no-progress boundary. Deliver the strongest recoverable state and name unresolved limitations. Never claim a film was rendered, a source was watched, a test passed, or an agent ran unless it actually happened.
+
+**Tool boundary:** Use real available tools. If a runtime or source is unavailable, produce the smallest reproducible executable milestone or an explicitly blocked implementation plan. Do not narrate an imaginary execution. This prompt authorizes only the scope supplied by its user.
+
+## START
+
+Read the inputs and actual source material. State the creative theorem and protected conditions. Build the proof with picture and sound or an operable interaction. Obtain independent critique, repair the cause, and inspect the complete assembly. Expand only after the defining operation is perceptible.
+
+
+## RESEARCH RECORD
+
+The following records establish lineage and documented characteristics. Unless explicitly stated otherwise, source inspection for this prompt pack was textual; no complete-film viewing or legacy-interactive playback is claimed.
+
+1. [Life in a Day — YouTube project announcement](https://blog.youtube/news-and-events/life-in-day/) — Contemporaneous July 24, 2010 recording instruction, participant model, director, and intended 2011 premiere. Evidence: official_description; inspection: text_only.
+2. [Life in a Day now available on YouTube](https://blog.youtube/news-and-events/life-in-day-now-available-on-youtube/?hl=nl) — The 2011 feature’s relationship to footage recorded July 24, 2010. Evidence: official_description; inspection: text_only.
+3. [Kevin Macdonald — RSA Films](https://rsafilms.com/us/directors/kevin-macdonald) — Production relationship and distinction between the original project and Life in a Day 2020, premiered February 2021. Evidence: creator_statement; inspection: text_only.
+
+**Metadata notes and unresolved questions:**
+
+- MIT Docubase’s retrieved entry says June 24; the contemporaneous producer/platform announcement establishes July 24, 2010.
+- A shared local calendar date is not proof of simultaneous recording or a statistically representative global sample.
+</pre>
+
+  <div class="sec-head">
+    <div>
+      <div class="kicker">Stage 2 · Archive Forage, Captured Frames & Editorial Rationale</div>
+      <h2>Captured Shots & Why Each Was Chosen (3 Cuts)</h2>
+    </div>
+    <span style="font:11px var(--mono);color:var(--muted)">Click any shot to scrub video</span>
+  </div>
+  <div class="shots-list">
+    
+            <article class="shot-card is-card" onclick="seekTo(0.00)">
+              <div class="shot-media card-placeholder">
+                <span>TITLE CARD</span>
+                <span class="shot-time">SEG #01 · 0.0s–3.0s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source"><strong>OPENING SLATE</strong> <span>(3.0s)</span></div>
+                <div class="shot-what">Bath, shave/mirror, telephone call, and night gathering held across unequal material conditions</div>
+                <div class="shot-why"><strong>Why Included:</strong> Structural framing slate / audit card required by operator deliverable contract.</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(3.00)">
+              <div class="shot-media">
+                <img src="../thumbs/9db7e1b3-82b6-5e1e-8e1b-69fd6d4b8ff2.jpg" alt="Captured frame from Care of the Skin" loading="lazy">
+                <span class="shot-time">CUT #02 · 3.0s–7.8s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>Care of the Skin (1949)</strong>
+                  <span>clip <code>9db7e1b3</code> · source window <code>0.30s–5.10s</code> (4.80s) <a href="https://www.movingimagearchive.com/sources/care-of-the-skin?clip=9db7e1b3-82b6-5e1e-8e1b-69fd6d4b8ff2" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> Care of the Skin (1949): A person seen from behind sitting in a bath — private bodily maintenance</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>DIURNAL ACT: WASHING (1949)</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from Care of the Skin (1949) because the visible gesture directly  establishes phase [WINDOW 01 (WASHING) · BATH WATER &amp; FOAM (1949)], and executes the formal bridge (DIURNAL ACT: WASHING (1949)), and anchors the opening perceptual premise before any cross-source comparison begins. Window 0.30s–5.10s (4.80s) verified cut-free (motion Δ=23.3, luma=87.2, audio=-18.0 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card is-card" onclick="seekTo(7.80)">
+              <div class="shot-media card-placeholder">
+                <span>SPLIT SHOT</span>
+                <span class="shot-time">SEG #03 · 7.8s–13.3s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source"><strong>SPLIT COMPARISON</strong> <span>(5.5s)</span></div>
+                <div class="shot-what">UNEQUAL MIRRORS: Domestic hand mirror (Left: Going Steady, 1951) vs Public barber&#x27;s chair (Right: Barbers, 1959)</div>
+                <div class="shot-why"><strong>Why Included:</strong> Structural framing slate / audit card required by operator deliverable contract.</div>
+              </div>
+            </article>
+            <article class="shot-card is-card" onclick="seekTo(13.30)">
+              <div class="shot-media card-placeholder">
+                <span>SPLIT SHOT</span>
+                <span class="shot-time">SEG #04 · 13.3s–18.8s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source"><strong>SPLIT COMPARISON</strong> <span>(5.5s)</span></div>
+                <div class="shot-what">UNEQUAL LINES: Wall phone in a workroom (Left: Tornado) vs Glass street booth (Right: Town &amp; Telephone, 1950)</div>
+                <div class="shot-why"><strong>Why Included:</strong> Structural framing slate / audit card required by operator deliverable contract.</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(18.80)">
+              <div class="shot-media">
+                <img src="../thumbs/df82dd90-9a0e-5c70-962e-cdb4faba0241.jpg" alt="Captured frame from Valley Town" loading="lazy">
+                <span class="shot-time">CUT #05 · 18.8s–23.8s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>Valley Town (1940)</strong>
+                  <span>clip <code>df82dd90</code> · source window <code>0.50s–5.50s</code> (5.00s) <a href="https://www.movingimagearchive.com/sources/valley-town-9978c98d?clip=df82dd90-9a0e-5c70-962e-cdb4faba0241" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> Valley Town (1940): A solitary worker hunched over a meal — economic pressure inside the ordinary day</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>UNEQUAL CONDITION (1940)</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from Valley Town (1940) because the visible gesture directly  establishes phase [WINDOW 04 (SUBSISTENCE) · HUNCHED WORKER EATING (1940)], and executes the formal bridge (UNEQUAL CONDITION (1940)), and advances cut 2/3 of the theorem while preserving distinct historical provenance (1940). Window 0.50s–5.50s (5.00s) verified cut-free (motion Δ=19.9, luma=56.1, audio=-20.8 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(23.80)">
+              <div class="shot-media">
+                <img src="../thumbs/48dea439-49b0-5cc0-b34a-67e02a833937.jpg" alt="Captured frame from Parents of Music Students Holly Jolly Trolley Tour 12/13/14" loading="lazy">
+                <span class="shot-time">CUT #06 · 23.8s–28.8s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>Parents of Music Students Holly Jolly Trolley Tour 12/13/14 (2014)</strong>
+                  <span>clip <code>48dea439</code> · source window <code>1.00s–6.00s</code> (5.00s) <a href="https://www.movingimagearchive.com/sources/parents-of-music-students-holly-jolly-trolley-tour-12-13-14-15b3490e?clip=48dea439-49b0-5cc0-b34a-67e02a833937" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> Parents of Music Students (2014): Families gathering outside a brightly lit building at night</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>DIURNAL CLOSURE (2014)</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from Parents of Music Students Holly Jolly Trolley Tour 12/13/14 (2014) because the visible gesture directly  establishes phase [WINDOW 05 (NOCTURNE) · GATHERING OUTSIDE A LIT BUILDING (2014)], and executes the formal bridge (DIURNAL CLOSURE (2014)), and completes the terminal return/aftermath hold required by the operator theorem. Window 1.00s–6.00s (5.00s) verified cut-free (motion Δ=29.3, luma=57.4, audio=-24.0 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card is-card" onclick="seekTo(28.80)">
+              <div class="shot-media card-placeholder">
+                <span>CLOSING LEDGER</span>
+                <span class="shot-time">SEG #07 · 28.8s–32.3s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source"><strong>CLOSING LEDGER</strong> <span>(3.5s)</span></div>
+                <div class="shot-what">Unlike a synchronized single-day broadcast, this archival edition explicitly displays the decade gap between windows (`1938` vs `1951` vs `2014`) so parallel form never implies simultaneous recording.</div>
+                <div class="shot-why"><strong>Why Included:</strong> Structural framing slate / audit card required by operator deliverable contract.</div>
+              </div>
+            </article>
+  </div>
+
+  <div class="sec-head">
+    <div>
+      <div class="kicker">Stage 3 · Independent Critic Tribunal & Verification</div>
+      <h2>Temporal Proof Strips & Diagnostic Audit</h2>
+    </div>
+    <a class="btn sec" href="../strips/SCION_080_Life_In_A_Day_Unequal_Windows_v2_strip.jpg" target="_blank">Open Full-Res Strip ↗</a>
+  </div>
+  <div class="strip-label">Verified v2 Temporal Proof Strip (8 evenly spaced frames + waveform/timecode audit)</div>
+  <img class="strip-img" src="../strips/SCION_080_Life_In_A_Day_Unequal_Windows_v2_strip.jpg" alt="v2 proof strip">
+  
+  
+        <div class="trib-box pass">
+          <div class="label">Two-Layer Critic Tribunal Verification</div>
+          <p><strong>Strength Preserved:</strong> </p>
+          <p><strong>Final Verdict:</strong> <code>PASS (v2 · 0 structural or perceptual issues across 3 archival cuts)</code></p>
+        </div>
+
+  <nav class="nav-foot">
+    <a href="SCION_079_Qatsi_Three_Technological_Regimes.html">← #28 The Qatsi Trilogy — Three Regimes of Technological Time</a>
+    <a href="../index.html#film=SCION_080_Life_In_A_Day_Unequal_Windows">Back to 85-Film Screening Room ↗</a>
+    <a href="SCION_081_Human_Testimony_And_Aerial_Breathing_Room.html">#30 Human — Direct Testimony and Aerial Breathing Space →</a>
+  </nav>
+</main>
+<script>
+function seekTo(sec) {
+  const v = document.getElementById('v');
+  v.currentTime = sec;
+  v.play().catch(()=>{});
+  v.scrollIntoView({behavior:'smooth', block:'center'});
+}
+function copyPrompt() {
+  const txt = document.getElementById('prompt-raw').textContent;
+  navigator.clipboard.writeText(txt).then(() => {
+    const msg = document.getElementById('copy-msg');
+    msg.textContent = 'COPIED TO CLIPBOARD ✓';
+    setTimeout(() => msg.textContent = '', 2500);
+  });
+}
+</script>
+</body>
+</html>

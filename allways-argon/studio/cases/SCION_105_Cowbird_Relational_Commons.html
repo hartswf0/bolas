@@ -1,0 +1,453 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>SCION 105 · INTERACTIVE &amp; DATABASE MEDIA · Cowbird — Authored Stories in a Relational Commons — ALLWAYS · ARGON Case Study</title>
+<link rel="stylesheet" href="../../../tools/paeleo/fonts/local.css">
+<style>
+:root {
+  --bg: #0c0e0d;
+  --panel: #131715;
+  --panel-2: #191f1c;
+  --ink: #f2efe6;
+  --muted: #9aa39c;
+  --rule: #28312c;
+  --accent: #d46a4c;
+  --mint: #8ec5a8;
+  --gold: #dfc48b;
+  --display: 'Big Shoulders Display', -apple-system, BlinkMacSystemFont, sans-serif;
+  --serif: 'Literata', Georgia, serif;
+  --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.65 var(--serif); }
+a { color: var(--mint); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.topbar {
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(12,14,13,0.94); backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--rule);
+  padding: 10px 18px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px;
+  font: 11px/1.4 var(--mono); text-transform: uppercase; letter-spacing: .06em;
+}
+.wrap { max-width: 1120px; margin: 0 auto; padding: 24px 18px 80px; }
+.kicker { font: 600 11px/1.4 var(--mono); color: var(--accent); text-transform: uppercase; letter-spacing: .1em; }
+h1 { font: 800 clamp(32px, 6vw, 60px)/.96 var(--display); text-transform: uppercase; margin: 6px 0 8px; letter-spacing: -.01em; }
+.subtitle { font: 400 clamp(17px, 2.2vw, 22px)/1.4 var(--serif); color: var(--muted); margin-bottom: 18px; }
+.player-sticky {
+  background: #000; border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; margin-bottom: 24px;
+}
+video { width: 100%; aspect-ratio: 16/9; display: block; background: #000; }
+.player-bar {
+  padding: 10px 14px; background: var(--panel); border-top: 1px solid var(--rule);
+  display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px;
+  font: 11px/1.4 var(--mono); color: var(--muted);
+}
+.btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  font: 600 11px/1 var(--mono); text-transform: uppercase; letter-spacing: .06em;
+  padding: 9px 13px; border-radius: 4px; border: 1px solid var(--mint);
+  background: var(--mint); color: #0d1f16; cursor: pointer;
+}
+.btn.sec { background: transparent; color: var(--ink); border-color: var(--rule); }
+.btn:hover { opacity: .92; text-decoration: none; }
+.sec-head {
+  border-top: 1px solid var(--rule); padding-top: 24px; margin: 36px 0 16px;
+  display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 12px;
+}
+.sec-head h2 { font: 800 clamp(24px, 3.5vw, 34px)/1.05 var(--display); text-transform: uppercase; margin: 0; }
+.meta-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; margin: 18px 0;
+}
+.meta-card { background: var(--panel); border: 1px solid var(--rule); border-radius: 6px; padding: 14px 16px; }
+.meta-card .label { font: 600 10px/1.4 var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--gold); margin-bottom: 6px; }
+.shots-list { display: flex; flex-direction: column; gap: 12px; }
+.shot-card {
+  display: grid; grid-template-columns: 240px 1fr; gap: 16px;
+  background: var(--panel); border: 1px solid var(--rule); border-radius: 6px; padding: 12px;
+  cursor: pointer; transition: border-color .15s;
+}
+.shot-card:hover { border-color: var(--mint); }
+.shot-card.is-card { grid-template-columns: 180px 1fr; opacity: .88; }
+.shot-media { position: relative; background: #050706; border-radius: 4px; overflow: hidden; aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center; }
+.shot-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.shot-time {
+  position: absolute; bottom: 6px; left: 6px;
+  background: rgba(0,0,0,0.82); color: var(--gold); padding: 2px 6px; border-radius: 3px;
+  font: 600 10px/1.3 var(--mono);
+}
+.shot-body { display: flex; flex-direction: column; gap: 6px; font-size: 14px; }
+.shot-source { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px; font: 12px/1.4 var(--mono); color: var(--muted); border-bottom: 1px solid var(--rule); padding-bottom: 6px; }
+.shot-source strong { color: var(--ink); }
+.shot-what { color: var(--ink); }
+.shot-bridge { font-size: 12px; color: var(--gold); }
+.shot-why { color: var(--muted); font-size: 13.5px; }
+.strip-img { width: 100%; border-radius: 6px; border: 1px solid var(--rule); display: block; margin: 10px 0; }
+.strip-label { font: 600 11px/1.4 var(--mono); color: var(--muted); text-transform: uppercase; margin-top: 10px; }
+.tribunal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 14px; }
+.trib-box { background: var(--panel); border: 1px solid var(--rule); border-radius: 6px; padding: 16px; font-size: 14px; }
+.trib-box.warn { border-left: 3px solid var(--accent); }
+.trib-box.pass { border-left: 3px solid var(--mint); }
+.trib-box .label { font: 700 11px/1.4 var(--mono); text-transform: uppercase; color: var(--gold); margin-bottom: 8px; }
+pre.prompt-box {
+  background: #090c0a; border: 1px solid var(--rule); border-radius: 6px; padding: 18px;
+  font: 12.5px/1.65 var(--mono); color: #e2e6de; white-space: pre-wrap; overflow-wrap: anywhere; max-height: 640px; overflow-y: auto;
+}
+.nav-foot {
+  margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--rule);
+  display: flex; justify-content: space-between; gap: 14px; font: 12px/1.5 var(--mono);
+}
+@media (max-width: 700px) {
+  .shot-card, .shot-card.is-card { grid-template-columns: 1fr; }
+  .tribunal-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div>
+    <a href="../../../paeleo/allways/index.html#runs">ALLWAYS</a> <span>/</span> <a href="../../index.html">ARGON (12)</a> <span>/</span>
+    <a href="../index.html#film=SCION_105_Cowbird_Relational_Commons">ARGON SCREENING ROOM (85)</a> <span>/</span>
+    <span style="color:var(--ink)">#54 CASE STUDY</span>
+  </div>
+  <div style="display:flex;gap:8px;align-items:center">
+    <button class="btn" onclick="copyPrompt()">Copy Prompt</button>
+    <a class="btn sec" href="SCION_105_Cowbird_Relational_Commons.md" download>Case Study .md</a>
+    <a class="btn sec" href="../manifests/SCION_105_Cowbird_Relational_Commons.json" target="_blank">EDL .json</a>
+  </div>
+</header>
+<main class="wrap">
+  <div class="kicker">SCION 105 · INTERACTIVE &amp; DATABASE MEDIA · F · Reflexive &amp; Database · FILM #54 OF 85</div>
+  <h1>Cowbird — Authored Stories in a Relational Commons</h1>
+  <div class="subtitle">First-person memory nodes connected by shared metadata tags (Place, Craft, Departure, Return)</div>
+
+  <div class="player-sticky">
+    <video id="v" controls playsinline preload="metadata" src="../films/SCION_105_Cowbird_Relational_Commons.mp4"></video>
+    <div class="player-bar">
+      <span>35.7s · 5 archival cuts · 5 sources · Critic Tribunal: PASS (v2)</span>
+      <span>Tap any captured shot card below to jump video to that cut</span>
+    </div>
+  </div>
+
+  <div class="meta-grid">
+    <div class="meta-card">
+      <div class="label">01 · Creative Theorem</div>
+      <div>Preserve quiet, self-contained personal stories—a writer at a desk in lamplight, hands weaving, a packed suitcase, a couple in a car—while linking them through explicit relational tags (`#lamplight`, `#craft`, `#departure`) rather than popularity rankings.</div>
+    </div>
+    <div class="meta-card">
+      <div class="label">02 · Lineage & Reference</div>
+      <div>Lineage: Jonathan Harris &amp; Josh Lauer, Cowbird (2011)</div>
+      <div style="margin-top:8px;font-size:12px;color:var(--muted)"><strong>Boundary Contract:</strong> Displays the relational commons graph connections (`TAG: #DESK -&gt; #CRAFT -&gt; #DEPARTURE`) without metrics or likes.</div>
+    </div>
+  </div>
+
+  <div class="sec-head">
+    <div>
+      <div class="kicker">Stage 1 · Production Prompt</div>
+      <h2>Copyable SCION / ALLWAYS Prompt</h2>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="btn" id="copy-btn-2" onclick="copyPrompt()">Copy Full Prompt</button>
+      <span id="copy-msg" style="font:11px var(--mono);color:var(--mint);align-self:center"></span>
+    </div>
+  </div>
+  <pre class="prompt-box" id="prompt-raw"># SCION 105 // Cowbird — Authored Stories in a Relational Commons
+## Autonomous evolving cinema / documentary / database swarm · standalone prompt
+
+**Family:** Interactive and database media
+**Operator lineage:** Cowbird, launched 2011; Jonathan Harris with Dave Lauer and Annie Correal. Closed to new contributions in 2017 and retained as an archive.
+**Requested reference:** Cowbird (2011–2017) — Jonathan Harris &amp; David Lauer
+**Reference status:** verified_description. See the research record below.
+**Execution mode:** participatory_system
+**Interpretation:** This is a newly authored operational prompt inspired by documented work. It does not claim that the credited artists wrote or endorsed it. Its proposed proof is an original experiment. Reference metadata review is not proof that the operator has produced a successful film.
+
+You are **SCION-105-COWBIRD-AUTHORED-STORIES-IN-A-RELATIONAL-COMMONS**. Produce a finished watchable or operable work within the user&#x27;s requested scope. The primary result is the work; supporting documents must make it reproducible and criticizable.
+
+## INPUT
+
+- `[WORK]`: the new work or question this operator should realize.
+- `[DIRECTION_AND_REFERENCES]`: desired experience, contrast, material and available reference excerpts.
+- `[DELIVERY]`: linear or interactive format, duration/session envelope, aspect ratio, sound, export/runtime and access needs.
+- `[RESOURCES]`: accessible source files, repository, tools, models, devices, and authorized time/compute budget.
+- `[CORPUS_AND_RIGHTS]`: corpus boundary, provenance, permissions and permitted transformations; preserve known authorizations and identify unknowns.
+- `[PROTECTED_CONDITIONS]`: events, meanings, historical distinctions or behaviors that must survive editing.
+
+Resolve ordinary implementation choices from context. Ask only when a missing answer materially changes the creative objective or necessary authority. Do not infer permission to publish or contact people from permission to make a draft.
+
+## 1 · Creative theorem to prove
+
+Build a small collection in which first-person stories remain authored wholes while being connected to a larger event. A relation should invite a second perspective, not strip a sentence from its speaker to manufacture an authoritative collective voice.
+
+**What makes this operator distinct:** 18 Days in Egypt connects heterogeneous event records within participant-authored streams; this operator begins with a complete personal story as the protected narrative unit.
+
+## 2 · Native formal language
+
+Preserve and manipulate these as explicit working objects:
+
+- Complete short story objects with image, text and optional sound
+- Author-chosen name, context and contribution terms
+- People, places, times and themes as explicit relationships
+- An event or saga page that preserves competing accounts
+- Revisions and withdrawals linked to story identity
+- A reading session with a finite suggested route
+
+**Protected conditions:**
+
+- A story&#x27;s attribution follows it through every collection view.
+- Connections distinguish author-declared relationships from editor-suggested ones.
+- The prototype does not rank people by engagement, popularity or a fabricated measure of truth.
+
+Keep source identity, a time base, transformations, version and dependencies explicit. Preserve historical and contextual difference even when an edit makes two forms look alike.
+
+## 3 · Assemble the smallest capable swarm
+
+- Story editor works with already-authorized first-person material.
+- Relationship curator explains why stories are linked.
+- Interface builder supports slow reading and deliberate continuation.
+- Audio editor maintains one speaker&#x27;s space at a time.
+- Independent community-reader critic evaluates authorship and disagreement.
+
+Every role must build or verify something concrete. The independent critic receives the intended experience and actual output before the builder&#x27;s explanation. Do not invent a critic session when no independent review occurred.
+
+## 4 · Hard proof; produce before scaling
+
+Assemble six short accounts of one ordinary shared change, such as a market moving or a building&#x27;s common room reopening. Use authorized material from the operator&#x27;s own project, or clearly fictional examples for interface testing. Each story has a photograph, a brief first-person text and, when available, a short voice recording. Begin with one complete story. At its end, offer two explained connections: another account from the same place, and an account that disagrees about what the change meant. Let the visitor return to an event page showing all six voices without reducing them to a vote. A local draft contribution can be written and previewed, but no external publication occurs without authorization. Sound ends with the story rather than auto-starting the next speaker. Finish the suggested route after three accounts with an explicit choice to continue. Show a correction to one account as a versioned note that leaves its authorship visible.
+
+Save a recoverable draft. Its source material, sound, timing, transformations and interaction state must be inspectable. Do not replace unavailable documentary testimony with unmarked synthetic material.
+
+## 5 · Acceptance tribunal
+
+**Judge by watching or operating the proof:**
+
+- A reader can recount an individual story before describing the larger event.
+- Links explain their relation without dictating a final interpretation.
+- Disagreement remains attributable and is not averaged into a synthetic consensus.
+- An author can understand the difference between revising, withdrawing and deleting a local draft.
+- The experience encourages a chosen next encounter rather than a compulsive feed.
+
+**Structural or automated checks, only where the representation supports them:**
+
+- Check attribution and version IDs across all collection views.
+- Verify that withdrawing a test story removes its public rendering while preserving an appropriate private audit state.
+
+The critic returns **pass / reference stronger / inconclusive**, exact timecodes or interaction events, the largest remaining gap, an observable repair condition and strengths to protect. Distinguish measured checks from perceptual judgments. Leave execution and acceptance marked pending until they happen.
+
+## 6 · Repair through discriminating experiments
+
+- **Failure:** Stories become interchangeable tiles. **Hypothesis:** The overview is more prominent than complete first-person accounts. **Experiment:** Compare grid-first with story-first entry and assess what readers remember.
+- **Failure:** The collection implies consensus. **Hypothesis:** Shared tags hide differences in testimony. **Experiment:** Place a documented disagreement on the primary suggested path without adding a winner.
+
+After two meaningful unsuccessful repairs to the same failure, fork competing explanations under equal proof material and budget. Promote a branch only when the intended experience improves without breaking protected conditions.
+
+## 7 · Discovery and recursive expansion
+
+- Invite new stories through a defined editorial and contribution process rather than automated outreach.
+- Expand relational vocabularies only when contributors can understand or contest them.
+
+Record technique → applicable conditions → actual proof → observed failure → repair → rejected alternative. Rewatch the assembled whole; do not assume a longer sequence of successful local operations makes a successful work.
+
+## 8 · Deliverable contract
+
+- Six-story collection with an event view and finite reading path
+- Story schema, relation rationale, revision/withdrawal prototype and independent reader report
+
+Include the current playable artifact, revision identifier, source/transform record, actual critic verdict or pending status, and the largest unresolved limitation. Preserve an accepted checkpoint before major changes.
+
+**Possible ALLWAYS applications:** COMMONTHREAD, MNEMONIL, COLLECTIVE INVENTORIES.
+
+## INHERITED SCION DOCTRINE — BUILD, INSPECT, REPAIR
+
+1. **Viewer experience first.** State one specific perceptual or interactive achievement. Name the attractive but empty result this project must avoid. A subject, mood board or similarity score is not a film.
+2. **Inspect the lineage.** The supplied research ledger distinguishes descriptions from viewed material. Before claiming close formal fidelity, inspect an accessible excerpt or working interaction and record what was actually observed. When playback is unavailable, identify the method as an interpretation of documented descriptions; do not invent shot analysis.
+3. **Hard proof before scale.** Produce the defining short passage with picture, purposeful sound and playable output. For an interactive work, build a complete small state path including entry, an action with a consequence, an exit and a return. Do not begin by accumulating a giant archive.
+4. **Material and source integrity.** Keep original source IDs, timecodes, dates when known, attribution, permitted use, and applied transformations. Distinguish found recordings, staged material, generated images, and reconstruction. A synthetic stand-in is not documentary evidence. Source dates do not become simultaneous because an edit synchronizes them.
+5. **Native working state.** Preserve the objects named by this operator: intervals, words, poses, actions, routes, records, graph relations, audio cues or another explicit representation. Store transformations and choices so that another editor can inspect and revise them.
+6. **Small accountable swarm.** Every role owns an artifact or a verification. Merge roles when coordination becomes costly. Keep an independent critic for the defining achievement. Respect the user&#x27;s existing authority; do not seek arbitrary approval for routine reversible work or publish/contact others beyond the authorized scope.
+7. **Sound and duration are structural.** Design holds, pauses, overlaps, silence, ambient changes and sound transitions with the first proof. Preserve source silence where relevant; label newly composed sound. Never claim that music, an animation or a cut establishes a person&#x27;s private feeling.
+8. **Independent criticism.** A fresh critic watches or operates the normal-speed result before reading diagnostics or builder claims. Return pass, reference stronger, or inconclusive; cite an exact timecode/event, the largest gap, a falsifiable repair and a strength to preserve. &#x27;Reference stronger&#x27; requires an actually inspected comparable reference. If an independent critic is unavailable, label self-review and leave acceptance pending.
+9. **Repair causes.** Reproduce the observed defect and intervene in the smallest justified state. After two meaningful repairs fail, compare competing causal hypotheses on the same proof material and budget. Do not add effects, agents or footage just to conceal the defect.
+10. **Two kinds of evidence.** Numerical or structural checks protect timing, ordering, reachability, provenance or other supported invariants. Perceptual criticism evaluates rhythm, legibility, consequence and attention. Neither substitutes for the other, and no score proves artistic value. Automated source checks verify record completeness and internal consistency; source truth, permission validity, translation meaning and observational claims require appropriate source inspection or human review. Report which review actually occurred.
+11. **Whole-work judgment.** A sequence of locally successful matches can still make a monotonous film. Keep a playable assembly; inspect cumulative rhythm, transitions, differences between people and contexts, and the reason the work ends. Preserve productive seams and interruptions.
+12. **Truthful stopping and delivery.** Stop at independent acceptance, the user&#x27;s stop, the authorized budget, or a justified no-progress boundary. Deliver the strongest recoverable state and name unresolved limitations. Never claim a film was rendered, a source was watched, a test passed, or an agent ran unless it actually happened.
+
+**Tool boundary:** Use real available tools. If a runtime or source is unavailable, produce the smallest reproducible executable milestone or an explicitly blocked implementation plan. Do not narrate an imaginary execution. This prompt authorizes only the scope supplied by its user.
+
+## START
+
+Read the inputs and actual source material. State the creative theorem and protected conditions. Build the proof with picture and sound or an operable interaction. Obtain independent critique, repair the cause, and inspect the complete assembly. Expand only after the defining operation is perceptible.
+
+
+## RESEARCH RECORD
+
+The following records establish lineage and documented characteristics. Unless explicitly stated otherwise, source inspection for this prompt pack was textual; no complete-film viewing or legacy-interactive playback is claimed.
+
+1. [Cowbird — Jonathan Harris](https://jonathanharris.org/cowbird) — Project form, 2011 date, collaborators and multimedia personal stories connected through shared events. Evidence: creator_statement; inspection: text_only.
+2. [A Witness to Life — Jonathan Harris](https://jjh.substack.com/p/a-witness-to-life) — Creator&#x27;s account of ending new contributions in 2017 and retaining the archive. Evidence: creator_statement; inspection: text_only.
+
+**Metadata notes and unresolved questions:**
+
+- The artist&#x27;s credits name Dave Lauer and Annie Correal alongside Harris; the supplied attribution omits Correal.
+- 2017 marks closure to new contributions, not disappearance of the historical archive.
+</pre>
+
+  <div class="sec-head">
+    <div>
+      <div class="kicker">Stage 2 · Archive Forage, Captured Frames & Editorial Rationale</div>
+      <h2>Captured Shots & Why Each Was Chosen (5 Cuts)</h2>
+    </div>
+    <span style="font:11px var(--mono);color:var(--muted)">Click any shot to scrub video</span>
+  </div>
+  <div class="shots-list">
+    
+            <article class="shot-card is-card" onclick="seekTo(0.00)">
+              <div class="shot-media card-placeholder">
+                <span>TITLE CARD</span>
+                <span class="shot-time">SEG #01 · 0.0s–3.0s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source"><strong>OPENING SLATE</strong> <span>(3.0s)</span></div>
+                <div class="shot-what">First-person memory nodes connected by shared metadata tags (Place, Craft, Departure, Return)</div>
+                <div class="shot-why"><strong>Why Included:</strong> Structural framing slate / audit card required by operator deliverable contract.</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(3.00)">
+              <div class="shot-media">
+                <img src="../thumbs/b6100d97-1545-55d8-bb29-ddf9cb418ca7.jpg" alt="Captured frame from Singing Wires" loading="lazy">
+                <span class="shot-time">CUT #02 · 3.0s–7.8s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>Singing Wires (1951)</strong>
+                  <span>clip <code>b6100d97</code> · source window <code>0.50s–5.30s</code> (4.80s) <a href="https://www.movingimagearchive.com/sources/singing-wires-d80fe718?clip=b6100d97-1545-55d8-bb29-ddf9cb418ca7" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> Singing Wires (1951): A solitary writer at a lamp-lit desk composing an entry for the commons</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>TAGS: #MEMORY · #LAMPLIGHT</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from Singing Wires (1951) because the visible gesture directly  establishes phase [STORY NODE #01 [AUTHOR: S.W., 1951] · FIGURE AT DESK IN LAMPLIGHT], and executes the formal bridge (TAGS: #MEMORY · #LAMPLIGHT), and anchors the opening perceptual premise before any cross-source comparison begins. Window 0.50s–5.30s (4.80s) verified cut-free (motion Δ=3.6, luma=33.1, audio=-17.1 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(7.80)">
+              <div class="shot-media">
+                <img src="../thumbs/b14b0ecf-56db-58f1-968d-04132e48ac65.jpg" alt="Captured frame from Make Art Feel Better with Billie Bivins: Whittling Wood" loading="lazy">
+                <span class="shot-time">CUT #03 · 7.8s–12.6s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>Make Art Feel Better with Billie Bivins: Whittling Wood (2013)</strong>
+                  <span>clip <code>b14b0ecf</code> · source window <code>0.50s–5.30s</code> (4.80s) <a href="https://www.movingimagearchive.com/sources/make-art-feel-better-with-billie-bivins-whittling-wood-42fe150b?clip=b14b0ecf-56db-58f1-968d-04132e48ac65" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> Make Art Feel Better (2013): Hands working beside a circular woven form on a table</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>TAGS: #CRAFT · #TABLETOP</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from Make Art Feel Better with Billie Bivins: Whittling Wood (2013) because the visible gesture directly  establishes phase [STORY NODE #02 [LINKED VIA #CRAFT] · HANDS WEAVING &amp; WOODWORKING (2013)], and executes the formal bridge (TAGS: #CRAFT · #TABLETOP), and advances cut 2/5 of the theorem while preserving distinct historical provenance (2013). Window 0.50s–5.30s (4.80s) verified cut-free (motion Δ=13.1, luma=60.2, audio=-19.6 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(12.60)">
+              <div class="shot-media">
+                <img src="../thumbs/f967dc97-4157-5181-a874-6f5277d2d723.jpg" alt="Captured frame from 6 1/2 Magic Hours" loading="lazy">
+                <span class="shot-time">CUT #04 · 12.6s–17.4s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>6 1/2 Magic Hours (1958)</strong>
+                  <span>clip <code>f967dc97</code> · source window <code>0.30s–5.10s</code> (4.80s) <a href="https://www.movingimagearchive.com/sources/6-1-2-magic-hours?clip=f967dc97-4157-5181-a874-6f5277d2d723" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> 6 1/2 Magic Hours (1958): A packed suitcase waiting before a journey — object-centered testimony</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>TAGS: #DEPARTURE · #LUGGAGE</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from 6 1/2 Magic Hours (1958) because the visible gesture directly  establishes phase [STORY NODE #03 [LINKED VIA #DEPARTURE] · THE PACKED SUITCASE (1958)], and executes the formal bridge (TAGS: #DEPARTURE · #LUGGAGE), and advances cut 3/5 of the theorem while preserving distinct historical provenance (1958). Window 0.30s–5.10s (4.80s) verified cut-free (motion Δ=20.7, luma=60.8, audio=-17.2 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(17.40)">
+              <div class="shot-media">
+                <img src="../thumbs/22ba9c11-a391-5b70-aa85-ec95c9fe45ba.jpg" alt="Captured frame from Beginning to Date" loading="lazy">
+                <span class="shot-time">CUT #05 · 17.4s–22.2s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>Beginning to Date (1953)</strong>
+                  <span>clip <code>22ba9c11</code> · source window <code>0.50s–5.30s</code> (4.80s) <a href="https://www.movingimagearchive.com/sources/beginning-to-date?clip=22ba9c11-a391-5b70-aa85-ec95c9fe45ba" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> Beginning to Date (1953): Quiet conversation shared inside a parked car at night</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>TAGS: #NIGHT · #TRANSIT</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from Beginning to Date (1953) because the visible gesture directly  establishes phase [STORY NODE #04 [LINKED VIA #TRANSIT] · TWO PEOPLE INSIDE A DARK CAR (1953)], and executes the formal bridge (TAGS: #NIGHT · #TRANSIT), and advances cut 4/5 of the theorem while preserving distinct historical provenance (1953). Window 0.50s–5.30s (4.80s) verified cut-free (motion Δ=33.7, luma=52.0, audio=-37.7 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(22.20)">
+              <div class="shot-media">
+                <img src="../thumbs/f0e42bea-d4b7-5015-80ec-be3ca1c8c673.jpg" alt="Captured frame from Fighter for Freedom: The Frederick Douglass Story" loading="lazy">
+                <span class="shot-time">CUT #06 · 22.2s–27.0s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>Fighter for Freedom: The Frederick Douglass Story (1984)</strong>
+                  <span>clip <code>f0e42bea</code> · source window <code>0.50s–5.30s</code> (4.80s) <a href="https://www.movingimagearchive.com/sources/fighter-for-freedom-the-frederick-douglass-story-4cc08ac0?clip=f0e42bea-d4b7-5015-80ec-be3ca1c8c673" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> Fighter for Freedom (1984): Two people conversing in a quiet room — reciprocated witness</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>TAGS: #DIALOGUE · #COMMONS</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from Fighter for Freedom: The Frederick Douglass Story (1984) because the visible gesture directly  establishes phase [STORY NODE #05 [LINKED VIA #DIALOGUE] · SOFTLY LIT INTERIOR CONVERSATION (1984)], and executes the formal bridge (TAGS: #DIALOGUE · #COMMONS), and completes the terminal return/aftermath hold required by the operator theorem. Window 0.50s–5.30s (4.80s) verified cut-free (motion Δ=32.4, luma=76.9, audio=-20.0 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card is-card" onclick="seekTo(27.00)">
+              <div class="shot-media card-placeholder">
+                <span>SPLIT SHOT</span>
+                <span class="shot-time">SEG #07 · 27.0s–32.2s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source"><strong>SPLIT COMPARISON</strong> <span>(5.2s)</span></div>
+                <div class="shot-what">RELATIONAL COMMONS: Solitary Writing Node (1951, Left) connected directly to Spoken Dialogue Node (1984, Right)</div>
+                <div class="shot-why"><strong>Why Included:</strong> Structural framing slate / audit card required by operator deliverable contract.</div>
+              </div>
+            </article>
+            <article class="shot-card is-card" onclick="seekTo(32.20)">
+              <div class="shot-media card-placeholder">
+                <span>CLOSING LEDGER</span>
+                <span class="shot-time">SEG #08 · 32.2s–35.7s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source"><strong>CLOSING LEDGER</strong> <span>(3.5s)</span></div>
+                <div class="shot-what">Displays the relational commons graph connections (`TAG: #DESK -&gt; #CRAFT -&gt; #DEPARTURE`) without metrics or likes.</div>
+                <div class="shot-why"><strong>Why Included:</strong> Structural framing slate / audit card required by operator deliverable contract.</div>
+              </div>
+            </article>
+  </div>
+
+  <div class="sec-head">
+    <div>
+      <div class="kicker">Stage 3 · Independent Critic Tribunal & Verification</div>
+      <h2>Temporal Proof Strips & Diagnostic Audit</h2>
+    </div>
+    <a class="btn sec" href="../strips/SCION_105_Cowbird_Relational_Commons_v2_strip.jpg" target="_blank">Open Full-Res Strip ↗</a>
+  </div>
+  <div class="strip-label">Verified v2 Temporal Proof Strip (8 evenly spaced frames + waveform/timecode audit)</div>
+  <img class="strip-img" src="../strips/SCION_105_Cowbird_Relational_Commons_v2_strip.jpg" alt="v2 proof strip">
+  
+  
+        <div class="trib-box pass">
+          <div class="label">Two-Layer Critic Tribunal Verification</div>
+          <p><strong>Strength Preserved:</strong> </p>
+          <p><strong>Final Verdict:</strong> <code>PASS (v2 · 0 structural or perceptual issues across 5 archival cuts)</code></p>
+        </div>
+
+  <nav class="nav-foot">
+    <a href="SCION_104_The_Whale_Hunt_Sampling_Rhythm.html">← #53 The Whale Hunt — Heartbeat Sampling Rhythm</a>
+    <a href="../index.html#film=SCION_105_Cowbird_Relational_Commons">Back to 85-Film Screening Room ↗</a>
+    <a href="SCION_106_Network_Effect_Bounded_Attention.html">#55 Network Effect — Bounded Session in an Unfinishable Archive →</a>
+  </nav>
+</main>
+<script>
+function seekTo(sec) {
+  const v = document.getElementById('v');
+  v.currentTime = sec;
+  v.play().catch(()=>{});
+  v.scrollIntoView({behavior:'smooth', block:'center'});
+}
+function copyPrompt() {
+  const txt = document.getElementById('prompt-raw').textContent;
+  navigator.clipboard.writeText(txt).then(() => {
+    const msg = document.getElementById('copy-msg');
+    msg.textContent = 'COPIED TO CLIPBOARD ✓';
+    setTimeout(() => msg.textContent = '', 2500);
+  });
+}
+</script>
+</body>
+</html>

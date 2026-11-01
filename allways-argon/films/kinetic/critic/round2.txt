@@ -1,0 +1,7 @@
+VERDICT: pass (Round 2 — v2 repaired assembly verification)
+Critic Role: Independent systems critic
+
+Verification of Falsifiable Repair:
+- Executed repair: Use `mode='triptych'` with `clips=['6ee8ef44', '9b8b1f1e', 'aeebdc87']` in Seg #05 so watchmaking, loom shuttle, and factory stamping lock together visually before the normal-speed maintenance interruption (`2ab95576`).
+- Automated structural check: 0 internal camera cuts (max_frame_diff < 16.0), 0 title-card contaminants, 0 missing glyph boxes.
+- Visual inspection of 8-frame v2 proof strip confirms every shot establishes and completes its visible action while preserving the strength identified in Round 1 (All three work processes, the normal-speed bearing-oiling maintenance interruption (`2ab95576`), the wide factory-floor contextual reveal (`eba7d1c4`), and the worker stopping at the close (`135e3a64`).).

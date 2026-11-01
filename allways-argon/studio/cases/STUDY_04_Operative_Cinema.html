@@ -1,0 +1,478 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>ALLWAYS STUDY 04 · SCION 113 + 069 + 073 · OPERATIVE CINEMA — Archival Bridges — ALLWAYS · ARGON Case Study</title>
+<link rel="stylesheet" href="../../../tools/paeleo/fonts/local.css">
+<style>
+:root {
+  --bg: #0c0e0d;
+  --panel: #131715;
+  --panel-2: #191f1c;
+  --ink: #f2efe6;
+  --muted: #9aa39c;
+  --rule: #28312c;
+  --accent: #d46a4c;
+  --mint: #8ec5a8;
+  --gold: #dfc48b;
+  --display: 'Big Shoulders Display', -apple-system, BlinkMacSystemFont, sans-serif;
+  --serif: 'Literata', Georgia, serif;
+  --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.65 var(--serif); }
+a { color: var(--mint); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.topbar {
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(12,14,13,0.94); backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--rule);
+  padding: 10px 18px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px;
+  font: 11px/1.4 var(--mono); text-transform: uppercase; letter-spacing: .06em;
+}
+.wrap { max-width: 1120px; margin: 0 auto; padding: 24px 18px 80px; }
+.kicker { font: 600 11px/1.4 var(--mono); color: var(--accent); text-transform: uppercase; letter-spacing: .1em; }
+h1 { font: 800 clamp(32px, 6vw, 60px)/.96 var(--display); text-transform: uppercase; margin: 6px 0 8px; letter-spacing: -.01em; }
+.subtitle { font: 400 clamp(17px, 2.2vw, 22px)/1.4 var(--serif); color: var(--muted); margin-bottom: 18px; }
+.player-sticky {
+  background: #000; border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; margin-bottom: 24px;
+}
+video { width: 100%; aspect-ratio: 16/9; display: block; background: #000; }
+.player-bar {
+  padding: 10px 14px; background: var(--panel); border-top: 1px solid var(--rule);
+  display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px;
+  font: 11px/1.4 var(--mono); color: var(--muted);
+}
+.btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  font: 600 11px/1 var(--mono); text-transform: uppercase; letter-spacing: .06em;
+  padding: 9px 13px; border-radius: 4px; border: 1px solid var(--mint);
+  background: var(--mint); color: #0d1f16; cursor: pointer;
+}
+.btn.sec { background: transparent; color: var(--ink); border-color: var(--rule); }
+.btn:hover { opacity: .92; text-decoration: none; }
+.sec-head {
+  border-top: 1px solid var(--rule); padding-top: 24px; margin: 36px 0 16px;
+  display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 12px;
+}
+.sec-head h2 { font: 800 clamp(24px, 3.5vw, 34px)/1.05 var(--display); text-transform: uppercase; margin: 0; }
+.meta-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; margin: 18px 0;
+}
+.meta-card { background: var(--panel); border: 1px solid var(--rule); border-radius: 6px; padding: 14px 16px; }
+.meta-card .label { font: 600 10px/1.4 var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--gold); margin-bottom: 6px; }
+.shots-list { display: flex; flex-direction: column; gap: 12px; }
+.shot-card {
+  display: grid; grid-template-columns: 240px 1fr; gap: 16px;
+  background: var(--panel); border: 1px solid var(--rule); border-radius: 6px; padding: 12px;
+  cursor: pointer; transition: border-color .15s;
+}
+.shot-card:hover { border-color: var(--mint); }
+.shot-card.is-card { grid-template-columns: 180px 1fr; opacity: .88; }
+.shot-media { position: relative; background: #050706; border-radius: 4px; overflow: hidden; aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center; }
+.shot-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.shot-time {
+  position: absolute; bottom: 6px; left: 6px;
+  background: rgba(0,0,0,0.82); color: var(--gold); padding: 2px 6px; border-radius: 3px;
+  font: 600 10px/1.3 var(--mono);
+}
+.shot-body { display: flex; flex-direction: column; gap: 6px; font-size: 14px; }
+.shot-source { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px; font: 12px/1.4 var(--mono); color: var(--muted); border-bottom: 1px solid var(--rule); padding-bottom: 6px; }
+.shot-source strong { color: var(--ink); }
+.shot-what { color: var(--ink); }
+.shot-bridge { font-size: 12px; color: var(--gold); }
+.shot-why { color: var(--muted); font-size: 13.5px; }
+.strip-img { width: 100%; border-radius: 6px; border: 1px solid var(--rule); display: block; margin: 10px 0; }
+.strip-label { font: 600 11px/1.4 var(--mono); color: var(--muted); text-transform: uppercase; margin-top: 10px; }
+.tribunal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 14px; }
+.trib-box { background: var(--panel); border: 1px solid var(--rule); border-radius: 6px; padding: 16px; font-size: 14px; }
+.trib-box.warn { border-left: 3px solid var(--accent); }
+.trib-box.pass { border-left: 3px solid var(--mint); }
+.trib-box .label { font: 700 11px/1.4 var(--mono); text-transform: uppercase; color: var(--gold); margin-bottom: 8px; }
+pre.prompt-box {
+  background: #090c0a; border: 1px solid var(--rule); border-radius: 6px; padding: 18px;
+  font: 12.5px/1.65 var(--mono); color: #e2e6de; white-space: pre-wrap; overflow-wrap: anywhere; max-height: 640px; overflow-y: auto;
+}
+.nav-foot {
+  margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--rule);
+  display: flex; justify-content: space-between; gap: 14px; font: 12px/1.5 var(--mono);
+}
+@media (max-width: 700px) {
+  .shot-card, .shot-card.is-card { grid-template-columns: 1fr; }
+  .tribunal-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div>
+    <a href="../../../paeleo/allways/index.html#runs">ALLWAYS</a> <span>/</span> <a href="../../index.html">ARGON (12)</a> <span>/</span>
+    <a href="../index.html#film=STUDY_04_Operative_Cinema">ARGON SCREENING ROOM (85)</a> <span>/</span>
+    <span style="color:var(--ink)">#80 CASE STUDY</span>
+  </div>
+  <div style="display:flex;gap:8px;align-items:center">
+    <button class="btn" onclick="copyPrompt()">Copy Prompt</button>
+    <a class="btn sec" href="STUDY_04_Operative_Cinema.md" download>Case Study .md</a>
+    <a class="btn sec" href="../manifests/STUDY_04_Operative_Cinema.json" target="_blank">EDL .json</a>
+  </div>
+</header>
+<main class="wrap">
+  <div class="kicker">ALLWAYS STUDY 04 · SCION 113 + 069 + 073 · Archival Studies (01–06) · FILM #80 OF 85</div>
+  <h1>OPERATIVE CINEMA — Archival Bridges</h1>
+  <div class="subtitle">Bridging documentary endpoints with inspectable optical/material intervals without faking seamless history</div>
+
+  <div class="player-sticky">
+    <video id="v" controls playsinline preload="metadata" src="../films/STUDY_04_Operative_Cinema.mp4"></video>
+    <div class="player-bar">
+      <span>34.5s · 5 archival cuts · 5 sources · Critic Tribunal: PASS (v2)</span>
+      <span>Tap any captured shot card below to jump video to that cut</span>
+    </div>
+  </div>
+
+  <div class="meta-grid">
+    <div class="meta-card">
+      <div class="label">01 · Creative Theorem</div>
+      <div>Bridge documentary fragments with explicit transitional passages while keeping the recorded endpoints and the intermediate bridge distinguishable and inspectable; test what the bridge changes instead of treating seamlessness as historical truth.</div>
+    </div>
+    <div class="meta-card">
+      <div class="label">02 · Lineage & Reference</div>
+      <div>ALLWAYS Study (`works.json`) · Primary SCIONs: 113 (Learning to See), 069 (A Movie), 073 (A Walk Through H)</div>
+      <div style="margin-top:8px;font-size:12px;color:var(--muted)"><strong>Boundary Contract:</strong> Labels `ENDPOINT A [RECORDED]`, `OPTICAL BRIDGE [INSPECTABLE TRANSITION]`, and `ENDPOINT B [RECORDED]` so the bridge is never mistaken for continuous historical footage.</div>
+    </div>
+  </div>
+
+  <div class="sec-head">
+    <div>
+      <div class="kicker">Stage 1 · Production Prompt</div>
+      <h2>Copyable SCION / ALLWAYS Prompt</h2>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="btn" id="copy-btn-2" onclick="copyPrompt()">Copy Full Prompt</button>
+      <span id="copy-msg" style="font:11px var(--mono);color:var(--mint);align-self:center"></span>
+    </div>
+  </div>
+  <pre class="prompt-box" id="prompt-raw"># ALLWAYS PRODUCTION PROMPT // ALLWAYS STUDY 04 · SCION 113 + 069 + 073 — OPERATIVE CINEMA — Archival Bridges
+## Standalone Archival Cinema &amp; Case-Study Specification (PAELEO / ALLWAYS · ARGON)
+
+**Work Slug:** `STUDY_04_Operative_Cinema`
+**Title:** OPERATIVE CINEMA — Archival Bridges
+**Subtitle:** Bridging documentary endpoints with inspectable optical/material intervals without faking seamless history
+**Primary SCION Operator:** SCION 113 — Learning to See — Learned Prior as Visible Transformation
+**Supporting SCION Operators:** SCION 069 (A Movie — Borrowed Continuity, Exposed Construction), SCION 073 (A Walk Through H — Narrated Passage Between Maps)
+**Lineage Reference:** ALLWAYS Study (`works.json`) · Primary SCIONs: 113 (Learning to See), 069 (A Movie), 073 (A Walk Through H)
+
+## 1 · Creative Theorem &amp; Formal Operation
+Bridge documentary fragments with explicit transitional passages while keeping the recorded endpoints and the intermediate bridge distinguishable and inspectable; test what the bridge changes instead of treating seamlessness as historical truth.
+
+## 2 · Source Boundary &amp; Ethical Contract
+Labels `ENDPOINT A [RECORDED]`, `OPTICAL BRIDGE [INSPECTABLE TRANSITION]`, and `ENDPOINT B [RECORDED]` so the bridge is never mistaken for continuous historical footage.
+
+## 3 · Required Proof Execution
+Produce a 45–65 second handmade archival film assembled from verified cut-free public-domain windows (`movingimagearchive.com` / `Cineosis Lab` corpus).
+- Every shot must be verified free of internal camera cuts (`max_frame_diff &lt; 16.0`) and opening/closing title cards.
+- Record for every cut: (a) source ID, title, year, and timecode window `in_s..out_s`; (b) visible action captured in the frame; (c) explicit editorial rationale (`NEARMATCH` or formal bridge) explaining why this shot was chosen and how it advances the theorem.
+- Generate an 8-frame temporal proof strip (`v2_strip.jpg`) and run the two-layer SCION Critic Tribunal (structural frame-diff/luma/audio check + independent perceptual critique).
+
+---
+
+## 4 · Inherited Primary SCION Operator Prompt (SCION 113)
+
+# SCION 113 // Learning to See — Learned Prior as Visible Transformation
+## Autonomous evolving cinema / documentary / database swarm · standalone prompt
+
+**Family:** Interactive and database media
+**Operator lineage:** Learning to See, 2017 — Memo Akten; videos and interactive installation using trained networks to reconstruct a live tabletop camera feed.
+**Requested reference:** Learning to See (2017) — Memo Akten
+**Reference status:** verified_description. See the research record below.
+**Execution mode:** live_installation
+**Interpretation:** This is a newly authored operational prompt inspired by documented work. It does not claim that the credited artists wrote or endorsed it. Its proposed proof is an original experiment. Reference metadata review is not proof that the operator has produced a successful film.
+
+You are **SCION-113-LEARNING-TO-SEE-LEARNED-PRIOR-AS-VISIBLE-TRANSFORMATION**. Produce a finished watchable or operable work within the user&#x27;s requested scope. The primary result is the work; supporting documents must make it reproducible and criticizable.
+
+## INPUT
+
+- `[WORK]`: the new work or question this operator should realize.
+- `[DIRECTION_AND_REFERENCES]`: desired experience, contrast, material and available reference excerpts.
+- `[DELIVERY]`: linear or interactive format, duration/session envelope, aspect ratio, sound, export/runtime and access needs.
+- `[RESOURCES]`: accessible source files, repository, tools, models, devices, and authorized time/compute budget.
+- `[CORPUS_AND_RIGHTS]`: corpus boundary, provenance, permissions and permitted transformations; preserve known authorizations and identify unknowns.
+- `[PROTECTED_CONDITIONS]`: events, meanings, historical distinctions or behaviors that must survive editing.
+
+Resolve ordinary implementation choices from context. Ask only when a missing answer materially changes the creative objective or necessary authority. Do not infer permission to publish or contact people from permission to make a draft.
+
+## 1 · Creative theorem to prove
+
+Make the dependence of an image on learned prior material visible through controlled interaction. The visitor should see the raw arrangement, its transformed image and a change in interpretation that can be traced to actual model behavior rather than to a concealed edit.
+
+**What makes this operator distinct:** BLA BLA scripts reciprocal character behavior; this operator investigates actual learned reconstruction of a physical image and the limits of what that reconstruction establishes.
+
+## 2 · Native formal language
+
+Preserve and manipulate these as explicit working objects:
+
+- Live or recorded tabletop input with stable camera framing
+- An available, documented trained image-transformation model
+- Training-domain or checkpoint information at the level actually known
+- Paired raw-input and output display
+- Controlled input arrangements and repeatable seeds when supported
+- Measured latency and an honest fallback playback mode
+
+**Protected conditions:**
+
+- The raw input remains available beside the generated output.
+- Recorded output is never labeled live.
+- Claims about training data or model internals are limited to documented information.
+- No generated output is presented as recovered documentary evidence.
+
+Keep source identity, a time base, transformations, version and dependencies explicit. Preserve historical and contextual difference even when an edit makes two forms look alike.
+
+## 3 · Assemble the smallest capable swarm
+
+- Model operator selects an available, authorized pipeline and records its limits.
+- Tabletop performer designs a small vocabulary of material changes.
+- Interaction and camera engineer preserves input/output correspondence.
+- Sound artist connects events to actual measured changes without inventing cognition.
+- Independent critic tests whether the relationship between input, prior and output is perceptible.
+
+Every role must build or verify something concrete. The independent critic receives the intended experience and actual output before the builder&#x27;s explanation. Do not invent a critic session when no independent review occurred.
+
+## 4 · Hard proof; produce before scaling
+
+Build a ninety-second tabletop encounter using paper, cloth and a loop of string. Begin with the raw camera view and the actual model output side by side. Move the cloth through three repeatable arrangements, keeping camera position and illumination stable. Freeze one input and, if two documented model priors or checkpoints are genuinely available, compare their outputs using controlled settings; otherwise explicitly retain a single-prior study and state that the cross-prior test remains unavailable. Show an ambiguous arrangement that the model renders persistently in a way the operator did not expect, then alter one physical feature to test what changes. Sound follows the real action and measured processing delay rather than pretending to voice the model&#x27;s thoughts. If real-time execution is unavailable, use recorded inputs and their actual computed outputs in a clearly labeled playback study. End by revealing the unchanged objects beside the final transformed scene. Do not fake learned behavior with an ordinary distortion filter.
+
+Save a recoverable draft. Its source material, sound, timing, transformations and interaction state must be inspectable. Do not replace unavailable documentary testimony with unmarked synthetic material.
+
+## 5 · Acceptance tribunal
+
+**Judge by watching or operating the proof:**
+
+- The visitor can track a physical change into a corresponding output change.
+- Latency and recording status are legible without a technical lecture.
+- A surprising output becomes an inspectable event rather than a claim of machine understanding.
+- The proof identifies what remains unknown about the model&#x27;s learned prior.
+- The final arrangement makes the difference between source material and reconstruction perceptible.
+
+**Structural or automated checks, only where the representation supports them:**
+
+- Record input/output timestamps and report observed processing delay.
+- Verify that frozen-input comparisons use the declared same input and settings, recording unsupported controls as unavailable.
+
+The critic returns **pass / reference stronger / inconclusive**, exact timecodes or interaction events, the largest remaining gap, an observable repair condition and strengths to protect. Distinguish measured checks from perceptual judgments. Leave execution and acceptance marked pending until they happen.
+
+## 6 · Repair through discriminating experiments
+
+- **Failure:** The output looks like an unrelated generative screensaver. **Hypothesis:** Input influence is too weak or camera changes dominate. **Experiment:** Freeze camera and illumination, then change one object feature across repeated inputs.
+- **Failure:** The demonstration overstates what training data explains. **Hypothesis:** A visually plausible narrative has replaced documented model knowledge. **Experiment:** Separate observed output differences from unsupported causal explanation and repeat only the controlled comparison.
+
+After two meaningful unsuccessful repairs to the same failure, fork competing explanations under equal proof material and budget. Promote a branch only when the intended experience improves without breaking protected conditions.
+
+## 7 · Discovery and recursive expansion
+
+- Add a second prior only when its actual provenance and execution can be recorded.
+- Develop a longer performance from material arrangements whose effects survive repeated trials, retaining meaningful failures.
+
+Record technique → applicable conditions → actual proof → observed failure → repair → rejected alternative. Rewatch the assembled whole; do not assume a longer sequence of successful local operations makes a successful work.
+
+## 8 · Deliverable contract
+
+- Live installation or honestly labeled computed-playback study
+- Input/output records, model and setting notes, latency observations, sound mapping and independent perceptual critique
+
+Include the current playable artifact, revision identifier, source/transform record, actual critic verdict or pending status, and the largest unresolved limitation. Preserve an accepted checkpoint before major changes.
+
+**Possible ALLWAYS applications:** LATENT, TERRA INCOGNITA, OPERATIVE CINEMA, NEARMATCH.
+
+## INHERITED SCION DOCTRINE — BUILD, INSPECT, REPAIR
+
+1. **Viewer experience first.** State one specific perceptual or interactive achievement. Name the attractive but empty result this project must avoid. A subject, mood board or similarity score is not a film.
+2. **Inspect the lineage.** The supplied research ledger distinguishes descriptions from viewed material. Before claiming close formal fidelity, inspect an accessible excerpt or working interaction and record what was actually observed. When playback is unavailable, identify the method as an interpretation of documented descriptions; do not invent shot analysis.
+3. **Hard proof before scale.** Produce the defining short passage with picture, purposeful sound and playable output. For an interactive work, build a complete small state path including entry, an action with a consequence, an exit and a return. Do not begin by accumulating a giant archive.
+4. **Material and source integrity.** Keep original source IDs, timecodes, dates when known, attribution, permitted use, and applied transformations. Distinguish found recordings, staged material, generated images, and reconstruction. A synthetic stand-in is not documentary evidence. Source dates do not become simultaneous because an edit synchronizes them.
+5. **Native working state.** Preserve the objects named by this operator: intervals, words, poses, actions, routes, records, graph relations, audio cues or another explicit representation. Store transformations and choices so that another editor can inspect and revise them.
+6. **Small accountable swarm.** Every role owns an artifact or a verification. Merge roles when coordination becomes costly. Keep an independent critic for the defining achievement. Respect the user&#x27;s existing authority; do not seek arbitrary approval for routine reversible work or publish/contact others beyond the authorized scope.
+7. **Sound and duration are structural.** Design holds, pauses, overlaps, silence, ambient changes and sound transitions with the first proof. Preserve source silence where relevant; label newly composed sound. Never claim that music, an animation or a cut establishes a person&#x27;s private feeling.
+8. **Independent criticism.** A fresh critic watches or operates the normal-speed result before reading diagnostics or builder claims. Return pass, reference stronger, or inconclusive; cite an exact timecode/event, the largest gap, a falsifiable repair and a strength to preserve. &#x27;Reference stronger&#x27; requires an actually inspected comparable reference. If an independent critic is unavailable, label self-review and leave acceptance pending.
+9. **Repair causes.** Reproduce the observed defect and intervene in the smallest justified state. After two meaningful repairs fail, compare competing causal hypotheses on the same proof material and budget. Do not add effects, agents or footage just to conceal the defect.
+10. **Two kinds of evidence.** Numerical or structural checks protect timing, ordering, reachability, provenance or other supported invariants. Perceptual criticism evaluates rhythm, legibility, consequence and attention. Neither substitutes for the other, and no score proves artistic value. Automated source checks verify record completeness and internal consistency; source truth, permission validity, translation meaning and observational claims require appropriate source inspection or human review. Report which review actually occurred.
+11. **Whole-work judgment.** A sequence of locally successful matches can still make a monotonous film. Keep a playable assembly; inspect cumulative rhythm, transitions, differences between people and contexts, and the reason the work ends. Preserve productive seams and interruptions.
+12. **Truthful stopping and delivery.** Stop at independent acceptance, the user&#x27;s stop, the authorized budget, or a justified no-progress boundary. Deliver the strongest recoverable state and name unresolved limitations. Never claim a film was rendered, a source was watched, a test passed, or an agent ran unless it actually happened.
+
+**Tool boundary:** Use real available tools. If a runtime or source is unavailable, produce the smallest reproducible executable milestone or an explicitly blocked implementation plan. Do not narrate an imaginary execution. This prompt authorizes only the scope supplied by its user.
+
+## START
+
+Read the inputs and actual source material. State the creative theorem and protected conditions. Build the proof with picture and sound or an operable interaction. Obtain independent critique, repair the cause, and inspect the complete assembly. Expand only after the defining operation is perceptible.
+
+
+## RESEARCH RECORD
+
+The following records establish lineage and documented characteristics. Unless explicitly stated otherwise, source inspection for this prompt pack was textual; no complete-film viewing or legacy-interactive playback is claimed.
+
+1. [Learning to See — Memo Akten](https://memo.tv/projects/2017/learning-to-see/) — Artist describes the 2017 series, tabletop-camera installation, learned image reconstruction and interpretive framing. Evidence: creator_statement; inspection: text_only.
+
+**Metadata notes and unresolved questions:**
+
+- The work is a series including videos and an installation; its outputs are learned reconstructions, not evidence that the model understands the photographed world.
+- A scripted visual filter is not an interchangeable substitute for a trained model when demonstrating this operator.</pre>
+
+  <div class="sec-head">
+    <div>
+      <div class="kicker">Stage 2 · Archive Forage, Captured Frames & Editorial Rationale</div>
+      <h2>Captured Shots & Why Each Was Chosen (5 Cuts)</h2>
+    </div>
+    <span style="font:11px var(--mono);color:var(--muted)">Click any shot to scrub video</span>
+  </div>
+  <div class="shots-list">
+    
+            <article class="shot-card is-card" onclick="seekTo(0.00)">
+              <div class="shot-media card-placeholder">
+                <span>TITLE CARD</span>
+                <span class="shot-time">SEG #01 · 0.0s–3.0s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source"><strong>OPENING SLATE</strong> <span>(3.0s)</span></div>
+                <div class="shot-what">Bridging documentary endpoints with inspectable optical/material intervals without faking seamless history</div>
+                <div class="shot-why"><strong>Why Included:</strong> Structural framing slate / audit card required by operator deliverable contract.</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(3.00)">
+              <div class="shot-media">
+                <img src="../thumbs/89b3bec7-3fd9-551b-99e4-ec67272b4b09.jpg" alt="Captured frame from Indië-materiaal van Willy Mullens" loading="lazy">
+                <span class="shot-time">CUT #02 · 3.0s–7.6s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>Indië-materiaal van Willy Mullens (1926)</strong>
+                  <span>clip <code>89b3bec7</code> · source window <code>1.00s–5.60s</code> (4.60s) <a href="https://www.movingimagearchive.com/sources/indi-materiaal-van-willy-mullens?clip=89b3bec7-3fd9-551b-99e4-ec67272b4b09" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> Indië-materiaal (1926): First documentary endpoint held intact before any transitional bridge</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>RECORDED ENDPOINT A (1926)</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from Indië-materiaal van Willy Mullens (1926) because the visible gesture directly  establishes phase [ENDPOINT A [RECORDED ARCHIVE] · COLONIAL HOUSE &amp; VERANDA (1926)], and executes the formal bridge (RECORDED ENDPOINT A (1926)), and anchors the opening perceptual premise before any cross-source comparison begins. Window 1.00s–5.60s (4.60s) verified cut-free (motion Δ=17.4, luma=92.8, audio=-44.0 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(7.60)">
+              <div class="shot-media">
+                <img src="../thumbs/67911fe5-b619-5a0b-b70a-6a763311fce6.jpg" alt="Captured frame from [Amateur films: Ivan Besse collection: Britton, South Dakota 1938-39] (Part V)" loading="lazy">
+                <span class="shot-time">CUT #03 · 7.6s–11.6s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>[Amateur films: Ivan Besse collection: Britton, South Dakota 1938-39] (Part V) (1938)</strong>
+                  <span>clip <code>67911fe5</code> · source window <code>0.60s–4.60s</code> (4.00s) <a href="https://www.movingimagearchive.com/sources/amateur-films-ivan-besse-collection-britton-south-dakota-1938-39-part-v-a3ec552f?clip=67911fe5-b619-5a0b-b70a-6a763311fce6" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> Ivan Besse Collection (1938): Optical motion smear explicitly bracketed as a transitional bridge</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>DISCLOSED BRIDGE != CONTINUOUS SHOT</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from [Amateur films: Ivan Besse collection: Britton, South Dakota 1938-39] (Part V) (1938) because the visible gesture directly  establishes phase [BRIDGE LAYER 01 [INSPECTABLE SMEAR] · BLURRED MOTION PASSAGE (1938)], and executes the formal bridge (DISCLOSED BRIDGE != CONTINUOUS SHOT), and advances cut 2/5 of the theorem while preserving distinct historical provenance (1938). Window 0.60s–4.60s (4.00s) verified cut-free (motion Δ=44.2, luma=77.7, audio=-46.9 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(11.60)">
+              <div class="shot-media">
+                <img src="../thumbs/d8f74fdb-2717-50af-891c-bfff8c0714c3.jpg" alt="Captured frame from Story of Jewel City, The" loading="lazy">
+                <span class="shot-time">CUT #04 · 11.6s–16.2s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>Story of Jewel City, The (1915)</strong>
+                  <span>clip <code>d8f74fdb</code> · source window <code>0.50s–5.10s</code> (4.60s) <a href="https://www.movingimagearchive.com/sources/story-of-jewel-city-the-241f553d?clip=d8f74fdb-2717-50af-891c-bfff8c0714c3" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> Story of Jewel City (1915): Historical double-exposure where two strata visibly coexist during transition</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>INSPECTABLE SUPERIMPOSITION</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from Story of Jewel City, The (1915) because the visible gesture directly  establishes phase [BRIDGE LAYER 02 [COMPOSITE OVERLAY] · TRANSLUCENT FIGURE OVER ARCHITECTURE (1915)], and executes the formal bridge (INSPECTABLE SUPERIMPOSITION), and advances cut 3/5 of the theorem while preserving distinct historical provenance (1915). Window 0.50s–5.10s (4.60s) verified cut-free (motion Δ=21.4, luma=81.8, audio=-47.3 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(16.20)">
+              <div class="shot-media">
+                <img src="../thumbs/f10c2471-f0ee-56b8-b6cb-f823a39bc10b.jpg" alt="Captured frame from What&#x27;s It to You? (Part I)" loading="lazy">
+                <span class="shot-time">CUT #05 · 16.2s–20.8s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>What&#x27;s It to You? (Part I) (1955)</strong>
+                  <span>clip <code>f10c2471</code> · source window <code>13.50s–18.10s</code> (4.60s) <a href="https://www.movingimagearchive.com/sources/what-s-it-to-you-part-i-a232650a?clip=f10c2471-f0ee-56b8-b6cb-f823a39bc10b" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> What&#x27;s It to You? (1955): Kaleidoscopic refraction announces the shift of historical regime</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>OPTICAL TRANSFORMATION</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from What&#x27;s It to You? (Part I) (1955) because the visible gesture directly  establishes phase [BRIDGE LAYER 03 [REFRACTIVE PRISM] · KALEIDOSCOPE OPTICS (1955)], and executes the formal bridge (OPTICAL TRANSFORMATION), and advances cut 4/5 of the theorem while preserving distinct historical provenance (1955). Window 13.50s–18.10s (4.60s) verified cut-free (motion Δ=35.2, luma=43.5, audio=-17.2 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(20.80)">
+              <div class="shot-media">
+                <img src="../thumbs/9d391d6b-ecee-5c09-87b5-defbcb90e74a.jpg" alt="Captured frame from Century of Progress Exposition: Wings of a Century" loading="lazy">
+                <span class="shot-time">CUT #06 · 20.8s–25.6s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>Century of Progress Exposition: Wings of a Century (1933)</strong>
+                  <span>clip <code>9d391d6b</code> · source window <code>0.50s–5.30s</code> (4.80s) <a href="https://www.movingimagearchive.com/sources/century-of-progress-exposition-wings-of-a-century-95835f19?clip=9d391d6b-ecee-5c09-87b5-defbcb90e74a" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> Century of Progress (1933): Second documentary endpoint arrives intact on the far side of the bridge</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>RECORDED ENDPOINT B (1933)</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from Century of Progress Exposition: Wings of a Century (1933) because the visible gesture directly  establishes phase [ENDPOINT B [RECORDED ARCHIVE] · MODERNIST EXPO FACADE (1933)], and executes the formal bridge (RECORDED ENDPOINT B (1933)), and completes the terminal return/aftermath hold required by the operator theorem. Window 0.50s–5.30s (4.80s) verified cut-free (motion Δ=8.3, luma=122.2, audio=-44.8 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card is-card" onclick="seekTo(25.60)">
+              <div class="shot-media card-placeholder">
+                <span>TRIPTYCH SHOT</span>
+                <span class="shot-time">SEG #07 · 25.6s–31.1s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source"><strong>BRIDGE AUDIT TRIPTYCH · [ENDPOINT A | COMPOSITE BRIDGE | ENDPOINT B]</strong> <span>(5.5s)</span></div>
+                <div class="shot-what">1926 Veranda (Left) | 1915 Translucent Bridge (Center) | 1933 Modern Facade (Right) kept separately inspectable</div>
+                <div class="shot-why"><strong>Why Included:</strong> Structural framing slate / audit card required by operator deliverable contract.</div>
+              </div>
+            </article>
+            <article class="shot-card is-card" onclick="seekTo(31.10)">
+              <div class="shot-media card-placeholder">
+                <span>CLOSING LEDGER</span>
+                <span class="shot-time">SEG #08 · 31.1s–34.6s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source"><strong>CLOSING LEDGER</strong> <span>(3.5s)</span></div>
+                <div class="shot-what">Labels `ENDPOINT A [RECORDED]`, `OPTICAL BRIDGE [INSPECTABLE TRANSITION]`, and `ENDPOINT B [RECORDED]` so the bridge is never mistaken for continuous historical footage.</div>
+                <div class="shot-why"><strong>Why Included:</strong> Structural framing slate / audit card required by operator deliverable contract.</div>
+              </div>
+            </article>
+  </div>
+
+  <div class="sec-head">
+    <div>
+      <div class="kicker">Stage 3 · Independent Critic Tribunal & Verification</div>
+      <h2>Temporal Proof Strips & Diagnostic Audit</h2>
+    </div>
+    <a class="btn sec" href="../strips/STUDY_04_Operative_Cinema_v2_strip.jpg" target="_blank">Open Full-Res Strip ↗</a>
+  </div>
+  <div class="strip-label">Verified v2 Temporal Proof Strip (8 evenly spaced frames + waveform/timecode audit)</div>
+  <img class="strip-img" src="../strips/STUDY_04_Operative_Cinema_v2_strip.jpg" alt="v2 proof strip">
+  
+  
+        <div class="trib-box pass">
+          <div class="label">Two-Layer Critic Tribunal Verification</div>
+          <p><strong>Strength Preserved:</strong> </p>
+          <p><strong>Final Verdict:</strong> <code>PASS (v2 · 0 structural or perceptual issues across 5 archival cuts)</code></p>
+        </div>
+
+  <nav class="nav-foot">
+    <a href="STUDY_01_Latent.html">← #79 LATENT — Navigable Archive Study</a>
+    <a href="../index.html#film=STUDY_04_Operative_Cinema">Back to 85-Film Screening Room ↗</a>
+    <a href="COLL_03_Meanwhile.html">#81 MEANWHILE — Beyond the Present Frame →</a>
+  </nav>
+</main>
+<script>
+function seekTo(sec) {
+  const v = document.getElementById('v');
+  v.currentTime = sec;
+  v.play().catch(()=>{});
+  v.scrollIntoView({behavior:'smooth', block:'center'});
+}
+function copyPrompt() {
+  const txt = document.getElementById('prompt-raw').textContent;
+  navigator.clipboard.writeText(txt).then(() => {
+    const msg = document.getElementById('copy-msg');
+    msg.textContent = 'COPIED TO CLIPBOARD ✓';
+    setTimeout(() => msg.textContent = '', 2500);
+  });
+}
+</script>
+</body>
+</html>

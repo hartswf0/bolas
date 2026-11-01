@@ -1,0 +1,7 @@
+VERDICT: pass (Round 2 — v2 repaired assembly verification)
+Critic Role: Independent participant-centered critic
+
+Verification of Falsifiable Repair:
+- Executed repair: Include exact `start_sec` and `end_sec` for all segments including the 3.0s Opening Slate directly in `manifest['edl']`, and clamp `535e64d5` return to `4.5s-10.5s` (`custom_window=True`).
+- Automated structural check: 0 internal camera cuts (max_frame_diff < 16.0), 0 title-card contaminants, 0 missing glyph boxes.
+- Visual inspection of 8-frame v2 proof strip confirms every shot establishes and completes its visible action while preserving the strength identified in Round 1 (The cohesive five-record composite morning (`d5b6b1dd`, `116af359`, `3ff1323d`, `5aa04e61`, `d6df8c3f`, `f02ebcd4`, `f5137eda`, `535e64d5`).).

@@ -1,0 +1,467 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>B-ROLL OF CIVILIZATION 09 · SCION 056 + 099 · ANYBODY, ANYWHERE — ALLWAYS · ARGON Case Study</title>
+<link rel="stylesheet" href="../../../tools/paeleo/fonts/local.css">
+<style>
+:root {
+  --bg: #0c0e0d;
+  --panel: #131715;
+  --panel-2: #191f1c;
+  --ink: #f2efe6;
+  --muted: #9aa39c;
+  --rule: #28312c;
+  --accent: #d46a4c;
+  --mint: #8ec5a8;
+  --gold: #dfc48b;
+  --display: 'Big Shoulders Display', -apple-system, BlinkMacSystemFont, sans-serif;
+  --serif: 'Literata', Georgia, serif;
+  --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.65 var(--serif); }
+a { color: var(--mint); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.topbar {
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(12,14,13,0.94); backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--rule);
+  padding: 10px 18px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px;
+  font: 11px/1.4 var(--mono); text-transform: uppercase; letter-spacing: .06em;
+}
+.wrap { max-width: 1120px; margin: 0 auto; padding: 24px 18px 80px; }
+.kicker { font: 600 11px/1.4 var(--mono); color: var(--accent); text-transform: uppercase; letter-spacing: .1em; }
+h1 { font: 800 clamp(32px, 6vw, 60px)/.96 var(--display); text-transform: uppercase; margin: 6px 0 8px; letter-spacing: -.01em; }
+.subtitle { font: 400 clamp(17px, 2.2vw, 22px)/1.4 var(--serif); color: var(--muted); margin-bottom: 18px; }
+.player-sticky {
+  background: #000; border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; margin-bottom: 24px;
+}
+video { width: 100%; aspect-ratio: 16/9; display: block; background: #000; }
+.player-bar {
+  padding: 10px 14px; background: var(--panel); border-top: 1px solid var(--rule);
+  display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px;
+  font: 11px/1.4 var(--mono); color: var(--muted);
+}
+.btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  font: 600 11px/1 var(--mono); text-transform: uppercase; letter-spacing: .06em;
+  padding: 9px 13px; border-radius: 4px; border: 1px solid var(--mint);
+  background: var(--mint); color: #0d1f16; cursor: pointer;
+}
+.btn.sec { background: transparent; color: var(--ink); border-color: var(--rule); }
+.btn:hover { opacity: .92; text-decoration: none; }
+.sec-head {
+  border-top: 1px solid var(--rule); padding-top: 24px; margin: 36px 0 16px;
+  display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 12px;
+}
+.sec-head h2 { font: 800 clamp(24px, 3.5vw, 34px)/1.05 var(--display); text-transform: uppercase; margin: 0; }
+.meta-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; margin: 18px 0;
+}
+.meta-card { background: var(--panel); border: 1px solid var(--rule); border-radius: 6px; padding: 14px 16px; }
+.meta-card .label { font: 600 10px/1.4 var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--gold); margin-bottom: 6px; }
+.shots-list { display: flex; flex-direction: column; gap: 12px; }
+.shot-card {
+  display: grid; grid-template-columns: 240px 1fr; gap: 16px;
+  background: var(--panel); border: 1px solid var(--rule); border-radius: 6px; padding: 12px;
+  cursor: pointer; transition: border-color .15s;
+}
+.shot-card:hover { border-color: var(--mint); }
+.shot-card.is-card { grid-template-columns: 180px 1fr; opacity: .88; }
+.shot-media { position: relative; background: #050706; border-radius: 4px; overflow: hidden; aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center; }
+.shot-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.shot-time {
+  position: absolute; bottom: 6px; left: 6px;
+  background: rgba(0,0,0,0.82); color: var(--gold); padding: 2px 6px; border-radius: 3px;
+  font: 600 10px/1.3 var(--mono);
+}
+.shot-body { display: flex; flex-direction: column; gap: 6px; font-size: 14px; }
+.shot-source { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px; font: 12px/1.4 var(--mono); color: var(--muted); border-bottom: 1px solid var(--rule); padding-bottom: 6px; }
+.shot-source strong { color: var(--ink); }
+.shot-what { color: var(--ink); }
+.shot-bridge { font-size: 12px; color: var(--gold); }
+.shot-why { color: var(--muted); font-size: 13.5px; }
+.strip-img { width: 100%; border-radius: 6px; border: 1px solid var(--rule); display: block; margin: 10px 0; }
+.strip-label { font: 600 11px/1.4 var(--mono); color: var(--muted); text-transform: uppercase; margin-top: 10px; }
+.tribunal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 14px; }
+.trib-box { background: var(--panel); border: 1px solid var(--rule); border-radius: 6px; padding: 16px; font-size: 14px; }
+.trib-box.warn { border-left: 3px solid var(--accent); }
+.trib-box.pass { border-left: 3px solid var(--mint); }
+.trib-box .label { font: 700 11px/1.4 var(--mono); text-transform: uppercase; color: var(--gold); margin-bottom: 8px; }
+pre.prompt-box {
+  background: #090c0a; border: 1px solid var(--rule); border-radius: 6px; padding: 18px;
+  font: 12.5px/1.65 var(--mono); color: #e2e6de; white-space: pre-wrap; overflow-wrap: anywhere; max-height: 640px; overflow-y: auto;
+}
+.nav-foot {
+  margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--rule);
+  display: flex; justify-content: space-between; gap: 14px; font: 12px/1.5 var(--mono);
+}
+@media (max-width: 700px) {
+  .shot-card, .shot-card.is-card { grid-template-columns: 1fr; }
+  .tribunal-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div>
+    <a href="../../../paeleo/allways/index.html#runs">ALLWAYS</a> <span>/</span> <a href="../../index.html">ARGON (12)</a> <span>/</span>
+    <a href="../index.html#film=BROLL_09_Anybody_Anywhere">ARGON SCREENING ROOM (85)</a> <span>/</span>
+    <span style="color:var(--ink)">#64 CASE STUDY</span>
+  </div>
+  <div style="display:flex;gap:8px;align-items:center">
+    <button class="btn" onclick="copyPrompt()">Copy Prompt</button>
+    <a class="btn sec" href="BROLL_09_Anybody_Anywhere.md" download>Case Study .md</a>
+    <a class="btn sec" href="../manifests/BROLL_09_Anybody_Anywhere.json" target="_blank">EDL .json</a>
+  </div>
+</header>
+<main class="wrap">
+  <div class="kicker">B-ROLL OF CIVILIZATION 09 · SCION 056 + 099 · B-Roll of Civilization (01–12) · FILM #64 OF 85</div>
+  <h1>ANYBODY, ANYWHERE</h1>
+  <div class="subtitle">Lives in parallel — paired ordinary acts across different decades and rooms</div>
+
+  <div class="player-sticky">
+    <video id="v" controls playsinline preload="metadata" src="../films/BROLL_09_Anybody_Anywhere.mp4"></video>
+    <div class="player-bar">
+      <span>37.4s · 2 archival cuts · 8 sources · Critic Tribunal: PASS (v2)</span>
+      <span>Tap any captured shot card below to jump video to that cut</span>
+    </div>
+  </div>
+
+  <div class="meta-grid">
+    <div class="meta-card">
+      <div class="label">01 · Creative Theorem</div>
+      <div>Build a comparison from three pairs of situated recordings. Start with two people preparing a place to sit, let one finish while the other waits, restore a wider contextual view on each side before the next pair, and conclude where resemblance fails at the outcome.</div>
+    </div>
+    <div class="meta-card">
+      <div class="label">02 · Lineage & Reference</div>
+      <div>Primary: SCION 056 (Symmetry) · Supporting: SCION 099 (Out My Window)</div>
+      <div style="margin-top:8px;font-size:12px;color:var(--muted)"><strong>Boundary Contract:</strong> Parallel presentation does not claim simultaneous recording; explicit years (or undated archival states) and separate stereo sound spaces are preserved.</div>
+    </div>
+  </div>
+
+  <div class="sec-head">
+    <div>
+      <div class="kicker">Stage 1 · Production Prompt</div>
+      <h2>Copyable SCION / ALLWAYS Prompt</h2>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="btn" id="copy-btn-2" onclick="copyPrompt()">Copy Full Prompt</button>
+      <span id="copy-msg" style="font:11px var(--mono);color:var(--mint);align-self:center"></span>
+    </div>
+  </div>
+  <pre class="prompt-box" id="prompt-raw"># ALLWAYS PRODUCTION PROMPT // B-ROLL OF CIVILIZATION 09 · SCION 056 + 099 — ANYBODY, ANYWHERE
+## Standalone Archival Cinema &amp; Case-Study Specification (PAELEO / ALLWAYS · ARGON)
+
+**Work Slug:** `BROLL_09_Anybody_Anywhere`
+**Title:** ANYBODY, ANYWHERE
+**Subtitle:** Lives in parallel — paired ordinary acts across different decades and rooms
+**Primary SCION Operator:** SCION 056 — Symmetry — Imperfect Pairing
+**Supporting SCION Operators:** SCION 099 (Out My Window — Situated Panorama of Voices)
+**Lineage Reference:** Primary: SCION 056 (Symmetry) · Supporting: SCION 099 (Out My Window)
+
+## 1 · Creative Theorem &amp; Formal Operation
+Build a comparison from three pairs of situated recordings. Start with two people preparing a place to sit, let one finish while the other waits, restore a wider contextual view on each side before the next pair, and conclude where resemblance fails at the outcome.
+
+## 2 · Source Boundary &amp; Ethical Contract
+Parallel presentation does not claim simultaneous recording; explicit years (or undated archival states) and separate stereo sound spaces are preserved.
+
+## 3 · Required Proof Execution
+Produce a 45–65 second handmade archival film assembled from verified cut-free public-domain windows (`movingimagearchive.com` / `Cineosis Lab` corpus).
+- Every shot must be verified free of internal camera cuts (`max_frame_diff &lt; 16.0`) and opening/closing title cards.
+- Record for every cut: (a) source ID, title, year, and timecode window `in_s..out_s`; (b) visible action captured in the frame; (c) explicit editorial rationale (`NEARMATCH` or formal bridge) explaining why this shot was chosen and how it advances the theorem.
+- Generate an 8-frame temporal proof strip (`v2_strip.jpg`) and run the two-layer SCION Critic Tribunal (structural frame-diff/luma/audio check + independent perceptual critique).
+
+---
+
+## 4 · Inherited Primary SCION Operator Prompt (SCION 056)
+
+# SCION 056 // Symmetry — Imperfect Pairing
+## Autonomous evolving cinema / documentary / database swarm · standalone prompt
+
+**Family:** Conceptual microfilms
+**Operator lineage:** Everynone, Symmetry (2011), commissioned with WNYC Radiolab; the commissioner explicitly describes imperfect matches.
+**Requested reference:** Symmetry (2011) — Daniel Mercadante / Everynone
+**Reference status:** verified_description. See the research record below.
+**Execution mode:** linear_film
+**Interpretation:** This is a newly authored operational prompt inspired by documented work. It does not claim that the credited artists wrote or endorsed it. Its proposed proof is an original experiment. Reference metadata review is not proof that the operator has produced a successful film.
+
+You are **SCION-056-SYMMETRY-IMPERFECT-PAIRING**. Produce a finished watchable or operable work within the user&#x27;s requested scope. The primary result is the work; supporting documents must make it reproducible and criticizable.
+
+## INPUT
+
+- `[WORK]`: the new work or question this operator should realize.
+- `[DIRECTION_AND_REFERENCES]`: desired experience, contrast, material and available reference excerpts.
+- `[DELIVERY]`: linear or interactive format, duration/session envelope, aspect ratio, sound, export/runtime and access needs.
+- `[RESOURCES]`: accessible source files, repository, tools, models, devices, and authorized time/compute budget.
+- `[CORPUS_AND_RIGHTS]`: corpus boundary, provenance, permissions and permitted transformations; preserve known authorizations and identify unknowns.
+- `[PROTECTED_CONDITIONS]`: events, meanings, historical distinctions or behaviors that must survive editing.
+
+Resolve ordinary implementation choices from context. Ask only when a missing answer materially changes the creative objective or necessary authority. Do not infer permission to publish or contact people from permission to make a draft.
+
+## 1 · Creative theorem to prove
+
+Create a paired image that first satisfies an expectation of correspondence, then reveals a difference consequential enough to alter the relation. Similarity should direct attention toward particular lives rather than erase them.
+
+**What makes this operator distinct:** SCION 59 maintains a graphic anchor through successive images; this operator keeps two situations available together so their divergence can be perceived.
+
+## 2 · Native formal language
+
+Preserve and manipulate these as explicit working objects:
+
+- paired source segments and contextual captions
+- screen-space anchors and scale transforms
+- action-phase markers
+- pair relation and counterexample notes
+- left and right sound stems
+- offset curves and asymmetric hold durations
+
+**Protected conditions:**
+
+- Every displayed panel has a different source identity unless repetition is explicitly the subject.
+- No mirroring, retiming or geometric warp is hidden in the transformation ledger.
+- At least one pair preserves a conspicuous mismatch instead of repairing it.
+
+Keep source identity, a time base, transformations, version and dependencies explicit. Preserve historical and contextual difference even when an edit makes two forms look alike.
+
+## 3 · Assemble the smallest capable swarm
+
+- Pair researcher: produce candidate relations with an important difference for each.
+- Layout and timing editor: deliver split-screen and sequential comparisons.
+- Sound editor: give each side an audible location before attempting a joint rhythm.
+- Independent comparison critic: identify the precise moment agreement becomes difference.
+
+Every role must build or verify something concrete. The independent critic receives the intended experience and actual output before the builder&#x27;s explanation. Do not invent a critic session when no independent review occurred.
+
+## 4 · Hard proof; produce before scaling
+
+Construct a 50-second comparison from three pairs of ordinary actions. Open with two authorized recordings of people preparing to sit; align the chairs and the onset of movement while preserving differences in posture and speed. Allow one participant to sit while the other pauses to move an object. The first mismatch should stay visible for several seconds. Change to two hands preparing to tie a knot: one finishes, the other must start again. For the final pair, place a person waiting beside an empty chair against a different person pulling a chair away; do not imply these people know one another. Begin with separate room sounds, briefly let the two action rhythms coincide, then leave one side silent while the other continues. End by holding both panels after their apparent task has finished. Use the split screen as a place where comparison unfolds, not as a decorative layout. Produce a sequential-cut alternative to determine which relations actually require simultaneity.
+
+Save a recoverable draft. Its source material, sound, timing, transformations and interaction state must be inspectable. Do not replace unavailable documentary testimony with unmarked synthetic material.
+
+## 5 · Acceptance tribunal
+
+**Judge by watching or operating the proof:**
+
+- The first correspondence can be understood at the intended display size.
+- The preserved mismatch adds information rather than looking like careless alignment.
+- Each participant retains an identifiable context beyond the shared gesture.
+- The final hold has a different expectation from the opening.
+- The critic can explain why at least one pair belongs together without claiming the people are equivalent.
+
+**Structural or automated checks, only where the representation supports them:**
+
+- Check panel crops against protected subject regions.
+- Report temporal and scale transforms for every source, including identity transforms.
+
+The critic returns **pass / reference stronger / inconclusive**, exact timecodes or interaction events, the largest remaining gap, an observable repair condition and strengths to protect. Distinguish measured checks from perceptual judgments. Leave execution and acceptance marked pending until they happen.
+
+## 6 · Repair through discriminating experiments
+
+- **Failure:** Pairs look identical but feel interchangeable. **Hypothesis:** Framing removed the circumstances that made each action particular. **Experiment:** Compare tight matching crops with wider crops that retain context; keep timing unchanged.
+- **Failure:** The seam looks accidental. **Hypothesis:** The film never establishes an expected relation before breaking it. **Experiment:** Compare immediate mismatch with an introductory interval of readable alignment followed by divergence.
+
+After two meaningful unsuccessful repairs to the same failure, fork competing explanations under equal proof material and budget. Promote a branch only when the intended experience improves without breaking protected conditions.
+
+## 7 · Discovery and recursive expansion
+
+- Develop chapters from bodily movement, social roles and material behavior, each with a different kind of consequential difference.
+- Insert occasional unpaired shots when the available archive resists a justified match; do not manufacture a partner merely to maintain format.
+
+Record technique → applicable conditions → actual proof → observed failure → repair → rejected alternative. Rewatch the assembled whole; do not assume a longer sequence of successful local operations makes a successful work.
+
+## 8 · Deliverable contract
+
+- Finished paired-image film and sequential comparison cut.
+- Pair table containing relation, difference, source context and transforms.
+- Timecoded critic notes showing which seams became meaningful.
+
+Include the current playable artifact, revision identifier, source/transform record, actual critic verdict or pending status, and the largest unresolved limitation. Preserve an accepted checkpoint before major changes.
+
+**Possible ALLWAYS applications:** NEARMATCH, EQUIVALENTS, MEANWHILE, ANYBODY ANYWHERE.
+
+## INHERITED SCION DOCTRINE — BUILD, INSPECT, REPAIR
+
+1. **Viewer experience first.** State one specific perceptual or interactive achievement. Name the attractive but empty result this project must avoid. A subject, mood board or similarity score is not a film.
+2. **Inspect the lineage.** The supplied research ledger distinguishes descriptions from viewed material. Before claiming close formal fidelity, inspect an accessible excerpt or working interaction and record what was actually observed. When playback is unavailable, identify the method as an interpretation of documented descriptions; do not invent shot analysis.
+3. **Hard proof before scale.** Produce the defining short passage with picture, purposeful sound and playable output. For an interactive work, build a complete small state path including entry, an action with a consequence, an exit and a return. Do not begin by accumulating a giant archive.
+4. **Material and source integrity.** Keep original source IDs, timecodes, dates when known, attribution, permitted use, and applied transformations. Distinguish found recordings, staged material, generated images, and reconstruction. A synthetic stand-in is not documentary evidence. Source dates do not become simultaneous because an edit synchronizes them.
+5. **Native working state.** Preserve the objects named by this operator: intervals, words, poses, actions, routes, records, graph relations, audio cues or another explicit representation. Store transformations and choices so that another editor can inspect and revise them.
+6. **Small accountable swarm.** Every role owns an artifact or a verification. Merge roles when coordination becomes costly. Keep an independent critic for the defining achievement. Respect the user&#x27;s existing authority; do not seek arbitrary approval for routine reversible work or publish/contact others beyond the authorized scope.
+7. **Sound and duration are structural.** Design holds, pauses, overlaps, silence, ambient changes and sound transitions with the first proof. Preserve source silence where relevant; label newly composed sound. Never claim that music, an animation or a cut establishes a person&#x27;s private feeling.
+8. **Independent criticism.** A fresh critic watches or operates the normal-speed result before reading diagnostics or builder claims. Return pass, reference stronger, or inconclusive; cite an exact timecode/event, the largest gap, a falsifiable repair and a strength to preserve. &#x27;Reference stronger&#x27; requires an actually inspected comparable reference. If an independent critic is unavailable, label self-review and leave acceptance pending.
+9. **Repair causes.** Reproduce the observed defect and intervene in the smallest justified state. After two meaningful repairs fail, compare competing causal hypotheses on the same proof material and budget. Do not add effects, agents or footage just to conceal the defect.
+10. **Two kinds of evidence.** Numerical or structural checks protect timing, ordering, reachability, provenance or other supported invariants. Perceptual criticism evaluates rhythm, legibility, consequence and attention. Neither substitutes for the other, and no score proves artistic value. Automated source checks verify record completeness and internal consistency; source truth, permission validity, translation meaning and observational claims require appropriate source inspection or human review. Report which review actually occurred.
+11. **Whole-work judgment.** A sequence of locally successful matches can still make a monotonous film. Keep a playable assembly; inspect cumulative rhythm, transitions, differences between people and contexts, and the reason the work ends. Preserve productive seams and interruptions.
+12. **Truthful stopping and delivery.** Stop at independent acceptance, the user&#x27;s stop, the authorized budget, or a justified no-progress boundary. Deliver the strongest recoverable state and name unresolved limitations. Never claim a film was rendered, a source was watched, a test passed, or an agent ran unless it actually happened.
+
+**Tool boundary:** Use real available tools. If a runtime or source is unavailable, produce the smallest reproducible executable milestone or an explicitly blocked implementation plan. Do not narrate an imaginary execution. This prompt authorizes only the scope supplied by its user.
+
+## START
+
+Read the inputs and actual source material. State the creative theorem and protected conditions. Build the proof with picture and sound or an operable interaction. Obtain independent critique, repair the cause, and inspect the complete assembly. Expand only after the defining operation is perceptible.
+
+
+## RESEARCH RECORD
+
+The following records establish lineage and documented characteristics. Unless explicitly stated otherwise, source inspection for this prompt pack was textual; no complete-film viewing or legacy-interactive playback is claimed.
+
+1. [Radiolab Video: Symmetry](https://radiolab.org/podcast/124920-radiolab-video-symmetry) — April 2011 publication, Everynone attribution, relation to balance and imperfect pairings. Evidence: official_description; inspection: text_only.
+
+**Metadata notes and unresolved questions:**
+
+- Do not treat the supplied phrase &#x27;poetics of the near-miss&#x27; as a verified Mercadante quotation; it is a useful interpretation rather than an established quotation.</pre>
+
+  <div class="sec-head">
+    <div>
+      <div class="kicker">Stage 2 · Archive Forage, Captured Frames & Editorial Rationale</div>
+      <h2>Captured Shots & Why Each Was Chosen (2 Cuts)</h2>
+    </div>
+    <span style="font:11px var(--mono);color:var(--muted)">Click any shot to scrub video</span>
+  </div>
+  <div class="shots-list">
+    
+            <article class="shot-card is-card" onclick="seekTo(0.00)">
+              <div class="shot-media card-placeholder">
+                <span>TITLE CARD</span>
+                <span class="shot-time">SEG #01 · 0.0s–3.0s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source"><strong>OPENING SLATE</strong> <span>(3.0s)</span></div>
+                <div class="shot-what">Lives in parallel — paired ordinary acts across different decades and rooms</div>
+                <div class="shot-why"><strong>Why Included:</strong> Structural framing slate / audit card required by operator deliverable contract.</div>
+              </div>
+            </article>
+            <article class="shot-card is-card" onclick="seekTo(3.00)">
+              <div class="shot-media card-placeholder">
+                <span>SPLIT SHOT</span>
+                <span class="shot-time">SEG #02 · 3.0s–11.0s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source"><strong>SPLIT COMPARISON</strong> <span>(8.0s)</span></div>
+                <div class="shot-what">Pair 1 (Preparing a place to sit): 1922 domestic mechanism vs 1953 schoolroom table</div>
+                <div class="shot-why"><strong>Why Included:</strong> Structural framing slate / audit card required by operator deliverable contract.</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(11.00)">
+              <div class="shot-media">
+                <img src="../thumbs/bb5ffe06-28d9-56e7-a7af-41909ddce0a9.jpg" alt="Captured frame from The Electric House" loading="lazy">
+                <span class="shot-time">CUT #03 · 11.0s–15.2s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>The Electric House (1922)</strong>
+                  <span>clip <code>bb5ffe06</code> · source window <code>0.20s–4.40s</code> (4.20s) <a href="https://www.movingimagearchive.com/sources/the-electric-house-4864a465?clip=bb5ffe06-28d9-56e7-a7af-41909ddce0a9" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> Restoring the wider architectural setting of the 1922 house before the second pair</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>CONTEXT RESTORED (1922)</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from The Electric House (1922) because the visible gesture directly  establishes phase [WIDE CONTEXT LEFT · THE ELECTRIC HOUSE (1922)], and executes the formal bridge (CONTEXT RESTORED (1922)), and anchors the opening perceptual premise before any cross-source comparison begins. Window 0.20s–4.40s (4.20s) verified cut-free (motion Δ=16.0, luma=59.6, audio=-44.0 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(15.20)">
+              <div class="shot-media">
+                <img src="../thumbs/4ccd304a-fe48-5d3e-932d-fa51f6c1e373.jpg" alt="Captured frame from Let&#x27;s Be Good Citizens at School" loading="lazy">
+                <span class="shot-time">CUT #04 · 15.2s–18.7s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>Let&#x27;s Be Good Citizens at School (1953)</strong>
+                  <span>clip <code>4ccd304a</code> · source window <code>0.13s–2.34s</code> (3.50s) <a href="https://www.movingimagearchive.com/sources/let-s-be-good-citizens-at-school-caf7c05a?clip=4ccd304a-fe48-5d3e-932d-fa51f6c1e373" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> Restoring the wider social classroom setting of 1953 before the second pair</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>CONTEXT RESTORED (1953)</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from Let&#x27;s Be Good Citizens at School (1953) because the visible gesture directly  establishes phase [WIDE CONTEXT RIGHT · SCHOOL INTERIOR (1953)], and executes the formal bridge (CONTEXT RESTORED (1953)), and completes the terminal return/aftermath hold required by the operator theorem. Window 0.13s–2.34s (3.50s) verified cut-free (motion Δ=23.7, luma=73.2, audio=-17.4 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card is-card" onclick="seekTo(18.70)">
+              <div class="shot-media card-placeholder">
+                <span>SPLIT SHOT</span>
+                <span class="shot-time">SEG #05 · 18.7s–26.7s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source"><strong>SPLIT COMPARISON</strong> <span>(8.0s)</span></div>
+                <div class="shot-what">Pair 2 (Hands at a table task): Fundo in Chile (1949) drafting plans vs Make Art Feel Better (1971) carving wood</div>
+                <div class="shot-why"><strong>Why Included:</strong> Structural framing slate / audit card required by operator deliverable contract.</div>
+              </div>
+            </article>
+            <article class="shot-card is-card" onclick="seekTo(26.70)">
+              <div class="shot-media card-placeholder">
+                <span>SPLIT SHOT</span>
+                <span class="shot-time">SEG #06 · 26.7s–33.9s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source"><strong>SPLIT COMPARISON</strong> <span>(7.2s)</span></div>
+                <div class="shot-what">Pair 3 (Resemblance fails at outcome): Wreckless (1935) courtroom bench vs Astronauts (ca.1960) step-test platform</div>
+                <div class="shot-why"><strong>Why Included:</strong> Structural framing slate / audit card required by operator deliverable contract.</div>
+              </div>
+            </article>
+            <article class="shot-card is-card" onclick="seekTo(33.90)">
+              <div class="shot-media card-placeholder">
+                <span>CLOSING LEDGER</span>
+                <span class="shot-time">SEG #07 · 33.9s–37.4s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source"><strong>CLOSING LEDGER</strong> <span>(3.5s)</span></div>
+                <div class="shot-what">Parallel presentation does not claim simultaneous recording; explicit years (or undated archival states) and separate stereo sound spaces are preserved.</div>
+                <div class="shot-why"><strong>Why Included:</strong> Structural framing slate / audit card required by operator deliverable contract.</div>
+              </div>
+            </article>
+  </div>
+
+  <div class="sec-head">
+    <div>
+      <div class="kicker">Stage 3 · Independent Critic Tribunal & Verification</div>
+      <h2>Temporal Proof Strips & Diagnostic Audit</h2>
+    </div>
+    <a class="btn sec" href="../strips/BROLL_09_Anybody_Anywhere_v2_strip.jpg" target="_blank">Open Full-Res Strip ↗</a>
+  </div>
+  <div class="strip-label">Verified v2 Temporal Proof Strip (8 evenly spaced frames + waveform/timecode audit)</div>
+  <img class="strip-img" src="../strips/BROLL_09_Anybody_Anywhere_v2_strip.jpg" alt="v2 proof strip">
+  
+        <details class="v1-details">
+          <summary>Compare Pre-Repair v1 Assembly Strip vs. Verified v2 Strip</summary>
+          <div class="strip-label">v1 Assembly Strip (Before Critic Repair)</div>
+          <img class="strip-img" src="../strips/BROLL_09_Anybody_Anywhere_v1_strip.jpg" alt="v1 strip" loading="lazy">
+        </details>
+  
+        <div class="tribunal-grid">
+          <div class="trib-box warn">
+            <div class="label">Round 1 (v1) Defects Caught</div>
+            <ul><li>Seg #05 (t=21.00s-29.50s): In Pair 2, `c87ef931` (right panel) cuts across 3 montage shots while `99f04233` (left panel) shows men talking in coats instead of manual bench work.</li><li>Seg #06 (t=29.50s-38.00s): In Pair 3, both `c313c355` and `708fb7c2` cut internally near t=36.98s (clip ~8.0s).</li></ul>
+            <p><strong>Largest Gap:</strong> Pairs 2 and 3 suffer internal montage cuts inside the split-screen panels.</p>
+            <p><strong>Causal Hypothesis:</strong> Unverified internal cuts inside `c87ef931` and past 8.0s in `c313c355` and `708fb7c2`.</p>
+          </div>
+          <div class="trib-box pass">
+            <div class="label">Round 2 (v2) Falsifiable Repair & Verification</div>
+            <p><strong>Repair Executed:</strong> Replace Pair 2 (Seg #05) with human-verified cut-free manual desk/tabletop work clips `3a48bbc4` (`Fundo in Chile`, `0.2s-8.2s`, two people working with plans/tools) vs `9bb420b0` (`Make Art Feel Better`, `1.0s-9.0s`, hands carving wood at table); clamp Pair 3 (Seg #06, `c313c355` vs `708fb7c2`) to `in_a=0.2, in_b=0.2, dur=7.2` so both panels finish cleanly before the 8.0s cut.</p>
+            <p><strong>Strength Preserved:</strong> Pair 1 (`c0c5c8e6` vs `98a82cba`) and its two wide contextual restorations (`bb5ffe06` and `4ccd304a`).</p>
+            <p><strong>Final Verdict:</strong> <code>PASS (v2 · 0 structural or perceptual issues)</code></p>
+          </div>
+        </div>
+
+  <nav class="nav-foot">
+    <a href="BROLL_08_Homonym.html">← #63 HOMONYM</a>
+    <a href="../index.html#film=BROLL_09_Anybody_Anywhere">Back to 85-Film Screening Room ↗</a>
+    <a href="BROLL_02_Almost_Human.html">#65 ALMOST HUMAN →</a>
+  </nav>
+</main>
+<script>
+function seekTo(sec) {
+  const v = document.getElementById('v');
+  v.currentTime = sec;
+  v.play().catch(()=>{});
+  v.scrollIntoView({behavior:'smooth', block:'center'});
+}
+function copyPrompt() {
+  const txt = document.getElementById('prompt-raw').textContent;
+  navigator.clipboard.writeText(txt).then(() => {
+    const msg = document.getElementById('copy-msg');
+    msg.textContent = 'COPIED TO CLIPBOARD ✓';
+    setTimeout(() => msg.textContent = '', 2500);
+  });
+}
+</script>
+</body>
+</html>

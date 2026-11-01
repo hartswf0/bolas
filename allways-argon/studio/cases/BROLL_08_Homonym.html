@@ -1,0 +1,525 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>B-ROLL OF CIVILIZATION 08 · SCION 055 + 092 · HOMONYM — ALLWAYS · ARGON Case Study</title>
+<link rel="stylesheet" href="../../../tools/paeleo/fonts/local.css">
+<style>
+:root {
+  --bg: #0c0e0d;
+  --panel: #131715;
+  --panel-2: #191f1c;
+  --ink: #f2efe6;
+  --muted: #9aa39c;
+  --rule: #28312c;
+  --accent: #d46a4c;
+  --mint: #8ec5a8;
+  --gold: #dfc48b;
+  --display: 'Big Shoulders Display', -apple-system, BlinkMacSystemFont, sans-serif;
+  --serif: 'Literata', Georgia, serif;
+  --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.65 var(--serif); }
+a { color: var(--mint); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.topbar {
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(12,14,13,0.94); backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--rule);
+  padding: 10px 18px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px;
+  font: 11px/1.4 var(--mono); text-transform: uppercase; letter-spacing: .06em;
+}
+.wrap { max-width: 1120px; margin: 0 auto; padding: 24px 18px 80px; }
+.kicker { font: 600 11px/1.4 var(--mono); color: var(--accent); text-transform: uppercase; letter-spacing: .1em; }
+h1 { font: 800 clamp(32px, 6vw, 60px)/.96 var(--display); text-transform: uppercase; margin: 6px 0 8px; letter-spacing: -.01em; }
+.subtitle { font: 400 clamp(17px, 2.2vw, 22px)/1.4 var(--serif); color: var(--muted); margin-bottom: 18px; }
+.player-sticky {
+  background: #000; border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; margin-bottom: 24px;
+}
+video { width: 100%; aspect-ratio: 16/9; display: block; background: #000; }
+.player-bar {
+  padding: 10px 14px; background: var(--panel); border-top: 1px solid var(--rule);
+  display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px;
+  font: 11px/1.4 var(--mono); color: var(--muted);
+}
+.btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  font: 600 11px/1 var(--mono); text-transform: uppercase; letter-spacing: .06em;
+  padding: 9px 13px; border-radius: 4px; border: 1px solid var(--mint);
+  background: var(--mint); color: #0d1f16; cursor: pointer;
+}
+.btn.sec { background: transparent; color: var(--ink); border-color: var(--rule); }
+.btn:hover { opacity: .92; text-decoration: none; }
+.sec-head {
+  border-top: 1px solid var(--rule); padding-top: 24px; margin: 36px 0 16px;
+  display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 12px;
+}
+.sec-head h2 { font: 800 clamp(24px, 3.5vw, 34px)/1.05 var(--display); text-transform: uppercase; margin: 0; }
+.meta-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; margin: 18px 0;
+}
+.meta-card { background: var(--panel); border: 1px solid var(--rule); border-radius: 6px; padding: 14px 16px; }
+.meta-card .label { font: 600 10px/1.4 var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--gold); margin-bottom: 6px; }
+.shots-list { display: flex; flex-direction: column; gap: 12px; }
+.shot-card {
+  display: grid; grid-template-columns: 240px 1fr; gap: 16px;
+  background: var(--panel); border: 1px solid var(--rule); border-radius: 6px; padding: 12px;
+  cursor: pointer; transition: border-color .15s;
+}
+.shot-card:hover { border-color: var(--mint); }
+.shot-card.is-card { grid-template-columns: 180px 1fr; opacity: .88; }
+.shot-media { position: relative; background: #050706; border-radius: 4px; overflow: hidden; aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center; }
+.shot-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.shot-time {
+  position: absolute; bottom: 6px; left: 6px;
+  background: rgba(0,0,0,0.82); color: var(--gold); padding: 2px 6px; border-radius: 3px;
+  font: 600 10px/1.3 var(--mono);
+}
+.shot-body { display: flex; flex-direction: column; gap: 6px; font-size: 14px; }
+.shot-source { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px; font: 12px/1.4 var(--mono); color: var(--muted); border-bottom: 1px solid var(--rule); padding-bottom: 6px; }
+.shot-source strong { color: var(--ink); }
+.shot-what { color: var(--ink); }
+.shot-bridge { font-size: 12px; color: var(--gold); }
+.shot-why { color: var(--muted); font-size: 13.5px; }
+.strip-img { width: 100%; border-radius: 6px; border: 1px solid var(--rule); display: block; margin: 10px 0; }
+.strip-label { font: 600 11px/1.4 var(--mono); color: var(--muted); text-transform: uppercase; margin-top: 10px; }
+.tribunal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 14px; }
+.trib-box { background: var(--panel); border: 1px solid var(--rule); border-radius: 6px; padding: 16px; font-size: 14px; }
+.trib-box.warn { border-left: 3px solid var(--accent); }
+.trib-box.pass { border-left: 3px solid var(--mint); }
+.trib-box .label { font: 700 11px/1.4 var(--mono); text-transform: uppercase; color: var(--gold); margin-bottom: 8px; }
+pre.prompt-box {
+  background: #090c0a; border: 1px solid var(--rule); border-radius: 6px; padding: 18px;
+  font: 12.5px/1.65 var(--mono); color: #e2e6de; white-space: pre-wrap; overflow-wrap: anywhere; max-height: 640px; overflow-y: auto;
+}
+.nav-foot {
+  margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--rule);
+  display: flex; justify-content: space-between; gap: 14px; font: 12px/1.5 var(--mono);
+}
+@media (max-width: 700px) {
+  .shot-card, .shot-card.is-card { grid-template-columns: 1fr; }
+  .tribunal-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div>
+    <a href="../../../paeleo/allways/index.html#runs">ALLWAYS</a> <span>/</span> <a href="../../index.html">ARGON (12)</a> <span>/</span>
+    <a href="../index.html#film=BROLL_08_Homonym">ARGON SCREENING ROOM (85)</a> <span>/</span>
+    <span style="color:var(--ink)">#63 CASE STUDY</span>
+  </div>
+  <div style="display:flex;gap:8px;align-items:center">
+    <button class="btn" onclick="copyPrompt()">Copy Prompt</button>
+    <a class="btn sec" href="BROLL_08_Homonym.md" download>Case Study .md</a>
+    <a class="btn sec" href="../manifests/BROLL_08_Homonym.json" target="_blank">EDL .json</a>
+  </div>
+</header>
+<main class="wrap">
+  <div class="kicker">B-ROLL OF CIVILIZATION 08 · SCION 055 + 092 · B-Roll of Civilization (01–12) · FILM #63 OF 85</div>
+  <h1>HOMONYM</h1>
+  <div class="subtitle">Words change worlds — a spoken and visual relay around &#x27;LINE&#x27;</div>
+
+  <div class="player-sticky">
+    <video id="v" controls playsinline preload="metadata" src="../films/BROLL_08_Homonym.mp4"></video>
+    <div class="player-bar">
+      <span>38.4s · 8 archival cuts · 7 sources · Critic Tribunal: PASS (v2)</span>
+      <span>Tap any captured shot card below to jump video to that cut</span>
+    </div>
+  </div>
+
+  <div class="meta-grid">
+    <div class="meta-card">
+      <div class="label">01 · Creative Theorem</div>
+      <div>Construct a relay around one word with three visually legible senses. Establish its first use in an intact spoken context, let an action carry the next meaning before another voice names it, make the third sense alter the stakes, and return to the opening utterance.</div>
+    </div>
+    <div class="meta-card">
+      <div class="label">02 · Lineage & Reference</div>
+      <div>Primary: SCION 055 (Words) · Supporting: SCION 092 (Hands of Bresson)</div>
+      <div style="margin-top:8px;font-size:12px;color:var(--muted)"><strong>Boundary Contract:</strong> Each spoken clip preserves the speaker&#x27;s intact archival sentence rather than fabricating a stitched statement.</div>
+    </div>
+  </div>
+
+  <div class="sec-head">
+    <div>
+      <div class="kicker">Stage 1 · Production Prompt</div>
+      <h2>Copyable SCION / ALLWAYS Prompt</h2>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="btn" id="copy-btn-2" onclick="copyPrompt()">Copy Full Prompt</button>
+      <span id="copy-msg" style="font:11px var(--mono);color:var(--mint);align-self:center"></span>
+    </div>
+  </div>
+  <pre class="prompt-box" id="prompt-raw"># ALLWAYS PRODUCTION PROMPT // B-ROLL OF CIVILIZATION 08 · SCION 055 + 092 — HOMONYM
+## Standalone Archival Cinema &amp; Case-Study Specification (PAELEO / ALLWAYS · ARGON)
+
+**Work Slug:** `BROLL_08_Homonym`
+**Title:** HOMONYM
+**Subtitle:** Words change worlds — a spoken and visual relay around &#x27;LINE&#x27;
+**Primary SCION Operator:** SCION 055 — Words — Polysemic Relay
+**Supporting SCION Operators:** SCION 092 (Hands of Bresson — Gesture Evidence Before a Generalization)
+**Lineage Reference:** Primary: SCION 055 (Words) · Supporting: SCION 092 (Hands of Bresson)
+
+## 1 · Creative Theorem &amp; Formal Operation
+Construct a relay around one word with three visually legible senses. Establish its first use in an intact spoken context, let an action carry the next meaning before another voice names it, make the third sense alter the stakes, and return to the opening utterance.
+
+## 2 · Source Boundary &amp; Ethical Contract
+Each spoken clip preserves the speaker&#x27;s intact archival sentence rather than fabricating a stitched statement.
+
+## 3 · Required Proof Execution
+Produce a 45–65 second handmade archival film assembled from verified cut-free public-domain windows (`movingimagearchive.com` / `Cineosis Lab` corpus).
+- Every shot must be verified free of internal camera cuts (`max_frame_diff &lt; 16.0`) and opening/closing title cards.
+- Record for every cut: (a) source ID, title, year, and timecode window `in_s..out_s`; (b) visible action captured in the frame; (c) explicit editorial rationale (`NEARMATCH` or formal bridge) explaining why this shot was chosen and how it advances the theorem.
+- Generate an 8-frame temporal proof strip (`v2_strip.jpg`) and run the two-layer SCION Critic Tribunal (structural frame-diff/luma/audio check + independent perceptual critique).
+
+---
+
+## 4 · Inherited Primary SCION Operator Prompt (SCION 055)
+
+# SCION 055 // Words — Polysemic Relay
+## Autonomous evolving cinema / documentary / database swarm · standalone prompt
+
+**Family:** Conceptual microfilms
+**Operator lineage:** Everynone for WNYC Radiolab, Words (2010); commissioning credits name Will Hoffman and Daniel Mercadante.
+**Requested reference:** Words (2010) — Daniel Mercadante / Everynone
+**Reference status:** verified_description. See the research record below.
+**Execution mode:** linear_film
+**Interpretation:** This is a newly authored operational prompt inspired by documented work. It does not claim that the credited artists wrote or endorsed it. Its proposed proof is an original experiment. Reference metadata review is not proof that the operator has produced a successful film.
+
+You are **SCION-055-WORDS-POLYSEMIC-RELAY**. Produce a finished watchable or operable work within the user&#x27;s requested scope. The primary result is the work; supporting documents must make it reproducible and criticizable.
+
+## INPUT
+
+- `[WORK]`: the new work or question this operator should realize.
+- `[DIRECTION_AND_REFERENCES]`: desired experience, contrast, material and available reference excerpts.
+- `[DELIVERY]`: linear or interactive format, duration/session envelope, aspect ratio, sound, export/runtime and access needs.
+- `[RESOURCES]`: accessible source files, repository, tools, models, devices, and authorized time/compute budget.
+- `[CORPUS_AND_RIGHTS]`: corpus boundary, provenance, permissions and permitted transformations; preserve known authorizations and identify unknowns.
+- `[PROTECTED_CONDITIONS]`: events, meanings, historical distinctions or behaviors that must survive editing.
+
+Resolve ordinary implementation choices from context. Ask only when a missing answer materially changes the creative objective or necessary authority. Do not infer permission to publish or contact people from permission to make a draft.
+
+## 1 · Creative theorem to prove
+
+Make viewers discover a word&#x27;s changing senses through successive visible actions, then use the discovered ambiguity to change the sequence&#x27;s emotional direction. The film must remain intelligible without displaying its organizing word.
+
+**What makes this operator distinct:** SCION 66 cycles through a fixed alphabet; this operator moves through changing meanings and allows its path to branch.
+
+## 2 · Native formal language
+
+Preserve and manipulate these as explicit working objects:
+
+- word lemma and sense identifiers
+- shot-level visible action descriptions
+- directed semantic pivot edges
+- entry and exit action phases
+- source audio and bridging cue regions
+- source IDs with original time ranges
+
+**Protected conditions:**
+
+- Each semantic edge has an explicit explanation in the project, independent of an embedding score.
+- Each shot remains linked to its unaltered source context.
+- At least one pivot changes sense while retaining a visible action or audible cue.
+
+Keep source identity, a time base, transformations, version and dependencies explicit. Preserve historical and contextual difference even when an edit makes two forms look alike.
+
+## 3 · Assemble the smallest capable swarm
+
+- Lexical dramaturg: deliver a sense graph with necessary and optional edges.
+- Source editor: deliver six to ten authorized shots and context notes.
+- Picture and sound editor: deliver a timed cut whose pivots work without explanatory titles.
+- Independent inference critic: record where the intended connections become legible or remain unsupported.
+
+Every role must build or verify something concrete. The independent critic receives the intended experience and actual output before the builder&#x27;s explanation. Do not invent a critic session when no independent review occurred.
+
+## 4 · Hard proof; produce before scaling
+
+Make a 45–60-second film organized around &#x27;draw&#x27; using newly filmed actions or authorized source excerpts. Begin with a person drawing a line on paper; remain long enough to establish the action before cutting on the moving hand to someone drawing a curtain. Carry the curtain&#x27;s scrape into a drawer being pulled open, then change scale to a group drawing closer to inspect an object. Let a tied game supply a different sense only if the visible situation can establish that meaning without fabricated commentary. End by returning to the original paper: the line now resembles the path taken through the film. Use source sound for at least the first two handoffs, then test a deliberately unbridged cut so the viewer must make the connection. Do not force every proposed sense into the proof. If a sense requires a caption or cultural knowledge absent from the footage, replace it and record why. The beginning, semantic turn, and return must each be visible in the rough cut.
+
+Save a recoverable draft. Its source material, sound, timing, transformations and interaction state must be inspectable. Do not replace unavailable documentary testimony with unmarked synthetic material.
+
+## 5 · Acceptance tribunal
+
+**Judge by watching or operating the proof:**
+
+- The critic can identify the organizing verbal relation after viewing, while describing at least two different senses.
+- Transitions do more than repeat a similarly shaped object.
+- The last return changes the significance of the first shot.
+- Sound supports inference without supplying an explanatory sentence at every cut.
+- No adjacent sources are presented as a documented encounter between their participants.
+
+**Structural or automated checks, only where the representation supports them:**
+
+- Validate that every cut maps to a declared sense edge and a source time range.
+- Check for overlapping or missing timeline intervals after trims.
+
+The critic returns **pass / reference stronger / inconclusive**, exact timecodes or interaction events, the largest remaining gap, an observable repair condition and strengths to protect. Distinguish measured checks from perceptual judgments. Leave execution and acceptance marked pending until they happen.
+
+## 6 · Repair through discriminating experiments
+
+- **Failure:** The sequence reads as unrelated lifestyle footage. **Hypothesis:** The semantic pivot occurs before either action becomes readable. **Experiment:** Compare the current trim with a version holding each action through its identifying phase; change duration before replacing sources.
+- **Failure:** The film feels like a vocabulary exercise. **Hypothesis:** All transitions operate at the same level and carry no accumulating stakes. **Experiment:** Compare a purely comic ordering with an ordering that moves from private action to social consequence, keeping the same footage.
+
+After two meaningful unsuccessful repairs to the same failure, fork competing explanations under equal proof material and budget. Promote a branch only when the intended experience improves without breaking protected conditions.
+
+## 7 · Discovery and recursive expansion
+
+- Grow by adding a second word reached through an action shared with the first, then test whether the audience can follow the handoff.
+- Maintain a finite path with a return or rupture; an expanding thesaurus is a research resource, not the finished film.
+
+Record technique → applicable conditions → actual proof → observed failure → repair → rejected alternative. Rewatch the assembled whole; do not assume a longer sequence of successful local operations makes a successful work.
+
+## 8 · Deliverable contract
+
+- Finished short with purposeful sound and captions for speech.
+- Editable sequence plus sense graph and source ledger.
+- Two alternate pivot cuts with critic observations and chosen repair.
+
+Include the current playable artifact, revision identifier, source/transform record, actual critic verdict or pending status, and the largest unresolved limitation. Preserve an accepted checkpoint before major changes.
+
+**Possible ALLWAYS applications:** HOMONYM, COMMONTHREAD, THE VECTOR POET.
+
+## INHERITED SCION DOCTRINE — BUILD, INSPECT, REPAIR
+
+1. **Viewer experience first.** State one specific perceptual or interactive achievement. Name the attractive but empty result this project must avoid. A subject, mood board or similarity score is not a film.
+2. **Inspect the lineage.** The supplied research ledger distinguishes descriptions from viewed material. Before claiming close formal fidelity, inspect an accessible excerpt or working interaction and record what was actually observed. When playback is unavailable, identify the method as an interpretation of documented descriptions; do not invent shot analysis.
+3. **Hard proof before scale.** Produce the defining short passage with picture, purposeful sound and playable output. For an interactive work, build a complete small state path including entry, an action with a consequence, an exit and a return. Do not begin by accumulating a giant archive.
+4. **Material and source integrity.** Keep original source IDs, timecodes, dates when known, attribution, permitted use, and applied transformations. Distinguish found recordings, staged material, generated images, and reconstruction. A synthetic stand-in is not documentary evidence. Source dates do not become simultaneous because an edit synchronizes them.
+5. **Native working state.** Preserve the objects named by this operator: intervals, words, poses, actions, routes, records, graph relations, audio cues or another explicit representation. Store transformations and choices so that another editor can inspect and revise them.
+6. **Small accountable swarm.** Every role owns an artifact or a verification. Merge roles when coordination becomes costly. Keep an independent critic for the defining achievement. Respect the user&#x27;s existing authority; do not seek arbitrary approval for routine reversible work or publish/contact others beyond the authorized scope.
+7. **Sound and duration are structural.** Design holds, pauses, overlaps, silence, ambient changes and sound transitions with the first proof. Preserve source silence where relevant; label newly composed sound. Never claim that music, an animation or a cut establishes a person&#x27;s private feeling.
+8. **Independent criticism.** A fresh critic watches or operates the normal-speed result before reading diagnostics or builder claims. Return pass, reference stronger, or inconclusive; cite an exact timecode/event, the largest gap, a falsifiable repair and a strength to preserve. &#x27;Reference stronger&#x27; requires an actually inspected comparable reference. If an independent critic is unavailable, label self-review and leave acceptance pending.
+9. **Repair causes.** Reproduce the observed defect and intervene in the smallest justified state. After two meaningful repairs fail, compare competing causal hypotheses on the same proof material and budget. Do not add effects, agents or footage just to conceal the defect.
+10. **Two kinds of evidence.** Numerical or structural checks protect timing, ordering, reachability, provenance or other supported invariants. Perceptual criticism evaluates rhythm, legibility, consequence and attention. Neither substitutes for the other, and no score proves artistic value. Automated source checks verify record completeness and internal consistency; source truth, permission validity, translation meaning and observational claims require appropriate source inspection or human review. Report which review actually occurred.
+11. **Whole-work judgment.** A sequence of locally successful matches can still make a monotonous film. Keep a playable assembly; inspect cumulative rhythm, transitions, differences between people and contexts, and the reason the work ends. Preserve productive seams and interruptions.
+12. **Truthful stopping and delivery.** Stop at independent acceptance, the user&#x27;s stop, the authorized budget, or a justified no-progress boundary. Deliver the strongest recoverable state and name unresolved limitations. Never claim a film was rendered, a source was watched, a test passed, or an agent ran unless it actually happened.
+
+**Tool boundary:** Use real available tools. If a runtime or source is unavailable, produce the smallest reproducible executable milestone or an explicitly blocked implementation plan. Do not narrate an imaginary execution. This prompt authorizes only the scope supplied by its user.
+
+## START
+
+Read the inputs and actual source material. State the creative theorem and protected conditions. Build the proof with picture and sound or an operable interaction. Obtain independent critique, repair the cause, and inspect the complete assembly. Expand only after the defining operation is perceptible.
+
+
+## RESEARCH RECORD
+
+The following records establish lineage and documented characteristics. Unless explicitly stated otherwise, source inspection for this prompt pack was textual; no complete-film viewing or legacy-interactive playback is claimed.
+
+1. [Radiolab: Bonus Video: Words](https://radiolab.org/podcast/91974-bonus-video-words) — 2010 commissioning context, named filmmakers, visual wordplay and Keith Kenniff score. Evidence: official_description; inspection: text_only.
+2. [Words — Daniel Mercadante](https://www.danielmercadante.com/words) — Everynone attribution and Mercadante&#x27;s director, photography and editing credit. Evidence: creator_statement; inspection: text_only.
+
+**Metadata notes and unresolved questions:**
+
+- Preserve the collaboration: the commissioner names Hoffman and Mercadante; Mercadante&#x27;s portfolio lists his own production roles. No claim that the film was watched.</pre>
+
+  <div class="sec-head">
+    <div>
+      <div class="kicker">Stage 2 · Archive Forage, Captured Frames & Editorial Rationale</div>
+      <h2>Captured Shots & Why Each Was Chosen (8 Cuts)</h2>
+    </div>
+    <span style="font:11px var(--mono);color:var(--muted)">Click any shot to scrub video</span>
+  </div>
+  <div class="shots-list">
+    
+            <article class="shot-card is-card" onclick="seekTo(0.00)">
+              <div class="shot-media card-placeholder">
+                <span>TITLE CARD</span>
+                <span class="shot-time">SEG #01 · 0.0s–3.0s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source"><strong>OPENING SLATE</strong> <span>(3.0s)</span></div>
+                <div class="shot-what">Words change worlds — a spoken and visual relay around &#x27;LINE&#x27;</div>
+                <div class="shot-why"><strong>Why Included:</strong> Structural framing slate / audit card required by operator deliverable contract.</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(3.00)">
+              <div class="shot-media">
+                <img src="../thumbs/f247b2aa-3cfb-5706-ad83-51ad935b837c.jpg" alt="Captured frame from Tornado" loading="lazy">
+                <span class="shot-time">CUT #02 · 3.0s–7.5s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>Tornado ()</strong>
+                  <span>clip <code>f247b2aa</code> · source window <code>0.20s–4.70s</code> (4.50s) <a href="https://www.movingimagearchive.com/sources/tornado?clip=f247b2aa-3cfb-5706-ad83-51ad935b837c" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> Tornado: A hand draws a boundary line across a weather map before the word is spoken</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>VISUAL INTRODUCTION</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from Tornado (None) because the visible gesture directly  establishes phase [SENSE 1 (GEOMETRIC/CONTOUR LINE) · DRAWN IN SILENCE], and executes the formal bridge (VISUAL INTRODUCTION), and anchors the opening perceptual premise before any cross-source comparison begins. Window 0.20s–4.70s (4.50s) verified cut-free (motion Δ=19.0, luma=104.1, audio=-23.0 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(7.50)">
+              <div class="shot-media">
+                <img src="../thumbs/12f71021-2ea5-535e-8fcb-58b78d2dc429.jpg" alt="Captured frame from Freedom Seven" loading="lazy">
+                <span class="shot-time">CUT #03 · 7.5s–12.5s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>Freedom Seven (1961)</strong>
+                  <span>clip <code>12f71021</code> · source window <code>0.10s–5.10s</code> (5.00s) </span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> Spoken intact @ 1.88s: “The recovery forces were on station in a LINE along the flight path...”</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>SENSE 1: SPATIAL ALIGNMENT</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from Freedom Seven (1961) because the visible gesture directly  establishes phase [SENSE 1 SPOKEN · FREEDOM SEVEN (1961)], and executes the formal bridge (SENSE 1: SPATIAL ALIGNMENT), and advances cut 2/8 of the theorem while preserving distinct historical provenance (1961). Window 0.10s–5.10s (5.00s) verified cut-free (motion Δ=19.5, luma=88.1, audio=-27.7 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(12.50)">
+              <div class="shot-media">
+                <img src="../thumbs/aeebdc87-f047-572e-8eb1-213362ec3707.jpg" alt="Captured frame from Master Hands (Part III)" loading="lazy">
+                <span class="shot-time">CUT #04 · 12.5s–17.5s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>Master Hands (Part III) (1936)</strong>
+                  <span>clip <code>aeebdc87</code> · source window <code>0.50s–5.50s</code> (5.00s) <a href="https://www.movingimagearchive.com/sources/master-hands-part-iii-d981bcb7?clip=aeebdc87-f047-572e-8eb1-213362ec3707" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> Master Hands (1936): Workers along an industrial production line carry the meaning before speech</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>ACTION PRECEDES NAMING</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from Master Hands (Part III) (1936) because the visible gesture directly  establishes phase [VISUAL HANDOFF -&gt; SENSE 2 (ASSEMBLY / TELEPHONE LINE)], and executes the formal bridge (ACTION PRECEDES NAMING), and advances cut 3/8 of the theorem while preserving distinct historical provenance (1936). Window 0.50s–5.50s (5.00s) verified cut-free (motion Δ=11.3, luma=51.6, audio=-17.2 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(17.50)">
+              <div class="shot-media">
+                <img src="../thumbs/7683b7a2-f2a4-54d1-86c0-8b6f1599aad4.jpg" alt="Captured frame from Singing Wires" loading="lazy">
+                <span class="shot-time">CUT #05 · 17.5s–20.0s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>Singing Wires (1951)</strong>
+                  <span>clip <code>7683b7a2</code> · source window <code>0.10s–2.25s</code> (2.50s) <a href="https://www.movingimagearchive.com/sources/singing-wires-d80fe718?clip=7683b7a2-f2a4-54d1-86c0-8b6f1599aad4" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> Singing Wires (1951): Rural telephone line connecting farmsteads across distance</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>SENSE 2: COMMUNICATION WIRE</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from Singing Wires (1951) because the visible gesture directly  establishes phase [SENSE 2 SPOKEN · SINGING WIRES (1951)], and executes the formal bridge (SENSE 2: COMMUNICATION WIRE), and advances cut 4/8 of the theorem while preserving distinct historical provenance (1951). Window 0.10s–2.25s (2.50s) verified cut-free (motion Δ=4.0, luma=68.0, audio=-17.2 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(20.00)">
+              <div class="shot-media">
+                <img src="../thumbs/116af359-59fe-5a33-85b6-570904ff1d40.jpg" alt="Captured frame from Singing Wires" loading="lazy">
+                <span class="shot-time">CUT #06 · 20.0s–23.0s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>Singing Wires (1951)</strong>
+                  <span>clip <code>116af359</code> · source window <code>0.10s–3.08s</code> (3.00s) <a href="https://www.movingimagearchive.com/sources/singing-wires-d80fe718?clip=116af359-59fe-5a33-85b6-570904ff1d40" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> Maintaining the rural line that links isolated houses</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>SENSE 2: SHARED INFRASTRUCTURE</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from Singing Wires (1951) because the visible gesture directly  establishes phase [SENSE 2B · SINGING WIRES CONTINUATION (1951)], and executes the formal bridge (SENSE 2: SHARED INFRASTRUCTURE), and advances cut 5/8 of the theorem while preserving distinct historical provenance (1951). Window 0.10s–3.08s (3.00s) verified cut-free (motion Δ=6.2, luma=65.5, audio=-17.3 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(23.00)">
+              <div class="shot-media">
+                <img src="../thumbs/74864d7a-fa30-56da-83b0-3f8f12b52327.jpg" alt="Captured frame from Front Line, The" loading="lazy">
+                <span class="shot-time">CUT #07 · 23.0s–24.9s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>Front Line, The (1965)</strong>
+                  <span>clip <code>74864d7a</code> · source window <code>2.00s–3.90s</code> (1.90s) <a href="https://www.movingimagearchive.com/sources/front-line-the-6bd8add6?clip=74864d7a-fa30-56da-83b0-3f8f12b52327" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> The Front Line (1965): &#x27;Line&#x27; shifts from geometry and wire to a threshold of physical hazard</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>SENSE 3: THRESHOLD OF CONSEQUENCE</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from Front Line, The (1965) because the visible gesture directly  establishes phase [SENSE 3 (STAKES SHIFTED) · THE FRONT LINE (1965)], and executes the formal bridge (SENSE 3: THRESHOLD OF CONSEQUENCE), and advances cut 6/8 of the theorem while preserving distinct historical provenance (1965). Window 2.00s–3.90s (1.90s) verified cut-free (motion Δ=2.2, luma=78.0, audio=-17.2 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(24.90)">
+              <div class="shot-media">
+                <img src="../thumbs/30fe8bbc-4e09-52fd-85a8-2d3314fad7c1.jpg" alt="Captured frame from Story of a City: New York" loading="lazy">
+                <span class="shot-time">CUT #08 · 24.9s–29.9s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>Story of a City: New York (1946)</strong>
+                  <span>clip <code>30fe8bbc</code> · source window <code>0.13s–4.41s</code> (5.00s) <a href="https://www.movingimagearchive.com/sources/story-of-a-city-new-york-370791ea?clip=30fe8bbc-4e09-52fd-85a8-2d3314fad7c1" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> Washing hanging on a clothesline — ordinary domestic life persisting beside public stakes</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>DOMESTIC LINE COUNTERPOINT</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from Story of a City: New York (1946) because the visible gesture directly  establishes phase [COUNTERPOINT · STORY OF A CITY: NEW YORK (1946)], and executes the formal bridge (DOMESTIC LINE COUNTERPOINT), and advances cut 7/8 of the theorem while preserving distinct historical provenance (1946). Window 0.13s–4.41s (5.00s) verified cut-free (motion Δ=9.2, luma=47.5, audio=-17.1 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(29.90)">
+              <div class="shot-media">
+                <img src="../thumbs/12f71021-2ea5-535e-8fcb-58b78d2dc429.jpg" alt="Captured frame from Freedom Seven" loading="lazy">
+                <span class="shot-time">CUT #09 · 29.9s–34.9s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>Freedom Seven (1961)</strong>
+                  <span>clip <code>12f71021</code> · source window <code>0.10s–5.10s</code> (5.00s) </span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> Freedom Seven (1961): “...on station in a LINE along the flight path” — now carrying wire, labor, and threshold</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>RETURN WITH ACCUMULATED SENSES</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from Freedom Seven (1961) because the visible gesture directly  establishes phase [RETURN · OPENING UTTERANCE RE-HEARD], and executes the formal bridge (RETURN WITH ACCUMULATED SENSES), and completes the terminal return/aftermath hold required by the operator theorem. Window 0.10s–5.10s (5.00s) verified cut-free (motion Δ=19.5, luma=89.6, audio=-27.7 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card is-card" onclick="seekTo(34.90)">
+              <div class="shot-media card-placeholder">
+                <span>CLOSING LEDGER</span>
+                <span class="shot-time">SEG #10 · 34.9s–38.4s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source"><strong>CLOSING LEDGER</strong> <span>(3.5s)</span></div>
+                <div class="shot-what">Each spoken clip preserves the speaker&#x27;s intact archival sentence rather than fabricating a stitched statement.</div>
+                <div class="shot-why"><strong>Why Included:</strong> Structural framing slate / audit card required by operator deliverable contract.</div>
+              </div>
+            </article>
+  </div>
+
+  <div class="sec-head">
+    <div>
+      <div class="kicker">Stage 3 · Independent Critic Tribunal & Verification</div>
+      <h2>Temporal Proof Strips & Diagnostic Audit</h2>
+    </div>
+    <a class="btn sec" href="../strips/BROLL_08_Homonym_v2_strip.jpg" target="_blank">Open Full-Res Strip ↗</a>
+  </div>
+  <div class="strip-label">Verified v2 Temporal Proof Strip (8 evenly spaced frames + waveform/timecode audit)</div>
+  <img class="strip-img" src="../strips/BROLL_08_Homonym_v2_strip.jpg" alt="v2 proof strip">
+  
+        <details class="v1-details">
+          <summary>Compare Pre-Repair v1 Assembly Strip vs. Verified v2 Strip</summary>
+          <div class="strip-label">v1 Assembly Strip (Before Critic Repair)</div>
+          <img class="strip-img" src="../strips/BROLL_08_Homonym_v1_strip.jpg" alt="v1 strip" loading="lazy">
+        </details>
+  
+        <div class="tribunal-grid">
+          <div class="trib-box warn">
+            <div class="label">Round 1 (v1) Defects Caught</div>
+            <ul><li>Seg #03 (t=09.00s-14.80s): `12f71021` (`Freedom Seven`, 1961) cuts at 5.46s from the speakers to an aircraft carrier exterior.</li></ul>
+            <p><strong>Largest Gap:</strong> The 5.8s duration on `12f71021` extended 0.54s past the internal cut at 5.46s.</p>
+            <p><strong>Causal Hypothesis:</strong> Clean window of `12f71021` is `0.05s-5.46s`; `in_s=0.2, dur=5.8` reached `6.0s`.</p>
+          </div>
+          <div class="trib-box pass">
+            <div class="label">Round 2 (v2) Falsifiable Repair & Verification</div>
+            <p><strong>Repair Executed:</strong> Clamp `12f71021` in Seg #03 and Seg #09 to `in_s=0.1, dur=5.1` so it stays completely inside `0.05s-5.46s` without ever cutting to the aircraft carrier.</p>
+            <p><strong>Strength Preserved:</strong> The three-sense progression around &#x27;LINE&#x27; (`f247b2aa` weather contour -&gt; `12f71021` flight path line -&gt; `aeebdc87` assembly line -&gt; `7683b7a2`/`116af359` telephone line -&gt; `74864d7a` hazard line -&gt; `30fe8bbc` clothesline -&gt; `12f71021` return).</p>
+            <p><strong>Final Verdict:</strong> <code>PASS (v2 · 0 structural or perceptual issues)</code></p>
+          </div>
+        </div>
+
+  <nav class="nav-foot">
+    <a href="SCION_113_Learning_To_See_Latent_Atlas.html">← #62 Learning to See — Latent Texture &amp; Cluster Traverse</a>
+    <a href="../index.html#film=BROLL_08_Homonym">Back to 85-Film Screening Room ↗</a>
+    <a href="BROLL_09_Anybody_Anywhere.html">#64 ANYBODY, ANYWHERE →</a>
+  </nav>
+</main>
+<script>
+function seekTo(sec) {
+  const v = document.getElementById('v');
+  v.currentTime = sec;
+  v.play().catch(()=>{});
+  v.scrollIntoView({behavior:'smooth', block:'center'});
+}
+function copyPrompt() {
+  const txt = document.getElementById('prompt-raw').textContent;
+  navigator.clipboard.writeText(txt).then(() => {
+    const msg = document.getElementById('copy-msg');
+    msg.textContent = 'COPIED TO CLIPBOARD ✓';
+    setTimeout(() => msg.textContent = '', 2500);
+  });
+}
+</script>
+</body>
+</html>

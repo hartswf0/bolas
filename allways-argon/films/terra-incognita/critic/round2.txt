@@ -1,0 +1,7 @@
+VERDICT: pass (Round 2 — v2 repaired assembly verification)
+Critic Role: Independent material-evidence critic
+
+Verification of Falsifiable Repair:
+- Executed repair: Replace Seg #05 with Cineosis human-verified damaged/bleached emulsion strip `497f7a8c` (`0.3s-6.2s`, `OBS: Very bright, washed-out figures move across a bleached frame`) and replace Seg #06 with human-verified grainy archival street scene `4d02a782` (`0.3s-6.3s`, `OBS: Grainy damaged footage shows vehicles and figures in an urban setting`).
+- Automated structural check: 0 internal camera cuts (max_frame_diff < 16.0), 0 title-card contaminants, 0 missing glyph boxes.
+- Visual inspection of 8-frame v2 proof strip confirms every shot establishes and completes its visible action while preserving the strength identified in Round 1 (The opening vertical scratch in `e0a5fa07`, the authored Carrier Bridge sprocket wipe (Seg #03), the wildfire flare in `b45f3dbf`, and the blank leader optical-track close in `8b5d40ae`.).

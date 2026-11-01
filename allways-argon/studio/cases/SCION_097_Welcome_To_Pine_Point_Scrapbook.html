@@ -1,0 +1,455 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>SCION 097 · INTERACTIVE &amp; DATABASE MEDIA · Welcome to Pine Point — Remembered Place Scrapbook — ALLWAYS · ARGON Case Study</title>
+<link rel="stylesheet" href="../../../tools/paeleo/fonts/local.css">
+<style>
+:root {
+  --bg: #0c0e0d;
+  --panel: #131715;
+  --panel-2: #191f1c;
+  --ink: #f2efe6;
+  --muted: #9aa39c;
+  --rule: #28312c;
+  --accent: #d46a4c;
+  --mint: #8ec5a8;
+  --gold: #dfc48b;
+  --display: 'Big Shoulders Display', -apple-system, BlinkMacSystemFont, sans-serif;
+  --serif: 'Literata', Georgia, serif;
+  --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.65 var(--serif); }
+a { color: var(--mint); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.topbar {
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(12,14,13,0.94); backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--rule);
+  padding: 10px 18px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px;
+  font: 11px/1.4 var(--mono); text-transform: uppercase; letter-spacing: .06em;
+}
+.wrap { max-width: 1120px; margin: 0 auto; padding: 24px 18px 80px; }
+.kicker { font: 600 11px/1.4 var(--mono); color: var(--accent); text-transform: uppercase; letter-spacing: .1em; }
+h1 { font: 800 clamp(32px, 6vw, 60px)/.96 var(--display); text-transform: uppercase; margin: 6px 0 8px; letter-spacing: -.01em; }
+.subtitle { font: 400 clamp(17px, 2.2vw, 22px)/1.4 var(--serif); color: var(--muted); margin-bottom: 18px; }
+.player-sticky {
+  background: #000; border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; margin-bottom: 24px;
+}
+video { width: 100%; aspect-ratio: 16/9; display: block; background: #000; }
+.player-bar {
+  padding: 10px 14px; background: var(--panel); border-top: 1px solid var(--rule);
+  display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px;
+  font: 11px/1.4 var(--mono); color: var(--muted);
+}
+.btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  font: 600 11px/1 var(--mono); text-transform: uppercase; letter-spacing: .06em;
+  padding: 9px 13px; border-radius: 4px; border: 1px solid var(--mint);
+  background: var(--mint); color: #0d1f16; cursor: pointer;
+}
+.btn.sec { background: transparent; color: var(--ink); border-color: var(--rule); }
+.btn:hover { opacity: .92; text-decoration: none; }
+.sec-head {
+  border-top: 1px solid var(--rule); padding-top: 24px; margin: 36px 0 16px;
+  display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 12px;
+}
+.sec-head h2 { font: 800 clamp(24px, 3.5vw, 34px)/1.05 var(--display); text-transform: uppercase; margin: 0; }
+.meta-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; margin: 18px 0;
+}
+.meta-card { background: var(--panel); border: 1px solid var(--rule); border-radius: 6px; padding: 14px 16px; }
+.meta-card .label { font: 600 10px/1.4 var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--gold); margin-bottom: 6px; }
+.shots-list { display: flex; flex-direction: column; gap: 12px; }
+.shot-card {
+  display: grid; grid-template-columns: 240px 1fr; gap: 16px;
+  background: var(--panel); border: 1px solid var(--rule); border-radius: 6px; padding: 12px;
+  cursor: pointer; transition: border-color .15s;
+}
+.shot-card:hover { border-color: var(--mint); }
+.shot-card.is-card { grid-template-columns: 180px 1fr; opacity: .88; }
+.shot-media { position: relative; background: #050706; border-radius: 4px; overflow: hidden; aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center; }
+.shot-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.shot-time {
+  position: absolute; bottom: 6px; left: 6px;
+  background: rgba(0,0,0,0.82); color: var(--gold); padding: 2px 6px; border-radius: 3px;
+  font: 600 10px/1.3 var(--mono);
+}
+.shot-body { display: flex; flex-direction: column; gap: 6px; font-size: 14px; }
+.shot-source { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px; font: 12px/1.4 var(--mono); color: var(--muted); border-bottom: 1px solid var(--rule); padding-bottom: 6px; }
+.shot-source strong { color: var(--ink); }
+.shot-what { color: var(--ink); }
+.shot-bridge { font-size: 12px; color: var(--gold); }
+.shot-why { color: var(--muted); font-size: 13.5px; }
+.strip-img { width: 100%; border-radius: 6px; border: 1px solid var(--rule); display: block; margin: 10px 0; }
+.strip-label { font: 600 11px/1.4 var(--mono); color: var(--muted); text-transform: uppercase; margin-top: 10px; }
+.tribunal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 14px; }
+.trib-box { background: var(--panel); border: 1px solid var(--rule); border-radius: 6px; padding: 16px; font-size: 14px; }
+.trib-box.warn { border-left: 3px solid var(--accent); }
+.trib-box.pass { border-left: 3px solid var(--mint); }
+.trib-box .label { font: 700 11px/1.4 var(--mono); text-transform: uppercase; color: var(--gold); margin-bottom: 8px; }
+pre.prompt-box {
+  background: #090c0a; border: 1px solid var(--rule); border-radius: 6px; padding: 18px;
+  font: 12.5px/1.65 var(--mono); color: #e2e6de; white-space: pre-wrap; overflow-wrap: anywhere; max-height: 640px; overflow-y: auto;
+}
+.nav-foot {
+  margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--rule);
+  display: flex; justify-content: space-between; gap: 14px; font: 12px/1.5 var(--mono);
+}
+@media (max-width: 700px) {
+  .shot-card, .shot-card.is-card { grid-template-columns: 1fr; }
+  .tribunal-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div>
+    <a href="../../../paeleo/allways/index.html#runs">ALLWAYS</a> <span>/</span> <a href="../../index.html">ARGON (12)</a> <span>/</span>
+    <a href="../index.html#film=SCION_097_Welcome_To_Pine_Point_Scrapbook">ARGON SCREENING ROOM (85)</a> <span>/</span>
+    <span style="color:var(--ink)">#46 CASE STUDY</span>
+  </div>
+  <div style="display:flex;gap:8px;align-items:center">
+    <button class="btn" onclick="copyPrompt()">Copy Prompt</button>
+    <a class="btn sec" href="SCION_097_Welcome_To_Pine_Point_Scrapbook.md" download>Case Study .md</a>
+    <a class="btn sec" href="../manifests/SCION_097_Welcome_To_Pine_Point_Scrapbook.json" target="_blank">EDL .json</a>
+  </div>
+</header>
+<main class="wrap">
+  <div class="kicker">SCION 097 · INTERACTIVE &amp; DATABASE MEDIA · F · Reflexive &amp; Database · FILM #46 OF 85</div>
+  <h1>Welcome to Pine Point — Remembered Place Scrapbook</h1>
+  <div class="subtitle">Roadside welcome sign, snapshots, home movies, turntable, and overgrown foundations</div>
+
+  <div class="player-sticky">
+    <video id="v" controls playsinline preload="metadata" src="../films/SCION_097_Welcome_To_Pine_Point_Scrapbook.mp4"></video>
+    <div class="player-bar">
+      <span>34.5s · 6 archival cuts · 6 sources · Critic Tribunal: PASS (v2)</span>
+      <span>Tap any captured shot card below to jump video to that cut</span>
+    </div>
+  </div>
+
+  <div class="meta-grid">
+    <div class="meta-card">
+      <div class="label">01 · Creative Theorem</div>
+      <div>Reconstruct a vanished community as a tactile scrapbook: move from the weathered welcome sign and handheld snapshots into home-movie parades and a spinning turntable, then return to the roofless stone foundations that remain.</div>
+    </div>
+    <div class="meta-card">
+      <div class="label">02 · Lineage & Reference</div>
+      <div>Lineage: Paul Shoebridge &amp; Michael Simons (The Goggles), Welcome to Pine Point (NFB, 2011)</div>
+      <div style="margin-top:8px;font-size:12px;color:var(--muted)"><strong>Boundary Contract:</strong> Explicitly distinguishes photographic keepsakes (`70367be1`, `b066405d`) and home movies (`8042fa53`, `ed8a925a`) from the cleared site (`02842a53`, `a1cbaba1`).</div>
+    </div>
+  </div>
+
+  <div class="sec-head">
+    <div>
+      <div class="kicker">Stage 1 · Production Prompt</div>
+      <h2>Copyable SCION / ALLWAYS Prompt</h2>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="btn" id="copy-btn-2" onclick="copyPrompt()">Copy Full Prompt</button>
+      <span id="copy-msg" style="font:11px var(--mono);color:var(--mint);align-self:center"></span>
+    </div>
+  </div>
+  <pre class="prompt-box" id="prompt-raw"># SCION 097 // Welcome to Pine Point — Remembered Place Scrapbook
+## Autonomous evolving cinema / documentary / database swarm · standalone prompt
+
+**Family:** Interactive and database media
+**Operator lineage:** Welcome to Pine Point — Paul Shoebridge and Michael Simons/The Goggles; NFB catalogue year 2010, widely associated with 2011 public release.
+**Requested reference:** Welcome to Pine Point (2011) — The Goggles (Paul Shoebridge &amp; Michael Simons)
+**Reference status:** partly_verified. See the research record below.
+**Execution mode:** interactive_documentary
+**Interpretation:** This is a newly authored operational prompt inspired by documented work. It does not claim that the credited artists wrote or endorsed it. Its proposed proof is an original experiment. Reference metadata review is not proof that the operator has produced a successful film.
+
+You are **SCION-097-WELCOME-TO-PINE-POINT-REMEMBERED-PLACE-SCRAPBOOK**. Produce a finished watchable or operable work within the user&#x27;s requested scope. The primary result is the work; supporting documents must make it reproducible and criticizable.
+
+## INPUT
+
+- `[WORK]`: the new work or question this operator should realize.
+- `[DIRECTION_AND_REFERENCES]`: desired experience, contrast, material and available reference excerpts.
+- `[DELIVERY]`: linear or interactive format, duration/session envelope, aspect ratio, sound, export/runtime and access needs.
+- `[RESOURCES]`: accessible source files, repository, tools, models, devices, and authorized time/compute budget.
+- `[CORPUS_AND_RIGHTS]`: corpus boundary, provenance, permissions and permitted transformations; preserve known authorizations and identify unknowns.
+- `[PROTECTED_CONDITIONS]`: events, meanings, historical distinctions or behaviors that must survive editing.
+
+Resolve ordinary implementation choices from context. Ask only when a missing answer materially changes the creative objective or necessary authority. Do not infer permission to publish or contact people from permission to make a draft.
+
+## 1 · Creative theorem to prove
+
+Give a disappeared or changed place a narrative presence through the particular objects and recollections of people who knew it. Build a finite, authored scrapbook whose tactile interactions deepen an account rather than turning memory into an endlessly searchable feed.
+
+**What makes this operator distinct:** The Unknown Photographer turns archival uncertainty into a spatial fiction; this operator remains a finite, personal, source-attributed account of a particular place.
+
+## 2 · Native formal language
+
+Preserve and manipulate these as explicit working objects:
+
+- A bounded chapter sequence with a declared narrator position
+- Photographs, notes, recorded voices and document edges
+- Named recollection attached to a particular contributor
+- Before/after or remembered/current pairs with known dates
+- Small reveal actions such as lift, turn, scrub and compare
+- A continuous but chapter-sensitive sound bed
+
+**Protected conditions:**
+
+- Original photographs and testimony retain creator, date and uncertainty records.
+- An illustrative reconstruction never silently replaces a missing document.
+- The reader can finish a coherent account without opening every optional object.
+
+Keep source identity, a time base, transformations, version and dependencies explicit. Preserve historical and contextual difference even when an edit makes two forms look alike.
+
+## 3 · Assemble the smallest capable swarm
+
+- Memory editor selects a specific place and narrative arc.
+- Source caretaker preserves artifacts and participants&#x27; own descriptions.
+- Interaction designer turns a few objects into meaningful actions.
+- Sound editor separates voice, atmosphere and composition.
+- Independent reader tests whether people remain particular through the scrapbook.
+
+Every role must build or verify something concrete. The independent critic receives the intended experience and actual output before the builder&#x27;s explanation. Do not invent a critic session when no independent review occurred.
+
+## 4 · Hard proof; produce before scaling
+
+Build three short chapters about one ordinary place that has changed: a closed shop, moved classroom or former meeting room. Use six authorized artifacts and two short first-person accounts, with permission already present or use the operator&#x27;s own materials. Chapter one establishes an object in use through a photograph and an audible recollection. The visitor lifts a paper layer to discover a date or annotation that complicates the first impression. Chapter two places the two accounts beside the same artifact; a gentle toggle changes the speaking voice without declaring one memory definitive. Chapter three shows the place as it is documented now, then returns to the original object with its absence newly apparent. Restrict the interactions to reveal and compare so attention stays on the account. Let a modest musical motif bridge chapters, but leave testimony unmasked. End with the contributors&#x27; unresolved difference and a complete route back through the three chapters. Invented demonstration material must be explicitly presented as a fictional scrapbook.
+
+Save a recoverable draft. Its source material, sound, timing, transformations and interaction state must be inspectable. Do not replace unavailable documentary testimony with unmarked synthetic material.
+
+## 5 · Acceptance tribunal
+
+**Judge by watching or operating the proof:**
+
+- A reader can name the particular place and at least one person&#x27;s relationship to it.
+- Optional interactions reveal consequential details rather than decorative motion.
+- Conflicting recollections remain attributable and intelligible.
+- The ending feels finite even though the place&#x27;s history remains incomplete.
+- The interface&#x27;s aging-paper treatment does not imply archival authenticity for new assets.
+
+**Structural or automated checks, only where the representation supports them:**
+
+- Validate every displayed artifact reference against the source ledger.
+- Verify that the primary route reaches an ending with optional objects unopened.
+
+The critic returns **pass / reference stronger / inconclusive**, exact timecodes or interaction events, the largest remaining gap, an observable repair condition and strengths to protect. Distinguish measured checks from perceptual judgments. Leave execution and acceptance marked pending until they happen.
+
+## 6 · Repair through discriminating experiments
+
+- **Failure:** The piece feels like a generic nostalgia slideshow. **Hypothesis:** Artifacts have atmosphere but no relationship to the narrator&#x27;s account. **Experiment:** Replace two pretty images with one specific annotated object and compare what readers remember.
+- **Failure:** Scrapbook controls hide the narrative. **Hypothesis:** Too many interaction verbs compete for attention. **Experiment:** Reduce to two reveal gestures while keeping all evidence available.
+
+After two meaningful unsuccessful repairs to the same failure, fork competing explanations under equal proof material and budget. Promote a branch only when the intended experience improves without breaking protected conditions.
+
+## 7 · Discovery and recursive expansion
+
+- Add chapters only when a new artifact alters the history already encountered.
+- Keep a readable editorial arc when the source collection grows; do not equate completeness with emotional force.
+
+Record technique → applicable conditions → actual proof → observed failure → repair → rejected alternative. Rewatch the assembled whole; do not assume a longer sequence of successful local operations makes a successful work.
+
+## 8 · Deliverable contract
+
+- Finished three-chapter web scrapbook with a linear accessible reading route
+- Artifact ledger, testimony attribution, sound credits and reader critique
+
+Include the current playable artifact, revision identifier, source/transform record, actual critic verdict or pending status, and the largest unresolved limitation. Preserve an accepted checkpoint before major changes.
+
+**Possible ALLWAYS applications:** NOBODY HOME, MNEMONIL, COMMONTHREAD.
+
+## INHERITED SCION DOCTRINE — BUILD, INSPECT, REPAIR
+
+1. **Viewer experience first.** State one specific perceptual or interactive achievement. Name the attractive but empty result this project must avoid. A subject, mood board or similarity score is not a film.
+2. **Inspect the lineage.** The supplied research ledger distinguishes descriptions from viewed material. Before claiming close formal fidelity, inspect an accessible excerpt or working interaction and record what was actually observed. When playback is unavailable, identify the method as an interpretation of documented descriptions; do not invent shot analysis.
+3. **Hard proof before scale.** Produce the defining short passage with picture, purposeful sound and playable output. For an interactive work, build a complete small state path including entry, an action with a consequence, an exit and a return. Do not begin by accumulating a giant archive.
+4. **Material and source integrity.** Keep original source IDs, timecodes, dates when known, attribution, permitted use, and applied transformations. Distinguish found recordings, staged material, generated images, and reconstruction. A synthetic stand-in is not documentary evidence. Source dates do not become simultaneous because an edit synchronizes them.
+5. **Native working state.** Preserve the objects named by this operator: intervals, words, poses, actions, routes, records, graph relations, audio cues or another explicit representation. Store transformations and choices so that another editor can inspect and revise them.
+6. **Small accountable swarm.** Every role owns an artifact or a verification. Merge roles when coordination becomes costly. Keep an independent critic for the defining achievement. Respect the user&#x27;s existing authority; do not seek arbitrary approval for routine reversible work or publish/contact others beyond the authorized scope.
+7. **Sound and duration are structural.** Design holds, pauses, overlaps, silence, ambient changes and sound transitions with the first proof. Preserve source silence where relevant; label newly composed sound. Never claim that music, an animation or a cut establishes a person&#x27;s private feeling.
+8. **Independent criticism.** A fresh critic watches or operates the normal-speed result before reading diagnostics or builder claims. Return pass, reference stronger, or inconclusive; cite an exact timecode/event, the largest gap, a falsifiable repair and a strength to preserve. &#x27;Reference stronger&#x27; requires an actually inspected comparable reference. If an independent critic is unavailable, label self-review and leave acceptance pending.
+9. **Repair causes.** Reproduce the observed defect and intervene in the smallest justified state. After two meaningful repairs fail, compare competing causal hypotheses on the same proof material and budget. Do not add effects, agents or footage just to conceal the defect.
+10. **Two kinds of evidence.** Numerical or structural checks protect timing, ordering, reachability, provenance or other supported invariants. Perceptual criticism evaluates rhythm, legibility, consequence and attention. Neither substitutes for the other, and no score proves artistic value. Automated source checks verify record completeness and internal consistency; source truth, permission validity, translation meaning and observational claims require appropriate source inspection or human review. Report which review actually occurred.
+11. **Whole-work judgment.** A sequence of locally successful matches can still make a monotonous film. Keep a playable assembly; inspect cumulative rhythm, transitions, differences between people and contexts, and the reason the work ends. Preserve productive seams and interruptions.
+12. **Truthful stopping and delivery.** Stop at independent acceptance, the user&#x27;s stop, the authorized budget, or a justified no-progress boundary. Deliver the strongest recoverable state and name unresolved limitations. Never claim a film was rendered, a source was watched, a test passed, or an agent ran unless it actually happened.
+
+**Tool boundary:** Use real available tools. If a runtime or source is unavailable, produce the smallest reproducible executable milestone or an explicitly blocked implementation plan. Do not narrate an imaginary execution. This prompt authorizes only the scope supplied by its user.
+
+## START
+
+Read the inputs and actual source material. State the creative theorem and protected conditions. Build the proof with picture and sound or an operable interaction. Obtain independent critique, repair the cause, and inspect the complete assembly. Expand only after the defining operation is perceptible.
+
+
+## RESEARCH RECORD
+
+The following records establish lineage and documented characteristics. Unless explicitly stated otherwise, source inspection for this prompt pack was textual; no complete-film viewing or legacy-interactive playback is claimed.
+
+1. [Welcome to Pine Point — NFB Collection](https://collection.nfb.ca/interactive/welcome_to_pine_point) — Catalogue year 2010; creators, mixed-media credits and account of a vanished mining community. Evidence: official_description; inspection: text_only.
+
+**Metadata notes and unresolved questions:**
+
+- The retrieved NFB catalogue labels the work 2010, while the supplied list says 2011. Preserve the distinction instead of claiming an exact premiere date from this record.
+</pre>
+
+  <div class="sec-head">
+    <div>
+      <div class="kicker">Stage 2 · Archive Forage, Captured Frames & Editorial Rationale</div>
+      <h2>Captured Shots & Why Each Was Chosen (6 Cuts)</h2>
+    </div>
+    <span style="font:11px var(--mono);color:var(--muted)">Click any shot to scrub video</span>
+  </div>
+  <div class="shots-list">
+    
+            <article class="shot-card is-card" onclick="seekTo(0.00)">
+              <div class="shot-media card-placeholder">
+                <span>TITLE CARD</span>
+                <span class="shot-time">SEG #01 · 0.0s–3.0s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source"><strong>OPENING SLATE</strong> <span>(3.0s)</span></div>
+                <div class="shot-what">Roadside welcome sign, snapshots, home movies, turntable, and overgrown foundations</div>
+                <div class="shot-why"><strong>Why Included:</strong> Structural framing slate / audit card required by operator deliverable contract.</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(3.00)">
+              <div class="shot-media">
+                <img src="../thumbs/2fbf7db5-7546-58dc-8e24-2015acd58515.jpg" alt="Captured frame from Brooklyn Goes to San Francisco" loading="lazy">
+                <span class="shot-time">CUT #02 · 3.0s–7.8s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>Brooklyn Goes to San Francisco (1947)</strong>
+                  <span>clip <code>2fbf7db5</code> · source window <code>7.80s–12.60s</code> (4.80s) <a href="https://www.movingimagearchive.com/sources/brooklyn-goes-to-san-francisco-d98ccfcb?clip=2fbf7db5-7546-58dc-8e24-2015acd58515" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> Brooklyn Goes to San Francisco (1947): A sunlit path running between houses and planted ground — entering the town</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>SCRAPBOOK COVER: TOWN PATH</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from Brooklyn Goes to San Francisco (1947) because the visible gesture directly  establishes phase [COVER PAGE · SUNNY PATH INTO THE REMEMBERED TOWN (1947)], and executes the formal bridge (SCRAPBOOK COVER: TOWN PATH), and anchors the opening perceptual premise before any cross-source comparison begins. Window 7.80s–12.60s (4.80s) verified cut-free (motion Δ=31.2, luma=68.4, audio=-17.1 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(7.80)">
+              <div class="shot-media">
+                <img src="../thumbs/b066405d-4f5b-57af-a7a6-25139e979938.jpg" alt="Captured frame from Farmer Miller Goes Into High Gear (Part II)" loading="lazy">
+                <span class="shot-time">CUT #03 · 7.8s–12.6s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>Farmer Miller Goes Into High Gear (Part II) (1920)</strong>
+                  <span>clip <code>b066405d</code> · source window <code>0.30s–5.10s</code> (4.80s) <a href="https://www.movingimagearchive.com/sources/farmer-miller-goes-into-high-gear-part-ii-5bff8843?clip=b066405d-4f5b-57af-a7a6-25139e979938" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> Farmer Miller (1920): Two hands leafing through worn paper photographs of former residents</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>TACTILE ALBUM PAGE #01</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from Farmer Miller Goes Into High Gear (Part II) (1920) because the visible gesture directly  establishes phase [KEEPSAKE 01 · HANDS HOLDING OLD SNAPSHOTS (1920)], and executes the formal bridge (TACTILE ALBUM PAGE #01), and advances cut 2/6 of the theorem while preserving distinct historical provenance (1920). Window 0.30s–5.10s (4.80s) verified cut-free (motion Δ=21.2, luma=94.7, audio=-45.7 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(12.60)">
+              <div class="shot-media">
+                <img src="../thumbs/8042fa53-f774-52ef-8f00-3a3447167f02.jpg" alt="Captured frame from Fun That Builds Good Health, The" loading="lazy">
+                <span class="shot-time">CUT #04 · 12.6s–17.6s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>Fun That Builds Good Health, The (1950)</strong>
+                  <span>clip <code>8042fa53</code> · source window <code>3.00s–8.00s</code> (5.00s) <a href="https://www.movingimagearchive.com/sources/fun-that-builds-good-health-the-7e52beb9?clip=8042fa53-f774-52ef-8f00-3a3447167f02" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> Fun That Builds Good Health (1950): Home-movie memory of an adult and child standing together on a porch</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>LIVING MEMORY LOOP</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from Fun That Builds Good Health, The (1950) because the visible gesture directly  establishes phase [HOME MOVIE · FATHER AND CHILD ON THE PORCH (1950)], and executes the formal bridge (LIVING MEMORY LOOP), and advances cut 3/6 of the theorem while preserving distinct historical provenance (1950). Window 3.00s–8.00s (5.00s) verified cut-free (motion Δ=51.0, luma=94.7, audio=-37.5 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(17.60)">
+              <div class="shot-media">
+                <img src="../thumbs/11bb2e14-0ce1-55e5-af10-8b4aeb36d9c1.jpg" alt="Captured frame from Have I Told You Lately That I Love You?" loading="lazy">
+                <span class="shot-time">CUT #05 · 17.6s–22.6s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>Have I Told You Lately That I Love You? (1958)</strong>
+                  <span>clip <code>11bb2e14</code> · source window <code>7.50s–12.50s</code> (5.00s) <a href="https://www.movingimagearchive.com/sources/have-i-told-you-lately-that-i-love-you-0e6a48dc?clip=11bb2e14-0ce1-55e5-af10-8b4aeb36d9c1" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> Have I Told You Lately (1958): A vinyl record resting on a portable player — the room tone of nostalgia</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>SCRAPBOOK SOUND OBJECT</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from Have I Told You Lately That I Love You? (1958) because the visible gesture directly  establishes phase [AMBIENT OBJECT · RECORD ON A PORTABLE TURNTABLE (1958)], and executes the formal bridge (SCRAPBOOK SOUND OBJECT), and advances cut 4/6 of the theorem while preserving distinct historical provenance (1958). Window 7.50s–12.50s (5.00s) verified cut-free (motion Δ=11.1, luma=56.9, audio=-17.1 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(22.60)">
+              <div class="shot-media">
+                <img src="../thumbs/02842a53-c4d3-5466-94b1-ff1d6e3894e5.jpg" alt="Captured frame from Bamel home movie 01" loading="lazy">
+                <span class="shot-time">CUT #06 · 22.6s–27.4s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>Bamel home movie 01 ()</strong>
+                  <span>clip <code>02842a53</code> · source window <code>0.20s–5.00s</code> (4.80s) <a href="https://www.movingimagearchive.com/sources/bamel-home-movie-01-72caa9ca?clip=02842a53-c4d3-5466-94b1-ff1d6e3894e5" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> Bamel Home Movie 01: Weathered stone columns standing open to the sky after the town&#x27;s removal</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>CLEARED SITE · REMAINS</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from Bamel home movie 01 (None) because the visible gesture directly  establishes phase [SITE TODAY I · WEATHERED COLUMNS UNDER AN OPEN ROOF], and executes the formal bridge (CLEARED SITE · REMAINS), and advances cut 5/6 of the theorem while preserving distinct historical provenance (None). Window 0.20s–5.00s (4.80s) verified cut-free (motion Δ=25.5, luma=54.4, audio=-43.8 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(27.40)">
+              <div class="shot-media">
+                <img src="../thumbs/a1cbaba1-12b8-5f06-94e6-4627b79f9f4e.jpg" alt="Captured frame from St. John Virgin Islands National park" loading="lazy">
+                <span class="shot-time">CUT #07 · 27.4s–31.0s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>St. John Virgin Islands National park (1990)</strong>
+                  <span>clip <code>a1cbaba1</code> · source window <code>0.10s–3.70s</code> (3.60s) <a href="https://www.movingimagearchive.com/sources/st-john-virgin-islands-national-park-797827f5?clip=a1cbaba1-12b8-5f06-94e6-4627b79f9f4e" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> St. John Virgin Islands (1990): Trees reclaiming the roofless doorway where the community once stood</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>VANISHED PLACE CODA</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from St. John Virgin Islands National park (1990) because the visible gesture directly  establishes phase [SITE TODAY II · ROOFLESS STONE WALLS BENEATH TREES (1990)], and executes the formal bridge (VANISHED PLACE CODA), and completes the terminal return/aftermath hold required by the operator theorem. Window 0.10s–3.70s (3.60s) verified cut-free (motion Δ=4.3, luma=51.6, audio=-19.9 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card is-card" onclick="seekTo(31.00)">
+              <div class="shot-media card-placeholder">
+                <span>CLOSING LEDGER</span>
+                <span class="shot-time">SEG #08 · 31.0s–34.5s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source"><strong>CLOSING LEDGER</strong> <span>(3.5s)</span></div>
+                <div class="shot-what">Explicitly distinguishes photographic keepsakes (`70367be1`, `b066405d`) and home movies (`8042fa53`, `ed8a925a`) from the cleared site (`02842a53`, `a1cbaba1`).</div>
+                <div class="shot-why"><strong>Why Included:</strong> Structural framing slate / audit card required by operator deliverable contract.</div>
+              </div>
+            </article>
+  </div>
+
+  <div class="sec-head">
+    <div>
+      <div class="kicker">Stage 3 · Independent Critic Tribunal & Verification</div>
+      <h2>Temporal Proof Strips & Diagnostic Audit</h2>
+    </div>
+    <a class="btn sec" href="../strips/SCION_097_Welcome_To_Pine_Point_Scrapbook_v2_strip.jpg" target="_blank">Open Full-Res Strip ↗</a>
+  </div>
+  <div class="strip-label">Verified v2 Temporal Proof Strip (8 evenly spaced frames + waveform/timecode audit)</div>
+  <img class="strip-img" src="../strips/SCION_097_Welcome_To_Pine_Point_Scrapbook_v2_strip.jpg" alt="v2 proof strip">
+  
+  
+        <div class="trib-box pass">
+          <div class="label">Two-Layer Critic Tribunal Verification</div>
+          <p><strong>Strength Preserved:</strong> </p>
+          <p><strong>Final Verdict:</strong> <code>PASS (v2 · 0 structural or perceptual issues across 6 archival cuts)</code></p>
+        </div>
+
+  <nav class="nav-foot">
+    <a href="SCION_096_Bla_Bla_Gesture_Response_Fable.html">← #45 BLA BLA — Gesture and Response Fable</a>
+    <a href="../index.html#film=SCION_097_Welcome_To_Pine_Point_Scrapbook">Back to 85-Film Screening Room ↗</a>
+    <a href="SCION_098_One_Millionth_Tower_Participatory_Place.html">#47 One Millionth Tower — Reimagining Vertical Place →</a>
+  </nav>
+</main>
+<script>
+function seekTo(sec) {
+  const v = document.getElementById('v');
+  v.currentTime = sec;
+  v.play().catch(()=>{});
+  v.scrollIntoView({behavior:'smooth', block:'center'});
+}
+function copyPrompt() {
+  const txt = document.getElementById('prompt-raw').textContent;
+  navigator.clipboard.writeText(txt).then(() => {
+    const msg = document.getElementById('copy-msg');
+    msg.textContent = 'COPIED TO CLIPBOARD ✓';
+    setTimeout(() => msg.textContent = '', 2500);
+  });
+}
+</script>
+</body>
+</html>

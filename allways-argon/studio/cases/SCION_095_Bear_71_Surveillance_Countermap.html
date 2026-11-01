@@ -1,0 +1,452 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>SCION 095 · INTERACTIVE &amp; DATABASE MEDIA · Bear 71 — Situated Surveillance Countermap — ALLWAYS · ARGON Case Study</title>
+<link rel="stylesheet" href="../../../tools/paeleo/fonts/local.css">
+<style>
+:root {
+  --bg: #0c0e0d;
+  --panel: #131715;
+  --panel-2: #191f1c;
+  --ink: #f2efe6;
+  --muted: #9aa39c;
+  --rule: #28312c;
+  --accent: #d46a4c;
+  --mint: #8ec5a8;
+  --gold: #dfc48b;
+  --display: 'Big Shoulders Display', -apple-system, BlinkMacSystemFont, sans-serif;
+  --serif: 'Literata', Georgia, serif;
+  --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.65 var(--serif); }
+a { color: var(--mint); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.topbar {
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(12,14,13,0.94); backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--rule);
+  padding: 10px 18px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px;
+  font: 11px/1.4 var(--mono); text-transform: uppercase; letter-spacing: .06em;
+}
+.wrap { max-width: 1120px; margin: 0 auto; padding: 24px 18px 80px; }
+.kicker { font: 600 11px/1.4 var(--mono); color: var(--accent); text-transform: uppercase; letter-spacing: .1em; }
+h1 { font: 800 clamp(32px, 6vw, 60px)/.96 var(--display); text-transform: uppercase; margin: 6px 0 8px; letter-spacing: -.01em; }
+.subtitle { font: 400 clamp(17px, 2.2vw, 22px)/1.4 var(--serif); color: var(--muted); margin-bottom: 18px; }
+.player-sticky {
+  background: #000; border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; margin-bottom: 24px;
+}
+video { width: 100%; aspect-ratio: 16/9; display: block; background: #000; }
+.player-bar {
+  padding: 10px 14px; background: var(--panel); border-top: 1px solid var(--rule);
+  display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px;
+  font: 11px/1.4 var(--mono); color: var(--muted);
+}
+.btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  font: 600 11px/1 var(--mono); text-transform: uppercase; letter-spacing: .06em;
+  padding: 9px 13px; border-radius: 4px; border: 1px solid var(--mint);
+  background: var(--mint); color: #0d1f16; cursor: pointer;
+}
+.btn.sec { background: transparent; color: var(--ink); border-color: var(--rule); }
+.btn:hover { opacity: .92; text-decoration: none; }
+.sec-head {
+  border-top: 1px solid var(--rule); padding-top: 24px; margin: 36px 0 16px;
+  display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 12px;
+}
+.sec-head h2 { font: 800 clamp(24px, 3.5vw, 34px)/1.05 var(--display); text-transform: uppercase; margin: 0; }
+.meta-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; margin: 18px 0;
+}
+.meta-card { background: var(--panel); border: 1px solid var(--rule); border-radius: 6px; padding: 14px 16px; }
+.meta-card .label { font: 600 10px/1.4 var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--gold); margin-bottom: 6px; }
+.shots-list { display: flex; flex-direction: column; gap: 12px; }
+.shot-card {
+  display: grid; grid-template-columns: 240px 1fr; gap: 16px;
+  background: var(--panel); border: 1px solid var(--rule); border-radius: 6px; padding: 12px;
+  cursor: pointer; transition: border-color .15s;
+}
+.shot-card:hover { border-color: var(--mint); }
+.shot-card.is-card { grid-template-columns: 180px 1fr; opacity: .88; }
+.shot-media { position: relative; background: #050706; border-radius: 4px; overflow: hidden; aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center; }
+.shot-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.shot-time {
+  position: absolute; bottom: 6px; left: 6px;
+  background: rgba(0,0,0,0.82); color: var(--gold); padding: 2px 6px; border-radius: 3px;
+  font: 600 10px/1.3 var(--mono);
+}
+.shot-body { display: flex; flex-direction: column; gap: 6px; font-size: 14px; }
+.shot-source { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px; font: 12px/1.4 var(--mono); color: var(--muted); border-bottom: 1px solid var(--rule); padding-bottom: 6px; }
+.shot-source strong { color: var(--ink); }
+.shot-what { color: var(--ink); }
+.shot-bridge { font-size: 12px; color: var(--gold); }
+.shot-why { color: var(--muted); font-size: 13.5px; }
+.strip-img { width: 100%; border-radius: 6px; border: 1px solid var(--rule); display: block; margin: 10px 0; }
+.strip-label { font: 600 11px/1.4 var(--mono); color: var(--muted); text-transform: uppercase; margin-top: 10px; }
+.tribunal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 14px; }
+.trib-box { background: var(--panel); border: 1px solid var(--rule); border-radius: 6px; padding: 16px; font-size: 14px; }
+.trib-box.warn { border-left: 3px solid var(--accent); }
+.trib-box.pass { border-left: 3px solid var(--mint); }
+.trib-box .label { font: 700 11px/1.4 var(--mono); text-transform: uppercase; color: var(--gold); margin-bottom: 8px; }
+pre.prompt-box {
+  background: #090c0a; border: 1px solid var(--rule); border-radius: 6px; padding: 18px;
+  font: 12.5px/1.65 var(--mono); color: #e2e6de; white-space: pre-wrap; overflow-wrap: anywhere; max-height: 640px; overflow-y: auto;
+}
+.nav-foot {
+  margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--rule);
+  display: flex; justify-content: space-between; gap: 14px; font: 12px/1.5 var(--mono);
+}
+@media (max-width: 700px) {
+  .shot-card, .shot-card.is-card { grid-template-columns: 1fr; }
+  .tribunal-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div>
+    <a href="../../../paeleo/allways/index.html#runs">ALLWAYS</a> <span>/</span> <a href="../../index.html">ARGON (12)</a> <span>/</span>
+    <a href="../index.html#film=SCION_095_Bear_71_Surveillance_Countermap">ARGON SCREENING ROOM (85)</a> <span>/</span>
+    <span style="color:var(--ink)">#44 CASE STUDY</span>
+  </div>
+  <div style="display:flex;gap:8px;align-items:center">
+    <button class="btn" onclick="copyPrompt()">Copy Prompt</button>
+    <a class="btn sec" href="SCION_095_Bear_71_Surveillance_Countermap.md" download>Case Study .md</a>
+    <a class="btn sec" href="../manifests/SCION_095_Bear_71_Surveillance_Countermap.json" target="_blank">EDL .json</a>
+  </div>
+</header>
+<main class="wrap">
+  <div class="kicker">SCION 095 · INTERACTIVE &amp; DATABASE MEDIA · F · Reflexive &amp; Database · FILM #44 OF 85</div>
+  <h1>Bear 71 — Situated Surveillance Countermap</h1>
+  <div class="subtitle">Trail-camera wildlife encounters intersected by roads, rails, and telemetry grids</div>
+
+  <div class="player-sticky">
+    <video id="v" controls playsinline preload="metadata" src="../films/SCION_095_Bear_71_Surveillance_Countermap.mp4"></video>
+    <div class="player-bar">
+      <span>34.8s · 5 archival cuts · 6 sources · Critic Tribunal: PASS (v2)</span>
+      <span>Tap any captured shot card below to jump video to that cut</span>
+    </div>
+  </div>
+
+  <div class="meta-grid">
+    <div class="meta-card">
+      <div class="label">01 · Creative Theorem</div>
+      <div>Reframe a monitored landscape from the perspective of the tracked creature: alternate telemetry maps and highway/rail corridors with direct wildlife encounters so infrastructure is experienced as an enclosure.</div>
+    </div>
+    <div class="meta-card">
+      <div class="label">02 · Lineage & Reference</div>
+      <div>Lineage: Jeremy Mendes &amp; Leanne Allison, Bear 71 (NFB, 2012)</div>
+      <div style="margin-top:8px;font-size:12px;color:var(--muted)"><strong>Boundary Contract:</strong> Pairs verified wildlife refuge recordings (`254b3f95`, `879e2816`, `66daec7d`) with road photologs (`ea1c1b7d`) and rail lines (`b15862e9`).</div>
+    </div>
+  </div>
+
+  <div class="sec-head">
+    <div>
+      <div class="kicker">Stage 1 · Production Prompt</div>
+      <h2>Copyable SCION / ALLWAYS Prompt</h2>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="btn" id="copy-btn-2" onclick="copyPrompt()">Copy Full Prompt</button>
+      <span id="copy-msg" style="font:11px var(--mono);color:var(--mint);align-self:center"></span>
+    </div>
+  </div>
+  <pre class="prompt-box" id="prompt-raw"># SCION 095 // Bear 71 — Situated Surveillance Countermap
+## Autonomous evolving cinema / documentary / database swarm · standalone prompt
+
+**Family:** Interactive and database media
+**Operator lineage:** Bear 71, 2012 — Jeremy Mendes, Leanne Allison and NFB; separate VR reinvention catalogued in 2016.
+**Requested reference:** Bear 71 (2012) — Leanne Allison &amp; Jeremy Mendes
+**Reference status:** verified_description. See the research record below.
+**Execution mode:** interactive_documentary
+**Interpretation:** This is a newly authored operational prompt inspired by documented work. It does not claim that the credited artists wrote or endorsed it. Its proposed proof is an original experiment. Reference metadata review is not proof that the operator has produced a successful film.
+
+You are **SCION-095-BEAR-71-SITUATED-SURVEILLANCE-COUNTERMAP**. Produce a finished watchable or operable work within the user&#x27;s requested scope. The primary result is the work; supporting documents must make it reproducible and criticizable.
+
+## INPUT
+
+- `[WORK]`: the new work or question this operator should realize.
+- `[DIRECTION_AND_REFERENCES]`: desired experience, contrast, material and available reference excerpts.
+- `[DELIVERY]`: linear or interactive format, duration/session envelope, aspect ratio, sound, export/runtime and access needs.
+- `[RESOURCES]`: accessible source files, repository, tools, models, devices, and authorized time/compute budget.
+- `[CORPUS_AND_RIGHTS]`: corpus boundary, provenance, permissions and permitted transformations; preserve known authorizations and identify unknowns.
+- `[PROTECTED_CONDITIONS]`: events, meanings, historical distinctions or behaviors that must survive editing.
+
+Resolve ordinary implementation choices from context. Ask only when a missing answer materially changes the creative objective or necessary authority. Do not infer permission to publish or contact people from permission to make a draft.
+
+## 1 · Creative theorem to prove
+
+Make the viewer feel the difference between knowing where a subject was detected and understanding the world it inhabits. Construct a navigable observational map in which the recording apparatus is itself visible and the documentary event continues independently of the visitor&#x27;s browsing.
+
+**What makes this operator distinct:** Out My Window organizes authored stories around inhabitable rooms; this operator stages the gap between an observed subject, sensor coverage and the viewer&#x27;s own search.
+
+## 2 · Native formal language
+
+Preserve and manipulate these as explicit working objects:
+
+- Source events with capture time, site, subject label and uncertainty
+- Map cells and traversable viewer position
+- Sensor coverage, blind zones and detection intervals
+- Narration clock separate from navigation clock
+- Source media cards linked to original observations
+- Visitor attention trace retained only within the local session
+
+**Protected conditions:**
+
+- Historical events never change when the visitor moves; only access and framing change.
+- Every map marker resolves to a source record or an explicitly labeled reconstruction.
+- Simulated visitor position is never presented as a measured wildlife position.
+
+Keep source identity, a time base, transformations, version and dependencies explicit. Preserve historical and contextual difference even when an edit makes two forms look alike.
+
+## 3 · Assemble the smallest capable swarm
+
+- Evidence archivist builds a bounded event ledger.
+- Spatial editor builds the map and camera paths.
+- Narrative and sound editor composes an authored perspective with source distinctions.
+- Interaction engineer separates navigation from documentary time.
+- Independent critic tests whether mapping produces understanding or merely a surveillance spectacle.
+
+Every role must build or verify something concrete. The independent critic receives the intended experience and actual output before the builder&#x27;s explanation. Do not invent a critic session when no independent review occurred.
+
+## 4 · Hard proof; produce before scaling
+
+Build a two-minute experience around one authorized, non-sensitive record of an animal or an ordinary public-space process. Use eight documented observations across three locations rather than implying comprehensive tracking. Begin with a quiet map and a single detection. Let the visitor move toward it while a short narration continues; reaching the marker reveals an image and its capture time, already different from the current narration time. A second event occurs outside the visitor&#x27;s present view. Offer a switch from subject path to sensor coverage: the apparent continuous route must break where evidence ends. Retain wind, motors or other contextual sound only when source status is known; composed ambience is credited as composition. In the final passage the visitor sees the route of their own attention superimposed on the recorded detections. They can revisit what they missed without changing the historical sequence. End with one unanswered interval large enough to be felt, not automatically filled by generated motion.
+
+Save a recoverable draft. Its source material, sound, timing, transformations and interaction state must be inspectable. Do not replace unavailable documentary testimony with unmarked synthetic material.
+
+## 5 · Acceptance tribunal
+
+**Judge by watching or operating the proof:**
+
+- A new viewer can distinguish a detection, an inferred route and their own position.
+- Leaving a marker does not unintentionally restart narration or erase event history.
+- The coverage view changes interpretation of a previously confident-looking path.
+- The subject remains situated within environmental pressures rather than becoming an entertaining dot.
+- The final uncertainty is readable without an explanatory lecture.
+
+**Structural or automated checks, only where the representation supports them:**
+
+- Replay one input trace and confirm identical documentary event times.
+- Assert that every detection marker has a valid source record and that inferred edges are labeled.
+
+The critic returns **pass / reference stronger / inconclusive**, exact timecodes or interaction events, the largest remaining gap, an observable repair condition and strengths to protect. Distinguish measured checks from perceptual judgments. Leave execution and acceptance marked pending until they happen.
+
+## 6 · Repair through discriminating experiments
+
+- **Failure:** Visitors believe the drawn path is a continuous observation. **Hypothesis:** Solid interpolation overstates sparse evidence. **Experiment:** Compare broken paths, timed fades and explicit unknown intervals using the same events.
+- **Failure:** Navigation competes with the story until neither is legible. **Hypothesis:** Information arrives faster than a visitor can relocate. **Experiment:** Compare a smaller navigable region with a longer narrative interval; retain the event order.
+
+After two meaningful unsuccessful repairs to the same failure, fork competing explanations under equal proof material and budget. Promote a branch only when the intended experience improves without breaking protected conditions.
+
+## 7 · Discovery and recursive expansion
+
+- Add a second viewpoint only when it contradicts or qualifies the first map.
+- Expand the archive by improving coverage descriptions, not by smoothing missing intervals.
+
+Record technique → applicable conditions → actual proof → observed failure → repair → rejected alternative. Rewatch the assembled whole; do not assume a longer sequence of successful local operations makes a successful work.
+
+## 8 · Deliverable contract
+
+- Playable countermap with a two-minute narrative path and free revisit mode
+- Event and sensor ledger, sound cue sheet, input replay and annotated critic report
+
+Include the current playable artifact, revision identifier, source/transform record, actual critic verdict or pending status, and the largest unresolved limitation. Preserve an accepted checkpoint before major changes.
+
+**Possible ALLWAYS applications:** UNWITNESSED, THE EYE-TRACE ARCHIVE, ANYBODY ANYWHERE, LATENT.
+
+## INHERITED SCION DOCTRINE — BUILD, INSPECT, REPAIR
+
+1. **Viewer experience first.** State one specific perceptual or interactive achievement. Name the attractive but empty result this project must avoid. A subject, mood board or similarity score is not a film.
+2. **Inspect the lineage.** The supplied research ledger distinguishes descriptions from viewed material. Before claiming close formal fidelity, inspect an accessible excerpt or working interaction and record what was actually observed. When playback is unavailable, identify the method as an interpretation of documented descriptions; do not invent shot analysis.
+3. **Hard proof before scale.** Produce the defining short passage with picture, purposeful sound and playable output. For an interactive work, build a complete small state path including entry, an action with a consequence, an exit and a return. Do not begin by accumulating a giant archive.
+4. **Material and source integrity.** Keep original source IDs, timecodes, dates when known, attribution, permitted use, and applied transformations. Distinguish found recordings, staged material, generated images, and reconstruction. A synthetic stand-in is not documentary evidence. Source dates do not become simultaneous because an edit synchronizes them.
+5. **Native working state.** Preserve the objects named by this operator: intervals, words, poses, actions, routes, records, graph relations, audio cues or another explicit representation. Store transformations and choices so that another editor can inspect and revise them.
+6. **Small accountable swarm.** Every role owns an artifact or a verification. Merge roles when coordination becomes costly. Keep an independent critic for the defining achievement. Respect the user&#x27;s existing authority; do not seek arbitrary approval for routine reversible work or publish/contact others beyond the authorized scope.
+7. **Sound and duration are structural.** Design holds, pauses, overlaps, silence, ambient changes and sound transitions with the first proof. Preserve source silence where relevant; label newly composed sound. Never claim that music, an animation or a cut establishes a person&#x27;s private feeling.
+8. **Independent criticism.** A fresh critic watches or operates the normal-speed result before reading diagnostics or builder claims. Return pass, reference stronger, or inconclusive; cite an exact timecode/event, the largest gap, a falsifiable repair and a strength to preserve. &#x27;Reference stronger&#x27; requires an actually inspected comparable reference. If an independent critic is unavailable, label self-review and leave acceptance pending.
+9. **Repair causes.** Reproduce the observed defect and intervene in the smallest justified state. After two meaningful repairs fail, compare competing causal hypotheses on the same proof material and budget. Do not add effects, agents or footage just to conceal the defect.
+10. **Two kinds of evidence.** Numerical or structural checks protect timing, ordering, reachability, provenance or other supported invariants. Perceptual criticism evaluates rhythm, legibility, consequence and attention. Neither substitutes for the other, and no score proves artistic value. Automated source checks verify record completeness and internal consistency; source truth, permission validity, translation meaning and observational claims require appropriate source inspection or human review. Report which review actually occurred.
+11. **Whole-work judgment.** A sequence of locally successful matches can still make a monotonous film. Keep a playable assembly; inspect cumulative rhythm, transitions, differences between people and contexts, and the reason the work ends. Preserve productive seams and interruptions.
+12. **Truthful stopping and delivery.** Stop at independent acceptance, the user&#x27;s stop, the authorized budget, or a justified no-progress boundary. Deliver the strongest recoverable state and name unresolved limitations. Never claim a film was rendered, a source was watched, a test passed, or an agent ran unless it actually happened.
+
+**Tool boundary:** Use real available tools. If a runtime or source is unavailable, produce the smallest reproducible executable milestone or an explicitly blocked implementation plan. Do not narrate an imaginary execution. This prompt authorizes only the scope supplied by its user.
+
+## START
+
+Read the inputs and actual source material. State the creative theorem and protected conditions. Build the proof with picture and sound or an operable interaction. Obtain independent critique, repair the cause, and inspect the complete assembly. Expand only after the defining operation is perceptible.
+
+
+## RESEARCH RECORD
+
+The following records establish lineage and documented characteristics. Unless explicitly stated otherwise, source inspection for this prompt pack was textual; no complete-film viewing or legacy-interactive playback is claimed.
+
+1. [NFB/Interactive — Bear 71 VR](https://bear71vr.nfb.ca/) — Creator credits; tracking-camera archive; narrated animal perspective; relation between surveillance and inhabiting a landscape. Evidence: official_description; inspection: text_only.
+2. [Bear 71 VR — NFB Collection](https://collection.nfb.ca/interactive/bear_71) — Distinguishes original 2012 work from 2016 VR version; credits narration and writing. Evidence: official_description; inspection: text_only.
+
+**Metadata notes and unresolved questions:**
+
+- Keep the 2012 original distinct from its later VR reinvention; the speaking bear is an authored narrative perspective, not recovered animal testimony.
+</pre>
+
+  <div class="sec-head">
+    <div>
+      <div class="kicker">Stage 2 · Archive Forage, Captured Frames & Editorial Rationale</div>
+      <h2>Captured Shots & Why Each Was Chosen (5 Cuts)</h2>
+    </div>
+    <span style="font:11px var(--mono);color:var(--muted)">Click any shot to scrub video</span>
+  </div>
+  <div class="shots-list">
+    
+            <article class="shot-card is-card" onclick="seekTo(0.00)">
+              <div class="shot-media card-placeholder">
+                <span>TITLE CARD</span>
+                <span class="shot-time">SEG #01 · 0.0s–3.0s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source"><strong>OPENING SLATE</strong> <span>(3.0s)</span></div>
+                <div class="shot-what">Trail-camera wildlife encounters intersected by roads, rails, and telemetry grids</div>
+                <div class="shot-why"><strong>Why Included:</strong> Structural framing slate / audit card required by operator deliverable contract.</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(3.00)">
+              <div class="shot-media">
+                <img src="../thumbs/a6aab732-7d79-5e69-b251-ca4d93ee6e46.jpg" alt="Captured frame from Earth Resources Technology Satellite (ERTS)" loading="lazy">
+                <span class="shot-time">CUT #02 · 3.0s–7.5s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>Earth Resources Technology Satellite (ERTS) (1973)</strong>
+                  <span>clip <code>a6aab732</code> · source window <code>8.00s–12.50s</code> (4.50s) <a href="https://www.movingimagearchive.com/sources/earth-resources-technology-satellite-erts-55bb460a?clip=a6aab732-7d79-5e69-b251-ca4d93ee6e46" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> Earth Resources Technology Satellite (1973): Pointer traces a monitored habitat corridor on the terrain map</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>COUNTERMAP: TELEMETRY GRID</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from Earth Resources Technology Satellite (ERTS) (1973) because the visible gesture directly  establishes phase [TELEMETRY GRID 01 · TERRAIN MAP &amp; TRACKED CORRIDOR (1973)], and executes the formal bridge (COUNTERMAP: TELEMETRY GRID), and anchors the opening perceptual premise before any cross-source comparison begins. Window 8.00s–12.50s (4.50s) verified cut-free (motion Δ=8.6, luma=46.7, audio=-22.1 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(7.50)">
+              <div class="shot-media">
+                <img src="../thumbs/254b3f95-b2b4-5a8c-a98a-6832549a43ba.jpg" alt="Captured frame from Cabeza Prieta National Wildlife Refuge Desert Wilderness" loading="lazy">
+                <span class="shot-time">CUT #03 · 7.5s–12.3s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>Cabeza Prieta National Wildlife Refuge Desert Wilderness (2006)</strong>
+                  <span>clip <code>254b3f95</code> · source window <code>0.50s–5.30s</code> (4.80s) <a href="https://www.movingimagearchive.com/sources/cabeza-prieta-national-wildlife-refuge-desert-wilderness-232601a6?clip=254b3f95-b2b4-5a8c-a98a-6832549a43ba" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> Cabeza Prieta National Wildlife Refuge (2006): Two rams encountered on an exposed rocky ridge</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>SENSOR NODE #01 · RIDGE</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from Cabeza Prieta National Wildlife Refuge Desert Wilderness (2006) because the visible gesture directly  establishes phase [TRAIL NODE #71-A · BIGHORN RAMS ON THE RIDGE (2006)], and executes the formal bridge (SENSOR NODE #01 · RIDGE), and advances cut 2/5 of the theorem while preserving distinct historical provenance (2006). Window 0.50s–5.30s (4.80s) verified cut-free (motion Δ=19.4, luma=85.3, audio=-17.6 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(12.30)">
+              <div class="shot-media">
+                <img src="../thumbs/ea1c1b7d-d634-588f-aa4e-b7cd68f0562d.jpg" alt="Captured frame from Caltrans Photolog Sample" loading="lazy">
+                <span class="shot-time">CUT #04 · 12.3s–16.5s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>Caltrans Photolog Sample ()</strong>
+                  <span>clip <code>ea1c1b7d</code> · source window <code>0.40s–4.58s</code> (4.20s) <a href="https://www.movingimagearchive.com/sources/caltrans-photolog-sample-58cf1ea2?clip=ea1c1b7d-d634-588f-aa4e-b7cd68f0562d" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> Caltrans Photolog Sample: Forward highway view stamped with red numerical telemetry counters</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>HIGHWAY BARRIER · TELEMETRY</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from Caltrans Photolog Sample (None) because the visible gesture directly  establishes phase [INFRASTRUCTURE CUT · CALTRANS ROAD PHOTOLOG OVERLAY], and executes the formal bridge (HIGHWAY BARRIER · TELEMETRY), and advances cut 3/5 of the theorem while preserving distinct historical provenance (None). Window 0.40s–4.58s (4.20s) verified cut-free (motion Δ=14.6, luma=76.4, audio=-43.8 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(16.50)">
+              <div class="shot-media">
+                <img src="../thumbs/879e2816-c2d8-5e18-946d-1165db02fc16.jpg" alt="Captured frame from Nature&#x27;s Cameo: Bryce Canyon National Park" loading="lazy">
+                <span class="shot-time">CUT #05 · 16.5s–21.3s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>Nature&#x27;s Cameo: Bryce Canyon National Park (1930)</strong>
+                  <span>clip <code>879e2816</code> · source window <code>0.50s–5.30s</code> (4.80s) <a href="https://www.movingimagearchive.com/sources/nature-s-cameo-bryce-canyon-national-park-4c3fd6d8?clip=879e2816-c2d8-5e18-946d-1165db02fc16" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> Nature&#x27;s Cameo: Bryce Canyon (1930): Wildlife navigating winter terrain inside the bounded reserve</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>SENSOR NODE #02 · WINTER RANGE</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from Nature&#x27;s Cameo: Bryce Canyon National Park (1930) because the visible gesture directly  establishes phase [TRAIL NODE #71-B · ANIMALS IN SNOWY RANGE (1930)], and executes the formal bridge (SENSOR NODE #02 · WINTER RANGE), and advances cut 4/5 of the theorem while preserving distinct historical provenance (1930). Window 0.50s–5.30s (4.80s) verified cut-free (motion Δ=10.4, luma=93.7, audio=-18.5 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(21.30)">
+              <div class="shot-media">
+                <img src="../thumbs/b15862e9-542e-5cd7-99d6-0f4ddaa7576a.jpg" alt="Captured frame from Allegheny Portage Railroad" loading="lazy">
+                <span class="shot-time">CUT #06 · 21.3s–26.1s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>Allegheny Portage Railroad (1993)</strong>
+                  <span>clip <code>b15862e9</code> · source window <code>1.00s–5.80s</code> (4.80s) <a href="https://www.movingimagearchive.com/sources/allegheny-portage-railroad-9580e142?clip=b15862e9-542e-5cd7-99d6-0f4ddaa7576a" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> Allegheny Portage Railroad (1993): Steel rail lines slicing across the forested habitat</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>RAIL CORRIDOR INTERSECTION</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from Allegheny Portage Railroad (1993) because the visible gesture directly  establishes phase [INFRASTRUCTURE CUT II · FORKING RAILROAD TRACKS (1993)], and executes the formal bridge (RAIL CORRIDOR INTERSECTION), and completes the terminal return/aftermath hold required by the operator theorem. Window 1.00s–5.80s (4.80s) verified cut-free (motion Δ=43.9, luma=50.6, audio=-27.6 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card is-card" onclick="seekTo(26.10)">
+              <div class="shot-media card-placeholder">
+                <span>SPLIT SHOT</span>
+                <span class="shot-time">SEG #07 · 26.1s–31.3s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source"><strong>SPLIT COMPARISON</strong> <span>(5.2s)</span></div>
+                <div class="shot-what">COUNTERMAP SPLIT: Numbered highway photolog (Left) vs Birds flying above bare refuge terrain (Right)</div>
+                <div class="shot-why"><strong>Why Included:</strong> Structural framing slate / audit card required by operator deliverable contract.</div>
+              </div>
+            </article>
+            <article class="shot-card is-card" onclick="seekTo(31.30)">
+              <div class="shot-media card-placeholder">
+                <span>CLOSING LEDGER</span>
+                <span class="shot-time">SEG #08 · 31.3s–34.8s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source"><strong>CLOSING LEDGER</strong> <span>(3.5s)</span></div>
+                <div class="shot-what">Pairs verified wildlife refuge recordings (`254b3f95`, `879e2816`, `66daec7d`) with road photologs (`ea1c1b7d`) and rail lines (`b15862e9`).</div>
+                <div class="shot-why"><strong>Why Included:</strong> Structural framing slate / audit card required by operator deliverable contract.</div>
+              </div>
+            </article>
+  </div>
+
+  <div class="sec-head">
+    <div>
+      <div class="kicker">Stage 3 · Independent Critic Tribunal & Verification</div>
+      <h2>Temporal Proof Strips & Diagnostic Audit</h2>
+    </div>
+    <a class="btn sec" href="../strips/SCION_095_Bear_71_Surveillance_Countermap_v2_strip.jpg" target="_blank">Open Full-Res Strip ↗</a>
+  </div>
+  <div class="strip-label">Verified v2 Temporal Proof Strip (8 evenly spaced frames + waveform/timecode audit)</div>
+  <img class="strip-img" src="../strips/SCION_095_Bear_71_Surveillance_Countermap_v2_strip.jpg" alt="v2 proof strip">
+  
+  
+        <div class="trib-box pass">
+          <div class="label">Two-Layer Critic Tribunal Verification</div>
+          <p><strong>Strength Preserved:</strong> </p>
+          <p><strong>Final Verdict:</strong> <code>PASS (v2 · 0 structural or perceptual issues across 5 archival cuts)</code></p>
+        </div>
+
+  <nav class="nav-foot">
+    <a href="SCION_094_Chuck_Jones_Constraint_Changes_Performance.html">← #43 Chuck Jones — How Constraint Changes Performance</a>
+    <a href="../index.html#film=SCION_095_Bear_71_Surveillance_Countermap">Back to 85-Film Screening Room ↗</a>
+    <a href="SCION_096_Bla_Bla_Gesture_Response_Fable.html">#45 BLA BLA — Gesture and Response Fable →</a>
+  </nav>
+</main>
+<script>
+function seekTo(sec) {
+  const v = document.getElementById('v');
+  v.currentTime = sec;
+  v.play().catch(()=>{});
+  v.scrollIntoView({behavior:'smooth', block:'center'});
+}
+function copyPrompt() {
+  const txt = document.getElementById('prompt-raw').textContent;
+  navigator.clipboard.writeText(txt).then(() => {
+    const msg = document.getElementById('copy-msg');
+    msg.textContent = 'COPIED TO CLIPBOARD ✓';
+    setTimeout(() => msg.textContent = '', 2500);
+  });
+}
+</script>
+</body>
+</html>

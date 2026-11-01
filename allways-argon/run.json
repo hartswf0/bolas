@@ -1,0 +1,38 @@
+{
+ "id": "allways-argon",
+ "name": "Argon",
+ "maker": "Gemini Argon (Google DeepMind)",
+ "date": "2026-11-01",
+ "summary": "All twelve B-ROLL OF CIVILIZATION works and all 59 SCION operators (85 handmade archival films in total), foraged from 913 public-domain Moving Image Archive and Cineosis Lab clips, verified with automated frame-differencing cut scanners, visually audited on contact sheets across two Critic Tribunal rounds (v1 \u2192 v2), and packaged with a mobile-first screening room.",
+ "request": "forage and handmake all of the ALLWAYS works and SCION operators, run an independent critic tribunal to catch and repair every defective shot, and build a super-minimal mobile-first screening room and case-study index showing the whole process, captured images, reasons why, and copyable prompts.",
+ "perception": {
+  "sees": true,
+  "hears": false,
+  "notes": "Viewed multi-frame contact sheets, candidate verification sheets (candidate_repairs_sheet_1..5.jpg), and 8-frame temporal proof strips (v1 and v2) directly via multimodal image inspection. Audio was measured via RMS dBFS envelopes and Whisper transcripts from Cineosis Lab metadata rather than heard in real-time playback."
+ },
+ "roles": [
+  {
+   "role": "archive forager & window scanner",
+   "who": "Gemini Argon \u2014 queried Moving Image Archive API + local 406-clip / 507-shot corpus and ran frame-by-frame luma/diff cut detection (scan_clean_windows.py) to isolate unbroken single-shot windows"
+  },
+  {
+   "role": "hand editor & compositor",
+   "who": "Gemini Argon \u2014 authored explicit EDLs with timecode windows, NEARMATCH bridges, split-screen comparisons, and ethical boundary disclosures (handmake_allways_films.py)"
+  },
+  {
+   "role": "independent critic (Round 1 & Round 2)",
+   "who": "Fresh read-only research subagent + visual proof-strip audit inspecting 8-frame temporal strips and structural diagnostics before repairs"
+  }
+ ],
+ "caveats": [
+  "All 12 B-Roll proofs (plus all 59 SCION operator films, 6 Studies, and 5 Collections in studio/) passed Round-2 visual proof-strip inspection with zero internal source cuts, but remain 'proof reviewed' until a human viewer listens and screens them at 24 fps.",
+  "Audio levels and ambient room bridges were aligned from dBFS measurements and source transcripts rather than human ear\u76d1\u542c.",
+  "NOBODY HOME uses paired archival empty-room and occupied-room recordings with a translucent ghost-trace composite disclosure rather than newly shot domestic video.",
+  "All 85 films (including the 59 SCION operators 055\u2013113, 6 Studies, and 5 Collections) can be screened continuously on phone or desktop at studio/index.html."
+ ],
+ "findings": [
+  "Semantic search tags in archival corpora frequently point to multi-shot montage sequences or opening sponsor/title cards; running an automated frame-difference scanner (max_diff < 16.0, std_luma > 12.0) before cutting eliminated hidden mid-window camera cuts.",
+  "Visual inspection of 8-frame temporal proof strips caught 36 concrete defects across v1 assemblies (internal cuts, talking-head interruptions, optical test targets, and a missing Unicode arrow glyph in Georgia.ttf) that metadata alone could not reveal.",
+  "Pairing each shot in the edit list with an explicit NEARMATCH bridge note ('why this clip, why this in/out window, what changes across the cut') makes repairs surgical: when a shot fails the critic, only that node in the chain needs replacement."
+ ]
+}

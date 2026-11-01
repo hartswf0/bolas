@@ -1,0 +1,7 @@
+VERDICT: pass (Round 2 — v2 repaired assembly verification)
+Critic Role: Independent tableau critic
+
+Verification of Falsifiable Repair:
+- Executed repair: Replace Seg #02 and Seg #05 with Cineosis human-verified locked-off planimetric room shots: `79565922` (`Working Together`, 1951, `10.2s-19.7s` in Seg #02 and `19.7s-28.4s` in Seg #05, showing the same frontal conference room as posture and table geometry shift across time), paired with `3533825c` (`White Ammunition`, 1942 workshop) and `780c159d` (`Success in Business`, `0.5s-10.0s`, locked-off frontal room tableau).
+- Automated structural check: 0 internal camera cuts (max_frame_diff < 16.0), 0 title-card contaminants, 0 missing glyph boxes.
+- Visual inspection of 8-frame v2 proof strip confirms every shot establishes and completes its visible action while preserving the strength identified in Round 1 (Tableau 02 (`3533825c`, `White Ammunition`, 1942) and the locked-off conference room tableau (`79565922`, `Working Together`, 1951).).

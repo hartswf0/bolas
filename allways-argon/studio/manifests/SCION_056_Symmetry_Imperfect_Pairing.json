@@ -1,0 +1,170 @@
+{
+  "slug": "SCION_056_Symmetry_Imperfect_Pairing",
+  "version": "v2",
+  "series": "SCION_MICROFILMS",
+  "kicker": "SCION 056 \u00b7 CONCEPTUAL MICROFILMS",
+  "title": "Symmetry \u2014 Imperfect Pairing",
+  "subtitle": "Paired actions that align at onset and diverge in outcome",
+  "scion_id": 56,
+  "supporting_scions": [
+    99
+  ],
+  "lineage": "Lineage: Everynone, Symmetry (2011), commissioned with WNYC Radiolab",
+  "theorem": "Create a paired image that first satisfies an expectation of correspondence, then reveals a difference consequential enough to alter the relation. Similarity directs attention toward particular lives.",
+  "boundary_note": "Split-screen pairs do not imply simultaneous recording or personal acquaintance. Includes a sequential-cut alternative at the close to test which relations require simultaneity.",
+  "critic_tribunal": {
+    "film_id": "SCION_056_Symmetry_Imperfect_Pairing",
+    "scion_id": 56,
+    "critic_role": "Independent comparison critic",
+    "v1_verdict": "repair_required",
+    "v1_defect_timecodes": [
+      "Seg #04 (t=21.50s-30.50s): Right panel of the split-screen (`5444f8ed`) contains four rapid internal montage cuts instead of a continuous shot of chair movement."
+    ],
+    "largest_gap": "In Pair 3 (Seg #04), the right panel shatters split-screen comparison by cycling through four rapid internal montage cuts from the source reel instead of holding a continuous action against the left panel's waiting figure.",
+    "causal_hypothesis": "Unverified internal source cuts inside `5444f8ed` (`Coffee House Rendezvous`, 1969) where a fast montage sequence was extracted as a single 9-second window.",
+    "falsifiable_repair": "Replace the right panel of Seg #04 with verified cut-free conference-table chair interaction `79565922` (10.5s-19.5s, 18.5s clean window) so the divergence against `91390311` is readable across the full 9-second hold.",
+    "strength_to_preserve": "Pair 1 (`cc7da646` vs `2df1341e`), Pair 2 (`31a9beb1` vs `473dcfbb`), and the Sequential-Cut Alternative proving why split-screen simultaneity is required.",
+    "v2_verdict": "pass"
+  },
+  "duration_seconds": 42.92,
+  "video_file": "films/SCION_056_Symmetry_Imperfect_Pairing.mp4",
+  "source_count": 6,
+  "sources_summary": [
+    "cc7da646 \u00b7 Basic Typing, Part I: Methods (Part I) (1944)",
+    "2df1341e \u00b7 Something New From Something Old (1958)",
+    "31a9beb1 \u00b7 Fortune in Two Old Trunks, A (Part I) (1951)",
+    "473dcfbb \u00b7 Naturally - a Girl (1973)",
+    "91390311 \u00b7 Court to Court \\(Aug 2002\\) (2002)",
+    "79565922 \u00b7 Working Together: A Case History in Labor-Management Cooperation (1951)"
+  ],
+  "edl": [
+    {
+      "seg_idx": 1,
+      "type": "title_card",
+      "title": "Symmetry \u2014 Imperfect Pairing",
+      "phase": "OPENING SLATE",
+      "action": "Paired actions that align at onset and diverge in outcome",
+      "start_sec": 0.0,
+      "end_sec": 3.0,
+      "dur_s": 3.0
+    },
+    {
+      "type": "split_shot",
+      "clip_a": {
+        "id": "cc7da646-ca0c-5f8a-8d5d-da5784099535",
+        "title": "Basic Typing, Part I: Methods (Part I)",
+        "year": 1944,
+        "page": "https://www.movingimagearchive.com/sources/basic-typing-part-i-methods-part-i-07da0dde?clip=cc7da646-ca0c-5f8a-8d5d-da5784099535"
+      },
+      "clip_b": {
+        "id": "2df1341e-4f9d-5225-85c4-7e6c4d99ae1f",
+        "title": "Something New From Something Old",
+        "year": 1958,
+        "page": "https://www.movingimagearchive.com/sources/something-new-from-something-old-1d1276c0?clip=2df1341e-4f9d-5225-85c4-7e6c4d99ae1f"
+      },
+      "dur_s": 8.5,
+      "phase": "SPLIT COMPARISON",
+      "action": "Pair 1 (Preparing to sit): Left sits promptly at typing desk; Right pauses to adjust chair in living room",
+      "nearmatch": "NEARMATCH: ONSET ALIGNED \u00b7 OUTCOME DIVERGES",
+      "seg_idx": 2,
+      "start_sec": 3.0,
+      "end_sec": 11.5
+    },
+    {
+      "type": "split_shot",
+      "clip_a": {
+        "id": "31a9beb1-fe0d-5c52-8d98-5706b363ff75",
+        "title": "Fortune in Two Old Trunks, A (Part I)",
+        "year": 1951,
+        "page": "https://www.movingimagearchive.com/sources/fortune-in-two-old-trunks-a-part-i-5a12824d?clip=31a9beb1-fe0d-5c52-8d98-5706b363ff75"
+      },
+      "clip_b": {
+        "id": "473dcfbb-3e9e-56a6-bad8-3a1138f0efca",
+        "title": "Naturally - a Girl",
+        "year": 1973,
+        "page": "https://www.movingimagearchive.com/sources/naturally-a-girl?clip=473dcfbb-3e9e-56a6-bad8-3a1138f0efca"
+      },
+      "dur_s": 8.5,
+      "phase": "SPLIT COMPARISON",
+      "action": "Pair 2 (Tying a knot): Left binds a graft in an orchard (1951); Right ties a shoelace indoors (1973)",
+      "nearmatch": "NEARMATCH: SHARED FINGER GRAMMAR \u00b7 DIFFERENT TASK",
+      "seg_idx": 3,
+      "start_sec": 11.5,
+      "end_sec": 20.0
+    },
+    {
+      "type": "split_shot",
+      "clip_a": {
+        "id": "91390311-d7f2-541e-a049-ea1b21356173",
+        "title": "Court to Court \\(Aug 2002\\)",
+        "year": 2002,
+        "page": "https://www.movingimagearchive.com/sources/court-to-court-aug-2002-d1747427?clip=91390311-d7f2-541e-a049-ea1b21356173"
+      },
+      "clip_b": {
+        "id": "79565922-be19-5b28-8c01-2ffb430ec5da",
+        "title": "Working Together: A Case History in Labor-Management Cooperation",
+        "year": 1951,
+        "page": "https://www.movingimagearchive.com/sources/working-together-a-case-history-in-labor-management-cooperation-1f8b859c?clip=79565922-be19-5b28-8c01-2ffb430ec5da"
+      },
+      "dur_s": 8.5,
+      "phase": "SPLIT COMPARISON",
+      "action": "Pair 3 (Chair & table relation): Left waits beside a single chair (2002); Right shifts along a full conference table (1951)",
+      "nearmatch": "NEARMATCH: SOLO WAITING vs COLLECTIVE TABLE",
+      "seg_idx": 4,
+      "start_sec": 20.0,
+      "end_sec": 28.5
+    },
+    {
+      "type": "intertitle",
+      "title": "Sequential-Cut Alternative",
+      "phase": "INTERTITLE SLATE",
+      "action": "Testing which correspondence requires split-screen simultaneity",
+      "dur_s": 2.2,
+      "seg_idx": 5,
+      "start_sec": 28.5,
+      "end_sec": 30.7
+    },
+    {
+      "type": "shot",
+      "clip_id": "cc7da646-ca0c-5f8a-8d5d-da5784099535",
+      "source_title": "Basic Typing, Part I: Methods (Part I)",
+      "source_year": 1944,
+      "source_page": "https://www.movingimagearchive.com/sources/basic-typing-part-i-methods-part-i-07da0dde?clip=cc7da646-ca0c-5f8a-8d5d-da5784099535",
+      "in_s": 0.5,
+      "out_s": 4.7,
+      "dur_s": 4.2,
+      "phase": "SEQUENTIAL A \u00b7 BASIC TYPING (1944)",
+      "action": "Sitting down at the typing table without pause",
+      "nearmatch": "SEQUENTIAL PASS 1/2",
+      "seg_idx": 6,
+      "start_sec": 30.7,
+      "end_sec": 34.9
+    },
+    {
+      "type": "shot",
+      "clip_id": "2df1341e-4f9d-5225-85c4-7e6c4d99ae1f",
+      "source_title": "Something New From Something Old",
+      "source_year": 1958,
+      "source_page": "https://www.movingimagearchive.com/sources/something-new-from-something-old-1d1276c0?clip=2df1341e-4f9d-5225-85c4-7e6c4d99ae1f",
+      "in_s": 0.5,
+      "out_s": 5.0,
+      "dur_s": 4.5,
+      "phase": "SEQUENTIAL B \u00b7 SOMETHING NEW FROM SOMETHING OLD (1958)",
+      "action": "Pausing beside the domestic chair before settling",
+      "nearmatch": "SEQUENTIAL PASS 2/2",
+      "seg_idx": 7,
+      "start_sec": 34.9,
+      "end_sec": 39.4
+    },
+    {
+      "seg_idx": 8,
+      "type": "closing_ledger",
+      "title": "SOURCE ATTRIBUTION & BOUNDARY NOTE",
+      "phase": "CLOSING LEDGER",
+      "action": "Split-screen pairs do not imply simultaneous recording or personal acquaintance. Includes a sequential-cut alternative at the close to test which relations require simultaneity.",
+      "start_sec": 39.4,
+      "end_sec": 42.9,
+      "dur_s": 3.5
+    }
+  ]
+}

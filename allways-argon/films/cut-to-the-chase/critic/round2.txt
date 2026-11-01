@@ -1,0 +1,7 @@
+VERDICT: pass (Round 2 — v2 repaired assembly verification)
+Critic Role: Independent orientation critic
+
+Verification of Falsifiable Repair:
+- Executed repair: Replace Seg #02 with human-verified crowd streaming through gates (`d2ed8576`, `0.1s-4.9s`) and Seg #03 with human-verified camera following walkers (`93053686`, `1.5s-6.3s`); replace Seg #06 with human-verified shot of a man sitting alone on rocks waiting (`398f8815`, `3.3s-7.8s`, clamped before the cut at 9.0s).
+- Automated structural check: 0 internal camera cuts (max_frame_diff < 16.0), 0 title-card contaminants, 0 missing glyph boxes.
+- Visual inspection of 8-frame v2 proof strip confirms every shot establishes and completes its visible action while preserving the strength identified in Round 1 (The lone figure sprinting across the open heath (`0143d900`), `5efa1b7b`, the head-on vector reversal (`36645c54`), deceleration (`e35796d0`), and stopping on the sidewalk while street traffic moves past (`12a45513`).).

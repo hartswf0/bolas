@@ -1,0 +1,7 @@
+VERDICT: pass (Round 2 — v2 repaired assembly verification)
+Critic Role: Independent material-and-compositing critic
+
+Verification of Falsifiable Repair:
+- Executed repair: Clamp `058430e4` strictly to its continuous interior living-room shot (`3.6s-11.6s`, `custom_window=True`) AND upgrade `build_erasure_shot` to combine motion differencing with spatial figure silhouette segmentation (`person_box=[0.30, 0.16, 0.72, 0.90]`) + OpenCV Telea inpainting so the woman is completely erased from the armchair in Pass 2 (`derived`) and Pass 4 (`triptych` right panel) while the armchair, lamp, and room remain intact.
+- Automated structural check: 0 internal camera cuts (max_frame_diff < 16.0), 0 title-card contaminants, 0 missing glyph boxes.
+- Visual inspection of 8-frame v2 proof strip confirms every shot establishes and completes its visible action while preserving the strength identified in Round 1 (The 3-panel inspection triptych layout (`Original | Extracted Mask | Derived Empty Room`) and the held naturally empty modernist rooms (`27f75a9f` and `b2e97ba8`).).

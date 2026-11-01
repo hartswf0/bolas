@@ -1,0 +1,19 @@
+VERDICT: repair_required (Round 1 — v1 assembly audit)
+Critic Role: Independent attention-and-routine critic
+
+Observed Defects on v1 Proof Strip:
+- Seg #04 (t=17.00s-23.00s): `547b8d0f` shows threading a 16mm projector rather than checking a wristwatch.
+- Seg #05 (t=23.00s-28.50s): `af625567` at in_s=0.5s crosses an internal cut at 2.79s before the wristwatch close-up.
+- Seg #06 (t=28.50s-34.50s): `dd216185` crosses an internal cut at 3.8s from the woman on the stairs to a boy at a closet.
+
+Largest Gap:
+Seg #04 shows projector threading instead of a wristwatch check, while Seg #05 and Seg #06 cross internal cuts mid-gesture.
+
+Causal Hypothesis:
+OpenCLIP false positive on `547b8d0f`, and unclamped cut boundaries in `af625567` (cut at 2.79s) and `dd216185` (cut at 3.80s).
+
+Falsifiable Repair Condition:
+Use `af625567` clamped to its verified wristwatch close-up window (`2.85s-6.00s`) for Seg #04, paired with verified hourglass time-check `7aa7b9d2` (`18.0s-23.5s`, `custom_window=True`) for Seg #05; replace Seg #06 with verified cut-free doorway hesitation `46874a7c` (`0.2s-6.2s`, 8.3s clean window).
+
+Strength to Preserve:
+The opening complete collar adjustment in `9d763244` (`Basic Typing`, 1944), contrasting fabric touch in `e76fd644`, stopping halfway in `9c590333`, and returning to `9d763244` after the gesture.

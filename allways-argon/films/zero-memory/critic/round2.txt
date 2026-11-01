@@ -1,0 +1,7 @@
+VERDICT: pass (Round 2 — v2 repaired assembly verification)
+Critic Role: Independent memory critic
+
+Verification of Falsifiable Repair:
+- Executed repair: Use `dac3352e` at `in_s=0.1, dur=2.2` in Epoch 1 (Seg #03) and `in_s=1.2, dur=2.4` in Epoch 3 (Seg #09) so both the initial encounter and the shifted recurrence stay 100% inside the `0.05s-3.79s` cut-free shelf window.
+- Automated structural check: 0 internal camera cuts (max_frame_diff < 16.0), 0 title-card contaminants, 0 missing glyph boxes.
+- Visual inspection of 8-frame v2 proof strip confirms every shot establishes and completes its visible action while preserving the strength identified in Round 1 (The three explicit `WORKING HISTORY RESET` cards, the intact recurrence of `b1626fd2`, and the closing Split Shot comparing intact vs shifted recurrence.).

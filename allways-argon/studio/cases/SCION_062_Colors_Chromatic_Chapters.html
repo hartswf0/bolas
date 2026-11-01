@@ -1,0 +1,495 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>SCION 062 · CONCEPTUAL MICROFILMS · Colors — Chromatic Chapters — ALLWAYS · ARGON Case Study</title>
+<link rel="stylesheet" href="../../../tools/paeleo/fonts/local.css">
+<style>
+:root {
+  --bg: #0c0e0d;
+  --panel: #131715;
+  --panel-2: #191f1c;
+  --ink: #f2efe6;
+  --muted: #9aa39c;
+  --rule: #28312c;
+  --accent: #d46a4c;
+  --mint: #8ec5a8;
+  --gold: #dfc48b;
+  --display: 'Big Shoulders Display', -apple-system, BlinkMacSystemFont, sans-serif;
+  --serif: 'Literata', Georgia, serif;
+  --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.65 var(--serif); }
+a { color: var(--mint); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.topbar {
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(12,14,13,0.94); backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--rule);
+  padding: 10px 18px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px;
+  font: 11px/1.4 var(--mono); text-transform: uppercase; letter-spacing: .06em;
+}
+.wrap { max-width: 1120px; margin: 0 auto; padding: 24px 18px 80px; }
+.kicker { font: 600 11px/1.4 var(--mono); color: var(--accent); text-transform: uppercase; letter-spacing: .1em; }
+h1 { font: 800 clamp(32px, 6vw, 60px)/.96 var(--display); text-transform: uppercase; margin: 6px 0 8px; letter-spacing: -.01em; }
+.subtitle { font: 400 clamp(17px, 2.2vw, 22px)/1.4 var(--serif); color: var(--muted); margin-bottom: 18px; }
+.player-sticky {
+  background: #000; border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; margin-bottom: 24px;
+}
+video { width: 100%; aspect-ratio: 16/9; display: block; background: #000; }
+.player-bar {
+  padding: 10px 14px; background: var(--panel); border-top: 1px solid var(--rule);
+  display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px;
+  font: 11px/1.4 var(--mono); color: var(--muted);
+}
+.btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  font: 600 11px/1 var(--mono); text-transform: uppercase; letter-spacing: .06em;
+  padding: 9px 13px; border-radius: 4px; border: 1px solid var(--mint);
+  background: var(--mint); color: #0d1f16; cursor: pointer;
+}
+.btn.sec { background: transparent; color: var(--ink); border-color: var(--rule); }
+.btn:hover { opacity: .92; text-decoration: none; }
+.sec-head {
+  border-top: 1px solid var(--rule); padding-top: 24px; margin: 36px 0 16px;
+  display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 12px;
+}
+.sec-head h2 { font: 800 clamp(24px, 3.5vw, 34px)/1.05 var(--display); text-transform: uppercase; margin: 0; }
+.meta-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; margin: 18px 0;
+}
+.meta-card { background: var(--panel); border: 1px solid var(--rule); border-radius: 6px; padding: 14px 16px; }
+.meta-card .label { font: 600 10px/1.4 var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--gold); margin-bottom: 6px; }
+.shots-list { display: flex; flex-direction: column; gap: 12px; }
+.shot-card {
+  display: grid; grid-template-columns: 240px 1fr; gap: 16px;
+  background: var(--panel); border: 1px solid var(--rule); border-radius: 6px; padding: 12px;
+  cursor: pointer; transition: border-color .15s;
+}
+.shot-card:hover { border-color: var(--mint); }
+.shot-card.is-card { grid-template-columns: 180px 1fr; opacity: .88; }
+.shot-media { position: relative; background: #050706; border-radius: 4px; overflow: hidden; aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center; }
+.shot-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.shot-time {
+  position: absolute; bottom: 6px; left: 6px;
+  background: rgba(0,0,0,0.82); color: var(--gold); padding: 2px 6px; border-radius: 3px;
+  font: 600 10px/1.3 var(--mono);
+}
+.shot-body { display: flex; flex-direction: column; gap: 6px; font-size: 14px; }
+.shot-source { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px; font: 12px/1.4 var(--mono); color: var(--muted); border-bottom: 1px solid var(--rule); padding-bottom: 6px; }
+.shot-source strong { color: var(--ink); }
+.shot-what { color: var(--ink); }
+.shot-bridge { font-size: 12px; color: var(--gold); }
+.shot-why { color: var(--muted); font-size: 13.5px; }
+.strip-img { width: 100%; border-radius: 6px; border: 1px solid var(--rule); display: block; margin: 10px 0; }
+.strip-label { font: 600 11px/1.4 var(--mono); color: var(--muted); text-transform: uppercase; margin-top: 10px; }
+.tribunal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 14px; }
+.trib-box { background: var(--panel); border: 1px solid var(--rule); border-radius: 6px; padding: 16px; font-size: 14px; }
+.trib-box.warn { border-left: 3px solid var(--accent); }
+.trib-box.pass { border-left: 3px solid var(--mint); }
+.trib-box .label { font: 700 11px/1.4 var(--mono); text-transform: uppercase; color: var(--gold); margin-bottom: 8px; }
+pre.prompt-box {
+  background: #090c0a; border: 1px solid var(--rule); border-radius: 6px; padding: 18px;
+  font: 12.5px/1.65 var(--mono); color: #e2e6de; white-space: pre-wrap; overflow-wrap: anywhere; max-height: 640px; overflow-y: auto;
+}
+.nav-foot {
+  margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--rule);
+  display: flex; justify-content: space-between; gap: 14px; font: 12px/1.5 var(--mono);
+}
+@media (max-width: 700px) {
+  .shot-card, .shot-card.is-card { grid-template-columns: 1fr; }
+  .tribunal-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div>
+    <a href="../../../paeleo/allways/index.html#runs">ALLWAYS</a> <span>/</span> <a href="../../index.html">ARGON (12)</a> <span>/</span>
+    <a href="../index.html#film=SCION_062_Colors_Chromatic_Chapters">ARGON SCREENING ROOM (85)</a> <span>/</span>
+    <span style="color:var(--ink)">#08 CASE STUDY</span>
+  </div>
+  <div style="display:flex;gap:8px;align-items:center">
+    <button class="btn" onclick="copyPrompt()">Copy Prompt</button>
+    <a class="btn sec" href="SCION_062_Colors_Chromatic_Chapters.md" download>Case Study .md</a>
+    <a class="btn sec" href="../manifests/SCION_062_Colors_Chromatic_Chapters.json" target="_blank">EDL .json</a>
+  </div>
+</header>
+<main class="wrap">
+  <div class="kicker">SCION 062 · CONCEPTUAL MICROFILMS · A · Structural &amp; Perceptual · FILM #08 OF 85</div>
+  <h1>Colors — Chromatic Chapters</h1>
+  <div class="subtitle">Yellow, blue, and red organizing distinct practical actions without recoloring</div>
+
+  <div class="player-sticky">
+    <video id="v" controls playsinline preload="metadata" src="../films/SCION_062_Colors_Chromatic_Chapters.mp4"></video>
+    <div class="player-bar">
+      <span>47.8s · 7 archival cuts · 7 sources · Critic Tribunal: PASS (v2)</span>
+      <span>Tap any captured shot card below to jump video to that cut</span>
+    </div>
+  </div>
+
+  <div class="meta-grid">
+    <div class="meta-card">
+      <div class="label">01 · Creative Theorem</div>
+      <div>Use recurring color to carry attention across unrelated settings, then reveal that the same hue can organize very different actions. No artificial color grading is applied to force a match.</div>
+    </div>
+    <div class="meta-card">
+      <div class="label">02 · Lineage & Reference</div>
+      <div>Lineage: Daniel Mercadante / The Mercadantes, Colors</div>
+      <div style="margin-top:8px;font-size:12px;color:var(--muted)"><strong>Boundary Contract:</strong> All hues are native to the archival transfers and verified by HSV dominant-hue inspection; no synthetic recoloring is used.</div>
+    </div>
+  </div>
+
+  <div class="sec-head">
+    <div>
+      <div class="kicker">Stage 1 · Production Prompt</div>
+      <h2>Copyable SCION / ALLWAYS Prompt</h2>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="btn" id="copy-btn-2" onclick="copyPrompt()">Copy Full Prompt</button>
+      <span id="copy-msg" style="font:11px var(--mono);color:var(--mint);align-self:center"></span>
+    </div>
+  </div>
+  <pre class="prompt-box" id="prompt-raw"># SCION 062 // Colors — Chromatic Chapters
+## Autonomous evolving cinema / documentary / database swarm · standalone prompt
+
+**Family:** Conceptual microfilms
+**Operator lineage:** Daniel Mercadante / The Mercadantes, Colors; creator upload describes everyday color and credits a Vimeo grant.
+**Requested reference:** Colors — Everynone
+**Reference status:** verified_description. See the research record below.
+**Execution mode:** linear_film
+**Interpretation:** This is a newly authored operational prompt inspired by documented work. It does not claim that the credited artists wrote or endorsed it. Its proposed proof is an original experiment. Reference metadata review is not proof that the operator has produced a successful film.
+
+You are **SCION-062-COLORS-CHROMATIC-CHAPTERS**. Produce a finished watchable or operable work within the user&#x27;s requested scope. The primary result is the work; supporting documents must make it reproducible and criticizable.
+
+## INPUT
+
+- `[WORK]`: the new work or question this operator should realize.
+- `[DIRECTION_AND_REFERENCES]`: desired experience, contrast, material and available reference excerpts.
+- `[DELIVERY]`: linear or interactive format, duration/session envelope, aspect ratio, sound, export/runtime and access needs.
+- `[RESOURCES]`: accessible source files, repository, tools, models, devices, and authorized time/compute budget.
+- `[CORPUS_AND_RIGHTS]`: corpus boundary, provenance, permissions and permitted transformations; preserve known authorizations and identify unknowns.
+- `[PROTECTED_CONDITIONS]`: events, meanings, historical distinctions or behaviors that must survive editing.
+
+Resolve ordinary implementation choices from context. Ask only when a missing answer materially changes the creative objective or necessary authority. Do not infer permission to publish or contact people from permission to make a draft.
+
+## 1 · Creative theorem to prove
+
+Use recurring color to carry attention across unrelated settings, then reveal that the same hue can organize very different actions. A color chapter must accumulate a question or change, not merely fill the screen with coordinated objects.
+
+**What makes this operator distinct:** SCION 59 stabilizes an object&#x27;s graphic position; this operator allows positions and shapes to vary while color creates chapters whose meanings develop.
+
+## 2 · Native formal language
+
+Preserve and manipulate these as explicit working objects:
+
+- source color profiles and untouched originals
+- candidate color regions with area and location
+- perceptual hue-family labels checked by viewing
+- object action and contextual significance
+- chapter order and transition candidates
+- sound motifs associated with actions rather than colors
+
+**Protected conditions:**
+
+- Documentary source colors are not selectively recolored to fabricate a match.
+- Numerical color proximity is a candidate filter, not an automatic acceptance rule.
+- Each chapter includes a wider context or action that complicates its dominant hue.
+
+Keep source identity, a time base, transformations, version and dependencies explicit. Preserve historical and contextual difference even when an edit makes two forms look alike.
+
+## 3 · Assemble the smallest capable swarm
+
+- Color researcher: deliver visually checked groups with profile notes.
+- Context editor: identify what each colored object does in its setting.
+- Sequence and sound editor: construct chapters with entrances, variation and release.
+- Independent color-and-meaning critic: judge continuity and the consequences of grouping.
+
+Every role must build or verify something concrete. The independent critic receives the intended experience and actual output before the builder&#x27;s explanation. Do not invent a critic session when no independent review occurred.
+
+## 4 · Hard proof; produce before scaling
+
+Create a 60-second film with three brief color chapters using authorized footage or original scenes. Begin with a yellow work glove entering a neutral frame, continue through a yellow object being repaired, and end the first chapter on an object whose yellow surface is largely hidden by use. Move into blue through an image containing both colors, allowing the viewer to discover the transition before the frame is dominated by blue. The blue passage should contain a change in pace, such as an object waiting while a person works outside the crop. Let the final chapter use red in a quiet, practical action rather than an obligatory danger cue. Close on the opening glove placed among the other objects, with all three hues now sharing a setting. Keep source sounds local: a scrape, a tap, a short room tone. Test an original restrained score only after the color transitions work in the sound-led cut. Do not use recoloring to repair weak source selection.
+
+Save a recoverable draft. Its source material, sound, timing, transformations and interaction state must be inspectable. Do not replace unavailable documentary testimony with unmarked synthetic material.
+
+## 5 · Acceptance tribunal
+
+**Judge by watching or operating the proof:**
+
+- Color continuity is visible on the target display without destroying the source&#x27;s tonal range.
+- A chapter contains differing actions or stakes, not only differing objects.
+- The mixed-color transition makes the change of chapter legible.
+- The ending gives the colors a shared situation.
+- The sequence avoids assigning universal emotional meanings to hues or cultures.
+
+**Structural or automated checks, only where the representation supports them:**
+
+- Compare export and source transforms to flag selective hue replacement.
+- Check that source color-profile handling is explicit and consistent across the render.
+
+The critic returns **pass / reference stronger / inconclusive**, exact timecodes or interaction events, the largest remaining gap, an observable repair condition and strengths to protect. Distinguish measured checks from perceptual judgments. Leave execution and acceptance marked pending until they happen.
+
+## 6 · Repair through discriminating experiments
+
+- **Failure:** A selected match looks wrong despite similar calculated hue. **Hypothesis:** Area, lighting or surround dominates perception more than the sampled region. **Experiment:** Compare wider and tighter crops with unchanged grading, then replace the source if the relation remains weak.
+- **Failure:** The film reads as a palette advertisement. **Hypothesis:** Every color is detached from work, use and consequence. **Experiment:** Restore one full action per chapter and compare audience descriptions of the two cuts.
+
+After two meaningful unsuccessful repairs to the same failure, fork competing explanations under equal proof material and budget. Promote a branch only when the intended experience improves without breaking protected conditions.
+
+## 7 · Discovery and recursive expansion
+
+- Develop chapters by changes in use, visibility or material, retaining color as an organizing constraint rather than the entire subject.
+- For installations, allow a finite chromatic cycle with documented entry and exit points; do not equate random hue sorting with an endless film.
+
+Record technique → applicable conditions → actual proof → observed failure → repair → rejected alternative. Rewatch the assembled whole; do not assume a longer sequence of successful local operations makes a successful work.
+
+## 8 · Deliverable contract
+
+- Finished color-chapter short and source-sound comparison.
+- Color-region and transform records linked to context notes.
+- Independent report on the chapter boundaries and final return.
+
+Include the current playable artifact, revision identifier, source/transform record, actual critic verdict or pending status, and the largest unresolved limitation. Preserve an accepted checkpoint before major changes.
+
+**Possible ALLWAYS applications:** EQUIVALENTS, THE VECTOR POET, COMMONTHREAD.
+
+## INHERITED SCION DOCTRINE — BUILD, INSPECT, REPAIR
+
+1. **Viewer experience first.** State one specific perceptual or interactive achievement. Name the attractive but empty result this project must avoid. A subject, mood board or similarity score is not a film.
+2. **Inspect the lineage.** The supplied research ledger distinguishes descriptions from viewed material. Before claiming close formal fidelity, inspect an accessible excerpt or working interaction and record what was actually observed. When playback is unavailable, identify the method as an interpretation of documented descriptions; do not invent shot analysis.
+3. **Hard proof before scale.** Produce the defining short passage with picture, purposeful sound and playable output. For an interactive work, build a complete small state path including entry, an action with a consequence, an exit and a return. Do not begin by accumulating a giant archive.
+4. **Material and source integrity.** Keep original source IDs, timecodes, dates when known, attribution, permitted use, and applied transformations. Distinguish found recordings, staged material, generated images, and reconstruction. A synthetic stand-in is not documentary evidence. Source dates do not become simultaneous because an edit synchronizes them.
+5. **Native working state.** Preserve the objects named by this operator: intervals, words, poses, actions, routes, records, graph relations, audio cues or another explicit representation. Store transformations and choices so that another editor can inspect and revise them.
+6. **Small accountable swarm.** Every role owns an artifact or a verification. Merge roles when coordination becomes costly. Keep an independent critic for the defining achievement. Respect the user&#x27;s existing authority; do not seek arbitrary approval for routine reversible work or publish/contact others beyond the authorized scope.
+7. **Sound and duration are structural.** Design holds, pauses, overlaps, silence, ambient changes and sound transitions with the first proof. Preserve source silence where relevant; label newly composed sound. Never claim that music, an animation or a cut establishes a person&#x27;s private feeling.
+8. **Independent criticism.** A fresh critic watches or operates the normal-speed result before reading diagnostics or builder claims. Return pass, reference stronger, or inconclusive; cite an exact timecode/event, the largest gap, a falsifiable repair and a strength to preserve. &#x27;Reference stronger&#x27; requires an actually inspected comparable reference. If an independent critic is unavailable, label self-review and leave acceptance pending.
+9. **Repair causes.** Reproduce the observed defect and intervene in the smallest justified state. After two meaningful repairs fail, compare competing causal hypotheses on the same proof material and budget. Do not add effects, agents or footage just to conceal the defect.
+10. **Two kinds of evidence.** Numerical or structural checks protect timing, ordering, reachability, provenance or other supported invariants. Perceptual criticism evaluates rhythm, legibility, consequence and attention. Neither substitutes for the other, and no score proves artistic value. Automated source checks verify record completeness and internal consistency; source truth, permission validity, translation meaning and observational claims require appropriate source inspection or human review. Report which review actually occurred.
+11. **Whole-work judgment.** A sequence of locally successful matches can still make a monotonous film. Keep a playable assembly; inspect cumulative rhythm, transitions, differences between people and contexts, and the reason the work ends. Preserve productive seams and interruptions.
+12. **Truthful stopping and delivery.** Stop at independent acceptance, the user&#x27;s stop, the authorized budget, or a justified no-progress boundary. Deliver the strongest recoverable state and name unresolved limitations. Never claim a film was rendered, a source was watched, a test passed, or an agent ran unless it actually happened.
+
+**Tool boundary:** Use real available tools. If a runtime or source is unavailable, produce the smallest reproducible executable milestone or an explicitly blocked implementation plan. Do not narrate an imaginary execution. This prompt authorizes only the scope supplied by its user.
+
+## START
+
+Read the inputs and actual source material. State the creative theorem and protected conditions. Build the proof with picture and sound or an operable interaction. Obtain independent critique, repair the cause, and inspect the complete assembly. Expand only after the defining operation is perceptible.
+
+
+## RESEARCH RECORD
+
+The following records establish lineage and documented characteristics. Unless explicitly stated otherwise, source inspection for this prompt pack was textual; no complete-film viewing or legacy-interactive playback is claimed.
+
+1. [Colors — The Mercadantes](https://vimeo.com/132121995) — Title, director, everyday-color premise, production credits, Mozart music and Vimeo support; date not established in the retrieved text. Evidence: creator_statement; inspection: text_only.
+
+**Metadata notes and unresolved questions:**
+
+- Treat any proposed color ordering below as a new production method. The source description was read; the reference film was not independently viewed.
+</pre>
+
+  <div class="sec-head">
+    <div>
+      <div class="kicker">Stage 2 · Archive Forage, Captured Frames & Editorial Rationale</div>
+      <h2>Captured Shots & Why Each Was Chosen (7 Cuts)</h2>
+    </div>
+    <span style="font:11px var(--mono);color:var(--muted)">Click any shot to scrub video</span>
+  </div>
+  <div class="shots-list">
+    
+            <article class="shot-card is-card" onclick="seekTo(0.00)">
+              <div class="shot-media card-placeholder">
+                <span>TITLE CARD</span>
+                <span class="shot-time">SEG #01 · 0.0s–3.0s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source"><strong>OPENING SLATE</strong> <span>(3.0s)</span></div>
+                <div class="shot-what">Yellow, blue, and red organizing distinct practical actions without recoloring</div>
+                <div class="shot-why"><strong>Why Included:</strong> Structural framing slate / audit card required by operator deliverable contract.</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(3.00)">
+              <div class="shot-media">
+                <img src="../thumbs/da09f0cb-72fd-5255-815a-3e4794a1e7a0.jpg" alt="Captured frame from Automatic Emergency Parking Brakes (as required by 30 CFR 75.523-3)" loading="lazy">
+                <span class="shot-time">CUT #02 · 3.0s–8.2s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>Automatic Emergency Parking Brakes (as required by 30 CFR 75.523-3) (1992)</strong>
+                  <span>clip <code>da09f0cb</code> · source window <code>0.50s–5.70s</code> (5.20s) <a href="https://www.movingimagearchive.com/sources/automatic-emergency-parking-brakes-as-required-by-30-cfr-75-523-3-fc52b4d4?clip=da09f0cb-72fd-5255-815a-3e4794a1e7a0" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> Automatic Emergency Parking Brake (1992): Hands reach in to adjust a bright yellow mechanical housing</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>HUE: YELLOW · PRACTICAL GRIP</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from Automatic Emergency Parking Brakes (as required by 30 CFR 75.523-3) (1992) because the visible gesture directly  establishes phase [CHAPTER I: YELLOW · ENTRY OF THE YELLOW HOUSING], and executes the formal bridge (HUE: YELLOW · PRACTICAL GRIP), and anchors the opening perceptual premise before any cross-source comparison begins. Window 0.50s–5.70s (5.20s) verified cut-free (motion Δ=7.7, luma=51.1, audio=-17.1 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(8.20)">
+              <div class="shot-media">
+                <img src="../thumbs/56cdd913-8b7f-5c90-8641-a659718dfcaa.jpg" alt="Captured frame from Diesel Regulations — Light Duty Vehicles" loading="lazy">
+                <span class="shot-time">CUT #03 · 8.2s–13.4s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>Diesel Regulations — Light Duty Vehicles (1999)</strong>
+                  <span>clip <code>56cdd913</code> · source window <code>1.60s–6.80s</code> (5.20s) <a href="https://www.movingimagearchive.com/sources/diesel-regulations-light-duty-vehicles-934a800d?clip=56cdd913-8b7f-5c90-8641-a659718dfcaa" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> Diesel Regulations (1999): Yellow-lit industrial test chamber during nozzle inspection</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>HUE: YELLOW · MAINTENANCE</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from Diesel Regulations — Light Duty Vehicles (1999) because the visible gesture directly  establishes phase [CHAPTER I: YELLOW · INDUSTRIAL CALIBRATION], and executes the formal bridge (HUE: YELLOW · MAINTENANCE), and advances cut 2/7 of the theorem while preserving distinct historical provenance (1999). Window 1.60s–6.80s (5.20s) verified cut-free (motion Δ=31.8, luma=77.1, audio=-17.1 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(13.40)">
+              <div class="shot-media">
+                <img src="../thumbs/43d553f4-c26b-56b9-87b6-bf417fa29d98.jpg" alt="Captured frame from Winter Alert" loading="lazy">
+                <span class="shot-time">CUT #04 · 13.4s–18.4s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>Winter Alert (2000)</strong>
+                  <span>clip <code>43d553f4</code> · source window <code>0.50s–5.50s</code> (5.00s) <a href="https://www.movingimagearchive.com/sources/winter-alert-fe794079?clip=43d553f4-c26b-56b9-87b6-bf417fa29d98" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> Winter Alert (2000): A blue-sleeved arm latches a heavy, weathered yellow equipment door</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>CHROMATIC BRIDGE: YELLOW + BLUE</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from Winter Alert (2000) because the visible gesture directly  establishes phase [CHAPTER I -&gt; II BRIDGE · YELLOW WORN PANEL &amp; BLUE SLEEVE], and executes the formal bridge (CHROMATIC BRIDGE: YELLOW + BLUE), and advances cut 3/7 of the theorem while preserving distinct historical provenance (2000). Window 0.50s–5.50s (5.00s) verified cut-free (motion Δ=9.2, luma=74.7, audio=-17.1 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(18.40)">
+              <div class="shot-media">
+                <img src="../thumbs/715d0d14-ed0b-5d24-934c-37369ee558a7.jpg" alt="Captured frame from Quality Control in Modern Merchandising (Part I)" loading="lazy">
+                <span class="shot-time">CUT #05 · 18.4s–22.6s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>Quality Control in Modern Merchandising (Part I) (1952)</strong>
+                  <span>clip <code>715d0d14</code> · source window <code>0.30s–4.50s</code> (4.20s) <a href="https://www.movingimagearchive.com/sources/quality-control-in-modern-merchandising-part-i-5a8f094f?clip=715d0d14-ed0b-5d24-934c-37369ee558a7" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> Quality Control in Modern Merchandising (1952): Hands testing blue fabric under inspection light</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>HUE: BLUE · MEASURED PACE</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from Quality Control in Modern Merchandising (Part I) (1952) because the visible gesture directly  establishes phase [CHAPTER II: BLUE · TEXTILE INSPECTION], and executes the formal bridge (HUE: BLUE · MEASURED PACE), and advances cut 4/7 of the theorem while preserving distinct historical provenance (1952). Window 0.30s–4.50s (4.20s) verified cut-free (motion Δ=18.5, luma=56.9, audio=-26.0 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(22.60)">
+              <div class="shot-media">
+                <img src="../thumbs/45680277-0c0e-5157-bd89-95471f4ac98d.jpg" alt="Captured frame from Mastering Takeoffs and Landings" loading="lazy">
+                <span class="shot-time">CUT #06 · 22.6s–28.1s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>Mastering Takeoffs and Landings (2009)</strong>
+                  <span>clip <code>45680277</code> · source window <code>2.20s–7.70s</code> (5.50s) <a href="https://www.movingimagearchive.com/sources/mastering-takeoffs-and-landings-6fe06c6e?clip=45680277-0c0e-5157-bd89-95471f4ac98d" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> Mastering Takeoffs and Landings: Figure illuminated by a deep blue instrument display</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>HUE: BLUE · SLOWER CADENCE</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from Mastering Takeoffs and Landings (2009) because the visible gesture directly  establishes phase [CHAPTER II: BLUE · INSTRUMENT MONITORING], and executes the formal bridge (HUE: BLUE · SLOWER CADENCE), and advances cut 5/7 of the theorem while preserving distinct historical provenance (2009). Window 2.20s–7.70s (5.50s) verified cut-free (motion Δ=5.3, luma=65.2, audio=-17.8 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(28.10)">
+              <div class="shot-media">
+                <img src="../thumbs/04572067-d4ab-5dda-b6f3-85a1cd81b8d9.jpg" alt="Captured frame from Diesel Regulations — Light Duty Vehicles" loading="lazy">
+                <span class="shot-time">CUT #07 · 28.1s–33.3s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>Diesel Regulations — Light Duty Vehicles (1999)</strong>
+                  <span>clip <code>04572067</code> · source window <code>0.50s–5.70s</code> (5.20s) <a href="https://www.movingimagearchive.com/sources/diesel-regulations-light-duty-vehicles-934a800d?clip=04572067-d4ab-5dda-b6f3-85a1cd81b8d9" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> Diesel Regulations (1999): Quiet adjustment of a red shop cylinder (not an alarm cue)</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>HUE: RED · ORDINARY LABOR</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from Diesel Regulations — Light Duty Vehicles (1999) because the visible gesture directly  establishes phase [CHAPTER III: RED · QUIET PRACTICAL ACTION], and executes the formal bridge (HUE: RED · ORDINARY LABOR), and advances cut 6/7 of the theorem while preserving distinct historical provenance (1999). Window 0.50s–5.70s (5.20s) verified cut-free (motion Δ=2.7, luma=36.9, audio=-17.3 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(33.30)">
+              <div class="shot-media">
+                <img src="../thumbs/0f500d93-b3b7-5c88-8b34-b3fd2d8b47f6.jpg" alt="Captured frame from Fire Suppression: How It Works" loading="lazy">
+                <span class="shot-time">CUT #08 · 33.3s–38.5s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>Fire Suppression: How It Works (2005)</strong>
+                  <span>clip <code>0f500d93</code> · source window <code>9.80s–15.00s</code> (5.20s) <a href="https://www.movingimagearchive.com/sources/fire-suppression-how-it-works-ef429970?clip=0f500d93-b3b7-5c88-8b34-b3fd2d8b47f6" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> Fire Suppression (2005): Hands inspecting a bright red vessel on a workbench</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>HUE: RED · TACTILE FOCUS</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from Fire Suppression: How It Works (2005) because the visible gesture directly  establishes phase [CHAPTER III: RED · MEASURED HANDLING], and executes the formal bridge (HUE: RED · TACTILE FOCUS), and completes the terminal return/aftermath hold required by the operator theorem. Window 9.80s–15.00s (5.20s) verified cut-free (motion Δ=5.2, luma=68.3, audio=-17.2 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card is-card" onclick="seekTo(38.50)">
+              <div class="shot-media card-placeholder">
+                <span>QUAD SHOT</span>
+                <span class="shot-time">SEG #09 · 38.5s–44.3s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source"><strong>CLOSING COMPOSITE · YELLOW, BLUE, AND RED IN ONE FRAME</strong> <span>(5.8s)</span></div>
+                <div class="shot-what">All three chromatic chapters held together with their distinct work contexts intact</div>
+                <div class="shot-why"><strong>Why Included:</strong> Structural framing slate / audit card required by operator deliverable contract.</div>
+              </div>
+            </article>
+            <article class="shot-card is-card" onclick="seekTo(44.30)">
+              <div class="shot-media card-placeholder">
+                <span>CLOSING LEDGER</span>
+                <span class="shot-time">SEG #10 · 44.3s–47.8s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source"><strong>CLOSING LEDGER</strong> <span>(3.5s)</span></div>
+                <div class="shot-what">All hues are native to the archival transfers and verified by HSV dominant-hue inspection; no synthetic recoloring is used.</div>
+                <div class="shot-why"><strong>Why Included:</strong> Structural framing slate / audit card required by operator deliverable contract.</div>
+              </div>
+            </article>
+  </div>
+
+  <div class="sec-head">
+    <div>
+      <div class="kicker">Stage 3 · Independent Critic Tribunal & Verification</div>
+      <h2>Temporal Proof Strips & Diagnostic Audit</h2>
+    </div>
+    <a class="btn sec" href="../strips/SCION_062_Colors_Chromatic_Chapters_v2_strip.jpg" target="_blank">Open Full-Res Strip ↗</a>
+  </div>
+  <div class="strip-label">Verified v2 Temporal Proof Strip (8 evenly spaced frames + waveform/timecode audit)</div>
+  <img class="strip-img" src="../strips/SCION_062_Colors_Chromatic_Chapters_v2_strip.jpg" alt="v2 proof strip">
+  
+        <details class="v1-details">
+          <summary>Compare Pre-Repair v1 Assembly Strip vs. Verified v2 Strip</summary>
+          <div class="strip-label">v1 Assembly Strip (Before Critic Repair)</div>
+          <img class="strip-img" src="../strips/SCION_062_Colors_Chromatic_Chapters_v1_strip.jpg" alt="v1 strip" loading="lazy">
+        </details>
+  
+        <div class="tribunal-grid">
+          <div class="trib-box warn">
+            <div class="label">Round 1 (v1) Defects Caught</div>
+            <ul><li>Seg #02 (t=03.50s-08.70s): `676ac70c` (`Skateboard Sense`) shows a dark green work glove rather than yellow.</li><li>Seg #06 (t=24.70s-30.50s): `029b1dea` (`Make Art Feel Better`) shows beige wood whittling with almost no blue present.</li></ul>
+            <p><strong>Largest Gap:</strong> The opening anchor of Chapter I: Yellow features a green glove, and Seg #06 in Chapter II: Blue is visually dominated by beige wood shavings.</p>
+            <p><strong>Causal Hypothesis:</strong> Lack of HSV dominant-hue verification on candidate frames in Seg #02 and Seg #06.</p>
+          </div>
+          <div class="trib-box pass">
+            <div class="label">Round 2 (v2) Falsifiable Repair & Verification</div>
+            <p><strong>Repair Executed:</strong> Replace Seg #02 with HSV-verified yellow industrial work clip `56cdd913` (`1.5s-6.8s`, 41.4% yellow pixels) alongside `da09f0cb` (`Automatic Emergency Parking Brake`) and `43d553f4` (`Winter Alert`); replace Seg #06 in Chapter II: Blue with verified blue-screen/mist clips `45680277` (`2.2s-7.8s`) and `005ac24d` (`2.5s-8.0s`).</p>
+            <p><strong>Strength Preserved:</strong> The Chapter I -&gt; II mixed-color transition bridge in `43d553f4` (`Winter Alert`, where a blue-sleeved arm latches a worn yellow machine door) and the two quiet red practical actions in Chapter III (`04572067`, `0f500d93`).</p>
+            <p><strong>Final Verdict:</strong> <code>PASS (v2 · 0 structural or perceptual issues)</code></p>
+          </div>
+        </div>
+
+  <nav class="nav-foot">
+    <a href="SCION_061_Matter_Affordance_Chain.html">← #07 Matter — Material Affordance Chain</a>
+    <a href="../index.html#film=SCION_062_Colors_Chromatic_Chapters">Back to 85-Film Screening Room ↗</a>
+    <a href="SCION_063_Breath_Invisible_Force.html">#09 Breath — Invisible Force, Visible Consequence →</a>
+  </nav>
+</main>
+<script>
+function seekTo(sec) {
+  const v = document.getElementById('v');
+  v.currentTime = sec;
+  v.play().catch(()=>{});
+  v.scrollIntoView({behavior:'smooth', block:'center'});
+}
+function copyPrompt() {
+  const txt = document.getElementById('prompt-raw').textContent;
+  navigator.clipboard.writeText(txt).then(() => {
+    const msg = document.getElementById('copy-msg');
+    msg.textContent = 'COPIED TO CLIPBOARD ✓';
+    setTimeout(() => msg.textContent = '', 2500);
+  });
+}
+</script>
+</body>
+</html>

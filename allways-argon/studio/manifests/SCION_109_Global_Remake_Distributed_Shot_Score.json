@@ -1,0 +1,156 @@
+{
+  "slug": "SCION_109_Global_Remake_Distributed_Shot_Score",
+  "version": "v2",
+  "series": "SERIES_F_INTERACTIVE",
+  "kicker": "SCION 109 \u00b7 INTERACTIVE & DATABASE MEDIA",
+  "title": "The Global Remake \u2014 Distributed Shot Score",
+  "subtitle": "Re-performing Vertov's Man with a Movie Camera score across disparate decades and amateur cameras",
+  "scion_id": 109,
+  "supporting_scions": [
+    69,
+    83,
+    108
+  ],
+  "lineage": "Lineage: Perry Bard, Man with a Movie Camera: The Global Remake (2007) \u00b7 Dziga Vertov (1929)",
+  "theorem": "Treat a classic city-symphony shot list as an open score: pair the canonical apparatus/street instructions (Shot #01 Camera Rig, Shot #02 Waking Street, Shot #03 Spinning Wheel, Shot #04 Crowd) with diverse archival/amateur executions.",
+  "boundary_note": "Displays the shot-score instruction alongside two or three distinct archival interpretations via triptych and split views.",
+  "critic_tribunal": {
+    "critic_role": "Independent shot-score critic",
+    "v1_verdict": "pass",
+    "v2_verdict": "pass",
+    "largest_gap": "Executes a 4-shot Vertovian score across camera rig (`b57c59a3`), lens aperture (`5a73aa82`), three waking streets (`1ad95aab`, `6beb1ad0`, `a8884bce`), and dual spinning mechanisms (`86ccf4b6`, `844f84c5`).",
+    "falsifiable_repair": "All 6 segments verified cut-free."
+  },
+  "duration_seconds": 30.58,
+  "video_file": "films/SCION_109_Global_Remake_Distributed_Shot_Score.mp4",
+  "source_count": 8,
+  "sources_summary": [
+    "b57c59a3 \u00b7 Fastax-tion (undated)",
+    "5a73aa82 \u00b7 Precisely So (Part II) (1937)",
+    "1ad95aab \u00b7 [Amateur films: Ivan Besse collection: Britton, South Dakota 1938-39] (Part X) (1938)",
+    "6beb1ad0 \u00b7 [Amateur films: Ivan Besse collection: Britton, South Dakota 1938-39] (Part IX) (1938)",
+    "a8884bce \u00b7 NEW ORLEANS, ca. 1923 (undated)",
+    "86ccf4b6 \u00b7 Amateur Film - Little Journeys to Niagara (1931)",
+    "844f84c5 \u00b7 Facts on Friction (1934)",
+    "07a81b62 \u00b7 Space Ship Takeoff, a Technical Fantasy (1937)"
+  ],
+  "edl": [
+    {
+      "seg_idx": 1,
+      "type": "title_card",
+      "title": "The Global Remake \u2014 Distributed Shot Score",
+      "phase": "OPENING SLATE",
+      "action": "Re-performing Vertov's Man with a Movie Camera score across disparate decades and amateur cameras",
+      "start_sec": 0.0,
+      "end_sec": 3.0,
+      "dur_s": 3.0
+    },
+    {
+      "type": "shot",
+      "clip_id": "b57c59a3-8296-5d5b-b873-afe2806d8f26",
+      "source_title": "Fastax-tion",
+      "source_year": null,
+      "source_page": "https://www.movingimagearchive.com/sources/fastax-tion-3f0c7743?clip=b57c59a3-8296-5d5b-b873-afe2806d8f26",
+      "in_s": 0.1,
+      "out_s": 4.2,
+      "dur_s": 4.1,
+      "phase": "SCORE INSTRUCTION #01 \u00b7 'THE CAMERAMAN ON HIS RIG'",
+      "action": "Fastax-tion: A cameraman filming from an elevated rig \u2014 the score's opening self-reflexive cue",
+      "nearmatch": "SHOT SCORE #01: APPARATUS",
+      "seg_idx": 2,
+      "start_sec": 3.0,
+      "end_sec": 7.1
+    },
+    {
+      "type": "shot",
+      "clip_id": "5a73aa82-1887-5698-acee-6096019e597d",
+      "source_title": "Precisely So (Part II)",
+      "source_year": 1937,
+      "source_page": "https://www.movingimagearchive.com/sources/precisely-so-part-ii-9c68f9b5?clip=5a73aa82-1887-5698-acee-6096019e597d",
+      "in_s": 15.8,
+      "out_s": 20.6,
+      "dur_s": 4.8,
+      "phase": "SCORE INSTRUCTION #02 \u00b7 'THE CAMERA LENS & APERTURE' (1937)",
+      "action": "Precisely So (1937): Circular optical aperture opening to receive the distributed world",
+      "nearmatch": "SHOT SCORE #02: KINO-EYE",
+      "seg_idx": 3,
+      "start_sec": 7.1,
+      "end_sec": 11.9
+    },
+    {
+      "type": "triptych_shot",
+      "clips": [
+        {
+          "id": "1ad95aab-d2a7-5c09-9401-acd4f4a12ef7",
+          "title": "[Amateur films: Ivan Besse collection: Britton, South Dakota 1938-39] (Part X)",
+          "year": 1938
+        },
+        {
+          "id": "6beb1ad0-2e0e-5b5c-9251-375545853f71",
+          "title": "[Amateur films: Ivan Besse collection: Britton, South Dakota 1938-39] (Part IX)",
+          "year": 1938
+        },
+        {
+          "id": "a8884bce-1565-5849-bcc6-c452ae13c4e3",
+          "title": "NEW ORLEANS, ca. 1923",
+          "year": null
+        }
+      ],
+      "dur_s": 5.2,
+      "phase": "SCORE INSTRUCTION #03 \u00b7 THREE LOCAL TAKES OF 'WALKING THE TOWN STREET'",
+      "action": "1938 Town Street A | 1938 Shop-Lined Street B | 1923 New Orleans Street C \u2014 one score, three places",
+      "nearmatch": "DISTRIBUTED TAKE: 3 CITIES",
+      "seg_idx": 4,
+      "start_sec": 11.9,
+      "end_sec": 17.1
+    },
+    {
+      "type": "split_shot",
+      "clip_a": {
+        "id": "86ccf4b6-1a47-5283-8520-b3a902cc05ec",
+        "title": "Amateur Film - Little Journeys to Niagara",
+        "year": 1931,
+        "page": "https://www.movingimagearchive.com/sources/amateur-film-little-journeys-to-niagara-cecab2b0?clip=86ccf4b6-1a47-5283-8520-b3a902cc05ec"
+      },
+      "clip_b": {
+        "id": "844f84c5-575d-5f49-b1cd-ebd6ca2651a4",
+        "title": "Facts on Friction",
+        "year": 1934,
+        "page": "https://www.movingimagearchive.com/sources/facts-on-friction-0c3018af?clip=844f84c5-575d-5f49-b1cd-ebd6ca2651a4"
+      },
+      "dur_s": 5.2,
+      "phase": "SPLIT COMPARISON",
+      "action": "SCORE INSTRUCTION #04 ('ROTATING MECHANISM'): 1931 Amateur Contraption (Left) vs 1934 Industrial Gear (Right)",
+      "nearmatch": "AMATEUR vs INDUSTRIAL TAKE",
+      "seg_idx": 5,
+      "start_sec": 17.1,
+      "end_sec": 22.3
+    },
+    {
+      "type": "shot",
+      "clip_id": "07a81b62-169a-5b38-9d37-28979c87bbc3",
+      "source_title": "Space Ship Takeoff, a Technical Fantasy",
+      "source_year": 1937,
+      "source_page": "https://www.movingimagearchive.com/sources/space-ship-takeoff-a-technical-fantasy?clip=07a81b62-169a-5b38-9d37-28979c87bbc3",
+      "in_s": 4.8,
+      "out_s": 9.6,
+      "dur_s": 4.8,
+      "phase": "SCORE INSTRUCTION #05 \u00b7 'THE AUDIENCE FACING THE SCREEN' (1937)",
+      "action": "Space Ship Takeoff (1937): The theater audience watching the assembled score return to the screen",
+      "nearmatch": "SHOT SCORE #05: RECEPTION",
+      "seg_idx": 6,
+      "start_sec": 22.3,
+      "end_sec": 27.1
+    },
+    {
+      "seg_idx": 7,
+      "type": "closing_ledger",
+      "title": "SOURCE ATTRIBUTION & BOUNDARY NOTE",
+      "phase": "CLOSING LEDGER",
+      "action": "Displays the shot-score instruction alongside two or three distinct archival interpretations via triptych and split views.",
+      "start_sec": 27.1,
+      "end_sec": 30.6,
+      "dur_s": 3.5
+    }
+  ]
+}

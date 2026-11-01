@@ -1,0 +1,455 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>SCION 096 · INTERACTIVE &amp; DATABASE MEDIA · BLA BLA — Gesture and Response Fable — ALLWAYS · ARGON Case Study</title>
+<link rel="stylesheet" href="../../../tools/paeleo/fonts/local.css">
+<style>
+:root {
+  --bg: #0c0e0d;
+  --panel: #131715;
+  --panel-2: #191f1c;
+  --ink: #f2efe6;
+  --muted: #9aa39c;
+  --rule: #28312c;
+  --accent: #d46a4c;
+  --mint: #8ec5a8;
+  --gold: #dfc48b;
+  --display: 'Big Shoulders Display', -apple-system, BlinkMacSystemFont, sans-serif;
+  --serif: 'Literata', Georgia, serif;
+  --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.65 var(--serif); }
+a { color: var(--mint); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.topbar {
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(12,14,13,0.94); backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--rule);
+  padding: 10px 18px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px;
+  font: 11px/1.4 var(--mono); text-transform: uppercase; letter-spacing: .06em;
+}
+.wrap { max-width: 1120px; margin: 0 auto; padding: 24px 18px 80px; }
+.kicker { font: 600 11px/1.4 var(--mono); color: var(--accent); text-transform: uppercase; letter-spacing: .1em; }
+h1 { font: 800 clamp(32px, 6vw, 60px)/.96 var(--display); text-transform: uppercase; margin: 6px 0 8px; letter-spacing: -.01em; }
+.subtitle { font: 400 clamp(17px, 2.2vw, 22px)/1.4 var(--serif); color: var(--muted); margin-bottom: 18px; }
+.player-sticky {
+  background: #000; border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; margin-bottom: 24px;
+}
+video { width: 100%; aspect-ratio: 16/9; display: block; background: #000; }
+.player-bar {
+  padding: 10px 14px; background: var(--panel); border-top: 1px solid var(--rule);
+  display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px;
+  font: 11px/1.4 var(--mono); color: var(--muted);
+}
+.btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  font: 600 11px/1 var(--mono); text-transform: uppercase; letter-spacing: .06em;
+  padding: 9px 13px; border-radius: 4px; border: 1px solid var(--mint);
+  background: var(--mint); color: #0d1f16; cursor: pointer;
+}
+.btn.sec { background: transparent; color: var(--ink); border-color: var(--rule); }
+.btn:hover { opacity: .92; text-decoration: none; }
+.sec-head {
+  border-top: 1px solid var(--rule); padding-top: 24px; margin: 36px 0 16px;
+  display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 12px;
+}
+.sec-head h2 { font: 800 clamp(24px, 3.5vw, 34px)/1.05 var(--display); text-transform: uppercase; margin: 0; }
+.meta-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; margin: 18px 0;
+}
+.meta-card { background: var(--panel); border: 1px solid var(--rule); border-radius: 6px; padding: 14px 16px; }
+.meta-card .label { font: 600 10px/1.4 var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--gold); margin-bottom: 6px; }
+.shots-list { display: flex; flex-direction: column; gap: 12px; }
+.shot-card {
+  display: grid; grid-template-columns: 240px 1fr; gap: 16px;
+  background: var(--panel); border: 1px solid var(--rule); border-radius: 6px; padding: 12px;
+  cursor: pointer; transition: border-color .15s;
+}
+.shot-card:hover { border-color: var(--mint); }
+.shot-card.is-card { grid-template-columns: 180px 1fr; opacity: .88; }
+.shot-media { position: relative; background: #050706; border-radius: 4px; overflow: hidden; aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center; }
+.shot-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.shot-time {
+  position: absolute; bottom: 6px; left: 6px;
+  background: rgba(0,0,0,0.82); color: var(--gold); padding: 2px 6px; border-radius: 3px;
+  font: 600 10px/1.3 var(--mono);
+}
+.shot-body { display: flex; flex-direction: column; gap: 6px; font-size: 14px; }
+.shot-source { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px; font: 12px/1.4 var(--mono); color: var(--muted); border-bottom: 1px solid var(--rule); padding-bottom: 6px; }
+.shot-source strong { color: var(--ink); }
+.shot-what { color: var(--ink); }
+.shot-bridge { font-size: 12px; color: var(--gold); }
+.shot-why { color: var(--muted); font-size: 13.5px; }
+.strip-img { width: 100%; border-radius: 6px; border: 1px solid var(--rule); display: block; margin: 10px 0; }
+.strip-label { font: 600 11px/1.4 var(--mono); color: var(--muted); text-transform: uppercase; margin-top: 10px; }
+.tribunal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 14px; }
+.trib-box { background: var(--panel); border: 1px solid var(--rule); border-radius: 6px; padding: 16px; font-size: 14px; }
+.trib-box.warn { border-left: 3px solid var(--accent); }
+.trib-box.pass { border-left: 3px solid var(--mint); }
+.trib-box .label { font: 700 11px/1.4 var(--mono); text-transform: uppercase; color: var(--gold); margin-bottom: 8px; }
+pre.prompt-box {
+  background: #090c0a; border: 1px solid var(--rule); border-radius: 6px; padding: 18px;
+  font: 12.5px/1.65 var(--mono); color: #e2e6de; white-space: pre-wrap; overflow-wrap: anywhere; max-height: 640px; overflow-y: auto;
+}
+.nav-foot {
+  margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--rule);
+  display: flex; justify-content: space-between; gap: 14px; font: 12px/1.5 var(--mono);
+}
+@media (max-width: 700px) {
+  .shot-card, .shot-card.is-card { grid-template-columns: 1fr; }
+  .tribunal-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div>
+    <a href="../../../paeleo/allways/index.html#runs">ALLWAYS</a> <span>/</span> <a href="../../index.html">ARGON (12)</a> <span>/</span>
+    <a href="../index.html#film=SCION_096_Bla_Bla_Gesture_Response_Fable">ARGON SCREENING ROOM (85)</a> <span>/</span>
+    <span style="color:var(--ink)">#45 CASE STUDY</span>
+  </div>
+  <div style="display:flex;gap:8px;align-items:center">
+    <button class="btn" onclick="copyPrompt()">Copy Prompt</button>
+    <a class="btn sec" href="SCION_096_Bla_Bla_Gesture_Response_Fable.md" download>Case Study .md</a>
+    <a class="btn sec" href="../manifests/SCION_096_Bla_Bla_Gesture_Response_Fable.json" target="_blank">EDL .json</a>
+  </div>
+</header>
+<main class="wrap">
+  <div class="kicker">SCION 096 · INTERACTIVE &amp; DATABASE MEDIA · F · Reflexive &amp; Database · FILM #45 OF 85</div>
+  <h1>BLA BLA — Gesture and Response Fable</h1>
+  <div class="subtitle">Six chapters of human-and-puppet interaction: greeting, mimicry, overwhelm, and parting</div>
+
+  <div class="player-sticky">
+    <video id="v" controls playsinline preload="metadata" src="../films/SCION_096_Bla_Bla_Gesture_Response_Fable.mp4"></video>
+    <div class="player-bar">
+      <span>33.6s · 6 archival cuts · 6 sources · Critic Tribunal: PASS (v2)</span>
+      <span>Tap any captured shot card below to jump video to that cut</span>
+    </div>
+  </div>
+
+  <div class="meta-grid">
+    <div class="meta-card">
+      <div class="label">01 · Creative Theorem</div>
+      <div>Structure a fable of communication around elementary interactive states—(1) awakening/looking, (2) puppet greeting, (3) two-figure exchange, (4) sensory overwhelm, and (5) quiet departure—where each gesture triggers a visible shift in mood.</div>
+    </div>
+    <div class="meta-card">
+      <div class="label">02 · Lineage & Reference</div>
+      <div>Lineage: Vincent Morisset, BLA BLA (NFB, 2011)</div>
+      <div style="margin-top:8px;font-size:12px;color:var(--muted)"><strong>Boundary Contract:</strong> Linearizes Morisset&#x27;s chaptered interaction grammar using puppetry (`3d112400`), animated binomials (`e5e60119`), and kinetic response (`578e520e`).</div>
+    </div>
+  </div>
+
+  <div class="sec-head">
+    <div>
+      <div class="kicker">Stage 1 · Production Prompt</div>
+      <h2>Copyable SCION / ALLWAYS Prompt</h2>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="btn" id="copy-btn-2" onclick="copyPrompt()">Copy Full Prompt</button>
+      <span id="copy-msg" style="font:11px var(--mono);color:var(--mint);align-self:center"></span>
+    </div>
+  </div>
+  <pre class="prompt-box" id="prompt-raw"># SCION 096 // BLA BLA — Gesture and Response Fable
+## Autonomous evolving cinema / documentary / database swarm · standalone prompt
+
+**Family:** Interactive and database media
+**Operator lineage:** BLA BLA, 2011 — Vincent Morisset/AATOAA with Caroline Robert, Philippe Lambert and Édouard Lanctôt-Benoit; NFB.
+**Requested reference:** BLA BLA (2011) — Vincent Morisset
+**Reference status:** verified_description. See the research record below.
+**Execution mode:** interactive_documentary
+**Interpretation:** This is a newly authored operational prompt inspired by documented work. It does not claim that the credited artists wrote or endorsed it. Its proposed proof is an original experiment. Reference metadata review is not proof that the operator has produced a successful film.
+
+You are **SCION-096-BLA-BLA-GESTURE-AND-RESPONSE-FABLE**. Produce a finished watchable or operable work within the user&#x27;s requested scope. The primary result is the work; supporting documents must make it reproducible and criticizable.
+
+## INPUT
+
+- `[WORK]`: the new work or question this operator should realize.
+- `[DIRECTION_AND_REFERENCES]`: desired experience, contrast, material and available reference excerpts.
+- `[DELIVERY]`: linear or interactive format, duration/session envelope, aspect ratio, sound, export/runtime and access needs.
+- `[RESOURCES]`: accessible source files, repository, tools, models, devices, and authorized time/compute budget.
+- `[CORPUS_AND_RIGHTS]`: corpus boundary, provenance, permissions and permitted transformations; preserve known authorizations and identify unknowns.
+- `[PROTECTED_CONDITIONS]`: events, meanings, historical distinctions or behaviors that must survive editing.
+
+Resolve ordinary implementation choices from context. Ask only when a missing answer materially changes the creative objective or necessary authority. Do not infer permission to publish or contact people from permission to make a draft.
+
+## 1 · Creative theorem to prove
+
+Make communication emerge through timing and reciprocal response. A visitor&#x27;s gesture should change a character&#x27;s attention and conduct, while silence and waiting remain meaningful inputs. Produce a short behavioral fable whose narrative is enacted rather than unlocked by clicking a next button.
+
+**What makes this operator distinct:** Learning to See transforms camera input through a model; this operator builds reciprocal dramatic behavior from a small, inspectable vocabulary of actions and pauses.
+
+## 2 · Native formal language
+
+Preserve and manipulate these as explicit working objects:
+
+- Small character state machine with attention, invitation and withdrawal
+- Gesture vocabulary: approach, touch, hold, repeat, release and wait
+- Response envelopes with anticipation, action and recovery
+- Nonspeech vocal phrases and bodily sound cues
+- Chapter gates based on encountered relations rather than click counts
+- Recorded local input traces for replay
+
+**Protected conditions:**
+
+- Every acknowledged input has a visible or audible consequence.
+- Repeated input cannot force an immediate reset of an unfinished expressive action.
+- The character retains a recoverable quiet state; inactivity never strands the experience.
+
+Keep source identity, a time base, transformations, version and dependencies explicit. Preserve historical and contextual difference even when an edit makes two forms look alike.
+
+## 3 · Assemble the smallest capable swarm
+
+- Behavior dramaturg defines what a gesture means in each state.
+- Character builder supplies an intentionally limited expressive body.
+- Interaction and audio performer connects input timing to response.
+- Independent first-time visitor critic tests the unprompted encounter.
+
+Every role must build or verify something concrete. The independent critic receives the intended experience and actual output before the builder&#x27;s explanation. Do not invent a critic session when no independent review occurred.
+
+## 4 · Hard proof; produce before scaling
+
+Make a ninety-second fable with one original figure and one movable object. In the first movement, hovering nearby or a touch approximation makes the figure notice the visitor; immediate repeated tapping makes its response hurried and eventually guarded. In the second, the figure offers the object only after a pause. Holding it briefly produces a sustained tone and changes the figure&#x27;s posture. Pulling abruptly causes the figure to retain it; waiting allows a voluntary release. In the final movement, the visitor can return the object or remain still. Both lead to distinct, completed endings, with a clear invitation to begin again. Sound is part of turn-taking: the figure&#x27;s short syllables have space for the visitor&#x27;s gesture, and overlapping gestures interrupt a musical phrase rather than merely increasing volume. Provide touch, pointer and keyboard equivalents. The proof uses drawn or crafted characters and credited synthetic sound, with no claim to depict a real person&#x27;s mental state.
+
+Save a recoverable draft. Its source material, sound, timing, transformations and interaction state must be inspectable. Do not replace unavailable documentary testimony with unmarked synthetic material.
+
+## 5 · Acceptance tribunal
+
+**Judge by watching or operating the proof:**
+
+- A viewer discovers at least one responsive relationship without reading a control manual.
+- Waiting produces a legible change rather than feeling like broken input.
+- The figure appears to have a limited disposition without random, inexplicable responses.
+- Each ending completes the encounter emotionally and offers a recoverable restart.
+- The keyboard path preserves timing and agency rather than becoming a next-screen shortcut.
+
+**Structural or automated checks, only where the representation supports them:**
+
+- Exercise rapid-input and no-input traces to verify state reachability and recovery.
+- Assert that only one response owns a conflicting body or sound channel at a time.
+
+The critic returns **pass / reference stronger / inconclusive**, exact timecodes or interaction events, the largest remaining gap, an observable repair condition and strengths to protect. Distinguish measured checks from perceptual judgments. Leave execution and acceptance marked pending until they happen.
+
+## 6 · Repair through discriminating experiments
+
+- **Failure:** The work feels like a button-operated animation. **Hypothesis:** Inputs only start prewritten clips and never alter a relationship. **Experiment:** Hold the artwork constant while adding response to timing and repetition; compare visitor interpretations.
+- **Failure:** The figure appears punitive or arbitrary. **Hypothesis:** State transitions lack readable anticipation. **Experiment:** Compare immediate withdrawal with a staged notice, hesitation and withdrawal.
+
+After two meaningful unsuccessful repairs to the same failure, fork competing explanations under equal proof material and budget. Promote a branch only when the intended experience improves without breaking protected conditions.
+
+## 7 · Discovery and recursive expansion
+
+- Introduce a second figure only when it creates a new communicative relation.
+- Build later chapters from learned gestures whose meaning changes, while preserving their physical intelligibility.
+
+Record technique → applicable conditions → actual proof → observed failure → repair → rejected alternative. Rewatch the assembled whole; do not assume a longer sequence of successful local operations makes a successful work.
+
+## 8 · Deliverable contract
+
+- Playable three-movement fable and two completed endings
+- State chart, gesture-to-response table, audio envelopes and input-trace critic report
+
+Include the current playable artifact, revision identifier, source/transform record, actual critic verdict or pending status, and the largest unresolved limitation. Preserve an accepted checkpoint before major changes.
+
+**Possible ALLWAYS applications:** ALMOST HUMAN, OPERATIVE CINEMA, ALLWAYS imprint.
+
+## INHERITED SCION DOCTRINE — BUILD, INSPECT, REPAIR
+
+1. **Viewer experience first.** State one specific perceptual or interactive achievement. Name the attractive but empty result this project must avoid. A subject, mood board or similarity score is not a film.
+2. **Inspect the lineage.** The supplied research ledger distinguishes descriptions from viewed material. Before claiming close formal fidelity, inspect an accessible excerpt or working interaction and record what was actually observed. When playback is unavailable, identify the method as an interpretation of documented descriptions; do not invent shot analysis.
+3. **Hard proof before scale.** Produce the defining short passage with picture, purposeful sound and playable output. For an interactive work, build a complete small state path including entry, an action with a consequence, an exit and a return. Do not begin by accumulating a giant archive.
+4. **Material and source integrity.** Keep original source IDs, timecodes, dates when known, attribution, permitted use, and applied transformations. Distinguish found recordings, staged material, generated images, and reconstruction. A synthetic stand-in is not documentary evidence. Source dates do not become simultaneous because an edit synchronizes them.
+5. **Native working state.** Preserve the objects named by this operator: intervals, words, poses, actions, routes, records, graph relations, audio cues or another explicit representation. Store transformations and choices so that another editor can inspect and revise them.
+6. **Small accountable swarm.** Every role owns an artifact or a verification. Merge roles when coordination becomes costly. Keep an independent critic for the defining achievement. Respect the user&#x27;s existing authority; do not seek arbitrary approval for routine reversible work or publish/contact others beyond the authorized scope.
+7. **Sound and duration are structural.** Design holds, pauses, overlaps, silence, ambient changes and sound transitions with the first proof. Preserve source silence where relevant; label newly composed sound. Never claim that music, an animation or a cut establishes a person&#x27;s private feeling.
+8. **Independent criticism.** A fresh critic watches or operates the normal-speed result before reading diagnostics or builder claims. Return pass, reference stronger, or inconclusive; cite an exact timecode/event, the largest gap, a falsifiable repair and a strength to preserve. &#x27;Reference stronger&#x27; requires an actually inspected comparable reference. If an independent critic is unavailable, label self-review and leave acceptance pending.
+9. **Repair causes.** Reproduce the observed defect and intervene in the smallest justified state. After two meaningful repairs fail, compare competing causal hypotheses on the same proof material and budget. Do not add effects, agents or footage just to conceal the defect.
+10. **Two kinds of evidence.** Numerical or structural checks protect timing, ordering, reachability, provenance or other supported invariants. Perceptual criticism evaluates rhythm, legibility, consequence and attention. Neither substitutes for the other, and no score proves artistic value. Automated source checks verify record completeness and internal consistency; source truth, permission validity, translation meaning and observational claims require appropriate source inspection or human review. Report which review actually occurred.
+11. **Whole-work judgment.** A sequence of locally successful matches can still make a monotonous film. Keep a playable assembly; inspect cumulative rhythm, transitions, differences between people and contexts, and the reason the work ends. Preserve productive seams and interruptions.
+12. **Truthful stopping and delivery.** Stop at independent acceptance, the user&#x27;s stop, the authorized budget, or a justified no-progress boundary. Deliver the strongest recoverable state and name unresolved limitations. Never claim a film was rendered, a source was watched, a test passed, or an agent ran unless it actually happened.
+
+**Tool boundary:** Use real available tools. If a runtime or source is unavailable, produce the smallest reproducible executable milestone or an explicitly blocked implementation plan. Do not narrate an imaginary execution. This prompt authorizes only the scope supplied by its user.
+
+## START
+
+Read the inputs and actual source material. State the creative theorem and protected conditions. Build the proof with picture and sound or an operable interaction. Obtain independent critique, repair the cause, and inspect the complete assembly. Expand only after the defining operation is perceptible.
+
+
+## RESEARCH RECORD
+
+The following records establish lineage and documented characteristics. Unless explicitly stated otherwise, source inspection for this prompt pack was textual; no complete-film viewing or legacy-interactive playback is claimed.
+
+1. [Bla Bla — NFB Collection](https://collection.nfb.ca/interactive/bla_bla) — Six-chapter interactive work, creators, animation, programming and sound credits. Evidence: official_description; inspection: text_only.
+2. [Introducing BLA BLA, a new interactive tale by Vincent Morisset](https://blog.nfb.ca/blog/2011/05/10/introducing-bla-bla-a-new-interactive-tale-by-vincent-morisset/) — Creator interview describing action-dependent participation, behavioral possibilities and a film-for-computer approach. Evidence: creator_statement; inspection: text_only.
+
+**Metadata notes and unresolved questions:**
+
+- Credit the animation, design, sound and programming collaborators rather than treating the work as an isolated director&#x27;s algorithm.
+</pre>
+
+  <div class="sec-head">
+    <div>
+      <div class="kicker">Stage 2 · Archive Forage, Captured Frames & Editorial Rationale</div>
+      <h2>Captured Shots & Why Each Was Chosen (6 Cuts)</h2>
+    </div>
+    <span style="font:11px var(--mono);color:var(--muted)">Click any shot to scrub video</span>
+  </div>
+  <div class="shots-list">
+    
+            <article class="shot-card is-card" onclick="seekTo(0.00)">
+              <div class="shot-media card-placeholder">
+                <span>TITLE CARD</span>
+                <span class="shot-time">SEG #01 · 0.0s–3.0s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source"><strong>OPENING SLATE</strong> <span>(3.0s)</span></div>
+                <div class="shot-what">Six chapters of human-and-puppet interaction: greeting, mimicry, overwhelm, and parting</div>
+                <div class="shot-why"><strong>Why Included:</strong> Structural framing slate / audit card required by operator deliverable contract.</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(3.00)">
+              <div class="shot-media">
+                <img src="../thumbs/5fff6b00-721f-5111-994a-44082a7f6a19.jpg" alt="Captured frame from [Amateur films: Ivan Besse collection: Britton, South Dakota 1938-39] (Part X)" loading="lazy">
+                <span class="shot-time">CUT #02 · 3.0s–7.5s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>[Amateur films: Ivan Besse collection: Britton, South Dakota 1938-39] (Part X) (1938)</strong>
+                  <span>clip <code>5fff6b00</code> · source window <code>0.50s–5.00s</code> (4.50s) <a href="https://www.movingimagearchive.com/sources/amateur-films-ivan-besse-collection-britton-south-dakota-1938-39-part-x-6f1116b2?clip=5fff6b00-721f-5111-994a-44082a7f6a19" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> Ivan Besse Collection (1938): A child stands smiling directly toward the viewer — the opening invitation</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>STATE 1: INVITATION</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from [Amateur films: Ivan Besse collection: Britton, South Dakota 1938-39] (Part X) (1938) because the visible gesture directly  establishes phase [CHAPTER I (FIRST CONTACT) · SMILING GREETING TO THE LENS (1938)], and executes the formal bridge (STATE 1: INVITATION), and anchors the opening perceptual premise before any cross-source comparison begins. Window 0.50s–5.00s (4.50s) verified cut-free (motion Δ=27.1, luma=67.8, audio=-46.5 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(7.50)">
+              <div class="shot-media">
+                <img src="../thumbs/3d112400-72c3-58b8-a215-870905dcc49a.jpg" alt="Captured frame from [Amateur film: Medicus collection: New York World&#x27;s Fair, 1939-40] (Reel 5) (Part I)" loading="lazy">
+                <span class="shot-time">CUT #03 · 7.5s–12.3s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>[Amateur film: Medicus collection: New York World&#x27;s Fair, 1939-40] (Reel 5) (Part I) (1939)</strong>
+                  <span>clip <code>3d112400</code> · source window <code>0.50s–5.30s</code> (4.80s) <a href="https://www.movingimagearchive.com/sources/amateur-film-medicus-collection-new-york-world-s-fair-1939-40-reel-5-part-i-6474d159?clip=3d112400-72c3-58b8-a215-870905dcc49a" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> Medicus Collection (1939): A miniature puppet stage where gestures answer the Invisible hand</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>STATE 2: MANIPULATED RESPONSE</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from [Amateur film: Medicus collection: New York World&#x27;s Fair, 1939-40] (Reel 5) (Part I) (1939) because the visible gesture directly  establishes phase [CHAPTER II (PUPPETRY) · SMALL PUPPET STAGE IN MOTION (1939)], and executes the formal bridge (STATE 2: MANIPULATED RESPONSE), and advances cut 2/6 of the theorem while preserving distinct historical provenance (1939). Window 0.50s–5.30s (4.80s) verified cut-free (motion Δ=13.7, luma=66.5, audio=-44.2 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(12.30)">
+              <div class="shot-media">
+                <img src="../thumbs/e5e60119-630f-52e2-bf1a-d3e1f72dfc90.jpg" alt="Captured frame from We Learn About the Telephone I" loading="lazy">
+                <span class="shot-time">CUT #04 · 12.3s–17.1s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>We Learn About the Telephone I (1965)</strong>
+                  <span>clip <code>e5e60119</code> · source window <code>0.50s–5.30s</code> (4.80s) <a href="https://www.movingimagearchive.com/sources/we-learn-about-the-telephone-i?clip=e5e60119-630f-52e2-bf1a-d3e1f72dfc90" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> We Learn About the Telephone (1965): Two animated figures trading chatter across the frame</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>STATE 3: RECIPROCAL CHATTER</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from We Learn About the Telephone I (1965) because the visible gesture directly  establishes phase [CHAPTER III (CONVERSATION) · TWO CARTOON FIGURES EYE TO EYE (1965)], and executes the formal bridge (STATE 3: RECIPROCAL CHATTER), and advances cut 3/6 of the theorem while preserving distinct historical provenance (1965). Window 0.50s–5.30s (4.80s) verified cut-free (motion Δ=19.8, luma=119.7, audio=-22.7 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(17.10)">
+              <div class="shot-media">
+                <img src="../thumbs/578e520e-0e34-5416-893e-353f353544fd.jpg" alt="Captured frame from Drive-in Intermission 6" loading="lazy">
+                <span class="shot-time">CUT #05 · 17.1s–20.5s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>Drive-in Intermission 6 ()</strong>
+                  <span>clip <code>578e520e</code> · source window <code>0.09s–3.49s</code> (3.40s) <a href="https://www.movingimagearchive.com/sources/drive-in-intermission-6-35c5e244?clip=578e520e-0e34-5416-893e-353f353544fd" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> Drive-in Intermission: Rapidly accelerating graphic swirl when interaction crosses into frenzy</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>STATE 4: KINETIC OVERFLOW</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from Drive-in Intermission 6 (None) because the visible gesture directly  establishes phase [CHAPTER IV (OVERLOAD) · ANIMATED SWIRL OF COLOR], and executes the formal bridge (STATE 4: KINETIC OVERFLOW), and advances cut 4/6 of the theorem while preserving distinct historical provenance (None). Window 0.09s–3.49s (3.40s) verified cut-free (motion Δ=17.9, luma=129.0, audio=-22.5 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(20.50)">
+              <div class="shot-media">
+                <img src="../thumbs/9747ba82-5240-548c-a2bd-c6dc008976a6.jpg" alt="Captured frame from The Snow Queen (Animation)" loading="lazy">
+                <span class="shot-time">CUT #06 · 20.5s–25.3s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>The Snow Queen (Animation) (1959)</strong>
+                  <span>clip <code>9747ba82</code> · source window <code>0.50s–5.30s</code> (4.80s) <a href="https://www.movingimagearchive.com/sources/the-snow-queen-animation-988e29a4?clip=9747ba82-5240-548c-a2bd-c6dc008976a6" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> The Snow Queen (1959): After the frenzy subsides, a quiet lantern drifts across the dark</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>STATE 5: QUIETUDE</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from The Snow Queen (Animation) (1959) because the visible gesture directly  establishes phase [CHAPTER V (NOCTURNE) · LANTERN FLOATING THROUGH ANIMATED NIGHT (1959)], and executes the formal bridge (STATE 5: QUIETUDE), and advances cut 5/6 of the theorem while preserving distinct historical provenance (1959). Window 0.50s–5.30s (4.80s) verified cut-free (motion Δ=20.0, luma=69.1, audio=-17.7 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(25.30)">
+              <div class="shot-media">
+                <img src="../thumbs/46874a7c-ade8-50d9-bc08-229951262a4b.jpg" alt="Captured frame from Let Yourself Go" loading="lazy">
+                <span class="shot-time">CUT #07 · 25.3s–30.1s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>Let Yourself Go (1940)</strong>
+                  <span>clip <code>46874a7c</code> · source window <code>0.50s–5.30s</code> (4.80s) <a href="https://www.movingimagearchive.com/sources/let-yourself-go-d27b607b?clip=46874a7c-ade8-50d9-bc08-229951262a4b" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> Let Yourself Go (1940): The figure steps through the doorway, closing the interactive fable</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>STATE 6: PARTING</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from Let Yourself Go (1940) because the visible gesture directly  establishes phase [CHAPTER VI (DEPARTURE) · OPENING A DOOR ONTO DARKNESS (1940)], and executes the formal bridge (STATE 6: PARTING), and completes the terminal return/aftermath hold required by the operator theorem. Window 0.50s–5.30s (4.80s) verified cut-free (motion Δ=24.4, luma=75.3, audio=-18.1 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card is-card" onclick="seekTo(30.10)">
+              <div class="shot-media card-placeholder">
+                <span>CLOSING LEDGER</span>
+                <span class="shot-time">SEG #08 · 30.1s–33.6s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source"><strong>CLOSING LEDGER</strong> <span>(3.5s)</span></div>
+                <div class="shot-what">Linearizes Morisset&#x27;s chaptered interaction grammar using puppetry (`3d112400`), animated binomials (`e5e60119`), and kinetic response (`578e520e`).</div>
+                <div class="shot-why"><strong>Why Included:</strong> Structural framing slate / audit card required by operator deliverable contract.</div>
+              </div>
+            </article>
+  </div>
+
+  <div class="sec-head">
+    <div>
+      <div class="kicker">Stage 3 · Independent Critic Tribunal & Verification</div>
+      <h2>Temporal Proof Strips & Diagnostic Audit</h2>
+    </div>
+    <a class="btn sec" href="../strips/SCION_096_Bla_Bla_Gesture_Response_Fable_v2_strip.jpg" target="_blank">Open Full-Res Strip ↗</a>
+  </div>
+  <div class="strip-label">Verified v2 Temporal Proof Strip (8 evenly spaced frames + waveform/timecode audit)</div>
+  <img class="strip-img" src="../strips/SCION_096_Bla_Bla_Gesture_Response_Fable_v2_strip.jpg" alt="v2 proof strip">
+  
+  
+        <div class="trib-box pass">
+          <div class="label">Two-Layer Critic Tribunal Verification</div>
+          <p><strong>Strength Preserved:</strong> </p>
+          <p><strong>Final Verdict:</strong> <code>PASS (v2 · 0 structural or perceptual issues across 6 archival cuts)</code></p>
+        </div>
+
+  <nav class="nav-foot">
+    <a href="SCION_095_Bear_71_Surveillance_Countermap.html">← #44 Bear 71 — Situated Surveillance Countermap</a>
+    <a href="../index.html#film=SCION_096_Bla_Bla_Gesture_Response_Fable">Back to 85-Film Screening Room ↗</a>
+    <a href="SCION_097_Welcome_To_Pine_Point_Scrapbook.html">#46 Welcome to Pine Point — Remembered Place Scrapbook →</a>
+  </nav>
+</main>
+<script>
+function seekTo(sec) {
+  const v = document.getElementById('v');
+  v.currentTime = sec;
+  v.play().catch(()=>{});
+  v.scrollIntoView({behavior:'smooth', block:'center'});
+}
+function copyPrompt() {
+  const txt = document.getElementById('prompt-raw').textContent;
+  navigator.clipboard.writeText(txt).then(() => {
+    const msg = document.getElementById('copy-msg');
+    msg.textContent = 'COPIED TO CLIPBOARD ✓';
+    setTimeout(() => msg.textContent = '', 2500);
+  });
+}
+</script>
+</body>
+</html>

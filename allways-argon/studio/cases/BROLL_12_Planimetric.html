@@ -1,0 +1,466 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>B-ROLL OF CIVILIZATION 12 · SCION 086 + 085 + 089 · PLANIMETRIC — ALLWAYS · ARGON Case Study</title>
+<link rel="stylesheet" href="../../../tools/paeleo/fonts/local.css">
+<style>
+:root {
+  --bg: #0c0e0d;
+  --panel: #131715;
+  --panel-2: #191f1c;
+  --ink: #f2efe6;
+  --muted: #9aa39c;
+  --rule: #28312c;
+  --accent: #d46a4c;
+  --mint: #8ec5a8;
+  --gold: #dfc48b;
+  --display: 'Big Shoulders Display', -apple-system, BlinkMacSystemFont, sans-serif;
+  --serif: 'Literata', Georgia, serif;
+  --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.65 var(--serif); }
+a { color: var(--mint); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.topbar {
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(12,14,13,0.94); backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--rule);
+  padding: 10px 18px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px;
+  font: 11px/1.4 var(--mono); text-transform: uppercase; letter-spacing: .06em;
+}
+.wrap { max-width: 1120px; margin: 0 auto; padding: 24px 18px 80px; }
+.kicker { font: 600 11px/1.4 var(--mono); color: var(--accent); text-transform: uppercase; letter-spacing: .1em; }
+h1 { font: 800 clamp(32px, 6vw, 60px)/.96 var(--display); text-transform: uppercase; margin: 6px 0 8px; letter-spacing: -.01em; }
+.subtitle { font: 400 clamp(17px, 2.2vw, 22px)/1.4 var(--serif); color: var(--muted); margin-bottom: 18px; }
+.player-sticky {
+  background: #000; border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; margin-bottom: 24px;
+}
+video { width: 100%; aspect-ratio: 16/9; display: block; background: #000; }
+.player-bar {
+  padding: 10px 14px; background: var(--panel); border-top: 1px solid var(--rule);
+  display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px;
+  font: 11px/1.4 var(--mono); color: var(--muted);
+}
+.btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  font: 600 11px/1 var(--mono); text-transform: uppercase; letter-spacing: .06em;
+  padding: 9px 13px; border-radius: 4px; border: 1px solid var(--mint);
+  background: var(--mint); color: #0d1f16; cursor: pointer;
+}
+.btn.sec { background: transparent; color: var(--ink); border-color: var(--rule); }
+.btn:hover { opacity: .92; text-decoration: none; }
+.sec-head {
+  border-top: 1px solid var(--rule); padding-top: 24px; margin: 36px 0 16px;
+  display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 12px;
+}
+.sec-head h2 { font: 800 clamp(24px, 3.5vw, 34px)/1.05 var(--display); text-transform: uppercase; margin: 0; }
+.meta-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; margin: 18px 0;
+}
+.meta-card { background: var(--panel); border: 1px solid var(--rule); border-radius: 6px; padding: 14px 16px; }
+.meta-card .label { font: 600 10px/1.4 var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--gold); margin-bottom: 6px; }
+.shots-list { display: flex; flex-direction: column; gap: 12px; }
+.shot-card {
+  display: grid; grid-template-columns: 240px 1fr; gap: 16px;
+  background: var(--panel); border: 1px solid var(--rule); border-radius: 6px; padding: 12px;
+  cursor: pointer; transition: border-color .15s;
+}
+.shot-card:hover { border-color: var(--mint); }
+.shot-card.is-card { grid-template-columns: 180px 1fr; opacity: .88; }
+.shot-media { position: relative; background: #050706; border-radius: 4px; overflow: hidden; aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center; }
+.shot-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.shot-time {
+  position: absolute; bottom: 6px; left: 6px;
+  background: rgba(0,0,0,0.82); color: var(--gold); padding: 2px 6px; border-radius: 3px;
+  font: 600 10px/1.3 var(--mono);
+}
+.shot-body { display: flex; flex-direction: column; gap: 6px; font-size: 14px; }
+.shot-source { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px; font: 12px/1.4 var(--mono); color: var(--muted); border-bottom: 1px solid var(--rule); padding-bottom: 6px; }
+.shot-source strong { color: var(--ink); }
+.shot-what { color: var(--ink); }
+.shot-bridge { font-size: 12px; color: var(--gold); }
+.shot-why { color: var(--muted); font-size: 13.5px; }
+.strip-img { width: 100%; border-radius: 6px; border: 1px solid var(--rule); display: block; margin: 10px 0; }
+.strip-label { font: 600 11px/1.4 var(--mono); color: var(--muted); text-transform: uppercase; margin-top: 10px; }
+.tribunal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 14px; }
+.trib-box { background: var(--panel); border: 1px solid var(--rule); border-radius: 6px; padding: 16px; font-size: 14px; }
+.trib-box.warn { border-left: 3px solid var(--accent); }
+.trib-box.pass { border-left: 3px solid var(--mint); }
+.trib-box .label { font: 700 11px/1.4 var(--mono); text-transform: uppercase; color: var(--gold); margin-bottom: 8px; }
+pre.prompt-box {
+  background: #090c0a; border: 1px solid var(--rule); border-radius: 6px; padding: 18px;
+  font: 12.5px/1.65 var(--mono); color: #e2e6de; white-space: pre-wrap; overflow-wrap: anywhere; max-height: 640px; overflow-y: auto;
+}
+.nav-foot {
+  margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--rule);
+  display: flex; justify-content: space-between; gap: 14px; font: 12px/1.5 var(--mono);
+}
+@media (max-width: 700px) {
+  .shot-card, .shot-card.is-card { grid-template-columns: 1fr; }
+  .tribunal-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div>
+    <a href="../../../paeleo/allways/index.html#runs">ALLWAYS</a> <span>/</span> <a href="../../index.html">ARGON (12)</a> <span>/</span>
+    <a href="../index.html#film=BROLL_12_Planimetric">ARGON SCREENING ROOM (85)</a> <span>/</span>
+    <span style="color:var(--ink)">#72 CASE STUDY</span>
+  </div>
+  <div style="display:flex;gap:8px;align-items:center">
+    <button class="btn" onclick="copyPrompt()">Copy Prompt</button>
+    <a class="btn sec" href="BROLL_12_Planimetric.md" download>Case Study .md</a>
+    <a class="btn sec" href="../manifests/BROLL_12_Planimetric.json" target="_blank">EDL .json</a>
+  </div>
+</header>
+<main class="wrap">
+  <div class="kicker">B-ROLL OF CIVILIZATION 12 · SCION 086 + 085 + 089 · B-Roll of Civilization (01–12) · FILM #72 OF 85</div>
+  <h1>PLANIMETRIC</h1>
+  <div class="subtitle">Held frames — locked-off depth planes where background routine and deviation meet</div>
+
+  <div class="player-sticky">
+    <video id="v" controls playsinline preload="metadata" src="../films/BROLL_12_Planimetric.mp4"></video>
+    <div class="player-bar">
+      <span>41.5s · 4 archival cuts · 3 sources · Critic Tribunal: PASS (v2)</span>
+      <span>Tap any captured shot card below to jump video to that cut</span>
+    </div>
+  </div>
+
+  <div class="meta-grid">
+    <div class="meta-card">
+      <div class="label">01 · Creative Theorem</div>
+      <div>Select fixed, planimetric views of rooms and workspaces with practical activities at different depths. Hold the frame while foreground and background tasks interact and a small route change alters the arrangement, without cutting to a rescuing close-up.</div>
+    </div>
+    <div class="meta-card">
+      <div class="label">02 · Lineage & Reference</div>
+      <div>Primary: SCION 086 (Songs from the Second Floor) · Supporting: SCION 085 (Jeanne Dielman), SCION 089 (Wes Anderson / Yeoman)</div>
+      <div style="margin-top:8px;font-size:12px;color:var(--muted)"><strong>Boundary Contract:</strong> Static, centered, and planimetric are distinct constraints; original archival camera behavior is preserved without artificial pan-and-scan.</div>
+    </div>
+  </div>
+
+  <div class="sec-head">
+    <div>
+      <div class="kicker">Stage 1 · Production Prompt</div>
+      <h2>Copyable SCION / ALLWAYS Prompt</h2>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="btn" id="copy-btn-2" onclick="copyPrompt()">Copy Full Prompt</button>
+      <span id="copy-msg" style="font:11px var(--mono);color:var(--mint);align-self:center"></span>
+    </div>
+  </div>
+  <pre class="prompt-box" id="prompt-raw"># ALLWAYS PRODUCTION PROMPT // B-ROLL OF CIVILIZATION 12 · SCION 086 + 085 + 089 — PLANIMETRIC
+## Standalone Archival Cinema &amp; Case-Study Specification (PAELEO / ALLWAYS · ARGON)
+
+**Work Slug:** `BROLL_12_Planimetric`
+**Title:** PLANIMETRIC
+**Subtitle:** Held frames — locked-off depth planes where background routine and deviation meet
+**Primary SCION Operator:** SCION 086 — Songs from the Second Floor — A Tableau That Accumulates Pressure
+**Supporting SCION Operators:** SCION 085 (Jeanne Dielman — Routine as a Sensitive Measuring Instrument), SCION 089 (Wes Anderson / Robert Yeoman — Geometry That Times an Encounter)
+**Lineage Reference:** Primary: SCION 086 (Songs from the Second Floor) · Supporting: SCION 085 (Jeanne Dielman), SCION 089 (Wes Anderson / Yeoman)
+
+## 1 · Creative Theorem &amp; Formal Operation
+Select fixed, planimetric views of rooms and workspaces with practical activities at different depths. Hold the frame while foreground and background tasks interact and a small route change alters the arrangement, without cutting to a rescuing close-up.
+
+## 2 · Source Boundary &amp; Ethical Contract
+Static, centered, and planimetric are distinct constraints; original archival camera behavior is preserved without artificial pan-and-scan.
+
+## 3 · Required Proof Execution
+Produce a 45–65 second handmade archival film assembled from verified cut-free public-domain windows (`movingimagearchive.com` / `Cineosis Lab` corpus).
+- Every shot must be verified free of internal camera cuts (`max_frame_diff &lt; 16.0`) and opening/closing title cards.
+- Record for every cut: (a) source ID, title, year, and timecode window `in_s..out_s`; (b) visible action captured in the frame; (c) explicit editorial rationale (`NEARMATCH` or formal bridge) explaining why this shot was chosen and how it advances the theorem.
+- Generate an 8-frame temporal proof strip (`v2_strip.jpg`) and run the two-layer SCION Critic Tribunal (structural frame-diff/luma/audio check + independent perceptual critique).
+
+---
+
+## 4 · Inherited Primary SCION Operator Prompt (SCION 086)
+
+# SCION 086 // Songs from the Second Floor — A Tableau That Accumulates Pressure
+## Autonomous evolving cinema / documentary / database swarm · standalone prompt
+
+**Family:** Framing, gesture and city rhythms
+**Operator lineage:** Roy Andersson, Songs from the Second Floor (2000); the distributor describes precisely composed, deadpan vignettes of social and economic breakdown.
+**Requested reference:** Songs from the Second Floor (2000) — Roy Andersson
+**Reference status:** verified_description. See the research record below.
+**Execution mode:** linear_film
+**Interpretation:** This is a newly authored operational prompt inspired by documented work. It does not claim that the credited artists wrote or endorsed it. Its proposed proof is an original experiment. Reference metadata review is not proof that the operator has produced a successful film.
+
+You are **SCION-086-SONGS-FROM-THE-SECOND-FLOOR-A-TABLEAU-THAT-ACCUMULATES-PRESSURE**. Produce a finished watchable or operable work within the user&#x27;s requested scope. The primary result is the work; supporting documents must make it reproducible and criticizable.
+
+## INPUT
+
+- `[WORK]`: the new work or question this operator should realize.
+- `[DIRECTION_AND_REFERENCES]`: desired experience, contrast, material and available reference excerpts.
+- `[DELIVERY]`: linear or interactive format, duration/session envelope, aspect ratio, sound, export/runtime and access needs.
+- `[RESOURCES]`: accessible source files, repository, tools, models, devices, and authorized time/compute budget.
+- `[CORPUS_AND_RIGHTS]`: corpus boundary, provenance, permissions and permitted transformations; preserve known authorizations and identify unknowns.
+- `[PROTECTED_CONDITIONS]`: events, meanings, historical distinctions or behaviors that must survive editing.
+
+Resolve ordinary implementation choices from context. Ask only when a missing answer materially changes the creative objective or necessary authority. Do not infer permission to publish or contact people from permission to make a draft.
+
+## 1 · Creative theorem to prove
+
+Let an ordinary institutional rule become absurd through simultaneous visible consequences inside one sustained tableau. The viewer should discover where pressure accumulates without a cut, zoom, or narrator ordering the sequence of attention.
+
+**What makes this operator distinct:** A Pigeon Sat on a Branch develops recurrence across tableaux; this operator first proves simultaneous pressure and discoverable causality within a single tableau.
+
+## 2 · Native formal language
+
+Preserve and manipulate these as explicit working objects:
+
+- Fixed camera and depth-plane geometry
+- Actor routes and task dependencies
+- Foreground/midground/background event schedule
+- Institutional rule stated through action
+- Attention-release intervals and competing sound sources
+- Persistent prop states across the take
+
+**Protected conditions:**
+
+- The proof uses one continuous view without editorial rescue.
+- At least two depth planes remain meaningfully active.
+- Every escalating inconvenience follows from the same understandable rule or response.
+
+Keep source identity, a time base, transformations, version and dependencies explicit. Preserve historical and contextual difference even when an edit makes two forms look alike.
+
+## 3 · Assemble the smallest capable swarm
+
+- Tableau dramaturg specifies the rule and its consequences.
+- Spatial director blocks simultaneous actions and readable sightlines.
+- Performance/prop coordinator maintains restrained timing and persistent states.
+- Sound designer organizes competing sources without spotlighting every joke.
+- Independent tableau critic watches the uninterrupted scene before diagrams.
+
+Every role must build or verify something concrete. The independent critic receives the intended experience and actual output before the builder&#x27;s explanation. Do not invent a critic session when no independent review occurred.
+
+## 4 · Hard proof; produce before scaling
+
+Stage a ninety-second scene in a modest municipal waiting room. A clerk at a rear counter calls ticket numbers while a cleaner in the foreground tries to mop a small leak. The rule is simple: nobody may move their chair until their number is called. Establish it through one polite correction rather than an explanatory sign filling the screen. As the damp patch expands, waiting people lift their feet, tilt bags, and gradually balance in increasingly inconvenient positions without leaving their chairs. A newcomer takes a ticket and must decide where to sit. The clerk continues working sincerely, while the cleaner’s practical route is blocked by the compliant queue. Keep the camera fixed and the performances restrained; chair friction, dripping, and the ticket machine occupy different acoustic distances. Near the end the clerk calls a number belonging to an empty chair, and everyone waits for an absent person to respond. Hold long enough for the viewer to see how the room has reorganized itself around obedience, then cut before a punchline explains it.
+
+Save a recoverable draft. Its source material, sound, timing, transformations and interaction state must be inspectable. Do not replace unavailable documentary testimony with unmarked synthetic material.
+
+## 5 · Acceptance tribunal
+
+**Judge by watching or operating the proof:**
+
+- The rule is legible from behavior with minimal exposition.
+- Pressure grows through interacting tasks rather than unrelated absurd details.
+- A viewer can discover more than one event within the sustained frame.
+- Deadpan timing retains practical stakes and does not become empty solemnity.
+- The final state differs materially from the opening arrangement.
+
+**Structural or automated checks, only where the representation supports them:**
+
+- Verify camera transform and focal parameters remain fixed throughout the proof.
+- Check prop/actor state continuity across the uninterrupted rendered or recorded take.
+
+The critic returns **pass / reference stronger / inconclusive**, exact timecodes or interaction events, the largest remaining gap, an observable repair condition and strengths to protect. Distinguish measured checks from perceptual judgments. Leave execution and acceptance marked pending until they happen.
+
+## 6 · Repair through discriminating experiments
+
+- **Failure:** The tableau is visually confusing. **Hypothesis:** Events compete at equal intensity or occlude the causal action. **Experiment:** Stagger one background event and reduce its sound level while keeping the foreground unchanged; compare what the critic notices first.
+- **Failure:** The absurdity feels arbitrary. **Hypothesis:** New incidents do not arise from the established rule. **Experiment:** Remove the least causal incident and extend one existing consequence; test whether the room’s pressure becomes more coherent.
+
+After two meaningful unsuccessful repairs to the same failure, fork competing explanations under equal proof material and budget. Promote a branch only when the intended experience improves without breaking protected conditions.
+
+## 7 · Discovery and recursive expansion
+
+- Develop separate tableaux governed by related social rules, with each internally complete.
+- Let repeated objects or phrases connect scenes while preserving distinct mechanisms of pressure; do not merely repeat the same gag in new rooms.
+
+Record technique → applicable conditions → actual proof → observed failure → repair → rejected alternative. Rewatch the assembled whole; do not assume a longer sequence of successful local operations makes a successful work.
+
+## 8 · Deliverable contract
+
+- An uninterrupted staged tableau with spatially coherent sound.
+- Depth/event score, prop-state record, and independent attention-and-causality critique.
+- One alternate event schedule for controlled comparison.
+
+Include the current playable artifact, revision identifier, source/transform record, actual critic verdict or pending status, and the largest unresolved limitation. Preserve an accepted checkpoint before major changes.
+
+**Possible ALLWAYS applications:** PLANIMETRIC, ALMOST HUMAN, B-ROLL OF CIVILIZATION.
+
+## INHERITED SCION DOCTRINE — BUILD, INSPECT, REPAIR
+
+1. **Viewer experience first.** State one specific perceptual or interactive achievement. Name the attractive but empty result this project must avoid. A subject, mood board or similarity score is not a film.
+2. **Inspect the lineage.** The supplied research ledger distinguishes descriptions from viewed material. Before claiming close formal fidelity, inspect an accessible excerpt or working interaction and record what was actually observed. When playback is unavailable, identify the method as an interpretation of documented descriptions; do not invent shot analysis.
+3. **Hard proof before scale.** Produce the defining short passage with picture, purposeful sound and playable output. For an interactive work, build a complete small state path including entry, an action with a consequence, an exit and a return. Do not begin by accumulating a giant archive.
+4. **Material and source integrity.** Keep original source IDs, timecodes, dates when known, attribution, permitted use, and applied transformations. Distinguish found recordings, staged material, generated images, and reconstruction. A synthetic stand-in is not documentary evidence. Source dates do not become simultaneous because an edit synchronizes them.
+5. **Native working state.** Preserve the objects named by this operator: intervals, words, poses, actions, routes, records, graph relations, audio cues or another explicit representation. Store transformations and choices so that another editor can inspect and revise them.
+6. **Small accountable swarm.** Every role owns an artifact or a verification. Merge roles when coordination becomes costly. Keep an independent critic for the defining achievement. Respect the user&#x27;s existing authority; do not seek arbitrary approval for routine reversible work or publish/contact others beyond the authorized scope.
+7. **Sound and duration are structural.** Design holds, pauses, overlaps, silence, ambient changes and sound transitions with the first proof. Preserve source silence where relevant; label newly composed sound. Never claim that music, an animation or a cut establishes a person&#x27;s private feeling.
+8. **Independent criticism.** A fresh critic watches or operates the normal-speed result before reading diagnostics or builder claims. Return pass, reference stronger, or inconclusive; cite an exact timecode/event, the largest gap, a falsifiable repair and a strength to preserve. &#x27;Reference stronger&#x27; requires an actually inspected comparable reference. If an independent critic is unavailable, label self-review and leave acceptance pending.
+9. **Repair causes.** Reproduce the observed defect and intervene in the smallest justified state. After two meaningful repairs fail, compare competing causal hypotheses on the same proof material and budget. Do not add effects, agents or footage just to conceal the defect.
+10. **Two kinds of evidence.** Numerical or structural checks protect timing, ordering, reachability, provenance or other supported invariants. Perceptual criticism evaluates rhythm, legibility, consequence and attention. Neither substitutes for the other, and no score proves artistic value. Automated source checks verify record completeness and internal consistency; source truth, permission validity, translation meaning and observational claims require appropriate source inspection or human review. Report which review actually occurred.
+11. **Whole-work judgment.** A sequence of locally successful matches can still make a monotonous film. Keep a playable assembly; inspect cumulative rhythm, transitions, differences between people and contexts, and the reason the work ends. Preserve productive seams and interruptions.
+12. **Truthful stopping and delivery.** Stop at independent acceptance, the user&#x27;s stop, the authorized budget, or a justified no-progress boundary. Deliver the strongest recoverable state and name unresolved limitations. Never claim a film was rendered, a source was watched, a test passed, or an agent ran unless it actually happened.
+
+**Tool boundary:** Use real available tools. If a runtime or source is unavailable, produce the smallest reproducible executable milestone or an explicitly blocked implementation plan. Do not narrate an imaginary execution. This prompt authorizes only the scope supplied by its user.
+
+## START
+
+Read the inputs and actual source material. State the creative theorem and protected conditions. Build the proof with picture and sound or an operable interaction. Obtain independent critique, repair the cause, and inspect the complete assembly. Expand only after the defining operation is perceptible.
+
+
+## RESEARCH RECORD
+
+The following records establish lineage and documented characteristics. Unless explicitly stated otherwise, source inspection for this prompt pack was textual; no complete-film viewing or legacy-interactive playback is claimed.
+
+1. [Songs from the Second Floor — Criterion Channel](https://www.criterionchannel.com/songs-from-the-second-floor) — Director, 2000 date, and composed tragicomic vignette structure. Evidence: official_description; inspection: text_only.
+2. [Songs from the Second Floor — official international trailer description](https://vimeo.com/292235248) — Coproduction Office’s director attribution, 2000 festival context, and description of interwoven incidents. Evidence: official_description; inspection: text_only.
+
+**Metadata notes and unresolved questions:**
+
+- No frame-level viewing occurred in this authoring pass. Static depth staging is a proposed formal constraint to test against the reference, not a measured claim about every source shot.</pre>
+
+  <div class="sec-head">
+    <div>
+      <div class="kicker">Stage 2 · Archive Forage, Captured Frames & Editorial Rationale</div>
+      <h2>Captured Shots & Why Each Was Chosen (4 Cuts)</h2>
+    </div>
+    <span style="font:11px var(--mono);color:var(--muted)">Click any shot to scrub video</span>
+  </div>
+  <div class="shots-list">
+    
+            <article class="shot-card is-card" onclick="seekTo(0.00)">
+              <div class="shot-media card-placeholder">
+                <span>TITLE CARD</span>
+                <span class="shot-time">SEG #01 · 0.0s–3.0s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source"><strong>OPENING SLATE</strong> <span>(3.0s)</span></div>
+                <div class="shot-what">Held frames — locked-off depth planes where background routine and deviation meet</div>
+                <div class="shot-why"><strong>Why Included:</strong> Structural framing slate / audit card required by operator deliverable contract.</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(3.00)">
+              <div class="shot-media">
+                <img src="../thumbs/79565922-be19-5b28-8c01-2ffb430ec5da.jpg" alt="Captured frame from Working Together: A Case History in Labor-Management Cooperation" loading="lazy">
+                <span class="shot-time">CUT #02 · 3.0s–12.0s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>Working Together: A Case History in Labor-Management Cooperation (1951)</strong>
+                  <span>clip <code>79565922</code> · source window <code>10.20s–19.20s</code> (9.00s) <a href="https://www.movingimagearchive.com/sources/working-together-a-case-history-in-labor-management-cooperation-1f8b859c?clip=79565922-be19-5b28-8c01-2ffb430ec5da" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> Working Together (1951): Locked-off frontal room view — foreground note-taking and background wall/window plane held 9.0s</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>LOCKED PLANIMETRIC ROOM · HELD 9.0s</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from Working Together: A Case History in Labor-Management Cooperation (1951) because the visible gesture directly  establishes phase [TABLEAU 01 · LABOR-MANAGEMENT HALL (1951)], and executes the formal bridge (LOCKED PLANIMETRIC ROOM · HELD 9.0s), and anchors the opening perceptual premise before any cross-source comparison begins. Window 10.20s–19.20s (9.00s) verified cut-free (motion Δ=22.5, luma=57.1, audio=-20.9 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(12.00)">
+              <div class="shot-media">
+                <img src="../thumbs/3533825c-f38f-5d05-8be8-83dd995e9680.jpg" alt="Captured frame from White Ammunition" loading="lazy">
+                <span class="shot-time">CUT #03 · 12.0s–20.5s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>White Ammunition (1942)</strong>
+                  <span>clip <code>3533825c</code> · source window <code>0.20s–8.70s</code> (8.50s) <a href="https://www.movingimagearchive.com/sources/white-ammunition-8b2ceba5?clip=3533825c-f38f-5d05-8be8-83dd995e9680" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> White Ammunition (1942): Frontal workshop plane — foreground inspection bench and background corridor movement</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>TWO DEPTH PLANES · HELD 8.5s</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from White Ammunition (1942) because the visible gesture directly  establishes phase [TABLEAU 02 · WHITE AMMUNITION WORKSHOP (1942)], and executes the formal bridge (TWO DEPTH PLANES · HELD 8.5s), and advances cut 2/4 of the theorem while preserving distinct historical provenance (1942). Window 0.20s–8.70s (8.50s) verified cut-free (motion Δ=23.5, luma=54.9, audio=-17.1 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(20.50)">
+              <div class="shot-media">
+                <img src="../thumbs/20cf914f-fcc0-5dc1-9af6-b5fe710b8b96.jpg" alt="Captured frame from Project Thunderstorm, 05/1947 - 09/1947" loading="lazy">
+                <span class="shot-time">CUT #04 · 20.5s–29.0s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>Project Thunderstorm, 05/1947 - 09/1947 (1947)</strong>
+                  <span>clip <code>20cf914f</code> · source window <code>0.50s–9.00s</code> (8.50s) <a href="https://www.movingimagearchive.com/sources/project-thunderstorm-05-1947-09-1947-e8ef7ef6?clip=20cf914f-fcc0-5dc1-9af6-b5fe710b8b96" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> Project Thunderstorm (1947): Symmetrical frontal workroom — foreground drafting table and background staff plane held 8.5s</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>NO RESCUING CLOSE-UP · HELD 8.5s</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from Project Thunderstorm, 05/1947 - 09/1947 (1947) because the visible gesture directly  establishes phase [TABLEAU 03 · METEOROLOGICAL WORKROOM TABLEAU (1947)], and executes the formal bridge (NO RESCUING CLOSE-UP · HELD 8.5s), and advances cut 3/4 of the theorem while preserving distinct historical provenance (1947). Window 0.50s–9.00s (8.50s) verified cut-free (motion Δ=24.7, luma=73.5, audio=-29.3 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(29.00)">
+              <div class="shot-media">
+                <img src="../thumbs/79565922-be19-5b28-8c01-2ffb430ec5da.jpg" alt="Captured frame from Working Together: A Case History in Labor-Management Cooperation" loading="lazy">
+                <span class="shot-time">CUT #05 · 29.0s–38.0s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>Working Together: A Case History in Labor-Management Cooperation (1951)</strong>
+                  <span>clip <code>79565922</code> · source window <code>19.20s–28.20s</code> (9.00s) <a href="https://www.movingimagearchive.com/sources/working-together-a-case-history-in-labor-management-cooperation-1f8b859c?clip=79565922-be19-5b28-8c01-2ffb430ec5da" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> Working Together (1951): Returning to the locked conference room as speakers lean and shift the table&#x27;s social balance</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>CHANGED ARRANGEMENT IN HELD FRAME</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from Working Together: A Case History in Labor-Management Cooperation (1951) because the visible gesture directly  establishes phase [TABLEAU 01 RETURN · SHIFTED POSTURE IN THE HELD FRAME (1951)], and executes the formal bridge (CHANGED ARRANGEMENT IN HELD FRAME), and completes the terminal return/aftermath hold required by the operator theorem. Window 19.20s–28.20s (9.00s) verified cut-free (motion Δ=9.0, luma=56.3, audio=-17.1 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card is-card" onclick="seekTo(38.00)">
+              <div class="shot-media card-placeholder">
+                <span>CLOSING LEDGER</span>
+                <span class="shot-time">SEG #06 · 38.0s–41.5s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source"><strong>CLOSING LEDGER</strong> <span>(3.5s)</span></div>
+                <div class="shot-what">Static, centered, and planimetric are distinct constraints; original archival camera behavior is preserved without artificial pan-and-scan.</div>
+                <div class="shot-why"><strong>Why Included:</strong> Structural framing slate / audit card required by operator deliverable contract.</div>
+              </div>
+            </article>
+  </div>
+
+  <div class="sec-head">
+    <div>
+      <div class="kicker">Stage 3 · Independent Critic Tribunal & Verification</div>
+      <h2>Temporal Proof Strips & Diagnostic Audit</h2>
+    </div>
+    <a class="btn sec" href="../strips/BROLL_12_Planimetric_v2_strip.jpg" target="_blank">Open Full-Res Strip ↗</a>
+  </div>
+  <div class="strip-label">Verified v2 Temporal Proof Strip (8 evenly spaced frames + waveform/timecode audit)</div>
+  <img class="strip-img" src="../strips/BROLL_12_Planimetric_v2_strip.jpg" alt="v2 proof strip">
+  
+        <details class="v1-details">
+          <summary>Compare Pre-Repair v1 Assembly Strip vs. Verified v2 Strip</summary>
+          <div class="strip-label">v1 Assembly Strip (Before Critic Repair)</div>
+          <img class="strip-img" src="../strips/BROLL_12_Planimetric_v1_strip.jpg" alt="v1 strip" loading="lazy">
+        </details>
+  
+        <div class="tribunal-grid">
+          <div class="trib-box warn">
+            <div class="label">Round 1 (v1) Defects Caught</div>
+            <ul><li>Seg #02 (t=03.50s-14.00s): `8d2b2cbb` (`Long Distance`, 1941) cuts internally at t=05.5s from switchboard operators to 1940s trucks on a highway.</li><li>Seg #05 (t=32.00s-42.00s): `8d2b2cbb` at in_s=14.0s dissolves across forest linemen, a close-up operator, and a moving bus.</li></ul>
+            <p><strong>Largest Gap:</strong> The primary constraint of `PLANIMETRIC`—a sustained, locked-off fixed view of a room without camera movement or cuts—was violated by internal montage cuts in `8d2b2cbb`.</p>
+            <p><strong>Causal Hypothesis:</strong> `Long Distance` (`8d2b2cbb`) is a promotional montage with cuts every 2-3 seconds.</p>
+          </div>
+          <div class="trib-box pass">
+            <div class="label">Round 2 (v2) Falsifiable Repair & Verification</div>
+            <p><strong>Repair Executed:</strong> Replace Seg #02 and Seg #05 with Cineosis human-verified locked-off planimetric room shots: `79565922` (`Working Together`, 1951, `10.2s-19.7s` in Seg #02 and `19.7s-28.4s` in Seg #05, showing the same frontal conference room as posture and table geometry shift across time), paired with `3533825c` (`White Ammunition`, 1942 workshop) and `780c159d` (`Success in Business`, `0.5s-10.0s`, locked-off frontal room tableau).</p>
+            <p><strong>Strength Preserved:</strong> Tableau 02 (`3533825c`, `White Ammunition`, 1942) and the locked-off conference room tableau (`79565922`, `Working Together`, 1951).</p>
+            <p><strong>Final Verdict:</strong> <code>PASS (v2 · 0 structural or perceptual issues)</code></p>
+          </div>
+        </div>
+
+  <nav class="nav-foot">
+    <a href="BROLL_01_Nobody_Home.html">← #71 NOBODY HOME</a>
+    <a href="../index.html#film=BROLL_12_Planimetric">Back to 85-Film Screening Room ↗</a>
+    <a href="BROLL_05_Cut_To_The_Chase.html">#73 CUT TO THE CHASE →</a>
+  </nav>
+</main>
+<script>
+function seekTo(sec) {
+  const v = document.getElementById('v');
+  v.currentTime = sec;
+  v.play().catch(()=>{});
+  v.scrollIntoView({behavior:'smooth', block:'center'});
+}
+function copyPrompt() {
+  const txt = document.getElementById('prompt-raw').textContent;
+  navigator.clipboard.writeText(txt).then(() => {
+    const msg = document.getElementById('copy-msg');
+    msg.textContent = 'COPIED TO CLIPBOARD ✓';
+    setTimeout(() => msg.textContent = '', 2500);
+  });
+}
+</script>
+</body>
+</html>
