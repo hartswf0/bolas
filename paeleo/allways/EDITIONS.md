@@ -1,15 +1,19 @@
 # ALLWAYS editions
 
-An **edition** is one maker's pass at the SCION operators: the same prompts, a different hand. The first is [allways-sonnet](allways-sonnet/). Others are expected from Gemini, Argon and OpenAI Sol. The landing page and the [comparison page](editions.html) list every edition in `editions.json` and line the films up by operator, so the same prompt can be read across makers.
+An **edition** is one maker's pass at the SCION operators: the same prompts, a different hand. Editions live at the repository root as `allways-<name>/`, so they sit side by side: [allways-sonnet](../../allways-sonnet/) and [allways-sol](../../allways-sol/) exist; Gemini and Argon are expected. The landing page and the [comparison page](editions.html) list every edition in `editions.json` and line the films up by operator, so the same prompt can be read across makers.
 
 ## Adding an edition
 
-1. Make a folder `paeleo/allways/allways-<name>/` (lower case, hyphens).
-2. Put in it an `edition.json` (below), an `index.html` that presents the edition however its maker likes, and one folder per film.
-3. Add one line to [`editions.json`](editions.json): `{"id": "allways-<name>", "label": "<Name>", "path": "allways-<name>/", "status": "published"}`. An entry with `"status": "expected"` shows as a placeholder until its folder exists.
+1. Make a folder `allways-<name>/` at the repository root (lower case, hyphens).
+2. Put in it an `index.html` that presents the edition however its maker likes, and either an `edition.json` (below) or a catalog the registry can read (see *Existing catalogs*).
+3. Add one entry to [`editions.json`](editions.json) (paths there are relative to `paeleo/allways/`): `{"id": "allways-<name>", "label": "<Name>", "path": "../../allways-<name>/", "status": "published"}`. An entry with `"status": "expected"` shows as a placeholder until its folder exists.
 4. From the repository root run `python3 tools/allways/build.py`. It checks every `edition.json`, rewrites the landing page's Editions section and `editions.html`, and reports problems.
 
 Nothing else on the site needs to change. Each edition keeps its own page design, its own case-study format and its own credits.
+
+## Existing catalogs
+
+An edition that already has its own site and manifest does not need an `edition.json`. The registry entry names a reader with `"format"` and the manifest file with `"manifest"`. One reader exists: `allways-sol-catalog`, for [allways-sol/catalog.json](../../allways-sol/catalog.json) (films with `id`, `title`, `film.url`, `poster`, `status`). To support another shape, add a small function to `tools/allways/editions.py` that returns the same fields as `edition.json`. Files inside an edition with a reader are not checked by the build; the edition owns them.
 
 ## `edition.json`
 

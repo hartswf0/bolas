@@ -13,7 +13,7 @@
 .matrix th,.matrix td{text-align:left;vertical-align:top;padding:12px 14px 12px 0;border-bottom:1px solid var(--rule)}
 .matrix thead th{font:11px/1.5 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--quiet);border-bottom:1px solid var(--ink)}.matrix thead th small{display:block;text-transform:none;letter-spacing:0}
 .matrix tbody th{font:11px/1.6 var(--mono);width:200px;font-weight:400}.matrix tbody th a{display:block;color:var(--accent)}.matrix tbody th span{font:700 17px/1.2 var(--display);text-transform:uppercase;display:block;margin-top:2px}
-.mcell{display:block;text-decoration:none;width:200px;max-width:100%}.mcell img{width:100%;height:auto;display:block;background:#000;margin-bottom:6px}.mcell small{font:11px var(--mono);color:var(--quiet)}
+.mcell{display:block;text-decoration:none;width:200px;max-width:100%}.mcell img{width:100%;height:auto;display:block;background:#000;margin-bottom:6px}.mcell b{font:700 16px/1.2 var(--display);text-transform:uppercase;display:block;margin:2px 0 4px}.mcell small{font:11px var(--mono);color:var(--quiet)}
 .matrix .none{color:var(--quiet);font:13px var(--mono)}
 .vline{display:flex;gap:7px;align-items:flex-start;font:11px/1.45 var(--mono);color:var(--ink);margin:0 0 3px}.dot{width:9px;height:9px;border-radius:50%;background:#555e57;flex:none;margin-top:3px;display:inline-block}
 .v-pass .dot{background:#2f6b3d}.v-mid .dot{background:#8a6a12}.v-fail .dot{background:#9a3328}

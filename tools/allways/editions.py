@@ -16,29 +16,49 @@ def tone(v):
     return 'fail' if 'fail' in v else 'pass' if 'pass' in v else 'mid' if 'inconclusive' in v else 'open'
 
 
+def sol_catalog(cat, summary_fallback):
+    """Read ALLWAYS / SOL's catalog.json (films[] with id, title, film.url, poster, status) into the edition shape."""
+    films = []
+    for f in cat.get('films', []):
+        m = f.get('film') or {}
+        if not m.get('url'): continue
+        prep = m.get('kind') not in (None, 'film')
+        films.append({'operator': f['id'], 'title': f['title'], 'duration': round(m.get('duration', 0)), 'film': m['url'], 'poster': f.get('poster', ''),
+                      'page': f'index.html#film{f["number"]}', 'verdict': f'{f.get("status", "")} \u00b7 {f.get("version", "")}'.strip(' \u00b7') + (' (preparatory)' if prep else ''), 'preparatory': prep})
+    first = next((f['poster'] for f in films if f['poster']), '')
+    return {'films': films, 'cover': first, 'page': 'index.html',
+            'summary': f'{cat.get("completed_films", len(films))} completed adaptations of SCION {cat.get("range", "")} and {cat.get("comparison_edits", 0)} comparison edits, with critic reports and source records. {cat.get("review_scope", "")}'.strip()}
+
+
 def load():
     reg = json.loads((OUT / 'editions.json').read_text())['editions']
     ops = {e['id']: e for e in json.loads((OUT / 'scion' / 'scion-allways.json').read_text())}
     eds, problems = [], []
     for r in reg:
-        d = OUT / r['path']
+        d = (OUT / r['path']).resolve()
         meta = {}
         ej = d / 'edition.json'
-        if ej.exists():
+        if r.get('format') == 'allways-sol-catalog':
+            mf = d / r.get('manifest', 'catalog.json')
+            if mf.exists(): meta = sol_catalog(json.loads(mf.read_text()), r.get('summary', ''))
+            else: problems.append(f'{r["id"]}: {r.get("manifest", "catalog.json")} not in this checkout; cards and links for it were not built')
+        elif ej.exists():
             try: meta = json.loads(ej.read_text())
             except Exception as e: problems.append(f'{r["id"]}: edition.json is not valid JSON ({e})')
         elif r.get('status') != 'expected':
             problems.append(f'{r["id"]}: no edition.json in {r["path"]}')
         ed = {**r, **{k: v for k, v in meta.items() if k not in ('path',)}}
+        if r.get('summary') and not meta.get('summary'): ed['summary'] = r['summary']
         ed.setdefault('films', []); ed['dir'] = r['path']
         if meta and r.get('status') == 'expected': ed['status'] = meta.get('status', 'published')
         for f in ed['films']:
+            adapted = r.get('format') is not None      # an edition with its own site owns its files
             for k in ('operator', 'title', 'film', 'poster', 'page'):
                 if k not in f: problems.append(f'{r["id"]}: a film is missing "{k}": {f.get("title", f)}')
             if f.get('operator') not in ops: problems.append(f'{r["id"]}: operator {f.get("operator")} is not a SCION id')
             for k in ('film', 'poster'):
-                if k in f and not (d / f[k]).exists(): problems.append(f'{r["id"]}: {k} file missing: {f[k]}')
-            if 'page' in f and not (d / f['page']).exists(): problems.append(f'{r["id"]}: page missing: {f["page"]}')
+                if not adapted and k in f and not (d / f[k]).exists(): problems.append(f'{r["id"]}: {k} file missing: {f[k]}')
+            if not adapted and 'page' in f and not (d / f['page'].split('#')[0]).exists(): problems.append(f'{r["id"]}: page missing: {f["page"]}')
         eds.append(ed)
     return eds, ops, problems
 
@@ -63,7 +83,7 @@ def landing_section(eds, num='04'):
 def matrix_page(eds, ops):
     cols = eds
     rows_ids = sorted({f['operator'] for e in eds for f in e['films']})
-    head = ''.join(f'<th scope="col">{esc(e["label"])}<small>{"expected" if e["status"] == "expected" and not e["films"] else str(len(e["films"])) + " films"}</small></th>' for e in cols)
+    head = ''.join(f'<th scope="col">{esc(e["label"])}<small>{"expected" if e["status"] == "expected" and not e["films"] else str(sum(1 for f in e["films"] if not f.get("preparatory"))) + " films" + (f" + {sum(1 for f in e['films'] if f.get('preparatory'))} study" if any(f.get("preparatory") for f in e["films"]) else "")}</small></th>' for e in cols)
     body = ''
     for n in rows_ids:
         cells = ''
@@ -71,7 +91,7 @@ def matrix_page(eds, ops):
             f = next((x for x in e['films'] if x['operator'] == n), None)
             if f:
                 cells += (f'<td><a class="mcell" href="{esc(e["dir"] + f["page"])}"><img loading="lazy" src="{esc(e["dir"] + f["poster"])}" alt="" width="160" height="120">'
-                          f'<span class="vline v-{tone(f.get("verdict"))}"><span class="dot"></span>{esc(f.get("verdict", ""))}</span><small>{f.get("duration", "")} s</small></a></td>')
+                          f'<b>{esc(f["title"])}</b><span class="vline v-{tone(f.get("verdict"))}"><span class="dot"></span>{esc(f.get("verdict", ""))}</span><small>{f.get("duration", "")} s</small></a></td>')
             else:
                 cells += '<td class="none">—</td>'
         t = ops[n]['title']
@@ -99,7 +119,7 @@ CSS = '''
 .matrix th,.matrix td{text-align:left;vertical-align:top;padding:12px 14px 12px 0;border-bottom:1px solid var(--rule)}
 .matrix thead th{font:11px/1.5 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--quiet);border-bottom:1px solid var(--ink)}.matrix thead th small{display:block;text-transform:none;letter-spacing:0}
 .matrix tbody th{font:11px/1.6 var(--mono);width:200px;font-weight:400}.matrix tbody th a{display:block;color:var(--accent)}.matrix tbody th span{font:700 17px/1.2 var(--display);text-transform:uppercase;display:block;margin-top:2px}
-.mcell{display:block;text-decoration:none;width:200px;max-width:100%}.mcell img{width:100%;height:auto;display:block;background:#000;margin-bottom:6px}.mcell small{font:11px var(--mono);color:var(--quiet)}
+.mcell{display:block;text-decoration:none;width:200px;max-width:100%}.mcell img{width:100%;height:auto;display:block;background:#000;margin-bottom:6px}.mcell b{font:700 16px/1.2 var(--display);text-transform:uppercase;display:block;margin:2px 0 4px}.mcell small{font:11px var(--mono);color:var(--quiet)}
 .matrix .none{color:var(--quiet);font:13px var(--mono)}
 .vline{display:flex;gap:7px;align-items:flex-start;font:11px/1.45 var(--mono);color:var(--ink);margin:0 0 3px}.dot{width:9px;height:9px;border-radius:50%;background:#555e57;flex:none;margin-top:3px;display:inline-block}
 .v-pass .dot{background:#2f6b3d}.v-mid .dot{background:#8a6a12}.v-fail .dot{background:#9a3328}

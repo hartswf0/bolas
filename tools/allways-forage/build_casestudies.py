@@ -2,7 +2,7 @@
 
   python3 tools/allways-forage/build_casestudies.py [--lab /home/user/cineosis-lab]
 
-Reads  paeleo/allways/allways-sonnet/<NNN-slug>/ (edl.json, ledgers, mp4s, NOTES.md), BRIEF.md,
+Reads  allways-sonnet/<NNN-slug>/ (edl.json, ledgers, mp4s, NOTES.md), BRIEF.md,
        assignments.json, status.json, the SCION prompts and the critic review.
 Writes <film>/index.html, <film>/poster.jpg, <film>/frames/*.jpg, <film>/cands/*.jpg,
        allways-sonnet/index.html, atlas.html, edition.json.
@@ -17,7 +17,7 @@ import md
 
 ROOT = Path(__file__).resolve().parents[2]
 ALW = ROOT / 'paeleo' / 'allways'
-ED = ALW / 'allways-sonnet'
+ED = ROOT / 'allways-sonnet'
 HERE = Path(__file__).resolve().parent
 esc = html.escape
 CRITIC_SRC = ED / 'CRITIC-ROUND-1.md'
@@ -116,17 +116,27 @@ copyText(ids.map(function(i){return document.getElementById(i).textContent}).joi
 
 
 def head(title, desc, depth, extra=''):
-    up = '../' * depth
+    up = '../' * depth                      # depth 1: allways-sonnet/ ; depth 2: allways-sonnet/<film>/
     return (f'<!doctype html>\n<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">'
             f'<title>{esc(title)}</title><meta name="description" content="{esc(desc)}"><meta name="theme-color" content="#f4f1e9">'
-            f'<link rel="icon" href="{up}../../favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="{up}../../tools/paeleo/fonts/local.css">'
-            f'<link rel="stylesheet" href="{up}allways.css"><link rel="stylesheet" href="{up}allways-sonnet/case.css">{extra}</head>')
+            f'<link rel="icon" href="{up}favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="{up}tools/paeleo/fonts/local.css">'
+            f'<link rel="stylesheet" href="{up}paeleo/allways/allways.css"><link rel="stylesheet" href="{up}allways-sonnet/case.css">{extra}</head>')
 
 
 def crumbs(depth, tail):
     up = '../' * depth
-    return (f'<header class="site-header"><div class="wrap sitebar"><div class="parents"><a href="{up}../../">CRASH LAB</a><span>/</span><a href="{up}../">PAELEO</a><span>/</span>'
-            f'<a href="{up}">ALLWAYS</a><span>/</span><a href="{up}#editions">EDITIONS</a>{tail}</div></div></header>')
+    return (f'<header class="site-header"><div class="wrap sitebar"><div class="parents"><a href="{up}">CRASH LAB</a><span>/</span><a href="{up}paeleo/">PAELEO</a><span>/</span>'
+            f'<a href="{up}paeleo/allways/">ALLWAYS</a><span>/</span><a href="{up}paeleo/allways/#editions">EDITIONS</a>{tail}</div></div></header>')
+
+
+def ghfix(page, folder):
+    """Rewrite relative .md links to GitHub blob links (GitHub Pages would serve raw text)."""
+    import posixpath
+    def f(m):
+        u = m.group(1)
+        if re.match(r'^(https?:|#)', u): return m.group(0)
+        return 'href="https://github.com/hartswf0/bolas/blob/main/' + posixpath.normpath(posixpath.join(folder, u)) + '"'
+    return re.sub(r'href="([^"#]+\.md)"', f, page)
 
 
 def main():
@@ -215,10 +225,10 @@ def main():
                          'Sent verbatim to the agent that made this film.' if asg['agent'] else 'No agent was given this film; this records how it was made.')
             + copy_block('p-in', 'How the SCION inputs were answered', 'SCION inputs as answered for this run (reconstructed from the brief and assignment):\n' + inputs_txt, False,
                          'The operator prompt asks for six inputs. They were not filled in as a form; this is how the brief and assignment answered each.')
-            + copy_block('p-scion', f'The operator: SCION {num:03d} in full', scion_md, False, 'Verbatim from <a href="../../scion/prompts/' + next(iter((ALW / 'scion' / 'prompts').glob(f'scion-{num:03d}-*.md'))).name + '">scion/prompts</a>.')
+            + copy_block('p-scion', f'The operator: SCION {num:03d} in full', scion_md, False, 'Verbatim from <a href="../../paeleo/allways/scion/prompts/' + next(iter((ALW / 'scion' / 'prompts').glob(f'scion-{num:03d}-*.md'))).name + '">scion/prompts</a>.')
             + copy_block('p-brief', 'The shared brief given to every film-maker', BRIEF, False, 'The same brief for all eleven films. Also in <a href="../BRIEF.md">BRIEF.md</a>.')
             + copy_block('p-edl', 'The edit list (edl.json)', read(d / 'edl.json'), False,
-                         f'Render with <code>python3 tools/allways-forage/render.py paeleo/allways/allways-sonnet/{fid}/edl.json</code>. Each layer names a shot, an in-point and a transform.'))
+                         f'Render with <code>python3 tools/allways-forage/render.py allways-sonnet/{fid}/edl.json</code>. Each layer names a shot, an in-point and a transform.'))
         # process timeline
         nc = len([t for t in cand]); nev = len([e for e in led['events'] if e['layers']])
         steps = [
@@ -231,7 +241,7 @@ def main():
         steps_html = ''.join(f'<li><b>{a_}</b><span>{esc(b_)}</span></li>' for a_, b_ in steps)
         # nav
         prv = films[(fi - 1) % len(films)]; nxt = films[(fi + 1) % len(films)]
-        notes_html = md.render(notes, f'paeleo/allways/allways-sonnet/{fid}', h_offset=2, slug='n-')
+        notes_html = md.render(notes, f'allways-sonnet/{fid}', h_offset=2, slug='n-')
         notes_html = re.sub(r'<h3 id="n-[^"]*">[^<]*</h3>\s*', '', notes_html, count=1)  # drop the file's own title
         alt_block = f'<section id="alternates"><h2>Comparison and alternate cuts</h2><div class="alts">{alts}</div></section>' if alts else ''
         film_crumb = crumbs(2, '<span>/</span><a href="../">SONNET</a><span>/ %03d</span>' % num)
@@ -260,7 +270,7 @@ def main():
 <section id="notes"><h2>Working notes as written</h2><p class="note">The film-maker’s own NOTES.md, unedited. Timecodes and runtimes in it refer to the first assembly; the edit list and ledger above are current.</p><div class="md">{notes_html}</div></section>
 <nav class="pn"><a href="../{prv}/">← {esc(prv[4:].replace("-", " ").title())}</a><a href="../">All films</a><a href="../{nxt}/">{esc(nxt[4:].replace("-", " ").title())} →</a></nav>
 </main><footer><div class="wrap"><div class="footer-row"><p>ALLWAYS Sonnet edition · proofs in progress, not released works. Source footage © its holders; shots link back to movingimagearchive.com.</p></div></div></footer>{JS}</body></html>'''
-        (d / 'index.html').write_text(page)
+        (d / 'index.html').write_text(ghfix(page, f'allways-sonnet/{fid}'))
         cards.append(dict(id=fid, num=num, name=name, op=op_short, dur=round(led['duration']), verdict=verdict, note=MODEL_NOTE[fid], kb=size_kb, srcs=len(used)))
         edition_films.append(dict(id=fid, operator=num, title=name, duration=round(led['duration']), film=f'{fid}/{fid}.mp4', poster=f'{fid}/poster.jpg',
                                   page=f'{fid}/', verdict=verdict, sources=len(used)))
@@ -276,7 +286,7 @@ def main():
 <main id="main" class="wrap">
 <section class="caseTop one"><div><span class="label">ALLWAYS edition · SCION 055–065 · October 2026</span><h1>Sonnet</h1>
 <p class="lede">Eleven films, one for each conceptual-microfilm operator, foraged and cut by hand from public-domain footage on movingimagearchive.com. Every film comes with the images that were looked at, the reason for each shot, an independent critic round where one has run, and the prompts to make it again.</p>
-<p class="note">Other editions of the same operators sit beside this one on the <a href="../editions.html">editions page</a>.</p></div></section>
+<p class="note">Other editions of the same operators sit beside this one on the <a href="../paeleo/allways/editions.html">editions page</a>.</p></div></section>
 <section><h2>The films</h2><div class="fgrid">{grid}</div></section>
 <section id="method"><h2>How the edition was made</h2>
 <ol class="steps wide"><li><b>Index</b><span>{stats["shots"]:,} archive shots held in a local cache: {stats["clips"]} clips with sound, {stats["loops"]} silent loops, {stats["stills"]:,} stills, each with the archive queries that returned it, CLIP subjects, colour and sound features.</span></li>
@@ -293,10 +303,10 @@ def main():
 <li>Source footage keeps its holders’ rights; this is a research proof, not a release.</li></ul></section>
 <section id="files"><h2>Everything else</h2><div class="links">
 <a href="atlas.html">Atlas of all 405 local sound clips</a><a href="BRIEF.md">The shared brief</a><a href="CRITIC-ROUND-1.md">Critic round 1, with the repair log</a><a href="assignments.json">Assignments as sent</a>
-<a href="../../../tools/allways-forage/README.md">The forage toolkit</a><a href="edition.json">edition.json</a></div>
+<a href="../tools/allways-forage/README.md">The forage toolkit</a><a href="edition.json">edition.json</a></div>
 <div class="pbar big" style="margin-top:22px"><button type="button" class="btn solid" data-copy="p-brief">Copy the shared brief</button></div><script type="text/plain" id="p-brief">{BRIEF.replace("</script", "<\\/script")}</script></section>
 </main><footer><div class="wrap"><div class="footer-row"><p>ALLWAYS Sonnet edition · a cinema practice by Watson Hartsoe within PAELEO.</p></div></div></footer>{JS}</body></html>'''
-    (ED / 'index.html').write_text(idx_page)
+    (ED / 'index.html').write_text(ghfix(idx_page, 'allways-sonnet'))
     # ---- atlas
     at = json.load(open(ED / 'atlas' / 'atlas.json'))
     rows = json.dumps([[r['n'], s['file'], r['id'][:8], r['title'], r['year']] for s in at for r in s['rows']])

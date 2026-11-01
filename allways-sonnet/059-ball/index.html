@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Ball · ALLWAYS Sonnet case study</title><meta name="description" content="How the Ball film was made from archive footage: forage, frames, cut, critic round and the prompts to repeat it."><meta name="theme-color" content="#f4f1e9"><link rel="icon" href="../../../../favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="../../../../tools/paeleo/fonts/local.css"><link rel="stylesheet" href="../../allways.css"><link rel="stylesheet" href="../../allways-sonnet/case.css"></head><body class="case"><a class="skip" href="#main">Skip to content</a><header class="site-header"><div class="wrap sitebar"><div class="parents"><a href="../../../../">CRASH LAB</a><span>/</span><a href="../../../">PAELEO</a><span>/</span><a href="../../">ALLWAYS</a><span>/</span><a href="../../#editions">EDITIONS</a><span>/</span><a href="../">SONNET</a><span>/ 059</span></div></div></header>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Ball · ALLWAYS Sonnet case study</title><meta name="description" content="How the Ball film was made from archive footage: forage, frames, cut, critic round and the prompts to repeat it."><meta name="theme-color" content="#f4f1e9"><link rel="icon" href="../../favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="../../tools/paeleo/fonts/local.css"><link rel="stylesheet" href="../../paeleo/allways/allways.css"><link rel="stylesheet" href="../../allways-sonnet/case.css"></head><body class="case"><a class="skip" href="#main">Skip to content</a><header class="site-header"><div class="wrap sitebar"><div class="parents"><a href="../../">CRASH LAB</a><span>/</span><a href="../../paeleo/">PAELEO</a><span>/</span><a href="../../paeleo/allways/">ALLWAYS</a><span>/</span><a href="../../paeleo/allways/#editions">EDITIONS</a><span>/</span><a href="../">SONNET</a><span>/ 059</span></div></div></header>
 <main id="main" class="wrap">
 <section class="caseTop"><div><span class="label">SCION 059 · Ball · case study</span><h1>Ball</h1>
 <p class="lede">One rim held at the centre of the screen across thirteen films.</p>
@@ -32,7 +32,7 @@
 - `[DELIVERY]`: Linear film, 640×480, 24 fps, mp4 under about 6 MB, duration per §4 (roughly 35–120 s). Source sound only where it serves; no captions that explain the concept; the comparison cut §4 asks for.
 - `[RESOURCES]`: tools/allways-forage (index.json, forage.py, render.py), ffmpeg, OpenCV, numpy, PIL, and a local clone of hartswf0/cineosis-lab. The archive’s own site could not be reached from the build environment.
 - `[CORPUS_AND_RIGHTS]`: Only shots from movingimagearchive.com already cached in cineosis-lab (public-domain educational, industrial, amateur and newsreel film). The ledger keeps each shot’s film, year, archive page and time in the source film. No new rights are asserted.
-- `[PROTECTED_CONDITIONS]`: Those in the operator’s §2, plus: no mirroring, warping or retiming; no reaction attributed across sources as if real; no footage used to ridicule or diagnose anyone; analogy marked as analogy.</pre></details><details class="prompt"><summary><span>The operator: SCION 059 in full</span><small>13,315 characters</small></summary><p class=note>Verbatim from <a href="../../scion/prompts/scion-059-ball-graphic-constancy-across-sources.md">scion/prompts</a>.</p><div class="pbar"><button type="button" class="btn" data-copy="p-scion">Copy</button></div><script type="text/plain" id="p-scion"># SCION 059 // Ball — Graphic Constancy Across Sources
+- `[PROTECTED_CONDITIONS]`: Those in the operator’s §2, plus: no mirroring, warping or retiming; no reaction attributed across sources as if real; no footage used to ridicule or diagnose anyone; analogy marked as analogy.</pre></details><details class="prompt"><summary><span>The operator: SCION 059 in full</span><small>13,315 characters</small></summary><p class=note>Verbatim from <a href="https://github.com/hartswf0/bolas/blob/main/paeleo/allways/scion/prompts/scion-059-ball-graphic-constancy-across-sources.md">scion/prompts</a>.</p><div class="pbar"><button type="button" class="btn" data-copy="p-scion">Copy</button></div><script type="text/plain" id="p-scion"># SCION 059 // Ball — Graphic Constancy Across Sources
 ## Autonomous evolving cinema / documentary / database swarm · standalone prompt
 
 **Family:** Conceptual microfilms
@@ -302,7 +302,7 @@ The following records establish lineage and documented characteristics. Unless e
 **Metadata notes and unresolved questions:**
 
 - The reference&#x27;s image-search origin does not establish reuse rights for a new production. Use a separately documented source collection.
-</pre></details><details class="prompt"><summary><span>The shared brief given to every film-maker</span><small>3,852 characters</small></summary><p class=note>The same brief for all eleven films. Also in <a href="../BRIEF.md">BRIEF.md</a>.</p><div class="pbar"><button type="button" class="btn" data-copy="p-brief">Copy</button></div><script type="text/plain" id="p-brief"># Brief given to each film-making agent
+</pre></details><details class="prompt"><summary><span>The shared brief given to every film-maker</span><small>3,837 characters</small></summary><p class=note>The same brief for all eleven films. Also in <a href="https://github.com/hartswf0/bolas/blob/main/allways-sonnet/BRIEF.md">BRIEF.md</a>.</p><div class="pbar"><button type="button" class="btn" data-copy="p-brief">Copy</button></div><script type="text/plain" id="p-brief"># Brief given to each film-making agent
 
 This is the shared brief used for every film in the ALLWAYS Sonnet edition. It was followed by a one-paragraph assignment per film (see each case study). Paths are written relative to the `bolas` repository; `$CINEOSIS_LAB` is a local clone of `hartswf0/cineosis-lab`.
 
@@ -327,7 +327,7 @@ Tools (run from `tools/allways-forage/`; read `README.md` and the docstrings):
 
 ## Deliverable per film
 
-In `paeleo/allways/allways-sonnet/<NNN-slug>/`:
+In `allways-sonnet/<NNN-slug>/`:
 
 - `edl.json` and the rendered `<id>.mp4` with its ledger. Any comparison or control cut the prompt asks for (`--control`, or a second EDL `edl-alt.json`). Keep each mp4 under about 6 MB.
 - `contact.jpg`: a strip of the finished film.
@@ -366,7 +366,7 @@ Tools (run from `tools/allways-forage/`; read `README.md` and the docstrings):
 
 ## Deliverable per film
 
-In `paeleo/allways/allways-sonnet/&lt;NNN-slug&gt;/`:
+In `allways-sonnet/&lt;NNN-slug&gt;/`:
 
 - `edl.json` and the rendered `&lt;id&gt;.mp4` with its ledger. Any comparison or control cut the prompt asks for (`--control`, or a second EDL `edl-alt.json`). Keep each mp4 under about 6 MB.
 - `contact.jpg`: a strip of the finished film.
@@ -380,7 +380,7 @@ In `paeleo/allways/allways-sonnet/&lt;NNN-slug&gt;/`:
 - Respect protected conditions: no mirroring, warping or retiming; do not attribute reactions across sources as if real; do not use footage to ridicule or diagnose people; mark analogy as analogy.
 - Where the archive cannot supply the prompt&#x27;s exact events, find the strongest archival equivalent that keeps the THEOREM and document the substitution. It is better to make a smaller honest film than a forced one.
 - Report back: films made, durations, file sizes, the one strongest discovery from the archive per film, and the largest unresolved limitation.
-</pre></details><details class="prompt"><summary><span>The edit list (edl.json)</span><small>8,768 characters</small></summary><p class=note>Render with <code>python3 tools/allways-forage/render.py paeleo/allways/allways-sonnet/059-ball/edl.json</code>. Each layer names a shot, an in-point and a transform.</p><div class="pbar"><button type="button" class="btn" data-copy="p-edl">Copy</button></div><script type="text/plain" id="p-edl">{
+</pre></details><details class="prompt"><summary><span>The edit list (edl.json)</span><small>8,768 characters</small></summary><p class=note>Render with <code>python3 tools/allways-forage/render.py allways-sonnet/059-ball/edl.json</code>. Each layer names a shot, an in-point and a transform.</p><div class="pbar"><button type="button" class="btn" data-copy="p-edl">Copy</button></div><script type="text/plain" id="p-edl">{
  "id": "059-ball",
  "title": "BALL",
  "size": [
@@ -1163,7 +1163,7 @@ In `paeleo/allways/allways-sonnet/&lt;NNN-slug&gt;/`:
 <h4 id="n-forage-queue-for-when-the-archive-is-reachable">Forage queue (for when the archive is reachable)</h4>
 <p>Live searches to run against movingimagearchive.com's shot index for BALL v2: <code>a ball bouncing on a floor</code>, <code>children playing with a ball in a schoolyard</code>, <code>a baseball thrown toward the camera</code>, <code>a basketball dropping through a hoop</code>, <code>a bowling ball rolling down the lane</code>, <code>a mixing bowl seen from above</code>, <code>a dinner plate set on a table, overhead</code>, <code>a steering wheel turned by hands</code>, <code>a potter's wheel turning</code>, <code>a ball rolling out of frame</code>.</p>
 <h4 id="n-critic-round-1-and-repair">Critic round 1 and repair</h4>
-<p>See <a href="https://github.com/hartswf0/bolas/blob/main/paeleo/allways/allways-sonnet/CRITIC-ROUND-1.md">../CRITIC-ROUND-1.md</a> for the verdict and the repair applied to this film. Shot tables above describe the cut before that repair; the current <code>edl.json</code> and ledger are authoritative.</p></div></section>
+<p>See <a href="https://github.com/hartswf0/bolas/blob/main/allways-sonnet/CRITIC-ROUND-1.md">../CRITIC-ROUND-1.md</a> for the verdict and the repair applied to this film. Shot tables above describe the cut before that repair; the current <code>edl.json</code> and ledger are authoritative.</p></div></section>
 <nav class="pn"><a href="../058-laughs/">← Laughs</a><a href="../">All films</a><a href="../060-losers/">Losers →</a></nav>
 </main><footer><div class="wrap"><div class="footer-row"><p>ALLWAYS Sonnet edition · proofs in progress, not released works. Source footage © its holders; shots link back to movingimagearchive.com.</p></div></div></footer><script>
 function copyText(t,b){var o=b.textContent;function ok(){b.textContent='Copied';setTimeout(function(){b.textContent=o},1400)}

@@ -23,7 +23,7 @@ Tools (run from `tools/allways-forage/`; read `README.md` and the docstrings):
 
 ## Deliverable per film
 
-In `paeleo/allways/allways-sonnet/<NNN-slug>/`:
+In `allways-sonnet/<NNN-slug>/`:
 
 - `edl.json` and the rendered `<id>.mp4` with its ledger. Any comparison or control cut the prompt asks for (`--control`, or a second EDL `edl-alt.json`). Keep each mp4 under about 6 MB.
 - `contact.jpg`: a strip of the finished film.

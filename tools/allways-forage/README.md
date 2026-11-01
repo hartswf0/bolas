@@ -1,6 +1,6 @@
 # ALLWAYS forage kit
 
-Forage and hand-cut ALLWAYS films (`paeleo/allways/allways-sonnet/`) from the archive shots
+Forage and hand-cut ALLWAYS films (`allways-sonnet/`) from the archive shots
 cached in a local clone of [cineosis-lab](https://github.com/hartswf0/cineosis-lab)
 (movingimagearchive.com shots: 405 clips with sound, mostly 320×240 and about 25 s;
 474 silent 3 s loops; 5,272 stills).

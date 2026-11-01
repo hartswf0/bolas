@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Laughs · ALLWAYS Sonnet case study</title><meta name="description" content="How the Laughs film was made from archive footage: forage, frames, cut, critic round and the prompts to repeat it."><meta name="theme-color" content="#f4f1e9"><link rel="icon" href="../../../../favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="../../../../tools/paeleo/fonts/local.css"><link rel="stylesheet" href="../../allways.css"><link rel="stylesheet" href="../../allways-sonnet/case.css"></head><body class="case"><a class="skip" href="#main">Skip to content</a><header class="site-header"><div class="wrap sitebar"><div class="parents"><a href="../../../../">CRASH LAB</a><span>/</span><a href="../../../">PAELEO</a><span>/</span><a href="../../">ALLWAYS</a><span>/</span><a href="../../#editions">EDITIONS</a><span>/</span><a href="../">SONNET</a><span>/ 058</span></div></div></header>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Laughs · ALLWAYS Sonnet case study</title><meta name="description" content="How the Laughs film was made from archive footage: forage, frames, cut, critic round and the prompts to repeat it."><meta name="theme-color" content="#f4f1e9"><link rel="icon" href="../../favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="../../tools/paeleo/fonts/local.css"><link rel="stylesheet" href="../../paeleo/allways/allways.css"><link rel="stylesheet" href="../../allways-sonnet/case.css"></head><body class="case"><a class="skip" href="#main">Skip to content</a><header class="site-header"><div class="wrap sitebar"><div class="parents"><a href="../../">CRASH LAB</a><span>/</span><a href="../../paeleo/">PAELEO</a><span>/</span><a href="../../paeleo/allways/">ALLWAYS</a><span>/</span><a href="../../paeleo/allways/#editions">EDITIONS</a><span>/</span><a href="../">SONNET</a><span>/ 058</span></div></div></header>
 <main id="main" class="wrap">
 <section class="caseTop"><div><span class="label">SCION 058 · Laughs! · case study</span><h1>Laughs</h1>
 <p class="lede">A chain of separate situations built from laughter; the sound is the weak part.</p>
@@ -36,7 +36,7 @@
 - `[DELIVERY]`: Linear film, 640×480, 24 fps, mp4 under about 6 MB, duration per §4 (roughly 35–120 s). Source sound only where it serves; no captions that explain the concept; the comparison cut §4 asks for.
 - `[RESOURCES]`: tools/allways-forage (index.json, forage.py, render.py), ffmpeg, OpenCV, numpy, PIL, and a local clone of hartswf0/cineosis-lab. The archive’s own site could not be reached from the build environment.
 - `[CORPUS_AND_RIGHTS]`: Only shots from movingimagearchive.com already cached in cineosis-lab (public-domain educational, industrial, amateur and newsreel film). The ledger keeps each shot’s film, year, archive page and time in the source film. No new rights are asserted.
-- `[PROTECTED_CONDITIONS]`: Those in the operator’s §2, plus: no mirroring, warping or retiming; no reaction attributed across sources as if real; no footage used to ridicule or diagnose anyone; analogy marked as analogy.</pre></details><details class="prompt"><summary><span>The operator: SCION 058 in full</span><small>13,308 characters</small></summary><p class=note>Verbatim from <a href="../../scion/prompts/scion-058-laughs-audible-contagion.md">scion/prompts</a>.</p><div class="pbar"><button type="button" class="btn" data-copy="p-scion">Copy</button></div><script type="text/plain" id="p-scion"># SCION 058 // Laughs! — Audible Contagion
+- `[PROTECTED_CONDITIONS]`: Those in the operator’s §2, plus: no mirroring, warping or retiming; no reaction attributed across sources as if real; no footage used to ridicule or diagnose anyone; analogy marked as analogy.</pre></details><details class="prompt"><summary><span>The operator: SCION 058 in full</span><small>13,308 characters</small></summary><p class=note>Verbatim from <a href="https://github.com/hartswf0/bolas/blob/main/paeleo/allways/scion/prompts/scion-058-laughs-audible-contagion.md">scion/prompts</a>.</p><div class="pbar"><button type="button" class="btn" data-copy="p-scion">Copy</button></div><script type="text/plain" id="p-scion"># SCION 058 // Laughs! — Audible Contagion
 ## Autonomous evolving cinema / documentary / database swarm · standalone prompt
 
 **Family:** Conceptual microfilms
@@ -306,7 +306,7 @@ The following records establish lineage and documented characteristics. Unless e
 **Metadata notes and unresolved questions:**
 
 - The creator upload uses Laughs! rather than Laughs. Its current upload timing is not taken as proof of the original release year.
-</pre></details><details class="prompt"><summary><span>The shared brief given to every film-maker</span><small>3,852 characters</small></summary><p class=note>The same brief for all eleven films. Also in <a href="../BRIEF.md">BRIEF.md</a>.</p><div class="pbar"><button type="button" class="btn" data-copy="p-brief">Copy</button></div><script type="text/plain" id="p-brief"># Brief given to each film-making agent
+</pre></details><details class="prompt"><summary><span>The shared brief given to every film-maker</span><small>3,837 characters</small></summary><p class=note>The same brief for all eleven films. Also in <a href="https://github.com/hartswf0/bolas/blob/main/allways-sonnet/BRIEF.md">BRIEF.md</a>.</p><div class="pbar"><button type="button" class="btn" data-copy="p-brief">Copy</button></div><script type="text/plain" id="p-brief"># Brief given to each film-making agent
 
 This is the shared brief used for every film in the ALLWAYS Sonnet edition. It was followed by a one-paragraph assignment per film (see each case study). Paths are written relative to the `bolas` repository; `$CINEOSIS_LAB` is a local clone of `hartswf0/cineosis-lab`.
 
@@ -331,7 +331,7 @@ Tools (run from `tools/allways-forage/`; read `README.md` and the docstrings):
 
 ## Deliverable per film
 
-In `paeleo/allways/allways-sonnet/<NNN-slug>/`:
+In `allways-sonnet/<NNN-slug>/`:
 
 - `edl.json` and the rendered `<id>.mp4` with its ledger. Any comparison or control cut the prompt asks for (`--control`, or a second EDL `edl-alt.json`). Keep each mp4 under about 6 MB.
 - `contact.jpg`: a strip of the finished film.
@@ -370,7 +370,7 @@ Tools (run from `tools/allways-forage/`; read `README.md` and the docstrings):
 
 ## Deliverable per film
 
-In `paeleo/allways/allways-sonnet/&lt;NNN-slug&gt;/`:
+In `allways-sonnet/&lt;NNN-slug&gt;/`:
 
 - `edl.json` and the rendered `&lt;id&gt;.mp4` with its ledger. Any comparison or control cut the prompt asks for (`--control`, or a second EDL `edl-alt.json`). Keep each mp4 under about 6 MB.
 - `contact.jpg`: a strip of the finished film.
@@ -384,7 +384,7 @@ In `paeleo/allways/allways-sonnet/&lt;NNN-slug&gt;/`:
 - Respect protected conditions: no mirroring, warping or retiming; do not attribute reactions across sources as if real; do not use footage to ridicule or diagnose people; mark analogy as analogy.
 - Where the archive cannot supply the prompt&#x27;s exact events, find the strongest archival equivalent that keeps the THEOREM and document the substitution. It is better to make a smaller honest film than a forced one.
 - Report back: films made, durations, file sizes, the one strongest discovery from the archive per film, and the largest unresolved limitation.
-</pre></details><details class="prompt"><summary><span>The edit list (edl.json)</span><small>3,769 characters</small></summary><p class=note>Render with <code>python3 tools/allways-forage/render.py paeleo/allways/allways-sonnet/058-laughs/edl.json</code>. Each layer names a shot, an in-point and a transform.</p><div class="pbar"><button type="button" class="btn" data-copy="p-edl">Copy</button></div><script type="text/plain" id="p-edl">{
+</pre></details><details class="prompt"><summary><span>The edit list (edl.json)</span><small>3,769 characters</small></summary><p class=note>Render with <code>python3 tools/allways-forage/render.py allways-sonnet/058-laughs/edl.json</code>. Each layer names a shot, an in-point and a transform.</p><div class="pbar"><button type="button" class="btn" data-copy="p-edl">Copy</button></div><script type="text/plain" id="p-edl">{
  "id": "058-laughs",
  "title": "Laughs! \u2014 Audible Contagion (archive draft)",
  "size": [
@@ -751,7 +751,7 @@ In `paeleo/allways/allways-sonnet/&lt;NNN-slug&gt;/`:
 <ul><li>Separate situations established before composite rhythm: yes structurally — doorway (SD), car (NJ), stage (Amsterdam) before any montage-made sequence. Measured: three distinct sources/locations in first 11.75 s.</li><li>Onset → overlap → recovery → rest: partially. Onset (held smile→burst), recovery (shot 6 held, runout), rest (black silence) exist; <strong>acoustic overlap does not</strong>.</li><li>Critic can distinguish shared source laughter from montage exchange: intended via shot 5 (source-made chain) vs shots 2/6/8 (in-shot relations). Unverified.</li><li>Quiet interval contributes to movement: shots 0, 2, 7, 9 are quiet/silent. Measured RMS in <code>audio-events.json</code>.</li><li>No unconsenting target via adjacency: no laugh sound is placed under any other person; no shot shows a person in difficulty. The man covering his face (shot 4) is camera-shyness in his own source, adjacent to women laughing in a different reel — <strong>flag for critic review</strong> as the one adjacency that could read as laughing <em>at</em> him. De Joodsche invalide (1939 Amsterdam Jewish community benefit film, per its title) — laughter shown is the performers' own; historical context flagged for the critic.</li><li>Automated: peak of finished mix −13.7 dBFS, no clipping (renderer limiter at 0.89 not engaged by overlaps; there are none). Source audio under unrelated subject: none (all audio is each shot's own track or digital silence).</li></ul>
 <p>Largest unresolved limitation: no verified recording of laughter anywhere in the clip set; an audio classifier or a human listener should re-check the sound clips (esp. Inside the Fed 1.8–2.9 s, Powers Music School 2009 audience) before claiming the archive has none.</p>
 <h4 id="n-critic-round-1-and-repair">Critic round 1 and repair</h4>
-<p>See <a href="https://github.com/hartswf0/bolas/blob/main/paeleo/allways/allways-sonnet/CRITIC-ROUND-1.md">../CRITIC-ROUND-1.md</a> for the verdict and the repair applied to this film. Shot tables above describe the cut before that repair; the current <code>edl.json</code> and ledger are authoritative.</p></div></section>
+<p>See <a href="https://github.com/hartswf0/bolas/blob/main/allways-sonnet/CRITIC-ROUND-1.md">../CRITIC-ROUND-1.md</a> for the verdict and the repair applied to this film. Shot tables above describe the cut before that repair; the current <code>edl.json</code> and ledger are authoritative.</p></div></section>
 <nav class="pn"><a href="../057-moments/">← Moments</a><a href="../">All films</a><a href="../059-ball/">Ball →</a></nav>
 </main><footer><div class="wrap"><div class="footer-row"><p>ALLWAYS Sonnet edition · proofs in progress, not released works. Source footage © its holders; shots link back to movingimagearchive.com.</p></div></div></footer><script>
 function copyText(t,b){var o=b.textContent;function ok(){b.textContent='Copied';setTimeout(function(){b.textContent=o},1400)}
