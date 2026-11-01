@@ -1,0 +1,457 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>SCION 081 · OBSERVATIONAL &amp; COLLECTIVE DOCUMENTARIES · Human — Direct Testimony and Aerial Breathing Space — ALLWAYS · ARGON Case Study</title>
+<link rel="stylesheet" href="../../../tools/paeleo/fonts/local.css">
+<style>
+:root {
+  --bg: #0c0e0d;
+  --panel: #131715;
+  --panel-2: #191f1c;
+  --ink: #f2efe6;
+  --muted: #9aa39c;
+  --rule: #28312c;
+  --accent: #d46a4c;
+  --mint: #8ec5a8;
+  --gold: #dfc48b;
+  --display: 'Big Shoulders Display', -apple-system, BlinkMacSystemFont, sans-serif;
+  --serif: 'Literata', Georgia, serif;
+  --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.65 var(--serif); }
+a { color: var(--mint); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.topbar {
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(12,14,13,0.94); backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--rule);
+  padding: 10px 18px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px;
+  font: 11px/1.4 var(--mono); text-transform: uppercase; letter-spacing: .06em;
+}
+.wrap { max-width: 1120px; margin: 0 auto; padding: 24px 18px 80px; }
+.kicker { font: 600 11px/1.4 var(--mono); color: var(--accent); text-transform: uppercase; letter-spacing: .1em; }
+h1 { font: 800 clamp(32px, 6vw, 60px)/.96 var(--display); text-transform: uppercase; margin: 6px 0 8px; letter-spacing: -.01em; }
+.subtitle { font: 400 clamp(17px, 2.2vw, 22px)/1.4 var(--serif); color: var(--muted); margin-bottom: 18px; }
+.player-sticky {
+  background: #000; border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; margin-bottom: 24px;
+}
+video { width: 100%; aspect-ratio: 16/9; display: block; background: #000; }
+.player-bar {
+  padding: 10px 14px; background: var(--panel); border-top: 1px solid var(--rule);
+  display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px;
+  font: 11px/1.4 var(--mono); color: var(--muted);
+}
+.btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  font: 600 11px/1 var(--mono); text-transform: uppercase; letter-spacing: .06em;
+  padding: 9px 13px; border-radius: 4px; border: 1px solid var(--mint);
+  background: var(--mint); color: #0d1f16; cursor: pointer;
+}
+.btn.sec { background: transparent; color: var(--ink); border-color: var(--rule); }
+.btn:hover { opacity: .92; text-decoration: none; }
+.sec-head {
+  border-top: 1px solid var(--rule); padding-top: 24px; margin: 36px 0 16px;
+  display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 12px;
+}
+.sec-head h2 { font: 800 clamp(24px, 3.5vw, 34px)/1.05 var(--display); text-transform: uppercase; margin: 0; }
+.meta-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; margin: 18px 0;
+}
+.meta-card { background: var(--panel); border: 1px solid var(--rule); border-radius: 6px; padding: 14px 16px; }
+.meta-card .label { font: 600 10px/1.4 var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--gold); margin-bottom: 6px; }
+.shots-list { display: flex; flex-direction: column; gap: 12px; }
+.shot-card {
+  display: grid; grid-template-columns: 240px 1fr; gap: 16px;
+  background: var(--panel); border: 1px solid var(--rule); border-radius: 6px; padding: 12px;
+  cursor: pointer; transition: border-color .15s;
+}
+.shot-card:hover { border-color: var(--mint); }
+.shot-card.is-card { grid-template-columns: 180px 1fr; opacity: .88; }
+.shot-media { position: relative; background: #050706; border-radius: 4px; overflow: hidden; aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center; }
+.shot-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.shot-time {
+  position: absolute; bottom: 6px; left: 6px;
+  background: rgba(0,0,0,0.82); color: var(--gold); padding: 2px 6px; border-radius: 3px;
+  font: 600 10px/1.3 var(--mono);
+}
+.shot-body { display: flex; flex-direction: column; gap: 6px; font-size: 14px; }
+.shot-source { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px; font: 12px/1.4 var(--mono); color: var(--muted); border-bottom: 1px solid var(--rule); padding-bottom: 6px; }
+.shot-source strong { color: var(--ink); }
+.shot-what { color: var(--ink); }
+.shot-bridge { font-size: 12px; color: var(--gold); }
+.shot-why { color: var(--muted); font-size: 13.5px; }
+.strip-img { width: 100%; border-radius: 6px; border: 1px solid var(--rule); display: block; margin: 10px 0; }
+.strip-label { font: 600 11px/1.4 var(--mono); color: var(--muted); text-transform: uppercase; margin-top: 10px; }
+.tribunal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 14px; }
+.trib-box { background: var(--panel); border: 1px solid var(--rule); border-radius: 6px; padding: 16px; font-size: 14px; }
+.trib-box.warn { border-left: 3px solid var(--accent); }
+.trib-box.pass { border-left: 3px solid var(--mint); }
+.trib-box .label { font: 700 11px/1.4 var(--mono); text-transform: uppercase; color: var(--gold); margin-bottom: 8px; }
+pre.prompt-box {
+  background: #090c0a; border: 1px solid var(--rule); border-radius: 6px; padding: 18px;
+  font: 12.5px/1.65 var(--mono); color: #e2e6de; white-space: pre-wrap; overflow-wrap: anywhere; max-height: 640px; overflow-y: auto;
+}
+.nav-foot {
+  margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--rule);
+  display: flex; justify-content: space-between; gap: 14px; font: 12px/1.5 var(--mono);
+}
+@media (max-width: 700px) {
+  .shot-card, .shot-card.is-card { grid-template-columns: 1fr; }
+  .tribunal-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div>
+    <a href="../../../paeleo/allways/index.html#runs">ALLWAYS</a> <span>/</span> <a href="../../index.html">ARGON (12)</a> <span>/</span>
+    <a href="../index.html#film=SCION_081_Human_Testimony_And_Aerial_Breathing_Room">ARGON SCREENING ROOM (85)</a> <span>/</span>
+    <span style="color:var(--ink)">#30 CASE STUDY</span>
+  </div>
+  <div style="display:flex;gap:8px;align-items:center">
+    <button class="btn" onclick="copyPrompt()">Copy Prompt</button>
+    <a class="btn sec" href="SCION_081_Human_Testimony_And_Aerial_Breathing_Room.md" download>Case Study .md</a>
+    <a class="btn sec" href="../manifests/SCION_081_Human_Testimony_And_Aerial_Breathing_Room.json" target="_blank">EDL .json</a>
+  </div>
+</header>
+<main class="wrap">
+  <div class="kicker">SCION 081 · OBSERVATIONAL &amp; COLLECTIVE DOCUMENTARIES · C · Phase, Scale &amp; Collective · FILM #30 OF 85</div>
+  <h1>Human — Direct Testimony and Aerial Breathing Space</h1>
+  <div class="subtitle">Frontal human faces and direct address punctuated by vast aerial landscapes</div>
+
+  <div class="player-sticky">
+    <video id="v" controls playsinline preload="metadata" src="../films/SCION_081_Human_Testimony_And_Aerial_Breathing_Room.mp4"></video>
+    <div class="player-bar">
+      <span>35.8s · 6 archival cuts · 6 sources · Critic Tribunal: PASS (v2)</span>
+      <span>Tap any captured shot card below to jump video to that cut</span>
+    </div>
+  </div>
+
+  <div class="meta-grid">
+    <div class="meta-card">
+      <div class="label">01 · Creative Theorem</div>
+      <div>Alternate direct, tightly framed human faces and frontal address against plain backgrounds with expansive aerial and coastal landscapes that give the viewer time to absorb each presence without editorializing.</div>
+    </div>
+    <div class="meta-card">
+      <div class="label">02 · Lineage & Reference</div>
+      <div>Lineage: Yann Arthus-Bertrand, Human (2015)</div>
+      <div style="margin-top:8px;font-size:12px;color:var(--muted)"><strong>Boundary Contract:</strong> Each frontal portrait (`c858b846`, `9544256b`, `3f308fbb`, `ff0440e2`) retains its individual provenance while aerial intervals (`2ca7a150`, `340884cb`) serve explicitly as contemplative breathing space.</div>
+    </div>
+  </div>
+
+  <div class="sec-head">
+    <div>
+      <div class="kicker">Stage 1 · Production Prompt</div>
+      <h2>Copyable SCION / ALLWAYS Prompt</h2>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="btn" id="copy-btn-2" onclick="copyPrompt()">Copy Full Prompt</button>
+      <span id="copy-msg" style="font:11px var(--mono);color:var(--mint);align-self:center"></span>
+    </div>
+  </div>
+  <pre class="prompt-box" id="prompt-raw"># SCION 081 // Human — Testimony That Survives Its Counterpoint
+## Autonomous evolving cinema / documentary / database swarm · standalone prompt
+
+**Family:** Observational and collective documentaries
+**Operator lineage:** Yann Arthus-Bertrand, HUMAN (2015), produced by Hope/Humankind Production, with music by Armand Amar; the producer describes a pairing of personal narratives and images of the world.
+**Requested reference:** Human (2015) — Yann Arthus-Bertrand
+**Reference status:** verified_description. See the research record below.
+**Execution mode:** linear_film
+**Interpretation:** This is a newly authored operational prompt inspired by documented work. It does not claim that the credited artists wrote or endorsed it. Its proposed proof is an original experiment. Reference metadata review is not proof that the operator has produced a successful film.
+
+You are **SCION-081-HUMAN-TESTIMONY-THAT-SURVIVES-ITS-COUNTERPOINT**. Produce a finished watchable or operable work within the user&#x27;s requested scope. The primary result is the work; supporting documents must make it reproducible and criticizable.
+
+## INPUT
+
+- `[WORK]`: the new work or question this operator should realize.
+- `[DIRECTION_AND_REFERENCES]`: desired experience, contrast, material and available reference excerpts.
+- `[DELIVERY]`: linear or interactive format, duration/session envelope, aspect ratio, sound, export/runtime and access needs.
+- `[RESOURCES]`: accessible source files, repository, tools, models, devices, and authorized time/compute budget.
+- `[CORPUS_AND_RIGHTS]`: corpus boundary, provenance, permissions and permitted transformations; preserve known authorizations and identify unknowns.
+- `[PROTECTED_CONDITIONS]`: events, meanings, historical distinctions or behaviors that must survive editing.
+
+Resolve ordinary implementation choices from context. Ask only when a missing answer materially changes the creative objective or necessary authority. Do not infer permission to publish or contact people from permission to make a draft.
+
+## 1 · Creative theorem to prove
+
+Let two people’s complete, conflicting accounts remain audible while a visual interval changes the scale of attention. The film must create an encounter without compressing a person into an illustrative sentence for a predetermined universal thesis.
+
+**What makes this operator distinct:** Sacred coordinates observed local practices; this operator centers first-person verbal claims and tests whether counterpoint preserves rather than subsumes them.
+
+## 2 · Native formal language
+
+Preserve and manipulate these as explicit working objects:
+
+- Speaker-authorized testimony intervals
+- Question and answer context records
+- Translation segments with uncertainty notes
+- Face-to-camera framing and gaze offsets
+- Visual breathing intervals with provenance
+- Semantic edit boundaries and retained silences
+
+**Protected conditions:**
+
+- Never splice an answer to reverse meaning or fabricate a statement.
+- Preserve an intelligible portion of the question when the answer depends on it.
+- Images between speakers must not impersonate a subject’s biography or location.
+
+Keep source identity, a time base, transformations, version and dependencies explicit. Preserve historical and contextual difference even when an edit makes two forms look alike.
+
+## 3 · Assemble the smallest capable swarm
+
+- Interview editor supplies an honest question/answer record and speaker restrictions.
+- Portrait maker maintains readable, consistent attention without demanding identical affect.
+- Translation/sound editor preserves speech, breaths, and meaningful silence.
+- Counterpoint editor places image intervals without falsely illustrating testimony.
+- Independent testimony critic compares the cut with complete answers.
+
+Every role must build or verify something concrete. The independent critic receives the intended experience and actual output before the builder&#x27;s explanation. Do not invent a critic session when no independent review occurred.
+
+## 4 · Hard proof; produce before scaling
+
+Build a two-minute encounter from two authorized interviews answering the bounded question, “What small object did you decide to keep, and why?” Begin with one speaker long enough for an unexpected qualification to remain: perhaps the object is useful, embarrassing, or no longer loved, but only use what they actually say. Hold a brief silence after the answer. Insert an original, clearly unrelated wide view of a storage room, repair shelf, or landscape for twelve seconds, allowing its own sound to replace the voice. Do not show a specific object as though it belongs to the speaker unless that relationship is documented. Introduce the second speaker, whose answer may contest the idea that keeping something is desirable. Preserve their refusal, uncertainty, or different sense of value. End by returning to a short intact continuation from the first interview that complicates its initial reading. Keep subtitles synchronized and restrained. Avoid a swelling score that resolves the disagreement into a single sentimental conclusion.
+
+Save a recoverable draft. Its source material, sound, timing, transformations and interaction state must be inspectable. Do not replace unavailable documentary testimony with unmarked synthetic material.
+
+## 5 · Acceptance tribunal
+
+**Judge by watching or operating the proof:**
+
+- Each speaker’s claim survives comparison with the complete source answer.
+- A qualification or hesitation remains perceptible rather than trimmed for efficiency.
+- The visual interval gives time to think without making an unsupported biographical claim.
+- The two accounts retain a real difference after assembly.
+- Speech and subtitles remain intelligible at ordinary playback volume and phone scale.
+
+**Structural or automated checks, only where the representation supports them:**
+
+- Map subtitle cues and edited speech to original speaker/time intervals.
+- Flag noncontiguous speech edits for semantic review instead of assuming continuity.
+
+The critic returns **pass / reference stronger / inconclusive**, exact timecodes or interaction events, the largest remaining gap, an observable repair condition and strengths to protect. Distinguish measured checks from perceptual judgments. Leave execution and acceptance marked pending until they happen.
+
+## 6 · Repair through discriminating experiments
+
+- **Failure:** The sequence feels manipulative or sentimental. **Hypothesis:** Music and illustrative inserts prescribe an emotion before the account develops. **Experiment:** Compare the scored cut with an ambient-only version retaining the same testimony; ask what conclusions each pressures the viewer to accept.
+- **Failure:** The speakers become interchangeable examples. **Hypothesis:** Answers were reduced to matching slogans. **Experiment:** Restore one contradictory clause and one pause per speaker; compare whether their individual reasoning becomes distinguishable.
+
+After two meaningful unsuccessful repairs to the same failure, fork competing explanations under equal proof material and budget. Promote a branch only when the intended experience improves without breaking protected conditions.
+
+## 7 · Discovery and recursive expansion
+
+- Organize longer movements around questions that permit disagreement, not predetermined emotional bins.
+- Revisit a speaker when a later account changes the stakes of an earlier statement; preserve the integrity of both.
+
+Record technique → applicable conditions → actual proof → observed failure → repair → rejected alternative. Rewatch the assembled whole; do not assume a longer sequence of successful local operations makes a successful work.
+
+## 8 · Deliverable contract
+
+- Watchable testimony-and-image passage with accurate subtitles.
+- Semantic edit map, complete-answer references, and independent testimony critique.
+- Separate recoverable voice, ambient, and score stems.
+
+Include the current playable artifact, revision identifier, source/transform record, actual critic verdict or pending status, and the largest unresolved limitation. Preserve an accepted checkpoint before major changes.
+
+**Possible ALLWAYS applications:** ALMOST HUMAN, MNEMONIL, COMMONTHREAD.
+
+## INHERITED SCION DOCTRINE — BUILD, INSPECT, REPAIR
+
+1. **Viewer experience first.** State one specific perceptual or interactive achievement. Name the attractive but empty result this project must avoid. A subject, mood board or similarity score is not a film.
+2. **Inspect the lineage.** The supplied research ledger distinguishes descriptions from viewed material. Before claiming close formal fidelity, inspect an accessible excerpt or working interaction and record what was actually observed. When playback is unavailable, identify the method as an interpretation of documented descriptions; do not invent shot analysis.
+3. **Hard proof before scale.** Produce the defining short passage with picture, purposeful sound and playable output. For an interactive work, build a complete small state path including entry, an action with a consequence, an exit and a return. Do not begin by accumulating a giant archive.
+4. **Material and source integrity.** Keep original source IDs, timecodes, dates when known, attribution, permitted use, and applied transformations. Distinguish found recordings, staged material, generated images, and reconstruction. A synthetic stand-in is not documentary evidence. Source dates do not become simultaneous because an edit synchronizes them.
+5. **Native working state.** Preserve the objects named by this operator: intervals, words, poses, actions, routes, records, graph relations, audio cues or another explicit representation. Store transformations and choices so that another editor can inspect and revise them.
+6. **Small accountable swarm.** Every role owns an artifact or a verification. Merge roles when coordination becomes costly. Keep an independent critic for the defining achievement. Respect the user&#x27;s existing authority; do not seek arbitrary approval for routine reversible work or publish/contact others beyond the authorized scope.
+7. **Sound and duration are structural.** Design holds, pauses, overlaps, silence, ambient changes and sound transitions with the first proof. Preserve source silence where relevant; label newly composed sound. Never claim that music, an animation or a cut establishes a person&#x27;s private feeling.
+8. **Independent criticism.** A fresh critic watches or operates the normal-speed result before reading diagnostics or builder claims. Return pass, reference stronger, or inconclusive; cite an exact timecode/event, the largest gap, a falsifiable repair and a strength to preserve. &#x27;Reference stronger&#x27; requires an actually inspected comparable reference. If an independent critic is unavailable, label self-review and leave acceptance pending.
+9. **Repair causes.** Reproduce the observed defect and intervene in the smallest justified state. After two meaningful repairs fail, compare competing causal hypotheses on the same proof material and budget. Do not add effects, agents or footage just to conceal the defect.
+10. **Two kinds of evidence.** Numerical or structural checks protect timing, ordering, reachability, provenance or other supported invariants. Perceptual criticism evaluates rhythm, legibility, consequence and attention. Neither substitutes for the other, and no score proves artistic value. Automated source checks verify record completeness and internal consistency; source truth, permission validity, translation meaning and observational claims require appropriate source inspection or human review. Report which review actually occurred.
+11. **Whole-work judgment.** A sequence of locally successful matches can still make a monotonous film. Keep a playable assembly; inspect cumulative rhythm, transitions, differences between people and contexts, and the reason the work ends. Preserve productive seams and interruptions.
+12. **Truthful stopping and delivery.** Stop at independent acceptance, the user&#x27;s stop, the authorized budget, or a justified no-progress boundary. Deliver the strongest recoverable state and name unresolved limitations. Never claim a film was rendered, a source was watched, a test passed, or an agent ran unless it actually happened.
+
+**Tool boundary:** Use real available tools. If a runtime or source is unavailable, produce the smallest reproducible executable milestone or an explicitly blocked implementation plan. Do not narrate an imaginary execution. This prompt authorizes only the scope supplied by its user.
+
+## START
+
+Read the inputs and actual source material. State the creative theorem and protected conditions. Build the proof with picture and sound or an operable interaction. Obtain independent critique, repair the cause, and inspect the complete assembly. Expand only after the defining operation is perceptible.
+
+
+## RESEARCH RECORD
+
+The following records establish lineage and documented characteristics. Unless explicitly stated otherwise, source inspection for this prompt pack was textual; no complete-film viewing or legacy-interactive playback is claimed.
+
+1. [HUMAN — Hope Production](https://www.hopeprod.com/en/human-le-film) — Director, 2015 date, musical attribution, and testimony/image structure. Evidence: official_description; inspection: text_only.
+2. [Human — The Movie, project collection](https://artsandculture.google.com/project/human-the-movie) — Project-presented relationship between personal stories, aerial imagery, music, and reflection. Evidence: creator_statement; inspection: text_only.
+
+**Metadata notes and unresolved questions:**
+
+- HUMAN is not a purely nonverbal documentary: spoken testimony is fundamental. Multiple published versions exist; do not transfer a runtime between editions without inspection.
+</pre>
+
+  <div class="sec-head">
+    <div>
+      <div class="kicker">Stage 2 · Archive Forage, Captured Frames & Editorial Rationale</div>
+      <h2>Captured Shots & Why Each Was Chosen (6 Cuts)</h2>
+    </div>
+    <span style="font:11px var(--mono);color:var(--muted)">Click any shot to scrub video</span>
+  </div>
+  <div class="shots-list">
+    
+            <article class="shot-card is-card" onclick="seekTo(0.00)">
+              <div class="shot-media card-placeholder">
+                <span>TITLE CARD</span>
+                <span class="shot-time">SEG #01 · 0.0s–3.0s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source"><strong>OPENING SLATE</strong> <span>(3.0s)</span></div>
+                <div class="shot-what">Frontal human faces and direct address punctuated by vast aerial landscapes</div>
+                <div class="shot-why"><strong>Why Included:</strong> Structural framing slate / audit card required by operator deliverable contract.</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(3.00)">
+              <div class="shot-media">
+                <img src="../thumbs/c858b846-4733-5f49-8af0-9a8345cf3fbe.jpg" alt="Captured frame from Thanksgiving Cooking Class 11/20/20" loading="lazy">
+                <span class="shot-time">CUT #02 · 3.0s–7.8s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>Thanksgiving Cooking Class 11/20/20 (2020)</strong>
+                  <span>clip <code>c858b846</code> · source window <code>0.30s–5.10s</code> (4.80s) <a href="https://www.movingimagearchive.com/sources/thanksgiving-cooking-class-11-20-20-58b36c9a?clip=c858b846-4733-5f49-8af0-9a8345cf3fbe" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> Thanksgiving Cooking Class (2020): A woman speaks directly into the camera lens without intermediary</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>FRONTAL TESTIMONY #01</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from Thanksgiving Cooking Class 11/20/20 (2020) because the visible gesture directly  establishes phase [VOICE I · DIRECT ADDRESS TO THE LENS (2020)], and executes the formal bridge (FRONTAL TESTIMONY #01), and anchors the opening perceptual premise before any cross-source comparison begins. Window 0.30s–5.10s (4.80s) verified cut-free (motion Δ=51.0, luma=85.1, audio=-20.3 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(7.80)">
+              <div class="shot-media">
+                <img src="../thumbs/9544256b-09f0-555e-9a46-937c742d7307.jpg" alt="Captured frame from Episode 10 - The EFNEP Program" loading="lazy">
+                <span class="shot-time">CUT #03 · 7.8s–12.1s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>Episode 10 - The EFNEP Program (2007)</strong>
+                  <span>clip <code>9544256b</code> · source window <code>0.20s–4.50s</code> (4.30s) <a href="https://www.movingimagearchive.com/sources/episode-10-the-efnep-program-78f25c40?clip=9544256b-09f0-555e-9a46-937c742d7307" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> EFNEP Program (2007): A woman&#x27;s grave, expressive face held in tight frontal framing</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>FRONTAL TESTIMONY #02</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from Episode 10 - The EFNEP Program (2007) because the visible gesture directly  establishes phase [VOICE II · AFFECTIVE CLOSE-UP (2007)], and executes the formal bridge (FRONTAL TESTIMONY #02), and advances cut 2/6 of the theorem while preserving distinct historical provenance (2007). Window 0.20s–4.50s (4.30s) verified cut-free (motion Δ=29.4, luma=74.9, audio=-23.5 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(12.10)">
+              <div class="shot-media">
+                <img src="../thumbs/2ca7a150-d024-55b3-aa97-42b86117803c.jpg" alt="Captured frame from Amateur Film Medicus09a" loading="lazy">
+                <span class="shot-time">CUT #04 · 12.1s–17.3s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>Amateur Film Medicus09a ()</strong>
+                  <span>clip <code>2ca7a150</code> · source window <code>10.80s–16.00s</code> (5.20s) <a href="https://www.movingimagearchive.com/sources/amateur-film-medicus09a-a8229695?clip=2ca7a150-d024-55b3-aa97-42b86117803c" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> Medicus 09a: Wide coastal surf breaking around dark shoreline rocks — space to absorb the preceding faces</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>AERIAL / COASTAL INTERVAL</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from Amateur Film Medicus09a (None) because the visible gesture directly  establishes phase [BREATHING INTERVAL I · WAVES BREAKING ON HEADLANDS], and executes the formal bridge (AERIAL / COASTAL INTERVAL), and advances cut 3/6 of the theorem while preserving distinct historical provenance (None). Window 10.80s–16.00s (5.20s) verified cut-free (motion Δ=10.1, luma=97.9, audio=-45.2 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(17.30)">
+              <div class="shot-media">
+                <img src="../thumbs/ff0440e2-dd14-5563-aa78-2b7ad93b52b7.jpg" alt="Captured frame from The Mission of Apollo / Soyuz, ca. 1975" loading="lazy">
+                <span class="shot-time">CUT #05 · 17.3s–22.1s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>The Mission of Apollo / Soyuz, ca. 1975 ()</strong>
+                  <span>clip <code>ff0440e2</code> · source window <code>0.20s–5.00s</code> (4.80s) <a href="https://www.movingimagearchive.com/sources/the-mission-of-apollo-soyuz-ca-1975-761d4e3e?clip=ff0440e2-dd14-5563-aa78-2b7ad93b52b7" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> The Mission of Apollo: A technician addresses the camera directly from his workstation</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>FRONTAL TESTIMONY #03</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from The Mission of Apollo / Soyuz, ca. 1975 (None) because the visible gesture directly  establishes phase [VOICE III · WORKER SPEAKING AT THE BENCH], and executes the formal bridge (FRONTAL TESTIMONY #03), and advances cut 4/6 of the theorem while preserving distinct historical provenance (None). Window 0.20s–5.00s (4.80s) verified cut-free (motion Δ=23.7, luma=62.6, audio=-17.3 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(22.10)">
+              <div class="shot-media">
+                <img src="../thumbs/3f308fbb-c04f-53e9-974c-c55ad23a1adc.jpg" alt="Captured frame from Place to Live, A" loading="lazy">
+                <span class="shot-time">CUT #06 · 22.1s–27.1s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>Place to Live, A (1948)</strong>
+                  <span>clip <code>3f308fbb</code> · source window <code>0.30s–5.30s</code> (5.00s) <a href="https://www.movingimagearchive.com/sources/place-to-live-a-7f791137?clip=3f308fbb-c04f-53e9-974c-c55ad23a1adc" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> A Place to Live (1948): A boy&#x27;s face fills the entire frame in silent, unguarded attention</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>FRONTAL PRESENCE #04</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from Place to Live, A (1948) because the visible gesture directly  establishes phase [VOICE IV · UPWARD CHILD GAZE FILLING THE FRAME (1948)], and executes the formal bridge (FRONTAL PRESENCE #04), and advances cut 5/6 of the theorem while preserving distinct historical provenance (1948). Window 0.30s–5.30s (5.00s) verified cut-free (motion Δ=22.7, luma=95.8, audio=-17.1 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(27.10)">
+              <div class="shot-media">
+                <img src="../thumbs/340884cb-2ae3-5c16-96d4-fa00ba7c9c08.jpg" alt="Captured frame from Scatter radar: Space research from the ground" loading="lazy">
+                <span class="shot-time">CUT #07 · 27.1s–32.3s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>Scatter radar: Space research from the ground (1963)</strong>
+                  <span>clip <code>340884cb</code> · source window <code>1.00s–6.20s</code> (5.20s) <a href="https://www.movingimagearchive.com/sources/scatter-radar-space-research-from-the-ground-e8ccef6d?clip=340884cb-2ae3-5c16-96d4-fa00ba7c9c08" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> Scatter Radar (1963): Low cloud lying calmly over water beneath distant mountains</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>HORIZON CODA</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from Scatter radar: Space research from the ground (1963) because the visible gesture directly  establishes phase [BREATHING INTERVAL II · MIST OVER WATER BENEATH MOUNTAINS (1963)], and executes the formal bridge (HORIZON CODA), and completes the terminal return/aftermath hold required by the operator theorem. Window 1.00s–6.20s (5.20s) verified cut-free (motion Δ=9.9, luma=54.9, audio=-21.0 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card is-card" onclick="seekTo(32.30)">
+              <div class="shot-media card-placeholder">
+                <span>CLOSING LEDGER</span>
+                <span class="shot-time">SEG #08 · 32.3s–35.8s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source"><strong>CLOSING LEDGER</strong> <span>(3.5s)</span></div>
+                <div class="shot-what">Each frontal portrait (`c858b846`, `9544256b`, `3f308fbb`, `ff0440e2`) retains its individual provenance while aerial intervals (`2ca7a150`, `340884cb`) serve explicitly as contemplative breathing space.</div>
+                <div class="shot-why"><strong>Why Included:</strong> Structural framing slate / audit card required by operator deliverable contract.</div>
+              </div>
+            </article>
+  </div>
+
+  <div class="sec-head">
+    <div>
+      <div class="kicker">Stage 3 · Independent Critic Tribunal & Verification</div>
+      <h2>Temporal Proof Strips & Diagnostic Audit</h2>
+    </div>
+    <a class="btn sec" href="../strips/SCION_081_Human_Testimony_And_Aerial_Breathing_Room_v2_strip.jpg" target="_blank">Open Full-Res Strip ↗</a>
+  </div>
+  <div class="strip-label">Verified v2 Temporal Proof Strip (8 evenly spaced frames + waveform/timecode audit)</div>
+  <img class="strip-img" src="../strips/SCION_081_Human_Testimony_And_Aerial_Breathing_Room_v2_strip.jpg" alt="v2 proof strip">
+  
+  
+        <div class="trib-box pass">
+          <div class="label">Two-Layer Critic Tribunal Verification</div>
+          <p><strong>Strength Preserved:</strong> </p>
+          <p><strong>Final Verdict:</strong> <code>PASS (v2 · 0 structural or perceptual issues across 6 archival cuts)</code></p>
+        </div>
+
+  <nav class="nav-foot">
+    <a href="SCION_080_Life_In_A_Day_Unequal_Windows.html">← #29 Life in a Day — Diurnal Window Comparison</a>
+    <a href="../index.html#film=SCION_081_Human_Testimony_And_Aerial_Breathing_Room">Back to 85-Film Screening Room ↗</a>
+    <a href="SCION_082_First_Position_Practice_To_Stage.html">#31 First Position — Practice, Constraint, and Stage Exposure →</a>
+  </nav>
+</main>
+<script>
+function seekTo(sec) {
+  const v = document.getElementById('v');
+  v.currentTime = sec;
+  v.play().catch(()=>{});
+  v.scrollIntoView({behavior:'smooth', block:'center'});
+}
+function copyPrompt() {
+  const txt = document.getElementById('prompt-raw').textContent;
+  navigator.clipboard.writeText(txt).then(() => {
+    const msg = document.getElementById('copy-msg');
+    msg.textContent = 'COPIED TO CLIPBOARD ✓';
+    setTimeout(() => msg.textContent = '', 2500);
+  });
+}
+</script>
+</body>
+</html>

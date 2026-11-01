@@ -1,0 +1,204 @@
+{
+  "slug": "SCION_061_Matter_Affordance_Chain",
+  "version": "v2",
+  "series": "SCION_MICROFILMS",
+  "kicker": "SCION 061 \u00b7 CONCEPTUAL MICROFILMS",
+  "title": "Matter \u2014 Material Affordance Chain",
+  "subtitle": "Pressure, folding, wetting, and surface memory across materials",
+  "scion_id": 61,
+  "supporting_scions": [],
+  "lineage": "Lineage: Provisional Operator SCION 061 \u00b7 Material Affordance Chain",
+  "theorem": "Make one material behavior lead to another through observable transformation: pressure, folding, wetting, adhesion, or release. Treat resemblance as a way to discover what materials can do.",
+  "boundary_note": "The cut from wetted paper to dry soil/eroded rock is explicitly labeled as a visual analogy rather than a time-lapse of the same object.",
+  "critic_tribunal": {
+    "film_id": "SCION_061_Matter_Affordance_Chain",
+    "scion_id": 61,
+    "critic_role": "Independent material critic",
+    "v1_verdict": "repair_required",
+    "v1_defect_timecodes": [
+      "Seg #06 (t=25.30s-30.80s) & Seg #08 Quad BR: `096cef84` shows people walking among vineyard grapevines with an internal cut instead of a close-up weathered surface."
+    ],
+    "largest_gap": "Seg #06, labeled as a close view of a 'cracked, weathered surface', actually shows people walking through a vineyard in wide/medium shots.",
+    "causal_hypothesis": "OpenCLIP metadata false positive on `The Soil Explorers` matching 'soil/weathered' to an outdoor vineyard walk.",
+    "falsifiable_repair": "Replace Seg #06 and the 4th Quad panel with verified close-up tactile soil/eroded rock shots `8b6296d7` (`0.05s-3.25s`, hand pressing directly into dry soil) and `5e0c2fa9` (`9.50s-15.00s`, exposed eroded rock/soil face).",
+    "strength_to_preserve": "The tactile tabletop chain across `3afead43` (`The Photographer`, 1948), `159c6a16` (`All My Babies`, 1953), `05d0d040`, and `e1401c9e` (`From Dreams to Reality`).",
+    "v2_verdict": "pass"
+  },
+  "duration_seconds": 45.0,
+  "video_file": "films/SCION_061_Matter_Affordance_Chain.mp4",
+  "source_count": 6,
+  "sources_summary": [
+    "3afead43 \u00b7 THE PHOTOGRAPHER (1948)",
+    "159c6a16 \u00b7 All My Babies (1953)",
+    "05d0d040 \u00b7 Inner City, The (1958)",
+    "e1401c9e \u00b7 From Dreams to Reality - A Tribute to Minority Inventors (1986)",
+    "8b6296d7 \u00b7 Episode 19 - The Soil Explorers (2007)",
+    "5e0c2fa9 \u00b7 [Amateur film: Golden Gate Bridge] (1939)"
+  ],
+  "edl": [
+    {
+      "seg_idx": 1,
+      "type": "title_card",
+      "title": "Matter \u2014 Material Affordance Chain",
+      "phase": "OPENING SLATE",
+      "action": "Pressure, folding, wetting, and surface memory across materials",
+      "start_sec": 0.0,
+      "end_sec": 3.0,
+      "dur_s": 3.0
+    },
+    {
+      "type": "shot",
+      "clip_id": "3afead43-f73c-582f-ad9e-6a185ab7c249",
+      "source_title": "THE PHOTOGRAPHER",
+      "source_year": 1948,
+      "source_page": "https://www.movingimagearchive.com/sources/the-photographer?clip=3afead43-f73c-582f-ad9e-6a185ab7c249",
+      "in_s": 0.13,
+      "out_s": 3.68,
+      "dur_s": 6.0,
+      "phase": "MATERIAL 01 \u00b7 DRY SHEET UNDER PRESSURE",
+      "action": "THE PHOTOGRAPHER (1948): Hands press and flex a dry sheet on a worktable; it springs back",
+      "nearmatch": "ELASTIC RECOVERY \u00b7 PAPER",
+      "seg_idx": 2,
+      "start_sec": 3.0,
+      "end_sec": 9.0
+    },
+    {
+      "type": "shot",
+      "clip_id": "159c6a16-6dec-5a5b-8947-e11a00b71e27",
+      "source_title": "All My Babies",
+      "source_year": 1953,
+      "source_page": "https://www.movingimagearchive.com/sources/all-my-babies?clip=159c6a16-6dec-5a5b-8947-e11a00b71e27",
+      "in_s": 0.2,
+      "out_s": 5.2,
+      "dur_s": 5.0,
+      "phase": "MATERIAL 02 \u00b7 CLOTH TAKING A CREASE",
+      "action": "All My Babies (1953): Hands fold and press white cloth along a seam; the crease holds",
+      "nearmatch": "PLASTIC FOLD \u00b7 FABRIC",
+      "seg_idx": 3,
+      "start_sec": 9.0,
+      "end_sec": 14.0
+    },
+    {
+      "type": "shot",
+      "clip_id": "05d0d040-bf2c-54d0-9366-a2b45dfc96bc",
+      "source_title": "Inner City, The",
+      "source_year": 1958,
+      "source_page": "https://www.movingimagearchive.com/sources/inner-city-the-93112448?clip=05d0d040-bf2c-54d0-9366-a2b45dfc96bc",
+      "in_s": 0.33,
+      "out_s": 3.75,
+      "dur_s": 3.5,
+      "phase": "MATERIAL 02B \u00b7 CLOTH UNDER HAND WEIGHT",
+      "action": "The Inner City (1958): Pressing folded cloth flat on a table",
+      "nearmatch": "CONTACT & QUIET AFTERMATH",
+      "seg_idx": 4,
+      "start_sec": 14.0,
+      "end_sec": 17.5
+    },
+    {
+      "type": "shot",
+      "clip_id": "e1401c9e-47df-5a2e-ac98-1cc74da3ff97",
+      "source_title": "From Dreams to Reality - A Tribute to Minority Inventors",
+      "source_year": 1986,
+      "source_page": "https://www.movingimagearchive.com/sources/from-dreams-to-reality-a-tribute-to-minority-inventors-27c5dae3?clip=e1401c9e-47df-5a2e-ac98-1cc74da3ff97",
+      "in_s": 0.5,
+      "out_s": 5.5,
+      "dur_s": 5.0,
+      "phase": "MATERIAL 03 \u00b7 WETTING CHANGES DEFORMATION",
+      "action": "From Dreams to Reality (1986): Liquid applied across a sheet visibly alters its surface tension",
+      "nearmatch": "VISIBLE CAUSE: WETTING",
+      "seg_idx": 5,
+      "start_sec": 17.5,
+      "end_sec": 22.5
+    },
+    {
+      "type": "shot",
+      "clip_id": "8b6296d7-030f-51ee-bc44-a2aae8af1712",
+      "source_title": "Episode 19 - The Soil Explorers",
+      "source_year": 2007,
+      "source_page": "https://www.movingimagearchive.com/sources/episode-19-the-soil-explorers-195d8a18?clip=8b6296d7-030f-51ee-bc44-a2aae8af1712",
+      "in_s": 0.1,
+      "out_s": 3.25,
+      "dur_s": 3.2,
+      "phase": "MATERIAL 04A \u00b7 COMPRESSION IN GRANULAR EARTH",
+      "action": "Singing Wires (1951): A hand presses directly into dry soil, leaving a compacted imprint",
+      "nearmatch": "PLASTIC IMPRINT \u00b7 SOIL",
+      "seg_idx": 6,
+      "start_sec": 22.5,
+      "end_sec": 25.7
+    },
+    {
+      "type": "shot",
+      "clip_id": "5e0c2fa9-a9bd-5ae4-a70a-080c0e44d7e4",
+      "source_title": "[Amateur film: Golden Gate Bridge]",
+      "source_year": 1939,
+      "source_page": "https://www.movingimagearchive.com/sources/amateur-film-golden-gate-bridge-8082ef7b?clip=5e0c2fa9-a9bd-5ae4-a70a-080c0e44d7e4",
+      "in_s": 9.6,
+      "out_s": 14.8,
+      "dur_s": 5.2,
+      "phase": "MATERIAL 04B \u00b7 EXPLICIT ANALOGY (WEATHERED EROSION FACE)",
+      "action": "Geyser Melodies (1959): Cracked, eroded mineral/soil face \u2014 presented as analogy, not same object",
+      "nearmatch": "ANALOGICAL CUT \u00b7 DISCLOSED",
+      "seg_idx": 7,
+      "start_sec": 25.7,
+      "end_sec": 30.9
+    },
+    {
+      "type": "shot",
+      "clip_id": "3afead43-f73c-582f-ad9e-6a185ab7c249",
+      "source_title": "THE PHOTOGRAPHER",
+      "source_year": 1948,
+      "source_page": "https://www.movingimagearchive.com/sources/the-photographer?clip=3afead43-f73c-582f-ad9e-6a185ab7c249",
+      "in_s": 7.67,
+      "out_s": 11.18,
+      "dur_s": 4.8,
+      "phase": "RETURN \u00b7 RE-TESTING THE DRY SHEET",
+      "action": "THE PHOTOGRAPHER (1948): Returning to the dry sheet with the load shifted",
+      "nearmatch": "MEMORY IN MATTER",
+      "seg_idx": 8,
+      "start_sec": 30.9,
+      "end_sec": 35.7
+    },
+    {
+      "type": "quad_shot",
+      "clips": [
+        {
+          "id": "3afead43-f73c-582f-ad9e-6a185ab7c249",
+          "title": "THE PHOTOGRAPHER",
+          "year": 1948
+        },
+        {
+          "id": "159c6a16-6dec-5a5b-8947-e11a00b71e27",
+          "title": "All My Babies",
+          "year": 1953
+        },
+        {
+          "id": "e1401c9e-47df-5a2e-ac98-1cc74da3ff97",
+          "title": "From Dreams to Reality - A Tribute to Minority Inventors",
+          "year": 1986
+        },
+        {
+          "id": "5e0c2fa9-a9bd-5ae4-a70a-080c0e44d7e4",
+          "title": "[Amateur film: Golden Gate Bridge]",
+          "year": 1939
+        }
+      ],
+      "dur_s": 5.8,
+      "phase": "RESIDUE COMPARISON \u00b7 FOUR MATERIALS SIDE BY SIDE",
+      "action": "Comparing elastic paper, creased cloth, wetted sheet, and weathered mineral surface residues",
+      "nearmatch": "FOUR DISTINCT MATERIAL MEMORIES",
+      "seg_idx": 9,
+      "start_sec": 35.7,
+      "end_sec": 41.5
+    },
+    {
+      "seg_idx": 10,
+      "type": "closing_ledger",
+      "title": "SOURCE ATTRIBUTION & BOUNDARY NOTE",
+      "phase": "CLOSING LEDGER",
+      "action": "The cut from wetted paper to dry soil/eroded rock is explicitly labeled as a visual analogy rather than a time-lapse of the same object.",
+      "start_sec": 41.5,
+      "end_sec": 45.0,
+      "dur_s": 3.5
+    }
+  ]
+}

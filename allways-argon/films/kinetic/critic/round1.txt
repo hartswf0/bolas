@@ -1,0 +1,17 @@
+VERDICT: pass (Round 1 — v1 assembly audit)
+Critic Role: Independent systems critic
+
+Observed Defects on v1 Proof Strip:
+- Optional v2 enhancement — Seg #05 (t=18.60s-23.80s): Upgrade 'THREE WORKSHOPS ALIGNED' from a single-stream shot to a synchronized 3-panel triptych locking Processes 01, 02, and 03 visually to the pulse.
+
+Largest Gap:
+All v1 shots were clean and cut-free; upgrading Seg #05 to a 3-panel triptych makes the three-workshop rhythmic coordination visually explicit.
+
+Causal Hypothesis:
+Single-stream segment mode used in v1 for Seg #05.
+
+Falsifiable Repair Condition:
+Use `mode='triptych'` with `clips=['6ee8ef44', '9b8b1f1e', 'aeebdc87']` in Seg #05 so watchmaking, loom shuttle, and factory stamping lock together visually before the normal-speed maintenance interruption (`2ab95576`).
+
+Strength to Preserve:
+All three work processes, the normal-speed bearing-oiling maintenance interruption (`2ab95576`), the wide factory-floor contextual reveal (`eba7d1c4`), and the worker stopping at the close (`135e3a64`).

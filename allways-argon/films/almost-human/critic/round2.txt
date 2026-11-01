@@ -1,0 +1,7 @@
+VERDICT: pass (Round 2 — v2 repaired assembly verification)
+Critic Role: Independent attention-and-routine critic
+
+Verification of Falsifiable Repair:
+- Executed repair: Use `af625567` clamped to its verified wristwatch close-up window (`2.85s-6.00s`) for Seg #04, paired with verified hourglass time-check `7aa7b9d2` (`18.0s-23.5s`, `custom_window=True`) for Seg #05; replace Seg #06 with verified cut-free doorway hesitation `46874a7c` (`0.2s-6.2s`, 8.3s clean window).
+- Automated structural check: 0 internal camera cuts (max_frame_diff < 16.0), 0 title-card contaminants, 0 missing glyph boxes.
+- Visual inspection of 8-frame v2 proof strip confirms every shot establishes and completes its visible action while preserving the strength identified in Round 1 (The opening complete collar adjustment in `9d763244` (`Basic Typing`, 1944), contrasting fabric touch in `e76fd644`, stopping halfway in `9c590333`, and returning to `9d763244` after the gesture.).

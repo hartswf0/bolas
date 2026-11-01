@@ -1,0 +1,555 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>B-ROLL OF CIVILIZATION 07 · SCION 106 + 067 · ZERO MEMORY — ALLWAYS · ARGON Case Study</title>
+<link rel="stylesheet" href="../../../tools/paeleo/fonts/local.css">
+<style>
+:root {
+  --bg: #0c0e0d;
+  --panel: #131715;
+  --panel-2: #191f1c;
+  --ink: #f2efe6;
+  --muted: #9aa39c;
+  --rule: #28312c;
+  --accent: #d46a4c;
+  --mint: #8ec5a8;
+  --gold: #dfc48b;
+  --display: 'Big Shoulders Display', -apple-system, BlinkMacSystemFont, sans-serif;
+  --serif: 'Literata', Georgia, serif;
+  --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.65 var(--serif); }
+a { color: var(--mint); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.topbar {
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(12,14,13,0.94); backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--rule);
+  padding: 10px 18px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px;
+  font: 11px/1.4 var(--mono); text-transform: uppercase; letter-spacing: .06em;
+}
+.wrap { max-width: 1120px; margin: 0 auto; padding: 24px 18px 80px; }
+.kicker { font: 600 11px/1.4 var(--mono); color: var(--accent); text-transform: uppercase; letter-spacing: .1em; }
+h1 { font: 800 clamp(32px, 6vw, 60px)/.96 var(--display); text-transform: uppercase; margin: 6px 0 8px; letter-spacing: -.01em; }
+.subtitle { font: 400 clamp(17px, 2.2vw, 22px)/1.4 var(--serif); color: var(--muted); margin-bottom: 18px; }
+.player-sticky {
+  background: #000; border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; margin-bottom: 24px;
+}
+video { width: 100%; aspect-ratio: 16/9; display: block; background: #000; }
+.player-bar {
+  padding: 10px 14px; background: var(--panel); border-top: 1px solid var(--rule);
+  display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px;
+  font: 11px/1.4 var(--mono); color: var(--muted);
+}
+.btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  font: 600 11px/1 var(--mono); text-transform: uppercase; letter-spacing: .06em;
+  padding: 9px 13px; border-radius: 4px; border: 1px solid var(--mint);
+  background: var(--mint); color: #0d1f16; cursor: pointer;
+}
+.btn.sec { background: transparent; color: var(--ink); border-color: var(--rule); }
+.btn:hover { opacity: .92; text-decoration: none; }
+.sec-head {
+  border-top: 1px solid var(--rule); padding-top: 24px; margin: 36px 0 16px;
+  display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 12px;
+}
+.sec-head h2 { font: 800 clamp(24px, 3.5vw, 34px)/1.05 var(--display); text-transform: uppercase; margin: 0; }
+.meta-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; margin: 18px 0;
+}
+.meta-card { background: var(--panel); border: 1px solid var(--rule); border-radius: 6px; padding: 14px 16px; }
+.meta-card .label { font: 600 10px/1.4 var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--gold); margin-bottom: 6px; }
+.shots-list { display: flex; flex-direction: column; gap: 12px; }
+.shot-card {
+  display: grid; grid-template-columns: 240px 1fr; gap: 16px;
+  background: var(--panel); border: 1px solid var(--rule); border-radius: 6px; padding: 12px;
+  cursor: pointer; transition: border-color .15s;
+}
+.shot-card:hover { border-color: var(--mint); }
+.shot-card.is-card { grid-template-columns: 180px 1fr; opacity: .88; }
+.shot-media { position: relative; background: #050706; border-radius: 4px; overflow: hidden; aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center; }
+.shot-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.shot-time {
+  position: absolute; bottom: 6px; left: 6px;
+  background: rgba(0,0,0,0.82); color: var(--gold); padding: 2px 6px; border-radius: 3px;
+  font: 600 10px/1.3 var(--mono);
+}
+.shot-body { display: flex; flex-direction: column; gap: 6px; font-size: 14px; }
+.shot-source { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px; font: 12px/1.4 var(--mono); color: var(--muted); border-bottom: 1px solid var(--rule); padding-bottom: 6px; }
+.shot-source strong { color: var(--ink); }
+.shot-what { color: var(--ink); }
+.shot-bridge { font-size: 12px; color: var(--gold); }
+.shot-why { color: var(--muted); font-size: 13.5px; }
+.strip-img { width: 100%; border-radius: 6px; border: 1px solid var(--rule); display: block; margin: 10px 0; }
+.strip-label { font: 600 11px/1.4 var(--mono); color: var(--muted); text-transform: uppercase; margin-top: 10px; }
+.tribunal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 14px; }
+.trib-box { background: var(--panel); border: 1px solid var(--rule); border-radius: 6px; padding: 16px; font-size: 14px; }
+.trib-box.warn { border-left: 3px solid var(--accent); }
+.trib-box.pass { border-left: 3px solid var(--mint); }
+.trib-box .label { font: 700 11px/1.4 var(--mono); text-transform: uppercase; color: var(--gold); margin-bottom: 8px; }
+pre.prompt-box {
+  background: #090c0a; border: 1px solid var(--rule); border-radius: 6px; padding: 18px;
+  font: 12.5px/1.65 var(--mono); color: #e2e6de; white-space: pre-wrap; overflow-wrap: anywhere; max-height: 640px; overflow-y: auto;
+}
+.nav-foot {
+  margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--rule);
+  display: flex; justify-content: space-between; gap: 14px; font: 12px/1.5 var(--mono);
+}
+@media (max-width: 700px) {
+  .shot-card, .shot-card.is-card { grid-template-columns: 1fr; }
+  .tribunal-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div>
+    <a href="../../../paeleo/allways/index.html#runs">ALLWAYS</a> <span>/</span> <a href="../../index.html">ARGON (12)</a> <span>/</span>
+    <a href="../index.html#film=BROLL_07_Zero_Memory">ARGON SCREENING ROOM (85)</a> <span>/</span>
+    <span style="color:var(--ink)">#74 CASE STUDY</span>
+  </div>
+  <div style="display:flex;gap:8px;align-items:center">
+    <button class="btn" onclick="copyPrompt()">Copy Prompt</button>
+    <a class="btn sec" href="BROLL_07_Zero_Memory.md" download>Case Study .md</a>
+    <a class="btn sec" href="../manifests/BROLL_07_Zero_Memory.json" target="_blank">EDL .json</a>
+  </div>
+</header>
+<main class="wrap">
+  <div class="kicker">B-ROLL OF CIVILIZATION 07 · SCION 106 + 067 · B-Roll of Civilization (01–12) · FILM #74 OF 85</div>
+  <h1>ZERO MEMORY</h1>
+  <div class="subtitle">An editor forgets — three declared history resets against a persistent audit log</div>
+
+  <div class="player-sticky">
+    <video id="v" controls playsinline preload="metadata" src="../films/BROLL_07_Zero_Memory.mp4"></video>
+    <div class="player-bar">
+      <span>44.3s · 7 archival cuts · 5 sources · Critic Tribunal: PASS (v2)</span>
+      <span>Tap any captured shot card below to jump video to that cut</span>
+    </div>
+  </div>
+
+  <div class="meta-grid">
+    <div class="meta-card">
+      <div class="label">01 · Creative Theorem</div>
+      <div>Use a fixed collection of short excerpts. Reset the editor&#x27;s declared working history at three visible boundaries while keeping a separate external audit log. Allow repeated selections to recur, then place an intact recurrence beside a changed one.</div>
+    </div>
+    <div class="meta-card">
+      <div class="label">02 · Lineage & Reference</div>
+      <div>Primary: SCION 106 (Network Effect) · Supporting: SCION 067 ((nostalgia))</div>
+      <div style="margin-top:8px;font-size:12px;color:var(--muted)"><strong>Boundary Contract:</strong> Persistent archive access, model training, declared working history, and spectator memory are kept explicitly distinct in the HUD.</div>
+    </div>
+  </div>
+
+  <div class="sec-head">
+    <div>
+      <div class="kicker">Stage 1 · Production Prompt</div>
+      <h2>Copyable SCION / ALLWAYS Prompt</h2>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="btn" id="copy-btn-2" onclick="copyPrompt()">Copy Full Prompt</button>
+      <span id="copy-msg" style="font:11px var(--mono);color:var(--mint);align-self:center"></span>
+    </div>
+  </div>
+  <pre class="prompt-box" id="prompt-raw"># ALLWAYS PRODUCTION PROMPT // B-ROLL OF CIVILIZATION 07 · SCION 106 + 067 — ZERO MEMORY
+## Standalone Archival Cinema &amp; Case-Study Specification (PAELEO / ALLWAYS · ARGON)
+
+**Work Slug:** `BROLL_07_Zero_Memory`
+**Title:** ZERO MEMORY
+**Subtitle:** An editor forgets — three declared history resets against a persistent audit log
+**Primary SCION Operator:** SCION 106 — Network Effect — Bounded Attention, Unfinishable Archive
+**Supporting SCION Operators:** SCION 067 ((nostalgia) — Anticipated Image, Vanishing Evidence)
+**Lineage Reference:** Primary: SCION 106 (Network Effect) · Supporting: SCION 067 ((nostalgia))
+
+## 1 · Creative Theorem &amp; Formal Operation
+Use a fixed collection of short excerpts. Reset the editor&#x27;s declared working history at three visible boundaries while keeping a separate external audit log. Allow repeated selections to recur, then place an intact recurrence beside a changed one.
+
+## 2 · Source Boundary &amp; Ethical Contract
+Persistent archive access, model training, declared working history, and spectator memory are kept explicitly distinct in the HUD.
+
+## 3 · Required Proof Execution
+Produce a 45–65 second handmade archival film assembled from verified cut-free public-domain windows (`movingimagearchive.com` / `Cineosis Lab` corpus).
+- Every shot must be verified free of internal camera cuts (`max_frame_diff &lt; 16.0`) and opening/closing title cards.
+- Record for every cut: (a) source ID, title, year, and timecode window `in_s..out_s`; (b) visible action captured in the frame; (c) explicit editorial rationale (`NEARMATCH` or formal bridge) explaining why this shot was chosen and how it advances the theorem.
+- Generate an 8-frame temporal proof strip (`v2_strip.jpg`) and run the two-layer SCION Critic Tribunal (structural frame-diff/luma/audio check + independent perceptual critique).
+
+---
+
+## 4 · Inherited Primary SCION Operator Prompt (SCION 106)
+
+# SCION 106 // Network Effect — Bounded Attention, Unfinishable Archive
+## Autonomous evolving cinema / documentary / database swarm · standalone prompt
+
+**Family:** Interactive and database media
+**Operator lineage:** Network Effect, August 2015 — Jonathan Harris and Greg Hochmuth.
+**Requested reference:** Network Effect (2015) — Jonathan Harris &amp; Greg Hochmuth
+**Reference status:** verified_description. See the research record below.
+**Execution mode:** interactive_documentary
+**Interpretation:** This is a newly authored operational prompt inspired by documented work. It does not claim that the credited artists wrote or endorsed it. Its proposed proof is an original experiment. Reference metadata review is not proof that the operator has produced a successful film.
+
+You are **SCION-106-NETWORK-EFFECT-BOUNDED-ATTENTION-UNFINISHABLE-ARCHIVE**. Produce a finished watchable or operable work within the user&#x27;s requested scope. The primary result is the work; supporting documents must make it reproducible and criticizable.
+
+## INPUT
+
+- `[WORK]`: the new work or question this operator should realize.
+- `[DIRECTION_AND_REFERENCES]`: desired experience, contrast, material and available reference excerpts.
+- `[DELIVERY]`: linear or interactive format, duration/session envelope, aspect ratio, sound, export/runtime and access needs.
+- `[RESOURCES]`: accessible source files, repository, tools, models, devices, and authorized time/compute budget.
+- `[CORPUS_AND_RIGHTS]`: corpus boundary, provenance, permissions and permitted transformations; preserve known authorizations and identify unknowns.
+- `[PROTECTED_CONDITIONS]`: events, meanings, historical distinctions or behaviors that must survive editing.
+
+Resolve ordinary implementation choices from context. Ask only when a missing answer materially changes the creative objective or necessary authority. Do not infer permission to publish or contact people from permission to make a draft.
+
+## 1 · Creative theorem to prove
+
+Make finite experience time confront more playable material than it can contain, then compose an ending from the visitor&#x27;s actual route. Distinguish opening an item from completing its playback without claiming to measure attention or understanding.
+
+**What makes this operator distinct:** We Feel Fine makes individual/aggregate relations inspectable; this operator sets a finite active duration against available media and composes the resulting route, whether or not any item stayed unopened.
+
+## 2 · Native formal language
+
+Preserve and manipulate these as explicit working objects:
+
+- A finite branching corpus with more normal-speed media than the session budget
+- One foreground clip, text fragments and composed sound-density states
+- Running, paused, ended and untimed-index states with an active-time clock
+- Opened IDs, played intervals, completed IDs and unopened IDs
+- A frozen route snapshot for the closing passage
+- An ending and quiet index derived from actual session records
+
+**Protected conditions:**
+
+- The ninety-second budget counts running experience time, including its final ten-second coda; clicking never extends it.
+- Pause freezes clock, media and narrative navigation; resume and exit remain available. Exit ends the session and opens the untimed index.
+- Opened includes completed items; completion requires full normal-speed playback. Report actual states, never guaranteed unopened links or inferred attention.
+
+Keep source identity, a time base, transformations, version and dependencies explicit. Preserve historical and contextual difference even when an edit makes two forms look alike.
+
+## 3 · Assemble the smallest capable swarm
+
+- Archive editor supplies clip durations and competing routes through a modest corpus.
+- Attention dramaturg composes pressure and an ending from actual selections.
+- Interface and sound composer preserves visible pause and exit controls.
+- State engineer records active time, media coverage and route snapshots locally.
+- Independent critic tests whether the experience questions or reproduces compulsive browsing.
+
+Every role must build or verify something concrete. The independent critic receives the intended experience and actual output before the builder&#x27;s explanation. Do not invent a critic session when no independent review occurred.
+
+## 4 · Hard proof; produce before scaling
+
+Build a ninety-second active session from twelve authorized clips, each twelve to twenty seconds long, under hold, wait and leave. Only one clip advances at a time. Selection records an opening; full normal-speed coverage records completion. Rapid clicking may open every item, so never promise unopened links. Begin calmly, multiply invitations in the middle, then reveal remaining time. Pause freezes the countdown, all media and narrative navigation; only resume or exit advances the session state. Exit stops it and opens the quiet index. At eighty active seconds, freeze the route record. The final ten seconds replay its fragments with silence and report actual opened, completed and unopened counts against twelve; this coda does not alter completion records. Offer the same untimed index afterward, with the session snapshot preserved while index exploration is tracked separately. Use original composed speech only as authored text. Keep the proof local, without personal tracking or claims about the visitor&#x27;s psychological state.
+
+Save a recoverable draft. Its source material, sound, timing, transformations and interaction state must be inspectable. Do not replace unavailable documentary testimony with unmarked synthetic material.
+
+## 5 · Acceptance tribunal
+
+**Judge by watching or operating the proof:**
+
+- The available media exceeds the budget, while reported exploration states match the actual route.
+- Pause visibly suspends both time and progression, with exit always usable.
+- The coda composes the actual route rather than inventing incompleteness or ending as an access error.
+- The untimed index offers a different way of attending without rewriting session results.
+- Adjustable audio remains intelligible; counts imply neither understanding nor a psychological diagnosis.
+
+**Structural or automated checks, only where the representation supports them:**
+
+- Exercise a deterministic event trace: count only running time, freeze media/navigation while paused, stop at ninety active seconds, and preserve exit at every state.
+- Check opened/completed/unopened counts against media coverage and the eighty-second snapshot, including rapid opening of all twelve items; keep index exploration separate.
+- Confirm media duration exceeds budget, reset clears local session records, and no analytics transmission is required.
+
+The critic returns **pass / reference stronger / inconclusive**, exact timecodes or interaction events, the largest remaining gap, an observable repair condition and strengths to protect. Distinguish measured checks from perceptual judgments. Leave execution and acceptance marked pending until they happen.
+
+## 6 · Repair through discriminating experiments
+
+- **Failure:** The proof is simply a frustrating website. **Hypothesis:** Scarcity has no formal resolution or critical perspective. **Experiment:** Compare a hard cutoff with a quiet replay of the actual chosen path.
+- **Failure:** Visitors ignore the finite attention premise. **Hypothesis:** The collection is too small or the branching too uniform. **Experiment:** Hold corpus size fixed and vary only the distribution of invitations across the three acts.
+
+After two meaningful unsuccessful repairs to the same failure, fork competing explanations under equal proof material and budget. Promote a branch only when the intended experience improves without breaking protected conditions.
+
+## 7 · Discovery and recursive expansion
+
+- Scale corpus density only after the bounded ending works, retaining the active-clock and completion rules.
+- Add modalities only when they change the question about completeness; report actual exploration at every scale.
+
+Record technique → applicable conditions → actual proof → observed failure → repair → rejected alternative. Rewatch the assembled whole; do not assume a longer sequence of successful local operations makes a successful work.
+
+## 8 · Deliverable contract
+
+- Bounded browsing performance and untimed reflective index
+- Active-clock/state trace, clip-duration corpus ledger, frozen route counts, audio score and critic report
+
+Include the current playable artifact, revision identifier, source/transform record, actual critic verdict or pending status, and the largest unresolved limitation. Preserve an accepted checkpoint before major changes.
+
+**Possible ALLWAYS applications:** ZERO MEMORY, UNWITNESSED, THE VECTOR POET, LATENT.
+
+## INHERITED SCION DOCTRINE — BUILD, INSPECT, REPAIR
+
+1. **Viewer experience first.** State one specific perceptual or interactive achievement. Name the attractive but empty result this project must avoid. A subject, mood board or similarity score is not a film.
+2. **Inspect the lineage.** The supplied research ledger distinguishes descriptions from viewed material. Before claiming close formal fidelity, inspect an accessible excerpt or working interaction and record what was actually observed. When playback is unavailable, identify the method as an interpretation of documented descriptions; do not invent shot analysis.
+3. **Hard proof before scale.** Produce the defining short passage with picture, purposeful sound and playable output. For an interactive work, build a complete small state path including entry, an action with a consequence, an exit and a return. Do not begin by accumulating a giant archive.
+4. **Material and source integrity.** Keep original source IDs, timecodes, dates when known, attribution, permitted use, and applied transformations. Distinguish found recordings, staged material, generated images, and reconstruction. A synthetic stand-in is not documentary evidence. Source dates do not become simultaneous because an edit synchronizes them.
+5. **Native working state.** Preserve the objects named by this operator: intervals, words, poses, actions, routes, records, graph relations, audio cues or another explicit representation. Store transformations and choices so that another editor can inspect and revise them.
+6. **Small accountable swarm.** Every role owns an artifact or a verification. Merge roles when coordination becomes costly. Keep an independent critic for the defining achievement. Respect the user&#x27;s existing authority; do not seek arbitrary approval for routine reversible work or publish/contact others beyond the authorized scope.
+7. **Sound and duration are structural.** Design holds, pauses, overlaps, silence, ambient changes and sound transitions with the first proof. Preserve source silence where relevant; label newly composed sound. Never claim that music, an animation or a cut establishes a person&#x27;s private feeling.
+8. **Independent criticism.** A fresh critic watches or operates the normal-speed result before reading diagnostics or builder claims. Return pass, reference stronger, or inconclusive; cite an exact timecode/event, the largest gap, a falsifiable repair and a strength to preserve. &#x27;Reference stronger&#x27; requires an actually inspected comparable reference. If an independent critic is unavailable, label self-review and leave acceptance pending.
+9. **Repair causes.** Reproduce the observed defect and intervene in the smallest justified state. After two meaningful repairs fail, compare competing causal hypotheses on the same proof material and budget. Do not add effects, agents or footage just to conceal the defect.
+10. **Two kinds of evidence.** Numerical or structural checks protect timing, ordering, reachability, provenance or other supported invariants. Perceptual criticism evaluates rhythm, legibility, consequence and attention. Neither substitutes for the other, and no score proves artistic value. Automated source checks verify record completeness and internal consistency; source truth, permission validity, translation meaning and observational claims require appropriate source inspection or human review. Report which review actually occurred.
+11. **Whole-work judgment.** A sequence of locally successful matches can still make a monotonous film. Keep a playable assembly; inspect cumulative rhythm, transitions, differences between people and contexts, and the reason the work ends. Preserve productive seams and interruptions.
+12. **Truthful stopping and delivery.** Stop at independent acceptance, the user&#x27;s stop, the authorized budget, or a justified no-progress boundary. Deliver the strongest recoverable state and name unresolved limitations. Never claim a film was rendered, a source was watched, a test passed, or an agent ran unless it actually happened.
+
+**Tool boundary:** Use real available tools. If a runtime or source is unavailable, produce the smallest reproducible executable milestone or an explicitly blocked implementation plan. Do not narrate an imaginary execution. This prompt authorizes only the scope supplied by its user.
+
+## START
+
+Read the inputs and actual source material. State the creative theorem and protected conditions. Build the proof with picture and sound or an operable interaction. Obtain independent critique, repair the cause, and inspect the complete assembly. Expand only after the defining operation is perceptible.
+
+
+## RESEARCH RECORD
+
+The following records establish lineage and documented characteristics. Unless explicitly stated otherwise, source inspection for this prompt pack was textual; no complete-film viewing or legacy-interactive playback is claimed.
+
+1. [Network Effect](https://network-effect.io/) — Creators&#x27; description of abundance, a limited viewing window, multimodal records and the work&#x27;s critical purpose. Evidence: creator_statement; inspection: text_only.
+2. [Network Effect — Credits](https://networkeffect.io/credits) — Creators and August 2015 attribution. Evidence: creator_statement; inspection: text_only.
+
+**Metadata notes and unresolved questions:**
+
+- No metadata correction asserted for this entry.</pre>
+
+  <div class="sec-head">
+    <div>
+      <div class="kicker">Stage 2 · Archive Forage, Captured Frames & Editorial Rationale</div>
+      <h2>Captured Shots & Why Each Was Chosen (7 Cuts)</h2>
+    </div>
+    <span style="font:11px var(--mono);color:var(--muted)">Click any shot to scrub video</span>
+  </div>
+  <div class="shots-list">
+    
+            <article class="shot-card is-card" onclick="seekTo(0.00)">
+              <div class="shot-media card-placeholder">
+                <span>TITLE CARD</span>
+                <span class="shot-time">SEG #01 · 0.0s–3.0s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source"><strong>OPENING SLATE</strong> <span>(3.0s)</span></div>
+                <div class="shot-what">An editor forgets — three declared history resets against a persistent audit log</div>
+                <div class="shot-why"><strong>Why Included:</strong> Structural framing slate / audit card required by operator deliverable contract.</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(3.00)">
+              <div class="shot-media">
+                <img src="../thumbs/b1626fd2-07ce-5710-8c68-a626e3ae837b.jpg" alt="Captured frame from The National Library of Medicine" loading="lazy">
+                <span class="shot-time">CUT #02 · 3.0s–7.8s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>The National Library of Medicine (1963)</strong>
+                  <span>clip <code>b1626fd2</code> · source window <code>0.30s–5.10s</code> (4.80s) <a href="https://www.movingimagearchive.com/sources/the-national-library-of-medicine?clip=b1626fd2-07ce-5710-8c68-a626e3ae837b" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> National Library of Medicine (1963): Sorting index cards in the catalog drawer</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>FIRST ENCOUNTER: CLIP #01</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from The National Library of Medicine (1963) because the visible gesture directly  establishes phase [EPOCH 1 (MEM=[#01]) · AUDIT=[#01/12]], and executes the formal bridge (FIRST ENCOUNTER: CLIP #01), and anchors the opening perceptual premise before any cross-source comparison begins. Window 0.30s–5.10s (4.80s) verified cut-free (motion Δ=37.5, luma=65.9, audio=-17.1 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(7.80)">
+              <div class="shot-media">
+                <img src="../thumbs/dac3352e-9be0-55c8-bfe8-bb3eca954987.jpg" alt="Captured frame from Court to Court \(Aug 2002\)" loading="lazy">
+                <span class="shot-time">CUT #03 · 7.8s–10.0s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>Court to Court \(Aug 2002\) (2002)</strong>
+                  <span>clip <code>dac3352e</code> · source window <code>1.15s–3.30s</code> (2.20s) <a href="https://www.movingimagearchive.com/sources/court-to-court-aug-2002-d1747427?clip=dac3352e-9be0-55c8-bfe8-bb3eca954987" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> Court to Court (2002): Searching bound volumes along archive shelves (1.15s-3.35s)</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>FIRST ENCOUNTER: CLIP #02</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from Court to Court \(Aug 2002\) (2002) because the visible gesture directly  establishes phase [EPOCH 1 (MEM=[#01,#02]) · AUDIT=[#01,#02]], and executes the formal bridge (FIRST ENCOUNTER: CLIP #02), and advances cut 2/7 of the theorem while preserving distinct historical provenance (2002). Window 1.15s–3.30s (2.20s) verified cut-free (motion Δ=41.0, luma=104.4, audio=-20.8 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(10.00)">
+              <div class="shot-media">
+                <img src="../thumbs/8266284b-8fbb-5b36-9d7f-3987ddc4af17.jpg" alt="Captured frame from Facts About Film" loading="lazy">
+                <span class="shot-time">CUT #04 · 10.0s–14.5s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>Facts About Film (1948)</strong>
+                  <span>clip <code>8266284b</code> · source window <code>0.30s–4.80s</code> (4.50s) <a href="https://www.movingimagearchive.com/sources/facts-about-film-84ef06c1?clip=8266284b-8fbb-5b36-9d7f-3987ddc4af17" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> Facts About Film (1948): Hands holding a 16mm metal film reel</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>FIRST ENCOUNTER: CLIP #03</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from Facts About Film (1948) because the visible gesture directly  establishes phase [EPOCH 1 (MEM=[#01,#02,#03]) · AUDIT=[3 OPENED]], and executes the formal bridge (FIRST ENCOUNTER: CLIP #03), and advances cut 3/7 of the theorem while preserving distinct historical provenance (1948). Window 0.30s–4.80s (4.50s) verified cut-free (motion Δ=20.9, luma=91.0, audio=-19.3 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card is-card" onclick="seekTo(14.50)">
+              <div class="shot-media card-placeholder">
+                <span>INTERTITLE</span>
+                <span class="shot-time">SEG #05 · 14.5s–16.5s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source"><strong>INTERTITLE SLATE</strong> <span>(2.0s)</span></div>
+                <div class="shot-what">Editor Working Memory -&gt; []  |  External Audit Log -&gt; [#01, #02, #03] (3/12 opened)</div>
+                <div class="shot-why"><strong>Why Included:</strong> Structural framing slate / audit card required by operator deliverable contract.</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(16.50)">
+              <div class="shot-media">
+                <img src="../thumbs/b1626fd2-07ce-5710-8c68-a626e3ae837b.jpg" alt="Captured frame from The National Library of Medicine" loading="lazy">
+                <span class="shot-time">CUT #06 · 16.5s–21.3s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>The National Library of Medicine (1963)</strong>
+                  <span>clip <code>b1626fd2</code> · source window <code>0.30s–5.10s</code> (4.80s) <a href="https://www.movingimagearchive.com/sources/the-national-library-of-medicine?clip=b1626fd2-07ce-5710-8c68-a626e3ae837b" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> National Library of Medicine (1963): Editor re-selects Clip #01 as if new; viewer recognizes the cards</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>INTACT RECURRENCE</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from The National Library of Medicine (1963) because the visible gesture directly  establishes phase [EPOCH 2 (MEM=[#01]) · AUDIT=[RECURRENCE OF #01!]], and executes the formal bridge (INTACT RECURRENCE), and advances cut 4/7 of the theorem while preserving distinct historical provenance (1963). Window 0.30s–5.10s (4.80s) verified cut-free (motion Δ=37.5, luma=66.1, audio=-17.1 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(21.30)">
+              <div class="shot-media">
+                <img src="../thumbs/cd907ac3-1512-5398-a0c2-1c34b4bd1269.jpg" alt="Captured frame from Oil Across Arabia" loading="lazy">
+                <span class="shot-time">CUT #07 · 21.3s–23.7s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>Oil Across Arabia (1950)</strong>
+                  <span>clip <code>cd907ac3</code> · source window <code>0.10s–2.25s</code> (2.40s) <a href="https://www.movingimagearchive.com/sources/oil-across-arabia-eca4afbe?clip=cd907ac3-1512-5398-a0c2-1c34b4bd1269" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> Oil Across Arabia (1950): Filing dispatch records at a desk</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>FIRST ENCOUNTER: CLIP #04</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from Oil Across Arabia (1950) because the visible gesture directly  establishes phase [EPOCH 2 (MEM=[#01,#04]) · AUDIT=[4/12 OPENED]], and executes the formal bridge (FIRST ENCOUNTER: CLIP #04), and advances cut 5/7 of the theorem while preserving distinct historical provenance (1950). Window 0.10s–2.25s (2.40s) verified cut-free (motion Δ=13.7, luma=34.6, audio=-31.3 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card is-card" onclick="seekTo(23.70)">
+              <div class="shot-media card-placeholder">
+                <span>INTERTITLE</span>
+                <span class="shot-time">SEG #08 · 23.7s–25.7s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source"><strong>INTERTITLE SLATE</strong> <span>(2.0s)</span></div>
+                <div class="shot-what">Editor Working Memory -&gt; []  |  External Audit Log -&gt; [#01x2, #02, #03, #04]</div>
+                <div class="shot-why"><strong>Why Included:</strong> Structural framing slate / audit card required by operator deliverable contract.</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(25.70)">
+              <div class="shot-media">
+                <img src="../thumbs/dac3352e-9be0-55c8-bfe8-bb3eca954987.jpg" alt="Captured frame from Court to Court \(Aug 2002\)" loading="lazy">
+                <span class="shot-time">CUT #09 · 25.7s–27.8s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>Court to Court \(Aug 2002\) (2002)</strong>
+                  <span>clip <code>dac3352e</code> · source window <code>1.55s–3.60s</code> (2.10s) <a href="https://www.movingimagearchive.com/sources/court-to-court-aug-2002-d1747427?clip=dac3352e-9be0-55c8-bfe8-bb3eca954987" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> Court to Court (2002): Clip #02 returns at a shifted trim offset (1.55s-3.65s) along the same shelf</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>CHANGED RECURRENCE</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from Court to Court \(Aug 2002\) (2002) because the visible gesture directly  establishes phase [EPOCH 3 (MEM=[#02]) · AUDIT=[RECURRENCE OF #02 · SHIFTED TRIM]], and executes the formal bridge (CHANGED RECURRENCE), and advances cut 6/7 of the theorem while preserving distinct historical provenance (2002). Window 1.55s–3.60s (2.10s) verified cut-free (motion Δ=44.9, luma=105.5, audio=-21.1 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(27.80)">
+              <div class="shot-media">
+                <img src="../thumbs/b3ef2f32-ea89-5744-8940-c804848c95e0.jpg" alt="Captured frame from Command Performance" loading="lazy">
+                <span class="shot-time">CUT #10 · 27.8s–32.3s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>Command Performance (1942)</strong>
+                  <span>clip <code>b3ef2f32</code> · source window <code>0.30s–4.80s</code> (4.50s) <a href="https://www.movingimagearchive.com/sources/command-performance-66691535?clip=b3ef2f32-ea89-5744-8940-c804848c95e0" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> Command Performance (1942): Phonograph record spinning in an empty room</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>FIRST ENCOUNTER: CLIP #05</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from Command Performance (1942) because the visible gesture directly  establishes phase [EPOCH 3 (MEM=[#02,#05]) · AUDIT=[5/12 OPENED]], and executes the formal bridge (FIRST ENCOUNTER: CLIP #05), and completes the terminal return/aftermath hold required by the operator theorem. Window 0.30s–4.80s (4.50s) verified cut-free (motion Δ=33.6, luma=93.6, audio=-17.2 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card is-card" onclick="seekTo(32.30)">
+              <div class="shot-media card-placeholder">
+                <span>INTERTITLE</span>
+                <span class="shot-time">SEG #11 · 32.3s–34.3s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source"><strong>INTERTITLE SLATE</strong> <span>(2.0s)</span></div>
+                <div class="shot-what">Placing an intact recurrence (Left) beside a changed recurrence (Right)</div>
+                <div class="shot-why"><strong>Why Included:</strong> Structural framing slate / audit card required by operator deliverable contract.</div>
+              </div>
+            </article>
+            <article class="shot-card is-card" onclick="seekTo(34.30)">
+              <div class="shot-media card-placeholder">
+                <span>SPLIT SHOT</span>
+                <span class="shot-time">SEG #12 · 34.3s–40.8s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source"><strong>SPLIT COMPARISON</strong> <span>(6.5s)</span></div>
+                <div class="shot-what">Left: Epoch 1 intact selection (0.3s) | Right: Epoch 3 shifted recurrence (2.2s) — spectator memory bridges the reset</div>
+                <div class="shot-why"><strong>Why Included:</strong> Structural framing slate / audit card required by operator deliverable contract.</div>
+              </div>
+            </article>
+            <article class="shot-card is-card" onclick="seekTo(40.80)">
+              <div class="shot-media card-placeholder">
+                <span>CLOSING LEDGER</span>
+                <span class="shot-time">SEG #13 · 40.8s–44.3s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source"><strong>CLOSING LEDGER</strong> <span>(3.5s)</span></div>
+                <div class="shot-what">Persistent archive access, model training, declared working history, and spectator memory are kept explicitly distinct in the HUD.</div>
+                <div class="shot-why"><strong>Why Included:</strong> Structural framing slate / audit card required by operator deliverable contract.</div>
+              </div>
+            </article>
+  </div>
+
+  <div class="sec-head">
+    <div>
+      <div class="kicker">Stage 3 · Independent Critic Tribunal & Verification</div>
+      <h2>Temporal Proof Strips & Diagnostic Audit</h2>
+    </div>
+    <a class="btn sec" href="../strips/BROLL_07_Zero_Memory_v2_strip.jpg" target="_blank">Open Full-Res Strip ↗</a>
+  </div>
+  <div class="strip-label">Verified v2 Temporal Proof Strip (8 evenly spaced frames + waveform/timecode audit)</div>
+  <img class="strip-img" src="../strips/BROLL_07_Zero_Memory_v2_strip.jpg" alt="v2 proof strip">
+  
+        <details class="v1-details">
+          <summary>Compare Pre-Repair v1 Assembly Strip vs. Verified v2 Strip</summary>
+          <div class="strip-label">v1 Assembly Strip (Before Critic Repair)</div>
+          <img class="strip-img" src="../strips/BROLL_07_Zero_Memory_v1_strip.jpg" alt="v1 strip" loading="lazy">
+        </details>
+  
+        <div class="tribunal-grid">
+          <div class="trib-box warn">
+            <div class="label">Round 1 (v1) Defects Caught</div>
+            <ul><li>Seg #09 (t=28.70s-33.20s): `dac3352e` at in_s=1.8, dur=4.5 crosses an internal cut at 3.79s from archive shelves to a woman in a red jacket.</li></ul>
+            <p><strong>Largest Gap:</strong> In Seg #09, shifting the trim window of Clip #02 (`dac3352e`) pushed the out-point across a scene cut at 3.79s to an unrelated talking head.</p>
+            <p><strong>Causal Hypothesis:</strong> Clean window of `dac3352e` is `0.05s-3.79s`; `1.8s + 4.5s = 6.3s` crossed the 3.79s cut.</p>
+          </div>
+          <div class="trib-box pass">
+            <div class="label">Round 2 (v2) Falsifiable Repair & Verification</div>
+            <p><strong>Repair Executed:</strong> Use `dac3352e` at `in_s=0.1, dur=2.2` in Epoch 1 (Seg #03) and `in_s=1.2, dur=2.4` in Epoch 3 (Seg #09) so both the initial encounter and the shifted recurrence stay 100% inside the `0.05s-3.79s` cut-free shelf window.</p>
+            <p><strong>Strength Preserved:</strong> The three explicit `WORKING HISTORY RESET` cards, the intact recurrence of `b1626fd2`, and the closing Split Shot comparing intact vs shifted recurrence.</p>
+            <p><strong>Final Verdict:</strong> <code>PASS (v2 · 0 structural or perceptual issues)</code></p>
+          </div>
+        </div>
+
+  <nav class="nav-foot">
+    <a href="BROLL_05_Cut_To_The_Chase.html">← #73 CUT TO THE CHASE</a>
+    <a href="../index.html#film=BROLL_07_Zero_Memory">Back to 85-Film Screening Room ↗</a>
+    <a href="STUDY_02_The_Vector_Poet.html">#75 THE VECTOR POET — Associative Editing Study →</a>
+  </nav>
+</main>
+<script>
+function seekTo(sec) {
+  const v = document.getElementById('v');
+  v.currentTime = sec;
+  v.play().catch(()=>{});
+  v.scrollIntoView({behavior:'smooth', block:'center'});
+}
+function copyPrompt() {
+  const txt = document.getElementById('prompt-raw').textContent;
+  navigator.clipboard.writeText(txt).then(() => {
+    const msg = document.getElementById('copy-msg');
+    msg.textContent = 'COPIED TO CLIPBOARD ✓';
+    setTimeout(() => msg.textContent = '', 2500);
+  });
+}
+</script>
+</body>
+</html>

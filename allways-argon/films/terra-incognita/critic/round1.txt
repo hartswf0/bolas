@@ -1,0 +1,18 @@
+VERDICT: repair_required (Round 1 — v1 assembly audit)
+Critic Role: Independent material-evidence critic
+
+Observed Defects on v1 Proof Strip:
+- Seg #05 (t=20.50s-28.50s): `c04eb5e1` shows a Geiger counter rather than damaged film carrier.
+- Seg #06 (t=28.50s-34.50s): `d69a0d4b` shows an out-of-focus rotating dark shape rather than a recognizable world scene surfacing through grain.
+
+Largest Gap:
+Seg #05 and Seg #06 failed to show the material carrier defect and recognizable world scene surfacing through damaged emulsion.
+
+Causal Hypothesis:
+Unverified clip selection on `c04eb5e1` and `d69a0d4b`.
+
+Falsifiable Repair Condition:
+Replace Seg #05 with Cineosis human-verified damaged/bleached emulsion strip `497f7a8c` (`0.3s-6.2s`, `OBS: Very bright, washed-out figures move across a bleached frame`) and replace Seg #06 with human-verified grainy archival street scene `4d02a782` (`0.3s-6.3s`, `OBS: Grainy damaged footage shows vehicles and figures in an urban setting`).
+
+Strength to Preserve:
+The opening vertical scratch in `e0a5fa07`, the authored Carrier Bridge sprocket wipe (Seg #03), the wildfire flare in `b45f3dbf`, and the blank leader optical-track close in `8b5d40ae`.

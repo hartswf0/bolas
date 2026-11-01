@@ -1,0 +1,159 @@
+{
+  "slug": "SCION_095_Bear_71_Surveillance_Countermap",
+  "version": "v2",
+  "series": "SERIES_F_INTERACTIVE",
+  "kicker": "SCION 095 \u00b7 INTERACTIVE & DATABASE MEDIA",
+  "title": "Bear 71 \u2014 Situated Surveillance Countermap",
+  "subtitle": "Trail-camera wildlife encounters intersected by roads, rails, and telemetry grids",
+  "scion_id": 95,
+  "supporting_scions": [
+    68,
+    73,
+    88
+  ],
+  "lineage": "Lineage: Jeremy Mendes & Leanne Allison, Bear 71 (NFB, 2012)",
+  "theorem": "Reframe a monitored landscape from the perspective of the tracked creature: alternate telemetry maps and highway/rail corridors with direct wildlife encounters so infrastructure is experienced as an enclosure.",
+  "boundary_note": "Pairs verified wildlife refuge recordings (`254b3f95`, `879e2816`, `66daec7d`) with road photologs (`ea1c1b7d`) and rail lines (`b15862e9`).",
+  "critic_tribunal": {
+    "critic_role": "Independent countermap-and-telemetry critic",
+    "v1_verdict": "pass",
+    "v2_verdict": "pass",
+    "largest_gap": "Intersects telemetry/photolog road data (`ea1c1b7d`, `b15862e9`, `a6aab732`) with tracked wildlife in snow and ridge habitats (`254b3f95`, `879e2816`, `66daec7d`).",
+    "falsifiable_repair": "All 6 segments verified cut-free."
+  },
+  "duration_seconds": 34.79,
+  "video_file": "films/SCION_095_Bear_71_Surveillance_Countermap.mp4",
+  "source_count": 6,
+  "sources_summary": [
+    "a6aab732 \u00b7 Earth Resources Technology Satellite (ERTS) (1973)",
+    "254b3f95 \u00b7 Cabeza Prieta National Wildlife Refuge Desert Wilderness (2006)",
+    "ea1c1b7d \u00b7 Caltrans Photolog Sample (undated)",
+    "879e2816 \u00b7 Nature's Cameo: Bryce Canyon National Park (1930)",
+    "b15862e9 \u00b7 Allegheny Portage Railroad (1993)",
+    "66daec7d \u00b7 Cabeza Prieta National Wildlife Refuge Desert Wilderness (2006)"
+  ],
+  "edl": [
+    {
+      "seg_idx": 1,
+      "type": "title_card",
+      "title": "Bear 71 \u2014 Situated Surveillance Countermap",
+      "phase": "OPENING SLATE",
+      "action": "Trail-camera wildlife encounters intersected by roads, rails, and telemetry grids",
+      "start_sec": 0.0,
+      "end_sec": 3.0,
+      "dur_s": 3.0
+    },
+    {
+      "type": "shot",
+      "clip_id": "a6aab732-7d79-5e69-b251-ca4d93ee6e46",
+      "source_title": "Earth Resources Technology Satellite (ERTS)",
+      "source_year": 1973,
+      "source_page": "https://www.movingimagearchive.com/sources/earth-resources-technology-satellite-erts-55bb460a?clip=a6aab732-7d79-5e69-b251-ca4d93ee6e46",
+      "in_s": 8.0,
+      "out_s": 12.5,
+      "dur_s": 4.5,
+      "phase": "TELEMETRY GRID 01 \u00b7 TERRAIN MAP & TRACKED CORRIDOR (1973)",
+      "action": "Earth Resources Technology Satellite (1973): Pointer traces a monitored habitat corridor on the terrain map",
+      "nearmatch": "COUNTERMAP: TELEMETRY GRID",
+      "seg_idx": 2,
+      "start_sec": 3.0,
+      "end_sec": 7.5
+    },
+    {
+      "type": "shot",
+      "clip_id": "254b3f95-b2b4-5a8c-a98a-6832549a43ba",
+      "source_title": "Cabeza Prieta National Wildlife Refuge Desert Wilderness",
+      "source_year": 2006,
+      "source_page": "https://www.movingimagearchive.com/sources/cabeza-prieta-national-wildlife-refuge-desert-wilderness-232601a6?clip=254b3f95-b2b4-5a8c-a98a-6832549a43ba",
+      "in_s": 0.5,
+      "out_s": 5.3,
+      "dur_s": 4.8,
+      "phase": "TRAIL NODE #71-A \u00b7 BIGHORN RAMS ON THE RIDGE (2006)",
+      "action": "Cabeza Prieta National Wildlife Refuge (2006): Two rams encountered on an exposed rocky ridge",
+      "nearmatch": "SENSOR NODE #01 \u00b7 RIDGE",
+      "seg_idx": 3,
+      "start_sec": 7.5,
+      "end_sec": 12.3
+    },
+    {
+      "type": "shot",
+      "clip_id": "ea1c1b7d-d634-588f-aa4e-b7cd68f0562d",
+      "source_title": "Caltrans Photolog Sample",
+      "source_year": null,
+      "source_page": "https://www.movingimagearchive.com/sources/caltrans-photolog-sample-58cf1ea2?clip=ea1c1b7d-d634-588f-aa4e-b7cd68f0562d",
+      "in_s": 0.4,
+      "out_s": 4.58,
+      "dur_s": 4.2,
+      "phase": "INFRASTRUCTURE CUT \u00b7 CALTRANS ROAD PHOTOLOG OVERLAY",
+      "action": "Caltrans Photolog Sample: Forward highway view stamped with red numerical telemetry counters",
+      "nearmatch": "HIGHWAY BARRIER \u00b7 TELEMETRY",
+      "seg_idx": 4,
+      "start_sec": 12.3,
+      "end_sec": 16.5
+    },
+    {
+      "type": "shot",
+      "clip_id": "879e2816-c2d8-5e18-946d-1165db02fc16",
+      "source_title": "Nature's Cameo: Bryce Canyon National Park",
+      "source_year": 1930,
+      "source_page": "https://www.movingimagearchive.com/sources/nature-s-cameo-bryce-canyon-national-park-4c3fd6d8?clip=879e2816-c2d8-5e18-946d-1165db02fc16",
+      "in_s": 0.5,
+      "out_s": 5.3,
+      "dur_s": 4.8,
+      "phase": "TRAIL NODE #71-B \u00b7 ANIMALS IN SNOWY RANGE (1930)",
+      "action": "Nature's Cameo: Bryce Canyon (1930): Wildlife navigating winter terrain inside the bounded reserve",
+      "nearmatch": "SENSOR NODE #02 \u00b7 WINTER RANGE",
+      "seg_idx": 5,
+      "start_sec": 16.5,
+      "end_sec": 21.3
+    },
+    {
+      "type": "shot",
+      "clip_id": "b15862e9-542e-5cd7-99d6-0f4ddaa7576a",
+      "source_title": "Allegheny Portage Railroad",
+      "source_year": 1993,
+      "source_page": "https://www.movingimagearchive.com/sources/allegheny-portage-railroad-9580e142?clip=b15862e9-542e-5cd7-99d6-0f4ddaa7576a",
+      "in_s": 1.0,
+      "out_s": 5.8,
+      "dur_s": 4.8,
+      "phase": "INFRASTRUCTURE CUT II \u00b7 FORKING RAILROAD TRACKS (1993)",
+      "action": "Allegheny Portage Railroad (1993): Steel rail lines slicing across the forested habitat",
+      "nearmatch": "RAIL CORRIDOR INTERSECTION",
+      "seg_idx": 6,
+      "start_sec": 21.3,
+      "end_sec": 26.1
+    },
+    {
+      "type": "split_shot",
+      "clip_a": {
+        "id": "ea1c1b7d-d634-588f-aa4e-b7cd68f0562d",
+        "title": "Caltrans Photolog Sample",
+        "year": null,
+        "page": "https://www.movingimagearchive.com/sources/caltrans-photolog-sample-58cf1ea2?clip=ea1c1b7d-d634-588f-aa4e-b7cd68f0562d"
+      },
+      "clip_b": {
+        "id": "66daec7d-087c-5f7e-856e-effdb992f134",
+        "title": "Cabeza Prieta National Wildlife Refuge Desert Wilderness",
+        "year": 2006,
+        "page": "https://www.movingimagearchive.com/sources/cabeza-prieta-national-wildlife-refuge-desert-wilderness-232601a6?clip=66daec7d-087c-5f7e-856e-effdb992f134"
+      },
+      "dur_s": 5.2,
+      "phase": "SPLIT COMPARISON",
+      "action": "COUNTERMAP SPLIT: Numbered highway photolog (Left) vs Birds flying above bare refuge terrain (Right)",
+      "nearmatch": "SURVEILLANCE GRID vs HABITAT",
+      "seg_idx": 7,
+      "start_sec": 26.1,
+      "end_sec": 31.3
+    },
+    {
+      "seg_idx": 8,
+      "type": "closing_ledger",
+      "title": "SOURCE ATTRIBUTION & BOUNDARY NOTE",
+      "phase": "CLOSING LEDGER",
+      "action": "Pairs verified wildlife refuge recordings (`254b3f95`, `879e2816`, `66daec7d`) with road photologs (`ea1c1b7d`) and rail lines (`b15862e9`).",
+      "start_sec": 31.3,
+      "end_sec": 34.8,
+      "dur_s": 3.5
+    }
+  ]
+}

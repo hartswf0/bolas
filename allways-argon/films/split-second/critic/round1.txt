@@ -1,0 +1,18 @@
+VERDICT: repair_required (Round 1 — v1 assembly audit)
+Critic Role: Independent continuity critic
+
+Observed Defects on v1 Proof Strip:
+- Seg #05 (t=14.00s-19.50s): `874e1f7f` contains internal cuts across dark industrial slats with no drop into liquid or splash.
+- Seg #07 (t=23.30s-29.80s): `61aca239` cuts internally from factory bottles to a clenched fist.
+
+Largest Gap:
+Seg #05 shows dark industrial slats with internal cuts instead of a drop into liquid, and Seg #07 cuts mid-shot instead of holding an object without letting go.
+
+Causal Hypothesis:
+OpenCLIP mismatch on `874e1f7f` and unverified scene cut inside `61aca239`.
+
+Falsifiable Repair Condition:
+Replace Seg #05 with verified cut-free liquid drop/stream impact `5a786b16` (`0.2s-5.7s`, 8.1s clean window) and replace Seg #07 with human-verified cut-free shot of hands holding family photographs without letting go (`b066405d`, `0.1s-6.0s`, 6.1s clean window).
+
+Strength to Preserve:
+The three-part withheld-release grammar across Seg #02, #03, and #04 (`0870ef3a` and `9e7292f1`), where the third return completes the release of the 'SORROW' block, and the ordinary fabric release at the close (`3e4b0f51`).

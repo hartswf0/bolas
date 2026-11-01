@@ -1,0 +1,18 @@
+VERDICT: repair_required (Round 1 — v1 assembly audit)
+Critic Role: Independent material-and-compositing critic
+
+Observed Defects on v1 Proof Strip:
+- Seg #02 (t=03.50s-12.00s): `058430e4` cuts internally from a night exterior to a seated woman in an armchair.
+- Seg #04 (t=19.50s-28.00s) & Seg #07 (t=42.50s-51.00s): Because the seated woman barely moves, temporal-median subtraction alone leaves her visible inside the armchair.
+
+Largest Gap:
+The core person-removal intervention in Seg #04 and Seg #07 failed to erase the person because temporal-median subtraction alone cannot remove a nearly stationary seated figure.
+
+Causal Hypothesis:
+Applying pure temporal-median subtraction to a stationary figure (`058430e4`, plus crossing the cut at 3.0s) baked the person into the median background.
+
+Falsifiable Repair Condition:
+Clamp `058430e4` strictly to its continuous interior living-room shot (`3.6s-11.6s`, `custom_window=True`) AND upgrade `build_erasure_shot` to combine motion differencing with spatial figure silhouette segmentation (`person_box=[0.30, 0.16, 0.72, 0.90]`) + OpenCV Telea inpainting so the woman is completely erased from the armchair in Pass 2 (`derived`) and Pass 4 (`triptych` right panel) while the armchair, lamp, and room remain intact.
+
+Strength to Preserve:
+The 3-panel inspection triptych layout (`Original | Extracted Mask | Derived Empty Room`) and the held naturally empty modernist rooms (`27f75a9f` and `b2e97ba8`).

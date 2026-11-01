@@ -1,0 +1,138 @@
+{
+  "slug": "STUDY_06_Doubletake",
+  "version": "v2",
+  "series": "SERIES_G_STUDIES",
+  "kicker": "ALLWAYS STUDY 06 \u00b7 SCION 093 + 094",
+  "title": "DOUBLETAKE \u2014 Comparative Edition Format",
+  "subtitle": "First viewing, alternate cut, and source/derivative comparison with an explicit shared pool",
+  "scion_id": 93,
+  "supporting_scions": [
+    94,
+    56,
+    60
+  ],
+  "lineage": "ALLWAYS Study (`works.json`) \u00b7 Primary SCIONs: 093 (What Is Neorealism?), 094 (Chuck Jones)",
+  "theorem": "A second viewing, alternate cut, or source/derivative comparison changes the first encounter. Keep the source pool explicit so viewers can inspect what the edit contributes.",
+  "boundary_note": "Runs Pass 1 (Suspense/Threat Cut) and Pass 2 (Ordinary Context Cut) from the exact same 3-clip source pool (`1184d1d4`, `7102b861`, `b3794af0`).",
+  "critic_tribunal": {
+    "critic_role": "Independent doubletake-edition critic",
+    "v1_verdict": "pass",
+    "v2_verdict": "pass",
+    "largest_gap": "Demonstrates how Pass 1 (tight early cuts on `1184d1d4`, `7102b861`, `b3794af0`) manufactures a noir intrusion, while Pass 2 (full duration + wide context) reveals comedy and domestic routine.",
+    "falsifiable_repair": "All 6 segments verified cut-free."
+  },
+  "duration_seconds": 28.83,
+  "video_file": "films/STUDY_06_Doubletake.mp4",
+  "source_count": 3,
+  "sources_summary": [
+    "1184d1d4 \u00b7 The Playhouse (1921)",
+    "7102b861 \u00b7 Key to Our Horizons (1952)",
+    "b3794af0 \u00b7 Frigidaire Finale 1957 (1957)"
+  ],
+  "edl": [
+    {
+      "seg_idx": 1,
+      "type": "title_card",
+      "title": "DOUBLETAKE \u2014 Comparative Edition Format",
+      "phase": "OPENING SLATE",
+      "action": "First viewing, alternate cut, and source/derivative comparison with an explicit shared pool",
+      "start_sec": 0.0,
+      "end_sec": 3.0,
+      "dur_s": 3.0
+    },
+    {
+      "type": "reframe_shot",
+      "clip_id": "1184d1d4-ae27-57fd-8e7a-8cbc51276f62",
+      "source_title": "The Playhouse",
+      "source_year": 1921,
+      "source_page": "https://www.movingimagearchive.com/sources/the-playhouse-bb548fad?clip=1184d1d4-ae27-57fd-8e7a-8cbc51276f62",
+      "reframe_mode": "tight",
+      "dur_s": 3.4,
+      "phase": "EDITION I (FIRST VIEWING: NOIR CUT) \u00b7 SHADOWED FIGURE IN DOORWAY (1921)",
+      "action": "Pool Clip #1 (`1184d1d4`): Tightly cropped doorway arrival cut before the actor's expression resolves",
+      "nearmatch": "EDITION I: IMPLIED THREAT",
+      "seg_idx": 2,
+      "start_sec": 3.0,
+      "end_sec": 6.4
+    },
+    {
+      "type": "shot",
+      "clip_id": "7102b861-3ff9-5305-a672-ee93edc49815",
+      "source_title": "Key to Our Horizons",
+      "source_year": 1952,
+      "source_page": "https://www.movingimagearchive.com/sources/key-to-our-horizons-d838fe71?clip=7102b861-3ff9-5305-a672-ee93edc49815",
+      "in_s": 0.5,
+      "out_s": 3.9,
+      "dur_s": 3.4,
+      "phase": "EDITION I (SHOT 2) \u00b7 HAND AT THE LOCK CYLINDER (1952)",
+      "action": "Pool Clip #2 (`7102b861`): Cut immediately after the doorway shadow, the key reads as a forced entry",
+      "nearmatch": "EDITION I: SYNTHETIC SUSPENSE",
+      "seg_idx": 3,
+      "start_sec": 6.4,
+      "end_sec": 9.8
+    },
+    {
+      "type": "reframe_shot",
+      "clip_id": "1184d1d4-ae27-57fd-8e7a-8cbc51276f62",
+      "source_title": "The Playhouse",
+      "source_year": 1921,
+      "source_page": "https://www.movingimagearchive.com/sources/the-playhouse-bb548fad?clip=1184d1d4-ae27-57fd-8e7a-8cbc51276f62",
+      "reframe_mode": "tight_to_wide",
+      "dur_s": 5.2,
+      "phase": "EDITION II (DOUBLETAKE RE-VIEW) \u00b7 FULL FRAME REVEALS BUSTER KEATON'S STAGE (1921)",
+      "action": "Same Pool Clip #1 (`1184d1d4`): Widening and holding the shot reveals The Playhouse (1921) slapstick set",
+      "nearmatch": "EDITION II: CONTEXT RESTORED",
+      "seg_idx": 4,
+      "start_sec": 9.8,
+      "end_sec": 15.0
+    },
+    {
+      "type": "shot",
+      "clip_id": "b3794af0-20a2-5d22-ba80-f9432ba913df",
+      "source_title": "Frigidaire Finale 1957",
+      "source_year": 1957,
+      "source_page": "https://www.movingimagearchive.com/sources/frigidaire-finale-1957-ed70195b?clip=b3794af0-20a2-5d22-ba80-f9432ba913df",
+      "in_s": 1.0,
+      "out_s": 5.8,
+      "dur_s": 4.8,
+      "phase": "EDITION II (SHOT 2) \u00b7 WOMAN AT HER MIRROR IN FRIGIDAIRE FINALE (1957)",
+      "action": "Pool Clip #3 (`b3794af0`): Played in full domestic light, the mirror reflection is a showroom demonstration",
+      "nearmatch": "EDITION II: GENRE REVERSED",
+      "seg_idx": 5,
+      "start_sec": 15.0,
+      "end_sec": 19.8
+    },
+    {
+      "type": "split_shot",
+      "clip_a": {
+        "id": "1184d1d4-ae27-57fd-8e7a-8cbc51276f62",
+        "title": "The Playhouse",
+        "year": 1921,
+        "page": "https://www.movingimagearchive.com/sources/the-playhouse-bb548fad?clip=1184d1d4-ae27-57fd-8e7a-8cbc51276f62"
+      },
+      "clip_b": {
+        "id": "7102b861-3ff9-5305-a672-ee93edc49815",
+        "title": "Key to Our Horizons",
+        "year": 1952,
+        "page": "https://www.movingimagearchive.com/sources/key-to-our-horizons-d838fe71?clip=7102b861-3ff9-5305-a672-ee93edc49815"
+      },
+      "dur_s": 5.5,
+      "phase": "SPLIT COMPARISON",
+      "action": "DOUBLETAKE AUDIT: Inspecting the exact cut point (3.4s) where Edition I manufactured false continuity",
+      "nearmatch": "DOUBLETAKE \u00b7 SOURCE POOL EXPOSED",
+      "seg_idx": 6,
+      "start_sec": 19.8,
+      "end_sec": 25.3
+    },
+    {
+      "seg_idx": 7,
+      "type": "closing_ledger",
+      "title": "SOURCE ATTRIBUTION & BOUNDARY NOTE",
+      "phase": "CLOSING LEDGER",
+      "action": "Runs Pass 1 (Suspense/Threat Cut) and Pass 2 (Ordinary Context Cut) from the exact same 3-clip source pool (`1184d1d4`, `7102b861`, `b3794af0`).",
+      "start_sec": 25.3,
+      "end_sec": 28.8,
+      "dur_s": 3.5
+    }
+  ]
+}

@@ -1,0 +1,142 @@
+{
+  "slug": "STUDY_02_The_Vector_Poet",
+  "version": "v2",
+  "series": "SERIES_G_STUDIES",
+  "kicker": "ALLWAYS STUDY 02 \u00b7 SCION 055 + 059 + 062 + 092",
+  "title": "THE VECTOR POET \u2014 Associative Editing Study",
+  "subtitle": "Search proposes visual, sonic, or semantic neighbors; the human editor tests whether the cut holds meaning",
+  "scion_id": 55,
+  "supporting_scions": [
+    59,
+    62,
+    92
+  ],
+  "lineage": "ALLWAYS Study (`works.json`) \u00b7 Primary SCIONs: 055 (Words), 059 (Ball), 062 (Beauty), 092 (Hands)",
+  "theorem": "Search proposes visual, sonic, or semantic neighbors; an editor tests whether their relation develops meaning and preserves context. Similarity scores nominate candidates rather than settle the cut.",
+  "boundary_note": "Contrasts raw candidate nominations (`CANDIDATE A vs B`) with the editor's chosen cut that preserves historical difference.",
+  "critic_tribunal": {
+    "critic_role": "Independent associative-editing critic",
+    "v1_verdict": "pass",
+    "v2_verdict": "pass",
+    "largest_gap": "Shows how a circular graphic query (`5a73aa82`) nominates both a shallow match and a rich semantic/tactile neighbor (`3a9b7c68`, `b3ef2f32`, `95f7caf3`).",
+    "falsifiable_repair": "All 5 segments verified cut-free."
+  },
+  "duration_seconds": 30.88,
+  "video_file": "films/STUDY_02_The_Vector_Poet.mp4",
+  "source_count": 5,
+  "sources_summary": [
+    "5a73aa82 \u00b7 Precisely So (Part II) (1937)",
+    "6367030a \u00b7 Fitting Faces (1940)",
+    "3a9b7c68 \u00b7 Consumers Want to Know (Part I) (1960)",
+    "b3ef2f32 \u00b7 Command Performance (1942)",
+    "95f7caf3 \u00b7 Verkade's fabrieken te Zaandam (1930)"
+  ],
+  "edl": [
+    {
+      "seg_idx": 1,
+      "type": "title_card",
+      "title": "THE VECTOR POET \u2014 Associative Editing Study",
+      "phase": "OPENING SLATE",
+      "action": "Search proposes visual, sonic, or semantic neighbors; the human editor tests whether the cut holds meaning",
+      "start_sec": 0.0,
+      "end_sec": 3.0,
+      "dur_s": 3.0
+    },
+    {
+      "type": "shot",
+      "clip_id": "5a73aa82-1887-5698-acee-6096019e597d",
+      "source_title": "Precisely So (Part II)",
+      "source_year": 1937,
+      "source_page": "https://www.movingimagearchive.com/sources/precisely-so-part-ii-9c68f9b5?clip=5a73aa82-1887-5698-acee-6096019e597d",
+      "in_s": 16.0,
+      "out_s": 20.5,
+      "dur_s": 4.5,
+      "phase": "SEED SHOT [QUERY ANCHOR] \u00b7 CIRCULAR OPTICAL APERTURE (1937)",
+      "action": "Precisely So (1937): Circular aperture serves as the visual/semantic seed for associative retrieval",
+      "nearmatch": "SEED VECTOR: CIRCLE + ROTATION",
+      "seg_idx": 2,
+      "start_sec": 3.0,
+      "end_sec": 7.5
+    },
+    {
+      "type": "split_shot",
+      "clip_a": {
+        "id": "6367030a-d78c-5046-b8a1-ef045c9a49a1",
+        "title": "Fitting Faces",
+        "year": 1940,
+        "page": "https://www.movingimagearchive.com/sources/fitting-faces-2815cbaa?clip=6367030a-d78c-5046-b8a1-ef045c9a49a1"
+      },
+      "clip_b": {
+        "id": "3a9b7c68-54ca-5cb1-bb83-51ca7390d008",
+        "title": "Consumers Want to Know (Part I)",
+        "year": 1960,
+        "page": "https://www.movingimagearchive.com/sources/consumers-want-to-know-part-i-9f629665?clip=3a9b7c68-54ca-5cb1-bb83-51ca7390d008"
+      },
+      "dur_s": 5.5,
+      "phase": "SPLIT COMPARISON",
+      "action": "CANDIDATE NOMINATION: Pure surface match (Left: 1940 Lenses, score 0.94) vs Human action match (Right: 1960 Turntable, score 0.86)",
+      "nearmatch": "SCORE NOMINATES \u00b7 EDITOR CHOOSES",
+      "seg_idx": 3,
+      "start_sec": 7.5,
+      "end_sec": 13.0
+    },
+    {
+      "type": "shot",
+      "clip_id": "3a9b7c68-54ca-5cb1-bb83-51ca7390d008",
+      "source_title": "Consumers Want to Know (Part I)",
+      "source_year": 1960,
+      "source_page": "https://www.movingimagearchive.com/sources/consumers-want-to-know-part-i-9f629665?clip=3a9b7c68-54ca-5cb1-bb83-51ca7390d008",
+      "in_s": 3.0,
+      "out_s": 7.8,
+      "dur_s": 4.8,
+      "phase": "EDITORIAL SELECTION \u00b7 MAN BESIDE THE SPINNING TURNTABLE (1960)",
+      "action": "Consumers Want to Know (1960): The editor selects the lower-scoring candidate because it introduces human listening",
+      "nearmatch": "SEMANTIC GAIN OVER RAW SCORE",
+      "seg_idx": 4,
+      "start_sec": 13.0,
+      "end_sec": 17.8
+    },
+    {
+      "type": "shot",
+      "clip_id": "b3ef2f32-ea89-5744-8940-c804848c95e0",
+      "source_title": "Command Performance",
+      "source_year": 1942,
+      "source_page": "https://www.movingimagearchive.com/sources/command-performance-66691535?clip=b3ef2f32-ea89-5744-8940-c804848c95e0",
+      "in_s": 0.5,
+      "out_s": 5.3,
+      "dur_s": 4.8,
+      "phase": "SONIC NEIGHBOR (SCION 055/062) \u00b7 PHONOGRAPH IN AN EMPTY ROOM (1942)",
+      "action": "Command Performance (1942): Associative relay shifts from watched turntable to a record spinning alone",
+      "nearmatch": "PRESENCE -> ABSENCE RELAY",
+      "seg_idx": 5,
+      "start_sec": 17.8,
+      "end_sec": 22.6
+    },
+    {
+      "type": "shot",
+      "clip_id": "95f7caf3-000b-507c-b163-c862aece09e2",
+      "source_title": "Verkade's fabrieken te Zaandam",
+      "source_year": 1930,
+      "source_page": "https://www.movingimagearchive.com/sources/verkade-s-fabrieken-te-zaandam?clip=95f7caf3-000b-507c-b163-c862aece09e2",
+      "in_s": 1.0,
+      "out_s": 5.8,
+      "dur_s": 4.8,
+      "phase": "MANUAL CODA (SCION 092) \u00b7 HAND ROTATING OBJECT UNDER LAMP (1930)",
+      "action": "Verkade's Fabrieken (1930): Closing the poem on a hand rotating a small object at the same tempo",
+      "nearmatch": "THE VECTOR POET \u00b7 CUT VERIFIED",
+      "seg_idx": 6,
+      "start_sec": 22.6,
+      "end_sec": 27.4
+    },
+    {
+      "seg_idx": 7,
+      "type": "closing_ledger",
+      "title": "SOURCE ATTRIBUTION & BOUNDARY NOTE",
+      "phase": "CLOSING LEDGER",
+      "action": "Contrasts raw candidate nominations (`CANDIDATE A vs B`) with the editor's chosen cut that preserves historical difference.",
+      "start_sec": 27.4,
+      "end_sec": 30.9,
+      "dur_s": 3.5
+    }
+  ]
+}

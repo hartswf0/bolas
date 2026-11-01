@@ -1,0 +1,191 @@
+{
+  "slug": "SCION_113_Learning_To_See_Latent_Atlas",
+  "version": "v2",
+  "series": "SERIES_F_INTERACTIVE",
+  "kicker": "SCION 101\u2013113 \u00b7 INTERACTIVE & DATABASE MEDIA",
+  "title": "Learning to See \u2014 Latent Texture & Cluster Traverse",
+  "subtitle": "Traversing archival water, vapor, cell lattices, and cosmos by visual affinity",
+  "scion_id": 113,
+  "supporting_scions": [
+    101,
+    106,
+    109,
+    111,
+    112
+  ],
+  "lineage": "Lineage: Memo Akten, Learning to See (2017) \u00b7 Supporting: SCION 109 (Soft Cinema), SCION 112 ( Cultural Analytics)",
+  "theorem": "Traverse an archival database along continuous morphological and textural gradients\u2014rippling water, billowing vapor, spider webs, cellular lattices, and star fields\u2014while keeping the difference between visual similarity and historical origin visible.",
+  "boundary_note": "Demonstrates database neighborhood traversal (`SCION 109\u2013113`): visual embedding proximity connects water (`545715d8`), vapor (`5a15eff7`), web (`2ab9061b`), and stars (`ed87f1da`) without erasing their provenance.",
+  "critic_tribunal": {
+    "critic_role": "Independent database-and-perception critic",
+    "v1_verdict": "repair_required",
+    "v2_verdict": "pass",
+    "v1_defect_timecodes": [
+      "Seg #07 (t=24.90s-29.90s): `ed87f1da` (`The Eclipse`, 1907) at 0.5s-5.5s showed a static intertitle card (`Motion\u0394=0.2, Luma=8`).",
+      "Seg #08 (t=29.90s-35.90s): `5a15eff7` in Quad defaulted to 0.0s without `custom_window=True`."
+    ],
+    "largest_gap": "Replaced the static 1907 intertitle in Seg #07 with verified luminous condensing blue vapor nebula (`005ac24d`, `Hot Lava Flows Into The Ocean`, `2.5s-7.5s`, `Motion\u0394=44.4`) and enabled `custom_window=True` on `5a15eff7` (`17.2s-21.7s`) in both Seg #03 and Seg #08 Quad.",
+    "falsifiable_repair": "Traverse 6 moving textural fields (`545715d8`, `5a15eff7`, `953cc54f`, `2ab9061b`, `efedc39b`, `005ac24d`) and close with a 4-cluster latent neighborhood quad."
+  },
+  "duration_seconds": 39.42,
+  "video_file": "films/SCION_113_Learning_To_See_Latent_Atlas.mp4",
+  "source_count": 6,
+  "sources_summary": [
+    "545715d8 \u00b7 Water (1953)",
+    "5a15eff7 \u00b7 River, The (Part I) (1937)",
+    "953cc54f \u00b7 Fashion's Favorite (Part I) (1940)",
+    "2ab9061b \u00b7 Spider Engineers (1956)",
+    "efedc39b \u00b7 Heat Treatment of Aluminum, Part I (1990)",
+    "005ac24d \u00b7 Hot Lava Flows Into The Ocean (Standard 4:3) (1955)"
+  ],
+  "edl": [
+    {
+      "seg_idx": 1,
+      "type": "title_card",
+      "title": "Learning to See \u2014 Latent Texture & Cluster Traverse",
+      "phase": "OPENING SLATE",
+      "action": "Traversing archival water, vapor, cell lattices, and cosmos by visual affinity",
+      "start_sec": 0.0,
+      "end_sec": 3.0,
+      "dur_s": 3.0
+    },
+    {
+      "type": "shot",
+      "clip_id": "545715d8-c84b-59f5-9f93-52430ca0d847",
+      "source_title": "Water",
+      "source_year": 1953,
+      "source_page": "https://www.movingimagearchive.com/sources/water-e61eb6aa?clip=545715d8-c84b-59f5-9f93-52430ca0d847",
+      "in_s": 0.1,
+      "out_s": 2.46,
+      "dur_s": 2.4,
+      "phase": "CLUSTER A (SPECULAR FLICKER) \u00b7 LIGHT ON WATER (1953)",
+      "action": "Water (1953): Sunlight breaking across rippling water \u2014 acentered field of bright points",
+      "nearmatch": "LATENT NEIGHBORHOOD: FLICKER -> VAPOR",
+      "seg_idx": 2,
+      "start_sec": 3.0,
+      "end_sec": 5.4
+    },
+    {
+      "type": "shot",
+      "clip_id": "5a15eff7-8b17-5426-a552-e90a65eb9980",
+      "source_title": "River, The (Part I)",
+      "source_year": 1937,
+      "source_page": "https://www.movingimagearchive.com/sources/river-the-part-i-7ca50b37?clip=5a15eff7-8b17-5426-a552-e90a65eb9980",
+      "in_s": 17.2,
+      "out_s": 21.65,
+      "dur_s": 4.5,
+      "phase": "CLUSTER B (TURBULENT CONTINUUM) \u00b7 VAPOR & SPRAY (1937)",
+      "action": "The River (1937): Textured field of mist and spray filling the frame",
+      "nearmatch": "LATENT NEIGHBORHOOD: VAPOR -> FIBRE",
+      "seg_idx": 3,
+      "start_sec": 5.4,
+      "end_sec": 9.9
+    },
+    {
+      "type": "shot",
+      "clip_id": "953cc54f-ebdf-5cde-94a2-37bcc4d7822e",
+      "source_title": "Fashion's Favorite (Part I)",
+      "source_year": 1940,
+      "source_page": "https://www.movingimagearchive.com/sources/fashion-s-favorite-part-i-1c793955?clip=953cc54f-ebdf-5cde-94a2-37bcc4d7822e",
+      "in_s": 0.5,
+      "out_s": 5.5,
+      "dur_s": 5.0,
+      "phase": "CLUSTER C (FILAMENT LATTICE) \u00b7 MACRO TEXTILE FIBRES (1940)",
+      "action": "Fashion's Favorite (1940): Macro lattice of interlocking fibres seen without a central figure",
+      "nearmatch": "LATENT NEIGHBORHOOD: FIBRE -> WEB",
+      "seg_idx": 4,
+      "start_sec": 9.9,
+      "end_sec": 14.9
+    },
+    {
+      "type": "shot",
+      "clip_id": "2ab9061b-3a6f-54be-83e5-838bbfeab2cc",
+      "source_title": "Spider Engineers",
+      "source_year": 1956,
+      "source_page": "https://www.movingimagearchive.com/sources/spider-engineers-009137b7?clip=2ab9061b-3a6f-54be-83e5-838bbfeab2cc",
+      "in_s": 0.5,
+      "out_s": 5.5,
+      "dur_s": 5.0,
+      "phase": "CLUSTER D (RADIAL NETWORK) \u00b7 SPIDER SILK & DEW (1956)",
+      "action": "Spider Engineers (1956): Fine silk strands and bright points radiating across a dark field",
+      "nearmatch": "LATENT NEIGHBORHOOD: WEB -> CELL",
+      "seg_idx": 5,
+      "start_sec": 14.9,
+      "end_sec": 19.9
+    },
+    {
+      "type": "shot",
+      "clip_id": "efedc39b-5252-55c9-a806-12f445911ad1",
+      "source_title": "Heat Treatment of Aluminum, Part I",
+      "source_year": 1990,
+      "source_page": "https://www.movingimagearchive.com/sources/heat-treatment-of-aluminum-part-i-fcb8d702?clip=efedc39b-5252-55c9-a806-12f445911ad1",
+      "in_s": 6.0,
+      "out_s": 11.0,
+      "dur_s": 5.0,
+      "phase": "CLUSTER E (TESSELLATION) \u00b7 ALUMINUM GRAIN NETWORK (1990)",
+      "action": "Heat Treatment of Aluminum (1990): Polygonal grain boundaries reorganizing under heat",
+      "nearmatch": "LATENT NEIGHBORHOOD: CELL -> NEBULA",
+      "seg_idx": 6,
+      "start_sec": 19.9,
+      "end_sec": 24.9
+    },
+    {
+      "type": "shot",
+      "clip_id": "005ac24d-a560-5258-a67a-b7dacffd6bb9",
+      "source_title": "Hot Lava Flows Into The Ocean (Standard 4:3)",
+      "source_year": 1955,
+      "source_page": "https://www.movingimagearchive.com/sources/hot-lava-flows-into-the-ocean-standard-4-3-c636ae21?clip=005ac24d-a560-5258-a67a-b7dacffd6bb9",
+      "in_s": 2.5,
+      "out_s": 7.5,
+      "dur_s": 5.0,
+      "phase": "CLUSTER F (LUMINOUS FIELD) \u00b7 CONDENSING OCEAN VAPOR (1955)",
+      "action": "Hot Lava Flows Into The Ocean (1955): Deep blue luminous vapor cloud drifting like a nebula",
+      "nearmatch": "LATENT NEIGHBORHOOD: 1937 <-> 1955",
+      "seg_idx": 7,
+      "start_sec": 24.9,
+      "end_sec": 29.9
+    },
+    {
+      "type": "quad_shot",
+      "clips": [
+        {
+          "id": "5a15eff7-8b17-5426-a552-e90a65eb9980",
+          "title": "River, The (Part I)",
+          "year": 1937
+        },
+        {
+          "id": "953cc54f-ebdf-5cde-94a2-37bcc4d7822e",
+          "title": "Fashion's Favorite (Part I)",
+          "year": 1940
+        },
+        {
+          "id": "2ab9061b-3a6f-54be-83e5-838bbfeab2cc",
+          "title": "Spider Engineers",
+          "year": 1956
+        },
+        {
+          "id": "005ac24d-a560-5258-a67a-b7dacffd6bb9",
+          "title": "Hot Lava Flows Into The Ocean (Standard 4:3)",
+          "year": 1955
+        }
+      ],
+      "dur_s": 6.0,
+      "phase": "LATENT ATLAS QUAD \u00b7 MORPHOLOGICAL AFFINITY vs HISTORICAL ORIGIN",
+      "action": "1937 River Spray | 1940 Textile Fibre | 1956 Spider Silk | 1955 Ocean Vapor \u2014 visual neighbors, distinct worlds",
+      "nearmatch": "LEARNING TO SEE \u00b7 DATABASE AUDIT",
+      "seg_idx": 8,
+      "start_sec": 29.9,
+      "end_sec": 35.9
+    },
+    {
+      "seg_idx": 9,
+      "type": "closing_ledger",
+      "title": "SOURCE ATTRIBUTION & BOUNDARY NOTE",
+      "phase": "CLOSING LEDGER",
+      "action": "Demonstrates database neighborhood traversal (`SCION 109\u2013113`): visual embedding proximity connects water (`545715d8`), vapor (`5a15eff7`), web (`2ab9061b`), and stars (`ed87f1da`) without erasing their provenance.",
+      "start_sec": 35.9,
+      "end_sec": 39.4,
+      "dur_s": 3.5
+    }
+  ]
+}

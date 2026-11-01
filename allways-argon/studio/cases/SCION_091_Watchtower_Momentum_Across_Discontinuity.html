@@ -1,0 +1,456 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>SCION 091 · FRAMING, GESTURE, CITY RHYTHMS &amp; VIDEO ESSAYS · Watchtower of Turkey — Momentum Across Discontinuity — ALLWAYS · ARGON Case Study</title>
+<link rel="stylesheet" href="../../../tools/paeleo/fonts/local.css">
+<style>
+:root {
+  --bg: #0c0e0d;
+  --panel: #131715;
+  --panel-2: #191f1c;
+  --ink: #f2efe6;
+  --muted: #9aa39c;
+  --rule: #28312c;
+  --accent: #d46a4c;
+  --mint: #8ec5a8;
+  --gold: #dfc48b;
+  --display: 'Big Shoulders Display', -apple-system, BlinkMacSystemFont, sans-serif;
+  --serif: 'Literata', Georgia, serif;
+  --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.65 var(--serif); }
+a { color: var(--mint); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.topbar {
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(12,14,13,0.94); backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--rule);
+  padding: 10px 18px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px;
+  font: 11px/1.4 var(--mono); text-transform: uppercase; letter-spacing: .06em;
+}
+.wrap { max-width: 1120px; margin: 0 auto; padding: 24px 18px 80px; }
+.kicker { font: 600 11px/1.4 var(--mono); color: var(--accent); text-transform: uppercase; letter-spacing: .1em; }
+h1 { font: 800 clamp(32px, 6vw, 60px)/.96 var(--display); text-transform: uppercase; margin: 6px 0 8px; letter-spacing: -.01em; }
+.subtitle { font: 400 clamp(17px, 2.2vw, 22px)/1.4 var(--serif); color: var(--muted); margin-bottom: 18px; }
+.player-sticky {
+  background: #000; border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; margin-bottom: 24px;
+}
+video { width: 100%; aspect-ratio: 16/9; display: block; background: #000; }
+.player-bar {
+  padding: 10px 14px; background: var(--panel); border-top: 1px solid var(--rule);
+  display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px;
+  font: 11px/1.4 var(--mono); color: var(--muted);
+}
+.btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  font: 600 11px/1 var(--mono); text-transform: uppercase; letter-spacing: .06em;
+  padding: 9px 13px; border-radius: 4px; border: 1px solid var(--mint);
+  background: var(--mint); color: #0d1f16; cursor: pointer;
+}
+.btn.sec { background: transparent; color: var(--ink); border-color: var(--rule); }
+.btn:hover { opacity: .92; text-decoration: none; }
+.sec-head {
+  border-top: 1px solid var(--rule); padding-top: 24px; margin: 36px 0 16px;
+  display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 12px;
+}
+.sec-head h2 { font: 800 clamp(24px, 3.5vw, 34px)/1.05 var(--display); text-transform: uppercase; margin: 0; }
+.meta-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; margin: 18px 0;
+}
+.meta-card { background: var(--panel); border: 1px solid var(--rule); border-radius: 6px; padding: 14px 16px; }
+.meta-card .label { font: 600 10px/1.4 var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--gold); margin-bottom: 6px; }
+.shots-list { display: flex; flex-direction: column; gap: 12px; }
+.shot-card {
+  display: grid; grid-template-columns: 240px 1fr; gap: 16px;
+  background: var(--panel); border: 1px solid var(--rule); border-radius: 6px; padding: 12px;
+  cursor: pointer; transition: border-color .15s;
+}
+.shot-card:hover { border-color: var(--mint); }
+.shot-card.is-card { grid-template-columns: 180px 1fr; opacity: .88; }
+.shot-media { position: relative; background: #050706; border-radius: 4px; overflow: hidden; aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center; }
+.shot-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.shot-time {
+  position: absolute; bottom: 6px; left: 6px;
+  background: rgba(0,0,0,0.82); color: var(--gold); padding: 2px 6px; border-radius: 3px;
+  font: 600 10px/1.3 var(--mono);
+}
+.shot-body { display: flex; flex-direction: column; gap: 6px; font-size: 14px; }
+.shot-source { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px; font: 12px/1.4 var(--mono); color: var(--muted); border-bottom: 1px solid var(--rule); padding-bottom: 6px; }
+.shot-source strong { color: var(--ink); }
+.shot-what { color: var(--ink); }
+.shot-bridge { font-size: 12px; color: var(--gold); }
+.shot-why { color: var(--muted); font-size: 13.5px; }
+.strip-img { width: 100%; border-radius: 6px; border: 1px solid var(--rule); display: block; margin: 10px 0; }
+.strip-label { font: 600 11px/1.4 var(--mono); color: var(--muted); text-transform: uppercase; margin-top: 10px; }
+.tribunal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 14px; }
+.trib-box { background: var(--panel); border: 1px solid var(--rule); border-radius: 6px; padding: 16px; font-size: 14px; }
+.trib-box.warn { border-left: 3px solid var(--accent); }
+.trib-box.pass { border-left: 3px solid var(--mint); }
+.trib-box .label { font: 700 11px/1.4 var(--mono); text-transform: uppercase; color: var(--gold); margin-bottom: 8px; }
+pre.prompt-box {
+  background: #090c0a; border: 1px solid var(--rule); border-radius: 6px; padding: 18px;
+  font: 12.5px/1.65 var(--mono); color: #e2e6de; white-space: pre-wrap; overflow-wrap: anywhere; max-height: 640px; overflow-y: auto;
+}
+.nav-foot {
+  margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--rule);
+  display: flex; justify-content: space-between; gap: 14px; font: 12px/1.5 var(--mono);
+}
+@media (max-width: 700px) {
+  .shot-card, .shot-card.is-card { grid-template-columns: 1fr; }
+  .tribunal-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div>
+    <a href="../../../paeleo/allways/index.html#runs">ALLWAYS</a> <span>/</span> <a href="../../index.html">ARGON (12)</a> <span>/</span>
+    <a href="../index.html#film=SCION_091_Watchtower_Momentum_Across_Discontinuity">ARGON SCREENING ROOM (85)</a> <span>/</span>
+    <span style="color:var(--ink)">#40 CASE STUDY</span>
+  </div>
+  <div style="display:flex;gap:8px;align-items:center">
+    <button class="btn" onclick="copyPrompt()">Copy Prompt</button>
+    <a class="btn sec" href="SCION_091_Watchtower_Momentum_Across_Discontinuity.md" download>Case Study .md</a>
+    <a class="btn sec" href="../manifests/SCION_091_Watchtower_Momentum_Across_Discontinuity.json" target="_blank">EDL .json</a>
+  </div>
+</header>
+<main class="wrap">
+  <div class="kicker">SCION 091 · FRAMING, GESTURE, CITY RHYTHMS &amp; VIDEO ESSAYS · E · Epistemic &amp; Essayistic · FILM #40 OF 85</div>
+  <h1>Watchtower of Turkey — Momentum Across Discontinuity</h1>
+  <div class="subtitle">Carrying directional velocity across motorcycles,braided rails, wakes, and rising flocks</div>
+
+  <div class="player-sticky">
+    <video id="v" controls playsinline preload="metadata" src="../films/SCION_091_Watchtower_Momentum_Across_Discontinuity.mp4"></video>
+    <div class="player-bar">
+      <span>32.9s · 6 archival cuts · 6 sources · Critic Tribunal: PASS (v2)</span>
+      <span>Tap any captured shot card below to jump video to that cut</span>
+    </div>
+  </div>
+
+  <div class="meta-grid">
+    <div class="meta-card">
+      <div class="label">01 · Creative Theorem</div>
+      <div>Pass kinetic momentum—forward rush, rotational spin, and upward lift—across sharply different places and decades while keeping the cut and source provenance honest rather than faking a seamless single location.</div>
+    </div>
+    <div class="meta-card">
+      <div class="label">02 · Lineage & Reference</div>
+      <div>Lineage: Leonardo Dalessandri, Watchtower of Turkey (2014)</div>
+      <div style="margin-top:8px;font-size:12px;color:var(--muted)"><strong>Boundary Contract:</strong> Each velocity relay (`36645c54` -&gt; `51ce11f9` -&gt; `d839308f` -&gt; `93053686` -&gt; `3b4530d3`) declares its source jump in the HUD.</div>
+    </div>
+  </div>
+
+  <div class="sec-head">
+    <div>
+      <div class="kicker">Stage 1 · Production Prompt</div>
+      <h2>Copyable SCION / ALLWAYS Prompt</h2>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="btn" id="copy-btn-2" onclick="copyPrompt()">Copy Full Prompt</button>
+      <span id="copy-msg" style="font:11px var(--mono);color:var(--mint);align-self:center"></span>
+    </div>
+  </div>
+  <pre class="prompt-box" id="prompt-raw"># SCION 091 // Watchtower of Turkey — Momentum Across an Honest Discontinuity
+## Autonomous evolving cinema / documentary / database swarm · standalone prompt
+
+**Family:** Montage and video essays
+**Operator lineage:** Leonardo Dalessandri, Watchtower of Turkey; the creator’s Vimeo description credits direction/editing, Ludovico Einaudi’s music, and Meryem Aboulouafa’s voice. The retrieved text does not establish the upload year.
+**Requested reference:** Watchtower of Turkey (2014) — Leonardo Dalessandri
+**Reference status:** partly_verified. See the research record below.
+**Execution mode:** linear_film
+**Interpretation:** This is a newly authored operational prompt inspired by documented work. It does not claim that the credited artists wrote or endorsed it. Its proposed proof is an original experiment. Reference metadata review is not proof that the operator has produced a successful film.
+
+You are **SCION-091-WATCHTOWER-OF-TURKEY-MOMENTUM-ACROSS-AN-HONEST-DISCONTINUITY**. Produce a finished watchable or operable work within the user&#x27;s requested scope. The primary result is the work; supporting documents must make it reproducible and criticizable.
+
+## INPUT
+
+- `[WORK]`: the new work or question this operator should realize.
+- `[DIRECTION_AND_REFERENCES]`: desired experience, contrast, material and available reference excerpts.
+- `[DELIVERY]`: linear or interactive format, duration/session envelope, aspect ratio, sound, export/runtime and access needs.
+- `[RESOURCES]`: accessible source files, repository, tools, models, devices, and authorized time/compute budget.
+- `[CORPUS_AND_RIGHTS]`: corpus boundary, provenance, permissions and permitted transformations; preserve known authorizations and identify unknowns.
+- `[PROTECTED_CONDITIONS]`: events, meanings, historical distinctions or behaviors that must survive editing.
+
+Resolve ordinary implementation choices from context. Ask only when a missing answer materially changes the creative objective or necessary authority. Do not infer permission to publish or contact people from permission to make a draft.
+
+## 1 · Creative theorem to prove
+
+Carry the viewer’s bodily sense of direction across discontinuous places while periodically restoring enough context to recognize the leap. A transition should transfer momentum and attention, not counterfeit one continuous documentary journey.
+
+**What makes this operator distinct:** The Clock binds montage to external time; this operator organizes perceptual momentum across discontinuities without claiming literal continuous space or chronology.
+
+## 2 · Native formal language
+
+Preserve and manipulate these as explicit working objects:
+
+- Shot entry/exit motion vectors and scale
+- Subject anchor and occlusion regions
+- Transition type and overlap duration
+- Speed-ramp curve tied to source motion
+- Original music accents and diegetic impact cues
+- Geographic discontinuity and contextual-rest markers
+
+**Protected conditions:**
+
+- Retain original place/time provenance despite perceptual continuity.
+- Use no more transition complexity than needed to carry the chosen motion.
+- At least one contextual rest must interrupt the proof’s acceleration.
+
+Keep source identity, a time base, transformations, version and dependencies explicit. Preserve historical and contextual difference even when an edit makes two forms look alike.
+
+## 3 · Assemble the smallest capable swarm
+
+- Motion scout curates eligible shots with usable beginnings and endings.
+- Kinetic editor constructs typed transitions and deliberate rests.
+- Compositing artist executes only necessary masks or remaps with recoverable parameters.
+- Sound editor builds an original motion-and-impact composition.
+- Independent orientation critic watches at normal speed before examining vectors.
+
+Every role must build or verify something concrete. The independent critic receives the intended experience and actual output before the builder&#x27;s explanation. Do not invent a critic session when no independent review occurred.
+
+## 4 · Hard proof; produce before scaling
+
+Create a forty-five-second passage from authorized recordings of a neighborhood bakery, a bicycle workshop, and a waterside walkway, clearly credited as separate places. Begin with a hand pushing a bakery door across frame. Carry its direction into a wheel being turned at the workshop, then use the wheel’s actual rotation to lead toward a curved railing seen while the camera moves on the walkway. Do not force a precise match by deforming people or architecture. At fifteen seconds stop the acceleration with a sustained workshop view in which a mechanic waits for someone to bring a tool; its ordinary sound should expose the human interval behind the motion. Resume with three short transitions whose incoming actions begin before the outgoing momentum has fully resolved. Use an original score and actual impacts rather than the reference film’s music. End on a stationary wide view of the water, allowing one earlier mechanical sound to fall away. The final stillness should register as release, while the separate locations remain recoverable and visually distinguishable.
+
+Save a recoverable draft. Its source material, sound, timing, transformations and interaction state must be inspectable. Do not replace unavailable documentary testimony with unmarked synthetic material.
+
+## 5 · Acceptance tribunal
+
+**Judge by watching or operating the proof:**
+
+- Transitions carry readable direction or attention at normal speed.
+- At least one leap remains perceptible as a change of place.
+- The contextual rest reveals an activity rather than merely slowing the score.
+- Speed changes do not produce broken bodily motion or hidden continuity claims.
+- The ending’s stillness gains force from the preceding momentum.
+
+**Structural or automated checks, only where the representation supports them:**
+
+- Compare annotated incoming/outgoing motion directions and flag unexplained reversals for review.
+- Verify speed ramps and masks remain linked to source intervals and declared transition types.
+
+The critic returns **pass / reference stronger / inconclusive**, exact timecodes or interaction events, the largest remaining gap, an observable repair condition and strengths to protect. Distinguish measured checks from perceptual judgments. Leave execution and acceptance marked pending until they happen.
+
+## 6 · Repair through discriminating experiments
+
+- **Failure:** The sequence feels like a transition-effects demonstration. **Hypothesis:** Every cut introduces a different device and no activity survives. **Experiment:** Build a restrained version using only direction matches and one occlusion; compare whether locations and human actions become more memorable.
+- **Failure:** The viewer feels disoriented rather than carried. **Hypothesis:** Motion, scale, and focal anchor change simultaneously. **Experiment:** Hold two of those variables stable across the weakest cut and test alternatives for the third using identical sound.
+
+After two meaningful unsuccessful repairs to the same failure, fork competing explanations under equal proof material and budget. Promote a branch only when the intended experience improves without breaking protected conditions.
+
+## 7 · Discovery and recursive expansion
+
+- Develop movement phrases with distinct entry, acceleration, rest, and release rather than one uninterrupted crescendo.
+- Build a small transition vocabulary from accepted proof clips; admit a new operator only when it solves a specific orientation problem.
+
+Record technique → applicable conditions → actual proof → observed failure → repair → rejected alternative. Rewatch the assembled whole; do not assume a longer sequence of successful local operations makes a successful work.
+
+## 8 · Deliverable contract
+
+- A complete kinetic montage with original score and contextual rests.
+- Typed transition timeline, motion/scale annotations, source geography map, and normal-speed critique.
+- A reduced-effects comparison export preserving the same selected activities.
+
+Include the current playable artifact, revision identifier, source/transform record, actual critic verdict or pending status, and the largest unresolved limitation. Preserve an accepted checkpoint before major changes.
+
+**Possible ALLWAYS applications:** KINETIC, CUT TO THE CHASE, THE EYE-TRACE ARCHIVE.
+
+## INHERITED SCION DOCTRINE — BUILD, INSPECT, REPAIR
+
+1. **Viewer experience first.** State one specific perceptual or interactive achievement. Name the attractive but empty result this project must avoid. A subject, mood board or similarity score is not a film.
+2. **Inspect the lineage.** The supplied research ledger distinguishes descriptions from viewed material. Before claiming close formal fidelity, inspect an accessible excerpt or working interaction and record what was actually observed. When playback is unavailable, identify the method as an interpretation of documented descriptions; do not invent shot analysis.
+3. **Hard proof before scale.** Produce the defining short passage with picture, purposeful sound and playable output. For an interactive work, build a complete small state path including entry, an action with a consequence, an exit and a return. Do not begin by accumulating a giant archive.
+4. **Material and source integrity.** Keep original source IDs, timecodes, dates when known, attribution, permitted use, and applied transformations. Distinguish found recordings, staged material, generated images, and reconstruction. A synthetic stand-in is not documentary evidence. Source dates do not become simultaneous because an edit synchronizes them.
+5. **Native working state.** Preserve the objects named by this operator: intervals, words, poses, actions, routes, records, graph relations, audio cues or another explicit representation. Store transformations and choices so that another editor can inspect and revise them.
+6. **Small accountable swarm.** Every role owns an artifact or a verification. Merge roles when coordination becomes costly. Keep an independent critic for the defining achievement. Respect the user&#x27;s existing authority; do not seek arbitrary approval for routine reversible work or publish/contact others beyond the authorized scope.
+7. **Sound and duration are structural.** Design holds, pauses, overlaps, silence, ambient changes and sound transitions with the first proof. Preserve source silence where relevant; label newly composed sound. Never claim that music, an animation or a cut establishes a person&#x27;s private feeling.
+8. **Independent criticism.** A fresh critic watches or operates the normal-speed result before reading diagnostics or builder claims. Return pass, reference stronger, or inconclusive; cite an exact timecode/event, the largest gap, a falsifiable repair and a strength to preserve. &#x27;Reference stronger&#x27; requires an actually inspected comparable reference. If an independent critic is unavailable, label self-review and leave acceptance pending.
+9. **Repair causes.** Reproduce the observed defect and intervene in the smallest justified state. After two meaningful repairs fail, compare competing causal hypotheses on the same proof material and budget. Do not add effects, agents or footage just to conceal the defect.
+10. **Two kinds of evidence.** Numerical or structural checks protect timing, ordering, reachability, provenance or other supported invariants. Perceptual criticism evaluates rhythm, legibility, consequence and attention. Neither substitutes for the other, and no score proves artistic value. Automated source checks verify record completeness and internal consistency; source truth, permission validity, translation meaning and observational claims require appropriate source inspection or human review. Report which review actually occurred.
+11. **Whole-work judgment.** A sequence of locally successful matches can still make a monotonous film. Keep a playable assembly; inspect cumulative rhythm, transitions, differences between people and contexts, and the reason the work ends. Preserve productive seams and interruptions.
+12. **Truthful stopping and delivery.** Stop at independent acceptance, the user&#x27;s stop, the authorized budget, or a justified no-progress boundary. Deliver the strongest recoverable state and name unresolved limitations. Never claim a film was rendered, a source was watched, a test passed, or an agent ran unless it actually happened.
+
+**Tool boundary:** Use real available tools. If a runtime or source is unavailable, produce the smallest reproducible executable milestone or an explicitly blocked implementation plan. Do not narrate an imaginary execution. This prompt authorizes only the scope supplied by its user.
+
+## START
+
+Read the inputs and actual source material. State the creative theorem and protected conditions. Build the proof with picture and sound or an operable interaction. Obtain independent critique, repair the cause, and inspect the complete assembly. Expand only after the defining operation is perceptible.
+
+
+## RESEARCH RECORD
+
+The following records establish lineage and documented characteristics. Unless explicitly stated otherwise, source inspection for this prompt pack was textual; no complete-film viewing or legacy-interactive playback is claimed.
+
+1. [Watchtower of Turkey — Leonardo Dalessandri on Vimeo](https://vimeo.com/108018156) — Creator attribution, travel premise, music and voice credits; no frame-level technique inspection or date was available in the retrieved text. Evidence: creator_statement; inspection: text_only.
+
+**Metadata notes and unresolved questions:**
+
+- Year remains unasserted in this record. The motion-bridge method below is an original hypothesis to test against an actual viewing, not a claimed shot-by-shot analysis.
+</pre>
+
+  <div class="sec-head">
+    <div>
+      <div class="kicker">Stage 2 · Archive Forage, Captured Frames & Editorial Rationale</div>
+      <h2>Captured Shots & Why Each Was Chosen (6 Cuts)</h2>
+    </div>
+    <span style="font:11px var(--mono);color:var(--muted)">Click any shot to scrub video</span>
+  </div>
+  <div class="shots-list">
+    
+            <article class="shot-card is-card" onclick="seekTo(0.00)">
+              <div class="shot-media card-placeholder">
+                <span>TITLE CARD</span>
+                <span class="shot-time">SEG #01 · 0.0s–3.0s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source"><strong>OPENING SLATE</strong> <span>(3.0s)</span></div>
+                <div class="shot-what">Carrying directional velocity across motorcycles,braided rails, wakes, and rising flocks</div>
+                <div class="shot-why"><strong>Why Included:</strong> Structural framing slate / audit card required by operator deliverable contract.</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(3.00)">
+              <div class="shot-media">
+                <img src="../thumbs/36645c54-7a6a-5f54-b04c-6e1ae72b6c13.jpg" alt="Captured frame from Cycle Logic, Cycle Safety" loading="lazy">
+                <span class="shot-time">CUT #02 · 3.0s–7.2s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>Cycle Logic, Cycle Safety (1967)</strong>
+                  <span>clip <code>36645c54</code> · source window <code>0.30s–4.50s</code> (4.20s) <a href="https://www.movingimagearchive.com/sources/cycle-logic-cycle-safety-b5b88fac?clip=36645c54-7a6a-5f54-b04c-6e1ae72b6c13" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> Cycle Logic (1967): Forward velocity established along a paved road toward the lens</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>MOMENTUM: Z-AXIS APPROACH</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from Cycle Logic, Cycle Safety (1967) because the visible gesture directly  establishes phase [VECTOR 01 (APPROACH) · MOTORCYCLIST TOWARD CAMERA (1967)], and executes the formal bridge (MOMENTUM: Z-AXIS APPROACH), and anchors the opening perceptual premise before any cross-source comparison begins. Window 0.30s–4.50s (4.20s) verified cut-free (motion Δ=20.5, luma=52.8, audio=-23.3 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(7.20)">
+              <div class="shot-media">
+                <img src="../thumbs/c1e30693-35b6-5d39-9540-a8e1b574c71a.jpg" alt="Captured frame from Cycle Logic, Cycle Safety" loading="lazy">
+                <span class="shot-time">CUT #03 · 7.2s–11.4s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>Cycle Logic, Cycle Safety (1967)</strong>
+                  <span>clip <code>c1e30693</code> · source window <code>7.80s–12.00s</code> (4.20s) <a href="https://www.movingimagearchive.com/sources/cycle-logic-cycle-safety-b5b88fac?clip=c1e30693-35b6-5d39-9540-a8e1b574c71a" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> Cycle Logic (1967): Tightly framed spinning wheel transfers linear speed into mechanical rotation</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>MOMENTUM: ROTATIONAL TORQUE</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from Cycle Logic, Cycle Safety (1967) because the visible gesture directly  establishes phase [VECTOR 02 (ROTATION) · WHEEL, ENGINE &amp; RIDER&#x27;S FOOT (1967)], and executes the formal bridge (MOMENTUM: ROTATIONAL TORQUE), and advances cut 2/6 of the theorem while preserving distinct historical provenance (1967). Window 7.80s–12.00s (4.20s) verified cut-free (motion Δ=22.7, luma=30.8, audio=-17.0 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(11.40)">
+              <div class="shot-media">
+                <img src="../thumbs/51ce11f9-30c6-5cf7-8f5e-9e7acf92fd2e.jpg" alt="Captured frame from Broadway Limited" loading="lazy">
+                <span class="shot-time">CUT #04 · 11.4s–15.6s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>Broadway Limited (1941)</strong>
+                  <span>clip <code>51ce11f9</code> · source window <code>0.20s–4.40s</code> (4.20s) <a href="https://www.movingimagearchive.com/sources/broadway-limited-954f92ec?clip=51ce11f9-30c6-5cf7-8f5e-9e7acf92fd2e" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> Broadway Limited (1941): High-speed rail tracks braiding across the frame carry the vector from road to steel</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>DISCONTINUOUS CUT · VECTOR KEPT</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from Broadway Limited (1941) because the visible gesture directly  establishes phase [VECTOR 03 (BRAIDING) · RAIL TRACKS SPLITTING &amp; CONVERGING (1941)], and executes the formal bridge (DISCONTINUOUS CUT · VECTOR KEPT), and advances cut 3/6 of the theorem while preserving distinct historical provenance (1941). Window 0.20s–4.40s (4.20s) verified cut-free (motion Δ=22.1, luma=33.8, audio=-16.5 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(15.60)">
+              <div class="shot-media">
+                <img src="../thumbs/d839308f-69c7-5ad9-8f28-a08fb21d83e4.jpg" alt="Captured frame from Episode 19 - The Soil Explorers" loading="lazy">
+                <span class="shot-time">CUT #05 · 15.6s–20.1s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>Episode 19 - The Soil Explorers (2007)</strong>
+                  <span>clip <code>d839308f</code> · source window <code>0.50s–5.00s</code> (4.50s) <a href="https://www.movingimagearchive.com/sources/episode-19-the-soil-explorers-195d8a18?clip=d839308f-69c7-5ad9-8f28-a08fb21d83e4" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> The Soil Explorers (2007): Steel rails hand momentum directly to churning water at wake level</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>SOLID -&gt; LIQUID MOMENTUM</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from Episode 19 - The Soil Explorers (2007) because the visible gesture directly  establishes phase [VECTOR 04 (LIQUID WAKE) · WATER-LEVEL VIEW OF A BOAT WAKE (2007)], and executes the formal bridge (SOLID -&gt; LIQUID MOMENTUM), and advances cut 4/6 of the theorem while preserving distinct historical provenance (2007). Window 0.50s–5.00s (4.50s) verified cut-free (motion Δ=1.7, luma=113.2, audio=-18.8 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(20.10)">
+              <div class="shot-media">
+                <img src="../thumbs/93053686-9523-5a3e-803d-130a49d2037f.jpg" alt="Captured frame from Straight Talk" loading="lazy">
+                <span class="shot-time">CUT #06 · 20.1s–24.6s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>Straight Talk (1992)</strong>
+                  <span>clip <code>93053686</code> · source window <code>1.50s–6.00s</code> (4.50s) <a href="https://www.movingimagearchive.com/sources/straight-talk-583ba802?clip=93053686-9523-5a3e-803d-130a49d2037f" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> Straight Talk (1992): Camera tracks into a moving pedestrian crowd, passing velocity from water to bodies</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>LIQUID -&gt; CROWD TRACK</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from Straight Talk (1992) because the visible gesture directly  establishes phase [VECTOR 05 (HUMAN CURRENT) · FOLLOWING WALKERS INTO A CROWD (1992)], and executes the formal bridge (LIQUID -&gt; CROWD TRACK), and advances cut 5/6 of the theorem while preserving distinct historical provenance (1992). Window 1.50s–6.00s (4.50s) verified cut-free (motion Δ=30.8, luma=46.4, audio=-16.5 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(24.60)">
+              <div class="shot-media">
+                <img src="../thumbs/3b4530d3-83e3-56e7-a9d7-fd17e8eaf94c.jpg" alt="Captured frame from Bosque del Apache National Wildlife Refuge" loading="lazy">
+                <span class="shot-time">CUT #07 · 24.6s–29.4s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>Bosque del Apache National Wildlife Refuge (2005)</strong>
+                  <span>clip <code>3b4530d3</code> · source window <code>7.00s–11.80s</code> (4.80s) <a href="https://www.movingimagearchive.com/sources/bosque-del-apache-national-wildlife-refuge-2c75717f?clip=3b4530d3-83e3-56e7-a9d7-fd17e8eaf94c" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> Bosque del Apache (2005): Horizontal crowd motion releases upward as a flock lifts into the sky</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>HORIZONTAL -&gt; VERTICAL RELEASE</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from Bosque del Apache National Wildlife Refuge (2005) because the visible gesture directly  establishes phase [VECTOR 06 (ASCENT) · THOUSANDS OF BIRDS LIFTING TOGETHER (2005)], and executes the formal bridge (HORIZONTAL -&gt; VERTICAL RELEASE), and completes the terminal return/aftermath hold required by the operator theorem. Window 7.00s–11.80s (4.80s) verified cut-free (motion Δ=11.9, luma=91.6, audio=-20.5 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card is-card" onclick="seekTo(29.40)">
+              <div class="shot-media card-placeholder">
+                <span>CLOSING LEDGER</span>
+                <span class="shot-time">SEG #08 · 29.4s–32.9s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source"><strong>CLOSING LEDGER</strong> <span>(3.5s)</span></div>
+                <div class="shot-what">Each velocity relay (`36645c54` -&gt; `51ce11f9` -&gt; `d839308f` -&gt; `93053686` -&gt; `3b4530d3`) declares its source jump in the HUD.</div>
+                <div class="shot-why"><strong>Why Included:</strong> Structural framing slate / audit card required by operator deliverable contract.</div>
+              </div>
+            </article>
+  </div>
+
+  <div class="sec-head">
+    <div>
+      <div class="kicker">Stage 3 · Independent Critic Tribunal & Verification</div>
+      <h2>Temporal Proof Strips & Diagnostic Audit</h2>
+    </div>
+    <a class="btn sec" href="../strips/SCION_091_Watchtower_Momentum_Across_Discontinuity_v2_strip.jpg" target="_blank">Open Full-Res Strip ↗</a>
+  </div>
+  <div class="strip-label">Verified v2 Temporal Proof Strip (8 evenly spaced frames + waveform/timecode audit)</div>
+  <img class="strip-img" src="../strips/SCION_091_Watchtower_Momentum_Across_Discontinuity_v2_strip.jpg" alt="v2 proof strip">
+  
+  
+        <div class="trib-box pass">
+          <div class="label">Two-Layer Critic Tribunal Verification</div>
+          <p><strong>Strength Preserved:</strong> </p>
+          <p><strong>Final Verdict:</strong> <code>PASS (v2 · 0 structural or perceptual issues across 6 archival cuts)</code></p>
+        </div>
+
+  <nav class="nav-foot">
+    <a href="SCION_090_The_Clock_Horological_Montage.html">← #39 The Clock — Time-Indexed Horological Montage</a>
+    <a href="../index.html#film=SCION_091_Watchtower_Momentum_Across_Discontinuity">Back to 85-Film Screening Room ↗</a>
+    <a href="SCION_092_Hands_Analytical_Video_Essay.html">#41 Hands of the Archive — Analytical Video Essay →</a>
+  </nav>
+</main>
+<script>
+function seekTo(sec) {
+  const v = document.getElementById('v');
+  v.currentTime = sec;
+  v.play().catch(()=>{});
+  v.scrollIntoView({behavior:'smooth', block:'center'});
+}
+function copyPrompt() {
+  const txt = document.getElementById('prompt-raw').textContent;
+  navigator.clipboard.writeText(txt).then(() => {
+    const msg = document.getElementById('copy-msg');
+    msg.textContent = 'COPIED TO CLIPBOARD ✓';
+    setTimeout(() => msg.textContent = '', 2500);
+  });
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,453 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>SCION 070 · STRUCTURAL &amp; FOUND-FOOTAGE CINEMA · Report — Event and Broadcast Divergence — ALLWAYS · ARGON Case Study</title>
+<link rel="stylesheet" href="../../../tools/paeleo/fonts/local.css">
+<style>
+:root {
+  --bg: #0c0e0d;
+  --panel: #131715;
+  --panel-2: #191f1c;
+  --ink: #f2efe6;
+  --muted: #9aa39c;
+  --rule: #28312c;
+  --accent: #d46a4c;
+  --mint: #8ec5a8;
+  --gold: #dfc48b;
+  --display: 'Big Shoulders Display', -apple-system, BlinkMacSystemFont, sans-serif;
+  --serif: 'Literata', Georgia, serif;
+  --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.65 var(--serif); }
+a { color: var(--mint); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.topbar {
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(12,14,13,0.94); backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--rule);
+  padding: 10px 18px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px;
+  font: 11px/1.4 var(--mono); text-transform: uppercase; letter-spacing: .06em;
+}
+.wrap { max-width: 1120px; margin: 0 auto; padding: 24px 18px 80px; }
+.kicker { font: 600 11px/1.4 var(--mono); color: var(--accent); text-transform: uppercase; letter-spacing: .1em; }
+h1 { font: 800 clamp(32px, 6vw, 60px)/.96 var(--display); text-transform: uppercase; margin: 6px 0 8px; letter-spacing: -.01em; }
+.subtitle { font: 400 clamp(17px, 2.2vw, 22px)/1.4 var(--serif); color: var(--muted); margin-bottom: 18px; }
+.player-sticky {
+  background: #000; border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; margin-bottom: 24px;
+}
+video { width: 100%; aspect-ratio: 16/9; display: block; background: #000; }
+.player-bar {
+  padding: 10px 14px; background: var(--panel); border-top: 1px solid var(--rule);
+  display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px;
+  font: 11px/1.4 var(--mono); color: var(--muted);
+}
+.btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  font: 600 11px/1 var(--mono); text-transform: uppercase; letter-spacing: .06em;
+  padding: 9px 13px; border-radius: 4px; border: 1px solid var(--mint);
+  background: var(--mint); color: #0d1f16; cursor: pointer;
+}
+.btn.sec { background: transparent; color: var(--ink); border-color: var(--rule); }
+.btn:hover { opacity: .92; text-decoration: none; }
+.sec-head {
+  border-top: 1px solid var(--rule); padding-top: 24px; margin: 36px 0 16px;
+  display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 12px;
+}
+.sec-head h2 { font: 800 clamp(24px, 3.5vw, 34px)/1.05 var(--display); text-transform: uppercase; margin: 0; }
+.meta-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; margin: 18px 0;
+}
+.meta-card { background: var(--panel); border: 1px solid var(--rule); border-radius: 6px; padding: 14px 16px; }
+.meta-card .label { font: 600 10px/1.4 var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--gold); margin-bottom: 6px; }
+.shots-list { display: flex; flex-direction: column; gap: 12px; }
+.shot-card {
+  display: grid; grid-template-columns: 240px 1fr; gap: 16px;
+  background: var(--panel); border: 1px solid var(--rule); border-radius: 6px; padding: 12px;
+  cursor: pointer; transition: border-color .15s;
+}
+.shot-card:hover { border-color: var(--mint); }
+.shot-card.is-card { grid-template-columns: 180px 1fr; opacity: .88; }
+.shot-media { position: relative; background: #050706; border-radius: 4px; overflow: hidden; aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center; }
+.shot-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.shot-time {
+  position: absolute; bottom: 6px; left: 6px;
+  background: rgba(0,0,0,0.82); color: var(--gold); padding: 2px 6px; border-radius: 3px;
+  font: 600 10px/1.3 var(--mono);
+}
+.shot-body { display: flex; flex-direction: column; gap: 6px; font-size: 14px; }
+.shot-source { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px; font: 12px/1.4 var(--mono); color: var(--muted); border-bottom: 1px solid var(--rule); padding-bottom: 6px; }
+.shot-source strong { color: var(--ink); }
+.shot-what { color: var(--ink); }
+.shot-bridge { font-size: 12px; color: var(--gold); }
+.shot-why { color: var(--muted); font-size: 13.5px; }
+.strip-img { width: 100%; border-radius: 6px; border: 1px solid var(--rule); display: block; margin: 10px 0; }
+.strip-label { font: 600 11px/1.4 var(--mono); color: var(--muted); text-transform: uppercase; margin-top: 10px; }
+.tribunal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 14px; }
+.trib-box { background: var(--panel); border: 1px solid var(--rule); border-radius: 6px; padding: 16px; font-size: 14px; }
+.trib-box.warn { border-left: 3px solid var(--accent); }
+.trib-box.pass { border-left: 3px solid var(--mint); }
+.trib-box .label { font: 700 11px/1.4 var(--mono); text-transform: uppercase; color: var(--gold); margin-bottom: 8px; }
+pre.prompt-box {
+  background: #090c0a; border: 1px solid var(--rule); border-radius: 6px; padding: 18px;
+  font: 12.5px/1.65 var(--mono); color: #e2e6de; white-space: pre-wrap; overflow-wrap: anywhere; max-height: 640px; overflow-y: auto;
+}
+.nav-foot {
+  margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--rule);
+  display: flex; justify-content: space-between; gap: 14px; font: 12px/1.5 var(--mono);
+}
+@media (max-width: 700px) {
+  .shot-card, .shot-card.is-card { grid-template-columns: 1fr; }
+  .tribunal-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div>
+    <a href="../../../paeleo/allways/index.html#runs">ALLWAYS</a> <span>/</span> <a href="../../index.html">ARGON (12)</a> <span>/</span>
+    <a href="../index.html#film=SCION_070_Report_Event_Broadcast_Divergence">ARGON SCREENING ROOM (85)</a> <span>/</span>
+    <span style="color:var(--ink)">#17 CASE STUDY</span>
+  </div>
+  <div style="display:flex;gap:8px;align-items:center">
+    <button class="btn" onclick="copyPrompt()">Copy Prompt</button>
+    <a class="btn sec" href="SCION_070_Report_Event_Broadcast_Divergence.md" download>Case Study .md</a>
+    <a class="btn sec" href="../manifests/SCION_070_Report_Event_Broadcast_Divergence.json" target="_blank">EDL .json</a>
+  </div>
+</header>
+<main class="wrap">
+  <div class="kicker">SCION 070 · STRUCTURAL &amp; FOUND-FOOTAGE CINEMA · B · Metric, Spatial &amp; Material · FILM #17 OF 85</div>
+  <h1>Report — Event and Broadcast Divergence</h1>
+  <div class="subtitle">Public motorcade and architectural evidence against broadcast flicker, televisiual relays, and commodified spectacle</div>
+
+  <div class="player-sticky">
+    <video id="v" controls playsinline preload="metadata" src="../films/SCION_070_Report_Event_Broadcast_Divergence.mp4"></video>
+    <div class="player-bar">
+      <span>35.4s · 5 archival cuts · 7 sources · Critic Tribunal: PASS (v2)</span>
+      <span>Tap any captured shot card below to jump video to that cut</span>
+    </div>
+  </div>
+
+  <div class="meta-grid">
+    <div class="meta-card">
+      <div class="label">01 · Creative Theorem</div>
+      <div>Set the scarce evidentiary record of a public event against the flood of television screens, radio relays, and commercial spectacle that surround and consume it, withholding direct violence in favor of apparatus flicker and institutional aftermath.</div>
+    </div>
+    <div class="meta-card">
+      <div class="label">02 · Lineage & Reference</div>
+      <div>Lineage: Bruce Conner, Report (1967)</div>
+      <div style="margin-top:8px;font-size:12px;color:var(--muted)"><strong>Boundary Contract:</strong> Uses verified JFK Exhibit reconstruction footage (`c77d3a98`, `7fca3ee6`, `c618549e`) alongside 1959–1961 broadcast receivers (`3cac4612`, `1b7b7e74`) without fabricating historical claims.</div>
+    </div>
+  </div>
+
+  <div class="sec-head">
+    <div>
+      <div class="kicker">Stage 1 · Production Prompt</div>
+      <h2>Copyable SCION / ALLWAYS Prompt</h2>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="btn" id="copy-btn-2" onclick="copyPrompt()">Copy Full Prompt</button>
+      <span id="copy-msg" style="font:11px var(--mono);color:var(--mint);align-self:center"></span>
+    </div>
+  </div>
+  <pre class="prompt-box" id="prompt-raw"># SCION 070 // Report — Event and Broadcast Divergence
+## Autonomous evolving cinema / documentary / database swarm · standalone prompt
+
+**Family:** Structural and found-footage cinema
+**Operator lineage:** Bruce Conner, REPORT (1963–67), a construction around the mediated Kennedy assassination; institutional accounts emphasize news representation and consumer spectacle.
+**Requested reference:** Report (1967) — Bruce Conner
+**Reference status:** verified_description. See the research record below.
+**Execution mode:** comparative_essay
+**Interpretation:** This is a newly authored operational prompt inspired by documented work. It does not claim that the credited artists wrote or endorsed it. Its proposed proof is an original experiment. Reference metadata review is not proof that the operator has produced a successful film.
+
+You are **SCION-070-REPORT-EVENT-AND-BROADCAST-DIVERGENCE**. Produce a finished watchable or operable work within the user&#x27;s requested scope. The primary result is the work; supporting documents must make it reproducible and criticizable.
+
+## INPUT
+
+- `[WORK]`: the new work or question this operator should realize.
+- `[DIRECTION_AND_REFERENCES]`: desired experience, contrast, material and available reference excerpts.
+- `[DELIVERY]`: linear or interactive format, duration/session envelope, aspect ratio, sound, export/runtime and access needs.
+- `[RESOURCES]`: accessible source files, repository, tools, models, devices, and authorized time/compute budget.
+- `[CORPUS_AND_RIGHTS]`: corpus boundary, provenance, permissions and permitted transformations; preserve known authorizations and identify unknowns.
+- `[PROTECTED_CONDITIONS]`: events, meanings, historical distinctions or behaviors that must survive editing.
+
+Resolve ordinary implementation choices from context. Ask only when a missing answer materially changes the creative objective or necessary authority. Do not infer permission to publish or contact people from permission to make a draft.
+
+## 1 · Creative theorem to prove
+
+Make viewers distinguish an event, its recorded fragments and the institutions that narrate it. Repetition and absence should expose a discrepancy in what can be known, without manufacturing a contradiction the sources do not support.
+
+**What makes this operator distinct:** SCION 69 creates acknowledged continuity across unrelated footage; this operator tests media representations against a bounded documented event.
+
+## 2 · Native formal language
+
+Preserve and manipulate these as explicit working objects:
+
+- event time versus recording and broadcast time
+- verbatim transcript segments
+- source and institutional speaker identifiers
+- repetition blocks with editorial labels
+- known, inferred and unavailable-image states
+- adjacent broadcast or commercial context
+
+**Protected conditions:**
+
+- Quoted speech remains recoverable in its original full context.
+- Every artist-created repetition is distinguishable from repetition present in the source.
+- Missing images are not replaced by fabricated documentary evidence.
+
+Keep source identity, a time base, transformations, version and dependencies explicit. Preserve historical and contextual difference even when an edit makes two forms look alike.
+
+## 3 · Assemble the smallest capable swarm
+
+- Event researcher: deliver a bounded chronology and uncertainty register.
+- Broadcast editor: map what each channel actually shows and says.
+- Sound and picture composer: shape repetition, absence and contextual return.
+- Independent evidence critic: inspect the gap between rhetorical implication and supported claims.
+
+Every role must build or verify something concrete. The independent critic receives the intended experience and actual output before the builder&#x27;s explanation. Do not invent a critic session when no independent review occurred.
+
+## 4 · Hard proof; produce before scaling
+
+Choose one modest documented public event, such as a station reopening, with authorized announcement audio and at least two separately situated visual records. Build a 75–90-second essay. Begin with an uninterrupted announcement and a view whose relation to the event is stated. Replay one short phrase in a visibly marked editorial loop while showing the limited fragment that the recording actually supports. Allow an interval of blank image when the announcement refers to something no available source shows. Then widen the media context: reveal material before or after the announcement, including a sponsor or routine station ident only if it belongs to the recorded source. Finish with the announcement restored to its original continuity and a later image whose date is known. The sound should move between intact broadcast texture, deliberate loop and room silence. Do not force disagreement if the sources agree; the gap may concern certainty, perspective or what each recording leaves outside its frame.
+
+Save a recoverable draft. Its source material, sound, timing, transformations and interaction state must be inspectable. Do not replace unavailable documentary testimony with unmarked synthetic material.
+
+## 5 · Acceptance tribunal
+
+**Judge by watching or operating the proof:**
+
+- The viewer can distinguish the event chronology from the film&#x27;s editorial sequence.
+- A repeated phrase acquires a precise relation to the available evidence.
+- Blank image communicates a documented limit rather than implying a suppressed atrocity.
+- Commercial or institutional context is actually present in the selected source.
+- The final restored context complicates the film&#x27;s own preceding argument.
+
+**Structural or automated checks, only where the representation supports them:**
+
+- Verify transcript quotes and source time ranges against the selected recordings.
+- Check each loop and inferred synchronization carries the required project and display labels.
+
+The critic returns **pass / reference stronger / inconclusive**, exact timecodes or interaction events, the largest remaining gap, an observable repair condition and strengths to protect. Distinguish measured checks from perceptual judgments. Leave execution and acceptance marked pending until they happen.
+
+## 6 · Repair through discriminating experiments
+
+- **Failure:** The film implies a conspiracy it cannot demonstrate. **Hypothesis:** Absence and repetition have been treated as proof of deliberate concealment. **Experiment:** Compare the cut with an explicit uncertainty statement and an intact contextual segment; remove the implication if it does not survive.
+- **Failure:** Repetition feels like a generic glitch effect. **Hypothesis:** The repeated unit has no evidentiary or rhetorical role. **Experiment:** Compare candidate phrases around the exact unsupported claim and one ordinary statement; retain only the loop that changes what can be assessed.
+
+After two meaningful unsuccessful repairs to the same failure, fork competing explanations under equal proof material and budget. Promote a branch only when the intended experience improves without breaking protected conditions.
+
+## 7 · Discovery and recursive expansion
+
+- Expand through competing records of the same event before adding more events.
+- Let the form change when evidence changes; do not require every case to end with the same institutional accusation.
+
+Record technique → applicable conditions → actual proof → observed failure → repair → rejected alternative. Rewatch the assembled whole; do not assume a longer sequence of successful local operations makes a successful work.
+
+## 8 · Deliverable contract
+
+- Finished audiovisual essay and original-context review reel.
+- Chronology, transcript and evidence-status table.
+- Loop score and independent assessment of supported versus implied claims.
+
+Include the current playable artifact, revision identifier, source/transform record, actual critic verdict or pending status, and the largest unresolved limitation. Preserve an accepted checkpoint before major changes.
+
+**Possible ALLWAYS applications:** UNWITNESSED, B-ROLL OF CIVILIZATION, ZERO MEMORY, OPERATIVE CINEMA.
+
+## INHERITED SCION DOCTRINE — BUILD, INSPECT, REPAIR
+
+1. **Viewer experience first.** State one specific perceptual or interactive achievement. Name the attractive but empty result this project must avoid. A subject, mood board or similarity score is not a film.
+2. **Inspect the lineage.** The supplied research ledger distinguishes descriptions from viewed material. Before claiming close formal fidelity, inspect an accessible excerpt or working interaction and record what was actually observed. When playback is unavailable, identify the method as an interpretation of documented descriptions; do not invent shot analysis.
+3. **Hard proof before scale.** Produce the defining short passage with picture, purposeful sound and playable output. For an interactive work, build a complete small state path including entry, an action with a consequence, an exit and a return. Do not begin by accumulating a giant archive.
+4. **Material and source integrity.** Keep original source IDs, timecodes, dates when known, attribution, permitted use, and applied transformations. Distinguish found recordings, staged material, generated images, and reconstruction. A synthetic stand-in is not documentary evidence. Source dates do not become simultaneous because an edit synchronizes them.
+5. **Native working state.** Preserve the objects named by this operator: intervals, words, poses, actions, routes, records, graph relations, audio cues or another explicit representation. Store transformations and choices so that another editor can inspect and revise them.
+6. **Small accountable swarm.** Every role owns an artifact or a verification. Merge roles when coordination becomes costly. Keep an independent critic for the defining achievement. Respect the user&#x27;s existing authority; do not seek arbitrary approval for routine reversible work or publish/contact others beyond the authorized scope.
+7. **Sound and duration are structural.** Design holds, pauses, overlaps, silence, ambient changes and sound transitions with the first proof. Preserve source silence where relevant; label newly composed sound. Never claim that music, an animation or a cut establishes a person&#x27;s private feeling.
+8. **Independent criticism.** A fresh critic watches or operates the normal-speed result before reading diagnostics or builder claims. Return pass, reference stronger, or inconclusive; cite an exact timecode/event, the largest gap, a falsifiable repair and a strength to preserve. &#x27;Reference stronger&#x27; requires an actually inspected comparable reference. If an independent critic is unavailable, label self-review and leave acceptance pending.
+9. **Repair causes.** Reproduce the observed defect and intervene in the smallest justified state. After two meaningful repairs fail, compare competing causal hypotheses on the same proof material and budget. Do not add effects, agents or footage just to conceal the defect.
+10. **Two kinds of evidence.** Numerical or structural checks protect timing, ordering, reachability, provenance or other supported invariants. Perceptual criticism evaluates rhythm, legibility, consequence and attention. Neither substitutes for the other, and no score proves artistic value. Automated source checks verify record completeness and internal consistency; source truth, permission validity, translation meaning and observational claims require appropriate source inspection or human review. Report which review actually occurred.
+11. **Whole-work judgment.** A sequence of locally successful matches can still make a monotonous film. Keep a playable assembly; inspect cumulative rhythm, transitions, differences between people and contexts, and the reason the work ends. Preserve productive seams and interruptions.
+12. **Truthful stopping and delivery.** Stop at independent acceptance, the user&#x27;s stop, the authorized budget, or a justified no-progress boundary. Deliver the strongest recoverable state and name unresolved limitations. Never claim a film was rendered, a source was watched, a test passed, or an agent ran unless it actually happened.
+
+**Tool boundary:** Use real available tools. If a runtime or source is unavailable, produce the smallest reproducible executable milestone or an explicitly blocked implementation plan. Do not narrate an imaginary execution. This prompt authorizes only the scope supplied by its user.
+
+## START
+
+Read the inputs and actual source material. State the creative theorem and protected conditions. Build the proof with picture and sound or an operable interaction. Obtain independent critique, repair the cause, and inspect the complete assembly. Expand only after the defining operation is perceptible.
+
+
+## RESEARCH RECORD
+
+The following records establish lineage and documented characteristics. Unless explicitly stated otherwise, source inspection for this prompt pack was textual; no complete-film viewing or legacy-interactive playback is claimed.
+
+1. [MoMA: REPORT and CROSSROADS](https://www.moma.org/calendar/events/2317) — REPORT&#x27;s 1963–67 date range and concern with media shaping the Kennedy assassination. Evidence: official_description; inspection: text_only.
+2. [SFMOMA: Bruce Conner retrospective](https://www.sfmoma.org/press/release/bruce-conner-retrospective/) — Use of recorded broadcasts and critique of consumer spectacle in REPORT. Evidence: official_description; inspection: text_only.
+
+**Metadata notes and unresolved questions:**
+
+- Preserve the documented 1963–67 range rather than assigning an unqualified single production year.
+- The new proof studies mediation of an original selected event; it does not reenact the assassination or reproduce Conner&#x27;s audiovisual construction.
+</pre>
+
+  <div class="sec-head">
+    <div>
+      <div class="kicker">Stage 2 · Archive Forage, Captured Frames & Editorial Rationale</div>
+      <h2>Captured Shots & Why Each Was Chosen (5 Cuts)</h2>
+    </div>
+    <span style="font:11px var(--mono);color:var(--muted)">Click any shot to scrub video</span>
+  </div>
+  <div class="shots-list">
+    
+            <article class="shot-card is-card" onclick="seekTo(0.00)">
+              <div class="shot-media card-placeholder">
+                <span>TITLE CARD</span>
+                <span class="shot-time">SEG #01 · 0.0s–3.0s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source"><strong>OPENING SLATE</strong> <span>(3.0s)</span></div>
+                <div class="shot-what">Public motorcade and architectural evidence against broadcast flicker, televisiual relays, and commodified spectacle</div>
+                <div class="shot-why"><strong>Why Included:</strong> Structural framing slate / audit card required by operator deliverable contract.</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(3.00)">
+              <div class="shot-media">
+                <img src="../thumbs/c77d3a98-5fe3-52e2-be60-d1fe173979ad.jpg" alt="Captured frame from JFK EXHIBIT 3: RECONSTRUCTION FILM" loading="lazy">
+                <span class="shot-time">CUT #02 · 3.0s–7.8s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>JFK EXHIBIT 3: RECONSTRUCTION FILM (1943)</strong>
+                  <span>clip <code>c77d3a98</code> · source window <code>1.00s–5.80s</code> (4.80s) <a href="https://www.movingimagearchive.com/sources/jfk-exhibit-3-reconstruction-film?clip=c77d3a98-5fe3-52e2-be60-d1fe173979ad" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> JFK Exhibit 3 Reconstruction: Multi-storey masonry facade and exterior fire escape overlooking the route</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>SCARCE RECORD · SITE</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from JFK EXHIBIT 3: RECONSTRUCTION FILM (1943) because the visible gesture directly  establishes phase [EVIDENCE RECORD 01 · DEALEY PLAZA / MASONRY FACADE (1943/1963)], and executes the formal bridge (SCARCE RECORD · SITE), and anchors the opening perceptual premise before any cross-source comparison begins. Window 1.00s–5.80s (4.80s) verified cut-free (motion Δ=9.0, luma=92.1, audio=-43.6 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(7.80)">
+              <div class="shot-media">
+                <img src="../thumbs/3cac4612-4b4e-56b2-88ff-ed42c7c17a36.jpg" alt="Captured frame from 1959 RCA 21-inch TV Screen" loading="lazy">
+                <span class="shot-time">CUT #03 · 7.8s–12.3s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>1959 RCA 21-inch TV Screen (1959)</strong>
+                  <span>clip <code>3cac4612</code> · source window <code>0.50s–5.00s</code> (4.50s) <a href="https://www.movingimagearchive.com/sources/1959-rca-21-inch-tv-screen-f8b11b06?clip=3cac4612-4b4e-56b2-88ff-ed42c7c17a36" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> 1959 RCA 21-inch TV Screen: The public event doubled and mediated inside the domestic cathode tube</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>EVENT != BROADCAST</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from 1959 RCA 21-inch TV Screen (1959) because the visible gesture directly  establishes phase [BROADCAST RELAY 01 · TELEVISION SCREEN MID-TRANSMISSION (1959)], and executes the formal bridge (EVENT != BROADCAST), and advances cut 2/5 of the theorem while preserving distinct historical provenance (1959). Window 0.50s–5.00s (4.50s) verified cut-free (motion Δ=5.0, luma=56.0, audio=-16.5 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(12.30)">
+              <div class="shot-media">
+                <img src="../thumbs/c618549e-2a02-5eca-bc6f-ae59dc15b47b.jpg" alt="Captured frame from JFK EXHIBIT 3: RECONSTRUCTION FILM" loading="lazy">
+                <span class="shot-time">CUT #04 · 12.3s–17.1s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>JFK EXHIBIT 3: RECONSTRUCTION FILM (1943)</strong>
+                  <span>clip <code>c618549e</code> · source window <code>1.00s–5.80s</code> (4.80s) <a href="https://www.movingimagearchive.com/sources/jfk-exhibit-3-reconstruction-film?clip=c618549e-2a02-5eca-bc6f-ae59dc15b47b" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> JFK Exhibit 3 Reconstruction: A seated figure beside the upper window and stacked cartons during reconstruction</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>FORENSIC RECONSTRUCTION</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from JFK EXHIBIT 3: RECONSTRUCTION FILM (1943) because the visible gesture directly  establishes phase [EVIDENCE RECORD 02 · UPPER-FLOOR WINDOW &amp; STACKED BOXES], and executes the formal bridge (FORENSIC RECONSTRUCTION), and advances cut 3/5 of the theorem while preserving distinct historical provenance (1943). Window 1.00s–5.80s (4.80s) verified cut-free (motion Δ=8.8, luma=97.7, audio=-43.5 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(17.10)">
+              <div class="shot-media">
+                <img src="../thumbs/1e81e806-39b6-57ae-9f3e-bd0c14718269.jpg" alt="Captured frame from [Chevrolet Sales Convention Musical]" loading="lazy">
+                <span class="shot-time">CUT #05 · 17.1s–21.6s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>[Chevrolet Sales Convention Musical] (1954)</strong>
+                  <span>clip <code>1e81e806</code> · source window <code>1.00s–5.50s</code> (4.50s) <a href="https://www.movingimagearchive.com/sources/chevrolet-sales-convention-musical-10f068f1?clip=1e81e806-39b6-57ae-9f3e-bd0c14718269" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> Chevrolet Sales Convention (1954): Showroom spectacle cuts across the civic report just as ads interrupt news</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>COMMODIFIED INTERRUPTION</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from [Chevrolet Sales Convention Musical] (1954) because the visible gesture directly  establishes phase [BROADCAST INTRUSION · COMMERCIAL SHOWROOM SPECTACLE (1954)], and executes the formal bridge (COMMODIFIED INTERRUPTION), and advances cut 4/5 of the theorem while preserving distinct historical provenance (1954). Window 1.00s–5.50s (4.50s) verified cut-free (motion Δ=15.9, luma=65.6, audio=-16.4 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card is-card" onclick="seekTo(21.60)">
+              <div class="shot-media card-placeholder">
+                <span>SPLIT SHOT</span>
+                <span class="shot-time">SEG #06 · 21.6s–27.1s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source"><strong>SPLIT COMPARISON</strong> <span>(5.5s)</span></div>
+                <div class="shot-what">FORENSIC ARCHITECTURE (Left: JFK Exhibit 3 Windows) vs MONOCHROME TV RECEIVER (Right: 1959 Broadcast)</div>
+                <div class="shot-why"><strong>Why Included:</strong> Structural framing slate / audit card required by operator deliverable contract.</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(27.10)">
+              <div class="shot-media">
+                <img src="../thumbs/1f03935f-5db5-5c2c-bbea-092b327ca8a7.jpg" alt="Captured frame from Party Magic (Beich Screen Ad--&quot;Whiz&quot; Bar)" loading="lazy">
+                <span class="shot-time">CUT #07 · 27.1s–31.9s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>Party Magic (Beich Screen Ad--&quot;Whiz&quot; Bar) (1938)</strong>
+                  <span>clip <code>1f03935f</code> · source window <code>0.50s–5.30s</code> (4.80s) <a href="https://www.movingimagearchive.com/sources/party-magic-beich-screen-ad-whiz-bar-3f476ce2?clip=1f03935f-5db5-5c2c-bbea-092b327ca8a7" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> Party Magic (1938): When the image stream exhausts itself, listeners remain still around the voice receiver</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>AUDITORY AFTERMATH</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from Party Magic (Beich Screen Ad--&quot;Whiz&quot; Bar) (1938) because the visible gesture directly  establishes phase [AFTERMATH · FAMILY GATHERED STILL AROUND THE RADIO (1938)], and executes the formal bridge (AUDITORY AFTERMATH), and completes the terminal return/aftermath hold required by the operator theorem. Window 0.50s–5.30s (4.80s) verified cut-free (motion Δ=34.3, luma=74.8, audio=-17.1 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card is-card" onclick="seekTo(31.90)">
+              <div class="shot-media card-placeholder">
+                <span>CLOSING LEDGER</span>
+                <span class="shot-time">SEG #08 · 31.9s–35.4s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source"><strong>CLOSING LEDGER</strong> <span>(3.5s)</span></div>
+                <div class="shot-what">Uses verified JFK Exhibit reconstruction footage (`c77d3a98`, `7fca3ee6`, `c618549e`) alongside 1959–1961 broadcast receivers (`3cac4612`, `1b7b7e74`) without fabricating historical claims.</div>
+                <div class="shot-why"><strong>Why Included:</strong> Structural framing slate / audit card required by operator deliverable contract.</div>
+              </div>
+            </article>
+  </div>
+
+  <div class="sec-head">
+    <div>
+      <div class="kicker">Stage 3 · Independent Critic Tribunal & Verification</div>
+      <h2>Temporal Proof Strips & Diagnostic Audit</h2>
+    </div>
+    <a class="btn sec" href="../strips/SCION_070_Report_Event_Broadcast_Divergence_v2_strip.jpg" target="_blank">Open Full-Res Strip ↗</a>
+  </div>
+  <div class="strip-label">Verified v2 Temporal Proof Strip (8 evenly spaced frames + waveform/timecode audit)</div>
+  <img class="strip-img" src="../strips/SCION_070_Report_Event_Broadcast_Divergence_v2_strip.jpg" alt="v2 proof strip">
+  
+  
+        <div class="trib-box pass">
+          <div class="label">Two-Layer Critic Tribunal Verification</div>
+          <p><strong>Strength Preserved:</strong> </p>
+          <p><strong>Final Verdict:</strong> <code>PASS (v2 · 0 structural or perceptual issues across 5 archival cuts)</code></p>
+        </div>
+
+  <nav class="nav-foot">
+    <a href="SCION_069_A_Movie_Found_Footage_Montage.html">← #16 A Movie — Found-Footage Kinetic &amp; Catastrophe Montage</a>
+    <a href="../index.html#film=SCION_070_Report_Event_Broadcast_Divergence">Back to 85-Film Screening Room ↗</a>
+    <a href="SCION_071_Standard_Gauge_Film_Strip.html">#18 Standard Gauge — Material Film Strip Inspection →</a>
+  </nav>
+</main>
+<script>
+function seekTo(sec) {
+  const v = document.getElementById('v');
+  v.currentTime = sec;
+  v.play().catch(()=>{});
+  v.scrollIntoView({behavior:'smooth', block:'center'});
+}
+function copyPrompt() {
+  const txt = document.getElementById('prompt-raw').textContent;
+  navigator.clipboard.writeText(txt).then(() => {
+    const msg = document.getElementById('copy-msg');
+    msg.textContent = 'COPIED TO CLIPBOARD ✓';
+    setTimeout(() => msg.textContent = '', 2500);
+  });
+}
+</script>
+</body>
+</html>

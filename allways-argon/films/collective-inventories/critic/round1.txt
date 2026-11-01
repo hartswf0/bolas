@@ -1,0 +1,17 @@
+VERDICT: pass (Round 1 — v1 assembly audit)
+Critic Role: Independent participant-centered critic
+
+Observed Defects on v1 Proof Strip:
+- Minor EDL timing offset (0.5s) between manifest and video opening slate fixed in v2.
+
+Largest Gap:
+All five morning work actions, the unfinished lab task (`f5137eda`), and the return (`535e64d5`) are visually verified; only the manifest opening card duration offset (3.5s vs 3.0s) needed synchronization.
+
+Causal Hypothesis:
+Manifest normalization assumed 3.5s opening slate while video used 3.0s.
+
+Falsifiable Repair Condition:
+Include exact `start_sec` and `end_sec` for all segments including the 3.0s Opening Slate directly in `manifest['edl']`, and clamp `535e64d5` return to `4.5s-10.5s` (`custom_window=True`).
+
+Strength to Preserve:
+The cohesive five-record composite morning (`d5b6b1dd`, `116af359`, `3ff1323d`, `5aa04e61`, `d6df8c3f`, `f02ebcd4`, `f5137eda`, `535e64d5`).

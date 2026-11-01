@@ -1,0 +1,17 @@
+VERDICT: repair_required (Round 1 — v1 assembly audit)
+Critic Role: Independent memory critic
+
+Observed Defects on v1 Proof Strip:
+- Seg #09 (t=28.70s-33.20s): `dac3352e` at in_s=1.8, dur=4.5 crosses an internal cut at 3.79s from archive shelves to a woman in a red jacket.
+
+Largest Gap:
+In Seg #09, shifting the trim window of Clip #02 (`dac3352e`) pushed the out-point across a scene cut at 3.79s to an unrelated talking head.
+
+Causal Hypothesis:
+Clean window of `dac3352e` is `0.05s-3.79s`; `1.8s + 4.5s = 6.3s` crossed the 3.79s cut.
+
+Falsifiable Repair Condition:
+Use `dac3352e` at `in_s=0.1, dur=2.2` in Epoch 1 (Seg #03) and `in_s=1.2, dur=2.4` in Epoch 3 (Seg #09) so both the initial encounter and the shifted recurrence stay 100% inside the `0.05s-3.79s` cut-free shelf window.
+
+Strength to Preserve:
+The three explicit `WORKING HISTORY RESET` cards, the intact recurrence of `b1626fd2`, and the closing Split Shot comparing intact vs shifted recurrence.

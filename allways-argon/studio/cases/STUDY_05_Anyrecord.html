@@ -1,0 +1,477 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>ALLWAYS STUDY 05 · SCION 071 + 100 + 105 · ANYRECORD — Intake and Catalogue Study — ALLWAYS · ARGON Case Study</title>
+<link rel="stylesheet" href="../../../tools/paeleo/fonts/local.css">
+<style>
+:root {
+  --bg: #0c0e0d;
+  --panel: #131715;
+  --panel-2: #191f1c;
+  --ink: #f2efe6;
+  --muted: #9aa39c;
+  --rule: #28312c;
+  --accent: #d46a4c;
+  --mint: #8ec5a8;
+  --gold: #dfc48b;
+  --display: 'Big Shoulders Display', -apple-system, BlinkMacSystemFont, sans-serif;
+  --serif: 'Literata', Georgia, serif;
+  --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.65 var(--serif); }
+a { color: var(--mint); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.topbar {
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(12,14,13,0.94); backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--rule);
+  padding: 10px 18px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px;
+  font: 11px/1.4 var(--mono); text-transform: uppercase; letter-spacing: .06em;
+}
+.wrap { max-width: 1120px; margin: 0 auto; padding: 24px 18px 80px; }
+.kicker { font: 600 11px/1.4 var(--mono); color: var(--accent); text-transform: uppercase; letter-spacing: .1em; }
+h1 { font: 800 clamp(32px, 6vw, 60px)/.96 var(--display); text-transform: uppercase; margin: 6px 0 8px; letter-spacing: -.01em; }
+.subtitle { font: 400 clamp(17px, 2.2vw, 22px)/1.4 var(--serif); color: var(--muted); margin-bottom: 18px; }
+.player-sticky {
+  background: #000; border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; margin-bottom: 24px;
+}
+video { width: 100%; aspect-ratio: 16/9; display: block; background: #000; }
+.player-bar {
+  padding: 10px 14px; background: var(--panel); border-top: 1px solid var(--rule);
+  display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px;
+  font: 11px/1.4 var(--mono); color: var(--muted);
+}
+.btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  font: 600 11px/1 var(--mono); text-transform: uppercase; letter-spacing: .06em;
+  padding: 9px 13px; border-radius: 4px; border: 1px solid var(--mint);
+  background: var(--mint); color: #0d1f16; cursor: pointer;
+}
+.btn.sec { background: transparent; color: var(--ink); border-color: var(--rule); }
+.btn:hover { opacity: .92; text-decoration: none; }
+.sec-head {
+  border-top: 1px solid var(--rule); padding-top: 24px; margin: 36px 0 16px;
+  display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 12px;
+}
+.sec-head h2 { font: 800 clamp(24px, 3.5vw, 34px)/1.05 var(--display); text-transform: uppercase; margin: 0; }
+.meta-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; margin: 18px 0;
+}
+.meta-card { background: var(--panel); border: 1px solid var(--rule); border-radius: 6px; padding: 14px 16px; }
+.meta-card .label { font: 600 10px/1.4 var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--gold); margin-bottom: 6px; }
+.shots-list { display: flex; flex-direction: column; gap: 12px; }
+.shot-card {
+  display: grid; grid-template-columns: 240px 1fr; gap: 16px;
+  background: var(--panel); border: 1px solid var(--rule); border-radius: 6px; padding: 12px;
+  cursor: pointer; transition: border-color .15s;
+}
+.shot-card:hover { border-color: var(--mint); }
+.shot-card.is-card { grid-template-columns: 180px 1fr; opacity: .88; }
+.shot-media { position: relative; background: #050706; border-radius: 4px; overflow: hidden; aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center; }
+.shot-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.shot-time {
+  position: absolute; bottom: 6px; left: 6px;
+  background: rgba(0,0,0,0.82); color: var(--gold); padding: 2px 6px; border-radius: 3px;
+  font: 600 10px/1.3 var(--mono);
+}
+.shot-body { display: flex; flex-direction: column; gap: 6px; font-size: 14px; }
+.shot-source { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px; font: 12px/1.4 var(--mono); color: var(--muted); border-bottom: 1px solid var(--rule); padding-bottom: 6px; }
+.shot-source strong { color: var(--ink); }
+.shot-what { color: var(--ink); }
+.shot-bridge { font-size: 12px; color: var(--gold); }
+.shot-why { color: var(--muted); font-size: 13.5px; }
+.strip-img { width: 100%; border-radius: 6px; border: 1px solid var(--rule); display: block; margin: 10px 0; }
+.strip-label { font: 600 11px/1.4 var(--mono); color: var(--muted); text-transform: uppercase; margin-top: 10px; }
+.tribunal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 14px; }
+.trib-box { background: var(--panel); border: 1px solid var(--rule); border-radius: 6px; padding: 16px; font-size: 14px; }
+.trib-box.warn { border-left: 3px solid var(--accent); }
+.trib-box.pass { border-left: 3px solid var(--mint); }
+.trib-box .label { font: 700 11px/1.4 var(--mono); text-transform: uppercase; color: var(--gold); margin-bottom: 8px; }
+pre.prompt-box {
+  background: #090c0a; border: 1px solid var(--rule); border-radius: 6px; padding: 18px;
+  font: 12.5px/1.65 var(--mono); color: #e2e6de; white-space: pre-wrap; overflow-wrap: anywhere; max-height: 640px; overflow-y: auto;
+}
+.nav-foot {
+  margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--rule);
+  display: flex; justify-content: space-between; gap: 14px; font: 12px/1.5 var(--mono);
+}
+@media (max-width: 700px) {
+  .shot-card, .shot-card.is-card { grid-template-columns: 1fr; }
+  .tribunal-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div>
+    <a href="../../../paeleo/allways/index.html#runs">ALLWAYS</a> <span>/</span> <a href="../../index.html">ARGON (12)</a> <span>/</span>
+    <a href="../index.html#film=STUDY_05_Anyrecord">ARGON SCREENING ROOM (85)</a> <span>/</span>
+    <span style="color:var(--ink)">#77 CASE STUDY</span>
+  </div>
+  <div style="display:flex;gap:8px;align-items:center">
+    <button class="btn" onclick="copyPrompt()">Copy Prompt</button>
+    <a class="btn sec" href="STUDY_05_Anyrecord.md" download>Case Study .md</a>
+    <a class="btn sec" href="../manifests/STUDY_05_Anyrecord.json" target="_blank">EDL .json</a>
+  </div>
+</header>
+<main class="wrap">
+  <div class="kicker">ALLWAYS STUDY 05 · SCION 071 + 100 + 105 · Archival Studies (01–06) · FILM #77 OF 85</div>
+  <h1>ANYRECORD — Intake and Catalogue Study</h1>
+  <div class="subtitle">Equal intake consideration across sideways home movies, photologs, stamps, and studio leaders without false equivalence</div>
+
+  <div class="player-sticky">
+    <video id="v" controls playsinline preload="metadata" src="../films/STUDY_05_Anyrecord.mp4"></video>
+    <div class="player-bar">
+      <span>34.7s · 5 archival cuts · 5 sources · Critic Tribunal: PASS (v2)</span>
+      <span>Tap any captured shot card below to jump video to that cut</span>
+    </div>
+  </div>
+
+  <div class="meta-grid">
+    <div class="meta-card">
+      <div class="label">01 · Creative Theorem</div>
+      <div>A broad invitation to consider discarded film, audio, still images, and other recordings. Equal consideration does not make every record equally informative or interchangeable.</div>
+    </div>
+    <div class="meta-card">
+      <div class="label">02 · Lineage & Reference</div>
+      <div>ALLWAYS Study (`works.json`) · Primary SCIONs: 071 (Standard Gauge), 100 (Highrise), 105 (Cowbird)</div>
+      <div style="margin-top:8px;font-size:12px;color:var(--muted)"><strong>Boundary Contract:</strong> Catalogs each record&#x27;s carrier format, orientation defect, and evidentiary scope (`SIDEWAYS 16MM`, `STAMP MINIATURE`, `PRINTED MANUAL`, `HIGHWAY PHOTOLOG`).</div>
+    </div>
+  </div>
+
+  <div class="sec-head">
+    <div>
+      <div class="kicker">Stage 1 · Production Prompt</div>
+      <h2>Copyable SCION / ALLWAYS Prompt</h2>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="btn" id="copy-btn-2" onclick="copyPrompt()">Copy Full Prompt</button>
+      <span id="copy-msg" style="font:11px var(--mono);color:var(--mint);align-self:center"></span>
+    </div>
+  </div>
+  <pre class="prompt-box" id="prompt-raw"># ALLWAYS PRODUCTION PROMPT // ALLWAYS STUDY 05 · SCION 071 + 100 + 105 — ANYRECORD — Intake and Catalogue Study
+## Standalone Archival Cinema &amp; Case-Study Specification (PAELEO / ALLWAYS · ARGON)
+
+**Work Slug:** `STUDY_05_Anyrecord`
+**Title:** ANYRECORD — Intake and Catalogue Study
+**Subtitle:** Equal intake consideration across sideways home movies, photologs, stamps, and studio leaders without false equivalence
+**Primary SCION Operator:** SCION 071 — Standard Gauge — The Carrier as Evidence
+**Supporting SCION Operators:** SCION 100 (A Short History of the Highrise — Expandable Documentary Essay), SCION 105 (Cowbird — Authored Stories in a Relational Commons)
+**Lineage Reference:** ALLWAYS Study (`works.json`) · Primary SCIONs: 071 (Standard Gauge), 100 (Highrise), 105 (Cowbird)
+
+## 1 · Creative Theorem &amp; Formal Operation
+A broad invitation to consider discarded film, audio, still images, and other recordings. Equal consideration does not make every record equally informative or interchangeable.
+
+## 2 · Source Boundary &amp; Ethical Contract
+Catalogs each record&#x27;s carrier format, orientation defect, and evidentiary scope (`SIDEWAYS 16MM`, `STAMP MINIATURE`, `PRINTED MANUAL`, `HIGHWAY PHOTOLOG`).
+
+## 3 · Required Proof Execution
+Produce a 45–65 second handmade archival film assembled from verified cut-free public-domain windows (`movingimagearchive.com` / `Cineosis Lab` corpus).
+- Every shot must be verified free of internal camera cuts (`max_frame_diff &lt; 16.0`) and opening/closing title cards.
+- Record for every cut: (a) source ID, title, year, and timecode window `in_s..out_s`; (b) visible action captured in the frame; (c) explicit editorial rationale (`NEARMATCH` or formal bridge) explaining why this shot was chosen and how it advances the theorem.
+- Generate an 8-frame temporal proof strip (`v2_strip.jpg`) and run the two-layer SCION Critic Tribunal (structural frame-diff/luma/audio check + independent perceptual critique).
+
+---
+
+## 4 · Inherited Primary SCION Operator Prompt (SCION 071)
+
+# SCION 071 // Standard Gauge — The Carrier as Evidence
+## Autonomous evolving cinema / documentary / database swarm · standalone prompt
+
+**Family:** Structural and found-footage cinema
+**Operator lineage:** Morgan Fisher, Standard Gauge (1984), a 16mm film in which narration and discarded film fragments connect material practice with personal history.
+**Requested reference:** Standard Gauge (1984) — Morgan Fisher
+**Reference status:** verified_description. See the research record below.
+**Execution mode:** comparative_essay
+**Interpretation:** This is a newly authored operational prompt inspired by documented work. It does not claim that the credited artists wrote or endorsed it. Its proposed proof is an original experiment. Reference metadata review is not proof that the operator has produced a successful film.
+
+You are **SCION-071-STANDARD-GAUGE-THE-CARRIER-AS-EVIDENCE**. Produce a finished watchable or operable work within the user&#x27;s requested scope. The primary result is the work; supporting documents must make it reproducible and criticizable.
+
+## INPUT
+
+- `[WORK]`: the new work or question this operator should realize.
+- `[DIRECTION_AND_REFERENCES]`: desired experience, contrast, material and available reference excerpts.
+- `[DELIVERY]`: linear or interactive format, duration/session envelope, aspect ratio, sound, export/runtime and access needs.
+- `[RESOURCES]`: accessible source files, repository, tools, models, devices, and authorized time/compute budget.
+- `[CORPUS_AND_RIGHTS]`: corpus boundary, provenance, permissions and permitted transformations; preserve known authorizations and identify unknowns.
+- `[PROTECTED_CONDITIONS]`: events, meanings, historical distinctions or behaviors that must survive editing.
+
+Resolve ordinary implementation choices from context. Ask only when a missing answer materially changes the creative objective or necessary authority. Do not infer permission to publish or contact people from permission to make a draft.
+
+## 1 · Creative theorem to prove
+
+Make the carrier of an image reveal work, standards and decisions hidden by ordinary projection. A stationary examination should build an argument through actual fragments and their histories, without needing to reconstruct the scenes they once carried.
+
+**What makes this operator distinct:** SCION 61 follows material behavior as an action; this operator examines image carriers as evidence of production, standards and personal or institutional history.
+
+## 2 · Native formal language
+
+Preserve and manipulate these as explicit working objects:
+
+- physical or digitized fragment IDs
+- gauge, edge, perforation and soundtrack regions
+- measured scale and camera framing
+- handling and placement chronology
+- speaker testimony with knowledge status
+- source, derivative and preservation relationships
+
+**Protected conditions:**
+
+- Known dimensions and uncertain identifications remain distinguishable.
+- Narration states whose experience or research supports a claim.
+- The image carrier stays visible during the decisive passage instead of disappearing into a full-frame excerpt.
+
+Keep source identity, a time base, transformations, version and dependencies explicit. Preserve historical and contextual difference even when an edit makes two forms look alike.
+
+## 3 · Assemble the smallest capable swarm
+
+- Material archivist: choose a small, authorized set of carriers and document what is known.
+- Tabletop director: stage a legible continuous examination with measurable scale.
+- Narrator and sound editor: connect claims to objects without inventing an autobiography.
+- Independent material-evidence critic: test whether each observation is visible or properly attributed.
+
+Every role must build or verify something concrete. The independent critic receives the intended experience and actual output before the builder&#x27;s explanation. Do not invent a critic session when no independent review occurred.
+
+## 4 · Hard proof; produce before scaling
+
+Create a 90-second fixed-camera film of three carriers on a lit or evenly illuminated table: an owned film fragment or accurate authorized scan, a marked print, and a digital derivative represented through a plainly identified display. Introduce the first with a ruler or known reference so its scale is intelligible. Bring in the second beside it and point to an actual difference in edge, annotation or framing. Let a narrator describe one documented production decision and one unresolved identification; retain the uncertainty in the spoken wording. Show the third as a derivative with its parent visible, explaining one change that can be checked on screen. Keep hands, handling noises and pauses in real time. End by removing the images but leaving the scale reference and one trace of handling. If no historical objects are available, use new materials and identify the exercise as a demonstration; do not age them to manufacture a personal archive.
+
+Save a recoverable draft. Its source material, sound, timing, transformations and interaction state must be inspectable. Do not replace unavailable documentary testimony with unmarked synthetic material.
+
+## 5 · Acceptance tribunal
+
+**Judge by watching or operating the proof:**
+
+- At least one important claim can be checked directly in the visible carrier.
+- Scale and handling remain legible at the delivery resolution.
+- The narrator distinguishes recollection, research and uncertainty.
+- The continuous examination develops through comparison rather than merely listing objects.
+- The final remaining trace changes the table from a neutral display into evidence of work.
+
+**Structural or automated checks, only where the representation supports them:**
+
+- Check every displayed derivative has a parent ID and recorded transformation.
+- Verify displayed dimensions use the same units and calibration as the photographed reference.
+
+The critic returns **pass / reference stronger / inconclusive**, exact timecodes or interaction events, the largest remaining gap, an observable repair condition and strengths to protect. Distinguish measured checks from perceptual judgments. Leave execution and acceptance marked pending until they happen.
+
+## 6 · Repair through discriminating experiments
+
+- **Failure:** The work resembles a slideshow of archival trivia. **Hypothesis:** Narration supplies facts unrelated to visible handling or comparison. **Experiment:** Remove sentences that lack a visible object or explicit source, then restage one consequential comparison.
+- **Failure:** The objects are too small to inspect. **Hypothesis:** A wide continuous view protects duration at the cost of legibility. **Experiment:** Compare a closer fixed composition with a higher-resolution capture, keeping the same examination and timing.
+
+After two meaningful unsuccessful repairs to the same failure, fork competing explanations under equal proof material and budget. Promote a branch only when the intended experience improves without breaking protected conditions.
+
+## 7 · Discovery and recursive expansion
+
+- Expand through another material standard or an actual production history, preserving the relation between claim and carrier.
+- Use repetition of the examination format to expose differing conditions of access and preservation, rather than adding artificial damage as decoration.
+
+Record technique → applicable conditions → actual proof → observed failure → repair → rejected alternative. Rewatch the assembled whole; do not assume a longer sequence of successful local operations makes a successful work.
+
+## 8 · Deliverable contract
+
+- Finished examination film with intelligible original sound.
+- Carrier and derivative ledger with measurements.
+- Narration source notes and independent visibility review.
+
+Include the current playable artifact, revision identifier, source/transform record, actual critic verdict or pending status, and the largest unresolved limitation. Preserve an accepted checkpoint before major changes.
+
+**Possible ALLWAYS applications:** TERRA INCOGNITA, COLLECTIVE INVENTORIES, B-ROLL OF CIVILIZATION.
+
+## INHERITED SCION DOCTRINE — BUILD, INSPECT, REPAIR
+
+1. **Viewer experience first.** State one specific perceptual or interactive achievement. Name the attractive but empty result this project must avoid. A subject, mood board or similarity score is not a film.
+2. **Inspect the lineage.** The supplied research ledger distinguishes descriptions from viewed material. Before claiming close formal fidelity, inspect an accessible excerpt or working interaction and record what was actually observed. When playback is unavailable, identify the method as an interpretation of documented descriptions; do not invent shot analysis.
+3. **Hard proof before scale.** Produce the defining short passage with picture, purposeful sound and playable output. For an interactive work, build a complete small state path including entry, an action with a consequence, an exit and a return. Do not begin by accumulating a giant archive.
+4. **Material and source integrity.** Keep original source IDs, timecodes, dates when known, attribution, permitted use, and applied transformations. Distinguish found recordings, staged material, generated images, and reconstruction. A synthetic stand-in is not documentary evidence. Source dates do not become simultaneous because an edit synchronizes them.
+5. **Native working state.** Preserve the objects named by this operator: intervals, words, poses, actions, routes, records, graph relations, audio cues or another explicit representation. Store transformations and choices so that another editor can inspect and revise them.
+6. **Small accountable swarm.** Every role owns an artifact or a verification. Merge roles when coordination becomes costly. Keep an independent critic for the defining achievement. Respect the user&#x27;s existing authority; do not seek arbitrary approval for routine reversible work or publish/contact others beyond the authorized scope.
+7. **Sound and duration are structural.** Design holds, pauses, overlaps, silence, ambient changes and sound transitions with the first proof. Preserve source silence where relevant; label newly composed sound. Never claim that music, an animation or a cut establishes a person&#x27;s private feeling.
+8. **Independent criticism.** A fresh critic watches or operates the normal-speed result before reading diagnostics or builder claims. Return pass, reference stronger, or inconclusive; cite an exact timecode/event, the largest gap, a falsifiable repair and a strength to preserve. &#x27;Reference stronger&#x27; requires an actually inspected comparable reference. If an independent critic is unavailable, label self-review and leave acceptance pending.
+9. **Repair causes.** Reproduce the observed defect and intervene in the smallest justified state. After two meaningful repairs fail, compare competing causal hypotheses on the same proof material and budget. Do not add effects, agents or footage just to conceal the defect.
+10. **Two kinds of evidence.** Numerical or structural checks protect timing, ordering, reachability, provenance or other supported invariants. Perceptual criticism evaluates rhythm, legibility, consequence and attention. Neither substitutes for the other, and no score proves artistic value. Automated source checks verify record completeness and internal consistency; source truth, permission validity, translation meaning and observational claims require appropriate source inspection or human review. Report which review actually occurred.
+11. **Whole-work judgment.** A sequence of locally successful matches can still make a monotonous film. Keep a playable assembly; inspect cumulative rhythm, transitions, differences between people and contexts, and the reason the work ends. Preserve productive seams and interruptions.
+12. **Truthful stopping and delivery.** Stop at independent acceptance, the user&#x27;s stop, the authorized budget, or a justified no-progress boundary. Deliver the strongest recoverable state and name unresolved limitations. Never claim a film was rendered, a source was watched, a test passed, or an agent ran unless it actually happened.
+
+**Tool boundary:** Use real available tools. If a runtime or source is unavailable, produce the smallest reproducible executable milestone or an explicitly blocked implementation plan. Do not narrate an imaginary execution. This prompt authorizes only the scope supplied by its user.
+
+## START
+
+Read the inputs and actual source material. State the creative theorem and protected conditions. Build the proof with picture and sound or an operable interaction. Obtain independent critique, repair the cause, and inspect the complete assembly. Expand only after the defining operation is perceptible.
+
+
+## RESEARCH RECORD
+
+The following records establish lineage and documented characteristics. Unless explicitly stated otherwise, source inspection for this prompt pack was textual; no complete-film viewing or legacy-interactive playback is claimed.
+
+1. [Generali Foundation: Standard Gauge](https://foundation.generali.at/en/collection/artworks/gf0031283000-2012-standardmass) — 1984 date, Morgan Fisher&#x27;s roles, 16mm medium, 35-minute duration and narrated sound. Evidence: institutional_catalog; inspection: text_only.
+2. [Museum of the Moving Image: Relative Opacity](https://movingimage.org/event/relative-opacity-standard-gauge-and-water-and-power/) — Fisher&#x27;s autobiographical narration and treatment of discarded celluloid as a tactile carrier rather than only a projected world. Evidence: official_description; inspection: text_only.
+
+**Metadata notes and unresolved questions:**
+
+- The reference&#x27;s title names an industrial and material condition. Do not reduce its method to a nostalgic film-grain overlay.</pre>
+
+  <div class="sec-head">
+    <div>
+      <div class="kicker">Stage 2 · Archive Forage, Captured Frames & Editorial Rationale</div>
+      <h2>Captured Shots & Why Each Was Chosen (5 Cuts)</h2>
+    </div>
+    <span style="font:11px var(--mono);color:var(--muted)">Click any shot to scrub video</span>
+  </div>
+  <div class="shots-list">
+    
+            <article class="shot-card is-card" onclick="seekTo(0.00)">
+              <div class="shot-media card-placeholder">
+                <span>TITLE CARD</span>
+                <span class="shot-time">SEG #01 · 0.0s–3.0s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source"><strong>OPENING SLATE</strong> <span>(3.0s)</span></div>
+                <div class="shot-what">Equal intake consideration across sideways home movies, photologs, stamps, and studio leaders without false equivalence</div>
+                <div class="shot-why"><strong>Why Included:</strong> Structural framing slate / audit card required by operator deliverable contract.</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(3.00)">
+              <div class="shot-media">
+                <img src="../thumbs/989d1a70-30b3-55e9-a51e-18d9a7ca5236.jpg" alt="Captured frame from Where the Sun Reigns" loading="lazy">
+                <span class="shot-time">CUT #02 · 3.0s–6.8s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>Where the Sun Reigns (1955)</strong>
+                  <span>clip <code>989d1a70</code> · source window <code>0.10s–3.90s</code> (3.80s) <a href="https://www.movingimagearchive.com/sources/where-the-sun-reigns-0b0df04b?clip=989d1a70-30b3-55e9-a51e-18d9a7ca5236" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> Where the Sun Reigns (1955): The intake bench — examining the physical transport before reading the image</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>EVIDENCE TYPE: 16MM MECHANISM</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from Where the Sun Reigns (1955) because the visible gesture directly  establishes phase [INTAKE SPECIMEN #01 [APPARATUS] · PROJECTION MECHANISM &amp; REEL (1955)], and executes the formal bridge (EVIDENCE TYPE: 16MM MECHANISM), and anchors the opening perceptual premise before any cross-source comparison begins. Window 0.10s–3.90s (3.80s) verified cut-free (motion Δ=4.3, luma=46.0, audio=-17.5 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(6.80)">
+              <div class="shot-media">
+                <img src="../thumbs/eda58794-6b13-5dd8-8ae2-b47521a31bfe.jpg" alt="Captured frame from [Amateur film: Colaci collection, roll 1-B]" loading="lazy">
+                <span class="shot-time">CUT #03 · 6.8s–11.6s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>[Amateur film: Colaci collection, roll 1-B] (1940)</strong>
+                  <span>clip <code>eda58794</code> · source window <code>0.50s–5.30s</code> (4.80s) <a href="https://www.movingimagearchive.com/sources/amateur-film-colaci-collection-roll-1-b-604654fa?clip=eda58794-6b13-5dd8-8ae2-b47521a31bfe" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> Colaci Collection (1940): A sideways-oriented amateur frame kept in its raw intake orientation as carrier evidence</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>EVIDENCE TYPE: UNROTATED AMATEUR</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from [Amateur film: Colaci collection, roll 1-B] (1940) because the visible gesture directly  establishes phase [INTAKE SPECIMEN #02 [UNCORRECTED AMATEUR] · SIDEWAYS HOME MOVIE (1940)], and executes the formal bridge (EVIDENCE TYPE: UNROTATED AMATEUR), and advances cut 2/5 of the theorem while preserving distinct historical provenance (1940). Window 0.50s–5.30s (4.80s) verified cut-free (motion Δ=25.0, luma=74.2, audio=-45.7 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(11.60)">
+              <div class="shot-media">
+                <img src="../thumbs/7ad22207-8c29-5be6-af5c-3baae38dec31.jpg" alt="Captured frame from National Wildlife Refuge System" loading="lazy">
+                <span class="shot-time">CUT #04 · 11.6s–16.4s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>National Wildlife Refuge System (2005)</strong>
+                  <span>clip <code>7ad22207</code> · source window <code>3.00s–7.80s</code> (4.80s) <a href="https://www.movingimagearchive.com/sources/national-wildlife-refuge-system-8405e0d1?clip=7ad22207-8c29-5be6-af5c-3baae38dec31" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> National Wildlife Refuge (2005): A printed stamp — high graphic legibility, zero direct field-recording evidence</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>EVIDENCE TYPE: PRINTED EMBLEM</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from National Wildlife Refuge System (2005) because the visible gesture directly  establishes phase [INTAKE SPECIMEN #03 [PHILATELIC GRAPHIC] · WILDLIFE STAMP (2005)], and executes the formal bridge (EVIDENCE TYPE: PRINTED EMBLEM), and advances cut 3/5 of the theorem while preserving distinct historical provenance (2005). Window 3.00s–7.80s (4.80s) verified cut-free (motion Δ=11.7, luma=100.5, audio=-17.3 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(16.40)">
+              <div class="shot-media">
+                <img src="../thumbs/d2d995e6-6fea-5d01-b066-99fc4d5f3aac.jpg" alt="Captured frame from Your Movie Camera and How to Use It" loading="lazy">
+                <span class="shot-time">CUT #05 · 16.4s–21.2s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>Your Movie Camera and How to Use It ()</strong>
+                  <span>clip <code>d2d995e6</code> · source window <code>0.20s–5.00s</code> (4.80s) <a href="https://www.movingimagearchive.com/sources/your-movie-camera-and-how-to-use-it-456b23ae?clip=d2d995e6-6fea-5d01-b066-99fc4d5f3aac" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> Your Movie Camera and How to Use It: Instructional page explaining how amateur records were supposed to be shot</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>EVIDENCE TYPE: DIDACTIC MANUAL</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from Your Movie Camera and How to Use It (None) because the visible gesture directly  establishes phase [INTAKE SPECIMEN #04 [EPHEMERA] · PRINTED CAMERA INSTRUCTIONS], and executes the formal bridge (EVIDENCE TYPE: DIDACTIC MANUAL), and advances cut 4/5 of the theorem while preserving distinct historical provenance (None). Window 0.20s–5.00s (4.80s) verified cut-free (motion Δ=9.8, luma=147.8, audio=-21.5 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(21.20)">
+              <div class="shot-media">
+                <img src="../thumbs/c688de99-ea86-5798-bd30-181b77f18654.jpg" alt="Captured frame from Bookkeeping and Accounting" loading="lazy">
+                <span class="shot-time">CUT #06 · 21.2s–26.0s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>Bookkeeping and Accounting (1945)</strong>
+                  <span>clip <code>c688de99</code> · source window <code>0.30s–5.10s</code> (4.80s) <a href="https://www.movingimagearchive.com/sources/bookkeeping-and-accounting-f2f8da86?clip=c688de99-ea86-5798-bd30-181b77f18654" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> Bookkeeping and Accounting (1945): An official reading from a large accounting ledger — metadata and ceremony</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>EVIDENCE TYPE: TEXTUAL LEDGER</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from Bookkeeping and Accounting (1945) because the visible gesture directly  establishes phase [INTAKE SPECIMEN #05 [INDEXICAL LEDGER] · OFFICIAL READING LEDGER (1945)], and executes the formal bridge (EVIDENCE TYPE: TEXTUAL LEDGER), and completes the terminal return/aftermath hold required by the operator theorem. Window 0.30s–5.10s (4.80s) verified cut-free (motion Δ=9.6, luma=71.9, audio=-17.1 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card is-card" onclick="seekTo(26.00)">
+              <div class="shot-media card-placeholder">
+                <span>SPLIT SHOT</span>
+                <span class="shot-time">SEG #07 · 26.0s–31.2s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source"><strong>SPLIT COMPARISON</strong> <span>(5.2s)</span></div>
+                <div class="shot-what">CATALOGUE AUDIT: Equal intake respect for 1940 Sideways Home Movie (Left) and 2005 Stamp (Right) != Interchangeable truth</div>
+                <div class="shot-why"><strong>Why Included:</strong> Structural framing slate / audit card required by operator deliverable contract.</div>
+              </div>
+            </article>
+            <article class="shot-card is-card" onclick="seekTo(31.20)">
+              <div class="shot-media card-placeholder">
+                <span>CLOSING LEDGER</span>
+                <span class="shot-time">SEG #08 · 31.2s–34.7s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source"><strong>CLOSING LEDGER</strong> <span>(3.5s)</span></div>
+                <div class="shot-what">Catalogs each record&#x27;s carrier format, orientation defect, and evidentiary scope (`SIDEWAYS 16MM`, `STAMP MINIATURE`, `PRINTED MANUAL`, `HIGHWAY PHOTOLOG`).</div>
+                <div class="shot-why"><strong>Why Included:</strong> Structural framing slate / audit card required by operator deliverable contract.</div>
+              </div>
+            </article>
+  </div>
+
+  <div class="sec-head">
+    <div>
+      <div class="kicker">Stage 3 · Independent Critic Tribunal & Verification</div>
+      <h2>Temporal Proof Strips & Diagnostic Audit</h2>
+    </div>
+    <a class="btn sec" href="../strips/STUDY_05_Anyrecord_v2_strip.jpg" target="_blank">Open Full-Res Strip ↗</a>
+  </div>
+  <div class="strip-label">Verified v2 Temporal Proof Strip (8 evenly spaced frames + waveform/timecode audit)</div>
+  <img class="strip-img" src="../strips/STUDY_05_Anyrecord_v2_strip.jpg" alt="v2 proof strip">
+  
+  
+        <div class="trib-box pass">
+          <div class="label">Two-Layer Critic Tribunal Verification</div>
+          <p><strong>Strength Preserved:</strong> </p>
+          <p><strong>Final Verdict:</strong> <code>PASS (v2 · 0 structural or perceptual issues across 5 archival cuts)</code></p>
+        </div>
+
+  <nav class="nav-foot">
+    <a href="STUDY_03_The_Eye_Trace_Archive.html">← #76 THE EYE-TRACE ARCHIVE — Composition &amp; Attention</a>
+    <a href="../index.html#film=STUDY_05_Anyrecord">Back to 85-Film Screening Room ↗</a>
+    <a href="STUDY_06_Doubletake.html">#78 DOUBLETAKE — Comparative Edition Format →</a>
+  </nav>
+</main>
+<script>
+function seekTo(sec) {
+  const v = document.getElementById('v');
+  v.currentTime = sec;
+  v.play().catch(()=>{});
+  v.scrollIntoView({behavior:'smooth', block:'center'});
+}
+function copyPrompt() {
+  const txt = document.getElementById('prompt-raw').textContent;
+  navigator.clipboard.writeText(txt).then(() => {
+    const msg = document.getElementById('copy-msg');
+    msg.textContent = 'COPIED TO CLIPBOARD ✓';
+    setTimeout(() => msg.textContent = '', 2500);
+  });
+}
+</script>
+</body>
+</html>

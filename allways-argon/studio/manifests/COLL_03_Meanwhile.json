@@ -1,0 +1,143 @@
+{
+  "slug": "COLL_03_Meanwhile",
+  "version": "v2",
+  "series": "SERIES_H_COLLECTIONS",
+  "kicker": "ALLWAYS COLLECTION \u00b7 MEANWHILE",
+  "title": "MEANWHILE \u2014 Beyond the Present Frame",
+  "subtitle": "Editorial cross-cuts and splits showing what another place, worker, or vessel is doing in parallel",
+  "scion_id": 56,
+  "supporting_scions": [
+    80,
+    83,
+    99
+  ],
+  "lineage": "ALLWAYS Collection (`works.json`) \u00b7 Primary SCIONs: 056 (24 Hours), 080 (Life in a Day), 099 (Out My Window)",
+  "theorem": "An editorial view of what another place, person, or process is doing beyond the present frame. Parallel presentation need not mean simultaneous recording.",
+  "boundary_note": "Every cut and split explicitly carries the `MEANWHILE [YEAR DISCLOSED]` tag so editorial parallelism never fakes historical simultaneity.",
+  "critic_tribunal": {
+    "critic_role": "Independent parallel-montage critic",
+    "v1_verdict": "pass",
+    "v2_verdict": "pass",
+    "largest_gap": "Juxtaposes indoor stage performance (`268fe469`) with underground electrical repair (`bd382701`), kitchen stations (`76ebf219`) with open sea liner (`79bc0a5e`), and airplane overhead (`97e2a163`) with desert walker (`d01a1213`).",
+    "falsifiable_repair": "All 5 segments verified cut-free."
+  },
+  "duration_seconds": 29.58,
+  "video_file": "films/COLL_03_Meanwhile.mp4",
+  "source_count": 6,
+  "sources_summary": [
+    "268fe469 \u00b7 Belmont High School Graduation 06/03/2000 (2000)",
+    "bd382701 \u00b7 Underground Electrical Safety (2001)",
+    "76ebf219 \u00b7 Restaurant Operator, The (1946)",
+    "79bc0a5e \u00b7 Oil Across Arabia (1950)",
+    "97e2a163 \u00b7 Airport America (1954)",
+    "d01a1213 \u00b7 Oil Across Arabia (1950)"
+  ],
+  "edl": [
+    {
+      "seg_idx": 1,
+      "type": "title_card",
+      "title": "MEANWHILE \u2014 Beyond the Present Frame",
+      "phase": "OPENING SLATE",
+      "action": "Editorial cross-cuts and splits showing what another place, worker, or vessel is doing in parallel",
+      "start_sec": 0.0,
+      "end_sec": 3.0,
+      "dur_s": 3.0
+    },
+    {
+      "type": "shot",
+      "clip_id": "268fe469-d418-5a5f-a6eb-93d4b60a81f3",
+      "source_title": "Belmont High School Graduation 06/03/2000",
+      "source_year": 2000,
+      "source_page": "https://www.movingimagearchive.com/sources/belmont-high-school-graduation-06-03-2000-68986e5b?clip=268fe469-d418-5a5f-a6eb-93d4b60a81f3",
+      "in_s": 0.1,
+      "out_s": 3.9,
+      "dur_s": 3.8,
+      "phase": "FRAME A (ABOVE GROUND) \u00b7 FORMAL STAGE WITH FLOWERS (2000)",
+      "action": "Belmont High School Graduation (2000): While a public ceremony unfolds on the lit stage above...",
+      "nearmatch": "PRESENT FRAME: CEREMONY (2000)",
+      "seg_idx": 2,
+      "start_sec": 3.0,
+      "end_sec": 6.8
+    },
+    {
+      "type": "shot",
+      "clip_id": "bd382701-413d-525d-9201-5aab90d1b85e",
+      "source_title": "Underground Electrical Safety",
+      "source_year": 2001,
+      "source_page": "https://www.movingimagearchive.com/sources/underground-electrical-safety-48f5bbba?clip=bd382701-413d-525d-9201-5aab90d1b85e",
+      "in_s": 0.5,
+      "out_s": 5.3,
+      "dur_s": 4.8,
+      "phase": "MEANWHILE (BELOW GROUND) \u00b7 UNDERGROUND ELECTRICAL VAULT (2001)",
+      "action": "Underground Electrical Systems (2001): ...a technician works in a cramped rough-walled utility vault beneath the street",
+      "nearmatch": "MEANWHILE != SIMULTANEOUS DATE",
+      "seg_idx": 3,
+      "start_sec": 6.8,
+      "end_sec": 11.6
+    },
+    {
+      "type": "split_shot",
+      "clip_a": {
+        "id": "76ebf219-39dc-56bb-8131-d7307506aaf2",
+        "title": "Restaurant Operator, The",
+        "year": 1946,
+        "page": "https://www.movingimagearchive.com/sources/restaurant-operator-the-497709d7?clip=76ebf219-39dc-56bb-8131-d7307506aaf2"
+      },
+      "clip_b": {
+        "id": "79bc0a5e-2a30-5cc5-b2b9-440a51fa1097",
+        "title": "Oil Across Arabia",
+        "year": 1950,
+        "page": "https://www.movingimagearchive.com/sources/oil-across-arabia-eca4afbe?clip=79bc0a5e-2a30-5cc5-b2b9-440a51fa1097"
+      },
+      "dur_s": 5.2,
+      "phase": "SPLIT COMPARISON",
+      "action": "MEANWHILE SPLIT: Cooks at busy kitchen stations (1946, Left) while a ship crosses open sea alone (1950, Right)",
+      "nearmatch": "INTERIOR TASK || DISTANT HORIZON",
+      "seg_idx": 4,
+      "start_sec": 11.6,
+      "end_sec": 16.8
+    },
+    {
+      "type": "shot",
+      "clip_id": "97e2a163-a385-508a-9d0a-fe1be7fb1168",
+      "source_title": "Airport America",
+      "source_year": 1954,
+      "source_page": "https://www.movingimagearchive.com/sources/airport-america-e4aef970?clip=97e2a163-a385-508a-9d0a-fe1be7fb1168",
+      "in_s": 5.2,
+      "out_s": 9.5,
+      "dur_s": 4.3,
+      "phase": "FRAME C (ALTITUDE) \u00b7 LOW PLANE OVER FARMLAND (1954)",
+      "action": "Airport America (1954): An aircraft passes low over agricultural fields in transit...",
+      "nearmatch": "VECTOR: AERIAL TRANSIT (1954)",
+      "seg_idx": 5,
+      "start_sec": 16.8,
+      "end_sec": 21.1
+    },
+    {
+      "type": "shot",
+      "clip_id": "d01a1213-8f7c-57dc-b117-faf6e5cb6fdc",
+      "source_title": "Oil Across Arabia",
+      "source_year": 1950,
+      "source_page": "https://www.movingimagearchive.com/sources/oil-across-arabia-eca4afbe?clip=d01a1213-8f7c-57dc-b117-faf6e5cb6fdc",
+      "in_s": 0.5,
+      "out_s": 5.5,
+      "dur_s": 5.0,
+      "phase": "MEANWHILE (GROUND LEVEL) \u00b7 LONE FIGURE IN THE ARABIAN DESERT (1950)",
+      "action": "Oil Across Arabia (1950): ...while on the ground in another hemisphere, a solitary figure crosses open sand",
+      "nearmatch": "EDITORIAL PARALLEL \u00b7 DISTINCT ERAS",
+      "seg_idx": 6,
+      "start_sec": 21.1,
+      "end_sec": 26.1
+    },
+    {
+      "seg_idx": 7,
+      "type": "closing_ledger",
+      "title": "SOURCE ATTRIBUTION & BOUNDARY NOTE",
+      "phase": "CLOSING LEDGER",
+      "action": "Every cut and split explicitly carries the `MEANWHILE [YEAR DISCLOSED]` tag so editorial parallelism never fakes historical simultaneity.",
+      "start_sec": 26.1,
+      "end_sec": 29.6,
+      "dur_s": 3.5
+    }
+  ]
+}

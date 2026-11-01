@@ -1,0 +1,174 @@
+{
+  "slug": "SCION_095_Highrise_Spatial_Windows",
+  "version": "v2",
+  "series": "SERIES_F_INTERACTIVE",
+  "kicker": "SCION 095\u2013100 \u00b7 INTERACTIVE & DATABASE MEDIA",
+  "title": "Out My Window \u2014 Spatial Facade & Window Matrix",
+  "subtitle": "Navigating exterior apartment facades into individual domestic rooms and memories",
+  "scion_id": 99,
+  "supporting_scions": [
+    95,
+    96,
+    97,
+    98,
+    100
+  ],
+  "lineage": "Lineage: Katerina Cizek, HIGHRISE / Out My Window (2010) \u00b7 Supporting: SCION 097 (Welcome to Pine Point), SCION 098 (Bear 71)",
+  "theorem": "Treat an urban apartment facade as an inspectable spatial index: move from the exterior grid of windows into individual domestic interiors, then hold four windows simultaneously in a spatial matrix without collapsing their separate lives.",
+  "boundary_note": "Demonstrates the linear proof path of the interactive Spatial Window Matrix (`SCION 095\u2013100`), preserving each room's distinct archival source.",
+  "critic_tribunal": {
+    "critic_role": "Independent spatial-interface critic",
+    "v1_verdict": "repair_required",
+    "v2_verdict": "pass",
+    "v1_defect_timecodes": [
+      "Seg #05 (t=17.80s-23.00s): `34a8fd98` cut at 3.1s from the parlor television to a studio camera.",
+      "Seg #06 (t=23.00s-28.20s): `780c159d` cut at 2.2s inside the living room."
+    ],
+    "largest_gap": "Replaced Seg #05 and Seg #06 with verified cut-free domestic interior rooms `b2e97ba8` (`Something New From Something Old`, `0.2s-5.4s`) and `8f806ff1` (`Speaking of Rubber`, `0.5s-5.7s`) so all 4 spatial window nodes and the closing 4-window matrix play continuously without cuts.",
+    "falsifiable_repair": "Use `c77d3a98` (exterior facade), `a4ab6a4c` (1922 window), `cd47717f` (1938 child at window), `b2e97ba8` (1958 living room), and `8f806ff1` (1951 parlor)."
+  },
+  "duration_seconds": 38.21,
+  "video_file": "films/SCION_095_Highrise_Spatial_Windows.mp4",
+  "source_count": 5,
+  "sources_summary": [
+    "c77d3a98 \u00b7 JFK EXHIBIT 3: RECONSTRUCTION FILM (1943)",
+    "a4ab6a4c \u00b7 Volkshuisvesting (1922)",
+    "cd47717f \u00b7 [Amateur films: Ivan Besse collection: Britton, South Dakota 1938-39] (Part I) (1938)",
+    "b2e97ba8 \u00b7 Something New From Something Old (1958)",
+    "8f806ff1 \u00b7 Speaking of Rubber (Part I) (1951)"
+  ],
+  "edl": [
+    {
+      "seg_idx": 1,
+      "type": "title_card",
+      "title": "Out My Window \u2014 Spatial Facade & Window Matrix",
+      "phase": "OPENING SLATE",
+      "action": "Navigating exterior apartment facades into individual domestic rooms and memories",
+      "start_sec": 0.0,
+      "end_sec": 3.0,
+      "dur_s": 3.0
+    },
+    {
+      "type": "shot",
+      "clip_id": "c77d3a98-5fe3-52e2-be60-d1fe173979ad",
+      "source_title": "JFK EXHIBIT 3: RECONSTRUCTION FILM",
+      "source_year": 1943,
+      "source_page": "https://www.movingimagearchive.com/sources/jfk-exhibit-3-reconstruction-film?clip=c77d3a98-5fe3-52e2-be60-d1fe173979ad",
+      "in_s": 0.5,
+      "out_s": 5.5,
+      "dur_s": 5.0,
+      "phase": "EXTERIOR INDEX \u00b7 MULTI-STOREY MASONRY FACADE (1943)",
+      "action": "JFK Exhibit 3 (1943): Multi-storey brick facade and fire escape \u2014 each window marks a potential entry node",
+      "nearmatch": "SPATIAL NODE MAP: EXTERIOR",
+      "seg_idx": 2,
+      "start_sec": 3.0,
+      "end_sec": 8.0
+    },
+    {
+      "type": "shot",
+      "clip_id": "a4ab6a4c-45e5-5c69-ae9f-763f73c39ad7",
+      "source_title": "Volkshuisvesting",
+      "source_year": 1922,
+      "source_page": "https://www.movingimagearchive.com/sources/volkshuisvesting?clip=a4ab6a4c-45e5-5c69-ae9f-763f73c39ad7",
+      "in_s": 0.5,
+      "out_s": 5.5,
+      "dur_s": 5.0,
+      "phase": "NODE SELECTION #01 \u00b7 FIGURE AT UPPER-STOREY WINDOW (1922)",
+      "action": "Volkshuisvesting (1922): A resident leans out from an upper-storey brick window opening",
+      "nearmatch": "WINDOW NODE [R1, C2] SELECTED",
+      "seg_idx": 3,
+      "start_sec": 8.0,
+      "end_sec": 13.0
+    },
+    {
+      "type": "shot",
+      "clip_id": "cd47717f-5187-5c9f-a94b-4336c872ccf6",
+      "source_title": "[Amateur films: Ivan Besse collection: Britton, South Dakota 1938-39] (Part I)",
+      "source_year": 1938,
+      "source_page": "https://www.movingimagearchive.com/sources/amateur-films-ivan-besse-collection-britton-south-dakota-1938-39-part-i-24dfd9e6?clip=cd47717f-5187-5c9f-a94b-4336c872ccf6",
+      "in_s": 0.2,
+      "out_s": 4.92,
+      "dur_s": 4.8,
+      "phase": "NODE SELECTION #02 \u00b7 CHILD AT THE WINDOW FRAME (1938)",
+      "action": "Ivan Besse Collection (1938): A young child stands inside a window frame with one hand raised",
+      "nearmatch": "WINDOW NODE [R2, C1] SELECTED",
+      "seg_idx": 4,
+      "start_sec": 13.0,
+      "end_sec": 17.8
+    },
+    {
+      "type": "shot",
+      "clip_id": "b2e97ba8-5d17-5312-9404-5afe6e7493a8",
+      "source_title": "Something New From Something Old",
+      "source_year": 1958,
+      "source_page": "https://www.movingimagearchive.com/sources/something-new-from-something-old-1d1276c0?clip=b2e97ba8-5d17-5312-9404-5afe6e7493a8",
+      "in_s": 0.13,
+      "out_s": 5.08,
+      "dur_s": 5.2,
+      "phase": "INTERIOR PORTRAIT #01 \u00b7 FURNISHED SITTING ROOM (1958)",
+      "action": "Something New From Something Old (1958): Entering the furnished room behind the glass \u2014 lamps and armchairs",
+      "nearmatch": "INTERIOR STREAM #01",
+      "seg_idx": 5,
+      "start_sec": 17.8,
+      "end_sec": 23.0
+    },
+    {
+      "type": "shot",
+      "clip_id": "8f806ff1-f16e-591d-aa4d-51d48f96a1ae",
+      "source_title": "Speaking of Rubber (Part I)",
+      "source_year": 1951,
+      "source_page": "https://www.movingimagearchive.com/sources/speaking-of-rubber-part-i-75ff5d47?clip=8f806ff1-f16e-591d-aa4d-51d48f96a1ae",
+      "in_s": 0.5,
+      "out_s": 5.7,
+      "dur_s": 5.2,
+      "phase": "INTERIOR PORTRAIT #02 \u00b7 DOMESTIC LIVING ROOM (1951)",
+      "action": "Speaking of Rubber (1951): A second apartment interior across a different household and routine",
+      "nearmatch": "INTERIOR STREAM #02",
+      "seg_idx": 6,
+      "start_sec": 23.0,
+      "end_sec": 28.2
+    },
+    {
+      "type": "quad_shot",
+      "clips": [
+        {
+          "id": "a4ab6a4c-45e5-5c69-ae9f-763f73c39ad7",
+          "title": "Volkshuisvesting",
+          "year": 1922
+        },
+        {
+          "id": "cd47717f-5187-5c9f-a94b-4336c872ccf6",
+          "title": "[Amateur films: Ivan Besse collection: Britton, South Dakota 1938-39] (Part I)",
+          "year": 1938
+        },
+        {
+          "id": "b2e97ba8-5d17-5312-9404-5afe6e7493a8",
+          "title": "Something New From Something Old",
+          "year": 1958
+        },
+        {
+          "id": "8f806ff1-f16e-591d-aa4d-51d48f96a1ae",
+          "title": "Speaking of Rubber (Part I)",
+          "year": 1951
+        }
+      ],
+      "dur_s": 6.5,
+      "phase": "FOUR-WINDOW SPATIAL MATRIX \u00b7 COEXISTING ROOMS",
+      "action": "1922 Facade Window | 1938 Window Greeting | 1958 Sitting Room | 1951 Domestic Room held in one facade grid",
+      "nearmatch": "OUT MY WINDOW \u00b7 MULTI-ROOM MATRIX",
+      "seg_idx": 7,
+      "start_sec": 28.2,
+      "end_sec": 34.7
+    },
+    {
+      "seg_idx": 8,
+      "type": "closing_ledger",
+      "title": "SOURCE ATTRIBUTION & BOUNDARY NOTE",
+      "phase": "CLOSING LEDGER",
+      "action": "Demonstrates the linear proof path of the interactive Spatial Window Matrix (`SCION 095\u2013100`), preserving each room's distinct archival source.",
+      "start_sec": 34.7,
+      "end_sec": 38.2,
+      "dur_s": 3.5
+    }
+  ]
+}

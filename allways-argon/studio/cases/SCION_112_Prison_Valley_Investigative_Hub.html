@@ -1,0 +1,457 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>SCION 112 · INTERACTIVE &amp; DATABASE MEDIA · Prison Valley — Investigative Road &amp; Return Hub — ALLWAYS · ARGON Case Study</title>
+<link rel="stylesheet" href="../../../tools/paeleo/fonts/local.css">
+<style>
+:root {
+  --bg: #0c0e0d;
+  --panel: #131715;
+  --panel-2: #191f1c;
+  --ink: #f2efe6;
+  --muted: #9aa39c;
+  --rule: #28312c;
+  --accent: #d46a4c;
+  --mint: #8ec5a8;
+  --gold: #dfc48b;
+  --display: 'Big Shoulders Display', -apple-system, BlinkMacSystemFont, sans-serif;
+  --serif: 'Literata', Georgia, serif;
+  --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.65 var(--serif); }
+a { color: var(--mint); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.topbar {
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(12,14,13,0.94); backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--rule);
+  padding: 10px 18px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px;
+  font: 11px/1.4 var(--mono); text-transform: uppercase; letter-spacing: .06em;
+}
+.wrap { max-width: 1120px; margin: 0 auto; padding: 24px 18px 80px; }
+.kicker { font: 600 11px/1.4 var(--mono); color: var(--accent); text-transform: uppercase; letter-spacing: .1em; }
+h1 { font: 800 clamp(32px, 6vw, 60px)/.96 var(--display); text-transform: uppercase; margin: 6px 0 8px; letter-spacing: -.01em; }
+.subtitle { font: 400 clamp(17px, 2.2vw, 22px)/1.4 var(--serif); color: var(--muted); margin-bottom: 18px; }
+.player-sticky {
+  background: #000; border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; margin-bottom: 24px;
+}
+video { width: 100%; aspect-ratio: 16/9; display: block; background: #000; }
+.player-bar {
+  padding: 10px 14px; background: var(--panel); border-top: 1px solid var(--rule);
+  display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px;
+  font: 11px/1.4 var(--mono); color: var(--muted);
+}
+.btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  font: 600 11px/1 var(--mono); text-transform: uppercase; letter-spacing: .06em;
+  padding: 9px 13px; border-radius: 4px; border: 1px solid var(--mint);
+  background: var(--mint); color: #0d1f16; cursor: pointer;
+}
+.btn.sec { background: transparent; color: var(--ink); border-color: var(--rule); }
+.btn:hover { opacity: .92; text-decoration: none; }
+.sec-head {
+  border-top: 1px solid var(--rule); padding-top: 24px; margin: 36px 0 16px;
+  display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 12px;
+}
+.sec-head h2 { font: 800 clamp(24px, 3.5vw, 34px)/1.05 var(--display); text-transform: uppercase; margin: 0; }
+.meta-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; margin: 18px 0;
+}
+.meta-card { background: var(--panel); border: 1px solid var(--rule); border-radius: 6px; padding: 14px 16px; }
+.meta-card .label { font: 600 10px/1.4 var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--gold); margin-bottom: 6px; }
+.shots-list { display: flex; flex-direction: column; gap: 12px; }
+.shot-card {
+  display: grid; grid-template-columns: 240px 1fr; gap: 16px;
+  background: var(--panel); border: 1px solid var(--rule); border-radius: 6px; padding: 12px;
+  cursor: pointer; transition: border-color .15s;
+}
+.shot-card:hover { border-color: var(--mint); }
+.shot-card.is-card { grid-template-columns: 180px 1fr; opacity: .88; }
+.shot-media { position: relative; background: #050706; border-radius: 4px; overflow: hidden; aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center; }
+.shot-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.shot-time {
+  position: absolute; bottom: 6px; left: 6px;
+  background: rgba(0,0,0,0.82); color: var(--gold); padding: 2px 6px; border-radius: 3px;
+  font: 600 10px/1.3 var(--mono);
+}
+.shot-body { display: flex; flex-direction: column; gap: 6px; font-size: 14px; }
+.shot-source { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px; font: 12px/1.4 var(--mono); color: var(--muted); border-bottom: 1px solid var(--rule); padding-bottom: 6px; }
+.shot-source strong { color: var(--ink); }
+.shot-what { color: var(--ink); }
+.shot-bridge { font-size: 12px; color: var(--gold); }
+.shot-why { color: var(--muted); font-size: 13.5px; }
+.strip-img { width: 100%; border-radius: 6px; border: 1px solid var(--rule); display: block; margin: 10px 0; }
+.strip-label { font: 600 11px/1.4 var(--mono); color: var(--muted); text-transform: uppercase; margin-top: 10px; }
+.tribunal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 14px; }
+.trib-box { background: var(--panel); border: 1px solid var(--rule); border-radius: 6px; padding: 16px; font-size: 14px; }
+.trib-box.warn { border-left: 3px solid var(--accent); }
+.trib-box.pass { border-left: 3px solid var(--mint); }
+.trib-box .label { font: 700 11px/1.4 var(--mono); text-transform: uppercase; color: var(--gold); margin-bottom: 8px; }
+pre.prompt-box {
+  background: #090c0a; border: 1px solid var(--rule); border-radius: 6px; padding: 18px;
+  font: 12.5px/1.65 var(--mono); color: #e2e6de; white-space: pre-wrap; overflow-wrap: anywhere; max-height: 640px; overflow-y: auto;
+}
+.nav-foot {
+  margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--rule);
+  display: flex; justify-content: space-between; gap: 14px; font: 12px/1.5 var(--mono);
+}
+@media (max-width: 700px) {
+  .shot-card, .shot-card.is-card { grid-template-columns: 1fr; }
+  .tribunal-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div>
+    <a href="../../../paeleo/allways/index.html#runs">ALLWAYS</a> <span>/</span> <a href="../../index.html">ARGON (12)</a> <span>/</span>
+    <a href="../index.html#film=SCION_112_Prison_Valley_Investigative_Hub">ARGON SCREENING ROOM (85)</a> <span>/</span>
+    <span style="color:var(--ink)">#61 CASE STUDY</span>
+  </div>
+  <div style="display:flex;gap:8px;align-items:center">
+    <button class="btn" onclick="copyPrompt()">Copy Prompt</button>
+    <a class="btn sec" href="SCION_112_Prison_Valley_Investigative_Hub.md" download>Case Study .md</a>
+    <a class="btn sec" href="../manifests/SCION_112_Prison_Valley_Investigative_Hub.json" target="_blank">EDL .json</a>
+  </div>
+</header>
+<main class="wrap">
+  <div class="kicker">SCION 112 · INTERACTIVE &amp; DATABASE MEDIA · F · Reflexive &amp; Database · FILM #61 OF 85</div>
+  <h1>Prison Valley — Investigative Road &amp; Return Hub</h1>
+  <div class="subtitle">Driving into an industry town, inspecting security perimeters, and returning to the motel hub</div>
+
+  <div class="player-sticky">
+    <video id="v" controls playsinline preload="metadata" src="../films/SCION_112_Prison_Valley_Investigative_Hub.mp4"></video>
+    <div class="player-bar">
+      <span>34.8s · 6 archival cuts · 6 sources · Critic Tribunal: PASS (v2)</span>
+      <span>Tap any captured shot card below to jump video to that cut</span>
+    </div>
+  </div>
+
+  <div class="meta-grid">
+    <div class="meta-card">
+      <div class="label">01 · Creative Theorem</div>
+      <div>Alternately venture out along a valley highway to investigate an institutional industry—armored vans, padlocks, uniformed guards—and return to a recurring nocturnal hub room where evidence and interviews are weighed.</div>
+    </div>
+    <div class="meta-card">
+      <div class="label">02 · Lineage & Reference</div>
+      <div>Lineage: David Dufresne &amp; Philippe Brault, Prison Valley (Upian / Arte, 2010)</div>
+      <div style="margin-top:8px;font-size:12px;color:var(--muted)"><strong>Boundary Contract:</strong> Uses `2ba1bfc5` (vehicle isolated in darkness at night) and `6ea59533` (motel/bedroom floor) as the recurring investigative hub between valley excursions (`c30d92fb`, `b2077a9a`, `d5ee4ae2`, `dab44545`).</div>
+    </div>
+  </div>
+
+  <div class="sec-head">
+    <div>
+      <div class="kicker">Stage 1 · Production Prompt</div>
+      <h2>Copyable SCION / ALLWAYS Prompt</h2>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="btn" id="copy-btn-2" onclick="copyPrompt()">Copy Full Prompt</button>
+      <span id="copy-msg" style="font:11px var(--mono);color:var(--mint);align-self:center"></span>
+    </div>
+  </div>
+  <pre class="prompt-box" id="prompt-raw"># SCION 112 // Prison Valley — Investigative Journey and Return Hub
+## Autonomous evolving cinema / documentary / database swarm · standalone prompt
+
+**Family:** Interactive and database media
+**Operator lineage:** Prison Valley, 2010 — Philippe Brault and David Dufresne; Upian and ARTE.
+**Requested reference:** Prison Valley (2010) — David Dufresne &amp; Philippe Brault
+**Reference status:** verified_description. See the research record below.
+**Execution mode:** interactive_documentary
+**Interpretation:** This is a newly authored operational prompt inspired by documented work. It does not claim that the credited artists wrote or endorsed it. Its proposed proof is an original experiment. Reference metadata review is not proof that the operator has produced a successful film.
+
+You are **SCION-112-PRISON-VALLEY-INVESTIGATIVE-JOURNEY-AND-RETURN-HUB**. Produce a finished watchable or operable work within the user&#x27;s requested scope. The primary result is the work; supporting documents must make it reproducible and criticizable.
+
+## INPUT
+
+- `[WORK]`: the new work or question this operator should realize.
+- `[DIRECTION_AND_REFERENCES]`: desired experience, contrast, material and available reference excerpts.
+- `[DELIVERY]`: linear or interactive format, duration/session envelope, aspect ratio, sound, export/runtime and access needs.
+- `[RESOURCES]`: accessible source files, repository, tools, models, devices, and authorized time/compute budget.
+- `[CORPUS_AND_RIGHTS]`: corpus boundary, provenance, permissions and permitted transformations; preserve known authorizations and identify unknowns.
+- `[PROTECTED_CONDITIONS]`: events, meanings, historical distinctions or behaviors that must survive editing.
+
+Resolve ordinary implementation choices from context. Ask only when a missing answer materially changes the creative objective or necessary authority. Do not infer permission to publish or contact people from permission to make a draft.
+
+## 1 · Creative theorem to prove
+
+Turn investigative viewing into a journey whose encounters accumulate as evidence. The viewer&#x27;s path can change what they examine first, while the work preserves sourced claims, unresolved questions and a clear return point for reflection.
+
+**What makes this operator distinct:** A Short History of the Highrise maintains a linear essay with optional drawers; this operator lets a journey through separate encounters assemble the investigation.
+
+## 2 · Native formal language
+
+Preserve and manipulate these as explicit working objects:
+
+- A bounded investigative question
+- A return hub and three documentary locations
+- Recorded encounters with transcripts
+- A notebook separating observation, quotation and inference
+- Visited-state and saved playback position
+- Source-to-claim pointers with attributed human support assessments
+
+**Protected conditions:**
+
+- Navigation never changes what a recorded speaker said.
+- Progress is measured by encountered material, not by rewarding a predetermined political conclusion.
+- No contact with documentary subjects or publication of questions occurs automatically.
+
+Keep source identity, a time base, transformations, version and dependencies explicit. Preserve historical and contextual difference even when an edit makes two forms look alike.
+
+## 3 · Assemble the smallest capable swarm
+
+- Investigative editor defines a question the available records can address.
+- Human source researcher records what each document supports, qualifying claims and identifying missing evidence.
+- Spatial narrative designer constructs a useful route and return hub.
+- Interface and audio editor preserves encounters as scenes.
+- Independent documentary critic tests the accumulated argument and the visitor&#x27;s actual agency.
+
+Every role must build or verify something concrete. The independent critic receives the intended experience and actual output before the builder&#x27;s explanation. Do not invent a critic session when no independent review occurred.
+
+## 4 · Hard proof; produce before scaling
+
+Make a three-minute interactive investigation of an already-documented public question, such as why a service changed its opening hours. Use genuine authorized records or an explicitly fictional training dossier; never invent quotations from real officials. A named researcher records what the documents support, retaining disputed or unknown facts. Begin in a waiting-room hub with three routes: the public notice, an account of the effects, and the operational explanation. Each contains one complete short scene and a source document. Returning adds a note labeled observation, quotation or inference, linked to its source and review record. After two encounters, the visitor can inspect how their provisional explanation has changed; the third may complicate it. Keep voices in context and use ambience to establish location. End with a conclusion proportionate to the reviewed sources and an exact unresolved question. Resume any scene from its saved position. In a training dossier, retain the fictional status throughout instead of presenting its records as real evidence.
+
+Save a recoverable draft. Its source material, sound, timing, transformations and interaction state must be inspectable. Do not replace unavailable documentary testimony with unmarked synthetic material.
+
+## 5 · Acceptance tribunal
+
+**Judge by watching or operating the proof:**
+
+- The journey develops an inquiry rather than a menu of unrelated interviews.
+- The return hub makes accumulated evidence comprehensible.
+- The visitor can distinguish what a source establishes from the editor&#x27;s interpretation.
+- Choices change encounter order or depth without rewriting documentary facts.
+- The ending supports a proportionate conclusion and preserves unresolved evidence.
+
+**Structural or automated checks, only where the representation supports them:**
+
+- Verify saved scene positions and notebook updates after each route.
+- Validate source pointers, existing attributed review records and retained observation/quotation/inference or fiction labels. Human research review, not pointer existence, determines source-to-claim support.
+
+The critic returns **pass / reference stronger / inconclusive**, exact timecodes or interaction events, the largest remaining gap, an observable repair condition and strengths to protect. Distinguish measured checks from perceptual judgments. Leave execution and acceptance marked pending until they happen.
+
+## 6 · Repair through discriminating experiments
+
+- **Failure:** The work feels like a quiz with an approved answer. **Hypothesis:** Navigation rewards agreement rather than examination. **Experiment:** Remove scoring and compare two route orders that end with different unresolved questions.
+- **Failure:** The hub interrupts every scene before it becomes meaningful. **Hypothesis:** Interaction frequency overrides documentary duration. **Experiment:** Allow complete encounters before returning and compare engagement with the same sources.
+
+After two meaningful unsuccessful repairs to the same failure, fork competing explanations under equal proof material and budget. Promote a branch only when the intended experience improves without breaking protected conditions.
+
+## 7 · Discovery and recursive expansion
+
+- Add a location only when it changes the explanation and its new claims receive attributed source review.
+- Preserve the difference between historical encounters and any later authorized public discussion.
+
+Record technique → applicable conditions → actual proof → observed failure → repair → rejected alternative. Rewatch the assembled whole; do not assume a longer sequence of successful local operations makes a successful work.
+
+## 8 · Deliverable contract
+
+- Playable three-route investigation with a complete ending
+- Source-and-claim notebook with attributed support decisions, route graph, transcript/audio ledger and independent documentary critique
+
+Include the current playable artifact, revision identifier, source/transform record, actual critic verdict or pending status, and the largest unresolved limitation. Preserve an accepted checkpoint before major changes.
+
+**Possible ALLWAYS applications:** LATENT, UNWITNESSED, B-ROLL OF CIVILIZATION.
+
+## INHERITED SCION DOCTRINE — BUILD, INSPECT, REPAIR
+
+1. **Viewer experience first.** State one specific perceptual or interactive achievement. Name the attractive but empty result this project must avoid. A subject, mood board or similarity score is not a film.
+2. **Inspect the lineage.** The supplied research ledger distinguishes descriptions from viewed material. Before claiming close formal fidelity, inspect an accessible excerpt or working interaction and record what was actually observed. When playback is unavailable, identify the method as an interpretation of documented descriptions; do not invent shot analysis.
+3. **Hard proof before scale.** Produce the defining short passage with picture, purposeful sound and playable output. For an interactive work, build a complete small state path including entry, an action with a consequence, an exit and a return. Do not begin by accumulating a giant archive.
+4. **Material and source integrity.** Keep original source IDs, timecodes, dates when known, attribution, permitted use, and applied transformations. Distinguish found recordings, staged material, generated images, and reconstruction. A synthetic stand-in is not documentary evidence. Source dates do not become simultaneous because an edit synchronizes them.
+5. **Native working state.** Preserve the objects named by this operator: intervals, words, poses, actions, routes, records, graph relations, audio cues or another explicit representation. Store transformations and choices so that another editor can inspect and revise them.
+6. **Small accountable swarm.** Every role owns an artifact or a verification. Merge roles when coordination becomes costly. Keep an independent critic for the defining achievement. Respect the user&#x27;s existing authority; do not seek arbitrary approval for routine reversible work or publish/contact others beyond the authorized scope.
+7. **Sound and duration are structural.** Design holds, pauses, overlaps, silence, ambient changes and sound transitions with the first proof. Preserve source silence where relevant; label newly composed sound. Never claim that music, an animation or a cut establishes a person&#x27;s private feeling.
+8. **Independent criticism.** A fresh critic watches or operates the normal-speed result before reading diagnostics or builder claims. Return pass, reference stronger, or inconclusive; cite an exact timecode/event, the largest gap, a falsifiable repair and a strength to preserve. &#x27;Reference stronger&#x27; requires an actually inspected comparable reference. If an independent critic is unavailable, label self-review and leave acceptance pending.
+9. **Repair causes.** Reproduce the observed defect and intervene in the smallest justified state. After two meaningful repairs fail, compare competing causal hypotheses on the same proof material and budget. Do not add effects, agents or footage just to conceal the defect.
+10. **Two kinds of evidence.** Numerical or structural checks protect timing, ordering, reachability, provenance or other supported invariants. Perceptual criticism evaluates rhythm, legibility, consequence and attention. Neither substitutes for the other, and no score proves artistic value. Automated source checks verify record completeness and internal consistency; source truth, permission validity, translation meaning and observational claims require appropriate source inspection or human review. Report which review actually occurred.
+11. **Whole-work judgment.** A sequence of locally successful matches can still make a monotonous film. Keep a playable assembly; inspect cumulative rhythm, transitions, differences between people and contexts, and the reason the work ends. Preserve productive seams and interruptions.
+12. **Truthful stopping and delivery.** Stop at independent acceptance, the user&#x27;s stop, the authorized budget, or a justified no-progress boundary. Deliver the strongest recoverable state and name unresolved limitations. Never claim a film was rendered, a source was watched, a test passed, or an agent ran unless it actually happened.
+
+**Tool boundary:** Use real available tools. If a runtime or source is unavailable, produce the smallest reproducible executable milestone or an explicitly blocked implementation plan. Do not narrate an imaginary execution. This prompt authorizes only the scope supplied by its user.
+
+## START
+
+Read the inputs and actual source material. State the creative theorem and protected conditions. Build the proof with picture and sound or an operable interaction. Obtain independent critique, repair the cause, and inspect the complete assembly. Expand only after the defining operation is perceptible.
+
+
+## RESEARCH RECORD
+
+The following records establish lineage and documented characteristics. Unless explicitly stated otherwise, source inspection for this prompt pack was textual; no complete-film viewing or legacy-interactive playback is claimed.
+
+1. [Prison Valley — David Dufresne](https://www.davduf.net/-prison-valley-62-) — Creator&#x27;s account, April 2010 web publication, authors and producers. Evidence: creator_statement; inspection: text_only.
+2. [Prison Valley — MIT Docubase](https://docubase.mit.edu/project/prison-valley-2/) — Interactive road-movie form, journalist viewpoint, return hub and documentary encounters. Evidence: institutional_catalog; inspection: text_only.
+3. [Prison Valley — official site](https://prisonvalley.arte.tv/?lang=en) — Official authorship and current notice about legacy Flash access. Evidence: official_description; inspection: text_only.
+
+**Metadata notes and unresolved questions:**
+
+- Study the documented interaction structure without assuming the original Flash experience is currently playable; the official site identifies the legacy access limitation.
+</pre>
+
+  <div class="sec-head">
+    <div>
+      <div class="kicker">Stage 2 · Archive Forage, Captured Frames & Editorial Rationale</div>
+      <h2>Captured Shots & Why Each Was Chosen (6 Cuts)</h2>
+    </div>
+    <span style="font:11px var(--mono);color:var(--muted)">Click any shot to scrub video</span>
+  </div>
+  <div class="shots-list">
+    
+            <article class="shot-card is-card" onclick="seekTo(0.00)">
+              <div class="shot-media card-placeholder">
+                <span>TITLE CARD</span>
+                <span class="shot-time">SEG #01 · 0.0s–3.0s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source"><strong>OPENING SLATE</strong> <span>(3.0s)</span></div>
+                <div class="shot-what">Driving into an industry town, inspecting security perimeters, and returning to the motel hub</div>
+                <div class="shot-why"><strong>Why Included:</strong> Structural framing slate / audit card required by operator deliverable contract.</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(3.00)">
+              <div class="shot-media">
+                <img src="../thumbs/c30d92fb-e0cd-5df0-9cce-2b573d5a15f3.jpg" alt="Captured frame from Scatter radar: Space research from the ground" loading="lazy">
+                <span class="shot-time">CUT #02 · 3.0s–7.8s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>Scatter radar: Space research from the ground (1963)</strong>
+                  <span>clip <code>c30d92fb</code> · source window <code>0.50s–5.30s</code> (4.80s) <a href="https://www.movingimagearchive.com/sources/scatter-radar-space-research-from-the-ground-e8ccef6d?clip=c30d92fb-e0cd-5df0-9cce-2b573d5a15f3" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> Scatter Radar (1963): Following the highway into a narrow mountain valley where a single industry dominates</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>EXCURSION 01: VALLEY ENTRY</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from Scatter radar: Space research from the ground (1963) because the visible gesture directly  establishes phase [ARRIVAL · WINDING ROAD INTO THE MOUNTAIN VALLEY (1963)], and executes the formal bridge (EXCURSION 01: VALLEY ENTRY), and anchors the opening perceptual premise before any cross-source comparison begins. Window 0.50s–5.30s (4.80s) verified cut-free (motion Δ=25.6, luma=44.7, audio=-23.1 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(7.80)">
+              <div class="shot-media">
+                <img src="../thumbs/2ba1bfc5-6bc2-5abe-bc1b-f860481d8e0a.jpg" alt="Captured frame from Dusk to Dawn" loading="lazy">
+                <span class="shot-time">CUT #03 · 7.8s–12.3s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>Dusk to Dawn (1971)</strong>
+                  <span>clip <code>2ba1bfc5</code> · source window <code>1.00s–5.50s</code> (4.50s) <a href="https://www.movingimagearchive.com/sources/dusk-to-dawn-970b7d57?clip=2ba1bfc5-6bc2-5abe-bc1b-f860481d8e0a" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> Dusk to Dawn (1971): The nocturnal motel parking lot that serves as the investigation&#x27;s recurring hub</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>RETURN HUB: NIGHT MOTEL</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from Dusk to Dawn (1971) because the visible gesture directly  establishes phase [BASE HUB [PASS 1] · VEHICLE ISOLATED IN DARKNESS AT NIGHT (1971)], and executes the formal bridge (RETURN HUB: NIGHT MOTEL), and advances cut 2/6 of the theorem while preserving distinct historical provenance (1971). Window 1.00s–5.50s (4.50s) verified cut-free (motion Δ=5.1, luma=15.6, audio=-20.8 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(12.30)">
+              <div class="shot-media">
+                <img src="../thumbs/b2077a9a-c32a-5657-844a-5df0ad3565fc.jpg" alt="Captured frame from Where the Bankers Bank" loading="lazy">
+                <span class="shot-time">CUT #04 · 12.3s–17.1s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>Where the Bankers Bank (1989)</strong>
+                  <span>clip <code>b2077a9a</code> · source window <code>0.50s–5.30s</code> (4.80s) <a href="https://www.movingimagearchive.com/sources/where-the-bankers-bank-c6ede672?clip=b2077a9a-c32a-5657-844a-5df0ad3565fc" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> Where the Bankers Bank (1989): Documenting the security apparatus on the street</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>EVIDENCE NODE #01: TRANSPORT</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from Where the Bankers Bank (1989) because the visible gesture directly  establishes phase [FIELD DOSSIER #01 · ARMORED TRUCK AND ARMED GUARD (1989)], and executes the formal bridge (EVIDENCE NODE #01: TRANSPORT), and advances cut 3/6 of the theorem while preserving distinct historical provenance (1989). Window 0.50s–5.30s (4.80s) verified cut-free (motion Δ=26.7, luma=84.7, audio=-28.2 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(17.10)">
+              <div class="shot-media">
+                <img src="../thumbs/d5ee4ae2-2924-5267-8c65-65858f743e58.jpg" alt="Captured frame from Industries of the United States: Steel - The Hardest Metal in the World" loading="lazy">
+                <span class="shot-time">CUT #05 · 17.1s–21.7s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>Industries of the United States: Steel - The Hardest Metal in the World ()</strong>
+                  <span>clip <code>d5ee4ae2</code> · source window <code>3.50s–8.10s</code> (4.60s) <a href="https://www.movingimagearchive.com/sources/industries-of-the-united-states-steel-the-hardest-metal-in-the-world-27ef3310?clip=d5ee4ae2-2924-5267-8c65-65858f743e58" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> Industries of the United States: Close inspection of the locking hardware that defines the valley&#x27;s economy</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>EVIDENCE NODE #02: CONTAINMENT</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from Industries of the United States: Steel - The Hardest Metal in the World (None) because the visible gesture directly  establishes phase [FIELD DOSSIER #02 · PADLOCK AND HEAVY CHAIN], and executes the formal bridge (EVIDENCE NODE #02: CONTAINMENT), and advances cut 4/6 of the theorem while preserving distinct historical provenance (None). Window 3.50s–8.10s (4.60s) verified cut-free (motion Δ=10.2, luma=40.8, audio=-28.6 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(21.70)">
+              <div class="shot-media">
+                <img src="../thumbs/dab44545-fcdd-5775-9611-c4c1eeaf62bf.jpg" alt="Captured frame from Structure Protection Strategies in the Wildland/Urban Interface" loading="lazy">
+                <span class="shot-time">CUT #06 · 21.7s–26.5s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>Structure Protection Strategies in the Wildland/Urban Interface (2003)</strong>
+                  <span>clip <code>dab44545</code> · source window <code>5.50s–10.30s</code> (4.80s) <a href="https://www.movingimagearchive.com/sources/structure-protection-strategies-in-the-wildland-urban-interface-7ba95da9?clip=dab44545-fcdd-5775-9611-c4c1eeaf62bf" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> Structure Protection (2003): Institutional personnel standing before the lens in the valley</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>EVIDENCE NODE #03: PERSONNEL</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from Structure Protection Strategies in the Wildland/Urban Interface (2003) because the visible gesture directly  establishes phase [FIELD DOSSIER #03 · THREE UNIFORMED OFFICERS POSED FOR CAMERA (2003)], and executes the formal bridge (EVIDENCE NODE #03: PERSONNEL), and advances cut 5/6 of the theorem while preserving distinct historical provenance (2003). Window 5.50s–10.30s (4.80s) verified cut-free (motion Δ=71.4, luma=87.2, audio=-17.2 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(26.50)">
+              <div class="shot-media">
+                <img src="../thumbs/6ea59533-2814-586c-bc1f-0479dcbbcb1c.jpg" alt="Captured frame from Straight Talk" loading="lazy">
+                <span class="shot-time">CUT #07 · 26.5s–31.3s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>Straight Talk (1992)</strong>
+                  <span>clip <code>6ea59533</code> · source window <code>3.50s–8.30s</code> (4.80s) <a href="https://www.movingimagearchive.com/sources/straight-talk-583ba802?clip=6ea59533-2814-586c-bc1f-0479dcbbcb1c" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> Straight Talk (1992): Returning to the quiet room at night to review the day&#x27;s recorded dossiers</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>RETURN HUB: ROOM DEBRIEF</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from Straight Talk (1992) because the visible gesture directly  establishes phase [BASE HUB [RETURN] · SITTING BY THE BED IN THE MOTEL ROOM (1992)], and executes the formal bridge (RETURN HUB: ROOM DEBRIEF), and completes the terminal return/aftermath hold required by the operator theorem. Window 3.50s–8.30s (4.80s) verified cut-free (motion Δ=27.1, luma=69.3, audio=-17.1 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card is-card" onclick="seekTo(31.30)">
+              <div class="shot-media card-placeholder">
+                <span>CLOSING LEDGER</span>
+                <span class="shot-time">SEG #08 · 31.3s–34.8s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source"><strong>CLOSING LEDGER</strong> <span>(3.5s)</span></div>
+                <div class="shot-what">Uses `2ba1bfc5` (vehicle isolated in darkness at night) and `6ea59533` (motel/bedroom floor) as the recurring investigative hub between valley excursions (`c30d92fb`, `b2077a9a`, `d5ee4ae2`, `dab44545`).</div>
+                <div class="shot-why"><strong>Why Included:</strong> Structural framing slate / audit card required by operator deliverable contract.</div>
+              </div>
+            </article>
+  </div>
+
+  <div class="sec-head">
+    <div>
+      <div class="kicker">Stage 3 · Independent Critic Tribunal & Verification</div>
+      <h2>Temporal Proof Strips & Diagnostic Audit</h2>
+    </div>
+    <a class="btn sec" href="../strips/SCION_112_Prison_Valley_Investigative_Hub_v2_strip.jpg" target="_blank">Open Full-Res Strip ↗</a>
+  </div>
+  <div class="strip-label">Verified v2 Temporal Proof Strip (8 evenly spaced frames + waveform/timecode audit)</div>
+  <img class="strip-img" src="../strips/SCION_112_Prison_Valley_Investigative_Hub_v2_strip.jpg" alt="v2 proof strip">
+  
+  
+        <div class="trib-box pass">
+          <div class="label">Two-Layer Critic Tribunal Verification</div>
+          <p><strong>Strength Preserved:</strong> </p>
+          <p><strong>Final Verdict:</strong> <code>PASS (v2 · 0 structural or perceptual issues across 6 archival cuts)</code></p>
+        </div>
+
+  <nav class="nav-foot">
+    <a href="SCION_111_18_Days_In_Egypt_Participant_Streams.html">← #60 18 Days in Egypt — Participant Evidence Streams</a>
+    <a href="../index.html#film=SCION_112_Prison_Valley_Investigative_Hub">Back to 85-Film Screening Room ↗</a>
+    <a href="SCION_113_Learning_To_See_Latent_Atlas.html">#62 Learning to See — Latent Texture &amp; Cluster Traverse →</a>
+  </nav>
+</main>
+<script>
+function seekTo(sec) {
+  const v = document.getElementById('v');
+  v.currentTime = sec;
+  v.play().catch(()=>{});
+  v.scrollIntoView({behavior:'smooth', block:'center'});
+}
+function copyPrompt() {
+  const txt = document.getElementById('prompt-raw').textContent;
+  navigator.clipboard.writeText(txt).then(() => {
+    const msg = document.getElementById('copy-msg');
+    msg.textContent = 'COPIED TO CLIPBOARD ✓';
+    setTimeout(() => msg.textContent = '', 2500);
+  });
+}
+</script>
+</body>
+</html>

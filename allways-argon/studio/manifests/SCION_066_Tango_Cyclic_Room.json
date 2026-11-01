@@ -1,0 +1,187 @@
+{
+  "slug": "SCION_066_Tango_Cyclic_Room",
+  "version": "v2",
+  "series": "SERIES_C_STRUCTURAL",
+  "kicker": "SCION 066 \u00b7 STRUCTURAL & FOUND-FOOTAGE CINEMA",
+  "title": "Tango \u2014 Cyclic Room Accumulation",
+  "subtitle": "Bounded loops entering a shared room without collision until withdrawing",
+  "scion_id": 66,
+  "supporting_scions": [
+    85,
+    86
+  ],
+  "lineage": "Lineage: Zbigniew Rybczy\u0144ski, Tango (1980)",
+  "theorem": "Build a room where separate routine loops accumulate in the same architectural frame without acknowledging one another, then clear the room back to stillness.",
+  "boundary_note": "Each loop preserves its source attribution; triptych and quad accumulation stages disclose that the co-presence is an editorial/spatial composite rather than a single crowded room.",
+  "critic_tribunal": {
+    "critic_role": "Independent choreography-and-compositing critic",
+    "v1_verdict": "repair_required",
+    "v2_verdict": "pass",
+    "v1_defect_timecodes": [
+      "Seg #03-#06: `ef7bfc89` (`Wreckless`, 1935) faded to black around 2.8s before cutting to a porch."
+    ],
+    "largest_gap": "In v1, Loop 1 (`ef7bfc89`) contained a fade-to-black mid-loop; replaced in v2 with verified continuous doorway threshold entry `46874a7c` (`Let Yourself Go`, `0.2s-7.0s`).",
+    "falsifiable_repair": "Replace `ef7bfc89` across Loop 1, Split, Triptych, and Quad with cut-free doorway threshold entry `46874a7c` (`0.2s-7.0s`) alongside `2df1341e`, `0f8a091e`, and `91390311`."
+  },
+  "duration_seconds": 39.88,
+  "video_file": "films/SCION_066_Tango_Cyclic_Room.mp4",
+  "source_count": 5,
+  "sources_summary": [
+    "b2e97ba8 \u00b7 Something New From Something Old (1958)",
+    "46874a7c \u00b7 Let Yourself Go (1940)",
+    "2df1341e \u00b7 Something New From Something Old (1958)",
+    "0f8a091e \u00b7 Health: Your Posture (1953)",
+    "91390311 \u00b7 Court to Court \\(Aug 2002\\) (2002)"
+  ],
+  "edl": [
+    {
+      "seg_idx": 1,
+      "type": "title_card",
+      "title": "Tango \u2014 Cyclic Room Accumulation",
+      "phase": "OPENING SLATE",
+      "action": "Bounded loops entering a shared room without collision until withdrawing",
+      "start_sec": 0.0,
+      "end_sec": 3.0,
+      "dur_s": 3.0
+    },
+    {
+      "type": "shot",
+      "clip_id": "b2e97ba8-5d17-5312-9404-5afe6e7493a8",
+      "source_title": "Something New From Something Old",
+      "source_year": 1958,
+      "source_page": "https://www.movingimagearchive.com/sources/something-new-from-something-old-1d1276c0?clip=b2e97ba8-5d17-5312-9404-5afe6e7493a8",
+      "in_s": 0.2,
+      "out_s": 4.2,
+      "dur_s": 4.0,
+      "phase": "STAGE 0 \u00b7 EMPTY ROOM BASELINE",
+      "action": "Something New From Something Old (1958): The unoccupied sitting room before any loop enters",
+      "nearmatch": "ACTIVE LOOPS: 0",
+      "seg_idx": 2,
+      "start_sec": 3.0,
+      "end_sec": 7.0
+    },
+    {
+      "type": "shot",
+      "clip_id": "46874a7c-ade8-50d9-bc08-229951262a4b",
+      "source_title": "Let Yourself Go",
+      "source_year": 1940,
+      "source_page": "https://www.movingimagearchive.com/sources/let-yourself-go-d27b607b?clip=46874a7c-ade8-50d9-bc08-229951262a4b",
+      "in_s": 0.2,
+      "out_s": 5.0,
+      "dur_s": 4.8,
+      "phase": "LOOP 1 ENTRY \u00b7 DOORWAY ARRIVAL (1940)",
+      "action": "Let Yourself Go (1940): A figure enters through the room doorway and pauses at the threshold",
+      "nearmatch": "ACTIVE LOOPS: 1 \u00b7 THRESHOLD SLOT",
+      "seg_idx": 3,
+      "start_sec": 7.0,
+      "end_sec": 11.8
+    },
+    {
+      "type": "split_shot",
+      "clip_a": {
+        "id": "46874a7c-ade8-50d9-bc08-229951262a4b",
+        "title": "Let Yourself Go",
+        "year": 1940,
+        "page": "https://www.movingimagearchive.com/sources/let-yourself-go-d27b607b?clip=46874a7c-ade8-50d9-bc08-229951262a4b"
+      },
+      "clip_b": {
+        "id": "2df1341e-4f9d-5225-85c4-7e6c4d99ae1f",
+        "title": "Something New From Something Old",
+        "year": 1958,
+        "page": "https://www.movingimagearchive.com/sources/something-new-from-something-old-1d1276c0?clip=2df1341e-4f9d-5225-85c4-7e6c4d99ae1f"
+      },
+      "dur_s": 6.5,
+      "phase": "SPLIT COMPARISON",
+      "action": "LOOP 1 + LOOP 2 \u00b7 Doorway entry repeats while a second figure adjusts the armchair",
+      "nearmatch": "ACTIVE LOOPS: 2 \u00b7 PARTITIONED SPACE",
+      "seg_idx": 4,
+      "start_sec": 11.8,
+      "end_sec": 18.3
+    },
+    {
+      "type": "triptych_shot",
+      "clips": [
+        {
+          "id": "46874a7c-ade8-50d9-bc08-229951262a4b",
+          "title": "Let Yourself Go",
+          "year": 1940
+        },
+        {
+          "id": "2df1341e-4f9d-5225-85c4-7e6c4d99ae1f",
+          "title": "Something New From Something Old",
+          "year": 1958
+        },
+        {
+          "id": "0f8a091e-f966-5adb-831a-d3ad8f0eea94",
+          "title": "Health: Your Posture",
+          "year": 1953
+        }
+      ],
+      "dur_s": 6.8,
+      "phase": "LOOP 1 + 2 + 3 \u00b7 DENSE DOMESTIC ACCUMULATION",
+      "action": "Three independent domestic routines cycle simultaneously without mutual gaze or collision",
+      "nearmatch": "ACTIVE LOOPS: 3 \u00b7 NON-COLLIDING CYCLES",
+      "seg_idx": 5,
+      "start_sec": 18.3,
+      "end_sec": 25.1
+    },
+    {
+      "type": "quad_shot",
+      "clips": [
+        {
+          "id": "46874a7c-ade8-50d9-bc08-229951262a4b",
+          "title": "Let Yourself Go",
+          "year": 1940
+        },
+        {
+          "id": "2df1341e-4f9d-5225-85c4-7e6c4d99ae1f",
+          "title": "Something New From Something Old",
+          "year": 1958
+        },
+        {
+          "id": "0f8a091e-f966-5adb-831a-d3ad8f0eea94",
+          "title": "Health: Your Posture",
+          "year": 1953
+        },
+        {
+          "id": "91390311-d7f2-541e-a049-ea1b21356173",
+          "title": "Court to Court \\(Aug 2002\\)",
+          "year": 2002
+        }
+      ],
+      "dur_s": 6.5,
+      "phase": "PEAK DENSITY \u00b7 FOUR CYCLES IN THE ROOM MATRIX",
+      "action": "Doorway threshold (1940) | Armchair (1958) | Household chore (1953) | Desk & chair (2002)",
+      "nearmatch": "ACTIVE LOOPS: 4 \u00b7 PEAK OCCUPANCY",
+      "seg_idx": 6,
+      "start_sec": 25.1,
+      "end_sec": 31.6
+    },
+    {
+      "type": "shot",
+      "clip_id": "b2e97ba8-5d17-5312-9404-5afe6e7493a8",
+      "source_title": "Something New From Something Old",
+      "source_year": 1958,
+      "source_page": "https://www.movingimagearchive.com/sources/something-new-from-something-old-1d1276c0?clip=b2e97ba8-5d17-5312-9404-5afe6e7493a8",
+      "in_s": 0.32,
+      "out_s": 5.08,
+      "dur_s": 4.8,
+      "phase": "WITHDRAWAL \u00b7 ROOM EMPTIED AFTER ALL CYCLES EXIT",
+      "action": "Something New From Something Old (1958): All loops withdraw, leaving the quiet furnished room",
+      "nearmatch": "ACTIVE LOOPS: 0 \u00b7 HELD STILLNESS",
+      "seg_idx": 7,
+      "start_sec": 31.6,
+      "end_sec": 36.4
+    },
+    {
+      "seg_idx": 8,
+      "type": "closing_ledger",
+      "title": "SOURCE ATTRIBUTION & BOUNDARY NOTE",
+      "phase": "CLOSING LEDGER",
+      "action": "Each loop preserves its source attribution; triptych and quad accumulation stages disclose that the co-presence is an editorial/spatial composite rather than a single crowded room.",
+      "start_sec": 36.4,
+      "end_sec": 39.9,
+      "dur_s": 3.5
+    }
+  ]
+}

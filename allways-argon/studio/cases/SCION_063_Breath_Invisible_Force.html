@@ -1,0 +1,484 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>SCION 063 · CONCEPTUAL MICROFILMS · Breath — Invisible Force, Visible Consequence — ALLWAYS · ARGON Case Study</title>
+<link rel="stylesheet" href="../../../tools/paeleo/fonts/local.css">
+<style>
+:root {
+  --bg: #0c0e0d;
+  --panel: #131715;
+  --panel-2: #191f1c;
+  --ink: #f2efe6;
+  --muted: #9aa39c;
+  --rule: #28312c;
+  --accent: #d46a4c;
+  --mint: #8ec5a8;
+  --gold: #dfc48b;
+  --display: 'Big Shoulders Display', -apple-system, BlinkMacSystemFont, sans-serif;
+  --serif: 'Literata', Georgia, serif;
+  --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.65 var(--serif); }
+a { color: var(--mint); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.topbar {
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(12,14,13,0.94); backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--rule);
+  padding: 10px 18px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px;
+  font: 11px/1.4 var(--mono); text-transform: uppercase; letter-spacing: .06em;
+}
+.wrap { max-width: 1120px; margin: 0 auto; padding: 24px 18px 80px; }
+.kicker { font: 600 11px/1.4 var(--mono); color: var(--accent); text-transform: uppercase; letter-spacing: .1em; }
+h1 { font: 800 clamp(32px, 6vw, 60px)/.96 var(--display); text-transform: uppercase; margin: 6px 0 8px; letter-spacing: -.01em; }
+.subtitle { font: 400 clamp(17px, 2.2vw, 22px)/1.4 var(--serif); color: var(--muted); margin-bottom: 18px; }
+.player-sticky {
+  background: #000; border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; margin-bottom: 24px;
+}
+video { width: 100%; aspect-ratio: 16/9; display: block; background: #000; }
+.player-bar {
+  padding: 10px 14px; background: var(--panel); border-top: 1px solid var(--rule);
+  display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px;
+  font: 11px/1.4 var(--mono); color: var(--muted);
+}
+.btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  font: 600 11px/1 var(--mono); text-transform: uppercase; letter-spacing: .06em;
+  padding: 9px 13px; border-radius: 4px; border: 1px solid var(--mint);
+  background: var(--mint); color: #0d1f16; cursor: pointer;
+}
+.btn.sec { background: transparent; color: var(--ink); border-color: var(--rule); }
+.btn:hover { opacity: .92; text-decoration: none; }
+.sec-head {
+  border-top: 1px solid var(--rule); padding-top: 24px; margin: 36px 0 16px;
+  display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 12px;
+}
+.sec-head h2 { font: 800 clamp(24px, 3.5vw, 34px)/1.05 var(--display); text-transform: uppercase; margin: 0; }
+.meta-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; margin: 18px 0;
+}
+.meta-card { background: var(--panel); border: 1px solid var(--rule); border-radius: 6px; padding: 14px 16px; }
+.meta-card .label { font: 600 10px/1.4 var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--gold); margin-bottom: 6px; }
+.shots-list { display: flex; flex-direction: column; gap: 12px; }
+.shot-card {
+  display: grid; grid-template-columns: 240px 1fr; gap: 16px;
+  background: var(--panel); border: 1px solid var(--rule); border-radius: 6px; padding: 12px;
+  cursor: pointer; transition: border-color .15s;
+}
+.shot-card:hover { border-color: var(--mint); }
+.shot-card.is-card { grid-template-columns: 180px 1fr; opacity: .88; }
+.shot-media { position: relative; background: #050706; border-radius: 4px; overflow: hidden; aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center; }
+.shot-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.shot-time {
+  position: absolute; bottom: 6px; left: 6px;
+  background: rgba(0,0,0,0.82); color: var(--gold); padding: 2px 6px; border-radius: 3px;
+  font: 600 10px/1.3 var(--mono);
+}
+.shot-body { display: flex; flex-direction: column; gap: 6px; font-size: 14px; }
+.shot-source { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px; font: 12px/1.4 var(--mono); color: var(--muted); border-bottom: 1px solid var(--rule); padding-bottom: 6px; }
+.shot-source strong { color: var(--ink); }
+.shot-what { color: var(--ink); }
+.shot-bridge { font-size: 12px; color: var(--gold); }
+.shot-why { color: var(--muted); font-size: 13.5px; }
+.strip-img { width: 100%; border-radius: 6px; border: 1px solid var(--rule); display: block; margin: 10px 0; }
+.strip-label { font: 600 11px/1.4 var(--mono); color: var(--muted); text-transform: uppercase; margin-top: 10px; }
+.tribunal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 14px; }
+.trib-box { background: var(--panel); border: 1px solid var(--rule); border-radius: 6px; padding: 16px; font-size: 14px; }
+.trib-box.warn { border-left: 3px solid var(--accent); }
+.trib-box.pass { border-left: 3px solid var(--mint); }
+.trib-box .label { font: 700 11px/1.4 var(--mono); text-transform: uppercase; color: var(--gold); margin-bottom: 8px; }
+pre.prompt-box {
+  background: #090c0a; border: 1px solid var(--rule); border-radius: 6px; padding: 18px;
+  font: 12.5px/1.65 var(--mono); color: #e2e6de; white-space: pre-wrap; overflow-wrap: anywhere; max-height: 640px; overflow-y: auto;
+}
+.nav-foot {
+  margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--rule);
+  display: flex; justify-content: space-between; gap: 14px; font: 12px/1.5 var(--mono);
+}
+@media (max-width: 700px) {
+  .shot-card, .shot-card.is-card { grid-template-columns: 1fr; }
+  .tribunal-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div>
+    <a href="../../../paeleo/allways/index.html#runs">ALLWAYS</a> <span>/</span> <a href="../../index.html">ARGON (12)</a> <span>/</span>
+    <a href="../index.html#film=SCION_063_Breath_Invisible_Force">ARGON SCREENING ROOM (85)</a> <span>/</span>
+    <span style="color:var(--ink)">#09 CASE STUDY</span>
+  </div>
+  <div style="display:flex;gap:8px;align-items:center">
+    <button class="btn" onclick="copyPrompt()">Copy Prompt</button>
+    <a class="btn sec" href="SCION_063_Breath_Invisible_Force.md" download>Case Study .md</a>
+    <a class="btn sec" href="../manifests/SCION_063_Breath_Invisible_Force.json" target="_blank">EDL .json</a>
+  </div>
+</header>
+<main class="wrap">
+  <div class="kicker">SCION 063 · CONCEPTUAL MICROFILMS · A · Structural &amp; Perceptual · FILM #09 OF 85</div>
+  <h1>Breath — Invisible Force, Visible Consequence</h1>
+  <div class="subtitle">Air made legible through drifting smoke, curtains, vapor, and wind-driven blades</div>
+
+  <div class="player-sticky">
+    <video id="v" controls playsinline preload="metadata" src="../films/SCION_063_Breath_Invisible_Force.mp4"></video>
+    <div class="player-bar">
+      <span>36.5s · 7 archival cuts · 7 sources · Critic Tribunal: PASS (v2)</span>
+      <span>Tap any captured shot card below to jump video to that cut</span>
+    </div>
+  </div>
+
+  <div class="meta-grid">
+    <div class="meta-card">
+      <div class="label">01 · Creative Theorem</div>
+      <div>Make an invisible action legible through its effects on surfaces, objects, and other actions, then shape a film&#x27;s duration around unequal expansion and release.</div>
+    </div>
+    <div class="meta-card">
+      <div class="label">02 · Lineage & Reference</div>
+      <div>Lineage: Daniel Mercadante / The Mercadantes, Breath (music by Keith Kenniff)</div>
+      <div style="margin-top:8px;font-size:12px;color:var(--muted)"><strong>Boundary Contract:</strong> The rotating mechanical windmill/fan is shown before its shape match with settling fabric so the edit never claims human breath caused mechanical airflow.</div>
+    </div>
+  </div>
+
+  <div class="sec-head">
+    <div>
+      <div class="kicker">Stage 1 · Production Prompt</div>
+      <h2>Copyable SCION / ALLWAYS Prompt</h2>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="btn" id="copy-btn-2" onclick="copyPrompt()">Copy Full Prompt</button>
+      <span id="copy-msg" style="font:11px var(--mono);color:var(--mint);align-self:center"></span>
+    </div>
+  </div>
+  <pre class="prompt-box" id="prompt-raw"># SCION 063 // Breath — Invisible Force, Visible Consequence
+## Autonomous evolving cinema / documentary / database swarm · standalone prompt
+
+**Family:** Conceptual microfilms
+**Operator lineage:** Daniel Mercadante / The Mercadantes, Breath; creator upload credits Keith Kenniff&#x27;s music and describes an invisible life-force.
+**Requested reference:** Breath — Everynone
+**Reference status:** verified_description. See the research record below.
+**Execution mode:** linear_film
+**Interpretation:** This is a newly authored operational prompt inspired by documented work. It does not claim that the credited artists wrote or endorsed it. Its proposed proof is an original experiment. Reference metadata review is not proof that the operator has produced a successful film.
+
+You are **SCION-063-BREATH-INVISIBLE-FORCE-VISIBLE-CONSEQUENCE**. Produce a finished watchable or operable work within the user&#x27;s requested scope. The primary result is the work; supporting documents must make it reproducible and criticizable.
+
+## INPUT
+
+- `[WORK]`: the new work or question this operator should realize.
+- `[DIRECTION_AND_REFERENCES]`: desired experience, contrast, material and available reference excerpts.
+- `[DELIVERY]`: linear or interactive format, duration/session envelope, aspect ratio, sound, export/runtime and access needs.
+- `[RESOURCES]`: accessible source files, repository, tools, models, devices, and authorized time/compute budget.
+- `[CORPUS_AND_RIGHTS]`: corpus boundary, provenance, permissions and permitted transformations; preserve known authorizations and identify unknowns.
+- `[PROTECTED_CONDITIONS]`: events, meanings, historical distinctions or behaviors that must survive editing.
+
+Resolve ordinary implementation choices from context. Ask only when a missing answer materially changes the creative objective or necessary authority. Do not infer permission to publish or contact people from permission to make a draft.
+
+## 1 · Creative theorem to prove
+
+Make an invisible action legible through its effects on surfaces, objects and other actions, then shape a film&#x27;s duration around expansion and release. The viewer should notice breath without every shot needing a face or explanatory caption.
+
+**What makes this operator distinct:** SCION 58 organizes a socially communicative vocal event; this operator follows the material traces of an often invisible bodily action.
+
+## 2 · Native formal language
+
+Preserve and manipulate these as explicit working objects:
+
+- breath-related action and visible effect pairs
+- onset, expansion, hold and release markers
+- source-recorded breath and contact sound
+- surface response regions
+- human, mechanical and environmental cause labels
+- timing and documentary-context ledger
+
+**Protected conditions:**
+
+- Human respiration is not inferred from unrelated sound or movement without a documented source relation.
+- Mechanical air and human breath remain distinguishable when compared.
+- No breath-holding demand or hyperventilation exercise is required of performers or viewers.
+
+Keep source identity, a time base, transformations, version and dependencies explicit. Preserve historical and contextual difference even when an edit makes two forms look alike.
+
+## 3 · Assemble the smallest capable swarm
+
+- Causal observer: log how air becomes visible in each source.
+- Camera or archive editor: preserve the initiating action and its effect.
+- Sound composer: build a score from actual recordings and explicit compositional additions.
+- Independent embodied-viewing critic: assess cause, pacing and unsupported interpretation.
+
+Every role must build or verify something concrete. The independent critic receives the intended experience and actual output before the builder&#x27;s explanation. Do not invent a critic session when no independent review occurred.
+
+## 4 · Hard proof; produce before scaling
+
+Build a 50–65-second film with original ordinary actions or suitably authorized material. Begin with a person gently clearing dust from a small object, showing both the breath and displaced particles without requiring a dangerous substance. Move to a light paper strip shifting near a person&#x27;s mouth, then to condensation appearing on a cool transparent surface. Hold long enough for the mark to begin fading. Introduce a small mechanical fan moving a similar strip, showing the fan before making a shape match so the film does not claim the same cause. Stop the fan and let the strip settle. Return to the cooling surface as the last visible trace disappears. Use each scene&#x27;s actual sound, allowing breathing to be audible where the recording supports it and leaving some effects nearly silent. Compose the sequence around unequal expansions and recoveries; do not quantize every person to one respiratory tempo. The ending should make an absence of movement perceptible through the established causes.
+
+Save a recoverable draft. Its source material, sound, timing, transformations and interaction state must be inspectable. Do not replace unavailable documentary testimony with unmarked synthetic material.
+
+## 5 · Acceptance tribunal
+
+**Judge by watching or operating the proof:**
+
+- The viewer can identify the cause of each visible effect.
+- At least one shot makes breath perceptible without a close-up of a face.
+- The mechanical comparison changes the relation while preserving the causal distinction.
+- Quiet recovery intervals contribute to the rhythm.
+- The film invites attention without presenting a prescribed breathing exercise.
+
+**Structural or automated checks, only where the representation supports them:**
+
+- Check every added breath sound is labeled as source audio or a compositional effect.
+- Verify no retiming is applied to human breathing without a visible transformation record.
+
+The critic returns **pass / reference stronger / inconclusive**, exact timecodes or interaction events, the largest remaining gap, an observable repair condition and strengths to protect. Distinguish measured checks from perceptual judgments. Leave execution and acceptance marked pending until they happen.
+
+## 6 · Repair through discriminating experiments
+
+- **Failure:** The sequence looks like generic slow-motion wellness imagery. **Hypothesis:** Atmosphere overwhelms the small causal events. **Experiment:** Compare the scored version with real-time source sound and longer visible contact intervals.
+- **Failure:** The paper or vapor seems to move without a cause. **Hypothesis:** The crop excludes the action or the sound arrives too early. **Experiment:** Restore a contextual handle and compare three sound offsets around the observed event.
+
+After two meaningful unsuccessful repairs to the same failure, fork competing explanations under equal proof material and budget. Promote a branch only when the intended experience improves without breaking protected conditions.
+
+## 7 · Discovery and recursive expansion
+
+- Expand through different observable effects rather than collecting ever more portraits of breathing people.
+- Introduce shared spaces only when recording supports their actual interaction; a composite rhythm should remain an editorial composition.
+
+Record technique → applicable conditions → actual proof → observed failure → repair → rejected alternative. Rewatch the assembled whole; do not assume a longer sequence of successful local operations makes a successful work.
+
+## 8 · Deliverable contract
+
+- Finished short with purposeful quiet and source sound.
+- Cause-effect event map and sound provenance ledger.
+- Comparison of composed rhythm and original scene timing.
+
+Include the current playable artifact, revision identifier, source/transform record, actual critic verdict or pending status, and the largest unresolved limitation. Preserve an accepted checkpoint before major changes.
+
+**Possible ALLWAYS applications:** ALMOST HUMAN, NOBODY HOME, COMMONTHREAD.
+
+## INHERITED SCION DOCTRINE — BUILD, INSPECT, REPAIR
+
+1. **Viewer experience first.** State one specific perceptual or interactive achievement. Name the attractive but empty result this project must avoid. A subject, mood board or similarity score is not a film.
+2. **Inspect the lineage.** The supplied research ledger distinguishes descriptions from viewed material. Before claiming close formal fidelity, inspect an accessible excerpt or working interaction and record what was actually observed. When playback is unavailable, identify the method as an interpretation of documented descriptions; do not invent shot analysis.
+3. **Hard proof before scale.** Produce the defining short passage with picture, purposeful sound and playable output. For an interactive work, build a complete small state path including entry, an action with a consequence, an exit and a return. Do not begin by accumulating a giant archive.
+4. **Material and source integrity.** Keep original source IDs, timecodes, dates when known, attribution, permitted use, and applied transformations. Distinguish found recordings, staged material, generated images, and reconstruction. A synthetic stand-in is not documentary evidence. Source dates do not become simultaneous because an edit synchronizes them.
+5. **Native working state.** Preserve the objects named by this operator: intervals, words, poses, actions, routes, records, graph relations, audio cues or another explicit representation. Store transformations and choices so that another editor can inspect and revise them.
+6. **Small accountable swarm.** Every role owns an artifact or a verification. Merge roles when coordination becomes costly. Keep an independent critic for the defining achievement. Respect the user&#x27;s existing authority; do not seek arbitrary approval for routine reversible work or publish/contact others beyond the authorized scope.
+7. **Sound and duration are structural.** Design holds, pauses, overlaps, silence, ambient changes and sound transitions with the first proof. Preserve source silence where relevant; label newly composed sound. Never claim that music, an animation or a cut establishes a person&#x27;s private feeling.
+8. **Independent criticism.** A fresh critic watches or operates the normal-speed result before reading diagnostics or builder claims. Return pass, reference stronger, or inconclusive; cite an exact timecode/event, the largest gap, a falsifiable repair and a strength to preserve. &#x27;Reference stronger&#x27; requires an actually inspected comparable reference. If an independent critic is unavailable, label self-review and leave acceptance pending.
+9. **Repair causes.** Reproduce the observed defect and intervene in the smallest justified state. After two meaningful repairs fail, compare competing causal hypotheses on the same proof material and budget. Do not add effects, agents or footage just to conceal the defect.
+10. **Two kinds of evidence.** Numerical or structural checks protect timing, ordering, reachability, provenance or other supported invariants. Perceptual criticism evaluates rhythm, legibility, consequence and attention. Neither substitutes for the other, and no score proves artistic value. Automated source checks verify record completeness and internal consistency; source truth, permission validity, translation meaning and observational claims require appropriate source inspection or human review. Report which review actually occurred.
+11. **Whole-work judgment.** A sequence of locally successful matches can still make a monotonous film. Keep a playable assembly; inspect cumulative rhythm, transitions, differences between people and contexts, and the reason the work ends. Preserve productive seams and interruptions.
+12. **Truthful stopping and delivery.** Stop at independent acceptance, the user&#x27;s stop, the authorized budget, or a justified no-progress boundary. Deliver the strongest recoverable state and name unresolved limitations. Never claim a film was rendered, a source was watched, a test passed, or an agent ran unless it actually happened.
+
+**Tool boundary:** Use real available tools. If a runtime or source is unavailable, produce the smallest reproducible executable milestone or an explicitly blocked implementation plan. Do not narrate an imaginary execution. This prompt authorizes only the scope supplied by its user.
+
+## START
+
+Read the inputs and actual source material. State the creative theorem and protected conditions. Build the proof with picture and sound or an operable interaction. Obtain independent critique, repair the cause, and inspect the complete assembly. Expand only after the defining operation is perceptible.
+
+
+## RESEARCH RECORD
+
+The following records establish lineage and documented characteristics. Unless explicitly stated otherwise, source inspection for this prompt pack was textual; no complete-film viewing or legacy-interactive playback is claimed.
+
+1. [Breath — The Mercadantes](https://vimeo.com/118023603) — Work, director and production credits, and the stated breath premise; release year not established in retrieved text. Evidence: creator_statement; inspection: text_only.
+
+**Metadata notes and unresolved questions:**
+
+- Breathing patterns are cinematic material here, not a basis for diagnosing a subject&#x27;s health or inferring an unspoken emotional state.
+</pre>
+
+  <div class="sec-head">
+    <div>
+      <div class="kicker">Stage 2 · Archive Forage, Captured Frames & Editorial Rationale</div>
+      <h2>Captured Shots & Why Each Was Chosen (7 Cuts)</h2>
+    </div>
+    <span style="font:11px var(--mono);color:var(--muted)">Click any shot to scrub video</span>
+  </div>
+  <div class="shots-list">
+    
+            <article class="shot-card is-card" onclick="seekTo(0.00)">
+              <div class="shot-media card-placeholder">
+                <span>TITLE CARD</span>
+                <span class="shot-time">SEG #01 · 0.0s–3.0s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source"><strong>OPENING SLATE</strong> <span>(3.0s)</span></div>
+                <div class="shot-what">Air made legible through drifting smoke, curtains, vapor, and wind-driven blades</div>
+                <div class="shot-why"><strong>Why Included:</strong> Structural framing slate / audit card required by operator deliverable contract.</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(3.00)">
+              <div class="shot-media">
+                <img src="../thumbs/a7a91170-2d47-595e-b1ee-d8487454d380.jpg" alt="Captured frame from Fire! Patty Learns What to Do" loading="lazy">
+                <span class="shot-time">CUT #02 · 3.0s–5.9s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>Fire! Patty Learns What to Do (1951)</strong>
+                  <span>clip <code>a7a91170</code> · source window <code>0.10s–3.00s</code> (2.90s) <a href="https://www.movingimagearchive.com/sources/fire-patty-learns-what-to-do-4231a1a1?clip=a7a91170-2d47-595e-b1ee-d8487454d380" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> Watershed Wildfire (1958): A thin plume of pale smoke drifts across the frame in a gentle draft</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>VISIBLE TRACE OF AIR</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from Fire! Patty Learns What to Do (1951) because the visible gesture directly  establishes phase [EFFECT 01 · BREATH &amp; PALE PLUME], and executes the formal bridge (VISIBLE TRACE OF AIR), and anchors the opening perceptual premise before any cross-source comparison begins. Window 0.10s–3.00s (2.90s) verified cut-free (motion Δ=19.9, luma=32.6, audio=-22.1 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(5.90)">
+              <div class="shot-media">
+                <img src="../thumbs/8b6bda0f-783b-5a25-94a2-0be543261165.jpg" alt="Captured frame from Valley Town" loading="lazy">
+                <span class="shot-time">CUT #03 · 5.9s–11.3s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>Valley Town (1940)</strong>
+                  <span>clip <code>8b6bda0f</code> · source window <code>0.20s–5.60s</code> (5.40s) <a href="https://www.movingimagearchive.com/sources/valley-town-9978c98d?clip=8b6bda0f-783b-5a25-94a2-0be543261165" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> Watershed Wildfire (1958): Dense pale smoke expands and billows as air currents rise</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>EXPANSION &amp; RELEASE</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from Valley Town (1940) because the visible gesture directly  establishes phase [EFFECT 01B · EXPANDING BILLOW], and executes the formal bridge (EXPANSION &amp; RELEASE), and advances cut 2/7 of the theorem while preserving distinct historical provenance (1940). Window 0.20s–5.60s (5.40s) verified cut-free (motion Δ=20.4, luma=45.6, audio=-17.2 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(11.30)">
+              <div class="shot-media">
+                <img src="../thumbs/491529e4-d145-5c03-a0c9-d000db0f6fad.jpg" alt="Captured frame from Door to Heaven, The" loading="lazy">
+                <span class="shot-time">CUT #04 · 11.3s–16.5s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>Door to Heaven, The (1941)</strong>
+                  <span>clip <code>491529e4</code> · source window <code>0.50s–5.70s</code> (5.20s) <a href="https://www.movingimagearchive.com/sources/door-to-heaven-the?clip=491529e4-d145-5c03-a0c9-d000db0f6fad" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> The Door to Heaven (1941): Light window curtains hanging in the draft beside a table lamp</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>VISIBLE CONSEQUENCE ON FABRIC</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from Door to Heaven, The (1941) because the visible gesture directly  establishes phase [EFFECT 02 · CURTAINS BY THE WINDOW], and executes the formal bridge (VISIBLE CONSEQUENCE ON FABRIC), and advances cut 3/7 of the theorem while preserving distinct historical provenance (1941). Window 0.50s–5.70s (5.20s) verified cut-free (motion Δ=4.9, luma=42.7, audio=-22.0 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(16.50)">
+              <div class="shot-media">
+                <img src="../thumbs/005ac24d-a560-5258-a67a-b7dacffd6bb9.jpg" alt="Captured frame from Hot Lava Flows Into The Ocean (Standard 4:3)" loading="lazy">
+                <span class="shot-time">CUT #05 · 16.5s–22.7s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>Hot Lava Flows Into The Ocean (Standard 4:3) (1955)</strong>
+                  <span>clip <code>005ac24d</code> · source window <code>2.50s–8.70s</code> (6.20s) <a href="https://www.movingimagearchive.com/sources/hot-lava-flows-into-the-ocean-standard-4-3-c636ae21?clip=005ac24d-a560-5258-a67a-b7dacffd6bb9" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> Hot Lava Flows (1955): Dense blue vapor condensing and slowly drifting across the frame</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>HELD DURATION: VAPOR TRACE</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from Hot Lava Flows Into The Ocean (Standard 4:3) (1955) because the visible gesture directly  establishes phase [EFFECT 03 · CONDENSING VAPOR FIELD], and executes the formal bridge (HELD DURATION: VAPOR TRACE), and advances cut 4/7 of the theorem while preserving distinct historical provenance (1955). Window 2.50s–8.70s (6.20s) verified cut-free (motion Δ=44.4, luma=17.2, audio=-44.3 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(22.70)">
+              <div class="shot-media">
+                <img src="../thumbs/1f64ac90-bc86-5a96-b07d-fbb66d54a485.jpg" alt="Captured frame from Miss Clark Introduces Panorama" loading="lazy">
+                <span class="shot-time">CUT #06 · 22.7s–24.7s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>Miss Clark Introduces Panorama (1960)</strong>
+                  <span>clip <code>1f64ac90</code> · source window <code>0.09s–2.01s</code> (2.00s) <a href="https://www.movingimagearchive.com/sources/miss-clark-introduces-panorama-1e697f83?clip=1f64ac90-bc86-5a96-b07d-fbb66d54a485" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> Singing Wires (1951): Establishing the rotating mechanical windmill blades driving airflow</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>DISCLOSED MECHANICAL CAUSE</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from Miss Clark Introduces Panorama (1960) because the visible gesture directly  establishes phase [COUNTER-CAUSE · ROTATING BLADES SHOWN FIRST], and executes the formal bridge (DISCLOSED MECHANICAL CAUSE), and advances cut 5/7 of the theorem while preserving distinct historical provenance (1960). Window 0.09s–2.01s (2.00s) verified cut-free (motion Δ=3.3, luma=62.5, audio=-42.2 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(24.70)">
+              <div class="shot-media">
+                <img src="../thumbs/76aee35d-d081-5757-b649-b55fcf2ab2cd.jpg" alt="Captured frame from Great American Chocolate Factory, The" loading="lazy">
+                <span class="shot-time">CUT #07 · 24.7s–26.9s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>Great American Chocolate Factory, The ()</strong>
+                  <span>clip <code>76aee35d</code> · source window <code>0.10s–2.30s</code> (2.20s) <a href="https://www.movingimagearchive.com/sources/great-american-chocolate-factory-the-c2ba49aa?clip=76aee35d-d081-5757-b649-b55fcf2ab2cd" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> Great American Chocolate Factory: Thin surface settling as mechanical airflow subsides</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>SHAPE MATCH · DIFFERENT CAUSE</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from Great American Chocolate Factory, The (None) because the visible gesture directly  establishes phase [MECHANICAL EFFECT · SURFACE SETTLING], and executes the formal bridge (SHAPE MATCH · DIFFERENT CAUSE), and advances cut 6/7 of the theorem while preserving distinct historical provenance (None). Window 0.10s–2.30s (2.20s) verified cut-free (motion Δ=12.8, luma=38.6, audio=-22.5 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(26.90)">
+              <div class="shot-media">
+                <img src="../thumbs/d73d8647-0226-52c6-b20c-a2664b02e342.jpg" alt="Captured frame from [Amateur film: Medicus collection: New York World&#x27;s Fair, 1939-40] (Reel 4) (Part II)" loading="lazy">
+                <span class="shot-time">CUT #08 · 26.9s–32.9s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>[Amateur film: Medicus collection: New York World&#x27;s Fair, 1939-40] (Reel 4) (Part II) (1939)</strong>
+                  <span>clip <code>d73d8647</code> · source window <code>0.50s–6.50s</code> (6.00s) <a href="https://www.movingimagearchive.com/sources/amateur-film-medicus-collection-new-york-world-s-fair-1939-40-reel-4-part-ii-2ca81982?clip=d73d8647-0226-52c6-b20c-a2664b02e342" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> Medicus Collection (1939): A quiet sunlit window pane after all vapor and draft have cleared</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>STILLNESS AFTER BREATH</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from [Amateur film: Medicus collection: New York World&#x27;s Fair, 1939-40] (Reel 4) (Part II) (1939) because the visible gesture directly  establishes phase [RETURN · COOLING WINDOW &amp; ABSENCE OF MOVEMENT], and executes the formal bridge (STILLNESS AFTER BREATH), and completes the terminal return/aftermath hold required by the operator theorem. Window 0.50s–6.50s (6.00s) verified cut-free (motion Δ=17.2, luma=104.9, audio=-46.0 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card is-card" onclick="seekTo(32.90)">
+              <div class="shot-media card-placeholder">
+                <span>CLOSING LEDGER</span>
+                <span class="shot-time">SEG #09 · 32.9s–36.4s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source"><strong>CLOSING LEDGER</strong> <span>(3.5s)</span></div>
+                <div class="shot-what">The rotating mechanical windmill/fan is shown before its shape match with settling fabric so the edit never claims human breath caused mechanical airflow.</div>
+                <div class="shot-why"><strong>Why Included:</strong> Structural framing slate / audit card required by operator deliverable contract.</div>
+              </div>
+            </article>
+  </div>
+
+  <div class="sec-head">
+    <div>
+      <div class="kicker">Stage 3 · Independent Critic Tribunal & Verification</div>
+      <h2>Temporal Proof Strips & Diagnostic Audit</h2>
+    </div>
+    <a class="btn sec" href="../strips/SCION_063_Breath_Invisible_Force_v2_strip.jpg" target="_blank">Open Full-Res Strip ↗</a>
+  </div>
+  <div class="strip-label">Verified v2 Temporal Proof Strip (8 evenly spaced frames + waveform/timecode audit)</div>
+  <img class="strip-img" src="../strips/SCION_063_Breath_Invisible_Force_v2_strip.jpg" alt="v2 proof strip">
+  
+        <details class="v1-details">
+          <summary>Compare Pre-Repair v1 Assembly Strip vs. Verified v2 Strip</summary>
+          <div class="strip-label">v1 Assembly Strip (Before Critic Repair)</div>
+          <img class="strip-img" src="../strips/SCION_063_Breath_Invisible_Force_v1_strip.jpg" alt="v1 strip" loading="lazy">
+        </details>
+  
+        <div class="tribunal-grid">
+          <div class="trib-box warn">
+            <div class="label">Round 1 (v1) Defects Caught</div>
+            <ul><li>Seg #02 (t=03.50s-06.30s): `08e49d0e` shows a Federal Reserve binder.</li><li>Seg #03 (t=06.30s-11.80s): `8b708c95` shows an animated US map.</li><li>Seg #04 (t=11.80s-17.30s): `ec252218` shows the Golden Gate Bridge tower.</li><li>Seg #05 (t=17.30s-23.80s): `f6022bfe` cuts internally at t=19.77s to industrial pipes.</li><li>Seg #06 (t=23.80s-29.60s): `af2f58ac` shows exterior high-voltage transmission towers.</li></ul>
+            <p><strong>Largest Gap:</strong> Seg #02-#06 suffered OpenCLIP hallucinations (binder, US map, bridge, pipes, power towers) instead of visible air/vapor/breath effects and a rotating blade/fan.</p>
+            <p><strong>Causal Hypothesis:</strong> OpenCLIP keyword/visual hallucination matching abstract air terms to unrelated macro archival shots.</p>
+          </div>
+          <div class="trib-box pass">
+            <div class="label">Round 2 (v2) Falsifiable Repair & Verification</div>
+            <p><strong>Repair Executed:</strong> Replace Seg #02-#06 with human-verified Cineosis shots of visible air, vapor, curtains, and wind-driven blades: `a7a91170` (`0.05s-3.00s`, pale smoke/breath drifting), `8b6bda0f` (`0.2s-5.7s`, smoke billowing in air), `491529e4` (`0.5s-6.0s`, white curtains by window), `005ac24d` (`2.5s-8.5s`, dense vapor/condensation cloud), and `1f64ac90` (`0.05s-2.05s`, mechanical windmill blades turning in wind) followed by `76aee35d` settling.</p>
+            <p><strong>Strength Preserved:</strong> The quiet high-contrast window frame at the close (`d73d8647`, `Medicus Collection`, 1939), holding still architectural space after airflow subsides.</p>
+            <p><strong>Final Verdict:</strong> <code>PASS (v2 · 0 structural or perceptual issues)</code></p>
+          </div>
+        </div>
+
+  <nav class="nav-foot">
+    <a href="SCION_062_Colors_Chromatic_Chapters.html">← #08 Colors — Chromatic Chapters</a>
+    <a href="../index.html#film=SCION_063_Breath_Invisible_Force">Back to 85-Film Screening Room ↗</a>
+    <a href="SCION_064_Parabolas_Different_Causes.html">#10 Parabolas (etc.) — Curves With Different Causes →</a>
+  </nav>
+</main>
+<script>
+function seekTo(sec) {
+  const v = document.getElementById('v');
+  v.currentTime = sec;
+  v.play().catch(()=>{});
+  v.scrollIntoView({behavior:'smooth', block:'center'});
+}
+function copyPrompt() {
+  const txt = document.getElementById('prompt-raw').textContent;
+  navigator.clipboard.writeText(txt).then(() => {
+    const msg = document.getElementById('copy-msg');
+    msg.textContent = 'COPIED TO CLIPBOARD ✓';
+    setTimeout(() => msg.textContent = '', 2500);
+  });
+}
+</script>
+</body>
+</html>

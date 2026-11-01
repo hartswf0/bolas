@@ -1,0 +1,17 @@
+VERDICT: repair_required (Round 1 — v1 assembly audit)
+Critic Role: Independent inference critic
+
+Observed Defects on v1 Proof Strip:
+- Seg #03 (t=09.00s-14.80s): `12f71021` (`Freedom Seven`, 1961) cuts at 5.46s from the speakers to an aircraft carrier exterior.
+
+Largest Gap:
+The 5.8s duration on `12f71021` extended 0.54s past the internal cut at 5.46s.
+
+Causal Hypothesis:
+Clean window of `12f71021` is `0.05s-5.46s`; `in_s=0.2, dur=5.8` reached `6.0s`.
+
+Falsifiable Repair Condition:
+Clamp `12f71021` in Seg #03 and Seg #09 to `in_s=0.1, dur=5.1` so it stays completely inside `0.05s-5.46s` without ever cutting to the aircraft carrier.
+
+Strength to Preserve:
+The three-sense progression around 'LINE' (`f247b2aa` weather contour -> `12f71021` flight path line -> `aeebdc87` assembly line -> `7683b7a2`/`116af359` telephone line -> `74864d7a` hazard line -> `30fe8bbc` clothesline -> `12f71021` return).

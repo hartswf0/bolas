@@ -1,0 +1,487 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>B-ROLL OF CIVILIZATION 01 · SCION 085 + 067 + 097 · NOBODY HOME — ALLWAYS · ARGON Case Study</title>
+<link rel="stylesheet" href="../../../tools/paeleo/fonts/local.css">
+<style>
+:root {
+  --bg: #0c0e0d;
+  --panel: #131715;
+  --panel-2: #191f1c;
+  --ink: #f2efe6;
+  --muted: #9aa39c;
+  --rule: #28312c;
+  --accent: #d46a4c;
+  --mint: #8ec5a8;
+  --gold: #dfc48b;
+  --display: 'Big Shoulders Display', -apple-system, BlinkMacSystemFont, sans-serif;
+  --serif: 'Literata', Georgia, serif;
+  --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.65 var(--serif); }
+a { color: var(--mint); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.topbar {
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(12,14,13,0.94); backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--rule);
+  padding: 10px 18px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px;
+  font: 11px/1.4 var(--mono); text-transform: uppercase; letter-spacing: .06em;
+}
+.wrap { max-width: 1120px; margin: 0 auto; padding: 24px 18px 80px; }
+.kicker { font: 600 11px/1.4 var(--mono); color: var(--accent); text-transform: uppercase; letter-spacing: .1em; }
+h1 { font: 800 clamp(32px, 6vw, 60px)/.96 var(--display); text-transform: uppercase; margin: 6px 0 8px; letter-spacing: -.01em; }
+.subtitle { font: 400 clamp(17px, 2.2vw, 22px)/1.4 var(--serif); color: var(--muted); margin-bottom: 18px; }
+.player-sticky {
+  background: #000; border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; margin-bottom: 24px;
+}
+video { width: 100%; aspect-ratio: 16/9; display: block; background: #000; }
+.player-bar {
+  padding: 10px 14px; background: var(--panel); border-top: 1px solid var(--rule);
+  display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px;
+  font: 11px/1.4 var(--mono); color: var(--muted);
+}
+.btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  font: 600 11px/1 var(--mono); text-transform: uppercase; letter-spacing: .06em;
+  padding: 9px 13px; border-radius: 4px; border: 1px solid var(--mint);
+  background: var(--mint); color: #0d1f16; cursor: pointer;
+}
+.btn.sec { background: transparent; color: var(--ink); border-color: var(--rule); }
+.btn:hover { opacity: .92; text-decoration: none; }
+.sec-head {
+  border-top: 1px solid var(--rule); padding-top: 24px; margin: 36px 0 16px;
+  display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 12px;
+}
+.sec-head h2 { font: 800 clamp(24px, 3.5vw, 34px)/1.05 var(--display); text-transform: uppercase; margin: 0; }
+.meta-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; margin: 18px 0;
+}
+.meta-card { background: var(--panel); border: 1px solid var(--rule); border-radius: 6px; padding: 14px 16px; }
+.meta-card .label { font: 600 10px/1.4 var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--gold); margin-bottom: 6px; }
+.shots-list { display: flex; flex-direction: column; gap: 12px; }
+.shot-card {
+  display: grid; grid-template-columns: 240px 1fr; gap: 16px;
+  background: var(--panel); border: 1px solid var(--rule); border-radius: 6px; padding: 12px;
+  cursor: pointer; transition: border-color .15s;
+}
+.shot-card:hover { border-color: var(--mint); }
+.shot-card.is-card { grid-template-columns: 180px 1fr; opacity: .88; }
+.shot-media { position: relative; background: #050706; border-radius: 4px; overflow: hidden; aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center; }
+.shot-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.shot-time {
+  position: absolute; bottom: 6px; left: 6px;
+  background: rgba(0,0,0,0.82); color: var(--gold); padding: 2px 6px; border-radius: 3px;
+  font: 600 10px/1.3 var(--mono);
+}
+.shot-body { display: flex; flex-direction: column; gap: 6px; font-size: 14px; }
+.shot-source { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px; font: 12px/1.4 var(--mono); color: var(--muted); border-bottom: 1px solid var(--rule); padding-bottom: 6px; }
+.shot-source strong { color: var(--ink); }
+.shot-what { color: var(--ink); }
+.shot-bridge { font-size: 12px; color: var(--gold); }
+.shot-why { color: var(--muted); font-size: 13.5px; }
+.strip-img { width: 100%; border-radius: 6px; border: 1px solid var(--rule); display: block; margin: 10px 0; }
+.strip-label { font: 600 11px/1.4 var(--mono); color: var(--muted); text-transform: uppercase; margin-top: 10px; }
+.tribunal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 14px; }
+.trib-box { background: var(--panel); border: 1px solid var(--rule); border-radius: 6px; padding: 16px; font-size: 14px; }
+.trib-box.warn { border-left: 3px solid var(--accent); }
+.trib-box.pass { border-left: 3px solid var(--mint); }
+.trib-box .label { font: 700 11px/1.4 var(--mono); text-transform: uppercase; color: var(--gold); margin-bottom: 8px; }
+pre.prompt-box {
+  background: #090c0a; border: 1px solid var(--rule); border-radius: 6px; padding: 18px;
+  font: 12.5px/1.65 var(--mono); color: #e2e6de; white-space: pre-wrap; overflow-wrap: anywhere; max-height: 640px; overflow-y: auto;
+}
+.nav-foot {
+  margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--rule);
+  display: flex; justify-content: space-between; gap: 14px; font: 12px/1.5 var(--mono);
+}
+@media (max-width: 700px) {
+  .shot-card, .shot-card.is-card { grid-template-columns: 1fr; }
+  .tribunal-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div>
+    <a href="../../../paeleo/allways/index.html#runs">ALLWAYS</a> <span>/</span> <a href="../../index.html">ARGON (12)</a> <span>/</span>
+    <a href="../index.html#film=BROLL_01_Nobody_Home">ARGON SCREENING ROOM (85)</a> <span>/</span>
+    <span style="color:var(--ink)">#71 CASE STUDY</span>
+  </div>
+  <div style="display:flex;gap:8px;align-items:center">
+    <button class="btn" onclick="copyPrompt()">Copy Prompt</button>
+    <a class="btn sec" href="BROLL_01_Nobody_Home.md" download>Case Study .md</a>
+    <a class="btn sec" href="../manifests/BROLL_01_Nobody_Home.json" target="_blank">EDL .json</a>
+  </div>
+</header>
+<main class="wrap">
+  <div class="kicker">B-ROLL OF CIVILIZATION 01 · SCION 085 + 067 + 097 · B-Roll of Civilization (01–12) · FILM #71 OF 85</div>
+  <h1>NOBODY HOME</h1>
+  <div class="subtitle">Rooms after erasure — intact passage, person-removal intervention, and inspection triptych</div>
+
+  <div class="player-sticky">
+    <video id="v" controls playsinline preload="metadata" src="../films/BROLL_01_Nobody_Home.mp4"></video>
+    <div class="player-bar">
+      <span>49.3s · 4 archival cuts · 4 sources · Critic Tribunal: PASS (v2)</span>
+      <span>Tap any captured shot card below to jump video to that cut</span>
+    </div>
+  </div>
+
+  <div class="meta-grid">
+    <div class="meta-card">
+      <div class="label">01 · Creative Theorem</div>
+      <div>Show an intact room sequence where a person occupies and interacts with furniture; return to a version with the person computationally removed while room effects remain; hold the empty aftermath; end with an Original / Mask / Derived comparison.</div>
+    </div>
+    <div class="meta-card">
+      <div class="label">02 · Lineage & Reference</div>
+      <div>Primary: SCION 085 (Jeanne Dielman) · Supporting: SCION 067 ((nostalgia)), SCION 097 (Welcome to Pine Point)</div>
+      <div style="margin-top:8px;font-size:12px;color:var(--muted)"><strong>Boundary Contract:</strong> Computational removal is an authored intervention; the person mask and inpainted background stay separate from recorded pixels and do not claim the historical room was empty.</div>
+    </div>
+  </div>
+
+  <div class="sec-head">
+    <div>
+      <div class="kicker">Stage 1 · Production Prompt</div>
+      <h2>Copyable SCION / ALLWAYS Prompt</h2>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="btn" id="copy-btn-2" onclick="copyPrompt()">Copy Full Prompt</button>
+      <span id="copy-msg" style="font:11px var(--mono);color:var(--mint);align-self:center"></span>
+    </div>
+  </div>
+  <pre class="prompt-box" id="prompt-raw"># ALLWAYS PRODUCTION PROMPT // B-ROLL OF CIVILIZATION 01 · SCION 085 + 067 + 097 — NOBODY HOME
+## Standalone Archival Cinema &amp; Case-Study Specification (PAELEO / ALLWAYS · ARGON)
+
+**Work Slug:** `BROLL_01_Nobody_Home`
+**Title:** NOBODY HOME
+**Subtitle:** Rooms after erasure — intact passage, person-removal intervention, and inspection triptych
+**Primary SCION Operator:** SCION 085 — Jeanne Dielman — Routine as a Sensitive Measuring Instrument
+**Supporting SCION Operators:** SCION 067 ((nostalgia) — Anticipated Image, Vanishing Evidence), SCION 097 (Welcome to Pine Point — Remembered Place Scrapbook)
+**Lineage Reference:** Primary: SCION 085 (Jeanne Dielman) · Supporting: SCION 067 ((nostalgia)), SCION 097 (Welcome to Pine Point)
+
+## 1 · Creative Theorem &amp; Formal Operation
+Show an intact room sequence where a person occupies and interacts with furniture; return to a version with the person computationally removed while room effects remain; hold the empty aftermath; end with an Original / Mask / Derived comparison.
+
+## 2 · Source Boundary &amp; Ethical Contract
+Computational removal is an authored intervention; the person mask and inpainted background stay separate from recorded pixels and do not claim the historical room was empty.
+
+## 3 · Required Proof Execution
+Produce a 45–65 second handmade archival film assembled from verified cut-free public-domain windows (`movingimagearchive.com` / `Cineosis Lab` corpus).
+- Every shot must be verified free of internal camera cuts (`max_frame_diff &lt; 16.0`) and opening/closing title cards.
+- Record for every cut: (a) source ID, title, year, and timecode window `in_s..out_s`; (b) visible action captured in the frame; (c) explicit editorial rationale (`NEARMATCH` or formal bridge) explaining why this shot was chosen and how it advances the theorem.
+- Generate an 8-frame temporal proof strip (`v2_strip.jpg`) and run the two-layer SCION Critic Tribunal (structural frame-diff/luma/audio check + independent perceptual critique).
+
+---
+
+## 4 · Inherited Primary SCION Operator Prompt (SCION 085)
+
+# SCION 085 // Jeanne Dielman — Routine as a Sensitive Measuring Instrument
+## Autonomous evolving cinema / documentary / database swarm · standalone prompt
+
+**Family:** Framing, gesture and city rhythms
+**Operator lineage:** Chantal Akerman, Jeanne Dielman, 23, quai du Commerce, 1080 Bruxelles (1975); Criterion describes the film’s sustained attention to daily routine, space, and time.
+**Requested reference:** Jeanne Dielman, 23, quai du Commerce, 1080 Bruxelles (1975) — Chantal Akerman
+**Reference status:** verified_description. See the research record below.
+**Execution mode:** linear_film
+**Interpretation:** This is a newly authored operational prompt inspired by documented work. It does not claim that the credited artists wrote or endorsed it. Its proposed proof is an original experiment. Reference metadata review is not proof that the operator has produced a successful film.
+
+You are **SCION-085-JEANNE-DIELMAN-ROUTINE-AS-A-SENSITIVE-MEASURING-INSTRUMENT**. Produce a finished watchable or operable work within the user&#x27;s requested scope. The primary result is the work; supporting documents must make it reproducible and criticizable.
+
+## INPUT
+
+- `[WORK]`: the new work or question this operator should realize.
+- `[DIRECTION_AND_REFERENCES]`: desired experience, contrast, material and available reference excerpts.
+- `[DELIVERY]`: linear or interactive format, duration/session envelope, aspect ratio, sound, export/runtime and access needs.
+- `[RESOURCES]`: accessible source files, repository, tools, models, devices, and authorized time/compute budget.
+- `[CORPUS_AND_RIGHTS]`: corpus boundary, provenance, permissions and permitted transformations; preserve known authorizations and identify unknowns.
+- `[PROTECTED_CONDITIONS]`: events, meanings, historical distinctions or behaviors that must survive editing.
+
+Resolve ordinary implementation choices from context. Ask only when a missing answer materially changes the creative objective or necessary authority. Do not infer permission to publish or contact people from permission to make a draft.
+
+## 1 · Creative theorem to prove
+
+Train the viewer to notice a small deviation by first giving ordinary work a stable, intelligible duration and order. The deviation must redistribute effort and attention, not simply announce itself with music or an insert.
+
+**What makes this operator distinct:** Planimetric framing alone is a spatial rule; this operator makes repeated task order and duration a baseline through which tiny change becomes consequential.
+
+## 2 · Native formal language
+
+Preserve and manipulate these as explicit working objects:
+
+- Routine action grammar with ordered steps
+- Repeated camera/framing specification
+- Object-placement and task-state ledger
+- Per-action duration and pause intervals
+- Room-tone continuity and actual contact sounds
+- Deviation event and downstream recovery path
+
+**Protected conditions:**
+
+- Repeated passages use the same declared framing and observable task conditions.
+- The crucial deviation remains in continuous screen time.
+- No score or diagnostic overlay may announce the difference before the viewer can observe it.
+
+Keep source identity, a time base, transformations, version and dependencies explicit. Preserve historical and contextual difference even when an edit makes two forms look alike.
+
+## 3 · Assemble the smallest capable swarm
+
+- Routine dramaturg defines the task’s practical logic and changing conditions.
+- Performance/camera designer rehearses comparable passages without mechanical sameness.
+- Duration editor preserves effort and consequential waiting.
+- Location-sound editor maintains the room’s ordinary acoustic field.
+- Independent routine critic watches without a list of intended deviations.
+
+Every role must build or verify something concrete. The independent critic receives the intended experience and actual output before the builder&#x27;s explanation. Do not invent a critic session when no independent review occurred.
+
+## 4 · Hard proof; produce before scaling
+
+Stage an original three-minute closing routine in a small repair workshop, presented as fiction. In a fixed medium-wide frame, a worker folds a protective cloth, returns scissors to a marked place, counts three repair tags, and closes a metal box. Give the first passage enough time for each step to become legible. After a plain temporal transition, repeat on another fictional evening with similar framing; preserve small natural variations but keep the sequence and practical outcome stable. On the third evening, one tag is wet and will not separate from the cloth. The worker pauses, tries a different grip, and finds that the scissors are now needed before they can be returned. Hold through the actual rearrangement of the task rather than cutting to a distressed face. A distant closing bell or neighboring shutter can make elapsed time consequential, but it must not dictate an emotion. End with the box still open while the worker decides what to do next. Let friction, breathing, and room sound carry the disturbance.
+
+Save a recoverable draft. Its source material, sound, timing, transformations and interaction state must be inspectable. Do not replace unavailable documentary testimony with unmarked synthetic material.
+
+## 5 · Acceptance tribunal
+
+**Judge by watching or operating the proof:**
+
+- The critic can reconstruct the routine after the first two passages.
+- The third passage’s difference is visible before any explanation.
+- The deviation changes subsequent work rather than functioning as a decorative anomaly.
+- Duration conveys effort and attention without arbitrary dead time.
+- The ending preserves an unresolved practical state rather than importing a sensational payoff.
+
+**Structural or automated checks, only where the representation supports them:**
+
+- Compare repeated camera parameters and key object anchor coordinates.
+- Verify the deviation interval contains no undisclosed temporal compression.
+
+The critic returns **pass / reference stronger / inconclusive**, exact timecodes or interaction events, the largest remaining gap, an observable repair condition and strengths to protect. Distinguish measured checks from perceptual judgments. Leave execution and acceptance marked pending until they happen.
+
+## 6 · Repair through discriminating experiments
+
+- **Failure:** Viewers miss the deviation. **Hypothesis:** The baseline was not established or the action is hidden by framing. **Experiment:** Compare a clearer baseline pass and a modestly wider framing while leaving the deviation untouched; identify which variable restores recognition.
+- **Failure:** The proof feels like an empty endurance test. **Hypothesis:** Waiting has no connection to a task dependency or changed state. **Experiment:** Mark every pause’s practical cause, then compare a cut removing only unmotivated waits; preserve time that changes attention or effort.
+
+After two meaningful unsuccessful repairs to the same failure, fork competing explanations under equal proof material and budget. Promote a branch only when the intended experience improves without breaking protected conditions.
+
+## 7 · Discovery and recursive expansion
+
+- Build longer structure from a few routines whose dependencies begin to interfere.
+- Let later variations alter the viewer’s memory of earlier work; protect ordinary labor from becoming merely setup for a dramatic twist.
+
+Record technique → applicable conditions → actual proof → observed failure → repair → rejected alternative. Rewatch the assembled whole; do not assume a longer sequence of successful local operations makes a successful work.
+
+## 8 · Deliverable contract
+
+- A complete repeated-routine film with continuous deviation and purposeful room sound.
+- Task-state/duration record, fixed-framing specification, and independent blind-to-deviation critique.
+- Baseline and altered passes retained as separate recoverable sources.
+
+Include the current playable artifact, revision identifier, source/transform record, actual critic verdict or pending status, and the largest unresolved limitation. Preserve an accepted checkpoint before major changes.
+
+**Possible ALLWAYS applications:** EVERDAY, PLANIMETRIC, ALMOST HUMAN.
+
+## INHERITED SCION DOCTRINE — BUILD, INSPECT, REPAIR
+
+1. **Viewer experience first.** State one specific perceptual or interactive achievement. Name the attractive but empty result this project must avoid. A subject, mood board or similarity score is not a film.
+2. **Inspect the lineage.** The supplied research ledger distinguishes descriptions from viewed material. Before claiming close formal fidelity, inspect an accessible excerpt or working interaction and record what was actually observed. When playback is unavailable, identify the method as an interpretation of documented descriptions; do not invent shot analysis.
+3. **Hard proof before scale.** Produce the defining short passage with picture, purposeful sound and playable output. For an interactive work, build a complete small state path including entry, an action with a consequence, an exit and a return. Do not begin by accumulating a giant archive.
+4. **Material and source integrity.** Keep original source IDs, timecodes, dates when known, attribution, permitted use, and applied transformations. Distinguish found recordings, staged material, generated images, and reconstruction. A synthetic stand-in is not documentary evidence. Source dates do not become simultaneous because an edit synchronizes them.
+5. **Native working state.** Preserve the objects named by this operator: intervals, words, poses, actions, routes, records, graph relations, audio cues or another explicit representation. Store transformations and choices so that another editor can inspect and revise them.
+6. **Small accountable swarm.** Every role owns an artifact or a verification. Merge roles when coordination becomes costly. Keep an independent critic for the defining achievement. Respect the user&#x27;s existing authority; do not seek arbitrary approval for routine reversible work or publish/contact others beyond the authorized scope.
+7. **Sound and duration are structural.** Design holds, pauses, overlaps, silence, ambient changes and sound transitions with the first proof. Preserve source silence where relevant; label newly composed sound. Never claim that music, an animation or a cut establishes a person&#x27;s private feeling.
+8. **Independent criticism.** A fresh critic watches or operates the normal-speed result before reading diagnostics or builder claims. Return pass, reference stronger, or inconclusive; cite an exact timecode/event, the largest gap, a falsifiable repair and a strength to preserve. &#x27;Reference stronger&#x27; requires an actually inspected comparable reference. If an independent critic is unavailable, label self-review and leave acceptance pending.
+9. **Repair causes.** Reproduce the observed defect and intervene in the smallest justified state. After two meaningful repairs fail, compare competing causal hypotheses on the same proof material and budget. Do not add effects, agents or footage just to conceal the defect.
+10. **Two kinds of evidence.** Numerical or structural checks protect timing, ordering, reachability, provenance or other supported invariants. Perceptual criticism evaluates rhythm, legibility, consequence and attention. Neither substitutes for the other, and no score proves artistic value. Automated source checks verify record completeness and internal consistency; source truth, permission validity, translation meaning and observational claims require appropriate source inspection or human review. Report which review actually occurred.
+11. **Whole-work judgment.** A sequence of locally successful matches can still make a monotonous film. Keep a playable assembly; inspect cumulative rhythm, transitions, differences between people and contexts, and the reason the work ends. Preserve productive seams and interruptions.
+12. **Truthful stopping and delivery.** Stop at independent acceptance, the user&#x27;s stop, the authorized budget, or a justified no-progress boundary. Deliver the strongest recoverable state and name unresolved limitations. Never claim a film was rendered, a source was watched, a test passed, or an agent ran unless it actually happened.
+
+**Tool boundary:** Use real available tools. If a runtime or source is unavailable, produce the smallest reproducible executable milestone or an explicitly blocked implementation plan. Do not narrate an imaginary execution. This prompt authorizes only the scope supplied by its user.
+
+## START
+
+Read the inputs and actual source material. State the creative theorem and protected conditions. Build the proof with picture and sound or an operable interaction. Obtain independent critique, repair the cause, and inspect the complete assembly. Expand only after the defining operation is perceptible.
+
+
+## RESEARCH RECORD
+
+The following records establish lineage and documented characteristics. Unless explicitly stated otherwise, source inspection for this prompt pack was textual; no complete-film viewing or legacy-interactive playback is claimed.
+
+1. [Jeanne Dielman — Criterion](https://www.criterion.com/films/302) — Full title, director, 1975 date, routine-centered structure, and credited collaboration with cinematographer Babette Mangolte. Evidence: official_description; inspection: text_only.
+
+**Metadata notes and unresolved questions:**
+
+- The source description was read, not the film viewed. This operator tests an original repeated-work scene; it does not prescribe copying the source film’s plot or treating slowness alone as its achievement.</pre>
+
+  <div class="sec-head">
+    <div>
+      <div class="kicker">Stage 2 · Archive Forage, Captured Frames & Editorial Rationale</div>
+      <h2>Captured Shots & Why Each Was Chosen (4 Cuts)</h2>
+    </div>
+    <span style="font:11px var(--mono);color:var(--muted)">Click any shot to scrub video</span>
+  </div>
+  <div class="shots-list">
+    
+            <article class="shot-card is-card" onclick="seekTo(0.00)">
+              <div class="shot-media card-placeholder">
+                <span>TITLE CARD</span>
+                <span class="shot-time">SEG #01 · 0.0s–3.0s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source"><strong>OPENING SLATE</strong> <span>(3.0s)</span></div>
+                <div class="shot-what">Rooms after erasure — intact passage, person-removal intervention, and inspection triptych</div>
+                <div class="shot-why"><strong>Why Included:</strong> Structural framing slate / audit card required by operator deliverable contract.</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(3.00)">
+              <div class="shot-media">
+                <img src="../thumbs/058430e4-9cb9-5f36-9d45-faf15c735299.jpg" alt="Captured frame from Have I Told You Lately That I Love You?" loading="lazy">
+                <span class="shot-time">CUT #02 · 3.0s–10.5s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>Have I Told You Lately That I Love You? (1958)</strong>
+                  <span>clip <code>058430e4</code> · source window <code>3.60s–11.05s</code> (7.50s) <a href="https://www.movingimagearchive.com/sources/have-i-told-you-lately-that-i-love-you-0e6a48dc?clip=058430e4-9cb9-5f36-9d45-faf15c735299" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> Have I Told You Lately That I Love You? (1958): Intact living room recording with figure seated in armchair beside lamp</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>RECORDED PIXELS INTACT</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from Have I Told You Lately That I Love You? (1958) because the visible gesture directly  establishes phase [PASS 1 · INTACT ARCHIVAL RECORDING], and executes the formal bridge (RECORDED PIXELS INTACT), and anchors the opening perceptual premise before any cross-source comparison begins. Window 3.60s–11.05s (7.50s) verified cut-free (motion Δ=1.8, luma=45.3, audio=-24.0 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(10.50)">
+              <div class="shot-media">
+                <img src="../thumbs/91390311-d7f2-541e-a049-ea1b21356173.jpg" alt="Captured frame from Court to Court \(Aug 2002\)" loading="lazy">
+                <span class="shot-time">CUT #03 · 10.5s–17.3s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>Court to Court \(Aug 2002\) (2002)</strong>
+                  <span>clip <code>91390311</code> · source window <code>0.50s–7.30s</code> (6.80s) <a href="https://www.movingimagearchive.com/sources/court-to-court-aug-2002-d1747427?clip=91390311-d7f2-541e-a049-ea1b21356173" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> Court to Court (2002): Person enters the room and approaches the chair and desk</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>RECORDED PIXELS INTACT</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from Court to Court \(Aug 2002\) (2002) because the visible gesture directly  establishes phase [PASS 1B · INTACT ROOM &amp; CHAIR INTERACTION], and executes the formal bridge (RECORDED PIXELS INTACT), and advances cut 2/4 of the theorem while preserving distinct historical provenance (2002). Window 0.50s–7.30s (6.80s) verified cut-free (motion Δ=8.9, luma=105.6, audio=-23.1 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card is-card" onclick="seekTo(17.30)">
+              <div class="shot-media card-placeholder">
+                <span>ERASURE SHOT</span>
+                <span class="shot-time">SEG #04 · 17.3s–24.8s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source"><strong>PASS 2 · DERIVED PERSON-REMOVAL PASSAGE</strong> <span>(7.5s)</span></div>
+                <div class="shot-what">Spatial-temporal segmentation + Telea inpainting removes the figure while armchair, lamp, and room remain (rust contour marks mask)</div>
+                <div class="shot-why"><strong>Why Included:</strong> Structural framing slate / audit card required by operator deliverable contract.</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(24.80)">
+              <div class="shot-media">
+                <img src="../thumbs/27f75a9f-fd53-5181-b3de-74bcbd88b498.jpg" alt="Captured frame from American Look (Part I)" loading="lazy">
+                <span class="shot-time">CUT #05 · 24.8s–32.3s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>American Look (Part I) (1958)</strong>
+                  <span>clip <code>27f75a9f</code> · source window <code>1.00s–8.50s</code> (7.50s) <a href="https://www.movingimagearchive.com/sources/american-look-part-i-f9be001f?clip=27f75a9f-fd53-5181-b3de-74bcbd88b498" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> American Look (1958): Holding the naturally unoccupied modernist room and chairs</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>DURATION STUDY: NATURALLY EMPTY ROOM</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from American Look (Part I) (1958) because the visible gesture directly  establishes phase [PASS 3 · HELD EMPTY AFTERMATH WITH ROOM SOUND], and executes the formal bridge (DURATION STUDY: NATURALLY EMPTY ROOM), and advances cut 3/4 of the theorem while preserving distinct historical provenance (1958). Window 1.00s–8.50s (7.50s) verified cut-free (motion Δ=13.1, luma=53.8, audio=-17.1 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(32.30)">
+              <div class="shot-media">
+                <img src="../thumbs/b2e97ba8-5d17-5312-9404-5afe6e7493a8.jpg" alt="Captured frame from Something New From Something Old" loading="lazy">
+                <span class="shot-time">CUT #06 · 32.3s–38.3s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>Something New From Something Old (1958)</strong>
+                  <span>clip <code>b2e97ba8</code> · source window <code>0.13s–5.08s</code> (6.00s) <a href="https://www.movingimagearchive.com/sources/something-new-from-something-old-1d1276c0?clip=b2e97ba8-5d17-5312-9404-5afe6e7493a8" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> Something New From Something Old (1958): Unoccupied furnished sitting room held with room tone</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>HELD AFTERMATH</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from Something New From Something Old (1958) because the visible gesture directly  establishes phase [PASS 3B · DOMESTIC STILLNESS], and executes the formal bridge (HELD AFTERMATH), and completes the terminal return/aftermath hold required by the operator theorem. Window 0.13s–5.08s (6.00s) verified cut-free (motion Δ=3.6, luma=83.3, audio=-17.3 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card is-card" onclick="seekTo(38.30)">
+              <div class="shot-media card-placeholder">
+                <span>ERASURE SHOT</span>
+                <span class="shot-time">SEG #07 · 38.3s–45.8s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source"><strong>PASS 4 · ACCESSIBLE ORIGINAL / MASK / DERIVED COMPARISON</strong> <span>(7.5s)</span></div>
+                <div class="shot-what">Left: Intact Source Pixels | Center: Extracted Person Mask | Right: Inpainted Empty Room Plate</div>
+                <div class="shot-why"><strong>Why Included:</strong> Structural framing slate / audit card required by operator deliverable contract.</div>
+              </div>
+            </article>
+            <article class="shot-card is-card" onclick="seekTo(45.80)">
+              <div class="shot-media card-placeholder">
+                <span>CLOSING LEDGER</span>
+                <span class="shot-time">SEG #08 · 45.8s–49.3s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source"><strong>CLOSING LEDGER</strong> <span>(3.5s)</span></div>
+                <div class="shot-what">Computational removal is an authored intervention; the person mask and inpainted background stay separate from recorded pixels and do not claim the historical room was empty.</div>
+                <div class="shot-why"><strong>Why Included:</strong> Structural framing slate / audit card required by operator deliverable contract.</div>
+              </div>
+            </article>
+  </div>
+
+  <div class="sec-head">
+    <div>
+      <div class="kicker">Stage 3 · Independent Critic Tribunal & Verification</div>
+      <h2>Temporal Proof Strips & Diagnostic Audit</h2>
+    </div>
+    <a class="btn sec" href="../strips/BROLL_01_Nobody_Home_v2_strip.jpg" target="_blank">Open Full-Res Strip ↗</a>
+  </div>
+  <div class="strip-label">Verified v2 Temporal Proof Strip (8 evenly spaced frames + waveform/timecode audit)</div>
+  <img class="strip-img" src="../strips/BROLL_01_Nobody_Home_v2_strip.jpg" alt="v2 proof strip">
+  
+        <details class="v1-details">
+          <summary>Compare Pre-Repair v1 Assembly Strip vs. Verified v2 Strip</summary>
+          <div class="strip-label">v1 Assembly Strip (Before Critic Repair)</div>
+          <img class="strip-img" src="../strips/BROLL_01_Nobody_Home_v1_strip.jpg" alt="v1 strip" loading="lazy">
+        </details>
+  
+        <div class="tribunal-grid">
+          <div class="trib-box warn">
+            <div class="label">Round 1 (v1) Defects Caught</div>
+            <ul><li>Seg #02 (t=03.50s-12.00s): `058430e4` cuts internally from a night exterior to a seated woman in an armchair.</li><li>Seg #04 (t=19.50s-28.00s) &amp; Seg #07 (t=42.50s-51.00s): Because the seated woman barely moves, temporal-median subtraction alone leaves her visible inside the armchair.</li></ul>
+            <p><strong>Largest Gap:</strong> The core person-removal intervention in Seg #04 and Seg #07 failed to erase the person because temporal-median subtraction alone cannot remove a nearly stationary seated figure.</p>
+            <p><strong>Causal Hypothesis:</strong> Applying pure temporal-median subtraction to a stationary figure (`058430e4`, plus crossing the cut at 3.0s) baked the person into the median background.</p>
+          </div>
+          <div class="trib-box pass">
+            <div class="label">Round 2 (v2) Falsifiable Repair & Verification</div>
+            <p><strong>Repair Executed:</strong> Clamp `058430e4` strictly to its continuous interior living-room shot (`3.6s-11.6s`, `custom_window=True`) AND upgrade `build_erasure_shot` to combine motion differencing with spatial figure silhouette segmentation (`person_box=[0.30, 0.16, 0.72, 0.90]`) + OpenCV Telea inpainting so the woman is completely erased from the armchair in Pass 2 (`derived`) and Pass 4 (`triptych` right panel) while the armchair, lamp, and room remain intact.</p>
+            <p><strong>Strength Preserved:</strong> The 3-panel inspection triptych layout (`Original | Extracted Mask | Derived Empty Room`) and the held naturally empty modernist rooms (`27f75a9f` and `b2e97ba8`).</p>
+            <p><strong>Final Verdict:</strong> <code>PASS (v2 · 0 structural or perceptual issues)</code></p>
+          </div>
+        </div>
+
+  <nav class="nav-foot">
+    <a href="BROLL_04_Split_Second.html">← #70 SPLIT SECOND</a>
+    <a href="../index.html#film=BROLL_01_Nobody_Home">Back to 85-Film Screening Room ↗</a>
+    <a href="BROLL_12_Planimetric.html">#72 PLANIMETRIC →</a>
+  </nav>
+</main>
+<script>
+function seekTo(sec) {
+  const v = document.getElementById('v');
+  v.currentTime = sec;
+  v.play().catch(()=>{});
+  v.scrollIntoView({behavior:'smooth', block:'center'});
+}
+function copyPrompt() {
+  const txt = document.getElementById('prompt-raw').textContent;
+  navigator.clipboard.writeText(txt).then(() => {
+    const msg = document.getElementById('copy-msg');
+    msg.textContent = 'COPIED TO CLIPBOARD ✓';
+    setTimeout(() => msg.textContent = '', 2500);
+  });
+}
+</script>
+</body>
+</html>

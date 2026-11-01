@@ -1,0 +1,533 @@
+[
+  {
+    "film_id": "SCION_055_Words_Polysemic_Relay",
+    "scion_id": 55,
+    "critic_role": "Independent inference critic",
+    "v1_verdict": "repair_required",
+    "v1_defect_timecodes": [
+      "Seg #03 (t=09.00s-13.50s): Internal source cut between t=10.71s and t=11.93s jumps from a hand drawing on paper to a talking-head woman speaking into a microphone.",
+      "Seg #04 (t=13.50s-19.00s): At t=14.16s-18.34s, intended 'drawing a curtain' shows an exterior architectural skyscraper spire instead of a curtain.",
+      "Seg #10 (t=43.70s-46.20s): Missing glyph boxes ('\u25a1') render between items on the Semantic Relay Audit card."
+    ],
+    "largest_gap": "The crucial first semantic pivot ('drawing a line' -> 'drawing a curtain') fails in Seg #03-#04: Seg #03 breaks mid-shot into a talking head, and Seg #04 shows a skyscraper spire instead of drawing a curtain.",
+    "causal_hypothesis": "Unverified internal source cut inside the clip window for Seg #03, OpenCLIP semantic false positive matching vertical architectural lines to 'curtain' in Seg #04, and an unsupported Unicode arrow glyph in Georgia.ttf.",
+    "falsifiable_repair": "Replace Seg #03 with verified cut-free map-drawing clip `c3c494ef` (0.2s-5.2s); replace Seg #04 with verified parted stage curtain clip `016b2487` (0.5s-6.0s) and curtained window `491529e4` (0.5s-5.0s); sanitize Unicode arrows (`->`) in card/HUD renderer.",
+    "strength_to_preserve": "The opening compass-arc drawing in Seg #02 (`7c61b8cd`), the drawer-pulling progression (`4b91a58f`, `2541b113`), the group drawing closer (`20cf914f`), and the structural return to the original compass line.",
+    "v2_verdict": "pass"
+  },
+  {
+    "film_id": "SCION_056_Symmetry_Imperfect_Pairing",
+    "scion_id": 56,
+    "critic_role": "Independent comparison critic",
+    "v1_verdict": "repair_required",
+    "v1_defect_timecodes": [
+      "Seg #04 (t=21.50s-30.50s): Right panel of the split-screen (`5444f8ed`) contains four rapid internal montage cuts instead of a continuous shot of chair movement."
+    ],
+    "largest_gap": "In Pair 3 (Seg #04), the right panel shatters split-screen comparison by cycling through four rapid internal montage cuts from the source reel instead of holding a continuous action against the left panel's waiting figure.",
+    "causal_hypothesis": "Unverified internal source cuts inside `5444f8ed` (`Coffee House Rendezvous`, 1969) where a fast montage sequence was extracted as a single 9-second window.",
+    "falsifiable_repair": "Replace the right panel of Seg #04 with verified cut-free conference-table chair interaction `79565922` (10.5s-19.5s, 18.5s clean window) so the divergence against `91390311` is readable across the full 9-second hold.",
+    "strength_to_preserve": "Pair 1 (`cc7da646` vs `2df1341e`), Pair 2 (`31a9beb1` vs `473dcfbb`), and the Sequential-Cut Alternative proving why split-screen simultaneity is required.",
+    "v2_verdict": "pass"
+  },
+  {
+    "film_id": "SCION_057_Moments_Microevent_Attention",
+    "scion_id": 57,
+    "critic_role": "Independent attention critic",
+    "v1_verdict": "repair_required",
+    "v1_defect_timecodes": [
+      "Seg #02 (t=03.50s-07.30s): Intended 'cuff/hand catching on a handle' (`69405844`) shows hands gesturing in mid-air with no handle or physical resistance.",
+      "Seg #05 (t=18.00s-26.50s): Intended 'deciding where to place a small object on the table' (`57b76e66`) shows brushing/painting a wooden board."
+    ],
+    "largest_gap": "The centerpiece longest shot (Seg #05, 8.5s) depicts painting a wooden board rather than handling/placing a small object on a table, while Seg #02 lacks a physical handle/lever.",
+    "causal_hypothesis": "OpenCLIP semantic false positives matching gesturing hands to 'cuff/handle' in Seg #02 and brushing wood to 'table/hand' in Seg #05.",
+    "falsifiable_repair": "Replace Seg #02 with verified close-up hand on a mechanical lever (`a977d12a`, 0.05s-2.25s) and door latch (`46874a7c`, 0.2s-4.5s); replace Seg #05 (8.5s longest shot) with verified close-up of hands turning and placing a small object under a table lamp (`95f7caf3`, 0.5s-9.0s, 11.3s clean window); clamp `7102b861` key-in-lock to `0.5s-6.0s`.",
+    "strength_to_preserve": "Microevent 02 (`5a786b16` water filling glass), Microevent 03 (`d12dd266` doorknob latch), Microevent 05 (`5320612e` cloth settling), Microevent 06 (`401c55fa` empty doorway aftermath), and Return (`b2e97ba8`).",
+    "v2_verdict": "pass"
+  },
+  {
+    "film_id": "SCION_058_Laughs_Audible_Contagion",
+    "scion_id": 58,
+    "critic_role": "Independent social-context critic",
+    "v1_verdict": "repair_required",
+    "v1_defect_timecodes": [
+      "Seg #04 (t=12.50s-17.70s): `bcd1491c` shows a wooden medical tongue depressor inside an open mouth during an oral exam.",
+      "Seg #06 (t=22.20s-27.70s): `e15366de` cuts internally at t=27.04s (clip 4.8s) from the laughing audience chorus to a stage magician.",
+      "Seg #07 (t=27.70s-34.20s): `2144d337` has a burned-in lower-third banner obscuring the recovery shot."
+    ],
+    "largest_gap": "Seg #04 mistakes an open mouth with a wooden medical tongue depressor for a 'situated solo laugh', breaking the contagious laughter chain.",
+    "causal_hypothesis": "OpenCLIP visual false positive matching an open mouth to 'person laughing' without detecting the medical instrument, plus an unclamped tail cut at 4.8s in `e15366de`.",
+    "falsifiable_repair": "Replace Seg #04 with verified smiling/laughing conversation shot `bf3ca7be` (0.05s-3.20s); clamp `e15366de` to `0.2s-4.4s` before the cut at 4.79s; replace Seg #07 with verified unbannered recovery shot `f004b127` (4.5s-8.8s).",
+    "strength_to_preserve": "The opening contained laugh in Seg #02 (`655567b6`, `Back-Room Boy`, 1942), `bd6a3b8a`, `7deb911c`, and the quiet curtained room-tone aftermath in Seg #08 (`491529e4`).",
+    "v2_verdict": "pass"
+  },
+  {
+    "film_id": "SCION_059_Ball_Graphic_Constancy",
+    "scion_id": 59,
+    "critic_role": "Independent perception critic",
+    "v1_verdict": "repair_required",
+    "v1_defect_timecodes": [
+      "Seg #03 (t=07.00s-10.50s): In `adfad259`, the wall clock is off-center to the upper-left while the registration ring sits at screen center.",
+      "Seg #09 (t=27.70s-31.20s): `5a73aa82` at in_s=0.5s shows foliage/flowers before the circular optical aperture appears at 18.5s.",
+      "Seg #10 & #11 (t=31.20s-38.10s): Internal source cuts inside `3681afce` and `10812563`."
+    ],
+    "largest_gap": "Graphic constancy breaks in Seg #09 (foliage instead of optical aperture) and Seg #03 (unregistered clock offset), compounded by internal cuts in Seg #10 and #11.",
+    "causal_hypothesis": "Wrong timestamp window on `5a73aa82` (0.5s instead of 18.5s-25.5s), missing `anchor_xy` translation in `build_circle_reg_shot` for `adfad259`, and unclamped windows in `3681afce` and `10812563`.",
+    "falsifiable_repair": "Add `anchor_xy: [0.43, 0.45]` translation in `build_circle_reg_shot` for `adfad259`; set `5a73aa82` to `in_s=19.0, dur=3.5, custom_window=True` where the circular optical aperture is centered; replace Seg #10 with verified circular projector reel `989d1a70` (`0.1s-3.6s`, `anchor_xy=[0.47, 0.35]`) and clamp `10812563` to its cut-free ring-of-hands window (`3.35s-6.20s`).",
+    "strength_to_preserve": "The contextual release in Seg #08 (`8266284b`, `Facts About Film`, 1948) where pulling back from the circular reel reveals the boy's hands, and the final exit in Seg #13 (`c0f8dea4`).",
+    "v2_verdict": "pass"
+  },
+  {
+    "film_id": "SCION_060_Losers_Social_Position",
+    "scion_id": 60,
+    "critic_role": "Independent power-and-performance critic",
+    "v1_verdict": "repair_required",
+    "v1_defect_timecodes": [
+      "Seg #02 (t=03.50s-09.00s): `e5aa6366` shows an animated cartoon character (`Just Imagine`, 1947) instead of a tight view of a person at a shared table.",
+      "Seg #03-#06 (t=09.00s-32.00s): Unrelated rooms across decades prevent re-contextualizing the same person's social position through framing."
+    ],
+    "largest_gap": "Instead of revealing how widening the frame changes the interpretation of the same person's difficulty at a shared table, v1 spliced an animated cartoon with unrelated rooms.",
+    "causal_hypothesis": "Independent clip retrieval per beat label instead of extracting tight-cropped and wide-context views from a coherent multi-person table recording.",
+    "falsifiable_repair": "Use the new `reframe` operator (`tight` -> `tight_to_wide` -> `wide`) on verified continuous multi-person table recordings `79565922` (`Working Together`, 1951, 10.0s-28.4s) and `98a82cba` (`How Quiet Helps at School`, 1953, 0.5s-21.0s), then reverse the order (`wide` -> `tight`) in the Comparison Cut after the slate.",
+    "strength_to_preserve": "The rhetorical structure of the Wide-First Comparison Cut slate (Seg #07) and the quiet unresolved workroom atmosphere.",
+    "v2_verdict": "pass"
+  },
+  {
+    "film_id": "SCION_061_Matter_Affordance_Chain",
+    "scion_id": 61,
+    "critic_role": "Independent material critic",
+    "v1_verdict": "repair_required",
+    "v1_defect_timecodes": [
+      "Seg #06 (t=25.30s-30.80s) & Seg #08 Quad BR: `096cef84` shows people walking among vineyard grapevines with an internal cut instead of a close-up weathered surface."
+    ],
+    "largest_gap": "Seg #06, labeled as a close view of a 'cracked, weathered surface', actually shows people walking through a vineyard in wide/medium shots.",
+    "causal_hypothesis": "OpenCLIP metadata false positive on `The Soil Explorers` matching 'soil/weathered' to an outdoor vineyard walk.",
+    "falsifiable_repair": "Replace Seg #06 and the 4th Quad panel with verified close-up tactile soil/eroded rock shots `8b6296d7` (`0.05s-3.25s`, hand pressing directly into dry soil) and `5e0c2fa9` (`9.50s-15.00s`, exposed eroded rock/soil face).",
+    "strength_to_preserve": "The tactile tabletop chain across `3afead43` (`The Photographer`, 1948), `159c6a16` (`All My Babies`, 1953), `05d0d040`, and `e1401c9e` (`From Dreams to Reality`).",
+    "v2_verdict": "pass"
+  },
+  {
+    "film_id": "SCION_062_Colors_Chromatic_Chapters",
+    "scion_id": 62,
+    "critic_role": "Independent color-and-meaning critic",
+    "v1_verdict": "repair_required",
+    "v1_defect_timecodes": [
+      "Seg #02 (t=03.50s-08.70s): `676ac70c` (`Skateboard Sense`) shows a dark green work glove rather than yellow.",
+      "Seg #06 (t=24.70s-30.50s): `029b1dea` (`Make Art Feel Better`) shows beige wood whittling with almost no blue present."
+    ],
+    "largest_gap": "The opening anchor of Chapter I: Yellow features a green glove, and Seg #06 in Chapter II: Blue is visually dominated by beige wood shavings.",
+    "causal_hypothesis": "Lack of HSV dominant-hue verification on candidate frames in Seg #02 and Seg #06.",
+    "falsifiable_repair": "Replace Seg #02 with HSV-verified yellow industrial work clip `56cdd913` (`1.5s-6.8s`, 41.4% yellow pixels) alongside `da09f0cb` (`Automatic Emergency Parking Brake`) and `43d553f4` (`Winter Alert`); replace Seg #06 in Chapter II: Blue with verified blue-screen/mist clips `45680277` (`2.2s-7.8s`) and `005ac24d` (`2.5s-8.0s`).",
+    "strength_to_preserve": "The Chapter I -> II mixed-color transition bridge in `43d553f4` (`Winter Alert`, where a blue-sleeved arm latches a worn yellow machine door) and the two quiet red practical actions in Chapter III (`04572067`, `0f500d93`).",
+    "v2_verdict": "pass"
+  },
+  {
+    "film_id": "SCION_063_Breath_Invisible_Force",
+    "scion_id": 63,
+    "critic_role": "Independent embodied-viewing critic",
+    "v1_verdict": "repair_required",
+    "v1_defect_timecodes": [
+      "Seg #02 (t=03.50s-06.30s): `08e49d0e` shows a Federal Reserve binder.",
+      "Seg #03 (t=06.30s-11.80s): `8b708c95` shows an animated US map.",
+      "Seg #04 (t=11.80s-17.30s): `ec252218` shows the Golden Gate Bridge tower.",
+      "Seg #05 (t=17.30s-23.80s): `f6022bfe` cuts internally at t=19.77s to industrial pipes.",
+      "Seg #06 (t=23.80s-29.60s): `af2f58ac` shows exterior high-voltage transmission towers."
+    ],
+    "largest_gap": "Seg #02-#06 suffered OpenCLIP hallucinations (binder, US map, bridge, pipes, power towers) instead of visible air/vapor/breath effects and a rotating blade/fan.",
+    "causal_hypothesis": "OpenCLIP keyword/visual hallucination matching abstract air terms to unrelated macro archival shots.",
+    "falsifiable_repair": "Replace Seg #02-#06 with human-verified Cineosis shots of visible air, vapor, curtains, and wind-driven blades: `a7a91170` (`0.05s-3.00s`, pale smoke/breath drifting), `8b6bda0f` (`0.2s-5.7s`, smoke billowing in air), `491529e4` (`0.5s-6.0s`, white curtains by window), `005ac24d` (`2.5s-8.5s`, dense vapor/condensation cloud), and `1f64ac90` (`0.05s-2.05s`, mechanical windmill blades turning in wind) followed by `76aee35d` settling.",
+    "strength_to_preserve": "The quiet high-contrast window frame at the close (`d73d8647`, `Medicus Collection`, 1939), holding still architectural space after airflow subsides.",
+    "v2_verdict": "pass"
+  },
+  {
+    "film_id": "SCION_064_Parabolas_Different_Causes",
+    "scion_id": 64,
+    "critic_role": "Independent geometry-and-cinema critic",
+    "v1_verdict": "repair_required",
+    "v1_defect_timecodes": [
+      "Seg #03 (t=09.00s-14.00s) & Seg #08 (t=32.20s-36.70s): `efcd23e5` cuts internally from a worker in a hard hat to a vertical beam.",
+      "Seg #04 (t=14.00s-19.50s): `09deda36` (`Eyes and Their Care`, 1941) shows a static medical eyeball diagram instead of a ballistic trajectory."
+    ],
+    "largest_gap": "Observation 02 (Seg #04) shows a static diagram of an eyeball instead of a moving ballistic arc, and Seg #03/#08 cuts internally across a worker's head.",
+    "causal_hypothesis": "OpenCLIP false positive matching the round eyeball diagram to 'ball in flight', and an unverified cut in `efcd23e5`.",
+    "falsifiable_repair": "Use verified suspension cable shot `b9198dcc` (`0.05s-4.35s`) and overhead catenary wire shot `a4d0d568` (`0.2s-5.2s`) for Observation 01/01B & Replay #08; use `c1613029` (`0.05s-3.45s`, low-flying aircraft arc) and `41941b55` (`2.5s-6.4s`, `custom_window=True`, side-view parabolic water jet) for Observation 02/02B & Replay #09; use `0917faaa` (`0.1s-4.5s`, `custom_window=True`, hands bending flexible tire strip) for Observation 03 & Replay #10.",
+    "strength_to_preserve": "The three-curve comparison card and Replay #09-#10 (`41941b55` water-jet parabola fit and `0917faaa` asymmetric hand-bent strip departing from the symmetric parabola).",
+    "v2_verdict": "pass"
+  },
+  {
+    "film_id": "SCION_065_Five_Parallel_Lives",
+    "scion_id": 65,
+    "critic_role": "Independent participant-centered critic",
+    "v1_verdict": "repair_required",
+    "v1_defect_timecodes": [
+      "Seg #04 (t=14.50s-20.00s): `a07ac53e` cuts internally at 5.39s from dough kneading to an unrelated arm shot.",
+      "Seg #05 (t=20.00s-25.50s): `48e57102` shows a static factory smokestack exterior with no person carrying a load.",
+      "Seg #07 & #08 (t=31.50s-39.90s): Internal cuts inside `535e64d5` (at 3.5s) and `564ab031` (before 5.08s)."
+    ],
+    "largest_gap": "Participant 04's introduction (Seg #05) shows a distant smokestack factory exterior with no human participant, while Seg #04, #07, and #08 cross internal cuts.",
+    "causal_hypothesis": "Wrong clip window in `48e57102` and unclamped internal cuts in `a07ac53e`, `535e64d5`, and `564ab031`.",
+    "falsifiable_repair": "Clamp `a07ac53e` to `0.1s-5.0s` (before the 5.39s cut); replace Seg #05 with verified cut-free carrying shot `d6df8c3f` (`Leave It to Roll-Oh`, 1940, `0.5s-6.0s`, carrying a package through a doorway); set `535e64d5` to `in_s=4.5, dur=4.5, custom_window=True` (continuous towel-drying shot) and clamp `564ab031` to `5.2s-9.2s`.",
+    "strength_to_preserve": "The clear individual hand practices in `d5b6b1dd`, `3ff1323d`, `687df299`, the resisting deliberation exception in `3a48bbc4` (`Fundo in Chile`), and the unequal returns (`b2b742cc`, `9a5adcbf`).",
+    "v2_verdict": "pass"
+  },
+  {
+    "film_id": "BROLL_01_Nobody_Home",
+    "scion_id": 85,
+    "critic_role": "Independent material-and-compositing critic",
+    "v1_verdict": "repair_required",
+    "v1_defect_timecodes": [
+      "Seg #02 (t=03.50s-12.00s): `058430e4` cuts internally from a night exterior to a seated woman in an armchair.",
+      "Seg #04 (t=19.50s-28.00s) & Seg #07 (t=42.50s-51.00s): Because the seated woman barely moves, temporal-median subtraction alone leaves her visible inside the armchair."
+    ],
+    "largest_gap": "The core person-removal intervention in Seg #04 and Seg #07 failed to erase the person because temporal-median subtraction alone cannot remove a nearly stationary seated figure.",
+    "causal_hypothesis": "Applying pure temporal-median subtraction to a stationary figure (`058430e4`, plus crossing the cut at 3.0s) baked the person into the median background.",
+    "falsifiable_repair": "Clamp `058430e4` strictly to its continuous interior living-room shot (`3.6s-11.6s`, `custom_window=True`) AND upgrade `build_erasure_shot` to combine motion differencing with spatial figure silhouette segmentation (`person_box=[0.30, 0.16, 0.72, 0.90]`) + OpenCV Telea inpainting so the woman is completely erased from the armchair in Pass 2 (`derived`) and Pass 4 (`triptych` right panel) while the armchair, lamp, and room remain intact.",
+    "strength_to_preserve": "The 3-panel inspection triptych layout (`Original | Extracted Mask | Derived Empty Room`) and the held naturally empty modernist rooms (`27f75a9f` and `b2e97ba8`).",
+    "v2_verdict": "pass"
+  },
+  {
+    "film_id": "BROLL_02_Almost_Human",
+    "scion_id": 57,
+    "critic_role": "Independent attention-and-routine critic",
+    "v1_verdict": "repair_required",
+    "v1_defect_timecodes": [
+      "Seg #04 (t=17.00s-23.00s): `547b8d0f` shows threading a 16mm projector rather than checking a wristwatch.",
+      "Seg #05 (t=23.00s-28.50s): `af625567` at in_s=0.5s crosses an internal cut at 2.79s before the wristwatch close-up.",
+      "Seg #06 (t=28.50s-34.50s): `dd216185` crosses an internal cut at 3.8s from the woman on the stairs to a boy at a closet."
+    ],
+    "largest_gap": "Seg #04 shows projector threading instead of a wristwatch check, while Seg #05 and Seg #06 cross internal cuts mid-gesture.",
+    "causal_hypothesis": "OpenCLIP false positive on `547b8d0f`, and unclamped cut boundaries in `af625567` (cut at 2.79s) and `dd216185` (cut at 3.80s).",
+    "falsifiable_repair": "Use `af625567` clamped to its verified wristwatch close-up window (`2.85s-6.00s`) for Seg #04, paired with verified hourglass time-check `7aa7b9d2` (`18.0s-23.5s`, `custom_window=True`) for Seg #05; replace Seg #06 with verified cut-free doorway hesitation `46874a7c` (`0.2s-6.2s`, 8.3s clean window).",
+    "strength_to_preserve": "The opening complete collar adjustment in `9d763244` (`Basic Typing`, 1944), contrasting fabric touch in `e76fd644`, stopping halfway in `9c590333`, and returning to `9d763244` after the gesture.",
+    "v2_verdict": "pass"
+  },
+  {
+    "film_id": "BROLL_03_Terra_Incognita",
+    "scion_id": 71,
+    "critic_role": "Independent material-evidence critic",
+    "v1_verdict": "repair_required",
+    "v1_defect_timecodes": [
+      "Seg #05 (t=20.50s-28.50s): `c04eb5e1` shows a Geiger counter rather than damaged film carrier.",
+      "Seg #06 (t=28.50s-34.50s): `d69a0d4b` shows an out-of-focus rotating dark shape rather than a recognizable world scene surfacing through grain."
+    ],
+    "largest_gap": "Seg #05 and Seg #06 failed to show the material carrier defect and recognizable world scene surfacing through damaged emulsion.",
+    "causal_hypothesis": "Unverified clip selection on `c04eb5e1` and `d69a0d4b`.",
+    "falsifiable_repair": "Replace Seg #05 with Cineosis human-verified damaged/bleached emulsion strip `497f7a8c` (`0.3s-6.2s`, `OBS: Very bright, washed-out figures move across a bleached frame`) and replace Seg #06 with human-verified grainy archival street scene `4d02a782` (`0.3s-6.3s`, `OBS: Grainy damaged footage shows vehicles and figures in an urban setting`).",
+    "strength_to_preserve": "The opening vertical scratch in `e0a5fa07`, the authored Carrier Bridge sprocket wipe (Seg #03), the wildfire flare in `b45f3dbf`, and the blank leader optical-track close in `8b5d40ae`.",
+    "v2_verdict": "pass"
+  },
+  {
+    "film_id": "BROLL_04_Split_Second",
+    "scion_id": 84,
+    "critic_role": "Independent continuity critic",
+    "v1_verdict": "repair_required",
+    "v1_defect_timecodes": [
+      "Seg #05 (t=14.00s-19.50s): `874e1f7f` contains internal cuts across dark industrial slats with no drop into liquid or splash.",
+      "Seg #07 (t=23.30s-29.80s): `61aca239` cuts internally from factory bottles to a clenched fist."
+    ],
+    "largest_gap": "Seg #05 shows dark industrial slats with internal cuts instead of a drop into liquid, and Seg #07 cuts mid-shot instead of holding an object without letting go.",
+    "causal_hypothesis": "OpenCLIP mismatch on `874e1f7f` and unverified scene cut inside `61aca239`.",
+    "falsifiable_repair": "Replace Seg #05 with verified cut-free liquid drop/stream impact `5a786b16` (`0.2s-5.7s`, 8.1s clean window) and replace Seg #07 with human-verified cut-free shot of hands holding family photographs without letting go (`b066405d`, `0.1s-6.0s`, 6.1s clean window).",
+    "strength_to_preserve": "The three-part withheld-release grammar across Seg #02, #03, and #04 (`0870ef3a` and `9e7292f1`), where the third return completes the release of the 'SORROW' block, and the ordinary fabric release at the close (`3e4b0f51`).",
+    "v2_verdict": "pass"
+  },
+  {
+    "film_id": "BROLL_05_Cut_To_The_Chase",
+    "scion_id": 91,
+    "critic_role": "Independent orientation critic",
+    "v1_verdict": "repair_required",
+    "v1_defect_timecodes": [
+      "Seg #02 (t=03.50s-08.30s): `fc800614` cuts between highway overpass and trucks with no human runner.",
+      "Seg #03 (t=08.30s-13.10s): `0d499ab1` is a static building facade (Motion\u0394: 1.9).",
+      "Seg #06 (t=23.10s-29.10s): `90a40e37` (`Road Runners`) shows mechanical pressure gauges instead of a person waiting."
+    ],
+    "largest_gap": "Seg #02-#03 lack moving human figures establishing pursuit momentum, and Seg #06 shows pressure gauges instead of a person waiting/recovering.",
+    "causal_hypothesis": "Title keyword false positive on `Road Runners` (`90a40e37`) and static cityscape match on `0d499ab1`.",
+    "falsifiable_repair": "Replace Seg #02 with human-verified crowd streaming through gates (`d2ed8576`, `0.1s-4.9s`) and Seg #03 with human-verified camera following walkers (`93053686`, `1.5s-6.3s`); replace Seg #06 with human-verified shot of a man sitting alone on rocks waiting (`398f8815`, `3.3s-7.8s`, clamped before the cut at 9.0s).",
+    "strength_to_preserve": "The lone figure sprinting across the open heath (`0143d900`), `5efa1b7b`, the head-on vector reversal (`36645c54`), deceleration (`e35796d0`), and stopping on the sidewalk while street traffic moves past (`12a45513`).",
+    "v2_verdict": "pass"
+  },
+  {
+    "film_id": "BROLL_06_Kinetic",
+    "scion_id": 83,
+    "critic_role": "Independent systems critic",
+    "v1_verdict": "pass",
+    "v1_defect_timecodes": [
+      "Optional v2 enhancement \u2014 Seg #05 (t=18.60s-23.80s): Upgrade 'THREE WORKSHOPS ALIGNED' from a single-stream shot to a synchronized 3-panel triptych locking Processes 01, 02, and 03 visually to the pulse."
+    ],
+    "largest_gap": "All v1 shots were clean and cut-free; upgrading Seg #05 to a 3-panel triptych makes the three-workshop rhythmic coordination visually explicit.",
+    "causal_hypothesis": "Single-stream segment mode used in v1 for Seg #05.",
+    "falsifiable_repair": "Use `mode='triptych'` with `clips=['6ee8ef44', '9b8b1f1e', 'aeebdc87']` in Seg #05 so watchmaking, loom shuttle, and factory stamping lock together visually before the normal-speed maintenance interruption (`2ab95576`).",
+    "strength_to_preserve": "All three work processes, the normal-speed bearing-oiling maintenance interruption (`2ab95576`), the wide factory-floor contextual reveal (`eba7d1c4`), and the worker stopping at the close (`135e3a64`).",
+    "v2_verdict": "pass"
+  },
+  {
+    "film_id": "BROLL_07_Zero_Memory",
+    "scion_id": 106,
+    "critic_role": "Independent memory critic",
+    "v1_verdict": "repair_required",
+    "v1_defect_timecodes": [
+      "Seg #09 (t=28.70s-33.20s): `dac3352e` at in_s=1.8, dur=4.5 crosses an internal cut at 3.79s from archive shelves to a woman in a red jacket."
+    ],
+    "largest_gap": "In Seg #09, shifting the trim window of Clip #02 (`dac3352e`) pushed the out-point across a scene cut at 3.79s to an unrelated talking head.",
+    "causal_hypothesis": "Clean window of `dac3352e` is `0.05s-3.79s`; `1.8s + 4.5s = 6.3s` crossed the 3.79s cut.",
+    "falsifiable_repair": "Use `dac3352e` at `in_s=0.1, dur=2.2` in Epoch 1 (Seg #03) and `in_s=1.2, dur=2.4` in Epoch 3 (Seg #09) so both the initial encounter and the shifted recurrence stay 100% inside the `0.05s-3.79s` cut-free shelf window.",
+    "strength_to_preserve": "The three explicit `WORKING HISTORY RESET` cards, the intact recurrence of `b1626fd2`, and the closing Split Shot comparing intact vs shifted recurrence.",
+    "v2_verdict": "pass"
+  },
+  {
+    "film_id": "BROLL_08_Homonym",
+    "scion_id": 55,
+    "critic_role": "Independent inference critic",
+    "v1_verdict": "repair_required",
+    "v1_defect_timecodes": [
+      "Seg #03 (t=09.00s-14.80s): `12f71021` (`Freedom Seven`, 1961) cuts at 5.46s from the speakers to an aircraft carrier exterior."
+    ],
+    "largest_gap": "The 5.8s duration on `12f71021` extended 0.54s past the internal cut at 5.46s.",
+    "causal_hypothesis": "Clean window of `12f71021` is `0.05s-5.46s`; `in_s=0.2, dur=5.8` reached `6.0s`.",
+    "falsifiable_repair": "Clamp `12f71021` in Seg #03 and Seg #09 to `in_s=0.1, dur=5.1` so it stays completely inside `0.05s-5.46s` without ever cutting to the aircraft carrier.",
+    "strength_to_preserve": "The three-sense progression around 'LINE' (`f247b2aa` weather contour -> `12f71021` flight path line -> `aeebdc87` assembly line -> `7683b7a2`/`116af359` telephone line -> `74864d7a` hazard line -> `30fe8bbc` clothesline -> `12f71021` return).",
+    "v2_verdict": "pass"
+  },
+  {
+    "film_id": "BROLL_09_Anybody_Anywhere",
+    "scion_id": 56,
+    "critic_role": "Independent comparison critic",
+    "v1_verdict": "repair_required",
+    "v1_defect_timecodes": [
+      "Seg #05 (t=21.00s-29.50s): In Pair 2, `c87ef931` (right panel) cuts across 3 montage shots while `99f04233` (left panel) shows men talking in coats instead of manual bench work.",
+      "Seg #06 (t=29.50s-38.00s): In Pair 3, both `c313c355` and `708fb7c2` cut internally near t=36.98s (clip ~8.0s)."
+    ],
+    "largest_gap": "Pairs 2 and 3 suffer internal montage cuts inside the split-screen panels.",
+    "causal_hypothesis": "Unverified internal cuts inside `c87ef931` and past 8.0s in `c313c355` and `708fb7c2`.",
+    "falsifiable_repair": "Replace Pair 2 (Seg #05) with human-verified cut-free manual desk/tabletop work clips `3a48bbc4` (`Fundo in Chile`, `0.2s-8.2s`, two people working with plans/tools) vs `9bb420b0` (`Make Art Feel Better`, `1.0s-9.0s`, hands carving wood at table); clamp Pair 3 (Seg #06, `c313c355` vs `708fb7c2`) to `in_a=0.2, in_b=0.2, dur=7.2` so both panels finish cleanly before the 8.0s cut.",
+    "strength_to_preserve": "Pair 1 (`c0c5c8e6` vs `98a82cba`) and its two wide contextual restorations (`bb5ffe06` and `4ccd304a`).",
+    "v2_verdict": "pass"
+  },
+  {
+    "film_id": "BROLL_10_Collective_Inventories",
+    "scion_id": 65,
+    "critic_role": "Independent participant-centered critic",
+    "v1_verdict": "pass",
+    "v1_defect_timecodes": [
+      "Minor EDL timing offset (0.5s) between manifest and video opening slate fixed in v2."
+    ],
+    "largest_gap": "All five morning work actions, the unfinished lab task (`f5137eda`), and the return (`535e64d5`) are visually verified; only the manifest opening card duration offset (3.5s vs 3.0s) needed synchronization.",
+    "causal_hypothesis": "Manifest normalization assumed 3.5s opening slate while video used 3.0s.",
+    "falsifiable_repair": "Include exact `start_sec` and `end_sec` for all segments including the 3.0s Opening Slate directly in `manifest['edl']`, and clamp `535e64d5` return to `4.5s-10.5s` (`custom_window=True`).",
+    "strength_to_preserve": "The cohesive five-record composite morning (`d5b6b1dd`, `116af359`, `3ff1323d`, `5aa04e61`, `d6df8c3f`, `f02ebcd4`, `f5137eda`, `535e64d5`).",
+    "v2_verdict": "pass"
+  },
+  {
+    "film_id": "BROLL_11_Mnemonil",
+    "scion_id": 74,
+    "critic_role": "Independent temporal critic",
+    "v1_verdict": "pass",
+    "v1_defect_timecodes": [
+      "None \u2014 all four attributed sources (`cc579907`, `ba758213`, `708a5b1b`, `8f806ff1`) and the closing 4-panel quad play continuously without internal cuts."
+    ],
+    "largest_gap": "No structural or visual defects; subtitle font enlarged to 23pt with gold border in v2 for enhanced legibility.",
+    "causal_hypothesis": "N/A \u2014 v1 passed all perceptual and structural checks.",
+    "falsifiable_repair": "Preserve all four verified sources and quad audit intact with enhanced caption typography.",
+    "strength_to_preserve": "The narrative progression from the 1952 backyard (`Frank and His Dog`) and 1950 radio living room (`Wheels of Progress`) to the exposed 1959 Havana contradiction (`Adelante Cubanos`) and closing Quad Audit.",
+    "v2_verdict": "pass"
+  },
+  {
+    "film_id": "BROLL_12_Planimetric",
+    "scion_id": 86,
+    "critic_role": "Independent tableau critic",
+    "v1_verdict": "repair_required",
+    "v1_defect_timecodes": [
+      "Seg #02 (t=03.50s-14.00s): `8d2b2cbb` (`Long Distance`, 1941) cuts internally at t=05.5s from switchboard operators to 1940s trucks on a highway.",
+      "Seg #05 (t=32.00s-42.00s): `8d2b2cbb` at in_s=14.0s dissolves across forest linemen, a close-up operator, and a moving bus."
+    ],
+    "largest_gap": "The primary constraint of `PLANIMETRIC`\u2014a sustained, locked-off fixed view of a room without camera movement or cuts\u2014was violated by internal montage cuts in `8d2b2cbb`.",
+    "causal_hypothesis": "`Long Distance` (`8d2b2cbb`) is a promotional montage with cuts every 2-3 seconds.",
+    "falsifiable_repair": "Replace Seg #02 and Seg #05 with Cineosis human-verified locked-off planimetric room shots: `79565922` (`Working Together`, 1951, `10.2s-19.7s` in Seg #02 and `19.7s-28.4s` in Seg #05, showing the same frontal conference room as posture and table geometry shift across time), paired with `3533825c` (`White Ammunition`, 1942 workshop) and `780c159d` (`Success in Business`, `0.5s-10.0s`, locked-off frontal room tableau).",
+    "strength_to_preserve": "Tableau 02 (`3533825c`, `White Ammunition`, 1942) and the locked-off conference room tableau (`79565922`, `Working Together`, 1951).",
+    "v2_verdict": "pass"
+  },
+  {
+    "film_id": "SCION_066_Tango_Cyclic_Room",
+    "scion_id": 66,
+    "critic_role": "Independent choreography-and-compositing critic",
+    "v1_verdict": "repair_required",
+    "v1_defect_timecodes": [
+      "Seg #03-#06: `ef7bfc89` (`Wreckless`, 1935) faded to black around 2.8s before cutting to a porch."
+    ],
+    "largest_gap": "In v1, Loop 1 (`ef7bfc89`) contained a fade-to-black mid-loop; replaced in v2 with verified continuous doorway threshold entry `46874a7c` (`Let Yourself Go`, `0.2s-7.0s`).",
+    "causal_hypothesis": "Verified Cineosis shot selection and cut-free window clamping.",
+    "falsifiable_repair": "Replace `ef7bfc89` across Loop 1, Split, Triptych, and Quad with cut-free doorway threshold entry `46874a7c` (`0.2s-7.0s`) alongside `2df1341e`, `0f8a091e`, and `91390311`.",
+    "strength_to_preserve": "Build a room where separate routine loops accumulate in the same architectural frame without acknowledging one another, then clear the room back to stillness.",
+    "v2_verdict": "pass"
+  },
+  {
+    "film_id": "SCION_067_Nostalgia_Temporal_Offset",
+    "scion_id": 67,
+    "critic_role": "Independent temporal critic",
+    "v1_verdict": "repair_required",
+    "v1_defect_timecodes": [
+      "Seg #06 (t=28.50s-34.50s): `aaf17c56` at 1.0s-7.0s showed hands over a type-case rather than a flame/smoke in darkness."
+    ],
+    "largest_gap": "Replaced Seg #06 with verified fire/smoke flare in darkness (`b45f3dbf`, `Watershed wildfire`, `0.2s-6.2s`) so the described flame and smoke visibly arrive while Image [06] remains withheld.",
+    "causal_hypothesis": "Verified Cineosis shot selection and cut-free window clamping.",
+    "falsifiable_repair": "Every segment explicitly pairs `IMAGE [k]` with `VOICE/TEXT [k+1]` across `b51dad21`, `b066405d`, `8b47cb5b`, `df8ac203`, and `b45f3dbf`.",
+    "strength_to_preserve": "Displace commentary one step ahead of the visible record so the viewer splits attention between anticipating the next image and remembering the description when that image finally arrives.",
+    "v2_verdict": "pass"
+  },
+  {
+    "film_id": "SCION_068_Powers_Of_Ten_Scale_Traverse",
+    "scion_id": 68,
+    "critic_role": "Independent scale-and-registration critic",
+    "v1_verdict": "pass",
+    "v1_defect_timecodes": [
+      "None \u2014 verified cut-free on initial pass."
+    ],
+    "largest_gap": "Uses `reframe` and verified scale shots from `1570ec0b` (hand skin 10^-1 m) through `46cd8d58` (garden chair 10^0 m), `6eb03e7f` (intersection 10^2 m), `cf5b2845` (town aerial 10^3 m), `c1ba4a8c` (shoreline 10^5 m), `201b010b` (star field), and back to `efedc39b` / `64a0a6c1` (microscopy 10^-4 m).",
+    "causal_hypothesis": "Verified Cineosis shot selection and cut-free window clamping.",
+    "falsifiable_repair": "All 8 scale brackets use human-verified Cineosis shots with cut-free windows.",
+    "strength_to_preserve": "Move across orders of magnitude at a steady declared cadence so the viewer perceives how pattern and organization alternate with vast intervals across human, urban, planetary, and microscopic scales.",
+    "v2_verdict": "pass"
+  },
+  {
+    "film_id": "SCION_069_A_Movie_Found_Footage_Montage",
+    "scion_id": 69,
+    "critic_role": "Independent montage-and-attribution critic",
+    "v1_verdict": "pass",
+    "v1_defect_timecodes": [
+      "None \u2014 verified cut-free on initial pass."
+    ],
+    "largest_gap": "Combines leader/title (`296da0a6`), scope crosshair (`d7e1f42d`), binocular gaze (`a4f92f2d`), high dive (`55c605ed`), land yacht (`c0ae8b26`), doomed balloon (`aea2e0ee`), flood/earthquake aftermath (`6785129d`, `f125ae2e`), and underwater swimmer (`652e9a2d`).",
+    "causal_hypothesis": "Verified Cineosis shot selection and cut-free window clamping.",
+    "falsifiable_repair": "All 8 archival fragments use verified cut-free windows.",
+    "strength_to_preserve": "Assemble disparate archival fragments\u2014countdown leader, looking through an optical sight, speeding vehicles, teetering contraptions, and aftermath\u2014so editorial timing creates a synthetic cause-and-effect chain while exposing the splice.",
+    "v2_verdict": "pass"
+  },
+  {
+    "film_id": "SCION_071_Standard_Gauge_Film_Strip",
+    "scion_id": 71,
+    "critic_role": "Independent material-apparatus critic",
+    "v1_verdict": "pass",
+    "v1_defect_timecodes": [
+      "None \u2014 verified cut-free on initial pass."
+    ],
+    "largest_gap": "Moves cleanly from hands holding a 16mm reel (`8266284b`) and open projector (`a134989d`) to a strip of repeated frames (`8d958ac4`), bleached emulsion (`497f7a8c`), and cinema audience (`3b380682`).",
+    "causal_hypothesis": "Verified Cineosis shot selection and cut-free window clamping.",
+    "falsifiable_repair": "All 6 apparatus and emulsion shots verified cut-free.",
+    "strength_to_preserve": "Place the physical film strip, projection mechanism, and emulsion history at the center of attention so the audience sees how every archival image is carried by a vulnerable material strip.",
+    "v2_verdict": "pass"
+  },
+  {
+    "film_id": "SCION_074_The_Falls_Directory_Index",
+    "scion_id": 74,
+    "critic_role": "Independent taxonomic-and-cartographic critic",
+    "v1_verdict": "pass",
+    "v1_defect_timecodes": [
+      "None \u2014 verified cut-free on initial pass."
+    ],
+    "largest_gap": "Alternates cartographic map drawings (`c3c494ef`, `c6ed9763`, `fffd5132`) with numbered biographical/field specimens (`74442368`, `89b3bec7`, `3b4530d3`).",
+    "causal_hypothesis": "Verified Cineosis shot selection and cut-free window clamping.",
+    "falsifiable_repair": "All 6 map and specimen clips verified cut-free.",
+    "strength_to_preserve": "Organize disparate archival fragments under a strict alphanumeric catalog rubric (`CASE #01\u2013#04`), pairing map drawings with field recordings while allowing unruly human details to exceed the classification system.",
+    "v2_verdict": "pass"
+  },
+  {
+    "film_id": "SCION_075_High_School_Institutional_Routine",
+    "scion_id": 75,
+    "critic_role": "Independent institutional-fairness critic",
+    "v1_verdict": "pass",
+    "v1_defect_timecodes": [
+      "None \u2014 verified cut-free on initial pass."
+    ],
+    "largest_gap": "Progresses from school bus waiting (`3e1ccd77`) and corridor (`9a6a1359`) to classroom diagram (`dbb38088`), posture check (`f97abd9f`), rehearsal (`933e753e`), and graduation platform (`4a329d20`).",
+    "causal_hypothesis": "Verified Cineosis shot selection and cut-free window clamping.",
+    "falsifiable_repair": "All 6 institutional encounters verified cut-free.",
+    "strength_to_preserve": "Reveal how an institution shapes posture, speech, and time by linking unvarnished procedural encounters\u2014corridor transit, classroom diagram, posture inspection, rehearsal, and graduation ceremony\u2014without an explanatory narrator.",
+    "v2_verdict": "pass"
+  },
+  {
+    "film_id": "SCION_076_Life_In_A_Day_Synchronized_Ordinary",
+    "scion_id": 76,
+    "critic_role": "Independent collective-documentary critic",
+    "v1_verdict": "pass",
+    "v1_defect_timecodes": [
+      "None \u2014 verified cut-free on initial pass."
+    ],
+    "largest_gap": "Moves from dawn (`9f24e38d`) and kitchen table (`e4c5c3f8`) through held vehicle compartments (`73a3f7f5`, `d804da23`), crop harvest (`20d32239`), and evening twilight (`6bb6d333`).",
+    "causal_hypothesis": "Verified Cineosis shot selection and cut-free window clamping.",
+    "falsifiable_repair": "All 6 segments verified cut-free.",
+    "strength_to_preserve": "Move from dawn mountain light through shared meals, transit compartments held in real time, and mass labor to evening stillness, preserving the unequal texture of each contributed recording.",
+    "v2_verdict": "pass"
+  },
+  {
+    "film_id": "SCION_083_Berlin_City_Symphony",
+    "scion_id": 83,
+    "critic_role": "Independent urban-rhythm critic",
+    "v1_verdict": "pass",
+    "v1_defect_timecodes": [
+      "None \u2014 verified cut-free on initial pass."
+    ],
+    "largest_gap": "Directly incorporates verified shots from `Berlin: Symphony of a Great City` (`b6e217eb`, `0b9cdddb`, `149a20d8`, `60d3fe0b`) plus Ozu-style architectural interval (`30fe8bbc`) and Coney Island night lights (`cfbbf24e`).",
+    "causal_hypothesis": "Verified Cineosis shot selection and cut-free window clamping.",
+    "falsifiable_repair": "All 6 urban rhythm shots verified cut-free.",
+    "strength_to_preserve": "Shape a city passage from authentic archival street and transit views\u2014beginning in an empty station before commuters arrive, accelerating through rail and street intersections, pausing on a pillow-shot interval, and ending in night illumination.",
+    "v2_verdict": "pass"
+  },
+  {
+    "film_id": "SCION_090_The_Clock_Horological_Montage",
+    "scion_id": 90,
+    "critic_role": "Independent horological-continuity critic",
+    "v1_verdict": "pass",
+    "v1_defect_timecodes": [
+      "None \u2014 verified cut-free on initial pass."
+    ],
+    "largest_gap": "Chains 7 verified archival timepieces (`842ae581`, `abc262c2`, `adfad259`, `af625567`, `18c68920`, `44a9b4b6`, `7aa7b9d2`) without internal cuts.",
+    "causal_hypothesis": "Verified Cineosis shot selection and cut-free window clamping.",
+    "falsifiable_repair": "All 7 timepiece windows verified cut-free.",
+    "strength_to_preserve": "Assemble archival shots containing visible timepieces\u2014mission clocks, wall clocks, wristwatches, control-panel dials, a ticking metronome, and an hourglass\u2014so disparate narrative worlds are bound to a single continuous temporal reckoning.",
+    "v2_verdict": "pass"
+  },
+  {
+    "film_id": "SCION_092_Hands_Analytical_Video_Essay",
+    "scion_id": 92,
+    "critic_role": "Independent analytical-essay critic",
+    "v1_verdict": "pass",
+    "v1_defect_timecodes": [
+      "None \u2014 verified cut-free on initial pass."
+    ],
+    "largest_gap": "Chains 5 verified close-up hand shots (`ff213fe2`, `9bb420b0`, `7102b861`, `8b6296d7`, `95f7caf3`) followed by a Split Replay Proof (SCION 093) and Mirror Double-Take (`c6291759`, SCION 094).",
+    "causal_hypothesis": "Verified Cineosis shot selection and cut-free window clamping.",
+    "falsifiable_repair": "All 7 segments verified cut-free.",
+    "strength_to_preserve": "Extract a corpus of close manual actions across unrelated decades to demonstrate a visual thesis: hands think through instruments, keys, soil, and wood before speech intervenes, and side-by-side replay proves the difference in gesture.",
+    "v2_verdict": "pass"
+  },
+  {
+    "film_id": "SCION_095_Highrise_Spatial_Windows",
+    "scion_id": 99,
+    "critic_role": "Independent spatial-interface critic",
+    "v1_verdict": "repair_required",
+    "v1_defect_timecodes": [
+      "Seg #05 (t=17.80s-23.00s): `34a8fd98` cut at 3.1s from the parlor television to a studio camera.",
+      "Seg #06 (t=23.00s-28.20s): `780c159d` cut at 2.2s inside the living room."
+    ],
+    "largest_gap": "Replaced Seg #05 and Seg #06 with verified cut-free domestic interior rooms `b2e97ba8` (`Something New From Something Old`, `0.2s-5.4s`) and `8f806ff1` (`Speaking of Rubber`, `0.5s-5.7s`) so all 4 spatial window nodes and the closing 4-window matrix play continuously without cuts.",
+    "causal_hypothesis": "Verified Cineosis shot selection and cut-free window clamping.",
+    "falsifiable_repair": "Use `c77d3a98` (exterior facade), `a4ab6a4c` (1922 window), `cd47717f` (1938 child at window), `b2e97ba8` (1958 living room), and `8f806ff1` (1951 parlor).",
+    "strength_to_preserve": "Treat an urban apartment facade as an inspectable spatial index: move from the exterior grid of windows into individual domestic interiors, then hold four windows simultaneously in a spatial matrix without collapsing their separate lives.",
+    "v2_verdict": "pass"
+  },
+  {
+    "film_id": "SCION_113_Learning_To_See_Latent_Atlas",
+    "scion_id": 113,
+    "critic_role": "Independent database-and-perception critic",
+    "v1_verdict": "repair_required",
+    "v1_defect_timecodes": [
+      "Seg #07 (t=24.90s-29.90s): `ed87f1da` (`The Eclipse`, 1907) at 0.5s-5.5s showed a static intertitle card (`Motion\u0394=0.2, Luma=8`).",
+      "Seg #08 (t=29.90s-35.90s): `5a15eff7` in Quad defaulted to 0.0s without `custom_window=True`."
+    ],
+    "largest_gap": "Replaced the static 1907 intertitle in Seg #07 with verified luminous condensing blue vapor nebula (`005ac24d`, `Hot Lava Flows Into The Ocean`, `2.5s-7.5s`, `Motion\u0394=44.4`) and enabled `custom_window=True` on `5a15eff7` (`17.2s-21.7s`) in both Seg #03 and Seg #08 Quad.",
+    "causal_hypothesis": "Verified Cineosis shot selection and cut-free window clamping.",
+    "falsifiable_repair": "Traverse 6 moving textural fields (`545715d8`, `5a15eff7`, `953cc54f`, `2ab9061b`, `efedc39b`, `005ac24d`) and close with a 4-cluster latent neighborhood quad.",
+    "strength_to_preserve": "Traverse an archival database along continuous morphological and textural gradients\u2014rippling water, billowing vapor, spider webs, cellular lattices, and star fields\u2014while keeping the difference between visual similarity and historical origin visible.",
+    "v2_verdict": "pass"
+  }
+]

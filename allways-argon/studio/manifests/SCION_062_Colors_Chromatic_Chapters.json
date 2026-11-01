@@ -1,0 +1,206 @@
+{
+  "slug": "SCION_062_Colors_Chromatic_Chapters",
+  "version": "v2",
+  "series": "SCION_MICROFILMS",
+  "kicker": "SCION 062 \u00b7 CONCEPTUAL MICROFILMS",
+  "title": "Colors \u2014 Chromatic Chapters",
+  "subtitle": "Yellow, blue, and red organizing distinct practical actions without recoloring",
+  "scion_id": 62,
+  "supporting_scions": [],
+  "lineage": "Lineage: Daniel Mercadante / The Mercadantes, Colors",
+  "theorem": "Use recurring color to carry attention across unrelated settings, then reveal that the same hue can organize very different actions. No artificial color grading is applied to force a match.",
+  "boundary_note": "All hues are native to the archival transfers and verified by HSV dominant-hue inspection; no synthetic recoloring is used.",
+  "critic_tribunal": {
+    "film_id": "SCION_062_Colors_Chromatic_Chapters",
+    "scion_id": 62,
+    "critic_role": "Independent color-and-meaning critic",
+    "v1_verdict": "repair_required",
+    "v1_defect_timecodes": [
+      "Seg #02 (t=03.50s-08.70s): `676ac70c` (`Skateboard Sense`) shows a dark green work glove rather than yellow.",
+      "Seg #06 (t=24.70s-30.50s): `029b1dea` (`Make Art Feel Better`) shows beige wood whittling with almost no blue present."
+    ],
+    "largest_gap": "The opening anchor of Chapter I: Yellow features a green glove, and Seg #06 in Chapter II: Blue is visually dominated by beige wood shavings.",
+    "causal_hypothesis": "Lack of HSV dominant-hue verification on candidate frames in Seg #02 and Seg #06.",
+    "falsifiable_repair": "Replace Seg #02 with HSV-verified yellow industrial work clip `56cdd913` (`1.5s-6.8s`, 41.4% yellow pixels) alongside `da09f0cb` (`Automatic Emergency Parking Brake`) and `43d553f4` (`Winter Alert`); replace Seg #06 in Chapter II: Blue with verified blue-screen/mist clips `45680277` (`2.2s-7.8s`) and `005ac24d` (`2.5s-8.0s`).",
+    "strength_to_preserve": "The Chapter I -> II mixed-color transition bridge in `43d553f4` (`Winter Alert`, where a blue-sleeved arm latches a worn yellow machine door) and the two quiet red practical actions in Chapter III (`04572067`, `0f500d93`).",
+    "v2_verdict": "pass"
+  },
+  "duration_seconds": 47.83,
+  "video_file": "films/SCION_062_Colors_Chromatic_Chapters.mp4",
+  "source_count": 7,
+  "sources_summary": [
+    "da09f0cb \u00b7 Automatic Emergency Parking Brakes (as required by 30 CFR 75.523-3) (1992)",
+    "56cdd913 \u00b7 Diesel Regulations \u2014 Light Duty Vehicles (1999)",
+    "43d553f4 \u00b7 Winter Alert (2000)",
+    "715d0d14 \u00b7 Quality Control in Modern Merchandising (Part I) (1952)",
+    "45680277 \u00b7 Mastering Takeoffs and Landings (2009)",
+    "04572067 \u00b7 Diesel Regulations \u2014 Light Duty Vehicles (1999)",
+    "0f500d93 \u00b7 Fire Suppression: How It Works (2005)"
+  ],
+  "edl": [
+    {
+      "seg_idx": 1,
+      "type": "title_card",
+      "title": "Colors \u2014 Chromatic Chapters",
+      "phase": "OPENING SLATE",
+      "action": "Yellow, blue, and red organizing distinct practical actions without recoloring",
+      "start_sec": 0.0,
+      "end_sec": 3.0,
+      "dur_s": 3.0
+    },
+    {
+      "type": "shot",
+      "clip_id": "da09f0cb-72fd-5255-815a-3e4794a1e7a0",
+      "source_title": "Automatic Emergency Parking Brakes (as required by 30 CFR 75.523-3)",
+      "source_year": 1992,
+      "source_page": "https://www.movingimagearchive.com/sources/automatic-emergency-parking-brakes-as-required-by-30-cfr-75-523-3-fc52b4d4?clip=da09f0cb-72fd-5255-815a-3e4794a1e7a0",
+      "in_s": 0.5,
+      "out_s": 5.7,
+      "dur_s": 5.2,
+      "phase": "CHAPTER I: YELLOW \u00b7 ENTRY OF THE YELLOW HOUSING",
+      "action": "Automatic Emergency Parking Brake (1992): Hands reach in to adjust a bright yellow mechanical housing",
+      "nearmatch": "HUE: YELLOW \u00b7 PRACTICAL GRIP",
+      "seg_idx": 2,
+      "start_sec": 3.0,
+      "end_sec": 8.2
+    },
+    {
+      "type": "shot",
+      "clip_id": "56cdd913-8b7f-5c90-8641-a659718dfcaa",
+      "source_title": "Diesel Regulations \u2014 Light Duty Vehicles",
+      "source_year": 1999,
+      "source_page": "https://www.movingimagearchive.com/sources/diesel-regulations-light-duty-vehicles-934a800d?clip=56cdd913-8b7f-5c90-8641-a659718dfcaa",
+      "in_s": 1.6,
+      "out_s": 6.8,
+      "dur_s": 5.2,
+      "phase": "CHAPTER I: YELLOW \u00b7 INDUSTRIAL CALIBRATION",
+      "action": "Diesel Regulations (1999): Yellow-lit industrial test chamber during nozzle inspection",
+      "nearmatch": "HUE: YELLOW \u00b7 MAINTENANCE",
+      "seg_idx": 3,
+      "start_sec": 8.2,
+      "end_sec": 13.4
+    },
+    {
+      "type": "shot",
+      "clip_id": "43d553f4-c26b-56b9-87b6-bf417fa29d98",
+      "source_title": "Winter Alert",
+      "source_year": 2000,
+      "source_page": "https://www.movingimagearchive.com/sources/winter-alert-fe794079?clip=43d553f4-c26b-56b9-87b6-bf417fa29d98",
+      "in_s": 0.5,
+      "out_s": 5.5,
+      "dur_s": 5.0,
+      "phase": "CHAPTER I -> II BRIDGE \u00b7 YELLOW WORN PANEL & BLUE SLEEVE",
+      "action": "Winter Alert (2000): A blue-sleeved arm latches a heavy, weathered yellow equipment door",
+      "nearmatch": "CHROMATIC BRIDGE: YELLOW + BLUE",
+      "seg_idx": 4,
+      "start_sec": 13.4,
+      "end_sec": 18.4
+    },
+    {
+      "type": "shot",
+      "clip_id": "715d0d14-ed0b-5d24-934c-37369ee558a7",
+      "source_title": "Quality Control in Modern Merchandising (Part I)",
+      "source_year": 1952,
+      "source_page": "https://www.movingimagearchive.com/sources/quality-control-in-modern-merchandising-part-i-5a8f094f?clip=715d0d14-ed0b-5d24-934c-37369ee558a7",
+      "in_s": 0.3,
+      "out_s": 4.5,
+      "dur_s": 4.2,
+      "phase": "CHAPTER II: BLUE \u00b7 TEXTILE INSPECTION",
+      "action": "Quality Control in Modern Merchandising (1952): Hands testing blue fabric under inspection light",
+      "nearmatch": "HUE: BLUE \u00b7 MEASURED PACE",
+      "seg_idx": 5,
+      "start_sec": 18.4,
+      "end_sec": 22.6
+    },
+    {
+      "type": "shot",
+      "clip_id": "45680277-0c0e-5157-bd89-95471f4ac98d",
+      "source_title": "Mastering Takeoffs and Landings",
+      "source_year": 2009,
+      "source_page": "https://www.movingimagearchive.com/sources/mastering-takeoffs-and-landings-6fe06c6e?clip=45680277-0c0e-5157-bd89-95471f4ac98d",
+      "in_s": 2.2,
+      "out_s": 7.7,
+      "dur_s": 5.5,
+      "phase": "CHAPTER II: BLUE \u00b7 INSTRUMENT MONITORING",
+      "action": "Mastering Takeoffs and Landings: Figure illuminated by a deep blue instrument display",
+      "nearmatch": "HUE: BLUE \u00b7 SLOWER CADENCE",
+      "seg_idx": 6,
+      "start_sec": 22.6,
+      "end_sec": 28.1
+    },
+    {
+      "type": "shot",
+      "clip_id": "04572067-d4ab-5dda-b6f3-85a1cd81b8d9",
+      "source_title": "Diesel Regulations \u2014 Light Duty Vehicles",
+      "source_year": 1999,
+      "source_page": "https://www.movingimagearchive.com/sources/diesel-regulations-light-duty-vehicles-934a800d?clip=04572067-d4ab-5dda-b6f3-85a1cd81b8d9",
+      "in_s": 0.5,
+      "out_s": 5.7,
+      "dur_s": 5.2,
+      "phase": "CHAPTER III: RED \u00b7 QUIET PRACTICAL ACTION",
+      "action": "Diesel Regulations (1999): Quiet adjustment of a red shop cylinder (not an alarm cue)",
+      "nearmatch": "HUE: RED \u00b7 ORDINARY LABOR",
+      "seg_idx": 7,
+      "start_sec": 28.1,
+      "end_sec": 33.3
+    },
+    {
+      "type": "shot",
+      "clip_id": "0f500d93-b3b7-5c88-8b34-b3fd2d8b47f6",
+      "source_title": "Fire Suppression: How It Works",
+      "source_year": 2005,
+      "source_page": "https://www.movingimagearchive.com/sources/fire-suppression-how-it-works-ef429970?clip=0f500d93-b3b7-5c88-8b34-b3fd2d8b47f6",
+      "in_s": 9.8,
+      "out_s": 15.0,
+      "dur_s": 5.2,
+      "phase": "CHAPTER III: RED \u00b7 MEASURED HANDLING",
+      "action": "Fire Suppression (2005): Hands inspecting a bright red vessel on a workbench",
+      "nearmatch": "HUE: RED \u00b7 TACTILE FOCUS",
+      "seg_idx": 8,
+      "start_sec": 33.3,
+      "end_sec": 38.5
+    },
+    {
+      "type": "quad_shot",
+      "clips": [
+        {
+          "id": "da09f0cb-72fd-5255-815a-3e4794a1e7a0",
+          "title": "Automatic Emergency Parking Brakes (as required by 30 CFR 75.523-3)",
+          "year": 1992
+        },
+        {
+          "id": "43d553f4-c26b-56b9-87b6-bf417fa29d98",
+          "title": "Winter Alert",
+          "year": 2000
+        },
+        {
+          "id": "45680277-0c0e-5157-bd89-95471f4ac98d",
+          "title": "Mastering Takeoffs and Landings",
+          "year": 2009
+        },
+        {
+          "id": "0f500d93-b3b7-5c88-8b34-b3fd2d8b47f6",
+          "title": "Fire Suppression: How It Works",
+          "year": 2005
+        }
+      ],
+      "dur_s": 5.8,
+      "phase": "CLOSING COMPOSITE \u00b7 YELLOW, BLUE, AND RED IN ONE FRAME",
+      "action": "All three chromatic chapters held together with their distinct work contexts intact",
+      "nearmatch": "SHARED HUES \u00b7 UNEQUAL TASKS",
+      "seg_idx": 9,
+      "start_sec": 38.5,
+      "end_sec": 44.3
+    },
+    {
+      "seg_idx": 10,
+      "type": "closing_ledger",
+      "title": "SOURCE ATTRIBUTION & BOUNDARY NOTE",
+      "phase": "CLOSING LEDGER",
+      "action": "All hues are native to the archival transfers and verified by HSV dominant-hue inspection; no synthetic recoloring is used.",
+      "start_sec": 44.3,
+      "end_sec": 47.8,
+      "dur_s": 3.5
+    }
+  ]
+}

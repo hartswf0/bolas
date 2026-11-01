@@ -1,0 +1,18 @@
+VERDICT: repair_required (Round 1 — v1 assembly audit)
+Critic Role: Independent comparison critic
+
+Observed Defects on v1 Proof Strip:
+- Seg #05 (t=21.00s-29.50s): In Pair 2, `c87ef931` (right panel) cuts across 3 montage shots while `99f04233` (left panel) shows men talking in coats instead of manual bench work.
+- Seg #06 (t=29.50s-38.00s): In Pair 3, both `c313c355` and `708fb7c2` cut internally near t=36.98s (clip ~8.0s).
+
+Largest Gap:
+Pairs 2 and 3 suffer internal montage cuts inside the split-screen panels.
+
+Causal Hypothesis:
+Unverified internal cuts inside `c87ef931` and past 8.0s in `c313c355` and `708fb7c2`.
+
+Falsifiable Repair Condition:
+Replace Pair 2 (Seg #05) with human-verified cut-free manual desk/tabletop work clips `3a48bbc4` (`Fundo in Chile`, `0.2s-8.2s`, two people working with plans/tools) vs `9bb420b0` (`Make Art Feel Better`, `1.0s-9.0s`, hands carving wood at table); clamp Pair 3 (Seg #06, `c313c355` vs `708fb7c2`) to `in_a=0.2, in_b=0.2, dur=7.2` so both panels finish cleanly before the 8.0s cut.
+
+Strength to Preserve:
+Pair 1 (`c0c5c8e6` vs `98a82cba`) and its two wide contextual restorations (`bb5ffe06` and `4ccd304a`).

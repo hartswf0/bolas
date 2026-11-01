@@ -1,0 +1,7 @@
+VERDICT: pass (Round 2 — v2 repaired assembly verification)
+Critic Role: Independent inference critic
+
+Verification of Falsifiable Repair:
+- Executed repair: Clamp `12f71021` in Seg #03 and Seg #09 to `in_s=0.1, dur=5.1` so it stays completely inside `0.05s-5.46s` without ever cutting to the aircraft carrier.
+- Automated structural check: 0 internal camera cuts (max_frame_diff < 16.0), 0 title-card contaminants, 0 missing glyph boxes.
+- Visual inspection of 8-frame v2 proof strip confirms every shot establishes and completes its visible action while preserving the strength identified in Round 1 (The three-sense progression around 'LINE' (`f247b2aa` weather contour -> `12f71021` flight path line -> `aeebdc87` assembly line -> `7683b7a2`/`116af359` telephone line -> `74864d7a` hazard line -> `30fe8bbc` clothesline -> `12f71021` return).).

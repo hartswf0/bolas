@@ -1,0 +1,150 @@
+{
+  "slug": "SCION_080_Life_In_A_Day_Unequal_Windows",
+  "version": "v2",
+  "series": "SERIES_D_OBSERVATIONAL",
+  "kicker": "SCION 080 \u00b7 OBSERVATIONAL & COLLECTIVE DOCUMENTARIES",
+  "title": "Life in a Day \u2014 Diurnal Window Comparison",
+  "subtitle": "Bath, shave/mirror, telephone call, and night gathering held across unequal material conditions",
+  "scion_id": 80,
+  "supporting_scions": [
+    56,
+    75,
+    99
+  ],
+  "lineage": "Lineage: Kevin Macdonald, Life in a Day (2011)",
+  "theorem": "Align intimate daily acts\u2014washing, looking into a mirror, speaking on the phone, and gathering at night\u2014while keeping the unequal economic, technological, and historical conditions of each window explicitly visible.",
+  "boundary_note": "Unlike a synchronized single-day broadcast, this archival edition explicitly displays the decade gap between windows (`1938` vs `1951` vs `2014`) so parallel form never implies simultaneous recording.",
+  "critic_tribunal": {
+    "critic_role": "Independent diurnal-equity critic",
+    "v1_verdict": "pass",
+    "v2_verdict": "pass",
+    "largest_gap": "Pairs bath (`9db7e1b3`), hand mirror (`983d6d92`), barber mirror (`c015a7f0`), work telephone (`92297c32`) vs public booth (`575666be`), and night gathering (`48dea439`).",
+    "falsifiable_repair": "All 6 segments verified cut-free."
+  },
+  "duration_seconds": 32.29,
+  "video_file": "films/SCION_080_Life_In_A_Day_Unequal_Windows.mp4",
+  "source_count": 7,
+  "sources_summary": [
+    "9db7e1b3 \u00b7 Care of the Skin (1949)",
+    "983d6d92 \u00b7 Going Steady? (1951)",
+    "c015a7f0 \u00b7 Barbers (1959)",
+    "92297c32 \u00b7 Tornado (undated)",
+    "575666be \u00b7 Town and the Telephone, The (1950)",
+    "df82dd90 \u00b7 Valley Town (1940)",
+    "48dea439 \u00b7 Parents of Music Students Holly Jolly Trolley Tour 12/13/14 (2014)"
+  ],
+  "edl": [
+    {
+      "seg_idx": 1,
+      "type": "title_card",
+      "title": "Life in a Day \u2014 Diurnal Window Comparison",
+      "phase": "OPENING SLATE",
+      "action": "Bath, shave/mirror, telephone call, and night gathering held across unequal material conditions",
+      "start_sec": 0.0,
+      "end_sec": 3.0,
+      "dur_s": 3.0
+    },
+    {
+      "type": "shot",
+      "clip_id": "9db7e1b3-82b6-5e1e-8e1b-69fd6d4b8ff2",
+      "source_title": "Care of the Skin",
+      "source_year": 1949,
+      "source_page": "https://www.movingimagearchive.com/sources/care-of-the-skin?clip=9db7e1b3-82b6-5e1e-8e1b-69fd6d4b8ff2",
+      "in_s": 0.3,
+      "out_s": 5.1,
+      "dur_s": 4.8,
+      "phase": "WINDOW 01 (WASHING) \u00b7 BATH WATER & FOAM (1949)",
+      "action": "Care of the Skin (1949): A person seen from behind sitting in a bath \u2014 private bodily maintenance",
+      "nearmatch": "DIURNAL ACT: WASHING (1949)",
+      "seg_idx": 2,
+      "start_sec": 3.0,
+      "end_sec": 7.8
+    },
+    {
+      "type": "split_shot",
+      "clip_a": {
+        "id": "983d6d92-e09d-59ae-b20b-6bbb1ec9f189",
+        "title": "Going Steady?",
+        "year": 1951,
+        "page": "https://www.movingimagearchive.com/sources/going-steady?clip=983d6d92-e09d-59ae-b20b-6bbb1ec9f189"
+      },
+      "clip_b": {
+        "id": "c015a7f0-270a-5dc6-9f43-9f16e4237938",
+        "title": "Barbers",
+        "year": 1959,
+        "page": "https://www.movingimagearchive.com/sources/barbers-da417ab1?clip=c015a7f0-270a-5dc6-9f43-9f16e4237938"
+      },
+      "dur_s": 5.5,
+      "phase": "SPLIT COMPARISON",
+      "action": "UNEQUAL MIRRORS: Domestic hand mirror (Left: Going Steady, 1951) vs Public barber's chair (Right: Barbers, 1959)",
+      "nearmatch": "SHARED ACT \u00b7 DISTINCT SETTING",
+      "seg_idx": 3,
+      "start_sec": 7.8,
+      "end_sec": 13.3
+    },
+    {
+      "type": "split_shot",
+      "clip_a": {
+        "id": "92297c32-1f2d-5609-9258-d24067a81eda",
+        "title": "Tornado",
+        "year": null,
+        "page": "https://www.movingimagearchive.com/sources/tornado?clip=92297c32-1f2d-5609-9258-d24067a81eda"
+      },
+      "clip_b": {
+        "id": "575666be-a572-5c04-8c0f-74c559de2da7",
+        "title": "Town and the Telephone, The",
+        "year": 1950,
+        "page": "https://www.movingimagearchive.com/sources/town-and-the-telephone-the-41340900?clip=575666be-a572-5c04-8c0f-74c559de2da7"
+      },
+      "dur_s": 5.5,
+      "phase": "SPLIT COMPARISON",
+      "action": "UNEQUAL LINES: Wall phone in a workroom (Left: Tornado) vs Glass street booth (Right: Town & Telephone, 1950)",
+      "nearmatch": "PARALLEL CALL \u00b7 UNEQUAL ACCESS",
+      "seg_idx": 4,
+      "start_sec": 13.3,
+      "end_sec": 18.8
+    },
+    {
+      "type": "shot",
+      "clip_id": "df82dd90-9a0e-5c70-962e-cdb4faba0241",
+      "source_title": "Valley Town",
+      "source_year": 1940,
+      "source_page": "https://www.movingimagearchive.com/sources/valley-town-9978c98d?clip=df82dd90-9a0e-5c70-962e-cdb4faba0241",
+      "in_s": 0.5,
+      "out_s": 5.5,
+      "dur_s": 5.0,
+      "phase": "WINDOW 04 (SUBSISTENCE) \u00b7 HUNCHED WORKER EATING (1940)",
+      "action": "Valley Town (1940): A solitary worker hunched over a meal \u2014 economic pressure inside the ordinary day",
+      "nearmatch": "UNEQUAL CONDITION (1940)",
+      "seg_idx": 5,
+      "start_sec": 18.8,
+      "end_sec": 23.8
+    },
+    {
+      "type": "shot",
+      "clip_id": "48dea439-49b0-5cc0-b34a-67e02a833937",
+      "source_title": "Parents of Music Students Holly Jolly Trolley Tour 12/13/14",
+      "source_year": 2014,
+      "source_page": "https://www.movingimagearchive.com/sources/parents-of-music-students-holly-jolly-trolley-tour-12-13-14-15b3490e?clip=48dea439-49b0-5cc0-b34a-67e02a833937",
+      "in_s": 1.0,
+      "out_s": 6.0,
+      "dur_s": 5.0,
+      "phase": "WINDOW 05 (NOCTURNE) \u00b7 GATHERING OUTSIDE A LIT BUILDING (2014)",
+      "action": "Parents of Music Students (2014): Families gathering outside a brightly lit building at night",
+      "nearmatch": "DIURNAL CLOSURE (2014)",
+      "seg_idx": 6,
+      "start_sec": 23.8,
+      "end_sec": 28.8
+    },
+    {
+      "seg_idx": 7,
+      "type": "closing_ledger",
+      "title": "SOURCE ATTRIBUTION & BOUNDARY NOTE",
+      "phase": "CLOSING LEDGER",
+      "action": "Unlike a synchronized single-day broadcast, this archival edition explicitly displays the decade gap between windows (`1938` vs `1951` vs `2014`) so parallel form never implies simultaneous recording.",
+      "start_sec": 28.8,
+      "end_sec": 32.3,
+      "dur_s": 3.5
+    }
+  ]
+}

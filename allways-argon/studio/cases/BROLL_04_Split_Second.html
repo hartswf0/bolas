@@ -1,0 +1,510 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>B-ROLL OF CIVILIZATION 04 · SCION 084 + 069 + 082 · SPLIT SECOND — ALLWAYS · ARGON Case Study</title>
+<link rel="stylesheet" href="../../../tools/paeleo/fonts/local.css">
+<style>
+:root {
+  --bg: #0c0e0d;
+  --panel: #131715;
+  --panel-2: #191f1c;
+  --ink: #f2efe6;
+  --muted: #9aa39c;
+  --rule: #28312c;
+  --accent: #d46a4c;
+  --mint: #8ec5a8;
+  --gold: #dfc48b;
+  --display: 'Big Shoulders Display', -apple-system, BlinkMacSystemFont, sans-serif;
+  --serif: 'Literata', Georgia, serif;
+  --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.65 var(--serif); }
+a { color: var(--mint); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.topbar {
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(12,14,13,0.94); backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--rule);
+  padding: 10px 18px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px;
+  font: 11px/1.4 var(--mono); text-transform: uppercase; letter-spacing: .06em;
+}
+.wrap { max-width: 1120px; margin: 0 auto; padding: 24px 18px 80px; }
+.kicker { font: 600 11px/1.4 var(--mono); color: var(--accent); text-transform: uppercase; letter-spacing: .1em; }
+h1 { font: 800 clamp(32px, 6vw, 60px)/.96 var(--display); text-transform: uppercase; margin: 6px 0 8px; letter-spacing: -.01em; }
+.subtitle { font: 400 clamp(17px, 2.2vw, 22px)/1.4 var(--serif); color: var(--muted); margin-bottom: 18px; }
+.player-sticky {
+  background: #000; border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; margin-bottom: 24px;
+}
+video { width: 100%; aspect-ratio: 16/9; display: block; background: #000; }
+.player-bar {
+  padding: 10px 14px; background: var(--panel); border-top: 1px solid var(--rule);
+  display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px;
+  font: 11px/1.4 var(--mono); color: var(--muted);
+}
+.btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  font: 600 11px/1 var(--mono); text-transform: uppercase; letter-spacing: .06em;
+  padding: 9px 13px; border-radius: 4px; border: 1px solid var(--mint);
+  background: var(--mint); color: #0d1f16; cursor: pointer;
+}
+.btn.sec { background: transparent; color: var(--ink); border-color: var(--rule); }
+.btn:hover { opacity: .92; text-decoration: none; }
+.sec-head {
+  border-top: 1px solid var(--rule); padding-top: 24px; margin: 36px 0 16px;
+  display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 12px;
+}
+.sec-head h2 { font: 800 clamp(24px, 3.5vw, 34px)/1.05 var(--display); text-transform: uppercase; margin: 0; }
+.meta-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; margin: 18px 0;
+}
+.meta-card { background: var(--panel); border: 1px solid var(--rule); border-radius: 6px; padding: 14px 16px; }
+.meta-card .label { font: 600 10px/1.4 var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--gold); margin-bottom: 6px; }
+.shots-list { display: flex; flex-direction: column; gap: 12px; }
+.shot-card {
+  display: grid; grid-template-columns: 240px 1fr; gap: 16px;
+  background: var(--panel); border: 1px solid var(--rule); border-radius: 6px; padding: 12px;
+  cursor: pointer; transition: border-color .15s;
+}
+.shot-card:hover { border-color: var(--mint); }
+.shot-card.is-card { grid-template-columns: 180px 1fr; opacity: .88; }
+.shot-media { position: relative; background: #050706; border-radius: 4px; overflow: hidden; aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center; }
+.shot-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.shot-time {
+  position: absolute; bottom: 6px; left: 6px;
+  background: rgba(0,0,0,0.82); color: var(--gold); padding: 2px 6px; border-radius: 3px;
+  font: 600 10px/1.3 var(--mono);
+}
+.shot-body { display: flex; flex-direction: column; gap: 6px; font-size: 14px; }
+.shot-source { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px; font: 12px/1.4 var(--mono); color: var(--muted); border-bottom: 1px solid var(--rule); padding-bottom: 6px; }
+.shot-source strong { color: var(--ink); }
+.shot-what { color: var(--ink); }
+.shot-bridge { font-size: 12px; color: var(--gold); }
+.shot-why { color: var(--muted); font-size: 13.5px; }
+.strip-img { width: 100%; border-radius: 6px; border: 1px solid var(--rule); display: block; margin: 10px 0; }
+.strip-label { font: 600 11px/1.4 var(--mono); color: var(--muted); text-transform: uppercase; margin-top: 10px; }
+.tribunal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 14px; }
+.trib-box { background: var(--panel); border: 1px solid var(--rule); border-radius: 6px; padding: 16px; font-size: 14px; }
+.trib-box.warn { border-left: 3px solid var(--accent); }
+.trib-box.pass { border-left: 3px solid var(--mint); }
+.trib-box .label { font: 700 11px/1.4 var(--mono); text-transform: uppercase; color: var(--gold); margin-bottom: 8px; }
+pre.prompt-box {
+  background: #090c0a; border: 1px solid var(--rule); border-radius: 6px; padding: 18px;
+  font: 12.5px/1.65 var(--mono); color: #e2e6de; white-space: pre-wrap; overflow-wrap: anywhere; max-height: 640px; overflow-y: auto;
+}
+.nav-foot {
+  margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--rule);
+  display: flex; justify-content: space-between; gap: 14px; font: 12px/1.5 var(--mono);
+}
+@media (max-width: 700px) {
+  .shot-card, .shot-card.is-card { grid-template-columns: 1fr; }
+  .tribunal-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div>
+    <a href="../../../paeleo/allways/index.html#runs">ALLWAYS</a> <span>/</span> <a href="../../index.html">ARGON (12)</a> <span>/</span>
+    <a href="../index.html#film=BROLL_04_Split_Second">ARGON SCREENING ROOM (85)</a> <span>/</span>
+    <span style="color:var(--ink)">#70 CASE STUDY</span>
+  </div>
+  <div style="display:flex;gap:8px;align-items:center">
+    <button class="btn" onclick="copyPrompt()">Copy Prompt</button>
+    <a class="btn sec" href="BROLL_04_Split_Second.md" download>Case Study .md</a>
+    <a class="btn sec" href="../manifests/BROLL_04_Split_Second.json" target="_blank">EDL .json</a>
+  </div>
+</header>
+<main class="wrap">
+  <div class="kicker">B-ROLL OF CIVILIZATION 04 · SCION 084 + 069 + 082 · B-Roll of Civilization (01–12) · FILM #70 OF 85</div>
+  <h1>SPLIT SECOND</h1>
+  <div class="subtitle">Action and consequence — withheld release, phase alignment, and impact</div>
+
+  <div class="player-sticky">
+    <video id="v" controls playsinline preload="metadata" src="../films/BROLL_04_Split_Second.mp4"></video>
+    <div class="player-bar">
+      <span>34.5s · 7 archival cuts · 6 sources · Critic Tribunal: PASS (v2)</span>
+      <span>Tap any captured shot card below to jump video to that cut</span>
+    </div>
+  </div>
+
+  <div class="meta-grid">
+    <div class="meta-card">
+      <div class="label">01 · Creative Theorem</div>
+      <div>Create a sequence around release using six bounded excerpts. Twice cut away immediately before a hand lets go. On the third return, allow the object&#x27;s actual consequence to arrive. Align later actions by phase, let one hesitation resist, and end on an ordinary release.</div>
+    </div>
+    <div class="meta-card">
+      <div class="label">02 · Lineage & Reference</div>
+      <div>Primary: SCION 084 (Pickpocket) · Supporting: SCION 069 (A Movie), SCION 082 (First Position)</div>
+      <div style="margin-top:8px;font-size:12px;color:var(--muted)"><strong>Boundary Contract:</strong> Matches visible action phases (grip, threshold of release, fall, contact) rather than claiming identical inner decisions or historical simultaneity.</div>
+    </div>
+  </div>
+
+  <div class="sec-head">
+    <div>
+      <div class="kicker">Stage 1 · Production Prompt</div>
+      <h2>Copyable SCION / ALLWAYS Prompt</h2>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="btn" id="copy-btn-2" onclick="copyPrompt()">Copy Full Prompt</button>
+      <span id="copy-msg" style="font:11px var(--mono);color:var(--mint);align-self:center"></span>
+    </div>
+  </div>
+  <pre class="prompt-box" id="prompt-raw"># ALLWAYS PRODUCTION PROMPT // B-ROLL OF CIVILIZATION 04 · SCION 084 + 069 + 082 — SPLIT SECOND
+## Standalone Archival Cinema &amp; Case-Study Specification (PAELEO / ALLWAYS · ARGON)
+
+**Work Slug:** `BROLL_04_Split_Second`
+**Title:** SPLIT SECOND
+**Subtitle:** Action and consequence — withheld release, phase alignment, and impact
+**Primary SCION Operator:** SCION 084 — Pickpocket — Object Transfer as Dramatic Grammar
+**Supporting SCION Operators:** SCION 069 (A Movie — Borrowed Continuity, Exposed Construction), SCION 082 (First Position — Practice, Constraint, and Public Exposure)
+**Lineage Reference:** Primary: SCION 084 (Pickpocket) · Supporting: SCION 069 (A Movie), SCION 082 (First Position)
+
+## 1 · Creative Theorem &amp; Formal Operation
+Create a sequence around release using six bounded excerpts. Twice cut away immediately before a hand lets go. On the third return, allow the object&#x27;s actual consequence to arrive. Align later actions by phase, let one hesitation resist, and end on an ordinary release.
+
+## 2 · Source Boundary &amp; Ethical Contract
+Matches visible action phases (grip, threshold of release, fall, contact) rather than claiming identical inner decisions or historical simultaneity.
+
+## 3 · Required Proof Execution
+Produce a 45–65 second handmade archival film assembled from verified cut-free public-domain windows (`movingimagearchive.com` / `Cineosis Lab` corpus).
+- Every shot must be verified free of internal camera cuts (`max_frame_diff &lt; 16.0`) and opening/closing title cards.
+- Record for every cut: (a) source ID, title, year, and timecode window `in_s..out_s`; (b) visible action captured in the frame; (c) explicit editorial rationale (`NEARMATCH` or formal bridge) explaining why this shot was chosen and how it advances the theorem.
+- Generate an 8-frame temporal proof strip (`v2_strip.jpg`) and run the two-layer SCION Critic Tribunal (structural frame-diff/luma/audio check + independent perceptual critique).
+
+---
+
+## 4 · Inherited Primary SCION Operator Prompt (SCION 084)
+
+# SCION 084 // Pickpocket — Object Transfer as Dramatic Grammar
+## Autonomous evolving cinema / documentary / database swarm · standalone prompt
+
+**Family:** Framing, gesture and city rhythms
+**Operator lineage:** Robert Bresson, Pickpocket (1959); Criterion identifies a choreographed dramatic study centered on a young pickpocket and his relations.
+**Requested reference:** Pickpocket (1959) — Robert Bresson
+**Reference status:** verified_description. See the research record below.
+**Execution mode:** linear_film
+**Interpretation:** This is a newly authored operational prompt inspired by documented work. It does not claim that the credited artists wrote or endorsed it. Its proposed proof is an original experiment. Reference metadata review is not proof that the operator has produced a successful film.
+
+You are **SCION-084-PICKPOCKET-OBJECT-TRANSFER-AS-DRAMATIC-GRAMMAR**. Produce a finished watchable or operable work within the user&#x27;s requested scope. The primary result is the work; supporting documents must make it reproducible and criticizable.
+
+## INPUT
+
+- `[WORK]`: the new work or question this operator should realize.
+- `[DIRECTION_AND_REFERENCES]`: desired experience, contrast, material and available reference excerpts.
+- `[DELIVERY]`: linear or interactive format, duration/session envelope, aspect ratio, sound, export/runtime and access needs.
+- `[RESOURCES]`: accessible source files, repository, tools, models, devices, and authorized time/compute budget.
+- `[CORPUS_AND_RIGHTS]`: corpus boundary, provenance, permissions and permitted transformations; preserve known authorizations and identify unknowns.
+- `[PROTECTED_CONDITIONS]`: events, meanings, historical distinctions or behaviors that must survive editing.
+
+Resolve ordinary implementation choices from context. Ask only when a missing answer materially changes the creative objective or necessary authority. Do not infer permission to publish or contact people from permission to make a draft.
+
+## 1 · Creative theorem to prove
+
+Make intention, trust, and uncertainty readable through a small object’s transfers while withholding an explanatory master shot until it changes the meaning of what has happened. Physical continuity must support inference rather than substitute for drama.
+
+**What makes this operator distinct:** Hands of Bresson studies gestures across source films; this operator creates a new dramatic chain in which object transfers alter character knowledge.
+
+## 2 · Native formal language
+
+Preserve and manipulate these as explicit working objects:
+
+- Object identity and ownership-state ledger
+- Hand pose, contact, release, and occlusion events
+- Reach vectors and screen-space entry/exit points
+- Recipient attention and knowledge states
+- Offscreen action/sound cues
+- Shot dependency graph with withheld-context reveal
+
+**Protected conditions:**
+
+- Every transfer must have a physically possible contact and release order.
+- Do not change object identity across a cut without making substitution a deliberate event.
+- The proof is original staged fiction with authorized performers, not a practical theft demonstration.
+
+Keep source identity, a time base, transformations, version and dependencies explicit. Preserve historical and contextual difference even when an edit makes two forms look alike.
+
+## 3 · Assemble the smallest capable swarm
+
+- Action dramaturg specifies intention and changing knowledge states.
+- Blocking/prop designer builds an inspectable object-transfer plan.
+- Camera/editor constructs fragments and the delayed contextual reveal.
+- Sound editor makes unseen actions consequential without redundant narration.
+- Independent continuity critic watches before consulting the state ledger.
+
+Every role must build or verify something concrete. The independent critic receives the intended experience and actual output before the builder&#x27;s explanation. Do not invent a critic session when no independent review occurred.
+
+## 4 · Hard proof; produce before scaling
+
+Stage an original seventy-second scene at a quiet library counter. A visitor arrives carrying a damaged book and a repair slip. In close fragments, one hand places the slip under the book, another reaches for a pencil, and a third object—a small photograph used as a bookmark—slides into view. Hold the visitor’s hesitation before they cover the photograph. A clerk’s hand stops short of taking the book; a soft drawer sound suggests another task beyond the frame. Use the next transfer to change trust: the visitor deliberately separates the photograph and offers the book again. Only then reveal enough of the counter to show that the clerk has prepared a protective sleeve, not a penalty notice. End on the photograph being returned inside the sleeve and the book remaining for repair. Keep paper friction, pencil contact, and the drawer audible. No dialogue should explain the visitor’s initial fear; the action and delayed context must make the changed relation available.
+
+Save a recoverable draft. Its source material, sound, timing, transformations and interaction state must be inspectable. Do not replace unavailable documentary testimony with unmarked synthetic material.
+
+## 5 · Acceptance tribunal
+
+**Judge by watching or operating the proof:**
+
+- A viewer can track the photograph, slip, and book without an object diagram.
+- The hesitation is readable through action timing rather than a reaction close-up alone.
+- The delayed reveal revises an earlier inference.
+- Every hand contact and transfer is spatially plausible across cuts.
+- Sound supplies offscreen information without falsely relocating an action.
+
+**Structural or automated checks, only where the representation supports them:**
+
+- Assert object ownership/contact states are consistent at each cut boundary.
+- Check screen-space entry and exit vectors against the declared continuity plan.
+
+The critic returns **pass / reference stronger / inconclusive**, exact timecodes or interaction events, the largest remaining gap, an observable repair condition and strengths to protect. Distinguish measured checks from perceptual judgments. Leave execution and acceptance marked pending until they happen.
+
+## 6 · Repair through discriminating experiments
+
+- **Failure:** The fragmented action is confusing. **Hypothesis:** Object identity or spatial anchoring was withheld along with motive. **Experiment:** Add one neutral object-orientation shot while preserving the delayed contextual reveal; test whether intention becomes readable.
+- **Failure:** The scene is merely a dexterity demonstration. **Hypothesis:** Transfers do not alter what either person knows or risks. **Experiment:** Remove one decorative transfer and lengthen the consequential offer/refusal; compare whether the final handoff changes the relationship.
+
+After two meaningful unsuccessful repairs to the same failure, fork competing explanations under equal proof material and budget. Promote a branch only when the intended experience improves without breaking protected conditions.
+
+## 7 · Discovery and recursive expansion
+
+- Expand through a few objects whose meanings change with possession and knowledge.
+- Introduce longer passages only when each cut performs a necessary disclosure, concealment, or transfer; keep the action graph recoverable.
+
+Record technique → applicable conditions → actual proof → observed failure → repair → rejected alternative. Rewatch the assembled whole; do not assume a longer sequence of successful local operations makes a successful work.
+
+## 8 · Deliverable contract
+
+- A complete staged action scene with purposeful sound.
+- Object/knowledge-state ledger, shot-contact map, and independent normal-speed continuity critique.
+- Alternate reveal placement for a controlled comparison.
+
+Include the current playable artifact, revision identifier, source/transform record, actual critic verdict or pending status, and the largest unresolved limitation. Preserve an accepted checkpoint before major changes.
+
+**Possible ALLWAYS applications:** COLLECTIVE INVENTORIES, SPLIT SECOND, NEARMATCH.
+
+## INHERITED SCION DOCTRINE — BUILD, INSPECT, REPAIR
+
+1. **Viewer experience first.** State one specific perceptual or interactive achievement. Name the attractive but empty result this project must avoid. A subject, mood board or similarity score is not a film.
+2. **Inspect the lineage.** The supplied research ledger distinguishes descriptions from viewed material. Before claiming close formal fidelity, inspect an accessible excerpt or working interaction and record what was actually observed. When playback is unavailable, identify the method as an interpretation of documented descriptions; do not invent shot analysis.
+3. **Hard proof before scale.** Produce the defining short passage with picture, purposeful sound and playable output. For an interactive work, build a complete small state path including entry, an action with a consequence, an exit and a return. Do not begin by accumulating a giant archive.
+4. **Material and source integrity.** Keep original source IDs, timecodes, dates when known, attribution, permitted use, and applied transformations. Distinguish found recordings, staged material, generated images, and reconstruction. A synthetic stand-in is not documentary evidence. Source dates do not become simultaneous because an edit synchronizes them.
+5. **Native working state.** Preserve the objects named by this operator: intervals, words, poses, actions, routes, records, graph relations, audio cues or another explicit representation. Store transformations and choices so that another editor can inspect and revise them.
+6. **Small accountable swarm.** Every role owns an artifact or a verification. Merge roles when coordination becomes costly. Keep an independent critic for the defining achievement. Respect the user&#x27;s existing authority; do not seek arbitrary approval for routine reversible work or publish/contact others beyond the authorized scope.
+7. **Sound and duration are structural.** Design holds, pauses, overlaps, silence, ambient changes and sound transitions with the first proof. Preserve source silence where relevant; label newly composed sound. Never claim that music, an animation or a cut establishes a person&#x27;s private feeling.
+8. **Independent criticism.** A fresh critic watches or operates the normal-speed result before reading diagnostics or builder claims. Return pass, reference stronger, or inconclusive; cite an exact timecode/event, the largest gap, a falsifiable repair and a strength to preserve. &#x27;Reference stronger&#x27; requires an actually inspected comparable reference. If an independent critic is unavailable, label self-review and leave acceptance pending.
+9. **Repair causes.** Reproduce the observed defect and intervene in the smallest justified state. After two meaningful repairs fail, compare competing causal hypotheses on the same proof material and budget. Do not add effects, agents or footage just to conceal the defect.
+10. **Two kinds of evidence.** Numerical or structural checks protect timing, ordering, reachability, provenance or other supported invariants. Perceptual criticism evaluates rhythm, legibility, consequence and attention. Neither substitutes for the other, and no score proves artistic value. Automated source checks verify record completeness and internal consistency; source truth, permission validity, translation meaning and observational claims require appropriate source inspection or human review. Report which review actually occurred.
+11. **Whole-work judgment.** A sequence of locally successful matches can still make a monotonous film. Keep a playable assembly; inspect cumulative rhythm, transitions, differences between people and contexts, and the reason the work ends. Preserve productive seams and interruptions.
+12. **Truthful stopping and delivery.** Stop at independent acceptance, the user&#x27;s stop, the authorized budget, or a justified no-progress boundary. Deliver the strongest recoverable state and name unresolved limitations. Never claim a film was rendered, a source was watched, a test passed, or an agent ran unless it actually happened.
+
+**Tool boundary:** Use real available tools. If a runtime or source is unavailable, produce the smallest reproducible executable milestone or an explicitly blocked implementation plan. Do not narrate an imaginary execution. This prompt authorizes only the scope supplied by its user.
+
+## START
+
+Read the inputs and actual source material. State the creative theorem and protected conditions. Build the proof with picture and sound or an operable interaction. Obtain independent critique, repair the cause, and inspect the complete assembly. Expand only after the defining operation is perceptible.
+
+
+## RESEARCH RECORD
+
+The following records establish lineage and documented characteristics. Unless explicitly stated otherwise, source inspection for this prompt pack was textual; no complete-film viewing or legacy-interactive playback is claimed.
+
+1. [Pickpocket — Criterion](https://www.criterion.com/films/229) — Director, 1959 work, and described choreography of action; reference text, not a frame-level inspection. Evidence: official_description; inspection: text_only.
+
+**Metadata notes and unresolved questions:**
+
+- The operator takes fragmented action and object continuity as a production hypothesis to test; it does not claim to reproduce a verified shot sequence from an unviewed film.</pre>
+
+  <div class="sec-head">
+    <div>
+      <div class="kicker">Stage 2 · Archive Forage, Captured Frames & Editorial Rationale</div>
+      <h2>Captured Shots & Why Each Was Chosen (7 Cuts)</h2>
+    </div>
+    <span style="font:11px var(--mono);color:var(--muted)">Click any shot to scrub video</span>
+  </div>
+  <div class="shots-list">
+    
+            <article class="shot-card is-card" onclick="seekTo(0.00)">
+              <div class="shot-media card-placeholder">
+                <span>TITLE CARD</span>
+                <span class="shot-time">SEG #01 · 0.0s–3.0s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source"><strong>OPENING SLATE</strong> <span>(3.0s)</span></div>
+                <div class="shot-what">Action and consequence — withheld release, phase alignment, and impact</div>
+                <div class="shot-why"><strong>Why Included:</strong> Structural framing slate / audit card required by operator deliverable contract.</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(3.00)">
+              <div class="shot-media">
+                <img src="../thumbs/0870ef3a-b328-5284-890b-3e1ac18057c1.jpg" alt="Captured frame from Door to Heaven, The" loading="lazy">
+                <span class="shot-time">CUT #02 · 3.0s–6.4s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>Door to Heaven, The (1941)</strong>
+                  <span>clip <code>0870ef3a</code> · source window <code>0.20s–3.55s</code> (3.40s) <a href="https://www.movingimagearchive.com/sources/door-to-heaven-the?clip=0870ef3a-b328-5284-890b-3e1ac18057c1" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> The Door to Heaven (1941): Hand holds the &#x27;SORROW&#x27; block at the brink of release — cut before fingers open</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>PHASE: PRE-RELEASE · OUTCOME WITHHELD</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from Door to Heaven, The (1941) because the visible gesture directly  establishes phase [RELEASE 01 (WITHHELD #1) · CUT BEFORE LETTING GO], and executes the formal bridge (PHASE: PRE-RELEASE · OUTCOME WITHHELD), and anchors the opening perceptual premise before any cross-source comparison begins. Window 0.20s–3.55s (3.40s) verified cut-free (motion Δ=2.5, luma=46.8, audio=-19.2 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(6.40)">
+              <div class="shot-media">
+                <img src="../thumbs/9e7292f1-8fc7-5ce1-a7e8-92ee7cb6cdcd.jpg" alt="Captured frame from Eat for Health" loading="lazy">
+                <span class="shot-time">CUT #03 · 6.4s–8.8s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>Eat for Health (1954)</strong>
+                  <span>clip <code>9e7292f1</code> · source window <code>0.10s–2.41s</code> (2.40s) <a href="https://www.movingimagearchive.com/sources/eat-for-health?clip=9e7292f1-8fc7-5ce1-a7e8-92ee7cb6cdcd" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> Eat for Health (1954): Fingers poised holding a small object — cut at peak tension</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>PHASE: PRE-RELEASE · OUTCOME WITHHELD</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from Eat for Health (1954) because the visible gesture directly  establishes phase [RELEASE 02 (WITHHELD #2) · SECOND PRE-RELEASE CUT], and executes the formal bridge (PHASE: PRE-RELEASE · OUTCOME WITHHELD), and advances cut 2/7 of the theorem while preserving distinct historical provenance (1954). Window 0.10s–2.41s (2.40s) verified cut-free (motion Δ=24.8, luma=43.1, audio=-18.3 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(8.80)">
+              <div class="shot-media">
+                <img src="../thumbs/0870ef3a-b328-5284-890b-3e1ac18057c1.jpg" alt="Captured frame from Door to Heaven, The" loading="lazy">
+                <span class="shot-time">CUT #04 · 8.8s–13.0s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>Door to Heaven, The (1941)</strong>
+                  <span>clip <code>0870ef3a</code> · source window <code>2.50s–6.65s</code> (4.20s) <a href="https://www.movingimagearchive.com/sources/door-to-heaven-the?clip=0870ef3a-b328-5284-890b-3e1ac18057c1" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> The Door to Heaven (1941): Returning to complete the release as the block drops from the hand</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>PHASE: RELEASE COMPLETED</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from Door to Heaven, The (1941) because the visible gesture directly  establishes phase [RELEASE 03 (THIRD RETURN) · CONSEQUENCE ARRIVES], and executes the formal bridge (PHASE: RELEASE COMPLETED), and advances cut 3/7 of the theorem while preserving distinct historical provenance (1941). Window 2.50s–6.65s (4.20s) verified cut-free (motion Δ=3.4, luma=45.5, audio=-17.9 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(13.00)">
+              <div class="shot-media">
+                <img src="../thumbs/5a786b16-4763-5482-b1c4-0336373f6f8c.jpg" alt="Captured frame from Fashion&#x27;s Favorite (Part II)" loading="lazy">
+                <span class="shot-time">CUT #05 · 13.0s–18.2s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>Fashion&#x27;s Favorite (Part II) ()</strong>
+                  <span>clip <code>5a786b16</code> · source window <code>0.20s–5.40s</code> (5.20s) <a href="https://www.movingimagearchive.com/sources/fashion-s-favorite-part-ii-e215b888?clip=5a786b16-4763-5482-b1c4-0336373f6f8c" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> Fashion&#x27;s Favorite (1940): Stream drops cleanly into the glass vessel, surface contact and ripples preserved</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>PHASE: FALL -&gt; IMPACT</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from Fashion&#x27;s Favorite (Part II) (None) because the visible gesture directly  establishes phase [RELEASE 04 · PHASE-ALIGNED DROP INTO LIQUID], and executes the formal bridge (PHASE: FALL -&gt; IMPACT), and advances cut 4/7 of the theorem while preserving distinct historical provenance (None). Window 0.20s–5.40s (5.20s) verified cut-free (motion Δ=4.8, luma=44.6, audio=-25.2 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(18.20)">
+              <div class="shot-media">
+                <img src="../thumbs/74864d7a-fa30-56da-83b0-3f8f12b52327.jpg" alt="Captured frame from Front Line, The" loading="lazy">
+                <span class="shot-time">CUT #06 · 18.2s–20.1s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>Front Line, The (1965)</strong>
+                  <span>clip <code>74864d7a</code> · source window <code>2.00s–3.90s</code> (1.90s) <a href="https://www.movingimagearchive.com/sources/front-line-the-6bd8add6?clip=74864d7a-fa30-56da-83b0-3f8f12b52327" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> The Front Line (1965): Rapid release and immediate physical consequence</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>PHASE: IMPACT ALIGNMENT</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from Front Line, The (1965) because the visible gesture directly  establishes phase [RELEASE 05 · SECOND IMPACT CONSEQUENCE], and executes the formal bridge (PHASE: IMPACT ALIGNMENT), and advances cut 5/7 of the theorem while preserving distinct historical provenance (1965). Window 2.00s–3.90s (1.90s) verified cut-free (motion Δ=2.5, luma=77.9, audio=-17.2 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(20.10)">
+              <div class="shot-media">
+                <img src="../thumbs/b066405d-4f5b-57af-a7a6-25139e979938.jpg" alt="Captured frame from Farmer Miller Goes Into High Gear (Part II)" loading="lazy">
+                <span class="shot-time">CUT #07 · 20.1s–25.9s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>Farmer Miller Goes Into High Gear (Part II) (1920)</strong>
+                  <span>clip <code>b066405d</code> · source window <code>0.10s–5.90s</code> (5.80s) <a href="https://www.movingimagearchive.com/sources/farmer-miller-goes-into-high-gear-part-ii-5bff8843?clip=b066405d-4f5b-57af-a7a6-25139e979938" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> Farmer Miller Goes Into High Gear (1920): Hands hold old family photographs and do not let go</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>RESISTANCE: LONGER HOLD</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from Farmer Miller Goes Into High Gear (Part II) (1920) because the visible gesture directly  establishes phase [HESITATION · RESISTING THE PATTERN], and executes the formal bridge (RESISTANCE: LONGER HOLD), and advances cut 6/7 of the theorem while preserving distinct historical provenance (1920). Window 0.10s–5.90s (5.80s) verified cut-free (motion Δ=23.8, luma=96.6, audio=-44.5 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(25.90)">
+              <div class="shot-media">
+                <img src="../thumbs/3e4b0f51-65b2-5486-b954-eece83a8f4fb.jpg" alt="Captured frame from Fashion&#x27;s Favorite (Part II)" loading="lazy">
+                <span class="shot-time">CUT #08 · 25.9s–30.9s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>Fashion&#x27;s Favorite (Part II) ()</strong>
+                  <span>clip <code>3e4b0f51</code> · source window <code>0.20s–5.20s</code> (5.00s) <a href="https://www.movingimagearchive.com/sources/fashion-s-favorite-part-ii-e215b888?clip=3e4b0f51-65b2-5486-b954-eece83a8f4fb" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> Fashion&#x27;s Favorite (1940): A simple everyday release of fabric after the larger consequences have shifted its weight</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>ORDINARY RELEASE · CHANGED GRAVITY</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from Fashion&#x27;s Favorite (Part II) (None) because the visible gesture directly  establishes phase [RELEASE 06 · ORDINARY RELEASE WITH CHANGED WEIGHT], and executes the formal bridge (ORDINARY RELEASE · CHANGED GRAVITY), and completes the terminal return/aftermath hold required by the operator theorem. Window 0.20s–5.20s (5.00s) verified cut-free (motion Δ=16.9, luma=76.4, audio=-26.3 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card is-card" onclick="seekTo(30.90)">
+              <div class="shot-media card-placeholder">
+                <span>CLOSING LEDGER</span>
+                <span class="shot-time">SEG #09 · 30.9s–34.4s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source"><strong>CLOSING LEDGER</strong> <span>(3.5s)</span></div>
+                <div class="shot-what">Matches visible action phases (grip, threshold of release, fall, contact) rather than claiming identical inner decisions or historical simultaneity.</div>
+                <div class="shot-why"><strong>Why Included:</strong> Structural framing slate / audit card required by operator deliverable contract.</div>
+              </div>
+            </article>
+  </div>
+
+  <div class="sec-head">
+    <div>
+      <div class="kicker">Stage 3 · Independent Critic Tribunal & Verification</div>
+      <h2>Temporal Proof Strips & Diagnostic Audit</h2>
+    </div>
+    <a class="btn sec" href="../strips/BROLL_04_Split_Second_v2_strip.jpg" target="_blank">Open Full-Res Strip ↗</a>
+  </div>
+  <div class="strip-label">Verified v2 Temporal Proof Strip (8 evenly spaced frames + waveform/timecode audit)</div>
+  <img class="strip-img" src="../strips/BROLL_04_Split_Second_v2_strip.jpg" alt="v2 proof strip">
+  
+        <details class="v1-details">
+          <summary>Compare Pre-Repair v1 Assembly Strip vs. Verified v2 Strip</summary>
+          <div class="strip-label">v1 Assembly Strip (Before Critic Repair)</div>
+          <img class="strip-img" src="../strips/BROLL_04_Split_Second_v1_strip.jpg" alt="v1 strip" loading="lazy">
+        </details>
+  
+        <div class="tribunal-grid">
+          <div class="trib-box warn">
+            <div class="label">Round 1 (v1) Defects Caught</div>
+            <ul><li>Seg #05 (t=14.00s-19.50s): `874e1f7f` contains internal cuts across dark industrial slats with no drop into liquid or splash.</li><li>Seg #07 (t=23.30s-29.80s): `61aca239` cuts internally from factory bottles to a clenched fist.</li></ul>
+            <p><strong>Largest Gap:</strong> Seg #05 shows dark industrial slats with internal cuts instead of a drop into liquid, and Seg #07 cuts mid-shot instead of holding an object without letting go.</p>
+            <p><strong>Causal Hypothesis:</strong> OpenCLIP mismatch on `874e1f7f` and unverified scene cut inside `61aca239`.</p>
+          </div>
+          <div class="trib-box pass">
+            <div class="label">Round 2 (v2) Falsifiable Repair & Verification</div>
+            <p><strong>Repair Executed:</strong> Replace Seg #05 with verified cut-free liquid drop/stream impact `5a786b16` (`0.2s-5.7s`, 8.1s clean window) and replace Seg #07 with human-verified cut-free shot of hands holding family photographs without letting go (`b066405d`, `0.1s-6.0s`, 6.1s clean window).</p>
+            <p><strong>Strength Preserved:</strong> The three-part withheld-release grammar across Seg #02, #03, and #04 (`0870ef3a` and `9e7292f1`), where the third return completes the release of the &#x27;SORROW&#x27; block, and the ordinary fabric release at the close (`3e4b0f51`).</p>
+            <p><strong>Final Verdict:</strong> <code>PASS (v2 · 0 structural or perceptual issues)</code></p>
+          </div>
+        </div>
+
+  <nav class="nav-foot">
+    <a href="BROLL_06_Kinetic.html">← #69 KINETIC</a>
+    <a href="../index.html#film=BROLL_04_Split_Second">Back to 85-Film Screening Room ↗</a>
+    <a href="BROLL_01_Nobody_Home.html">#71 NOBODY HOME →</a>
+  </nav>
+</main>
+<script>
+function seekTo(sec) {
+  const v = document.getElementById('v');
+  v.currentTime = sec;
+  v.play().catch(()=>{});
+  v.scrollIntoView({behavior:'smooth', block:'center'});
+}
+function copyPrompt() {
+  const txt = document.getElementById('prompt-raw').textContent;
+  navigator.clipboard.writeText(txt).then(() => {
+    const msg = document.getElementById('copy-msg');
+    msg.textContent = 'COPIED TO CLIPBOARD ✓';
+    setTimeout(() => msg.textContent = '', 2500);
+  });
+}
+</script>
+</body>
+</html>

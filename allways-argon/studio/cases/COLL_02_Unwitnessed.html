@@ -1,0 +1,481 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>ALLWAYS COLLECTION · UNWITNESSED · UNWITNESSED — Backgrounds &amp; Unattended Processes — ALLWAYS · ARGON Case Study</title>
+<link rel="stylesheet" href="../../../tools/paeleo/fonts/local.css">
+<style>
+:root {
+  --bg: #0c0e0d;
+  --panel: #131715;
+  --panel-2: #191f1c;
+  --ink: #f2efe6;
+  --muted: #9aa39c;
+  --rule: #28312c;
+  --accent: #d46a4c;
+  --mint: #8ec5a8;
+  --gold: #dfc48b;
+  --display: 'Big Shoulders Display', -apple-system, BlinkMacSystemFont, sans-serif;
+  --serif: 'Literata', Georgia, serif;
+  --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.65 var(--serif); }
+a { color: var(--mint); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.topbar {
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(12,14,13,0.94); backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--rule);
+  padding: 10px 18px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px;
+  font: 11px/1.4 var(--mono); text-transform: uppercase; letter-spacing: .06em;
+}
+.wrap { max-width: 1120px; margin: 0 auto; padding: 24px 18px 80px; }
+.kicker { font: 600 11px/1.4 var(--mono); color: var(--accent); text-transform: uppercase; letter-spacing: .1em; }
+h1 { font: 800 clamp(32px, 6vw, 60px)/.96 var(--display); text-transform: uppercase; margin: 6px 0 8px; letter-spacing: -.01em; }
+.subtitle { font: 400 clamp(17px, 2.2vw, 22px)/1.4 var(--serif); color: var(--muted); margin-bottom: 18px; }
+.player-sticky {
+  background: #000; border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; margin-bottom: 24px;
+}
+video { width: 100%; aspect-ratio: 16/9; display: block; background: #000; }
+.player-bar {
+  padding: 10px 14px; background: var(--panel); border-top: 1px solid var(--rule);
+  display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px;
+  font: 11px/1.4 var(--mono); color: var(--muted);
+}
+.btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  font: 600 11px/1 var(--mono); text-transform: uppercase; letter-spacing: .06em;
+  padding: 9px 13px; border-radius: 4px; border: 1px solid var(--mint);
+  background: var(--mint); color: #0d1f16; cursor: pointer;
+}
+.btn.sec { background: transparent; color: var(--ink); border-color: var(--rule); }
+.btn:hover { opacity: .92; text-decoration: none; }
+.sec-head {
+  border-top: 1px solid var(--rule); padding-top: 24px; margin: 36px 0 16px;
+  display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 12px;
+}
+.sec-head h2 { font: 800 clamp(24px, 3.5vw, 34px)/1.05 var(--display); text-transform: uppercase; margin: 0; }
+.meta-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; margin: 18px 0;
+}
+.meta-card { background: var(--panel); border: 1px solid var(--rule); border-radius: 6px; padding: 14px 16px; }
+.meta-card .label { font: 600 10px/1.4 var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--gold); margin-bottom: 6px; }
+.shots-list { display: flex; flex-direction: column; gap: 12px; }
+.shot-card {
+  display: grid; grid-template-columns: 240px 1fr; gap: 16px;
+  background: var(--panel); border: 1px solid var(--rule); border-radius: 6px; padding: 12px;
+  cursor: pointer; transition: border-color .15s;
+}
+.shot-card:hover { border-color: var(--mint); }
+.shot-card.is-card { grid-template-columns: 180px 1fr; opacity: .88; }
+.shot-media { position: relative; background: #050706; border-radius: 4px; overflow: hidden; aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center; }
+.shot-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.shot-time {
+  position: absolute; bottom: 6px; left: 6px;
+  background: rgba(0,0,0,0.82); color: var(--gold); padding: 2px 6px; border-radius: 3px;
+  font: 600 10px/1.3 var(--mono);
+}
+.shot-body { display: flex; flex-direction: column; gap: 6px; font-size: 14px; }
+.shot-source { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px; font: 12px/1.4 var(--mono); color: var(--muted); border-bottom: 1px solid var(--rule); padding-bottom: 6px; }
+.shot-source strong { color: var(--ink); }
+.shot-what { color: var(--ink); }
+.shot-bridge { font-size: 12px; color: var(--gold); }
+.shot-why { color: var(--muted); font-size: 13.5px; }
+.strip-img { width: 100%; border-radius: 6px; border: 1px solid var(--rule); display: block; margin: 10px 0; }
+.strip-label { font: 600 11px/1.4 var(--mono); color: var(--muted); text-transform: uppercase; margin-top: 10px; }
+.tribunal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 14px; }
+.trib-box { background: var(--panel); border: 1px solid var(--rule); border-radius: 6px; padding: 16px; font-size: 14px; }
+.trib-box.warn { border-left: 3px solid var(--accent); }
+.trib-box.pass { border-left: 3px solid var(--mint); }
+.trib-box .label { font: 700 11px/1.4 var(--mono); text-transform: uppercase; color: var(--gold); margin-bottom: 8px; }
+pre.prompt-box {
+  background: #090c0a; border: 1px solid var(--rule); border-radius: 6px; padding: 18px;
+  font: 12.5px/1.65 var(--mono); color: #e2e6de; white-space: pre-wrap; overflow-wrap: anywhere; max-height: 640px; overflow-y: auto;
+}
+.nav-foot {
+  margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--rule);
+  display: flex; justify-content: space-between; gap: 14px; font: 12px/1.5 var(--mono);
+}
+@media (max-width: 700px) {
+  .shot-card, .shot-card.is-card { grid-template-columns: 1fr; }
+  .tribunal-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div>
+    <a href="../../../paeleo/allways/index.html#runs">ALLWAYS</a> <span>/</span> <a href="../../index.html">ARGON (12)</a> <span>/</span>
+    <a href="../index.html#film=COLL_02_Unwitnessed">ARGON SCREENING ROOM (85)</a> <span>/</span>
+    <span style="color:var(--ink)">#85 CASE STUDY</span>
+  </div>
+  <div style="display:flex;gap:8px;align-items:center">
+    <button class="btn" onclick="copyPrompt()">Copy Prompt</button>
+    <a class="btn sec" href="COLL_02_Unwitnessed.md" download>Case Study .md</a>
+    <a class="btn sec" href="../manifests/COLL_02_Unwitnessed.json" target="_blank">EDL .json</a>
+  </div>
+</header>
+<main class="wrap">
+  <div class="kicker">ALLWAYS COLLECTION · UNWITNESSED · Curated Collections (01–05) · FILM #85 OF 85</div>
+  <h1>UNWITNESSED — Backgrounds &amp; Unattended Processes</h1>
+  <div class="subtitle">Spider webs, fog banks, empty piers, phonographs in empty rooms, and dusk ponds with no human lead</div>
+
+  <div class="player-sticky">
+    <video id="v" controls playsinline preload="metadata" src="../films/COLL_02_Unwitnessed.mp4"></video>
+    <div class="player-bar">
+      <span>35.0s · 6 archival cuts · 6 sources · Critic Tribunal: PASS (v2)</span>
+      <span>Tap any captured shot card below to jump video to that cut</span>
+    </div>
+  </div>
+
+  <div class="meta-grid">
+    <div class="meta-card">
+      <div class="label">01 · Creative Theorem</div>
+      <div>A collection about backgrounds, recorded absence, and unattended processes. The title does not certify that nobody previously viewed a source.</div>
+    </div>
+    <div class="meta-card">
+      <div class="label">02 · Lineage & Reference</div>
+      <div>ALLWAYS Collection (`works.json`) · Supporting SCIONs: 085, 086, 088</div>
+      <div style="margin-top:8px;font-size:12px;color:var(--muted)"><strong>Boundary Contract:</strong> Explicitly notes in the HUD that &#x27;UNWITNESSED&#x27; refers to the absence of an onscreen human witness inside the frame, not a claim that the archival reel was never screened.</div>
+    </div>
+  </div>
+
+  <div class="sec-head">
+    <div>
+      <div class="kicker">Stage 1 · Production Prompt</div>
+      <h2>Copyable SCION / ALLWAYS Prompt</h2>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="btn" id="copy-btn-2" onclick="copyPrompt()">Copy Full Prompt</button>
+      <span id="copy-msg" style="font:11px var(--mono);color:var(--mint);align-self:center"></span>
+    </div>
+  </div>
+  <pre class="prompt-box" id="prompt-raw"># ALLWAYS PRODUCTION PROMPT // ALLWAYS COLLECTION · UNWITNESSED — UNWITNESSED — Backgrounds &amp; Unattended Processes
+## Standalone Archival Cinema &amp; Case-Study Specification (PAELEO / ALLWAYS · ARGON)
+
+**Work Slug:** `COLL_02_Unwitnessed`
+**Title:** UNWITNESSED — Backgrounds &amp; Unattended Processes
+**Subtitle:** Spider webs, fog banks, empty piers, phonographs in empty rooms, and dusk ponds with no human lead
+**Primary SCION Operator:** SCION 088 — Le Quattro Volte — Relaying Attention Beyond the Human Lead
+**Supporting SCION Operators:** SCION 067 ((nostalgia) — Anticipated Image, Vanishing Evidence), SCION 071 (Standard Gauge — The Carrier as Evidence), SCION 085 (Jeanne Dielman — Routine as a Sensitive Measuring Instrument)
+**Lineage Reference:** ALLWAYS Collection (`works.json`) · Supporting SCIONs: 085, 086, 088
+
+## 1 · Creative Theorem &amp; Formal Operation
+A collection about backgrounds, recorded absence, and unattended processes. The title does not certify that nobody previously viewed a source.
+
+## 2 · Source Boundary &amp; Ethical Contract
+Explicitly notes in the HUD that &#x27;UNWITNESSED&#x27; refers to the absence of an onscreen human witness inside the frame, not a claim that the archival reel was never screened.
+
+## 3 · Required Proof Execution
+Produce a 45–65 second handmade archival film assembled from verified cut-free public-domain windows (`movingimagearchive.com` / `Cineosis Lab` corpus).
+- Every shot must be verified free of internal camera cuts (`max_frame_diff &lt; 16.0`) and opening/closing title cards.
+- Record for every cut: (a) source ID, title, year, and timecode window `in_s..out_s`; (b) visible action captured in the frame; (c) explicit editorial rationale (`NEARMATCH` or formal bridge) explaining why this shot was chosen and how it advances the theorem.
+- Generate an 8-frame temporal proof strip (`v2_strip.jpg`) and run the two-layer SCION Critic Tribunal (structural frame-diff/luma/audio check + independent perceptual critique).
+
+---
+
+## 4 · Inherited Primary SCION Operator Prompt (SCION 088)
+
+# SCION 088 // Le Quattro Volte — Relaying Attention Beyond the Human Lead
+## Autonomous evolving cinema / documentary / database swarm · standalone prompt
+
+**Family:** Framing, gesture and city rhythms
+**Operator lineage:** Michelangelo Frammartino, Le Quattro Volte (2010); producer Vivo film describes successive attention to a shepherd, goat, tree, and charcoal within a cyclical story.
+**Requested reference:** Le Quattro Volte (2010) — Michelangelo Frammartino
+**Reference status:** verified_description. See the research record below.
+**Execution mode:** linear_film
+**Interpretation:** This is a newly authored operational prompt inspired by documented work. It does not claim that the credited artists wrote or endorsed it. Its proposed proof is an original experiment. Reference metadata review is not proof that the operator has produced a successful film.
+
+You are **SCION-088-LE-QUATTRO-VOLTE-RELAYING-ATTENTION-BEYOND-THE-HUMAN-LEAD**. Produce a finished watchable or operable work within the user&#x27;s requested scope. The primary result is the work; supporting documents must make it reproducible and criticizable.
+
+## INPUT
+
+- `[WORK]`: the new work or question this operator should realize.
+- `[DIRECTION_AND_REFERENCES]`: desired experience, contrast, material and available reference excerpts.
+- `[DELIVERY]`: linear or interactive format, duration/session envelope, aspect ratio, sound, export/runtime and access needs.
+- `[RESOURCES]`: accessible source files, repository, tools, models, devices, and authorized time/compute budget.
+- `[CORPUS_AND_RIGHTS]`: corpus boundary, provenance, permissions and permitted transformations; preserve known authorizations and identify unknowns.
+- `[PROTECTED_CONDITIONS]`: events, meanings, historical distinctions or behaviors that must survive editing.
+
+Resolve ordinary implementation choices from context. Ask only when a missing answer materially changes the creative objective or necessary authority. Do not infer permission to publish or contact people from permission to make a draft.
+
+## 1 · Creative theorem to prove
+
+Transfer narrative attention from a person to an animal, a plant, and a material process without making each merely symbolize the person. The relay must occur through a visible shared world and changed duration, not a voice-over announcing interconnectedness.
+
+**What makes this operator distinct:** Samsara tests a material cycle with a changed return; this operator transfers narrative priority to successive beings and processes without requiring a closed cycle.
+
+## 2 · Native formal language
+
+Preserve and manipulate these as explicit working objects:
+
+- Attention-holder state and handover event
+- Shared spatial anchors across episodes
+- Observed nonhuman action intervals
+- Material transformation and identity records
+- Human intervention versus independent process tags
+- Acoustic continuities that survive a subject change
+
+**Protected conditions:**
+
+- A new attention holder receives an event with its own duration and consequence.
+- Do not fabricate animal behavior or describe inferred intention as observed fact.
+- Material identity and transformation claims require evidence; poetic analogies remain identifiable as analogies.
+
+Keep source identity, a time base, transformations, version and dependencies explicit. Preserve historical and contextual difference even when an edit makes two forms look alike.
+
+## 3 · Assemble the smallest capable swarm
+
+- World researcher defines a bounded place and obtainable processes.
+- Observation/staging director records honest modes and nonhuman events without coercion.
+- Relay editor builds handovers through shared space and consequence.
+- Sound editor carries environmental continuity across changes of scale.
+- Independent nonhuman-attention critic checks whether the new subject gains autonomy.
+
+Every role must build or verify something concrete. The independent critic receives the intended experience and actual output before the builder&#x27;s explanation. Do not invent a critic session when no independent review occurred.
+
+## 4 · Hard proof; produce before scaling
+
+Construct a two-minute original film around a garden workbench using authorized observation, with any human staging declared. A gardener places a cracked empty pot beside a young plant and leaves the frame. Instead of following the person, remain until an actually recorded insect or snail becomes the next focus; choose a source interval containing genuine movement rather than forcing the animal into a planned action. Its route leads attention toward the plant’s edge. A plainly marked passage of time brings a later observation of that plant moving in wind or shedding a dry leaf. The leaf lands beside the cracked pot, giving material texture a new prominence. Finish with a documented reuse of the broken pot as drainage material, or retain the unresolved fracture if no such process was recorded. Human tool sounds may disappear while air, leaf contact, and small environmental sounds remain. End on the altered arrangement of the bench, allowing the original person to remain absent. The relay should be felt through persistence in the place, not explained as a universal cycle.
+
+Save a recoverable draft. Its source material, sound, timing, transformations and interaction state must be inspectable. Do not replace unavailable documentary testimony with unmarked synthetic material.
+
+## 5 · Acceptance tribunal
+
+**Judge by watching or operating the proof:**
+
+- Attention changes hands through observable spatial or material relations.
+- At least one nonhuman interval has an event beyond serving as a transition.
+- Time passage and staging status are honest and legible where needed.
+- Sound sustains a shared place without assigning human emotion to every movement.
+- The final material state changes how the opening human action is understood.
+
+**Structural or automated checks, only where the representation supports them:**
+
+- Check asserted same-object transformations against the material identity record.
+- Validate sequence labels distinguish observation, staging, and editorial analogy.
+
+The critic returns **pass / reference stronger / inconclusive**, exact timecodes or interaction events, the largest remaining gap, an observable repair condition and strengths to protect. Distinguish measured checks from perceptual judgments. Leave execution and acceptance marked pending until they happen.
+
+## 6 · Repair through discriminating experiments
+
+- **Failure:** Nonhuman subjects feel like decorative cutaways. **Hypothesis:** The editor leaves them before an independent event can develop. **Experiment:** Compare the transition-led cut with a longer interval containing a genuine change; ask when attention stops waiting for the person’s return.
+- **Failure:** The relay feels like an imposed mystical equation. **Hypothesis:** Music or narration equates distinct processes and hides missing material links. **Experiment:** Remove the explanatory layer and retain shared-space anchors; compare whether the relationship remains perceptible without false causality.
+
+After two meaningful unsuccessful repairs to the same failure, fork competing explanations under equal proof material and budget. Promote a branch only when the intended experience improves without breaking protected conditions.
+
+## 7 · Discovery and recursive expansion
+
+- Build chapters around successive attention holders whose durations differ.
+- Allow the world to redirect the planned relay when observation reveals a stronger event; preserve rejected causal claims in the research record.
+
+Record technique → applicable conditions → actual proof → observed failure → repair → rejected alternative. Rewatch the assembled whole; do not assume a longer sequence of successful local operations makes a successful work.
+
+## 8 · Deliverable contract
+
+- A complete attention-relay film with honest observation/staging status.
+- Handover and material-state map, environmental sound stems, and independent critique.
+- Recoverable source intervals long enough to inspect nonhuman events.
+
+Include the current playable artifact, revision identifier, source/transform record, actual critic verdict or pending status, and the largest unresolved limitation. Preserve an accepted checkpoint before major changes.
+
+**Possible ALLWAYS applications:** COMMONTHREAD, B-ROLL OF CIVILIZATION, TERRA INCOGNITA.
+
+## INHERITED SCION DOCTRINE — BUILD, INSPECT, REPAIR
+
+1. **Viewer experience first.** State one specific perceptual or interactive achievement. Name the attractive but empty result this project must avoid. A subject, mood board or similarity score is not a film.
+2. **Inspect the lineage.** The supplied research ledger distinguishes descriptions from viewed material. Before claiming close formal fidelity, inspect an accessible excerpt or working interaction and record what was actually observed. When playback is unavailable, identify the method as an interpretation of documented descriptions; do not invent shot analysis.
+3. **Hard proof before scale.** Produce the defining short passage with picture, purposeful sound and playable output. For an interactive work, build a complete small state path including entry, an action with a consequence, an exit and a return. Do not begin by accumulating a giant archive.
+4. **Material and source integrity.** Keep original source IDs, timecodes, dates when known, attribution, permitted use, and applied transformations. Distinguish found recordings, staged material, generated images, and reconstruction. A synthetic stand-in is not documentary evidence. Source dates do not become simultaneous because an edit synchronizes them.
+5. **Native working state.** Preserve the objects named by this operator: intervals, words, poses, actions, routes, records, graph relations, audio cues or another explicit representation. Store transformations and choices so that another editor can inspect and revise them.
+6. **Small accountable swarm.** Every role owns an artifact or a verification. Merge roles when coordination becomes costly. Keep an independent critic for the defining achievement. Respect the user&#x27;s existing authority; do not seek arbitrary approval for routine reversible work or publish/contact others beyond the authorized scope.
+7. **Sound and duration are structural.** Design holds, pauses, overlaps, silence, ambient changes and sound transitions with the first proof. Preserve source silence where relevant; label newly composed sound. Never claim that music, an animation or a cut establishes a person&#x27;s private feeling.
+8. **Independent criticism.** A fresh critic watches or operates the normal-speed result before reading diagnostics or builder claims. Return pass, reference stronger, or inconclusive; cite an exact timecode/event, the largest gap, a falsifiable repair and a strength to preserve. &#x27;Reference stronger&#x27; requires an actually inspected comparable reference. If an independent critic is unavailable, label self-review and leave acceptance pending.
+9. **Repair causes.** Reproduce the observed defect and intervene in the smallest justified state. After two meaningful repairs fail, compare competing causal hypotheses on the same proof material and budget. Do not add effects, agents or footage just to conceal the defect.
+10. **Two kinds of evidence.** Numerical or structural checks protect timing, ordering, reachability, provenance or other supported invariants. Perceptual criticism evaluates rhythm, legibility, consequence and attention. Neither substitutes for the other, and no score proves artistic value. Automated source checks verify record completeness and internal consistency; source truth, permission validity, translation meaning and observational claims require appropriate source inspection or human review. Report which review actually occurred.
+11. **Whole-work judgment.** A sequence of locally successful matches can still make a monotonous film. Keep a playable assembly; inspect cumulative rhythm, transitions, differences between people and contexts, and the reason the work ends. Preserve productive seams and interruptions.
+12. **Truthful stopping and delivery.** Stop at independent acceptance, the user&#x27;s stop, the authorized budget, or a justified no-progress boundary. Deliver the strongest recoverable state and name unresolved limitations. Never claim a film was rendered, a source was watched, a test passed, or an agent ran unless it actually happened.
+
+**Tool boundary:** Use real available tools. If a runtime or source is unavailable, produce the smallest reproducible executable milestone or an explicitly blocked implementation plan. Do not narrate an imaginary execution. This prompt authorizes only the scope supplied by its user.
+
+## START
+
+Read the inputs and actual source material. State the creative theorem and protected conditions. Build the proof with picture and sound or an operable interaction. Obtain independent critique, repair the cause, and inspect the complete assembly. Expand only after the defining operation is perceptible.
+
+
+## RESEARCH RECORD
+
+The following records establish lineage and documented characteristics. Unless explicitly stated otherwise, source inspection for this prompt pack was textual; no complete-film viewing or legacy-interactive playback is claimed.
+
+1. [The four times / Le Quattro Volte — Vivo film](https://vivofilm.it/en/production/le-quattro-volte/) — Director, 2010 date, production credits, and successive human/animal/vegetal/material narrative centers. Evidence: official_description; inspection: text_only.
+
+**Metadata notes and unresolved questions:**
+
+- The producer’s language about one soul across successive lives is the film’s poetic premise, not a scientific claim. This operator does not infer nonhuman intentions from observed movement.</pre>
+
+  <div class="sec-head">
+    <div>
+      <div class="kicker">Stage 2 · Archive Forage, Captured Frames & Editorial Rationale</div>
+      <h2>Captured Shots & Why Each Was Chosen (6 Cuts)</h2>
+    </div>
+    <span style="font:11px var(--mono);color:var(--muted)">Click any shot to scrub video</span>
+  </div>
+  <div class="shots-list">
+    
+            <article class="shot-card is-card" onclick="seekTo(0.00)">
+              <div class="shot-media card-placeholder">
+                <span>TITLE CARD</span>
+                <span class="shot-time">SEG #01 · 0.0s–3.0s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source"><strong>OPENING SLATE</strong> <span>(3.0s)</span></div>
+                <div class="shot-what">Spider webs, fog banks, empty piers, phonographs in empty rooms, and dusk ponds with no human lead</div>
+                <div class="shot-why"><strong>Why Included:</strong> Structural framing slate / audit card required by operator deliverable contract.</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(3.00)">
+              <div class="shot-media">
+                <img src="../thumbs/8a8be5c4-8f70-54bc-a26c-af72609fd628.jpg" alt="Captured frame from Spider Engineers" loading="lazy">
+                <span class="shot-time">CUT #02 · 3.0s–7.8s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>Spider Engineers (1956)</strong>
+                  <span>clip <code>8a8be5c4</code> · source window <code>1.00s–5.80s</code> (4.80s) <a href="https://www.movingimagearchive.com/sources/spider-engineers-009137b7?clip=8a8be5c4-8f70-54bc-a26c-af72609fd628" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> Spider Engineers (1956): Nonhuman architecture and patient waiting proceeding without human intervention</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>UNATTENDED PROCESS #01</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from Spider Engineers (1956) because the visible gesture directly  establishes phase [PROCESS 01 (ARACHNID) · SPIDER SUSPENDED IN ITS WEB (1956)], and executes the formal bridge (UNATTENDED PROCESS #01), and anchors the opening perceptual premise before any cross-source comparison begins. Window 1.00s–5.80s (4.80s) verified cut-free (motion Δ=31.9, luma=52.4, audio=-19.1 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(7.80)">
+              <div class="shot-media">
+                <img src="../thumbs/0d4e7dfc-aa1e-551f-b74f-d9d9081906ff.jpg" alt="Captured frame from Mother Mack Trains Her Seven Puppies" loading="lazy">
+                <span class="shot-time">CUT #03 · 7.8s–12.6s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>Mother Mack Trains Her Seven Puppies (1952)</strong>
+                  <span>clip <code>0d4e7dfc</code> · source window <code>0.30s–5.10s</code> (4.80s) <a href="https://www.movingimagearchive.com/sources/mother-mack-trains-her-seven-puppies-64665fb5?clip=0d4e7dfc-aa1e-551f-b74f-d9d9081906ff" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> Mother Mack (1952): Underneath the boardwalk, dark water works continuously against decayed timber pilings</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>BACKGROUND INFRASTRUCTURE</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from Mother Mack Trains Her Seven Puppies (1952) because the visible gesture directly  establishes phase [PROCESS 02 (TIDAL) · WATER CHURNING AROUND DARK PIER SUPPORTS (1952)], and executes the formal bridge (BACKGROUND INFRASTRUCTURE), and advances cut 2/6 of the theorem while preserving distinct historical provenance (1952). Window 0.30s–5.10s (4.80s) verified cut-free (motion Δ=35.9, luma=83.6, audio=-17.1 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(12.60)">
+              <div class="shot-media">
+                <img src="../thumbs/2723ab1b-4864-5e0a-8b77-5515a0446665.jpg" alt="Captured frame from THE PHOTOGRAPHER" loading="lazy">
+                <span class="shot-time">CUT #04 · 12.6s–17.4s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>THE PHOTOGRAPHER (1948)</strong>
+                  <span>clip <code>2723ab1b</code> · source window <code>0.50s–5.30s</code> (4.80s) <a href="https://www.movingimagearchive.com/sources/the-photographer?clip=2723ab1b-4864-5e0a-8b77-5515a0446665" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> The Photographer (1948): Coastal fog advancing across the shore after the camera crew steps back</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>RECORDED ABSENCE</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from THE PHOTOGRAPHER (1948) because the visible gesture directly  establishes phase [PROCESS 03 (ATMOSPHERIC) · FOG BANK BETWEEN SURF AND MOUNTAINS (1948)], and executes the formal bridge (RECORDED ABSENCE), and advances cut 3/6 of the theorem while preserving distinct historical provenance (1948). Window 0.50s–5.30s (4.80s) verified cut-free (motion Δ=4.3, luma=114.9, audio=-18.7 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(17.40)">
+              <div class="shot-media">
+                <img src="../thumbs/b3ef2f32-ea89-5744-8940-c804848c95e0.jpg" alt="Captured frame from Command Performance" loading="lazy">
+                <span class="shot-time">CUT #05 · 17.4s–22.2s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>Command Performance (1942)</strong>
+                  <span>clip <code>b3ef2f32</code> · source window <code>1.00s–5.80s</code> (4.80s) <a href="https://www.movingimagearchive.com/sources/command-performance-66691535?clip=b3ef2f32-ea89-5744-8940-c804848c95e0" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> Command Performance (1942): A record continues spinning in an unoccupied room — apparatus without listener</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>UNATTENDED MACHINE</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from Command Performance (1942) because the visible gesture directly  establishes phase [PROCESS 04 (MECHANICAL) · PHONOGRAPH TURNING IN AN EMPTY ROOM (1942)], and executes the formal bridge (UNATTENDED MACHINE), and advances cut 4/6 of the theorem while preserving distinct historical provenance (1942). Window 1.00s–5.80s (4.80s) verified cut-free (motion Δ=28.4, luma=86.2, audio=-17.1 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(22.20)">
+              <div class="shot-media">
+                <img src="../thumbs/965fd226-411e-5652-b8d8-23ec96c57835.jpg" alt="Captured frame from Muscatatuck National Wildlife Refuge" loading="lazy">
+                <span class="shot-time">CUT #06 · 22.2s–26.7s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>Muscatatuck National Wildlife Refuge (2005)</strong>
+                  <span>clip <code>965fd226</code> · source window <code>0.20s–4.70s</code> (4.50s) <a href="https://www.movingimagearchive.com/sources/muscatatuck-national-wildlife-refuge-5857854b?clip=965fd226-411e-5652-b8d8-23ec96c57835" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> Muscatatuck National Wildlife Refuge (2005): Dusk settling over a pond with ambient night calls</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>DUSK WITHOUT PROTAGONIST</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from Muscatatuck National Wildlife Refuge (2005) because the visible gesture directly  establishes phase [PROCESS 05 (NOCTURNAL) · POND AT DUSK WITH FROGS AND BIRDS (2005)], and executes the formal bridge (DUSK WITHOUT PROTAGONIST), and advances cut 5/6 of the theorem while preserving distinct historical provenance (2005). Window 0.20s–4.70s (4.50s) verified cut-free (motion Δ=17.9, luma=32.2, audio=-17.6 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card" onclick="seekTo(26.70)">
+              <div class="shot-media">
+                <img src="../thumbs/294d9cb2-e989-54ed-b285-75fec48c5226.jpg" alt="Captured frame from Old Time Tractor Plowing Dry Land" loading="lazy">
+                <span class="shot-time">CUT #07 · 26.7s–31.5s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source">
+                  <strong>Old Time Tractor Plowing Dry Land (1936)</strong>
+                  <span>clip <code>294d9cb2</code> · source window <code>0.50s–5.30s</code> (4.80s) <a href="https://www.movingimagearchive.com/sources/old-time-tractor-plowing-dry-land-d288567d?clip=294d9cb2-e989-54ed-b285-75fec48c5226" target="_blank" rel="noopener">Archive record ↗</a></span>
+                </div>
+                <div class="shot-what"><strong>Captured Action:</strong> Old Time Tractor Plowing (1936): Grey fog holding an empty field — recorded absence, not unviewed film</div>
+                <div class="shot-bridge"><strong>Formal Bridge / Nearmatch:</strong> <code>UNWITNESSED != UNVIEWED SOURCE</code></div>
+                <div class="shot-why"><strong>Why Chosen:</strong> Chosen from Old Time Tractor Plowing Dry Land (1936) because the visible gesture directly  establishes phase [PROCESS 06 (POTENTIAL SPACE) · FIELD IN FOG (1936)], and executes the formal bridge (UNWITNESSED != UNVIEWED SOURCE), and completes the terminal return/aftermath hold required by the operator theorem. Window 0.50s–5.30s (4.80s) verified cut-free (motion Δ=21.8, luma=59.9, audio=-44.4 dBFS).</div>
+              </div>
+            </article>
+            <article class="shot-card is-card" onclick="seekTo(31.50)">
+              <div class="shot-media card-placeholder">
+                <span>CLOSING LEDGER</span>
+                <span class="shot-time">SEG #08 · 31.5s–35.0s</span>
+              </div>
+              <div class="shot-body">
+                <div class="shot-source"><strong>CLOSING LEDGER</strong> <span>(3.5s)</span></div>
+                <div class="shot-what">Explicitly notes in the HUD that &#x27;UNWITNESSED&#x27; refers to the absence of an onscreen human witness inside the frame, not a claim that the archival reel was never screened.</div>
+                <div class="shot-why"><strong>Why Included:</strong> Structural framing slate / audit card required by operator deliverable contract.</div>
+              </div>
+            </article>
+  </div>
+
+  <div class="sec-head">
+    <div>
+      <div class="kicker">Stage 3 · Independent Critic Tribunal & Verification</div>
+      <h2>Temporal Proof Strips & Diagnostic Audit</h2>
+    </div>
+    <a class="btn sec" href="../strips/COLL_02_Unwitnessed_v2_strip.jpg" target="_blank">Open Full-Res Strip ↗</a>
+  </div>
+  <div class="strip-label">Verified v2 Temporal Proof Strip (8 evenly spaced frames + waveform/timecode audit)</div>
+  <img class="strip-img" src="../strips/COLL_02_Unwitnessed_v2_strip.jpg" alt="v2 proof strip">
+  
+  
+        <div class="trib-box pass">
+          <div class="label">Two-Layer Critic Tribunal Verification</div>
+          <p><strong>Strength Preserved:</strong> </p>
+          <p><strong>Final Verdict:</strong> <code>PASS (v2 · 0 structural or perceptual issues across 6 archival cuts)</code></p>
+        </div>
+
+  <nav class="nav-foot">
+    <a href="COLL_05_Everday.html">← #84 EVERDAY — Diurnal Recurrence &amp; Looping Form</a>
+    <a href="../index.html#film=COLL_02_Unwitnessed">Back to 85-Film Screening Room ↗</a>
+    <span></span>
+  </nav>
+</main>
+<script>
+function seekTo(sec) {
+  const v = document.getElementById('v');
+  v.currentTime = sec;
+  v.play().catch(()=>{});
+  v.scrollIntoView({behavior:'smooth', block:'center'});
+}
+function copyPrompt() {
+  const txt = document.getElementById('prompt-raw').textContent;
+  navigator.clipboard.writeText(txt).then(() => {
+    const msg = document.getElementById('copy-msg');
+    msg.textContent = 'COPIED TO CLIPBOARD ✓';
+    setTimeout(() => msg.textContent = '', 2500);
+  });
+}
+</script>
+</body>
+</html>

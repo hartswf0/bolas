@@ -1,0 +1,162 @@
+{
+  "slug": "STUDY_04_Operative_Cinema",
+  "version": "v2",
+  "series": "SERIES_G_STUDIES",
+  "kicker": "ALLWAYS STUDY 04 \u00b7 SCION 113 + 069 + 073",
+  "title": "OPERATIVE CINEMA \u2014 Archival Bridges",
+  "subtitle": "Bridging documentary endpoints with inspectable optical/material intervals without faking seamless history",
+  "scion_id": 113,
+  "supporting_scions": [
+    69,
+    73
+  ],
+  "lineage": "ALLWAYS Study (`works.json`) \u00b7 Primary SCIONs: 113 (Learning to See), 069 (A Movie), 073 (A Walk Through H)",
+  "theorem": "Bridge documentary fragments with explicit transitional passages while keeping the recorded endpoints and the intermediate bridge distinguishable and inspectable; test what the bridge changes instead of treating seamlessness as historical truth.",
+  "boundary_note": "Labels `ENDPOINT A [RECORDED]`, `OPTICAL BRIDGE [INSPECTABLE TRANSITION]`, and `ENDPOINT B [RECORDED]` so the bridge is never mistaken for continuous historical footage.",
+  "critic_tribunal": {
+    "critic_role": "Independent archival-bridge critic",
+    "v1_verdict": "pass",
+    "v2_verdict": "pass",
+    "largest_gap": "Tests explicit optical/atmospheric bridges (`67911fe5` motion blur, `f10c2471` kaleidoscope, `d8f74fdb` double exposure) between recorded historical endpoints (`89b3bec7`, `9d391d6b`).",
+    "falsifiable_repair": "All 6 segments verified cut-free."
+  },
+  "duration_seconds": 34.54,
+  "video_file": "films/STUDY_04_Operative_Cinema.mp4",
+  "source_count": 5,
+  "sources_summary": [
+    "89b3bec7 \u00b7 Indi\u00eb-materiaal van Willy Mullens (1926)",
+    "67911fe5 \u00b7 [Amateur films: Ivan Besse collection: Britton, South Dakota 1938-39] (Part V) (1938)",
+    "d8f74fdb \u00b7 Story of Jewel City, The (1915)",
+    "f10c2471 \u00b7 What's It to You? (Part I) (1955)",
+    "9d391d6b \u00b7 Century of Progress Exposition: Wings of a Century (1933)"
+  ],
+  "edl": [
+    {
+      "seg_idx": 1,
+      "type": "title_card",
+      "title": "OPERATIVE CINEMA \u2014 Archival Bridges",
+      "phase": "OPENING SLATE",
+      "action": "Bridging documentary endpoints with inspectable optical/material intervals without faking seamless history",
+      "start_sec": 0.0,
+      "end_sec": 3.0,
+      "dur_s": 3.0
+    },
+    {
+      "type": "shot",
+      "clip_id": "89b3bec7-3fd9-551b-99e4-ec67272b4b09",
+      "source_title": "Indi\u00eb-materiaal van Willy Mullens",
+      "source_year": 1926,
+      "source_page": "https://www.movingimagearchive.com/sources/indi-materiaal-van-willy-mullens?clip=89b3bec7-3fd9-551b-99e4-ec67272b4b09",
+      "in_s": 1.0,
+      "out_s": 5.6,
+      "dur_s": 4.6,
+      "phase": "ENDPOINT A [RECORDED ARCHIVE] \u00b7 COLONIAL HOUSE & VERANDA (1926)",
+      "action": "Indi\u00eb-materiaal (1926): First documentary endpoint held intact before any transitional bridge",
+      "nearmatch": "RECORDED ENDPOINT A (1926)",
+      "seg_idx": 2,
+      "start_sec": 3.0,
+      "end_sec": 7.6
+    },
+    {
+      "type": "shot",
+      "clip_id": "67911fe5-b619-5a0b-b70a-6a763311fce6",
+      "source_title": "[Amateur films: Ivan Besse collection: Britton, South Dakota 1938-39] (Part V)",
+      "source_year": 1938,
+      "source_page": "https://www.movingimagearchive.com/sources/amateur-films-ivan-besse-collection-britton-south-dakota-1938-39-part-v-a3ec552f?clip=67911fe5-b619-5a0b-b70a-6a763311fce6",
+      "in_s": 0.6,
+      "out_s": 4.6,
+      "dur_s": 4.0,
+      "phase": "BRIDGE LAYER 01 [INSPECTABLE SMEAR] \u00b7 BLURRED MOTION PASSAGE (1938)",
+      "action": "Ivan Besse Collection (1938): Optical motion smear explicitly bracketed as a transitional bridge",
+      "nearmatch": "DISCLOSED BRIDGE != CONTINUOUS SHOT",
+      "seg_idx": 3,
+      "start_sec": 7.6,
+      "end_sec": 11.6
+    },
+    {
+      "type": "shot",
+      "clip_id": "d8f74fdb-2717-50af-891c-bfff8c0714c3",
+      "source_title": "Story of Jewel City, The",
+      "source_year": 1915,
+      "source_page": "https://www.movingimagearchive.com/sources/story-of-jewel-city-the-241f553d?clip=d8f74fdb-2717-50af-891c-bfff8c0714c3",
+      "in_s": 0.5,
+      "out_s": 5.1,
+      "dur_s": 4.6,
+      "phase": "BRIDGE LAYER 02 [COMPOSITE OVERLAY] \u00b7 TRANSLUCENT FIGURE OVER ARCHITECTURE (1915)",
+      "action": "Story of Jewel City (1915): Historical double-exposure where two strata visibly coexist during transition",
+      "nearmatch": "INSPECTABLE SUPERIMPOSITION",
+      "seg_idx": 4,
+      "start_sec": 11.6,
+      "end_sec": 16.2
+    },
+    {
+      "type": "shot",
+      "clip_id": "f10c2471-f0ee-56b8-b6cb-f823a39bc10b",
+      "source_title": "What's It to You? (Part I)",
+      "source_year": 1955,
+      "source_page": "https://www.movingimagearchive.com/sources/what-s-it-to-you-part-i-a232650a?clip=f10c2471-f0ee-56b8-b6cb-f823a39bc10b",
+      "in_s": 13.5,
+      "out_s": 18.1,
+      "dur_s": 4.6,
+      "phase": "BRIDGE LAYER 03 [REFRACTIVE PRISM] \u00b7 KALEIDOSCOPE OPTICS (1955)",
+      "action": "What's It to You? (1955): Kaleidoscopic refraction announces the shift of historical regime",
+      "nearmatch": "OPTICAL TRANSFORMATION",
+      "seg_idx": 5,
+      "start_sec": 16.2,
+      "end_sec": 20.8
+    },
+    {
+      "type": "shot",
+      "clip_id": "9d391d6b-ecee-5c09-87b5-defbcb90e74a",
+      "source_title": "Century of Progress Exposition: Wings of a Century",
+      "source_year": 1933,
+      "source_page": "https://www.movingimagearchive.com/sources/century-of-progress-exposition-wings-of-a-century-95835f19?clip=9d391d6b-ecee-5c09-87b5-defbcb90e74a",
+      "in_s": 0.5,
+      "out_s": 5.3,
+      "dur_s": 4.8,
+      "phase": "ENDPOINT B [RECORDED ARCHIVE] \u00b7 MODERNIST EXPO FACADE (1933)",
+      "action": "Century of Progress (1933): Second documentary endpoint arrives intact on the far side of the bridge",
+      "nearmatch": "RECORDED ENDPOINT B (1933)",
+      "seg_idx": 6,
+      "start_sec": 20.8,
+      "end_sec": 25.6
+    },
+    {
+      "type": "triptych_shot",
+      "clips": [
+        {
+          "id": "89b3bec7-3fd9-551b-99e4-ec67272b4b09",
+          "title": "Indi\u00eb-materiaal van Willy Mullens",
+          "year": 1926
+        },
+        {
+          "id": "d8f74fdb-2717-50af-891c-bfff8c0714c3",
+          "title": "Story of Jewel City, The",
+          "year": 1915
+        },
+        {
+          "id": "9d391d6b-ecee-5c09-87b5-defbcb90e74a",
+          "title": "Century of Progress Exposition: Wings of a Century",
+          "year": 1933
+        }
+      ],
+      "dur_s": 5.5,
+      "phase": "BRIDGE AUDIT TRIPTYCH \u00b7 [ENDPOINT A | COMPOSITE BRIDGE | ENDPOINT B]",
+      "action": "1926 Veranda (Left) | 1915 Translucent Bridge (Center) | 1933 Modern Facade (Right) kept separately inspectable",
+      "nearmatch": "OPERATIVE CINEMA \u00b7 AUDITABLE BRIDGE",
+      "seg_idx": 7,
+      "start_sec": 25.6,
+      "end_sec": 31.1
+    },
+    {
+      "seg_idx": 8,
+      "type": "closing_ledger",
+      "title": "SOURCE ATTRIBUTION & BOUNDARY NOTE",
+      "phase": "CLOSING LEDGER",
+      "action": "Labels `ENDPOINT A [RECORDED]`, `OPTICAL BRIDGE [INSPECTABLE TRANSITION]`, and `ENDPOINT B [RECORDED]` so the bridge is never mistaken for continuous historical footage.",
+      "start_sec": 31.1,
+      "end_sec": 34.6,
+      "dur_s": 3.5
+    }
+  ]
+}

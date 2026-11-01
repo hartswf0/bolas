@@ -1,0 +1,184 @@
+{
+  "slug": "SCION_066_AZ_Cyclic_Replacement_Grammar",
+  "version": "v2",
+  "series": "SERIES_C_STRUCTURAL",
+  "kicker": "SCION 066 \u00b7 STRUCTURAL & FOUND-FOOTAGE CINEMA",
+  "title": "A\u2013Z \u2014 Cyclic Replacement Grammar",
+  "subtitle": "Recurring slot windows where object-motifs enter, persist for two cycles, and yield to replacements",
+  "scion_id": 66,
+  "supporting_scions": [
+    72,
+    74
+  ],
+  "lineage": "Lineage: Hollis Frampton, A\u2013Z (1967\u20131974)",
+  "theorem": "Advance through a fixed sequence of three structural slots [A, B, C]: in each cycle, one motif retires while a new specimen enters the freed slot, allowing viewers to deduce the replacement rule from visible recurrence.",
+  "boundary_note": "The cyclic replacement index (`CYCLE 1 [A,B,C] -> CYCLE 2 [B,C,D] -> CYCLE 3 [C,D,E]`) is disclosed in the HUD without turning the historical films into mere decorative tiles.",
+  "critic_tribunal": {
+    "critic_role": "Independent structural-grammar critic",
+    "v1_verdict": "pass",
+    "v2_verdict": "pass",
+    "largest_gap": "Executes Frampton's exact cyclic slot replacement grammar across triptychs and individual specimen inspections (`163bcd54` cup, `7a6ff37f` crystal, `c78ec131` flower, `6f5ff11b` glass model, `85698632` miniature monument).",
+    "falsifiable_repair": "All 6 segments use verified cut-free windows from `clean_verified_pool.txt`."
+  },
+  "duration_seconds": 35.04,
+  "video_file": "films/SCION_066_AZ_Cyclic_Replacement_Grammar.mp4",
+  "source_count": 5,
+  "sources_summary": [
+    "163bcd54 \u00b7 POTTERY, ca. 1926 (undated)",
+    "7a6ff37f \u00b7 Door to Heaven, The (1941)",
+    "c78ec131 \u00b7 Gift of Green (1946)",
+    "6f5ff11b \u00b7 New World Through Chemistry (undated)",
+    "85698632 \u00b7 Have I Told You Lately That I Love You? (1958)"
+  ],
+  "edl": [
+    {
+      "seg_idx": 1,
+      "type": "title_card",
+      "title": "A\u2013Z \u2014 Cyclic Replacement Grammar",
+      "phase": "OPENING SLATE",
+      "action": "Recurring slot windows where object-motifs enter, persist for two cycles, and yield to replacements",
+      "start_sec": 0.0,
+      "end_sec": 3.0,
+      "dur_s": 3.0
+    },
+    {
+      "type": "shot",
+      "clip_id": "163bcd54-60f8-5249-82bc-90869592c7fe",
+      "source_title": "POTTERY, ca. 1926",
+      "source_year": null,
+      "source_page": "https://www.movingimagearchive.com/sources/pottery-ca-1926-f631757e?clip=163bcd54-60f8-5249-82bc-90869592c7fe",
+      "in_s": 0.5,
+      "out_s": 4.7,
+      "dur_s": 4.2,
+      "phase": "SEED SPECIMEN [A] \u00b7 POTTERY CUP (1926)",
+      "action": "Pottery (1926): A ceramic cup held at the edge of focus initiates Slot A of the replacement cycle",
+      "nearmatch": "SLOT [A] INITIALIZED",
+      "seg_idx": 2,
+      "start_sec": 3.0,
+      "end_sec": 7.2
+    },
+    {
+      "type": "triptych_shot",
+      "clips": [
+        {
+          "id": "163bcd54-60f8-5249-82bc-90869592c7fe",
+          "title": "POTTERY, ca. 1926",
+          "year": null
+        },
+        {
+          "id": "7a6ff37f-4c18-57eb-bf86-ce9e2601c989",
+          "title": "Door to Heaven, The",
+          "year": 1941
+        },
+        {
+          "id": "c78ec131-a8d7-5ea5-9ec5-5244854b0453",
+          "title": "Gift of Green",
+          "year": 1946
+        }
+      ],
+      "dur_s": 5.2,
+      "phase": "CYCLE 01 \u00b7 SLOTS [A: CUP | B: CRYSTAL | C: FLOWER]",
+      "action": "Three object-forms occupy the tripartite grammar before Slot A retires",
+      "nearmatch": "STATE 1: [A \u00b7 B \u00b7 C]",
+      "seg_idx": 3,
+      "start_sec": 7.2,
+      "end_sec": 12.4
+    },
+    {
+      "type": "shot",
+      "clip_id": "6f5ff11b-6987-523f-b11d-507b7816d626",
+      "source_title": "New World Through Chemistry",
+      "source_year": null,
+      "source_page": "https://www.movingimagearchive.com/sources/new-world-through-chemistry-5c95415b?clip=6f5ff11b-6987-523f-b11d-507b7816d626",
+      "in_s": 0.3,
+      "out_s": 4.5,
+      "dur_s": 4.2,
+      "phase": "REPLACEMENT SPECIMEN [D] \u00b7 GLASS MODEL",
+      "action": "New World Through Chemistry: Transparent glass molecular model enters to replace retired Slot A",
+      "nearmatch": "REPLACEMENT: [A] -> [D]",
+      "seg_idx": 4,
+      "start_sec": 12.4,
+      "end_sec": 16.6
+    },
+    {
+      "type": "triptych_shot",
+      "clips": [
+        {
+          "id": "7a6ff37f-4c18-57eb-bf86-ce9e2601c989",
+          "title": "Door to Heaven, The",
+          "year": 1941
+        },
+        {
+          "id": "c78ec131-a8d7-5ea5-9ec5-5244854b0453",
+          "title": "Gift of Green",
+          "year": 1946
+        },
+        {
+          "id": "6f5ff11b-6987-523f-b11d-507b7816d626",
+          "title": "New World Through Chemistry",
+          "year": null
+        }
+      ],
+      "dur_s": 5.2,
+      "phase": "CYCLE 02 \u00b7 SLOTS [B: CRYSTAL | C: FLOWER | D: GLASS MODEL]",
+      "action": "Crystal and Flower shift left by one register as Glass Model takes the right slot",
+      "nearmatch": "STATE 2: [B \u00b7 C \u00b7 D]",
+      "seg_idx": 5,
+      "start_sec": 16.6,
+      "end_sec": 21.8
+    },
+    {
+      "type": "triptych_shot",
+      "clips": [
+        {
+          "id": "c78ec131-a8d7-5ea5-9ec5-5244854b0453",
+          "title": "Gift of Green",
+          "year": 1946
+        },
+        {
+          "id": "6f5ff11b-6987-523f-b11d-507b7816d626",
+          "title": "New World Through Chemistry",
+          "year": null
+        },
+        {
+          "id": "85698632-1e4b-59e7-82e9-5c57545f17ec",
+          "title": "Have I Told You Lately That I Love You?",
+          "year": 1958
+        }
+      ],
+      "dur_s": 5.2,
+      "phase": "CYCLE 03 \u00b7 SLOTS [C: FLOWER | D: GLASS MODEL | E: MONUMENT]",
+      "action": "Crystal retires; Flower and Glass Model shift left as Miniature Monument (1958) enters Slot E",
+      "nearmatch": "STATE 3: [C \u00b7 D \u00b7 E]",
+      "seg_idx": 6,
+      "start_sec": 21.8,
+      "end_sec": 27.0
+    },
+    {
+      "type": "shot",
+      "clip_id": "85698632-1e4b-59e7-82e9-5c57545f17ec",
+      "source_title": "Have I Told You Lately That I Love You?",
+      "source_year": 1958,
+      "source_page": "https://www.movingimagearchive.com/sources/have-i-told-you-lately-that-i-love-you-0e6a48dc?clip=85698632-1e4b-59e7-82e9-5c57545f17ec",
+      "in_s": 11.0,
+      "out_s": 15.5,
+      "dur_s": 4.5,
+      "phase": "TERMINAL SPECIMEN [E] \u00b7 MINIATURE MONUMENT (1958)",
+      "action": "Have I Told You Lately (1958): The final replacement specimen holds the frame alone as the cycle completes",
+      "nearmatch": "GRAMMAR COMPLETE \u00b7 [E]",
+      "seg_idx": 7,
+      "start_sec": 27.0,
+      "end_sec": 31.5
+    },
+    {
+      "seg_idx": 8,
+      "type": "closing_ledger",
+      "title": "SOURCE ATTRIBUTION & BOUNDARY NOTE",
+      "phase": "CLOSING LEDGER",
+      "action": "The cyclic replacement index (`CYCLE 1 [A,B,C] -> CYCLE 2 [B,C,D] -> CYCLE 3 [C,D,E]`) is disclosed in the HUD without turning the historical films into mere decorative tiles.",
+      "start_sec": 31.5,
+      "end_sec": 35.0,
+      "dur_s": 3.5
+    }
+  ]
+}
