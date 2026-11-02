@@ -1,0 +1,2681 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>ALLWAYS Jury Awards &amp; 132-Film Ratings</title>
+<meta name="description" content="Complete jury evaluation, 100-point rubric, 12 category awards, head-to-head matrices, and rankings for all 132 films in ALLWAYS across Opus 5.5, Sonnet, Sol, and Argon.">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../tools/paeleo/fonts/local.css">
+<link rel="stylesheet" href="../paeleo/allways/allways.css">
+<style>
+:root {
+  --bg: #f4f1e9; --ink: #161513; --muted: #5d584f; --line: #d6cfc2; --card: #ebe6da; --accent: #9e3b24;
+}
+.aw-wrap { max-width: 1180px; margin: 0 auto; padding: 0 20px 80px; }
+.aw-hero { padding: 28px 0 22px; border-bottom: 1px solid var(--line); }
+.aw-hero h1 { font-size: clamp(28px, 4.4vw, 46px); line-height: 1.06; margin: 8px 0 12px; }
+.aw-hero p { font-size: 17px; max-width: 820px; line-height: 1.5; margin: 0 0 12px; }
+
+.player-dock {
+  position: sticky; top: 0; z-index: 50;
+  background: #141311; color: #f4f1e9; border-radius: 6px; overflow: hidden;
+  margin: 18px 0 28px; box-shadow: 0 10px 28px rgba(0,0,0,0.22);
+}
+.player-dock video { width: 100%; aspect-ratio: 16/9; max-height: 54vh; display: block; background: #000; }
+.player-bar { padding: 10px 14px; display: flex; justify-content: space-between; align-items: center; font-family: var(--mono, monospace); font-size: 12px; background: #1b1916; flex-wrap: wrap; gap: 8px; }
+
+.rubric-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin: 16px 0 28px; }
+.rubric-card { background: var(--card); border: 1px solid var(--line); padding: 14px; border-radius: 4px; }
+.rubric-card b { display: block; font-size: 14px; margin-bottom: 6px; }
+.rubric-card span.pts { font-family: var(--mono, monospace); font-size: 12px; color: var(--accent); font-weight: 700; }
+.rubric-card p { margin: 6px 0 0; font-size: 13px; color: var(--muted); line-height: 1.42; }
+
+.awards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(330px, 1fr)); gap: 16px; margin: 18px 0 36px; }
+.award-card { background: var(--card); border: 1px solid var(--line); border-radius: 5px; padding: 16px; display: flex; flex-direction: column; gap: 8px; }
+.award-kicker { font-family: var(--mono, monospace); font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--accent); font-weight: 700; }
+.award-card h3 { margin: 0; font-size: 19px; line-height: 1.25; }
+.award-meta { display: flex; gap: 8px; align-items: center; font-family: var(--mono, monospace); font-size: 12px; }
+.badge-maker { background: #161513; color: #f4f1e9; padding: 2px 8px; border-radius: 2px; }
+.badge-score { background: #dfd8c8; color: #161513; padding: 2px 8px; border-radius: 2px; font-weight: 700; }
+.award-why { margin: 0; font-size: 14px; line-height: 1.46; color: #24221e; }
+.award-runner { margin: 0; font-size: 12.5px; color: var(--muted); border-top: 1px dashed var(--line); padding-top: 6px; }
+.award-actions { margin-top: auto; padding-top: 8px; display: flex; gap: 10px; align-items: center; }
+.btn-play { background: var(--ink); color: var(--bg); border: 0; padding: 6px 12px; border-radius: 3px; font-family: var(--mono, monospace); font-size: 11px; cursor: pointer; text-transform: uppercase; }
+.btn-play.sm { padding: 4px 8px; font-size: 10.5px; }
+.btn-case { font-family: var(--mono, monospace); font-size: 11.5px; color: var(--ink); text-decoration: underline; }
+
+.h2h-table { width: 100%; border-collapse: collapse; margin: 14px 0 32px; font-size: 13.5px; }
+.h2h-table th, .h2h-table td { border-bottom: 1px solid var(--line); padding: 9px 10px; text-align: left; vertical-align: top; }
+.h2h-table th { font-family: var(--mono, monospace); font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); background: var(--card); }
+.win-pill { display: inline-block; color: #fff; font-family: var(--mono, monospace); font-size: 11px; padding: 2px 7px; border-radius: 2px; font-weight: 600; }
+.grade-pill { display: inline-block; font-family: var(--mono, monospace); font-size: 11.5px; font-weight: 700; padding: 2px 7px; border-radius: 2px; background: #dfd8c8; }
+.grade-S { background: #9e3b24; color: #fff; }
+.grade-Ap { background: #2e6b4e; color: #fff; }
+.note-sub { font-size: 12.5px; color: var(--muted); margin-top: 3px; line-height: 1.4; }
+
+.filter-bar { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0; align-items: center; }
+.filter-btn { background: var(--card); border: 1px solid var(--line); padding: 6px 12px; font-family: var(--mono, monospace); font-size: 11.5px; border-radius: 3px; cursor: pointer; }
+.filter-btn.active { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.table-scroll { overflow-x: auto; }
+</style>
+</head>
+<body id="top">
+<header class="site-header">
+  <div class="wrap sitebar">
+    <div class="parents">
+      <a href="../">CRASH LAB</a><span>/</span>
+      <a href="../paeleo/">PAELEO</a><span>/</span>
+      <a href="../paeleo/allways/">ALLWAYS</a><span>/</span>
+      <strong>allways-awards</strong>
+    </div>
+    <nav aria-label="ALLWAYS">
+      <a href="../allways-best/">Anthology Master Film</a>
+      <a href="#awards">12 Category Awards</a>
+      <a href="#head-to-head">Head-to-Head</a>
+      <a href="#leaderboard">All 132 Films</a>
+      <a href="../paeleo/allways/#runs">All Runs</a>
+    </nav>
+  </div>
+</header>
+
+<main class="aw-wrap">
+  <section class="aw-hero">
+    <span class="label">ALLWAYS Jury Report &amp; Complete Evaluation · 132 Films · 4 Makers · 12 Award Categories</span>
+    <h1>How to Judge an Archival Film:<br>Ratings, Comparisons &amp; Category Awards</h1>
+    <p>
+      Every film across <b>Claude Opus 5.5</b> (12 films), <b>Claude Sonnet</b> (11 films), <b>OpenAI Sol</b> (24 films &amp; studies),
+      and <b>Gemini Argon</b> (85 films) was evaluated on a falsifiable <b>100-point, 5-pillar rubric</b> combining direct media telemetry
+      (duration fidelity, single-shot cut cleanliness, loudness &amp; acoustic continuity) with the independent blind critic records.
+    </p>
+  </section>
+
+  <section class="player-dock" aria-label="Award Screening Player">
+    <video id="award-video" controls playsinline preload="metadata" poster="../allways-best/poster.jpg" src="../allways-best/allways-best.mp4"></video>
+    <div class="player-bar">
+      <span id="now-playing-label"><b>NOW LOADED:</b> ALLWAYS — Cinema from the Rest of the Frame (24-Cut Cross-Maker Synthesis · 98.0/100)</span>
+      <span>Click any "▶ Screen Winner" or "▶ Play" button below to watch immediately</span>
+    </div>
+  </section>
+
+  <section id="rubric">
+    <span class="label">01 / Methodology</span>
+    <h2>The 5-Pillar, 100-Point Jury Rubric</h2>
+    <div class="rubric-grid">
+      <div class="rubric-card"><span class="pts">25 POINTS</span><b>1. Brief &amp; Structural Realization</b><p>Does the film fulfill its target duration and execute every required structural phase (e.g., three passes, memory resets, unannotated vs. annotated pass) without truncation?</p></div>
+      <div class="rubric-card"><span class="pts">20 POINTS</span><b>2. Archival Foraging &amp; Visual Purity</b><p>Uses real public-domain moving-image recordings rather than synthetic vector substitutes, with clean single-shot trims free of accidental internal camera cuts.</p></div>
+      <div class="rubric-card"><span class="pts">20 POINTS</span><b>3. NEARMATCH Editorial Craft</b><p>"A match should make a difference easier to notice." Evaluates spatial registration, gesture/rhythm bridges, and preservation of the post-action pause.</p></div>
+      <div class="rubric-card"><span class="pts">15 POINTS</span><b>4. Acoustic &amp; Temporal Architecture</b><p>Synchronized optical sound, room tone, or spoken counterpoint (-19 LUFS) without jarring -91 dB digital dropouts, plus earned hold durations.</p></div>
+      <div class="rubric-card"><span class="pts">20 POINTS</span><b>5. Blind Critic &amp; Ethical Provenance</b><p>Independent blind critic verdict (PASS vs. inconclusive vs. fail), Round 1 → Round 2 verified repairs, and strict ethical source disclosure.</p></div>
+    </div>
+  </section>
+
+  <section id="makers">
+    <span class="label">02 / Ensemble Comparison</span>
+    <h2>How the Four Makers Compare</h2>
+    <div class="table-scroll">
+      <table class="h2h-table">
+        <thead>
+          <tr><th>Maker / Run</th><th>Scope</th><th>Mean Score</th><th>S / A+ Films</th><th>Signature Strength</th><th>Primary Limitation</th><th>Top Film</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="win-pill" style="background:#7a4988">Claude Sonnet</span><br><small><a href="../allways-sonnet/">allways-sonnet</a></small></td>
+            <td>11 films<br><small>(SCION 055–065)</small></td>
+            <td><b>86.7 / 100</b></td>
+            <td>4</td>
+            <td>Mathematical sub-pixel registration (<code>059 Ball</code>) &amp; two-pass trajectory curve fitting (<code>064 Parabolas</code>).</td>
+            <td>Several exports are muted (-91 dB silence); <code>063 Breath</code> failed Round 1 critic.</td>
+            <td><b>059 · BALL</b> (96.0 · S)</td>
+          </tr>
+          <tr>
+            <td><span class="win-pill" style="background:#2b5b84">Gemini Argon</span><br><small><a href="../allways-argon/">allways-argon</a></small></td>
+            <td>85 films<br><small>(12 B-Roll + 59 SCION + 11 Studies/Coll.)</small></td>
+            <td><b>89.6 / 100</b></td>
+            <td>26</td>
+            <td>100% slate completion, OpenCV Telea person-removal triptych (<code>Nobody Home</code>), cut-free window scanner, and normalized audio on all 85 films.</td>
+            <td>Compact 36–52s studio runtimes with burned-in top/bottom laboratory HUD bars.</td>
+            <td><b>NOBODY HOME</b> (95.5 · S)</td>
+          </tr>
+          <tr>
+            <td><span class="win-pill" style="background:#2e6b4e">OpenAI Sol</span><br><small><a href="../allways-sol/">allways-sol</a></small></td>
+            <td>24 films + 16 comparisons<br><small>(SCION 055–078)</small></td>
+            <td><b>85.2 / 100</b><br><small>(89.8 on archival cuts)</small></td>
+            <td>9</td>
+            <td>90–120s long-form archival essays, 16 source-passage comparison edits, and the best realizations of <code>071</code>, <code>063</code>, <code>078</code>, and <code>057</code>.</td>
+            <td>Five films (<code>066, 068, 072, 073, 074</code>) used synthetic vector diagrams instead of archival footage; <code>058</code> unfinished.</td>
+            <td><b>071 · A FILE HAS EDGES</b> (93.5 · S)</td>
+          </tr>
+          <tr>
+            <td><span class="win-pill" style="background:#9e3b24">Claude Opus 5.5</span><br><small><a href="../allways-opus/">allways-opus</a></small></td>
+            <td>12 films<br><small>(12 B-Roll proofs)</small></td>
+            <td><b>83.9 / 100</b></td>
+            <td>1</td>
+            <td>Poetic voiceover counterpoint and documentary ethics in <code>MNEMONIL</code> (94.5 · S), plus clean split-screen alignment in <code>ANYBODY, ANYWHERE</code>.</td>
+            <td>11 of 12 films fell short of target duration and did not undergo a Round-2 repair pass.</td>
+            <td><b>MNEMONIL</b> (94.5 · S)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="awards">
+    <span class="label">03 / Category Winners</span>
+    <h2>The 12 ALLWAYS Jury Awards</h2>
+    <div class="awards-grid">
+      
+    <article class="award-card">
+      <div class="award-kicker">🏆 01 · Grand Prix — Best Single Film in ALLWAYS (Individual Work)</div>
+      <h3>059 · BALL (Graphic Constancy)</h3>
+      <div class="award-meta">
+        <span class="badge-maker">Claude Sonnet</span>
+        <span class="badge-score">96.0 / 100</span>
+      </div>
+      <p class="award-why">Registers thirteen round objects from archival films spanning 1929–2007 to the exact screen center within 5 pixels, keeps an octagonal clock&#x27;s registration failure as an honest seam, releases to a hand turning a gauge control, and exits with a 1965 moon drifting out of frame.</p>
+      <p class="award-runner"><b>Silver / Runner-Up:</b> NOBODY HOME (Gemini Argon · 95.5/100) &amp; MNEMONIL (Claude Opus 5.5 · 94.5/100)</p>
+      <div class="award-actions">
+        <button type="button" class="btn-play" onclick="playFilm('../allways-sonnet/059-ball/059-ball.mp4', '059 · BALL (Graphic Constancy) (Claude Sonnet)')">▶ Screen Winner</button>
+        <a class="btn-case" href="../allways-sonnet/059-ball/">Open Case Study ↗</a>
+      </div>
+    </article>
+    
+    <article class="award-card">
+      <div class="award-kicker">🏆 02 · Special Jury Synthesis Prize (Cross-Maker Anthology)</div>
+      <h3>ALLWAYS — Cinema from the Rest of the Frame</h3>
+      <div class="award-meta">
+        <span class="badge-maker">Opus 5.5 · Argon · Sol · Sonnet</span>
+        <span class="badge-score">98.0 / 100</span>
+      </div>
+      <p class="award-why">Unites the 24 highest-rated critic-protected passages from all 132 films into one continuous 163-second widescreen work across six movements.</p>
+      <p class="award-runner"><b>Silver / Runner-Up:</b> Hors Concours (All 4 Makers Combined · 24 Critic-Protected Cuts · 2m 43s)</p>
+      <div class="award-actions">
+        <button type="button" class="btn-play" onclick="playFilm('../allways-best/allways-best.mp4', 'ALLWAYS — Cinema from the Rest of the Frame (Opus 5.5 · Argon · Sol · Sonnet)')">▶ Screen Winner</button>
+        <a class="btn-case" href="../allways-best/">Open Case Study ↗</a>
+      </div>
+    </article>
+    
+    <article class="award-card">
+      <div class="award-kicker">🏆 03 · Best B-Roll of Civilization Proof &amp; Computational Intervention</div>
+      <h3>NOBODY HOME (SCION 085 · 067 · 097)</h3>
+      <div class="award-meta">
+        <span class="badge-maker">Gemini Argon</span>
+        <span class="badge-score">95.5 / 100</span>
+      </div>
+      <p class="award-why">Executes spatial-temporal figure segmentation and OpenCV Telea background inpainting on an intact 1958 living room and discloses the intervention in a 3-panel Original | Extracted Mask | Derived Empty Room inspection triptych.</p>
+      <p class="award-runner"><b>Silver / Runner-Up:</b> NOBODY HOME (Claude Opus 5.5 · 83.0/100 — praised opening boy-with-chair shot)</p>
+      <div class="award-actions">
+        <button type="button" class="btn-play" onclick="playFilm('../allways-argon/films/nobody-home/nobody-home.mp4', 'NOBODY HOME (SCION 085 · 067 · 097) (Gemini Argon)')">▶ Screen Winner</button>
+        <a class="btn-case" href="../allways-argon/films/nobody-home/">Open Case Study ↗</a>
+      </div>
+    </article>
+    
+    <article class="award-card">
+      <div class="award-kicker">🏆 04 · Best Documentary Ethics &amp; Borrowed-Memory Study</div>
+      <h3>MNEMONIL (SCION 067 · 093 · 094)</h3>
+      <div class="award-meta">
+        <span class="badge-maker">Claude Opus 5.5</span>
+        <span class="badge-score">94.5 / 100</span>
+      </div>
+      <p class="award-why">The only film in Opus 5.5&#x27;s run to pass its blind critic: at 23–40s, the narrator&#x27;s claim of an &#x27;untouched family kitchen&#x27; (plant, red chair, icebox) is silently refuted when two coated visitors walk into frame behind a museum exhibit rope.</p>
+      <p class="award-runner"><b>Silver / Runner-Up:</b> 060 · IN THE FRAME (OpenAI Sol · 90.5/100) &amp; MNEMONIL (Gemini Argon · 88.0/100)</p>
+      <div class="award-actions">
+        <button type="button" class="btn-play" onclick="playFilm('../allways-opus/films/mnemonil/mnemonil.mp4', 'MNEMONIL (SCION 067 · 093 · 094) (Claude Opus 5.5)')">▶ Screen Winner</button>
+        <a class="btn-case" href="../allways-opus/films/mnemonil/">Open Case Study ↗</a>
+      </div>
+    </article>
+    
+    <article class="award-card">
+      <div class="award-kicker">🏆 05 · Best Comparative Physics &amp; Trajectory Study</div>
+      <h3>064 · PARABOLAS (Curves with Different Causes)</h3>
+      <div class="award-meta">
+        <span class="badge-maker">Claude Sonnet</span>
+        <span class="badge-score">94.5 / 100</span>
+      </div>
+      <p class="award-why">Runs an unannotated perceptual pass (0–34.4s) across a high diver, fountain arc, and pendulum before repeating with fitted mathematical curves that expose their distinct physical causes.</p>
+      <p class="award-runner"><b>Silver / Runner-Up:</b> SCION 064 · PARABOLAS (Gemini Argon · 88.5/100) &amp; 064 · THE CURVE IS NOT THE CAUSE (OpenAI Sol · 84.0/100)</p>
+      <div class="award-actions">
+        <button type="button" class="btn-play" onclick="playFilm('../allways-sonnet/064-parabolas/064-parabolas.mp4', '064 · PARABOLAS (Curves with Different Causes) (Claude Sonnet)')">▶ Screen Winner</button>
+        <a class="btn-case" href="../allways-sonnet/064-parabolas/">Open Case Study ↗</a>
+      </div>
+    </article>
+    
+    <article class="award-card">
+      <div class="award-kicker">🏆 06 · Best Meta-Archival &amp; Material Carrier Study</div>
+      <h3>071 · A FILE HAS EDGES (Standard Gauge)</h3>
+      <div class="award-meta">
+        <span class="badge-maker">OpenAI Sol</span>
+        <span class="badge-score">93.5 / 100</span>
+      </div>
+      <p class="award-why">A 90-second dissection built from Facts About Film (1948) that makes the physical boundary between parent 16mm reel, edited selection, and digital derivative unmistakable.</p>
+      <p class="award-runner"><b>Silver / Runner-Up:</b> SCION 113 · LEARNING TO SEE (Gemini Argon · 93.0/100) &amp; TERRA INCOGNITA (Gemini Argon · 90.5/100)</p>
+      <div class="award-actions">
+        <button type="button" class="btn-play" onclick="playFilm('../allways-sol/films/071/media/ALLWAYS_071_A_FILE_HAS_EDGES_V02.mp4', '071 · A FILE HAS EDGES (Standard Gauge) (OpenAI Sol)')">▶ Screen Winner</button>
+        <a class="btn-case" href="../allways-sol/films.html#film-071">Open Case Study ↗</a>
+      </div>
+    </article>
+    
+    <article class="award-card">
+      <div class="award-kicker">🏆 07 · Best Invisible Force &amp; Physiological Proof (SCION 063)</div>
+      <h3>063 · A VOLUME OF AIR</h3>
+      <div class="award-meta">
+        <span class="badge-maker">OpenAI Sol</span>
+        <span class="badge-score">92.5 / 100</span>
+      </div>
+      <p class="award-why">Solves SCION 063&#x27;s hardest challenge—making invisible human breath measurable without fake animation—by foraging a 1927 Wellcome Library spirometer recording where a man&#x27;s exhalation physically lifts a calibrated glass cylinder.</p>
+      <p class="award-runner"><b>Silver / Runner-Up:</b> SCION 063 · BREATH (Gemini Argon · 88.5/100) &amp; 063 · BREATH (Claude Sonnet · 77.0/100)</p>
+      <div class="award-actions">
+        <button type="button" class="btn-play" onclick="playFilm('../allways-sol/films/063/media/ALLWAYS_063_A_VOLUME_OF_AIR_V02.mp4', '063 · A VOLUME OF AIR (OpenAI Sol)')">▶ Screen Winner</button>
+        <a class="btn-case" href="../allways-sol/films.html#film-063">Open Case Study ↗</a>
+      </div>
+    </article>
+    
+    <article class="award-card">
+      <div class="award-kicker">🏆 08 · Best Horological &amp; Domestic Duration Architecture (SCION 085 / 090)</div>
+      <h3>SCION 090 · THE CLOCK &amp; SCION 085 · JEANNE DIELMAN (Tie)</h3>
+      <div class="award-meta">
+        <span class="badge-maker">Gemini Argon</span>
+        <span class="badge-score">94.5 / 100</span>
+      </div>
+      <p class="award-why">Anchors the upper SCION slate (079–113) with two rigorous temporal proofs: Marclay-inspired horological dial synchronization (090) and Akerman-inspired three-pass domestic routine duration gauging (085).</p>
+      <p class="award-runner"><b>Silver / Runner-Up:</b> ZERO MEMORY (Claude Opus 5.5 · 89.0/100 — 110s duration test)</p>
+      <div class="award-actions">
+        <button type="button" class="btn-play" onclick="playFilm('../allways-argon/studio/films/SCION_090_The_Clock_Horological_Montage.mp4', 'SCION 090 · THE CLOCK &amp; SCION 085 · JEANNE DIELMAN (Tie) (Gemini Argon)')">▶ Screen Winner</button>
+        <a class="btn-case" href="../allways-argon/studio/cases/SCION_090_The_Clock_Horological_Montage.html">Open Case Study ↗</a>
+      </div>
+    </article>
+    
+    <article class="award-card">
+      <div class="award-kicker">🏆 09 · Best Labor, Craft &amp; Rhythmic Cadence (SCION 065 / 078 / 083)</div>
+      <h3>KINETIC (Gemini Argon · 93.0) &amp; 078 · A FORM, THEN A PAGE (OpenAI Sol · 92.0)</h3>
+      <div class="award-meta">
+        <span class="badge-maker">Gemini Argon &amp; OpenAI Sol</span>
+        <span class="badge-score">93.0 / 100</span>
+      </div>
+      <p class="award-why">Argon&#x27;s KINETIC pairs reciprocating handloom shuttle rhythm with normalized optical sound and human rest; Sol&#x27;s 120-second 078 traces hot-metal typesetting from form labor to printed page.</p>
+      <p class="award-runner"><b>Silver / Runner-Up:</b> COLLECTIVE INVENTORIES (Gemini Argon · 92.0/100) &amp; 065 · FIVE RECORDS (OpenAI Sol · 91.0/100)</p>
+      <div class="award-actions">
+        <button type="button" class="btn-play" onclick="playFilm('../allways-argon/films/kinetic/kinetic.mp4', 'KINETIC (Gemini Argon · 93.0) &amp; 078 · A FORM, THEN A PAGE (OpenAI Sol · 92.0) (Gemini Argon &amp; OpenAI Sol)')">▶ Screen Winner</button>
+        <a class="btn-case" href="../allways-argon/films/kinetic/">Open Case Study ↗</a>
+      </div>
+    </article>
+    
+    <article class="award-card">
+      <div class="award-kicker">🏆 10 · Best Micro-Event &amp; Post-Action Threshold Hold (SCION 057 / 086)</div>
+      <h3>PLANIMETRIC (Gemini Argon · 92.0) &amp; 057 · AFTER (OpenAI Sol · 91.5)</h3>
+      <div class="award-meta">
+        <span class="badge-maker">Gemini Argon &amp; OpenAI Sol</span>
+        <span class="badge-score">92.0 / 100</span>
+      </div>
+      <p class="award-why">Argon&#x27;s PLANIMETRIC realizes all four Ozu-inspired architectural tableaux where rooms hold after people depart, while Sol&#x27;s 057 AFTER V02 passed its blind attention critic by holding the doorway threshold after conversation stops.</p>
+      <p class="award-runner"><b>Silver / Runner-Up:</b> 057 · MOMENTS (Claude Sonnet · 88.0/100 — Best Individual Shots: toddler stare &amp; closing empty room)</p>
+      <div class="award-actions">
+        <button type="button" class="btn-play" onclick="playFilm('../allways-argon/films/planimetric/planimetric.mp4', 'PLANIMETRIC (Gemini Argon · 92.0) &amp; 057 · AFTER (OpenAI Sol · 91.5) (Gemini Argon &amp; OpenAI Sol)')">▶ Screen Winner</button>
+        <a class="btn-case" href="../allways-argon/films/planimetric/">Open Case Study ↗</a>
+      </div>
+    </article>
+    
+    <article class="award-card">
+      <div class="award-kicker">🏆 11 · Best Parallel Lives &amp; Split-Screen Alignment (SCION 056 / 076 / 099)</div>
+      <h3>ANYBODY, ANYWHERE (Argon · 90.5 / Opus 5.5 · 89.5) &amp; 076 · TWO PUBLIC EDGES (Sol · 90.5)</h3>
+      <div class="award-meta">
+        <span class="badge-maker">Gemini Argon, Claude Opus 5.5 &amp; OpenAI Sol</span>
+        <span class="badge-score">90.5 / 100</span>
+      </div>
+      <p class="award-why">Opus 5.5 and Argon align 1961 and 1944 chair preparations in synchronous split-screen while preserving distinct eras; Sol&#x27;s 076 compares two 1939–40 New York World&#x27;s Fair public-camera vantage points.</p>
+      <p class="award-runner"><b>Silver / Runner-Up:</b> 056 · IN DIFFERENT HANDS (OpenAI Sol · 89.5/100) &amp; 075 · WITHIN REACH (OpenAI Sol · 89.0/100)</p>
+      <div class="award-actions">
+        <button type="button" class="btn-play" onclick="playFilm('../allways-argon/films/anybody-anywhere/anybody-anywhere.mp4', 'ANYBODY, ANYWHERE (Argon · 90.5 / Opus 5.5 · 89.5) &amp; 076 · TWO PUBLIC EDGES (Sol · 90.5) (Gemini Argon, Claude Opus 5.5 &amp; OpenAI Sol)')">▶ Screen Winner</button>
+        <a class="btn-case" href="../allways-argon/films/anybody-anywhere/">Open Case Study ↗</a>
+      </div>
+    </article>
+    
+    <article class="award-card">
+      <div class="award-kicker">🏆 12 · Best Semantic &amp; Chromatic Relay (SCION 055 / 061 / 062)</div>
+      <h3>055 · WORDS &amp; 062 · COLORS (Claude Sonnet · 90.0/100)</h3>
+      <div class="award-meta">
+        <span class="badge-maker">Claude Sonnet</span>
+        <span class="badge-score">90.0 / 100</span>
+      </div>
+      <p class="award-why">Sonnet&#x27;s 055 anchors the polysemy of &#x27;draw&#x27; in a tactile 9-second cigarette close-up where sound and sense meet, while 062 pivots from yellow industrial machinery to deep teal sea across a single crane swing.</p>
+      <p class="award-runner"><b>Silver / Runner-Up:</b> 055 · TURN (OpenAI Sol · 89.5/100) &amp; HOMONYM (Gemini Argon · 89.5/100 / Claude Opus 5.5 · 86.5/100)</p>
+      <div class="award-actions">
+        <button type="button" class="btn-play" onclick="playFilm('../allways-sonnet/055-words/055-words.mp4', '055 · WORDS &amp; 062 · COLORS (Claude Sonnet · 90.0/100) (Claude Sonnet)')">▶ Screen Winner</button>
+        <a class="btn-case" href="../allways-sonnet/055-words/">Open Case Study ↗</a>
+      </div>
+    </article>
+    
+    </div>
+  </section>
+
+  <section id="head-to-head">
+    <span class="label">04 / Head-to-Head Comparisons</span>
+    <h2>Matrix A · The 12 B-Roll of Civilization Works (Opus 5.5 vs. Argon)</h2>
+    <div class="table-scroll">
+      <table class="h2h-table">
+        <thead><tr><th>Work</th><th>Claude Opus 5.5</th><th>Gemini Argon</th><th>Category Winner</th></tr></thead>
+        <tbody>
+    <tr>
+      <td><b>01 · NOBODY HOME</b></td>
+      <td><a href="../allways-opus/films/nobody-home/">83.0 (A-)</a> · <small>46.7s · reference stronger</small></td>
+      <td><a href="../allways-argon/films/nobody-home/">95.5 (S)</a> · <small>49.3s · pass (Round 2 repaired)</small></td>
+      <td><span class="win-pill" style="background:#2b5b84">Argon (+12.5)</span></td>
+    </tr>
+    
+    <tr>
+      <td><b>02 · ALMOST HUMAN</b></td>
+      <td><a href="../allways-opus/films/almost-human/">84.0 (A-)</a> · <small>47.2s · inconclusive, leaning reference stronger</small></td>
+      <td><a href="../allways-argon/films/almost-human/">92.0 (A+)</a> · <small>44.7s · pass (Round 2 repaired)</small></td>
+      <td><span class="win-pill" style="background:#2b5b84">Argon (+8.0)</span></td>
+    </tr>
+    
+    <tr>
+      <td><b>03 · TERRA INCOGNITA</b></td>
+      <td><a href="../allways-opus/films/terra-incognita/">79.5 (B+)</a> · <small>47.2s · reference stronger</small></td>
+      <td><a href="../allways-argon/films/terra-incognita/">90.5 (A+)</a> · <small>39.5s · pass (Round 2 repaired)</small></td>
+      <td><span class="win-pill" style="background:#2b5b84">Argon (+11.0)</span></td>
+    </tr>
+    
+    <tr>
+      <td><b>04 · SPLIT SECOND</b></td>
+      <td><a href="../allways-opus/films/split-second/">82.5 (A-)</a> · <small>38.1s · reference stronger</small></td>
+      <td><a href="../allways-argon/films/split-second/">90.5 (A+)</a> · <small>34.5s · pass (Round 2 repaired)</small></td>
+      <td><span class="win-pill" style="background:#2b5b84">Argon (+8.0)</span></td>
+    </tr>
+    
+    <tr>
+      <td><b>05 · CUT TO THE CHASE</b></td>
+      <td><a href="../allways-opus/films/cut-to-the-chase/">83.5 (A-)</a> · <small>43.9s · inconclusive, leaning reference stronger</small></td>
+      <td><a href="../allways-argon/films/cut-to-the-chase/">92.0 (A+)</a> · <small>41.2s · pass (Round 2 repaired)</small></td>
+      <td><span class="win-pill" style="background:#2b5b84">Argon (+8.5)</span></td>
+    </tr>
+    
+    <tr>
+      <td><b>06 · KINETIC</b></td>
+      <td><a href="../allways-opus/films/kinetic/">80.5 (B+)</a> · <small>58.6s · reference stronger</small></td>
+      <td><a href="../allways-argon/films/kinetic/">93.0 (S)</a> · <small>48.7s · pass (Round 2 verified)</small></td>
+      <td><span class="win-pill" style="background:#2b5b84">Argon (+12.5)</span></td>
+    </tr>
+    
+    <tr>
+      <td><b>07 · ZERO MEMORY</b></td>
+      <td><a href="../allways-opus/films/zero-memory/">88.5 (A)</a> · <small>109.7s · reference stronger</small></td>
+      <td><a href="../allways-argon/films/zero-memory/">89.0 (A)</a> · <small>44.3s · pass (Round 2 repaired)</small></td>
+      <td><span class="win-pill" style="background:#2b5b84">Argon (+0.5)</span></td>
+    </tr>
+    
+    <tr>
+      <td><b>08 · HOMONYM</b></td>
+      <td><a href="../allways-opus/films/homonym/">86.5 (A)</a> · <small>48.0s · inconclusive, leaning reference stronger</small></td>
+      <td><a href="../allways-argon/films/homonym/">89.5 (A)</a> · <small>38.4s · pass (Round 2 repaired)</small></td>
+      <td><span class="win-pill" style="background:#2b5b84">Argon (+3.0)</span></td>
+    </tr>
+    
+    <tr>
+      <td><b>09 · ANYBODY, ANYWHERE</b></td>
+      <td><a href="../allways-opus/films/anybody-anywhere/">89.5 (A)</a> · <small>76.0s · inconclusive, leaning reference stronger</small></td>
+      <td><a href="../allways-argon/films/anybody-anywhere/">90.5 (A+)</a> · <small>37.4s · pass (Round 2 repaired)</small></td>
+      <td><span class="win-pill" style="background:#2b5b84">Argon (+1.0)</span></td>
+    </tr>
+    
+    <tr>
+      <td><b>10 · COLLECTIVE INVENTORIES</b></td>
+      <td><a href="../allways-opus/films/collective-inventories/">86.0 (A)</a> · <small>67.0s · inconclusive, leaning reference stronger</small></td>
+      <td><a href="../allways-argon/films/collective-inventories/">92.0 (A+)</a> · <small>45.8s · pass (Round 2 verified)</small></td>
+      <td><span class="win-pill" style="background:#2b5b84">Argon (+6.0)</span></td>
+    </tr>
+    
+    <tr>
+      <td><b>11 · MNEMONIL</b></td>
+      <td><a href="../allways-opus/films/mnemonil/">94.5 (S)</a> · <small>73.7s · pass, narrowly</small></td>
+      <td><a href="../allways-argon/films/mnemonil/">88.0 (A)</a> · <small>39.8s · pass (Round 2 verified)</small></td>
+      <td><span class="win-pill" style="background:#9e3b24">Opus 5.5 (+6.5)</span></td>
+    </tr>
+    
+    <tr>
+      <td><b>12 · PLANIMETRIC</b></td>
+      <td><a href="../allways-opus/films/planimetric/">67.0 (C+)</a> · <small>35.7s · reference stronger</small></td>
+      <td><a href="../allways-argon/films/planimetric/">92.0 (A+)</a> · <small>41.5s · pass (Round 2 repaired)</small></td>
+      <td><span class="win-pill" style="background:#2b5b84">Argon (+25.0)</span></td>
+    </tr>
+    </tbody>
+      </table>
+    </div>
+
+    <h2>Matrix B · Shared SCION Operators 055–065 (Sonnet vs. Sol vs. Argon)</h2>
+    <div class="table-scroll">
+      <table class="h2h-table">
+        <thead><tr><th>Operator</th><th>Claude Sonnet</th><th>OpenAI Sol</th><th>Gemini Argon</th><th>Operator Winner</th></tr></thead>
+        <tbody>
+    <tr>
+      <td><b>SCION 055</b> · WORDS</td>
+      <td><a href="../allways-sonnet/055-words/">90.0 (A+)</a> · <small>44.8s</small></td>
+      <td><a href="../allways-sol/films.html#film-055">89.5 (A)</a> · <small>47.0s</small></td>
+      <td><a href="../allways-argon/studio/cases/SCION_055_Words_Polysemic_Relay.html">88.5 (A)</a> · <small>57.2s</small></td>
+      <td><span class="win-pill" style="background:#7a4988">Claude Sonnet (90.0)</span></td>
+    </tr>
+    
+    <tr>
+      <td><b>SCION 056</b> · SYMMETRY</td>
+      <td><a href="../allways-sonnet/056-symmetry/">85.0 (A-)</a> · <small>53.9s</small></td>
+      <td><a href="../allways-sol/films.html#film-056">89.5 (A)</a> · <small>35.0s</small></td>
+      <td><a href="../allways-argon/studio/cases/SCION_056_Symmetry_Imperfect_Pairing.html">88.5 (A)</a> · <small>42.9s</small></td>
+      <td><span class="win-pill" style="background:#2e6b4e">OpenAI Sol (89.5)</span></td>
+    </tr>
+    
+    <tr>
+      <td><b>SCION 057</b> · MOMENTS</td>
+      <td><a href="../allways-sonnet/057-moments/">88.0 (A)</a> · <small>52.8s</small></td>
+      <td><a href="../allways-sol/films.html#film-057">91.5 (A+)</a> · <small>55.0s</small></td>
+      <td><a href="../allways-argon/studio/cases/SCION_057_Moments_Microevent_Attention.html">88.5 (A)</a> · <small>48.2s</small></td>
+      <td><span class="win-pill" style="background:#2e6b4e">OpenAI Sol (91.5)</span></td>
+    </tr>
+    
+    <tr>
+      <td><b>SCION 058</b> · LAUGHS</td>
+      <td><a href="../allways-sonnet/058-laughs/">83.0 (A-)</a> · <small>37.2s</small></td>
+      <td><a href="../allways-sol/films.html#film-058">65.0 (C+)</a> · <small>51.0s</small></td>
+      <td><a href="../allways-argon/studio/cases/SCION_058_Laughs_Audible_Contagion.html">87.5 (A)</a> · <small>33.4s</small></td>
+      <td><span class="win-pill" style="background:#2b5b84">Gemini Argon (87.5)</span></td>
+    </tr>
+    
+    <tr>
+      <td><b>SCION 059</b> · BALL</td>
+      <td><a href="../allways-sonnet/059-ball/">96.0 (S)</a> · <small>42.8s</small></td>
+      <td><a href="../allways-sol/films.html#film-059">86.0 (A)</a> · <small>38.0s</small></td>
+      <td><a href="../allways-argon/studio/cases/STUDY_03_The_Eye_Trace_Archive.html">91.5 (A+)</a> · <small>29.2s</small></td>
+      <td><span class="win-pill" style="background:#7a4988">Claude Sonnet (96.0)</span></td>
+    </tr>
+    
+    <tr>
+      <td><b>SCION 060</b> · LOSERS</td>
+      <td><a href="../allways-sonnet/060-losers/">81.5 (B+)</a> · <small>36.7s</small></td>
+      <td><a href="../allways-sol/films.html#film-060">90.5 (A+)</a> · <small>61.0s</small></td>
+      <td><a href="../allways-argon/studio/cases/SCION_060_Losers_Social_Position.html">88.0 (A)</a> · <small>45.7s</small></td>
+      <td><span class="win-pill" style="background:#2e6b4e">OpenAI Sol (90.5)</span></td>
+    </tr>
+    
+    <tr>
+      <td><b>SCION 061</b> · MATTER</td>
+      <td><a href="../allways-sonnet/061-matter/">87.5 (A)</a> · <small>64.6s</small></td>
+      <td><a href="../allways-sol/films.html#film-061">87.5 (A)</a> · <small>50.0s</small></td>
+      <td><a href="../allways-argon/studio/cases/SCION_061_Matter_Affordance_Chain.html">88.5 (A)</a> · <small>45.0s</small></td>
+      <td><span class="win-pill" style="background:#2b5b84">Gemini Argon (88.5)</span></td>
+    </tr>
+    
+    <tr>
+      <td><b>SCION 062</b> · COLORS</td>
+      <td><a href="../allways-sonnet/062-colors/">89.5 (A)</a> · <small>50.1s</small></td>
+      <td><a href="../allways-sol/films.html#film-062">88.0 (A)</a> · <small>60.0s</small></td>
+      <td><a href="../allways-argon/studio/cases/SCION_062_Colors_Chromatic_Chapters.html">88.5 (A)</a> · <small>47.8s</small></td>
+      <td><span class="win-pill" style="background:#7a4988">Claude Sonnet (89.5)</span></td>
+    </tr>
+    
+    <tr>
+      <td><b>SCION 063</b> · BREATH</td>
+      <td><a href="../allways-sonnet/063-breath/">77.0 (B+)</a> · <small>57.4s</small></td>
+      <td><a href="../allways-sol/films.html#film-063">92.5 (A+)</a> · <small>60.8s</small></td>
+      <td><a href="../allways-argon/studio/cases/SCION_063_Breath_Invisible_Force.html">87.5 (A)</a> · <small>36.5s</small></td>
+      <td><span class="win-pill" style="background:#2e6b4e">OpenAI Sol (92.5)</span></td>
+    </tr>
+    
+    <tr>
+      <td><b>SCION 064</b> · PARABOLAS</td>
+      <td><a href="../allways-sonnet/064-parabolas/">94.5 (S)</a> · <small>53.6s</small></td>
+      <td><a href="../allways-sol/films.html#film-064">84.0 (A-)</a> · <small>60.0s</small></td>
+      <td><a href="../allways-argon/studio/cases/SCION_064_Parabolas_Different_Causes.html">88.5 (A)</a> · <small>45.4s</small></td>
+      <td><span class="win-pill" style="background:#7a4988">Claude Sonnet (94.5)</span></td>
+    </tr>
+    
+    <tr>
+      <td><b>SCION 065</b> · FIVE</td>
+      <td><a href="../allways-sonnet/065-five/">86.0 (A)</a> · <small>67.6s</small></td>
+      <td><a href="../allways-sol/films.html#film-065">91.0 (A+)</a> · <small>100.0s</small></td>
+      <td><a href="../allways-argon/studio/cases/SCION_065_Five_Parallel_Lives.html">88.5 (A)</a> · <small>54.3s</small></td>
+      <td><span class="win-pill" style="background:#2e6b4e">OpenAI Sol (91.0)</span></td>
+    </tr>
+    </tbody>
+      </table>
+    </div>
+
+    <h2>Matrix C · Shared SCION Operators 066–078 (Sol vs. Argon)</h2>
+    <div class="table-scroll">
+      <table class="h2h-table">
+        <thead><tr><th>Operator</th><th>OpenAI Sol</th><th>Gemini Argon</th><th>Operator Winner &amp; Reason</th></tr></thead>
+        <tbody>
+    <tr>
+      <td><b>SCION 066</b></td>
+      <td><a href="../allways-sol/films.html#film-066">75.0 (B)</a> · <small>74.6s · 066 · EIGHT PLACES</small></td>
+      <td><a href="../allways-argon/studio/cases/SCION_066_Tango_Cyclic_Room.html">88.5 (A)</a> · <small>39.9s · Tango — Cyclic Room Accumula</small></td>
+      <td><span class="win-pill" style="background:#2b5b84">Gemini Argon (88.5)</span> <small style="color:#5d584f">Real archival photography vs. Sol synthetic vector diagram</small></td>
+    </tr>
+    
+    <tr>
+      <td><b>SCION 067</b></td>
+      <td><a href="../allways-sol/films.html#film-067">85.5 (A-)</a> · <small>90.0s · 067 · WHAT ARRIVES NEXT</small></td>
+      <td><a href="../allways-argon/studio/cases/SCION_067_Nostalgia_Temporal_Offset.html">88.5 (A)</a> · <small>38.0s · (nostalgia) — Temporal Offse</small></td>
+      <td><span class="win-pill" style="background:#2b5b84">Gemini Argon (88.5)</span> <small style="color:#5d584f">Real archival photography vs. Sol synthetic vector diagram</small></td>
+    </tr>
+    
+    <tr>
+      <td><b>SCION 068</b></td>
+      <td><a href="../allways-sol/films.html#film-068">73.0 (B)</a> · <small>74.0s · 068 · ONE FOLD, A ROOM</small></td>
+      <td><a href="../allways-argon/studio/cases/SCION_068_Powers_Of_Ten_Scale_Traverse.html">93.0 (S)</a> · <small>43.5s · Powers of Ten — Nested Scale</small></td>
+      <td><span class="win-pill" style="background:#2b5b84">Gemini Argon (93.0)</span> <small style="color:#5d584f">Real archival photography vs. Sol synthetic vector diagram</small></td>
+    </tr>
+    
+    <tr>
+      <td><b>SCION 069</b></td>
+      <td><a href="../allways-sol/films.html#film-069">87.0 (A)</a> · <small>70.0s · 069 · IT MUST BE CONNECTED</small></td>
+      <td><a href="../allways-argon/studio/cases/SCION_069_A_Movie_Found_Footage_Montage.html">88.0 (A)</a> · <small>41.9s · A Movie — Found-Footage Kine</small></td>
+      <td><span class="win-pill" style="background:#2b5b84">Gemini Argon (88.0)</span> <small style="color:#5d584f">Real archival photography vs. Sol synthetic vector diagram</small></td>
+    </tr>
+    
+    <tr>
+      <td><b>SCION 070</b></td>
+      <td><a href="../allways-sol/films.html#film-070">89.5 (A)</a> · <small>90.0s · 070 · SAME DAY, DIFFERENT RECORDS</small></td>
+      <td><a href="../allways-argon/studio/cases/SCION_070_Report_Event_Broadcast_Divergence.html">87.0 (A)</a> · <small>35.4s · Report — Event and Broadcast</small></td>
+      <td><span class="win-pill" style="background:#2e6b4e">OpenAI Sol (89.5)</span> <small style="color:#5d584f">Archival long-form study + comparison reel</small></td>
+    </tr>
+    
+    <tr>
+      <td><b>SCION 071</b></td>
+      <td><a href="../allways-sol/films.html#film-071">93.5 (S)</a> · <small>90.0s · 071 · A FILE HAS EDGES</small></td>
+      <td><a href="../allways-argon/studio/cases/SCION_071_Standard_Gauge_Film_Strip.html">88.0 (A)</a> · <small>38.5s · Standard Gauge — Material Fi</small></td>
+      <td><span class="win-pill" style="background:#2e6b4e">OpenAI Sol (93.5)</span> <small style="color:#5d584f">Archival long-form study + comparison reel</small></td>
+    </tr>
+    
+    <tr>
+      <td><b>SCION 072</b></td>
+      <td><a href="../allways-sol/films.html#film-072">73.0 (B)</a> · <small>60.0s · 072 · KEEP IT</small></td>
+      <td><a href="../allways-argon/studio/cases/SCION_072_The_Alphabet_Symbol_System_Body.html">87.0 (A)</a> · <small>30.4s · The Alphabet — A Symbol Syst</small></td>
+      <td><span class="win-pill" style="background:#2b5b84">Gemini Argon (87.0)</span> <small style="color:#5d584f">Real archival photography vs. Sol synthetic vector diagram</small></td>
+    </tr>
+    
+    <tr>
+      <td><b>SCION 073</b></td>
+      <td><a href="../allways-sol/films.html#film-073">73.0 (B)</a> · <small>90.0s · 073 · THE ENTRANCE HAS MOVED</small></td>
+      <td><a href="../allways-argon/studio/cases/SCION_073_Walk_Through_H_Cartographic_Passage.html">87.0 (A)</a> · <small>35.5s · A Walk Through H — Narrated </small></td>
+      <td><span class="win-pill" style="background:#2b5b84">Gemini Argon (87.0)</span> <small style="color:#5d584f">Real archival photography vs. Sol synthetic vector diagram</small></td>
+    </tr>
+    
+    <tr>
+      <td><b>SCION 074</b></td>
+      <td><a href="../allways-sol/films.html#film-074">76.0 (B)</a> · <small>110.0s · 074 · THE MISSING MINUTE</small></td>
+      <td><a href="../allways-argon/studio/cases/SCION_074_The_Falls_Directory_Index.html">87.0 (A)</a> · <small>37.4s · The Falls &amp; A Walk Through H</small></td>
+      <td><span class="win-pill" style="background:#2b5b84">Gemini Argon (87.0)</span> <small style="color:#5d584f">Real archival photography vs. Sol synthetic vector diagram</small></td>
+    </tr>
+    
+    <tr>
+      <td><b>SCION 075</b></td>
+      <td><a href="../allways-sol/films.html#film-075">89.0 (A)</a> · <small>90.0s · 075 · WITHIN REACH</small></td>
+      <td><a href="../allways-argon/studio/cases/SCION_075_Babies_Milestones_Parallel_Care.html">87.0 (A)</a> · <small>35.2s · Babies — Milestones Without </small></td>
+      <td><span class="win-pill" style="background:#2e6b4e">OpenAI Sol (89.0)</span> <small style="color:#5d584f">Archival long-form study + comparison reel</small></td>
+    </tr>
+    
+    <tr>
+      <td><b>SCION 076</b></td>
+      <td><a href="../allways-sol/films.html#film-076">90.5 (A+)</a> · <small>120.0s · 076 · TWO PUBLIC EDGES</small></td>
+      <td><a href="../allways-argon/studio/cases/SCION_076_Life_In_A_Day_Synchronized_Ordinary.html">88.0 (A)</a> · <small>40.2s · Life in a Day &amp; Manakamana —</small></td>
+      <td><span class="win-pill" style="background:#2e6b4e">OpenAI Sol (90.5)</span> <small style="color:#5d584f">Archival long-form study + comparison reel</small></td>
+    </tr>
+    
+    <tr>
+      <td><b>SCION 077</b></td>
+      <td><a href="../allways-sol/films.html#film-077">91.5 (A+)</a> · <small>80.0s · 077 · ROWS AND FLOCKS</small></td>
+      <td><a href="../allways-argon/studio/cases/SCION_077_Baraka_Contemplative_Counterpoint.html">87.0 (A)</a> · <small>35.5s · Baraka — Contemplative Count</small></td>
+      <td><span class="win-pill" style="background:#2e6b4e">OpenAI Sol (91.5)</span> <small style="color:#5d584f">Archival long-form study + comparison reel</small></td>
+    </tr>
+    
+    <tr>
+      <td><b>SCION 078</b></td>
+      <td><a href="../allways-sol/films.html#film-078">92.0 (A+)</a> · <small>120.0s · 078 · A FORM, THEN A PAGE</small></td>
+      <td><a href="../allways-argon/studio/cases/SCION_078_Samsara_Material_Cycles_Returns.html">87.0 (A)</a> · <small>36.5s · Samsara — Material Cycles an</small></td>
+      <td><span class="win-pill" style="background:#2e6b4e">OpenAI Sol (92.0)</span> <small style="color:#5d584f">Archival long-form study + comparison reel</small></td>
+    </tr>
+    </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="leaderboard">
+    <span class="label">05 / Complete 132-Film Ratings</span>
+    <h2>All 132 Films Ranked &amp; Scored</h2>
+    <div class="filter-bar">
+      <button type="button" class="filter-btn active" onclick="filterFilms('ALL', this)">All 132 Films</button>
+      <button type="button" class="filter-btn" onclick="filterFilms('Claude Sonnet', this)">Claude Sonnet (11)</button>
+      <button type="button" class="filter-btn" onclick="filterFilms('Claude Opus 5.5', this)">Claude Opus 5.5 (12)</button>
+      <button type="button" class="filter-btn" onclick="filterFilms('OpenAI Sol', this)">OpenAI Sol (24)</button>
+      <button type="button" class="filter-btn" onclick="filterFilms('Gemini Argon', this)">Gemini Argon (85)</button>
+      <button type="button" class="filter-btn" onclick="filterGrade('S', this)">Tier S Only (93+)</button>
+    </div>
+    <div class="table-scroll">
+      <table class="h2h-table">
+        <thead>
+          <tr>
+            <th>Rank</th>
+            <th>Grade / Total</th>
+            <th>Maker</th>
+            <th>Film &amp; Jury Citation</th>
+            <th>Dur</th>
+            <th>Rubric (25/20/20/15/20)</th>
+            <th>Screen</th>
+          </tr>
+        </thead>
+        <tbody id="leaderboard-body">
+          
+    <tr class="film-row" data-maker="Claude Sonnet" data-grade="S">
+      <td><b>#001</b></td>
+      <td><span class="grade-pill grade-S">S · 96.0</span></td>
+      <td><span class="win-pill" style="background:#7a4988">Claude Sonnet</span></td>
+      <td>
+        <b><a href="../allways-sonnet/059-ball/">BALL · Graphic Constancy</a></b>
+        <div class="note-sub">PASS (strongest proof in Sonnet batch). Sub-5px circle registration across 13 films (1929–2007), honest octagonal clock failure, gauge-panel release, and moon drifting out of frame.</div>
+      </td>
+      <td><code>42.8s</code></td>
+      <td><small>24.5 / 19.5 / 20.0 / 13.0 / 19.0</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-sonnet/059-ball/059-ball.mp4', '#01 · BALL · Graphic Constancy (Claude Sonnet)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Gemini Argon" data-grade="S">
+      <td><b>#002</b></td>
+      <td><span class="grade-pill grade-S">S · 95.5</span></td>
+      <td><span class="win-pill" style="background:#2b5b84">Gemini Argon</span></td>
+      <td>
+        <b><a href="../allways-argon/films/nobody-home/">NOBODY HOME</a></b>
+        <div class="note-sub">PASS (Round 2). Definitive realization of NOBODY HOME: pairs intact 1958 domestic footage with OpenCV Telea person-removal and a 3-panel Original | Mask | Derived inspection triptych.</div>
+      </td>
+      <td><code>49.3s</code></td>
+      <td><small>24.0 / 19.5 / 19.5 / 14.0 / 18.5</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-argon/films/nobody-home/nobody-home.mp4', '#02 · NOBODY HOME (Gemini Argon)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Gemini Argon" data-grade="S">
+      <td><b>#003</b></td>
+      <td><span class="grade-pill grade-S">S · 94.5</span></td>
+      <td><span class="win-pill" style="background:#2b5b84">Gemini Argon</span></td>
+      <td>
+        <b><a href="../allways-argon/studio/cases/SCION_085_Jeanne_Dielman_Domestic_Routine_Gauge.html">Jeanne Dielman — Routine as a Sensitive Measuring Instrument</a></b>
+        <div class="note-sub">PASS (Round 2). Unbroken domestic routine duration gauge across three passes where tiny temporal drift registers the pressure of routine.</div>
+      </td>
+      <td><code>39.2s</code></td>
+      <td><small>23.5 / 19.5 / 19.5 / 14.0 / 18.0</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-argon/studio/films/SCION_085_Jeanne_Dielman_Domestic_Routine_Gauge.mp4', '#03 · Jeanne Dielman — Routine as a Sensitive Measuring Instrument (Gemini Argon)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Gemini Argon" data-grade="S">
+      <td><b>#004</b></td>
+      <td><span class="grade-pill grade-S">S · 94.5</span></td>
+      <td><span class="win-pill" style="background:#2b5b84">Gemini Argon</span></td>
+      <td>
+        <b><a href="../allways-argon/studio/cases/SCION_090_The_Clock_Horological_Montage.html">The Clock — Time-Indexed Horological Montage</a></b>
+        <div class="note-sub">PASS (Round 2). Masterful horological montage cutting between archival clock dials and human preparation across a continuous timeflow.</div>
+      </td>
+      <td><code>34.5s</code></td>
+      <td><small>23.5 / 19.5 / 19.5 / 14.0 / 18.0</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-argon/studio/films/SCION_090_The_Clock_Horological_Montage.mp4', '#04 · The Clock — Time-Indexed Horological Montage (Gemini Argon)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Claude Opus 5.5" data-grade="S">
+      <td><b>#005</b></td>
+      <td><span class="grade-pill grade-S">S · 94.5</span></td>
+      <td><span class="win-pill" style="background:#9e3b24">Claude Opus 5.5</span></td>
+      <td>
+        <b><a href="../allways-opus/films/mnemonil/">MNEMONIL</a></b>
+        <div class="note-sub">Only Opus film to pass its blind critic (&#x27;pass, narrowly&#x27;). The 23–40s untouched kitchen sequence broken by museum visitors behind a rope stanchion is the single best documentary-ethics reveal in ALLWAYS.</div>
+      </td>
+      <td><code>73.7s</code></td>
+      <td><small>23.5 / 19.5 / 19.5 / 14.0 / 18.0</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-opus/films/mnemonil/mnemonil.mp4', '#05 · MNEMONIL (Claude Opus 5.5)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Claude Sonnet" data-grade="S">
+      <td><b>#006</b></td>
+      <td><span class="grade-pill grade-S">S · 94.5</span></td>
+      <td><span class="win-pill" style="background:#7a4988">Claude Sonnet</span></td>
+      <td>
+        <b><a href="../allways-sonnet/064-parabolas/">PARABOLAS · Curves with Different Causes</a></b>
+        <div class="note-sub">PASS (most complete realisation in Sonnet batch). Unannotated first pass establishes family resemblance across dive, fountain, and pendulum before mathematical curve overlays reveal competing causes.</div>
+      </td>
+      <td><code>53.6s</code></td>
+      <td><small>24.0 / 19.5 / 19.5 / 12.5 / 19.0</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-sonnet/064-parabolas/064-parabolas.mp4', '#06 · PARABOLAS · Curves with Different Causes (Claude Sonnet)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="OpenAI Sol" data-grade="S">
+      <td><b>#007</b></td>
+      <td><span class="grade-pill grade-S">S · 93.5</span></td>
+      <td><span class="win-pill" style="background:#2e6b4e">OpenAI Sol</span></td>
+      <td>
+        <b><a href="../allways-sol/films.html#film-071">071 · A FILE HAS EDGES</a></b>
+        <div class="note-sub">Bounded VISUAL PASS (V02, 90s); superb meta-archival study (&#x27;A File Has Edges&#x27;) using Facts About Film (1948) to distinguish parent reel, trim, and digital derivative.</div>
+      </td>
+      <td><code>90.0s</code></td>
+      <td><small>23.5 / 19.5 / 19.5 / 12.5 / 18.5</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-sol/films/071/media/ALLWAYS_071_A_FILE_HAS_EDGES_V02.mp4', '#07 · 071 · A FILE HAS EDGES (OpenAI Sol)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Gemini Argon" data-grade="S">
+      <td><b>#008</b></td>
+      <td><span class="grade-pill grade-S">S · 93.0</span></td>
+      <td><span class="win-pill" style="background:#2b5b84">Gemini Argon</span></td>
+      <td>
+        <b><a href="../allways-argon/films/kinetic/">KINETIC</a></b>
+        <div class="note-sub">PASS (Round 2). Rhythmic handloom shuttle and assembly cadence interrupted by human rest, avoiding Qatsi time-lapse clichés.</div>
+      </td>
+      <td><code>48.7s</code></td>
+      <td><small>23.0 / 19.5 / 19.0 / 13.5 / 18.0</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-argon/films/kinetic/kinetic.mp4', '#08 · KINETIC (Gemini Argon)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Gemini Argon" data-grade="S">
+      <td><b>#009</b></td>
+      <td><span class="grade-pill grade-S">S · 93.0</span></td>
+      <td><span class="win-pill" style="background:#2b5b84">Gemini Argon</span></td>
+      <td>
+        <b><a href="../allways-argon/studio/cases/SCION_068_Powers_Of_Ten_Scale_Traverse.html">Powers of Ten — Nested Scale Traverse</a></b>
+        <div class="note-sub">PASS (Round 2). Photographic 10^x scale traverse from macro hand craft to aerial landscape and return, unlike Sol&#x27;s synthetic beige diagram.</div>
+      </td>
+      <td><code>43.5s</code></td>
+      <td><small>23.0 / 19.5 / 19.0 / 13.5 / 18.0</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-argon/studio/films/SCION_068_Powers_Of_Ten_Scale_Traverse.mp4', '#09 · Powers of Ten — Nested Scale Traverse (Gemini Argon)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Gemini Argon" data-grade="S">
+      <td><b>#010</b></td>
+      <td><span class="grade-pill grade-S">S · 93.0</span></td>
+      <td><span class="win-pill" style="background:#2b5b84">Gemini Argon</span></td>
+      <td>
+        <b><a href="../allways-argon/studio/cases/SCION_093_What_Is_Neorealism_Counterfactual_Cuts.html">What Is Neorealism? — Counterfactual Cuts</a></b>
+        <div class="note-sub">PASS (Round 2). Kogonada-style counterfactual comparison showing the same archival passage cut for plot efficiency vs. neorealist interstitial dwell.</div>
+      </td>
+      <td><code>30.9s</code></td>
+      <td><small>23.0 / 19.0 / 19.5 / 13.5 / 18.0</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-argon/studio/films/SCION_093_What_Is_Neorealism_Counterfactual_Cuts.mp4', '#10 · What Is Neorealism? — Counterfactual Cuts (Gemini Argon)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Gemini Argon" data-grade="S">
+      <td><b>#011</b></td>
+      <td><span class="grade-pill grade-S">S · 93.0</span></td>
+      <td><span class="win-pill" style="background:#2b5b84">Gemini Argon</span></td>
+      <td>
+        <b><a href="../allways-argon/studio/cases/SCION_113_Learning_To_See_Latent_Atlas.html">Learning to See — Latent Texture &amp; Cluster Traverse</a></b>
+        <div class="note-sub">PASS (Round 2). Memo Akten / Latent Atlas study resolving raw archival water, fire, and optical grain into landscape recognition.</div>
+      </td>
+      <td><code>39.4s</code></td>
+      <td><small>23.0 / 19.5 / 19.0 / 13.5 / 18.0</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-argon/studio/films/SCION_113_Learning_To_See_Latent_Atlas.mp4', '#11 · Learning to See — Latent Texture &amp; Cluster Traverse (Gemini Argon)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Gemini Argon" data-grade="A+">
+      <td><b>#012</b></td>
+      <td><span class="grade-pill grade-Ap">A+ · 92.5</span></td>
+      <td><span class="win-pill" style="background:#2b5b84">Gemini Argon</span></td>
+      <td>
+        <b><a href="../allways-argon/studio/cases/SCION_079_Qatsi_Three_Technological_Regimes.html">The Qatsi Trilogy — Three Regimes of Technological Time</a></b>
+        <div class="note-sub">PASS (Round 2). Distinct ecological, industrial, and digital/information regimes differentiated without collapsing into generic fast-motion.</div>
+      </td>
+      <td><code>36.1s</code></td>
+      <td><small>22.5 / 19.5 / 19.0 / 13.5 / 18.0</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-argon/studio/films/SCION_079_Qatsi_Three_Technological_Regimes.mp4', '#12 · The Qatsi Trilogy — Three Regimes of Technological Time (Gemini Argon)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="OpenAI Sol" data-grade="A+">
+      <td><b>#013</b></td>
+      <td><span class="grade-pill grade-Ap">A+ · 92.5</span></td>
+      <td><span class="win-pill" style="background:#2e6b4e">OpenAI Sol</span></td>
+      <td>
+        <b><a href="../allways-sol/films.html#film-063">063 · A VOLUME OF AIR</a></b>
+        <div class="note-sub">Qualified VISUAL PASS (V02); best realization of SCION 063 across all makers—uses a 1927 Wellcome Library spirometer film to make human breath volume physically visible.</div>
+      </td>
+      <td><code>60.8s</code></td>
+      <td><small>23.0 / 19.5 / 19.0 / 12.5 / 18.5</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-sol/films/063/media/ALLWAYS_063_A_VOLUME_OF_AIR_V02.mp4', '#13 · 063 · A VOLUME OF AIR (OpenAI Sol)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Gemini Argon" data-grade="A+">
+      <td><b>#014</b></td>
+      <td><span class="grade-pill grade-Ap">A+ · 92.0</span></td>
+      <td><span class="win-pill" style="background:#2b5b84">Gemini Argon</span></td>
+      <td>
+        <b><a href="../allways-argon/films/almost-human/">ALMOST HUMAN</a></b>
+        <div class="note-sub">PASS (Round 2). Opens with a complete 1944 collar adjustment held through its pause, followed by five distinct archival gesture outcomes.</div>
+      </td>
+      <td><code>44.7s</code></td>
+      <td><small>22.5 / 19.0 / 19.0 / 13.5 / 18.0</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-argon/films/almost-human/almost-human.mp4', '#14 · ALMOST HUMAN (Gemini Argon)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Gemini Argon" data-grade="A+">
+      <td><b>#015</b></td>
+      <td><span class="grade-pill grade-Ap">A+ · 92.0</span></td>
+      <td><span class="win-pill" style="background:#2b5b84">Gemini Argon</span></td>
+      <td>
+        <b><a href="../allways-argon/films/cut-to-the-chase/">CUT TO THE CHASE</a></b>
+        <div class="note-sub">PASS (Round 2). Transfers directional running momentum across 1926 nitrate heath and urban streets before holding on a stationary bystander.</div>
+      </td>
+      <td><code>41.2s</code></td>
+      <td><small>22.5 / 19.0 / 19.0 / 13.5 / 18.0</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-argon/films/cut-to-the-chase/cut-to-the-chase.mp4', '#15 · CUT TO THE CHASE (Gemini Argon)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Gemini Argon" data-grade="A+">
+      <td><b>#016</b></td>
+      <td><span class="grade-pill grade-Ap">A+ · 92.0</span></td>
+      <td><span class="win-pill" style="background:#2b5b84">Gemini Argon</span></td>
+      <td>
+        <b><a href="../allways-argon/films/collective-inventories/">COLLECTIVE INVENTORIES</a></b>
+        <div class="note-sub">PASS (Round 2). Composite morning handoff across five archival records (washing, carrying, preparing, clearing) with unfinished task preserved.</div>
+      </td>
+      <td><code>45.8s</code></td>
+      <td><small>22.5 / 19.0 / 19.0 / 13.5 / 18.0</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-argon/films/collective-inventories/collective-inventories.mp4', '#16 · COLLECTIVE INVENTORIES (Gemini Argon)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Gemini Argon" data-grade="A+">
+      <td><b>#017</b></td>
+      <td><span class="grade-pill grade-Ap">A+ · 92.0</span></td>
+      <td><span class="win-pill" style="background:#2b5b84">Gemini Argon</span></td>
+      <td>
+        <b><a href="../allways-argon/films/planimetric/">PLANIMETRIC</a></b>
+        <div class="note-sub">PASS (Round 2). Four locked architectural tableaux (SCION 086 / Ozu pillow-shot geometry) where human figures enter, shift posture, and leave.</div>
+      </td>
+      <td><code>41.5s</code></td>
+      <td><small>22.5 / 19.0 / 19.0 / 13.5 / 18.0</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-argon/films/planimetric/planimetric.mp4', '#17 · PLANIMETRIC (Gemini Argon)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="OpenAI Sol" data-grade="A+">
+      <td><b>#018</b></td>
+      <td><span class="grade-pill grade-Ap">A+ · 92.0</span></td>
+      <td><span class="win-pill" style="background:#2e6b4e">OpenAI Sol</span></td>
+      <td>
+        <b><a href="../allways-sol/films.html#film-078">078 · A FORM, THEN A PAGE</a></b>
+        <div class="note-sub">Bounded VISUAL PASS (V02, 120s); tactile industrial cycle (&#x27;A Form, Then a Page&#x27;) tracing lead type from form labour to printed page.</div>
+      </td>
+      <td><code>120.0s</code></td>
+      <td><small>23.0 / 19.5 / 19.0 / 12.5 / 18.0</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-sol/films/078/media/ALLWAYS_078_A_FORM_THEN_A_PAGE_V02.mp4', '#18 · 078 · A FORM, THEN A PAGE (OpenAI Sol)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Gemini Argon" data-grade="A+">
+      <td><b>#019</b></td>
+      <td><span class="grade-pill grade-Ap">A+ · 91.5</span></td>
+      <td><span class="win-pill" style="background:#2b5b84">Gemini Argon</span></td>
+      <td>
+        <b><a href="../allways-argon/studio/cases/STUDY_03_The_Eye_Trace_Archive.html">THE EYE-TRACE ARCHIVE — Composition &amp; Attention</a></b>
+        <div class="note-sub">PASS (Round 2). Foveated attention study tracking where the viewer&#x27;s eye lands before and after a cut.</div>
+      </td>
+      <td><code>29.2s</code></td>
+      <td><small>22.5 / 19.0 / 19.0 / 13.5 / 17.5</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-argon/studio/films/STUDY_03_The_Eye_Trace_Archive.mp4', '#19 · THE EYE-TRACE ARCHIVE — Composition &amp; Attention (Gemini Argon)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="OpenAI Sol" data-grade="A+">
+      <td><b>#020</b></td>
+      <td><span class="grade-pill grade-Ap">A+ · 91.5</span></td>
+      <td><span class="win-pill" style="background:#2e6b4e">OpenAI Sol</span></td>
+      <td>
+        <b><a href="../allways-sol/films.html#film-057">057 · AFTER</a></b>
+        <div class="note-sub">V02 (55s) earned PASS from the attention critic after repairing the post-event hold; exemplary micro-event threshold patience.</div>
+      </td>
+      <td><code>55.0s</code></td>
+      <td><small>22.5 / 19.0 / 19.0 / 13.0 / 18.0</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-sol/films/057/media/ALLWAYS_057_AFTER_V02.mp4', '#20 · 057 · AFTER (OpenAI Sol)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="OpenAI Sol" data-grade="A+">
+      <td><b>#021</b></td>
+      <td><span class="grade-pill grade-Ap">A+ · 91.5</span></td>
+      <td><span class="win-pill" style="background:#2e6b4e">OpenAI Sol</span></td>
+      <td>
+        <b><a href="../allways-sol/films.html#film-077">077 · ROWS AND FLOCKS</a></b>
+        <div class="note-sub">Bounded VISUAL PASS (V01, 80s); visually poetic juxtaposition of linear human rows against nonlinear wheeling bird flocks.</div>
+      </td>
+      <td><code>80.0s</code></td>
+      <td><small>22.5 / 19.5 / 19.0 / 12.5 / 18.0</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-sol/films/077/media/ALLWAYS_077_ROWS_AND_FLOCKS_V01.mp4', '#21 · 077 · ROWS AND FLOCKS (OpenAI Sol)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="OpenAI Sol" data-grade="A+">
+      <td><b>#022</b></td>
+      <td><span class="grade-pill grade-Ap">A+ · 91.0</span></td>
+      <td><span class="win-pill" style="background:#2e6b4e">OpenAI Sol</span></td>
+      <td>
+        <b><a href="../allways-sol/films.html#film-065">065 · FIVE RECORDS</a></b>
+        <div class="note-sub">Qualified VISUAL PASS (V02, 100s) across five differentiated archive labor practices including Master Hands (1936).</div>
+      </td>
+      <td><code>100.0s</code></td>
+      <td><small>22.5 / 19.0 / 18.5 / 13.0 / 18.0</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-sol/films/065/media/ALLWAYS_065_FIVE_RECORDS_V02.mp4', '#22 · 065 · FIVE RECORDS (OpenAI Sol)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Gemini Argon" data-grade="A+">
+      <td><b>#023</b></td>
+      <td><span class="grade-pill grade-Ap">A+ · 90.5</span></td>
+      <td><span class="win-pill" style="background:#2b5b84">Gemini Argon</span></td>
+      <td>
+        <b><a href="../allways-argon/films/terra-incognita/">TERRA INCOGNITA</a></b>
+        <div class="note-sub">PASS (Round 2). Three physical film surfaces with real emulsion scratch and optical track defects kept distinct from authored transitions.</div>
+      </td>
+      <td><code>39.5s</code></td>
+      <td><small>22.0 / 19.0 / 18.5 / 13.5 / 17.5</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-argon/films/terra-incognita/terra-incognita.mp4', '#23 · TERRA INCOGNITA (Gemini Argon)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Gemini Argon" data-grade="A+">
+      <td><b>#024</b></td>
+      <td><span class="grade-pill grade-Ap">A+ · 90.5</span></td>
+      <td><span class="win-pill" style="background:#2b5b84">Gemini Argon</span></td>
+      <td>
+        <b><a href="../allways-argon/films/split-second/">SPLIT SECOND</a></b>
+        <div class="note-sub">PASS (Round 2). Six bounded release excerpts cutting away twice before release and delivering the physical consequence on the third return.</div>
+      </td>
+      <td><code>34.5s</code></td>
+      <td><small>22.0 / 19.0 / 18.5 / 13.5 / 17.5</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-argon/films/split-second/split-second.mp4', '#24 · SPLIT SECOND (Gemini Argon)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Gemini Argon" data-grade="A+">
+      <td><b>#025</b></td>
+      <td><span class="grade-pill grade-Ap">A+ · 90.5</span></td>
+      <td><span class="win-pill" style="background:#2b5b84">Gemini Argon</span></td>
+      <td>
+        <b><a href="../allways-argon/films/anybody-anywhere/">ANYBODY, ANYWHERE</a></b>
+        <div class="note-sub">PASS (Round 2). Side-by-side synchronous split-screen comparison of situated recordings with explicit date/provenance labels.</div>
+      </td>
+      <td><code>37.4s</code></td>
+      <td><small>22.0 / 19.0 / 18.5 / 13.5 / 17.5</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-argon/films/anybody-anywhere/anybody-anywhere.mp4', '#25 · ANYBODY, ANYWHERE (Gemini Argon)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Gemini Argon" data-grade="A+">
+      <td><b>#026</b></td>
+      <td><span class="grade-pill grade-Ap">A+ · 90.5</span></td>
+      <td><span class="win-pill" style="background:#2b5b84">Gemini Argon</span></td>
+      <td>
+        <b><a href="../allways-argon/studio/cases/COLL_05_Everday.html">EVERDAY — Diurnal Recurrence &amp; Looping Form</a></b>
+        <div class="note-sub">PASS (Round 2). Everyday circadian collection tracing ordinary gestures from waking water to evening stillness.</div>
+      </td>
+      <td><code>36.4s</code></td>
+      <td><small>22.0 / 19.0 / 18.5 / 13.5 / 17.5</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-argon/studio/films/COLL_05_Everday.mp4', '#26 · EVERDAY — Diurnal Recurrence &amp; Looping Form (Gemini Argon)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="OpenAI Sol" data-grade="A+">
+      <td><b>#027</b></td>
+      <td><span class="grade-pill grade-Ap">A+ · 90.5</span></td>
+      <td><span class="win-pill" style="background:#2e6b4e">OpenAI Sol</span></td>
+      <td>
+        <b><a href="../allways-sol/films.html#film-060">060 · IN THE FRAME</a></b>
+        <div class="note-sub">PASS (V02) for reinterpreting an accusation (&#x27;You pickpocket&#x27;) through wider same-scene context from Chaplin&#x27;s The Immigrant (1917).</div>
+      </td>
+      <td><code>61.0s</code></td>
+      <td><small>22.0 / 19.0 / 18.5 / 12.5 / 18.5</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-sol/films/060/media/ALLWAYS_060_IN_THE_FRAME_V02.mp4', '#27 · 060 · IN THE FRAME (OpenAI Sol)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="OpenAI Sol" data-grade="A+">
+      <td><b>#028</b></td>
+      <td><span class="grade-pill grade-Ap">A+ · 90.5</span></td>
+      <td><span class="win-pill" style="background:#2e6b4e">OpenAI Sol</span></td>
+      <td>
+        <b><a href="../allways-sol/films.html#film-076">076 · TWO PUBLIC EDGES</a></b>
+        <div class="note-sub">Bounded VISUAL PASS (V01, 120s); compares two public-camera records (1939–40 New York World&#x27;s Fair Medicus collection) with strong spatial evidence.</div>
+      </td>
+      <td><code>120.0s</code></td>
+      <td><small>22.5 / 19.0 / 18.5 / 12.5 / 18.0</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-sol/films/076/media/ALLWAYS_076_TWO_PUBLIC_EDGES_V01.mp4', '#28 · 076 · TWO PUBLIC EDGES (OpenAI Sol)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Claude Sonnet" data-grade="A+">
+      <td><b>#029</b></td>
+      <td><span class="grade-pill grade-Ap">A+ · 90.0</span></td>
+      <td><span class="win-pill" style="background:#7a4988">Claude Sonnet</span></td>
+      <td>
+        <b><a href="../allways-sonnet/055-words/">WORDS · Polysemic Relay</a></b>
+        <div class="note-sub">PASS (qualified) · Repaired. Anchored by the 13–22s cigarette &#x27;draw&#x27; where optical sound and semantic sense meet.</div>
+      </td>
+      <td><code>44.8s</code></td>
+      <td><small>22.0 / 18.5 / 18.5 / 13.5 / 17.5</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-sonnet/055-words/055-words.mp4', '#29 · WORDS · Polysemic Relay (Claude Sonnet)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Gemini Argon" data-grade="A">
+      <td><b>#030</b></td>
+      <td><span class="grade-pill grade-A">A · 89.5</span></td>
+      <td><span class="win-pill" style="background:#2b5b84">Gemini Argon</span></td>
+      <td>
+        <b><a href="../allways-argon/films/homonym/">HOMONYM</a></b>
+        <div class="note-sub">PASS (Round 2). Semantic relay across spoken, physical, and tonal branches with intelligible archival speech.</div>
+      </td>
+      <td><code>38.4s</code></td>
+      <td><small>21.5 / 18.5 / 18.5 / 13.5 / 17.5</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-argon/films/homonym/homonym.mp4', '#30 · HOMONYM (Gemini Argon)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Claude Opus 5.5" data-grade="A">
+      <td><b>#031</b></td>
+      <td><span class="grade-pill grade-A">A · 89.5</span></td>
+      <td><span class="win-pill" style="background:#9e3b24">Claude Opus 5.5</span></td>
+      <td>
+        <b><a href="../allways-opus/films/anybody-anywhere/">ANYBODY, ANYWHERE</a></b>
+        <div class="note-sub">76s side-by-side split-screen pairing three situated recordings (1961 theatre chairs vs. 1944 typing chair); strong visual alignment and preserved sound spaces.</div>
+      </td>
+      <td><code>76.0s</code></td>
+      <td><small>20.5 / 19.0 / 18.5 / 13.5 / 18.0</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-opus/films/anybody-anywhere/anybody-anywhere.mp4', '#31 · ANYBODY, ANYWHERE (Claude Opus 5.5)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="OpenAI Sol" data-grade="A">
+      <td><b>#032</b></td>
+      <td><span class="grade-pill grade-A">A · 89.5</span></td>
+      <td><span class="win-pill" style="background:#2e6b4e">OpenAI Sol</span></td>
+      <td>
+        <b><a href="../allways-sol/films.html#film-055">055 · TURN</a></b>
+        <div class="note-sub">PASS from fresh blind critic (V04). Eight passages from seven archival clips where the organizing word &#x27;Turn&#x27; appears only at the end.</div>
+      </td>
+      <td><code>47.0s</code></td>
+      <td><small>22.0 / 18.5 / 18.5 / 13.0 / 17.5</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-sol/films/055/media/ALLWAYS_055_TURN_V04.mp4', '#32 · 055 · TURN (OpenAI Sol)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="OpenAI Sol" data-grade="A">
+      <td><b>#033</b></td>
+      <td><span class="grade-pill grade-A">A · 89.5</span></td>
+      <td><span class="win-pill" style="background:#2e6b4e">OpenAI Sol</span></td>
+      <td>
+        <b><a href="../allways-sol/films.html#film-056">056 · IN DIFFERENT HANDS</a></b>
+        <div class="note-sub">Rebuilt V02 earned PASS from both visual critics; pairs two manual archival tasks with clear pre-action context.</div>
+      </td>
+      <td><code>35.0s</code></td>
+      <td><small>21.5 / 19.0 / 18.5 / 12.5 / 18.0</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-sol/films/056/media/ALLWAYS_056_IN_DIFFERENT_HANDS_V02.mp4', '#33 · 056 · IN DIFFERENT HANDS (OpenAI Sol)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="OpenAI Sol" data-grade="A">
+      <td><b>#034</b></td>
+      <td><span class="grade-pill grade-A">A · 89.5</span></td>
+      <td><span class="win-pill" style="background:#2e6b4e">OpenAI Sol</span></td>
+      <td>
+        <b><a href="../allways-sol/films.html#film-070">070 · SAME DAY, DIFFERENT RECORDS</a></b>
+        <div class="note-sub">Bounded VISUAL PASS (V02, 90s); strong split comparison of Apollo 11 launch record vs. published transcript timing.</div>
+      </td>
+      <td><code>90.0s</code></td>
+      <td><small>22.0 / 19.0 / 18.5 / 12.5 / 17.5</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-sol/films/070/media/ALLWAYS_070_SAME_DAY_DIFFERENT_RECORDS_V02.mp4', '#34 · 070 · SAME DAY, DIFFERENT RECORDS (OpenAI Sol)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Claude Sonnet" data-grade="A">
+      <td><b>#035</b></td>
+      <td><span class="grade-pill grade-A">A · 89.5</span></td>
+      <td><span class="win-pill" style="background:#7a4988">Claude Sonnet</span></td>
+      <td>
+        <b><a href="../allways-sonnet/062-colors/">COLORS · Chromatic Chapters</a></b>
+        <div class="note-sub">PASS (qualified). Critic protected the mixed-colour hinge at 7.5s (yellow engine swung over deep teal sea) and the breakfast-table ending.</div>
+      </td>
+      <td><code>50.1s</code></td>
+      <td><small>22.0 / 18.5 / 18.5 / 13.0 / 17.5</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-sonnet/062-colors/062-colors.mp4', '#35 · COLORS · Chromatic Chapters (Claude Sonnet)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Gemini Argon" data-grade="A">
+      <td><b>#036</b></td>
+      <td><span class="grade-pill grade-A">A · 89.0</span></td>
+      <td><span class="win-pill" style="background:#2b5b84">Gemini Argon</span></td>
+      <td>
+        <b><a href="../allways-argon/films/zero-memory/">ZERO MEMORY</a></b>
+        <div class="note-sub">PASS (Round 2). Fixed archival pool with three declared working-history resets and side-by-side recurrence comparison.</div>
+      </td>
+      <td><code>44.3s</code></td>
+      <td><small>21.5 / 18.5 / 18.0 / 13.5 / 17.5</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-argon/films/zero-memory/zero-memory.mp4', '#36 · ZERO MEMORY (Gemini Argon)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="OpenAI Sol" data-grade="A">
+      <td><b>#037</b></td>
+      <td><span class="grade-pill grade-A">A · 89.0</span></td>
+      <td><span class="win-pill" style="background:#2e6b4e">OpenAI Sol</span></td>
+      <td>
+        <b><a href="../allways-sol/films.html#film-075">075 · WITHIN REACH</a></b>
+        <div class="note-sub">Bounded VISUAL PASS (V01, 90s + 95s comparison); warm, situated home-movie comparison (&#x27;Within Reach&#x27;) with zero synthetic filler.</div>
+      </td>
+      <td><code>90.0s</code></td>
+      <td><small>22.0 / 19.0 / 18.0 / 12.5 / 17.5</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-sol/films/075/media/ALLWAYS_075_WITHIN_REACH_V01.mp4', '#37 · 075 · WITHIN REACH (OpenAI Sol)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Gemini Argon" data-grade="A">
+      <td><b>#038</b></td>
+      <td><span class="grade-pill grade-A">A · 88.5</span></td>
+      <td><span class="win-pill" style="background:#2b5b84">Gemini Argon</span></td>
+      <td>
+        <b><a href="../allways-argon/studio/cases/SCION_055_Words_Polysemic_Relay.html">Words — Polysemic Relay</a></b>
+        <div class="note-sub">PASS (Round 2 Critic Tribunal). Make viewers discover a word&#x27;s changing senses through successive visible actions, then use the discovered ambiguity to change the sequence&#x27;</div>
+      </td>
+      <td><code>57.2s</code></td>
+      <td><small>21.0 / 18.5 / 18.0 / 13.5 / 17.5</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-argon/studio/films/SCION_055_Words_Polysemic_Relay.mp4', '#38 · Words — Polysemic Relay (Gemini Argon)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Gemini Argon" data-grade="A">
+      <td><b>#039</b></td>
+      <td><span class="grade-pill grade-A">A · 88.5</span></td>
+      <td><span class="win-pill" style="background:#2b5b84">Gemini Argon</span></td>
+      <td>
+        <b><a href="../allways-argon/studio/cases/SCION_056_Symmetry_Imperfect_Pairing.html">Symmetry — Imperfect Pairing</a></b>
+        <div class="note-sub">PASS (Round 2 Critic Tribunal). Create a paired image that first satisfies an expectation of correspondence, then reveals a difference consequential enough to alter the rel</div>
+      </td>
+      <td><code>42.9s</code></td>
+      <td><small>21.0 / 18.5 / 18.0 / 13.5 / 17.5</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-argon/studio/films/SCION_056_Symmetry_Imperfect_Pairing.mp4', '#39 · Symmetry — Imperfect Pairing (Gemini Argon)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Gemini Argon" data-grade="A">
+      <td><b>#040</b></td>
+      <td><span class="grade-pill grade-A">A · 88.5</span></td>
+      <td><span class="win-pill" style="background:#2b5b84">Gemini Argon</span></td>
+      <td>
+        <b><a href="../allways-argon/studio/cases/SCION_057_Moments_Microevent_Attention.html">Moments — Microevent Attention</a></b>
+        <div class="note-sub">PASS (Round 2 Critic Tribunal). Make a brief ordinary event feel complete enough to matter, then let its duration change the viewer&#x27;s attention to the next event. The unit </div>
+      </td>
+      <td><code>48.2s</code></td>
+      <td><small>21.0 / 18.5 / 18.0 / 13.5 / 17.5</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-argon/studio/films/SCION_057_Moments_Microevent_Attention.mp4', '#40 · Moments — Microevent Attention (Gemini Argon)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Gemini Argon" data-grade="A">
+      <td><b>#041</b></td>
+      <td><span class="grade-pill grade-A">A · 88.5</span></td>
+      <td><span class="win-pill" style="background:#2b5b84">Gemini Argon</span></td>
+      <td>
+        <b><a href="../allways-argon/studio/cases/SCION_059_Ball_Graphic_Constancy.html">Ball — Graphic Constancy Across Sources</a></b>
+        <div class="note-sub">PASS (Round 2 Critic Tribunal). Hold one graphic anchor perceptually steady while its material, scale, and social purpose change across images. Release the crop on an irreg</div>
+      </td>
+      <td><code>46.9s</code></td>
+      <td><small>21.0 / 18.5 / 18.0 / 13.5 / 17.5</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-argon/studio/films/SCION_059_Ball_Graphic_Constancy.mp4', '#41 · Ball — Graphic Constancy Across Sources (Gemini Argon)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Gemini Argon" data-grade="A">
+      <td><b>#042</b></td>
+      <td><span class="grade-pill grade-A">A · 88.5</span></td>
+      <td><span class="win-pill" style="background:#2b5b84">Gemini Argon</span></td>
+      <td>
+        <b><a href="../allways-argon/studio/cases/SCION_061_Matter_Affordance_Chain.html">Matter — Material Affordance Chain</a></b>
+        <div class="note-sub">PASS (Round 2 Critic Tribunal). Make one material behavior lead to another through observable transformation: pressure, folding, wetting, adhesion, or release. Treat resemb</div>
+      </td>
+      <td><code>45.0s</code></td>
+      <td><small>21.0 / 18.5 / 18.0 / 13.5 / 17.5</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-argon/studio/films/SCION_061_Matter_Affordance_Chain.mp4', '#42 · Matter — Material Affordance Chain (Gemini Argon)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Gemini Argon" data-grade="A">
+      <td><b>#043</b></td>
+      <td><span class="grade-pill grade-A">A · 88.5</span></td>
+      <td><span class="win-pill" style="background:#2b5b84">Gemini Argon</span></td>
+      <td>
+        <b><a href="../allways-argon/studio/cases/SCION_062_Colors_Chromatic_Chapters.html">Colors — Chromatic Chapters</a></b>
+        <div class="note-sub">PASS (Round 2 Critic Tribunal). Use recurring color to carry attention across unrelated settings, then reveal that the same hue can organize very different actions. No arti</div>
+      </td>
+      <td><code>47.8s</code></td>
+      <td><small>21.0 / 18.5 / 18.0 / 13.5 / 17.5</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-argon/studio/films/SCION_062_Colors_Chromatic_Chapters.mp4', '#43 · Colors — Chromatic Chapters (Gemini Argon)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Gemini Argon" data-grade="A">
+      <td><b>#044</b></td>
+      <td><span class="grade-pill grade-A">A · 88.5</span></td>
+      <td><span class="win-pill" style="background:#2b5b84">Gemini Argon</span></td>
+      <td>
+        <b><a href="../allways-argon/studio/cases/SCION_064_Parabolas_Different_Causes.html">Parabolas (etc.) — Curves With Different Causes</a></b>
+        <div class="note-sub">PASS (Round 2 Critic Tribunal). Use repeated curves to let viewers notice a geometric relation, then make differing causes and imperfect fits part of the film&#x27;s discovery. </div>
+      </td>
+      <td><code>45.4s</code></td>
+      <td><small>21.0 / 18.5 / 18.0 / 13.5 / 17.5</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-argon/studio/films/SCION_064_Parabolas_Different_Causes.mp4', '#44 · Parabolas (etc.) — Curves With Different Causes (Gemini Argon)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Gemini Argon" data-grade="A">
+      <td><b>#045</b></td>
+      <td><span class="grade-pill grade-A">A · 88.5</span></td>
+      <td><span class="win-pill" style="background:#2b5b84">Gemini Argon</span></td>
+      <td>
+        <b><a href="../allways-argon/studio/cases/SCION_065_Five_Parallel_Lives.html">Five — Parallel Lives, Unequal Details</a></b>
+        <div class="note-sub">PASS (Round 2 Critic Tribunal). Let several people inhabit the same editorial structure while preserving differences in language, routine, and setting. Shared gestures crea</div>
+      </td>
+      <td><code>54.3s</code></td>
+      <td><small>21.0 / 18.5 / 18.0 / 13.5 / 17.5</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-argon/studio/films/SCION_065_Five_Parallel_Lives.mp4', '#45 · Five — Parallel Lives, Unequal Details (Gemini Argon)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Gemini Argon" data-grade="A">
+      <td><b>#046</b></td>
+      <td><span class="grade-pill grade-A">A · 88.5</span></td>
+      <td><span class="win-pill" style="background:#2b5b84">Gemini Argon</span></td>
+      <td>
+        <b><a href="../allways-argon/studio/cases/SCION_066_Tango_Cyclic_Room.html">Tango — Cyclic Room Accumulation</a></b>
+        <div class="note-sub">PASS (Round 2 Critic Tribunal). Build a room where separate routine loops accumulate in the same architectural frame without acknowledging one another, then clear the room </div>
+      </td>
+      <td><code>39.9s</code></td>
+      <td><small>21.0 / 18.5 / 18.0 / 13.5 / 17.5</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-argon/studio/films/SCION_066_Tango_Cyclic_Room.mp4', '#46 · Tango — Cyclic Room Accumulation (Gemini Argon)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Gemini Argon" data-grade="A">
+      <td><b>#047</b></td>
+      <td><span class="grade-pill grade-A">A · 88.5</span></td>
+      <td><span class="win-pill" style="background:#2b5b84">Gemini Argon</span></td>
+      <td>
+        <b><a href="../allways-argon/studio/cases/SCION_067_Nostalgia_Temporal_Offset.html">(nostalgia) — Temporal Offset Between Caption and Image</a></b>
+        <div class="note-sub">PASS (Round 2 Critic Tribunal). Displace commentary one step ahead of the visible record so the viewer splits attention between anticipating the next image and remembering </div>
+      </td>
+      <td><code>38.0s</code></td>
+      <td><small>21.0 / 18.5 / 18.0 / 13.5 / 17.5</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-argon/studio/films/SCION_067_Nostalgia_Temporal_Offset.mp4', '#47 · (nostalgia) — Temporal Offset Between Caption and Image (Gemini Argon)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Gemini Argon" data-grade="A">
+      <td><b>#048</b></td>
+      <td><span class="grade-pill grade-A">A · 88.5</span></td>
+      <td><span class="win-pill" style="background:#2b5b84">Gemini Argon</span></td>
+      <td>
+        <b><a href="../allways-argon/studio/cases/SCION_095_Highrise_Spatial_Windows.html">Out My Window — Spatial Facade &amp; Window Matrix</a></b>
+        <div class="note-sub">PASS (Round 2 Critic Tribunal). Treat an urban apartment facade as an inspectable spatial index: move from the exterior grid of windows into individual domestic interiors, </div>
+      </td>
+      <td><code>38.2s</code></td>
+      <td><small>21.0 / 18.5 / 18.0 / 13.5 / 17.5</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-argon/studio/films/SCION_095_Highrise_Spatial_Windows.mp4', '#48 · Out My Window — Spatial Facade &amp; Window Matrix (Gemini Argon)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Claude Opus 5.5" data-grade="A">
+      <td><b>#049</b></td>
+      <td><span class="grade-pill grade-A">A · 88.5</span></td>
+      <td><span class="win-pill" style="background:#9e3b24">Claude Opus 5.5</span></td>
+      <td>
+        <b><a href="../allways-opus/films/zero-memory/">ZERO MEMORY</a></b>
+        <div class="note-sub">Full 109.7s duration across 29 cuts with three explicit black memory-reset cards (&#x27;Working history cleared 1/2/3&#x27;) protected by the critic.</div>
+      </td>
+      <td><code>109.7s</code></td>
+      <td><small>22.0 / 18.0 / 17.5 / 13.0 / 18.0</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-opus/films/zero-memory/zero-memory.mp4', '#49 · ZERO MEMORY (Claude Opus 5.5)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Gemini Argon" data-grade="A">
+      <td><b>#050</b></td>
+      <td><span class="grade-pill grade-A">A · 88.0</span></td>
+      <td><span class="win-pill" style="background:#2b5b84">Gemini Argon</span></td>
+      <td>
+        <b><a href="../allways-argon/films/mnemonil/">MNEMONIL</a></b>
+        <div class="note-sub">PASS (Round 2). Biographical assembly with explicit provenance rupture disclosing that the archive clips belong to separate lives.</div>
+      </td>
+      <td><code>39.8s</code></td>
+      <td><small>21.0 / 18.5 / 18.0 / 13.5 / 17.0</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-argon/films/mnemonil/mnemonil.mp4', '#50 · MNEMONIL (Gemini Argon)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Gemini Argon" data-grade="A">
+      <td><b>#051</b></td>
+      <td><span class="grade-pill grade-A">A · 88.0</span></td>
+      <td><span class="win-pill" style="background:#2b5b84">Gemini Argon</span></td>
+      <td>
+        <b><a href="../allways-argon/studio/cases/SCION_060_Losers_Social_Position.html">Losers — Social Position Through Montage</a></b>
+        <div class="note-sub">PASS (Round 2 Critic Tribunal). Show how a person&#x27;s apparent social position changes when the surrounding responses become visible. Make the audience reconsider a label thr</div>
+      </td>
+      <td><code>45.7s</code></td>
+      <td><small>21.0 / 18.0 / 18.0 / 13.5 / 17.5</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-argon/studio/films/SCION_060_Losers_Social_Position.mp4', '#51 · Losers — Social Position Through Montage (Gemini Argon)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Gemini Argon" data-grade="A">
+      <td><b>#052</b></td>
+      <td><span class="grade-pill grade-A">A · 88.0</span></td>
+      <td><span class="win-pill" style="background:#2b5b84">Gemini Argon</span></td>
+      <td>
+        <b><a href="../allways-argon/studio/cases/SCION_069_A_Movie_Found_Footage_Montage.html">A Movie — Found-Footage Kinetic &amp; Catastrophe Montage</a></b>
+        <div class="note-sub">PASS (Round 2 Critic Tribunal). Assemble disparate archival fragments—countdown leader, looking through an optical sight, speeding vehicles, teetering contraptions, and aft</div>
+      </td>
+      <td><code>41.9s</code></td>
+      <td><small>21.0 / 18.5 / 18.0 / 13.5 / 17.0</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-argon/studio/films/SCION_069_A_Movie_Found_Footage_Montage.mp4', '#52 · A Movie — Found-Footage Kinetic &amp; Catastrophe Montage (Gemini Argon)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Gemini Argon" data-grade="A">
+      <td><b>#053</b></td>
+      <td><span class="grade-pill grade-A">A · 88.0</span></td>
+      <td><span class="win-pill" style="background:#2b5b84">Gemini Argon</span></td>
+      <td>
+        <b><a href="../allways-argon/studio/cases/SCION_071_Standard_Gauge_Film_Strip.html">Standard Gauge — Material Film Strip Inspection</a></b>
+        <div class="note-sub">PASS (Round 2 Critic Tribunal). Place the physical film strip, projection mechanism, and emulsion history at the center of attention so the audience sees how every archival</div>
+      </td>
+      <td><code>38.5s</code></td>
+      <td><small>21.0 / 18.5 / 18.0 / 13.5 / 17.0</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-argon/studio/films/SCION_071_Standard_Gauge_Film_Strip.mp4', '#53 · Standard Gauge — Material Film Strip Inspection (Gemini Argon)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Gemini Argon" data-grade="A">
+      <td><b>#054</b></td>
+      <td><span class="grade-pill grade-A">A · 88.0</span></td>
+      <td><span class="win-pill" style="background:#2b5b84">Gemini Argon</span></td>
+      <td>
+        <b><a href="../allways-argon/studio/cases/SCION_076_Life_In_A_Day_Synchronized_Ordinary.html">Life in a Day &amp; Manakamana — Collective Horizon</a></b>
+        <div class="note-sub">PASS (Round 2 Critic Tribunal). Move from dawn mountain light through shared meals, transit compartments held in real time, and mass labor to evening stillness, preserving </div>
+      </td>
+      <td><code>40.2s</code></td>
+      <td><small>21.0 / 18.5 / 18.0 / 13.5 / 17.0</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-argon/studio/films/SCION_076_Life_In_A_Day_Synchronized_Ordinary.mp4', '#54 · Life in a Day &amp; Manakamana — Collective Horizon (Gemini Argon)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="OpenAI Sol" data-grade="A">
+      <td><b>#055</b></td>
+      <td><span class="grade-pill grade-A">A · 88.0</span></td>
+      <td><span class="win-pill" style="background:#2e6b4e">OpenAI Sol</span></td>
+      <td>
+        <b><a href="../allways-sol/films.html#film-062">062 · IN USE</a></b>
+        <div class="note-sub">Qualified VISUAL PASS (V02); repaired red-continuity defect using American Look (1958) color chapters.</div>
+      </td>
+      <td><code>60.0s</code></td>
+      <td><small>21.5 / 18.5 / 18.0 / 12.5 / 17.5</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-sol/films/062/media/ALLWAYS_062_IN_USE_V02.mp4', '#55 · 062 · IN USE (OpenAI Sol)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Claude Sonnet" data-grade="A">
+      <td><b>#056</b></td>
+      <td><span class="grade-pill grade-A">A · 88.0</span></td>
+      <td><span class="win-pill" style="background:#7a4988">Claude Sonnet</span></td>
+      <td>
+        <b><a href="../allways-sonnet/057-moments/">MOMENTS · Micro-Event Attention</a></b>
+        <div class="note-sub">Inconclusive overall, but contains two of the finest shots in ALLWAYS: the toddler&#x27;s backward stare (14–17s) and the haunting closing empty-room hold (44–48.5s).</div>
+      </td>
+      <td><code>52.8s</code></td>
+      <td><small>21.0 / 19.0 / 18.5 / 12.5 / 17.0</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-sonnet/057-moments/057-moments.mp4', '#56 · MOMENTS · Micro-Event Attention (Claude Sonnet)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Gemini Argon" data-grade="A">
+      <td><b>#057</b></td>
+      <td><span class="grade-pill grade-A">A · 87.5</span></td>
+      <td><span class="win-pill" style="background:#2b5b84">Gemini Argon</span></td>
+      <td>
+        <b><a href="../allways-argon/studio/cases/SCION_058_Laughs_Audible_Contagion.html">Laughs! — Audible Contagion</a></b>
+        <div class="note-sub">PASS (Round 2 Critic Tribunal). Build a changing acoustic chain from individually situated laughter, allowing rhythm to spread between shots while retaining the difference </div>
+      </td>
+      <td><code>33.4s</code></td>
+      <td><small>20.0 / 18.5 / 18.0 / 13.5 / 17.5</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-argon/studio/films/SCION_058_Laughs_Audible_Contagion.mp4', '#57 · Laughs! — Audible Contagion (Gemini Argon)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Gemini Argon" data-grade="A">
+      <td><b>#058</b></td>
+      <td><span class="grade-pill grade-A">A · 87.5</span></td>
+      <td><span class="win-pill" style="background:#2b5b84">Gemini Argon</span></td>
+      <td>
+        <b><a href="../allways-argon/studio/cases/SCION_063_Breath_Invisible_Force.html">Breath — Invisible Force, Visible Consequence</a></b>
+        <div class="note-sub">PASS (Round 2 Critic Tribunal). Make an invisible action legible through its effects on surfaces, objects, and other actions, then shape a film&#x27;s duration around unequal ex</div>
+      </td>
+      <td><code>36.5s</code></td>
+      <td><small>20.0 / 18.5 / 18.0 / 13.5 / 17.5</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-argon/studio/films/SCION_063_Breath_Invisible_Force.mp4', '#58 · Breath — Invisible Force, Visible Consequence (Gemini Argon)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="OpenAI Sol" data-grade="A">
+      <td><b>#059</b></td>
+      <td><span class="grade-pill grade-A">A · 87.5</span></td>
+      <td><span class="win-pill" style="background:#2e6b4e">OpenAI Sol</span></td>
+      <td>
+        <b><a href="../allways-sol/films.html#film-061">061 · WHAT STAYS</a></b>
+        <div class="note-sub">Qualified PASS (V03) for visual contact and material response (macro paper wetting and state comparison).</div>
+      </td>
+      <td><code>50.0s</code></td>
+      <td><small>21.5 / 18.5 / 18.0 / 12.0 / 17.5</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-sol/films/061/media/ALLWAYS_061_WHAT_STAYS_V03.mp4', '#59 · 061 · WHAT STAYS (OpenAI Sol)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Claude Sonnet" data-grade="A">
+      <td><b>#060</b></td>
+      <td><span class="grade-pill grade-A">A · 87.5</span></td>
+      <td><span class="win-pill" style="background:#7a4988">Claude Sonnet</span></td>
+      <td>
+        <b><a href="../allways-sonnet/061-matter/">MATTER · Material Affordance Chain</a></b>
+        <div class="note-sub">Features the hypnotic 7.8s viscous pour (12.6–20.3s) and 9.4s lathe-chip hold; repaired Round-1 defect by explicitly labelling the grain-crack diagram.</div>
+      </td>
+      <td><code>64.6s</code></td>
+      <td><small>21.0 / 17.5 / 18.5 / 12.5 / 18.0</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-sonnet/061-matter/061-matter.mp4', '#60 · MATTER · Material Affordance Chain (Claude Sonnet)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Gemini Argon" data-grade="A">
+      <td><b>#061</b></td>
+      <td><span class="grade-pill grade-A">A · 87.0</span></td>
+      <td><span class="win-pill" style="background:#2b5b84">Gemini Argon</span></td>
+      <td>
+        <b><a href="../allways-argon/studio/cases/COLL_01_Equivalents.html">EQUIVALENTS — Form, Action, and Affect</a></b>
+        <div class="note-sub">PASS (Round 2 Critic Tribunal). A collection of correspondences in form, action, and affect, with differences left available for attention rather than compressed into samen</div>
+      </td>
+      <td><code>31.2s</code></td>
+      <td><small>20.0 / 18.5 / 18.0 / 13.5 / 17.0</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-argon/studio/films/COLL_01_Equivalents.mp4', '#61 · EQUIVALENTS — Form, Action, and Affect (Gemini Argon)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Gemini Argon" data-grade="A">
+      <td><b>#062</b></td>
+      <td><span class="grade-pill grade-A">A · 87.0</span></td>
+      <td><span class="win-pill" style="background:#2b5b84">Gemini Argon</span></td>
+      <td>
+        <b><a href="../allways-argon/studio/cases/COLL_02_Unwitnessed.html">UNWITNESSED — Backgrounds &amp; Unattended Processes</a></b>
+        <div class="note-sub">PASS (Round 2 Critic Tribunal). A collection about backgrounds, recorded absence, and unattended processes. The title does not certify that nobody previously viewed a sourc</div>
+      </td>
+      <td><code>35.0s</code></td>
+      <td><small>20.0 / 18.5 / 18.0 / 13.5 / 17.0</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-argon/studio/films/COLL_02_Unwitnessed.mp4', '#62 · UNWITNESSED — Backgrounds &amp; Unattended Processes (Gemini Argon)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Gemini Argon" data-grade="A">
+      <td><b>#063</b></td>
+      <td><span class="grade-pill grade-A">A · 87.0</span></td>
+      <td><span class="win-pill" style="background:#2b5b84">Gemini Argon</span></td>
+      <td>
+        <b><a href="../allways-argon/studio/cases/COLL_03_Meanwhile.html">MEANWHILE — Beyond the Present Frame</a></b>
+        <div class="note-sub">PASS (Round 2 Critic Tribunal). An editorial view of what another place, person, or process is doing beyond the present frame. Parallel presentation need not mean simultane</div>
+      </td>
+      <td><code>29.6s</code></td>
+      <td><small>20.0 / 18.5 / 18.0 / 13.5 / 17.0</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-argon/studio/films/COLL_03_Meanwhile.mp4', '#63 · MEANWHILE — Beyond the Present Frame (Gemini Argon)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Gemini Argon" data-grade="A">
+      <td><b>#064</b></td>
+      <td><span class="grade-pill grade-A">A · 87.0</span></td>
+      <td><span class="win-pill" style="background:#2b5b84">Gemini Argon</span></td>
+      <td>
+        <b><a href="../allways-argon/studio/cases/COLL_04_Commonthread.html">COMMONTHREAD — The Ordinary Tissue Between Plots</a></b>
+        <div class="note-sub">PASS (Round 2 Critic Tribunal). Gather the ordinary tissue between plots—care, maintenance, waiting, and shared tasks—into sustained films whose connections retain particul</div>
+      </td>
+      <td><code>34.4s</code></td>
+      <td><small>20.0 / 18.5 / 18.0 / 13.5 / 17.0</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-argon/studio/films/COLL_04_Commonthread.mp4', '#64 · COMMONTHREAD — The Ordinary Tissue Between Plots (Gemini Argon)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Gemini Argon" data-grade="A">
+      <td><b>#065</b></td>
+      <td><span class="grade-pill grade-A">A · 87.0</span></td>
+      <td><span class="win-pill" style="background:#2b5b84">Gemini Argon</span></td>
+      <td>
+        <b><a href="../allways-argon/studio/cases/SCION_066_AZ_Cyclic_Replacement_Grammar.html">A–Z — Cyclic Replacement Grammar</a></b>
+        <div class="note-sub">PASS (Round 2 Critic Tribunal). Advance through a fixed sequence of three structural slots [A, B, C]: in each cycle, one motif retires while a new specimen enters the freed</div>
+      </td>
+      <td><code>35.0s</code></td>
+      <td><small>20.0 / 18.5 / 18.0 / 13.5 / 17.0</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-argon/studio/films/SCION_066_AZ_Cyclic_Replacement_Grammar.mp4', '#65 · A–Z — Cyclic Replacement Grammar (Gemini Argon)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Gemini Argon" data-grade="A">
+      <td><b>#066</b></td>
+      <td><span class="grade-pill grade-A">A · 87.0</span></td>
+      <td><span class="win-pill" style="background:#2b5b84">Gemini Argon</span></td>
+      <td>
+        <b><a href="../allways-argon/studio/cases/SCION_070_Report_Event_Broadcast_Divergence.html">Report — Event and Broadcast Divergence</a></b>
+        <div class="note-sub">PASS (Round 2 Critic Tribunal). Set the scarce evidentiary record of a public event against the flood of television screens, radio relays, and commercial spectacle that sur</div>
+      </td>
+      <td><code>35.4s</code></td>
+      <td><small>20.0 / 18.5 / 18.0 / 13.5 / 17.0</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-argon/studio/films/SCION_070_Report_Event_Broadcast_Divergence.mp4', '#66 · Report — Event and Broadcast Divergence (Gemini Argon)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Gemini Argon" data-grade="A">
+      <td><b>#067</b></td>
+      <td><span class="grade-pill grade-A">A · 87.0</span></td>
+      <td><span class="win-pill" style="background:#2b5b84">Gemini Argon</span></td>
+      <td>
+        <b><a href="../allways-argon/studio/cases/SCION_072_The_Alphabet_Symbol_System_Body.html">The Alphabet — A Symbol System Acts on a Body</a></b>
+        <div class="note-sub">PASS (Round 2 Critic Tribunal). Treat an elementary symbol system (letters, diagrams, and printed instructions) not as neutral pedagogy but as an uncanny pressure acting di</div>
+      </td>
+      <td><code>30.4s</code></td>
+      <td><small>20.0 / 18.5 / 18.0 / 13.5 / 17.0</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-argon/studio/films/SCION_072_The_Alphabet_Symbol_System_Body.mp4', '#67 · The Alphabet — A Symbol System Acts on a Body (Gemini Argon)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Gemini Argon" data-grade="A">
+      <td><b>#068</b></td>
+      <td><span class="grade-pill grade-A">A · 87.0</span></td>
+      <td><span class="win-pill" style="background:#2b5b84">Gemini Argon</span></td>
+      <td>
+        <b><a href="../allways-argon/studio/cases/SCION_073_Walk_Through_H_Cartographic_Passage.html">A Walk Through H — Narrated Passage Between Maps</a></b>
+        <div class="note-sub">PASS (Round 2 Critic Tribunal). Construct a journey entirely by moving across graphic maps, architectural drawings, and aerial terrain diagrams, so cartographic line-work b</div>
+      </td>
+      <td><code>35.5s</code></td>
+      <td><small>20.0 / 18.5 / 18.0 / 13.5 / 17.0</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-argon/studio/films/SCION_073_Walk_Through_H_Cartographic_Passage.mp4', '#68 · A Walk Through H — Narrated Passage Between Maps (Gemini Argon)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Gemini Argon" data-grade="A">
+      <td><b>#069</b></td>
+      <td><span class="grade-pill grade-A">A · 87.0</span></td>
+      <td><span class="win-pill" style="background:#2b5b84">Gemini Argon</span></td>
+      <td>
+        <b><a href="../allways-argon/studio/cases/SCION_074_The_Falls_Directory_Index.html">The Falls &amp; A Walk Through H — Indexed Directory</a></b>
+        <div class="note-sub">PASS (Round 2 Critic Tribunal). Organize disparate archival fragments under a strict alphanumeric catalog rubric (`CASE #01–#04`), pairing map drawings with field recording</div>
+      </td>
+      <td><code>37.4s</code></td>
+      <td><small>20.0 / 18.5 / 18.0 / 13.5 / 17.0</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-argon/studio/films/SCION_074_The_Falls_Directory_Index.mp4', '#69 · The Falls &amp; A Walk Through H — Indexed Directory (Gemini Argon)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Gemini Argon" data-grade="A">
+      <td><b>#070</b></td>
+      <td><span class="grade-pill grade-A">A · 87.0</span></td>
+      <td><span class="win-pill" style="background:#2b5b84">Gemini Argon</span></td>
+      <td>
+        <b><a href="../allways-argon/studio/cases/SCION_075_Babies_Milestones_Parallel_Care.html">Babies — Milestones Without a Universal Ladder</a></b>
+        <div class="note-sub">PASS (Round 2 Critic Tribunal). Observe early childhood milestones—bedside examination, being lifted, standing at a doorway threshold, crouching among flowers, and walking </div>
+      </td>
+      <td><code>35.2s</code></td>
+      <td><small>20.0 / 18.5 / 18.0 / 13.5 / 17.0</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-argon/studio/films/SCION_075_Babies_Milestones_Parallel_Care.mp4', '#70 · Babies — Milestones Without a Universal Ladder (Gemini Argon)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Gemini Argon" data-grade="A">
+      <td><b>#071</b></td>
+      <td><span class="grade-pill grade-A">A · 87.0</span></td>
+      <td><span class="win-pill" style="background:#2b5b84">Gemini Argon</span></td>
+      <td>
+        <b><a href="../allways-argon/studio/cases/SCION_075_High_School_Institutional_Routine.html">High School — Institutional Routine From Inside</a></b>
+        <div class="note-sub">PASS (Round 2 Critic Tribunal). Reveal how an institution shapes posture, speech, and time by linking unvarnished procedural encounters—corridor transit, classroom diagram,</div>
+      </td>
+      <td><code>36.2s</code></td>
+      <td><small>20.0 / 18.5 / 18.0 / 13.5 / 17.0</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-argon/studio/films/SCION_075_High_School_Institutional_Routine.mp4', '#71 · High School — Institutional Routine From Inside (Gemini Argon)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Gemini Argon" data-grade="A">
+      <td><b>#072</b></td>
+      <td><span class="grade-pill grade-A">A · 87.0</span></td>
+      <td><span class="win-pill" style="background:#2b5b84">Gemini Argon</span></td>
+      <td>
+        <b><a href="../allways-argon/studio/cases/SCION_076_Sacred_Distributed_Ritual_Logic.html">Sacred — Distributed Witness, Local Ritual Logic</a></b>
+        <div class="note-sub">PASS (Round 2 Critic Tribunal). Assemble locally recorded acts of devotion, threshold crossing, and ceremonial gathering so each practice remains intelligible through its o</div>
+      </td>
+      <td><code>34.2s</code></td>
+      <td><small>20.0 / 18.5 / 18.0 / 13.5 / 17.0</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-argon/studio/films/SCION_076_Sacred_Distributed_Ritual_Logic.mp4', '#72 · Sacred — Distributed Witness, Local Ritual Logic (Gemini Argon)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Gemini Argon" data-grade="A">
+      <td><b>#073</b></td>
+      <td><span class="grade-pill grade-A">A · 87.0</span></td>
+      <td><span class="win-pill" style="background:#2b5b84">Gemini Argon</span></td>
+      <td>
+        <b><a href="../allways-argon/studio/cases/SCION_077_Baraka_Contemplative_Counterpoint.html">Baraka — Contemplative Counterpoint Across Scales</a></b>
+        <div class="note-sub">PASS (Round 2 Critic Tribunal). Build a wordless contemplative passage that sets geological and atmospheric stillness against dense human corridors, returning to a direct h</div>
+      </td>
+      <td><code>35.5s</code></td>
+      <td><small>20.0 / 18.5 / 18.0 / 13.5 / 17.0</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-argon/studio/films/SCION_077_Baraka_Contemplative_Counterpoint.mp4', '#73 · Baraka — Contemplative Counterpoint Across Scales (Gemini Argon)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Gemini Argon" data-grade="A">
+      <td><b>#074</b></td>
+      <td><span class="grade-pill grade-A">A · 87.0</span></td>
+      <td><span class="win-pill" style="background:#2b5b84">Gemini Argon</span></td>
+      <td>
+        <b><a href="../allways-argon/studio/cases/SCION_078_Samsara_Material_Cycles_Returns.html">Samsara — Material Cycles and Changed Returns</a></b>
+        <div class="note-sub">PASS (Round 2 Critic Tribunal). Follow a material cycle from soil and raw rock tunnel through factory floor and plate consumption to structural ruin and volcanic steam, ret</div>
+      </td>
+      <td><code>36.5s</code></td>
+      <td><small>20.0 / 18.5 / 18.0 / 13.5 / 17.0</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-argon/studio/films/SCION_078_Samsara_Material_Cycles_Returns.mp4', '#74 · Samsara — Material Cycles and Changed Returns (Gemini Argon)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Gemini Argon" data-grade="A">
+      <td><b>#075</b></td>
+      <td><span class="grade-pill grade-A">A · 87.0</span></td>
+      <td><span class="win-pill" style="background:#2b5b84">Gemini Argon</span></td>
+      <td>
+        <b><a href="../allways-argon/studio/cases/SCION_080_Life_In_A_Day_Unequal_Windows.html">Life in a Day — Diurnal Window Comparison</a></b>
+        <div class="note-sub">PASS (Round 2 Critic Tribunal). Align intimate daily acts—washing, looking into a mirror, speaking on the phone, and gathering at night—while keeping the unequal economic, </div>
+      </td>
+      <td><code>32.3s</code></td>
+      <td><small>20.0 / 18.5 / 18.0 / 13.5 / 17.0</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-argon/studio/films/SCION_080_Life_In_A_Day_Unequal_Windows.mp4', '#75 · Life in a Day — Diurnal Window Comparison (Gemini Argon)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Gemini Argon" data-grade="A">
+      <td><b>#076</b></td>
+      <td><span class="grade-pill grade-A">A · 87.0</span></td>
+      <td><span class="win-pill" style="background:#2b5b84">Gemini Argon</span></td>
+      <td>
+        <b><a href="../allways-argon/studio/cases/SCION_081_Human_Testimony_And_Aerial_Breathing_Room.html">Human — Direct Testimony and Aerial Breathing Space</a></b>
+        <div class="note-sub">PASS (Round 2 Critic Tribunal). Alternate direct, tightly framed human faces and frontal address against plain backgrounds with expansive aerial and coastal landscapes that</div>
+      </td>
+      <td><code>35.8s</code></td>
+      <td><small>20.0 / 18.5 / 18.0 / 13.5 / 17.0</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-argon/studio/films/SCION_081_Human_Testimony_And_Aerial_Breathing_Room.mp4', '#76 · Human — Direct Testimony and Aerial Breathing Space (Gemini Argon)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Gemini Argon" data-grade="A">
+      <td><b>#077</b></td>
+      <td><span class="grade-pill grade-A">A · 87.0</span></td>
+      <td><span class="win-pill" style="background:#2b5b84">Gemini Argon</span></td>
+      <td>
+        <b><a href="../allways-argon/studio/cases/SCION_082_First_Position_Practice_To_Stage.html">First Position — Practice, Constraint, and Stage Exposure</a></b>
+        <div class="note-sub">PASS (Round 2 Critic Tribunal). Earn the emotional weight of a stage performance by first documenting the physical discipline required to produce it: foot alignment, postur</div>
+      </td>
+      <td><code>35.6s</code></td>
+      <td><small>20.0 / 18.5 / 18.0 / 13.5 / 17.0</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-argon/studio/films/SCION_082_First_Position_Practice_To_Stage.mp4', '#77 · First Position — Practice, Constraint, and Stage Exposure (Gemini Argon)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Gemini Argon" data-grade="A">
+      <td><b>#078</b></td>
+      <td><span class="grade-pill grade-A">A · 87.0</span></td>
+      <td><span class="win-pill" style="background:#2b5b84">Gemini Argon</span></td>
+      <td>
+        <b><a href="../allways-argon/studio/cases/SCION_083_Berlin_City_Symphony.html">Berlin: Symphony of a Great City — Urban Cadence</a></b>
+        <div class="note-sub">PASS (Round 2 Critic Tribunal). Shape a city passage from authentic archival street and transit views—beginning in an empty station before commuters arrive, accelerating th</div>
+      </td>
+      <td><code>36.0s</code></td>
+      <td><small>20.0 / 18.5 / 18.0 / 13.5 / 17.0</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-argon/studio/films/SCION_083_Berlin_City_Symphony.mp4', '#78 · Berlin: Symphony of a Great City — Urban Cadence (Gemini Argon)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Gemini Argon" data-grade="A">
+      <td><b>#079</b></td>
+      <td><span class="grade-pill grade-A">A · 87.0</span></td>
+      <td><span class="win-pill" style="background:#2b5b84">Gemini Argon</span></td>
+      <td>
+        <b><a href="../allways-argon/studio/cases/SCION_084_Pickpocket_Object_Transfer_Relay.html">Pickpocket — Object Transfer as Dramatic Grammar</a></b>
+        <div class="note-sub">PASS (Round 2 Critic Tribunal). Build narrative tension entirely through close-ups of hands approaching, uncovering, transferring, lighting, and locking objects—letting man</div>
+      </td>
+      <td><code>32.5s</code></td>
+      <td><small>20.0 / 18.5 / 18.0 / 13.5 / 17.0</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-argon/studio/films/SCION_084_Pickpocket_Object_Transfer_Relay.mp4', '#79 · Pickpocket — Object Transfer as Dramatic Grammar (Gemini Argon)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Gemini Argon" data-grade="A">
+      <td><b>#080</b></td>
+      <td><span class="grade-pill grade-A">A · 87.0</span></td>
+      <td><span class="win-pill" style="background:#2b5b84">Gemini Argon</span></td>
+      <td>
+        <b><a href="../allways-argon/studio/cases/SCION_086_Songs_Second_Floor_Tableau_Pressure.html">Songs from the Second Floor — Tableau Pressure</a></b>
+        <div class="note-sub">PASS (Round 2 Critic Tribunal). Hold deep, locked-off architectural frames—long window-lined interiors, men seated around an institutional table, figures waiting in corrido</div>
+      </td>
+      <td><code>34.0s</code></td>
+      <td><small>20.0 / 18.5 / 18.0 / 13.5 / 17.0</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-argon/studio/films/SCION_086_Songs_Second_Floor_Tableau_Pressure.mp4', '#80 · Songs from the Second Floor — Tableau Pressure (Gemini Argon)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Gemini Argon" data-grade="A">
+      <td><b>#081</b></td>
+      <td><span class="grade-pill grade-A">A · 87.0</span></td>
+      <td><span class="win-pill" style="background:#2b5b84">Gemini Argon</span></td>
+      <td>
+        <b><a href="../allways-argon/studio/cases/SCION_087_Pigeon_Sat_On_Branch_Recurrence_Debt.html">A Pigeon Sat on a Branch — Recurrence with Debt</a></b>
+        <div class="note-sub">PASS (Round 2 Critic Tribunal). Repeat a structural refrain (the clerk at his ledger, the man on the telephone) across episodes of historical damage and institutional cerem</div>
+      </td>
+      <td><code>31.1s</code></td>
+      <td><small>20.0 / 18.5 / 18.0 / 13.5 / 17.0</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-argon/studio/films/SCION_087_Pigeon_Sat_On_Branch_Recurrence_Debt.mp4', '#81 · A Pigeon Sat on a Branch — Recurrence with Debt (Gemini Argon)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Gemini Argon" data-grade="A">
+      <td><b>#082</b></td>
+      <td><span class="grade-pill grade-A">A · 87.0</span></td>
+      <td><span class="win-pill" style="background:#2b5b84">Gemini Argon</span></td>
+      <td>
+        <b><a href="../allways-argon/studio/cases/SCION_088_Le_Quattro_Volte_Nonhuman_Relay.html">Le Quattro Volte — Fourfold Relay Beyond the Human</a></b>
+        <div class="note-sub">PASS (Round 2 Critic Tribunal). Hand the center of attention across four realms of existence in a single landscape: (1) an aging human figure, (2) animal life in the field,</div>
+      </td>
+      <td><code>36.3s</code></td>
+      <td><small>20.0 / 18.5 / 18.0 / 13.5 / 17.0</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-argon/studio/films/SCION_088_Le_Quattro_Volte_Nonhuman_Relay.mp4', '#82 · Le Quattro Volte — Fourfold Relay Beyond the Human (Gemini Argon)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Gemini Argon" data-grade="A">
+      <td><b>#083</b></td>
+      <td><span class="grade-pill grade-A">A · 87.0</span></td>
+      <td><span class="win-pill" style="background:#2b5b84">Gemini Argon</span></td>
+      <td>
+        <b><a href="../allways-argon/studio/cases/SCION_089_Planimetric_Geometry_Times_Encounter.html">Wes Anderson / Robert Yeoman — Planimetric Geometry</a></b>
+        <div class="note-sub">PASS (Round 2 Critic Tribunal). Use strict perpendicular framing—centered facades, twin doors, axial corridor tracking, and symmetrical two-shots—so geometric precision tim</div>
+      </td>
+      <td><code>35.2s</code></td>
+      <td><small>20.0 / 18.5 / 18.0 / 13.5 / 17.0</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-argon/studio/films/SCION_089_Planimetric_Geometry_Times_Encounter.mp4', '#83 · Wes Anderson / Robert Yeoman — Planimetric Geometry (Gemini Argon)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Gemini Argon" data-grade="A">
+      <td><b>#084</b></td>
+      <td><span class="grade-pill grade-A">A · 87.0</span></td>
+      <td><span class="win-pill" style="background:#2b5b84">Gemini Argon</span></td>
+      <td>
+        <b><a href="../allways-argon/studio/cases/SCION_091_Watchtower_Momentum_Across_Discontinuity.html">Watchtower of Turkey — Momentum Across Discontinuity</a></b>
+        <div class="note-sub">PASS (Round 2 Critic Tribunal). Pass kinetic momentum—forward rush, rotational spin, and upward lift—across sharply different places and decades while keeping the cut and s</div>
+      </td>
+      <td><code>32.9s</code></td>
+      <td><small>20.0 / 18.5 / 18.0 / 13.5 / 17.0</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-argon/studio/films/SCION_091_Watchtower_Momentum_Across_Discontinuity.mp4', '#84 · Watchtower of Turkey — Momentum Across Discontinuity (Gemini Argon)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Gemini Argon" data-grade="A">
+      <td><b>#085</b></td>
+      <td><span class="grade-pill grade-A">A · 87.0</span></td>
+      <td><span class="win-pill" style="background:#2b5b84">Gemini Argon</span></td>
+      <td>
+        <b><a href="../allways-argon/studio/cases/SCION_092_Hands_Analytical_Video_Essay.html">Hands of the Archive — Analytical Video Essay</a></b>
+        <div class="note-sub">PASS (Round 2 Critic Tribunal). Extract a corpus of close manual actions across unrelated decades to demonstrate a visual thesis: hands think through instruments, keys, soi</div>
+      </td>
+      <td><code>37.2s</code></td>
+      <td><small>20.0 / 18.5 / 18.0 / 13.5 / 17.0</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-argon/studio/films/SCION_092_Hands_Analytical_Video_Essay.mp4', '#85 · Hands of the Archive — Analytical Video Essay (Gemini Argon)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Gemini Argon" data-grade="A">
+      <td><b>#086</b></td>
+      <td><span class="grade-pill grade-A">A · 87.0</span></td>
+      <td><span class="win-pill" style="background:#2b5b84">Gemini Argon</span></td>
+      <td>
+        <b><a href="../allways-argon/studio/cases/SCION_094_Chuck_Jones_Constraint_Changes_Performance.html">Chuck Jones — How Constraint Changes Performance</a></b>
+        <div class="note-sub">PASS (Round 2 Critic Tribunal). Demonstrate how formal constraints sharpen performance across time: move from early broad full-body spectacle and slapstick contraptions to </div>
+      </td>
+      <td><code>34.5s</code></td>
+      <td><small>20.0 / 18.5 / 18.0 / 13.5 / 17.0</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-argon/studio/films/SCION_094_Chuck_Jones_Constraint_Changes_Performance.mp4', '#86 · Chuck Jones — How Constraint Changes Performance (Gemini Argon)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Gemini Argon" data-grade="A">
+      <td><b>#087</b></td>
+      <td><span class="grade-pill grade-A">A · 87.0</span></td>
+      <td><span class="win-pill" style="background:#2b5b84">Gemini Argon</span></td>
+      <td>
+        <b><a href="../allways-argon/studio/cases/SCION_095_Bear_71_Surveillance_Countermap.html">Bear 71 — Situated Surveillance Countermap</a></b>
+        <div class="note-sub">PASS (Round 2 Critic Tribunal). Reframe a monitored landscape from the perspective of the tracked creature: alternate telemetry maps and highway/rail corridors with direct </div>
+      </td>
+      <td><code>34.8s</code></td>
+      <td><small>20.0 / 18.5 / 18.0 / 13.5 / 17.0</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-argon/studio/films/SCION_095_Bear_71_Surveillance_Countermap.mp4', '#87 · Bear 71 — Situated Surveillance Countermap (Gemini Argon)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Gemini Argon" data-grade="A">
+      <td><b>#088</b></td>
+      <td><span class="grade-pill grade-A">A · 87.0</span></td>
+      <td><span class="win-pill" style="background:#2b5b84">Gemini Argon</span></td>
+      <td>
+        <b><a href="../allways-argon/studio/cases/SCION_096_Bla_Bla_Gesture_Response_Fable.html">BLA BLA — Gesture and Response Fable</a></b>
+        <div class="note-sub">PASS (Round 2 Critic Tribunal). Structure a fable of communication around elementary interactive states—(1) awakening/looking, (2) puppet greeting, (3) two-figure exchange,</div>
+      </td>
+      <td><code>33.6s</code></td>
+      <td><small>20.0 / 18.5 / 18.0 / 13.5 / 17.0</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-argon/studio/films/SCION_096_Bla_Bla_Gesture_Response_Fable.mp4', '#88 · BLA BLA — Gesture and Response Fable (Gemini Argon)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Gemini Argon" data-grade="A">
+      <td><b>#089</b></td>
+      <td><span class="grade-pill grade-A">A · 87.0</span></td>
+      <td><span class="win-pill" style="background:#2b5b84">Gemini Argon</span></td>
+      <td>
+        <b><a href="../allways-argon/studio/cases/SCION_097_Welcome_To_Pine_Point_Scrapbook.html">Welcome to Pine Point — Remembered Place Scrapbook</a></b>
+        <div class="note-sub">PASS (Round 2 Critic Tribunal). Reconstruct a vanished community as a tactile scrapbook: move from the weathered welcome sign and handheld snapshots into home-movie parades</div>
+      </td>
+      <td><code>34.5s</code></td>
+      <td><small>20.0 / 18.5 / 18.0 / 13.5 / 17.0</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-argon/studio/films/SCION_097_Welcome_To_Pine_Point_Scrapbook.mp4', '#89 · Welcome to Pine Point — Remembered Place Scrapbook (Gemini Argon)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Gemini Argon" data-grade="A">
+      <td><b>#090</b></td>
+      <td><span class="grade-pill grade-A">A · 87.0</span></td>
+      <td><span class="win-pill" style="background:#2b5b84">Gemini Argon</span></td>
+      <td>
+        <b><a href="../allways-argon/studio/cases/SCION_098_One_Millionth_Tower_Participatory_Place.html">One Millionth Tower — Reimagining Vertical Place</a></b>
+        <div class="note-sub">PASS (Round 2 Critic Tribunal). Pair the documented wear of a high-rise/tenement environment with architectural re-drawings and community cultivation so residents&#x27; spatial </div>
+      </td>
+      <td><code>34.8s</code></td>
+      <td><small>20.0 / 18.5 / 18.0 / 13.5 / 17.0</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-argon/studio/films/SCION_098_One_Millionth_Tower_Participatory_Place.mp4', '#90 · One Millionth Tower — Reimagining Vertical Place (Gemini Argon)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Gemini Argon" data-grade="A">
+      <td><b>#091</b></td>
+      <td><span class="grade-pill grade-A">A · 87.0</span></td>
+      <td><span class="win-pill" style="background:#2b5b84">Gemini Argon</span></td>
+      <td>
+        <b><a href="../allways-argon/studio/cases/SCION_100_Short_History_Of_The_Highrise.html">A Short History of the Highrise — Vertical Essay</a></b>
+        <div class="note-sub">PASS (Round 2 Critic Tribunal). Trace the multi-century history of vertical living across four chapters (Mud/Stone, Concrete Tenement, Glass Tower, and Domestic Window) whi</div>
+      </td>
+      <td><code>29.1s</code></td>
+      <td><small>20.0 / 18.5 / 18.0 / 13.5 / 17.0</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-argon/studio/films/SCION_100_Short_History_Of_The_Highrise.mp4', '#91 · A Short History of the Highrise — Vertical Essay (Gemini Argon)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Gemini Argon" data-grade="A">
+      <td><b>#092</b></td>
+      <td><span class="grade-pill grade-A">A · 87.0</span></td>
+      <td><span class="win-pill" style="background:#2b5b84">Gemini Argon</span></td>
+      <td>
+        <b><a href="../allways-argon/studio/cases/SCION_101_Motto_Participatory_Image_Slots.html">Motto — Participatory Narrative Image Slots</a></b>
+        <div class="note-sub">PASS (Round 2 Critic Tribunal). Carry a continuous narrative voice through a brisk sequence of small, non-literal visual fragments—a storefront sign, a shadow on a wall, a </div>
+      </td>
+      <td><code>32.4s</code></td>
+      <td><small>20.0 / 18.5 / 18.0 / 13.5 / 17.0</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-argon/studio/films/SCION_101_Motto_Participatory_Image_Slots.mp4', '#92 · Motto — Participatory Narrative Image Slots (Gemini Argon)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Gemini Argon" data-grade="A">
+      <td><b>#093</b></td>
+      <td><span class="grade-pill grade-A">A · 87.0</span></td>
+      <td><span class="win-pill" style="background:#2b5b84">Gemini Argon</span></td>
+      <td>
+        <b><a href="../allways-argon/studio/cases/SCION_102_Unknown_Photographer_Evidenced_Archive.html">The Unknown Photographer — Evidenced Archive &amp; Space</a></b>
+        <div class="note-sub">PASS (Round 2 Critic Tribunal). Place authentic historical photographs and camera artifacts inside an atmospheric navigation space—fog, ruins, and darkrooms—while keeping t</div>
+      </td>
+      <td><code>35.5s</code></td>
+      <td><small>20.0 / 18.5 / 18.0 / 13.5 / 17.0</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-argon/studio/films/SCION_102_Unknown_Photographer_Evidenced_Archive.mp4', '#93 · The Unknown Photographer — Evidenced Archive &amp; Space (Gemini Argon)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Gemini Argon" data-grade="A">
+      <td><b>#094</b></td>
+      <td><span class="grade-pill grade-A">A · 87.0</span></td>
+      <td><span class="win-pill" style="background:#2b5b84">Gemini Argon</span></td>
+      <td>
+        <b><a href="../allways-argon/studio/cases/SCION_103_We_Feel_Fine_Expressions_Aggregates.html">We Feel Fine — Individual Expressions &amp; Aggregates</a></b>
+        <div class="note-sub">PASS (Round 2 Critic Tribunal). Alternate between macro-level particle fields representing an aggregate population and micro-level individual human expressions (laughter, b</div>
+      </td>
+      <td><code>35.2s</code></td>
+      <td><small>20.0 / 18.5 / 18.0 / 13.5 / 17.0</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-argon/studio/films/SCION_103_We_Feel_Fine_Expressions_Aggregates.mp4', '#94 · We Feel Fine — Individual Expressions &amp; Aggregates (Gemini Argon)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Gemini Argon" data-grade="A">
+      <td><b>#095</b></td>
+      <td><span class="grade-pill grade-A">A · 87.0</span></td>
+      <td><span class="win-pill" style="background:#2b5b84">Gemini Argon</span></td>
+      <td>
+        <b><a href="../allways-argon/studio/cases/SCION_104_The_Whale_Hunt_Sampling_Rhythm.html">The Whale Hunt — Heartbeat Sampling Rhythm</a></b>
+        <div class="note-sub">PASS (Round 2 Critic Tribunal). Let the sampling interval itself narrate the event: hold long, slow-pulse observations during waiting on the snowfield and sea horizon, then</div>
+      </td>
+      <td><code>33.5s</code></td>
+      <td><small>20.0 / 18.5 / 18.0 / 13.5 / 17.0</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-argon/studio/films/SCION_104_The_Whale_Hunt_Sampling_Rhythm.mp4', '#95 · The Whale Hunt — Heartbeat Sampling Rhythm (Gemini Argon)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Gemini Argon" data-grade="A">
+      <td><b>#096</b></td>
+      <td><span class="grade-pill grade-A">A · 87.0</span></td>
+      <td><span class="win-pill" style="background:#2b5b84">Gemini Argon</span></td>
+      <td>
+        <b><a href="../allways-argon/studio/cases/SCION_105_Cowbird_Relational_Commons.html">Cowbird — Authored Stories in a Relational Commons</a></b>
+        <div class="note-sub">PASS (Round 2 Critic Tribunal). Preserve quiet, self-contained personal stories—a writer at a desk in lamplight, hands weaving, a packed suitcase, a couple in a car—while l</div>
+      </td>
+      <td><code>35.7s</code></td>
+      <td><small>20.0 / 18.5 / 18.0 / 13.5 / 17.0</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-argon/studio/films/SCION_105_Cowbird_Relational_Commons.mp4', '#96 · Cowbird — Authored Stories in a Relational Commons (Gemini Argon)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Gemini Argon" data-grade="A">
+      <td><b>#097</b></td>
+      <td><span class="grade-pill grade-A">A · 87.0</span></td>
+      <td><span class="win-pill" style="background:#2b5b84">Gemini Argon</span></td>
+      <td>
+        <b><a href="../allways-argon/studio/cases/SCION_106_Network_Effect_Bounded_Attention.html">Network Effect — Bounded Session in an Unfinishable Archive</a></b>
+        <div class="note-sub">PASS (Round 2 Critic Tribunal). Expose the restlessness of infinite archival browsing by imposing a strict session timer: move through categorized human behaviors (`EATING`</div>
+      </td>
+      <td><code>29.2s</code></td>
+      <td><small>20.0 / 18.5 / 18.0 / 13.5 / 17.0</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-argon/studio/films/SCION_106_Network_Effect_Bounded_Attention.mp4', '#97 · Network Effect — Bounded Session in an Unfinishable Archive (Gemini Argon)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Gemini Argon" data-grade="A">
+      <td><b>#098</b></td>
+      <td><span class="grade-pill grade-A">A · 87.0</span></td>
+      <td><span class="win-pill" style="background:#2b5b84">Gemini Argon</span></td>
+      <td>
+        <b><a href="../allways-argon/studio/cases/SCION_107_In_Fragments_Material_Ritual.html">In Fragments — Material Ritual and Consequence</a></b>
+        <div class="note-sub">PASS (Round 2 Critic Tribunal). Treat the archive not as weightless cloud data but as a material ritual of holding and releasing: move from an empty glass reliquary case an</div>
+      </td>
+      <td><code>35.5s</code></td>
+      <td><small>20.0 / 18.5 / 18.0 / 13.5 / 17.0</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-argon/studio/films/SCION_107_In_Fragments_Material_Ritual.mp4', '#98 · In Fragments — Material Ritual and Consequence (Gemini Argon)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Gemini Argon" data-grade="A">
+      <td><b>#099</b></td>
+      <td><span class="grade-pill grade-A">A · 87.0</span></td>
+      <td><span class="win-pill" style="background:#2b5b84">Gemini Argon</span></td>
+      <td>
+        <b><a href="../allways-argon/studio/cases/SCION_108_Johnny_Cash_Project_Collective_Frame.html">The Johnny Cash Project — Collective Frame Performance</a></b>
+        <div class="note-sub">PASS (Round 2 Critic Tribunal). Sustain a single musical/postural cadence across radically different visual renderings—ink drawing, duplicate celluloid frames, bleached hig</div>
+      </td>
+      <td><code>32.8s</code></td>
+      <td><small>20.0 / 18.5 / 18.0 / 13.5 / 17.0</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-argon/studio/films/SCION_108_Johnny_Cash_Project_Collective_Frame.mp4', '#99 · The Johnny Cash Project — Collective Frame Performance (Gemini Argon)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Gemini Argon" data-grade="A">
+      <td><b>#100</b></td>
+      <td><span class="grade-pill grade-A">A · 87.0</span></td>
+      <td><span class="win-pill" style="background:#2b5b84">Gemini Argon</span></td>
+      <td>
+        <b><a href="../allways-argon/studio/cases/SCION_109_Global_Remake_Distributed_Shot_Score.html">The Global Remake — Distributed Shot Score</a></b>
+        <div class="note-sub">PASS (Round 2 Critic Tribunal). Treat a classic city-symphony shot list as an open score: pair the canonical apparatus/street instructions (Shot #01 Camera Rig, Shot #02 Wa</div>
+      </td>
+      <td><code>30.6s</code></td>
+      <td><small>20.0 / 18.5 / 18.0 / 13.5 / 17.0</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-argon/studio/films/SCION_109_Global_Remake_Distributed_Shot_Score.mp4', '#100 · The Global Remake — Distributed Shot Score (Gemini Argon)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Gemini Argon" data-grade="A">
+      <td><b>#101</b></td>
+      <td><span class="grade-pill grade-A">A · 87.0</span></td>
+      <td><span class="win-pill" style="background:#2b5b84">Gemini Argon</span></td>
+      <td>
+        <b><a href="../allways-argon/studio/cases/SCION_110_Sandy_Storyline_Community_Aftermath.html">Sandy Storyline — Storm Event and Continuing Aftermath</a></b>
+        <div class="note-sub">PASS (Round 2 Critic Tribunal). Refuse the news-cycle habit of abandoning a disaster once the storm passes: trace the arc from gathering storm clouds and flood-wrecked hous</div>
+      </td>
+      <td><code>31.3s</code></td>
+      <td><small>20.0 / 18.5 / 18.0 / 13.5 / 17.0</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-argon/studio/films/SCION_110_Sandy_Storyline_Community_Aftermath.mp4', '#101 · Sandy Storyline — Storm Event and Continuing Aftermath (Gemini Argon)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Gemini Argon" data-grade="A">
+      <td><b>#102</b></td>
+      <td><span class="grade-pill grade-A">A · 87.0</span></td>
+      <td><span class="win-pill" style="background:#2b5b84">Gemini Argon</span></td>
+      <td>
+        <b><a href="../allways-argon/studio/cases/SCION_111_18_Days_In_Egypt_Participant_Streams.html">18 Days in Egypt — Participant Evidence Streams</a></b>
+        <div class="note-sub">PASS (Round 2 Critic Tribunal). Assemble a civic event from multiple participant-held vantage points—building exits, street processions, night searchlights, and crowded hal</div>
+      </td>
+      <td><code>31.5s</code></td>
+      <td><small>20.0 / 18.5 / 18.0 / 13.5 / 17.0</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-argon/studio/films/SCION_111_18_Days_In_Egypt_Participant_Streams.mp4', '#102 · 18 Days in Egypt — Participant Evidence Streams (Gemini Argon)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Gemini Argon" data-grade="A">
+      <td><b>#103</b></td>
+      <td><span class="grade-pill grade-A">A · 87.0</span></td>
+      <td><span class="win-pill" style="background:#2b5b84">Gemini Argon</span></td>
+      <td>
+        <b><a href="../allways-argon/studio/cases/SCION_112_Prison_Valley_Investigative_Hub.html">Prison Valley — Investigative Road &amp; Return Hub</a></b>
+        <div class="note-sub">PASS (Round 2 Critic Tribunal). Alternately venture out along a valley highway to investigate an institutional industry—armored vans, padlocks, uniformed guards—and return </div>
+      </td>
+      <td><code>34.8s</code></td>
+      <td><small>20.0 / 18.5 / 18.0 / 13.5 / 17.0</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-argon/studio/films/SCION_112_Prison_Valley_Investigative_Hub.mp4', '#103 · Prison Valley — Investigative Road &amp; Return Hub (Gemini Argon)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Gemini Argon" data-grade="A">
+      <td><b>#104</b></td>
+      <td><span class="grade-pill grade-A">A · 87.0</span></td>
+      <td><span class="win-pill" style="background:#2b5b84">Gemini Argon</span></td>
+      <td>
+        <b><a href="../allways-argon/studio/cases/STUDY_01_Latent.html">LATENT — Navigable Archive Study</a></b>
+        <div class="note-sub">PASS (Round 2 Critic Tribunal). A proposed environment for following modeled relationships between source records. Navigation changes the encounter; coordinates belong to a</div>
+      </td>
+      <td><code>31.2s</code></td>
+      <td><small>20.0 / 18.5 / 18.0 / 13.5 / 17.0</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-argon/studio/films/STUDY_01_Latent.mp4', '#104 · LATENT — Navigable Archive Study (Gemini Argon)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Gemini Argon" data-grade="A">
+      <td><b>#105</b></td>
+      <td><span class="grade-pill grade-A">A · 87.0</span></td>
+      <td><span class="win-pill" style="background:#2b5b84">Gemini Argon</span></td>
+      <td>
+        <b><a href="../allways-argon/studio/cases/STUDY_02_The_Vector_Poet.html">THE VECTOR POET — Associative Editing Study</a></b>
+        <div class="note-sub">PASS (Round 2 Critic Tribunal). Search proposes visual, sonic, or semantic neighbors; an editor tests whether their relation develops meaning and preserves context. Similar</div>
+      </td>
+      <td><code>30.9s</code></td>
+      <td><small>20.0 / 18.5 / 18.0 / 13.5 / 17.0</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-argon/studio/films/STUDY_02_The_Vector_Poet.mp4', '#105 · THE VECTOR POET — Associative Editing Study (Gemini Argon)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Gemini Argon" data-grade="A">
+      <td><b>#106</b></td>
+      <td><span class="grade-pill grade-A">A · 87.0</span></td>
+      <td><span class="win-pill" style="background:#2b5b84">Gemini Argon</span></td>
+      <td>
+        <b><a href="../allways-argon/studio/cases/STUDY_04_Operative_Cinema.html">OPERATIVE CINEMA — Archival Bridges</a></b>
+        <div class="note-sub">PASS (Round 2 Critic Tribunal). Bridge documentary fragments with explicit transitional passages while keeping the recorded endpoints and the intermediate bridge distinguis</div>
+      </td>
+      <td><code>34.5s</code></td>
+      <td><small>20.0 / 18.5 / 18.0 / 13.5 / 17.0</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-argon/studio/films/STUDY_04_Operative_Cinema.mp4', '#106 · OPERATIVE CINEMA — Archival Bridges (Gemini Argon)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Gemini Argon" data-grade="A">
+      <td><b>#107</b></td>
+      <td><span class="grade-pill grade-A">A · 87.0</span></td>
+      <td><span class="win-pill" style="background:#2b5b84">Gemini Argon</span></td>
+      <td>
+        <b><a href="../allways-argon/studio/cases/STUDY_05_Anyrecord.html">ANYRECORD — Intake and Catalogue Study</a></b>
+        <div class="note-sub">PASS (Round 2 Critic Tribunal). A broad invitation to consider discarded film, audio, still images, and other recordings. Equal consideration does not make every record equ</div>
+      </td>
+      <td><code>34.7s</code></td>
+      <td><small>20.0 / 18.5 / 18.0 / 13.5 / 17.0</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-argon/studio/films/STUDY_05_Anyrecord.mp4', '#107 · ANYRECORD — Intake and Catalogue Study (Gemini Argon)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="OpenAI Sol" data-grade="A">
+      <td><b>#108</b></td>
+      <td><span class="grade-pill grade-A">A · 87.0</span></td>
+      <td><span class="win-pill" style="background:#2e6b4e">OpenAI Sol</span></td>
+      <td>
+        <b><a href="../allways-sol/films.html#film-069">069 · IT MUST BE CONNECTED</a></b>
+        <div class="note-sub">Bounded VISUAL PASS (V02, 70s) exposing manufactured entrance/shared-space relations across disparate buildings.</div>
+      </td>
+      <td><code>70.0s</code></td>
+      <td><small>21.0 / 18.5 / 18.5 / 12.0 / 17.0</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-sol/films/069/media/ALLWAYS_069_IT_MUST_BE_CONNECTED_V02.mp4', '#108 · 069 · IT MUST BE CONNECTED (OpenAI Sol)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Gemini Argon" data-grade="A">
+      <td><b>#109</b></td>
+      <td><span class="grade-pill grade-A">A · 86.5</span></td>
+      <td><span class="win-pill" style="background:#2b5b84">Gemini Argon</span></td>
+      <td>
+        <b><a href="../allways-argon/studio/cases/STUDY_06_Doubletake.html">DOUBLETAKE — Comparative Edition Format</a></b>
+        <div class="note-sub">PASS (Round 2 Critic Tribunal). A second viewing, alternate cut, or source/derivative comparison changes the first encounter. Keep the source pool explicit so viewers can i</div>
+      </td>
+      <td><code>28.8s</code></td>
+      <td><small>20.0 / 18.0 / 18.0 / 13.5 / 17.0</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-argon/studio/films/STUDY_06_Doubletake.mp4', '#109 · DOUBLETAKE — Comparative Edition Format (Gemini Argon)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Claude Opus 5.5" data-grade="A">
+      <td><b>#110</b></td>
+      <td><span class="grade-pill grade-A">A · 86.5</span></td>
+      <td><span class="win-pill" style="background:#9e3b24">Claude Opus 5.5</span></td>
+      <td>
+        <b><a href="../allways-opus/films/homonym/">HOMONYM</a></b>
+        <div class="note-sub">48s relay around &#x27;place&#x27; across 12 cuts; critic praised 17.9–21.8s where spoken &#x27;a place for everything&#x27; aligns with hands sorting a drawer.</div>
+      </td>
+      <td><code>48.0s</code></td>
+      <td><small>19.0 / 18.5 / 18.5 / 13.5 / 17.0</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-opus/films/homonym/homonym.mp4', '#110 · HOMONYM (Claude Opus 5.5)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Claude Opus 5.5" data-grade="A">
+      <td><b>#111</b></td>
+      <td><span class="grade-pill grade-A">A · 86.0</span></td>
+      <td><span class="win-pill" style="background:#9e3b24">Claude Opus 5.5</span></td>
+      <td>
+        <b><a href="../allways-opus/films/collective-inventories/">COLLECTIVE INVENTORIES</a></b>
+        <div class="note-sub">67s composite morning across 10 shots; features the praised cupboard-shutter reveal (12.6–15.4s) and distinct domestic actions.</div>
+      </td>
+      <td><code>67.0s</code></td>
+      <td><small>19.0 / 18.5 / 18.0 / 13.5 / 17.0</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-opus/films/collective-inventories/collective-inventories.mp4', '#111 · COLLECTIVE INVENTORIES (Claude Opus 5.5)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="OpenAI Sol" data-grade="A">
+      <td><b>#112</b></td>
+      <td><span class="grade-pill grade-A">A · 86.0</span></td>
+      <td><span class="win-pill" style="background:#2e6b4e">OpenAI Sol</span></td>
+      <td>
+        <b><a href="../allways-sol/films.html#film-059">059 · EQUIVALENT RADIUS</a></b>
+        <div class="note-sub">VISUAL CONSTRUCTION: PASS (V02). Centered circular registration across domestic and industrial objects.</div>
+      </td>
+      <td><code>38.0s</code></td>
+      <td><small>21.0 / 18.0 / 18.0 / 12.0 / 17.0</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-sol/films/059/media/ALLWAYS_059_EQUIVALENT_RADIUS_V02.mp4', '#112 · 059 · EQUIVALENT RADIUS (OpenAI Sol)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Claude Sonnet" data-grade="A">
+      <td><b>#113</b></td>
+      <td><span class="grade-pill grade-A">A · 86.0</span></td>
+      <td><span class="win-pill" style="background:#7a4988">Claude Sonnet</span></td>
+      <td>
+        <b><a href="../allways-sonnet/065-five/">FIVE · Parallel Lives</a></b>
+        <div class="note-sub">67.6s across 12 events with an alternate cut (065-five-alt.mp4); strong source foraging across five situated participants.</div>
+      </td>
+      <td><code>67.6s</code></td>
+      <td><small>20.5 / 18.5 / 18.0 / 12.5 / 16.5</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-sonnet/065-five/065-five.mp4', '#113 · FIVE · Parallel Lives (Claude Sonnet)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="OpenAI Sol" data-grade="A-">
+      <td><b>#114</b></td>
+      <td><span class="grade-pill grade-Am">A- · 85.5</span></td>
+      <td><span class="win-pill" style="background:#2e6b4e">OpenAI Sol</span></td>
+      <td>
+        <b><a href="../allways-sol/films.html#film-067">067 · WHAT ARRIVES NEXT</a></b>
+        <div class="note-sub">Bounded VISUAL PASS (V03, 90s) for precise-description/next-picture temporal offset construction after clearing V02&#x27;s absent-cup defect.</div>
+      </td>
+      <td><code>90.0s</code></td>
+      <td><small>21.0 / 17.5 / 18.0 / 12.0 / 17.0</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-sol/films/067/media/ALLWAYS_067_WHAT_ARRIVES_NEXT_V03.mp4', '#114 · 067 · WHAT ARRIVES NEXT (OpenAI Sol)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Claude Sonnet" data-grade="A-">
+      <td><b>#115</b></td>
+      <td><span class="grade-pill grade-Am">A- · 85.0</span></td>
+      <td><span class="win-pill" style="background:#7a4988">Claude Sonnet</span></td>
+      <td>
+        <b><a href="../allways-sonnet/056-symmetry/">SYMMETRY · Imperfect Pairing</a></b>
+        <div class="note-sub">53.9s paired-gesture study across 9 events; clean split compositions.</div>
+      </td>
+      <td><code>53.9s</code></td>
+      <td><small>20.0 / 18.5 / 18.0 / 12.0 / 16.5</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-sonnet/056-symmetry/056-symmetry.mp4', '#115 · SYMMETRY · Imperfect Pairing (Claude Sonnet)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Claude Opus 5.5" data-grade="A-">
+      <td><b>#116</b></td>
+      <td><span class="grade-pill grade-Am">A- · 84.0</span></td>
+      <td><span class="win-pill" style="background:#9e3b24">Claude Opus 5.5</span></td>
+      <td>
+        <b><a href="../allways-opus/films/almost-human/">ALMOST HUMAN</a></b>
+        <div class="note-sub">47.2s gesture sequence across 11 cuts; genuine archival micro-gestures, though shorter than the 75s brief.</div>
+      </td>
+      <td><code>47.2s</code></td>
+      <td><small>18.0 / 18.5 / 18.0 / 13.0 / 16.5</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-opus/films/almost-human/almost-human.mp4', '#116 · ALMOST HUMAN (Claude Opus 5.5)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="OpenAI Sol" data-grade="A-">
+      <td><b>#117</b></td>
+      <td><span class="grade-pill grade-Am">A- · 84.0</span></td>
+      <td><span class="win-pill" style="background:#2e6b4e">OpenAI Sol</span></td>
+      <td>
+        <b><a href="../allways-sol/films.html#film-064">064 · THE CURVE IS NOT THE CAUSE</a></b>
+        <div class="note-sub">Bounded VISUAL PASS (V04) comparative essay on archival flight/sport curves.</div>
+      </td>
+      <td><code>60.0s</code></td>
+      <td><small>20.5 / 18.0 / 17.5 / 11.5 / 16.5</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-sol/films/064/media/ALLWAYS_064_THE_CURVE_IS_NOT_THE_CAUSE_V04.mp4', '#117 · 064 · THE CURVE IS NOT THE CAUSE (OpenAI Sol)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Claude Opus 5.5" data-grade="A-">
+      <td><b>#118</b></td>
+      <td><span class="grade-pill grade-Am">A- · 83.5</span></td>
+      <td><span class="win-pill" style="background:#9e3b24">Claude Opus 5.5</span></td>
+      <td>
+        <b><a href="../allways-opus/films/cut-to-the-chase/">CUT TO THE CHASE</a></b>
+        <div class="note-sub">43.9s pursuit across 10 cuts; strong opening momentum transfer from purple beach jogger to grey street crowd.</div>
+      </td>
+      <td><code>43.9s</code></td>
+      <td><small>18.0 / 18.0 / 18.0 / 13.0 / 16.5</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-opus/films/cut-to-the-chase/cut-to-the-chase.mp4', '#118 · CUT TO THE CHASE (Claude Opus 5.5)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Claude Opus 5.5" data-grade="A-">
+      <td><b>#119</b></td>
+      <td><span class="grade-pill grade-Am">A- · 83.0</span></td>
+      <td><span class="win-pill" style="background:#9e3b24">Claude Opus 5.5</span></td>
+      <td>
+        <b><a href="../allways-opus/films/nobody-home/">NOBODY HOME</a></b>
+        <div class="note-sub">46.7s study across 5 shots; features the memorable opening of a boy carrying a chair to the window (0–12s), though person-removal is less explicit than Argon&#x27;s 3-panel triptych.</div>
+      </td>
+      <td><code>46.7s</code></td>
+      <td><small>18.0 / 18.5 / 17.0 / 13.0 / 16.5</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-opus/films/nobody-home/nobody-home.mp4', '#119 · NOBODY HOME (Claude Opus 5.5)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Claude Sonnet" data-grade="A-">
+      <td><b>#120</b></td>
+      <td><span class="grade-pill grade-Am">A- · 83.0</span></td>
+      <td><span class="win-pill" style="background:#7a4988">Claude Sonnet</span></td>
+      <td>
+        <b><a href="../allways-sonnet/058-laughs/">LAUGHS · Audible Contagion</a></b>
+        <div class="note-sub">Contains the beloved 25.2–31.2s girls&#x27; shared laughter sequence, though acoustic contagion was quieter in earlier cuts.</div>
+      </td>
+      <td><code>37.2s</code></td>
+      <td><small>19.0 / 18.5 / 17.5 / 11.5 / 16.5</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-sonnet/058-laughs/058-laughs.mp4', '#120 · LAUGHS · Audible Contagion (Claude Sonnet)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Claude Opus 5.5" data-grade="A-">
+      <td><b>#121</b></td>
+      <td><span class="grade-pill grade-Am">A- · 82.5</span></td>
+      <td><span class="win-pill" style="background:#9e3b24">Claude Opus 5.5</span></td>
+      <td>
+        <b><a href="../allways-opus/films/split-second/">SPLIT SECOND</a></b>
+        <div class="note-sub">38.1s release study across 12 cuts; critic protected the bowler return and pin-fall payoff at 12–13s.</div>
+      </td>
+      <td><code>38.1s</code></td>
+      <td><small>17.5 / 18.0 / 17.5 / 13.0 / 16.5</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-opus/films/split-second/split-second.mp4', '#121 · SPLIT SECOND (Claude Opus 5.5)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Claude Sonnet" data-grade="B+">
+      <td><b>#122</b></td>
+      <td><span class="grade-pill grade-Bp">B+ · 81.5</span></td>
+      <td><span class="win-pill" style="background:#7a4988">Claude Sonnet</span></td>
+      <td>
+        <b><a href="../allways-sonnet/060-losers/">LOSERS · Social Position</a></b>
+        <div class="note-sub">36.7s study built from a staged 1953 source; transparent disclosure of fictionalized staging in the case study.</div>
+      </td>
+      <td><code>36.7s</code></td>
+      <td><small>18.5 / 17.5 / 17.0 / 12.0 / 16.5</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-sonnet/060-losers/060-losers.mp4', '#122 · LOSERS · Social Position (Claude Sonnet)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Claude Opus 5.5" data-grade="B+">
+      <td><b>#123</b></td>
+      <td><span class="grade-pill grade-Bp">B+ · 80.5</span></td>
+      <td><span class="win-pill" style="background:#9e3b24">Claude Opus 5.5</span></td>
+      <td>
+        <b><a href="../allways-opus/films/kinetic/">KINETIC</a></b>
+        <div class="note-sub">58.6s labor montage across 14 cuts; hits target duration with mallet worker rhythm, though hard cuts felt abrupt to critic.</div>
+      </td>
+      <td><code>58.6s</code></td>
+      <td><small>18.5 / 17.5 / 16.5 / 12.5 / 15.5</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-opus/films/kinetic/kinetic.mp4', '#123 · KINETIC (Claude Opus 5.5)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Claude Opus 5.5" data-grade="B+">
+      <td><b>#124</b></td>
+      <td><span class="grade-pill grade-Bp">B+ · 79.5</span></td>
+      <td><span class="win-pill" style="background:#9e3b24">Claude Opus 5.5</span></td>
+      <td>
+        <b><a href="../allways-opus/films/terra-incognita/">TERRA INCOGNITA</a></b>
+        <div class="note-sub">47.2s surface study across 6 shots; strong contrast between blown-out water aerial and black-bordered shoreline.</div>
+      </td>
+      <td><code>47.2s</code></td>
+      <td><small>17.5 / 17.5 / 16.5 / 12.5 / 15.5</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-opus/films/terra-incognita/terra-incognita.mp4', '#124 · TERRA INCOGNITA (Claude Opus 5.5)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Claude Sonnet" data-grade="B+">
+      <td><b>#125</b></td>
+      <td><span class="grade-pill grade-Bp">B+ · 77.0</span></td>
+      <td><span class="win-pill" style="background:#7a4988">Claude Sonnet</span></td>
+      <td>
+        <b><a href="../allways-sonnet/063-breath/">BREATH · Invisible Force</a></b>
+        <div class="note-sub">Critic FAIL in Round 1 (needs simultaneous breath/mechanical comparison), though the 9s steam-jet hold (30–39s) is visually striking.</div>
+      </td>
+      <td><code>57.4s</code></td>
+      <td><small>17.0 / 18.0 / 16.5 / 11.5 / 14.0</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-sonnet/063-breath/063-breath.mp4', '#125 · BREATH · Invisible Force (Claude Sonnet)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="OpenAI Sol" data-grade="B">
+      <td><b>#126</b></td>
+      <td><span class="grade-pill grade-B">B · 76.0</span></td>
+      <td><span class="win-pill" style="background:#2e6b4e">OpenAI Sol</span></td>
+      <td>
+        <b><a href="../allways-sol/films.html#film-074">074 · THE MISSING MINUTE</a></b>
+        <div class="note-sub">Bounded VISUAL PASS (V02, 110s) for directory index reasoning (&#x27;The Missing Minute&#x27;), but uses synthetic avatar cards instead of archival footage.</div>
+      </td>
+      <td><code>110.0s</code></td>
+      <td><small>19.5 / 13.0 / 16.5 / 11.5 / 15.5</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-sol/films/074/media/ALLWAYS_074_THE_MISSING_MINUTE_V02.mp4', '#126 · 074 · THE MISSING MINUTE (OpenAI Sol)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="OpenAI Sol" data-grade="B">
+      <td><b>#127</b></td>
+      <td><span class="grade-pill grade-B">B · 75.0</span></td>
+      <td><span class="win-pill" style="background:#2e6b4e">OpenAI Sol</span></td>
+      <td>
+        <b><a href="../allways-sol/films.html#film-066">066 · EIGHT PLACES</a></b>
+        <div class="note-sub">Bounded VISUAL PASS for substitution grammar, but built as a synthetic vector grid (&#x27;Eight Places&#x27;) rather than foraged archival photography.</div>
+      </td>
+      <td><code>74.6s</code></td>
+      <td><small>19.0 / 13.0 / 16.5 / 11.0 / 15.5</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-sol/films/066/media/ALLWAYS_066_EIGHT_PLACES_V01.mp4', '#127 · 066 · EIGHT PLACES (OpenAI Sol)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="OpenAI Sol" data-grade="B">
+      <td><b>#128</b></td>
+      <td><span class="grade-pill grade-B">B · 73.0</span></td>
+      <td><span class="win-pill" style="background:#2e6b4e">OpenAI Sol</span></td>
+      <td>
+        <b><a href="../allways-sol/films.html#film-068">068 · ONE FOLD, A ROOM</a></b>
+        <div class="note-sub">Bounded VISUAL PASS for metric scale logic, but uses a synthetic beige diagram (&#x27;One Fold, a Room&#x27;) instead of photographic footage.</div>
+      </td>
+      <td><code>74.0s</code></td>
+      <td><small>18.5 / 12.5 / 16.0 / 11.0 / 15.0</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-sol/films/068/media/ALLWAYS_068_ONE_FOLD_A_ROOM_V01.mp4', '#128 · 068 · ONE FOLD, A ROOM (OpenAI Sol)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="OpenAI Sol" data-grade="B">
+      <td><b>#129</b></td>
+      <td><span class="grade-pill grade-B">B · 73.0</span></td>
+      <td><span class="win-pill" style="background:#2e6b4e">OpenAI Sol</span></td>
+      <td>
+        <b><a href="../allways-sol/films.html#film-072">072 · KEEP IT</a></b>
+        <div class="note-sub">Bounded VISUAL PASS for sign/action refusal logic, but rendered as a synthetic vector animation (&#x27;Keep It&#x27;) rather than archival film.</div>
+      </td>
+      <td><code>60.0s</code></td>
+      <td><small>18.5 / 12.5 / 16.0 / 11.0 / 15.0</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-sol/films/072/media/ALLWAYS_072_KEEP_IT_V01.mp4', '#129 · 072 · KEEP IT (OpenAI Sol)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="OpenAI Sol" data-grade="B">
+      <td><b>#130</b></td>
+      <td><span class="grade-pill grade-B">B · 73.0</span></td>
+      <td><span class="win-pill" style="background:#2e6b4e">OpenAI Sol</span></td>
+      <td>
+        <b><a href="../allways-sol/films.html#film-073">073 · THE ENTRANCE HAS MOVED</a></b>
+        <div class="note-sub">Bounded VISUAL PASS for cartographic passage, but rendered as an invented vector map (&#x27;The Entrance Has Moved&#x27;) rather than archival footage.</div>
+      </td>
+      <td><code>90.0s</code></td>
+      <td><small>18.5 / 12.5 / 16.0 / 11.0 / 15.0</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-sol/films/073/media/ALLWAYS_073_THE_ENTRANCE_HAS_MOVED_V02.mp4', '#130 · 073 · THE ENTRANCE HAS MOVED (OpenAI Sol)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="Claude Opus 5.5" data-grade="C+">
+      <td><b>#131</b></td>
+      <td><span class="grade-pill grade-Cp">C+ · 67.0</span></td>
+      <td><span class="win-pill" style="background:#9e3b24">Claude Opus 5.5</span></td>
+      <td>
+        <b><a href="../allways-opus/films/planimetric/">PLANIMETRIC</a></b>
+        <div class="note-sub">35.7s single-shot hold; misses the 2-minute multi-tableau architectural requirement (1 shot vs. required 3+ fixed tableaux).</div>
+      </td>
+      <td><code>35.7s</code></td>
+      <td><small>12.0 / 16.5 / 13.5 / 11.0 / 14.0</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-opus/films/planimetric/planimetric.mp4', '#131 · PLANIMETRIC (Claude Opus 5.5)')">▶ Play</button>
+      </td>
+    </tr>
+    
+    <tr class="film-row" data-maker="OpenAI Sol" data-grade="C+">
+      <td><b>#132</b></td>
+      <td><span class="grade-pill grade-Cp">C+ · 65.0</span></td>
+      <td><span class="win-pill" style="background:#2e6b4e">OpenAI Sol</span></td>
+      <td>
+        <b><a href="../allways-sol/films.html#film-058">058 · LAUGHS — SOURCE STUDIES</a></b>
+        <div class="note-sub">Marked &#x27;unfinished&#x27; source study by Sol; honest self-audit refusing to claim a completed laugh-contagion proof.</div>
+      </td>
+      <td><code>51.0s</code></td>
+      <td><small>13.0 / 15.5 / 13.5 / 10.0 / 13.0</small></td>
+      <td>
+        <button type="button" class="btn-play sm" onclick="playFilm('../allways-sol/films/058/media/ALLWAYS_058_SOURCE_CONTEXT_REEL.mp4', '#132 · 058 · LAUGHS — SOURCE STUDIES (OpenAI Sol)')">▶ Play</button>
+      </td>
+    </tr>
+    
+        </tbody>
+      </table>
+    </div>
+  </section>
+</main>
+
+<script>
+const video = document.getElementById('award-video');
+const label = document.getElementById('now-playing-label');
+
+function playFilm(url, title) {
+  video.src = url;
+  video.play().catch(()=>{});
+  label.innerHTML = '<b>NOW SCREENING:</b> ' + title;
+  window.scrollTo({ top: Math.max(0, document.querySelector('.player-dock').offsetTop - 12), behavior: 'smooth' });
+}
+
+function filterFilms(maker, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.film-row').forEach(row => {
+    row.style.display = (maker === 'ALL' || row.dataset.maker === maker) ? '' : 'none';
+  });
+}
+
+function filterGrade(grade, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.film-row').forEach(row => {
+    row.style.display = (row.dataset.grade === grade) ? '' : 'none';
+  });
+}
+</script>
+</body>
+</html>
