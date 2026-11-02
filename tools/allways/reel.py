@@ -158,8 +158,10 @@ def tc(t):
 
 
 def main():
-    ap = argparse.ArgumentParser(); ap.add_argument('mode', choices=['full', 'highlights']); ap.add_argument('--out', required=True); ap.add_argument('--jobs', type=int, default=4); ap.add_argument('--limit', type=int)
-    a = ap.parse_args(); out = Path(a.out); seg_dir = out / f'seg-{a.mode}'; seg_dir.mkdir(parents=True, exist_ok=True)
+    ap = argparse.ArgumentParser(); ap.add_argument('mode', choices=['full', 'highlights', 'package']); ap.add_argument('--out', required=True); ap.add_argument('--jobs', type=int, default=4); ap.add_argument('--limit', type=int)
+    a = ap.parse_args(); out = Path(a.out)
+    if a.mode == 'package': return package(out)
+    seg_dir = out / f'seg-{a.mode}'; seg_dir.mkdir(parents=True, exist_ok=True)
     M, ops = load()
     segs = plan_full(M, ops) if a.mode == 'full' else plan_highlights(M, ops)
     if a.limit: segs = segs[:a.limit]
@@ -183,6 +185,49 @@ def main():
     subprocess.run(['ffmpeg', '-v', 'error', '-y', '-f', 'concat', '-safe', '0', '-i', str(lst), '-c', 'copy', '-movflags', '+faststart', str(final)], check=True)
     (out / f'chapters-{a.mode}.txt').write_text('\n'.join(f'{tc(x)} {n}' for x, n in chap) + '\n')
     print(final, f'{dur_of(final) / 60:.1f} min', f'{final.stat().st_size / 1e6:.0f} MB', f'{len(chap)} chapters')
+
+
+def thumbnail(out, M):
+    """1280x720 cover: one poster per maker in a 2x2 grid, with a title bar."""
+    pick = {'allways-sonnet': 'sonnet-59', 'allways-opus': 'opus-nobody-home', 'allways-argon': 'argon-scion-059-ball-graphic-constancy', 'allways-sol': 'sol-59'}
+    ids = {f['id']: f for f in M['films']}
+    posters = []
+    for run in ['allways-sonnet', 'allways-opus', 'allways-argon', 'allways-sol']:
+        f = ids.get(pick[run]) or next(x for x in M['films'] if x['run'] == run)
+        posters.append(ROOT / f['poster'])
+    fc = ''.join(f'[{i}:v]scale=640:360:force_original_aspect_ratio=increase,crop=640:360,eq=contrast=1.08:saturation=1.1[t{i}];' for i in range(4))
+    names = ['SONNET', 'OPUS', 'ARGON', 'SOL']; cols = ['0x9bc4a8', '0xe2a65c', '0x8fb2e6', '0xd98f8f']; xs = [20, 660, 20, 660]; ys = [370, 370, 730 - 360, 730 - 360]
+    fc += '[t0][t1][t2][t3]xstack=inputs=4:layout=0_0|640_0|0_360|640_360[g];'
+    lab = ','.join(f"drawtext=fontfile={FONT_B}:text='{n}':fontcolor={c}:fontsize=34:x={x}:y={y}:box=1:boxcolor=black@0.7:boxborderw=10" for n, c, x, y in zip(names, cols, [20, 660, 20, 660], [20, 20, 640, 640]))
+    fc += f"[g]drawbox=x=0:y=250:w=1280:h=220:color=black@0.72:t=fill,drawtext=fontfile={FONT_B}:text='FOUR AIs':fontcolor=0xf0eadc:fontsize=118:x=(w-text_w)/2:y=262,drawtext=fontfile={FONT_B}:text='ONE ARCHIVE. 132 FILMS.':fontcolor=0xe2a65c:fontsize=58:x=(w-text_w)/2:y=392,{lab}[o]"
+    args = ['ffmpeg', '-v', 'error', '-y']
+    for pth in posters: args += ['-i', str(pth)]
+    subprocess.run(args + ['-filter_complex', fc, '-map', '[o]', '-frames:v', '1', '-q:v', '3', str(out / 'thumbnail.jpg')], check=True)
+
+
+def package(out):
+    M, ops = load()
+    runs = {}
+    for f in M['films']: runs[f['run']] = runs.get(f['run'], 0) + 1
+    thumbnail(out, M)
+    for mode, title, blurb in [
+        ('highlights', 'Same Film Prompt, Four AIs: Watch What Each One Made',
+         'Eight film prompts, each answered by different AI film-makers (Sonnet, Opus, Argon and Sol) using the same pool of public-domain archive footage. Every cut here is a short excerpt; the full films are in the long reel.'),
+        ('full', 'Four AIs Cut 132 Short Films From Old Public-Domain Footage (All Four Runs)',
+         'Every film made by four AI film-makers (Sonnet, Opus, Argon and Sol) from public-domain educational, industrial, amateur and newsreel footage. Grouped by prompt, so you can watch the same prompt answered by each maker one after another. Use the chapters to jump.')]:
+        ch = (out / f'chapters-{mode}.txt'); chapters = ch.read_text().strip().split('\n') if ch.exists() else []
+        head = (f'{blurb}\n\nWHO MADE WHAT\n' + '\n'.join(f'{NAME[r].title()}: {runs.get(r, 0)} films' for r in RUN_ORDER if r in runs) +
+                '\n\nHOW IT WAS MADE\nEach film was cut by hand from archive shots (search, contact sheets, an edit list with a reason for every shot), then reviewed by a separate AI critic where noted. Nobody has screened every film at speed. Volume is levelled per film; every film is shown whole, never cropped.\n'
+                '\nDISCLOSURE\nEdited with AI assistance. The footage is real archival film; a few films contain computationally altered footage (for example, people removed from a room) and say so in their notes. Footage: movingimagearchive.com, public domain according to the archive.\n'
+                '\nEVERYTHING, WITH THE PROMPTS AND REASONS\nhttps://hartswf0.github.io/bolas/paeleo/allways/#runs\nhttps://hartswf0.github.io/bolas/paeleo/allways/screening.html\n')
+        tail = '\n#AI #FilmEditing #ArchiveFootage #ExperimentalFilm #PublicDomain'
+        room = 4900 - len(head) - len(tail) - 40
+        body, used = [], 0
+        for ln in chapters:
+            if used + len(ln) + 1 > room: body.append('\n(Chapter list continues in the pinned comment.)'); break
+            body.append(ln); used += len(ln) + 1
+        (out / f'youtube-{mode}.md').write_text(f'TITLE\n{title}\n\nDESCRIPTION\n{head}\nCHAPTERS\n' + '\n'.join(body) + tail + '\n\nTAGS\nAI film, AI editing, archive footage, public domain film, experimental film, found footage, Claude, Gemini, OpenAI, supercut\n')
+        print(mode, 'description chars', len(head) + used + len(tail))
 
 
 if __name__ == '__main__':
