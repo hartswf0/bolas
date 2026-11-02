@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>ALLWAYS Screening Room</title>
+<meta name="description" content="Every film from every ALLWAYS run, played back to back in one frame at one loudness.">
+<link rel="canonical" href="https://hartswf0.github.io/bolas/paeleo/allways/screening.html">
+<meta name="theme-color" content="#0f1211"><link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../tools/paeleo/fonts/local.css"><link rel="stylesheet" href="screening.css"></head>
+<body>
+<header class="bar"><div class="parents"><a href="../../">CRASH LAB</a><span>/</span><a href="../">PAELEO</a><span>/</span><a href="./">ALLWAYS</a><span>/</span><a href="./#runs">RUNS</a><span class="here">/ SCREENING ROOM</span></div></header>
+<main class="room" id="room">
+  <section class="stagecol" aria-label="Player">
+    <div class="player"><div class="stage" id="stage">
+      <video id="v0" playsinline preload="auto"></video><video id="v1" playsinline preload="auto"></video>
+      <button class="big" id="big" type="button" aria-label="Play">Play all</button>
+      <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    </div>
+    <div class="transport">
+      <button type="button" id="prev" aria-label="Previous film">&#9198;</button>
+      <button type="button" id="play" aria-label="Play or pause">&#9654;</button>
+      <button type="button" id="next" aria-label="Next film">&#9197;</button>
+      <input type="range" id="seek" min="0" max="1000" value="0" aria-label="Position in this film">
+      <span class="time" id="time">0:00</span>
+      <button type="button" id="mute" aria-label="Mute" aria-pressed="false">Sound</button>
+      <button type="button" id="fs" aria-label="Full screen">Full</button>
+    </div></div>
+    <div class="now" id="now"></div>
+  </section>
+  <aside class="listcol" aria-label="Programme">
+    <div class="controls">
+      <label>Order <select id="order"><option value="prompt">By prompt: same operator, every run</option><option value="run">By run</option><option value="shuffle">Shuffle</option></select></label>
+      <fieldset><legend>Runs</legend><div id="runs" class="chips"></div></fieldset>
+      <fieldset><legend>Films</legend><div id="fams" class="chips"></div></fieldset>
+      <label class="check"><input type="checkbox" id="copies"> Also play the comparison and older copies</label>
+      <p class="tally" id="tally"></p>
+    </div>
+    <ol class="list" id="list"></ol>
+  </aside>
+</main>
+<footer class="foot"><p>One frame, one loudness: each film is fitted whole into the same 16:9 frame with no cropping, and each copy&rsquo;s volume is set from its measured loudness (target &minus;20 LUFS). Nothing in any run&rsquo;s own files is changed. <a href="RUNS.md">How a run is included</a> &middot; <a href="screening.json">screening.json</a></p></footer>
+<noscript><p class="ns">The screening room needs JavaScript. Each run&rsquo;s own page lists its films: <a href="./#runs">Runs</a>.</p></noscript>
+<script src="screening.js"></script>
+</body></html>

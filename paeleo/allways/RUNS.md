@@ -87,3 +87,18 @@ Both use only the Python standard library. Film slugs are the ones in `works.jso
 4. A critic sees the film and brief, not the maker's reasons. Its report is kept verbatim, with the maker's disagreement beside it, not instead of it.
 5. Say what you could not perceive. State what is below the brief. Check reasons against the frames before publishing them.
 6. Source films are public-domain according to their archive. Keep titles, years and clip ids so anyone can go back.
+
+## The screening room
+
+[`screening.html`](screening.html) plays every film of every run back to back, in one frame at one loudness. Nothing in a run's own files is changed. The page reads [`screening.json`](screening.json), which `tools/allways/screening.py` builds from each run's own metadata:
+
+```
+python3 tools/allways/screening.py    # measures new files, writes screening.json and small posters
+python3 tools/allways/build.py        # rebuilds the landing page
+```
+
+- **A generated run is included with no extra work** if it has `films.json` and `films/<slug>/<slug>.mp4` as above. Any other `.mp4` in a film's folder is listed as a copy of that film.
+- **A linked run needs a small adapter** in `screening.py` (`ADAPTERS`) that returns its films. Sol, Sonnet and the Argon studio have one. A linked run without an adapter is simply left out, and the build says so.
+- **One canonical copy per film.** It is the cut the run itself presents as current: the generated run's `<slug>.mp4`, Sol's `films[].film`, Argon's studio v2, Sonnet's `<id>.mp4`. Comparison cuts and older cuts are kept as copies; the player offers them per film and can queue them too.
+- **Regularised at playback, not in the files.** Each film is fitted whole into a 16:9 frame (letterboxed or pillarboxed, never cropped). Each copy gets a volume gain from its measured integrated loudness (EBU R128) toward -20 LUFS, never lifting by more than 12 dB and never past -1 dBTP; silent files are left alone. Measurements are cached in `screening-measure.json`.
+- If a run replaces a file, run `screening.py` again; a changed file size triggers a new measurement.

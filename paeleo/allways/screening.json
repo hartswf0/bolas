@@ -1,0 +1,4455 @@
+{
+"target_lufs": -20.0,
+"max_boost_db": 12.0,
+"ceiling_dbtp": -1.0,
+"runs": [
+{
+"id": "allways-opus",
+"name": "Opus 5.5",
+"maker": "Claude Opus 5.5 (Anthropic)",
+"href": "allways-opus/"
+},
+{
+"id": "allways-argon",
+"name": "Argon",
+"maker": "Gemini Argon (Google DeepMind)",
+"href": "allways-argon/"
+},
+{
+"id": "allways-sol",
+"name": "Sol",
+"maker": "Sol (OpenAI)",
+"href": "allways-sol/"
+},
+{
+"id": "allways-sonnet",
+"name": "Sonnet",
+"maker": "Claude (Anthropic), with sub-agents",
+"href": "allways-sonnet/"
+}
+],
+"run_order": [
+"allways-sonnet",
+"allways-opus",
+"allways-argon",
+"allways-sol"
+],
+"films": [
+{
+"id": "opus-nobody-home",
+"run": "allways-opus",
+"family": "broll",
+"key": "nobody-home",
+"title": "NOBODY HOME",
+"sub": "",
+"state": "proof in progress",
+"verdict": "reference stronger",
+"case": "allways-opus/films/nobody-home/",
+"poster": "allways-opus/films/nobody-home/poster.jpg",
+"duration": 51.69,
+"copies": [
+{
+"label": "current cut",
+"kind": "canonical",
+"src": "allways-opus/films/nobody-home/nobody-home.mp4",
+"bytes": 2100024,
+"duration": 51.69,
+"w": 800,
+"h": 600,
+"fps": 24.0,
+"lufs": -17.6,
+"peak": -6.3,
+"gain_db": -2.4,
+"silent": false
+},
+{
+"label": "comparison",
+"kind": "comparison",
+"src": "allways-opus/films/nobody-home/compare.mp4",
+"bytes": 1042114,
+"duration": 7.54,
+"w": 960,
+"h": 720,
+"fps": 24.0,
+"lufs": null,
+"peak": null,
+"gain_db": 0.0,
+"silent": true
+}
+]
+},
+{
+"id": "opus-almost-human",
+"run": "allways-opus",
+"family": "broll",
+"key": "almost-human",
+"title": "ALMOST HUMAN",
+"sub": "",
+"state": "proof in progress",
+"verdict": "inconclusive, leaning reference stronger",
+"case": "allways-opus/films/almost-human/",
+"poster": "allways-opus/films/almost-human/poster.jpg",
+"duration": 52.18,
+"copies": [
+{
+"label": "current cut",
+"kind": "canonical",
+"src": "allways-opus/films/almost-human/almost-human.mp4",
+"bytes": 3095026,
+"duration": 52.18,
+"w": 800,
+"h": 600,
+"fps": 24.0,
+"lufs": -23.8,
+"peak": -8.9,
+"gain_db": 3.8,
+"silent": false
+}
+]
+},
+{
+"id": "opus-terra-incognita",
+"run": "allways-opus",
+"family": "broll",
+"key": "terra-incognita",
+"title": "TERRA INCOGNITA",
+"sub": "",
+"state": "proof in progress",
+"verdict": "reference stronger",
+"case": "allways-opus/films/terra-incognita/",
+"poster": "allways-opus/films/terra-incognita/poster.jpg",
+"duration": 52.22,
+"copies": [
+{
+"label": "current cut",
+"kind": "canonical",
+"src": "allways-opus/films/terra-incognita/terra-incognita.mp4",
+"bytes": 5416403,
+"duration": 52.22,
+"w": 800,
+"h": 600,
+"fps": 24.0,
+"lufs": -24.5,
+"peak": -9.1,
+"gain_db": 4.5,
+"silent": false
+}
+]
+},
+{
+"id": "opus-split-second",
+"run": "allways-opus",
+"family": "broll",
+"key": "split-second",
+"title": "SPLIT SECOND",
+"sub": "",
+"state": "proof in progress",
+"verdict": "reference stronger",
+"case": "allways-opus/films/split-second/",
+"poster": "allways-opus/films/split-second/poster.jpg",
+"duration": 43.11,
+"copies": [
+{
+"label": "current cut",
+"kind": "canonical",
+"src": "allways-opus/films/split-second/split-second.mp4",
+"bytes": 3184609,
+"duration": 43.11,
+"w": 800,
+"h": 600,
+"fps": 24.0,
+"lufs": -22.3,
+"peak": -5.8,
+"gain_db": 2.3,
+"silent": false
+}
+]
+},
+{
+"id": "opus-cut-to-the-chase",
+"run": "allways-opus",
+"family": "broll",
+"key": "cut-to-the-chase",
+"title": "CUT TO THE CHASE",
+"sub": "",
+"state": "proof in progress",
+"verdict": "inconclusive, leaning reference stronger",
+"case": "allways-opus/films/cut-to-the-chase/",
+"poster": "allways-opus/films/cut-to-the-chase/poster.jpg",
+"duration": 48.9,
+"copies": [
+{
+"label": "current cut",
+"kind": "canonical",
+"src": "allways-opus/films/cut-to-the-chase/cut-to-the-chase.mp4",
+"bytes": 3829981,
+"duration": 48.9,
+"w": 800,
+"h": 600,
+"fps": 24.0,
+"lufs": -24.7,
+"peak": -6.0,
+"gain_db": 4.7,
+"silent": false
+}
+]
+},
+{
+"id": "opus-kinetic",
+"run": "allways-opus",
+"family": "broll",
+"key": "kinetic",
+"title": "KINETIC",
+"sub": "",
+"state": "proof in progress",
+"verdict": "reference stronger",
+"case": "allways-opus/films/kinetic/",
+"poster": "allways-opus/films/kinetic/poster.jpg",
+"duration": 63.66,
+"copies": [
+{
+"label": "current cut",
+"kind": "canonical",
+"src": "allways-opus/films/kinetic/kinetic.mp4",
+"bytes": 5417250,
+"duration": 63.66,
+"w": 800,
+"h": 600,
+"fps": 24.0,
+"lufs": -22.2,
+"peak": -7.9,
+"gain_db": 2.2,
+"silent": false
+}
+]
+},
+{
+"id": "opus-zero-memory",
+"run": "allways-opus",
+"family": "broll",
+"key": "zero-memory",
+"title": "ZERO MEMORY",
+"sub": "",
+"state": "proof in progress",
+"verdict": "reference stronger",
+"case": "allways-opus/films/zero-memory/",
+"poster": "allways-opus/films/zero-memory/poster.jpg",
+"duration": 114.73,
+"copies": [
+{
+"label": "current cut",
+"kind": "canonical",
+"src": "allways-opus/films/zero-memory/zero-memory.mp4",
+"bytes": 8770863,
+"duration": 114.73,
+"w": 800,
+"h": 600,
+"fps": 24.0,
+"lufs": -20.5,
+"peak": -5.6,
+"gain_db": 0.5,
+"silent": false
+}
+]
+},
+{
+"id": "opus-homonym",
+"run": "allways-opus",
+"family": "broll",
+"key": "homonym",
+"title": "HOMONYM",
+"sub": "",
+"state": "proof in progress",
+"verdict": "inconclusive, leaning reference stronger",
+"case": "allways-opus/films/homonym/",
+"poster": "allways-opus/films/homonym/poster.jpg",
+"duration": 52.99,
+"copies": [
+{
+"label": "current cut",
+"kind": "canonical",
+"src": "allways-opus/films/homonym/homonym.mp4",
+"bytes": 3216734,
+"duration": 52.99,
+"w": 800,
+"h": 600,
+"fps": 24.0,
+"lufs": -20.8,
+"peak": -6.4,
+"gain_db": 0.8,
+"silent": false
+}
+]
+},
+{
+"id": "opus-anybody-anywhere",
+"run": "allways-opus",
+"family": "broll",
+"key": "anybody-anywhere",
+"title": "ANYBODY, ANYWHERE",
+"sub": "",
+"state": "proof in progress",
+"verdict": "inconclusive, leaning reference stronger",
+"case": "allways-opus/films/anybody-anywhere/",
+"poster": "allways-opus/films/anybody-anywhere/poster.jpg",
+"duration": 43.03,
+"copies": [
+{
+"label": "current cut",
+"kind": "canonical",
+"src": "allways-opus/films/anybody-anywhere/anybody-anywhere.mp4",
+"bytes": 2153173,
+"duration": 43.03,
+"w": 800,
+"h": 600,
+"fps": 24.0,
+"lufs": -20.3,
+"peak": -2.0,
+"gain_db": 0.3,
+"silent": false
+}
+]
+},
+{
+"id": "opus-collective-inventories",
+"run": "allways-opus",
+"family": "broll",
+"key": "collective-inventories",
+"title": "COLLECTIVE INVENTORIES",
+"sub": "",
+"state": "proof in progress",
+"verdict": "inconclusive, leaning reference stronger",
+"case": "allways-opus/films/collective-inventories/",
+"poster": "allways-opus/films/collective-inventories/poster.jpg",
+"duration": 72.06,
+"copies": [
+{
+"label": "current cut",
+"kind": "canonical",
+"src": "allways-opus/films/collective-inventories/collective-inventories.mp4",
+"bytes": 7086195,
+"duration": 72.06,
+"w": 800,
+"h": 600,
+"fps": 24.0,
+"lufs": -23.0,
+"peak": -6.5,
+"gain_db": 3.0,
+"silent": false
+}
+]
+},
+{
+"id": "opus-mnemonil",
+"run": "allways-opus",
+"family": "broll",
+"key": "mnemonil",
+"title": "MNEMONIL",
+"sub": "",
+"state": "proof reviewed",
+"verdict": "pass, narrowly",
+"case": "allways-opus/films/mnemonil/",
+"poster": "allways-opus/films/mnemonil/poster.jpg",
+"duration": 78.7,
+"copies": [
+{
+"label": "current cut",
+"kind": "canonical",
+"src": "allways-opus/films/mnemonil/mnemonil.mp4",
+"bytes": 6125903,
+"duration": 78.7,
+"w": 800,
+"h": 600,
+"fps": 24.0,
+"lufs": -18.9,
+"peak": -4.2,
+"gain_db": -1.1,
+"silent": false
+}
+]
+},
+{
+"id": "opus-planimetric",
+"run": "allways-opus",
+"family": "broll",
+"key": "planimetric",
+"title": "PLANIMETRIC",
+"sub": "",
+"state": "proof in progress",
+"verdict": "reference stronger",
+"case": "allways-opus/films/planimetric/",
+"poster": "allways-opus/films/planimetric/poster.jpg",
+"duration": 40.73,
+"copies": [
+{
+"label": "current cut",
+"kind": "canonical",
+"src": "allways-opus/films/planimetric/planimetric.mp4",
+"bytes": 3689155,
+"duration": 40.73,
+"w": 800,
+"h": 600,
+"fps": 24.0,
+"lufs": -29.7,
+"peak": -16.6,
+"gain_db": 9.7,
+"silent": false
+}
+]
+},
+{
+"id": "argon-broll-01-nobody-home",
+"run": "allways-argon",
+"family": "broll",
+"key": "nobody-home",
+"title": "NOBODY HOME",
+"sub": "Rooms after erasure — intact passage, person-removal intervention, and inspection triptych",
+"state": "studio v2",
+"verdict": "pass",
+"case": "allways-argon/studio/cases/BROLL_01_Nobody_Home.html",
+"poster": "paeleo/allways/screening/posters/argon-broll-01-nobody-home.jpg",
+"duration": 49.3,
+"copies": [
+{
+"label": "studio cut (v2)",
+"kind": "canonical",
+"src": "allways-argon/studio/films/BROLL_01_Nobody_Home.mp4",
+"bytes": 2358569,
+"duration": 49.3,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -16.1,
+"peak": -0.2,
+"gain_db": -3.9,
+"silent": false
+},
+{
+"label": "earlier run cut",
+"kind": "older",
+"src": "allways-argon/films/nobody-home/nobody-home.mp4",
+"bytes": 2358569,
+"duration": 49.3,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -16.1,
+"peak": -0.2,
+"gain_db": -3.9,
+"silent": false
+}
+]
+},
+{
+"id": "argon-broll-02-almost-human",
+"run": "allways-argon",
+"family": "broll",
+"key": "almost-human",
+"title": "ALMOST HUMAN",
+"sub": "Unfinished gestures — collar adjustments, wrist checks, and doorway hesitations",
+"state": "studio v2",
+"verdict": "pass",
+"case": "allways-argon/studio/cases/BROLL_02_Almost_Human.html",
+"poster": "paeleo/allways/screening/posters/argon-broll-02-almost-human.jpg",
+"duration": 44.68,
+"copies": [
+{
+"label": "studio cut (v2)",
+"kind": "canonical",
+"src": "allways-argon/studio/films/BROLL_02_Almost_Human.mp4",
+"bytes": 3148198,
+"duration": 44.68,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -17.2,
+"peak": -0.5,
+"gain_db": -2.8,
+"silent": false
+},
+{
+"label": "earlier run cut",
+"kind": "older",
+"src": "allways-argon/films/almost-human/almost-human.mp4",
+"bytes": 3148198,
+"duration": 44.68,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -17.2,
+"peak": -0.5,
+"gain_db": -2.8,
+"silent": false
+}
+]
+},
+{
+"id": "argon-broll-03-terra-incognita",
+"run": "allways-argon",
+"family": "broll",
+"key": "terra-incognita",
+"title": "TERRA INCOGNITA",
+"sub": "Material territories — scratches, light leaks, and the carrier as evidence",
+"state": "studio v2",
+"verdict": "pass",
+"case": "allways-argon/studio/cases/BROLL_03_Terra_Incognita.html",
+"poster": "paeleo/allways/screening/posters/argon-broll-03-terra-incognita.jpg",
+"duration": 39.52,
+"copies": [
+{
+"label": "studio cut (v2)",
+"kind": "canonical",
+"src": "allways-argon/studio/films/BROLL_03_Terra_Incognita.mp4",
+"bytes": 3212972,
+"duration": 39.52,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -15.5,
+"peak": -0.0,
+"gain_db": -4.5,
+"silent": false
+},
+{
+"label": "earlier run cut",
+"kind": "older",
+"src": "allways-argon/films/terra-incognita/terra-incognita.mp4",
+"bytes": 3212972,
+"duration": 39.52,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -15.5,
+"peak": -0.0,
+"gain_db": -4.5,
+"silent": false
+}
+]
+},
+{
+"id": "argon-broll-04-split-second",
+"run": "allways-argon",
+"family": "broll",
+"key": "split-second",
+"title": "SPLIT SECOND",
+"sub": "Action and consequence — withheld release, phase alignment, and impact",
+"state": "studio v2",
+"verdict": "pass",
+"case": "allways-argon/studio/cases/BROLL_04_Split_Second.html",
+"poster": "paeleo/allways/screening/posters/argon-broll-04-split-second.jpg",
+"duration": 34.46,
+"copies": [
+{
+"label": "studio cut (v2)",
+"kind": "canonical",
+"src": "allways-argon/studio/films/BROLL_04_Split_Second.mp4",
+"bytes": 1921801,
+"duration": 34.46,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -16.7,
+"peak": -0.4,
+"gain_db": -3.3,
+"silent": false
+},
+{
+"label": "earlier run cut",
+"kind": "older",
+"src": "allways-argon/films/split-second/split-second.mp4",
+"bytes": 1921801,
+"duration": 34.46,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -16.7,
+"peak": -0.4,
+"gain_db": -3.3,
+"silent": false
+}
+]
+},
+{
+"id": "argon-broll-05-cut-to-the-chase",
+"run": "allways-argon",
+"family": "broll",
+"key": "cut-to-the-chase",
+"title": "CUT TO THE CHASE",
+"sub": "A shifting pursuit — directional momentum, rest, role reversal, and sudden stop",
+"state": "studio v2",
+"verdict": "pass",
+"case": "allways-argon/studio/cases/BROLL_05_Cut_To_The_Chase.html",
+"poster": "paeleo/allways/screening/posters/argon-broll-05-cut-to-the-chase.jpg",
+"duration": 41.22,
+"copies": [
+{
+"label": "studio cut (v2)",
+"kind": "canonical",
+"src": "allways-argon/studio/films/BROLL_05_Cut_To_The_Chase.mp4",
+"bytes": 3710967,
+"duration": 41.22,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -15.2,
+"peak": -0.4,
+"gain_db": -4.8,
+"silent": false
+},
+{
+"label": "earlier run cut",
+"kind": "older",
+"src": "allways-argon/films/cut-to-the-chase/cut-to-the-chase.mp4",
+"bytes": 3710967,
+"duration": 41.22,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -15.2,
+"peak": -0.4,
+"gain_db": -4.8,
+"silent": false
+}
+]
+},
+{
+"id": "argon-broll-06-kinetic",
+"run": "allways-argon",
+"family": "broll",
+"key": "kinetic",
+"title": "KINETIC",
+"sub": "Labor and interruption — coordinated work rhythms broken by maintenance and rest",
+"state": "studio v2",
+"verdict": "pass",
+"case": "allways-argon/studio/cases/BROLL_06_Kinetic.html",
+"poster": "paeleo/allways/screening/posters/argon-broll-06-kinetic.jpg",
+"duration": 48.72,
+"copies": [
+{
+"label": "studio cut (v2)",
+"kind": "canonical",
+"src": "allways-argon/studio/films/BROLL_06_Kinetic.mp4",
+"bytes": 4012693,
+"duration": 48.72,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -15.2,
+"peak": -0.3,
+"gain_db": -4.8,
+"silent": false
+},
+{
+"label": "earlier run cut",
+"kind": "older",
+"src": "allways-argon/films/kinetic/kinetic.mp4",
+"bytes": 4012693,
+"duration": 48.72,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -15.2,
+"peak": -0.3,
+"gain_db": -4.8,
+"silent": false
+}
+]
+},
+{
+"id": "argon-broll-07-zero-memory",
+"run": "allways-argon",
+"family": "broll",
+"key": "zero-memory",
+"title": "ZERO MEMORY",
+"sub": "An editor forgets — three declared history resets against a persistent audit log",
+"state": "studio v2",
+"verdict": "pass",
+"case": "allways-argon/studio/cases/BROLL_07_Zero_Memory.html",
+"poster": "paeleo/allways/screening/posters/argon-broll-07-zero-memory.jpg",
+"duration": 44.3,
+"copies": [
+{
+"label": "studio cut (v2)",
+"kind": "canonical",
+"src": "allways-argon/studio/films/BROLL_07_Zero_Memory.mp4",
+"bytes": 3258466,
+"duration": 44.3,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -15.6,
+"peak": -1.7,
+"gain_db": -4.4,
+"silent": false
+},
+{
+"label": "earlier run cut",
+"kind": "older",
+"src": "allways-argon/films/zero-memory/zero-memory.mp4",
+"bytes": 3258466,
+"duration": 44.3,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -15.6,
+"peak": -1.7,
+"gain_db": -4.4,
+"silent": false
+}
+]
+},
+{
+"id": "argon-broll-08-homonym",
+"run": "allways-argon",
+"family": "broll",
+"key": "homonym",
+"title": "HOMONYM",
+"sub": "Words change worlds — a spoken and visual relay around 'LINE'",
+"state": "studio v2",
+"verdict": "pass",
+"case": "allways-argon/studio/cases/BROLL_08_Homonym.html",
+"poster": "paeleo/allways/screening/posters/argon-broll-08-homonym.jpg",
+"duration": 38.43,
+"copies": [
+{
+"label": "studio cut (v2)",
+"kind": "canonical",
+"src": "allways-argon/studio/films/BROLL_08_Homonym.mp4",
+"bytes": 2652385,
+"duration": 38.43,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -14.9,
+"peak": -0.4,
+"gain_db": -5.1,
+"silent": false
+},
+{
+"label": "earlier run cut",
+"kind": "older",
+"src": "allways-argon/films/homonym/homonym.mp4",
+"bytes": 2652385,
+"duration": 38.43,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -14.9,
+"peak": -0.4,
+"gain_db": -5.1,
+"silent": false
+}
+]
+},
+{
+"id": "argon-broll-09-anybody-anywhere",
+"run": "allways-argon",
+"family": "broll",
+"key": "anybody-anywhere",
+"title": "ANYBODY, ANYWHERE",
+"sub": "Lives in parallel — paired ordinary acts across different decades and rooms",
+"state": "studio v2",
+"verdict": "pass",
+"case": "allways-argon/studio/cases/BROLL_09_Anybody_Anywhere.html",
+"poster": "paeleo/allways/screening/posters/argon-broll-09-anybody-anywhere.jpg",
+"duration": 37.43,
+"copies": [
+{
+"label": "studio cut (v2)",
+"kind": "canonical",
+"src": "allways-argon/studio/films/BROLL_09_Anybody_Anywhere.mp4",
+"bytes": 2787929,
+"duration": 37.43,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -19.0,
+"peak": -0.4,
+"gain_db": -1.0,
+"silent": false
+},
+{
+"label": "earlier run cut",
+"kind": "older",
+"src": "allways-argon/films/anybody-anywhere/anybody-anywhere.mp4",
+"bytes": 2787929,
+"duration": 37.43,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -19.0,
+"peak": -0.4,
+"gain_db": -1.0,
+"silent": false
+}
+]
+},
+{
+"id": "argon-broll-10-collective-inventories",
+"run": "allways-argon",
+"family": "broll",
+"key": "collective-inventories",
+"title": "COLLECTIVE INVENTORIES",
+"sub": "A composite morning assembled from five people's practical work",
+"state": "studio v2",
+"verdict": "pass",
+"case": "allways-argon/studio/cases/BROLL_10_Collective_Inventories.html",
+"poster": "paeleo/allways/screening/posters/argon-broll-10-collective-inventories.jpg",
+"duration": 45.81,
+"copies": [
+{
+"label": "studio cut (v2)",
+"kind": "canonical",
+"src": "allways-argon/studio/films/BROLL_10_Collective_Inventories.mp4",
+"bytes": 3309529,
+"duration": 45.81,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -14.9,
+"peak": -0.5,
+"gain_db": -5.1,
+"silent": false
+},
+{
+"label": "earlier run cut",
+"kind": "older",
+"src": "allways-argon/films/collective-inventories/collective-inventories.mp4",
+"bytes": 3309529,
+"duration": 45.81,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -14.9,
+"peak": -0.5,
+"gain_db": -5.1,
+"silent": false
+}
+]
+},
+{
+"id": "argon-broll-11-mnemonil",
+"run": "allways-argon",
+"family": "broll",
+"key": "mnemonil",
+"title": "MNEMONIL",
+"sub": "A borrowed life — a fictional recollection contradicted by its four source records",
+"state": "studio v2",
+"verdict": "pass",
+"case": "allways-argon/studio/cases/BROLL_11_Mnemonil.html",
+"poster": "paeleo/allways/screening/posters/argon-broll-11-mnemonil.jpg",
+"duration": 39.8,
+"copies": [
+{
+"label": "studio cut (v2)",
+"kind": "canonical",
+"src": "allways-argon/studio/films/BROLL_11_Mnemonil.mp4",
+"bytes": 2762344,
+"duration": 39.8,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -14.5,
+"peak": -1.8,
+"gain_db": -5.5,
+"silent": false
+},
+{
+"label": "earlier run cut",
+"kind": "older",
+"src": "allways-argon/films/mnemonil/mnemonil.mp4",
+"bytes": 2762344,
+"duration": 39.8,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -14.5,
+"peak": -1.8,
+"gain_db": -5.5,
+"silent": false
+}
+]
+},
+{
+"id": "argon-broll-12-planimetric",
+"run": "allways-argon",
+"family": "broll",
+"key": "planimetric",
+"title": "PLANIMETRIC",
+"sub": "Held frames — locked-off depth planes where background routine and deviation meet",
+"state": "studio v2",
+"verdict": "pass",
+"case": "allways-argon/studio/cases/BROLL_12_Planimetric.html",
+"poster": "paeleo/allways/screening/posters/argon-broll-12-planimetric.jpg",
+"duration": 41.52,
+"copies": [
+{
+"label": "studio cut (v2)",
+"kind": "canonical",
+"src": "allways-argon/studio/films/BROLL_12_Planimetric.mp4",
+"bytes": 2373424,
+"duration": 41.52,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -15.2,
+"peak": -1.1,
+"gain_db": -4.8,
+"silent": false
+},
+{
+"label": "earlier run cut",
+"kind": "older",
+"src": "allways-argon/films/planimetric/planimetric.mp4",
+"bytes": 2373424,
+"duration": 41.52,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -15.2,
+"peak": -1.1,
+"gain_db": -4.8,
+"silent": false
+}
+]
+},
+{
+"id": "argon-coll-01-equivalents",
+"run": "allways-argon",
+"family": "other",
+"key": "coll-01-equivalents",
+"title": "EQUIVALENTS — Form, Action, and Affect",
+"sub": "Stieglitzian cloud studies paired with rhymes in gesture and water while leaving differences intact",
+"state": "studio v2",
+"verdict": "pass",
+"case": "allways-argon/studio/cases/COLL_01_Equivalents.html",
+"poster": "paeleo/allways/screening/posters/argon-coll-01-equivalents.jpg",
+"duration": 31.18,
+"copies": [
+{
+"label": "studio cut (v2)",
+"kind": "canonical",
+"src": "allways-argon/studio/films/COLL_01_Equivalents.mp4",
+"bytes": 2684734,
+"duration": 31.18,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -14.9,
+"peak": -0.4,
+"gain_db": -5.1,
+"silent": false
+}
+]
+},
+{
+"id": "argon-coll-02-unwitnessed",
+"run": "allways-argon",
+"family": "other",
+"key": "coll-02-unwitnessed",
+"title": "UNWITNESSED — Backgrounds & Unattended Processes",
+"sub": "Spider webs, fog banks, empty piers, phonographs in empty rooms, and dusk ponds with no human lead",
+"state": "studio v2",
+"verdict": "pass",
+"case": "allways-argon/studio/cases/COLL_02_Unwitnessed.html",
+"poster": "paeleo/allways/screening/posters/argon-coll-02-unwitnessed.jpg",
+"duration": 34.97,
+"copies": [
+{
+"label": "studio cut (v2)",
+"kind": "canonical",
+"src": "allways-argon/studio/films/COLL_02_Unwitnessed.mp4",
+"bytes": 2449619,
+"duration": 34.97,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -14.7,
+"peak": -0.3,
+"gain_db": -5.3,
+"silent": false
+}
+]
+},
+{
+"id": "argon-coll-03-meanwhile",
+"run": "allways-argon",
+"family": "other",
+"key": "coll-03-meanwhile",
+"title": "MEANWHILE — Beyond the Present Frame",
+"sub": "Editorial cross-cuts and splits showing what another place, worker, or vessel is doing in parallel",
+"state": "studio v2",
+"verdict": "pass",
+"case": "allways-argon/studio/cases/COLL_03_Meanwhile.html",
+"poster": "paeleo/allways/screening/posters/argon-coll-03-meanwhile.jpg",
+"duration": 29.61,
+"copies": [
+{
+"label": "studio cut (v2)",
+"kind": "canonical",
+"src": "allways-argon/studio/films/COLL_03_Meanwhile.mp4",
+"bytes": 1966606,
+"duration": 29.61,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -17.9,
+"peak": -0.4,
+"gain_db": -2.1,
+"silent": false
+}
+]
+},
+{
+"id": "argon-coll-04-commonthread",
+"run": "allways-argon",
+"family": "other",
+"key": "coll-04-commonthread",
+"title": "COMMONTHREAD — The Ordinary Tissue Between Plots",
+"sub": "Gathering care, maintenance, waiting, and shared tasks into sustained connections that retain particular lives",
+"state": "studio v2",
+"verdict": "pass",
+"case": "allways-argon/studio/cases/COLL_04_Commonthread.html",
+"poster": "paeleo/allways/screening/posters/argon-coll-04-commonthread.jpg",
+"duration": 34.39,
+"copies": [
+{
+"label": "studio cut (v2)",
+"kind": "canonical",
+"src": "allways-argon/studio/films/COLL_04_Commonthread.mp4",
+"bytes": 3217174,
+"duration": 34.39,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -15.5,
+"peak": -0.6,
+"gain_db": -4.5,
+"silent": false
+}
+]
+},
+{
+"id": "argon-coll-05-everday",
+"run": "allways-argon",
+"family": "other",
+"key": "coll-05-everday",
+"title": "EVERDAY — Diurnal Recurrence & Looping Form",
+"sub": "Sunrise, row houses, streetcar commute, desk lamp, sunset skyline, and armchair sleep returning to dawn",
+"state": "studio v2",
+"verdict": "pass",
+"case": "allways-argon/studio/cases/COLL_05_Everday.html",
+"poster": "paeleo/allways/screening/posters/argon-coll-05-everday.jpg",
+"duration": 36.43,
+"copies": [
+{
+"label": "studio cut (v2)",
+"kind": "canonical",
+"src": "allways-argon/studio/films/COLL_05_Everday.mp4",
+"bytes": 2300094,
+"duration": 36.43,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -16.2,
+"peak": -0.4,
+"gain_db": -3.8,
+"silent": false
+}
+]
+},
+{
+"id": "argon-scion-055-words-polysemic-relay",
+"run": "allways-argon",
+"family": "scion",
+"key": 55,
+"title": "Words — Polysemic Relay",
+"sub": "Discovering a word's changing senses through successive visible actions",
+"state": "studio v2",
+"verdict": "pass",
+"case": "allways-argon/studio/cases/SCION_055_Words_Polysemic_Relay.html",
+"poster": "paeleo/allways/screening/posters/argon-scion-055-words-polysemic-relay.jpg",
+"duration": 57.17,
+"copies": [
+{
+"label": "studio cut (v2)",
+"kind": "canonical",
+"src": "allways-argon/studio/films/SCION_055_Words_Polysemic_Relay.mp4",
+"bytes": 3126787,
+"duration": 57.17,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -17.0,
+"peak": -0.5,
+"gain_db": -3.0,
+"silent": false
+}
+]
+},
+{
+"id": "argon-scion-056-symmetry-imperfect-pairing",
+"run": "allways-argon",
+"family": "scion",
+"key": 56,
+"title": "Symmetry — Imperfect Pairing",
+"sub": "Paired actions that align at onset and diverge in outcome",
+"state": "studio v2",
+"verdict": "pass",
+"case": "allways-argon/studio/cases/SCION_056_Symmetry_Imperfect_Pairing.html",
+"poster": "paeleo/allways/screening/posters/argon-scion-056-symmetry-imperfect-pairing.jpg",
+"duration": 42.93,
+"copies": [
+{
+"label": "studio cut (v2)",
+"kind": "canonical",
+"src": "allways-argon/studio/films/SCION_056_Symmetry_Imperfect_Pairing.mp4",
+"bytes": 2664974,
+"duration": 42.93,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -17.2,
+"peak": -0.6,
+"gain_db": -2.8,
+"silent": false
+}
+]
+},
+{
+"id": "argon-scion-057-moments-microevent-attention",
+"run": "allways-argon",
+"family": "scion",
+"key": 57,
+"title": "Moments — Microevent Attention",
+"sub": "Six ordinary microevents: onset, small change, and held aftermath",
+"state": "studio v2",
+"verdict": "pass",
+"case": "allways-argon/studio/cases/SCION_057_Moments_Microevent_Attention.html",
+"poster": "paeleo/allways/screening/posters/argon-scion-057-moments-microevent-attention.jpg",
+"duration": 48.23,
+"copies": [
+{
+"label": "studio cut (v2)",
+"kind": "canonical",
+"src": "allways-argon/studio/films/SCION_057_Moments_Microevent_Attention.mp4",
+"bytes": 2629455,
+"duration": 48.23,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -15.6,
+"peak": -0.3,
+"gain_db": -4.4,
+"silent": false
+}
+]
+},
+{
+"id": "argon-scion-058-laughs-audible-contagion",
+"run": "allways-argon",
+"family": "scion",
+"key": 58,
+"title": "Laughs! — Audible Contagion",
+"sub": "Situated laughter, acoustic contagion, recovery, and quiet aftermath",
+"state": "studio v2",
+"verdict": "pass",
+"case": "allways-argon/studio/cases/SCION_058_Laughs_Audible_Contagion.html",
+"poster": "paeleo/allways/screening/posters/argon-scion-058-laughs-audible-contagion.jpg",
+"duration": 33.44,
+"copies": [
+{
+"label": "studio cut (v2)",
+"kind": "canonical",
+"src": "allways-argon/studio/films/SCION_058_Laughs_Audible_Contagion.mp4",
+"bytes": 2194230,
+"duration": 33.44,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -16.6,
+"peak": -0.2,
+"gain_db": -3.4,
+"silent": false
+}
+]
+},
+{
+"id": "argon-scion-059-ball-graphic-constancy",
+"run": "allways-argon",
+"family": "scion",
+"key": 59,
+"title": "Ball — Graphic Constancy Across Sources",
+"sub": "Twelve round anchors across clocks, wheels, vessels, optics, and play",
+"state": "studio v2",
+"verdict": "pass",
+"case": "allways-argon/studio/cases/SCION_059_Ball_Graphic_Constancy.html",
+"poster": "paeleo/allways/screening/posters/argon-scion-059-ball-graphic-constancy.jpg",
+"duration": 46.88,
+"copies": [
+{
+"label": "studio cut (v2)",
+"kind": "canonical",
+"src": "allways-argon/studio/films/SCION_059_Ball_Graphic_Constancy.mp4",
+"bytes": 5095658,
+"duration": 46.88,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -15.0,
+"peak": -0.4,
+"gain_db": -5.0,
+"silent": false
+}
+]
+},
+{
+"id": "argon-scion-060-losers-social-position",
+"run": "allways-argon",
+"family": "scion",
+"key": 60,
+"title": "Losers — Social Position Through Montage",
+"sub": "How apparent difficulty changes when surrounding conduct becomes visible",
+"state": "studio v2",
+"verdict": "pass",
+"case": "allways-argon/studio/cases/SCION_060_Losers_Social_Position.html",
+"poster": "paeleo/allways/screening/posters/argon-scion-060-losers-social-position.jpg",
+"duration": 45.72,
+"copies": [
+{
+"label": "studio cut (v2)",
+"kind": "canonical",
+"src": "allways-argon/studio/films/SCION_060_Losers_Social_Position.mp4",
+"bytes": 3317373,
+"duration": 45.72,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -14.6,
+"peak": -0.8,
+"gain_db": -5.4,
+"silent": false
+}
+]
+},
+{
+"id": "argon-scion-061-matter-affordance-chain",
+"run": "allways-argon",
+"family": "scion",
+"key": 61,
+"title": "Matter — Material Affordance Chain",
+"sub": "Pressure, folding, wetting, and surface memory across materials",
+"state": "studio v2",
+"verdict": "pass",
+"case": "allways-argon/studio/cases/SCION_061_Matter_Affordance_Chain.html",
+"poster": "paeleo/allways/screening/posters/argon-scion-061-matter-affordance-chain.jpg",
+"duration": 45.0,
+"copies": [
+{
+"label": "studio cut (v2)",
+"kind": "canonical",
+"src": "allways-argon/studio/films/SCION_061_Matter_Affordance_Chain.mp4",
+"bytes": 2671905,
+"duration": 45.0,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -14.2,
+"peak": -0.5,
+"gain_db": -5.8,
+"silent": false
+}
+]
+},
+{
+"id": "argon-scion-062-colors-chromatic-chapters",
+"run": "allways-argon",
+"family": "scion",
+"key": 62,
+"title": "Colors — Chromatic Chapters",
+"sub": "Yellow, blue, and red organizing distinct practical actions without recoloring",
+"state": "studio v2",
+"verdict": "pass",
+"case": "allways-argon/studio/cases/SCION_062_Colors_Chromatic_Chapters.html",
+"poster": "paeleo/allways/screening/posters/argon-scion-062-colors-chromatic-chapters.jpg",
+"duration": 47.83,
+"copies": [
+{
+"label": "studio cut (v2)",
+"kind": "canonical",
+"src": "allways-argon/studio/films/SCION_062_Colors_Chromatic_Chapters.mp4",
+"bytes": 2538586,
+"duration": 47.83,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -14.9,
+"peak": 0.0,
+"gain_db": -5.1,
+"silent": false
+}
+]
+},
+{
+"id": "argon-scion-063-breath-invisible-force",
+"run": "allways-argon",
+"family": "scion",
+"key": 63,
+"title": "Breath — Invisible Force, Visible Consequence",
+"sub": "Air made legible through drifting smoke, curtains, vapor, and wind-driven blades",
+"state": "studio v2",
+"verdict": "pass",
+"case": "allways-argon/studio/cases/SCION_063_Breath_Invisible_Force.html",
+"poster": "paeleo/allways/screening/posters/argon-scion-063-breath-invisible-force.jpg",
+"duration": 36.48,
+"copies": [
+{
+"label": "studio cut (v2)",
+"kind": "canonical",
+"src": "allways-argon/studio/films/SCION_063_Breath_Invisible_Force.mp4",
+"bytes": 2644877,
+"duration": 36.48,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -17.1,
+"peak": -1.1,
+"gain_db": -2.9,
+"silent": false
+}
+]
+},
+{
+"id": "argon-scion-064-parabolas-different-causes",
+"run": "allways-argon",
+"family": "scion",
+"key": 64,
+"title": "Parabolas (etc.) — Curves With Different Causes",
+"sub": "Catenary cables, ballistic water jets, and hand-bent arches vs. fitted hypotheses",
+"state": "studio v2",
+"verdict": "pass",
+"case": "allways-argon/studio/cases/SCION_064_Parabolas_Different_Causes.html",
+"poster": "paeleo/allways/screening/posters/argon-scion-064-parabolas-different-causes.jpg",
+"duration": 45.4,
+"copies": [
+{
+"label": "studio cut (v2)",
+"kind": "canonical",
+"src": "allways-argon/studio/films/SCION_064_Parabolas_Different_Causes.mp4",
+"bytes": 5178651,
+"duration": 45.4,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -16.9,
+"peak": -0.4,
+"gain_db": -3.1,
+"silent": false
+}
+]
+},
+{
+"id": "argon-scion-065-five-parallel-lives",
+"run": "allways-argon",
+"family": "scion",
+"key": 65,
+"title": "Five — Parallel Lives, Unequal Details",
+"sub": "Five ordinary daily practices inhabiting one structure while remaining distinct",
+"state": "studio v2",
+"verdict": "pass",
+"case": "allways-argon/studio/cases/SCION_065_Five_Parallel_Lives.html",
+"poster": "paeleo/allways/screening/posters/argon-scion-065-five-parallel-lives.jpg",
+"duration": 54.31,
+"copies": [
+{
+"label": "studio cut (v2)",
+"kind": "canonical",
+"src": "allways-argon/studio/films/SCION_065_Five_Parallel_Lives.mp4",
+"bytes": 4115893,
+"duration": 54.31,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -16.7,
+"peak": -2.3,
+"gain_db": -3.3,
+"silent": false
+}
+]
+},
+{
+"id": "argon-scion-066-az-cyclic-replacement-grammar",
+"run": "allways-argon",
+"family": "scion",
+"key": 66,
+"title": "A–Z — Cyclic Replacement Grammar",
+"sub": "Recurring slot windows where object-motifs enter, persist for two cycles, and yield to replacements",
+"state": "studio v2",
+"verdict": "pass",
+"case": "allways-argon/studio/cases/SCION_066_AZ_Cyclic_Replacement_Grammar.html",
+"poster": "paeleo/allways/screening/posters/argon-scion-066-az-cyclic-replacement-grammar.jpg",
+"duration": 35.06,
+"copies": [
+{
+"label": "studio cut (v2)",
+"kind": "canonical",
+"src": "allways-argon/studio/films/SCION_066_AZ_Cyclic_Replacement_Grammar.mp4",
+"bytes": 2035801,
+"duration": 35.06,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -15.4,
+"peak": -0.7,
+"gain_db": -4.6,
+"silent": false
+}
+]
+},
+{
+"id": "argon-scion-066-tango-cyclic-room",
+"run": "allways-argon",
+"family": "scion",
+"key": 66,
+"title": "Tango — Cyclic Room Accumulation",
+"sub": "Bounded loops entering a shared room without collision until withdrawing",
+"state": "studio v2",
+"verdict": "pass",
+"case": "allways-argon/studio/cases/SCION_066_Tango_Cyclic_Room.html",
+"poster": "paeleo/allways/screening/posters/argon-scion-066-tango-cyclic-room.jpg",
+"duration": 39.89,
+"copies": [
+{
+"label": "studio cut (v2)",
+"kind": "canonical",
+"src": "allways-argon/studio/films/SCION_066_Tango_Cyclic_Room.mp4",
+"bytes": 2776874,
+"duration": 39.89,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -14.6,
+"peak": -0.3,
+"gain_db": -5.4,
+"silent": false
+}
+]
+},
+{
+"id": "argon-scion-067-nostalgia-temporal-offset",
+"run": "allways-argon",
+"family": "scion",
+"key": 67,
+"title": "(nostalgia) — Temporal Offset Between Caption and Image",
+"sub": "Each caption describes the next archival photograph before it appears",
+"state": "studio v2",
+"verdict": "pass",
+"case": "allways-argon/studio/cases/SCION_067_Nostalgia_Temporal_Offset.html",
+"poster": "paeleo/allways/screening/posters/argon-scion-067-nostalgia-temporal-offset.jpg",
+"duration": 38.01,
+"copies": [
+{
+"label": "studio cut (v2)",
+"kind": "canonical",
+"src": "allways-argon/studio/films/SCION_067_Nostalgia_Temporal_Offset.mp4",
+"bytes": 1914039,
+"duration": 38.01,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -17.0,
+"peak": -1.9,
+"gain_db": -3.0,
+"silent": false
+}
+]
+},
+{
+"id": "argon-scion-068-powers-of-ten-scale-traverse",
+"run": "allways-argon",
+"family": "scion",
+"key": 68,
+"title": "Powers of Ten — Nested Scale Traverse",
+"sub": "Order-of-magnitude steps from human hand (10^-1 m) to cosmos (10^6 m) and back to cells",
+"state": "studio v2",
+"verdict": "pass",
+"case": "allways-argon/studio/cases/SCION_068_Powers_Of_Ten_Scale_Traverse.html",
+"poster": "paeleo/allways/screening/posters/argon-scion-068-powers-of-ten-scale-traverse.jpg",
+"duration": 43.47,
+"copies": [
+{
+"label": "studio cut (v2)",
+"kind": "canonical",
+"src": "allways-argon/studio/films/SCION_068_Powers_Of_Ten_Scale_Traverse.mp4",
+"bytes": 3574955,
+"duration": 43.47,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -14.9,
+"peak": -0.4,
+"gain_db": -5.1,
+"silent": false
+}
+]
+},
+{
+"id": "argon-scion-069-a-movie-found-footage-montage",
+"run": "allways-argon",
+"family": "scion",
+"key": 69,
+"title": "A Movie — Found-Footage Kinetic & Catastrophe Montage",
+"sub": "Leader countdowns, false eyeline matches, and escalating mechanical momentum",
+"state": "studio v2",
+"verdict": "pass",
+"case": "allways-argon/studio/cases/SCION_069_A_Movie_Found_Footage_Montage.html",
+"poster": "paeleo/allways/screening/posters/argon-scion-069-a-movie-found-footage-montage.jpg",
+"duration": 41.89,
+"copies": [
+{
+"label": "studio cut (v2)",
+"kind": "canonical",
+"src": "allways-argon/studio/films/SCION_069_A_Movie_Found_Footage_Montage.mp4",
+"bytes": 4304193,
+"duration": 41.89,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -16.3,
+"peak": -1.1,
+"gain_db": -3.7,
+"silent": false
+}
+]
+},
+{
+"id": "argon-scion-070-report-event-broadcast-divergence",
+"run": "allways-argon",
+"family": "scion",
+"key": 70,
+"title": "Report — Event and Broadcast Divergence",
+"sub": "Public motorcade and architectural evidence against broadcast flicker, televisiual relays, and commodified spectacle",
+"state": "studio v2",
+"verdict": "pass",
+"case": "allways-argon/studio/cases/SCION_070_Report_Event_Broadcast_Divergence.html",
+"poster": "paeleo/allways/screening/posters/argon-scion-070-report-event-broadcast-divergence.jpg",
+"duration": 35.39,
+"copies": [
+{
+"label": "studio cut (v2)",
+"kind": "canonical",
+"src": "allways-argon/studio/films/SCION_070_Report_Event_Broadcast_Divergence.mp4",
+"bytes": 2516529,
+"duration": 35.39,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -14.4,
+"peak": -0.4,
+"gain_db": -5.6,
+"silent": false
+}
+]
+},
+{
+"id": "argon-scion-071-standard-gauge-film-strip",
+"run": "allways-argon",
+"family": "scion",
+"key": 71,
+"title": "Standard Gauge — Material Film Strip Inspection",
+"sub": "Examining 16mm/35mm reels, duplicated frames, emulsion decay, and projection light",
+"state": "studio v2",
+"verdict": "pass",
+"case": "allways-argon/studio/cases/SCION_071_Standard_Gauge_Film_Strip.html",
+"poster": "paeleo/allways/screening/posters/argon-scion-071-standard-gauge-film-strip.jpg",
+"duration": 38.52,
+"copies": [
+{
+"label": "studio cut (v2)",
+"kind": "canonical",
+"src": "allways-argon/studio/films/SCION_071_Standard_Gauge_Film_Strip.mp4",
+"bytes": 2985956,
+"duration": 38.52,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -16.2,
+"peak": -0.5,
+"gain_db": -3.8,
+"silent": false
+}
+]
+},
+{
+"id": "argon-scion-072-the-alphabet-symbol-system-body",
+"run": "allways-argon",
+"family": "scion",
+"key": 72,
+"title": "The Alphabet — A Symbol System Acts on a Body",
+"sub": "Didactic lettering, mechanical type-setting, and animated diagrams pressing upon human faces",
+"state": "studio v2",
+"verdict": "pass",
+"case": "allways-argon/studio/cases/SCION_072_The_Alphabet_Symbol_System_Body.html",
+"poster": "paeleo/allways/screening/posters/argon-scion-072-the-alphabet-symbol-system-body.jpg",
+"duration": 30.4,
+"copies": [
+{
+"label": "studio cut (v2)",
+"kind": "canonical",
+"src": "allways-argon/studio/films/SCION_072_The_Alphabet_Symbol_System_Body.mp4",
+"bytes": 2618783,
+"duration": 30.4,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -15.9,
+"peak": -0.3,
+"gain_db": -4.1,
+"silent": false
+}
+]
+},
+{
+"id": "argon-scion-073-walk-through-h-cartographic-passage",
+"run": "allways-argon",
+"family": "scion",
+"key": 73,
+"title": "A Walk Through H — Narrated Passage Between Maps",
+"sub": "Panning across drawn maps, arterial diagrams, and terrain plates as an invented itinerary",
+"state": "studio v2",
+"verdict": "pass",
+"case": "allways-argon/studio/cases/SCION_073_Walk_Through_H_Cartographic_Passage.html",
+"poster": "paeleo/allways/screening/posters/argon-scion-073-walk-through-h-cartographic-passage.jpg",
+"duration": 35.48,
+"copies": [
+{
+"label": "studio cut (v2)",
+"kind": "canonical",
+"src": "allways-argon/studio/films/SCION_073_Walk_Through_H_Cartographic_Passage.mp4",
+"bytes": 2569619,
+"duration": 35.48,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -15.4,
+"peak": -0.5,
+"gain_db": -4.6,
+"silent": false
+}
+]
+},
+{
+"id": "argon-scion-074-the-falls-directory-index",
+"run": "allways-argon",
+"family": "scion",
+"key": 74,
+"title": "The Falls & A Walk Through H — Indexed Directory",
+"sub": "Numbered catalog entries pairing hand-drawn maps with contradictory archival lives",
+"state": "studio v2",
+"verdict": "pass",
+"case": "allways-argon/studio/cases/SCION_074_The_Falls_Directory_Index.html",
+"poster": "paeleo/allways/screening/posters/argon-scion-074-the-falls-directory-index.jpg",
+"duration": 37.38,
+"copies": [
+{
+"label": "studio cut (v2)",
+"kind": "canonical",
+"src": "allways-argon/studio/films/SCION_074_The_Falls_Directory_Index.mp4",
+"bytes": 3287377,
+"duration": 37.38,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -15.0,
+"peak": -0.4,
+"gain_db": -5.0,
+"silent": false
+}
+]
+},
+{
+"id": "argon-scion-075-babies-milestones-parallel-care",
+"run": "allways-argon",
+"family": "scion",
+"key": 75,
+"title": "Babies — Milestones Without a Universal Ladder",
+"sub": "Bedside care, lifted children, thresholds, and open fields across unequal settings",
+"state": "studio v2",
+"verdict": "pass",
+"case": "allways-argon/studio/cases/SCION_075_Babies_Milestones_Parallel_Care.html",
+"poster": "paeleo/allways/screening/posters/argon-scion-075-babies-milestones-parallel-care.jpg",
+"duration": 35.18,
+"copies": [
+{
+"label": "studio cut (v2)",
+"kind": "canonical",
+"src": "allways-argon/studio/films/SCION_075_Babies_Milestones_Parallel_Care.mp4",
+"bytes": 2527598,
+"duration": 35.18,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -15.0,
+"peak": -0.4,
+"gain_db": -5.0,
+"silent": false
+}
+]
+},
+{
+"id": "argon-scion-075-high-school-institutional-routine",
+"run": "allways-argon",
+"family": "scion",
+"key": 75,
+"title": "High School — Institutional Routine From Inside",
+"sub": "Corridors, classrooms, posture drills, and ceremony without voice-over thesis",
+"state": "studio v2",
+"verdict": "pass",
+"case": "allways-argon/studio/cases/SCION_075_High_School_Institutional_Routine.html",
+"poster": "paeleo/allways/screening/posters/argon-scion-075-high-school-institutional-routine.jpg",
+"duration": 36.22,
+"copies": [
+{
+"label": "studio cut (v2)",
+"kind": "canonical",
+"src": "allways-argon/studio/films/SCION_075_High_School_Institutional_Routine.mp4",
+"bytes": 2291721,
+"duration": 36.22,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -15.9,
+"peak": -0.7,
+"gain_db": -4.1,
+"silent": false
+}
+]
+},
+{
+"id": "argon-scion-076-life-in-a-day-synchronized-ordinary",
+"run": "allways-argon",
+"family": "scion",
+"key": 76,
+"title": "Life in a Day & Manakamana — Collective Horizon",
+"sub": "Dawn to night across contributed ordinary moments and held transit compartments",
+"state": "studio v2",
+"verdict": "pass",
+"case": "allways-argon/studio/cases/SCION_076_Life_In_A_Day_Synchronized_Ordinary.html",
+"poster": "paeleo/allways/screening/posters/argon-scion-076-life-in-a-day-synchronized-ordinary.jpg",
+"duration": 40.22,
+"copies": [
+{
+"label": "studio cut (v2)",
+"kind": "canonical",
+"src": "allways-argon/studio/films/SCION_076_Life_In_A_Day_Synchronized_Ordinary.mp4",
+"bytes": 2854917,
+"duration": 40.22,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -15.8,
+"peak": -0.4,
+"gain_db": -4.2,
+"silent": false
+}
+]
+},
+{
+"id": "argon-scion-076-sacred-distributed-ritual-logic",
+"run": "allways-argon",
+"family": "scion",
+"key": 76,
+"title": "Sacred — Distributed Witness, Local Ritual Logic",
+"sub": "Thresholds, stained glass, belfries, and ceremonial lines across distinct traditions",
+"state": "studio v2",
+"verdict": "pass",
+"case": "allways-argon/studio/cases/SCION_076_Sacred_Distributed_Ritual_Logic.html",
+"poster": "paeleo/allways/screening/posters/argon-scion-076-sacred-distributed-ritual-logic.jpg",
+"duration": 34.18,
+"copies": [
+{
+"label": "studio cut (v2)",
+"kind": "canonical",
+"src": "allways-argon/studio/films/SCION_076_Sacred_Distributed_Ritual_Logic.mp4",
+"bytes": 2335977,
+"duration": 34.18,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -16.0,
+"peak": -0.4,
+"gain_db": -4.0,
+"silent": false
+}
+]
+},
+{
+"id": "argon-scion-077-baraka-contemplative-counterpoint",
+"run": "allways-argon",
+"family": "scion",
+"key": 77,
+"title": "Baraka — Contemplative Counterpoint Across Scales",
+"sub": "Nonverbal passage from valley fog and eclipse stars to dense urban flow and silent gaze",
+"state": "studio v2",
+"verdict": "pass",
+"case": "allways-argon/studio/cases/SCION_077_Baraka_Contemplative_Counterpoint.html",
+"poster": "paeleo/allways/screening/posters/argon-scion-077-baraka-contemplative-counterpoint.jpg",
+"duration": 35.5,
+"copies": [
+{
+"label": "studio cut (v2)",
+"kind": "canonical",
+"src": "allways-argon/studio/films/SCION_077_Baraka_Contemplative_Counterpoint.mp4",
+"bytes": 2525381,
+"duration": 35.5,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -14.0,
+"peak": -0.4,
+"gain_db": -6.0,
+"silent": false
+}
+]
+},
+{
+"id": "argon-scion-078-samsara-material-cycles-returns",
+"run": "allways-argon",
+"family": "scion",
+"key": 78,
+"title": "Samsara — Material Cycles and Changed Returns",
+"sub": "Extraction, factory floor, consumption, rubble, and elemental return across matter",
+"state": "studio v2",
+"verdict": "pass",
+"case": "allways-argon/studio/cases/SCION_078_Samsara_Material_Cycles_Returns.html",
+"poster": "paeleo/allways/screening/posters/argon-scion-078-samsara-material-cycles-returns.jpg",
+"duration": 36.5,
+"copies": [
+{
+"label": "studio cut (v2)",
+"kind": "canonical",
+"src": "allways-argon/studio/films/SCION_078_Samsara_Material_Cycles_Returns.mp4",
+"bytes": 2920597,
+"duration": 36.5,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -23.2,
+"peak": -10.0,
+"gain_db": 3.2,
+"silent": false
+}
+]
+},
+{
+"id": "argon-scion-079-qatsi-three-technological-regimes",
+"run": "allways-argon",
+"family": "scion",
+"key": 79,
+"title": "The Qatsi Trilogy — Three Regimes of Technological Time",
+"sub": "Koyaanisqatsi (accelerated grid), Powaqqatsi (embodied haulage), and Naqoyqatsi (coded signal)",
+"state": "studio v2",
+"verdict": "pass",
+"case": "allways-argon/studio/cases/SCION_079_Qatsi_Three_Technological_Regimes.html",
+"poster": "paeleo/allways/screening/posters/argon-scion-079-qatsi-three-technological-regimes.jpg",
+"duration": 36.08,
+"copies": [
+{
+"label": "studio cut (v2)",
+"kind": "canonical",
+"src": "allways-argon/studio/films/SCION_079_Qatsi_Three_Technological_Regimes.mp4",
+"bytes": 2873051,
+"duration": 36.08,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -15.7,
+"peak": -0.0,
+"gain_db": -4.3,
+"silent": false
+}
+]
+},
+{
+"id": "argon-scion-080-life-in-a-day-unequal-windows",
+"run": "allways-argon",
+"family": "scion",
+"key": 80,
+"title": "Life in a Day — Diurnal Window Comparison",
+"sub": "Bath, shave/mirror, telephone call, and night gathering held across unequal material conditions",
+"state": "studio v2",
+"verdict": "pass",
+"case": "allways-argon/studio/cases/SCION_080_Life_In_A_Day_Unequal_Windows.html",
+"poster": "paeleo/allways/screening/posters/argon-scion-080-life-in-a-day-unequal-windows.jpg",
+"duration": 32.3,
+"copies": [
+{
+"label": "studio cut (v2)",
+"kind": "canonical",
+"src": "allways-argon/studio/films/SCION_080_Life_In_A_Day_Unequal_Windows.mp4",
+"bytes": 2261936,
+"duration": 32.3,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -17.1,
+"peak": -3.0,
+"gain_db": -2.9,
+"silent": false
+}
+]
+},
+{
+"id": "argon-scion-081-human-testimony-and-aerial-breathing-room",
+"run": "allways-argon",
+"family": "scion",
+"key": 81,
+"title": "Human — Direct Testimony and Aerial Breathing Space",
+"sub": "Frontal human faces and direct address punctuated by vast aerial landscapes",
+"state": "studio v2",
+"verdict": "pass",
+"case": "allways-argon/studio/cases/SCION_081_Human_Testimony_And_Aerial_Breathing_Room.html",
+"poster": "paeleo/allways/screening/posters/argon-scion-081-human-testimony-and-aerial-breathing-room.jpg",
+"duration": 35.81,
+"copies": [
+{
+"label": "studio cut (v2)",
+"kind": "canonical",
+"src": "allways-argon/studio/films/SCION_081_Human_Testimony_And_Aerial_Breathing_Room.mp4",
+"bytes": 1904077,
+"duration": 35.81,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -15.6,
+"peak": -0.8,
+"gain_db": -4.4,
+"silent": false
+}
+]
+},
+{
+"id": "argon-scion-082-first-position-practice-to-stage",
+"run": "allways-argon",
+"family": "scion",
+"key": 82,
+"title": "First Position — Practice, Constraint, and Stage Exposure",
+"sub": "Posture alignment, footwork, backstage curtain parting, and public stage performance",
+"state": "studio v2",
+"verdict": "pass",
+"case": "allways-argon/studio/cases/SCION_082_First_Position_Practice_To_Stage.html",
+"poster": "paeleo/allways/screening/posters/argon-scion-082-first-position-practice-to-stage.jpg",
+"duration": 35.6,
+"copies": [
+{
+"label": "studio cut (v2)",
+"kind": "canonical",
+"src": "allways-argon/studio/films/SCION_082_First_Position_Practice_To_Stage.mp4",
+"bytes": 2206741,
+"duration": 35.6,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -14.7,
+"peak": -1.3,
+"gain_db": -5.3,
+"silent": false
+}
+]
+},
+{
+"id": "argon-scion-083-berlin-city-symphony",
+"run": "allways-argon",
+"family": "scion",
+"key": 83,
+"title": "Berlin: Symphony of a Great City — Urban Cadence",
+"sub": "Empty station canopy, iron gates, elevated trains, crowd flow, and night neon",
+"state": "studio v2",
+"verdict": "pass",
+"case": "allways-argon/studio/cases/SCION_083_Berlin_City_Symphony.html",
+"poster": "paeleo/allways/screening/posters/argon-scion-083-berlin-city-symphony.jpg",
+"duration": 35.97,
+"copies": [
+{
+"label": "studio cut (v2)",
+"kind": "canonical",
+"src": "allways-argon/studio/films/SCION_083_Berlin_City_Symphony.mp4",
+"bytes": 3187200,
+"duration": 35.97,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -14.1,
+"peak": -0.5,
+"gain_db": -5.9,
+"silent": false
+}
+]
+},
+{
+"id": "argon-scion-084-pickpocket-object-transfer-relay",
+"run": "allways-argon",
+"family": "scion",
+"key": 84,
+"title": "Pickpocket — Object Transfer as Dramatic Grammar",
+"sub": "Close manual relays of keys, sand, glass tubes, cigarettes, and ceremonial exchanges",
+"state": "studio v2",
+"verdict": "pass",
+"case": "allways-argon/studio/cases/SCION_084_Pickpocket_Object_Transfer_Relay.html",
+"poster": "paeleo/allways/screening/posters/argon-scion-084-pickpocket-object-transfer-relay.jpg",
+"duration": 32.51,
+"copies": [
+{
+"label": "studio cut (v2)",
+"kind": "canonical",
+"src": "allways-argon/studio/films/SCION_084_Pickpocket_Object_Transfer_Relay.mp4",
+"bytes": 1918711,
+"duration": 32.51,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -15.4,
+"peak": -1.6,
+"gain_db": -4.6,
+"silent": false
+}
+]
+},
+{
+"id": "argon-scion-085-jeanne-dielman-domestic-routine-gauge",
+"run": "allways-argon",
+"family": "scion",
+"key": 85,
+"title": "Jeanne Dielman — Routine as a Sensitive Measuring Instrument",
+"sub": "Sustained kitchen and parlor tasks where small variations in timing register as seismic shifts",
+"state": "studio v2",
+"verdict": "pass",
+"case": "allways-argon/studio/cases/SCION_085_Jeanne_Dielman_Domestic_Routine_Gauge.html",
+"poster": "paeleo/allways/screening/posters/argon-scion-085-jeanne-dielman-domestic-routine-gauge.jpg",
+"duration": 39.22,
+"copies": [
+{
+"label": "studio cut (v2)",
+"kind": "canonical",
+"src": "allways-argon/studio/films/SCION_085_Jeanne_Dielman_Domestic_Routine_Gauge.mp4",
+"bytes": 2119818,
+"duration": 39.22,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -17.1,
+"peak": -1.2,
+"gain_db": -2.9,
+"silent": false
+}
+]
+},
+{
+"id": "argon-scion-086-songs-second-floor-tableau-pressure",
+"run": "allways-argon",
+"family": "scion",
+"key": 86,
+"title": "Songs from the Second Floor — Tableau Pressure",
+"sub": "Deep locked-off institutional rooms, waiting figures, and stalled urban corridors",
+"state": "studio v2",
+"verdict": "pass",
+"case": "allways-argon/studio/cases/SCION_086_Songs_Second_Floor_Tableau_Pressure.html",
+"poster": "paeleo/allways/screening/posters/argon-scion-086-songs-second-floor-tableau-pressure.jpg",
+"duration": 34.02,
+"copies": [
+{
+"label": "studio cut (v2)",
+"kind": "canonical",
+"src": "allways-argon/studio/films/SCION_086_Songs_Second_Floor_Tableau_Pressure.mp4",
+"bytes": 2261963,
+"duration": 34.02,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -15.8,
+"peak": -0.5,
+"gain_db": -4.2,
+"silent": false
+}
+]
+},
+{
+"id": "argon-scion-087-pigeon-sat-on-branch-recurrence-debt",
+"run": "allways-argon",
+"family": "scion",
+"key": 87,
+"title": "A Pigeon Sat on a Branch — Recurrence with Debt",
+"sub": "Repeating ledger entries, phone Refrains, and doorway arrivals as moral weight accumulates",
+"state": "studio v2",
+"verdict": "pass",
+"case": "allways-argon/studio/cases/SCION_087_Pigeon_Sat_On_Branch_Recurrence_Debt.html",
+"poster": "paeleo/allways/screening/posters/argon-scion-087-pigeon-sat-on-branch-recurrence-debt.jpg",
+"duration": 31.09,
+"copies": [
+{
+"label": "studio cut (v2)",
+"kind": "canonical",
+"src": "allways-argon/studio/films/SCION_087_Pigeon_Sat_On_Branch_Recurrence_Debt.mp4",
+"bytes": 1943759,
+"duration": 31.09,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -16.4,
+"peak": -0.4,
+"gain_db": -3.6,
+"silent": false
+}
+]
+},
+{
+"id": "argon-scion-088-le-quattro-volte-nonhuman-relay",
+"run": "allways-argon",
+"family": "scion",
+"key": 88,
+"title": "Le Quattro Volte — Fourfold Relay Beyond the Human",
+"sub": "Passing narrative primacy from an old man to animals, a solitary cedar tree, and rising smoke",
+"state": "studio v2",
+"verdict": "pass",
+"case": "allways-argon/studio/cases/SCION_088_Le_Quattro_Volte_Nonhuman_Relay.html",
+"poster": "paeleo/allways/screening/posters/argon-scion-088-le-quattro-volte-nonhuman-relay.jpg",
+"duration": 36.29,
+"copies": [
+{
+"label": "studio cut (v2)",
+"kind": "canonical",
+"src": "allways-argon/studio/films/SCION_088_Le_Quattro_Volte_Nonhuman_Relay.mp4",
+"bytes": 2281467,
+"duration": 36.29,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -15.0,
+"peak": -0.7,
+"gain_db": -5.0,
+"silent": false
+}
+]
+},
+{
+"id": "argon-scion-089-planimetric-geometry-times-encounter",
+"run": "allways-argon",
+"family": "scion",
+"key": 89,
+"title": "Wes Anderson / Robert Yeoman — Planimetric Geometry",
+"sub": "Centered architectural facades, symmetrical doors, corridor tracks, and deadpan frontal pairs",
+"state": "studio v2",
+"verdict": "pass",
+"case": "allways-argon/studio/cases/SCION_089_Planimetric_Geometry_Times_Encounter.html",
+"poster": "paeleo/allways/screening/posters/argon-scion-089-planimetric-geometry-times-encounter.jpg",
+"duration": 35.27,
+"copies": [
+{
+"label": "studio cut (v2)",
+"kind": "canonical",
+"src": "allways-argon/studio/films/SCION_089_Planimetric_Geometry_Times_Encounter.mp4",
+"bytes": 2193369,
+"duration": 35.27,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -16.5,
+"peak": -0.2,
+"gain_db": -3.5,
+"silent": false
+}
+]
+},
+{
+"id": "argon-scion-090-the-clock-horological-montage",
+"run": "allways-argon",
+"family": "scion",
+"key": 90,
+"title": "The Clock — Time-Indexed Horological Montage",
+"sub": "Wall clocks, wristwatches, control dials, metronomes, and hourglasses across decades",
+"state": "studio v2",
+"verdict": "pass",
+"case": "allways-argon/studio/cases/SCION_090_The_Clock_Horological_Montage.html",
+"poster": "paeleo/allways/screening/posters/argon-scion-090-the-clock-horological-montage.jpg",
+"duration": 34.55,
+"copies": [
+{
+"label": "studio cut (v2)",
+"kind": "canonical",
+"src": "allways-argon/studio/films/SCION_090_The_Clock_Horological_Montage.mp4",
+"bytes": 2052676,
+"duration": 34.55,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -16.5,
+"peak": -0.9,
+"gain_db": -3.5,
+"silent": false
+}
+]
+},
+{
+"id": "argon-scion-091-watchtower-momentum-across-discontinuity",
+"run": "allways-argon",
+"family": "scion",
+"key": 91,
+"title": "Watchtower of Turkey — Momentum Across Discontinuity",
+"sub": "Carrying directional velocity across motorcycles,braided rails, wakes, and rising flocks",
+"state": "studio v2",
+"verdict": "pass",
+"case": "allways-argon/studio/cases/SCION_091_Watchtower_Momentum_Across_Discontinuity.html",
+"poster": "paeleo/allways/screening/posters/argon-scion-091-watchtower-momentum-across-discontinuity.jpg",
+"duration": 32.93,
+"copies": [
+{
+"label": "studio cut (v2)",
+"kind": "canonical",
+"src": "allways-argon/studio/films/SCION_091_Watchtower_Momentum_Across_Discontinuity.mp4",
+"bytes": 3527219,
+"duration": 32.93,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -14.9,
+"peak": -0.2,
+"gain_db": -5.1,
+"silent": false
+}
+]
+},
+{
+"id": "argon-scion-092-hands-analytical-video-essay",
+"run": "allways-argon",
+"family": "scion",
+"key": 92,
+"title": "Hands of the Archive — Analytical Video Essay",
+"sub": "Isolating manual grammar across drafting, carving, locking, and double-take comparison",
+"state": "studio v2",
+"verdict": "pass",
+"case": "allways-argon/studio/cases/SCION_092_Hands_Analytical_Video_Essay.html",
+"poster": "paeleo/allways/screening/posters/argon-scion-092-hands-analytical-video-essay.jpg",
+"duration": 37.18,
+"copies": [
+{
+"label": "studio cut (v2)",
+"kind": "canonical",
+"src": "allways-argon/studio/films/SCION_092_Hands_Analytical_Video_Essay.mp4",
+"bytes": 2925065,
+"duration": 37.18,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -18.4,
+"peak": -1.7,
+"gain_db": -1.6,
+"silent": false
+}
+]
+},
+{
+"id": "argon-scion-093-what-is-neorealism-counterfactual-cuts",
+"run": "allways-argon",
+"family": "scion",
+"key": 93,
+"title": "What Is Neorealism? — Counterfactual Cuts",
+"sub": "Testing tight plot-driven cuts against wide neorealist duration on the exact same archival source",
+"state": "studio v2",
+"verdict": "pass",
+"case": "allways-argon/studio/cases/SCION_093_What_Is_Neorealism_Counterfactual_Cuts.html",
+"poster": "paeleo/allways/screening/posters/argon-scion-093-what-is-neorealism-counterfactual-cuts.jpg",
+"duration": 30.88,
+"copies": [
+{
+"label": "studio cut (v2)",
+"kind": "canonical",
+"src": "allways-argon/studio/films/SCION_093_What_Is_Neorealism_Counterfactual_Cuts.mp4",
+"bytes": 2512362,
+"duration": 30.88,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -20.3,
+"peak": -1.6,
+"gain_db": 0.3,
+"silent": false
+}
+]
+},
+{
+"id": "argon-scion-094-chuck-jones-constraint-changes-performance",
+"run": "allways-argon",
+"family": "scion",
+"key": 94,
+"title": "Chuck Jones — How Constraint Changes Performance",
+"sub": "From full-body slapstick and stage spectacle to minimal eye-line and rule-governed timing",
+"state": "studio v2",
+"verdict": "pass",
+"case": "allways-argon/studio/cases/SCION_094_Chuck_Jones_Constraint_Changes_Performance.html",
+"poster": "paeleo/allways/screening/posters/argon-scion-094-chuck-jones-constraint-changes-performance.jpg",
+"duration": 34.55,
+"copies": [
+{
+"label": "studio cut (v2)",
+"kind": "canonical",
+"src": "allways-argon/studio/films/SCION_094_Chuck_Jones_Constraint_Changes_Performance.mp4",
+"bytes": 2857418,
+"duration": 34.55,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -14.6,
+"peak": -0.3,
+"gain_db": -5.4,
+"silent": false
+}
+]
+},
+{
+"id": "argon-scion-095-bear-71-surveillance-countermap",
+"run": "allways-argon",
+"family": "scion",
+"key": 95,
+"title": "Bear 71 — Situated Surveillance Countermap",
+"sub": "Trail-camera wildlife encounters intersected by roads, rails, and telemetry grids",
+"state": "studio v2",
+"verdict": "pass",
+"case": "allways-argon/studio/cases/SCION_095_Bear_71_Surveillance_Countermap.html",
+"poster": "paeleo/allways/screening/posters/argon-scion-095-bear-71-surveillance-countermap.jpg",
+"duration": 34.81,
+"copies": [
+{
+"label": "studio cut (v2)",
+"kind": "canonical",
+"src": "allways-argon/studio/films/SCION_095_Bear_71_Surveillance_Countermap.mp4",
+"bytes": 3037944,
+"duration": 34.81,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -17.6,
+"peak": -1.0,
+"gain_db": -2.4,
+"silent": false
+}
+]
+},
+{
+"id": "argon-scion-095-highrise-spatial-windows",
+"run": "allways-argon",
+"family": "scion",
+"key": 99,
+"title": "Out My Window — Spatial Facade & Window Matrix",
+"sub": "Navigating exterior apartment facades into individual domestic rooms and memories",
+"state": "studio v2",
+"verdict": "pass",
+"case": "allways-argon/studio/cases/SCION_095_Highrise_Spatial_Windows.html",
+"poster": "paeleo/allways/screening/posters/argon-scion-095-highrise-spatial-windows.jpg",
+"duration": 38.22,
+"copies": [
+{
+"label": "studio cut (v2)",
+"kind": "canonical",
+"src": "allways-argon/studio/films/SCION_095_Highrise_Spatial_Windows.mp4",
+"bytes": 2267340,
+"duration": 38.22,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -14.3,
+"peak": -0.2,
+"gain_db": -5.7,
+"silent": false
+}
+]
+},
+{
+"id": "argon-scion-096-bla-bla-gesture-response-fable",
+"run": "allways-argon",
+"family": "scion",
+"key": 96,
+"title": "BLA BLA — Gesture and Response Fable",
+"sub": "Six chapters of human-and-puppet interaction: greeting, mimicry, overwhelm, and parting",
+"state": "studio v2",
+"verdict": "pass",
+"case": "allways-argon/studio/cases/SCION_096_Bla_Bla_Gesture_Response_Fable.html",
+"poster": "paeleo/allways/screening/posters/argon-scion-096-bla-bla-gesture-response-fable.jpg",
+"duration": 33.6,
+"copies": [
+{
+"label": "studio cut (v2)",
+"kind": "canonical",
+"src": "allways-argon/studio/films/SCION_096_Bla_Bla_Gesture_Response_Fable.mp4",
+"bytes": 3293500,
+"duration": 33.6,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -16.6,
+"peak": -1.6,
+"gain_db": -3.4,
+"silent": false
+}
+]
+},
+{
+"id": "argon-scion-097-welcome-to-pine-point-scrapbook",
+"run": "allways-argon",
+"family": "scion",
+"key": 97,
+"title": "Welcome to Pine Point — Remembered Place Scrapbook",
+"sub": "Roadside welcome sign, snapshots, home movies, turntable, and overgrown foundations",
+"state": "studio v2",
+"verdict": "pass",
+"case": "allways-argon/studio/cases/SCION_097_Welcome_To_Pine_Point_Scrapbook.html",
+"poster": "paeleo/allways/screening/posters/argon-scion-097-welcome-to-pine-point-scrapbook.jpg",
+"duration": 34.46,
+"copies": [
+{
+"label": "studio cut (v2)",
+"kind": "canonical",
+"src": "allways-argon/studio/films/SCION_097_Welcome_To_Pine_Point_Scrapbook.mp4",
+"bytes": 2744830,
+"duration": 34.46,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -15.0,
+"peak": -1.1,
+"gain_db": -5.0,
+"silent": false
+}
+]
+},
+{
+"id": "argon-scion-098-one-millionth-tower-participatory-place",
+"run": "allways-argon",
+"family": "scion",
+"key": 98,
+"title": "One Millionth Tower — Reimagining Vertical Place",
+"sub": "From weathered tenement facades and broken panes to drafted plans, gardens, and civic gathering",
+"state": "studio v2",
+"verdict": "pass",
+"case": "allways-argon/studio/cases/SCION_098_One_Millionth_Tower_Participatory_Place.html",
+"poster": "paeleo/allways/screening/posters/argon-scion-098-one-millionth-tower-participatory-place.jpg",
+"duration": 34.76,
+"copies": [
+{
+"label": "studio cut (v2)",
+"kind": "canonical",
+"src": "allways-argon/studio/films/SCION_098_One_Millionth_Tower_Participatory_Place.mp4",
+"bytes": 2811402,
+"duration": 34.76,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -16.0,
+"peak": -1.9,
+"gain_db": -4.0,
+"silent": false
+}
+]
+},
+{
+"id": "argon-scion-100-short-history-of-the-highrise",
+"run": "allways-argon",
+"family": "scion",
+"key": 100,
+"title": "A Short History of the Highrise — Vertical Essay",
+"sub": "Four historical chapters—Mud, Concrete, Glass, and Home—with expandable archival pockets",
+"state": "studio v2",
+"verdict": "pass",
+"case": "allways-argon/studio/cases/SCION_100_Short_History_Of_The_Highrise.html",
+"poster": "paeleo/allways/screening/posters/argon-scion-100-short-history-of-the-highrise.jpg",
+"duration": 29.09,
+"copies": [
+{
+"label": "studio cut (v2)",
+"kind": "canonical",
+"src": "allways-argon/studio/films/SCION_100_Short_History_Of_The_Highrise.mp4",
+"bytes": 1793694,
+"duration": 29.09,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -17.1,
+"peak": -1.2,
+"gain_db": -2.9,
+"silent": false
+}
+]
+},
+{
+"id": "argon-scion-101-motto-participatory-image-slots",
+"run": "allways-argon",
+"family": "scion",
+"key": 101,
+"title": "Motto — Participatory Narrative Image Slots",
+"sub": "Tiny found fragments—signs, shadows, doorways, and hands—filling a narrative sentence",
+"state": "studio v2",
+"verdict": "pass",
+"case": "allways-argon/studio/cases/SCION_101_Motto_Participatory_Image_Slots.html",
+"poster": "paeleo/allways/screening/posters/argon-scion-101-motto-participatory-image-slots.jpg",
+"duration": 32.44,
+"copies": [
+{
+"label": "studio cut (v2)",
+"kind": "canonical",
+"src": "allways-argon/studio/films/SCION_101_Motto_Participatory_Image_Slots.mp4",
+"bytes": 2278285,
+"duration": 32.44,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -16.7,
+"peak": -0.4,
+"gain_db": -3.3,
+"silent": false
+}
+]
+},
+{
+"id": "argon-scion-102-unknown-photographer-evidenced-archive",
+"run": "allways-argon",
+"family": "scion",
+"key": 102,
+"title": "The Unknown Photographer — Evidenced Archive & Space",
+"sub": "Navigating between actual archival photographs, darkroom apparatus, and the spatial landscape of memory",
+"state": "studio v2",
+"verdict": "pass",
+"case": "allways-argon/studio/cases/SCION_102_Unknown_Photographer_Evidenced_Archive.html",
+"poster": "paeleo/allways/screening/posters/argon-scion-102-unknown-photographer-evidenced-archive.jpg",
+"duration": 35.48,
+"copies": [
+{
+"label": "studio cut (v2)",
+"kind": "canonical",
+"src": "allways-argon/studio/films/SCION_102_Unknown_Photographer_Evidenced_Archive.mp4",
+"bytes": 1863593,
+"duration": 35.48,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -17.3,
+"peak": -0.2,
+"gain_db": -2.7,
+"silent": false
+}
+]
+},
+{
+"id": "argon-scion-103-we-feel-fine-expressions-aggregates",
+"run": "allways-argon",
+"family": "scion",
+"key": 103,
+"title": "We Feel Fine — Individual Expressions & Aggregates",
+"sub": "Zooming between floating particle clouds of affect and singular human faces in joy, grief, and wonder",
+"state": "studio v2",
+"verdict": "pass",
+"case": "allways-argon/studio/cases/SCION_103_We_Feel_Fine_Expressions_Aggregates.html",
+"poster": "paeleo/allways/screening/posters/argon-scion-103-we-feel-fine-expressions-aggregates.jpg",
+"duration": 35.27,
+"copies": [
+{
+"label": "studio cut (v2)",
+"kind": "canonical",
+"src": "allways-argon/studio/films/SCION_103_We_Feel_Fine_Expressions_Aggregates.mp4",
+"bytes": 1757864,
+"duration": 35.27,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -15.5,
+"peak": -0.4,
+"gain_db": -4.5,
+"silent": false
+}
+]
+},
+{
+"id": "argon-scion-104-the-whale-hunt-sampling-rhythm",
+"run": "allways-argon",
+"family": "scion",
+"key": 104,
+"title": "The Whale Hunt — Heartbeat Sampling Rhythm",
+"sub": "Slow baseline intervals on the ice and sea accelerating into a rapid burst at the event peak",
+"state": "studio v2",
+"verdict": "pass",
+"case": "allways-argon/studio/cases/SCION_104_The_Whale_Hunt_Sampling_Rhythm.html",
+"poster": "paeleo/allways/screening/posters/argon-scion-104-the-whale-hunt-sampling-rhythm.jpg",
+"duration": 33.51,
+"copies": [
+{
+"label": "studio cut (v2)",
+"kind": "canonical",
+"src": "allways-argon/studio/films/SCION_104_The_Whale_Hunt_Sampling_Rhythm.mp4",
+"bytes": 3232952,
+"duration": 33.51,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -14.6,
+"peak": -0.9,
+"gain_db": -5.4,
+"silent": false
+}
+]
+},
+{
+"id": "argon-scion-105-cowbird-relational-commons",
+"run": "allways-argon",
+"family": "scion",
+"key": 105,
+"title": "Cowbird — Authored Stories in a Relational Commons",
+"sub": "First-person memory nodes connected by shared metadata tags (Place, Craft, Departure, Return)",
+"state": "studio v2",
+"verdict": "pass",
+"case": "allways-argon/studio/cases/SCION_105_Cowbird_Relational_Commons.html",
+"poster": "paeleo/allways/screening/posters/argon-scion-105-cowbird-relational-commons.jpg",
+"duration": 35.69,
+"copies": [
+{
+"label": "studio cut (v2)",
+"kind": "canonical",
+"src": "allways-argon/studio/films/SCION_105_Cowbird_Relational_Commons.mp4",
+"bytes": 2584174,
+"duration": 35.69,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -16.0,
+"peak": -1.1,
+"gain_db": -4.0,
+"silent": false
+}
+]
+},
+{
+"id": "argon-scion-106-network-effect-bounded-attention",
+"run": "allways-argon",
+"family": "scion",
+"key": 106,
+"title": "Network Effect — Bounded Session in an Unfinishable Archive",
+"sub": "Rapid archival grazing under a strict session countdown clock until forced return to quiet outside air",
+"state": "studio v2",
+"verdict": "pass",
+"case": "allways-argon/studio/cases/SCION_106_Network_Effect_Bounded_Attention.html",
+"poster": "paeleo/allways/screening/posters/argon-scion-106-network-effect-bounded-attention.jpg",
+"duration": 29.21,
+"copies": [
+{
+"label": "studio cut (v2)",
+"kind": "canonical",
+"src": "allways-argon/studio/films/SCION_106_Network_Effect_Bounded_Attention.mp4",
+"bytes": 2450609,
+"duration": 29.21,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -17.5,
+"peak": -1.6,
+"gain_db": -2.5,
+"silent": false
+}
+]
+},
+{
+"id": "argon-scion-107-in-fragments-material-ritual",
+"run": "allways-argon",
+"family": "scion",
+"key": 107,
+"title": "In Fragments — Material Ritual and Consequence",
+"sub": "Reliquary glass case, flame in darkness, wildfire release, and quiet marsh recovery",
+"state": "studio v2",
+"verdict": "pass",
+"case": "allways-argon/studio/cases/SCION_107_In_Fragments_Material_Ritual.html",
+"poster": "paeleo/allways/screening/posters/argon-scion-107-in-fragments-material-ritual.jpg",
+"duration": 35.48,
+"copies": [
+{
+"label": "studio cut (v2)",
+"kind": "canonical",
+"src": "allways-argon/studio/films/SCION_107_In_Fragments_Material_Ritual.mp4",
+"bytes": 1963974,
+"duration": 35.48,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -17.0,
+"peak": 0.1,
+"gain_db": -3.0,
+"silent": false
+}
+]
+},
+{
+"id": "argon-scion-108-johnny-cash-project-collective-frame",
+"run": "allways-argon",
+"family": "scion",
+"key": 108,
+"title": "The Johnny Cash Project — Collective Frame Performance",
+"sub": "Hand-drawn strokes, celluloid frame strips, and diverse visual styles carrying one shared cadence",
+"state": "studio v2",
+"verdict": "pass",
+"case": "allways-argon/studio/cases/SCION_108_Johnny_Cash_Project_Collective_Frame.html",
+"poster": "paeleo/allways/screening/posters/argon-scion-108-johnny-cash-project-collective-frame.jpg",
+"duration": 32.81,
+"copies": [
+{
+"label": "studio cut (v2)",
+"kind": "canonical",
+"src": "allways-argon/studio/films/SCION_108_Johnny_Cash_Project_Collective_Frame.mp4",
+"bytes": 2535923,
+"duration": 32.81,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -14.8,
+"peak": -0.5,
+"gain_db": -5.2,
+"silent": false
+}
+]
+},
+{
+"id": "argon-scion-109-global-remake-distributed-shot-score",
+"run": "allways-argon",
+"family": "scion",
+"key": 109,
+"title": "The Global Remake — Distributed Shot Score",
+"sub": "Re-performing Vertov's Man with a Movie Camera score across disparate decades and amateur cameras",
+"state": "studio v2",
+"verdict": "pass",
+"case": "allways-argon/studio/cases/SCION_109_Global_Remake_Distributed_Shot_Score.html",
+"poster": "paeleo/allways/screening/posters/argon-scion-109-global-remake-distributed-shot-score.jpg",
+"duration": 30.6,
+"copies": [
+{
+"label": "studio cut (v2)",
+"kind": "canonical",
+"src": "allways-argon/studio/films/SCION_109_Global_Remake_Distributed_Shot_Score.mp4",
+"bytes": 2294919,
+"duration": 30.6,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -14.3,
+"peak": 0.5,
+"gain_db": -5.7,
+"silent": false
+}
+]
+},
+{
+"id": "argon-scion-110-sandy-storyline-community-aftermath",
+"run": "allways-argon",
+"family": "scion",
+"key": 110,
+"title": "Sandy Storyline — Storm Event and Continuing Aftermath",
+"sub": "Stay with a community after the storm headline leaves: clouds, flood wreckage, rubble, and repair",
+"state": "studio v2",
+"verdict": "pass",
+"case": "allways-argon/studio/cases/SCION_110_Sandy_Storyline_Community_Aftermath.html",
+"poster": "paeleo/allways/screening/posters/argon-scion-110-sandy-storyline-community-aftermath.jpg",
+"duration": 31.3,
+"copies": [
+{
+"label": "studio cut (v2)",
+"kind": "canonical",
+"src": "allways-argon/studio/films/SCION_110_Sandy_Storyline_Community_Aftermath.mp4",
+"bytes": 2272704,
+"duration": 31.3,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -16.2,
+"peak": -4.0,
+"gain_db": -3.8,
+"silent": false
+}
+]
+},
+{
+"id": "argon-scion-111-18-days-in-egypt-participant-streams",
+"run": "allways-argon",
+"family": "scion",
+"key": 111,
+"title": "18 Days in Egypt — Participant Evidence Streams",
+"sub": "Multiple ground-level camera angles, processions, and night gatherings converging on one civic square",
+"state": "studio v2",
+"verdict": "pass",
+"case": "allways-argon/studio/cases/SCION_111_18_Days_In_Egypt_Participant_Streams.html",
+"poster": "paeleo/allways/screening/posters/argon-scion-111-18-days-in-egypt-participant-streams.jpg",
+"duration": 31.46,
+"copies": [
+{
+"label": "studio cut (v2)",
+"kind": "canonical",
+"src": "allways-argon/studio/films/SCION_111_18_Days_In_Egypt_Participant_Streams.mp4",
+"bytes": 2550349,
+"duration": 31.46,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -15.9,
+"peak": -4.1,
+"gain_db": -4.1,
+"silent": false
+}
+]
+},
+{
+"id": "argon-scion-112-prison-valley-investigative-hub",
+"run": "allways-argon",
+"family": "scion",
+"key": 112,
+"title": "Prison Valley — Investigative Road & Return Hub",
+"sub": "Driving into an industry town, inspecting security perimeters, and returning to the motel hub",
+"state": "studio v2",
+"verdict": "pass",
+"case": "allways-argon/studio/cases/SCION_112_Prison_Valley_Investigative_Hub.html",
+"poster": "paeleo/allways/screening/posters/argon-scion-112-prison-valley-investigative-hub.jpg",
+"duration": 34.76,
+"copies": [
+{
+"label": "studio cut (v2)",
+"kind": "canonical",
+"src": "allways-argon/studio/films/SCION_112_Prison_Valley_Investigative_Hub.mp4",
+"bytes": 2519149,
+"duration": 34.76,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -17.2,
+"peak": -0.3,
+"gain_db": -2.8,
+"silent": false
+}
+]
+},
+{
+"id": "argon-scion-113-learning-to-see-latent-atlas",
+"run": "allways-argon",
+"family": "scion",
+"key": 113,
+"title": "Learning to See — Latent Texture & Cluster Traverse",
+"sub": "Traversing archival water, vapor, cell lattices, and cosmos by visual affinity",
+"state": "studio v2",
+"verdict": "pass",
+"case": "allways-argon/studio/cases/SCION_113_Learning_To_See_Latent_Atlas.html",
+"poster": "paeleo/allways/screening/posters/argon-scion-113-learning-to-see-latent-atlas.jpg",
+"duration": 39.43,
+"copies": [
+{
+"label": "studio cut (v2)",
+"kind": "canonical",
+"src": "allways-argon/studio/films/SCION_113_Learning_To_See_Latent_Atlas.mp4",
+"bytes": 3512379,
+"duration": 39.43,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -17.3,
+"peak": -0.4,
+"gain_db": -2.7,
+"silent": false
+}
+]
+},
+{
+"id": "argon-study-01-latent",
+"run": "allways-argon",
+"family": "other",
+"key": "study-01-latent",
+"title": "LATENT — Navigable Archive Study",
+"sub": "Following modeled relationships across records while keeping coordinate projection distinct from memory",
+"state": "studio v2",
+"verdict": "pass",
+"case": "allways-argon/studio/cases/STUDY_01_Latent.html",
+"poster": "paeleo/allways/screening/posters/argon-study-01-latent.jpg",
+"duration": 31.25,
+"copies": [
+{
+"label": "studio cut (v2)",
+"kind": "canonical",
+"src": "allways-argon/studio/films/STUDY_01_Latent.mp4",
+"bytes": 1920386,
+"duration": 31.25,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -15.9,
+"peak": -2.0,
+"gain_db": -4.1,
+"silent": false
+}
+]
+},
+{
+"id": "argon-study-02-the-vector-poet",
+"run": "allways-argon",
+"family": "other",
+"key": "study-02-the-vector-poet",
+"title": "THE VECTOR POET — Associative Editing Study",
+"sub": "Search proposes visual, sonic, or semantic neighbors; the human editor tests whether the cut holds meaning",
+"state": "studio v2",
+"verdict": "pass",
+"case": "allways-argon/studio/cases/STUDY_02_The_Vector_Poet.html",
+"poster": "paeleo/allways/screening/posters/argon-study-02-the-vector-poet.jpg",
+"duration": 30.88,
+"copies": [
+{
+"label": "studio cut (v2)",
+"kind": "canonical",
+"src": "allways-argon/studio/films/STUDY_02_The_Vector_Poet.mp4",
+"bytes": 2004289,
+"duration": 30.88,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -14.5,
+"peak": -0.5,
+"gain_db": -5.5,
+"silent": false
+}
+]
+},
+{
+"id": "argon-study-03-the-eye-trace-archive",
+"run": "allways-argon",
+"family": "other",
+"key": "study-03-the-eye-trace-archive",
+"title": "THE EYE-TRACE ARCHIVE — Composition & Attention",
+"sub": "Screen-space anchors, peephole apertures, and motion handoffs across cuts without claiming measured gaze",
+"state": "studio v2",
+"verdict": "pass",
+"case": "allways-argon/studio/cases/STUDY_03_The_Eye_Trace_Archive.html",
+"poster": "paeleo/allways/screening/posters/argon-study-03-the-eye-trace-archive.jpg",
+"duration": 29.26,
+"copies": [
+{
+"label": "studio cut (v2)",
+"kind": "canonical",
+"src": "allways-argon/studio/films/STUDY_03_The_Eye_Trace_Archive.mp4",
+"bytes": 1892225,
+"duration": 29.26,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -13.9,
+"peak": -0.4,
+"gain_db": -6.1,
+"silent": false
+}
+]
+},
+{
+"id": "argon-study-04-operative-cinema",
+"run": "allways-argon",
+"family": "other",
+"key": "study-04-operative-cinema",
+"title": "OPERATIVE CINEMA — Archival Bridges",
+"sub": "Bridging documentary endpoints with inspectable optical/material intervals without faking seamless history",
+"state": "studio v2",
+"verdict": "pass",
+"case": "allways-argon/studio/cases/STUDY_04_Operative_Cinema.html",
+"poster": "paeleo/allways/screening/posters/argon-study-04-operative-cinema.jpg",
+"duration": 34.55,
+"copies": [
+{
+"label": "studio cut (v2)",
+"kind": "canonical",
+"src": "allways-argon/studio/films/STUDY_04_Operative_Cinema.mp4",
+"bytes": 2824209,
+"duration": 34.55,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -14.3,
+"peak": -4.5,
+"gain_db": -5.7,
+"silent": false
+}
+]
+},
+{
+"id": "argon-study-05-anyrecord",
+"run": "allways-argon",
+"family": "other",
+"key": "study-05-anyrecord",
+"title": "ANYRECORD — Intake and Catalogue Study",
+"sub": "Equal intake consideration across sideways home movies, photologs, stamps, and studio leaders without false equivalence",
+"state": "studio v2",
+"verdict": "pass",
+"case": "allways-argon/studio/cases/STUDY_05_Anyrecord.html",
+"poster": "paeleo/allways/screening/posters/argon-study-05-anyrecord.jpg",
+"duration": 34.67,
+"copies": [
+{
+"label": "studio cut (v2)",
+"kind": "canonical",
+"src": "allways-argon/studio/films/STUDY_05_Anyrecord.mp4",
+"bytes": 2445410,
+"duration": 34.67,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -16.4,
+"peak": -0.3,
+"gain_db": -3.6,
+"silent": false
+}
+]
+},
+{
+"id": "argon-study-06-doubletake",
+"run": "allways-argon",
+"family": "other",
+"key": "study-06-doubletake",
+"title": "DOUBLETAKE — Comparative Edition Format",
+"sub": "First viewing, alternate cut, and source/derivative comparison with an explicit shared pool",
+"state": "studio v2",
+"verdict": "pass",
+"case": "allways-argon/studio/cases/STUDY_06_Doubletake.html",
+"poster": "paeleo/allways/screening/posters/argon-study-06-doubletake.jpg",
+"duration": 28.84,
+"copies": [
+{
+"label": "studio cut (v2)",
+"kind": "canonical",
+"src": "allways-argon/studio/films/STUDY_06_Doubletake.mp4",
+"bytes": 1319052,
+"duration": 28.84,
+"w": 960,
+"h": 540,
+"fps": 24.0,
+"lufs": -16.1,
+"peak": -1.7,
+"gain_db": -3.9,
+"silent": false
+}
+]
+},
+{
+"id": "sol-55",
+"run": "allways-sol",
+"family": "scion",
+"key": 55,
+"title": "Turn",
+"sub": "A word passes through six archival actions: a page, a body, a tool, a ball and successive participants.",
+"state": "visual-review",
+"verdict": "visual-review",
+"case": "allways-sol/index.html#film055",
+"poster": "allways-sol/films/055/poster.jpg",
+"duration": 47.04,
+"copies": [
+{
+"label": "V04 cut",
+"kind": "canonical",
+"src": "allways-sol/films/055/media/ALLWAYS_055_TURN_V04.mp4",
+"bytes": 16906842,
+"duration": 47.04,
+"w": 960,
+"h": 720,
+"fps": 25.0,
+"lufs": -15.3,
+"peak": -4.2,
+"gain_db": -4.7,
+"silent": false
+}
+]
+},
+{
+"id": "sol-56",
+"run": "allways-sol",
+"family": "scion",
+"key": 56,
+"title": "In Different Hands",
+"sub": "Three pairs shift the relation between self-touch, service, covered fittings and exposed mechanisms.",
+"state": "visual-review",
+"verdict": "visual-review",
+"case": "allways-sol/index.html#film056",
+"poster": "allways-sol/films/056/poster.jpg",
+"duration": 35.0,
+"copies": [
+{
+"label": "V02 cut",
+"kind": "canonical",
+"src": "allways-sol/films/056/media/ALLWAYS_056_IN_DIFFERENT_HANDS_V02.mp4",
+"bytes": 10071744,
+"duration": 35.0,
+"w": 720,
+"h": 1248,
+"fps": 25.0,
+"lufs": -15.8,
+"peak": -4.1,
+"gain_db": -4.2,
+"silent": false
+},
+{
+"label": "sequential control",
+"kind": "comparison",
+"src": "allways-sol/films/056/media/ALLWAYS_056_SEQUENTIAL_CONTROL_V02.mp4",
+"bytes": 9884518,
+"duration": 60.0,
+"w": 720,
+"h": 624,
+"fps": 25.0,
+"lufs": null,
+"peak": null,
+"gain_db": 0.0,
+"silent": true
+}
+]
+},
+{
+"id": "sol-57",
+"run": "allways-sol",
+"family": "scion",
+"key": 57,
+"title": "After",
+"sub": "Six microevents, and the time left after an action has already happened.",
+"state": "visual-review",
+"verdict": "visual-review",
+"case": "allways-sol/index.html#film057",
+"poster": "allways-sol/films/057/poster.jpg",
+"duration": 55.0,
+"copies": [
+{
+"label": "V02 cut",
+"kind": "canonical",
+"src": "allways-sol/films/057/media/ALLWAYS_057_AFTER_V02.mp4",
+"bytes": 15234780,
+"duration": 55.0,
+"w": 960,
+"h": 720,
+"fps": 25.0,
+"lufs": -24.9,
+"peak": -5.4,
+"gain_db": 4.4,
+"silent": false
+},
+{
+"label": "after compressed",
+"kind": "comparison",
+"src": "allways-sol/films/057/media/ALLWAYS_057_AFTER_COMPRESSED_V02.mp4",
+"bytes": 11831129,
+"duration": 43.64,
+"w": 960,
+"h": 720,
+"fps": 25.0,
+"lufs": -24.4,
+"peak": -5.4,
+"gain_db": 4.4,
+"silent": false
+}
+]
+},
+{
+"id": "sol-58",
+"run": "allways-sol",
+"family": "scion",
+"key": 58,
+"title": "Laughs — source studies",
+"sub": "An unfinished search for audible laughter. A context reel and classifier candidate; neither is a finished film or an auditory pass.",
+"state": "unfinished",
+"verdict": "unfinished source study",
+"case": "allways-sol/index.html#film058",
+"poster": "allways-sol/films/058/poster.jpg",
+"duration": 51.0,
+"copies": [
+{
+"label": "source study cut",
+"kind": "canonical",
+"src": "allways-sol/films/058/media/ALLWAYS_058_SOURCE_CONTEXT_REEL.mp4",
+"bytes": 11250770,
+"duration": 51.0,
+"w": 960,
+"h": 720,
+"fps": 25.0,
+"lufs": -22.6,
+"peak": -4.7,
+"gain_db": 2.6,
+"silent": false
+},
+{
+"label": "laughter candidate 319",
+"kind": "comparison",
+"src": "allways-sol/films/058/media/ALLWAYS_058_LAUGHTER_CANDIDATE_319.mp4",
+"bytes": 861789,
+"duration": 6.47,
+"w": 854,
+"h": 480,
+"fps": 29.97,
+"lufs": -24.0,
+"peak": -8.8,
+"gain_db": 4.0,
+"silent": false
+}
+]
+},
+{
+"id": "sol-59",
+"run": "allways-sol",
+"family": "scion",
+"key": 59,
+"title": "Equivalent Radius",
+"sub": "Twelve circular forms meet a common graphic centre. Bread and a moving ball return shape to a practical setting.",
+"state": "visual-review",
+"verdict": "visual-review",
+"case": "allways-sol/index.html#film059",
+"poster": "allways-sol/films/059/poster.jpg",
+"duration": 38.0,
+"copies": [
+{
+"label": "V02 cut",
+"kind": "canonical",
+"src": "allways-sol/films/059/media/ALLWAYS_059_EQUIVALENT_RADIUS_V02.mp4",
+"bytes": 2492412,
+"duration": 38.0,
+"w": 960,
+"h": 720,
+"fps": 30.0,
+"lufs": -34.9,
+"peak": -13.9,
+"gain_db": 12.0,
+"silent": false
+},
+{
+"label": "unregistered control",
+"kind": "comparison",
+"src": "allways-sol/films/059/media/ALLWAYS_059_UNREGISTERED_CONTROL_V02.mp4",
+"bytes": 2372421,
+"duration": 38.0,
+"w": 960,
+"h": 720,
+"fps": 30.0,
+"lufs": -34.9,
+"peak": -13.9,
+"gain_db": 12.0,
+"silent": false
+}
+]
+},
+{
+"id": "sol-60",
+"run": "allways-sol",
+"family": "scion",
+"key": 60,
+"title": "In the Frame",
+"sub": "A restricted view of a staged scene from The Immigrant opens into restraint, money and another person’s response.",
+"state": "visual-review",
+"verdict": "visual-review",
+"case": "allways-sol/index.html#film060",
+"poster": "allways-sol/films/060/poster.jpg",
+"duration": 61.0,
+"copies": [
+{
+"label": "V02 cut",
+"kind": "canonical",
+"src": "allways-sol/films/060/media/ALLWAYS_060_IN_THE_FRAME_V02.mp4",
+"bytes": 14906159,
+"duration": 61.0,
+"w": 960,
+"h": 768,
+"fps": 30.0,
+"lufs": -70.0,
+"peak": null,
+"gain_db": 0.0,
+"silent": true
+},
+{
+"label": "wide opening",
+"kind": "comparison",
+"src": "allways-sol/films/060/media/ALLWAYS_060_WIDE_OPENING_V02.mp4",
+"bytes": 16418478,
+"duration": 61.0,
+"w": 960,
+"h": 768,
+"fps": 30.0,
+"lufs": -70.0,
+"peak": null,
+"gain_db": 0.0,
+"silent": true
+}
+]
+},
+{
+"id": "sol-61",
+"run": "allways-sol",
+"family": "scion",
+"key": 61,
+"title": "What Stays",
+"sub": "Folding, wetting and cutting leave different recorded traces. A comparison asks what these archives can actually establish.",
+"state": "visual-review",
+"verdict": "visual-review",
+"case": "allways-sol/index.html#film061",
+"poster": "allways-sol/films/061/poster.jpg",
+"duration": 50.0,
+"copies": [
+{
+"label": "V03 cut",
+"kind": "canonical",
+"src": "allways-sol/films/061/media/ALLWAYS_061_WHAT_STAYS_V03.mp4",
+"bytes": 11482777,
+"duration": 50.0,
+"w": 960,
+"h": 768,
+"fps": 30.0,
+"lufs": -27.0,
+"peak": -9.6,
+"gain_db": 7.0,
+"silent": false
+},
+{
+"label": "endpoint control",
+"kind": "comparison",
+"src": "allways-sol/films/061/media/ALLWAYS_061_ENDPOINT_CONTROL_V03.mp4",
+"bytes": 1008476,
+"duration": 50.0,
+"w": 960,
+"h": 768,
+"fps": 30.0,
+"lufs": -27.0,
+"peak": -9.6,
+"gain_db": 7.0,
+"silent": false
+}
+]
+},
+{
+"id": "sol-62",
+"run": "allways-sol",
+"family": "scion",
+"key": 62,
+"title": "In Use",
+"sub": "Yellow, blue and red move through a promotional archive, then share a practical pouring setup.",
+"state": "visual-review",
+"verdict": "visual-review",
+"case": "allways-sol/index.html#film062",
+"poster": "allways-sol/films/062/poster.jpg",
+"duration": 60.0,
+"copies": [
+{
+"label": "V02 cut",
+"kind": "canonical",
+"src": "allways-sol/films/062/media/ALLWAYS_062_IN_USE_V02.mp4",
+"bytes": 13934680,
+"duration": 60.0,
+"w": 960,
+"h": 540,
+"fps": 30.0,
+"lufs": -18.8,
+"peak": -6.1,
+"gain_db": -1.2,
+"silent": false
+},
+{
+"label": "picture only",
+"kind": "comparison",
+"src": "allways-sol/films/062/media/ALLWAYS_062_PICTURE_ONLY_V02.mp4",
+"bytes": 12857415,
+"duration": 60.0,
+"w": 960,
+"h": 540,
+"fps": 30.0,
+"lufs": null,
+"peak": null,
+"gain_db": 0.0,
+"silent": true
+}
+]
+},
+{
+"id": "sol-63",
+"run": "allways-sol",
+"family": "scion",
+"key": 63,
+"title": "A Volume of Air",
+"sub": "A human demonstration and an engine-fed cloth volume make air visible through different apparatuses.",
+"state": "visual-review",
+"verdict": "visual-review",
+"case": "allways-sol/index.html#film063",
+"poster": "allways-sol/films/063/poster.jpg",
+"duration": 60.8,
+"copies": [
+{
+"label": "V02 cut",
+"kind": "canonical",
+"src": "allways-sol/films/063/media/ALLWAYS_063_A_VOLUME_OF_AIR_V02.mp4",
+"bytes": 13136812,
+"duration": 60.8,
+"w": 960,
+"h": 768,
+"fps": 30.0,
+"lufs": -16.7,
+"peak": -1.8,
+"gain_db": -3.3,
+"silent": false
+},
+{
+"label": "original scene timing",
+"kind": "comparison",
+"src": "allways-sol/films/063/media/ALLWAYS_063_ORIGINAL_SCENE_TIMING_V02.mp4",
+"bytes": 29660408,
+"duration": 119.5,
+"w": 960,
+"h": 768,
+"fps": 30.0,
+"lufs": -16.6,
+"peak": -1.9,
+"gain_db": -3.4,
+"silent": false
+}
+]
+},
+{
+"id": "sol-64",
+"run": "allways-sol",
+"family": "scion",
+"key": 64,
+"title": "The Curve Is Not the Cause",
+"sub": "Fabric, a camera-followed diver and a steel curl share outlines without sharing a generating cause.",
+"state": "visual-review",
+"verdict": "visual-review",
+"case": "allways-sol/index.html#film064",
+"poster": "allways-sol/films/064/poster.jpg",
+"duration": 60.0,
+"copies": [
+{
+"label": "V04 cut",
+"kind": "canonical",
+"src": "allways-sol/films/064/media/ALLWAYS_064_THE_CURVE_IS_NOT_THE_CAUSE_V04.mp4",
+"bytes": 8914903,
+"duration": 60.0,
+"w": 960,
+"h": 720,
+"fps": 30.0,
+"lufs": -30.3,
+"peak": -15.0,
+"gain_db": 10.3,
+"silent": false
+}
+]
+},
+{
+"id": "sol-65",
+"run": "allways-sol",
+"family": "scion",
+"key": 65,
+"title": "Five Records",
+"sub": "Five observable practices become five records, without turning anonymous figures into invented biographies.",
+"state": "visual-review",
+"verdict": "visual-review",
+"case": "allways-sol/index.html#film065",
+"poster": "allways-sol/films/065/poster.jpg",
+"duration": 100.0,
+"copies": [
+{
+"label": "V02 cut",
+"kind": "canonical",
+"src": "allways-sol/films/065/media/ALLWAYS_065_FIVE_RECORDS_V02.mp4",
+"bytes": 12785563,
+"duration": 100.0,
+"w": 960,
+"h": 720,
+"fps": 30.0,
+"lufs": -21.3,
+"peak": -7.2,
+"gain_db": 1.3,
+"silent": false
+},
+{
+"label": "individual passages",
+"kind": "comparison",
+"src": "allways-sol/films/065/media/ALLWAYS_065_INDIVIDUAL_PASSAGES_V02.mp4",
+"bytes": 14661903,
+"duration": 88.0,
+"w": 960,
+"h": 720,
+"fps": 30.0,
+"lufs": -20.9,
+"peak": -7.2,
+"gain_db": 0.9,
+"silent": false
+}
+]
+},
+{
+"id": "sol-66",
+"run": "allways-sol",
+"family": "scion",
+"key": 66,
+"title": "Eight Places",
+"sub": "Eight symbols become eight source actions through repeated slots and gradual replacement. A shuffled control tests the ordering.",
+"state": "visual-review",
+"verdict": "visual-review",
+"case": "allways-sol/index.html#film066",
+"poster": "allways-sol/films/066/poster.jpg",
+"duration": 74.6,
+"copies": [
+{
+"label": "V01 cut",
+"kind": "canonical",
+"src": "allways-sol/films/066/media/ALLWAYS_066_EIGHT_PLACES_V01.mp4",
+"bytes": 9939777,
+"duration": 74.6,
+"w": 960,
+"h": 720,
+"fps": 30.0,
+"lufs": -20.7,
+"peak": -8.6,
+"gain_db": 0.7,
+"silent": false
+},
+{
+"label": "shuffled control",
+"kind": "comparison",
+"src": "allways-sol/films/066/media/ALLWAYS_066_SHUFFLED_CONTROL_V01.mp4",
+"bytes": 9897498,
+"duration": 74.6,
+"w": 960,
+"h": 720,
+"fps": 30.0,
+"lufs": -20.7,
+"peak": -8.6,
+"gain_db": 0.7,
+"silent": false
+}
+]
+},
+{
+"id": "sol-67",
+"run": "allways-sol",
+"family": "scion",
+"key": 67,
+"title": "What Arrives Next",
+"sub": "Four archive frames meet descriptions of what comes next; a synchronized comparison tests the mismatch.",
+"state": "visual-review",
+"verdict": "visual-review",
+"case": "allways-sol/index.html#film067",
+"poster": "allways-sol/films/067/poster.jpg",
+"duration": 90.0,
+"copies": [
+{
+"label": "V03 cut",
+"kind": "canonical",
+"src": "allways-sol/films/067/media/ALLWAYS_067_WHAT_ARRIVES_NEXT_V03.mp4",
+"bytes": 1615905,
+"duration": 90.0,
+"w": 960,
+"h": 720,
+"fps": 30.0,
+"lufs": -19.0,
+"peak": -8.8,
+"gain_db": -1.0,
+"silent": false
+},
+{
+"label": "synchronized control",
+"kind": "comparison",
+"src": "allways-sol/films/067/media/ALLWAYS_067_SYNCHRONIZED_CONTROL_V03.mp4",
+"bytes": 1617415,
+"duration": 90.0,
+"w": 960,
+"h": 720,
+"fps": 30.0,
+"lufs": -18.9,
+"peak": -8.1,
+"gain_db": -1.1,
+"silent": false
+}
+]
+},
+{
+"id": "sol-68",
+"run": "allways-sol",
+"family": "scion",
+"key": 68,
+"title": "One Fold, a Room",
+"sub": "A carton fold opens into a newly drawn workshop model at three scales, then returns to the recorded folding task.",
+"state": "visual-review",
+"verdict": "visual-review",
+"case": "allways-sol/index.html#film068",
+"poster": "allways-sol/films/068/poster.jpg",
+"duration": 74.0,
+"copies": [
+{
+"label": "V01 cut",
+"kind": "canonical",
+"src": "allways-sol/films/068/media/ALLWAYS_068_ONE_FOLD_A_ROOM_V01.mp4",
+"bytes": 6159687,
+"duration": 74.0,
+"w": 960,
+"h": 720,
+"fps": 30.0,
+"lufs": -70.0,
+"peak": null,
+"gain_db": 0.0,
+"silent": true
+}
+]
+},
+{
+"id": "sol-69",
+"run": "allways-sol",
+"family": "scion",
+"key": 69,
+"title": "It Must Be Connected",
+"sub": "A mechanism, a projector, a door and an audience invite a relation that the wider source revises.",
+"state": "visual-review",
+"verdict": "visual-review",
+"case": "allways-sol/index.html#film069",
+"poster": "allways-sol/films/069/poster.jpg",
+"duration": 70.0,
+"copies": [
+{
+"label": "V02 cut",
+"kind": "canonical",
+"src": "allways-sol/films/069/media/ALLWAYS_069_IT_MUST_BE_CONNECTED_V02.mp4",
+"bytes": 10545490,
+"duration": 70.0,
+"w": 960,
+"h": 720,
+"fps": 30.0,
+"lufs": -30.9,
+"peak": -17.5,
+"gain_db": 10.9,
+"silent": false
+},
+{
+"label": "long interruption",
+"kind": "comparison",
+"src": "allways-sol/films/069/media/ALLWAYS_069_LONG_INTERRUPTION_V02.mp4",
+"bytes": 10637654,
+"duration": 74.0,
+"w": 960,
+"h": 720,
+"fps": 30.0,
+"lufs": -30.9,
+"peak": -17.5,
+"gain_db": 10.9,
+"silent": false
+}
+]
+},
+{
+"id": "sol-70",
+"run": "allways-sol",
+"family": "scion",
+"key": 70,
+"title": "Same Day, Different Records",
+"sub": "Dated Apollo 11 photographs meet public-affairs commentary, an editorial loop and a declared selection limit.",
+"state": "visual-review",
+"verdict": "visual-review",
+"case": "allways-sol/index.html#film070",
+"poster": "allways-sol/films/070/poster.jpg",
+"duration": 90.0,
+"copies": [
+{
+"label": "V02 cut",
+"kind": "canonical",
+"src": "allways-sol/films/070/media/ALLWAYS_070_SAME_DAY_DIFFERENT_RECORDS_V02.mp4",
+"bytes": 2864253,
+"duration": 90.0,
+"w": 960,
+"h": 720,
+"fps": 30.0,
+"lufs": -16.6,
+"peak": -2.9,
+"gain_db": -3.4,
+"silent": false
+},
+{
+"label": "original context",
+"kind": "comparison",
+"src": "allways-sol/films/070/media/ALLWAYS_070_ORIGINAL_CONTEXT_V02.mp4",
+"bytes": 1773516,
+"duration": 60.0,
+"w": 960,
+"h": 720,
+"fps": 30.0,
+"lufs": -16.8,
+"peak": -2.9,
+"gain_db": -3.2,
+"silent": false
+}
+]
+},
+{
+"id": "sol-71",
+"run": "allways-sol",
+"family": "scion",
+"key": 71,
+"title": "A File Has Edges",
+"sub": "A source image, a crop and a sampled derivative make the editorial decision visible on a virtual table.",
+"state": "visual-review",
+"verdict": "visual-review",
+"case": "allways-sol/index.html#film071",
+"poster": "allways-sol/films/071/poster.jpg",
+"duration": 90.0,
+"copies": [
+{
+"label": "V02 cut",
+"kind": "canonical",
+"src": "allways-sol/films/071/media/ALLWAYS_071_A_FILE_HAS_EDGES_V02.mp4",
+"bytes": 6840423,
+"duration": 90.0,
+"w": 960,
+"h": 720,
+"fps": 30.0,
+"lufs": -18.8,
+"peak": -8.5,
+"gain_db": -1.2,
+"silent": false
+}
+]
+},
+{
+"id": "sol-72",
+"run": "allways-sol",
+"family": "scion",
+"key": 72,
+"title": "Keep It",
+"sub": "A drawn puppet follows signs, accumulates creases, then keeps its fold and turns the tray over.",
+"state": "visual-review",
+"verdict": "visual-review",
+"case": "allways-sol/index.html#film072",
+"poster": "allways-sol/films/072/poster.jpg",
+"duration": 60.0,
+"copies": [
+{
+"label": "V01 cut",
+"kind": "canonical",
+"src": "allways-sol/films/072/media/ALLWAYS_072_KEEP_IT_V01.mp4",
+"bytes": 2486918,
+"duration": 60.0,
+"w": 960,
+"h": 720,
+"fps": 30.0,
+"lufs": -28.4,
+"peak": -20.0,
+"gain_db": 8.4,
+"silent": false
+}
+]
+},
+{
+"id": "sol-73",
+"run": "allways-sol",
+"family": "scion",
+"key": 73,
+"title": "The Entrance Has Moved",
+"sub": "Five fictional maps send a drawn delivery route through contradiction, a backtrack and an omitted entrance.",
+"state": "visual-review",
+"verdict": "visual-review",
+"case": "allways-sol/index.html#film073",
+"poster": "allways-sol/films/073/poster.jpg",
+"duration": 90.0,
+"copies": [
+{
+"label": "V02 cut",
+"kind": "canonical",
+"src": "allways-sol/films/073/media/ALLWAYS_073_THE_ENTRANCE_HAS_MOVED_V02.mp4",
+"bytes": 6571429,
+"duration": 90.0,
+"w": 960,
+"h": 720,
+"fps": 30.0,
+"lufs": -18.7,
+"peak": -7.6,
+"gain_db": -1.3,
+"silent": false
+}
+]
+},
+{
+"id": "sol-74",
+"run": "allways-sol",
+"family": "scion",
+"key": 74,
+"title": "The Missing Minute",
+"sub": "Six fictional directory records disagree about a broken cup, missing clock hands and who could have witnessed what.",
+"state": "visual-review",
+"verdict": "visual-review",
+"case": "allways-sol/index.html#film074",
+"poster": "allways-sol/films/074/poster.jpg",
+"duration": 110.0,
+"copies": [
+{
+"label": "V02 cut",
+"kind": "canonical",
+"src": "allways-sol/films/074/media/ALLWAYS_074_THE_MISSING_MINUTE_V02.mp4",
+"bytes": 1920167,
+"duration": 110.0,
+"w": 960,
+"h": 720,
+"fps": 30.0,
+"lufs": -19.0,
+"peak": -7.0,
+"gain_db": -1.0,
+"silent": false
+}
+]
+},
+{
+"id": "sol-75",
+"run": "allways-sol",
+"family": "scion",
+"key": 75,
+"title": "Within Reach",
+"sub": "Two home-movie records compare reaching, offered objects and adult support without a developmental ranking.",
+"state": "visual-review",
+"verdict": "visual-review",
+"case": "allways-sol/index.html#film075",
+"poster": "allways-sol/films/075/poster.jpg",
+"duration": 90.0,
+"copies": [
+{
+"label": "V01 cut",
+"kind": "canonical",
+"src": "allways-sol/films/075/media/ALLWAYS_075_WITHIN_REACH_V01.mp4",
+"bytes": 19812336,
+"duration": 90.0,
+"w": 960,
+"h": 720,
+"fps": 30.0,
+"lufs": -70.0,
+"peak": null,
+"gain_db": 0.0,
+"silent": true
+},
+{
+"label": "source passages",
+"kind": "comparison",
+"src": "allways-sol/films/075/media/ALLWAYS_075_SOURCE_PASSAGES_V01.mp4",
+"bytes": 20865722,
+"duration": 95.0,
+"w": 960,
+"h": 720,
+"fps": 30.0,
+"lufs": -70.0,
+"peak": null,
+"gain_db": 0.0,
+"silent": true
+}
+]
+},
+{
+"id": "sol-76",
+"run": "allways-sol",
+"family": "scion",
+"key": 76,
+"title": "Two Public Edges",
+"sub": "World’s Fair and parade footage compare public performance, spectators and the camera’s position.",
+"state": "visual-review",
+"verdict": "visual-review",
+"case": "allways-sol/index.html#film076",
+"poster": "allways-sol/films/076/poster.jpg",
+"duration": 120.0,
+"copies": [
+{
+"label": "V01 cut",
+"kind": "canonical",
+"src": "allways-sol/films/076/media/ALLWAYS_076_TWO_PUBLIC_EDGES_V01.mp4",
+"bytes": 36870434,
+"duration": 120.0,
+"w": 960,
+"h": 720,
+"fps": 30.0,
+"lufs": -70.0,
+"peak": null,
+"gain_db": 0.0,
+"silent": true
+},
+{
+"label": "local records",
+"kind": "comparison",
+"src": "allways-sol/films/076/media/ALLWAYS_076_LOCAL_RECORDS_V01.mp4",
+"bytes": 36870077,
+"duration": 120.0,
+"w": 960,
+"h": 720,
+"fps": 30.0,
+"lufs": -70.0,
+"peak": null,
+"gain_db": 0.0,
+"silent": true
+}
+]
+},
+{
+"id": "sol-77",
+"run": "allways-sol",
+"family": "scion",
+"key": 77,
+"title": "Rows and Flocks",
+"sub": "Human planting and bird-flock fields alternate: deliberate spacing, changing density and a return to work.",
+"state": "visual-review",
+"verdict": "visual-review",
+"case": "allways-sol/index.html#film077",
+"poster": "allways-sol/films/077/poster.jpg",
+"duration": 80.0,
+"copies": [
+{
+"label": "V01 cut",
+"kind": "canonical",
+"src": "allways-sol/films/077/media/ALLWAYS_077_ROWS_AND_FLOCKS_V01.mp4",
+"bytes": 33722190,
+"duration": 80.0,
+"w": 960,
+"h": 720,
+"fps": 30.0,
+"lufs": -30.6,
+"peak": -26.9,
+"gain_db": 10.6,
+"silent": false
+},
+{
+"label": "unscored",
+"kind": "comparison",
+"src": "allways-sol/films/077/media/ALLWAYS_077_UNSCORED_V01.mp4",
+"bytes": 33446860,
+"duration": 80.0,
+"w": 960,
+"h": 720,
+"fps": 30.0,
+"lufs": -70.0,
+"peak": null,
+"gain_db": 0.0,
+"silent": true
+}
+]
+},
+{
+"id": "sol-78",
+"run": "allways-sol",
+"family": "scion",
+"key": 78,
+"title": "A Form, Then a Page",
+"sub": "A printing form returns as a comparison with a lifted printed page. The source cut and the missing material cycle stay visible.",
+"state": "visual-review",
+"verdict": "visual-review",
+"case": "allways-sol/index.html#film078",
+"poster": "allways-sol/films/078/poster.jpg",
+"duration": 120.0,
+"copies": [
+{
+"label": "V02 cut",
+"kind": "canonical",
+"src": "allways-sol/films/078/media/ALLWAYS_078_A_FORM_THEN_A_PAGE_V02.mp4",
+"bytes": 27455665,
+"duration": 120.0,
+"w": 960,
+"h": 720,
+"fps": 30.0,
+"lufs": -32.3,
+"peak": -26.7,
+"gain_db": 12.0,
+"silent": false
+},
+{
+"label": "source contexts",
+"kind": "comparison",
+"src": "allways-sol/films/078/media/ALLWAYS_078_SOURCE_CONTEXTS_V02.mp4",
+"bytes": 22871726,
+"duration": 86.0,
+"w": 960,
+"h": 720,
+"fps": 30.0,
+"lufs": -70.0,
+"peak": null,
+"gain_db": 0.0,
+"silent": true
+}
+]
+},
+{
+"id": "sonnet-55",
+"run": "allways-sonnet",
+"family": "scion",
+"key": 55,
+"title": "Words",
+"sub": "",
+"state": "proof in progress",
+"verdict": "critic: pass (qualified) · repaired",
+"case": "allways-sonnet/055-words/",
+"poster": "allways-sonnet/055-words/poster.jpg",
+"duration": 44.79,
+"copies": [
+{
+"label": "current cut",
+"kind": "canonical",
+"src": "allways-sonnet/055-words/055-words.mp4",
+"bytes": 3879494,
+"duration": 44.79,
+"w": 640,
+"h": 480,
+"fps": 24.0,
+"lufs": -32.4,
+"peak": -18.4,
+"gain_db": 12.0,
+"silent": false
+},
+{
+"label": "alt",
+"kind": "comparison",
+"src": "allways-sonnet/055-words/055-words-alt.mp4",
+"bytes": 4537266,
+"duration": 53.79,
+"w": 640,
+"h": 480,
+"fps": 24.0,
+"lufs": -32.4,
+"peak": -18.4,
+"gain_db": 12.0,
+"silent": false
+}
+]
+},
+{
+"id": "sonnet-56",
+"run": "allways-sonnet",
+"family": "scion",
+"key": 56,
+"title": "Symmetry",
+"sub": "",
+"state": "proof in progress",
+"verdict": "critic review pending",
+"case": "allways-sonnet/056-symmetry/",
+"poster": "allways-sonnet/056-symmetry/poster.jpg",
+"duration": 53.92,
+"copies": [
+{
+"label": "current cut",
+"kind": "canonical",
+"src": "allways-sonnet/056-symmetry/056-symmetry.mp4",
+"bytes": 2614436,
+"duration": 53.92,
+"w": 640,
+"h": 480,
+"fps": 24.0,
+"lufs": -12.7,
+"peak": 0.0,
+"gain_db": -7.3,
+"silent": false
+},
+{
+"label": "alt",
+"kind": "comparison",
+"src": "allways-sonnet/056-symmetry/056-symmetry-alt.mp4",
+"bytes": 4849855,
+"duration": 96.31,
+"w": 640,
+"h": 480,
+"fps": 24.0,
+"lufs": -13.7,
+"peak": 0.2,
+"gain_db": -6.3,
+"silent": false
+}
+]
+},
+{
+"id": "sonnet-57",
+"run": "allways-sonnet",
+"family": "scion",
+"key": 57,
+"title": "Moments",
+"sub": "",
+"state": "proof in progress",
+"verdict": "critic: inconclusive",
+"case": "allways-sonnet/057-moments/",
+"poster": "allways-sonnet/057-moments/poster.jpg",
+"duration": 52.88,
+"copies": [
+{
+"label": "current cut",
+"kind": "canonical",
+"src": "allways-sonnet/057-moments/057-moments.mp4",
+"bytes": 3384638,
+"duration": 52.88,
+"w": 640,
+"h": 480,
+"fps": 24.0,
+"lufs": -45.4,
+"peak": -18.7,
+"gain_db": 12.0,
+"silent": false
+},
+{
+"label": "alt",
+"kind": "comparison",
+"src": "allways-sonnet/057-moments/057-moments-alt.mp4",
+"bytes": 2477564,
+"duration": 37.42,
+"w": 640,
+"h": 480,
+"fps": 24.0,
+"lufs": -44.7,
+"peak": -18.4,
+"gain_db": 12.0,
+"silent": false
+}
+]
+},
+{
+"id": "sonnet-58",
+"run": "allways-sonnet",
+"family": "scion",
+"key": 58,
+"title": "Laughs",
+"sub": "",
+"state": "proof in progress",
+"verdict": "critic: inconclusive · ethics review open · repaired",
+"case": "allways-sonnet/058-laughs/",
+"poster": "allways-sonnet/058-laughs/poster.jpg",
+"duration": 37.22,
+"copies": [
+{
+"label": "current cut",
+"kind": "canonical",
+"src": "allways-sonnet/058-laughs/058-laughs.mp4",
+"bytes": 3191418,
+"duration": 37.22,
+"w": 640,
+"h": 480,
+"fps": 24.0,
+"lufs": -29.0,
+"peak": -13.7,
+"gain_db": 9.0,
+"silent": false
+},
+{
+"label": "alt",
+"kind": "comparison",
+"src": "allways-sonnet/058-laughs/058-laughs-alt.mp4",
+"bytes": 3759161,
+"duration": 44.25,
+"w": 640,
+"h": 480,
+"fps": 24.0,
+"lufs": -31.9,
+"peak": -13.7,
+"gain_db": 11.9,
+"silent": false
+},
+{
+"label": "context",
+"kind": "comparison",
+"src": "allways-sonnet/058-laughs/058-laughs-context.mp4",
+"bytes": 4667111,
+"duration": 87.57,
+"w": 640,
+"h": 480,
+"fps": 24.0,
+"lufs": -30.3,
+"peak": -14.0,
+"gain_db": 10.3,
+"silent": false
+}
+]
+},
+{
+"id": "sonnet-59",
+"run": "allways-sonnet",
+"family": "scion",
+"key": 59,
+"title": "Ball",
+"sub": "",
+"state": "proof in progress",
+"verdict": "critic: pass · repaired",
+"case": "allways-sonnet/059-ball/",
+"poster": "allways-sonnet/059-ball/poster.jpg",
+"duration": 42.83,
+"copies": [
+{
+"label": "current cut",
+"kind": "canonical",
+"src": "allways-sonnet/059-ball/059-ball.mp4",
+"bytes": 1975576,
+"duration": 42.83,
+"w": 640,
+"h": 480,
+"fps": 24.0,
+"lufs": -22.9,
+"peak": -4.3,
+"gain_db": 2.9,
+"silent": false
+},
+{
+"label": "control",
+"kind": "comparison",
+"src": "allways-sonnet/059-ball/059-ball-control.mp4",
+"bytes": 2409786,
+"duration": 42.83,
+"w": 640,
+"h": 480,
+"fps": 24.0,
+"lufs": -22.9,
+"peak": -4.3,
+"gain_db": 2.9,
+"silent": false
+}
+]
+},
+{
+"id": "sonnet-60",
+"run": "allways-sonnet",
+"family": "scion",
+"key": 60,
+"title": "Losers",
+"sub": "",
+"state": "proof in progress",
+"verdict": "critic review pending · staged 1953 source",
+"case": "allways-sonnet/060-losers/",
+"poster": "allways-sonnet/060-losers/poster.jpg",
+"duration": 36.73,
+"copies": [
+{
+"label": "current cut",
+"kind": "canonical",
+"src": "allways-sonnet/060-losers/060-losers.mp4",
+"bytes": 3074384,
+"duration": 36.73,
+"w": 640,
+"h": 480,
+"fps": 24.0,
+"lufs": -22.0,
+"peak": -8.5,
+"gain_db": 2.0,
+"silent": false
+},
+{
+"label": "wide",
+"kind": "comparison",
+"src": "allways-sonnet/060-losers/060-losers-wide.mp4",
+"bytes": 3129748,
+"duration": 39.73,
+"w": 640,
+"h": 480,
+"fps": 24.0,
+"lufs": -22.1,
+"peak": -8.5,
+"gain_db": 2.1,
+"silent": false
+}
+]
+},
+{
+"id": "sonnet-61",
+"run": "allways-sonnet",
+"family": "scion",
+"key": 61,
+"title": "Matter",
+"sub": "",
+"state": "proof in progress",
+"verdict": "critic: inconclusive · diagram now labelled",
+"case": "allways-sonnet/061-matter/",
+"poster": "allways-sonnet/061-matter/poster.jpg",
+"duration": 64.6,
+"copies": [
+{
+"label": "current cut",
+"kind": "canonical",
+"src": "allways-sonnet/061-matter/061-matter.mp4",
+"bytes": 4691328,
+"duration": 64.6,
+"w": 640,
+"h": 480,
+"fps": 24.0,
+"lufs": -70.0,
+"peak": null,
+"gain_db": 0.0,
+"silent": true
+},
+{
+"label": "alt sourcesound",
+"kind": "comparison",
+"src": "allways-sonnet/061-matter/061-matter-alt-sourcesound.mp4",
+"bytes": 5499474,
+"duration": 64.6,
+"w": 640,
+"h": 480,
+"fps": 24.0,
+"lufs": -28.1,
+"peak": -13.5,
+"gain_db": 8.1,
+"silent": false
+}
+]
+},
+{
+"id": "sonnet-62",
+"run": "allways-sonnet",
+"family": "scion",
+"key": 62,
+"title": "Colors",
+"sub": "",
+"state": "proof in progress",
+"verdict": "critic: pass (qualified)",
+"case": "allways-sonnet/062-colors/",
+"poster": "allways-sonnet/062-colors/poster.jpg",
+"duration": 50.17,
+"copies": [
+{
+"label": "current cut",
+"kind": "canonical",
+"src": "allways-sonnet/062-colors/062-colors.mp4",
+"bytes": 5230851,
+"duration": 50.17,
+"w": 640,
+"h": 480,
+"fps": 24.0,
+"lufs": -24.0,
+"peak": -8.4,
+"gain_db": 4.0,
+"silent": false
+},
+{
+"label": "alt silent",
+"kind": "comparison",
+"src": "allways-sonnet/062-colors/062-colors-alt-silent.mp4",
+"bytes": 4613102,
+"duration": 50.17,
+"w": 640,
+"h": 480,
+"fps": 24.0,
+"lufs": -70.0,
+"peak": null,
+"gain_db": 0.0,
+"silent": true
+}
+]
+},
+{
+"id": "sonnet-63",
+"run": "allways-sonnet",
+"family": "scion",
+"key": 63,
+"title": "Breath",
+"sub": "",
+"state": "proof in progress",
+"verdict": "critic: fail · v2 needs new footage",
+"case": "allways-sonnet/063-breath/",
+"poster": "allways-sonnet/063-breath/poster.jpg",
+"duration": 57.43,
+"copies": [
+{
+"label": "current cut",
+"kind": "canonical",
+"src": "allways-sonnet/063-breath/063-breath.mp4",
+"bytes": 2937543,
+"duration": 57.43,
+"w": 640,
+"h": 480,
+"fps": 24.0,
+"lufs": -22.1,
+"peak": -9.4,
+"gain_db": 2.1,
+"silent": false
+},
+{
+"label": "context",
+"kind": "comparison",
+"src": "allways-sonnet/063-breath/063-breath-context.mp4",
+"bytes": 3057434,
+"duration": 107.31,
+"w": 640,
+"h": 480,
+"fps": 24.0,
+"lufs": -20.5,
+"peak": -2.8,
+"gain_db": 0.5,
+"silent": false
+}
+]
+},
+{
+"id": "sonnet-64",
+"run": "allways-sonnet",
+"family": "scion",
+"key": 64,
+"title": "Parabolas",
+"sub": "",
+"state": "proof in progress",
+"verdict": "critic: pass",
+"case": "allways-sonnet/064-parabolas/",
+"poster": "allways-sonnet/064-parabolas/poster.jpg",
+"duration": 53.68,
+"copies": [
+{
+"label": "current cut",
+"kind": "canonical",
+"src": "allways-sonnet/064-parabolas/064-parabolas.mp4",
+"bytes": 3831618,
+"duration": 53.68,
+"w": 640,
+"h": 480,
+"fps": 24.0,
+"lufs": -22.9,
+"peak": -10.4,
+"gain_db": 2.9,
+"silent": false
+},
+{
+"label": "noguides",
+"kind": "comparison",
+"src": "allways-sonnet/064-parabolas/064-parabolas-noguides.mp4",
+"bytes": 4078986,
+"duration": 53.68,
+"w": 640,
+"h": 480,
+"fps": 24.0,
+"lufs": -22.9,
+"peak": -10.4,
+"gain_db": 2.9,
+"silent": false
+}
+]
+},
+{
+"id": "sonnet-65",
+"run": "allways-sonnet",
+"family": "scion",
+"key": 65,
+"title": "Five",
+"sub": "",
+"state": "proof in progress",
+"verdict": "critic review pending",
+"case": "allways-sonnet/065-five/",
+"poster": "allways-sonnet/065-five/poster.jpg",
+"duration": 67.62,
+"copies": [
+{
+"label": "current cut",
+"kind": "canonical",
+"src": "allways-sonnet/065-five/065-five.mp4",
+"bytes": 4133555,
+"duration": 67.62,
+"w": 640,
+"h": 480,
+"fps": 24.0,
+"lufs": -21.4,
+"peak": -3.5,
+"gain_db": 1.4,
+"silent": false
+},
+{
+"label": "alt",
+"kind": "comparison",
+"src": "allways-sonnet/065-five/065-five-alt.mp4",
+"bytes": 4181185,
+"duration": 68.42,
+"w": 640,
+"h": 480,
+"fps": 24.0,
+"lufs": -21.4,
+"peak": -3.5,
+"gain_db": 1.4,
+"silent": false
+}
+]
+}
+]
+}
