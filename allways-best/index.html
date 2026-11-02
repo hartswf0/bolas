@@ -1,0 +1,872 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>ALLWAYS — Cinema from the Rest of the Frame · Anthology Master Film</title>
+<meta name="description" content="The single flagship ALLWAYS synthesis film: twenty-four critic-protected archival passages hand-cut across Claude Opus 5.5, Gemini Argon, OpenAI Sol, and Claude Sonnet.">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../tools/paeleo/fonts/local.css">
+<link rel="stylesheet" href="../paeleo/allways/allways.css">
+<style>
+:root {
+  --bg: #f4f1e9;
+  --ink: #161513;
+  --muted: #5d584f;
+  --line: #d6cfc2;
+  --card: #ebe6da;
+  --accent: #9e3b24;
+}
+.best-wrap { max-width: 1120px; margin: 0 auto; padding: 0 20px 80px; }
+.best-hero { padding: 28px 0 20px; border-bottom: 1px solid var(--line); }
+.best-hero h1 { font-size: clamp(28px, 4.5vw, 48px); line-height: 1.06; margin: 8px 0 12px; letter-spacing: -0.02em; }
+.best-hero .lede { font-size: clamp(16px, 2vw, 20px); max-width: 780px; color: var(--ink); line-height: 1.48; }
+.maker-legend { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; font-family: var(--mono, monospace); font-size: 12px; }
+.maker-pill { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 3px; background: var(--card); border: 1px solid var(--line); }
+.maker-dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
+
+.screening-dock {
+  position: sticky; top: 0; z-index: 40;
+  background: #12110f; color: #f4f1e9;
+  border-radius: 6px; overflow: hidden;
+  margin: 20px 0 28px;
+  box-shadow: 0 12px 32px rgba(0,0,0,0.22);
+}
+.screening-dock video { width: 100%; aspect-ratio: 16 / 9; display: block; background: #000; max-height: 62vh; }
+.dock-bar { padding: 10px 14px 12px; background: #181613; border-top: 1px solid #2d2a24; }
+.timeline-track { position: relative; height: 14px; background: #2a2722; border-radius: 3px; overflow: hidden; margin-bottom: 8px; }
+.t-seg { position: absolute; top: 0; bottom: 0; border: 0; border-right: 1px solid #12110f; cursor: pointer; opacity: 0.88; padding: 0; }
+.t-seg:hover { opacity: 1; transform: scaleY(1.15); }
+.dock-telemetry { display: flex; justify-content: space-between; align-items: center; gap: 12px; font-family: var(--mono, monospace); font-size: 12px; color: #d8d2c5; flex-wrap: wrap; }
+.dock-telemetry b { color: #fff; }
+
+.movement { padding: 32px 0 16px; border-top: 1px solid var(--line); }
+.movement-head { margin-bottom: 20px; }
+.movement-head h2 { font-size: clamp(22px, 3vw, 32px); margin: 4px 0 8px; }
+.movement-head blockquote { margin: 0; padding-left: 14px; border-left: 2px solid var(--accent); color: var(--muted); font-style: italic; font-size: 16px; line-height: 1.5; }
+
+.shot-list { display: grid; grid-template-columns: 1fr; gap: 16px; }
+.shot-card {
+  display: grid; grid-template-columns: 320px 1fr; gap: 18px;
+  background: var(--card); border: 1px solid var(--line); border-radius: 5px; overflow: hidden;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.shot-card.active-cut { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(158,59,36,0.25); }
+.shot-media { position: relative; cursor: pointer; background: #000; }
+.shot-media img { width: 100%; height: 100%; object-fit: cover; display: block; aspect-ratio: 16 / 9; }
+.play-pill {
+  position: absolute; bottom: 8px; left: 8px;
+  background: rgba(16,15,13,0.86); color: #f4f1e9;
+  font-family: var(--mono, monospace); font-size: 11px; padding: 4px 8px; border-radius: 3px;
+}
+.shot-body { padding: 14px 16px 14px 0; display: flex; flex-direction: column; gap: 6px; }
+.shot-meta { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; font-family: var(--mono, monospace); font-size: 11px; }
+.maker-badge { color: #fff; padding: 2px 7px; border-radius: 2px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; }
+.film-link { color: var(--ink); font-weight: 600; text-decoration: underline; }
+.scion-tag { color: var(--muted); }
+.verdict-tag { background: #dfd8c8; color: #2a4d36; padding: 2px 6px; border-radius: 2px; font-weight: 600; }
+.shot-body h3 { margin: 2px 0; font-size: 18px; line-height: 1.25; }
+.shot-body h3 .year { color: var(--muted); font-weight: 400; font-size: 15px; }
+.shot-body p { margin: 0; font-size: 14px; line-height: 1.48; color: #262420; }
+.shot-foot { margin-top: auto; padding-top: 8px; border-top: 1px dashed var(--line); display: flex; flex-wrap: wrap; gap: 14px; font-family: var(--mono, monospace); font-size: 11px; color: var(--muted); }
+.shot-foot a { color: var(--ink); margin-left: auto; }
+
+.proof-section { margin-top: 40px; padding-top: 28px; border-top: 1px solid var(--line); }
+.proof-section img { width: 100%; height: auto; border-radius: 4px; border: 1px solid var(--line); margin-top: 12px; }
+.prompt-box { background: #181613; color: #ebe6da; padding: 18px; border-radius: 5px; overflow-x: auto; font-family: var(--mono, monospace); font-size: 12.5px; line-height: 1.55; margin-top: 12px; white-space: pre-wrap; }
+.btn-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
+.btn-copy { background: var(--ink); color: var(--bg); border: 0; padding: 9px 16px; font-family: var(--mono, monospace); font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; border-radius: 3px; cursor: pointer; text-decoration: none; display: inline-block; }
+.btn-copy.alt { background: var(--card); color: var(--ink); border: 1px solid var(--line); }
+
+@media (max-width: 760px) {
+  .shot-card { grid-template-columns: 1fr; gap: 0; }
+  .shot-body { padding: 12px 14px; }
+  .screening-dock { margin: 12px -12px 20px; border-radius: 0; }
+}
+</style>
+</head>
+<body id="top">
+<header class="site-header">
+  <div class="wrap sitebar">
+    <div class="parents">
+      <a href="../">CRASH LAB</a><span>/</span>
+      <a href="../paeleo/">PAELEO</a><span>/</span>
+      <a href="../paeleo/allways/">ALLWAYS</a><span>/</span>
+      <strong>allways-best</strong>
+    </div>
+    <nav aria-label="ALLWAYS">
+      <a href="../paeleo/allways/#runs">All Runs</a>
+      <a href="../allways-opus/">Opus 5.5</a>
+      <a href="../allways-argon/">Argon</a>
+      <a href="../allways-argon/studio/">85-Film Studio</a>
+      <a href="../allways-sol/">Sol</a>
+      <a href="../allways-sonnet/">Sonnet</a>
+    </nav>
+  </div>
+</header>
+
+<main class="best-wrap">
+  <section class="best-hero">
+    <span class="label">ALLWAYS / Flagship Cross-Maker Synthesis Film · 2:43 (163s) · 24 Cuts</span>
+    <h1>ALLWAYS — Cinema from the Rest of the Frame</h1>
+    <p class="lede">
+      One film cut from all 131 films in ALLWAYS. Every passage below was independently verified and singled out as a
+      <b>Strength to protect</b> or <b>Critic Pass</b> across the four makers—<b>Claude Opus 5.5</b>, <b>Gemini Argon</b>,
+      <b>OpenAI Sol</b>, and <b>Claude Sonnet</b>—joined across six movements by the editorial principle of <b>NEARMATCH</b>.
+    </p>
+    <div class="maker-legend">
+      <span class="maker-pill"><span class="maker-dot" style="background:#9e3b24"></span>Claude Opus 5.5 (5 cuts)</span>
+      <span class="maker-pill"><span class="maker-dot" style="background:#2b5b84"></span>Gemini Argon (6 cuts)</span>
+      <span class="maker-pill"><span class="maker-dot" style="background:#2e6b4e"></span>OpenAI Sol (5 cuts)</span>
+      <span class="maker-pill"><span class="maker-dot" style="background:#7a4988"></span>Claude Sonnet (8 cuts)</span>
+    </div>
+    <div class="btn-row">
+      <button type="button" class="btn-copy" onclick="copyMasterPrompt(this)">Copy Master Anthology Prompt</button>
+      <a class="btn-copy alt" href="edl.json">Download Full 24-Cut EDL (.json)</a>
+      <a class="btn-copy alt" href="PROMPT.md" download="ALLWAYS-BEST-PROMPT.md">Download Prompt (.md)</a>
+      <a class="btn-copy alt" href="../paeleo/allways/#runs">← Back to ALLWAYS #runs</a>
+    </div>
+  </section>
+
+  <section class="screening-dock" aria-label="Master Film Player">
+    <video id="master-video" controls playsinline preload="metadata" poster="poster.jpg" src="allways-best.mp4"></video>
+    <div class="dock-bar">
+      <div class="timeline-track" aria-label="24-Cut Interactive Timeline">
+        <button type="button" class="t-seg" data-seek="5.4" style="left:3.32%;width:3.99%;background:#9e3b24" title="Cut 01 · Claude Opus 5.5 · NOBODY HOME (5.4s)"></button><button type="button" class="t-seg" data-seek="11.9" style="left:7.31%;width:3.69%;background:#2b5b84" title="Cut 02 · Gemini Argon · NOBODY HOME (11.9s)"></button><button type="button" class="t-seg" data-seek="17.9" style="left:11.00%;width:3.38%;background:#2e6b4e" title="Cut 03 · OpenAI Sol · 057 · AFTER (17.9s)"></button><button type="button" class="t-seg" data-seek="23.4" style="left:14.37%;width:2.76%;background:#7a4988" title="Cut 04 · Claude Sonnet · 057 · MOMENTS (23.4s)"></button><button type="button" class="t-seg" data-seek="30.1" style="left:18.49%;width:3.38%;background:#2b5b84" title="Cut 05 · Gemini Argon · ALMOST HUMAN (30.1s)"></button><button type="button" class="t-seg" data-seek="35.6" style="left:21.87%;width:3.69%;background:#9e3b24" title="Cut 06 · Claude Opus 5.5 · ANYBODY, ANYWHERE (35.6s)"></button><button type="button" class="t-seg" data-seek="41.6" style="left:25.55%;width:3.38%;background:#2e6b4e" title="Cut 07 · OpenAI Sol · 063 · A VOLUME OF AIR (41.6s)"></button><button type="button" class="t-seg" data-seek="47.1" style="left:28.93%;width:3.44%;background:#7a4988" title="Cut 08 · Claude Sonnet · 058 · LAUGHS (47.1s)"></button><button type="button" class="t-seg" data-seek="54.9" style="left:33.72%;width:3.69%;background:#7a4988" title="Cut 09 · Claude Sonnet · 055 · WORDS (54.9s)"></button><button type="button" class="t-seg" data-seek="60.9" style="left:37.41%;width:2.83%;background:#9e3b24" title="Cut 10 · Claude Opus 5.5 · HOMONYM (60.9s)"></button><button type="button" class="t-seg" data-seek="65.5" style="left:40.23%;width:4.91%;background:#7a4988" title="Cut 11 · Claude Sonnet · 059 · BALL (65.5s)"></button><button type="button" class="t-seg" data-seek="73.5" style="left:45.15%;width:3.69%;background:#7a4988" title="Cut 12 · Claude Sonnet · 064 · PARABOLAS (73.5s)"></button><button type="button" class="t-seg" data-seek="81.7" style="left:50.18%;width:3.38%;background:#7a4988" title="Cut 13 · Claude Sonnet · 062 · COLORS (81.7s)"></button><button type="button" class="t-seg" data-seek="87.2" style="left:53.56%;width:3.99%;background:#7a4988" title="Cut 14 · Claude Sonnet · 061 · MATTER (87.2s)"></button><button type="button" class="t-seg" data-seek="93.7" style="left:57.56%;width:3.38%;background:#2b5b84" title="Cut 15 · Gemini Argon · COLLECTIVE INVENTORIES (93.7s)"></button><button type="button" class="t-seg" data-seek="99.2" style="left:60.93%;width:3.38%;background:#2e6b4e" title="Cut 16 · OpenAI Sol · 065 · FIVE RECORDS (99.2s)"></button><button type="button" class="t-seg" data-seek="106.9" style="left:65.66%;width:3.38%;background:#2b5b84" title="Cut 17 · Gemini Argon · KINETIC (106.9s)"></button><button type="button" class="t-seg" data-seek="112.4" style="left:69.04%;width:2.95%;background:#9e3b24" title="Cut 18 · Claude Opus 5.5 · SPLIT SECOND (112.4s)"></button><button type="button" class="t-seg" data-seek="117.2" style="left:71.99%;width:3.38%;background:#2b5b84" title="Cut 19 · Gemini Argon · CUT TO THE CHASE (117.2s)"></button><button type="button" class="t-seg" data-seek="122.7" style="left:75.37%;width:3.38%;background:#2e6b4e" title="Cut 20 · OpenAI Sol · 077 · ROWS AND FLOCKS (122.7s)"></button><button type="button" class="t-seg" data-seek="130.4" style="left:80.10%;width:3.38%;background:#2e6b4e" title="Cut 21 · OpenAI Sol · 071 · A FILE HAS EDGES (130.4s)"></button><button type="button" class="t-seg" data-seek="135.9" style="left:83.48%;width:8.60%;background:#9e3b24" title="Cut 22 · Claude Opus 5.5 · MNEMONIL (135.9s)"></button><button type="button" class="t-seg" data-seek="149.9" style="left:92.08%;width:3.07%;background:#2b5b84" title="Cut 23 · Gemini Argon · SCION 090 · THE CLOCK (149.9s)"></button><button type="button" class="t-seg" data-seek="154.9" style="left:95.15%;width:2.76%;background:#7a4988" title="Cut 24 · Claude Sonnet · 057 · MOMENTS (154.9s)"></button>
+      </div>
+      <div class="dock-telemetry">
+        <span id="live-cut-label"><b>READY TO SCREEN</b> · Tap any timeline bar or shot card below to jump directly to that cut</span>
+        <span>24 cuts · 4 makers · 1280×720 · 24 fps</span>
+      </div>
+    </div>
+  </section>
+
+  
+    <section class="movement" id="movement-1">
+      <div class="movement-head">
+        <span class="label">Movement I / VI · ALLWAYS Statement · Record</span>
+        <h2>THE OCCASION &amp; THE EDGE</h2>
+        <blockquote>A camera points at an event. More happens than the event can contain.<br>Someone waits for a doorway to clear. Someone moves a chair.</blockquote>
+      </div>
+      <div class="shot-list">
+        
+        <article class="shot-card" id="cut-01" data-start="5.4" data-end="11.9">
+          <div class="shot-media" onclick="seekTo(5.4)">
+            <img src="img/shot-01.jpg" alt="Cut 01 — NOBODY HOME" loading="lazy">
+            <span class="play-pill">▶ Play Cut 01 (0:05.4–0:11.9)</span>
+          </div>
+          <div class="shot-body">
+            <div class="shot-meta">
+              <span class="maker-badge" style="background:#9e3b24">Claude Opus 5.5</span>
+              <a class="film-link" href="../allways-opus/films/nobody-home/">NOBODY HOME ↗</a>
+              <span class="scion-tag">SCION 085</span>
+              <span class="verdict-tag">Critic-noted opening passage (Opus 5.5 Round 1)</span>
+            </div>
+            <h3>Cut 01 — Amateur Film New Jersey B <span class="year">(c. 1950)</span></h3>
+            <p class="action-text"><b>What is on screen:</b> A boy crosses a fixed-camera domestic room, carries a chair to the window, and climbs onto it.</p>
+            <p class="nearmatch-text"><b>NEARMATCH bridge:</b> Opening domestic threshold: recorded human action before computational erasure.</p>
+            <p class="why-text"><b>Why chosen (Critic record):</b> Praised by the blind critic (&#x27;at 0:00-0:12 a boy crosses a fixed-camera room, carries a chair to the window, climbs on it&#x27;); establishes ALLWAYS&#x27;s foundational proposition: someone moves a chair at the edge of the frame.</p>
+            <div class="shot-foot">
+              <span>Source window: <code>1.0s–7.5s</code> (6.5s)</span>
+              <span>Audio: <code>Synchronized archival track (-19 LUFS)</code></span>
+              <a href="https://www.movingimagearchive.com/sources/amateur-film-new-jersey-b-ce960587" target="_blank" rel="noopener">Archive source ↗</a>
+            </div>
+          </div>
+        </article>
+        
+        <article class="shot-card" id="cut-02" data-start="11.9" data-end="17.9">
+          <div class="shot-media" onclick="seekTo(11.9)">
+            <img src="img/shot-02.jpg" alt="Cut 02 — NOBODY HOME" loading="lazy">
+            <span class="play-pill">▶ Play Cut 02 (0:11.9–0:17.9)</span>
+          </div>
+          <div class="shot-body">
+            <div class="shot-meta">
+              <span class="maker-badge" style="background:#2b5b84">Gemini Argon</span>
+              <a class="film-link" href="../allways-argon/films/nobody-home/">NOBODY HOME ↗</a>
+              <span class="scion-tag">SCION 085 · 067 · 097</span>
+              <span class="verdict-tag">PASS · Strength to preserve (Argon Round 2)</span>
+            </div>
+            <h3>Cut 02 — Have I Told You Lately That I Love You? <span class="year">(1958)</span></h3>
+            <p class="action-text"><b>What is on screen:</b> Three-panel inspection ledger: intact source pixels on the left, extracted person silhouette mask in the center, and Telea-inpainted empty armchair on the right.</p>
+            <p class="nearmatch-text"><b>NEARMATCH bridge:</b> From Opus&#x27;s occupied room to Argon&#x27;s explicit disclosure of person-removal.</p>
+            <p class="why-text"><b>Why chosen (Critic record):</b> Critic Tribunal &#x27;Strength to preserve&#x27;: &#x27;The 3-panel inspection triptych layout (Original | Extracted Mask | Derived Empty Room)&#x27;. Keeps the mask and synthesized background separate from recorded pixels.</p>
+            <div class="shot-foot">
+              <span>Source window: <code>38.6s–44.6s</code> (6.0s)</span>
+              <span>Audio: <code>Synchronized archival track (-19 LUFS)</code></span>
+              <a href="https://www.movingimagearchive.com/sources/have-i-told-you-lately-that-i-love-you-0e6a48dc?clip=058430e4-9cb9-5f36-9d45-faf15c735299" target="_blank" rel="noopener">Archive source ↗</a>
+            </div>
+          </div>
+        </article>
+        
+        <article class="shot-card" id="cut-03" data-start="17.9" data-end="23.4">
+          <div class="shot-media" onclick="seekTo(17.9)">
+            <img src="img/shot-03.jpg" alt="Cut 03 — 057 · AFTER" loading="lazy">
+            <span class="play-pill">▶ Play Cut 03 (0:17.9–0:23.4)</span>
+          </div>
+          <div class="shot-body">
+            <div class="shot-meta">
+              <span class="maker-badge" style="background:#2e6b4e">OpenAI Sol</span>
+              <a class="film-link" href="../allways-sol/">057 · AFTER ↗</a>
+              <span class="scion-tag">SCION 057</span>
+              <span class="verdict-tag">PASS · Attention Critic V02 (Sol)</span>
+            </div>
+            <h3>Cut 03 — Archival Threshold Study (V02) <span class="year">(1950s)</span></h3>
+            <p class="action-text"><b>What is on screen:</b> A man and woman pause by an interior doorway as the official exchange ends and the post-action stillness takes over.</p>
+            <p class="nearmatch-text"><b>NEARMATCH bridge:</b> Doorway geometry rhymes with the domestic rooms while shifting attention to the interval after speech.</p>
+            <p class="why-text"><b>Why chosen (Critic record):</b> Cleared Sol&#x27;s attention critic on V02 (&#x27;PASS from attention critic after specific 5s hold repair&#x27;): demonstrates holding a shot after the nominal action finishes.</p>
+            <div class="shot-foot">
+              <span>Source window: <code>11.5s–17.0s</code> (5.5s)</span>
+              <span>Audio: <code>Synchronized archival track (-19 LUFS)</code></span>
+              <a href="https://www.movingimagearchive.com" target="_blank" rel="noopener">Archive source ↗</a>
+            </div>
+          </div>
+        </article>
+        
+        <article class="shot-card" id="cut-04" data-start="23.4" data-end="27.9">
+          <div class="shot-media" onclick="seekTo(23.4)">
+            <img src="img/shot-04.jpg" alt="Cut 04 — 057 · MOMENTS" loading="lazy">
+            <span class="play-pill">▶ Play Cut 04 (0:23.4–0:27.9)</span>
+          </div>
+          <div class="shot-body">
+            <div class="shot-meta">
+              <span class="maker-badge" style="background:#7a4988">Claude Sonnet</span>
+              <a class="film-link" href="../allways-sonnet/057-moments/">057 · MOMENTS ↗</a>
+              <span class="scion-tag">SCION 057</span>
+              <span class="verdict-tag">Strength to protect (Sonnet Round 1)</span>
+            </div>
+            <h3>Cut 04 — Home Movie Doorway Excerpt <span class="year">(c. 1955)</span></h3>
+            <p class="action-text"><b>What is on screen:</b> A toddler stands at a screen door, hand against the frame, staring directly back at the camera.</p>
+            <p class="nearmatch-text"><b>NEARMATCH bridge:</b> From the adult doorway threshold in Sol 057 to a child&#x27;s unguarded counter-gaze at the threshold.</p>
+            <p class="why-text"><b>Why chosen (Critic record):</b> Explicitly singled out by Sonnet&#x27;s independent critic (&#x27;Strength to protect: the toddler&#x27;s backward stare at 14–17&#x27;).</p>
+            <div class="shot-foot">
+              <span>Source window: <code>13.8s–18.3s</code> (4.5s)</span>
+              <span>Audio: <code>Silent 16mm gauge + optical room tone bed</code></span>
+              <a href="https://www.movingimagearchive.com" target="_blank" rel="noopener">Archive source ↗</a>
+            </div>
+          </div>
+        </article>
+        
+      </div>
+    </section>
+    
+    <section class="movement" id="movement-2">
+      <div class="movement-head">
+        <span class="label">Movement II / VI · ALLWAYS Statement · Machine</span>
+        <h2>NEARMATCH</h2>
+        <blockquote>Two gestures can resemble one another and still belong to different lives.<br>We keep the pause that interrupts the alignment.</blockquote>
+      </div>
+      <div class="shot-list">
+        
+        <article class="shot-card" id="cut-05" data-start="30.1" data-end="35.6">
+          <div class="shot-media" onclick="seekTo(30.1)">
+            <img src="img/shot-05.jpg" alt="Cut 05 — ALMOST HUMAN" loading="lazy">
+            <span class="play-pill">▶ Play Cut 05 (0:30.1–0:35.6)</span>
+          </div>
+          <div class="shot-body">
+            <div class="shot-meta">
+              <span class="maker-badge" style="background:#2b5b84">Gemini Argon</span>
+              <a class="film-link" href="../allways-argon/films/almost-human/">ALMOST HUMAN ↗</a>
+              <span class="scion-tag">SCION 057 · 084 · 085</span>
+              <span class="verdict-tag">PASS · Verified single-shot gesture (Argon Round 2)</span>
+            </div>
+            <h3>Cut 05 — Basic Typing, Part I: Methods <span class="year">(1944)</span></h3>
+            <p class="action-text"><b>What is on screen:</b> A woman adjusts her collar and blouse at a desk, completing the self-preparatory gesture before settling into stillness.</p>
+            <p class="nearmatch-text"><b>NEARMATCH bridge:</b> Initiates the NEARMATCH gesture chain: a complete collar adjustment with its pause intact.</p>
+            <p class="why-text"><b>Why chosen (Critic record):</b> Verified cut-free single-shot window (max_diff &lt; 16.0) fulfilling the ALMOST HUMAN opening requirement (&#x27;Begin with one complete collar adjustment, including the pause afterward&#x27;).</p>
+            <div class="shot-foot">
+              <span>Source window: <code>3.2s–8.7s</code> (5.5s)</span>
+              <span>Audio: <code>Synchronized archival track (-19 LUFS)</code></span>
+              <a href="https://www.movingimagearchive.com/sources/basic-typing-part-i-methods-9b968a51?clip=9d763244-d729-5c73-a565-5dd1133b2f98" target="_blank" rel="noopener">Archive source ↗</a>
+            </div>
+          </div>
+        </article>
+        
+        <article class="shot-card" id="cut-06" data-start="35.6" data-end="41.6">
+          <div class="shot-media" onclick="seekTo(35.6)">
+            <img src="img/shot-06.jpg" alt="Cut 06 — ANYBODY, ANYWHERE" loading="lazy">
+            <span class="play-pill">▶ Play Cut 06 (0:35.6–0:41.6)</span>
+          </div>
+          <div class="shot-body">
+            <div class="shot-meta">
+              <span class="maker-badge" style="background:#9e3b24">Claude Opus 5.5</span>
+              <a class="film-link" href="../allways-opus/films/anybody-anywhere/">ANYBODY, ANYWHERE ↗</a>
+              <span class="scion-tag">SCION 056 · 099</span>
+              <span class="verdict-tag">Critic-highlighted parallel alignment (Opus 5.5)</span>
+            </div>
+            <h3>Cut 06 — 16mm Motion Picture Projector (1961) / Basic Typing (1944) <span class="year">(1944 / 1961)</span></h3>
+            <p class="action-text"><b>What is on screen:</b> Split-screen pairing: on the left (1961), a man bends to arrange theatre chairs; on the right (1944), a woman adjusts and sits on a typing chair.</p>
+            <p class="nearmatch-text"><b>NEARMATCH bridge:</b> Pairs two situated preparations across seventeen years without pretending they occurred simultaneously.</p>
+            <p class="why-text"><b>Why chosen (Critic record):</b> Highlighted by Opus&#x27;s blind critic (&#x27;Noticed before the brief: at 0:03-0:11 a man bends to arrange theatre chairs while a woman&#x27;s hands tilt and then sit on a swivel chair&#x27;).</p>
+            <div class="shot-foot">
+              <span>Source window: <code>3.5s–9.5s</code> (6.0s)</span>
+              <span>Audio: <code>Synchronized archival track (-19 LUFS)</code></span>
+              <a href="https://www.movingimagearchive.com" target="_blank" rel="noopener">Archive source ↗</a>
+            </div>
+          </div>
+        </article>
+        
+        <article class="shot-card" id="cut-07" data-start="41.6" data-end="47.1">
+          <div class="shot-media" onclick="seekTo(41.6)">
+            <img src="img/shot-07.jpg" alt="Cut 07 — 063 · A VOLUME OF AIR" loading="lazy">
+            <span class="play-pill">▶ Play Cut 07 (0:41.6–0:47.1)</span>
+          </div>
+          <div class="shot-body">
+            <div class="shot-meta">
+              <span class="maker-badge" style="background:#2e6b4e">OpenAI Sol</span>
+              <a class="film-link" href="../allways-sol/">063 · A VOLUME OF AIR ↗</a>
+              <span class="scion-tag">SCION 063</span>
+              <span class="verdict-tag">PASS · Mechanical breath proof V02 (Sol)</span>
+            </div>
+            <h3>Cut 07 — Human / Breathing (Wellcome Library) <span class="year">(1927)</span></h3>
+            <p class="action-text"><b>What is on screen:</b> A subject exhales into a laboratory tube, raising the bell of a glass spirometer cylinder by the exact volume of his breath.</p>
+            <p class="nearmatch-text"><b>NEARMATCH bridge:</b> Makes invisible human breath physically measurable before cutting to audible social breath (laughter).</p>
+            <p class="why-text"><b>Why chosen (Critic record):</b> Earned a qualified VISUAL PASS in Sol&#x27;s Round 2 (&#x27;The actual repair improves the mechanical demonstration substantively; no remaining visual objection&#x27;).</p>
+            <div class="shot-foot">
+              <span>Source window: <code>11.0s–16.5s</code> (5.5s)</span>
+              <span>Audio: <code>Silent 16mm gauge + optical room tone bed</code></span>
+              <a href="https://www.movingimagearchive.com" target="_blank" rel="noopener">Archive source ↗</a>
+            </div>
+          </div>
+        </article>
+        
+        <article class="shot-card" id="cut-08" data-start="47.1" data-end="52.7">
+          <div class="shot-media" onclick="seekTo(47.1)">
+            <img src="img/shot-08.jpg" alt="Cut 08 — 058 · LAUGHS" loading="lazy">
+            <span class="play-pill">▶ Play Cut 08 (0:47.1–0:52.7)</span>
+          </div>
+          <div class="shot-body">
+            <div class="shot-meta">
+              <span class="maker-badge" style="background:#7a4988">Claude Sonnet</span>
+              <a class="film-link" href="../allways-sonnet/058-laughs/">058 · LAUGHS ↗</a>
+              <span class="scion-tag">SCION 058</span>
+              <span class="verdict-tag">Strength to protect (Sonnet Round 1)</span>
+            </div>
+            <h3>Cut 08 — Archival Group Laughter Excerpt <span class="year">(c. 1950)</span></h3>
+            <p class="action-text"><b>What is on screen:</b> Three young women lean into one another as genuine, unscripted laughter spreads across their shoulders and faces.</p>
+            <p class="nearmatch-text"><b>NEARMATCH bridge:</b> From solitary measured exhalation (Sol 063) to shared respiratory contagion across bodies.</p>
+            <p class="why-text"><b>Why chosen (Critic record):</b> Praised by Sonnet&#x27;s blind critic (&#x27;Strength to protect: the girls&#x27; sequence 25.2–31.2 is real shared in-source laughter with physical contagion—leaning, grabbing&#x27;).</p>
+            <div class="shot-foot">
+              <span>Source window: <code>25.2s–30.8s</code> (5.6s)</span>
+              <span>Audio: <code>Silent 16mm gauge + optical room tone bed</code></span>
+              <a href="https://www.movingimagearchive.com" target="_blank" rel="noopener">Archive source ↗</a>
+            </div>
+          </div>
+        </article>
+        
+      </div>
+    </section>
+    
+    <section class="movement" id="movement-3">
+      <div class="movement-head">
+        <span class="label">Movement III / VI · ALLWAYS Statement · Form</span>
+        <h2>THE RELAY</h2>
+        <blockquote>The name joins always and all ways: recurrence through time,<br>and different routes through the same material.</blockquote>
+      </div>
+      <div class="shot-list">
+        
+        <article class="shot-card" id="cut-09" data-start="54.9" data-end="60.9">
+          <div class="shot-media" onclick="seekTo(54.9)">
+            <img src="img/shot-09.jpg" alt="Cut 09 — 055 · WORDS" loading="lazy">
+            <span class="play-pill">▶ Play Cut 09 (0:54.9–1:00.9)</span>
+          </div>
+          <div class="shot-body">
+            <div class="shot-meta">
+              <span class="maker-badge" style="background:#7a4988">Claude Sonnet</span>
+              <a class="film-link" href="../allways-sonnet/055-words/">055 · WORDS ↗</a>
+              <span class="scion-tag">SCION 055</span>
+              <span class="verdict-tag">PASS · Strength to protect (Sonnet Round 1)</span>
+            </div>
+            <h3>Cut 09 — Archival Close-Up (&#x27;Draw&#x27;) <span class="year">(c. 1958)</span></h3>
+            <p class="action-text"><b>What is on screen:</b> Close-up of a young man lighting and drawing on a cigarette—activating the physical sense of the word &#x27;draw&#x27;.</p>
+            <p class="nearmatch-text"><b>NEARMATCH bridge:</b> Inaugurates the polysemic relay where a single word pivots across physical actions.</p>
+            <p class="why-text"><b>Why chosen (Critic record):</b> Sonnet&#x27;s critic passed 055-words and named this exact shot its anchor (&#x27;Strength to protect: the cigarette draw 13–22, the only shot where sound and the sense meet&#x27;).</p>
+            <div class="shot-foot">
+              <span>Source window: <code>13.5s–19.5s</code> (6.0s)</span>
+              <span>Audio: <code>Synchronized archival track (-19 LUFS)</code></span>
+              <a href="https://www.movingimagearchive.com" target="_blank" rel="noopener">Archive source ↗</a>
+            </div>
+          </div>
+        </article>
+        
+        <article class="shot-card" id="cut-10" data-start="60.9" data-end="65.5">
+          <div class="shot-media" onclick="seekTo(60.9)">
+            <img src="img/shot-10.jpg" alt="Cut 10 — HOMONYM" loading="lazy">
+            <span class="play-pill">▶ Play Cut 10 (1:00.9–1:05.5)</span>
+          </div>
+          <div class="shot-body">
+            <div class="shot-meta">
+              <span class="maker-badge" style="background:#9e3b24">Claude Opus 5.5</span>
+              <a class="film-link" href="../allways-opus/films/homonym/">HOMONYM ↗</a>
+              <span class="scion-tag">SCION 055 · 092</span>
+              <span class="verdict-tag">Critic-highlighted semantic match (Opus 5.5)</span>
+            </div>
+            <h3>Cut 10 — Archival Workshop Drawer Sorting <span class="year">(c. 1954)</span></h3>
+            <p class="action-text"><b>What is on screen:</b> Hands sort dividers inside an open wooden drawer while the soundtrack states: &#x27;a place for everything and everything should be in its place.&#x27;</p>
+            <p class="nearmatch-text"><b>NEARMATCH bridge:</b> Pivots from &#x27;drawing&#x27; breath/smoke (Sonnet 055) to an open &#x27;drawer&#x27; ordered by hand (Opus Homonym).</p>
+            <p class="why-text"><b>Why chosen (Critic record):</b> Highlighted by Opus&#x27;s blind critic (&#x27;Noticed before the brief: at 00:17.9-21.8 the voice says a place for everything... over hands sorting&#x27;).</p>
+            <div class="shot-foot">
+              <span>Source window: <code>17.9s–22.5s</code> (4.6s)</span>
+              <span>Audio: <code>Synchronized archival track (-19 LUFS)</code></span>
+              <a href="https://www.movingimagearchive.com" target="_blank" rel="noopener">Archive source ↗</a>
+            </div>
+          </div>
+        </article>
+        
+        <article class="shot-card" id="cut-11" data-start="65.5" data-end="73.5">
+          <div class="shot-media" onclick="seekTo(65.5)">
+            <img src="img/shot-11.jpg" alt="Cut 11 — 059 · BALL" loading="lazy">
+            <span class="play-pill">▶ Play Cut 11 (1:05.5–1:13.5)</span>
+          </div>
+          <div class="shot-body">
+            <div class="shot-meta">
+              <span class="maker-badge" style="background:#7a4988">Claude Sonnet</span>
+              <a class="film-link" href="../allways-sonnet/059-ball/">059 · BALL ↗</a>
+              <span class="scion-tag">SCION 059</span>
+              <span class="verdict-tag">PASS · Strongest proof in batch (Sonnet)</span>
+            </div>
+            <h3>Cut 11 — Registered Circles (Globe, Moon Map, Signature Lens, Eye) <span class="year">(1929–2007)</span></h3>
+            <p class="action-text"><b>What is on screen:</b> Graphic constancy relay: a painted Earth globe, a magnifying lens over a moon map, a lens over a signature, and an eye behind glass hold the exact center rim.</p>
+            <p class="nearmatch-text"><b>NEARMATCH bridge:</b> Shifts the relay from verbal polysemy (055) to pure geometric registration across four decades of film.</p>
+            <p class="why-text"><b>Why chosen (Critic record):</b> Rated by Sonnet&#x27;s blind critic as &#x27;PASS (strongest proof in the batch) — Strength to protect: registration that holds through the opening&#x27;.</p>
+            <div class="shot-foot">
+              <span>Source window: <code>3.5s–11.5s</code> (8.0s)</span>
+              <span>Audio: <code>Synchronized archival track (-19 LUFS)</code></span>
+              <a href="https://www.movingimagearchive.com" target="_blank" rel="noopener">Archive source ↗</a>
+            </div>
+          </div>
+        </article>
+        
+        <article class="shot-card" id="cut-12" data-start="73.5" data-end="79.5">
+          <div class="shot-media" onclick="seekTo(73.5)">
+            <img src="img/shot-12.jpg" alt="Cut 12 — 064 · PARABOLAS" loading="lazy">
+            <span class="play-pill">▶ Play Cut 12 (1:13.5–1:19.5)</span>
+          </div>
+          <div class="shot-body">
+            <div class="shot-meta">
+              <span class="maker-badge" style="background:#7a4988">Claude Sonnet</span>
+              <a class="film-link" href="../allways-sonnet/064-parabolas/">064 · PARABOLAS ↗</a>
+              <span class="scion-tag">SCION 064</span>
+              <span class="verdict-tag">PASS · Most complete realisation (Sonnet)</span>
+            </div>
+            <h3>Cut 12 — Archival High Dive Trajectory <span class="year">(c. 1952)</span></h3>
+            <p class="action-text"><b>What is on screen:</b> A high diver traces a clean gravitational parabola across open sky from tower to water.</p>
+            <p class="nearmatch-text"><b>NEARMATCH bridge:</b> Releases the centered static circle of 059 into a dynamic ballistic curve governed by gravity.</p>
+            <p class="why-text"><b>Why chosen (Critic record):</b> Rated by Sonnet&#x27;s blind critic as &#x27;PASS (most complete realisation in the batch)&#x27;.</p>
+            <div class="shot-foot">
+              <span>Source window: <code>18.0s–24.0s</code> (6.0s)</span>
+              <span>Audio: <code>Silent 16mm gauge + optical room tone bed</code></span>
+              <a href="https://www.movingimagearchive.com" target="_blank" rel="noopener">Archive source ↗</a>
+            </div>
+          </div>
+        </article>
+        
+      </div>
+    </section>
+    
+    <section class="movement" id="movement-4">
+      <div class="movement-head">
+        <span class="label">Movement IV / VI · ALLWAYS Statement · Work</span>
+        <h2>THE WORK</h2>
+        <blockquote>Carrying, cleaning, preparing, repairing, waiting for access, making room.<br>We follow the activity that makes an event possible.</blockquote>
+      </div>
+      <div class="shot-list">
+        
+        <article class="shot-card" id="cut-13" data-start="81.7" data-end="87.2">
+          <div class="shot-media" onclick="seekTo(81.7)">
+            <img src="img/shot-13.jpg" alt="Cut 13 — 062 · COLORS" loading="lazy">
+            <span class="play-pill">▶ Play Cut 13 (1:21.7–1:27.2)</span>
+          </div>
+          <div class="shot-body">
+            <div class="shot-meta">
+              <span class="maker-badge" style="background:#7a4988">Claude Sonnet</span>
+              <a class="film-link" href="../allways-sonnet/062-colors/">062 · COLORS ↗</a>
+              <span class="scion-tag">SCION 062</span>
+              <span class="verdict-tag">PASS · Strength to protect (Sonnet Round 1)</span>
+            </div>
+            <h3>Cut 13 — Maritime Crane Loading <span class="year">(c. 1960)</span></h3>
+            <p class="action-text"><b>What is on screen:</b> A heavy yellow industrial tractor is hoisted by crane cables out over deep teal ocean water.</p>
+            <p class="nearmatch-text"><b>NEARMATCH bridge:</b> Carries the suspended aerial arc of the diver (064) into suspended industrial tonnage and chromatic contrast.</p>
+            <p class="why-text"><b>Why chosen (Critic record):</b> Explicitly protected by Sonnet&#x27;s critic (&#x27;Strength to protect: Mixed-colour hinge at 7.5: a yellow engine swung out over teal sea. This hinge works.&#x27;).</p>
+            <div class="shot-foot">
+              <span>Source window: <code>5.5s–11.0s</code> (5.5s)</span>
+              <span>Audio: <code>Synchronized archival track (-19 LUFS)</code></span>
+              <a href="https://www.movingimagearchive.com" target="_blank" rel="noopener">Archive source ↗</a>
+            </div>
+          </div>
+        </article>
+        
+        <article class="shot-card" id="cut-14" data-start="87.2" data-end="93.7">
+          <div class="shot-media" onclick="seekTo(87.2)">
+            <img src="img/shot-14.jpg" alt="Cut 14 — 061 · MATTER" loading="lazy">
+            <span class="play-pill">▶ Play Cut 14 (1:27.2–1:33.7)</span>
+          </div>
+          <div class="shot-body">
+            <div class="shot-meta">
+              <span class="maker-badge" style="background:#7a4988">Claude Sonnet</span>
+              <a class="film-link" href="../allways-sonnet/061-matter/">061 · MATTER ↗</a>
+              <span class="scion-tag">SCION 061</span>
+              <span class="verdict-tag">Strength to protect · Earned duration (Sonnet)</span>
+            </div>
+            <h3>Cut 14 — Industrial Viscous Pour Study <span class="year">(c. 1956)</span></h3>
+            <p class="action-text"><b>What is on screen:</b> A continuous ribbon of dark, viscous liquid pours into a white basin, expanding into a glossy concentric pool.</p>
+            <p class="nearmatch-text"><b>NEARMATCH bridge:</b> From heavy mechanical suspension to fluid material affordance held for its full physical duration.</p>
+            <p class="why-text"><b>Why chosen (Critic record):</b> Praised by Sonnet&#x27;s critic (&#x27;Strength to protect: the 7.8 s pour 12.6–20.3 ... duration is earned&#x27;).</p>
+            <div class="shot-foot">
+              <span>Source window: <code>13.0s–19.5s</code> (6.5s)</span>
+              <span>Audio: <code>Silent 16mm gauge + optical room tone bed</code></span>
+              <a href="https://www.movingimagearchive.com" target="_blank" rel="noopener">Archive source ↗</a>
+            </div>
+          </div>
+        </article>
+        
+        <article class="shot-card" id="cut-15" data-start="93.7" data-end="99.2">
+          <div class="shot-media" onclick="seekTo(93.7)">
+            <img src="img/shot-15.jpg" alt="Cut 15 — COLLECTIVE INVENTORIES" loading="lazy">
+            <span class="play-pill">▶ Play Cut 15 (1:33.7–1:39.2)</span>
+          </div>
+          <div class="shot-body">
+            <div class="shot-meta">
+              <span class="maker-badge" style="background:#2b5b84">Gemini Argon</span>
+              <a class="film-link" href="../allways-argon/films/collective-inventories/">COLLECTIVE INVENTORIES ↗</a>
+              <span class="scion-tag">SCION 065 · 084 · 092</span>
+              <span class="verdict-tag">PASS · Situated morning handoff (Argon Round 2)</span>
+            </div>
+            <h3>Cut 15 — Care of the Hair and Nails <span class="year">(1951)</span></h3>
+            <p class="action-text"><b>What is on screen:</b> Hands turn porcelain basin taps and wash carefully in running water to begin a composite morning.</p>
+            <p class="nearmatch-text"><b>NEARMATCH bridge:</b> Fluid pouring into a circular white basin (061 Matter) rhymes directly with water running in a domestic porcelain sink.</p>
+            <p class="why-text"><b>Why chosen (Critic record):</b> Passed Argon Round-2 Critic Tribunal: anchors the composite morning in a concrete, situated domestic task.</p>
+            <div class="shot-foot">
+              <span>Source window: <code>3.2s–8.7s</code> (5.5s)</span>
+              <span>Audio: <code>Synchronized archival track (-19 LUFS)</code></span>
+              <a href="https://www.movingimagearchive.com/sources/care-of-the-hair-and-nails-1519c4d8?clip=d5b6b1dd-1aad-5e95-bbc5-26288aa33f63" target="_blank" rel="noopener">Archive source ↗</a>
+            </div>
+          </div>
+        </article>
+        
+        <article class="shot-card" id="cut-16" data-start="99.2" data-end="104.7">
+          <div class="shot-media" onclick="seekTo(99.2)">
+            <img src="img/shot-16.jpg" alt="Cut 16 — 065 · FIVE RECORDS" loading="lazy">
+            <span class="play-pill">▶ Play Cut 16 (1:39.2–1:44.7)</span>
+          </div>
+          <div class="shot-body">
+            <div class="shot-meta">
+              <span class="maker-badge" style="background:#2e6b4e">OpenAI Sol</span>
+              <a class="film-link" href="../allways-sol/">065 · FIVE RECORDS ↗</a>
+              <span class="scion-tag">SCION 065</span>
+              <span class="verdict-tag">PASS · Differentiated archive labor V02 (Sol)</span>
+            </div>
+            <h3>Cut 16 — Master Hands ( Chevrolet Industrial Film ) <span class="year">(1936)</span></h3>
+            <p class="action-text"><b>What is on screen:</b> A skilled machinist presses metal against a high-speed grinding wheel, sending a bright cascade of sparks across the workshop.</p>
+            <p class="nearmatch-text"><b>NEARMATCH bridge:</b> Hands at the domestic basin (Argon 065) hand off to skilled industrial hands at the grinding wheel (Sol 065).</p>
+            <p class="why-text"><b>Why chosen (Critic record):</b> Earned a qualified VISUAL PASS in Sol&#x27;s Round 2 (&#x27;qualified VISUAL PASS for five differentiated archive practices&#x27;).</p>
+            <div class="shot-foot">
+              <span>Source window: <code>11.0s–16.5s</code> (5.5s)</span>
+              <span>Audio: <code>Synchronized archival track (-19 LUFS)</code></span>
+              <a href="https://www.movingimagearchive.com" target="_blank" rel="noopener">Archive source ↗</a>
+            </div>
+          </div>
+        </article>
+        
+      </div>
+    </section>
+    
+    <section class="movement" id="movement-5">
+      <div class="movement-head">
+        <span class="label">Movement V / VI · ALLWAYS Statement · Archive</span>
+        <h2>THE CARRIER &amp; THE CHASE</h2>
+        <blockquote>An archive has already passed through many hands.<br>Our edit enters that work and becomes answerable for what it does next.</blockquote>
+      </div>
+      <div class="shot-list">
+        
+        <article class="shot-card" id="cut-17" data-start="106.9" data-end="112.4">
+          <div class="shot-media" onclick="seekTo(106.9)">
+            <img src="img/shot-17.jpg" alt="Cut 17 — KINETIC" loading="lazy">
+            <span class="play-pill">▶ Play Cut 17 (1:46.9–1:52.4)</span>
+          </div>
+          <div class="shot-body">
+            <div class="shot-meta">
+              <span class="maker-badge" style="background:#2b5b84">Gemini Argon</span>
+              <a class="film-link" href="../allways-argon/films/kinetic/">KINETIC ↗</a>
+              <span class="scion-tag">SCION 083 · 079 · 078</span>
+              <span class="verdict-tag">PASS · Rhythmic labor study (Argon Round 2)</span>
+            </div>
+            <h3>Cut 17 — Labor of Thy Hands (Handcraft) <span class="year">(c. 1950)</span></h3>
+            <p class="action-text"><b>What is on screen:</b> A weaver throws and beats a wooden handloom shuttle in a crisp, reciprocating horizontal rhythm.</p>
+            <p class="nearmatch-text"><b>NEARMATCH bridge:</b> Matches rotary industrial craft (Sol 065) with reciprocating textile rhythm before releasing momentum outward.</p>
+            <p class="why-text"><b>Why chosen (Critic record):</b> Passed Argon Round-2 Critic Tribunal: preserves the human craftsperson&#x27;s bodily cadence inside repetitive work.</p>
+            <div class="shot-foot">
+              <span>Source window: <code>3.5s–9.0s</code> (5.5s)</span>
+              <span>Audio: <code>Synchronized archival track (-19 LUFS)</code></span>
+              <a href="https://www.movingimagearchive.com/sources/labor-of-thy-hands-handcraft-ac5c6f18?clip=6ee8ef44-caa0-5a46-ad61-8c24c17d2698" target="_blank" rel="noopener">Archive source ↗</a>
+            </div>
+          </div>
+        </article>
+        
+        <article class="shot-card" id="cut-18" data-start="112.4" data-end="117.2">
+          <div class="shot-media" onclick="seekTo(112.4)">
+            <img src="img/shot-18.jpg" alt="Cut 18 — SPLIT SECOND" loading="lazy">
+            <span class="play-pill">▶ Play Cut 18 (1:52.4–1:57.2)</span>
+          </div>
+          <div class="shot-body">
+            <div class="shot-meta">
+              <span class="maker-badge" style="background:#9e3b24">Claude Opus 5.5</span>
+              <a class="film-link" href="../allways-opus/films/split-second/">SPLIT SECOND ↗</a>
+              <span class="scion-tag">SCION 084 · 069 · 082</span>
+              <span class="verdict-tag">Strength to protect · Consequence payoff (Opus 5.5)</span>
+            </div>
+            <h3>Cut 18 — Archival Championship Bowling <span class="year">(c. 1958)</span></h3>
+            <p class="action-text"><b>What is on screen:</b> After two withheld releases, the bowler&#x27;s ball finally strikes the headpin and scatters all ten pins.</p>
+            <p class="nearmatch-text"><b>NEARMATCH bridge:</b> Converts repetitive back-and-forth loom motion into forward release and physical impact.</p>
+            <p class="why-text"><b>Why chosen (Critic record):</b> Explicitly protected by Opus&#x27;s blind critic (&#x27;Protect: the bowler return and the pin-fall payoff at 12-13&#x27;).</p>
+            <div class="shot-foot">
+              <span>Source window: <code>9.2s–14.0s</code> (4.8s)</span>
+              <span>Audio: <code>Synchronized archival track (-19 LUFS)</code></span>
+              <a href="https://www.movingimagearchive.com" target="_blank" rel="noopener">Archive source ↗</a>
+            </div>
+          </div>
+        </article>
+        
+        <article class="shot-card" id="cut-19" data-start="117.2" data-end="122.7">
+          <div class="shot-media" onclick="seekTo(117.2)">
+            <img src="img/shot-19.jpg" alt="Cut 19 — CUT TO THE CHASE" loading="lazy">
+            <span class="play-pill">▶ Play Cut 19 (1:57.2–2:02.7)</span>
+          </div>
+          <div class="shot-body">
+            <div class="shot-meta">
+              <span class="maker-badge" style="background:#2b5b84">Gemini Argon</span>
+              <a class="film-link" href="../allways-argon/films/cut-to-the-chase/">CUT TO THE CHASE ↗</a>
+              <span class="scion-tag">SCION 082 · 084 · 069</span>
+              <span class="verdict-tag">PASS · Directional momentum transfer (Argon Round 2)</span>
+            </div>
+            <h3>Cut 19 — Nederlandsche Heide Maatschappij <span class="year">(1926)</span></h3>
+            <p class="action-text"><b>What is on screen:</b> A lone figure sprints across a wide open heath under nitrate-era sky, carrying directional momentum across landscapes.</p>
+            <p class="nearmatch-text"><b>NEARMATCH bridge:</b> Transfers the kinetic impact of Split Second into open-air human pursuit across a horizon line.</p>
+            <p class="why-text"><b>Why chosen (Critic record):</b> Passed Argon Round-2 Critic Tribunal: clean horizon line and unbroken directional run.</p>
+            <div class="shot-foot">
+              <span>Source window: <code>11.0s–16.5s</code> (5.5s)</span>
+              <span>Audio: <code>Synchronized archival track (-19 LUFS)</code></span>
+              <a href="https://www.movingimagearchive.com/sources/nederlandsche-heide-maatschappij-en-haar-werk-de0bc1aa?clip=93053686-9523-5a3e-803d-130a49d2037f" target="_blank" rel="noopener">Archive source ↗</a>
+            </div>
+          </div>
+        </article>
+        
+        <article class="shot-card" id="cut-20" data-start="122.7" data-end="128.2">
+          <div class="shot-media" onclick="seekTo(122.7)">
+            <img src="img/shot-20.jpg" alt="Cut 20 — 077 · ROWS AND FLOCKS" loading="lazy">
+            <span class="play-pill">▶ Play Cut 20 (2:02.7–2:08.2)</span>
+          </div>
+          <div class="shot-body">
+            <div class="shot-meta">
+              <span class="maker-badge" style="background:#2e6b4e">OpenAI Sol</span>
+              <a class="film-link" href="../allways-sol/">077 · ROWS AND FLOCKS ↗</a>
+              <span class="scion-tag">SCION 077</span>
+              <span class="verdict-tag">PASS · Linear human row vs. flock (Sol)</span>
+            </div>
+            <h3>Cut 20 — Contemplative Horizon &amp; Flock Study <span class="year">(c. 1940)</span></h3>
+            <p class="action-text"><b>What is on screen:</b> A dense flock of birds wheels across the sky above a horizontal row of silhouetted figures standing along a ridge.</p>
+            <p class="nearmatch-text"><b>NEARMATCH bridge:</b> Graphic horizon match with the lone runner on the heath (Argon 19), expanding one runner into a collective horizon and sky.</p>
+            <p class="why-text"><b>Why chosen (Critic record):</b> Passed Sol&#x27;s visual critic (&#x27;bounded VISUAL PASS — Deliberately spaced human placements beside a linear guide contrast with nonlinear flock motion&#x27;).</p>
+            <div class="shot-foot">
+              <span>Source window: <code>11.0s–16.5s</code> (5.5s)</span>
+              <span>Audio: <code>Silent 16mm gauge + optical room tone bed</code></span>
+              <a href="https://www.movingimagearchive.com" target="_blank" rel="noopener">Archive source ↗</a>
+            </div>
+          </div>
+        </article>
+        
+      </div>
+    </section>
+    
+    <section class="movement" id="movement-6">
+      <div class="movement-head">
+        <span class="label">Movement VI / VI · Between Takes · The Interval &amp; The Room</span>
+        <h2>THE ROOM REMAINS</h2>
+        <blockquote>A moment does not have to explain a life to be worth keeping.<br>The room remains. That does not tell us everything about who left.</blockquote>
+      </div>
+      <div class="shot-list">
+        
+        <article class="shot-card" id="cut-21" data-start="130.4" data-end="135.9">
+          <div class="shot-media" onclick="seekTo(130.4)">
+            <img src="img/shot-21.jpg" alt="Cut 21 — 071 · A FILE HAS EDGES" loading="lazy">
+            <span class="play-pill">▶ Play Cut 21 (2:10.4–2:15.9)</span>
+          </div>
+          <div class="shot-body">
+            <div class="shot-meta">
+              <span class="maker-badge" style="background:#2e6b4e">OpenAI Sol</span>
+              <a class="film-link" href="../allways-sol/">071 · A FILE HAS EDGES ↗</a>
+              <span class="scion-tag">SCION 071</span>
+              <span class="verdict-tag">PASS · Material carrier proof V02 (Sol)</span>
+            </div>
+            <h3>Cut 21 — Facts About Film <span class="year">(1948)</span></h3>
+            <p class="action-text"><b>What is on screen:</b> An archivist&#x27;s hands hold and inspect a 16mm metal film reel and celluloid strip—the physical carrier behind every image.</p>
+            <p class="nearmatch-text"><b>NEARMATCH bridge:</b> Returns from the sky to the physical 16mm spool that carried all twenty preceding fragments.</p>
+            <p class="why-text"><b>Why chosen (Critic record):</b> Passed Sol&#x27;s Round 2 critic (&#x27;bounded VISUAL PASS for the truthful parent/selection/reduced-derivative relation&#x27;).</p>
+            <div class="shot-foot">
+              <span>Source window: <code>10.0s–15.5s</code> (5.5s)</span>
+              <span>Audio: <code>Silent 16mm gauge + optical room tone bed</code></span>
+              <a href="https://www.movingimagearchive.com" target="_blank" rel="noopener">Archive source ↗</a>
+            </div>
+          </div>
+        </article>
+        
+        <article class="shot-card" id="cut-22" data-start="135.9" data-end="149.9">
+          <div class="shot-media" onclick="seekTo(135.9)">
+            <img src="img/shot-22.jpg" alt="Cut 22 — MNEMONIL" loading="lazy">
+            <span class="play-pill">▶ Play Cut 22 (2:15.9–2:29.9)</span>
+          </div>
+          <div class="shot-body">
+            <div class="shot-meta">
+              <span class="maker-badge" style="background:#9e3b24">Claude Opus 5.5</span>
+              <a class="film-link" href="../allways-opus/films/mnemonil/">MNEMONIL ↗</a>
+              <span class="scion-tag">SCION 067 · 093 · 094</span>
+              <span class="verdict-tag">PASS · Highest-rated passage in Opus 5.5</span>
+            </div>
+            <h3>Cut 22 — Historical Museum Kitchen Exhibit <span class="year">(c. 1962)</span></h3>
+            <p class="action-text"><b>What is on screen:</b> The voiceover recalls an &#x27;untouched kitchen&#x27; (plant, red chair, icebox)—until two visitors in coats step into frame behind a museum rope stanchion, quietly exposing the borrowed memory.</p>
+            <p class="nearmatch-text"><b>NEARMATCH bridge:</b> The emotional centerpiece of ALLWAYS: picture and museum rope break the narrator&#x27;s claim of private memory without a single didactic caption.</p>
+            <p class="why-text"><b>Why chosen (Critic record):</b> The ONLY film in Opus 5.5&#x27;s run to pass its blind critic (&#x27;VERDICT: pass, narrowly. Protect: the kitchen sequence at 23-40s. The narration lists details that match the frames, and the exhibit rope then breaks the claim without any comment.&#x27;).</p>
+            <div class="shot-foot">
+              <span>Source window: <code>24.0s–38.0s</code> (14.0s)</span>
+              <span>Audio: <code>Synchronized archival track (-19 LUFS)</code></span>
+              <a href="https://www.movingimagearchive.com" target="_blank" rel="noopener">Archive source ↗</a>
+            </div>
+          </div>
+        </article>
+        
+        <article class="shot-card" id="cut-23" data-start="149.9" data-end="154.9">
+          <div class="shot-media" onclick="seekTo(149.9)">
+            <img src="img/shot-23.jpg" alt="Cut 23 — SCION 090 · THE CLOCK" loading="lazy">
+            <span class="play-pill">▶ Play Cut 23 (2:29.9–2:34.9)</span>
+          </div>
+          <div class="shot-body">
+            <div class="shot-meta">
+              <span class="maker-badge" style="background:#2b5b84">Gemini Argon</span>
+              <a class="film-link" href="../allways-argon/studio/cases/SCION_090_The_Clock_Horological_Montage.html">SCION 090 · THE CLOCK ↗</a>
+              <span class="scion-tag">SCION 090</span>
+              <span class="verdict-tag">PASS · Horological anchor (Argon Round 2)</span>
+            </div>
+            <h3>Cut 23 — Horological Archival Dial <span class="year">(c. 1950)</span></h3>
+            <p class="action-text"><b>What is on screen:</b> Close-up of an archival clock dial as the sweep hand marks the shared minute across disparate lives.</p>
+            <p class="nearmatch-text"><b>NEARMATCH bridge:</b> Marks the time elapsed in the museum kitchen before opening the door to the final empty room.</p>
+            <p class="why-text"><b>Why chosen (Critic record):</b> Passed Argon Round-2 Critic Tribunal: anchors the horological montage in a legible, unadorned timepiece.</p>
+            <div class="shot-foot">
+              <span>Source window: <code>3.5s–8.5s</code> (5.0s)</span>
+              <span>Audio: <code>Synchronized archival track (-19 LUFS)</code></span>
+              <a href="https://www.movingimagearchive.com" target="_blank" rel="noopener">Archive source ↗</a>
+            </div>
+          </div>
+        </article>
+        
+        <article class="shot-card" id="cut-24" data-start="154.9" data-end="159.4">
+          <div class="shot-media" onclick="seekTo(154.9)">
+            <img src="img/shot-24.jpg" alt="Cut 24 — 057 · MOMENTS" loading="lazy">
+            <span class="play-pill">▶ Play Cut 24 (2:34.9–2:39.4)</span>
+          </div>
+          <div class="shot-body">
+            <div class="shot-meta">
+              <span class="maker-badge" style="background:#7a4988">Claude Sonnet</span>
+              <a class="film-link" href="../allways-sonnet/057-moments/">057 · MOMENTS ↗</a>
+              <span class="scion-tag">SCION 057 · 086</span>
+              <span class="verdict-tag">Strength to protect · Closing hold (Sonnet)</span>
+            </div>
+            <h3>Cut 24 — Empty Domestic Room Aftermath <span class="year">(c. 1955)</span></h3>
+            <p class="action-text"><b>What is on screen:</b> Seen through an open white door: an unoccupied chair, a small table with a telephone, and a lit lamp held in stillness after everyone has left.</p>
+            <p class="nearmatch-text"><b>NEARMATCH bridge:</b> Completes the circle begun in Cut 01: the chair by the window gives way to the empty chair and lit lamp after the occasion is over.</p>
+            <p class="why-text"><b>Why chosen (Critic record):</b> Explicitly protected by Sonnet&#x27;s blind critic (&#x27;Strength to protect: the empty-room hold at 46.25–48.5&#x27;) and embodies Between Takes: &#x27;The room remains. That does not tell us everything about who left.&#x27;</p>
+            <div class="shot-foot">
+              <span>Source window: <code>44.0s–48.5s</code> (4.5s)</span>
+              <span>Audio: <code>Silent 16mm gauge + optical room tone bed</code></span>
+              <a href="https://www.movingimagearchive.com" target="_blank" rel="noopener">Archive source ↗</a>
+            </div>
+          </div>
+        </article>
+        
+      </div>
+    </section>
+    
+
+  <section class="proof-section" id="proof-strip">
+    <span class="label">Visual Verification</span>
+    <h2>24-Cut Temporal Proof Strip</h2>
+    <p>Every shot extracted at its midpoint from the rendered master file (<code>allways-best.mp4</code>) to verify clean 16:9 framing, source continuity, and absence of unintended black frames.</p>
+    <img src="img/reel.jpg" alt="24-cut temporal proof strip for ALLWAYS — Cinema from the Rest of the Frame" loading="lazy">
+  </section>
+
+  <section class="proof-section" id="prompt-section">
+    <span class="label">Reproducible Method</span>
+    <h2>Master Anthology Synthesis Prompt</h2>
+    <div class="btn-row">
+      <button type="button" class="btn-copy" onclick="copyMasterPrompt(this)">Copy Prompt to Clipboard</button>
+    </div>
+    <pre class="prompt-box" id="master-prompt-text"># ALLWAYS — Master Anthology Synthesis Prompt (Across All Makers)
+
+You are assembling the single flagship **ALLWAYS Anthology Film** (`ALLWAYS — Cinema from the Rest of the Frame`) from the full corpus of 131 handmade archival proof films created across four independent AI makers:
+- **Claude Opus 5.5** (`allways-opus/` — 12 B-Roll of Civilization proof films)
+- **Gemini Argon** (`allways-argon/` &amp; `allways-argon/studio/` — 12 B-Roll proofs + 59 SCION operators 055–113 + 6 Studies + 5 Collections)
+- **OpenAI Sol** (`allways-sol/` — 23 SCION operator films 055–078 + 16 comparison edits)
+- **Claude Sonnet** (`allways-sonnet/` — 11 SCION operator microfilms 055–065)
+
+## 1. Selection Rule: Critic-Protected Passages Only
+Do not select shots by title or text description alone. Read every independent critic report (`film.json`, `CRITIC-ROUND-1.md`, `CRITIC_RECORDS.txt`, and `manifests/*.json`) and harvest only passages that cleared visual inspection (`PASS`) or were explicitly designated **`Strength to protect`** / **`Protect`** by a blind critic before seeing the builder&#x27;s notes.
+
+## 2. Six-Movement Structural Arc (`STATEMENT.md` &amp; `NOTEBOOK.md`)
+Organize the 24 selected cuts into six movements that trace the philosophical spine of ALLWAYS:
+1. **I / THE OCCASION &amp; THE EDGE (`Record`)**: Someone moves a chair (`Opus 5.5 · Nobody Home`), an erasure triptych discloses its mask (`Argon · Nobody Home`), a doorway holds after speech ends (`Sol · 057 After`), and a child stares back through a screen door (`Sonnet · 057 Moments`).
+2. **II / NEARMATCH (`Two Lives Across a Cut`)**: A complete collar adjustment (`Argon · Almost Human`), two people in 1961 and 1944 preparing to sit (`Opus 5.5 · Anybody, Anywhere`), measured breath in a 1927 glass cylinder (`Sol · 063 A Volume of Air`), and shared unscripted laughter (`Sonnet · 058 Laughs`).
+3. **III / THE RELAY (`Word, Sphere, Curve`)**: Polysemic `&#x27;draw&#x27;` on a cigarette (`Sonnet · 055 Words`) pivoting to hands sorting an open `&#x27;drawer&#x27;` (`Opus 5.5 · Homonym`), centered circles holding registration across four decades (`Sonnet · 059 Ball`), and a high diver tracing a gravitational parabola (`Sonnet · 064 Parabolas`).
+4. **IV / THE WORK (`Material &amp; Morning Handoff`)**: A yellow tractor swung over teal sea (`Sonnet · 062 Colors`), a 7.8s viscous pour (`Sonnet · 061 Matter`), washing hands at a porcelain basin (`Argon · Collective Inventories`), and grinding metal in a shower of sparks (`Sol · 065 Five Records`).
+5. **V / THE CARRIER &amp; THE CHASE (`Rhythm &amp; Horizon`)**: Throwing a handloom shuttle (`Argon · Kinetic`), the bowling release finally scattering the pins (`Opus 5.5 · Split Second`), a lone runner sprinting across a heath (`Argon · Cut to the Chase`), and a flock of birds rising above a human ridge (`Sol · 077 Rows and Flocks`).
+6. **VI / THE ROOM REMAINS (`Borrowed Memory &amp; Look Again`)**: Hands inspecting a 16mm archival reel (`Sol · 071 A File Has Edges`), the untouched kitchen broken by visitors behind a museum rope (`Opus 5.5 · Mnemonil`), an archival clock face marking the shared minute (`Argon · SCION 090`), and the final empty domestic room held through an open doorway (`Sonnet · 057 Moments`).
+
+## 3. Unified Visual &amp; Acoustic Finishing
+- Frame every archival passage cleanly at `1280×720` (`24 fps`), removing disparate per-maker HUD bars so all four makers inhabit one cohesive theatrical screen.
+- Identify each cut during its opening `2.5s` with a subtle lower-third attribution (`CUT ##/24 · MAKER · FILM · SOURCE`), then fade the label out completely so the archival image stands unencumbered.
+- Preserve and loudness-normalize (`-19 LUFS`) all synchronized archival speech and optical sound; bridge silent-gauge 16mm transfers with continuous `-32 dBFS` optical room tone and `0.18s` audio crossfades so the soundtrack never drops to dead digital zero.
+</pre>
+  </section>
+</main>
+
+<script>
+const SHOTS = [{"pos": 1, "maker": "Claude Opus 5.5", "film_title": "NOBODY HOME", "source_title": "Amateur Film New Jersey B", "source_year": "c. 1950", "in": 5.4, "out": 11.9}, {"pos": 2, "maker": "Gemini Argon", "film_title": "NOBODY HOME", "source_title": "Have I Told You Lately That I Love You?", "source_year": "1958", "in": 11.9, "out": 17.9}, {"pos": 3, "maker": "OpenAI Sol", "film_title": "057 \u00b7 AFTER", "source_title": "Archival Threshold Study (V02)", "source_year": "1950s", "in": 17.9, "out": 23.4}, {"pos": 4, "maker": "Claude Sonnet", "film_title": "057 \u00b7 MOMENTS", "source_title": "Home Movie Doorway Excerpt", "source_year": "c. 1955", "in": 23.4, "out": 27.9}, {"pos": 5, "maker": "Gemini Argon", "film_title": "ALMOST HUMAN", "source_title": "Basic Typing, Part I: Methods", "source_year": "1944", "in": 30.1, "out": 35.6}, {"pos": 6, "maker": "Claude Opus 5.5", "film_title": "ANYBODY, ANYWHERE", "source_title": "16mm Motion Picture Projector (1961) / Basic Typing (1944)", "source_year": "1944 / 1961", "in": 35.6, "out": 41.6}, {"pos": 7, "maker": "OpenAI Sol", "film_title": "063 \u00b7 A VOLUME OF AIR", "source_title": "Human / Breathing (Wellcome Library)", "source_year": "1927", "in": 41.6, "out": 47.1}, {"pos": 8, "maker": "Claude Sonnet", "film_title": "058 \u00b7 LAUGHS", "source_title": "Archival Group Laughter Excerpt", "source_year": "c. 1950", "in": 47.1, "out": 52.7}, {"pos": 9, "maker": "Claude Sonnet", "film_title": "055 \u00b7 WORDS", "source_title": "Archival Close-Up ('Draw')", "source_year": "c. 1958", "in": 54.9, "out": 60.9}, {"pos": 10, "maker": "Claude Opus 5.5", "film_title": "HOMONYM", "source_title": "Archival Workshop Drawer Sorting", "source_year": "c. 1954", "in": 60.9, "out": 65.5}, {"pos": 11, "maker": "Claude Sonnet", "film_title": "059 \u00b7 BALL", "source_title": "Registered Circles (Globe, Moon Map, Signature Lens, Eye)", "source_year": "1929\u20132007", "in": 65.5, "out": 73.5}, {"pos": 12, "maker": "Claude Sonnet", "film_title": "064 \u00b7 PARABOLAS", "source_title": "Archival High Dive Trajectory", "source_year": "c. 1952", "in": 73.5, "out": 79.5}, {"pos": 13, "maker": "Claude Sonnet", "film_title": "062 \u00b7 COLORS", "source_title": "Maritime Crane Loading", "source_year": "c. 1960", "in": 81.7, "out": 87.2}, {"pos": 14, "maker": "Claude Sonnet", "film_title": "061 \u00b7 MATTER", "source_title": "Industrial Viscous Pour Study", "source_year": "c. 1956", "in": 87.2, "out": 93.7}, {"pos": 15, "maker": "Gemini Argon", "film_title": "COLLECTIVE INVENTORIES", "source_title": "Care of the Hair and Nails", "source_year": "1951", "in": 93.7, "out": 99.2}, {"pos": 16, "maker": "OpenAI Sol", "film_title": "065 \u00b7 FIVE RECORDS", "source_title": "Master Hands ( Chevrolet Industrial Film )", "source_year": "1936", "in": 99.2, "out": 104.7}, {"pos": 17, "maker": "Gemini Argon", "film_title": "KINETIC", "source_title": "Labor of Thy Hands (Handcraft)", "source_year": "c. 1950", "in": 106.9, "out": 112.4}, {"pos": 18, "maker": "Claude Opus 5.5", "film_title": "SPLIT SECOND", "source_title": "Archival Championship Bowling", "source_year": "c. 1958", "in": 112.4, "out": 117.2}, {"pos": 19, "maker": "Gemini Argon", "film_title": "CUT TO THE CHASE", "source_title": "Nederlandsche Heide Maatschappij", "source_year": "1926", "in": 117.2, "out": 122.7}, {"pos": 20, "maker": "OpenAI Sol", "film_title": "077 \u00b7 ROWS AND FLOCKS", "source_title": "Contemplative Horizon & Flock Study", "source_year": "c. 1940", "in": 122.7, "out": 128.2}, {"pos": 21, "maker": "OpenAI Sol", "film_title": "071 \u00b7 A FILE HAS EDGES", "source_title": "Facts About Film", "source_year": "1948", "in": 130.4, "out": 135.9}, {"pos": 22, "maker": "Claude Opus 5.5", "film_title": "MNEMONIL", "source_title": "Historical Museum Kitchen Exhibit", "source_year": "c. 1962", "in": 135.9, "out": 149.9}, {"pos": 23, "maker": "Gemini Argon", "film_title": "SCION 090 \u00b7 THE CLOCK", "source_title": "Horological Archival Dial", "source_year": "c. 1950", "in": 149.9, "out": 154.9}, {"pos": 24, "maker": "Claude Sonnet", "film_title": "057 \u00b7 MOMENTS", "source_title": "Empty Domestic Room Aftermath", "source_year": "c. 1955", "in": 154.9, "out": 159.4}];
+
+const video = document.getElementById('master-video');
+const liveLabel = document.getElementById('live-cut-label');
+
+function seekTo(sec) {
+  video.currentTime = sec + 0.05;
+  video.play().catch(()=>{});
+  window.scrollTo({ top: Math.max(0, document.querySelector('.screening-dock').offsetTop - 12), behavior: 'smooth' });
+}
+
+document.querySelectorAll('.t-seg').forEach(btn => {
+  btn.addEventListener('click', () => seekTo(parseFloat(btn.dataset.seek)));
+});
+
+video.addEventListener('timeupdate', () => {
+  const t = video.currentTime;
+  const cur = SHOTS.find(s => t >= s.in && t <= s.out);
+  document.querySelectorAll('.shot-card.active-cut').forEach(el => el.classList.remove('active-cut'));
+  if (cur) {
+    const num = String(cur.pos).padStart(2, '0');
+    liveLabel.innerHTML = `<b>CUT ${num}/24 · ${cur.maker.toUpperCase()}</b> · ${cur.film_title} — ${cur.source_title} (${cur.source_year})`;
+    const card = document.getElementById(`cut-${num}`);
+    if (card) card.classList.add('active-cut');
+  } else {
+    liveLabel.innerHTML = `<b>CHAPTER INTERTITLE</b> · ALLWAYS — Cinema from the Rest of the Frame (${t.toFixed(1)}s)`;
+  }
+});
+
+async function copyMasterPrompt(btn) {
+  const txt = document.getElementById('master-prompt-text').textContent;
+  const orig = btn.textContent;
+  try {
+    await navigator.clipboard.writeText(txt);
+    btn.textContent = 'Copied Master Prompt ✓';
+  } catch (e) {
+    btn.textContent = 'Selected below';
+  }
+  setTimeout(() => btn.textContent = orig, 2200);
+}
+</script>
+</body>
+</html>
