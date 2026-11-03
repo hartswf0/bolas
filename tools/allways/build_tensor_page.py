@@ -25,6 +25,7 @@ def main():
     tensor_path = os.path.join(TENSOR_DIR, "tensor_data.json")
     ir_path = os.path.join(TENSOR_DIR, "stgl_ir.json")
     grids_path = os.path.join(TENSOR_DIR, "eight_grids_archive.json")
+    scion_shapes_path = os.path.join(TENSOR_DIR, "scion_shapes.json")
 
     with open(tensor_path) as f:
         tensor_data = json.load(f)
@@ -37,6 +38,11 @@ def main():
             grids_data = json.load(f)
         for r in grids_data.get("rules", []):
             r["overlay_b64"] = encode_img_b64(r["overlay_img"])
+
+    scion_shapes_data = {"operators": []}
+    if os.path.exists(scion_shapes_path):
+        with open(scion_shapes_path) as f:
+            scion_shapes_data = json.load(f)
 
     films = tensor_data["films"]
     for film in films:
@@ -437,6 +443,54 @@ def main():
   }}
   .g8-cap b {{ color: var(--accent); display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }}
   .g8-cap span {{ color: var(--fg); font-size: 8.5px; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }}
+  .g8-actions {{
+    position: absolute;
+    top: 3px;
+    right: 3px;
+    display: flex;
+    gap: 3px;
+    z-index: 5;
+  }}
+  .g8-btn {{
+    background: rgba(10, 12, 18, 0.88);
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    font-size: 8.5px;
+    font-weight: 700;
+    padding: 1px 4px;
+    border-radius: 3px;
+    cursor: pointer;
+  }}
+  .g8-btn:hover {{ background: var(--accent); color: #090b10; }}
+  .scion-modal {{
+    position: absolute;
+    inset: 8px;
+    background: rgba(10, 12, 18, 0.96);
+    border: 1px solid var(--accent);
+    border-radius: 7px;
+    z-index: 30;
+    display: none;
+    flex-direction: column;
+    padding: 10px 12px;
+    box-shadow: 0 12px 36px rgba(0,0,0,0.85);
+  }}
+  .scion-modal.active {{ display: flex; }}
+  .scion-modal-body {{
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    font-family: var(--mono);
+    font-size: 10.5px;
+    line-height: 1.45;
+    white-space: pre-wrap;
+    color: var(--fg);
+    background: #07080c;
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    padding: 8px 10px;
+    margin-top: 6px;
+    user-select: text;
+  }}
 
   .single-manifold-pane {{
     flex: 1;
@@ -574,6 +628,18 @@ def main():
       <div class="video-container">
         <video id="mainVideo" controls playsinline preload="metadata"></video>
         <canvas id="hudOverlayCanvas" class="hud-passthrough" width="800" height="450"></canvas>
+        <div class="scion-modal" id="scionPromptModal">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;">
+            <strong id="scionModalTitle" style="color:var(--accent);font-size:12px;">SCION 114 // Golden Spiral</strong>
+            <div style="display:flex;gap:5px;align-items:center;">
+              <button class="btn gold" id="scionModalPlayBtn">▶ Play 24s Proof Film</button>
+              <button class="btn" onclick="copyActiveScionPrompt()">📋 Copy Prompt</button>
+              <a class="btn" id="scionModalMdLink" href="#" target="_blank">Raw .md ↗</a>
+              <button class="btn rose" onclick="closeScionPromptModal()">✕ Close</button>
+            </div>
+          </div>
+          <div class="scion-modal-body" id="scionModalBody"></div>
+        </div>
       </div>
 
       <div class="theater-foot">
@@ -781,6 +847,8 @@ def main():
 const FILMS = {json.dumps(films)};
 const STGL_IR = {json.dumps(stgl_ir)};
 const EIGHT_GRIDS = {json.dumps(grids_data)};
+const SCION_SHAPES = {json.dumps(scion_shapes_data)};
+let activeScionPromptOp = null;
 
 let activeFilmIndex = 1; // Default 059-ball
 let activeFilm = FILMS[activeFilmIndex] || FILMS[0];
@@ -846,21 +914,69 @@ function initUI() {{
     tbody.appendChild(tr);
   }});
 
-  // Populate 8-Rule Archival Perspective Cards
+  // Populate 8-Rule Archival Perspective Cards + SCION 114–121 Film & Prompt Buttons
   (EIGHT_GRIDS.rules || []).forEach(r => {{
+    const op = (SCION_SHAPES.operators || []).find(o => o.rule_id === r.id);
     const card = document.createElement('div');
     card.className = 'g8-card';
     card.id = 'g8card-' + r.id;
     card.onclick = () => loadArchivalRuleExemplar(r);
+    const scionBadge = op ? `SCION ${{op.scion_id}}` : `#${{r.num}}`;
     card.innerHTML = `
+      <div class="g8-actions">
+        <button class="g8-btn" title="Play 24s 8-Cut SCION Shape Proof Film" onclick="playScionShapeFilm('${{r.id}}', event)">▶ Film</button>
+        <button class="g8-btn" title="Read Full Standalone SCION Prompt" onclick="openScionPromptModal('${{r.id}}', event)">📜 SCION</button>
+      </div>
       <img src="${{r.overlay_b64 || r.overlay_img}}" alt="${{r.name}}">
       <div class="g8-cap">
-        <b>#${{r.num}} ${{r.name.split('(')[0].trim()}}</b>
+        <b>${{scionBadge}} · ${{r.name.split('(')[0].trim()}}</b>
         <span>${{r.winner.film_title}} · ${{r.winner.source_title}}</span>
       </div>
     `;
     gridsDeck.appendChild(card);
   }});
+}}
+
+function playScionShapeFilm(ruleId, ev) {{
+  if (ev) ev.stopPropagation();
+  closeScionPromptModal();
+  const op = (SCION_SHAPES.operators || []).find(o => o.rule_id === ruleId);
+  if (!op) return;
+  document.querySelectorAll('.g8-card').forEach(el => el.classList.remove('active'));
+  const c = document.getElementById('g8card-' + ruleId);
+  if (c) c.classList.add('active');
+
+  activeViewfinderRule = 'none';
+  document.getElementById('viewfinderCardSelect').value = 'none';
+
+  document.getElementById('stageTitle').textContent = op.title;
+  document.getElementById('stageSub').textContent = `24.0s · 8 Archival Cuts (Phase I Observation → II Viewfinder Lock → III Contextual Release → IV Return)`;
+  document.getElementById('stageCaseLink').href = op.prompt_rel;
+
+  videoEl.src = op.film_file;
+  videoEl.currentTime = 0;
+  videoEl.play().catch(() => {{}});
+}}
+
+function openScionPromptModal(ruleId, ev) {{
+  if (ev) ev.stopPropagation();
+  const op = (SCION_SHAPES.operators || []).find(o => o.rule_id === ruleId);
+  if (!op) return;
+  activeScionPromptOp = op;
+  document.getElementById('scionModalTitle').textContent = op.title;
+  document.getElementById('scionModalBody').textContent = op.prompt_markdown;
+  document.getElementById('scionModalMdLink').href = op.prompt_rel;
+  document.getElementById('scionModalPlayBtn').onclick = (e) => playScionShapeFilm(ruleId, e);
+  document.getElementById('scionPromptModal').classList.add('active');
+}}
+
+function closeScionPromptModal() {{
+  document.getElementById('scionPromptModal').classList.remove('active');
+}}
+
+function copyActiveScionPrompt() {{
+  if (!activeScionPromptOp) return;
+  navigator.clipboard.writeText(activeScionPromptOp.prompt_markdown);
 }}
 
 function playEightGridsReel() {{
