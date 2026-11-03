@@ -1,7 +1,22 @@
 #!/usr/bin/env python3
 """
-Builds the Zero-Scroll 100dvh Cinema, 8-Grid Viewfinder & Spatiotemporal Tensor Workstation at:
+Builds a Clean, Mobile-First, Zero-Chart-Junk Screening Room & Visual Composition Studio at:
   /Users/gaia/WORLDBUILDING-TERMS/bolas_repo/allways-tensor/index.html
+
+Design Principles (Edward Tufte / High Data-Ink Ratio, Mobile-First):
+  1. Film First: Clean 16:9 player with ZERO default clutter over the picture.
+  2. One Guide at a Time: Tap any of the 8 Shape pills (Golden Spiral, Frame-in-Frame,
+     S-Curve, Symmetry, Rule of Thirds, Centered, V-Shape, Negative Space) to project
+     that single clean viewfinder guide over the video—or leave it Off.
+  3. Real Photographic Evidence Only (No BS / No Fake Sci-Fi Telemetry):
+     - Real photographic slit-scan time strip (actual pixels sliced from the film).
+     - Real Subject vs. Background color strip extracted from each frame.
+     - One clean, optional 3D Subject Path showing where the main subject moves
+       through (x, y, time) across the shot.
+  4. Mobile-Friendly Responsive Layout:
+     - Sticky 16:9 video player on mobile with horizontal touch-scroll pill bars
+       and clean tap-to-play cards for the 8 Shape Films (SCION 114–121) and
+       all 142 ALLWAYS films.
 """
 
 import os
@@ -23,15 +38,12 @@ def encode_img_b64(rel_path):
 
 def main():
     tensor_path = os.path.join(TENSOR_DIR, "tensor_data.json")
-    ir_path = os.path.join(TENSOR_DIR, "stgl_ir.json")
     grids_path = os.path.join(TENSOR_DIR, "eight_grids_archive.json")
     scion_shapes_path = os.path.join(TENSOR_DIR, "scion_shapes.json")
     worms_140_path = os.path.join(TENSOR_DIR, "allways_worms_140.json")
 
     with open(tensor_path) as f:
         tensor_data = json.load(f)
-    with open(ir_path) as f:
-        stgl_ir = json.load(f)
 
     grids_data = {"rules": [], "reel_mp4": "eight-perspectives.mp4"}
     if os.path.exists(grids_path):
@@ -45,991 +57,768 @@ def main():
         with open(scion_shapes_path) as f:
             scion_shapes_data = json.load(f)
 
-    worms_140_data = {"total_films": 0, "topology_distribution": {}, "films": []}
+    worms_140_data = {"total_films": 0, "films": []}
     if os.path.exists(worms_140_path):
         with open(worms_140_path) as f:
             worms_140_data = json.load(f)
 
-    films = tensor_data["films"]
-    for film in films:
-        film["ut_b64"] = encode_img_b64(film["ut_tomogram"])
-        film["vt_b64"] = encode_img_b64(film["vt_tomogram"])
+    # Keep only the essential fields for the 12 flagship slit-scan films
+    flagship_slits = {}
+    for film in tensor_data.get("films", []):
+        flagship_slits[film["id"]] = {
+            "ut_b64": encode_img_b64(film["ut_tomogram"]),
+            "vt_b64": encode_img_b64(film["vt_tomogram"]),
+        }
+
+    # Slim down worms_140 series to keep the page fast and responsive on mobile
+    slim_films = []
+    for wf in worms_140_data.get("films", []):
+        slits = flagship_slits.get(wf["id"], {})
+        slim_films.append({
+            "id": wf["id"],
+            "title": wf["title"],
+            "maker": wf["maker"],
+            "group": wf["group"],
+            "video_rel": wf["video_rel"],
+            "case_url": wf["case_url"],
+            "duration_s": wf["duration_s"],
+            "dominant_topology": wf["dominant_topology"],
+            "ut_b64": slits.get("ut_b64", ""),
+            "series": [
+                {
+                    "t": s["t"],
+                    "c": s["c"],
+                    "r": s["r"],
+                    "rgb_core": s["rgb_core"],
+                    "rgb_shell": s["rgb_shell"],
+                    "topology": s.get("topology", ""),
+                }
+                for s in wf.get("series", [])
+            ],
+        })
 
     html = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<title>ALLWAYS — Zero-Scroll 4D Cinema Tensor, 8-Grid Viewfinder &amp; 3D Worm Studio</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ALLWAYS — 8 Composition Shapes &amp; Film Archive</title>
 <style>
   :root {{
-    --bg: #07080b;
-    --panel: #0e1017;
-    --panel-alt: #141822;
-    --border: #232838;
-    --fg: #ede9e0;
-    --muted: #8c93a6;
-    --accent: #e5ae5c;
-    --cyan: #56c2e6;
-    --rose: #e36874;
-    --green: #72cc96;
-    --purple: #c77ae0;
-    --mono: "SFMono-Regular", ui-monospace, Consolas, Menlo, monospace;
+    --bg: #0b0c10;
+    --panel: #13151c;
+    --panel-hover: #1b1e28;
+    --border: #262a38;
+    --fg: #f0ede6;
+    --muted: #949ba8;
+    --gold: #eab354;
+    --cyan: #5bc0be;
+    --mono: "SFMono-Regular", ui-monospace, Consolas, monospace;
   }}
-  * {{ box-sizing: border-box; }}
+  * {{ box-sizing: border-box; -webkit-tap-highlight-color: transparent; }}
   html, body {{
     margin: 0;
     padding: 0;
-    width: 100vw;
-    height: 100dvh;
-    overflow: hidden;
     background: var(--bg);
     color: var(--fg);
     font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, sans-serif;
-    font-size: 12px;
-    user-select: none;
+    font-size: 14px;
+    line-height: 1.45;
   }}
-  a {{ color: var(--accent); text-decoration: none; }}
+  a {{ color: var(--gold); text-decoration: none; }}
 
-  /* Fullscreen 3-Row Cockpit Grid (Zero Scroll) */
-  .cockpit {{
-    display: grid;
-    grid-template-rows: 44px 1fr 92px;
-    width: 100vw;
-    height: 100dvh;
-    gap: 6px;
-    padding: 6px 8px;
-  }}
-
-  /* ROW 1: Top Bar (44px) */
-  .topbar {{
+  /* Header Bar */
+  .header {{
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 8px;
+    gap: 10px;
+    padding: 10px 14px;
     background: var(--panel);
-    border: 1px solid var(--border);
-    border-radius: 7px;
-    padding: 0 10px;
-    overflow: hidden;
+    border-bottom: 1px solid var(--border);
+    flex-wrap: wrap;
   }}
-  .brand-cluster {{
+  .brand {{
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0.04em;
+    color: var(--fg);
     display: flex;
     align-items: center;
-    gap: 6px;
-    white-space: nowrap;
+    gap: 8px;
   }}
-  .brand-tag {{
-    font-family: var(--mono);
-    font-size: 10.5px;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    color: var(--accent);
-    background: #241d12;
-    border: 1px solid var(--accent);
+  .brand span {{
+    background: var(--gold);
+    color: #0b0c10;
+    font-size: 11px;
     padding: 2px 7px;
     border-radius: 4px;
+    font-weight: 800;
   }}
-  .film-strip-pills {{
+  .nav-links {{
     display: flex;
+    gap: 6px;
     align-items: center;
-    gap: 4px;
-    overflow-x: auto;
-    scrollbar-width: none;
-    padding: 2px 0;
+    flex-wrap: wrap;
   }}
-  .film-strip-pills::-webkit-scrollbar {{ display: none; }}
-  .f-pill {{
-    background: var(--panel-alt);
-    border: 1px solid var(--border);
-    color: var(--muted);
-    padding: 4px 8px;
-    border-radius: 4px;
-    font-size: 11px;
-    font-weight: 550;
-    cursor: pointer;
-    white-space: nowrap;
-    transition: all 0.1s ease;
-  }}
-  .f-pill:hover {{ color: var(--fg); border-color: #3d455e; }}
-  .f-pill.active {{
-    background: #251e13;
-    border-color: var(--accent);
-    color: #fff;
-    font-weight: 650;
-  }}
-  .telemetry-chips {{
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    font-family: var(--mono);
-    font-size: 10.5px;
-    white-space: nowrap;
-  }}
-  .t-chip {{
-    background: #090b10;
-    border: 1px solid var(--border);
-    padding: 3px 6px;
-    border-radius: 4px;
-    color: var(--fg);
-  }}
-  .t-chip b {{ color: var(--accent); font-weight: 600; }}
   .btn {{
-    background: var(--panel-alt);
-    border: 1px solid var(--border);
+    background: #1c202b;
     color: var(--fg);
-    padding: 4px 8px;
-    border-radius: 4px;
-    font-size: 11px;
-    font-weight: 550;
+    border: 1px solid var(--border);
+    padding: 6px 11px;
+    border-radius: 6px;
+    font-size: 12.5px;
+    font-weight: 600;
     cursor: pointer;
-    white-space: nowrap;
     display: inline-flex;
     align-items: center;
-    gap: 4px;
+    gap: 5px;
+    white-space: nowrap;
   }}
-  .btn:hover {{ border-color: var(--accent); color: #fff; }}
-  .btn.active {{ background: #261f14; border-color: var(--accent); color: var(--accent); }}
-  .btn.rose {{ background: #291419; border-color: var(--rose); color: var(--rose); }}
-  .btn.gold {{ background: #261f14; border-color: var(--accent); color: var(--accent); font-weight: 650; }}
+  .btn:hover {{ border-color: var(--gold); }}
+  .btn.active, .btn.gold {{
+    background: var(--gold);
+    color: #0b0c10;
+    border-color: var(--gold);
+  }}
 
-  /* ROW 2: Center Stage (1fr) */
-  .center-stage {{
+  /* Main Responsive Layout: 2 Columns on Desktop, Clean Vertical Stack on Mobile */
+  .layout {{
     display: grid;
-    grid-template-columns: 56% 44%;
-    gap: 6px;
-    min-height: 0;
-    overflow: hidden;
+    grid-template-columns: 1.15fr 1fr;
+    gap: 16px;
+    max-width: 1520px;
+    margin: 0 auto;
+    padding: 14px;
+    align-items: start;
+  }}
+  @media (max-width: 920px) {{
+    .layout {{
+      grid-template-columns: 1fr;
+      padding: 0 0 24px 0;
+      gap: 10px;
+    }}
+    .player-column {{
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+    }}
+    .player-card {{
+      border-radius: 0 !important;
+      border-left: none !important;
+      border-right: none !important;
+      border-top: none !important;
+    }}
+    .browser-column {{
+      padding: 0 12px;
+    }}
   }}
 
-  /* Left Column: Big Video Player + Acrylic Viewfinder & HUD */
-  .theater-pane {{
+  /* Left Column: Clean Video Stage + Single Viewfinder Bar + Real Frame Color/Slit Scrubber */
+  .player-card {{
     background: var(--panel);
     border: 1px solid var(--border);
-    border-radius: 7px;
-    display: flex;
-    flex-direction: column;
-    min-height: 0;
+    border-radius: 10px;
     overflow: hidden;
-    padding: 8px;
   }}
-  .theater-head {{
+  .stage-header {{
+    padding: 10px 14px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 8px;
-    margin-bottom: 5px;
-    flex-shrink: 0;
+    border-bottom: 1px solid var(--border);
   }}
-  .theater-title {{
-    font-size: 14px;
+  .stage-title {{
     font-weight: 700;
-    color: #fff;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    font-size: 15px;
+    color: var(--fg);
   }}
-  .theater-sub {{
-    font-size: 11px;
+  .stage-meta {{
+    font-size: 12px;
     color: var(--muted);
-    margin-left: 8px;
   }}
-  .video-container {{
+  .video-wrap {{
     position: relative;
-    flex: 1;
-    min-height: 0;
     width: 100%;
+    aspect-ratio: 16 / 9;
     background: #000;
-    border-radius: 5px;
-    overflow: hidden;
-    border: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: center;
   }}
-  .video-container video {{
+  video {{
     width: 100%;
     height: 100%;
-    object-fit: contain;
     display: block;
+    object-fit: contain;
   }}
-  #hudOverlayCanvas {{
+  #guideCanvas {{
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
-    pointer-events: auto;
-    cursor: crosshair;
+    pointer-events: none;
   }}
-  .hud-passthrough {{
-    clip-path: inset(0 0 38px 0);
-  }}
-  .theater-foot {{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 5px;
-    margin-top: 6px;
-    flex-shrink: 0;
-    flex-wrap: wrap;
-  }}
-  .hud-checks {{
-    display: flex;
-    gap: 4px;
-    flex-wrap: wrap;
-    align-items: center;
-  }}
-  .hud-checks label {{
-    display: inline-flex;
-    align-items: center;
-    gap: 3px;
-    background: var(--panel-alt);
-    border: 1px solid var(--border);
-    padding: 3px 6px;
-    border-radius: 4px;
-    font-size: 10px;
-    color: var(--muted);
-    cursor: pointer;
-  }}
-  .hud-checks input:checked + span {{ color: var(--fg); font-weight: 600; }}
 
-  /* Right Column: Upper 3D Worm Dock + Lower 6-Manifold & 8-Grid Archive Dock */
-  .instrument-dock {{
-    display: grid;
-    grid-template-rows: 46% 54%;
-    gap: 6px;
-    min-height: 0;
-    overflow: hidden;
-  }}
-  .dock-card {{
-    background: var(--panel);
-    border: 1px solid var(--border);
-    border-radius: 7px;
-    padding: 6px 8px;
+  /* Horizontal Touch-Scroll Pill Bar for the 8 Viewfinder Guides */
+  .guide-bar {{
     display: flex;
-    flex-direction: column;
-    min-height: 0;
-    overflow: hidden;
-  }}
-  .dock-head {{
-    display: flex;
-    justify-content: space-between;
     align-items: center;
     gap: 6px;
-    margin-bottom: 4px;
-    flex-shrink: 0;
+    padding: 9px 12px;
+    overflow-x: auto;
+    border-top: 1px solid var(--border);
+    background: #0f1117;
+    scrollbar-width: none;
   }}
-  .dock-title {{
-    font-size: 10.5px;
-    font-weight: 700;
+  .guide-bar::-webkit-scrollbar {{ display: none; }}
+  .guide-lbl {{
+    font-size: 11px;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    color: var(--accent);
-    white-space: nowrap;
-  }}
-  .tab-strip {{
-    display: flex;
-    gap: 3px;
-    flex-wrap: wrap;
-  }}
-  .tab-btn {{
-    background: var(--panel-alt);
-    border: 1px solid var(--border);
     color: var(--muted);
-    padding: 2px 6px;
-    border-radius: 4px;
-    font-size: 10px;
+    font-weight: 700;
+    margin-right: 2px;
+    flex-shrink: 0;
+  }}
+  .pill {{
+    background: #1a1d27;
+    color: var(--fg);
+    border: 1px solid var(--border);
+    padding: 5px 10px;
+    border-radius: 999px;
+    font-size: 12px;
     font-weight: 600;
     cursor: pointer;
+    flex-shrink: 0;
   }}
-  .tab-btn:hover {{ color: #fff; }}
-  .tab-btn.active {{
-    background: #251e13;
-    border-color: var(--accent);
-    color: var(--accent);
+  .pill.active {{
+    background: var(--gold);
+    color: #0b0c10;
+    border-color: var(--gold);
   }}
-  .canvas-fill {{
-    flex: 1;
-    min-height: 0;
+
+  /* Photographic Slit-Scan & Subject/Background Color Strip */
+  .scrubber-Area {{
+    padding: 10px 14px 12px;
+    border-top: 1px solid var(--border);
+    background: var(--panel);
+  }}
+  .scrubber-head {{
+    display: flex;
+    justify-content: space-between;
+    font-size: 11.5px;
+    color: var(--muted);
+    margin-bottom: 5px;
+  }}
+  #colorStripCanvas {{
     width: 100%;
-    background: radial-gradient(circle at 50% 45%, #141824 0%, #07090d 100%);
+    height: 44px;
+    border-radius: 6px;
     border: 1px solid var(--border);
-    border-radius: 5px;
+    display: block;
+    cursor: pointer;
+    background: #08090c;
+  }}
+  .slit-wrap {{
+    margin-top: 6px;
+    position: relative;
+    height: 46px;
+    border-radius: 6px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    cursor: pointer;
+    display: none;
+  }}
+  .slit-wrap.visible {{ display: block; }}
+  .slit-wrap img {{
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
     display: block;
   }}
-  .dock-foot {{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 6px;
-    margin-top: 4px;
-    flex-shrink: 0;
-    font-size: 10px;
-    color: var(--muted);
-  }}
-  .dock-foot input[type=range] {{
-    flex: 1;
-    accent-color: var(--accent);
-    height: 4px;
-    cursor: pointer;
-  }}
-
-  /* 6-Manifold All-at-Once Mini Grid */
-  .mini-six-grid {{
-    flex: 1;
-    min-height: 0;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(2, 1fr);
-    gap: 5px;
-  }}
-  .mini-cell {{
-    background: #090b10;
-    border: 1px solid var(--border);
-    border-radius: 5px;
-    position: relative;
-    overflow: hidden;
-    cursor: pointer;
-    display: flex;
-    flex-direction: column;
-  }}
-  .mini-cell:hover {{ border-color: var(--accent); }}
-  .mini-cell-lbl {{
+  .playhead {{
     position: absolute;
-    top: 3px;
-    left: 5px;
-    right: 5px;
-    display: flex;
-    justify-content: space-between;
-    font-size: 9px;
-    font-family: var(--mono);
-    color: var(--fg);
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--gold);
     pointer-events: none;
-    z-index: 2;
   }}
-  .mini-cell-lbl span:first-child {{ color: var(--accent); font-weight: 600; }}
-  .mini-cell canvas {{ width: 100%; height: 100%; display: block; }}
 
-  /* 8-Rule Perspective Archive 4x2 Grid inside Lower Dock */
-  .eight-grid-deck {{
-    flex: 1;
-    min-height: 0;
-    display: none;
-    grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: repeat(2, 1fr);
-    gap: 5px;
+  /* Right Column: Section Tabs & Clean Card Grid */
+  .section-tabs {{
+    display: flex;
+    gap: 6px;
+    margin-bottom: 12px;
+    overflow-x: auto;
+    padding-bottom: 2px;
   }}
-  .eight-grid-deck.active {{ display: grid; }}
-  .g8-card {{
-    background: #080a0f;
+  .tab-pane {{ display: none; }}
+  .tab-pane.active {{ display: block; }}
+
+  .shape-grid {{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 12px;
+  }}
+  @media (max-width: 540px) {{
+    .shape-grid {{
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }}
+  }}
+  .shape-card {{
+    background: var(--panel);
     border: 1px solid var(--border);
-    border-radius: 5px;
+    border-radius: 9px;
     overflow: hidden;
-    position: relative;
-    cursor: pointer;
     display: flex;
     flex-direction: column;
+    transition: border-color 0.15s;
   }}
-  .g8-card:hover, .g8-card.active {{ border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }}
-  .g8-card img {{
+  .shape-card.active, .shape-card:hover {{
+    border-color: var(--gold);
+  }}
+  .shape-thumb {{
+    position: relative;
+    aspect-ratio: 16 / 9;
+    background: #000;
+    cursor: pointer;
+  }}
+  .shape-thumb img {{
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
   }}
-  .g8-cap {{
+  .shape-badge {{
     position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(7, 8, 12, 0.86);
-    padding: 2px 5px;
-    font-size: 9px;
-    line-height: 1.25;
-  }}
-  .g8-cap b {{ color: var(--accent); display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }}
-  .g8-cap span {{ color: var(--fg); font-size: 8.5px; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }}
-  .g8-actions {{
-    position: absolute;
-    top: 3px;
-    right: 3px;
-    display: flex;
-    gap: 3px;
-    z-index: 5;
-  }}
-  .g8-btn {{
-    background: rgba(10, 12, 18, 0.88);
-    border: 1px solid var(--accent);
-    color: var(--accent);
-    font-size: 8.5px;
-    font-weight: 700;
-    padding: 1px 4px;
-    border-radius: 3px;
-    cursor: pointer;
-  }}
-  .g8-btn:hover {{ background: var(--accent); color: #090b10; }}
-  .scion-modal {{
-    position: absolute;
-    inset: 8px;
-    background: rgba(10, 12, 18, 0.96);
-    border: 1px solid var(--accent);
-    border-radius: 7px;
-    z-index: 30;
-    display: none;
-    flex-direction: column;
-    padding: 10px 12px;
-    box-shadow: 0 12px 36px rgba(0,0,0,0.85);
-  }}
-  .scion-modal.active {{ display: flex; }}
-  .scion-modal-body {{
-    flex: 1;
-    min-height: 0;
-    overflow-y: auto;
-    font-family: var(--mono);
+    top: 6px;
+    left: 6px;
+    background: rgba(11, 12, 16, 0.86);
+    color: var(--gold);
+    border: 1px solid rgba(234, 179, 84, 0.5);
     font-size: 10.5px;
-    line-height: 1.45;
-    white-space: pre-wrap;
-    color: var(--fg);
-    background: #07080c;
-    border: 1px solid var(--border);
-    border-radius: 5px;
-    padding: 8px 10px;
-    margin-top: 6px;
-    user-select: text;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 4px;
   }}
-
-  .single-manifold-pane {{
-    flex: 1;
-    min-height: 0;
-    display: none;
+  .shape-body {{
+    padding: 9px 10px;
+    display: flex;
     flex-direction: column;
+    gap: 6px;
+    flex: 1;
   }}
-  .single-manifold-pane.active {{ display: flex; }}
+  .shape-name {{
+    font-weight: 700;
+    font-size: 13px;
+    color: var(--fg);
+  }}
+  .shape-desc {{
+    font-size: 11.5px;
+    color: var(--muted);
+    line-height: 1.35;
+  }}
+  .shape-actions {{
+    display: flex;
+    gap: 5px;
+    margin-top: auto;
+    padding-top: 4px;
+    flex-wrap: wrap;
+  }}
+  .mini-btn {{
+    flex: 1;
+    text-align: center;
+    justify-content: center;
+    padding: 5px 7px;
+    font-size: 11.5px;
+    border-radius: 5px;
+    background: #1c202b;
+    color: var(--fg);
+    border: 1px solid var(--border);
+    cursor: pointer;
+    font-weight: 600;
+  }}
+  .mini-btn.gold {{
+    background: var(--gold);
+    color: #0b0c10;
+    border-color: var(--gold);
+  }}
 
-  /* ROW 3: Bottom NLE Scrubber + Slit-Scan Tomograms (92px) */
-  .bottom-scrubber {{
+  /* All 142 Films Browser List */
+  .filter-bar {{
+    display: flex;
+    gap: 6px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+  }}
+  .film-list {{
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    max-height: 70vh;
+    overflow-y: auto;
+  }}
+  .film-row {{
     background: var(--panel);
     border: 1px solid var(--border);
     border-radius: 7px;
-    padding: 4px 8px;
-    display: grid;
-    grid-template-columns: 1.15fr 1fr 1fr;
-    gap: 8px;
-    align-items: stretch;
-    min-height: 0;
-    overflow: hidden;
+    padding: 8px 11px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    cursor: pointer;
   }}
-  .scrubber-col {{
+  .film-row:hover, .film-row.active {{
+    border-color: var(--gold);
+    background: var(--panel-hover);
+  }}
+  .film-row-title {{ font-weight: 700; font-size: 13px; }}
+  .film-row-sub {{ font-size: 11.5px; color: var(--muted); }}
+  .swatch-pair {{
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex-shrink: 0;
+  }}
+  .swatch {{
+    width: 18px;
+    height: 18px;
+    border-radius: 4px;
+    border: 1px solid rgba(255,255,255,0.2);
+  }}
+
+  /* Simple 3D Subject Path Canvas (Clean, Single-Purpose) */
+  .path3d-box {{
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    padding: 12px;
+  }}
+  #path3dCanvas {{
+    width: 100%;
+    height: 290px;
+    background: #08090d;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    display: block;
+    cursor: grab;
+  }}
+
+  /* Prompt Modal */
+  .modal-backdrop {{
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.82);
+    z-index: 100;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 14px;
+  }}
+  .modal-backdrop.active {{ display: flex; }}
+  .modal-card {{
+    background: var(--panel);
+    border: 1px solid var(--gold);
+    border-radius: 10px;
+    max-width: 820px;
+    width: 100%;
+    max-height: 88vh;
     display: flex;
     flex-direction: column;
-    min-height: 0;
-    position: relative;
+    overflow: hidden;
   }}
-  .scrubber-lbl {{
-    font-size: 9px;
-    font-family: var(--mono);
-    color: var(--muted);
-    margin-bottom: 2px;
+  .modal-head {{
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--border);
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
   }}
-  #masterTimelineCanvas {{
-    flex: 1;
-    min-height: 0;
-    width: 100%;
-    background: #07080c;
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    cursor: ew-resize;
-    display: block;
-  }}
-  .slit-box {{
-    flex: 1;
-    min-height: 0;
-    position: relative;
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    overflow: hidden;
-    cursor: ew-resize;
-    background: #000;
-  }}
-  .slit-box img {{ width: 100%; height: 100%; object-fit: fill; display: block; }}
-  .playhead-line {{
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    width: 2px;
-    background: var(--accent);
-    box-shadow: 0 0 6px var(--accent);
-    pointer-events: none;
-    left: 0%;
-  }}
-  .ledger-scroll {{
-    flex: 1;
-    min-height: 0;
+  .modal-body {{
+    padding: 14px;
     overflow-y: auto;
-    font-size: 10.5px;
+    font-family: var(--mono);
+    font-size: 12px;
+    white-space: pre-wrap;
+    line-height: 1.5;
   }}
-  .ledger-scroll table {{ width: 100%; border-collapse: collapse; }}
-  .ledger-scroll th, .ledger-scroll td {{ padding: 4px 6px; border-bottom: 1px solid var(--border); text-align: left; }}
-  .ledger-scroll th {{ background: var(--panel-alt); color: var(--muted); font-size: 9px; text-transform: uppercase; position: sticky; top: 0; }}
-  .ledger-scroll tr:hover td {{ background: #181c28; cursor: pointer; }}
 </style>
 </head>
 <body>
-<div class="cockpit">
-  <!-- ROW 1: TOP BAR -->
-  <div class="topbar">
-    <div class="brand-cluster">
-      <span class="brand-tag">4D TENSOR LAB</span>
-      <select id="all142Select" class="btn gold" style="max-width:195px;" onchange="selectFrom142Catalog(this.value)" title="Browse All 142 Playable ALLWAYS Videos (3D Worm + KALMUS + Manovich)"></select>
-      <button class="btn gold" onclick="playEightGridsReel()" title="Watch the 8-Rule Archival Perspective Breakdown Reel">★ 8-Grid Reel</button>
-      <button class="btn" onclick="stepFilm(-1)" title="Previous Film">◀</button>
-      <button class="btn" onclick="stepFilm(1)" title="Next Film">▶</button>
-    </div>
 
-    <div class="film-strip-pills" id="filmPillList"></div>
-
-    <div class="telemetry-chips">
-      <span class="t-chip" id="chipTime"><b>τ</b> 0.00s</span>
-      <span class="t-chip" id="chipLock"><b>Grid</b> 92%</span>
-      <span class="t-chip" id="chipSaccade"><b>Δs²</b> +0.03</span>
-      <span class="t-chip" id="chipFTBE"><b>FTBE</b> 2.41</span>
-      <span class="t-chip" id="chipLinter" style="color:var(--green);border-color:#1f4730;">STGL PASS</span>
-    </div>
-
-    <div class="brand-cluster">
-      <a class="btn" href="../paeleo/allways/index.html">← Hub</a>
-      <a class="btn" href="../allways-best/index.html">★ Best</a>
-      <a class="btn" href="../allways-awards/index.html">🏆 Awards</a>
-    </div>
+<header class="header">
+  <div class="brand">
+    <span>ALLWAYS</span>
+    8 Composition Shapes &amp; Archival Cinema Studio
   </div>
+  <div class="nav-links">
+    <button class="btn gold" onclick="playEightGridsReel()">▶ 8-Shape Reel (28s)</button>
+    <a class="btn" href="../paeleo/allways/index.html">← Hub</a>
+    <a class="btn" href="../allways-best/index.html">★ Best Film</a>
+    <a class="btn" href="../allways-awards/index.html">🏆 Awards</a>
+  </div>
+</header>
 
-  <!-- ROW 2: CENTER STAGE -->
-  <div class="center-stage">
-    <!-- Left: Primary Cinema Screening Room + Live Acrylic Viewfinder Overlay -->
-    <div class="theater-pane">
-      <div class="theater-head">
-        <div style="display:flex;align-items:baseline;min-width:0;">
-          <span class="theater-title" id="stageTitle">059 · BALL</span>
-          <span class="theater-sub" id="stageSub">Claude Sonnet · Grand Prix · 96.0/100</span>
+<main class="layout">
+  <!-- LEFT COLUMN: Clean Video Player + Single Viewfinder Guide Bar + Real Color/Slit Timeline -->
+  <section class="player-column">
+    <div class="player-card">
+      <div class="stage-header">
+        <div>
+          <div class="stage-title" id="stageTitle">114 · GOLDEN SPIRAL</div>
+          <div class="stage-meta" id="stageSub">SCION 114 · 24.0s · 8 Archival Cuts</div>
         </div>
-        <div style="display:flex;gap:4px;flex-shrink:0;align-items:center;">
-          <select id="viewfinderCardSelect" class="btn gold" onchange="onViewfinderCardChange(this.value)" title="Overlay Physical Acrylic Viewfinder Grid on Live Video">
-            <option value="none">Acrylic Viewfinder: Off (14-Line)</option>
-            <option value="golden_spiral">#1 Golden Ratio / Fibonacci Spiral</option>
-            <option value="frame_in_frame">#2 Frame in a Frame (Sub-framing)</option>
-            <option value="s_curve">#3 S-Curve (Leading Bezier)</option>
-            <option value="symmetry">#4 Symmetry (Vertical Bisector)</option>
-            <option value="rule_of_thirds">#5 The Rule of Thirds (3×3)</option>
-            <option value="centered">#6 Centered (Channel + Baseline)</option>
-            <option value="v_shape">#7 V-Shape (Converging Wedge)</option>
-            <option value="negative_space">#8 Negative Space (U-Bracket)</option>
-          </select>
-          <button class="btn" id="btnCounterfactual" onclick="toggleCounterfactualReg()">⌖ Lock `register`</button>
-          <button class="btn rose" id="btnResetSandbox" onclick="resetSandbox()" style="display:none;">↺ Reset</button>
-          <a class="btn" id="stageCaseLink" href="../allways-sonnet/059-ball/index.html" target="_blank">Case ↗</a>
-        </div>
+        <a class="btn" id="stageCaseLink" href="../paeleo/allways/scion/prompts/scion-114-golden-spiral-logarithmic-torque.md" target="_blank">Source ↗</a>
       </div>
 
-      <div class="video-container">
+      <div class="video-wrap">
         <video id="mainVideo" controls playsinline preload="metadata"></video>
-        <canvas id="hudOverlayCanvas" class="hud-passthrough" width="800" height="450"></canvas>
-        <div class="scion-modal" id="scionPromptModal">
-          <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;">
-            <strong id="scionModalTitle" style="color:var(--accent);font-size:12px;">SCION 114 // Golden Spiral</strong>
-            <div style="display:flex;gap:5px;align-items:center;">
-              <button class="btn gold" id="scionModalPlayBtn">▶ Play 24s Proof Film</button>
-              <button class="btn" onclick="copyActiveScionPrompt()">📋 Copy Prompt</button>
-              <a class="btn" id="scionModalMdLink" href="#" target="_blank">Raw .md ↗</a>
-              <button class="btn rose" onclick="closeScionPromptModal()">✕ Close</button>
-            </div>
-          </div>
-          <div class="scion-modal-body" id="scionModalBody"></div>
-        </div>
+        <canvas id="guideCanvas" width="800" height="450"></canvas>
       </div>
 
-      <div class="theater-foot">
-        <div class="hud-checks">
-          <label><input type="checkbox" id="hudArmature" checked onchange="renderHUD()"><span>14-Line Armature</span></label>
-          <label><input type="checkbox" id="hudRegCircle" checked onchange="renderHUD()"><span>`059` Rim ($R=0.28H$)</span></label>
-          <label><input type="checkbox" id="hudStrands" checked onchange="renderHUD()"><span>3-Strand Braid $\\mathcal{{B}}_3$</span></label>
-          <label><input type="checkbox" id="hudSaccade" checked onchange="renderHUD()"><span>Saccade Cone $R(\\tau)$</span></label>
-          <label><input type="checkbox" id="hudHelmholtz" checked onchange="renderHUD()"><span>Helmholtz Sink $-\\nabla\\Phi$</span></label>
+      <!-- One Clean Composition Guide at a Time (Tap to Toggle) -->
+      <div class="guide-bar">
+        <span class="guide-lbl">Viewfinder:</span>
+        <button class="pill active" id="vf-none" onclick="setGuide('none')">Off</button>
+        <button class="pill" id="vf-golden_spiral" onclick="setGuide('golden_spiral')">1 · Golden Spiral</button>
+        <button class="pill" id="vf-frame_in_frame" onclick="setGuide('frame_in_frame')">2 · Frame in Frame</button>
+        <button class="pill" id="vf-s_curve" onclick="setGuide('s_curve')">3 · S-Curve</button>
+        <button class="pill" id="vf-symmetry" onclick="setGuide('symmetry')">4 · Symmetry</button>
+        <button class="pill" id="vf-rule_of_thirds" onclick="setGuide('rule_of_thirds')">5 · Rule of Thirds</button>
+        <button class="pill" id="vf-centered" onclick="setGuide('centered')">6 · Centered</button>
+        <button class="pill" id="vf-v_shape" onclick="setGuide('v_shape')">7 · V-Shape</button>
+        <button class="pill" id="vf-negative_space" onclick="setGuide('negative_space')">8 · Negative Space</button>
+      </div>
+
+      <!-- Real Frame Color Strip (Subject vs. Background) + Photographic Slit-Scan -->
+      <div class="scrubber-Area">
+        <div class="scrubber-head">
+          <span>Timeline Barcode (Top: Subject Color · Bottom: Background Color · White Line: Subject Horizontal Path)</span>
+          <span id="timeLabel" style="color:var(--gold);font-family:var(--mono);">0.0s</span>
         </div>
-        <span style="font-size:10px;color:var(--muted);font-family:var(--mono);" id="hudNodeReadout">(u=0.50, v=0.50, d=0.72)</span>
+        <canvas id="colorStripCanvas" width="720" height="44"></canvas>
+
+        <div class="slit-wrap" id="slitWrap" onclick="scrubSlit(event)">
+          <img id="slitImg" alt="Photographic Horizon Slit-Scan">
+          <div class="playhead" id="slitPlayhead"></div>
+        </div>
       </div>
     </div>
+  </section>
 
-    <!-- Right: Split Instrument Dock -->
-    <div class="instrument-dock">
-      <!-- Upper Dock: 3D Spatiotemporal Worm / KALMUS + Itten / Manovich 4-Part / 360° Torus / Dual Diff / Toric Camera -->
-      <div class="dock-card">
-        <div class="dock-head">
-          <span class="dock-title">3D Worm $\\mathcal{{V}}(u,v,\\tau)$ &amp; KALMUS</span>
-          <div class="tab-strip">
-            <button class="tab-btn active" id="modeBtn-prism" onclick="setViewMode('prism')">3D Worm Prism</button>
-            <button class="tab-btn" id="modeBtn-kalmus" onclick="setViewMode('kalmus')">KALMUS + Itten</button>
-            <button class="tab-btn" id="modeBtn-manovich" onclick="setViewMode('manovich')">Manovich 4-Part</button>
-            <button class="tab-btn" id="modeBtn-torus" onclick="setViewMode('torus')">360° Torus</button>
-            <button class="tab-btn" id="modeBtn-diff" onclick="setViewMode('diff')">Dual Diff</button>
-            <button class="tab-btn" id="modeBtn-toric" onclick="setViewMode('toric')">Toric</button>
+  <!-- RIGHT COLUMN: Clean Tabbed Browser (1. 8 Shape Films & Prompts | 2. All 142 Films | 3. 3D Subject Path) -->
+  <section class="browser-column">
+    <div class="section-tabs">
+      <button class="btn active" id="tabBtn-shapes" onclick="switchTab('shapes')">★ 8 Shape Films &amp; SCION Prompts</button>
+      <button class="btn" id="tabBtn-library" onclick="switchTab('library')">All 142 Films</button>
+      <button class="btn" id="tabBtn-path3d" onclick="switchTab('path3d')">3D Subject Path</button>
+    </div>
+
+    <!-- TAB 1: The 8 Shapes (Each with its 24s Film, Archival Match, and SCION Prompt) -->
+    <div class="tab-pane active" id="tab-shapes">
+      <div class="shape-grid" id="shapeCardsGrid"></div>
+    </div>
+
+    <!-- TAB 2: All 142 Playable ALLWAYS Films -->
+    <div class="tab-pane" id="tab-library">
+      <div class="filter-bar">
+        <button class="pill active" id="flt-all" onclick="filterLibrary('all')">All (142)</button>
+        <button class="pill" id="flt-shapes" onclick="filterLibrary('shapes')">8 Shapes + Best (10)</button>
+        <button class="pill" id="flt-sonnet" onclick="filterLibrary('sonnet')">Sonnet (11)</button>
+        <button class="pill" id="flt-opus" onclick="filterLibrary('opus')">Opus (12)</button>
+        <button class="pill" id="flt-sol" onclick="filterLibrary('sol')">Sol (24)</button>
+        <button class="pill" id="flt-argon" onclick="filterLibrary('argon')">Argon (85)</button>
+      </div>
+      <div class="film-list" id="libraryList"></div>
+    </div>
+
+    <!-- TAB 3: Clean 3D Subject Path (Shows how the subject moves in x, y over time) -->
+    <div class="tab-pane" id="tab-path3d">
+      <div class="path3d-box">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;flex-wrap:wrap;gap:6px;">
+          <div>
+            <strong>3D Subject Trajectory through Time</strong>
+            <div style="font-size:12px;color:var(--muted);">Drag to rotate · Tube color = real subject color · Tube width = subject size in frame</div>
           </div>
-        </div>
-
-        <canvas id="multiModeCanvas" class="canvas-fill" width="680" height="230"></canvas>
-
-        <div class="dock-foot">
-          <span>Tunnel:</span>
-          <select id="tunnelSelect" class="btn" style="padding:1px 5px;font-size:10px;" onchange="renderMultiModeCanvas()">
-            <option value="armature">14-Line Armature</option>
-            <option value="thirds">Rule of Thirds Cage</option>
-            <option value="golden">Golden Spiral Helix</option>
-            <option value="rabatment">Rabatment Pillars</option>
-          </select>
-          <span>Zoom:</span>
-          <input type="range" id="zoomSlider" min="1" max="12" step="0.25" value="1" oninput="onZoomChange(this.value)">
-          <span style="font-family:var(--mono);color:var(--accent);min-width:34px;" id="zoomVal">1.0×</span>
-          <select id="compareSelect" class="btn" style="padding:1px 5px;font-size:10px;" onchange="renderMultiModeCanvas()"></select>
-          <label style="display:inline-flex;align-items:center;gap:3px;cursor:pointer;">
-            <input type="checkbox" id="chkAutoOrbit" checked> <span>Orbit</span>
+          <label style="font-size:12px;cursor:pointer;display:flex;align-items:center;gap:4px;">
+            <input type="checkbox" id="chkSpin3D" checked> Auto-rotate
           </label>
         </div>
-      </div>
-
-      <!-- Lower Dock: 8-Grid Perspective Archive + 6-Manifold Interactive Workbench -->
-      <div class="dock-card">
-        <div class="dock-head">
-          <span class="dock-title" id="manifoldDockTitle">8-Grid Perspective Archive &amp; 6-Manifold Deck</span>
-          <div class="tab-strip">
-            <button class="tab-btn active" id="mTab-grids" onclick="setManifoldTab('grids')">★ 8-Grids</button>
-            <button class="tab-btn" id="mTab-all" onclick="setManifoldTab('all')">⊞ All 6</button>
-            <button class="tab-btn" id="mTab-1" onclick="setManifoldTab('1')">1·Braid</button>
-            <button class="tab-btn" id="mTab-2" onclick="setManifoldTab('2')">2·HHD</button>
-            <button class="tab-btn" id="mTab-3" onclick="setManifoldTab('3')">3·W₂</button>
-            <button class="tab-btn" id="mTab-4" onclick="setManifoldTab('4')">4·Cone</button>
-            <button class="tab-btn" id="mTab-5" onclick="setManifoldTab('5')">5·TDA</button>
-            <button class="tab-btn" id="mTab-6" onclick="setManifoldTab('6')">6·PLV</button>
-            <button class="tab-btn" id="mTab-7" onclick="setManifoldTab('7')">Ledger</button>
-          </div>
-        </div>
-
-        <!-- View 'grids': 8 Composition Grids Archive Deck (4x2 Zero-Scroll Grid) -->
-        <div class="eight-grid-deck active" id="pane-grids"></div>
-
-        <!-- View 'all': All 6 Manifolds Mini-Grid -->
-        <div class="mini-six-grid" id="pane-all" style="display:none;">
-          <div class="mini-cell" onclick="setManifoldTab('1')">
-            <div class="mini-cell-lbl"><span>1 · Braid B₃</span><span id="mLbl1">FTBE 2.41</span></div>
-            <canvas id="miniCv1" width="220" height="105"></canvas>
-          </div>
-          <div class="mini-cell" onclick="setManifoldTab('2')">
-            <div class="mini-cell-lbl"><span>2 · Helmholtz ΦΨH</span><span id="mLbl2">40/38/13%</span></div>
-            <canvas id="miniCv2" width="220" height="105"></canvas>
-          </div>
-          <div class="mini-cell" onclick="setManifoldTab('3')">
-            <div class="mini-cell-lbl"><span>3 · Wasserstein W₂</span><span id="mLbl3">Geo 0.71</span></div>
-            <canvas id="miniCv3" width="220" height="105"></canvas>
-          </div>
-          <div class="mini-cell" onclick="setManifoldTab('4')">
-            <div class="mini-cell-lbl"><span>4 · Saccade Cone</span><span id="mLbl4">54% TL</span></div>
-            <canvas id="miniCv4" width="220" height="105"></canvas>
-          </div>
-          <div class="mini-cell" onclick="setManifoldTab('5')">
-            <div class="mini-cell-lbl"><span>5 · Takens TDA</span><span id="mLbl5">(9,50,0.37)</span></div>
-            <canvas id="miniCv5" width="220" height="105"></canvas>
-          </div>
-          <div class="mini-cell" onclick="setManifoldTab('6')">
-            <div class="mini-cell-lbl"><span>6 · Synchresis PLV</span><span id="mLbl6">0.446</span></div>
-            <canvas id="miniCv6" width="220" height="105"></canvas>
-          </div>
-        </div>
-
-        <!-- View 1: Artin Braid B_3 Sandbox -->
-        <div class="single-manifold-pane" id="pane-1">
-          <canvas id="cvBraid" class="canvas-fill" width="640" height="190"></canvas>
-          <div class="dock-foot">
-            <span>Pull Strands Taut ($\\sigma_i\\sigma_i^{{-1}}\\to e$):</span>
-            <input type="range" id="braidTautSlider" min="0" max="1" step="0.02" value="0" oninput="renderManifolds()">
-            <span id="braidWordReadout" style="font-family:var(--mono);color:var(--cyan);">B₃: σ1 · σ2⁻¹</span>
-          </div>
-        </div>
-
-        <!-- View 2: Helmholtz-Hodge Sandbox -->
-        <div class="single-manifold-pane" id="pane-2">
-          <canvas id="cvHHD" class="canvas-fill" width="640" height="190"></canvas>
-          <div class="dock-foot">
-            <span>Isolate Orthogonal Field:</span>
-            <button class="tab-btn active" id="hhdFilter-all" onclick="setHHDFilter('all')">All V</button>
-            <button class="tab-btn" id="hhdFilter-phi" onclick="setHHDFilter('phi')">−∇Φ (Loom)</button>
-            <button class="tab-btn" id="hhdFilter-psi" onclick="setHHDFilter('psi')">∇×Ψ (Swirl)</button>
-            <button class="tab-btn" id="hhdFilter-h" onclick="setHHDFilter('h')">H (Pan)</button>
-          </div>
-        </div>
-
-        <!-- View 3: Wasserstein W2 & KALMUS Sandbox -->
-        <div class="single-manifold-pane" id="pane-3">
-          <canvas id="cvW2" class="canvas-fill" width="640" height="190"></canvas>
-          <div class="dock-foot">
-            <span>Core-Worm Aperture $r_{{\\text{{worm}}}}$:</span>
-            <input type="range" id="kalmusRadiusSlider" min="0.08" max="0.42" step="0.01" value="0.22" oninput="renderManifolds()">
-            <span id="w2Readout" style="font-family:var(--mono);color:var(--green);">ΔL* 16.0 · W₂² 0.49</span>
-          </div>
-        </div>
-
-        <!-- View 4: Relativistic Saccade Light-Cones Sandbox -->
-        <div class="single-manifold-pane" id="pane-4">
-          <canvas id="cvSaccade" class="canvas-fill" width="640" height="190"></canvas>
-          <div class="dock-foot">
-            <span>$c_{{\\text{{eye}}}}$:</span>
-            <input type="range" id="cEyeSlider" min="200" max="700" step="10" value="400" oninput="onSaccadeParamChange()">
-            <span id="cEyeVal" style="font-family:var(--mono);color:var(--accent);">400°/s</span>
-            <span>$\\tau_{{\\text{{fix}}}}$:</span>
-            <input type="range" id="tauFixSlider" min="100" max="320" step="5" value="200" oninput="onSaccadeParamChange()">
-            <span id="tauFixVal" style="font-family:var(--mono);color:var(--accent);">200ms</span>
-          </div>
-        </div>
-
-        <!-- View 5: Takens Persistent Homology Sandbox -->
-        <div class="single-manifold-pane" id="pane-5">
-          <canvas id="cvTDA" class="canvas-fill" width="640" height="190"></canvas>
-          <div class="dock-foot">
-            <span>Vietoris–Rips Radius $\\epsilon$:</span>
-            <input type="range" id="epsSlider" min="0.15" max="2.20" step="0.05" value="0.75" oninput="renderManifolds()">
-            <span id="tdaReadout" style="font-family:var(--mono);color:var(--purple);">ε=0.75 · Chiasmus 0.37</span>
-          </div>
-        </div>
-
-        <!-- View 6: Cross-Spectral Synchresis PLV Sandbox -->
-        <div class="single-manifold-pane" id="pane-6">
-          <canvas id="cvPLV" class="canvas-fill" width="640" height="190"></canvas>
-          <div class="dock-foot">
-            <span>Cymatic Grid Coupling $g_{{\\mu\\nu}}$:</span>
-            <input type="range" id="cymaticGainSlider" min="0" max="3" step="0.1" value="1.2" oninput="renderManifolds(); renderHUD();">
-            <span id="plvReadout" style="font-family:var(--mono);color:var(--cyan);">PLV 0.446 · Slip 0.005</span>
-          </div>
-        </div>
-
-        <!-- View 7: 142-Film Worm & KALMUS Corpus Ledger -->
-        <div class="single-manifold-pane" id="pane-7">
-          <div class="ledger-scroll">
-            <table>
-              <thead>
-                <tr><th># · Film (142 Total)</th><th>Maker</th><th>3D Worm Topology</th><th>Match/Coll</th><th>ΔL*</th><th>ΔH°</th><th>Lock/Arn</th><th>κ / τ / Jerk</th></tr>
-              </thead>
-              <tbody id="corpusTableBody"></tbody>
-            </table>
-          </div>
-        </div>
+        <canvas id="path3dCanvas" width="680" height="290"></canvas>
       </div>
     </div>
-  </div>
+  </section>
+</main>
 
-  <!-- ROW 3: BOTTOM NLE SCRUBBER & SLIT-SCAN TOMOGRAM BAR (92px) -->
-  <div class="bottom-scrubber">
-    <div class="scrubber-col">
-      <div class="scrubber-lbl">
-        <span>MASTER TIMELINE (Chroma Core · $W_2^2$ Energy · Cut Cones $\\Delta s^2$)</span>
-        <span id="scrubberTimeLbl" style="color:var(--accent);">0.00s / 40.2s</span>
-      </div>
-      <canvas id="masterTimelineCanvas" width="640" height="66"></canvas>
-    </div>
-
-    <div class="scrubber-col">
-      <div class="scrubber-lbl">
-        <span>$u\\text{{-}}\\tau$ HORIZON SLIT-SCAN TOMOGRAM</span>
-        <span>Vertical = Lock · Diagonal = Pan</span>
-      </div>
-      <div class="slit-box" onmousemove="scrubFromSlit(event)" onclick="scrubFromSlit(event, true)">
-        <img id="utSlitImg" alt="u-tau slit-scan">
-        <div class="playhead-line" id="utPlayhead"></div>
+<!-- Modal for Inspecting Full SCION Prompt (SCION 114–121) -->
+<div class="modal-backdrop" id="promptModal" onclick="if(event.target===this)closePromptModal()">
+  <div class="modal-card">
+    <div class="modal-head">
+      <strong id="modalTitle" style="color:var(--gold);">SCION Prompt</strong>
+      <div style="display:flex;gap:6px;">
+        <button class="btn gold" id="modalPlayBtn">▶ Play 24s Film</button>
+        <button class="btn" onclick="copyPromptText()">📋 Copy</button>
+        <button class="btn" onclick="closePromptModal()">✕ Close</button>
       </div>
     </div>
-
-    <div class="scrubber-col">
-      <div class="scrubber-lbl">
-        <span>$v\\text{{-}}\\tau$ VERTICAL SLIT-SCAN TOMOGRAM</span>
-        <span>Strata = Cuts · Cone = Zoom</span>
-      </div>
-      <div class="slit-box" onmousemove="scrubFromSlit(event)" onclick="scrubFromSlit(event, true)">
-        <img id="vtSlitImg" alt="v-tau slit-scan">
-        <div class="playhead-line" id="vtPlayhead"></div>
-      </div>
-    </div>
+    <div class="modal-body" id="modalBody"></div>
   </div>
 </div>
 
 <script>
-const FILMS = {json.dumps(films)};
-const STGL_IR = {json.dumps(stgl_ir)};
 const EIGHT_GRIDS = {json.dumps(grids_data)};
 const SCION_SHAPES = {json.dumps(scion_shapes_data)};
-const WORMS_140 = {json.dumps(worms_140_data)};
-let activeScionPromptOp = null;
-let activeWormFilm = (WORMS_140.films || [])[14] || (WORMS_140.films || [])[0] || null;
-
-let activeFilmIndex = 1; // Default 059-ball
-let activeFilm = FILMS[activeFilmIndex] || FILMS[0];
-let compareFilm = FILMS[10] || FILMS[0];
-let viewMode = 'prism';
-let activeManifoldTab = 'grids'; // Show 8-Grids Archive Deck first so user sees all 8 rules immediately!
-let activeViewfinderRule = 'none';
-let hhdFilter = 'all';
-let curTime = 0.0;
-let semanticZoom = 1.0;
-
-let cEyeDeg = 400;
-let tauFixMs = 200;
-let counterfactualReg = false;
-let userNodeOffset = {{ du: 0.0, dv: 0.0 }};
-let draggingHUD = false;
-
-let yaw = -0.56, pitch = 0.32;
-let dragging3D = false, lastMX = 0, lastMY = 0;
+const FILMS_142 = {json.dumps(slim_films)};
 
 const videoEl = document.getElementById('mainVideo');
-const hudCanvas = document.getElementById('hudOverlayCanvas');
-const multiCanvas = document.getElementById('multiModeCanvas');
-const tlCanvas = document.getElementById('masterTimelineCanvas');
+const guideCanvas = document.getElementById('guideCanvas');
+const colorCanvas = document.getElementById('colorStripCanvas');
+const pathCanvas = document.getElementById('path3dCanvas');
 
-function initUI() {{
-  const pillList = document.getElementById('filmPillList');
-  const compSel = document.getElementById('compareSelect');
-  const tbody = document.getElementById('corpusTableBody');
-  const gridsDeck = document.getElementById('pane-grids');
-  const sel142 = document.getElementById('all142Select');
-  pillList.innerHTML = '';
-  compSel.innerHTML = '';
-  tbody.innerHTML = '';
-  gridsDeck.innerHTML = '';
-  sel142.innerHTML = '';
+let activeFilm = FILMS_142[1] || FILMS_142[0]; // Default to SCION 114 Golden Spiral
+let activeGuide = 'none';
+let activeTab = 'shapes';
+let libFilter = 'all';
+let curTime = 0.0;
+let activePromptOp = null;
 
-  FILMS.forEach((f, idx) => {{
-    const btn = document.createElement('button');
-    btn.className = 'f-pill' + (f.id === activeFilm.id ? ' active' : '');
-    btn.id = 'fpill-' + f.id;
-    btn.textContent = f.title;
-    btn.onclick = () => selectFilmByIndex(idx);
-    pillList.appendChild(btn);
+// 3D rotation angles
+let yaw = -0.55, pitch = 0.28, dragging3D = false, lastX = 0, lastY = 0;
 
-    const opt = document.createElement('option');
-    opt.value = f.id;
-    opt.textContent = 'vs ' + f.title;
-    if (f.id === compareFilm.id) opt.selected = true;
-    compSel.appendChild(opt);
-  }});
+function init() {{
+  renderShapeCards();
+  renderLibraryList();
+  loadFilmObject(activeFilm, false);
+}}
 
-  // Populate 142-Film Dropdown & 142-Film Worm + KALMUS Ledger Table
-  (WORMS_140.films || []).forEach((wf, wIdx) => {{
-    const o = document.createElement('option');
-    o.value = wf.id;
-    o.textContent = `[${{wIdx+1}}/142] ${{wf.title}} (${{wf.dominant_topology.slice(0,11)}})`;
-    if (activeWormFilm && wf.id === activeWormFilm.id) o.selected = true;
-    sel142.appendChild(o);
-
-    const tr = document.createElement('tr');
-    tr.onclick = () => selectFrom142Catalog(wf.id);
-    const topoShort = wf.dominant_topology.replace(/_/g, ' ');
-    tr.innerHTML = `
-      <td><strong>${{wIdx+1}}. ${{wf.title}}</strong></td>
-      <td style="color:var(--muted);font-size:9.5px;">${{wf.maker}}</td>
-      <td style="font-family:var(--mono);color:var(--accent);font-size:9.5px;">${{topoShort}}</td>
-      <td style="font-family:var(--mono)">${{wf.match_cuts}}M / ${{wf.collision_cuts}}C</td>
-      <td style="font-family:var(--mono)">${{wf.mean_chiaroscuro.toFixed(1)}}</td>
-      <td style="font-family:var(--mono)">${{wf.mean_hue_diff_deg.toFixed(0)}}°</td>
-      <td style="font-family:var(--mono)">${{wf.compositional_lock_pct.toFixed(0)}}% / ${{wf.arnheim_torque_pct.toFixed(0)}}%</td>
-      <td style="font-family:var(--mono)">${{wf.mean_kappa.toFixed(2)}} / ${{wf.mean_torsion.toFixed(2)}} / ${{wf.mean_jerk.toFixed(2)}}</td>
-    `;
-    tbody.appendChild(tr);
-  }});
-
-  // Populate 8-Rule Archival Perspective Cards + SCION 114–121 Film & Prompt Buttons
+function renderShapeCards() {{
+  const grid = document.getElementById('shapeCardsGrid');
+  grid.innerHTML = '';
   (EIGHT_GRIDS.rules || []).forEach(r => {{
     const op = (SCION_SHAPES.operators || []).find(o => o.rule_id === r.id);
+    const scionId = op ? op.scion_id : (113 + r.num);
     const card = document.createElement('div');
-    card.className = 'g8-card';
-    card.id = 'g8card-' + r.id;
-    card.onclick = () => loadArchivalRuleExemplar(r);
-    const scionBadge = op ? `SCION ${{op.scion_id}}` : `#${{r.num}}`;
+    card.className = 'shape-card';
+    card.id = 'scard-' + r.id;
     card.innerHTML = `
-      <div class="g8-actions">
-        <button class="g8-btn" title="Play 24s 8-Cut SCION Shape Proof Film" onclick="playScionShapeFilm('${{r.id}}', event)">▶ Film</button>
-        <button class="g8-btn" title="Read Full Standalone SCION Prompt" onclick="openScionPromptModal('${{r.id}}', event)">📜 SCION</button>
+      <div class="shape-thumb" onclick="playShapeFilm('${{r.id}}')">
+        <img src="${{r.overlay_b64 || r.overlay_img}}" alt="${{r.name}}">
+        <span class="shape-badge">SCION ${{scionId}} · #${{r.num}}</span>
       </div>
-      <img src="${{r.overlay_b64 || r.overlay_img}}" alt="${{r.name}}">
-      <div class="g8-cap">
-        <b>${{scionBadge}} · ${{r.name.split('(')[0].trim()}}</b>
-        <span>${{r.winner.film_title}} · ${{r.winner.source_title}}</span>
+      <div class="shape-body">
+        <div class="shape-name">${{r.name.split('(')[0].trim()}}</div>
+        <div class="shape-desc">${{r.geometry}}</div>
+        <div class="shape-actions">
+          <button class="mini-btn gold" onclick="playShapeFilm('${{r.id}}')">▶ 24s Film</button>
+          <button class="mini-btn" onclick="jumpArchivalShot('${{r.id}}')">⌖ Shot</button>
+          <button class="mini-btn" onclick="openPromptModal('${{r.id}}')">📜 Prompt</button>
+        </div>
       </div>
     `;
-    gridsDeck.appendChild(card);
+    grid.appendChild(card);
   }});
 }}
 
-function playScionShapeFilm(ruleId, ev) {{
-  if (ev) ev.stopPropagation();
-  closeScionPromptModal();
+function renderLibraryList() {{
+  const list = document.getElementById('libraryList');
+  list.innerHTML = '';
+  const items = FILMS_142.filter(f => {{
+    if (libFilter === 'all') return true;
+    if (libFilter === 'shapes') return f.group === 'shapes' || f.group === 'featured';
+    return f.group === libFilter;
+  }});
+
+  items.forEach(f => {{
+    const row = document.createElement('div');
+    row.className = 'film-row' + (activeFilm && activeFilm.id === f.id ? ' active' : '');
+    row.onclick = () => loadFilmObject(f, true);
+    const mid = (f.series && f.series[Math.floor(f.series.length / 2)]) || {{ rgb_core: [200,160,80], rgb_shell: [40,50,70] }};
+    const c1 = mid.rgb_core, c2 = mid.rgb_shell;
+    row.innerHTML = `
+      <div>
+        <div class="film-row-title">${{f.title}}</div>
+        <div class="film-row-sub">${{f.maker}} · ${{f.duration_s}}s · ${{f.dominant_topology.replace(/_/g, ' ')}}</div>
+      </div>
+      <div class="swatch-pair" title="Subject Color / Background Color">
+        <span class="swatch" style="background:rgb(${{c1[0]}},${{c1[1]}},${{c1[2]}})"></span>
+        <span class="swatch" style="background:rgb(${{c2[0]}},${{c2[1]}},${{c2[2]}})"></span>
+      </div>
+    `;
+    list.appendChild(row);
+  }});
+}}
+
+function filterLibrary(flt) {{
+  libFilter = flt;
+  ['all', 'shapes', 'sonnet', 'opus', 'sol', 'argon'].forEach(k => {{
+    const b = document.getElementById('flt-' + k);
+    if (b) b.classList.toggle('active', k === flt);
+  }});
+  renderLibraryList();
+}}
+
+function switchTab(tabId) {{
+  activeTab = tabId;
+  ['shapes', 'library', 'path3d'].forEach(k => {{
+    document.getElementById('tabBtn-' + k).classList.toggle('active', k === tabId);
+    document.getElementById('tab-' + k).classList.toggle('active', k === tabId);
+  }});
+  if (tabId === 'path3d') draw3DSubjectPath();
+}}
+
+function loadFilmObject(f, autoplay) {{
+  activeFilm = f;
+  curTime = 0.0;
+  document.getElementById('stageTitle').textContent = f.title;
+  document.getElementById('stageSub').textContent = `${{f.maker}} · ${{f.duration_s}}s · ${{f.dominant_topology.replace(/_/g, ' ')}}`;
+  document.getElementById('stageCaseLink').href = f.case_url;
+
+  videoEl.src = f.video_rel;
+  if (autoplay) videoEl.play().catch(() => {{}});
+
+  const slitWrap = document.getElementById('slitWrap');
+  if (f.ut_b64) {{
+    document.getElementById('slitImg').src = f.ut_b64;
+    slitWrap.classList.add('visible');
+  }} else {{
+    slitWrap.classList.remove('visible');
+  }}
+
+  drawColorStrip();
+  if (activeTab === 'path3d') draw3DSubjectPath();
+  if (activeTab === 'library') renderLibraryList();
+}}
+
+function playShapeFilm(ruleId) {{
   const op = (SCION_SHAPES.operators || []).find(o => o.rule_id === ruleId);
   if (!op) return;
-  document.querySelectorAll('.g8-card').forEach(el => el.classList.remove('active'));
-  const c = document.getElementById('g8card-' + ruleId);
-  if (c) c.classList.add('active');
+  document.querySelectorAll('.shape-card').forEach(el => el.classList.remove('active'));
+  const card = document.getElementById('scard-' + ruleId);
+  if (card) card.classList.add('active');
 
-  activeViewfinderRule = 'none';
-  document.getElementById('viewfinderCardSelect').value = 'none';
-
-  document.getElementById('stageTitle').textContent = op.title;
-  document.getElementById('stageSub').textContent = `24.0s · 8 Archival Cuts (Phase I Observation → II Viewfinder Lock → III Contextual Release → IV Return)`;
-  document.getElementById('stageCaseLink').href = op.prompt_rel;
-
-  videoEl.src = op.film_file;
-  videoEl.currentTime = 0;
-  videoEl.play().catch(() => {{}});
+  setGuide('none'); // Film has its own 4-phase viewfinder lock built in
+  const fMatch = FILMS_142.find(f => f.id === 'shape-' + op.scion_id);
+  if (fMatch) {{
+    loadFilmObject(fMatch, true);
+  }} else {{
+    videoEl.src = op.film_file;
+    videoEl.play().catch(() => {{}});
+  }}
 }}
 
-function openScionPromptModal(ruleId, ev) {{
-  if (ev) ev.stopPropagation();
-  const op = (SCION_SHAPES.operators || []).find(o => o.rule_id === ruleId);
-  if (!op) return;
-  activeScionPromptOp = op;
-  document.getElementById('scionModalTitle').textContent = op.title;
-  document.getElementById('scionModalBody').textContent = op.prompt_markdown;
-  document.getElementById('scionModalMdLink').href = op.prompt_rel;
-  document.getElementById('scionModalPlayBtn').onclick = (e) => playScionShapeFilm(ruleId, e);
-  document.getElementById('scionPromptModal').classList.add('active');
-}}
-
-function closeScionPromptModal() {{
-  document.getElementById('scionPromptModal').classList.remove('active');
-}}
-
-function copyActiveScionPrompt() {{
-  if (!activeScionPromptOp) return;
-  navigator.clipboard.writeText(activeScionPromptOp.prompt_markdown);
-}}
-
-function playEightGridsReel() {{
-  document.getElementById('stageTitle').textContent = '8 Composition Rules — Archival Perspective Reel';
-  document.getElementById('stageSub').textContent = '8 Sequential Rules from @gfxmotionbyahmar Foraged Across Opus, Argon, Sol & Sonnet (28.0s)';
-  activeViewfinderRule = 'none';
-  document.getElementById('viewfinderCardSelect').value = 'none';
-  videoEl.src = 'eight-perspectives.mp4';
-  videoEl.currentTime = 0;
-  videoEl.play().catch(() => {{}});
-  setManifoldTab('grids');
-}}
-
-function loadArchivalRuleExemplar(r) {{
-  document.querySelectorAll('.g8-card').forEach(el => el.classList.remove('active'));
-  const c = document.getElementById('g8card-' + r.id);
-  if (c) c.classList.add('active');
-
-  activeViewfinderRule = r.id;
-  document.getElementById('viewfinderCardSelect').value = r.id;
-
+function jumpArchivalShot(ruleId) {{
+  const r = (EIGHT_GRIDS.rules || []).find(x => x.id === ruleId);
+  if (!r) return;
+  setGuide(ruleId);
   const w = r.winner;
-  document.getElementById('stageTitle').textContent = `#${{r.num}} ${{r.name}} — ${{w.film_title}}`;
-  document.getElementById('stageSub').textContent = `${{w.maker}} · Source: ${{w.source_title}} @ ${{w.timestamp_s}}s (Fit Score: ${{(w.score*100).toFixed(1)}}%)`;
+  document.getElementById('stageTitle').textContent = `#${{r.num}} ${{r.name.split('(')[0].trim()}} — ${{w.source_title}}`;
+  document.getElementById('stageSub').textContent = `In ${{w.film_title}} (${{w.maker}}) @ ${{w.timestamp_s}}s`;
   document.getElementById('stageCaseLink').href = w.case_url;
 
   videoEl.src = w.video_rel;
@@ -1038,237 +827,47 @@ function loadArchivalRuleExemplar(r) {{
     videoEl.play().catch(() => {{}});
     videoEl.onloadedmetadata = null;
   }};
-  renderHUD();
 }}
 
-function onViewfinderCardChange(ruleId) {{
-  activeViewfinderRule = ruleId;
-  renderHUD();
+function playEightGridsReel() {{
+  setGuide('none');
+  const fMatch = FILMS_142.find(f => f.id === 'shape-eight-reel');
+  if (fMatch) loadFilmObject(fMatch, true);
 }}
 
-function stepFilm(delta) {{
-  const nextIdx = (activeFilmIndex + delta + FILMS.length) % FILMS.length;
-  selectFilmByIndex(nextIdx);
-}}
-
-function selectFilmByIndex(idx) {{
-  activeFilmIndex = idx;
-  activeFilm = FILMS[idx];
-  curTime = 0.0;
-  resetSandbox(false);
-
-  const matchW = (WORMS_140.films || []).find(w => w.id === activeFilm.id || w.video_rel === activeFilm.video_rel);
-  if (matchW) {{
-    activeWormFilm = matchW;
-    document.getElementById('all142Select').value = matchW.id;
-  }}
-
-  document.querySelectorAll('.f-pill').forEach(el => el.classList.remove('active'));
-  const p = document.getElementById('fpill-' + activeFilm.id);
-  if (p) {{
-    p.classList.add('active');
-    p.scrollIntoView({{ behavior: 'smooth', block: 'nearest', inline: 'center' }});
-  }}
-
-  document.getElementById('stageTitle').textContent = activeFilm.title;
-  document.getElementById('stageSub').textContent = activeFilm.maker + ' · ' + activeFilm.award + ' · ' + activeFilm.duration_s + 's';
-  document.getElementById('stageCaseLink').href = activeFilm.watch_url;
-
-  videoEl.src = activeFilm.video_rel;
-  document.getElementById('utSlitImg').src = activeFilm.ut_b64 || activeFilm.ut_tomogram;
-  document.getElementById('vtSlitImg').src = activeFilm.vt_b64 || activeFilm.vt_tomogram;
-
-  renderAll();
-}}
-
-function selectFrom142Catalog(wormId) {{
-  const wf = (WORMS_140.films || []).find(w => w.id === wormId);
-  if (!wf) return;
-  activeWormFilm = wf;
-  document.getElementById('all142Select').value = wf.id;
-
-  // If this film is one of the 12 flagship Tensor films, select it directly
-  const fIdx = FILMS.findIndex(f => f.id === wf.id || f.video_rel === wf.video_rel);
-  if (fIdx >= 0) {{
-    selectFilmByIndex(fIdx);
-    return;
-  }}
-
-  // Otherwise synthesize a live activeFilm wrapper from the 142-film worm & KALMUS series!
-  curTime = 0.0;
-  document.querySelectorAll('.f-pill').forEach(el => el.classList.remove('active'));
-  const synthSeries = (wf.series || []).map(s => ({{
-    t: s.t,
-    s1: [s.c[0], s.c[1], 0.55],
-    s2: [s.c_left[0], s.c_left[1], 0.45],
-    s3: [s.c_right[0], s.c_right[1], 0.45],
-    r: s.r,
-    rgb: s.rgb_core,
-    rgb_shell: s.rgb_shell,
-    d_grid: s.d_armature,
-    kappa: s.kappa,
-    torsion: s.torsion,
-    phi: s.area_ratio,
-    psi: s.motion * 2.5,
-    h_flow: s.motion * 2.0,
-    sink: s.c,
-    w2: s.chiaroscuro * 0.06,
-    plv: Math.max(0.2, 1.0 - s.d_armature * 8.0),
-    sub_bass: s.block_intensity,
-    centroid: 0.5
-  }}));
-
-  activeFilm = {{
-    id: wf.id,
-    title: wf.title,
-    maker: wf.maker,
-    award: wf.dominant_topology.replace(/_/g, ' '),
-    duration_s: wf.duration_s,
-    video_rel: wf.video_rel,
-    watch_url: wf.case_url,
-    ut_b64: FILMS[0].ut_b64,
-    vt_b64: FILMS[0].vt_b64,
-    braid: {{ ftbe: wf.mean_kappa, reduced_word_preview: wf.dominant_topology }},
-    helmholtz: {{ divergence_share: wf.mean_area_ratio, curl_share: 0.32, harmonic_share: 0.35 }},
-    wasserstein: {{ mean_w2_kinetic: wf.mean_chiaroscuro * 0.05 }},
-    saccade: {{
-      timelike_pct: Math.round(100 * wf.match_cuts / Math.max(1, wf.match_cuts + wf.collision_cuts)),
-      cuts: (wf.earshot_impulses || []).map(imp => ({{ tau: imp.t, jump_sw: imp.cut_type === 'EYE_TRACE_MATCH_CUT' ? 0.06 : 0.24, p1: [0.45, 0.5], p2: [0.55, 0.5] }}))
-    }},
-    tda: {{ beta0_regimes: 4, beta1_loops: wf.match_cuts, beta2_chiasmus: wf.mean_block_intensity, attractor_2d: synthSeries.map(x => [x.s1[0] - 0.5, x.s1[1] - 0.5]) }},
-    synchresis: {{ mean_plv: wf.mean_block_intensity }},
-    worm: {{ compositional_lock_pct: wf.compositional_lock_pct }},
-    series: synthSeries
-  }};
-
-  document.getElementById('stageTitle').textContent = wf.title;
-  document.getElementById('stageSub').textContent = `${{wf.maker}} · Topology: ${{wf.dominant_topology.replace(/_/g, ' ')}} · ΔL* ${{wf.mean_chiaroscuro}} · Lock ${{wf.compositional_lock_pct}}%`;
-  document.getElementById('stageCaseLink').href = wf.case_url;
-  videoEl.src = wf.video_rel;
-  videoEl.currentTime = 0;
-  videoEl.play().catch(() => {{}});
-  renderAll();
-}}
-
-function setManifoldTab(tabId) {{
-  activeManifoldTab = tabId;
-  ['grids', 'all', '1', '2', '3', '4', '5', '6', '7'].forEach(k => {{
-    const b = document.getElementById('mTab-' + k);
-    if (b) b.classList.toggle('active', k === tabId);
+function setGuide(ruleId) {{
+  activeGuide = ruleId;
+  ['none', 'golden_spiral', 'frame_in_frame', 's_curve', 'symmetry', 'rule_of_thirds', 'centered', 'v_shape', 'negative_space'].forEach(k => {{
+    const b = document.getElementById('vf-' + k);
+    if (b) b.classList.toggle('active', k === ruleId);
   }});
-  document.getElementById('pane-grids').classList.toggle('active', tabId === 'grids');
-  document.getElementById('pane-all').style.display = (tabId === 'all') ? 'grid' : 'none';
-  for (let i = 1; i <= 7; i++) {{
-    const p = document.getElementById('pane-' + i);
-    if (p) p.classList.toggle('active', String(i) === tabId);
-  }}
-  renderManifolds();
+  drawGuideOverlay();
 }}
 
-function sampleAtTime(film, tSec) {{
-  const s = film.series || [];
-  if (!s.length) return null;
-  let best = s[0], bestD = 1e9;
-  for (let i = 0; i < s.length; i++) {{
-    const d = Math.abs(s[i].t - tSec);
-    if (d < bestD) {{ bestD = d; best = s[i]; }}
-  }}
-  return best;
-}}
+function drawGuideOverlay() {{
+  const ctx = guideCanvas.getContext('2d');
+  const W = guideCanvas.width, H = guideCanvas.height;
+  ctx.clearRect(0, 0, W, H);
+  if (!activeGuide || activeGuide === 'none') return;
 
-function getModifiedNode(pt) {{
-  if (!pt) return [0.5, 0.5, 0.5];
-  let u = pt.s1[0] + userNodeOffset.du;
-  let v = pt.s1[1] + userNodeOffset.dv;
-  if (counterfactualReg) {{
-    u = 0.5 + (u - 0.5) * 0.12;
-    v = 0.5 + (v - 0.5) * 0.12;
-  }}
-  return [Math.max(0.03, Math.min(0.97, u)), Math.max(0.03, Math.min(0.97, v)), pt.s1[2]];
-}}
-
-function toggleCounterfactualReg() {{
-  counterfactualReg = !counterfactualReg;
-  document.getElementById('btnCounterfactual').classList.toggle('active', counterfactualReg);
-  document.getElementById('btnResetSandbox').style.display = (counterfactualReg || userNodeOffset.du !== 0 || userNodeOffset.dv !== 0) ? 'inline-flex' : 'none';
-  renderAll();
-}}
-
-function resetSandbox(rerender=true) {{
-  counterfactualReg = false;
-  userNodeOffset = {{ du: 0.0, dv: 0.0 }};
-  cEyeDeg = 400;
-  tauFixMs = 200;
-  document.getElementById('cEyeSlider').value = 400;
-  document.getElementById('tauFixSlider').value = 200;
-  document.getElementById('cEyeVal').textContent = '400°/s';
-  document.getElementById('tauFixVal').textContent = '200ms';
-  document.getElementById('btnCounterfactual').classList.remove('active');
-  document.getElementById('btnResetSandbox').style.display = 'none';
-  if (rerender) renderAll();
-}}
-
-function setViewMode(m) {{
-  viewMode = m;
-  ['prism', 'kalmus', 'manovich', 'torus', 'diff', 'toric'].forEach(k => {{
-    const el = document.getElementById('modeBtn-' + k);
-    if (el) el.classList.toggle('active', k === m);
-  }});
-  renderMultiModeCanvas();
-}}
-
-function setHHDFilter(f) {{
-  hhdFilter = f;
-  ['all', 'phi', 'psi', 'h'].forEach(k => {{
-    document.getElementById('hhdFilter-' + k).classList.toggle('active', k === f);
-  }});
-  renderManifolds();
-}}
-
-function onZoomChange(val) {{
-  semanticZoom = parseFloat(val);
-  document.getElementById('zoomVal').textContent = semanticZoom.toFixed(1) + '×';
-  renderMultiModeCanvas();
-  renderMasterTimeline();
-}}
-
-function onSaccadeParamChange() {{
-  cEyeDeg = parseFloat(document.getElementById('cEyeSlider').value);
-  tauFixMs = parseFloat(document.getElementById('tauFixSlider').value);
-  document.getElementById('cEyeVal').textContent = cEyeDeg.toFixed(0) + '°/s';
-  document.getElementById('tauFixVal').textContent = tauFixMs.toFixed(0) + 'ms';
-  document.getElementById('btnResetSandbox').style.display = 'inline-flex';
-  renderAll();
-}}
-
-function getLiveHorizonSW() {{
-  const cEyeSW = cEyeDeg / 40.0;
-  const evalWindowS = Math.max(0.005, 0.222 - (tauFixMs / 1000.0));
-  return Math.max(0.04, cEyeSW * evalWindowS);
-}}
-
-// Draw the selected Physical Acrylic Viewfinder Grid (from @gfxmotionbyahmar) onto the live HUD canvas
-function drawAcrylicViewfinderOverlay(ctx, W, H, ruleId) {{
-  if (!ruleId || ruleId === 'none') return;
-  const pad = 16;
+  const pad = 18;
   ctx.save();
-  // Outer Acrylic Card Bevel
-  ctx.strokeStyle = 'rgba(255, 255, 255, 0.45)';
+  ctx.strokeStyle = 'rgba(255, 255, 255, 0.35)';
   ctx.lineWidth = 1.5;
   ctx.strokeRect(pad, pad, W - pad * 2, H - pad * 2);
 
-  ctx.strokeStyle = 'rgba(242, 196, 92, 0.94)';
+  ctx.strokeStyle = 'rgba(234, 179, 84, 0.95)';
   ctx.lineWidth = 3.2;
 
-  if (ruleId === 'golden_spiral') {{
+  if (activeGuide === 'golden_spiral') {{
     const gx = pad + (W - pad * 2) * 0.618;
     const gy = pad + (H - pad * 2) * 0.618;
-    ctx.strokeStyle = 'rgba(242, 196, 92, 0.45)';
+    ctx.strokeStyle = 'rgba(234, 179, 84, 0.45)';
     ctx.lineWidth = 1.6;
     ctx.beginPath(); ctx.moveTo(gx, pad); ctx.lineTo(gx, H - pad); ctx.stroke();
     ctx.beginPath(); ctx.moveTo(gx, gy); ctx.lineTo(W - pad, gy); ctx.stroke();
 
-    ctx.strokeStyle = 'rgba(242, 196, 92, 0.95)';
+    ctx.strokeStyle = 'rgba(234, 179, 84, 0.96)';
     ctx.lineWidth = 3.4;
     const cx = W * 0.68, cy = H * 0.44;
     ctx.beginPath();
@@ -1284,832 +883,204 @@ function drawAcrylicViewfinderOverlay(ctx, W, H, ruleId) {{
       }}
     }}
     ctx.stroke();
-  }} else if (ruleId === 'frame_in_frame') {{
-    const ix0 = W * 0.17, iy0 = H * 0.14, iw = W * 0.66, ih = H * 0.72;
-    ctx.strokeRect(ix0, iy0, iw, ih);
-  }} else if (ruleId === 's_curve') {{
+  }} else if (activeGuide === 'frame_in_frame') {{
+    ctx.strokeRect(W * 0.17, H * 0.14, W * 0.66, H * 0.72);
+  }} else if (activeGuide === 's_curve') {{
     ctx.beginPath();
     ctx.moveTo(W * 0.20, H * 0.88);
     ctx.bezierCurveTo(W * 0.78, H * 0.72, W * 0.22, H * 0.28, W * 0.80, H * 0.12);
     ctx.stroke();
-  }} else if (ruleId === 'symmetry') {{
-    ctx.beginPath();
-    ctx.moveTo(W * 0.5, pad);
-    ctx.lineTo(W * 0.5, H - pad);
-    ctx.stroke();
-  }} else if (ruleId === 'rule_of_thirds') {{
+  }} else if (activeGuide === 'symmetry') {{
+    ctx.beginPath(); ctx.moveTo(W * 0.5, pad); ctx.lineTo(W * 0.5, H - pad); ctx.stroke();
+  }} else if (activeGuide === 'rule_of_thirds') {{
     [1/3, 2/3].forEach(f => {{
       ctx.beginPath(); ctx.moveTo(W * f, pad); ctx.lineTo(W * f, H - pad); ctx.stroke();
       ctx.beginPath(); ctx.moveTo(pad, H * f); ctx.lineTo(W - pad, H * f); ctx.stroke();
     }});
-  }} else if (ruleId === 'centered') {{
+  }} else if (activeGuide === 'centered') {{
     [0.42, 0.58].forEach(f => {{
       ctx.beginPath(); ctx.moveTo(W * f, pad); ctx.lineTo(W * f, H - pad); ctx.stroke();
     }});
     ctx.beginPath(); ctx.moveTo(pad, H * 0.68); ctx.lineTo(W - pad, H * 0.68); ctx.stroke();
-  }} else if (ruleId === 'v_shape') {{
+  }} else if (activeGuide === 'v_shape') {{
     ctx.beginPath();
-    ctx.moveTo(W * 0.12, pad);
-    ctx.lineTo(W * 0.50, H * 0.84);
-    ctx.lineTo(W * 0.88, pad);
+    ctx.moveTo(W * 0.12, pad); ctx.lineTo(W * 0.50, H * 0.84); ctx.lineTo(W * 0.88, pad);
     ctx.stroke();
-  }} else if (ruleId === 'negative_space') {{
+  }} else if (activeGuide === 'negative_space') {{
     ctx.beginPath();
-    ctx.moveTo(W * 0.08, H * 0.64);
-    ctx.lineTo(W * 0.08, H * 0.10);
-    ctx.lineTo(W * 0.92, H * 0.10);
-    ctx.lineTo(W * 0.92, H * 0.64);
+    ctx.moveTo(W * 0.08, H * 0.64); ctx.lineTo(W * 0.08, H * 0.10);
+    ctx.lineTo(W * 0.92, H * 0.10); ctx.lineTo(W * 0.92, H * 0.64);
     ctx.stroke();
   }}
   ctx.restore();
 }}
 
-// 1. Live Video HUD Overlay
-function renderHUD() {{
-  const ctx = hudCanvas.getContext('2d');
-  const W = hudCanvas.width, H = hudCanvas.height;
+// Draw Clean Subject vs. Background Color Strip + White Subject Path
+function drawColorStrip() {{
+  const ctx = colorCanvas.getContext('2d');
+  const W = colorCanvas.width, H = colorCanvas.height;
   ctx.clearRect(0, 0, W, H);
+  if (!activeFilm || !activeFilm.series || !activeFilm.series.length) return;
 
-  drawAcrylicViewfinderOverlay(ctx, W, H, activeViewfinderRule);
+  const ser = activeFilm.series;
+  const n = ser.length;
+  const bw = W / n;
 
-  const pt = sampleAtTime(activeFilm, curTime);
-  if (!pt) return;
-  const modS1 = getModifiedNode(pt);
-  const cymGain = parseFloat(document.getElementById('cymaticGainSlider').value || 1.2);
-  const bassWarp = (pt.sub_bass || 0) * 0.032 * cymGain;
-  const centShift = ((pt.centroid || 0.5) - 0.5) * 0.035 * cymGain;
+  ser.forEach((s, i) => {{
+    const x = i * bw;
+    ctx.fillStyle = `rgb(${{s.rgb_core[0]}},${{s.rgb_core[1]}},${{s.rgb_core[2]}})`;
+    ctx.fillRect(x, 0, bw + 1, H * 0.55);
+    ctx.fillStyle = `rgb(${{s.rgb_shell[0]}},${{s.rgb_shell[1]}},${{s.rgb_shell[2]}})`;
+    ctx.fillRect(x, H * 0.55, bw + 1, H * 0.45);
+  }});
 
-  if (document.getElementById('hudArmature').checked && activeViewfinderRule === 'none') {{
-    ctx.save();
-    ctx.strokeStyle = 'rgba(229, 174, 92, 0.30)';
-    ctx.lineWidth = 1.1;
-    const lines = [
-      [[0,0],[1,1]], [[0,1],[1,0]],
-      [[0.5,0],[0.5,1]], [[0,0.5+centShift],[1,0.5+centShift]],
-      [[1/3-bassWarp,0],[1/3-bassWarp,1]], [[2/3+bassWarp,0],[2/3+bassWarp,1]],
-      [[0,1/3-bassWarp],[1,1/3-bassWarp]], [[0,2/3+bassWarp],[1,2/3+bassWarp]],
-      [[0,0],[0.5,1]], [[0.5,0],[1,1]], [[0,1],[0.5,0]], [[0.5,1],[1,0]]
-    ];
-    lines.forEach(([a, b]) => {{
-      ctx.beginPath(); ctx.moveTo(a[0] * W, a[1] * H); ctx.lineTo(b[0] * W, b[1] * H); ctx.stroke();
-    }});
-    ctx.restore();
-  }}
+  // Overlay white horizontal subject position curve u(t)
+  ctx.beginPath();
+  ser.forEach((s, i) => {{
+    const px = (i / Math.max(1, n - 1)) * W;
+    const py = 4 + s.c[0] * (H - 8);
+    if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+  }});
+  ctx.strokeStyle = 'rgba(255, 255, 255, 0.9)';
+  ctx.lineWidth = 2;
+  ctx.stroke();
 
-  if (document.getElementById('hudRegCircle').checked) {{
-    ctx.save();
-    const rPx = (0.28 + bassWarp * 0.5) * H;
-    ctx.beginPath();
-    ctx.arc(W * 0.5, H * 0.5, rPx, 0, Math.PI * 2);
-    ctx.strokeStyle = counterfactualReg ? 'rgba(114, 204, 150, 0.88)' : 'rgba(86, 194, 230, 0.42)';
-    ctx.setLineDash([5, 4]);
-    ctx.lineWidth = 1.5;
-    ctx.stroke();
-    ctx.restore();
-  }}
-
-  if (document.getElementById('hudHelmholtz').checked && pt.sink) {{
-    const sx = pt.sink[0] * W, sy = pt.sink[1] * H;
-    ctx.save();
-    ctx.beginPath();
-    ctx.arc(sx, sy, 9 + pt.phi * 16, 0, Math.PI * 2);
-    ctx.strokeStyle = 'rgba(227, 104, 116, 0.65)';
-    ctx.lineWidth = 1.5;
-    ctx.stroke();
-    ctx.restore();
-  }}
-
-  if (document.getElementById('hudSaccade').checked) {{
-    const cuts = (activeFilm.saccade && activeFilm.saccade.cuts) || [];
-    let nearCut = cuts[0], minCD = 999;
-    cuts.forEach(c => {{
-      const d = Math.abs(c.tau - curTime);
-      if (d < minCD) {{ minCD = d; nearCut = c; }}
-    }});
-    if (nearCut && minCD < 2.2) {{
-      const rSW = getLiveHorizonSW();
-      const p1x = nearCut.p1[0] * W, p1y = nearCut.p1[1] * H;
-      const p2x = (nearCut.p2[0] + userNodeOffset.du) * W;
-      const p2y = (nearCut.p2[1] + userNodeOffset.dv) * H;
-      const jumpSW = Math.hypot((p2x - p1x) / W, (p2y - p1y) / H);
-      const ds2Live = (rSW * rSW) - (jumpSW * jumpSW);
-      const coneCol = ds2Live > 0.01 ? 'rgba(114, 204, 150, 0.65)' : (ds2Live > -0.012 ? 'rgba(229, 174, 92, 0.75)' : 'rgba(227, 104, 116, 0.75)');
-
-      ctx.save();
-      ctx.beginPath();
-      ctx.arc(p1x, p1y, rSW * W, 0, Math.PI * 2);
-      ctx.fillStyle = coneCol.replace('0.65', '0.09').replace('0.75', '0.11');
-      ctx.fill();
-      ctx.strokeStyle = coneCol;
-      ctx.lineWidth = 1.6;
-      ctx.stroke();
-      ctx.beginPath();
-      ctx.moveTo(p1x, p1y);
-      ctx.lineTo(p2x, p2y);
-      ctx.stroke();
-      ctx.restore();
-    }}
-  }}
-
-  if (document.getElementById('hudStrands').checked) {{
-    const nodes = [
-      {{ u: modS1[0], v: modS1[1], d: modS1[2], col: '#e5ae5c', lbl: 's₁' }},
-      {{ u: pt.s2[0], v: pt.s2[1], d: pt.s2[2], col: '#56c2e6', lbl: 's₂' }},
-      {{ u: pt.s3[0], v: pt.s3[1], d: pt.s3[2], col: '#c77ae0', lbl: 's₃' }}
-    ];
-    ctx.save();
-    ctx.beginPath();
-    ctx.setLineDash([2, 3]);
-    ctx.moveTo(modS1[0] * W, modS1[1] * H);
-    ctx.lineTo(0.5 * W, 0.5 * H);
-    ctx.strokeStyle = 'rgba(229, 174, 92, 0.5)';
-    ctx.stroke();
-    ctx.restore();
-
-    nodes.forEach((n, idx) => {{
-      const nx = n.u * W, ny = n.v * H;
-      ctx.save();
-      ctx.beginPath();
-      ctx.arc(nx, ny, idx === 0 ? 8 : 5.5, 0, Math.PI * 2);
-      ctx.fillStyle = n.col;
-      ctx.fill();
-      ctx.strokeStyle = '#000';
-      ctx.lineWidth = 1.4;
-      ctx.stroke();
-      ctx.fillStyle = '#fff';
-      ctx.font = 'bold 10px monospace';
-      ctx.fillText(n.lbl, nx + 10, ny + 3);
-      ctx.restore();
-    }});
-  }}
-  document.getElementById('hudNodeReadout').textContent = `(u=${{modS1[0].toFixed(2)}}, v=${{modS1[1].toFixed(2)}}, d=${{modS1[2].toFixed(2)}})`;
+  // Playhead
+  const dur = activeFilm.duration_s || videoEl.duration || 1;
+  const px = Math.min(1, Math.max(0, curTime / dur)) * W;
+  ctx.fillStyle = '#eab354';
+  ctx.fillRect(px - 1.5, 0, 3, H);
 }}
 
-hudCanvas.addEventListener('mousedown', e => {{
-  draggingHUD = true;
-  updateHUDDrag(e);
-}});
-window.addEventListener('mouseup', () => {{ draggingHUD = false; }});
-window.addEventListener('mousemove', e => {{
-  if (draggingHUD) updateHUDDrag(e);
+colorCanvas.addEventListener('click', e => {{
+  const rect = colorCanvas.getBoundingClientRect();
+  const frac = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+  const dur = videoEl.duration || activeFilm.duration_s || 24;
+  videoEl.currentTime = frac * dur;
 }});
 
-function updateHUDDrag(e) {{
-  const rect = hudCanvas.getBoundingClientRect();
-  const uClick = Math.max(0.05, Math.min(0.95, (e.clientX - rect.left) / rect.width));
-  const vClick = Math.max(0.05, Math.min(0.95, (e.clientY - rect.top) / rect.height));
-  const pt = sampleAtTime(activeFilm, curTime);
-  if (pt) {{
-    userNodeOffset.du = uClick - pt.s1[0];
-    userNodeOffset.dv = vClick - pt.s1[1];
-    document.getElementById('btnResetSandbox').style.display = 'inline-flex';
-    renderAll();
-  }}
+function scrubSlit(e) {{
+  const rect = e.currentTarget.getBoundingClientRect();
+  const frac = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+  const dur = videoEl.duration || activeFilm.duration_s || 24;
+  videoEl.currentTime = frac * dur;
 }}
 
-// 2. Multi-Mode Spatiotemporal Volume Canvas
-function project3DPoint(u, v, tNorm, W, H, xCenterOffset=0, scaleMult=1.0) {{
-  const x = (tNorm - 0.5) * 1.68;
-  const y = (0.5 - v) * 0.90;
-  const z = (u - 0.5) * 0.90;
+videoEl.addEventListener('timeupdate', () => {{
+  curTime = videoEl.currentTime || 0;
+  const dur = videoEl.duration || activeFilm.duration_s || 1;
+  document.getElementById('timeLabel').textContent = `${{curTime.toFixed(1)}}s / ${{dur.toFixed(1)}}s`;
+  document.getElementById('slitPlayhead').style.left = `${{Math.min(100, (curTime / dur) * 100)}}%`;
+  drawColorStrip();
+  if (activeTab === 'path3d') draw3DSubjectPath();
+}});
+
+// Clean, Single-Purpose 3D Subject Path (x, y, time)
+function project3D(u, v, tNorm, W, H) {{
+  const x = (tNorm - 0.5) * 1.65;
+  const y = (0.5 - v) * 0.92;
+  const z = (u - 0.5) * 0.92;
   const cy = Math.cos(yaw), sy = Math.sin(yaw);
   const cp = Math.cos(pitch), sp = Math.sin(pitch);
   const x1 = x * cy - z * sy;
   const z1 = x * sy + z * cy;
   const y2 = y * cp - z1 * sp;
   const z2 = y * sp + z1 * cp;
-  const scale = (2.35 / (2.55 - z2)) * scaleMult;
+  const scale = 2.3 / (2.55 - z2);
   return {{
-    px: W * 0.5 + xCenterOffset + x1 * scale * Math.min(W, H) * 0.62,
+    px: W * 0.5 + x1 * scale * Math.min(W, H) * 0.62,
     py: H * 0.52 - y2 * scale * Math.min(W, H) * 0.62,
-    scale: scale
+    scale
   }};
 }}
 
-function drawPrismVolume(ctx, film, W, H, xOffset=0, scaleMult=1.0, isPrimary=true) {{
-  const series = film.series || [];
-  if (!series.length) return;
-  const dur = film.duration_s || 1;
-  const curNorm = Math.min(1, Math.max(0, curTime / dur));
-
-  const halfWin = 0.5 / semanticZoom;
-  const tMin = Math.max(0, Math.min(1 - 2 * halfWin, curNorm - halfWin));
-  const tMax = Math.min(1, tMin + 2 * halfWin);
+function draw3DSubjectPath() {{
+  const ctx = pathCanvas.getContext('2d');
+  const W = pathCanvas.width, H = pathCanvas.height;
+  ctx.clearRect(0, 0, W, H);
+  if (!activeFilm || !activeFilm.series || !activeFilm.series.length) return;
 
   const corners = [[0,0,0],[1,0,0],[1,1,0],[0,1,0],[0,0,1],[1,0,1],[1,1,1],[0,1,1]];
   const edges = [[0,1],[1,2],[2,3],[3,0],[4,5],[5,6],[6,7],[7,4],[0,4],[1,5],[2,6],[3,7]];
-  ctx.save();
-  ctx.strokeStyle = 'rgba(130, 145, 180, 0.22)';
+  ctx.strokeStyle = 'rgba(150, 160, 185, 0.22)';
   ctx.lineWidth = 1;
   edges.forEach(([i, j]) => {{
-    const a = project3DPoint(corners[i][0], corners[i][1], corners[i][2], W, H, xOffset, scaleMult);
-    const b = project3DPoint(corners[j][0], corners[j][1], corners[j][2], W, H, xOffset, scaleMult);
+    const a = project3D(corners[i][0], corners[i][1], corners[i][2], W, H);
+    const b = project3D(corners[j][0], corners[j][1], corners[j][2], W, H);
     ctx.beginPath(); ctx.moveTo(a.px, a.py); ctx.lineTo(b.px, b.py); ctx.stroke();
   }});
 
-  const c0 = project3DPoint(0.5, 0.5, 0, W, H, xOffset, scaleMult);
-  const c1 = project3DPoint(0.5, 0.5, 1, W, H, xOffset, scaleMult);
-  ctx.strokeStyle = 'rgba(229, 174, 92, 0.45)';
-  ctx.setLineDash([4, 4]);
-  ctx.beginPath(); ctx.moveTo(c0.px, c0.py); ctx.lineTo(c1.px, c1.py); ctx.stroke();
-
-  // Draw Selectable 3D Composition Grid Tunnel Filaments along tau in [0, 1]
-  const tunnelMode = (document.getElementById('tunnelSelect') || {{}}).value || 'armature';
-  ctx.setLineDash([2, 3]);
-  ctx.strokeStyle = 'rgba(242, 196, 92, 0.36)';
-  ctx.lineWidth = 1.1;
-  if (tunnelMode === 'thirds' || tunnelMode === 'armature') {{
-    [[1/3, 1/3], [2/3, 1/3], [1/3, 2/3], [2/3, 2/3]].forEach(([gu, gv]) => {{
-      const g0 = project3DPoint(gu, gv, 0, W, H, xOffset, scaleMult);
-      const g1 = project3DPoint(gu, gv, 1, W, H, xOffset, scaleMult);
-      ctx.beginPath(); ctx.moveTo(g0.px, g0.py); ctx.lineTo(g1.px, g1.py); ctx.stroke();
-    }});
-  }}
-  if (tunnelMode === 'rabatment') {{
-    [[0.28, 0.5], [0.72, 0.5], [0.4375, 0.5], [0.5625, 0.5]].forEach(([gu, gv]) => {{
-      const g0 = project3DPoint(gu, gv, 0, W, H, xOffset, scaleMult);
-      const g1 = project3DPoint(gu, gv, 1, W, H, xOffset, scaleMult);
-      ctx.strokeStyle = 'rgba(199, 122, 224, 0.45)';
-      ctx.beginPath(); ctx.moveTo(g0.px, g0.py); ctx.lineTo(g1.px, g1.py); ctx.stroke();
-    }});
-  }}
-  if (tunnelMode === 'golden') {{
-    ctx.setLineDash([]);
-    ctx.strokeStyle = 'rgba(242, 196, 92, 0.62)';
+  const ser = activeFilm.series;
+  const n = ser.length;
+  for (let i = 0; i < n - 1; i++) {{
+    const a = ser[i], b = ser[i + 1];
+    const pA = project3D(a.c[0], a.c[1], i / Math.max(1, n - 1), W, H);
+    const pB = project3D(b.c[0], b.c[1], (i + 1) / Math.max(1, n - 1), W, H);
+    const rgb = a.rgb_core;
     ctx.beginPath();
-    for (let k = 0; k <= 48; k++) {{
-      const tn = k / 48.0;
-      const rSp = 0.28 * Math.exp(-1.4 * tn);
-      const gu = 0.618 + rSp * Math.cos(tn * Math.PI * 4);
-      const gv = 0.382 + rSp * Math.sin(tn * Math.PI * 4);
-      const gp = project3DPoint(gu, gv, tn, W, H, xOffset, scaleMult);
-      if (k === 0) ctx.moveTo(gp.px, gp.py); else ctx.lineTo(gp.px, gp.py);
-    }}
-    ctx.stroke();
-  }}
-  ctx.restore();
-
-  const visSeries = series.filter(pt => {{
-    const tn = pt.t / dur;
-    return tn >= tMin - 0.02 && tn <= tMax + 0.02;
-  }});
-
-  ['s2', 's3'].forEach((k, idx) => {{
-    ctx.save();
-    ctx.beginPath();
-    visSeries.forEach((pt, i) => {{
-      const tn = (pt.t / dur - tMin) / Math.max(1e-4, tMax - tMin);
-      const p = project3DPoint(pt[k][0], pt[k][1], tn, W, H, xOffset, scaleMult);
-      if (i === 0) ctx.moveTo(p.px, p.py); else ctx.lineTo(p.px, p.py);
-    }});
-    ctx.strokeStyle = idx === 0 ? 'rgba(86, 194, 230, 0.5)' : 'rgba(199, 122, 224, 0.5)';
-    ctx.lineWidth = 1.4;
-    ctx.stroke();
-    ctx.restore();
-  }});
-
-  for (let i = 0; i < visSeries.length - 1; i++) {{
-    const a = visSeries[i], b = visSeries[i + 1];
-    const tnA = (a.t / dur - tMin) / Math.max(1e-4, tMax - tMin);
-    const tnB = (b.t / dur - tMin) / Math.max(1e-4, tMax - tMin);
-    const nA = isPrimary ? getModifiedNode(a) : a.s1;
-    const nB = isPrimary ? getModifiedNode(b) : b.s1;
-    const pA = project3DPoint(nA[0], nA[1], tnA, W, H, xOffset, scaleMult);
-    const pB = project3DPoint(nB[0], nB[1], tnB, W, H, xOffset, scaleMult);
-    const rgb = a.rgb || [225, 175, 95];
-    ctx.save();
-    ctx.beginPath();
-    ctx.strokeStyle = `rgba(${{rgb[0]}}, ${{rgb[1]}}, ${{rgb[2]}}, 0.92)`;
-    ctx.lineWidth = Math.max(2.2, a.r * 30 * pA.scale);
+    ctx.strokeStyle = `rgb(${{rgb[0]}},${{rgb[1]}},${{rgb[2]}})`;
+    ctx.lineWidth = Math.max(3, a.r * 34 * pA.scale);
     ctx.lineCap = 'round';
     ctx.moveTo(pA.px, pA.py);
     ctx.lineTo(pB.px, pB.py);
     ctx.stroke();
-    ctx.restore();
   }}
 
-  if (curNorm >= tMin && curNorm <= tMax) {{
-    const sliceT = (curNorm - tMin) / Math.max(1e-4, tMax - tMin);
-    const sc = [[0,0,sliceT],[1,0,sliceT],[1,1,sliceT],[0,1,sliceT],[0,0,sliceT]];
-    ctx.save();
-    ctx.beginPath();
-    sc.forEach((c, idx) => {{
-      const p = project3DPoint(c[0], c[1], c[2], W, H, xOffset, scaleMult);
-      if (idx === 0) ctx.moveTo(p.px, p.py); else ctx.lineTo(p.px, p.py);
-    }});
-    ctx.fillStyle = 'rgba(229, 174, 92, 0.09)';
-    ctx.strokeStyle = 'rgba(229, 174, 92, 0.9)';
-    ctx.lineWidth = 1.5;
-    ctx.fill();
-    ctx.stroke();
-    ctx.restore();
-  }}
-}}
-
-function renderMultiModeCanvas() {{
-  const ctx = multiCanvas.getContext('2d');
-  const W = multiCanvas.width, H = multiCanvas.height;
-  ctx.clearRect(0, 0, W, H);
-
-  if (viewMode === 'prism') {{
-    drawPrismVolume(ctx, activeFilm, W, H, 0, 1.0, true);
-    if (activeWormFilm && activeWormFilm.series && activeWormFilm.series.length) {{
-      const wSer = activeWormFilm.series;
-      let curWS = wSer[0];
-      wSer.forEach(s => {{ if (Math.abs(s.t - curTime) < Math.abs(curWS.t - curTime)) curWS = s; }});
-      ctx.fillStyle = '#e5ae5c'; ctx.font = 'bold 10.5px monospace';
-      ctx.fillText(`3D Worm Topology: ${{curWS.topology}} | Cut: ${{curWS.cut_type}}`, 10, 16);
-      ctx.fillStyle = '#8c93a6'; ctx.font = '10px monospace';
-      ctx.fillText(`κ=${{curWS.kappa.toFixed(2)}}  τ_torsion=${{curWS.torsion.toFixed(2)}}  Jerk=${{curWS.jerk.toFixed(2)}}  ΔL*=${{curWS.chiaroscuro.toFixed(1)}}  ΔH=${{curWS.hue_diff_deg.toFixed(0)}}°`, 10, H - 8);
-    }}
-  }} else if (viewMode === 'kalmus') {{
-    const wf = activeWormFilm || (WORMS_140.films || [])[0];
-    if (!wf || !wf.series) return;
-    const wSer = wf.series;
-    const nS = wSer.length;
-    const padL = 12, padR = 12, barW = (W - padL - padR) / Math.max(1, nS);
-
-    ctx.fillStyle = '#ede9e0'; ctx.font = 'bold 10px monospace';
-    ctx.fillText(`KALMUS CORE WORM vs. OUTER SHELL STRATIGRAPHY — ${{wf.title}}`, padL, 14);
-
-    // Band 1: Core Worm RGB Barcode (y=20..38) & Outer Shell RGB Barcode (y=40..56)
-    wSer.forEach((s, i) => {{
-      const x = padL + i * barW;
-      ctx.fillStyle = `rgb(${{s.rgb_core[0]}},${{s.rgb_core[1]}},${{s.rgb_core[2]}})`;
-      ctx.fillRect(x, 20, barW + 0.8, 17);
-      ctx.fillStyle = `rgb(${{s.rgb_shell[0]}},${{s.rgb_shell[1]}},${{s.rgb_shell[2]}})`;
-      ctx.fillRect(x, 39, barW + 0.8, 16);
-    }});
-    ctx.fillStyle = 'rgba(0,0,0,0.65)'; ctx.fillRect(padL + 2, 22, 74, 12); ctx.fillRect(padL + 2, 41, 78, 12);
-    ctx.fillStyle = '#fff'; ctx.font = '9px monospace';
-    ctx.fillText('CORE WORM', padL + 5, 31);
-    ctx.fillText('OUTER SHELL', padL + 5, 50);
-
-    // Band 2: Itten Chiaroscuro dL* (amber), Cold-Warm Hue Polarity dH (cyan), Extension Area (green) (y=68..138)
-    ctx.strokeStyle = 'rgba(255,255,255,0.12)';
-    ctx.strokeRect(padL, 66, W - padL - padR, 72);
-    const drawCurve = (getter, maxVal, col, yTop, yH) => {{
-      ctx.beginPath();
-      wSer.forEach((s, i) => {{
-        const px = padL + (i / Math.max(1, nS - 1)) * (W - padL - padR);
-        const py = yTop + yH - Math.min(1, getter(s) / maxVal) * (yH - 6) - 3;
-        if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
-      }});
-      ctx.strokeStyle = col; ctx.lineWidth = 1.7; ctx.stroke();
-    }};
-    drawCurve(s => s.chiaroscuro, 45.0, '#e5ae5c', 66, 72);
-    drawCurve(s => s.hue_diff_deg, 180.0, '#56c2e6', 66, 72);
-    drawCurve(s => s.area_ratio, 0.55, '#72cc96', 66, 72);
-    ctx.font = '9px monospace';
-    ctx.fillStyle = '#e5ae5c'; ctx.fillText(`Itten ΔL* Chiaroscuro (${{wf.mean_chiaroscuro}})`, padL + 6, 78);
-    ctx.fillStyle = '#56c2e6'; ctx.fillText(`ΔH° Cold-Warm (${{wf.mean_hue_diff_deg}}°)`, padL + 195, 78);
-    ctx.fillStyle = '#72cc96'; ctx.fillText(`Area A_worm/A (${{(wf.mean_area_ratio*100).toFixed(0)}}%)`, padL + 355, 78);
-
-    // Band 3: Frenet-Serret Curvature kappa (purple), Torsion (cyan), & Earshot Jerk Impulses (rose bars) (y=148..218)
-    ctx.strokeStyle = 'rgba(255,255,255,0.12)';
-    ctx.strokeRect(padL, 146, W - padL - padR, 74);
-    wSer.forEach((s, i) => {{
-      const px = padL + (i / Math.max(1, nS - 1)) * (W - padL - padR);
-      const jH = Math.min(66, s.jerk * 22);
-      ctx.fillStyle = 'rgba(227, 104, 116, 0.55)';
-      ctx.fillRect(px - 1.5, 220 - jH, 3, jH);
-    }});
-    drawCurve(s => s.kappa, 6.0, '#c77ae0', 146, 74);
-    drawCurve(s => s.torsion, 6.0, '#56c2e6', 146, 74);
-    ctx.fillStyle = '#c77ae0'; ctx.fillText(`Curvature κ (${{wf.mean_kappa}})`, padL + 6, 158);
-    ctx.fillStyle = '#56c2e6'; ctx.fillText(`Torsion τ (${{wf.mean_torsion}})`, padL + 150, 158);
-    ctx.fillStyle = '#e36874'; ctx.fillText(`Earshot Jerk ||c'''|| (${{wf.mean_jerk}})`, padL + 290, 158);
-
-    // Playhead
-    const phX = padL + Math.min(1, Math.max(0, curTime / (wf.duration_s || 1))) * (W - padL - padR);
-    ctx.strokeStyle = '#fff'; ctx.lineWidth = 1.5;
-    ctx.beginPath(); ctx.moveTo(phX, 18); ctx.lineTo(phX, 222); ctx.stroke();
-
-  }} else if (viewMode === 'manovich') {{
-    const wf = activeWormFilm || (WORMS_140.films || [])[0];
-    if (!wf || !wf.manovich_parts) return;
-    const parts = wf.manovich_parts;
-    const padL = 10, gap = 8;
-    const cardW = (W - padL * 2 - gap * 3) / 4;
-
-    ctx.fillStyle = '#ede9e0'; ctx.font = 'bold 10px monospace';
-    ctx.fillText(`MANOVICH 4-PART CULTURAL ANALYTICS GRID & BRUCE BLOCK INTENSITY — ${{wf.title}}`, padL, 14);
-
-    parts.forEach((p, idx) => {{
-      const x0 = padL + idx * (cardW + gap), y0 = 22, cH = 124;
-      ctx.fillStyle = '#121621';
-      ctx.fillRect(x0, y0, cardW, cH);
-      ctx.strokeStyle = '#2a3147';
-      ctx.strokeRect(x0, y0, cardW, cH);
-
-      // Header + Core/Shell swatches
-      ctx.fillStyle = '#e5ae5c'; ctx.font = 'bold 9.5px monospace';
-      ctx.fillText(`PART ${{p.part_num}} (${{p.t_start}}–${{p.t_end}}s)`, x0 + 6, y0 + 13);
-      ctx.fillStyle = `rgb(${{p.rgb_core[0]}},${{p.rgb_core[1]}},${{p.rgb_core[2]}})`;
-      ctx.fillRect(x0 + 6, y0 + 19, (cardW - 16) * 0.5, 10);
-      ctx.fillStyle = `rgb(${{p.rgb_shell[0]}},${{p.rgb_shell[1]}},${{p.rgb_shell[2]}})`;
-      ctx.fillRect(x0 + 8 + (cardW - 16) * 0.5, y0 + 19, (cardW - 16) * 0.5, 10);
-
-      // Mini 2D Entry -> Mid -> Exit Worm Trajectory Box
-      const bx = x0 + 6, by = y0 + 34, bw = cardW - 12, bh = 54;
-      ctx.fillStyle = '#07090e'; ctx.fillRect(bx, by, bw, bh);
-      ctx.strokeStyle = '#232838'; ctx.strokeRect(bx, by, bw, bh);
-      const pts = [p.entry_c, p.mid_c, p.exit_c];
-      ctx.beginPath();
-      pts.forEach((pt, k) => {{
-        const px = bx + pt[0] * bw, py = by + pt[1] * bh;
-        if (k === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
-      }});
-      ctx.strokeStyle = '#e5ae5c'; ctx.lineWidth = 2; ctx.stroke();
-      pts.forEach((pt, k) => {{
-        const px = bx + pt[0] * bw, py = by + pt[1] * bh;
-        ctx.beginPath(); ctx.arc(px, py, 3.2, 0, Math.PI * 2);
-        ctx.fillStyle = k === 0 ? '#72cc96' : (k === 1 ? '#e5ae5c' : '#56c2e6');
-        ctx.fill();
-      }});
-
-      ctx.fillStyle = '#56c2e6'; ctx.font = '8.5px monospace';
-      ctx.fillText(p.topology.replace(/_/g, ' ').slice(0, 22), x0 + 6, y0 + 101);
-      ctx.fillStyle = '#8c93a6';
-      ctx.fillText(`ΔL*:${{p.chiaroscuro}} ΔH:${{p.hue_diff_deg}}° Int:${{p.block_intensity}}`, x0 + 6, y0 + 112);
-      ctx.fillStyle = p.cut_exit === 'EYE_TRACE_MATCH_CUT' ? '#72cc96' : '#e36874';
-      ctx.fillText(`Exit: ${{p.cut_exit.replace(/_/g, ' ').slice(0, 18)}}`, x0 + 6, y0 + 122);
-    }});
-
-    // Bottom Band: Continuous Bruce Block Visual Intensity Graph + Arnheim Torque (y=154..222)
-    const wSer = wf.series || [];
-    const nS = wSer.length;
-    ctx.strokeStyle = 'rgba(255,255,255,0.14)';
-    ctx.strokeRect(padL, 154, W - padL * 2, 66);
-    ctx.beginPath();
-    wSer.forEach((s, i) => {{
-      const px = padL + (i / Math.max(1, nS - 1)) * (W - padL * 2);
-      const py = 216 - s.block_intensity * 56;
-      if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
-    }});
-    ctx.strokeStyle = '#e36874'; ctx.lineWidth = 2; ctx.stroke();
-
-    ctx.beginPath();
-    wSer.forEach((s, i) => {{
-      const px = padL + (i / Math.max(1, nS - 1)) * (W - padL * 2);
-      const py = 216 - Math.min(1, s.d_armature * 12) * 56;
-      if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
-    }});
-    ctx.strokeStyle = '#e5ae5c'; ctx.lineWidth = 1.4; ctx.stroke();
-    ctx.font = '9px monospace';
-    ctx.fillStyle = '#e36874'; ctx.fillText(`Bruce Block Visual Intensity (Mean ${{wf.mean_block_intensity}})`, padL + 6, 166);
-    ctx.fillStyle = '#e5ae5c'; ctx.fillText(`Arnheim Eccentric Torque (${{wf.arnheim_torque_pct}}%) · Lock (${{wf.compositional_lock_pct}}%)`, padL + 290, 166);
-
-  }} else if (viewMode === 'diff') {{
-    const compId = document.getElementById('compareSelect').value;
-    compareFilm = FILMS.find(x => x.id === compId) || FILMS[0];
-    drawPrismVolume(ctx, activeFilm, W, H, -W * 0.24, 0.72, true);
-    drawPrismVolume(ctx, compareFilm, W, H, W * 0.24, 0.72, false);
-    ctx.fillStyle = '#e5ae5c'; ctx.font = 'bold 11px sans-serif';
-    ctx.fillText('A: ' + activeFilm.title, 12, 18);
-    ctx.fillStyle = '#56c2e6';
-    ctx.fillText('B: ' + compareFilm.title, W * 0.52, 18);
-  }} else if (viewMode === 'torus') {{
-    const series = activeFilm.series || [];
-    const cx = W * 0.5, cy = H * 0.5;
-    const rInner = 42, rMid = 72;
-    const dur = activeFilm.duration_s || 1;
-    series.forEach((pt, i) => {{
-      const a0 = (i / series.length) * Math.PI * 2 - Math.PI * 0.5;
-      const a1 = ((i + 1.2) / series.length) * Math.PI * 2 - Math.PI * 0.5;
-      const rgb = pt.rgb || [200, 160, 90];
-      ctx.beginPath();
-      ctx.arc(cx, cy, rInner + 11, a0, a1);
-      ctx.strokeStyle = `rgb(${{rgb[0]}},${{rgb[1]}},${{rgb[2]}})`;
-      ctx.lineWidth = 18;
-      ctx.stroke();
-      const spike = rMid + Math.min(34, (pt.phi + pt.psi) * 18 + pt.w2 * 5);
-      ctx.beginPath();
-      ctx.moveTo(cx + Math.cos(a0) * rMid, cy + Math.sin(a0) * rMid);
-      ctx.lineTo(cx + Math.cos(a0) * spike, cy + Math.sin(a0) * spike);
-      ctx.strokeStyle = 'rgba(229, 174, 92, 0.75)';
-      ctx.lineWidth = 1.6;
-      ctx.stroke();
-    }});
-    const curAng = (curTime / dur) * Math.PI * 2 - Math.PI * 0.5;
-    ctx.beginPath();
-    ctx.moveTo(cx, cy);
-    ctx.lineTo(cx + Math.cos(curAng) * (rMid + 38), cy + Math.sin(curAng) * (rMid + 38));
-    ctx.strokeStyle = '#fff';
-    ctx.lineWidth = 2;
-    ctx.stroke();
-  }} else if (viewMode === 'toric') {{
-    const pt = sampleAtTime(activeFilm, curTime) || activeFilm.series[0];
-    const modS1 = getModifiedNode(pt);
-    const cx = W * 0.5, cy = H * 0.52;
-    for (let r = 24; r <= 96; r += 24) {{
-      ctx.beginPath();
-      ctx.ellipse(cx, cy, r * 1.5, r * 0.85, 0, 0, Math.PI * 2);
-      ctx.strokeStyle = 'rgba(86, 194, 230, 0.25)';
-      ctx.stroke();
-    }}
-    const camX = cx + (modS1[0] - 0.5) * 170;
-    const camY = cy + (modS1[2] - 0.5) * 100;
-    ctx.beginPath(); ctx.arc(camX, camY, 8, 0, Math.PI * 2); ctx.fillStyle = '#e5ae5c'; ctx.fill();
-    ctx.fillStyle = '#ede9e0'; ctx.font = '10.5px monospace';
-    ctx.fillText(`Toric Manifold: α=${{((0.5+modS1[2])*48).toFixed(1)}}° θ=${{((modS1[0]-0.5)*90).toFixed(1)}}° φ=${{((0.5-modS1[1])*60).toFixed(1)}}°`, 14, 18);
-  }}
-}}
-
-multiCanvas.addEventListener('mousedown', e => {{
-  dragging3D = true; lastMX = e.clientX; lastMY = e.clientY;
-  document.getElementById('chkAutoOrbit').checked = false;
-}});
-window.addEventListener('mouseup', () => {{ dragging3D = false; }});
-window.addEventListener('mousemove', e => {{
-  if (!dragging3D) return;
-  yaw += (e.clientX - lastMX) * 0.008;
-  pitch = Math.max(-1.15, Math.min(1.15, pitch + (e.clientY - lastMY) * 0.008));
-  lastMX = e.clientX; lastMY = e.clientY;
-  renderMultiModeCanvas();
-}});
-
-// 3. Bottom Master Scrubber
-function renderMasterTimeline() {{
-  const ctx = tlCanvas.getContext('2d');
-  const W = tlCanvas.width, H = tlCanvas.height;
-  ctx.clearRect(0, 0, W, H);
-
-  const series = activeFilm.series || [];
-  if (!series.length) return;
+  // Current time slice plane
   const dur = activeFilm.duration_s || 1;
-  const rSW = getLiveHorizonSW();
-
-  series.forEach((pt, i) => {{
-    const x0 = (i / series.length) * W;
-    const wBar = (W / series.length) + 1;
-    const rgb = pt.rgb || [180, 150, 90];
-    ctx.fillStyle = `rgb(${{rgb[0]}},${{rgb[1]}},${{rgb[2]}})`;
-    ctx.fillRect(x0, 2, wBar, 12);
-  }});
-
-  const maxW2 = Math.max(0.05, ...series.map(s => s.w2));
+  const tNorm = Math.min(1, Math.max(0, curTime / dur));
+  const slice = [[0,0,tNorm],[1,0,tNorm],[1,1,tNorm],[0,1,tNorm],[0,0,tNorm]];
   ctx.beginPath();
-  series.forEach((pt, i) => {{
-    const x = (i / Math.max(1, series.length - 1)) * W;
-    const y = H - 6 - (pt.w2 / maxW2) * (H - 24);
-    if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+  slice.forEach((c, idx) => {{
+    const p = project3D(c[0], c[1], c[2], W, H);
+    if (idx === 0) ctx.moveTo(p.px, p.py); else ctx.lineTo(p.px, p.py);
   }});
-  ctx.strokeStyle = '#72cc96';
-  ctx.lineWidth = 1.6;
-  ctx.stroke();
-
-  const cuts = (activeFilm.saccade && activeFilm.saccade.cuts) || [];
-  cuts.forEach(c => {{
-    const x = (c.tau / dur) * W;
-    const ds2 = (rSW * rSW) - (c.jump_sw * c.jump_sw);
-    ctx.fillStyle = ds2 > 0.01 ? '#72cc96' : (ds2 > -0.012 ? '#e5ae5c' : '#e36874');
-    ctx.fillRect(x - 1, 16, 2.5, H - 18);
-  }});
-
-  const px = (curTime / dur) * W;
-  ctx.fillStyle = '#e5ae5c';
-  ctx.fillRect(px - 1, 0, 2.5, H);
-  document.getElementById('scrubberTimeLbl').textContent = `${{curTime.toFixed(2)}}s / ${{dur.toFixed(1)}}s`;
-}}
-
-function scrubToFraction(frac, seekVideo=false) {{
-  const dur = activeFilm.duration_s || 1;
-  curTime = Math.max(0, Math.min(dur, frac * dur));
-  if (seekVideo && videoEl.duration) {{
-    videoEl.currentTime = curTime;
-  }}
-  const pct = (curTime / dur) * 100;
-  document.getElementById('utPlayhead').style.left = pct + '%';
-  document.getElementById('vtPlayhead').style.left = pct + '%';
-  renderAll(false);
-}}
-
-tlCanvas.addEventListener('mousemove', e => {{
-  if (e.buttons !== 1) return;
-  const rect = tlCanvas.getBoundingClientRect();
-  scrubToFraction((e.clientX - rect.left) / rect.width, true);
-}});
-tlCanvas.addEventListener('click', e => {{
-  const rect = tlCanvas.getBoundingClientRect();
-  scrubToFraction((e.clientX - rect.left) / rect.width, true);
-}});
-
-function scrubFromSlit(e, clickSeek=false) {{
-  if (!clickSeek && e.buttons !== 1) return;
-  const rect = e.currentTarget.getBoundingClientRect();
-  scrubToFraction((e.clientX - rect.left) / rect.width, true);
-}}
-
-videoEl.addEventListener('timeupdate', () => {{
-  curTime = videoEl.currentTime || 0;
-  const dur = activeFilm.duration_s || 1;
-  const pct = Math.min(100, (curTime / dur) * 100);
-  document.getElementById('utPlayhead').style.left = pct + '%';
-  document.getElementById('vtPlayhead').style.left = pct + '%';
-  renderAll(false);
-}});
-
-// 4. Manifold Renderers
-function drawBraidOn(ctx, W, H, taut) {{
-  ctx.clearRect(0, 0, W, H);
-  const series = activeFilm.series || [];
-  if (!series.length) return;
-  const cols = ['#e5ae5c', '#56c2e6', '#c77ae0'];
-  const canonicalU = [0.25, 0.50, 0.75];
-  ['s1', 's2', 's3'].forEach((k, idx) => {{
-    ctx.beginPath();
-    series.forEach((pt, i) => {{
-      const x = (i / Math.max(1, series.length - 1)) * (W - 14) + 7;
-      const rawU = (idx === 0) ? getModifiedNode(pt)[0] : pt[k][0];
-      const uVal = (1 - taut) * rawU + taut * canonicalU[idx];
-      const y = (1 - uVal) * (H - 24) + 16;
-      if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
-    }});
-    ctx.strokeStyle = cols[idx];
-    ctx.lineWidth = 1.8;
-    ctx.stroke();
-  }});
-}}
-
-function drawHHDOn(ctx, W, H, isFull) {{
-  ctx.clearRect(0, 0, W, H);
-  const series = activeFilm.series || [];
-  if (!series.length) return;
-  const maxV = Math.max(0.02, ...series.map(s => Math.max(s.phi, s.psi, s.h)));
-  [['phi', '#e5ae5c'], ['psi', '#e36874'], ['h', '#56c2e6']].forEach(([k, col]) => {{
-    if (isFull && hhdFilter !== 'all' && hhdFilter !== k) return;
-    ctx.beginPath();
-    series.forEach((pt, i) => {{
-      const x = (i / Math.max(1, series.length - 1)) * (W - 14) + 7;
-      const y = H - 8 - (pt[k] / maxV) * (H - 26);
-      if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
-    }});
-    ctx.strokeStyle = col;
-    ctx.lineWidth = 1.7;
-    ctx.stroke();
-  }});
-}}
-
-function drawW2On(ctx, W, H) {{
-  ctx.clearRect(0, 0, W, H);
-  const series = activeFilm.series || [];
-  if (!series.length) return;
-  const maxW2 = Math.max(0.05, ...series.map(s => s.w2));
-  ctx.beginPath();
-  series.forEach((pt, i) => {{
-    const x = (i / Math.max(1, series.length - 1)) * (W - 14) + 7;
-    const y = H - 8 - (pt.w2 / maxW2) * (H - 28);
-    if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
-  }});
-  ctx.strokeStyle = '#72cc96';
-  ctx.lineWidth = 1.9;
-  ctx.stroke();
-}}
-
-function drawSaccadeOn(ctx, W, H) {{
-  ctx.clearRect(0, 0, W, H);
-  const rSW = getLiveHorizonSW();
-  const cuts = (activeFilm.saccade && activeFilm.saccade.cuts) || [];
-  const dur = activeFilm.duration_s || 1;
-  const midY = H * 0.56;
-  ctx.strokeStyle = 'rgba(255,255,255,0.2)';
-  ctx.beginPath(); ctx.moveTo(0, midY); ctx.lineTo(W, midY); ctx.stroke();
-  cuts.forEach(cut => {{
-    const x = (cut.tau / dur) * (W - 16) + 8;
-    const effJump = counterfactualReg ? cut.jump_sw * 0.25 : cut.jump_sw;
-    const ds2 = (rSW * rSW) - (effJump * effJump);
-    ctx.fillStyle = ds2 > 0.01 ? '#72cc96' : (ds2 > -0.012 ? '#e5ae5c' : '#e36874');
-    const bH = Math.max(-midY + 14, Math.min(midY - 10, ds2 * 340));
-    ctx.fillRect(x - 2.5, bH >= 0 ? midY - bH : midY, 5, Math.abs(bH) + 2);
-  }});
-}}
-
-function drawTDAOn(ctx, W, H, eps) {{
-  ctx.clearRect(0, 0, W, H);
-  const att = (activeFilm.tda && activeFilm.tda.attractor_2d) || [];
-  if (att.length < 2) return;
-  const xs = att.map(p => p[0]), ys = att.map(p => p[1]);
-  const minX = Math.min(...xs), maxX = Math.max(...xs) + 1e-5;
-  const minY = Math.min(...ys), maxY = Math.max(...ys) + 1e-5;
-  const pts = att.map(p => [
-    ((p[0] - minX) / (maxX - minX)) * (W - 32) + 16,
-    ((p[1] - minY) / (maxY - minY)) * (H - 30) + 18
-  ]);
-  const radPx = eps * (W / 24);
-  ctx.fillStyle = 'rgba(199, 122, 224, 0.06)';
-  pts.forEach(([px, py]) => {{
-    ctx.beginPath(); ctx.arc(px, py, radPx, 0, Math.PI * 2); ctx.fill();
-  }});
-  ctx.beginPath();
-  pts.forEach(([px, py], i) => {{ if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py); }});
-  ctx.strokeStyle = '#c77ae0';
-  ctx.lineWidth = 1.6;
-  ctx.stroke();
-}}
-
-function drawPLVOn(ctx, W, H) {{
-  ctx.clearRect(0, 0, W, H);
-  const series = activeFilm.series || [];
-  if (!series.length) return;
-  ctx.beginPath();
-  series.forEach((s, i) => {{
-    const x = (i / Math.max(1, series.length - 1)) * (W - 14) + 7;
-    const y = H - 8 - s.plv * (H - 26);
-    if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
-  }});
-  ctx.strokeStyle = '#56c2e6';
+  ctx.strokeStyle = '#eab354';
   ctx.lineWidth = 1.8;
   ctx.stroke();
 }}
 
-function renderManifolds() {{
-  const taut = parseFloat(document.getElementById('braidTautSlider').value || 0);
-  const eps = parseFloat(document.getElementById('epsSlider').value || 0.75);
-  const b = activeFilm.braid, h = activeFilm.helmholtz, w = activeFilm.wasserstein, s = activeFilm.saccade, t = activeFilm.tda, sy = activeFilm.synchresis;
-
-  document.getElementById('mLbl1').textContent = 'FTBE ' + b.ftbe.toFixed(2);
-  document.getElementById('mLbl2').textContent = `${{Math.round(h.divergence_share*100)}}/${{Math.round(h.curl_share*100)}}/${{Math.round(h.harmonic_share*100)}}%`;
-  document.getElementById('mLbl3').textContent = 'W₂ ' + w.mean_w2_kinetic.toFixed(2);
-  document.getElementById('mLbl4').textContent = s.timelike_pct.toFixed(0) + '% TL';
-  document.getElementById('mLbl5').textContent = `(${{t.beta0_regimes}},${{t.beta1_loops}},${{t.beta2_chiasmus.toFixed(2)}})`;
-  document.getElementById('mLbl6').textContent = 'PLV ' + sy.mean_plv.toFixed(2);
-
-  if (activeManifoldTab === 'all') {{
-    drawBraidOn(document.getElementById('miniCv1').getContext('2d'), 220, 105, taut);
-    drawHHDOn(document.getElementById('miniCv2').getContext('2d'), 220, 105, false);
-    drawW2On(document.getElementById('miniCv3').getContext('2d'), 220, 105);
-    drawSaccadeOn(document.getElementById('miniCv4').getContext('2d'), 220, 105);
-    drawTDAOn(document.getElementById('miniCv5').getContext('2d'), 220, 105, eps);
-    drawPLVOn(document.getElementById('miniCv6').getContext('2d'), 220, 105);
-  }} else if (activeManifoldTab === '1') {{
-    drawBraidOn(document.getElementById('cvBraid').getContext('2d'), 640, 190, taut);
-    document.getElementById('braidWordReadout').textContent = 'B₃: ' + b.reduced_word_preview;
-  }} else if (activeManifoldTab === '2') {{
-    drawHHDOn(document.getElementById('cvHHD').getContext('2d'), 640, 190, true);
-  }} else if (activeManifoldTab === '3') {{
-    drawW2On(document.getElementById('cvW2').getContext('2d'), 640, 190);
-  }} else if (activeManifoldTab === '4') {{
-    drawSaccadeOn(document.getElementById('cvSaccade').getContext('2d'), 640, 190);
-  }} else if (activeManifoldTab === '5') {{
-    drawTDAOn(document.getElementById('cvTDA').getContext('2d'), 640, 190, eps);
-    document.getElementById('tdaReadout').textContent = `ε=${{eps.toFixed(2)}} · Chiasmus ${{t.beta2_chiasmus.toFixed(2)}}`;
-  }} else if (activeManifoldTab === '6') {{
-    drawPLVOn(document.getElementById('cvPLV').getContext('2d'), 640, 190);
-  }}
-}}
-
-function updateTopTelemetry() {{
-  const pt = sampleAtTime(activeFilm, curTime) || activeFilm.series[0];
-  if (!pt) return;
-  const dGrid = counterfactualReg ? pt.d_grid * 0.2 : pt.d_grid;
-  const rSW = getLiveHorizonSW();
-  const cuts = (activeFilm.saccade && activeFilm.saccade.cuts) || [];
-  let nearCut = cuts[0] || {{ jump_sw: 0.08, tau: 0 }};
-  cuts.forEach(c => {{ if (Math.abs(c.tau - curTime) < Math.abs(nearCut.tau - curTime)) nearCut = c; }});
-  const effJump = counterfactualReg ? nearCut.jump_sw * 0.25 : nearCut.jump_sw;
-  const ds2 = (rSW * rSW) - (effJump * effJump);
-
-  document.getElementById('chipTime').innerHTML = `<b>τ</b> ${{curTime.toFixed(1)}}s`;
-  document.getElementById('chipLock').innerHTML = `<b>Lock</b> ${{activeFilm.worm.compositional_lock_pct.toFixed(0)}}%`;
-  document.getElementById('chipSaccade').innerHTML = `<b>Δs²</b> ${{ds2 >= 0 ? '+' : ''}}${{ds2.toFixed(2)}}`;
-  document.getElementById('chipFTBE').innerHTML = `<b>FTBE</b> ${{activeFilm.braid.ftbe.toFixed(2)}}`;
-  const linter = document.getElementById('chipLinter');
-  if (dGrid <= 0.12 && ds2 >= -0.015) {{
-    linter.textContent = 'STGL PASS';
-    linter.style.color = 'var(--green)';
-  }} else {{
-    linter.textContent = 'SHOCK CUT';
-    linter.style.color = 'var(--rose)';
-  }}
-}}
-
-function renderAll(includeManifolds=true) {{
-  renderHUD();
-  renderMultiModeCanvas();
-  renderMasterTimeline();
-  updateTopTelemetry();
-  if (includeManifolds) renderManifolds();
-}}
-
-window.addEventListener('keydown', e => {{
-  if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') return;
-  if (e.code === 'Space') {{ e.preventDefault(); if (videoEl.paused) videoEl.play(); else videoEl.pause(); }}
-  else if (e.code === 'ArrowRight') {{ videoEl.currentTime = Math.min(videoEl.duration || 60, (videoEl.currentTime || 0) + 1.5); }}
-  else if (e.code === 'ArrowLeft') {{ videoEl.currentTime = Math.max(0, (videoEl.currentTime || 0) - 1.5); }}
+pathCanvas.addEventListener('pointerdown', e => {{
+  dragging3D = true; lastX = e.clientX; lastY = e.clientY;
+  document.getElementById('chkSpin3D').checked = false;
+}});
+window.addEventListener('pointerup', () => {{ dragging3D = false; }});
+window.addEventListener('pointermove', e => {{
+  if (!dragging3D) return;
+  yaw += (e.clientX - lastX) * 0.008;
+  pitch = Math.max(-1.1, Math.min(1.1, pitch + (e.clientY - lastY) * 0.008));
+  lastX = e.clientX; lastY = e.clientY;
+  draw3DSubjectPath();
 }});
 
-function tickOrbit() {{
-  if (document.getElementById('chkAutoOrbit').checked && !dragging3D && (viewMode === 'prism' || viewMode === 'diff')) {{
-    yaw += 0.0032;
-    renderMultiModeCanvas();
-  }}
-  requestAnimationFrame(tickOrbit);
+function openPromptModal(ruleId) {{
+  const op = (SCION_SHAPES.operators || []).find(o => o.rule_id === ruleId);
+  if (!op) return;
+  activePromptOp = op;
+  document.getElementById('modalTitle').textContent = op.title;
+  document.getElementById('modalBody').textContent = op.prompt_markdown;
+  document.getElementById('modalPlayBtn').onclick = () => {{ closePromptModal(); playShapeFilm(ruleId); }};
+  document.getElementById('promptModal').classList.add('active');
 }}
 
-initUI();
-selectFilmByIndex(activeFilmIndex);
-requestAnimationFrame(tickOrbit);
+function closePromptModal() {{
+  document.getElementById('promptModal').classList.remove('active');
+}}
+
+function copyPromptText() {{
+  if (activePromptOp) navigator.clipboard.writeText(activePromptOp.prompt_markdown);
+}}
+
+function tick() {{
+  if (activeTab === 'path3d' && document.getElementById('chkSpin3D').checked && !dragging3D) {{
+    yaw += 0.004;
+    draw3DSubjectPath();
+  }}
+  requestAnimationFrame(tick);
+}}
+
+init();
+requestAnimationFrame(tick);
 </script>
 </body>
 </html>
@@ -2118,7 +1089,7 @@ requestAnimationFrame(tickOrbit);
     out_html = os.path.join(TENSOR_DIR, "index.html")
     with open(out_html, "w") as f:
         f.write(html)
-    print(f"Wrote zero-scroll 100dvh cockpit with 8-Grid Archive -> {out_html} ({os.path.getsize(out_html)/1024:.1f} KB)")
+    print(f"Wrote clean, mobile-first screening room -> {out_html} ({os.path.getsize(out_html)/1024:.1f} KB)")
 
 
 if __name__ == "__main__":
