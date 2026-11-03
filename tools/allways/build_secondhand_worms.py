@@ -906,8 +906,11 @@ def main():
         lot_id = str(cat_entry.get("lot") or ("SM-0004" if is_flagship_gwp else ""))
         lot_status = str(cat_entry.get("status") or "pass")
 
+        prim_film = prim_src.get("film") or ""
+        if prim_film.strip().lower() in ("moving image archive", "prelinger archives", ""):
+            prim_film = ""
         source_title = (
-            prim_src.get("film")
+            prim_film
             or int_s_obj.get("source_title")
             or s_obj.get("source_title")
             or (clip_info or {}).get("source_title")
