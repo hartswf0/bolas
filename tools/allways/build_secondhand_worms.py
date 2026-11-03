@@ -627,7 +627,9 @@ def main():
                 })
 
         # Video URLs & Provenance
-        s_obj = (src_info or {}).get("source", {}) if isinstance(src_info, dict) else {}
+        s_obj = {}
+        if isinstance(src_info, dict):
+            s_obj = src_info.get("source") if isinstance(src_info.get("source"), dict) else src_info
         int_s_obj = (int_shot or {}).get("source", {}) if isinstance(int_shot, dict) else {}
 
         source_title = (
@@ -652,27 +654,32 @@ def main():
 
         has_integrated_mp4 = os.path.exists(os.path.join(int_dir, "shot.json"))
         has_batch_mp4 = slug in BATCH_10
+        r2_url = s_obj.get("video_url") or int_s_obj.get("video_url") or ""
+        raw_t0 = float((clip_info or {}).get("t0", s_obj.get("start_seconds", 0.0)) or 0.0)
 
         if has_integrated_mp4:
             comp_mp4 = f"{SHM_PAGES_BASE}/shots/{slug}/integrated/comparison.mp4"
             src_mp4 = f"{SHM_PAGES_BASE}/shots/{slug}/integrated/source-excerpt.mp4"
             art_mp4 = f"{SHM_PAGES_BASE}/shots/{slug}/integrated/cartoon.mp4"
+            vid_t0 = 0.0
             tier = "Integrated (Full 5-Layer Stack + 3 MP4s)"
         elif has_batch_mp4:
             comp_mp4 = f"{SHM_PAGES_BASE}/batches/2026-10-20-selected-drawings/subjects/{slug}/held-key-comparison.mp4"
             src_mp4 = f"{SHM_PAGES_BASE}/batches/2026-10-20-selected-drawings/subjects/{slug}/source-excerpt.mp4"
             art_mp4 = comp_mp4
+            vid_t0 = 0.0
             tier = "Flagship Puppet Redraw + Batch MP4s"
         else:
-            r2_url = s_obj.get("video_url") or int_s_obj.get("video_url") or ""
             comp_mp4 = r2_url
             src_mp4 = r2_url
             art_mp4 = r2_url
+            vid_t0 = round(raw_t0, 3)
             tier = "SAM + Depth + Camera + GWP Rig + Archive MP4"
 
         strip_img = f"{SHM_PAGES_BASE}/shots/{slug}-gwp/critic/strip.png"
         sil_img = f"{SHM_PAGES_BASE}/shots/{slug}-sam/silhouettes.png"
         gwp_page = f"{SHM_PAGES_BASE}/pages/{slug}-gwp.html"
+        frame_dir = f"{SHM_PAGES_BASE}/shots/{slug}-gwp/frames"
 
         worms.append({
             "slug": slug,
@@ -689,6 +696,9 @@ def main():
             "fps": fps,
             "n_frames": n_frames,
             "duration_s": round(n_frames / max(1.0, fps), 2),
+            "vid_t0": vid_t0,
+            "r2_mp4": r2_url,
+            "frame_dir": frame_dir,
             "keys": keys,
             "z_ref": round(z_ref, 2),
             "planes": plane_list,
