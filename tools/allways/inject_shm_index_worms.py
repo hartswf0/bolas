@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """
-Injects the Minimal, Mobile-First Multi-Depth 4D Spatiotemporal Worm Studio
-(108 Tracked Shots · 375 Depth Strata) directly onto the front page of
-https://hartswf0.github.io/secondhand-motion/ (index.html), AND adds a live
-Multi-Depth Worm mini-canvas + '▶ 4D Worm' button to every matching rack card.
+Injects the Zero-Scroll, Mobile-First Multi-Depth 4D Spatiotemporal Worm Studio
+(108 Tracked Shots · 375 Depth Strata) AT THE VERY TOP of
+https://hartswf0.github.io/secondhand-motion/ (index.html), BEFORE .intro,
+so opening the page on mobile shows the Multi-Depth Worms immediately at y=0
+with ZERO vertical scrolling!
 """
 
 import os
@@ -15,72 +16,86 @@ INDEX_PATH = os.path.join(SHM_ROOT, "index.html")
 
 STUDIO_HTML = """
 <!-- INTERACTIVE 4D SPATIOTEMPORAL TIME-WORM STUDIO (108 TRACKED SHOTS) -->
-<section id="time-worms-studio" aria-labelledby="tw-h" style="border:2px solid var(--ink);border-radius:10px;background:#0d1018;color:#f1f3f9;padding:8px 10px;gap:6px;">
+<section id="time-worms-studio" aria-labelledby="tw-h" style="border:2px solid var(--ink);border-radius:10px;background:#080a10;color:#f3f5fa;padding:6px 8px;gap:5px;margin-top:8px;">
   <style>
-    #time-worms-studio .tw-row { display:flex; align-items:center; justify-content:space-between; gap:6px; flex-wrap:wrap; }
-    #time-worms-studio .tw-btn { background:#1b2234; color:#f1f3f9; border:1px solid #2d3752; border-radius:5px; padding:4px 8px; font:600 11px var(--mono); cursor:pointer; white-space:nowrap; }
-    #time-worms-studio .tw-btn[aria-pressed="true"], #time-worms-studio .tw-btn.gold { background:#f2bc57; color:#090b10; border-color:#f2bc57; font-weight:700; }
-    #time-worms-studio .tw-depth-bar { display:flex; align-items:center; gap:5px; overflow-x:auto; padding:3px 0; scrollbar-width:none; }
-    #time-worms-studio .tw-depth-bar::-webkit-scrollbar { display:none; }
-    #time-worms-studio .tw-dpill { display:inline-flex; align-items:center; gap:4px; padding:2px 8px; border-radius:999px; font:600 10.5px var(--mono); background:#141926; border:1px solid #2d3752; cursor:pointer; white-space:nowrap; opacity:0.45; }
-    #time-worms-studio .tw-dpill.on { opacity:1; border-color:currentColor; background:rgba(255,255,255,0.07); }
-    #time-worms-studio .tw-grid { display:grid; grid-template-columns:1.15fr 0.85fr; gap:6px; }
-    #time-worms-studio .tw-pane { position:relative; height:290px; background:#05070b; border:1px solid #252d42; border-radius:7px; overflow:hidden; }
-    @media (max-width: 760px) {
-      #time-worms-studio .tw-grid { grid-template-columns:1fr; gap:5px; }
-      #time-worms-studio .tw-pane.p3d { height:195px; }
-      #time-worms-studio .tw-pane.p2d { height:160px; }
+    @media (max-width:760px) {
+      .wrap { gap:16px !important; }
+      .sm-head { padding:6px 0 !important; gap:4px 10px !important; }
+      .sm-head nav { font-size:12px !important; gap:2px 10px !important; }
     }
+    #time-worms-studio .tw-row { display:flex; align-items:center; justify-content:space-between; gap:5px; flex-wrap:wrap; }
+    #time-worms-studio .tw-btn { background:#1a2234; color:#f3f5fa; border:1px solid #2b3550; border-radius:5px; padding:3px 7px; font:700 10.5px var(--mono); cursor:pointer; white-space:nowrap; }
+    #time-worms-studio .tw-btn[aria-pressed="true"], #time-worms-studio .tw-btn.gold { background:#ffd166; color:#080a10; border-color:#ffd166; }
+    #time-worms-studio .tw-depth-bar { display:flex; align-items:center; gap:4px; overflow-x:auto; padding:2px 0; scrollbar-width:none; }
+    #time-worms-studio .tw-depth-bar::-webkit-scrollbar { display:none; }
+    #time-worms-studio .tw-dpill { display:inline-flex; align-items:center; gap:4px; padding:2px 7px; border-radius:999px; font:700 10px var(--mono); background:#121724; border:1px solid #2b3550; cursor:pointer; white-space:nowrap; opacity:0.42; }
+    #time-worms-studio .tw-dpill.on { opacity:1; border-color:currentColor; background:rgba(255,255,255,0.08); }
+    /* Side-by-side even on mobile so ZERO vertical scroll is needed! */
+    #time-worms-studio .tw-grid { display:grid; grid-template-columns:1.28fr 0.72fr; gap:5px; }
+    #time-worms-studio .tw-grid.full3d { grid-template-columns:1fr; }
+    #time-worms-studio .tw-grid.full3d .p2d { display:none; }
+    #time-worms-studio .tw-pane { position:relative; height:220px; background:#04060a; border:1px solid #242d42; border-radius:6px; overflow:hidden; }
+    @media (max-width: 760px) {
+      #time-worms-studio .tw-pane { height:185px; }
+    }
+    /* Built-in horizontal swipe strip of all 108 Multi-Depth Worms */
+    #time-worms-studio .tw-strip { display:flex; gap:5px; overflow-x:auto; padding:3px 0 1px; scrollbar-width:none; -webkit-overflow-scrolling:touch; }
+    #time-worms-studio .tw-strip::-webkit-scrollbar { display:none; }
+    #time-worms-studio .tw-tile { flex:0 0 92px; background:#111622; border:1px solid #242d42; border-radius:5px; padding:3px; cursor:pointer; }
+    #time-worms-studio .tw-tile.active { border-color:#ffd166; background:rgba(255,209,102,0.1); }
+    #time-worms-studio .tw-tile canvas { width:100%; height:34px; display:block; background:#04060a; border-radius:3px; }
+    #time-worms-studio .tw-tile-t { font:700 9.5px var(--sans); color:#f3f5fa; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; margin-top:2px; }
   </style>
 
-  <!-- Row 1: Compact Shot Selector + View Mode + Fullscreen Link -->
+  <!-- Row 1: Compact Shot Selector + View Mode -->
   <div class="tw-row">
-    <div style="display:flex;align-items:center;gap:4px;flex:1;min-width:190px;">
+    <div style="display:flex;align-items:center;gap:4px;flex:1;min-width:150px;">
       <button type="button" class="tw-btn" id="twPrevBtn">◀</button>
       <button type="button" class="tw-btn gold" id="twPlayPause">▶</button>
-      <select id="twSelect" style="flex:1;min-width:130px;background:#090b10;color:#f1f3f9;border:1px solid #2d3752;border-radius:5px;padding:4px 6px;font:700 11.5px var(--sans);" aria-label="Select tracked shot">
+      <select id="twSelect" style="flex:1;min-width:100px;background:#080a10;color:#f3f5fa;border:1px solid #2b3550;border-radius:5px;padding:3px 5px;font:700 11px var(--sans);" aria-label="Select tracked shot">
         <option>Loading 108 multi-depth worms...</option>
       </select>
       <button type="button" class="tw-btn" id="twNextBtn">▶</button>
     </div>
-    <div style="display:flex;gap:4px;align-items:center;overflow-x:auto;" id="twModeBtns">
-      <button type="button" class="tw-btn" data-wmode="orbit3d" aria-pressed="true">3D Depth Worms</button>
-      <button type="button" class="tw-btn" data-wmode="lanes" aria-pressed="false">Depth Lanes (Z×τ)</button>
-      <button type="button" class="tw-btn" id="twSubToggle" aria-pressed="true">Sub-Worms</button>
-      <a href="pages/worms.html" class="tw-btn" style="text-decoration:none;color:#4fd1c5;">Fullscreen ↗</a>
+    <div style="display:flex;gap:3px;align-items:center;" id="twModeBtns">
+      <button type="button" class="tw-btn" data-wmode="orbit3d" aria-pressed="true">3D</button>
+      <button type="button" class="tw-btn" data-wmode="lanes" aria-pressed="false">Z×τ</button>
+      <button type="button" class="tw-btn" id="twFull3dBtn" aria-pressed="false">Full 3D</button>
+      <a href="pages/worms.html" class="tw-btn" style="text-decoration:none;color:#00f5d4;">App ↗</a>
     </div>
   </div>
 
-  <!-- Row 2: Horizontal Multi-Depth Stratum Pills (Tap any depth to solo/toggle) -->
-  <div class="tw-depth-bar" id="twDepthBar">
-    <span style="font:600 10px var(--mono);color:#8b95ab;white-space:nowrap;">DEPTHS:</span>
-  </div>
+  <!-- Row 2: Multi-Depth Stratum Pills (Tap any depth to solo) -->
+  <div class="tw-depth-bar" id="twDepthBar"></div>
 
-  <!-- Compact Synchronized Stage: 3D Multi-Depth Worms + 2D Video & Contours -->
-  <div class="tw-grid">
+  <!-- Row 3: Side-by-Side 3D Multi-Depth Worms + 2D Video (Fits on 1 screen on mobile!) -->
+  <div class="tw-grid" id="twStageGrid">
     <div class="tw-pane p3d">
-      <canvas id="twCanvas3D" width="720" height="400" style="width:100%;height:100%;display:block;cursor:grab;touch-action:none;"></canvas>
-      <span id="tw3DTag" style="position:absolute;top:5px;left:6px;background:rgba(9,11,16,0.82);padding:2px 6px;border-radius:4px;font:500 10px var(--mono);color:#8b95ab;pointer-events:none;">Drag to orbit · Tap worm to seek</span>
-      <button type="button" class="tw-btn" id="twResetAngle" style="position:absolute;top:5px;right:6px;padding:2px 6px;font-size:10px;">Reset</button>
+      <canvas id="twCanvas3D" width="640" height="360" style="width:100%;height:100%;display:block;cursor:grab;touch-action:none;"></canvas>
+      <span style="position:absolute;top:4px;left:5px;background:rgba(8,10,16,0.82);padding:1px 5px;border-radius:3px;font:600 9px var(--mono);color:#8e99b0;pointer-events:none;">3D Depth Worms · Drag/Tap</span>
+      <button type="button" class="tw-btn" id="twResetAngle" style="position:absolute;top:4px;right:5px;padding:1px 5px;font-size:9px;">Reset</button>
     </div>
     <div class="tw-pane p2d">
       <video id="twVideo" playsinline loop muted style="width:100%;height:100%;object-fit:contain;display:block;background:#000;"></video>
-      <canvas id="twCanvas2D" width="600" height="380" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;"></canvas>
-      <div style="position:absolute;top:5px;right:6px;display:flex;gap:3px;" id="twVidSourceBar">
-        <button type="button" class="tw-btn" data-vmode="comp" aria-pressed="true" style="padding:2px 6px;font-size:10px;">3-Way</button>
-        <button type="button" class="tw-btn" data-vmode="src" aria-pressed="false" style="padding:2px 6px;font-size:10px;">Raw</button>
-        <button type="button" class="tw-btn" data-vmode="art" aria-pressed="false" style="padding:2px 6px;font-size:10px;">Cartoon</button>
+      <canvas id="twCanvas2D" width="480" height="360" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;"></canvas>
+      <div style="position:absolute;top:4px;right:5px;display:flex;gap:2px;" id="twVidSourceBar">
+        <button type="button" class="tw-btn" data-vmode="comp" aria-pressed="true" style="padding:1px 5px;font-size:9px;">3W</button>
+        <button type="button" class="tw-btn" data-vmode="src" aria-pressed="false" style="padding:1px 5px;font-size:9px;">Raw</button>
+        <button type="button" class="tw-btn" data-vmode="art" aria-pressed="false" style="padding:1px 5px;font-size:9px;">Art</button>
       </div>
     </div>
   </div>
 
-  <!-- Row 3: Compact Scrubber + 1-Line Telemetry -->
-  <div class="tw-row" style="padding-top:2px;">
-    <button type="button" class="tw-btn" id="twStepPrev">-1f</button>
-    <input type="range" id="twSlider" min="0" max="49" value="0" step="1" style="flex:1;min-width:110px;accent-color:#f2bc57;height:5px;">
-    <button type="button" class="tw-btn" id="twStepNext">+1f</button>
-    <span id="twFrameReadout" style="font:500 11px var(--mono);color:#8b95ab;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Loading...</span>
+  <!-- Row 4: Scrubber + 1-Line Telemetry -->
+  <div class="tw-row">
+    <button type="button" class="tw-btn" id="twStepPrev" style="padding:2px 6px;">-1f</button>
+    <input type="range" id="twSlider" min="0" max="49" value="0" step="1" style="flex:1;min-width:80px;accent-color:#ffd166;height:5px;">
+    <button type="button" class="tw-btn" id="twStepNext" style="padding:2px 6px;">+1f</button>
+    <span id="twFrameReadout" style="font:600 10px var(--mono);color:#8e99b0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:46vw;">Loading...</span>
   </div>
+
+  <!-- Row 5: Built-in Horizontal Touch-Swipe Strip of All 108 Multi-Depth Worms -->
+  <div class="tw-strip" id="twSwipeStrip"></div>
 </section>
 """
 
@@ -93,9 +108,8 @@ STUDIO_JS = """
   let curF = 0;
   let vMode = "comp";
   let wMode = "orbit3d";
-  let showSub = true;
   let activeDepths = new Set();
-  let yaw = -0.58, pitch = 0.34, dragging = false, lx = 0, ly = 0, moved = false;
+  let yaw = -0.56, pitch = 0.32, dragging = false, lx = 0, ly = 0, moved = false;
   let hitPts = [];
 
   const vid = document.getElementById("twVideo");
@@ -108,13 +122,13 @@ STUDIO_JS = """
 
   function proj3(u, v, tau, zNorm, W, H) {
     const x = u - 0.5;
-    const y = (0.5 - v) + (zNorm - 0.35) * 0.28;
+    const y = (0.5 - v) + (zNorm - 0.35) * 0.34;
     const z = (tau - 0.5) * 1.55;
     const cy = Math.cos(yaw), sy = Math.sin(yaw);
     const cp = Math.cos(pitch), sp = Math.sin(pitch);
     const x1 = x * cy + z * sy, z1 = -x * sy + z * cy;
     const y2 = y * cp - z1 * sp, z2 = y * sp + z1 * cp;
-    const sc = (Math.min(W, H) * 0.78) / Math.max(0.55, 2.35 - z2 * 0.5);
+    const sc = (Math.min(W, H) * 0.84) / Math.max(0.55, 2.25 - z2 * 0.5);
     return { sx: W * 0.50 + x1 * sc, sy: H * 0.52 - y2 * sc, sc };
   }
 
@@ -126,12 +140,12 @@ STUDIO_JS = """
     const bar = document.getElementById("twDepthBar");
     if (!bar) return;
     const dws = w.depth_worms || [];
-    bar.innerHTML = `<span style="font:600 10px var(--mono);color:#8b95ab;white-space:nowrap;">DEPTHS (${dws.length}):</span>`;
+    bar.innerHTML = "";
     const allB = document.createElement("button");
     allB.type = "button";
     allB.className = "tw-dpill" + (activeDepths.size === 0 ? " on" : "");
-    allB.style.color = "#f1f3f9";
-    allB.textContent = `All (${dws.length})`;
+    allB.style.color = "#f3f5fa";
+    allB.textContent = `All ${dws.length} Depths`;
     allB.onclick = () => { activeDepths.clear(); renderDepthPills(w); drawAll(); };
     bar.appendChild(allB);
 
@@ -139,8 +153,8 @@ STUDIO_JS = """
       const b = document.createElement("button");
       b.type = "button";
       b.className = "tw-dpill" + (isDepthOn(dw.id) ? " on" : "");
-      b.style.color = dw.color || "#4fd1c5";
-      b.innerHTML = `<span style="width:6px;height:6px;border-radius:50%;background:${dw.color};display:inline-block;"></span>z=${dw.z} ${dw.label}`;
+      b.style.color = dw.color || "#00f5d4";
+      b.innerHTML = `<span style="width:6px;height:6px;border-radius:50%;background:${dw.color};display:inline-block;"></span>z=${dw.z} ${dw.label.slice(0,12)}`;
       b.onclick = () => {
         if (activeDepths.size === 1 && activeDepths.has(dw.id)) activeDepths.clear();
         else { activeDepths.clear(); activeDepths.add(dw.id); }
@@ -163,28 +177,28 @@ STUDIO_JS = """
     hitPts = [];
 
     if (wMode === "lanes") {
-      const padL = 108, padR = 18, padT = 22, padB = 22;
+      const padL = 92, padR = 14, padT = 18, padB = 18;
       const plotW = W - padL - padR, plotH = H - padT - padB;
       const nL = Math.max(1, dws.length);
       const curX = padL + (fIdx / Math.max(1, nf - 1)) * plotW;
-      ctx3.strokeStyle = "rgba(242,188,87,0.55)"; ctx3.lineWidth = 1.5;
-      ctx3.beginPath(); ctx3.moveTo(curX, padT - 6); ctx3.lineTo(curX, H - padB + 6); ctx3.stroke();
+      ctx3.strokeStyle = "rgba(255,209,102,0.7)"; ctx3.lineWidth = 2;
+      ctx3.beginPath(); ctx3.moveTo(curX, padT - 4); ctx3.lineTo(curX, H - padB + 4); ctx3.stroke();
 
       dws.forEach((dw, dIdx) => {
         const on = isDepthOn(dw.id);
         const ly0 = padT + (dIdx + 0.5) * (plotH / nL);
-        const lh = (plotH / nL) * 0.72;
-        const col = dw.color || "#4fd1c5";
-        ctx3.fillStyle = on ? col : "rgba(139,149,171,0.4)";
-        ctx3.font = "bold 10px monospace";
-        ctx3.fillText(`z=${dw.z} ${dw.label.slice(0, 10)}`, 6, ly0 + 3);
+        const lh = (plotH / nL) * 0.76;
+        const col = dw.color || "#00f5d4";
+        ctx3.fillStyle = on ? col : "rgba(142,153,176,0.35)";
+        ctx3.font = "bold 10.5px monospace";
+        ctx3.fillText(`z=${dw.z} ${dw.label.slice(0, 8)}`, 5, ly0 + 3);
         if (!on) return;
         const trk = dw.track || [];
-        ctx3.strokeStyle = col; ctx3.lineWidth = dw.role === "subject" ? 2.5 : 1.7;
+        ctx3.strokeStyle = col; ctx3.lineWidth = dw.role === "subject" ? 3.2 : 2.2;
         ctx3.beginPath();
         trk.forEach((pt, fi) => {
           const tx = padL + (fi / Math.max(1, nf - 1)) * plotW;
-          const ty = ly0 + (pt[0] - 0.5) * lh * 0.9;
+          const ty = ly0 + (pt[0] - 0.5) * lh;
           if (dw.role === "subject") hitPts.push({ fi, sx: tx, sy: ty });
           if (fi === 0) ctx3.moveTo(tx, ty); else ctx3.lineTo(tx, ty);
         });
@@ -196,24 +210,24 @@ STUDIO_JS = """
     const box = [[0,0,0],[1,0,0],[1,1,0],[0,1,0],[0,0,1],[1,0,1],[1,1,1],[0,1,1]].map(c => proj3(c[0],c[1],c[2],0.35,W,H));
     [[0,1],[1,2],[2,3],[3,0],[4,5],[5,6],[6,7],[7,4],[0,4],[1,5],[2,6],[3,7]].forEach(([a,b]) => {
       ctx3.beginPath(); ctx3.moveTo(box[a].sx, box[a].sy); ctx3.lineTo(box[b].sx, box[b].sy);
-      ctx3.strokeStyle = "rgba(139,149,171,0.22)"; ctx3.lineWidth = 1; ctx3.stroke();
+      ctx3.strokeStyle = "rgba(142,153,176,0.22)"; ctx3.lineWidth = 1; ctx3.stroke();
     });
 
     [...dws].reverse().forEach(dw => {
       if (!isDepthOn(dw.id)) return;
-      const col = dw.color || "#4fd1c5";
+      const col = dw.color || "#00f5d4";
       const trk = dw.track || [];
       const zNorm = Math.min(1.0, Math.log(Math.max(1.0, dw.z || 2.0)) / Math.log(12.0));
       const isSubj = dw.role === "subject";
 
       if (isSubj) {
-        const step = Math.max(1, Math.floor(nf / 14));
+        const step = Math.max(1, Math.floor(nf / 12));
         frames.forEach((fr, fi) => {
           if (fi !== fIdx && fi % step !== 0 && !(w.keys || []).includes(fi)) return;
           if (!fr.ring || fr.ring.length < 3) return;
-          ctx3.strokeStyle = (fi === fIdx) ? "#ffffff" : col + "bb";
-          ctx3.fillStyle = (fi === fIdx) ? col + "50" : col + "18";
-          ctx3.lineWidth = (fi === fIdx) ? 2.4 : 1.1;
+          ctx3.strokeStyle = (fi === fIdx) ? "#ffffff" : col;
+          ctx3.fillStyle = (fi === fIdx) ? col + "60" : col + "22";
+          ctx3.lineWidth = (fi === fIdx) ? 2.8 : 1.4;
           ctx3.beginPath();
           fr.ring.forEach((uv, j) => {
             const p = proj3(uv[0], uv[1], fi / Math.max(1, nf - 1), zNorm, W, H);
@@ -222,18 +236,20 @@ STUDIO_JS = """
           ctx3.closePath(); ctx3.fill(); ctx3.stroke();
         });
       } else {
-        const step = Math.max(1, Math.floor(nf / 9));
+        const step = Math.max(1, Math.floor(nf / 8));
         trk.forEach((pt, fi) => {
           if (fi !== fIdx && fi % step !== 0) return;
           const p = proj3(pt[0], pt[1], fi / Math.max(1, nf - 1), zNorm, W, H);
-          const rx = Math.max(5, pt[2] * p.sc * 0.5);
-          ctx3.strokeStyle = (fi === fIdx) ? "#ffffff" : col + "99";
-          ctx3.lineWidth = (fi === fIdx) ? 1.8 : 1.0;
-          ctx3.beginPath(); ctx3.ellipse(p.sx, p.sy, rx, rx * 0.6, 0, 0, Math.PI * 2); ctx3.stroke();
+          const rx = Math.max(6, pt[2] * p.sc * 0.52);
+          ctx3.strokeStyle = (fi === fIdx) ? "#ffffff" : col;
+          ctx3.fillStyle = col + "20";
+          ctx3.lineWidth = (fi === fIdx) ? 2.2 : 1.2;
+          ctx3.beginPath(); ctx3.ellipse(p.sx, p.sy, rx, rx * 0.6, 0, 0, Math.PI * 2);
+          ctx3.fill(); ctx3.stroke();
         });
       }
 
-      ctx3.strokeStyle = col; ctx3.lineWidth = isSubj ? 2.6 : 1.8;
+      ctx3.strokeStyle = col; ctx3.lineWidth = isSubj ? 3.4 : 2.4;
       ctx3.beginPath();
       trk.forEach((pt, fi) => {
         const p = proj3(pt[0], pt[1], fi / Math.max(1, nf - 1), zNorm, W, H);
@@ -242,23 +258,10 @@ STUDIO_JS = """
       });
       ctx3.stroke();
 
-      if (showSub && dw.sub_worms) {
-        dw.sub_worms.forEach(sw => {
-          ctx3.strokeStyle = col + "99"; ctx3.lineWidth = 1.1; ctx3.setLineDash([3, 3]);
-          ctx3.beginPath();
-          if (sw.pts) {
-            sw.pts.forEach((uv, fi) => {
-              const p = proj3(uv[0], uv[1], fi / Math.max(1, nf - 1), zNorm, W, H);
-              if (fi === 0) ctx3.moveTo(p.sx, p.sy); else ctx3.lineTo(p.sx, p.sy);
-            });
-          } else if (sw.u0 !== undefined) {
-            trk.forEach((pt, fi) => {
-              const p = proj3(sw.u0 + (pt[0] - trk[0][0]), sw.v0 + (pt[1] - trk[0][1]), fi / Math.max(1, nf - 1), zNorm, W, H);
-              if (fi === 0) ctx3.moveTo(p.sx, p.sy); else ctx3.lineTo(p.sx, p.sy);
-            });
-          }
-          ctx3.stroke(); ctx3.setLineDash([]);
-        });
+      if (trk.length) {
+        const p0 = proj3(trk[0][0], trk[0][1], 0, zNorm, W, H);
+        ctx3.fillStyle = col; ctx3.font = "bold 10.5px monospace";
+        ctx3.fillText(`z=${dw.z}`, p0.sx + 4, p0.sy - 4);
       }
     });
   }
@@ -273,17 +276,17 @@ STUDIO_JS = """
     const fr = w.frames[fIdx];
     (w.depth_worms || []).forEach(dw => {
       if (!isDepthOn(dw.id)) return;
-      const col = dw.color || "#4fd1c5";
+      const col = dw.color || "#00f5d4";
       const pt = (dw.track || [])[Math.min((dw.track || []).length - 1, fIdx)];
       if (!pt) return;
       if (dw.role === "subject" && fr.ring && fr.ring.length >= 3) {
-        ctx2.strokeStyle = col; ctx2.fillStyle = col + "22"; ctx2.lineWidth = 2.2;
+        ctx2.strokeStyle = col; ctx2.fillStyle = col + "28"; ctx2.lineWidth = 2.5;
         ctx2.beginPath();
         fr.ring.forEach((uv, i) => { if (i === 0) ctx2.moveTo(uv[0]*W, uv[1]*H); else ctx2.lineTo(uv[0]*W, uv[1]*H); });
         ctx2.closePath(); ctx2.fill(); ctx2.stroke();
       } else {
         const cx = pt[0]*W, cy = pt[1]*H, rx = pt[2]*W*0.6, ry = pt[2]*H*0.4;
-        ctx2.strokeStyle = col + "bb"; ctx2.lineWidth = 1.4; ctx2.setLineDash([4, 4]);
+        ctx2.strokeStyle = col; ctx2.lineWidth = 1.6; ctx2.setLineDash([4, 4]);
         ctx2.beginPath(); ctx2.ellipse(cx, cy, rx, ry, 0, 0, Math.PI * 2); ctx2.stroke(); ctx2.setLineDash([]);
       }
     });
@@ -295,10 +298,9 @@ STUDIO_JS = """
     draw3D();
     draw2D();
     const fIdx = Math.max(0, Math.min(w.frames.length - 1, curF));
-    const fr = w.frames[fIdx];
     const dws = w.depth_worms || [];
     document.getElementById("twFrameReadout").textContent =
-      `f${String(fIdx).padStart(2,"0")}/${w.n_frames-1} · ${dws.length} Depths (${dws.map(d=>"z="+d.z).join("→")}) · ${w.best_rule} ${w.best_fit}%`;
+      `f${String(fIdx).padStart(2,"0")}/${w.n_frames-1} · ${dws.length} Depths (${dws.map(d=>"z="+d.z).join("→")})`;
   }
 
   function setFrame(fIdx, syncV) {
@@ -329,8 +331,40 @@ STUDIO_JS = """
     const vUrl = (vMode === "src") ? w.src_mp4 : ((vMode === "art") ? w.art_mp4 : w.comp_mp4);
     if (vid.src !== vUrl) vid.src = vUrl;
     setFrame(0, false);
+    document.querySelectorAll("#twSwipeStrip .tw-tile").forEach(t => {
+      t.classList.toggle("active", parseInt(t.dataset.idx, 10) === curIdx);
+    });
     if (autoPlay) vid.play().catch(() => {});
   };
+
+  function buildSwipeStrip() {
+    const strip = document.getElementById("twSwipeStrip");
+    if (!strip) return;
+    strip.innerHTML = "";
+    WORMS.forEach((w, idx) => {
+      const tile = document.createElement("div");
+      tile.className = "tw-tile" + (idx === curIdx ? " active" : "");
+      tile.dataset.idx = idx;
+      tile.innerHTML = `<canvas width="110" height="36"></canvas><div class="tw-tile-t">${idx+1}. ${w.slug}</div>`;
+      tile.onclick = () => window.loadSecondhandWorm(idx, true);
+      strip.appendChild(tile);
+
+      const mc = tile.querySelector("canvas").getContext("2d");
+      const nf = Math.max(1, w.frames.length);
+      const dws = w.depth_worms || [];
+      dws.forEach((dw, dIdx) => {
+        mc.strokeStyle = dw.color || "#00f5d4";
+        mc.lineWidth = dw.role === "subject" ? 2.0 : 1.2;
+        mc.beginPath();
+        (dw.track || []).forEach((pt, fi) => {
+          const x = 4 + (fi / Math.max(1, nf - 1)) * 102;
+          const y = 6 + (dIdx / Math.max(1, dws.length - 1)) * 24 + (pt[0] - 0.5) * 12;
+          if (fi === 0) mc.moveTo(x, y); else mc.lineTo(x, y);
+        });
+        mc.stroke();
+      });
+    });
+  }
 
   function decorateRackCards() {
     if (!WORMS.length) return;
@@ -351,19 +385,19 @@ STUDIO_JS = """
       const dws = w.depth_worms || [];
 
       const stripWrap = document.createElement("div");
-      stripWrap.style.cssText = "margin-top:4px;padding:4px 6px;background:#090b10;border-radius:5px;border:1px solid var(--rule-strong);display:flex;align-items:center;justify-content:space-between;gap:6px;";
+      stripWrap.style.cssText = "margin-top:4px;padding:4px 6px;background:#080a10;border-radius:5px;border:1px solid var(--rule-strong);display:flex;align-items:center;justify-content:space-between;gap:6px;";
       const miniC = document.createElement("canvas");
       miniC.width = 120; miniC.height = 34;
-      miniC.style.cssText = "width:108px;height:32px;display:block;";
+      miniC.style.cssText = "width:104px;height:30px;display:block;";
       const mc = miniC.getContext("2d");
       const nf = Math.max(1, w.frames.length);
       dws.forEach((dw, dIdx) => {
-        mc.strokeStyle = dw.color || "#4fd1c5";
-        mc.lineWidth = dw.role === "subject" ? 1.8 : 1.1;
+        mc.strokeStyle = dw.color || "#00f5d4";
+        mc.lineWidth = dw.role === "subject" ? 2.0 : 1.2;
         mc.beginPath();
         (dw.track || []).forEach((pt, fi) => {
-          const x = 6 + (fi / Math.max(1, nf - 1)) * 108;
-          const y = 7 + (dIdx / Math.max(1, dws.length - 1)) * 20 + (pt[0] - 0.5) * 12;
+          const x = 5 + (fi / Math.max(1, nf - 1)) * 110;
+          const y = 6 + (dIdx / Math.max(1, dws.length - 1)) * 22 + (pt[0] - 0.5) * 12;
           if (fi === 0) mc.moveTo(x, y); else mc.lineTo(x, y);
         });
         mc.stroke();
@@ -372,12 +406,12 @@ STUDIO_JS = """
       const btn = document.createElement("button");
       btn.type = "button";
       btn.className = "chip";
-      btn.style.cssText = "font-size:10.5px;padding:2px 6px;background:#f2bc57;color:#090b10;border-color:#f2bc57;font-weight:700;";
+      btn.style.cssText = "font-size:10.5px;padding:2px 6px;background:#ffd166;color:#080a10;border-color:#ffd166;font-weight:700;";
       btn.textContent = `▶ ${dws.length} Depths`;
       btn.onclick = (e) => {
         e.preventDefault(); e.stopPropagation();
         window.loadSecondhandWorm(slug, true);
-        document.getElementById("time-worms-studio").scrollIntoView({ behavior: "smooth" });
+        window.scrollTo({ top: 0, behavior: "smooth" });
       };
       stripWrap.append(miniC, btn);
       const bodyEl = card.querySelector(".body");
@@ -412,9 +446,10 @@ STUDIO_JS = """
       drawAll();
     };
   });
-  document.getElementById("twSubToggle").onclick = (e) => {
-    showSub = !showSub;
-    e.target.setAttribute("aria-pressed", String(showSub));
+  document.getElementById("twFull3dBtn").onclick = (e) => {
+    const g = document.getElementById("twStageGrid");
+    const full = g.classList.toggle("full3d");
+    e.target.setAttribute("aria-pressed", String(full));
     drawAll();
   };
   document.querySelectorAll("#twVidSourceBar .tw-btn").forEach(b => {
@@ -449,7 +484,7 @@ STUDIO_JS = """
       if (best !== -1 && bestD < 50) setFrame(best, true);
     }
   });
-  document.getElementById("twResetAngle").onclick = () => { yaw = -0.58; pitch = 0.34; drawAll(); };
+  document.getElementById("twResetAngle").onclick = () => { yaw = -0.56; pitch = 0.32; drawAll(); };
 
   const outEl = document.getElementById("out");
   if (outEl) new MutationObserver(() => decorateRackCards()).observe(outEl, { childList: true, subtree: true });
@@ -464,9 +499,10 @@ STUDIO_JS = """
       WORMS.forEach((w, idx) => {
         const opt = document.createElement("option");
         opt.value = idx;
-        opt.textContent = `${idx+1}. ${w.slug} (${(w.depth_worms||[]).length} Depth Worms · ${w.n_frames}f)`;
+        opt.textContent = `${idx+1}. ${w.slug} (${(w.depth_worms||[]).length} Depths · ${w.n_frames}f)`;
         sel.appendChild(opt);
       });
+      buildSwipeStrip();
       const gIdx = WORMS.findIndex(w => w.slug === "giraffe");
       window.loadSecondhandWorm(gIdx !== -1 ? gIdx : 0, false);
       decorateRackCards();
@@ -481,7 +517,7 @@ def main():
 
     # Remove any previous injection if re-running
     html = re.sub(
-        r"<!-- INTERACTIVE 4D SPATIOTEMPORAL TIME-WORM STUDIO.*?<!-- END TIME-WORM STUDIO -->\n?",
+        r"<!-- INTERACTIVE 4D SPATIOTEMPORAL TIME-WORM STUDIO.*?<!-- END TIME-WORM STUDIO -->\n*",
         "",
         html,
         flags=re.S,
@@ -493,22 +529,18 @@ def main():
         flags=re.S,
     )
 
-    target_section = '<section aria-labelledby="st-h">'
-    block = STUDIO_HTML.strip() + "\n<!-- END TIME-WORM STUDIO -->\n\n" + target_section
-    assert target_section in html, "Could not find <section aria-labelledby=\"st-h\"> in index.html"
-    html = html.replace(target_section, block, 1)
+    # Inject BEFORE <div class="intro"> so it sits at y=0 on mobile with ZERO scrolling!
+    target_intro = '<div class="intro">'
+    block = STUDIO_HTML.strip() + "\n<!-- END TIME-WORM STUDIO -->\n\n" + target_intro
+    assert target_intro in html, "Could not find <div class=\"intro\"> in index.html"
+    html = html.replace(target_intro, block, 1)
 
-    assert html.endswith("</script>") or "</script>" in html
     last_script_idx = html.rfind("</script>")
     html = html[:last_script_idx] + "\n" + STUDIO_JS.strip() + "\n</script>" + html[last_script_idx + len("</script>"):]
 
     with open(INDEX_PATH, "w") as f:
         f.write(html)
     print(f"Updated {INDEX_PATH} ({len(html) / 1024:.1f} KB)")
-
-    nojekyll_path = os.path.join(SHM_ROOT, ".nojekyll")
-    with open(nojekyll_path, "w") as f:
-        f.write("")
 
 
 if __name__ == "__main__":
