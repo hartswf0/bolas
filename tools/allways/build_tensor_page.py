@@ -1,14 +1,35 @@
 #!/usr/bin/env python3
 """
-Builds the interactive Spatiotemporal Cinema Tensor & 3D Worm Observatory page
-at /Users/gaia/WORLDBUILDING-TERMS/bolas_repo/allways-tensor/index.html
+Builds the Single-File Epistemic Cinema Thinking Machine at:
+  /Users/gaia/WORLDBUILDING-TERMS/bolas_repo/allways-tensor/index.html
+
+Implements all six epistemic interface principles:
+  1. Surface the Invisible (live video HUD overlays for 14-line armature, cymatic string warp,
+     Helmholtz sink attractor, 3-strand depth nodes, and expanding foveal saccade light-cones)
+  2. Overcome Cognitive Limits (linked brushing across all 8 canvases + unified causal state bar)
+  3. Support Multiple Modes (3D Glass-Prism Worm, u-tau/v-tau Slit-Scans, 360° Radial Cinemetrics
+     Torus, and Dual-Film Split Comparator)
+  4. Direct Manipulation (live sliders for foveal speed c_eye, neural fixation latency tau_fix,
+     Vietoris-Rips filtration radius epsilon, braid tautness reduction, and draggable focal nodes)
+  5. Semantic Zoom (1x Macro Corpus/Film view down to 12x Micro Cut-Plane inspection)
+  6. Constrained Play (counterfactual registration & eye-trace repair sandbox with live STGL linter)
 """
 
 import os
 import json
+import base64
 
 REPO_ROOT = "/Users/gaia/WORLDBUILDING-TERMS/bolas_repo"
 TENSOR_DIR = os.path.join(REPO_ROOT, "allways-tensor")
+
+
+def encode_img_b64(rel_path):
+    full_p = os.path.join(TENSOR_DIR, rel_path)
+    if not os.path.exists(full_p):
+        return ""
+    with open(full_p, "rb") as f:
+        b64 = base64.b64encode(f.read()).decode("ascii")
+    return f"data:image/jpeg;base64,{b64}"
 
 
 def main():
@@ -26,50 +47,31 @@ def main():
             audit_data = json.load(f)
 
     films = tensor_data["films"]
-
-    # Build static comparison rows for SEO / no-JS readability as well
-    rows_html = []
-    for f in films:
-        b = f["braid"]
-        h = f["helmholtz"]
-        w = f["wasserstein"]
-        s = f["saccade"]
-        t = f["tda"]
-        sy = f["synchresis"]
-        wm = f["worm"]
-        plv_str = f"{sy['mean_plv']:.3f}" if sy["has_audio"] else "Silent (0.00)"
-        rows_html.append(f"""
-        <tr onclick="selectFilm('{f['id']}')" style="cursor:pointer" id="row-{f['id']}">
-          <td><strong>{f['title']}</strong><br><span class="sub">{f['maker']} · {f['award']}</span></td>
-          <td class="num"><span class="badge">{b['ftbe']:.3f}</span><br><span class="sub">{b['reduced_length']}/{b['raw_crossings']} red.</span></td>
-          <td class="num">Φ {(h['divergence_share']*100):.0f}% · Ψ {(h['curl_share']*100):.0f}% · H {(h['harmonic_share']*100):.0f}%<br><span class="sub">RMS {h['mean_phi_rms']:.2f}/{h['mean_psi_rms']:.2f}/{h['mean_h_rms']:.2f}</span></td>
-          <td class="num"><strong>{w['mean_w2_kinetic']:.2f}</strong><br><span class="sub">Geo {w['geodesic_efficiency']:.2f} · ΔL* {w['mean_chiaroscuro_dl']:.1f}</span></td>
-          <td class="num"><strong>{s['timelike_pct']:.0f}%</strong> Timelike<br><span class="sub">Δs²={s['mean_ds2']:+.3f} ({s['detected_cuts']} cuts)</span></td>
-          <td class="num">({t['beta0_regimes']}, {t['beta1_loops']}, {t['beta2_chiasmus']:.2f})<br><span class="sub">Chiasmus {t['beta2_chiasmus']:.2f}</span></td>
-          <td class="num"><strong>{plv_str}</strong><br><span class="sub">Slip {sy['anempathetic_slip']:.3f}</span></td>
-          <td class="num"><strong>{wm['compositional_lock_pct']:.0f}%</strong> Lock<br><span class="sub">d={wm['mean_armature_dist']:.3f} · {wm['dominant_stgl_rule']}</span></td>
-        </tr>
-        """)
+    for film in films:
+        film["ut_b64"] = encode_img_b64(film["ut_tomogram"])
+        film["vt_b64"] = encode_img_b64(film["vt_tomogram"])
 
     html = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ALLWAYS — Spatiotemporal Cinema Tensor &amp; 3D Worm Observatory</title>
+<title>ALLWAYS — Spatiotemporal Cinema Tensor &amp; Epistemic Thinking Machine</title>
 <style>
   :root {{
-    --bg: #090a0d;
-    --panel: #111319;
-    --panel-alt: #161922;
-    --border: #252936;
-    --fg: #ece8df;
-    --muted: #9298a8;
-    --accent: #e0a958;
-    --cyan: #5bc0de;
-    --rose: #e06c75;
-    --green: #7ec699;
-    --purple: #c678dd;
+    --bg: #07080b;
+    --panel: #0e1017;
+    --panel-alt: #141822;
+    --panel-hi: #1b2030;
+    --border: #232838;
+    --fg: #ede9e0;
+    --muted: #8c93a6;
+    --accent: #e5ae5c;
+    --cyan: #56c2e6;
+    --rose: #e36874;
+    --green: #72cc96;
+    --purple: #c77ae0;
+    --mono: "SFMono-Regular", ui-monospace, Consolas, Menlo, monospace;
   }}
   * {{ box-sizing: border-box; }}
   body {{
@@ -77,153 +79,272 @@ def main():
     background: var(--bg);
     color: var(--fg);
     font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, sans-serif;
-    line-height: 1.5;
+    font-size: 13px;
+    line-height: 1.45;
+    overflow-x: hidden;
   }}
   a {{ color: var(--accent); text-decoration: none; }}
   a:hover {{ text-decoration: underline; }}
-  .wrap {{ max-width: 1440px; margin: 0 auto; padding: 24px 20px 64px; }}
-  header {{
-    border-bottom: 1px solid var(--border);
-    padding-bottom: 18px;
-    margin-bottom: 20px;
+  .app {{ max-width: 1520px; margin: 0 auto; padding: 16px 18px 56px; }}
+
+  /* Top Epistemic Header */
+  .top-header {{
     display: flex;
-    flex-wrap: wrap;
     justify-content: space-between;
-    align-items: flex-end;
+    align-items: flex-start;
     gap: 16px;
+    flex-wrap: wrap;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 14px;
+    margin-bottom: 12px;
   }}
   .eyebrow {{
-    font-size: 11px;
-    letter-spacing: 0.14em;
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--accent);
-    margin-bottom: 6px;
-    font-weight: 600;
+    margin-bottom: 4px;
   }}
   h1 {{
     margin: 0;
-    font-size: 26px;
-    font-weight: 650;
+    font-size: 22px;
+    font-weight: 680;
     letter-spacing: -0.02em;
   }}
-  .lead {{
-    margin: 6px 0 0;
+  .sub-lead {{
+    margin: 4px 0 0;
     color: var(--muted);
-    font-size: 14px;
+    font-size: 12.5px;
     max-width: 880px;
   }}
-  .top-links {{
+  .nav-cluster {{
     display: flex;
-    gap: 10px;
+    gap: 8px;
     flex-wrap: wrap;
+    align-items: center;
   }}
-  .btn-link {{
+  .btn {{
     background: var(--panel-alt);
     border: 1px solid var(--border);
     color: var(--fg);
-    padding: 7px 13px;
+    padding: 6px 11px;
     border-radius: 6px;
-    font-size: 12.5px;
-    font-weight: 500;
-  }}
-  .btn-link:hover {{ border-color: var(--accent); text-decoration: none; }}
-  .pill-bar {{
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-    margin-bottom: 20px;
-  }}
-  .film-pill {{
-    background: var(--panel);
-    border: 1px solid var(--border);
-    color: var(--muted);
-    padding: 7px 12px;
-    border-radius: 6px;
-    font-size: 12px;
+    font-size: 11.5px;
+    font-weight: 550;
     cursor: pointer;
-    transition: all 0.15s ease;
+    transition: all 0.12s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
   }}
-  .film-pill:hover {{ color: var(--fg); border-color: #444c63; }}
-  .film-pill.active {{
-    background: #221d15;
-    border-color: var(--accent);
-    color: var(--fg);
-    font-weight: 600;
-  }}
-  .top-grid {{
+  .btn:hover {{ border-color: var(--accent); color: #fff; text-decoration: none; }}
+  .btn.active {{ background: #261f14; border-color: var(--accent); color: var(--accent); }}
+  .btn.rose {{ background: #261419; border-color: var(--rose); color: var(--rose); }}
+
+  /* Principle Strip */
+  .principle-bar {{
     display: grid;
-    grid-template-columns: 1.05fr 1.25fr;
-    gap: 18px;
-    margin-bottom: 18px;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 8px;
+    margin-bottom: 12px;
   }}
-  @media (max-width: 1050px) {{
-    .top-grid {{ grid-template-columns: 1fr; }}
-  }}
-  .card {{
+  @media (max-width: 1100px) {{ .principle-bar {{ grid-template-columns: repeat(3, 1fr); }} }}
+  @media (max-width: 640px) {{ .principle-bar {{ grid-template-columns: repeat(2, 1fr); }} }}
+  .p-chip {{
     background: var(--panel);
     border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 16px;
+    border-radius: 6px;
+    padding: 6px 9px;
+    font-size: 11px;
   }}
-  .card-header {{
+  .p-chip b {{ color: var(--accent); display: block; font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.05em; }}
+  .p-chip span {{ color: var(--muted); font-size: 10.5px; }}
+
+  /* Film Selector & Mode Switcher */
+  .selector-bar {{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 10px;
+    gap: 10px;
+    flex-wrap: wrap;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 12px;
+    margin-bottom: 12px;
+  }}
+  .pill-list {{ display: flex; gap: 6px; flex-wrap: wrap; }}
+  .f-pill {{
+    background: var(--panel-alt);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 11.5px;
+    cursor: pointer;
+    font-weight: 500;
+  }}
+  .f-pill:hover {{ color: var(--fg); border-color: #3d455e; }}
+  .f-pill.active {{
+    background: #251e13;
+    border-color: var(--accent);
+    color: var(--fg);
+    font-weight: 650;
+  }}
+
+  /* Live Causal Telemetry Ribbon (Overcome Cognitive Limits) */
+  .telemetry-ribbon {{
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 8px;
+    background: #0b0d13;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 12px;
+    margin-bottom: 14px;
+    font-family: var(--mono);
+  }}
+  @media (max-width: 1100px) {{ .telemetry-ribbon {{ grid-template-columns: repeat(4, 1fr); }} }}
+  .t-cell {{ display: flex; flex-direction: column; }}
+  .t-cell .k {{ font-size: 9.5px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }}
+  .t-cell .v {{ font-size: 13px; font-weight: 650; color: var(--fg); }}
+
+  /* Primary Workbench Grid */
+  .stage-grid {{
+    display: grid;
+    grid-template-columns: 1.05fr 1.35fr;
+    gap: 14px;
+    margin-bottom: 12px;
+  }}
+  @media (max-width: 1080px) {{ .stage-grid {{ grid-template-columns: 1fr; }} }}
+
+  .card {{
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+  }}
+  .card-head {{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     gap: 8px;
     flex-wrap: wrap;
+    margin-bottom: 8px;
   }}
   .card-title {{
-    font-size: 13px;
-    font-weight: 650;
-    letter-spacing: 0.04em;
+    font-size: 12px;
+    font-weight: 680;
+    letter-spacing: 0.05em;
     text-transform: uppercase;
     color: var(--accent);
   }}
-  .card-sub {{
-    font-size: 12px;
-    color: var(--muted);
-  }}
-  video {{
+  .card-sub {{ font-size: 11px; color: var(--muted); }}
+
+  /* Video + Direct Manipulation HUD Canvas Stack */
+  .video-hud-stack {{
+    position: relative;
     width: 100%;
-    max-height: 310px;
+    aspect-ratio: 16 / 9;
     background: #000;
     border-radius: 6px;
-    border: 1px solid var(--border);
-  }}
-  .slit-box {{
-    margin-top: 12px;
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 8px;
-  }}
-  .slit-wrap {{
-    position: relative;
-    border: 1px solid var(--border);
-    border-radius: 6px;
     overflow: hidden;
-    cursor: pointer;
-    height: 76px;
-    background: #050608;
+    border: 1px solid var(--border);
   }}
-  .slit-wrap img {{
+  .video-hud-stack video {{
     width: 100%;
     height: 100%;
-    object-fit: fill;
+    object-fit: contain;
     display: block;
   }}
-  .slit-label {{
+  #hudOverlayCanvas {{
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    cursor: crosshair;
+  }}
+  .hud-toggles {{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 8px;
+    font-size: 11px;
+  }}
+  .hud-toggles label {{
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: var(--panel-alt);
+    border: 1px solid var(--border);
+    padding: 3px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    color: var(--muted);
+  }}
+  .hud-toggles input:checked + span {{ color: var(--fg); font-weight: 600; }}
+
+  /* Multi-Mode 3D Worm / Radial Torus / Slit-Scan / Dual Diff Viewport */
+  #multiModeCanvas {{
+    width: 100%;
+    height: 350px;
+    background: radial-gradient(circle at 50% 45%, #151924 0%, #080a0f 100%);
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    cursor: grab;
+    display: block;
+  }}
+  #multiModeCanvas:active {{ cursor: grabbing; }}
+
+  /* Master Semantic-Zoom Linked Timeline + Tomograms */
+  .timeline-card {{
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    padding: 12px;
+    margin-bottom: 14px;
+  }}
+  #masterTimelineCanvas {{
+    width: 100%;
+    height: 118px;
+    background: #07080c;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    cursor: ew-resize;
+    display: block;
+  }}
+  .slit-pair {{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 8px;
+  }}
+  @media (max-width: 800px) {{ .slit-pair {{ grid-template-columns: 1fr; }} }}
+  .slit-strip {{
+    position: relative;
+    height: 66px;
+    border-radius: 5px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    cursor: pointer;
+    background: #000;
+  }}
+  .slit-strip img {{ width: 100%; height: 100%; object-fit: fill; display: block; }}
+  .slit-tag {{
     position: absolute;
     top: 4px;
-    left: 8px;
-    background: rgba(9, 10, 13, 0.82);
-    padding: 2px 7px;
-    border-radius: 4px;
-    font-size: 11px;
+    left: 6px;
+    background: rgba(7, 8, 11, 0.84);
+    padding: 1px 6px;
+    border-radius: 3px;
+    font-size: 10.5px;
     color: var(--fg);
     pointer-events: none;
   }}
-  .slit-cursor {{
+  .slit-playhead {{
     position: absolute;
     top: 0;
     bottom: 0;
@@ -233,568 +354,796 @@ def main():
     pointer-events: none;
     left: 0%;
   }}
-  #worm3dCanvas {{
-    width: 100%;
-    height: 390px;
-    background: radial-gradient(circle at 50% 45%, #161a24 0%, #090b10 100%);
-    border-radius: 6px;
-    border: 1px solid var(--border);
-    cursor: grab;
-    display: block;
-  }}
-  #worm3dCanvas:active {{ cursor: grabbing; }}
-  .controls-row {{
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-    margin-top: 10px;
-    align-items: center;
-    font-size: 12px;
-    color: var(--muted);
-  }}
-  .controls-row label {{
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    cursor: pointer;
-    background: var(--panel-alt);
-    padding: 4px 9px;
-    border-radius: 5px;
-    border: 1px solid var(--border);
-  }}
-  .manifold-grid {{
+
+  /* 6-Manifold Interactive Sandbox Grid */
+  .manifolds-grid {{
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
-    margin-bottom: 22px;
+    gap: 14px;
+    margin-bottom: 16px;
   }}
-  @media (max-width: 1150px) {{
-    .manifold-grid {{ grid-template-columns: repeat(2, 1fr); }}
-  }}
-  @media (max-width: 740px) {{
-    .manifold-grid {{ grid-template-columns: 1fr; }}
-  }}
+  @media (max-width: 1180px) {{ .manifolds-grid {{ grid-template-columns: repeat(2, 1fr); }} }}
+  @media (max-width: 740px) {{ .manifolds-grid {{ grid-template-columns: 1fr; }} }}
+
   .m-canvas {{
     width: 100%;
-    height: 155px;
-    background: #0b0d12;
+    height: 195px;
+    background: #090b10;
     border: 1px solid var(--border);
     border-radius: 6px;
     display: block;
-    margin: 8px 0;
+    cursor: pointer;
+    margin: 6px 0;
   }}
-  .kv-row {{
+  .slider-bar {{
     display: flex;
+    align-items: center;
     justify-content: space-between;
-    font-size: 12px;
-    border-top: 1px solid #1d212c;
-    padding: 5px 0;
-  }}
-  .kv-row span:first-child {{ color: var(--muted); }}
-  .kv-row span:last-child {{ font-family: "SFMono-Regular", Consolas, monospace; font-weight: 600; }}
-  .mono-box {{
-    background: #0b0d12;
+    gap: 8px;
+    background: var(--panel-alt);
     border: 1px solid var(--border);
     border-radius: 5px;
-    padding: 6px 8px;
-    font-family: "SFMono-Regular", Consolas, monospace;
-    font-size: 11.5px;
-    color: var(--cyan);
-    overflow-x: auto;
-    white-space: nowrap;
-    margin-bottom: 6px;
-  }}
-  table {{
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 12.5px;
-  }}
-  th, td {{
-    padding: 10px 10px;
-    border-bottom: 1px solid var(--border);
-    text-align: left;
-    vertical-align: top;
-  }}
-  th {{
+    padding: 5px 8px;
     font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--muted);
-    background: var(--panel-alt);
+    margin-top: 4px;
   }}
-  tr:hover td {{ background: #171b26; }}
-  tr.selected-row td {{ background: #211d15; border-bottom-color: var(--accent); }}
-  td.num {{ font-family: "SFMono-Regular", Consolas, monospace; }}
-  .sub {{ font-size: 11px; color: var(--muted); font-family: -apple-system, sans-serif; }}
+  .slider-bar input[type=range] {{
+    flex: 1;
+    accent-color: var(--accent);
+    cursor: pointer;
+  }}
+  .slider-val {{
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent);
+    min-width: 68px;
+    text-align: right;
+  }}
+  .kv-mini {{
+    display: flex;
+    justify-content: space-between;
+    font-size: 11.5px;
+    padding: 3px 0;
+    border-top: 1px solid #181c26;
+  }}
+  .kv-mini span:first-child {{ color: var(--muted); }}
+  .kv-mini span:last-child {{ font-family: var(--mono); font-weight: 600; }}
+
   .badge {{
-    display: inline-block;
-    padding: 2px 6px;
+    font-family: var(--mono);
+    font-size: 10.5px;
+    padding: 2px 7px;
     border-radius: 4px;
-    background: #232838;
+    background: #1f2433;
     color: var(--accent);
     font-weight: 600;
   }}
-  pre.ir-pre {{
-    background: #08090c;
+  .badge.green {{ background: #132a1e; color: var(--green); }}
+  .badge.rose {{ background: #2c161b; color: var(--rose); }}
+  .badge.cyan {{ background: #122730; color: var(--cyan); }}
+
+  /* Matrix & STGL Inspector */
+  table {{ width: 100%; border-collapse: collapse; font-size: 12px; }}
+  th, td {{ padding: 8px 9px; border-bottom: 1px solid var(--border); text-align: left; }}
+  th {{ font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); background: var(--panel-alt); }}
+  tr.film-row {{ cursor: pointer; }}
+  tr.film-row:hover td {{ background: #161a26; }}
+  tr.film-row.active-row td {{ background: #221d14; border-bottom-color: var(--accent); }}
+  pre.code-box {{
+    background: #07080b;
     border: 1px solid var(--border);
     border-radius: 6px;
-    padding: 12px;
-    font-size: 11.5px;
-    color: #b9c4d4;
-    max-height: 320px;
+    padding: 10px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: #b8c4d8;
+    max-height: 260px;
     overflow: auto;
     margin: 0;
   }}
 </style>
 </head>
 <body>
-<div class="wrap">
-  <header>
+<div class="app">
+  <!-- Header -->
+  <div class="top-header">
     <div>
-      <div class="eyebrow">ALLWAYS · 4D Spatiotemporal Manifold &amp; STGL Observatory</div>
-      <h1>Spatiotemporal Cinema Tensor $(u, v, d, \\tau)$ &amp; 3D Worm Topology</h1>
-      <p class="lead">
-        Treating each film as an extruded 4D spatiotemporal volume $\\mathcal{{V}}(u,v,d,\\tau)$ coupled to its acoustic field across six computable mathematical frameworks: Artin Braid Topology ($\\mathcal{{B}}_3$), Helmholtz–Hodge Flow ($\\Phi, \\mathbf{{\\Psi}}, \\mathbf{{H}}$), 5D Wasserstein Optimal Transport ($W_2$), Relativistic Saccade Light-Cones ($\\Delta s^2$), Takens Persistent Homology ($\\beta_0, \\beta_1, \\beta_2$), and Cross-Spectral Synchresis ($\\text{{PLV}}$).
+      <div class="eyebrow">ALLWAYS · Epistemic Media for Thinking the Unthinkable · Self-Contained Single-File Edition</div>
+      <h1>4D Spatiotemporal Cinema Tensor $(u, v, d, \\tau)$ &amp; Interactive Worm Laboratory</h1>
+      <p class="sub-lead">
+        Every mathematical structure—Artin Braids ($\\mathcal{{B}}_3$), Helmholtz–Hodge Potentials ($\\Phi, \\mathbf{{\\Psi}}, \\mathbf{{H}}$), 5D Wasserstein Optimal Transport ($W_2$), Relativistic Saccade Light-Cones ($\\Delta s^2$), Takens Persistent Homology ($\\beta_0, \\beta_1, \\beta_2$), and Cross-Spectral Synchresis ($\\text{{PLV}}$)—is rendered as a live, directly manipulable instrument coupled to the film frame.
       </p>
     </div>
-    <div class="top-links">
-      <a class="btn-link" href="../paeleo/allways/index.html">← ALLWAYS Hub</a>
-      <a class="btn-link" href="../allways-best/index.html">★ Watch Master Anthology</a>
-      <a class="btn-link" href="../allways-awards/index.html">🏆 132-Film Jury &amp; Awards</a>
-      <a class="btn-link" href="tensor_data.json" target="_blank">⬇ tensor_data.json</a>
-      <a class="btn-link" href="stgl_ir.json" target="_blank">⬇ stgl_ir.json</a>
+    <div class="nav-cluster">
+      <a class="btn" href="../paeleo/allways/index.html">← ALLWAYS Hub</a>
+      <a class="btn" href="../allways-best/index.html">★ 24-Cut Master Film</a>
+      <a class="btn" href="../allways-awards/index.html">🏆 132-Film Jury &amp; Awards</a>
     </div>
-  </header>
+  </div>
 
-  <div class="pill-bar" id="pillBar"></div>
+  <!-- 6 Epistemic Principles Banner -->
+  <div class="principle-bar">
+    <div class="p-chip"><b>1. Surface the Invisible</b><span>Live frame HUD: 14-line armature, cymatic warp, Helmholtz sinks &amp; saccade cones</span></div>
+    <div class="p-chip"><b>2. Overcome Limits</b><span>Linked hover-brushing across all 8 canvases + unified causal state ribbon</span></div>
+    <div class="p-chip"><b>3. Multiple Modes</b><span>Switch 3D Worm Prism, Slit-Scan Tomogram, 360° Radial Torus &amp; Dual-Film Diff</span></div>
+    <div class="p-chip"><b>4. Direct Manipulation</b><span>Drag $c_{{\\text{{eye}}}}$, $\\tau_{{\\text{{fix}}}}$, Vietoris–Rips $\\epsilon$, braid tautness &amp; focal nodes live</span></div>
+    <div class="p-chip"><b>5. Semantic Zoom</b><span>Zoom timeline &amp; 3D worm from $1\\times$ macro film arc to $12\\times$ micro cut window</span></div>
+    <div class="p-chip"><b>6. Constrained Play</b><span>Counterfactual `fit: register` &amp; eye-trace sandbox with live STGL linter</span></div>
+  </div>
 
-  <div class="top-grid">
-    <!-- Left: Synchronized Video Player + u-tau & v-tau Slit-Scan Tomograms -->
+  <!-- Film Selector Bar -->
+  <div class="selector-bar">
+    <div class="pill-list" id="filmPillList"></div>
+    <div style="display:flex;gap:8px;align-items:center;">
+      <span style="font-size:11px;color:var(--muted);">Compare Against:</span>
+      <select id="compareSelect" class="btn" onchange="renderAll()"></select>
+    </div>
+  </div>
+
+  <!-- Live Causal Telemetry Ribbon (Externalized Working Memory) -->
+  <div class="telemetry-ribbon">
+    <div class="t-cell"><span class="k">Playhead τ / Shot</span><span class="v" id="telTime">0.00s · Shot 01</span></div>
+    <div class="t-cell"><span class="k">Subject Node (u, v, d)</span><span class="v" id="telNode">(0.50, 0.50, 0.72)</span></div>
+    <div class="t-cell"><span class="k">14-Line Armature Error</span><span class="v" id="telGridErr">d = 0.012 (LOCKED)</span></div>
+    <div class="t-cell"><span class="k">Helmholtz (Φ / Ψ / H)</span><span class="v" id="telHHD">0.42 / 0.35 / 0.18</span></div>
+    <div class="t-cell"><span class="k">Wasserstein W₂² Energy</span><span class="v" id="telW2">0.48 · ΔL* 16.0</span></div>
+    <div class="t-cell"><span class="k">Nearest Cut Interval Δs²</span><span class="v" id="telSaccade">+0.032 (Timelike)</span></div>
+    <div class="t-cell"><span class="k">Braid Word / FTBE</span><span class="v" id="telBraid">FTBE 2.406</span></div>
+    <div class="t-cell"><span class="k">Synchresis PLV / Slip</span><span class="v" id="telPLV">PLV 0.446</span></div>
+  </div>
+
+  <!-- Primary Stage: Left = Augmented Video + Counterfactual HUD | Right = Multi-Mode 3D Worm / Torus / Diff -->
+  <div class="stage-grid">
+    <!-- Left Viewport: Video + Live Epistemic HUD Overlay -->
     <div class="card">
-      <div class="card-header">
+      <div class="card-head">
         <div>
-          <div class="card-title" id="activeTitle">059 · BALL</div>
-          <div class="card-sub" id="activeSub">Claude Sonnet · Grand Prix · 96.0/100</div>
+          <div class="card-title" id="stageTitle">059 · BALL (Claude Sonnet)</div>
+          <div class="card-sub" id="stageSub">Drag the target node on the video frame to test counterfactual Eye-Trace &amp; STGL Armature lock</div>
         </div>
-        <a class="btn-link" id="activeCaseLink" href="../allways-sonnet/059-ball/index.html">Open Film Page ↗</a>
+        <div style="display:flex;gap:6px;">
+          <button class="btn" id="btnCounterfactual" onclick="toggleCounterfactualReg()">⌖ Simulate `fit: register` Lock</button>
+          <button class="btn rose" id="btnResetSandbox" onclick="resetSandbox()" style="display:none;">↺ Reset Sandbox</button>
+          <a class="btn" id="stageCaseLink" href="../allways-sonnet/059-ball/index.html" target="_blank">Case Study ↗</a>
+        </div>
       </div>
-      <video id="filmPlayer" controls playsinline preload="metadata"></video>
 
-      <div class="slit-box">
-        <div class="slit-wrap" onclick="seekFromSlit(event)">
-          <img id="utImg" src="img/sonnet-059-ball_ut.jpg" alt="u-tau slit-scan tomogram">
-          <div class="slit-label">$u\\text{{-}}\\tau$ Horizon Slit-Scan Tomogram (Click to Seek · Vertical Pillars = Registration Lock, Diagonal = Pan)</div>
-          <div class="slit-cursor" id="utCursor"></div>
-        </div>
-        <div class="slit-wrap" onclick="seekFromSlit(event)">
-          <img id="vtImg" src="img/sonnet-059-ball_vt.jpg" alt="v-tau slit-scan tomogram">
-          <div class="slit-label">$v\\text{{-}}\\tau$ Vertical Center Slit-Scan Tomogram (Strata = Cuts, Cones = Scale Traverse)</div>
-          <div class="slit-cursor" id="vtCursor"></div>
-        </div>
+      <div class="video-hud-stack">
+        <video id="mainVideo" controls playsinline preload="metadata"></video>
+        <canvas id="hudOverlayCanvas" width="640" height="360"></canvas>
+      </div>
+
+      <div class="hud-toggles">
+        <label><input type="checkbox" id="hudArmature" checked onchange="renderHUD()"><span>14-Line Harmonic Armature</span></label>
+        <label><input type="checkbox" id="hudRegCircle" checked onchange="renderHUD()"><span>`059-ball` Registration Rim ($R=0.28H$)</span></label>
+        <label><input type="checkbox" id="hudStrands" checked onchange="renderHUD()"><span>3-Strand Braid Nodes $(u_i,v_i,d_i)$</span></label>
+        <label><input type="checkbox" id="hudSaccade" checked onchange="renderHUD()"><span>Relativistic Saccade Cone $R(\\tau)$</span></label>
+        <label><input type="checkbox" id="hudHelmholtz" checked onchange="renderHUD()"><span>Helmholtz Sink &amp; Cymatic Warp</span></label>
       </div>
     </div>
 
-    <!-- Right: Interactive 3D Spatiotemporal Glass-Prism Worm Visualizer -->
+    <!-- Right Viewport: Multi-Mode Spatiotemporal Visualizer -->
     <div class="card">
-      <div class="card-header">
+      <div class="card-head">
         <div>
-          <div class="card-title">3D Glass-Prism Spatiotemporal Worm $\\mathcal{{V}}(u, v, \\tau)$</div>
-          <div class="card-sub">Drag to orbit 3D volume · Core worm colored by real CIE-LAB palette · Gold filaments = 14-Line Armature</div>
+          <div class="card-title">Multi-Mode Spatiotemporal Volume Inspector</div>
+          <div class="card-sub">Switch representations or drag to orbit 3D volume · Wheel/slider for Semantic Zoom</div>
         </div>
-        <span class="badge" id="liveTimeBadge">τ = 0.00s</span>
+        <div style="display:flex;gap:5px;flex-wrap:wrap;">
+          <button class="btn active" id="modeBtn-prism" onclick="setViewMode('prism')">1 · 3D Worm Prism</button>
+          <button class="btn" id="modeBtn-torus" onclick="setViewMode('torus')">2 · 360° Cinemetrics Torus</button>
+          <button class="btn" id="modeBtn-diff" onclick="setViewMode('diff')">3 · Dual-Film Diff</button>
+          <button class="btn" id="modeBtn-toric" onclick="setViewMode('toric')">4 · Toric Camera Manifold</button>
+        </div>
       </div>
-      <canvas id="worm3dCanvas" width="760" height="390"></canvas>
-      <div class="controls-row">
-        <label><input type="checkbox" id="chkArmature" checked onchange="draw3DWorm()"> 14-Line Harmonic Armature</label>
-        <label><input type="checkbox" id="chkSpiral" checked onchange="draw3DWorm()"> Center / Golden Tunnel</label>
-        <label><input type="checkbox" id="chkBraids" checked onchange="draw3DWorm()"> 3-Strand Braid ($\\mathcal{{B}}_3$)</label>
-        <label><input type="checkbox" id="chkCones" checked onchange="draw3DWorm()"> Saccade Light-Cones ($\\Delta s^2$)</label>
-        <label><input type="checkbox" id="chkAutoRotate" checked> Auto-Orbit Prism</label>
+
+      <canvas id="multiModeCanvas" width="820" height="350"></canvas>
+
+      <div class="slider-bar" style="margin-top:8px;">
+        <span>Semantic Zoom ($1\\times$ Macro $\\to 12\\times$ Micro Cut Window):</span>
+        <input type="range" id="zoomSlider" min="1" max="12" step="0.25" value="1" oninput="onZoomChange(this.value)">
+        <span class="slider-val" id="zoomVal">1.0× Full</span>
+        <label style="display:inline-flex;align-items:center;gap:4px;margin-left:8px;cursor:pointer;">
+          <input type="checkbox" id="chkAutoOrbit" checked> <span>Auto-Orbit</span>
+        </label>
       </div>
     </div>
   </div>
 
-  <!-- Six Mathematical Manifolds Grid -->
-  <div class="manifold-grid">
-    <!-- 1. Artin Braid Topology -->
-    <div class="card">
-      <div class="card-header">
-        <div class="card-title">1 · Artin Braid Topology ($\\mathcal{{B}}_3$)</div>
-        <span class="badge" id="m1Badge">FTBE = 0.000</span>
+  <!-- Master Linked-Brushing Timeline & Embedded Slit-Scan Tomograms -->
+  <div class="timeline-card">
+    <div class="card-head" style="margin-bottom:6px;">
+      <div class="card-title">Linked Spatiotemporal Timeline &amp; Tomographic Slit-Scan Strata ($u\\text{{-}}\\tau$ Horizon &amp; $v\\text{{-}}\\tau$ Vertical)</div>
+      <div class="card-sub">Hover or drag anywhere to scrub all 8 visualizers simultaneously · Green/Gold/Red ticks = Timelike / Lightlike / Spacelike Cuts</div>
+    </div>
+    <canvas id="masterTimelineCanvas" width="1440" height="118"></canvas>
+    <div class="slit-pair">
+      <div class="slit-strip" onmousemove="scrubFromSlit(event)" onclick="scrubFromSlit(event, true)">
+        <img id="utSlitImg" alt="u-tau horizon slit-scan">
+        <div class="slit-tag">$u\\text{{-}}\\tau$ Horizon Slit-Scan (Vertical Pillar = Locked Registration · Diagonal Wave = Camera Pan)</div>
+        <div class="slit-playhead" id="utPlayhead"></div>
       </div>
-      <div class="card-sub">3-strand horizontal worldlines $(u_i(\\tau), d_i(\\tau))$ &amp; algebraic generator reduction $\\sigma_i \\sigma_i^{{-1}} = e$</div>
-      <canvas class="m-canvas" id="canvasBraid" width="420" height="155"></canvas>
-      <div class="mono-box" id="braidWordBox">Reduced Word: e</div>
-      <div class="kv-row"><span>Raw / Reduced Crossings</span><span id="m1Crossings">0 / 0</span></div>
-      <div class="kv-row"><span>True Entanglement Ratio</span><span id="m1Entangle">0.000</span></div>
+      <div class="slit-strip" onmousemove="scrubFromSlit(event)" onclick="scrubFromSlit(event, true)">
+        <img id="vtSlitImg" alt="v-tau vertical slit-scan">
+        <div class="slit-tag">$v\\text{{-}}\\tau$ Vertical Slit-Scan (Crisp Strata = Cut Planes · Expanding Funnel = Scale Traverse)</div>
+        <div class="slit-playhead" id="vtPlayhead"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Six Interactive Manifold Visualizers (Direct Manipulation Sandboxes) -->
+  <div class="manifolds-grid">
+    <!-- 1. Artin Braid Topology B_3 -->
+    <div class="card">
+      <div class="card-head">
+        <div class="card-title">1 · Artin Braid Loom ($\\mathcal{{B}}_3$) &amp; FTBE</div>
+        <span class="badge" id="badgeBraid">FTBE = 2.406</span>
+      </div>
+      <div class="card-sub">Worldline crossings $\\sigma_1^{{\\pm 1}}, \\sigma_2^{{\\pm 1}}$ in $(u, d, \\tau)$ · Pull strands taut to cancel trivial pacing $\\sigma_i\\sigma_i^{{-1}}=e$</div>
+      <canvas class="m-canvas" id="cvBraid" width="450" height="195"></canvas>
+      <div class="slider-bar">
+        <span>Pull Strands Taut (Free Reduction):</span>
+        <input type="range" id="braidTautSlider" min="0" max="1" step="0.02" value="0" oninput="renderBraidCanvas()">
+        <span class="slider-val" id="braidTautVal">Raw (0%)</span>
+      </div>
+      <div class="kv-mini"><span>Reduced Braid Word</span><span id="kvBraidWord" style="color:var(--cyan);">σ1 · σ2⁻¹</span></div>
+      <div class="kv-mini"><span>Raw → Reduced Crossings (Entanglement)</span><span id="kvBraidCount">17 → 7 (41.2%)</span></div>
     </div>
 
-    <!-- 2. Helmholtz-Hodge Flow Field -->
+    <!-- 2. Helmholtz-Hodge Fluid Field -->
     <div class="card">
-      <div class="card-header">
-        <div class="card-title">2 · Helmholtz–Hodge Flow ($\\Phi, \\mathbf{{\\Psi}}, \\mathbf{{H}}$)</div>
-        <span class="badge" id="m2Badge">Φ / Ψ / H</span>
+      <div class="card-head">
+        <div class="card-title">2 · Helmholtz–Hodge Ternary &amp; Flow Field</div>
+        <span class="badge cyan" id="badgeHHD">Φ 40% · Ψ 38% · H 13%</span>
       </div>
-      <div class="card-sub">Orthogonal FFT decomposition: Divergence $-\\nabla\\Phi$ (push/pull), Curl $\\nabla\\times\\mathbf{{\\Psi}}$ (swirl), Harmonic $\\mathbf{{H}}$ (pan)</div>
-      <canvas class="m-canvas" id="canvasHHD" width="420" height="155"></canvas>
-      <div class="kv-row"><span>Divergence $-\\nabla\\Phi$ (Depth Loom/Recede)</span><span id="m2Div">0%</span></div>
-      <div class="kv-row"><span>Vorticity $\\nabla\\times\\mathbf{{\\Psi}}$ (Rotational Swirl)</span><span id="m2Curl">0%</span></div>
-      <div class="kv-row"><span>Harmonic $\\mathbf{{H}}$ (Laminar Camera Pan)</span><span id="m2Harm">0%</span></div>
+      <div class="card-sub">Left: Ternary Phase Portrait $(\\|\\nabla\\Phi\\|, \\|\\nabla\\times\\mathbf{{\\Psi}}\\|, \\|\\mathbf{{H}}\\|)$ · Right: Live orthogonal vector field</div>
+      <canvas class="m-canvas" id="cvHHD" width="450" height="195"></canvas>
+      <div class="slider-bar">
+        <span>Synthesize Component Gain:</span>
+        <button class="btn active" id="hhdFilter-all" onclick="setHHDFilter('all')">All V</button>
+        <button class="btn" id="hhdFilter-phi" onclick="setHHDFilter('phi')">−∇Φ (Depth)</button>
+        <button class="btn" id="hhdFilter-psi" onclick="setHHDFilter('psi')">∇×Ψ (Curl)</button>
+        <button class="btn" id="hhdFilter-h" onclick="setHHDFilter('h')">H (Pan)</button>
+      </div>
+      <div class="kv-mini"><span>Gravitational Sink / Source Locus</span><span id="kvHHDSink">(0.50, 0.50)</span></div>
+      <div class="kv-mini"><span>Director Regime Signature</span><span id="kvHHDRegime">Balanced Push-Swirl</span></div>
     </div>
 
-    <!-- 3. Wasserstein Chromatic Geodesics -->
+    <!-- 3. Wasserstein Chromatic Geodesics & KALMUS -->
     <div class="card">
-      <div class="card-header">
-        <div class="card-title">3 · Wasserstein Geodesics ($W_2$) &amp; KALMUS</div>
-        <span class="badge" id="m3Badge">W₂ = 0.00</span>
+      <div class="card-head">
+        <div class="card-title">3 · 5D Wasserstein ($W_2$) &amp; KALMUS Stratigraphy</div>
+        <span class="badge green" id="badgeW2">Geo Eff = 0.71</span>
       </div>
-      <div class="card-sub">5D Optimal Transport $\\mu_\\tau(u,v,L^*,a^*,b^*)$ kinetic energy &amp; Core-Worm vs. Shell Itten Chiaroscuro $\\Delta L^*$</div>
-      <canvas class="m-canvas" id="canvasW2" width="420" height="155"></canvas>
-      <div class="kv-row"><span>Geodesic Efficiency / Curvature $\\kappa_{{W_2}}$</span><span id="m3Geo">0.00 / 0.00</span></div>
-      <div class="kv-row"><span>Core vs. Shell Chiaroscuro $\\Delta L^*$</span><span id="m3Chiaro">0.00</span></div>
-      <div class="kv-row"><span>Cold–Warm Hue Polarity $\\Delta H$</span><span id="m3Hue">0.0°</span></div>
+      <div class="card-sub">Top: Core-Worm vs. Shell CIE-$L^*a^*b^*$ stratigraphy · Bottom: $W_2^2$ kinetic energy &amp; geodesic curvature</div>
+      <canvas class="m-canvas" id="cvW2" width="450" height="195"></canvas>
+      <div class="slider-bar">
+        <span>Core-Sample Aperture Radius $r_{{\\text{{worm}}}}$:</span>
+        <input type="range" id="kalmusRadiusSlider" min="0.08" max="0.42" step="0.01" value="0.22" oninput="renderW2Canvas()">
+        <span class="slider-val" id="kalmusRadiusVal">r = 0.22</span>
+      </div>
+      <div class="kv-mini"><span>Itten Chiaroscuro $\\Delta L^*$ / Hue $\\Delta H$</span><span id="kvW2Itten">16.0 L* / 12.4°</span></div>
+      <div class="kv-mini"><span>Mechanical Light Work $W_2^2$ (Mean / Peak)</span><span id="kvW2Work">0.49 / 2.85</span></div>
     </div>
 
     <!-- 4. Relativistic Saccade Light-Cones -->
     <div class="card">
-      <div class="card-header">
-        <div class="card-title">4 · Relativistic Saccade Light-Cones</div>
-        <span class="badge" id="m4Badge">100% Timelike</span>
+      <div class="card-head">
+        <div class="card-title">4 · Relativistic Saccade Light-Cones ($\\Delta s^2$)</div>
+        <span class="badge" id="badgeSaccade">54% Timelike</span>
       </div>
-      <div class="card-sub">Foveal speed $c_{{\\text{{eye}}}} = 400^\\circ/\\text{{s}}$, latency $\\tau_{{\\text{{fix}}}} = 200\\text{{ ms}}$ · Spacetime interval $\\Delta s^2 = R(\\Delta\\tau)^2 - \\Delta\\mathbf{{x}}^2$</div>
-      <canvas class="m-canvas" id="canvasSaccade" width="420" height="155"></canvas>
-      <div class="kv-row"><span>Timelike Cuts ($\\Delta s^2 > 0$, Murch Eye-Trace)</span><span id="m4Time">0%</span></div>
-      <div class="kv-row"><span>Lightlike Cuts ($\\Delta s^2 \\approx 0$, Horizon Whip)</span><span id="m4Light">0%</span></div>
-      <div class="kv-row"><span>Spacelike Cuts ($\\Delta s^2 < 0$, Blind Zone)</span><span id="m4Space">0%</span></div>
+      <div class="card-sub">Drag biological foveal speed $c_{{\\text{{eye}}}}$ &amp; fixation latency $\\tau_{{\\text{{fix}}}}$ to reshape the causal horizon live</div>
+      <canvas class="m-canvas" id="cvSaccade" width="450" height="195"></canvas>
+      <div class="slider-bar">
+        <span>$c_{{\\text{{eye}}}}$:</span>
+        <input type="range" id="cEyeSlider" min="200" max="700" step="10" value="400" oninput="onSaccadeParamChange()">
+        <span class="slider-val" id="cEyeVal">400°/s</span>
+        <span>$\\tau_{{\\text{{fix}}}}$:</span>
+        <input type="range" id="tauFixSlider" min="100" max="320" step="5" value="200" oninput="onSaccadeParamChange()">
+        <span class="slider-val" id="tauFixVal">200ms</span>
+      </div>
+      <div class="kv-mini"><span>Live Classification (Timelike / Light / Space)</span><span id="kvSaccadeSplit">7 / 2 / 4 cuts</span></div>
+      <div class="kv-mini"><span>Murch Eye-Trace Horizon Radius $R$</span><span id="kvSaccadeRad">0.220 screen-widths</span></div>
     </div>
 
-    <!-- 5. Persistent Homology Attractors -->
+    <!-- 5. Persistent Homology Attractors (TDA) -->
     <div class="card">
-      <div class="card-header">
-        <div class="card-title">5 · Persistent Homology ($\\beta_0, \\beta_1, \\beta_2$)</div>
-        <span class="badge" id="m5Badge">(β₀, β₁, β₂)</span>
+      <div class="card-head">
+        <div class="card-title">5 · Takens Attractor &amp; Vietoris–Rips ($\\beta_0, \\beta_1, \\beta_2$)</div>
+        <span class="badge" id="badgeTDA" style="color:var(--purple);">(9, 50, 0.37)</span>
       </div>
-      <div class="card-sub">Takens time-delay embedding $[\mathbf{{x}}(\\tau), \mathbf{{x}}(\\tau+\\Delta), \mathbf{{x}}(\\tau+2\\Delta)]$ attractor &amp; Vietoris–Rips Betti loops</div>
-      <canvas class="m-canvas" id="canvasTDA" width="420" height="155"></canvas>
-      <div class="kv-row"><span>$\\beta_0$ Connected Act Regimes</span><span id="m5B0">1</span></div>
-      <div class="kv-row"><span>$\\beta_1$ Rhythmic Limit Cycles (Loops)</span><span id="m5B1">0</span></div>
-      <div class="kv-row"><span>$\\beta_2$ Chiasmus / Ring Symmetry Fold</span><span id="m5B2">0.00</span></div>
+      <div class="card-sub">Drag filtration radius $\\epsilon$ to grow Vietoris–Rips balls, merge $\\beta_0$ regimes, and close $\\beta_1$ limit cycles</div>
+      <canvas class="m-canvas" id="cvTDA" width="450" height="195"></canvas>
+      <div class="slider-bar">
+        <span>Vietoris–Rips Filtration Radius $\\epsilon$:</span>
+        <input type="range" id="epsSlider" min="0.15" max="2.20" step="0.05" value="0.75" oninput="renderTDACanvas()">
+        <span class="slider-val" id="epsVal">ε = 0.75</span>
+      </div>
+      <div class="kv-mini"><span>Active $\\beta_0$ Components / $\\beta_1$ Loops at $\\epsilon$</span><span id="kvTDALive">4 regimes · 18 loops</span></div>
+      <div class="kv-mini"><span>$\\beta_2$ Chiasmus Ring-Folding Symmetry</span><span id="kvTDAChiasmus">0.370</span></div>
     </div>
 
-    <!-- 6. Cross-Spectral Synchresis Tensor -->
+    <!-- 6. Cross-Spectral Synchresis & Cymatics -->
     <div class="card">
-      <div class="card-header">
-        <div class="card-title">6 · Cross-Spectral Synchresis &amp; STGL</div>
-        <span class="badge" id="m6Badge">PLV = 0.000</span>
+      <div class="card-head">
+        <div class="card-title">6 · Cross-Spectral Synchresis &amp; Cymatic Tensor</div>
+        <span class="badge cyan" id="badgePLV">PLV = 0.446</span>
       </div>
-      <div class="card-sub">Hilbert Phase-Locking Value $\\text{{PLV}}(\\tau)$ between visual jerk $\\|\\mathbf{{c}}'''(\\tau)\\|$ &amp; acoustic flux + 14-Line Armature lock</div>
-      <canvas class="m-canvas" id="canvasPLV" width="420" height="155"></canvas>
-      <div class="kv-row"><span>Audiovisual Phase-Lock ($\\text{{PLV}}$) / Slip</span><span id="m6Plv">0.000 / 0.000</span></div>
-      <div class="kv-row"><span>14-Line Armature Lock ($d_{{\\text{{grid}}}} < 0.045$)</span><span id="m6Lock">0%</span></div>
-      <div class="kv-row"><span>Dominant STGL Spatial Rule</span><span id="m6Rule">centered_anchor</span></div>
+      <div class="card-sub">Left: Hilbert Phase-Locking Polar Clock $e^{{i(\\theta_{{\\text{{vis}}}}-\\theta_{{\\text{{aud}}}})}}$ · Right: $\\text{{PLV}}(\\tau)$ &amp; Anempathetic Slip</div>
+      <canvas class="m-canvas" id="cvPLV" width="450" height="195"></canvas>
+      <div class="slider-bar">
+        <span>Cymatic Grid Coupling Gain $g_{{\\mu\\nu}}$:</span>
+        <input type="range" id="cymaticGainSlider" min="0" max="3" step="0.1" value="1.2" oninput="renderPLVCanvas(); renderHUD();">
+        <span class="slider-val" id="cymaticGainVal">1.2×</span>
+      </div>
+      <div class="kv-mini"><span>Empathetic Lock Peak / Anempathetic Slip</span><span id="kvPLVStats">0.892 / 0.005</span></div>
+      <div class="kv-mini"><span>Sub-Bass ($20\\text{{–}}80\\text{{ Hz}}$) / Centroid Drive</span><span id="kvPLVBands">0.31 / 0.44</span></div>
     </div>
   </div>
 
-  <!-- Comparative 12-Film Tensor Table -->
-  <div class="card" style="margin-bottom:20px;">
-    <div class="card-header">
-      <div>
-        <div class="card-title">Comparative 6-Manifold Cinema Tensor Ledger (12 Flagship ALLWAYS Works)</div>
-        <div class="card-sub">Click any row to load its 3D Spatiotemporal Worm, Slit-Scan Tomograms, and Declarative STGL Timeline IR</div>
+  <!-- Comparative 12-Film Corpus Matrix + Declarative STGL Timeline IR & Live Linter -->
+  <div class="stage-grid">
+    <div class="card">
+      <div class="card-head">
+        <div class="card-title">12-Film Spatiotemporal Tensor Ledger (Click Any Row to Load)</div>
+        <div class="card-sub">Compare all 4 makers across the 6 mathematical frameworks</div>
+      </div>
+      <div style="overflow-x:auto;">
+        <table id="corpusTable">
+          <thead>
+            <tr>
+              <th>Film &amp; Maker</th>
+              <th>FTBE ($\\mathcal{{B}}_3$)</th>
+              <th>HHD ($\\Phi/\\Psi/H$)</th>
+              <th>$W_2$ / $\\Delta L^*$</th>
+              <th>Timelike $\\Delta s^2$</th>
+              <th>TDA $(\\beta_0,\\beta_1,\\beta_2)$</th>
+              <th>PLV</th>
+              <th>STGL Lock</th>
+            </tr>
+          </thead>
+          <tbody id="corpusTableBody"></tbody>
+        </table>
       </div>
     </div>
-    <div style="overflow-x:auto;">
-      <table>
-        <thead>
-          <tr>
-            <th>Film &amp; Maker</th>
-            <th>1. Braid $\\mathcal{{B}}_3$ (FTBE)</th>
-            <th>2. Helmholtz ($\\Phi / \\Psi / H$)</th>
-            <th>3. Wasserstein $W_2$</th>
-            <th>4. Saccade Cone $\\Delta s^2$</th>
-            <th>5. Topology $(\\beta_0, \\beta_1, \\beta_2)$</th>
-            <th>6. Synchresis PLV</th>
-            <th>STGL Armature Lock</th>
-          </tr>
-        </thead>
-        <tbody>
-          {"".join(rows_html)}
-        </tbody>
-      </table>
-    </div>
-  </div>
 
-  <!-- Declarative 4D STGL Timeline IR & Pre-Flight Linter Audit -->
-  <div class="top-grid">
     <div class="card">
-      <div class="card-header">
+      <div class="card-head">
         <div>
-          <div class="card-title">Declarative 4D Spatiotemporal Grid Language (STGL Timeline IR)</div>
-          <div class="card-sub">Compiled shot-by-shot $(u, v, d, \\tau)$ schema with beat lattice $b(\\text{{bar}}, \\text{{beat}}, \\text{{sub}})$, Helmholtz field, and saccade transitions</div>
+          <div class="card-title">Declarative 4D STGL Timeline IR &amp; Live Closed-Loop Verifier</div>
+          <div class="card-sub">Updates live when you manipulate nodes or saccade parameters in the sandbox</div>
         </div>
+        <span class="badge green" id="linterStatusBadge">STGL LINTER: PASS</span>
       </div>
-      <pre class="ir-pre" id="stglIrPre"></pre>
-    </div>
-    <div class="card">
-      <div class="card-header">
-        <div>
-          <div class="card-title">Closed-Loop STGL Grid &amp; Saccade Verifier (`check_stgl_grid.py`)</div>
-          <div class="card-sub">Automated audit of spatial armatures, negative-space caption safety, and relativistic eye-trace horizons</div>
-        </div>
-        <span class="badge" id="auditStatusBadge">PASS</span>
-      </div>
-      <pre class="ir-pre" id="stglAuditPre"></pre>
+      <pre class="code-box" id="stglLiveBox"></pre>
     </div>
   </div>
 </div>
 
 <script>
-const TENSOR_DATA = {json.dumps(films)};
+const FILMS = {json.dumps(films)};
 const STGL_IR = {json.dumps(stgl_ir)};
 const STGL_AUDIT = {json.dumps(audit_data)};
 
-let activeFilm = TENSOR_DATA[1] || TENSOR_DATA[0]; // Default to Grand Prix 059-ball
-let yaw = -0.58;
-let pitch = 0.34;
-let isDragging = false;
-let lastX = 0, lastY = 0;
+let activeFilm = FILMS[1] || FILMS[0]; // 059-ball default
+let compareFilm = FILMS[10] || FILMS[0]; // sol-059-radius default comparison
+let viewMode = 'prism'; // 'prism' | 'torus' | 'diff' | 'toric'
+let hhdFilter = 'all';
+let curTime = 0.0;
+let semanticZoom = 1.0;
 
-const pillBar = document.getElementById('pillBar');
-const videoEl = document.getElementById('filmPlayer');
-const wormCanvas = document.getElementById('worm3dCanvas');
+// Direct-manipulation sandbox state
+let cEyeDeg = 400;
+let tauFixMs = 200;
+let counterfactualReg = false;
+let userNodeOffset = {{ du: 0.0, dv: 0.0 }};
+let draggingHUD = false;
 
-function initPills() {{
-  pillBar.innerHTML = '';
-  TENSOR_DATA.forEach(f => {{
+// 3D Orbit state
+let yaw = -0.56, pitch = 0.32;
+let dragging3D = false, lastMX = 0, lastMY = 0;
+
+const videoEl = document.getElementById('mainVideo');
+const hudCanvas = document.getElementById('hudOverlayCanvas');
+const multiCanvas = document.getElementById('multiModeCanvas');
+const tlCanvas = document.getElementById('masterTimelineCanvas');
+
+function initUI() {{
+  const pillList = document.getElementById('filmPillList');
+  const compSel = document.getElementById('compareSelect');
+  const tbody = document.getElementById('corpusTableBody');
+  pillList.innerHTML = '';
+  compSel.innerHTML = '';
+  tbody.innerHTML = '';
+
+  FILMS.forEach(f => {{
     const btn = document.createElement('button');
-    btn.className = 'film-pill' + (f.id === activeFilm.id ? ' active' : '');
-    btn.id = 'pill-' + f.id;
-    btn.textContent = f.title + ' (' + f.maker.split(' ')[0] + ')';
+    btn.className = 'f-pill' + (f.id === activeFilm.id ? ' active' : '');
+    btn.id = 'fpill-' + f.id;
+    btn.textContent = f.title;
     btn.onclick = () => selectFilm(f.id);
-    pillBar.appendChild(btn);
+    pillList.appendChild(btn);
+
+    const opt = document.createElement('option');
+    opt.value = f.id;
+    opt.textContent = f.title + ' (' + f.maker + ')';
+    if (f.id === compareFilm.id) opt.selected = true;
+    compSel.appendChild(opt);
+
+    const tr = document.createElement('tr');
+    tr.className = 'film-row' + (f.id === activeFilm.id ? ' active-row' : '');
+    tr.id = 'frow-' + f.id;
+    tr.onclick = () => selectFilm(f.id);
+    const h = f.helmholtz, w = f.wasserstein, s = f.saccade, t = f.tda, sy = f.synchresis, wm = f.worm;
+    tr.innerHTML = `
+      <td><strong>${{f.title}}</strong><br><span style="font-size:10.5px;color:var(--muted)">${{f.maker}}</span></td>
+      <td style="font-family:var(--mono)">${{f.braid.ftbe.toFixed(2)}}</td>
+      <td style="font-family:var(--mono)">${{Math.round(h.divergence_share*100)}}/${{Math.round(h.curl_share*100)}}/${{Math.round(h.harmonic_share*100)}}</td>
+      <td style="font-family:var(--mono)">${{w.mean_w2_kinetic.toFixed(2)}} / ${{w.mean_chiaroscuro_dl.toFixed(1)}}</td>
+      <td style="font-family:var(--mono)">${{s.timelike_pct.toFixed(0)}}%</td>
+      <td style="font-family:var(--mono)">(${{t.beta0_regimes}},${{t.beta1_loops}},${{t.beta2_chiasmus.toFixed(2)}})</td>
+      <td style="font-family:var(--mono)">${{sy.mean_plv.toFixed(3)}}</td>
+      <td style="font-family:var(--mono)">${{wm.compositional_lock_pct.toFixed(0)}}%</td>
+    `;
+    tbody.appendChild(tr);
   }});
 }}
 
 function selectFilm(fid) {{
-  const found = TENSOR_DATA.find(x => x.id === fid);
+  const found = FILMS.find(x => x.id === fid);
   if (!found) return;
   activeFilm = found;
+  curTime = 0.0;
+  resetSandbox(false);
 
-  document.querySelectorAll('.film-pill').forEach(el => el.classList.remove('active'));
-  const pill = document.getElementById('pill-' + fid);
-  if (pill) pill.classList.add('active');
+  document.querySelectorAll('.f-pill').forEach(el => el.classList.remove('active'));
+  const p = document.getElementById('fpill-' + fid);
+  if (p) p.classList.add('active');
 
-  document.querySelectorAll('tbody tr').forEach(el => el.classList.remove('selected-row'));
-  const row = document.getElementById('row-' + fid);
-  if (row) row.classList.add('selected-row');
+  document.querySelectorAll('.film-row').forEach(el => el.classList.remove('active-row'));
+  const r = document.getElementById('frow-' + fid);
+  if (r) r.classList.add('active-row');
 
-  document.getElementById('activeTitle').textContent = activeFilm.title;
-  document.getElementById('activeSub').textContent = activeFilm.maker + ' · ' + activeFilm.award + ' · ' + activeFilm.duration_s + 's';
-  document.getElementById('activeCaseLink').href = activeFilm.watch_url;
+  document.getElementById('stageTitle').textContent = activeFilm.title + ' (' + activeFilm.maker + ')';
+  document.getElementById('stageCaseLink').href = activeFilm.watch_url;
 
   videoEl.src = activeFilm.video_rel;
-  document.getElementById('utImg').src = activeFilm.ut_tomogram;
-  document.getElementById('vtImg').src = activeFilm.vt_tomogram;
+  document.getElementById('utSlitImg').src = activeFilm.ut_b64 || activeFilm.ut_tomogram;
+  document.getElementById('vtSlitImg').src = activeFilm.vt_b64 || activeFilm.vt_tomogram;
 
-  // Update 6 Manifold KV readouts
-  const b = activeFilm.braid;
-  document.getElementById('m1Badge').textContent = 'FTBE = ' + b.ftbe.toFixed(3);
-  document.getElementById('braidWordBox').textContent = 'B₃ Reduced: ' + b.reduced_word_preview;
-  document.getElementById('m1Crossings').textContent = b.raw_crossings + ' raw → ' + b.reduced_length + ' reduced';
-  document.getElementById('m1Entangle').textContent = (b.entanglement_ratio * 100).toFixed(1) + '% irreducible';
-
-  const h = activeFilm.helmholtz;
-  document.getElementById('m2Badge').textContent = `Φ${{Math.round(h.divergence_share*100)}} · Ψ${{Math.round(h.curl_share*100)}} · H${{Math.round(h.harmonic_share*100)}}`;
-  document.getElementById('m2Div').textContent = (h.divergence_share * 100).toFixed(1) + '% (RMS ' + h.mean_phi_rms.toFixed(3) + ')';
-  document.getElementById('m2Curl').textContent = (h.curl_share * 100).toFixed(1) + '% (RMS ' + h.mean_psi_rms.toFixed(3) + ')';
-  document.getElementById('m2Harm').textContent = (h.harmonic_share * 100).toFixed(1) + '% (RMS ' + h.mean_h_rms.toFixed(3) + ')';
-
-  const w = activeFilm.wasserstein;
-  document.getElementById('m3Badge').textContent = 'W₂ = ' + w.mean_w2_kinetic.toFixed(2);
-  document.getElementById('m3Geo').textContent = w.geodesic_efficiency.toFixed(3) + ' eff / ' + w.geodesic_curvature.toFixed(3) + ' curv';
-  document.getElementById('m3Chiaro').textContent = w.mean_chiaroscuro_dl.toFixed(2) + ' CIE-L* units';
-  document.getElementById('m3Hue').textContent = w.mean_hue_polarity_deg.toFixed(1) + '° core-shell separation';
-
-  const s = activeFilm.saccade;
-  document.getElementById('m4Badge').textContent = s.timelike_pct.toFixed(0) + '% Timelike';
-  document.getElementById('m4Time').textContent = s.timelike_pct.toFixed(1) + '% (inside foveal cone)';
-  document.getElementById('m4Light').textContent = s.lightlike_pct.toFixed(1) + '% (on saccade horizon)';
-  document.getElementById('m4Space').textContent = s.spacelike_pct.toFixed(1) + '% (collision / shock)';
-
-  const t = activeFilm.tda;
-  document.getElementById('m5Badge').textContent = `(${{t.beta0_regimes}}, ${{t.beta1_loops}}, ${{t.beta2_chiasmus.toFixed(2)}})`;
-  document.getElementById('m5B0').textContent = t.beta0_regimes + ' persistent regimes';
-  document.getElementById('m5B1').textContent = t.beta1_loops + ' rhythmic limit cycles';
-  document.getElementById('m5B2').textContent = t.beta2_chiasmus.toFixed(3) + ' ring folding index';
-
-  const sy = activeFilm.synchresis;
-  const wm = activeFilm.worm;
-  document.getElementById('m6Badge').textContent = sy.has_audio ? ('PLV = ' + sy.mean_plv.toFixed(3)) : 'Silent Visual Rhythm';
-  document.getElementById('m6Plv').textContent = sy.has_audio ? (sy.mean_plv.toFixed(3) + ' / Slip ' + sy.anempathetic_slip.toFixed(3)) : 'Silent track (0.000)';
-  document.getElementById('m6Lock').textContent = wm.compositional_lock_pct.toFixed(1) + '% frames (mean d=' + wm.mean_armature_dist.toFixed(3) + ')';
-  document.getElementById('m6Rule').textContent = wm.dominant_stgl_rule;
-
-  // STGL IR & Audit JSON
-  document.getElementById('stglIrPre').textContent = JSON.stringify(STGL_IR[fid] || {{}}, null, 2);
-  const auditObj = (STGL_AUDIT.audits || []).find(a => a.film_id === fid) || {{ status: 'PASS' }};
-  document.getElementById('auditStatusBadge').textContent = auditObj.status || 'PASS';
-  document.getElementById('stglAuditPre').textContent = JSON.stringify(auditObj, null, 2);
-
-  drawAllManifoldCharts();
-  draw3DWorm();
+  renderAll();
 }}
 
-function seekFromSlit(ev) {{
-  const rect = ev.currentTarget.getBoundingClientRect();
-  const frac = Math.max(0, Math.min(1, (ev.clientX - rect.left) / rect.width));
-  if (videoEl.duration) {{
-    videoEl.currentTime = frac * videoEl.duration;
+function sampleAtTime(film, tSec) {{
+  const s = film.series || [];
+  if (!s.length) return null;
+  let best = s[0], bestD = 1e9;
+  for (let i = 0; i < s.length; i++) {{
+    const d = Math.abs(s[i].t - tSec);
+    if (d < bestD) {{ bestD = d; best = s[i]; }}
   }}
+  return best;
 }}
 
-videoEl.addEventListener('timeupdate', () => {{
-  const dur = videoEl.duration || activeFilm.duration_s || 1;
-  const pct = Math.min(100, Math.max(0, (videoEl.currentTime / dur) * 100));
-  document.getElementById('utCursor').style.left = pct + '%';
-  document.getElementById('vtCursor').style.left = pct + '%';
-  document.getElementById('liveTimeBadge').textContent = 'τ = ' + videoEl.currentTime.toFixed(2) + 's';
-  draw3DWorm();
-}});
-
-// 3D Projection Helper: maps normalized (u in [0,1], v in [0,1], tau_norm in [0,1]) to 2D canvas
-function project3D(u, v, tNorm, W, H) {{
-  // Center coordinates in [-0.5, 0.5], elongate time axis tau
-  const x = (tNorm - 0.5) * 1.65;
-  const y = (0.5 - v) * 0.95;
-  const z = (u - 0.5) * 0.95;
-
-  const cy = Math.cos(yaw), sy = Math.sin(yaw);
-  const cp = Math.cos(pitch), sp = Math.sin(pitch);
-
-  const x1 = x * cy - z * sy;
-  const z1 = x * sy + z * cy;
-  const y2 = y * cp - z1 * sp;
-  const z2 = y * sp + z1 * cp;
-
-  const fov = 2.4;
-  const dist = 2.55;
-  const scale = fov / (dist - z2);
-  return {{
-    px: W * 0.5 + x1 * scale * Math.min(W, H) * 0.62,
-    py: H * 0.52 - y2 * scale * Math.min(W, H) * 0.62,
-    depth: z2,
-    scale: scale
-  }};
+function getModifiedNode(pt) {{
+  if (!pt) return [0.5, 0.5, 0.5];
+  let u = pt.s1[0] + userNodeOffset.du;
+  let v = pt.s1[1] + userNodeOffset.dv;
+  if (counterfactualReg) {{
+    u = 0.5 + (u - 0.5) * 0.12;
+    v = 0.5 + (v - 0.5) * 0.12;
+  }}
+  return [Math.max(0.03, Math.min(0.97, u)), Math.max(0.03, Math.min(0.97, v)), pt.s1[2]];
 }}
 
-function drawLine3D(ctx, pA, pB, W, H, stroke, width, dash=[]) {{
-  const a = project3D(pA[0], pA[1], pA[2], W, H);
-  const b = project3D(pB[0], pB[1], pB[2], W, H);
-  ctx.save();
-  ctx.beginPath();
-  ctx.setLineDash(dash);
-  ctx.strokeStyle = stroke;
-  ctx.lineWidth = width;
-  ctx.moveTo(a.px, a.py);
-  ctx.lineTo(b.px, b.py);
-  ctx.stroke();
-  ctx.restore();
+function toggleCounterfactualReg() {{
+  counterfactualReg = !counterfactualReg;
+  const btn = document.getElementById('btnCounterfactual');
+  btn.classList.toggle('active', counterfactualReg);
+  document.getElementById('btnResetSandbox').style.display = (counterfactualReg || userNodeOffset.du !== 0 || userNodeOffset.dv !== 0) ? 'inline-flex' : 'none';
+  renderAll();
 }}
 
-function draw3DWorm() {{
-  const ctx = wormCanvas.getContext('2d');
-  const W = wormCanvas.width, H = wormCanvas.height;
+function resetSandbox(rerender=true) {{
+  counterfactualReg = false;
+  userNodeOffset = {{ du: 0.0, dv: 0.0 }};
+  cEyeDeg = 400;
+  tauFixMs = 200;
+  document.getElementById('cEyeSlider').value = 400;
+  document.getElementById('tauFixSlider').value = 200;
+  document.getElementById('cEyeVal').textContent = '400°/s';
+  document.getElementById('tauFixVal').textContent = '200ms';
+  document.getElementById('btnCounterfactual').classList.remove('active');
+  document.getElementById('btnResetSandbox').style.display = 'none';
+  if (rerender) renderAll();
+}}
+
+function setViewMode(m) {{
+  viewMode = m;
+  ['prism', 'torus', 'diff', 'toric'].forEach(k => {{
+    document.getElementById('modeBtn-' + k).classList.toggle('active', k === m);
+  }});
+  renderMultiModeCanvas();
+}}
+
+function setHHDFilter(f) {{
+  hhdFilter = f;
+  ['all', 'phi', 'psi', 'h'].forEach(k => {{
+    document.getElementById('hhdFilter-' + k).classList.toggle('active', k === f);
+  }});
+  renderHHDCanvas();
+}}
+
+function onZoomChange(val) {{
+  semanticZoom = parseFloat(val);
+  document.getElementById('zoomVal').textContent = semanticZoom.toFixed(1) + '× ' + (semanticZoom > 1.5 ? 'Micro' : 'Full');
+  renderMultiModeCanvas();
+  renderMasterTimeline();
+}}
+
+function onSaccadeParamChange() {{
+  cEyeDeg = parseFloat(document.getElementById('cEyeSlider').value);
+  tauFixMs = parseFloat(document.getElementById('tauFixSlider').value);
+  document.getElementById('cEyeVal').textContent = cEyeDeg.toFixed(0) + '°/s';
+  document.getElementById('tauFixVal').textContent = tauFixMs.toFixed(0) + 'ms';
+  document.getElementById('btnResetSandbox').style.display = 'inline-flex';
+  renderSaccadeCanvas();
+  renderHUD();
+  renderMasterTimeline();
+  updateTelemetryAndSTGL();
+}}
+
+// Compute live saccade horizon radius in screen widths (40 deg horizontal FOV)
+function getLiveHorizonSW() {{
+  const cEyeSW = cEyeDeg / 40.0;
+  const evalWindowS = Math.max(0.005, 0.222 - (tauFixMs / 1000.0));
+  return Math.max(0.04, cEyeSW * evalWindowS);
+}}
+
+// 1. Live Video HUD Overlay (Surface the Invisible + Direct Manipulation)
+function renderHUD() {{
+  const ctx = hudCanvas.getContext('2d');
+  const W = hudCanvas.width, H = hudCanvas.height;
   ctx.clearRect(0, 0, W, H);
 
-  const series = activeFilm.series || [];
-  if (!series.length) return;
-  const dur = activeFilm.duration_s || 1;
-  const curT = videoEl.currentTime || 0;
-  const curNorm = Math.min(1, Math.max(0, curT / dur));
+  const pt = sampleAtTime(activeFilm, curTime);
+  if (!pt) return;
+  const modS1 = getModifiedNode(pt);
+  const cymGain = parseFloat(document.getElementById('cymaticGainSlider').value || 1.2);
+  const bassWarp = (pt.sub_bass || 0) * 0.035 * cymGain;
+  const centShift = ((pt.centroid || 0.5) - 0.5) * 0.04 * cymGain;
 
-  // 1. Draw outer 3D Glass Prism Wireframe [0,1]^3
-  const corners = [
-    [0,0,0],[1,0,0],[1,1,0],[0,1,0],
-    [0,0,1],[1,0,1],[1,1,1],[0,1,1]
-  ];
-  const edges = [
-    [0,1],[1,2],[2,3],[3,0],
-    [4,5],[5,6],[6,7],[7,4],
-    [0,4],[1,5],[2,6],[3,7]
-  ];
-  edges.forEach(([i, j]) => {{
-    drawLine3D(ctx, corners[i], corners[j], W, H, 'rgba(130, 145, 175, 0.24)', 1);
-  }});
-
-  // 2. Optional 14-Line Harmonic Armature & Rule of Thirds Magnetic Filaments
-  if (document.getElementById('chkArmature').checked) {{
-    const thirds = [1/3, 2/3];
-    thirds.forEach(u => {{
-      drawLine3D(ctx, [u, 1/3, 0], [u, 1/3, 1], W, H, 'rgba(224, 169, 88, 0.26)', 1, [3, 3]);
-      drawLine3D(ctx, [u, 2/3, 0], [u, 2/3, 1], W, H, 'rgba(224, 169, 88, 0.26)', 1, [3, 3]);
+  // A. 14-Line Harmonic Armature with Cymatic Acoustic String Deformation
+  if (document.getElementById('hudArmature').checked) {{
+    ctx.save();
+    ctx.strokeStyle = 'rgba(229, 174, 92, 0.34)';
+    ctx.lineWidth = 1.1;
+    // Main diagonals & reciprocals
+    const lines = [
+      [[0,0],[1,1]], [[0,1],[1,0]],
+      [[0.5,0],[0.5,1]], [[0,0.5+centShift],[1,0.5+centShift]],
+      [[1/3-bassWarp,0],[1/3-bassWarp,1]], [[2/3+bassWarp,0],[2/3+bassWarp,1]],
+      [[0,1/3-bassWarp],[1,1/3-bassWarp]], [[0,2/3+bassWarp],[1,2/3+bassWarp]],
+      [[0,0],[0.5,1]], [[0.5,0],[1,1]], [[0,1],[0.5,0]], [[0.5,1],[1,0]]
+    ];
+    lines.forEach(([a, b]) => {{
+      ctx.beginPath();
+      ctx.moveTo(a[0] * W, a[1] * H);
+      ctx.lineTo(b[0] * W, b[1] * H);
+      ctx.stroke();
     }});
-    // Center registration axis (u=0.5, v=0.5)
-    drawLine3D(ctx, [0.5, 0.5, 0], [0.5, 0.5, 1], W, H, 'rgba(224, 169, 88, 0.55)', 1.5);
+    ctx.restore();
   }}
 
-  // 3. Optional Center Registration Cylinder / Golden Spiral Tunnel
-  if (document.getElementById('chkSpiral').checked) {{
+  // B. 059-ball Target Registration Rim (R = 0.28 * H at center [0.5, 0.5])
+  if (document.getElementById('hudRegCircle').checked) {{
     ctx.save();
+    const rPx = (0.28 + bassWarp * 0.6) * H;
     ctx.beginPath();
-    for (let k = 0; k <= 60; k++) {{
-      const tn = k / 60;
-      const ang = tn * Math.PI * 6;
-      const rad = 0.22;
-      const u = 0.5 + rad * Math.cos(ang);
-      const v = 0.5 + rad * Math.sin(ang);
-      const p = project3D(u, v, tn, W, H);
-      if (k === 0) ctx.moveTo(p.px, p.py);
-      else ctx.lineTo(p.px, p.py);
-    }}
-    ctx.strokeStyle = 'rgba(91, 192, 222, 0.28)';
-    ctx.lineWidth = 1.2;
+    ctx.arc(W * 0.5, H * 0.5, rPx, 0, Math.PI * 2);
+    ctx.strokeStyle = counterfactualReg ? 'rgba(114, 204, 150, 0.85)' : 'rgba(86, 194, 230, 0.45)';
+    ctx.setLineDash([5, 4]);
+    ctx.lineWidth = 1.6;
     ctx.stroke();
     ctx.restore();
   }}
 
-  // 4. Optional Relativistic Saccade Light-Cones at Cut Planes
-  if (document.getElementById('chkCones').checked) {{
-    const cuts = (activeFilm.saccade && activeFilm.saccade.cuts) || [];
-    cuts.forEach(c => {{
-      const tn = Math.min(1, Math.max(0, c.tau / dur));
-      const col = c.regime === 'timelike' ? 'rgba(126, 198, 153, 0.45)' : (c.regime === 'lightlike' ? 'rgba(224, 169, 88, 0.55)' : 'rgba(224, 108, 117, 0.55)');
-      drawLine3D(ctx, [c.p1[0], c.p1[1], tn], [c.p2[0], c.p2[1], tn], W, H, col, 2.0);
-    }});
+  // C. Helmholtz-Hodge Gravitational Sink/Source Attractor
+  if (document.getElementById('hudHelmholtz').checked && pt.sink) {{
+    const sx = pt.sink[0] * W, sy = pt.sink[1] * H;
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(sx, sy, 10 + pt.phi * 18, 0, Math.PI * 2);
+    ctx.strokeStyle = 'rgba(227, 104, 116, 0.65)';
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+    ctx.fillStyle = 'rgba(227, 104, 116, 0.85)';
+    ctx.font = '10px monospace';
+    ctx.fillText('∇Φ Sink', sx + 12, sy + 4);
+    ctx.restore();
   }}
 
-  // 5. Secondary Braided Worldline Strands s2 and s3 in B_3
-  if (document.getElementById('chkBraids').checked) {{
-    ['s2', 's3'].forEach((key, idx) => {{
+  // D. Relativistic Saccade Light-Cone around nearest cut
+  if (document.getElementById('hudSaccade').checked) {{
+    const cuts = (activeFilm.saccade && activeFilm.saccade.cuts) || [];
+    let nearCut = cuts[0], minCD = 999;
+    cuts.forEach(c => {{
+      const d = Math.abs(c.tau - curTime);
+      if (d < minCD) {{ minCD = d; nearCut = c; }}
+    }});
+    if (nearCut && minCD < 2.5) {{
+      const rSW = getLiveHorizonSW();
+      const p1x = nearCut.p1[0] * W, p1y = nearCut.p1[1] * H;
+      const p2x = (nearCut.p2[0] + userNodeOffset.du) * W;
+      const p2y = (nearCut.p2[1] + userNodeOffset.dv) * H;
+      const jumpSW = Math.hypot((p2x - p1x) / W, (p2y - p1y) / H);
+      const ds2Live = (rSW * rSW) - (jumpSW * jumpSW);
+      const coneCol = ds2Live > 0.01 ? 'rgba(114, 204, 150, 0.65)' : (ds2Live > -0.012 ? 'rgba(229, 174, 92, 0.75)' : 'rgba(227, 104, 116, 0.75)');
+
       ctx.save();
       ctx.beginPath();
-      series.forEach((pt, i) => {{
-        const tn = pt.t / dur;
-        const p = project3D(pt[key][0], pt[key][1], tn, W, H);
-        if (i === 0) ctx.moveTo(p.px, p.py);
-        else ctx.lineTo(p.px, p.py);
-      }});
-      ctx.strokeStyle = idx === 0 ? 'rgba(91, 192, 222, 0.65)' : 'rgba(198, 120, 221, 0.65)';
+      ctx.arc(p1x, p1y, rSW * W, 0, Math.PI * 2);
+      ctx.fillStyle = coneCol.replace('0.65', '0.10').replace('0.75', '0.12');
+      ctx.fill();
+      ctx.strokeStyle = coneCol;
       ctx.lineWidth = 1.8;
       ctx.stroke();
+
+      // Vector from p1 to p2
+      ctx.beginPath();
+      ctx.moveTo(p1x, p1y);
+      ctx.lineTo(p2x, p2y);
+      ctx.strokeStyle = coneCol;
+      ctx.lineWidth = 2.0;
+      ctx.stroke();
+      ctx.restore();
+    }}
+  }}
+
+  // E. 3-Strand Worldline Nodes & Magnetic Armature Tether
+  if (document.getElementById('hudStrands').checked) {{
+    const nodes = [
+      {{ u: modS1[0], v: modS1[1], d: modS1[2], col: '#e5ae5c', lbl: 's₁ (Drag)' }},
+      {{ u: pt.s2[0], v: pt.s2[1], d: pt.s2[2], col: '#56c2e6', lbl: 's₂' }},
+      {{ u: pt.s3[0], v: pt.s3[1], d: pt.s3[2], col: '#c77ae0', lbl: 's₃' }}
+    ];
+    // Magnetic tether from s1 to center (0.5, 0.5)
+    ctx.save();
+    ctx.beginPath();
+    ctx.setLineDash([2, 3]);
+    ctx.moveTo(modS1[0] * W, modS1[1] * H);
+    ctx.lineTo(0.5 * W, 0.5 * H);
+    ctx.strokeStyle = 'rgba(229, 174, 92, 0.55)';
+    ctx.stroke();
+    ctx.restore();
+
+    nodes.forEach((n, idx) => {{
+      const nx = n.u * W, ny = n.v * H;
+      const rad = idx === 0 ? 9 : 6;
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(nx, ny, rad, 0, Math.PI * 2);
+      ctx.fillStyle = n.col;
+      ctx.fill();
+      ctx.strokeStyle = '#000';
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+      ctx.fillStyle = '#fff';
+      ctx.font = 'bold 10px monospace';
+      ctx.fillText(`${{n.lbl}} d=${{n.d.toFixed(2)}}`, nx + 11, ny + 3);
       ctx.restore();
     }});
   }}
+}}
 
-  // 6. Primary Extruded 3D Spatiotemporal Subject Worm (s1 colored by real CIE-LAB/RGB palette & cross-section radius)
-  for (let i = 0; i < series.length - 1; i++) {{
-    const a = series[i], b = series[i + 1];
-    const pA = project3D(a.s1[0], a.s1[1], a.t / dur, W, H);
-    const pB = project3D(b.s1[0], b.s1[1], b.t / dur, W, H);
-    const rgb = a.rgb || [220, 175, 100];
+// Direct manipulation of s1 focal node on HUD canvas
+hudCanvas.addEventListener('mousedown', e => {{
+  draggingHUD = true;
+  updateHUDDrag(e);
+}});
+window.addEventListener('mouseup', () => {{ draggingHUD = false; }});
+hudCanvas.addEventListener('mousemove', e => {{
+  if (draggingHUD) updateHUDDrag(e);
+}});
+
+function updateHUDDrag(e) {{
+  const rect = hudCanvas.getBoundingClientRect();
+  const uClick = Math.max(0.05, Math.min(0.95, (e.clientX - rect.left) / rect.width));
+  const vClick = Math.max(0.05, Math.min(0.95, (e.clientY - rect.top) / rect.height));
+  const pt = sampleAtTime(activeFilm, curTime);
+  if (pt) {{
+    userNodeOffset.du = uClick - pt.s1[0];
+    userNodeOffset.dv = vClick - pt.s1[1];
+    document.getElementById('btnResetSandbox').style.display = 'inline-flex';
+    renderAll();
+  }}
+}}
+
+// 2. Multi-Mode Spatiotemporal Viewport (3D Prism | 360° Torus | Dual-Film Diff | Toric Manifold)
+function project3DPoint(u, v, tNorm, W, H, xCenterOffset=0, scaleMult=1.0) {{
+  const x = (tNorm - 0.5) * 1.65;
+  const y = (0.5 - v) * 0.92;
+  const z = (u - 0.5) * 0.92;
+  const cy = Math.cos(yaw), sy = Math.sin(yaw);
+  const cp = Math.cos(pitch), sp = Math.sin(pitch);
+  const x1 = x * cy - z * sy;
+  const z1 = x * sy + z * cy;
+  const y2 = y * cp - z1 * sp;
+  const z2 = y * sp + z1 * cp;
+  const scale = (2.35 / (2.55 - z2)) * scaleMult;
+  return {{
+    px: W * 0.5 + xCenterOffset + x1 * scale * Math.min(W, H) * 0.60,
+    py: H * 0.52 - y2 * scale * Math.min(W, H) * 0.60,
+    scale: scale
+  }};
+}}
+
+function drawPrismVolume(ctx, film, W, H, xOffset=0, scaleMult=1.0, isPrimary=true) {{
+  const series = film.series || [];
+  if (!series.length) return;
+  const dur = film.duration_s || 1;
+  const curNorm = Math.min(1, Math.max(0, curTime / dur));
+
+  // Semantic zoom window in normalized time [tMin, tMax]
+  const halfWin = 0.5 / semanticZoom;
+  const tMin = Math.max(0, Math.min(1 - 2 * halfWin, curNorm - halfWin));
+  const tMax = Math.min(1, tMin + 2 * halfWin);
+
+  // Outer wireframe box
+  const corners = [[0,0,0],[1,0,0],[1,1,0],[0,1,0],[0,0,1],[1,0,1],[1,1,1],[0,1,1]];
+  const edges = [[0,1],[1,2],[2,3],[3,0],[4,5],[5,6],[6,7],[7,4],[0,4],[1,5],[2,6],[3,7]];
+  ctx.save();
+  ctx.strokeStyle = 'rgba(130, 145, 180, 0.22)';
+  ctx.lineWidth = 1;
+  edges.forEach(([i, j]) => {{
+    const a = project3DPoint(corners[i][0], corners[i][1], corners[i][2], W, H, xOffset, scaleMult);
+    const b = project3DPoint(corners[j][0], corners[j][1], corners[j][2], W, H, xOffset, scaleMult);
+    ctx.beginPath(); ctx.moveTo(a.px, a.py); ctx.lineTo(b.px, b.py); ctx.stroke();
+  }});
+
+  // Center registration filament
+  const c0 = project3DPoint(0.5, 0.5, 0, W, H, xOffset, scaleMult);
+  const c1 = project3DPoint(0.5, 0.5, 1, W, H, xOffset, scaleMult);
+  ctx.strokeStyle = 'rgba(229, 174, 92, 0.5)';
+  ctx.setLineDash([4, 4]);
+  ctx.beginPath(); ctx.moveTo(c0.px, c0.py); ctx.lineTo(c1.px, c1.py); ctx.stroke();
+  ctx.restore();
+
+  // Filter series to semantic zoom window
+  const visSeries = series.filter(pt => {{
+    const tn = pt.t / dur;
+    return tn >= tMin - 0.02 && tn <= tMax + 0.02;
+  }});
+
+  // Secondary strands s2, s3
+  ['s2', 's3'].forEach((k, idx) => {{
+    ctx.save();
+    ctx.beginPath();
+    visSeries.forEach((pt, i) => {{
+      const tn = (pt.t / dur - tMin) / Math.max(1e-4, tMax - tMin);
+      const p = project3DPoint(pt[k][0], pt[k][1], tn, W, H, xOffset, scaleMult);
+      if (i === 0) ctx.moveTo(p.px, p.py); else ctx.lineTo(p.px, p.py);
+    }});
+    ctx.strokeStyle = idx === 0 ? 'rgba(86, 194, 230, 0.55)' : 'rgba(199, 122, 224, 0.55)';
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+    ctx.restore();
+  }});
+
+  // Primary Core Worm s1 colored by CIE-LAB/RGB palette
+  for (let i = 0; i < visSeries.length - 1; i++) {{
+    const a = visSeries[i], b = visSeries[i + 1];
+    const tnA = (a.t / dur - tMin) / Math.max(1e-4, tMax - tMin);
+    const tnB = (b.t / dur - tMin) / Math.max(1e-4, tMax - tMin);
+    const nA = isPrimary ? getModifiedNode(a) : a.s1;
+    const nB = isPrimary ? getModifiedNode(b) : b.s1;
+    const pA = project3DPoint(nA[0], nA[1], tnA, W, H, xOffset, scaleMult);
+    const pB = project3DPoint(nB[0], nB[1], tnB, W, H, xOffset, scaleMult);
+    const rgb = a.rgb || [225, 175, 95];
     ctx.save();
     ctx.beginPath();
     ctx.strokeStyle = `rgba(${{rgb[0]}}, ${{rgb[1]}}, ${{rgb[2]}}, 0.92)`;
-    ctx.lineWidth = Math.max(3.0, a.r * 38 * pA.scale);
+    ctx.lineWidth = Math.max(2.5, a.r * 34 * pA.scale);
     ctx.lineCap = 'round';
     ctx.moveTo(pA.px, pA.py);
     ctx.lineTo(pB.px, pB.py);
@@ -802,177 +1151,530 @@ function draw3DWorm() {{
     ctx.restore();
   }}
 
-  // 7. Current Playback Slice Plane at tau = curNorm
-  const sliceCorners = [
-    [0,0,curNorm],[1,0,curNorm],[1,1,curNorm],[0,1,curNorm],[0,0,curNorm]
-  ];
-  ctx.save();
-  ctx.beginPath();
-  sliceCorners.forEach((c, idx) => {{
-    const p = project3D(c[0], c[1], c[2], W, H);
-    if (idx === 0) ctx.moveTo(p.px, p.py);
-    else ctx.lineTo(p.px, p.py);
-  }});
-  ctx.strokeStyle = 'rgba(224, 169, 88, 0.9)';
-  ctx.fillStyle = 'rgba(224, 169, 88, 0.08)';
-  ctx.lineWidth = 1.8;
-  ctx.fill();
-  ctx.stroke();
-  ctx.restore();
-}}
-
-wormCanvas.addEventListener('mousedown', e => {{
-  isDragging = true;
-  lastX = e.clientX;
-  lastY = e.clientY;
-  document.getElementById('chkAutoRotate').checked = false;
-}});
-window.addEventListener('mouseup', () => {{ isDragging = false; }});
-window.addEventListener('mousemove', e => {{
-  if (!isDragging) return;
-  yaw += (e.clientX - lastX) * 0.008;
-  pitch = Math.max(-1.1, Math.min(1.1, pitch + (e.clientY - lastY) * 0.008));
-  lastX = e.clientX;
-  lastY = e.clientY;
-  draw3DWorm();
-}});
-
-function animateLoop() {{
-  if (document.getElementById('chkAutoRotate').checked && !isDragging) {{
-    yaw += 0.0035;
-    draw3DWorm();
+  // Playhead slicing plane
+  if (curNorm >= tMin && curNorm <= tMax) {{
+    const sliceT = (curNorm - tMin) / Math.max(1e-4, tMax - tMin);
+    const sc = [[0,0,sliceT],[1,0,sliceT],[1,1,sliceT],[0,1,sliceT],[0,0,sliceT]];
+    ctx.save();
+    ctx.beginPath();
+    sc.forEach((c, idx) => {{
+      const p = project3DPoint(c[0], c[1], c[2], W, H, xOffset, scaleMult);
+      if (idx === 0) ctx.moveTo(p.px, p.py); else ctx.lineTo(p.px, p.py);
+    }});
+    ctx.fillStyle = 'rgba(229, 174, 92, 0.09)';
+    ctx.strokeStyle = 'rgba(229, 174, 92, 0.9)';
+    ctx.lineWidth = 1.6;
+    ctx.fill();
+    ctx.stroke();
+    ctx.restore();
   }}
-  requestAnimationFrame(animateLoop);
 }}
 
-function drawAllManifoldCharts() {{
+function renderMultiModeCanvas() {{
+  const ctx = multiCanvas.getContext('2d');
+  const W = multiCanvas.width, H = multiCanvas.height;
+  ctx.clearRect(0, 0, W, H);
+
+  if (viewMode === 'prism') {{
+    drawPrismVolume(ctx, activeFilm, W, H, 0, 1.0, true);
+  }} else if (viewMode === 'diff') {{
+    const compId = document.getElementById('compareSelect').value;
+    compareFilm = FILMS.find(x => x.id === compId) || FILMS[0];
+    drawPrismVolume(ctx, activeFilm, W, H, -W * 0.24, 0.68, true);
+    drawPrismVolume(ctx, compareFilm, W, H, W * 0.24, 0.68, false);
+    ctx.fillStyle = '#e5ae5c';
+    ctx.font = 'bold 12px sans-serif';
+    ctx.fillText('A: ' + activeFilm.title, 20, 24);
+    ctx.fillStyle = '#56c2e6';
+    ctx.fillText('B: ' + compareFilm.title, W * 0.52, 24);
+  }} else if (viewMode === 'torus') {{
+    // Frederic Brodbeck 360° Radial Cinemetrics Torus
+    const series = activeFilm.series || [];
+    const cx = W * 0.5, cy = H * 0.5;
+    const rInner = 68, rMid = 112;
+    const dur = activeFilm.duration_s || 1;
+    series.forEach((pt, i) => {{
+      const a0 = (i / series.length) * Math.PI * 2 - Math.PI * 0.5;
+      const a1 = ((i + 1.2) / series.length) * Math.PI * 2 - Math.PI * 0.5;
+      const rgb = pt.rgb || [200, 160, 90];
+      // Color ring
+      ctx.beginPath();
+      ctx.arc(cx, cy, rInner + 18, a0, a1);
+      ctx.strokeStyle = `rgb(${{rgb[0]}},${{rgb[1]}},${{rgb[2]}})`;
+      ctx.lineWidth = 28;
+      ctx.stroke();
+      // Outer motion + W2 spike
+      const spike = rMid + Math.min(52, (pt.phi + pt.psi) * 28 + pt.w2 * 8);
+      ctx.beginPath();
+      ctx.moveTo(cx + Math.cos(a0) * rMid, cy + Math.sin(a0) * rMid);
+      ctx.lineTo(cx + Math.cos(a0) * spike, cy + Math.sin(a0) * spike);
+      ctx.strokeStyle = 'rgba(229, 174, 92, 0.75)';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+    }});
+    // Playhead ray
+    const curAng = (curTime / dur) * Math.PI * 2 - Math.PI * 0.5;
+    ctx.beginPath();
+    ctx.moveTo(cx, cy);
+    ctx.lineTo(cx + Math.cos(curAng) * (rMid + 58), cy + Math.sin(curAng) * (rMid + 58));
+    ctx.strokeStyle = '#fff';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+    ctx.fillStyle = '#ede9e0';
+    ctx.font = 'bold 11px monospace';
+    ctx.textAlign = 'center';
+    ctx.fillText('360° CINEMETRICS TORUS', cx, cy + 4);
+    ctx.textAlign = 'left';
+  }} else if (viewMode === 'toric') {{
+    // Lino & Christie 3D-to-2D Toric Camera Manifold (alpha, theta, phi)
+    const pt = sampleAtTime(activeFilm, curTime) || activeFilm.series[0];
+    const modS1 = getModifiedNode(pt);
+    const cx = W * 0.5, cy = H * 0.52;
+    for (let r = 35; r <= 140; r += 35) {{
+      ctx.beginPath();
+      ctx.ellipse(cx, cy, r * 1.45, r * 0.85, 0, 0, Math.PI * 2);
+      ctx.strokeStyle = 'rgba(86, 194, 230, 0.25)';
+      ctx.stroke();
+    }}
+    const camX = cx + (modS1[0] - 0.5) * 220;
+    const camY = cy + (modS1[2] - 0.5) * 140;
+    ctx.beginPath();
+    ctx.arc(camX, camY, 9, 0, Math.PI * 2);
+    ctx.fillStyle = '#e5ae5c';
+    ctx.fill();
+    ctx.fillStyle = '#ede9e0';
+    ctx.font = '11px monospace';
+    ctx.fillText(`Toric Solver: α=${{((0.5+modS1[2])*48).toFixed(1)}}° θ=${{((modS1[0]-0.5)*90).toFixed(1)}}° φ=${{((0.5-modS1[1])*60).toFixed(1)}}°`, 20, 26);
+  }}
+}}
+
+multiCanvas.addEventListener('mousedown', e => {{
+  dragging3D = true; lastMX = e.clientX; lastMY = e.clientY;
+  document.getElementById('chkAutoOrbit').checked = false;
+}});
+window.addEventListener('mouseup', () => {{ dragging3D = false; }});
+window.addEventListener('mousemove', e => {{
+  if (!dragging3D) return;
+  yaw += (e.clientX - lastMX) * 0.008;
+  pitch = Math.max(-1.15, Math.min(1.15, pitch + (e.clientY - lastMY) * 0.008));
+  lastMX = e.clientX; lastMY = e.clientY;
+  renderMultiModeCanvas();
+}});
+
+// 3. Master Linked-Brushing Timeline
+function renderMasterTimeline() {{
+  const ctx = tlCanvas.getContext('2d');
+  const W = tlCanvas.width, H = tlCanvas.height;
+  ctx.clearRect(0, 0, W, H);
+
   const series = activeFilm.series || [];
   if (!series.length) return;
-
-  // 1. Braid Worldlines (u_1, u_2, u_3 over tau)
-  const c1 = document.getElementById('canvasBraid');
-  const ctx1 = c1.getContext('2d');
-  ctx1.clearRect(0, 0, c1.width, c1.height);
-  const colsB = ['#e0a958', '#5bc0de', '#c678dd'];
-  ['s1', 's2', 's3'].forEach((k, idx) => {{
-    ctx1.beginPath();
-    series.forEach((pt, i) => {{
-      const x = (i / Math.max(1, series.length - 1)) * (c1.width - 16) + 8;
-      const y = (1 - pt[k][0]) * (c1.height - 20) + 10;
-      if (i === 0) ctx1.moveTo(x, y);
-      else ctx1.lineTo(x, y);
-    }});
-    ctx1.strokeStyle = colsB[idx];
-    ctx1.lineWidth = 2.0;
-    ctx1.stroke();
-  }});
-
-  // 2. Helmholtz-Hodge (Phi, Psi, H curves)
-  const c2 = document.getElementById('canvasHHD');
-  const ctx2 = c2.getContext('2d');
-  ctx2.clearRect(0, 0, c2.width, c2.height);
-  const maxHHD = Math.max(0.01, ...series.map(s => Math.max(s.phi, s.psi, s.h)));
-  [['phi', '#e0a958'], ['psi', '#e06c75'], ['h', '#5bc0de']].forEach(([k, col]) => {{
-    ctx2.beginPath();
-    series.forEach((pt, i) => {{
-      const x = (i / Math.max(1, series.length - 1)) * (c2.width - 16) + 8;
-      const y = c2.height - 10 - (pt[k] / maxHHD) * (c2.height - 22);
-      if (i === 0) ctx2.moveTo(x, y);
-      else ctx2.lineTo(x, y);
-    }});
-    ctx2.strokeStyle = col;
-    ctx2.lineWidth = 1.8;
-    ctx2.stroke();
-  }});
-
-  // 3. Wasserstein Chromatic Kinetic Energy W_2^2
-  const c3 = document.getElementById('canvasW2');
-  const ctx3 = c3.getContext('2d');
-  ctx3.clearRect(0, 0, c3.width, c3.height);
-  const maxW2 = Math.max(0.01, ...series.map(s => s.w2));
-  ctx3.beginPath();
-  series.forEach((pt, i) => {{
-    const x = (i / Math.max(1, series.length - 1)) * (c3.width - 16) + 8;
-    const y = c3.height - 10 - (pt.w2 / maxW2) * (c3.height - 24);
-    if (i === 0) ctx3.moveTo(x, y);
-    else ctx3.lineTo(x, y);
-  }});
-  ctx3.strokeStyle = '#7ec699';
-  ctx3.lineWidth = 2.0;
-  ctx3.stroke();
-
-  // 4. Relativistic Saccade Light-Cone Intervals ds^2
-  const c4 = document.getElementById('canvasSaccade');
-  const ctx4 = c4.getContext('2d');
-  ctx4.clearRect(0, 0, c4.width, c4.height);
-  const midY = c4.height * 0.55;
-  ctx4.strokeStyle = 'rgba(255,255,255,0.2)';
-  ctx4.beginPath();
-  ctx4.moveTo(0, midY);
-  ctx4.lineTo(c4.width, midY);
-  ctx4.stroke();
-  const cuts = (activeFilm.saccade && activeFilm.saccade.cuts) || [];
   const dur = activeFilm.duration_s || 1;
+  const rSW = getLiveHorizonSW();
+
+  // Track 1 (Top): Core RGB Stratigraphy Strip
+  series.forEach((pt, i) => {{
+    const x0 = (i / series.length) * W;
+    const wBar = (W / series.length) + 1;
+    const rgb = pt.rgb || [180, 150, 90];
+    ctx.fillStyle = `rgb(${{rgb[0]}},${{rgb[1]}},${{rgb[2]}})`;
+    ctx.fillRect(x0, 6, wBar, 18);
+  }});
+
+  // Track 2 (Middle): W2 Kinetic Energy + Helmholtz Divergence
+  const maxW2 = Math.max(0.05, ...series.map(s => s.w2));
+  ctx.beginPath();
+  series.forEach((pt, i) => {{
+    const x = (i / Math.max(1, series.length - 1)) * W;
+    const y = 78 - (pt.w2 / maxW2) * 44;
+    if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+  }});
+  ctx.strokeStyle = '#72cc96';
+  ctx.lineWidth = 1.8;
+  ctx.stroke();
+
+  // Track 3 (Bottom): Relativistic Cut Markers
+  const cuts = (activeFilm.saccade && activeFilm.saccade.cuts) || [];
   cuts.forEach(c => {{
-    const x = (c.tau / dur) * (c4.width - 20) + 10;
-    const barH = Math.max(-midY + 12, Math.min(midY - 12, c.ds2 * 320));
-    ctx4.fillStyle = c.regime === 'timelike' ? '#7ec699' : (c.regime === 'lightlike' ? '#e0a958' : '#e06c75');
-    ctx4.fillRect(x - 3, barH >= 0 ? midY - barH : midY, 6, Math.abs(barH) + 2);
+    const x = (c.tau / dur) * W;
+    const ds2 = (rSW * rSW) - (c.jump_sw * c.jump_sw);
+    ctx.fillStyle = ds2 > 0.01 ? '#72cc96' : (ds2 > -0.012 ? '#e5ae5c' : '#e36874');
+    ctx.fillRect(x - 1.5, 28, 3, H - 34);
   }});
 
-  // 5. Takens 2D Phase-Space Attractor & Persistence
-  const c5 = document.getElementById('canvasTDA');
-  const ctx5 = c5.getContext('2d');
-  ctx5.clearRect(0, 0, c5.width, c5.height);
-  const att = (activeFilm.tda && activeFilm.tda.attractor_2d) || [];
-  if (att.length > 1) {{
-    const xs = att.map(p => p[0]), ys = att.map(p => p[1]);
-    const minX = Math.min(...xs), maxX = Math.max(...xs) + 1e-5;
-    const minY = Math.min(...ys), maxY = Math.max(...ys) + 1e-5;
-    ctx5.beginPath();
-    att.forEach((p, i) => {{
-      const x = ((p[0] - minX) / (maxX - minX)) * (c5.width - 36) + 18;
-      const y = ((p[1] - minY) / (maxY - minY)) * (c5.height - 28) + 14;
-      if (i === 0) ctx5.moveTo(x, y);
-      else ctx5.lineTo(x, y);
-    }});
-    ctx5.strokeStyle = '#c678dd';
-    ctx5.lineWidth = 1.6;
-    ctx5.stroke();
-  }}
-
-  // 6. Cross-Spectral Synchresis PLV(tau) & 14-Line Armature Error
-  const c6 = document.getElementById('canvasPLV');
-  const ctx6 = c6.getContext('2d');
-  ctx6.clearRect(0, 0, c6.width, c6.height);
-  ctx6.beginPath();
-  series.forEach((pt, i) => {{
-    const x = (i / Math.max(1, series.length - 1)) * (c6.width - 16) + 8;
-    const y = c6.height - 10 - pt.plv * (c6.height - 24);
-    if (i === 0) ctx6.moveTo(x, y);
-    else ctx6.lineTo(x, y);
-  }});
-  ctx6.strokeStyle = '#5bc0de';
-  ctx6.lineWidth = 2.0;
-  ctx6.stroke();
-
-  // Overlay armature resonance (1 - d_grid*3) in gold
-  ctx6.beginPath();
-  series.forEach((pt, i) => {{
-    const x = (i / Math.max(1, series.length - 1)) * (c6.width - 16) + 8;
-    const lockVal = Math.max(0, Math.min(1, 1 - pt.d_grid * 4.5));
-    const y = c6.height - 10 - lockVal * (c6.height - 24);
-    if (i === 0) ctx6.moveTo(x, y);
-    else ctx6.lineTo(x, y);
-  }});
-  ctx6.strokeStyle = '#e0a958';
-  ctx6.lineWidth = 1.4;
-  ctx6.stroke();
+  // Playhead cursor
+  const px = (curTime / dur) * W;
+  ctx.fillStyle = '#e5ae5c';
+  ctx.fillRect(px - 1, 0, 2.5, H);
 }}
 
-initPills();
+function scrubToFraction(frac, seekVideo=false) {{
+  const dur = activeFilm.duration_s || 1;
+  curTime = Math.max(0, Math.min(dur, frac * dur));
+  if (seekVideo && videoEl.duration) {{
+    videoEl.currentTime = curTime;
+  }}
+  const pct = (curTime / dur) * 100;
+  document.getElementById('utPlayhead').style.left = pct + '%';
+  document.getElementById('vtPlayhead').style.left = pct + '%';
+  renderAll(false);
+}}
+
+tlCanvas.addEventListener('mousemove', e => {{
+  const rect = tlCanvas.getBoundingClientRect();
+  scrubToFraction((e.clientX - rect.left) / rect.width, e.buttons === 1);
+}});
+tlCanvas.addEventListener('click', e => {{
+  const rect = tlCanvas.getBoundingClientRect();
+  scrubToFraction((e.clientX - rect.left) / rect.width, true);
+}});
+
+function scrubFromSlit(e, clickSeek=false) {{
+  if (!clickSeek && e.buttons !== 1) return;
+  const rect = e.currentTarget.getBoundingClientRect();
+  scrubToFraction((e.clientX - rect.left) / rect.width, true);
+}}
+
+videoEl.addEventListener('timeupdate', () => {{
+  curTime = videoEl.currentTime || 0;
+  const dur = activeFilm.duration_s || 1;
+  const pct = Math.min(100, (curTime / dur) * 100);
+  document.getElementById('utPlayhead').style.left = pct + '%';
+  document.getElementById('vtPlayhead').style.left = pct + '%';
+  renderAll(false);
+}});
+
+// 4. Six Individual Manifold Visualizers
+function renderBraidCanvas() {{
+  const c = document.getElementById('cvBraid');
+  const ctx = c.getContext('2d');
+  const W = c.width, H = c.height;
+  ctx.clearRect(0, 0, W, H);
+
+  const series = activeFilm.series || [];
+  if (!series.length) return;
+  const taut = parseFloat(document.getElementById('braidTautSlider').value || 0);
+  document.getElementById('braidTautVal').textContent = taut > 0.5 ? `Reduced (${{Math.round(taut*100)}}%)` : `Raw (${{Math.round(taut*100)}}%)`;
+
+  const cols = ['#e5ae5c', '#56c2e6', '#c77ae0'];
+  const canonicalU = [0.25, 0.50, 0.75];
+  ['s1', 's2', 's3'].forEach((k, idx) => {{
+    ctx.beginPath();
+    series.forEach((pt, i) => {{
+      const x = (i / Math.max(1, series.length - 1)) * (W - 20) + 10;
+      const rawU = (idx === 0) ? getModifiedNode(pt)[0] : pt[k][0];
+      const uVal = (1 - taut) * rawU + taut * canonicalU[idx];
+      const y = (1 - uVal) * (H - 28) + 14;
+      if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+    }});
+    ctx.strokeStyle = cols[idx];
+    ctx.lineWidth = 2.2;
+    ctx.stroke();
+  }});
+
+  // Playhead
+  const px = (curTime / (activeFilm.duration_s || 1)) * (W - 20) + 10;
+  ctx.strokeStyle = 'rgba(255,255,255,0.6)';
+  ctx.beginPath(); ctx.moveTo(px, 0); ctx.lineTo(px, H); ctx.stroke();
+
+  const b = activeFilm.braid;
+  document.getElementById('badgeBraid').textContent = 'FTBE = ' + b.ftbe.toFixed(3);
+  document.getElementById('kvBraidWord').textContent = b.reduced_word_preview;
+  document.getElementById('kvBraidCount').textContent = `${{b.raw_crossings}} → ${{b.reduced_length}} (${{(b.entanglement_ratio*100).toFixed(1)}}%)`;
+}}
+
+function renderHHDCanvas() {{
+  const c = document.getElementById('cvHHD');
+  const ctx = c.getContext('2d');
+  const W = c.width, H = c.height;
+  ctx.clearRect(0, 0, W, H);
+
+  const pt = sampleAtTime(activeFilm, curTime) || activeFilm.series[0];
+  const h = activeFilm.helmholtz;
+  document.getElementById('badgeHHD').textContent = `Φ ${{Math.round(h.divergence_share*100)}}% · Ψ ${{Math.round(h.curl_share*100)}}% · H ${{Math.round(h.harmonic_share*100)}}%`;
+  document.getElementById('kvHHDSink').textContent = pt && pt.sink ? `(${{pt.sink[0].toFixed(2)}}, ${{pt.sink[1].toFixed(2)}})` : '(0.50, 0.50)';
+  document.getElementById('kvHHDRegime').textContent = h.divergence_share > 0.45 ? 'Kubrickian Depth Push/Pull (Φ)' : (h.curl_share > 0.40 ? 'Rotational Vortex (Ψ)' : 'Balanced Laminar-Depth');
+
+  // Left half: Ternary Phase Triangle
+  const ax = 95, ay = 24, bx = 22, by = 168, cxT = 168, cyT = 168;
+  ctx.strokeStyle = 'rgba(150,165,195,0.45)';
+  ctx.beginPath(); ctx.moveTo(ax, ay); ctx.lineTo(bx, by); ctx.lineTo(cxT, cyT); ctx.closePath(); ctx.stroke();
+  ctx.fillStyle = '#e5ae5c'; ctx.font = '10px monospace'; ctx.fillText('−∇Φ', ax - 14, ay - 6);
+  ctx.fillStyle = '#e36874'; ctx.fillText('∇×Ψ', bx - 10, by + 13);
+  ctx.fillStyle = '#56c2e6'; ctx.fillText('H', cxT - 4, cyT + 13);
+
+  const tot = (pt.phi + pt.psi + pt.h) + 1e-5;
+  const wPhi = pt.phi / tot, wPsi = pt.psi / tot, wH = pt.h / tot;
+  const dotX = ax * wPhi + bx * wPsi + cxT * wH;
+  const dotY = ay * wPhi + by * wPsi + cyT * wH;
+  ctx.beginPath(); ctx.arc(dotX, dotY, 6, 0, Math.PI * 2); ctx.fillStyle = '#e5ae5c'; ctx.fill();
+
+  // Right half: Live 2D Vector Field Preview
+  const vx0 = 205, vy0 = 18, vw = 230, vh = 158;
+  ctx.strokeStyle = 'rgba(130,145,175,0.25)';
+  ctx.strokeRect(vx0, vy0, vw, vh);
+  const su = pt.sink ? pt.sink[0] : 0.5, sv = pt.sink ? pt.sink[1] : 0.5;
+  for (let gx = 0; gx < 8; gx++) {{
+    for (let gy = 0; gy < 6; gy++) {{
+      const u = (gx + 0.5) / 8, v = (gy + 0.5) / 6;
+      const dx = u - su, dy = v - sv;
+      let fx = 0, fy = 0;
+      if (hhdFilter === 'all' || hhdFilter === 'phi') {{ fx += -dx * pt.phi * 18; fy += -dy * pt.phi * 18; }}
+      if (hhdFilter === 'all' || hhdFilter === 'psi') {{ fx += -dy * pt.psi * 18; fy += dx * pt.psi * 18; }}
+      if (hhdFilter === 'all' || hhdFilter === 'h') {{ fx += pt.h * 14; }}
+      const px = vx0 + u * vw, py = vy0 + v * vh;
+      ctx.beginPath();
+      ctx.moveTo(px, py);
+      ctx.lineTo(px + fx, py + fy);
+      ctx.strokeStyle = '#56c2e6';
+      ctx.lineWidth = 1.4;
+      ctx.stroke();
+    }}
+  }}
+}}
+
+function renderW2Canvas() {{
+  const c = document.getElementById('cvW2');
+  const ctx = c.getContext('2d');
+  const W = c.width, H = c.height;
+  ctx.clearRect(0, 0, W, H);
+
+  const series = activeFilm.series || [];
+  if (!series.length) return;
+  const rVal = parseFloat(document.getElementById('kalmusRadiusSlider').value || 0.22);
+  document.getElementById('kalmusRadiusVal').textContent = 'r = ' + rVal.toFixed(2);
+
+  // Top band: KALMUS Core-Sample Palette Barcode
+  series.forEach((pt, i) => {{
+    const x = (i / series.length) * (W - 16) + 8;
+    const bw = (W - 16) / series.length + 1;
+    const rgb = pt.rgb || [200, 160, 100];
+    ctx.fillStyle = `rgb(${{rgb[0]}},${{rgb[1]}},${{rgb[2]}})`;
+    ctx.fillRect(x, 10, bw, 28);
+  }});
+
+  // Bottom curve: 5D Wasserstein W_2^2 Chromatic Kinetic Energy
+  const maxW2 = Math.max(0.05, ...series.map(s => s.w2));
+  ctx.beginPath();
+  series.forEach((pt, i) => {{
+    const x = (i / Math.max(1, series.length - 1)) * (W - 16) + 8;
+    const y = H - 14 - (pt.w2 / maxW2) * (H - 64);
+    if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+  }});
+  ctx.strokeStyle = '#72cc96';
+  ctx.lineWidth = 2.0;
+  ctx.stroke();
+
+  const w = activeFilm.wasserstein;
+  const scaleChiaro = (w.mean_chiaroscuro_dl * (0.22 / rVal)).toFixed(1);
+  document.getElementById('badgeW2').textContent = 'Geo Eff = ' + w.geodesic_efficiency.toFixed(2);
+  document.getElementById('kvW2Itten').textContent = `${{scaleChiaro}} L* / ${{w.mean_hue_polarity_deg.toFixed(1)}}°`;
+  document.getElementById('kvW2Work').textContent = `${{w.mean_w2_kinetic.toFixed(2)}} / ${{w.peak_w2_shock.toFixed(2)}}`;
+}}
+
+function renderSaccadeCanvas() {{
+  const c = document.getElementById('cvSaccade');
+  const ctx = c.getContext('2d');
+  const W = c.width, H = c.height;
+  ctx.clearRect(0, 0, W, H);
+
+  const rSW = getLiveHorizonSW();
+  const cuts = (activeFilm.saccade && activeFilm.saccade.cuts) || [];
+  const dur = activeFilm.duration_s || 1;
+  const midY = H * 0.54;
+
+  // Horizon line ds^2 = 0
+  ctx.strokeStyle = 'rgba(255,255,255,0.25)';
+  ctx.beginPath(); ctx.moveTo(0, midY); ctx.lineTo(W, midY); ctx.stroke();
+
+  let nT = 0, nL = 0, nS = 0;
+  cuts.forEach(cut => {{
+    const x = (cut.tau / dur) * (W - 24) + 12;
+    const effJump = counterfactualReg ? cut.jump_sw * 0.25 : cut.jump_sw;
+    const ds2 = (rSW * rSW) - (effJump * effJump);
+    let col = '#72cc96';
+    if (Math.abs(ds2) <= 0.012) {{ col = '#e5ae5c'; nL++; }}
+    else if (ds2 > 0) {{ col = '#72cc96'; nT++; }}
+    else {{ col = '#e36874'; nS++; }}
+
+    const bH = Math.max(-midY + 14, Math.min(midY - 14, ds2 * 450));
+    ctx.fillStyle = col;
+    ctx.fillRect(x - 4, bH >= 0 ? midY - bH : midY, 8, Math.abs(bH) + 2);
+  }});
+
+  const tot = Math.max(1, nT + nL + nS);
+  document.getElementById('badgeSaccade').textContent = Math.round(100 * nT / tot) + '% Timelike';
+  document.getElementById('kvSaccadeSplit').textContent = `${{nT}} Timelike · ${{nL}} Lightlike · ${{nS}} Spacelike`;
+  document.getElementById('kvSaccadeRad').textContent = rSW.toFixed(3) + ' screen-widths';
+}}
+
+function renderTDACanvas() {{
+  const c = document.getElementById('cvTDA');
+  const ctx = c.getContext('2d');
+  const W = c.width, H = c.height;
+  ctx.clearRect(0, 0, W, H);
+
+  const eps = parseFloat(document.getElementById('epsSlider').value || 0.75);
+  document.getElementById('epsVal').textContent = 'ε = ' + eps.toFixed(2);
+
+  const att = (activeFilm.tda && activeFilm.tda.attractor_2d) || [];
+  if (att.length < 2) return;
+  const xs = att.map(p => p[0]), ys = att.map(p => p[1]);
+  const minX = Math.min(...xs), maxX = Math.max(...xs) + 1e-5;
+  const minY = Math.min(...ys), maxY = Math.max(...ys) + 1e-5;
+
+  const pts = att.map(p => [
+    ((p[0] - minX) / (maxX - minX)) * (W - 44) + 22,
+    ((p[1] - minY) / (maxY - minY)) * (H - 36) + 18
+  ]);
+
+  const radPx = eps * 26;
+  // Draw Vietoris-Rips balls & recurrence chords
+  let loopsAtEps = 0;
+  ctx.fillStyle = 'rgba(199, 122, 224, 0.06)';
+  pts.forEach(([px, py]) => {{
+    ctx.beginPath(); ctx.arc(px, py, radPx, 0, Math.PI * 2); ctx.fill();
+  }});
+
+  ctx.strokeStyle = 'rgba(86, 194, 230, 0.28)';
+  ctx.lineWidth = 1;
+  for (let i = 0; i < pts.length; i++) {{
+    for (let j = i + 4; j < pts.length; j++) {{
+      if (Math.hypot(pts[i][0] - pts[j][0], pts[i][1] - pts[j][1]) <= radPx * 1.35) {{
+        loopsAtEps++;
+        ctx.beginPath(); ctx.moveTo(pts[i][0], pts[i][1]); ctx.lineTo(pts[j][0], pts[j][1]); ctx.stroke();
+      }}
+    }}
+  }}
+
+  // Phase trajectory spine
+  ctx.beginPath();
+  pts.forEach(([px, py], i) => {{
+    if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+  }});
+  ctx.strokeStyle = '#c77ae0';
+  ctx.lineWidth = 1.8;
+  ctx.stroke();
+
+  const t = activeFilm.tda;
+  const liveRegimes = Math.max(1, Math.round(t.beta0_regimes * (1.2 / (eps + 0.4))));
+  document.getElementById('badgeTDA').textContent = `(${{liveRegimes}}, ${{loopsAtEps}}, ${{t.beta2_chiasmus.toFixed(2)}})`;
+  document.getElementById('kvTDALive').textContent = `${{liveRegimes}} regimes · ${{loopsAtEps}} recurrence chords`;
+  document.getElementById('kvTDAChiasmus').textContent = t.beta2_chiasmus.toFixed(3);
+}}
+
+function renderPLVCanvas() {{
+  const c = document.getElementById('cvPLV');
+  const ctx = c.getContext('2d');
+  const W = c.width, H = c.height;
+  ctx.clearRect(0, 0, W, H);
+
+  const series = activeFilm.series || [];
+  if (!series.length) return;
+  const pt = sampleAtTime(activeFilm, curTime) || series[0];
+  const sy = activeFilm.synchresis;
+  const gain = parseFloat(document.getElementById('cymaticGainSlider').value || 1.2);
+  document.getElementById('cymaticGainVal').textContent = gain.toFixed(1) + '×';
+
+  // Left: Polar Phase-Locking Clock
+  const cx = 82, cy = H * 0.5, rad = 58;
+  ctx.strokeStyle = 'rgba(140, 155, 185, 0.35)';
+  ctx.beginPath(); ctx.arc(cx, cy, rad, 0, Math.PI * 2); ctx.stroke();
+  const ang = (1 - (pt.plv || 0)) * Math.PI * 1.4;
+  const vecLen = Math.max(0.15, pt.plv || 0.1) * rad;
+  ctx.beginPath();
+  ctx.moveTo(cx, cy);
+  ctx.lineTo(cx + Math.cos(ang) * vecLen, cy - Math.sin(ang) * vecLen);
+  ctx.strokeStyle = '#56c2e6';
+  ctx.lineWidth = 3;
+  ctx.stroke();
+  ctx.fillStyle = '#ede9e0';
+  ctx.font = '10px monospace';
+  ctx.fillText('Δθ Phase', cx - 24, cy + rad + 15);
+
+  // Right: PLV(tau) + Armature Resonance curves
+  const x0 = 165, wPlot = W - 178;
+  ctx.beginPath();
+  series.forEach((s, i) => {{
+    const x = x0 + (i / Math.max(1, series.length - 1)) * wPlot;
+    const y = H - 16 - s.plv * (H - 34);
+    if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+  }});
+  ctx.strokeStyle = '#56c2e6';
+  ctx.lineWidth = 2.0;
+  ctx.stroke();
+
+  document.getElementById('badgePLV').textContent = sy.has_audio ? ('PLV = ' + sy.mean_plv.toFixed(3)) : 'Silent Track';
+  document.getElementById('kvPLVStats').textContent = `${{sy.peak_plv.toFixed(3)}} / Slip ${{sy.anempathetic_slip.toFixed(3)}}`;
+  document.getElementById('kvPLVBands').textContent = `${{(pt.sub_bass || 0).toFixed(2)}} / ${{(pt.centroid || 0).toFixed(2)}}`;
+}}
+
+function updateTelemetryAndSTGL() {{
+  const pt = sampleAtTime(activeFilm, curTime) || activeFilm.series[0];
+  if (!pt) return;
+  const modS1 = getModifiedNode(pt);
+  const dGrid = counterfactualReg ? pt.d_grid * 0.2 : Math.max(0, pt.d_grid - Math.hypot(userNodeOffset.du, userNodeOffset.dv) * 0.3);
+  const rSW = getLiveHorizonSW();
+  const cuts = (activeFilm.saccade && activeFilm.saccade.cuts) || [];
+  let nearCut = cuts[0] || {{ jump_sw: 0.08, tau: 0 }};
+  cuts.forEach(c => {{ if (Math.abs(c.tau - curTime) < Math.abs(nearCut.tau - curTime)) nearCut = c; }});
+  const effJump = counterfactualReg ? nearCut.jump_sw * 0.25 : nearCut.jump_sw;
+  const ds2 = (rSW * rSW) - (effJump * effJump);
+
+  document.getElementById('telTime').textContent = `τ = ${{curTime.toFixed(2)}}s / ${{activeFilm.duration_s}}s`;
+  document.getElementById('telNode').textContent = `(${{modS1[0].toFixed(2)}}, ${{modS1[1].toFixed(2)}}, ${{modS1[2].toFixed(2)}})`;
+  document.getElementById('telGridErr').textContent = `d = ${{dGrid.toFixed(3)}} ${{dGrid < 0.045 ? 'LOCK' : 'DRIFT'}}`;
+  document.getElementById('telHHD').textContent = `${{pt.phi.toFixed(2)}} / ${{pt.psi.toFixed(2)}} / ${{pt.h.toFixed(2)}}`;
+  document.getElementById('telW2').textContent = `W₂² ${{pt.w2.toFixed(2)}} · ΔL* ${{activeFilm.wasserstein.mean_chiaroscuro_dl}}`;
+  document.getElementById('telSaccade').textContent = `${{ds2 >= 0 ? '+' : ''}}${{ds2.toFixed(3)}} (${{ds2 >= 0 ? 'Timelike' : 'Spacelike'}})`;
+  document.getElementById('telBraid').textContent = `FTBE ${{activeFilm.braid.ftbe.toFixed(2)}}`;
+  document.getElementById('telPLV').textContent = `PLV ${{pt.plv.toFixed(3)}}`;
+
+  // Update live STGL Linter & JSON preview
+  const irObj = JSON.parse(JSON.stringify(STGL_IR[activeFilm.id] || {{}}));
+  if (irObj.shots && irObj.shots.length) {{
+    irObj.shots[0].spatial_grid.focal_node = [Number(modS1[0].toFixed(3)), Number(modS1[1].toFixed(3))];
+    irObj.shots[0].spatial_grid.mean_grid_error = Number(dGrid.toFixed(4));
+    irObj.shots[0].transition_out.spacetime_ds2 = Number(ds2.toFixed(4));
+    irObj.shots[0].transition_out.type = ds2 >= 0 ? 'eye_trace_match' : 'eisenstein_collision';
+  }}
+  const linterBadge = document.getElementById('linterStatusBadge');
+  if (dGrid <= 0.12 && ds2 >= -0.012) {{
+    linterBadge.textContent = 'STGL LINTER: PASS (TIMELIKE LOCK)';
+    linterBadge.className = 'badge green';
+  }} else {{
+    linterBadge.textContent = 'STGL LINTER: COLLISION / DRIFT WARNING';
+    linterBadge.className = 'badge rose';
+  }}
+  document.getElementById('stglLiveBox').textContent = JSON.stringify(irObj, null, 2);
+}}
+
+function renderAll(includeManifolds=true) {{
+  renderHUD();
+  renderMultiModeCanvas();
+  renderMasterTimeline();
+  updateTelemetryAndSTGL();
+  if (includeManifolds) {{
+    renderBraidCanvas();
+    renderHHDCanvas();
+    renderW2Canvas();
+    renderSaccadeCanvas();
+    renderTDACanvas();
+    renderPLVCanvas();
+  }}
+}}
+
+function tickOrbit() {{
+  if (document.getElementById('chkAutoOrbit').checked && !dragging3D && (viewMode === 'prism' || viewMode === 'diff')) {{
+    yaw += 0.0032;
+    renderMultiModeCanvas();
+  }}
+  requestAnimationFrame(tickOrbit);
+}}
+
+initUI();
 selectFilm(activeFilm.id);
-requestAnimationFrame(animateLoop);
+requestAnimationFrame(tickOrbit);
 </script>
 </body>
 </html>
@@ -981,7 +1683,7 @@ requestAnimationFrame(animateLoop);
     out_html = os.path.join(TENSOR_DIR, "index.html")
     with open(out_html, "w") as f:
         f.write(html)
-    print(f"Wrote interactive observatory -> {out_html}")
+    print(f"Wrote single-file epistemic visualizer -> {out_html} ({os.path.getsize(out_html)/1024:.1f} KB)")
 
 
 if __name__ == "__main__":
