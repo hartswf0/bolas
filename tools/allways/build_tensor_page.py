@@ -26,6 +26,7 @@ def main():
     ir_path = os.path.join(TENSOR_DIR, "stgl_ir.json")
     grids_path = os.path.join(TENSOR_DIR, "eight_grids_archive.json")
     scion_shapes_path = os.path.join(TENSOR_DIR, "scion_shapes.json")
+    worms_140_path = os.path.join(TENSOR_DIR, "allways_worms_140.json")
 
     with open(tensor_path) as f:
         tensor_data = json.load(f)
@@ -43,6 +44,11 @@ def main():
     if os.path.exists(scion_shapes_path):
         with open(scion_shapes_path) as f:
             scion_shapes_data = json.load(f)
+
+    worms_140_data = {"total_films": 0, "topology_distribution": {}, "films": []}
+    if os.path.exists(worms_140_path):
+        with open(worms_140_path) as f:
+            worms_140_data = json.load(f)
 
     films = tensor_data["films"]
     for film in films:
@@ -576,7 +582,8 @@ def main():
   <div class="topbar">
     <div class="brand-cluster">
       <span class="brand-tag">4D TENSOR LAB</span>
-      <button class="btn gold" onclick="playEightGridsReel()" title="Watch the 8-Rule Archival Perspective Breakdown Reel">★ 8-Grid Reel (28s)</button>
+      <select id="all142Select" class="btn gold" style="max-width:195px;" onchange="selectFrom142Catalog(this.value)" title="Browse All 142 Playable ALLWAYS Videos (3D Worm + KALMUS + Manovich)"></select>
+      <button class="btn gold" onclick="playEightGridsReel()" title="Watch the 8-Rule Archival Perspective Breakdown Reel">★ 8-Grid Reel</button>
       <button class="btn" onclick="stepFilm(-1)" title="Previous Film">◀</button>
       <button class="btn" onclick="stepFilm(1)" title="Next Film">▶</button>
     </div>
@@ -656,24 +663,33 @@ def main():
 
     <!-- Right: Split Instrument Dock -->
     <div class="instrument-dock">
-      <!-- Upper Dock: 3D Spatiotemporal Worm / 360° Torus / Dual Diff / Toric Camera -->
+      <!-- Upper Dock: 3D Spatiotemporal Worm / KALMUS + Itten / Manovich 4-Part / 360° Torus / Dual Diff / Toric Camera -->
       <div class="dock-card">
         <div class="dock-head">
-          <span class="dock-title">4D Spatiotemporal Volume $\\mathcal{{V}}(u,v,\\tau)$</span>
+          <span class="dock-title">3D Worm $\\mathcal{{V}}(u,v,\\tau)$ &amp; KALMUS</span>
           <div class="tab-strip">
             <button class="tab-btn active" id="modeBtn-prism" onclick="setViewMode('prism')">3D Worm Prism</button>
+            <button class="tab-btn" id="modeBtn-kalmus" onclick="setViewMode('kalmus')">KALMUS + Itten</button>
+            <button class="tab-btn" id="modeBtn-manovich" onclick="setViewMode('manovich')">Manovich 4-Part</button>
             <button class="tab-btn" id="modeBtn-torus" onclick="setViewMode('torus')">360° Torus</button>
-            <button class="tab-btn" id="modeBtn-diff" onclick="setViewMode('diff')">Dual-Film Diff</button>
-            <button class="tab-btn" id="modeBtn-toric" onclick="setViewMode('toric')">Toric Camera</button>
+            <button class="tab-btn" id="modeBtn-diff" onclick="setViewMode('diff')">Dual Diff</button>
+            <button class="tab-btn" id="modeBtn-toric" onclick="setViewMode('toric')">Toric</button>
           </div>
         </div>
 
         <canvas id="multiModeCanvas" class="canvas-fill" width="680" height="230"></canvas>
 
         <div class="dock-foot">
-          <span>Semantic Zoom:</span>
+          <span>Tunnel:</span>
+          <select id="tunnelSelect" class="btn" style="padding:1px 5px;font-size:10px;" onchange="renderMultiModeCanvas()">
+            <option value="armature">14-Line Armature</option>
+            <option value="thirds">Rule of Thirds Cage</option>
+            <option value="golden">Golden Spiral Helix</option>
+            <option value="rabatment">Rabatment Pillars</option>
+          </select>
+          <span>Zoom:</span>
           <input type="range" id="zoomSlider" min="1" max="12" step="0.25" value="1" oninput="onZoomChange(this.value)">
-          <span style="font-family:var(--mono);color:var(--accent);min-width:38px;" id="zoomVal">1.0×</span>
+          <span style="font-family:var(--mono);color:var(--accent);min-width:34px;" id="zoomVal">1.0×</span>
           <select id="compareSelect" class="btn" style="padding:1px 5px;font-size:10px;" onchange="renderMultiModeCanvas()"></select>
           <label style="display:inline-flex;align-items:center;gap:3px;cursor:pointer;">
             <input type="checkbox" id="chkAutoOrbit" checked> <span>Orbit</span>
@@ -794,12 +810,12 @@ def main():
           </div>
         </div>
 
-        <!-- View 7: 12-Film Ledger -->
+        <!-- View 7: 142-Film Worm & KALMUS Corpus Ledger -->
         <div class="single-manifold-pane" id="pane-7">
           <div class="ledger-scroll">
             <table>
               <thead>
-                <tr><th>Film</th><th>FTBE</th><th>Φ/Ψ/H</th><th>W₂</th><th>Timelike</th><th>TDA</th><th>PLV</th><th>Lock</th></tr>
+                <tr><th># · Film (142 Total)</th><th>Maker</th><th>3D Worm Topology</th><th>Match/Coll</th><th>ΔL*</th><th>ΔH°</th><th>Lock/Arn</th><th>κ / τ / Jerk</th></tr>
               </thead>
               <tbody id="corpusTableBody"></tbody>
             </table>
@@ -848,7 +864,9 @@ const FILMS = {json.dumps(films)};
 const STGL_IR = {json.dumps(stgl_ir)};
 const EIGHT_GRIDS = {json.dumps(grids_data)};
 const SCION_SHAPES = {json.dumps(scion_shapes_data)};
+const WORMS_140 = {json.dumps(worms_140_data)};
 let activeScionPromptOp = null;
+let activeWormFilm = (WORMS_140.films || [])[14] || (WORMS_140.films || [])[0] || null;
 
 let activeFilmIndex = 1; // Default 059-ball
 let activeFilm = FILMS[activeFilmIndex] || FILMS[0];
@@ -879,10 +897,12 @@ function initUI() {{
   const compSel = document.getElementById('compareSelect');
   const tbody = document.getElementById('corpusTableBody');
   const gridsDeck = document.getElementById('pane-grids');
+  const sel142 = document.getElementById('all142Select');
   pillList.innerHTML = '';
   compSel.innerHTML = '';
   tbody.innerHTML = '';
   gridsDeck.innerHTML = '';
+  sel142.innerHTML = '';
 
   FILMS.forEach((f, idx) => {{
     const btn = document.createElement('button');
@@ -897,19 +917,28 @@ function initUI() {{
     opt.textContent = 'vs ' + f.title;
     if (f.id === compareFilm.id) opt.selected = true;
     compSel.appendChild(opt);
+  }});
+
+  // Populate 142-Film Dropdown & 142-Film Worm + KALMUS Ledger Table
+  (WORMS_140.films || []).forEach((wf, wIdx) => {{
+    const o = document.createElement('option');
+    o.value = wf.id;
+    o.textContent = `[${{wIdx+1}}/142] ${{wf.title}} (${{wf.dominant_topology.slice(0,11)}})`;
+    if (activeWormFilm && wf.id === activeWormFilm.id) o.selected = true;
+    sel142.appendChild(o);
 
     const tr = document.createElement('tr');
-    tr.onclick = () => selectFilmByIndex(idx);
-    const h = f.helmholtz, w = f.wasserstein, s = f.saccade, t = f.tda, sy = f.synchresis, wm = f.worm;
+    tr.onclick = () => selectFrom142Catalog(wf.id);
+    const topoShort = wf.dominant_topology.replace(/_/g, ' ');
     tr.innerHTML = `
-      <td><strong>${{f.title}}</strong></td>
-      <td style="font-family:var(--mono)">${{f.braid.ftbe.toFixed(2)}}</td>
-      <td style="font-family:var(--mono)">${{Math.round(h.divergence_share*100)}}/${{Math.round(h.curl_share*100)}}/${{Math.round(h.harmonic_share*100)}}</td>
-      <td style="font-family:var(--mono)">${{w.mean_w2_kinetic.toFixed(2)}}</td>
-      <td style="font-family:var(--mono)">${{s.timelike_pct.toFixed(0)}}%</td>
-      <td style="font-family:var(--mono)">(${{t.beta0_regimes}},${{t.beta1_loops}},${{t.beta2_chiasmus.toFixed(2)}})</td>
-      <td style="font-family:var(--mono)">${{sy.mean_plv.toFixed(2)}}</td>
-      <td style="font-family:var(--mono)">${{wm.compositional_lock_pct.toFixed(0)}}%</td>
+      <td><strong>${{wIdx+1}}. ${{wf.title}}</strong></td>
+      <td style="color:var(--muted);font-size:9.5px;">${{wf.maker}}</td>
+      <td style="font-family:var(--mono);color:var(--accent);font-size:9.5px;">${{topoShort}}</td>
+      <td style="font-family:var(--mono)">${{wf.match_cuts}}M / ${{wf.collision_cuts}}C</td>
+      <td style="font-family:var(--mono)">${{wf.mean_chiaroscuro.toFixed(1)}}</td>
+      <td style="font-family:var(--mono)">${{wf.mean_hue_diff_deg.toFixed(0)}}°</td>
+      <td style="font-family:var(--mono)">${{wf.compositional_lock_pct.toFixed(0)}}% / ${{wf.arnheim_torque_pct.toFixed(0)}}%</td>
+      <td style="font-family:var(--mono)">${{wf.mean_kappa.toFixed(2)}} / ${{wf.mean_torsion.toFixed(2)}} / ${{wf.mean_jerk.toFixed(2)}}</td>
     `;
     tbody.appendChild(tr);
   }});
@@ -1028,6 +1057,12 @@ function selectFilmByIndex(idx) {{
   curTime = 0.0;
   resetSandbox(false);
 
+  const matchW = (WORMS_140.films || []).find(w => w.id === activeFilm.id || w.video_rel === activeFilm.video_rel);
+  if (matchW) {{
+    activeWormFilm = matchW;
+    document.getElementById('all142Select').value = matchW.id;
+  }}
+
   document.querySelectorAll('.f-pill').forEach(el => el.classList.remove('active'));
   const p = document.getElementById('fpill-' + activeFilm.id);
   if (p) {{
@@ -1043,6 +1078,75 @@ function selectFilmByIndex(idx) {{
   document.getElementById('utSlitImg').src = activeFilm.ut_b64 || activeFilm.ut_tomogram;
   document.getElementById('vtSlitImg').src = activeFilm.vt_b64 || activeFilm.vt_tomogram;
 
+  renderAll();
+}}
+
+function selectFrom142Catalog(wormId) {{
+  const wf = (WORMS_140.films || []).find(w => w.id === wormId);
+  if (!wf) return;
+  activeWormFilm = wf;
+  document.getElementById('all142Select').value = wf.id;
+
+  // If this film is one of the 12 flagship Tensor films, select it directly
+  const fIdx = FILMS.findIndex(f => f.id === wf.id || f.video_rel === wf.video_rel);
+  if (fIdx >= 0) {{
+    selectFilmByIndex(fIdx);
+    return;
+  }}
+
+  // Otherwise synthesize a live activeFilm wrapper from the 142-film worm & KALMUS series!
+  curTime = 0.0;
+  document.querySelectorAll('.f-pill').forEach(el => el.classList.remove('active'));
+  const synthSeries = (wf.series || []).map(s => ({{
+    t: s.t,
+    s1: [s.c[0], s.c[1], 0.55],
+    s2: [s.c_left[0], s.c_left[1], 0.45],
+    s3: [s.c_right[0], s.c_right[1], 0.45],
+    r: s.r,
+    rgb: s.rgb_core,
+    rgb_shell: s.rgb_shell,
+    d_grid: s.d_armature,
+    kappa: s.kappa,
+    torsion: s.torsion,
+    phi: s.area_ratio,
+    psi: s.motion * 2.5,
+    h_flow: s.motion * 2.0,
+    sink: s.c,
+    w2: s.chiaroscuro * 0.06,
+    plv: Math.max(0.2, 1.0 - s.d_armature * 8.0),
+    sub_bass: s.block_intensity,
+    centroid: 0.5
+  }}));
+
+  activeFilm = {{
+    id: wf.id,
+    title: wf.title,
+    maker: wf.maker,
+    award: wf.dominant_topology.replace(/_/g, ' '),
+    duration_s: wf.duration_s,
+    video_rel: wf.video_rel,
+    watch_url: wf.case_url,
+    ut_b64: FILMS[0].ut_b64,
+    vt_b64: FILMS[0].vt_b64,
+    braid: {{ ftbe: wf.mean_kappa, reduced_word_preview: wf.dominant_topology }},
+    helmholtz: {{ divergence_share: wf.mean_area_ratio, curl_share: 0.32, harmonic_share: 0.35 }},
+    wasserstein: {{ mean_w2_kinetic: wf.mean_chiaroscuro * 0.05 }},
+    saccade: {{
+      timelike_pct: Math.round(100 * wf.match_cuts / Math.max(1, wf.match_cuts + wf.collision_cuts)),
+      cuts: (wf.earshot_impulses || []).map(imp => ({{ tau: imp.t, jump_sw: imp.cut_type === 'EYE_TRACE_MATCH_CUT' ? 0.06 : 0.24, p1: [0.45, 0.5], p2: [0.55, 0.5] }}))
+    }},
+    tda: {{ beta0_regimes: 4, beta1_loops: wf.match_cuts, beta2_chiasmus: wf.mean_block_intensity, attractor_2d: synthSeries.map(x => [x.s1[0] - 0.5, x.s1[1] - 0.5]) }},
+    synchresis: {{ mean_plv: wf.mean_block_intensity }},
+    worm: {{ compositional_lock_pct: wf.compositional_lock_pct }},
+    series: synthSeries
+  }};
+
+  document.getElementById('stageTitle').textContent = wf.title;
+  document.getElementById('stageSub').textContent = `${{wf.maker}} · Topology: ${{wf.dominant_topology.replace(/_/g, ' ')}} · ΔL* ${{wf.mean_chiaroscuro}} · Lock ${{wf.compositional_lock_pct}}%`;
+  document.getElementById('stageCaseLink').href = wf.case_url;
+  videoEl.src = wf.video_rel;
+  videoEl.currentTime = 0;
+  videoEl.play().catch(() => {{}});
   renderAll();
 }}
 
@@ -1106,8 +1210,9 @@ function resetSandbox(rerender=true) {{
 
 function setViewMode(m) {{
   viewMode = m;
-  ['prism', 'torus', 'diff', 'toric'].forEach(k => {{
-    document.getElementById('modeBtn-' + k).classList.toggle('active', k === m);
+  ['prism', 'kalmus', 'manovich', 'torus', 'diff', 'toric'].forEach(k => {{
+    const el = document.getElementById('modeBtn-' + k);
+    if (el) el.classList.toggle('active', k === m);
   }});
   renderMultiModeCanvas();
 }}
@@ -1407,6 +1512,41 @@ function drawPrismVolume(ctx, film, W, H, xOffset=0, scaleMult=1.0, isPrimary=tr
   ctx.strokeStyle = 'rgba(229, 174, 92, 0.45)';
   ctx.setLineDash([4, 4]);
   ctx.beginPath(); ctx.moveTo(c0.px, c0.py); ctx.lineTo(c1.px, c1.py); ctx.stroke();
+
+  // Draw Selectable 3D Composition Grid Tunnel Filaments along tau in [0, 1]
+  const tunnelMode = (document.getElementById('tunnelSelect') || {{}}).value || 'armature';
+  ctx.setLineDash([2, 3]);
+  ctx.strokeStyle = 'rgba(242, 196, 92, 0.36)';
+  ctx.lineWidth = 1.1;
+  if (tunnelMode === 'thirds' || tunnelMode === 'armature') {{
+    [[1/3, 1/3], [2/3, 1/3], [1/3, 2/3], [2/3, 2/3]].forEach(([gu, gv]) => {{
+      const g0 = project3DPoint(gu, gv, 0, W, H, xOffset, scaleMult);
+      const g1 = project3DPoint(gu, gv, 1, W, H, xOffset, scaleMult);
+      ctx.beginPath(); ctx.moveTo(g0.px, g0.py); ctx.lineTo(g1.px, g1.py); ctx.stroke();
+    }});
+  }}
+  if (tunnelMode === 'rabatment') {{
+    [[0.28, 0.5], [0.72, 0.5], [0.4375, 0.5], [0.5625, 0.5]].forEach(([gu, gv]) => {{
+      const g0 = project3DPoint(gu, gv, 0, W, H, xOffset, scaleMult);
+      const g1 = project3DPoint(gu, gv, 1, W, H, xOffset, scaleMult);
+      ctx.strokeStyle = 'rgba(199, 122, 224, 0.45)';
+      ctx.beginPath(); ctx.moveTo(g0.px, g0.py); ctx.lineTo(g1.px, g1.py); ctx.stroke();
+    }});
+  }}
+  if (tunnelMode === 'golden') {{
+    ctx.setLineDash([]);
+    ctx.strokeStyle = 'rgba(242, 196, 92, 0.62)';
+    ctx.beginPath();
+    for (let k = 0; k <= 48; k++) {{
+      const tn = k / 48.0;
+      const rSp = 0.28 * Math.exp(-1.4 * tn);
+      const gu = 0.618 + rSp * Math.cos(tn * Math.PI * 4);
+      const gv = 0.382 + rSp * Math.sin(tn * Math.PI * 4);
+      const gp = project3DPoint(gu, gv, tn, W, H, xOffset, scaleMult);
+      if (k === 0) ctx.moveTo(gp.px, gp.py); else ctx.lineTo(gp.px, gp.py);
+    }}
+    ctx.stroke();
+  }}
   ctx.restore();
 
   const visSeries = series.filter(pt => {{
@@ -1473,6 +1613,153 @@ function renderMultiModeCanvas() {{
 
   if (viewMode === 'prism') {{
     drawPrismVolume(ctx, activeFilm, W, H, 0, 1.0, true);
+    if (activeWormFilm && activeWormFilm.series && activeWormFilm.series.length) {{
+      const wSer = activeWormFilm.series;
+      let curWS = wSer[0];
+      wSer.forEach(s => {{ if (Math.abs(s.t - curTime) < Math.abs(curWS.t - curTime)) curWS = s; }});
+      ctx.fillStyle = '#e5ae5c'; ctx.font = 'bold 10.5px monospace';
+      ctx.fillText(`3D Worm Topology: ${{curWS.topology}} | Cut: ${{curWS.cut_type}}`, 10, 16);
+      ctx.fillStyle = '#8c93a6'; ctx.font = '10px monospace';
+      ctx.fillText(`κ=${{curWS.kappa.toFixed(2)}}  τ_torsion=${{curWS.torsion.toFixed(2)}}  Jerk=${{curWS.jerk.toFixed(2)}}  ΔL*=${{curWS.chiaroscuro.toFixed(1)}}  ΔH=${{curWS.hue_diff_deg.toFixed(0)}}°`, 10, H - 8);
+    }}
+  }} else if (viewMode === 'kalmus') {{
+    const wf = activeWormFilm || (WORMS_140.films || [])[0];
+    if (!wf || !wf.series) return;
+    const wSer = wf.series;
+    const nS = wSer.length;
+    const padL = 12, padR = 12, barW = (W - padL - padR) / Math.max(1, nS);
+
+    ctx.fillStyle = '#ede9e0'; ctx.font = 'bold 10px monospace';
+    ctx.fillText(`KALMUS CORE WORM vs. OUTER SHELL STRATIGRAPHY — ${{wf.title}}`, padL, 14);
+
+    // Band 1: Core Worm RGB Barcode (y=20..38) & Outer Shell RGB Barcode (y=40..56)
+    wSer.forEach((s, i) => {{
+      const x = padL + i * barW;
+      ctx.fillStyle = `rgb(${{s.rgb_core[0]}},${{s.rgb_core[1]}},${{s.rgb_core[2]}})`;
+      ctx.fillRect(x, 20, barW + 0.8, 17);
+      ctx.fillStyle = `rgb(${{s.rgb_shell[0]}},${{s.rgb_shell[1]}},${{s.rgb_shell[2]}})`;
+      ctx.fillRect(x, 39, barW + 0.8, 16);
+    }});
+    ctx.fillStyle = 'rgba(0,0,0,0.65)'; ctx.fillRect(padL + 2, 22, 74, 12); ctx.fillRect(padL + 2, 41, 78, 12);
+    ctx.fillStyle = '#fff'; ctx.font = '9px monospace';
+    ctx.fillText('CORE WORM', padL + 5, 31);
+    ctx.fillText('OUTER SHELL', padL + 5, 50);
+
+    // Band 2: Itten Chiaroscuro dL* (amber), Cold-Warm Hue Polarity dH (cyan), Extension Area (green) (y=68..138)
+    ctx.strokeStyle = 'rgba(255,255,255,0.12)';
+    ctx.strokeRect(padL, 66, W - padL - padR, 72);
+    const drawCurve = (getter, maxVal, col, yTop, yH) => {{
+      ctx.beginPath();
+      wSer.forEach((s, i) => {{
+        const px = padL + (i / Math.max(1, nS - 1)) * (W - padL - padR);
+        const py = yTop + yH - Math.min(1, getter(s) / maxVal) * (yH - 6) - 3;
+        if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+      }});
+      ctx.strokeStyle = col; ctx.lineWidth = 1.7; ctx.stroke();
+    }};
+    drawCurve(s => s.chiaroscuro, 45.0, '#e5ae5c', 66, 72);
+    drawCurve(s => s.hue_diff_deg, 180.0, '#56c2e6', 66, 72);
+    drawCurve(s => s.area_ratio, 0.55, '#72cc96', 66, 72);
+    ctx.font = '9px monospace';
+    ctx.fillStyle = '#e5ae5c'; ctx.fillText(`Itten ΔL* Chiaroscuro (${{wf.mean_chiaroscuro}})`, padL + 6, 78);
+    ctx.fillStyle = '#56c2e6'; ctx.fillText(`ΔH° Cold-Warm (${{wf.mean_hue_diff_deg}}°)`, padL + 195, 78);
+    ctx.fillStyle = '#72cc96'; ctx.fillText(`Area A_worm/A (${{(wf.mean_area_ratio*100).toFixed(0)}}%)`, padL + 355, 78);
+
+    // Band 3: Frenet-Serret Curvature kappa (purple), Torsion (cyan), & Earshot Jerk Impulses (rose bars) (y=148..218)
+    ctx.strokeStyle = 'rgba(255,255,255,0.12)';
+    ctx.strokeRect(padL, 146, W - padL - padR, 74);
+    wSer.forEach((s, i) => {{
+      const px = padL + (i / Math.max(1, nS - 1)) * (W - padL - padR);
+      const jH = Math.min(66, s.jerk * 22);
+      ctx.fillStyle = 'rgba(227, 104, 116, 0.55)';
+      ctx.fillRect(px - 1.5, 220 - jH, 3, jH);
+    }});
+    drawCurve(s => s.kappa, 6.0, '#c77ae0', 146, 74);
+    drawCurve(s => s.torsion, 6.0, '#56c2e6', 146, 74);
+    ctx.fillStyle = '#c77ae0'; ctx.fillText(`Curvature κ (${{wf.mean_kappa}})`, padL + 6, 158);
+    ctx.fillStyle = '#56c2e6'; ctx.fillText(`Torsion τ (${{wf.mean_torsion}})`, padL + 150, 158);
+    ctx.fillStyle = '#e36874'; ctx.fillText(`Earshot Jerk ||c'''|| (${{wf.mean_jerk}})`, padL + 290, 158);
+
+    // Playhead
+    const phX = padL + Math.min(1, Math.max(0, curTime / (wf.duration_s || 1))) * (W - padL - padR);
+    ctx.strokeStyle = '#fff'; ctx.lineWidth = 1.5;
+    ctx.beginPath(); ctx.moveTo(phX, 18); ctx.lineTo(phX, 222); ctx.stroke();
+
+  }} else if (viewMode === 'manovich') {{
+    const wf = activeWormFilm || (WORMS_140.films || [])[0];
+    if (!wf || !wf.manovich_parts) return;
+    const parts = wf.manovich_parts;
+    const padL = 10, gap = 8;
+    const cardW = (W - padL * 2 - gap * 3) / 4;
+
+    ctx.fillStyle = '#ede9e0'; ctx.font = 'bold 10px monospace';
+    ctx.fillText(`MANOVICH 4-PART CULTURAL ANALYTICS GRID & BRUCE BLOCK INTENSITY — ${{wf.title}}`, padL, 14);
+
+    parts.forEach((p, idx) => {{
+      const x0 = padL + idx * (cardW + gap), y0 = 22, cH = 124;
+      ctx.fillStyle = '#121621';
+      ctx.fillRect(x0, y0, cardW, cH);
+      ctx.strokeStyle = '#2a3147';
+      ctx.strokeRect(x0, y0, cardW, cH);
+
+      // Header + Core/Shell swatches
+      ctx.fillStyle = '#e5ae5c'; ctx.font = 'bold 9.5px monospace';
+      ctx.fillText(`PART ${{p.part_num}} (${{p.t_start}}–${{p.t_end}}s)`, x0 + 6, y0 + 13);
+      ctx.fillStyle = `rgb(${{p.rgb_core[0]}},${{p.rgb_core[1]}},${{p.rgb_core[2]}})`;
+      ctx.fillRect(x0 + 6, y0 + 19, (cardW - 16) * 0.5, 10);
+      ctx.fillStyle = `rgb(${{p.rgb_shell[0]}},${{p.rgb_shell[1]}},${{p.rgb_shell[2]}})`;
+      ctx.fillRect(x0 + 8 + (cardW - 16) * 0.5, y0 + 19, (cardW - 16) * 0.5, 10);
+
+      // Mini 2D Entry -> Mid -> Exit Worm Trajectory Box
+      const bx = x0 + 6, by = y0 + 34, bw = cardW - 12, bh = 54;
+      ctx.fillStyle = '#07090e'; ctx.fillRect(bx, by, bw, bh);
+      ctx.strokeStyle = '#232838'; ctx.strokeRect(bx, by, bw, bh);
+      const pts = [p.entry_c, p.mid_c, p.exit_c];
+      ctx.beginPath();
+      pts.forEach((pt, k) => {{
+        const px = bx + pt[0] * bw, py = by + pt[1] * bh;
+        if (k === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+      }});
+      ctx.strokeStyle = '#e5ae5c'; ctx.lineWidth = 2; ctx.stroke();
+      pts.forEach((pt, k) => {{
+        const px = bx + pt[0] * bw, py = by + pt[1] * bh;
+        ctx.beginPath(); ctx.arc(px, py, 3.2, 0, Math.PI * 2);
+        ctx.fillStyle = k === 0 ? '#72cc96' : (k === 1 ? '#e5ae5c' : '#56c2e6');
+        ctx.fill();
+      }});
+
+      ctx.fillStyle = '#56c2e6'; ctx.font = '8.5px monospace';
+      ctx.fillText(p.topology.replace(/_/g, ' ').slice(0, 22), x0 + 6, y0 + 101);
+      ctx.fillStyle = '#8c93a6';
+      ctx.fillText(`ΔL*:${{p.chiaroscuro}} ΔH:${{p.hue_diff_deg}}° Int:${{p.block_intensity}}`, x0 + 6, y0 + 112);
+      ctx.fillStyle = p.cut_exit === 'EYE_TRACE_MATCH_CUT' ? '#72cc96' : '#e36874';
+      ctx.fillText(`Exit: ${{p.cut_exit.replace(/_/g, ' ').slice(0, 18)}}`, x0 + 6, y0 + 122);
+    }});
+
+    // Bottom Band: Continuous Bruce Block Visual Intensity Graph + Arnheim Torque (y=154..222)
+    const wSer = wf.series || [];
+    const nS = wSer.length;
+    ctx.strokeStyle = 'rgba(255,255,255,0.14)';
+    ctx.strokeRect(padL, 154, W - padL * 2, 66);
+    ctx.beginPath();
+    wSer.forEach((s, i) => {{
+      const px = padL + (i / Math.max(1, nS - 1)) * (W - padL * 2);
+      const py = 216 - s.block_intensity * 56;
+      if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+    }});
+    ctx.strokeStyle = '#e36874'; ctx.lineWidth = 2; ctx.stroke();
+
+    ctx.beginPath();
+    wSer.forEach((s, i) => {{
+      const px = padL + (i / Math.max(1, nS - 1)) * (W - padL * 2);
+      const py = 216 - Math.min(1, s.d_armature * 12) * 56;
+      if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+    }});
+    ctx.strokeStyle = '#e5ae5c'; ctx.lineWidth = 1.4; ctx.stroke();
+    ctx.font = '9px monospace';
+    ctx.fillStyle = '#e36874'; ctx.fillText(`Bruce Block Visual Intensity (Mean ${{wf.mean_block_intensity}})`, padL + 6, 166);
+    ctx.fillStyle = '#e5ae5c'; ctx.fillText(`Arnheim Eccentric Torque (${{wf.arnheim_torque_pct}}%) · Lock (${{wf.compositional_lock_pct}}%)`, padL + 290, 166);
+
   }} else if (viewMode === 'diff') {{
     const compId = document.getElementById('compareSelect').value;
     compareFilm = FILMS.find(x => x.id === compId) || FILMS[0];
