@@ -498,7 +498,7 @@ def main():
                 best_poly = max(polys, key=lambda p: len(p) if isinstance(p, list) else 0)
 
             area, centroid, radius, angle = polygon_area_and_centroid(best_poly, W, H)
-            ring = downsample_polygon(best_poly, W, H, target_k=16)
+            ring = downsample_polygon(best_poly, W, H, target_k=24)
 
             d_entry = depth_by_f.get(f, {})
             d_subj = float(d_entry.get("subject") if d_entry.get("subject") is not None else 0.72)
@@ -569,22 +569,21 @@ def main():
             if (n_frames - 1) not in keys:
                 keys.append(n_frames - 1)
 
-        # Attach animated character doodle strokes at sampled frames & keyframes
+        # Attach animated character doodle strokes at keyframes & endpoints (high fidelity!)
         if isinstance(cast_frames, list) and cast_frames:
             for fr in frames_series:
                 fi = fr["f"]
-                if fi % 4 == 0 or fi in keys or fi == n_frames - 1:
+                if fi in keys or fi % 6 == 0 or fi == n_frames - 1:
                     cf_i = cast_frames[min(fi, len(cast_frames) - 1)]
                     du0, dv0, _, _, d_strokes = compute_strokes_hull_and_rel(
-                        cf_i, W, H, max_strokes=9, max_pts=6, hull_k=10, pad=0.012
+                        cf_i, W, H, max_strokes=18, max_pts=18, hull_k=12, pad=0.012
                     )
                     if d_strokes:
-                        # Store absolute normalized strokes [[u, v], ...] for direct rendering
                         abs_strokes = []
                         for st in d_strokes:
                             abs_strokes.append([
-                                [round(max(0.01, min(0.99, du0 + pt[0])), 3),
-                                 round(max(0.01, min(0.99, dv0 + pt[1])), 3)]
+                                [round(max(0.0, min(1.0, du0 + pt[0])), 3),
+                                 round(max(0.0, min(1.0, dv0 + pt[1])), 3)]
                                 for pt in st
                             ])
                         fr["doodle"] = abs_strokes
@@ -622,18 +621,13 @@ def main():
                     })
                     existing_pids.add(ipid)
 
-        # Ensure every shot has at least 3 depth strata (Near, Subject/Mid, Far)
+        # Only add synthetic depth strata if a shot has fewer than 2 planes
         plane_list = [dict(p) for p in planes if isinstance(p, dict)]
         has_char = any(p.get("id") == "char" for p in plane_list)
         if not has_char:
             plane_list.append({"id": "char", "z": 2.0, "label": slug.replace("-", " ").title()})
-        zs = [float(p.get("z", 2.0)) for p in plane_list]
-        if not any(z > z_ref * 1.6 for z in zs):
-            plane_list.append({"id": "far_depth", "z": round(z_ref * 4.0, 2), "label": "Far Horizon Stratum (top depth)", "z_from_depth": "top"})
-        if not any(z < z_ref * 0.95 for z in zs) and len(plane_list) < 3:
-            plane_list.append({"id": "near_depth", "z": round(z_ref * 0.68, 2), "label": "Near Ground Stratum (bottom depth)", "z_from_depth": "bottom"})
-        if len(plane_list) < 3:
-            plane_list.append({"id": "mid_depth", "z": round(z_ref * 1.8, 2), "label": "Midground Stratum (middle depth)", "z_from_depth": "middle"})
+        if len(plane_list) < 2:
+            plane_list.append({"id": "far_depth", "z": round(z_ref * 4.0, 2), "label": "Far Horizon", "z_from_depth": "top"})
 
         # Sort planes from Near (smallest z) -> Subject -> Far (largest z)
         plane_list.sort(key=lambda p: (float(p.get("z", 2.0)), 0 if p.get("id") == "char" else 1))
@@ -654,7 +648,7 @@ def main():
                 ]
                 cf0 = cast_frames[0] if (isinstance(cast_frames, list) and cast_frames) else []
                 su0, sv0, sr0, spoly0, sstrokes0 = compute_strokes_hull_and_rel(
-                    cf0, W, H, max_strokes=12, max_pts=8, hull_k=12, pad=0.015
+                    cf0, W, H, max_strokes=20, max_pts=20, hull_k=14, pad=0.015
                 )
                 sub_w = []
                 for jn, jtr in list(joint_tracks.items())[:5]:
@@ -669,7 +663,8 @@ def main():
                     "z": round(pz, 2),
                     "k": k_par,
                     "label": plabel or slug.replace("-", " ").title(),
-                    "color": "#f2bc57",
+                    "desc": f"SAM Video Cutout + {slug.replace('-', ' ').title()} Drawing",
+                    "color": "#ffd166",
                     "u0": su0,
                     "v0": sv0,
                     "r0": sr0,
@@ -679,19 +674,22 @@ def main():
                     "sub_worms": sub_w,
                 })
             else:
-                # Extract scenic objects sitting on this depth plane + any direct strokes from integrated/shot.json
+                # Extract scenic objects sitting on this depth plane (including o['frames'][0] for animated secondary objects!)
                 p_objs = [o for o in all_objs if isinstance(o, dict) and o.get("plane") == pid]
                 plane_strokes = list(p.get("_direct_strokes") or [])
                 sub_w = []
+                class_counts = {}
                 for o in p_objs:
-                    ost = o.get("strokes") or []
+                    cls_name = str(o.get("class") or o.get("id") or "object")
+                    class_counts[cls_name] = class_counts.get(cls_name, 0) + 1
+                    ost = o.get("strokes") or (o["frames"][0] if (isinstance(o.get("frames"), list) and o["frames"]) else [])
                     if ost:
                         plane_strokes.extend(ost)
-                for o in p_objs[:5]:
-                    ost = o.get("strokes") or []
+                for o in p_objs[:6]:
+                    ost = o.get("strokes") or (o["frames"][0] if (isinstance(o.get("frames"), list) and o["frames"]) else [])
                     if ost:
                         ou0, ov0, or0, opoly, ostrokes = compute_strokes_hull_and_rel(
-                            ost, W, H, max_strokes=6, max_pts=6, hull_k=10, pad=0.014
+                            ost, W, H, max_strokes=10, max_pts=14, hull_k=10, pad=0.014
                         )
                         sub_w.append({
                             "id": str(o.get("id", "obj")),
@@ -703,10 +701,17 @@ def main():
                             "strokes0": ostrokes,
                         })
 
+                if class_counts:
+                    desc_str = ", ".join(f"{cnt} {cname}" for cname, cnt in list(class_counts.items())[:3])
+                elif plane_strokes:
+                    desc_str = f"{len(plane_strokes)} scenic strokes"
+                else:
+                    desc_str = plabel
+
                 z_src = str(p.get("z_from_depth", ""))
                 if plane_strokes:
                     u0, v0, r0, poly0, strokes0 = compute_strokes_hull_and_rel(
-                        plane_strokes, W, H, max_strokes=12, max_pts=7, hull_k=12, pad=0.02
+                        plane_strokes, W, H, max_strokes=34, max_pts=22, hull_k=14, pad=0.018
                     )
                 else:
                     u0 = round(0.50 + ((p_idx - 1.5) * 0.08), 3)
@@ -724,20 +729,26 @@ def main():
                     ]
                     strokes0 = []
 
-                # If giraffe midground trees have scene_masks.json polygon contours, use the true tree1 polygon!
-                if slug == "giraffe" and pid == "mid" and isinstance(scene_masks, dict) and scene_masks.get("tree1"):
-                    t_poly = scene_masks["tree1"]
-                    _, t_cent, t_rad, _ = polygon_area_and_centroid(t_poly, W, H)
-                    t_ring = downsample_polygon(t_poly, W, H, target_k=14)
-                    u0, v0, r0 = round(t_cent[0], 3), round(t_cent[1], 3), round(max(0.11, t_rad), 3)
-                    poly0 = [[round(pt[0] - u0, 3), round(pt[1] - v0, 3)] for pt in t_ring]
+                # If giraffe midground trees have scene_masks.json polygon contours, attach the true tree1/tree2 footage masks!
+                scene_rings = []
+                if slug == "giraffe" and pid == "mid" and isinstance(scene_masks, dict):
+                    for tk in ("tree1", "tree2"):
+                        if scene_masks.get(tk):
+                            scene_rings.append(downsample_polygon(scene_masks[tk], W, H, target_k=22))
+                    if scene_masks.get("tree1"):
+                        t_poly = scene_masks["tree1"]
+                        _, t_cent, t_rad, _ = polygon_area_and_centroid(t_poly, W, H)
+                        t_ring = downsample_polygon(t_poly, W, H, target_k=20)
+                        poly0 = [[round(pt[0] - u0, 3), round(pt[1] - v0, 3)] for pt in t_ring]
 
-                # Assign distinct color by depth stratum (Coral for near -> Cyan/Blue/Violet for far)
+                # Assign distinct high-contrast color by depth stratum
                 if pz < z_ref:
                     col = "#ff6b6b"
-                elif pz <= z_ref * 1.9:
+                elif pz <= z_ref * 1.6:
+                    col = "#34d399"
+                elif pz <= z_ref * 3.5:
                     col = "#4fd1c5"
-                elif pz <= z_ref * 4.5:
+                elif pz <= z_ref * 6.5:
                     col = "#63b3ed"
                 else:
                     col = "#b794f4"
@@ -752,17 +763,19 @@ def main():
                         d_val = st_arr[2]
                     else:
                         d_val = st_arr[1]
-                    uf = max(0.04, min(0.96, u0 + cdx * k_par))
-                    vf = max(0.04, min(0.96, v0 + cdy * k_par))
-                    rf = max(0.04, min(0.34, r0 * (0.92 + 0.16 * d_val)))
-                    d_track.append([round(uf, 3), round(vf, 3), round(rf, 3), round(d_val, 3)])
+                    # Do NOT clamp uf/vf tightly so relative strokes never shift or distort!
+                    uf = round(u0 + cdx * k_par, 4)
+                    vf = round(v0 + cdy * k_par, 4)
+                    rf = round(r0, 3)
+                    d_track.append([uf, vf, rf, round(d_val, 3)])
 
-                depth_worms.append({
+                dw_entry = {
                     "id": pid,
-                    "role": "near" if pz < z_ref else ("mid" if pz <= z_ref * 2.2 else "far"),
+                    "role": "near" if pz < z_ref else ("mid" if pz <= z_ref * 2.5 else "far"),
                     "z": round(pz, 2),
                     "k": k_par,
                     "label": plabel,
+                    "desc": desc_str,
                     "color": col,
                     "u0": u0,
                     "v0": v0,
@@ -771,47 +784,39 @@ def main():
                     "strokes0": strokes0,
                     "track": d_track,
                     "sub_worms": sub_w,
-                })
+                }
+                if scene_rings:
+                    dw_entry["scene_rings"] = scene_rings
+                depth_worms.append(dw_entry)
 
-        # Now extract Parsed Drawing Planes (integrated/shot.json source_strokes) AND Articulated Rig-Part Worms (rigs/<slug>_spec.json)
+        # Extract explicit multi-plane drawing partitions from integrated/shot.json (e.g. raccoon head/body/feet/tail, fan rotor/housing/hub/stand)
+        # Or if the shot has <= 3 scene planes, add up to 3 clean articulated rig-part layers from rigs/<slug>_spec.json
         if isinstance(cast_frames, list) and cast_frames and isinstance(cast_frames[0], list):
             part_defs = []
-            # 1. Check integrated/shot.json for explicit multi-plane drawing partitions (e.g. head, body, feet, tail, rotor, housing)
             if int_shot and isinstance(int_shot.get("planes"), list):
                 for ip in int_shot["planes"]:
                     if isinstance(ip, dict) and isinstance(ip.get("source_strokes"), list) and ip["source_strokes"]:
                         pid_raw = str(ip.get("id", "part"))
                         slices = [(int(si), 0, 9999) for si in ip["source_strokes"]]
-                        part_defs.append((f"part_{pid_raw}", f"Drawing Plane: {pid_raw.replace('-', ' ').title()}", slices))
+                        part_defs.append((f"part_{pid_raw}", pid_raw.replace("-", " ").title(), slices))
 
-            # 2. Otherwise use rigs/<slug>_spec.json articulated part groups + root chassis
-            if not part_defs and isinstance(rig_spec, dict) and isinstance(rig_spec.get("parts"), list) and rig_spec["parts"]:
+            if not part_defs and len(depth_worms) <= 3 and isinstance(rig_spec, dict) and isinstance(rig_spec.get("parts"), list) and rig_spec["parts"]:
                 grouped = {}
-                claimed_strokes = set()
                 for pt in rig_spec["parts"]:
                     if not isinstance(pt, dict) or "stroke" not in pt:
                         continue
                     si = int(pt["stroke"])
                     f_i = int(pt.get("from", 0))
                     t_i = int(pt.get("to", 9999))
-                    claimed_strokes.add(si)
                     aim_list = pt.get("aim") or [pt.get("joint", "part")]
                     g_key = "-".join(str(x) for x in aim_list)
                     grouped.setdefault(g_key, []).append((si, f_i, t_i))
-                # Add root strokes if unclaimed strokes remain
-                n_st0 = len(cast_frames[0])
-                unclaimed = [(si, 0, 9999) for si in range(n_st0) if si not in claimed_strokes]
-                raw_root = rig_spec.get("root") or "body"
-                root_name = "-".join(str(x) for x in raw_root) if isinstance(raw_root, list) else str(raw_root)
-                if unclaimed:
-                    part_defs.append((f"rig_{root_name}", f"Rig Root: {root_name.upper()}", unclaimed))
-                for g_key, sl_list in list(grouped.items())[:4]:
-                    part_defs.append((f"rig_{g_key}", f"Rig Part: {g_key.upper()}", sl_list))
+                for g_key, sl_list in list(grouped.items())[:3]:
+                    part_defs.append((f"part_{g_key}", f"Rig: {g_key.upper()}", sl_list))
 
             char_z = next((float(dw.get("z", 2.0)) for dw in depth_worms if dw.get("role") == "subject"), 2.0)
-            part_palette = ["#38bdf8", "#fb7185", "#a78bfa", "#34d399", "#fbbf24"]
-            for pt_idx, (pt_id, pt_label, sl_list) in enumerate(part_defs[:5]):
-                # Slice strokes at frame 0 for hull & relative strokes
+            part_palette = ["#38bdf8", "#fb7185", "#a78bfa", "#34d399"]
+            for pt_idx, (pt_id, pt_label, sl_list) in enumerate(part_defs[:4]):
                 st0_part = []
                 for si, f_i, t_i in sl_list:
                     if 0 <= si < len(cast_frames[0]):
@@ -821,9 +826,8 @@ def main():
                 if not st0_part:
                     continue
                 pu0, pv0, pr0, ppoly0, pstrokes0 = compute_strokes_hull_and_rel(
-                    st0_part, W, H, max_strokes=8, max_pts=7, hull_k=10, pad=0.015
+                    st0_part, W, H, max_strokes=14, max_pts=18, hull_k=12, pad=0.015
                 )
-                # Compute true per-frame trajectory [u(f), v(f), r(f), d(f)] across all frames
                 p_track = []
                 for fr in frames_series:
                     fi = min(fr["f"], len(cast_frames) - 1)
@@ -833,15 +837,15 @@ def main():
                         if 0 <= si < len(cf_f):
                             for pt in cf_f[si][f_i : t_i + 1]:
                                 if isinstance(pt, (list, tuple)) and len(pt) >= 2:
-                                    pts_u.append(max(0.02, min(0.98, float(pt[0]) / max(1, W))))
-                                    pts_v.append(max(0.02, min(0.98, float(pt[1]) / max(1, H))))
+                                    pts_u.append(float(pt[0]) / max(1, W))
+                                    pts_v.append(float(pt[1]) / max(1, H))
                     if pts_u and pts_v:
                         uf = sum(pts_u) / len(pts_u)
                         vf = sum(pts_v) / len(pts_v)
                         rf = max(0.035, min(0.28, 0.5 * math.hypot(max(pts_u) - min(pts_u), max(pts_v) - min(pts_v)) + 0.014))
                     else:
                         uf, vf, rf = pu0, pv0, pr0
-                    p_track.append([round(uf, 3), round(vf, 3), round(rf, 3), round(fr["d_subj"], 3)])
+                    p_track.append([round(uf, 4), round(vf, 4), round(rf, 3), round(fr["d_subj"], 3)])
 
                 z_off = (pt_idx - 0.5 * max(1, len(part_defs) - 1)) * 0.12
                 pz_part = round(max(0.4, char_z + z_off), 2)
@@ -851,6 +855,7 @@ def main():
                     "z": pz_part,
                     "k": round(z_ref / pz_part, 3),
                     "label": pt_label,
+                    "desc": f"Parsed Drawing Layer ({len(st0_part)} strokes)",
                     "color": part_palette[pt_idx % len(part_palette)],
                     "u0": pu0,
                     "v0": pv0,
@@ -861,7 +866,7 @@ def main():
                     "sub_worms": [],
                 })
 
-        # Re-sort depth_worms from Near (smallest z) -> Subject/Parts -> Far (largest z)
+        # Sort depth_worms from Near (smallest z) -> Subject/Parts -> Far (largest z)
         depth_worms.sort(key=lambda dw: (float(dw.get("z", 2.0)), 0 if dw.get("role") == "subject" else 1))
 
         # Video URLs & Provenance

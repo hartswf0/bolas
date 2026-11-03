@@ -920,38 +920,64 @@ def main():
   }}
   .shm-depth-bar {{
     display: flex;
-    align-items: center;
+    align-items: stretch;
     gap: 5px;
-    padding: 5px 10px;
-    background: #0b0e15;
+    padding: 5px 8px;
+    background: #0a0d14;
     border-bottom: 1px solid var(--border);
     overflow-x: auto;
     scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
   }}
   .shm-depth-bar::-webkit-scrollbar {{ display: none; }}
-  .shm-dpill {{
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    padding: 2px 8px;
-    border-radius: 999px;
-    font-size: 11px;
-    font-family: var(--mono);
-    background: var(--panel);
-    border: 1px solid var(--border);
+  .shm-lcard {{
+    flex: 0 0 106px;
+    background: #121723;
+    border: 1.5px solid #252f45;
+    border-radius: 6px;
+    padding: 3px 4px;
     cursor: pointer;
-    white-space: nowrap;
-    opacity: 0.45;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    opacity: 0.48;
+    transition: opacity 0.12s, border-color 0.12s;
   }}
-  .shm-dpill.on {{
+  .shm-lcard.active {{
     opacity: 1;
-    border-color: currentColor;
-    background: rgba(255, 255, 255, 0.06);
+    background: #171f30;
+  }}
+  .shm-lcard.solo {{
+    opacity: 1;
+    background: rgba(242, 188, 87, 0.14);
+    box-shadow: 0 0 0 1px var(--gold);
+  }}
+  .shm-lcard-h {{
+    font-family: var(--mono);
+    font-size: 9.5px;
     font-weight: 700;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }}
+  .shm-lcard canvas {{
+    width: 100%;
+    height: 30px;
+    display: block;
+    background: #06080e;
+    border-radius: 3px;
+    border: 1px solid rgba(255,255,255,0.07);
+  }}
+  .shm-lcard-sub {{
+    font-size: 9px;
+    color: var(--muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }}
   .shm-worm-dual {{
     display: grid;
-    grid-template-columns: 1.28fr 0.72fr;
+    grid-template-columns: 1.24fr 0.76fr;
     background: #040609;
   }}
   .shm-pane {{
@@ -962,7 +988,7 @@ def main():
   }}
   .shm-pane:last-child {{ border-right: none; }}
   @media (max-width: 768px) {{
-    .shm-pane {{ height: 185px; }}
+    .shm-pane {{ height: 186px; }}
   }}
   .shm-swipe-strip {{
     display: flex;
@@ -1041,7 +1067,7 @@ def main():
 <main class="container">
 
   <!-- ====================================================================== -->
-  <!-- COMPACT MOBILE-FIRST MULTI-DEPTH WORM STUDIO (108 SHOTS · 375 DEPTHS)  -->
+  <!-- COMPACT MOBILE-FIRST MULTI-DEPTH WORM STUDIO (108 SHOTS · 424 LAYERS)  -->
   <!-- ====================================================================== -->
   <section class="shm-worm-hero" id="shmWormHero">
     <!-- Row 1: Compact Shot Selector + View Switcher -->
@@ -1053,25 +1079,23 @@ def main():
         <button class="btn" id="shmNextBtn" style="padding:4px 8px;">▶</button>
       </div>
       <div style="display:flex;gap:4px;align-items:center;overflow-x:auto;" id="shmModeBar">
-        <button class="guide-pill active" data-wmode="orbit3d">3D Depth Worms</button>
-        <button class="guide-pill" data-wmode="lanes">Depth Lanes (Z×τ)</button>
-        <button class="guide-pill active" id="shmSubToggle">Sub-Worms</button>
+        <button class="guide-pill active" data-wmode="orbit3d" title="3D Spatiotemporal Cutout Worm">Cutout Worm</button>
+        <button class="guide-pill" data-wmode="box3d" title="3D Multiplane Cel Stack (like giraffe-walks-past)">3D Planes</button>
+        <button class="guide-pill" data-wmode="lanes" title="Horizontal Multiplane Swimlanes">Z×τ</button>
         <a class="guide-pill" id="shmCaseLink" href="https://hartswf0.github.io/secondhand-motion/pages/giraffe-walks-past.html" target="_blank">Shot ↗</a>
       </div>
     </div>
 
-    <!-- Row 2: Multi-Depth Stratum Pills (Tap any depth to solo / toggle) -->
-    <div class="shm-depth-bar" id="shmDepthBar">
-      <span style="font-size:10px;font-family:var(--mono);color:var(--muted);white-space:nowrap;">DEPTH WORMS:</span>
-    </div>
+    <!-- Row 2: Live Visual Depth Layer Cards (Shows what is in each depth layer — tap any card to SOLO it!) -->
+    <div class="shm-depth-bar" id="shmDepthBar"></div>
 
-    <!-- Synchronized Compact Dual Stage (3D Multi-Depth Worms + 2D Video) -->
+    <!-- Synchronized Compact Dual Stage (3D Cutout Worm / 3D Planes + Unobstructed 2D Cutout Stage) -->
     <div class="shm-worm-dual">
       <div class="shm-pane p3d">
         <canvas id="shmPrism3d" width="740" height="420" style="width:100%;height:100%;display:block;cursor:grab;touch-action:none;"></canvas>
-        <span style="position:absolute;top:5px;left:6px;background:rgba(9,11,16,0.82);padding:2px 6px;border-radius:4px;font:500 10px var(--mono);color:var(--muted);pointer-events:none;">3D Mask-Video Worms · Drag / Tap</span>
+        <span id="shmHud3d" style="position:absolute;top:5px;left:6px;background:rgba(9,11,16,0.86);padding:2px 6px;border-radius:4px;font:500 10px var(--mono);color:var(--fg);pointer-events:none;">3D Cutout Worm · Tap any Layer Card above to solo</span>
         <div style="position:absolute;top:5px;right:6px;display:flex;gap:3px;">
-          <button class="guide-pill active" id="shmMaskVidBtn" style="padding:2px 6px;font-size:10px;">MaskVid</button>
+          <button class="guide-pill active" id="shmMaskVidBtn" style="padding:2px 6px;font-size:10px;">Video Cutouts</button>
           <button class="guide-pill" id="shmResetCam" style="padding:2px 6px;font-size:10px;">Reset</button>
         </div>
       </div>
@@ -1079,12 +1103,12 @@ def main():
         <video id="shmVideo" playsinline muted loop preload="auto" style="display:none;"></video>
         <img id="shmFallbackImg" style="display:none;" alt="Keyframe strip">
         <canvas id="shmOverlay2d" width="600" height="380" style="width:100%;height:100%;display:block;"></canvas>
-        <span id="shmHud2d" style="position:absolute;top:5px;left:6px;background:rgba(9,11,16,0.84);padding:2px 6px;border-radius:4px;font:500 10px var(--mono);color:var(--muted);pointer-events:none;">Footage Cutouts + Rig</span>
+        <span id="shmHud2d" style="position:absolute;top:5px;left:6px;background:rgba(9,11,16,0.86);padding:2px 6px;border-radius:4px;font:500 10px var(--mono);color:var(--fg);pointer-events:none;">SAM Video Cutout</span>
         <div style="position:absolute;top:5px;right:6px;display:flex;gap:3px;" id="shmSourceBar">
           <button class="guide-pill active" data-src="cutout" style="padding:2px 6px;font-size:10px;">Cutout</button>
-          <button class="guide-pill" data-src="pop" style="padding:2px 6px;font-size:10px;">Pop</button>
-          <button class="guide-pill" data-src="iso" style="padding:2px 6px;font-size:10px;">Iso</button>
-          <button class="guide-pill" data-src="src" style="padding:2px 6px;font-size:10px;">Full</button>
+          <button class="guide-pill" data-src="scene" style="padding:2px 6px;font-size:10px;">Cutout+Planes</button>
+          <button class="guide-pill" data-src="cel" style="padding:2px 6px;font-size:10px;">Cel Sheet</button>
+          <button class="guide-pill" data-src="src" style="padding:2px 6px;font-size:10px;">Raw</button>
         </div>
       </div>
     </div>
@@ -1094,7 +1118,7 @@ def main():
       <button class="btn" id="shmStepPrev" style="padding:3px 7px;">-1f</button>
       <input type="range" id="shmSlider" min="0" max="32" value="0" step="1" style="flex:1;min-width:110px;accent-color:var(--gold);height:5px;">
       <button class="btn" id="shmStepNext" style="padding:3px 7px;">+1f</button>
-      <span class="time-readout" id="shmSummaryText" style="min-width:auto;font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Loading 108 Multi-Depth Worms...</span>
+      <span class="time-readout" id="shmSummaryText" style="min-width:auto;font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Loading 108 Multiplane Cutout Worms...</span>
     </div>
 
     <!-- Row 4: Built-in Horizontal Touch-Swipe Strip of All 108 Multi-Depth Worms -->
@@ -1816,7 +1840,7 @@ const startIdx = FILMS.findIndex(f => f.id === "shape-114");
 loadFilmByIndex(startIdx !== -1 ? startIdx : 0, 0, false);
 
 /* ========================================================================== */
-/* COMPACT MOBILE-FIRST MULTI-DEPTH WORM STUDIO ENGINE (108 SHOTS · 375 DEPTHS)*/
+/* COMPACT MOBILE-FIRST MULTI-DEPTH WORM STUDIO ENGINE (108 SHOTS · 424 LAYERS)*/
 /* ========================================================================== */
 (function initShmWormStudio() {{
   let worms = [];
@@ -1824,18 +1848,16 @@ loadFilmByIndex(startIdx !== -1 ? startIdx : 0, 0, false);
   let curFrame = 0;
   let curSrcMode = "cutout";
   let wMode = "orbit3d";
-  let showSub = true;
   let showMaskVid = true;
   let isPlaying = false;
   let lastTick = 0;
-  let activeDepths = new Set();
-  let yaw = -0.58, pitch = 0.34;
+  let soloLayerId = null;
+  let yaw = -0.48, pitch = 0.24;
   let dragging = false, dragX = 0, dragY = 0, moved = false;
   let hitNodes = [];
   const frameCache = {{}};
 
   const shmVideo = document.getElementById("shmVideo");
-  const shmFallbackImg = document.getElementById("shmFallbackImg");
   const shmOverlay2d = document.getElementById("shmOverlay2d");
   const ctx2d = shmOverlay2d.getContext("2d");
   const shmPrism3d = document.getElementById("shmPrism3d");
@@ -1858,7 +1880,12 @@ loadFilmByIndex(startIdx !== -1 ? startIdx : 0, 0, false);
     const bag = frameCache[w.slug];
     if (bag[fi]) return (bag[fi].complete && bag[fi].naturalWidth > 0) ? bag[fi] : null;
     const im = new Image();
-    im.onload = () => {{ if (worms[curWormIdx] && worms[curWormIdx].slug === w.slug) drawShmAll(); }};
+    im.onload = () => {{
+      if (worms[curWormIdx] && worms[curWormIdx].slug === w.slug) {{
+        drawLayerCardThumbs(w, curFrame);
+        drawShmAll();
+      }}
+    }};
     im.src = `${{fDir}}/f${{String(fi).padStart(3, "0")}}.jpg`;
     bag[fi] = im;
     return null;
@@ -1894,22 +1921,15 @@ loadFilmByIndex(startIdx !== -1 ? startIdx : 0, 0, false);
     if (dw.role === "subject" && fr && fr.ring && fr.ring.length >= 3) {{
       return fr.ring;
     }}
+    if (dw.scene_rings && dw.scene_rings.length && dw.scene_rings[0].length >= 3) {{
+      const dx = pt ? (pt[0] - (dw.u0 || 0.5)) : 0;
+      const dy = pt ? (pt[1] - (dw.v0 || 0.5)) : 0;
+      return dw.scene_rings[0].map(uv => [uv[0] + dx, uv[1] + dy]);
+    }}
     if (dw.poly0 && dw.poly0.length >= 3 && pt) {{
-      return dw.poly0.map(duv => [
-        Math.max(0.01, Math.min(0.99, pt[0] + duv[0])),
-        Math.max(0.01, Math.min(0.99, pt[1] + duv[1]))
-      ]);
+      return dw.poly0.map(duv => [pt[0] + duv[0], pt[1] + duv[1]]);
     }}
-    const u = pt ? pt[0] : 0.5, v = pt ? pt[1] : 0.5, r = pt ? pt[2] : 0.1;
-    const out = [];
-    for (let i = 0; i < 12; i++) {{
-      const a = (i / 12) * Math.PI * 2;
-      out.push([
-        Math.max(0.01, Math.min(0.99, u + Math.cos(a) * r * 0.85)),
-        Math.max(0.01, Math.min(0.99, v + Math.sin(a) * r * 0.65))
-      ]);
-    }}
-    return out;
+    return [];
   }}
 
   function getPlaneStrokesUV(dw, fr, pt) {{
@@ -1917,28 +1937,172 @@ loadFilmByIndex(startIdx !== -1 ? startIdx : 0, 0, false);
       return fr.doodle;
     }}
     if (dw.strokes0 && dw.strokes0.length && pt) {{
-      return dw.strokes0.map(st => st.map(duv => [
-        Math.max(0.01, Math.min(0.99, pt[0] + duv[0])),
-        Math.max(0.01, Math.min(0.99, pt[1] + duv[1]))
-      ]));
+      return dw.strokes0.map(st => st.map(duv => [pt[0] + duv[0], pt[1] + duv[1]]));
     }}
     return [];
   }}
 
-  function drawMediaIn3DMask(media, poly, tau, zNorm, W, H, alpha) {{
+  function isLayerActive(id) {{
+    return soloLayerId === null || soloLayerId === id;
+  }}
+
+  function renderDepthPills(w) {{
+    const bar = document.getElementById("shmDepthBar");
+    if (!bar) return;
+    const dws = w.depth_worms || [];
+    bar.innerHTML = "";
+
+    const allCard = document.createElement("div");
+    allCard.className = "shm-lcard" + (soloLayerId === null ? " solo" : " active");
+    allCard.style.flex = "0 0 74px";
+    allCard.style.justifyContent = "center";
+    allCard.style.alignItems = "center";
+    allCard.innerHTML = `
+      <div style="font:700 10px var(--mono);color:var(--gold);">ALL ${{dws.length}}</div>
+      <div style="font:600 9px -apple-system,sans-serif;color:var(--fg);">Layers</div>
+      <div style="font:500 8px var(--mono);color:var(--muted);">Reset</div>
+    `;
+    allCard.onclick = () => {{ soloLayerId = null; renderDepthPills(w); drawShmAll(); }};
+    bar.appendChild(allCard);
+
+    dws.forEach((dw, idx) => {{
+      const isSolo = (soloLayerId === dw.id);
+      const isOn = isLayerActive(dw.id);
+      const card = document.createElement("div");
+      card.className = "shm-lcard" + (isSolo ? " solo" : (isOn ? " active" : ""));
+      card.style.borderColor = isSolo ? "#f2bc57" : (isOn ? (dw.color + "88") : "#252f45");
+      const shortLbl = dw.label.replace("Drawing Plane: ","").replace("Rig: ","").slice(0, 11);
+      card.innerHTML = `
+        <div class="shm-lcard-h" style="color:${{dw.color}}">z=${{dw.z}} ${{shortLbl}}</div>
+        <canvas width="98" height="30" data-dwidx="${{idx}}"></canvas>
+        <div class="shm-lcard-sub" title="${{dw.desc || dw.label}}">${{dw.desc || dw.label}}</div>
+      `;
+      card.onclick = () => {{
+        soloLayerId = (soloLayerId === dw.id) ? null : dw.id;
+        renderDepthPills(w);
+        drawShmAll();
+      }};
+      bar.appendChild(card);
+    }});
+
+    drawLayerCardThumbs(w, curFrame);
+  }}
+
+  function drawLayerCardThumbs(w, fIdx) {{
+    const bar = document.getElementById("shmDepthBar");
+    if (!bar || !w) return;
+    const frames = w.frames || [];
+    const fr = frames[Math.min(frames.length - 1, fIdx)] || frames[0] || {{}};
+    const media = getMediaForFrame(w, fIdx);
+    const dws = w.depth_worms || [];
+
+    bar.querySelectorAll("canvas[data-dwidx]").forEach(cv => {{
+      const idx = parseInt(cv.dataset.dwidx, 10);
+      const dw = dws[idx];
+      if (!dw) return;
+      const g = cv.getContext("2d");
+      const cw = cv.width, ch = cv.height;
+      g.clearRect(0, 0, cw, ch);
+      g.fillStyle = "#06080e";
+      g.fillRect(0, 0, cw, ch);
+
+      const trk = dw.track || [];
+      const pt = trk[Math.min(trk.length - 1, fIdx)] || [dw.u0 || 0.5, dw.v0 || 0.5, dw.r0 || 0.15];
+      const col = dw.color || "#00f5d4";
+
+      if (dw.role === "subject" && fr.ring && fr.ring.length >= 3) {{
+        let u0 = 1, v0 = 1, u1 = 0, v1 = 0;
+        fr.ring.forEach(([u, v]) => {{
+          if (u < u0) u0 = u; if (u > u1) u1 = u;
+          if (v < v0) v0 = v; if (v > v1) v1 = v;
+        }});
+        const pad = 0.05;
+        u0 = Math.max(0, u0 - pad); v0 = Math.max(0, v0 - pad);
+        u1 = Math.min(1, u1 + pad); v1 = Math.min(1, v1 + pad);
+        const su = Math.max(0.12, u1 - u0), sv = Math.max(0.12, v1 - v0);
+        const mapX = u => ((u - u0) / su) * (cw - 8) + 4;
+        const mapY = v => ((v - v0) / sv) * (ch - 4) + 2;
+
+        if (media) {{
+          const mw = media.videoWidth || media.naturalWidth || 384;
+          const mh = media.videoHeight || media.naturalHeight || 288;
+          g.save();
+          g.beginPath();
+          fr.ring.forEach(([u, v], i) => {{
+            if (i === 0) g.moveTo(mapX(u), mapY(v)); else g.lineTo(mapX(u), mapY(v));
+          }});
+          g.closePath();
+          g.clip();
+          try {{
+            g.drawImage(media, u0 * mw, v0 * mh, su * mw, sv * mh, 4, 2, cw - 8, ch - 4);
+          }} catch(e) {{}}
+          g.restore();
+        }}
+        g.strokeStyle = col;
+        g.lineWidth = 1.6;
+        g.beginPath();
+        fr.ring.forEach(([u, v], i) => {{
+          if (i === 0) g.moveTo(mapX(u), mapY(v)); else g.lineTo(mapX(u), mapY(v));
+        }});
+        g.closePath();
+        g.stroke();
+        return;
+      }}
+
+      const strokesUV = getPlaneStrokesUV(dw, fr, pt);
+      if (strokesUV.length) {{
+        let u0 = 1e9, v0 = 1e9, u1 = -1e9, v1 = -1e9;
+        strokesUV.forEach(st => st.forEach(([u, v]) => {{
+          if (u < u0) u0 = u; if (u > u1) u1 = u;
+          if (v < v0) v0 = v; if (v > v1) v1 = v;
+        }}));
+        const su = Math.max(0.08, u1 - u0), sv = Math.max(0.08, v1 - v0);
+        const sc = Math.min((cw - 10) / su, (ch - 6) / sv);
+        const cx = 0.5 * (u0 + u1), cy = 0.5 * (v0 + v1);
+        g.strokeStyle = col;
+        g.lineWidth = 1.5;
+        g.lineCap = "round";
+        g.lineJoin = "round";
+        strokesUV.forEach(st => {{
+          if (st.length < 2) return;
+          g.beginPath();
+          st.forEach(([u, v], i) => {{
+            const x = cw * 0.5 + (u - cx) * sc;
+            const y = ch * 0.5 + (v - cy) * sc;
+            if (i === 0) g.moveTo(x, y); else g.lineTo(x, y);
+          }});
+          g.stroke();
+        }});
+      }}
+    }});
+  }}
+
+  function proj3d(u, v, tau, zOff, W, H) {{
+    const x = u - 0.5;
+    const y = (0.5 - v) + zOff;
+    const z = (tau - 0.5) * 1.55;
+    const cy = Math.cos(yaw), sy = Math.sin(yaw);
+    const cp = Math.cos(pitch), sp = Math.sin(pitch);
+    const x1 = x * cy + z * sy, z1 = -x * sy + z * cy;
+    const y2 = y * cp - z1 * sp, z2 = y * sp + z1 * cp;
+    const sc = (Math.min(W, H) * 0.88) / Math.max(0.55, 2.20 - z2 * 0.5);
+    return {{ sx: W * 0.50 + x1 * sc, sy: H * 0.52 - y2 * sc, sc }};
+  }}
+
+  function drawMediaIn3DMask(media, poly, tau, zOff, W, H, alpha) {{
     if (!media || !poly || poly.length < 3) return false;
     const mw = media.videoWidth || media.naturalWidth || 0;
     const mh = media.videoHeight || media.naturalHeight || 0;
     if (!mw || !mh) return false;
 
-    const p00 = proj3d(0, 0, tau, zNorm, W, H);
-    const p10 = proj3d(1, 0, tau, zNorm, W, H);
-    const p01 = proj3d(0, 1, tau, zNorm, W, H);
+    const p00 = proj3d(0, 0, tau, zOff, W, H);
+    const p10 = proj3d(1, 0, tau, zOff, W, H);
+    const p01 = proj3d(0, 1, tau, zOff, W, H);
 
     ctx3d.save();
     ctx3d.beginPath();
     poly.forEach((uv, idx) => {{
-      const p = proj3d(uv[0], uv[1], tau, zNorm, W, H);
+      const p = proj3d(uv[0], uv[1], tau, zOff, W, H);
       if (idx === 0) ctx3d.moveTo(p.sx, p.sy); else ctx3d.lineTo(p.sx, p.sy);
     }});
     ctx3d.closePath();
@@ -1954,49 +2118,6 @@ loadFilmByIndex(startIdx !== -1 ? startIdx : 0, 0, false);
     return true;
   }}
 
-  function proj3d(u, v, tau, zNorm, W, H) {{
-    const x = u - 0.5;
-    const y = (0.5 - v) + (zNorm - 0.35) * 0.28;
-    const z = (tau - 0.5) * 1.55;
-    const cy = Math.cos(yaw), sy = Math.sin(yaw);
-    const cp = Math.cos(pitch), sp = Math.sin(pitch);
-    const x1 = x * cy + z * sy, z1 = -x * sy + z * cy;
-    const y2 = y * cp - z1 * sp, z2 = y * sp + z1 * cp;
-    const sc = (Math.min(W, H) * 0.78) / Math.max(0.55, 2.35 - z2 * 0.5);
-    return {{ sx: W * 0.50 + x1 * sc, sy: H * 0.52 - y2 * sc, sc }};
-  }}
-
-  function isDepthOn(id) {{
-    return activeDepths.size === 0 || activeDepths.has(id);
-  }}
-
-  function renderDepthPills(w) {{
-    const bar = document.getElementById("shmDepthBar");
-    if (!bar) return;
-    const dws = w.depth_worms || [];
-    bar.innerHTML = `<span style="font-size:10px;font-family:var(--mono);color:var(--muted);white-space:nowrap;">DEPTHS (${{dws.length}}):</span>`;
-    const allB = document.createElement("button");
-    allB.className = "shm-dpill" + (activeDepths.size === 0 ? " on" : "");
-    allB.style.color = "#f1f3f9";
-    allB.textContent = `All (${{dws.length}})`;
-    allB.onclick = () => {{ activeDepths.clear(); renderDepthPills(w); drawShmAll(); }};
-    bar.appendChild(allB);
-
-    dws.forEach(dw => {{
-      const b = document.createElement("button");
-      b.className = "shm-dpill" + (isDepthOn(dw.id) ? " on" : "");
-      b.style.color = dw.color || "#4fd1c5";
-      b.innerHTML = `<span style="width:6px;height:6px;border-radius:50%;background:${{dw.color}};display:inline-block;"></span>z=${{dw.z}} ${{dw.label}}`;
-      b.onclick = () => {{
-        if (activeDepths.size === 1 && activeDepths.has(dw.id)) activeDepths.clear();
-        else {{ activeDepths.clear(); activeDepths.add(dw.id); }}
-        renderDepthPills(w);
-        drawShmAll();
-      }};
-      bar.appendChild(b);
-    }});
-  }}
-
   function draw3dWormPrism(w, fIdx) {{
     const W = shmPrism3d.width, H = shmPrism3d.height;
     ctx3d.clearRect(0, 0, W, H);
@@ -2006,29 +2127,46 @@ loadFilmByIndex(startIdx !== -1 ? startIdx : 0, 0, false);
     const dws = w.depth_worms || [];
     hitNodes = [];
 
+    const hud3d = document.getElementById("shmHud3d");
+    if (hud3d) {{
+      if (soloLayerId) {{
+        const sdw = dws.find(d => d.id === soloLayerId);
+        hud3d.textContent = sdw ? `SOLO LAYER: z=${{sdw.z}} ${{sdw.label}} (${{sdw.desc || ""}})` : "3D Cutout Worm";
+      }} else {{
+        hud3d.textContent = wMode === "box3d"
+          ? "3D Multiplane Cel Stack (Drag to turn · Tap Layer Card to solo)"
+          : (wMode === "lanes" ? "Z×τ Multiplane Swimlanes" : "3D Cutout Worm · Tap any Layer Card above to solo");
+      }}
+    }}
+
     if (wMode === "lanes") {{
-      const padL = 110, padR = 20, padT = 24, padB = 24;
+      const padL = 116, padR = 16, padT = 22, padB = 18;
       const plotW = W - padL - padR, plotH = H - padT - padB;
       const nL = Math.max(1, dws.length);
       const curX = padL + (fIdx / Math.max(1, nf - 1)) * plotW;
-      ctx3d.strokeStyle = "rgba(242,188,87,0.55)"; ctx3d.lineWidth = 1.5;
-      ctx3d.beginPath(); ctx3d.moveTo(curX, padT - 6); ctx3d.lineTo(curX, H - padB + 6); ctx3d.stroke();
+      ctx3d.strokeStyle = "rgba(242,188,87,0.75)"; ctx3d.lineWidth = 2;
+      ctx3d.beginPath(); ctx3d.moveTo(curX, padT - 4); ctx3d.lineTo(curX, H - padB + 4); ctx3d.stroke();
 
-      dws.forEach((dw, dIdx) => {{
-        const on = isDepthOn(dw.id);
+      [...dws].reverse().forEach((dw, dIdx) => {{
+        const on = isLayerActive(dw.id);
         const ly0 = padT + (dIdx + 0.5) * (plotH / nL);
-        const lh = (plotH / nL) * 0.72;
-        const col = dw.color || "#4fd1c5";
+        const lh = (plotH / nL) * 0.78;
+        const col = dw.color || "#00f5d4";
+        ctx3d.fillStyle = on ? "rgba(255,255,255,0.03)" : "rgba(0,0,0,0.2)";
+        ctx3d.fillRect(padL, ly0 - lh * 0.5, plotW, lh);
         ctx3d.fillStyle = on ? col : "rgba(139,149,171,0.4)";
         ctx3d.font = "bold 10px ui-monospace, SFMono-Regular, Menlo, monospace";
-        ctx3d.fillText(`z=${{dw.z}} ${{dw.label.slice(0, 11)}}`, 8, ly0 + 3);
+        ctx3d.fillText(`z=${{dw.z}} ${{dw.label.slice(0, 10)}}`, 6, ly0 - 2);
+        ctx3d.fillStyle = "rgba(142,153,176,0.75)";
+        ctx3d.font = "9px sans-serif";
+        ctx3d.fillText((dw.desc || "").slice(0, 16), 6, ly0 + 9);
         if (!on) return;
         const trk = dw.track || [];
-        ctx3d.strokeStyle = col; ctx3d.lineWidth = dw.role === "subject" ? 2.6 : 1.7;
+        ctx3d.strokeStyle = col; ctx3d.lineWidth = dw.role === "subject" ? 3.0 : 2.0;
         ctx3d.beginPath();
         trk.forEach((pt, fi) => {{
           const tx = padL + (fi / Math.max(1, nf - 1)) * plotW;
-          const ty = ly0 + (pt[0] - 0.5) * lh * 0.92;
+          const ty = ly0 + (pt[0] - 0.5) * lh;
           if (dw.role === "subject") hitNodes.push({{ fi, sx: tx, sy: ty }});
           if (fi === 0) ctx3d.moveTo(tx, ty); else ctx3d.lineTo(tx, ty);
         }});
@@ -2037,95 +2175,214 @@ loadFilmByIndex(startIdx !== -1 ? startIdx : 0, 0, false);
       return;
     }}
 
-    const box = [[0,0,0],[1,0,0],[1,1,0],[0,1,0],[0,0,1],[1,0,1],[1,1,1],[0,1,1]].map(c => proj3d(c[0],c[1],c[2],0.35,W,H));
-    [[0,1],[1,2],[2,3],[3,0],[4,5],[5,6],[6,7],[7,4],[0,4],[1,5],[2,6],[3,7]].forEach(([a,b]) => {{
-      ctx3d.beginPath(); ctx3d.moveTo(box[a].sx, box[a].sy); ctx3d.lineTo(box[b].sx, box[b].sy);
-      ctx3d.strokeStyle = "rgba(139,149,171,0.22)"; ctx3d.lineWidth = 1; ctx3d.stroke();
-    }});
+    if (wMode === "box3d") {{
+      const nPlanes = Math.max(1, dws.length);
+      const sc = Math.min(W, H) * 0.62;
+      const cy = Math.cos(yaw), sy = Math.sin(yaw);
+      const tilt = 0.34;
+      const PBox = (u, v, rankIdx) => {{
+        const X = (u - 0.5);
+        const Zd = (rankIdx / Math.max(1, nPlanes - 1) - 0.5) * 1.15;
+        const rx = X * cy - Zd * sy;
+        const rz = X * sy + Zd * cy;
+        return {{
+          sx: W * 0.50 + rx * sc,
+          sy: H * 0.54 + (v - 0.5) * sc * 0.75 - rz * sc * tilt,
+          depth: rz
+        }};
+      }};
 
-    [...dws].reverse().forEach(dw => {{
-      if (!isDepthOn(dw.id)) return;
-      const col = dw.color || "#4fd1c5";
-      const trk = dw.track || [];
-      const zNorm = Math.min(1.0, Math.log(Math.max(0.8, dw.z || 2.0)) / Math.log(12.0));
-      const isSubj = dw.role === "subject";
-      const isPart = dw.role === "part";
-      const step = Math.max(1, Math.floor(nf / (isSubj ? 10 : 6)));
+      const ordered = dws.map((dw, idx) => ({{ dw, idx, d: PBox(0.5, 0.5, idx).depth }}))
+                         .sort((a, b) => a.d - b.d);
 
-      trk.forEach((pt, fi) => {{
-        const isKey = (w.keys || []).includes(fi);
-        const isCur = (fi === fIdx);
-        if (!isCur && fi % step !== 0 && !(isSubj && isKey)) return;
-        const fr = frames[Math.min(nf - 1, fi)];
-        const tau = fi / Math.max(1, nf - 1);
+      ordered.forEach(({{ dw, idx }}) => {{
+        if (!isLayerActive(dw.id)) return;
+        const corners = [PBox(0, 0, idx), PBox(1, 0, idx), PBox(1, 1, idx), PBox(0, 1, idx)];
+        ctx3d.beginPath();
+        corners.forEach((c, i) => {{ if (i === 0) ctx3d.moveTo(c.sx, c.sy); else ctx3d.lineTo(c.sx, c.sy); }});
+        ctx3d.closePath();
+        ctx3d.fillStyle = "rgba(18, 24, 38, 0.42)";
+        ctx3d.fill();
+        ctx3d.strokeStyle = dw.color || "#00f5d4";
+        ctx3d.lineWidth = (soloLayerId === dw.id || dw.role === "subject") ? 2.2 : 1.1;
+        ctx3d.stroke();
+      }});
+
+      const fr = frames[Math.min(nf - 1, fIdx)];
+      const media = getMediaForFrame(w, fIdx);
+
+      ordered.forEach(({{ dw, idx }}) => {{
+        if (!isLayerActive(dw.id)) return;
+        const col = dw.color || "#00f5d4";
+        const trk = dw.track || [];
+        const pt = trk[Math.min(trk.length - 1, fIdx)] || [dw.u0 || 0.5, dw.v0 || 0.5, dw.r0 || 0.12];
+
         const polyUV = getPlanePolyUV(dw, fr, pt);
-        if (!polyUV || polyUV.length < 3) return;
+        if (showMaskVid && media && (dw.role === "subject" || dw.scene_rings || soloLayerId === dw.id) && polyUV.length >= 3) {{
+          const mw = media.videoWidth || media.naturalWidth || 0;
+          const mh = media.videoHeight || media.naturalHeight || 0;
+          if (mw && mh) {{
+            const p00 = PBox(0, 0, idx), p10 = PBox(1, 0, idx), p01 = PBox(0, 1, idx);
+            ctx3d.save();
+            ctx3d.beginPath();
+            polyUV.forEach((uv, i) => {{
+              const p = PBox(uv[0], uv[1], idx);
+              if (i === 0) ctx3d.moveTo(p.sx, p.sy); else ctx3d.lineTo(p.sx, p.sy);
+            }});
+            ctx3d.closePath();
+            ctx3d.clip();
+            ctx3d.transform(
+              (p10.sx - p00.sx) / mw, (p10.sy - p00.sy) / mw,
+              (p01.sx - p00.sx) / mh, (p01.sy - p00.sy) / mh,
+              p00.sx, p00.sy
+            );
+            try {{ ctx3d.drawImage(media, 0, 0, mw, mh); }} catch(e) {{}}
+            ctx3d.restore();
 
-        let drewVid = false;
-        if (showMaskVid && (isCur || (isSubj && isKey) || (activeDepths.size === 1 && isKey))) {{
-          const media = getMediaForFrame(w, fi);
-          if (media) {{
-            drewVid = drawMediaIn3DMask(media, polyUV, tau, zNorm, W, H, isCur ? 0.96 : 0.52);
+            ctx3d.beginPath();
+            polyUV.forEach((uv, i) => {{
+              const p = PBox(uv[0], uv[1], idx);
+              if (i === 0) ctx3d.moveTo(p.sx, p.sy); else ctx3d.lineTo(p.sx, p.sy);
+            }});
+            ctx3d.closePath();
+            ctx3d.strokeStyle = "#ffffff";
+            ctx3d.lineWidth = 2.0;
+            ctx3d.stroke();
           }}
         }}
 
-        ctx3d.beginPath();
-        polyUV.forEach((uv, j) => {{
-          const p = proj3d(uv[0], uv[1], tau, zNorm, W, H);
-          if (j === 0) ctx3d.moveTo(p.sx, p.sy); else ctx3d.lineTo(p.sx, p.sy);
-        }});
-        ctx3d.closePath();
-        if (!drewVid) {{
-          ctx3d.fillStyle = isCur ? (col + "50") : (col + "18");
-          ctx3d.fill();
+        const strokesUV = getPlaneStrokesUV(dw, fr, pt);
+        if (strokesUV.length) {{
+          ctx3d.strokeStyle = dw.role === "subject" ? "#ffffff" : col;
+          ctx3d.lineWidth = dw.role === "subject" ? 2.2 : 1.7;
+          ctx3d.lineCap = "round";
+          ctx3d.lineJoin = "round";
+          strokesUV.forEach(st => {{
+            if (st.length < 2) return;
+            ctx3d.beginPath();
+            st.forEach((uv, i) => {{
+              const p = PBox(uv[0], uv[1], idx);
+              if (i === 0) ctx3d.moveTo(p.sx, p.sy); else ctx3d.lineTo(p.sx, p.sy);
+            }});
+            ctx3d.stroke();
+          }});
         }}
-        ctx3d.strokeStyle = isCur ? "#ffffff" : col;
-        ctx3d.lineWidth = isCur ? 2.4 : (isSubj ? 1.4 : 1.1);
-        ctx3d.stroke();
 
-        if (isCur || fi === 0 || (isPart && isKey)) {{
+        const topL = PBox(0, 0, idx);
+        ctx3d.fillStyle = col;
+        ctx3d.font = "bold 10.5px monospace";
+        ctx3d.fillText(`z=${{dw.z}} ${{dw.label}} (${{dw.desc || ""}})`, topL.sx + 4, topL.sy - 5);
+      }});
+      return;
+    }}
+
+    const box = [[0,0,0],[1,0,0],[1,1,0],[0,1,0],[0,0,1],[1,0,1],[1,1,1],[0,1,1]].map(c => proj3d(c[0],c[1],c[2],0,W,H));
+    [[0,1],[1,2],[2,3],[3,0],[4,5],[5,6],[6,7],[7,4],[0,4],[1,5],[2,6],[3,7]].forEach(([a,b]) => {{
+      ctx3d.beginPath(); ctx3d.moveTo(box[a].sx, box[a].sy); ctx3d.lineTo(box[b].sx, box[b].sy);
+      ctx3d.strokeStyle = "rgba(139,149,171,0.16)"; ctx3d.lineWidth = 1; ctx3d.stroke();
+    }});
+
+    const nL = Math.max(1, dws.length);
+    [...dws].reverse().forEach((dw, revIdx) => {{
+      const origIdx = nL - 1 - revIdx;
+      if (!isLayerActive(dw.id)) return;
+      const col = dw.color || "#00f5d4";
+      const trk = dw.track || [];
+      const isSubj = (dw.role === "subject");
+      const isSolo = (soloLayerId === dw.id);
+      const zOff = isSolo ? 0.0 : (isSubj ? 0.0 : ((origIdx / Math.max(1, nL - 1)) - 0.45) * 0.52);
+
+      if (isSubj || isSolo) {{
+        const sliceIndices = [];
+        const step = Math.max(1, Math.floor((nf - 1) / 5));
+        for (let s = 0; s < nf; s += step) sliceIndices.push(s);
+        if (!sliceIndices.includes(nf - 1)) sliceIndices.push(nf - 1);
+        if (!sliceIndices.includes(fIdx)) sliceIndices.push(fIdx);
+        sliceIndices.sort((a, b) => a - b);
+
+        sliceIndices.forEach(fi => {{
+          const isCur = (fi === fIdx);
+          const fr = frames[Math.min(nf - 1, fi)];
+          const pt = trk[Math.min(trk.length - 1, fi)];
+          const tau = fi / Math.max(1, nf - 1);
+          const polyUV = getPlanePolyUV(dw, fr, pt);
+
+          let drewVid = false;
+          if (showMaskVid && polyUV.length >= 3 && (isSubj || dw.scene_rings || isSolo)) {{
+            const media = getMediaForFrame(w, fi);
+            if (media) {{
+              drewVid = drawMediaIn3DMask(media, polyUV, tau, zOff, W, H, isCur ? 1.0 : 0.62);
+            }}
+          }}
+
+          if (polyUV.length >= 3) {{
+            ctx3d.beginPath();
+            polyUV.forEach((uv, j) => {{
+              const p = proj3d(uv[0], uv[1], tau, zOff, W, H);
+              if (j === 0) ctx3d.moveTo(p.sx, p.sy); else ctx3d.lineTo(p.sx, p.sy);
+            }});
+            ctx3d.closePath();
+            if (!drewVid) {{
+              ctx3d.fillStyle = isCur ? (col + "44") : (col + "18");
+              ctx3d.fill();
+            }}
+            ctx3d.strokeStyle = isCur ? "#ffffff" : col;
+            ctx3d.lineWidth = isCur ? 3.0 : 1.6;
+            ctx3d.stroke();
+          }}
+
+          if (!isSubj || !drewVid || isSolo) {{
+            const strokesUV = getPlaneStrokesUV(dw, fr, pt);
+            if (strokesUV.length) {{
+              ctx3d.strokeStyle = isCur ? "#ffffff" : col;
+              ctx3d.lineWidth = isCur ? 2.0 : 1.3;
+              strokesUV.forEach(st => {{
+                if (st.length < 2) return;
+                ctx3d.beginPath();
+                st.forEach((uv, k) => {{
+                  const p = proj3d(uv[0], uv[1], tau, zOff, W, H);
+                  if (k === 0) ctx3d.moveTo(p.sx, p.sy); else ctx3d.lineTo(p.sx, p.sy);
+                }});
+                ctx3d.stroke();
+              }});
+            }}
+          }}
+        }});
+      }} else {{
+        [0, fIdx].forEach(fi => {{
+          const fr = frames[Math.min(nf - 1, fi)];
+          const pt = trk[Math.min(trk.length - 1, fi)];
+          const tau = fi / Math.max(1, nf - 1);
           const strokesUV = getPlaneStrokesUV(dw, fr, pt);
           if (strokesUV.length) {{
-            ctx3d.strokeStyle = isCur ? "#ffffff" : col;
-            ctx3d.lineWidth = isCur ? 1.8 : 1.1;
+            ctx3d.strokeStyle = (fi === fIdx) ? col : (col + "88");
+            ctx3d.lineWidth = (fi === fIdx) ? 1.5 : 1.0;
             strokesUV.forEach(st => {{
+              if (st.length < 2) return;
               ctx3d.beginPath();
               st.forEach((uv, k) => {{
-                const p = proj3d(uv[0], uv[1], tau, zNorm, W, H);
+                const p = proj3d(uv[0], uv[1], tau, zOff, W, H);
                 if (k === 0) ctx3d.moveTo(p.sx, p.sy); else ctx3d.lineTo(p.sx, p.sy);
               }});
               ctx3d.stroke();
             }});
           }}
-        }}
-      }});
+        }});
+      }}
 
-      ctx3d.strokeStyle = col; ctx3d.lineWidth = isSubj ? 2.8 : (isPart ? 2.2 : 1.8);
+      ctx3d.strokeStyle = col; ctx3d.lineWidth = (isSubj || isSolo) ? 3.4 : 1.8;
       ctx3d.beginPath();
       trk.forEach((pt, fi) => {{
-        const p = proj3d(pt[0], pt[1], fi / Math.max(1, nf - 1), zNorm, W, H);
-        if (isSubj) hitNodes.push({{ fi, sx: p.sx, sy: p.sy }});
+        const p = proj3d(pt[0], pt[1], fi / Math.max(1, nf - 1), zOff, W, H);
+        if (isSubj || isSolo) hitNodes.push({{ fi, sx: p.sx, sy: p.sy }});
         if (fi === 0) ctx3d.moveTo(p.sx, p.sy); else ctx3d.lineTo(p.sx, p.sy);
       }});
       ctx3d.stroke();
 
-      if (showSub && dw.sub_worms) {{
-        dw.sub_worms.forEach(sw => {{
-          ctx3d.strokeStyle = col + "99"; ctx3d.lineWidth = 1.1; ctx3d.setLineDash([3, 3]);
-          ctx3d.beginPath();
-          if (sw.pts) {{
-            sw.pts.forEach((uv, fi) => {{
-              const p = proj3d(uv[0], uv[1], fi / Math.max(1, nf - 1), zNorm, W, H);
-              if (fi === 0) ctx3d.moveTo(p.sx, p.sy); else ctx3d.lineTo(p.sx, p.sy);
-            }});
-          }} else if (sw.u0 !== undefined && trk.length) {{
-            trk.forEach((pt, fi) => {{
-              const p = proj3d(sw.u0 + (pt[0] - trk[0][0]), sw.v0 + (pt[1] - trk[0][1]), fi / Math.max(1, nf - 1), zNorm, W, H);
-              if (fi === 0) ctx3d.moveTo(p.sx, p.sy); else ctx3d.lineTo(p.sx, p.sy);
-            }});
-          }}
-          ctx3d.stroke(); ctx3d.setLineDash([]);
-        }});
+      if (trk.length) {{
+        const p0 = proj3d(trk[0][0], trk[0][1], 0, zOff, W, H);
+        ctx3d.fillStyle = col; ctx3d.font = "bold 10px monospace";
+        ctx3d.fillText(`z=${{dw.z}} ${{dw.label.slice(0, 12)}}`, p0.sx + 4, p0.sy - 4);
       }}
     }});
   }}
@@ -2137,101 +2394,92 @@ loadFilmByIndex(startIdx !== -1 ? startIdx : 0, 0, false);
     if (!frames.length) return;
     const fr = frames[Math.min(frames.length - 1, fIdx)];
     const media = getMediaForFrame(w, fIdx);
+    const dws = w.depth_worms || [];
 
     ensureFrameImg(w, (fIdx + 1) % frames.length);
     ensureFrameImg(w, (fIdx + 2) % frames.length);
 
-    ctx2d.fillStyle = "#05070c";
+    ctx2d.fillStyle = (curSrcMode === "cel") ? "#0c1018" : "#05070c";
     ctx2d.fillRect(0, 0, W, H);
 
-    if (media) {{
-      if (curSrcMode === "src") {{
-        ctx2d.save();
-        ctx2d.globalAlpha = 0.92;
-        try {{ ctx2d.drawImage(media, 0, 0, W, H); }} catch(e) {{}}
-        ctx2d.restore();
-      }} else if (curSrcMode === "cutout" || curSrcMode === "pop") {{
-        ctx2d.save();
-        ctx2d.globalAlpha = 0.22;
-        try {{ ctx2d.drawImage(media, 0, 0, W, H); }} catch(e) {{}}
-        ctx2d.restore();
-      }}
+    if (media && curSrcMode !== "cel") {{
+      ctx2d.save();
+      ctx2d.globalAlpha = (curSrcMode === "src") ? 1.0 : 0.18;
+      try {{ ctx2d.drawImage(media, 0, 0, W, H); }} catch(e) {{}}
+      ctx2d.restore();
     }}
 
-    const dws = [...(w.depth_worms || [])].reverse();
-    dws.forEach(dw => {{
-      if (!isDepthOn(dw.id)) return;
-      const col = dw.color || "#4fd1c5";
-      const trk = dw.track || [];
-      const pt = trk[Math.min(trk.length - 1, fIdx)];
-      if (!pt) return;
+    if (curSrcMode === "src") return;
 
-      const polyUV = getPlanePolyUV(dw, fr, pt);
-      const strokesUV = getPlaneStrokesUV(dw, fr, pt);
-      const zNorm = Math.min(1.0, Math.log(Math.max(0.8, dw.z || 2.0)) / Math.log(12.0));
-      const offX = (curSrcMode === "pop") ? (zNorm - 0.32) * 38.0 : 0.0;
-      const offY = (curSrcMode === "pop") ? (zNorm - 0.32) * -26.0 : 0.0;
-
-      const shouldClipCutout = (curSrcMode !== "src") && media && (
-        dw.role === "subject" || dw.role === "part" || activeDepths.size === 1 || curSrcMode === "pop" || (dw.strokes0 && dw.strokes0.length > 0)
-      );
-
-      if (polyUV && polyUV.length >= 3) {{
-        if (shouldClipCutout) {{
+    const subjDw = dws.find(d => d.role === "subject");
+    if (curSrcMode === "cutout" && (soloLayerId === null || (subjDw && soloLayerId === subjDw.id))) {{
+      if (fr.ring && fr.ring.length >= 3) {{
+        if (media) {{
           ctx2d.save();
           ctx2d.beginPath();
-          polyUV.forEach((uv, i) => {{
-            const x = uv[0] * W + offX, y = uv[1] * H + offY;
-            if (i === 0) ctx2d.moveTo(x, y); else ctx2d.lineTo(x, y);
-          }});
+          fr.ring.forEach((uv, i) => {{ if (i === 0) ctx2d.moveTo(uv[0]*W, uv[1]*H); else ctx2d.lineTo(uv[0]*W, uv[1]*H); }});
           ctx2d.closePath();
-          ctx2d.shadowColor = "rgba(0,0,0,0.9)";
-          ctx2d.shadowBlur = 11;
+          ctx2d.shadowColor = "rgba(0,0,0,0.95)";
+          ctx2d.shadowBlur = 14;
           ctx2d.shadowOffsetX = 3;
           ctx2d.shadowOffsetY = 4;
-          ctx2d.fillStyle = "#000000";
+          ctx2d.fillStyle = "#000";
           ctx2d.fill();
           ctx2d.restore();
 
           ctx2d.save();
           ctx2d.beginPath();
-          polyUV.forEach((uv, i) => {{
-            const x = uv[0] * W + offX, y = uv[1] * H + offY;
-            if (i === 0) ctx2d.moveTo(x, y); else ctx2d.lineTo(x, y);
-          }});
+          fr.ring.forEach((uv, i) => {{ if (i === 0) ctx2d.moveTo(uv[0]*W, uv[1]*H); else ctx2d.lineTo(uv[0]*W, uv[1]*H); }});
           ctx2d.closePath();
           ctx2d.clip();
           ctx2d.globalAlpha = 1.0;
-          try {{ ctx2d.drawImage(media, offX, offY, W, H); }} catch(e) {{}}
+          try {{ ctx2d.drawImage(media, 0, 0, W, H); }} catch(e) {{}}
           ctx2d.restore();
         }}
 
         ctx2d.save();
         ctx2d.beginPath();
-        polyUV.forEach((uv, i) => {{
-          const x = uv[0] * W + offX, y = uv[1] * H + offY;
-          if (i === 0) ctx2d.moveTo(x, y); else ctx2d.lineTo(x, y);
-        }});
+        fr.ring.forEach((uv, i) => {{ if (i === 0) ctx2d.moveTo(uv[0]*W, uv[1]*H); else ctx2d.lineTo(uv[0]*W, uv[1]*H); }});
         ctx2d.closePath();
-        if (!shouldClipCutout) {{
-          ctx2d.fillStyle = col + "1f";
-          ctx2d.fill();
-        }}
-        ctx2d.strokeStyle = col;
-        ctx2d.lineWidth = dw.role === "subject" ? 3.2 : (dw.role === "part" ? 2.4 : 1.8);
-        if (dw.role !== "subject" && dw.role !== "part" && !shouldClipCutout) ctx2d.setLineDash([4, 3]);
+        ctx2d.strokeStyle = "#f2bc57";
+        ctx2d.lineWidth = 3.2;
         ctx2d.stroke();
-        ctx2d.setLineDash([]);
-
-        if (shouldClipCutout && (dw.role === "subject" || dw.role === "part")) {{
-          ctx2d.strokeStyle = "rgba(255,255,255,0.85)";
-          ctx2d.lineWidth = 1.2;
-          ctx2d.stroke();
-        }}
+        ctx2d.strokeStyle = "#ffffff";
+        ctx2d.lineWidth = 1.2;
+        ctx2d.stroke();
         ctx2d.restore();
       }}
+      return;
+    }}
 
-      if (strokesUV && strokesUV.length) {{
+    [...dws].reverse().forEach(dw => {{
+      if (!isLayerActive(dw.id)) return;
+      const col = dw.color || "#00f5d4";
+      const trk = dw.track || [];
+      const pt = trk[Math.min(trk.length - 1, fIdx)] || [dw.u0 || 0.5, dw.v0 || 0.5, dw.r0 || 0.12];
+      const polyUV = getPlanePolyUV(dw, fr, pt);
+      const strokesUV = getPlaneStrokesUV(dw, fr, pt);
+
+      const doCutout = (curSrcMode !== "cel") && media && (dw.role === "subject" || dw.scene_rings || soloLayerId === dw.id);
+      if (doCutout && polyUV.length >= 3) {{
+        ctx2d.save();
+        ctx2d.beginPath();
+        polyUV.forEach((uv, i) => {{ if (i === 0) ctx2d.moveTo(uv[0]*W, uv[1]*H); else ctx2d.lineTo(uv[0]*W, uv[1]*H); }});
+        ctx2d.closePath();
+        ctx2d.clip();
+        ctx2d.globalAlpha = 1.0;
+        try {{ ctx2d.drawImage(media, 0, 0, W, H); }} catch(e) {{}}
+        ctx2d.restore();
+
+        ctx2d.beginPath();
+        polyUV.forEach((uv, i) => {{ if (i === 0) ctx2d.moveTo(uv[0]*W, uv[1]*H); else ctx2d.lineTo(uv[0]*W, uv[1]*H); }});
+        ctx2d.closePath();
+        ctx2d.strokeStyle = col;
+        ctx2d.lineWidth = 2.6;
+        ctx2d.stroke();
+      }}
+
+      if (strokesUV.length && (curSrcMode === "cel" || dw.role !== "subject" || soloLayerId === dw.id)) {{
         ctx2d.save();
         ctx2d.lineCap = "round";
         ctx2d.lineJoin = "round";
@@ -2239,14 +2487,13 @@ loadFilmByIndex(startIdx !== -1 ? startIdx : 0, 0, false);
           if (st.length < 2) return;
           ctx2d.beginPath();
           st.forEach((uv, i) => {{
-            const x = uv[0] * W + offX, y = uv[1] * H + offY;
-            if (i === 0) ctx2d.moveTo(x, y); else ctx2d.lineTo(x, y);
+            if (i === 0) ctx2d.moveTo(uv[0] * W, uv[1] * H); else ctx2d.lineTo(uv[0] * W, uv[1] * H);
           }});
-          ctx2d.strokeStyle = "rgba(5,7,12,0.85)";
-          ctx2d.lineWidth = 4.0;
+          ctx2d.strokeStyle = "rgba(5, 7, 12, 0.85)";
+          ctx2d.lineWidth = 4.2;
           ctx2d.stroke();
-          ctx2d.strokeStyle = dw.role === "subject" ? "#ffffff" : col;
-          ctx2d.lineWidth = 2.0;
+          ctx2d.strokeStyle = col;
+          ctx2d.lineWidth = 2.2;
           ctx2d.stroke();
         }});
         ctx2d.restore();
@@ -2262,8 +2509,9 @@ loadFilmByIndex(startIdx !== -1 ? startIdx : 0, 0, false);
     const fr = (w.frames || [])[curFrame] || {{}};
     const areaPct = ((fr.area || 0) * 100).toFixed(1);
     const dws = w.depth_worms || [];
+    const soloTxt = soloLayerId ? ` · SOLO: ${{soloLayerId}}` : "";
     document.getElementById("shmSummaryText").textContent =
-      `f${{String(curFrame).padStart(2,"0")}}/${{w.n_frames-1}} · mask ${{areaPct}}% · ${{dws.length}} Depths (${{dws.map(d=>"z="+d.z).join("→")}})`;
+      `f${{String(curFrame).padStart(2,"0")}}/${{w.n_frames-1}} · cutout ${{areaPct}}% · ${{dws.length}} Layers${{soloTxt}}`;
   }}
 
   function syncShmVidTime(w, fIdx) {{
@@ -2281,12 +2529,12 @@ loadFilmByIndex(startIdx !== -1 ? startIdx : 0, 0, false);
     const hud2d = document.getElementById("shmHud2d");
     if (hud2d) {{
       const map = {{
-        cutout: "Die-Cut Footage Cutouts + Rig",
-        pop: "Exploded Multiplane Cutouts",
-        iso: "Isolated Footage Cutouts",
-        src: "Full Footage + Multiplane Rig"
+        cutout: "SAM Video Cutout (Unobstructed)",
+        scene: "Video Cutout + Multiplane Drawings",
+        cel: "Multiplane Vector Cel Sheet",
+        src: "Raw Source Footage"
       }};
-      hud2d.textContent = map[curSrcMode] || "Footage Cutouts";
+      hud2d.textContent = map[curSrcMode] || "SAM Video Cutout";
     }}
     if (url && shmVideo.src !== url) {{
       shmVideo.src = url;
@@ -2299,7 +2547,7 @@ loadFilmByIndex(startIdx !== -1 ? startIdx : 0, 0, false);
     curWormIdx = (idx + worms.length) % worms.length;
     shmSelect.value = curWormIdx;
     curFrame = 0;
-    activeDepths.clear();
+    soloLayerId = null;
     const w = worms[curWormIdx];
     shmSlider.max = Math.max(1, (w.frames || []).length - 1);
     shmSlider.value = 0;
@@ -2390,7 +2638,7 @@ loadFilmByIndex(startIdx !== -1 ? startIdx : 0, 0, false);
       card.innerHTML = `
         <canvas width="180" height="56" style="width:100%;height:52px;display:block;background:#05070b;border-radius:4px;margin-bottom:4px;"></canvas>
         <div style="font-size:11px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${{idx + 1}}. ${{w.slug}}</div>
-        <div style="font-size:9.5px;font-family:var(--mono);color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${{dws.length}} depths (${{dws.map(d => "z=" + d.z).slice(0, 3).join(",")}})</div>
+        <div style="font-size:9.5px;font-family:var(--mono);color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${{dws.length}} layers (${{dws.map(d => d.label.slice(0,6)).slice(0, 3).join(", ")}})</div>
       `;
       card.addEventListener("click", () => {{
         selectWorm(idx, true);
@@ -2427,11 +2675,6 @@ loadFilmByIndex(startIdx !== -1 ? startIdx : 0, 0, false);
       drawShmAll();
     }});
   }});
-  document.getElementById("shmSubToggle").addEventListener("click", e => {{
-    showSub = !showSub;
-    e.target.classList.toggle("active", showSub);
-    drawShmAll();
-  }});
   document.getElementById("shmMaskVidBtn").addEventListener("click", e => {{
     showMaskVid = !showMaskVid;
     e.target.classList.toggle("active", showMaskVid);
@@ -2448,7 +2691,8 @@ loadFilmByIndex(startIdx !== -1 ? startIdx : 0, 0, false);
   }});
 
   document.getElementById("shmResetCam").addEventListener("click", () => {{
-    yaw = -0.58; pitch = 0.34;
+    yaw = -0.48; pitch = 0.24; soloLayerId = null;
+    if (worms[curWormIdx]) renderDepthPills(worms[curWormIdx]);
     drawShmAll();
   }});
 
@@ -2462,14 +2706,14 @@ loadFilmByIndex(startIdx !== -1 ? startIdx : 0, 0, false);
   shmSlider.addEventListener("input", () => {{
     isPlaying = false; document.getElementById("shmPlayBtn").textContent = "▶"; shmVideo.pause();
     curFrame = parseInt(shmSlider.value, 10) || 0;
-    if (worms[curWormIdx]) syncShmVidTime(worms[curWormIdx], curFrame);
+    if (worms[curWormIdx]) {{ syncShmVidTime(worms[curWormIdx], curFrame); drawLayerCardThumbs(worms[curWormIdx], curFrame); }}
     drawShmAll();
   }});
   document.getElementById("shmStepPrev").addEventListener("click", () => {{
     isPlaying = false; document.getElementById("shmPlayBtn").textContent = "▶"; shmVideo.pause();
     curFrame = Math.max(0, curFrame - 1);
     shmSlider.value = curFrame;
-    if (worms[curWormIdx]) syncShmVidTime(worms[curWormIdx], curFrame);
+    if (worms[curWormIdx]) {{ syncShmVidTime(worms[curWormIdx], curFrame); drawLayerCardThumbs(worms[curWormIdx], curFrame); }}
     drawShmAll();
   }});
   document.getElementById("shmStepNext").addEventListener("click", () => {{
@@ -2477,7 +2721,7 @@ loadFilmByIndex(startIdx !== -1 ? startIdx : 0, 0, false);
     const w = worms[curWormIdx];
     curFrame = Math.min((w ? w.frames.length : 1) - 1, curFrame + 1);
     shmSlider.value = curFrame;
-    if (w) syncShmVidTime(w, curFrame);
+    if (w) {{ syncShmVidTime(w, curFrame); drawLayerCardThumbs(w, curFrame); }}
     drawShmAll();
   }});
 
@@ -2489,9 +2733,9 @@ loadFilmByIndex(startIdx !== -1 ? startIdx : 0, 0, false);
     if (!dragging) return;
     const dx = e.clientX - dragX, dy = e.clientY - dragY;
     if (Math.abs(dx) > 2 || Math.abs(dy) > 2) moved = true;
-    if (wMode === "orbit3d") {{
+    if (wMode === "orbit3d" || wMode === "box3d") {{
       yaw += dx * 0.008;
-      pitch = Math.max(-1.1, Math.min(1.1, pitch + dy * 0.008));
+      pitch = Math.max(-1.0, Math.min(1.0, pitch + dy * 0.008));
       dragX = e.clientX; dragY = e.clientY;
       drawShmAll();
     }}
@@ -2511,6 +2755,7 @@ loadFilmByIndex(startIdx !== -1 ? startIdx : 0, 0, false);
         curFrame = best;
         shmSlider.value = curFrame;
         syncShmVidTime(worms[curWormIdx], curFrame);
+        drawLayerCardThumbs(worms[curWormIdx], curFrame);
         drawShmAll();
       }}
     }}
@@ -2519,16 +2764,16 @@ loadFilmByIndex(startIdx !== -1 ? startIdx : 0, 0, false);
   document.getElementById("shmSearchInput").addEventListener("input", renderShmCards);
   document.getElementById("shmTopoFilter").addEventListener("change", renderShmCards);
 
-  fetch("secondhand_worms_108.json?v=6")
-    .then(r => r.ok ? r.json() : fetch("https://hartswf0.github.io/secondhand-motion/data/worms_108.json?v=6").then(r2 => r2.json()))
-    .catch(() => fetch("https://hartswf0.github.io/secondhand-motion/data/worms_108.json?v=6").then(r2 => r2.json()))
+  fetch("secondhand_worms_108.json?v=7")
+    .then(r => r.ok ? r.json() : fetch("https://hartswf0.github.io/secondhand-motion/data/worms_108.json?v=7").then(r2 => r2.json()))
+    .catch(() => fetch("https://hartswf0.github.io/secondhand-motion/data/worms_108.json?v=7").then(r2 => r2.json()))
     .then(data => {{
       worms = data.worms || [];
       shmSelect.innerHTML = "";
       worms.forEach((w, idx) => {{
         const opt = document.createElement("option");
         opt.value = idx;
-        opt.textContent = `${{idx + 1}}. ${{w.slug}} (${{(w.depth_worms || []).length}} Depth Worms · ${{w.n_frames}}f)`;
+        opt.textContent = `${{idx + 1}}. ${{w.slug}} (${{(w.depth_worms || []).length}} Layers)`;
         shmSelect.appendChild(opt);
       }});
       buildShmSwipeStrip();
