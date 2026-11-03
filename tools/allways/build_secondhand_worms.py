@@ -495,6 +495,137 @@ def main():
         else:
             planes = [{"id": "char", "z": 2.0, "label": slug.replace("-", " ").title()}]
 
+        # Build Multi-Depth Worms (one extruded 3D worm per depth plane + object/joint sub-worms)
+        z_ref = float((gwp_shot or red_shot or {}).get("z_ref", 2.0))
+        all_objs = (gwp_shot or red_shot or {}).get("objects", [])
+        if not isinstance(all_objs, list):
+            all_objs = []
+
+        # Ensure every shot has at least 3 depth strata (Near, Subject/Mid, Far)
+        plane_list = [dict(p) for p in planes if isinstance(p, dict)]
+        has_char = any(p.get("id") == "char" for p in plane_list)
+        if not has_char:
+            plane_list.append({"id": "char", "z": 2.0, "label": slug.replace("-", " ").title()})
+        zs = [float(p.get("z", 2.0)) for p in plane_list]
+        if not any(z > z_ref * 1.6 for z in zs):
+            plane_list.append({"id": "far_depth", "z": round(z_ref * 4.0, 2), "label": "Far Horizon Stratum (top depth)", "z_from_depth": "top"})
+        if not any(z < z_ref * 0.95 for z in zs) and len(plane_list) < 3:
+            plane_list.append({"id": "near_depth", "z": round(z_ref * 0.68, 2), "label": "Near Ground Stratum (bottom depth)", "z_from_depth": "bottom"})
+        if len(plane_list) < 3:
+            plane_list.append({"id": "mid_depth", "z": round(z_ref * 1.8, 2), "label": "Midground Stratum (middle depth)", "z_from_depth": "middle"})
+
+        # Sort planes from Near (smallest z) -> Subject -> Far (largest z)
+        plane_list.sort(key=lambda p: (float(p.get("z", 2.0)), 0 if p.get("id") == "char" else 1))
+
+        depth_palette = ["#ff6b6b", "#f2bc57", "#4fd1c5", "#63b3ed", "#b794f4", "#f687b3"]
+        depth_worms = []
+
+        for p_idx, p in enumerate(plane_list):
+            pid = str(p.get("id", f"p{p_idx}"))
+            pz = max(0.2, float(p.get("z", 2.0)))
+            plabel = str(p.get("label", pid)).split("(")[0].strip()
+            k_par = round(z_ref / pz, 3)
+
+            if pid == "char":
+                # Subject worm uses true SAM polygon centroid, radius, and depth + joint sub-worms
+                d_track = [
+                    [round(fr["c"][0], 3), round(fr["c"][1], 3), round(fr["r"], 3), round(fr["d_subj"], 3)]
+                    for fr in frames_series
+                ]
+                sub_w = []
+                for jn, jtr in list(joint_tracks.items())[:4]:
+                    sub_w.append({
+                        "id": jn,
+                        "label": jn.replace("_", " "),
+                        "pts": [[round(uv[0], 3), round(uv[1], 3)] for uv in jtr],
+                    })
+                depth_worms.append({
+                    "id": pid,
+                    "role": "subject",
+                    "z": round(pz, 2),
+                    "k": k_par,
+                    "label": plabel or slug.replace("-", " ").title(),
+                    "color": "#f2bc57",
+                    "track": d_track,
+                    "sub_worms": sub_w,
+                })
+            else:
+                # Extract scenic objects sitting on this depth plane
+                p_objs = [o for o in all_objs if isinstance(o, dict) and o.get("plane") == pid]
+                pts_x, pts_y = [], []
+                sub_w = []
+                for o in p_objs[:4]:
+                    ox, oy = [], []
+                    for st in (o.get("strokes") or []):
+                        if isinstance(st, list):
+                            for pt in st:
+                                if isinstance(pt, (list, tuple)) and len(pt) >= 2:
+                                    ox.append(float(pt[0]) / max(1, W))
+                                    oy.append(float(pt[1]) / max(1, H))
+                    if ox and oy:
+                        pts_x.extend(ox)
+                        pts_y.extend(oy)
+                        ou0 = max(0.06, min(0.94, sum(ox) / len(ox)))
+                        ov0 = max(0.08, min(0.92, sum(oy) / len(oy)))
+                        sub_w.append({
+                            "id": str(o.get("id", "obj")),
+                            "label": str(o.get("class") or o.get("id") or "object"),
+                            "u0": round(ou0, 3),
+                            "v0": round(ov0, 3),
+                        })
+
+                z_src = str(p.get("z_from_depth", ""))
+                if pts_x and pts_y:
+                    u0 = max(0.08, min(0.92, sum(pts_x) / len(pts_x)))
+                    v0 = max(0.08, min(0.92, sum(pts_y) / len(pts_y)))
+                    span = math.hypot(max(pts_x) - min(pts_x), max(pts_y) - min(pts_y))
+                    r0 = max(0.06, min(0.28, span * 0.28))
+                else:
+                    u0 = 0.50 + ((p_idx - 1.5) * 0.08)
+                    if z_src == "top" or pz >= z_ref * 2.2:
+                        v0 = 0.23
+                    elif z_src == "bottom" or pz < z_ref:
+                        v0 = 0.80
+                    else:
+                        v0 = 0.48
+                    r0 = 0.12
+
+                # Assign distinct color by depth stratum (Coral for near -> Cyan/Blue/Violet for far)
+                if pz < z_ref:
+                    col = "#ff6b6b"
+                elif pz <= z_ref * 1.9:
+                    col = "#4fd1c5"
+                elif pz <= z_ref * 4.5:
+                    col = "#63b3ed"
+                else:
+                    col = "#b794f4"
+
+                d_track = []
+                for fr in frames_series:
+                    cdx, cdy = fr["cam"][0], fr["cam"][1]
+                    st_arr = fr.get("d_strata", [0.18, 0.42, 0.68])
+                    if z_src == "top" or pz >= z_ref * 2.2:
+                        d_val = st_arr[0]
+                    elif z_src == "bottom" or pz < z_ref:
+                        d_val = st_arr[2]
+                    else:
+                        d_val = st_arr[1]
+                    uf = max(0.04, min(0.96, u0 + cdx * k_par))
+                    vf = max(0.04, min(0.96, v0 + cdy * k_par))
+                    rf = max(0.04, min(0.32, r0 * (0.92 + 0.16 * d_val)))
+                    d_track.append([round(uf, 3), round(vf, 3), round(rf, 3), round(d_val, 3)])
+
+                depth_worms.append({
+                    "id": pid,
+                    "role": "near" if pz < z_ref else ("mid" if pz <= z_ref * 2.2 else "far"),
+                    "z": round(pz, 2),
+                    "k": k_par,
+                    "label": plabel,
+                    "color": col,
+                    "track": d_track,
+                    "sub_worms": sub_w,
+                })
+
         # Video URLs & Provenance
         s_obj = (src_info or {}).get("source", {}) if isinstance(src_info, dict) else {}
         int_s_obj = (int_shot or {}).get("source", {}) if isinstance(int_shot, dict) else {}
@@ -559,7 +690,9 @@ def main():
             "n_frames": n_frames,
             "duration_s": round(n_frames / max(1.0, fps), 2),
             "keys": keys,
-            "planes": planes,
+            "z_ref": round(z_ref, 2),
+            "planes": plane_list,
+            "depth_worms": depth_worms,
             "topology": topo,
             "best_rule": best_rule,
             "best_fit": best_fit,
@@ -598,19 +731,15 @@ def main():
         json.dump(out_payload, f, separators=(",", ":"))
     print(f"Wrote {shm_out} ({os.path.getsize(shm_out) / 1024:.1f} KB)")
 
-    # Render a visual contact sheet of the first 24 extruded 3D Polygon Worms
+    # Render a visual contact sheet of the first 24 Multi-Depth 3D Spatiotemporal Worm Stacks
     cols, rows = 6, 4
     cw, ch = 280, 190
     sheet = Image.new("RGB", (cols * cw, rows * ch), (11, 13, 18))
     draw = ImageDraw.Draw(sheet)
 
-    topo_colors = {
-        "LOCKED_PILLAR": (91, 200, 235),
-        "CAMERA_SHEAR_RIBBON": (242, 188, 87),
-        "LOOMING_FUNNEL_CONE": (245, 101, 101),
-        "ARTICULATED_LIMB_BRAID": (183, 148, 244),
-        "SERPENTINE_CORKSCREW": (104, 211, 145),
-    }
+    def hex_to_rgb(h):
+        h = h.lstrip("#")
+        return tuple(int(h[i:i+2], 16) for i in (0, 2, 4))
 
     for idx, w in enumerate(worms[:24]):
         c_idx = idx % cols
@@ -618,57 +747,48 @@ def main():
         x0 = c_idx * cw
         y0 = r_idx * ch
 
-        draw.rectangle([x0 + 4, y0 + 4, x0 + cw - 4, y0 + ch - 4], fill=(18, 22, 32), outline=(42, 50, 70), width=1)
-        tcol = topo_colors.get(w["topology"], (242, 188, 87))
-
-        # Isometric 3D projection of the polygon rings along time tau
+        draw.rectangle([x0 + 4, y0 + 4, x0 + cw - 4, y0 + ch - 4], fill=(16, 20, 29), outline=(42, 50, 70), width=1)
         f_list = w["frames"]
         nf = len(f_list)
-        spine_pts = []
-        for fi, fr in enumerate(f_list):
-            tau = fi / max(1, nf - 1)
-            # Oblique 3D box inside cell
-            bx = x0 + 38 + tau * (cw - 110)
-            by = y0 + 132 - tau * 62
-            scale_x = 85.0
-            scale_y = 65.0
+        dw_list = w.get("depth_worms", [])
 
-            cx = bx + (fr["c"][0] - 0.5) * scale_x
-            cy = by + (fr["c"][1] - 0.5) * scale_y
-            spine_pts.append((cx, cy))
+        # Draw each depth-stratum worm from Far (back) to Near (front)
+        for dw in reversed(dw_list):
+            dcol = hex_to_rgb(dw.get("color", "#4fd1c5"))
+            trk = dw.get("track", [])
+            is_subj = dw.get("role") == "subject"
+            z_norm = min(1.0, math.log(max(1.0, float(dw.get("z", 2.0)))) / math.log(12.0))
+            z_off_y = (z_norm - 0.35) * -28.0
 
-            # Draw every 2nd or keyframe polygon ring
-            if fi % max(1, nf // 12) == 0 or fi in w["keys"]:
-                ring_pts = []
-                for uv in fr["ring"]:
-                    rx = bx + (uv[0] - 0.5) * scale_x
-                    ry = by + (uv[1] - 0.5) * scale_y
-                    ring_pts.append((rx, ry))
-                if len(ring_pts) >= 3:
-                    ring_pts.append(ring_pts[0])
-                    is_key = fi in w["keys"]
-                    col = (242, 188, 87) if is_key else (int(tcol[0] * 0.65), int(tcol[1] * 0.65), int(tcol[2] * 0.65))
-                    draw.line(ring_pts, fill=col, width=2 if is_key else 1)
-
-        if len(spine_pts) >= 2:
-            draw.line(spine_pts, fill=tcol, width=2)
-
-        # Draw joint tracks in subtle cyan/rose
-        for j_idx, (jn, jtr) in enumerate(list(w["joints"].items())[:4]):
-            j_pts = []
-            for fi, uv in enumerate(jtr):
+            spine = []
+            for fi, pt in enumerate(trk):
                 tau = fi / max(1, nf - 1)
-                bx = x0 + 38 + tau * (cw - 110)
-                by = y0 + 132 - tau * 62
-                jx = bx + (uv[0] - 0.5) * 85.0
-                jy = by + (uv[1] - 0.5) * 65.0
-                j_pts.append((jx, jy))
-            if len(j_pts) >= 2:
-                draw.line(j_pts, fill=(91, 200, 235) if j_idx % 2 == 0 else (245, 101, 101), width=1)
+                bx = x0 + 34 + tau * (cw - 86)
+                by = y0 + 132 - tau * 48 + z_off_y
+                cx = bx + (pt[0] - 0.5) * 78.0
+                cy = by + (pt[1] - 0.5) * 56.0
+                spine.append((cx, cy))
+
+                if is_subj and (fi % max(1, nf // 10) == 0 or fi in w["keys"]):
+                    fr = f_list[min(fi, nf - 1)]
+                    ring_pts = [
+                        (bx + (uv[0] - 0.5) * 78.0, by + (uv[1] - 0.5) * 56.0)
+                        for uv in fr["ring"]
+                    ]
+                    if len(ring_pts) >= 3:
+                        ring_pts.append(ring_pts[0])
+                        draw.line(ring_pts, fill=dcol, width=2 if fi in w["keys"] else 1)
+                elif not is_subj and fi % max(1, nf // 6) == 0:
+                    rr = pt[2] * 42.0
+                    draw.ellipse([cx - rr, cy - rr * 0.65, cx + rr, cy + rr * 0.65], outline=dcol, width=1)
+
+            if len(spine) >= 2:
+                draw.line(spine, fill=dcol, width=3 if is_subj else 2)
 
         draw.text((x0 + 10, y0 + 8), f"{idx+1:02d}. {w['slug'].upper()}", fill=(243, 240, 234))
-        draw.text((x0 + 10, y0 + 23), f"{w['topology']} · {w['n_frames']}f", fill=tcol)
-        draw.text((x0 + 10, y0 + ch - 20), f"Rule: {w['best_rule']} ({w['best_fit']}%) · Braids:{w['braid_count']}", fill=(154, 163, 181))
+        draw.text((x0 + 10, y0 + 23), f"{len(dw_list)} Depth Worms · {w['n_frames']}f", fill=(91, 200, 235))
+        planes_txt = " | ".join(f"z={dw['z']}" for dw in dw_list[:4])
+        draw.text((x0 + 10, y0 + ch - 20), planes_txt, fill=(242, 188, 87))
 
     atlas_path = os.path.join(TENSOR_DIR, "img", "secondhand_worms_atlas.jpg")
     sheet.save(atlas_path, quality=90)

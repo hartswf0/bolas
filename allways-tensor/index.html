@@ -578,240 +578,164 @@
     margin-top: 6px;
   }
 
-  /* 4D SECONDHAND MOTION TIME-WORM STUDIO AT TOP OF PAGE */
+  /* COMPACT MOBILE-FIRST MULTI-DEPTH WORM STUDIO AT TOP OF PAGE */
   .shm-worm-hero {
     background: var(--panel);
-    border: 2px solid var(--gold);
-    border-radius: 12px;
+    border: 1.5px solid var(--gold);
+    border-radius: 10px;
     overflow: hidden;
-    margin-bottom: 18px;
-    box-shadow: 0 12px 34px rgba(0, 0, 0, 0.5);
+    margin-bottom: 12px;
   }
-  .shm-worm-head {
+  .shm-ctrl-row {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 10px;
-    padding: 12px 14px;
-    background: linear-gradient(90deg, rgba(242, 188, 87, 0.16), rgba(91, 200, 235, 0.10));
+    gap: 6px;
+    padding: 6px 10px;
+    background: var(--panel-alt);
     border-bottom: 1px solid var(--border);
     flex-wrap: wrap;
   }
-  .shm-worm-title {
-    font-size: 15px;
-    font-weight: 800;
-    color: var(--gold);
-    letter-spacing: 0.02em;
+  .shm-depth-bar {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 10px;
+    background: #0b0e15;
+    border-bottom: 1px solid var(--border);
+    overflow-x: auto;
+    scrollbar-width: none;
   }
-  .shm-worm-sub {
-    font-size: 12px;
-    color: var(--muted);
+  .shm-depth-bar::-webkit-scrollbar { display: none; }
+  .shm-dpill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-family: var(--mono);
+    background: var(--panel);
+    border: 1px solid var(--border);
+    cursor: pointer;
+    white-space: nowrap;
+    opacity: 0.45;
+  }
+  .shm-dpill.on {
+    opacity: 1;
+    border-color: currentColor;
+    background: rgba(255, 255, 255, 0.06);
+    font-weight: 700;
   }
   .shm-worm-dual {
     display: grid;
-    grid-template-columns: 1.05fr 1fr;
-    border-bottom: 1px solid var(--border);
+    grid-template-columns: 1.15fr 0.85fr;
+    background: #040609;
   }
-  @media (max-width: 960px) {
-    .shm-worm-dual { grid-template-columns: 1fr; }
-  }
-  .shm-worm-pane {
-    display: flex;
-    flex-direction: column;
-    border-right: 1px solid var(--border);
-    background: #05070a;
-  }
-  .shm-worm-pane:last-child { border-right: none; }
-  .shm-worm-bar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 8px;
-    padding: 8px 12px;
-    background: var(--panel-alt);
-    border-bottom: 1px solid var(--border);
-    flex-wrap: wrap;
-    font-size: 11px;
-    font-family: var(--mono);
-  }
-  .shm-worm-stage {
+  .shm-pane {
     position: relative;
-    width: 100%;
-    aspect-ratio: 16 / 10;
-    background: #030406;
+    height: 310px;
     overflow: hidden;
+    border-right: 1px solid var(--border);
   }
-  .shm-worm-stage video {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    display: block;
-    background: #000;
+  .shm-pane:last-child { border-right: none; }
+  @media (max-width: 768px) {
+    .shm-worm-dual { grid-template-columns: 1fr; }
+    .shm-pane.p3d {
+      height: 205px;
+      border-right: none;
+      border-bottom: 1px solid var(--border);
+    }
+    .shm-pane.p2d { height: 165px; }
   }
-  .shm-worm-stage canvas.overlay-2d {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-  }
-  .shm-worm-stage canvas.prism-3d {
-    width: 100%;
-    height: 100%;
-    display: block;
-    cursor: grab;
-  }
-  .shm-worm-stage canvas.prism-3d:active { cursor: grabbing; }
-  .shm-worm-metrics {
+  .shm-mini-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 8px;
-    padding: 10px 14px;
-    background: var(--panel-alt);
+    grid-template-columns: repeat(auto-fill, minmax(155px, 1fr));
+    gap: 6px;
   }
-  .shm-m-card {
+  @media (max-width: 520px) {
+    .shm-mini-grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 5px;
+    }
+  }
+  .shm-mini-card {
     background: var(--panel);
     border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 7px 10px;
+    border-radius: 7px;
+    padding: 5px;
+    cursor: pointer;
   }
-  .shm-m-lbl {
-    font-size: 10px;
-    font-family: var(--mono);
-    text-transform: uppercase;
-    color: var(--muted);
-  }
-  .shm-m-val {
-    font-size: 12.5px;
-    font-weight: 700;
-    font-family: var(--mono);
-    color: var(--fg);
+  .shm-mini-card:hover, .shm-mini-card.active {
+    border-color: var(--gold);
+    background: rgba(242, 188, 87, 0.07);
   }
 </style>
 </head>
 <body>
 
 <header class="header">
-  <div class="brand">ALLWAYS &amp; SECONDHAND MOTION <span>// 4D SPATIOTEMPORAL TIME-WORM STUDIO</span></div>
+  <div class="brand">ALLWAYS &amp; SECONDHAND MOTION <span>// MULTI-DEPTH 4D WORMS</span></div>
   <nav class="nav-links">
-    <a href="worms.html" style="border-color:var(--gold);color:var(--gold);font-weight:700;">Full-Screen 108 Worms Studio ↗</a>
-    <a href="https://hartswf0.github.io/secondhand-motion/" target="_blank">Secondhand Motion Rack ↗</a>
+    <a href="worms.html" style="border-color:var(--gold);color:var(--gold);font-weight:700;">Fullscreen 108 Worms ↗</a>
+    <a href="https://hartswf0.github.io/secondhand-motion/" target="_blank">Secondhand Motion ↗</a>
     <a href="../index.html">Hub</a>
     <a href="../allways-best/index.html">The One Film</a>
-    <a href="../allways-Selects/index.html">Selects</a>
   </nav>
 </header>
 
 <main class="container">
 
   <!-- ====================================================================== -->
-  <!-- INTERACTIVE 4D SECONDHAND MOTION TIME-WORM STUDIO (108 TRACKED SHOTS)  -->
+  <!-- COMPACT MOBILE-FIRST MULTI-DEPTH WORM STUDIO (108 SHOTS · 375 DEPTHS)  -->
   <!-- ====================================================================== -->
   <section class="shm-worm-hero" id="shmWormHero">
-    <div class="shm-worm-head">
-      <div>
-        <div class="shm-worm-title">★ SECONDHAND MOTION — 108 GROUND-TRUTH 4D SPATIOTEMPORAL TIME WORMS</div>
-        <div class="shm-worm-sub">
-          Real per-frame SAM polygon silhouettes (<code>masks.json</code>) + Depth Anything strata (<code>depth.json</code>) + optical-flow camera pan vectors (<code>camera.json</code>) + articulated limb braids &amp; planted-foot pillars
-        </div>
+    <!-- Row 1: Compact Shot Selector + View Switcher -->
+    <div class="shm-ctrl-row">
+      <div style="display:flex;align-items:center;gap:4px;flex:1;min-width:190px;">
+        <button class="btn" id="shmPrevBtn" style="padding:4px 8px;">◀</button>
+        <button class="btn btn-gold" id="shmPlayBtn" style="padding:4px 9px;">▶</button>
+        <select class="film-select" id="shmSelect" style="min-width:140px;padding:4px 7px;font-size:12px;" aria-label="Select Secondhand Motion Worm"></select>
+        <button class="btn" id="shmNextBtn" style="padding:4px 8px;">▶</button>
       </div>
-      <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
-        <button class="btn" id="shmPrevBtn">◀</button>
-        <select class="film-select" id="shmSelect" style="min-width:250px;" aria-label="Select Secondhand Motion Worm"></select>
-        <button class="btn" id="shmNextBtn">▶</button>
-        <a class="btn btn-gold" id="shmCaseLink" href="https://hartswf0.github.io/secondhand-motion/pages/giraffe-walks-past.html" target="_blank">Shot Page ↗</a>
+      <div style="display:flex;gap:4px;align-items:center;overflow-x:auto;" id="shmModeBar">
+        <button class="guide-pill active" data-wmode="orbit3d">3D Depth Worms</button>
+        <button class="guide-pill" data-wmode="lanes">Depth Lanes (Z×τ)</button>
+        <button class="guide-pill active" id="shmSubToggle">Sub-Worms</button>
+        <a class="guide-pill" id="shmCaseLink" href="https://hartswf0.github.io/secondhand-motion/pages/giraffe-walks-past.html" target="_blank">Shot ↗</a>
       </div>
     </div>
 
-    <!-- QUICK-PICK 12 FEATURED SECONDHAND MOTION WORMS -->
-    <div class="quick-film-bar" id="shmQuickBar" style="margin-bottom:0;border-radius:0;border-left:none;border-right:none;border-top:none;">
-      <span class="quick-label">108 Tracked Worms:</span>
-      <button class="qf-btn active" data-wid="giraffe-walks-past">★ Giraffe Walks Past (6-Plane + Rig)</button>
-      <button class="qf-btn" data-wid="spider">Spider (Selected Redraw)</button>
-      <button class="qf-btn" data-wid="camel">Camel (Desert Pan)</button>
-      <button class="qf-btn" data-wid="flamingo">Flamingo (Wading Stride)</button>
-      <button class="qf-btn" data-wid="raccoon">Raccoon (Selected Redraw)</button>
-      <button class="qf-btn" data-wid="mermaid">Mermaid (Underwater Dive)</button>
-      <button class="qf-btn" data-wid="zebra">Zebra (Equine Gait)</button>
-      <button class="qf-btn" data-wid="teddy-bear">Teddy-Bear (Plush Loom)</button>
-      <button class="qf-btn" data-wid="hedgehog">Hedgehog (Foraging)</button>
-      <button class="qf-btn" data-wid="duck">Duck (Water Glide)</button>
-      <button class="qf-btn" data-wid="yoga">Yoga (Balance Pillar)</button>
-      <button class="qf-btn" data-wid="dragon">Dragon (Wing Sweep)</button>
+    <!-- Row 2: Multi-Depth Stratum Pills (Tap any depth to solo / toggle) -->
+    <div class="shm-depth-bar" id="shmDepthBar">
+      <span style="font-size:10px;font-family:var(--mono);color:var(--muted);white-space:nowrap;">DEPTH WORMS:</span>
     </div>
 
-    <!-- SYNCHRONIZED DUAL VIEWPORT: 2D VIDEO + SILHOUETTE vs 3D EXTRUDED TIME WORM -->
+    <!-- Synchronized Compact Dual Stage (3D Multi-Depth Worms + 2D Video) -->
     <div class="shm-worm-dual">
-      <!-- LEFT: REAL VIDEO + LIVE POLYGON SILHOUETTE + CAMERA + RIG -->
-      <div class="shm-worm-pane">
-        <div class="shm-worm-bar">
-          <span style="color:var(--gold);font-weight:700;" id="shmLeftTitle">1. 2D FRAME + SAM POLYGON SILHOUETTE + RIG</span>
-          <div style="display:flex;gap:4px;flex-wrap:wrap;" id="shmSourceBar">
-            <button class="guide-pill active" data-src="comparison">3-Way Integrated</button>
-            <button class="guide-pill" data-src="source">Source Footage</button>
-            <button class="guide-pill" data-src="cartoon">Cartoon Redraw</button>
-            <button class="guide-pill" data-src="keys">Keyframe Sheet</button>
-          </div>
-        </div>
-        <div class="shm-worm-stage">
-          <video id="shmVideo" controls playsinline muted loop preload="metadata"></video>
-          <img id="shmFallbackImg" style="display:none;width:100%;height:100%;object-fit:contain;background:#000;" alt="Keyframe strip">
-          <canvas id="shmOverlay2d" class="overlay-2d" width="960" height="600"></canvas>
-        </div>
-        <div class="transport-bar" style="margin-top:auto;">
-          <button class="btn" id="shmStepPrev">◀ Frame</button>
-          <button class="btn btn-gold" id="shmPlayBtn">▶ Play</button>
-          <button class="btn" id="shmStepNext">Frame ▶</button>
-          <span class="time-readout" id="shmTimeReadout">f000 · 0.00s</span>
-          <div class="seg-scrubber" id="shmScrubber" title="Click any frame slice along the worm"></div>
-        </div>
+      <div class="shm-pane p3d">
+        <canvas id="shmPrism3d" width="740" height="420" style="width:100%;height:100%;display:block;cursor:grab;touch-action:none;"></canvas>
+        <span style="position:absolute;top:5px;left:6px;background:rgba(9,11,16,0.82);padding:2px 6px;border-radius:4px;font:500 10px var(--mono);color:var(--muted);pointer-events:none;">Drag to orbit · Tap worm to seek</span>
+        <button class="guide-pill" id="shmResetCam" style="position:absolute;top:5px;right:6px;padding:2px 6px;font-size:10px;">Reset</button>
       </div>
-
-      <!-- RIGHT: INTERACTIVE 3D SPATIOTEMPORAL WORM PRISM (u, v, τ) -->
-      <div class="shm-worm-pane">
-        <div class="shm-worm-bar">
-          <span style="color:var(--cyan);font-weight:700;">2. 3D SPATIOTEMPORAL WORM VOLUME (u, v, τ) — DRAG TO ORBIT · CLICK TO SEEK</span>
-          <div style="display:flex;gap:4px;flex-wrap:wrap;" id="shmLayerBar">
-            <button class="guide-pill active" data-layer="poly">Polygon Tube</button>
-            <button class="guide-pill active" data-layer="depth">Depth Shell</button>
-            <button class="guide-pill active" data-layer="rig">Limb Braids</button>
-            <button class="guide-pill active" data-layer="cam">Camera Shear</button>
-            <button class="guide-pill active" data-layer="grid">Grid Tunnel</button>
-            <button class="guide-pill" id="shmResetCam">Reset 3D</button>
-          </div>
-        </div>
-        <div class="shm-worm-stage">
-          <canvas id="shmPrism3d" class="prism-3d" width="960" height="600"></canvas>
-        </div>
-        <div class="transport-bar" style="margin-top:auto;justify-content:space-between;">
-          <span style="font-size:11px;color:var(--muted);" id="shmSummaryText">Loading 108 Ground-Truth Secondhand Motion Time Worms...</span>
-          <span class="fit-pill" id="shmTopoPill">ARTICULATED_LIMB_BRAID</span>
+      <div class="shm-pane p2d">
+        <video id="shmVideo" playsinline muted loop preload="metadata" style="width:100%;height:100%;object-fit:contain;display:block;background:#000;"></video>
+        <img id="shmFallbackImg" style="display:none;width:100%;height:100%;object-fit:contain;background:#000;" alt="Keyframe strip">
+        <canvas id="shmOverlay2d" width="600" height="380" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;"></canvas>
+        <div style="position:absolute;top:5px;right:6px;display:flex;gap:3px;" id="shmSourceBar">
+          <button class="guide-pill active" data-src="comp" style="padding:2px 6px;font-size:10px;">3-Way</button>
+          <button class="guide-pill" data-src="src" style="padding:2px 6px;font-size:10px;">Raw</button>
+          <button class="guide-pill" data-src="art" style="padding:2px 6px;font-size:10px;">Cartoon</button>
         </div>
       </div>
     </div>
 
-    <!-- LIVE SLICE METRICS BAR -->
-    <div class="shm-worm-metrics">
-      <div class="shm-m-card">
-        <div class="shm-m-lbl">3D Worm Topology &amp; Gait</div>
-        <div class="shm-m-val" id="shmMetricTopo" style="color:var(--gold);">—</div>
-      </div>
-      <div class="shm-m-card">
-        <div class="shm-m-lbl">SAM Silhouette Centroid &amp; Area</div>
-        <div class="shm-m-val" id="shmMetricPoly">—</div>
-      </div>
-      <div class="shm-m-card">
-        <div class="shm-m-lbl">Depth Anything Strata (FG / BG / ΔZ)</div>
-        <div class="shm-m-val" id="shmMetricDepth" style="color:var(--cyan);">—</div>
-      </div>
-      <div class="shm-m-card">
-        <div class="shm-m-lbl">Camera Translation (dx, dy) &amp; Shear</div>
-        <div class="shm-m-val" id="shmMetricCam" style="color:var(--green);">—</div>
-      </div>
-      <div class="shm-m-card">
-        <div class="shm-m-lbl">Composition Tunnel &amp; Tracking Stack</div>
-        <div class="shm-m-val" id="shmMetricRule">—</div>
-      </div>
+    <!-- Row 3: Compact Scrubber + 1-Line Telemetry -->
+    <div class="shm-ctrl-row" style="border-bottom:none;border-top:1px solid var(--border);">
+      <button class="btn" id="shmStepPrev" style="padding:3px 7px;">-1f</button>
+      <input type="range" id="shmSlider" min="0" max="32" value="0" step="1" style="flex:1;min-width:110px;accent-color:var(--gold);height:5px;">
+      <button class="btn" id="shmStepNext" style="padding:3px 7px;">+1f</button>
+      <span class="time-readout" id="shmSummaryText" style="min-width:auto;font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Loading 108 Multi-Depth Worms...</span>
     </div>
   </section>
 
@@ -942,7 +866,7 @@
       </div>
       <img src="img/secondhand_worms_atlas.jpg" loading="lazy" alt="108 Secondhand Motion 4D Time Worms Atlas" style="width:100%;border-radius:6px;border:1px solid var(--border);display:block;">
     </div>
-    <div class="card-grid" id="shmCardsGrid"></div>
+    <div class="shm-mini-grid" id="shmCardsGrid"></div>
   </section>
 
   <!-- TAB 1: 8 PERSPECTIVE RULES -->
@@ -1530,25 +1454,19 @@ const startIdx = FILMS.findIndex(f => f.id === "shape-114");
 loadFilmByIndex(startIdx !== -1 ? startIdx : 0, 0, false);
 
 /* ========================================================================== */
-/* 4D SECONDHAND MOTION TIME-WORM STUDIO ENGINE (108 TRACKED SHOTS)           */
+/* COMPACT MOBILE-FIRST MULTI-DEPTH WORM STUDIO ENGINE (108 SHOTS · 375 DEPTHS)*/
 /* ========================================================================== */
 (function initShmWormStudio() {
-  const SHM_BASE = "https://hartswf0.github.io/secondhand-motion/";
-  const TOPO_COLORS = {
-    "ARTICULATED_LIMB_BRAID": "#f2bc57",
-    "CAMERA_SHEAR_RIBBON": "#5bc8eb",
-    "LOOMING_FUNNEL_CONE": "#f56565",
-    "SERPENTINE_CORKSCREW": "#b794f4",
-    "LOCKED_PILLAR": "#68d391"
-  };
   let worms = [];
   let curWormIdx = 0;
-  let curSliceIdx = 0;
-  let curSrcMode = "comparison";
-  let layers = { poly: true, depth: true, rig: true, cam: true, grid: true };
-  let yaw = -0.62, pitch = 0.36;
+  let curFrame = 0;
+  let curSrcMode = "comp";
+  let wMode = "orbit3d";
+  let showSub = true;
+  let activeDepths = new Set();
+  let yaw = -0.58, pitch = 0.34;
   let dragging = false, dragX = 0, dragY = 0, moved = false;
-  let projectedCenters = [];
+  let hitNodes = [];
 
   const shmVideo = document.getElementById("shmVideo");
   const shmFallbackImg = document.getElementById("shmFallbackImg");
@@ -1557,374 +1475,231 @@ loadFilmByIndex(startIdx !== -1 ? startIdx : 0, 0, false);
   const shmPrism3d = document.getElementById("shmPrism3d");
   const ctx3d = shmPrism3d.getContext("2d");
   const shmSelect = document.getElementById("shmSelect");
+  const shmSlider = document.getElementById("shmSlider");
 
-  function resolveMediaUrl(p) {
-    if (!p) return "";
-    if (p.startsWith("http://") || p.startsWith("https://")) return p;
-    return SHM_BASE + p.replace(/^\/+/, "");
-  }
-
-  function proj3d(u, v, tau, W, H) {
+  function proj3d(u, v, tau, zNorm, W, H) {
     const x = u - 0.5;
-    const y = 0.5 - v;
+    const y = (0.5 - v) + (zNorm - 0.35) * 0.28;
     const z = (tau - 0.5) * 1.55;
     const cy = Math.cos(yaw), sy = Math.sin(yaw);
     const cp = Math.cos(pitch), sp = Math.sin(pitch);
-    const x1 = x * cy + z * sy;
-    const z1 = -x * sy + z * cy;
-    const y2 = y * cp - z1 * sp;
-    const z2 = y * sp + z1 * cp;
-    const fov = 2.45;
-    const sc = (Math.min(W, H) * 0.72) / Math.max(0.55, fov - z2 * 0.52);
-    return { sx: W * 0.50 + x1 * sc, sy: H * 0.52 - y2 * sc, z2, sc };
+    const x1 = x * cy + z * sy, z1 = -x * sy + z * cy;
+    const y2 = y * cp - z1 * sp, z2 = y * sp + z1 * cp;
+    const sc = (Math.min(W, H) * 0.78) / Math.max(0.55, 2.35 - z2 * 0.5);
+    return { sx: W * 0.50 + x1 * sc, sy: H * 0.52 - y2 * sc, sc };
   }
 
-  function draw2dSliceOverlay(w, sIdx) {
-    const W = shmOverlay2d.width, H = shmOverlay2d.height;
-    ctx2d.clearRect(0, 0, W, H);
-    if (!w || !w.slices || !w.slices.length) return;
-    const sl = w.slices[Math.max(0, Math.min(w.slices.length - 1, sIdx))];
-    const col = TOPO_COLORS[w.topology] || "#f2bc57";
+  function isDepthOn(id) {
+    return activeDepths.size === 0 || activeDepths.has(id);
+  }
 
-    ctx2d.save();
-    // 1. Composition grid guide
-    if (layers.grid) {
-      ctx2d.strokeStyle = "rgba(242,188,87,0.35)";
-      ctx2d.lineWidth = 1.4;
-      ctx2d.setLineDash([5, 5]);
-      ctx2d.beginPath();
-      ctx2d.moveTo(W/3, 0); ctx2d.lineTo(W/3, H);
-      ctx2d.moveTo(2*W/3, 0); ctx2d.lineTo(2*W/3, H);
-      ctx2d.moveTo(0, H/3); ctx2d.lineTo(W, H/3);
-      ctx2d.moveTo(0, 2*H/3); ctx2d.lineTo(W, 2*H/3);
-      ctx2d.stroke();
-      ctx2d.setLineDash([]);
-    }
+  function renderDepthPills(w) {
+    const bar = document.getElementById("shmDepthBar");
+    if (!bar) return;
+    const dws = w.depth_worms || [];
+    bar.innerHTML = `<span style="font-size:10px;font-family:var(--mono);color:var(--muted);white-space:nowrap;">DEPTHS (${dws.length}):</span>`;
+    const allB = document.createElement("button");
+    allB.className = "shm-dpill" + (activeDepths.size === 0 ? " on" : "");
+    allB.style.color = "#f1f3f9";
+    allB.textContent = `All (${dws.length})`;
+    allB.onclick = () => { activeDepths.clear(); renderDepthPills(w); drawShmAll(); };
+    bar.appendChild(allB);
 
-    // 2. Historical centroid worldline trail
-    ctx2d.strokeStyle = "rgba(91,200,235,0.65)";
-    ctx2d.lineWidth = 2.2;
-    ctx2d.beginPath();
-    w.slices.forEach((s, i) => {
-      const px = s.u * W, py = s.v * H;
-      if (i === 0) ctx2d.moveTo(px, py); else ctx2d.lineTo(px, py);
+    dws.forEach(dw => {
+      const b = document.createElement("button");
+      b.className = "shm-dpill" + (isDepthOn(dw.id) ? " on" : "");
+      b.style.color = dw.color || "#4fd1c5";
+      b.innerHTML = `<span style="width:6px;height:6px;border-radius:50%;background:${dw.color};display:inline-block;"></span>z=${dw.z} ${dw.label}`;
+      b.onclick = () => {
+        if (activeDepths.size === 1 && activeDepths.has(dw.id)) activeDepths.clear();
+        else { activeDepths.clear(); activeDepths.add(dw.id); }
+        renderDepthPills(w);
+        drawShmAll();
+      };
+      bar.appendChild(b);
     });
-    ctx2d.stroke();
-
-    // 3. SAM Polygon Silhouette
-    if (layers.poly && sl.poly && sl.poly.length >= 3) {
-      ctx2d.fillStyle = col + "28";
-      ctx2d.strokeStyle = col;
-      ctx2d.lineWidth = 2.8;
-      ctx2d.beginPath();
-      sl.poly.forEach((pt, i) => {
-        const px = pt[0] * W, py = pt[1] * H;
-        if (i === 0) ctx2d.moveTo(px, py); else ctx2d.lineTo(px, py);
-      });
-      ctx2d.closePath();
-      ctx2d.fill();
-      ctx2d.stroke();
-    }
-
-    // 4. Articulated Limb Rig & Planted-Foot Pillars
-    if (layers.rig && sl.rig) {
-      const rg = sl.rig;
-      ctx2d.strokeStyle = "#5bc8eb";
-      ctx2d.lineWidth = 3;
-      if (rg.neck_base && rg.head) {
-        ctx2d.beginPath();
-        ctx2d.moveTo(rg.neck_base[0]*W, rg.neck_base[1]*H);
-        ctx2d.lineTo(rg.head[0]*W, rg.head[1]*H);
-        ctx2d.stroke();
-      }
-      if (rg.legs) {
-        Object.entries(rg.legs).forEach(([legName, pts]) => {
-          if (!pts || pts.length < 2) return;
-          ctx2d.strokeStyle = legName.startsWith("F") ? "#f2bc57" : "#68d391";
-          ctx2d.lineWidth = 2.6;
-          ctx2d.beginPath();
-          pts.forEach((p, idx) => {
-            if (idx === 0) ctx2d.moveTo(p[0]*W, p[1]*H);
-            else ctx2d.lineTo(p[0]*W, p[1]*H);
-          });
-          ctx2d.stroke();
-          const hoof = pts[pts.length - 1];
-          const planted = rg.planted && rg.planted[legName];
-          ctx2d.fillStyle = planted ? "#f56565" : "#5bc8eb";
-          ctx2d.beginPath();
-          ctx2d.arc(hoof[0]*W, hoof[1]*H, planted ? 6.5 : 4, 0, Math.PI*2);
-          ctx2d.fill();
-        });
-      }
-    }
-
-    // 5. Camera pan vector arrow
-    if (layers.cam && (Math.abs(sl.cam_dx) > 0.002 || Math.abs(sl.cam_dy) > 0.002)) {
-      const cx0 = W * 0.86, cy0 = H * 0.12;
-      const cx1 = cx0 + sl.cam_dx * W * 0.45, cy1 = cy0 + sl.cam_dy * H * 0.45;
-      ctx2d.strokeStyle = "#68d391";
-      ctx2d.lineWidth = 2.5;
-      ctx2d.beginPath(); ctx2d.moveTo(cx0, cy0); ctx2d.lineTo(cx1, cy1); ctx2d.stroke();
-      ctx2d.fillStyle = "#68d391";
-      ctx2d.beginPath(); ctx2d.arc(cx1, cy1, 4.5, 0, Math.PI*2); ctx2d.fill();
-    }
-
-    // Centroid crosshair
-    ctx2d.fillStyle = "#ffffff";
-    ctx2d.beginPath();
-    ctx2d.arc(sl.u * W, sl.v * H, 5, 0, Math.PI * 2);
-    ctx2d.fill();
-    ctx2d.restore();
   }
 
-  function draw3dWormPrism(w, activeIdx) {
+  function draw3dWormPrism(w, fIdx) {
     const W = shmPrism3d.width, H = shmPrism3d.height;
     ctx3d.clearRect(0, 0, W, H);
-    if (!w || !w.slices || !w.slices.length) return;
-    const slices = w.slices;
-    const N = slices.length;
-    const col = TOPO_COLORS[w.topology] || "#f2bc57";
+    const frames = w.frames || [];
+    const nf = frames.length;
+    if (!nf) return;
+    const dws = w.depth_worms || [];
+    hitNodes = [];
 
-    // 1. 3D Prism Wireframe Box (u, v, tau in [0,1]^3)
-    const corners = [
-      [0,0,0],[1,0,0],[1,1,0],[0,1,0],
-      [0,0,1],[1,0,1],[1,1,1],[0,1,1]
-    ].map(c => proj3d(c[0], c[1], c[2], W, H));
-    const edges = [
-      [0,1],[1,2],[2,3],[3,0],
-      [4,5],[5,6],[6,7],[7,4],
-      [0,4],[1,5],[2,6],[3,7]
-    ];
-    ctx3d.strokeStyle = "rgba(154,163,181,0.28)";
-    ctx3d.lineWidth = 1.2;
-    edges.forEach(([a, b]) => {
-      ctx3d.beginPath();
-      ctx3d.moveTo(corners[a].sx, corners[a].sy);
-      ctx3d.lineTo(corners[b].sx, corners[b].sy);
-      ctx3d.stroke();
-    });
+    if (wMode === "lanes") {
+      const padL = 110, padR = 20, padT = 24, padB = 24;
+      const plotW = W - padL - padR, plotH = H - padT - padB;
+      const nL = Math.max(1, dws.length);
+      const curX = padL + (fIdx / Math.max(1, nf - 1)) * plotW;
+      ctx3d.strokeStyle = "rgba(242,188,87,0.55)"; ctx3d.lineWidth = 1.5;
+      ctx3d.beginPath(); ctx3d.moveTo(curX, padT - 6); ctx3d.lineTo(curX, H - padB + 6); ctx3d.stroke();
 
-    // Axis labels
-    ctx3d.fillStyle = "#9aa3b5";
-    ctx3d.font = "11px ui-monospace, SFMono-Regular, Menlo, monospace";
-    ctx3d.fillText("τ=0 (Start)", corners[3].sx - 24, corners[3].sy + 14);
-    ctx3d.fillText("τ=T (End)", corners[7].sx - 18, corners[7].sy + 14);
-
-    // 2. Internal Rule-of-Thirds Tunnel Planes
-    if (layers.grid) {
-      ctx3d.strokeStyle = "rgba(242,188,87,0.16)";
-      ctx3d.lineWidth = 1;
-      [1/3, 2/3].forEach(u0 => {
-        const p0 = proj3d(u0, 0, 0, W, H), p1 = proj3d(u0, 1, 0, W, H),
-              p2 = proj3d(u0, 1, 1, W, H), p3 = proj3d(u0, 0, 1, W, H);
+      dws.forEach((dw, dIdx) => {
+        const on = isDepthOn(dw.id);
+        const ly0 = padT + (dIdx + 0.5) * (plotH / nL);
+        const lh = (plotH / nL) * 0.72;
+        const col = dw.color || "#4fd1c5";
+        ctx3d.fillStyle = on ? col : "rgba(139,149,171,0.4)";
+        ctx3d.font = "bold 10px ui-monospace, SFMono-Regular, Menlo, monospace";
+        ctx3d.fillText(`z=${dw.z} ${dw.label.slice(0, 11)}`, 8, ly0 + 3);
+        if (!on) return;
+        const trk = dw.track || [];
+        ctx3d.strokeStyle = col; ctx3d.lineWidth = dw.role === "subject" ? 2.6 : 1.7;
         ctx3d.beginPath();
-        ctx3d.moveTo(p0.sx,p0.sy); ctx3d.lineTo(p1.sx,p1.sy);
-        ctx3d.lineTo(p2.sx,p2.sy); ctx3d.lineTo(p3.sx,p3.sy);
-        ctx3d.closePath(); ctx3d.stroke();
-      });
-    }
-
-    // 3. Camera Pan Shear Ribbon along floor (v=0.95)
-    if (layers.cam) {
-      ctx3d.strokeStyle = "rgba(104,211,145,0.65)";
-      ctx3d.lineWidth = 2;
-      ctx3d.beginPath();
-      slices.forEach((s, i) => {
-        const cu = Math.max(0.05, Math.min(0.95, 0.5 + (s.cam_dx || 0) * 0.38));
-        const p = proj3d(cu, 0.95, s.tau, W, H);
-        if (i === 0) ctx3d.moveTo(p.sx, p.sy); else ctx3d.lineTo(p.sx, p.sy);
-      });
-      ctx3d.stroke();
-    }
-
-    // 4. Multiplane Depth Separation Shell
-    if (layers.depth) {
-      ctx3d.strokeStyle = "rgba(91,200,235,0.42)";
-      ctx3d.lineWidth = 1.5;
-      ctx3d.beginPath();
-      slices.forEach((s, i) => {
-        const dz = (s.d_fg - s.d_bg) * 0.25;
-        const p = proj3d(Math.max(0.05, Math.min(0.95, s.u + dz)), s.v, s.tau, W, H);
-        if (i === 0) ctx3d.moveTo(p.sx, p.sy); else ctx3d.lineTo(p.sx, p.sy);
-      });
-      ctx3d.stroke();
-    }
-
-    // 5. Extruded SAM Polygon Silhouette Tube (Longitudinal Ribbons + Cross-Sections)
-    if (layers.poly) {
-      const K = 16;
-      for (let k = 0; k < K; k += 2) {
-        ctx3d.strokeStyle = col + "50";
-        ctx3d.lineWidth = 1.2;
-        ctx3d.beginPath();
-        slices.forEach((s, i) => {
-          if (!s.poly || !s.poly.length) return;
-          const pt = s.poly[k % s.poly.length];
-          const p = proj3d(pt[0], pt[1], s.tau, W, H);
-          if (i === 0) ctx3d.moveTo(p.sx, p.sy); else ctx3d.lineTo(p.sx, p.sy);
+        trk.forEach((pt, fi) => {
+          const tx = padL + (fi / Math.max(1, nf - 1)) * plotW;
+          const ty = ly0 + (pt[0] - 0.5) * lh * 0.92;
+          if (dw.role === "subject") hitNodes.push({ fi, sx: tx, sy: ty });
+          if (fi === 0) ctx3d.moveTo(tx, ty); else ctx3d.lineTo(tx, ty);
         });
         ctx3d.stroke();
+      });
+      return;
+    }
+
+    const box = [[0,0,0],[1,0,0],[1,1,0],[0,1,0],[0,0,1],[1,0,1],[1,1,1],[0,1,1]].map(c => proj3d(c[0],c[1],c[2],0.35,W,H));
+    [[0,1],[1,2],[2,3],[3,0],[4,5],[5,6],[6,7],[7,4],[0,4],[1,5],[2,6],[3,7]].forEach(([a,b]) => {
+      ctx3d.beginPath(); ctx3d.moveTo(box[a].sx, box[a].sy); ctx3d.lineTo(box[b].sx, box[b].sy);
+      ctx3d.strokeStyle = "rgba(139,149,171,0.22)"; ctx3d.lineWidth = 1; ctx3d.stroke();
+    });
+
+    [...dws].reverse().forEach(dw => {
+      if (!isDepthOn(dw.id)) return;
+      const col = dw.color || "#4fd1c5";
+      const trk = dw.track || [];
+      const zNorm = Math.min(1.0, Math.log(Math.max(1.0, dw.z || 2.0)) / Math.log(12.0));
+      const isSubj = dw.role === "subject";
+
+      if (isSubj) {
+        const step = Math.max(1, Math.floor(nf / 14));
+        frames.forEach((fr, fi) => {
+          if (fi !== fIdx && fi % step !== 0 && !(w.keys || []).includes(fi)) return;
+          if (!fr.ring || fr.ring.length < 3) return;
+          ctx3d.strokeStyle = (fi === fIdx) ? "#ffffff" : col + "bb";
+          ctx3d.fillStyle = (fi === fIdx) ? col + "50" : col + "18";
+          ctx3d.lineWidth = (fi === fIdx) ? 2.4 : 1.1;
+          ctx3d.beginPath();
+          fr.ring.forEach((uv, j) => {
+            const p = proj3d(uv[0], uv[1], fi / Math.max(1, nf - 1), zNorm, W, H);
+            if (j === 0) ctx3d.moveTo(p.sx, p.sy); else ctx3d.lineTo(p.sx, p.sy);
+          });
+          ctx3d.closePath(); ctx3d.fill(); ctx3d.stroke();
+        });
+      } else {
+        const step = Math.max(1, Math.floor(nf / 9));
+        trk.forEach((pt, fi) => {
+          if (fi !== fIdx && fi % step !== 0) return;
+          const p = proj3d(pt[0], pt[1], fi / Math.max(1, nf - 1), zNorm, W, H);
+          const rx = Math.max(5, pt[2] * p.sc * 0.5);
+          ctx3d.strokeStyle = (fi === fIdx) ? "#ffffff" : col + "99";
+          ctx3d.lineWidth = (fi === fIdx) ? 1.8 : 1.0;
+          ctx3d.beginPath(); ctx3d.ellipse(p.sx, p.sy, rx, rx * 0.6, 0, 0, Math.PI * 2); ctx3d.stroke();
+        });
       }
 
-      slices.forEach((s, i) => {
-        if (!s.poly || s.poly.length < 3) return;
-        const isAct = (i === activeIdx);
-        ctx3d.strokeStyle = isAct ? "#ffffff" : col + "aa";
-        ctx3d.fillStyle = isAct ? col + "66" : col + "1c";
-        ctx3d.lineWidth = isAct ? 2.8 : 1.25;
-        ctx3d.beginPath();
-        s.poly.forEach((pt, j) => {
-          const p = proj3d(pt[0], pt[1], s.tau, W, H);
-          if (j === 0) ctx3d.moveTo(p.sx, p.sy); else ctx3d.lineTo(p.sx, p.sy);
-        });
-        ctx3d.closePath();
-        ctx3d.fill();
-        ctx3d.stroke();
-      });
-    }
-
-    // 6. Articulated Limb Braids & Planted-Foot Vertical Pillars
-    if (layers.rig) {
-      ["FL", "FR", "BL", "BR"].forEach((leg, lIdx) => {
-        ctx3d.strokeStyle = lIdx < 2 ? "#f2bc57cc" : "#68d391cc";
-        ctx3d.lineWidth = 1.8;
-        ctx3d.beginPath();
-        let started = false;
-        slices.forEach(s => {
-          if (!s.rig || !s.rig.legs || !s.rig.legs[leg]) return;
-          const pts = s.rig.legs[leg];
-          const hoof = pts[pts.length - 1];
-          const p = proj3d(hoof[0], hoof[1], s.tau, W, H);
-          if (!started) { ctx3d.moveTo(p.sx, p.sy); started = true; }
-          else ctx3d.lineTo(p.sx, p.sy);
-          if (s.rig.planted && s.rig.planted[leg]) {
-            ctx3d.fillStyle = "#f56565";
-            ctx3d.fillRect(p.sx - 2.5, p.sy - 2.5, 5, 5);
-          }
-        });
-        ctx3d.stroke();
-      });
-    }
-
-    // 7. Core Worldline Spine & Clickable Nodes
-    projectedCenters = [];
-    ctx3d.strokeStyle = "#ffffff";
-    ctx3d.lineWidth = 2.4;
-    ctx3d.beginPath();
-    slices.forEach((s, i) => {
-      const p = proj3d(s.u, s.v, s.tau, W, H);
-      projectedCenters.push({ idx: i, sx: p.sx, sy: p.sy });
-      if (i === 0) ctx3d.moveTo(p.sx, p.sy); else ctx3d.lineTo(p.sx, p.sy);
-    });
-    ctx3d.stroke();
-
-    projectedCenters.forEach(pc => {
-      const isAct = (pc.idx === activeIdx);
-      ctx3d.fillStyle = isAct ? "#f2bc57" : "#ffffff";
+      ctx3d.strokeStyle = col; ctx3d.lineWidth = isSubj ? 2.6 : 1.8;
       ctx3d.beginPath();
-      ctx3d.arc(pc.sx, pc.sy, isAct ? 6 : 3, 0, Math.PI * 2);
-      ctx3d.fill();
+      trk.forEach((pt, fi) => {
+        const p = proj3d(pt[0], pt[1], fi / Math.max(1, nf - 1), zNorm, W, H);
+        if (isSubj) hitNodes.push({ fi, sx: p.sx, sy: p.sy });
+        if (fi === 0) ctx3d.moveTo(p.sx, p.sy); else ctx3d.lineTo(p.sx, p.sy);
+      });
+      ctx3d.stroke();
+
+      if (showSub && dw.sub_worms) {
+        dw.sub_worms.forEach(sw => {
+          ctx3d.strokeStyle = col + "99"; ctx3d.lineWidth = 1.1; ctx3d.setLineDash([3, 3]);
+          ctx3d.beginPath();
+          if (sw.pts) {
+            sw.pts.forEach((uv, fi) => {
+              const p = proj3d(uv[0], uv[1], fi / Math.max(1, nf - 1), zNorm, W, H);
+              if (fi === 0) ctx3d.moveTo(p.sx, p.sy); else ctx3d.lineTo(p.sx, p.sy);
+            });
+          } else if (sw.u0 !== undefined) {
+            trk.forEach((pt, fi) => {
+              const p = proj3d(sw.u0 + (pt[0] - trk[0][0]), sw.v0 + (pt[1] - trk[0][1]), fi / Math.max(1, nf - 1), zNorm, W, H);
+              if (fi === 0) ctx3d.moveTo(p.sx, p.sy); else ctx3d.lineTo(p.sx, p.sy);
+            });
+          }
+          ctx3d.stroke(); ctx3d.setLineDash([]);
+        });
+      }
     });
   }
 
-  function syncShmUI(w, sIdx) {
-    if (!w || !w.slices || !w.slices.length) return;
-    curSliceIdx = Math.max(0, Math.min(w.slices.length - 1, sIdx));
-    const sl = w.slices[curSliceIdx];
-    const m = w.metrics || {};
-
-    document.getElementById("shmTimeReadout").textContent =
-      `f${String(sl.f).padStart(3, "0")} · ${sl.t.toFixed(2)}s / ${(w.duration_s || 2.5).toFixed(2)}s`;
-    document.getElementById("shmTopoPill").textContent = `${w.topology} · ${w.gait || "walk"}`;
-    document.getElementById("shmSummaryText").textContent = w.summary || "";
-
-    document.getElementById("shmMetricTopo").textContent = `${w.topology.replace(/_/g, " ")} (${w.gait || "walk"})`;
-    document.getElementById("shmMetricPoly").textContent =
-      `u=${sl.u.toFixed(3)}, v=${sl.v.toFixed(3)} · Area=${(sl.area * 100).toFixed(1)}%`;
-    document.getElementById("shmMetricDepth").textContent =
-      `FG=${sl.d_fg.toFixed(2)} · BG=${sl.d_bg.toFixed(2)} · ΔZ=${((sl.d_fg - sl.d_bg) >= 0 ? "+" : "") + (sl.d_fg - sl.d_bg).toFixed(2)}`;
-    document.getElementById("shmMetricCam").textContent =
-      `dx=${(sl.cam_dx >= 0 ? "+" : "") + sl.cam_dx.toFixed(3)}, dy=${(sl.cam_dy >= 0 ? "+" : "") + sl.cam_dy.toFixed(3)} (Shear ${(m.cam_shear || 0).toFixed(2)})`;
-    const layersStr = [
-      w.has_masks ? "SAM" : "",
-      w.has_depth ? "Depth" : "",
-      w.has_camera ? "Cam" : "",
-      w.has_rig ? "Rig" : ""
-    ].filter(Boolean).join("+");
-    document.getElementById("shmMetricRule").textContent =
-      `${w.pinned_rule} (${w.rule_fit_pct}% Fit) · [${layersStr}]`;
-
-    document.querySelectorAll("#shmScrubber .seg-slot").forEach((el, i) => {
-      el.classList.toggle("active", i === curSliceIdx);
+  function draw2dSliceOverlay(w, fIdx) {
+    const W = shmOverlay2d.width, H = shmOverlay2d.height;
+    ctx2d.clearRect(0, 0, W, H);
+    const frames = w.frames || [];
+    if (!frames.length) return;
+    const fr = frames[Math.min(frames.length - 1, fIdx)];
+    (w.depth_worms || []).forEach(dw => {
+      if (!isDepthOn(dw.id)) return;
+      const col = dw.color || "#4fd1c5";
+      const pt = (dw.track || [])[Math.min((dw.track || []).length - 1, fIdx)];
+      if (!pt) return;
+      if (dw.role === "subject" && fr.ring && fr.ring.length >= 3) {
+        ctx2d.strokeStyle = col; ctx2d.fillStyle = col + "22"; ctx2d.lineWidth = 2.2;
+        ctx2d.beginPath();
+        fr.ring.forEach((uv, i) => { if (i === 0) ctx2d.moveTo(uv[0]*W, uv[1]*H); else ctx2d.lineTo(uv[0]*W, uv[1]*H); });
+        ctx2d.closePath(); ctx2d.fill(); ctx2d.stroke();
+      } else {
+        const cx = pt[0]*W, cy = pt[1]*H, rx = pt[2]*W*0.6, ry = pt[2]*H*0.4;
+        ctx2d.strokeStyle = col + "bb"; ctx2d.lineWidth = 1.4; ctx2d.setLineDash([4, 4]);
+        ctx2d.beginPath(); ctx2d.ellipse(cx, cy, rx, ry, 0, 0, Math.PI * 2); ctx2d.stroke(); ctx2d.setLineDash([]);
+      }
     });
+  }
 
-    draw2dSliceOverlay(w, curSliceIdx);
-    draw3dWormPrism(w, curSliceIdx);
+  function drawShmAll() {
+    const w = worms[curWormIdx];
+    if (!w) return;
+    draw3dWormPrism(w, curFrame);
+    draw2dSliceOverlay(w, curFrame);
+    const dws = w.depth_worms || [];
+    document.getElementById("shmSummaryText").textContent =
+      `f${String(curFrame).padStart(2,"0")}/${w.n_frames-1} · ${dws.length} Depths (${dws.map(d=>"z="+d.z).join("→")}) · ${w.best_rule} ${w.best_fit}%`;
   }
 
   function applyMediaSource(w) {
-    const med = w.media || {};
-    let url = "";
-    if (curSrcMode === "comparison") url = med.comparison_mp4 || med.source_mp4 || med.cartoon_mp4 || "";
-    else if (curSrcMode === "source") url = med.source_mp4 || med.comparison_mp4 || "";
-    else if (curSrcMode === "cartoon") url = med.cartoon_mp4 || med.comparison_mp4 || med.source_mp4 || "";
-
-    if (curSrcMode === "keys" || !url) {
-      shmVideo.pause();
-      shmVideo.style.display = "none";
+    let url = w.comp_mp4 || w.src_mp4 || w.art_mp4 || "";
+    if (curSrcMode === "src") url = w.src_mp4 || w.comp_mp4 || "";
+    else if (curSrcMode === "art") url = w.art_mp4 || w.comp_mp4 || "";
+    if (!url) {
+      shmVideo.pause(); shmVideo.style.display = "none";
       shmFallbackImg.style.display = "block";
-      shmFallbackImg.src = resolveMediaUrl(med.keys_sheet || med.thumb || "assets/shot.jpg");
+      shmFallbackImg.src = w.strip_img || w.sil_img || "";
     } else {
       shmFallbackImg.style.display = "none";
       shmVideo.style.display = "block";
-      const fullUrl = resolveMediaUrl(url);
-      if (shmVideo.src !== fullUrl) {
-        shmVideo.src = fullUrl;
-      }
+      if (shmVideo.src !== url) shmVideo.src = url;
     }
   }
 
   function selectWorm(idx, autoPlay = false) {
     if (!worms.length) return;
-    if (idx < 0) idx = worms.length - 1;
-    if (idx >= worms.length) idx = 0;
-    curWormIdx = idx;
-    shmSelect.value = idx;
-    const w = worms[idx];
-
-    document.querySelectorAll("#shmQuickBar .qf-btn").forEach(b => {
-      b.classList.toggle("active", b.dataset.wid === w.id);
-    });
-
-    const caseHref = (w.media && w.media.case_page) ? resolveMediaUrl(w.media.case_page) : SHM_BASE;
-    document.getElementById("shmCaseLink").href = caseHref;
-
-    // Build slice scrubber
-    const scrub = document.getElementById("shmScrubber");
-    scrub.innerHTML = "";
-    (w.slices || []).forEach((s, sIdx) => {
-      const slot = document.createElement("div");
-      slot.className = "seg-slot" + (sIdx === 0 ? " active" : "");
-      slot.innerHTML = `<span>${sIdx + 1}</span>`;
-      slot.title = `Frame ${s.f} (${s.t.toFixed(2)}s)`;
-      slot.addEventListener("click", () => {
-        syncShmUI(w, sIdx);
-        if (shmVideo.style.display !== "none" && shmVideo.duration) {
-          shmVideo.currentTime = Math.min(shmVideo.duration - 0.02, s.tau * shmVideo.duration);
-        }
-      });
-      scrub.appendChild(slot);
-    });
-
+    curWormIdx = (idx + worms.length) % worms.length;
+    shmSelect.value = curWormIdx;
+    curFrame = 0;
+    activeDepths.clear();
+    const w = worms[curWormIdx];
+    shmSlider.max = Math.max(1, (w.frames || []).length - 1);
+    shmSlider.value = 0;
+    document.getElementById("shmCaseLink").href = w.gwp_page || "https://hartswf0.github.io/secondhand-motion/";
+    renderDepthPills(w);
     applyMediaSource(w);
-    syncShmUI(w, 0);
-    if (autoPlay && shmVideo.style.display !== "none") {
-      shmVideo.play().catch(() => {});
-    }
+    drawShmAll();
+    document.querySelectorAll(".shm-mini-card").forEach(c => {
+      c.classList.toggle("active", parseInt(c.dataset.idx, 10) === curWormIdx);
+    });
+    if (autoPlay && shmVideo.style.display !== "none") shmVideo.play().catch(() => {});
   }
 
-  window.loadShmWormById = function(wid) {
-    const idx = worms.findIndex(w => w.id === wid);
+  window.loadShmWormById = function(slug) {
+    const idx = worms.findIndex(w => w.slug === slug);
     if (idx !== -1) {
       selectWorm(idx, true);
       document.getElementById("shmWormHero").scrollIntoView({ behavior: "smooth" });
@@ -1940,57 +1715,57 @@ loadFilmByIndex(startIdx !== -1 ? startIdx : 0, 0, false);
 
     worms.forEach((w, idx) => {
       if (tf !== "ALL" && w.topology !== tf) return;
-      const hay = `${w.title} ${w.category} ${w.topology} ${w.gait} ${w.pinned_rule}`.toLowerCase();
+      const hay = `${w.slug} ${w.title} ${w.topology} ${w.best_rule}`.toLowerCase();
       if (q && !hay.includes(q)) return;
 
       const card = document.createElement("div");
-      card.className = "card";
-      const col = TOPO_COLORS[w.topology] || "#f2bc57";
+      card.className = "shm-mini-card" + (idx === curWormIdx ? " active" : "");
+      card.dataset.idx = idx;
+      const dws = w.depth_worms || [];
       card.innerHTML = `
-        <div class="card-head">
-          <span class="card-title">${w.title} <span style="color:var(--muted);font-weight:400;font-size:11px;">(${w.lot || w.id})</span></span>
-          <span class="badge" style="color:${col};">${w.topology.replace(/_/g, " ")}</span>
-        </div>
-        <canvas width="320" height="120" id="shmMiniCanvas_${idx}" style="width:100%;height:110px;background:#05070a;border-radius:6px;border:1px solid var(--border);cursor:pointer;"></canvas>
-        <div class="card-desc">
-          <strong style="color:var(--fg);">Rule Tunnel:</strong> ${w.pinned_rule} (${w.rule_fit_pct}% Fit) · <strong style="color:var(--fg);">Gait:</strong> ${w.gait || "walk"}<br>
-          <span>${w.summary}</span>
-        </div>
-        <div class="card-actions">
-          <button class="btn btn-gold" onclick="loadShmWormById('${w.id}')">▶ Inspect 4D Worm &amp; Video</button>
-        </div>
+        <canvas width="180" height="56" style="width:100%;height:52px;display:block;background:#05070b;border-radius:4px;margin-bottom:4px;"></canvas>
+        <div style="font-size:11px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${idx + 1}. ${w.slug}</div>
+        <div style="font-size:9.5px;font-family:var(--mono);color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${dws.length} depths (${dws.map(d => "z=" + d.z).slice(0, 3).join(",")})</div>
       `;
+      card.addEventListener("click", () => {
+        selectWorm(idx, true);
+        document.getElementById("shmWormHero").scrollIntoView({ behavior: "smooth" });
+      });
       grid.appendChild(card);
 
-      // Draw mini 3D worm preview on the card canvas
       const mc = card.querySelector("canvas");
-      mc.addEventListener("click", () => window.loadShmWormById(w.id));
       const mctx = mc.getContext("2d");
-      const sls = w.slices || [];
-      sls.forEach((s, i) => {
-        if (!s.poly || s.poly.length < 3) return;
-        const ox = 36 + s.tau * 240, oy = 60;
-        mctx.strokeStyle = (i === sls.length - 1) ? "#ffffff" : col + "99";
-        mctx.fillStyle = col + "22";
-        mctx.lineWidth = (i === sls.length - 1) ? 1.8 : 1.0;
+      const nf = Math.max(1, (w.frames || []).length);
+      dws.forEach((dw, dIdx) => {
+        mctx.strokeStyle = dw.color || "#4fd1c5";
+        mctx.lineWidth = dw.role === "subject" ? 2.0 : 1.1;
         mctx.beginPath();
-        s.poly.forEach((pt, j) => {
-          const px = ox + (pt[0] - 0.5) * 68;
-          const py = oy + (pt[1] - 0.5) * 68;
-          if (j === 0) mctx.moveTo(px, py); else mctx.lineTo(px, py);
+        (dw.track || []).forEach((pt, fi) => {
+          const x = 8 + (fi / Math.max(1, nf - 1)) * 164;
+          const y = 10 + (dIdx / Math.max(1, dws.length - 1)) * 34 + (pt[0] - 0.5) * 16;
+          if (fi === 0) mctx.moveTo(x, y); else mctx.lineTo(x, y);
         });
-        mctx.closePath(); mctx.fill(); mctx.stroke();
+        mctx.stroke();
       });
     });
   }
 
-  // Wire controls
   shmSelect.addEventListener("change", () => selectWorm(parseInt(shmSelect.value, 10), true));
   document.getElementById("shmPrevBtn").addEventListener("click", () => selectWorm(curWormIdx - 1, true));
   document.getElementById("shmNextBtn").addEventListener("click", () => selectWorm(curWormIdx + 1, true));
 
-  document.querySelectorAll("#shmQuickBar .qf-btn").forEach(btn => {
-    btn.addEventListener("click", () => window.loadShmWormById(btn.dataset.wid));
+  document.querySelectorAll("#shmModeBar .guide-pill[data-wmode]").forEach(btn => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll("#shmModeBar .guide-pill[data-wmode]").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      wMode = btn.dataset.wmode;
+      drawShmAll();
+    });
+  });
+  document.getElementById("shmSubToggle").addEventListener("click", e => {
+    showSub = !showSub;
+    e.target.classList.toggle("active", showSub);
+    drawShmAll();
   });
 
   document.querySelectorAll("#shmSourceBar .guide-pill").forEach(btn => {
@@ -2002,18 +1777,9 @@ loadFilmByIndex(startIdx !== -1 ? startIdx : 0, 0, false);
     });
   });
 
-  document.querySelectorAll("#shmLayerBar .guide-pill[data-layer]").forEach(btn => {
-    btn.addEventListener("click", () => {
-      const k = btn.dataset.layer;
-      layers[k] = !layers[k];
-      btn.classList.toggle("active", layers[k]);
-      if (worms[curWormIdx]) syncShmUI(worms[curWormIdx], curSliceIdx);
-    });
-  });
-
   document.getElementById("shmResetCam").addEventListener("click", () => {
-    yaw = -0.62; pitch = 0.36;
-    if (worms[curWormIdx]) draw3dWormPrism(worms[curWormIdx], curSliceIdx);
+    yaw = -0.58; pitch = 0.34;
+    drawShmAll();
   });
 
   document.getElementById("shmPlayBtn").addEventListener("click", () => {
@@ -2021,35 +1787,41 @@ loadFilmByIndex(startIdx !== -1 ? startIdx : 0, 0, false);
     if (shmVideo.paused) shmVideo.play().catch(() => {});
     else shmVideo.pause();
   });
-  shmVideo.addEventListener("play", () => { document.getElementById("shmPlayBtn").textContent = "⏸ Pause"; });
-  shmVideo.addEventListener("pause", () => { document.getElementById("shmPlayBtn").textContent = "▶ Play"; });
+  shmVideo.addEventListener("play", () => { document.getElementById("shmPlayBtn").textContent = "⏸"; });
+  shmVideo.addEventListener("pause", () => { document.getElementById("shmPlayBtn").textContent = "▶"; });
 
+  shmSlider.addEventListener("input", () => {
+    curFrame = parseInt(shmSlider.value, 10) || 0;
+    const w = worms[curWormIdx];
+    if (w && shmVideo.duration) shmVideo.currentTime = (curFrame / Math.max(1, w.frames.length - 1)) * shmVideo.duration;
+    drawShmAll();
+  });
   document.getElementById("shmStepPrev").addEventListener("click", () => {
-    if (!worms[curWormIdx]) return;
     shmVideo.pause();
-    const nextIdx = Math.max(0, curSliceIdx - 1);
-    syncShmUI(worms[curWormIdx], nextIdx);
+    curFrame = Math.max(0, curFrame - 1);
+    shmSlider.value = curFrame;
+    drawShmAll();
   });
   document.getElementById("shmStepNext").addEventListener("click", () => {
-    if (!worms[curWormIdx]) return;
     shmVideo.pause();
-    const nextIdx = Math.min(worms[curWormIdx].slices.length - 1, curSliceIdx + 1);
-    syncShmUI(worms[curWormIdx], nextIdx);
+    const w = worms[curWormIdx];
+    curFrame = Math.min((w ? w.frames.length : 1) - 1, curFrame + 1);
+    shmSlider.value = curFrame;
+    drawShmAll();
   });
 
   shmVideo.addEventListener("timeupdate", () => {
     const w = worms[curWormIdx];
-    if (!w || !w.slices || !w.slices.length || !shmVideo.duration) return;
-    const ratio = Math.max(0, Math.min(1, shmVideo.currentTime / shmVideo.duration));
-    let best = 0, bestDist = 999;
-    w.slices.forEach((s, i) => {
-      const d = Math.abs(s.tau - ratio);
-      if (d < bestDist) { bestDist = d; best = i; }
-    });
-    if (best !== curSliceIdx) syncShmUI(w, best);
+    if (!w || !w.frames || !shmVideo.duration) return;
+    const f = Math.round((shmVideo.currentTime / shmVideo.duration) * (w.frames.length - 1));
+    const cl = Math.max(0, Math.min(w.frames.length - 1, f));
+    if (cl !== curFrame) {
+      curFrame = cl;
+      shmSlider.value = curFrame;
+      drawShmAll();
+    }
   });
 
-  // 3D Orbit Drag + Click to Seek
   shmPrism3d.addEventListener("pointerdown", e => {
     dragging = true; moved = false; dragX = e.clientX; dragY = e.clientY;
     shmPrism3d.setPointerCapture(e.pointerId);
@@ -2058,27 +1830,29 @@ loadFilmByIndex(startIdx !== -1 ? startIdx : 0, 0, false);
     if (!dragging) return;
     const dx = e.clientX - dragX, dy = e.clientY - dragY;
     if (Math.abs(dx) > 2 || Math.abs(dy) > 2) moved = true;
-    yaw += dx * 0.008;
-    pitch = Math.max(-1.1, Math.min(1.1, pitch + dy * 0.008));
-    dragX = e.clientX; dragY = e.clientY;
-    if (worms[curWormIdx]) draw3dWormPrism(worms[curWormIdx], curSliceIdx);
+    if (wMode === "orbit3d") {
+      yaw += dx * 0.008;
+      pitch = Math.max(-1.1, Math.min(1.1, pitch + dy * 0.008));
+      dragX = e.clientX; dragY = e.clientY;
+      drawShmAll();
+    }
   });
   shmPrism3d.addEventListener("pointerup", e => {
     dragging = false;
-    if (!moved && worms[curWormIdx] && projectedCenters.length) {
+    if (!moved && worms[curWormIdx] && hitNodes.length) {
       const rect = shmPrism3d.getBoundingClientRect();
       const mx = (e.clientX - rect.left) * (shmPrism3d.width / rect.width);
       const my = (e.clientY - rect.top) * (shmPrism3d.height / rect.height);
       let best = -1, bestD = 9999;
-      projectedCenters.forEach(pc => {
+      hitNodes.forEach(pc => {
         const d = Math.hypot(pc.sx - mx, pc.sy - my);
-        if (d < bestD) { bestD = d; best = pc.idx; }
+        if (d < bestD) { bestD = d; best = pc.fi; }
       });
       if (best !== -1 && bestD < 48) {
-        syncShmUI(worms[curWormIdx], best);
-        if (shmVideo.style.display !== "none" && shmVideo.duration) {
-          shmVideo.currentTime = worms[curWormIdx].slices[best].tau * shmVideo.duration;
-        }
+        curFrame = best;
+        shmSlider.value = curFrame;
+        if (shmVideo.duration) shmVideo.currentTime = (curFrame / Math.max(1, worms[curWormIdx].frames.length - 1)) * shmVideo.duration;
+        drawShmAll();
       }
     }
   });
@@ -2086,7 +1860,6 @@ loadFilmByIndex(startIdx !== -1 ? startIdx : 0, 0, false);
   document.getElementById("shmSearchInput").addEventListener("input", renderShmCards);
   document.getElementById("shmTopoFilter").addEventListener("change", renderShmCards);
 
-  // Fetch 108 Worms JSON (local first, with live CDN fallback)
   fetch("secondhand_worms_108.json")
     .then(r => r.ok ? r.json() : fetch("https://hartswf0.github.io/secondhand-motion/data/worms_108.json").then(r2 => r2.json()))
     .catch(() => fetch("https://hartswf0.github.io/secondhand-motion/data/worms_108.json").then(r2 => r2.json()))
@@ -2096,14 +1869,12 @@ loadFilmByIndex(startIdx !== -1 ? startIdx : 0, 0, false);
       worms.forEach((w, idx) => {
         const opt = document.createElement("option");
         opt.value = idx;
-        opt.textContent = `${idx + 1}. ${w.title} — ${w.topology.replace(/_/g, " ")} (${w.slice_count} slices)`;
+        opt.textContent = `${idx + 1}. ${w.slug} (${(w.depth_worms || []).length} Depth Worms · ${w.n_frames}f)`;
         shmSelect.appendChild(opt);
       });
       renderShmCards();
-      selectWorm(0, false);
-    })
-    .catch(err => {
-      document.getElementById("shmSummaryText").textContent = "Error loading 108 worms: " + err;
+      const gIdx = worms.findIndex(w => w.slug === "giraffe");
+      selectWorm(gIdx !== -1 ? gIdx : 0, false);
     });
 })();
 </script>
