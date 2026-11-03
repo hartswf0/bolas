@@ -1488,8 +1488,8 @@ loadFilmByIndex(startIdx !== -1 ? startIdx : 0, 0, false);
   function getFrameDir(w) {
     if (!w) return "";
     if (w.frame_dir) return w.frame_dir;
-    const s = (w.slug === "giraffe-walks-past") ? "giraffe" : w.slug;
-    return "https://hartswf0.github.io/secondhand-motion/shots/" + s + "-gwp/frames";
+    const sid = w.shot_id || (w.slug === "giraffe-walks-past" ? "giraffe-walks-past" : (w.slug + "-gwp"));
+    return "https://hartswf0.github.io/secondhand-motion/shots/" + sid + "/frames";
   }
 
   function ensureFrameImg(w, fi) {
@@ -2421,6 +2421,22 @@ loadFilmByIndex(startIdx !== -1 ? startIdx : 0, 0, false);
   shmPrism3d.addEventListener("pointerdown", e => {
     dragging = true; moved = false; dragX = e.clientX; dragY = e.clientY;
     shmPrism3d.setPointerCapture(e.pointerId);
+    if (wMode === "stack" && !soloLayerId && rowBands.length && worms[curWormIdx]) {
+      const rect = shmPrism3d.getBoundingClientRect();
+      const mx = (e.clientX - rect.left) * (shmPrism3d.width / rect.width);
+      const b0 = rowBands[0];
+      if (mx >= b0.padL) {
+        const ratio = Math.max(0, Math.min(1, (mx - b0.padL) / Math.max(1, b0.plotW)));
+        const newF = Math.round(ratio * Math.max(1, b0.nf - 1));
+        if (newF !== curFrame) {
+          isPlaying = false; document.getElementById("shmPlayBtn").textContent = "▶"; shmVideo.pause();
+          curFrame = newF;
+          shmSlider.value = curFrame;
+          syncShmVidTime(worms[curWormIdx], curFrame);
+          drawShmAll();
+        }
+      }
+    }
   });
   shmPrism3d.addEventListener("pointermove", e => {
     if (!dragging) return;
@@ -2498,12 +2514,12 @@ loadFilmByIndex(startIdx !== -1 ? startIdx : 0, 0, false);
       worms.forEach((w, idx) => {
         const opt = document.createElement("option");
         opt.value = idx;
-        opt.textContent = `${idx + 1}. ${w.slug} (${(w.depth_worms || []).length} Worms)`;
+        opt.textContent = `${w.lot ? w.lot + " · " : (idx + 1) + ". "}${w.title || w.slug} (${(w.depth_worms || []).length} Worms · ${w.n_frames}f)`;
         shmSelect.appendChild(opt);
       });
       buildShmSwipeStrip();
       renderShmCards();
-      const gIdx = worms.findIndex(w => w.slug === "giraffe");
+      const gIdx = worms.findIndex(w => w.slug === "giraffe-walks-past");
       selectWorm(gIdx !== -1 ? gIdx : 0, false);
     });
 })();

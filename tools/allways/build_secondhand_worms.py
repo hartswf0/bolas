@@ -407,12 +407,18 @@ def classify_worm_and_rule(frames_data, cam_pan_mag, braid_count, num_joints):
 
 
 def main():
+    catalog_list = load_json_safe(os.path.join(SHM_ROOT, "data", "catalog.json")) or []
+    lot_by_id = {str(item.get("id")): item for item in catalog_list if isinstance(item, dict)}
+
     dirs = set(os.listdir(SHM_SHOTS))
     base_slugs = set()
     for d in dirs:
         if not os.path.isdir(os.path.join(SHM_SHOTS, d)):
             continue
-        for suf in ("-sam", "-gwp", "-redraw", "-walks-past"):
+        if d == "giraffe-walks-past":
+            base_slugs.add("giraffe-walks-past")
+            continue
+        for suf in ("-sam", "-gwp", "-redraw"):
             if d.endswith(suf):
                 base_slugs.add(d[: -len(suf)])
                 break
@@ -423,31 +429,39 @@ def main():
     topo_counts = {}
 
     for slug in sorted(base_slugs):
-        sam_dir = os.path.join(SHM_SHOTS, f"{slug}-sam")
-        gwp_dir = os.path.join(SHM_SHOTS, f"{slug}-gwp")
-        red_dir = os.path.join(SHM_SHOTS, f"{slug}-redraw")
-        base_dir = os.path.join(SHM_SHOTS, slug)
-        int_dir = os.path.join(base_dir, "integrated")
+        is_flagship_gwp = (slug == "giraffe-walks-past")
+        if is_flagship_gwp:
+            gwp_dir = os.path.join(SHM_SHOTS, "giraffe-walks-past")
+            sam_dir = gwp_dir
+            red_dir = gwp_dir
+            base_dir = gwp_dir
+            int_dir = os.path.join(gwp_dir, "nonexistent")
+        else:
+            sam_dir = os.path.join(SHM_SHOTS, f"{slug}-sam")
+            gwp_dir = os.path.join(SHM_SHOTS, f"{slug}-gwp")
+            red_dir = os.path.join(SHM_SHOTS, f"{slug}-redraw")
+            base_dir = os.path.join(SHM_SHOTS, slug)
+            int_dir = os.path.join(base_dir, "integrated")
 
-        masks_data = load_json_safe(os.path.join(sam_dir, "masks.json")) or load_json_safe(os.path.join(gwp_dir, "masks.json"))
-        depth_data = load_json_safe(os.path.join(sam_dir, "depth.json"))
-        cam_data = load_json_safe(os.path.join(sam_dir, "camera.json"))
         gwp_shot = load_json_safe(os.path.join(gwp_dir, "shot.json"))
-        red_shot = load_json_safe(os.path.join(red_dir, "shot.json"))
-        if slug == "giraffe":
-            red_shot = load_json_safe(os.path.join(SHM_SHOTS, "giraffe-walks-past", "shot.json")) or red_shot
-        int_shot = load_json_safe(os.path.join(int_dir, "shot.json"))
+        red_shot = load_json_safe(os.path.join(red_dir, "shot.json")) if not is_flagship_gwp else None
+        sam_shot = load_json_safe(os.path.join(sam_dir, "shot.json")) if not is_flagship_gwp else None
+        int_shot = load_json_safe(os.path.join(int_dir, "shot.json")) if not is_flagship_gwp else None
+        masks_data = load_json_safe(os.path.join(sam_dir, "masks.json")) or load_json_safe(os.path.join(gwp_dir, "masks.json"))
+        if not masks_data and gwp_shot and isinstance(gwp_shot.get("masks"), list):
+            masks_data = {str(i): m for i, m in enumerate(gwp_shot["masks"])}
+        depth_data = load_json_safe(os.path.join(sam_dir, "depth.json"))
+        cam_data = load_json_safe(os.path.join(sam_dir, "camera.json")) or load_json_safe(os.path.join(gwp_dir, "camera.json"))
         src_info = load_json_safe(os.path.join(base_dir, "source.json"))
         clip_info = load_json_safe(os.path.join(gwp_dir, "clip.json")) or load_json_safe(os.path.join(sam_dir, "clip.json"))
-        rig_spec = load_json_safe(os.path.join(SHM_ROOT, "rigs", f"{slug}_spec.json"))
-        scene_masks = load_json_safe(os.path.join(SHM_SHOTS, "giraffe-walks-past", "scene_masks.json")) if slug == "giraffe" else None
+        rig_spec = load_json_safe(os.path.join(SHM_ROOT, "rigs", f"{slug.replace('-', '_')}_spec.json")) if not is_flagship_gwp else None
+        scene_masks = load_json_safe(os.path.join(SHM_SHOTS, "giraffe-walks-past", "scene_masks.json")) if is_flagship_gwp else None
 
         if not (masks_data or gwp_shot or red_shot or int_shot):
             continue
 
-        # Prefer rich multi-plane red_shot for giraffe (giraffe-walks-past has 6 planes & 40 objects)
-        scene_shot = red_shot if (slug == "giraffe" and red_shot) else (gwp_shot or red_shot)
-        cast_frames = ((scene_shot or gwp_shot or red_shot or {}).get("cast") or {}).get("frames") or []
+        scene_shot = gwp_shot or red_shot or sam_shot
+        cast_frames = ((scene_shot or {}).get("cast") or {}).get("frames") or []
 
         # Find highest pose_agent_v*.json
         pose_dict = None
@@ -461,13 +475,15 @@ def main():
         if not pose_dict:
             pose_dict = load_json_safe(os.path.join(gwp_dir, "pose_auto.json")) or load_json_safe(os.path.join(sam_dir, "pose_auto.json"))
 
-        W = int((gwp_shot or int_shot or clip_info or {}).get("W", 384))
-        H = int((gwp_shot or int_shot or clip_info or {}).get("H", 288))
-        fps = float((gwp_shot or int_shot or clip_info or {}).get("fps", 12))
+        W = int((scene_shot or clip_info or int_shot or {}).get("W", 384))
+        H = int((scene_shot or clip_info or int_shot or {}).get("H", 288))
+        fps = float((scene_shot or clip_info or int_shot or {}).get("fps", 12))
 
         # Determine number of tracked SAM/GWP frames
         n_frames = 0
-        if isinstance(masks_data, dict) and masks_data:
+        if scene_shot and isinstance(scene_shot.get("footage"), list) and scene_shot["footage"]:
+            n_frames = len(scene_shot["footage"])
+        elif isinstance(masks_data, dict) and masks_data:
             n_frames = max(int(k) for k in masks_data.keys() if str(k).isdigit()) + 1
         elif isinstance(depth_data, list) and depth_data:
             n_frames = len(depth_data)
@@ -478,8 +494,8 @@ def main():
         else:
             n_frames = 25
 
-        if not cam_data and gwp_shot and isinstance(gwp_shot.get("camera"), list):
-            cam_data = gwp_shot["camera"]
+        if not cam_data and scene_shot and isinstance(scene_shot.get("camera"), list):
+            cam_data = scene_shot["camera"]
 
         # Build depth lookup by frame
         depth_by_f = {}
@@ -601,11 +617,16 @@ def main():
 
         # Build Multi-Depth Worms (one extruded 3D worm per depth plane + parsed drawing planes/parts + scenic sub-worms)
         z_ref = float((scene_shot or gwp_shot or red_shot or {}).get("z_ref", 2.0))
-        all_objs = list((scene_shot or gwp_shot or red_shot or {}).get("objects", []) or [])
+        all_objs = list((scene_shot or red_shot or {}).get("objects", []) or [])
 
-        # Merge any direct scenic stroke planes from integrated/shot.json (e.g. bank, foreground-water-and-reeds)
+        # Merge any direct scenic stroke planes from integrated/shot.json (e.g. bank, foreground-water-and-reeds), scaling from int_W/int_H to W/H
         existing_pids = {str(p.get("id")) for p in planes if isinstance(p, dict)}
         if int_shot and isinstance(int_shot.get("planes"), list):
+            int_c = int_shot.get("canvas", {})
+            int_W = float(int_c.get("width", W) or W)
+            int_H = float(int_c.get("height", H) or H)
+            sx_int = W / max(1.0, int_W)
+            sy_int = H / max(1.0, int_H)
             for ip in int_shot["planes"]:
                 if not isinstance(ip, dict):
                     continue
@@ -613,11 +634,15 @@ def main():
                 if ip.get("strokes") and not ip.get("source_strokes") and ipid not in existing_pids:
                     is_fore = any(k in ipid.lower() for k in ("fore", "reed", "near", "front", "grass"))
                     iz = round(z_ref * (0.62 if is_fore else 3.2), 2)
+                    scaled_strokes = [
+                        [[pt[0] * sx_int, pt[1] * sy_int] for pt in st if isinstance(pt, (list, tuple)) and len(pt) >= 2]
+                        for st in ip["strokes"] if isinstance(st, list)
+                    ]
                     planes.append({
                         "id": ipid,
                         "z": iz,
                         "label": ipid.replace("-", " ").title(),
-                        "_direct_strokes": ip["strokes"],
+                        "_direct_strokes": scaled_strokes,
                     })
                     existing_pids.add(ipid)
 
@@ -664,7 +689,7 @@ def main():
                     "k": k_par,
                     "label": plabel or slug.replace("-", " ").title(),
                     "desc": f"SAM Video Cutout + {slug.replace('-', ' ').title()} Drawing",
-                    "color": "#ffd166",
+                    "color": "#EF9F3A",
                     "u0": su0,
                     "v0": sv0,
                     "r0": sr0,
@@ -729,9 +754,9 @@ def main():
                     ]
                     strokes0 = []
 
-                # If giraffe midground trees have scene_masks.json polygon contours, attach the true tree1/tree2 footage masks!
+                # If giraffe-walks-past midground trees have scene_masks.json polygon contours, attach the true tree1/tree2 footage masks!
                 scene_rings = []
-                if slug == "giraffe" and pid == "mid" and isinstance(scene_masks, dict):
+                if slug == "giraffe-walks-past" and pid == "mid" and isinstance(scene_masks, dict):
                     for tk in ("tree1", "tree2"):
                         if scene_masks.get(tk):
                             scene_rings.append(downsample_polygon(scene_masks[tk], W, H, target_k=22))
@@ -741,17 +766,17 @@ def main():
                         t_ring = downsample_polygon(t_poly, W, H, target_k=20)
                         poly0 = [[round(pt[0] - u0, 3), round(pt[1] - v0, 3)] for pt in t_ring]
 
-                # Assign distinct high-contrast color by depth stratum
+                # Assign distinct palette color by depth stratum
                 if pz < z_ref:
-                    col = "#ff6b6b"
+                    col = "#B8432F"
                 elif pz <= z_ref * 1.6:
-                    col = "#34d399"
+                    col = "#2E7A4A"
                 elif pz <= z_ref * 3.5:
-                    col = "#4fd1c5"
+                    col = "#2B6CB0"
                 elif pz <= z_ref * 6.5:
-                    col = "#63b3ed"
+                    col = "#5A67D8"
                 else:
-                    col = "#b794f4"
+                    col = "#6B46C1"
 
                 d_track = []
                 for fr in frames_series:
@@ -815,7 +840,7 @@ def main():
                     part_defs.append((f"part_{g_key}", f"Rig: {g_key.upper()}", sl_list))
 
             char_z = next((float(dw.get("z", 2.0)) for dw in depth_worms if dw.get("role") == "subject"), 2.0)
-            part_palette = ["#38bdf8", "#fb7185", "#a78bfa", "#34d399"]
+            part_palette = ["#D97706", "#2E7A4A", "#2B6CB0", "#B8432F"]
             for pt_idx, (pt_id, pt_label, sl_list) in enumerate(part_defs[:4]):
                 st0_part = []
                 for si, f_i, t_i in sl_list:
@@ -874,63 +899,88 @@ def main():
         if isinstance(src_info, dict):
             s_obj = src_info.get("source") if isinstance(src_info.get("source"), dict) else src_info
         int_s_obj = (int_shot or {}).get("source", {}) if isinstance(int_shot, dict) else {}
+        prim_src = (scene_shot or {}).get("source", {}) if isinstance(scene_shot, dict) else {}
+
+        shot_id = "giraffe-walks-past" if is_flagship_gwp else f"{slug}-gwp"
+        cat_entry = lot_by_id.get(shot_id) or {}
+        lot_id = str(cat_entry.get("lot") or ("SM-0004" if is_flagship_gwp else ""))
+        lot_status = str(cat_entry.get("status") or "pass")
 
         source_title = (
-            int_s_obj.get("source_title")
+            prim_src.get("film")
+            or int_s_obj.get("source_title")
             or s_obj.get("source_title")
             or (clip_info or {}).get("source_title")
-            or (gwp_shot or {}).get("source", {}).get("film")
             or slug.replace("-", " ").title()
         )
-        source_year = int_s_obj.get("source_year") or s_obj.get("source_year") or ""
+        source_year = prim_src.get("year") or int_s_obj.get("source_year") or s_obj.get("source_year") or ""
         shot_title = (
-            (int_shot or {}).get("title")
+            (scene_shot or {}).get("title")
+            or (int_shot or {}).get("title")
             or (red_shot or {}).get("title")
-            or (gwp_shot or {}).get("title")
             or f"{slug.replace('-', ' ').title()} ({source_title})"
         )
         why_clip = (
-            s_obj.get("why_this_clip")
+            str(cat_entry.get("summary") or "")
+            or s_obj.get("why_this_clip")
             or s_obj.get("review_notes")
             or f"Tracked {slug.replace('-', ' ')} in '{source_title}' across {n_frames} frames with SAM polygon masks, depth strata, and camera motion vectors."
         )
 
-        has_integrated_mp4 = os.path.exists(os.path.join(int_dir, "shot.json"))
-        has_batch_mp4 = slug in BATCH_10
+        has_integrated_mp4 = (not is_flagship_gwp) and os.path.exists(os.path.join(int_dir, "shot.json"))
+        has_batch_mp4 = is_flagship_gwp or (slug in BATCH_10)
+        has_sam_shot = (not is_flagship_gwp) and os.path.exists(os.path.join(sam_dir, "shot.json"))
+        has_redraw_shot = (not is_flagship_gwp) and os.path.exists(os.path.join(red_dir, "shot.json"))
         r2_url = s_obj.get("video_url") or int_s_obj.get("video_url") or ""
         raw_t0 = float((clip_info or {}).get("t0", s_obj.get("start_seconds", 0.0)) or 0.0)
 
-        if has_integrated_mp4:
+        if is_flagship_gwp:
+            comp_mp4 = ""
+            src_mp4 = ""
+            art_mp4 = ""
+            vid_t0 = 0.0
+            tier = "Flagship 6-Plane Multiplane Shot (SM-0004 · 33f)"
+        elif has_integrated_mp4:
             comp_mp4 = f"{SHM_PAGES_BASE}/shots/{slug}/integrated/comparison.mp4"
             src_mp4 = f"{SHM_PAGES_BASE}/shots/{slug}/integrated/source-excerpt.mp4"
             art_mp4 = f"{SHM_PAGES_BASE}/shots/{slug}/integrated/cartoon.mp4"
             vid_t0 = 0.0
-            tier = "Integrated (Full 5-Layer Stack + 3 MP4s)"
+            tier = "Integrated + Multiplane Rig"
         elif has_batch_mp4:
             comp_mp4 = f"{SHM_PAGES_BASE}/batches/2026-10-20-selected-drawings/subjects/{slug}/held-key-comparison.mp4"
             src_mp4 = f"{SHM_PAGES_BASE}/batches/2026-10-20-selected-drawings/subjects/{slug}/source-excerpt.mp4"
             art_mp4 = comp_mp4
             vid_t0 = 0.0
-            tier = "Flagship Puppet Redraw + Batch MP4s"
+            tier = "Multiplane Rig + SAM + Puppet Redraw"
         else:
             comp_mp4 = r2_url
             src_mp4 = r2_url
             art_mp4 = r2_url
             vid_t0 = round(raw_t0, 3)
-            tier = "SAM + Depth + Camera + GWP Rig + Archive MP4"
+            tier = "Multiplane GWP Rig + SAM + Depth"
 
-        strip_img = f"{SHM_PAGES_BASE}/shots/{slug}-gwp/critic/strip.png"
-        sil_img = f"{SHM_PAGES_BASE}/shots/{slug}-sam/silhouettes.png"
-        gwp_page = f"{SHM_PAGES_BASE}/pages/{slug}-gwp.html"
-        frame_dir = f"{SHM_PAGES_BASE}/shots/{slug}-gwp/frames"
+        strip_img = f"{SHM_PAGES_BASE}/shots/{shot_id}/critic/strip.png"
+        sil_img = f"{SHM_PAGES_BASE}/shots/{'giraffe' if is_flagship_gwp else slug}-sam/silhouettes.png"
+        gwp_page = f"{SHM_PAGES_BASE}/pages/{shot_id}.html"
+        frame_dir = f"{SHM_PAGES_BASE}/shots/{shot_id}/frames"
+        shot_json_url = f"{SHM_PAGES_BASE}/shots/{shot_id}/shot.json"
+        sam_json_url = f"{SHM_PAGES_BASE}/shots/{slug}-sam/shot.json" if has_sam_shot else ""
+        redraw_json_url = f"{SHM_PAGES_BASE}/shots/{slug}-redraw/shot.json" if has_redraw_shot else ""
+        int_json_url = f"{SHM_PAGES_BASE}/shots/{slug}/integrated/shot.json" if has_integrated_mp4 else ""
 
         worms.append({
             "slug": slug,
+            "shot_id": shot_id,
+            "lot": lot_id,
+            "status": lot_status,
             "title": shot_title,
-            "category": slug.replace("-", " "),
+            "category": "giraffe (flagship)" if is_flagship_gwp else slug.replace("-", " "),
             "tier": tier,
+            "is_flagship": is_flagship_gwp,
             "has_integrated": has_integrated_mp4,
             "has_batch": has_batch_mp4,
+            "has_sam_shot": has_sam_shot,
+            "has_redraw_shot": has_redraw_shot,
             "source_title": source_title,
             "source_year": str(source_year),
             "why_clip": why_clip,
@@ -942,6 +992,10 @@ def main():
             "vid_t0": vid_t0,
             "r2_mp4": r2_url,
             "frame_dir": frame_dir,
+            "shot_json_url": shot_json_url,
+            "sam_json_url": sam_json_url,
+            "redraw_json_url": redraw_json_url,
+            "int_json_url": int_json_url,
             "keys": keys,
             "z_ref": round(z_ref, 2),
             "planes": plane_list,
@@ -965,8 +1019,11 @@ def main():
             "frames": frames_series,
         })
 
-    # Sort so Integrated (41) and Flagship Redraw (10) come first
-    worms.sort(key=lambda w: (0 if w["has_integrated"] else (1 if w["has_batch"] else 2), w["slug"]))
+    # Sort so Flagship Giraffe Walks Past (#0 SM-0004) comes first, then 10 Flagship Batch shots, then 41 Integrated, then remaining GWP
+    worms.sort(key=lambda w: (
+        0 if w.get("is_flagship") else (1 if w["has_batch"] else (2 if w["has_integrated"] else 3)),
+        w["slug"]
+    ))
 
     out_payload = {
         "total_worms": len(worms),
