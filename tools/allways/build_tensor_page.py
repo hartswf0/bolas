@@ -1,18 +1,20 @@
 #!/usr/bin/env python3
 """
-Builds the Single-File Epistemic Cinema Thinking Machine at:
+Builds the Zero-Scroll 100dvh Cinema & Spatiotemporal Tensor Workstation at:
   /Users/gaia/WORLDBUILDING-TERMS/bolas_repo/allways-tensor/index.html
 
-Implements all six epistemic interface principles:
-  1. Surface the Invisible (live video HUD overlays for 14-line armature, cymatic string warp,
-     Helmholtz sink attractor, 3-strand depth nodes, and expanding foveal saccade light-cones)
-  2. Overcome Cognitive Limits (linked brushing across all 8 canvases + unified causal state bar)
-  3. Support Multiple Modes (3D Glass-Prism Worm, u-tau/v-tau Slit-Scans, 360° Radial Cinemetrics
-     Torus, and Dual-Film Split Comparator)
-  4. Direct Manipulation (live sliders for foveal speed c_eye, neural fixation latency tau_fix,
-     Vietoris-Rips filtration radius epsilon, braid tautness reduction, and draggable focal nodes)
-  5. Semantic Zoom (1x Macro Corpus/Film view down to 12x Micro Cut-Plane inspection)
-  6. Constrained Play (counterfactual registration & eye-trace repair sandbox with live STGL linter)
+Designed as a strict 100dvh zero-scroll fullscreen screening & epistemic cockpit:
+  - Top Bar (44px): Film selector pills, Prev/Next film buttons, live telemetry badges, nav links
+  - Center Stage (1fr, zero scroll):
+      * Left (58% width): Large Cinema Screening Player + 60fps Direct-Manipulation HUD Overlay
+        + compact floating HUD toggle bar
+      * Right (42% width): Split Dock:
+          - Upper Dock: 3D Spatiotemporal Worm Prism / 360° Cinemetrics Torus / Dual-Film Diff / Toric Manifold
+          - Lower Dock: Switchable between [All 6 Manifolds Mini-Grid] or Full-Size Interactive Sandbox
+            for each manifold (1. Braid B3, 2. Helmholtz HHD, 3. Wasserstein W2, 4. Saccade Cones,
+            5. Takens TDA, 6. Synchresis PLV, plus 12-Film Ledger & STGL IR)
+  - Bottom NLE Scrubber Bar (96px): Full-width linked master timeline + side-by-side u-tau & v-tau
+    Slit-Scan Tomograms with synchronized playheads
 """
 
 import os
@@ -55,14 +57,13 @@ def main():
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ALLWAYS — Spatiotemporal Cinema Tensor &amp; Epistemic Thinking Machine</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>ALLWAYS — Zero-Scroll 4D Cinema Tensor &amp; 3D Worm Screening Room</title>
 <style>
   :root {{
     --bg: #07080b;
     --panel: #0e1017;
     --panel-alt: #141822;
-    --panel-hi: #1b2030;
     --border: #232838;
     --fg: #ede9e0;
     --muted: #8c93a6;
@@ -74,187 +75,177 @@ def main():
     --mono: "SFMono-Regular", ui-monospace, Consolas, Menlo, monospace;
   }}
   * {{ box-sizing: border-box; }}
-  body {{
+  html, body {{
     margin: 0;
+    padding: 0;
+    width: 100vw;
+    height: 100dvh;
+    overflow: hidden;
     background: var(--bg);
     color: var(--fg);
     font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, sans-serif;
-    font-size: 13px;
-    line-height: 1.45;
-    overflow-x: hidden;
+    font-size: 12px;
+    user-select: none;
   }}
   a {{ color: var(--accent); text-decoration: none; }}
-  a:hover {{ text-decoration: underline; }}
-  .app {{ max-width: 1520px; margin: 0 auto; padding: 16px 18px 56px; }}
 
-  /* Top Epistemic Header */
-  .top-header {{
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 16px;
-    flex-wrap: wrap;
-    border-bottom: 1px solid var(--border);
-    padding-bottom: 14px;
-    margin-bottom: 12px;
+  /* Fullscreen 3-Row Cockpit Grid (Zero Scroll) */
+  .cockpit {{
+    display: grid;
+    grid-template-rows: 44px 1fr 94px;
+    width: 100vw;
+    height: 100dvh;
+    gap: 6px;
+    padding: 6px 8px;
   }}
-  .eyebrow {{
+
+  /* ROW 1: Top Bar (44px) */
+  .topbar {{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    padding: 0 10px;
+    overflow: hidden;
+  }}
+  .brand-cluster {{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+  }}
+  .brand-tag {{
     font-family: var(--mono);
     font-size: 10.5px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 0.08em;
     color: var(--accent);
-    margin-bottom: 4px;
+    background: #241d12;
+    border: 1px solid var(--accent);
+    padding: 2px 7px;
+    border-radius: 4px;
   }}
-  h1 {{
-    margin: 0;
-    font-size: 22px;
-    font-weight: 680;
-    letter-spacing: -0.02em;
-  }}
-  .sub-lead {{
-    margin: 4px 0 0;
-    color: var(--muted);
-    font-size: 12.5px;
-    max-width: 880px;
-  }}
-  .nav-cluster {{
+  .film-strip-pills {{
     display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
     align-items: center;
+    gap: 4px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    padding: 2px 0;
   }}
-  .btn {{
-    background: var(--panel-alt);
-    border: 1px solid var(--border);
-    color: var(--fg);
-    padding: 6px 11px;
-    border-radius: 6px;
-    font-size: 11.5px;
-    font-weight: 550;
-    cursor: pointer;
-    transition: all 0.12s ease;
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-  }}
-  .btn:hover {{ border-color: var(--accent); color: #fff; text-decoration: none; }}
-  .btn.active {{ background: #261f14; border-color: var(--accent); color: var(--accent); }}
-  .btn.rose {{ background: #261419; border-color: var(--rose); color: var(--rose); }}
-
-  /* Principle Strip */
-  .principle-bar {{
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    gap: 8px;
-    margin-bottom: 12px;
-  }}
-  @media (max-width: 1100px) {{ .principle-bar {{ grid-template-columns: repeat(3, 1fr); }} }}
-  @media (max-width: 640px) {{ .principle-bar {{ grid-template-columns: repeat(2, 1fr); }} }}
-  .p-chip {{
-    background: var(--panel);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 6px 9px;
-    font-size: 11px;
-  }}
-  .p-chip b {{ color: var(--accent); display: block; font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.05em; }}
-  .p-chip span {{ color: var(--muted); font-size: 10.5px; }}
-
-  /* Film Selector & Mode Switcher */
-  .selector-bar {{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 10px;
-    flex-wrap: wrap;
-    background: var(--panel);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 8px 12px;
-    margin-bottom: 12px;
-  }}
-  .pill-list {{ display: flex; gap: 6px; flex-wrap: wrap; }}
+  .film-strip-pills::-webkit-scrollbar {{ display: none; }}
   .f-pill {{
     background: var(--panel-alt);
     border: 1px solid var(--border);
     color: var(--muted);
-    padding: 5px 10px;
-    border-radius: 5px;
-    font-size: 11.5px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 550;
     cursor: pointer;
-    font-weight: 500;
+    white-space: nowrap;
+    transition: all 0.1s ease;
   }}
   .f-pill:hover {{ color: var(--fg); border-color: #3d455e; }}
   .f-pill.active {{
     background: #251e13;
     border-color: var(--accent);
-    color: var(--fg);
+    color: #fff;
     font-weight: 650;
   }}
-
-  /* Live Causal Telemetry Ribbon (Overcome Cognitive Limits) */
-  .telemetry-ribbon {{
-    display: grid;
-    grid-template-columns: repeat(8, 1fr);
-    gap: 8px;
-    background: #0b0d13;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 8px 12px;
-    margin-bottom: 14px;
+  .telemetry-chips {{
+    display: flex;
+    align-items: center;
+    gap: 6px;
     font-family: var(--mono);
+    font-size: 10.5px;
+    white-space: nowrap;
   }}
-  @media (max-width: 1100px) {{ .telemetry-ribbon {{ grid-template-columns: repeat(4, 1fr); }} }}
-  .t-cell {{ display: flex; flex-direction: column; }}
-  .t-cell .k {{ font-size: 9.5px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }}
-  .t-cell .v {{ font-size: 13px; font-weight: 650; color: var(--fg); }}
+  .t-chip {{
+    background: #090b10;
+    border: 1px solid var(--border);
+    padding: 3px 7px;
+    border-radius: 4px;
+    color: var(--fg);
+  }}
+  .t-chip b {{ color: var(--accent); font-weight: 600; }}
+  .btn {{
+    background: var(--panel-alt);
+    border: 1px solid var(--border);
+    color: var(--fg);
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 550;
+    cursor: pointer;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }}
+  .btn:hover {{ border-color: var(--accent); color: #fff; }}
+  .btn.active {{ background: #261f14; border-color: var(--accent); color: var(--accent); }}
+  .btn.rose {{ background: #291419; border-color: var(--rose); color: var(--rose); }}
+  .btn.green {{ background: #12291d; border-color: var(--green); color: var(--green); }}
 
-  /* Primary Workbench Grid */
-  .stage-grid {{
+  /* ROW 2: Center Stage (1fr) */
+  .center-stage {{
     display: grid;
-    grid-template-columns: 1.05fr 1.35fr;
-    gap: 14px;
-    margin-bottom: 12px;
+    grid-template-columns: 57% 43%;
+    gap: 6px;
+    min-height: 0;
+    overflow: hidden;
   }}
-  @media (max-width: 1080px) {{ .stage-grid {{ grid-template-columns: 1fr; }} }}
 
-  .card {{
+  /* Left Column: Big Video Player + HUD */
+  .theater-pane {{
     background: var(--panel);
     border: 1px solid var(--border);
-    border-radius: 9px;
-    padding: 12px;
+    border-radius: 7px;
     display: flex;
     flex-direction: column;
+    min-height: 0;
+    overflow: hidden;
+    padding: 8px;
   }}
-  .card-head {{
+  .theater-head {{
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 8px;
-    flex-wrap: wrap;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
+    flex-shrink: 0;
   }}
-  .card-title {{
-    font-size: 12px;
-    font-weight: 680;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    color: var(--accent);
+  .theater-title {{
+    font-size: 14px;
+    font-weight: 700;
+    color: #fff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }}
-  .card-sub {{ font-size: 11px; color: var(--muted); }}
-
-  /* Video + Direct Manipulation HUD Canvas Stack */
-  .video-hud-stack {{
+  .theater-sub {{
+    font-size: 11px;
+    color: var(--muted);
+    margin-left: 8px;
+  }}
+  .video-container {{
     position: relative;
+    flex: 1;
+    min-height: 0;
     width: 100%;
-    aspect-ratio: 16 / 9;
     background: #000;
-    border-radius: 6px;
+    border-radius: 5px;
     overflow: hidden;
     border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }}
-  .video-hud-stack video {{
+  .video-container video {{
     width: 100%;
     height: 100%;
     object-fit: contain;
@@ -265,86 +256,225 @@ def main():
     inset: 0;
     width: 100%;
     height: 100%;
+    pointer-events: auto;
     cursor: crosshair;
   }}
-  .hud-toggles {{
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    margin-top: 8px;
-    font-size: 11px;
+  /* Native video controls stay accessible at bottom 38px */
+  .hud-passthrough {{
+    clip-path: inset(0 0 38px 0);
   }}
-  .hud-toggles label {{
+  .theater-foot {{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 6px;
+    margin-top: 6px;
+    flex-shrink: 0;
+    flex-wrap: wrap;
+  }}
+  .hud-checks {{
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+  }}
+  .hud-checks label {{
     display: inline-flex;
     align-items: center;
     gap: 4px;
     background: var(--panel-alt);
     border: 1px solid var(--border);
-    padding: 3px 8px;
+    padding: 3px 7px;
     border-radius: 4px;
-    cursor: pointer;
+    font-size: 10.5px;
     color: var(--muted);
+    cursor: pointer;
   }}
-  .hud-toggles input:checked + span {{ color: var(--fg); font-weight: 600; }}
+  .hud-checks input:checked + span {{ color: var(--fg); font-weight: 600; }}
 
-  /* Multi-Mode 3D Worm / Radial Torus / Slit-Scan / Dual Diff Viewport */
-  #multiModeCanvas {{
-    width: 100%;
-    height: 350px;
-    background: radial-gradient(circle at 50% 45%, #151924 0%, #080a0f 100%);
-    border-radius: 6px;
-    border: 1px solid var(--border);
-    cursor: grab;
-    display: block;
+  /* Right Column: Upper 3D Worm Dock + Lower 6-Manifold Dock */
+  .instrument-dock {{
+    display: grid;
+    grid-template-rows: 48% 52%;
+    gap: 6px;
+    min-height: 0;
+    overflow: hidden;
   }}
-  #multiModeCanvas:active {{ cursor: grabbing; }}
-
-  /* Master Semantic-Zoom Linked Timeline + Tomograms */
-  .timeline-card {{
+  .dock-card {{
     background: var(--panel);
     border: 1px solid var(--border);
-    border-radius: 9px;
-    padding: 12px;
-    margin-bottom: 14px;
+    border-radius: 7px;
+    padding: 7px 9px;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    overflow: hidden;
+  }}
+  .dock-head {{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 5px;
+    flex-shrink: 0;
+  }}
+  .dock-title {{
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--accent);
+    white-space: nowrap;
+  }}
+  .tab-strip {{
+    display: flex;
+    gap: 3px;
+    flex-wrap: wrap;
+  }}
+  .tab-btn {{
+    background: var(--panel-alt);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 600;
+    cursor: pointer;
+  }}
+  .tab-btn:hover {{ color: #fff; }}
+  .tab-btn.active {{
+    background: #251e13;
+    border-color: var(--accent);
+    color: var(--accent);
+  }}
+  .canvas-fill {{
+    flex: 1;
+    min-height: 0;
+    width: 100%;
+    background: radial-gradient(circle at 50% 45%, #141824 0%, #07090d 100%);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    display: block;
+  }}
+  .dock-foot {{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-top: 5px;
+    flex-shrink: 0;
+    font-size: 10.5px;
+    color: var(--muted);
+  }}
+  .dock-foot input[type=range] {{
+    flex: 1;
+    accent-color: var(--accent);
+    height: 4px;
+    cursor: pointer;
+  }}
+
+  /* 6-Manifold All-at-Once Mini Grid inside Lower Dock */
+  .mini-six-grid {{
+    flex: 1;
+    min-height: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 5px;
+  }}
+  .mini-cell {{
+    background: #090b10;
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+  }}
+  .mini-cell:hover {{ border-color: var(--accent); }}
+  .mini-cell-lbl {{
+    position: absolute;
+    top: 3px;
+    left: 5px;
+    right: 5px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 9.5px;
+    font-family: var(--mono);
+    color: var(--fg);
+    pointer-events: none;
+    z-index: 2;
+  }}
+  .mini-cell-lbl span:first-child {{ color: var(--accent); font-weight: 600; }}
+  .mini-cell canvas {{
+    width: 100%;
+    height: 100%;
+    display: block;
+  }}
+
+  /* Single Focused Manifold Sandbox inside Lower Dock */
+  .single-manifold-pane {{
+    flex: 1;
+    min-height: 0;
+    display: none;
+    flex-direction: column;
+  }}
+  .single-manifold-pane.active {{ display: flex; }}
+
+  /* ROW 3: Bottom NLE Master Scrubber + Slit-Scan Tomograms (94px) */
+  .bottom-scrubber {{
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    padding: 5px 8px;
+    display: grid;
+    grid-template-columns: 1.15fr 1fr 1fr;
+    gap: 8px;
+    align-items: stretch;
+    min-height: 0;
+    overflow: hidden;
+  }}
+  .scrubber-col {{
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    position: relative;
+  }}
+  .scrubber-lbl {{
+    font-size: 9.5px;
+    font-family: var(--mono);
+    color: var(--muted);
+    margin-bottom: 2px;
+    display: flex;
+    justify-content: space-between;
   }}
   #masterTimelineCanvas {{
+    flex: 1;
+    min-height: 0;
     width: 100%;
-    height: 118px;
     background: #07080c;
     border: 1px solid var(--border);
-    border-radius: 6px;
+    border-radius: 4px;
     cursor: ew-resize;
     display: block;
   }}
-  .slit-pair {{
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    margin-top: 8px;
-  }}
-  @media (max-width: 800px) {{ .slit-pair {{ grid-template-columns: 1fr; }} }}
-  .slit-strip {{
+  .slit-box {{
+    flex: 1;
+    min-height: 0;
     position: relative;
-    height: 66px;
-    border-radius: 5px;
-    overflow: hidden;
     border: 1px solid var(--border);
-    cursor: pointer;
+    border-radius: 4px;
+    overflow: hidden;
+    cursor: ew-resize;
     background: #000;
   }}
-  .slit-strip img {{ width: 100%; height: 100%; object-fit: fill; display: block; }}
-  .slit-tag {{
-    position: absolute;
-    top: 4px;
-    left: 6px;
-    background: rgba(7, 8, 11, 0.84);
-    padding: 1px 6px;
-    border-radius: 3px;
-    font-size: 10.5px;
-    color: var(--fg);
-    pointer-events: none;
+  .slit-box img {{
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+    display: block;
   }}
-  .slit-playhead {{
+  .playhead-line {{
     position: absolute;
     top: 0;
     bottom: 0;
@@ -355,367 +485,262 @@ def main():
     left: 0%;
   }}
 
-  /* 6-Manifold Interactive Sandbox Grid */
-  .manifolds-grid {{
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 14px;
-    margin-bottom: 16px;
-  }}
-  @media (max-width: 1180px) {{ .manifolds-grid {{ grid-template-columns: repeat(2, 1fr); }} }}
-  @media (max-width: 740px) {{ .manifolds-grid {{ grid-template-columns: 1fr; }} }}
-
-  .m-canvas {{
-    width: 100%;
-    height: 195px;
-    background: #090b10;
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    display: block;
-    cursor: pointer;
-    margin: 6px 0;
-  }}
-  .slider-bar {{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 8px;
-    background: var(--panel-alt);
-    border: 1px solid var(--border);
-    border-radius: 5px;
-    padding: 5px 8px;
-    font-size: 11px;
-    margin-top: 4px;
-  }}
-  .slider-bar input[type=range] {{
+  /* Scrollable internal pane for Ledger / STGL when tab 7 is chosen */
+  .ledger-scroll {{
     flex: 1;
-    accent-color: var(--accent);
-    cursor: pointer;
-  }}
-  .slider-val {{
-    font-family: var(--mono);
+    min-height: 0;
+    overflow-y: auto;
     font-size: 11px;
-    color: var(--accent);
-    min-width: 68px;
-    text-align: right;
   }}
-  .kv-mini {{
-    display: flex;
-    justify-content: space-between;
-    font-size: 11.5px;
-    padding: 3px 0;
-    border-top: 1px solid #181c26;
-  }}
-  .kv-mini span:first-child {{ color: var(--muted); }}
-  .kv-mini span:last-child {{ font-family: var(--mono); font-weight: 600; }}
-
-  .badge {{
-    font-family: var(--mono);
-    font-size: 10.5px;
-    padding: 2px 7px;
-    border-radius: 4px;
-    background: #1f2433;
-    color: var(--accent);
-    font-weight: 600;
-  }}
-  .badge.green {{ background: #132a1e; color: var(--green); }}
-  .badge.rose {{ background: #2c161b; color: var(--rose); }}
-  .badge.cyan {{ background: #122730; color: var(--cyan); }}
-
-  /* Matrix & STGL Inspector */
-  table {{ width: 100%; border-collapse: collapse; font-size: 12px; }}
-  th, td {{ padding: 8px 9px; border-bottom: 1px solid var(--border); text-align: left; }}
-  th {{ font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); background: var(--panel-alt); }}
-  tr.film-row {{ cursor: pointer; }}
-  tr.film-row:hover td {{ background: #161a26; }}
-  tr.film-row.active-row td {{ background: #221d14; border-bottom-color: var(--accent); }}
-  pre.code-box {{
-    background: #07080b;
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 10px;
-    font-family: var(--mono);
-    font-size: 11px;
-    color: #b8c4d8;
-    max-height: 260px;
-    overflow: auto;
-    margin: 0;
-  }}
+  .ledger-scroll table {{ width: 100%; border-collapse: collapse; }}
+  .ledger-scroll th, .ledger-scroll td {{ padding: 4px 6px; border-bottom: 1px solid var(--border); text-align: left; }}
+  .ledger-scroll th {{ background: var(--panel-alt); color: var(--muted); font-size: 9.5px; text-transform: uppercase; position: sticky; top: 0; }}
+  .ledger-scroll tr:hover td {{ background: #181c28; cursor: pointer; }}
 </style>
 </head>
 <body>
-<div class="app">
-  <!-- Header -->
-  <div class="top-header">
-    <div>
-      <div class="eyebrow">ALLWAYS · Epistemic Media for Thinking the Unthinkable · Self-Contained Single-File Edition</div>
-      <h1>4D Spatiotemporal Cinema Tensor $(u, v, d, \\tau)$ &amp; Interactive Worm Laboratory</h1>
-      <p class="sub-lead">
-        Every mathematical structure—Artin Braids ($\\mathcal{{B}}_3$), Helmholtz–Hodge Potentials ($\\Phi, \\mathbf{{\\Psi}}, \\mathbf{{H}}$), 5D Wasserstein Optimal Transport ($W_2$), Relativistic Saccade Light-Cones ($\\Delta s^2$), Takens Persistent Homology ($\\beta_0, \\beta_1, \\beta_2$), and Cross-Spectral Synchresis ($\\text{{PLV}}$)—is rendered as a live, directly manipulable instrument coupled to the film frame.
-      </p>
+<div class="cockpit">
+  <!-- ROW 1: TOP BAR (Zero Scroll) -->
+  <div class="topbar">
+    <div class="brand-cluster">
+      <span class="brand-tag">4D TENSOR LAB</span>
+      <button class="btn" onclick="stepFilm(-1)" title="Previous Film">◀</button>
+      <button class="btn" onclick="stepFilm(1)" title="Next Film">▶</button>
     </div>
-    <div class="nav-cluster">
-      <a class="btn" href="../paeleo/allways/index.html">← ALLWAYS Hub</a>
-      <a class="btn" href="../allways-best/index.html">★ 24-Cut Master Film</a>
-      <a class="btn" href="../allways-awards/index.html">🏆 132-Film Jury &amp; Awards</a>
+
+    <div class="film-strip-pills" id="filmPillList"></div>
+
+    <div class="telemetry-chips">
+      <span class="t-chip" id="chipTime"><b>τ</b> 0.00s</span>
+      <span class="t-chip" id="chipLock"><b>Grid</b> 92%</span>
+      <span class="t-chip" id="chipSaccade"><b>Δs²</b> +0.03</span>
+      <span class="t-chip" id="chipFTBE"><b>FTBE</b> 2.41</span>
+      <span class="t-chip" id="chipLinter" style="color:var(--green);border-color:#1f4730;">STGL PASS</span>
     </div>
-  </div>
 
-  <!-- 6 Epistemic Principles Banner -->
-  <div class="principle-bar">
-    <div class="p-chip"><b>1. Surface the Invisible</b><span>Live frame HUD: 14-line armature, cymatic warp, Helmholtz sinks &amp; saccade cones</span></div>
-    <div class="p-chip"><b>2. Overcome Limits</b><span>Linked hover-brushing across all 8 canvases + unified causal state ribbon</span></div>
-    <div class="p-chip"><b>3. Multiple Modes</b><span>Switch 3D Worm Prism, Slit-Scan Tomogram, 360° Radial Torus &amp; Dual-Film Diff</span></div>
-    <div class="p-chip"><b>4. Direct Manipulation</b><span>Drag $c_{{\\text{{eye}}}}$, $\\tau_{{\\text{{fix}}}}$, Vietoris–Rips $\\epsilon$, braid tautness &amp; focal nodes live</span></div>
-    <div class="p-chip"><b>5. Semantic Zoom</b><span>Zoom timeline &amp; 3D worm from $1\\times$ macro film arc to $12\\times$ micro cut window</span></div>
-    <div class="p-chip"><b>6. Constrained Play</b><span>Counterfactual `fit: register` &amp; eye-trace sandbox with live STGL linter</span></div>
-  </div>
-
-  <!-- Film Selector Bar -->
-  <div class="selector-bar">
-    <div class="pill-list" id="filmPillList"></div>
-    <div style="display:flex;gap:8px;align-items:center;">
-      <span style="font-size:11px;color:var(--muted);">Compare Against:</span>
-      <select id="compareSelect" class="btn" onchange="renderAll()"></select>
+    <div class="brand-cluster">
+      <a class="btn" href="../paeleo/allways/index.html">← Hub</a>
+      <a class="btn" href="../allways-best/index.html">★ Best</a>
+      <a class="btn" href="../allways-awards/index.html">🏆 Awards</a>
     </div>
   </div>
 
-  <!-- Live Causal Telemetry Ribbon (Externalized Working Memory) -->
-  <div class="telemetry-ribbon">
-    <div class="t-cell"><span class="k">Playhead τ / Shot</span><span class="v" id="telTime">0.00s · Shot 01</span></div>
-    <div class="t-cell"><span class="k">Subject Node (u, v, d)</span><span class="v" id="telNode">(0.50, 0.50, 0.72)</span></div>
-    <div class="t-cell"><span class="k">14-Line Armature Error</span><span class="v" id="telGridErr">d = 0.012 (LOCKED)</span></div>
-    <div class="t-cell"><span class="k">Helmholtz (Φ / Ψ / H)</span><span class="v" id="telHHD">0.42 / 0.35 / 0.18</span></div>
-    <div class="t-cell"><span class="k">Wasserstein W₂² Energy</span><span class="v" id="telW2">0.48 · ΔL* 16.0</span></div>
-    <div class="t-cell"><span class="k">Nearest Cut Interval Δs²</span><span class="v" id="telSaccade">+0.032 (Timelike)</span></div>
-    <div class="t-cell"><span class="k">Braid Word / FTBE</span><span class="v" id="telBraid">FTBE 2.406</span></div>
-    <div class="t-cell"><span class="k">Synchresis PLV / Slip</span><span class="v" id="telPLV">PLV 0.446</span></div>
-  </div>
-
-  <!-- Primary Stage: Left = Augmented Video + Counterfactual HUD | Right = Multi-Mode 3D Worm / Torus / Diff -->
-  <div class="stage-grid">
-    <!-- Left Viewport: Video + Live Epistemic HUD Overlay -->
-    <div class="card">
-      <div class="card-head">
-        <div>
-          <div class="card-title" id="stageTitle">059 · BALL (Claude Sonnet)</div>
-          <div class="card-sub" id="stageSub">Drag the target node on the video frame to test counterfactual Eye-Trace &amp; STGL Armature lock</div>
+  <!-- ROW 2: MAIN STAGE (Left = Large Theater Player + HUD | Right = 3D Worm & 6-Manifold Dock) -->
+  <div class="center-stage">
+    <!-- Left: Primary Cinema Screening Room -->
+    <div class="theater-pane">
+      <div class="theater-head">
+        <div style="display:flex;align-items:baseline;min-width:0;">
+          <span class="theater-title" id="stageTitle">059 · BALL</span>
+          <span class="theater-sub" id="stageSub">Claude Sonnet · Grand Prix · 96.0/100</span>
         </div>
-        <div style="display:flex;gap:6px;">
-          <button class="btn" id="btnCounterfactual" onclick="toggleCounterfactualReg()">⌖ Simulate `fit: register` Lock</button>
-          <button class="btn rose" id="btnResetSandbox" onclick="resetSandbox()" style="display:none;">↺ Reset Sandbox</button>
-          <a class="btn" id="stageCaseLink" href="../allways-sonnet/059-ball/index.html" target="_blank">Case Study ↗</a>
+        <div style="display:flex;gap:5px;flex-shrink:0;">
+          <button class="btn" id="btnPlayPause" onclick="togglePlay()">▶ Play / Pause (Space)</button>
+          <button class="btn" id="btnCounterfactual" onclick="toggleCounterfactualReg()">⌖ Lock `fit:register`</button>
+          <button class="btn rose" id="btnResetSandbox" onclick="resetSandbox()" style="display:none;">↺ Reset</button>
+          <a class="btn" id="stageCaseLink" href="../allways-sonnet/059-ball/index.html" target="_blank">Case ↗</a>
         </div>
       </div>
 
-      <div class="video-hud-stack">
+      <div class="video-container">
         <video id="mainVideo" controls playsinline preload="metadata"></video>
-        <canvas id="hudOverlayCanvas" width="640" height="360"></canvas>
+        <canvas id="hudOverlayCanvas" class="hud-passthrough" width="800" height="450"></canvas>
       </div>
 
-      <div class="hud-toggles">
-        <label><input type="checkbox" id="hudArmature" checked onchange="renderHUD()"><span>14-Line Harmonic Armature</span></label>
-        <label><input type="checkbox" id="hudRegCircle" checked onchange="renderHUD()"><span>`059-ball` Registration Rim ($R=0.28H$)</span></label>
-        <label><input type="checkbox" id="hudStrands" checked onchange="renderHUD()"><span>3-Strand Braid Nodes $(u_i,v_i,d_i)$</span></label>
-        <label><input type="checkbox" id="hudSaccade" checked onchange="renderHUD()"><span>Relativistic Saccade Cone $R(\\tau)$</span></label>
-        <label><input type="checkbox" id="hudHelmholtz" checked onchange="renderHUD()"><span>Helmholtz Sink &amp; Cymatic Warp</span></label>
+      <div class="theater-foot">
+        <div class="hud-checks">
+          <label><input type="checkbox" id="hudArmature" checked onchange="renderHUD()"><span>14-Line Armature</span></label>
+          <label><input type="checkbox" id="hudRegCircle" checked onchange="renderHUD()"><span>`059` Rim ($R=0.28H$)</span></label>
+          <label><input type="checkbox" id="hudStrands" checked onchange="renderHUD()"><span>3-Strand Braid $\\mathcal{{B}}_3$ (Drag $s_1$)</span></label>
+          <label><input type="checkbox" id="hudSaccade" checked onchange="renderHUD()"><span>Saccade Light-Cone $R(\\tau)$</span></label>
+          <label><input type="checkbox" id="hudHelmholtz" checked onchange="renderHUD()"><span>Helmholtz Sink $-\\nabla\\Phi$</span></label>
+        </div>
+        <span style="font-size:10.5px;color:var(--muted);font-family:var(--mono);" id="hudNodeReadout">(u=0.50, v=0.50, d=0.72)</span>
       </div>
     </div>
 
-    <!-- Right Viewport: Multi-Mode Spatiotemporal Visualizer -->
-    <div class="card">
-      <div class="card-head">
-        <div>
-          <div class="card-title">Multi-Mode Spatiotemporal Volume Inspector</div>
-          <div class="card-sub">Switch representations or drag to orbit 3D volume · Wheel/slider for Semantic Zoom</div>
+    <!-- Right: Split Epistemic Instrument Dock -->
+    <div class="instrument-dock">
+      <!-- Upper Dock: 3D Spatiotemporal Worm / 360° Torus / Dual Diff / Toric Camera -->
+      <div class="dock-card">
+        <div class="dock-head">
+          <span class="dock-title">4D Spatiotemporal Volume $\\mathcal{{V}}(u,v,\\tau)$</span>
+          <div class="tab-strip">
+            <button class="tab-btn active" id="modeBtn-prism" onclick="setViewMode('prism')">3D Worm Prism</button>
+            <button class="tab-btn" id="modeBtn-torus" onclick="setViewMode('torus')">360° Torus</button>
+            <button class="tab-btn" id="modeBtn-diff" onclick="setViewMode('diff')">Dual-Film Diff</button>
+            <button class="tab-btn" id="modeBtn-toric" onclick="setViewMode('toric')">Toric Camera</button>
+          </div>
         </div>
-        <div style="display:flex;gap:5px;flex-wrap:wrap;">
-          <button class="btn active" id="modeBtn-prism" onclick="setViewMode('prism')">1 · 3D Worm Prism</button>
-          <button class="btn" id="modeBtn-torus" onclick="setViewMode('torus')">2 · 360° Cinemetrics Torus</button>
-          <button class="btn" id="modeBtn-diff" onclick="setViewMode('diff')">3 · Dual-Film Diff</button>
-          <button class="btn" id="modeBtn-toric" onclick="setViewMode('toric')">4 · Toric Camera Manifold</button>
+
+        <canvas id="multiModeCanvas" class="canvas-fill" width="680" height="240"></canvas>
+
+        <div class="dock-foot">
+          <span>Semantic Zoom:</span>
+          <input type="range" id="zoomSlider" min="1" max="12" step="0.25" value="1" oninput="onZoomChange(this.value)">
+          <span style="font-family:var(--mono);color:var(--accent);min-width:48px;" id="zoomVal">1.0×</span>
+          <select id="compareSelect" class="btn" style="padding:1px 5px;font-size:10px;" onchange="renderMultiModeCanvas()" title="Compare Film in Dual-Diff Mode"></select>
+          <label style="display:inline-flex;align-items:center;gap:3px;cursor:pointer;">
+            <input type="checkbox" id="chkAutoOrbit" checked> <span>Orbit</span>
+          </label>
         </div>
       </div>
 
-      <canvas id="multiModeCanvas" width="820" height="350"></canvas>
+      <!-- Lower Dock: 6-Manifold Interactive Workbench (All-6 Grid OR Focused Sandbox) -->
+      <div class="dock-card">
+        <div class="dock-head">
+          <span class="dock-title" id="manifoldDockTitle">6-Manifold Tensor Deck (Click Any Panel to Expand)</span>
+          <div class="tab-strip">
+            <button class="tab-btn active" id="mTab-all" onclick="setManifoldTab('all')">⊞ All 6</button>
+            <button class="tab-btn" id="mTab-1" onclick="setManifoldTab('1')">1·Braid</button>
+            <button class="tab-btn" id="mTab-2" onclick="setManifoldTab('2')">2·HHD</button>
+            <button class="tab-btn" id="mTab-3" onclick="setManifoldTab('3')">3·W₂</button>
+            <button class="tab-btn" id="mTab-4" onclick="setManifoldTab('4')">4·Cone</button>
+            <button class="tab-btn" id="mTab-5" onclick="setManifoldTab('5')">5·TDA</button>
+            <button class="tab-btn" id="mTab-6" onclick="setManifoldTab('6')">6·PLV</button>
+            <button class="tab-btn" id="mTab-7" onclick="setManifoldTab('7')">Ledger/IR</button>
+          </div>
+        </div>
 
-      <div class="slider-bar" style="margin-top:8px;">
-        <span>Semantic Zoom ($1\\times$ Macro $\\to 12\\times$ Micro Cut Window):</span>
-        <input type="range" id="zoomSlider" min="1" max="12" step="0.25" value="1" oninput="onZoomChange(this.value)">
-        <span class="slider-val" id="zoomVal">1.0× Full</span>
-        <label style="display:inline-flex;align-items:center;gap:4px;margin-left:8px;cursor:pointer;">
-          <input type="checkbox" id="chkAutoOrbit" checked> <span>Auto-Orbit</span>
-        </label>
+        <!-- View 0: All 6 Manifolds Mini-Grid (Default Zero-Scroll Overview) -->
+        <div class="mini-six-grid" id="pane-all">
+          <div class="mini-cell" onclick="setManifoldTab('1')">
+            <div class="mini-cell-lbl"><span>1 · Braid B₃</span><span id="mLbl1">FTBE 2.41</span></div>
+            <canvas id="miniCv1" width="220" height="105"></canvas>
+          </div>
+          <div class="mini-cell" onclick="setManifoldTab('2')">
+            <div class="mini-cell-lbl"><span>2 · Helmholtz ΦΨH</span><span id="mLbl2">40/38/13%</span></div>
+            <canvas id="miniCv2" width="220" height="105"></canvas>
+          </div>
+          <div class="mini-cell" onclick="setManifoldTab('3')">
+            <div class="mini-cell-lbl"><span>3 · Wasserstein W₂</span><span id="mLbl3">Geo 0.71</span></div>
+            <canvas id="miniCv3" width="220" height="105"></canvas>
+          </div>
+          <div class="mini-cell" onclick="setManifoldTab('4')">
+            <div class="mini-cell-lbl"><span>4 · Saccade Cone</span><span id="mLbl4">54% TL</span></div>
+            <canvas id="miniCv4" width="220" height="105"></canvas>
+          </div>
+          <div class="mini-cell" onclick="setManifoldTab('5')">
+            <div class="mini-cell-lbl"><span>5 · Takens TDA</span><span id="mLbl5">(9,50,0.37)</span></div>
+            <canvas id="miniCv5" width="220" height="105"></canvas>
+          </div>
+          <div class="mini-cell" onclick="setManifoldTab('6')">
+            <div class="mini-cell-lbl"><span>6 · Synchresis PLV</span><span id="mLbl6">0.446</span></div>
+            <canvas id="miniCv6" width="220" height="105"></canvas>
+          </div>
+        </div>
+
+        <!-- View 1: Artin Braid B_3 Sandbox -->
+        <div class="single-manifold-pane" id="pane-1">
+          <canvas id="cvBraid" class="canvas-fill" width="640" height="190"></canvas>
+          <div class="dock-foot">
+            <span>Pull Strands Taut ($\\sigma_i\\sigma_i^{{-1}}\\to e$):</span>
+            <input type="range" id="braidTautSlider" min="0" max="1" step="0.02" value="0" oninput="renderManifolds()">
+            <span id="braidWordReadout" style="font-family:var(--mono);color:var(--cyan);">B₃: σ1 · σ2⁻¹</span>
+          </div>
+        </div>
+
+        <!-- View 2: Helmholtz-Hodge Sandbox -->
+        <div class="single-manifold-pane" id="pane-2">
+          <canvas id="cvHHD" class="canvas-fill" width="640" height="190"></canvas>
+          <div class="dock-foot">
+            <span>Isolate Orthogonal Field:</span>
+            <button class="tab-btn active" id="hhdFilter-all" onclick="setHHDFilter('all')">All V</button>
+            <button class="tab-btn" id="hhdFilter-phi" onclick="setHHDFilter('phi')">−∇Φ (Loom)</button>
+            <button class="tab-btn" id="hhdFilter-psi" onclick="setHHDFilter('psi')">∇×Ψ (Swirl)</button>
+            <button class="tab-btn" id="hhdFilter-h" onclick="setHHDFilter('h')">H (Pan)</button>
+            <span id="hhdSinkReadout" style="font-family:var(--mono);color:var(--accent);">Sink (0.50,0.50)</span>
+          </div>
+        </div>
+
+        <!-- View 3: Wasserstein W2 & KALMUS Sandbox -->
+        <div class="single-manifold-pane" id="pane-3">
+          <canvas id="cvW2" class="canvas-fill" width="640" height="190"></canvas>
+          <div class="dock-foot">
+            <span>Core-Worm Aperture $r_{{\\text{{worm}}}}$:</span>
+            <input type="range" id="kalmusRadiusSlider" min="0.08" max="0.42" step="0.01" value="0.22" oninput="renderManifolds()">
+            <span id="w2Readout" style="font-family:var(--mono);color:var(--green);">ΔL* 16.0 · W₂² 0.49</span>
+          </div>
+        </div>
+
+        <!-- View 4: Relativistic Saccade Light-Cones Sandbox -->
+        <div class="single-manifold-pane" id="pane-4">
+          <canvas id="cvSaccade" class="canvas-fill" width="640" height="190"></canvas>
+          <div class="dock-foot">
+            <span>$c_{{\\text{{eye}}}}$:</span>
+            <input type="range" id="cEyeSlider" min="200" max="700" step="10" value="400" oninput="onSaccadeParamChange()">
+            <span id="cEyeVal" style="font-family:var(--mono);color:var(--accent);">400°/s</span>
+            <span>$\\tau_{{\\text{{fix}}}}$:</span>
+            <input type="range" id="tauFixSlider" min="100" max="320" step="5" value="200" oninput="onSaccadeParamChange()">
+            <span id="tauFixVal" style="font-family:var(--mono);color:var(--accent);">200ms</span>
+          </div>
+        </div>
+
+        <!-- View 5: Takens Persistent Homology Sandbox -->
+        <div class="single-manifold-pane" id="pane-5">
+          <canvas id="cvTDA" class="canvas-fill" width="640" height="190"></canvas>
+          <div class="dock-foot">
+            <span>Vietoris–Rips Radius $\\epsilon$:</span>
+            <input type="range" id="epsSlider" min="0.15" max="2.20" step="0.05" value="0.75" oninput="renderManifolds()">
+            <span id="tdaReadout" style="font-family:var(--mono);color:var(--purple);">ε=0.75 · Chiasmus 0.37</span>
+          </div>
+        </div>
+
+        <!-- View 6: Cross-Spectral Synchresis PLV Sandbox -->
+        <div class="single-manifold-pane" id="pane-6">
+          <canvas id="cvPLV" class="canvas-fill" width="640" height="190"></canvas>
+          <div class="dock-foot">
+            <span>Cymatic Grid Coupling $g_{{\\mu\\nu}}$:</span>
+            <input type="range" id="cymaticGainSlider" min="0" max="3" step="0.1" value="1.2" oninput="renderManifolds(); renderHUD();">
+            <span id="plvReadout" style="font-family:var(--mono);color:var(--cyan);">PLV 0.446 · Slip 0.005</span>
+          </div>
+        </div>
+
+        <!-- View 7: 12-Film Ledger & STGL Timeline IR -->
+        <div class="single-manifold-pane" id="pane-7">
+          <div class="ledger-scroll">
+            <table>
+              <thead>
+                <tr><th>Film</th><th>FTBE</th><th>Φ/Ψ/H</th><th>W₂</th><th>Timelike</th><th>TDA</th><th>PLV</th><th>Lock</th></tr>
+              </thead>
+              <tbody id="corpusTableBody"></tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- Master Linked-Brushing Timeline & Embedded Slit-Scan Tomograms -->
-  <div class="timeline-card">
-    <div class="card-head" style="margin-bottom:6px;">
-      <div class="card-title">Linked Spatiotemporal Timeline &amp; Tomographic Slit-Scan Strata ($u\\text{{-}}\\tau$ Horizon &amp; $v\\text{{-}}\\tau$ Vertical)</div>
-      <div class="card-sub">Hover or drag anywhere to scrub all 8 visualizers simultaneously · Green/Gold/Red ticks = Timelike / Lightlike / Spacelike Cuts</div>
-    </div>
-    <canvas id="masterTimelineCanvas" width="1440" height="118"></canvas>
-    <div class="slit-pair">
-      <div class="slit-strip" onmousemove="scrubFromSlit(event)" onclick="scrubFromSlit(event, true)">
-        <img id="utSlitImg" alt="u-tau horizon slit-scan">
-        <div class="slit-tag">$u\\text{{-}}\\tau$ Horizon Slit-Scan (Vertical Pillar = Locked Registration · Diagonal Wave = Camera Pan)</div>
-        <div class="slit-playhead" id="utPlayhead"></div>
+  <!-- ROW 3: BOTTOM NLE SCRUBBER & SLIT-SCAN TOMOGRAM BAR (94px, Zero Scroll) -->
+  <div class="bottom-scrubber">
+    <div class="scrubber-col">
+      <div class="scrubber-lbl">
+        <span>MASTER TIMELINE (Chroma Core · $W_2^2$ Energy · Cut Cones $\\Delta s^2$)</span>
+        <span id="scrubberTimeLbl" style="color:var(--accent);">0.00s / 40.2s</span>
       </div>
-      <div class="slit-strip" onmousemove="scrubFromSlit(event)" onclick="scrubFromSlit(event, true)">
-        <img id="vtSlitImg" alt="v-tau vertical slit-scan">
-        <div class="slit-tag">$v\\text{{-}}\\tau$ Vertical Slit-Scan (Crisp Strata = Cut Planes · Expanding Funnel = Scale Traverse)</div>
-        <div class="slit-playhead" id="vtPlayhead"></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Six Interactive Manifold Visualizers (Direct Manipulation Sandboxes) -->
-  <div class="manifolds-grid">
-    <!-- 1. Artin Braid Topology B_3 -->
-    <div class="card">
-      <div class="card-head">
-        <div class="card-title">1 · Artin Braid Loom ($\\mathcal{{B}}_3$) &amp; FTBE</div>
-        <span class="badge" id="badgeBraid">FTBE = 2.406</span>
-      </div>
-      <div class="card-sub">Worldline crossings $\\sigma_1^{{\\pm 1}}, \\sigma_2^{{\\pm 1}}$ in $(u, d, \\tau)$ · Pull strands taut to cancel trivial pacing $\\sigma_i\\sigma_i^{{-1}}=e$</div>
-      <canvas class="m-canvas" id="cvBraid" width="450" height="195"></canvas>
-      <div class="slider-bar">
-        <span>Pull Strands Taut (Free Reduction):</span>
-        <input type="range" id="braidTautSlider" min="0" max="1" step="0.02" value="0" oninput="renderBraidCanvas()">
-        <span class="slider-val" id="braidTautVal">Raw (0%)</span>
-      </div>
-      <div class="kv-mini"><span>Reduced Braid Word</span><span id="kvBraidWord" style="color:var(--cyan);">σ1 · σ2⁻¹</span></div>
-      <div class="kv-mini"><span>Raw → Reduced Crossings (Entanglement)</span><span id="kvBraidCount">17 → 7 (41.2%)</span></div>
+      <canvas id="masterTimelineCanvas" width="640" height="68"></canvas>
     </div>
 
-    <!-- 2. Helmholtz-Hodge Fluid Field -->
-    <div class="card">
-      <div class="card-head">
-        <div class="card-title">2 · Helmholtz–Hodge Ternary &amp; Flow Field</div>
-        <span class="badge cyan" id="badgeHHD">Φ 40% · Ψ 38% · H 13%</span>
+    <div class="scrubber-col">
+      <div class="scrubber-lbl">
+        <span>$u\\text{{-}}\\tau$ HORIZON SLIT-SCAN TOMOGRAM (Click/Drag to Scrub)</span>
+        <span>Vertical = Lock · Diagonal = Pan</span>
       </div>
-      <div class="card-sub">Left: Ternary Phase Portrait $(\\|\\nabla\\Phi\\|, \\|\\nabla\\times\\mathbf{{\\Psi}}\\|, \\|\\mathbf{{H}}\\|)$ · Right: Live orthogonal vector field</div>
-      <canvas class="m-canvas" id="cvHHD" width="450" height="195"></canvas>
-      <div class="slider-bar">
-        <span>Synthesize Component Gain:</span>
-        <button class="btn active" id="hhdFilter-all" onclick="setHHDFilter('all')">All V</button>
-        <button class="btn" id="hhdFilter-phi" onclick="setHHDFilter('phi')">−∇Φ (Depth)</button>
-        <button class="btn" id="hhdFilter-psi" onclick="setHHDFilter('psi')">∇×Ψ (Curl)</button>
-        <button class="btn" id="hhdFilter-h" onclick="setHHDFilter('h')">H (Pan)</button>
-      </div>
-      <div class="kv-mini"><span>Gravitational Sink / Source Locus</span><span id="kvHHDSink">(0.50, 0.50)</span></div>
-      <div class="kv-mini"><span>Director Regime Signature</span><span id="kvHHDRegime">Balanced Push-Swirl</span></div>
-    </div>
-
-    <!-- 3. Wasserstein Chromatic Geodesics & KALMUS -->
-    <div class="card">
-      <div class="card-head">
-        <div class="card-title">3 · 5D Wasserstein ($W_2$) &amp; KALMUS Stratigraphy</div>
-        <span class="badge green" id="badgeW2">Geo Eff = 0.71</span>
-      </div>
-      <div class="card-sub">Top: Core-Worm vs. Shell CIE-$L^*a^*b^*$ stratigraphy · Bottom: $W_2^2$ kinetic energy &amp; geodesic curvature</div>
-      <canvas class="m-canvas" id="cvW2" width="450" height="195"></canvas>
-      <div class="slider-bar">
-        <span>Core-Sample Aperture Radius $r_{{\\text{{worm}}}}$:</span>
-        <input type="range" id="kalmusRadiusSlider" min="0.08" max="0.42" step="0.01" value="0.22" oninput="renderW2Canvas()">
-        <span class="slider-val" id="kalmusRadiusVal">r = 0.22</span>
-      </div>
-      <div class="kv-mini"><span>Itten Chiaroscuro $\\Delta L^*$ / Hue $\\Delta H$</span><span id="kvW2Itten">16.0 L* / 12.4°</span></div>
-      <div class="kv-mini"><span>Mechanical Light Work $W_2^2$ (Mean / Peak)</span><span id="kvW2Work">0.49 / 2.85</span></div>
-    </div>
-
-    <!-- 4. Relativistic Saccade Light-Cones -->
-    <div class="card">
-      <div class="card-head">
-        <div class="card-title">4 · Relativistic Saccade Light-Cones ($\\Delta s^2$)</div>
-        <span class="badge" id="badgeSaccade">54% Timelike</span>
-      </div>
-      <div class="card-sub">Drag biological foveal speed $c_{{\\text{{eye}}}}$ &amp; fixation latency $\\tau_{{\\text{{fix}}}}$ to reshape the causal horizon live</div>
-      <canvas class="m-canvas" id="cvSaccade" width="450" height="195"></canvas>
-      <div class="slider-bar">
-        <span>$c_{{\\text{{eye}}}}$:</span>
-        <input type="range" id="cEyeSlider" min="200" max="700" step="10" value="400" oninput="onSaccadeParamChange()">
-        <span class="slider-val" id="cEyeVal">400°/s</span>
-        <span>$\\tau_{{\\text{{fix}}}}$:</span>
-        <input type="range" id="tauFixSlider" min="100" max="320" step="5" value="200" oninput="onSaccadeParamChange()">
-        <span class="slider-val" id="tauFixVal">200ms</span>
-      </div>
-      <div class="kv-mini"><span>Live Classification (Timelike / Light / Space)</span><span id="kvSaccadeSplit">7 / 2 / 4 cuts</span></div>
-      <div class="kv-mini"><span>Murch Eye-Trace Horizon Radius $R$</span><span id="kvSaccadeRad">0.220 screen-widths</span></div>
-    </div>
-
-    <!-- 5. Persistent Homology Attractors (TDA) -->
-    <div class="card">
-      <div class="card-head">
-        <div class="card-title">5 · Takens Attractor &amp; Vietoris–Rips ($\\beta_0, \\beta_1, \\beta_2$)</div>
-        <span class="badge" id="badgeTDA" style="color:var(--purple);">(9, 50, 0.37)</span>
-      </div>
-      <div class="card-sub">Drag filtration radius $\\epsilon$ to grow Vietoris–Rips balls, merge $\\beta_0$ regimes, and close $\\beta_1$ limit cycles</div>
-      <canvas class="m-canvas" id="cvTDA" width="450" height="195"></canvas>
-      <div class="slider-bar">
-        <span>Vietoris–Rips Filtration Radius $\\epsilon$:</span>
-        <input type="range" id="epsSlider" min="0.15" max="2.20" step="0.05" value="0.75" oninput="renderTDACanvas()">
-        <span class="slider-val" id="epsVal">ε = 0.75</span>
-      </div>
-      <div class="kv-mini"><span>Active $\\beta_0$ Components / $\\beta_1$ Loops at $\\epsilon$</span><span id="kvTDALive">4 regimes · 18 loops</span></div>
-      <div class="kv-mini"><span>$\\beta_2$ Chiasmus Ring-Folding Symmetry</span><span id="kvTDAChiasmus">0.370</span></div>
-    </div>
-
-    <!-- 6. Cross-Spectral Synchresis & Cymatics -->
-    <div class="card">
-      <div class="card-head">
-        <div class="card-title">6 · Cross-Spectral Synchresis &amp; Cymatic Tensor</div>
-        <span class="badge cyan" id="badgePLV">PLV = 0.446</span>
-      </div>
-      <div class="card-sub">Left: Hilbert Phase-Locking Polar Clock $e^{{i(\\theta_{{\\text{{vis}}}}-\\theta_{{\\text{{aud}}}})}}$ · Right: $\\text{{PLV}}(\\tau)$ &amp; Anempathetic Slip</div>
-      <canvas class="m-canvas" id="cvPLV" width="450" height="195"></canvas>
-      <div class="slider-bar">
-        <span>Cymatic Grid Coupling Gain $g_{{\\mu\\nu}}$:</span>
-        <input type="range" id="cymaticGainSlider" min="0" max="3" step="0.1" value="1.2" oninput="renderPLVCanvas(); renderHUD();">
-        <span class="slider-val" id="cymaticGainVal">1.2×</span>
-      </div>
-      <div class="kv-mini"><span>Empathetic Lock Peak / Anempathetic Slip</span><span id="kvPLVStats">0.892 / 0.005</span></div>
-      <div class="kv-mini"><span>Sub-Bass ($20\\text{{–}}80\\text{{ Hz}}$) / Centroid Drive</span><span id="kvPLVBands">0.31 / 0.44</span></div>
-    </div>
-  </div>
-
-  <!-- Comparative 12-Film Corpus Matrix + Declarative STGL Timeline IR & Live Linter -->
-  <div class="stage-grid">
-    <div class="card">
-      <div class="card-head">
-        <div class="card-title">12-Film Spatiotemporal Tensor Ledger (Click Any Row to Load)</div>
-        <div class="card-sub">Compare all 4 makers across the 6 mathematical frameworks</div>
-      </div>
-      <div style="overflow-x:auto;">
-        <table id="corpusTable">
-          <thead>
-            <tr>
-              <th>Film &amp; Maker</th>
-              <th>FTBE ($\\mathcal{{B}}_3$)</th>
-              <th>HHD ($\\Phi/\\Psi/H$)</th>
-              <th>$W_2$ / $\\Delta L^*$</th>
-              <th>Timelike $\\Delta s^2$</th>
-              <th>TDA $(\\beta_0,\\beta_1,\\beta_2)$</th>
-              <th>PLV</th>
-              <th>STGL Lock</th>
-            </tr>
-          </thead>
-          <tbody id="corpusTableBody"></tbody>
-        </table>
+      <div class="slit-box" onmousemove="scrubFromSlit(event)" onclick="scrubFromSlit(event, true)">
+        <img id="utSlitImg" alt="u-tau slit-scan">
+        <div class="playhead-line" id="utPlayhead"></div>
       </div>
     </div>
 
-    <div class="card">
-      <div class="card-head">
-        <div>
-          <div class="card-title">Declarative 4D STGL Timeline IR &amp; Live Closed-Loop Verifier</div>
-          <div class="card-sub">Updates live when you manipulate nodes or saccade parameters in the sandbox</div>
-        </div>
-        <span class="badge green" id="linterStatusBadge">STGL LINTER: PASS</span>
+    <div class="scrubber-col">
+      <div class="scrubber-lbl">
+        <span>$v\\text{{-}}\\tau$ VERTICAL SLIT-SCAN TOMOGRAM (Click/Drag to Scrub)</span>
+        <span>Strata = Cuts · Cone = Zoom</span>
       </div>
-      <pre class="code-box" id="stglLiveBox"></pre>
+      <div class="slit-box" onmousemove="scrubFromSlit(event)" onclick="scrubFromSlit(event, true)">
+        <img id="vtSlitImg" alt="v-tau slit-scan">
+        <div class="playhead-line" id="vtPlayhead"></div>
+      </div>
     </div>
   </div>
 </div>
@@ -723,11 +748,12 @@ def main():
 <script>
 const FILMS = {json.dumps(films)};
 const STGL_IR = {json.dumps(stgl_ir)};
-const STGL_AUDIT = {json.dumps(audit_data)};
 
-let activeFilm = FILMS[1] || FILMS[0]; // 059-ball default
-let compareFilm = FILMS[10] || FILMS[0]; // sol-059-radius default comparison
-let viewMode = 'prism'; // 'prism' | 'torus' | 'diff' | 'toric'
+let activeFilmIndex = 1; // Default 059-ball
+let activeFilm = FILMS[activeFilmIndex] || FILMS[0];
+let compareFilm = FILMS[10] || FILMS[0];
+let viewMode = 'prism';
+let activeManifoldTab = 'all';
 let hhdFilter = 'all';
 let curTime = 0.0;
 let semanticZoom = 1.0;
@@ -756,55 +782,57 @@ function initUI() {{
   compSel.innerHTML = '';
   tbody.innerHTML = '';
 
-  FILMS.forEach(f => {{
+  FILMS.forEach((f, idx) => {{
     const btn = document.createElement('button');
     btn.className = 'f-pill' + (f.id === activeFilm.id ? ' active' : '');
     btn.id = 'fpill-' + f.id;
     btn.textContent = f.title;
-    btn.onclick = () => selectFilm(f.id);
+    btn.onclick = () => selectFilmByIndex(idx);
     pillList.appendChild(btn);
 
     const opt = document.createElement('option');
     opt.value = f.id;
-    opt.textContent = f.title + ' (' + f.maker + ')';
+    opt.textContent = 'vs ' + f.title;
     if (f.id === compareFilm.id) opt.selected = true;
     compSel.appendChild(opt);
 
     const tr = document.createElement('tr');
-    tr.className = 'film-row' + (f.id === activeFilm.id ? ' active-row' : '');
-    tr.id = 'frow-' + f.id;
-    tr.onclick = () => selectFilm(f.id);
+    tr.onclick = () => selectFilmByIndex(idx);
     const h = f.helmholtz, w = f.wasserstein, s = f.saccade, t = f.tda, sy = f.synchresis, wm = f.worm;
     tr.innerHTML = `
-      <td><strong>${{f.title}}</strong><br><span style="font-size:10.5px;color:var(--muted)">${{f.maker}}</span></td>
+      <td><strong>${{f.title}}</strong></td>
       <td style="font-family:var(--mono)">${{f.braid.ftbe.toFixed(2)}}</td>
       <td style="font-family:var(--mono)">${{Math.round(h.divergence_share*100)}}/${{Math.round(h.curl_share*100)}}/${{Math.round(h.harmonic_share*100)}}</td>
-      <td style="font-family:var(--mono)">${{w.mean_w2_kinetic.toFixed(2)}} / ${{w.mean_chiaroscuro_dl.toFixed(1)}}</td>
+      <td style="font-family:var(--mono)">${{w.mean_w2_kinetic.toFixed(2)}}</td>
       <td style="font-family:var(--mono)">${{s.timelike_pct.toFixed(0)}}%</td>
       <td style="font-family:var(--mono)">(${{t.beta0_regimes}},${{t.beta1_loops}},${{t.beta2_chiasmus.toFixed(2)}})</td>
-      <td style="font-family:var(--mono)">${{sy.mean_plv.toFixed(3)}}</td>
+      <td style="font-family:var(--mono)">${{sy.mean_plv.toFixed(2)}}</td>
       <td style="font-family:var(--mono)">${{wm.compositional_lock_pct.toFixed(0)}}%</td>
     `;
     tbody.appendChild(tr);
   }});
 }}
 
-function selectFilm(fid) {{
-  const found = FILMS.find(x => x.id === fid);
-  if (!found) return;
-  activeFilm = found;
+function stepFilm(delta) {{
+  const nextIdx = (activeFilmIndex + delta + FILMS.length) % FILMS.length;
+  selectFilmByIndex(nextIdx);
+}}
+
+function selectFilmByIndex(idx) {{
+  activeFilmIndex = idx;
+  activeFilm = FILMS[idx];
   curTime = 0.0;
   resetSandbox(false);
 
   document.querySelectorAll('.f-pill').forEach(el => el.classList.remove('active'));
-  const p = document.getElementById('fpill-' + fid);
-  if (p) p.classList.add('active');
+  const p = document.getElementById('fpill-' + activeFilm.id);
+  if (p) {{
+    p.classList.add('active');
+    p.scrollIntoView({{ behavior: 'smooth', block: 'nearest', inline: 'center' }});
+  }}
 
-  document.querySelectorAll('.film-row').forEach(el => el.classList.remove('active-row'));
-  const r = document.getElementById('frow-' + fid);
-  if (r) r.classList.add('active-row');
-
-  document.getElementById('stageTitle').textContent = activeFilm.title + ' (' + activeFilm.maker + ')';
+  document.getElementById('stageTitle').textContent = activeFilm.title;
+  document.getElementById('stageSub').textContent = activeFilm.maker + ' · ' + activeFilm.award + ' · ' + activeFilm.duration_s + 's';
   document.getElementById('stageCaseLink').href = activeFilm.watch_url;
 
   videoEl.src = activeFilm.video_rel;
@@ -812,6 +840,25 @@ function selectFilm(fid) {{
   document.getElementById('vtSlitImg').src = activeFilm.vt_b64 || activeFilm.vt_tomogram;
 
   renderAll();
+}}
+
+function togglePlay() {{
+  if (videoEl.paused) videoEl.play();
+  else videoEl.pause();
+}}
+
+function setManifoldTab(tabId) {{
+  activeManifoldTab = tabId;
+  ['all', '1', '2', '3', '4', '5', '6', '7'].forEach(k => {{
+    const b = document.getElementById('mTab-' + k);
+    if (b) b.classList.toggle('active', k === tabId);
+  }});
+  document.getElementById('pane-all').style.display = (tabId === 'all') ? 'grid' : 'none';
+  for (let i = 1; i <= 7; i++) {{
+    const p = document.getElementById('pane-' + i);
+    if (p) p.classList.toggle('active', String(i) === tabId);
+  }}
+  renderManifolds();
 }}
 
 function sampleAtTime(film, tSec) {{
@@ -838,8 +885,7 @@ function getModifiedNode(pt) {{
 
 function toggleCounterfactualReg() {{
   counterfactualReg = !counterfactualReg;
-  const btn = document.getElementById('btnCounterfactual');
-  btn.classList.toggle('active', counterfactualReg);
+  document.getElementById('btnCounterfactual').classList.toggle('active', counterfactualReg);
   document.getElementById('btnResetSandbox').style.display = (counterfactualReg || userNodeOffset.du !== 0 || userNodeOffset.dv !== 0) ? 'inline-flex' : 'none';
   renderAll();
 }}
@@ -871,12 +917,12 @@ function setHHDFilter(f) {{
   ['all', 'phi', 'psi', 'h'].forEach(k => {{
     document.getElementById('hhdFilter-' + k).classList.toggle('active', k === f);
   }});
-  renderHHDCanvas();
+  renderManifolds();
 }}
 
 function onZoomChange(val) {{
   semanticZoom = parseFloat(val);
-  document.getElementById('zoomVal').textContent = semanticZoom.toFixed(1) + '× ' + (semanticZoom > 1.5 ? 'Micro' : 'Full');
+  document.getElementById('zoomVal').textContent = semanticZoom.toFixed(1) + '×';
   renderMultiModeCanvas();
   renderMasterTimeline();
 }}
@@ -887,20 +933,16 @@ function onSaccadeParamChange() {{
   document.getElementById('cEyeVal').textContent = cEyeDeg.toFixed(0) + '°/s';
   document.getElementById('tauFixVal').textContent = tauFixMs.toFixed(0) + 'ms';
   document.getElementById('btnResetSandbox').style.display = 'inline-flex';
-  renderSaccadeCanvas();
-  renderHUD();
-  renderMasterTimeline();
-  updateTelemetryAndSTGL();
+  renderAll();
 }}
 
-// Compute live saccade horizon radius in screen widths (40 deg horizontal FOV)
 function getLiveHorizonSW() {{
   const cEyeSW = cEyeDeg / 40.0;
   const evalWindowS = Math.max(0.005, 0.222 - (tauFixMs / 1000.0));
   return Math.max(0.04, cEyeSW * evalWindowS);
 }}
 
-// 1. Live Video HUD Overlay (Surface the Invisible + Direct Manipulation)
+// 1. Live Video HUD Overlay
 function renderHUD() {{
   const ctx = hudCanvas.getContext('2d');
   const W = hudCanvas.width, H = hudCanvas.height;
@@ -910,15 +952,13 @@ function renderHUD() {{
   if (!pt) return;
   const modS1 = getModifiedNode(pt);
   const cymGain = parseFloat(document.getElementById('cymaticGainSlider').value || 1.2);
-  const bassWarp = (pt.sub_bass || 0) * 0.035 * cymGain;
-  const centShift = ((pt.centroid || 0.5) - 0.5) * 0.04 * cymGain;
+  const bassWarp = (pt.sub_bass || 0) * 0.032 * cymGain;
+  const centShift = ((pt.centroid || 0.5) - 0.5) * 0.035 * cymGain;
 
-  // A. 14-Line Harmonic Armature with Cymatic Acoustic String Deformation
   if (document.getElementById('hudArmature').checked) {{
     ctx.save();
-    ctx.strokeStyle = 'rgba(229, 174, 92, 0.34)';
+    ctx.strokeStyle = 'rgba(229, 174, 92, 0.32)';
     ctx.lineWidth = 1.1;
-    // Main diagonals & reciprocals
     const lines = [
       [[0,0],[1,1]], [[0,1],[1,0]],
       [[0.5,0],[0.5,1]], [[0,0.5+centShift],[1,0.5+centShift]],
@@ -927,43 +967,34 @@ function renderHUD() {{
       [[0,0],[0.5,1]], [[0.5,0],[1,1]], [[0,1],[0.5,0]], [[0.5,1],[1,0]]
     ];
     lines.forEach(([a, b]) => {{
-      ctx.beginPath();
-      ctx.moveTo(a[0] * W, a[1] * H);
-      ctx.lineTo(b[0] * W, b[1] * H);
-      ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(a[0] * W, a[1] * H); ctx.lineTo(b[0] * W, b[1] * H); ctx.stroke();
     }});
     ctx.restore();
   }}
 
-  // B. 059-ball Target Registration Rim (R = 0.28 * H at center [0.5, 0.5])
   if (document.getElementById('hudRegCircle').checked) {{
     ctx.save();
-    const rPx = (0.28 + bassWarp * 0.6) * H;
+    const rPx = (0.28 + bassWarp * 0.5) * H;
     ctx.beginPath();
     ctx.arc(W * 0.5, H * 0.5, rPx, 0, Math.PI * 2);
-    ctx.strokeStyle = counterfactualReg ? 'rgba(114, 204, 150, 0.85)' : 'rgba(86, 194, 230, 0.45)';
+    ctx.strokeStyle = counterfactualReg ? 'rgba(114, 204, 150, 0.88)' : 'rgba(86, 194, 230, 0.45)';
     ctx.setLineDash([5, 4]);
     ctx.lineWidth = 1.6;
     ctx.stroke();
     ctx.restore();
   }}
 
-  // C. Helmholtz-Hodge Gravitational Sink/Source Attractor
   if (document.getElementById('hudHelmholtz').checked && pt.sink) {{
     const sx = pt.sink[0] * W, sy = pt.sink[1] * H;
     ctx.save();
     ctx.beginPath();
-    ctx.arc(sx, sy, 10 + pt.phi * 18, 0, Math.PI * 2);
+    ctx.arc(sx, sy, 9 + pt.phi * 16, 0, Math.PI * 2);
     ctx.strokeStyle = 'rgba(227, 104, 116, 0.65)';
     ctx.lineWidth = 1.5;
     ctx.stroke();
-    ctx.fillStyle = 'rgba(227, 104, 116, 0.85)';
-    ctx.font = '10px monospace';
-    ctx.fillText('∇Φ Sink', sx + 12, sy + 4);
     ctx.restore();
   }}
 
-  // D. Relativistic Saccade Light-Cone around nearest cut
   if (document.getElementById('hudSaccade').checked) {{
     const cuts = (activeFilm.saccade && activeFilm.saccade.cuts) || [];
     let nearCut = cuts[0], minCD = 999;
@@ -971,7 +1002,7 @@ function renderHUD() {{
       const d = Math.abs(c.tau - curTime);
       if (d < minCD) {{ minCD = d; nearCut = c; }}
     }});
-    if (nearCut && minCD < 2.5) {{
+    if (nearCut && minCD < 2.2) {{
       const rSW = getLiveHorizonSW();
       const p1x = nearCut.p1[0] * W, p1y = nearCut.p1[1] * H;
       const p2x = (nearCut.p2[0] + userNodeOffset.du) * W;
@@ -983,66 +1014,59 @@ function renderHUD() {{
       ctx.save();
       ctx.beginPath();
       ctx.arc(p1x, p1y, rSW * W, 0, Math.PI * 2);
-      ctx.fillStyle = coneCol.replace('0.65', '0.10').replace('0.75', '0.12');
+      ctx.fillStyle = coneCol.replace('0.65', '0.09').replace('0.75', '0.11');
       ctx.fill();
       ctx.strokeStyle = coneCol;
-      ctx.lineWidth = 1.8;
+      ctx.lineWidth = 1.6;
       ctx.stroke();
-
-      // Vector from p1 to p2
       ctx.beginPath();
       ctx.moveTo(p1x, p1y);
       ctx.lineTo(p2x, p2y);
-      ctx.strokeStyle = coneCol;
-      ctx.lineWidth = 2.0;
       ctx.stroke();
       ctx.restore();
     }}
   }}
 
-  // E. 3-Strand Worldline Nodes & Magnetic Armature Tether
   if (document.getElementById('hudStrands').checked) {{
     const nodes = [
-      {{ u: modS1[0], v: modS1[1], d: modS1[2], col: '#e5ae5c', lbl: 's₁ (Drag)' }},
+      {{ u: modS1[0], v: modS1[1], d: modS1[2], col: '#e5ae5c', lbl: 's₁' }},
       {{ u: pt.s2[0], v: pt.s2[1], d: pt.s2[2], col: '#56c2e6', lbl: 's₂' }},
       {{ u: pt.s3[0], v: pt.s3[1], d: pt.s3[2], col: '#c77ae0', lbl: 's₃' }}
     ];
-    // Magnetic tether from s1 to center (0.5, 0.5)
     ctx.save();
     ctx.beginPath();
     ctx.setLineDash([2, 3]);
     ctx.moveTo(modS1[0] * W, modS1[1] * H);
     ctx.lineTo(0.5 * W, 0.5 * H);
-    ctx.strokeStyle = 'rgba(229, 174, 92, 0.55)';
+    ctx.strokeStyle = 'rgba(229, 174, 92, 0.5)';
     ctx.stroke();
     ctx.restore();
 
     nodes.forEach((n, idx) => {{
       const nx = n.u * W, ny = n.v * H;
-      const rad = idx === 0 ? 9 : 6;
       ctx.save();
       ctx.beginPath();
-      ctx.arc(nx, ny, rad, 0, Math.PI * 2);
+      ctx.arc(nx, ny, idx === 0 ? 8 : 5.5, 0, Math.PI * 2);
       ctx.fillStyle = n.col;
       ctx.fill();
       ctx.strokeStyle = '#000';
-      ctx.lineWidth = 1.5;
+      ctx.lineWidth = 1.4;
       ctx.stroke();
       ctx.fillStyle = '#fff';
       ctx.font = 'bold 10px monospace';
-      ctx.fillText(`${{n.lbl}} d=${{n.d.toFixed(2)}}`, nx + 11, ny + 3);
+      ctx.fillText(n.lbl, nx + 10, ny + 3);
       ctx.restore();
     }});
   }}
+  document.getElementById('hudNodeReadout').textContent = `(u=${{modS1[0].toFixed(2)}}, v=${{modS1[1].toFixed(2)}}, d=${{modS1[2].toFixed(2)}})`;
 }}
 
-// Direct manipulation of s1 focal node on HUD canvas
 hudCanvas.addEventListener('mousedown', e => {{
   draggingHUD = true;
   updateHUDDrag(e);
 }});
 window.addEventListener('mouseup', () => {{ draggingHUD = false; }});
-hudCanvas.addEventListener('mousemove', e => {{
+window.addEventListener('mousemove', e => {{
   if (draggingHUD) updateHUDDrag(e);
 }});
 
@@ -1059,11 +1083,11 @@ function updateHUDDrag(e) {{
   }}
 }}
 
-// 2. Multi-Mode Spatiotemporal Viewport (3D Prism | 360° Torus | Dual-Film Diff | Toric Manifold)
+// 2. Multi-Mode Spatiotemporal Volume Canvas
 function project3DPoint(u, v, tNorm, W, H, xCenterOffset=0, scaleMult=1.0) {{
-  const x = (tNorm - 0.5) * 1.65;
-  const y = (0.5 - v) * 0.92;
-  const z = (u - 0.5) * 0.92;
+  const x = (tNorm - 0.5) * 1.68;
+  const y = (0.5 - v) * 0.90;
+  const z = (u - 0.5) * 0.90;
   const cy = Math.cos(yaw), sy = Math.sin(yaw);
   const cp = Math.cos(pitch), sp = Math.sin(pitch);
   const x1 = x * cy - z * sy;
@@ -1072,8 +1096,8 @@ function project3DPoint(u, v, tNorm, W, H, xCenterOffset=0, scaleMult=1.0) {{
   const z2 = y * sp + z1 * cp;
   const scale = (2.35 / (2.55 - z2)) * scaleMult;
   return {{
-    px: W * 0.5 + xCenterOffset + x1 * scale * Math.min(W, H) * 0.60,
-    py: H * 0.52 - y2 * scale * Math.min(W, H) * 0.60,
+    px: W * 0.5 + xCenterOffset + x1 * scale * Math.min(W, H) * 0.62,
+    py: H * 0.52 - y2 * scale * Math.min(W, H) * 0.62,
     scale: scale
   }};
 }}
@@ -1084,12 +1108,10 @@ function drawPrismVolume(ctx, film, W, H, xOffset=0, scaleMult=1.0, isPrimary=tr
   const dur = film.duration_s || 1;
   const curNorm = Math.min(1, Math.max(0, curTime / dur));
 
-  // Semantic zoom window in normalized time [tMin, tMax]
   const halfWin = 0.5 / semanticZoom;
   const tMin = Math.max(0, Math.min(1 - 2 * halfWin, curNorm - halfWin));
   const tMax = Math.min(1, tMin + 2 * halfWin);
 
-  // Outer wireframe box
   const corners = [[0,0,0],[1,0,0],[1,1,0],[0,1,0],[0,0,1],[1,0,1],[1,1,1],[0,1,1]];
   const edges = [[0,1],[1,2],[2,3],[3,0],[4,5],[5,6],[6,7],[7,4],[0,4],[1,5],[2,6],[3,7]];
   ctx.save();
@@ -1101,21 +1123,18 @@ function drawPrismVolume(ctx, film, W, H, xOffset=0, scaleMult=1.0, isPrimary=tr
     ctx.beginPath(); ctx.moveTo(a.px, a.py); ctx.lineTo(b.px, b.py); ctx.stroke();
   }});
 
-  // Center registration filament
   const c0 = project3DPoint(0.5, 0.5, 0, W, H, xOffset, scaleMult);
   const c1 = project3DPoint(0.5, 0.5, 1, W, H, xOffset, scaleMult);
-  ctx.strokeStyle = 'rgba(229, 174, 92, 0.5)';
+  ctx.strokeStyle = 'rgba(229, 174, 92, 0.45)';
   ctx.setLineDash([4, 4]);
   ctx.beginPath(); ctx.moveTo(c0.px, c0.py); ctx.lineTo(c1.px, c1.py); ctx.stroke();
   ctx.restore();
 
-  // Filter series to semantic zoom window
   const visSeries = series.filter(pt => {{
     const tn = pt.t / dur;
     return tn >= tMin - 0.02 && tn <= tMax + 0.02;
   }});
 
-  // Secondary strands s2, s3
   ['s2', 's3'].forEach((k, idx) => {{
     ctx.save();
     ctx.beginPath();
@@ -1124,13 +1143,12 @@ function drawPrismVolume(ctx, film, W, H, xOffset=0, scaleMult=1.0, isPrimary=tr
       const p = project3DPoint(pt[k][0], pt[k][1], tn, W, H, xOffset, scaleMult);
       if (i === 0) ctx.moveTo(p.px, p.py); else ctx.lineTo(p.px, p.py);
     }});
-    ctx.strokeStyle = idx === 0 ? 'rgba(86, 194, 230, 0.55)' : 'rgba(199, 122, 224, 0.55)';
-    ctx.lineWidth = 1.5;
+    ctx.strokeStyle = idx === 0 ? 'rgba(86, 194, 230, 0.5)' : 'rgba(199, 122, 224, 0.5)';
+    ctx.lineWidth = 1.4;
     ctx.stroke();
     ctx.restore();
   }});
 
-  // Primary Core Worm s1 colored by CIE-LAB/RGB palette
   for (let i = 0; i < visSeries.length - 1; i++) {{
     const a = visSeries[i], b = visSeries[i + 1];
     const tnA = (a.t / dur - tMin) / Math.max(1e-4, tMax - tMin);
@@ -1143,7 +1161,7 @@ function drawPrismVolume(ctx, film, W, H, xOffset=0, scaleMult=1.0, isPrimary=tr
     ctx.save();
     ctx.beginPath();
     ctx.strokeStyle = `rgba(${{rgb[0]}}, ${{rgb[1]}}, ${{rgb[2]}}, 0.92)`;
-    ctx.lineWidth = Math.max(2.5, a.r * 34 * pA.scale);
+    ctx.lineWidth = Math.max(2.2, a.r * 30 * pA.scale);
     ctx.lineCap = 'round';
     ctx.moveTo(pA.px, pA.py);
     ctx.lineTo(pB.px, pB.py);
@@ -1151,7 +1169,6 @@ function drawPrismVolume(ctx, film, W, H, xOffset=0, scaleMult=1.0, isPrimary=tr
     ctx.restore();
   }}
 
-  // Playhead slicing plane
   if (curNorm >= tMin && curNorm <= tMax) {{
     const sliceT = (curNorm - tMin) / Math.max(1e-4, tMax - tMin);
     const sc = [[0,0,sliceT],[1,0,sliceT],[1,1,sliceT],[0,1,sliceT],[0,0,sliceT]];
@@ -1163,7 +1180,7 @@ function drawPrismVolume(ctx, film, W, H, xOffset=0, scaleMult=1.0, isPrimary=tr
     }});
     ctx.fillStyle = 'rgba(229, 174, 92, 0.09)';
     ctx.strokeStyle = 'rgba(229, 174, 92, 0.9)';
-    ctx.lineWidth = 1.6;
+    ctx.lineWidth = 1.5;
     ctx.fill();
     ctx.stroke();
     ctx.restore();
@@ -1180,71 +1197,56 @@ function renderMultiModeCanvas() {{
   }} else if (viewMode === 'diff') {{
     const compId = document.getElementById('compareSelect').value;
     compareFilm = FILMS.find(x => x.id === compId) || FILMS[0];
-    drawPrismVolume(ctx, activeFilm, W, H, -W * 0.24, 0.68, true);
-    drawPrismVolume(ctx, compareFilm, W, H, W * 0.24, 0.68, false);
-    ctx.fillStyle = '#e5ae5c';
-    ctx.font = 'bold 12px sans-serif';
-    ctx.fillText('A: ' + activeFilm.title, 20, 24);
+    drawPrismVolume(ctx, activeFilm, W, H, -W * 0.24, 0.72, true);
+    drawPrismVolume(ctx, compareFilm, W, H, W * 0.24, 0.72, false);
+    ctx.fillStyle = '#e5ae5c'; ctx.font = 'bold 11px sans-serif';
+    ctx.fillText('A: ' + activeFilm.title, 12, 18);
     ctx.fillStyle = '#56c2e6';
-    ctx.fillText('B: ' + compareFilm.title, W * 0.52, 24);
+    ctx.fillText('B: ' + compareFilm.title, W * 0.52, 18);
   }} else if (viewMode === 'torus') {{
-    // Frederic Brodbeck 360° Radial Cinemetrics Torus
     const series = activeFilm.series || [];
     const cx = W * 0.5, cy = H * 0.5;
-    const rInner = 68, rMid = 112;
+    const rInner = 46, rMid = 78;
     const dur = activeFilm.duration_s || 1;
     series.forEach((pt, i) => {{
       const a0 = (i / series.length) * Math.PI * 2 - Math.PI * 0.5;
       const a1 = ((i + 1.2) / series.length) * Math.PI * 2 - Math.PI * 0.5;
       const rgb = pt.rgb || [200, 160, 90];
-      // Color ring
       ctx.beginPath();
-      ctx.arc(cx, cy, rInner + 18, a0, a1);
+      ctx.arc(cx, cy, rInner + 12, a0, a1);
       ctx.strokeStyle = `rgb(${{rgb[0]}},${{rgb[1]}},${{rgb[2]}})`;
-      ctx.lineWidth = 28;
+      ctx.lineWidth = 20;
       ctx.stroke();
-      // Outer motion + W2 spike
-      const spike = rMid + Math.min(52, (pt.phi + pt.psi) * 28 + pt.w2 * 8);
+      const spike = rMid + Math.min(36, (pt.phi + pt.psi) * 20 + pt.w2 * 6);
       ctx.beginPath();
       ctx.moveTo(cx + Math.cos(a0) * rMid, cy + Math.sin(a0) * rMid);
       ctx.lineTo(cx + Math.cos(a0) * spike, cy + Math.sin(a0) * spike);
       ctx.strokeStyle = 'rgba(229, 174, 92, 0.75)';
-      ctx.lineWidth = 2;
+      ctx.lineWidth = 1.8;
       ctx.stroke();
     }});
-    // Playhead ray
     const curAng = (curTime / dur) * Math.PI * 2 - Math.PI * 0.5;
     ctx.beginPath();
     ctx.moveTo(cx, cy);
-    ctx.lineTo(cx + Math.cos(curAng) * (rMid + 58), cy + Math.sin(curAng) * (rMid + 58));
+    ctx.lineTo(cx + Math.cos(curAng) * (rMid + 42), cy + Math.sin(curAng) * (rMid + 42));
     ctx.strokeStyle = '#fff';
     ctx.lineWidth = 2;
     ctx.stroke();
-    ctx.fillStyle = '#ede9e0';
-    ctx.font = 'bold 11px monospace';
-    ctx.textAlign = 'center';
-    ctx.fillText('360° CINEMETRICS TORUS', cx, cy + 4);
-    ctx.textAlign = 'left';
   }} else if (viewMode === 'toric') {{
-    // Lino & Christie 3D-to-2D Toric Camera Manifold (alpha, theta, phi)
     const pt = sampleAtTime(activeFilm, curTime) || activeFilm.series[0];
     const modS1 = getModifiedNode(pt);
     const cx = W * 0.5, cy = H * 0.52;
-    for (let r = 35; r <= 140; r += 35) {{
+    for (let r = 25; r <= 100; r += 25) {{
       ctx.beginPath();
-      ctx.ellipse(cx, cy, r * 1.45, r * 0.85, 0, 0, Math.PI * 2);
+      ctx.ellipse(cx, cy, r * 1.5, r * 0.85, 0, 0, Math.PI * 2);
       ctx.strokeStyle = 'rgba(86, 194, 230, 0.25)';
       ctx.stroke();
     }}
-    const camX = cx + (modS1[0] - 0.5) * 220;
-    const camY = cy + (modS1[2] - 0.5) * 140;
-    ctx.beginPath();
-    ctx.arc(camX, camY, 9, 0, Math.PI * 2);
-    ctx.fillStyle = '#e5ae5c';
-    ctx.fill();
-    ctx.fillStyle = '#ede9e0';
-    ctx.font = '11px monospace';
-    ctx.fillText(`Toric Solver: α=${{((0.5+modS1[2])*48).toFixed(1)}}° θ=${{((modS1[0]-0.5)*90).toFixed(1)}}° φ=${{((0.5-modS1[1])*60).toFixed(1)}}°`, 20, 26);
+    const camX = cx + (modS1[0] - 0.5) * 180;
+    const camY = cy + (modS1[2] - 0.5) * 110;
+    ctx.beginPath(); ctx.arc(camX, camY, 8, 0, Math.PI * 2); ctx.fillStyle = '#e5ae5c'; ctx.fill();
+    ctx.fillStyle = '#ede9e0'; ctx.font = '10.5px monospace';
+    ctx.fillText(`Toric Manifold: α=${{((0.5+modS1[2])*48).toFixed(1)}}° θ=${{((modS1[0]-0.5)*90).toFixed(1)}}° φ=${{((0.5-modS1[1])*60).toFixed(1)}}°`, 14, 18);
   }}
 }}
 
@@ -1261,7 +1263,7 @@ window.addEventListener('mousemove', e => {{
   renderMultiModeCanvas();
 }});
 
-// 3. Master Linked-Brushing Timeline
+// 3. Bottom Master Scrubber
 function renderMasterTimeline() {{
   const ctx = tlCanvas.getContext('2d');
   const W = tlCanvas.width, H = tlCanvas.height;
@@ -1272,40 +1274,37 @@ function renderMasterTimeline() {{
   const dur = activeFilm.duration_s || 1;
   const rSW = getLiveHorizonSW();
 
-  // Track 1 (Top): Core RGB Stratigraphy Strip
   series.forEach((pt, i) => {{
     const x0 = (i / series.length) * W;
     const wBar = (W / series.length) + 1;
     const rgb = pt.rgb || [180, 150, 90];
     ctx.fillStyle = `rgb(${{rgb[0]}},${{rgb[1]}},${{rgb[2]}})`;
-    ctx.fillRect(x0, 6, wBar, 18);
+    ctx.fillRect(x0, 2, wBar, 12);
   }});
 
-  // Track 2 (Middle): W2 Kinetic Energy + Helmholtz Divergence
   const maxW2 = Math.max(0.05, ...series.map(s => s.w2));
   ctx.beginPath();
   series.forEach((pt, i) => {{
     const x = (i / Math.max(1, series.length - 1)) * W;
-    const y = 78 - (pt.w2 / maxW2) * 44;
+    const y = H - 6 - (pt.w2 / maxW2) * (H - 24);
     if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
   }});
   ctx.strokeStyle = '#72cc96';
-  ctx.lineWidth = 1.8;
+  ctx.lineWidth = 1.6;
   ctx.stroke();
 
-  // Track 3 (Bottom): Relativistic Cut Markers
   const cuts = (activeFilm.saccade && activeFilm.saccade.cuts) || [];
   cuts.forEach(c => {{
     const x = (c.tau / dur) * W;
     const ds2 = (rSW * rSW) - (c.jump_sw * c.jump_sw);
     ctx.fillStyle = ds2 > 0.01 ? '#72cc96' : (ds2 > -0.012 ? '#e5ae5c' : '#e36874');
-    ctx.fillRect(x - 1.5, 28, 3, H - 34);
+    ctx.fillRect(x - 1, 16, 2.5, H - 18);
   }});
 
-  // Playhead cursor
   const px = (curTime / dur) * W;
   ctx.fillStyle = '#e5ae5c';
   ctx.fillRect(px - 1, 0, 2.5, H);
+  document.getElementById('scrubberTimeLbl').textContent = `${{curTime.toFixed(2)}}s / ${{dur.toFixed(1)}}s`;
 }}
 
 function scrubToFraction(frac, seekVideo=false) {{
@@ -1321,8 +1320,9 @@ function scrubToFraction(frac, seekVideo=false) {{
 }}
 
 tlCanvas.addEventListener('mousemove', e => {{
+  if (e.buttons !== 1) return;
   const rect = tlCanvas.getBoundingClientRect();
-  scrubToFraction((e.clientX - rect.left) / rect.width, e.buttons === 1);
+  scrubToFraction((e.clientX - rect.left) / rect.width, true);
 }});
 tlCanvas.addEventListener('click', e => {{
   const rect = tlCanvas.getBoundingClientRect();
@@ -1344,276 +1344,162 @@ videoEl.addEventListener('timeupdate', () => {{
   renderAll(false);
 }});
 
-// 4. Six Individual Manifold Visualizers
-function renderBraidCanvas() {{
-  const c = document.getElementById('cvBraid');
-  const ctx = c.getContext('2d');
-  const W = c.width, H = c.height;
+// 4. Draw Manifold Charts onto Both Mini-6 Grid and Focused Sandboxes
+function drawBraidOn(ctx, W, H, taut) {{
   ctx.clearRect(0, 0, W, H);
-
   const series = activeFilm.series || [];
   if (!series.length) return;
-  const taut = parseFloat(document.getElementById('braidTautSlider').value || 0);
-  document.getElementById('braidTautVal').textContent = taut > 0.5 ? `Reduced (${{Math.round(taut*100)}}%)` : `Raw (${{Math.round(taut*100)}}%)`;
-
   const cols = ['#e5ae5c', '#56c2e6', '#c77ae0'];
   const canonicalU = [0.25, 0.50, 0.75];
   ['s1', 's2', 's3'].forEach((k, idx) => {{
     ctx.beginPath();
     series.forEach((pt, i) => {{
-      const x = (i / Math.max(1, series.length - 1)) * (W - 20) + 10;
+      const x = (i / Math.max(1, series.length - 1)) * (W - 14) + 7;
       const rawU = (idx === 0) ? getModifiedNode(pt)[0] : pt[k][0];
       const uVal = (1 - taut) * rawU + taut * canonicalU[idx];
-      const y = (1 - uVal) * (H - 28) + 14;
+      const y = (1 - uVal) * (H - 24) + 16;
       if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
     }});
     ctx.strokeStyle = cols[idx];
-    ctx.lineWidth = 2.2;
+    ctx.lineWidth = 1.8;
     ctx.stroke();
   }});
-
-  // Playhead
-  const px = (curTime / (activeFilm.duration_s || 1)) * (W - 20) + 10;
-  ctx.strokeStyle = 'rgba(255,255,255,0.6)';
+  const px = (curTime / (activeFilm.duration_s || 1)) * (W - 14) + 7;
+  ctx.strokeStyle = 'rgba(255,255,255,0.5)';
   ctx.beginPath(); ctx.moveTo(px, 0); ctx.lineTo(px, H); ctx.stroke();
-
-  const b = activeFilm.braid;
-  document.getElementById('badgeBraid').textContent = 'FTBE = ' + b.ftbe.toFixed(3);
-  document.getElementById('kvBraidWord').textContent = b.reduced_word_preview;
-  document.getElementById('kvBraidCount').textContent = `${{b.raw_crossings}} → ${{b.reduced_length}} (${{(b.entanglement_ratio*100).toFixed(1)}}%)`;
 }}
 
-function renderHHDCanvas() {{
-  const c = document.getElementById('cvHHD');
-  const ctx = c.getContext('2d');
-  const W = c.width, H = c.height;
+function drawHHDOn(ctx, W, H, isFull) {{
   ctx.clearRect(0, 0, W, H);
-
-  const pt = sampleAtTime(activeFilm, curTime) || activeFilm.series[0];
-  const h = activeFilm.helmholtz;
-  document.getElementById('badgeHHD').textContent = `Φ ${{Math.round(h.divergence_share*100)}}% · Ψ ${{Math.round(h.curl_share*100)}}% · H ${{Math.round(h.harmonic_share*100)}}%`;
-  document.getElementById('kvHHDSink').textContent = pt && pt.sink ? `(${{pt.sink[0].toFixed(2)}}, ${{pt.sink[1].toFixed(2)}})` : '(0.50, 0.50)';
-  document.getElementById('kvHHDRegime').textContent = h.divergence_share > 0.45 ? 'Kubrickian Depth Push/Pull (Φ)' : (h.curl_share > 0.40 ? 'Rotational Vortex (Ψ)' : 'Balanced Laminar-Depth');
-
-  // Left half: Ternary Phase Triangle
-  const ax = 95, ay = 24, bx = 22, by = 168, cxT = 168, cyT = 168;
-  ctx.strokeStyle = 'rgba(150,165,195,0.45)';
-  ctx.beginPath(); ctx.moveTo(ax, ay); ctx.lineTo(bx, by); ctx.lineTo(cxT, cyT); ctx.closePath(); ctx.stroke();
-  ctx.fillStyle = '#e5ae5c'; ctx.font = '10px monospace'; ctx.fillText('−∇Φ', ax - 14, ay - 6);
-  ctx.fillStyle = '#e36874'; ctx.fillText('∇×Ψ', bx - 10, by + 13);
-  ctx.fillStyle = '#56c2e6'; ctx.fillText('H', cxT - 4, cyT + 13);
-
-  const tot = (pt.phi + pt.psi + pt.h) + 1e-5;
-  const wPhi = pt.phi / tot, wPsi = pt.psi / tot, wH = pt.h / tot;
-  const dotX = ax * wPhi + bx * wPsi + cxT * wH;
-  const dotY = ay * wPhi + by * wPsi + cyT * wH;
-  ctx.beginPath(); ctx.arc(dotX, dotY, 6, 0, Math.PI * 2); ctx.fillStyle = '#e5ae5c'; ctx.fill();
-
-  // Right half: Live 2D Vector Field Preview
-  const vx0 = 205, vy0 = 18, vw = 230, vh = 158;
-  ctx.strokeStyle = 'rgba(130,145,175,0.25)';
-  ctx.strokeRect(vx0, vy0, vw, vh);
-  const su = pt.sink ? pt.sink[0] : 0.5, sv = pt.sink ? pt.sink[1] : 0.5;
-  for (let gx = 0; gx < 8; gx++) {{
-    for (let gy = 0; gy < 6; gy++) {{
-      const u = (gx + 0.5) / 8, v = (gy + 0.5) / 6;
-      const dx = u - su, dy = v - sv;
-      let fx = 0, fy = 0;
-      if (hhdFilter === 'all' || hhdFilter === 'phi') {{ fx += -dx * pt.phi * 18; fy += -dy * pt.phi * 18; }}
-      if (hhdFilter === 'all' || hhdFilter === 'psi') {{ fx += -dy * pt.psi * 18; fy += dx * pt.psi * 18; }}
-      if (hhdFilter === 'all' || hhdFilter === 'h') {{ fx += pt.h * 14; }}
-      const px = vx0 + u * vw, py = vy0 + v * vh;
-      ctx.beginPath();
-      ctx.moveTo(px, py);
-      ctx.lineTo(px + fx, py + fy);
-      ctx.strokeStyle = '#56c2e6';
-      ctx.lineWidth = 1.4;
-      ctx.stroke();
-    }}
-  }}
-}}
-
-function renderW2Canvas() {{
-  const c = document.getElementById('cvW2');
-  const ctx = c.getContext('2d');
-  const W = c.width, H = c.height;
-  ctx.clearRect(0, 0, W, H);
-
   const series = activeFilm.series || [];
   if (!series.length) return;
-  const rVal = parseFloat(document.getElementById('kalmusRadiusSlider').value || 0.22);
-  document.getElementById('kalmusRadiusVal').textContent = 'r = ' + rVal.toFixed(2);
-
-  // Top band: KALMUS Core-Sample Palette Barcode
-  series.forEach((pt, i) => {{
-    const x = (i / series.length) * (W - 16) + 8;
-    const bw = (W - 16) / series.length + 1;
-    const rgb = pt.rgb || [200, 160, 100];
-    ctx.fillStyle = `rgb(${{rgb[0]}},${{rgb[1]}},${{rgb[2]}})`;
-    ctx.fillRect(x, 10, bw, 28);
+  const maxV = Math.max(0.02, ...series.map(s => Math.max(s.phi, s.psi, s.h)));
+  [['phi', '#e5ae5c'], ['psi', '#e36874'], ['h', '#56c2e6']].forEach(([k, col]) => {{
+    if (isFull && hhdFilter !== 'all' && hhdFilter !== k) return;
+    ctx.beginPath();
+    series.forEach((pt, i) => {{
+      const x = (i / Math.max(1, series.length - 1)) * (W - 14) + 7;
+      const y = H - 8 - (pt[k] / maxV) * (H - 26);
+      if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+    }});
+    ctx.strokeStyle = col;
+    ctx.lineWidth = 1.7;
+    ctx.stroke();
   }});
+}}
 
-  // Bottom curve: 5D Wasserstein W_2^2 Chromatic Kinetic Energy
+function drawW2On(ctx, W, H) {{
+  ctx.clearRect(0, 0, W, H);
+  const series = activeFilm.series || [];
+  if (!series.length) return;
   const maxW2 = Math.max(0.05, ...series.map(s => s.w2));
   ctx.beginPath();
   series.forEach((pt, i) => {{
-    const x = (i / Math.max(1, series.length - 1)) * (W - 16) + 8;
-    const y = H - 14 - (pt.w2 / maxW2) * (H - 64);
+    const x = (i / Math.max(1, series.length - 1)) * (W - 14) + 7;
+    const y = H - 8 - (pt.w2 / maxW2) * (H - 28);
     if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
   }});
   ctx.strokeStyle = '#72cc96';
-  ctx.lineWidth = 2.0;
+  ctx.lineWidth = 1.9;
   ctx.stroke();
-
-  const w = activeFilm.wasserstein;
-  const scaleChiaro = (w.mean_chiaroscuro_dl * (0.22 / rVal)).toFixed(1);
-  document.getElementById('badgeW2').textContent = 'Geo Eff = ' + w.geodesic_efficiency.toFixed(2);
-  document.getElementById('kvW2Itten').textContent = `${{scaleChiaro}} L* / ${{w.mean_hue_polarity_deg.toFixed(1)}}°`;
-  document.getElementById('kvW2Work').textContent = `${{w.mean_w2_kinetic.toFixed(2)}} / ${{w.peak_w2_shock.toFixed(2)}}`;
 }}
 
-function renderSaccadeCanvas() {{
-  const c = document.getElementById('cvSaccade');
-  const ctx = c.getContext('2d');
-  const W = c.width, H = c.height;
+function drawSaccadeOn(ctx, W, H) {{
   ctx.clearRect(0, 0, W, H);
-
   const rSW = getLiveHorizonSW();
   const cuts = (activeFilm.saccade && activeFilm.saccade.cuts) || [];
   const dur = activeFilm.duration_s || 1;
-  const midY = H * 0.54;
-
-  // Horizon line ds^2 = 0
-  ctx.strokeStyle = 'rgba(255,255,255,0.25)';
+  const midY = H * 0.56;
+  ctx.strokeStyle = 'rgba(255,255,255,0.2)';
   ctx.beginPath(); ctx.moveTo(0, midY); ctx.lineTo(W, midY); ctx.stroke();
-
-  let nT = 0, nL = 0, nS = 0;
   cuts.forEach(cut => {{
-    const x = (cut.tau / dur) * (W - 24) + 12;
+    const x = (cut.tau / dur) * (W - 16) + 8;
     const effJump = counterfactualReg ? cut.jump_sw * 0.25 : cut.jump_sw;
     const ds2 = (rSW * rSW) - (effJump * effJump);
-    let col = '#72cc96';
-    if (Math.abs(ds2) <= 0.012) {{ col = '#e5ae5c'; nL++; }}
-    else if (ds2 > 0) {{ col = '#72cc96'; nT++; }}
-    else {{ col = '#e36874'; nS++; }}
-
-    const bH = Math.max(-midY + 14, Math.min(midY - 14, ds2 * 450));
-    ctx.fillStyle = col;
-    ctx.fillRect(x - 4, bH >= 0 ? midY - bH : midY, 8, Math.abs(bH) + 2);
+    ctx.fillStyle = ds2 > 0.01 ? '#72cc96' : (ds2 > -0.012 ? '#e5ae5c' : '#e36874');
+    const bH = Math.max(-midY + 14, Math.min(midY - 10, ds2 * 340));
+    ctx.fillRect(x - 2.5, bH >= 0 ? midY - bH : midY, 5, Math.abs(bH) + 2);
   }});
-
-  const tot = Math.max(1, nT + nL + nS);
-  document.getElementById('badgeSaccade').textContent = Math.round(100 * nT / tot) + '% Timelike';
-  document.getElementById('kvSaccadeSplit').textContent = `${{nT}} Timelike · ${{nL}} Lightlike · ${{nS}} Spacelike`;
-  document.getElementById('kvSaccadeRad').textContent = rSW.toFixed(3) + ' screen-widths';
 }}
 
-function renderTDACanvas() {{
-  const c = document.getElementById('cvTDA');
-  const ctx = c.getContext('2d');
-  const W = c.width, H = c.height;
+function drawTDAOn(ctx, W, H, eps) {{
   ctx.clearRect(0, 0, W, H);
-
-  const eps = parseFloat(document.getElementById('epsSlider').value || 0.75);
-  document.getElementById('epsVal').textContent = 'ε = ' + eps.toFixed(2);
-
   const att = (activeFilm.tda && activeFilm.tda.attractor_2d) || [];
   if (att.length < 2) return;
   const xs = att.map(p => p[0]), ys = att.map(p => p[1]);
   const minX = Math.min(...xs), maxX = Math.max(...xs) + 1e-5;
   const minY = Math.min(...ys), maxY = Math.max(...ys) + 1e-5;
-
   const pts = att.map(p => [
-    ((p[0] - minX) / (maxX - minX)) * (W - 44) + 22,
-    ((p[1] - minY) / (maxY - minY)) * (H - 36) + 18
+    ((p[0] - minX) / (maxX - minX)) * (W - 32) + 16,
+    ((p[1] - minY) / (maxY - minY)) * (H - 30) + 18
   ]);
-
-  const radPx = eps * 26;
-  // Draw Vietoris-Rips balls & recurrence chords
-  let loopsAtEps = 0;
+  const radPx = eps * (W / 24);
   ctx.fillStyle = 'rgba(199, 122, 224, 0.06)';
   pts.forEach(([px, py]) => {{
     ctx.beginPath(); ctx.arc(px, py, radPx, 0, Math.PI * 2); ctx.fill();
   }});
-
-  ctx.strokeStyle = 'rgba(86, 194, 230, 0.28)';
-  ctx.lineWidth = 1;
-  for (let i = 0; i < pts.length; i++) {{
-    for (let j = i + 4; j < pts.length; j++) {{
-      if (Math.hypot(pts[i][0] - pts[j][0], pts[i][1] - pts[j][1]) <= radPx * 1.35) {{
-        loopsAtEps++;
-        ctx.beginPath(); ctx.moveTo(pts[i][0], pts[i][1]); ctx.lineTo(pts[j][0], pts[j][1]); ctx.stroke();
-      }}
-    }}
-  }}
-
-  // Phase trajectory spine
   ctx.beginPath();
-  pts.forEach(([px, py], i) => {{
-    if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
-  }});
+  pts.forEach(([px, py], i) => {{ if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py); }});
   ctx.strokeStyle = '#c77ae0';
-  ctx.lineWidth = 1.8;
+  ctx.lineWidth = 1.6;
   ctx.stroke();
-
-  const t = activeFilm.tda;
-  const liveRegimes = Math.max(1, Math.round(t.beta0_regimes * (1.2 / (eps + 0.4))));
-  document.getElementById('badgeTDA').textContent = `(${{liveRegimes}}, ${{loopsAtEps}}, ${{t.beta2_chiasmus.toFixed(2)}})`;
-  document.getElementById('kvTDALive').textContent = `${{liveRegimes}} regimes · ${{loopsAtEps}} recurrence chords`;
-  document.getElementById('kvTDAChiasmus').textContent = t.beta2_chiasmus.toFixed(3);
 }}
 
-function renderPLVCanvas() {{
-  const c = document.getElementById('cvPLV');
-  const ctx = c.getContext('2d');
-  const W = c.width, H = c.height;
+function drawPLVOn(ctx, W, H) {{
   ctx.clearRect(0, 0, W, H);
-
   const series = activeFilm.series || [];
   if (!series.length) return;
-  const pt = sampleAtTime(activeFilm, curTime) || series[0];
-  const sy = activeFilm.synchresis;
-  const gain = parseFloat(document.getElementById('cymaticGainSlider').value || 1.2);
-  document.getElementById('cymaticGainVal').textContent = gain.toFixed(1) + '×';
-
-  // Left: Polar Phase-Locking Clock
-  const cx = 82, cy = H * 0.5, rad = 58;
-  ctx.strokeStyle = 'rgba(140, 155, 185, 0.35)';
-  ctx.beginPath(); ctx.arc(cx, cy, rad, 0, Math.PI * 2); ctx.stroke();
-  const ang = (1 - (pt.plv || 0)) * Math.PI * 1.4;
-  const vecLen = Math.max(0.15, pt.plv || 0.1) * rad;
-  ctx.beginPath();
-  ctx.moveTo(cx, cy);
-  ctx.lineTo(cx + Math.cos(ang) * vecLen, cy - Math.sin(ang) * vecLen);
-  ctx.strokeStyle = '#56c2e6';
-  ctx.lineWidth = 3;
-  ctx.stroke();
-  ctx.fillStyle = '#ede9e0';
-  ctx.font = '10px monospace';
-  ctx.fillText('Δθ Phase', cx - 24, cy + rad + 15);
-
-  // Right: PLV(tau) + Armature Resonance curves
-  const x0 = 165, wPlot = W - 178;
   ctx.beginPath();
   series.forEach((s, i) => {{
-    const x = x0 + (i / Math.max(1, series.length - 1)) * wPlot;
-    const y = H - 16 - s.plv * (H - 34);
+    const x = (i / Math.max(1, series.length - 1)) * (W - 14) + 7;
+    const y = H - 8 - s.plv * (H - 26);
     if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
   }});
   ctx.strokeStyle = '#56c2e6';
-  ctx.lineWidth = 2.0;
+  ctx.lineWidth = 1.8;
   ctx.stroke();
-
-  document.getElementById('badgePLV').textContent = sy.has_audio ? ('PLV = ' + sy.mean_plv.toFixed(3)) : 'Silent Track';
-  document.getElementById('kvPLVStats').textContent = `${{sy.peak_plv.toFixed(3)}} / Slip ${{sy.anempathetic_slip.toFixed(3)}}`;
-  document.getElementById('kvPLVBands').textContent = `${{(pt.sub_bass || 0).toFixed(2)}} / ${{(pt.centroid || 0).toFixed(2)}}`;
 }}
 
-function updateTelemetryAndSTGL() {{
+function renderManifolds() {{
+  const taut = parseFloat(document.getElementById('braidTautSlider').value || 0);
+  const eps = parseFloat(document.getElementById('epsSlider').value || 0.75);
+  const b = activeFilm.braid, h = activeFilm.helmholtz, w = activeFilm.wasserstein, s = activeFilm.saccade, t = activeFilm.tda, sy = activeFilm.synchresis;
+
+  document.getElementById('mLbl1').textContent = 'FTBE ' + b.ftbe.toFixed(2);
+  document.getElementById('mLbl2').textContent = `${{Math.round(h.divergence_share*100)}}/${{Math.round(h.curl_share*100)}}/${{Math.round(h.harmonic_share*100)}}%`;
+  document.getElementById('mLbl3').textContent = 'W₂ ' + w.mean_w2_kinetic.toFixed(2);
+  document.getElementById('mLbl4').textContent = s.timelike_pct.toFixed(0) + '% TL';
+  document.getElementById('mLbl5').textContent = `(${{t.beta0_regimes}},${{t.beta1_loops}},${{t.beta2_chiasmus.toFixed(2)}})`;
+  document.getElementById('mLbl6').textContent = 'PLV ' + sy.mean_plv.toFixed(2);
+
+  if (activeManifoldTab === 'all') {{
+    drawBraidOn(document.getElementById('miniCv1').getContext('2d'), 220, 105, taut);
+    drawHHDOn(document.getElementById('miniCv2').getContext('2d'), 220, 105, false);
+    drawW2On(document.getElementById('miniCv3').getContext('2d'), 220, 105);
+    drawSaccadeOn(document.getElementById('miniCv4').getContext('2d'), 220, 105);
+    drawTDAOn(document.getElementById('miniCv5').getContext('2d'), 220, 105, eps);
+    drawPLVOn(document.getElementById('miniCv6').getContext('2d'), 220, 105);
+  }} else if (activeManifoldTab === '1') {{
+    drawBraidOn(document.getElementById('cvBraid').getContext('2d'), 640, 190, taut);
+    document.getElementById('braidWordReadout').textContent = 'B₃: ' + b.reduced_word_preview;
+  }} else if (activeManifoldTab === '2') {{
+    drawHHDOn(document.getElementById('cvHHD').getContext('2d'), 640, 190, true);
+  }} else if (activeManifoldTab === '3') {{
+    drawW2On(document.getElementById('cvW2').getContext('2d'), 640, 190);
+  }} else if (activeManifoldTab === '4') {{
+    drawSaccadeOn(document.getElementById('cvSaccade').getContext('2d'), 640, 190);
+  }} else if (activeManifoldTab === '5') {{
+    drawTDAOn(document.getElementById('cvTDA').getContext('2d'), 640, 190, eps);
+    document.getElementById('tdaReadout').textContent = `ε=${{eps.toFixed(2)}} · Chiasmus ${{t.beta2_chiasmus.toFixed(2)}}`;
+  }} else if (activeManifoldTab === '6') {{
+    drawPLVOn(document.getElementById('cvPLV').getContext('2d'), 640, 190);
+  }}
+}}
+
+function updateTopTelemetry() {{
   const pt = sampleAtTime(activeFilm, curTime) || activeFilm.series[0];
   if (!pt) return;
-  const modS1 = getModifiedNode(pt);
-  const dGrid = counterfactualReg ? pt.d_grid * 0.2 : Math.max(0, pt.d_grid - Math.hypot(userNodeOffset.du, userNodeOffset.dv) * 0.3);
+  const dGrid = counterfactualReg ? pt.d_grid * 0.2 : pt.d_grid;
   const rSW = getLiveHorizonSW();
   const cuts = (activeFilm.saccade && activeFilm.saccade.cuts) || [];
   let nearCut = cuts[0] || {{ jump_sw: 0.08, tau: 0 }};
@@ -1621,48 +1507,37 @@ function updateTelemetryAndSTGL() {{
   const effJump = counterfactualReg ? nearCut.jump_sw * 0.25 : nearCut.jump_sw;
   const ds2 = (rSW * rSW) - (effJump * effJump);
 
-  document.getElementById('telTime').textContent = `τ = ${{curTime.toFixed(2)}}s / ${{activeFilm.duration_s}}s`;
-  document.getElementById('telNode').textContent = `(${{modS1[0].toFixed(2)}}, ${{modS1[1].toFixed(2)}}, ${{modS1[2].toFixed(2)}})`;
-  document.getElementById('telGridErr').textContent = `d = ${{dGrid.toFixed(3)}} ${{dGrid < 0.045 ? 'LOCK' : 'DRIFT'}}`;
-  document.getElementById('telHHD').textContent = `${{pt.phi.toFixed(2)}} / ${{pt.psi.toFixed(2)}} / ${{pt.h.toFixed(2)}}`;
-  document.getElementById('telW2').textContent = `W₂² ${{pt.w2.toFixed(2)}} · ΔL* ${{activeFilm.wasserstein.mean_chiaroscuro_dl}}`;
-  document.getElementById('telSaccade').textContent = `${{ds2 >= 0 ? '+' : ''}}${{ds2.toFixed(3)}} (${{ds2 >= 0 ? 'Timelike' : 'Spacelike'}})`;
-  document.getElementById('telBraid').textContent = `FTBE ${{activeFilm.braid.ftbe.toFixed(2)}}`;
-  document.getElementById('telPLV').textContent = `PLV ${{pt.plv.toFixed(3)}}`;
-
-  // Update live STGL Linter & JSON preview
-  const irObj = JSON.parse(JSON.stringify(STGL_IR[activeFilm.id] || {{}}));
-  if (irObj.shots && irObj.shots.length) {{
-    irObj.shots[0].spatial_grid.focal_node = [Number(modS1[0].toFixed(3)), Number(modS1[1].toFixed(3))];
-    irObj.shots[0].spatial_grid.mean_grid_error = Number(dGrid.toFixed(4));
-    irObj.shots[0].transition_out.spacetime_ds2 = Number(ds2.toFixed(4));
-    irObj.shots[0].transition_out.type = ds2 >= 0 ? 'eye_trace_match' : 'eisenstein_collision';
-  }}
-  const linterBadge = document.getElementById('linterStatusBadge');
-  if (dGrid <= 0.12 && ds2 >= -0.012) {{
-    linterBadge.textContent = 'STGL LINTER: PASS (TIMELIKE LOCK)';
-    linterBadge.className = 'badge green';
+  document.getElementById('chipTime').innerHTML = `<b>τ</b> ${{curTime.toFixed(1)}}s`;
+  document.getElementById('chipLock').innerHTML = `<b>Lock</b> ${{activeFilm.worm.compositional_lock_pct.toFixed(0)}}%`;
+  document.getElementById('chipSaccade').innerHTML = `<b>Δs²</b> ${{ds2 >= 0 ? '+' : ''}}${{ds2.toFixed(2)}}`;
+  document.getElementById('chipFTBE').innerHTML = `<b>FTBE</b> ${{activeFilm.braid.ftbe.toFixed(2)}}`;
+  const linter = document.getElementById('chipLinter');
+  if (dGrid <= 0.12 && ds2 >= -0.015) {{
+    linter.textContent = 'STGL PASS';
+    linter.style.color = 'var(--green)';
   }} else {{
-    linterBadge.textContent = 'STGL LINTER: COLLISION / DRIFT WARNING';
-    linterBadge.className = 'badge rose';
+    linter.textContent = 'SHOCK CUT';
+    linter.style.color = 'var(--rose)';
   }}
-  document.getElementById('stglLiveBox').textContent = JSON.stringify(irObj, null, 2);
 }}
 
 function renderAll(includeManifolds=true) {{
   renderHUD();
   renderMultiModeCanvas();
   renderMasterTimeline();
-  updateTelemetryAndSTGL();
-  if (includeManifolds) {{
-    renderBraidCanvas();
-    renderHHDCanvas();
-    renderW2Canvas();
-    renderSaccadeCanvas();
-    renderTDACanvas();
-    renderPLVCanvas();
-  }}
+  updateTopTelemetry();
+  if (includeManifolds) renderManifolds();
 }}
+
+// Keyboard shortcuts for effortless watching
+window.addEventListener('keydown', e => {{
+  if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') return;
+  if (e.code === 'Space') {{ e.preventDefault(); togglePlay(); }}
+  else if (e.code === 'ArrowRight') {{ videoEl.currentTime = Math.min(videoEl.duration || 60, (videoEl.currentTime || 0) + 1.5); }}
+  else if (e.code === 'ArrowLeft') {{ videoEl.currentTime = Math.max(0, (videoEl.currentTime || 0) - 1.5); }}
+  else if (e.key >= '1' && e.key <= '7') {{ setManifoldTab(e.key); }}
+  else if (e.key === '0') {{ setManifoldTab('all'); }}
+}});
 
 function tickOrbit() {{
   if (document.getElementById('chkAutoOrbit').checked && !dragging3D && (viewMode === 'prism' || viewMode === 'diff')) {{
@@ -1673,7 +1548,7 @@ function tickOrbit() {{
 }}
 
 initUI();
-selectFilm(activeFilm.id);
+selectFilmByIndex(activeFilmIndex);
 requestAnimationFrame(tickOrbit);
 </script>
 </body>
@@ -1683,7 +1558,7 @@ requestAnimationFrame(tickOrbit);
     out_html = os.path.join(TENSOR_DIR, "index.html")
     with open(out_html, "w") as f:
         f.write(html)
-    print(f"Wrote single-file epistemic visualizer -> {out_html} ({os.path.getsize(out_html)/1024:.1f} KB)")
+    print(f"Wrote zero-scroll 100dvh cockpit -> {out_html} ({os.path.getsize(out_html)/1024:.1f} KB)")
 
 
 if __name__ == "__main__":
