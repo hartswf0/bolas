@@ -906,6 +906,7 @@ def main():
 <header class="header">
   <div class="brand">ALLWAYS <span>// SHOT-BY-SHOT GEOMETRIC CINEMA STUDIO</span></div>
   <nav class="nav-links">
+    <a href="worms.html" style="border-color:var(--gold);color:var(--gold);font-weight:700;">★ 108 Tracked 4D Time Worms (Secondhand Motion) →</a>
     <a href="../index.html">Hub</a>
     <a href="../allways-best/index.html">The One Film</a>
     <a href="../allways-Selects/index.html">Selects</a>
