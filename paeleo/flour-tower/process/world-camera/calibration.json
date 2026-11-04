@@ -1,0 +1,36 @@
+{
+ "note": "canvas fraction = fx0 + kx*x_world, fy0 - ky*y_world (metres); read from known points: tower at x=0.8, table y=0, penny y~0.95",
+ "films": {
+  "02": [
+   0.5288,
+   0.2942,
+   0.855,
+   0.518
+  ],
+  "07": [
+   0.499,
+   0.2322,
+   0.6396,
+   0.3142
+  ],
+  "08": [
+   0.5,
+   0.2405,
+   0.7589,
+   0.3211
+  ],
+  "14": [
+   0.499,
+   0.2222,
+   0.803,
+   0.395
+  ],
+  "41": [
+   0.5,
+   0.2267,
+   0.824,
+   0.402
+  ],
+  "06": "moving camera: fx = 0.5 + (x - camX)/camW, fy = 0.778 - (1.32/camW)*y, camX/camW from its trace"
+ }
+}

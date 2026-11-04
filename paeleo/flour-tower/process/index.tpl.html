@@ -1,0 +1,127 @@
+<title>PAE-03 · The Flour Tower</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800&family=JetBrains+Mono:wght@400;600&family=Literata:opsz,wght@7..72,400;7..72,500&display=swap">
+<style>
+/* Layout: a CRASH LAB case page. One reading column; the cohort table and each swarm's sheets run wider. */
+:root{
+  --bg:#f1f2f3;--card:#fbfbfb;--fg:#111417;--mute:#5d6670;--line:#d4d8dc;--accent:#2f5fb8;--flour:#ece6d8;
+  --ok:#2f7d4a;--warn:#a3651a;--bad:#b4372b;
+  --f-disp:"Big Shoulders Display","Arial Narrow",Impact,sans-serif;--f-body:"Literata",Georgia,serif;--f-mono:"JetBrains Mono",ui-monospace,Menlo,monospace}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0b0d10;--card:#12161b;--fg:#e7eaee;--mute:#8b95a1;--line:#262d35;--accent:#7aa2ff;--flour:#2a2722;--ok:#5fc187;--warn:#e0a35a;--bad:#ff7a6b;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0b0d10;--card:#12161b;--fg:#e7eaee;--mute:#8b95a1;--line:#262d35;--accent:#7aa2ff;--flour:#2a2722;--ok:#5fc187;--warn:#e0a35a;--bad:#ff7a6b;color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:16px;line-height:1.55}
+.wrap{max-width:1040px;margin:0 auto;padding-block:28px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:30px}
+.crumb{font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;color:var(--mute);text-transform:uppercase}
+.crumb a{color:var(--mute)}
+h1{font-family:var(--f-disp);font-weight:800;font-size:clamp(44px,8vw,84px);line-height:.92;margin:6px 0 10px;text-transform:uppercase;text-wrap:balance}
+.lede{font-size:19px;max-width:62ch;margin:0}
+.kicker{font-family:var(--f-mono);font-size:11px;letter-spacing:.1em;color:var(--accent);text-transform:uppercase}
+h2{font-family:var(--f-disp);font-weight:800;font-size:32px;text-transform:uppercase;margin:0 0 10px;letter-spacing:.01em}
+h3{font-family:var(--f-disp);font-weight:700;font-size:30px;margin:4px 0 2px}
+h4{font-family:var(--f-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);margin:18px 0 6px;font-weight:600}
+p{max-width:68ch;margin:0 0 10px}
+.peo{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
+.peo div{background:var(--card);padding:14px}
+.peo b{font-family:var(--f-disp);font-size:34px;display:block;line-height:1}
+.peo span{font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--mute)}
+.peo p{font-size:14px;margin:6px 0 0}
+@media (max-width:640px){.peo{grid-template-columns:1fr}}
+blockquote{margin:0;padding:14px 18px;background:var(--flour);border-left:3px solid var(--fg);max-width:70ch;font-size:16px}
+.tbl{overflow-x:auto;border:1px solid var(--line);background:var(--card)}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{text-align:left;padding:8px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);font-weight:600}
+td.num{font-family:var(--f-mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+tr:last-child td{border-bottom:0}
+td a{color:var(--fg)}
+.stc{font-family:var(--f-mono);font-size:12px;white-space:nowrap}
+.st-pass{color:var(--ok)}.st-repair{color:var(--bad)}.st-review,.st-building{color:var(--warn)}
+.inv{counter-reset:i;list-style:none;padding:0;margin:0;display:grid;gap:6px;max-width:72ch}
+.inv li{counter-increment:i;padding-left:30px;position:relative}
+.inv li::before{content:counter(i);position:absolute;left:0;top:1px;font-family:var(--f-mono);font-size:12px;color:var(--accent)}
+.sw{border-top:2px solid var(--fg);padding-top:14px}
+.swhead{display:flex;gap:12px;align-items:baseline;flex-wrap:wrap;font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase}
+.swhead .no{font-weight:600}.swhead .kind{color:var(--mute)}.swhead .st{margin-left:auto;padding:2px 7px;border:1px solid currentColor}
+.thesis{font-style:italic;font-size:17px}
+.note{font-size:14px;color:var(--mute)}
+.sheets{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:12px 0}
+@media (max-width:760px){.sheets{grid-template-columns:repeat(2,1fr)}}
+figure{margin:0}figure img{width:100%;aspect-ratio:16/9;object-fit:cover;display:block;border:1px solid var(--line);background:var(--card)}
+figcaption{font-family:var(--f-mono);font-size:10.5px;color:var(--mute);margin-top:4px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:20px}.two>div{min-width:0}.two p{font-size:15px}
+@media (max-width:760px){.two{grid-template-columns:1fr}}
+.sub{font-size:13px;color:var(--mute)}
+.ons{display:flex;flex-wrap:wrap;gap:6px 14px;font-family:var(--f-mono);font-size:12px}
+.on b{color:var(--ok);font-weight:600}.on.bad b{color:var(--bad)}
+.act{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-top:14px}
+.btn{font-family:var(--f-mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;padding:9px 14px;background:var(--fg);color:var(--bg);text-decoration:none}
+.btn:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.verdict{font-family:var(--f-mono);font-size:12px;color:var(--ok)}
+details{border:1px solid var(--line);background:var(--card);margin-top:6px}
+summary{cursor:pointer;padding:9px 12px;font-family:var(--f-mono);font-size:12px}
+pre{white-space:pre-wrap;font-family:var(--f-mono);font-size:12px;line-height:1.55;padding:0 12px 12px;margin:0;max-height:420px;overflow:auto}
+.cut{margin:0}.cut video{width:100%;aspect-ratio:16/9;display:block;background:#0b0d10;border:1px solid var(--line)}.cut figcaption{font-family:var(--f-mono);font-size:11px;color:var(--mute);margin-top:6px}
+.foot{font-family:var(--f-mono);font-size:11px;color:var(--mute)}.foot a{color:var(--accent)}
+</style>
+<div class="wrap">
+  <div>
+    <div class="crumb"><a href="{{ROOT}}">CRASH LAB</a> / <a href="{{ROOT}}paeleo/">PAELEO</a> / PAE-03</div>
+    <div class="kicker" style="margin-top:14px">PAE-03 · one sack, many operations</div>
+    <h1>The flour tower, handmade</h1>
+    <p class="lede">Hold the story and the sack's ten choices still. Let each swarm build the sack, the tower and the knife from the bottom up in its own language. Do the choices survive, and is each sack its own?</p>
+  </div>
+
+{{VIDEO}}
+  <div class="peo">
+    <div><b>P</b><span>the prompt</span><p>The Disney flour-sack test (1930s): a body with no face, no limbs and no fingers, read through weight, silhouette, line of action and four dragging corners.</p></div>
+    <div><b>E</b><span>the ekphrasis and the score</span><p>The flour tower story, with ten choices at fixed times over 32 s, 768 frames.</p></div>
+    <div><b>O</b><span>the operation</span><p>Entirely the swarm's: what the sack is made of and how it moves.</p></div>
+  </div>
+
+  <div>
+    <h2>The story</h2>
+    <p>A half-empty flour sack sits at the edge of a parlor table while a knife slices a tower of packed flour with a penny balanced on top, the old parlor game. The sack recognises the tower as flour like its own. It cannot stop the knife, so it holds the tower up, catches the penny when the tower falls, and gathers the scattered flour back into itself until it stands where the tower stood, full, with the penny on its top.</p>
+    <p>The tower of Babel told backwards: a tower built to make a name is cut down and scattered, and the sack gathers what was scattered into one body. Flour's oldest history is the same motion: grain crushed, sifted, gathered.</p>
+    <blockquote>The knife comes down and cuts a slice from the tower. The sack flinches back. The tower begins to lean; the sack's corners lift. Therefore it comes, slowly, head low, across the table, and leans its whole body into the tower to hold it. The knife cuts again and the tower comes apart. The penny drops. The sack leaps, and the penny lands on its top. Then it gathers, and fills, and stands where the tower stood. The knife comes back, hovers over the penny, and withdraws.</blockquote>
+  </div>
+
+  <div>
+    <h2>The score</h2>
+    <div class="tbl"><table><thead><tr><th>t (s)</th><th>the world</th><th>the sack's choice</th></tr></thead><tbody>{{SCORE}}</tbody></table></div>
+  </div>
+
+  <div>
+    <h2>What has to survive</h2>
+    <ol class="inv">
+      <li>The ten choices happen at their times, within ¼ s, and read as choices on screen.</li>
+      <li>The sack keeps its volume through every squash and stretch. It grows only in the gather, and the pile shrinks by exactly what it gains.</li>
+      <li>The corners drag behind the body and catch up a few frames later.</li>
+      <li>Cuts push the sack away; the tower's lean and fall bring it in.</li>
+      <li>It ends at the tower's place, full height, the penny on top, and the knife leaves without cutting it.</li>
+      <li>No face, and no labels doing the acting.</li>
+    </ol>
+  </div>
+
+  <div>
+    <h2>The swarms</h2>
+    <p>Six swarms chosen to be as far apart as possible in what they build a body with. Each builder sees only the brief and its own lineage's bar, never another swarm's film or code.</p>
+    <div class="tbl"><table><thead><tr><th>Swarm</th><th>The sack is</th><th>Critic</th></tr></thead><tbody>{{COHORT}}</tbody></table></div>
+  </div>
+
+  <div>
+    <h2>What the critics kept finding</h2>
+    <p>Eighteen critic rounds across six materials. Each critic was a fresh agent that saw only the film, the brief and the lineage's bar. The same five failures came back in nearly every swarm, whatever the sack was made of. They are findings about the flour-sack test, not about any one operation.</p>
+    <ol class="inv">
+      <li><b>The cause comes too late.</b> Five of six films first had the sack notice a tower that had not visibly moved (leans of 0.2–1° at 6.7 s). The repair was always the same: the tower gives way first, by 2–4° and a sift of flour, so the notice answers something the viewer can see.</li>
+      <li><b>The penny gets tossed.</b> Four films first threw the penny up or carried it on a standing pillar; one let it drift at a capped speed. "The penny drops" was the hardest line in the chronicle to keep, because every operation wanted the catch arranged in advance.</li>
+      <li><b>The brace disappears or retreats.</b> A held pose under a blow reads as nothing. Films either barely compressed, gave up ground, or let the tower snap upright. Holding had to be measured as no retreat plus a visible drop.</li>
+      <li><b>The sack goes top-heavy.</b> In the leap and the final stand, sacks became cups, bells, urns, owls and cat heads. Pooled weight had to be written into every material: a gravity harmonic, grain share, a lower-third width rule, redrawn keys.</li>
+      <li><b>The checks were kinder than the picture.</b> Every film's self-measure passed rows the critic failed: a head-low row passing a rearing egg, a catch row passing a carried penny, an ear test passing ears inside the outline. The fix was to make each check test what the critic looked at.</li>
+    </ol>
+  </div>
+
+  {{SWARMS}}
+
+  <p class="foot">PAE-03 follows <a href="{{ROOT}}paeleo/handmade/">PAE-02 · The threshold, handmade</a> and the <a href="{{ROOT}}paeleo/scion/operator.html">SCION lineage swarms</a>. Every film is a single HTML page that measures itself while it plays.</p>
+</div>

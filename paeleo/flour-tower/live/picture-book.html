@@ -1,0 +1,180 @@
+<!doctype html><meta charset=utf-8><meta name="viewport" content="width=device-width,initial-scale=1"><title>PAE-03 · Picture-book opening</title>
+<style>
+@font-face{font-family:BSD;src:url(fonts/BigShouldersDisplay.ttf)}
+@font-face{font-family:LIT;src:url(fonts/Literata.ttf)}
+html,body{margin:0;background:#000}canvas{display:block}
+</style><canvas id=c width=1920 height=1080></canvas>
+<script>
+const c=document.getElementById('c'),g=c.getContext('2d');const W=1920,H=1080,TY=800;
+const INK='#211c17',PAPER='#efe6d3',PAPER2='#e3d7bf',FLOUR='#fbf7ee',FSH='#d8ccb4',COPPER='#c0743a';
+const DUR=27;
+// ---------- helpers ----------
+const cl=(a,b,x)=>Math.max(a,Math.min(b,x)), lerp=(a,b,u)=>a+(b-a)*u;
+const sm=(a,b,x)=>{const u=cl(0,1,(x-a)/(b-a));return u*u*(3-2*u)};
+const eo=(a,b,x)=>{const u=cl(0,1,(x-a)/(b-a));return 1-Math.pow(1-u,3)};
+const ei=(a,b,x)=>{const u=cl(0,1,(x-a)/(b-a));return u*u*u};
+const back=(a,b,x)=>{const u=cl(0,1,(x-a)/(b-a)),s=1.6;return 1+(s+1)*Math.pow(u-1,3)+s*Math.pow(u-1,2)};
+function hash(n){const s=Math.sin(n*127.1+311.7)*43758.5453;return s-Math.floor(s)}
+let SEED=0;const J=(k,a=2.2)=>(hash(SEED*13.1+k)-.5)*a;   // boil on twos
+function inkPath(pts,close=true,w=5,fill=null,k0=0){g.beginPath();pts.forEach((p,i)=>{const x=p[0]+J(k0+i*2),y=p[1]+J(k0+i*2+1);i?g.lineTo(x,y):g.moveTo(x,y)});if(close)g.closePath();if(fill){g.fillStyle=fill;g.fill()}g.lineWidth=w;g.strokeStyle=INK;g.lineJoin='round';g.lineCap='round';g.stroke()}
+function curve(pts,n=12){const o=[];for(let i=0;i<pts.length;i++){const p0=pts[(i-1+pts.length)%pts.length],p1=pts[i],p2=pts[(i+1)%pts.length],p3=pts[(i+2)%pts.length];for(let k=0;k<n;k++){const t=k/n,t2=t*t,t3=t2*t;o.push([0.5*((2*p1[0])+(-p0[0]+p2[0])*t+(2*p0[0]-5*p1[0]+4*p2[0]-p3[0])*t2+(-p0[0]+3*p1[0]-3*p2[0]+p3[0])*t3),0.5*((2*p1[1])+(-p0[1]+p2[1])*t+(2*p0[1]-5*p1[1]+4*p2[1]-p3[1])*t2+(-p0[1]+3*p1[1]-3*p2[1]+p3[1])*t3)])}}return o}
+function caption(text,a){if(a<=0)return;g.save();g.globalAlpha=a;g.font='500 54px LIT';g.fillStyle=INK;g.textBaseline='middle';g.fillText(text,150,955);g.restore()}
+// ---------- the sack ----------
+function sackPts(x,base,w,h,sq,earUp,tilt){
+  const hw=w/2*(1/Math.sqrt(sq)),hh=h*sq,eu=earUp;
+  let P=[[-hw*1.05,0],[-hw*1.12,-hh*.45],[-hw*.88,-hh*.85],[-hw*.95-eu*10,-hh-14-eu*34],[-hw*.45,-hh*.9],[0,-hh*.95],[hw*.45,-hh*.9],[hw*.95+eu*10,-hh-14-eu*34],[hw*.88,-hh*.85],[hw*1.12,-hh*.45],[hw*1.05,0],[0,6]];
+  const ct=Math.cos(tilt),st=Math.sin(tilt);
+  return P.map(([px,py])=>[x+px*ct-py*st,base+px*st+py*ct]);
+}
+function drawSack(x,base,w,h,sq=1,earUp=0,tilt=0){
+  const pts=curve(sackPts(x,base,w,h,sq,earUp,tilt),8);
+  // shadow
+  g.save();g.fillStyle='rgba(60,40,20,.13)';g.beginPath();g.ellipse(x,TY+4,w*.62,12,0,0,7);g.fill();g.restore();
+  inkPath(pts,true,5,'#e4d2ad',40);
+  // weave hatch: two folds
+  const f=(a,b)=>inkPath([a,b],false,2.5,null,90);
+  const tr=(px,py)=>{const ct=Math.cos(tilt),st=Math.sin(tilt);py*=sq;return [x+px*ct-py*st,base+px*st+py*ct]};
+  f(tr(-w*.28,-h*.18),tr(-w*.12,-h*.42)); f(tr(w*.22,-h*.12),tr(w*.30,-h*.30));
+}
+// ---------- the scene objects ----------
+const CX=1150; const CUP={top:300,bot:220,h:330};
+function cupPts(){const y0=TY,y1=TY-CUP.h;return [[CX-CUP.bot/2,y0],[CX+CUP.bot/2,y0],[CX+CUP.top/2,y1],[CX-CUP.top/2,y1]]}
+function plate(y,a=1){g.save();g.globalAlpha*=a;g.fillStyle='rgba(60,40,20,.12)';g.beginPath();g.ellipse(CX,y+10,290,14,0,0,7);g.fill();g.restore();inkPath([[CX-280,y],[CX+280,y],[CX+250,y+16],[CX-250,y+16]],true,5,'#fffdf8',300)}
+function penny(x,y,rot=0){g.save();g.translate(x,y);g.rotate(rot);g.beginPath();g.ellipse(0,0,26,9,0,0,7);g.fillStyle=COPPER;g.fill();g.lineWidth=4;g.strokeStyle=INK;g.stroke();g.restore()}
+function knife(x,y,a=1){g.save();g.globalAlpha=a;inkPath([[x-12,y-400],[x+12,y-400],[x+13,y-160],[x+4,y],[x-8,y-14],[x-12,y-160]],true,5,'#e4e8eb',500);inkPath([[x-20,y-560],[x+20,y-560],[x+17,y-400],[x-17,y-400]],true,5,'#8a5a33',520);g.restore()}
+function head(x,y,rot,flour,biteP){g.save();g.translate(x,y);g.rotate(rot);
+  inkPath(curve([[-150,260],[-120,150],[-60,120],[60,120],[120,150],[150,260]],6),false,5,null,700); // shoulders
+  g.beginPath();g.arc(0,0,105,0,7);g.fillStyle=flour>0?`rgb(${lerp(232,252,flour)},${lerp(196,250,flour)},${lerp(160,242,flour)})`:'#e8c4a0';g.fill();g.lineWidth=5;g.strokeStyle=INK;g.stroke();
+  g.lineWidth=5;g.lineCap='round';
+  if(flour>0.5){g.beginPath();g.moveTo(-45,-12);g.lineTo(-20,-12);g.moveTo(20,-12);g.lineTo(45,-12);g.stroke()}
+  else{g.fillStyle=INK;g.beginPath();g.arc(-32,-12,8,0,7);g.arc(32,-12,8,0,7);g.fill()}
+  g.beginPath();g.arc(0,32,26,0.15*Math.PI,0.85*Math.PI);g.stroke();
+  if(biteP)penny(0,52,0);
+  if(flour>0){g.fillStyle='rgba(255,255,255,.85)';for(let i=0;i<40;i++){const a=hash(i)*6.28,r=hash(i+9)*130;g.beginPath();g.arc(Math.cos(a)*r,Math.sin(a)*r*.8-20,2+hash(i+3)*5,0,7);g.fill()}}
+  g.restore()}
+// ---------- tower geometry after the flip ----------
+const TW={baseY:TY-16,topY:TY-16-CUP.h,b:CUP.top,t:CUP.bot};
+const CUTS=[{t:10.0,side:1,x:CX+98},{t:11.4,side:-1,x:CX-96},{t:12.8,side:1,x:CX+62},{t:14.2,side:-1,x:CX-60},{t:15.5,side:1,x:CX+20}];
+function towerEdges(y,t){const u=(TW.baseY-y)/(TW.baseY-TW.topY);let L=CX-lerp(TW.b,TW.t,u)/2,R=CX+lerp(TW.b,TW.t,u)/2;
+  for(const k of CUTS){if(t>=k.t+.18){if(k.side>0)R=Math.min(R,k.x);else L=Math.max(L,k.x)}}return [L,R]}
+function cutsDone(t){return CUTS.filter(k=>t>=k.t+.18).length}
+function towerPoly(t){const n=16,L=[],R=[];for(let i=0;i<=n;i++){const y=lerp(TW.baseY,TW.topY,i/n);const [l,r]=towerEdges(y,t);L.push([l,y]);R.push([r,y])}return L.concat(R.reverse())}
+function pile(t){ // little heaps from slices + collapse
+  for(const k of CUTS.slice(0,4)){const a=eo(k.t+.5,k.t+1.0,t);if(a<=0)continue;const x=CX+k.side*(180+ (k===CUTS[2]||k===CUTS[3]?50:0));
+    inkPath(curve([[x-60*a,TY-16],[x-25*a,TY-16-34*a],[x+20*a,TY-16-42*a],[x+60*a,TY-16]],6),false,4,FLOUR,800+k.t*10)}
+}
+function slab(k,t){ // falling slice for a cut
+  const a=cl(0,1,(t-k.t-.18)/.45);if(a<=0||a>=1)return;
+  const pts=[];const n=10;for(let i=0;i<=n;i++){const y=lerp(TW.baseY,TW.topY,i/n);const [l,r]=towerEdges(y,k.t-.01);const e=k.side>0?r:l;pts.push([k.side>0?k.x:e,y])}
+  const pts2=[];for(let i=n;i>=0;i--){const y=lerp(TW.baseY,TW.topY,i/n);const [l,r]=towerEdges(y,k.t-.01);pts2.push([k.side>0?r:l,y])}
+  const P=pts.concat(pts2);const px=k.x,py=TW.baseY,ang=k.side*a*.35;
+  g.save();g.globalAlpha=1-a*a;g.translate(px+k.side*a*70,py+a*a*20);g.rotate(ang);g.scale(1,1-a*.55);g.translate(-px,-py);inkPath(P,true,4,FLOUR,900+k.t*10);g.restore();
+}
+// ---------- the timeline ----------
+function draw(t){
+  SEED=Math.floor(t*15);
+  // camera
+  const K=[[0,820,560,1.22],[9.5,880,560,1.22],[16.4,880,560,1.22],[17.3,CX+40,TY-170,1.55],[19.7,CX+40,TY-170,1.55],[20.9,520,TY-190,1.75],[24.0,520,TY-190,1.75],[25.3,880,620,1.15],[27,880,620,1.15]];
+  let i=0;while(i<K.length-2&&t>K[i+1][0])i++;const a=sm(K[i][0],K[i+1][0],t);
+  const cam={fx:lerp(K[i][1],K[i+1][1],a),fy:lerp(K[i][2],K[i+1][2],a),s:lerp(K[i][3],K[i+1][3],a)};
+  g.setTransform(1,0,0,1,0,0);g.fillStyle=PAPER;g.fillRect(0,0,W,H);
+  // paper grain
+  g.globalAlpha=.06;for(let i=0;i<220;i++){g.fillStyle=i%2?'#7a5b33':'#fff';g.fillRect(hash(i)*W,hash(i+500)*H,2,2)}g.globalAlpha=1;
+  g.setTransform(cam.s,0,0,cam.s,W/2-cam.fx*cam.s,H/2-cam.fy*cam.s);
+  // table
+  g.fillStyle=PAPER2;g.fillRect(-2000,TY,6000,600);inkPath([[-2000,TY],[4000,TY]],false,5,null,1);
+  // ---------- SACK (watching throughout) ----------
+  let sx=420,sq=1,ear=0,tilt=0,lift=0,sh=300;
+  // pour: tilt toward the cup and back
+  const pourA=sm(0.3,1.0,t)*(1-sm(2.6,3.2,t));tilt=pourA*1.05;lift=pourA*120;sx=lerp(420,760,pourA);
+  sh=lerp(300,250,sm(1.0,2.8,t)); // it empties itself
+  // reactions
+  if(t>8.0&&t<9.4) ear=sm(8.0,8.4,t)*(1-sm(9.0,9.4,t));
+  if(t>9.4&&t<16) ear=0.25+0.25*Math.sin(t*3);
+  if(t>15.5&&t<16.6){ear=1;sq=lerp(1,.92,sm(15.5,15.7,t))}
+  // the hop (the flour-sack test)
+  let hop=0;
+  if(t>21.2&&t<24.2){const a=t-21.2;
+    if(a<.35){sq=lerp(1,.72,ei(0,.35,a))}                         // anticipation
+    else if(a<1.05){const u=(a-.35)/.7;hop=4*170*u*(1-u);sq=u<.5?lerp(.72,1.28,eo(0,.5,u)):lerp(1.28,1.08,(u-.5)/.5)} // stretch in the air
+    else if(a<1.35){sq=lerp(.66,1,eo(1.05,1.35,a))}                // land squash
+    else {sq=1+0.06*Math.sin((a-1.35)*14)*Math.exp(-(a-1.35)*5)}
+    ear=a<.35?-.6:a<1.05?1:a<1.5?-.8:lerp(-.8,0.6,sm(1.5,2.3,a));
+    sx=420+ (a>0.35&&a<1.05? (a-.35)/.7*90 : a>=1.05?90:0);
+  }
+  if(t>=24.2){sx=510;ear=lerp(0.6,1,sm(24.2,25,t));tilt=lerp(0,.12,sm(24.2,25,t))}
+  drawSack(sx,TY-lift-hop,230,sh,sq,ear,tilt);
+  // pouring stream
+  if(t>0.9&&t<2.8){const top=sackPts(sx,TY-lift,230,sh,1,0,tilt)[5];g.save();g.globalAlpha=sm(.9,1.1,t)*(1-sm(2.5,2.8,t));
+    for(let i=0;i<70;i++){const u=hash(i+Math.floor(t*30)*.01)*1;const yy=lerp(top[1],TY-60,(i/70+t*2.3)%1);const xx=lerp(top[0],CX,(yy-top[1])/(TY-60-top[1]))+ (hash(i*3)-.5)*14;g.fillStyle=i%3?FLOUR:'#e9e1cf';g.beginPath();g.arc(xx,yy,3+hash(i)*3,0,7);g.fill()}g.restore()}
+  // ---------- CUP / PLATE / FLIP ----------
+  const flip=sm(5.4,6.6,t), arc=Math.sin(Math.PI*flip)*90;
+  const lift2=eo(7.0,7.9,t);
+  if(t<6.6){
+    g.save();
+    if(flip>0){g.translate(CX,TY-CUP.h/2-arc);g.rotate(Math.PI*flip);g.translate(-CX,-(TY-CUP.h/2))}
+    // flour inside cup
+    const lvl=lerp(0,1,sm(1.0,2.7,t)), pack=t>3.2&&t<4.6?Math.abs(Math.sin((t-3.2)*Math.PI*2.2))*14:0;
+    const fh=CUP.h*lvl*(t<3.2?1.08:1)-pack;
+    if(fh>0){g.save();g.beginPath();const P=cupPts();g.moveTo(...P[0]);P.forEach(p=>g.lineTo(...p));g.closePath();g.clip();
+      g.fillStyle=FLOUR;g.fillRect(CX-200,TY-fh,400,fh);g.fillStyle=FSH;g.fillRect(CX-200,TY-fh,400,6);
+      if(t<3.2){g.beginPath();g.ellipse(CX,TY-fh,110,22*lvl,0,Math.PI,0);g.fillStyle=FLOUR;g.fill()}
+      g.restore()}
+    if(flip<1){inkPath(cupPts(),true,5,null,200);
+    inkPath(curve([[CX+130,TY-260],[CX+215,TY-250],[CX+210,TY-120],[CX+115,TY-90]],6),false,6,null,230);}
+    // plate descending onto the rim
+    const pd=eo(4.6,5.3,t); if(t>4.6){plate(lerp(TY-CUP.h-300,TY-CUP.h-16,pd))}
+    // spoon packing
+    if(t>3.1&&t<4.7){const a=sm(3.1,3.3,t)*(1-sm(4.5,4.7,t));const y=TY-CUP.h-30+pack*3-(1-a)*200;g.save();g.globalAlpha=a;inkPath(curve([[CX-50,y],[CX+50,y],[CX+40,y+28],[CX-40,y+28]],5),true,5,'#cfd5d9',400);inkPath([[CX+5,y-6],[CX+70,y-240]],false,10,null,410);g.restore()}
+    g.restore();
+  }
+  // ---------- TOWER ----------
+  if(t>=6.6){
+    if(t>=7.0) plate(TY-16);
+    const k=cutsDone(t);const wob=k>=3?Math.sin(t*9)*0.004*(k-2)*(1+sm(15.0,15.5,t)*3):0;
+    const coll=sm(15.7,16.4,t);
+    if(t<15.75||true){g.save();g.translate(CX,TW.baseY);g.transform(1,0,wob*30,1,0,0);g.translate(-CX,-TW.baseY);
+      if(coll<=0){inkPath(towerPoly(t),true,5,FLOUR,600)}
+      else{g.save();g.globalAlpha=1-sm(.55,1,coll);g.translate(CX+20,TW.baseY);g.rotate(coll*coll*1.3);g.scale(1,1-coll*.4);g.translate(-(CX+20),-TW.baseY);inkPath(towerPoly(t),true,5,FLOUR,600);g.restore()}
+      g.restore()}
+    for(const c of CUTS) slab(c,t);
+    pile(t);
+    if(t>15.9){const a=eo(15.9,16.6,t);inkPath(curve([[CX-150,TY-16],[CX-60,TY-16-90*a],[CX+80,TY-16-110*a],[CX+190,TY-16]],8),false,5,FLOUR,820);
+      if(t>16.1&&t<17.4){g.save();g.globalAlpha=1-sm(16.4,17.4,t);for(let i=0;i<46;i++){const r=(t-16.1)*260*(.4+hash(i)),an=-Math.PI*hash(i+7);g.fillStyle=FLOUR;g.beginPath();g.arc(CX+Math.cos(an)*r,TY-80+Math.sin(an)*r*.7,6+hash(i+2)*10,0,7);g.fill()}g.restore()}}
+    // penny
+    const topY=TW.topY;
+    if(t>8.0&&t<15.7){const d=eo(8.0,8.6,t);const bounce=t>8.6&&t<9.0?Math.sin((t-8.6)/0.4*Math.PI)*16:0;const wobx=k>=3?wob*30*(TW.baseY-topY)/1:0;penny(CX+wobx,lerp(topY-400,topY-9,d)-bounce,0)}
+    else if(t>=15.7&&t<17.0){const u=t-15.7;penny(CX+u*120,lerp(topY-9,TY-90,Math.min(1,u*u*4)),u*8)}
+  }
+  // inverted cup lifting off the tower
+  if(t>=6.6&&t<8.2){const up=lift2*560;g.save();g.globalAlpha=1-sm(7.6,8.2,t);g.translate(0,-up);
+    const y0=TY-16,y1=TY-16-CUP.h;inkPath([[CX-CUP.top/2,y0],[CX+CUP.top/2,y0],[CX+CUP.bot/2,y1],[CX-CUP.bot/2,y1]],true,5,'#fffdf8',210);
+    inkPath(curve([[CX-130,y0-70],[CX-215,y0-80],[CX-210,y0-210],[CX-115,y0-240]],6),false,6,null,230);g.restore()}
+  // knife strokes
+  for(const k of CUTS){const a=t-k.t+.5;if(a>0&&a<1.0){const down=a<.5?eo(0,.5,a):1-sm(.55,1.0,a);knife(k.x,lerp(TW.topY-120,TW.baseY,down),1)}}
+  // ---------- FORFEIT ----------
+  if(t>16.6&&t<20.6){let hx=lerp(2300,CX+260,eo(16.6,17.4,t)),hy=TY-200,rot=0,fl=0,bite=false;
+    const dip=sm(17.6,18.1,t)*(1-sm(18.6,19.0,t));rot=-dip*1.0;hx-=dip*200;hy+=dip*150;
+    if(t>18.4){fl=1;bite=true}
+    hx+=sm(19.6,20.6,t)*900; head(hx,hy,rot,fl,bite);
+    if(t>18.5&&t<19.6){g.save();g.globalAlpha=1-sm(18.6,19.6,t);for(let i=0;i<30;i++){const r=(t-18.5)*300*(.3+hash(i+40)),an=-Math.PI*hash(i+77);g.fillStyle=FLOUR;g.beginPath();g.arc(CX+60+Math.cos(an)*r,TY-60+Math.sin(an)*r*.6,5+hash(i)*9,0,7);g.fill()}g.restore()}
+  }
+  // ---------- captions (screen space) ----------
+  g.setTransform(1,0,0,1,0,0);
+  const C=[[0.4,3.9,'Pack a cup with flour.'],[4.6,7.6,'Flip it onto a plate.'],[8.0,9.6,'Set a penny on top.'],[9.8,15.4,'Take turns cutting the tower away.'],[15.8,19.4,'Knock the penny off, and you dig it out with your teeth.'],[20.0,22.5,'Animators learn on a flour sack. No face. No hands.'],[22.5,24.3,'Only weight.']];
+  for(const [a,b,s] of C) caption(s,sm(a,a+.35,t)*(1-sm(b-.35,b,t)));
+  // title
+  if(t>24.4){const a=sm(24.6,25.4,t)*(1-sm(26.5,27,t));g.save();g.globalAlpha=a;g.font='900 210px BSD';g.textAlign='center';g.textBaseline='middle';g.fillStyle=INK;g.fillText('THE FLOUR TOWER',W/2,330);g.restore()}
+  if(t>26.4){g.fillStyle=`rgba(0,0,0,${sm(26.4,27,t)})`;g.fillRect(0,0,W,H)}
+  if(t<0.4){g.fillStyle=`rgba(0,0,0,${1-sm(0,.4,t)})`;g.fillRect(0,0,W,H)}
+}
+window.DRAW=draw;window.DUR=DUR;Promise.all([document.fonts.load('900 100px BSD'),document.fonts.load('500 50px LIT')]).then(()=>{window.READY=true;draw(0)});
+</script>
+
+<style>html,body{height:100%;background:#000;margin:0;overflow:hidden}canvas{position:absolute;inset:0;margin:auto;width:100vw;height:56.25vw;max-height:100vh;max-width:177.78vh}
+#bar{position:fixed;left:12px;bottom:10px;font:12px/1.4 ui-monospace,Menlo,monospace;color:#c9bfae;letter-spacing:.08em;z-index:2}#bar a{color:#c9bfae}</style>
+<div id=bar><a href="../">PAE-03 · THE FLOUR TOWER</a> · TAP FOR SOUND AND REPLAY</div><audio id=snd src="picture-book.m4a" preload=auto></audio>
+<script>
+(function(){if(/render/.test(location.search))return;let t0=null;function loop(ts){if(!window.READY){requestAnimationFrame(loop);return}if(t0===null)t0=ts;let t=(ts-t0)/1000;if(t>window.DUR+1.5){t0=ts;t=0}window.DRAW(Math.min(t,window.DUR-0.01));requestAnimationFrame(loop)}
+requestAnimationFrame(loop);addEventListener('click',()=>{t0=null;const a=document.getElementById('snd');try{a.currentTime=0;a.play().catch(()=>{})}catch(e){}})})();
+</script>
