@@ -53,11 +53,14 @@ HTML_CONTENT = r"""<!DOCTYPE html>
   *::-webkit-scrollbar-thumb { background: var(--rule-strong); border-radius: 999px; }
 
   html, body {
+    position: fixed;
+    inset: 0;
     margin: 0;
     padding: 0;
     width: 100vw;
     height: 100dvh;
     overflow: hidden;
+    overscroll-behavior: none;
     background: var(--paper);
     color: var(--ink);
     font-family: 'Atkinson Hyperlegible', -apple-system, BlinkMacSystemFont, sans-serif;
