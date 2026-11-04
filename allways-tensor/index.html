@@ -700,7 +700,8 @@
         <button class="btn" id="shmNextBtn" style="padding:4px 8px;">▶</button>
       </div>
       <div style="display:flex;gap:4px;align-items:center;overflow-x:auto;" id="shmModeBar">
-        <button class="guide-pill active" data-wmode="stack" title="Disentangled Depth Worm Rows — Every layer separated in its own horizontal worm track">Disentangled</button>
+        <button class="guide-pill active" data-wmode="parallel" title="3D Parallel & Stretched Output Timelines (Radial Multi-Worm Fan)">Parallel 3D</button>
+        <button class="guide-pill" data-wmode="stack" title="Disentangled Depth Worm Rows — Every layer separated in its own horizontal worm track">Disentangled</button>
         <button class="guide-pill" data-wmode="box3d" title="3D Multiplane Cel Stack (like giraffe-walks-past)">3D Planes</button>
         <button class="guide-pill" data-wmode="orbit3d" title="Exploded 3D Spatiotemporal Worm">3D Worm</button>
         <a class="guide-pill" id="shmCaseLink" href="https://hartswf0.github.io/secondhand-motion/pages/giraffe-walks-past.html" target="_blank">Shot ↗</a>
@@ -1465,7 +1466,7 @@ loadFilmByIndex(startIdx !== -1 ? startIdx : 0, 0, false);
   let curWormIdx = 0;
   let curFrame = 0;
   let curSrcMode = "cutout";
-  let wMode = "stack"; // DEFAULT: Physically Disentangled Depth Worm Rows
+  let wMode = "parallel"; // DEFAULT: 3D Parallel & Stretched Output Timelines (Radial Multi-Worm Fan)
   let showMaskVid = true;
   let isPlaying = false;
   let lastTick = 0;
@@ -1887,6 +1888,8 @@ loadFilmByIndex(startIdx !== -1 ? startIdx : 0, 0, false);
         hud3d.textContent = sdw
           ? `SOLO WORM: z=${sdw.z} ${sdw.label} (${sdw.desc || ""}) · Drag to orbit`
           : "SOLO WORM";
+      } else if (wMode === "parallel") {
+        hud3d.textContent = "Parallel Output Timelines (3D 1/K Stretch) · Drag horizontally to scrub f";
       } else if (wMode === "stack") {
         hud3d.textContent = "Disentangled Depth Worms · Drag horizontally to scrub · Tap any row to solo";
       } else if (wMode === "box3d") {
@@ -1894,6 +1897,101 @@ loadFilmByIndex(startIdx !== -1 ? startIdx : 0, 0, false);
       } else {
         hud3d.textContent = "Exploded 3D Spatiotemporal Worm (Drag to orbit)";
       }
+    }
+
+    if (wMode === "parallel" && !soloLayerId) {
+      const vx = -W * 0.04, vy = H * 0.16;
+      const fx = W * 0.99,  fy = H * 0.80;
+      const spinePt = (u) => {
+        const p = Math.pow(Math.max(0, Math.min(1, u)), 0.88);
+        return { x: vx + p * (fx - vx), y: vy + p * (fy - vy), s: 0.24 + p * 0.96 };
+      };
+      const uPlay = 0.16 + (nf > 1 ? (fIdx / (nf - 1)) : 0.5) * 0.64;
+      const spPlay = spinePt(uPlay);
+      const K = Math.max(2, dws.length);
+      const RADIAL_ANGLES = [-2.55, 2.25, -1.35, 0.18, 1.15, -0.55, 2.85, -1.95];
+      const baseRad = Math.min(W, H) * 0.30;
+      const railPt = (rIdx, u) => {
+        const c = spinePt(u);
+        const ang = RADIAL_ANGLES[rIdx % RADIAL_ANGLES.length];
+        return {
+          x: c.x + Math.cos(ang) * baseRad * 1.08 * c.s,
+          y: c.y + Math.sin(ang) * baseRad * 0.88 * c.s,
+          s: c.s
+        };
+      };
+      rowBands.push({ id: "parallel", y0: 0, y1: H, padL: W * 0.08, plotW: W * 0.84, nf });
+      const nSegs = 5;
+      for (let rIdx = 0; rIdx < K; rIdx++) {
+        const dw = dws[rIdx];
+        const isSubj = (dw && dw.role === "subject");
+        const stretch = 1 + (rIdx / Math.max(1, K)) * 0.32;
+        for (let s = 0; s < nSegs; s++) {
+          const uIn0 = (s / nSegs) * 0.82, uIn1 = ((s + 1) / nSegs) * 0.82;
+          const uOut0 = Math.min(1, uIn0 * stretch), uOut1 = Math.min(1, uIn1 * stretch);
+          if (isSubj && s % 2 === 0) {
+            const c0 = spinePt(uIn0), c1 = spinePt(uIn1);
+            const p0 = railPt(rIdx, uOut0), p1 = railPt(rIdx, uOut1);
+            ctx3d.fillStyle = "rgba(255,255,255,0.12)";
+            ctx3d.beginPath();
+            ctx3d.moveTo(c0.x, c0.y); ctx3d.lineTo(c1.x, c1.y);
+            ctx3d.lineTo(p1.x, p1.y); ctx3d.lineTo(p0.x, p0.y);
+            ctx3d.closePath(); ctx3d.fill();
+          }
+          const nFan = isSubj ? 8 : 5;
+          ctx3d.strokeStyle = isSubj ? "rgba(255,255,255,0.42)" : "rgba(255,255,255,0.22)";
+          ctx3d.lineWidth = isSubj ? 0.85 : 0.65;
+          for (let k = 0; k <= nFan; k++) {
+            const fSub = k / nFan;
+            const pc = spinePt(uIn0 + fSub * (uIn1 - uIn0));
+            const pr = railPt(rIdx, uOut0 + fSub * (uOut1 - uOut0));
+            ctx3d.beginPath(); ctx3d.moveTo(pc.x, pc.y); ctx3d.lineTo(pr.x, pr.y); ctx3d.stroke();
+          }
+        }
+        const pStart = railPt(rIdx, 0), pEnd = railPt(rIdx, 1);
+        ctx3d.strokeStyle = isSubj ? "#f2bc57" : (dw && dw.color ? dw.color : "rgba(255,255,255,0.55)");
+        ctx3d.lineWidth = isSubj ? 2.1 : 1.2;
+        ctx3d.beginPath(); ctx3d.moveTo(pStart.x, pStart.y); ctx3d.lineTo(pEnd.x, pEnd.y); ctx3d.stroke();
+      }
+      const c0 = spinePt(0), c1 = spinePt(1);
+      ctx3d.strokeStyle = "rgba(255,255,255,0.82)"; ctx3d.lineWidth = 1.6;
+      ctx3d.beginPath(); ctx3d.moveTo(c0.x, c0.y); ctx3d.lineTo(c1.x, c1.y); ctx3d.stroke();
+
+      const ringR = baseRad * spPlay.s;
+      ctx3d.save();
+      ctx3d.strokeStyle = "rgba(255,255,255,0.62)"; ctx3d.lineWidth = 1.5;
+      ctx3d.beginPath(); ctx3d.ellipse(spPlay.x, spPlay.y, ringR * 1.08, ringR * 0.88, -0.10, 0, Math.PI * 2); ctx3d.stroke();
+      ctx3d.restore();
+
+      const mediaCur = getMediaForFrame(w, fIdx);
+      const frCur = frames[Math.min(nf - 1, fIdx)];
+      if (frCur && frCur.ring && frCur.ring.length >= 3) {
+        drawCroppedCutoutStamp(ctx3d, mediaCur, frCur.ring, spPlay.x, spPlay.y, 82, 70, "#ffffff", true, 0.95);
+      }
+
+      for (let rIdx = 0; rIdx < K; rIdx++) {
+        const dw = dws[rIdx];
+        if (!dw) continue;
+        const pt = railPt(rIdx, uPlay);
+        const col = dw.role === "subject" ? "#f2bc57" : (dw.color || "#00f5d4");
+        ctx3d.strokeStyle = "rgba(255,255,255,0.85)"; ctx3d.lineWidth = 1.5;
+        ctx3d.beginPath(); ctx3d.moveTo(spPlay.x, spPlay.y); ctx3d.lineTo(pt.x, pt.y); ctx3d.stroke();
+        const kSpeed = 2.0 / Math.max(0.3, dw.z || 2);
+        const fLayer = dw.role === "subject" ? fIdx : Math.max(0, Math.min(nf - 1, Math.round(fIdx * Math.min(1.2, Math.max(0.35, kSpeed)))));
+        const frL = frames[Math.min(nf - 1, fLayer)];
+        const mediaL = getMediaForFrame(w, fLayer);
+        if (dw.role === "subject" && frL && frL.ring && frL.ring.length >= 3) {
+          drawCroppedCutoutStamp(ctx3d, mediaL, frL.ring, pt.x, pt.y, 92, 78, col, true, 1.0);
+        } else {
+          const trk = dw.track || [];
+          const trPt = trk[Math.min(trk.length - 1, fLayer)] || [0.5, 0.5, 0.12];
+          const strokesUV = getPlaneStrokesUV(dw, frL, trPt);
+          drawCroppedStrokesStamp(ctx3d, strokesUV, pt.x, pt.y, 72, 58, col, true);
+        }
+        ctx3d.fillStyle = col; ctx3d.font = "bold 9.5px monospace";
+        ctx3d.fillText(`z=${dw.z} ${dw.label.slice(0, 12)}`, pt.x - 32, pt.y - 36);
+      }
+      return;
     }
 
     if (wMode === "stack" && !soloLayerId) {
@@ -2421,7 +2519,7 @@ loadFilmByIndex(startIdx !== -1 ? startIdx : 0, 0, false);
   shmPrism3d.addEventListener("pointerdown", e => {
     dragging = true; moved = false; dragX = e.clientX; dragY = e.clientY;
     shmPrism3d.setPointerCapture(e.pointerId);
-    if (wMode === "stack" && !soloLayerId && rowBands.length && worms[curWormIdx]) {
+    if ((wMode === "stack" || wMode === "parallel") && !soloLayerId && rowBands.length && worms[curWormIdx]) {
       const rect = shmPrism3d.getBoundingClientRect();
       const mx = (e.clientX - rect.left) * (shmPrism3d.width / rect.width);
       const b0 = rowBands[0];
@@ -2443,7 +2541,7 @@ loadFilmByIndex(startIdx !== -1 ? startIdx : 0, 0, false);
     const dx = e.clientX - dragX, dy = e.clientY - dragY;
     if (Math.abs(dx) > 3 || Math.abs(dy) > 3) moved = true;
 
-    if (wMode === "stack" && !soloLayerId && rowBands.length && worms[curWormIdx]) {
+    if ((wMode === "stack" || wMode === "parallel") && !soloLayerId && rowBands.length && worms[curWormIdx]) {
       const rect = shmPrism3d.getBoundingClientRect();
       const mx = (e.clientX - rect.left) * (shmPrism3d.width / rect.width);
       const b0 = rowBands[0];
