@@ -340,7 +340,58 @@ def main():
     --rose: #f56565;
     --mono: "SFMono-Regular", ui-monospace, Consolas, monospace;
   }}
-  * {{ box-sizing: border-box; -webkit-tap-highlight-color: transparent; }}
+  * {{
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+    scrollbar-width: thin;
+    scrollbar-color: #2b344a transparent;
+  }}
+  *::-webkit-scrollbar {{
+    width: 6px;
+    height: 6px;
+  }}
+  *::-webkit-scrollbar-track {{
+    background: transparent;
+  }}
+  *::-webkit-scrollbar-thumb {{
+    background: #2b344a;
+    border-radius: 999px;
+  }}
+  input[type="range"] {{
+    -webkit-appearance: none;
+    appearance: none;
+    background: transparent;
+    cursor: pointer;
+  }}
+  input[type="range"]::-webkit-slider-runnable-track {{
+    height: 6px;
+    border-radius: 999px;
+    background: #1d2436;
+    border: 1px solid #323d59;
+  }}
+  input[type="range"]::-webkit-slider-thumb {{
+    -webkit-appearance: none;
+    appearance: none;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--gold);
+    border: 2px solid #090b10;
+    margin-top: -5px;
+  }}
+  input[type="range"]::-moz-range-track {{
+    height: 6px;
+    border-radius: 999px;
+    background: #1d2436;
+    border: 1px solid #323d59;
+  }}
+  input[type="range"]::-moz-range-thumb {{
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--gold);
+    border: 2px solid #090b10;
+  }}
   html, body {{
     margin: 0;
     padding: 0;
@@ -1000,8 +1051,8 @@ def main():
 <header class="header">
   <div class="brand">ALLWAYS &amp; SECONDHAND MOTION <span>// DISENTANGLED MULTI-DEPTH 4D WORMS</span></div>
   <nav class="nav-links">
-    <a href="worms.html" style="border-color:var(--gold);color:var(--gold);font-weight:700;">Fullscreen 108 Worms ↗</a>
-    <a href="https://hartswf0.github.io/secondhand-motion/" target="_blank">Secondhand Motion ↗</a>
+    <a href="worms.html" style="border-color:var(--gold);color:var(--gold);font-weight:700;">Fullscreen 108 Worms</a>
+    <a href="https://hartswf0.github.io/secondhand-motion/" target="_blank">Secondhand Motion</a>
     <a href="../index.html">Hub</a>
     <a href="../allways-best/index.html">The One Film</a>
   </nav>
@@ -1016,17 +1067,17 @@ def main():
     <!-- Row 1: Compact Shot Selector + View Switcher -->
     <div class="shm-ctrl-row">
       <div style="display:flex;align-items:center;gap:4px;flex:1;min-width:190px;">
-        <button class="btn" id="shmPrevBtn" style="padding:4px 8px;">◀</button>
-        <button class="btn btn-gold" id="shmPlayBtn" style="padding:4px 9px;">▶</button>
+        <button class="btn" id="shmPrevBtn" style="padding:4px 8px;">Prev</button>
+        <button class="btn btn-gold" id="shmPlayBtn" style="padding:4px 9px;">Play</button>
         <select class="film-select" id="shmSelect" style="min-width:140px;padding:4px 7px;font-size:12px;" aria-label="Select Secondhand Motion Worm"></select>
-        <button class="btn" id="shmNextBtn" style="padding:4px 8px;">▶</button>
+        <button class="btn" id="shmNextBtn" style="padding:4px 8px;">Next</button>
       </div>
       <div style="display:flex;gap:4px;align-items:center;overflow-x:auto;" id="shmModeBar">
         <button class="guide-pill active" data-wmode="parallel" title="3D Parallel & Stretched Output Timelines (Radial Multi-Worm Fan)">Parallel 3D</button>
         <button class="guide-pill" data-wmode="stack" title="Disentangled Depth Worm Rows — Every layer separated in its own horizontal worm track">Disentangled</button>
         <button class="guide-pill" data-wmode="box3d" title="3D Multiplane Cel Stack (like giraffe-walks-past)">3D Planes</button>
         <button class="guide-pill" data-wmode="orbit3d" title="Exploded 3D Spatiotemporal Worm">3D Worm</button>
-        <a class="guide-pill" id="shmCaseLink" href="https://hartswf0.github.io/secondhand-motion/pages/giraffe-walks-past.html" target="_blank">Shot ↗</a>
+        <a class="guide-pill" id="shmCaseLink" href="https://hartswf0.github.io/secondhand-motion/pages/giraffe-walks-past.html" target="_blank">Shot</a>
       </div>
     </div>
 
@@ -1036,7 +1087,7 @@ def main():
         <canvas id="shmPrism3d" width="760" height="440" style="width:100%;height:100%;display:block;cursor:pointer;touch-action:none;"></canvas>
         <span id="shmHud3d" style="position:absolute;top:5px;left:6px;background:rgba(9,11,16,0.86);padding:2px 6px;border-radius:4px;font:500 10px var(--mono);color:var(--fg);pointer-events:none;">Disentangled Depth Worms · Drag to scrub time · Tap any row to solo</span>
         <div style="position:absolute;top:5px;right:6px;display:flex;gap:3px;">
-          <button class="guide-pill" id="shmSoloClearBtn" style="display:none;padding:2px 7px;font-size:10px;border-color:var(--gold);color:var(--gold);font-weight:700;">← All Worms</button>
+          <button class="guide-pill" id="shmSoloClearBtn" style="display:none;padding:2px 7px;font-size:10px;border-color:var(--gold);color:var(--gold);font-weight:700;">All Worms</button>
           <button class="guide-pill" id="shmResetCam" style="padding:2px 6px;font-size:10px;">Reset</button>
         </div>
       </div>
@@ -1077,20 +1128,20 @@ def main():
     <button class="qf-btn" data-fid="shape-119">6 · Centered (24s)</button>
     <button class="qf-btn" data-fid="shape-120">7 · V-Shape (24s)</button>
     <button class="qf-btn" data-fid="shape-121">8 · Negative Space (24s)</button>
-    <button class="qf-btn" data-fid="shape-eight-reel">★ All 8 Rules Reel (28s)</button>
-    <button class="qf-btn" data-fid="allways-best">★ ALLWAYS Master (163s)</button>
+    <button class="qf-btn" data-fid="shape-eight-reel">All 8 Rules Reel (28s)</button>
+    <button class="qf-btn" data-fid="allways-best">ALLWAYS Master (163s)</button>
   </div>
 
   <!-- ZERO-LAG, DETERMINISTIC VIDEO PLAYER & SHOT INSPECTOR -->
   <section class="player-card">
     <div class="player-toolbar">
       <div class="film-select-group">
-        <button class="btn" id="prevFilmBtn" title="Previous Film">◀</button>
+        <button class="btn" id="prevFilmBtn" title="Previous Film">Prev</button>
         <select class="film-select" id="filmSelect" aria-label="Select Film"></select>
-        <button class="btn" id="nextFilmBtn" title="Next Film">▶</button>
+        <button class="btn" id="nextFilmBtn" title="Next Film">Next</button>
       </div>
       <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
-        <a class="btn" id="openCaseBtn" href="../allways-best/index.html" target="_blank">Source Dossier ↗</a>
+        <a class="btn" id="openCaseBtn" href="../allways-best/index.html" target="_blank">Source Dossier</a>
       </div>
     </div>
 
@@ -1117,9 +1168,9 @@ def main():
 
     <!-- CUT-BY-CUT TRANSPORT & SEGMENTED SCRUBBER -->
     <div class="transport-bar">
-      <button class="btn" id="prevStepBtn">◀ Prev Cut</button>
-      <button class="btn btn-gold" id="playPauseBtn">▶ Play</button>
-      <button class="btn" id="nextStepBtn">Next Cut ▶</button>
+      <button class="btn" id="prevStepBtn">Prev Cut</button>
+      <button class="btn btn-gold" id="playPauseBtn">Play</button>
+      <button class="btn" id="nextStepBtn">Next Cut</button>
       <span class="time-readout" id="timeReadout">0.0s / 24.0s</span>
       <div class="seg-scrubber" id="segScrubber" title="Click any cut or part to jump directly to it"></div>
     </div>
@@ -1159,7 +1210,7 @@ def main():
 
   <!-- 4 CLEAN EXPLORATION TABS -->
   <div class="tabs">
-    <button class="tab-btn active" data-tab="tab-shm-worms">★ 108 Secondhand Motion 4D Time Worms (Atlas + Cards)</button>
+    <button class="tab-btn active" data-tab="tab-shm-worms">108 Secondhand Motion 4D Time Worms (Atlas + Cards)</button>
     <button class="tab-btn" data-tab="tab-rules">1. The 8 Perspective Rules (With / Without Grid Proof Cards)</button>
     <button class="tab-btn" data-tab="tab-shapes">2. 8 Shape Prompts &amp; Films (SCION 114–121)</button>
     <button class="tab-btn" data-tab="tab-archive">3. All 142 Archive Films</button>
@@ -1169,7 +1220,7 @@ def main():
   <section class="tab-pane active" id="tab-shm-worms">
     <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px;">
       <div>
-        <h2 style="margin:0;font-size:16px;">108 Ground-Truth 4D Spatiotemporal Time Worms from <a href="https://hartswf0.github.io/secondhand-motion/" target="_blank">Secondhand Motion ↗</a></h2>
+        <h2 style="margin:0;font-size:16px;">108 Ground-Truth 4D Spatiotemporal Time Worms from <a href="https://hartswf0.github.io/secondhand-motion/" target="_blank">Secondhand Motion</a></h2>
         <p style="margin:3px 0 0;font-size:12px;color:var(--muted);">
           Click any card below to load its 3D polygon silhouette tube, multiplane depth shell, camera translation ribbon, and articulated limb braid into the 4D Worm Studio above.
         </p>
@@ -1189,7 +1240,7 @@ def main():
     <div style="margin-bottom:14px;background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:10px;">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;flex-wrap:wrap;gap:6px;">
         <span style="font-size:11px;font-family:var(--mono);color:var(--gold);font-weight:700;">108-WORM 3D SPATIOTEMPORAL CONTACT ATLAS (SORTED BY TOPOLOGY CLASS)</span>
-        <a href="img/secondhand_worms_atlas.jpg" target="_blank" style="font-size:11px;font-family:var(--mono);">Open Full-Resolution Atlas (2000×2448) ↗</a>
+        <a href="img/secondhand_worms_atlas.jpg" target="_blank" style="font-size:11px;font-family:var(--mono);">Open Full-Resolution Atlas (2000×2448)</a>
       </div>
       <img src="img/secondhand_worms_atlas.jpg" loading="lazy" alt="108 Secondhand Motion 4D Time Worms Atlas" style="width:100%;border-radius:6px;border:1px solid var(--border);display:block;">
     </div>
@@ -1200,14 +1251,14 @@ def main():
   <section class="tab-pane" id="tab-rules">
     <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px;">
       <div>
-        <h2 style="margin:0;font-size:16px;">8 Perspective Rules from <a href="https://www.youtube.com/watch?v=QNvK63WetSA" target="_blank">Life Is All About Perspective! #shorts ↗</a></h2>
+        <h2 style="margin:0;font-size:16px;">8 Perspective Rules from <a href="https://www.youtube.com/watch?v=QNvK63WetSA" target="_blank">Life Is All About Perspective! #shorts</a></h2>
         <p style="margin:3px 0 0;font-size:12px;color:var(--muted);">
           Toggle between the Gold Viewfinder Overlay and the Raw Frame below, or click <b>Play 24s Shape Film</b> to watch all 8 cuts in the player above.
         </p>
       </div>
       <div style="display:flex;gap:8px;flex-wrap:wrap;">
         <button class="btn" id="toggleRuleImgsBtn">Switch Cards to Raw Unannotated Frames</button>
-        <button class="btn btn-gold" id="playEightReelBtn">▶ Play 28s All-8-Rules Reel</button>
+        <button class="btn btn-gold" id="playEightReelBtn">Play 28s All-8-Rules Reel</button>
       </div>
     </div>
     <div class="card-grid" id="rulesGrid"></div>
@@ -1218,7 +1269,7 @@ def main():
     <div style="margin-bottom:12px;">
       <h2 style="margin:0;font-size:16px;">8 Standalone SCION Shape Prompts &amp; 24-Second Archival Proof Films (SCION 114–121)</h2>
       <p style="margin:3px 0 0;font-size:12px;color:var(--muted);">
-        Every shape film follows a strict 4-Phase structure: <b>Cuts 1–3 (0–9s)</b> Raw Observation → <b>Cuts 4–6 (9–18s)</b> Gold Viewfinder Lock (+0.6s snap) → <b>Cut 7 (18–21s)</b> Deliberate Rupture/Break → <b>Cut 8 (21–24s)</b> Unannotated Return.
+        Every shape film follows a strict 4-Phase structure: <b>Cuts 1–3 (0–9s)</b> Raw Observation to <b>Cuts 4–6 (9–18s)</b> Gold Viewfinder Lock (+0.6s snap) to <b>Cut 7 (18–21s)</b> Deliberate Rupture/Break to <b>Cut 8 (21–24s)</b> Unannotated Return.
       </p>
     </div>
     <div class="card-grid" id="shapesGrid"></div>
@@ -1248,7 +1299,7 @@ def main():
             <th>Maker</th>
             <th>Duration</th>
             <th>Dominant Camera / Blocking</th>
-            <th>Part 1 → Part 4 Shapes</th>
+            <th>Part 1 to Part 4 Shapes</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -1622,10 +1673,10 @@ document.getElementById("playPauseBtn").addEventListener("click", () => {{
   else videoEl.pause();
 }});
 videoEl.addEventListener("play", () => {{
-  document.getElementById("playPauseBtn").textContent = "⏸ Pause";
+  document.getElementById("playPauseBtn").textContent = "Pause";
 }});
 videoEl.addEventListener("pause", () => {{
-  document.getElementById("playPauseBtn").textContent = "▶ Play";
+  document.getElementById("playPauseBtn").textContent = "Play";
 }});
 
 document.getElementById("prevStepBtn").addEventListener("click", () => {{
@@ -1673,7 +1724,7 @@ function renderRulesTab() {{
         <span>${{w.desc}}</span>
       </div>
       <div class="card-actions">
-        <button class="btn btn-gold" onclick="loadFilmById('shape-${{scionId}}', 0, true)">▶ Play 24s Shape Film (SCION ${{scionId}})</button>
+        <button class="btn btn-gold" onclick="loadFilmById('shape-${{scionId}}', 0, true)">Play 24s Shape Film (SCION ${{scionId}})</button>
         <button class="btn" onclick="loadFilmById('${{w.film_id}}', ${{w.start_s}}, true)">Jump to Source Shot @ ${{w.timestamp_s.toFixed(1)}}s</button>
       </div>
     `;
@@ -1720,7 +1771,7 @@ function renderShapesTab() {{
         <pre class="prompt-pre">${{op.prompt_markdown.replace(/</g, "&lt;")}}</pre>
       </details>
       <div class="card-actions">
-        <button class="btn btn-gold" onclick="loadFilmById('shape-${{op.scion_id}}', 0, true)">▶ Watch 24s Film &amp; Step Through 8 Cuts</button>
+        <button class="btn btn-gold" onclick="loadFilmById('shape-${{op.scion_id}}', 0, true)">Watch 24s Film &amp; Step Through 8 Cuts</button>
       </div>
     `;
     grid.appendChild(card);
@@ -1742,7 +1793,7 @@ function renderArchiveTable() {{
     const partShapes = (f.steps || []).slice(0, 4).map(s => {{
       const rm = RULE_META[s.rule_id];
       return rm ? rm.short : s.rule_id;
-    }}).join(" → ");
+    }}).join(" to ");
 
     const tr = document.createElement("tr");
     tr.innerHTML = `
@@ -1752,7 +1803,7 @@ function renderArchiveTable() {{
       <td style="font-family:var(--mono);">${{f.duration_s.toFixed(1)}}s</td>
       <td>${{f.dominant_topology.replace(/_/g, " ")}}</td>
       <td style="font-size:11px;color:var(--cyan);">${{partShapes}}</td>
-      <td><button class="btn btn-gold" style="padding:4px 9px;font-size:11px;" onclick="loadFilmByIndex(${{idx}}, 0, true);window.scrollTo({{top:0,behavior:'smooth'}});">▶ Load</button></td>
+      <td><button class="btn btn-gold" style="padding:4px 9px;font-size:11px;" onclick="loadFilmByIndex(${{idx}}, 0, true);window.scrollTo({{top:0,behavior:'smooth'}});">Load</button></td>
     `;
     tbody.appendChild(tr);
   }});
@@ -1891,7 +1942,7 @@ loadFilmByIndex(startIdx !== -1 ? startIdx : 0, 0, false);
     if (soloLayerId && w) {{
       const sdw = (w.depth_worms || []).find(d => d.id === soloLayerId);
       shmSoloClearBtn.style.display = "inline-block";
-      shmSoloClearBtn.textContent = sdw ? `← All Worms (Solo: z=${{sdw.z}})` : "← All Worms";
+      shmSoloClearBtn.textContent = sdw ? `All Worms (Solo: z=${{sdw.z}})` : "All Worms";
     }} else {{
       shmSoloClearBtn.style.display = "none";
     }}
@@ -2222,23 +2273,23 @@ loadFilmByIndex(startIdx !== -1 ? startIdx : 0, 0, false);
     }}
 
     if (wMode === "parallel" && !soloLayerId) {{
-      const vx = -W * 0.04, vy = H * 0.16;
-      const fx = W * 0.99,  fy = H * 0.80;
+      const vx = W * 0.04, vy = H * 0.27;
+      const fx = W * 0.94, fy = H * 0.73;
       const spinePt = (u) => {{
-        const p = Math.pow(Math.max(0, Math.min(1, u)), 0.88);
-        return {{ x: vx + p * (fx - vx), y: vy + p * (fy - vy), s: 0.24 + p * 0.96 }};
+        const p = Math.pow(Math.max(0, Math.min(1, u)), 0.90);
+        return {{ x: vx + p * (fx - vx), y: vy + p * (fy - vy), s: 0.48 + p * 0.68 }};
       }};
-      const uPlay = 0.16 + (nf > 1 ? (fIdx / (nf - 1)) : 0.5) * 0.64;
+      const uPlay = 0.24 + (nf > 1 ? (fIdx / (nf - 1)) : 0.5) * 0.54;
       const spPlay = spinePt(uPlay);
       const K = Math.max(2, dws.length);
-      const RADIAL_ANGLES = [-2.55, 2.25, -1.35, 0.18, 1.15, -0.55, 2.85, -1.95];
-      const baseRad = Math.min(W, H) * 0.30;
+      const baseRad = Math.min(W, H) * 0.31;
       const railPt = (rIdx, u) => {{
         const c = spinePt(u);
-        const ang = RADIAL_ANGLES[rIdx % RADIAL_ANGLES.length];
+        const ang = -Math.PI * 0.72 + (rIdx / K) * (Math.PI * 2);
+        const radScale = Math.max(0.68, c.s);
         return {{
-          x: c.x + Math.cos(ang) * baseRad * 1.08 * c.s,
-          y: c.y + Math.sin(ang) * baseRad * 0.88 * c.s,
+          x: c.x + Math.cos(ang) * baseRad * 1.15 * radScale,
+          y: c.y + Math.sin(ang) * baseRad * 0.84 * radScale,
           s: c.s
         }};
       }};
@@ -2261,7 +2312,7 @@ loadFilmByIndex(startIdx !== -1 ? startIdx : 0, 0, false);
             ctx3d.closePath(); ctx3d.fill();
           }}
           const nFan = isSubj ? 8 : 5;
-          ctx3d.strokeStyle = isSubj ? "rgba(255,255,255,0.42)" : "rgba(255,255,255,0.22)";
+          ctx3d.strokeStyle = isSubj ? "rgba(255,255,255,0.40)" : "rgba(255,255,255,0.20)";
           ctx3d.lineWidth = isSubj ? 0.85 : 0.65;
           for (let k = 0; k <= nFan; k++) {{
             const fSub = k / nFan;
@@ -2271,7 +2322,7 @@ loadFilmByIndex(startIdx !== -1 ? startIdx : 0, 0, false);
           }}
         }}
         const pStart = railPt(rIdx, 0), pEnd = railPt(rIdx, 1);
-        ctx3d.strokeStyle = isSubj ? "#f2bc57" : (dw && dw.color ? dw.color : "rgba(255,255,255,0.55)");
+        ctx3d.strokeStyle = isSubj ? "#f2bc57" : (dw && dw.color ? dw.color : "rgba(255,255,255,0.52)");
         ctx3d.lineWidth = isSubj ? 2.1 : 1.2;
         ctx3d.beginPath(); ctx3d.moveTo(pStart.x, pStart.y); ctx3d.lineTo(pEnd.x, pEnd.y); ctx3d.stroke();
       }}
@@ -2279,39 +2330,47 @@ loadFilmByIndex(startIdx !== -1 ? startIdx : 0, 0, false);
       ctx3d.strokeStyle = "rgba(255,255,255,0.82)"; ctx3d.lineWidth = 1.6;
       ctx3d.beginPath(); ctx3d.moveTo(c0.x, c0.y); ctx3d.lineTo(c1.x, c1.y); ctx3d.stroke();
 
-      const ringR = baseRad * spPlay.s;
+      const ringScale = Math.max(0.68, spPlay.s);
+      const ringR = baseRad * ringScale;
       ctx3d.save();
       ctx3d.strokeStyle = "rgba(255,255,255,0.62)"; ctx3d.lineWidth = 1.5;
-      ctx3d.beginPath(); ctx3d.ellipse(spPlay.x, spPlay.y, ringR * 1.08, ringR * 0.88, -0.10, 0, Math.PI * 2); ctx3d.stroke();
+      ctx3d.beginPath(); ctx3d.ellipse(spPlay.x, spPlay.y, ringR * 1.15, ringR * 0.84, -0.08, 0, Math.PI * 2); ctx3d.stroke();
       ctx3d.restore();
 
       const mediaCur = getMediaForFrame(w, fIdx);
       const frCur = frames[Math.min(nf - 1, fIdx)];
       if (frCur && frCur.ring && frCur.ring.length >= 3) {{
-        drawCroppedCutoutStamp(ctx3d, mediaCur, frCur.ring, spPlay.x, spPlay.y, 82, 70, "#ffffff", true, 0.95);
+        drawCroppedCutoutStamp(ctx3d, mediaCur, frCur.ring, spPlay.x, spPlay.y, 70, 60, "#ffffff", true, 0.95);
       }}
 
       for (let rIdx = 0; rIdx < K; rIdx++) {{
         const dw = dws[rIdx];
         if (!dw) continue;
-        const pt = railPt(rIdx, uPlay);
+        const rawPt = railPt(rIdx, uPlay);
+        const cx = Math.max(46, Math.min(W - 46, rawPt.x));
+        const cy = Math.max(46, Math.min(H - 36, rawPt.y));
         const col = dw.role === "subject" ? "#f2bc57" : (dw.color || "#00f5d4");
         ctx3d.strokeStyle = "rgba(255,255,255,0.85)"; ctx3d.lineWidth = 1.5;
-        ctx3d.beginPath(); ctx3d.moveTo(spPlay.x, spPlay.y); ctx3d.lineTo(pt.x, pt.y); ctx3d.stroke();
+        ctx3d.beginPath(); ctx3d.moveTo(spPlay.x, spPlay.y); ctx3d.lineTo(cx, cy); ctx3d.stroke();
         const kSpeed = 2.0 / Math.max(0.3, dw.z || 2);
         const fLayer = dw.role === "subject" ? fIdx : Math.max(0, Math.min(nf - 1, Math.round(fIdx * Math.min(1.2, Math.max(0.35, kSpeed)))));
         const frL = frames[Math.min(nf - 1, fLayer)];
         const mediaL = getMediaForFrame(w, fLayer);
         if (dw.role === "subject" && frL && frL.ring && frL.ring.length >= 3) {{
-          drawCroppedCutoutStamp(ctx3d, mediaL, frL.ring, pt.x, pt.y, 92, 78, col, true, 1.0);
+          drawCroppedCutoutStamp(ctx3d, mediaL, frL.ring, cx, cy, 80, 68, col, true, 1.0);
         }} else {{
           const trk = dw.track || [];
           const trPt = trk[Math.min(trk.length - 1, fLayer)] || [0.5, 0.5, 0.12];
           const strokesUV = getPlaneStrokesUV(dw, frL, trPt);
-          drawCroppedStrokesStamp(ctx3d, strokesUV, pt.x, pt.y, 72, 58, col, true);
+          drawCroppedStrokesStamp(ctx3d, strokesUV, cx, cy, 66, 54, col, true);
         }}
-        ctx3d.fillStyle = col; ctx3d.font = "bold 9.5px monospace";
-        ctx3d.fillText(`z=${{dw.z}} ${{dw.label.slice(0, 12)}}`, pt.x - 32, pt.y - 36);
+        const lbl = `z=${{dw.z}} ${{dw.label.slice(0, 10)}}`;
+        ctx3d.font = "bold 9px monospace";
+        const tw = ctx3d.measureText(lbl).width + 6;
+        ctx3d.fillStyle = "rgba(8, 10, 16, 0.88)";
+        ctx3d.fillRect(cx - tw * 0.5, cy + 20, tw, 12);
+        ctx3d.fillStyle = col;
+        ctx3d.fillText(lbl, cx - tw * 0.5 + 3, cy + 29);
       }}
       return;
     }}
@@ -2671,7 +2730,7 @@ loadFilmByIndex(startIdx !== -1 ? startIdx : 0, 0, false);
     }});
     if (autoPlay) {{
       isPlaying = true;
-      document.getElementById("shmPlayBtn").textContent = "⏸";
+      document.getElementById("shmPlayBtn").textContent = "Pause";
       if (shmVideo.style.display !== "none") shmVideo.play().catch(() => {{}});
     }}
   }}
@@ -2811,26 +2870,26 @@ loadFilmByIndex(startIdx !== -1 ? startIdx : 0, 0, false);
 
   document.getElementById("shmPlayBtn").addEventListener("click", () => {{
     isPlaying = !isPlaying;
-    document.getElementById("shmPlayBtn").textContent = isPlaying ? "⏸" : "▶";
+    document.getElementById("shmPlayBtn").textContent = isPlaying ? "Pause" : "Play";
     if (isPlaying && shmVideo.style.display !== "none") shmVideo.play().catch(() => {{}});
     else shmVideo.pause();
   }});
 
   shmSlider.addEventListener("input", () => {{
-    isPlaying = false; document.getElementById("shmPlayBtn").textContent = "▶"; shmVideo.pause();
+    isPlaying = false; document.getElementById("shmPlayBtn").textContent = "Play"; shmVideo.pause();
     curFrame = parseInt(shmSlider.value, 10) || 0;
     if (worms[curWormIdx]) syncShmVidTime(worms[curWormIdx], curFrame);
     drawShmAll();
   }});
   document.getElementById("shmStepPrev").addEventListener("click", () => {{
-    isPlaying = false; document.getElementById("shmPlayBtn").textContent = "▶"; shmVideo.pause();
+    isPlaying = false; document.getElementById("shmPlayBtn").textContent = "Play"; shmVideo.pause();
     curFrame = Math.max(0, curFrame - 1);
     shmSlider.value = curFrame;
     if (worms[curWormIdx]) syncShmVidTime(worms[curWormIdx], curFrame);
     drawShmAll();
   }});
   document.getElementById("shmStepNext").addEventListener("click", () => {{
-    isPlaying = false; document.getElementById("shmPlayBtn").textContent = "▶"; shmVideo.pause();
+    isPlaying = false; document.getElementById("shmPlayBtn").textContent = "Play"; shmVideo.pause();
     const w = worms[curWormIdx];
     curFrame = Math.min((w ? w.frames.length : 1) - 1, curFrame + 1);
     shmSlider.value = curFrame;
@@ -2849,7 +2908,7 @@ loadFilmByIndex(startIdx !== -1 ? startIdx : 0, 0, false);
         const ratio = Math.max(0, Math.min(1, (mx - b0.padL) / Math.max(1, b0.plotW)));
         const newF = Math.round(ratio * Math.max(1, b0.nf - 1));
         if (newF !== curFrame) {{
-          isPlaying = false; document.getElementById("shmPlayBtn").textContent = "▶"; shmVideo.pause();
+          isPlaying = false; document.getElementById("shmPlayBtn").textContent = "Play"; shmVideo.pause();
           curFrame = newF;
           shmSlider.value = curFrame;
           syncShmVidTime(worms[curWormIdx], curFrame);
@@ -2871,7 +2930,7 @@ loadFilmByIndex(startIdx !== -1 ? startIdx : 0, 0, false);
         const ratio = Math.max(0, Math.min(1, (mx - b0.padL) / Math.max(1, b0.plotW)));
         const newF = Math.round(ratio * Math.max(1, b0.nf - 1));
         if (newF !== curFrame) {{
-          isPlaying = false; document.getElementById("shmPlayBtn").textContent = "▶"; shmVideo.pause();
+          isPlaying = false; document.getElementById("shmPlayBtn").textContent = "Play"; shmVideo.pause();
           curFrame = newF;
           shmSlider.value = curFrame;
           syncShmVidTime(worms[curWormIdx], curFrame);

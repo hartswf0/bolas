@@ -288,18 +288,26 @@
     overflow: hidden;
     text-overflow: ellipsis;
   }
+
+  * { scrollbar-width: thin; scrollbar-color: #263044 transparent; }
+  *::-webkit-scrollbar { width: 5px; height: 5px; }
+  *::-webkit-scrollbar-track { background: transparent; }
+  *::-webkit-scrollbar-thumb { background: #263044; border-radius: 999px; }
+  input[type=range] { -webkit-appearance: none; appearance: none; background: transparent; cursor: pointer; }
+  input[type=range]::-webkit-slider-runnable-track { height: 5px; border-radius: 999px; background: #1d2436; border: 1px solid #323d59; }
+  input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 14px; height: 14px; border-radius: 50%; background: var(--gold); border: 2px solid #07090e; margin-top: -5px; }
 </style>
 </head>
 <body>
 
 <!-- ROW 1: COMPACT SHOT SELECTOR + DISENTANGLED VIEW MODE -->
 <div class="top-bar">
-  <a class="m-btn" href="index.html">← Studio</a>
+  <a class="m-btn" href="index.html">Studio</a>
   <div class="shot-nav">
-    <button class="btn" id="prevBtn">◀</button>
-    <button class="btn btn-gold" id="playBtn">▶</button>
+    <button class="btn" id="prevBtn">Prev</button>
+    <button class="btn btn-gold" id="playBtn">Play</button>
     <select class="shot-select" id="shotSelect" aria-label="Select Shot"></select>
-    <button class="btn" id="nextBtn">▶</button>
+    <button class="btn" id="nextBtn">Next</button>
   </div>
   <div class="mode-group" id="modeBar">
     <button class="m-btn active" data-proj="stack" title="Disentangled Depth Worm Rows (One clean worm track per depth layer)">Disentangled</button>
@@ -315,7 +323,7 @@
     <canvas id="canvas3d" width="760" height="460"></canvas>
     <div class="hud-pill" id="hud3d">Disentangled Depth Worms · Tap any worm row to solo</div>
     <div class="hud-Corner">
-      <button class="tiny-btn solo-reset" id="unsoloBtn">← All Disentangled Worms</button>
+      <button class="tiny-btn solo-reset" id="unsoloBtn">All Disentangled Worms</button>
       <button class="tiny-btn active" id="texBtn">Cutouts</button>
     </div>
   </div>
@@ -736,7 +744,7 @@
         const sdw = dws.find(d => d.id === soloLayerId);
         hud3d.textContent = sdw ? `SOLO WORM: z=${sdw.z} ${sdw.label} (${sdw.desc || ""}) · Drag to orbit` : "Solo Worm";
       } else if (projMode === "stack") {
-        hud3d.textContent = `Disentangled ${dws.length} Depth Worms (τ = f00→f${nf-1}) · Tap any row to solo`;
+        hud3d.textContent = `Disentangled ${dws.length} Depth Worms (τ = f00 to f${nf-1}) · Tap any row to solo`;
       } else if (projMode === "box3d") {
         hud3d.textContent = "3D Multiplane Cel Stack · Drag to rotate turntable";
       } else {
@@ -1090,7 +1098,7 @@
     });
     if (autoPlay) {
       isPlaying = true;
-      document.getElementById("playBtn").textContent = "⏸";
+      document.getElementById("playBtn").textContent = "Pause";
       video.play().catch(() => {});
     }
   }
@@ -1156,7 +1164,7 @@
   document.getElementById("nextBtn").onclick = () => selectShot(curIdx + 1, true);
   document.getElementById("playBtn").onclick = () => {
     isPlaying = !isPlaying;
-    document.getElementById("playBtn").textContent = isPlaying ? "⏸" : "▶";
+    document.getElementById("playBtn").textContent = isPlaying ? "Pause" : "Play";
     if (isPlaying) video.play().catch(()=>{}); else video.pause();
   };
 
@@ -1191,20 +1199,20 @@
 
   slider.oninput = () => {
     isPlaying = false;
-    document.getElementById("playBtn").textContent = "▶";
+    document.getElementById("playBtn").textContent = "Play";
     video.pause();
     curFrame = parseInt(slider.value, 10) || 0;
     if (worms[curIdx]) syncVideoTime(worms[curIdx], curFrame);
     drawAll();
   };
   document.getElementById("stepPrev").onclick = () => {
-    isPlaying = false; document.getElementById("playBtn").textContent = "▶"; video.pause();
+    isPlaying = false; document.getElementById("playBtn").textContent = "Play"; video.pause();
     curFrame = Math.max(0, curFrame - 1); slider.value = curFrame;
     if (worms[curIdx]) syncVideoTime(worms[curIdx], curFrame);
     drawAll();
   };
   document.getElementById("stepNext").onclick = () => {
-    isPlaying = false; document.getElementById("playBtn").textContent = "▶"; video.pause();
+    isPlaying = false; document.getElementById("playBtn").textContent = "Play"; video.pause();
     const w = worms[curIdx]; curFrame = Math.min((w ? w.frames.length : 1) - 1, curFrame + 1); slider.value = curFrame;
     if (w) syncVideoTime(w, curFrame);
     drawAll();
