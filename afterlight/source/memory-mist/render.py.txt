@@ -1,0 +1,85 @@
+"""Spacetime-mist render of a memory: every frame becomes a sheet of points that keeps its moment.
+Newest frame faces the camera; earlier frames recede behind it into mist. Detail is thrown away,
+feeling (fire, hand, horse) stays dense. Usage: render.py FRAMES_DIR T0_OF_FRAMES OUT.mp4 [start end] [--stills a,b,c]"""
+import sys, json, glob, subprocess, os
+import numpy as np, cv2
+
+HERE=os.path.dirname(os.path.abspath(__file__))
+FR=sorted(glob.glob(sys.argv[1]+'/*.jpg')); T0=float(sys.argv[2]); OUT=sys.argv[3]
+_a=[x for x in sys.argv[4:] if not x.startswith('--') and sys.argv[sys.argv.index(x)-1]!='--stills']
+start=float(_a[0]) if len(_a)>0 else 126.0; end=float(_a[1]) if len(_a)>1 else 186.5
+stills=[float(x) for x in sys.argv[sys.argv.index('--stills')+1].split(',')] if '--stills' in sys.argv else []
+SEG=[s for s in json.load(open(HERE+'/segments.json'))['segments'] if s['kind']=='memory']
+SRC=12; FPS=24; W,H=960,540; STRIDE=2
+sh,sw=132,320
+GR={}
+for S_ in (1,2):
+    gy,gx=np.mgrid[0:sh:S_,0:sw:S_]
+    GR[S_]=((gx/sw*2-1)*(sw/sh),-(gy/sh*2-1),np.random.default_rng(7+S_).normal(0,1,gx.shape+(3,)).astype(np.float32))
+cache={}
+def load(i):
+    i=max(0,min(len(FR)-1,i))
+    if i not in cache:
+        if len(cache)>80: cache.pop(next(iter(cache)))
+        cache[i]=cv2.cvtColor(cv2.imread(FR[i])[24:156],cv2.COLOR_BGR2RGB).astype(np.float32)/255
+    return cache[i]
+def seg_at(t):
+    for s in SEG:
+        if s['t0']<=t<s['t1']: return s
+    return SEG[-1] if t>=SEG[-1]['t1'] else SEG[0]
+def smooth(a,b,u): u=u*u*(3-2*u); return a+(b-a)*u
+
+def render(t):
+    s=seg_at(t); u=(t-s['t0'])/max(.01,s['t1']-s['t0']); hero=s.get('hero',False); mist=s['mist']
+    N=34 if hero else 24; dz=0.035 if hero else 0.045
+    yaw=np.radians(smooth(-8,9,u) if not hero else smooth(-22,18,u)); pitch=np.radians(smooth(3,-2,u))
+    D=2.4-0.35*u; foc=1.18*H
+    fi=(t-T0)*SRC; i0=int(fi); fr=fi-i0
+    acc=[np.zeros((H*W,3),np.float32) for _ in range(3)]
+    cy,sy=np.cos(yaw),np.sin(yaw); cp,sp=np.cos(pitch),np.sin(pitch)
+    for j in range(N):
+        age=j+fr; z=-age*dz
+        S_=1 if j<3 else 2; PX,PY,JIT=GR[S_]; ny,nx=PX.shape
+        cur=load(i0-j)[::S_,::S_]; prv=load(i0-j-1)[::S_,::S_]
+        lum=cur@np.array([.3,.59,.11],np.float32)
+        mot=np.clip(np.abs(cur-prv).mean(2)*6,0,1)
+        # lift dark shots so they read as dust, keep fire hot
+        w=(0.05+lum**0.6)*(1+2.0*mot)*(np.exp(-age/1.1)+0.11*(1-age/(N+1))**2)*(1.0 if S_==1 else 4.0)
+        w*=np.clip(0.55+0.45*np.random.default_rng(j+int(t*24)%5).random((ny,nx)),0,1)
+        # edges dissolve: radial falloff grows with age and mist
+        r=np.hypot(PX/ (sw/sh),PY); w*=np.clip(1.15-r*(0.35+mist*(0.5+age/N)),0.02,1)
+        x0=PX; y0=PY+0.0*z
+        # moving points slide back faster: a body of light through time
+        zz=z-0.10*mot*age/N
+        X=x0*cy+ (zz+0.5)*sy; Zr=-x0*sy+(zz+0.5)*cy-0.5
+        Y=y0*cp - Zr*sp; Z2=y0*sp+Zr*cp
+        # mist makes far points drift
+        jr=np.random.default_rng((i0-j)*7+S_).normal(0,1,(ny,nx,2)).astype(np.float32); amp=0.0022+0.0045*(age**0.8)*(0.4+mist*2); X=X+jr[...,0]*amp; Y=Y+jr[...,1]*amp
+        dep=D-Z2; ok=dep>0.3
+        xs=(X/dep*foc+W/2).astype(np.int32); ys=(-Y/dep*foc*1.0+H/2).astype(np.int32)
+        ok&=(xs>=0)&(xs<W)&(ys>=0)&(ys<H)
+        k=min(2,int(age/N*3.2)); idx=(ys*W+xs)[ok]
+        col=cur.copy(); g=col.mean(2,keepdims=True); col=np.clip(g+(col-g)*1.25,0,1)
+        far=min(1,age/N); col=col*(1-far*mist*0.6)+np.array([1,.93,.82],np.float32)*far*mist*0.35
+        for c in range(3):
+            acc[k][:,c]+=np.bincount(idx,weights=(w*col[...,c])[ok],minlength=H*W).astype(np.float32)
+    sig=[1.6,2.5,4.2]; gain=[3.2,3.6,3.2]
+    out=np.zeros((H,W,3),np.float32)
+    for k in range(3):
+        a=acc[k].reshape(H,W,3); out+=cv2.GaussianBlur(a,(0,0),sig[k])*gain[k]
+    m=float(out.mean()); gx_=float(np.clip(0.30/(m+1e-4),0.8,4.0)); gx_=s.get('exp',gx_); out=1-np.exp(-out*gx_)
+    bloom=cv2.GaussianBlur(out,(0,0),18); haze=cv2.GaussianBlur(out.mean(2),(0,0),40)[...,None]
+    hz=s.get('haze',1.0); out=out+bloom*(0.35+mist*0.35)*hz+haze*np.array([1,.94,.84],np.float32)*(0.25+0.4*mist)*hz
+    out=np.clip(out,0,1)**0.9
+    return (out*255).astype(np.uint8), s
+
+if stills:
+    for t in stills:
+        img,s=render(t); cv2.imwrite(f"{HERE}/still_{t:06.2f}_{s['id']}.jpg",cv2.cvtColor(img,cv2.COLOR_RGB2BGR),[cv2.IMWRITE_JPEG_QUALITY,88]); print(t,s['id'],flush=True)
+    sys.exit()
+p=subprocess.Popen(['ffmpeg','-v','error','-y','-f','rawvideo','-pix_fmt','rgb24','-s',f'{W}x{H}','-r',str(FPS),'-i','-','-c:v','libx264','-crf','23','-pix_fmt','yuv420p','-movflags','+faststart',OUT],stdin=subprocess.PIPE)
+n=int((end-start)*FPS)
+for k in range(n):
+    img,s=render(start+k/FPS); p.stdin.write(img.tobytes())
+    if k%48==0: print(k,n,s['id'],flush=True)
+p.stdin.close(); p.wait(); print('DONE')
