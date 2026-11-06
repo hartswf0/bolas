@@ -9,6 +9,13 @@ The sun's beam is the censor: a frame with a touch in it (a red dot) burns if yo
 
 See [THEORY_OF_PLAY.md](THEORY_OF_PLAY.md), and the SCION instructions it follows: [interface](SCION_INTERFACE_THINKING_MACHINE.md), [ludic engine](SCION_LUDIC_ENGINE.md), [identity after Scher](SCION_IDENTITY_AFTER_SCHER.md), [title after Bass](SCION_TITLE_AFTER_BASS.md), [garden after Eno](SCION_GARDEN_AFTER_ENO.md).
 
+**The Memory Maker (`maker.html`).** A Dreams-style maker in the same world.
+- **Shape:** build a memory out of archive frames rendered as flecks of light. Matching frames join with gold cuts, and holding a frame makes it last longer.
+- **Dream:** become the jellyfish and swim the memory into focus, avoiding the censor's light.
+- **Share:** the memory lives in the link, so anyone can dream it or remix it.
+
+It was built with the video-to-game flow, using our own film as the design video. See [MEMORY_MAKER.md](MEMORY_MAKER.md) and [SCION_VIDEO_TO_GAME.md](SCION_VIDEO_TO_GAME.md).
+
 **The editor (`editor.html`).** The same rules as an interface: write a cut as a sentence of shared features, a swarm finds every cut that obeys it, invariants check each one, and you sign the one the projector plays.
 
 It is the first proof of [SCION — AGENT-FIRST ARCHITECT](SCION_AGENT_FIRST_ARCHITECT.md), applied to video editing, on the archive of the contaminant jellyfish film (`../contaminant.html`).

@@ -1,0 +1,479 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Memory Maker</title>
+<meta name="description" content="Shape a memory out of archive flecks, then dream it: possess the jellyfish and swim it into focus.">
+<style>
+:root{--ink:#f2e6cf;--gold:#f6c47a;--red:#c8361e;--blue:#9fb4ff;--dim:rgba(214,190,150,.8);--bg:#040402}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);overflow:hidden;touch-action:none;overscroll-behavior:none;font-family:system-ui,"Helvetica Neue",Arial,sans-serif;-webkit-user-select:none;user-select:none}
+#gl{position:fixed;inset:0;width:100%;height:100%;display:block}
+#grain{position:fixed;inset:0;pointer-events:none;mix-blend-mode:overlay;opacity:.09}
+#iris{position:fixed;inset:0;pointer-events:none;background:radial-gradient(ellipse 72% 78% at 50% 50%,transparent 55%,rgba(0,0,0,.55) 82%,rgba(0,0,0,.92) 100%)}
+#film{position:fixed;inset:0;width:100%;height:100%;display:none}
+.ui{position:fixed;pointer-events:none}
+.ui button,.ui a{pointer-events:auto}
+#top{top:max(12px,env(safe-area-inset-top));left:16px;right:16px;display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+#mark{font-weight:900;letter-spacing:.32em;font-size:13px;color:var(--ink);opacity:.85}
+#mark i{font-family:Georgia,serif;font-weight:700;letter-spacing:0;color:var(--gold);font-size:17px;margin-left:.3em}
+#mode{font:italic 15px Georgia,serif;color:var(--dim);margin-top:4px}
+#btns{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+button{font:600 14px system-ui,sans-serif;letter-spacing:.06em;color:var(--ink);background:rgba(10,8,6,.72);border:1px solid rgba(246,196,122,.45);border-radius:999px;padding:10px 16px;cursor:pointer;min-height:44px}
+button:hover{border-color:var(--gold)}
+button.hot{background:var(--gold);color:#1a1208;border-color:var(--gold)}
+#hint{left:0;right:0;bottom:max(18px,env(safe-area-inset-bottom));text-align:center;font:italic clamp(17px,2.4vw,24px) Georgia,serif;color:var(--ink);text-shadow:0 0 10px #000,0 0 3px #000;padding:0 16px}
+#labels{inset:0}
+.lab{position:absolute;transform:translate(-50%,-50%);font:italic 600 clamp(13px,1.6vw,17px) Georgia,serif;color:var(--gold);text-shadow:0 0 6px #000,0 0 2px #000;white-space:nowrap}
+.lab.jump{color:var(--blue)}.lab.dur{color:var(--ink);font-weight:400;font-size:13px}
+#title{inset:0;display:flex;flex-direction:column;justify-content:center;padding:0 7vw;background:linear-gradient(90deg,rgba(4,3,2,.9),rgba(4,3,2,.55) 60%,rgba(4,3,2,.1))}
+#title h1{margin:0;font-weight:900;letter-spacing:.2em;font-size:clamp(30px,6vw,64px);line-height:1}
+#title h1 i{display:block;font-family:Georgia,serif;letter-spacing:0;color:var(--gold);font-size:1.9em;margin-top:.05em}
+#title .bar{height:7px;width:min(320px,40vw);background:var(--red);margin:14px 0 18px}
+#title p{margin:0 0 6px;max-width:620px;font-size:clamp(15px,1.9vw,19px);color:#ecd8b4;line-height:1.45}
+#title p em{font-family:Georgia,serif;color:var(--dim)}
+#title .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px;pointer-events:auto}
+#title .row button{font-size:15px}
+#title small{display:block;margin-top:14px;color:var(--dim);font:italic 14px Georgia,serif;max-width:620px}
+#title a{color:var(--gold)}
+#end{inset:0;display:none;flex-direction:column;justify-content:center;padding:0 7vw;background:rgba(4,3,2,.78)}
+#end .big{font:italic 700 clamp(70px,14vw,170px) Georgia,serif;color:var(--gold);line-height:.9}
+#end .what{font-weight:900;letter-spacing:.18em;font-size:clamp(18px,3vw,32px)}
+#end p{color:#ecd8b4;font:italic clamp(16px,2vw,21px) Georgia,serif;max-width:720px}
+#end .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;pointer-events:auto}
+@media (max-height:520px){#title{justify-content:flex-start;padding-top:56px;overflow:auto;pointer-events:auto}#title h1{font-size:26px}#title h1 i{font-size:1.6em}#title .bar{margin:8px 0 10px;height:5px}#title p{font-size:14px;margin-bottom:4px}#title .row{margin-top:8px}#title small{display:none}#mode{display:none}button{min-height:38px;padding:7px 13px;font-size:13px}}
+#rot{inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.85);font:600 22px system-ui;text-align:center;padding:24px}
+@media (orientation:portrait) and (pointer:coarse){#rot{display:flex}}
+</style>
+<script type="importmap">{"imports":{"three":"./vendor/three.module.min.js"}}</script>
+</head>
+<body>
+<canvas id="gl" aria-label="Memory Maker: archive frames rendered as glowing flecks, and a jellyfish made of light"></canvas>
+<canvas id="film" aria-hidden="true"></canvas>
+<canvas id="grain" width="256" height="256" aria-hidden="true"></canvas>
+<div id="iris"></div>
+<div class="ui" id="labels"></div>
+<div class="ui" id="top"><div><div id="mark">MEMORY<i>maker</i></div><div id="mode"></div></div><div id="btns"></div></div>
+<div class="ui" id="hint"></div>
+<div class="ui" id="title">
+  <h1>MEMORY<i>maker</i></h1><div class="bar"></div>
+  <p><b>Shape</b> a memory: pick archive frames, one after another. Frames that share something (a hand, a door, a glow) join with a gold cut. Hold a frame to make it last longer.</p>
+  <p><b>Dream</b> it: become the jellyfish and swim through your memory. Aim for the gold feature on each frame and it comes into focus. <em>The red light burns a touch.</em></p>
+  <div class="row"><button id="bShape" class="hot">Shape a memory</button><button id="bDream">Dream a memory</button></div>
+  <small>Built from public-domain archive film, rendered as flecks: every frame is thousands of points of light. After <a href="https://en.wikipedia.org/wiki/Dreams_(video_game)">Dreams</a>' make, play and remix, and the video-to-game flow, with our own film as the design video. <a href="../contaminant.html?play=1">The swim game</a> · <a href="MEMORY_MAKER.md">how it was made</a>.</small>
+</div>
+<div class="ui" id="end"><div class="big" id="eN"></div><div class="what" id="eW"></div><p id="eP"></p><div class="row"><button id="bAgain" class="hot">Dream it again</button><button id="bRemix">Remix it</button><button id="bShare">Share</button><button id="bHome">Home</button></div></div>
+<div class="ui" id="rot">Turn your phone sideways ↻</div>
+<script type="module">
+import * as THREE from 'three';
+const $ = id => document.getElementById(id);
+const COARSE = matchMedia('(pointer: coarse)').matches;
+// ------------------------------------------------------------------ the archive (the same fourteen frames, joints and rhyme as the film)
+const SRC = ['52-gilliam-ephemera/sources/light-bulb_f012.jpg', '52-gilliam-ephemera/sources/hat_f010.jpg', 'kit/archive-door/frames/f031.jpg',
+  '03-ernst/src/lion/f022.jpg', 'kit/archive-door/frames/f013.jpg', 'kit/archive-dog/frames/f030.jpg', '52-gilliam-ephemera/sources/yoga_f024.jpg',
+  '54-provenance-graph/sources/lantern-sam/f020.jpg', '01-gilliam/sources/butterfly/f060.jpg', ['31-alpha-matting/sources/cloud', 62],
+  ['53-civic-footage/sources/door/frames', 20], ['53-civic-footage/sources/dog/frames', 50], ['53-civic-footage/sources/seated/frames', 50],
+  '52-gilliam-ephemera/sources/yoga_f000.jpg'];
+const NAME = ['a bare bulb', 'hands gripping a tool', 'a closed door', 'a lion at rest', 'a hand opening a door', 'a dog', 'a handstand',
+  'hands holding a lantern', 'a hand holding a butterfly', 'a cloud', "a woman's hand on a door", 'a dog approaching a person', 'a person holding themselves in the snow', 'a woman leaping'];
+const JOINT = [{glow: [.5, .35]}, {hand: [.45, .75], person: [.7, .5], touch: [.45, .75]}, {door: [.6, .45]}, {animal: [.27, .45], ground: [.5, .85]},
+  {hand: [.43, .6], door: [.6, .4], touch: [.43, .6]}, {animal: [.45, .5], ground: [.5, .85]}, {body: [.48, .45], up: [.48, .2]},
+  {glow: [.47, .42], hand: [.42, .8], touch: [.42, .8]}, {hand: [.4, .5], touch: [.4, .5]}, {up: [.5, .35]},
+  {door: [.6, .4], person: [.6, .45], hand: [.52, .62], touch: [.52, .62]}, {person: [.7, .2], animal: [.45, .55]},
+  {person: [.45, .5], body: [.45, .5], ground: [.5, .85], touch: [.45, .5]}, {body: [.47, .45], up: [.47, .25]}];
+const CHAIN = [0, 7, 8, 1, 4, 2, 10, 11, 5, 3, 12, 6, 13, 9];
+const FEAT = k => Object.keys(JOINT[k]).filter(t => t !== 'touch');
+const shared = (a, b) => FEAT(a).filter(t => JOINT[b][t]);
+const NOTE = k => [57, 59, 62, 64, 66, 69, 71, 74, 76, 78, 81, 83, 86, 88][CHAIN.indexOf(k)];
+const PRESETS = [
+  {name: 'Hands', m: [[0, 1.5], [7, 2], [8, 2], [1, 1.5], [4, 2.5]]},
+  {name: 'Doors to the ground', m: [[4, 1.5], [2, 2], [10, 2.5], [11, 1.5], [5, 1.5], [3, 2], [12, 3]]},
+  {name: 'The whole archive, in rhyme', m: CHAIN.map(k => [k, 1.5])}];
+const paths = sv => typeof sv === 'string' ? [sv] : Array.from({length: sv[1]}, (_, i) => `${sv[0]}/f${String(i).padStart(3, '0')}.jpg`);
+const IMG = SRC.map(sv => paths(sv).map(p => { const im = new Image(); im.src = '../../handmade/' + p; return im; }));
+const ready = Promise.all(IMG.map(fr => fr[0].decode().catch(() => {})));
+// ------------------------------------------------------------------ renderer, scene, camera
+const renderer = new THREE.WebGLRenderer({canvas: $('gl'), antialias: false, powerPreference: 'high-performance'});
+renderer.setPixelRatio(Math.min(COARSE ? 1.5 : 2, devicePixelRatio || 1)); renderer.setClearColor(0x040402, 1);
+const scene = new THREE.Scene(); scene.fog = new THREE.FogExp2(0x040402, .00035);
+const camera = new THREE.PerspectiveCamera(40, 1, 1, 12000);
+const uScale = {value: 1};
+function resize() {
+  const w = innerWidth, h = innerHeight; renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix();
+  uScale.value = h * renderer.getPixelRatio() / (2 * Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)));
+  const f = $('film'); f.width = w * Math.min(2, devicePixelRatio || 1); f.height = h * Math.min(2, devicePixelRatio || 1);
+}
+addEventListener('resize', resize); resize();
+// ------------------------------------------------------------------ flecks: every frame is a cloud of gaussian points (after Dreams' flecks)
+const FW = 400, FH = 300, GX = 120, GY = 90;
+const fleckVS = `
+attribute vec3 aScatter; attribute vec3 color; attribute float aSeed;
+uniform float uDev, uTime, uSize, uBurn, uAlpha, uScale, uLift; uniform vec2 uTouch;
+varying vec3 vC; varying float vA;
+void main(){
+  vec3 p = mix(aScatter, position, uDev);
+  float w = 1.0 - uDev * .8;
+  p += vec3(sin(uTime * 1.3 + aSeed * 6.3 + position.y * .05), cos(uTime * 1.1 + aSeed * 4.1 + position.x * .04), sin(uTime * .7 + aSeed * 9.)) * 4.0 * w;
+  float b = 0.0;
+  if (uBurn > 0.0) { float d = distance(position.xy, uTouch); b = 1.0 - smoothstep(uBurn * 150.0 - 30.0, uBurn * 150.0, d);
+    float rim = smoothstep(uBurn * 150.0 - 45.0, uBurn * 150.0 - 15.0, d) * b; p.z += b * 30.0 + rim * 10.0; p.y += b * uLift * aSeed * 60.0; }
+  vC = mix(color, vec3(1.0, .5, .18), clamp(b * 1.4, 0.0, 1.0) * .8) * (1.0 - b * .75);
+  vA = uAlpha * (.28 + .72 * uDev);
+  vec4 mv = modelViewMatrix * vec4(p, 1.0);
+  gl_PointSize = max(1.0, uSize * uScale / -mv.z);
+  gl_Position = projectionMatrix * mv;
+}`;
+const fleckFS = `
+varying vec3 vC; varying float vA;
+void main(){ vec2 c = gl_PointCoord - .5; float g = exp(-dot(c, c) * 16.0); if (g < .02) discard; gl_FragColor = vec4(vC * g * vA, 1.0); }`;
+const GEO = [];
+function sampleFrame(k) {   // the frame, lifted into depth by its own light, graded sepia
+  const im = IMG[k][0], c = document.createElement('canvas'); c.width = GX; c.height = GY; const g = c.getContext('2d');
+  g.fillStyle = '#2a1d14'; g.fillRect(0, 0, GX, GY);
+  if (im.naturalWidth) { const s = Math.max(GX / im.naturalWidth, GY / im.naturalHeight); g.drawImage(im, (GX - im.naturalWidth * s) / 2, (GY - im.naturalHeight * s) / 2, im.naturalWidth * s, im.naturalHeight * s); }
+  const d = g.getImageData(0, 0, GX, GY).data, n = GX * GY, pos = new Float32Array(n * 3), sc = new Float32Array(n * 3), col = new Float32Array(n * 3), seed = new Float32Array(n);
+  let rnd = 1 + k * 977; const r = () => (rnd = (rnd * 16807) % 2147483647) / 2147483647;
+  for (let i = 0; i < n; i++) {
+    const x = i % GX, y = (i / GX) | 0, R = d[i * 4] / 255, G = d[i * 4 + 1] / 255, B = d[i * 4 + 2] / 255, L = .3 * R + .55 * G + .15 * B;
+    pos[i * 3] = (x / GX - .5) * FW + (r() - .5) * 2; pos[i * 3 + 1] = (.5 - y / GY) * FH + (r() - .5) * 2; pos[i * 3 + 2] = (L - .5) * 70;
+    const a = r() * 6.283, rad = 30 * Math.sqrt(r());   // out of focus, a fleck drifts in depth more than across, so the picture stays legible as mist
+    sc[i * 3] = pos[i * 3] + Math.cos(a) * rad; sc[i * 3 + 1] = pos[i * 3 + 1] + Math.sin(a) * rad; sc[i * 3 + 2] = (r() - .5) * 600;
+    const t = Math.pow(L, 1.35);   // sepia: dark umber to warm cream
+    col[i * 3] = (.05 + .95 * t) * .62; col[i * 3 + 1] = (.035 + .8 * t) * .62; col[i * 3 + 2] = (.02 + .55 * t) * .62; seed[i] = r();
+  }
+  const geo = new THREE.BufferGeometry();
+  geo.setAttribute('position', new THREE.BufferAttribute(pos, 3)); geo.setAttribute('aScatter', new THREE.BufferAttribute(sc, 3));
+  geo.setAttribute('color', new THREE.BufferAttribute(col, 3)); geo.setAttribute('aSeed', new THREE.BufferAttribute(seed, 1));
+  geo.boundingSphere = new THREE.Sphere(new THREE.Vector3(), 600);
+  return geo;
+}
+function cloud(k, opt = {}) {
+  const tp = JOINT[k].touch || [.5, .5];
+  const mat = new THREE.ShaderMaterial({vertexShader: fleckVS, fragmentShader: fleckFS, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending,
+    uniforms: {uDev: {value: opt.dev ?? 1}, uTime: {value: 0}, uSize: {value: opt.size ?? 5}, uBurn: {value: 0}, uAlpha: {value: opt.alpha ?? 1}, uScale, uLift: {value: 0},
+      uTouch: {value: new THREE.Vector2((tp[0] - .5) * FW, (.5 - tp[1]) * FH)}}});
+  const pts = new THREE.Points(GEO[k], mat); pts.userData.k = k; pts.frustumCulled = false; return pts;
+}
+// ------------------------------------------------------------------ the jellyfish, as flecks
+const JN = 1600, TN = 22, TS = 18;
+const jelly = (() => {
+  const n = JN + TN * TS, pos = new Float32Array(n * 3), sc = new Float32Array(n * 3), col = new Float32Array(n * 3), seed = new Float32Array(n);
+  for (let i = 0; i < JN; i++) {   // the bell: a domed shell, brighter at the crown and the rim
+    const u = Math.random(), v = Math.random() * Math.PI * 2, th = Math.acos(1 - u * .95), rim = i < 260;
+    const r = 70, ph = rim ? Math.PI / 2 - .02 : th;
+    pos[i * 3] = Math.sin(ph) * Math.cos(v) * r; pos[i * 3 + 1] = Math.cos(ph) * r * .78; pos[i * 3 + 2] = Math.sin(ph) * Math.sin(v) * r;
+    const b = rim ? 1 : .55 + .45 * Math.cos(ph); col[i * 3] = 1 * b; col[i * 3 + 1] = .8 * b; col[i * 3 + 2] = .5 * b; seed[i] = Math.random();
+  }
+  for (let i = JN; i < n; i++) { col[i * 3] = .9; col[i * 3 + 1] = .72; col[i * 3 + 2] = .45; seed[i] = Math.random(); }
+  sc.set(pos);
+  const geo = new THREE.BufferGeometry(); geo.setAttribute('position', new THREE.BufferAttribute(pos, 3)); geo.setAttribute('aScatter', new THREE.BufferAttribute(sc, 3));
+  geo.setAttribute('color', new THREE.BufferAttribute(col, 3)); geo.setAttribute('aSeed', new THREE.BufferAttribute(seed, 1)); geo.boundingSphere = new THREE.Sphere(new THREE.Vector3(), 400);
+  const mat = new THREE.ShaderMaterial({vertexShader: fleckVS, fragmentShader: fleckFS, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending,
+    uniforms: {uDev: {value: 1}, uTime: {value: 0}, uSize: {value: 7}, uBurn: {value: 0}, uAlpha: {value: .9}, uScale, uLift: {value: 0}, uTouch: {value: new THREE.Vector2()}}});
+  const p = new THREE.Points(geo, mat); p.frustumCulled = false;
+  const glowT = (() => { const c = document.createElement('canvas'); c.width = c.height = 128; const g = c.getContext('2d'), r = g.createRadialGradient(64, 64, 0, 64, 64, 64);
+    r.addColorStop(0, 'rgba(255,214,150,1)'); r.addColorStop(.3, 'rgba(255,190,110,.35)'); r.addColorStop(1, 'rgba(255,170,80,0)'); g.fillStyle = r; g.fillRect(0, 0, 128, 128); return new THREE.CanvasTexture(c); })();
+  const glow = new THREE.Sprite(new THREE.SpriteMaterial({map: glowT, blending: THREE.AdditiveBlending, depthWrite: false, transparent: true, opacity: .55}));
+  glow.scale.set(420, 420, 1); glow.position.y = 30;
+  const g = new THREE.Group(); g.add(glow, p); g.userData = {pts: p, glow, pulse: 0, cool: 0};
+  return g;
+})();
+function jellyUpdate(t, vx, vy, vz) {   // tentacles trail behind the motion and ripple; the bell contracts on the pulse
+  const P = jelly.userData.pts.geometry.attributes.position, a = P.array, sq = jelly.userData.pulse;
+  const s = 1 - .12 * sq; jelly.userData.pts.scale.set(s, 1 + .08 * sq, s);
+  for (let k = 0; k < TN; k++) {
+    const ang = k / TN * Math.PI * 2, rr = 52 + 10 * Math.sin(k * 1.7);
+    let x = Math.cos(ang) * rr, y = -2, z = Math.sin(ang) * rr;
+    for (let j = 0; j < TS; j++) {
+      const i = (JN + k * TS + j) * 3, f = j / TS;
+      x += Math.sin(t * 1.7 + k + j * .55) * 2.2 - vx * .012 * f - x * .03 * sq;
+      z += Math.cos(t * 1.4 + k * .7 + j * .5) * 2.2 - vz * .012 * f - z * .03 * sq;
+      y -= 9 - vy * .006 * f;
+      a[i] = x; a[i + 1] = y; a[i + 2] = z;
+    }
+  }
+  P.needsUpdate = true;
+  const c = jelly.userData.cool, m = jelly.userData.pts.material; m.uniforms.uTime.value = t;
+  jelly.userData.glow.material.color.setRGB(1 - .45 * c, 1 - .2 * c, 1);
+  jelly.userData.glow.material.opacity = (S.mode === 'dream' ? .18 : .45) + .2 * sq;
+}
+// ------------------------------------------------------------------ the music: a pad, a heartbeat, and the memory's own notes
+const audio = (() => {
+  let ac = null, out, rev, on = false, next = 0, i8 = 0; const SPB = .625, m2f = m => 440 * 2 ** ((m - 69) / 12);
+  const CH = [[38, 57, 61, 64, 66], [35, 54, 57, 61, 62], [31, 50, 54, 57, 62], [33, 52, 57, 59, 61]];
+  function init() { const A = window.AudioContext || window.webkitAudioContext; if (!A) return; ac = new A();
+    const comp = ac.createDynamicsCompressor(); out = ac.createGain(); out.gain.value = .85; out.connect(comp); comp.connect(ac.destination);
+    rev = ac.createConvolver(); const L = ac.sampleRate * 3 | 0, b = ac.createBuffer(2, L, ac.sampleRate);
+    for (let c = 0; c < 2; c++) { const x = b.getChannelData(c); for (let i = 0; i < L; i++) x[i] = (Math.random() * 2 - 1) * (1 - i / L) ** 3; }
+    rev.buffer = b; const rg = ac.createGain(); rg.gain.value = .5; rev.connect(rg); rg.connect(out); }
+  function voice(t, f, d, g, o = {}) { const osc = ac.createOscillator(), v = ac.createGain(); osc.type = o.type || 'sine'; osc.frequency.setValueAtTime(f, t);
+    if (o.glide) osc.frequency.exponentialRampToValueAtTime(o.glide, t + d * .5); v.gain.setValueAtTime(0, t); v.gain.linearRampToValueAtTime(g, t + (o.att || .005)); v.gain.exponentialRampToValueAtTime(.0001, t + d);
+    osc.connect(v); v.connect(out); if (o.wet !== 0) { const w = ac.createGain(); w.gain.value = o.wet ?? .3; v.connect(w); w.connect(rev); } osc.start(t); osc.stop(t + d + .05); }
+  function pad(t, ch, d) { ch.forEach((m, j) => { for (const det of j ? [-7, 7] : [0]) { const o = ac.createOscillator(), f = ac.createBiquadFilter(), v = ac.createGain(), g = j ? .013 : .06;
+    o.type = j ? 'triangle' : 'sine'; o.frequency.value = m2f(j ? m : m + 12); o.detune.value = det; f.type = 'lowpass'; f.frequency.value = j ? 1300 : 400;
+    v.gain.setValueAtTime(0, t); v.gain.linearRampToValueAtTime(g, t + 1.2); v.gain.setValueAtTime(g, t + d - .3); v.gain.linearRampToValueAtTime(0, t + d + 1.4);
+    o.connect(f); f.connect(v); v.connect(out); const w = ac.createGain(); w.gain.value = .7; v.connect(w); w.connect(rev); o.start(t); o.stop(t + d + 1.5); } }); }
+  const api = {SPB, notes: [],
+    wake() { if (!ac) init(); if (ac && ac.state === 'suspended') ac.resume(); },
+    start() { api.wake(); if (!ac || on) return; on = true; next = ac.currentTime + .08;
+      setInterval(() => { if (ac.state !== 'running') return; while (next < ac.currentTime + .15) { const t = next;
+        if (i8 % 16 === 0) pad(t, CH[(i8 / 16 | 0) % 4], SPB * 8);
+        if (i8 % 2 === 0) { voice(t, 150, .3, i8 % 4 ? .09 : .17, {glide: 48, wet: .05}); voice(t, 300, .06, .03, {type: 'triangle', wet: 0}); }
+        if (api.notes.length && i8 % 2 === 0) { const m = api.notes[(i8 / 2) % api.notes.length]; voice(t, m2f(m), .8, .03, {type: 'triangle', wet: .45}); }
+        i8++; next += SPB / 2; } }, 25); },
+    beat() { return ac && on ? (ac.currentTime - (next - (SPB / 2) * 0)) / SPB : performance.now() / 625; },
+    pick(k) { if (!ac) return; const t = ac.currentTime; voice(t, m2f(NOTE(k)), 1.4, .07, {wet: .5}); voice(t, m2f(NOTE(k) + 12), .4, .02, {wet: .4}); },
+    join(match) { if (!ac) return; const t = ac.currentTime; (match ? [0, 4, 7] : [0, 6]).forEach((s, n) => voice(t + n * .06, m2f(69 + s), .9, .035, {type: 'triangle', wet: .5})); },
+    develop(k, q) { if (!ac) return; const t = ac.currentTime; [0, 12, 19].forEach((s, n) => voice(t + n * .07, m2f(NOTE(k) + s), 1.6, .06 * q + .01, {type: 'triangle', wet: .55})); },
+    whoosh() { if (!ac) return; const t = ac.currentTime, s = ac.createBufferSource(), b = ac.createBuffer(1, ac.sampleRate * .5 | 0, ac.sampleRate), x = b.getChannelData(0);
+      for (let i = 0; i < x.length; i++) x[i] = (Math.random() * 2 - 1) * Math.sin(Math.PI * i / x.length); const f = ac.createBiquadFilter(), v = ac.createGain();
+      f.type = 'bandpass'; f.frequency.setValueAtTime(300, t); f.frequency.exponentialRampToValueAtTime(2400, t + .45); v.gain.value = .12; s.buffer = b; s.connect(f); f.connect(v); v.connect(out); s.start(t); },
+    stroke() { if (!ac) return; const t = ac.currentTime; voice(t, 110, .3, .16, {glide: 50, wet: .05}); voice(t, 220, .1, .04, {type: 'triangle', wet: .1}); },
+    burn() { if (!ac) return; const t = ac.currentTime; [1, 1.414, 2.76, 4.07].forEach((r, n) => voice(t, 466 * r, 1.6 - n * .25, [.11, .07, .045, .03][n], {wet: .4})); voice(t, 60, .6, .22, {glide: 35, wet: .1}); }};
+  return api;
+})();
+// ------------------------------------------------------------------ state
+const S = {mode: 'title', memory: [], t: 0, last: performance.now()};
+const shelf = new THREE.Group(), track = new THREE.Group(), corridor = new THREE.Group();
+scene.add(shelf, track, corridor);
+const imp = (() => {   // the imp: a small wisp of light that is your hand in the maker (after Dreams' imp)
+  const n = 90, pos = new Float32Array(n * 3), col = new Float32Array(n * 3), seed = new Float32Array(n);
+  for (let i = 0; i < n; i++) { const a = Math.random() * 6.28, r = Math.random() * 14; pos[i * 3] = Math.cos(a) * r; pos[i * 3 + 1] = Math.sin(a) * r; pos[i * 3 + 2] = (Math.random() - .5) * 10; col[i * 3] = 1; col[i * 3 + 1] = .85; col[i * 3 + 2] = .6; seed[i] = Math.random(); }
+  const geo = new THREE.BufferGeometry(); geo.setAttribute('position', new THREE.BufferAttribute(pos, 3)); geo.setAttribute('aScatter', new THREE.BufferAttribute(pos.slice(), 3));
+  geo.setAttribute('color', new THREE.BufferAttribute(col, 3)); geo.setAttribute('aSeed', new THREE.BufferAttribute(seed, 1));
+  const p = new THREE.Points(geo, new THREE.ShaderMaterial({vertexShader: fleckVS, fragmentShader: fleckFS, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending,
+    uniforms: {uDev: {value: .6}, uTime: {value: 0}, uSize: {value: 9}, uBurn: {value: 0}, uAlpha: {value: 1}, uScale, uLift: {value: 0}, uTouch: {value: new THREE.Vector2()}}}));
+  p.frustumCulled = false; p.visible = false; scene.add(p); return p;
+})();
+const ptr = {x: 0, y: 0, down: false, t0: 0, sx: 0, sy: 0, onItem: null, moved: false};
+const labels = $('labels');
+function label(text, x, y, cls) { const d = document.createElement('div'); d.className = 'lab ' + (cls || ''); d.textContent = text; d.style.left = x + 'px'; d.style.top = y + 'px'; labels.appendChild(d); }
+const toScreen = v => { const p = v.clone().project(camera); return [(p.x + 1) / 2 * innerWidth, (1 - p.y) / 2 * innerHeight, p.z]; };
+const hint = t => { $('hint').textContent = t || ''; };
+function buttons(list) { const b = $('btns'); b.innerHTML = ''; for (const [txt, fn, hot] of list) { const e = document.createElement('button'); e.textContent = txt; if (hot) e.className = 'hot'; e.onclick = ev => { ev.stopPropagation(); audio.wake(); fn(); }; b.appendChild(e); } }
+// ------------------------------------------------------------------ SHAPE: the maker
+const SHELF_S = .36, SLOT_S = .3, MAXM = 9;
+function shelfPos(i) { const row = i < 7 ? 0 : 1, col = i % 7; return new THREE.Vector3((col - 3) * 168, 250 - row * 140, 0); }
+function slotPos(i, n) { return new THREE.Vector3((i - (n - 1) / 2) * 140, -205, 0); }
+function enterShape() {
+  S.mode = 'shape'; $('title').style.display = 'none'; $('end').style.display = 'none'; $('film').style.display = 'none'; corridor.visible = false; shelf.visible = track.visible = true; jelly.visible = false; imp.visible = !COARSE;
+  scene.remove(jelly); const far = camera.aspect > 1.9 ? 1180 : 1000; camera.position.set(0, 30, far); camera.lookAt(0, 30, 0);   // wide phones: step back so the shelf clears the buttons
+  if (!shelf.children.length) for (let k = 0; k < 14; k++) { const c = cloud(k, {size: 3.2, dev: 1}); c.scale.setScalar(SHELF_S); c.position.copy(shelfPos(k)); shelf.add(c); }
+  rebuildTrack(); $('mode').textContent = 'shape · pick frames, one after another';
+  buttons([['Dream it', () => S.memory.length ? enterDream() : hint('pick at least one frame first'), true], ['Clear', () => { S.memory = []; rebuildTrack(); }], ['Home', home]]);
+  hint(COARSE ? 'tap a frame to add it · hold a frame below to make it last longer · tap it to take it out' : 'click a frame to add it · hold a frame below to make it last longer · click it to take it out');
+}
+function rebuildTrack() {
+  while (track.children.length) track.remove(track.children[0]);
+  S.memory.forEach(([k], i) => { const c = cloud(k, {size: 3, dev: 1}); c.scale.setScalar(SLOT_S); c.position.copy(slotPos(i, S.memory.length)); c.userData.i = i; track.add(c); });
+  audio.notes = S.memory.map(([k]) => NOTE(k));
+  try { localStorage.setItem('mm.last', enc(S.memory)); } catch (e) {}
+}
+function itemAt(x, y) {   // which frame is under the pointer: shelf or track
+  for (const g of [track, shelf]) for (const c of g.children) {
+    const s = c.scale.x, a = toScreen(c.position.clone().add(new THREE.Vector3(-FW / 2 * s, FH / 2 * s, 0))), b = toScreen(c.position.clone().add(new THREE.Vector3(FW / 2 * s, -FH / 2 * s, 0)));
+    if (x >= a[0] && x <= b[0] && y >= a[1] && y <= b[1]) return c;
+  }
+  return null;
+}
+function shapeTap(c) {
+  if (!c) return;
+  if (c.parent === shelf) {
+    if (S.memory.length >= MAXM) { hint(`a memory holds ${MAXM} frames here`); return; }
+    const k = c.userData.k, prev = S.memory.length ? S.memory[S.memory.length - 1][0] : null;
+    S.memory.push([k, 1.5]); rebuildTrack(); audio.pick(k); if (prev != null) audio.join(shared(prev, k).length > 0);
+    const nc = track.children[track.children.length - 1]; nc.position.copy(c.position); nc.material.uniforms.uDev.value = .2;   // it flies down from the shelf, gathering itself
+  } else { S.memory.splice(c.userData.i, 1); rebuildTrack(); audio.whoosh(); }
+}
+function shapeFrame(dt, t) {
+  labels.innerHTML = '';
+  const n = S.memory.length, hover = itemAt(ptr.x, ptr.y), last = n ? S.memory[n - 1][0] : null;
+  shelf.children.forEach(c => { const k = c.userData.k, ok = last == null || shared(last, k).length > 0, u = c.material.uniforms;
+    u.uTime.value = t; u.uAlpha.value += ((ok ? 1 : .35) * (c === hover ? 1.35 : 1) - u.uAlpha.value) * Math.min(1, dt * 6);
+    const s = SHELF_S * (c === hover ? 1.08 : 1); c.scale.setScalar(c.scale.x + (s - c.scale.x) * Math.min(1, dt * 10));
+    if (last != null && ok) { const p = toScreen(c.position.clone().add(new THREE.Vector3(0, FH / 2 * SHELF_S + 14, 0))); label(shared(last, k).join(' · '), p[0], p[1]); } });
+  track.children.forEach((c, i) => { const u = c.material.uniforms, target = slotPos(i, n); u.uTime.value = t; u.uDev.value += (1 - u.uDev.value) * Math.min(1, dt * 3);
+    c.position.lerp(target, Math.min(1, dt * 6)); const d = S.memory[i][1], s = SLOT_S * (.85 + .1 * d); c.scale.setScalar(c.scale.x + (s - c.scale.x) * Math.min(1, dt * 8));
+    const p = toScreen(c.position.clone().add(new THREE.Vector3(0, -FH / 2 * c.scale.x - 16, 0))); label(d.toFixed(1) + ' s', p[0], p[1], 'dur');
+    if (i) { const k0 = S.memory[i - 1][0], k1 = S.memory[i][0], w = shared(k0, k1), a = toScreen(c.position.clone().add(new THREE.Vector3(-70, 0, 0)));
+      label(w.length ? w[0] : 'jump', a[0], a[1], w.length ? '' : 'jump'); } });
+  if (ptr.down && ptr.onItem && ptr.onItem.parent === track && performance.now() - ptr.t0 > 350) {   // hold: the frame lasts longer
+    const i = ptr.onItem.userData.i; if (S.memory[i]) { S.memory[i][1] = Math.min(5, S.memory[i][1] + dt * 1.5); ptr.held = true; }
+  }
+  if (imp.visible) { const v = new THREE.Vector3((ptr.x / innerWidth) * 2 - 1, -(ptr.y / innerHeight) * 2 + 1, .5).unproject(camera), dir = v.sub(camera.position).normalize(), dist = -camera.position.z / dir.z;
+    imp.position.copy(camera.position).add(dir.multiplyScalar(dist)); imp.position.z = 20; imp.material.uniforms.uTime.value = t; }
+  if (n === 0) hint(COARSE ? 'tap a frame to begin your memory' : 'click a frame to begin your memory');
+  else if (n === 1) hint('next: a frame that shares something with it joins with a gold cut (the gold words)');
+  else if (n >= 3 && !S.heldOnce) hint('hold a frame in your memory to make it last longer · then Dream it');
+  if (ptr.held) S.heldOnce = true;
+}
+// ------------------------------------------------------------------ DREAM: possess the jellyfish and swim your memory into focus
+const D = {};
+function enterDream(mem) {
+  if (mem) S.memory = mem.map(x => x.slice());
+  audio.start(); audio.notes = [];
+  S.mode = 'dream'; $('title').style.display = 'none'; $('end').style.display = 'none'; $('film').style.display = 'none'; labels.innerHTML = '';
+  shelf.visible = track.visible = false; corridor.visible = true; imp.visible = false; scene.add(jelly); jelly.visible = true;
+  while (corridor.children.length) corridor.remove(corridor.children[0]);
+  let z = -700; D.scenes = [];
+  S.memory.forEach(([k, dur], i) => {   // each frame stands in the dark as mist; the longer you held it, the longer the swim to it
+    const c = cloud(k, {size: 8.5, dev: 0, alpha: .75}); c.scale.set(1.6, 1.6, .35); c.position.set(0, 0, z); corridor.add(c);
+    const prev = i ? S.memory[i - 1][0] : null, w = prev != null ? shared(prev, k)[0] : null, jp = (w && JOINT[k][w]) || JOINT[k].touch || [.5, .45];
+    const target = new THREE.Vector3((jp[0] - .5) * FW * 1.6, (.5 - jp[1]) * FH * 1.6, z);
+    const mark = cloudMark(); mark.position.copy(target); corridor.add(mark);
+    let beam = null; if (JOINT[k].touch) { beam = new THREE.Mesh(new THREE.PlaneGeometry(10, FH * 1.6), new THREE.MeshBasicMaterial({color: 0xff4a28, transparent: true, opacity: .5, blending: THREE.AdditiveBlending, depthWrite: false})); beam.position.set(0, 0, z + 2); corridor.add(beam); }
+    D.scenes.push({k, dur, z, cloud: c, target, word: w, mark, beam, dev: 0, done: false, burned: false});
+    z -= 900 + 450 * dur;
+  });
+  D.end = z + 300; D.i = 0; D.t = 0;
+  Object.assign(D, {x: 0, y: 0, z: 200, vx: 0, vy: 0, vz: 0, aim: null, lastStroke: -9, score: []});
+  jelly.position.set(0, 0, 200); jelly.scale.setScalar(.45);
+  $('mode').textContent = 'dream · you are the jellyfish';
+  buttons([['Shape', enterShape], ['Home', home]]);
+  hint(COARSE ? 'touch and hold where you want to swim · aim for the gold mark on each frame' : 'click and hold where you want to swim (or arrow keys) · aim for the gold mark on each frame');
+}
+function cloudMark() {   // the joint to aim for: a ring of light
+  const n = 70, pos = new Float32Array(n * 3), col = new Float32Array(n * 3), seed = new Float32Array(n);
+  for (let i = 0; i < n; i++) { const a = i / n * 6.283; pos[i * 3] = Math.cos(a) * 34; pos[i * 3 + 1] = Math.sin(a) * 34; col[i * 3] = 1; col[i * 3 + 1] = .78; col[i * 3 + 2] = .42; seed[i] = Math.random(); }
+  const geo = new THREE.BufferGeometry(); geo.setAttribute('position', new THREE.BufferAttribute(pos, 3)); geo.setAttribute('aScatter', new THREE.BufferAttribute(pos.slice(), 3));
+  geo.setAttribute('color', new THREE.BufferAttribute(col, 3)); geo.setAttribute('aSeed', new THREE.BufferAttribute(seed, 1));
+  const p = new THREE.Points(geo, new THREE.ShaderMaterial({vertexShader: fleckVS, fragmentShader: fleckFS, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending,
+    uniforms: {uDev: {value: 1}, uTime: {value: 0}, uSize: {value: 10}, uBurn: {value: 0}, uAlpha: {value: 1}, uScale, uLift: {value: 0}, uTouch: {value: new THREE.Vector2()}}}));
+  p.frustumCulled = false; return p;
+}
+const keys = new Set();
+function dreamFrame(dt, t) {
+  labels.innerHTML = '';
+  const sc = D.scenes[D.i];
+  // steering: toward the held point on the plane of the next frame, or by keys; forward drift always
+  if (ptr.down && S.mode === 'dream') {
+    const v = new THREE.Vector3((ptr.x / innerWidth) * 2 - 1, -(ptr.y / innerHeight) * 2 + 1, .5).unproject(camera), dir = v.sub(camera.position).normalize();
+    const zp = sc ? sc.z : D.z - 600, dist = (zp - camera.position.z) / dir.z, hit = camera.position.clone().add(dir.multiplyScalar(dist));
+    const dx = hit.x - D.x, dy = hit.y - D.y, d = Math.hypot(dx, dy) || 1, f = Math.min(1, d / 120) * 900 * dt; D.vx += dx / d * f; D.vy += dy / d * f;
+  }
+  const kx = (keys.has('ArrowRight') || keys.has('d')) - (keys.has('ArrowLeft') || keys.has('a')), ky = (keys.has('ArrowUp') || keys.has('w')) - (keys.has('ArrowDown') || keys.has('s'));
+  D.vx += kx * 900 * dt; D.vy += ky * 900 * dt;
+  const beat = performance.now() / 625, ph = beat % 1; jelly.userData.pulse = ph < .15 ? Math.sin(ph / .15 * Math.PI / 2) : 1 - (ph - .15) / .85;
+  if (Math.floor(beat) !== D.lastBeat) { D.lastBeat = Math.floor(beat); D.vz -= 140; }   // each pulse of the bell pushes it on
+  D.vx *= Math.pow(.25, dt); D.vy *= Math.pow(.25, dt); D.vz *= Math.pow(.35, dt); D.vz -= 120 * dt;
+  D.x = THREE.MathUtils.clamp(D.x + D.vx * dt, -330, 330); D.y = THREE.MathUtils.clamp(D.y + D.vy * dt, -230, 230); D.z += D.vz * dt;
+  jelly.position.set(D.x, D.y, D.z); jelly.rotation.z = THREE.MathUtils.clamp(-D.vx / 900, -.4, .4); jelly.rotation.x = -.35 + THREE.MathUtils.clamp(D.vy / 1200, -.3, .3);
+  jellyUpdate(t, D.vx, D.vy, D.vz);
+  camera.position.lerp(new THREE.Vector3(D.x * .4, D.y * .4 + 70, D.z + 760), Math.min(1, dt * 3)); camera.lookAt(D.x * .4, D.y * .4 + 70, D.z - 1100);   // nearly on the axis of the frames, so depth does not scramble them
+  // the frames: mist until you reach them; aimed at the joint, they come into focus
+  D.scenes.forEach((s, i) => {
+    const u = s.cloud.material.uniforms; u.uTime.value = t; s.mark.material.uniforms.uTime.value = t;
+    const ahead = s.z - D.z, near = THREE.MathUtils.clamp(1 - Math.abs(ahead) / 2600, 0, 1);
+    if (!s.done) {
+      const aimD = Math.hypot(D.x - s.target.x, D.y - s.target.y), q = THREE.MathUtils.clamp(1 - aimD / 260, 0, 1);
+      s.dev = Math.max(s.dev, near * near * q); u.uDev.value += (.4 + .6 * near * (.5 + .5 * q) - u.uDev.value) * Math.min(1, dt * 3); s.lit = .55 + .6 * q * near;   // readable from afar; it sharpens and brightens as you come in on its joint
+      s.mark.material.uniforms.uAlpha.value = .4 + .6 * near; s.mark.scale.setScalar(1 + .25 * Math.sin(t * 5));
+      if (s.beam) s.beam.position.x = Math.sin(t * 1.25 + i) * FW * .75;
+      if (ahead > 0) {   // crossed: the frame is kept as it was reached
+        s.done = true; const q2 = THREE.MathUtils.clamp(1 - aimD / 260, 0, 1); s.dev = Math.max(.15, q2); D.i = i + 1;
+        if (s.beam && Math.abs(D.x - s.beam.position.x) < 110) { s.burned = true; audio.burn(); flash('#a3260f'); }
+        D.score.push({k: s.k, dur: s.dur, dev: s.dev, burned: s.burned, word: s.word}); audio.develop(s.k, s.dev); audio.notes.push(NOTE(s.k));
+        s.mark.visible = false; if (s.beam) s.beam.visible = false;
+      }
+    } else { u.uDev.value += (s.dev - u.uDev.value) * Math.min(1, dt * 4); if (s.burned) { u.uBurn.value = Math.min(1, u.uBurn.value + dt * .8); u.uLift.value = u.uBurn.value; } }
+    u.uAlpha.value = s.done ? THREE.MathUtils.clamp(1 - ahead / 500, 0, 1) * 1.1 : (s.lit || .55);
+  });
+  if (sc) {
+    const p = toScreen(sc.target.clone().add(new THREE.Vector3(0, 70, 0)));
+    if (p[2] < 1) label(sc.word ? sc.word : D.i === 0 ? 'begin here' : 'jump', p[0], p[1], sc.word || D.i === 0 ? '' : 'jump');
+    if (sc.beam && Math.abs(sc.z - D.z) < 1600) hint('a touch: the red light burns it if you pass through it · cross where the light is not');
+    else if (D.i === 0) hint(COARSE ? 'touch and hold where you want to swim · aim for the gold ring' : 'click and hold where you want to swim (or arrow keys) · aim for the gold ring');
+    else hint(sc.word ? `the cut: swim into the ${sc.word}` : 'a jump cut: anywhere in the frame');
+  }
+  if (D.z < D.end) endDream();
+}
+function flash(c) { const f = document.createElement('div'); f.style.cssText = `position:fixed;inset:0;background:${c};opacity:.45;pointer-events:none;transition:opacity .5s`; document.body.appendChild(f); requestAnimationFrame(() => { f.style.opacity = 0; }); setTimeout(() => f.remove(), 600); }
+// ------------------------------------------------------------------ the memory, played back as film: each frame for as long as it was held, focused as far as it was reached
+function endDream() {
+  S.mode = 'film'; hint(''); labels.innerHTML = ''; buttons([]); $('top').style.visibility = 'hidden';
+  const F = $('film'), g = F.getContext('2d'); F.style.display = 'block';
+  const list = D.score, total = list.reduce((m, s) => m + s.dur, 0); let t0 = performance.now(), lastI = -1;
+  const step = () => {
+    if (S.mode !== 'film') return;
+    const t = (performance.now() - t0) / 1000; let acc = 0, i = 0; while (i < list.length - 1 && t > acc + list[i].dur) { acc += list[i].dur; i++; }
+    const s = list[i], u = Math.min(1, (t - acc) / s.dur), W = F.width, H = F.height;
+    if (i !== lastI) { lastI = i; audio.develop(s.k, .5); }
+    g.fillStyle = '#000'; g.fillRect(0, 0, W, H);
+    const fr = IMG[s.k], im = fr[Math.floor(t * 12) % fr.length].naturalWidth ? fr[Math.floor(t * 12) % fr.length] : fr[0];
+    if (im.naturalWidth) {
+      const prev = list[i - 1], next = list[i + 1], J0 = JOINT[s.k], c = [.5, .45];
+      const ent = prev ? J0[shared(prev.k, s.k)[0]] || c : c, ex = next ? J0[shared(s.k, next.k)[0]] || c : c, e = u * u * (3 - 2 * u), jx = ent[0] + (ex[0] - ent[0]) * e, jy = ent[1] + (ex[1] - ent[1]) * e;
+      const sc = Math.max(W / im.naturalWidth, H / im.naturalHeight) * 1.35, iw = im.naturalWidth * sc, ih = im.naturalHeight * sc;
+      let ox = W / 2 - jx * iw, oy = H * .48 - jy * ih; ox = Math.min(0, Math.max(W - iw, ox)); oy = Math.min(0, Math.max(H - ih, oy));
+      g.filter = `sepia(.85) saturate(1.2) contrast(1.08) blur(${((1 - s.dev) * 14).toFixed(1)}px)`; g.globalAlpha = .35 + .65 * s.dev; g.drawImage(im, ox, oy, iw, ih); g.filter = 'none'; g.globalAlpha = 1;
+      if (s.burned) { const cx = ox + (J0.touch || c)[0] * iw, cy = oy + (J0.touch || c)[1] * ih, R = Math.min(W, H) * .32, gr = g.createRadialGradient(cx, cy, R * .5, cx, cy, R);
+        gr.addColorStop(0, 'rgba(6,4,3,1)'); gr.addColorStop(.75, 'rgba(255,140,40,.9)'); gr.addColorStop(1, 'rgba(255,200,120,0)'); g.fillStyle = gr; g.fillRect(0, 0, W, H); }
+    }
+    if (t - acc < .05) { g.fillStyle = 'rgba(255,255,255,.5)'; g.fillRect(0, 0, W, H); }
+    g.fillStyle = 'rgba(242,230,207,.85)'; g.font = `900 ${Math.round(H * .025)}px system-ui`; g.fillText('YOUR MEMORY', W * .03, H * .07);
+    g.textAlign = 'right'; g.font = `italic ${Math.round(H * .03)}px Georgia`; g.fillText(`${i + 1} / ${list.length}`, W * .97, H * .07); g.textAlign = 'center';
+    if (s.word && u < .5) { g.fillStyle = '#f6c47a'; g.font = `italic 600 ${Math.round(H * .045)}px Georgia`; g.fillText(s.word, W / 2, H * .93); }
+    g.textAlign = 'left';
+    if (t < total) requestAnimationFrame(step); else showEnd();
+  };
+  step();
+}
+function showEnd() {
+  S.mode = 'end'; const list = D.score, q = Math.round(100 * list.reduce((m, s) => m + s.dev, 0) / Math.max(1, list.length)), m = list.filter((s, i) => i && s.word).length;
+  $('eN').textContent = q + '%'; $('eW').textContent = 'OF YOUR MEMORY IN FOCUS';
+  $('eP').textContent = `${list.length} frames · ${m} gold cuts · ${list.filter(s => s.burned).length} burned by the censor. Remix it, or share it so someone else can dream it.`;
+  $('end').style.display = 'flex'; $('film').style.display = 'none'; buttons([]); $('top').style.visibility = 'visible'; $('mode').textContent = '';
+}
+// ------------------------------------------------------------------ share and remix: the memory lives in the link
+const enc = m => m.map(([k, d]) => k.toString(36) + Math.round(d * 10).toString(36).padStart(2, '0')).join('');
+const dec = s => (s.match(/[0-9a-z]{3}/g) || []).map(x => [parseInt(x[0], 36), Math.max(.5, Math.min(5, parseInt(x.slice(1), 36) / 10))]).filter(([k]) => k >= 0 && k < 14).slice(0, MAXM);
+async function share() {
+  const url = location.origin + location.pathname + '#m=' + enc(S.memory);
+  try { if (navigator.share) { await navigator.share({title: 'Memory Maker', text: 'Dream my memory', url}); return; } } catch (e) {}
+  try { await navigator.clipboard.writeText(url); $('bShare').textContent = 'Link copied'; } catch (e) { prompt('Copy this link', url); }
+}
+// ------------------------------------------------------------------ title
+function home() {
+  S.mode = 'title'; $('title').style.display = 'flex'; $('end').style.display = 'none'; $('film').style.display = 'none'; labels.innerHTML = ''; hint(''); buttons([]);
+  shelf.visible = track.visible = false; corridor.visible = false; imp.visible = false; scene.add(jelly); jelly.visible = true; jelly.scale.setScalar(1); jelly.position.set(260, -20, 0); jelly.rotation.set(-.2, 0, 0);
+  camera.position.set(0, 0, 1000); camera.lookAt(0, 0, 0); $('mode').textContent = '';
+}
+$('bShape').onclick = () => { audio.start(); enterShape(); };
+$('bDream').onclick = () => { audio.start(); let last = null; try { last = localStorage.getItem('mm.last'); } catch (e) {}
+  const pick = last && dec(last).length ? dec(last) : PRESETS[(Math.random() * PRESETS.length) | 0].m; enterDream(pick); };
+$('bAgain').onclick = () => enterDream(); $('bRemix').onclick = () => { enterShape(); }; $('bShare').onclick = share; $('bHome').onclick = home;
+// ------------------------------------------------------------------ input
+const cv = $('gl');
+cv.addEventListener('pointerdown', e => { audio.wake(); ptr.down = true; ptr.x = e.clientX; ptr.y = e.clientY; ptr.sx = e.clientX; ptr.sy = e.clientY; ptr.t0 = performance.now(); ptr.held = false; ptr.moved = false;
+  ptr.onItem = S.mode === 'shape' ? itemAt(e.clientX, e.clientY) : null; if (S.mode === 'dream') audio.stroke(); try { cv.setPointerCapture(e.pointerId); } catch (x) {} });
+cv.addEventListener('pointermove', e => { ptr.x = e.clientX; ptr.y = e.clientY; if (Math.hypot(e.clientX - ptr.sx, e.clientY - ptr.sy) > 12) ptr.moved = true; });
+addEventListener('pointerup', e => { if (!ptr.down) return; ptr.down = false;
+  if (S.mode === 'shape' && !ptr.held && !ptr.moved && performance.now() - ptr.t0 < 350) shapeTap(ptr.onItem); ptr.onItem = null; });
+addEventListener('keydown', e => { const k = e.key.length === 1 ? e.key.toLowerCase() : e.key; if (['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(k)) e.preventDefault(); keys.add(k); audio.wake(); });
+addEventListener('keyup', e => keys.delete(e.key.length === 1 ? e.key.toLowerCase() : e.key));
+addEventListener('blur', () => { keys.clear(); ptr.down = false; });
+// ------------------------------------------------------------------ grain (static tiles, cycled) and the loop
+const grain = $('grain').getContext('2d'), GT = [0, 1, 2, 3].map(() => { const d = grain.createImageData(256, 256); for (let i = 0; i < d.data.length; i += 4) { const v = Math.random() * 255; d.data[i] = d.data[i + 1] = d.data[i + 2] = v; d.data[i + 3] = 255; } return d; });
+let gi = 0;
+function loop(now) {
+  requestAnimationFrame(loop);
+  const dt = Math.min(.05, (now - S.last) / 1000); S.last = now; const t = now / 1000;
+  if (S.mode === 'shape') shapeFrame(dt, t);
+  else if (S.mode === 'dream') dreamFrame(dt, t);
+  else if (S.mode === 'title' || S.mode === 'end') { jellyUpdate(t, 0, 0, 0); const ph = (t / .625) % 1; jelly.userData.pulse = ph < .15 ? Math.sin(ph / .15 * Math.PI / 2) : 1 - (ph - .15) / .85; jelly.position.y = -20 + Math.sin(t * .8) * 14; }
+  if (S.mode !== 'film') renderer.render(scene, camera);
+  if ((gi++ & 3) === 0) grain.putImageData(GT[(gi >> 2) & 3], 0, 0);
+}
+ready.then(() => {
+  for (let k = 0; k < 14; k++) GEO[k] = sampleFrame(k);
+  home();
+  const h = location.hash.match(/m=([0-9a-z]+)/); if (h && dec(h[1]).length) { S.memory = dec(h[1]); $('bDream').textContent = 'Dream this shared memory'; $('bDream').onclick = () => { audio.start(); enterDream(S.memory); }; }
+  requestAnimationFrame(loop);
+  window.__mm = () => ({mode: S.mode, memory: S.memory.map(m => m.slice()), dream: S.mode === 'dream' ? {i: D.i, n: D.scenes.length, x: D.x, y: D.y, z: D.z, target: D.scenes[D.i] ? [D.scenes[D.i].target.x, D.scenes[D.i].target.y] : null,
+    score: D.score} : null, shelf: shelf.children.map(c => { const s = c.scale.x, a = toScreen(c.position.clone()); return [c.userData.k, a[0], a[1]]; }), track: track.children.map(c => { const a = toScreen(c.position.clone()); return [a[0], a[1]]; }),
+    jellyScreen: toScreen(jelly.position.clone()), targetScreen: S.mode === 'dream' && D.scenes[D.i] ? toScreen(D.scenes[D.i].target.clone()) : null});
+});
+</script>
+</body>
+</html>
