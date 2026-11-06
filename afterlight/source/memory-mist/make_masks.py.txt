@@ -1,0 +1,32 @@
+"""Segment people, faces, and the held hand+toy for every source frame of the memory (126-187 s)."""
+import numpy as np,cv2,sys,mediapipe as mp
+from mediapipe.tasks import python as mpt
+from mediapipe.tasks.python import vision
+from mediapipe.tasks.python.components.containers import keypoint as kp
+M='models/'
+def seg(p): return vision.ImageSegmenter.create_from_options(vision.ImageSegmenterOptions(base_options=mpt.BaseOptions(model_asset_path=M+p),output_category_mask=True))
+S1=seg('selfie_multiclass_256x256.tflite'); S2=seg('deeplab_v3.tflite')
+IS=vision.InteractiveSegmenter.create_from_options(vision.InteractiveSegmenterOptions(base_options=mpt.BaseOptions(model_asset_path=M+'magic_touch.tflite'),output_category_mask=True))
+I0=int(round((126-109)*12))+1; I1=int(round((187.5-109)*12))+1; N=I1-I0+1; GH,GW=132,320
+HU=np.zeros((N,GH,GW),np.uint8); FA=HU.copy(); HA=HU.copy(); TO=HU.copy()
+prompt=(0.31,0.32); hs,he=int(round((147.2-109)*12))+1,int(round((149.0-109)*12))+1
+K=cv2.getStructuringElement(cv2.MORPH_ELLIPSE,(41,41))
+for n,i in enumerate(range(I0,I1+1)):
+    im=cv2.cvtColor(cv2.imread(f'f640/{i:04d}.jpg'),cv2.COLOR_BGR2RGB); mi=mp.Image(image_format=mp.ImageFormat.SRGB,data=im); sh_=im.shape[:2]
+    c1=S1.segment(mi).category_mask.numpy_view().reshape(sh_); c2=S2.segment(mi).category_mask.numpy_view().reshape(sh_)
+    hum=(((c1>=1)&(c1<=4))|(c2==15)).astype(np.uint8)*255; face=(c1==3).astype(np.uint8)*255
+    if hs<=i<=he:
+        roi=vision.InteractiveSegmenterRegionOfInterest(format=vision.InteractiveSegmenterRegionOfInterest.Format.KEYPOINT,keypoint=kp.NormalizedKeypoint(*prompt))
+        obj=(IS.segment(mi,roi).category_mask.numpy_view().reshape(sh_)==0).astype(np.uint8)
+        opened=cv2.morphologyEx(obj,cv2.MORPH_OPEN,K); toy=cv2.dilate(((obj>0)&(opened==0)).astype(np.uint8),np.ones((3,3),np.uint8))&obj
+        toy=cv2.morphologyEx(toy,cv2.MORPH_OPEN,np.ones((5,5),np.uint8))
+        ys,xs=np.nonzero(opened)
+        if len(xs)>800: prompt=(float(np.clip(xs.mean()/640,0.1,0.6)),float(np.clip(ys.mean()/264,0.1,0.8)))
+        HA[n]=cv2.resize(obj*255,(GW,GH),interpolation=cv2.INTER_AREA); TO[n]=cv2.resize(toy*255,(GW,GH),interpolation=cv2.INTER_AREA)
+    HU[n]=cv2.resize(hum,(GW,GH),interpolation=cv2.INTER_AREA); FA[n]=cv2.resize(face,(GW,GH),interpolation=cv2.INTER_AREA)
+    if n%100==0: print(n,N,flush=True)
+# temporal smoothing against flicker: max over +-1 frame, then soft edge
+def smooth(a):
+    o=np.maximum(np.maximum(a,np.roll(a,1,0)),np.roll(a,-1,0)); return np.stack([cv2.GaussianBlur(x,(0,0),1.0) for x in o])
+np.savez_compressed('masks.npz',human=smooth(HU),face=smooth(FA),hand=smooth(HA),toy=smooth(TO),i0=I0)
+print('done',N)
