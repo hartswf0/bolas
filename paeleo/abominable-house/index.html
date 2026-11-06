@@ -1,0 +1,141 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<title>PAE-04 · The Burning of the Abominable House</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="Calvino's burned house as flour-sack films: four tenants, twelve deeds, 12^12 possible stories. The films, the film bank that plays any of them, the deed, consequence, memory and transition sheets, and the numbers.">
+<link rel="canonical" href="https://hartswf0.github.io/bolas/paeleo/abominable-house/">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800&family=JetBrains+Mono:wght@400;600&family=Literata:opsz,wght@7..72,400;7..72,500&display=swap">
+<style>
+/* Layout: a CRASH LAB case page, as for PAE-03. One reading column; films and sheets run full width. */
+:root{
+  --bg:#f1f2f3;--card:#fbfbfb;--fg:#111417;--mute:#5d6670;--line:#d4d8dc;--accent:#8a3a2c;--flour:#ece6d8;
+  --f-disp:"Big Shoulders Display","Arial Narrow",Impact,sans-serif;--f-body:"Literata",Georgia,serif;--f-mono:"JetBrains Mono",ui-monospace,Menlo,monospace}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0b0d10;--card:#12161b;--fg:#e7eaee;--mute:#8b95a1;--line:#262d35;--accent:#e08a6e;--flour:#2a2722;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0b0d10;--card:#12161b;--fg:#e7eaee;--mute:#8b95a1;--line:#262d35;--accent:#e08a6e;--flour:#2a2722;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:16px;line-height:1.55}
+.wrap{max-width:1040px;margin:0 auto;padding-block:28px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:34px}
+.crumb{font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;color:var(--mute);text-transform:uppercase}
+.crumb a{color:var(--mute)}
+h1{font-family:var(--f-disp);font-weight:800;font-size:clamp(44px,8vw,84px);line-height:.92;margin:6px 0 12px;text-transform:uppercase;text-wrap:balance}
+h2{font-family:var(--f-disp);font-weight:800;font-size:32px;text-transform:uppercase;margin:0 0 10px;letter-spacing:.01em}
+h3{font-family:var(--f-disp);font-weight:700;font-size:26px;margin:2px 0 4px}
+h4{font-family:var(--f-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);margin:18px 0 8px;font-weight:600}
+p{max-width:68ch;margin:0 0 10px}
+.lede{font-size:19px;max-width:62ch}
+.kicker{font-family:var(--f-mono);font-size:11px;letter-spacing:.1em;color:var(--accent);text-transform:uppercase}
+a{color:inherit}
+.films{display:grid;gap:26px}
+.film{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:20px;align-items:start}
+@media (max-width:760px){.film{grid-template-columns:minmax(0,1fr)}}
+.film video{width:100%;display:block;aspect-ratio:16/9;max-width:100%;background:#000;border:1px solid var(--line)}
+.meta{font-family:var(--f-mono);font-size:12px;color:var(--mute);margin:0 0 6px}
+.tools{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:1px;background:var(--line);border:1px solid var(--line)}
+.tools a{background:var(--card);padding:16px;text-decoration:none;display:grid;gap:6px;align-content:start}
+.tools a:hover,.tools a:focus-visible{background:var(--flour);outline:none}
+.tools b{font-family:var(--f-disp);font-size:26px;line-height:1;text-transform:uppercase}
+.tools span{font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+.tools p{font-size:14px;margin:0}
+.sheets{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px}
+.sheets a{display:grid;gap:4px;text-decoration:none;font-family:var(--f-mono);font-size:11px;color:var(--mute)}
+.sheets img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;border:1px solid var(--line);background:var(--card)}
+.sheets.wide img{aspect-ratio:16/9}
+table{border-collapse:collapse;width:100%;font-size:14px}
+td,th{border-bottom:1px solid var(--line);padding:7px 10px 7px 0;text-align:left;vertical-align:top}
+th{font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--mute);font-weight:600}
+td.n{font-family:var(--f-mono);font-variant-numeric:tabular-nums;white-space:nowrap;text-align:right}
+.tw{overflow-x:auto}
+blockquote{margin:0;padding:14px 18px;background:var(--flour);border-left:3px solid var(--fg);max-width:70ch}
+ul.parts{margin:0;padding-left:18px;max-width:70ch}ul.parts li{margin-bottom:6px}
+</style></head><body><div class="wrap">
+
+<header>
+ <div class="crumb"><a href="../../">CRASH LAB</a> / <a href="../">PAELEO</a> / PAE-04</div>
+ <h1>The Burning of the Abominable House</h1>
+ <p class="lede">After Italo Calvino’s story. A house burns with its four tenants: the widow Roessler, her adopted daughter Ogiva, the landlord Inigo and the wrestler Belindo. A copybook survives with only its index: twelve abominable deeds, and no record of who did what to whom. The tenants are flour sacks. Every deed can be done by any tenant to any other, so the copybook could have told 12<sup>12</sup> stories. These are the films, the bank that plays any of them, and the sheets they were built from.</p>
+ <p class="kicker">Nov 2026 · Watson Hartsoe · made with the SCION swarms</p>
+</header>
+
+<section>
+ <h2>The films</h2>
+ <div class="films">
+  <div class="film"><video controls preload="none" poster="posters/first.jpg" src="films/the-first-film.mp4"></video>
+   <div><h3>The first film</h3><p class="meta">1 min 36 s · 1920 × 1080</p><p>The story told once, from the ruins to the copybook to the count. The house is a doll’s-house section; the sacks stand in its rooms.</p><p><a href="live/abom.html">Play it live in the browser</a>, drawn frame by frame from code.</p></div></div>
+  <div class="film"><video controls preload="none" poster="posters/full.jpg" src="films/the-full-film.mp4"></video>
+   <div><h3>One story from the bank</h3><p class="meta">2 min 54 s · film 5,885,051,002,576 of 8,916,100,448,256</p><p>One random choice of who did each deed, played straight through: a chapter card, the tenant remembering, a transition, the deed, and what it leaves behind.</p></div></div>
+  <div class="film"><video controls preload="none" poster="posters/most-likely.jpg" src="films/the-most-likely-film.mp4"></video>
+   <div><h3>The most likely story</h3><p class="meta">3 min 23 s · film 1,541,585,241,617 · director’s cut pace</p><p>The story a Monte Carlo tree search rated most believable given who the tenants are. Slower: each chapter card holds, and only the seven heaviest consequences are kept.</p></div></div>
+ </div>
+ <p style="margin-top:16px">The narrated classroom version, with the programmer’s room, the corkboard and the counter, is on the <a href="https://hartswf0.github.io/2700-fa26/LAB%207%20-%20CLASSES/abominable-house/">Lab 7 page</a>.</p>
+</section>
+
+<section>
+ <h2>Play with it</h2>
+ <div class="tools">
+  <a href="live/film.html"><span>the film bank</span><b>Any of the 12¹² films</b><p>Choose any story, or let the tenants decide with memories, beliefs and plans. T ZERO freezes a deed and shows the twelve ways it could go. The atlas maps 6,030 films; SIX MEMOS shows the best film of each kind; the author buttons write for irony, suspense or twists.</p></a>
+  <a href="live/player.html"><span>the deed bank</span><b>Every deed by every pair</b><p>Each of the twelve deeds animated by a different SCION operation, playable between any two tenants, with its sound.</p></a>
+  <a href="live/numbers.html"><span>the numbers</span><b>Twelve to the twelfth</b><p>The story space on one ruler, Calvino’s rules counted exactly, the agents, the watcher, the archive, and the readings behind each part.</p></a>
+  <a href="live/abom.html"><span>the first film, live</span><b>The story, drawn in code</b><p>The first film running in the page instead of from video, with its sound.</p></a>
+ </div>
+</section>
+
+<section>
+ <h2>The deeds</h2>
+ <p>Twelve deeds, one SCION operation each. Each sheet shows one deed performed across pairs of tenants, kept PG-13: the sexual deeds are implied, never shown.</p>
+ <div class="sheets" id="deeds"></div>
+ <h4>What each deed leaves behind</h4>
+ <p>The consequence beats: the rope mark, the blood on the floor, the police at the door, the body moved. Nothing happens without a trace.</p>
+ <div class="sheets" id="conseq"></div>
+ <h4>What each tenant remembers</h4>
+ <p>One memory swarm per tenant. When a tenant acts again, the film first shows what it is carrying.</p>
+ <div class="sheets" id="memory"></div>
+ <h4>Transitions</h4>
+ <p>Thirteen transitions so that any deed can follow any other and the film reads as one piece.</p>
+ <div class="sheets wide" id="trans"></div>
+ <h4>The first film</h4>
+ <div class="sheets wide" id="first"></div>
+</section>
+
+<section>
+ <h2>The numbers</h2>
+ <div class="tw"><table>
+  <thead><tr><th>What</th><th style="text-align:right">How many</th></tr></thead>
+  <tbody>
+   <tr><td>possible stories, 12 deeds × 12 ordered pairs</td><td class="n">8,916,100,448,256</td></tr>
+   <tr><td>left after the story’s five rules (Belindo does not knife, and so on), counted exactly</td><td class="n">2,663,172,255,744</td></tr>
+   <tr><td>consistent stories: no dead or tied tenant acts, counted exactly</td><td class="n">3,316,025,558,016</td></tr>
+   <tr><td>stories where each tenant commits three deeds and suffers three, Calvino’s symmetry</td><td class="n">5,112,676,800</td></tr>
+   <tr><td>stories written by the agents in one run, three modes of reasoning</td><td class="n">1,000,000</td></tr>
+   <tr><td>three-deed openings, all run; the different houses they leave</td><td class="n">1,728 · 589</td></tr>
+   <tr><td>animated modules: deeds, consequences, memories, transitions</td><td class="n">12 · 12 · 4 · 13</td></tr>
+  </tbody></table></div>
+ <p style="margin-top:12px">Full figures and sources: <a href="live/numbers.html">Twelve to the Twelfth</a>.</p>
+</section>
+
+<section>
+ <h2>How it is made</h2>
+ <ul class="parts">
+  <li><b>The ledger.</b> Every deed changes the house: marks on the body, what each tenant knows and feels, who is alive, what role the house has given them (after Barthes), and each tenant’s belief about the others (a tug-of-war update after Goodman, Tenenbaum and Gerstenberg). Each deed happens in a room, under a light, before whoever is there (after Knowles and Tenney’s <i>House of Dust</i>).</li>
+  <li><b>The tenants.</b> Beliefs, desires and committed plans (after Bratman, and Rao and Georgeff), a memory stream with reflections (after Park and colleagues), and a dial between practical and symbolic reasons.</li>
+  <li><b>The watcher and the author.</b> A model of the audience infers each tenant’s hidden plan from what it does (after Baker, Saxe and Tenenbaum); the author searches for stories that steer that inference (after Chandra and colleagues).</li>
+  <li><b>The sieve.</b> Calvino, in “Prose and Anticombinatorics,” used the computer to throw stories away. The film bank counts the consistent ones exactly, and keeps the best story of each kind in an archive named for his Six Memos.</li>
+  <li><b>The films.</b> Every frame is drawn in the browser from code, captured headless and encoded; the sound is synthesized grain by grain.</li>
+ </ul>
+</section>
+
+<p class="crumb"><a href="../">Back to PAELEO</a> · <a href="../../">CRASH LAB</a></p>
+</div>
+<script>
+const NAMES=['blackmail','drugging','incitement','knifing','prostitution','gun','tying','assault','seduction','slander','snooping','strangling'];
+const RN=['I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII'];
+const cell=(f,l)=>`<a href="sheets/${f}"><img src="sheets/${f}" alt="${l}" loading="lazy"><span>${l}</span></a>`;
+const two=n=>String(n).padStart(2,'0');
+document.getElementById('deeds').innerHTML=NAMES.map((n,i)=>cell(`${two(i+1)}.jpg`,`${RN[i]} ${n}`)).join('');
+document.getElementById('conseq').innerHTML=NAMES.map((n,i)=>cell(`conseq-${two(i+1)}-${n}.jpg`,`${RN[i]} after ${n}`)).join('');
+document.getElementById('memory').innerHTML=[['R','Roessler'],['B','Belindo'],['I','Inigo'],['O','Ogiva']].map(([k,n])=>cell(`memory-${k}.jpg`,n)).join('');
+document.getElementById('trans').innerHTML=Array.from({length:13},(_,i)=>cell(`trans-${two(i)}.jpg`,i===12?'into the fire':`into deed ${RN[i]}`)).join('');
+document.getElementById('first').innerHTML=['A','B','C','D'].map(k=>cell(`sheet${k}.jpg`,'sheet '+k)).join('');
+</script>
+</body></html>
