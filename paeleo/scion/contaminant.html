@@ -331,7 +331,7 @@ function log(msg, f) { ledger.unshift(fmtT(simT) + '  ' + msg); if (ledger.lengt
 function stroke(t) { const ph = (t * .9) % 1; return ph < .2 ? Math.sin(ph / .2 * Math.PI / 2) : 1 - (ph - .2) / .8; }
 function flinchAt(t) { let v = 0; for (const e of evts) if (e.type === 'bell' && t >= e.t && t - e.t < .5) v = Math.max(v, 1 - (t - e.t) / .5); return v; }
 function tentacles(t) {
-  const sq = Math.max(stroke(t), flinchAt(t));
+  const sq = PLAY ? Math.max(J.kick || 0, .18 * stroke(t), flinchAt(t)) : Math.max(stroke(t), flinchAt(t));   // in play the bell contracts when you stroke
   const by = J.y + Math.sin(t * 1.3) * 4, sx = 1 - .13 * sq, sy = 1 + .07 * sq, ct = Math.cos(J.tilt), st = Math.sin(J.tilt);
   J.by = by; J.sx = sx; J.sy = sy; J.pu = sy; J.sq = sq;
   const side = Math.max(-70, Math.min(70, (J.reach.x - J.x) * .6));
@@ -358,7 +358,7 @@ function grab(f) {
   J.tips.forEach((p, i) => { const d = Math.hypot(p[0] - f.x, p[1] - f.y); if (d < bd) { bd = d; bi = i; } });
   f.held = true; f.tip = bi; f.anchor = null; J.carry.push(f);
   if (PLAY && !f.cut && !playChain.includes(f)) playChain.push(f);
-  if (PLAY) pulse(f.x, f.y, f.cut ? '#9fb4ff' : '#f6c47a');
+  if (PLAY) { pulse(f.x, f.y, f.cut ? '#9fb4ff' : '#f6c47a'); play.stop = 4; buzz(f.cut ? [12, 30, 12, 30, 24] : 28); }   // a catch: a beat of stillness and a pulse in the hand
   if (RHYME && f.imgs && f.imgs.length === 1) J.lastPos = chainPos(f.imgs[0]);
   if (f.cut && CINEMA) J.lift = 1.5;
   if (f.cut) {
@@ -486,8 +486,8 @@ function step(dt) {
   // the cinema cut's reel waits for the last rescue to rise and open, then begins
   if (PLAY && !reelCued && simT > coolAt + 2 && (stats.rescued === stats.cuts || simT > coolAt + 16)) { reelCued = true; REEL0 = simT + 1.2; REEL1 = REEL0 + Math.max(5, Math.min(9, playChain.length * .9)); }
   if (!PLAY && RENDER && CINEMA && !reelCued && stats.cuts && stats.rescued === stats.cuts && simT > coolAt) { reelCued = true; REEL0 = simT + 1.2; REEL1 = REEL0 + 7.2; }
-  if (PLAY) push *= 2.2;
-  J.x += dx * Math.min(1, dt * 1.1 * push) - fl * dt * 110; J.y -= fl * dt * 60; J.y += dy * Math.min(1, dt * 1.1 * push);
+  if (PLAY) swim(dt, fl);
+  else { J.x += dx * Math.min(1, dt * 1.1 * push) - fl * dt * 110; J.y -= fl * dt * 60; J.y += dy * Math.min(1, dt * 1.1 * push); }
   const near = free.length ? pick.reduce((m, f) => Math.hypot(f.x - J.x, f.y - J.y) < Math.hypot(m.x - J.x, m.y - J.y) ? f : m) : null;
   const reaching = !full && near && Math.hypot(near.x - J.x, near.y - J.y) < 230;
   if (reaching) { J.reach.x = near.x; J.reach.y = near.y; }
@@ -703,7 +703,7 @@ function drawJelly() {
   const c = SUN.map((v, i) => Math.round(v + (AFTER[i] + (WARMED[i] - AFTER[i]) * warmK - v) * (1 - heat)));
   if (reelGlow) for (let i = 0; i < 3; i++) c[i] = Math.round(c[i] + (SUN[i] - c[i]) * reelGlow * .85);  // watching the reel, it takes its heat back
   const col = a => `rgba(${c[0]},${c[1]},${c[2]},${a})`;
-  const warm = Math.min(1, stats.rescued / 5 + reelGlow * .5), bright = (.8 + .25 * J.sq) * (1 - .7 * flinchAt(simT)) * (1 + .4 * warm);
+  const warm = Math.min(1, stats.rescued / 5 + reelGlow * .5), bright = (.8 + .25 * J.sq) * (PLAY ? 1 + .45 * (J.res || 0) : 1) * (1 - .7 * flinchAt(simT)) * (1 + .4 * warm);
   ctx.save(); ctx.globalCompositeOperation = 'lighter'; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
   for (const k of [3, 6, 9]) {
     const sn = JHIST[k]; if (!sn) continue;
@@ -939,7 +939,7 @@ function hud() {
 function reset() {
   seed = SEED; nextId = 1; frags = []; seams = []; ledger = []; evts = []; simT = 0; gearBoost = 0; lastEvent = -9; dirty = true;
   stats = {contam: 0, returns: 0, cuts: 0, rescued: 0, trans: 0, checks: 0, v1: 0, v2: 0, v3: 0, v4: 0, v5: 0, oob: [], focusFrames: 0, ovMax: 0, ovFrames: 0};
-  playChain = []; playTarget = null; coolAt = 1e9; REEL0 = RENDER && CINEMA ? 90 : 26.5; REEL1 = REEL0 + 11.7; reelCued = false;
+  playChain = []; playTarget = null; if (typeof J === 'object' && J) { J.vx = 0; J.vy = 0; J.res = 0; J.kick = 0; } coolAt = 1e9; REEL0 = RENDER && CINEMA ? 90 : 26.5; REEL1 = REEL0 + 11.7; reelCued = false;
   cam = null; inserts = []; bellN = 0; reelGlow = 0; afterimg = null; lastRescue = null; travel = 0; ended = false;
   if (RUSHES) { auto = false; contamOn = false; }
   JHIST = []; ghost = {cur: null, prev: null, t: -9}; focusId = null; focusSlot = 0; heat = 1; heatTarget = 1; auto = true; contamOn = false; reel = null; reelIdx = -1; syncBtn();
@@ -1102,7 +1102,7 @@ function scanEvents() {
     if (e.type === 'bell') { const t0 = Math.max(at, lastEnd); inserts.push({kind: 'cut', f, t0, t1: t0 + (CUTDUR[bellN] || 2)}); evts.push({t: e.t, type: 'burncue', at: t0}); bellN++; }
     else if (e.type === 'rescue') { inserts.push({kind: 'rescue', f, t0: at + 1.3, t1: at + 3.0, with: lastRescue}); lastRescue = f; }
     else if (e.type === 'seam' && room) inserts.push({kind: 'seam', f, t0: at + .15, t1: at + 2.2});
-    else if (RHYME && e.type === 'lift' && !f.cut && !f.wasCut && heat > .5 && at - lastEnd >= .3) inserts.push({kind: 'show', f, t0: at + .2, t1: at + 1.5, from: cam ? [FW / 2 + (f.x - cam.x) * cam.z, FH / 2 + (f.y - cam.y) * cam.z] : null});
+    else if (RHYME && e.type === 'lift' && !f.cut && !f.wasCut && heat > .5 && at - lastEnd >= .3) inserts.push({kind: 'show', f, t0: at + .2, t1: at + (PLAY ? .95 : 1.5), from: cam ? [FW / 2 + (f.x - cam.x) * cam.z, FH / 2 + (f.y - cam.y) * cam.z] : null});
   }
 }
 // In the cinema cut an insert runs on the film's clock and the world waits while it is on screen, so every burn completes
@@ -1150,7 +1150,7 @@ function drawInsert(ins) {
   ctx.restore();
 }
 function worldShot(dt, closeup) {
-  let tx = J.x + (J.tx - J.x) * .25, ty = J.by + 30, tz = PLAY ? 1.12 : 1.5;
+  let tx = J.x + (J.tx - J.x) * .25, ty = J.by + 30, tz = PLAY ? 1.12 - .1 * clamp01(Math.hypot(J.vx || 0, J.vy || 0) / 700) : 1.5;   // in play the camera eases back as you speed up
   const ff = focusId != null ? frags.find(g => g.id === focusId) : null;
   if (ff && !closeup) { tx = tx * .5 + ff.x * .5; ty = ty * .5 + ff.y * .5; tz = 1.85; }
   if (filmT < 5) { const k = clamp01(filmT / 5), e = k * k * (3 - 2 * k); tz = 3.4 - 1.9 * e; tx = J.x; ty = J.by - 10 + 40 * e; }
@@ -1196,7 +1196,7 @@ function cinemaFrame(t, dur) {
     if (ins) drawInsert(ins); else worldShot(1 / 24, false);
   }
   filmLook();
-  if (PLAY && !(st >= REEL0)) playHUD();
+  if (PLAY && !(st >= REEL0) && !activeInsert()) playHUD();
   const fadeT = REEL1 + 3.6;
   if (st > fadeT + 2.4) ended = true;
   if (t < 1.2) { ctx.fillStyle = `rgba(0,0,0,${(1 - t / 1.2).toFixed(3)})`; ctx.fillRect(0, 0, FW, FH); }
@@ -1223,8 +1223,30 @@ function rhymesWithLast(f) {
   const last = playChain[playChain.length - 1].imgs[0], k = f.imgs[0];
   return Object.keys(JOINT[last]).some(t => t !== 'touch' && JOINT[k][t]);
 }
+// The swim. Each stroke is one contraction of the bell: an impulse along your gesture, then a glide through water.
+// Rhythm is the skill: strokes spaced like the bell's own pulse (0.33-0.72 s) build resonance (faster, brighter, a
+// higher thump); mashing faster than the bell can refill gives weak strokes and spends resonance.
+const play = {lastStroke: -9, press: null, hold: null, stop: 0};
+const buzz = p => { try { if (navigator.vibrate) navigator.vibrate(p); } catch (e) {} };
+function strokeTo(dx, dy, power) {
+  const d = Math.hypot(dx, dy); if (d < 4) return;
+  const gap = filmT - play.lastStroke, q = gap < .22 ? .35 : 1;
+  if (gap >= .33 && gap <= .72) J.res = Math.min(1, (J.res || 0) + .2); else if (gap < .22) J.res = Math.max(0, (J.res || 0) - .3);
+  const imp = (300 + 320 * (J.res || 0)) * power * q;
+  J.vx = (J.vx || 0) + dx / d * imp; J.vy = (J.vy || 0) + dy / d * imp; J.kick = q; play.lastStroke = filmT;
+  sfx.stroke(J.res || 0, q); buzz(Math.round(8 + 16 * (J.res || 0) * q));
+}
+function swim(dt, fl) {
+  if (play.press && performance.now() - play.press.t > 260) play.hold = play.press.w;   // a held finger strokes toward itself, in rhythm
+  if (play.hold && filmT - play.lastStroke > .5) strokeTo(play.hold.x - J.x, play.hold.y - J.y, .55);
+  J.vx = (J.vx || 0) * Math.pow(.3, dt); J.vy = (J.vy || 0) * Math.pow(.3, dt);   // water
+  J.x += J.vx * dt - fl * dt * 110; J.y += J.vy * dt - fl * dt * 60;
+  if (J.x < 90) { J.x = 90; J.vx = Math.abs(J.vx) * .4; } if (J.x > W - 90) { J.x = W - 90; J.vx = -Math.abs(J.vx) * .4; }
+  if (J.y < 110) { J.y = 110; J.vy = Math.abs(J.vy) * .4; } if (J.y > H - 150) { J.y = H - 150; J.vy = -Math.abs(J.vy) * .4; }
+  J.kick = Math.max(0, (J.kick || 0) - dt * 3.4); J.res = Math.max(0, (J.res || 0) - dt * .22);
+  J.tx = J.x + J.vx * .5; J.ty = J.y + J.vy * .5;   // it leans into its own motion
+}
 function playSteer() {
-  if (playTarget) { J.tx = Math.max(90, Math.min(W - 90, playTarget.x)); J.ty = Math.max(110, Math.min(H - 150, playTarget.y)); }
   J.dive = false;
   const free = frags.filter(f => f.stage === 0 && !f.held && f.gearT < 0 && (f.cut ? heat < .5 : heat > .5));
   const anyRhyme = free.some(f => !f.cut && rhymesWithLast(f));
@@ -1234,9 +1256,9 @@ function playSteer() {
   if (!J.carry.length && !(J.lift > 0)) for (const f of free) {
     if (Math.hypot(f.x - J.x, f.y - (J.by + 70)) > 85) continue;
     if (f.cut || !anyRhyme || rhymesWithLast(f)) { grab(f); break; }
-    if (!f.nudged || simT - f.nudged > .8) { f.nudged = simT; const dx = J.x - f.x, dy = J.y - f.y, d = Math.hypot(dx, dy) || 1; J.x += dx / d * 26; J.y += dy / d * 26; sfx.thud(); }
+    if (!f.nudged || simT - f.nudged > .8) { f.nudged = simT; const dx = J.x - f.x, dy = J.y - f.y, d = Math.hypot(dx, dy) || 1; J.vx = (J.vx || 0) + dx / d * 180; J.vy = (J.vy || 0) + dy / d * 180; sfx.thud(); buzz(6); }
   }
-  if (J.carry.length && !J.carry[0].cut && heat > .5) { const R = RINGS[0]; if (Math.hypot(J.x - R.x, J.y - R.y) < R.r + 40) { pulse(R.x, R.y, '#fff0cf'); release(); } }
+  if (J.carry.length && !J.carry[0].cut && heat > .5) { const R = RINGS[0]; if (Math.hypot(J.x - R.x, J.y - R.y) < R.r + 40) { pulse(R.x, R.y, '#fff0cf'); buzz(16); release(); } }
   if (J.carry.length && (J.carry[0].wasCut || heat < .5) && !(J.lift > 0)) { const f = J.carry[0]; f.held = false; f.tip = -1; J.carry = []; f.stage = 0; f.anchor = {x: f.x, y: Math.min(520, f.y)}; }   // a rescued frame, once lifted, is yours
 }
 // the strip of what you have caught, with the count out of fourteen; rings for each catch and projection
@@ -1247,10 +1269,26 @@ function playHUD() {
   pulses = pulses.filter(p => filmT - p.t < .9);
   for (const p of pulses) { const u = (filmT - p.t) / .9; ctx.globalAlpha = 1 - u; ctx.strokeStyle = p.color; ctx.lineWidth = 3; ctx.beginPath(); ctx.arc(p.x, p.y, 30 + u * 120, 0, 7); ctx.stroke(); }
   ctx.globalAlpha = 1;
-  const th = 46, tw = 62, n = playChain.length;
-  playChain.forEach((f, i) => { const x = 28 + i * (tw + 5), y = 22; ctx.fillStyle = '#000'; ctx.fillRect(x - 2, y - 2, tw + 4, th + 4); drawPic(f.imgs, x, y, tw, th, f.wasCut && !f.rescuedAt ? .25 : 1, {hot: 1, burn: f.wasCut && !f.rescuedAt ? 1 : 0}); });
-  ctx.font = 'italic 30px Georgia, serif'; ctx.fillStyle = '#f2d3a0'; ctx.textAlign = 'right';
-  ctx.fillText(`${n} / 14`, FW - 30, 52);
+  const sp = Math.hypot(J.vx || 0, J.vy || 0), spd = clamp01(sp / 700);
+  // speed: streaks of water past the lens, against the motion
+  if (sp > 140) { ctx.strokeStyle = `rgba(255,240,215,${(.25 * spd).toFixed(3)})`; ctx.lineWidth = 1.2; const ux = -J.vx / sp, uy = -J.vy / sp, L = 30 + 90 * spd;
+    for (let k = 0; k < 18; k++) { const x = hash(k, 3, Math.floor(filmT * 12)) * FW, y = hash(k, 5, Math.floor(filmT * 12)) * FH; ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x + ux * L, y + uy * L); ctx.stroke(); } }
+  // the way to an off-screen target: a chevron on the frame's edge
+  const g = J.carry.length && heat > .5 && !J.carry[0].wasCut ? RINGS[0] : J.tgt;
+  if (g && cam) { const gx = FW / 2 + (g.x - cam.x) * cam.z, gy = FH / 2 + (g.y - cam.y) * cam.z;
+    if (gx < 30 || gx > FW - 30 || gy < 100 || gy > FH - 30) { const cx = Math.max(36, Math.min(FW - 36, gx)), cy = Math.max(108, Math.min(FH - 36, gy)), a = Math.atan2(gy - cy, gx - cx);
+      ctx.save(); ctx.translate(cx, cy); ctx.rotate(a); ctx.fillStyle = 'rgba(255,230,180,.9)'; ctx.beginPath(); ctx.moveTo(14, 0); ctx.lineTo(-8, -10); ctx.lineTo(-3, 0); ctx.lineTo(-8, 10); ctx.closePath(); ctx.fill(); ctx.restore(); } }
+  // the container: a strip of film, locked to the top band; frames sit in the gate between sprocket rows
+  const th = 44, tw = 59, n = playChain.length, bandW = Math.max(150, 28 + n * (tw + 6) + 14);
+  ctx.fillStyle = 'rgba(6,4,3,.86)'; ctx.fillRect(14, 8, bandW, 76);
+  ctx.fillStyle = 'rgba(217,207,191,.75)'; for (let x = 22; x < 14 + bandW - 8; x += 17) { ctx.fillRect(x, 12, 8, 5); ctx.fillRect(x, 75, 8, 5); }
+  playChain.forEach((f, i) => { const x = 28 + i * (tw + 6), y = 24; drawPic(f.imgs, x, y, tw, th, f.wasCut && !f.rescuedAt ? .25 : 1, {hot: 1, burn: f.wasCut && !f.rescuedAt ? 1 : 0}); });
+  // the numeral: a reactive width (it stretches with your speed), its colour the projector's heat, flush right in its own locked zone
+  ctx.save(); ctx.translate(FW - 28, 62); ctx.scale(1 + .55 * spd, 1); ctx.textAlign = 'right';
+  ctx.font = 'italic 700 40px Georgia, serif'; ctx.fillStyle = heat > .5 ? '#f6c47a' : '#9fb4ff'; ctx.fillText(String(n), -44, 0);
+  ctx.font = 'italic 22px Georgia, serif'; ctx.fillStyle = 'rgba(242,211,160,.7)'; ctx.fillText('/ 14', 0, 0); ctx.restore();
+  // resonance: a thin bar under the numeral that fills as your rhythm holds
+  ctx.fillStyle = 'rgba(255,230,180,.18)'; ctx.fillRect(FW - 150, 74, 122, 3); ctx.fillStyle = '#f6c47a'; ctx.fillRect(FW - 150, 74, 122 * (J.res || 0), 3);
   ctx.restore();
 }
 function startPlay() {
@@ -1263,10 +1301,15 @@ function startPlay() {
   };
   let down = false;
   cv.addEventListener('pointerdown', e => { e.preventDefault(); sfx.wake(); down = true;
-    if (!started || ended) { reset(); i = 0; started = true; ended = false; sfx.bed('hot'); return; }
-    playTarget = toWorld(e); });
-  cv.addEventListener('pointermove', e => { if (down && started) playTarget = toWorld(e); });
-  addEventListener('pointerup', () => { down = false; });
+    if (!started || ended) { reset(); i = 0; started = true; ended = false; play.lastStroke = -9; sfx.bed('hot'); return; }
+    play.press = {x: e.clientX, y: e.clientY, t: performance.now(), w: toWorld(e)}; play.hold = null; });
+  cv.addEventListener('pointermove', e => { if (down && started && play.press) { play.press.w = toWorld(e); if (play.hold) play.hold = play.press.w; } });
+  addEventListener('pointerup', e => { down = false; const p = play.press; play.press = null; play.hold = null; if (!p || !started || ended) return;
+    const r = cv.getBoundingClientRect(), k = FW / r.width, dx = (e.clientX - p.x) * k, dy = (e.clientY - p.y) * k, dist = Math.hypot(dx, dy), ms = performance.now() - p.t;
+    if (dist > 28 && ms < 450) strokeTo(dx, dy, Math.min(1.5, .6 + dist / 260));              // a swipe: one stroke along it
+    else if (ms < 260) { const w = toWorld(e); strokeTo(w.x - J.x, w.y - J.y, .75); } });      // a tap: a stroke toward it
+  addEventListener('keydown', e => { if (!started || ended) return; const d = {ArrowLeft: [-1, 0], ArrowRight: [1, 0], ArrowUp: [0, -1], ArrowDown: [0, 1]}[e.key];
+    if (d && !e.repeat) { e.preventDefault(); sfx.wake(); strokeTo(d[0], d[1], 1); } });
   const card = (lines) => {
     ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.save();
     const g = ctx.createRadialGradient(FW / 2, FH * .42, 0, FW / 2, FH * .42, FW * .4); g.addColorStop(0, 'rgba(5,4,3,.9)'); g.addColorStop(1, 'rgba(5,4,3,0)');
@@ -1277,13 +1320,15 @@ function startPlay() {
   const loop = () => {
     raf = requestAnimationFrame(loop);
     if (!started) { if (i === 0) { filmFrame(0, 60, 999, true); i = 1; }
-      card([['italic 64px Georgia, serif', '#f2d3a0', 'Contaminant Jelly', FH * .4], ['22px system-ui, sans-serif', '#cdb48a', 'touch to swim', FH * .4 + 52], ['17px system-ui, sans-serif', 'rgba(205,180,138,.75)', 'catch what rhymes · carry it to the sun · dive for what burns', FH * .4 + 88]]); return; }
+      card([['italic 64px Georgia, serif', '#f2d3a0', 'Contaminant Jelly', FH * .4], ['22px system-ui, sans-serif', '#cdb48a', 'touch to begin · swipe to swim', FH * .4 + 52], ['17px system-ui, sans-serif', 'rgba(205,180,138,.75)', 'stroke in rhythm with the bell · catch what rhymes · carry it to the sun', FH * .4 + 88]]); return; }
     if (ended) return;
+    if (play.stop > 0) { play.stop--; return; }   // the catch's beat of stillness
     const r = filmFrame(i++, 60, 999, true);
     if (r === 'END') { ended = true; let best = 0; try { best = Math.max(+localStorage.getItem('jelly.best') || 0, playChain.length); localStorage.setItem('jelly.best', String(best)); } catch (e) {}
       card([['italic 54px Georgia, serif', '#f2d3a0', `${playChain.length} of 14 in your reel`, FH * .42], ['18px system-ui, sans-serif', 'rgba(205,180,138,.8)', best ? `best ${best}` : '', FH * .42 + 90], ['20px system-ui, sans-serif', '#cdb48a', 'touch to swim again', FH * .42 + 50]]); }
   };
   loop();
+  window.__jel = () => ({x: J.x, y: J.y, vx: J.vx || 0, vy: J.vy || 0, res: J.res || 0});   // for scripted play-tests: the swimmer's state
   window.__play = () => {   // for scripted play-tests: where the hairline points, on the film's screen
     if (!started) return {ended: false};
     const g = J.carry.length && heat > .5 && !J.carry[0].wasCut ? RINGS[0] : J.tgt;
@@ -1298,11 +1343,16 @@ const sfx = (() => {
   const crackle = (n, at) => { if (!ac) return; for (let k = 0; k < n; k++) { const b = ac.createBuffer(1, 400, ac.sampleRate), x = b.getChannelData(0); for (let i = 0; i < x.length; i++) x[i] = (Math.random() * 2 - 1) * Math.exp(-i / 60); const s = ac.createBufferSource(), v = ac.createGain(); v.gain.value = .12; s.buffer = b; s.connect(v).connect(ac.destination); s.start(ac.currentTime + at + Math.random() * 1.1); } };
   const SC = [69, 72, 76, 79, 81, 84, 88, 91, 93, 96];
   const setBed = kind => { if (!ac) return; if (bed) { try { bed.stop(); } catch (e) {} } const o = ac.createOscillator(), v = ac.createGain(); o.frequency.value = kind === 'hot' ? 55 : 82.4; v.gain.value = .035; o.connect(v).connect(ac.destination); o.start(); bed = o; };
-  return {wake, bed: setBed, thud: () => tone(70, .25, .2),
+  const strokeSnd = (res, q) => { if (!ac) return; const t = ac.currentTime, o = ac.createOscillator(), v = ac.createGain();
+    o.frequency.setValueAtTime(95 + 60 * res, t); o.frequency.exponentialRampToValueAtTime(48 + 30 * res, t + .22); v.gain.setValueAtTime(0, t); v.gain.linearRampToValueAtTime(.22 * q, t + .015); v.gain.exponentialRampToValueAtTime(.0001, t + .3);
+    o.connect(v).connect(ac.destination); o.start(t); o.stop(t + .35);
+    const b = ac.createBuffer(1, ac.sampleRate * .35 | 0, ac.sampleRate), x = b.getChannelData(0); for (let k = 0; k < x.length; k++) x[k] = (Math.random() * 2 - 1) * Math.sin(Math.PI * k / x.length);
+    const n = ac.createBufferSource(), f = ac.createBiquadFilter(), g = ac.createGain(); f.type = 'bandpass'; f.frequency.value = 380 + 700 * res; f.Q.value = .8; g.gain.value = .06 * q; n.buffer = b; n.connect(f).connect(g).connect(ac.destination); n.start(t); };
+  return {wake, bed: setBed, stroke: strokeSnd, thud: () => tone(70, .25, .2),
     on: e => {
       if (e.type === 'lift') { const m = SC[(playChain.length + 9) % SC.length]; tone(m2f(m), 1.3, .09); tone(m2f(m) * 3.5, .2, .02); }
       else if (e.type === 'hand') { tone(660, .12, .12); tone(660, .12, .1, 'sine', .07); }
-      else if (e.type === 'bell') [[.5, .06, 1.6], [1, .1, 1.1], [1.2, .06, .8], [1.5, .035, .6], [2, .05, .45]].forEach(([r, g, d]) => tone(523.25 * r, d, g));
+      else if (e.type === 'bell') buzz([30, 40, 90]), [[.5, .06, 1.6], [1, .1, 1.1], [1.2, .06, .8], [1.5, .035, .6], [2, .05, .45]].forEach(([r, g, d]) => tone(523.25 * r, d, g));
       else if (e.type === 'burncue') crackle(24, .65);
       else if (e.type === 'cut') tone(60, .5, .25);
       else if (e.type === 'rescue') [57, 60, 64, 69, 72, 76].forEach((m, k) => tone(m2f(m), 1.6, .07, 'triangle', k * .07));

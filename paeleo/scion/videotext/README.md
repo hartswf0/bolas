@@ -2,6 +2,8 @@
 
 **The game** is the film itself: `index.html` opens `../contaminant.html?play=1`, the cinema cut's own renderer with you steering. Touch or drag and the film's jellyfish swims there. Swim into a frame to catch it: only one that rhymes with your last catch (shares a visible feature) will come; the dotted hairline points to the nearest. Carry it to the sun to project it; the censor's bell burns any touch there. When it cools, dive and lift the burned frames back. Your chain is the reel, and the afterimage stays on black.
 
+**Swimming.** Swipe to stroke, tap to stroke toward a point, hold to stroke on a beat. Strokes in rhythm with the bell (0.33–0.72 s apart) build resonance and power; mashing drains it. Strokes, catches and burns buzz on phones that support vibration. See [THEORY_OF_PLAY.md](THEORY_OF_PLAY.md), and the SCION instructions it follows: [interface](SCION_INTERFACE_THINKING_MACHINE.md), [ludic engine](SCION_LUDIC_ENGINE.md), [identity after Scher](SCION_IDENTITY_AFTER_SCHER.md).
+
 **The editor (`editor.html`).** The same rules as an interface: write a cut as a sentence of shared features, a swarm finds every cut that obeys it, invariants check each one, and you sign the one the projector plays.
 
 It is the first proof of [SCION — AGENT-FIRST ARCHITECT](SCION_AGENT_FIRST_ARCHITECT.md), applied to video editing, on the archive of the contaminant jellyfish film (`../contaminant.html`).
