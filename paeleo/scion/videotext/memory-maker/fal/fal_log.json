@@ -1,0 +1,97 @@
+[
+ {
+  "endpoint": "minimax/h3-max/text-to-video",
+  "name": "design",
+  "seconds": 14.2,
+  "arguments": {
+   "duration": 10,
+   "resolution": "1080P",
+   "aspect_ratio": "16:9",
+   "prompt_expansion_mode": "disabled"
+  },
+  "prompt": "Dark deep-sea 3D game, near-black water with drifting marine snow, warm sepia and gold light, film grain: a small glowing golden jellyfish made of points of light swims between giant translucent jellyfish whose bells are made of moving black-and-white archive film footage, flickering sepia images of hands, a door and a dog. It swims into one of the giant bells and the old film unspools around it as a long corridor of glowing frames that trail behind it like a worm of time. Chase camera behind the small jellyfish, slow and smooth.",
+  "files": [
+   "memory-maker/fal/design.mp4"
+  ]
+ },
+ {
+  "endpoint": "fal-ai/elevenlabs/sound-effects/v2",
+  "name": "sfx_ocean_bed",
+  "seconds": 7.4,
+  "arguments": {
+   "text": "deep underwater ambience, slow muffled currents, distant whale-like hum, soft bubbles, calm and dark",
+   "duration_seconds": 20,
+   "loop": true
+  },
+  "prompt": null,
+  "files": [
+   "memory-maker/fal/sfx_ocean_bed.mp3"
+  ]
+ },
+ {
+  "endpoint": "fal-ai/elevenlabs/sound-effects/v2",
+  "name": "sfx_enter_film",
+  "seconds": 4.0,
+  "arguments": {
+   "text": "an old film projector starting up, the reel spinning up and the shutter clattering into rhythm, warm and mechanical",
+   "duration_seconds": 3
+  },
+  "prompt": null,
+  "files": [
+   "memory-maker/fal/sfx_enter_film.mp3"
+  ]
+ },
+ {
+  "endpoint": "fal-ai/elevenlabs/sound-effects/v2",
+  "name": "sfx_catch",
+  "seconds": 5.1,
+  "arguments": {
+   "text": "a single soft camera shutter click followed by a small glass chime ringing out",
+   "duration_seconds": 1.5
+  },
+  "prompt": null,
+  "files": [
+   "memory-maker/fal/sfx_catch.mp3"
+  ]
+ },
+ {
+  "endpoint": "fal-ai/elevenlabs/sound-effects/v2",
+  "name": "sfx_surface",
+  "seconds": 4.4,
+  "arguments": {
+   "text": "rising underwater whoosh with bubbles, gently breaking out into open water",
+   "duration_seconds": 2
+  },
+  "prompt": null,
+  "files": [
+   "memory-maker/fal/sfx_surface.mp3"
+  ]
+ },
+ {
+  "endpoint": "fal-ai/elevenlabs/sound-effects/v2",
+  "name": "sfx_projector_loop",
+  "seconds": 5.2,
+  "arguments": {
+   "text": "steady 16mm film projector running, soft rhythmic clatter of the shutter and the reel",
+   "duration_seconds": 8,
+   "loop": true
+  },
+  "prompt": null,
+  "files": [
+   "memory-maker/fal/sfx_projector_loop.mp3"
+  ]
+ },
+ {
+  "endpoint": "elevenlabs/music/v2.5",
+  "name": "music_ocean",
+  "seconds": 14.2,
+  "arguments": {
+   "music_length_ms": 90000,
+   "force_instrumental": true
+  },
+  "prompt": "slow ambient score for a dark deep-sea dream: warm analog pads, a soft heartbeat pulse at 96 bpm, distant glass bells, tape hiss and gentle film-projector texture, melancholy and luminous, no drums, no vocals",
+  "files": [
+   "memory-maker/fal/music_ocean.mp3"
+  ]
+ }
+]

@@ -2,6 +2,36 @@
 
 `maker.html` is a Dreams-style maker and player in the Contaminant / Afterlight world. It was built with the [video-to-game](https://github.com/lovisdotio/video-to-game) flow, adapted so that the design video and every asset come from our own film and archive. No fal or other generative model was used.
 
+## The full loop, with fal (this version)
+Run on fal with the environment's saved key, one job at a time. Every call is logged in `memory-maker/fal/fal_log.json`.
+
+| asset | endpoint | used for |
+|---|---|---|
+| design video, 10 s 1080p (kept at 720p: `fal/design_720.mp4`, sheet `fal/design_sheet.jpg`) | `minimax/h3-max/text-to-video` | the game design document |
+| underwater bed (20 s loop) | `fal-ai/elevenlabs/sound-effects/v2` | ocean ambience |
+| projector starting up | same | entering a film |
+| projector running (8 s loop) | same | inside a film, its rate following the film's |
+| shutter click and chime | same | catching a moment |
+| rising whoosh | same | surfacing |
+| 90 s instrumental score | `elevenlabs/music/v2.5` | the ocean's music, which replaces the code-made pad there |
+
+**7 calls in total.** The prices aren't visible from here (the session can reach fal's queue but not its pricing pages); see your fal dashboard for the exact charge.
+
+**What the design video decided, from its study** (20 frames at 0.5 s, no cuts, palette #030305 #251a14 #372517 #473527 #664a36):
+- **Ocean.** Giant translucent jellyfish hang above a small glowing amber one; the camera chases from behind and below. The image-jellyfish were made bigger and moved above you, and your jellyfish's glow moved from white to amber.
+- **The key moment.** The small jellyfish swims up into a giant bell and comes out in a film corridor whose four walls are film strips with sprocket holes, lined with frames, running to a vanishing point. Inside a film is now that corridor:
+  - Each wall shows 48 sepia frames of the real film in time order, a different moment on each wall (`memory-maker/films/*_wall.jpg`).
+  - Sprocket bands run along every edge.
+  - The live film plays at the far end.
+  - Your place in the corridor is your place in the film's time.
+- **Side by side.** `fal/side_by_side_design.jpg` pairs the design video with the game at 2 s (ocean) and 9 s (corridor).
+
+**Still differs from the video:**
+- The giant jellyfish are flecks of their films, where the video's are smooth translucent bells.
+- The corridor is less bright than the video's; dark films such as *the film without words* stay dim.
+- The video's frames are invented. Ours are the films' real frames.
+- No 3D models or generated images were used. Uploading local frames to fal needs a host this session does not allow, and the archive frames are the images.
+
 ## Swim the films (the ocean)
 Each of eight of our own films is an image-jellyfish: thousands of flecks coloured from the film, its bell cycling through sixteen frames of it (`memory-maker/films/*.jpg`, made with ffmpeg; the list is in `memory-maker/films.json`). The films:
 - Contaminant Jelly
@@ -13,7 +43,7 @@ Each of eight of our own films is an image-jellyfish: thousands of flecks colour
 - It's All Right
 - Abominable House
 
-Swim into one and you are inside the film:
+Swim into one and you are inside the film (now the corridor from the design video, above):
 - **You are the projector's motor.** The real video plays only while you swim; your speed is its speed (×0.25 to ×2.5), and when you let go, it stops. The film's own sound plays and the score drops out.
 - **The present frame floats ahead of you** as a field of flecks lifted by its light.
 - **The frames you pass stay behind** as faint echoes, the film laid out in space as time.
