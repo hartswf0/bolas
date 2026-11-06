@@ -179,6 +179,7 @@ def index():
       <div class="facts"><span>lenses <b>54</b>, one per swarm</span><span>loop <b>32 s</b> of prompts, shared</span><span>live <b>in the browser</b>, any lens</span></div></div></div>
   <div class="fullcase"><a href="scion/#viewer"><i>PAE-01</i> Every lens, live<span>with the write-up of the operator</span></a></div>
 </section>
+{its_all_right_box(up)}
 {handmade_box(up)}
 </section>
 
@@ -448,6 +449,16 @@ def rounds_of(d):
         cls = 'fail' if head.upper().startswith('DOES NOT') else 'pass' if head.upper().startswith('PASS') else 'part'
         out.append((int(re.findall(r'\d+', os.path.basename(f))[0]), cls, head, txt))
     return out
+
+
+def its_all_right_box(up):
+    if not os.path.exists(os.path.join(P, 'its-all-right', 'index.html')): return ''
+    return '''<section class="box" id="its-all-right"><div class="boxhead"><div class="row"><span class="code">FINALE</span><span class="lbl">Nov 2026 · a film by Watson Hartsoe · built from PAE-02</span></div>
+    <h2>It’s All Right</h2><p class="q">come here · it’s all right · come in</p></div>
+  <div class="trick"><span class="lbl">The film</span><p>A person speaks to a dog in three sentences. The order fails, the reassurance turns its head, the invitation is answered from the sill. One scene, written once as a score, told at once in every language PAE-02 made it in: cut paper, bones, archive film, print, code.</p></div>
+  <a href="its-all-right/"><img src="its-all-right/posters/thumb.jpg" alt="IT’S ALL RIGHT: every telling at once" loading="lazy" style="width:100%;display:block;border-radius:3px"></a>
+  <div class="fullcase"><a href="its-all-right/"><i>FINALE</i> Watch the film, see every dog and every person<span>the film, COME IN through every door, the trailer, the test and the press kit</span></a></div>
+</section>'''
 
 
 def handmade_box(up):
