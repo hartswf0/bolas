@@ -49,6 +49,32 @@ tone, the projector's motor and gate, the lamp's faint buzz, a two-note motif th
 held low tone under her face in II, typing for every slip and card, and the tail of the film slapping the reel at the
 run-out. It is a composed scene: archive fragments re-performed, not a recorded event. It stays local, like Pink Eye.
 
+## Pink Eye, stacked (`stacked.py`)
+
+The One-Caring (after Nel Noddings) plays above The Averted Glance (after Susan Sontag), at once, as two halves of one
+film. The two halves turn white together and dissolve into one end card, which credits III · Counter Archive · after
+Cecile Zhang. The two scores are mixed into one.
+
+**The title, LIDS.** It follows a Paula Scher brief: a type system built from an object native to the subject.
+
+- *Core container:* the seam between the two films is the lid line. PINK is the upper lid and EYE is the lower lid. The
+  opening is the eye opening, nothing forced.
+- *Typographic engine:* a cut-paper letterface drawn in code, not a font (`glyph()`). It has two axes. `open` runs from
+  a closed hairline to full cap height: PINK grows up from the seam and EYE grows down from it. `width` sets each word
+  flush to the full measure, then breathes 1.5% with the opening swell.
+- *Analog seed:* ragged scissor edges fixed per letter (paper does not re-cut itself), a hand-wobbled ink hairline,
+  paper fibre and lifted shadows.
+- *Unbreakable spec:* two 16:9 cells (960 x 1084 with a 4 px seam), a 30 px margin, one word per cell, three colours
+  only (rose 236/128/156, ink 18/10/13, paper 246/238/236). Nothing else is on screen during the title.
+
+Sequence: an ink hairline draws out (0–1 s), the lids open as type (1–2.7 s), the letters breathe, the rose paper turns
+into windows onto the two films (from 3.9 s), the type grows until it is the frame, and the black melts into the films
+(to 6.6 s).
+
+```bash
+python3 tools/pink_eye/stacked.py CLIP.mp4 SHOTS_DIR OUT_DIR       # about 6 min; 55 s
+```
+
 ## Rights
 
 The film is under copyright. This tool reads a local copy and writes a local render. Neither the footage nor the render
