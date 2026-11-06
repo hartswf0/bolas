@@ -1,0 +1,20 @@
+"""Full-resolution (640x264) hand, fist and toy masks for the hand-and-horse shot, 147.0-149.1 s."""
+import numpy as np,cv2,mediapipe as mp
+from mediapipe.tasks import python as mpt
+from mediapipe.tasks.python import vision
+from mediapipe.tasks.python.components.containers import keypoint as kp
+IS=vision.InteractiveSegmenter.create_from_options(vision.InteractiveSegmenterOptions(base_options=mpt.BaseOptions(model_asset_path='models/magic_touch.tflite'),output_category_mask=True))
+a0=int(round((147.0-109)*12))+1; a1=int(round((149.1-109)*12))+1
+K=cv2.getStructuringElement(cv2.MORPH_ELLIPSE,(41,41)); prompt=(0.31,0.32)
+HA,FI,TO=[],[],[]
+for i in range(a0,a1+1):
+    im=cv2.cvtColor(cv2.imread(f'f640b/{i:04d}.jpg'),cv2.COLOR_BGR2RGB); mi=mp.Image(image_format=mp.ImageFormat.SRGB,data=im)
+    roi=vision.InteractiveSegmenterRegionOfInterest(format=vision.InteractiveSegmenterRegionOfInterest.Format.KEYPOINT,keypoint=kp.NormalizedKeypoint(*prompt))
+    obj=(IS.segment(mi,roi).category_mask.numpy_view().reshape(im.shape[:2])==0).astype(np.uint8)
+    obj=cv2.morphologyEx(obj,cv2.MORPH_CLOSE,np.ones((5,5),np.uint8))
+    fist=cv2.morphologyEx(obj,cv2.MORPH_OPEN,K); toy=((obj>0)&(fist==0)).astype(np.uint8); toy=cv2.morphologyEx(toy,cv2.MORPH_OPEN,np.ones((5,5),np.uint8))
+    ys,xs=np.nonzero(fist)
+    if len(xs)>800: prompt=(float(np.clip(xs.mean()/640,0.1,0.6)),float(np.clip(ys.mean()/264,0.1,0.8)))
+    HA.append(obj*255);FI.append(fist*255);TO.append(toy*255)
+np.savez_compressed('m07.npz',hand=np.array(HA),fist=np.array(FI),toy=np.array(TO),i0=a0)
+print('frames',len(HA),'toy px',[int((t>0).sum()) for t in TO[:: max(1,len(TO)//6)]])

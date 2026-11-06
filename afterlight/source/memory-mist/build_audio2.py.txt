@@ -1,0 +1,37 @@
+"""Full audio for the story cut. The film's own audio goes through the edit list (stretched only where the picture is);
+in the intake shots (the telling, the return) the film's voices lead and the music steps back; in the memory the music leads."""
+import json,subprocess,sys,os,numpy as np
+from scipy.io import wavfile
+HERE=os.path.dirname(os.path.abspath(__file__)); TMP=HERE+'/atmp2'; os.makedirs(TMP,exist_ok=True)
+ORIG,MUSIC,OUT=sys.argv[1],sys.argv[2],sys.argv[3]; T0=109.0; SR=48000
+ED=json.load(open(HERE+'/edl.json')); DUR=ED['duration']; E=ED['edl']
+sr,x=wavfile.read(ORIG); assert sr==SR; x=x.astype(np.float32)/32768
+N=int(DUR*SR); bed=np.zeros((N,2),np.float32); XF=int(0.03*SR); mg=np.ones(N,np.float32); bg=np.ones(N,np.float32)
+for i,e in enumerate(E):
+    a=int((e['src0']-T0)*SR); b=int((e['src1']-T0)*SR); seg=x[a:b]; slot=e['t1']-e['t0']; tempo=(e['src1']-e['src0'])/slot; L=int(slot*SR)
+    if abs(tempo-1)<0.03: s2=seg
+    else:
+        wavfile.write(f'{TMP}/s{i}.wav',SR,(seg*32767).astype(np.int16))
+        subprocess.run(['ffmpeg','-v','error','-y','-i',f'{TMP}/s{i}.wav','-af',f'rubberband=tempo={tempo:.4f}:pitch=1:transients=smooth:window=long','-ar',str(SR),'-ac','2',f'{TMP}/t{i}.wav'],check=True)
+        s2=wavfile.read(f'{TMP}/t{i}.wav')[1].astype(np.float32)/32768
+    s2=np.pad(s2,((0,max(0,L-len(s2))),(0,0)))[:L]
+    if tempo<0.9 and not e.get('look'):
+        k=int(0.25*SR); ir=np.exp(-np.arange(k)/(0.06*SR))*np.random.default_rng(i).normal(0,1,k); ir/=np.abs(ir).sum()
+        w=np.stack([np.convolve(s2[:,c],ir)[:L] for c in range(2)],1); s2=0.55*s2+0.9*w
+    g=np.ones(L,np.float32); g[:XF]=np.linspace(0,1,XF); g[-XF:]=np.linspace(1,0,XF)
+    s0=int(e['t0']*SR); bed[s0:s0+L]+=s2*g[:,None]
+    if e.get('look'):   # intake: the voices lead
+        mg[s0:s0+L]=10**(-8/20); bg[s0:s0+L]=10**(8/20)
+k=int(0.4*SR); ker=np.ones(k)/k; mg=np.convolve(mg,ker,'same'); bg=np.convolve(bg,ker,'same')
+t=np.arange(N)/SR; bed*=(np.minimum(1,t/2.5)*np.minimum(1,(DUR-t)/2.2))[:,None]
+wavfile.write(f'{TMP}/bed.wav',SR,(np.clip(bed,-1,1)*32767).astype(np.int16))
+def lufs(p):
+    r=subprocess.run(['ffmpeg','-nostats','-i',p,'-af','ebur128','-f','null','-'],capture_output=True,text=True).stderr
+    return float([l for l in r.splitlines() if 'I:' in l and 'LUFS' in l][-1].split('I:')[1].split('LUFS')[0])
+subprocess.run(['ffmpeg','-v','error','-y','-i',MUSIC,'-ar',str(SR),'-ac','2',f'{TMP}/music.wav'],check=True)
+lm=lufs(f'{TMP}/music.wav'); lb=lufs(f'{TMP}/bed.wav'); gain=10**((lm-7-lb)/20); print('music',lm,'bed',lb,'gain',round(gain,2))
+mu=wavfile.read(f'{TMP}/music.wav')[1].astype(np.float32)/32768; mu=np.pad(mu,((0,max(0,N-len(mu))),(0,0)))[:N]
+mix=mu*mg[:,None]+bed*gain*bg[:,None]
+wavfile.write(f'{TMP}/pre.wav',SR,(np.clip(mix,-1.5,1.5)/1.5*32767).astype(np.int16))
+subprocess.run(['ffmpeg','-v','error','-y','-i',f'{TMP}/pre.wav','-af',f'volume=3.5dB,alimiter=limit=0.93,afade=t=out:st={DUR-1.2}:d=1.2','-ar',str(SR),'-ac','2','-c:a','pcm_s16le',OUT],check=True)
+print('ok',OUT)
