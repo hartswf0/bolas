@@ -170,25 +170,27 @@ def style_C(ts,u,passage,T):
 
 
 # ---------- whole-frame plates for the scenes and events (the faces stay in mist) ----------
+BARS=(96,624); FULL=False; PLATE_SOURCE=None
 def place_plate(P):
-    """640x264 plate -> 1280x528 letterboxed into the 1280x720 canvas."""
+    """640x264 plate -> 1280x528 letterboxed into the 1280x720 canvas (or full-bleed when FULL)."""
+    if FULL: return cv2.resize(P,(OW,OH),interpolation=cv2.INTER_CUBIC)
     big=cv2.resize(P,(OW,528),interpolation=cv2.INTER_CUBIC); out=np.zeros((OH,OW,3),np.float32); out[96:624]=big; return out
 def _levels(L,m):
-    lo,hi=np.percentile(L[96:624],2),np.percentile(L[96:624],99.6); return np.clip((L-lo)/max(.08,hi-lo),0,1)**.85
+    lo,hi=np.percentile(L[BARS[0]:BARS[1]],2),np.percentile(L[BARS[0]:BARS[1]],99.6); return np.clip((L-lo)/max(.08,hi-lo),0,1)**.85
 def plate_S(ts,T):
-    P,a=plate_at(ts); Po=place_plate(P); L=cv2.GaussianBlur(Po@np.array([.3,.59,.11],np.float32),(0,0),2.6); L=_levels(L,None)
+    P,a=PLATE_SOURCE(ts) if PLATE_SOURCE else plate_at(ts); Po=place_plate(P); L=cv2.GaussianBlur(Po@np.array([.3,.59,.11],np.float32),(0,0),2.6); L=_levels(L,None)
     w1,w2,w3=ss(.14-.03,.14+.03,L),ss(.38-.03,.38+.03,L),ss(.66-.03,.66+.03,L)
     col=PAL[0]+(PAL[1]-PAL[0])*w1[...,None]+(PAL[2]-PAL[1])*w2[...,None]+(PAL[3]-PAL[2])*w3[...,None]
     for wk in (w1,w2,w3):
         sh=cv2.GaussianBlur(np.roll(np.roll(wk,5,0),4,1),(0,0),3.0)*(1-wk); col=col*(1-.42*sh[...,None])
-    col[:96]=PAL[0]*.6; col[624:]=PAL[0]*.6
+    if not FULL: col[:96]=PAL[0]*.6; col[624:]=PAL[0]*.6
     g=np.random.default_rng(int(T*24)).normal(0,.012,(OH,OW,1)).astype(np.float32); bl=cv2.GaussianBlur(col*np.clip(L[...,None]*1.4-.5,0,1),(0,0),14)*.35
     return np.clip(col+bl+g,0,1)
 def plate_C(ts,T):
-    Tq=math.floor(T*8)/8; P,a=plate_at(ts); Po=place_plate(P); L=_levels(Po@np.array([.3,.59,.11],np.float32),None)
+    Tq=math.floor(T*8)/8; P,a=PLATE_SOURCE(ts) if PLATE_SOURCE else plate_at(ts); Po=place_plate(P); L=_levels(Po@np.array([.3,.59,.11],np.float32),None)
     ink=hatch(L,5.2,35.0); wash=cv2.GaussianBlur(Po,(0,0),9); wash=wash/max(.35,float(wash.max()))
     out=PAPER*(1-ink[...,None])+INK*ink[...,None]; out=out*(.62+.38*np.clip(wash*1.1+.1,0,1))
-    out[:96]=INK*.7; out[624:]=INK*.7
+    if not FULL: out[:96]=INK*.7; out[624:]=INK*.7
     return np.clip(out+np.random.default_rng(int(Tq*8)+3).normal(0,.008,(OH,OW,1)).astype(np.float32),0,1)
 
 
