@@ -194,8 +194,9 @@ def title_layer(e,T,caption=None):
     ut=T-e['t0']; im=Image.new('RGB',(OW,OH),(0,0,0)); d=ImageDraw.Draw(im)
     ta=float(np.clip(min(ut/0.15,1)*(1 if ut<2.5 else max(0,1-(ut-2.5)/0.3)),0,1))
     if e.get('title') and ta>0: d.text((70,52),e['title'].upper()[:28],font=F44,fill=tuple(int(v*ta) for v in (245,245,235)))
-    if caption: d.text((70,OH-98),caption,font=F34,fill=(255,186,72))
+    if caption: d.text((70,OH-102),caption[0],font=F44,fill=tuple(int(v*caption[1]) for v in (255,186,72)))
     return np.asarray(im).astype(np.float32)/255
+def capa(u,a,b,f=0.3): return float(np.clip(min((u-a)/f,(b-u)/f,1),0,1))
 def compose(base,T,e,caption=None):
     ST=statics(); pu=min(1.0,pulse(T)); base=base*ST['vig'][...,None]
     ui=title_layer(e,T,caption); layer=ST['ui'].astype(np.float32)/255*(0.7+0.3*pu)+ui; layer=layer+cv2.GaussianBlur(layer,(0,0),4)*0.8
@@ -205,18 +206,22 @@ def compose(base,T,e,caption=None):
 def live(T,e):
     ts=src_time(T); fi=(ts-T0)*SRC; a=int(np.floor(fi)); wg=fi-a; im=(1-wg)*load6(a)+wg*load6(a+1)
     big=cv2.resize(im,(OW,528),interpolation=cv2.INTER_CUBIC); out=np.zeros((OH,OW,3),np.float32); out[96:624]=big
-    lum=out.mean(2,keepdims=True); out=out*0.94+np.array([0.0,0.03,0.036],np.float32)*(1-lum)
+    lum=out.mean(2,keepdims=True); out=out*0.94+np.array([0.0,0.03,0.036],np.float32)*(1-lum)+np.array([0.045,0.018,0.0],np.float32)*lum
     out=out*(1-0.06*((np.arange(OH)%3==0)[:,None,None]))+np.random.default_rng(int(T*24)).normal(0,0.008,(OH,OW,1)).astype(np.float32)
     return np.clip(out,0,1)
 def frame(T):
     i,e=entry(T)
-    if e.get('look'): return compose(live(T,e),T,e,'INTAKE · LIVE FEED')
+    if e.get('look'):
+        ut=T-e['t0']; a=capa(ut,0.0,2.2); return compose(live(T,e),T,e,('LIVE FEED',a) if a>0.01 else None)
     if e.get('horse'):
         ts=src_time(T); u=T-e['t0']; fn=HS.style_S if VARIANT=='S' else HS.style_C
-        cap='THE HORSE IS DRAWN · '+('SILHOUETTE' if VARIANT=='S' else 'CARD') if (e['horse']=='hold' and u>1.2) or (e['horse']=='reveal' and u>1.3) else None
+        a=capa(u,1.3,4.6) if e['horse']=='reveal' else capa(u,1.2,4.4); cap=('THE HORSE, DRAWN',a) if a>0.01 else None
         return compose(fn(ts,u,e['horse'],T),T,e,cap)
     if e.get('plate'):
-        ts=src_time(T); return compose((HS.plate_S if VARIANT=='S' else HS.plate_C)(ts,T),T,e)
+        ts=src_time(T); img=(HS.plate_S if VARIANT=='S' else HS.plate_C)(ts,T); cap=None
+        if e.get('burial'):
+            ub=T-e['t0']; img=HS.burial(img,VARIANT,ub,T); a=capa(ub,6.2,9.6); cap=('THE HORSE, DRAWN',a) if a>0.01 else None
+        return compose(img,T,e,cap)
     return frame_mist(T)
 
 if __name__=='__main__':
@@ -231,10 +236,11 @@ if __name__=='__main__':
         for t in stills:
             cv2.imwrite(f"{HERE}/g_{VARIANT}_{t:06.2f}.jpg",cv2.cvtColor(frame(t),cv2.COLOR_RGB2BGR),[cv2.IMWRITE_JPEG_QUALITY,90]); print(t,flush=True)
         sys.exit()
-    n=int(DUR*FPS)
+    n=int(DUR*FPS); K0,K1=0,n-1
+    if '--range' in sys.argv: K0,K1=[int(x) for x in sys.argv[sys.argv.index('--range')+1].split('-')]
     p=subprocess.Popen(['ffmpeg','-v','error','-y','-f','rawvideo','-pix_fmt','rgb24','-s',f'{OW}x{OH}','-r',str(FPS),'-i','-','-c:v','libx264','-crf','27','-preset','medium','-pix_fmt','yuv420p','-movflags','+faststart',OUT],stdin=subprocess.PIPE)
     with Pool(4) as pool:
-        for k,img in enumerate(pool.imap(frame,[i/FPS for i in range(n)],chunksize=6)):
+        for k,img in enumerate(pool.imap(frame,[i/FPS for i in range(K0,K1+1)],chunksize=6)):
             p.stdin.write(img.tobytes())
             if k%96==0: print(k,n,flush=True)
     p.stdin.close(); p.wait(); print('DONE',flush=True)

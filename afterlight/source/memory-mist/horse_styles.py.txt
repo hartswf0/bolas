@@ -80,8 +80,8 @@ def pose(passage,u,fistc):
     hx=(fistc[0]+OFF[0]-WX)*KS; hy=(fistc[1]+OFF[1])*KS; sc=S0*KS
     w=math.sin(u*2*math.pi*1.1)
     if passage=='reveal':
-        a=ss(1.3,2.6,u)                                   # the toy wakes after the first beat
-        legs=(a*.35*w,-a*.35*w,-a*.30*w,a*.30*w); return hx,hy-a*5*abs(w),sc,0.0,a*.20*math.sin(u*2*math.pi*.9),legs
+        a=ss(1.3,2.6,u)                                   # the toy wakes after the first beat, then hops out of the fist
+        legs=(a*.35*w,-a*.35*w,-a*.30*w,a*.30*w); return hx+a*.55*sc,hy-a*(.30*sc+6*abs(w)),sc,0.0,a*.20*math.sin(u*2*math.pi*.9),legs
     # hold: held, then lifted out into a clear profile, then it stays
     lift=ss(1.0,3.0,u); tx,ty,ts_=860.0,400.0,sc*1.5
     cx=hx+(tx-hx)*lift; cy=hy+(ty-hy)*lift; scl=sc+(ts_-sc)*lift
@@ -90,7 +90,7 @@ def pose(passage,u,fistc):
     return cx,cy,scl,0.045*math.sin(u*2*math.pi*.35)*lift,.10*math.sin(u*2*math.pi*.5),legs
 
 # ---------- S: Reiniger silhouette ----------
-PAL=np.array([(10,6,5),(92,42,20),(222,118,36),(255,214,122)],np.float32)/255
+PAL=np.array([(8,16,17),(86,42,24),(222,118,36),(255,214,122)],np.float32)/255
 def style_S(ts,u,passage,T):
     P,a=plate_at(ts); k=int(np.clip(round((ts-147.0)*12),0,NM-1)); fistc=centroid(FIST[k]) or (190,70)
     toy=up(TOY[k]); hand=up(HAND[k])
@@ -104,11 +104,16 @@ def style_S(ts,u,passage,T):
     cx,cy,sc,rot,nod,legs=pose(passage,u,fistc)
     hz=horse_alpha(cx,cy,sc,rot,nod,legs)
     rim=np.clip(cv2.GaussianBlur(np.clip(cv2.dilate(hand,np.ones((7,7),np.uint8))-hand,0,1),(0,0),2.0)*2.2,0,1)
-    ink=np.array([6,4,4],np.float32)/255
-    col=col*(1-hz[...,None])+ink*hz[...,None]               # horse behind the fist
+    ink=np.array([6,4,4],np.float32)/255; hfill=np.array([66,30,14],np.float32)/255
+    hrim=np.clip(cv2.GaussianBlur(np.clip(cv2.dilate(hz,np.ones((5,5),np.uint8))-hz,0,1),(0,0),1.4)*3.0,0,1)
+    front=(passage=='hold') or (passage=='reveal' and u>=1.3)
     sil=np.maximum(hand,toy*(0.0 if passage=='hold' else 1.0))
+    def put_horse(c):
+        c=c+hrim[...,None]*np.array([1,.66,.22],np.float32)*.9*(1-hz[...,None]); return c*(1-hz[...,None])+hfill*hz[...,None]
+    if not front: col=put_horse(col)
     col=col*(1-sil[...,None])+ink*sil[...,None]
-    col=col+rim[...,None]*np.array([1,.62,.2],np.float32)*.55*L[...,None]*(1-sil[...,None])  # fire rim light on the fist's edge
+    col=col+rim[...,None]*np.array([1,.62,.2],np.float32)*.55*L[...,None]*(1-sil[...,None])
+    if front: col=put_horse(col)
     g=np.random.default_rng(int(T*24)).normal(0,.012,(OH,OW,1)).astype(np.float32)             # paper grain
     bl=cv2.GaussianBlur(col*np.clip(L[...,None]*1.4-.5,0,1),(0,0),14)*.35
     return np.clip(col+bl+g,0,1)
@@ -132,11 +137,11 @@ def style_C(ts,u,passage,T):
     ts_=ts if abs(T-Tq)<1e-6 else ts-((T-Tq)/1.0)*0.0
     P,a=plate_at(ts); k=int(np.clip(round((ts-147.0)*12),0,NM-1)); fistc=centroid(FIST[k]) or (190,70)
     if passage=='hold': P=cv2.inpaint((P*255).astype(np.uint8),(cv2.dilate(TOY[k],np.ones((9,9),np.uint8))>0).astype(np.uint8)*255,5,cv2.INPAINT_TELEA).astype(np.float32)/255
-    Po=to_out(P); L=np.clip((Po@np.array([.3,.59,.11],np.float32)-.02)/.85,0,1)
+    Po=to_out(P); L=np.clip((Po@np.array([.3,.59,.11],np.float32)-.02)/.85,0,1)**.8
     base_ink=hatch(L,5.2,35.0); wash=cv2.GaussianBlur(Po,(0,0),9); wash=wash/max(.35,float(wash.max()))
     plate=PAPER*(1-base_ink[...,None])+INK*base_ink[...,None]; plate=plate*(.62+.38*np.clip(wash*1.1,0,1))      # engraved plate, hand-coloured wash
-    jit=np.random.default_rng(int(Tq*8)).integers(-2,3,2)                                                    # cards shiver on threes
-    hand=up(np.maximum(HAND[k],0)); toy=up(TOY[k])
+    jit=np.random.default_rng(int(Tq*8)).integers(-1,2,2)                                                    # cards shiver on threes
+    hand=up(np.maximum(HAND[k],0),blur=2.2); toy=up(TOY[k])
     Lh=L; ih=hatch(np.clip(Lh*1.25+.08,0,1),4.2,-28.0,cross=.45)
     hrgb=PAPER*(1-ih[...,None])+INK*ih[...,None]; hrgb=hrgb*(.55+.45*np.clip(wash*1.1,0,1))
     hrgb,hring,hsh=card(np.roll(np.roll(hand,jit[0],0),jit[1],1),np.roll(np.roll(hrgb,jit[0],0),jit[1],1))
@@ -144,10 +149,10 @@ def style_C(ts,u,passage,T):
     hz=horse_alpha(cx,cy,sc,rot,nod,legs)
     # wooden horse card: grain, shading from the card's own form, engraved
     yy,xx=np.mgrid[0:OH,0:OW].astype(np.float32)
-    grain=.5+.28*np.sin((xx*.045+np.sin(yy*.02)*3.0))+.12*np.sin(yy*.31+xx*.07)
+    grain=.55+.14*np.sin((xx*.011+np.sin(yy*.012)*2.0))+.05*np.sin(yy*.05+xx*.02)
     Lw=np.clip(grain*(0.55+0.45*np.clip(1-(yy-cy)/(sc*1.2)+.2,0,1)),0,1)
-    iw=hatch(Lw,4.0,52.0,cross=.5); wood=np.array([196,142,86],np.float32)/255
-    wrgb=wood*(1-.55*iw[...,None])*(.8+.3*grain[...,None])
+    iw=hatch(Lw,9.0,52.0,cross=.97); wood=np.array([204,150,92],np.float32)/255
+    wrgb=wood*(1-.30*iw[...,None])*(.88+.2*grain[...,None])
     wrgb,wring,wsh=card(hz,wrgb,(6,8),3)
     out=plate*1.0
     if passage=='reveal':                                     # held: the horse card first, the fist card over it
@@ -185,3 +190,41 @@ def plate_C(ts,T):
     out=PAPER*(1-ink[...,None])+INK*ink[...,None]; out=out*(.62+.38*np.clip(wash*1.1+.1,0,1))
     out[:96]=INK*.7; out[624:]=INK*.7
     return np.clip(out+np.random.default_rng(int(Tq*8)+3).normal(0,.008,(OH,OW,1)).astype(np.float32),0,1)
+
+
+# ---------- the burial: the drawn horse is laid in the ash and covered (drawn; the footage does not show the toy) ----------
+def _pile():
+    P=plate_frame(int(round((162.0-T0)*SRC)))
+    L=P@np.array([.3,.59,.11],np.float32); sub=L[150:264,60:360]; thr=np.percentile(sub,97); ys,xs=np.nonzero(sub>=thr)
+    return (xs.mean()+60)*2.0,96+(ys.mean()+150)*2.0
+PX_,PY_=_pile()
+def burial(img,variant,ub,T):
+    """overlay on a finished plate frame: ub seconds into the burial beat."""
+    ha=float(ss(5.6,6.4,ub)*(1-ss(11.0,14.6,ub)))
+    cover=float(ss(10.2,15.2,ub))
+    cx,cy=PX_-30,PY_-8
+    if ha>0.01:
+        hz=horse_alpha(cx,cy,118,3.0,0.0,(.10,-.10,.12,-.12))*ha
+        if variant=='S':
+            img=img+( -img+np.array([66,30,14],np.float32)/255)*hz[...,None]
+            rim=np.clip(cv2.GaussianBlur(np.clip(cv2.dilate(hz,np.ones((5,5),np.uint8))-hz,0,1),(0,0),1.4)*3.0,0,1)*(1-hz); img=img+rim[...,None]*np.array([1,.66,.22],np.float32)*.8
+        else:
+            yy,xx=np.mgrid[0:OH,0:OW].astype(np.float32); grain=.55+.14*np.sin(xx*.011+np.sin(yy*.012)*2)
+            wrgb=np.array([204,150,92],np.float32)/255*(.88+.2*grain[...,None]); wrgb,wring,wsh=card(hz,wrgb,(6,8),3)
+            img=img*(1-.5*wsh[...,None]); img=img*(1-wring[...,None])+wrgb*wring[...,None]
+    if cover>0.01:                                            # ash: a mound drawn over it, and flecks falling
+        th=np.linspace(0,2*np.pi,90); rr=1+.10*np.sin(3*th+.7)+.07*np.sin(7*th+2.1)+.04*np.sin(13*th)
+        ax,ay=40+200*cover,10+62*cover; pts=np.array([[cx+ax*r*np.cos(t),cy+16+ay*r*np.sin(t)*(0.75 if np.sin(t)<0 else 1.0)] for r,t in zip(rr,th)],np.int32)
+        m=np.zeros((OH,OW),np.float32); cv2.fillPoly(m,[pts],1,cv2.LINE_AA); m=cv2.GaussianBlur(m,(0,0),2.5)*min(1,cover*1.8)
+        yy2,xx2=np.mgrid[0:OH,0:OW].astype(np.float32); dome=np.clip(1.0-.32*((yy2-(cy+16-ay*.6))/max(1,ay*1.4)),.55,1.05)
+        speck=1+.09*np.random.default_rng(int(ub*8)).normal(0,1,(OH,OW)).astype(np.float32)
+        if variant=='S': mound=np.array([232,150,52],np.float32)/255; edge=np.array([80,36,16],np.float32)/255
+        else: mound=PAPER*.94; edge=INK
+        ring=np.clip(cv2.dilate(m,np.ones((5,5),np.uint8))-m,0,1)
+        img=img*(1-m[...,None])+np.clip(mound*(dome*speck)[...,None],0,1)*m[...,None]; img=img*(1-ring[...,None]*.7)+edge*ring[...,None]*.7
+    rn=np.random.default_rng(5)
+    for i in range(70):
+        x0=rn.uniform(cx-260,cx+260); sp=rn.uniform(60,160); ph=rn.uniform(0,6); t=(ub*sp*0.5+ph*60)%260
+        y=cy-190+t*1.5; a=ss(5.8,6.8,ub)*(1-ss(15.4,16.6,ub))
+        if a>0.01 and 100<y<620: cv2.circle(img,(int(x0+6*math.sin(ub*2+ph)),int(y)),2,(1,1,1) if variant=='S' else (.11,.08,.09),-1,cv2.LINE_AA)
+    return np.clip(img,0,1)
