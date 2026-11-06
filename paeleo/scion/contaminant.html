@@ -23,7 +23,7 @@ table{width:100%;border-collapse:collapse;font-size:.8rem;line-height:1.5}th,td{
 .prompt{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:.6rem}.prompt .ghost{background:transparent}
 pre{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.55;font-size:.84rem;font-family:ui-monospace,monospace;max-height:62dvh;overflow:auto;background:#0d1117;padding:1rem;border-radius:.5rem;border:1px solid #30363d;margin:0}
 @media(max-width:760px){.grid{grid-template-columns:1fr}main{padding:0 .75rem 2rem}}
-body.playing{background:#000;overflow:hidden;touch-action:none;overscroll-behavior:none}body.playing header,body.playing main>*:not(.sheet){display:none}body.playing main{padding:0;max-width:none;height:100dvh;display:flex;align-items:center;justify-content:center}body.playing .sheet{border:0;border-radius:0;background:#000;width:min(100vw,calc(100dvh * 16 / 9));aspect-ratio:16/9;height:auto}body.playing canvas{width:100%;height:100%;touch-action:none;cursor:pointer;user-select:none;-webkit-user-select:none}
+body.playing{background:#000;overflow:hidden;touch-action:none;overscroll-behavior:none}body.playing header,body.playing main>*:not(.sheet){display:none}body.playing main{padding:0;max-width:none;height:100dvh;display:flex;align-items:center;justify-content:center}body.playing .sheet{border:0;border-radius:0;background:#000;width:auto;height:auto}body.playing canvas{width:100%;height:100%;touch-action:none;cursor:pointer;user-select:none;-webkit-user-select:none}
 </style>
 
 <header>
@@ -1219,7 +1219,7 @@ function cinemaFrame(t, dur) {
 // back. Ninety seconds; then your reel plays, cut on its matches. Tap the jellyfish to watch what it carries.
 const bw = () => P && P.strict ? .23 : BW;
 const ROUND = 90, SUN = {x: 1062, y: 160, r: 46}, FLOOR = H - 66, BW = .15, COARSE = matchMedia('(pointer: coarse)').matches;
-let P = null, S = 1;
+let P = null, S = 1, VH = 720;   // VH: the game's screen height at a width of 1280, so the canvas takes the device's own shape
 const fz = n => Math.round(n * (COARSE ? 1.6 : 1));   // type sized for the hand that holds the screen
 const buzz = p => { try { if (navigator.vibrate) navigator.vibrate(p); } catch (e) {} };
 const nowS = () => performance.now() / 1000, ease = v => v * v * (3 - 2 * v);
@@ -1266,7 +1266,7 @@ function inBeam(x, y) {
   const a = Math.atan2(dy, dx), diff = Math.atan2(Math.sin(a - P.beamA), Math.cos(a - P.beamA));
   return Math.abs(diff) < bw() + 50 / d;
 }
-const toScreen = (x, y) => cam ? [FW / 2 + (x - cam.x) * cam.z, FH / 2 + (y - cam.y) * cam.z] : [x * FW / W, y * FH / H];
+const toScreen = (x, y) => cam ? [FW / 2 + (x - cam.x) * cam.z, VH / 2 + (y - cam.y) * cam.z] : [x * FW / W, y * VH / H];
 function popAt(x, y, text, color) { P.pops.push({x, y, text, color, t0: nowS()}); if (P.pops.length > 6) P.pops.shift(); }
 function strokeTo(dx, dy, power, auto) {
   const d = Math.hypot(dx, dy); if (d < .5 || P.state !== 'play') return;
@@ -1300,7 +1300,7 @@ function splice() {
   P.fly.push({k: f.k, i: P.reel.length - 1, t0: nowS(), from: toScreen(J.x, J.by - 34)});
   P.carry = null; P.smolder = 0; P.sunT = nowS();
   music.splice(c.touch, f.burned); buzz([20, 40, 40]);
-  popAt(SUN.x - 30, SUN.y + 80, c.touch ? 'a touch kept from the censor' : f.burned ? 'back on the reel' : 'spliced', c.touch || f.burned ? '#ff9ec4' : '#fff0cf');
+  popAt(SUN.x - 190, SUN.y + 90, c.touch ? 'a touch kept from the censor' : f.burned ? 'back on the reel' : 'spliced', c.touch || f.burned ? '#ff9ec4' : '#fff0cf');
   f.returnAt = nowS() + 6;
 }
 function burnCarry() {
@@ -1352,6 +1352,10 @@ function playStep(dt) {
   if (!P.idle) P.left -= dt; if (P.left <= 0) { P.left = 0; endRound(); return; }
   trailSample();
   // a held finger or mouse, or held keys, stroke once at once and then on every pulse
+  if (P.hold) {   // the pull toward a held finger: steady, easing as it arrives
+    const dx = P.hold.x - J.x, dy = P.hold.y - J.by, d = Math.hypot(dx, dy) || 1, f = Math.min(1, d / 160) * 760 * dt;
+    J.vx += dx / d * f; J.vy += dy / d * f; if (d < 50) { J.vx *= Math.pow(.05, dt); J.vy *= Math.pow(.05, dt); }
+  }
   if (P.press && !P.hold && ((!P.press.moved && T - P.press.t > .26) || T - P.press.t > .5)) {
     P.hold = P.press.w; strokeTo(P.hold.x - J.x, P.hold.y - J.by, .62, true); P.lastAuto = Math.floor(music.beatPos());
   }
@@ -1370,7 +1374,7 @@ function playStep(dt) {
   const am = anyMatch(), bx = J.x, by = J.by + 30;
   if (!P.carry) for (const f of P.frames) {
     if (f.used || f.held || f.wait > 0) continue;
-    const d = Math.hypot(f.x - bx, f.y - by); if (d > 92) continue;
+    const d = Math.hypot(f.x - bx, f.y - by); if (d > (COARSE ? 112 : 96)) continue;
     if (catchable(f, am)) { catchFrame(f); break; }
     if (T - f.bump > .8) {
       f.bump = T; const ux = (f.x - bx) / (d || 1), uy = (f.y - by) / (d || 1);
@@ -1408,13 +1412,13 @@ function playCam(dt) {
   else { tx = W / 2; ty = H / 2; tz = 1.07; }
   if (!cam) cam = {x: tx, y: ty, z: tz};
   else { const k = Math.min(1, dt * 2.2); cam.x += (tx - cam.x) * k; cam.y += (ty - cam.y) * k; cam.z += (tz - cam.z) * Math.min(1, dt * 1.5); }
-  const hw = FW / 2 / cam.z, hh = FH / 2 / cam.z;
+  const hw = FW / 2 / cam.z, hh = VH / 2 / cam.z;
   cam.x = 2 * hw < W ? Math.max(hw, Math.min(W - hw, cam.x)) : W / 2; cam.y = 2 * hh < H ? Math.max(hh, Math.min(H - hh, cam.y)) : H / 2;
 }
 // ---- drawing: the world
 function drawWater() {
-  const g = ctx.createLinearGradient(0, 0, 0, FH); g.addColorStop(0, '#0d1a22'); g.addColorStop(.6, '#070d11'); g.addColorStop(1, '#020304');
-  ctx.fillStyle = g; ctx.fillRect(0, 0, FW, FH);
+  const g = ctx.createLinearGradient(0, 0, 0, VH); g.addColorStop(0, '#0d1a22'); g.addColorStop(.6, '#070d11'); g.addColorStop(1, '#020304');
+  ctx.fillStyle = g; ctx.fillRect(0, 0, FW, VH);
 }
 function drawFloor() {   // after AFL-18: gold ridge hairlines along the floor, where the burned frames sink
   ctx.save(); ctx.lineWidth = .9;
@@ -1553,7 +1557,7 @@ function drawRing() {   // the pulse: a ring that closes on the bell at every be
 }
 const T0 = () => nowS();
 function hintText() {
-  if (P.strokes < 3) return COARSE ? 'tap, swipe or hold to swim' : 'click, hold, or use the arrow keys to swim';
+  if (P.strokes < 3) return COARSE ? 'touch and hold where you want to swim' : 'click and hold where you want to swim (or arrow keys)';
   if (P.idle) return 'you stopped, so time stopped: the beam slows, the clock waits (the blue bar)';
   if (P.strict && P.left > 26) return 'the censor grows strict: its beam now burns anything you carry';
   if (P.reserve <= 0 && T0() - P.lastStroke > 2 && P.left > 26) return 'no held time left: the clock runs';
@@ -1564,7 +1568,7 @@ function hintText() {
   const am = anyMatch();
   if (!P.carry && !P.rescued && P.frames.some(f => f.burned && !f.used && catchable(f, am))) return 'the burned frame is on the floor: dive for it';
   if (P.reel.length === 1 && !P.carry) return 'next: a frame that shares something with the last (the gold words)';
-  if (P.strokes > 14 && P.perfects < 3) return 'stroke as the ring closes on the bell: on the pulse you go faster';
+  if (P.strokes > 14 && P.perfects < 3) return COARSE ? 'tap as the ring closes on the bell: on the pulse you get a burst' : 'click as the ring closes on the bell: on the pulse you get a burst';
   if (P.carry && !P.watched && P.reel.length >= 2 && P.reel.length <= 4) return COARSE ? 'tap the jellyfish to watch what it carries' : 'click the jellyfish, or press space, to watch what it carries';
   if (!am && !P.carry) return 'nothing left that matches: any frame makes a jump cut';
   return '';
@@ -1573,11 +1577,11 @@ function drawHint() {
   const h = hintText(), T = nowS(); if (h !== P.hint) { P.hint = h; P.hintT = T; } if (!h) return;
   const a = clamp01((T - P.hintT) / .3);
   ctx.save(); ctx.globalAlpha = a; ctx.font = `italic ${fz(24)}px Georgia, serif`; ctx.textAlign = 'center'; const w = ctx.measureText(h).width;
-  ctx.fillStyle = 'rgba(5,4,3,.6)'; ctx.fillRect(FW / 2 - w / 2 - 18, FH - 38 - fz(28), w + 36, fz(40));
-  ctx.fillStyle = '#f2e3c6'; ctx.fillText(h, FW / 2, FH - 38); ctx.restore();
+  ctx.fillStyle = 'rgba(5,4,3,.6)'; ctx.fillRect(FW / 2 - w / 2 - 18, VH - 38 - fz(28), w + 36, fz(40));
+  ctx.fillStyle = '#f2e3c6'; ctx.fillText(h, FW / 2, VH - 38); ctx.restore();
 }
 function vignette() {
-  ctx.save(); ctx.translate(FW / 2, FH / 2); ctx.scale(1, FH / FW * 1.15);
+  ctx.save(); ctx.translate(FW / 2, VH / 2); ctx.scale(1, VH / FW * 1.15);
   const vg = ctx.createRadialGradient(0, 0, FW * .34, 0, 0, FW * .66); vg.addColorStop(0, 'rgba(0,0,0,0)'); vg.addColorStop(1, 'rgba(0,0,0,.6)');
   ctx.fillStyle = vg; ctx.fillRect(-FW, -FW, 2 * FW, 2 * FW); ctx.restore();
 }
@@ -1586,27 +1590,27 @@ function reelFrame(list, i, u) {
   const it = list[i], prev = list[i - 1], next = list[i + 1], c = [.5, .45], J0 = JOINT[it.k];
   const ent = prev ? J0[shared(prev.k, it.k)[0]] || J0.touch || c : c, ex = next ? J0[shared(it.k, next.k)[0]] || c : c, q = ease(clamp01(u));
   const still = it.burned && u < .45, qq = still ? 0 : it.burned ? ease(clamp01((u - .45) / .55)) : q;   // a burned shot first holds still on the moment it burned
-  drawPic([it.k], 0, 0, FW, FH, 1, {hot: 1, at: [FW * .5, FH * .48], joints: [[ent[0] + (ex[0] - ent[0]) * qq, ent[1] + (ex[1] - ent[1]) * qq]], zoom: 1.45, cover: true, time: still ? (it.burnAt || 0) : undefined, burn: still ? .22 * (1 - u / .45) : 0});
-  if (it.burned) { ctx.save(); ctx.globalCompositeOperation = 'screen'; ctx.fillStyle = 'rgba(238,106,166,.16)'; ctx.fillRect(0, 0, FW, FH); ctx.restore(); }
+  drawPic([it.k], 0, 0, FW, VH, 1, {hot: 1, at: [FW * .5, VH * .48], joints: [[ent[0] + (ex[0] - ent[0]) * qq, ent[1] + (ex[1] - ent[1]) * qq]], zoom: 1.45, cover: true, time: still ? (it.burnAt || 0) : undefined, burn: still ? .22 * (1 - u / .45) : 0});
+  if (it.burned) { ctx.save(); ctx.globalCompositeOperation = 'screen'; ctx.fillStyle = 'rgba(238,106,166,.16)'; ctx.fillRect(0, 0, FW, VH); ctx.restore(); }
 }
 function drawReelPlay() {
   const n = P.reel.length, R = reelTimes(); let i = 0; while (i < n - 1 && P.t >= R.at[i + 1]) i++; const per = R.d[i], u = (P.t - R.at[i]) / per;
-  ctx.fillStyle = '#000'; ctx.fillRect(0, 0, FW, FH);
+  ctx.fillStyle = '#000'; ctx.fillRect(0, 0, FW, VH);
   if (i !== P.reelIdx) { P.reelIdx = i; music.click(); }
   reelFrame(P.reel, i, u); vignette();
-  if (P.t - R.at[i] < .05) { ctx.fillStyle = 'rgba(255,255,255,.55)'; ctx.fillRect(0, 0, FW, FH); }
+  if (P.t - R.at[i] < .05) { ctx.fillStyle = 'rgba(255,255,255,.55)'; ctx.fillRect(0, 0, FW, VH); }
   ctx.save(); ctx.shadowColor = '#000'; ctx.shadowBlur = 8;
   ctx.font = '900 16px system-ui, sans-serif'; ctx.fillStyle = 'rgba(242,230,207,.8)'; if ('letterSpacing' in ctx) ctx.letterSpacing = '3px'; ctx.fillText('YOUR REEL', 40, 46);
   ctx.textAlign = 'right'; ctx.font = 'italic 20px Georgia, serif'; ctx.fillText(`${i + 1} / ${n}  ·  held ${(P.reel[i].held || 0).toFixed(1)} s`, FW - 40, 46);
-  const w = P.reel[i].word; if (w) { ctx.textAlign = 'center'; ctx.globalAlpha = clamp01(1.4 - u * 2); ctx.font = 'italic 600 30px Georgia, serif'; ctx.fillStyle = '#f6c47a'; ctx.fillText(w, FW / 2, FH - 44); }
+  const w = P.reel[i].word; if (w) { ctx.textAlign = 'center'; ctx.globalAlpha = clamp01(1.4 - u * 2); ctx.font = 'italic 600 30px Georgia, serif'; ctx.fillStyle = '#f6c47a'; ctx.fillText(w, FW / 2, VH - 44); }
   ctx.restore();
 }
 function drawWatch() {
   const W0 = P.watch, i = Math.min(W0.items.length - 1, Math.floor((nowS() - W0.t0) / W0.per)), u = (nowS() - W0.t0 - i * W0.per) / W0.per;
-  ctx.fillStyle = '#000'; ctx.fillRect(0, 0, FW, FH); reelFrame(W0.items, i, u); vignette();
+  ctx.fillStyle = '#000'; ctx.fillRect(0, 0, FW, VH); reelFrame(W0.items, i, u); vignette();
   ctx.save(); ctx.shadowColor = '#000'; ctx.shadowBlur = 8; ctx.font = `italic ${fz(22)}px Georgia, serif`; ctx.fillStyle = 'rgba(242,230,207,.85)';
   ctx.fillText(W0.items.length > 1 ? 'your reel so far' : 'inside the jellyfish', 40, 46);
-  ctx.textAlign = 'center'; ctx.fillText(COARSE ? 'tap to swim on' : 'click or press space to swim on', FW / 2, FH - 40); ctx.restore();
+  ctx.textAlign = 'center'; ctx.fillText(COARSE ? 'tap to swim on' : 'click or press space to swim on', FW / 2, VH - 40); ctx.restore();
 }
 function icon(i, x, y) {
   const bp = beatPulse(); ctx.save(); ctx.lineWidth = 2;
@@ -1619,19 +1623,20 @@ function icon(i, x, y) {
 function drawTitle() {   // after Saul Bass: few shapes, three colours, each element entering in its own beat
   const t = P.t, bp = beatPulse(), A = i => clamp01((t - .1 - i * .22) / .4), X = i => -40 * (1 - ease(A(i)));
   const dim = ctx.createLinearGradient(0, 0, FW, 0); dim.addColorStop(0, 'rgba(4,3,2,.9)'); dim.addColorStop(.62, 'rgba(4,3,2,.8)'); dim.addColorStop(1, 'rgba(4,3,2,.25)');
-  ctx.fillStyle = dim; ctx.fillRect(0, 0, FW, FH);
+  ctx.fillStyle = dim; ctx.fillRect(0, 0, FW, VH);
+  const k7 = Math.min(1, VH / 720); ctx.save(); ctx.translate(FW * (1 - k7) / 2, 0); ctx.scale(k7, k7);
   ctx.save();
   ctx.globalAlpha = A(0); ctx.save(); ctx.translate(92 + X(0), 140); ctx.scale(1 + .04 * bp, 1);
   ctx.font = '900 54px system-ui, "Helvetica Neue", Arial, sans-serif'; ctx.fillStyle = '#f2e6cf'; if ('letterSpacing' in ctx) ctx.letterSpacing = '7px'; ctx.fillText('CONTAMINANT', 0, 0); ctx.restore();
   ctx.globalAlpha = A(1); ctx.font = 'italic 700 128px Georgia, serif'; ctx.fillStyle = '#f6c47a'; ctx.fillText('jelly', 84 + X(1), 258);
   ctx.fillStyle = '#c8361e'; ctx.fillRect(96, 282, 320 * ease(A(1)), 7);
   const rows = [
-    ['SWIM', COARSE ? 'tap, swipe or hold' : 'click, hold, or arrow keys / WASD', 'on the pulse: faster · stop: time stops'],
+    ['SWIM', COARSE ? 'touch and hold where you want to go' : 'click and hold where you want to go', 'tap on the pulse: a burst · let go: time stops'],
     ['CATCH', 'swim into a glowing frame', 'it must share something with the last: a hand, a door'],
     ['SPLICE', 'carry it to the sun', 'red dot = a touch: the beam burns it'],
     ['TIME', `${ROUND} seconds, then your reel plays`, 'the last 30: the censor burns everything']];
   rows.forEach(([h, a, b], i) => {
-    const y = 350 + i * 72, x = 96 + X(2 + i); ctx.globalAlpha = A(2 + i);
+    const y = (COARSE ? 322 : 350) + i * (COARSE ? 84 : 72), x = 96 + X(2 + i); ctx.globalAlpha = A(2 + i);
     icon(i, x + 14, y - 8);
     ctx.font = '800 21px system-ui, sans-serif'; ctx.fillStyle = '#f2e6cf'; if ('letterSpacing' in ctx) ctx.letterSpacing = '2px'; ctx.fillText(h, x + 48, y);
     if ('letterSpacing' in ctx) ctx.letterSpacing = '0px';
@@ -1639,15 +1644,17 @@ function drawTitle() {   // after Saul Bass: few shapes, three colours, each ele
     ctx.font = `italic ${fz(17)}px Georgia, serif`; ctx.fillStyle = 'rgba(214,190,150,.85)'; ctx.fillText(b, x + 160, y + fz(26));
   });
   ctx.globalAlpha = A(6) * (.6 + .4 * bp); ctx.font = 'italic 34px Georgia, serif'; ctx.fillStyle = '#f6c47a';
-  ctx.fillText(COARSE ? 'tap to begin' : 'click or press space to begin', 96, 660);
+  ctx.fillText(COARSE ? 'tap to begin' : 'click or press space to begin', 96, COARSE ? 694 : 660);
   ctx.globalAlpha = A(5) * .8; ctx.font = '16px system-ui, sans-serif'; ctx.fillStyle = '#cdb48a'; ctx.textAlign = 'right';
   ctx.fillText(`make the longest reel${P.best ? ' · best ' + P.best : ''}`, FW - 40, 660);
   if (COARSE && innerHeight > innerWidth) { ctx.textAlign = 'center'; ctx.globalAlpha = 1; ctx.font = '600 22px system-ui, sans-serif'; ctx.fillStyle = '#fff0cf'; ctx.fillText('turn your phone sideways ↻', FW / 2, 50); }
   ctx.restore();
+  ctx.restore();
 }
 function drawEnd() {
   const n = P.cutsTotal != null ? P.cutsTotal : P.reel.length, a = clamp01(P.t / .5);
-  ctx.save(); ctx.globalAlpha = a; ctx.fillStyle = 'rgba(4,3,2,.74)'; ctx.fillRect(0, 0, FW, FH);
+  ctx.save(); ctx.globalAlpha = a; ctx.fillStyle = 'rgba(4,3,2,.74)'; ctx.fillRect(0, 0, FW, VH);
+  const k7 = Math.min(1, VH / 720); ctx.save(); ctx.translate(FW * (1 - k7) / 2, 0); ctx.scale(k7, k7);
   ctx.font = 'italic 700 170px Georgia, serif'; ctx.fillStyle = '#f6c47a'; ctx.fillText(String(n), 92, 270); const nw = ctx.measureText(String(n)).width;
   ctx.font = '900 34px system-ui, sans-serif'; ctx.fillStyle = '#f2e6cf'; if ('letterSpacing' in ctx) ctx.letterSpacing = '4px';
   ctx.fillText(n === 1 ? 'CUT IN YOUR REEL' : 'CUTS IN YOUR REEL', 120 + nw, 262);
@@ -1659,6 +1666,7 @@ function drawEnd() {
   P.reel.slice(-14).forEach((r, i) => { const x = 96 + i * 76; ctx.drawImage(THUMB[r.k], x, 420, 70, 52); if (r.burned) { ctx.fillStyle = 'rgba(255,120,170,.25)'; ctx.fillRect(x, 420, 70, 52); } if (r.word) { ctx.fillStyle = 'rgba(246,196,122,.85)'; ctx.font = 'italic 12px Georgia, serif'; ctx.fillText(r.word, x, 490); } });
   ctx.globalAlpha = a * clamp01((P.t - .8) / .3) * (.6 + .4 * beatPulse()); ctx.font = 'italic 34px Georgia, serif'; ctx.fillStyle = '#f6c47a';
   ctx.fillText(COARSE ? 'tap to swim again' : 'click or press space to swim again', 96, 600);
+  ctx.restore();
   ctx.restore();
 }
 // ---- after Afterlight: the water becomes the film, the jellyfish leaves a worm through time, the intro is a point cloud
@@ -1725,7 +1733,7 @@ function drawWorm() {
 // ---- the intro: an archive scanned into points, the censor burns one, the points become the jellyfish
 let PC = null;
 function buildCloud() {
-  const clouds = [], pick = [[10, 360, 330, -1], [0, 930, 250, 1], [11, 700, 470, 0]];   // a hand on a door (a touch), a bulb, a dog and a person
+  const clouds = [], q = VH / 720, pick = [[10, 360, 330 * q, -1], [0, 930, 250 * q, 1], [11, 700, 470 * q, 0]];   // a hand on a door (a touch), a bulb, a dog and a person
   for (const [k, cx, cy, side] of pick) {
     const th = THUMB[k], g = th.getContext('2d'), d = g.getImageData(0, 0, 168, 126).data, pts = [];
     for (let y = 0; y < 126; y += 3) for (let x = 0; x < 168; x += 3) { const i = (y * 168 + x) * 4, l = (d[i] * .3 + d[i + 1] * .55 + d[i + 2] * .15) / 255; if (l > .12) pts.push({u: x / 168, v: y / 126, l, ex: 0, ey: 0, burnt: 0}); }
@@ -1743,11 +1751,11 @@ const INTRO = 10.6;   // seventeen beats at 96 bpm
 function drawIntro() {
   const t = P.t, B = music.SPB, beat = t / B, T = nowS();
   if (!PC) buildCloud();
-  ctx.fillStyle = '#000'; ctx.fillRect(0, 0, FW, FH);
+  ctx.fillStyle = '#000'; ctx.fillRect(0, 0, FW, VH);
   const conv = clamp01((beat - 10) / 4), cE = ease(conv), born = clamp01((beat - 14) / 1.5);
   if (born > 0) {   // the jellyfish, lit from its own points
     playCam(1 / 60); ctx.save(); ctx.globalAlpha = born;
-    ctx.setTransform(S * cam.z, 0, 0, S * cam.z, S * (FW / 2 - cam.z * cam.x), S * (FH / 2 - cam.z * cam.y)); drawWater(); tentacles(simT); drawJelly(); ctx.restore(); ctx.setTransform(S, 0, 0, S, 0, 0);
+    ctx.setTransform(S * cam.z, 0, 0, S * cam.z, S * (FW / 2 - cam.z * cam.x), S * (VH / 2 - cam.z * cam.y)); drawWater(); tentacles(simT); drawJelly(); ctx.restore(); ctx.setTransform(S, 0, 0, S, 0, 0);
   }
   const tg = conv > 0 ? introTargets() : null, burnB = 8, burnR = clamp01((beat - burnB) / 2);
   ctx.save(); ctx.globalCompositeOperation = 'lighter';
@@ -1780,19 +1788,19 @@ function drawIntro() {
     ctx.save(); ctx.globalAlpha = a; ctx.font = `900 ${size}px system-ui, "Helvetica Neue", Arial, sans-serif`; if ('letterSpacing' in ctx) ctx.letterSpacing = '8px'; ctx.textAlign = 'center';
     ctx.fillStyle = col; ctx.translate(FW / 2, y); ctx.scale(1 + .08 * clamp01(1 - (beat - b0) * 2), 1); ctx.fillText(txt, 0, 0); ctx.restore(); };
   word('AN ARCHIVE', 1, 6.5, 'rgba(242,230,207,.9)', 92, 26);
-  word('WHAT THE CENSOR CUT', 8, 10.5, '#e8432a', 640, 44);
-  word('THE JELLYFISH KEEPS', 11, 14, '#f6c47a', 640, 44);
-  if (beat > burnB && beat < burnB + .5) { ctx.fillStyle = `rgba(163,38,15,${(.5 * (1 - (beat - burnB) * 2)).toFixed(3)})`; ctx.fillRect(0, 0, FW, FH); }
-  if (beat > 14 && beat < 14.4) { ctx.fillStyle = `rgba(255,240,215,${(.8 * (1 - (beat - 14) / .4)).toFixed(3)})`; ctx.fillRect(0, 0, FW, FH); }
-  ctx.save(); ctx.globalAlpha = .45; ctx.font = `italic ${fz(15)}px Georgia, serif`; ctx.fillStyle = '#cdb48a'; ctx.textAlign = 'right'; ctx.fillText(COARSE ? 'tap to skip' : 'click to skip', FW - 30, FH - 24); ctx.restore();
+  word('WHAT THE CENSOR CUT', 8, 10.5, '#e8432a', VH - 80, 44);
+  word('THE JELLYFISH KEEPS', 11, 14, '#f6c47a', VH - 80, 44);
+  if (beat > burnB && beat < burnB + .5) { ctx.fillStyle = `rgba(163,38,15,${(.5 * (1 - (beat - burnB) * 2)).toFixed(3)})`; ctx.fillRect(0, 0, FW, VH); }
+  if (beat > 14 && beat < 14.4) { ctx.fillStyle = `rgba(255,240,215,${(.8 * (1 - (beat - 14) / .4)).toFixed(3)})`; ctx.fillRect(0, 0, FW, VH); }
+  ctx.save(); ctx.globalAlpha = .45; ctx.font = `italic ${fz(15)}px Georgia, serif`; ctx.fillStyle = '#cdb48a'; ctx.textAlign = 'right'; ctx.fillText(COARSE ? 'tap to skip' : 'click to skip', FW - 30, VH - 24); ctx.restore();
   void T;
 }
 function drawGate() {   // one dot, beating: tap it, and the sound begins
   const bp = beatPulse(), r = 6 + 5 * bp;
-  ctx.fillStyle = '#000'; ctx.fillRect(0, 0, FW, FH);
-  ctx.save(); ctx.globalCompositeOperation = 'lighter'; ctx.drawImage(DOT.gold, FW / 2 - r * 4, FH / 2 - r * 4, r * 8, r * 8); ctx.restore();
+  ctx.fillStyle = '#000'; ctx.fillRect(0, 0, FW, VH);
+  ctx.save(); ctx.globalCompositeOperation = 'lighter'; ctx.drawImage(DOT.gold, FW / 2 - r * 4, VH / 2 - r * 4, r * 8, r * 8); ctx.restore();
   ctx.save(); ctx.textAlign = 'center'; ctx.font = `italic ${fz(20)}px Georgia, serif`; ctx.fillStyle = `rgba(242,211,160,${(.5 + .3 * bp).toFixed(3)})`;
-  ctx.fillText(COARSE ? 'tap · sound on' : 'click · sound on', FW / 2, FH / 2 + 70); ctx.restore();
+  ctx.fillText(COARSE ? 'tap · sound on' : 'click · sound on', FW / 2, VH / 2 + 70); ctx.restore();
 }
 function playDraw(dt) {
   ctx.setTransform(S, 0, 0, S, 0, 0);
@@ -1803,28 +1811,30 @@ function playDraw(dt) {
   if (P.watch) { drawWatch(); return; }
   playCam(dt); drawWater();
   const sh = P.shake * 14, ox = (Math.random() - .5) * sh, oy = (Math.random() - .5) * sh;
-  ctx.setTransform(S * cam.z, 0, 0, S * cam.z, S * (FW / 2 - cam.z * cam.x + ox), S * (FH / 2 - cam.z * cam.y + oy));
+  ctx.setTransform(S * cam.z, 0, 0, S * cam.z, S * (FW / 2 - cam.z * cam.x + ox), S * (VH / 2 - cam.z * cam.y + oy));
   drawWorld();
   ctx.setTransform(S, 0, 0, S, 0, 0);
   vignette();
   if (P.state === 'play') { drawRing(); drawHUD(); drawHint(); }
-  if (COARSE && innerHeight > innerWidth && P.state !== 'title') { ctx.fillStyle = 'rgba(0,0,0,.7)'; ctx.fillRect(0, 0, FW, FH); ctx.font = '600 52px system-ui, sans-serif'; ctx.fillStyle = '#fff0cf'; ctx.textAlign = 'center'; ctx.fillText('turn your phone sideways ↻', FW / 2, FH / 2); ctx.textAlign = 'left'; }
+  if (COARSE && innerHeight > innerWidth && P.state !== 'title') { ctx.fillStyle = 'rgba(0,0,0,.7)'; ctx.fillRect(0, 0, FW, VH); ctx.font = '600 52px system-ui, sans-serif'; ctx.fillStyle = '#fff0cf'; ctx.textAlign = 'center'; ctx.fillText('turn your phone sideways ↻', FW / 2, VH / 2); ctx.textAlign = 'left'; }
   else if (P.state === 'title') drawTitle();
   else if (P.state === 'end') drawEnd();
 }
 function fit() {
-  const r = cv.getBoundingClientRect(), dpr = window.devicePixelRatio || 1;
-  S = Math.max(1, Math.min(COARSE ? 1.5 : 2, r.width * dpr / FW)); cv.width = Math.round(FW * S); cv.height = Math.round(FH * S);
+  const vw = window.innerWidth, vh = window.innerHeight, a = Math.max(4 / 3, Math.min(2.4, vw / vh)), cw = Math.min(vw, vh * a), ch = cw / a, dpr = window.devicePixelRatio || 1;
+  VH = Math.round(FW / a); cv.style.width = cw + 'px'; cv.style.height = ch + 'px';
+  S = Math.max(1, Math.min(COARSE ? 1.5 : 2, cw * dpr / FW)); cv.width = Math.round(FW * S); cv.height = Math.round(VH * S); cam = null;
 }
 function startPlay() {
-  document.body.classList.add('playing'); makeThumbs(); fit(); addEventListener('resize', fit);
+  document.body.classList.add('playing'); makeThumbs(); fit(); addEventListener('resize', fit); addEventListener('orientationchange', () => setTimeout(fit, 300));
   playReset('gate');
-  const film = e => { const r = cv.getBoundingClientRect(); return [(e.clientX - r.left) / r.width * FW, (e.clientY - r.top) / r.height * FH]; };
-  const toWorld = p => cam ? {x: cam.x + (p[0] - FW / 2) / cam.z, y: cam.y + (p[1] - FH / 2) / cam.z} : {x: p[0] * W / FW, y: p[1] * H / FH};
+  const film = e => { const r = cv.getBoundingClientRect(); return [(e.clientX - r.left) / r.width * FW, (e.clientY - r.top) / r.height * VH]; };
+  const toWorld = p => cam ? {x: cam.x + (p[0] - FW / 2) / cam.z, y: cam.y + (p[1] - VH / 2) / cam.z} : {x: p[0] * W / FW, y: p[1] * H / VH};
   const onJelly = p => { const s = toScreen(J.x, J.by - 30); return Math.hypot(p[0] - s[0], p[1] - s[1]) < 92 * (cam ? cam.z : 1); };
   const advance = () => {
     if (P.watch) { closeWatch(); return; }
-    if (P.state === 'gate') { music.start(); PC = null; P.state = 'intro'; P.t = 0; return; }
+    if (P.state === 'gate') { if (COARSE) { try { const d = document.documentElement, rq = d.requestFullscreen || d.webkitRequestFullscreen; if (rq) Promise.resolve(rq.call(d, {navigationUI: 'hide'})).then(() => { try { screen.orientation.lock('landscape').catch(() => {}); } catch (x) {} setTimeout(fit, 300); }).catch(() => {}); } catch (x) {} }
+      music.start(); PC = null; P.state = 'intro'; P.t = 0; return; }
     if (P.state === 'intro') { if (P.t > .6) { P.state = 'title'; P.t = 0; } return; }
     if (P.state === 'title' || (P.state === 'end' && P.t > .8)) { music.start(); playReset('play'); return; }
     if (P.state === 'reel') { P.state = 'end'; P.t = 0; }
@@ -1833,6 +1843,7 @@ function startPlay() {
     e.preventDefault(); music.wake();
     if (P.state !== 'play' || P.watch) { advance(); return; }
     const p = film(e); P.press = {sx: e.clientX, sy: e.clientY, t: nowS(), w: toWorld(p), jelly: onJelly(p), moved: false}; P.hold = null;
+    if (!P.press.jelly) { P.hold = P.press.w; strokeTo(P.hold.x - J.x, P.hold.y - J.by, .9); P.lastAuto = Math.round(music.beatPos()); }   // a touch is a stroke toward it (judged against the pulse), and holding keeps swimming there
     try { cv.setPointerCapture(e.pointerId); } catch (x) {}
   });
   cv.addEventListener('pointermove', e => {
@@ -1843,7 +1854,9 @@ function startPlay() {
   });
   addEventListener('pointerup', e => {
     const p0 = P.press, held = !!P.hold; P.press = null; P.hold = null;
-    if (!p0 || held || P.state !== 'play') return;
+    if (!p0 || P.state !== 'play') return;
+    if (p0.jelly && nowS() - p0.t < .3 && Math.hypot(e.clientX - p0.sx, e.clientY - p0.sy) < 20) { openWatch(); return; }
+    if (held) return;
     const r = cv.getBoundingClientRect(), k = FW / r.width, dx = (e.clientX - p0.sx) * k, dy = (e.clientY - p0.sy) * k, dist = Math.hypot(dx, dy);
     if (dist > 28) strokeTo(dx, dy, Math.min(1.5, .6 + dist / 260));              // a swipe: one stroke along it
     else if (p0.jelly) openWatch();                                                 // a tap on the jellyfish: watch what it carries
