@@ -1,0 +1,14 @@
+import sys,json,cv2,numpy as np
+sys.path.insert(0,'/tmp/claude-0/-home-user/7ad27a1f-6f12-5d2c-a10c-28533963aced/scratchpad/mem/build')
+import horse_styles as HS, atlas_source as A
+HS.FULL=True; HS.BARS=(0,720); HS.PLATE_SOURCE=lambda ts:(A.frame_at(ts),0)
+d=json.load(open('/tmp/claude-0/-home-user/7ad27a1f-6f12-5d2c-a10c-28533963aced/scratchpad/mem/build/atlas_forest_edl.json'))
+for e in d['edl']:
+    ts=(e['src0']+e['src1'])/2; T=e['t0']+1.0
+    for w,f in (('s',HS.plate_S),('c',HS.plate_C)):
+        img=f(ts,T)
+        if e.get('facets'):
+            dd=HS.facet_layer(ts)[...,None]; img=np.clip(img+dd*(np.array([1,.82,.42],np.float32)*0.85 if w=='s' else HS.PAPER*0.85),0,1)
+        img=cv2.resize((img*255).astype(np.uint8),(960,540),interpolation=cv2.INTER_AREA)
+        cv2.imwrite(f"/tmp/claude-0/-home-user/7ad27a1f-6f12-5d2c-a10c-28533963aced/scratchpad/mem/game/assets/sh{e['shot']:02d}_{w}.jpg",cv2.cvtColor(img,cv2.COLOR_RGB2BGR),[cv2.IMWRITE_JPEG_QUALITY,82])
+    print(e['shot'],flush=True)

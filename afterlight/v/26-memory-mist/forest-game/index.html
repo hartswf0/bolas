@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<title>Memory Maker: The Forest</title>
+<style>
+:root{--teal:#5fe0d4;--amber:#e8a850;--bg:#000}
+*{box-sizing:border-box}html,body{margin:0;height:100%;background:var(--bg);color:var(--teal);font:12px/1.4 ui-monospace,Menlo,Consolas,monospace;overflow:hidden;touch-action:none}
+canvas{display:block;width:100vw;height:100vh}
+.hud{position:fixed;left:0;right:0;pointer-events:none;letter-spacing:.12em;text-transform:uppercase}
+#top{top:12px;padding:0 16px;display:flex;justify-content:space-between}
+#bot{bottom:12px;padding:0 16px;text-align:center;color:#8fb;opacity:.8}
+#cap{position:fixed;left:0;right:0;bottom:64px;text-align:center;color:#fff;font-size:15px;letter-spacing:.2em;text-shadow:0 0 8px #000;opacity:0;transition:opacity .5s}
+#cap.on{opacity:1}
+#title{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;background:#000;text-align:center;transition:opacity .8s}
+#title.off{opacity:0;pointer-events:none}
+#title h1{font-size:22px;font-weight:400;letter-spacing:.3em;margin:0;color:#fff}
+#title p{margin:0;max-width:30em;color:#8fb;padding:0 20px}
+button{font:inherit;color:var(--amber);background:#000;border:1px solid var(--amber);padding:10px 18px;letter-spacing:.2em;text-transform:uppercase;cursor:pointer}
+.pad{position:fixed;bottom:80px;display:none;gap:8px}
+@media (pointer:coarse){.pad{display:flex}}
+#padL{left:14px}#padR{right:14px}
+.pad button{padding:16px 18px;border-color:var(--teal);color:var(--teal)}
+</style>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"}}</script>
+</head><body>
+<div id="top" class="hud"><span>MEMORY MAKER // THE FOREST</span><span id="cnt">0 / 5</span></div>
+<div id="cap"></div>
+<div id="bot" class="hud">WASD / ARROWS move · SPACE hold to stamp · O swap ways</div>
+<div id="padL" class="pad"><button data-k="a">◀</button><button data-k="w">▲</button><button data-k="s">▼</button><button data-k="d">▶</button></div>
+<div id="padR" class="pad"><button data-k="o">O</button><button data-k=" ">STAMP</button></div>
+<div id="title"><h1>THE FOREST</h1><p>A memory being made. You are the imp. Fly to each unmade fragment and hold to stamp it into the picture.</p><button id="go">Begin</button></div>
+<script type="module">
+import * as THREE from 'three';
+const FR=[ // fragments in the order the memory is made; z is depth along the path
+ {id:'04',name:'WET LEAF',x:-3,y:0.5,z:-14},
+ {id:'05',name:'THE BEETLE',x:3.5,y:-0.4,z:-30},
+ {id:'07',name:'BUG EYE MACRO',x:-2.5,y:0.8,z:-46},
+ {id:'09',name:'THE MAKER',x:3,y:0,z:-62},
+ {id:'10',name:'THE WOMAN',x:0,y:0.6,z:-80}];
+const W=16,H=9; let way='s';
+const R=new THREE.WebGLRenderer({antialias:true,preserveDrawingBuffer:true});R.setPixelRatio(Math.min(devicePixelRatio,2));document.body.prepend(R.domElement);
+const sc=new THREE.Scene();sc.background=new THREE.Color(0x050403);sc.fog=new THREE.FogExp2(0x050403,0.028);
+const cam=new THREE.PerspectiveCamera(60,1,0.1,200);
+function fit(){R.setSize(innerWidth,innerHeight);cam.aspect=innerWidth/innerHeight;cam.fov=innerWidth<innerHeight?80:60;cam.updateProjectionMatrix()}addEventListener('resize',fit);fit();
+const TL=new THREE.TextureLoader(),cache={};
+function tex(n,w){const k=n+w;if(!cache[k]){const t=TL.load(`assets/sh${n}_${w}.jpg`);t.colorSpace=THREE.SRGBColorSpace;cache[k]=t}return cache[k]}
+// ambient forest: the opening shot as faint layered paper at several depths
+const amb=[];for(let i=0;i<9;i++){const m=new THREE.MeshBasicMaterial({map:tex('02',way),transparent:true,opacity:0.05,depthWrite:false,fog:true});
+ const p=new THREE.Mesh(new THREE.PlaneGeometry(W*3.2,H*3.2),m);p.position.set((i%3-1)*5,(i%2-0.5)*2,-8-i*10);sc.add(p);amb.push(p)}
+// fragments
+const frs=FR.map(f=>{const g=new THREE.Group();g.position.set(f.x,f.y,f.z);
+ const m=new THREE.MeshBasicMaterial({map:tex(f.id,way),transparent:true,opacity:0.16,depthWrite:false,fog:false,color:0x9ab8c0});
+ const pl=new THREE.Mesh(new THREE.PlaneGeometry(W*0.5,H*0.5),m);g.add(pl);
+ const ring=new THREE.Mesh(new THREE.RingGeometry(1.0,1.05,48),new THREE.MeshBasicMaterial({color:0x5fe0d4,transparent:true,opacity:0.5,depthWrite:false,fog:false}));ring.position.z=0.05;g.add(ring);
+ sc.add(g);return {f,g,m,pl,ring,prog:0,done:false}});
+// dome: the last shots, they grow to fill the view
+const dome=new THREE.Mesh(new THREE.PlaneGeometry(W*0.9,H*0.9),new THREE.MeshBasicMaterial({map:tex('11',way),transparent:true,opacity:0,depthWrite:false,fog:false}));dome.position.set(0,0,-100);sc.add(dome);
+// mist
+const N=500,pos=new Float32Array(N*3);for(let i=0;i<N;i++){pos[i*3]=(Math.random()-.5)*30;pos[i*3+1]=(Math.random()-.5)*14;pos[i*3+2]=-Math.random()*100}
+const mist=new THREE.Points(new THREE.BufferGeometry().setAttribute('position',new THREE.BufferAttribute(pos,3)),new THREE.PointsMaterial({color:0xe8a850,size:0.06,transparent:true,opacity:0.5,depthWrite:false}));sc.add(mist);
+// the imp
+const imp=new THREE.Mesh(new THREE.SphereGeometry(0.16,24,16),new THREE.MeshBasicMaterial({color:0xfff0c0,fog:false}));sc.add(imp);
+const halo=new THREE.Mesh(new THREE.RingGeometry(0.26,0.3,32),new THREE.MeshBasicMaterial({color:0xe8a850,transparent:true,opacity:0.6,fog:false,depthWrite:false}));imp.add(halo);
+const S={phase:'title',t:0,x:0,y:0,z:4,vx:0,vy:0,vz:0,done:0,near:-1,hold:0,ending:0,way};
+const keys={};addEventListener('keydown',e=>{const k=e.key.toLowerCase();keys[k]=true;if(k==='o')swap();if(k==='r'&&S.phase==='end')reset();if(k===' '&&S.phase==='title')begin();if(k===' ')e.preventDefault()});addEventListener('keyup',e=>keys[e.key.toLowerCase()]=false);
+document.querySelectorAll('.pad button').forEach(b=>{const k=b.dataset.k;const dn=e=>{e.preventDefault();keys[k]=true;if(k==='o')swap()};const up=e=>{e.preventDefault();keys[k]=false};b.addEventListener('pointerdown',dn);b.addEventListener('pointerup',up);b.addEventListener('pointerleave',up)});
+// sound: one soft synthesized blip per stamp, no files
+let AC=null;function blip(f){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();const o=AC.createOscillator(),g=AC.createGain();o.type='sine';o.frequency.value=f;g.gain.value=0.0001;o.connect(g);g.connect(AC.destination);const t=AC.currentTime;g.gain.exponentialRampToValueAtTime(0.18,t+0.02);g.gain.exponentialRampToValueAtTime(0.0001,t+1.2);o.start(t);o.stop(t+1.3)}catch(e){}}
+const cap=document.getElementById('cap'),cnt=document.getElementById('cnt');
+function say(s){cap.textContent=s;cap.classList.add('on');clearTimeout(say.t);say.t=setTimeout(()=>cap.classList.remove('on'),2200)}
+function swap(){way=way==='s'?'c':'s';S.way=way;frs.forEach(o=>{o.m.map=tex(o.f.id,way);o.m.needsUpdate=true});amb.forEach(p=>{p.material.map=tex('02',way);p.material.needsUpdate=true});dome.material.map=tex(S.ending>0&&S.ending>1.5?'12':'11',way);dome.material.needsUpdate=true}
+function begin(){if(S.phase!=='title')return;document.getElementById('title').classList.add('off');S.phase='play';blip(220)}
+function reset(){S.phase='play';S.x=0;S.y=0;S.z=4;S.done=0;S.ending=0;frs.forEach(o=>{o.prog=0;o.done=false});dome.material.opacity=0;cnt.textContent='0 / 5'}
+document.getElementById('go').onclick=begin;if(/autostart/.test(location.search))begin();
+const clock=new THREE.Clock();
+function step(dt){S.t+=dt;if(S.phase==='play'){
+  const ax=(keys.d||keys.arrowright?1:0)-(keys.a||keys.arrowleft?1:0),az=(keys.s||keys.arrowdown?1:0)-(keys.w||keys.arrowup?1:0),ay=(keys.e?1:0)-(keys.q?1:0);
+  S.vx+=(ax*9-S.vx)*Math.min(1,dt*4);S.vz+=(az*10-S.vz)*Math.min(1,dt*4);S.vy+=(ay*6-S.vy)*Math.min(1,dt*4);
+  S.x=Math.max(-7,Math.min(7,S.x+S.vx*dt));S.y=Math.max(-3,Math.min(3,S.y+S.vy*dt));S.z=Math.max(-92,Math.min(6,S.z+S.vz*dt));
+  // nearest unstamped fragment
+  let best=-1,bd=1e9;frs.forEach((o,i)=>{if(o.done)return;const d=Math.hypot(o.f.x-S.x,o.f.y-S.y,(o.f.z+3)-S.z);if(d<bd){bd=d;best=i}});S.near=best;
+  const hold=(keys[' ']||keys.enter)&&best>=0&&bd<4.5;S.hold=hold?1:0;
+  frs.forEach((o,i)=>{const near=i===best&&bd<9;
+   if(i===best&&hold){o.prog=Math.min(1,o.prog+dt/1.2);if(o.prog>=1&&!o.done){o.done=true;S.done++;cnt.textContent=S.done+' / 5';blip(330+S.done*90);say(o.f.name)}}
+   else if(!o.done)o.prog=Math.max(0,o.prog-dt*0.5);
+   const p=o.done?1:o.prog;o.m.opacity=0.16+0.84*p*p*(3-2*p);o.m.color.setRGB(0.6+0.4*p,0.72+0.28*p,0.75+0.25*p);
+   o.ring.material.opacity=o.done?0:(near?0.9:0.35);o.ring.scale.setScalar(1+0.08*Math.sin(S.t*4)+(i===best&&hold?-0.3*o.prog:0));
+   o.g.position.y=o.f.y+Math.sin(S.t*0.6+i)*0.12});
+  if(S.done===5){S.phase='dissolve';S.ending=0}
+ }
+ if(S.phase==='dissolve'){S.ending+=dt;const u=Math.min(1,S.ending/5);dome.position.z=-100+u*(S.z+ -(-100)-6);dome.material.opacity=Math.min(1,u*1.4);
+  frs.forEach(o=>o.m.opacity=Math.max(0,1-u*1.5));amb.forEach(p=>p.material.opacity=0.05*(1-u));
+  if(S.ending>3.2&&dome.material.map!==tex('12',way)){dome.material.map=tex('12',way);dome.material.needsUpdate=true}
+  if(S.ending>8){S.phase='end';say('THE MEMORY HOLDS · R TO MAKE IT AGAIN')}}
+ imp.position.set(S.x,S.y,S.z);halo.scale.setScalar(1+0.2*Math.sin(S.t*5)+(S.hold?0.6:0));halo.lookAt(cam.position);
+ const tz=S.phase==='dissolve'||S.phase==='end'?S.z+8:S.z+7;cam.position.x+=(S.x*0.7-cam.position.x)*Math.min(1,dt*3);cam.position.y+=(S.y*0.7+0.4-cam.position.y)*Math.min(1,dt*3);cam.position.z+=(tz-cam.position.z)*Math.min(1,dt*3);cam.lookAt(S.x*0.8,S.y*0.8,S.z-6);
+ mist.position.z=(S.t*0.4)%8-4;
+}
+window.__game={get state(){return {phase:S.phase,x:S.x,y:S.y,z:S.z,speed:Math.hypot(S.vx,S.vy,S.vz),stamped:S.done,near:S.near,holding:S.hold,way:S.way,t:S.t,fragments:frs.map(o=>({name:o.f.name,x:o.f.x,y:o.f.y,z:o.f.z+3,prog:o.prog,done:o.done}))}}};
+let last=performance.now();function loop(){const n=performance.now();step(Math.min(0.05,(n-last)/1000));last=n;R.render(sc,cam);requestAnimationFrame(loop)}
+cam.position.set(0,0.4,7.4);loop();
+</script></body></html>
