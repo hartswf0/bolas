@@ -45,7 +45,7 @@ It is the first proof of [SCION — AGENT-FIRST ARCHITECT](SCION_AGENT_FIRST_ARC
 
 ## Status
 
-**The game (second version)** was measured by a scripted bot in headless Chromium:
+**The game (third version: intro, water film, worm, time-stop, strict censor; see THEORY_OF_PLAY.md):** bots score about 21–33 cuts in a 90 s round, which always ends on the clock. Second version: was measured by a scripted bot in headless Chromium:
 - **1280×720:** finished all 14 frames in about 49 s.
 - **844×390 touch:** finished all 14 frames in about 50 s; burns, rescues and tap-to-watch were all exercised.
 - No page errors and no horizontal overflow.

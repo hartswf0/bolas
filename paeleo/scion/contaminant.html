@@ -813,7 +813,7 @@ function drawPic(imgs, x, y, w, h, a = 1, opt = {}) {
   ctx.beginPath(); ctx.rect(x, y, w, h); ctx.clip();
   ctx.filter = hot > .5 ? 'sepia(.85) saturate(1.25) contrast(1.08) brightness(.92)' : 'grayscale(1) contrast(1.15) brightness(.88)';
   (imgs || []).forEach((k, i) => {
-    const im = picAt(k, simT); if (!im || !im.naturalWidth) return;
+    const im = picAt(k, opt.time != null ? opt.time : simT); if (!im || !im.naturalWidth) return;
     const zoom = opt.at ? (opt.zoom || 1.3) : 1, sc = Math.max(w / im.naturalWidth, h / im.naturalHeight) * zoom, iw = im.naturalWidth * sc, ih = im.naturalHeight * sc;
     ctx.globalAlpha = a * (i ? (opt.second || .6) : 1); ctx.globalCompositeOperation = i ? 'screen' : 'source-over';
     let ox = x + (w - iw) / 2 + (i ? Math.sin(simT * .7 + i) * 6 : 0), oy = y + (h - ih) / 2;
@@ -1217,16 +1217,18 @@ function cinemaFrame(t, dur) {
 // one on your reel: a match cut. SPLICE: carry it to the sun to add it to the reel. The sun's beam is the censor: a
 // frame with a touch in it (red dot) burns if you carry it through the light; burned frames sink and can be lifted
 // back. Ninety seconds; then your reel plays, cut on its matches. Tap the jellyfish to watch what it carries.
+const bw = () => P && P.strict ? .23 : BW;
 const ROUND = 90, SUN = {x: 1062, y: 160, r: 46}, FLOOR = H - 66, BW = .15, COARSE = matchMedia('(pointer: coarse)').matches;
 let P = null, S = 1;
-const fz = n => Math.round(n * (COARSE ? 1.3 : 1));   // type sized for the hand that holds the screen
+const fz = n => Math.round(n * (COARSE ? 1.6 : 1));   // type sized for the hand that holds the screen
 const buzz = p => { try { if (navigator.vibrate) navigator.vibrate(p); } catch (e) {} };
 const nowS = () => performance.now() / 1000, ease = v => v * v * (3 - 2 * v);
 const FEAT = k => Object.keys(JOINT[k]).filter(t => t !== 'touch');
 const shared = (a, b) => FEAT(a).filter(t => JOINT[b][t]);
 const NOTE = k => [57, 59, 62, 64, 66, 69, 71, 74, 76, 78, 81, 83, 86, 88][chainPos(k)];   // the archive in rhyme order is a rising scale
 function beatPulse() { const ph = ((music.beatPos() % 1) + 1) % 1; return ph < .15 ? Math.sin(ph / .15 * Math.PI / 2) : 1 - (ph - .15) / .85; }
-const THUMB = [];
+const THUMB = [], THUMB_DOT = [];
+function tintDot(c) { const d = document.createElement('canvas'); d.width = d.height = 32; const g = d.getContext('2d'), r = g.createRadialGradient(16, 16, 0, 16, 16, 16); r.addColorStop(0, `rgba(${c},1)`); r.addColorStop(.35, `rgba(${c},.45)`); r.addColorStop(1, `rgba(${c},0)`); g.fillStyle = r; g.fillRect(0, 0, 32, 32); return d; }
 function makeThumbs() {
   PICS.forEach((fr, k) => {
     const c = document.createElement('canvas'); c.width = 168; c.height = 126; const g = c.getContext('2d'), im = fr[0];
@@ -1236,6 +1238,8 @@ function makeThumbs() {
       g.drawImage(im, (168 - im.naturalWidth * sc) / 2, (126 - im.naturalHeight * sc) / 2, im.naturalWidth * sc, im.naturalHeight * sc); g.filter = 'none';
     }
     THUMB[k] = c;
+    const d = c.getContext('2d').getImageData(0, 0, 168, 126).data; let r = 0, g2 = 0, b = 0; for (let i = 0; i < d.length; i += 64) { r += d[i]; g2 += d[i + 1]; b += d[i + 2]; } const n = d.length / 64, l = Math.max(r, g2, b) / n || 1;
+    THUMB_DOT[k] = tintDot([r / n, g2 / n, b / n].map(v => Math.round(Math.min(255, v / l * 255))).join(','));
   });
 }
 function spots() {   // fourteen places on a jittered grid, clear of where the jellyfish starts
@@ -1246,7 +1250,7 @@ function spots() {   // fourteen places on a jittered grid, clear of where the j
 function playReset(state) {
   reset();   // the film's world: the jellyfish, its tentacles, the clocks
   let best = 0; try { best = +localStorage.getItem('jelly.best') || 0; } catch (e) {}
-  P = {state, t: 0, left: ROUND, reel: [], carry: null, smolder: 0, frames: [], strokes: 0, perfects: 0, kept: 0, rescued: 0, burns: 0, watched: false, best,
+  P = {state, t: 0, scars: [], idle: false, reelT: null, run: 0, bestRun: 0, reserve: 12, strict: false, left: ROUND, reel: [], carry: null, smolder: 0, frames: [], strokes: 0, perfects: 0, kept: 0, rescued: 0, burns: 0, watched: false, best,
     fly: [], pops: [], bubbles: [], beamPh: 0, beamA: 2.5, watch: null, press: null, hold: null, keys: new Set(), lastStroke: -9, lastAuto: -1,
     hint: '', hintT: 0, ringT: -9, sunT: -9, shake: 0, stop: 0, near: null, mouse: P ? P.mouse : null, reelIdx: -1, lastWarn: 0};
   const sp = spots();
@@ -1260,17 +1264,17 @@ function catchable(f, am) { if (f.used || f.held) return false; const l = lastK(
 function inBeam(x, y) {
   const dx = x - SUN.x, dy = y - SUN.y, d = Math.hypot(dx, dy); if (d < SUN.r + 20) return false;
   const a = Math.atan2(dy, dx), diff = Math.atan2(Math.sin(a - P.beamA), Math.cos(a - P.beamA));
-  return Math.abs(diff) < BW + 50 / d;
+  return Math.abs(diff) < bw() + 50 / d;
 }
 const toScreen = (x, y) => cam ? [FW / 2 + (x - cam.x) * cam.z, FH / 2 + (y - cam.y) * cam.z] : [x * FW / W, y * FH / H];
 function popAt(x, y, text, color) { P.pops.push({x, y, text, color, t0: nowS()}); if (P.pops.length > 6) P.pops.shift(); }
 function strokeTo(dx, dy, power, auto) {
-  const d = Math.hypot(dx, dy); if (d < 4 || P.state !== 'play') return;
+  const d = Math.hypot(dx, dy); if (d < .5 || P.state !== 'play') return;
   const T = nowS(), gap = T - P.lastStroke, bp = music.beatPos(), off = Math.abs(bp - Math.round(bp)) * music.SPB;
-  const mash = !auto && gap < .2, perfect = !auto && !mash && off < .11;
+  const mash = !auto && gap < .2, perfect = !auto && !mash && off < .09;
   if (perfect) { J.res = Math.min(1, J.res + .25); P.perfects++; P.ringT = T; if (P.perfects <= 3) popAt(J.x, J.by - 120, 'on the pulse', '#fff0cf'); }
   else if (mash) J.res = Math.max(0, J.res - .3);
-  const q = mash ? .35 : 1, imp = (280 + 300 * J.res) * power * q * (perfect ? 1.25 : 1);
+  const q = mash ? .35 : 1, imp = (240 + 340 * J.res) * power * q * (perfect ? 1.45 : auto ? 1 : .55);
   J.vx += dx / d * imp; J.vy += dy / d * imp; J.kick = q; P.lastStroke = T; P.strokes++;
   for (let i = 0; i < 4; i++) P.bubbles.push({x: J.x + (Math.random() - .5) * 90, y: J.by + 10, vx: -dx / d * 60 + (Math.random() - .5) * 30, vy: -dy / d * 60 - 30, t0: T, r: 2 + Math.random() * 3});
   if (P.bubbles.length > 40) P.bubbles.splice(0, P.bubbles.length - 40);
@@ -1289,31 +1293,44 @@ function catchFrame(f) {
 }
 function splice() {
   const c = P.carry, f = c.f; f.used = true; f.held = false;
-  P.reel.push({k: f.k, burned: f.burned, word: c.word});
+  P.reel.push({k: f.k, burned: f.burned, word: c.word, held: nowS() - c.t0, burnAt: f.burnAt});
+  P.run = c.word && c.word !== 'jump cut' ? P.run + 1 : 1; P.bestRun = Math.max(P.bestRun, P.run);
+  if (P.run >= 3) popAt(J.x, J.by - 150, `${P.run} matches in a row`, '#f6c47a');
   if (c.touch) P.kept++; if (f.burned) P.rescued++;
   P.fly.push({k: f.k, i: P.reel.length - 1, t0: nowS(), from: toScreen(J.x, J.by - 34)});
   P.carry = null; P.smolder = 0; P.sunT = nowS();
   music.splice(c.touch, f.burned); buzz([20, 40, 40]);
   popAt(SUN.x - 30, SUN.y + 80, c.touch ? 'a touch kept from the censor' : f.burned ? 'back on the reel' : 'spliced', c.touch || f.burned ? '#ff9ec4' : '#fff0cf');
-  if (P.reel.length === 14) endRound();
+  f.returnAt = nowS() + 6;
 }
 function burnCarry() {
   P.carry.burn = .001; P.burns++; P.shake = .5; evts.push({t: simT, type: 'bell'});
   music.burn(); buzz([40, 30, 120]); popAt(J.x, J.by - 130, 'the censor burns it', '#ff6a3d');
 }
 function dropBurned() {
-  const f = P.carry.f; f.held = false; f.burned = true; f.x = J.x; f.y = J.by + 20; f.vx = 0; f.vy = 80; f.ax = Math.max(80, Math.min(W - 80, J.x)); f.wait = 1.4;
+  const f = P.carry.f; f.burnAt = simT; P.scars.push({x: J.x, y: J.by - 20, t0: nowS()}); f.held = false; f.burned = true; f.x = J.x; f.y = J.by + 20; f.vx = 0; f.vy = 80; f.ax = Math.max(80, Math.min(W - 80, J.x + ((P.burns % 3) - 1) * 100)); f.wait = 1.4;
   P.carry = null; P.smolder = 0;
 }
 function endRound() {
+  P.cutsTotal = P.reel.length;
   try { P.best = Math.max(P.best, P.reel.length); localStorage.setItem('jelly.best', String(P.best)); } catch (e) {}
   P.state = P.reel.length ? 'reel' : 'end'; P.t = 0; P.reelIdx = -1; P.carry = null; P.press = P.hold = null; P.keys.clear(); music.cadence();
 }
 const reelPer = () => Math.max(.75, Math.min(1.3, 10 / Math.max(1, P.reel.length)));
+// the reel keeps the time each frame was held: a shot lasts as long as you carried it, scaled so the whole reel runs about twenty seconds
+function reelTimes() {
+  if (P.reelT && P.reelT.n === P.reel.length) return P.reelT;
+  if (P.reel.length > 24) P.reel = P.reel.slice(-24);
+  const sum = P.reel.reduce((m, r) => m + (r.held || 1), 0), k = Math.min(1.2, 12 / Math.max(1, sum)), d = P.reel.map(r => Math.max(.3, Math.min(2.2, (r.held || 1) * k)));
+  const at = []; d.reduce((m, v, i) => (at[i] = m, m + v), 0); P.reelT = {n: P.reel.length, d, at, total: d.reduce((m, v) => m + v, 0)}; return P.reelT;
+}
 function idleWorld(dt) {
   const prog = P.state === 'play' ? 1 - P.left / ROUND : 0;
   P.beamPh += dt * 2 * Math.PI / (10 - 4 * prog); P.beamA = 2.5 + .7 * Math.sin(P.beamPh);   // the censor sweeps faster as the reel runs out
   for (const f of P.frames) {
+    if (f.used && f.returnAt && nowS() > f.returnAt) {   // back into circulation, somewhere new
+      const a = spots()[(Math.random() * 14) | 0]; Object.assign(f, {used: false, burned: false, returnAt: 0, x: a.x, y: -40, ax: a.x, ay: a.y, vx: 0, vy: 0, wait: .6, born: nowS()});
+    }
     if (f.used || f.held) continue;
     f.wait = Math.max(0, f.wait - dt);
     const tx = f.ax + Math.sin(P.t * .5 + f.ph) * (f.burned ? 6 : 26), ty = f.burned ? FLOOR : f.ay + Math.cos(P.t * .4 + f.ph) * 18;
@@ -1323,17 +1340,23 @@ function idleWorld(dt) {
 }
 function playStep(dt) {
   const T = nowS();
-  P.t += dt; simT += dt; P.shake = Math.max(0, P.shake - dt);
-  if (P.state === 'title') { J.x = 1040 + Math.sin(P.t * .3) * 24; J.y = 430 + Math.sin(P.t * .8) * 16; idleWorld(dt); return; }
-  if (P.state === 'reel') { if (P.t > P.reel.length * reelPer() + .6) { P.state = 'end'; P.t = 0; } return; }
+  const ws = P.state === 'play' && P.idle ? .25 : 1;   // when you stop stroking, the world slows to a quarter and the clock stops
+  P.t += dt; simT += dt * ws; P.shake = Math.max(0, P.shake - dt);
+  if (P.state === 'intro' && P.t > INTRO) { P.state = 'title'; P.t = 0; }
+  if (P.state === 'gate' || P.state === 'intro' || P.state === 'title') { J.x = 1040 + Math.sin(P.t * .3) * 24; J.y = 430 + Math.sin(P.t * .8) * 16; idleWorld(dt); return; }
+  if (P.state === 'reel') { if (P.t > reelTimes().total + .6) { P.state = 'end'; P.t = 0; } return; }
   if (P.state === 'end') { idleWorld(dt); return; }
-  P.left -= dt; if (P.left <= 0) { P.left = 0; endRound(); return; }
+  P.idle = T - P.lastStroke > 2 && !P.hold && !keyDir() && !(P.carry && P.carry.burn) && P.strokes > 0 && P.reserve > 0;
+  if (P.idle) P.reserve = Math.max(0, P.reserve - dt);
+  if (!P.strict && P.left < 30) { P.strict = true; music.burn(); buzz([30, 40, 30]); popAt(J.x, J.by - 150, 'the censor grows strict', '#ff6a3d'); }
+  if (!P.idle) P.left -= dt; if (P.left <= 0) { P.left = 0; endRound(); return; }
+  trailSample();
   // a held finger or mouse, or held keys, stroke once at once and then on every pulse
   if (P.press && !P.hold && ((!P.press.moved && T - P.press.t > .26) || T - P.press.t > .5)) {
     P.hold = P.press.w; strokeTo(P.hold.x - J.x, P.hold.y - J.by, .62, true); P.lastAuto = Math.floor(music.beatPos());
   }
   const kd = keyDir(), b = Math.floor(music.beatPos());
-  if ((P.hold || kd) && b !== P.lastAuto) { P.lastAuto = b; if (P.hold) strokeTo(P.hold.x - J.x, P.hold.y - J.by, .62, true); else strokeTo(kd[0], kd[1], .7, true); }
+  if ((P.hold || kd) && b !== P.lastAuto) { P.lastAuto = b; if (P.hold) strokeTo(P.hold.x - J.x, P.hold.y - J.by, .8, true); else strokeTo(kd[0], kd[1], .8, true); }
   // water: each stroke glides out
   const fl = flinchAt(simT);
   J.vx *= Math.pow(.3, dt); J.vy *= Math.pow(.3, dt);
@@ -1342,7 +1365,7 @@ function playStep(dt) {
   if (J.y < 130) { J.y = 130; J.vy = Math.abs(J.vy) * .4; } if (J.y > H - 140) { J.y = H - 140; J.vy = -Math.abs(J.vy) * .4; }
   J.kick = Math.max(0, J.kick - dt * 3.4); J.res = Math.max(0, J.res - dt * .12);
   J.tilt += (Math.max(-.5, Math.min(.5, J.vx / 600)) - J.tilt) * Math.min(1, dt * 4);
-  idleWorld(dt);
+  idleWorld(dt * ws);
   // touch a frame: catch it if it matches, or push it away if it does not
   const am = anyMatch(), bx = J.x, by = J.by + 30;
   if (!P.carry) for (const f of P.frames) {
@@ -1365,7 +1388,7 @@ function playStep(dt) {
   if (c) {
     if (c.burn > 0) { c.burn += dt / 1.1; if (c.burn >= 1) dropBurned(); }
     else {
-      const hot = c.touch && inBeam(J.x, J.by - 30);
+      const hot = (c.touch || (P.strict && !c.f.burned)) && inBeam(J.x, J.by - 30);
       P.smolder = hot ? P.smolder + dt : Math.max(0, P.smolder - dt * 1.5);
       if (hot && T - P.lastWarn > .14) { P.lastWarn = T; buzz(10); music.smolder(P.smolder); }
       if (P.smolder > .6) burnCarry();
@@ -1405,7 +1428,7 @@ function drawFloor() {   // after AFL-18: gold ridge hairlines along the floor, 
   ctx.restore();
 }
 function drawCensor() {   // the projector's beam, which is the censor's eye
-  const danger = P.carry && P.carry.touch && !P.carry.burn, col = danger ? '255,110,70' : '255,215,150', a0 = P.beamA - BW, a1 = P.beamA + BW;
+  const danger = P.carry && (P.carry.touch || (P.strict && !P.carry.f.burned)) && !P.carry.burn, col = danger ? '255,110,70' : P.strict ? '255,170,120' : '255,215,150', a0 = P.beamA - bw(), a1 = P.beamA + bw();
   ctx.save(); ctx.globalCompositeOperation = 'lighter';
   const g = ctx.createRadialGradient(SUN.x, SUN.y, 20, SUN.x, SUN.y, 1150);
   g.addColorStop(0, `rgba(${col},${danger ? .34 : .15})`); g.addColorStop(1, `rgba(${col},0)`);
@@ -1431,13 +1454,13 @@ function drawSun() {
 }
 function drawFrame(f, can, am) {
   const T = nowS(), w = 84, h = 63, s = can ? 1 + .05 * Math.sin(T * 4 + f.ph) : .9, j = JOINT[f.k];
-  ctx.save(); ctx.translate(f.x, f.y); ctx.rotate(f.burned ? .25 : Math.sin(T * .6 + f.ph) * .05); ctx.scale(s, s);
+  ctx.save(); if (f.born) ctx.globalAlpha = clamp01((T - f.born) / .8); ctx.translate(f.x, f.y); ctx.rotate(f.burned ? .25 : Math.sin(T * .6 + f.ph) * .05); ctx.scale(s, s);
   if (can) { ctx.shadowColor = 'rgba(255,205,130,.9)'; ctx.shadowBlur = 18; }
   ctx.fillStyle = '#050403'; ctx.fillRect(-w / 2 - 4, -h / 2 - 4, w + 8, h + 8); ctx.shadowBlur = 0; ctx.shadowColor = 'transparent';
-  ctx.globalAlpha = can ? 1 : .5; ctx.drawImage(THUMB[f.k], -w / 2, -h / 2, w, h); ctx.globalAlpha = 1;
+  const ga = ctx.globalAlpha; ctx.globalAlpha = ga * (can ? 1 : .5); ctx.drawImage(THUMB[f.k], -w / 2, -h / 2, w, h); ctx.globalAlpha = ga;
   if (!can) { ctx.fillStyle = 'rgba(8,12,18,.5)'; ctx.fillRect(-w / 2, -h / 2, w, h); }
   if (f.burned) {   // charred from the touch outward
-    const cx = (j.touch[0] - .5) * w, cy = (j.touch[1] - .5) * h, g = ctx.createRadialGradient(cx, cy, 4, cx, cy, 34);
+    const tp = j.touch || [.5, .45], cx = (tp[0] - .5) * w, cy = (tp[1] - .5) * h, g = ctx.createRadialGradient(cx, cy, 4, cx, cy, 34);
     g.addColorStop(0, 'rgba(5,3,2,.97)'); g.addColorStop(.6, 'rgba(10,5,3,.9)'); g.addColorStop(.8, 'rgba(255,120,40,.85)'); g.addColorStop(1, 'rgba(255,160,80,0)');
     ctx.fillStyle = g; ctx.fillRect(-w / 2, -h / 2, w, h);
   } else if (j.touch) {   // the touch, marked before the censor finds it
@@ -1454,7 +1477,7 @@ function drawFrame(f, can, am) {
   }
 }
 function drawWorld() {
-  drawFloor(); drawCensor(); drawSun();
+  drawFloor(); drawWaterFilm(); drawScars(); drawCensor(); drawSun();
   const am = P.state === 'play' ? anyMatch() : true;
   for (const f of P.frames) if (!f.used && !f.held) drawFrame(f, P.state !== 'play' || catchable(f, am), am);
   if (P.state === 'play') {   // the hairline: to the sun when carrying, else to the nearest frame you may take
@@ -1466,7 +1489,7 @@ function drawWorld() {
   P.bubbles = P.bubbles.filter(b => T - b.t0 < 1.2);
   for (const b of P.bubbles) { const u = T - b.t0; ctx.globalAlpha = .6 * (1 - u / 1.2); ctx.beginPath(); ctx.arc(b.x + b.vx * u, b.y + b.vy * u - 20 * u * u, b.r, 0, 7); ctx.stroke(); }
   ctx.restore();
-  tentacles(simT); drawJelly();
+  drawWorm(); tentacles(simT); drawJelly();
   const burn = P.carry ? P.carry.burn : 0, red = Math.max(P.smolder / .6, burn ? 1 - burn : 0);
   if (red > 0) {
     ctx.save(); ctx.globalCompositeOperation = 'lighter'; const g = ctx.createRadialGradient(J.x, J.by - 34, 30, J.x, J.by - 34, 150);
@@ -1485,37 +1508,39 @@ function bellFilm() {
 }
 // ---- drawing: the screen (a locked top band, after Scher: the reel on the left, the count on the right)
 function drawHUD() {
-  const T = nowS(), n = P.reel.length;
+  const T = nowS(), n = P.reel.length, V = 10, s0 = Math.max(0, n - V);
   ctx.fillStyle = 'rgba(255,240,215,.12)'; ctx.fillRect(0, 0, FW, 4);
-  ctx.fillStyle = P.left < 10 ? '#e8432a' : '#f6c47a'; ctx.fillRect(0, 0, FW * P.left / ROUND, 4);
-  const tw = 62, th = 46, st = 68, bandW = 28 + n * st + (n < 14 ? st + 120 : 0);
-  ctx.fillStyle = 'rgba(6,4,3,.8)'; ctx.fillRect(12, 12, bandW, 86);
+  ctx.fillStyle = P.left < 10 ? '#e8432a' : P.strict ? '#ff8a5a' : '#f6c47a'; ctx.fillRect(0, 0, FW * P.left / ROUND, 4);
+  const tw = 62, th = 46, st = 68, bandW = 28 + (n - s0 + 1) * st + 150;
+  ctx.fillStyle = 'rgba(6,4,3,.8)'; ctx.fillRect(12, 12, bandW, 74 + fz(14));
   ctx.fillStyle = 'rgba(217,207,191,.6)'; for (let x = 20; x < 12 + bandW - 8; x += 17) ctx.fillRect(x, 16, 8, 5);
-  ctx.font = `italic ${fz(12)}px Georgia, serif`; ctx.textAlign = 'left';
-  P.reel.forEach((r, i) => {
-    if (P.fly.some(f => f.i === i)) return;
-    const x = 28 + i * st; ctx.drawImage(THUMB[r.k], x, 28, tw, th);
+  ctx.font = `italic ${fz(13)}px Georgia, serif`; ctx.textAlign = 'left';
+  for (let i = s0; i < n; i++) {
+    const r = P.reel[i]; if (P.fly.some(f => f.i === i)) continue;
+    const x = 28 + (i - s0) * st; ctx.drawImage(THUMB[r.k], x, 28, tw, th);
     if (r.burned) { ctx.fillStyle = 'rgba(255,120,170,.25)'; ctx.fillRect(x, 28, tw, th); }
-    if (r.word) { ctx.fillStyle = 'rgba(246,196,122,.85)'; ctx.fillText(r.word, x, 90); }
-  });
-  if (n < 14 && P.state === 'play') {   // the next cut: an empty gate, and the features it must share
-    const x = 28 + n * st, l = lastK(); ctx.save(); ctx.strokeStyle = `rgba(246,196,122,${(.4 + .4 * beatPulse()).toFixed(3)})`; ctx.setLineDash([4, 4]); ctx.lineWidth = 1.5; ctx.strokeRect(x, 28, tw, th); ctx.restore();
-    ctx.fillStyle = '#f6c47a'; ctx.font = `italic 600 ${fz(13)}px Georgia, serif`;
-    ctx.fillText(l == null ? 'any frame' : anyMatch() ? 'next: ' + FEAT(l).join(' · ') : 'jump cut', x, 90);
+    if (r.word && !COARSE) { ctx.fillStyle = r.word === 'jump cut' ? 'rgba(159,180,255,.8)' : 'rgba(246,196,122,.85)'; ctx.fillText(r.word === 'jump cut' ? 'jump' : r.word, x, 90); }
+  }
+  if (P.state === 'play') {   // the next cut: an empty gate, and the features it must share
+    const x = 28 + (n - s0) * st, l = lastK(); ctx.save(); ctx.strokeStyle = `rgba(246,196,122,${(.4 + .4 * beatPulse()).toFixed(3)})`; ctx.setLineDash([4, 4]); ctx.lineWidth = 1.5; ctx.strokeRect(x, 28, tw, th); ctx.restore();
+    ctx.fillStyle = '#f6c47a'; ctx.font = `italic 600 ${fz(14)}px Georgia, serif`;
+    ctx.fillText(l == null ? 'any frame' : anyMatch() ? 'next: ' + FEAT(l).join(' · ') : 'jump cut', COARSE ? 28 : x, COARSE ? 74 + fz(14) : 90);
   }
   P.fly = P.fly.filter(f => T - f.t0 < .55);
   for (const f of P.fly) {
-    const u = ease(clamp01((T - f.t0) / .55)), x1 = 28 + f.i * st, y1 = 28, w = 164 + (tw - 164) * u, h = 94 + (th - 94) * u;
+    const u = ease(clamp01((T - f.t0) / .55)), x1 = 28 + (f.i - s0) * st, y1 = 28, w = 164 + (tw - 164) * u, h = 94 + (th - 94) * u;
     ctx.drawImage(THUMB[f.k], f.from[0] - 82 + (x1 - f.from[0] + 82) * u, f.from[1] - 47 + (y1 - f.from[1] + 47) * u, w, h);
   }
   ctx.save(); ctx.textAlign = 'right'; ctx.shadowColor = '#000'; ctx.shadowBlur = 10;
-  ctx.font = 'italic 700 50px Georgia, serif'; ctx.fillStyle = '#f6c47a'; const nw = ctx.measureText(' / 14').width;
-  ctx.font = 'italic 22px Georgia, serif'; ctx.fillStyle = 'rgba(242,211,160,.75)'; ctx.fillText('/ 14', FW - 28, 62);
-  ctx.save(); ctx.translate(FW - 28 - ctx.measureText('/ 14 ').width, 62); ctx.scale(1 + .3 * clamp01(Math.hypot(J.vx, J.vy) / 700), 1);
+  ctx.font = `italic ${fz(18)}px Georgia, serif`; ctx.fillStyle = 'rgba(242,211,160,.75)'; ctx.fillText(P.run > 1 ? `cuts · run ${P.run}` : 'cuts', FW - 28, 62);
+  const lw = ctx.measureText(P.run > 1 ? `cuts · run ${P.run} ` : 'cuts ').width;
+  ctx.save(); ctx.translate(FW - 28 - lw, 62); ctx.scale(1 + .3 * clamp01(Math.hypot(J.vx, J.vy) / 700), 1);
   ctx.font = 'italic 700 50px Georgia, serif'; ctx.fillStyle = '#f6c47a'; ctx.fillText(String(n), 0, 0); ctx.restore();
-  const s = Math.ceil(P.left); ctx.font = '600 15px system-ui, sans-serif'; ctx.fillStyle = P.left < 10 ? '#ff7a5a' : 'rgba(242,211,160,.7)';
-  ctx.fillText(`${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`, FW - 28, 88);
-  ctx.restore(); void nw;
+  const s = Math.ceil(P.left); ctx.font = `600 ${fz(15)}px system-ui, sans-serif`; ctx.fillStyle = P.left < 10 ? '#ff7a5a' : P.strict ? '#ff9a70' : 'rgba(242,211,160,.8)';
+  if (P.idle) ctx.fillStyle = '#9fb4ff'; ctx.fillText(`${P.idle ? 'held  ' : ''}${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`, FW - 28, 70 + fz(18));
+  ctx.restore();
+  // held time: the reserve of stopped time, a blue hairline under the clock
+  ctx.fillStyle = 'rgba(159,180,255,.2)'; ctx.fillRect(FW - 148, 80 + fz(18), 120, 3); ctx.fillStyle = '#9fb4ff'; ctx.fillRect(FW - 148, 80 + fz(18), 120 * P.reserve / 12, 3);
 }
 function drawRing() {   // the pulse: a ring that closes on the bell at every beat; stroke as it lands
   const T = nowS(), s = toScreen(J.x, J.by - 34), z = cam.z, ph = ((music.beatPos() % 1) + 1) % 1, r = (96 + 80 * (1 - ph)) * z;
@@ -1526,8 +1551,12 @@ function drawRing() {   // the pulse: a ring that closes on the bell at every be
   if (P.mouse && !COARSE) { ctx.strokeStyle = 'rgba(255,236,200,.45)'; ctx.lineWidth = 1; ctx.beginPath(); ctx.arc(P.mouse[0], P.mouse[1], 9, 0, 7); ctx.stroke(); }
   ctx.restore();
 }
+const T0 = () => nowS();
 function hintText() {
   if (P.strokes < 3) return COARSE ? 'tap, swipe or hold to swim' : 'click, hold, or use the arrow keys to swim';
+  if (P.idle) return 'you stopped, so time stopped: the beam slows, the clock waits (the blue bar)';
+  if (P.strict && P.left > 26) return 'the censor grows strict: its beam now burns anything you carry';
+  if (P.reserve <= 0 && T0() - P.lastStroke > 2 && P.left > 26) return 'no held time left: the clock runs';
   if (P.carry && P.carry.burn) return 'burned. it sinks to the floor: dive and lift it back';
   if (P.carry && P.carry.touch && P.kept === 0) return 'a red dot is a touch: keep it out of the censor’s beam';
   if (P.carry && !P.reel.length) return 'it plays inside you · now carry it to the sun';
@@ -1536,7 +1565,7 @@ function hintText() {
   if (!P.carry && !P.rescued && P.frames.some(f => f.burned && !f.used && catchable(f, am))) return 'the burned frame is on the floor: dive for it';
   if (P.reel.length === 1 && !P.carry) return 'next: a frame that shares something with the last (the gold words)';
   if (P.strokes > 14 && P.perfects < 3) return 'stroke as the ring closes on the bell: on the pulse you go faster';
-  if (P.carry && !P.watched && P.reel.length >= 2) return COARSE ? 'tap the jellyfish to watch what it carries' : 'click the jellyfish, or press space, to watch what it carries';
+  if (P.carry && !P.watched && P.reel.length >= 2 && P.reel.length <= 4) return COARSE ? 'tap the jellyfish to watch what it carries' : 'click the jellyfish, or press space, to watch what it carries';
   if (!am && !P.carry) return 'nothing left that matches: any frame makes a jump cut';
   return '';
 }
@@ -1556,18 +1585,19 @@ function vignette() {
 function reelFrame(list, i, u) {
   const it = list[i], prev = list[i - 1], next = list[i + 1], c = [.5, .45], J0 = JOINT[it.k];
   const ent = prev ? J0[shared(prev.k, it.k)[0]] || J0.touch || c : c, ex = next ? J0[shared(it.k, next.k)[0]] || c : c, q = ease(clamp01(u));
-  drawPic([it.k], 0, 0, FW, FH, 1, {hot: 1, at: [FW * .5, FH * .48], joints: [[ent[0] + (ex[0] - ent[0]) * q, ent[1] + (ex[1] - ent[1]) * q]], zoom: 1.45, cover: true});
+  const still = it.burned && u < .45, qq = still ? 0 : it.burned ? ease(clamp01((u - .45) / .55)) : q;   // a burned shot first holds still on the moment it burned
+  drawPic([it.k], 0, 0, FW, FH, 1, {hot: 1, at: [FW * .5, FH * .48], joints: [[ent[0] + (ex[0] - ent[0]) * qq, ent[1] + (ex[1] - ent[1]) * qq]], zoom: 1.45, cover: true, time: still ? (it.burnAt || 0) : undefined, burn: still ? .22 * (1 - u / .45) : 0});
   if (it.burned) { ctx.save(); ctx.globalCompositeOperation = 'screen'; ctx.fillStyle = 'rgba(238,106,166,.16)'; ctx.fillRect(0, 0, FW, FH); ctx.restore(); }
 }
 function drawReelPlay() {
-  const n = P.reel.length, per = reelPer(), i = Math.min(n - 1, Math.floor(P.t / per)), u = (P.t - i * per) / per;
+  const n = P.reel.length, R = reelTimes(); let i = 0; while (i < n - 1 && P.t >= R.at[i + 1]) i++; const per = R.d[i], u = (P.t - R.at[i]) / per;
   ctx.fillStyle = '#000'; ctx.fillRect(0, 0, FW, FH);
   if (i !== P.reelIdx) { P.reelIdx = i; music.click(); }
   reelFrame(P.reel, i, u); vignette();
-  if (P.t - i * per < .05) { ctx.fillStyle = 'rgba(255,255,255,.55)'; ctx.fillRect(0, 0, FW, FH); }
+  if (P.t - R.at[i] < .05) { ctx.fillStyle = 'rgba(255,255,255,.55)'; ctx.fillRect(0, 0, FW, FH); }
   ctx.save(); ctx.shadowColor = '#000'; ctx.shadowBlur = 8;
   ctx.font = '900 16px system-ui, sans-serif'; ctx.fillStyle = 'rgba(242,230,207,.8)'; if ('letterSpacing' in ctx) ctx.letterSpacing = '3px'; ctx.fillText('YOUR REEL', 40, 46);
-  ctx.textAlign = 'right'; ctx.font = 'italic 20px Georgia, serif'; ctx.fillText(`${i + 1} / ${n}`, FW - 40, 46);
+  ctx.textAlign = 'right'; ctx.font = 'italic 20px Georgia, serif'; ctx.fillText(`${i + 1} / ${n}  ·  held ${(P.reel[i].held || 0).toFixed(1)} s`, FW - 40, 46);
   const w = P.reel[i].word; if (w) { ctx.textAlign = 'center'; ctx.globalAlpha = clamp01(1.4 - u * 2); ctx.font = 'italic 600 30px Georgia, serif'; ctx.fillStyle = '#f6c47a'; ctx.fillText(w, FW / 2, FH - 44); }
   ctx.restore();
 }
@@ -1582,6 +1612,7 @@ function icon(i, x, y) {
   const bp = beatPulse(); ctx.save(); ctx.lineWidth = 2;
   if (i === 0) { ctx.strokeStyle = '#f6c47a'; ctx.beginPath(); ctx.arc(x, y, 8, 0, 7); ctx.stroke(); ctx.globalAlpha *= .3 + .7 * (1 - bp); ctx.beginPath(); ctx.arc(x, y, 8 + 10 * (1 - bp), 0, 7); ctx.stroke(); }
   else if (i === 1) { ctx.strokeStyle = '#f6c47a'; ctx.strokeRect(x - 18, y - 9, 18, 14); ctx.strokeRect(x + 2, y - 4, 18, 14); ctx.fillStyle = '#f6c47a'; ctx.fillRect(x - 3, y - 1, 8, 3); }
+  else if (i === 3) { ctx.strokeStyle = '#f6c47a'; ctx.beginPath(); ctx.arc(x, y, 10, 0, 7); ctx.stroke(); ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x, y - 7); ctx.moveTo(x, y); ctx.lineTo(x + 5, y + 2); ctx.stroke(); }
   else { ctx.fillStyle = '#c8361e'; ctx.beginPath(); ctx.moveTo(x + 6, y - 6); ctx.lineTo(x - 22, y + 14); ctx.lineTo(x - 8, y + 18); ctx.closePath(); ctx.fill(); ctx.fillStyle = '#f6c47a'; ctx.beginPath(); ctx.arc(x + 6, y - 6, 9, 0, 7); ctx.fill(); }
   ctx.restore();
 }
@@ -1595,42 +1626,179 @@ function drawTitle() {   // after Saul Bass: few shapes, three colours, each ele
   ctx.globalAlpha = A(1); ctx.font = 'italic 700 128px Georgia, serif'; ctx.fillStyle = '#f6c47a'; ctx.fillText('jelly', 84 + X(1), 258);
   ctx.fillStyle = '#c8361e'; ctx.fillRect(96, 282, 320 * ease(A(1)), 7);
   const rows = [
-    ['SWIM', COARSE ? 'tap, swipe or hold to stroke' : 'click, hold, or arrow keys / WASD to stroke', 'stroke as the ring closes on the bell: on the pulse you go faster'],
-    ['CATCH', 'swim into a glowing frame: it plays inside you', 'the next must share something with the last: a hand, a door, a glow'],
-    ['SPLICE', 'carry it to the sun to add it to your reel', 'a red dot is a touch: the censor’s beam burns it. burned frames sink; dive for them']];
+    ['SWIM', COARSE ? 'tap, swipe or hold' : 'click, hold, or arrow keys / WASD', 'on the pulse: faster · stop: time stops'],
+    ['CATCH', 'swim into a glowing frame', 'it must share something with the last: a hand, a door'],
+    ['SPLICE', 'carry it to the sun', 'red dot = a touch: the beam burns it'],
+    ['TIME', `${ROUND} seconds, then your reel plays`, 'the last 30: the censor burns everything']];
   rows.forEach(([h, a, b], i) => {
-    const y = 366 + i * 84, x = 96 + X(2 + i); ctx.globalAlpha = A(2 + i);
+    const y = 350 + i * 72, x = 96 + X(2 + i); ctx.globalAlpha = A(2 + i);
     icon(i, x + 14, y - 8);
     ctx.font = '800 21px system-ui, sans-serif'; ctx.fillStyle = '#f2e6cf'; if ('letterSpacing' in ctx) ctx.letterSpacing = '2px'; ctx.fillText(h, x + 48, y);
     if ('letterSpacing' in ctx) ctx.letterSpacing = '0px';
     ctx.font = `${fz(20)}px system-ui, sans-serif`; ctx.fillStyle = '#ecd8b4'; ctx.fillText(a, x + 160, y);
     ctx.font = `italic ${fz(17)}px Georgia, serif`; ctx.fillStyle = 'rgba(214,190,150,.85)'; ctx.fillText(b, x + 160, y + fz(26));
   });
-  ctx.globalAlpha = A(5) * (.6 + .4 * bp); ctx.font = 'italic 34px Georgia, serif'; ctx.fillStyle = '#f6c47a';
+  ctx.globalAlpha = A(6) * (.6 + .4 * bp); ctx.font = 'italic 34px Georgia, serif'; ctx.fillStyle = '#f6c47a';
   ctx.fillText(COARSE ? 'tap to begin' : 'click or press space to begin', 96, 660);
   ctx.globalAlpha = A(5) * .8; ctx.font = '16px system-ui, sans-serif'; ctx.fillStyle = '#cdb48a'; ctx.textAlign = 'right';
-  ctx.fillText(`${ROUND} seconds · make the longest reel${P.best ? ' · best ' + P.best : ''}`, FW - 40, 660);
+  ctx.fillText(`make the longest reel${P.best ? ' · best ' + P.best : ''}`, FW - 40, 660);
   if (COARSE && innerHeight > innerWidth) { ctx.textAlign = 'center'; ctx.globalAlpha = 1; ctx.font = '600 22px system-ui, sans-serif'; ctx.fillStyle = '#fff0cf'; ctx.fillText('turn your phone sideways ↻', FW / 2, 50); }
   ctx.restore();
 }
 function drawEnd() {
-  const n = P.reel.length, a = clamp01(P.t / .5);
+  const n = P.cutsTotal != null ? P.cutsTotal : P.reel.length, a = clamp01(P.t / .5);
   ctx.save(); ctx.globalAlpha = a; ctx.fillStyle = 'rgba(4,3,2,.74)'; ctx.fillRect(0, 0, FW, FH);
   ctx.font = 'italic 700 170px Georgia, serif'; ctx.fillStyle = '#f6c47a'; ctx.fillText(String(n), 92, 270); const nw = ctx.measureText(String(n)).width;
   ctx.font = '900 34px system-ui, sans-serif'; ctx.fillStyle = '#f2e6cf'; if ('letterSpacing' in ctx) ctx.letterSpacing = '4px';
-  ctx.fillText(n === 14 ? 'THE WHOLE ARCHIVE' : n === 1 ? 'FRAME IN YOUR REEL' : 'FRAMES IN YOUR REEL', 120 + nw, 262);
+  ctx.fillText(n === 1 ? 'CUT IN YOUR REEL' : 'CUTS IN YOUR REEL', 120 + nw, 262);
   if ('letterSpacing' in ctx) ctx.letterSpacing = '0px';
   ctx.fillStyle = '#c8361e'; ctx.fillRect(96, 296, 320, 7);
   ctx.font = 'italic 22px Georgia, serif'; ctx.fillStyle = '#ecd8b4';
-  ctx.fillText(`touches kept from the censor: ${P.kept}   ·   burned and lifted back: ${P.rescued}`, 96, 350);
+  ctx.fillText(`longest run of matches: ${P.bestRun}   ·   touches kept from the censor: ${P.kept}   ·   lifted back: ${P.rescued}`, 96, 350);
   if (P.best) { ctx.fillStyle = 'rgba(214,190,150,.8)'; ctx.font = '17px system-ui, sans-serif'; ctx.fillText(n >= P.best && n ? 'your best yet' : `best ${P.best}`, 96, 382); }
-  P.reel.forEach((r, i) => { const x = 96 + i * 76; ctx.drawImage(THUMB[r.k], x, 420, 70, 52); if (r.burned) { ctx.fillStyle = 'rgba(255,120,170,.25)'; ctx.fillRect(x, 420, 70, 52); } if (r.word) { ctx.fillStyle = 'rgba(246,196,122,.85)'; ctx.font = 'italic 12px Georgia, serif'; ctx.fillText(r.word, x, 490); } });
+  P.reel.slice(-14).forEach((r, i) => { const x = 96 + i * 76; ctx.drawImage(THUMB[r.k], x, 420, 70, 52); if (r.burned) { ctx.fillStyle = 'rgba(255,120,170,.25)'; ctx.fillRect(x, 420, 70, 52); } if (r.word) { ctx.fillStyle = 'rgba(246,196,122,.85)'; ctx.font = 'italic 12px Georgia, serif'; ctx.fillText(r.word, x, 490); } });
   ctx.globalAlpha = a * clamp01((P.t - .8) / .3) * (.6 + .4 * beatPulse()); ctx.font = 'italic 34px Georgia, serif'; ctx.fillStyle = '#f6c47a';
   ctx.fillText(COARSE ? 'tap to swim again' : 'click or press space to swim again', 96, 600);
   ctx.restore();
 }
+// ---- after Afterlight: the water becomes the film, the jellyfish leaves a worm through time, the intro is a point cloud
+// The water film: what the jellyfish carries is projected into the water along its path, then diffuses and fades like
+// heat, so the pond keeps a palimpsest of the reel (two frames painted in the same water double-expose: contamination).
+const WF = document.createElement('canvas'); WF.width = 300; WF.height = 160; const wfx = WF.getContext('2d');
+const STAMP = document.createElement('canvas'); STAMP.width = STAMP.height = 64; const stx = STAMP.getContext('2d');
+const DOT = (() => { const m = {}; for (const [n, c] of [['gold', '255,214,150'], ['blue', '150,185,255'], ['ember', '255,120,50'], ['white', '255,248,236']]) {
+  const d = document.createElement('canvas'); d.width = d.height = 32; const g = d.getContext('2d'), r = g.createRadialGradient(16, 16, 0, 16, 16, 16);
+  r.addColorStop(0, `rgba(${c},1)`); r.addColorStop(.35, `rgba(${c},.45)`); r.addColorStop(1, `rgba(${c},0)`); g.fillStyle = r; g.fillRect(0, 0, 32, 32); m[n] = d; } return m; })();
+function stampFilm(k, x, y, r, a) {   // world coords; the frame is mapped across the whole pond, revealed where the jellyfish is
+  const X = x / 4, Y = y / 4, R = r / 4, th = THUMB[k]; if (!th) return;
+  stx.globalCompositeOperation = 'source-over'; stx.clearRect(0, 0, 64, 64);
+  stx.drawImage(th, 0, 0, 64, 64);
+  stx.globalCompositeOperation = 'destination-in'; const g = stx.createRadialGradient(32, 32, 0, 32, 32, 32); g.addColorStop(0, 'rgba(0,0,0,1)'); g.addColorStop(.6, 'rgba(0,0,0,.6)'); g.addColorStop(1, 'rgba(0,0,0,0)');
+  stx.fillStyle = g; stx.fillRect(0, 0, 64, 64);
+  wfx.globalCompositeOperation = 'source-over'; wfx.globalAlpha = a; wfx.drawImage(STAMP, X - R, Y - R * .75, 2 * R, 1.5 * R); wfx.globalAlpha = 1;
+}
+function stampHeat(x, y, r, a, col) {
+  const X = x / 4, Y = y / 4, R = r / 4, g = wfx.createRadialGradient(X, Y, 0, X, Y, R);
+  g.addColorStop(0, `rgba(${col},${a})`); g.addColorStop(1, `rgba(${col},0)`); wfx.globalCompositeOperation = 'source-over'; wfx.fillStyle = g; wfx.fillRect(X - R, Y - R, 2 * R, 2 * R);
+}
+let wfAcc = 0, wfTick = 0; const WF2 = document.createElement('canvas'); WF2.width = 300; WF2.height = 160; const wf2 = WF2.getContext('2d');
+function waterFilm(dt, frozen) {
+  if (!frozen) wfAcc += dt;
+  if (wfAcc >= .1) {   // diffusion, ten times a second: resample a little larger and higher (spread, rising like heat), keeping 96% (an exact multiply, so nothing accumulates)
+    wf2.globalCompositeOperation = 'copy'; wf2.globalAlpha = .96; wf2.drawImage(WF, -.5, -.8, 301, 160.8);
+    wfx.globalCompositeOperation = 'copy'; wfx.globalAlpha = 1; wfx.drawImage(WF2, 0, 0);
+    if ((wfTick = (wfTick + 1) % 10) === 0) { wfx.globalCompositeOperation = 'destination-out'; wfx.fillStyle = 'rgba(0,0,0,.1)'; wfx.fillRect(0, 0, 300, 160); }   // and once a second clear the faint residue 8-bit rounding leaves
+    wfx.globalCompositeOperation = 'source-over'; wfAcc = 0;
+  }
+  if (P.state !== 'play') return;
+  const c = P.carry;
+  if (c && !c.burn) stampFilm(c.f.k, J.x, J.by - 40, 120 + 40 * J.res, Math.min(1, dt * (2.2 + 3 * J.res)));
+  if (c && c.burn) stampHeat(J.x, J.by - 30, 120 * c.burn + 30, .025, '255,170,100');
+  for (const f of P.frames) if (f.burned && !f.used && !f.held && Math.random() < dt * 1.2) stampHeat(f.x + (Math.random() - .5) * 40, f.y - 24, 30, .035, '255,180,110');   // the burned still smoulder into the water
+}
+function drawScars() {
+  const T = nowS();
+  for (const c of P.scars) {
+    const R = Math.min(260, 30 + 4 * (T - c.t0)); ctx.save(); ctx.translate(c.x, c.y);
+    ctx.beginPath(); for (let i = 0; i <= 48; i++) { const a = i / 48 * Math.PI * 2, r = R * (1 + .14 * Math.sin(a * 5 + c.t0) + .07 * Math.sin(a * 11 - T * .4)); if (i) ctx.lineTo(Math.cos(a) * r, Math.sin(a) * r * .55); else ctx.moveTo(r, 0); } ctx.closePath();
+    ctx.fillStyle = 'rgba(4,2,1,.32)'; ctx.fill(); ctx.strokeStyle = `rgba(255,120,50,${(.12 + .08 * Math.sin(T * 3 + c.t0)).toFixed(3)})`; ctx.lineWidth = 2; ctx.stroke(); ctx.restore();
+  }
+}
+function drawWaterFilm() {
+  ctx.save(); ctx.globalCompositeOperation = 'screen'; ctx.globalAlpha = .7; ctx.imageSmoothingEnabled = true; ctx.drawImage(WF, 0, 0, W, H); ctx.restore();
+}
+// the worm: the jellyfish's past as soft splats, each moment a ring of light rising behind it and cooling to the afterimage's blue
+const WORM = 5;
+function trailSample() { const T = nowS(); if (!P.trail) P.trail = []; if (!P.trail.length || T - P.trail[P.trail.length - 1].t > .08) P.trail.push({t: T, x: J.x, y: J.by - 30, k: P.carry && !P.carry.burn ? P.carry.f.k : -1}); while (P.trail.length && T - P.trail[0].t > WORM) P.trail.shift(); }
+function drawWorm() {
+  if (!P.trail || P.trail.length < 2) return; const T = nowS();
+  ctx.save(); ctx.globalCompositeOperation = 'lighter';
+  for (let i = 0; i < P.trail.length - 1; i++) {
+    const s = P.trail[i], a = (T - s.t) / WORM, k = 1 - a, rise = a * 70, rx = 66 * (1 - .35 * a), ry = 14 * (1 - .35 * a), spr = s.k >= 0 && THUMB_DOT[s.k] ? THUMB_DOT[s.k] : null;
+    for (let j = 0; j < 10; j++) {
+      const th = j / 12 * Math.PI * 2 + s.t * .7, x = s.x + Math.cos(th) * rx, y = s.y - rise + Math.sin(th) * ry, z = 9 + 10 * (Math.sin(th) * .5 + .5);
+      ctx.globalAlpha = (spr ? .16 : .09) * k * (.6 + .4 * Math.sin(th)); ctx.drawImage(spr && a < .7 ? spr : a < .3 ? DOT.gold : DOT.blue, x - z, y - z, 2 * z, 2 * z);
+    }
+  }
+  ctx.restore();
+}
+// ---- the intro: an archive scanned into points, the censor burns one, the points become the jellyfish
+let PC = null;
+function buildCloud() {
+  const clouds = [], pick = [[10, 360, 330, -1], [0, 930, 250, 1], [11, 700, 470, 0]];   // a hand on a door (a touch), a bulb, a dog and a person
+  for (const [k, cx, cy, side] of pick) {
+    const th = THUMB[k], g = th.getContext('2d'), d = g.getImageData(0, 0, 168, 126).data, pts = [];
+    for (let y = 0; y < 126; y += 3) for (let x = 0; x < 168; x += 3) { const i = (y * 168 + x) * 4, l = (d[i] * .3 + d[i + 1] * .55 + d[i + 2] * .15) / 255; if (l > .12) pts.push({u: x / 168, v: y / 126, l, ex: 0, ey: 0, burnt: 0}); }
+    clouds.push({k, cx, cy, side, pts, touch: JOINT[k].touch});
+  }
+  PC = clouds;
+}
+function introTargets() {   // where the points go: the jellyfish's dome and tentacles, on screen
+  const out = [], c = toScreen(J.x, J.by), z = cam ? cam.z : 1;
+  for (let i = 0; i < 700; i++) { const u = hash(i, 9, 1) * 2 - 1, top = -72 * (1 - u * u), v = hash(i, 9, 2); out.push([c[0] + u * 80 * z, c[1] + (top + (6 - top) * v) * z]); }
+  for (const T of J.tent) for (const p of T.pts) { const s = toScreen(p[0], p[1]); out.push(s); }
+  return out;
+}
+const INTRO = 10.6;   // seventeen beats at 96 bpm
+function drawIntro() {
+  const t = P.t, B = music.SPB, beat = t / B, T = nowS();
+  if (!PC) buildCloud();
+  ctx.fillStyle = '#000'; ctx.fillRect(0, 0, FW, FH);
+  const conv = clamp01((beat - 10) / 4), cE = ease(conv), born = clamp01((beat - 14) / 1.5);
+  if (born > 0) {   // the jellyfish, lit from its own points
+    playCam(1 / 60); ctx.save(); ctx.globalAlpha = born;
+    ctx.setTransform(S * cam.z, 0, 0, S * cam.z, S * (FW / 2 - cam.z * cam.x), S * (FH / 2 - cam.z * cam.y)); drawWater(); tentacles(simT); drawJelly(); ctx.restore(); ctx.setTransform(S, 0, 0, S, 0, 0);
+  }
+  const tg = conv > 0 ? introTargets() : null, burnB = 8, burnR = clamp01((beat - burnB) / 2);
+  ctx.save(); ctx.globalCompositeOperation = 'lighter';
+  let n = 0;
+  PC.forEach((C, ci) => {
+    const appear = ci * 2, scanX = ((beat - appear) / 2.2) * 1.4 - .2, rot = Math.sin(t * .35 + ci) * .55 * C.side + t * .12, W3 = 300, H3 = 225;
+    if (beat < appear) return;
+    for (const p of C.pts) {
+      n++;
+      if (p.u > scanX) continue;   // the lidar has not reached it yet
+      let x = (p.u - .5) * W3, y = (p.v - .5) * H3, z = (p.l - .5) * 140;
+      const xr = x * Math.cos(rot) + z * Math.sin(rot), zr = -x * Math.sin(rot) + z * Math.cos(rot), s = 600 / (600 + zr);
+      let sx = C.cx + xr * s, sy = C.cy + y * s, col = 'gold', a = .25 + .6 * p.l, r = 2.2 + 2 * p.l;
+      if (C.touch && beat > burnB) {   // the censor's bell: it burns from the touch outward, and the burnt points lift as embers
+        const d = Math.hypot(p.u - C.touch[0], (p.v - C.touch[1]) * .75);
+        if (d < burnR * .9) { if (!p.burnt) { p.burnt = beat; p.ex = (hash(n, 1, 1) - .5) * 60; p.ey = -40 - 80 * hash(n, 2, 1); } const e = (beat - p.burnt) * B; sx += p.ex * e; sy += p.ey * e; col = 'ember'; a *= Math.max(.25, 1 - e * .5); }
+        else if (d < burnR * .9 + .05) { col = 'white'; a = 1; }
+      }
+      if (Math.abs(p.u - scanX) < .03) { col = 'white'; a = 1; r = 3; }
+      if (tg) { const q = tg[n % tg.length], w = cE * (.7 + .3 * hash(n, 5, 5)); sx += (q[0] - sx) * w; sy += (q[1] - sy) * w; if (w > .6) col = 'gold'; }
+      ctx.globalAlpha = a * (1 - born * .9); ctx.drawImage(DOT[col], sx - r, sy - r, 2 * r, 2 * r);
+    }
+    if (scanX < 1.05 && scanX > -.1) {   // the scan line itself
+      const s0 = C.cx + (scanX - .5) * W3 * Math.cos(rot); ctx.globalAlpha = .6; ctx.fillStyle = '#cfe6ff'; ctx.fillRect(s0, C.cy - H3 * .62, 1.5, H3 * 1.24);
+    }
+  });
+  ctx.restore();
+  // words as image, one per beat-phrase: the theory without a lecture
+  const word = (txt, b0, b1, col, y, size) => { const a = clamp01((beat - b0) * 3) * clamp01((b1 - beat) * 2); if (a <= 0) return;
+    ctx.save(); ctx.globalAlpha = a; ctx.font = `900 ${size}px system-ui, "Helvetica Neue", Arial, sans-serif`; if ('letterSpacing' in ctx) ctx.letterSpacing = '8px'; ctx.textAlign = 'center';
+    ctx.fillStyle = col; ctx.translate(FW / 2, y); ctx.scale(1 + .08 * clamp01(1 - (beat - b0) * 2), 1); ctx.fillText(txt, 0, 0); ctx.restore(); };
+  word('AN ARCHIVE', 1, 6.5, 'rgba(242,230,207,.9)', 92, 26);
+  word('WHAT THE CENSOR CUT', 8, 10.5, '#e8432a', 640, 44);
+  word('THE JELLYFISH KEEPS', 11, 14, '#f6c47a', 640, 44);
+  if (beat > burnB && beat < burnB + .5) { ctx.fillStyle = `rgba(163,38,15,${(.5 * (1 - (beat - burnB) * 2)).toFixed(3)})`; ctx.fillRect(0, 0, FW, FH); }
+  if (beat > 14 && beat < 14.4) { ctx.fillStyle = `rgba(255,240,215,${(.8 * (1 - (beat - 14) / .4)).toFixed(3)})`; ctx.fillRect(0, 0, FW, FH); }
+  ctx.save(); ctx.globalAlpha = .45; ctx.font = `italic ${fz(15)}px Georgia, serif`; ctx.fillStyle = '#cdb48a'; ctx.textAlign = 'right'; ctx.fillText(COARSE ? 'tap to skip' : 'click to skip', FW - 30, FH - 24); ctx.restore();
+  void T;
+}
+function drawGate() {   // one dot, beating: tap it, and the sound begins
+  const bp = beatPulse(), r = 6 + 5 * bp;
+  ctx.fillStyle = '#000'; ctx.fillRect(0, 0, FW, FH);
+  ctx.save(); ctx.globalCompositeOperation = 'lighter'; ctx.drawImage(DOT.gold, FW / 2 - r * 4, FH / 2 - r * 4, r * 8, r * 8); ctx.restore();
+  ctx.save(); ctx.textAlign = 'center'; ctx.font = `italic ${fz(20)}px Georgia, serif`; ctx.fillStyle = `rgba(242,211,160,${(.5 + .3 * bp).toFixed(3)})`;
+  ctx.fillText(COARSE ? 'tap · sound on' : 'click · sound on', FW / 2, FH / 2 + 70); ctx.restore();
+}
 function playDraw(dt) {
   ctx.setTransform(S, 0, 0, S, 0, 0);
+  if (P.state === 'gate') { drawGate(); return; }
+  if (P.state === 'intro') { drawIntro(); return; }
+  waterFilm(dt, !!P.watch || !!P.idle);
   if (P.state === 'reel') { drawReelPlay(); return; }
   if (P.watch) { drawWatch(); return; }
   playCam(dt); drawWater();
@@ -1640,6 +1808,7 @@ function playDraw(dt) {
   ctx.setTransform(S, 0, 0, S, 0, 0);
   vignette();
   if (P.state === 'play') { drawRing(); drawHUD(); drawHint(); }
+  if (COARSE && innerHeight > innerWidth && P.state !== 'title') { ctx.fillStyle = 'rgba(0,0,0,.7)'; ctx.fillRect(0, 0, FW, FH); ctx.font = '600 52px system-ui, sans-serif'; ctx.fillStyle = '#fff0cf'; ctx.textAlign = 'center'; ctx.fillText('turn your phone sideways ↻', FW / 2, FH / 2); ctx.textAlign = 'left'; }
   else if (P.state === 'title') drawTitle();
   else if (P.state === 'end') drawEnd();
 }
@@ -1649,12 +1818,14 @@ function fit() {
 }
 function startPlay() {
   document.body.classList.add('playing'); makeThumbs(); fit(); addEventListener('resize', fit);
-  playReset('title');
+  playReset('gate');
   const film = e => { const r = cv.getBoundingClientRect(); return [(e.clientX - r.left) / r.width * FW, (e.clientY - r.top) / r.height * FH]; };
   const toWorld = p => cam ? {x: cam.x + (p[0] - FW / 2) / cam.z, y: cam.y + (p[1] - FH / 2) / cam.z} : {x: p[0] * W / FW, y: p[1] * H / FH};
   const onJelly = p => { const s = toScreen(J.x, J.by - 30); return Math.hypot(p[0] - s[0], p[1] - s[1]) < 92 * (cam ? cam.z : 1); };
   const advance = () => {
     if (P.watch) { closeWatch(); return; }
+    if (P.state === 'gate') { music.start(); PC = null; P.state = 'intro'; P.t = 0; return; }
+    if (P.state === 'intro') { if (P.t > .6) { P.state = 'title'; P.t = 0; } return; }
     if (P.state === 'title' || (P.state === 'end' && P.t > .8)) { music.start(); playReset('play'); return; }
     if (P.state === 'reel') { P.state = 'end'; P.t = 0; }
   };
@@ -1704,7 +1875,7 @@ function startPlay() {
   window.__play = () => {
     const g = P.carry ? SUN : P.near, s = g && cam ? toScreen(g.x, g.y) : null, j = cam ? toScreen(J.x, J.by - 30) : null;
     return {state: P.state, reel: P.reel.length, carry: !!P.carry, touch: !!(P.carry && P.carry.touch), left: P.left, burns: P.burns, kept: P.kept, watch: !!P.watch,
-      tx: s && s[0], ty: s && s[1], jx: j && j[0], jy: j && j[1], beam: P.beamA, hint: P.hint, perfects: P.perfects};
+      tx: s && s[0], ty: s && s[1], jx: j && j[0], jy: j && j[1], beam: P.beamA, hint: P.hint, perfects: P.perfects, total: P.cutsTotal, bp: music.beatPos(), strict: P.strict, reserve: P.reserve, run: P.bestRun};
   };
 }
 // ---- the music: a garden, after Eno. A pad that drifts through four chords, a heartbeat on the pulse you swim to,
@@ -1755,7 +1926,14 @@ const music = (() => {
   }
   function sched(i, t) {
     const st = api.state ? api.state() : null, mode = st ? st.mode : 'title';
+    if (mode === 'intro') {   // the intro's cues: the censor's bell on beat 8, a rising wash, the jellyfish's birth on beat 14
+      if (i === 16) api.burn(t);
+      if (i === 20) noise(t, SPB * 4, .1, {f: 200, sweep: 5000, q: 1.5, wet: .5});
+      if (i === 28) { voice(t, 70, 1.6, .35, {glide: 30, wet: .2}); api.cadence(t); }
+      if (i < 16) { if (i % 2 === 0) voice(t, 150, .3, i % 4 === 0 ? .2 : .1, {glide: 48, wet: .05}); return; }
+    }
     if (i % 16 === 0) pad(t, CH[Math.floor(i / 16) % 4], SPB * 8);
+    if (st && st.idle && mode === 'play') { if (st.reel.length && i % 4 === 0) { const r = st.reel[(i / 4) % st.reel.length]; pluck(t, NOTE(r.k), r.burned, .03); } return; }   // time stopped: the pulse drops out, the reel's notes slow
     if (i % 2 === 0) { const strong = i % 4 === 0; voice(t, 150, .3, strong ? .2 : .11, {glide: 48, wet: .05}); voice(t, 300, .07, strong ? .05 : .03, {type: 'triangle', wet: .05}); }   // the heartbeat, with a tap a phone speaker can carry
     if (!st) return;
     const reel = st.reel || [], dense = reel.length >= 4 || mode === 'reel';
@@ -1796,17 +1974,17 @@ const music = (() => {
     },
     nomatch() { if (!ac) return; const t = ac.currentTime; voice(t, 104, .2, .14, {type: 'triangle', lp: 420, wet: .05}); voice(t + .08, 98, .2, .1, {type: 'triangle', lp: 420, wet: .05}); },
     smolder(level) { if (!ac) return; noise(ac.currentTime, .04, .05 + .1 * level, {f: 2500 + Math.random() * 3000, q: 3, wet: .1}); },
-    burn() {   // the censor's bell: out of the key, then the crackle of nitrate
-      if (!ac) return; const t = ac.currentTime;
+    burn(at) {   // the censor's bell: out of the key, then the crackle of nitrate
+      if (!ac) return; const t = at || ac.currentTime;
       [1, 1.414, 2.76, 4.07, 5.4].forEach((r, n) => voice(t, 466 * r, 1.8 - n * .25, [.12, .08, .05, .03, .02][n], {wet: .4}));
       noise(t + .05, 1.3, .12, {f: 2200, q: .6, wet: .3}); voice(t, 60, .6, .25, {glide: 35, wet: .1});
     },
     whoosh(open) { if (!ac) return; noise(ac.currentTime, .45, .08, {f: open ? 300 : 2400, sweep: open ? 2400 : 300, q: 1.2, wet: .3}); },
     click() { if (!ac) return; noise(ac.currentTime, .03, .12, {f: 3000, q: 2, wet: .05}); },
-    cadence() { if (!ac) return; const t = ac.currentTime; CH[0].forEach((m, n) => voice(t + n * .12, m2f(m + 12), 3.5, .05, {type: 'triangle', wet: .7, echo: .2})); }};
+    cadence(at) { if (!ac) return; const t = at || ac.currentTime; CH[0].forEach((m, n) => voice(t + n * .12, m2f(m + 12), 3.5, .05, {type: 'triangle', wet: .7, echo: .2})); }};
   return api;
 })();
-music.state = () => P ? {reel: P.reel, res: J ? J.res || 0 : 0, left: P.left, mode: P.state} : null;
+music.state = () => P ? {reel: P.reel, res: J ? J.res || 0 : 0, left: P.left, mode: P.state, idle: P.idle} : null;
 function filmFrame(i, fps, dur, noImage) {
   const t = i / fps; filmT = t;
   if (i > 0 && !(INS_FILM && activeInsert())) { simT += 1 / fps; step(1 / fps); }

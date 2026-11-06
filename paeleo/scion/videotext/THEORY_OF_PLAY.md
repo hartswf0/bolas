@@ -1,8 +1,46 @@
-# THEORY OF PLAY — Contaminant Jelly (second version)
+# THEORY OF PLAY — Contaminant Jelly (third version)
 
 The game runs on the film's own renderer (`../contaminant.html?play=1`). It keeps the film's jellyfish, archive frames, Afterlight look and censor, and changes the rules so that each verb has exactly one rule. A rule is taught when you first meet it, not in a menu.
 
-## The loop (one round is 90 s)
+## Third version: time, after the critics (round 2)
+Two independent critics played the second version. Both returned **reference stronger**.
+- **Play tester.** A bot that only taps toward the target took all 14 frames in about 50 s. Arrow keys did nothing. Matching dissolved into jump cuts by the sixth cut. The pulse made no difference.
+- **Operative theorist.** Nothing accumulates. The water, the jellyfish and the reel forget what the player did; the game runs on clock time, not duration.
+
+Repairs:
+- **The intro.** A gate screen (one gold dot beating: "tap · sound on") leads into about 10.6 s of sequence:
+  - Three archive frames are scanned into existence as lidar point clouds and lifted into depth by luminance, under a slow orbit ("AN ARCHIVE").
+  - On beat 8 the censor's bell burns the frame with the touch from the touch outward, and its points lift as embers ("WHAT THE CENSOR CUT").
+  - All the points converge into the jellyfish ("THE JELLYFISH KEEPS"), and it ignites on beat 14.
+  - The music cues each beat: heartbeat, then bell, then a rising wash, then the birth. It can be skipped.
+- **The water becomes the film.** What you carry is printed into the water along your path, then diffuses, rises like heat and fades, a long exposure after AFL-14/17. Two frames painted into the same water double-expose.
+- **The worm.** The jellyfish's last 5 s trail behind it as soft gaussian splats. Each is tinted the colour of the frame carried at that moment, rising and cooling to the afterimage's blue (AFL-07 spacetime, AFL-17 worms).
+- **Scars.** A burn leaves a charred scar in the water that keeps spreading for the rest of the round.
+- **Duration in the reel.** Each shot plays for as long as you carried it, scaled so the reel runs about 12 s. A burned shot first holds still on the moment it burned.
+- **The time-image, as a resource.** Stop stroking for 2 s and time stops:
+  - the clock pauses
+  - the world and the censor's beam slow to a quarter
+  - the pulse drops out of the music
+  - the water stops fading
+
+  You have 12 s of held time per round (the blue hairline). It is a way past the beam.
+- **A time arc.** In the last 30 s the censor grows strict: its beam widens and burns anything you carry, not only touches.
+- **Circulation.** A spliced frame returns to the water 6 s later, as the archive returns to circulation in the film. The reel has no cap, the round always ends on the clock, and you score cuts and your longest run of matches.
+- **The pulse.** A stroke on the pulse (±0.09 s) gets 1.45× push; an off-beat tap gets 0.55×.
+- **Keyboard.** Fixed: arrow keys and WASD now swim. A keys-only bot scored 21 cuts.
+- **Phones.** Text is 1.6× larger on touch screens, and portrait shows "turn your phone sideways".
+
+Measured with bots at 1280×720, one 90 s round each:
+
+| bot | cuts | burns |
+|---|---|---|
+| strokes on the pulse | about 33 | 7 |
+| taps every 450 ms | about 30 | 3 |
+| keys only | 21 | 5 |
+
+There were no page errors. The pulse helps the bot only by about 10%, short of the play tester's 25% target, because the bot's travel is not the bottleneck. How much it helps a person is unknown.
+
+## The loop (second version, kept where not changed above)
 1. **Swim.** One tap, swipe, click or key press is one stroke of the bell; the bell then glides. Holding a finger, the mouse button or a key strokes once immediately, then on every pulse.
 2. **Catch.** Swim into a frame that glows gold. The frame then plays **inside the jellyfish's bell**; the game does not cut away from the world. Tap or click the jellyfish (or press space) to watch it full screen. Tap again to return.
 3. **Splice.** Carry it into the dashed circle around the sun. It flies into your reel, the strip at the top.
