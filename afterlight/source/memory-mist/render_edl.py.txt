@@ -1,0 +1,83 @@
+"""Memory mist, cut to music. Same point-volume render as render.py (newest frame faces the camera,
+the past recedes into mist), but time comes from an edit list tied to the music, and each pluck
+makes the memory briefly sharpen. Usage: render_edl.py FRAMES_DIR T0 MUSIC_AUDIO OUT.mp4 [--stills t,t,..]"""
+import sys,json,glob,os,subprocess
+import numpy as np,cv2
+from multiprocessing import Pool
+HERE=os.path.dirname(os.path.abspath(__file__))
+FR=sorted(glob.glob(sys.argv[1]+'/*.jpg')); T0=float(sys.argv[2]); AUDIO=sys.argv[3]; OUT=sys.argv[4]
+stills=[float(x) for x in sys.argv[sys.argv.index('--stills')+1].split(',')] if '--stills' in sys.argv else []
+ED=json.load(open(HERE+'/edl.json')); EDL=ED['edl']; DUR=ED['duration']
+SEG={g['id']:g for g in json.load(open(HERE+'/segments.json'))['segments']}
+MU=json.load(open(HERE+'/music.json')); ON=np.array(MU['onsets']); BT=np.array(MU['bass'])
+SRC=12; FPS=24; W,H=960,540; sh,sw=132,320
+GR={}
+for S_ in (1,2):
+    gy,gx=np.mgrid[0:sh:S_,0:sw:S_]; GR[S_]=((gx/sw*2-1)*(sw/sh),-(gy/sh*2-1))
+cache={}
+def load(i):
+    i=max(0,min(len(FR)-1,i))
+    if i not in cache:
+        if len(cache)>120: cache.pop(next(iter(cache)))
+        cache[i]=cv2.cvtColor(cv2.imread(FR[i])[24:156],cv2.COLOR_BGR2RGB).astype(np.float32)/255
+    return cache[i]
+def frame_at(ts):
+    fi=(ts-T0)*SRC; a=int(np.floor(fi)); w=fi-a
+    return load(a) if w<0.03 else (1-w)*load(a)+w*load(a+1)
+def entry(T):
+    for e in EDL:
+        if e['t0']<=T<e['t1']: return e
+    return EDL[-1] if T>=EDL[-1]['t1'] else EDL[0]
+def src_time(T):
+    e=entry(T); u=min(1,max(0,(T-e['t0'])/(e['t1']-e['t0']))); return e['src0']+u*(e['src1']-e['src0'])
+def pulse(T):
+    d=T-ON[:,0]; m=(d>=0)&(d<1.5); return float((ON[m,1]*np.exp(-d[m]/0.3)).sum()) if m.any() else 0.0
+def bass(T): return float(np.interp(T,BT[:,0],BT[:,1]))
+def smooth(a,b,u): u=u*u*(3-2*u); return a+(b-a)*u
+
+def render(T):
+    e=entry(T); g=SEG[e['seg']]; u=(T-e['t0'])/(e['t1']-e['t0']); hero=g.get('hero',False)
+    pu=min(1.3,pulse(T)); bs=bass(T)
+    mist=g['mist']*(1-0.35*min(1,pu)); N=34 if hero else 24; dz=0.035 if hero else 0.045
+    yaw=np.radians(smooth(-8,9,u) if not hero else smooth(-22,18,u)); pitch=np.radians(smooth(3,-2,u))
+    D=2.4-0.35*u-0.10*pu; foc=1.18*H
+    Tq=np.floor(T*SRC)/SRC; fr=(T-Tq)*SRC
+    acc=[np.zeros((H*W,3),np.float32) for _ in range(3)]
+    cy,sy=np.cos(yaw),np.sin(yaw); cp,sp=np.cos(pitch),np.sin(pitch)
+    for j in range(N):
+        age=j+fr; ts=src_time(max(0,Tq-j/SRC)); z=-age*dz
+        S_=1 if j<3 else 2; PX,PY=GR[S_]; ny,nx=PX.shape
+        cur=frame_at(ts)[::S_,::S_]; fi=int(np.floor((ts-T0)*SRC)); mot=np.clip(np.abs(load(fi)-load(fi-1)).mean(2)[::S_,::S_]*6,0,1)
+        lum=cur@np.array([.3,.59,.11],np.float32)
+        w=(0.05+lum**0.6)*(1+2.0*mot)*(np.exp(-age/1.1)+0.11*(1-age/(N+1))**2)*(1.0 if S_==1 else 4.0)*(1+0.5*pu)
+        w*=np.clip(0.55+0.45*np.random.default_rng(j+int(T*24)%5).random((ny,nx)),0,1)
+        r=np.hypot(PX/(sw/sh),PY); w*=np.clip(1.15-r*(0.35+mist*(0.5+age/N)),0.02,1)
+        zz=z-0.10*mot*age/N
+        X=PX*cy+(zz+0.5)*sy; Zr=-PX*sy+(zz+0.5)*cy-0.5; Y=PY*cp-Zr*sp; Z2=PY*sp+Zr*cp
+        jr=np.random.default_rng(int(round(ts*SRC))*7+S_+j).normal(0,1,(ny,nx,2)).astype(np.float32)
+        amp=0.0022+0.0045*(age**0.8)*(0.4+mist*2); X=X+jr[...,0]*amp; Y=Y+jr[...,1]*amp
+        dep=D-Z2; ok=dep>0.3; xs=(X/dep*foc+W/2).astype(np.int32); ys=(-Y/dep*foc+H/2).astype(np.int32)
+        ok&=(xs>=0)&(xs<W)&(ys>=0)&(ys<H); k=min(2,int(age/N*3.2)); idx=(ys*W+xs)[ok]
+        col=cur.copy(); gm=col.mean(2,keepdims=True); col=np.clip(gm+(col-gm)*1.25,0,1)
+        far=min(1,age/N); col=col*(1-far*mist*0.6)+np.array([1,.93,.82],np.float32)*far*mist*0.35
+        for c in range(3): acc[k][:,c]+=np.bincount(idx,weights=(w*col[...,c])[ok],minlength=H*W).astype(np.float32)
+    sig=[1.6,2.5,4.2]; gain=[3.2,3.6,3.2]; out=np.zeros((H,W,3),np.float32)
+    for k in range(3): out+=cv2.GaussianBlur(acc[k].reshape(H,W,3),(0,0),sig[k])*gain[k]
+    m=float(out.mean()); gx_=g.get('exp',float(np.clip(0.30/(m+1e-4),0.8,4.0))); out=1-np.exp(-out*gx_)
+    hz=g.get('haze',1.0)*(0.5+0.5*bs)
+    bloom=cv2.GaussianBlur(out,(0,0),18); haze=cv2.GaussianBlur(out.mean(2),(0,0),40)[...,None]
+    out=out+bloom*(0.35+mist*0.35)*hz+haze*np.array([1,.94,.84],np.float32)*(0.25+0.4*mist)*hz
+    fade=min(1,T/2.5)*min(1,(DUR-T)/2.2); out=np.clip(out,0,1)**0.9*fade
+    return (out*255).astype(np.uint8)
+
+if stills:
+    for t in stills:
+        cv2.imwrite(f"{HERE}/e_{t:06.2f}.jpg",cv2.cvtColor(render(t),cv2.COLOR_RGB2BGR),[cv2.IMWRITE_JPEG_QUALITY,88]); print(t,flush=True)
+    sys.exit()
+n=int(DUR*FPS)
+p=subprocess.Popen(['ffmpeg','-v','error','-y','-f','rawvideo','-pix_fmt','rgb24','-s',f'{W}x{H}','-r',str(FPS),'-i','-','-i',AUDIO,'-map','0:v','-map','1:a','-c:v','libx264','-crf','29','-preset','medium','-pix_fmt','yuv420p','-c:a','aac','-b:a','128k','-t',str(DUR),'-movflags','+faststart',OUT],stdin=subprocess.PIPE)
+with Pool(4) as pool:
+    for k,img in enumerate(pool.imap(render,[i/FPS for i in range(n)],chunksize=6)):
+        p.stdin.write(img.tobytes())
+        if k%96==0: print(k,n,flush=True)
+p.stdin.close(); p.wait(); print('DONE',flush=True)
