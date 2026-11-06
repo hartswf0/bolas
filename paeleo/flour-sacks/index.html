@@ -1,0 +1,122 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<title>Flour Sacks · PAELEO · CRASH LAB</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="Every flour-sack film in CRASH LAB: PAE-03 The Flour Tower, one sack made by six SCION swarms, and PAE-04 The Burning of the Abominable House, four sacks and Calvino's twelve deeds.">
+<link rel="canonical" href="https://hartswf0.github.io/bolas/paeleo/flour-sacks/">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800&family=JetBrains+Mono:wght@400;600&family=Literata:opsz,wght@7..72,400;7..72,500&display=swap">
+<style>
+/* Layout: a CRASH LAB index. Two projects, each a feature film, then its other cuts as a grid of players, then its live pages. */
+:root{
+  --bg:#f1f2f3;--card:#fbfbfb;--fg:#111417;--mute:#5d6670;--line:#d4d8dc;--accent:#8a3a2c;--flour:#ece6d8;
+  --f-disp:"Big Shoulders Display","Arial Narrow",Impact,sans-serif;--f-body:"Literata",Georgia,serif;--f-mono:"JetBrains Mono",ui-monospace,Menlo,monospace}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0b0d10;--card:#12161b;--fg:#e7eaee;--mute:#8b95a1;--line:#262d35;--accent:#e08a6e;--flour:#2a2722;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0b0d10;--card:#12161b;--fg:#e7eaee;--mute:#8b95a1;--line:#262d35;--accent:#e08a6e;--flour:#2a2722;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:16px;line-height:1.55}
+.wrap{max-width:1100px;margin:0 auto;padding-block:28px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:40px}
+.crumb{font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;color:var(--mute);text-transform:uppercase}
+.crumb a{color:var(--mute)}
+h1{font-family:var(--f-disp);font-weight:800;font-size:clamp(48px,9vw,96px);line-height:.9;margin:6px 0 12px;text-transform:uppercase}
+h2{font-family:var(--f-disp);font-weight:800;font-size:clamp(34px,5vw,52px);line-height:.95;text-transform:uppercase;margin:4px 0 8px;text-wrap:balance}
+h3{font-family:var(--f-disp);font-weight:700;font-size:22px;margin:0;line-height:1.05}
+h4{font-family:var(--f-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);margin:22px 0 10px;font-weight:600}
+p{max-width:68ch;margin:0 0 10px}
+.lede{font-size:19px;max-width:64ch}
+a{color:inherit}
+.code{font-family:var(--f-mono);font-size:12px;letter-spacing:.1em;color:var(--accent);text-transform:uppercase}
+.proj{display:grid;gap:14px;border-top:3px solid var(--fg);padding-top:16px}
+.feature{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(0,1fr);gap:20px;align-items:start}
+@media (max-width:780px){.feature{grid-template-columns:minmax(0,1fr)}}
+video{width:100%;max-width:100%;display:block;background:#000;border:1px solid var(--line)}
+.feature video{aspect-ratio:16/9}
+.meta{font-family:var(--f-mono);font-size:12px;color:var(--mute);margin:0 0 6px}
+ol.ch{margin:6px 0 0;padding:0;list-style:none;font-family:var(--f-mono);font-size:12px;color:var(--mute)}
+ol.ch li{display:grid;grid-template-columns:44px 1fr;gap:6px;padding:3px 0;border-bottom:1px solid var(--line)}
+ol.ch button{all:unset;cursor:pointer;color:var(--accent);font-variant-numeric:tabular-nums}
+ol.ch button:focus-visible{outline:2px solid var(--accent)}
+.cuts{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:18px}
+.cut{display:grid;gap:6px;align-content:start}
+.cut video{aspect-ratio:16/9}
+.cut.v video{aspect-ratio:9/16;max-height:420px;width:auto;margin:0 auto}
+.cut p{font-size:14px;margin:0}
+.swarms{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px}
+.swarms a{display:grid;gap:4px;text-decoration:none}
+.swarms img{width:100%;aspect-ratio:16/9;object-fit:cover;display:block;border:1px solid var(--line)}
+.swarms b{font-family:var(--f-disp);font-size:20px;line-height:1}
+.swarms span{font-family:var(--f-mono);font-size:11px;color:var(--mute)}
+.links{display:flex;flex-wrap:wrap;gap:8px}
+.links a{font-family:var(--f-mono);font-size:12px;letter-spacing:.04em;text-transform:uppercase;text-decoration:none;padding:9px 12px;border:1.5px solid var(--fg);border-radius:3px}
+.links a:hover,.links a:focus-visible{background:var(--fg);color:var(--bg);outline:none}
+.links a.main{background:var(--fg);color:var(--bg)}
+</style></head><body><div class="wrap">
+
+<header>
+ <div class="crumb"><a href="../../">CRASH LAB</a> / <a href="../">PAELEO</a> / FLOUR SACKS</div>
+ <h1>Flour Sacks</h1>
+ <p class="lede">In the 1930s Disney trained animators on a flour sack: no face, no limbs, no fingers. Mood has to read through weight, silhouette, the line of action and four corners that drag behind the body. These are every flour-sack film in CRASH LAB. In the first project one sack makes a decision; in the second four sacks do twelve terrible things to each other in Calvino’s burned house.</p>
+</header>
+
+<section class="proj" id="flour-tower">
+ <span class="code">PAE-03 · Oct–Nov 2026 · one sack · six SCION swarms</span>
+ <h2>The Flour Tower</h2>
+ <p>A knife slices a tower of packed flour with a penny on top, the old parlor game. A half-empty sack flinches, notices the tower lean, comes to it head low and holds it up. The tower falls; the sack catches the penny, gathers the scattered flour back into itself and stands where the tower stood. Six swarms each built the sack, the tower and the knife from nothing in their own language, under one score of ten choices.</p>
+ <div class="feature">
+  <video id="ft" controls preload="none" poster="../flour-tower/film/thumbnail.jpg" src="../flour-tower/film/pae03-flour-tower.mp4"></video>
+  <div><h3>The Flour Tower, handmade</h3><p class="meta">4 min 1 s · all six films in a row</p>
+   <ol class="ch" data-v="ft">
+    <li><button data-t="0">0:00</button>Title and story</li>
+    <li><button data-t="15">0:15</button>SCION 02 · Lotte Reiniger, cut card on pins</li>
+    <li><button data-t="51">0:51</button>SCION 06 · John Whitney, harmonics in points of light</li>
+    <li><button data-t="87">1:27</button>SCION 07 · Peter Foldès, one pen line</li>
+    <li><button data-t="123">2:03</button>SCION 08 · Ivan Sutherland, solved constraints</li>
+    <li><button data-t="159">2:39</button>SCION 14 · Pose2Pose, 46 hand-drawn sacks</li>
+    <li><button data-t="195">3:15</button>SCION 41 · soft body, 753 real grains</li>
+    <li><button data-t="231">3:51</button>The result</li>
+   </ol></div>
+ </div>
+ <h4>Cuts and openings</h4>
+ <div class="cuts">
+  <div class="cut"><video controls preload="none" poster="../flour-tower/cuts/the-flour-tower.jpg" src="../flour-tower/cuts/the-flour-tower.mp4"></video><h3>The trailer</h3><p class="meta">49 s</p><p>A title tower of 403 animation cels, then the film. Every sound is made of grains.</p></div>
+  <div class="cut"><video controls preload="none" poster="../flour-tower/cuts/world-camera.jpg" src="../flour-tower/cuts/world-camera.mp4"></video><h3>The film alone</h3><p class="meta">30 s</p><p>One camera shoots all six films in a shared world, so a cut changes the sack’s material and keeps its pose.</p></div>
+  <div class="cut"><video controls preload="none" poster="../flour-tower/cuts/frankenstein.jpg" src="../flour-tower/cuts/frankenstein.mp4"></video><h3>Frankenstein cut</h3><p class="meta">40 s · 59 cuts</p><p>The story once, with the sack sewn together from six bodies.</p></div>
+  <div class="cut"><video controls preload="none" poster="../flour-tower/cuts/opening-flour-grains.jpg" src="../flour-tower/cuts/opening-flour-grains.mp4"></video><h3>Opening: flour grains</h3><p class="meta">49 s</p><p>The game played by about 20,000 grains of flour under one lamp.</p></div>
+  <div class="cut"><video controls preload="none" poster="../flour-tower/cuts/opening-picture-book.jpg" src="../flour-tower/cuts/opening-picture-book.mp4"></video><h3>Opening: picture book</h3><p class="meta">57 s</p><p>Ink on paper, the game explained one line per step.</p></div>
+  <div class="cut v"><video controls preload="none" poster="../flour-tower/cuts/short-vertical.jpg" src="../flour-tower/cuts/short-vertical.mp4"></video><h3>Vertical short</h3><p class="meta">25 s · 9:16</p><p>Cold open on the catch; the walk changes material at every step.</p></div>
+ </div>
+ <h4>The six swarm films, live</h4>
+ <div class="swarms">
+  <a href="../flour-tower/films/02-reiniger.html"><img src="../flour-tower/stills/02-22.5.jpg" alt="The catch in cut card" loading="lazy"><b>Lotte Reiniger</b><span>SCION 02 · silhouette theatre</span></a>
+  <a href="../flour-tower/films/06-whitney.html"><img src="../flour-tower/stills/06-22.5.jpg" alt="The catch in points of light" loading="lazy"><b>John Whitney</b><span>SCION 06 · harmonic motion</span></a>
+  <a href="../flour-tower/films/07-foldes.html"><img src="../flour-tower/stills/07-22.5.jpg" alt="The catch as one pen line" loading="lazy"><b>Peter Foldès</b><span>SCION 07 · drawn metamorphosis</span></a>
+  <a href="../flour-tower/films/08-sutherland.html"><img src="../flour-tower/stills/08-22.5.jpg" alt="The catch as solved constraints" loading="lazy"><b>Ivan Sutherland</b><span>SCION 08 · constraint sketchpad</span></a>
+  <a href="../flour-tower/films/14-pose2pose.html"><img src="../flour-tower/stills/14-22.5.jpg" alt="The catch in hand-drawn poses" loading="lazy"><b>Pose2Pose</b><span>SCION 14 · drawing selection</span></a>
+  <a href="../flour-tower/films/41-soft-body.html"><img src="../flour-tower/stills/41-22.5.jpg" alt="The catch as a cloth bag of grains" loading="lazy"><b>Soft body</b><span>SCION 41 · cloth and grain</span></a>
+ </div>
+ <div class="links" style="margin-top:6px"><a class="main" href="../flour-tower/">The full case: score, critics, sheets</a><a href="../flour-tower/live/cel-tower.html">Cel tower, live</a><a href="../flour-tower/live/flour-grains.html">Flour grains, live</a><a href="../flour-tower/live/picture-book.html">Picture book, live</a><a href="../flour-tower/workbench.html">Flour-sack workbench</a></div>
+</section>
+
+<section class="proj" id="abominable-house">
+ <span class="code">PAE-04 · Nov 2026 · four sacks · after Italo Calvino</span>
+ <h2>The Burning of the Abominable House</h2>
+ <p>A house burns with its four tenants. A copybook survives with only its index: twelve abominable deeds, and no record of who did what to whom. Every deed is animated by a different SCION operation and can be played between any two tenants, so the film bank can play any of the 8,916,100,448,256 stories. Each deed leaves a mark and a memory, and the tenants can choose with beliefs, plans and memories of their own.</p>
+ <div class="feature">
+  <video controls preload="none" poster="../abominable-house/posters/most-likely.jpg" src="../abominable-house/films/the-most-likely-film.mp4"></video>
+  <div><h3>The most likely story</h3><p class="meta">3 min 23 s · director’s cut pace</p><p>The story a Monte Carlo tree search rated most believable given who the tenants are: blackmail, drugs, a knife, a gun, a rope, and a fire at the end.</p></div>
+ </div>
+ <h4>The other films</h4>
+ <div class="cuts">
+  <div class="cut"><video controls preload="none" poster="../abominable-house/posters/first.jpg" src="../abominable-house/films/the-first-film.mp4"></video><h3>The first film</h3><p class="meta">1 min 36 s</p><p>The story told once, from the ruins to the copybook to the count, in a doll’s-house section of the house.</p></div>
+  <div class="cut"><video controls preload="none" poster="../abominable-house/posters/full.jpg" src="../abominable-house/films/the-full-film.mp4"></video><h3>One story from the bank</h3><p class="meta">2 min 54 s</p><p>A random choice of who did each deed, with every memory, transition and consequence.</p></div>
+ </div>
+ <div class="links" style="margin-top:6px"><a class="main" href="../abominable-house/">The full case: films, sheets, numbers</a><a href="../abominable-house/live/film.html">The film bank, live</a><a href="../abominable-house/live/player.html">The deed bank</a><a href="../abominable-house/live/numbers.html">Twelve to the twelfth</a><a href="../abominable-house/live/abom.html">The first film, live</a></div>
+</section>
+
+<p class="crumb"><a href="../">Back to PAELEO</a> · <a href="../../">CRASH LAB</a></p>
+</div>
+<script>
+document.querySelectorAll('ol.ch').forEach(ol=>{const v=document.getElementById(ol.dataset.v);ol.querySelectorAll('button').forEach(b=>b.onclick=()=>{const t=+b.dataset.t;const go=()=>{v.currentTime=t;v.play().catch(()=>{})};if(v.readyState>=1)go();else{v.preload='metadata';v.addEventListener('loadedmetadata',go,{once:true});v.load()}})});
+</script>
+</body></html>
