@@ -1,0 +1,305 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#0b0806">
+<title>VIDEOTEXT</title>
+<style>
+/* Layout: one column for a phone held upright; the screen on top, the sentence you write under it, the swarm's cuts, then the action bar.
+   Wider screens put the screen beside the controls. */
+:root{--bg:#0b0806;--panel:#15100c;--line:#2b2119;--ink:#efe2cf;--muted:#a8957d;--gold:#f2b35b;--blue:#9fb4ff;--pink:#ee6aa6;--ok:#86d4a4;--bad:#f07a5a;
+  --disp:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;--ui:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color-scheme:dark}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);font-family:var(--ui)}
+body{display:flex;justify-content:center;padding:env(safe-area-inset-top) max(10px,env(safe-area-inset-right)) env(safe-area-inset-bottom) max(10px,env(safe-area-inset-left))}
+.app{width:100%;max-width:1100px;min-height:100%;display:grid;grid-template-rows:auto auto auto auto 1fr auto;gap:10px;padding-block:10px}
+header{display:flex;align-items:baseline;justify-content:space-between;gap:10px}
+h1{font-family:var(--disp);font-style:italic;font-weight:600;font-size:1.35rem;margin:0;letter-spacing:.01em}
+.brief{font-size:.82rem;color:var(--muted);margin:0;line-height:1.4}
+.brief b{color:var(--ink);font-weight:600}
+.screen{position:relative;border-radius:10px;overflow:hidden;background:#000;border:1px solid var(--line);aspect-ratio:16/9;width:100%}
+.screen canvas{position:absolute;inset:0;display:block;width:100%;height:100%}   /* out of flow: its pixel size can never feed back into the layout */
+.app>*,.controls>*,.swarm{min-width:0}   /* long rows (the swarm's cuts) scroll inside themselves, never widen the page */
+.verdict{position:absolute;inset:auto 8px 8px 8px;display:flex;gap:6px;flex-wrap:wrap;pointer-events:none}
+.chip{font-size:.72rem;padding:3px 8px;border-radius:999px;background:rgba(10,8,6,.78);border:1px solid var(--line)}
+.chip.ok{color:var(--ok);border-color:#2e5a43}.chip.bad{color:var(--bad);border-color:#6a3426}
+.label{font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:0 0 6px}
+.sentence{display:flex;flex-wrap:wrap;align-items:center;gap:6px;min-height:48px;padding:8px;border:1px solid var(--line);border-radius:10px;background:var(--panel)}
+.sentence .empty{color:var(--muted);font-size:.85rem}
+.tok{display:inline-flex;align-items:center;gap:4px;height:34px;padding:0 10px;border-radius:8px;background:#221a13;border:1px solid #3a2c20;font-size:.85rem}
+.tok svg{width:18px;height:18px}
+.arrow{color:var(--muted)}
+.glyphs{display:grid;grid-template-columns:repeat(8,1fr);gap:6px}
+.glyph{height:52px;border-radius:10px;border:1px solid var(--line);background:var(--panel);color:var(--ink);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font:inherit;font-size:.66rem;cursor:pointer}
+.glyph svg{width:22px;height:22px}
+.glyph:active{transform:translateY(1px)}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.toggle{height:40px;padding:0 12px;border-radius:10px;border:1px solid var(--line);background:var(--panel);color:var(--ink);font:inherit;font-size:.85rem;cursor:pointer}
+.toggle[aria-pressed=true]{border-color:var(--gold);color:var(--gold)}
+.swarm{min-height:0;display:flex;flex-direction:column;gap:6px}
+.count{font-family:var(--disp);font-size:1.05rem}
+.count small{font-family:var(--ui);color:var(--muted);font-size:.78rem}
+.cands{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;scroll-snap-type:x mandatory;min-height:92px}
+.cand{flex:none;scroll-snap-align:start;border:1px solid var(--line);border-radius:10px;background:var(--panel);padding:6px;cursor:pointer;display:flex;flex-direction:column;gap:5px}
+.cand[aria-selected=true]{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold) inset}
+.strip{display:flex;gap:2px}
+.strip img{width:46px;height:34px;object-fit:cover;border-radius:2px;filter:sepia(.6) contrast(1.05)}
+.strip img.touch{outline:1.5px solid var(--pink);outline-offset:-1.5px}
+.badges{display:flex;gap:4px;font-size:.68rem;color:var(--muted)}
+.actions{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;position:sticky;bottom:0;padding-top:6px;background:linear-gradient(transparent,var(--bg) 30%)}
+.btn{height:52px;border-radius:12px;border:1px solid var(--line);background:var(--panel);color:var(--ink);font:inherit;font-weight:600;font-size:.9rem;cursor:pointer}
+.btn.primary{background:linear-gradient(#f6c47a,#e59c35);color:#1b1108;border-color:#f2b35b}
+.btn.stop{background:#3a1410;border-color:#7a2d22;color:#ffb3a0}
+.btn:disabled{opacity:.4}
+.btn:focus-visible,.toggle:focus-visible,.glyph:focus-visible,.cand:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.levels{display:flex;gap:6px;overflow-x:auto}
+.lv{flex:none;height:30px;padding:0 10px;border-radius:999px;border:1px solid var(--line);background:var(--panel);color:var(--muted);font:inherit;font-size:.75rem;cursor:pointer}
+.lv[aria-current=true]{color:var(--gold);border-color:var(--gold)}
+.lv.done::after{content:" ✓";color:var(--ok)}
+.toast{position:fixed;left:50%;bottom:calc(84px + env(safe-area-inset-bottom));transform:translateX(-50%);background:#1e1610;border:1px solid var(--line);padding:10px 14px;border-radius:12px;font-size:.88rem;max-width:min(92vw,520px);opacity:0;transition:opacity .25s;pointer-events:none;z-index:5}
+.toast.on{opacity:1}
+@media (min-width:860px){.app{grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);grid-template-rows:auto auto 1fr auto;column-gap:18px}
+  header,.levels{grid-column:1/-1}.screen{grid-row:3/5;align-self:start}.controls{grid-row:3}.actions{grid-column:2}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style></head><body>
+<div class="app">
+  <header><h1>VIDEOTEXT</h1><span class="brief" id="score"></span></header>
+  <nav class="levels" id="levels" aria-label="Commissions"></nav>
+  <p class="brief" id="brief"></p>
+  <div class="screen"><canvas id="cv" aria-label="The projector screen: plays the cut you sign"></canvas><div class="verdict" id="verdict"></div></div>
+  <section class="controls" style="display:grid;gap:10px">
+    <div><p class="label">Your sentence · each word is a cut, the feature two shots share</p><div class="sentence" id="sentence"></div></div>
+    <div class="glyphs" id="glyphs"></div>
+    <div class="row"><button class="toggle" id="censor" aria-pressed="false">Censor: off</button><button class="toggle" id="undo">Undo word</button><button class="toggle" id="clear">Clear</button></div>
+    <div class="swarm"><p class="label" style="margin:0">The swarm's cuts</p><div class="count" id="count"></div><div class="cands" id="cands" role="listbox" aria-label="Candidate cuts"></div></div>
+  </section>
+  <div class="actions"><button class="btn" id="swarmBtn">Swarm</button><button class="btn primary" id="sign" disabled>Sign &amp; play</button><button class="btn stop" id="breaker" disabled>Breaker</button><button class="btn" id="about">How</button></div>
+</div>
+<div class="toast" id="toast" role="status"></div>
+<script>
+(() => {
+'use strict';
+// ---------------------------------------------------------------- the archive as state: clips, their joints, their evidence
+// Fourteen public-domain archive frames (rights recorded in paeleo/handmade/*/assets.json; list in ../contaminant/mood/sources.json).
+// JOINT: the visible features by which two shots can be cut together, located on the frame (x, y in 0..1), recorded by looking;
+// touch: where something is touched, the censor's evidence. Copied from the contaminant jellyfish film (../contaminant.html).
+const H = '../../handmade/';
+const CLIPS = [
+  ['a bare bulb', '52-gilliam-ephemera/sources/light-bulb_f012.jpg', {glow: [.5, .35]}],
+  ['hands gripping a tool', '52-gilliam-ephemera/sources/hat_f010.jpg', {hand: [.45, .75], person: [.7, .5], touch: [.45, .75]}],
+  ['a closed door', 'kit/archive-door/frames/f031.jpg', {door: [.6, .45]}],
+  ['a lion at rest', '03-ernst/src/lion/f022.jpg', {animal: [.27, .45], ground: [.5, .85]}],
+  ['a hand opening a door', 'kit/archive-door/frames/f013.jpg', {hand: [.43, .6], door: [.6, .4], touch: [.43, .6]}],
+  ['a dog', 'kit/archive-dog/frames/f030.jpg', {animal: [.45, .5], ground: [.5, .85]}],
+  ['a handstand', '52-gilliam-ephemera/sources/yoga_f024.jpg', {body: [.48, .45], up: [.48, .2]}],
+  ['hands holding a lantern', '54-provenance-graph/sources/lantern-sam/f020.jpg', {glow: [.47, .42], hand: [.42, .8], touch: [.42, .8]}],
+  ['a hand holding a butterfly', '01-gilliam/sources/butterfly/f060.jpg', {hand: [.4, .5], touch: [.4, .5]}],
+  ['a cloud', '31-alpha-matting/sources/cloud/f020.jpg', {up: [.5, .35]}],
+  ['a woman\'s hand on a door', '53-civic-footage/sources/door/frames/f010.jpg', {door: [.6, .4], person: [.6, .45], hand: [.52, .62], touch: [.52, .62]}],
+  ['a dog approaching a person', '53-civic-footage/sources/dog/frames/f025.jpg', {person: [.7, .2], animal: [.45, .55]}],
+  ['a person holding themselves in the snow', '53-civic-footage/sources/seated/frames/f025.jpg', {person: [.45, .5], body: [.45, .5], ground: [.5, .85], touch: [.45, .5]}],
+  ['a woman leaping', '52-gilliam-ephemera/sources/yoga_f000.jpg', {body: [.47, .45], up: [.47, .25]}]
+].map(([name, src, joints], id) => ({id, name, src: H + src, joints, img: Object.assign(new Image(), {src: H + src})}));
+const TAGS = ['glow', 'hand', 'door', 'person', 'animal', 'ground', 'body', 'up'];
+const GLYPH = {   // simple drawn marks, so the sentence reads without knowing English
+  glow: '<circle cx="12" cy="12" r="4.5" fill="currentColor"/><g stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"/></g>',
+  hand: '<path d="M8 21v-7l-2-3a1.3 1.3 0 012-1.5L9 11V4.5a1.2 1.2 0 012.4 0V10V3.5a1.2 1.2 0 012.4 0V10V4.6a1.2 1.2 0 012.4 0V11V7a1.2 1.2 0 012.4 0v7c0 4-2.5 7-6.2 7z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>',
+  door: '<rect x="6" y="3" width="12" height="18" rx="1" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="15" cy="12.5" r="1.3" fill="currentColor"/>',
+  person: '<circle cx="12" cy="6.5" r="3" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M5.5 21c.5-5 3-8 6.5-8s6 3 6.5 8" fill="none" stroke="currentColor" stroke-width="1.6"/>',
+  animal: '<path d="M4 15c1-4 4-5 8-5h4l2-3 1.5 1-1 3c1 1 1.5 2 1.5 4M6 15v5M10 15v5M15 15v5M19 15v5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>',
+  ground: '<path d="M2 17h20M5 20h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M6 17c2-4 4-6 6-6s4 2 6 6" fill="none" stroke="currentColor" stroke-width="1.6"/>',
+  body: '<circle cx="12" cy="4.5" r="2.2" fill="currentColor"/><path d="M12 7v7M12 14l-4 7M12 14l4 7M5 9l7 2 7-2" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>',
+  up: '<path d="M12 21V4M5 11l7-7 7 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>'};
+const svg = t => `<svg viewBox="0 0 24 24" aria-hidden="true">${GLYPH[t]}</svg>`;
+const has = (c, t) => !!c.joints[t];
+
+// ---------------------------------------------------------------- the swarm: every valid cut for a sentence, at once
+// A sentence [t1..tn] asks for n+1 distinct clips where clips i and i+1 share feature ti. Every candidate is checked
+// against the contract (the invariants) and ranked; the human signs one.
+function enumerate(sentence, limit = 400) {
+  const out = []; let total = 0;
+  const walk = (path) => {
+    if (path.length === sentence.length + 1) { total++; if (out.length < limit) out.push(path.slice()); return; }
+    const t = sentence[path.length - 1], last = CLIPS[path[path.length - 1]];
+    for (const c of CLIPS) if (!path.includes(c.id) && has(last, t) && has(c, t)) { path.push(c.id); walk(path); path.pop(); }
+  };
+  if (sentence.length) for (const c of CLIPS) if (has(c, sentence[0])) walk([c.id]);
+  return {total, cands: out};
+}
+// the invariants a candidate is checked against; `planted` is the hidden mislabel of the last commission
+const touchOf = id => (planted === id ? null : CLIPS[id].joints.touch);   // the tag record, as the swarm sees it
+const realTouch = id => CLIPS[id].joints.touch;                             // the picture, as a viewer sees it
+function check(cut) {
+  const rhymes = cut.every((id, i) => i === 0 || sentence[i - 1] && has(CLIPS[cut[i - 1]], sentence[i - 1]) && has(CLIPS[id], sentence[i - 1]));
+  const distinct = new Set(cut).size === cut.length;
+  const tagTouches = cut.filter(id => touchOf(id)).length;
+  return {rhymes, distinct, tagTouches, censorClean: !censor || tagTouches === 0};
+}
+
+// ---------------------------------------------------------------- commissions (the game's levels)
+const LEVELS = [
+  {name: 'Rhyme', brief: 'Write a sentence of <b>three</b> cuts, swarm it, sign a cut that plays. Each word is a feature two neighbouring shots share.',
+   win: (cut, r) => cut.length >= 4 && r.rhymes},
+  {name: 'Censor\'s commission', brief: 'The censor is on: any shot in which something is <b>touched</b> burns. Deliver <b>five</b> cuts in which nothing burns.',
+   setup: () => setCensor(true), win: (cut, r) => cut.length >= 6 && r.rhymes && cut.every(id => !realTouch(id))},
+  {name: 'Paradiso', brief: 'Censor off. Deliver a cut that keeps at least <b>four touches</b>: the shots the censor would have taken.',
+   setup: () => setCensor(false), win: (cut, r) => r.rhymes && cut.filter(id => realTouch(id)).length >= 4},
+  {name: 'Whole archive', brief: 'One cut through <b>all fourteen</b> shots: thirteen words, every neighbour rhyming. The swarm will find it if your sentence allows it.',
+   setup: () => setCensor(false), win: (cut, r) => r.rhymes && new Set(cut).size === 14},
+  {name: 'Blind spot', brief: 'Censor on. One clip in the archive has been <b>mislabelled</b>: its record says untouched. The swarm\'s checks will pass it. Watch the cut; if you see a touch on screen, pull the <b>Breaker</b>.',
+   setup: () => { setCensor(true); planted = 7; }, win: () => false, breakerWin: true}];
+let level = 0, sentence = [], censor = false, planted = -1, cands = [], total = 0, chosen = 0, done = new Set(), playing = null;
+const $ = id => document.getElementById(id);
+function setCensor(on) { censor = on; $('censor').setAttribute('aria-pressed', String(on)); $('censor').textContent = `Censor: ${on ? 'on' : 'off'}`; }
+
+// ---------------------------------------------------------------- interface
+function toast(msg, ms = 2600) { const t = $('toast'); t.innerHTML = msg; t.classList.add('on'); clearTimeout(toast.h); toast.h = setTimeout(() => t.classList.remove('on'), ms); }
+function renderLevels() {
+  $('levels').innerHTML = LEVELS.map((L, i) => `<button class="lv${done.has(i) ? ' done' : ''}" aria-current="${i === level}" data-i="${i}">${i + 1} · ${L.name}</button>`).join('');
+  $('levels').querySelectorAll('.lv').forEach(b => b.onclick = () => startLevel(+b.dataset.i));
+  $('brief').innerHTML = LEVELS[level].brief;
+  $('score').textContent = `${done.size} of ${LEVELS.length} delivered`;
+}
+function renderSentence() {
+  $('sentence').innerHTML = sentence.length ? sentence.map((t, i) => `${i ? '<span class="arrow">·</span>' : ''}<span class="tok">${svg(t)}${t}</span>`).join('') : '<span class="empty">Tap features below to write the cut.</span>';
+}
+function renderCands() {
+  $('count').innerHTML = cands.length ? `${total.toLocaleString()} <small>valid cut${total === 1 ? '' : 's'}${total > cands.length ? `, best ${cands.length} shown` : ''}</small>` : (sentence.length ? '<small>no cut satisfies this sentence</small>' : '<small>write a sentence, then swarm it</small>');
+  $('cands').innerHTML = cands.slice(0, 60).map((cut, i) => {
+    const r = check(cut);
+    return `<div class="cand" role="option" tabindex="0" aria-selected="${i === chosen}" data-i="${i}">
+      <div class="strip">${cut.map(id => `<img src="${CLIPS[id].src}" alt="${CLIPS[id].name}" class="${touchOf(id) ? 'touch' : ''}" loading="lazy">`).join('')}</div>
+      <div class="badges"><span>${cut.length} shots</span><span>${r.tagTouches} touch${r.tagTouches === 1 ? '' : 'es'}</span><span style="color:${r.censorClean ? 'var(--ok)' : 'var(--bad)'}">${censor ? (r.censorClean ? 'censor ✓' : 'censor ✗') : ''}</span></div></div>`;
+  }).join('');
+  $('cands').querySelectorAll('.cand').forEach(el => { const pick = () => { chosen = +el.dataset.i; renderCands(); drawStill(); }; el.onclick = pick; el.onkeydown = e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pick(); } }; });
+  $('sign').disabled = !cands.length;
+}
+function swarm() {
+  if (!sentence.length) { toast('Write at least one word first.'); bump(); return; }
+  const r = enumerate(sentence);
+  total = r.total;
+  // rank: the contract first (censor: fewest recorded touches; otherwise: most touches kept), then fewest repeated features
+  const key = cut => censor ? check(cut).tagTouches : -check(cut).tagTouches;
+  cands = r.cands.sort((a, b) => key(a) - key(b));
+  chosen = 0; renderCands(); drawStill(); sfx.swarm(Math.min(total, 60));
+  if (!total) { toast('The swarm found no cut. Two neighbouring shots must share each feature you write.'); bump(); }
+}
+function startLevel(i) {
+  level = i; sentence = []; cands = []; total = 0; planted = -1; playing = null; $('breaker').disabled = true;
+  (LEVELS[i].setup || (() => setCensor(false)))();
+  renderLevels(); renderSentence(); renderCands(); drawTitle();
+}
+$('glyphs').innerHTML = TAGS.map(t => `<button class="glyph" data-t="${t}" aria-label="${t}">${svg(t)}<span>${t}</span></button>`).join('');
+$('glyphs').querySelectorAll('.glyph').forEach(b => b.onclick = () => { if (sentence.length >= 13) { toast('Thirteen words is the most: there are fourteen shots.'); return; } sentence.push(b.dataset.t); sfx.note(sentence.length); renderSentence(); cands = []; total = 0; renderCands(); });
+$('undo').onclick = () => { sentence.pop(); renderSentence(); cands = []; total = 0; renderCands(); };
+$('clear').onclick = () => { sentence = []; renderSentence(); cands = []; total = 0; renderCands(); };
+$('censor').onclick = () => { if (LEVELS[level].setup) { toast('This commission sets the censor.'); return; } setCensor(!censor); if (cands.length) swarm(); };
+$('swarmBtn').onclick = () => { sfx.wake(); swarm(); };
+$('sign').onclick = () => { sfx.wake(); play(cands[chosen]); };
+$('breaker').onclick = () => breaker();
+$('about').onclick = () => toast('You write intent as a sentence of features. The swarm finds every cut that obeys it and checks each against the contract. You sign one, and the projector plays it with each shared feature landing on the same spot. You answer for what the censor burns.', 7000);
+
+// ---------------------------------------------------------------- the projector: plays a signed cut as match cuts
+const cv = $('cv'), ctx = cv.getContext('2d');
+function fit() { const r = cv.getBoundingClientRect(), d = Math.min(2, devicePixelRatio || 1); cv.width = Math.round(r.width * d); cv.height = Math.round(r.height * d); }
+new ResizeObserver(() => { fit(); if (!playing) drawStill(); }).observe(cv);
+const W = () => cv.width, Hh = () => cv.height;
+function pic(id, p, a = 1, burn = 0) {   // draw clip id so its joint p lands at the centre of the screen
+  const im = CLIPS[id].img, w = W(), h = Hh(); if (!im.naturalWidth) return;
+  const sc = Math.max(w / im.naturalWidth, h / im.naturalHeight) * 1.35, iw = im.naturalWidth * sc, ih = im.naturalHeight * sc;
+  const ax = w * .5, ay = h * .48, ox = ax - p[0] * iw, oy = ay - p[1] * ih;
+  ctx.save(); ctx.globalAlpha = a; ctx.filter = 'sepia(.8) saturate(1.2) contrast(1.08) brightness(.92)'; ctx.drawImage(im, ox, oy, iw, ih); ctx.filter = 'none';
+  if (burn > 0) {   // the censor's burn, from the touch
+    const t = realTouch(id) || p, cx = ox + t[0] * iw, cy = oy + t[1] * ih, R = Math.max(w, h) * .8 * burn;
+    const rag = k => { ctx.beginPath(); for (let i = 0; i <= 60; i++) { const an = i / 60 * 2 * Math.PI, n = .16 * Math.sin(an * 5 + 1) + .08 * Math.sin(an * 11 + burn * 9); const r = R * k * (1 + n); i ? ctx.lineTo(cx + Math.cos(an) * r, cy + Math.sin(an) * r) : ctx.moveTo(cx + Math.cos(an) * r, cy + Math.sin(an) * r); } ctx.closePath(); };
+    const g = ctx.createRadialGradient(cx, cy, R * .5, cx, cy, R); g.addColorStop(0, '#070403'); g.addColorStop(.72, 'rgba(255,140,40,.95)'); g.addColorStop(1, 'rgba(255,210,140,0)');
+    ctx.fillStyle = g; rag(1); ctx.fill(); ctx.fillStyle = '#060403'; rag(.62); ctx.fill();
+  }
+  ctx.restore();
+}
+function look(t) {   // grain, scratches, iris
+  const w = W(), h = Hh(); ctx.save();
+  const vg = ctx.createRadialGradient(w / 2, h / 2, h * .35, w / 2, h / 2, w * .62); vg.addColorStop(0, 'rgba(0,0,0,0)'); vg.addColorStop(1, 'rgba(0,0,0,.85)');
+  ctx.fillStyle = vg; ctx.fillRect(0, 0, w, h);
+  const f = Math.floor(t * 24); ctx.globalCompositeOperation = 'lighter'; ctx.fillStyle = 'rgba(255,240,215,.18)';
+  if ((f * 7919) % 11 < 3) ctx.fillRect(0, ((f * 131) % 97) / 97 * h, w, 1);
+  ctx.restore();
+}
+function drawTitle() {
+  const w = W(), h = Hh(); ctx.fillStyle = '#000'; ctx.fillRect(0, 0, w, h);
+  ctx.fillStyle = '#efe2cf'; ctx.textAlign = 'center'; ctx.font = `italic ${Math.round(h * .1)}px Georgia, serif`; ctx.fillText('VIDEOTEXT', w / 2, h * .46);
+  ctx.fillStyle = '#a8957d'; ctx.font = `${Math.round(h * .05)}px system-ui, sans-serif`; ctx.fillText(`Commission ${level + 1}: ${LEVELS[level].name}`, w / 2, h * .6);
+  $('verdict').innerHTML = '';
+}
+function drawStill() {
+  const cut = cands[chosen]; if (!cut) return drawTitle();
+  const w = W(), h = Hh(); ctx.fillStyle = '#000'; ctx.fillRect(0, 0, w, h);
+  const n = cut.length, cw = w / n;
+  cut.forEach((id, i) => { ctx.save(); ctx.beginPath(); ctx.rect(i * cw + 1, 0, cw - 2, h); ctx.clip(); ctx.translate(i * cw - w / 2 + cw / 2, 0); pic(id, CLIPS[id].joints.touch || Object.values(CLIPS[id].joints)[0]); ctx.restore(); });
+  look(0); const r = check(cut); verdictChips(r, null);
+}
+function verdictChips(r, burned) {
+  const c = [];
+  c.push(`<span class="chip ${r.rhymes ? 'ok' : 'bad'}">every cut rhymes ${r.rhymes ? '✓' : '✗'}</span>`);
+  if (censor) c.push(`<span class="chip ${r.censorClean ? 'ok' : 'bad'}">record: ${r.tagTouches} touch${r.tagTouches === 1 ? '' : 'es'}</span>`);
+  if (burned != null) c.push(`<span class="chip ${burned ? 'bad' : 'ok'}">burned on screen: ${burned}</span>`);
+  $('verdict').innerHTML = c.join('');
+}
+// a cut plays 1.25 s per shot: the camera travels inside each shot from the feature it shares with the shot before to the
+// feature it shares with the shot after, so each cut lands on the same point; a shot the censor takes burns from the touch
+function play(cut) {
+  if (!cut) return;
+  const r = check(cut), per = 1.25, t0 = performance.now(); let burned = 0, lastI = -1;
+  playing = {cut, stopped: false}; $('breaker').disabled = false;
+  const step = now => {
+    if (!playing || playing.cut !== cut || playing.stopped) return;
+    const t = (now - t0) / 1000, i = Math.min(cut.length - 1, Math.floor(t / per)), u = (t - i * per) / per;
+    if (i !== lastI) { lastI = i; sfx.note(i + 1); if (censor && realTouch(cut[i])) { burned++; sfx.bell(); } }
+    const id = cut[i], J = CLIPS[id].joints, inT = i ? sentence[i - 1] : null, outT = sentence[i];
+    const a = inT && J[inT] ? J[inT] : (J[outT] || Object.values(J)[0]), b = outT && J[outT] ? J[outT] : a, e = u * u * (3 - 2 * u);
+    ctx.fillStyle = '#000'; ctx.fillRect(0, 0, W(), Hh());
+    const burn = censor && realTouch(id) ? Math.max(0, Math.min(1, (u - .3) / .55)) : 0;
+    pic(id, [a[0] + (b[0] - a[0]) * e, a[1] + (b[1] - a[1]) * e], 1, burn);
+    if (u < .06 && i) { ctx.fillStyle = 'rgba(255,255,255,.35)'; ctx.fillRect(0, 0, W(), Hh()); }   // the splice
+    look(t); verdictChips(r, censor ? burned : null);
+    if (t < cut.length * per) requestAnimationFrame(step); else finish(cut, r, burned);
+  };
+  requestAnimationFrame(step);
+}
+function finish(cut, r, burned) {
+  playing = null; $('breaker').disabled = true;
+  const L = LEVELS[level];
+  if (L.breakerWin) { if (cut.includes(planted) && burned) { toast('A touch burned on screen in a cut the swarm passed as clean. That was the blind spot. Pull the Breaker sooner next time: replay and stop it while it burns.', 6000); } else toast('No mislabelled shot in this cut. Try a cut through hands and glow.'); return; }
+  if (L.win(cut, r)) { done.add(level); sfx.win(); toast(`Delivered: ${L.name}.${level < LEVELS.length - 1 ? ' Next commission unlocked.' : ''}`); renderLevels(); }
+  else toast('Not delivered. Read the commission again, rewrite the sentence, swarm again.');
+}
+function breaker() {
+  if (!playing) return;
+  playing.stopped = true; $('breaker').disabled = true; sfx.stop();
+  const cut = playing.cut, L = LEVELS[level];
+  // the circuit breaker: halt, quarantine the cut, restore the last accepted state (an empty projector)
+  ctx.fillStyle = '#000'; ctx.fillRect(0, 0, W(), Hh());
+  if (L.breakerWin && cut.includes(planted)) {
+    done.add(level); renderLevels(); sfx.win();
+    toast(`Breaker pulled. The record said "${CLIPS[planted].name}" was untouched; the picture shows a hand. The clip is quarantined and its label corrected. The swarm's own tests could not catch this: the same record wrote the cut and checked it.`, 8000);
+    planted = -1; if (cands.length) swarm();
+  } else toast('Breaker pulled: the cut is halted and set aside. Nothing in it broke the contract on screen.', 3500);
+  playing = null; drawTitle();
+}
+function bump() { const s = document.querySelector('.sentence'); s.animate([{transform: 'translateX(0)'}, {transform: 'translateX(-6px)'}, {transform: 'translateX(6px)'}, {transform: 'translateX(0)'}], {duration: 220}); sfx.thud(); }
+
+// ---------------------------------------------------------------- sound, composed here (starts on the first tap)
+const sfx = (() => {
+  let ac = null; const wake = () => { if (!ac) { const A = window.AudioContext || window.webkitAudioContext; if (A) ac = new A(); } if (ac && ac.state === 'suspended') ac.resume(); };
+  const tone = (f, d, type = 'sine', g = .12, at = 0) => { if (!ac) return; const o = ac.createOscillator(), v = ac.createGain(), t = ac.currentTime + at; o.type = type; o.frequency.value = f; v.gain.setValueAtTime(0, t); v.gain.linearRampToValueAtTime(g, t + .01); v.gain.exponentialRampToValueAtTime(.0001, t + d); o.connect(v).connect(ac.destination); o.start(t); o.stop(t + d + .05); };
+  const scale = [69, 72, 74, 76, 79, 81, 84, 86, 88, 91, 93, 96, 98, 100], m2f = m => 440 * 2 ** ((m - 69) / 12);
+  return {wake,
+    note: k => { wake(); tone(m2f(scale[(k - 1) % scale.length]), 1.2, 'sine', .1); tone(m2f(scale[(k - 1) % scale.length]) * 3.5, .25, 'sine', .02); },
+    bell: () => [[.5, .06, 1.6], [1, .1, 1.1], [1.2, .06, .8], [1.5, .035, .6], [2, .05, .45]].forEach(([r, g, d]) => tone(523.25 * r, d, 'sine', g)),
+    thud: () => { wake(); tone(70, .25, 'sine', .25); },
+    swarm: n => { wake(); for (let i = 0; i < Math.min(12, n); i++) tone(m2f(84 + (i * 5) % 17), .12, 'triangle', .03, i * .03); },
+    win: () => [72, 76, 79, 84].forEach((m, i) => tone(m2f(m), 1.4, 'sine', .09, i * .09)),
+    stop: () => { tone(110, .4, 'square', .06); tone(82, .5, 'sine', .15); }};
+})();
+
+fit(); startLevel(0);
+Promise.all(CLIPS.map(c => c.img.decode().catch(() => {}))).then(() => { if (!playing) (cands.length ? drawStill : drawTitle)(); });
+})();
+</script>
+</body></html>
