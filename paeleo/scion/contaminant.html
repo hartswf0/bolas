@@ -23,7 +23,7 @@ table{width:100%;border-collapse:collapse;font-size:.8rem;line-height:1.5}th,td{
 .prompt{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:.6rem}.prompt .ghost{background:transparent}
 pre{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.55;font-size:.84rem;font-family:ui-monospace,monospace;max-height:62dvh;overflow:auto;background:#0d1117;padding:1rem;border-radius:.5rem;border:1px solid #30363d;margin:0}
 @media(max-width:760px){.grid{grid-template-columns:1fr}main{padding:0 .75rem 2rem}}
-body.playing{background:#000;overflow:hidden;touch-action:none;overscroll-behavior:none}body.playing header,body.playing main>*:not(.sheet){display:none}body.playing main{padding:0;max-width:none;height:100dvh;display:flex;align-items:center;justify-content:center}body.playing .sheet{border:0;border-radius:0;background:#000;width:min(100vw,calc(100dvh * 16 / 9));aspect-ratio:16/9;height:auto}body.playing canvas{width:100%;height:100%;touch-action:none}
+body.playing{background:#000;overflow:hidden;touch-action:none;overscroll-behavior:none}body.playing header,body.playing main>*:not(.sheet){display:none}body.playing main{padding:0;max-width:none;height:100dvh;display:flex;align-items:center;justify-content:center}body.playing .sheet{border:0;border-radius:0;background:#000;width:min(100vw,calc(100dvh * 16 / 9));aspect-ratio:16/9;height:auto}body.playing canvas{width:100%;height:100%;touch-action:none;cursor:pointer;user-select:none;-webkit-user-select:none}
 </style>
 
 <header>
@@ -45,7 +45,7 @@ body.playing{background:#000;overflow:hidden;touch-action:none;overscroll-behavi
 
 <section class="panel">
 <h2>Play: VIDEOTEXT</h2>
-<p class="note">Be the jellyfish: swim with your finger, catch the frames that rhyme, keep touches out of the censor’s light, dive for the burned ones when it cools, and watch your reel. Made for a phone, no menus. <a href="contaminant.html?play=1" style="color:#a1bedf">Swim it</a> · <a href="videotext/editor.html" style="color:#a1bedf">the editor</a> · <a href="videotext/SCION_AGENT_FIRST_ARCHITECT.md" style="color:#a1bedf">the SCION instruction it proves</a>.</p>
+<p class="note">Be the jellyfish. Swim in strokes, on the music's pulse for speed. Catch a glowing frame and it plays inside you; the next must share something with the last. Carry it to the sun to splice it into your reel. A touch (red dot) burns in the censor's beam; burned frames sink, and you can dive for them. Ninety seconds, then your reel plays. Phone or desktop. <a href="contaminant.html?play=1" style="color:#a1bedf">Swim it</a> · <a href="videotext/editor.html" style="color:#a1bedf">the editor</a> · <a href="videotext/THEORY_OF_PLAY.md" style="color:#a1bedf">theory of play</a>.</p>
 </section>
 
 <section class="panel">
@@ -331,7 +331,7 @@ function log(msg, f) { ledger.unshift(fmtT(simT) + '  ' + msg); if (ledger.lengt
 function stroke(t) { const ph = (t * .9) % 1; return ph < .2 ? Math.sin(ph / .2 * Math.PI / 2) : 1 - (ph - .2) / .8; }
 function flinchAt(t) { let v = 0; for (const e of evts) if (e.type === 'bell' && t >= e.t && t - e.t < .5) v = Math.max(v, 1 - (t - e.t) / .5); return v; }
 function tentacles(t) {
-  const sq = PLAY ? Math.max(J.kick || 0, .18 * stroke(t), flinchAt(t)) : Math.max(stroke(t), flinchAt(t));   // in play the bell contracts when you stroke
+  const sq = PLAY ? Math.max(J.kick || 0, .22 * beatPulse(), flinchAt(t)) : Math.max(stroke(t), flinchAt(t));   // in play the bell contracts when you stroke, and idles on the music's pulse
   const by = J.y + Math.sin(t * 1.3) * 4, sx = 1 - .13 * sq, sy = 1 + .07 * sq, ct = Math.cos(J.tilt), st = Math.sin(J.tilt);
   J.by = by; J.sx = sx; J.sy = sy; J.pu = sy; J.sq = sq;
   const side = Math.max(-70, Math.min(70, (J.reach.x - J.x) * .6));
@@ -357,8 +357,6 @@ function grab(f) {
   let bi = 0, bd = 1e9;
   J.tips.forEach((p, i) => { const d = Math.hypot(p[0] - f.x, p[1] - f.y); if (d < bd) { bd = d; bi = i; } });
   f.held = true; f.tip = bi; f.anchor = null; J.carry.push(f);
-  if (PLAY && !f.cut && !playChain.includes(f)) playChain.push(f);
-  if (PLAY) { pulse(f.x, f.y, f.cut ? '#9fb4ff' : '#f6c47a'); play.stop = 4; buzz(f.cut ? [12, 30, 12, 30, 24] : 28); }   // a catch: a beat of stillness and a pulse in the hand
   if (RHYME && f.imgs && f.imgs.length === 1) J.lastPos = chainPos(f.imgs[0]);
   if (f.cut && CINEMA) J.lift = 1.5;
   if (f.cut) {
@@ -457,8 +455,7 @@ function step(dt) {
   }
   J.tgt = null;
   const full = J.carry.length >= (CINEMA ? 1 : CARRY_MAX) || (J.carry.length > 0 && free.length === 0);
-  if (PLAY) playSteer();
-  else if (!full && free.length) {
+  if (!full && free.length) {
     let best = pick[0], bd = 1e9;
     J.tgt = RHYME ? pick[0] : null;
     for (const f of pick) { const d = Math.hypot(f.x - J.x, f.y - J.y); if (d < bd) { bd = d; best = f; } }
@@ -484,10 +481,8 @@ function step(dt) {
   J.tilt += (aim - J.tilt) * Math.min(1, dt * 4);
   const fl = flinchAt(simT); let push = J.antic > 0 ? 0 : (.35 + 1.8 * stroke(simT)) * (1 - fl) * (CINEMA ? (simT > coolAt ? 2.6 : 1.8) : 1);  // cool: it dives with purpose
   // the cinema cut's reel waits for the last rescue to rise and open, then begins
-  if (PLAY && !reelCued && simT > coolAt + 2 && (stats.rescued === stats.cuts || simT > coolAt + 16)) { reelCued = true; REEL0 = simT + 1.2; REEL1 = REEL0 + Math.max(5, Math.min(9, playChain.length * .9)); }
   if (!PLAY && RENDER && CINEMA && !reelCued && stats.cuts && stats.rescued === stats.cuts && simT > coolAt) { reelCued = true; REEL0 = simT + 1.2; REEL1 = REEL0 + 7.2; }
-  if (PLAY) swim(dt, fl);
-  else { J.x += dx * Math.min(1, dt * 1.1 * push) - fl * dt * 110; J.y -= fl * dt * 60; J.y += dy * Math.min(1, dt * 1.1 * push); }
+  J.x += dx * Math.min(1, dt * 1.1 * push) - fl * dt * 110; J.y -= fl * dt * 60; J.y += dy * Math.min(1, dt * 1.1 * push);
   const near = free.length ? pick.reduce((m, f) => Math.hypot(f.x - J.x, f.y - J.y) < Math.hypot(m.x - J.x, m.y - J.y) ? f : m) : null;
   const reaching = !full && near && Math.hypot(near.x - J.x, near.y - J.y) < 230;
   if (reaching) { J.reach.x = near.x; J.reach.y = near.y; }
@@ -732,6 +727,7 @@ function drawJelly() {
   g.addColorStop(.45, col(Math.min(1, .7 * bright).toFixed(3))); g.addColorStop(1, col(.1));
   ctx.fillStyle = g; ctx.fill(dome);
   ctx.save(); ctx.clip(dome);
+  if (PLAY) bellFilm();   // in the game, what the jellyfish carries plays inside its bell
   for (let r = 0; r < 9; r++) {
     const yy = -78 + r * 10; ctx.beginPath();
     for (let x = -88; x <= 88; x += 4) { const yv = yy + Math.sin(x * .09 + simT * 2.2 + r) * 2.2 * (1 + r * .15); if (x > -88) ctx.lineTo(x, yv); else ctx.moveTo(x, yv); }
@@ -823,6 +819,7 @@ function drawPic(imgs, x, y, w, h, a = 1, opt = {}) {
     let ox = x + (w - iw) / 2 + (i ? Math.sin(simT * .7 + i) * 6 : 0), oy = y + (h - ih) / 2;
     const jp = opt.at && opt.joints && opt.joints[i];
     if (jp) { ox = opt.at[0] - jp[0] * iw; oy = opt.at[1] - jp[1] * ih; }   // exact: the frame may show black beyond the print
+    if (jp && opt.cover) { ox = Math.min(x, Math.max(x + w - iw, ox)); oy = Math.min(y, Math.max(y + h - ih, oy)); }   // the game's reel: never past the print
     ctx.drawImage(im, ox, oy, iw, ih);
     if (i === 0 && jp) opt.jointOn = [ox + jp[0] * iw, oy + jp[1] * ih];
   });
@@ -1088,7 +1085,7 @@ const GRAIN = (() => {
 const clamp01 = v => Math.max(0, Math.min(1, v));
 function scanEvents() {
   for (const e of evts) {
-    if (e.ft == null && e.t <= simT) { e.ft = filmT; if (PLAY) sfx.on(e); }   // when it is seen: the film's clock, for the score
+    if (e.ft == null && e.t <= simT) { e.ft = filmT; }   // when it is seen: the film's clock, for the score
     if (e.cued) continue; e.cued = true;
     const f = e.src ? frags.find(g => g.src === e.src) : null; if (!f) continue;
     // the censor's cuts always cut in; a rescue or a seam cuts in only after two seconds of the world, so the film breathes
@@ -1196,7 +1193,6 @@ function cinemaFrame(t, dur) {
     if (ins) drawInsert(ins); else worldShot(1 / 24, false);
   }
   filmLook();
-  if (PLAY && !(st >= REEL0) && !activeInsert()) playHUD();
   const fadeT = REEL1 + 3.6;
   if (st > fadeT + 2.4) ended = true;
   if (t < 1.2) { ctx.fillStyle = `rgba(0,0,0,${(1 - t / 1.2).toFixed(3)})`; ctx.fillRect(0, 0, FW, FH); }
@@ -1215,151 +1211,602 @@ function cinemaFrame(t, dur) {
   }
 }
 // ---------------------------------------------------------------- play
-// You steer; everything else is the film's own machinery. Swim into a frame to catch it: only one that rhymes with your
-// last catch (shares a visible feature) will come; others nudge you away. Carry it to the sun to project it; the censor
-// burns any touch there. When it cools, dive and lift the burned frames back. Your chain is the reel.
-function rhymesWithLast(f) {
-  if (!playChain.length || !f.imgs || f.imgs.length !== 1) return true;
-  const last = playChain[playChain.length - 1].imgs[0], k = f.imgs[0];
-  return Object.keys(JOINT[last]).some(t => t !== 'touch' && JOINT[k][t]);
-}
-// The swim. Each stroke is one contraction of the bell: an impulse along your gesture, then a glide through water.
-// Rhythm is the skill: strokes spaced like the bell's own pulse (0.33-0.72 s) build resonance (faster, brighter, a
-// higher thump); mashing faster than the bell can refill gives weak strokes and spends resonance.
-const play = {lastStroke: -9, press: null, hold: null, stop: 0};
+// The game, in the film's own world, one rule per verb and each taught as you meet it.
+// SWIM: a tap, swipe, hold or key is one stroke of the bell; a stroke on the music's pulse gives more speed (resonance).
+// CATCH: swim into a frame and it plays inside the bell. The next frame must share a visible feature with the last
+// one on your reel: a match cut. SPLICE: carry it to the sun to add it to the reel. The sun's beam is the censor: a
+// frame with a touch in it (red dot) burns if you carry it through the light; burned frames sink and can be lifted
+// back. Ninety seconds; then your reel plays, cut on its matches. Tap the jellyfish to watch what it carries.
+const ROUND = 90, SUN = {x: 1062, y: 160, r: 46}, FLOOR = H - 66, BW = .15, COARSE = matchMedia('(pointer: coarse)').matches;
+let P = null, S = 1;
+const fz = n => Math.round(n * (COARSE ? 1.3 : 1));   // type sized for the hand that holds the screen
 const buzz = p => { try { if (navigator.vibrate) navigator.vibrate(p); } catch (e) {} };
-function strokeTo(dx, dy, power) {
-  const d = Math.hypot(dx, dy); if (d < 4) return;
-  const gap = filmT - play.lastStroke, q = gap < .22 ? .35 : 1;
-  if (gap >= .33 && gap <= .72) J.res = Math.min(1, (J.res || 0) + .2); else if (gap < .22) J.res = Math.max(0, (J.res || 0) - .3);
-  const imp = (300 + 320 * (J.res || 0)) * power * q;
-  J.vx = (J.vx || 0) + dx / d * imp; J.vy = (J.vy || 0) + dy / d * imp; J.kick = q; play.lastStroke = filmT;
-  sfx.stroke(J.res || 0, q); buzz(Math.round(8 + 16 * (J.res || 0) * q));
+const nowS = () => performance.now() / 1000, ease = v => v * v * (3 - 2 * v);
+const FEAT = k => Object.keys(JOINT[k]).filter(t => t !== 'touch');
+const shared = (a, b) => FEAT(a).filter(t => JOINT[b][t]);
+const NOTE = k => [57, 59, 62, 64, 66, 69, 71, 74, 76, 78, 81, 83, 86, 88][chainPos(k)];   // the archive in rhyme order is a rising scale
+function beatPulse() { const ph = ((music.beatPos() % 1) + 1) % 1; return ph < .15 ? Math.sin(ph / .15 * Math.PI / 2) : 1 - (ph - .15) / .85; }
+const THUMB = [];
+function makeThumbs() {
+  PICS.forEach((fr, k) => {
+    const c = document.createElement('canvas'); c.width = 168; c.height = 126; const g = c.getContext('2d'), im = fr[0];
+    g.fillStyle = '#2a1d14'; g.fillRect(0, 0, 168, 126);
+    if (im && im.naturalWidth) {
+      const sc = Math.max(168 / im.naturalWidth, 126 / im.naturalHeight); g.filter = 'sepia(.8) saturate(1.2) contrast(1.06)';
+      g.drawImage(im, (168 - im.naturalWidth * sc) / 2, (126 - im.naturalHeight * sc) / 2, im.naturalWidth * sc, im.naturalHeight * sc); g.filter = 'none';
+    }
+    THUMB[k] = c;
+  });
 }
-function swim(dt, fl) {
-  if (play.press && performance.now() - play.press.t > 260) play.hold = play.press.w;   // a held finger strokes toward itself, in rhythm
-  if (play.hold && filmT - play.lastStroke > .5) strokeTo(play.hold.x - J.x, play.hold.y - J.y, .55);
-  J.vx = (J.vx || 0) * Math.pow(.3, dt); J.vy = (J.vy || 0) * Math.pow(.3, dt);   // water
-  J.x += J.vx * dt - fl * dt * 110; J.y += J.vy * dt - fl * dt * 60;
-  if (J.x < 90) { J.x = 90; J.vx = Math.abs(J.vx) * .4; } if (J.x > W - 90) { J.x = W - 90; J.vx = -Math.abs(J.vx) * .4; }
-  if (J.y < 110) { J.y = 110; J.vy = Math.abs(J.vy) * .4; } if (J.y > H - 150) { J.y = H - 150; J.vy = -Math.abs(J.vy) * .4; }
-  J.kick = Math.max(0, (J.kick || 0) - dt * 3.4); J.res = Math.max(0, (J.res || 0) - dt * .22);
-  J.tx = J.x + J.vx * .5; J.ty = J.y + J.vy * .5;   // it leans into its own motion
+function spots() {   // fourteen places on a jittered grid, clear of where the jellyfish starts
+  const out = [];
+  for (let r = 0; r < 3; r++) for (let c = 0; c < 5; c++) if (!(r === 1 && c === 0)) out.push({x: 150 + c * 200 + (hash(r, c, 3) - .5) * 70, y: 215 + r * 140 + (hash(r, c, 5) - .5) * 44});
+  return out;
 }
-function playSteer() {
-  J.dive = false;
-  const free = frags.filter(f => f.stage === 0 && !f.held && f.gearT < 0 && (f.cut ? heat < .5 : heat > .5));
-  const anyRhyme = free.some(f => !f.cut && rhymesWithLast(f));
-  // the hairline: to the nearest frame you may catch, or, carrying, to the sun
-  J.tgt = null; let nd = 1e9;
-  if (!J.carry.length) for (const f of free) if (f.cut || !anyRhyme || rhymesWithLast(f)) { const d = Math.hypot(f.x - J.x, f.y - J.y); if (d < nd) { nd = d; J.tgt = f; } }
-  if (!J.carry.length && !(J.lift > 0)) for (const f of free) {
-    if (Math.hypot(f.x - J.x, f.y - (J.by + 70)) > 85) continue;
-    if (f.cut || !anyRhyme || rhymesWithLast(f)) { grab(f); break; }
-    if (!f.nudged || simT - f.nudged > .8) { f.nudged = simT; const dx = J.x - f.x, dy = J.y - f.y, d = Math.hypot(dx, dy) || 1; J.vx = (J.vx || 0) + dx / d * 180; J.vy = (J.vy || 0) + dy / d * 180; sfx.thud(); buzz(6); }
+function playReset(state) {
+  reset();   // the film's world: the jellyfish, its tentacles, the clocks
+  let best = 0; try { best = +localStorage.getItem('jelly.best') || 0; } catch (e) {}
+  P = {state, t: 0, left: ROUND, reel: [], carry: null, smolder: 0, frames: [], strokes: 0, perfects: 0, kept: 0, rescued: 0, burns: 0, watched: false, best,
+    fly: [], pops: [], bubbles: [], beamPh: 0, beamA: 2.5, watch: null, press: null, hold: null, keys: new Set(), lastStroke: -9, lastAuto: -1,
+    hint: '', hintT: 0, ringT: -9, sunT: -9, shake: 0, stop: 0, near: null, mouse: P ? P.mouse : null, reelIdx: -1, lastWarn: 0};
+  const sp = spots();
+  for (let k = 0; k < 14; k++) { const a = sp[(k * 5) % 14]; P.frames.push({k, x: a.x, y: a.y, ax: a.x, ay: a.y, vx: 0, vy: 0, ph: k * 1.7, burned: false, used: false, held: false, bump: -9, wait: 0}); }
+  Object.assign(J, {x: state === 'title' ? 1040 : 200, y: state === 'title' ? 430 : 350, vx: 0, vy: 0, res: 0, kick: 0, tilt: 0}); J.tx = J.x; J.ty = J.y;
+  cam = null; tentacles(simT);
+}
+const lastK = () => P.reel.length ? P.reel[P.reel.length - 1].k : null;
+const anyMatch = () => { const l = lastK(); return l == null || P.frames.some(f => !f.used && !f.held && shared(l, f.k).length); };
+function catchable(f, am) { if (f.used || f.held) return false; const l = lastK(); return l == null || !am || shared(l, f.k).length > 0; }
+function inBeam(x, y) {
+  const dx = x - SUN.x, dy = y - SUN.y, d = Math.hypot(dx, dy); if (d < SUN.r + 20) return false;
+  const a = Math.atan2(dy, dx), diff = Math.atan2(Math.sin(a - P.beamA), Math.cos(a - P.beamA));
+  return Math.abs(diff) < BW + 50 / d;
+}
+const toScreen = (x, y) => cam ? [FW / 2 + (x - cam.x) * cam.z, FH / 2 + (y - cam.y) * cam.z] : [x * FW / W, y * FH / H];
+function popAt(x, y, text, color) { P.pops.push({x, y, text, color, t0: nowS()}); if (P.pops.length > 6) P.pops.shift(); }
+function strokeTo(dx, dy, power, auto) {
+  const d = Math.hypot(dx, dy); if (d < 4 || P.state !== 'play') return;
+  const T = nowS(), gap = T - P.lastStroke, bp = music.beatPos(), off = Math.abs(bp - Math.round(bp)) * music.SPB;
+  const mash = !auto && gap < .2, perfect = !auto && !mash && off < .11;
+  if (perfect) { J.res = Math.min(1, J.res + .25); P.perfects++; P.ringT = T; if (P.perfects <= 3) popAt(J.x, J.by - 120, 'on the pulse', '#fff0cf'); }
+  else if (mash) J.res = Math.max(0, J.res - .3);
+  const q = mash ? .35 : 1, imp = (280 + 300 * J.res) * power * q * (perfect ? 1.25 : 1);
+  J.vx += dx / d * imp; J.vy += dy / d * imp; J.kick = q; P.lastStroke = T; P.strokes++;
+  for (let i = 0; i < 4; i++) P.bubbles.push({x: J.x + (Math.random() - .5) * 90, y: J.by + 10, vx: -dx / d * 60 + (Math.random() - .5) * 30, vy: -dy / d * 60 - 30, t0: T, r: 2 + Math.random() * 3});
+  if (P.bubbles.length > 40) P.bubbles.splice(0, P.bubbles.length - 40);
+  music.stroke(J.res, q, perfect); buzz(perfect ? [10, 30, 14] : Math.round(8 + 12 * J.res * q));
+}
+function keyDir() {
+  const K = {ArrowLeft: [-1, 0], ArrowRight: [1, 0], ArrowUp: [0, -1], ArrowDown: [0, 1], a: [-1, 0], d: [1, 0], w: [0, -1], s: [0, 1]};
+  let x = 0, y = 0; for (const k of P.keys) if (K[k]) { x += K[k][0]; y += K[k][1]; }
+  return x || y ? [x, y] : null;
+}
+function catchFrame(f) {
+  const l = lastK(), w = l == null ? null : shared(l, f.k)[0];
+  f.held = true; P.carry = {f, touch: !!JOINT[f.k].touch && !f.burned, burn: 0, t0: nowS(), word: w || (l == null ? null : 'jump cut')};
+  music.catch(f.k); buzz(28); P.stop = 3;   // a beat of stillness in the hand
+  popAt(f.x, f.y - 50, f.burned ? 'lifted back' : w ? w : l == null ? 'first frame' : 'jump cut', f.burned ? '#ff9ec4' : '#f6c47a');
+}
+function splice() {
+  const c = P.carry, f = c.f; f.used = true; f.held = false;
+  P.reel.push({k: f.k, burned: f.burned, word: c.word});
+  if (c.touch) P.kept++; if (f.burned) P.rescued++;
+  P.fly.push({k: f.k, i: P.reel.length - 1, t0: nowS(), from: toScreen(J.x, J.by - 34)});
+  P.carry = null; P.smolder = 0; P.sunT = nowS();
+  music.splice(c.touch, f.burned); buzz([20, 40, 40]);
+  popAt(SUN.x - 30, SUN.y + 80, c.touch ? 'a touch kept from the censor' : f.burned ? 'back on the reel' : 'spliced', c.touch || f.burned ? '#ff9ec4' : '#fff0cf');
+  if (P.reel.length === 14) endRound();
+}
+function burnCarry() {
+  P.carry.burn = .001; P.burns++; P.shake = .5; evts.push({t: simT, type: 'bell'});
+  music.burn(); buzz([40, 30, 120]); popAt(J.x, J.by - 130, 'the censor burns it', '#ff6a3d');
+}
+function dropBurned() {
+  const f = P.carry.f; f.held = false; f.burned = true; f.x = J.x; f.y = J.by + 20; f.vx = 0; f.vy = 80; f.ax = Math.max(80, Math.min(W - 80, J.x)); f.wait = 1.4;
+  P.carry = null; P.smolder = 0;
+}
+function endRound() {
+  try { P.best = Math.max(P.best, P.reel.length); localStorage.setItem('jelly.best', String(P.best)); } catch (e) {}
+  P.state = P.reel.length ? 'reel' : 'end'; P.t = 0; P.reelIdx = -1; P.carry = null; P.press = P.hold = null; P.keys.clear(); music.cadence();
+}
+const reelPer = () => Math.max(.75, Math.min(1.3, 10 / Math.max(1, P.reel.length)));
+function idleWorld(dt) {
+  const prog = P.state === 'play' ? 1 - P.left / ROUND : 0;
+  P.beamPh += dt * 2 * Math.PI / (10 - 4 * prog); P.beamA = 2.5 + .7 * Math.sin(P.beamPh);   // the censor sweeps faster as the reel runs out
+  for (const f of P.frames) {
+    if (f.used || f.held) continue;
+    f.wait = Math.max(0, f.wait - dt);
+    const tx = f.ax + Math.sin(P.t * .5 + f.ph) * (f.burned ? 6 : 26), ty = f.burned ? FLOOR : f.ay + Math.cos(P.t * .4 + f.ph) * 18;
+    f.vx += (tx - f.x) * dt * 2.2; f.vy += (ty - f.y) * dt * 2.2; f.vx *= Math.pow(.25, dt); f.vy *= Math.pow(.25, dt);
+    f.x = Math.max(60, Math.min(W - 60, f.x + f.vx * dt)); f.y = Math.max(96, Math.min(FLOOR + 4, f.y + f.vy * dt));
   }
-  if (J.carry.length && !J.carry[0].cut && heat > .5) { const R = RINGS[0]; if (Math.hypot(J.x - R.x, J.y - R.y) < R.r + 40) { pulse(R.x, R.y, '#fff0cf'); buzz(16); release(); } }
-  if (J.carry.length && (J.carry[0].wasCut || heat < .5) && !(J.lift > 0)) { const f = J.carry[0]; f.held = false; f.tip = -1; J.carry = []; f.stage = 0; f.anchor = {x: f.x, y: Math.min(520, f.y)}; }   // a rescued frame, once lifted, is yours
 }
-// the strip of what you have caught, with the count out of fourteen; rings for each catch and projection
-let pulses = [];
-function pulse(wx, wy, color) { if (cam) pulses.push({x: FW / 2 + (wx - cam.x) * cam.z, y: FH / 2 + (wy - cam.y) * cam.z, t: filmT, color}); }
-function playHUD() {
-  ctx.save(); ctx.setTransform(1, 0, 0, 1, 0, 0);
-  pulses = pulses.filter(p => filmT - p.t < .9);
-  for (const p of pulses) { const u = (filmT - p.t) / .9; ctx.globalAlpha = 1 - u; ctx.strokeStyle = p.color; ctx.lineWidth = 3; ctx.beginPath(); ctx.arc(p.x, p.y, 30 + u * 120, 0, 7); ctx.stroke(); }
-  ctx.globalAlpha = 1;
-  const sp = Math.hypot(J.vx || 0, J.vy || 0), spd = clamp01(sp / 700);
-  // speed: streaks of water past the lens, against the motion
-  if (sp > 140) { ctx.strokeStyle = `rgba(255,240,215,${(.25 * spd).toFixed(3)})`; ctx.lineWidth = 1.2; const ux = -J.vx / sp, uy = -J.vy / sp, L = 30 + 90 * spd;
-    for (let k = 0; k < 18; k++) { const x = hash(k, 3, Math.floor(filmT * 12)) * FW, y = hash(k, 5, Math.floor(filmT * 12)) * FH; ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x + ux * L, y + uy * L); ctx.stroke(); } }
-  // the way to an off-screen target: a chevron on the frame's edge
-  const g = J.carry.length && heat > .5 && !J.carry[0].wasCut ? RINGS[0] : J.tgt;
-  if (g && cam) { const gx = FW / 2 + (g.x - cam.x) * cam.z, gy = FH / 2 + (g.y - cam.y) * cam.z;
-    if (gx < 30 || gx > FW - 30 || gy < 100 || gy > FH - 30) { const cx = Math.max(36, Math.min(FW - 36, gx)), cy = Math.max(108, Math.min(FH - 36, gy)), a = Math.atan2(gy - cy, gx - cx);
-      ctx.save(); ctx.translate(cx, cy); ctx.rotate(a); ctx.fillStyle = 'rgba(255,230,180,.9)'; ctx.beginPath(); ctx.moveTo(14, 0); ctx.lineTo(-8, -10); ctx.lineTo(-3, 0); ctx.lineTo(-8, 10); ctx.closePath(); ctx.fill(); ctx.restore(); } }
-  // the container: a strip of film, locked to the top band; frames sit in the gate between sprocket rows
-  const th = 44, tw = 59, n = playChain.length, bandW = Math.max(150, 28 + n * (tw + 6) + 14);
-  ctx.fillStyle = 'rgba(6,4,3,.86)'; ctx.fillRect(14, 8, bandW, 76);
-  ctx.fillStyle = 'rgba(217,207,191,.75)'; for (let x = 22; x < 14 + bandW - 8; x += 17) { ctx.fillRect(x, 12, 8, 5); ctx.fillRect(x, 75, 8, 5); }
-  playChain.forEach((f, i) => { const x = 28 + i * (tw + 6), y = 24; drawPic(f.imgs, x, y, tw, th, f.wasCut && !f.rescuedAt ? .25 : 1, {hot: 1, burn: f.wasCut && !f.rescuedAt ? 1 : 0}); });
-  // the numeral: a reactive width (it stretches with your speed), its colour the projector's heat, flush right in its own locked zone
-  ctx.save(); ctx.translate(FW - 28, 62); ctx.scale(1 + .55 * spd, 1); ctx.textAlign = 'right';
-  ctx.font = 'italic 700 40px Georgia, serif'; ctx.fillStyle = heat > .5 ? '#f6c47a' : '#9fb4ff'; ctx.fillText(String(n), -44, 0);
-  ctx.font = 'italic 22px Georgia, serif'; ctx.fillStyle = 'rgba(242,211,160,.7)'; ctx.fillText('/ 14', 0, 0); ctx.restore();
-  // resonance: a thin bar under the numeral that fills as your rhythm holds
-  ctx.fillStyle = 'rgba(255,230,180,.18)'; ctx.fillRect(FW - 150, 74, 122, 3); ctx.fillStyle = '#f6c47a'; ctx.fillRect(FW - 150, 74, 122 * (J.res || 0), 3);
+function playStep(dt) {
+  const T = nowS();
+  P.t += dt; simT += dt; P.shake = Math.max(0, P.shake - dt);
+  if (P.state === 'title') { J.x = 1040 + Math.sin(P.t * .3) * 24; J.y = 430 + Math.sin(P.t * .8) * 16; idleWorld(dt); return; }
+  if (P.state === 'reel') { if (P.t > P.reel.length * reelPer() + .6) { P.state = 'end'; P.t = 0; } return; }
+  if (P.state === 'end') { idleWorld(dt); return; }
+  P.left -= dt; if (P.left <= 0) { P.left = 0; endRound(); return; }
+  // a held finger or mouse, or held keys, stroke once at once and then on every pulse
+  if (P.press && !P.hold && ((!P.press.moved && T - P.press.t > .26) || T - P.press.t > .5)) {
+    P.hold = P.press.w; strokeTo(P.hold.x - J.x, P.hold.y - J.by, .62, true); P.lastAuto = Math.floor(music.beatPos());
+  }
+  const kd = keyDir(), b = Math.floor(music.beatPos());
+  if ((P.hold || kd) && b !== P.lastAuto) { P.lastAuto = b; if (P.hold) strokeTo(P.hold.x - J.x, P.hold.y - J.by, .62, true); else strokeTo(kd[0], kd[1], .7, true); }
+  // water: each stroke glides out
+  const fl = flinchAt(simT);
+  J.vx *= Math.pow(.3, dt); J.vy *= Math.pow(.3, dt);
+  J.x += J.vx * dt - fl * dt * 60; J.y += J.vy * dt;
+  if (J.x < 90) { J.x = 90; J.vx = Math.abs(J.vx) * .4; } if (J.x > W - 90) { J.x = W - 90; J.vx = -Math.abs(J.vx) * .4; }
+  if (J.y < 130) { J.y = 130; J.vy = Math.abs(J.vy) * .4; } if (J.y > H - 140) { J.y = H - 140; J.vy = -Math.abs(J.vy) * .4; }
+  J.kick = Math.max(0, J.kick - dt * 3.4); J.res = Math.max(0, J.res - dt * .12);
+  J.tilt += (Math.max(-.5, Math.min(.5, J.vx / 600)) - J.tilt) * Math.min(1, dt * 4);
+  idleWorld(dt);
+  // touch a frame: catch it if it matches, or push it away if it does not
+  const am = anyMatch(), bx = J.x, by = J.by + 30;
+  if (!P.carry) for (const f of P.frames) {
+    if (f.used || f.held || f.wait > 0) continue;
+    const d = Math.hypot(f.x - bx, f.y - by); if (d > 92) continue;
+    if (catchable(f, am)) { catchFrame(f); break; }
+    if (T - f.bump > .8) {
+      f.bump = T; const ux = (f.x - bx) / (d || 1), uy = (f.y - by) / (d || 1);
+      f.vx += ux * 280; f.vy += uy * 280; f.ax = Math.max(80, Math.min(W - 80, f.ax + ux * 50)); f.ay = Math.max(130, Math.min(FLOOR - 40, f.ay + uy * 40));
+      music.nomatch(); buzz(6); popAt(f.x, f.y - 46, 'no match', '#9fb4ff');
+    }
+  }
+  // the tentacles reach for the nearest frame you may take
+  P.near = null; let nd = 1e9;
+  if (!P.carry) for (const f of P.frames) if (catchable(f, am)) { const d = Math.hypot(f.x - bx, f.y - by); if (d < nd) { nd = d; P.near = f; } }
+  if (P.near && nd < 230) { J.reach.x = P.near.x; J.reach.y = P.near.y; }
+  J.reach.w += ((P.near && nd < 230 ? .85 : 0) - J.reach.w) * Math.min(1, dt * 3);
+  // carrying: the censor's light, then the sun
+  const c = P.carry;
+  if (c) {
+    if (c.burn > 0) { c.burn += dt / 1.1; if (c.burn >= 1) dropBurned(); }
+    else {
+      const hot = c.touch && inBeam(J.x, J.by - 30);
+      P.smolder = hot ? P.smolder + dt : Math.max(0, P.smolder - dt * 1.5);
+      if (hot && T - P.lastWarn > .14) { P.lastWarn = T; buzz(10); music.smolder(P.smolder); }
+      if (P.smolder > .6) burnCarry();
+      else if (Math.hypot(J.x - SUN.x, J.by - 20 - SUN.y) < SUN.r + 84) splice();
+    }
+  } else P.smolder = 0;
+}
+function openWatch() {
+  const items = P.carry ? [{k: P.carry.f.k, burned: P.carry.f.burned}] : P.reel.slice();
+  if (!items.length) { popAt(J.x, J.by - 130, 'nothing inside yet', '#cdb48a'); return; }
+  P.watch = {items, t0: nowS(), per: items.length > 1 ? .7 : 2.6}; P.watched = true; P.press = P.hold = null; music.whoosh(true);
+}
+function closeWatch() { P.watch = null; music.whoosh(false); }
+function playCam(dt) {
+  let tx, ty, tz;
+  if (P.state === 'play') { const sp = Math.hypot(J.vx, J.vy); tz = 1.1 - .07 * clamp01(sp / 700); tx = J.x + J.vx * .15; ty = J.by + 20; }
+  else { tx = W / 2; ty = H / 2; tz = 1.07; }
+  if (!cam) cam = {x: tx, y: ty, z: tz};
+  else { const k = Math.min(1, dt * 2.2); cam.x += (tx - cam.x) * k; cam.y += (ty - cam.y) * k; cam.z += (tz - cam.z) * Math.min(1, dt * 1.5); }
+  const hw = FW / 2 / cam.z, hh = FH / 2 / cam.z;
+  cam.x = 2 * hw < W ? Math.max(hw, Math.min(W - hw, cam.x)) : W / 2; cam.y = 2 * hh < H ? Math.max(hh, Math.min(H - hh, cam.y)) : H / 2;
+}
+// ---- drawing: the world
+function drawWater() {
+  const g = ctx.createLinearGradient(0, 0, 0, FH); g.addColorStop(0, '#0d1a22'); g.addColorStop(.6, '#070d11'); g.addColorStop(1, '#020304');
+  ctx.fillStyle = g; ctx.fillRect(0, 0, FW, FH);
+}
+function drawFloor() {   // after AFL-18: gold ridge hairlines along the floor, where the burned frames sink
+  ctx.save(); ctx.lineWidth = .9;
+  for (let r = 0; r < 7; r++) {
+    const yy = H + 10 - r * 11; ctx.beginPath();
+    for (let x = -40; x <= W + 40; x += 8) { const y = yy - (4 + r * 1.5) * Math.max(0, Math.sin(x * .02 + r * .8 + simT * .3)) * Math.abs(Math.sin(x * .05 - r)); if (x > -40) ctx.lineTo(x, y); else ctx.moveTo(x, y); }
+    ctx.strokeStyle = `rgba(233,184,106,${(.42 - r * .05).toFixed(3)})`; ctx.stroke();
+  }
+  ctx.fillStyle = 'rgba(200,220,235,.5)';
+  for (let i = 0; i < 80; i++) { const x = hash(i, 1, 2) * W + Math.sin(simT * .3 + i) * 6, y = ((hash(i, 2, 2) * (H + 40) + simT * (6 + 10 * hash(i, 3, 2))) % (H + 40)) - 20; ctx.globalAlpha = .12 + .3 * hash(i, 4, 2); ctx.fillRect(x, y, 1.5, 1.5); }
   ctx.restore();
 }
+function drawCensor() {   // the projector's beam, which is the censor's eye
+  const danger = P.carry && P.carry.touch && !P.carry.burn, col = danger ? '255,110,70' : '255,215,150', a0 = P.beamA - BW, a1 = P.beamA + BW;
+  ctx.save(); ctx.globalCompositeOperation = 'lighter';
+  const g = ctx.createRadialGradient(SUN.x, SUN.y, 20, SUN.x, SUN.y, 1150);
+  g.addColorStop(0, `rgba(${col},${danger ? .34 : .15})`); g.addColorStop(1, `rgba(${col},0)`);
+  ctx.fillStyle = g; ctx.beginPath(); ctx.moveTo(SUN.x, SUN.y); ctx.arc(SUN.x, SUN.y, 1500, a0, a1); ctx.closePath(); ctx.fill();
+  if (danger) { ctx.strokeStyle = 'rgba(255,120,80,.45)'; ctx.lineWidth = 1.2; for (const a of [a0, a1]) { ctx.beginPath(); ctx.moveTo(SUN.x, SUN.y); ctx.lineTo(SUN.x + Math.cos(a) * 1500, SUN.y + Math.sin(a) * 1500); ctx.stroke(); } }
+  ctx.fillStyle = `rgba(${col},.7)`;
+  for (let i = 0; i < 26; i++) { const u = (i * .618 + simT * .03) % 1, d = 80 + u * 1000, a = P.beamA + (hash(i, 7, 1) - .5) * 2 * BW * .9; ctx.globalAlpha = .5 * (1 - u); ctx.fillRect(SUN.x + Math.cos(a) * d, SUN.y + Math.sin(a) * d, 1.8, 1.8); }
+  ctx.restore();
+}
+function drawSun() {
+  const T = nowS(), bp = beatPulse(), hit = clamp01(1 - (T - P.sunT) / .6);
+  ctx.save(); ctx.globalCompositeOperation = 'lighter';
+  const R = 120 * (1 + .25 * hit), g = ctx.createRadialGradient(SUN.x, SUN.y, 0, SUN.x, SUN.y, R);
+  g.addColorStop(0, 'rgba(255,248,230,.95)'); g.addColorStop(.22, `rgba(255,200,120,${(.55 + .1 * bp + .3 * hit).toFixed(3)})`); g.addColorStop(1, 'rgba(255,170,80,0)');
+  ctx.fillStyle = g; ctx.beginPath(); ctx.arc(SUN.x, SUN.y, R, 0, 7); ctx.fill();
+  for (let k = 0; k < 3; k++) { const ph = (simT * .3 + k / 3) % 1; ctx.strokeStyle = `rgba(255,200,120,${(.5 * (1 - ph)).toFixed(3)})`; ctx.lineWidth = 1; ctx.beginPath(); ctx.arc(SUN.x, SUN.y, SUN.r * (.8 + 1.4 * ph), 0, 7); ctx.stroke(); }
+  if (hit) { ctx.strokeStyle = `rgba(255,240,210,${hit.toFixed(3)})`; ctx.lineWidth = 3; ctx.beginPath(); ctx.arc(SUN.x, SUN.y, SUN.r + 140 * (1 - hit), 0, 7); ctx.stroke(); }
+  if (P.carry && !P.carry.burn) {   // splice here
+    ctx.globalCompositeOperation = 'source-over'; ctx.strokeStyle = 'rgba(255,236,200,.7)'; ctx.lineWidth = 2; ctx.setLineDash([7, 9]); ctx.lineDashOffset = -T * 30;
+    ctx.beginPath(); ctx.arc(SUN.x, SUN.y, SUN.r + 84, 0, 7); ctx.stroke(); ctx.setLineDash([]);
+  }
+  ctx.restore();
+}
+function drawFrame(f, can, am) {
+  const T = nowS(), w = 84, h = 63, s = can ? 1 + .05 * Math.sin(T * 4 + f.ph) : .9, j = JOINT[f.k];
+  ctx.save(); ctx.translate(f.x, f.y); ctx.rotate(f.burned ? .25 : Math.sin(T * .6 + f.ph) * .05); ctx.scale(s, s);
+  if (can) { ctx.shadowColor = 'rgba(255,205,130,.9)'; ctx.shadowBlur = 18; }
+  ctx.fillStyle = '#050403'; ctx.fillRect(-w / 2 - 4, -h / 2 - 4, w + 8, h + 8); ctx.shadowBlur = 0; ctx.shadowColor = 'transparent';
+  ctx.globalAlpha = can ? 1 : .5; ctx.drawImage(THUMB[f.k], -w / 2, -h / 2, w, h); ctx.globalAlpha = 1;
+  if (!can) { ctx.fillStyle = 'rgba(8,12,18,.5)'; ctx.fillRect(-w / 2, -h / 2, w, h); }
+  if (f.burned) {   // charred from the touch outward
+    const cx = (j.touch[0] - .5) * w, cy = (j.touch[1] - .5) * h, g = ctx.createRadialGradient(cx, cy, 4, cx, cy, 34);
+    g.addColorStop(0, 'rgba(5,3,2,.97)'); g.addColorStop(.6, 'rgba(10,5,3,.9)'); g.addColorStop(.8, 'rgba(255,120,40,.85)'); g.addColorStop(1, 'rgba(255,160,80,0)');
+    ctx.fillStyle = g; ctx.fillRect(-w / 2, -h / 2, w, h);
+  } else if (j.touch) {   // the touch, marked before the censor finds it
+    const cx = (j.touch[0] - .5) * w, cy = (j.touch[1] - .5) * h;
+    ctx.fillStyle = '#e8432a'; ctx.beginPath(); ctx.arc(cx, cy, 4.5, 0, 7); ctx.fill();
+    ctx.strokeStyle = 'rgba(232,67,42,.7)'; ctx.lineWidth = 1.2; ctx.beginPath(); ctx.arc(cx, cy, 8 + 2 * Math.sin(T * 5), 0, 7); ctx.stroke();
+  }
+  if (can) { ctx.strokeStyle = '#f6c47a'; ctx.lineWidth = 2; ctx.strokeRect(-w / 2 - 2, -h / 2 - 2, w + 4, h + 4); }
+  ctx.restore();
+  const l = lastK();
+  if (can && l != null && P.state === 'play') {   // the match, in words
+    ctx.save(); ctx.font = `italic 600 ${fz(17)}px Georgia, serif`; ctx.textAlign = 'center'; ctx.fillStyle = '#f6c47a'; ctx.shadowColor = '#000'; ctx.shadowBlur = 6;
+    ctx.fillText(am ? shared(l, f.k).join(' · ') : 'jump cut', f.x, f.y - h / 2 - 12); ctx.restore();
+  }
+}
+function drawWorld() {
+  drawFloor(); drawCensor(); drawSun();
+  const am = P.state === 'play' ? anyMatch() : true;
+  for (const f of P.frames) if (!f.used && !f.held) drawFrame(f, P.state !== 'play' || catchable(f, am), am);
+  if (P.state === 'play') {   // the hairline: to the sun when carrying, else to the nearest frame you may take
+    const g = P.carry ? (P.carry.burn ? null : SUN) : P.near;
+    if (g) { ctx.save(); ctx.strokeStyle = `rgba(255,230,180,${P.carry ? .8 : .3})`; ctx.lineWidth = 1.5; ctx.setLineDash([3, 5]); ctx.beginPath(); ctx.moveTo(J.x, J.by + 20); ctx.lineTo(g.x, g.y); ctx.stroke(); ctx.restore(); }
+  }
+  const T = nowS();
+  ctx.save(); ctx.strokeStyle = 'rgba(230,240,255,.5)'; ctx.lineWidth = 1;
+  P.bubbles = P.bubbles.filter(b => T - b.t0 < 1.2);
+  for (const b of P.bubbles) { const u = T - b.t0; ctx.globalAlpha = .6 * (1 - u / 1.2); ctx.beginPath(); ctx.arc(b.x + b.vx * u, b.y + b.vy * u - 20 * u * u, b.r, 0, 7); ctx.stroke(); }
+  ctx.restore();
+  tentacles(simT); drawJelly();
+  const burn = P.carry ? P.carry.burn : 0, red = Math.max(P.smolder / .6, burn ? 1 - burn : 0);
+  if (red > 0) {
+    ctx.save(); ctx.globalCompositeOperation = 'lighter'; const g = ctx.createRadialGradient(J.x, J.by - 34, 30, J.x, J.by - 34, 150);
+    g.addColorStop(0, `rgba(255,80,40,${(.45 * red).toFixed(3)})`); g.addColorStop(1, 'rgba(255,80,40,0)'); ctx.fillStyle = g; ctx.beginPath(); ctx.arc(J.x, J.by - 34, 150, 0, 7); ctx.fill(); ctx.restore();
+  }
+  P.pops = P.pops.filter(p => T - p.t0 < 1.3);
+  for (const p of P.pops) {
+    const u = (T - p.t0) / 1.3; ctx.save(); ctx.globalAlpha = 1 - u * u; ctx.font = `italic 600 ${fz(22)}px Georgia, serif`; ctx.textAlign = 'center';
+    ctx.lineJoin = 'round'; ctx.lineWidth = 5; ctx.strokeStyle = 'rgba(0,0,0,.85)'; ctx.strokeText(p.text, p.x, p.y - 40 * u); ctx.fillStyle = p.color; ctx.fillText(p.text, p.x, p.y - 40 * u); ctx.restore();
+  }
+}
+// the bell's inside: what it carries plays there (called from drawJelly, inside the dome's clip)
+function bellFilm() {
+  if (!P || !P.carry) return;
+  drawPic([P.carry.f.k], -82, -78, 164, 94, .9, {hot: 1, burn: P.carry.burn});
+}
+// ---- drawing: the screen (a locked top band, after Scher: the reel on the left, the count on the right)
+function drawHUD() {
+  const T = nowS(), n = P.reel.length;
+  ctx.fillStyle = 'rgba(255,240,215,.12)'; ctx.fillRect(0, 0, FW, 4);
+  ctx.fillStyle = P.left < 10 ? '#e8432a' : '#f6c47a'; ctx.fillRect(0, 0, FW * P.left / ROUND, 4);
+  const tw = 62, th = 46, st = 68, bandW = 28 + n * st + (n < 14 ? st + 120 : 0);
+  ctx.fillStyle = 'rgba(6,4,3,.8)'; ctx.fillRect(12, 12, bandW, 86);
+  ctx.fillStyle = 'rgba(217,207,191,.6)'; for (let x = 20; x < 12 + bandW - 8; x += 17) ctx.fillRect(x, 16, 8, 5);
+  ctx.font = `italic ${fz(12)}px Georgia, serif`; ctx.textAlign = 'left';
+  P.reel.forEach((r, i) => {
+    if (P.fly.some(f => f.i === i)) return;
+    const x = 28 + i * st; ctx.drawImage(THUMB[r.k], x, 28, tw, th);
+    if (r.burned) { ctx.fillStyle = 'rgba(255,120,170,.25)'; ctx.fillRect(x, 28, tw, th); }
+    if (r.word) { ctx.fillStyle = 'rgba(246,196,122,.85)'; ctx.fillText(r.word, x, 90); }
+  });
+  if (n < 14 && P.state === 'play') {   // the next cut: an empty gate, and the features it must share
+    const x = 28 + n * st, l = lastK(); ctx.save(); ctx.strokeStyle = `rgba(246,196,122,${(.4 + .4 * beatPulse()).toFixed(3)})`; ctx.setLineDash([4, 4]); ctx.lineWidth = 1.5; ctx.strokeRect(x, 28, tw, th); ctx.restore();
+    ctx.fillStyle = '#f6c47a'; ctx.font = `italic 600 ${fz(13)}px Georgia, serif`;
+    ctx.fillText(l == null ? 'any frame' : anyMatch() ? 'next: ' + FEAT(l).join(' · ') : 'jump cut', x, 90);
+  }
+  P.fly = P.fly.filter(f => T - f.t0 < .55);
+  for (const f of P.fly) {
+    const u = ease(clamp01((T - f.t0) / .55)), x1 = 28 + f.i * st, y1 = 28, w = 164 + (tw - 164) * u, h = 94 + (th - 94) * u;
+    ctx.drawImage(THUMB[f.k], f.from[0] - 82 + (x1 - f.from[0] + 82) * u, f.from[1] - 47 + (y1 - f.from[1] + 47) * u, w, h);
+  }
+  ctx.save(); ctx.textAlign = 'right'; ctx.shadowColor = '#000'; ctx.shadowBlur = 10;
+  ctx.font = 'italic 700 50px Georgia, serif'; ctx.fillStyle = '#f6c47a'; const nw = ctx.measureText(' / 14').width;
+  ctx.font = 'italic 22px Georgia, serif'; ctx.fillStyle = 'rgba(242,211,160,.75)'; ctx.fillText('/ 14', FW - 28, 62);
+  ctx.save(); ctx.translate(FW - 28 - ctx.measureText('/ 14 ').width, 62); ctx.scale(1 + .3 * clamp01(Math.hypot(J.vx, J.vy) / 700), 1);
+  ctx.font = 'italic 700 50px Georgia, serif'; ctx.fillStyle = '#f6c47a'; ctx.fillText(String(n), 0, 0); ctx.restore();
+  const s = Math.ceil(P.left); ctx.font = '600 15px system-ui, sans-serif'; ctx.fillStyle = P.left < 10 ? '#ff7a5a' : 'rgba(242,211,160,.7)';
+  ctx.fillText(`${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`, FW - 28, 88);
+  ctx.restore(); void nw;
+}
+function drawRing() {   // the pulse: a ring that closes on the bell at every beat; stroke as it lands
+  const T = nowS(), s = toScreen(J.x, J.by - 34), z = cam.z, ph = ((music.beatPos() % 1) + 1) % 1, r = (96 + 80 * (1 - ph)) * z;
+  ctx.save(); ctx.strokeStyle = `rgba(255,232,190,${(.06 + .3 * ph * ph * (1 - .6 * J.res)).toFixed(3)})`; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.arc(s[0], s[1], r, 0, 7); ctx.stroke();
+  const f = clamp01(1 - (T - P.ringT) / .35);
+  if (f) { ctx.strokeStyle = `rgba(255,240,210,${f.toFixed(3)})`; ctx.lineWidth = 3; ctx.beginPath(); ctx.arc(s[0], s[1], (96 + 60 * (1 - f)) * z, 0, 7); ctx.stroke(); }
+  if (J.res > .02) { ctx.strokeStyle = 'rgba(246,196,122,.8)'; ctx.lineWidth = 3; ctx.beginPath(); ctx.arc(s[0], s[1], 104 * z, -Math.PI / 2, -Math.PI / 2 + 2 * Math.PI * J.res); ctx.stroke(); }
+  if (P.mouse && !COARSE) { ctx.strokeStyle = 'rgba(255,236,200,.45)'; ctx.lineWidth = 1; ctx.beginPath(); ctx.arc(P.mouse[0], P.mouse[1], 9, 0, 7); ctx.stroke(); }
+  ctx.restore();
+}
+function hintText() {
+  if (P.strokes < 3) return COARSE ? 'tap, swipe or hold to swim' : 'click, hold, or use the arrow keys to swim';
+  if (P.carry && P.carry.burn) return 'burned. it sinks to the floor: dive and lift it back';
+  if (P.carry && P.carry.touch && P.kept === 0) return 'a red dot is a touch: keep it out of the censor’s beam';
+  if (P.carry && !P.reel.length) return 'it plays inside you · now carry it to the sun';
+  if (!P.reel.length && !P.carry) return 'swim into a glowing frame';
+  const am = anyMatch();
+  if (!P.carry && !P.rescued && P.frames.some(f => f.burned && !f.used && catchable(f, am))) return 'the burned frame is on the floor: dive for it';
+  if (P.reel.length === 1 && !P.carry) return 'next: a frame that shares something with the last (the gold words)';
+  if (P.strokes > 14 && P.perfects < 3) return 'stroke as the ring closes on the bell: on the pulse you go faster';
+  if (P.carry && !P.watched && P.reel.length >= 2) return COARSE ? 'tap the jellyfish to watch what it carries' : 'click the jellyfish, or press space, to watch what it carries';
+  if (!am && !P.carry) return 'nothing left that matches: any frame makes a jump cut';
+  return '';
+}
+function drawHint() {
+  const h = hintText(), T = nowS(); if (h !== P.hint) { P.hint = h; P.hintT = T; } if (!h) return;
+  const a = clamp01((T - P.hintT) / .3);
+  ctx.save(); ctx.globalAlpha = a; ctx.font = `italic ${fz(24)}px Georgia, serif`; ctx.textAlign = 'center'; const w = ctx.measureText(h).width;
+  ctx.fillStyle = 'rgba(5,4,3,.6)'; ctx.fillRect(FW / 2 - w / 2 - 18, FH - 38 - fz(28), w + 36, fz(40));
+  ctx.fillStyle = '#f2e3c6'; ctx.fillText(h, FW / 2, FH - 38); ctx.restore();
+}
+function vignette() {
+  ctx.save(); ctx.translate(FW / 2, FH / 2); ctx.scale(1, FH / FW * 1.15);
+  const vg = ctx.createRadialGradient(0, 0, FW * .34, 0, 0, FW * .66); vg.addColorStop(0, 'rgba(0,0,0,0)'); vg.addColorStop(1, 'rgba(0,0,0,.6)');
+  ctx.fillStyle = vg; ctx.fillRect(-FW, -FW, 2 * FW, 2 * FW); ctx.restore();
+}
+// a frame shown full screen, its camera travelling from the feature it shares with the frame before to the one it shares with the next
+function reelFrame(list, i, u) {
+  const it = list[i], prev = list[i - 1], next = list[i + 1], c = [.5, .45], J0 = JOINT[it.k];
+  const ent = prev ? J0[shared(prev.k, it.k)[0]] || J0.touch || c : c, ex = next ? J0[shared(it.k, next.k)[0]] || c : c, q = ease(clamp01(u));
+  drawPic([it.k], 0, 0, FW, FH, 1, {hot: 1, at: [FW * .5, FH * .48], joints: [[ent[0] + (ex[0] - ent[0]) * q, ent[1] + (ex[1] - ent[1]) * q]], zoom: 1.45, cover: true});
+  if (it.burned) { ctx.save(); ctx.globalCompositeOperation = 'screen'; ctx.fillStyle = 'rgba(238,106,166,.16)'; ctx.fillRect(0, 0, FW, FH); ctx.restore(); }
+}
+function drawReelPlay() {
+  const n = P.reel.length, per = reelPer(), i = Math.min(n - 1, Math.floor(P.t / per)), u = (P.t - i * per) / per;
+  ctx.fillStyle = '#000'; ctx.fillRect(0, 0, FW, FH);
+  if (i !== P.reelIdx) { P.reelIdx = i; music.click(); }
+  reelFrame(P.reel, i, u); vignette();
+  if (P.t - i * per < .05) { ctx.fillStyle = 'rgba(255,255,255,.55)'; ctx.fillRect(0, 0, FW, FH); }
+  ctx.save(); ctx.shadowColor = '#000'; ctx.shadowBlur = 8;
+  ctx.font = '900 16px system-ui, sans-serif'; ctx.fillStyle = 'rgba(242,230,207,.8)'; if ('letterSpacing' in ctx) ctx.letterSpacing = '3px'; ctx.fillText('YOUR REEL', 40, 46);
+  ctx.textAlign = 'right'; ctx.font = 'italic 20px Georgia, serif'; ctx.fillText(`${i + 1} / ${n}`, FW - 40, 46);
+  const w = P.reel[i].word; if (w) { ctx.textAlign = 'center'; ctx.globalAlpha = clamp01(1.4 - u * 2); ctx.font = 'italic 600 30px Georgia, serif'; ctx.fillStyle = '#f6c47a'; ctx.fillText(w, FW / 2, FH - 44); }
+  ctx.restore();
+}
+function drawWatch() {
+  const W0 = P.watch, i = Math.min(W0.items.length - 1, Math.floor((nowS() - W0.t0) / W0.per)), u = (nowS() - W0.t0 - i * W0.per) / W0.per;
+  ctx.fillStyle = '#000'; ctx.fillRect(0, 0, FW, FH); reelFrame(W0.items, i, u); vignette();
+  ctx.save(); ctx.shadowColor = '#000'; ctx.shadowBlur = 8; ctx.font = `italic ${fz(22)}px Georgia, serif`; ctx.fillStyle = 'rgba(242,230,207,.85)';
+  ctx.fillText(W0.items.length > 1 ? 'your reel so far' : 'inside the jellyfish', 40, 46);
+  ctx.textAlign = 'center'; ctx.fillText(COARSE ? 'tap to swim on' : 'click or press space to swim on', FW / 2, FH - 40); ctx.restore();
+}
+function icon(i, x, y) {
+  const bp = beatPulse(); ctx.save(); ctx.lineWidth = 2;
+  if (i === 0) { ctx.strokeStyle = '#f6c47a'; ctx.beginPath(); ctx.arc(x, y, 8, 0, 7); ctx.stroke(); ctx.globalAlpha *= .3 + .7 * (1 - bp); ctx.beginPath(); ctx.arc(x, y, 8 + 10 * (1 - bp), 0, 7); ctx.stroke(); }
+  else if (i === 1) { ctx.strokeStyle = '#f6c47a'; ctx.strokeRect(x - 18, y - 9, 18, 14); ctx.strokeRect(x + 2, y - 4, 18, 14); ctx.fillStyle = '#f6c47a'; ctx.fillRect(x - 3, y - 1, 8, 3); }
+  else { ctx.fillStyle = '#c8361e'; ctx.beginPath(); ctx.moveTo(x + 6, y - 6); ctx.lineTo(x - 22, y + 14); ctx.lineTo(x - 8, y + 18); ctx.closePath(); ctx.fill(); ctx.fillStyle = '#f6c47a'; ctx.beginPath(); ctx.arc(x + 6, y - 6, 9, 0, 7); ctx.fill(); }
+  ctx.restore();
+}
+function drawTitle() {   // after Saul Bass: few shapes, three colours, each element entering in its own beat
+  const t = P.t, bp = beatPulse(), A = i => clamp01((t - .1 - i * .22) / .4), X = i => -40 * (1 - ease(A(i)));
+  const dim = ctx.createLinearGradient(0, 0, FW, 0); dim.addColorStop(0, 'rgba(4,3,2,.9)'); dim.addColorStop(.62, 'rgba(4,3,2,.8)'); dim.addColorStop(1, 'rgba(4,3,2,.25)');
+  ctx.fillStyle = dim; ctx.fillRect(0, 0, FW, FH);
+  ctx.save();
+  ctx.globalAlpha = A(0); ctx.save(); ctx.translate(92 + X(0), 140); ctx.scale(1 + .04 * bp, 1);
+  ctx.font = '900 54px system-ui, "Helvetica Neue", Arial, sans-serif'; ctx.fillStyle = '#f2e6cf'; if ('letterSpacing' in ctx) ctx.letterSpacing = '7px'; ctx.fillText('CONTAMINANT', 0, 0); ctx.restore();
+  ctx.globalAlpha = A(1); ctx.font = 'italic 700 128px Georgia, serif'; ctx.fillStyle = '#f6c47a'; ctx.fillText('jelly', 84 + X(1), 258);
+  ctx.fillStyle = '#c8361e'; ctx.fillRect(96, 282, 320 * ease(A(1)), 7);
+  const rows = [
+    ['SWIM', COARSE ? 'tap, swipe or hold to stroke' : 'click, hold, or arrow keys / WASD to stroke', 'stroke as the ring closes on the bell: on the pulse you go faster'],
+    ['CATCH', 'swim into a glowing frame: it plays inside you', 'the next must share something with the last: a hand, a door, a glow'],
+    ['SPLICE', 'carry it to the sun to add it to your reel', 'a red dot is a touch: the censor’s beam burns it. burned frames sink; dive for them']];
+  rows.forEach(([h, a, b], i) => {
+    const y = 366 + i * 84, x = 96 + X(2 + i); ctx.globalAlpha = A(2 + i);
+    icon(i, x + 14, y - 8);
+    ctx.font = '800 21px system-ui, sans-serif'; ctx.fillStyle = '#f2e6cf'; if ('letterSpacing' in ctx) ctx.letterSpacing = '2px'; ctx.fillText(h, x + 48, y);
+    if ('letterSpacing' in ctx) ctx.letterSpacing = '0px';
+    ctx.font = `${fz(20)}px system-ui, sans-serif`; ctx.fillStyle = '#ecd8b4'; ctx.fillText(a, x + 160, y);
+    ctx.font = `italic ${fz(17)}px Georgia, serif`; ctx.fillStyle = 'rgba(214,190,150,.85)'; ctx.fillText(b, x + 160, y + fz(26));
+  });
+  ctx.globalAlpha = A(5) * (.6 + .4 * bp); ctx.font = 'italic 34px Georgia, serif'; ctx.fillStyle = '#f6c47a';
+  ctx.fillText(COARSE ? 'tap to begin' : 'click or press space to begin', 96, 660);
+  ctx.globalAlpha = A(5) * .8; ctx.font = '16px system-ui, sans-serif'; ctx.fillStyle = '#cdb48a'; ctx.textAlign = 'right';
+  ctx.fillText(`${ROUND} seconds · make the longest reel${P.best ? ' · best ' + P.best : ''}`, FW - 40, 660);
+  if (COARSE && innerHeight > innerWidth) { ctx.textAlign = 'center'; ctx.globalAlpha = 1; ctx.font = '600 22px system-ui, sans-serif'; ctx.fillStyle = '#fff0cf'; ctx.fillText('turn your phone sideways ↻', FW / 2, 50); }
+  ctx.restore();
+}
+function drawEnd() {
+  const n = P.reel.length, a = clamp01(P.t / .5);
+  ctx.save(); ctx.globalAlpha = a; ctx.fillStyle = 'rgba(4,3,2,.74)'; ctx.fillRect(0, 0, FW, FH);
+  ctx.font = 'italic 700 170px Georgia, serif'; ctx.fillStyle = '#f6c47a'; ctx.fillText(String(n), 92, 270); const nw = ctx.measureText(String(n)).width;
+  ctx.font = '900 34px system-ui, sans-serif'; ctx.fillStyle = '#f2e6cf'; if ('letterSpacing' in ctx) ctx.letterSpacing = '4px';
+  ctx.fillText(n === 14 ? 'THE WHOLE ARCHIVE' : n === 1 ? 'FRAME IN YOUR REEL' : 'FRAMES IN YOUR REEL', 120 + nw, 262);
+  if ('letterSpacing' in ctx) ctx.letterSpacing = '0px';
+  ctx.fillStyle = '#c8361e'; ctx.fillRect(96, 296, 320, 7);
+  ctx.font = 'italic 22px Georgia, serif'; ctx.fillStyle = '#ecd8b4';
+  ctx.fillText(`touches kept from the censor: ${P.kept}   ·   burned and lifted back: ${P.rescued}`, 96, 350);
+  if (P.best) { ctx.fillStyle = 'rgba(214,190,150,.8)'; ctx.font = '17px system-ui, sans-serif'; ctx.fillText(n >= P.best && n ? 'your best yet' : `best ${P.best}`, 96, 382); }
+  P.reel.forEach((r, i) => { const x = 96 + i * 76; ctx.drawImage(THUMB[r.k], x, 420, 70, 52); if (r.burned) { ctx.fillStyle = 'rgba(255,120,170,.25)'; ctx.fillRect(x, 420, 70, 52); } if (r.word) { ctx.fillStyle = 'rgba(246,196,122,.85)'; ctx.font = 'italic 12px Georgia, serif'; ctx.fillText(r.word, x, 490); } });
+  ctx.globalAlpha = a * clamp01((P.t - .8) / .3) * (.6 + .4 * beatPulse()); ctx.font = 'italic 34px Georgia, serif'; ctx.fillStyle = '#f6c47a';
+  ctx.fillText(COARSE ? 'tap to swim again' : 'click or press space to swim again', 96, 600);
+  ctx.restore();
+}
+function playDraw(dt) {
+  ctx.setTransform(S, 0, 0, S, 0, 0);
+  if (P.state === 'reel') { drawReelPlay(); return; }
+  if (P.watch) { drawWatch(); return; }
+  playCam(dt); drawWater();
+  const sh = P.shake * 14, ox = (Math.random() - .5) * sh, oy = (Math.random() - .5) * sh;
+  ctx.setTransform(S * cam.z, 0, 0, S * cam.z, S * (FW / 2 - cam.z * cam.x + ox), S * (FH / 2 - cam.z * cam.y + oy));
+  drawWorld();
+  ctx.setTransform(S, 0, 0, S, 0, 0);
+  vignette();
+  if (P.state === 'play') { drawRing(); drawHUD(); drawHint(); }
+  else if (P.state === 'title') drawTitle();
+  else if (P.state === 'end') drawEnd();
+}
+function fit() {
+  const r = cv.getBoundingClientRect(), dpr = window.devicePixelRatio || 1;
+  S = Math.max(1, Math.min(COARSE ? 1.5 : 2, r.width * dpr / FW)); cv.width = Math.round(FW * S); cv.height = Math.round(FH * S);
+}
 function startPlay() {
-  document.body.classList.add('playing');
-  let i = 0, started = false, raf = 0;
-  const toWorld = e => {
-    const r = cv.getBoundingClientRect(), fx = (e.clientX - r.left) / r.width * FW, fy = (e.clientY - r.top) / r.height * FH;
-    if (!cam) return {x: fx * W / FW, y: fy * H / FH};
-    return {x: cam.x + (fx - FW / 2) / cam.z, y: cam.y + (fy - FH / 2) / cam.z};
+  document.body.classList.add('playing'); makeThumbs(); fit(); addEventListener('resize', fit);
+  playReset('title');
+  const film = e => { const r = cv.getBoundingClientRect(); return [(e.clientX - r.left) / r.width * FW, (e.clientY - r.top) / r.height * FH]; };
+  const toWorld = p => cam ? {x: cam.x + (p[0] - FW / 2) / cam.z, y: cam.y + (p[1] - FH / 2) / cam.z} : {x: p[0] * W / FW, y: p[1] * H / FH};
+  const onJelly = p => { const s = toScreen(J.x, J.by - 30); return Math.hypot(p[0] - s[0], p[1] - s[1]) < 92 * (cam ? cam.z : 1); };
+  const advance = () => {
+    if (P.watch) { closeWatch(); return; }
+    if (P.state === 'title' || (P.state === 'end' && P.t > .8)) { music.start(); playReset('play'); return; }
+    if (P.state === 'reel') { P.state = 'end'; P.t = 0; }
   };
-  let down = false;
-  cv.addEventListener('pointerdown', e => { e.preventDefault(); sfx.wake(); down = true;
-    if (!started || ended) { reset(); i = 0; started = true; ended = false; play.lastStroke = -9; sfx.bed('hot'); return; }
-    play.press = {x: e.clientX, y: e.clientY, t: performance.now(), w: toWorld(e)}; play.hold = null; });
-  cv.addEventListener('pointermove', e => { if (down && started && play.press) { play.press.w = toWorld(e); if (play.hold) play.hold = play.press.w; } });
-  addEventListener('pointerup', e => { down = false; const p = play.press; play.press = null; play.hold = null; if (!p || !started || ended) return;
-    const r = cv.getBoundingClientRect(), k = FW / r.width, dx = (e.clientX - p.x) * k, dy = (e.clientY - p.y) * k, dist = Math.hypot(dx, dy), ms = performance.now() - p.t;
-    if (dist > 28 && ms < 450) strokeTo(dx, dy, Math.min(1.5, .6 + dist / 260));              // a swipe: one stroke along it
-    else if (ms < 260) { const w = toWorld(e); strokeTo(w.x - J.x, w.y - J.y, .75); } });      // a tap: a stroke toward it
-  addEventListener('keydown', e => { if (!started || ended) return; const d = {ArrowLeft: [-1, 0], ArrowRight: [1, 0], ArrowUp: [0, -1], ArrowDown: [0, 1]}[e.key];
-    if (d && !e.repeat) { e.preventDefault(); sfx.wake(); strokeTo(d[0], d[1], 1); } });
-  const card = (lines) => {
-    ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.save();
-    const g = ctx.createRadialGradient(FW / 2, FH * .42, 0, FW / 2, FH * .42, FW * .4); g.addColorStop(0, 'rgba(5,4,3,.9)'); g.addColorStop(1, 'rgba(5,4,3,0)');
-    ctx.fillStyle = g; ctx.fillRect(0, 0, FW, FH); ctx.textAlign = 'center';
-    lines.forEach(([font, color, text, y]) => { ctx.font = font; ctx.fillStyle = color; ctx.fillText(text, FW / 2, y); });
-    ctx.restore();
+  cv.addEventListener('pointerdown', e => {
+    e.preventDefault(); music.wake();
+    if (P.state !== 'play' || P.watch) { advance(); return; }
+    const p = film(e); P.press = {sx: e.clientX, sy: e.clientY, t: nowS(), w: toWorld(p), jelly: onJelly(p), moved: false}; P.hold = null;
+    try { cv.setPointerCapture(e.pointerId); } catch (x) {}
+  });
+  cv.addEventListener('pointermove', e => {
+    const p = film(e); P.mouse = e.pointerType === 'mouse' ? p : null;
+    if (!P.press) return; P.press.w = toWorld(p);
+    if (Math.hypot(e.clientX - P.press.sx, e.clientY - P.press.sy) > 12) P.press.moved = true;
+    if (P.hold) P.hold = P.press.w;
+  });
+  addEventListener('pointerup', e => {
+    const p0 = P.press, held = !!P.hold; P.press = null; P.hold = null;
+    if (!p0 || held || P.state !== 'play') return;
+    const r = cv.getBoundingClientRect(), k = FW / r.width, dx = (e.clientX - p0.sx) * k, dy = (e.clientY - p0.sy) * k, dist = Math.hypot(dx, dy);
+    if (dist > 28) strokeTo(dx, dy, Math.min(1.5, .6 + dist / 260));              // a swipe: one stroke along it
+    else if (p0.jelly) openWatch();                                                 // a tap on the jellyfish: watch what it carries
+    else { const w = toWorld(film(e)); strokeTo(w.x - J.x, w.y - J.by, .85); }    // a tap: a stroke toward it
+  });
+  addEventListener('pointercancel', () => { P.press = null; P.hold = null; });
+  addEventListener('keydown', e => {
+    const k = e.key.length === 1 ? e.key.toLowerCase() : e.key;
+    if (k === ' ' || k === 'Enter') { e.preventDefault(); music.wake(); if (P.state === 'play' && !P.watch) openWatch(); else advance(); return; }
+    if (k === 'Escape') { if (P.watch) closeWatch(); return; }
+    if (!['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'a', 'd', 'w', 's'].includes(k)) return;
+    e.preventDefault(); if (e.repeat || P.state !== 'play' || P.watch) return;
+    music.wake(); P.keys.add(k); const v = keyDir(); if (v) strokeTo(v[0], v[1], 1); P.lastAuto = Math.round(music.beatPos());
+  });
+  addEventListener('keyup', e => { P.keys.delete(e.key.length === 1 ? e.key.toLowerCase() : e.key); });
+  addEventListener('blur', () => { P.keys.clear(); P.press = P.hold = null; });
+  document.addEventListener('visibilitychange', () => music.pause(document.hidden));
+  let lastT = performance.now();
+  const loop = tNow => {
+    requestAnimationFrame(loop);
+    let dt = Math.min(.05, (tNow - lastT) / 1000); lastT = tNow; if (document.hidden) return;
+    if (P.stop > 0) { P.stop--; dt = 0; }   // the catch's hitstop
+    if (P.watch) { simT += dt; if (nowS() - P.watch.t0 > P.watch.items.length * P.watch.per + .25) closeWatch(); }
+    else playStep(dt);
+    playDraw(dt);
   };
-  const loop = () => {
-    raf = requestAnimationFrame(loop);
-    if (!started) { if (i === 0) { filmFrame(0, 60, 999, true); i = 1; }
-      card([['italic 64px Georgia, serif', '#f2d3a0', 'Contaminant Jelly', FH * .4], ['22px system-ui, sans-serif', '#cdb48a', 'touch to begin · swipe to swim', FH * .4 + 52], ['17px system-ui, sans-serif', 'rgba(205,180,138,.75)', 'stroke in rhythm with the bell · catch what rhymes · carry it to the sun', FH * .4 + 88]]); return; }
-    if (ended) return;
-    if (play.stop > 0) { play.stop--; return; }   // the catch's beat of stillness
-    const r = filmFrame(i++, 60, 999, true);
-    if (r === 'END') { ended = true; let best = 0; try { best = Math.max(+localStorage.getItem('jelly.best') || 0, playChain.length); localStorage.setItem('jelly.best', String(best)); } catch (e) {}
-      card([['italic 54px Georgia, serif', '#f2d3a0', `${playChain.length} of 14 in your reel`, FH * .42], ['18px system-ui, sans-serif', 'rgba(205,180,138,.8)', best ? `best ${best}` : '', FH * .42 + 90], ['20px system-ui, sans-serif', '#cdb48a', 'touch to swim again', FH * .42 + 50]]); }
-  };
-  loop();
-  window.__jel = () => ({x: J.x, y: J.y, vx: J.vx || 0, vy: J.vy || 0, res: J.res || 0});   // for scripted play-tests: the swimmer's state
-  window.__play = () => {   // for scripted play-tests: where the hairline points, on the film's screen
-    if (!started) return {ended: false};
-    const g = J.carry.length && heat > .5 && !J.carry[0].wasCut ? RINGS[0] : J.tgt;
-    if (!g || !cam) return {ended, tx: null};
-    return {ended, tx: FW / 2 + (g.x - cam.x) * cam.z, ty: FH / 2 + (g.y - cam.y) * cam.z};
+  requestAnimationFrame(loop);
+  window.__jel = () => ({x: J.x, y: J.y, vx: J.vx, vy: J.vy, res: J.res});   // for scripted play-tests
+  window.__play = () => {
+    const g = P.carry ? SUN : P.near, s = g && cam ? toScreen(g.x, g.y) : null, j = cam ? toScreen(J.x, J.by - 30) : null;
+    return {state: P.state, reel: P.reel.length, carry: !!P.carry, touch: !!(P.carry && P.carry.touch), left: P.left, burns: P.burns, kept: P.kept, watch: !!P.watch,
+      tx: s && s[0], ty: s && s[1], jx: j && j[0], jy: j && j[1], beam: P.beamA, hint: P.hint, perfects: P.perfects};
   };
 }
-const sfx = (() => {
-  let ac = null, bed = null; const m2f = m => 440 * 2 ** ((m - 69) / 12);
-  const wake = () => { if (!ac) { const A = window.AudioContext || window.webkitAudioContext; if (A) ac = new A(); } if (ac && ac.state === 'suspended') ac.resume(); };
-  const tone = (f, d, g = .1, type = 'sine', at = 0) => { if (!ac) return; const o = ac.createOscillator(), v = ac.createGain(), t = ac.currentTime + at; o.type = type; o.frequency.value = f; v.gain.setValueAtTime(0, t); v.gain.linearRampToValueAtTime(g, t + .01); v.gain.exponentialRampToValueAtTime(.0001, t + d); o.connect(v).connect(ac.destination); o.start(t); o.stop(t + d + .05); };
-  const crackle = (n, at) => { if (!ac) return; for (let k = 0; k < n; k++) { const b = ac.createBuffer(1, 400, ac.sampleRate), x = b.getChannelData(0); for (let i = 0; i < x.length; i++) x[i] = (Math.random() * 2 - 1) * Math.exp(-i / 60); const s = ac.createBufferSource(), v = ac.createGain(); v.gain.value = .12; s.buffer = b; s.connect(v).connect(ac.destination); s.start(ac.currentTime + at + Math.random() * 1.1); } };
-  const SC = [69, 72, 76, 79, 81, 84, 88, 91, 93, 96];
-  const setBed = kind => { if (!ac) return; if (bed) { try { bed.stop(); } catch (e) {} } const o = ac.createOscillator(), v = ac.createGain(); o.frequency.value = kind === 'hot' ? 55 : 82.4; v.gain.value = .035; o.connect(v).connect(ac.destination); o.start(); bed = o; };
-  const strokeSnd = (res, q) => { if (!ac) return; const t = ac.currentTime, o = ac.createOscillator(), v = ac.createGain();
-    o.frequency.setValueAtTime(95 + 60 * res, t); o.frequency.exponentialRampToValueAtTime(48 + 30 * res, t + .22); v.gain.setValueAtTime(0, t); v.gain.linearRampToValueAtTime(.22 * q, t + .015); v.gain.exponentialRampToValueAtTime(.0001, t + .3);
-    o.connect(v).connect(ac.destination); o.start(t); o.stop(t + .35);
-    const b = ac.createBuffer(1, ac.sampleRate * .35 | 0, ac.sampleRate), x = b.getChannelData(0); for (let k = 0; k < x.length; k++) x[k] = (Math.random() * 2 - 1) * Math.sin(Math.PI * k / x.length);
-    const n = ac.createBufferSource(), f = ac.createBiquadFilter(), g = ac.createGain(); f.type = 'bandpass'; f.frequency.value = 380 + 700 * res; f.Q.value = .8; g.gain.value = .06 * q; n.buffer = b; n.connect(f).connect(g).connect(ac.destination); n.start(t); };
-  return {wake, bed: setBed, stroke: strokeSnd, thud: () => tone(70, .25, .2),
-    on: e => {
-      if (e.type === 'lift') { const m = SC[(playChain.length + 9) % SC.length]; tone(m2f(m), 1.3, .09); tone(m2f(m) * 3.5, .2, .02); }
-      else if (e.type === 'hand') { tone(660, .12, .12); tone(660, .12, .1, 'sine', .07); }
-      else if (e.type === 'bell') buzz([30, 40, 90]), [[.5, .06, 1.6], [1, .1, 1.1], [1.2, .06, .8], [1.5, .035, .6], [2, .05, .45]].forEach(([r, g, d]) => tone(523.25 * r, d, g));
-      else if (e.type === 'burncue') crackle(24, .65);
-      else if (e.type === 'cut') tone(60, .5, .25);
-      else if (e.type === 'rescue') [57, 60, 64, 69, 72, 76].forEach((m, k) => tone(m2f(m), 1.6, .07, 'triangle', k * .07));
-      else if (e.type === 'switch') { setBed('cool'); tone(523.25, 1.6, .1); tone(783.99, 1.6, .1, 'sine', .18); }
-      else if (e.type === 'projector') { if (bed) { try { bed.stop(); } catch (x) {} bed = null; } [76, 79, 76, 74, 72, 74, 76, 72, 74, 76, 79, 81, 79, 76, 74, 72].forEach((m, k) => { tone(m2f(m), .9, .07, 'sine', k * .5); if (k % 4 === 0) tone(m2f(m - 24), 2, .05, 'triangle', k * .5); }); }
-      else if (e.type === 'splice') tone(2000, .03, .08); }};
+// ---- the music: a garden, after Eno. A pad that drifts through four chords, a heartbeat on the pulse you swim to,
+// and your reel as the melody: each frame spliced adds its note to a loop that keeps playing (burned frames muffled).
+const music = (() => {
+  const SPB = .625, m2f = m => 440 * 2 ** ((m - 69) / 12), pt0 = performance.now() / 1000;
+  const CH = [[38, 57, 61, 64, 66], [35, 54, 57, 61, 62], [31, 50, 54, 57, 62], [33, 52, 57, 59, 61]];
+  let ac = null, out = null, rev = null, dly = null, NB = null, on = false, t0 = 0, nextT = 0, i8 = 0, timer = 0;
+  function init() {
+    const A = window.AudioContext || window.webkitAudioContext; if (!A) return;
+    ac = new A();
+    const comp = ac.createDynamicsCompressor(); comp.threshold.value = -18; comp.knee.value = 12; comp.ratio.value = 3;
+    out = ac.createGain(); out.gain.value = .9; out.connect(comp); comp.connect(ac.destination);
+    rev = ac.createConvolver(); const L = ac.sampleRate * 3 | 0, ib = ac.createBuffer(2, L, ac.sampleRate);
+    for (let c = 0; c < 2; c++) { const x = ib.getChannelData(c); for (let i = 0; i < L; i++) x[i] = (Math.random() * 2 - 1) * (1 - i / L) ** 3; }
+    rev.buffer = ib; const rg = ac.createGain(); rg.gain.value = .5; rev.connect(rg); rg.connect(out);
+    dly = ac.createDelay(1); dly.delayTime.value = SPB * .75;
+    const fb = ac.createGain(), lp = ac.createBiquadFilter(), ds = ac.createGain(); fb.gain.value = .3; lp.type = 'lowpass'; lp.frequency.value = 2400; ds.gain.value = .4;
+    dly.connect(lp); lp.connect(fb); fb.connect(dly); lp.connect(out); lp.connect(ds); ds.connect(rev);
+    NB = ac.createBuffer(1, ac.sampleRate * 2, ac.sampleRate); const nx = NB.getChannelData(0); for (let i = 0; i < nx.length; i++) nx[i] = Math.random() * 2 - 1;
+  }
+  function mix(v, dry, wet, echo) {
+    for (const [g, dst] of [[dry, out], [wet, rev], [echo, dly]]) if (g) { const a = ac.createGain(); a.gain.value = g; v.connect(a); a.connect(dst); }
+  }
+  function voice(t, f, dur, g, o = {}) {
+    const osc = ac.createOscillator(), v = ac.createGain(); osc.type = o.type || 'sine'; osc.frequency.setValueAtTime(f, t); if (o.detune) osc.detune.value = o.detune;
+    if (o.glide) osc.frequency.exponentialRampToValueAtTime(o.glide, t + dur * .5);
+    v.gain.setValueAtTime(0, t); v.gain.linearRampToValueAtTime(g, t + (o.att || .005)); v.gain.exponentialRampToValueAtTime(.0001, t + dur);
+    let n = osc; if (o.lp) { const fl = ac.createBiquadFilter(); fl.type = 'lowpass'; fl.frequency.value = o.lp; osc.connect(fl); n = fl; }
+    n.connect(v); mix(v, o.dry == null ? 1 : o.dry, o.wet == null ? .25 : o.wet, o.echo || 0); osc.start(t); osc.stop(t + dur + .05);
+  }
+  function noise(t, dur, g, o = {}) {
+    const s = ac.createBufferSource(), bf = ac.createBiquadFilter(), v = ac.createGain(); s.buffer = NB;
+    bf.type = o.type || 'bandpass'; bf.frequency.setValueAtTime(o.f || 1000, t); if (o.sweep) bf.frequency.exponentialRampToValueAtTime(o.sweep, t + dur); bf.Q.value = o.q || 1;
+    v.gain.setValueAtTime(0, t); v.gain.linearRampToValueAtTime(g, t + Math.min(.03, dur * .3)); v.gain.exponentialRampToValueAtTime(.0001, t + dur);
+    s.connect(bf); bf.connect(v); mix(v, 1, o.wet == null ? .2 : o.wet, 0); s.start(t, Math.random(), dur + .05);
+  }
+  function pad(t, ch, dur) {
+    ch.forEach((m, j) => {
+      const bass = j === 0, f = m2f(bass ? m + 12 : m);
+      for (const det of bass ? [0] : [-7, 7]) {
+        const o = ac.createOscillator(), fl = ac.createBiquadFilter(), v = ac.createGain(), g = bass ? .07 : .014;
+        o.type = bass ? 'sine' : 'triangle'; o.frequency.value = f; o.detune.value = det; fl.type = 'lowpass'; fl.frequency.value = bass ? 400 : 1300;
+        v.gain.setValueAtTime(0, t); v.gain.linearRampToValueAtTime(g, t + 1.2); v.gain.setValueAtTime(g, t + dur - .3); v.gain.linearRampToValueAtTime(0, t + dur + 1.4);
+        o.connect(fl); fl.connect(v); mix(v, .8, .7, 0); o.start(t); o.stop(t + dur + 1.5);
+      }
+    });
+  }
+  function sched(i, t) {
+    const st = api.state ? api.state() : null, mode = st ? st.mode : 'title';
+    if (i % 16 === 0) pad(t, CH[Math.floor(i / 16) % 4], SPB * 8);
+    if (i % 2 === 0) { const strong = i % 4 === 0; voice(t, 150, .3, strong ? .2 : .11, {glide: 48, wet: .05}); voice(t, 300, .07, strong ? .05 : .03, {type: 'triangle', wet: .05}); }   // the heartbeat, with a tap a phone speaker can carry
+    if (!st) return;
+    const reel = st.reel || [], dense = reel.length >= 4 || mode === 'reel';
+    if (reel.length && mode !== 'title' && (dense || i % 2 === 0)) { const r = reel[(dense ? i : i / 2) % reel.length]; pluck(t, NOTE(r.k), r.burned, mode === 'reel' ? .05 : .034); }
+    if (st.res > .45 && i % 2 === 1) noise(t, .045, .022 * st.res, {type: 'highpass', f: 7000, wet: .12});
+    if (mode === 'play' && st.left < 10 && i % 2 === 0) voice(t, 1900, .05, .045, {type: 'square', wet: 0, lp: 3500});
+  }
+  function pluck(t, m, burned, g) {
+    voice(t, m2f(m), .9, g, {type: 'triangle', wet: .3, echo: .4, lp: burned ? 650 : 3500, detune: burned ? -40 : 0});
+    voice(t, m2f(m + 12), .3, g * .25, {wet: .2});
+  }
+  const api = {SPB, state: null,
+    wake() { if (!ac) init(); if (ac && ac.state === 'suspended') ac.resume(); },
+    start() {
+      api.wake(); if (!ac || on) return; on = true; t0 = ac.currentTime + .08; nextT = t0; i8 = 0;
+      timer = setInterval(() => { if (!on || ac.state !== 'running') return; while (nextT < ac.currentTime + .15) { sched(i8, nextT); i8++; nextT += SPB / 2; } }, 25);
+    },
+    pause(h) { if (!ac) return; if (h) ac.suspend(); else ac.resume(); },
+    beatPos() { if (ac && on) return (ac.currentTime - (ac.outputLatency || ac.baseLatency || 0) - t0) / SPB; return (performance.now() / 1000 - pt0) / SPB; },
+    chord() { return CH[Math.floor(Math.max(0, i8 - 1) / 16) % 4]; },
+    stroke(res, q, perfect) {
+      if (!ac) return; const t = ac.currentTime;
+      voice(t, 90 + 50 * res, .3, .2 * q, {glide: 45, wet: .05}); voice(t, 180 + 100 * res, .12, .05 * q, {type: 'triangle', wet: .05});
+      noise(t, .3, .07 * q, {f: 500 + 700 * res, sweep: 160, q: .8, wet: .2});
+      if (perfect) { const ch = api.chord(); voice(t, m2f(ch[2 + (Math.random() * 3 | 0)] + 12), 1.1, .045, {wet: .45, echo: .3}); }
+    },
+    catch(k) {   // a struck bell, pitched to the frame
+      if (!ac) return; const t = ac.currentTime, f = m2f(NOTE(k)), o = ac.createOscillator(), mo = ac.createOscillator(), mg = ac.createGain(), v = ac.createGain();
+      o.frequency.value = f; mo.frequency.value = f * 3.5; mg.gain.setValueAtTime(f * 1.6, t); mg.gain.exponentialRampToValueAtTime(1, t + 1.2); mo.connect(mg); mg.connect(o.frequency);
+      v.gain.setValueAtTime(0, t); v.gain.linearRampToValueAtTime(.09, t + .005); v.gain.exponentialRampToValueAtTime(.0001, t + 1.6);
+      o.connect(v); mix(v, 1, .45, .25); o.start(t); mo.start(t); o.stop(t + 1.7); mo.stop(t + 1.7);
+    },
+    splice(touch, burned) {
+      if (!ac) return; const t = ac.currentTime, ch = api.chord();
+      [1, 2, 3, 4].forEach((j, n) => voice(t + n * .07, m2f(ch[j] + 12), 1.2, .05, {type: 'triangle', wet: .45, echo: .3}));
+      if (touch) voice(t + .3, 1320, 1.4, .025, {glide: 2640, wet: .7});
+      if (burned) voice(t, m2f(ch[0] + 24), 1.6, .06, {wet: .5});
+    },
+    nomatch() { if (!ac) return; const t = ac.currentTime; voice(t, 104, .2, .14, {type: 'triangle', lp: 420, wet: .05}); voice(t + .08, 98, .2, .1, {type: 'triangle', lp: 420, wet: .05}); },
+    smolder(level) { if (!ac) return; noise(ac.currentTime, .04, .05 + .1 * level, {f: 2500 + Math.random() * 3000, q: 3, wet: .1}); },
+    burn() {   // the censor's bell: out of the key, then the crackle of nitrate
+      if (!ac) return; const t = ac.currentTime;
+      [1, 1.414, 2.76, 4.07, 5.4].forEach((r, n) => voice(t, 466 * r, 1.8 - n * .25, [.12, .08, .05, .03, .02][n], {wet: .4}));
+      noise(t + .05, 1.3, .12, {f: 2200, q: .6, wet: .3}); voice(t, 60, .6, .25, {glide: 35, wet: .1});
+    },
+    whoosh(open) { if (!ac) return; noise(ac.currentTime, .45, .08, {f: open ? 300 : 2400, sweep: open ? 2400 : 300, q: 1.2, wet: .3}); },
+    click() { if (!ac) return; noise(ac.currentTime, .03, .12, {f: 3000, q: 2, wet: .05}); },
+    cadence() { if (!ac) return; const t = ac.currentTime; CH[0].forEach((m, n) => voice(t + n * .12, m2f(m + 12), 3.5, .05, {type: 'triangle', wet: .7, echo: .2})); }};
+  return api;
 })();
+music.state = () => P ? {reel: P.reel, res: J ? J.res || 0 : 0, left: P.left, mode: P.state} : null;
 function filmFrame(i, fps, dur, noImage) {
   const t = i / fps; filmT = t;
   if (i > 0 && !(INS_FILM && activeInsert())) { simT += 1 / fps; step(1 / fps); }

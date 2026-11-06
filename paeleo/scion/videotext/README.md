@@ -1,8 +1,13 @@
 # VIDEOTEXT
 
-**The game** is the film itself: `index.html` opens `../contaminant.html?play=1`, the cinema cut's own renderer with you steering. Touch or drag and the film's jellyfish swims there. Swim into a frame to catch it: only one that rhymes with your last catch (shares a visible feature) will come; the dotted hairline points to the nearest. Carry it to the sun to project it; the censor's bell burns any touch there. When it cools, dive and lift the burned frames back. Your chain is the reel, and the afterimage stays on black.
+**The game** is the film itself: `index.html` opens `../contaminant.html?play=1`, the cinema cut's own renderer with you steering. A title screen teaches three verbs:
+- **Swim:** tap, swipe, click, hold, or use the arrow keys or WASD. A stroke on the music's pulse goes faster.
+- **Catch:** swim into a glowing frame and it plays inside the jellyfish. Tap the jellyfish to watch it full screen. The next frame must share something with the last.
+- **Splice:** carry the frame to the sun to add it to your reel.
 
-**Swimming.** Swipe to stroke, tap to stroke toward a point, hold to stroke on a beat. Strokes in rhythm with the bell (0.33–0.72 s apart) build resonance and power; mashing drains it. Strokes, catches and burns buzz on phones that support vibration. See [THEORY_OF_PLAY.md](THEORY_OF_PLAY.md), and the SCION instructions it follows: [interface](SCION_INTERFACE_THINKING_MACHINE.md), [ludic engine](SCION_LUDIC_ENGINE.md), [identity after Scher](SCION_IDENTITY_AFTER_SCHER.md).
+The sun's beam is the censor: a frame with a touch in it (a red dot) burns if you carry it through the light, and burned frames sink, so you dive for them. After 90 seconds your reel plays, cut on its matches. The music is a garden: your reel is its melody.
+
+See [THEORY_OF_PLAY.md](THEORY_OF_PLAY.md), and the SCION instructions it follows: [interface](SCION_INTERFACE_THINKING_MACHINE.md), [ludic engine](SCION_LUDIC_ENGINE.md), [identity after Scher](SCION_IDENTITY_AFTER_SCHER.md), [title after Bass](SCION_TITLE_AFTER_BASS.md), [garden after Eno](SCION_GARDEN_AFTER_ENO.md).
 
 **The editor (`editor.html`).** The same rules as an interface: write a cut as a sentence of shared features, a swarm finds every cut that obeys it, invariants check each one, and you sign the one the projector plays.
 
@@ -40,4 +45,11 @@ It is the first proof of [SCION — AGENT-FIRST ARCHITECT](SCION_AGENT_FIRST_ARC
 
 ## Status
 
-The game, measured in a headless landscape phone viewport (844 × 390): scripted play steering by the hairline caught and projected frames and the censor burned three; no page errors; the cool phase and reel were not reached in the test's time. Not yet played by a person. The editor, measured the same way: commissions 1, 4 and 5 completed by script; no horizontal overflow; no page errors. Commission 4's sentence (glow · hand · hand · hand · door · door · person · animal · animal · ground · body · body · up) yields 8 cuts through all fourteen shots. Not yet played by a person on a phone, and no independent critic has operated it.
+**The game (second version)** was measured by a scripted bot in headless Chromium:
+- **1280×720:** finished all 14 frames in about 49 s.
+- **844×390 touch:** finished all 14 frames in about 50 s; burns, rescues and tap-to-watch were all exercised.
+- No page errors and no horizontal overflow.
+
+No person has played this version yet.
+
+**The editor:** commissions 1, 4 and 5 were completed by script, with no page errors. No independent critic has operated it.
