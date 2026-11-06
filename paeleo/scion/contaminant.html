@@ -23,6 +23,7 @@ table{width:100%;border-collapse:collapse;font-size:.8rem;line-height:1.5}th,td{
 .prompt{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:.6rem}.prompt .ghost{background:transparent}
 pre{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.55;font-size:.84rem;font-family:ui-monospace,monospace;max-height:62dvh;overflow:auto;background:#0d1117;padding:1rem;border-radius:.5rem;border:1px solid #30363d;margin:0}
 @media(max-width:760px){.grid{grid-template-columns:1fr}main{padding:0 .75rem 2rem}}
+body.playing{background:#000;overflow:hidden;touch-action:none;overscroll-behavior:none}body.playing header,body.playing main>*:not(.sheet){display:none}body.playing main{padding:0;max-width:none;height:100dvh;display:flex;align-items:center;justify-content:center}body.playing .sheet{border:0;border-radius:0;background:#000;width:100%;max-height:100dvh;aspect-ratio:16/9}body.playing canvas{width:100%;height:100%;touch-action:none}
 </style>
 
 <header>
@@ -44,7 +45,7 @@ pre{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.55;font-size:.84re
 
 <section class="panel">
 <h2>Play: VIDEOTEXT</h2>
-<p class="note">Be the jellyfish: swim with your finger, catch the frames that rhyme, keep touches out of the censor’s light, dive for the burned ones when it cools, and watch your reel. Made for a phone, no menus. <a href="videotext/" style="color:#a1bedf">Swim it</a> · <a href="videotext/editor.html" style="color:#a1bedf">the editor</a> · <a href="videotext/SCION_AGENT_FIRST_ARCHITECT.md" style="color:#a1bedf">the SCION instruction it proves</a>.</p>
+<p class="note">Be the jellyfish: swim with your finger, catch the frames that rhyme, keep touches out of the censor’s light, dive for the burned ones when it cools, and watch your reel. Made for a phone, no menus. <a href="contaminant.html?play=1" style="color:#a1bedf">Swim it</a> · <a href="videotext/editor.html" style="color:#a1bedf">the editor</a> · <a href="videotext/SCION_AGENT_FIRST_ARCHITECT.md" style="color:#a1bedf">the SCION instruction it proves</a>.</p>
 </section>
 
 <section class="panel">
@@ -184,7 +185,10 @@ const SEED = +(new URLSearchParams(location.search).get('seed')) || 8;
 // cooling, no cut-aways: the jellyfish gathers fragments, and each one it lifts plays full screen for 3 s. Every frame
 // records what it shows (frameMeta), so the edit-decision lists can be built from the take graph.
 const RUSHES = new URLSearchParams(location.search).has('rushes'), RUSH_LEN = 72;
-const CINEMA = RUSHES || new URLSearchParams(location.search).has('cinema');
+// ?play=1: the cinema cut made playable. Your touch steers the jellyfish; you catch what rhymes, carry it to the sun to
+// project it, keep or lose it to the censor, dive for it when it cools, and your chain is the reel.
+const PLAY = new URLSearchParams(location.search).has('play');
+const CINEMA = RUSHES || PLAY || new URLSearchParams(location.search).has('cinema');
 const MOOD = CINEMA || new URLSearchParams(location.search).has('mood');
 // a source is a still, or a moving sequence of frames [dir, count] played at 12 fps
 const SRC = ['52-gilliam-ephemera/sources/light-bulb_f012.jpg', '52-gilliam-ephemera/sources/hat_f010.jpg', 'kit/archive-door/frames/f031.jpg',
@@ -230,7 +234,7 @@ function picAt(k, t) {
   const n = fr.length, i = Math.floor(Math.max(0, t) * 12 + k * 5) % (2 * n - 2);
   return fr[i < n ? i : 2 * n - 2 - i];
 }
-const RENDER = new URLSearchParams(location.search).has('render'), FW = 1280, FH = 720, SWITCH = 12;
+const RENDER = new URLSearchParams(location.search).has('render') || PLAY, FW = 1280, FH = 720, SWITCH = 12;
 // the reel's window; the cinema cut starts it as soon as the last cut is rescued
 let REEL0 = 26.5, REEL1 = 38.2, reelCued = false;
 const $ = id => document.getElementById(id);
@@ -280,7 +284,7 @@ let running = true, contamOn = false, speedK = 1, visible = true, last = perform
 // (low definition, gaps the viewer completes, cuts rescued, speculations touching). reel: the Paradiso reel of returned cuts.
 let heat = 1, heatTarget = 1, auto = true, reel = null, reelIdx = -1, focusId = null, focusSlot = 0, filmT = -1;
 // cinema state: the camera, the inserts cued by events, how much heat the reel has given back, the coda's afterimage
-let coolAt = 1e9, frameMeta = null, cam = null, inserts = [], bellN = 0, reelGlow = 0, afterimg = null, lastRescue = null, travel = 0, ended = false;
+let playChain = [], playTarget = null, coolAt = 1e9, frameMeta = null, cam = null, inserts = [], bellN = 0, reelGlow = 0, afterimg = null, lastRescue = null, travel = 0, ended = false;
 
 // seeded PRNG (mulberry32) so every reload of the same seed plays the same run
 function rand() {
@@ -353,6 +357,7 @@ function grab(f) {
   let bi = 0, bd = 1e9;
   J.tips.forEach((p, i) => { const d = Math.hypot(p[0] - f.x, p[1] - f.y); if (d < bd) { bd = d; bi = i; } });
   f.held = true; f.tip = bi; f.anchor = null; J.carry.push(f);
+  if (PLAY && !f.cut && !playChain.includes(f)) playChain.push(f);
   if (RHYME && f.imgs && f.imgs.length === 1) J.lastPos = chainPos(f.imgs[0]);
   if (f.cut && CINEMA) J.lift = 1.5;
   if (f.cut) {
@@ -411,7 +416,7 @@ function contaminate(a, b, k) {
 
 function step(dt) {
   const lastCut = (evts.filter(e => e.type === 'cut').pop() || {t: 1e9}).t;
-  if (!RUSHES && auto && heatTarget === 1 && (CINEMA ? (stats.cuts >= 4 && simT - lastCut > 1.4) || simT >= 26 : simT >= SWITCH)) setHeat(0, 'the projector cools: the jelly may rescue the cuts, and speculations may touch');
+  if (!RUSHES && auto && heatTarget === 1 && (CINEMA ? (stats.cuts >= 4 && simT - lastCut > 1.4) || simT >= (PLAY ? 50 : 26) : simT >= SWITCH)) setHeat(0, 'the projector cools: the jelly may rescue the cuts, and speculations may touch');
   heat += (heatTarget - heat) * Math.min(1, dt * 1.2);
   for (const f of frags) if (f.bellT != null && simT >= f.bellT && f.stage === 1 && !f.held) cutFrag(f);
   for (const f of frags) {
@@ -451,7 +456,8 @@ function step(dt) {
   }
   J.tgt = null;
   const full = J.carry.length >= (CINEMA ? 1 : CARRY_MAX) || (J.carry.length > 0 && free.length === 0);
-  if (!full && free.length) {
+  if (PLAY) playSteer();
+  else if (!full && free.length) {
     let best = pick[0], bd = 1e9;
     J.tgt = RHYME ? pick[0] : null;
     for (const f of pick) { const d = Math.hypot(f.x - J.x, f.y - J.y); if (d < bd) { bd = d; best = f; } }
@@ -477,7 +483,8 @@ function step(dt) {
   J.tilt += (aim - J.tilt) * Math.min(1, dt * 4);
   const fl = flinchAt(simT), push = J.antic > 0 ? 0 : (.35 + 1.8 * stroke(simT)) * (1 - fl) * (CINEMA ? (simT > coolAt ? 2.6 : 1.8) : 1);  // cool: it dives with purpose
   // the cinema cut's reel waits for the last rescue to rise and open, then begins
-  if (RENDER && CINEMA && !reelCued && stats.cuts && stats.rescued === stats.cuts && simT > coolAt) { reelCued = true; REEL0 = simT + 1.2; REEL1 = REEL0 + 7.2; }
+  if (PLAY && !reelCued && simT > coolAt + 2 && (stats.rescued === stats.cuts || simT > coolAt + 16)) { reelCued = true; REEL0 = simT + 1.2; REEL1 = REEL0 + Math.max(5, Math.min(9, playChain.length * .9)); }
+  if (!PLAY && RENDER && CINEMA && !reelCued && stats.cuts && stats.rescued === stats.cuts && simT > coolAt) { reelCued = true; REEL0 = simT + 1.2; REEL1 = REEL0 + 7.2; }
   J.x += dx * Math.min(1, dt * 1.1 * push) - fl * dt * 110; J.y -= fl * dt * 60; J.y += dy * Math.min(1, dt * 1.1 * push);
   const near = free.length ? pick.reduce((m, f) => Math.hypot(f.x - J.x, f.y - J.y) < Math.hypot(m.x - J.x, m.y - J.y) ? f : m) : null;
   const reaching = !full && near && Math.hypot(near.x - J.x, near.y - J.y) < 230;
@@ -892,6 +899,10 @@ function draw() {
     ctx.restore();
   }
   for (const f of frags) if (f.gearT >= 0) drawEmber(f, 1 - Math.min(1, f.gearT / 1.4));
+  if (PLAY && J.carry.length && heat > .5 && !J.carry[0].wasCut) {
+    const R = RINGS[0]; ctx.save(); ctx.strokeStyle = 'rgba(255,230,180,.85)'; ctx.lineWidth = 1.6; ctx.setLineDash([3, 4]);
+    ctx.beginPath(); ctx.moveTo(J.x, J.by + 20); ctx.lineTo(R.x, R.y); ctx.stroke(); ctx.restore();
+  }
   if (RHYME && J.tgt && !J.tgt.held && J.tgt.gearT < 0) {
     const g = J.tgt, r = 9 + 3 * Math.sin(simT * 5);
     ctx.save(); ctx.strokeStyle = 'rgba(255,230,180,.85)'; ctx.lineWidth = 1.6; ctx.setLineDash([3, 4]);
@@ -926,7 +937,7 @@ function hud() {
 function reset() {
   seed = SEED; nextId = 1; frags = []; seams = []; ledger = []; evts = []; simT = 0; gearBoost = 0; lastEvent = -9; dirty = true;
   stats = {contam: 0, returns: 0, cuts: 0, rescued: 0, trans: 0, checks: 0, v1: 0, v2: 0, v3: 0, v4: 0, v5: 0, oob: [], focusFrames: 0, ovMax: 0, ovFrames: 0};
-  coolAt = 1e9; REEL0 = RENDER && CINEMA ? 90 : 26.5; REEL1 = REEL0 + 11.7; reelCued = false;
+  playChain = []; playTarget = null; coolAt = 1e9; REEL0 = RENDER && CINEMA ? 90 : 26.5; REEL1 = REEL0 + 11.7; reelCued = false;
   cam = null; inserts = []; bellN = 0; reelGlow = 0; afterimg = null; lastRescue = null; travel = 0; ended = false;
   if (RUSHES) { auto = false; contamOn = false; }
   JHIST = []; ghost = {cur: null, prev: null, t: -9}; focusId = null; focusSlot = 0; heat = 1; heatTarget = 1; auto = true; contamOn = false; reel = null; reelIdx = -1; syncBtn();
@@ -1014,6 +1025,7 @@ function filmOverlay(t, dur) {
     ['13px "Helvetica Neue", Arial, sans-serif', '#cdb48a', 'SCION · contaminant jelly']], 270, 170);
 }
 function buildReel() {
+    if (PLAY) return playChain.slice(-10);   // in play the reel is your chain, burned frames rescued or not
     return frags.filter(f => f.wasCut).sort((a, b) => RHYME ? chainPos(a.imgs[0]) - chainPos(b.imgs[0]) : a.cutAt - b.cutAt).slice(0, 6);
 }
 // the Paradiso reel: the cuts come back as a spliced strip, each held a beat, with the splice flashing between them
@@ -1074,7 +1086,7 @@ const GRAIN = (() => {
 const clamp01 = v => Math.max(0, Math.min(1, v));
 function scanEvents() {
   for (const e of evts) {
-    if (e.ft == null && e.t <= simT) e.ft = filmT;   // when it is seen: the film's clock, for the score
+    if (e.ft == null && e.t <= simT) { e.ft = filmT; if (PLAY) sfx.on(e); }   // when it is seen: the film's clock, for the score
     if (e.cued) continue; e.cued = true;
     const f = e.src ? frags.find(g => g.src === e.src) : null; if (!f) continue;
     // the censor's cuts always cut in; a rescue or a seam cuts in only after two seconds of the world, so the film breathes
@@ -1135,7 +1147,7 @@ function worldShot(dt, closeup) {
   if (ff && !closeup) { tx = tx * .5 + ff.x * .5; ty = ty * .5 + ff.y * .5; tz = 1.85; }
   if (filmT < 5) { const k = clamp01(filmT / 5), e = k * k * (3 - 2 * k); tz = 3.4 - 1.9 * e; tx = J.x; ty = J.by - 10 + 40 * e; }
   if (filmT > REEL1 + .3) { const k = clamp01((filmT - REEL1 - .3) / 4); tz = 1.5 - .38 * k; tx += (W / 2 - tx) * k; ty += (H / 2 - ty) * k; }
-  if ((J.dive || J.lift > 0) && J.diveAt && !closeup && simT > coolAt) { tx = J.diveAt.x; ty = J.diveAt.y - 70; tz = 2.3; }  // hold still on the floor: let it sink, take hold, and rise
+  if (!PLAY && (J.dive || J.lift > 0) && J.diveAt && !closeup && simT > coolAt) { tx = J.diveAt.x; ty = J.diveAt.y - 70; tz = 2.3; }  // hold still on the floor: let it sink, take hold, and rise
   if (closeup) { tz = 3.3 + .5 * (closeup === true ? 0 : closeup); tx = J.x + 12 * (closeup === true ? 0 : closeup); ty = J.by - 24; }
   if (!cam || closeup || filmT < 5) cam = {x: tx, y: ty, z: tz};
   else { const k = Math.min(1, dt * 1.6); cam.x += (tx - cam.x) * k; cam.y += (ty - cam.y) * k; cam.z += (tz - cam.z) * Math.min(1, dt * 1.2); }
@@ -1193,12 +1205,93 @@ function cinemaFrame(t, dur) {
     ctx.restore();
   }
 }
+// ---------------------------------------------------------------- play
+// You steer; everything else is the film's own machinery. Swim into a frame to catch it: only one that rhymes with your
+// last catch (shares a visible feature) will come; others nudge you away. Carry it to the sun to project it; the censor
+// burns any touch there. When it cools, dive and lift the burned frames back. Your chain is the reel.
+function rhymesWithLast(f) {
+  if (!playChain.length || !f.imgs || f.imgs.length !== 1) return true;
+  const last = playChain[playChain.length - 1].imgs[0], k = f.imgs[0];
+  return Object.keys(JOINT[last]).some(t => t !== 'touch' && JOINT[k][t]);
+}
+function playSteer() {
+  if (playTarget) { J.tx = playTarget.x; J.ty = playTarget.y; }
+  J.dive = false;
+  const free = frags.filter(f => f.stage === 0 && !f.held && f.gearT < 0 && (f.cut ? heat < .5 : heat > .5));
+  const anyRhyme = free.some(f => !f.cut && rhymesWithLast(f));
+  // the hairline: to the nearest frame you may catch, or, carrying, to the sun
+  J.tgt = null; let nd = 1e9;
+  if (!J.carry.length) for (const f of free) if (f.cut || !anyRhyme || rhymesWithLast(f)) { const d = Math.hypot(f.x - J.x, f.y - J.y); if (d < nd) { nd = d; J.tgt = f; } }
+  if (!J.carry.length && !(J.lift > 0)) for (const f of free) {
+    if (Math.hypot(f.x - J.x, f.y - (J.by + 70)) > 85) continue;
+    if (f.cut || !anyRhyme || rhymesWithLast(f)) { grab(f); break; }
+    if (!f.nudged || simT - f.nudged > .8) { f.nudged = simT; const dx = J.x - f.x, dy = J.y - f.y, d = Math.hypot(dx, dy) || 1; J.x += dx / d * 26; J.y += dy / d * 26; sfx.thud(); }
+  }
+  if (J.carry.length && !J.carry[0].cut && heat > .5) { const R = RINGS[0]; if (Math.hypot(J.x - R.x, J.y - R.y) < R.r + 40) release(); }
+  if (J.carry.length && (J.carry[0].wasCut || heat < .5) && !(J.lift > 0)) { const f = J.carry[0]; f.held = false; f.tip = -1; J.carry = []; f.stage = 0; f.anchor = {x: f.x, y: Math.min(520, f.y)}; }   // a rescued frame, once lifted, is yours
+}
+function startPlay() {
+  document.body.classList.add('playing');
+  let i = 0, started = false, raf = 0;
+  const toWorld = e => {
+    const r = cv.getBoundingClientRect(), fx = (e.clientX - r.left) / r.width * FW, fy = (e.clientY - r.top) / r.height * FH;
+    if (!cam) return {x: fx * W / FW, y: fy * H / FH};
+    return {x: cam.x + (fx - FW / 2) / cam.z, y: cam.y + (fy - FH / 2) / cam.z};
+  };
+  let down = false;
+  cv.addEventListener('pointerdown', e => { e.preventDefault(); sfx.wake(); down = true;
+    if (!started || ended) { reset(); i = 0; started = true; ended = false; sfx.bed('hot'); return; }
+    playTarget = toWorld(e); });
+  cv.addEventListener('pointermove', e => { if (down && started) playTarget = toWorld(e); });
+  addEventListener('pointerup', () => { down = false; });
+  const card = (lines) => {
+    ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.save();
+    const g = ctx.createRadialGradient(FW / 2, FH * .42, 0, FW / 2, FH * .42, FW * .4); g.addColorStop(0, 'rgba(5,4,3,.9)'); g.addColorStop(1, 'rgba(5,4,3,0)');
+    ctx.fillStyle = g; ctx.fillRect(0, 0, FW, FH); ctx.textAlign = 'center';
+    lines.forEach(([font, color, text, y]) => { ctx.font = font; ctx.fillStyle = color; ctx.fillText(text, FW / 2, y); });
+    ctx.restore();
+  };
+  const loop = () => {
+    raf = requestAnimationFrame(loop);
+    if (!started) { if (i === 0) { filmFrame(0, 60, 999, true); i = 1; }
+      card([['italic 64px Georgia, serif', '#f2d3a0', 'Contaminant Jelly', FH * .4], ['22px system-ui, sans-serif', '#cdb48a', 'touch to swim', FH * .4 + 52], ['17px system-ui, sans-serif', 'rgba(205,180,138,.75)', 'catch what rhymes · carry it to the sun · dive for what burns', FH * .4 + 88]]); return; }
+    if (ended) return;
+    const r = filmFrame(i++, 60, 999, true);
+    if (r === 'END') { ended = true; card([['italic 54px Georgia, serif', '#f2d3a0', `${playChain.length} in your reel`, FH * .42], ['20px system-ui, sans-serif', '#cdb48a', 'touch to swim again', FH * .42 + 50]]); }
+  };
+  loop();
+  window.__play = () => {   // for scripted play-tests: where the hairline points, on the film's screen
+    if (!started) return {ended: false};
+    const g = J.carry.length && heat > .5 && !J.carry[0].wasCut ? RINGS[0] : J.tgt;
+    if (!g || !cam) return {ended, tx: null};
+    return {ended, tx: FW / 2 + (g.x - cam.x) * cam.z, ty: FH / 2 + (g.y - cam.y) * cam.z};
+  };
+}
+const sfx = (() => {
+  let ac = null, bed = null; const m2f = m => 440 * 2 ** ((m - 69) / 12);
+  const wake = () => { if (!ac) { const A = window.AudioContext || window.webkitAudioContext; if (A) ac = new A(); } if (ac && ac.state === 'suspended') ac.resume(); };
+  const tone = (f, d, g = .1, type = 'sine', at = 0) => { if (!ac) return; const o = ac.createOscillator(), v = ac.createGain(), t = ac.currentTime + at; o.type = type; o.frequency.value = f; v.gain.setValueAtTime(0, t); v.gain.linearRampToValueAtTime(g, t + .01); v.gain.exponentialRampToValueAtTime(.0001, t + d); o.connect(v).connect(ac.destination); o.start(t); o.stop(t + d + .05); };
+  const crackle = (n, at) => { if (!ac) return; for (let k = 0; k < n; k++) { const b = ac.createBuffer(1, 400, ac.sampleRate), x = b.getChannelData(0); for (let i = 0; i < x.length; i++) x[i] = (Math.random() * 2 - 1) * Math.exp(-i / 60); const s = ac.createBufferSource(), v = ac.createGain(); v.gain.value = .12; s.buffer = b; s.connect(v).connect(ac.destination); s.start(ac.currentTime + at + Math.random() * 1.1); } };
+  const SC = [69, 72, 76, 79, 81, 84, 88, 91, 93, 96];
+  const setBed = kind => { if (!ac) return; if (bed) { try { bed.stop(); } catch (e) {} } const o = ac.createOscillator(), v = ac.createGain(); o.frequency.value = kind === 'hot' ? 55 : 82.4; v.gain.value = .035; o.connect(v).connect(ac.destination); o.start(); bed = o; };
+  return {wake, bed: setBed, thud: () => tone(70, .25, .2),
+    on: e => {
+      if (e.type === 'lift') { const m = SC[(playChain.length + 9) % SC.length]; tone(m2f(m), 1.3, .09); tone(m2f(m) * 3.5, .2, .02); }
+      else if (e.type === 'hand') { tone(660, .12, .12); tone(660, .12, .1, 'sine', .07); }
+      else if (e.type === 'bell') [[.5, .06, 1.6], [1, .1, 1.1], [1.2, .06, .8], [1.5, .035, .6], [2, .05, .45]].forEach(([r, g, d]) => tone(523.25 * r, d, g));
+      else if (e.type === 'burncue') crackle(24, .65);
+      else if (e.type === 'cut') tone(60, .5, .25);
+      else if (e.type === 'rescue') [57, 60, 64, 69, 72, 76].forEach((m, k) => tone(m2f(m), 1.6, .07, 'triangle', k * .07));
+      else if (e.type === 'switch') { setBed('cool'); tone(523.25, 1.6, .1); tone(783.99, 1.6, .1, 'sine', .18); }
+      else if (e.type === 'projector') { if (bed) { try { bed.stop(); } catch (x) {} bed = null; } [76, 79, 76, 74, 72, 74, 76, 72, 74, 76, 79, 81, 79, 76, 74, 72].forEach((m, k) => { tone(m2f(m), .9, .07, 'sine', k * .5); if (k % 4 === 0) tone(m2f(m - 24), 2, .05, 'triangle', k * .5); }); }
+      else if (e.type === 'splice') tone(2000, .03, .08); }};
+})();
 function filmFrame(i, fps, dur, noImage) {
   const t = i / fps; filmT = t;
   if (i > 0 && !(INS_FILM && activeInsert())) { simT += 1 / fps; step(1 / fps); }
   if (CINEMA) {
     // an ellipsis: when the jellyfish is only travelling, cut ahead to the next thing that happens (up to 2.5 s)
-    if (!RUSHES && simT > coolAt + 1 && simT < REEL0 - 1) {
+    if (!RUSHES && !PLAY && simT > coolAt + 1 && simT < REEL0 - 1) {
       travel = activeInsert() || J.dive || J.reach.w > .3 ? 0 : travel + 1 / fps;
       if (travel > 1.1) {
         const n0 = evts.length;
@@ -1225,7 +1318,7 @@ function filmFrame(i, fps, dur, noImage) {
 window.SCION_CONTAMINANT = {stats: () => ({...stats, population: frags.length, simT, contamOn, heat, carry: J.carry.length}),
   frame: filmFrame, meta: () => frameMeta, events: () => evts, ledger: () => ledger.slice().reverse()};
 Promise.all([document.fonts ? document.fonts.ready : Promise.resolve(), picsReady]).then(() => {
-  if (RENDER) { cv.width = FW; cv.height = FH; reset(); return; }
+  if (RENDER) { cv.width = FW; cv.height = FH; reset(); if (PLAY) startPlay(); return; }
   reset(); requestAnimationFrame(tick);
 });
 })();
