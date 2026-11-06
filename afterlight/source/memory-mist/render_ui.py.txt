@@ -1,0 +1,206 @@
+"""Memory mist v2: flicker-free point volume, cut to music, seen through an in-world recall instrument.
+Usage: render_ui.py FRAMES_DIR T0 OUT_SILENT.mp4 [--stills t,t,...]
+Fixes the 12 Hz pop of v1: time is sampled continuously (fixed depth slices, frames cross-faded), per-point noise travels
+with its source frame, exposure is fixed per shot, and note pulses ease in and out."""
+import sys,json,glob,os,subprocess
+import numpy as np,cv2
+from PIL import Image,ImageDraw,ImageFont
+from multiprocessing import Pool
+HERE=os.path.dirname(os.path.abspath(__file__))
+FR=sorted(glob.glob(sys.argv[1]+'/*.jpg')); T0=float(sys.argv[2]); OUT=sys.argv[3]
+stills=[float(x) for x in sys.argv[sys.argv.index('--stills')+1].split(',')] if '--stills' in sys.argv else []
+ED=json.load(open(HERE+'/edl.json')); EDL=ED['edl']; DUR=ED['duration']
+SEG={g['id']:g for g in json.load(open(HERE+'/segments.json'))['segments']}
+MU=json.load(open(HERE+'/music.json')); ON=np.array(MU['onsets']); BT=np.array(MU['bass'])
+SRC=12; FPS=24; W,H=960,540; OW,OH=1280,720; sh,sw=132,320
+GR={}
+for S_ in (1,2):
+    gy,gx=np.mgrid[0:sh:S_,0:sw:S_]; GR[S_]=((gx/sw*2-1)*(sw/sh),-(gy/sh*2-1))
+cache={}; NC={}
+def load(i):
+    i=max(0,min(len(FR)-1,i))
+    if i not in cache:
+        if len(cache)>140: cache.pop(next(iter(cache)))
+        cache[i]=cv2.cvtColor(cv2.imread(FR[i])[24:156],cv2.COLOR_BGR2RGB).astype(np.float32)/255
+    return cache[i]
+def noise(kind,a,S_):
+    k=(kind,a,S_)
+    if k not in NC:
+        if len(NC)>700: NC.pop(next(iter(NC)))
+        ny,nx=GR[S_][0].shape; r=np.random.default_rng(a*4+S_*2+(kind=='j'))
+        NC[k]=r.random((ny,nx)).astype(np.float32) if kind=='m' else r.normal(0,1,(ny,nx,2)).astype(np.float32)
+    return NC[k]
+def entry(T):
+    for i,e in enumerate(EDL):
+        if e['t0']<=T<e['t1']: return i,e
+    return (len(EDL)-1,EDL[-1]) if T>=EDL[-1]['t1'] else (0,EDL[0])
+def src_time(T):
+    _,e=entry(T); u=min(1,max(0,(T-e['t0'])/(e['t1']-e['t0']))); return e['src0']+u*(e['src1']-e['src0'])
+def pulse(T):
+    d=T-ON[:,0]; m=(d>=0)&(d<2.0)
+    return float((ON[m,1]*(1-np.exp(-d[m]/0.04))*np.exp(-d[m]/0.45)).sum()) if m.any() else 0.0
+def bass(T): return float(np.interp(T,BT[:,0],BT[:,1]))
+def smooth(a,b,u): u=u*u*(3-2*u); return a+(b-a)*u
+EXP={}
+
+def core(T,probe=False):
+    ei,e=entry(T); g=SEG[e['seg']]; u=(T-e['t0'])/(e['t1']-e['t0']); hero=g.get('hero',False)
+    pu=0.0 if probe else min(1.3,pulse(T)); bs=bass(T)
+    mist=g['mist']*(1-0.22*min(1,pu)); N=34 if hero else 24; dz=0.035 if hero else 0.045
+    yaw=np.radians(smooth(-8,9,u) if not hero else smooth(-22,18,u)); pitch=np.radians(smooth(3,-2,u))
+    D=2.4-0.35*u-0.06*pu; foc=1.18*H
+    acc=[np.zeros((H*W,3),np.float32) for _ in range(3)]
+    cy,sy=np.cos(yaw),np.sin(yaw); cp,sp=np.cos(pitch),np.sin(pitch)
+    for j in range(N):
+        age=float(j); tj=src_time(max(0.0,T-j/SRC)); fi=(tj-T0)*SRC; a=int(np.floor(fi)); wg=fi-a
+        S_=1 if j<3 else 2; PX,PY=GR[S_]; ny,nx=PX.shape
+        A,B=load(a),load(a+1); cur=((1-wg)*A+wg*B)[::S_,::S_]
+        mv=cv2.GaussianBlur(np.abs(A-load(a-1)).mean(2),(0,0),2.0); mot=np.clip((mv-0.02)*8,0,1)[::S_,::S_]
+        nm=(1-wg)*noise('m',a,S_)+wg*noise('m',a+1,S_); jr=(1-wg)*noise('j',a,S_)+wg*noise('j',a+1,S_)
+        lum=cur@np.array([.3,.59,.11],np.float32)
+        w=(0.05+lum**0.6)*(1+1.6*mot)*(np.exp(-age/1.3)+0.11*(1-age/(N+1))**2)*(1.0 if S_==1 else 4.0)*(1+0.25*pu)
+        w*=0.80+0.20*nm
+        r=np.hypot(PX/(sw/sh),PY); w*=np.clip(1.15-r*(0.35+mist*(0.5+age/N)),0.02,1)
+        z=-age*dz; zz=z-0.10*mot*age/N
+        X=PX*cy+(zz+0.5)*sy; Zr=-PX*sy+(zz+0.5)*cy-0.5; Y=PY*cp-Zr*sp; Z2=PY*sp+Zr*cp
+        amp=0.0022+0.0045*(age**0.8)*(0.4+mist*2); X=X+jr[...,0]*amp; Y=Y+jr[...,1]*amp
+        dep=D-Z2; ok=dep>0.3; xs=(X/dep*foc+W/2).astype(np.int32); ys=(-Y/dep*foc+H/2).astype(np.int32)
+        ok&=(xs>=0)&(xs<W)&(ys>=0)&(ys<H); k=min(2,int(age/N*3.2)); idx=(ys*W+xs)[ok]
+        col=cur.copy(); gm=col.mean(2,keepdims=True); col=np.clip(gm+(col-gm)*1.25,0,1)
+        far=min(1,age/N); col=col*(1-far*mist*0.6)+np.array([1,.93,.82],np.float32)*far*mist*0.35
+        for c in range(3): acc[k][:,c]+=np.bincount(idx,weights=(w*col[...,c])[ok],minlength=H*W).astype(np.float32)
+    sig=[1.6,2.5,4.2]; gain=[3.2,3.6,3.2]; out=np.zeros((H,W,3),np.float32)
+    for k in range(3): out+=cv2.GaussianBlur(acc[k].reshape(H,W,3),(0,0),sig[k])*gain[k]
+    if probe: return float(out.mean())
+    gx_=EXP[ei]; out=1-np.exp(-out*gx_)
+    hz=g.get('haze',1.0)*(0.5+0.5*bs)
+    bloom=cv2.GaussianBlur(out,(0,0),18); haze=cv2.GaussianBlur(out.mean(2),(0,0),40)[...,None]
+    out=out+bloom*(0.35+mist*0.35)*hz+haze*np.array([1,.94,.84],np.float32)*(0.25+0.4*mist)*hz
+    return np.clip(out,0,1)**0.9,dict(e=e,g=g,u=u,pu=pu,bs=bs,yaw=yaw)
+
+# ---------- in-world instrument ----------
+def font(sz,bold=False):
+    for p in ('/usr/share/fonts/truetype/dejavu/DejaVuSansMono-Bold.ttf' if bold else '/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf',):
+        try: return ImageFont.truetype(p,sz)
+        except Exception: pass
+    return ImageFont.load_default()
+F12,F13,F34=font(12),font(13),font(34,True)
+TEAL=(96,224,214); AMB=(255,186,72); RED=(240,74,62)
+ROLE={'place':(96,214,206),'chase':(214,224,92),'threat':RED,'feeling':(246,160,62),'horse':AMB,'others':(112,172,232),'cut':(170,170,170)}
+def rrect(img,x0,y0,x1,y1,r,col,th):
+    L=cv2.LINE_AA
+    for p,q in (((x0+r,y0),(x1-r,y0)),((x0+r,y1),(x1-r,y1)),((x0,y0+r),(x0,y1-r)),((x1,y0+r),(x1,y1-r))): cv2.line(img,p,q,col,th,L)
+    for c,a in (((x0+r,y0+r),180),((x1-r,y0+r),270),((x1-r,y1-r),0),((x0+r,y1-r),90)): cv2.ellipse(img,c,(r,r),0,a,a+90,col,th,L)
+_st={}
+def statics():
+    if _st: return _st
+    s=np.zeros((OH,OW,3),np.uint8)
+    rrect(s,34,34,OW-34,OH-34,40,(70,200,196),3); rrect(s,40,40,OW-40,OH-40,36,(40,120,120),1)
+    for side in (0,1):
+        for i in range(25):
+            y=130+int(i*460/24); ln=58 if i%4==0 else (40 if i%2==0 else 24)
+            x0=70 if side==0 else OW-70-ln
+            cv2.line(s,(x0 if side==0 else x0,y),((x0+ln) if side==0 else x0+ln,y),(78,196,190),2 if i%4==0 else 1,cv2.LINE_AA)
+    # bottom/top inner dotted guides
+    for x in range(420,860,10): cv2.line(s,(x,596),(x,596),(60,150,150),1)
+    rn=np.random.default_rng(3); dirt=np.zeros((OH,OW),np.float32)
+    for _ in range(140):
+        x,y=int(rn.integers(0,OW)),int(rn.integers(0,OH)); a=rn.uniform(0,np.pi); l=rn.uniform(10,70)
+        cv2.line(dirt,(x,y),(int(x+np.cos(a)*l),int(y+np.sin(a)*l)),float(rn.uniform(0.05,0.16)),1,cv2.LINE_AA)
+    blot=cv2.GaussianBlur(rn.random((OH//8,OW//8)).astype(np.float32),(0,0),3); blot=cv2.resize(blot,(OW,OH)); dirt+=np.clip(blot-0.55,0,1)*0.25
+    # glass edge band (thicker, lighter at the bottom like the reference glass)
+    band=np.zeros((OH,OW),np.float32); band[OH-70:OH-34,:]=np.linspace(0,0.22,36)[:,None]; band[34:60,:]=np.linspace(0.14,0,26)[:,None]
+    im=Image.fromarray(s); d=ImageDraw.Draw(im)
+    d.text((70,100),'MIST',font=F12,fill=(96,214,206)); d.text((OW-110,100),'TIME',font=F12,fill=(96,214,206))
+    d.text((120,590),'LUMA',font=F12,fill=(96,214,206)); d.text((250,590),'FIRE',font=F12,fill=(96,214,206))
+    d.text((OW-390,590),'MOTION',font=F12,fill=(96,214,206)); d.text((OW-250,590),'RECALL',font=F12,fill=(96,214,206))
+    d.text((470,660),'PLUCKS',font=F12,fill=(70,160,156))
+    ins=np.zeros((OH,OW),np.uint8); rrect(ins,34,34,OW-34,OH-34,40,255,3); ins=cv2.floodFill(ins.copy(),None,(OW//2,OH//2),255)[1].astype(np.float32)/255; ins=0.30+0.70*cv2.GaussianBlur(ins,(0,0),3)
+    _st.update(ui=np.asarray(im),dirt=dirt,band=band,inside=ins,
+      vig=(1-0.38*(((np.mgrid[0:OH,0:OW][1]-OW/2)/(OW/2))**2+((np.mgrid[0:OH,0:OW][0]-OH/2)/(OH/2))**2)*0.5).astype(np.float32)); return _st
+def fmt(t): return f"{int(t)//60}:{t%60:04.1f}"
+def instrument(T,c,lumaL,fireL,motL,lm):
+    ST=statics(); e,g,pu=c['e'],c['g'],c['pu']
+    dyn=np.zeros((OH,OW,3),np.uint8); col=ROLE.get(g.get('role','place'),TEAL)
+    cv2.rectangle(dyn,(84,54),(210,82),col,-1)
+    # mist marker (left) and time marker (right)
+    ym=130+int(g['mist']*460); cv2.fillConvexPoly(dyn,np.array([[128,ym],[142,ym-7],[142,ym+7]]),col,cv2.LINE_AA); cv2.line(dyn,(70,ym),(128,ym),col,2,cv2.LINE_AA)
+    yt=130+int(min(1,T/DUR)*460); cv2.fillConvexPoly(dyn,np.array([[OW-128,yt],[OW-142,yt-7],[OW-142,yt+7]]),TEAL,cv2.LINE_AA); cv2.line(dyn,(OW-128,yt),(OW-70,yt),TEAL,2,cv2.LINE_AA)
+    # value bars
+    for x,v,cc in ((120,lumaL,TEAL),(250,fireL*4,AMB),(OW-390,motL,TEAL),(OW-250,1-g['mist'],col)):
+        cv2.rectangle(dyn,(x,654),(x+90,664),(40,90,90),1); cv2.rectangle(dyn,(x,654),(x+int(90*min(1,max(0,v))),664),cc,-1)
+    # pluck ribbon
+    d=T-ON[:,0]; m=(d>=0)&(d<3.2)
+    for dd,s in zip(d[m],ON[m,1]):
+        x=840-int(dd/3.2*400); h=int(8+34*s); a=1-dd/3.2; cv2.line(dyn,(x,650),(x,650-h),tuple(int(v*a) for v in AMB) if dd>0.15 else (255,235,170),2,cv2.LINE_AA)
+    cv2.line(dyn,(440,652),(840,652),(60,150,150),1,cv2.LINE_AA)
+    # unresolved-object reticle on the horse beats
+    if e['seg'] in ('M07',):
+        x0,x1,y0,y1=[v for v in (0.06+c['yaw']*0.05,0.34+c['yaw']*0.05,0.26,0.66)]; x0,x1,y0,y1=int(x0*OW),int(x1*OW),int(y0*OH),int(y1*OH)
+        b=int(4*np.sin(T*3.0)); x0-=b;y0-=b;x1+=b;y1+=b; L=26
+        for (cx,cy,dx,dy) in ((x0,y0,1,1),(x1,y0,-1,1),(x0,y1,1,-1),(x1,y1,-1,-1)):
+            cv2.line(dyn,(cx,cy),(cx+dx*L,cy),AMB,2,cv2.LINE_AA); cv2.line(dyn,(cx,cy),(cx,cy+dy*L),AMB,2,cv2.LINE_AA)
+        sy_=y0+int(((T*0.8)%1)*(y1-y0)); cv2.line(dyn,(x0+6,sy_),(x1-6,sy_),(150,100,40),1,cv2.LINE_AA)
+    # rising lines: each pluck sends light up
+    ln=np.zeros((OH,OW,3),np.uint8)
+    if lm is not None:
+        rn=np.random.default_rng(11); xs=np.sort(rn.integers(110,OW-110,260)); rl=rn.uniform(0.35,1,260)
+        for x,r_ in zip(xs,rl):
+            colL=lm[:,x]; y0=int(np.argmax(colL)); v=float(colL[y0])
+            if v<0.25: continue
+            h=int(OH*0.62*v*(0.20+0.80*min(1,pu))*r_); 
+            if h>6: cv2.line(ln,(int(x),y0),(int(x),max(60,y0-h)),(int(255*v),int(176*v),int(56*v)),1,cv2.LINE_AA)
+    im=Image.fromarray(dyn); dd=ImageDraw.Draw(im)
+    dd.text((92,59),g.get('id',e['seg']),font=F13,fill=(8,14,14)); dd.text((222,59),e['note'].upper()[:46],font=F13,fill=col)
+    dd.text((OW-330,59),f"ACT {e['act']}   {fmt(T)} / {fmt(DUR)}",font=F13,fill=TEAL)
+    dd.text((120,612),f"{int(lumaL*100):02d}",font=F34,fill=TEAL); dd.text((250,612),f"{int(fireL*100):02d}",font=F34,fill=AMB)
+    dd.text((OW-390,612),f"{int(motL*100):02d}",font=F34,fill=TEAL); dd.text((OW-250,612),f"{int((1-g['mist'])*100):02d}",font=F34,fill=col)
+    dd.text((148,ym-8),f"{g['mist']:.2f}",font=F12,fill=col); dd.text((OW-190,yt-8),fmt(T),font=F12,fill=TEAL)
+    if e['seg']=='M07': dd.text((int((0.06+c['yaw']*0.05)*OW),int(0.26*OH)-22),'OBJECT ?  UNRESOLVED',font=F12,fill=AMB)
+    return np.asarray(im).astype(np.float32)/255, ln.astype(np.float32)/255
+
+def frame(T,still=False):
+    out,c=core(T); ST=statics(); pu=c['pu']
+    base=cv2.resize(out,(OW,OH),interpolation=cv2.INTER_CUBIC)
+    lum=base.mean(2,keepdims=True)
+    t=np.clip(lum*1.25,0,1); tone=(1-t)*np.array([0.45,1.0,0.95],np.float32)+t*np.array([1.0,0.80,0.50],np.float32)
+    warm=np.clip((base[...,0:1]-base[...,2:3])*3.2,0,1)                             # fire stays fire
+    tone=(1-warm)*tone+warm*np.array([1.0,0.70,0.28],np.float32)
+    base=0.40*base+0.60*lum*tone*(1.05+0.35*warm)+np.array([0.0,0.030,0.036],np.float32)*(1-lum)   # teal shadows, amber lights
+    base=base*ST['vig'][...,None]
+    base[...,0]=np.roll(base[...,0],1,1); base[...,2]=np.roll(base[...,2],-1,1)     # slight fringe at the edges
+    base=base+np.random.default_rng(int(T*24)).normal(0,0.009,(OH,OW,1)).astype(np.float32)
+    # source-frame readouts, stepped at 8 Hz so the digits tick
+    Tq=np.floor(T*8)/8; tq=src_time(Tq); fi=(tq-T0)*SRC; a=int(fi); f0=load(a)
+    lumaL=float(f0.mean()); hsv=cv2.cvtColor((f0*255).astype(np.uint8),cv2.COLOR_RGB2HSV)
+    fireL=float(((hsv[...,0]<30)&(hsv[...,1]>90)&(hsv[...,2]>140)).mean()); motL=float(min(1,np.abs(f0-load(a-1)).mean()*8))
+    lm=cv2.resize(cv2.GaussianBlur(out.mean(2),(0,0),2),(OW,OH))
+    ui,ln=instrument(T,c,lumaL,fireL,motL,lm)
+    glow_in=0.7+0.5*min(1,pu)
+    uistat=ST['ui'].astype(np.float32)/255*glow_in
+    layer=uistat+ui*0.95+ln*0.85
+    layer=layer+cv2.GaussianBlur(layer,(0,0),5)*0.9
+    glass=(ST['dirt']*(0.25+0.5*min(1,pu))+ST['band']*(0.5+0.5*min(1,pu)))[...,None]*np.array([0.35,0.8,0.78],np.float32)
+    fade=min(1,T/2.5)*min(1,(DUR-T)/2.2); uf=min(1,T/1.2)*min(1,(DUR-T)/1.2)
+    fin=np.clip(base*fade*ST['inside'][...,None]+layer*uf+glass*uf,0,1)
+    return (fin*255).astype(np.uint8)
+
+if __name__=='__main__':
+    # fixed exposure per shot (no per-frame auto exposure: that was a source of flicker)
+    for i,e in enumerate(EDL):
+        g=SEG[e['seg']]
+        if 'exp' in g: EXP[i]=g['exp']; continue
+        ms=[core(e['t0']+(e['t1']-e['t0'])*f,probe=True) for f in (0.2,0.5,0.8)]
+        EXP[i]=float(np.clip(0.30/(np.median(ms)+1e-4),0.8,4.0))
+    print('exposure',{i:round(v,2) for i,v in EXP.items()},flush=True)
+    if stills:
+        for t in stills:
+            cv2.imwrite(f"{HERE}/u_{t:06.2f}.jpg",cv2.cvtColor(frame(t),cv2.COLOR_RGB2BGR),[cv2.IMWRITE_JPEG_QUALITY,90]); print(t,flush=True)
+        sys.exit()
+    n=int(DUR*FPS)
+    p=subprocess.Popen(['ffmpeg','-v','error','-y','-f','rawvideo','-pix_fmt','rgb24','-s',f'{OW}x{OH}','-r',str(FPS),'-i','-','-c:v','libx264','-crf','27','-preset','medium','-pix_fmt','yuv420p','-movflags','+faststart',OUT],stdin=subprocess.PIPE)
+    with Pool(4) as pool:
+        for k,img in enumerate(pool.imap(frame,[i/FPS for i in range(n)],chunksize=6)):
+            p.stdin.write(img.tobytes())
+            if k%96==0: print(k,n,flush=True)
+    p.stdin.close(); p.wait(); print('DONE',flush=True)

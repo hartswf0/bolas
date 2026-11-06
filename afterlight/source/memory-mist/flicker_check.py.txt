@@ -1,0 +1,6 @@
+import subprocess,sys,numpy as np
+f=sys.argv[1];t0=float(sys.argv[2]);dur=float(sys.argv[3])
+raw=subprocess.run(['ffmpeg','-v','error','-ss',str(t0),'-t',str(dur),'-i',f,'-vf','fps=24,scale=96:54,format=gray','-f','rawvideo','-'],capture_output=True).stdout
+a=np.frombuffer(raw,np.uint8).reshape(-1,54,96).astype(np.float32);m=a.mean((1,2));m=m-np.polyval(np.polyfit(np.arange(len(m)),m,3),np.arange(len(m)))
+S=np.abs(np.fft.rfft(m*np.hanning(len(m))))/len(m);fr=np.fft.rfftfreq(len(m),1/24)
+band=lambda lo,hi:float(S[(fr>=lo)&(fr<hi)].sum());print(f.split('/')[-1],f"{t0}s: frame-to-frame jitter(std of diff)={np.diff(m).std():.3f}  12Hz band={band(11,12.1):.3f}  6Hz band={band(5.5,6.5):.3f}  slow(<2Hz)={band(0.2,2):.3f}")
