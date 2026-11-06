@@ -1,0 +1,26 @@
+"""The Stelline visit scene as the orb repo holds it: 640x360 frames at uneven sample times, grouped by shot.
+frame_at(ts) blends the two nearest samples inside a shot (never across a cut)."""
+import json,math,os,numpy as np,cv2
+AT=os.environ.get('ATLAS','/home/user/stelline-orb/assets/v6/atlas')
+D=json.load(open(AT+'/atlas.json')); SH=D['shots']
+S=[]  # (t, shot, path)
+for s in SH:
+    for k,t in enumerate(s['t']): S.append((float(t),s['n'],f"{AT}/f{s['n']:02d}_{k:02d}.jpg"))
+S.sort(key=lambda x:x[0]); TS=np.array([x[0] for x in S]); _c={}
+def load(i):
+    if i not in _c:
+        if len(_c)>80: _c.pop(next(iter(_c)))
+        _c[i]=cv2.cvtColor(cv2.imread(S[i][2]),cv2.COLOR_BGR2RGB).astype(np.float32)/255
+    return _c[i]
+def shot_of(ts):
+    for s in SH:
+        if s['start']<=ts<s['end']: return s['n']
+    return SH[-1]['n'] if ts>=SH[-1]['end'] else 0
+def frame_at(ts):
+    n=shot_of(ts); idx=[i for i,x in enumerate(S) if x[1]==n]
+    if not idx: return load(int(np.argmin(abs(TS-ts))))
+    t=TS[idx]; j=int(np.searchsorted(t,ts)); 
+    if j<=0: return load(idx[0])
+    if j>=len(idx): return load(idx[-1])
+    a,b=idx[j-1],idx[j]; w=(ts-TS[a])/max(1e-3,TS[b]-TS[a]); w=np.clip(w,0,1)
+    return (1-w)*load(a)+w*load(b)

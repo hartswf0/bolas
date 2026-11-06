@@ -1,0 +1,20 @@
+"""Edit lists for the atlas memories: each shot of an act, in order, stretched to a music duration and snapped to the track's pulses."""
+import json,sys,numpy as np
+AT='/home/user/stelline-orb/assets/v6/atlas/atlas.json'
+SH=json.load(open(AT))['shots']; ON=np.array([a for a,_ in json.load(open('music.json'))['onsets']])
+def make(name,n0,n1,D,titles,offset_out=0.0):
+    sh=SH[n0:n1+1]; s0=sh[0]['start']; s1=sh[-1]['end']; k=D/(s1-s0)
+    b=[(s['start']-s0)*k for s in sh]+[D]
+    for i in range(1,len(sh)):                       # snap to the nearest pulse, keep every shot at least 1.0 s
+        c=ON[np.argmin(abs(ON-b[i]))]
+        if abs(c-b[i])<0.9 and c>b[i-1]+1.0 and c<b[i+1]-1.0: b[i]=float(c)
+    out=[]
+    for i,s in enumerate(sh):
+        e={'t0':round(b[i],3),'t1':round(b[i+1],3),'src0':s['start'],'src1':s['end'],'shot':s['n'],'plate':True}
+        e['speed']=round((e['src1']-e['src0'])/(e['t1']-e['t0']),2)
+        if s['n'] in titles: e['title']=titles[s['n']]
+        out.append(e)
+    json.dump({'name':name,'duration':D,'edl':out},open(f'atlas_{name}_edl.json','w'),indent=1)
+    print(name,len(out),'shots; speeds',sorted(set(round(e['speed'],1) for e in out))[:3],'..',sorted(set(round(e['speed'],1) for e in out))[-3:])
+make('forest',2,12,48.0,{2:'CANOPY',4:'WET LEAF',7:'BUG EYE MACRO',11:'FOREST DISSOLVE'})
+make('birthday',23,47,100.41,{25:'CAKE SPAWN',26:'BUNDT MORPH',29:'RED ICING',35:'CHILD CUTOUTS',37:'BLOW CANDLES',39:'THE PARTY',42:'FLOOR MINIATURE'})

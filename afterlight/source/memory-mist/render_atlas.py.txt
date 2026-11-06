@@ -1,0 +1,76 @@
+"""A memory from the orb's atlas, drawn in the lab's two languages. Usage: render_atlas.py EDL.json OUT_SILENT.mp4 --way S|C [--stills t,t]"""
+import sys,json,os,subprocess,math
+import numpy as np,cv2
+from PIL import Image,ImageDraw,ImageFont
+from multiprocessing import Pool
+HERE=os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0,HERE)
+EDLF=sys.argv[1]; OUT=sys.argv[2]; VARIANT=sys.argv[sys.argv.index('--way')+1] if '--way' in sys.argv else 'S'
+stills=[float(x) for x in sys.argv[sys.argv.index('--stills')+1].split(',')] if '--stills' in sys.argv else []
+ED=json.load(open(EDLF)); EDL=ED['edl']; DUR=ED['duration']
+MU=json.load(open(HERE+'/music.json')); ON=np.array(MU['onsets'])
+OW,OH=1280,720; FPS=24
+import horse_styles as HS, atlas_source as A
+HS.FULL=True; HS.BARS=(0,720); HS.PLATE_SOURCE=lambda ts:(A.frame_at(ts),0)
+def pulse(T):
+    d=T-ON[:,0]; m=(d>=0)&(d<2.0)
+    return float((ON[m,1]*(1-np.exp(-d[m]/0.04))*np.exp(-d[m]/0.45)).sum()) if m.any() else 0.0
+def entry(T):
+    for i,e in enumerate(EDL):
+        if e['t0']<=T<e['t1']: return i,e
+    return (len(EDL)-1,EDL[-1]) if T>=EDL[-1]['t1'] else (0,EDL[0])
+def src_time(T):
+    _,e=entry(T); u=min(1,max(0,(T-e['t0'])/(e['t1']-e['t0']))); return e['src0']+u*(e['src1']-e['src0'])
+# ---------- the memory maker's console: it shows the memory being built ----------
+def font(sz):
+    try: return ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSansMono-Bold.ttf',sz)
+    except Exception: return ImageFont.load_default()
+F30,F26,F34,F40,F44=font(30),font(26),font(34),font(40),font(44)
+TEAL=(96,224,214); AMB=(255,186,72); PINK=(255,120,190)
+STAGES=['SCAN','SEGMENT','DISTIL','ASSEMBLE']
+def rrect(img,x0,y0,x1,y1,r,col,th):
+    L=cv2.LINE_AA
+    for p,q in (((x0+r,y0),(x1-r,y0)),((x0+r,y1),(x1-r,y1)),((x0,y0+r),(x0,y1-r)),((x1,y0+r),(x1,y1-r))): cv2.line(img,p,q,col,th,L)
+    for c,a in (((x0+r,y0+r),180),((x1-r,y0+r),270),((x1-r,y1-r),0),((x0+r,y1-r),90)): cv2.ellipse(img,c,(r,r),0,a,a+90,col,th,L)
+_st={}
+def statics():
+    if _st: return _st
+    s=np.zeros((OH,OW,3),np.uint8); rrect(s,30,30,OW-30,OH-30,36,(52,150,146),2)
+    ins=np.zeros((OH,OW),np.uint8); rrect(ins,30,30,OW-30,OH-30,36,255,3); ins=cv2.floodFill(ins.copy(),None,(OW//2,OH//2),255)[1].astype(np.float32)/255; ins=0.30+0.70*cv2.GaussianBlur(ins,(0,0),3)
+    rn=np.random.default_rng(3); dirt=np.zeros((OH,OW),np.float32)
+    for _ in range(50):
+        x,y=int(rn.integers(0,OW)),int(rn.integers(0,OH)); a=rn.uniform(0,np.pi); l=rn.uniform(10,50)
+        cv2.line(dirt,(x,y),(int(x+np.cos(a)*l),int(y+np.sin(a)*l)),float(rn.uniform(0.03,0.09)),1,cv2.LINE_AA)
+    vy,vx=np.mgrid[0:OH,0:OW]; vig=(1-0.34*(((vx-OW/2)/(OW/2))**2+((vy-OH/2)/(OH/2))**2)*0.5).astype(np.float32)
+    pl=np.zeros((OH,OW),np.float32); cv2.rectangle(pl,(52,44),(900,112),1.0,-1); cv2.rectangle(pl,(52,OH-112),(760,OH-52),1.0,-1); pl=cv2.GaussianBlur(pl,(0,0),9)
+    _st.update(ui=s,inside=ins,dirt=dirt,vig=vig,plate=pl); return _st
+def title_layer(e,T,caption=None):
+    ut=T-e['t0']; im=Image.new('RGB',(OW,OH),(0,0,0)); d=ImageDraw.Draw(im)
+    ta=float(np.clip(min(ut/0.15,1)*(1 if ut<2.5 else max(0,1-(ut-2.5)/0.3)),0,1))
+    if e.get('title') and ta>0: d.text((70,52),e['title'].upper()[:28],font=F44,fill=tuple(int(v*ta) for v in (245,245,235)))
+    if caption: d.text((70,OH-102),caption[0],font=F44,fill=tuple(int(v*caption[1]) for v in (255,186,72)))
+    return np.asarray(im).astype(np.float32)/255
+def capa(u,a,b,f=0.3): return float(np.clip(min((u-a)/f,(b-u)/f,1),0,1))
+def compose(base,T,e,caption=None):
+    ST=statics(); pu=min(1.0,pulse(T)); base=base*ST['vig'][...,None]
+    ui=title_layer(e,T,caption); layer=ST['ui'].astype(np.float32)/255*(0.7+0.3*pu)+ui; layer=layer+cv2.GaussianBlur(layer,(0,0),4)*0.8
+    fade=min(1,T/2.5)*min(1,(DUR-T)/2.2); uf=min(1,T/1.2)*min(1,(DUR-T)/1.2)
+    fin=np.clip(base*(1-0.5*ST['plate'][...,None])*fade*ST['inside'][...,None]+layer*uf+ST['dirt'][...,None]*np.array([0.35,0.8,0.78],np.float32)*uf,0,1)
+    return (fin*255).astype(np.uint8)
+
+def frame(T):
+    i,e=entry(T); ts=src_time(T)
+    img=(HS.plate_S if VARIANT=='S' else HS.plate_C)(ts,T)
+    return compose(img,T,e,None)
+if __name__=='__main__':
+    if stills:
+        for t in stills:
+            cv2.imwrite(f"{HERE}/a_{os.path.basename(EDLF)[6:-9]}_{VARIANT}_{t:06.2f}.jpg",cv2.cvtColor(frame(t),cv2.COLOR_RGB2BGR),[cv2.IMWRITE_JPEG_QUALITY,90]); print(t,flush=True)
+        sys.exit()
+    n=int(DUR*FPS); K0,K1=0,n-1
+    if '--range' in sys.argv: K0,K1=[int(x) for x in sys.argv[sys.argv.index('--range')+1].split('-')]
+    p=subprocess.Popen(['ffmpeg','-v','error','-y','-f','rawvideo','-pix_fmt','rgb24','-s',f'{OW}x{OH}','-r',str(FPS),'-i','-','-c:v','libx264','-crf','27','-preset','medium','-pix_fmt','yuv420p','-movflags','+faststart',OUT],stdin=subprocess.PIPE)
+    with Pool(4) as pool:
+        for k,img in enumerate(pool.imap(frame,[i/FPS for i in range(K0,K1+1)],chunksize=6)):
+            p.stdin.write(img.tobytes())
+            if k%96==0: print(k,n,flush=True)
+    p.stdin.close(); p.wait(); print('DONE',flush=True)
