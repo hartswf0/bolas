@@ -1,0 +1,886 @@
+{
+ "invariants": [
+  {
+   "key": "I1_choices",
+   "label": "the six choices land on the score"
+  },
+  {
+   "key": "I2_threshold",
+   "label": "the dog reaches the sill"
+  },
+  {
+   "key": "I3_direction",
+   "label": "it moves the way the score moves"
+  },
+  {
+   "key": "I4_refusal",
+   "label": "it turns its back on the order"
+  }
+ ],
+ "tellings": [
+  {
+   "id": 1,
+   "name": "Terry Gilliam",
+   "kind": "Cut-out collage",
+   "invariants": {
+    "I1_choices": true,
+    "I2_threshold": true,
+    "I3_direction": true,
+    "I4_refusal": true
+   },
+   "rounds": 2,
+   "final": "pass",
+   "narrow": false,
+   "status": "",
+   "review": "../handmade/01-gilliam/reviews/"
+  },
+  {
+   "id": 2,
+   "name": "Lotte Reiniger",
+   "kind": "Silhouette theatre",
+   "invariants": {
+    "I1_choices": true,
+    "I2_threshold": true,
+    "I3_direction": true,
+    "I4_refusal": true
+   },
+   "rounds": 2,
+   "final": "pass",
+   "narrow": false,
+   "status": "",
+   "review": "../handmade/02-reiniger/reviews/"
+  },
+  {
+   "id": 3,
+   "name": "Max Ernst",
+   "kind": "Surreal collage grammar",
+   "invariants": {
+    "I1_choices": true,
+    "I2_threshold": true,
+    "I3_direction": true,
+    "I4_refusal": true
+   },
+   "rounds": 2,
+   "final": "pass",
+   "narrow": false,
+   "status": "",
+   "review": "../handmade/03-ernst/reviews/"
+  },
+  {
+   "id": 4,
+   "name": "Frank Mouris",
+   "kind": "Image torrent",
+   "invariants": {
+    "I1_choices": true,
+    "I2_threshold": true,
+    "I3_direction": true,
+    "I4_refusal": true
+   },
+   "rounds": 2,
+   "final": "pass",
+   "narrow": true,
+   "status": "",
+   "review": "../handmade/04-mouris/reviews/"
+  },
+  {
+   "id": 5,
+   "name": "Yuri Norstein",
+   "kind": "Atmospheric multiplane",
+   "invariants": {
+    "I1_choices": true,
+    "I2_threshold": true,
+    "I3_direction": true,
+    "I4_refusal": true
+   },
+   "rounds": 3,
+   "final": "pass",
+   "narrow": false,
+   "status": "",
+   "review": "../handmade/05-norstein/reviews/"
+  },
+  {
+   "id": 6,
+   "name": "John Whitney",
+   "kind": "Harmonic motion",
+   "invariants": {
+    "I1_choices": true,
+    "I2_threshold": true,
+    "I3_direction": true,
+    "I4_refusal": true
+   },
+   "rounds": 2,
+   "final": "pass",
+   "narrow": false,
+   "status": "",
+   "review": "../handmade/06-whitney/reviews/"
+  },
+  {
+   "id": 7,
+   "name": "Peter Foldès",
+   "kind": "Drawn metamorphosis",
+   "invariants": {
+    "I1_choices": true,
+    "I2_threshold": true,
+    "I3_direction": true,
+    "I4_refusal": true
+   },
+   "rounds": 2,
+   "final": "pass",
+   "narrow": false,
+   "status": "",
+   "review": "../handmade/07-foldes/reviews/"
+  },
+  {
+   "id": 8,
+   "name": "Ivan Sutherland",
+   "kind": "Constraint Sketchpad",
+   "invariants": {
+    "I1_choices": true,
+    "I2_threshold": true,
+    "I3_direction": true,
+    "I4_refusal": true
+   },
+   "rounds": 2,
+   "final": "pass",
+   "narrow": true,
+   "status": "",
+   "review": "../handmade/08-sutherland/reviews/"
+  },
+  {
+   "id": 9,
+   "name": "Takeo Igarashi",
+   "kind": "As-rigid-as-possible puppetry",
+   "invariants": {
+    "I1_choices": true,
+    "I2_threshold": true,
+    "I3_direction": true,
+    "I4_refusal": true
+   },
+   "rounds": 2,
+   "final": "pass",
+   "narrow": true,
+   "status": "",
+   "review": "../handmade/09-igarashi/reviews/"
+  },
+  {
+   "id": 10,
+   "name": "MLS deformation",
+   "kind": "One sheet warped by handles",
+   "invariants": {
+    "I1_choices": true,
+    "I2_threshold": true,
+    "I3_direction": true,
+    "I4_refusal": true
+   },
+   "rounds": 1,
+   "final": "pass",
+   "narrow": false,
+   "status": "",
+   "review": "../handmade/10-mls-deformation/reviews/"
+  },
+  {
+   "id": 11,
+   "name": "Video puppetry",
+   "kind": "Footage cut-outs moved as puppets",
+   "invariants": {
+    "I1_choices": true,
+    "I2_threshold": true,
+    "I3_direction": true,
+    "I4_refusal": true
+   },
+   "rounds": 5,
+   "final": "pass",
+   "narrow": true,
+   "status": "",
+   "review": "../handmade/11-video-puppetry/reviews/"
+  },
+  {
+   "id": 12,
+   "name": "Localized weights",
+   "kind": "Bounded biharmonic weights on a lace mesh",
+   "invariants": {
+    "I1_choices": true,
+    "I2_threshold": true,
+    "I3_direction": true,
+    "I4_refusal": true
+   },
+   "rounds": 3,
+   "final": "pass",
+   "narrow": true,
+   "status": "",
+   "review": "../handmade/12-localized-weights/reviews/"
+  },
+  {
+   "id": 13,
+   "name": "Secondary motion",
+   "kind": "Paper figures with secondary dynamics",
+   "invariants": {
+    "I1_choices": true,
+    "I2_threshold": true,
+    "I3_direction": true,
+    "I4_refusal": true
+   },
+   "rounds": 2,
+   "final": "pass",
+   "narrow": false,
+   "status": "",
+   "review": "../handmade/13-secondary-motion/reviews/"
+  },
+  {
+   "id": 14,
+   "name": "Pose2Pose casting",
+   "kind": "Nora Willett lineage",
+   "invariants": {
+    "I1_choices": true,
+    "I2_threshold": true,
+    "I3_direction": true,
+    "I4_refusal": true
+   },
+   "rounds": 1,
+   "final": "pass",
+   "narrow": false,
+   "status": "",
+   "review": "../handmade/14-pose2pose/reviews/"
+  },
+  {
+   "id": 15,
+   "name": "Learned layered puppet",
+   "kind": "A layered puppet fitted to the archive dog",
+   "invariants": {
+    "I1_choices": true,
+    "I2_threshold": true,
+    "I3_direction": true,
+    "I4_refusal": true
+   },
+   "rounds": 5,
+   "final": "fail",
+   "narrow": false,
+   "status": "repairs paused after critic round 5",
+   "review": "../handmade/15-learned-layered-puppet/reviews/"
+  },
+  {
+   "id": 16,
+   "name": "JibJab",
+   "kind": "Cast heads on a cut-out body",
+   "invariants": {
+    "I1_choices": true,
+    "I2_threshold": true,
+    "I3_direction": true,
+    "I4_refusal": true
+   },
+   "rounds": 2,
+   "final": "pass",
+   "narrow": false,
+   "status": "",
+   "review": "../handmade/16-jibjab/reviews/"
+  },
+  {
+   "id": 17,
+   "name": "South Park lineage",
+   "kind": "Restricted graphic grammar",
+   "invariants": {
+    "I1_choices": true,
+    "I2_threshold": true,
+    "I3_direction": true,
+    "I4_refusal": true
+   },
+   "rounds": 1,
+   "final": "pass",
+   "narrow": false,
+   "status": "",
+   "review": "../handmade/17-south-park/reviews/"
+  },
+  {
+   "id": 18,
+   "name": "Cartoon Saloon lineage",
+   "kind": "Painterly puppet discipline",
+   "invariants": {
+    "I1_choices": true,
+    "I2_threshold": true,
+    "I3_direction": true,
+    "I4_refusal": true
+   },
+   "rounds": 2,
+   "final": "pass",
+   "narrow": false,
+   "status": "",
+   "review": "../handmade/18-cartoon-saloon/reviews/"
+  },
+  {
+   "id": 19,
+   "name": "Moho Smart Bones",
+   "kind": "Smart-Bone rig with switch layers",
+   "invariants": {
+    "I1_choices": true,
+    "I2_threshold": true,
+    "I3_direction": true,
+    "I4_refusal": true
+   },
+   "rounds": 1,
+   "final": "pass",
+   "narrow": false,
+   "status": "",
+   "review": "../handmade/19-moho-smart-bones/reviews/"
+  },
+  {
+   "id": 20,
+   "name": "Toon Boom Harmony",
+   "kind": "Production rig: drawing substitution and node graph",
+   "invariants": {
+    "I1_choices": true,
+    "I2_threshold": true,
+    "I3_direction": true,
+    "I4_refusal": true
+   },
+   "rounds": 1,
+   "final": "pass",
+   "narrow": false,
+   "status": "",
+   "review": "../handmade/20-harmony-rig/reviews/"
+  },
+  {
+   "id": 21,
+   "name": "Photo-to-Actor",
+   "kind": "Photographic actor rigged from stills",
+   "invariants": {
+    "I1_choices": true,
+    "I2_threshold": true,
+    "I3_direction": true,
+    "I4_refusal": true
+   },
+   "rounds": 5,
+   "final": "pass",
+   "narrow": true,
+   "status": "",
+   "review": "../handmade/21-photo-to-actor/reviews/"
+  },
+  {
+   "id": 22,
+   "name": "Character Animator",
+   "kind": "Performance puppet with behaviours",
+   "invariants": {
+    "I1_choices": true,
+    "I2_threshold": true,
+    "I3_direction": true,
+    "I4_refusal": true
+   },
+   "rounds": 1,
+   "final": "pass",
+   "narrow": false,
+   "status": "",
+   "review": "../handmade/22-character-animator/reviews/"
+  },
+  {
+   "id": 23,
+   "name": "Spine runtime",
+   "kind": "Skeletal runtime with mixed action clips",
+   "invariants": {
+    "I1_choices": true,
+    "I2_threshold": true,
+    "I3_direction": true,
+    "I4_refusal": true
+   },
+   "rounds": 2,
+   "final": "pass",
+   "narrow": true,
+   "status": "",
+   "review": "../handmade/23-spine-runtime/reviews/"
+  },
+  {
+   "id": 24,
+   "name": "Live2D lineage",
+   "kind": "Portrait volume illusion",
+   "invariants": {
+    "I1_choices": true,
+    "I2_threshold": true,
+    "I3_direction": true,
+    "I4_refusal": true
+   },
+   "rounds": 1,
+   "final": "pass",
+   "narrow": false,
+   "status": "",
+   "review": "../handmade/24-live2d/reviews/"
+  },
+  {
+   "id": 25,
+   "name": "Rive",
+   "kind": "Interactive puppet state machines",
+   "invariants": {
+    "I1_choices": true,
+    "I2_threshold": true,
+    "I3_direction": true,
+    "I4_refusal": true
+   },
+   "rounds": 1,
+   "final": "pass",
+   "narrow": false,
+   "status": "",
+   "review": "../handmade/25-rive/reviews/"
+  },
+  {
+   "id": 26,
+   "name": "PixiJS archive stage",
+   "kind": "GPU scene graph of archive fragments",
+   "invariants": {
+    "I1_choices": true,
+    "I2_threshold": true,
+    "I3_direction": true,
+    "I4_refusal": true
+   },
+   "rounds": 2,
+   "final": "pass",
+   "narrow": false,
+   "status": "",
+   "review": "../handmade/26-pixijs-stage/reviews/"
+  },
+  {
+   "id": 27,
+   "name": "Remotion",
+   "kind": "Declarative film compiler",
+   "invariants": {
+    "I1_choices": true,
+    "I2_threshold": true,
+    "I3_direction": true,
+    "I4_refusal": true
+   },
+   "rounds": 1,
+   "final": "pass",
+   "narrow": false,
+   "status": "",
+   "review": "../handmade/27-remotion/reviews/"
+  },
+  {
+   "id": 28,
+   "name": "Mask and plate foundry",
+   "kind": "Compositor's film of archive plates",
+   "invariants": {
+    "I1_choices": true,
+    "I2_threshold": true,
+    "I3_direction": true,
+    "I4_refusal": true
+   },
+   "rounds": 3,
+   "final": "pass",
+   "narrow": true,
+   "status": "",
+   "review": "../handmade/28-mask-plate-foundry/reviews/"
+  },
+  {
+   "id": 29,
+   "name": "GrabCut",
+   "kind": "Cutout extraction",
+   "invariants": {
+    "I1_choices": true,
+    "I2_threshold": true,
+    "I3_direction": true,
+    "I4_refusal": true
+   },
+   "rounds": 3,
+   "final": "pass",
+   "narrow": true,
+   "status": "",
+   "review": "../handmade/29-grabcut/reviews/"
+  },
+  {
+   "id": 30,
+   "name": "SAM 2 proposals",
+   "kind": "Evidence-bounded mask proposals",
+   "invariants": {
+    "I1_choices": true,
+    "I2_threshold": true,
+    "I3_direction": true,
+    "I4_refusal": true
+   },
+   "rounds": 3,
+   "final": "pass",
+   "narrow": true,
+   "status": "",
+   "review": "../handmade/30-sam2-proposals/reviews/"
+  },
+  {
+   "id": 31,
+   "name": "Alpha Matting",
+   "kind": "Soft-edged matted archive frames",
+   "invariants": {
+    "I1_choices": true,
+    "I2_threshold": true,
+    "I3_direction": true,
+    "I4_refusal": true
+   },
+   "rounds": 5,
+   "final": "pass",
+   "narrow": true,
+   "status": "",
+   "review": "../handmade/31-alpha-matting/reviews/"
+  },
+  {
+   "id": 32,
+   "name": "Forward kinematics",
+   "kind": "Jointed toy moved only by forward kinematics",
+   "invariants": {
+    "I1_choices": true,
+    "I2_threshold": true,
+    "I3_direction": true,
+    "I4_refusal": true
+   },
+   "rounds": 2,
+   "final": "pass",
+   "narrow": false,
+   "status": "",
+   "review": "../handmade/32-forward-kinematics/reviews/"
+  },
+  {
+   "id": 33,
+   "name": "Inverse kinematics",
+   "kind": "Joints, chains and planted effectors",
+   "invariants": {
+    "I1_choices": true,
+    "I2_threshold": true,
+    "I3_direction": true,
+    "I4_refusal": true
+   },
+   "rounds": 1,
+   "final": "pass",
+   "narrow": false,
+   "status": "",
+   "review": "../handmade/33-inverse-kinematics/reviews/"
+  },
+  {
+   "id": 34,
+   "name": "As-rigid-as-possible",
+   "kind": "Engraved mesh, shape kept by a local–global solve",
+   "invariants": {
+    "I1_choices": true,
+    "I2_threshold": true,
+    "I3_direction": true,
+    "I4_refusal": true
+   },
+   "rounds": 4,
+   "final": "pass",
+   "narrow": false,
+   "status": "",
+   "review": "../handmade/34-arap/reviews/"
+  },
+  {
+   "id": 35,
+   "name": "MLS gesture warp",
+   "kind": "Risograph print bent by moving least squares",
+   "invariants": {
+    "I1_choices": true,
+    "I2_threshold": true,
+    "I3_direction": true,
+    "I4_refusal": true
+   },
+   "rounds": 2,
+   "final": "pass",
+   "narrow": false,
+   "status": "",
+   "review": "../handmade/35-mls-gesture-warp/reviews/"
+  },
+  {
+   "id": 36,
+   "name": "BBW auto-rig",
+   "kind": "Auto-rigged archival silhouettes",
+   "invariants": {
+    "I1_choices": true,
+    "I2_threshold": true,
+    "I3_direction": true,
+    "I4_refusal": true
+   },
+   "rounds": 4,
+   "final": "pass",
+   "narrow": false,
+   "status": "",
+   "review": "../handmade/36-bbw-auto-rig/reviews/"
+  },
+  {
+   "id": 37,
+   "name": "Weighted skinning",
+   "kind": "One skin over a skeleton, weighted per vertex",
+   "invariants": {
+    "I1_choices": true,
+    "I2_threshold": true,
+    "I3_direction": true,
+    "I4_refusal": true
+   },
+   "rounds": 3,
+   "final": "pass",
+   "narrow": false,
+   "status": "",
+   "review": "../handmade/37-weighted-skinning/reviews/"
+  },
+  {
+   "id": 38,
+   "name": "Dynamic pose selection",
+   "kind": "Drawing library",
+   "invariants": {
+    "I1_choices": true,
+    "I2_threshold": true,
+    "I3_direction": true,
+    "I4_refusal": true
+   },
+   "rounds": 3,
+   "final": "pass",
+   "narrow": true,
+   "status": "",
+   "review": "../handmade/38-drawing-library/reviews/"
+  },
+  {
+   "id": 39,
+   "name": "Multiview substitution",
+   "kind": "Turn lab",
+   "invariants": {
+    "I1_choices": true,
+    "I2_threshold": true,
+    "I3_direction": true,
+    "I4_refusal": true
+   },
+   "rounds": 2,
+   "final": "pass",
+   "narrow": false,
+   "status": "",
+   "review": "../handmade/39-turn-lab/reviews/"
+  },
+  {
+   "id": 40,
+   "name": "Tabletop capture",
+   "kind": "Paper performance, captured and replayed",
+   "invariants": {
+    "I1_choices": true,
+    "I2_threshold": true,
+    "I3_direction": true,
+    "I4_refusal": true
+   },
+   "rounds": 1,
+   "final": "pass",
+   "narrow": false,
+   "status": "",
+   "review": "../handmade/40-tabletop-capture/reviews/"
+  },
+  {
+   "id": 41,
+   "name": "Secondary dynamics",
+   "kind": "Inertia and restraint",
+   "invariants": {
+    "I1_choices": true,
+    "I2_threshold": true,
+    "I3_direction": true,
+    "I4_refusal": true
+   },
+   "rounds": 3,
+   "final": "pass",
+   "narrow": false,
+   "status": "",
+   "review": "../handmade/41-secondary-dynamics/reviews/"
+  },
+  {
+   "id": 42,
+   "name": "Neural layered puppet",
+   "kind": "Parts and joints discovered from a few frames",
+   "invariants": {
+    "I1_choices": true,
+    "I2_threshold": true,
+    "I3_direction": true,
+    "I4_refusal": true
+   },
+   "rounds": 5,
+   "final": "fail",
+   "narrow": false,
+   "status": "repairs paused after critic round 5",
+   "review": "../handmade/42-neural-layered-puppet/reviews/"
+  },
+  {
+   "id": 43,
+   "name": "Collage Graph Rewriting",
+   "kind": "Typed fragments and rewrite rules",
+   "invariants": {
+    "I1_choices": true,
+    "I2_threshold": true,
+    "I3_direction": true,
+    "I4_refusal": true
+   },
+   "rounds": 5,
+   "final": "pass",
+   "narrow": true,
+   "status": "",
+   "review": "../handmade/43-collage-graph/reviews/"
+  },
+  {
+   "id": 44,
+   "name": "Multiplane parallax",
+   "kind": "Spatial collage in depth, with a moving camera",
+   "invariants": {
+    "I1_choices": true,
+    "I2_threshold": true,
+    "I3_direction": true,
+    "I4_refusal": true
+   },
+   "rounds": 2,
+   "final": "pass",
+   "narrow": false,
+   "status": "",
+   "review": "../handmade/44-multiplane-parallax/reviews/"
+  },
+  {
+   "id": 45,
+   "name": "Occlusion compositing",
+   "kind": "Who is in front?",
+   "invariants": {
+    "I1_choices": true,
+    "I2_threshold": true,
+    "I3_direction": true,
+    "I4_refusal": true
+   },
+   "rounds": 3,
+   "final": "pass",
+   "narrow": true,
+   "status": "",
+   "review": "../handmade/45-occlusion/reviews/"
+  },
+  {
+   "id": 46,
+   "name": "Face Landmark Registration",
+   "kind": "View-matched plates on landmarks",
+   "invariants": {
+    "I1_choices": true,
+    "I2_threshold": true,
+    "I3_direction": true,
+    "I4_refusal": true
+   },
+   "rounds": 4,
+   "final": "pass",
+   "narrow": true,
+   "status": "",
+   "review": "../handmade/46-face-landmarks/reviews/"
+  },
+  {
+   "id": 47,
+   "name": "Sound-to-action",
+   "kind": "Viseme and gesture",
+   "invariants": {
+    "I1_choices": true,
+    "I2_threshold": true,
+    "I3_direction": true,
+    "I4_refusal": true
+   },
+   "rounds": 1,
+   "final": "pass",
+   "narrow": false,
+   "status": "",
+   "review": "../handmade/47-sound-to-action/reviews/"
+  },
+  {
+   "id": 48,
+   "name": "State machines",
+   "kind": "A dog whose refusal is its own decision",
+   "invariants": {
+    "I1_choices": true,
+    "I2_threshold": true,
+    "I3_direction": true,
+    "I4_refusal": true
+   },
+   "rounds": 2,
+   "final": "pass",
+   "narrow": false,
+   "status": "",
+   "review": "../handmade/48-state-machines/reviews/"
+  },
+  {
+   "id": 49,
+   "name": "Open-content atelier",
+   "kind": "Museum open-access objects, cut and recomposed",
+   "invariants": {
+    "I1_choices": true,
+    "I2_threshold": true,
+    "I3_direction": true,
+    "I4_refusal": true
+   },
+   "rounds": 4,
+   "final": "pass",
+   "narrow": false,
+   "status": "",
+   "review": "../handmade/49-open-content-atelier/reviews/"
+  },
+  {
+   "id": 50,
+   "name": "Historical print stage",
+   "kind": "Library of Congress lineage",
+   "invariants": {
+    "I1_choices": true,
+    "I2_threshold": true,
+    "I3_direction": true,
+    "I4_refusal": true
+   },
+   "rounds": 3,
+   "final": "pass",
+   "narrow": false,
+   "status": "",
+   "review": "../handmade/50-library-of-congress/reviews/"
+  },
+  {
+   "id": 51,
+   "name": "Mouris montage research",
+   "kind": "Montage on a measured cutting score",
+   "invariants": {
+    "I1_choices": true,
+    "I2_threshold": true,
+    "I3_direction": true,
+    "I4_refusal": true
+   },
+   "rounds": 3,
+   "final": "pass",
+   "narrow": false,
+   "status": "",
+   "review": "../handmade/51-mouris-montage/reviews/"
+  },
+  {
+   "id": 52,
+   "name": "Gilliam Ephemera",
+   "kind": "Pinned found prints and substitution",
+   "invariants": {
+    "I1_choices": true,
+    "I2_threshold": true,
+    "I3_direction": true,
+    "I4_refusal": true
+   },
+   "rounds": 5,
+   "final": "pass",
+   "narrow": true,
+   "status": "",
+   "review": "../handmade/52-gilliam-ephemera/reviews/"
+  },
+  {
+   "id": 53,
+   "name": "Atlanta Moving Image",
+   "kind": "Civic footage performer",
+   "invariants": {
+    "I1_choices": true,
+    "I2_threshold": true,
+    "I3_direction": true,
+    "I4_refusal": true
+   },
+   "rounds": 2,
+   "final": "pass",
+   "narrow": false,
+   "status": "",
+   "review": "../handmade/53-civic-footage/reviews/"
+  },
+  {
+   "id": 54,
+   "name": "Provenance graph",
+   "kind": "Archive-to-puppet lineage",
+   "invariants": {
+    "I1_choices": true,
+    "I2_threshold": true,
+    "I3_direction": true,
+    "I4_refusal": true
+   },
+   "rounds": 2,
+   "final": "pass",
+   "narrow": false,
+   "status": "",
+   "review": "../handmade/54-provenance-graph/reviews/"
+  }
+ ]
+}

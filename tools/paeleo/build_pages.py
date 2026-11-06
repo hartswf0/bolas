@@ -179,12 +179,8 @@ def index():
       <div class="facts"><span>lenses <b>54</b>, one per swarm</span><span>loop <b>32 s</b> of prompts, shared</span><span>live <b>in the browser</b>, any lens</span></div></div></div>
   <div class="fullcase"><a href="scion/#viewer"><i>PAE-01</i> Every lens, live<span>with the write-up of the operator</span></a></div>
 </section>
+{its_all_right_box(up)}
 {handmade_box(up)}
-</section>
-
-<section class="sec" id="allways"><div class="sechead"><h2>ALLWAYS</h2><p>Cinema from the rest of the frame.</p></div>
-  <p class="note">A studio for ordinary gestures, archival encounters and unexpected visual relations. Its 59 new cinema, documentary and interactive SCION prompts, numbered 055–113, include source notes, formal constraints and proposed proof scenes.</p>
-  <p><a class="btn" href="allways/">Read the studio philosophy</a> <a class="btn" href="allways/operator.html">Browse the 59 prompts</a></p>
 </section>
 
 <section class="sec" id="queue"><div class="sechead"><h2>The swarm queue</h2><p>Fifty-four SCION animation swarms, each a standalone prompt studio with its own proof scene and research loop. PAE-00 was made by number 48; every one is shown through the dog in PAE-01. <a href="scion/">The operator, written up</a> · <a href="scion/operator.html">open the operator</a>.</p></div>
@@ -343,7 +339,6 @@ def scion_page():
 <header class="lockup"><div class="l"><span class="lbl">SCION / lineage forge · the swarm operator</span><h1 style="font-size:clamp(64px,12vw,140px)">SCION</h1>
   <p class="tag">Fifty-four animation swarms. Each is a standalone prompt that turns one artist, researcher, studio, algorithm or archive into a working studio with a proof to make and a critic to answer to.</p>
   <p>The SCION operator is a single page: search the 54, read one, copy it whole or save it as Markdown. Each prompt names a lineage, states a creative theorem, gives the swarm its native formal language and the smallest crew that could build it, and sets a hard proof scene to produce before anything else. Then all 54 inherit the same fifteen-point doctrine. PAELEO films are made with them, one swarm per box.</p>
-  <p class="note"><a href="../allways/">ALLWAYS · Cinema from the rest of the frame</a> extends the library with <a href="../allways/operator.html">59 written cinema, documentary and interactive prompts, 055–113</a>. Each includes a proposed proof scene and a source record.</p>
   <p><a class="btn" href="operator.html">Open the operator</a> <a class="btn" href="#viewer">See all 54 through the dog</a> <a class="btn" href="#reel">Watch the reel</a></p></div>
   <div class="r"><span class="lbl">Counted from the prompts</span><dl class="letters">
     <dt>54</dt><dd>swarms, in five families: <i>{esc(fams)}</i></dd><dt>8</dt><dd>numbered sections in every prompt, in the same order{"" if A["same_heads"] else " (not in all)"}</dd>
@@ -456,6 +451,16 @@ def rounds_of(d):
     return out
 
 
+def its_all_right_box(up):
+    if not os.path.exists(os.path.join(P, 'its-all-right', 'index.html')): return ''
+    return '''<section class="box" id="its-all-right"><div class="boxhead"><div class="row"><span class="code">FINALE</span><span class="lbl">Nov 2026 · a film by Watson Hartsoe · built from PAE-02</span></div>
+    <h2>It’s All Right</h2><p class="q">come here · it’s all right · come in</p></div>
+  <div class="trick"><span class="lbl">The film</span><p>A person speaks to a dog in three sentences. The order fails, the reassurance turns its head, the invitation is answered from the sill. One scene, written once as a score, told at once in every language PAE-02 made it in: cut paper, bones, archive film, print, code.</p></div>
+  <a href="its-all-right/"><img src="its-all-right/posters/thumb.jpg" alt="IT’S ALL RIGHT: every telling at once" loading="lazy" style="width:100%;display:block;border-radius:3px"></a>
+  <div class="fullcase"><a href="its-all-right/"><i>FINALE</i> Watch the film, see every dog and every person<span>the film, COME IN through every door, the trailer, the test and the press kit</span></a></div>
+</section>'''
+
+
 def handmade_box(up):
     sw = [x for x in HM['swarms'] if os.path.exists(os.path.join(P, 'handmade', x['dir'], 'film.mp4'))]
     passed = sum(1 for x in sw if (rounds_of(os.path.join(P, 'handmade', x['dir'])) or [(0, '', '')])[-1][1] == 'pass')
@@ -529,4 +534,3 @@ SILL = json.load(open(os.path.join(P, 'handmade/score/threshold-score.json')))['
 
 if __name__ == '__main__':
     index(); case_page(); scion_page(); handmade_page(); print('built paeleo pages')
-
