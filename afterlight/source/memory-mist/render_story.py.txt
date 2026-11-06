@@ -1,0 +1,246 @@
+"""Memory mist v3: humans and forms stay sharp, everything else dissolves; the instrument shows the memory being built
+(SCAN, SEGMENT, DISTIL, ASSEMBLE) with large labels. Masks from make_masks.py (MediaPipe selfie-multiclass, DeepLab,
+interactive segmenter). Usage: render_focus.py FRAMES_DIR T0 OUT_SILENT.mp4 [--stills t,t,...]"""
+import sys,json,glob,os,subprocess
+import numpy as np,cv2
+from PIL import Image,ImageDraw,ImageFont
+from multiprocessing import Pool
+HERE=os.path.dirname(os.path.abspath(__file__))
+FR=sorted(glob.glob(sys.argv[1]+'/*.jpg')); T0=float(sys.argv[2]); OUT=sys.argv[3]
+stills=[float(x) for x in sys.argv[sys.argv.index('--stills')+1].split(',')] if '--stills' in sys.argv else []
+ED=json.load(open(HERE+'/edl.json')); EDL=ED['edl']; DUR=ED['duration']
+SEG={g['id']:g for g in json.load(open(HERE+'/segments.json'))['segments']}
+MU=json.load(open(HERE+'/music.json')); ON=np.array(MU['onsets']); BT=np.array(MU['bass'])
+MK=np.load(HERE+'/masks.npz'); MI0=int(MK['i0']); MH={k:MK[k] for k in ('human','face','hand','toy')}
+SRC=12; FPS=24; W,H=960,540; OW,OH=1280,720; sh,sw=132,320
+GR={}
+for S_ in (1,2):
+    gy,gx=np.mgrid[0:sh:S_,0:sw:S_]; GR[S_]=((gx/sw*2-1)*(sw/sh),-(gy/sh*2-1))
+cache={}; NC={}; C6={}
+F6=sorted(glob.glob(HERE+'/f640/*.jpg'))
+def load6(i):
+    i=max(0,min(len(F6)-1,i))
+    if i not in C6:
+        if len(C6)>60: C6.pop(next(iter(C6)))
+        C6[i]=cv2.cvtColor(cv2.imread(F6[i]),cv2.COLOR_BGR2RGB).astype(np.float32)/255
+    return C6[i]
+def load(i):
+    i=max(0,min(len(FR)-1,i))
+    if i not in cache:
+        if len(cache)>140: cache.pop(next(iter(cache)))
+        cache[i]=cv2.cvtColor(cv2.imread(FR[i])[24:156],cv2.COLOR_BGR2RGB).astype(np.float32)/255
+    return cache[i]
+def mk(kind,a):
+    n=min(len(MH[kind])-1,max(0,a-MI0)); m=MH[kind][n].astype(np.float32)/255
+    if kind=='human' and 156.0<=T0+a/SRC<=168.3: m=m.copy(); m[:,:int(0.42*sw)]=0      # burial: only the crouched child, not blobs in the black
+    return m
+def noise(kind,a,S_):
+    k=(kind,a,S_)
+    if k not in NC:
+        if len(NC)>700: NC.pop(next(iter(NC)))
+        ny,nx=GR[S_][0].shape; r=np.random.default_rng(a*4+S_*2+(kind=='j'))
+        NC[k]=r.random((ny,nx)).astype(np.float32) if kind=='m' else r.normal(0,1,(ny,nx,2)).astype(np.float32)
+    return NC[k]
+def entry(T):
+    for i,e in enumerate(EDL):
+        if e['t0']<=T<e['t1']: return i,e
+    return (len(EDL)-1,EDL[-1]) if T>=EDL[-1]['t1'] else (0,EDL[0])
+def src_time(T):
+    _,e=entry(T); u=min(1,max(0,(T-e['t0'])/(e['t1']-e['t0']))); return e['src0']+u*(e['src1']-e['src0'])
+def pulse(T):
+    d=T-ON[:,0]; m=(d>=0)&(d<2.0)
+    return float((ON[m,1]*(1-np.exp(-d[m]/0.04))*np.exp(-d[m]/0.45)).sum()) if m.any() else 0.0
+def bass(T): return float(np.interp(T,BT[:,0],BT[:,1]))
+def smooth(a,b,u): u=u*u*(3-2*u); return a+(b-a)*u
+EXP={}
+BGEND={'place':0.60,'cut':0.5,'chase':0.30,'threat':0.30,'feeling':0.14,'horse':0.12,'others':0.14}
+def stage_of(ut): return 0 if ut<0.45 else (1 if ut<1.35 else (2 if ut<2.3 else 3))
+def bgweight(g,ut):
+    end=BGEND.get(g.get('role','place'),0.4); s=np.clip((ut-1.2)/1.1,0,1); s=s*s*(3-2*s); return 0.62+(end-0.62)*s
+
+def blendmask(kind,fi): a=int(np.floor(fi)); w=fi-a; return (1-w)*mk(kind,a)+w*mk(kind,a+1)
+
+def core(T,probe=False):
+    ei,e=entry(T); g=SEG[e['seg']]; u=(T-e['t0'])/(e['t1']-e['t0']); ut=T-e['t0']; hero=g.get('hero',False)
+    pu=0.0 if probe else min(1.3,pulse(T)); bs=bass(T); bgw=bgweight(g,ut)
+    mist=g['mist']; N=30 if hero else 22; dz=0.040 if hero else 0.050
+    yaw=np.radians(smooth(-3,4,u) if not hero else smooth(-11,9,u)); pitch=np.radians(smooth(1.5,-1,u))
+    zoom=g.get('zoom',1.0); zcx,zcy=g.get('zc',(0.5,0.5)); cxU=(zcx*2-1)*(sw/sh); cyU=-(zcy*2-1)
+    D=2.4-0.22*u; foc=1.18*H*zoom
+    scan=np.clip(ut/0.45,0,1)
+    acc=[np.zeros((H*W,3),np.float32) for _ in range(3)]
+    cy,sy=np.cos(yaw),np.sin(yaw); cp,sp=np.cos(pitch),np.sin(pitch)
+    for j in range(N):
+        age=float(j); tj=src_time(max(0.0,T-j/SRC)); fi=(tj-T0)*SRC; a=int(np.floor(fi)); wg=fi-a
+        S_=1 if j<3 else 2; PX,PY=GR[S_]; PX=PX-cxU; PY=PY-cyU; ny,nx=PX.shape
+        A,B=load(a),load(a+1); cur=((1-wg)*A+wg*B)
+        hum=np.clip(blendmask('human',fi)+blendmask('hand',fi)+blendmask('toy',fi)+blendmask('face',fi),0,1)
+        lum_full=cur@np.array([.3,.59,.11],np.float32)
+        fire=np.maximum(np.clip((cur[...,0]-cur[...,2])*3.2,0,1)*np.clip((lum_full-0.30)*3,0,1),np.clip((lum_full-0.55)*4,0,1))
+        form=np.clip(hum+g.get('firew',0.55)*fire,0,1)[::S_,::S_]; toy=blendmask('toy',fi)[::S_,::S_]; cur=cur[::S_,::S_]
+        mv=cv2.GaussianBlur(np.abs(A-load(a-1)).mean(2),(0,0),2.0); mot=np.clip((mv-0.02)*8,0,1)[::S_,::S_]
+        nm=(1-wg)*noise('m',a,S_)+wg*noise('m',a+1,S_); jr=(1-wg)*noise('j',a,S_)+wg*noise('j',a+1,S_)
+        lum=cur@np.array([.3,.59,.11],np.float32)
+        w=(0.05+lum**0.6)*(1+1.2*mot)*(np.exp(-age/1.3)+0.10*(1-age/(N+1))**2)*(1.0 if S_==1 else 4.0)*(1+0.15*pu)
+        w*=(0.80+0.20*nm)*(bgw+0.8*form)*(1+2.5*toy)
+        # construction: the scan line reveals the frame top to bottom
+        yn=(1-(PY+cyU))/2; w*=1/(1+np.exp(-(scan*1.25-yn)*14)) if scan<1 else 1.0
+        r=np.hypot((PX+cxU)/(sw/sh),(PY+cyU)); w*=np.clip(1.15-r*(0.35+mist*(0.5+age/N)*(1-0.7*form)),0.02,1)
+        z=-age*dz+0.16*form-0.10*(1-form); zz=z-0.08*mot*age/N
+        X=PX*cy+(zz+0.5)*sy; Zr=-PX*sy+(zz+0.5)*cy-0.5; Y=PY*cp-Zr*sp; Z2=PY*sp+Zr*cp
+        amp=(0.0022+0.0045*(age**0.8)*(0.4+mist*2))*(0.35+1.7*(1-form)); X=X+jr[...,0]*amp; Y=Y+jr[...,1]*amp
+        dep=D-Z2; ok=dep>0.3; xs=(X/dep*foc+W/2).astype(np.int32); ys=(-Y/dep*foc+H/2).astype(np.int32)
+        ok&=(xs>=0)&(xs<W)&(ys>=0)&(ys<H); k=min(2,int(age/N*3.2)); idx=(ys*W+xs)[ok]
+        col=cur.copy(); gm=col.mean(2,keepdims=True); col=np.clip(gm+(col-gm)*(0.30+1.1*form[...,None]),0,1)
+        far=min(1,age/N); col=col*(1-far*mist*0.6)+np.array([1,.93,.82],np.float32)*far*mist*0.35
+        for c in range(3): acc[k][:,c]+=np.bincount(idx,weights=(w*col[...,c])[ok],minlength=H*W).astype(np.float32)
+    sig=[1.5,2.4,4.2]; gain=[3.2,3.6,3.2]; out=np.zeros((H,W,3),np.float32)
+    for k in range(3): out+=cv2.GaussianBlur(acc[k].reshape(H,W,3),(0,0),sig[k])*gain[k]
+    if probe: return float(out.mean())
+    gx_=EXP[ei]; out=1-np.exp(-out*gx_)
+    hz=g.get('haze',1.0)*(0.5+0.5*bs)
+    bloom=cv2.GaussianBlur(out,(0,0),18); haze=cv2.GaussianBlur(out.mean(2),(0,0),40)[...,None]
+    out=out+bloom*(0.30+mist*0.30)*hz+haze*np.array([1,.94,.84],np.float32)*(0.20+0.30*mist)*hz
+    # a clean cut-out of the figures sits under the mist so people read at a glance
+    ts=src_time(T); fi=(ts-T0)*SRC; a=int(np.floor(fi)); wg=fi-a; src=(1-wg)*load6(a)+wg*load6(a+1)
+    fm=np.clip(blendmask('human',fi)+blendmask('hand',fi)+blendmask('toy',fi),0,1)
+    k_=foc/D; Mx=np.float32([[k_*2*(sw/sh)/sw,0,W/2-k_*((sw/sh)+cxU)],[0,k_*2/sh,H/2-k_*(1-cyU)]]); Mx6=Mx.copy(); Mx6[0,0]*=0.5; Mx6[1,1]*=0.5   # source px -> screen px (same projection as the points at z=0)
+    _cl=cv2.createCLAHE(clipLimit=4.0,tileGridSize=(6,3)); lab=cv2.cvtColor((src*255).astype(np.uint8),cv2.COLOR_RGB2LAB); lab[...,0]=_cl.apply(lab[...,0]); srcc=cv2.cvtColor(lab,cv2.COLOR_LAB2RGB).astype(np.float32)/255
+    fm_s=cv2.warpAffine(fm,Mx,(W,H)); cut=cv2.warpAffine(srcc,Mx6,(W,H)); cut=cv2.GaussianBlur(cut,(0,0),0.8)
+    cg=g.get('cutgain',1.0); cl=np.minimum(np.clip(cut,0,1)**(0.85-0.12*(cg-1))*1.15,0.8); cutl=cl*np.clip(cv2.GaussianBlur(fm_s,(0,0),1.2),0,1)[...,None]
+    reveal=1/(1+np.exp(-(np.clip(ut/0.45,0,1)*1.25-np.linspace(0,1,H)[:,None])*14)) if ut<0.45 else 1.0
+    cutw=0.32*cg*(0.5+0.5*np.clip((ut-0.3)/0.8,0,1))*(0.9+0.2*min(1,pu))
+    out=out+cutl*cutw*(reveal[...,None] if np.ndim(reveal)>0 else reveal)
+    return np.clip(out,0,1)**0.9,dict(e=e,g=g,u=u,ut=ut,pu=pu,bs=bs,fm_s=fm_s,face_s=cv2.warpAffine(blendmask('face',fi),Mx,(W,H)),toy_s=cv2.warpAffine(blendmask('toy',fi),Mx,(W,H)),hand_s=cv2.warpAffine(blendmask('hand',fi),Mx,(W,H)))
+
+# ---------- the memory maker's console: it shows the memory being built ----------
+def font(sz):
+    try: return ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSansMono-Bold.ttf',sz)
+    except Exception: return ImageFont.load_default()
+F30,F26,F34,F40,F44=font(30),font(26),font(34),font(40),font(44)
+TEAL=(96,224,214); AMB=(255,186,72); PINK=(255,120,190)
+STAGES=['SCAN','SEGMENT','DISTIL','ASSEMBLE']
+def rrect(img,x0,y0,x1,y1,r,col,th):
+    L=cv2.LINE_AA
+    for p,q in (((x0+r,y0),(x1-r,y0)),((x0+r,y1),(x1-r,y1)),((x0,y0+r),(x0,y1-r)),((x1,y0+r),(x1,y1-r))): cv2.line(img,p,q,col,th,L)
+    for c,a in (((x0+r,y0+r),180),((x1-r,y0+r),270),((x1-r,y1-r),0),((x0+r,y1-r),90)): cv2.ellipse(img,c,(r,r),0,a,a+90,col,th,L)
+_st={}
+def statics():
+    if _st: return _st
+    s=np.zeros((OH,OW,3),np.uint8); rrect(s,30,30,OW-30,OH-30,36,(52,150,146),2)
+    ins=np.zeros((OH,OW),np.uint8); rrect(ins,30,30,OW-30,OH-30,36,255,3); ins=cv2.floodFill(ins.copy(),None,(OW//2,OH//2),255)[1].astype(np.float32)/255; ins=0.30+0.70*cv2.GaussianBlur(ins,(0,0),3)
+    rn=np.random.default_rng(3); dirt=np.zeros((OH,OW),np.float32)
+    for _ in range(50):
+        x,y=int(rn.integers(0,OW)),int(rn.integers(0,OH)); a=rn.uniform(0,np.pi); l=rn.uniform(10,50)
+        cv2.line(dirt,(x,y),(int(x+np.cos(a)*l),int(y+np.sin(a)*l)),float(rn.uniform(0.03,0.09)),1,cv2.LINE_AA)
+    vy,vx=np.mgrid[0:OH,0:OW]; vig=(1-0.34*(((vx-OW/2)/(OW/2))**2+((vy-OH/2)/(OH/2))**2)*0.5).astype(np.float32)
+    pl=np.zeros((OH,OW),np.float32); cv2.rectangle(pl,(52,44),(900,112),1.0,-1); cv2.rectangle(pl,(52,OH-112),(760,OH-52),1.0,-1); pl=cv2.GaussianBlur(pl,(0,0),9)
+    _st.update(ui=s,inside=ins,dirt=dirt,vig=vig,plate=pl); return _st
+def contours_of(mask_s):
+    m=cv2.resize((mask_s>0.5).astype(np.uint8),(OW,OH),interpolation=cv2.INTER_NEAREST)
+    m=cv2.morphologyEx(m,cv2.MORPH_CLOSE,np.ones((9,9),np.uint8)); m=cv2.morphologyEx(m,cv2.MORPH_OPEN,np.ones((7,7),np.uint8))
+    cs,_=cv2.findContours(m,cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)
+    return [c for c in cs if cv2.contourArea(c)>OW*OH*0.004]
+def draw_progress(img,c,p,col,th):
+    pts=cv2.approxPolyDP(c,2.2,True)[:,0,:]; n=max(2,int(len(pts)*p))
+    if n>=2: cv2.polylines(img,[pts[:n].reshape(-1,1,2)],p>=0.999,col,th,cv2.LINE_AA)
+def console(T,c):
+    e,g,ut,pu=c['e'],c['g'],c['ut'],c['pu']
+    dyn=np.zeros((OH,OW,3),np.uint8); labels=[]
+    seg_p=np.clip((ut-0.40)/0.9,0,1); st=stage_of(ut)
+    fade_line=1.0 if ut<1.6 else float(np.clip(1-(ut-1.6)/1.2,0.38,1))      # outlines fade back once drawn
+    glow=(0.55+0.45*min(1,pu))*fade_line
+    outline=e['seg'] in ('M03','M06','M12','M13','M14','M07')
+    hum_c=contours_of(cv2.GaussianBlur(c['fm_s'],(0,0),2.5)) if outline else []
+    hum_c=sorted(hum_c,key=lambda q:-cv2.contourArea(q))[:{'chase':1,'threat':1}.get(g.get('role'),3)]
+    toy_c=contours_of(c['toy_s']) if e['seg']=='M07' else []
+    for q in hum_c: draw_progress(dyn,q,seg_p,tuple(int(v*glow) for v in AMB),2)
+    toy_c=sorted(toy_c,key=lambda q:-cv2.contourArea(q))
+    for n_,q in enumerate(toy_c):
+        draw_progress(dyn,q,seg_p,tuple(int(v*max(glow,0.8)) for v in PINK),3)
+        if seg_p>0.85 and n_==0:                                  # one tag, on the largest piece of the toy
+            x,y,w,h=cv2.boundingRect(q); labels.append(('HORSE',x+w+28,y+h//2-24,PINK))
+    dyn=(dyn.astype(np.float32)*get_inner()[...,None]).astype(np.uint8)       # never draw outside the glass
+    im=Image.fromarray(dyn); d=ImageDraw.Draw(im)
+    ta=float(np.clip(min(ut/0.15,1)*(1 if ut<2.5 else max(0,1-(ut-2.5)/0.3)),0,1))
+    if e.get('title') and ta>0: d.text((70,52),e['title'].upper()[:28],font=F44,fill=tuple(int(v*ta) for v in (245,245,235)))
+    for nm,x,y,col in labels: d.text((int(np.clip(x,44,OW-300)),int(np.clip(y,110,OH-150))),nm,font=F44,fill=col)
+    return np.asarray(im).astype(np.float32)/255
+
+_inner={}
+def get_inner():
+    if 'm' not in _inner:
+        m=np.zeros((OH,OW),np.float32); cv2.rectangle(m,(42,42),(OW-42,OH-42),1.0,-1); _inner['m']=cv2.GaussianBlur(m,(0,0),3)
+    return _inner['m']
+
+def frame_mist(T):
+    out,c=core(T); ST=statics(); pu=c['pu']
+    base=cv2.resize(out,(OW,OH),interpolation=cv2.INTER_CUBIC); lum=base.mean(2,keepdims=True)
+    t=np.clip(lum*2.0,0,1); tone=(1-t)*np.array([0.45,1.0,0.95],np.float32)+t*np.array([1.0,0.80,0.50],np.float32)
+    warm=np.clip((base[...,0:1]-base[...,2:3])*3.2,0,1); tone=(1-warm)*tone+warm*np.array([1.0,0.70,0.28],np.float32)
+    base=0.40*base+0.60*lum*tone*(1.05+0.35*warm)+np.array([0.0,0.030,0.036],np.float32)*(1-lum)
+    base=base*ST['vig'][...,None]
+    base[...,0]=np.roll(base[...,0],1,1); base[...,2]=np.roll(base[...,2],-1,1)
+    base=base+np.random.default_rng(int(T*24)).normal(0,0.008,(OH,OW,1)).astype(np.float32)
+    ui=console(T,c); layer=ST['ui'].astype(np.float32)/255*(0.7+0.4*min(1,pu))+ui; layer=layer+cv2.GaussianBlur(layer,(0,0),4)*0.8
+    fade=min(1,T/2.5)*min(1,(DUR-T)/2.2); uf=min(1,T/1.2)*min(1,(DUR-T)/1.2)
+    fin=np.clip(base*(1-0.62*ST['plate'][...,None])*fade*ST['inside'][...,None]+layer*uf+ST['dirt'][...,None]*np.array([0.35,0.8,0.78],np.float32)*uf,0,1)
+    return (fin*255).astype(np.uint8)
+
+
+sys.path.insert(0,HERE); import horse_styles as HS
+VARIANT=sys.argv[sys.argv.index('--horse')+1] if '--horse' in sys.argv else 'S'
+def title_layer(e,T,caption=None):
+    ut=T-e['t0']; im=Image.new('RGB',(OW,OH),(0,0,0)); d=ImageDraw.Draw(im)
+    ta=float(np.clip(min(ut/0.15,1)*(1 if ut<2.5 else max(0,1-(ut-2.5)/0.3)),0,1))
+    if e.get('title') and ta>0: d.text((70,52),e['title'].upper()[:28],font=F44,fill=tuple(int(v*ta) for v in (245,245,235)))
+    if caption: d.text((70,OH-102),caption[0],font=F44,fill=tuple(int(v*caption[1]) for v in (255,186,72)))
+    return np.asarray(im).astype(np.float32)/255
+def capa(u,a,b,f=0.3): return float(np.clip(min((u-a)/f,(b-u)/f,1),0,1))
+def compose(base,T,e,caption=None):
+    ST=statics(); pu=min(1.0,pulse(T)); base=base*ST['vig'][...,None]
+    ui=title_layer(e,T,caption); layer=ST['ui'].astype(np.float32)/255*(0.7+0.3*pu)+ui; layer=layer+cv2.GaussianBlur(layer,(0,0),4)*0.8
+    fade=min(1,T/2.5)*min(1,(DUR-T)/2.2); uf=min(1,T/1.2)*min(1,(DUR-T)/1.2)
+    fin=np.clip(base*(1-0.5*ST['plate'][...,None])*fade*ST['inside'][...,None]+layer*uf+ST['dirt'][...,None]*np.array([0.35,0.8,0.78],np.float32)*uf,0,1)
+    return (fin*255).astype(np.uint8)
+def live(T,e):
+    ts=src_time(T); fi=(ts-T0)*SRC; a=int(np.floor(fi)); wg=fi-a; im=(1-wg)*load6(a)+wg*load6(a+1)
+    big=cv2.resize(im,(OW,528),interpolation=cv2.INTER_CUBIC); out=np.zeros((OH,OW,3),np.float32); out[96:624]=big
+    lum=out.mean(2,keepdims=True); out=out*0.94+np.array([0.0,0.03,0.036],np.float32)*(1-lum)+np.array([0.045,0.018,0.0],np.float32)*lum
+    out=out*(1-0.06*((np.arange(OH)%3==0)[:,None,None]))+np.random.default_rng(int(T*24)).normal(0,0.008,(OH,OW,1)).astype(np.float32)
+    return np.clip(out,0,1)
+def frame(T):
+    i,e=entry(T)
+    if e.get('look'):
+        ut=T-e['t0']; a=capa(ut,0.0,2.2); return compose(live(T,e),T,e,('LIVE FEED',a) if a>0.01 else None)
+    if e.get('horse'):
+        ts=src_time(T); u=T-e['t0']; fn=HS.style_S if VARIANT=='S' else HS.style_C
+        a=capa(u,1.3,4.6) if e['horse']=='reveal' else capa(u,1.2,4.4); cap=('THE HORSE, DRAWN',a) if a>0.01 else None
+        return compose(fn(ts,u,e['horse'],T),T,e,cap)
+    if e.get('plate'):
+        ts=src_time(T); img=(HS.plate_S if VARIANT=='S' else HS.plate_C)(ts,T); cap=None
+        if e.get('burial'):
+            ub=T-e['t0']; img=HS.burial(img,VARIANT,ub,T); a=capa(ub,6.2,9.6); cap=('THE HORSE, DRAWN',a) if a>0.01 else None
+        return compose(img,T,e,cap)
+    return frame_mist(T)
+
+if __name__=='__main__':
+    for i,e in enumerate(EDL):
+        if e.get('look') or e.get('horse') or e.get('plate'): continue
+        g=SEG[e['seg']]
+        if 'exp' in g: EXP[i]=g['exp']; continue
+        ms=[core(e['t0']+(e['t1']-e['t0'])*f,probe=True) for f in (0.35,0.6,0.85)]
+        EXP[i]=float(np.clip(0.30/(np.median(ms)+1e-4),0.8,4.0))
+    print('exposure',{i:round(v,2) for i,v in EXP.items()},flush=True)
+    if stills:
+        for t in stills:
+            cv2.imwrite(f"{HERE}/g_{VARIANT}_{t:06.2f}.jpg",cv2.cvtColor(frame(t),cv2.COLOR_RGB2BGR),[cv2.IMWRITE_JPEG_QUALITY,90]); print(t,flush=True)
+        sys.exit()
+    n=int(DUR*FPS); K0,K1=0,n-1
+    if '--range' in sys.argv: K0,K1=[int(x) for x in sys.argv[sys.argv.index('--range')+1].split('-')]
+    p=subprocess.Popen(['ffmpeg','-v','error','-y','-f','rawvideo','-pix_fmt','rgb24','-s',f'{OW}x{OH}','-r',str(FPS),'-i','-','-c:v','libx264','-crf','27','-preset','medium','-pix_fmt','yuv420p','-movflags','+faststart',OUT],stdin=subprocess.PIPE)
+    with Pool(4) as pool:
+        for k,img in enumerate(pool.imap(frame,[i/FPS for i in range(K0,K1+1)],chunksize=6)):
+            p.stdin.write(img.tobytes())
+            if k%96==0: print(k,n,flush=True)
+    p.stdin.close(); p.wait(); print('DONE',flush=True)

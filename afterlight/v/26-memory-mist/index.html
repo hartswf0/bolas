@@ -1,17 +1,16 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Memory Mist · Memory Lab · AFL-26</title>
-<meta name="description" content="A reconstruction of one memory, built on screen by a memory lab: the people are found and kept, the room goes to mist. Cut to music, with the making of it as the lab's own build log.">
+<meta name="description" content="A reconstruction of one memory, built on screen by a memory lab, in its true order with all its footage, and the horse drawn two ways: as a cut-paper silhouette and as an engraved card.">
 <meta name="color-scheme" content="dark"><meta name="theme-color" content="#050d0d">
 <link rel="icon" href="../../../favicon.svg" type="image/svg+xml">
 <style>
-:root{--bg:#050d0d;--panel:#081716;--line:#1e5a58;--teal:#5fe0d6;--teal2:#2f9c96;--amber:#ffba48;--pink:#ff78be;--red:#f04a3e;--fg:#e3f3ef;--dim:#8bb5af;--mono:ui-monospace,'DejaVu Sans Mono',Menlo,Consolas,monospace}
+:root{--bg:#050d0d;--panel:#081716;--line:#1e5a58;--teal:#5fe0d6;--teal2:#2f9c96;--amber:#ffba48;--pink:#ff78be;--fg:#e3f3ef;--dim:#8bb5af;--mono:ui-monospace,'DejaVu Sans Mono',Menlo,Consolas,monospace}
 *{box-sizing:border-box}html{-webkit-text-size-adjust:100%}
 body{margin:0;background:radial-gradient(1200px 600px at 50% -10%,#0b2423 0,var(--bg) 60%) fixed;color:var(--fg);font:16px/1.55 var(--mono);min-height:100vh}
 a{color:var(--amber)}a:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var(--amber);outline-offset:3px}
 .top{display:flex;gap:12px;align-items:center;justify-content:space-between;max-width:1040px;margin:0 auto;padding:14px 16px 0;font-size:12px;letter-spacing:.12em;color:var(--dim);text-transform:uppercase}
 .top a{color:var(--teal);text-decoration:none;white-space:nowrap}.top span{text-align:right}
 main{max-width:1040px;margin:0 auto;padding:12px 16px 80px}
-/* the glass */
 .bezel{position:relative;border:2px solid var(--teal2);border-radius:26px;padding:10px;background:linear-gradient(#071312,#050d0d);box-shadow:0 0 0 1px #0b2c2b,0 0 40px rgba(95,224,214,.12),inset 0 0 30px rgba(95,224,214,.06)}
 .bezel::before,.bezel::after{content:"";position:absolute;left:30px;right:30px;height:2px;background:linear-gradient(90deg,transparent,var(--teal2),transparent);opacity:.7}
 .bezel::before{top:-1px}.bezel::after{bottom:-1px}
@@ -30,140 +29,136 @@ main{max-width:1040px;margin:0 auto;padding:12px 16px 80px}
 .legend{display:grid;gap:8px;margin:6px 0}.legend div{display:flex;gap:10px;align-items:center;font-size:clamp(13px,2.4vw,16px)}
 .chip{flex:none;width:34px;height:22px;border-radius:4px;border:2px solid}
 .nav{display:flex;gap:10px;align-items:center;margin-top:12px;flex-wrap:wrap}
-#end{padding:clamp(10px,3vw,40px)}#end h2{font-size:clamp(13px,3.6vw,30px)}#end .btn{padding:8px 14px;min-height:44px;font-size:13px}#end .kicker{margin-bottom:4px}
 .btn{font:600 15px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:#031211;background:var(--teal);border:0;border-radius:10px;padding:12px 18px;min-height:46px;cursor:pointer}
-.btn.ghost{background:transparent;color:var(--teal);border:1px solid var(--teal2)}
-.btn.amber{background:var(--amber)}.btn[disabled]{opacity:.45;cursor:default}
+.btn.ghost{background:transparent;color:var(--teal);border:1px solid var(--teal2)}.btn.amber{background:var(--amber)}.btn[disabled]{opacity:.45;cursor:default}
+.btn[aria-pressed="true"]{background:var(--amber);color:#1b1000;border-color:var(--amber)}
 .dots{display:flex;gap:6px;margin-left:auto}.dots i{width:9px;height:9px;border-radius:50%;background:var(--line)}.dots i.on{background:var(--amber)}
 .load{margin-top:12px;font-size:12px;color:var(--dim);letter-spacing:.08em}
 .bar{height:6px;background:#0d2827;border-radius:3px;overflow:hidden;margin-top:6px}.bar b{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--teal2),var(--teal));transition:width .25s}
 .log{margin:10px 0 0;padding:0;list-style:none;font-size:12px;color:var(--teal2);min-height:5.4em}.log li{opacity:0;transform:translateY(3px);transition:.4s}.log li.on{opacity:1;transform:none}.log li.done::after{content:" ✓";color:var(--amber)}
-/* title animation */
 #title{background:rgba(3,10,10,.55);align-items:center;justify-content:center;text-align:center;padding:8px;overflow:hidden}
 #title h1{margin:0;font:800 clamp(34px,9vw,84px)/1 var(--mono);letter-spacing:.14em;color:#fff;text-shadow:0 0 24px rgba(255,186,72,.55)}
 #title h1 span{display:inline-block;opacity:0;filter:blur(16px);transform:scale(1.3);animation:resolve 1.2s forwards}
 #title .sub{margin-top:14px;font-size:clamp(11px,2.4vw,15px);letter-spacing:.3em;color:var(--teal);text-transform:uppercase;opacity:0;animation:fadein .8s 1.3s forwards}
 #title .sweep{position:absolute;left:0;right:0;height:3px;background:var(--teal);box-shadow:0 0 18px var(--teal);top:0;animation:sweep 2.2s ease-in-out forwards}
-@keyframes resolve{to{opacity:1;filter:blur(0);transform:none}}@keyframes fadein{to{opacity:1}}@keyframes sweep{from{top:0;opacity:1}to{top:100%;opacity:.0}}
-/* console deck */
+@keyframes resolve{to{opacity:1;filter:blur(0);transform:none}}@keyframes fadein{to{opacity:1}}@keyframes sweep{from{top:0;opacity:1}to{top:100%;opacity:0}}
+#end{padding:clamp(10px,3vw,40px)}#end h2{font-size:clamp(13px,3.6vw,30px)}#end .btn{padding:8px 14px;min-height:44px;font-size:13px}#end .kicker{margin-bottom:4px}
 .deck{padding:10px 6px 4px}
 .read{display:grid;grid-template-columns:repeat(2,1fr);gap:8px 14px;font-size:12px;letter-spacing:.08em;color:var(--dim);text-transform:uppercase}
-.read b{display:block;font-size:clamp(14px,3.4vw,19px);color:#fff;letter-spacing:.02em;margin-top:2px;overflow-wrap:anywhere}
-.read .amber{color:var(--amber)}
+.read b{display:block;font-size:clamp(14px,3.4vw,19px);color:#fff;letter-spacing:.02em;margin-top:2px;overflow-wrap:anywhere}.read .amber{color:var(--amber)}
 @media(min-width:720px){.read{grid-template-columns:2fr 1fr 1fr 1fr 1fr}}
 .ctrl{display:flex;gap:8px;margin:12px 0 8px;flex-wrap:wrap}
+.ways{display:flex;gap:8px;align-items:center;margin:2px 0 10px;flex-wrap:wrap;font-size:12px;color:var(--dim);letter-spacing:.08em;text-transform:uppercase}
 .index{position:relative;display:flex;height:46px;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:#06100f}
 .index button{all:unset;box-sizing:border-box;flex:0 0 auto;height:100%;border-right:1px solid #02100f;cursor:pointer;position:relative}
 .index button:focus-visible{outline:2px solid var(--amber);outline-offset:-3px}
-.index button i{position:absolute;left:0;right:0;bottom:0;background:var(--c);opacity:.5;height:calc(100% * (1 - var(--m)))}
+.index button i{position:absolute;left:0;right:0;bottom:0;background:var(--c);opacity:.5;height:calc(100% * var(--m))}
 .index button.on i{opacity:1}.index button.on{box-shadow:inset 0 0 0 2px var(--amber)}
 .play{position:absolute;top:0;bottom:0;width:2px;background:#fff;box-shadow:0 0 8px #fff;pointer-events:none;left:0}
-.axis{display:flex;justify-content:space-between;font-size:11px;color:var(--dim);margin-top:4px}
-.help{font-size:12px;color:var(--dim);margin:6px 0 0}
-/* build log */
+.axis{display:flex;justify-content:space-between;font-size:11px;color:var(--dim);margin-top:4px}.help{font-size:12px;color:var(--dim);margin:6px 0 0}
 h2.sec{font:700 12px var(--mono);letter-spacing:.2em;color:var(--teal);text-transform:uppercase;margin:42px 0 10px;border-top:1px solid var(--line);padding-top:16px}
 details{border:1px solid var(--line);border-radius:10px;margin:8px 0;background:rgba(8,23,22,.6)}
 summary{cursor:pointer;padding:14px 16px;font-weight:700;letter-spacing:.04em;list-style:none;display:flex;gap:12px;align-items:baseline;min-height:48px}
 summary::-webkit-details-marker{display:none}summary .n{color:var(--amber);font-size:12px;letter-spacing:.14em}summary::after{content:"+";margin-left:auto;color:var(--teal)}details[open] summary::after{content:"–"}
-.body{padding:0 16px 16px;color:var(--fg)}.body p{margin:8px 0}.body ul{margin:8px 0;padding-left:20px}.body li{margin:4px 0}
+.body{padding:0 16px 16px}.body p{margin:8px 0}.body ul{margin:8px 0;padding-left:20px}.body li{margin:4px 0}
 .tw{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:13px;min-width:520px}th,td{text-align:left;padding:6px 8px;border-bottom:1px solid var(--line);vertical-align:top}th{color:var(--dim);font-weight:400}
 pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#030a0a;border:1px solid var(--line);border-radius:8px;padding:12px;font-size:12.5px;line-height:1.5;color:#cfeee8;max-height:420px;overflow:auto}
-.note{color:var(--dim);font-size:13px}.warn{color:var(--amber)}
-.files{list-style:none;padding:0}.files li{margin:6px 0}.files span{color:var(--dim);font-size:13px}
+.pair{display:grid;gap:10px;grid-template-columns:1fr}@media(min-width:720px){.pair{grid-template-columns:1fr 1fr}}
+.pair figure{margin:0}.pair video{width:100%;border-radius:10px;background:#000;display:block}.pair figcaption{font-size:12px;color:var(--dim);margin-top:4px;letter-spacing:.06em}
+.note{color:var(--dim);font-size:13px}.warn{color:var(--amber)}.files{list-style:none;padding:0}.files li{margin:6px 0}.files span{color:var(--dim);font-size:13px}
 @media (prefers-reduced-motion:reduce){#title h1 span,#title .sub{animation:none;opacity:1;filter:none;transform:none}#title .sweep{display:none}.scan{display:none}.layer,.log li{transition:none}}
 </style></head><body>
 <div class="top"><a href="../../">◂ Afterlight</a><span>Memory Lab · Reconstruction Console · AFL-26</span></div>
 <main>
 <div class="bezel"><div class="screen tall" id="screen">
-  <video id="v" playsinline preload="auto" poster="../../../media/afterlight/thumbs/afl-26-memory-mist.jpg"><source src="../../../media/afterlight/afl-26-memory-mist-score.mp4" type="video/mp4"></video>
+  <video id="v" playsinline preload="auto" poster="../../../media/afterlight/thumbs/afl-26-memory-mist.jpg"><source src="../../../media/afterlight/afl-26-memory-mist-silhouette.mp4" type="video/mp4"></video>
   <div class="scan"></div>
-  <!-- onboarding: three cards, also the loader -->
   <div class="layer card" id="boot" aria-live="polite">
     <div data-step="1">
       <p class="kicker">Memory Lab · Reconstruction Console</p>
       <h2>A memory, rebuilt on screen.</h2>
-      <p>One sample: a boy, a fire, a toy horse. The lab keeps what a person would feel and lets the room go to mist.</p>
+      <p>One sample, in its true order: a telling, a boy, a fire, a toy horse buried, the others, and the telling again. The lab keeps what a person would feel and lets the room go.</p>
       <p class="quote">“Anything real should be a mist.”<small>as described in the Blade Runner 2049 featurette this sample is built from</small></p>
     </div>
     <div data-step="2" hidden>
       <p class="kicker">Reading the console</p>
-      <h2>What you will see.</h2>
+      <h2>Four ways the lab shows things.</h2>
       <div class="legend">
-        <div><span class="chip" style="border-color:var(--amber)"></span>amber outline: a person the lab has found and kept sharp</div>
-        <div><span class="chip" style="border-color:var(--pink)"></span>pink outline: the toy horse, tagged HORSE</div>
-        <div><span class="chip" style="border-color:var(--teal2);background:#0d2827"></span>the room: dimmed, desaturated, pushed back into mist</div>
-        <div><span class="chip" style="border:0;background:linear-gradient(90deg,var(--teal2),var(--amber))"></span>the index below: one block per beat, taller where the memory keeps more</div>
+        <div><span class="chip" style="border-color:var(--teal2);background:#12302f"></span>live feed: the intake room, clear, as the lab sees it</div>
+        <div><span class="chip" style="border-color:var(--amber);background:linear-gradient(90deg,#3b1a08,#d4701f)"></span>cut paper or engraving: scenes and events, as shadow or ink</div>
+        <div><span class="chip" style="border-color:var(--teal);background:#0d2827"></span>mist: faces, kept soft, the lab's way of keeping a feeling</div>
+        <div><span class="chip" style="border-color:var(--pink)"></span>the horse is drawn, by hand in code. In the footage the toy is mostly hidden in the fist</div>
       </div>
     </div>
     <div data-step="3" hidden>
       <p class="kicker">Ready</p>
       <h2>Best with sound.</h2>
-      <p>The score is <i>Modular Tonal Lego</i> (Treblo). The film's own sound runs under it, cut the same way as the picture. About 1 minute 40.</p>
+      <p>The score is <i>Modular Tonal Lego</i> (Treblo). The film's own sound runs with it, including the voices in the telling. About 1 minute 40. You can switch how the horse is drawn once it plays.</p>
     </div>
-    <ul class="log" id="bootlog">
-      <li>loading the recollection</li><li>finding the people in 739 frames</li><li>separating figures from the room</li><li>distilling the room to mist</li><li>cutting to the score</li>
-    </ul>
+    <ul class="log" id="bootlog"><li>loading the recollection</li><li>finding the people in the frames</li><li>separating figures from the room</li><li>cutting scenes to paper and ink</li><li>cutting to the score</li></ul>
     <div class="load"><span id="loadtxt">recollection 0%</span><div class="bar"><b id="loadbar"></b></div></div>
     <div class="nav"><button class="btn ghost" id="skip" type="button">Skip</button><button class="btn" id="next" type="button">Next ▸</button><button class="btn amber" id="recall" type="button" hidden disabled>Recall</button><span class="dots" aria-hidden="true"><i class="on"></i><i></i><i></i></span></div>
   </div>
-  <!-- title animation -->
   <div class="layer" id="title" hidden aria-hidden="true"><span class="sweep"></span><h1 id="t1"></h1><div class="sub">a reconstruction · AFL-26</div></div>
-  <!-- end -->
   <div class="layer card" id="end" hidden>
     <p class="kicker">Recollection complete</p><h2>The room is gone. The boy, the fire and the horse are what is left.</h2>
     <div class="nav"><button class="btn amber" id="again" type="button">Again</button><a class="btn ghost" href="#buildlog" style="text-decoration:none;display:inline-flex;align-items:center">Making of ▾</a></div>
   </div>
 </div></div>
-
 <div class="deck" id="deck">
-  <div class="read" aria-hidden="true">
-    <div>Beat<b id="r-title" class="amber">standing by</b></div><div>Act<b id="r-act">–</b></div><div>Recall<b id="r-rec">–</b></div><div>Score<b id="r-score">–</b></div><div>Time<b id="r-time">0:00</b></div>
-  </div>
+  <div class="read" aria-hidden="true"><div>Beat<b id="r-title" class="amber">standing by</b></div><div>Act<b id="r-act">–</b></div><div>Made as<b id="r-mode">–</b></div><div>Score<b id="r-score">–</b></div><div>Time<b id="r-time">0:00</b></div></div>
   <div class="ctrl"><button class="btn" id="pp" type="button" disabled>Play</button><button class="btn ghost" id="rs" type="button" disabled>Restart</button><button class="btn ghost" id="mu" type="button" aria-pressed="false" disabled>Sound on</button></div>
+  <div class="ways" role="group" aria-label="How the horse and the scenes are drawn"><span>Drawn as</span><button class="btn ghost" id="wayS" type="button" aria-pressed="true">A · silhouette</button><button class="btn ghost" id="wayC" type="button" aria-pressed="false">B · card</button></div>
   <div class="index" id="index" role="group" aria-label="Recall index: one block per beat"><span class="play" id="ph"></span></div>
   <div class="axis"><span>0:00</span><span>bass drops 0:37</span><span>returns 0:54</span><span>1:40</span></div>
-  <p class="help">Tap a block to jump to that beat. Taller blocks are beats the lab lets keep more of the room.</p>
-  <noscript><p class="warn">This console needs JavaScript. <a href="../../../media/afterlight/afl-26-memory-mist-score.mp4">Open the video directly.</a></p></noscript>
+  <p class="help">Tap a block to jump to that beat. Colour is the act; height is how much of the picture is kept sharp. Switching A and B keeps your place.</p>
+  <noscript><p class="warn">This console needs JavaScript. <a href="../../../media/afterlight/afl-26-memory-mist-silhouette.mp4">Open the video directly.</a></p></noscript>
 </div>
 
 <h2 class="sec" id="buildlog">Build log · how the lab made this recollection</h2>
-<details><summary><span class="n">01</span>Finding the people</summary><div class="body">
-<p>Every frame of the memory was segmented so the lab knew who was in it. Three models did the work: a multiclass selfie model (face, hair, body, clothes), a general person model that still finds figures in the dark, and an interactive segmenter that can be pointed at one thing, here the hand.</p>
-<ul><li>People and the toy stay sharp, are pushed forward in depth, and get a soft cut-out of the real figure under the mist. Everything else is dimmed, desaturated and pushed back.</li>
-<li>The toy is <b>derived</b>, not detected: the segmenter finds the fist and the toy as one object, so the lab subtracts the fist body and what sticks out (the head and the legs) is tagged HORSE.</li>
-<li class="warn">Limits: small distant figures are missed; very dark frames needed local contrast and a restricted search area to avoid false figures.</li></ul>
+<details><summary><span class="n">01</span>The story, in order, with all the footage</summary><div class="body">
+<p>The previous cut rearranged the memory to the music and repeated its faces. This one tells it straight. The telling (Ana and K, from the featurette), then every shot of the memory in the order the film shows it, then the return to K and Ana, then the horse held once more. The memory's footage is all there; the interview is trimmed to the telling and the return. Shots are only sped or slowed a little to land on the music's bars, except the hand shot, which is slowed to a near-freeze on purpose.</p>
+<p>The music's three events fall on story events: the bass drops at 0:36.7 as the child runs for the fire and the burial begins; it returns at 0:53.66 as the others find him; the drone cuts at 1:33 as the telling ends and the horse is shown.</p>
+<div class="tw"><table><thead><tr><th>act</th><th>music (s)</th><th>beat</th><th>made as</th><th>speed</th></tr></thead><tbody><tr><td>A</td><td>0.00–5.66</td><td>the telling</td><td>live feed</td><td>1.0×</td></tr><tr><td>A</td><td>5.66–8.50</td><td>the listener</td><td>live feed</td><td>0.99×</td></tr><tr><td>A</td><td>8.50–11.33</td><td>a place</td><td>paper / engraving</td><td>3.53×</td></tr><tr><td>A</td><td>11.33–16.97</td><td>a child runs</td><td>paper / engraving</td><td>0.83×</td></tr><tr><td>A</td><td>16.97–19.78</td><td>a door of light</td><td>paper / engraving</td><td>1.17×</td></tr><tr><td>B</td><td>19.78–25.43</td><td>the boy at the fire</td><td>mist</td><td>0.42×</td></tr><tr><td>B</td><td>25.43–31.07</td><td>hand and horse</td><td>drawn horse</td><td>0.28×</td></tr><tr><td>B</td><td>31.07–36.73</td><td>running to the fire</td><td>paper / engraving</td><td>1.25×</td></tr><tr><td>C</td><td>36.73–53.66</td><td>the horse is buried</td><td>paper / engraving</td><td>0.79×</td></tr><tr><td>D</td><td>53.66–59.30</td><td>the others</td><td>mist</td><td>0.71×</td></tr><tr><td>D</td><td>59.30–64.92</td><td>the face the fire lights</td><td>mist</td><td>0.73×</td></tr><tr><td>D</td><td>64.92–70.59</td><td>the others look on</td><td>mist</td><td>0.97×</td></tr><tr><td>D</td><td>70.59–73.38</td><td>far down the pipes</td><td>paper / engraving</td><td>1.25×</td></tr><tr><td>E</td><td>73.38–84.68</td><td>k remembers</td><td>live feed</td><td>0.99×</td></tr><tr><td>E</td><td>84.68–93.20</td><td>a real memory</td><td>live feed</td><td>1.0×</td></tr><tr><td>F</td><td>93.20–100.41</td><td>the horse, kept</td><td>drawn horse</td><td>0.14×</td></tr></tbody></table></div>
+<p class="note">Files: <a href="../../source/memory-mist/edl.json">edl.json</a>, <a href="../../source/memory-mist/music.json">music.json</a></p></div></details>
+<details><summary><span class="n">02</span>The horse, drawn two ways</summary><div class="body">
+<p>In the footage the toy is mostly hidden inside the child's fist: only a small head and two legs show. No render can show a clear horse from that, so the lab draws one, and says so. Both ways use the same drawing: a wooden toy horse built from polygons and animated by hand in code (it nods, its legs swing, and at the end it lifts out of the fist into a clear profile). It is not the film's toy. They differ in the language it is drawn in.</p>
+<div class="pair"><figure><video src="../../../media/afterlight/afl-26-passage-silhouette.mp4" controls playsinline muted loop preload="none" poster="../../../media/afterlight/thumbs/afl-26-passage-silhouette.jpg"></video><figcaption>A · silhouette. After Lotte Reiniger: the plate cut to backlit paper in four tones, the fist and the horse black.</figcaption></figure>
+<figure><video src="../../../media/afterlight/afl-26-passage-card.mp4" controls playsinline muted loop preload="none" poster="../../../media/afterlight/thumbs/afl-26-passage-card.jpg"></video><figcaption>B · card. After Gilliam and Ernst: the plate engraved, the fist and the horse paper cards, the horse a pinned wooden card.</figcaption></figure></div>
+<p>The same two languages carry the scenes and events (the place, the child running, the door of light, the burial) in each cut. The faces stay in mist in both. Switch between them under the screen.</p>
+<p class="note">Files: <a href="../../source/memory-mist/horse_styles.py.txt">horse_styles.py</a>, <a href="../../source/memory-mist/m07_masks.py.txt">m07_masks.py</a>, <a href="../../source/memory-mist/m07.npz">m07.npz</a></p></div></details>
+<details><summary><span class="n">03</span>What is observed and what is generated</summary><div class="body">
+<p><b>Observed:</b> every picture is an unaltered frame of the featurette, 1:49 to about 3:26 of the supplied video. Where noted it is slowed (frame-blended), time-remapped to the bars, or cropped (the hand shot is a zoomed window). The intake shots are only graded and letterboxed.</p>
+<p><b>Generated:</b> the mist (a point volume), the cut-paper tones and shadows, the engraving and its hatching, the paper cards and pin, the outlines, the console and its title, and the drawn horse and its motion. All of it is code. The masks that find people, the fist and the toy come from three segmentation models (MediaPipe selfie-multiclass, DeepLab v3, and an interactive segmenter), used only to analyse frames. No image or video generation model was used.</p>
+<p class="warn">Not observed: the horse in the two drawn passages. The toy's visible head and legs are real; the rest is drawn.</p></div></details>
+<details><summary><span class="n">04</span>Finding the people</summary><div class="body">
+<p>Every frame of the memory was segmented so the lab knew who was in it: a multiclass selfie model (face, hair, body, clothes), a general person model that still finds figures in the dark, and an interactive segmenter pointed at the hand. The faces stay sharp in mist; the hand shot also has a full-resolution mask of the fist and of what sticks out of it (derived by subtracting the fist body, because the segmenter finds fist and toy as one object).</p>
+<p class="warn">Limits: small distant figures are missed; very dark frames needed a restricted search area to avoid false figures.</p>
 <p class="note">Files: <a href="../../source/memory-mist/make_masks.py.txt">make_masks.py</a>, <a href="../../source/memory-mist/masks.npz">masks.npz</a></p></div></details>
-<details><summary><span class="n">02</span>Cutting to the score</summary><div class="body">
-<p>The track has a clear skeleton: a main pulse about every 2.83 seconds, the bass dropping out at 0:36.7, returning on the hardest hit at 0:53.66, and the drone cutting at 1:33.2 into a held tone. Every cut is on that grid.</p>
-<ul><li><b>0–36 s</b> faces first, the boy at the fire, the others, the face the fire lights on the strong hit at 19.8 s.</li><li><b>36.7–53.7 s</b> the void: the burial of the horse in ash, slowed, with the boy's face between its halves.</li><li><b>53.66 s</b> the hand over the flames, on the downbeat.</li><li><b>53.7–90 s</b> assembly, cut on the bars.</li><li><b>90–100 s</b> the hand and the horse before the drone cuts, then a near-freeze under the held tone.</li></ul>
-<div class="tw"><table><thead><tr><th>act</th><th>music (s)</th><th>beat</th><th>source</th><th>speed</th></tr></thead><tbody><tr><td>A</td><td>0.00–5.69</td><td>the boy at the fire</td><td>M06</td><td>0.42×</td></tr><tr><td>A</td><td>5.69–8.50</td><td>a child runs</td><td>M03</td><td>0.85×</td></tr><tr><td>A</td><td>8.50–14.14</td><td>the others</td><td>M12</td><td>0.71×</td></tr><tr><td>A</td><td>14.14–19.78</td><td>the others look on</td><td>M14</td><td>0.98×</td></tr><tr><td>B</td><td>19.78–25.43</td><td>the face the fire lights</td><td>M13</td><td>0.73×</td></tr><tr><td>B</td><td>25.43–28.26</td><td>a door of light</td><td>M05</td><td>0.71×</td></tr><tr><td>B</td><td>28.26–33.90</td><td>the others</td><td>M12</td><td>0.53×</td></tr><tr><td>B</td><td>33.90–36.73</td><td>running to the fire</td><td>M09</td><td>0.92×</td></tr><tr><td>C</td><td>36.73–42.38</td><td>the void</td><td>M10</td><td>0.6×</td></tr><tr><td>C</td><td>42.38–45.19</td><td>the boy turns</td><td>M06</td><td>0.43×</td></tr><tr><td>C</td><td>45.19–50.83</td><td>the void</td><td>M10</td><td>0.67×</td></tr><tr><td>C</td><td>50.83–53.66</td><td>into the fire</td><td>M11</td><td>0.57×</td></tr><tr><td>D</td><td>53.66–56.47</td><td>hand and horse</td><td>M07</td><td>0.57×</td></tr><tr><td>D</td><td>56.47–62.11</td><td>the others look on</td><td>M14</td><td>0.98×</td></tr><tr><td>D</td><td>62.11–67.76</td><td>the face the fire lights</td><td>M13</td><td>0.53×</td></tr><tr><td>D</td><td>67.76–73.38</td><td>the others</td><td>M12</td><td>0.53×</td></tr><tr><td>D</td><td>73.38–79.04</td><td>the boy turns</td><td>M06</td><td>0.32×</td></tr><tr><td>D</td><td>79.04–84.68</td><td>the face the fire lights</td><td>M13</td><td>0.43×</td></tr><tr><td>D</td><td>84.68–90.33</td><td>the others look on</td><td>M14</td><td>0.62×</td></tr><tr><td>D</td><td>90.33–93.20</td><td>hand and horse</td><td>M07</td><td>0.24×</td></tr><tr><td>E</td><td>93.20–100.41</td><td>the horse, held</td><td>M07</td><td>0.12×</td></tr></tbody></table></div>
-<p class="note">Files: <a href="../../source/memory-mist/edl.json">edl.json</a>, <a href="../../source/memory-mist/music.json">music.json</a>, <a href="../../source/memory-mist/segments.json">segments.json</a></p></div></details>
-<details><summary><span class="n">03</span>Sound</summary><div class="body">
-<p>The film's own audio goes through the same edit as the picture: each beat's sound is stretched to its slot with pitch kept, slowed beats are washed in a short reverb so anything spoken dissolves where the picture does, and the whole sits about 7 LU under the track. The mix peaks at −1.5 dB.</p>
-<p class="warn">Not verified by ear: no one involved in building or reviewing this could listen, so whether any speech is intelligible in the mix is unknown.</p>
-<p class="note">File: <a href="../../source/memory-mist/build_audio.py.txt">build_audio.py</a></p></div></details>
-<details><summary><span class="n">04</span>Steadying the picture</summary><div class="body">
+<details><summary><span class="n">05</span>Sound, in full</summary><div class="body">
+<p>The film's own audio goes through the same edit as the picture: in the telling and the return, the voices lead and the music steps back 8 dB; in the memory, the music leads and the film's sound sits about 7 LU under it. Shots that run near real speed are left untouched; others are stretched with pitch kept, and slowed ones are washed in a short reverb.</p>
+<p class="warn">Not verified by ear: no one involved in building or reviewing this could listen, so how intelligible the voices are in the mix is unknown.</p>
+<p class="note">File: <a href="../../source/memory-mist/build_audio2.py.txt">build_audio2.py</a></p></div></details>
+<details><summary><span class="n">06</span>Steadying the picture</summary><div class="body">
 <p>An earlier cut flickered. The cause was a 12 Hz pop: the picture is built from source frames at 12 per second and each new frame entered at full weight before decaying. The fix samples time continuously, ties the point noise to its source frame, fixes exposure per beat and eases the note pulses. Energy at 12 Hz on the same stretches fell from 3.8, 7.2 and 2.5 to 0.5, 0.4 and 0.04.</p>
 <p class="note">File: <a href="../../source/memory-mist/flicker_check.py.txt">flicker_check.py</a></p></div></details>
-<details><summary><span class="n">05</span>The console frame</summary><div class="body">
-<p>The picture is a point volume in the manner of <a href="../07-spacetime/">AFL-07</a>: every frame is a sheet of points that keeps its moment, the newest faces the camera and the past recedes into mist. The glass around it builds each beat: a scan sweep, an outline drawn around each person, then the room dissolving behind. The hand shot is reframed with a zoom and pan and cut out from full-size source frames so the toy has detail.</p>
-<p class="note">Files: <a href="../../source/memory-mist/render_focus.py.txt">render_focus.py</a> (final), <a href="../../source/memory-mist/render_ui.py.txt">render_ui.py</a>, <a href="../../source/memory-mist/render_edl.py.txt">render_edl.py</a>, <a href="../../source/memory-mist/render.py.txt">render.py</a> (earlier versions)</p></div></details>
-<details><summary><span class="n">06</span>Independent review</summary><div class="body">
-<p>Four fresh critics, each given only the video and a bar, reviewed successive versions. None could listen.</p>
+<details><summary><span class="n">07</span>Independent review</summary><div class="body">
+<p>Fresh critics, each given only the video and a bar, reviewed successive versions. None could listen.</p>
 <div class="tw"><table><thead><tr><th>version</th><th>found</th></tr></thead><tbody>
-<tr><td>1</td><td>Too many beats with no person; interface cluttered; tracker and labels unreadable at phone size. Flicker passed.</td></tr>
-<tr><td>2</td><td>Subject and flicker passed. The loudest hit landed on a fire texture, not a clear subject; stage words meaningless.</td></tr>
-<tr><td>3</td><td>The toy did not read as a horse; a repetitive loop at the end; scan sweeps were noise.</td></tr>
-<tr><td>4</td><td>Much improved; flicker passes; sound and picture broadly line up. Still: the toy is unreadable without its label, about 30 s of dark low-information picture, and the HORSE tag is small on a phone.</td></tr></tbody></table></div>
-<p class="warn">The bar is not fully met. The toy is mostly hidden inside the fist in the source footage, so no render can show a clear horse profile from it.</p></div></details>
-<details><summary><span class="n">07</span>What this cannot do</summary><div class="body"><ul>
-<li>The horse is outlined and tagged, but is not recognisable as a horse without its label.</li><li>Roughly 30 seconds, mainly the dark void and the running figures, stay low in information.</li><li>Phone legibility was checked only by downscaling, not on a device.</li><li>The picture is derived from a copyrighted film and the sound is a supplied track plus the film's own audio. Rights have not been cleared.</li></ul></div></details>
+<tr><td>earlier cuts 1–4</td><td>Flicker passed from the second onward. The faces read, but the toy did not read as a horse without its label, and about 30 seconds of dark footage stayed low in information.</td></tr>
+<tr><td>story cut, first review of each way (one critic per cut)</td><td>Both: the story can be followed in order, but only because of the captions. The dark scene beats and the buried scene did not read, the toy in the fist looked like a stool or a dog, the bottom tag was jargon and tiny on a phone, and the four looks (live, paper or ink, mist, drawn horse) felt like a patchwork. Flicker passed in both.</td></tr><tr><td>the horse passage, blind comparison (two critics, labels swapped)</td><td>The two critics chose opposite ways overall. They agreed on the facts. Silhouette: bold and designed, but the horse and the fist were one black mass for the first six seconds. Card: the horse separated from the hand throughout, but its striped wood fill shimmered like a processing artefact and the hand edges were ragged. The on-screen caption named the style, so the test was not fully blind.</td></tr><tr><td>after repair: silhouette cut</td><td>Flicker passes. The held horse (25-33 s and 93-100 s) reads as a horse. The faces and the silent burial are strong. Still: the story is carried by captions, 9-18 s reads as abstract, the buried horse is tiny and upside-down, the two people never appear together again, and the four looks join with hard cuts.</td></tr><tr><td>after repair: card cut</td><td>Flicker passes. The paper horse reads as a horse in the hand and at the end; the faces at 54-69 s are the clearest images. Still: the burial and 13-19 s and 31-36 s are near-black, the buried horse is upside-down and reads as a table without its label, there are too many caption changes, and the piece ends on an object, not on the two people together.</td></tr>
+</tbody></table></div>
+<p>Neither way won. The silhouette is the cleaner image and the card the clearer object, so the page lets you switch between them and keeps your place.</p></div></details>
+<details><summary><span class="n">08</span>What this cannot do</summary><div class="body"><ul>
+<li>The horse in the footage is a small head and two legs. The lab draws a horse so it can be seen, and says so; it is not the film's toy.</li><li>Phone legibility was checked by downscaling, not on a device.</li><li>The sound has not been heard by anyone building or reviewing this.</li><li>The picture is derived from a copyrighted film and the sound is a supplied track plus the film's own audio. Rights have not been cleared.</li></ul></div></details>
 
 <h2 class="sec">Prompts</h2>
-<details><summary><span class="n">P1</span>The director's notes</summary><div class="body">
-<p>The notes that shaped the cut, in order:</p>
-<ul><li>“cut it to this music so we can really get a sense of the memory being constructed”</li><li>“include the audio from the original score with our music mixed”; “the effect is quite flickering”; “improve the ui quality to be in-world”</li><li>“it was too hard to watch and understand … pull more focus on humans and forms; the other stuff reads as clutter”</li><li>“make the whole page more diegetic, part of the memory maker, memory lab reconstruction system: onboarding, loading, title animation, how it was made, prompts”</li></ul></div></details>
-<details><summary><span class="n">P2</span>The critic's brief (verbatim)</summary><div class="body"><p>Each critic was a fresh agent given this brief and nothing else: none of the builder's reasoning, measurements or earlier verdicts. This is the final version (earlier ones differed only in not asking about the toy horse); the file paths are replaced by placeholders.</p><pre>You are an independent critic. You have no history with this piece. Judge only what you can see and hear by inspecting the actual file.
+<details><summary><span class="n">P1</span>The director's notes</summary><div class="body"><ul>
+<li>“cut it to this music so we can really get a sense of the memory being constructed”</li>
+<li>“it was too hard to watch and understand … pull more focus on humans and forms; the other stuff reads as clutter”</li>
+<li>“make the whole page more diegetic: the memory lab reconstruction system, onboarding, loading, title animation, how it was made, prompts”</li>
+<li>“do the hand and horse both ways with full audio, better full story, all footage, full memory remake”</li></ul></div></details>
+<details><summary><span class="n">P2</span>The critic's brief (verbatim)</summary><div class="body"><p>Each critic was a fresh agent given this brief and nothing else. This is the version used for the earlier cuts; file paths are replaced by placeholders. The later reviews used the same brief with the story described in a line.</p><pre>You are an independent critic. You have no history with this piece. Judge only what you can see and hear by inspecting the actual file.
 
 FILE: [candidate video]  (100 s, 1280x720, with sound). Put your working files in [a scratch folder]. Do not read any other file in the parent folders, and do not read code or notes.
 
@@ -185,65 +180,62 @@ RETURN, in under 450 words:
 Be specific and blunt. Do not soften a verdict to be polite.
 </pre></div></details>
 <details><summary><span class="n">P3</span>System instruction: SCION agent-first architecture</summary><div class="body">
-<p>The method behind the review loop: a builder never awards its own pass, critics run the work before reading the design, repairs target causes, and every claim is classified as measured, structural, judged or unknown. This is the Agent-First Architect prompt transformed into a SCION system instruction.</p>
+<p>The method behind the review loop: a builder never awards its own pass, critics run the work before reading the design, repairs target causes, and every claim is classified as measured, structural, judged or unknown.</p>
 <p><a href="../../../docs/prompts/16-scion-agent-first-architect.txt">Read the full instruction</a>. The other SCION prompts are in <code>docs/prompts</code>.</p></div></details>
+<details><summary><span class="n">P4</span>Related: how PAELEO's handmade series works</summary><div class="body">
+<p>The two ways of drawing the horse borrow the method of PAELEO's handmade series: public-domain plates cut out with masks, motion keyed by hand in code, a plain statement of what is observed and what is generated, and fresh critics who review blind. See <a href="../../../paeleo/">PAELEO</a> and the <a href="../../../films/cineosis-handmade-film/">CINEOSIS handmade film</a>.</p></div></details>
 
 <h2 class="sec">Files</h2>
 <ul class="files">
-<li><a href="../../source/memory-mist/render_focus.py.txt">render_focus.py</a> <span>the final render</span></li>
-<li><a href="../../source/memory-mist/make_masks.py.txt">make_masks.py</a> <span>segmentation</span></li>
-<li><a href="../../source/memory-mist/masks.npz">masks.npz</a> <span>the masks, so the render can be reproduced</span></li>
-<li><a href="../../source/memory-mist/edl.json">edl.json</a> <span>the cut list</span></li>
-<li><a href="../../source/memory-mist/music.json">music.json</a> <span>plucks and bass envelope the cut follows</span></li>
-<li><a href="../../source/memory-mist/build_audio.py.txt">build_audio.py</a> <span>the sound mix</span></li>
-<li><a href="../../../media/afterlight/afl-26-memory-mist-score.mp4" download>the video</a> <span>1:40, with sound</span></li>
+<li><a href="../../../media/afterlight/afl-26-memory-mist-silhouette.mp4" download>cut A, silhouette</a> <span>1:40, with sound</span></li>
+<li><a href="../../../media/afterlight/afl-26-memory-mist-card.mp4" download>cut B, card</a> <span>1:40, with sound</span></li>
+<li><a href="../../../media/afterlight/afl-26-memory-mist-score.mp4" download>the earlier people-first cut</a> <span>1:40, rearranged to the music</span></li>
+<li><a href="../../source/memory-mist/render_story.py.txt">render_story.py</a> <span>the final render</span></li>
+<li><a href="../../source/memory-mist/horse_styles.py.txt">horse_styles.py</a> <span>the horse and the two languages</span></li>
+<li><a href="../../source/memory-mist/render_focus.py.txt">render_focus.py</a> <span>the mist renderer it builds on</span></li>
+<li><a href="../../source/memory-mist/build_audio2.py.txt">build_audio2.py</a> <span>the sound mix</span></li>
+<li><a href="../../source/memory-mist/edl.json">edl.json</a>, <a href="../../source/memory-mist/music.json">music.json</a>, <a href="../../source/memory-mist/segments.json">segments.json</a></li>
 </ul>
-<p class="note">Made from the 720p featurette video and the music file supplied for this piece. This page holds only the rendered mist and the score as supplied, not the film.</p>
+<p class="note">Made from the 720p featurette video and the music file supplied for this piece. This page holds only the rendered reconstruction and the score as supplied, not the film.</p>
 </main>
 <script>
 (function(){
-var BEATS=[{"t0": 0.0, "t1": 5.69, "id": "M06", "act": "A", "title": "THE BOY AT THE FIRE", "mist": 0.3, "role": "feeling"}, {"t0": 5.69, "t1": 8.5, "id": "M03", "act": "A", "title": "A CHILD RUNS", "mist": 0.25, "role": "chase"}, {"t0": 8.5, "t1": 14.14, "id": "M12", "act": "A", "title": "THE OTHERS", "mist": 0.35, "role": "others"}, {"t0": 14.14, "t1": 19.78, "id": "M14", "act": "A", "title": "THE OTHERS LOOK ON", "mist": 0.35, "role": "others"}, {"t0": 19.78, "t1": 25.43, "id": "M13", "act": "B", "title": "THE FACE THE FIRE LIGHTS", "mist": 0.25, "role": "feeling"}, {"t0": 25.43, "t1": 28.26, "id": "M05", "act": "B", "title": "A DOOR OF LIGHT", "mist": 0.7, "role": "chase"}, {"t0": 28.26, "t1": 33.9, "id": "M12", "act": "B", "title": "THE OTHERS", "mist": 0.35, "role": "others"}, {"t0": 33.9, "t1": 36.73, "id": "M09", "act": "B", "title": "RUNNING TO THE FIRE", "mist": 0.4, "role": "chase"}, {"t0": 36.73, "t1": 42.38, "id": "M10", "act": "C", "title": "THE VOID", "mist": 0.2, "role": "horse"}, {"t0": 42.38, "t1": 45.19, "id": "M06", "act": "C", "title": "THE BOY TURNS", "mist": 0.3, "role": "feeling"}, {"t0": 45.19, "t1": 50.83, "id": "M10", "act": "C", "title": "THE VOID", "mist": 0.2, "role": "horse"}, {"t0": 50.83, "t1": 53.66, "id": "M11", "act": "C", "title": "INTO THE FIRE", "mist": 0.6, "role": "cut"}, {"t0": 53.66, "t1": 56.47, "id": "M07", "act": "D", "title": "HAND AND HORSE", "mist": 0.12, "role": "horse"}, {"t0": 56.47, "t1": 62.11, "id": "M14", "act": "D", "title": "THE OTHERS LOOK ON", "mist": 0.35, "role": "others"}, {"t0": 62.11, "t1": 67.76, "id": "M13", "act": "D", "title": "THE FACE THE FIRE LIGHTS", "mist": 0.25, "role": "feeling"}, {"t0": 67.76, "t1": 73.38, "id": "M12", "act": "D", "title": "THE OTHERS", "mist": 0.35, "role": "others"}, {"t0": 73.38, "t1": 79.04, "id": "M06", "act": "D", "title": "THE BOY TURNS", "mist": 0.3, "role": "feeling"}, {"t0": 79.04, "t1": 84.68, "id": "M13", "act": "D", "title": "THE FACE THE FIRE LIGHTS", "mist": 0.25, "role": "feeling"}, {"t0": 84.68, "t1": 90.33, "id": "M14", "act": "D", "title": "THE OTHERS LOOK ON", "mist": 0.35, "role": "others"}, {"t0": 90.33, "t1": 93.2, "id": "M07", "act": "D", "title": "HAND AND HORSE", "mist": 0.12, "role": "horse"}, {"t0": 93.2, "t1": 100.41, "id": "M07", "act": "E", "title": "THE HORSE, HELD", "mist": 0.12, "role": "horse"}], DUR=100.41;
-var $=function(s){return document.querySelector(s)},v=$('#v'),boot=$('#boot'),title=$('#title'),end=$('#end');
-var ACT={A:'FIRST FACES',B:'THE FIRE',C:'THE VOID',D:'ASSEMBLY',E:'THE HELD HORSE'};
-var COL={A:'#5fe0d6',B:'#5fe0d6',C:'#7fa7ff',D:'#ffba48',E:'#ff78be'};
+var BEATS=[{"t0": 0.0, "t1": 5.66, "id": "F0", "act": "A", "title": "THE TELLING", "mode": "live", "mist": 0}, {"t0": 5.66, "t1": 8.5, "id": "F1", "act": "A", "title": "THE LISTENER", "mode": "live", "mist": 0}, {"t0": 8.5, "t1": 11.33, "id": "M01", "act": "A", "title": "A PLACE", "mode": "plate", "mist": 0.55}, {"t0": 11.33, "t1": 16.97, "id": "M03", "act": "A", "title": "A CHILD RUNS", "mode": "plate", "mist": 0.25}, {"t0": 16.97, "t1": 19.78, "id": "M05", "act": "A", "title": "A DOOR OF LIGHT", "mode": "plate", "mist": 0.7}, {"t0": 19.78, "t1": 25.43, "id": "M06", "act": "B", "title": "THE BOY AT THE FIRE", "mode": "mist", "mist": 0.3}, {"t0": 25.43, "t1": 31.07, "id": "M07", "act": "B", "title": "HAND AND HORSE", "mode": "horse", "mist": 0.12}, {"t0": 31.07, "t1": 36.73, "id": "M09", "act": "B", "title": "RUNNING TO THE FIRE", "mode": "plate", "mist": 0.4}, {"t0": 36.73, "t1": 53.66, "id": "M10", "act": "C", "title": "THE HORSE IS BURIED", "mode": "plate", "mist": 0.2}, {"t0": 53.66, "t1": 59.3, "id": "M12", "act": "D", "title": "THE OTHERS", "mode": "mist", "mist": 0.35}, {"t0": 59.3, "t1": 64.92, "id": "M13", "act": "D", "title": "THE FACE THE FIRE LIGHTS", "mode": "mist", "mist": 0.25}, {"t0": 64.92, "t1": 70.59, "id": "M14", "act": "D", "title": "THE OTHERS LOOK ON", "mode": "mist", "mist": 0.35}, {"t0": 70.59, "t1": 73.38, "id": "M15", "act": "D", "title": "FAR DOWN THE PIPES", "mode": "plate", "mist": 0.65}, {"t0": 73.38, "t1": 84.68, "id": "F2", "act": "E", "title": "K REMEMBERS", "mode": "live", "mist": 0}, {"t0": 84.68, "t1": 93.2, "id": "F3", "act": "E", "title": "A REAL MEMORY", "mode": "live", "mist": 0}, {"t0": 93.2, "t1": 100.41, "id": "M07", "act": "F", "title": "THE HORSE, KEPT", "mode": "horse", "mist": 0.12}], DUR=100.41;
+var WAYS={S:'../../../media/afterlight/afl-26-memory-mist-silhouette.mp4',C:'../../../media/afterlight/afl-26-memory-mist-card.mp4'},way='S';
+var $=function(s,r){return (r||document).querySelector(s)},v=$('#v'),boot=$('#boot'),title=$('#title'),end=$('#end');
+var ACT={A:'THE TELLING',B:'THE MEMORY',C:'THE BURIAL',D:'THE OTHERS',E:'THE RETURN',F:'THE HORSE, KEPT'};
+var COL={A:'#5fe0d6',B:'#ffba48',C:'#7fa7ff',D:'#e08a52',E:'#5fe0d6',F:'#ff78be'};
 var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 function fmt(t){t=Math.max(0,t);var m=Math.floor(t/60),s=Math.floor(t%60);return m+':'+(s<10?'0':'')+s}
-/* recall index */
+function made(b){return b.mode==='live'?'live feed':b.mode==='mist'?'mist':b.mode==='horse'?(way==='S'?'drawn horse · silhouette':'drawn horse · card'):(way==='S'?'cut paper':'engraving')}
+function height(b){return b.mode==='mist'?1-b.mist:b.mode==='plate'?0.7:1}
 var idx=$('#index'),ph=$('#ph'),btns=[];
-BEATS.forEach(function(b,i){var el=document.createElement('button');el.type='button';el.style.width=((b.t1-b.t0)/DUR*100)+'%';el.style.setProperty('--c',COL[b.act]);el.style.setProperty('--m',b.mist);
- el.setAttribute('aria-label',b.title.toLowerCase()+', '+fmt(b.t0));el.title=b.title;el.innerHTML='<i></i>';
+BEATS.forEach(function(b,i){var el=document.createElement('button');el.type='button';el.style.width=((b.t1-b.t0)/DUR*100)+'%';el.style.setProperty('--c',COL[b.act]);el.style.setProperty('--m',height(b));
+ el.setAttribute('aria-label',(b.title||'beat').toLowerCase()+', '+fmt(b.t0));el.title=b.title;el.innerHTML='<i></i>';
  el.addEventListener('click',function(){seek(b.t0+0.05)});idx.insertBefore(el,ph);btns.push(el)});
 function seek(t){try{v.currentTime=t}catch(e){} if(state==='ready'||state==='end'){start()} else if(v.paused&&state==='play'){v.play()}}
 function beatAt(t){for(var i=0;i<BEATS.length;i++)if(t>=BEATS[i].t0&&t<BEATS[i].t1)return i;return t>=DUR?BEATS.length-1:0}
 function score(t){return t<36.73?'drone':t<53.66?'hollow':t<93.2?'return':'held tone'}
 var cur=-1;
 function readouts(){var t=v.currentTime||0,i=beatAt(t),b=BEATS[i];
- if(i!==cur){if(cur>=0)btns[cur].classList.remove('on');btns[i].classList.add('on');cur=i;$('#r-title').textContent=b.title;$('#r-act').textContent=ACT[b.act];$('#r-rec').textContent=Math.round((1-b.mist)*100)+'%'}
+ if(i!==cur){if(cur>=0)btns[cur].classList.remove('on');btns[i].classList.add('on');cur=i;$('#r-title').textContent=b.title||'–';$('#r-act').textContent=ACT[b.act];$('#r-mode').textContent=made(b)}
  $('#r-score').textContent=score(t);$('#r-time').textContent=fmt(t)+' / 1:40';ph.style.left=(t/DUR*100)+'%'}
 var raf=0;function loop(){readouts();raf=requestAnimationFrame(loop)}
-/* state: boot -> ready -> title/play -> end */
 var state='boot';
-/* title letters */
 var T1=$('#t1');'MEMORY MIST'.split('').forEach(function(c,i){var s=document.createElement('span');s.textContent=c===' '?' ':c;s.style.animationDelay=(i*0.07)+'s';T1.appendChild(s)});
-/* onboarding */
 var step=1,dots=document.querySelectorAll('.dots i'),nextB=$('#next'),skipB=$('#skip'),recallB=$('#recall');
-function show(n){step=n;[1,2,3].forEach(function(k){document.querySelector('[data-step="'+k+'"]').hidden=(k!==n)});dots.forEach(function(d,i){d.className=i===n-1?'on':''});
- var last=n===3;nextB.hidden=last;skipB.hidden=last;recallB.hidden=!last;$('.card h2',boot)}
+function show(n){step=n;[1,2,3].forEach(function(k){document.querySelector('[data-step="'+k+'"]').hidden=(k!==n)});dots.forEach(function(d,i){d.className=i===n-1?'on':''});var last=n===3;nextB.hidden=last;skipB.hidden=last;recallB.hidden=!last}
 nextB.addEventListener('click',function(){show(step+1)});skipB.addEventListener('click',function(){show(3)});
-/* loader: real buffered progress; never blocks forever */
 var lis=document.querySelectorAll('#bootlog li'),ready=false,t0=Date.now();
 function buffered(){try{if(!v.duration||!isFinite(v.duration))return 0;var b=v.buffered;return b.length?b.end(b.length-1)/v.duration:0}catch(e){return 0}}
-function prog(){var p=Math.min(1,buffered());var tt=Math.min(1,(Date.now()-t0)/2600);var shown=Math.min(p,tt+0.0001);
- if(v.readyState>=4){p=1}
+function prog(){var p=Math.min(1,buffered());var tt=Math.min(1,(Date.now()-t0)/2600);if(v.readyState>=4){p=1}
  $('#loadbar').style.width=Math.round(Math.min(p,Math.max(tt,p>=1?1:tt))*100)+'%';$('#loadtxt').textContent=(p>=1?'recollection loaded':'recollection '+Math.round(p*100)+'%');
  var n=Math.floor(Math.min(p,tt)*lis.length+0.999);for(var i=0;i<lis.length;i++){lis[i].className=i<n?'on'+(i<n-1||p>=1&&tt>=1?' done':''):''}
  if((p>=1&&tt>=1)||Date.now()-t0>9000){finish()}}
 function finish(){if(ready)return;ready=true;lis.forEach(function(l){l.className='on done'});$('#loadbar').style.width='100%';$('#loadtxt').textContent=v.error?'recollection could not be loaded here':'recollection loaded';recallB.disabled=false;if(v.error){recallB.textContent='Open video'}}
 var pt=setInterval(function(){prog();if(ready)clearInterval(pt)},250);
-['progress','loadedmetadata','canplaythrough'].forEach(function(e){v.addEventListener(e,prog)});
-v.addEventListener('error',function(){finish()});
-/* start */
-function start(){if(v.error){location.href=v.currentSrc||'../../../media/afterlight/afl-26-memory-mist-score.mp4';return}
+['progress','loadedmetadata','canplaythrough'].forEach(function(e){v.addEventListener(e,prog)});v.addEventListener('error',function(){finish()});
+function start(){if(v.error){location.href=WAYS[way];return}
  $('#screen').classList.remove('tall');boot.classList.add('out');end.hidden=true;$('#pp').disabled=$('#rs').disabled=$('#mu').disabled=false;
  title.hidden=false;title.classList.remove('out');T1.querySelectorAll('span').forEach(function(s){s.style.animation='none';void s.offsetWidth;s.style.animation=''});
  var sw=title.querySelector('.sweep');sw.style.animation='none';void sw.offsetWidth;sw.style.animation='';
@@ -252,11 +244,15 @@ function start(){if(v.error){location.href=v.currentSrc||'../../../media/afterli
  setTimeout(function(){title.classList.add('out');setTimeout(function(){title.hidden=true;boot.hidden=true},650)},reduce?1200:2700);
  cancelAnimationFrame(raf);loop()}
 recallB.addEventListener('click',function(){state='ready';start()});
-/* controls */
 $('#pp').addEventListener('click',function(){if(v.paused){if(state==='end')start();else v.play()}else v.pause()});
 $('#rs').addEventListener('click',function(){try{v.currentTime=0}catch(e){} if(v.paused)v.play()});
 $('#mu').addEventListener('click',function(){v.muted=!v.muted;this.setAttribute('aria-pressed',v.muted);this.textContent=v.muted?'Sound off':'Sound on'});
 $('#again').addEventListener('click',function(){try{v.currentTime=0}catch(e){}start()});
+/* switch how the horse and scenes are drawn, keeping the place */
+function setWay(w){if(w===way)return;var t=v.currentTime||0,was=!v.paused&&state==='play';way=w;
+ $('#wayS').setAttribute('aria-pressed',w==='S');$('#wayC').setAttribute('aria-pressed',w==='C');
+ v.src=WAYS[w];v.load();var go=function(){v.removeEventListener('loadedmetadata',go);try{v.currentTime=t}catch(e){} if(was)v.play(); cur=-1;readouts()};v.addEventListener('loadedmetadata',go)}
+$('#wayS').addEventListener('click',function(){setWay('S')});$('#wayC').addEventListener('click',function(){setWay('C')});
 v.addEventListener('play',function(){$('#pp').textContent='Pause'});v.addEventListener('pause',function(){if(!v.ended)$('#pp').textContent='Play'});
 v.addEventListener('ended',function(){state='end';$('#pp').textContent='Replay';end.hidden=false;end.classList.remove('out');boot.hidden=true;readouts()});
 v.addEventListener('timeupdate',function(){if(!raf)readouts()});
