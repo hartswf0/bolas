@@ -1,0 +1,275 @@
+<title>Twelve to the Twelfth</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&family=IM+Fell+English:ital@0;1&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+/* Layout: a Tufte page in the Lab 7 film-page identity: one reading column with a wide right margin for sidenotes and small figures; full-width figures break out of the column. */
+:root{
+ --paper:#f4f2ea;--ink:#141414;--card:#ebe3cf;--grey:#6d695f;--rule:#d3ccb9;--hl:#ffdc00;--hl-ink:#141414;--cut:#b8432c;
+ --R:#7a3f37;--B:#3a3530;--I:#b0915e;--O:#7a3b8f;
+ --display:"IM Fell English",Georgia,"Times New Roman",serif;--body:Inter,"Helvetica Neue",Arial,sans-serif;--mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--paper:#15140f;--ink:#ebe6d8;--card:#211f19;--grey:#9d978a;--rule:#34312a;--hl:#5c4d00;--hl-ink:#fff0a0;--cut:#e2704f;--R:#c67a6e;--B:#a39b8e;--I:#d4b67e;--O:#b583c8;color-scheme:dark}}
+:root[data-theme="dark"]{--paper:#15140f;--ink:#ebe6d8;--card:#211f19;--grey:#9d978a;--rule:#34312a;--hl:#5c4d00;--hl-ink:#fff0a0;--cut:#e2704f;--R:#c67a6e;--B:#a39b8e;--I:#d4b67e;--O:#b583c8;color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font:16px/1.6 var(--body);padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+header.top{display:flex;gap:12px;flex-wrap:wrap;align-items:center;padding-block:14px;border-bottom:2px solid var(--ink);font:700 12px var(--mono);letter-spacing:.08em;max-width:1180px;margin:0 auto}
+header.top a{color:var(--ink);text-decoration:none;padding:5px 8px;border:1.5px solid var(--ink)}
+header.top a:hover,header.top a:focus-visible{background:var(--hl);color:var(--hl-ink);outline:none}
+main{max-width:1180px;margin:0 auto;padding-block:26px 80px}
+.sec{display:grid;grid-template-columns:minmax(0,640px) minmax(0,1fr);column-gap:48px;align-items:start}
+.sec>*{grid-column:1;min-width:0}
+@media (max-width:900px){.sec>.side{grid-row:auto}}
+.sec>.side{grid-column:2;grid-row:span 4;font:13px/1.5 var(--body);color:var(--grey)}
+.sec>.wide{grid-column:1/-1}
+@media (max-width:900px){.sec{grid-template-columns:minmax(0,1fr)}.sec>.side{grid-column:1;border-left:2px solid var(--rule);padding-left:12px;margin:4px 0 14px}}
+h1{font:400 clamp(40px,7vw,68px)/1 var(--display);margin:8px 0 6px;text-wrap:balance}
+.sub{font:italic 22px/1.3 var(--display);margin:0 0 18px;color:var(--ink)}
+h2{font:700 12px var(--mono);letter-spacing:.14em;text-transform:uppercase;margin:46px 0 14px;padding-top:12px;border-top:2px solid var(--ink)}
+h3{font:italic 24px/1.25 var(--display);margin:6px 0 10px;text-wrap:balance}
+p{margin:0 0 14px;max-width:64ch}
+.lede{font:21px/1.45 var(--display)}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+mark{background:var(--hl);color:var(--hl-ink);padding:0 4px}
+.side p{max-width:none;margin:0 0 10px}
+.side b{color:var(--ink);font-weight:600}
+a{color:inherit}
+figure{margin:10px 0 22px}
+figcaption{font:13px/1.5 var(--body);color:var(--grey);margin-top:6px;max-width:72ch}
+svg{display:block;max-width:100%;height:auto;overflow:visible}
+svg text{font-family:var(--mono);fill:var(--ink)}
+svg .g{fill:var(--grey)}
+svg .ax{stroke:var(--rule);stroke-width:1;fill:none}
+svg .ink{stroke:var(--ink);fill:none}
+.giant{font:500 min(60px,calc((100vw - 48px)/10.6))/1.05 var(--mono);font-variant-numeric:tabular-nums;letter-spacing:-.02em;margin:14px 0 4px;white-space:nowrap}
+.giant span{color:var(--grey)}
+.ann{display:flex;gap:18px;flex-wrap:wrap;font:12px var(--mono);color:var(--grey);margin-bottom:14px}
+table{border-collapse:collapse;font:13px/1.35 var(--body);width:100%}
+th{font:700 11px var(--mono);letter-spacing:.08em;text-transform:uppercase;text-align:left;color:var(--grey);border-bottom:1.5px solid var(--ink);padding:4px 8px 4px 0}
+td{border-bottom:1px solid var(--rule);padding:5px 8px 5px 0;vertical-align:top}
+td.r,th.r{text-align:right}
+.tw{overflow-x:auto}
+.multi{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:18px}
+.multi .cap{font:11px var(--mono);color:var(--grey);margin-top:4px}
+.chip{display:inline-block;width:9px;height:9px;margin-right:4px;vertical-align:-1px}
+ol.reads{list-style:none;padding:0;margin:0;counter-reset:r}
+ol.reads li{padding:12px 0;border-bottom:1px solid var(--rule);display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px}
+@media (max-width:700px){ol.reads li{grid-template-columns:minmax(0,1fr);gap:4px}}
+ol.reads .cite{font:17px/1.35 var(--display)}
+ol.reads .cite i{font-style:italic}
+ol.reads .into{font:13px/1.5 var(--body);color:var(--grey)}
+ol.reads .into b{font:700 11px var(--mono);letter-spacing:.08em;color:var(--ink);display:block;text-transform:uppercase;margin-bottom:2px}
+.src{font-size:13px;color:var(--grey);margin-top:30px;max-width:72ch}
+@media (prefers-reduced-motion:no-preference){.giant{transition:color .2s}}
+</style>
+
+<header class="top"><a href="https://hartswf0.github.io/2700-fa26/LAB%207%20-%20CLASSES/abominable-house/">THE FILM</a><a href="film.html">THE FILM BANK</a><a href="../">THE ABOMINABLE HOUSE</a><span>THE NUMBERS</span></header>
+<main>
+
+<section class="sec">
+ <h1>Twelve to the Twelfth</h1>
+ <aside class="side"><p><b>Check the arithmetic.</b> 4 tenants × 3 others = 12 ordered pairs. Each of 12 deeds takes one pair, so 12 × 12 × … twelve times. In JavaScript: <span class="num">12n ** 12n</span>. Printed sources disagree; the Wikipedia article on the story gives 874,296,672,256, which is not 12<sup>12</sup>.</p><p><b>Source.</b> Italo Calvino, “L’incendio della casa abominevole,” first published in the Italian <i>Playboy</i> in 1973; in English as “The Burning of the Abominable House” in <i>Numbers in the Dark</i>, translated by Tim Parks.</p></aside>
+ <p class="sub">the numbers inside Calvino’s burned house, and the readings that taught us how to search them</p>
+ <div class="giant">8<span>,</span>916<span>,</span>100<span>,</span>448<span>,</span>256</div>
+ <div class="ann"><span>= 12<sup>12</sup></span><span>12 deeds in the copybook’s index</span><span>12 ordered pairs of 4 tenants for each</span></div>
+ <p class="lede">Four tenants die when the house burns. A copybook survives with only its index: twelve abominable deeds, and no record of who did what to whom. If each deed was done by one tenant to another, the copybook could have told <span class="num">12<sup>12</sup></span> stories. This page measures that space, and shows what each reading on the syllabus did to it.</p>
+</section>
+
+<section class="sec">
+ <h2>The scale</h2>
+ <aside class="side" id="time"></aside>
+ <h3>Everything this project counted, on one logarithmic ruler</h3>
+ <p>Each step up the ruler is ten times the one below. The film bank plays one story at a time; the agents wrote a million; the exact count reaches all of them. The interesting numbers sit within one step of the top.</p>
+ <figure class="wide"><div id="ruler"></div><figcaption>Logarithmic scale. Grey labels on the left are powers of ten. Every mark on the right is a number this project computed, except Queneau’s, which is there for comparison.</figcaption></figure>
+</section>
+
+<section class="sec">
+ <h2>The sieve · Prose and Anticombinatorics</h2>
+ <aside class="side"><p><b>The program at the Pompidou.</b> Calvino’s collaboration with Braffort was presented on 15 June 1977 at the Atelier de Recherches Avancées of the Centre Pompidou. Braffort later founded ALAMO, a workshop for literature assisted by mathematics and computers.</p><p><b>Order.</b> The index is alphabetical, so the copybook does not say which deed came first. The film plays them in index order; the five rules here do not depend on order.</p></aside>
+ <h3>The computer’s job is to throw stories away</h3>
+ <p>In his Oulipo essay “Prose and Anticombinatorics,” Calvino describes the program Paul Braffort wrote for this story. A first program printed twelve-deed scenarios, and Calvino called them stupid. The useful program did the opposite: it eliminated every sequence that broke a constraint, so that the author only had to read the few that were left. He sorts the constraints into three kinds: <b>objective</b> (a dead person does nothing further), <b>subjective</b> (some characters will not do some deeds) and <b>aesthetic</b> (symmetries the author wants, such as each character committing three deeds and suffering three).</p>
+ <p>The film’s script has the programmer say that <mark>every rule I add throws away a trillion stories</mark>. Here are its five rules, applied in order and counted exactly.</p>
+ <figure class="wide"><div id="sieve"></div><figcaption>Bars to scale, in trillions of stories. Dark: stories that survive every rule so far. Hatched: removed by this rule. Counted by enumerating the seven deeds the rules touch (12<sup>7</sup> = 35,831,808 cases) and multiplying by 12<sup>5</sup> for the other five.</figcaption></figure>
+ <p id="sievetext"></p>
+</section>
+
+<section class="sec">
+ <h2>The three kinds of constraint, counted</h2>
+ <aside class="side"><p><b>How the aesthetic count is exact.</b> A balanced story is a 4 × 4 table of how many times each tenant did something to each other (no diagonal), with every row and column summing to 3. There are 138 such tables. Each table can be ordered in 12! / (product of its cells’ factorials) ways. The sum is 5,112,676,800.</p></aside>
+ <div class="wide tw"><table id="kinds"></table></div>
+ <p>The objective rule is the ledger’s: nobody dead acts or is acted on, and a tied tenant cannot act for the next two deeds. It keeps 37 of every 100 stories. Calvino’s aesthetic rule is much stricter: only one story in about 1,700 gives every tenant three deeds done and three suffered.</p>
+</section>
+
+<section class="sec">
+ <h2>Why the whole space can be counted</h2>
+ <aside class="side" id="deaths"></aside>
+ <h3>Nine trillion paths, never more than 28 states</h3>
+ <p>Only three deeds can kill: the incitement (III), the knifing (IV) and the strangling (XII). Once the first four deeds are known, everything that decides whether a story is consistent fits in a small description: who is alive, and who is tied until when. So the first four deeds are listed in full (20,736 beginnings, run through the whole ledger) and the last eight are counted by adding up how many stories reach each description. Paths multiply by twelve at every deed; descriptions stay below thirty.</p>
+ <figure class="wide"><div id="quot"></div><figcaption>Logarithmic scale. Dark line: number of paths after each deed, 12<sup>k</sup>. Marks: number of distinct descriptions the count has to keep. A test on 20,000 random stories agrees with the full ledger on every one.</figcaption></figure>
+</section>
+
+<section class="sec">
+ <h2>The tenants decide · Park, Bratman, PIE</h2>
+ <aside class="side"><p><b>The million.</b> The first ledger, before rooms and light, ran 333,333 stories in each mode on two cores in seventeen minutes, about one millisecond each. Practical agents averaged 0.52, symbolic 0.35, random stories 0.29. Nearly every story was different.</p></aside>
+ <h3>Agents with memories write better stories than chance</h3>
+ <p>Instead of drawing pairs at random, each tenant can choose. Every tenant holds beliefs, desires and a committed plan (Rao and Georgeff’s BDI, after Bratman), keeps a memory stream scored by recency, importance and relevance, and writes reflections when enough happens (Park and colleagues’ generative agents). The PIE dial from <i>Growing Entanglements</i> sets how much a choice follows practical interest, and how much the roles the house has given each tenant.</p>
+ <figure class="wide"><div id="hists" class="multi"></div><figcaption>Small multiples, same scales. Share of 1,500 stories at each believability, current ledger. The tick marks the mean. Believability is the geometric mean of the twelve deeds’ ratings, using the motives, rules, feelings and roles in the film bank.</figcaption></figure>
+</section>
+
+<section class="sec">
+ <h2>Who does each deed</h2>
+ <p>The modes disagree about the culprits. Read across a row to see one deed’s doers under each mode. Under symbolic reasons, Belindo, cast as the brute, takes over most of the violent deeds; under practical reasons they go to whoever has the motive.</p>
+ <figure class="wide tw"><div id="doers"></div><figcaption>Share of 333,333 stories per mode in which each tenant does the deed. First ledger, November 6, 2026. <span class="chip" style="background:var(--R)"></span>Roessler <span class="chip" style="background:var(--B)"></span>Belindo <span class="chip" style="background:var(--I)"></span>Inigo <span class="chip" style="background:var(--O)"></span>Ogiva</figcaption></figure>
+</section>
+
+<section class="sec">
+ <h2>The watcher · inverse planning</h2>
+ <h3>A model of the audience, and an author who writes for it</h3>
+ <p>Baker, Saxe and Tenenbaum model understanding an action as inverse planning: the observer works backward from what an agent did to what it must have wanted. Chandra, Li, Tenenbaum and Ragan-Kelley stack a third layer on top: the author chooses actions to steer what the audience will infer. Here the watcher sees every deed and keeps a probability over each tenant’s hidden plan. From that come four curves per deed: surprise, twist (how far a deed moves the watcher’s beliefs), suspense (how uncertain it is that the next deed able to kill will kill) and irony (the watcher expects harm the victim does not see coming). The author searches for stories that raise one of these while staying believable.</p>
+ <figure class="wide"><div id="slopes" class="multi"></div><figcaption>Slopegraphs, one per measure, each on its own scale. Left: mean of 1,500 stories by practical agents. Right: mean of 10 stories by the author searching for that device.</figcaption></figure>
+</section>
+
+<section class="sec">
+ <h2>Two readings of every card · The Castle of Crossed Destinies</h2>
+ <p>In Calvino’s tarot book each card belongs to two stories, the row and the column it sits in. A film here can be read the same way: across, deed by deed, and down, as one tenant’s own strand of what it did and what was done to it. A story passes the second reading only if every tenant’s strand is believable on its own. Among random stories an average of 1.4 strands hold; among the author’s, 3.8 to 4.</p>
+ <h2>Openings · If on a winter’s night a traveler</h2>
+ <p>Calvino’s novel is ten beginnings that stop. All 1,728 three-deed openings were run, grouped by the house each one leaves behind (who is marked, who plans what, which role each tenant now holds), and continued by the agents until the next deed was a toss-up, where they stop.</p>
+ <figure class="wide"><div id="cuts"></div><figcaption id="cutcap"></figcaption></figure>
+</section>
+
+<section class="sec">
+ <h2>The frame · The House of Dust</h2>
+ <aside class="side"><p><b>Witnesses change the count.</b> Under the first ledger, knowledge spread by fixed rules. With rooms and light, about 64% of deeds in agent stories end up known to a third tenant.</p></aside>
+ <h3>A deed of rope, in the cellar, in the dark, seen by no one</h3>
+ <p>Alison Knowles and James Tenney’s 1967 FORTRAN poem builds each stanza from four lists: a material, a site, a light, and who lives there. In the film bank those four lists do work. Every deed happens in a room of the house under a light, and leaves a material. A tenant standing in a lit room learns what happened; a tenant who later enters a lit room finds the traces. From deed IX the fire raises the light everywhere. This is the most believable story the search found, as quatrains.</p>
+ <div class="wide tw"><table id="quat"></table></div>
+</section>
+
+<section class="sec">
+ <h2>The archive · Six Memos for the Next Millennium</h2>
+ <h3>One best story per kind, instead of one best story</h3>
+ <p>Calvino wrote five of six planned lectures before he died; they were published in 1988. Three of their qualities can be measured here. <b>Exactitude</b>: how believable the weakest tenant’s strand is. <b>Multiplicity</b>: how many tenants carry the plot (one to four). <b>Visibility</b>: the share of deeds a third tenant comes to know. A MAP-Elites archive (Mouret and Clune) keeps the most believable story in each combination, and only stories whose four strands hold may enter.</p>
+ <figure class="wide"><div id="memos" class="multi"></div><figcaption id="memocap"></figcaption></figure>
+</section>
+
+<section class="sec">
+ <h2>Readings</h2>
+ <p>What each text gave the machine. Read in this order, they follow the build.</p>
+ <ol class="reads wide" id="reads"></ol>
+ <p class="src">Figures computed November 6, 2026 from the film bank’s own code (ledger, agents, watcher, archive). Believability ratings come from the film bank’s rule tables, not from readers. Design after Edward Tufte: small multiples, slopegraphs, figures on one scale, sources in the margin.</p>
+</section>
+</main>
+
+<script>
+const D={"all":"8916100448256","rules":[{"rule":"Belindo does not use a knife","after":"6687075336192","alone":"6687075336192"},{"rule":"nobody strangles Belindo","after":"5015306502144","alone":"6687075336192"},{"rule":"Belindo is tied only if someone had a gun on him first","after":"4074936532992","alone":"7244331614208"},{"rule":"no blackmail or snooping by a slanderer on the one slandered","after":"3424078614528","alone":"7492001071104"},{"rule":"nobody strangled was also knifed","after":"2663172255744","alone":"6687075336192"}],"sym":"5112676800","symM":138,"symOK":0.37165,"symN":20000,"op":{"houses":589,"singletons":237,"largest":14,"cuts":{"3":6,"4":614,"5":41,"6":174,"7":80,"8":550,"9":108,"10":56,"11":99},"rejected":0},"atlas":{"practical":{"n":1500,"b":0.5134625999999995,"ir":0.6949740000000002,"su":2.706612666666667,"tw":0.41875133333333336,"d":1.2793333333333334,"h":3.695333333333333,"c":0.059333333333333335,"vi":0.6375046666666663,"mu":3.381429333333317},"hybrid":{"n":1500,"b":0.4464081333333343,"ir":0.7004373333333338,"su":2.7562013333333386,"tw":0.4164773333333343,"d":1.2646666666666666,"h":3.3393333333333333,"c":0.05,"vi":0.6456086666666662,"mu":3.2014466666666435},"symbolic":{"n":1500,"b":0.3439112666666669,"ir":0.7497400000000009,"su":2.7450839999999963,"tw":0.4193286666666668,"d":1.216,"h":2.461333333333333,"c":0.04466666666666667,"vi":0.6474600000000008,"mu":2.8701926666666355},"random":{"n":1500,"b":0.22607979999999986,"ir":0.759771333333332,"su":2.6659813333333315,"tw":0.44572933333333403,"d":1.0093333333333334,"h":1.4206666666666667,"c":0.6313333333333333,"vi":0.6648313333333331,"mu":3.511299333333328},"author-irony":{"n":10,"b":0.7957799999999999,"ir":1.6157,"su":3.4532,"tw":0.4109999999999999,"d":1,"h":3.8,"c":0,"vi":0.7082,"mu":2.8985999999999996},"author-suspense":{"n":10,"b":0.6854899999999999,"ir":0.5629000000000001,"su":4.996,"tw":0.43520000000000003,"d":1.5,"h":4,"c":0,"vi":0.7001,"mu":3.512999999999999},"author-twist":{"n":10,"b":0.76539,"ir":0.6241000000000001,"su":2.0687,"tw":0.5285,"d":1,"h":4,"c":0,"vi":0.7333999999999999,"mu":3.0347999999999997}},"hist":{"random":[79,274,120,138,224,209,201,136,77,27,11,3,1,0,0,0,0,0,0,0],"practical":[0,0,0,1,3,13,66,128,192,258,275,255,180,100,20,8,1,0,0,0],"hybrid":[0,0,0,5,30,78,170,213,294,263,203,136,70,27,5,6,0,0,0,0],"symbolic":[0,0,9,66,181,260,302,280,201,102,64,27,6,1,1,0,0,0,0,0]},"count":{"total":"3316025558016","byDeaths":{"0":"827721483264","1":"2484877658112","2":"3426416640"},"prefixes":20736,"prefixesOk":20574,"agree":20000,"N":20000,"tiers":{"PLAUSIBLE":{"share":0.6309,"ci95":0.0109,"films":2092164609644},"POSSIBLE":{"share":0.3691,"ci95":0.0109,"films":1223860948372}},"n":7489},"elites":{"bins":{"EX":[0.3,0.45,0.6,0.75,0.9,1.01],"MU":[1,1.75,2.5,3,3.5,4.01],"VI":[0,0.2,0.35,0.5,0.65,1.01]},"cells":[{"key":"0,4,4","q":0.8336},{"key":"0,3,4","q":0.829},{"key":"1,3,3","q":0.8856},{"key":"1,4,4","q":0.8607},{"key":"0,1,4","q":0.8154},{"key":"1,2,4","q":0.8638},{"key":"0,2,4","q":0.8638},{"key":"0,4,3","q":0.8215},{"key":"2,4,4","q":0.892},{"key":"1,1,4","q":0.8402},{"key":"0,4,2","q":0.8129},{"key":"1,2,3","q":0.8712},{"key":"0,2,3","q":0.8596},{"key":"0,3,3","q":0.8452},{"key":"2,2,4","q":0.8931},{"key":"3,2,2","q":0.9105},{"key":"1,3,4","q":0.8686},{"key":"1,4,3","q":0.8586},{"key":"0,1,3","q":0.847},{"key":"2,3,2","q":0.8777},{"key":"1,4,2","q":0.8381},{"key":"0,0,4","q":0.7467},{"key":"0,3,2","q":0.845},{"key":"0,2,1","q":0.8261},{"key":"1,2,2","q":0.8784},{"key":"2,3,3","q":0.8928},{"key":"0,0,2","q":0.7961},{"key":"0,3,1","q":0.8122},{"key":"0,0,1","q":0.7716},{"key":"0,2,2","q":0.8594},{"key":"2,3,4","q":0.889},{"key":"1,3,2","q":0.8854},{"key":"1,1,2","q":0.8731},{"key":"0,0,3","q":0.7915},{"key":"1,1,3","q":0.862},{"key":"0,1,2","q":0.8467},{"key":"1,3,1","q":0.849},{"key":"2,1,4","q":0.8592},{"key":"0,1,1","q":0.8215},{"key":"0,4,1","q":0.8129},{"key":"1,0,3","q":0.8317},{"key":"2,2,3","q":0.8925},{"key":"1,2,1","q":0.8463},{"key":"2,4,3","q":0.8734},{"key":"1,0,4","q":0.7925},{"key":"1,0,2","q":0.8046},{"key":"3,2,4","q":0.9096},{"key":"2,2,2","q":0.8855},{"key":"3,2,3","q":0.9118},{"key":"2,4,2","q":0.8603},{"key":"1,4,1","q":0.8177},{"key":"2,0,4","q":0.8299},{"key":"2,1,2","q":0.872},{"key":"3,3,3","q":0.9074},{"key":"0,1,0","q":0.7337},{"key":"2,3,1","q":0.8522},{"key":"3,1,3","q":0.8985},{"key":"2,1,3","q":0.8878},{"key":"1,1,1","q":0.8404},{"key":"3,1,4","q":0.8881},{"key":"0,4,0","q":0.7853},{"key":"2,0,3","q":0.8372},{"key":"3,3,4","q":0.9214},{"key":"3,1,1","q":0.8713},{"key":"1,0,1","q":0.7581},{"key":"0,2,0","q":0.7574},{"key":"3,4,4","q":0.8884},{"key":"2,1,1","q":0.8418},{"key":"0,3,0","q":0.7883},{"key":"2,2,1","q":0.8553},{"key":"1,2,0","q":0.7227},{"key":"2,0,2","q":0.8049},{"key":"3,1,2","q":0.9117},{"key":"1,3,0","q":0.7745},{"key":"3,2,0","q":0.7984},{"key":"3,4,3","q":0.8814},{"key":"1,4,0","q":0.7754},{"key":"3,2,1","q":0.8862},{"key":"3,3,2","q":0.9035},{"key":"2,1,0","q":0.767},{"key":"1,1,0","q":0.7315},{"key":"2,4,1","q":0.8385},{"key":"3,0,3","q":0.802},{"key":"2,2,0","q":0.7859},{"key":"3,0,4","q":0.8108},{"key":"3,3,1","q":0.8266},{"key":"4,3,3","q":0.9197},{"key":"3,4,2","q":0.8548},{"key":"4,2,3","q":0.9236},{"key":"2,3,0","q":0.6766},{"key":"2,4,0","q":0.743}],"evals":43000},"million":{"practical":{"N":333334,"mean":0.522331251669339,"doer":[[0.499,0.044,0.153,0.304],[0.318,0.068,0.407,0.208],[0.373,0.041,0.171,0.414],[0.252,0.073,0.264,0.411],[0.505,0.235,0.15,0.11],[0.271,0.197,0.239,0.294],[0.14,0.701,0.055,0.104],[0.29,0.286,0.146,0.278],[0.222,0.176,0.241,0.361],[0.446,0.06,0.129,0.366],[0.384,0.087,0.266,0.263],[0.147,0.647,0.053,0.153]],"dead":0.986020027959944,"contra":0.03783292433415133,"fulfilled":0.4625583410022212,"distinct":333267},"hybrid":{"N":333333,"mean":0.4551891655215545,"doer":[[0.681,0.058,0.108,0.153],[0.318,0.196,0.272,0.214],[0.35,0.14,0.194,0.316],[0.284,0.159,0.236,0.321],[0.513,0.185,0.155,0.146],[0.287,0.235,0.214,0.264],[0.21,0.52,0.108,0.163],[0.29,0.295,0.162,0.252],[0.219,0.175,0.197,0.409],[0.437,0.124,0.161,0.277],[0.388,0.14,0.223,0.249],[0.208,0.495,0.097,0.199]],"dead":0.949056949056949,"contra":0.034707034707034706,"fulfilled":0.3996467357333258,"distinct":333316},"symbolic":{"N":333333,"mean":0.3470463904785776,"doer":[[0.802,0.066,0.066,0.066],[0.275,0.427,0.137,0.162],[0.275,0.408,0.145,0.172],[0.276,0.386,0.158,0.18],[0.504,0.219,0.133,0.145],[0.295,0.368,0.154,0.183],[0.293,0.359,0.158,0.19],[0.295,0.349,0.159,0.196],[0.207,0.182,0.151,0.461],[0.413,0.236,0.173,0.178],[0.374,0.248,0.181,0.196],[0.296,0.322,0.167,0.215]],"dead":0.8722808722808723,"contra":0.041235041235041237,"fulfilled":0.281214364644785,"distinct":333232}},"best":{"film":[2,7,10,9,2,9,9,9,11,9,2,3],"q":0.9236,"frames":[{"k":0,"deed":"blackmail","A":"R","V":"O","site":"parlour","light":"by a lamp","material":"photograph","inh":[],"found":[]},{"k":1,"deed":"drugging","A":"I","V":"B","site":"kitchen","light":"by one candle","material":"cup","inh":[],"found":[]},{"k":2,"deed":"incitement","A":"O","V":"B","site":"attic","light":"by one candle","material":"lamp","inh":[],"found":[]},{"k":3,"deed":"knifing","A":"O","V":"R","site":"kitchen","light":"by one candle","material":"flour","inh":["I"],"found":["O:cup","R:cup"]},{"k":4,"deed":"prostitution","A":"R","V":"O","site":"parlour","light":"by a lamp","material":"coins","inh":[],"found":[]},{"k":5,"deed":"gun","A":"O","V":"R","site":"stairwell","light":"in the dark","material":"gun","inh":[],"found":[]},{"k":6,"deed":"tying","A":"O","V":"R","site":"cellar","light":"in the dark","material":"rope","inh":[],"found":[]},{"k":7,"deed":"assault","A":"O","V":"R","site":"bedroom","light":"by one candle","material":"curtain","inh":[],"found":[]},{"k":8,"deed":"seduction","A":"O","V":"I","site":"bedroom","light":"by a lamp","material":"flower","inh":["R"],"found":["I:curtain"]},{"k":9,"deed":"slander","A":"O","V":"R","site":"parlour","light":"by firelight","material":"ink","inh":[],"found":[]},{"k":10,"deed":"snooping","A":"R","V":"O","site":"stairwell","light":"by a lamp","material":"keyhole","inh":[],"found":[]},{"k":11,"deed":"strangling","A":"B","V":"R","site":"attic","light":"by firelight","material":"cord","inh":[],"found":[]}],"alive":{"R":false,"B":true,"I":true,"O":true}}};
+const $=id=>document.getElementById(id);const NS='http://www.w3.org/2000/svg';
+const big=s=>BigInt(s);const fmt=n=>Number(n).toLocaleString('en-US');const T=n=>(Number(n)/1e12).toFixed(2);
+const RN=['I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII'];const NAMES=['blackmail','drugging','incitement','knifing','prostitution','gun','tying','assault','seduction','slander','snooping','strangling'];
+const WHO={R:'Roessler',B:'Belindo',I:'Inigo',O:'Ogiva'};const IDS=['R','B','I','O'];
+const svg=(w,h,inner,label)=>`<svg viewBox="0 0 ${w} ${h}" width="${w}" role="img" aria-label="${label}">${inner}</svg>`;
+const ALL=Number(D.all),TOT=Number(D.count.total);
+
+// ---- the ruler ----
+(function(){const marks=[
+ [12,'12 ordered pairs for each deed'],[144,'144 ways to do the first two deeds'],[1728,'1,728 three-deed openings, all run'],[6030,'6,030 stories in the atlas'],[20736,'20,736 four-deed beginnings, run in full for the exact count'],
+ [D.elites.evals,fmt(D.elites.evals)+' stories tried by the Six Memos search'],[1e6,'1,000,000 stories written by the agents'],[Number(D.sym),fmt(D.sym)+' stories where each tenant does three deeds and suffers three'],
+ [Number(D.rules[4].after),fmt(D.rules[4].after)+' left after the story’s five rules'],[TOT,fmt(D.count.total)+' consistent under the ledger'],[ALL,fmt(D.all)+' stories, 12¹²'],[1e14,'100,000,000,000,000 sonnets in Queneau’s Cent mille milliards de poèmes (1961)']];
+ const W=760,H=640,top=16,bot=H-16,x0=96,y=v=>bot-(Math.log10(v)/14)*(bot-top);let s='';
+ for(let e=0;e<=14;e++){const yy=y(10**e);s+=`<line class="ax" x1="${x0-6}" x2="${x0+6}" y1="${yy}" y2="${yy}"/><text class="g" x="${x0-12}" y="${yy+4}" text-anchor="end" font-size="11">10${e<10?String.fromCharCode([8304,185,178,179,8308,8309,8310,8311,8312,8313][e]):'¹'+String.fromCharCode([8304,185,178,179,8308][e-10])}</text>`}
+ s+=`<line class="ink" x1="${x0}" x2="${x0}" y1="${top}" y2="${bot}" stroke-width="1.5"/>`;
+ // labels pushed apart so none overlap; a leader joins each to its mark
+ const L=marks.map(([v,t])=>({v,t,y:y(v)})).sort((a,b)=>b.y-a.y);for(let i=1;i<L.length;i++)if(L[i-1].ly===undefined)L[i-1].ly=L[i-1].y;
+ L.forEach((m,i)=>{m.ly=i===0?m.y:Math.min(m.y,L[i-1].ly-19)});
+ for(const m of L){const hot=m.v===ALL;s+=`<circle cx="${x0}" cy="${m.y}" r="${hot?5:3.5}" fill="${m.v===1e14?'var(--paper)':'var(--ink)'}" stroke="var(--ink)" stroke-width="1.5"/><path class="ax" d="M${x0+6} ${m.y} L${x0+40} ${m.ly} L${x0+52} ${m.ly}"/>`+
+  (hot?`<rect x="${x0+54}" y="${m.ly-11}" width="${m.t.length*7.3+10}" height="17" fill="var(--hl)"/>`:'')+`<text x="${x0+59}" y="${m.ly+4}" font-size="12" ${hot?'style="fill:var(--hl-ink)"':''} ${m.v===1e14?'class="g"':''}>${m.t}</text>`}
+ $('ruler').innerHTML=`<div class="tw">${svg(W,H,s,'Logarithmic ruler of the project’s numbers')}</div>`;
+ const yr=s=>s/31557600;$('time').innerHTML=`<p><b>How long is nine trillion.</b></p><p>Scoring one story takes about 1.1 ms. Scoring all of them on one core: <span class="num">${Math.round(yr(ALL*1.1e-3)).toLocaleString()}</span> years.</p><p>Reading one story per second: <span class="num">${Math.round(yr(ALL)).toLocaleString()}</span> years.</p><p>Watching each as a 3 min 28 s film: <span class="num">${(yr(ALL*208)/1e6).toFixed(1)}</span> million years.</p><p>The exact count of consistent stories took under a minute, because it never lists them.</p>`})();
+
+// ---- the sieve ----
+(function(){const W=760,rowH=46,lab=0,x0=0,x1=W-150,sc=v=>x0+(v/ALL)*(x1-x0);let s='';let prev=ALL;
+ const rows=[{rule:'every story',after:ALL}].concat(D.rules.map(r=>({rule:r.rule,after:Number(r.after)})));
+ s+=`<defs><pattern id="hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="6" fill="var(--paper)"/><line x1="0" y1="0" x2="0" y2="6" stroke="var(--grey)" stroke-width="2"/></pattern></defs>`;
+ rows.forEach((r,i)=>{const y=i*rowH+18;const rem=prev-r.after;s+=`<text x="0" y="${y-4}" font-size="12" ${i?'':'class="g"'}>${i?i+'. ':''}${r.rule}</text>`;
+  s+=`<rect x="${x0}" y="${y}" width="${sc(r.after)-x0}" height="14" fill="var(--ink)"/>`;if(i)s+=`<rect x="${sc(r.after)}" y="${y}" width="${sc(prev)-sc(r.after)}" height="14" fill="url(#hatch)" stroke="var(--grey)" stroke-width=".5"/>`;
+  s+=`<text x="${x1+8}" y="${y+12}" font-size="12">${T(r.after)}T</text>`+(i?`<text x="${x1+70}" y="${y+12}" font-size="12" style="fill:var(--cut)">−${T(rem)}</text>`:'');prev=r.after});
+ for(let t=0;t<=9;t++){const xx=sc(t*1e12);if(xx>x1)break;s+=`<line class="ax" x1="${xx}" x2="${xx}" y1="${rows.length*rowH+8}" y2="${rows.length*rowH+14}"/><text class="g" x="${xx}" y="${rows.length*rowH+28}" font-size="10" text-anchor="middle">${t}T</text>`}
+ $('sieve').innerHTML=`<div class="tw">${svg(W,rows.length*rowH+34,s,'Stories left after each of the five rules')}</div>`;
+ const rm=D.rules.map((r,i)=>(i?Number(D.rules[i-1].after):ALL)-Number(r.after));
+ $('sievetext').innerHTML=`The first two rules each remove more than a trillion (${T(rm[0])} and ${T(rm[1])}). The last three remove less (${T(rm[2])}, ${T(rm[3])} and ${T(rm[4])} trillion), because they only bite when two deeds happen to land on the same tenant. Together they leave <span class="num">${fmt(D.rules[4].after)}</span> stories, ${(Number(D.rules[4].after)/ALL*100).toFixed(1)}% of the start. The script is close for one rule at a time: taken alone, each removes between ${T(Math.min(...D.rules.map(r=>ALL-Number(r.alone))))} and ${T(Math.max(...D.rules.map(r=>ALL-Number(r.alone))))} trillion.`})();
+
+// ---- the three kinds ----
+(function(){const ok=TOT,sym=Number(D.sym);const rows=[
+ ['objective','the dead do nothing; the tied cannot act for two deeds','the ledger',ok,'exact'],
+ ['subjective','Belindo does not knife and cannot be strangled; the other three story rules','the script’s five rules',Number(D.rules[4].after),'exact'],
+ ['aesthetic','each tenant commits three deeds and suffers three','Calvino’s symmetry',sym,'exact'],
+ ['aesthetic and objective','balanced and consistent','both',sym*D.symOK,'estimated from '+fmt(D.symN)+' balanced stories']];
+ $('kinds').innerHTML=`<thead><tr><th>Constraint</th><th>Rule</th><th class="r">Stories kept</th><th class="r">Share of 12¹²</th><th>Count</th></tr></thead><tbody>`+rows.map(r=>`<tr><td><b>${r[0]}</b></td><td>${r[1]}</td><td class="r num">${r[4]==='exact'?fmt(Math.round(r[3])):'about '+(r[3]/1e9).toFixed(1)+' billion'}</td><td class="r num">${(r[3]/ALL*100).toPrecision(3)}%</td><td class="g">${r[4]}</td></tr>`).join('')+'</tbody>'})();
+
+// ---- the quotient ----
+(function(){const st=[null,null,null,null,4,4,13,13,13,13,13,28];const W=760,H=260,x0=46,x1=W-20,top=14,bot=H-34;const xs=k=>x0+(k/11)*(x1-x0),ys=v=>bot-(Math.log10(v)/13)*(bot-top);let s='';
+ for(const e of [0,3,6,9,12]){s+=`<line class="ax" x1="${x0}" x2="${x1}" y1="${ys(10**e)}" y2="${ys(10**e)}"/><text class="g" x="${x0-6}" y="${ys(10**e)+4}" font-size="10" text-anchor="end">1e${e}</text>`}
+ s+=`<polyline fill="none" stroke="var(--ink)" stroke-width="2" points="${RN.map((_,k)=>xs(k)+','+ys(12**(k+1))).join(' ')}"/>`;
+ RN.forEach((r,k)=>{s+=`<text class="g" x="${xs(k)}" y="${H-14}" font-size="11" text-anchor="middle">${r}</text>`;if(st[k]){s+=`<circle cx="${xs(k)}" cy="${ys(st[k])}" r="4" fill="var(--cut)"/><text x="${xs(k)}" y="${ys(st[k])-9}" font-size="11" text-anchor="middle" style="fill:var(--cut)">${st[k]}</text>`}});
+ s+=`<text x="${xs(11)-4}" y="${ys(12**12)-8}" font-size="11" text-anchor="end">8.9 trillion paths</text><text x="${xs(3)}" y="${ys(20736)-10}" font-size="11" text-anchor="end">20,736 beginnings run in full</text><circle cx="${xs(3)}" cy="${ys(20736)}" r="4" fill="var(--ink)"/>`;
+ s+=`<rect x="${xs(4)-8}" y="${ys(40)}" width="${xs(11)-xs(4)+16}" height="${ys(2)-ys(40)}" fill="none" stroke="var(--cut)" stroke-dasharray="3 3"/><text x="${xs(7.5)}" y="${ys(2)+14}" font-size="11" text-anchor="middle" style="fill:var(--cut)">descriptions counted (who is alive, who is tied)</text>`;
+ $('quot').innerHTML=`<div class="tw">${svg(W,H,s,'Paths against counted states per deed')}</div>`;
+ const bd=D.count.byDeaths,t=TOT;$('deaths').innerHTML=`<p><b>Deaths in consistent stories, exact.</b></p><p>none: <span class="num">${(bd[0]/t*100).toFixed(1)}%</span><br>one: <span class="num">${(bd[1]/t*100).toFixed(1)}%</span><br>two: <span class="num">${(bd[2]/t*100).toFixed(2)}%</span></p><p>The strangling kills unless the victim is Belindo, so most consistent stories have one death. Of the 20,736 beginnings, ${fmt(D.count.prefixes-D.count.prefixesOk)} already contradict themselves by deed IV.</p><p><b>Not exact.</b> Believability depends on the tenants’ feelings, which are continuous, so it was sampled: among ${fmt(D.count.n)} consistent stories, ${(D.count.tiers.PLAUSIBLE.share*100).toFixed(1)}% plausible and ${(D.count.tiers.POSSIBLE.share*100).toFixed(1)}% possible, ±${(D.count.tiers.POSSIBLE.ci95*100).toFixed(1)} points.</p>`})();
+
+// ---- histograms ----
+(function(){const order=[['random','random pairs'],['symbolic','agents · symbolic'],['hybrid','agents · hybrid'],['practical','agents · practical']];const mx=Math.max(...order.flatMap(([k])=>D.hist[k].map(v=>v/1500)));
+ $('hists').innerHTML=order.map(([k,l])=>{const h=D.hist[k],W=160,H=74,bw=W/20;let s='';h.forEach((v,i)=>{const hh=v/1500/mx*(H-18);s+=`<rect x="${i*bw}" y="${H-14-hh}" width="${bw-1}" height="${hh}" fill="var(--ink)"/>`});const m=D.atlas[k].b;
+  s+=`<line x1="${m*W}" x2="${m*W}" y1="${H-14}" y2="${H-6}" stroke="var(--cut)" stroke-width="2"/><line class="ax" x1="0" x2="${W}" y1="${H-14}" y2="${H-14}"/><text class="g" x="0" y="${H}" font-size="9">0</text><text class="g" x="${W}" y="${H}" font-size="9" text-anchor="end">1</text>`;
+  return `<div>${svg(W,H,s,l)}<div class="cap">${l} · mean <b>${m.toFixed(2)}</b> · ${(D.atlas[k].c*100).toFixed(0)}% contradict</div></div>`}).join('')})();
+
+// ---- doers ----
+(function(){const modes=['practical','hybrid','symbolic'];const cw=150,W=110+cw*3,rh=22,H=rh*13;let s=modes.map((m,j)=>`<text x="${110+j*cw}" y="14" font-size="11" class="g">${m.toUpperCase()}</text>`).join('');
+ NAMES.forEach((n,k)=>{const y=rh*(k+1)+6;s+=`<text x="0" y="${y+11}" font-size="11">${RN[k]} ${n}</text>`;modes.forEach((m,j)=>{const d=D.million[m].doer[k];let x=110+j*cw;const top=d.indexOf(Math.max(...d));
+  d.forEach((v,i)=>{const w=v*(cw-24);s+=`<rect x="${x}" y="${y+2}" width="${w}" height="12" fill="var(--${IDS[i]})"/>`;x+=w});s+=`<text x="${110+j*cw+cw-6}" y="${y+12}" font-size="10" class="g" text-anchor="end">${IDS[top]}</text>`})});
+ $('doers').innerHTML=svg(W,H,s,'Who does each deed under each mode')})();
+
+// ---- slopegraphs ----
+(function(){const ms=[['ir','irony','author-irony'],['su','suspense','author-suspense'],['tw','twist','author-twist'],['h','strands that hold','author-irony']];
+ $('slopes').innerHTML=ms.map(([f,l,a])=>{const v0=D.atlas.practical[f],v1=D.atlas[a][f];const W=170,H=120,lo=0,hi=Math.max(v0,v1)*1.15,y=v=>H-20-(v-lo)/(hi-lo)*(H-38);
+  const s=`<line class="ax" x1="40" x2="40" y1="10" y2="${H-20}"/><line class="ax" x1="130" x2="130" y1="10" y2="${H-20}"/><line x1="40" y1="${y(v0)}" x2="130" y2="${y(v1)}" stroke="var(--ink)" stroke-width="2"/><circle cx="40" cy="${y(v0)}" r="3.5" fill="var(--ink)"/><circle cx="130" cy="${y(v1)}" r="3.5" fill="var(--cut)"/>
+   <text x="34" y="${y(v0)+4}" font-size="11" text-anchor="end">${v0.toFixed(2)}</text><text x="136" y="${y(v1)+4}" font-size="11" style="fill:var(--cut)">${v1.toFixed(2)}</text><text class="g" x="40" y="${H-4}" font-size="10" text-anchor="middle">agents</text><text class="g" x="130" y="${H-4}" font-size="10" text-anchor="middle">author</text>`;
+  return `<div>${svg(W,H,s,l)}<div class="cap"><b>${l}</b>${f==='h'?' (author searching for irony)':''} · ×${(v1/v0).toFixed(1)} · believability ${D.atlas[a].b.toFixed(2)}</div></div>`}).join('')})();
+
+// ---- openings ----
+(function(){const c=D.op.cuts;const ks=Object.keys(c).map(Number).sort((a,b)=>a-b);const mx=Math.max(...ks.map(k=>c[k]));const W=760,H=170,bw=(W-40)/ks.length;let s='';
+ ks.forEach((k,i)=>{const h=c[k]/mx*(H-46);const x=20+i*bw;s+=`<rect x="${x+6}" y="${H-28-h}" width="${bw-12}" height="${h}" fill="var(--ink)"/><text x="${x+bw/2}" y="${H-32-h}" font-size="11" text-anchor="middle">${c[k]}</text><text class="g" x="${x+bw/2}" y="${H-12}" font-size="11" text-anchor="middle">${RN[k]}</text>`});
+ $('cuts').innerHTML=`<div class="tw">${svg(W,H,s,'Where each opening stops')}</div>`;
+ $('cutcap').textContent=`Number of openings that stop before each deed. The 1,728 openings leave ${D.op.houses} different houses; ${D.op.singletons} houses are reached by only one opening, and the largest by ${D.op.largest}. Most stop before deed V or deed IX, where the agents' two best choices are nearly equal.`})();
+
+// ---- quatrains ----
+(function(){const b=D.best;$('quat').innerHTML=`<thead><tr><th>Deed</th><th>Who</th><th>A deed of</th><th>In the</th><th>Lit</th><th>Seen by</th><th>Found there</th></tr></thead><tbody>`+b.frames.map(f=>`<tr><td><span class="num">${RN[f.k]}</span> ${f.deed}</td><td>${WHO[f.A]} to ${WHO[f.V]}</td><td>${f.material}</td><td>${f.site}</td><td>${f.light}</td><td>${f.inh.length?f.inh.map(x=>WHO[x]).join(', '):'<span class="g">no one</span>'}</td><td>${f.found.length?[...new Set(f.found.map(x=>{const[w,m]=x.split(':');return WHO[w]+' finds the '+m}))].join('; '):''}</td></tr>`).join('')+`</tbody><caption style="caption-side:bottom;text-align:left;font-size:13px;color:var(--grey);padding-top:6px">Believability ${b.q.toFixed(2)}. Survivors: ${IDS.filter(x=>b.alive[x]).map(x=>WHO[x]).join(', ')}.</caption>`})();
+
+// ---- memos ----
+(function(){const E=D.elites,B=E.bins;const by=new Map(E.cells.map(c=>[c.key,c]));const cell=22;
+ const col=q=>{const u=Math.max(0,Math.min(1,(q-.6)/.35));return `color-mix(in srgb, var(--ink) ${Math.round(20+u*80)}%, var(--paper))`};
+ $('memos').innerHTML=[0,1,2,3,4].map(v=>{let s='';for(let e=0;e<5;e++)for(let m=0;m<5;m++){const c=by.get([e,m,v].join(','));const x=18+m*cell,y=(4-e)*cell;s+=c?`<rect x="${x+1}" y="${y+1}" width="${cell-2}" height="${cell-2}" style="fill:${col(c.q)}"><title>${c.q.toFixed(2)}</title></rect>`:`<rect x="${x+1.5}" y="${y+1.5}" width="${cell-3}" height="${cell-3}" fill="none" stroke="var(--rule)"/>`}
+  return `<div>${svg(18+cell*5+4,cell*5+4,s,'visibility facet')}<div class="cap">visibility ${B.VI[v].toFixed(2)}–${Math.min(1,B.VI[v+1]).toFixed(2)}</div></div>`}).join('');
+ $('memocap').textContent=`Small multiples: one panel per band of visibility. In each panel, rows are bands of exactitude (higher is up) and columns bands of multiplicity (more tenants carrying the plot to the right). Darker squares hold more believable stories; outlined squares are empty. ${E.cells.length} of 125 cells filled from ${fmt(E.evals)} stories; mean believability ${(E.cells.reduce((a,c)=>a+c.q,0)/E.cells.length).toFixed(2)}. The top row, where every strand is near certain, is almost empty.`})();
+
+// ---- readings ----
+(function(){const R=[
+ ['Italo Calvino, “The Burning of the Abominable House” (1973), in <i>Numbers in the Dark</i>, trans. Tim Parks.','The source','Four tenants, twelve deeds, an index without page numbers, and a programmer asked to reconstruct the order. Every film is one of its 12¹² stories.'],
+ ['Italo Calvino, “Prose and Anticombinatorics,” in <i>Oulipo: A Primer of Potential Literature</i>, ed. Warren Motte (1986).','The sieve','Use the computer to exclude, not to generate. Objective, subjective and aesthetic constraints become the ledger’s rules, the motive tables, and the symmetry count.'],
+ ['Italo Calvino, “Cybernetics and Ghosts,” lecture, Turin, November 1967.','Combination and the reader','Literature as a combinatorial machine whose results matter only when a reader finds something in them. The reason the watcher model exists: a story is scored by what someone would infer from it.'],
+ ['Raymond Queneau, <i>Cent mille milliards de poèmes</i> (1961).','The comparison','Ten sonnets cut into strips, 10¹⁴ poems. The nearest published neighbour of 12¹², on the ruler above.'],
+ ['Alison Knowles and James Tenney, <i>The House of Dust</i> (1967), FORTRAN IV.','The frame','Four lists: material, site, light, inhabitants. Here they decide where a deed happens, who sees it and what is found later.'],
+ ['Italo Calvino, <i>The Castle of Crossed Destinies</i> (1973).','Two readings','Each card in two stories. Each deed read in order and in a tenant’s own strand; a story must hold both ways.'],
+ ['Italo Calvino, <i>If on a winter’s night a traveler</i> (1979).','Openings','Beginnings that stop. All 1,728 three-deed openings, each stopped where the next deed is a toss-up.'],
+ ['Italo Calvino, <i>t zero</i> (1967).','The frozen instant','A moment held still with all its continuations. The T ZERO fan in the film bank shows the twelve ways the current deed could go.'],
+ ['Italo Calvino, <i>Six Memos for the Next Millennium</i> (1988).','The archive axes','Exactitude, multiplicity and visibility become three measures, and the archive keeps the best story in each combination.'],
+ ['Roland Barthes, <i>Mythologies</i> (1957).','Roles','The house casts each tenant: miser, brute, idol, victim. Roles shift with every deed and act as levers on how a sack is drawn.'],
+ ['Noah Goodman, Joshua Tenenbaum and Tobias Gerstenberg, “Concepts in a Probabilistic Language of Thought” (2015).','Belief updates','Each deed is a tug-of-war match: every tenant who knows of it updates its belief about the others’ strength and danger.'],
+ ['Michael Bratman, <i>Intention, Plans, and Practical Reason</i> (1987); Anand Rao and Michael Georgeff, “BDI Agents: From Theory to Practice” (1995).','Commitment','Beliefs, desires, intentions. A tenant that forms a plan against another keeps it until it is carried out.'],
+ ['Joon Sung Park et al., “Generative Agents: Interactive Simulacra of Human Behavior” (2023).','Memory','A memory stream scored by recency, importance and relevance; reflections when importance builds up; plans written into the stream.'],
+ ['Watson Hartsoe, <i>Growing Entanglements</i>, aphoristic social models.','The PIE dial','Practical against symbolic reasons, individual against collective belief, and how much chance enters. Three modes run side by side and compared.'],
+ ['Chris Baker, Rebecca Saxe and Joshua Tenenbaum, “Action Understanding as Inverse Planning” (2009); Kartik Chandra, Tzu-Mao Li, Joshua Tenenbaum and Jonathan Ragan-Kelley, “Storytelling as Inverse Inverse Planning” (2023).','The watcher and the author','An observer infers hidden plans from actions; an author picks actions to steer that inference. Surprise, twist, suspense and irony per deed, and a search that raises them.'],
+ ['Levente Kocsis and Csaba Szepesvári, “Bandit Based Monte-Carlo Planning” (2006).','Tree search','The Monte Carlo tree search behind MOST LIKELY.'],
+ ['Jean-Baptiste Mouret and Jeff Clune, “Illuminating Search Spaces by Mapping Elites” (2015).','Quality and diversity','Keep the best story of each kind, so the search does not collapse onto one plot.'],
+ ['Edward Tufte, <i>The Visual Display of Quantitative Information</i> (1983), <i>Envisioning Information</i> (1990), <i>Beautiful Evidence</i> (2006).','This page','Small multiples, slopegraphs, one scale per figure, and notes in the margin beside the claims they support.']];
+ $('reads').innerHTML=R.map(([c,h,t])=>`<li><div class="cite">${c}</div><div class="into"><b>${h}</b>${t}</div></li>`).join('')})();
+</script>

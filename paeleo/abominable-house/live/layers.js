@@ -1,0 +1,8 @@
+// node layers.js deeds/x.js A V t  -> proof/<nn>/layers_A_V_t.jpg : full | bg | doer layer | victim layer, over checkerboard; marks boxes drawn on full
+const {chromium}=require('playwright');const fs=require('fs');const path=require('path');const {execSync}=require('child_process');
+const [file,A,V,ts]=process.argv.slice(2);const t=+ts;const nn=path.basename(file).slice(0,2);const out=`/home/claude/ah/proof/${nn}`;fs.mkdirSync(out,{recursive:true});
+(async()=>{const b=await chromium.launch();const p=await b.newPage({viewport:{width:1920,height:1080}});const errs=[];p.on('pageerror',e=>errs.push(e.message));
+await p.goto('file:///home/claude/ah/view.html?m='+path.resolve(file));await p.waitForFunction(()=>window.READY);await p.addStyleTag({content:'html,body{background:repeating-conic-gradient(#888 0 25%,#bbb 0 50%) 0 0/40px 40px !important}'});
+const fl=[];let marks=null;for(const L of [null,'bg','A','V']){const f=`/tmp/ly_${nn}_${L}.png`;marks=await p.evaluate(([t,A,V,L])=>{const m=SHOTL(t,A,V,L);if(!L&&m){const g=document.getElementById('c').getContext('2d');g.setTransform(1,0,0,1,0,0);g.lineWidth=4;for(const[k,b]of Object.entries(m)){g.strokeStyle=k==='A'?'#0f0':'#f0f';g.strokeRect(b.x,b.y,b.w,b.h)}}return m},[t,A,V,L]);await p.screenshot({path:f});fl.push(f)}
+execSync(`python3 -c "from PIL import Image;import sys;fs=sys.argv[1:];S=Image.new('RGB',(1920,1080));[S.paste(Image.open(f).convert('RGB').resize((960,540)),((i%2)*960,(i//2)*540)) for i,f in enumerate(fs)];S.save('${out}/layers_${A}_${V}_${t}.jpg',quality=80)" ${fl.join(' ')}`);
+console.log('wrote',`${out}/layers_${A}_${V}_${t}.jpg`,'marks',JSON.stringify(marks),'errors',JSON.stringify(errs));await b.close()})();
