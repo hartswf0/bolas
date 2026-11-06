@@ -58,9 +58,10 @@ button.hot{background:var(--gold);color:#1a1208;border-color:var(--gold)}
 <div class="ui" id="hint"></div>
 <div class="ui" id="title">
   <h1>MEMORY<i>maker</i></h1><div class="bar"></div>
+  <p><b>Swim</b> the films: each jellyfish of images is one of our films. Swim into it and you are inside it. It plays only as fast as you swim, the frames you pass stay behind you, and the moments you catch follow you as small jellyfish.</p>
   <p><b>Shape</b> a memory: pick archive frames, one after another. Frames that share something (a hand, a door, a glow) join with a gold cut. Hold a frame to make it last longer.</p>
   <p><b>Dream</b> it: become the jellyfish and swim through your memory. Aim for the gold feature on each frame and it comes into focus. <em>The red light burns a touch.</em></p>
-  <div class="row"><button id="bShape" class="hot">Shape a memory</button><button id="bDream">Dream a memory</button></div>
+  <div class="row"><button id="bSwim" class="hot">Swim the films</button><button id="bShape">Shape a memory</button><button id="bDream">Dream a memory</button></div>
   <small>Built from public-domain archive film, rendered as flecks: every frame is thousands of points of light. After <a href="https://en.wikipedia.org/wiki/Dreams_(video_game)">Dreams</a>' make, play and remix, and the video-to-game flow, with our own film as the design video. <a href="../contaminant.html?play=1">The swim game</a> · <a href="MEMORY_MAKER.md">how it was made</a>.</small>
 </div>
 <div class="ui" id="end"><div class="big" id="eN"></div><div class="what" id="eW"></div><p id="eP"></p><div class="row"><button id="bAgain" class="hot">Dream it again</button><button id="bRemix">Remix it</button><button id="bShare">Share</button><button id="bHome">Home</button></div></div>
@@ -214,10 +215,12 @@ const audio = (() => {
     o.type = j ? 'triangle' : 'sine'; o.frequency.value = m2f(j ? m : m + 12); o.detune.value = det; f.type = 'lowpass'; f.frequency.value = j ? 1300 : 400;
     v.gain.setValueAtTime(0, t); v.gain.linearRampToValueAtTime(g, t + 1.2); v.gain.setValueAtTime(g, t + d - .3); v.gain.linearRampToValueAtTime(0, t + d + 1.4);
     o.connect(f); f.connect(v); v.connect(out); const w = ac.createGain(); w.gain.value = .7; v.connect(w); w.connect(rev); o.start(t); o.stop(t + d + 1.5); } }); }
-  const api = {SPB, notes: [],
+  let ducked = false;
+  const api = {SPB, notes: [], duck(v) { ducked = v; },
     wake() { if (!ac) init(); if (ac && ac.state === 'suspended') ac.resume(); },
     start() { api.wake(); if (!ac || on) return; on = true; next = ac.currentTime + .08;
       setInterval(() => { if (ac.state !== 'running') return; while (next < ac.currentTime + .15) { const t = next;
+        if (ducked) { i8++; next += SPB / 2; continue; }   // inside a film, the film's own sound
         if (i8 % 16 === 0) pad(t, CH[(i8 / 16 | 0) % 4], SPB * 8);
         if (i8 % 2 === 0) { voice(t, 150, .3, i8 % 4 ? .09 : .17, {glide: 48, wet: .05}); voice(t, 300, .06, .03, {type: 'triangle', wet: 0}); }
         if (api.notes.length && i8 % 2 === 0) { const m = api.notes[(i8 / 2) % api.notes.length]; voice(t, m2f(m), .8, .03, {type: 'triangle', wet: .45}); }
@@ -257,6 +260,7 @@ const SHELF_S = .36, SLOT_S = .3, MAXM = 9;
 function shelfPos(i) { const row = i < 7 ? 0 : 1, col = i % 7; return new THREE.Vector3((col - 3) * 168, 250 - row * 140, 0); }
 function slotPos(i, n) { return new THREE.Vector3((i - (n - 1) / 2) * 140, -205, 0); }
 function enterShape() {
+  leaveOcean();
   S.mode = 'shape'; $('title').style.display = 'none'; $('end').style.display = 'none'; $('film').style.display = 'none'; corridor.visible = false; shelf.visible = track.visible = true; jelly.visible = false; imp.visible = !COARSE;
   scene.remove(jelly); const far = camera.aspect > 1.9 ? 1180 : 1000; camera.position.set(0, 30, far); camera.lookAt(0, 30, 0);   // wide phones: step back so the shelf clears the buttons
   if (!shelf.children.length) for (let k = 0; k < 14; k++) { const c = cloud(k, {size: 3.2, dev: 1}); c.scale.setScalar(SHELF_S); c.position.copy(shelfPos(k)); shelf.add(c); }
@@ -311,6 +315,7 @@ function shapeFrame(dt, t) {
 // ------------------------------------------------------------------ DREAM: possess the jellyfish and swim your memory into focus
 const D = {};
 function enterDream(mem) {
+  leaveOcean();
   if (mem) S.memory = mem.map(x => x.slice());
   audio.start(); audio.notes = [];
   S.mode = 'dream'; $('title').style.display = 'none'; $('end').style.display = 'none'; $('film').style.display = 'none'; labels.innerHTML = '';
@@ -435,14 +440,208 @@ async function share() {
 }
 // ------------------------------------------------------------------ title
 function home() {
+  if (typeof leaveOcean === 'function' && S.mode !== 'title') leaveOcean();
   S.mode = 'title'; $('title').style.display = 'flex'; $('end').style.display = 'none'; $('film').style.display = 'none'; labels.innerHTML = ''; hint(''); buttons([]);
   shelf.visible = track.visible = false; corridor.visible = false; imp.visible = false; scene.add(jelly); jelly.visible = true; jelly.scale.setScalar(1); jelly.position.set(260, -20, 0); jelly.rotation.set(-.2, 0, 0);
   camera.position.set(0, 0, 1000); camera.lookAt(0, 0, 0); $('mode').textContent = '';
 }
 $('bShape').onclick = () => { audio.start(); enterShape(); };
+$('bSwim').onclick = () => { audio.start(); enterOcean(); };
 $('bDream').onclick = () => { audio.start(); let last = null; try { last = localStorage.getItem('mm.last'); } catch (e) {}
   const pick = last && dec(last).length ? dec(last) : PRESETS[(Math.random() * PRESETS.length) | 0].m; enterDream(pick); };
 $('bAgain').onclick = () => enterDream(); $('bRemix').onclick = () => { enterShape(); }; $('bShare').onclick = share; $('bHome').onclick = home;
+// ------------------------------------------------------------------ SWIM THE FILMS: an ocean of image-jellyfish, one for each of our films.
+// Swim into one and you are inside its film: it plays only while you swim (your speed is its speed; stop and it
+// stops), the frames you pass stay behind you as a trail of the film in space, and a moment you catch becomes a small
+// jellyfish of that image that follows you. Your school of caught moments is a memory you can play.
+let FILMS = [];
+class ImgJelly {   // a jellyfish whose bell and tentacles are an image, in flecks
+  constructor(r, nDome, tn, ts, size) {
+    this.r = r; this.nd = nDome; this.tn = tn; this.ts = ts; const n = nDome + tn * ts;
+    const pos = new Float32Array(n * 3), col = new Float32Array(n * 3), seed = new Float32Array(n); this.uv = new Float32Array(n * 2);
+    for (let i = 0; i < nDome; i++) {
+      const u = Math.random(), v = Math.random() * Math.PI * 2, rim = i < nDome * .15, ph = rim ? Math.PI / 2 - .02 : Math.acos(1 - u * .95);
+      const x = Math.sin(ph) * Math.cos(v) * r, y = Math.cos(ph) * r * .78, z = Math.sin(ph) * Math.sin(v) * r;
+      pos.set([x, y, z], i * 3); this.uv[i * 2] = .5 + x / (2 * r); this.uv[i * 2 + 1] = 1 - (y / (r * .78)) * .85 - .1; seed[i] = Math.random();
+    }
+    for (let k = 0; k < tn; k++) for (let j = 0; j < ts; j++) { const i = nDome + k * ts + j; this.uv[i * 2] = k / tn; this.uv[i * 2 + 1] = .62 + .38 * j / ts; seed[i] = Math.random(); }
+    const geo = new THREE.BufferGeometry(); geo.setAttribute('position', new THREE.BufferAttribute(pos, 3)); geo.setAttribute('aScatter', new THREE.BufferAttribute(pos.slice(), 3));
+    geo.setAttribute('color', new THREE.BufferAttribute(col, 3)); geo.setAttribute('aSeed', new THREE.BufferAttribute(seed, 1)); geo.boundingSphere = new THREE.Sphere(new THREE.Vector3(), r * 5);
+    this.pts = new THREE.Points(geo, new THREE.ShaderMaterial({vertexShader: fleckVS, fragmentShader: fleckFS, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending,
+      uniforms: {uDev: {value: 1}, uTime: {value: 0}, uSize: {value: size}, uBurn: {value: 0}, uAlpha: {value: 1}, uScale, uLift: {value: 0}, uTouch: {value: new THREE.Vector2()}}}));
+    this.pts.frustumCulled = false; this.g = new THREE.Group(); this.g.add(this.pts); this.ph = Math.random() * 9;
+  }
+  paint(data, w, h, gain = .6) {   // colour every fleck from an image (RGBA bytes, w x h)
+    const c = this.pts.geometry.attributes.color, a = c.array, n = a.length / 3;
+    for (let i = 0; i < n; i++) { const x = Math.min(w - 1, Math.max(0, (this.uv[i * 2] * w) | 0)), y = Math.min(h - 1, Math.max(0, (this.uv[i * 2 + 1] * h) | 0)), p = (y * w + x) * 4;
+      a[i * 3] = data[p] / 255 * gain; a[i * 3 + 1] = data[p + 1] / 255 * gain; a[i * 3 + 2] = data[p + 2] / 255 * gain; }
+    c.needsUpdate = true;
+  }
+  update(t, vx = 0, vy = 0, vz = 0) {
+    const P = this.pts.geometry.attributes.position, a = P.array, ph = ((t + this.ph) / .9) % 1, sq = ph < .15 ? Math.sin(ph / .15 * Math.PI / 2) : 1 - (ph - .15) / .85, r = this.r;
+    this.pts.scale.set(1 - .1 * sq, 1 + .07 * sq, 1 - .1 * sq); this.pts.material.uniforms.uTime.value = t;
+    for (let k = 0; k < this.tn; k++) {
+      const ang = k / this.tn * Math.PI * 2; let x = Math.cos(ang) * r * .72, y = -2, z = Math.sin(ang) * r * .72; const seg = r * .13;
+      for (let j = 0; j < this.ts; j++) { const i = (this.nd + k * this.ts + j) * 3, f = j / this.ts;
+        x += Math.sin(t * 1.6 + k + j * .5 + this.ph) * seg * .25 - vx * .012 * f * seg / 9; z += Math.cos(t * 1.3 + k * .7 + j * .45) * seg * .25 - vz * .012 * f * seg / 9; y -= seg - vy * .006 * f;
+        a[i] = x; a[i + 1] = y; a[i + 2] = z; }
+    }
+    P.needsUpdate = true;
+  }
+}
+const ATL = {};   // each film's strip of sixteen small frames, decoded once
+function loadAtlas(f) { return new Promise(res => { const im = new Image(); im.onload = () => { const c = document.createElement('canvas'); c.width = 64 * f.n; c.height = 36; const g = c.getContext('2d'); g.drawImage(im, 0, 0);
+  ATL[f.id] = Array.from({length: f.n}, (_, i) => g.getImageData(i * 64, 0, 64, 36).data); res(); }; im.onerror = () => res(); im.src = f.atlas; }); }
+const ocean = new THREE.Group(); scene.add(ocean); ocean.visible = false;
+const schoolG = new THREE.Group(); scene.add(schoolG);
+const O = {jellies: [], school: [], x: 0, y: 0, z: 0, vx: 0, vy: 0, vz: 0, film: null, caught: []};
+function snow() {   // marine snow, so motion reads in the dark
+  const n = 1400, pos = new Float32Array(n * 3), col = new Float32Array(n * 3), seed = new Float32Array(n);
+  for (let i = 0; i < n; i++) { pos[i * 3] = (Math.random() - .5) * 4000; pos[i * 3 + 1] = (Math.random() - .5) * 2200; pos[i * 3 + 2] = -Math.random() * 6000; const b = .25 + .3 * Math.random(); col.set([b * .8, b * .85, b], i * 3); seed[i] = Math.random(); }
+  const geo = new THREE.BufferGeometry(); geo.setAttribute('position', new THREE.BufferAttribute(pos, 3)); geo.setAttribute('aScatter', new THREE.BufferAttribute(pos.slice(), 3));
+  geo.setAttribute('color', new THREE.BufferAttribute(col, 3)); geo.setAttribute('aSeed', new THREE.BufferAttribute(seed, 1));
+  const p = new THREE.Points(geo, new THREE.ShaderMaterial({vertexShader: fleckVS, fragmentShader: fleckFS, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending,
+    uniforms: {uDev: {value: 1}, uTime: {value: 0}, uSize: {value: 5}, uBurn: {value: 0}, uAlpha: {value: .5}, uScale, uLift: {value: 0}, uTouch: {value: new THREE.Vector2()}}}));
+  p.frustumCulled = false; return p;
+}
+const SNOW = snow(); scene.add(SNOW); SNOW.visible = false;
+function placeAhead(J, ahead) { J.home.set((Math.random() - .5) * 2600, (Math.random() - .5) * 900, O.z - ahead - Math.random() * 1600); J.g.position.copy(J.home); }
+function enterOcean(fromFilm) {
+  audio.start(); audio.duck(false); if (O.video) O.video.pause(); tunnelClear(); schoolG.visible = true;
+  S.mode = 'ocean'; $('title').style.display = 'none'; $('end').style.display = 'none'; $('film').style.display = 'none'; $('top').style.visibility = 'visible'; labels.innerHTML = '';
+  shelf.visible = track.visible = corridor.visible = false; imp.visible = false; ocean.visible = true; SNOW.visible = true; scene.add(jelly); jelly.visible = true; jelly.scale.setScalar(.45); O.caughtHere = false;
+  if (!O.jellies.length) FILMS.forEach((f, i) => { const J = new ImgJelly(150, 2600, 18, 16, 7); J.film = f; J.home = new THREE.Vector3(); ocean.add(J.g);
+    J.home.set(((i % 4) - 1.5) * 760 + (Math.random() - .5) * 200, (i < 4 ? 1 : -1) * 260 + (Math.random() - .5) * 160, -1300 - (i >> 1) * 900); J.g.position.copy(J.home); O.jellies.push(J); });
+  if (fromFilm) { const J = O.jellies.find(j => j.film === fromFilm); if (J) { O.x = J.g.position.x + 420; O.y = J.g.position.y; O.z = J.g.position.z + 300; } }
+  O.vx = O.vy = O.vz = 0; O.cool = 1.5;
+  $('mode').textContent = 'swim the films · each jellyfish is a film';
+  const b = [['Home', () => { leaveOcean(); home(); }]]; if (O.caught.length >= 2) b.unshift([`Play your ${O.caught.length} moments`, playCaught, true]); buttons(b);
+}
+function leaveOcean() { ocean.visible = false; SNOW.visible = false; schoolG.visible = false; tunnelClear(); if (O.video) { O.video.pause(); } audio.duck(false); }
+function steer(dt, zPlane, pull) {   // touch/click and hold where you want to go; arrows too
+  if (ptr.down) {
+    const v = new THREE.Vector3((ptr.x / innerWidth) * 2 - 1, -(ptr.y / innerHeight) * 2 + 1, .5).unproject(camera), dir = v.sub(camera.position).normalize();
+    const dist = (zPlane - camera.position.z) / dir.z, hit = camera.position.clone().add(dir.multiplyScalar(dist));
+    const dx = hit.x - O.x, dy = hit.y - O.y, d = Math.hypot(dx, dy) || 1, f = Math.min(1, d / 160) * 1100 * dt; O.vx += dx / d * f; O.vy += dy / d * f;
+  }
+  const kx = (keys.has('ArrowRight') || keys.has('d')) - (keys.has('ArrowLeft') || keys.has('a')), ky = (keys.has('ArrowUp') || keys.has('w')) - (keys.has('ArrowDown') || keys.has('s'));
+  O.vx += kx * 1000 * dt; O.vy += ky * 1000 * dt;
+  const moving = ptr.down || kx || ky || keys.has(' ');
+  const beat = performance.now() / 625; if (Math.floor(beat) !== O.lastBeat) { O.lastBeat = Math.floor(beat); if (moving) { O.vz -= pull; audio.stroke(); } }
+  const ph = beat % 1; jelly.userData.pulse = moving ? (ph < .15 ? Math.sin(ph / .15 * Math.PI / 2) : 1 - (ph - .15) / .85) : .1;
+  O.vx *= Math.pow(.25, dt); O.vy *= Math.pow(.25, dt); O.vz *= Math.pow(moving ? .3 : .02, dt);   // let go and you stop, and so does the film
+  O.x += O.vx * dt; O.y += O.vy * dt; O.z += O.vz * dt;
+  jelly.position.set(O.x, O.y, O.z); jelly.rotation.z = THREE.MathUtils.clamp(-O.vx / 1000, -.4, .4); jelly.rotation.x = -.35 + THREE.MathUtils.clamp(O.vy / 1300, -.3, .3);
+  jellyUpdate(performance.now() / 1000, O.vx, O.vy, O.vz);
+  return moving;
+}
+function schoolFollow(dt, t) {   // the moments you caught swim after you
+  O.school.forEach((J, i) => { const a = i * 2.4, tgt = new THREE.Vector3(O.x + Math.cos(a) * (140 + 22 * i), O.y + 60 + Math.sin(a) * 90, O.z + 160 + 40 * i);
+    J.g.position.lerp(tgt, Math.min(1, dt * (1.2 + .1 * i))); J.update(t + i, 0, 0, O.vz * .5); });
+}
+function oceanFrame(dt, t) {
+  labels.innerHTML = '';
+  steer(dt, O.z - 900, 260);
+  O.x = THREE.MathUtils.clamp(O.x, -1500, 1500); O.y = THREE.MathUtils.clamp(O.y, -600, 600);
+  camera.position.lerp(new THREE.Vector3(O.x * .8, O.y * .8 + 130, O.z + 720), Math.min(1, dt * 3)); camera.lookAt(O.x * .8, O.y * .8 + 40, O.z - 900);
+  SNOW.position.z = Math.floor(O.z / 6000) * 6000; SNOW.material.uniforms.uTime.value = t;
+  O.cool = Math.max(0, O.cool - dt); let nearest = null, nd = 1e9;
+  O.jellies.forEach((J, i) => {
+    const fr = ATL[J.film.id]; if (fr && (J.lastFr !== ((t * 4 + i * 3) | 0) % fr.length)) { J.lastFr = ((t * 4 + i * 3) | 0) % fr.length; J.paint(fr[J.lastFr], 64, 36, .75); }
+    J.g.position.set(J.home.x + Math.sin(t * .3 + i) * 60, J.home.y + Math.sin(t * .5 + i * 2) * 40, J.home.z);
+    J.update(t, 0, 0, 0);
+    if (J.g.position.z > O.z + 900) placeAhead(J, 2200);   // the ocean goes on: what you pass drifts back ahead of you
+    const d = J.g.position.distanceTo(jelly.position);
+    if (d < nd) { nd = d; nearest = J; }
+    if (d < 2600) { const p = toScreen(J.g.position.clone().add(new THREE.Vector3(0, 170, 0))); if (p[2] < 1) label(J.film.title, p[0], p[1], d < 900 ? '' : 'dur'); }
+    if (d < 175 && !O.cool) enterTunnel(J.film);
+  });
+  schoolFollow(dt, t);
+  hint(O.caught.length >= 2 && !O.toldPlay ? `you carry ${O.caught.length} moments · play them, or swim into another film` :
+    nearest && nd < 900 ? `swim into ${nearest.film.title}` : COARSE ? 'touch and hold where you want to swim · each jellyfish is a film' : 'click and hold where you want to swim (or arrow keys) · each jellyfish is a film');
+}
+// ---- inside a film
+const TGX = 96, TGY = 54, TW = 640, TH = 360;
+const tunnel = new THREE.Group(); scene.add(tunnel);
+let FRAME = null, TPOS = null, TSC = null;
+const vcan = document.createElement('canvas'); vcan.width = TGX; vcan.height = TGY; const vctx = vcan.getContext('2d', {willReadFrequently: true});
+function framePoints() {   // the present frame: a grid of flecks lifted into depth by its light
+  if (!TPOS) { const n = TGX * TGY; TPOS = new Float32Array(n * 3); TSC = new Float32Array(n * 3); const seed = new Float32Array(n);
+    for (let i = 0; i < n; i++) { const x = i % TGX, y = (i / TGX) | 0; TPOS.set([(x / TGX - .5) * TW, (.5 - y / TGY) * TH, 0], i * 3); TSC.set([(x / TGX - .5) * TW + (Math.random() - .5) * 40, (.5 - y / TGY) * TH + (Math.random() - .5) * 40, (Math.random() - .5) * 500], i * 3); seed[i] = Math.random(); }
+    framePoints.seed = seed; }
+  const geo = new THREE.BufferGeometry(); geo.setAttribute('position', new THREE.BufferAttribute(TPOS.slice(), 3)); geo.setAttribute('aScatter', new THREE.BufferAttribute(TSC, 3));
+  geo.setAttribute('color', new THREE.BufferAttribute(new Float32Array(TGX * TGY * 3), 3)); geo.setAttribute('aSeed', new THREE.BufferAttribute(framePoints.seed, 1)); geo.boundingSphere = new THREE.Sphere(new THREE.Vector3(), 800);
+  const p = new THREE.Points(geo, new THREE.ShaderMaterial({vertexShader: fleckVS, fragmentShader: fleckFS, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending,
+    uniforms: {uDev: {value: 1}, uTime: {value: 0}, uSize: {value: 9.5}, uBurn: {value: 0}, uAlpha: {value: 1}, uScale, uLift: {value: 0}, uTouch: {value: new THREE.Vector2()}}}));
+  p.frustumCulled = false; return p;
+}
+function tunnelClear() { while (tunnel.children.length) { const c = tunnel.children[0]; tunnel.remove(c); if (c !== FRAME) c.geometry.dispose(); } O.trail = []; }
+function enterTunnel(f) {
+  S.mode = 'tunnel'; O.film = f; ocean.visible = false; jelly.scale.setScalar(.32); tunnelClear(); audio.duck(true); audio.whoosh();
+  if (!FRAME) FRAME = framePoints(); tunnel.add(FRAME);
+  if (!O.video) { O.video = document.createElement('video'); O.video.playsInline = true; O.video.preload = 'auto'; O.video.crossOrigin = 'anonymous'; }
+  const v = O.video; v.src = f.src; v.currentTime = 0; v.muted = false; v.playbackRate = 1; O.playing = false; O.tz = O.z; O.stamp = 0; O.still = 0;
+  v.onended = () => { if (S.mode === 'tunnel') { flashText('the end of ' + f.title); setTimeout(() => S.mode === 'tunnel' && enterOcean(f), 900); } };
+  $('mode').textContent = f.title + ' · you are inside the film';
+  buttons([['Catch this moment', catchMoment, true], ['Surface', () => enterOcean(f)]]);
+}
+function flashText(t) { hint(t); }
+function sampleVideo() {
+  const v = O.video; if (!v || v.readyState < 2) return false;
+  vctx.drawImage(v, 0, 0, TGX, TGY); const d = vctx.getImageData(0, 0, TGX, TGY).data, c = FRAME.geometry.attributes.color.array, P = FRAME.geometry.attributes.position.array;
+  for (let i = 0; i < TGX * TGY; i++) { const R = d[i * 4] / 255, G = d[i * 4 + 1] / 255, B = d[i * 4 + 2] / 255, L = .3 * R + .55 * G + .15 * B;
+    const k = .95 / Math.max(.25, Math.sqrt(L + .02));   // lift the shadows so dark films still read as light
+    c[i * 3] = Math.min(1, R * k) * .75; c[i * 3 + 1] = Math.min(1, G * k) * .75; c[i * 3 + 2] = Math.min(1, B * k) * .75; P[i * 3 + 2] = (L - .5) * 30; }
+  FRAME.geometry.attributes.color.needsUpdate = true; FRAME.geometry.attributes.position.needsUpdate = true; O.lastData = d; return true;
+}
+function tunnelFrame(dt, t) {
+  labels.innerHTML = '';
+  const moving = steer(dt, O.z - 600, 300);
+  O.x = THREE.MathUtils.clamp(O.x, -700, 700); O.y = THREE.MathUtils.clamp(O.y, -400, 400);
+  const v = O.video, speed = Math.max(0, -O.vz), rate = THREE.MathUtils.clamp(speed / 380, 0, 2.5);
+  // you are the projector's motor: the film runs as fast as you swim, and stops when you stop
+  if (rate > .08) { v.playbackRate = Math.max(.25, rate); if (v.paused) { const pr = v.play(); if (pr) pr.catch(() => { v.muted = true; v.play().catch(() => {}); }); } O.still = 0; }
+  else { if (!v.paused) v.pause(); O.still += dt; }
+  sampleVideo();
+  FRAME.position.lerp(new THREE.Vector3(O.x, O.y + 150, O.z - 520), Math.min(1, dt * 5)); FRAME.material.uniforms.uTime.value = t;
+  FRAME.material.uniforms.uAlpha.value = 1;
+  // the frames you swim through stay where you passed them: the film, laid out in space as time
+  O.stamp += dt * Math.min(1, rate);
+  if (O.stamp > .22 && O.lastData) { O.stamp = 0; const g = new THREE.BufferGeometry(), p0 = FRAME.geometry;
+    g.setAttribute('position', new THREE.BufferAttribute(p0.attributes.position.array.slice(), 3)); g.setAttribute('aScatter', p0.attributes.aScatter); g.setAttribute('aSeed', p0.attributes.aSeed);
+    g.setAttribute('color', new THREE.BufferAttribute(p0.attributes.color.array.slice(), 3)); g.boundingSphere = p0.boundingSphere;
+    const m = FRAME.material.clone(); m.uniforms.uAlpha = {value: .5}; m.uniforms.uScale = uScale; const ghost = new THREE.Points(g, m); ghost.frustumCulled = false; ghost.position.copy(FRAME.position); ghost.userData.t0 = t;
+    tunnel.add(ghost); O.trail.push(ghost);
+    if (O.trail.length > 18) { const o = O.trail.shift(); tunnel.remove(o); o.geometry.dispose(); } }
+  O.trail.forEach(g => { const age = t - g.userData.t0, cz = camera.position.z - g.position.z, near = THREE.MathUtils.clamp((cz - 250) / 700, 0, 1);   // faint, and gone before it reaches the lens
+    g.material.uniforms.uAlpha.value = Math.max(0, .2 * (1 - age / 4)) * near; g.position.x += (g.userData.side || (g.userData.side = (Math.random() < .5 ? -1 : 1) * 30)) * dt; g.material.uniforms.uDev.value = Math.max(.55, 1 - age * .06); g.material.uniforms.uTime.value = t; });
+  camera.position.lerp(new THREE.Vector3(O.x + 150, O.y + 110, O.z + 520), Math.min(1, dt * 3)); camera.lookAt(O.x - 20, O.y + 120, O.z - 520);
+  schoolFollow(dt, t);
+  const tm = v.currentTime || 0, dur = v.duration || O.film.dur;
+  hint(O.still > 1.2 ? 'you stopped, so the film stopped · catch this moment, or swim on' :
+    !O.caughtHere ? (COARSE ? 'hold to swim: the film plays as fast as you swim · tap “Catch this moment”' : 'hold to swim: the film plays as fast as you swim · press C (or the button) to catch a moment') :
+    `${O.film.title} · ${Math.floor(tm)} / ${Math.floor(dur)} s`);
+}
+function catchMoment() {
+  if (S.mode !== 'tunnel' || !O.lastData) return;
+  const big = document.createElement('canvas'); big.width = 480; big.height = 270; big.getContext('2d').drawImage(O.video, 0, 0, 480, 270);
+  const J = new ImgJelly(46, 700, 10, 10, 5); J.paint(O.lastData, TGX, TGY, .8); J.g.position.copy(FRAME.position); schoolG.add(J.g); O.school.push(J);
+  O.caught.push({film: O.film, t: O.video.currentTime, img: big}); O.caughtHere = true; audio.pick(CHAIN[O.caught.length % 14]); flash('rgba(255,236,200,.5)');
+  const p = toScreen(FRAME.position.clone()); label('caught', p[0], p[1]);
+}
+function playCaught() {   // your school, played as a memory: each moment from its film, in the order you caught it
+  O.toldPlay = true; leaveOcean(); S.mode = 'film'; hint(''); labels.innerHTML = ''; buttons([]); $('top').style.visibility = 'hidden';
+  const F = $('film'), g = F.getContext('2d'); F.style.display = 'block'; const list = O.caught, per = 1.6, t0 = performance.now(); let last = -1;
+  const step = () => { if (S.mode !== 'film') return; const t = (performance.now() - t0) / 1000, i = Math.min(list.length - 1, Math.floor(t / per)), u = (t - i * per) / per, W = F.width, H = F.height, c = list[i];
+    if (i !== last) { last = i; audio.develop(CHAIN[i % 14], .6); }
+    g.fillStyle = '#000'; g.fillRect(0, 0, W, H); const s = Math.max(W / 480, H / 270) * (1.04 + .05 * u); g.filter = 'sepia(.35) contrast(1.05)';
+    g.drawImage(c.img, (W - 480 * s) / 2, (H - 270 * s) / 2, 480 * s, 270 * s); g.filter = 'none';
+    if (t - i * per < .05) { g.fillStyle = 'rgba(255,255,255,.5)'; g.fillRect(0, 0, W, H); }
+    g.fillStyle = 'rgba(242,230,207,.9)'; g.font = `900 ${Math.round(H * .025)}px system-ui`; g.fillText('MOMENTS YOU CAUGHT', W * .03, H * .07);
+    g.textAlign = 'right'; g.font = `italic ${Math.round(H * .03)}px Georgia`; g.fillText(`${c.film.title} · ${c.t.toFixed(1)} s`, W * .97, H * .07); g.textAlign = 'left';
+    if (t < list.length * per) requestAnimationFrame(step); else enterOcean(); };
+  step();
+}
 // ------------------------------------------------------------------ input
 const cv = $('gl');
 cv.addEventListener('pointerdown', e => { audio.wake(); ptr.down = true; ptr.x = e.clientX; ptr.y = e.clientY; ptr.sx = e.clientX; ptr.sy = e.clientY; ptr.t0 = performance.now(); ptr.held = false; ptr.moved = false;
@@ -450,7 +649,7 @@ cv.addEventListener('pointerdown', e => { audio.wake(); ptr.down = true; ptr.x =
 cv.addEventListener('pointermove', e => { ptr.x = e.clientX; ptr.y = e.clientY; if (Math.hypot(e.clientX - ptr.sx, e.clientY - ptr.sy) > 12) ptr.moved = true; });
 addEventListener('pointerup', e => { if (!ptr.down) return; ptr.down = false;
   if (S.mode === 'shape' && !ptr.held && !ptr.moved && performance.now() - ptr.t0 < 350) shapeTap(ptr.onItem); ptr.onItem = null; });
-addEventListener('keydown', e => { const k = e.key.length === 1 ? e.key.toLowerCase() : e.key; if (['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(k)) e.preventDefault(); keys.add(k); audio.wake(); });
+addEventListener('keydown', e => { const k = e.key.length === 1 ? e.key.toLowerCase() : e.key; if (k === 'c' && S.mode === 'tunnel') catchMoment(); if (['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(k)) e.preventDefault(); keys.add(k); audio.wake(); });
 addEventListener('keyup', e => keys.delete(e.key.length === 1 ? e.key.toLowerCase() : e.key));
 addEventListener('blur', () => { keys.clear(); ptr.down = false; });
 // ------------------------------------------------------------------ grain (static tiles, cycled) and the loop
@@ -460,18 +659,23 @@ function loop(now) {
   requestAnimationFrame(loop);
   const dt = Math.min(.05, (now - S.last) / 1000); S.last = now; const t = now / 1000;
   if (S.mode === 'shape') shapeFrame(dt, t);
+  else if (S.mode === 'ocean') oceanFrame(dt, t);
+  else if (S.mode === 'tunnel') tunnelFrame(dt, t);
   else if (S.mode === 'dream') dreamFrame(dt, t);
   else if (S.mode === 'title' || S.mode === 'end') { jellyUpdate(t, 0, 0, 0); const ph = (t / .625) % 1; jelly.userData.pulse = ph < .15 ? Math.sin(ph / .15 * Math.PI / 2) : 1 - (ph - .15) / .85; jelly.position.y = -20 + Math.sin(t * .8) * 14; }
   if (S.mode !== 'film') renderer.render(scene, camera);
   if ((gi++ & 3) === 0) grain.putImageData(GT[(gi >> 2) & 3], 0, 0);
 }
-ready.then(() => {
+ready.then(async () => {
   for (let k = 0; k < 14; k++) GEO[k] = sampleFrame(k);
+  try { FILMS = await (await fetch('memory-maker/films.json')).json(); await Promise.all(FILMS.map(loadAtlas)); } catch (e) { FILMS = []; }
   home();
   const h = location.hash.match(/m=([0-9a-z]+)/); if (h && dec(h[1]).length) { S.memory = dec(h[1]); $('bDream').textContent = 'Dream this shared memory'; $('bDream').onclick = () => { audio.start(); enterDream(S.memory); }; }
   requestAnimationFrame(loop);
   window.__mm = () => ({mode: S.mode, memory: S.memory.map(m => m.slice()), dream: S.mode === 'dream' ? {i: D.i, n: D.scenes.length, x: D.x, y: D.y, z: D.z, target: D.scenes[D.i] ? [D.scenes[D.i].target.x, D.scenes[D.i].target.y] : null,
     score: D.score} : null, shelf: shelf.children.map(c => { const s = c.scale.x, a = toScreen(c.position.clone()); return [c.userData.k, a[0], a[1]]; }), track: track.children.map(c => { const a = toScreen(c.position.clone()); return [a[0], a[1]]; }),
+    ocean: {x: O.x, y: O.y, z: O.z, caught: O.caught.length, film: O.film && O.film.id, t: O.video ? O.video.currentTime : 0, paused: O.video ? O.video.paused : null,
+      jellies: O.jellies.map(J => { const a = toScreen(J.g.position.clone()); return [J.film.id, a[0], a[1], a[2], J.g.position.distanceTo(jelly.position)]; })},
     jellyScreen: toScreen(jelly.position.clone()), targetScreen: S.mode === 'dream' && D.scenes[D.i] ? toScreen(D.scenes[D.i].target.clone()) : null});
 });
 </script>

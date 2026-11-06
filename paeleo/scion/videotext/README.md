@@ -10,6 +10,7 @@ The sun's beam is the censor: a frame with a touch in it (a red dot) burns if yo
 See [THEORY_OF_PLAY.md](THEORY_OF_PLAY.md), and the SCION instructions it follows: [interface](SCION_INTERFACE_THINKING_MACHINE.md), [ludic engine](SCION_LUDIC_ENGINE.md), [identity after Scher](SCION_IDENTITY_AFTER_SCHER.md), [title after Bass](SCION_TITLE_AFTER_BASS.md), [garden after Eno](SCION_GARDEN_AFTER_ENO.md).
 
 **The Memory Maker (`maker.html`).** A Dreams-style maker in the same world.
+- **Swim the films:** each of eight of our films is a jellyfish of images. Swim into one and you are inside it; it plays only as fast as you swim. The moments you catch follow you as small jellyfish.
 - **Shape:** build a memory out of archive frames rendered as flecks of light. Matching frames join with gold cuts, and holding a frame makes it last longer.
 - **Dream:** become the jellyfish and swim the memory into focus, avoiding the censor's light.
 - **Share:** the memory lives in the link, so anyone can dream it or remix it.

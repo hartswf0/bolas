@@ -2,6 +2,27 @@
 
 `maker.html` is a Dreams-style maker and player in the Contaminant / Afterlight world. It was built with the [video-to-game](https://github.com/lovisdotio/video-to-game) flow, adapted so that the design video and every asset come from our own film and archive. No fal or other generative model was used.
 
+## Swim the films (the ocean)
+Each of eight of our own films is an image-jellyfish: thousands of flecks coloured from the film, its bell cycling through sixteen frames of it (`memory-maker/films/*.jpg`, made with ffmpeg; the list is in `memory-maker/films.json`). The films:
+- Contaminant Jelly
+- the film without words
+- Two cuts of one take
+- PAELEO 00
+- Library of Congress
+- The Flour Tower
+- It's All Right
+- Abominable House
+
+Swim into one and you are inside the film:
+- **You are the projector's motor.** The real video plays only while you swim; your speed is its speed (×0.25 to ×2.5), and when you let go, it stops. The film's own sound plays and the score drops out.
+- **The present frame floats ahead of you** as a field of flecks lifted by its light.
+- **The frames you pass stay behind** as faint echoes, the film laid out in space as time.
+- **Catch a moment** (the button, or C) and it becomes a small jellyfish of that image that follows you.
+- **Surface** to swim to another film.
+- **Play your moments** (two or more) and they play as a memory, each with its film and time code.
+
+Measured: inside a film, the video advanced 7.2 s during 3 s of swimming and stopped within 2 s of letting go. Two moments were caught and played back with no page errors.
+
 ## The loop (after Dreams' make, play and remix)
 - **Shape (the maker).** Fourteen public-domain archive frames float as clouds of light ("flecks", after Dreams' BubbleBath engine).
   - Pick frames one after another to build a memory of up to nine frames.
