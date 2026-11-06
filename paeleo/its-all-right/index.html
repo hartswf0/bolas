@@ -1,0 +1,542 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>IT'S ALL RIGHT · PAELEO · CRASH LAB</title>
+<meta name="description" content="A film by Watson Hartsoe. A person speaks to a dog in three sentences: come here, it's all right, come in. One scene, told in many languages at once.">
+<meta property="og:title" content="IT'S ALL RIGHT"><meta property="og:description" content="come here · it's all right · come in. A film by Watson Hartsoe.">
+<meta property="og:image" content="https://hartswf0.github.io/bolas/paeleo/its-all-right/posters/thumb.jpg"><meta name="twitter:card" content="summary_large_image"><meta name="theme-color" content="#15161f">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&family=JetBrains+Mono:wght@400;500&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;1,7..72,400;1,7..72,500&display=swap">
+<style>
+/* Layout: a transcript of one conversation (written · said · done · answered) above a wall of every telling, grouped by the language it is told in. Single dusk look, by choice. */
+:root {
+  --night: #15161f;
+  --porch: #1f1e2a;
+  --rule: #34324a;
+  --paper: #ece3d2;
+  --muted: #a39d93;
+  --lamp: #e8b25e;
+  --soft: #b3a5d6;
+  --call: #c27a63;
+  --display: "Big Shoulders Display", "Arial Narrow", Impact, sans-serif;
+  --body: "Literata", Georgia, "Times New Roman", serif;
+  --mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--night);
+  color: var(--paper);
+  font-family: var(--body);
+  font-size: 16px;
+  line-height: 1.55;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 0 48px;
+}
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--night); }
+.wrap { max-width: 1240px; margin: 0 auto; }
+a { color: var(--lamp); }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--lamp); outline-offset: 2px; }
+
+/* opening */
+header.open { padding-block: 40px 20px; display: grid; gap: 18px; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: end; }
+.title { font-family: var(--display); font-weight: 800; font-size: clamp(56px, 11vw, 128px); line-height: .86; letter-spacing: .01em; margin: 0; text-wrap: balance; }
+.title .q { color: var(--lamp); }
+.sub { font-family: var(--body); font-style: italic; font-size: clamp(18px, 2.4vw, 24px); color: var(--paper); margin: 14px 0 6px; }
+.sub .c { color: var(--call); } .sub .s { color: var(--soft); } .sub .i { color: var(--lamp); }
+.by { font-family: var(--mono); font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin: 0; }
+.lede { max-width: 58ch; margin: 0; color: var(--paper); }
+.lede p { margin: 0 0 .7em; }
+.lede em { color: var(--soft); }
+
+/* transport */
+.bar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--night); border-bottom: 1px solid var(--rule); padding-block: 10px; display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; }
+.play { display: inline-flex; align-items: center; gap: 8px; background: var(--lamp); color: var(--night); border: 0; border-radius: 999px; padding: 7px 16px 7px 12px; font-family: var(--mono); font-size: 13px; font-weight: 500; cursor: pointer; }
+.play svg { width: 14px; height: 14px; fill: currentColor; }
+.clock { font-family: var(--mono); font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; min-width: 17ch; }
+.clock b { color: var(--paper); font-weight: 500; }
+.seg { display: inline-flex; border: 1px solid var(--rule); border-radius: 999px; overflow: hidden; }
+.seg button { background: transparent; border: 0; padding: 6px 13px; font-family: var(--mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); cursor: pointer; }
+.seg button[aria-pressed="true"] { background: var(--paper); color: var(--night); }
+.spacer { flex: 1 1 auto; }
+.toggle { background: transparent; border: 1px solid var(--rule); border-radius: 999px; padding: 6px 13px; font-family: var(--mono); font-size: 12px; color: var(--muted); cursor: pointer; }
+.toggle[aria-pressed="true"] { color: var(--paper); border-color: var(--muted); }
+
+/* transcript */
+.transcript { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 300px); gap: 24px; padding-block: 22px 8px; }
+.score { position: relative; user-select: none; touch-action: none; cursor: ew-resize; }
+.row { display: grid; grid-template-columns: 92px minmax(0, 1fr); align-items: center; min-height: 34px; border-top: 1px solid var(--rule); }
+.row:last-child { border-bottom: 1px solid var(--rule); }
+.rlab { font-family: var(--mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+.lane { position: relative; height: 34px; }
+.ev { position: absolute; top: 7px; height: 20px; border-radius: 3px; font-size: 12px; line-height: 20px; padding: 0 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; transition: opacity .2s; }
+.ev.written { font-family: var(--mono); font-size: 11px; color: var(--muted); border-left: 1px solid var(--muted); border-radius: 0; background: transparent; padding-left: 5px; }
+.ev.call { background: color-mix(in srgb, var(--call) 30%, transparent); color: var(--paper); font-style: italic; }
+.ev.soft { background: color-mix(in srgb, var(--soft) 30%, transparent); color: var(--paper); font-style: italic; }
+.ev.invite { background: color-mix(in srgb, var(--lamp) 32%, transparent); color: var(--paper); font-style: italic; }
+.ev.act { height: 14px; line-height: 14px; font-size: 10px; background: transparent; border: 1px solid var(--rule); color: var(--paper); font-family: var(--mono); font-size: 11px; }
+.ev.state { font-family: var(--mono); font-size: 11px; color: var(--night); top: 9px; height: 16px; line-height: 16px; border-radius: 2px; }
+.ev.past { opacity: .5; }
+.ev.now { opacity: 1; box-shadow: 0 0 0 1px var(--paper) inset; }
+.trust { position: absolute; left: 0; top: 0; width: 100%; height: 100%; pointer-events: none; }
+.head { position: absolute; top: 0; bottom: 0; width: 2px; background: var(--lamp); pointer-events: none; margin-left: 92px; }
+.ticks { display: grid; grid-template-columns: 92px minmax(0, 1fr); font-family: var(--mono); font-size: 10px; color: var(--muted); }
+.ticks .tk { position: relative; height: 16px; }
+.ticks span { position: absolute; transform: translateX(-50%); }
+.now-panel { display: grid; align-content: start; gap: 10px; }
+.now-line { font-family: var(--body); font-style: italic; font-size: clamp(26px, 3.4vw, 38px); line-height: 1.1; min-height: 1.2em; margin: 0; text-wrap: balance; }
+.now-line.call { color: var(--call); } .now-line.soft { color: var(--soft); } .now-line.invite { color: var(--lamp); } .now-line.quiet { color: var(--muted); }
+.now-meta { font-family: var(--mono); font-size: 12px; color: var(--muted); margin: 0; }
+.now-why { font-family: var(--mono); font-size: 12px; color: var(--paper); border-left: 2px solid var(--lamp); padding-left: 10px; margin: 0; }
+.now-why span { color: var(--muted); display: block; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; margin-bottom: 2px; }
+
+/* wall */
+.wallhead { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 18px; padding-block: 28px 6px; }
+.wallhead h2 { font-family: var(--display); font-weight: 600; font-size: 30px; letter-spacing: .02em; margin: 0; }
+.wallhead p { margin: 0; color: var(--muted); font-size: 15px; max-width: 70ch; }
+.fam { padding-block: 16px 4px; }
+.fam h3 { font-family: var(--mono); font-weight: 500; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--lamp); margin: 0 0 10px; }
+.tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(var(--tw, 150px), 1fr)); gap: 8px; }
+.tile { position: relative; padding: 0; border: 0; background: var(--porch); border-radius: 3px; overflow: hidden; cursor: pointer; aspect-ratio: var(--ar, 5 / 4); display: block; width: 100%; }
+.tile canvas { width: 100%; height: 100%; display: block; }
+.tile .n { position: absolute; left: 6px; bottom: 5px; font-family: var(--mono); font-size: 10px; color: var(--paper); background: color-mix(in srgb, var(--night) 70%, transparent); padding: 1px 5px; border-radius: 2px; pointer-events: none; }
+.tile .p { position: absolute; right: 6px; top: 5px; font-family: var(--mono); font-size: 9px; letter-spacing: .08em; text-transform: uppercase; color: var(--night); background: var(--muted); padding: 1px 5px; border-radius: 2px; }
+.tile:hover { outline: 1px solid var(--muted); }
+.tile[aria-current="true"] { outline: 2px solid var(--lamp); }
+
+/* detail */
+.detail { display: grid; grid-template-columns: minmax(0, 340px) minmax(0, 1fr); gap: 22px; padding: 20px; margin-top: 26px; background: var(--porch); border-radius: 4px; }
+.detail .big { width: 100%; aspect-ratio: 5 / 4; background: var(--night); border-radius: 3px; display: block; }
+.dl { display: flex; gap: 6px; margin-top: 8px; }
+.dl button { flex: 1; background: transparent; border: 1px solid var(--rule); border-radius: 999px; padding: 4px 6px; font-family: var(--mono); font-size: 11px; color: var(--muted); cursor: pointer; }
+.dl button[aria-pressed="true"] { color: var(--night); background: var(--paper); border-color: var(--paper); }
+.detail h4 { font-family: var(--display); font-weight: 800; font-size: 34px; line-height: 1; margin: 0 0 4px; }
+.detail .kind { font-family: var(--mono); font-size: 12px; color: var(--lamp); letter-spacing: .06em; text-transform: uppercase; margin: 0 0 14px; }
+.detail dl { display: grid; grid-template-columns: 7.5em minmax(0, 1fr); gap: 8px 14px; margin: 0; }
+.detail dt { font-family: var(--mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); padding-top: 3px; }
+.detail dd { margin: 0; font-size: 15px; }
+.detail .verdict { font-family: var(--mono); font-size: 12px; }
+
+footer { margin-top: 44px; padding-top: 18px; border-top: 1px solid var(--rule); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 18px 28px; color: var(--muted); font-size: 14px; }
+footer h5 { font-family: var(--mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--paper); margin: 0 0 6px; font-weight: 500; }
+footer p { margin: 0; }
+
+
+.crumbs { font-family: var(--mono); font-size: 12px; letter-spacing: .08em; color: var(--muted); padding-top: 18px; margin: 0; }
+.crumbs a { color: var(--muted); text-decoration: none; } .crumbs a:hover { color: var(--paper); }
+.watch { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); gap: 18px; padding-block: 8px 28px; }
+.watch figure { margin: 0; display: grid; gap: 8px; }
+.watch video { width: 100%; display: block; background: #000; border-radius: 3px; }
+.watch figcaption { font-size: 14px; color: var(--muted); }
+.watch figcaption b { font-family: var(--mono); font-weight: 500; font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--paper); display: block; }
+.side { display: grid; gap: 18px; align-content: start; }
+.sechead { padding-block: 40px 10px; border-top: 1px solid var(--rule); margin-top: 36px; }
+.sechead h2 { font-family: var(--display); font-weight: 600; font-size: 34px; margin: 0 0 6px; }
+.sechead p { margin: 0; color: var(--muted); max-width: 72ch; }
+.test { overflow-x: auto; }
+.test table { border-collapse: collapse; width: 100%; font-size: 13px; min-width: 640px; }
+.test th, .test td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+.test th { font-family: var(--mono); font-weight: 500; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.test td.n { font-family: var(--mono); color: var(--muted); font-variant-numeric: tabular-nums; }
+.test td.k { color: var(--muted); }
+.test .ok { color: var(--lamp); font-family: var(--mono); }
+.test .v { font-family: var(--mono); font-size: 12px; }
+.test .v.pass { color: var(--paper); } .test .v.fail { color: var(--call); }
+.test a { color: var(--soft); }
+.rules { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr)); gap: 14px; margin: 14px 0 20px; }
+.rules div { background: var(--porch); border-radius: 3px; padding: 12px 14px; font-size: 14px; }
+.rules b { display: block; font-family: var(--mono); font-weight: 500; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--lamp); margin-bottom: 4px; }
+.posters { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 180px), 1fr)); gap: 12px; }
+.posters a { display: block; } .posters img { width: 100%; display: block; border-radius: 2px; }
+.press { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 24px; }
+.press blockquote { margin: 0; font-style: italic; font-size: clamp(20px, 2.4vw, 26px); line-height: 1.3; }
+.press p { margin: 0 0 .8em; max-width: 62ch; }
+@media (max-width: 820px) { .watch, .press { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 820px) {
+  header.open { grid-template-columns: minmax(0, 1fr); }
+  .transcript { grid-template-columns: minmax(0, 1fr); }
+  .detail { grid-template-columns: minmax(0, 1fr); }
+  .row, .ticks { grid-template-columns: 64px minmax(0, 1fr); }
+  .head { margin-left: 64px; }
+  .ev.written { display: none; }
+  .rlab { font-size: 10px; }
+}
+@media (prefers-reduced-motion: reduce) { .ev { transition: none; } }
+</style>
+
+</head><body>
+<div class="wrap">
+  <p class="crumbs"><a href="../../">CRASH LAB</a> / <a href="../">PAELEO</a> / IT’S ALL RIGHT</p>
+  <header class="open">
+    <div>
+      <h1 class="title">IT<span class="q">’</span>S ALL RIGHT</h1>
+      <p class="sub"><span class="c">come here</span> · <span class="s">it’s all right</span> · <span class="i">come in</span></p>
+      <p class="by">A film by Watson Hartsoe · PAE-02 · Bolas · 2026</p>
+    </div>
+    <div class="lede">
+      <p>A person speaks to a dog in three sentences. The order, <em>come here</em>, fails: the dog backs away and turns its back. Then the person sits, opens the door, lowers a hand and says <em>it’s all right</em>, and the dog’s head comes round. <em>Come in</em> is said only once the dog has reached the sill. It looks in, and stays.</p>
+      <p>The scene is written once, as a score. Each tile below is the same moment told in another language: cut paper, bones, archive film, print, code. Watch them answer together.</p>
+    </div>
+  </header>
+
+
+  <section class="watch" aria-label="Watch">
+    <figure>
+      <video src="films/its-all-right.mp4" poster="posters/thumb.jpg" controls preload="metadata" playsinline></video>
+      <figcaption><b>The film · 41 s</b>Every telling plays at once, on one score. Each line lands, and every dog answers at the same instant.</figcaption>
+    </figure>
+    <div class="side">
+      <figure>
+        <video src="films/trailer.mp4" poster="posters/trailer.jpg" controls preload="none" playsinline></video>
+        <figcaption><b>Trailer · 69 s</b>Come here. It’s all right. Come in.</figcaption>
+      </figure>
+      <figure id="come-in">
+        <video id="comein" poster="posters/come-in.jpg" controls preload="none" playsinline></video>
+        <figcaption><b>COME IN · 27 min</b>The same film, passing through every door, one telling after another. <span id="comein-parts"></span></figcaption>
+      </figure>
+    </div>
+  </section>
+  <div class="bar" role="toolbar" aria-label="Playback">
+    <button class="play" id="play" type="button" aria-label="Play with sound"><svg viewBox="0 0 16 16" aria-hidden="true"><path id="playicon" d="M4 2.5v11l9-5.5z"/></svg><span id="playlabel">Play with sound</span></button>
+    <span class="clock" id="clock"><b>00.00 s</b> · frame 0 / 768</span>
+    <div class="seg" role="group" aria-label="Show">
+      <button type="button" data-layer="dogs" aria-pressed="true">Dogs</button>
+      <button type="button" data-layer="people" aria-pressed="false">People</button>
+      <button type="button" data-layer="doors" aria-pressed="false">Doors</button>
+      <button type="button" data-layer="scenes" aria-pressed="false">Scenes</button>
+    </div>
+    <span class="spacer"></span>
+    <div class="seg" role="group" aria-label="Arrange">
+      <button type="button" data-arrange="family" aria-pressed="true">By language</button>
+      <button type="button" data-arrange="seq" aria-pressed="false">In sequence</button>
+    </div>
+  </div>
+
+  <section class="transcript" aria-label="The conversation">
+    <div>
+      <div class="score" id="score" aria-label="Score timeline. Drag to move through the scene." role="slider" tabindex="0" aria-valuemin="0" aria-valuemax="32" aria-valuenow="0">
+        <div class="row"><span class="rlab">Written</span><div class="lane" id="lane-written"></div></div>
+        <div class="row"><span class="rlab">Said</span><div class="lane" id="lane-said"></div></div>
+        <div class="row"><span class="rlab">Done</span><div class="lane" id="lane-done"></div></div>
+        <div class="row"><span class="rlab">Answered</span><div class="lane" id="lane-answer"><canvas class="trust" id="trust"></canvas></div></div>
+        <div class="head" id="head"></div>
+      </div>
+      <div class="ticks"><div></div><div class="tk" id="ticks"></div></div>
+    </div>
+    <div class="now-panel" aria-live="polite">
+      <p class="now-meta" id="now-who">the person says</p>
+      <p class="now-line quiet" id="now-line">…</p>
+      <p class="now-why" id="now-why"><span>what the dog decides</span>watches</p>
+      <p class="now-meta" id="now-trust">trust 0.20</p>
+    </div>
+  </section>
+
+  <div class="wallhead">
+    <h2 id="wall-title">Every dog</h2>
+    <p id="wall-note">Each dog is cropped from its own telling with the box its maker measured, frame by frame. Tap one to see how that telling speaks.</p>
+  </div>
+  <div id="wall"></div>
+
+  <section class="detail" id="detail" aria-live="polite">
+    <div>
+      <canvas class="big" id="big" width="680" height="544" aria-label="The selected telling, playing in sync"></canvas>
+      <div class="dl" role="group" aria-label="View of the selected telling">
+        <button type="button" data-big="dogs" aria-pressed="true">Dog</button>
+        <button type="button" data-big="people" aria-pressed="false">Person</button>
+        <button type="button" data-big="doors" aria-pressed="false">Door</button>
+        <button type="button" data-big="scenes" aria-pressed="false">Scene</button>
+      </div>
+    </div>
+    <div>
+      <h4 id="d-name">Lotte Reiniger</h4>
+      <p class="kind" id="d-kind">SCION 02</p>
+      <dl>
+        <dt>The dog</dt><dd id="d-dog"></dd>
+        <dt>Made of</dt><dd id="d-made"></dd>
+        <dt>Moved by</dt><dd id="d-moved"></dd>
+        <dt>Its trick</dt><dd id="d-trick"></dd>
+        <dt>The critic</dt><dd class="verdict" id="d-verdict"></dd>
+      </dl>
+    </div>
+  </section>
+
+  <div class="sechead" id="test"><h2>The test</h2>
+    <p>The scene was written once, as a score from the PAELEO decision machine: the dog’s choices, frame by frame, and the person’s words and acts. Every telling had to keep four invariants, measured from its own render, and then pass independent critics who saw only the picture and heard only the sound, never the maker’s notes. Repairs stopped after five rounds; two tellings stopped there and stay on the record.</p></div>
+  <div class="rules">
+    <div><b>I1 · the choices</b>Each of the dog’s six choices lands within a quarter second of the score.</div>
+    <div><b>I2 · the threshold</b>The dog reaches the sill and lies across it, half in, half out.</div>
+    <div><b>I3 · the direction</b>It moves the way the score moves: away, then toward the door.</div>
+    <div><b>I4 · the refusal</b>It turns its back on the order.</div>
+  </div>
+  <p class="now-meta">Read the <a href="../handmade/BRIEF.md">brief</a>, the <a href="../handmade/score/threshold-score.json">score</a> and every telling’s <a href="../handmade/">sheets and critic rounds</a>.</p>
+  <div class="test"><table><thead><tr><th>SCION</th><th>Telling</th><th>How it is made</th><th>I1</th><th>I2</th><th>I3</th><th>I4</th><th>Critic</th></tr></thead><tbody id="test-rows"></tbody></table></div>
+
+  <div class="sechead" id="press"><h2>For programmers</h2></div>
+  <div class="press">
+    <div>
+      <blockquote>“Come here” drives a dog away. “It’s all right” turns its head. “Come in” brings it to the door, and no further. A film about what words can do.</blockquote>
+    </div>
+    <div>
+      <p>Dusk, a porch, a doorway. A person calls a dog: <em>Come here.</em> It backs away. Called again and reached for, it turns its back. Then the person stops asking: they sit, the door opens, a hand is offered low. <em>It’s all right</em>, softly, and the dog’s head comes round. It comes, lies across the sill, hears <em>come in</em>, looks inside, and stays.</p>
+      <p><a href="press-kit.md">The press kit</a>: synopses, how words enter the dog, how it was made, format sheet and credits.</p>
+    </div>
+  </div>
+  <div class="sechead"><h2>Posters</h2><p>The cast: one dog, in every language it was told in.</p></div>
+  <div class="posters">
+    <a href="posters/poster_E_cut_paper_door.jpg"><img src="posters/poster_E_cut_paper_door.jpg" alt="Poster: a cut-paper door, IT'S ALL RIGHT" loading="lazy"></a>
+    <a href="posters/poster_F_come_in.jpg"><img src="posters/poster_F_come_in.jpg" alt="Poster: COME IN" loading="lazy"></a>
+    <a href="posters/poster_A_door_of_many_hands.jpg"><img src="posters/poster_A_door_of_many_hands.jpg" alt="Poster: a door of many hands" loading="lazy"></a>
+    <a href="posters/poster_B_dogs_in_the_light.jpg"><img src="posters/poster_B_dogs_in_the_light.jpg" alt="Poster: dogs in the light of one doorway" loading="lazy"></a>
+    <a href="posters/poster_C_mosaic_dog.jpg"><img src="posters/poster_C_mosaic_dog.jpg" alt="Poster: a dog made of every dog" loading="lazy"></a>
+    <a href="posters/poster_D_the_soft_line.jpg"><img src="posters/poster_D_the_soft_line.jpg" alt="Poster: the soft line" loading="lazy"></a>
+  </div>
+  <p style="margin-top:14px"><a href="posters/cast.jpg"><img src="posters/cast.jpg" alt="The cast: every dog, side by side" loading="lazy" style="width:100%;border-radius:3px"></a></p>
+
+  <footer>
+    <div><h5>What the dog hears</h5><p>The dog’s decision machine reads no words. It hears a call, a soft voice or silence, and it sees what the body does: the reach, the sitting down, the open door, the low hand. The sentences say aloud what the body is already saying.</p></div>
+    <div><h5>One score, many languages</h5><p>Every telling keeps the same score, frame for frame, so every dog makes each choice at the same instant. Each was judged by independent critics from the picture and sound alone. Two are marked paused: their repairs stopped after five rounds, and they stay on the record.</p></div>
+    <div><h5>Sound</h5><p>Play with sound mixes every telling’s soundtrack at equal loudness. Public-domain archive film and the makers’ own work only; sources are listed in each telling’s assets.</p></div>
+  </footer>
+</div>
+
+<script>
+(() => {
+  const FPS = 24, N = 768, DUR = N / FPS;
+  const $ = (s, el = document) => el.querySelector(s);
+  const $$ = (s, el = document) => [...el.querySelectorAll(s)];
+  let L, E, layer = 'dogs', bigLayer = 'dogs', arrange = 'family', sel = 2;
+  const vids = {};
+  let playing = false, master = null, lastT = -1;
+  const audio = new Audio('media/audio.mp3'); audio.preload = 'auto';
+
+  function video(name) {
+    if (vids[name]) return vids[name];
+    const v = document.createElement('video');
+    v.src = 'media/' + L.grid.mosaics[name].file;
+    v.muted = true; v.playsInline = true; v.preload = 'auto'; v.loop = true; v.crossOrigin = 'anonymous';
+    v.setAttribute('playsinline', '');
+    vids[name] = v;
+    v.addEventListener('loadeddata', () => { try { v.currentTime = now(); } catch (e) {} draw(true); });
+    return v;
+  }
+  function now() { return master ? master.currentTime : 0; }
+
+  const CLASS = { call: 'call', soft: 'soft' };
+  function lineClass(l) { return /come in/i.test(l.text) ? 'invite' : (l.voice === 'call' ? 'call' : 'soft'); }
+  const STATE_COL = { watch: '#a39d93', retreat: '#c27a63', refuse: '#7d6a8f', approach: '#b3a5d6', lie_down: '#e8b25e' };
+  const STATE_TXT = { watch: 'watches', retreat: 'backs away', refuse: 'turns its back', approach: 'comes, head low', lie_down: 'lies across the sill' };
+
+  function pct(f) { return (f / N * 100) + '%'; }
+  function ev(lane, cls, f0, f1, text) {
+    const d = document.createElement('div');
+    d.className = 'ev ' + cls; d.style.left = pct(f0); d.style.width = `calc(${pct(Math.max(f1 - f0, 1))} - 2px)`;
+    d.textContent = text; d.dataset.f0 = f0; d.dataset.f1 = f1; d.title = text;
+    lane.appendChild(d); return d;
+  }
+  function buildScore() {
+    const W = $('#lane-written'), S = $('#lane-said'), D = $('#lane-done'), A = $('#lane-answer');
+    const pr = E.prompts;
+    pr.forEach((p, i) => ev(W, 'written', p.frame, i + 1 < pr.length ? pr[i + 1].frame : N, p.text.replace(/^the person /, '')));
+    E.lines.forEach(l => ev(S, lineClass(l), l.start_frame, l.end_frame, l.text));
+    E.acts.forEach((a, i) => { const d = ev(D, 'act', a.start_frame, a.end_frame || Math.min(a.start_frame + 40, N), a.text); d.style.top = (i % 2 ? 18 : 2) + 'px'; });
+    E.state_runs.forEach(([f0, f1, st]) => { const d = ev(A, 'state', f0, f1, STATE_TXT[st] || st); d.style.background = STATE_COL[st] || '#888'; });
+    const tk = $('#ticks');
+    [0, 4, 8, 12, 16, 20, 24, 28, 32].forEach(s => { const sp = document.createElement('span'); sp.style.left = (s / DUR * 100) + '%'; sp.textContent = s + ' s'; tk.appendChild(sp); });
+    drawTrust();
+  }
+  function drawTrust() {
+    const c = $('#trust'), r = c.getBoundingClientRect(), dpr = Math.min(devicePixelRatio || 1, 2);
+    c.width = Math.max(1, r.width * dpr); c.height = Math.max(1, r.height * dpr);
+    const g = c.getContext('2d'); g.clearRect(0, 0, c.width, c.height);
+    g.strokeStyle = '#ece3d2'; g.globalAlpha = .55; g.lineWidth = 1.2 * dpr; g.beginPath();
+    E.trust.forEach((v, i) => { const x = i / (N - 1) * c.width, y = c.height - 3 * dpr - v * (c.height - 6 * dpr); i ? g.lineTo(x, y) : g.moveTo(x, y); });
+    g.stroke();
+  }
+
+  const tiles = [];
+  function buildWall() {
+    const wall = $('#wall'); wall.innerHTML = ''; tiles.length = 0;
+    const m = L.grid.mosaics[layer];
+    const groups = arrange === 'family' ? L.families.map(f => ({ label: f.label, ids: f.ids }))
+      : [{ label: 'In sequence', ids: L.hands.map(h => h.id) }];
+    const tw = layer === 'scenes' ? 200 : layer === 'doors' ? 104 : layer === 'people' ? 118 : 150;
+    groups.forEach(g => {
+      const sec = document.createElement('section'); sec.className = 'fam';
+      if (arrange === 'family') { const h = document.createElement('h3'); h.textContent = g.label; sec.appendChild(h); }
+      const grid = document.createElement('div'); grid.className = 'tiles';
+      grid.style.setProperty('--tw', tw + 'px'); grid.style.setProperty('--ar', `${m.tile_w} / ${m.tile_h}`);
+      g.ids.forEach(id => {
+        const h = L.hands[id - 1];
+        const b = document.createElement('button'); b.className = 'tile'; b.type = 'button';
+        b.setAttribute('aria-label', `SCION ${String(id).padStart(2, '0')}, ${h.name}`);
+        if (id === sel) b.setAttribute('aria-current', 'true');
+        const c = document.createElement('canvas'); b.appendChild(c);
+        const n = document.createElement('span'); n.className = 'n'; n.textContent = String(id).padStart(2, '0') + ' · ' + h.name; b.appendChild(n);
+        if (h.status && /paused/i.test(h.status)) { const p = document.createElement('span'); p.className = 'p'; p.textContent = 'paused'; b.appendChild(p); }
+        b.addEventListener('click', () => select(id));
+        grid.appendChild(b); tiles.push({ id, c, el: b, vis: true });
+      });
+      sec.appendChild(grid); wall.appendChild(sec);
+    });
+    io && tiles.forEach(t => io.observe(t.el));
+    sizeTiles(); draw(true);
+  }
+  let io = 'IntersectionObserver' in window ? new IntersectionObserver(es => es.forEach(e => {
+    const t = tiles.find(t => t.el === e.target); if (t) t.vis = e.isIntersecting;
+  }), { rootMargin: '200px' }) : null;
+  function sizeTiles() {
+    const dpr = Math.min(devicePixelRatio || 1, 2);
+    tiles.forEach(t => { const r = t.el.getBoundingClientRect(); t.c.width = Math.max(1, Math.round(r.width * dpr)); t.c.height = Math.max(1, Math.round(r.height * dpr)); });
+  }
+  function blit(v, m, idx, c) {
+    if (!v || v.readyState < 2) return;
+    const col = idx % L.grid.cols, row = Math.floor(idx / L.grid.cols);
+    const g = c.getContext('2d');
+    g.drawImage(v, col * m.tile_w, row * m.tile_h, m.tile_w, m.tile_h, 0, 0, c.width, c.height);
+  }
+  function draw(force) {
+    if (!L) return;
+    const t = now();
+    if (!force && Math.abs(t - lastT) < 1 / 48) return;
+    lastT = t;
+    const v = vids[layer], m = L.grid.mosaics[layer];
+    tiles.forEach(tt => { if (tt.vis) blit(v, m, tt.id - 1, tt.c); });
+    const bv = vids[bigLayer]; const big = $('#big');
+    if (bv && bv.readyState >= 2) {
+      const bm = L.grid.mosaics[bigLayer], g = big.getContext('2d');
+      g.fillStyle = '#15161f'; g.fillRect(0, 0, big.width, big.height);
+      const s = Math.min(big.width / bm.tile_w, big.height / bm.tile_h), w = bm.tile_w * s, h = bm.tile_h * s;
+      const idx = sel - 1, col = idx % L.grid.cols, row = Math.floor(idx / L.grid.cols);
+      g.drawImage(bv, col * bm.tile_w, row * bm.tile_h, bm.tile_w, bm.tile_h, (big.width - w) / 2, (big.height - h) / 2, w, h);
+    }
+    updateText(t);
+  }
+  function updateText(t) {
+    const f = Math.min(N - 1, Math.max(0, Math.floor(t * FPS)));
+    $('#clock').innerHTML = `<b>${t.toFixed(2).padStart(5, '0')} s</b> · frame ${f} / ${N}`;
+    $('#head').style.left = `calc(${pct(f)} - 1px)`;
+    const sc = $('#score'); sc.setAttribute('aria-valuenow', t.toFixed(1));
+    const hw = $('#head'); const lab = sc.querySelector('.row .lane'); // keep head aligned to lanes
+    if (lab) { const lr = lab.getBoundingClientRect(), sr = sc.getBoundingClientRect(); hw.style.marginLeft = '0px'; hw.style.left = (lr.left - sr.left + lr.width * f / N - 1) + 'px'; }
+    $$('.ev').forEach(e => { const a = +e.dataset.f0, b = +e.dataset.f1; e.classList.toggle('now', f >= a && f < b); e.classList.toggle('past', f >= b); });
+    let line = null; E.lines.forEach(l => { if (f >= l.start_frame) line = l; });
+    const nl = $('#now-line'), who = $('#now-who');
+    if (line && f < line.end_frame + 36) { nl.textContent = line.text; nl.className = 'now-line ' + lineClass(line); who.textContent = 'the person says'; }
+    else { let act = null; E.acts.forEach(a => { if (f >= a.start_frame && f < (a.end_frame || a.start_frame + 48)) act = a; });
+      if (act) { nl.textContent = act.text; nl.className = 'now-line quiet'; who.textContent = 'the person, without words'; }
+      else { nl.textContent = f < 24 ? '…' : '(silence)'; nl.className = 'now-line quiet'; who.textContent = 'the person says'; } }
+    let ch = null; E.choices.forEach(c => { if (f >= c.frame) ch = c; });
+    const st = E.state_codes[E.state[f]] || 'watch';
+    $('#now-why').innerHTML = `<span>what the dog decides</span>${STATE_TXT[st] || st}${ch ? ' · ' + ch.why.replace(/:[^:]*$/, '') : ''}`;
+    $('#now-trust').textContent = `trust ${E.trust[f].toFixed(2)} · ${E.x[f].toFixed(2)} m from the sill`;
+  }
+
+  function select(id) {
+    sel = id; const h = L.hands[id - 1];
+    tiles.forEach(t => t.el.toggleAttribute('aria-current', t.id === id));
+    tiles.forEach(t => { if (t.id === id) t.el.setAttribute('aria-current', 'true'); });
+    $('#d-name').textContent = h.name;
+    $('#d-kind').textContent = `SCION ${String(id).padStart(2, '0')} · ${h.kind}${h.status && /paused/i.test(h.status) ? ' · repairs paused' : ''}`;
+    $('#d-dog').textContent = h.dog; $('#d-made').textContent = h.made; $('#d-moved').textContent = h.moved; $('#d-trick').textContent = h.trick;
+    $('#d-verdict').textContent = h.critic || '';
+    video(bigLayer); draw(true);
+  }
+
+  function setLayer(name) {
+    layer = name; $$('[data-layer]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.layer === name)));
+    const titles = { dogs: 'Every dog', people: 'Every person', doors: 'Every doorway', scenes: 'Every scene' };
+    const notes = {
+      dogs: 'Each dog is cropped from its own telling with the box its maker measured, frame by frame. Tap one to see how that telling speaks.',
+      people: 'The other side of the conversation: every reach, every sitting down, every low hand. Tap one to see how that telling speaks.',
+      doors: 'Every threshold: watch the light come out and the dog arrive at the sill.',
+      scenes: 'Every telling, whole.'
+    };
+    $('#wall-title').textContent = titles[name]; $('#wall-note').textContent = notes[name];
+    const v = video(name);
+    if (master && v !== master) { try { v.currentTime = master.currentTime; } catch (e) {} if (playing) v.play().catch(() => {}); }
+    buildWall();
+  }
+
+  // master clock: the dogs video is always loaded and drives time; others follow
+  function syncFollowers() {
+    const t = now();
+    Object.entries(vids).forEach(([k, v]) => {
+      if (v === master || v.readyState < 1) return;
+      if (Math.abs(v.currentTime - t) > 0.12) { try { v.currentTime = t; } catch (e) {} }
+      if (playing && v.paused) v.play().catch(() => {});
+      if (!playing && !v.paused) v.pause();
+    });
+    if (playing && !audio.paused && Math.abs(audio.currentTime - t) > 0.15) { try { audio.currentTime = t; } catch (e) {} }
+  }
+  function loop() { syncFollowers(); draw(false); requestAnimationFrame(loop); }
+
+  function setPlaying(p, withSound) {
+    playing = p;
+    $('#playicon').setAttribute('d', p ? 'M3.5 2.5h3v11h-3zM9.5 2.5h3v11h-3z' : 'M4 2.5v11l9-5.5z');
+    $('#playlabel').textContent = p ? 'Pause' : 'Play with sound';
+    $('#play').setAttribute('aria-label', p ? 'Pause' : 'Play with sound');
+    if (p) { master.play().catch(() => {}); if (withSound) { audio.currentTime = now(); audio.play().catch(() => {}); } }
+    else { master.pause(); audio.pause(); }
+  }
+  $('#play').addEventListener('click', () => setPlaying(!playing, true));
+  $$('[data-layer]').forEach(b => b.addEventListener('click', () => setLayer(b.dataset.layer)));
+  $$('[data-arrange]').forEach(b => b.addEventListener('click', () => { arrange = b.dataset.arrange; $$('[data-arrange]').forEach(x => x.setAttribute('aria-pressed', String(x === b))); buildWall(); }));
+  $$('[data-big]').forEach(b => b.addEventListener('click', () => { bigLayer = b.dataset.big; $$('[data-big]').forEach(x => x.setAttribute('aria-pressed', String(x === b))); video(bigLayer); draw(true); }));
+
+  // scrubbing on the score
+  const sc = $('#score');
+  function seekFromX(x) {
+    const lane = sc.querySelector('.lane').getBoundingClientRect();
+    const t = Math.min(DUR - 0.01, Math.max(0, (x - lane.left) / lane.width * DUR));
+    try { master.currentTime = t; } catch (e) {} if (!audio.paused) audio.currentTime = t;
+    syncFollowers(); setTimeout(() => draw(true), 30);
+  }
+  let drag = false;
+  sc.addEventListener('pointerdown', e => { drag = true; sc.setPointerCapture(e.pointerId); seekFromX(e.clientX); });
+  sc.addEventListener('pointermove', e => { if (drag) seekFromX(e.clientX); });
+  sc.addEventListener('pointerup', () => { drag = false; });
+  sc.addEventListener('keydown', e => {
+    const step = e.shiftKey ? 1 : 1 / FPS;
+    if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { e.preventDefault(); const t = Math.min(DUR - 0.01, Math.max(0, now() + (e.key === 'ArrowRight' ? step : -step))); master.currentTime = t; syncFollowers(); setTimeout(() => draw(true), 30); }
+    if (e.key === ' ') { e.preventDefault(); setPlaying(!playing, true); }
+  });
+  let rt; addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(() => { sizeTiles(); drawTrust(); draw(true); }, 120); });
+
+  Promise.all([fetch('media/layout.json').then(r => r.json()), fetch('media/score_events.json').then(r => r.json())]).then(([l, e]) => {
+    L = l; E = e;
+    if (typeof E.state === 'string') E.state = E.state.split('');
+    buildScore();
+    master = video('dogs');
+    master.addEventListener('loadeddata', () => {
+      // open on the turn: the moment "it's all right" lands
+      try { master.currentTime = 7.6; } catch (err) {}
+      master.play().then(() => { playing = true; setPlaying(true, false); }).catch(() => {});
+    }, { once: true });
+    master.addEventListener('timeupdate', () => { if (master.currentTime < 0.2 && !audio.paused) audio.currentTime = 0; });
+    buildWall(); select(2);
+    requestAnimationFrame(loop);
+  }).catch(err => { $('#wall-note').textContent = 'The media could not load. Reload the page to try again.'; });
+})();
+</script>
+
+<script>
+(() => {
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  fetch('media/test.json').then(r => r.json()).then(T => {
+    const keys = T.invariants.map(i => i.key);
+    document.getElementById('test-rows').innerHTML = T.tellings.map(t => {
+      const inv = keys.map(k => `<td class="ok">${t.invariants[k] ? '✓' : '·'}</td>`).join('');
+      const v = t.final === 'pass' ? `pass${t.narrow ? ', narrowly' : ''} · round ${t.rounds}` : `paused after round ${t.rounds}`;
+      return `<tr><td class="n">${String(t.id).padStart(2, '0')}</td><td>${esc(t.name)}</td><td class="k">${esc(t.kind)}</td>${inv}<td><a class="v ${t.final === 'pass' ? 'pass' : 'fail'}" href="${t.review}">${v}</a></td></tr>`;
+    }).join('');
+  }).catch(() => {});
+  const v = document.getElementById('comein'), parts = ['films/come-in-1.mp4', 'films/come-in-2.mp4'];
+  let p = 0; const lab = document.getElementById('comein-parts');
+  fetch(parts[0], { method: 'HEAD' }).then(r => { if (!r.ok) throw 0; v.src = parts[0]; lab.textContent = 'Part 1 of 2; part 2 follows on its own.';
+    v.addEventListener('ended', () => { if (p < parts.length - 1) { p++; v.src = parts[p]; lab.textContent = 'Part 2 of 2.'; v.play().catch(() => {}); } });
+  }).catch(() => { document.getElementById('come-in').hidden = true; });
+})();
+</script>
+</body></html>
