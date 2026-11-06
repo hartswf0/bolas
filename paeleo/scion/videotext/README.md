@@ -1,10 +1,12 @@
 # VIDEOTEXT
 
-A video editor that is a game, played on a phone: you write a cut as a sentence of shared features, a swarm finds every cut that obeys it, invariants check each one, and you sign the one the projector plays. Open `index.html`.
+**The game (`index.html`).** You are the jellyfish from the contaminant film. Touch or drag anywhere and it swims there with its pulsing stroke. Catch the archive frame you want; after that, only frames that rhyme with the one you hold (sharing a visible feature) can be caught, and they glow, show the shared feature, and draw a hairline from you. Each catch flashes the frame full screen as a match cut. The censor's beam sweeps from the projector: hold a frame with a touch in it and the light burns it from the hand; it sinks to the floor. When the heat line runs out it turns cool: dive and lift the burned frames back. Then your reel plays, the chain you caught cut feature to feature, and the jellyfish's afterimage stays on black. No menus.
+
+**The editor (`editor.html`).** The same rules as an interface: write a cut as a sentence of shared features, a swarm finds every cut that obeys it, invariants check each one, and you sign the one the projector plays.
 
 It is the first proof of [SCION — AGENT-FIRST ARCHITECT](SCION_AGENT_FIRST_ARCHITECT.md), applied to video editing, on the archive of the contaminant jellyfish film (`../contaminant.html`).
 
-## How it plays
+## How the editor plays
 
 - **Write.** Tap features (glow, hand, door, person, animal, ground, body, up). Each word is one cut: the feature the shots on either side of it share.
 - **Swarm.** Every cut through the fourteen archive shots that obeys the sentence is found at once and ranked by the contract.
@@ -36,4 +38,4 @@ It is the first proof of [SCION — AGENT-FIRST ARCHITECT](SCION_AGENT_FIRST_ARC
 
 ## Status
 
-Measured in a headless phone viewport (390 × 844): commissions 1, 4 and 5 completed by script; no horizontal overflow; no page errors. Commission 4's sentence (glow · hand · hand · hand · door · door · person · animal · animal · ground · body · body · up) yields 8 cuts through all fourteen shots. Not yet played by a person on a phone, and no independent critic has operated it.
+The game, measured in a headless phone viewport (390 × 844): one full run by script (title, hot, cool, reel, end) with no page errors; not yet played by a person. The editor, measured the same way: commissions 1, 4 and 5 completed by script; no horizontal overflow; no page errors. Commission 4's sentence (glow · hand · hand · hand · door · door · person · animal · animal · ground · body · body · up) yields 8 cuts through all fourteen shots. Not yet played by a person on a phone, and no independent critic has operated it.
