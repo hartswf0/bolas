@@ -1,0 +1,103 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<title>PAE-05 · Kaku's Springtime</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="A birthday film: Disney's 1929 Springtime retold as an Ethiopian flower world in the manner of Ethiopian painting, drawn and scored in code.">
+<link rel="canonical" href="https://hartswf0.github.io/bolas/paeleo/kaku-springtime/">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Abyssinica+SIL&family=Big+Shoulders+Display:wght@700;800&family=JetBrains+Mono:wght@400;600&family=Literata:opsz,wght@7..72,400;7..72,500&display=swap">
+<style>
+/* Layout: a CRASH LAB case page, as for PAE-03. One reading column; films and sheets run full width. */
+:root{
+  --bg:#f1f2f3;--card:#fbfbfb;--fg:#111417;--mute:#5d6670;--line:#d4d8dc;--accent:#a8551a;--flour:#ece6d8;
+  --f-disp:"Big Shoulders Display","Arial Narrow",Impact,sans-serif;--f-body:"Literata",Georgia,serif;--f-mono:"JetBrains Mono",ui-monospace,Menlo,monospace}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0b0d10;--card:#12161b;--fg:#e7eaee;--mute:#8b95a1;--line:#262d35;--accent:#e3ac2a;--flour:#2a2722;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0b0d10;--card:#12161b;--fg:#e7eaee;--mute:#8b95a1;--line:#262d35;--accent:#e3ac2a;--flour:#2a2722;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:16px;line-height:1.55}
+.wrap{max-width:1040px;margin:0 auto;padding-block:28px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:34px}
+.crumb{font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;color:var(--mute);text-transform:uppercase}
+.crumb a{color:var(--mute)}
+h1{font-family:var(--f-disp);font-weight:800;font-size:clamp(44px,8vw,84px);line-height:.92;margin:6px 0 12px;text-transform:uppercase;text-wrap:balance}
+h2{font-family:var(--f-disp);font-weight:800;font-size:32px;text-transform:uppercase;margin:0 0 10px;letter-spacing:.01em}
+h3{font-family:var(--f-disp);font-weight:700;font-size:26px;margin:2px 0 4px}
+h4{font-family:var(--f-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);margin:18px 0 8px;font-weight:600}
+p{max-width:68ch;margin:0 0 10px}
+.lede{font-size:19px;max-width:62ch}
+.kicker{font-family:var(--f-mono);font-size:11px;letter-spacing:.1em;color:var(--accent);text-transform:uppercase}
+a{color:inherit}
+.films{display:grid;gap:26px}
+.film{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:20px;align-items:start}
+@media (max-width:760px){.film{grid-template-columns:minmax(0,1fr)}}
+.film video{width:100%;display:block;aspect-ratio:16/9;max-width:100%;background:#000;border:1px solid var(--line)}
+.meta{font-family:var(--f-mono);font-size:12px;color:var(--mute);margin:0 0 6px}
+.tools{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:1px;background:var(--line);border:1px solid var(--line)}
+.tools a{background:var(--card);padding:16px;text-decoration:none;display:grid;gap:6px;align-content:start}
+.tools a:hover,.tools a:focus-visible{background:var(--flour);outline:none}
+.tools b{font-family:var(--f-disp);font-size:26px;line-height:1;text-transform:uppercase}
+.tools span{font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+.tools p{font-size:14px;margin:0}
+.sheets{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px}
+.sheets a{display:grid;gap:4px;text-decoration:none;font-family:var(--f-mono);font-size:11px;color:var(--mute)}
+.sheets img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;border:1px solid var(--line);background:var(--card)}
+.sheets.wide img{aspect-ratio:16/9}
+table{border-collapse:collapse;width:100%;font-size:14px}
+td,th{border-bottom:1px solid var(--line);padding:7px 10px 7px 0;text-align:left;vertical-align:top}
+th{font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--mute);font-weight:600}
+td.n{font-family:var(--f-mono);font-variant-numeric:tabular-nums;white-space:nowrap;text-align:right}
+.tw{overflow-x:auto}
+blockquote{margin:0;padding:14px 18px;background:var(--flour);border-left:3px solid var(--fg);max-width:70ch}
+ul.parts{margin:0;padding-left:18px;max-width:70ch}ul.parts li{margin-bottom:6px}
+
+.sheets.wide{grid-template-columns:repeat(auto-fill,minmax(220px,1fr))}
+.am{font-size:20px}
+.am,.lede b.am{font-family:"Abyssinica SIL",var(--f-body)}</style></head><body><div class="wrap">
+
+<header>
+ <div class="crumb"><a href="../../">CRASH LAB</a> / <a href="../">PAELEO</a> / PAE-05</div>
+ <h1>Kaku’s Springtime</h1>
+ <p class="lede"><span class="am">መልካም ልደት ቃቁ.</span> A birthday film. Walt Disney and Ub Iwerks’s <i>Springtime</i> (1929), the Silly Symphony where flowers and frogs dance through a rainstorm, retold as an Ethiopian flower world. The figures are flower people in white dresses with green, yellow and red borders; the picture is built the way the paintings are, with an ochre ground, thick black line, almond eyes and a caption in Ge’ez over each scene. It ends at a basket table with a berry Chantilly cake.</p>
+ <p class="kicker">Nov 2026 · Watson Hartsoe · 1 min 20 s · drawn and scored in code</p>
+</header>
+
+<section>
+ <h2>The film</h2>
+ <div class="films"><div class="film"><video controls preload="none" poster="poster.jpg" src="films/kaku-springtime.mp4"></video>
+  <div><h3>Kaku’s Springtime</h3><p class="meta">1 min 20 s · 1920 × 1080 · sound</p><p>Dawn, the flower dance, the frogs and the crane, the rain, and the birthday. Every frame is drawn in the browser; the soundtrack is synthesized.</p><p><a href="live/">Play it live in the browser</a>.</p></div></div></div>
+</section>
+
+<section>
+ <h2>The scenes</h2>
+ <div class="sheets wide"><a href="sheets/01-title.jpg"><img src="sheets/01-title.jpg" alt="Title" loading="lazy"><span>Title · ጸደይ</span></a><a href="sheets/02-dawn.jpg"><img src="sheets/02-dawn.jpg" alt="Dawn" loading="lazy"><span>Dawn · ፀሐይ ስትወጣ</span></a><a href="sheets/03-dance.jpg"><img src="sheets/03-dance.jpg" alt="The flower dance" loading="lazy"><span>The flower dance · አበቦች ሲጨፍሩ</span></a><a href="sheets/04-eskista.jpg"><img src="sheets/04-eskista.jpg" alt="Eskista" loading="lazy"><span>Eskista</span></a><a href="sheets/05-frogs.jpg"><img src="sheets/05-frogs.jpg" alt="The pond" loading="lazy"><span>The pond · እንቁራሪቶች ሲዘሉ</span></a><a href="sheets/06-crane.jpg"><img src="sheets/06-crane.jpg" alt="The crane" loading="lazy"><span>The crane</span></a><a href="sheets/07-rain.jpg"><img src="sheets/07-rain.jpg" alt="Rain" loading="lazy"><span>Rain · ዝናብ ሲዘንብ</span></a><a href="sheets/08-rainbow.jpg"><img src="sheets/08-rainbow.jpg" alt="After the rain" loading="lazy"><span>After the rain</span></a><a href="sheets/09-cake-arrives.jpg"><img src="sheets/09-cake-arrives.jpg" alt="The cake arrives" loading="lazy"><span>The cake arrives · የልደት በዓል</span></a><a href="sheets/10-song.jpg"><img src="sheets/10-song.jpg" alt="The song" loading="lazy"><span>The song · መልካም ልደት ቃቁ</span></a><a href="sheets/11-candles.jpg"><img src="sheets/11-candles.jpg" alt="The candles" loading="lazy"><span>The candles</span></a><a href="sheets/12-end.jpg"><img src="sheets/12-end.jpg" alt="End card" loading="lazy"><span>End card</span></a></div>
+</section>
+
+<section>
+ <h2>What happens</h2>
+ <ul class="parts">
+  <li><b>Dawn.</b> The sun rises behind the mountains and five flower people wake one at a time.</li>
+  <li><b>The flower dance.</b> They sway and hop in a row, as the flowers do in <i>Springtime</i>, then finish with eskista, the shoulder dance. The huts and the acacia bounce along.</li>
+  <li><b>The pond.</b> Four frogs hop from pad to pad on the beat while a big frog drums. A crane pecks twice and misses; a frog lands on its head.</li>
+  <li><b>Rain.</b> Two clouds, lightning, and the flowers under enset leaves. Then the sun and a rainbow.</li>
+  <li><b>The birthday.</b> Three frogs carry in the cake and toss it onto a mesob. The candles light and the message is piped onto the side a letter at a time. Two children hold tapers; there is coffee, popcorn, sambusa, and the frogs’ radio. Everyone sings, claps and blows the candles out.</li>
+ </ul>
+</section>
+
+<section>
+ <h2>How it is made</h2>
+ <ul class="parts">
+  <li><b>The picture.</b> After Ethiopian painting: flat colour, a black line around everything, faces with almond eyes and large pupils, a brow joined to the nose, a twisted red border, and a caption at the top of each panel.</li>
+  <li><b>The movement.</b> The painterly puppet discipline from <a href="../handmade/#s18">the handmade set</a> (SCION 18): flat painted figures, whole poses held on twos, and only the ink line wobbling. The dance at the end of each number is eskista: the shoulders alternate three times a second while the head slides.</li>
+  <li><b>The print.</b> A 1970s film print: parchment texture, light grain, a little gate weave, dust and the odd scratch, with iris wipes between scenes as in 1929.</li>
+  <li><b>The music.</b> All synthesized. Grieg’s <i>Morning Mood</i> plays on a flute at dawn; it is already in the five-note scale of tizita major. The rest is krar, masenqo, kebero, clapping and ululation, with Happy Birthday on the masenqo.</li>
+  <li><b>The source.</b> <i>Springtime</i> was released in 1929 and entered the public domain in the United States in 2025. This is a retelling, not a copy: no frame of the original is used.</li>
+ </ul>
+</section>
+
+<section>
+ <h2>The captions</h2>
+ <div class="tw"><table><thead><tr><th>Ge’ez script</th><th>Meaning</th><th>Scene</th></tr></thead><tbody><tr><td class="am">ጸደይ</td><td>spring</td><td>Title</td></tr><tr><td class="am">ፀሐይ ስትወጣ</td><td>as the sun rises</td><td>Dawn</td></tr><tr><td class="am">አበቦች ሲጨፍሩ</td><td>flowers dancing</td><td>The flower dance</td></tr><tr><td class="am">እንቁራሪቶች ሲዘሉ</td><td>frogs jumping</td><td>The pond</td></tr><tr><td class="am">ዝናብ ሲዘንብ</td><td>rain falling</td><td>Rain</td></tr><tr><td class="am">የልደት በዓል</td><td>birthday celebration</td><td>The cake arrives</td></tr><tr><td class="am">መልካም ልደት ቃቁ</td><td>happy birthday, Kaku</td><td>The song</td></tr><tr><td class="am">የአበባ ዓለም · ለቃቁ</td><td>flower world · for Kaku</td><td>Title</td></tr></tbody></table></div>
+</section>
+
+<p class="crumb"><a href="../">Back to PAELEO</a> · <a href="../../">CRASH LAB</a></p>
+</div></body></html>
