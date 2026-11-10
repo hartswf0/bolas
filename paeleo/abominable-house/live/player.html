@@ -33,12 +33,16 @@ h2{font:800 15px 'Big Shoulders Display';letter-spacing:.06em;margin:16px 0 6px}
 #card div.sel{background:var(--acc)}#card div:hover{outline:1px solid var(--fg)}
 .lin{font-size:11px;color:var(--mute)}
 @media (max-width:820px){#app{grid-template-columns:100%;grid-template-rows:50dvh 50dvh}#panel{border-left:0;border-top:1px solid var(--line)}}
+.case-links{display:flex;flex-wrap:wrap;gap:4px 13px;margin:3px 0 7px;font-size:11px}
+.case-links a{color:var(--acc);text-underline-offset:.22em}
+.case-links a:focus-visible{outline:2px solid var(--acc);outline-offset:3px}
 </style></head><body>
 <div id=app>
  <div id=stage><canvas id=c width=1920 height=1080></canvas></div>
  <div id=panel>
   <div id=top>
    <h1>THE ABOMINABLE HOUSE · DEED BANK</h1>
+   <nav class="case-links" aria-label="Case file navigation"><a href="../">PAE-04 case file</a><a id="same-film" href="film.html">Film bank · same assignment</a></nav>
    <div class=sub>12 deeds × 4 sacks × 2 roles = 96 base performances · 12<sup>12</sup> films</div>
    <div class=row><input id=num type=text inputmode=numeric aria-label="Film number"><button id=go>PLAY FILM</button><button id=roll>ROLL</button><button id=pp>PAUSE</button></div>
    <input id=scrub type=range min=0 max=1000 value=0 aria-label="Scrub">
@@ -67,7 +71,13 @@ const c=document.getElementById('c'),g=c.getContext('2d');
 let film=Array(12).fill(0),mode='film',cell=[0,0],t=0,playing=true,last=performance.now();
 function enc(d){let n=0;for(const x of d)n=n*12+x;return n}
 function dec(n){const d=[];for(let k=0;k<12;k++){d.unshift(n%12);n=Math.floor(n/12)}return d}
-function setFilm(d){film=d;mode='film';t=0;document.getElementById('num').value=enc(d).toLocaleString('en-US');buildTab();paintCard()}
+function setFilm(d){
+ film=d;mode='film';t=0;
+ const n=enc(d);
+ document.getElementById('num').value=n.toLocaleString('en-US');
+ document.getElementById('same-film').href='film.html?n='+n;
+ buildTab();paintCard();
+}
 function roll(){const d=[];for(let k=0;k<12;k++)d.push(Math.floor(Math.random()*12));setFilm(d)}
 function total(){return mode==='film'?12*SHOT+END:SHOT}
 function drawShot(k,A,V,lt){const D=DEEDS[ORDER[k]];g.save();g.setTransform(1,0,0,1,0,0);g.globalAlpha=1;g.globalCompositeOperation='source-over';g.fillStyle='#000';g.fillRect(0,0,1920,1080);
@@ -97,5 +107,8 @@ const pp=document.getElementById('pp');pp.onclick=()=>{playing=!playing;pp.textC
 document.getElementById('roll').onclick=()=>{roll();lastK=-1};
 document.getElementById('go').onclick=()=>{const n=+document.getElementById('num').value.replace(/[^0-9]/g,'');setFilm(dec(Math.min(N12-1,Math.max(0,n||0))));lastK=-1;playing=true;pp.textContent='PAUSE'};
 document.getElementById('scrub').oninput=e=>{t=e.target.value/1000*total();lastK=-1};
-roll();requestAnimationFrame(frame);
+const n=new URLSearchParams(location.search).get('n');
+if(n!==null&&/^\d+$/.test(n)&&Number(n)<N12)setFilm(dec(Number(n)));
+else roll();
+requestAnimationFrame(frame);
 </script></body></html>

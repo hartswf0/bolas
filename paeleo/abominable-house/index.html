@@ -2,7 +2,7 @@
 <title>PAE-04 · The Burning of the Abominable House</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="description" content="Calvino's burned house as flour-sack films: four tenants, twelve deeds, 12^12 possible stories. The films, the film bank that plays any of them, the deed, consequence, memory and transition sheets, and the numbers.">
+<meta name="description" content="The Abominable House case file: the Lab 7 film sequence, the flour-sack screenings, the film and deed banks, and the evidence behind each reconstruction.">
 <link rel="canonical" href="https://hartswf0.github.io/bolas/paeleo/abominable-house/">
 <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -49,30 +49,97 @@ td.n{font-family:var(--f-mono);font-variant-numeric:tabular-nums;white-space:now
 .tw{overflow-x:auto}
 blockquote{margin:0;padding:14px 18px;background:var(--flour);border-left:3px solid var(--fg);max-width:70ch}
 ul.parts{margin:0;padding-left:18px;max-width:70ch}ul.parts li{margin-bottom:6px}
+
+.case-route{display:flex;flex-wrap:wrap;gap:6px 18px;border-block:1px solid var(--line);padding:10px 0;margin-top:18px}
+.case-route a,.case-links a{font-family:var(--f-mono);font-size:12px;text-underline-offset:.22em}
+.case-route span{color:var(--accent);margin-right:5px}
+.case-route a:focus-visible,.briefing-card:focus-visible,.case-links a:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.briefing{background:var(--flour);border:1px solid var(--line);border-top:3px solid var(--accent);padding:clamp(12px,2.7vw,24px)}
+.briefing header{margin-bottom:16px}
+.briefing header .kicker{margin-bottom:3px}
+.briefing header h2{line-height:1.12;margin-bottom:6px}
+.briefing header p:last-child{margin-bottom:0}
+.briefing-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.briefing-card{display:flex;flex-direction:column;min-width:0;background:var(--card);border:1px solid var(--line);text-decoration:none}
+.briefing-card:hover{border-color:var(--accent)}
+.briefing-poster{display:block;position:relative;background:#201913}
+.briefing-poster img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover}
+.briefing-stamp{position:absolute;left:8px;bottom:8px;background:#1d1713;color:#faf4e7;padding:4px 7px;font:600 10px var(--f-mono);letter-spacing:.06em}
+.briefing-copy{display:flex;flex:1;flex-direction:column;align-items:start;padding:12px 15px 15px}
+.briefing-copy h3{line-height:1.1;margin:4px 0 7px}
+.briefing-copy p{font-size:14px}
+.briefing-open{color:var(--accent);font:600 11px var(--f-mono);margin-top:auto;text-decoration:underline;text-underline-offset:.25em}
+.case-links{display:flex;flex-wrap:wrap;gap:5px 13px}
+.case-links a{color:var(--accent)}
+@media (max-width:690px){.briefing-grid{grid-template-columns:1fr}.case-route{column-gap:13px}}
 </style></head><body><div class="wrap">
 
 <header>
  <div class="crumb"><a href="../../">CRASH LAB</a> / <a href="../">PAELEO</a> / <a href="../flour-sacks/">FLOUR SACKS</a> / PAE-04</div>
  <h1>The Burning of the Abominable House</h1>
- <p class="lede">After Italo Calvino’s story. A house burns with its four tenants: the widow Roessler, her adopted daughter Ogiva, the landlord Inigo and the wrestler Belindo. A copybook survives with only its index: twelve abominable deeds, and no record of who did what to whom. The tenants are flour sacks. Every deed can be done by any tenant to any other, so the copybook could have told 12<sup>12</sup> stories. These are the films, the bank that plays any of them, and the sheets they were built from.</p>
+ <p class="lede">After Italo Calvino. A house burns with its four tenants: Roessler, Ogiva, Inigo and Belindo, played by flour sacks. A copybook survives with an index of twelve deeds. Who did each deed, who could see it, and what evidence did it leave?</p>
  <p class="kicker">Nov 2026 · Watson Hartsoe · made with the SCION swarms</p>
+ <nav class="case-route" aria-label="Case file">
+  <a href="#briefing"><span>01</span> Briefing</a>
+  <a href="#screenings"><span>02</span> Screenings</a>
+  <a href="#reconstruction"><span>03</span> Reconstruction</a>
+  <a href="#evidence"><span>04</span> Evidence sheets</a>
+  <a href="#numbers"><span>05</span> The count</a>
+ </nav>
 </header>
 
-<section>
- <h2>The films</h2>
+<section class="briefing" id="briefing" aria-labelledby="briefing-title">
+ <header>
+  <p class="kicker">Three films from Lab 7 · Classes</p>
+  <h2 id="briefing-title">The programmer’s room</h2>
+  <p>First count the possible histories. Then follow the investigator into the house. Finally ask who could see each deed.</p>
+ </header>
+ <div class="briefing-grid">
+  <a class="briefing-card" href="https://hartswf0.github.io/2700-fa26/LAB%207%20-%20CLASSES/abominable-house/">
+   <div class="briefing-poster"><img src="https://hartswf0.github.io/2700-fa26/LAB%207%20-%20CLASSES/abominable-house/abominable-house.jpg" alt="" width="640" height="360"><span class="briefing-stamp">LAB 7 · 27 / 32</span></div>
+   <div class="briefing-copy">
+    <span class="kicker">01 · The copybook</span>
+    <h3>The Burning of the Abominable House</h3>
+    <p>Waldemar pins the tenants to a corkboard, counts the possible histories, and puts Skiller and himself into the reconstruction.</p>
+    <span class="briefing-open">Watch the classroom film and read its script</span>
+   </div>
+  </a>
+  <a class="briefing-card" href="https://hartswf0.github.io/2700-fa26/LAB%207%20-%20CLASSES/house-is-occupied/index.html">
+   <div class="briefing-poster"><img src="https://hartswf0.github.io/2700-fa26/LAB%207%20-%20CLASSES/house-is-occupied/house-is-occupied.jpg" alt="" width="640" height="360"><span class="briefing-stamp">LAB 7 · 28 / 32</span></div>
+   <div class="briefing-copy">
+    <span class="kicker">02 · The observer</span>
+    <h3>The House Is Occupied</h3>
+    <p>A machine forecasts a fire at 21:17. Waldemar crosses the yard and enters the house. The photograph on the forecast turns out to show the rescue.</p>
+    <span class="briefing-open">Watch the forecast and the rescue</span>
+   </div>
+  </a>
+  <a class="briefing-card" href="https://hartswf0.github.io/2700-fa26/LAB%207%20-%20CLASSES/by-what-light/index.html">
+   <div class="briefing-poster"><img src="https://hartswf0.github.io/2700-fa26/LAB%207%20-%20CLASSES/by-what-light/by-what-light.jpg" alt="" width="640" height="360"><span class="briefing-stamp">LAB 7 · 29 / 32</span></div>
+   <div class="briefing-copy">
+    <span class="kicker">03 · The witness</span>
+    <h3>By What Light</h3>
+    <p>Room, light and the trace a deed leaves change what the tenants can learn. A lamp can make an act legible to a witness. A shut door can keep the actor out of a witness’s account.</p>
+    <span class="briefing-open">Watch the follow-up and inspect its engine</span>
+   </div>
+  </a>
+ </div>
+</section>
+
+<section id="screenings" aria-labelledby="screenings-title">
+ <h2 id="screenings-title">Screenings</h2>
  <div class="films">
   <div class="film"><video controls preload="none" poster="posters/first.jpg" src="films/the-first-film.mp4"></video>
    <div><h3>The first film</h3><p class="meta">1 min 36 s · 1920 × 1080</p><p>The story told once, from the ruins to the copybook to the count. The house is a doll’s-house section; the sacks stand in its rooms.</p><p><a href="live/abom.html">Play it live in the browser</a>, drawn frame by frame from code.</p></div></div>
   <div class="film"><video controls preload="none" poster="posters/full.jpg" src="films/the-full-film.mp4"></video>
-   <div><h3>One story from the bank</h3><p class="meta">2 min 54 s · film 5,885,051,002,576 of 8,916,100,448,256</p><p>One random choice of who did each deed, played straight through: a chapter card, the tenant remembering, a transition, the deed, and what it leaves behind.</p></div></div>
+   <div><h3>One story from the bank</h3><p class="meta">2 min 54 s · film 5,885,051,002,576 of 8,916,100,448,256</p><p>One random choice of who did each deed, played straight through: a chapter card, the tenant remembering, a transition, the deed, and what it leaves behind.</p><p class="case-links"><a href="live/film.html?n=5885051002576" aria-label="Open film 5,885,051,002,576 in the film bank">Film bank</a><a href="live/player.html?n=5885051002576" aria-label="Open film 5,885,051,002,576 in the deed bank">Deed bank</a></p></div></div>
   <div class="film"><video controls preload="none" poster="posters/most-likely.jpg" src="films/the-most-likely-film.mp4"></video>
-   <div><h3>The most likely story</h3><p class="meta">3 min 23 s · film 1,541,585,241,617 · director’s cut pace</p><p>The story a Monte Carlo tree search rated most believable given who the tenants are. Slower: each chapter card holds, and only the seven heaviest consequences are kept.</p></div></div>
+   <div><h3>The most likely story</h3><p class="meta">3 min 23 s · film 1,541,585,241,617 · director’s cut pace</p><p>The story a Monte Carlo tree search rated most believable given who the tenants are. Slower: each chapter card holds, and only the seven heaviest consequences are kept.</p><p class="case-links"><a href="live/film.html?n=1541585241617" aria-label="Open film 1,541,585,241,617 in the film bank">Film bank</a><a href="live/player.html?n=1541585241617" aria-label="Open film 1,541,585,241,617 in the deed bank">Deed bank</a></p></div></div>
  </div>
- <p style="margin-top:16px">The narrated classroom version, with the programmer’s room, the corkboard and the counter, is on the <a href="https://hartswf0.github.io/2700-fa26/LAB%207%20-%20CLASSES/abominable-house/">Lab 7 page</a>.</p>
 </section>
 
-<section>
- <h2>Play with it</h2>
+<section id="reconstruction" aria-labelledby="reconstruction-title">
+ <h2 id="reconstruction-title">Reconstruction desk</h2>
+ <p>Use the same film number in both banks to carry the cast assignments from the whole cut into individual performances. Freeze a deed in T ZERO to see which other pairings the engine can use.</p>
  <div class="tools">
   <a href="live/film.html"><span>the film bank</span><b>Any of the 12¹² films</b><p>Choose any story, or let the tenants decide with memories, beliefs and plans. T ZERO freezes a deed and shows the twelve ways it could go. The atlas maps 6,030 films; SIX MEMOS shows the best film of each kind; the author buttons write for irony, suspense or twists.</p></a>
   <a href="live/player.html"><span>the deed bank</span><b>Every deed by every pair</b><p>Each of the twelve deeds animated by a different SCION operation, playable between any two tenants, with its sound.</p></a>
@@ -81,8 +148,9 @@ ul.parts{margin:0;padding-left:18px;max-width:70ch}ul.parts li{margin-bottom:6px
  </div>
 </section>
 
-<section>
- <h2>The deeds</h2>
+<section id="evidence" aria-labelledby="evidence-title">
+ <h2 id="evidence-title">Evidence sheets</h2>
+ <p>The <a href="../flour-sacks/">Flour Sacks studies</a> show how pose, weight and timing give the cast a readable performance. The sheets below break that performance into acts, traces and memories.</p>
  <p>Twelve deeds, one SCION operation each. Each sheet shows one deed performed across pairs of tenants, kept PG-13: the sexual deeds are implied, never shown.</p>
  <div class="sheets" id="deeds"></div>
  <h4>What each deed leaves behind</h4>
@@ -98,12 +166,12 @@ ul.parts{margin:0;padding-left:18px;max-width:70ch}ul.parts li{margin-bottom:6px
  <div class="sheets wide" id="first"></div>
 </section>
 
-<section>
- <h2>The numbers</h2>
+<section id="numbers" aria-labelledby="numbers-title">
+ <h2 id="numbers-title">The numbers</h2>
  <div class="tw"><table>
   <thead><tr><th>What</th><th style="text-align:right">How many</th></tr></thead>
   <tbody>
-   <tr><td>possible stories, 12 deeds × 12 ordered pairs</td><td class="n">8,916,100,448,256</td></tr>
+   <tr><td>raw assignments, 12 ordered pairs for each of 12 deeds (12<sup>12</sup>)</td><td class="n">8,916,100,448,256</td></tr>
    <tr><td>left after the story’s five rules (Belindo does not knife, and so on), counted exactly</td><td class="n">2,663,172,255,744</td></tr>
    <tr><td>consistent stories: no dead or tied tenant acts, counted exactly</td><td class="n">3,316,025,558,016</td></tr>
    <tr><td>stories where each tenant commits three deeds and suffers three, Calvino’s symmetry</td><td class="n">5,112,676,800</td></tr>
@@ -121,6 +189,7 @@ ul.parts{margin:0;padding-left:18px;max-width:70ch}ul.parts li{margin-bottom:6px
   <li><b>The tenants.</b> Beliefs, desires and committed plans (after Bratman, and Rao and Georgeff), a memory stream with reflections (after Park and colleagues), and a dial between practical and symbolic reasons.</li>
   <li><b>The watcher and the author.</b> A model of the audience infers each tenant’s hidden plan from what it does (after Baker, Saxe and Tenenbaum); the author searches for stories that steer that inference (after Chandra and colleagues).</li>
   <li><b>The sieve.</b> Calvino, in “Prose and Anticombinatorics,” used the computer to throw stories away. The film bank counts the consistent ones exactly, and keeps the best story of each kind in an archive named for his Six Memos.</li>
+  <li><b>The swerve.</b> T ZERO changes a pairing inside the existing cast. In <i>The House Is Occupied</i>, Waldemar enters the scene he was asked to observe and has to sign the record as a participant.</li>
   <li><b>The films.</b> Every frame is drawn in the browser from code, captured headless and encoded; the sound is synthesized grain by grain.</li>
  </ul>
 </section>
