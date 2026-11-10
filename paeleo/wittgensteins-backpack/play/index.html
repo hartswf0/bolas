@@ -1,0 +1,353 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Wittgenstein's Backpack: Six Games</title>
+<meta name="description" content="Six small language-games played from the film Wittgenstein's Backpack.">
+<style>
+:root{--paper:#eadfc8;--kraft:#b88a55;--ink:#1c1915;--red:#b8321f;--dim:#6a5f4f}
+*{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;overflow:hidden;background:var(--paper);color:var(--ink);font:15px/1.3 ui-monospace,Menlo,Consolas,monospace;overscroll-behavior:none;user-select:none;-webkit-user-select:none}
+#app{height:100vh;height:100dvh;display:flex;flex-direction:column;padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}
+button{font:inherit;color:inherit;background:none;border:2px solid var(--ink);border-radius:0;cursor:pointer;touch-action:manipulation}
+button:focus-visible,a:focus-visible{outline:3px solid var(--red);outline-offset:2px}
+[hidden]{display:none!important}
+/* rest */
+#hub{flex:1;min-height:0;display:flex;flex-direction:column;padding:14px 16px;gap:12px}
+#hub h1{font-size:19px;letter-spacing:.04em;text-transform:uppercase}
+#hub p{color:var(--dim);font-size:13px}
+#tiles{flex:1;min-height:0;display:grid;grid-template-columns:1fr 1fr;grid-auto-rows:1fr;gap:10px}
+#tiles button{display:flex;flex-direction:column;justify-content:space-between;text-align:left;padding:10px;min-height:0;overflow:hidden}
+#tiles b{font-size:15px;text-transform:uppercase;letter-spacing:.03em}
+#tiles span{font-size:12px;color:var(--dim)}
+#tiles i{font-style:normal;font-size:12px}
+#hub a{color:var(--ink);font-size:13px}
+@media (orientation:landscape) and (max-height:520px){#tiles{grid-template-columns:repeat(3,1fr)}#hub p{display:none}}
+/* game */
+#game{flex:1;min-height:0;display:flex;flex-direction:column}
+#bar{display:flex;align-items:center;gap:10px;padding:6px 10px;border-bottom:2px solid var(--ink)}
+#exit{padding:8px 10px;font-size:13px}
+#name{flex:1;font-size:13px;text-transform:uppercase;letter-spacing:.04em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#score{font-size:13px;font-weight:700;white-space:nowrap}
+#stage{flex:1;min-height:0;position:relative}
+#cv{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none}
+#foot{border-top:2px solid var(--ink);padding:8px 10px 10px}
+#say{font-size:13px;min-height:2.6em;margin-bottom:8px}
+#acts{display:grid;gap:6px}
+#acts button{min-height:46px;padding:4px 2px;font-weight:700;font-size:13px;letter-spacing:.03em;background:var(--ink);color:var(--paper)}
+#acts button.q{background:none;color:var(--ink)}
+#acts button.s{font-size:11px;letter-spacing:0}
+#acts button.u{background:none;color:var(--red);border-color:var(--red)}
+#acts button:active{transform:translateY(1px)}
+</style>
+</head>
+<body>
+<div id="app">
+  <main id="hub">
+    <h1>Wittgenstein's Backpack<br>Six games</h1>
+    <p>Each part of the film, played. In each one the box does a different job.</p>
+    <div id="tiles"></div>
+    <a href="../">The film and its readings</a>
+  </main>
+  <main id="game" hidden>
+    <div id="bar"><button id="exit" aria-label="Leave this game">Games</button><div id="name"></div><div id="score" aria-live="polite"></div></div>
+    <div id="stage"><canvas id="cv" role="img" aria-label="Game stage"></canvas></div>
+    <div id="foot"><div id="say" aria-live="polite"></div><div id="acts"></div></div>
+  </main>
+</div>
+<script>
+'use strict';
+const $=s=>document.querySelector(s);
+const INK='#1c1915',KR='#b88a55',PAPER='#eadfc8',RED='#b8321f',BAGC='#d8c39a',DIM='#6a5f4f';
+const cv=$('#cv'),g=cv.getContext('2d');
+let W=1,H=1,U=1,cur=null,S=null,raf=0,last=0;
+const now=()=>performance.now()/1000;
+const R=a=>a[Math.floor(Math.random()*a.length)];
+const shuf=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+
+function fit(){const r=$('#stage').getBoundingClientRect(),d=window.devicePixelRatio||1;W=Math.max(1,r.width);H=Math.max(1,r.height);cv.width=W*d;cv.height=H*d;g.setTransform(d,0,0,d,0,0);U=Math.min(W,H)/100}
+function say(t){$('#say').textContent=t}
+function score(t){$('#score').textContent=t}
+function acts(list,cols){const a=$('#acts');a.innerHTML='';a.style.gridTemplateColumns='repeat('+(cols||list.length||1)+',1fr)';
+  list.forEach(b=>{const e=document.createElement('button');e.textContent=b.t;if(b.k)e.className=b.k;if(b.off){e.style.visibility='hidden';e.disabled=true}e.onclick=b.f;a.appendChild(e)})}
+function done(text){S.over=1;say(text+'  '+cur.ref);acts([{t:'Again',k:'q',f:()=>start(cur.id)}])}
+
+/* ---------- drawing kit ---------- */
+function txt(s,x,y,size,o={}){g.font=(o.w||700)+' '+size+'px ui-monospace,Menlo,Consolas,monospace';g.textAlign=o.a||'center';g.textBaseline=o.b||'middle';g.fillStyle=o.c||INK;g.fillText(s,x,y)}
+function rect(x,y,w,h,f,lw){g.fillStyle=f;g.fillRect(x,y,w,h);g.lineWidth=lw||Math.max(1.5,U*.45);g.strokeStyle=INK;g.strokeRect(x,y,w,h)}
+function limb(lw,...p){g.lineWidth=lw;g.lineCap='round';g.lineJoin='round';g.strokeStyle=INK;g.beginPath();g.moveTo(p[0][0],p[0][1]);for(let i=1;i<p.length;i++)g.lineTo(p[i][0],p[i][1]);g.stroke()}
+function box(x,y,s,f){rect(x-s/2,y-s,s,s,f||KR);g.beginPath();g.moveTo(x,y-s);g.lineTo(x,y-s*.7);g.moveTo(x-s/2,y-s*.7);g.lineTo(x+s/2,y-s*.7);g.stroke()}
+function head(k,x,y,s){
+  if(k===1){g.fillStyle=PAPER;g.strokeStyle=INK;g.lineWidth=s*.02;
+    for(const d of[-.035,.035]){g.beginPath();g.ellipse(x-s*.13,y-s*.1+d*s,s*.12,s*.028,d*4,0,7);g.fill();g.stroke()}
+    g.beginPath();g.ellipse(x,y-s*.1,s*.1,s*.09,0,0,7);g.fill();g.stroke();g.fillStyle=INK;g.beginPath();g.arc(x+s*.02,y-s*.12,s*.014,0,7);g.fill()}
+  else if(k===2){box(x,y,s*.2)}
+  else if(k===3){rect(x-s*.13,y-s*.03,s*.26,s*.03,INK,1);rect(x-s*.09,y-s*.2,s*.18,s*.17,INK,1)}
+  else{rect(x-s*.1,y-s*.2,s*.2,s*.2,BAGC,s*.02);g.fillStyle=INK;g.fillRect(x-s*.05,y-s*.12,s*.025,s*.025);g.fillRect(x+s*.03,y-s*.12,s*.025,s*.025)}
+  if(k!==3){rect(x-s*.13,y-s*.225,s*.26,s*.03,INK,1);rect(x-s*.08,y-s*.34,s*.16,s*.12,INK,1)}
+}
+function pup(x,y,s,o={}){
+  const sw=(o.sw||0)*s*.12,lw=s*.055,hip=y-s*.42,sh=y-s*.7;
+  g.save();
+  if(o.rot){g.translate(x,y-s*.54);g.rotate(o.rot);g.translate(-x,-(y-s*.54))}
+  limb(lw,[x-s*.05,hip],[x-s*.05+sw*.5,y-s*.2],[x-s*.05+sw,y]);
+  limb(lw,[x+s*.05,hip],[x+s*.05-sw*.5,y-s*.2],[x+s*.05-sw,y]);
+  if(o.pack)box(x-s*.25,sh+s*.3,s*.3);
+  if(!o.noarm)limb(lw,[x-s*.12,sh],[x-s*.24,sh+s*.14],[x-s*.28,sh+s*.27]);
+  rect(x-s*.13,sh-s*.04,s*.26,s*.36,o.c||KR,s*.02);
+  if(o.hold){limb(lw,[x+s*.12,sh],[x+s*.2,sh+s*.16],[x+s*.3,sh+s*.14]);box(x+s*.34,sh+s*.32,s*.3)}
+  else limb(lw,[x+s*.12,sh],[x+s*.24,sh+s*.14],[x+s*.28,sh+s*.27]);
+  head(o.head||0,x,sh-s*.04,s);
+  g.restore();
+}
+function beetle(x,y,s){g.fillStyle=INK;g.strokeStyle=INK;g.lineWidth=Math.max(1,s*.06);g.lineCap='round';
+  for(let i=-1;i<=1;i++){g.beginPath();g.moveTo(x-s*.75,y+i*s*.3-s*.15);g.lineTo(x+s*.75,y+i*s*.3+s*.15);g.moveTo(x-s*.75,y+i*s*.3+s*.15);g.lineTo(x+s*.75,y+i*s*.3-s*.15);g.stroke()}
+  g.beginPath();g.ellipse(x,y,s*.42,s*.55,0,0,7);g.fill();g.beginPath();g.arc(x,y-s*.6,s*.22,0,7);g.fill();
+  g.strokeStyle=PAPER;g.lineWidth=Math.max(1,s*.03);g.beginPath();g.moveTo(x,y-s*.4);g.lineTo(x,y+s*.5);g.stroke()}
+function frog(x,y,s,label){g.fillStyle='#5f8a3a';g.strokeStyle=INK;g.lineWidth=Math.max(1.5,s*.04);
+  g.beginPath();g.ellipse(x,y-s*.35,s*.5,s*.35,0,0,7);g.fill();g.stroke();
+  for(const d of[-1,1]){g.fillStyle=PAPER;g.beginPath();g.arc(x+d*s*.25,y-s*.68,s*.13,0,7);g.fill();g.stroke();g.fillStyle=INK;g.beginPath();g.arc(x+d*s*.25,y-s*.68,s*.05,0,7);g.fill()}
+  g.beginPath();g.arc(x,y-s*.62,s*.42,Math.PI*1.08,Math.PI*1.92);g.lineWidth=s*.07;g.stroke();
+  g.lineWidth=Math.max(1.5,s*.04);g.beginPath();g.moveTo(x-s*.3,y-s*.3);g.quadraticCurveTo(x,y-s*.18,x+s*.3,y-s*.3);g.stroke();
+  if(label)txt('BOXED IN',x,y-s*.1,s*.1,{c:PAPER})}
+function ground(y){g.strokeStyle=INK;g.lineWidth=Math.max(2,U*.6);g.beginPath();g.moveTo(0,y);g.lineTo(W,y);g.stroke()}
+function stamp(s,x,y,size,rot){g.save();g.translate(x,y);g.rotate(rot||0);g.font='700 '+size+'px ui-monospace,Menlo,Consolas,monospace';const w=g.measureText(s).width;
+  g.strokeStyle=RED;g.lineWidth=Math.max(2,size*.09);g.strokeRect(-w/2-size*.4,-size*.75,w+size*.8,size*1.5);txt(s,0,0,size,{c:RED});g.restore()}
+function fitSize(s,maxW,maxS){return Math.min(maxS,maxW/(s.length*.62))}
+
+const G={};
+
+/* ---------- 1 the stairs: a word is an order ---------- */
+const ITEMS=['BOX','BAG','PACK','BELT'];
+G.stairs={name:'The stairs',ref:'PI §1, §2, §107',line:'A word is an order.',
+  init(){S={me:0,st:0,call:[],i:0,t0:0,dur:7,fl:-9};this.next()},
+  next(){const n=S.me<4?1:S.me<8?2:3;S.call=shuf(ITEMS).slice(0,n);S.i=0;S.t0=now();S.dur=7-S.me*.3;this.ui()},
+  ui(){score('ME '+S.me+' / STAIRS '+S.st);say('Fetch what is called, in the order called, before the bar runs out.');acts(ITEMS.map(w=>({t:w,f:()=>this.tap(w)})))},
+  tap(w){if(S.over)return;if(w===S.call[S.i]){S.i++;if(S.i===S.call.length){S.me++;if(S.me===12){score('ME 12 / STAIRS '+S.st);return done('Top floor. Nobody asked what BOX names. It was an order every time.')}this.next()}}else this.miss()},
+  miss(){S.st++;S.fl=now();if(S.st===12){score('ME '+S.me+' / STAIRS 12');return done('The stairs win. Back to the rough ground.')}this.next()},
+  draw(t){
+    if(!S.over&&t-S.t0>S.dur)this.miss();
+    const fl=H*.93,x0=W*.13,sx=W*.82/13,sy=H*.48/12;
+    g.fillStyle=BAGC;g.strokeStyle=INK;g.lineWidth=Math.max(2,U*.6);g.beginPath();g.moveTo(x0,fl);g.lineTo(x0+sx,fl);
+    for(let i=0;i<12;i++){g.lineTo(x0+(i+1)*sx,fl-(i+1)*sy);g.lineTo(x0+(i+2)*sx,fl-(i+1)*sy)}
+    g.lineTo(x0+13*sx,fl);g.closePath();g.fill();g.stroke();
+    const s=Math.min(H*.2,W*.3);pup(x0+(S.me+.5)*sx,fl-S.me*sy,s,{pack:1,sw:Math.sin(t*5)*.4});
+    if(S.over)return;
+    const str=S.call.join(' IN '),size=fitSize(str,W*.9,H*.085);g.font='700 '+size+'px ui-monospace,Menlo,Consolas,monospace';
+    let x=W/2-g.measureText(str).width/2;
+    S.call.forEach((w,i)=>{const seg=(i?' IN ':'')+w;g.globalAlpha=i<S.i?.25:1;txt(seg,x,H*.1,size,{a:'left'});g.globalAlpha=1;x+=g.measureText(seg).width});
+    const f=clamp(1-(t-S.t0)/S.dur,0,1);g.fillStyle=INK;g.fillRect(W*.2,H*.18,W*.6*f,Math.max(3,U));
+    if(t-S.fl<.8)txt('STAIRS +1',W/2,H*.25,Math.min(H*.04,W*.05),{c:RED});
+  }};
+
+/* ---------- 2 everyone has a box: the contents cancel out ---------- */
+const INBOX=['a bug','the word BEETLE','a frog','a smaller box','nothing'];
+G.beetle={name:'Everyone has a box',ref:'PI §293',line:'What is inside drops out.',
+  init(){S={steps:0,t0:now(),P:.7,last:-1,looks:[],asked:0,open:null,bub:null,stum:-9,hit:-9};
+    score('STEP 0 / 16');say('Press MARCH as the ring closes. Tap any box to look inside.');acts([{t:'MARCH',f:()=>this.march()}])},
+  march(){if(S.over)return;const bt=now()-S.t0,k=Math.round(bt/S.P),err=Math.abs(bt-k*S.P);
+    if(err<.19&&k!==S.last){S.last=k;S.steps++;S.hit=now();score('STEP '+S.steps+' / 16');
+      if(S.steps===16)done('The line arrived. In your box you saw: '+(S.looks.join(', ')||'you never looked')+'. You asked '+S.asked+' other'+(S.asked===1?'':'s')+'; each said BEETLE.')}
+    else{S.stum=now();say('Out of step. Press as the ring closes.')}},
+  down(x){if(S.over)return;const i=clamp(Math.floor(x/W*6),0,5),t=now();
+    if(i===2){const c=R(INBOX);S.looks.push(c);S.open={c,u:t+1.6};S.bub=null;say('Your box holds '+c+'. Look again and it may not.')}
+    else{S.asked++;S.bub={i,u:t+1.3};S.open=null;say('That box stays shut. Its owner says: BEETLE.')}},
+  draw(t){
+    const fl=H*.86,s=Math.min(W/5.2,H*.42),bt=t-S.t0,d=1-((bt/S.P)%1);
+    ground(fl);g.strokeStyle=DIM;g.lineWidth=1;const off=(S.steps*W/16)%(W/8);
+    for(let x=-off;x<W;x+=W/8){g.beginPath();g.moveTo(x,fl+U*2);g.lineTo(x+U*4,fl+U*2);g.stroke()}
+    const sw=S.steps%2?.9:-.9,bob=Math.max(0,1-(t-S.hit)*5)*U*1.5;
+    for(let i=0;i<6;i++){const x=W*(i+.5)/6-s*.1,st=i===2&&t-S.stum<.4?Math.sin(t*40)*U:0;
+      pup(x+st,fl-bob,s,{hold:1,sw,head:0,c:i===2?'#c9a06c':KR});
+      if(i===2)txt('YOU',x,fl+U*5,Math.max(10,U*3.4))}
+    if(!S.over){const R0=Math.min(U*6,H*.07),cy=H*.13;g.strokeStyle=INK;g.lineWidth=Math.max(2,U*.6);g.beginPath();g.arc(W/2,cy,R0,0,7);g.stroke();
+      if(t-S.hit<.15){g.fillStyle=INK;g.fill()}
+      g.lineWidth=1.5;g.beginPath();g.arc(W/2,cy,R0*(1+d*1.3),0,7);g.stroke()}
+    const py=fl-s*1.32,ps=s*.5;
+    if(S.open&&t<S.open.u){const x=W*2.5/6;rect(x-ps/2,py-ps,ps,ps,PAPER);const c=S.open.c,cx=x,cy=py-ps/2;
+      if(c==='a bug')beetle(cx,cy,ps*.38);else if(c==='a frog')frog(cx,cy+ps*.3,ps*.6);else if(c==='a smaller box')box(cx,cy+ps*.2,ps*.4);else if(c!=='nothing')txt('BEETLE',cx,cy,ps*.2)}
+    if(S.bub&&t<S.bub.u){const x=clamp(W*(S.bub.i+.5)/6,ps,W-ps);txt('BEETLE.',x,py-ps*.3,Math.max(11,s*.17))}
+  }};
+
+/* ---------- 3 the word-stairs: climb it, kick it away ---------- */
+const RH=['KNOX','FOX','SOCKS','CLOCKS','BLOCKS','ROCKS','LOCKS','KNOCKS'];
+const DEC=['BAG','BACK','BOOKS','BIKES','BEAKS','TAPE','TRUCK','STAIR','BELT','BOSS','BOAT','BUCKS','FIX','SACKS','LICKS','BRICK','FAX','COAT'];
+G.ladder={name:'The word-stairs',ref:'Tractatus 6.54; Culture and Value',line:'Climb it, then kick it away.',
+  init(){S={r:['BOX'],ph:0,t0:0,sh:-9};this.ui()},
+  ui(){score(S.r.length+' / 9');
+    if(S.r.length===9){S.ph=1;say('You are at the top.');return acts([{t:'THROW AWAY THE LADDER',f:()=>{S.ph=2;S.t0=now();say('');acts([])}}])}
+    say('Add the word that rhymes with BOX. A wrong word breaks a rung.');
+    const want=RH[S.r.length-1];acts(shuf([want,...shuf(DEC).slice(0,2)]).map(w=>({t:w,f:()=>this.tap(w,want)})))},
+  tap(w,want){if(S.ph)return;if(w===want)S.r.push(w);else{S.sh=now();if(S.r.length>1)S.r.pop()}this.ui()},
+  draw(t){
+    const fl=H*.94,rh=Math.min(H*.072,W*.11),rw=Math.min(W*.5,rh*5),x0=W*.5-rw/2-rh*1.2,dt=t-S.t0,s=Math.min(H*.2,W*.3);
+    ground(fl);
+    if(S.ph<2){const jig=t-S.sh<.3?Math.sin(t*50)*U:0;
+      S.r.forEach((w,i)=>{const x=x0+i*rh*.3+jig,y=fl-(i+1)*rh;rect(x,y,rw,rh*.92,i%2?BAGC:KR);txt(w,x+rw/2,y+rh*.48,rh*.55)});
+      const n=S.r.length;pup(x0+(n-1)*rh*.3+rw/2+jig,fl-n*rh,s,{sw:Math.sin(t*3)*.3})}
+    else{const q=Math.min(dt,1.4);
+      S.r.forEach((w,i)=>{const x=x0+i*rh*.3+(i%2?1:-1)*q*W*.5*(.5+i/9),y=Math.min(fl-rh,fl-(i+1)*rh+q*q*H*.4*(1+i*.1));
+        g.save();g.translate(x+rw/2,y+rh/2);g.rotate((i%2?1:-1)*q*(1+i*.3));rect(-rw/2,-rh/2,rw,rh*.92,i%2?BAGC:KR);txt(w,0,0,rh*.55);g.restore()});
+      const top=fl-9*rh,py=Math.min(fl,top+Math.max(0,dt-.25)**2*H*1.6);
+      pup(x0+8*rh*.3+rw/2,py,s,{sw:py<fl?Math.sin(t*20):0});
+      if(dt>1.6&&!S.over)done('You are standing where you began. The rungs were nonsense, and they held.')}
+  }};
+
+/* ---------- 4 rabbit, duck, fly: the drawing does not change ---------- */
+G.aspect={name:'Rabbit, duck, fly',ref:'PI II xi, §309',line:'The drawing does not change.',
+  init(){S={st:0,n:0,calls:0,asp:null,it:null,ang:Math.PI,fx:0,fy:10,out:0,res:'',rt:-9,drag:null};this.spawn();this.ui()},
+  spawn(){S.it={k:R(['CARROT','BREAD']),t0:now(),dur:Math.max(1.5,2.8-S.n*.15)}},
+  ui(){if(S.st===0){score(S.n+' / 8');say('A carrot is for a rabbit. Bread is for a duck. Call what you see before it lands.');
+      acts([{t:'RABBIT!',f:()=>this.call('RABBIT')},{t:'DUCK!',f:()=>this.call('DUCK')}])}
+    else{score('');say('Show the fly the way out. It only flies up. Drag the bottle or press TURN.');acts([{t:'TURN',f:()=>{S.ang+=Math.PI/6}}])}},
+  call(a){if(S.over)return;if(S.asp!==a)S.calls++;S.asp=a},
+  down(x,y){if(S.st===1)S.drag={a:Math.atan2(y-H/2,x-W/2),g:S.ang}},
+  move(x,y){if(S.st===1&&S.drag)S.ang=S.drag.g+Math.atan2(y-H/2,x-W/2)-S.drag.a},
+  up(){S.drag=null},
+  figure(cx,cy,u){g.fillStyle=PAPER;g.strokeStyle=INK;g.lineWidth=Math.max(2,u*.7);
+    for(const d of[-1,1]){g.beginPath();g.ellipse(cx-u*19,cy+d*u*4,u*14,u*3.4,d*.16,0,7);g.fill();g.stroke()}
+    g.beginPath();g.ellipse(cx,cy,u*12,u*10.5,0,0,7);g.fill();g.stroke();
+    g.fillStyle=INK;g.beginPath();g.arc(cx-u*1,cy-u*2.5,u*1.5,0,7);g.fill();
+    g.beginPath();g.moveTo(cx+u*11.6,cy+u*1);g.lineTo(cx+u*9,cy+u*2);g.stroke()},
+  draw(t,dt){
+    const u=Math.min(U,H/70);
+    if(S.st===0){const cx=W/2+u*8,cy=H*.6;this.figure(cx,cy,u);
+      txt(S.asp?'SEEN AS: '+S.asp:'SEEN AS:',W/2,cy+u*20,Math.max(11,u*4));
+      const it=S.it,q=(t-it.t0)/it.dur,iy=H*.06+(cy-u*16-H*.06)*Math.min(q,1);
+      if(it.k==='CARROT'){g.fillStyle='#d2691e';g.strokeStyle=INK;g.lineWidth=2;g.beginPath();g.moveTo(W/2-u*3,iy-u*5);g.lineTo(W/2+u*3,iy-u*5);g.lineTo(W/2,iy+u*6);g.closePath();g.fill();g.stroke();g.strokeStyle='#5f8a3a';g.lineWidth=u;g.beginPath();g.moveTo(W/2,iy-u*5);g.lineTo(W/2-u*2,iy-u*9);g.moveTo(W/2,iy-u*5);g.lineTo(W/2+u*2,iy-u*9);g.stroke()}
+      else{g.fillStyle='#d9b26a';g.strokeStyle=INK;g.lineWidth=2;g.beginPath();g.ellipse(W/2,iy,u*6,u*4,0,0,7);g.fill();g.stroke()}
+      txt(it.k,W/2+u*9,iy,Math.max(10,u*3.2),{a:'left',w:400});
+      if(t-S.rt<.7)txt(S.res,W/2,H*.9,Math.max(11,u*3.6),{c:S.res==='EATEN'?INK:RED});
+      if(q>=1){const ok=(it.k==='CARROT'&&S.asp==='RABBIT')||(it.k==='BREAD'&&S.asp==='DUCK');S.res=ok?'EATEN':'REFUSED';S.rt=t;if(ok)S.n++;
+        if(S.n===8){S.st=1;this.ui()}else{score(S.n+' / 8');this.spawn()}}
+      return}
+    const cx=W/2,cy=H/2,a=S.ang;
+    if(!S.out){const sp=u*26*dt,lx=-Math.sin(a),ly=-Math.cos(a);
+      let nx=S.fx+lx*sp+(Math.random()-.5)*u*1.6,ny=S.fy+ly*sp+(Math.random()-.5)*u*.8;
+      ny=Math.min(ny,20);const mx=ny>-14?11:ny>-22?3+(ny+22):3;
+      if(ny<-14&&Math.abs(S.fx)>mx+1.5)ny=-14;
+      const m2=ny>-14?11:ny>-22?3+(ny+22):3;S.fx=clamp(nx/1,-m2,m2);S.fy=ny;
+      S.fx=clamp(S.fx,-m2,m2);
+      if(S.fy<-34){S.out=t;S.ox=cx+(S.fx*Math.cos(a)-S.fy*Math.sin(a))*u;S.oy=cy+(S.fx*Math.sin(a)+S.fy*Math.cos(a))*u}}
+    g.save();g.translate(cx,cy);g.rotate(a);g.strokeStyle=INK;g.lineWidth=Math.max(2,u*.8);g.lineJoin='round';
+    g.fillStyle='rgba(120,160,150,.18)';g.beginPath();[[-4.5,-34],[-4.5,-22],[-13,-14],[-13,22],[13,22],[13,-14],[4.5,-22],[4.5,-34]].forEach((p,i)=>i?g.lineTo(p[0]*u,p[1]*u):g.moveTo(p[0]*u,p[1]*u));g.fill();g.stroke();
+    if(!S.out){g.fillStyle=INK;g.beginPath();g.arc(S.fx*u,S.fy*u,u*1.3,0,7);g.fill();g.strokeStyle=DIM;g.lineWidth=1;g.beginPath();g.ellipse(S.fx*u,S.fy*u,u*3,u*1,t*30,0,7);g.stroke()}
+    g.restore();
+    if(S.out){const y=S.oy-(t-S.out)*u*60;g.fillStyle=INK;g.beginPath();g.arc(S.ox+Math.sin(t*9)*u*3,y,u*1.3,0,7);g.fill();
+      if(!S.over&&t-S.out>1)done('The fly is out. The bottle was open the whole time. Before that, the drawing never changed; what you called it changed '+S.calls+' times.')}
+  }};
+
+/* ---------- 5 constraint mode: nothing stretches ---------- */
+const GRN='#39ff7a';
+G.rig={name:'Constraint mode',ref:'PI §193–194; Sketchpad',line:'Nothing stretches.',dark:1,
+  B:[[.62,46],[.92,58],[.08,66],[.8,18],[.45,72]],
+  init(){S={got:0,steps:0,px:W*.3,p:null,want:null,tg:null,ok:true};this.ui()},
+  ui(){score('BOX '+S.got+' / 5');say('Reach the box. Drag the hand or press REACH. If it will not solve, move the pinned foot.');
+    acts([{t:'STEP LEFT',k:'s',f:()=>this.step(-1)},{t:'REACH',f:()=>{S.want=this.bx()}},{t:'STEP RIGHT',k:'s',f:()=>this.step(1)}])},
+  bx(){const b=this.B[S.got];return[W*b[0],H*.9-b[1]*this.u()]},
+  u(){return Math.min(W/100,H*.9/84)},
+  step(d){if(S.over)return;const nx=clamp(S.px+d*this.u()*9,W*.04,W*.96);if(nx===S.px)return;if(S.p)S.p.forEach(q=>q[0]+=nx-S.px);if(S.tg)S.tg[0]+=nx-S.px;S.px=nx;S.steps++},
+  down(x,y){if(!S.over)S.want=[x,y]},move(x,y){if(!S.over&&S.want)S.want=[x,y]},
+  draw(t,dt){
+    const u=this.u(),fl=H*.9,L=[16,16,20,12,12].map(v=>v*u),tot=76*u,root=[S.px,fl];
+    g.fillStyle='#050805';g.fillRect(0,0,W,H);
+    if(!S.p){let y=fl;S.p=[[S.px,fl]];L.forEach((l,i)=>{y-=l*.9;S.p.push([S.px+(i%2?-1:1)*l*.3,y])});S.tg=[S.px+u*8,fl-u*50]}
+    const want=S.want||[S.px+u*8,fl-u*50];
+    S.tg[0]+=(want[0]-S.tg[0])*Math.min(1,dt*10);S.tg[1]+=(want[1]-S.tg[1])*Math.min(1,dt*10);
+    const p=S.p,n=p.length,tg=S.tg,d=Math.hypot(tg[0]-root[0],tg[1]-root[1]);
+    if(d>=tot){const ux=(tg[0]-root[0])/d,uy=(tg[1]-root[1])/d;let a=0;p[0]=root.slice();for(let i=1;i<n;i++){a+=L[i-1];p[i]=[root[0]+ux*a,root[1]+uy*a]}S.ok=false}
+    else{for(let it=0;it<12;it++){p[n-1]=tg.slice();
+        for(let i=n-2;i>=0;i--){const r=Math.hypot(p[i][0]-p[i+1][0],p[i][1]-p[i+1][1])||1,k=L[i]/r;p[i]=[p[i+1][0]+(p[i][0]-p[i+1][0])*k,p[i+1][1]+(p[i][1]-p[i+1][1])*k]}
+        p[0]=root.slice();
+        for(let i=1;i<n;i++){const r=Math.hypot(p[i][0]-p[i-1][0],p[i][1]-p[i-1][1])||1,k=L[i-1]/r;p[i]=[p[i-1][0]+(p[i][0]-p[i-1][0])*k,p[i-1][1]+(p[i][1]-p[i-1][1])*k]}}S.ok=true}
+    g.strokeStyle=GRN;g.fillStyle=GRN;g.lineWidth=Math.max(1.5,u*.5);g.lineCap='round';
+    g.beginPath();g.moveTo(0,fl);g.lineTo(W,fl);g.stroke();
+    g.beginPath();p.forEach((q,i)=>i?g.lineTo(q[0],q[1]):g.moveTo(q[0],q[1]));g.stroke();
+    p.forEach(q=>{g.beginPath();g.arc(q[0],q[1],u*1.1,0,7);g.fill()});
+    g.beginPath();g.arc(p[3][0],p[3][1]-u*6,u*4,0,7);g.stroke();
+    g.beginPath();g.moveTo(S.px-u*3,fl+u*4);g.lineTo(S.px,fl);g.lineTo(S.px+u*3,fl+u*4);g.closePath();g.stroke();
+    const fs=Math.max(10,Math.min(u*3.2,13));
+    if(!S.over){const b=this.bx(),bd=Math.hypot(b[0]-root[0],b[1]-root[1]);
+      g.setLineDash(bd>tot?[4,4]:[]);g.strokeRect(b[0]-u*4,b[1]-u*4,u*8,u*8);g.setLineDash([]);
+      const near=S.want&&Math.hypot(S.want[0]-b[0],S.want[1]-b[1])<u*7;
+      txt('SKETCHPAD // CONSTRAINT MODE',8,fs,fs,{a:'left',c:GRN,w:400});
+      txt('PIN ankle = floor   steps '+S.steps,8,fs*2.4,fs,{a:'left',c:GRN,w:400});
+      txt('reach '+Math.round(bd/u)+' / 76   '+(bd>tot?'UNSOLVABLE: nothing stretched':'solvable'),8,fs*3.8,fs,{a:'left',c:bd>tot&&near?'#fff':GRN,w:bd>tot&&near?700:400});
+      if(S.ok&&Math.hypot(p[n-1][0]-b[0],p[n-1][1]-b[1])<u*3&&near){S.got++;S.want=null;score('BOX '+S.got+' / 5');
+        if(S.got===5)done('Five boxes, '+S.steps+' steps. No limb changed length. The foot moved instead.')}}
+  }};
+
+/* ---------- 6 ten verbs: one rule changes per stamp ---------- */
+const VERBS=['DETACH','INVERT','ENLARGE','REPLACE','HATCH','SWALLOW','EMERGE','ENTER','INTERRUPT','PACK'];
+const RULE={DETACH:'An arm unpins. It is still the same puppet.',INVERT:'Gravity turns about one point. The hat is now the floor.',ENLARGE:'Sizes stop holding still. The beetle no longer fits a box.',
+  REPLACE:'A new head in the same socket. The slot decides the role.',HATCH:'The box was an egg. A new player arrives with new rules.',SWALLOW:'Container and carrier change places.',
+  EMERGE:'Tape becomes marching bodies by one rule of projection.',ENTER:'A whole mover becomes one box on a truck.',INTERRUPT:'Stopped from outside the frame. The stage is as it was.'};
+G.verbs={name:'Ten verbs',ref:'Tractatus 5.632, 7',line:'One rule changes per stamp.',
+  fresh(){return{arm:0,inv:0,bee:0,head:0,frog:0,sw:0,ent:0}},
+  init(){S={s:this.fresh(),c:{arm:0,inv:0,bee:0,frog:0,sw:0,ent:0,pack:0},used:new Set(),ft:-9,ct:-9,pt:-9,pk:0,msg:'Stamp a verb. Each one changes one rule of the stage.'};this.ui()},
+  vis(){return!S.s.sw&&!S.s.ent},
+  ok(v){const s=S.s,vis=this.vis();if(S.pk)return false;
+    return v==='DETACH'?vis&&!s.arm:v==='INVERT'||v==='REPLACE'||v==='ENTER'?vis:v==='ENLARGE'?!s.bee:v==='HATCH'?!s.frog:v==='SWALLOW'?s.frog&&vis:v==='EMERGE'?!!s.sw:v==='INTERRUPT'?true:S.used.size===9&&vis},
+  ui(){score(S.used.size+' / 9');say(S.msg);acts(VERBS.map(v=>({t:v,k:'s'+(S.used.has(v)?' q':'')+(v==='PACK'?' u':''),off:!this.ok(v),f:()=>this.go(v)})),innerWidth>600?10:5)},
+  go(v){const s=S.s,t=now();if(!this.ok(v))return;
+    if(v==='DETACH')s.arm=1;else if(v==='INVERT')s.inv=s.inv?0:1;else if(v==='ENLARGE')s.bee=1;else if(v==='REPLACE')s.head=(s.head+1)%4;
+    else if(v==='HATCH')s.frog=1;else if(v==='SWALLOW')s.sw=1;else if(v==='EMERGE'){s.sw=0;S.ct=t}else if(v==='ENTER')s.ent=1;
+    else if(v==='INTERRUPT'){S.s=this.fresh();S.ft=t}
+    else{S.pk=1;S.pt=t;say('');acts([],5);return}
+    S.used.add(v);S.msg=RULE[v]+(S.used.size===9?' Nine stamped. One verb is left.':'');this.ui()},
+  draw(t,dt){
+    const s=S.s,c=S.c,k=Math.min(1,dt*7),fl=H*.9,ps=Math.min(H*.5,W*.42),px=W*.5;
+    for(const key of['arm','inv','bee','frog','sw','ent'])c[key]+=(s[key]-c[key])*k;
+    c.pack+=(S.pk-c.pack)*Math.min(1,dt*3);
+    ground(fl);
+    const bs=U*3+c.bee*Math.min(W,H)*.42;beetle(W*.34+(px-W*.34)*c.bee,fl-bs*.8-c.bee*H*.25,bs);
+    // truck
+    const tx=W*.87,tw=Math.min(W*.22,ps*.6);rect(tx-tw/2,fl-tw*.9,tw,tw*.75,BAGC);rect(tx-tw/2-tw*.22,fl-tw*.55,tw*.22,tw*.4,KR);
+    g.fillStyle=INK;for(const d of[-.3,.3]){g.beginPath();g.arc(tx+d*tw,fl-tw*.08,tw*.1,0,7);g.fill()}
+    if(c.ent>.6)box(tx,fl-tw*.25,tw*.4*c.ent);
+    // egg box and frog
+    const ex=W*.13,es=Math.min(W*.16,ps*.42);
+    if(c.frog>.05){g.strokeStyle=INK;g.lineWidth=2;rect(ex-es/2,fl-es*.6,es,es*.6,KR);
+      const fx=ex+(px-ex)*c.sw,fs=es*(.9+c.sw*2.6)*Math.min(1,c.frog);frog(fx,fl-es*.6*(1-c.sw)-fs*.02,fs,c.sw>.6)}
+    else box(ex,fl,es);
+    // puppet
+    const a=(1-c.sw)*(1-c.ent);
+    if(a>.04){const x=px+(tx-px)*c.ent,sz=ps*(1-c.ent*.8)*(1-c.sw*.7);
+      g.globalAlpha=clamp(a*1.5,0,1);pup(x,fl,sz,{rot:c.inv*Math.PI,noarm:s.arm,head:s.head,sw:Math.sin(t*2)*.25});g.globalAlpha=1;
+      if(c.arm>.02&&a>.5){const ay=fl-ps*.7+(ps*.7-ps*.03)*Math.min(1,c.arm*1.2);limb(ps*.055,[px-ps*.3,ay],[px-ps*.44,ay+ps*.02],[px-ps*.58,ay])}}
+    // cassette
+    const ce=t-S.ct;if(ce<2.2){const cx=W*.25,cy=H*.3,cw=Math.min(W*.3,ps*.7);rect(cx-cw/2,cy-cw*.3,cw,cw*.6,INK);
+      g.fillStyle=PAPER;for(const d of[-.22,.22]){g.beginPath();g.arc(cx+d*cw,cy,cw*.09,0,7);g.fill()}
+      for(let i=0;i<3;i++){const q=ce*.5-i*.14;if(q>0&&q<1)pup(cx+q*(W*.8-cx),cy+cw*.3+q*(fl-cy-cw*.3),ps*.32,{sw:Math.sin(t*12+i)})}}
+    // foot
+    const fe=t-S.ft;if(fe<1.3){const fy=fe<.2?fe/.2:fe<.9?1:1-(fe-.9)/.4,fw=Math.min(W*.5,ps*1.1),top=-H+fy*(fl-U*2);
+      g.fillStyle='#e3b9a0';g.strokeStyle=INK;g.lineWidth=Math.max(2,U*.7);g.beginPath();g.moveTo(W*.5-fw*.25,top);g.lineTo(W*.5-fw*.25,top+H-fw*.3);
+      g.quadraticCurveTo(W*.5-fw*.7,top+H-fw*.25,W*.5-fw*.7,top+H);g.lineTo(W*.5+fw*.3,top+H);g.lineTo(W*.5+fw*.25,top);g.closePath();g.fill();g.stroke();
+      if(fe>.2)stamp('HANDLE WITH CARE',W/2,H*.3,fitSize('HANDLE WITH CARE',W*.75,H*.06),-.12)}
+    // pack
+    if(c.pack>.01){const bw=ps*.9,bh=ps*1.25*Math.min(1,c.pack*1.3);rect(px-bw/2,fl-bh,bw,bh,KR,Math.max(2,U*.7));
+      if(c.pack>.8){g.beginPath();g.moveTo(px,fl-bh);g.lineTo(px,fl-bh*.8);g.moveTo(px-bw/2,fl-bh*.8);g.lineTo(px+bw/2,fl-bh*.8);g.stroke()}
+      if(t-S.pt>1.6&&!S.over)done('WHEREOF ONE CANNOT SPEAK, THEREOF ONE MUST PACK. The mover is inside his own box.')}
+  }};
+
+/* ---------- shell ---------- */
+const ORDER=['stairs','beetle','ladder','aspect','rig','verbs'];
+ORDER.forEach((id,i)=>{const G_=G[id];G_.id=id;const b=document.createElement('button');
+  b.innerHTML='<i>'+(i+1)+'</i><b></b><span></span>';b.querySelector('b').textContent=G_.name;b.querySelector('span').textContent=G_.line;b.onclick=()=>{location.hash=id};$('#tiles').appendChild(b)});
+function start(id){cur=G[id];$('#hub').hidden=true;$('#game').hidden=false;$('#name').textContent=cur.name;$('#stage').style.background=cur.dark?'#050805':'';
+  fit();S=null;cur.init();last=now();cancelAnimationFrame(raf);raf=requestAnimationFrame(loop)}
+function home(){cancelAnimationFrame(raf);cur=null;S=null;$('#game').hidden=true;$('#hub').hidden=false}
+function loop(){if(!cur)return;const t=now(),dt=Math.min(.05,t-last);last=t;g.clearRect(0,0,W,H);cur.draw(t,dt);raf=requestAnimationFrame(loop)}
+function route(){const id=location.hash.slice(1);if(G[id])start(id);else home()}
+$('#exit').onclick=()=>{location.hash=''};
+addEventListener('hashchange',route);addEventListener('resize',()=>{if(cur)fit()});
+const pos=e=>{const r=cv.getBoundingClientRect();return[e.clientX-r.left,e.clientY-r.top]};
+cv.addEventListener('pointerdown',e=>{if(cur&&cur.down&&S){cv.setPointerCapture(e.pointerId);cur.down(...pos(e))}});
+cv.addEventListener('pointermove',e=>{if(cur&&cur.move&&S&&(e.buttons||e.pointerType==='touch'))cur.move(...pos(e))});
+cv.addEventListener('pointerup',()=>{if(cur&&cur.up&&S)cur.up()});
+route();
+</script>
+</body>
+</html>
