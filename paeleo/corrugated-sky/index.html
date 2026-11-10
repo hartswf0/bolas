@@ -1,0 +1,118 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<title>PAE-07 · Corrugated Sky</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="A shadow-theatre music video for BOXBACK track 11: a cardboard house keeps serving a family that is only silhouettes on its wall. One swarm: SCION 02, Reiniger.">
+<link rel="canonical" href="https://hartswf0.github.io/bolas/paeleo/corrugated-sky/">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800&family=JetBrains+Mono:wght@400;600&family=Literata:opsz,wght@7..72,400;7..72,500&display=swap">
+<style>
+/* Layout: a CRASH LAB case page, as for PAE-03. One reading column; films and sheets run full width. */
+:root{
+  --bg:#f1f2f3;--card:#fbfbfb;--fg:#111417;--mute:#5d6670;--line:#d4d8dc;--accent:#b0322a;--flour:#ece6d8;
+  --f-disp:"Big Shoulders Display","Arial Narrow",Impact,sans-serif;--f-body:"Literata",Georgia,serif;--f-mono:"JetBrains Mono",ui-monospace,Menlo,monospace}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0b0d10;--card:#12161b;--fg:#e7eaee;--mute:#8b95a1;--line:#262d35;--accent:#f07a6a;--flour:#2a2722;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0b0d10;--card:#12161b;--fg:#e7eaee;--mute:#8b95a1;--line:#262d35;--accent:#f07a6a;--flour:#2a2722;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:16px;line-height:1.55}
+.wrap{max-width:1040px;margin:0 auto;padding-block:28px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:34px}
+.crumb{font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;color:var(--mute);text-transform:uppercase}
+.crumb a{color:var(--mute)}
+h1{font-family:var(--f-disp);font-weight:800;font-size:clamp(44px,8vw,84px);line-height:.92;margin:6px 0 12px;text-transform:uppercase;text-wrap:balance}
+h2{font-family:var(--f-disp);font-weight:800;font-size:32px;text-transform:uppercase;margin:0 0 10px;letter-spacing:.01em}
+h3{font-family:var(--f-disp);font-weight:700;font-size:26px;margin:2px 0 4px}
+h4{font-family:var(--f-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);margin:18px 0 8px;font-weight:600}
+p{max-width:68ch;margin:0 0 10px}
+.lede{font-size:19px;max-width:62ch}
+.kicker{font-family:var(--f-mono);font-size:11px;letter-spacing:.1em;color:var(--accent);text-transform:uppercase}
+a{color:inherit}
+.films{display:grid;gap:26px}
+.film{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:20px;align-items:start}
+@media (max-width:760px){.film{grid-template-columns:minmax(0,1fr)}}
+.film video{width:100%;display:block;aspect-ratio:16/9;max-width:100%;background:#000;border:1px solid var(--line)}
+.meta{font-family:var(--f-mono);font-size:12px;color:var(--mute);margin:0 0 6px}
+.tools{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:1px;background:var(--line);border:1px solid var(--line)}
+.tools a{background:var(--card);padding:16px;text-decoration:none;display:grid;gap:6px;align-content:start}
+.tools a:hover,.tools a:focus-visible{background:var(--flour);outline:none}
+.tools b{font-family:var(--f-disp);font-size:26px;line-height:1;text-transform:uppercase}
+.tools span{font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+.tools p{font-size:14px;margin:0}
+.sheets{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px}
+.sheets a{display:grid;gap:4px;text-decoration:none;font-family:var(--f-mono);font-size:11px;color:var(--mute)}
+.sheets img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;border:1px solid var(--line);background:var(--card)}
+.sheets.wide img{aspect-ratio:16/9}
+table{border-collapse:collapse;width:100%;font-size:14px}
+td,th{border-bottom:1px solid var(--line);padding:7px 10px 7px 0;text-align:left;vertical-align:top}
+th{font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--mute);font-weight:600}
+td.n{font-family:var(--f-mono);font-variant-numeric:tabular-nums;white-space:nowrap;text-align:right}
+.tw{overflow-x:auto}
+blockquote{margin:0;padding:14px 18px;background:var(--flour);border-left:3px solid var(--fg);max-width:70ch}
+ul.parts{margin:0;padding-left:18px;max-width:70ch}ul.parts li{margin-bottom:6px}
+
+.yt{position:relative;aspect-ratio:16/9;background:#000;border:1px solid var(--line);max-width:100%}
+.yt iframe,.yt button{position:absolute;inset:0;width:100%;height:100%;border:0;padding:0}
+.yt button{cursor:pointer;background:#000 center/cover no-repeat;display:flex;align-items:center;justify-content:center}
+.yt button span{font-family:var(--f-mono);font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:#fff;background:rgba(0,0,0,.72);border:2px solid #fff;padding:12px 20px}
+.yt button:focus-visible span{outline:3px solid var(--accent);outline-offset:3px}
+.games{display:grid;gap:0;border-top:2px solid var(--fg)}
+.game{display:grid;grid-template-columns:120px minmax(0,1fr) minmax(0,1fr);gap:18px;padding:14px 0;border-bottom:1px solid var(--line);align-items:start}
+@media (max-width:760px){.game{grid-template-columns:minmax(0,1fr);gap:6px}}
+.tbtn{all:unset;cursor:pointer;font-family:var(--f-mono);font-size:13px;font-variant-numeric:tabular-nums;color:var(--accent);text-decoration:underline;text-underline-offset:3px}
+.tbtn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.game h3{font-size:24px}.game p{font-size:15px;margin:4px 0 0}.game .ref{font-family:var(--f-mono);font-size:11px;letter-spacing:.06em;color:var(--mute);text-transform:uppercase;display:block;margin-bottom:4px}
+td.v{font-family:var(--f-disp);font-size:20px;font-weight:800;letter-spacing:.03em;white-space:nowrap}
+</style></head><body><div class="wrap">
+</head><body><div class="wrap">
+<header>
+ <div class="crumb"><a href="../../">CRASH LAB</a> / <a href="../">PAELEO</a> / PAE-07</div>
+ <div class="kicker">cool radio · BOXBACK, track 11 · 2 min 26 s · one swarm: SCION 02, Lotte Reiniger</div>
+ <h1>Corrugated Sky</h1>
+ <p class="lede">Can a house keep a family's day when the family is only shadows on its wall, and can a child's choice to let go read from outline alone?</p>
+</header>
+
+<section class="films">
+ <div class="film">
+  <video src="corrugated-sky.mp4" poster="poster.jpg" controls playsinline preload="metadata"></video>
+  <div>
+   <p class="meta">the film · 1280×720 · 24 fps, poses on twos · song by Treblo, unaltered</p>
+   <p>The cardboard house wakes and sets breakfast for four. Its family are white cut-outs on a black wall. At night they step out, and each place on the wall goes dark. At the gate a girl climbs, hesitates, takes the dog's paw and lets go. The house burns and sinks, the figures go back to the wall, and soft rain falls on the corrugated roof.</p>
+  </div>
+ </div>
+ <div class="film">
+  <video src="proof.mp4" controls playsinline preload="none"></video>
+  <div>
+   <p class="meta">the hard proof · the gate</p>
+   <p>The swarm's proof scene, built before anything else: a small figure climbs a gate, offers a hand to another figure, then chooses whether to let go. Here her hand opens (frame 272), her arm withdraws (frames 278–282), and only then does the paw fold (frame 284). The order makes it her choice.</p>
+  </div>
+ </div>
+</section>
+
+<section>
+ <h2>The case</h2>
+ <h4>The question</h4><p>After Ray Bradbury's "There Will Come Soft Rains", taken as theme only and never quoted: a house that keeps its routines for people who are gone. Can shadow theatre carry that without a single face?</p>
+ <h4>The trick</h4><p>Reiniger's rule is that nothing is rescued by internal texture. Every relationship has to read in pure contour, with the colour removed. So the family is negative space: white figures on a black wall. Leaving is a place going dark, and returning is it lighting again.</p>
+ <h4>The recipe</h4><p>Pinned-joint silhouette rigs with joint-angle limits, poses on twos, and a backlit gradient running dawn → noon → bruise → fire → rain-grey. Every event sits on the song's 141.05 BPM grid. The house's own cards are written for the film (“12:00 · LUNCH IN THE GARDEN”, “I WILL KEEP THE LIGHT ON.”). The SFX are synthesised and mixed under the unaltered song.</p>
+ <h4>Something to try</h4><p>Watch the gate scene with the sound off and the colour off (any greyscale filter). If the let-go still reads as hers, the silhouette is doing the work.</p>
+ <h4>What broke</h4><p>Three rounds, each judged by a fresh independent critic. None of them could hear the film; sound claims are measurements only.</p>
+ <ol>
+  <li><b>Round 1:</b> reference stronger / reference stronger. The let-go read as the <i>dog</i> letting go, because the paw folded first. The return was a dog, gate and flames blob. The fire read as weeds once the colour was removed. The night scene had eight family figures on screen. The beat grid ran about 60 ms late.</li>
+  <li><b>Round 2:</b> reference stronger / reference stronger. The let-go order was fixed and measured. The thumb's light-gap cut it off the palm entirely, so the limb detached. The dog was a two-legged plate that merged at night, at the return and in the rain.</li>
+  <li><b>Round 3:</b> <b>pass / pass.</b> Hand and thumb form one connected shape. The dog is its own four-legged shape at least 17.5 px clear at night, at the return and in the rain. The collapse happens on screen before the return.</li>
+ </ol>
+ <h4>Still open</h4><p>These were named by the last critic and not yet repaired:</p>
+ <ul>
+  <li>The father leaves the wall but never appears outside.</li>
+  <li>The dog touches the gate post once colour is removed.</li>
+  <li>The red end title nearly vanishes without colour.</li>
+  <li>The house's details are small on a phone.</li>
+ </ul>
+</section>
+
+<section class="tools">
+ <a href="https://hartswf0.github.io/moto/scion/corrugated-sky/"><span>operator page</span><b>The full build</b><p>Tests, invariants, source ledger, SFX cue sheet, method library, source.</p></a>
+ <a href="https://hartswf0.github.io/moto/VOLHOLLA/song-boxback-11.html"><span>the song</span><b>Corrugated Sky</b><p>On the BOXBACK song page, the film plays in the artwork slot, locked to the music.</p></a>
+ <a href="../scion/"><span>the swarm</span><b>SCION 02</b><p>Lotte Reiniger: Articulated Shadow Theater, one of the 54.</p></a>
+</section>
+
+<p class="crumb">Swarm names are lineages, not endorsements. Picture drawn in code; no third-party images. · <a href="../">Back to PAELEO</a> · <a href="../../">CRASH LAB</a></p>
+</div></body></html>
