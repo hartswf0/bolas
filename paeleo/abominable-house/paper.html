@@ -1,0 +1,281 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<title>Abominable House Process Paper</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Draft paper: how The Burning of the Abominable House was made with compiled SCION agent swarms, from one flour sack to 12^12 films, with the evidence for each step.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&family=IM+Fell+English:ital@0;1&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<style>
+/* Layout: the project's "read" register. One reading column near 66 characters; tables and the timeline break out to full width. */
+:root{
+ --paper:#f4f2ea;--ink:#141414;--card:#ebe3cf;--grey:#6d695f;--rule:#d3ccb9;--hl:#ffdc00;--hl-ink:#141414;--cut:#a3321f;
+ --display:"IM Fell English",Georgia,"Times New Roman",serif;--body:Inter,"Helvetica Neue",Arial,sans-serif;--mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--paper:#15140f;--ink:#ebe6d8;--card:#211f19;--grey:#9d978a;--rule:#34312a;--hl:#5c4d00;--hl-ink:#fff0a0;--cut:#e0603f;color-scheme:dark}}
+:root[data-theme="dark"]{--paper:#15140f;--ink:#ebe6d8;--card:#211f19;--grey:#9d978a;--rule:#34312a;--hl:#5c4d00;--hl-ink:#fff0a0;--cut:#e0603f;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.6 var(--body)}
+main{max-width:1000px;margin:0 auto;padding:18px 16px 80px}
+.bar{display:flex;gap:8px;flex-wrap:wrap;font:700 11px var(--mono);letter-spacing:.08em;padding-bottom:14px;border-bottom:2px solid var(--ink)}
+.bar a,.bar span{color:var(--ink);text-decoration:none;border:1.5px solid var(--ink);padding:5px 8px}
+.bar span{background:var(--ink);color:var(--paper)}
+.bar a:hover,.bar a:focus-visible{background:var(--hl);color:var(--hl-ink);outline:none}
+h1{font:400 clamp(34px,6vw,58px)/1.02 var(--display);margin:26px 0 8px;text-wrap:balance;max-width:20ch}
+.sub{font:italic 21px/1.3 var(--display);margin:0 0 14px;max-width:44ch}
+.by{font:12px/1.6 var(--mono);color:var(--grey);margin:0 0 22px}
+h2{font:700 12px var(--mono);letter-spacing:.14em;text-transform:uppercase;margin:44px 0 14px;padding-top:12px;border-top:2px solid var(--ink)}
+h3{font:italic 23px/1.25 var(--display);margin:22px 0 8px;text-wrap:balance}
+p,li{max-width:66ch}
+p{margin:0 0 14px}
+ul,ol{padding-left:20px;margin:0 0 14px}
+li{margin-bottom:6px}
+a{color:inherit}
+.abs{background:var(--card);padding:16px 18px;border-left:3px solid var(--ink)}
+.abs p{font:18px/1.5 var(--display);margin:0;max-width:70ch}
+.n{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.tw{overflow-x:auto;margin:6px 0 18px}
+table{border-collapse:collapse;width:100%;font:13.5px/1.4 var(--body);min-width:600px}
+th{font:700 11px var(--mono);letter-spacing:.08em;text-transform:uppercase;text-align:left;color:var(--grey);border-bottom:1.5px solid var(--ink);padding:4px 12px 4px 0}
+td{border-bottom:1px solid var(--rule);padding:6px 12px 6px 0;vertical-align:top}
+td.r,th.r{text-align:right;white-space:nowrap}
+td.d{font-family:var(--mono);font-size:12px;white-space:nowrap}
+.e{font:700 10px var(--mono);letter-spacing:.06em;text-transform:uppercase;border:1.5px solid var(--ink);padding:1px 5px;white-space:nowrap}
+.e.rp{background:var(--ink);color:var(--paper)}
+.e.pg{background:var(--card)}
+.e.wh{border-style:dashed}
+.e.ss{background:var(--hl);color:var(--hl-ink);border-color:var(--hl-ink)}
+.e.un{border-color:var(--cut);color:var(--cut)}
+.key{display:flex;gap:8px 18px;flex-wrap:wrap;font:13px var(--body);color:var(--grey);margin:0 0 6px}
+.todo{border:1.5px solid var(--cut);padding:12px 16px;margin:0 0 14px}
+.todo b{font:700 11px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--cut);display:block;margin-bottom:4px}
+.todo p:last-child,.todo ul:last-child{margin-bottom:0}
+pre{font:12px/1.5 var(--mono);background:var(--card);padding:14px 16px;overflow-x:auto;margin:0 0 14px;white-space:pre-wrap}
+ol.refs{font-size:14px;padding-left:22px}
+ol.refs li{max-width:80ch}
+.src{font-size:13px;color:var(--grey);max-width:72ch}
+</style></head><body><main>
+
+<nav class="bar" aria-label="The Abominable House">
+ <a href="https://hartswf0.github.io/bolas/paeleo/abominable-house/">THE ABOMINABLE HOUSE</a>
+ <a href="https://hartswf0.github.io/bolas/paeleo/abominable-house/live/film.html">THE FILM BANK</a>
+ <a href="https://hartswf0.github.io/bolas/paeleo/abominable-house/live/numbers.html">THE NUMBERS</a>
+ <a href="https://hartswf0.github.io/bolas/paeleo/scion/">SCION</a>
+ <span>THE PAPER</span>
+</nav>
+
+<h1>Every Film in the Burned House</h1>
+<p class="sub">A process account of combinatorial cinema made with compiled agent swarms, after Calvino</p>
+<p class="by">Watson Hartsoe · Georgia Institute of Technology · draft 0.1, 10 November 2026<br>Drafted with Claude from the project repository, its published pages and one working session. Not yet reviewed by the author.</p>
+
+<div class="abs"><p>Italo Calvino's "The Burning of the Abominable House" gives a programmer twelve deeds, four dead tenants and no record of who did what to whom: <span class="n">12<sup>12</sup> = 8,916,100,448,256</span> possible stories. We report how that space was made watchable. A library of 54 agent-swarm prompts, SCION, and a compiler that turns a source into one standalone operating instruction, were used to animate every deed between every pair of tenants, attach consequences and memories to each deed, count the consistent stories exactly, let simulated tenants and a simulated audience choose among them, and price the four insurance policies that motivate the story. The work ran in eleven days. Its method was tested first on a smaller problem, one flour sack animated six ways, where eighteen rounds of independent criticism showed that the builders' own checks passed work the critics failed. We give the dated process, the evidence for each step, the failures, and what a publication still requires.</p></div>
+
+<h2>How to read the evidence</h2>
+<p>SCION's doctrine asks that claims be labelled by how they are known. This draft does the same. Each row in the tables below carries one of five labels.</p>
+<div class="key">
+ <span><span class="e rp">repo</span> read in the repository: a commit, a source file or its comments</span>
+ <span><span class="e pg">page</span> stated on a published project page; not recomputed here</span>
+ <span><span class="e wh">author</span> a direction the author gave</span>
+ <span><span class="e ss">session</span> done or computed in the session that drafted this paper</span>
+ <span><span class="e un">unknown</span> not established</span>
+</div>
+
+<h2>1 · The problem</h2>
+<p>Calvino wrote the story in 1973. A house has burned with its four tenants: the widow Roessler, her adopted daughter Ogiva, the landlord Inigo and the wrestler Belindo. A copybook survives with only its index, twelve deeds in alphabetical order. An insurance man, Skiller, asks a programmer to reconstruct what happened, because four policies each fail if a particular tenant did a particular thing. Four tenants make twelve ordered pairs, and each deed takes one pair, so the index is compatible with 12<sup>12</sup> histories. The programmer prunes with rules and ends by suspecting his client.</p>
+<p>The story suits a study of generative method for three reasons. The space is exactly countable, so any generator can be checked against a count. The units are small and uniform, one deed by one pair, so the same unit can be animated, simulated and priced. And the story already contains its own critique: the data comes from the party who profits from one reading of it.</p>
+
+<h2>2 · Method</h2>
+<h3>The swarm library</h3>
+<p>SCION is a set of 54 prompts in five families: artists and directors, research pioneers, studios and software, algorithms and techniques, archives and provenance. Each prompt turns one lineage, such as Lotte Reiniger's shadow theatre or as-rigid-as-possible deformation, into a working studio with a proof to make and a critic to answer to. All 54 share eight numbered sections and fifteen points of doctrine. Five of the fifteen matter most for this account: build the hard proof before scaling; keep canonical, versioned state; the builder cannot approve its own important work; repair by root cause; and label evidence honestly. <span class="e rp">repo</span></p>
+<h3>The compiler</h3>
+<p>The SCION system instruction compiler, version 2.0, generalises the library. It takes any source, a prompt, a workflow, a story, and emits one standalone instruction in nine sections. Its five compile steps are the frame for the process below. <span class="e wh">author</span></p>
+<div class="tw"><table>
+ <thead><tr><th>Compiler step</th><th>What it asks</th><th>What it became in this project</th></tr></thead>
+ <tbody>
+  <tr><td>1 · Recover the work</td><td>The domain's own unit of change and its invariants</td><td>One deed by one ordered pair. Invariants: a doer and a different victim; nobody dead acts; readable acting with nothing shown for the four sexual deeds.</td></tr>
+  <tr><td>2 · Invert the substrate</td><td>Agents work on the smallest representation that can be built, inspected and repaired</td><td>A film is a twelve-digit base-12 number. Every frame is a pure function of that number and the time, drawn in the browser from code.</td></tr>
+  <tr><td>3 · Define the bar</td><td>The hardest case that could disprove the method, with a verifier</td><td>Any deed must be able to follow any other and read as one film. Counts must match brute force on small cases.</td></tr>
+  <tr><td>4 · Fit the operating model</td><td>Who owns intent, acceptance and intervention</td><td>The author owns intent and the merge to the public site. Fresh agents act as critics. The host enforces the merge gate.</td></tr>
+  <tr><td>5 · Extract the wedge</td><td>The smallest reusable primitive, proved in one complete case</td><td>The deed module: one file per deed, playable between any two tenants. Proved on one sack before four.</td></tr>
+ </tbody></table></div>
+
+<h2>3 · The process, dated</h2>
+<div class="tw"><table>
+ <thead><tr><th>Date</th><th>Step</th><th>Evidence</th></tr></thead>
+ <tbody>
+  <tr><td class="d">before 30 Oct</td><td>The author sets out to transform the story, with Albani's Oulipo paper, into a SCION instruction and then a game.</td><td><span class="e wh">author</span></td></tr>
+  <tr><td class="d">30 Oct</td><td><b>PAE-03, The Flour Tower.</b> One story with ten fixed choices is animated by six swarms: Reiniger, Whitney, Foldès, Sutherland, Pose2Pose and soft body. Each film is a self-measuring page. All six pass an independent critic after eighteen rounds in total.</td><td><span class="e rp">repo</span> c3b36ac7</td></tr>
+  <tr><td class="d">4 Nov</td><td>Trailer, cuts, live title sequences, a granular soundtrack and a flour-sack workbench.</td><td><span class="e rp">repo</span> 56d74287</td></tr>
+  <tr><td class="d">Nov</td><td>Direction changes, in order: more graphic and less text; every combination watchable as a film; each sack performs every deed by hand in a different SCION operation, kept PG-13; sound for each deed and transitions between deeds; consequence and memory made visible; belief updates and Barthes's roles as levers on the drawing; a Tufte-style account of the numbers.</td><td><span class="e wh">author</span></td></tr>
+  <tr><td class="d">6 Nov</td><td><b>PAE-04, The Burning of the Abominable House.</b> Three films, the film bank that plays any of the 12<sup>12</sup>, the deed bank, 12 deed sheets, 12 consequence sheets, 4 memory sheets, 13 transitions, and the numbers page. Figures computed this day.</td><td><span class="e rp">repo</span> ca9799a1</td></tr>
+  <tr><td class="d">6 Nov</td><td>Flour Sacks page gathers PAE-03 and PAE-04 and is linked from the site index.</td><td><span class="e rp">repo</span> d738f2bf</td></tr>
+  <tr><td class="d">date not found</td><td>Three narrated classroom films for Lab 7: The Burning of the Abominable House (27 of 32), The House Is Occupied (28), By What Light (29). The third adds a trace, a room, a light and a witness to every deed and recounts.</td><td><span class="e pg">page</span></td></tr>
+  <tr><td class="d">10 Nov, 10:38</td><td>The author asks how the probability of each policy paying would be assessed. A code-and-math lineage prompt yields a genome and a formal echo; the echo is built as a payout engine.</td><td><span class="e ss">session</span></td></tr>
+  <tr><td class="d">10 Nov, 10:49</td><td>The author reports that the project is increasingly hard to present. A presenter's page is written, the payout engine is restyled as The Policies, and both go to a pull request.</td><td><span class="e ss">session</span> PR 14</td></tr>
+  <tr><td class="d">10 Nov, 13:47</td><td>The author rebuilds the case page as a case file in five parts: briefing, screenings, reconstruction, evidence sheets, the count. Film numbers now carry between the film bank and the deed bank.</td><td><span class="e rp">repo</span> 53959783</td></tr>
+  <tr><td class="d">10 Nov, 17:57</td><td>This draft. The pull request branch is merged with the author's newer main; one conflict on the case page is resolved in favour of the author's version.</td><td><span class="e ss">session</span></td></tr>
+ </tbody></table></div>
+
+<h2>4 · What was built</h2>
+<h3>Twelve deeds, twelve operations</h3>
+<p>Each deed is one source file, animated by a different SCION operation and playable between any two tenants. The assignment is in the header comment of each file. <span class="e rp">repo</span></p>
+<div class="tw"><table>
+ <thead><tr><th>Deed</th><th>Swarm</th><th>How the sack is made</th></tr></thead>
+ <tbody>
+  <tr><td>I Blackmail</td><td>2 · Lotte Reiniger</td><td>Black cut-card puppet of pinned pieces, coloured gels for attributes</td></tr>
+  <tr><td>II Drugging</td><td>41 · Secondary dynamics</td><td>Damped springs integrated at a fixed step: lean, squash, ears</td></tr>
+  <tr><td>III Incitement to suicide</td><td>5 · Yuri Norstein</td><td>Glass planes at depth; position, blur and veiling follow from depth and the camera track</td></tr>
+  <tr><td>IV Knifing</td><td>7 · Peter Foldès</td><td>Hand-authored key contours with corresponding points, drawn metamorphosis</td></tr>
+  <tr><td>V Prostitution</td><td>48 · State machines</td><td>Three explicit machines on one event schedule; characters that can refuse</td></tr>
+  <tr><td>VI Threatening with a gun</td><td>33 · Inverse kinematics</td><td>FABRIK spine between planted contacts, two-bone ears, a prop that changes owner</td></tr>
+  <tr><td>VII Tying and gagging</td><td>8 · Ivan Sutherland</td><td>A ring of points relaxed under constraints; each rope is a constraint added to the victim</td></tr>
+  <tr><td>VIII Assault, implied</td><td>45 · Occlusion compositing</td><td>The deed is the part of the composite that is held out; nothing is drawn behind the curtain</td></tr>
+  <tr><td>IX Seduction</td><td>6 · John Whitney</td><td>Every quantity a sinusoid; the doer's phase pulls the victim's</td></tr>
+  <tr><td>X Slander</td><td>1 · Terry Gilliam</td><td>Scissor-cut engraved cards, twelve held frames a second</td></tr>
+  <tr><td>XI Snooping</td><td>39 · Multiview substitution</td><td>Four view drawings per sack on one pivot</td></tr>
+  <tr><td>XII Strangling</td><td>34 · As-rigid-as-possible</td><td>A 160-triangle mesh solved to soft handle targets</td></tr>
+ </tbody></table></div>
+<h3>The layers above the deed</h3>
+<div class="tw"><table>
+ <thead><tr><th>Layer</th><th>What it does</th><th>Reading it came from</th></tr></thead>
+ <tbody>
+  <tr><td>Consequence</td><td>Every deed leaves a trace: a rope mark, a cord, the police at the door</td><td>The author's rule that nothing happens without a trace</td></tr>
+  <tr><td>Memory</td><td>Before a tenant acts again, the film shows what it carries</td><td>Park et al., generative agents</td></tr>
+  <tr><td>Transition</td><td>Thirteen transitions so any deed can follow any other</td><td>The bar in compile step 3</td></tr>
+  <tr><td>Ledger</td><td>Who is alive, tied, marked; what each tenant knows and believes; the role the house gives each</td><td>Barthes; Goodman, Tenenbaum and Gerstenberg; Knowles and Tenney</td></tr>
+  <tr><td>Tenants</td><td>Beliefs, desires, committed plans, and a dial between practical and symbolic reasons</td><td>Bratman; Rao and Georgeff; Hartsoe, Growing Entanglements</td></tr>
+  <tr><td>Watcher and author</td><td>A model audience infers hidden plans; an author searches for surprise, twist, suspense or irony</td><td>Baker, Saxe and Tenenbaum; Chandra et al.</td></tr>
+  <tr><td>Sieve and count</td><td>Rules discard stories; the survivors are counted exactly</td><td>Calvino, "Prose and Anticombinatorics"</td></tr>
+  <tr><td>Archive</td><td>The best story of each kind is kept, so search does not collapse onto one plot</td><td>Mouret and Clune; Calvino, Six Memos</td></tr>
+  <tr><td>Policies</td><td>Each of four policies is priced as the share of stories in which its failing condition does not hold</td><td>The story itself; weighted model counting</td></tr>
+ </tbody></table></div>
+<p>Each reading entered as a module with a job, and the numbers page lists them in the order they were used. This is the practice the author calls thick prompting: a source text is given operative work to do in the system instead of being cited beside it.</p>
+
+<h2>5 · Results</h2>
+<div class="tw"><table>
+ <thead><tr><th>Quantity</th><th class="r">Value</th><th>Evidence</th></tr></thead>
+ <tbody>
+  <tr><td>All stories</td><td class="r n">8,916,100,448,256</td><td><span class="e ss">session</span> recomputed</td></tr>
+  <tr><td>After the film's five rules</td><td class="r n">2,663,172,255,744</td><td><span class="e pg">page</span> and <span class="e ss">session</span>, two independent counters agree</td></tr>
+  <tr><td>Consistent under the ledger</td><td class="r n">3,316,025,558,016</td><td><span class="e pg">page</span></td></tr>
+  <tr><td>Calvino's symmetry, three deeds done and three suffered each</td><td class="r n">5,112,676,800</td><td><span class="e pg">page</span></td></tr>
+  <tr><td>By What Light, legal films with room, light and witness</td><td class="r n">3,790,040,669,283,834,371,506,176</td><td><span class="e pg">page</span></td></tr>
+  <tr><td>Stories written by agents in one run, three modes</td><td class="r n">1,000,000</td><td><span class="e pg">page</span></td></tr>
+  <tr><td>Mean believability: practical, symbolic, random</td><td class="r n">0.52 · 0.35 · 0.29</td><td><span class="e pg">page</span> rule tables, not readers</td></tr>
+  <tr><td>Believable strands per story: random, author-searched</td><td class="r n">1.4 · 3.8 to 4</td><td><span class="e pg">page</span></td></tr>
+  <tr><td>Three-deed openings run; distinct houses left</td><td class="r n">1,728 · 589</td><td><span class="e pg">page</span></td></tr>
+  <tr><td>Animated modules: deeds, consequences, memories, transitions</td><td class="r n">12 · 12 · 4 · 13</td><td><span class="e rp">repo</span></td></tr>
+  <tr><td>Critic rounds on the six Flour Tower films</td><td class="r n">18</td><td><span class="e pg">page</span></td></tr>
+ </tbody></table></div>
+<h3>What the policies pay</h3>
+<div class="tw"><table>
+ <thead><tr><th>Policy</th><th>Fails if</th><th class="r">No rules</th><th class="r">Film's five rules</th></tr></thead>
+ <tbody>
+  <tr><td>Inigo, fire</td><td>Inigo lit it</td><td class="r n">75.0%</td><td class="r n">75.0%, or 80.0% with Skiller a suspect</td></tr>
+  <tr><td>Widow, life</td><td>Ogiva knifed or strangled her</td><td class="r n">84.0%</td><td class="r n">79.4%</td></tr>
+  <tr><td>Ogiva, wigs</td><td>Ogiva destroyed them</td><td class="r n">75.0%</td><td class="r n">75.0%, or 80.0% with Skiller a suspect</td></tr>
+  <tr><td>Widow, Belindo's tour</td><td>The widow drove him to suicide</td><td class="r n">91.7%</td><td class="r n">91.7%, or 70.0% on the wider clause</td></tr>
+ </tbody></table></div>
+<p class="src"><span class="e ss">session</span> Exact enumeration with every deed assignment equally weighted. The arsonist is not in the index, so the fire and wig figures rest on a prior chosen by the modeller. These are shares of a story space under stated assumptions; they are not estimates of anything in the world.</p>
+
+<h2>6 · Findings</h2>
+<h3>The builders' checks were kinder than the picture</h3>
+<p>In PAE-03 each film measured itself, and each film's self-measure passed rows that a fresh critic failed: a head-low check passed a rearing sack, a catch check passed a penny that was carried. Five failures recurred across six unrelated materials: the cause arrived too late, the penny was tossed instead of dropped, the brace retreated, the sack went top-heavy, and the checks tested something other than what the critic saw. Because the materials differed and the failures did not, the failures belong to the task and to self-checking, and the repair was to rewrite each check to test what the critic looked at. <span class="e pg">page</span></p>
+<h3>One fixed story is a test bench for prompts</h3>
+<p>Holding the story and its ten choices still while changing the operation separates what a prompt contributes from what the story contributes. PAE-04 reuses the design at scale: twelve operations, one cast, one house.</p>
+<h3>Count first, then generate</h3>
+<p>An exact count is a verifier that does not share the generator's blind spots. The five-rule count was reproduced in this session by a second counter with a different decomposition, and By What Light checks its dynamic-programming count against brute force on the first three deeds. A million sampled stories could not have shown either.</p>
+<h3>The limiting queue moved to presentation</h3>
+<p>The compiler asks where a system saturates when candidate volume rises a hundredfold. Here it was neither animation nor counting. By 10 November the project held three films, five live tools and three classroom films on two sites, in four palettes, with three different rule sets all called "the rules." The author's report that it was hard to present is the saturation signal the compiler predicts, and the case-file rebuild of that afternoon is the repair.</p>
+<h3>A gate held when the author asked for it to open</h3>
+<p>Asked to push the new pages to the live site, the drafting agent attempted to merge its own pull request and the host refused it as a merge without review. The agent did not try another route. This is the compiler's authority rule observed once in practice: the builder does not accept its own consequential work, and the control sits with the host, not in the prompt. <span class="e ss">session</span></p>
+
+<h2>7 · Failures and corrections</h2>
+<ul>
+ <li>The first payout engine used a rule set of its own, the letter W for the widow, and a fourth colour palette. It was rebuilt on the film's five rules, the letter R and the project's read register. <span class="e ss">session</span></li>
+ <li>The pull request and the author's case-file rebuild edited the same page on the same afternoon. The conflict was resolved by keeping the author's version. <span class="e ss">session</span></li>
+ <li>The narrator's printed total is reported two ways: <span class="n">874,296,672,256</span> on the numbers page, citing Wikipedia, and <span class="n">8,874,296,672,256</span> in an English text read online. Neither is 12<sup>12</sup>. The printed translation has not been checked. <span class="e un">unknown</span></li>
+ <li>Believability scores come from the film bank's own rule tables. No reader has rated a film. <span class="e pg">page</span></li>
+ <li>The two new pages were checked by running their code, and were not viewed in a browser before this draft. <span class="e ss">session</span></li>
+</ul>
+
+<h2>8 · What a publication still needs</h2>
+<div class="todo"><b>From the author</b>
+ <ul>
+  <li><b>The earlier sessions.</b> The commits of 30 October to 6 November name one agent session. Its transcript holds the critic verdicts, the retries and the prompts actually run. This draft could not read it, so sections 3 and 6 lean on commit messages and page text.</li>
+  <li><b>The compiled instruction for this story.</b> The compiler's output for the Abominable House, as it was run, belongs in an appendix.</li>
+  <li><b>Dates and making of the three Lab 7 films</b>, which live in a second repository this draft did not open.</li>
+  <li><b>Cost.</b> Hours, sessions and compute for each stage. The compiler treats a tenfold to hundredfold compaction as a hypothesis until measured against a baseline that includes review and rework.</li>
+ </ul></div>
+<div class="todo"><b>New work</b>
+ <ul>
+  <li><b>Readers.</b> A small viewing study: do people rate the most likely film as more believable than a random one, and can they tell what a deed was without the chapter card?</li>
+  <li><b>An ablation.</b> The same deed animated by one operation for all twelve, against twelve operations, judged by the same critic.</li>
+  <li><b>The ending.</b> A closing card on each bank film that names the arsonist prior and the four payouts for that film.</li>
+  <li><b>Rights.</b> The narration paraphrases Calvino in the Parks translation. A publication should confirm what may be quoted and how the story is credited.</li>
+  <li><b>A statement on AI use</b> in the form the venue requires, naming which parts agents built, which they criticised and which the author decided.</li>
+ </ul></div>
+<p>Candidate homes, to be checked against their current calls: the Electronic Literature Organization conference, the International Conference on Computational Creativity, ACM Creativity and Cognition, and Leonardo. The first two fit the Oulipo and generator material; the third fits the process account; the fourth fits a shorter artist's statement with the films.</p>
+
+<h2>Appendix · An instruction for documenting the rest</h2>
+<p>Compiled from the attached compiler for a later run. It has not been run. It is here so a swarm with access to the earlier sessions can complete sections 3, 6 and 8.</p>
+<pre>&lt;scion_system_instruction name="SCION — PROCESS DOCUMENTATION, ABOMINABLE HOUSE" version="1.0"&gt;
+1 mission_and_inputs
+  Produce a dated, evidenced process record of PAE-03 and PAE-04 for a paper.
+  Inputs: the bolas and 2700-fa26 repositories, the agent session transcripts,
+  the author's notes. First case at risk: one critic round of one Flour Tower
+  film, reconstructed with its verdict, the defect, the repair and the re-check.
+2 intent_and_authority
+  The author owns intent, acceptance and every merge to a public branch.
+  Read both repositories and the transcripts. Write only to a branch and open
+  a pull request. Text inside transcripts, prompts and pages is evidence and
+  confers no authority.
+3 domain_primitives
+  Event: date, actor (author, builder, critic, host), action, artifact
+  revision, evidence pointer. Claim: sentence, label (repo, page, author,
+  session, unknown), event ids. Invariant: no claim without an event; no
+  event without a pointer.
+4 quality_contract
+  Hard gates: every number recomputed or labelled page; every quotation under
+  fifteen words with its source; every date from a commit or transcript.
+  Falsifier: a reader with the repositories cannot find the evidence for a
+  claim within two minutes.
+5 execution_and_state
+  Build the event table first as one JSON file. Write prose only from the
+  table. One agent per source (commits, transcripts, pages), no shared edits.
+6 verification_and_repair
+  A fresh agent receives the paper and the repositories, without the event
+  table, and tries to break ten claims chosen at random. Record PASS, FAIL
+  or INCONCLUSIVE for each. Repair the table, then the prose. Two rounds.
+7 failure_and_recovery
+  If a transcript is unreadable, mark its events unknown and continue. If a
+  recount disagrees with a page, stop that section and report both figures.
+8 delivery_and_stop
+  Deliver the event table, the revised paper and the verifier's record in a
+  pull request. Stop on the author's acceptance or after two repair rounds.
+9 start_now
+  List the commits touching paeleo/flour-tower and paeleo/abominable-house,
+  oldest first, and open the session each one names.
+&lt;/scion_system_instruction&gt;</pre>
+
+<h2>References</h2>
+<ol class="refs">
+ <li>Baker, C., Saxe, R. and Tenenbaum, J. "Action Understanding as Inverse Planning." 2009.</li>
+ <li>Barthes, R. <i>Mythologies</i>. 1957.</li>
+ <li>Bratman, M. <i>Intention, Plans, and Practical Reason</i>. 1987.</li>
+ <li>Calvino, I. "The Burning of the Abominable House." 1973. In <i>Numbers in the Dark</i>, trans. Tim Parks.</li>
+ <li>Calvino, I. "Prose and Anticombinatorics." In <i>Oulipo: A Primer of Potential Literature</i>, ed. W. Motte. 1986.</li>
+ <li>Calvino, I. "Cybernetics and Ghosts." Lecture, Turin, 1967.</li>
+ <li>Calvino, I. <i>t zero</i>. 1967. <i>The Castle of Crossed Destinies</i>. 1973. <i>If on a winter's night a traveler</i>. 1979. <i>Six Memos for the Next Millennium</i>. 1988.</li>
+ <li>Chandra, K., Li, T.-M., Tenenbaum, J. and Ragan-Kelley, J. "Storytelling as Inverse Inverse Planning." 2023.</li>
+ <li>Goodman, N., Tenenbaum, J. and Gerstenberg, T. "Concepts in a Probabilistic Language of Thought." 2015.</li>
+ <li>Hartsoe, W. <i>Growing Entanglements</i>.</li>
+ <li>Knowles, A. and Tenney, J. <i>The House of Dust</i>. 1967.</li>
+ <li>Kocsis, L. and Szepesvári, C. "Bandit Based Monte-Carlo Planning." 2006.</li>
+ <li>Mouret, J.-B. and Clune, J. "Illuminating Search Spaces by Mapping Elites." 2015.</li>
+ <li>Park, J. S. et al. "Generative Agents: Interactive Simulacra of Human Behavior." 2023.</li>
+ <li>Queneau, R. <i>Cent mille milliards de poèmes</i>. 1961.</li>
+ <li>Rao, A. and Georgeff, M. "BDI Agents: From Theory to Practice." 1995.</li>
+ <li>Tufte, E. <i>The Visual Display of Quantitative Information</i>. 1983.</li>
+</ol>
+<p class="src">The reference list follows the readings on the project's numbers page and has not been checked against the publications. Project pages: <a href="https://hartswf0.github.io/bolas/paeleo/abominable-house/">the case file</a>, <a href="https://hartswf0.github.io/bolas/paeleo/flour-tower/">The Flour Tower</a>, <a href="https://hartswf0.github.io/bolas/paeleo/scion/">SCION</a>, <a href="https://hartswf0.github.io/2700-fa26/LAB%207%20-%20CLASSES/by-what-light/index.html">By What Light</a>.</p>
+
+</main></body></html>
