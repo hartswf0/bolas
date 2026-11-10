@@ -1,0 +1,218 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<title>The Whole House</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="One page for presenting The Burning of the Abominable House: the running order, every piece and where it lives, what is missing, the counts side by side, and the shared look.">
+<link rel="canonical" href="https://hartswf0.github.io/bolas/paeleo/abominable-house/whole-house.html">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800&family=JetBrains+Mono:wght@400;600&family=Literata:opsz,wght@7..72,400;7..72,500&display=swap">
+<style>
+/* Layout: a CRASH LAB case page. One reading column; the map, the running order and the tables run full width. Tokens are the case page's, with the film bank's warm paper. */
+:root{
+  --bg:#f1ebdf;--card:#faf6ee;--fg:#1d1812;--mute:#6f6456;--line:#d3c8b4;--accent:#a3321f;--flour:#ece6d8;
+  --R:#7a3f37;--B:#3a3530;--I:#b0915e;--O:#7a3b8f;
+  --f-disp:"Big Shoulders Display","Arial Narrow",Impact,sans-serif;--f-body:"Literata",Georgia,serif;--f-mono:"JetBrains Mono",ui-monospace,Menlo,monospace}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#121110;--card:#1a1816;--fg:#ece3d2;--mute:#958a7a;--line:#2e2a25;--accent:#e0603f;--flour:#2a2722;--R:#c67a6e;--B:#a39b8e;--I:#d4b67e;--O:#b583c8;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#121110;--card:#1a1816;--fg:#ece3d2;--mute:#958a7a;--line:#2e2a25;--accent:#e0603f;--flour:#2a2722;--R:#c67a6e;--B:#a39b8e;--I:#d4b67e;--O:#b583c8;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:16px;line-height:1.55}
+.wrap{max-width:1040px;margin:0 auto;padding:22px 16px 64px;display:flex;flex-direction:column;gap:34px}
+.bar{display:flex;gap:6px;flex-wrap:wrap;font:600 11px var(--f-mono);letter-spacing:.08em}
+.bar a,.bar span{color:var(--fg);text-decoration:none;border:1.5px solid var(--fg);padding:5px 8px}
+.bar span{background:var(--fg);color:var(--bg)}
+.bar a:hover,.bar a:focus-visible{background:var(--flour);outline:none}
+h1{font-family:var(--f-disp);font-weight:800;font-size:clamp(44px,8vw,84px);line-height:.92;margin:14px 0 12px;text-transform:uppercase;text-wrap:balance}
+h2{font-family:var(--f-disp);font-weight:800;font-size:32px;text-transform:uppercase;margin:0 0 10px;letter-spacing:.01em;text-wrap:balance}
+h3{font-family:var(--f-disp);font-weight:700;font-size:24px;margin:0 0 2px;line-height:1.05}
+p{max-width:68ch;margin:0 0 10px}
+.lede{font-size:19px;max-width:62ch}
+.kicker{font-family:var(--f-mono);font-size:11px;letter-spacing:.1em;color:var(--accent);text-transform:uppercase}
+a{color:inherit}
+.n{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+ol.five{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:1px;background:var(--line);border:1px solid var(--line)}
+ol.five li{background:var(--card);padding:14px;display:grid;gap:4px;align-content:start}
+ol.five i{font:600 11px var(--f-mono);font-style:normal;letter-spacing:.08em;color:var(--accent);text-transform:uppercase}
+ol.five b{font:800 24px/1 var(--f-disp);text-transform:uppercase}
+ol.five span{font-size:14px}
+.run{display:grid;gap:0;border-top:1px solid var(--line)}
+.stop{display:grid;grid-template-columns:3.2em minmax(0,1fr) auto;gap:14px;padding:12px 0;border-bottom:1px solid var(--line);align-items:start}
+.stop .rn{font:800 30px/1 var(--f-disp);color:var(--accent)}
+.stop p{font-size:15px;margin:2px 0 0}
+.stop .t{font:12px var(--f-mono);color:var(--mute);white-space:nowrap;text-align:right}
+.stop .t b{display:block;color:var(--fg);font-weight:600}
+.short{font:600 10px var(--f-mono);letter-spacing:.08em;border:1.5px solid var(--fg);padding:1px 5px;margin-left:6px;vertical-align:3px;text-transform:uppercase}
+.tw{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:14px;min-width:560px}
+td,th{border-bottom:1px solid var(--line);padding:7px 12px 7px 0;text-align:left;vertical-align:top}
+th{font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--mute);font-weight:600}
+td.n{white-space:nowrap;text-align:right}
+th.r{text-align:right}
+.pill{font:600 10px var(--f-mono);letter-spacing:.08em;text-transform:uppercase;padding:2px 6px;border:1.5px solid var(--fg);white-space:nowrap}
+.pill.done{background:var(--fg);color:var(--bg)}
+.pill.open{border-color:var(--accent);color:var(--accent)}
+.gaps{display:grid;gap:0;border-top:1px solid var(--line)}
+.gap{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 16px;padding:12px 0;border-bottom:1px solid var(--line)}
+.gap p{font-size:15px;margin:0;grid-column:1}
+.gap .pill{grid-column:2;grid-row:1;align-self:start}
+svg{display:block;width:100%;min-width:640px;height:auto}
+svg text{font-family:var(--f-mono);font-size:11px;fill:var(--fg)}
+svg .bx{fill:var(--card);stroke:var(--fg);stroke-width:1.2}
+svg .new{fill:var(--flour);stroke:var(--accent);stroke-width:1.6}
+svg .ln{stroke:var(--fg);stroke-width:1;fill:none}
+svg .miss{stroke:var(--accent);stroke-width:1.6;stroke-dasharray:5 4;fill:none}
+svg .cap{fill:var(--mute);font-size:10px;letter-spacing:.08em}
+svg .acc{fill:var(--accent)}
+.ids{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.id{border:1px solid var(--line);background:var(--card);padding:12px;display:grid;gap:8px;align-content:start}
+.sw{display:flex;height:26px;border:1px solid var(--line)}
+.sw i{flex:1}
+.id small{font:11px/1.4 var(--f-mono);color:var(--mute)}
+.ten{display:flex;gap:14px;flex-wrap:wrap;font:12px var(--f-mono)}
+.ten i{display:inline-block;width:14px;height:14px;border-radius:50%;vertical-align:-2px;margin-right:5px}
+ul.keep{margin:0;padding-left:18px;max-width:70ch}ul.keep li{margin-bottom:6px}
+.crumb{font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;color:var(--mute);text-transform:uppercase}
+</style></head><body><div class="wrap">
+
+<header>
+ <nav class="bar" aria-label="The Abominable House">
+  <a href="https://hartswf0.github.io/bolas/paeleo/abominable-house/">THE ABOMINABLE HOUSE</a><span>THE WHOLE HOUSE</span>
+  <a href="https://hartswf0.github.io/bolas/paeleo/abominable-house/live/film.html">THE FILM BANK</a>
+  <a href="https://hartswf0.github.io/bolas/paeleo/abominable-house/live/player.html">THE DEED BANK</a>
+  <a href="https://hartswf0.github.io/bolas/paeleo/abominable-house/live/numbers.html">THE NUMBERS</a>
+  <a href="https://hartswf0.github.io/bolas/paeleo/abominable-house/live/policies.html">THE POLICIES</a>
+ </nav>
+ <h1>The Whole House</h1>
+ <p class="lede">The project has grown to three films, five live tools and two classroom films on two sites. This page is for presenting it: one sentence that holds it together, a running order, every piece and where it lives, what is still missing, and the look the pieces should share.</p>
+ <p class="kicker">PAE-04 · presenter's page · Nov 2026</p>
+</header>
+
+<section>
+ <h2>One question, five answers</h2>
+ <p>A burned copybook lists twelve deeds and not who did them. That leaves <span class="n">8,916,100,448,256</span> stories. Every piece of the project answers the same question, which of them, in a different way. Say this sentence first and each tool has a place.</p>
+ <ol class="five">
+  <li><i>1 · count</i><b>How many are there</b><span>Twelve to the Twelfth: the number, the ruler, the exact counts.</span></li>
+  <li><i>2 · sieve</i><b>Which can be thrown out</b><span>The rules. Calvino used the computer to discard stories.</span></li>
+  <li><i>3 · decide</i><b>Which would the tenants choose</b><span>The film bank: memories, beliefs, plans, the most likely story.</span></li>
+  <li><i>4 · watch</i><b>Which makes the best film</b><span>The watcher, the author, the Six Memos archive, By What Light.</span></li>
+  <li><i>5 · price</i><b>Which does the insurer pay for</b><span>The policies. This is why Skiller asked for the count, and it was the missing piece.</span></li>
+ </ol>
+</section>
+
+<section>
+ <h2>Running order</h2>
+ <p>About fifteen minutes. The four stops marked SHORT make a five-minute version.</p>
+ <div class="run">
+  <div class="stop"><div class="rn">I</div><div><h3><a href="https://hartswf0.github.io/bolas/paeleo/abominable-house/films/the-first-film.mp4">The first film</a><span class="short">short</span></h3><p>Play it without introduction. It tells the story once: ruins, copybook, count, Skiller, the second programmer.</p></div><div class="t"><b>1 min 36 s</b>video</div></div>
+  <div class="stop"><div class="rn">II</div><div><h3><a href="https://hartswf0.github.io/bolas/paeleo/abominable-house/live/numbers.html">Twelve to the Twelfth</a><span class="short">short</span></h3><p>Show the large number and the ruler, then stop. Say the one sentence above. Leave the rest of the page for reading later.</p></div><div class="t"><b>1 min</b>page top only</div></div>
+  <div class="stop"><div class="rn">III</div><div><h3><a href="https://hartswf0.github.io/bolas/paeleo/abominable-house/live/player.html">The deed bank</a></h3><p>Tap two cells in one column of the punch card: the same deed done by two different pairs. This shows what one of the twelve choices looks like.</p></div><div class="t"><b>1 min</b>live</div></div>
+  <div class="stop"><div class="rn">IV</div><div><h3><a href="https://hartswf0.github.io/bolas/paeleo/abominable-house/live/film.html">The film bank</a><span class="short">short</span></h3><p>Roll one film. Press T ZERO on a deed to show the twelve ways it could go. Then LET THEM DECIDE.</p></div><div class="t"><b>3 min</b>live</div></div>
+  <div class="stop"><div class="rn">V</div><div><h3><a href="https://hartswf0.github.io/bolas/paeleo/abominable-house/live/policies.html">The policies</a><span class="short">short</span></h3><p>Four bars, one per policy. Switch from no rules to the film's five rules and watch the widow's life policy fall from 84.0% to 79.4%. Then raise the chance that the list was planted.</p></div><div class="t"><b>2 min</b>live</div></div>
+  <div class="stop"><div class="rn">VI</div><div><h3><a href="https://hartswf0.github.io/2700-fa26/LAB%207%20-%20CLASSES/by-what-light/index.html">By What Light</a></h3><p>The second classroom film. Each deed gains a room, a light and a witness, and the count is redone exactly.</p></div><div class="t"><b>film 29 of 32</b>Lab 7</div></div>
+  <div class="stop"><div class="rn">VII</div><div><h3><a href="https://hartswf0.github.io/bolas/paeleo/abominable-house/films/the-most-likely-film.mp4">The most likely story</a></h3><p>Close on it. It is one answer, chosen by search, and the audience now knows what it was chosen from.</p></div><div class="t"><b>3 min 23 s</b>video</div></div>
+ </div>
+</section>
+
+<section>
+ <h2>Every piece and where it lives</h2>
+ <p>Solid lines are links that exist. The red dashed line is a link that does not exist yet. Red boxes are added with this page.</p>
+ <div class="tw">
+ <svg viewBox="0 0 720 300" role="img" aria-label="Map of the project across CRASH LAB and Lab 7">
+  <text class="cap" x="20" y="16">CRASH LAB · LIVE TOOLS AND FILMS</text><text class="cap" x="290" y="16">CRASH LAB · CASE</text><text class="cap" x="530" y="16">LAB 7 · CLASSROOM FILMS</text>
+  <g>
+   <rect class="bx" x="20" y="28" width="190" height="28"/><text x="30" y="46">three films (mp4)</text>
+   <rect class="bx" x="20" y="66" width="190" height="28"/><text x="30" y="84">the film bank</text>
+   <rect class="bx" x="20" y="104" width="190" height="28"/><text x="30" y="122">the deed bank</text>
+   <rect class="bx" x="20" y="142" width="190" height="28"/><text x="30" y="160">twelve to the twelfth</text>
+   <rect class="bx" x="20" y="180" width="190" height="28"/><text x="30" y="198">the first film, live</text>
+   <rect class="new" x="20" y="218" width="190" height="28"/><text x="30" y="236">the policies</text>
+   <rect class="new" x="20" y="256" width="190" height="28"/><text x="30" y="274">the whole house</text>
+  </g>
+  <rect class="bx" x="290" y="118" width="160" height="60"/><text x="300" y="142">PAE-04 case page</text><text class="cap" x="300" y="160">films · sheets · numbers</text>
+  <path class="ln" d="M210 42L290 130M210 80L290 136M210 118L290 142M210 156L290 150M210 194L290 158M210 232L290 166M210 270L290 172"/>
+  <rect class="bx" x="530" y="60" width="170" height="40"/><text x="540" y="78">27 · Abominable House</text><text class="cap" x="540" y="92">narrated film · bench</text>
+  <rect class="bx" x="530" y="130" width="170" height="40"/><text x="540" y="148">29 · By What Light</text><text class="cap" x="540" y="162">room · light · witness</text>
+  <rect class="bx" x="530" y="200" width="170" height="40"/><text x="540" y="218">28, 30 · neighbours</text><text class="cap" x="540" y="232">not read for this page</text>
+  <path class="ln" d="M450 136L530 84M450 148L530 150M615 100L615 130"/>
+  <path class="miss" d="M530 92C490 110 480 190 450 172"/>
+  <text class="acc" x="452" y="212" style="font-size:10px">Lab 7 pages do not</text><text class="acc" x="452" y="225" style="font-size:10px">link back</text>
+ </svg>
+ </div>
+ <div class="tw" style="margin-top:14px"><table>
+  <thead><tr><th>Piece</th><th>Answers</th><th>Site</th><th>Look</th></tr></thead>
+  <tbody>
+   <tr><td><a href="https://hartswf0.github.io/bolas/paeleo/abominable-house/">Case page</a></td><td>everything, as an index</td><td>CRASH LAB</td><td>watch</td></tr>
+   <tr><td>The first film · one from the bank · the most likely</td><td>the story once; one random; one chosen</td><td>CRASH LAB</td><td>watch</td></tr>
+   <tr><td><a href="https://hartswf0.github.io/bolas/paeleo/abominable-house/live/film.html">Film bank</a></td><td>decide, watch</td><td>CRASH LAB</td><td>watch</td></tr>
+   <tr><td><a href="https://hartswf0.github.io/bolas/paeleo/abominable-house/live/player.html">Deed bank</a></td><td>what one choice looks like</td><td>CRASH LAB</td><td>watch</td></tr>
+   <tr><td><a href="https://hartswf0.github.io/bolas/paeleo/abominable-house/live/abom.html">First film, live</a></td><td>the story, drawn in code</td><td>CRASH LAB</td><td>watch</td></tr>
+   <tr><td><a href="https://hartswf0.github.io/bolas/paeleo/abominable-house/live/numbers.html">Twelve to the Twelfth</a></td><td>count, sieve</td><td>CRASH LAB</td><td>read</td></tr>
+   <tr><td><a href="https://hartswf0.github.io/bolas/paeleo/abominable-house/live/policies.html">The policies</a></td><td>price</td><td>CRASH LAB</td><td>read</td></tr>
+   <tr><td><a href="https://hartswf0.github.io/2700-fa26/LAB%207%20-%20CLASSES/abominable-house/">Lab 7 · The Burning of the Abominable House</a></td><td>the narrated film, script, bench exercise</td><td>Lab 7, film 27</td><td>read</td></tr>
+   <tr><td><a href="https://hartswf0.github.io/2700-fa26/LAB%207%20-%20CLASSES/by-what-light/index.html">Lab 7 · By What Light</a></td><td>watch, with an exact count</td><td>Lab 7, film 29</td><td>read</td></tr>
+   <tr><td><a href="https://hartswf0.github.io/bolas/paeleo/flour-sacks/">Flour Sacks</a></td><td>the sack films together, with The Flour Tower</td><td>CRASH LAB</td><td>watch</td></tr>
+  </tbody></table></div>
+</section>
+
+<section>
+ <h2>What is missing</h2>
+ <div class="gaps">
+  <div class="gap"><h3>The policies</h3><span class="pill done">added</span><p>The story's reason for counting is money. Four policies each fail on one condition. The Lab 7 script has a scene for them, but no live tool priced them and Twelve to the Twelfth does not mention insurance. The policies page now does this by exact count.</p></div>
+  <div class="gap"><h3>By What Light on the case page</h3><span class="pill done">added</span><p>The case page linked only the first Lab 7 film. It now links both.</p></div>
+  <div class="gap"><h3>One running order</h3><span class="pill done">added</span><p>There was an index of pieces and no order to show them in. The order is above.</p></div>
+  <div class="gap"><h3>Three rule sets under one word</h3><span class="pill done">table below</span><p>The film's five rules, the ledger's consistency rule and By What Light's room and light rules all appear as "the rules" and give three different counts. Name them every time.</p></div>
+  <div class="gap"><h3>The ending inside the film bank</h3><span class="pill open">open</span><p>The bank's films run twelve deeds and then the fire. Skiller, Waldemar and the question of who lit the fire appear only in the first film and as row 13 of the deed bank. A last card on each bank film that names the arsonist prior and states the four payouts for that film would close the loop between the film bank and the policies.</p></div>
+  <div class="gap"><h3>Links back from Lab 7</h3><span class="pill open">open</span><p>Neither Lab 7 film page links to CRASH LAB. A student who starts there cannot reach the film bank or the numbers. This is in the other repository.</p></div>
+  <div class="gap"><h3>The narrator's printed total</h3><span class="pill open">check</span><p>Twelve to the Twelfth says Wikipedia gives <span class="n">874,296,672,256</span>. The English text I read online has the narrator print <span class="n">8,874,296,672,256</span>. Neither is 12<sup>12</sup>. Check the Parks translation and show the narrator's figure next to the true one; the error belongs to the story.</p></div>
+  <div class="gap"><h3>Stills for the live tools</h3><span class="pill open">open</span><p>The posters folder has stills for the three films, and the film bank has one poster. The deed bank, the numbers and the policies have none, so a slide or a link preview has nothing to show.</p></div>
+  <div class="gap"><h3>One top bar</h3><span class="pill open">partly</span><p>The six-link bar at the top of this page is now also on the policies and the numbers pages. The film bank, deed bank and first film have no way back to the case page.</p></div>
+  <div class="gap"><h3>Letters and names</h3><span class="pill done">aligned</span><p>R is Roessler and W is Waldemar. Deed VIII is "assault" on CRASH LAB. The policies page follows both.</p></div>
+ </div>
+</section>
+
+<section>
+ <h2>The counts side by side</h2>
+ <div class="tw"><table>
+  <thead><tr><th>Space or rule set</th><th class="r">Stories</th><th>Where</th></tr></thead>
+  <tbody>
+   <tr><td>All: 12 deeds, 12 ordered pairs each</td><td class="n">8,916,100,448,256</td><td>everywhere</td></tr>
+   <tr><td>The film's five rules</td><td class="n">2,663,172,255,744</td><td>Twelve to the Twelfth; reproduced by the policies page</td></tr>
+   <tr><td>The ledger: nobody dead acts, a tied tenant waits two deeds</td><td class="n">3,316,025,558,016</td><td>Twelve to the Twelfth, film bank</td></tr>
+   <tr><td>Calvino's symmetry: three done, three suffered each</td><td class="n">5,112,676,800</td><td>Twelve to the Twelfth</td></tr>
+   <tr><td>By What Light, open: each deed also has a trace, room, light, witness</td><td class="n">5.46 × 10<sup>36</sup></td><td>By What Light</td></tr>
+   <tr><td>By What Light, legal under its rules</td><td class="n">3,790,040,669,283,834,371,506,176</td><td>By What Light</td></tr>
+  </tbody></table></div>
+ <h3 style="margin-top:22px">What the policies pay</h3>
+ <p>Share of stories in which the policy's failing condition does not hold. The arsonist is not in the index, so fire and wigs depend on a prior: four tenants equally likely, or four tenants and Skiller.</p>
+ <div class="tw"><table>
+  <thead><tr><th>Policy</th><th>Fails if</th><th class="r">No rules</th><th class="r">Film's five rules</th></tr></thead>
+  <tbody>
+   <tr><td>Inigo · fire on the house</td><td>Inigo lit it</td><td class="n">75.0%</td><td class="n">75.0% · 80.0% with Skiller</td></tr>
+   <tr><td>Widow · life, for Ogiva's child</td><td>Ogiva knifed or strangled her</td><td class="n">84.0%</td><td class="n">79.4%</td></tr>
+   <tr><td>Ogiva · wig collection</td><td>Ogiva destroyed it</td><td class="n">75.0%</td><td class="n">75.0% · 80.0% with Skiller</td></tr>
+   <tr><td>Widow · Belindo's tour</td><td>the widow drove him to suicide</td><td class="n">91.7%</td><td class="n">91.7% · 70.0% on the wider reading</td></tr>
+  </tbody></table></div>
+ <p style="margin-top:10px">The widow's life policy falls under the five rules because Belindo may not knife and nobody strangles Belindo, which moves both killings toward the other pairs, Ogiva on the widow among them.</p>
+</section>
+
+<section>
+ <h2>The look</h2>
+ <p>The pages use four palettes and three type sets. Two of them are deliberate and worth keeping as two registers. The other two are drift.</p>
+ <div class="ids">
+  <div class="id"><h3>Watch</h3><div class="sw"><i style="background:#f1ebdf"></i><i style="background:#faf6ee"></i><i style="background:#1d1812"></i><i style="background:#a3321f"></i></div><small>Film bank, deed bank. Big Shoulders Display, JetBrains Mono. Warm paper, brick red. Keep.</small></div>
+  <div class="id"><h3>Read</h3><div class="sw"><i style="background:#f4f2ea"></i><i style="background:#ebe3cf"></i><i style="background:#141414"></i><i style="background:#ffdc00"></i><i style="background:#b8432c"></i></div><small>Lab 7 film pages, Twelve to the Twelfth, the policies. IM Fell English, Inter, IBM Plex Mono. Cream, yellow mark. Keep.</small></div>
+  <div class="id"><h3>Case page</h3><div class="sw"><i style="background:#f1f2f3"></i><i style="background:#fbfbfb"></i><i style="background:#111417"></i><i style="background:#8a3a2c"></i></div><small>Same type as Watch on a cool grey. Drift: move its background and accent to the Watch values. This page already uses them.</small></div>
+  <div class="id"><h3>Payout engine, first draft</h3><div class="sw"><i style="background:#e6ecee"></i><i style="background:#14242e"></i><i style="background:#1f5a8a"></i><i style="background:#2c6e4f"></i></div><small>Blue-grey ledger. Retired: the policies page is now in the Read register.</small></div>
+ </div>
+ <h3 style="margin-top:22px">Six things every page shares</h3>
+ <ul class="keep">
+  <li><b>Tenant colours.</b> Twelve to the Twelfth already defines them. Use them wherever a tenant appears, in both registers.
+   <div class="ten" style="margin-top:6px"><span><i style="background:var(--R)"></i>R Roessler</span><span><i style="background:var(--B)"></i>B Belindo</span><span><i style="background:var(--I)"></i>I Inigo</span><span><i style="background:var(--O)"></i>O Ogiva</span></div></li>
+  <li><b>Roman numerals for deeds.</b> I to XII in index order, XIII for the fire. The case page and the film bank do this; the policies page uses three-letter codes and should gain the numerals.</li>
+  <li><b>One red.</b> Cut, void and fire are the same idea. Use <span class="n">#a3321f</span> for all three; it is <span class="n">#8a3a2c</span>, <span class="n">#a3321f</span> and <span class="n">#b8432c</span> today.</li>
+  <li><b>The number.</b> <span class="n">8,916,100,448,256</span> is always set in mono with its commas, never rounded in a heading.</li>
+  <li><b>The top bar.</b> The same six links in the same order on every page.</li>
+  <li><b>Sacks, not people.</b> No faces and nothing shown for the four deeds behind the shut door. Diagrams draw tenants as coloured circles with a letter.</li>
+ </ul>
+</section>
+
+<p class="crumb"><a href="https://hartswf0.github.io/bolas/paeleo/abominable-house/">Back to PAE-04</a> · <a href="https://hartswf0.github.io/bolas/paeleo/">PAELEO</a> · <a href="https://hartswf0.github.io/bolas/">CRASH LAB</a></p>
+</div></body></html>
