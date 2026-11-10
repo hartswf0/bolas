@@ -1,0 +1,106 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<title>PAE-08 · The Universal Boxback</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="A harmonic-motion music video for BOXBACK track 14: a house of boxes composed backward from its finished form. One swarm: SCION 06, Whitney.">
+<link rel="canonical" href="https://hartswf0.github.io/bolas/paeleo/the-universal-boxback/">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800&family=JetBrains+Mono:wght@400;600&family=Literata:opsz,wght@7..72,400;7..72,500&display=swap">
+<style>
+/* Layout: a CRASH LAB case page, as for PAE-03. One reading column; films and sheets run full width. */
+:root{
+  --bg:#f1f2f3;--card:#fbfbfb;--fg:#111417;--mute:#5d6670;--line:#d4d8dc;--accent:#c98a2b;--flour:#ece6d8;
+  --f-disp:"Big Shoulders Display","Arial Narrow",Impact,sans-serif;--f-body:"Literata",Georgia,serif;--f-mono:"JetBrains Mono",ui-monospace,Menlo,monospace}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0b0d10;--card:#12161b;--fg:#e7eaee;--mute:#8b95a1;--line:#262d35;--accent:#f0b45a;--flour:#2a2722;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0b0d10;--card:#12161b;--fg:#e7eaee;--mute:#8b95a1;--line:#262d35;--accent:#f0b45a;--flour:#2a2722;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:16px;line-height:1.55}
+.wrap{max-width:1040px;margin:0 auto;padding-block:28px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:34px}
+.crumb{font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;color:var(--mute);text-transform:uppercase}
+.crumb a{color:var(--mute)}
+h1{font-family:var(--f-disp);font-weight:800;font-size:clamp(44px,8vw,84px);line-height:.92;margin:6px 0 12px;text-transform:uppercase;text-wrap:balance}
+h2{font-family:var(--f-disp);font-weight:800;font-size:32px;text-transform:uppercase;margin:0 0 10px;letter-spacing:.01em}
+h3{font-family:var(--f-disp);font-weight:700;font-size:26px;margin:2px 0 4px}
+h4{font-family:var(--f-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);margin:18px 0 8px;font-weight:600}
+p{max-width:68ch;margin:0 0 10px}
+.lede{font-size:19px;max-width:62ch}
+.kicker{font-family:var(--f-mono);font-size:11px;letter-spacing:.1em;color:var(--accent);text-transform:uppercase}
+a{color:inherit}
+.films{display:grid;gap:26px}
+.film{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:20px;align-items:start}
+@media (max-width:760px){.film{grid-template-columns:minmax(0,1fr)}}
+.film video{width:100%;display:block;aspect-ratio:16/9;max-width:100%;background:#000;border:1px solid var(--line)}
+.meta{font-family:var(--f-mono);font-size:12px;color:var(--mute);margin:0 0 6px}
+.tools{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:1px;background:var(--line);border:1px solid var(--line)}
+.tools a{background:var(--card);padding:16px;text-decoration:none;display:grid;gap:6px;align-content:start}
+.tools a:hover,.tools a:focus-visible{background:var(--flour);outline:none}
+.tools b{font-family:var(--f-disp);font-size:26px;line-height:1;text-transform:uppercase}
+.tools span{font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+.tools p{font-size:14px;margin:0}
+.sheets{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px}
+.sheets a{display:grid;gap:4px;text-decoration:none;font-family:var(--f-mono);font-size:11px;color:var(--mute)}
+.sheets img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;border:1px solid var(--line);background:var(--card)}
+.sheets.wide img{aspect-ratio:16/9}
+table{border-collapse:collapse;width:100%;font-size:14px}
+td,th{border-bottom:1px solid var(--line);padding:7px 10px 7px 0;text-align:left;vertical-align:top}
+th{font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--mute);font-weight:600}
+td.n{font-family:var(--f-mono);font-variant-numeric:tabular-nums;white-space:nowrap;text-align:right}
+.tw{overflow-x:auto}
+blockquote{margin:0;padding:14px 18px;background:var(--flour);border-left:3px solid var(--fg);max-width:70ch}
+ul.parts{margin:0;padding-left:18px;max-width:70ch}ul.parts li{margin-bottom:6px}
+
+.yt{position:relative;aspect-ratio:16/9;background:#000;border:1px solid var(--line);max-width:100%}
+.yt iframe,.yt button{position:absolute;inset:0;width:100%;height:100%;border:0;padding:0}
+.yt button{cursor:pointer;background:#000 center/cover no-repeat;display:flex;align-items:center;justify-content:center}
+.yt button span{font-family:var(--f-mono);font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:#fff;background:rgba(0,0,0,.72);border:2px solid #fff;padding:12px 20px}
+.yt button:focus-visible span{outline:3px solid var(--accent);outline-offset:3px}
+.games{display:grid;gap:0;border-top:2px solid var(--fg)}
+.game{display:grid;grid-template-columns:120px minmax(0,1fr) minmax(0,1fr);gap:18px;padding:14px 0;border-bottom:1px solid var(--line);align-items:start}
+@media (max-width:760px){.game{grid-template-columns:minmax(0,1fr);gap:6px}}
+.tbtn{all:unset;cursor:pointer;font-family:var(--f-mono);font-size:13px;font-variant-numeric:tabular-nums;color:var(--accent);text-decoration:underline;text-underline-offset:3px}
+.tbtn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.game h3{font-size:24px}.game p{font-size:15px;margin:4px 0 0}.game .ref{font-family:var(--f-mono);font-size:11px;letter-spacing:.06em;color:var(--mute);text-transform:uppercase;display:block;margin-bottom:4px}
+td.v{font-family:var(--f-disp);font-size:20px;font-weight:800;letter-spacing:.03em;white-space:nowrap}
+</style></head><body><div class="wrap">
+<header>
+ <div class="crumb"><a href="../../">CRASH LAB</a> / <a href="../">PAELEO</a> / PAE-08</div>
+ <div class="kicker">cool radio · BOXBACK, track 14 · 2 min 54 s · one swarm: SCION 06, John Whitney</div>
+ <h1>The Universal Boxback</h1>
+ <p class="lede">Can a house be composed the way a mind plans one, from the finished form back to the first step, and can one refused beam re-phase the whole house as music?</p>
+</header>
+<section class="films">
+ <div class="film">
+  <video src="the-universal-boxback.mp4" poster="poster.jpg" controls playsinline preload="metadata"></video>
+  <div><p class="meta">the film · 1280×720 · 24 fps · song by Treblo, unaltered</p>
+  <p>Twenty corrugated boxes start as the constellation of a finished house. They dissolve into an oscillator bank: a ring, a rational lock, a detuned drift, a re-lock. Then the house is made, one box per beat. The architect gives directions, and the builder replies that BEAM 7 CANNOT GO THERE. The next direction re-plans every row. A 3:2 accumulation builds to the densest moment and returns exactly. The release slows to stillness, and the house rains back row by row, landing on the last downbeat.</p></div>
+ </div>
+ <div class="film">
+  <video src="proof.mp4" controls playsinline preload="none"></video>
+  <div><p class="meta">the hard proof · 3 : 2</p>
+  <p>The swarm's proof: a procession where a 3:2 phase relation makes approach, interference and reunion. The red box laps three times while the yellow box laps twice, and you can count them. Measured by the critic: 3.04 and 1.96 laps, with motion stopping on the beat.</p></div>
+ </div>
+</section>
+<section>
+ <h2>The case</h2>
+ <h4>The question</h4><p>From the producer's cards "The House That Language Built". In Aristotle (<i>Metaphysics</i> VII.7), thought starts from the end form and works back to a step that can be done, and making starts there. In Plato (<i>Statesman</i> 259e), the architect directs until the work is done, and the test is the builder who reports that a beam cannot go where the plan puts it.</p>
+ <h4>The trick</h4><p>Motion is composed as frequencies, phases and accumulations (Whitney), so the plan is literally a score. A refusal is a phase event: one local fix propagates through every row.</p>
+ <h4>The recipe</h4><p>A parametric oscillator bank locked to the song's 130.03 BPM grid, with rational locks against deliberate detuned drift. Kraft boxes on black, with red and yellow markers so the 3:2 can be counted. Typed architect and builder cards. Synthesised bell tones at the reunions, mixed under the unaltered song.</p>
+ <h4>Something to try</h4><p>In the proof, follow only the red box for twelve seconds, then only the yellow one. Three against two.</p>
+ <h4>What broke</h4><p>Six rounds, each with a fresh independent critic. None could hear the film; sound is measured only.</p>
+ <ol>
+  <li><b>1:</b> proof pass / film reference stronger. The release piled up, the Plato test was only a ripple, the 3:2 couldn't be counted on a phone, and the song's stop looked like the hold.</li>
+  <li><b>2:</b> the middle stalled for 39 beats, a card was clipped, the ring went off the frame, and the beam collided.</li>
+  <li><b>3:</b> the making section was uncontrolled, with boxes colliding and clipping at the edges.</li>
+  <li><b>4:</b> content touched the edges, landing flashes covered labels, and the release outshone the peak.</li>
+  <li><b>5:</b> the proof ring was more kinetic than the peak, and the release stopped dead.</li>
+  <li><b>6: pass / pass.</b> The peak window is 14.50 against 11.03 for the next best, the release decays monotonically, the landing falls 0.02 s from b368, and nothing lit is near an edge.</li>
+ </ol>
+ <h4>Still open</h4><p>An 8 s freeze at 140–148 s, then a jump into the release. Ring labels can turn upside down, so 6 and 9 can be confused.</p>
+</section>
+<section class="tools">
+ <a href="https://hartswf0.github.io/moto/scion/the-universal-boxback/"><span>operator page</span><b>The full build</b><p>40 tests, phase visualiser, ledger, method library, source.</p></a>
+ <a href="https://hartswf0.github.io/moto/VOLHOLLA/song-boxback-14.html"><span>the song</span><b>The Universal Boxback</b><p>The film plays in the artwork slot, locked to the music.</p></a>
+ <a href="../scion/"><span>the swarm</span><b>SCION 06</b><p>John Whitney: Harmonic Motion Orchestra, one of the 54.</p></a>
+</section>
+<p class="crumb">Swarm names are lineages, not endorsements. Picture drawn in code; no third-party images. · <a href="../">Back to PAELEO</a> · <a href="../../">CRASH LAB</a></p>
+</div></body></html>
