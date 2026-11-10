@@ -1,0 +1,113 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<title>PAE-06 · Wittgenstein's Backpack</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="A three-minute moving-day song as a run of language-games: a paper puppet, a four-storey walkup, and a box whose job changes at every cut.">
+<link rel="canonical" href="https://hartswf0.github.io/bolas/paeleo/wittgensteins-backpack/">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800&family=JetBrains+Mono:wght@400;600&family=Literata:opsz,wght@7..72,400;7..72,500&display=swap">
+<style>
+/* Layout: a CRASH LAB case page, as for PAE-03. One reading column; films and sheets run full width. */
+:root{
+  --bg:#f1f2f3;--card:#fbfbfb;--fg:#111417;--mute:#5d6670;--line:#d4d8dc;--accent:#2f6b3a;--flour:#ece6d8;
+  --f-disp:"Big Shoulders Display","Arial Narrow",Impact,sans-serif;--f-body:"Literata",Georgia,serif;--f-mono:"JetBrains Mono",ui-monospace,Menlo,monospace}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0b0d10;--card:#12161b;--fg:#e7eaee;--mute:#8b95a1;--line:#262d35;--accent:#7fd08a;--flour:#2a2722;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0b0d10;--card:#12161b;--fg:#e7eaee;--mute:#8b95a1;--line:#262d35;--accent:#7fd08a;--flour:#2a2722;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:16px;line-height:1.55}
+.wrap{max-width:1040px;margin:0 auto;padding-block:28px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:34px}
+.crumb{font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;color:var(--mute);text-transform:uppercase}
+.crumb a{color:var(--mute)}
+h1{font-family:var(--f-disp);font-weight:800;font-size:clamp(44px,8vw,84px);line-height:.92;margin:6px 0 12px;text-transform:uppercase;text-wrap:balance}
+h2{font-family:var(--f-disp);font-weight:800;font-size:32px;text-transform:uppercase;margin:0 0 10px;letter-spacing:.01em}
+h3{font-family:var(--f-disp);font-weight:700;font-size:26px;margin:2px 0 4px}
+h4{font-family:var(--f-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);margin:18px 0 8px;font-weight:600}
+p{max-width:68ch;margin:0 0 10px}
+.lede{font-size:19px;max-width:62ch}
+.kicker{font-family:var(--f-mono);font-size:11px;letter-spacing:.1em;color:var(--accent);text-transform:uppercase}
+a{color:inherit}
+.films{display:grid;gap:26px}
+.film{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:20px;align-items:start}
+@media (max-width:760px){.film{grid-template-columns:minmax(0,1fr)}}
+.film video{width:100%;display:block;aspect-ratio:16/9;max-width:100%;background:#000;border:1px solid var(--line)}
+.meta{font-family:var(--f-mono);font-size:12px;color:var(--mute);margin:0 0 6px}
+.tools{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:1px;background:var(--line);border:1px solid var(--line)}
+.tools a{background:var(--card);padding:16px;text-decoration:none;display:grid;gap:6px;align-content:start}
+.tools a:hover,.tools a:focus-visible{background:var(--flour);outline:none}
+.tools b{font-family:var(--f-disp);font-size:26px;line-height:1;text-transform:uppercase}
+.tools span{font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+.tools p{font-size:14px;margin:0}
+.sheets{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px}
+.sheets a{display:grid;gap:4px;text-decoration:none;font-family:var(--f-mono);font-size:11px;color:var(--mute)}
+.sheets img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;border:1px solid var(--line);background:var(--card)}
+.sheets.wide img{aspect-ratio:16/9}
+table{border-collapse:collapse;width:100%;font-size:14px}
+td,th{border-bottom:1px solid var(--line);padding:7px 10px 7px 0;text-align:left;vertical-align:top}
+th{font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--mute);font-weight:600}
+td.n{font-family:var(--f-mono);font-variant-numeric:tabular-nums;white-space:nowrap;text-align:right}
+.tw{overflow-x:auto}
+blockquote{margin:0;padding:14px 18px;background:var(--flour);border-left:3px solid var(--fg);max-width:70ch}
+ul.parts{margin:0;padding-left:18px;max-width:70ch}ul.parts li{margin-bottom:6px}
+
+.yt{position:relative;aspect-ratio:16/9;background:#000;border:1px solid var(--line);max-width:100%}
+.yt iframe,.yt button{position:absolute;inset:0;width:100%;height:100%;border:0;padding:0}
+.yt button{cursor:pointer;background:#000 center/cover no-repeat;display:flex;align-items:center;justify-content:center}
+.yt button span{font-family:var(--f-mono);font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:#fff;background:rgba(0,0,0,.72);border:2px solid #fff;padding:12px 20px}
+.yt button:focus-visible span{outline:3px solid var(--accent);outline-offset:3px}
+.games{display:grid;gap:0;border-top:2px solid var(--fg)}
+.game{display:grid;grid-template-columns:120px minmax(0,1fr) minmax(0,1fr);gap:18px;padding:14px 0;border-bottom:1px solid var(--line);align-items:start}
+@media (max-width:760px){.game{grid-template-columns:minmax(0,1fr);gap:6px}}
+.tbtn{all:unset;cursor:pointer;font-family:var(--f-mono);font-size:13px;font-variant-numeric:tabular-nums;color:var(--accent);text-decoration:underline;text-underline-offset:3px}
+.tbtn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.game h3{font-size:24px}.game p{font-size:15px;margin:4px 0 0}.game .ref{font-family:var(--f-mono);font-size:11px;letter-spacing:.06em;color:var(--mute);text-transform:uppercase;display:block;margin-bottom:4px}
+td.v{font-family:var(--f-disp);font-size:20px;font-weight:800;letter-spacing:.03em;white-space:nowrap}
+</style></head><body><div class="wrap">
+
+<header>
+ <div class="crumb"><a href="../../">CRASH LAB</a> / <a href="../">PAELEO</a> / PAE-06</div>
+ <h1>Wittgenstein’s Backpack</h1>
+ <p class="lede">cool radio, <i>BOXBACK</i>, track 18 of 18. A three-minute electro-funk song about moving day. A paper puppet hauls boxes up a four-storey walkup in Midtown Atlanta, and at every cut the box does a different job: a load, a private interior nobody can check, a rung, a trap, a rig that will not solve, and finally the thing the mover climbs into. The film is a run of language-games, in the sense of <i>Philosophical Investigations</i> §23, which counts play-acting, singing and joking among them.</p>
+ <p class="kicker">Watson Hartsoe · 3 min · paper puppet, cut-out collage, Sketchpad rig</p>
+</header>
+
+<section>
+ <h2>The film</h2>
+ <div class="yt" id="yt"><button id="ytb" style="background-image:url(https://i.ytimg.com/vi/ER7cWcnH0Ys/hqdefault.jpg)" aria-label="Play Wittgenstein's Backpack"><span>Play the film</span></button></div>
+ <p style="margin-top:10px">The times below start the film at that point. <a href="https://youtu.be/ER7cWcnH0Ys">Watch on YouTube</a>.</p>
+</section>
+
+<section>
+ <h2>Five movements, five games</h2>
+ <p>Left: what is on screen. Right: the thought experiment it stages, in paraphrase, with the section to read.</p>
+ <div class="games"><div class="game"><div><button class="tbtn" data-t="0">0:00</button><div class="kicker" style="margin-top:4px">Game 1</div></div><div><h3>The stairs</h3><p>A cardboard box inside a grocery bag inside a Jansport, carried up a four-storey walkup in Midtown Atlanta. The card reads BOX SCORE: ME 0 / STAIRS 12. It returns at 1:19 with a lumbar belt.</p></div><div><span class="ref">PI §1, §2, §107</span><p>The grocer and the builders. In the builders’ language a word is an order to fetch a thing; nobody asks what it names. On the stairs “box” works the same way: it is a load. §107 asks for friction, and the stairs supply it.</p></div></div><div class="game"><div><button class="tbtn" data-t="19">0:19</button><div class="kicker" style="margin-top:4px">Game 2</div></div><div><h3>Everyone has a box</h3><p>Five puppets march in step. Inside their boxes: a bug, the word BEETLE, a frog, a smaller box, and nothing.</p></div><div><span class="ref">PI §293, §304</span><p>The beetle in the box. If nobody can look in anyone else’s box, what is inside drops out of the game, and the box might even be empty. The puppets keep marching whatever they carry. The song lays Latour’s black box, and the package in Se7en, over the same picture.</p></div></div><div class="game"><div><button class="tbtn" data-t="34">0:34</button><div class="kicker" style="margin-top:4px">Game 3</div></div><div><h3>The word-stairs</h3><p>BOX, KNOX, FOX, SOCKS, CLOCKS, BLOCKS stack up, after Fox in Socks, until they are a staircase. The puppet climbs it and kicks it away under the card THROW AWAY THE LADDER.</p></div><div><span class="ref">Notebooks 29.9.14 · Tractatus 6.54 · Culture and Value</span><p>In 1914 Wittgenstein noted a Paris court that modelled a car accident with dolls: a proposition as a world assembled on trial. The Tractatus ends by calling its own sentences rungs to be discarded once climbed. Later he wrote that a place only a ladder reaches was not where he needed to be.</p></div></div><div class="game"><div><button class="tbtn" data-t="64">1:04</button><div class="kicker" style="margin-top:4px">Game 4</div></div><div><h3>Rabbit, duck, fly</h3><p>A wooden head that is a rabbit, then a duck. Then a fly in a glass bottle and the card SHOW THE FLY THE WAY OUT.</p></div><div><span class="ref">PI part II, xi · PI §309</span><p>The duck-rabbit: the drawing does not change, the seeing does, and calling out which animal it is reports that change. §309 gives the aim of philosophy as showing the fly out of the bottle. Here the pun does it.</p></div></div><div class="game"><div><button class="tbtn" data-t="92">1:32</button><div class="kicker" style="margin-top:4px">Game 5</div></div><div><h3>Constraint mode</h3><p>The curtain drops on a green vector rig labelled SKETCHPAD // CONSTRAINT MODE. The pinned figure reaches past its limb lengths and the solver answers UNSOLVABLE: nothing stretched.</p></div><div><span class="ref">PI §193–194 · Sutherland, Sketchpad (1963)</span><p>The machine as a symbol of its own action: in a kinematic drawing the parts are rigid by stipulation and can only move one way. Real cardboard buckles and real backs ache. The lyric widens the containers from box to womb and tomb.</p></div></div></div>
+</section>
+
+<section>
+ <h2>Ten verbs</h2>
+ <p>The last minute stamps one verb per cut. Each is a single rule change to the stage. The tenth is the ending.</p>
+ <div class="tw"><table><thead><tr><th>Time</th><th>Verb</th><th>On screen</th><th>The thought experiment</th><th>The rule that changes</th></tr></thead><tbody><tr><td><button class="tbtn" data-t="113">1:53</button></td><td class="v">DETACH</td><td>An arm drops off.</td><td>PI §39, §60: Excalibur and the broom, things made of parts</td><td>The puppet stays the same puppet when a limb unpins.</td></tr><tr><td><button class="tbtn" data-t="116">1:56</button></td><td class="v">INVERT</td><td>The puppet balances upside down on its top hat.</td><td>PI §108: turning the inquiry about a fixed point</td><td>Gravity flips around one pinned contact; the hat becomes structure.</td></tr><tr><td><button class="tbtn" data-t="120">2:00</button></td><td class="v">ENLARGE</td><td>A tiny beetle grows until it fills the stage.</td><td>PI §142: the cheese that grows on the scale; §50: the standard metre</td><td>When sizes stop holding still, measuring and containing stop making sense.</td></tr><tr><td><button class="tbtn" data-t="124">2:04</button></td><td class="v">REPLACE</td><td>The head swaps: bag, duck-rabbit, box, hat.</td><td>PI §11–12, §43: the toolbox; meaning as use</td><td>Four sprites through one neck socket. The slot decides the role, not the look.</td></tr><tr><td><button class="tbtn" data-t="128">2:08</button></td><td class="v">HATCH</td><td>A DJ frog cracks out of a box.</td><td>PI §23: new language-games come into being</td><td>A storage box becomes an egg and produces an operator with new rules.</td></tr><tr><td><button class="tbtn" data-t="131">2:11</button></td><td class="v">SWALLOW</td><td>The BOXED IN frog gulps the puppet.</td><td>PI §115: held captive by a picture</td><td>Container and user change places.</td></tr><tr><td><button class="tbtn" data-t="135">2:15</button></td><td class="v">EMERGE</td><td>Puppets march out of a cassette tape.</td><td>Tractatus 4.014: record, score and sound share one form</td><td>Tape becomes marching bodies by one rule of projection.</td></tr><tr><td><button class="tbtn" data-t="139">2:19</button></td><td class="v">ENTER</td><td>The puppet shrinks into the moving truck as a box icon.</td><td>PI §18: language as an old city with new, regular suburbs</td><td>A messy alley is compacted into one addressable token.</td></tr><tr><td><button class="tbtn" data-t="143">2:23</button></td><td class="v">INTERRUPT</td><td>A giant cut-out foot stamps HANDLE WITH CARE.</td><td>PI §217: bedrock, where the spade turns</td><td>The endless unpacking is stopped from outside the frame.</td></tr><tr><td><button class="tbtn" data-t="163">2:43</button></td><td class="v">PACK</td><td>The mover steps into his own box and shuts it. The card: WHEREOF ONE CANNOT SPEAK, THEREOF ONE MUST PACK.</td><td>Tractatus 5.632 and 7: the subject as the limit of the world; silence</td><td>The author, who should be outside the picture, closes himself inside it.</td></tr></tbody></table></div>
+ <p style="margin-top:12px">Between INTERRUPT and PACK the mover crosses BOXBACK MOUNTAIN. The sign-off is Et tu, Brute?</p>
+</section>
+
+<section>
+ <h2>Read alongside</h2>
+ <ul class="parts">
+  <li><b>Ludwig Wittgenstein, <i>Philosophical Investigations</i></b> (1953): §1–2 the grocer and the builders; §18 the old city; §23 the list of language-games; §39 and §60 parts and wholes; §43 meaning as use; §107–108 the rough ground; §115 the captive picture; §142 the cheese on the scale; §193–194 the machine as symbol; §217 bedrock; §293 the beetle; §309 the fly-bottle; part II, xi, the duck-rabbit.</li>
+  <li><b>Wittgenstein, <i>Tractatus Logico-Philosophicus</i></b> (1921): 4.014 record and score; 5.632 the subject as limit; 6.54 the ladder; 7 silence. <b><i>Notebooks 1914–1916</i></b>, entry for 29 September 1914: the Paris court model. <b><i>Culture and Value</i></b>: the remark against ladders.</li>
+  <li><b>Bruno Latour, <i>Science in Action</i></b> (1987): the black box, a machine or fact that has been closed so that only its inputs and outputs count.</li>
+  <li><b>Ivan Sutherland, <i>Sketchpad</i></b> (1963): drawing by constraints, and what a solver does when the constraints cannot all hold.</li>
+  <li><b>Ursula K. Le Guin, “The Carrier Bag Theory of Fiction”</b> (1986): the first tool as a container, and a story as a bag.</li>
+  <li><b>Dr. Seuss, <i>Fox in Socks</i></b> (1965); <b>David Fincher, <i>Se7en</i></b> (1995); Jastrow’s duck-rabbit; Terry Gilliam’s cut-out foot.</li>
+ </ul>
+</section>
+
+<p class="crumb"><a href="../">Back to PAELEO</a> · <a href="../../">CRASH LAB</a></p>
+</div>
+<script>
+const box=document.getElementById('yt');
+function playAt(t){box.innerHTML='<iframe src="https://www.youtube-nocookie.com/embed/ER7cWcnH0Ys?autoplay=1&rel=0&start='+Math.floor(t)+'" title="Wittgenstein\'s Backpack" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>';box.scrollIntoView({behavior:'smooth',block:'center'})}
+document.getElementById('ytb').onclick=()=>playAt(0);
+document.querySelectorAll('.tbtn').forEach(b=>b.onclick=()=>playAt(+b.dataset.t));
+</script>
+</body></html>
