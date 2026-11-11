@@ -1,0 +1,188 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<title>Abominable House Array</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="A workstation for the Abominable House: scrub every instance of a deed at once, walk the tree of films, follow one tenant, compare two films. Driven by the Memory Weaver orb.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Big+Shoulders+Display:wght@700;800&display=swap" rel="stylesheet">
+<style>
+/* Layout: no scroll. A one-line readout, the stage (fragments only, nothing laid over them), then the device. The film bank's dark "watch" palette. */
+:root{--bg:#121110;--fg:#ece3d2;--mute:#958a7a;--line:#2e2a25;--card:#1a1816;--acc:#e0603f;--hl:#ffdc00;
+ --disp:"Big Shoulders Display","Arial Narrow",Impact,sans-serif;--mono:"JetBrains Mono",ui-monospace,Menlo,monospace;color-scheme:dark}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--fg);font:12px/1.35 var(--mono);display:grid;grid-template-rows:auto minmax(0,1fr) auto;overflow:hidden}
+#read{display:flex;gap:4px 14px;flex-wrap:wrap;align-items:baseline;padding:7px 12px 6px;border-bottom:1px solid var(--line)}
+#read b{font:800 20px/1 var(--disp);letter-spacing:.03em;text-transform:uppercase}
+#read span{color:var(--mute)}#read i{font-style:normal;color:var(--fg)}
+#fire{margin-left:auto;color:var(--acc)!important;font-weight:600}
+#stage{min-height:0;position:relative}
+#st{position:absolute;inset:0;width:100%;height:100%;display:block}
+#deck{border-top:1px solid var(--line);background:var(--card)}
+#orb{display:block;width:100%;height:min(40vh,330px);border:0;background:#000}
+#pair{padding:4px 12px;color:var(--mute);font-size:10.5px;overflow-wrap:anywhere}
+#pair a{color:var(--fg)}
+#stand{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px;padding:8px 12px 4px}
+.rg{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:2px;border:1px solid var(--line);padding:3px}
+.rg span{text-align:center;font-size:10px;color:var(--mute);overflow:hidden;white-space:nowrap}
+.rg span i{display:block;font-style:normal;color:var(--fg);font-weight:600;font-size:11px;overflow:hidden;text-overflow:ellipsis}
+button{font:600 11px var(--mono);color:var(--fg);background:transparent;border:1px solid var(--mute);padding:6px 8px;cursor:pointer;min-width:30px}
+button:focus-visible{outline:2px solid var(--hl);outline-offset:1px}
+button:active{background:var(--fg);color:var(--bg)}
+#keys{display:flex;gap:6px;flex-wrap:wrap;padding:4px 12px 8px;align-items:center}
+#keys small{color:var(--mute);margin-left:auto}
+[hidden]{display:none!important}
+@media (max-width:640px){#stand{grid-template-columns:repeat(2,minmax(0,1fr))}#keys small{display:none}}
+</style></head><body>
+<div id="read"><b id="rv"></b><span>deed <i id="rk"></i></span><span>instance <i id="rp"></i></span><span>shot time <i id="rt"></i></span><span>film <i id="rf"></i></span><span id="fire"></span></div>
+<div id="stage"><canvas id="st" role="img" aria-label="Fragments of the Abominable House"></canvas></div>
+<div id="deck">
+ <iframe id="orb" title="Memory Weaver orb" hidden></iframe>
+ <div id="stand" hidden></div>
+ <div id="keys" hidden><button data-b="PLAY">PLAY</button><button data-b="KEEP">KEEP</button><button data-b="CAPTURE">CAPTURE</button><button data-b="UNDO">UNDO</button><button data-b="MODE">MODE</button><small>stand-in for the orb · keys: 1–4 view, arrows, , . scrub, [ ] film, space, enter, c, z</small></div>
+ <div id="pair"></div>
+</div>
+<script src="kit.js"></script>
+<script src="deeds/01-blackmail.js"></script><script src="deeds/02-drugging.js"></script><script src="deeds/03-incitement.js"></script><script src="deeds/04-knifing.js"></script><script src="deeds/05-prostitution.js"></script><script src="deeds/06-gun.js"></script><script src="deeds/07-tying.js"></script><script src="deeds/08-assault.js"></script><script src="deeds/09-seduction.js"></script><script src="deeds/10-slander.js"></script><script src="deeds/11-snooping.js"></script><script src="deeds/12-strangling.js"></script>
+<script src="ledger.js"></script><script src="story.js"></script>
+<script>
+const ORDER=LEDGER.ORDER,IDS=LEDGER.IDS,PAIRS=LEDGER.PAIRS,WHO={R:'Roessler',B:'Belindo',I:'Inigo',O:'Ogiva'},COL={R:'#c67a6e',B:'#a39b8e',I:'#d4b67e',O:'#b583c8'};
+const NAMES=['Blackmail','Drugging','Incitement','Knifing','Prostitution','Gun','Tying','Assault','Seduction','Slander','Snooping','Strangling'],ROM=['I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII'];
+const SHOT=6,VIEWS=['ARRAY','TREE','CHARACTER','COMPARE'];
+const dec=n=>{n=BigInt(n);const d=[];for(let k=0;k<12;k++){d.unshift(Number(n%12n));n/=12n}return d},enc=d=>d.reduce((n,x)=>n*12n+BigInt(x),0n),fmt=d=>enc(d).toLocaleString('en-US');
+const PRE=[['bank sample',dec('5885051002576')],['most likely',dec('1541585241617')],['archive best',[2,7,10,9,2,9,9,9,11,9,2,3]]];
+const S={view:0,film:PRE[0][1].slice(),k:0,p:0,t:2.6,who:0,play:false,pre:0,b:1,tray:[],hist:[]};S.p=S.film[0];
+let L=null,DIST=[],SC=null,LIES=null;
+function recompute(){L=LEDGER.run(S.film);DIST=[];SC=STORY.score(S.film);LIES=STORY.lies(S.film);dirtyAll()}
+const dist=k=>DIST[k]||(DIST[k]=STORY.dist(L,k));
+const gone=(k,i)=>{const st=L.states[k],[A,V]=PAIRS[i];return !st.alive[A]||!st.alive[V]};
+
+/* ---- fragments: every tile is the real deed module drawn at full size, then reduced ---- */
+const master=document.createElement('canvas');master.width=1920;master.height=1080;const mg=master.getContext('2d');
+const TW=480,TH=270,cache=new Map(),last=new Map(),queue=[];
+function drawDeed(k,i,t){const D=DEEDS[ORDER[k]],[A,V]=PAIRS[i];mg.save();mg.setTransform(1,0,0,1,0,0);mg.globalAlpha=1;mg.globalCompositeOperation='source-over';mg.fillStyle='#000';mg.fillRect(0,0,1920,1080);
+ try{D.draw(mg,t,A,V,K)}catch(e){mg.setTransform(1,0,0,1,0,0);mg.fillStyle='#211';mg.fillRect(0,0,1920,1080)}mg.restore()}
+const q8=t=>Math.round(t*8)/8;
+function tile(k,i,t,now){t=q8(Math.max(0,Math.min(SHOT-.01,t)));const key=k+'|'+i+'|'+t,lk=k+'|'+i;let c=cache.get(key);
+ if(c){last.set(lk,c);return c}
+ if(now){c=render(k,i,t,key);return c}
+ if(!queue.some(j=>j.key===key))queue.push({k,i,t,key});return last.get(lk)||null}
+function render(k,i,t,key){drawDeed(k,i,t);const c=document.createElement('canvas');c.width=TW;c.height=TH;c.getContext('2d').drawImage(master,0,0,TW,TH);
+ cache.set(key,c);last.set(k+'|'+i,c);if(cache.size>220){const f=cache.keys().next().value;cache.delete(f)}return c}
+function dirtyAll(){queue.length=0}
+function pump(){const t0=performance.now();while(queue.length&&performance.now()-t0<14){const j=queue.pop();if(!cache.has(j.key))render(j.k,j.i,j.t,j.key)}}
+
+/* ---- stage ---- */
+const cv=document.getElementById('st'),g=cv.getContext('2d');let W=0,H=0,DPR=1;
+function fit(){const r=cv.getBoundingClientRect();DPR=Math.min(2,devicePixelRatio||1);W=Math.max(200,r.width);H=Math.max(140,r.height);cv.width=W*DPR;cv.height=H*DPR}
+addEventListener('resize',fit);
+const put=(c,x,y,w,h)=>{if(c)g.drawImage(c,x,y,w,h);else{g.fillStyle='#0a0908';g.fillRect(x,y,w,h)}};
+const box=(aw,ah)=>{let w=aw,h=w*9/16;if(h>ah){h=ah;w=h*16/9}return[w,h]};
+const txt=(s,x,y,col='#958a7a',sz=11,al='left',wt=400)=>{g.fillStyle=col;g.font=`${wt} ${sz}px "JetBrains Mono",monospace`;g.textAlign=al;g.fillText(s,x,y)};
+function trayRow(y,h){S.tray.forEach((e,j)=>{const w=h*16/9,x=10+j*(w+6);put(tile(e.k,e.film[e.k],e.t),x,y,w,h);g.strokeStyle='#958a7a';g.lineWidth=1;g.strokeRect(x,y,w,h);txt(ROM[e.k],x+3,y+h-4,'#ffdc00',10)})}
+function draw(){g.setTransform(DPR,0,0,DPR,0,0);g.fillStyle='#121110';g.fillRect(0,0,W,H);const th=S.tray.length?Math.min(46,H*.12):0,AH=H-th-(th?8:0);
+ [vArray,vTree,vChar,vCompare][S.view](AH);if(th)trayRow(H-th-4,th)}
+function vArray(AH){const cols=W>H*1.15?4:3,rows=12/cols,gap=6,lab=15;let cw=(W-gap*(cols+1))/cols,ch=cw*9/16;if((ch+lab)*rows+gap*(rows+1)>AH){ch=(AH-gap*(rows+1))/rows-lab;cw=ch*16/9}
+ const ox=(W-(cw*cols+gap*(cols-1)))/2,oy=(AH-((ch+lab)*rows+gap*(rows-1)))/2,d=dist(S.k),mx=Math.max(...d);
+ for(let i=0;i<12;i++){const x=ox+(i%cols)*(cw+gap),y=oy+Math.floor(i/cols)*(ch+lab+gap),dead=gone(S.k,i);
+  g.globalAlpha=dead?.28:1;put(tile(S.k,i,S.t,i===S.p),x,y,cw,ch);g.globalAlpha=1;
+  if(dead){g.strokeStyle='#958a7a';g.lineWidth=1;g.beginPath();g.moveTo(x,y+ch);g.lineTo(x+cw,y);g.stroke()}
+  if(i===S.film[S.k]){g.fillStyle='#ffdc00';g.fillRect(x,y,10,10)}
+  if(i===S.p){g.strokeStyle='#e0603f';g.lineWidth=3;g.strokeRect(x-1.5,y-1.5,cw+3,ch+3)}
+  const [A,V]=PAIRS[i];txt(A+' → '+V,x,y+ch+11,i===S.p?'#ece3d2':'#958a7a',10,'left',600);g.fillStyle='#2e2a25';g.fillRect(x+44,y+ch+4,cw-44,5);g.fillStyle=dead?'#958a7a':'#ece3d2';g.fillRect(x+44,y+ch+4,(cw-44)*d[i]/mx,5)}}
+function vTree(AH){const wide=W>H*1.2,tw=wide?W*.56:W,thh=wide?AH:AH*.5,m=26,x0=m+14,x1=tw-m,y0=22,y1=thh-12;
+ const X=k=>x0+(x1-x0)*k/11,Y=i=>y0+(y1-y0)*i/11;
+ g.fillStyle='rgba(224,96,63,.12)';g.fillRect(X(S.k)-12,y0-14,24,y1-y0+24);
+ for(let i=0;i<12;i++)txt(PAIRS[i].join(''),x0-12,Y(i)+3.5,i===S.p?'#ece3d2':'#958a7a',9,'right');
+ for(let k=0;k<12;k++){txt(ROM[k],X(k),12,k===S.k?'#ece3d2':'#958a7a',9,'center',600);const d=dist(k);
+  if(k<11){g.strokeStyle='rgba(149,138,122,.18)';g.lineWidth=1;const d2=dist(k+1);for(let j=0;j<12;j++){if(d2[j]<.09)continue;g.beginPath();g.moveTo(X(k),Y(S.film[k]));g.lineTo(X(k+1),Y(j));g.stroke()}}
+  for(let i=0;i<12;i++){const r=1.5+11*Math.sqrt(d[i]),dead=gone(k,i);g.beginPath();g.arc(X(k),Y(i),r,0,7);g.fillStyle=dead?'#2e2a25':i===S.film[k]?'#e0603f':'#958a7a';g.fill()}}
+ g.strokeStyle='#e0603f';g.lineWidth=2;g.beginPath();S.film.forEach((p,k)=>k?g.lineTo(X(k),Y(p)):g.moveTo(X(k),Y(p)));g.stroke();
+ g.strokeStyle='#ffdc00';g.lineWidth=2;g.beginPath();g.arc(X(S.k),Y(S.p),1.5+11*Math.sqrt(dist(S.k)[S.p])+4,0,7);g.stroke();
+ const ax=wide?tw+8:8,ay=wide?0:thh+4,[fw,fh]=box(wide?W-tw-16:W-16,(wide?AH:AH-thh-4)-18);put(tile(S.k,S.p,S.t,true),ax,ay+((wide?AH:AH-thh-4)-18-fh)/2,fw,fh);
+ const e=SC.ev[S.k];txt(S.p===S.film[S.k]?(e.why[0]||''):'not in this film · KEEP to take this branch',ax,ay+((wide?AH:AH-thh-4)-18-fh)/2+fh+13,'#958a7a',10)}
+function vChar(AH){const id=IDS[S.who],gap=4,w=Math.min(120,(W-16-gap*11)/12),h=w*9/16,sx=(W-(w*12+gap*11))/2,stripY=AH-h-22,infoH=40;
+ const [fw,fh]=box(W-16,stripY-infoH-20),fx=(W-fw)/2;put(tile(S.k,S.film[S.k],S.t,true),fx,4,fw,fh);
+ const st=L.states[S.k+1],lie=LIES.find(x=>x.id===id),y=fh+20;
+ txt(WHO[id].toUpperCase(),fx,y,COL[id],13,'left',600);
+ txt((st.alive[id]?'alive':'dead since '+ROM[st.deadAt[id]])+' · carries: '+(st.body[id].length?st.body[id].join(', '):'nothing yet'),fx+96,y,'#ece3d2',11);
+ txt('its story: '+lie.lie+(lie.broken!==null?' · broken at '+ROM[lie.broken]:''),fx,y+15,'#958a7a',10);
+ for(let k=0;k<12;k++){const[A,V]=PAIRS[S.film[k]],x=sx+k*(w+gap),inv=A===id||V===id;g.globalAlpha=inv?1:.3;put(tile(k,S.film[k],k===S.k?S.t:2.75),x,stripY,w,h);g.globalAlpha=1;
+  if(A===id){g.fillStyle=COL[id];g.fillRect(x,stripY-6,w,4)}if(V===id){g.fillStyle=COL[id];g.fillRect(x,stripY+h+2,w,4)}
+  if(k===S.k){g.strokeStyle='#e0603f';g.lineWidth=2;g.strokeRect(x-1,stripY-1,w+2,h+2)}txt(ROM[k]+(A===id?' does':V===id?' suffers':''),x+w/2,stripY+h+17,inv?'#ece3d2':'#958a7a',9,'center')}}
+function vCompare(AH){const B=filmB(),side=W>H,gap=8,[fw,fh]=side?box((W-gap*3)/2,AH-70):box(W-16,(AH-84)/2);
+ const blockH=(side?fh:fh*2+18)+18+44,ay=Math.max(6,(AH-blockH)/2),ax=side?(W-(fw*2+gap))/2:(W-fw)/2;put(tile(S.k,S.film[S.k],S.t,true),ax,ay,fw,fh);const bx=side?ax+fw+gap:ax,by=side?ay:ay+fh+18;put(tile(S.k,B[S.k],S.t,true),bx,by,fw,fh);
+ const pa=PAIRS[S.film[S.k]],pb=PAIRS[B[S.k]];txt('A · '+fmt(S.film)+' · '+pa.join(' \u2192 '),ax,ay+fh+12,'#ece3d2',10);txt('B · '+PRE[S.b][0]+' · '+fmt(B)+' · '+pb.join(' \u2192 '),bx,by+fh+12,'#ece3d2',10);
+ const cw=Math.min(34,(W-24)/12-3),x0=(W-(cw+3)*12)/2,y=by+fh+36;let diff=0;for(let k=0;k<12;k++){const same=S.film[k]===B[k];if(!same)diff++;g.fillStyle=same?'#2e2a25':'#e0603f';g.fillRect(x0+k*(cw+3),y,cw,14);
+  if(k===S.k){g.strokeStyle='#ffdc00';g.lineWidth=2;g.strokeRect(x0+k*(cw+3)-1,y-1,cw+2,16)}txt(ROM[k],x0+k*(cw+3)+cw/2,y+26,'#958a7a',9,'center')}
+ txt(diff+' of 12 deeds differ',x0,y-6,'#958a7a',10)}
+const filmB=()=>PRE[S.b][1];
+
+/* ---- operations: the same three message kinds the Memory Weaver orb sends ---- */
+const acc=[0,0,0,0,0];
+function turn(i,steps){i=((i%5)+5)%5;steps=Math.round(steps)||0;if(!steps)return;
+ if(i===0)S.view=(S.view+steps+400)%4;
+ else if(i===1){if(S.view===2){const id=IDS[S.who];let k=S.k;for(let n=0;n<12;n++){k=(k+Math.sign(steps)+12)%12;const[A,V]=PAIRS[S.film[k]];if(A===id||V===id)break}S.k=k}else S.k=(S.k+steps+1200)%12;S.p=S.film[S.k]}
+ else if(i===2){if(S.view===2)S.who=(S.who+steps+400)%4;else if(S.view===3)S.b=(S.b+steps+PRE.length*100)%PRE.length;else S.p=(S.p+steps+1200)%12}
+ else if(i===3)S.t=Math.max(0,Math.min(SHOT-.01,S.t+steps*.125));
+ else{S.hist.push(S.film.slice());S.pre=(S.pre+steps+PRE.length*100)%PRE.length;S.film=PRE[S.pre][1].slice();S.p=S.film[S.k];recompute()}
+ sync()}
+function scrub(i,frac){i=((i%5)+5)%5;if(i===3){S.t=Math.max(0,Math.min(SHOT-.01,S.t+frac*.125));sync();return}acc[i]+=frac;while(Math.abs(acc[i])>=1){const s=Math.sign(acc[i]);turn(i,s);acc[i]-=s}}
+function press(b){if(b==='MODE')S.view=(S.view+1)%4;else if(b==='PLAY')S.play=!S.play;
+ else if(b==='KEEP'){if(S.view<2){if(S.film[S.k]!==S.p){S.hist.push(S.film.slice());S.film[S.k]=S.p;recompute()}}else if(!PRE.some(x=>enc(x[1])===enc(S.film)))PRE.push(['kept '+(PRE.length-2),S.film.slice()])}
+ else if(b==='CAPTURE'){S.tray.push({film:S.film.slice(),k:S.k,t:S.t});if(S.tray.length>6)S.tray.shift()}
+ else if(b==='UNDO'&&S.hist.length){S.film=S.hist.pop();S.p=S.film[S.k];recompute()}
+ sync()}
+function sync(){const $=id=>document.getElementById(id),[A,V]=PAIRS[S.view===3||S.view===2?S.film[S.k]:S.p];
+ $('rv').textContent=VIEWS[S.view];$('rk').textContent=ROM[S.k]+' '+NAMES[S.k];$('rp').textContent=S.view===2?WHO[IDS[S.who]]:WHO[A]+' → '+WHO[V];$('rt').textContent=S.t.toFixed(2)+' s';$('rf').textContent=fmt(S.film)+' · '+SC.tier.toLowerCase()+' '+SC.believ.toFixed(2);
+ $('fire').textContent='FIRE IN '+(12-S.k)+' DEED'+(12-S.k===1?'':'S')+' · '+Math.ceil((12-S.k)*SHOT-S.t)+' S';
+ if(location.hash!=='#'+VIEWS[S.view].toLowerCase())try{history.replaceState(null,'','#'+VIEWS[S.view].toLowerCase())}catch(e){}
+ standSync();stateOut()}
+
+/* ---- pairing: Memory Weaver's own channel and room protocol, with this page in the scene role ---- */
+const PAIR=(function(){const uid=()=>Math.random().toString(36).slice(2,10),dev=uid(),TE=new TextEncoder(),TD=new TextDecoder(),SEEN=new Set();let MID=0,room=null,socks=[],urls=new Set(),orbs=0;
+ const RELAYS=['wss://broker.emqx.io:8084/mqtt','wss://broker.hivemq.com:8884/mqtt'];let BC=null;try{BC=new BroadcastChannel('stelline-weaver');BC.onmessage=e=>recv(e.data)}catch(e){}
+ const cat=(...ps)=>{const o=new Uint8Array(ps.reduce((a,p)=>a+p.length,0));let i=0;for(const p of ps){o.set(p,i);i+=p.length}return o};
+ const mqStr=s=>{const b=TE.encode(s);return cat(new Uint8Array([b.length>>8,b.length&255]),b)};
+ const mqPkt=(h,body)=>{const r=[];let n=body.length;do{let d=n%128;n=Math.floor(n/128);if(n)d|=128;r.push(d)}while(n);return cat(new Uint8Array([h,...r]),body)};
+ const topic=()=>'stelline-weaver/v1/'+room;
+ function open1(url){if(urls.has(url))return;urls.add(url);let ws;try{ws=new WebSocket(url,'mqtt')}catch(e){urls.delete(url);return}ws.binaryType='arraybuffer';const K={ws,ok:false,buf:new Uint8Array(0)};socks.push(K);
+  ws.onopen=()=>ws.send(mqPkt(0x10,cat(mqStr('MQTT'),new Uint8Array([4,2,0,60]),mqStr('ah-'+dev+uid().slice(0,4)))));
+  ws.onmessage=e=>{K.buf=cat(K.buf,new Uint8Array(e.data));for(;;){const b=K.buf;if(b.length<2)return;let m=1,len=0,i=1,d;do{if(i>=b.length)return;d=b[i++];len+=(d&127)*m;m*=128}while(d&128);if(b.length<i+len)return;const h=b[0],body=b.subarray(i,i+len);K.buf=b.slice(i+len);
+   if(h>>4===2){K.ok=true;ws.send(mqPkt(0x82,cat(new Uint8Array([0,1]),mqStr(topic()),new Uint8Array([0]))));hello()}else if(h>>4===3){const tl=(body[0]<<8)|body[1],off=2+tl+(((h>>1)&3)?2:0);try{recv(JSON.parse(TD.decode(body.subarray(off))))}catch(x){}}}};
+  ws.onclose=()=>{socks=socks.filter(x=>x!==K);urls.delete(url);if(room)setTimeout(()=>open1(url),3000)};ws.onerror=()=>{}}
+ setInterval(()=>{for(const K of socks)if(K.ok)try{K.ws.send(new Uint8Array([0xC0,0]))}catch(e){}},25000);
+ function send(m){m.from=dev;m.mid=dev+':'+(++MID);try{BC&&BC.postMessage(m)}catch(e){}if(room&&socks.length){const p=mqPkt(0x30,cat(mqStr(topic()),TE.encode(JSON.stringify(m))));for(const K of socks)if(K.ok)try{K.ws.send(p)}catch(e){}}}
+ const hello=()=>send({type:'hello',role:'scene'});
+ function recv(m){if(!m||!m.type||m.from===dev||SEEN.has(m.mid))return;SEEN.add(m.mid);if(m.role==='orb'&&!orbs){orbs=1;pairLine(true)}
+  if(m.type==='act'){if(!orbs){orbs=1;pairLine(true)}if(m.k==='turn')turn(m.i,m.steps);else if(m.k==='scrub')scrub(m.i,m.frac);else if(m.k==='press')press(m.b)}}
+ function join(c){room=c;for(const u of RELAYS)open1(u);setInterval(hello,2500);hello()}
+ return{send,join,get room(){return room}}})();
+let lastOut=0,outT=null;
+function stateOut(){const go=()=>{lastOut=performance.now();outT=null;const[A,V]=PAIRS[S.p];PAIR.send({type:'state',s:{msg:VIEWS[S.view]+' · '+ROM[S.k]+' '+NAMES[S.k].toUpperCase()+' · '+A+'>'+V+' · '+S.t.toFixed(1)+' S'}})};
+ if(performance.now()-lastOut>250)go();else if(!outT)outT=setTimeout(go,260)}
+function pairLine(on){const el=document.getElementById('pair'),r=PAIR.room;
+ el.innerHTML=on?'orb paired':(r?'phone as the orb: <a href="https://hartswf0.github.io/stelline-orb/weaver.html?orb&room='+r+'">hartswf0.github.io/stelline-orb/weaver.html?orb&amp;room='+r+'</a>':'')}
+
+/* ---- the device: the real orb where it can load, a stand-in elsewhere ---- */
+const RN=['VIEW','DEED','INSTANCE','TIME','FILM'];
+function standBuild(){const el=document.getElementById('stand');el.hidden=false;document.getElementById('keys').hidden=false;
+ el.innerHTML=RN.map((n,i)=>`<div class="rg"><button data-r="${i}" data-s="-1" aria-label="${n} back">&lsaquo;</button><span>${n}<i id="rg${i}"></i></span><button data-r="${i}" data-s="1" aria-label="${n} forward">&rsaquo;</button></div>`).join('');
+ el.addEventListener('click',e=>{const b=e.target.closest('button');if(b)turn(+b.dataset.r,+b.dataset.s)});
+ document.getElementById('keys').addEventListener('click',e=>{const b=e.target.closest('button');if(b)press(b.dataset.b)})}
+function standSync(){const e=document.getElementById('rg0');if(!e)return;e.textContent=VIEWS[S.view];document.getElementById('rg1').textContent=ROM[S.k];
+ document.getElementById('rg2').textContent=S.view===2?WHO[IDS[S.who]]:S.view===3?PRE[S.b][0]:PAIRS[S.p].join('→');document.getElementById('rg3').textContent=S.t.toFixed(2);document.getElementById('rg4').textContent=PRE[S.pre][0]}
+const LIVE=/(^|\.)hartswf0\.github\.io$/.test(location.hostname);
+if(LIVE){let c='';try{c=localStorage.getItem('weaver-room')||''}catch(e){}if(!/^[A-Z]{4}$/.test(c)){c=Array.from({length:4},()=>'ABCDEFGHJKLMNPQRSTUVWXYZ'[Math.random()*24|0]).join('');try{localStorage.setItem('weaver-room',c)}catch(e){}}
+ PAIR.join(c);const f=document.getElementById('orb');f.src='https://hartswf0.github.io/stelline-orb/weaver.html?orb&room='+c;f.hidden=false;pairLine(false);
+ if(/[?&]keys\b/.test(location.search))standBuild()}else standBuild();
+addEventListener('keydown',e=>{const k=e.key;if(k>='1'&&k<='4'){S.view=+k-1;sync()}else if(k==='ArrowRight')turn(1,1);else if(k==='ArrowLeft')turn(1,-1);else if(k==='ArrowDown')turn(2,1);else if(k==='ArrowUp')turn(2,-1);
+ else if(k==='.')turn(3,1);else if(k===',')turn(3,-1);else if(k===']')turn(4,1);else if(k==='[')turn(4,-1);else if(k===' ')press('PLAY');else if(k==='Enter')press('KEEP');else if(k==='c')press('CAPTURE');else if(k==='z')press('UNDO');else return;e.preventDefault()});
+
+/* ---- clock: playing advances the shot and the deed; scrubbing moves only inside the shot ---- */
+let prev=performance.now();
+function loop(now){const dt=Math.min(.1,(now-prev)/1000);prev=now;
+ if(S.play){S.t+=dt;if(S.t>=SHOT){S.t=0;if(S.k<11){S.k++;S.p=S.film[S.k]}else S.play=false}sync()}
+ draw();pump();requestAnimationFrame(loop)}
+const h=VIEWS.findIndex(v=>'#'+v.toLowerCase()===location.hash);if(h>=0)S.view=h;
+fit();recompute();sync();requestAnimationFrame(loop);
+</script></body></html>
