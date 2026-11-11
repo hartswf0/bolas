@@ -144,50 +144,275 @@
   }
  ],
  "signs": {
-  "1": "Solid perception",
-  "2": "Liquid perception",
-  "3": "Gaseous perception",
-  "4": "Icon",
-  "5": "Dividual",
-  "6": "Any-space-whatever",
-  "7": "Symptom",
-  "8": "Fetish",
-  "9": "Originary world",
-  "10": "Index of lack",
-  "11": "Index of equivocity",
-  "12": "Vector",
-  "13": "Milieu",
-  "14": "Binomial",
-  "15": "Imprint",
-  "16": "Plastic figure",
-  "17": "Theatrical figure",
-  "18": "Mise en abyme",
-  "19": "Figure of the sublime",
-  "20": "Figure of enfeeblement",
-  "21": "Quotidian",
-  "22": "Limit of the large form action-image",
-  "23": "Limit of the small form action-image",
-  "24": "Limit of the action-image (extreme limit)",
-  "25": "Rich dream",
-  "26": "Restrained dream",
-  "27": "Movement of world",
-  "28": "Strong destiny",
-  "29": "Weak destiny",
-  "30": "Forking paths",
-  "31": "Mark",
-  "32": "Demark",
-  "33": "Symbol",
-  "34a": "Opsign",
-  "34b": "Sonsign",
-  "35": "Mirrors face to face",
-  "36": "Limpid and opaque",
-  "37": "Seed and environment",
-  "38": "Peaks of the present",
-  "39": "Sheets of the past",
-  "40": "Powers of the false",
-  "41": "Bodies of attitude",
-  "42": "Bodies of gest",
-  "43": "Cinema of the brain",
-  "44": "Lectosigns"
+  "1": {
+   "name": "Solid perception",
+   "col": 0,
+   "row": 0,
+   "symbol": "So"
+  },
+  "2": {
+   "name": "Liquid perception",
+   "col": 0,
+   "row": 1,
+   "symbol": "Lq"
+  },
+  "3": {
+   "name": "Gaseous perception",
+   "col": 0,
+   "row": 2,
+   "symbol": "Ga"
+  },
+  "4": {
+   "name": "Icon",
+   "col": 1,
+   "row": 0,
+   "symbol": "Ic"
+  },
+  "5": {
+   "name": "Dividual",
+   "col": 1,
+   "row": 1,
+   "symbol": "Dv"
+  },
+  "6": {
+   "name": "Any-space-whatever",
+   "col": 1,
+   "row": 2,
+   "symbol": "As"
+  },
+  "7": {
+   "name": "Symptom",
+   "col": 2,
+   "row": 0,
+   "symbol": "Sy"
+  },
+  "8": {
+   "name": "Fetish",
+   "col": 2,
+   "row": 1,
+   "symbol": "Fe"
+  },
+  "9": {
+   "name": "Originary world",
+   "col": 2,
+   "row": 2,
+   "symbol": "Or"
+  },
+  "10": {
+   "name": "Index of lack",
+   "col": 3,
+   "row": 0,
+   "symbol": "Il"
+  },
+  "11": {
+   "name": "Index of equivocity",
+   "col": 3,
+   "row": 1,
+   "symbol": "Ie"
+  },
+  "12": {
+   "name": "Vector",
+   "col": 3,
+   "row": 2,
+   "symbol": "Ve"
+  },
+  "13": {
+   "name": "Milieu",
+   "col": 4,
+   "row": 0,
+   "symbol": "Mi"
+  },
+  "14": {
+   "name": "Binomial",
+   "col": 4,
+   "row": 1,
+   "symbol": "Bi"
+  },
+  "15": {
+   "name": "Imprint",
+   "col": 4,
+   "row": 2,
+   "symbol": "Im"
+  },
+  "16": {
+   "name": "Plastic figure",
+   "col": 5,
+   "row": 0,
+   "symbol": "Pl"
+  },
+  "17": {
+   "name": "Theatrical figure",
+   "col": 5,
+   "row": 1,
+   "symbol": "Th"
+  },
+  "18": {
+   "name": "Mise en abyme",
+   "col": 5,
+   "row": 2,
+   "symbol": "Ma"
+  },
+  "19": {
+   "name": "Figure of the sublime",
+   "col": 6,
+   "row": 0,
+   "symbol": "Su"
+  },
+  "20": {
+   "name": "Figure of enfeeblement",
+   "col": 6,
+   "row": 1,
+   "symbol": "En"
+  },
+  "21": {
+   "name": "Quotidian",
+   "col": 6,
+   "row": 2,
+   "symbol": "Qu"
+  },
+  "22": {
+   "name": "Limit of the large form action-image",
+   "col": 7,
+   "row": 0,
+   "symbol": "Ll"
+  },
+  "23": {
+   "name": "Limit of the small form action-image",
+   "col": 7,
+   "row": 1,
+   "symbol": "Ls"
+  },
+  "24": {
+   "name": "Limit of the action-image (extreme limit)",
+   "col": 7,
+   "row": 2,
+   "symbol": "Xl"
+  },
+  "25": {
+   "name": "Rich dream",
+   "col": 8,
+   "row": 0,
+   "symbol": "Rd"
+  },
+  "26": {
+   "name": "Restrained dream",
+   "col": 8,
+   "row": 1,
+   "symbol": "Rs"
+  },
+  "27": {
+   "name": "Movement of world",
+   "col": 8,
+   "row": 2,
+   "symbol": "Mw"
+  },
+  "28": {
+   "name": "Strong destiny",
+   "col": 9,
+   "row": 0,
+   "symbol": "Sd"
+  },
+  "29": {
+   "name": "Weak destiny",
+   "col": 9,
+   "row": 1,
+   "symbol": "Wd"
+  },
+  "30": {
+   "name": "Forking paths",
+   "col": 9,
+   "row": 2,
+   "symbol": "Fp"
+  },
+  "31": {
+   "name": "Mark",
+   "col": 10,
+   "row": 0,
+   "symbol": "Mk"
+  },
+  "32": {
+   "name": "Demark",
+   "col": 10,
+   "row": 1,
+   "symbol": "Dm"
+  },
+  "33": {
+   "name": "Symbol",
+   "col": 10,
+   "row": 2,
+   "symbol": "Sb"
+  },
+  "34a": {
+   "name": "Opsign",
+   "col": 11,
+   "row": 0,
+   "symbol": "Op"
+  },
+  "34b": {
+   "name": "Sonsign",
+   "col": 11,
+   "row": 1,
+   "symbol": "Sn"
+  },
+  "35": {
+   "name": "Mirrors face to face",
+   "col": 12,
+   "row": 0,
+   "symbol": "Mf"
+  },
+  "36": {
+   "name": "Limpid and opaque",
+   "col": 12,
+   "row": 1,
+   "symbol": "Lo"
+  },
+  "37": {
+   "name": "Seed and environment",
+   "col": 12,
+   "row": 2,
+   "symbol": "Se"
+  },
+  "38": {
+   "name": "Peaks of the present",
+   "col": 13,
+   "row": 0,
+   "symbol": "Pp"
+  },
+  "39": {
+   "name": "Sheets of the past",
+   "col": 13,
+   "row": 1,
+   "symbol": "Sp"
+  },
+  "40": {
+   "name": "Powers of the false",
+   "col": 13,
+   "row": 2,
+   "symbol": "Pf"
+  },
+  "41": {
+   "name": "Bodies of attitude",
+   "col": 14,
+   "row": 0,
+   "symbol": "Ba"
+  },
+  "42": {
+   "name": "Bodies of gest",
+   "col": 14,
+   "row": 1,
+   "symbol": "Bg"
+  },
+  "43": {
+   "name": "Cinema of the brain",
+   "col": 14,
+   "row": 2,
+   "symbol": "Br"
+  },
+  "44": {
+   "name": "Lectosigns",
+   "col": 15,
+   "row": 0,
+   "symbol": "Le"
+  }
  }
 }
