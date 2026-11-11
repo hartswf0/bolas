@@ -123,13 +123,13 @@ function man(x,fy,k,J,o={}){const fx=J.face>0?1:-1,hide=o.hide||'';
 const G={};
 
 /* ---------- 1 the stairs: a word is an order ---------- */
-const ITEMS=['BOX','BAG','PACK','BELT'];
+const ITEMS=['BOX','BAG','PACK','BELT'],w_=s=>s.replace('NOT ','');
 G.stairs={name:'The stairs',ref:'PI §1, §2, §107',line:'A word is an order.',art:'t1.jpg',
   init(){S={me:0,st:0,call:[],i:0,t0:0,dur:7,fl:-9,vx:0};this.next()},
-  next(){const n=S.me<4?1:S.me<8?2:3;S.call=shuf(ITEMS).slice(0,n);S.i=0;S.t0=now();S.dur=7-S.me*.3;this.ui()},
-  ui(){score('ME '+S.me+' / STAIRS '+S.st);say('Fetch what is called, in the order called, before the bar runs out.');acts(ITEMS.map(w=>({t:w,f:()=>this.tap(w)})))},
-  tap(w){if(S.over)return;if(w===S.call[S.i]){S.i++;if(S.i===S.call.length){S.me++;if(S.me===12){score('ME 12 / STAIRS '+S.st);return done('Top floor. Nobody asked what BOX names. It was an order every time.')}this.next()}}else this.miss()},
-  miss(){S.st++;S.fl=now();if(S.st===12){score('ME '+S.me+' / STAIRS 12');return done('The stairs win. Back to the rough ground.')}this.next()},
+  next(){const n=S.me<4?1:S.me<8?2:3;S.call=shuf(ITEMS).slice(0,n);S.i=0;S.t0=now();S.lock=now()+.25;S.dur=7-S.me*.3;this.ui()},
+  ui(){score('ME '+S.me+' / STAIRS '+S.st);say(S.why||'Press what is called, left to right, before the bar runs out.');acts(ITEMS.map(w=>({t:w,f:()=>this.tap(w)})))},
+  tap(w){if(S.over||now()<S.lock)return;if(w===S.call[S.i]){S.i++;S.why='';if(S.i===S.call.length){S.me++;if(S.me===12){score('ME 12 / STAIRS '+S.st);return done('Top floor. Nobody asked what BOX names. It was an order every time.')}this.next()}}else this.miss('NOT '+w)},
+  miss(why){S.st++;S.fl=now();S.flw=why||'TOO SLOW';S.why=(why?'The call was '+S.call[S.i]+', not '+w_(why)+'.':'Too slow.')+' The stairs score.';if(S.st===12){score('ME '+S.me+' / STAIRS 12');return done('The stairs win. Back to the rough ground.')}this.next()},
   draw(t,dt){
     if(!S.over&&t-S.t0>S.dur)this.miss();
     bg('stairs',.25);
@@ -140,13 +140,12 @@ G.stairs={name:'The stairs',ref:'PI §1, §2, §107',line:'A word is an order.',
     g.strokeStyle='rgba(60,40,20,.4)';g.lineWidth=1;for(let i=1;i<12;i++){g.beginPath();g.moveTo(x0+(i+1)*sx,fl-i*sy);g.lineTo(x0+(i+1)*sx,fl);g.stroke()}
     S.vx+=(S.me-S.vx)*Math.min(1,dt*8);const mv=Math.abs(S.me-S.vx)>.03;
     const k=Math.min(H*.25,W*.36)/MH;man(x0+(S.vx+.5)*sx,fl-S.vx*sy,k,mv?walk(t*14):stand(1,4),{pack:1});
-    sp('boxscore',W-U*11,H*.34,6,hk('boxscore',Math.min(H*.16,U*20)));
-    if(S.over)return;
-    const str=S.call.join(' IN '),size=fitSize(str,W*.86,H*.075);g.font='900 '+size+'px '+FONT;
-    const full=g.measureText(str).width;tag(str,W/2,H*.1,size,{r:-1.5});
-    if(S.i){const dw=g.measureText(S.call.slice(0,S.i).join(' IN ')).width;g.strokeStyle=RED;g.lineWidth=size*.12;g.beginPath();g.moveTo(W/2-full/2,H*.1);g.lineTo(W/2-full/2+dw,H*.1);g.stroke()}
-    const f=clamp(1-(t-S.t0)/S.dur,0,1);g.fillStyle=PAPER;g.fillRect(W*.2,H*.1+size*1.25,W*.6*f,Math.max(4,U*1.2));
-    if(t-S.fl<.8)tag('STAIRS +1',W/2,H*.27,Math.min(H*.035,W*.05),{bg:RED,c:PAPER,r:3});
+    if(S.over){if(S.st===12)sp('boxscore',W*.5,H*.2,6,hk('boxscore',Math.min(H*.26,U*34)));return}
+    const str=S.call.join(' THEN '),size=Math.max(18,fitSize(str,W*.86,H*.075));g.font='900 '+size+'px '+FONT;
+    const full=g.measureText(str).width;tag(str,W/2,H*.1,size,{r:-1.5,bg:PAPER});g.font='900 '+size+'px '+FONT;
+    if(S.i){const dw=g.measureText(S.call.slice(0,S.i).join(' THEN ')).width;g.strokeStyle=RED;g.lineWidth=size*.12;g.beginPath();g.moveTo(W/2-full/2,H*.1);g.lineTo(W/2-full/2+dw,H*.1);g.stroke()}
+    const f=clamp(1-(t-S.t0)/S.dur,0,1);g.fillStyle=INK;g.fillRect(W*.2-2,H*.1+size*1.25-2,W*.6+4,Math.max(8,U*2.2)+4);g.fillStyle=f<.3?RED:PAPER;g.fillRect(W*.2,H*.1+size*1.25,W*.6*f,Math.max(8,U*2.2));
+    if(t-S.fl<.9)tag(S.flw+'  STAIRS +1',W/2,H*.27,Math.min(H*.035,W*.05),{bg:RED,c:PAPER,r:3});
   }};
 
 /* ---------- 2 everyone has a box: the contents cancel out ---------- */
@@ -155,10 +154,10 @@ G.beetle={name:'Everyone has a box',ref:'PI §293',line:'What is inside drops ou
   init(){S={steps:0,t0:now(),P:.7,last:-1,looks:[],asked:0,open:null,bub:null,stum:-9,hit:-9};
     score('STEP 0 / 16');say('Press MARCH as the ring closes. Tap any box to look inside.');acts([{t:'MARCH',f:()=>this.march()}])},
   march(){if(S.over)return;const bt=now()-S.t0,k=Math.round(bt/S.P),err=Math.abs(bt-k*S.P);
-    if(err<.19&&k!==S.last){S.last=k;S.steps++;S.hit=now();score('STEP '+S.steps+' / 16');
-      if(S.steps===16)done('The line arrived. In your box you saw: '+(S.looks.join(', ')||'you never looked')+'. You asked '+S.asked+' other'+(S.asked===1?'':'s')+'; each said BEETLE.')}
-    else{S.stum=now();say('Out of step. Press as the ring closes.')}},
-  down(x){if(S.over)return;const i=clamp(Math.floor(x/W*5),0,4),t=now();
+    if(err<.19&&k!==S.last){S.last=k;S.steps++;S.hit=now();score('STEP '+S.steps+' / 16');if(S.steps<16)say('In step.');
+      if(S.steps===16)done('The line arrived. In your box you saw: '+([...new Set(S.looks)].join(', ')||'you never looked')+'. '+(S.asked?'You asked '+S.asked+' other'+(S.asked===1?'':'s')+'; each said BEETLE.':'You asked nobody what they carry.'))}
+    else{S.stum=now();S.last=k;say('Out of step. Press as the ring closes.')}},
+  down(x,y){if(S.over)return;if(y<H*.3)return this.march();const i=clamp(Math.floor(x/W*5),0,4),t=now();
     if(i===2){const c=R(INBOX);S.looks.push(c);S.open={c,u:t+1.8};S.bub=null;say('Your box holds '+c+'. Look again and it may not.')}
     else{S.asked++;S.bub={i,u:t+1.3};S.open=null;say('That box stays shut. Its owner says: BEETLE.')}},
   draw(t){
@@ -168,35 +167,36 @@ G.beetle={name:'Everyone has a box',ref:'PI §293',line:'What is inside drops ou
     g.strokeStyle=INK;g.lineWidth=2;for(let x=-off;x<W;x+=W/6){g.beginPath();g.moveTo(x,fl+U*3);g.lineTo(x+U*5,fl+U*3);g.stroke()}
     for(let i=0;i<5;i++){const x=W*(i+.5)/5-k*40,st=i===2&&t-S.stum<.4?Math.sin(t*40)*U:0,J=walk(ph+i*.0,1,20);
       J.elbow_n=add(J.shoulder,dv(-40,70));J.hand_n=add(J.elbow_n,dv(-95,66));J.elbow_f=add(J.shoulder,dv(-30,70));J.hand_f=add(J.elbow_f,dv(-90,66));
-      man(x+st,fl,k,J,{held:'smallbox',heldk:1.5});
+      man(x+st,fl,k,J,{held:'smallbox',heldk:1.5,rot:i===2&&t-S.stum<.4?-.22:0});
       if(i===2)tag('YOU',x,fl+U*6,Math.max(11,U*3.2),{bg:RED,c:PAPER})}
-    if(!S.over){const R0=Math.min(U*6,H*.06),cy=H*.11;g.strokeStyle=PAPER;g.lineWidth=Math.max(3,U*.8);g.beginPath();g.arc(W/2,cy,R0,0,7);g.stroke();
+    if(!S.over){const R0=Math.min(U*6,H*.06),cy=H*.11;g.strokeStyle=t-S.stum<.4?RED:PAPER;g.lineWidth=Math.max(3,U*.8);g.beginPath();g.arc(W/2,cy,R0,0,7);g.stroke();
       if(t-S.hit<.15){g.fillStyle=PAPER;g.fill()}g.lineWidth=2;g.beginPath();g.arc(W/2,cy,R0*(1+d*1.3),0,7);g.stroke()}
     const ps=Math.min(W*.3,H*.2),py=fl-k*MH-ps*.62;
     if(S.open&&t<S.open.u){const x=W/2;g.fillStyle=PAPER;g.strokeStyle=INK;g.lineWidth=3;g.fillRect(x-ps/2,py-ps/2,ps,ps);g.strokeRect(x-ps/2,py-ps/2,ps,ps);const c=S.open.c;
       if(c==='a bug')sp('beetle',x-ps*.05,py,-90,hk('beetle',ps*.5));else if(c==='a frog')sp('frog_green',x,py+ps*.42,0,hk('frog_green',ps*.8));
-      else if(c==='a smaller box')sp('smallbox',x,py+ps*.3,0,hk('smallbox',ps*.55));else if(c!=='nothing')tag('BEETLE',x,py,ps*.17,{r:-4})}
+      else if(c==='a smaller box')sp('smallbox',x,py+ps*.3,0,hk('smallbox',ps*.55));else if(c!=='nothing')tag('BEETLE',x,py,ps*.17,{r:-4});else txt('EMPTY',x,py,ps*.14,{c:'#9a8e78'})}
     if(S.bub&&t<S.bub.u)tag('BEETLE.',clamp(W*(S.bub.i+.5)/5,W*.2,W*.8),py+ps*.2,Math.max(13,ps*.2),{r:S.bub.i%2?3:-3});
   }};
 
 /* ---------- 3 the word-stairs: climb it, kick it away ---------- */
-const RH=['KNOX','FOX','SOCKS','CLOCKS','BLOCKS','ROCKS','LOCKS','KNOCKS'];
+const RH=['FOX','SOCKS','ROCKS','LOCKS','CLOCKS','BLOCKS','KNOX','KNOCKS'],LAB=[0,2,3,6,7,4,5,1,8];
 const DEC=['BAG','BACK','BOOKS','BIKES','BEAKS','TAPE','TRUCK','STAIR','BELT','BOSS','BOAT','BUCKS','FIX','SACKS','LICKS','BRICK','FAX','COAT'];
 G.ladder={name:'The word-stairs',ref:'Tractatus 6.54; Culture and Value',line:'Climb it, then kick it away.',art:'t3.jpg',
-  init(){S={r:['BOX'],ph:0,t0:0,sh:-9};this.ui()},
-  ui(){score(S.r.length+' / 9');
-    if(S.r.length===9){S.ph=1;say('You are at the top.');return acts([{t:'THROW AWAY THE LADDER',k:'u',f:()=>{S.ph=2;S.t0=now();say('');acts([])}}])}
-    say('Add the word that rhymes with BOX. A wrong word breaks a rung.');
+  init(){S={r:['BOX'],ph:0,t0:0,sh:-9,why:''};this.ui()},
+  ui(){score(S.r.length+' / 9');S.lock=now()+.25;
+    if(S.r.length===9){S.ph=1;say('You are at the top.');return acts([{t:'THROW AWAY THE LADDER',k:'u',f:()=>{S.ph=2;S.t0=now();say('');acts([{t:'-',off:1}])}}])}
+    say(S.why||'Press the word that rhymes with BOX. A wrong word breaks a rung.');
     const want=RH[S.r.length-1];acts(shuf([want,...shuf(DEC).slice(0,2)]).map(w=>({t:w,f:()=>this.tap(w,want)})))},
-  tap(w,want){if(S.ph)return;if(w===want)S.r.push(w);else{S.sh=now();if(S.r.length>1)S.r.pop()}this.ui()},
+  tap(w,want){if(S.ph||now()<S.lock)return;if(w===want){S.r.push(w);S.why=''}else{S.sh=now();const p=S.r.length>1?S.r.pop():'';S.why=w+' does not rhyme with BOX.'+(p?' '+p+' breaks off.':'')}this.ui()},
   draw(t){
-    bg('stage');const fl=H*.95,rh=Math.min(H*.066,W*.105),rw=rh*2.75,x0=W*.5-rh*1.2,dt=t-S.t0,k=Math.min(H*.22,W*.34)/MH;
+    bg('stage');const fl=H*.95,rh=Math.min(H*(W>H?.085:.066),W*.105),rw=rh*2.75,x0=W*.5-rh*1.2,dt=t-S.t0,k=Math.min(H*.22,W*.34)/MH;
     floor(fl);
     if(S.ph<2){const jig=t-S.sh<.3?Math.sin(t*50)*U:0;
-      S.r.forEach((w,i)=>sp('label_'+i,x0+i*rh*.3+jig,fl-i*rh,(i%2?1.5:-1.5),wk('label_'+i,rw)));
+      S.r.forEach((w,i)=>sp('label_'+LAB[i],x0+i*rh*.3+jig,fl-i*rh,(i%2?1.5:-1.5),wk('label_'+LAB[i],rw)));
+      if(t-S.sh<.5&&S.why)tag('NO RHYME',W/2,H*.12,Math.max(14,U*4.5),{bg:RED,c:PAPER,r:-3});
       const n=S.r.length;man(x0+(n-1)*rh*.3+jig,fl-n*rh+rh*.08,k,stand(1,0,[10+Math.sin(t*3)*6,-8]),{pack:1})}
     else{const q=Math.min(dt,1.4);
-      S.r.forEach((w,i)=>{const x=x0+i*rh*.3+(i%2?1:-1)*q*W*.42*(.5+i/9),y=Math.min(fl-rh*.3,fl-i*rh+q*q*H*.4*(1+i*.1));sp('label_'+i,x,y,(i%2?1:-1)*q*(40+i*14),wk('label_'+i,rw))});
+      S.r.forEach((w,i)=>{const x=x0+i*rh*.3+(i%2?1:-1)*q*W*.42*(.5+i/9),y=Math.min(fl-rh*.3,fl-i*rh+q*q*H*.4*(1+i*.1));sp('label_'+LAB[i],x,y,(i%2?1:-1)*q*(40+i*14),wk('label_'+LAB[i],rw))});
       const top=fl-9*rh,py=Math.min(fl,top+Math.max(0,dt-.25)**2*H*1.6);
       man(x0+8*rh*.3,py,k,py<fl?fk([0,PY],1,-8,[30,-20],[-40,-10],[150,-140],[20,-20]):stand(1,0),{pack:1});
       if(dt>1.6&&!S.over)done('You are standing where you began. The rungs were nonsense, and they held.')}
@@ -352,49 +352,51 @@ BLK.push({x0:7480,x1:7700,h:170},{x0:7700,x1:8100,h:330,sp:"duckrabbit"},{x0:810
 BLK.push({x0:9900,x1:10100,h:150},{x0:10100,x1:10300,h:300},{x0:10300,x1:10500,h:150},{x0:11900,x1:12220,h:160,sp:'fragile_box'});
 const SLAB={x0:4300,x1:4520,clear:260};
 const TH=x=>{let h=0;for(const b of BLK)if(x>=b.x0&&x<b.x1&&b.h>h)h=b.h;return h};
-const STAMPS=[['DETACH',1530,330],['HATCH',3100,330],['ENTER',3900,330],['INVERT',5400,470],['ENLARGE',6315,330],['REPLACE',7850,330],['EMERGE',8195,330],['SWALLOW',10200,560],['INTERRUPT',10900,330]];
+const STAMPS=[['DETACH',1530,330],['HATCH',3100,330],['ENTER',3900,330],['INVERT',5400,470],['ENLARGE',6315,330],['REPLACE',7850,330],['EMERGE',8195,330],['SWALLOW',10200,430],['INTERRUPT',10900,330]];
 const DOES={DETACH:'An arm unpins and comes back. It is still the same man.',INVERT:'Gravity turns about one point. He spins on the hat.',ENLARGE:'Sizes stop holding still. He steps over walls.',
   REPLACE:'A new head in the same socket. The slot decides the role.',HATCH:'The box was an egg. A frog joins the line.',SWALLOW:'Container and carrier change places. The frog carries him.',
   EMERGE:'Tape becomes marching bodies.',ENTER:'A whole mover becomes one small box. He fits under the shelf.',INTERRUPT:'Stopped from outside the frame. Every rule is as it was.'};
 const WHEADS=[null,'boxhead','duckrabbit','frog_dj'],BUD=['frog_green','frog_blue','frog_dial'];
 G.walk={name:'The walk',ref:'Tractatus 5.632, 7',line:'One street, nine verbs, the whole song.',art:'t1.jpg',music:1,
-  init(){S={x:260,y:0,vy:0,gr:1,face:1,dir:0,jump:0,ptr:null,walkp:0,cam:0,have:[],groove:0,combo:0,dp:-1,dpT:-9,hit:null,hitT:-9,
+  init(){S={cy:0,x:260,y:0,vy:0,gr:1,face:1,dir:0,jump:0,ptr:null,walkp:0,cam:0,have:[],groove:0,combo:0,dp:-1,dpT:-9,hit:'',hitT:-9,
       big:0,small:0,inv:0,armT:-9,head:0,buds:0,swT:-9,emT:-9,emX:0,ftT:-9,ftX:0,npcP:-1,npcT:-9,bub:-9,d:-1,cardT:-9,pk:0,pkT:0,keys:{},msg:''};
     clock0=now();AU.src='a/song.mp3';AU.currentTime=0;AU.muted=muted;AU.play().catch(()=>{});this.ui()},
-  k(){return H*.36/MH},sc(){const t=now();return t<S.big?1.8:t<S.small?.38:1},
-  ui(){score(S.have.length+'/9  GROOVE '+S.groove);say(S.msg||'Hold the stage to walk. Hold above his head to jump. Press DANCE on the beat.');
+  k(){return H*.36/MH},sc(){const t=now(),under=S.x>SLAB.x0-60&&S.x<SLAB.x1+60;if(under&&S.wasSmall)return .38;S.wasSmall=t<S.small;return t<S.big?1.8:t<S.small?.38:1},
+  ui(){score(S.have.length+'/9  GROOVE '+S.groove);say(S.msg||'Hold right of him to walk. Hold above his hat to jump. Walk into the red words.');
     const near=Math.abs(S.x-12900)<420,l=[{t:'DANCE',span:3,f:()=>this.dance()},{t:'JUMP',span:2,k:'q',f:()=>{S.jump=1}}];
-    S.have.forEach(v=>l.push({t:v,k:'s',f:()=>this.verb(v)}));
-    if(S.have.length===9&&near&&!S.pk)l.push({t:'PACK',k:'s u',f:()=>this.pack()});acts(l,5);fit()},
-  beatHit(){const ok=offBeat(mt())<.17;if(ok){S.groove++;S.combo++}else S.combo=0;S.hit=ok?(S.combo>3?'ON IT x'+S.combo:'ON IT'):'OFF BEAT';S.hitT=now();return ok},
+    VERBS.slice(0,9).forEach(v=>l.push({t:v,k:'s',off:!S.have.includes(v),f:()=>this.verb(v)}));
+    l.push({t:'PACK',k:'s u',off:!(S.have.length===9&&near)||S.pk,f:()=>this.pack()});acts(l,5)},
+  beatHit(quiet){const ok=offBeat(mt())<.11;if(ok){S.groove++;S.combo++}else if(!quiet)S.combo=0;if(ok||!quiet){S.hit=ok?(S.combo>3?'ON IT x'+S.combo:'ON IT'):'OFF BEAT';S.hitT=now()}return ok},
   dance(){if(S.over||S.pk)return;this.beatHit();S.dp=(S.dp+1)%POSES.length;S.dpT=now();S.npcP=S.dp;S.npcT=now()+.45;this.ui()},
-  verb(v){if(S.over||S.pk||!S.have.includes(v))return;const t=now();this.beatHit();
+  verb(v){if(S.over||S.pk||!S.have.includes(v))return;const t=now();this.beatHit(1);
     if(v==='DETACH')S.armT=t;else if(v==='INVERT')S.inv=t+2.2;else if(v==='ENLARGE'){S.big=t+8;S.small=0}else if(v==='REPLACE')S.head=(S.head+1)%4;
     else if(v==='HATCH')S.buds=Math.min(6,S.buds+1);else if(v==='SWALLOW'){S.swT=t;S.vy=1500;S.gr=0}else if(v==='EMERGE'){S.emT=t;S.emX=S.x}
     else if(v==='ENTER'){S.small=t+7;S.big=0}else if(v==='INTERRUPT'){S.ftT=t;S.ftX=S.x;S.big=S.small=S.inv=0;S.head=0;S.buds=0}
     S.msg=DOES[v];this.ui()},
   pack(){S.pk=1;S.pkT=now();S.msg='';say('');acts([])},
-  down(x,y){const k=this.k(),wx=S.cam+x/k,t=now();
-    if(Math.abs(wx-this.gx(mt()))<430&&Math.abs(S.x-this.gx(mt()))<1200&&y>H*.9-MH*k&&Math.abs(wx-S.x)>150){S.bub=t;S.bx=wx;S.msg='That box stays shut. Its owner says: BEETLE.';this.ui();return}
-    S.ptr=[x,y]},
+  down(x,y){const k=this.k(),wx=S.cam+x/k,t=now(),gx=this.gx(mt());S.ptr=[x,y];
+    for(let i=0;i<5;i++)if(Math.abs(wx-(gx-340+i*170))<70&&y>H*.9-MH*k&&Math.abs(wx-S.x)>120){S.bub=t;S.bx=wx;S.msg='That box stays shut. Its owner says: BEETLE.';this.ui();break}},
   move(x,y){if(S.ptr)S.ptr=[x,y]},up(){S.ptr=null},
-  gx(m){const b=beatAt(m),ph=b%32;return 2700+(ph<16?ph:32-ph)*55},
+  gx(m){const b=beatAt(m),ph=b%32;return 3650+(ph<16?ph:32-ph)*18},
   draw(t,dt){
     const k=this.k(),FY=H*.9,m=mt(),bi=beatAt(m),pulse=Math.exp(-7*Math.max(0,m-BEATS[bi])),sc=this.sc(),VW=W/k;
     // ---- input and physics
     if(!S.over&&!S.pk){let dir=(S.keys.ArrowRight?1:0)-(S.keys.ArrowLeft?1:0),jump=S.jump||S.keys[' ']||S.keys.ArrowUp;S.jump=0;
-      if(S.ptr){const sx=(S.x-S.cam)*k,dx=S.ptr[0]-sx;if(Math.abs(dx)>14)dir=dx>0?1:-1;if(S.ptr[1]<FY-(S.y+MH*sc+40)*k)jump=1}
+      if(S.ptr){const sx=(S.x-S.cam)*k,dx=S.ptr[0]-sx;if(Math.abs(dx)>14)dir=dx>0?1:-1;if(S.ptr[1]<FY+S.cy-(S.y+MH*sc+40)*k)jump=1}
       const sw=t-S.swT<1.1;if(sw)dir=S.face;
       if(dir){S.face=dir;const nx=clamp(S.x+dir*(sw?900:340*Math.sqrt(sc))*dt,60,WEND-60),hN=TH(nx);
         const slab=nx>SLAB.x0-40&&nx<SLAB.x1+40&&MH*sc>SLAB.clear;
-        if(!slab&&(S.gr?hN-S.y<=90*sc:hN<=S.y+2||sw)){S.x=nx;if(S.gr&&hN>S.y)S.y=hN;S.walkp+=dt*11}}
+        if(!slab&&(S.gr?hN-S.y<=(sc>1?440:90*sc):hN<=S.y+2||sw)){S.x=nx;if(S.gr&&hN>S.y)S.y=hN;S.walkp+=dt*11}
+        else if(S.gr&&t-S.hitT>.9){const wall=hN-S.y>260*sc;S.hit=slab?'TOO LOW':wall?'TOO TALL':'JUMP';S.hitT=t;
+          const m2=slab?(S.have.includes('ENTER')?'TOO LOW. Press ENTER.':'TOO LOW. Go back for the ENTER stamp.'):wall?(S.have.includes('ENLARGE')?'TOO TALL. Press ENLARGE and walk over it.':'TOO TALL. Go back for the ENLARGE stamp.'):'Hold above his hat to jump.';if(m2!==S.msg){S.msg=m2;this.ui()}}}
       if(jump&&S.gr){S.vy=1130*Math.sqrt(sc);S.gr=0}
       if(!S.gr||S.y>TH(S.x)){S.vy-=2500*dt;S.y+=S.vy*dt;S.gr=0;if(S.y<=TH(S.x)){S.y=TH(S.x);S.vy=0;S.gr=1}}
       S.dir=dir;
       for(const st of STAMPS)if(!S.have.includes(st[0])&&Math.hypot(S.x-st[1],S.y+260*sc-(TH(st[1])+st[2]))<190*Math.max(1,sc)){S.have.push(st[0]);S.msg=st[0]+' stamped. '+DOES[st[0]];this.ui()}
-      const d=DIST.reduce((a,z,i)=>S.x>=z.x?i:a,0);if(d!==S.d){S.d=d;S.cardT=t;S.msg=DIST[d].n+'. '+DIST[d].l;this.ui()}
-      const near=Math.abs(S.x-12900)<420;if(near!==S.near){S.near=near;if(near&&S.have.length<9)S.msg='The truck. '+(9-S.have.length)+(S.have.length===8?' verb is':' verbs are')+' still out on the street.';this.ui()}}
-    S.cam+=(clamp(S.x-VW*.42+S.face*VW*.08,0,WEND-VW)-S.cam)*Math.min(1,dt*5);
+      const d=DIST.reduce((a,z,i)=>S.x>=z.x?i:a,0);if(d!==S.d){const first=S.d<0;S.d=d;S.cardT=t;if(!first){S.msg=DIST[d].n+'. '+DIST[d].l;this.ui()}}
+      const near=Math.abs(S.x-12900)<420;if(near!==S.near){S.near=near;if(near&&S.have.length<9)S.msg='The truck. Still back on the street: '+STAMPS.filter(z=>!S.have.includes(z[0])).map(z=>z[0]).join(', ')+'.';this.ui()}}
+    S.cam+=(clamp(S.x-VW*.42+S.face*VW*.08,0,WEND-VW)-S.cam)*Math.min(1,dt*5);S.cy+=(Math.max(0,S.y+MH*(sc-1)-380)*k-S.cy)*Math.min(1,dt*4);
+    const db=$('#acts button');if(db)db.style.filter=pulse>.5?'brightness(1.3)':'';
     // ---- backdrop
     const D=DIST[Math.max(0,S.d)],sketch=!D.bg;
     if(sketch){g.fillStyle='#050805';g.fillRect(0,0,W,H);g.strokeStyle='rgba(57,255,122,.12)';g.lineWidth=1;const gs=120*k;for(let x=-((S.cam*k)%gs);x<W;x+=gs){g.beginPath();g.moveTo(x,0);g.lineTo(x,H);g.stroke()}for(let y=FY;y>0;y-=gs){g.beginPath();g.moveTo(0,y);g.lineTo(W,y);g.stroke()}}
@@ -403,7 +405,7 @@ G.walk={name:'The walk',ref:'Tractatus 5.632, 7',line:'One street, nine verbs, t
     const ce=t-S.cardT;if(ce<.35){g.fillStyle=sketch?'rgba(57,255,122,'+(.5*(1-ce/.35))+')':'rgba(236,226,202,'+(1-ce/.35)+')';g.fillRect(0,0,W,H)}
     if(sketch){g.strokeStyle=GRN;g.lineWidth=2;g.beginPath();g.moveTo(0,FY);g.lineTo(W,FY);g.stroke()}else floor(FY);
     // ---- world
-    g.save();g.translate(-S.cam*k,FY);g.scale(k,k);
+    g.save();g.translate(-S.cam*k,FY+S.cy);g.scale(k,k);
     const vis=(x,w)=>x>S.cam-(w||600)&&x<S.cam+VW+(w||600);
     for(const b of BLK){if(!vis((b.x0+b.x1)/2,800))continue;const w=b.x1-b.x0;
       if(sketch){g.strokeStyle=GRN;g.lineWidth=3;g.setLineDash(b.wall?[14,10]:[]);g.strokeRect(b.x0,-b.h,w,b.h);g.setLineDash([]);continue}
@@ -448,7 +450,7 @@ G.walk={name:'The walk',ref:'Tractatus 5.632, 7',line:'One street, nine verbs, t
     if(fe<.5&&fe>.18){g.fillStyle='rgba(236,226,202,'+(.5-fe)+')';g.fillRect(0,0,W,H)}
     // ---- overlay text
     if(ce<2.6){const q=ce<.4?ce/.4:ce>2.2?(2.6-ce)/.4:1,sz=fitSize(D.n,W*.8,H*.07);g.globalAlpha=q;tag((S.d+1)+'  '+D.n,W/2+(1-q)*W*.4*(ce<1?1:-1),H*.12,sz,{r:-2,bg:sketch?'#050805':KR,c:sketch?GRN:INK});g.globalAlpha=1}
-    if(t-S.hitT<.6)tag(S.hit,(S.x-S.cam)*k,FY-(S.y+MH*sc)*k-U*8-(t-S.hitT)*U*14,Math.max(13,U*4.2),{bg:S.hit==='OFF BEAT'?RED:PAPER,c:S.hit==='OFF BEAT'?PAPER:INK,r:-5});
+    if(t-S.hitT<.6){const bad=!S.hit.startsWith('ON');tag(S.hit,clamp((S.x-S.cam)*k,W*.2,W*.8),Math.max(U*8,FY+S.cy-(S.y+MH*sc)*k-U*8-(t-S.hitT)*U*14),Math.max(13,U*4.2),{bg:bad?RED:PAPER,c:bad?PAPER:INK,r:-5})};
     const R0=Math.max(9,U*3.2);g.strokeStyle=sketch?GRN:PAPER;g.lineWidth=3;g.beginPath();g.arc(W-R0*2.2,R0*2.2,R0,0,7);g.stroke();g.fillStyle=sketch?GRN:PAPER;g.beginPath();g.arc(W-R0*2.2,R0*2.2,R0*pulse,0,7);g.fill();
     g.fillStyle=sketch?GRN:PAPER;g.fillRect(0,H-4,W*S.x/WEND,4);
     if(S.pk&&t-S.pkT>2.4&&!S.over){score('9/9  GROOVE '+S.groove);done('WHEREOF ONE CANNOT SPEAK, THEREOF ONE MUST PACK. The mover is inside his own box. Groove '+S.groove+'.')}
@@ -461,15 +463,16 @@ ORDER.forEach((id,i)=>{const G_=G[id];G_.id=id;const b=document.createElement('b
   b.innerHTML='<div><b></b><span></span></div>';b.querySelector('b').textContent=(i?i+'  ':'')+G_.name;b.querySelector('span').textContent=G_.line;if(id==='walk')b.className='wide';b.onclick=()=>{location.hash=id};$('#tiles').appendChild(b)});
 function start(id){cur=G[id];$('#hub').hidden=true;$('#game').hidden=false;$('#name').textContent=cur.name;
   $('#snd').hidden=!cur.music;fit();S=null;cur.init();last=now();cancelAnimationFrame(raf);raf=requestAnimationFrame(loop)}
-function home(){AU.pause();cancelAnimationFrame(raf);cur=null;S=null;$('#game').hidden=true;$('#hub').hidden=false}
+function home(){pid=null;AU.pause();cancelAnimationFrame(raf);cur=null;S=null;$('#game').hidden=true;$('#hub').hidden=false}
 function loop(){if(!cur)return;const t=now(),dt=Math.min(.05,t-last);last=t;g.clearRect(0,0,W,H);cur.draw(t,dt);raf=requestAnimationFrame(loop)}
 function route(){const id=location.hash.slice(1);if(G[id])start(id);else home()}
 $('#exit').onclick=()=>{location.hash=''};$('#snd').onclick=()=>{muted=!muted;AU.muted=muted;$('#snd').textContent=muted?'Muted':'Sound';if(!muted&&AU.paused&&cur&&cur.music)AU.play().catch(()=>{})};
-addEventListener('hashchange',route);addEventListener('resize',()=>{if(cur)fit()});
+addEventListener('hashchange',route);addEventListener('resize',()=>{if(cur)fit()});if(window.ResizeObserver)new ResizeObserver(()=>{if(cur)fit()}).observe($('#stage'));
 const pos=e=>{const r=cv.getBoundingClientRect();return[e.clientX-r.left,e.clientY-r.top]};
-cv.addEventListener('pointerdown',e=>{if(cur&&cur.down&&S){cv.setPointerCapture(e.pointerId);cur.down(...pos(e))}});
-cv.addEventListener('pointermove',e=>{if(cur&&cur.move&&S&&(e.buttons||e.pointerType==='touch'))cur.move(...pos(e))});
-cv.addEventListener('pointerup',()=>{if(cur&&cur.up&&S)cur.up()});
+let pid=null;
+cv.addEventListener('pointerdown',e=>{if(cur&&cur.down&&S&&pid===null){pid=e.pointerId;try{cv.setPointerCapture(pid)}catch(_){}cur.down(...pos(e))}});
+cv.addEventListener('pointermove',e=>{if(cur&&cur.move&&S&&e.pointerId===pid)cur.move(...pos(e))});
+const pup_=e=>{if(e.pointerId===pid){pid=null;if(cur&&cur.up&&S)cur.up()}};cv.addEventListener('pointerup',pup_);cv.addEventListener('pointercancel',pup_);
 route();
 </script>
 </body>
