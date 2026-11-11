@@ -48,9 +48,9 @@ button:focus-visible,a:focus-visible{outline:3px solid var(--red);outline-offset
 <body>
 <div id="app">
   <main id="hub">
-    <h1>Wittgenstein's Backpack<small>A four-level platformer. One joystick: left and right walk, up jumps and climbs, down ducks and descends.</small></h1>
+    <h1>Wittgenstein's Backpack<small>A four-level platformer. Each level is one of the film's language-games, played with one joystick: left and right walk, up jumps and climbs, down ducks, lifts and looks.</small></h1>
     <div id="tiles"></div>
-    <nav><a href="../">The film and its readings</a><a href="classic.html">The earlier seven games</a></nav>
+    <nav><a href="../">The film and its readings</a><a href="classic.html">Seven more games: The Walk, and each thought experiment on its own</a></nav>
   </main>
   <main id="game" hidden>
     <div id="bar"><button id="exit" aria-label="Leave this level">Levels</button><div id="name"></div><button id="snd" aria-label="Toggle sound">Sound</button><div id="score" aria-live="polite"></div></div>
@@ -131,7 +131,7 @@ function ground(J){const lo=Math.max(J.ankle_n[1],J.ankle_f[1]);for(const key in
 function idle(face,p){return ground(fk([0,PY],face,2+p*3,[8,-8],[-22*p,-22*p],[10+p*18,-8-p*18],[20,20]))}
 
 /* =================== platformer =================== */
-const K={L:0,R:0,U:0,D:0};
+const K={L:0,R:0,U:0,D:0},TAP={U:0,D:0};function setK(k,v){if(v&&!K[k]&&(k==='U'||k==='D'))TAP[k]=1;K[k]=v}
 /* ---- sound: all synthesized ---- */
 let AC=null,muted=false,NB=null;
 function ac(){if(muted)return null;if(!AC){try{AC=new(window.AudioContext||window.webkitAudioContext)()}catch(e){return null}}if(AC.state==='suspended')AC.resume();return AC}
@@ -151,44 +151,76 @@ const B=(x0,x1,top,o)=>Object.assign({x:x0,y:top,w:x1-x0,h:1200},o||{});
 const SL=(x0,x1,top,o)=>Object.assign({x:x0,y:top,w:x1-x0,h:44,slab:1},o||{});
 const BEAM=(x0,x1,floorTop,o)=>Object.assign({x:x0,y:floorTop-170-70,w:x1-x0,h:70,beam:1},o||{});
 
+const ITEMDRAW={BOX(x,y){sp('smallbox',x,y,0,1.5)},PACK(x,y){sp('backpack',x,y-60,0,.8)},
+  BAG(x,y){g.fillStyle='#d9c39a';g.strokeStyle=PAPER;g.lineWidth=9;g.beginPath();g.moveTo(x-38,y);g.lineTo(x-46,y-96);g.lineTo(x+46,y-96);g.lineTo(x+38,y);g.closePath();g.stroke();g.fill();g.strokeStyle=INK;g.lineWidth=3.5;g.stroke();g.beginPath();g.arc(x,y-96,22,Math.PI,0);g.stroke()}};
 const LEVELS=[
- {name:'Lumbar staircase',art:'t1.jpg',bg:'stairs',dim:.5,how:['UP JUMPS. DOWN DUCKS.','Walk right. Jump the missing treads, duck the low beam.'],
-  build(){const so=[B(-600,500,0)];for(let i=0;i<8;i++)so.push(B(500+i*90,590+i*90,-24*(i+1)));
-   so.push(B(1220,1560,-192),B(1690,1820,-230),B(1970,2090,-270),B(2240,3000,-300),BEAM(2440,2660,-300));
-   return{x0:0,x1:3000,start:[160,0],solids:so,ladders:[],cps:[[1320,-192]],exit:[2860,-300],kill:260}}},
- {name:'The worker line',art:'t2.jpg',bg:'pallets',dim:.55,how:['HOLD YOUR PLACE IN THE LINE','The belt carries you. Up over the breaks, down under the arms.'],
+ {name:'Lumbar staircase',art:'t1.jpg',bg:'stairs',dim:.5,ref:'PI §2, §107',game:'The builders',
+  how:['BRING WHAT IS CALLED','The builder calls a word. Press Down on that thing to lift it, and carry it to the gap. Up jumps the missing step.'],
+  calls:[{x0:1560,x1:1820,top:-192,w:'BAG'},{x0:2100,x1:2360,top:-230,w:'PACK'}],
+  build(){const so=[B(-600,500,0)];for(let i=0;i<8;i++)if(i!==5)so.push(B(500+i*90,590+i*90,-24*(i+1)));
+   so.push(B(1220,1560,-192),B(1820,2100,-230),B(2360,2780,-270),B(2780,3080,-270,{ice:1}),B(3080,3400,-270),BEAM(2500,2700,-270));
+   S_items=[['BOX',1390,-192],['BAG',1480,-192],['PACK',1970,-230],['BOX',2050,-230]].map(a=>({w:a[0],x:a[1],y:a[2],hx:a[1],hy:a[2],held:0,used:0}));
+   for(const c of this.calls)if(c.done)so.push(B(c.x0,c.x1,c.top,{tread:c.w}));
+   return{x0:0,x1:3400,start:[160,0],solids:so,ladders:[],cps:[[1290,-192]],exit:[3260,-270],kill:260}},
+  update(dt,t){const p=S.p;if(!dt)return;const down=TAP.D;TAP.D=0;
+   if(down&&p.gr&&!S.item){const it=S_items.find(i=>!i.used&&Math.abs(i.x-p.x)<70&&Math.abs(i.y-p.y)<30);if(it){it.held=1;S.item=it;SFX.rattle();say('You lift the '+it.w+'. Carry it to the gap.')}}
+   if(S.item){const c=this.calls.find(c=>!c.done&&p.gr&&p.x>c.x0-110&&p.x<c.x0+10);
+     if(c){const it=S.item;S.item=null;it.held=0;if(it.w===c.w){it.used=1;c.done=1;S.L.solids.push(B(c.x0,c.x1,c.top,{tread:c.w}));SFX.thump(1);S.hit='SET';S.hitT=t;say('The builder called '+c.w+'. You brought it. Nobody asked what the word names.')}
+       else{it.x=it.hx;it.y=it.hy;SFX.bump();S.hit='NOT '+it.w;S.hitT=t;say('The call was '+c.w+', not '+it.w+'. It goes back.')}}}
+   if(p.on&&p.on.ice&&!S.iced){S.iced=1;say('Smooth ice: no friction, so no walking. Back to the rough ground.')}},
+  back(t){for(const c of this.calls){const bx=c.x1+60;if(!c.done)tag(c.w+'!',bx-40,c.top-330-Math.abs(Math.sin(t*4))*10,44,{bg:PAPER,r:-4});
+     courier(bx,c.top,c.done?idle(-1,.4):fk([0,PY],-1,4,[4,-6],[0,0],[100+Math.sin(t*4)*8,-4],[10,10]),{pack:0,al:1})}
+   for(const it of S_items)if(!it.used&&!it.held){ITEMDRAW[it.w](it.x,it.y);tag(it.w,it.x,it.y-150,26,{bg:KR})}},
+  front(t){if(S.item){const p=S.p;ITEMDRAW[S.item.w](p.x+p.face*52,p.y-(p.cr?40:120))}},
+  after(){return'Two words, two things brought. In this game a word is an order, and the stairs are the friction.'}},
+ {name:'The worker line',art:'t2.jpg',bg:'pallets',dim:.55,ref:'PI §293',game:'The beetle in the box',
+  how:['EVERYONE HAS A BOX','Down looks in your own box. Nobody can look in another. Up jumps the breaks; Down also ducks the arms.'],
   gaps:[[1400,1490],[2300,2390],[3300,3440],[4300,4400]],arms:[1900,2800,3750,3950],
   build(){const v={v:150,belt:1},so=[B(-600,500,0),B(500,1400,0,v),B(1490,2300,0,v),B(2390,3300,0,v),B(3440,4300,0,v),B(4400,5200,0)];
    this.arms.forEach(x=>so.push({x,y:-170-900,w:70,h:900,beam:1,arm:1}));
    return{x0:0,x1:5100,start:[160,0],solids:so,ladders:[],cps:[[2460,0]],exit:[4860,0],kill:260}},
   respawn(){S.proc=S.cp[0]>600?S.cp[0]:0},
   update(dt,t){const p=S.p;if(!S.proc&&p.x>=820)S.proc=p.x;
-   if(S.proc){S.proc=Math.min(S.proc+150*dt,4560);if(p.x<S.proc-440&&S.dead<0)die('Left behind. Back to the label.');}
-   const c=Math.floor(t*2);if(c!==S.ck){S.ck=c;if(S.ready)SFX.clack()}},
-  npc(t){const P=S.proc||820,out=[];for(const o of[-300,-150,150,300]){const x=P+o;if(x>4790)continue;let y=0,cr=0;
+   if(S.proc){S.proc=Math.min(S.proc+150*dt,4560);if(p.x<S.proc-440&&S.dead<0)die('Left behind. Back to the label.')}
+   const c=Math.floor(t*2);if(c!==S.ck){S.ck=c;if(S.ready){SFX.clack();if(c%3===0){S.sayer=Math.floor(Math.random()*4);S.sayT=t}}}
+   if(!dt)return;const down=TAP.D;TAP.D=0;
+   if(down&&p.gr){const cnt=R(['a bug','the word BEETLE','a frog','a smaller box','nothing']);S.looks.push(cnt);S.peek={c:cnt,t};say('Your box holds '+cnt+'. Look again and it may not. You still call it BEETLE.')}
+   const P=S.proc||820;[-300,-150,150,300].forEach((o,i)=>{if(Math.abs(p.x-(P+o))<46&&t-S.sayT>.6){S.sayer=i;S.sayT=t;say('That box stays shut. Its owner says: BEETLE.')}})},
+  npc(t){const P=S.proc||820,out=[];[-300,-150,150,300].forEach((o,i)=>{const x=P+o;if(x>4790)return;let y=0,cr=0;
      for(const g of this.gaps){const a=g[0]-75,b=g[1]+75;if(x>a&&x<b){const u=(x-a)/(b-a);y=-4*150*u*(1-u)}}
-     for(const ax of this.arms)if(Math.abs(x-(ax+35))<120)cr=1;out.push({x,y,cr})}return out}},
- {name:'Fox / Box',art:'t3.jpg',bg:'stage',dim:.35,how:['UP ON A LADDER CLIMBS','FOX is the high road: wide jumps. BOX is the low road: tight ducks.'],
+     for(const ax of this.arms)if(Math.abs(x-(ax+35))<120)cr=1;out.push({x,y,cr,say:S.sayer===i&&t-S.sayT<.9})});return out},
+  front(t){const p=S.p;if(S.peek&&t-S.peek.t<1.6){const x=p.x,y=p.y-(p.cr?300:420),c=S.peek.c;g.fillStyle=PAPER;g.strokeStyle=INK;g.lineWidth=6;g.fillRect(x-90,y-90,180,180);g.strokeRect(x-90,y-90,180,180);
+     if(c==='a bug')sp('beetle',x-8,y,-90,1.25);else if(c==='a frog')sp('frog_green',x,y+78,0,.95);else if(c==='a smaller box')sp('smallbox',x,y+50,0,1.4);else if(c==='nothing')txt('EMPTY',x,y,30,{c:'#9a8e78'});else tag('BEETLE',x,y,30,{r:-4})}},
+  after(){const l=[...new Set(S.looks)];return(l.length?'In your box you saw: '+l.join(', ')+'.':'You never looked in your box.')+' The line passed either way: what is inside drops out.'}},
+ {name:'Fox / Box',art:'t3.jpg',bg:'stage',dim:.35,ref:'Tractatus 6.54; Culture and Value',game:'The ladder',
+  how:['STAND ON WHAT RHYMES WITH BOX','Up on the ladder climbs. The high road holds only on words that rhyme with BOX. The low road is tight ducks.'],
   build(){const so=[B(-600,600,0,{lab:'label_0'}),SL(380,720,-420,{ow:1,lab:'label_2'})];
-   [[890,1110],[1280,1500],[1670,1900],[2070,2300],[2470,2760]].forEach(a=>so.push(SL(a[0],a[1],-420,{lab:'label_2'})));
+   [[890,1110,3],[1280,1500,4],[1670,1900,6],[2070,2300,7],[2470,2760,5]].forEach(a=>so.push(SL(a[0],a[1],-420,{lab:'label_'+a[2]})));
+   [[760,'BAG'],[1150,'BELT'],[1540,'TAPE'],[1940,'BOOKS'],[2340,'BACK']].forEach(a=>so.push({x:a[0],y:-396,w:90,h:36,dec:a[1],slab:1}));
    [[710,1300],[1410,2000],[2110,2650]].forEach(a=>{so.push(B(a[0],a[1],0,{lab:'label_0'}));so.push(BEAM(a[0]+170,a[1]-170,0))});
    so.push(B(2760,3500,0,{lab:'label_0'}));
-   return{x0:0,x1:3500,start:[160,0],solids:so,ladders:[{x:480,y:-420,w:70,h:420}],cps:[[1450,0],[1400,-420]],exit:[3300,0],kill:260}}},
- {name:'Seen as duck',art:'t4.jpg',bg:'amber',dim:.35,how:['LOOK AGAIN FROM HIGHER UP','The low road is a dead end. Climb the crates and look at the picture again.'],
-  build(){const so=[B(-600,2000,0),B(700,860,-130),B(860,1020,-260),B(1020,1500,-390),B(2000,3100,-390),
-     SL(1500,2000,-390,{ear:1,when:()=>S.asp>.6})];
+   return{x0:0,x1:3500,start:[160,0],solids:so,ladders:S.ladGone?[]:[{x:480,y:-420,w:70,h:420}],cps:[[1450,0],[1400,-420]],exit:[3300,0],kill:260}},
+  update(dt,t){const p=S.p;if(!dt)return;
+   if(!S.ladGone&&S.L.ladders.length&&p.gr&&p.y<=-419&&p.x>380&&p.x<760){S.ladGone=t;S.L.ladders=[];SFX.rattle();S.hit='THROW AWAY THE LADDER';S.hitT=t;say('You climbed it, so it goes. The ladder falls away behind you.')}
+   const d=p.on&&p.on.dec?p.on:null;if(d&&!d.ct){d.ct=t;SFX.bump();S.hit=d.dec+' DOES NOT RHYME';S.hitT=t;say(d.dec+' does not rhyme with BOX. It will not hold you.')}
+   for(const s of S.L.solids)if(s.ct&&!s.gone&&t-s.ct>.32){s.gone=1;SFX.thump(.6)}},
+  back(t){if(S.ladGone&&t-S.ladGone<1.2){const q=t-S.ladGone;g.save();g.translate(515,0);g.rotate(-q*q*1.4);g.globalAlpha=1-q/1.2;g.strokeStyle=INK;g.lineWidth=6;for(const x of[-27,27]){g.beginPath();g.moveTo(x,0);g.lineTo(x,-460);g.stroke()}for(let y=-20;y>-440;y-=42){g.beginPath();g.moveTo(-27,y);g.lineTo(27,y);g.stroke()}g.restore()}},
+  after(){return(S.ladGone?'You climbed the ladder and it fell away. ':'You never used the ladder. ')+'The exit was on the floor you started from.'}},
+ {name:'Seen as duck',art:'t4.jpg',bg:'amber',dim:.35,ref:'PI part II, xi',game:'The duck-rabbit',
+  how:['ONE PICTURE, TWO USES','The picture on the wall does not change. Walk under it, then climb the crates and meet it again.'],
+  build(){const so=[B(-600,2000,0),B(700,860,-130),B(860,1020,-260),B(1020,1500,-390),B(2000,3100,-390),SL(1500,2000,-390,{ear:1,ow:1})];
    return{x0:0,x1:3100,start:[160,0],solids:so,ladders:[],cps:[[1180,-390]],exit:[2880,-390],kill:400}},
-  update(dt){S.asp+=((S.p.y<-300?1:0)-S.asp)*Math.min(1,dt*3.5)},
-  back(t){const a=S.asp,s=5.6,m=M.duckrabbit,X=1500,Y=-390-30*s+(1-a)*330;
-   g.save();g.globalAlpha=.55+.45*a;sp('duckrabbit',X+m[4]*s,Y+m[5]*s,0,s);g.restore();
-   if(a<.95){g.save();g.globalAlpha=1-a;g.translate(1560-(a)*500,Y+28*s);g.rotate(-.12);g.fillStyle=KR;g.strokeStyle=PAPER;g.lineWidth=10;g.beginPath();g.moveTo(0,0);g.lineTo(520,60);g.lineTo(540,250);g.lineTo(-30,170);g.closePath();g.fill();g.stroke();g.strokeStyle=INK;g.lineWidth=4;g.stroke();g.restore()}
-   tag(a>.6?'RABBIT':'DUCK',2190,Y+12*s,44,{bg:a>.6?PAPER:RED,c:a>.6?INK:PAPER,r:-4})}}
+  update(dt,t){const p=S.p,was=S.asp;if(p.gr)S.asp=p.y<-300?1:0;if(p.gr&&p.x>1300&&p.x<2000){if(S.asp&&!S.sawR){S.sawR=1;say('Seen from here they are ears, and ears will carry you. The drawing has not changed.')}if(!S.asp&&!S.sawD){S.sawD=1;say('A duck, its bill pointing back the way you came. This road ends at the wall.')}}
+   if(was!==S.asp&&dt){S.hit=S.asp?'RABBIT!':'DUCK!';S.hitT=t}},
+  back(t){const s=5.6,m=M.duckrabbit,X=1500,Y=-390-30*s;sp('duckrabbit',X+m[4]*s,Y+m[5]*s,0,s);
+   tag(S.sawR||S.sawD?(S.asp?'SEEN AS: RABBIT':'SEEN AS: DUCK'):'SEEN AS:',2200,Y-40,38,{bg:PAPER,r:-3})},
+  after(){return'The picture never changed. '+(S.sawD?'First it was a duck you walked under; then ':'It was ')+'a rabbit whose ears you walked on.'}}
 ];
-
+let S_items=[];
 function die(msg){if(S.dead>=0||S.won)return;S.dead=now();S.msg=msg||'Fell. Back to the label.';say(S.msg);SFX.fall()}
-function respawn(){const p=S.p;p.x=S.cp[0];p.y=S.cp[1];p.vx=p.vy=0;p.cv=0;p.gr=0;p.cr=0;p.lad=null;p.face=1;S.dead=-1;if(S.lv.respawn)S.lv.respawn();S.camx=null}
+function respawn(){const p=S.p;p.x=S.cp[0];p.y=S.cp[1];p.vx=p.vy=0;p.cv=0;p.gr=0;p.cr=0;p.lad=null;p.face=1;S.dead=-1;S.item=null;S.L=S.lv.build();if(S.lv.respawn)S.lv.respawn();S.camx=null}
 const xov=(x,s)=>x+PW/2>s.x&&x-PW/2<s.x+s.w;
-function step(dt,t){const p=S.p,L=S.L,so=L.solids.filter(s=>!s.when||s.when());
+function step(dt,t){const p=S.p,L=S.L,so=L.solids.filter(s=>!s.gone);
   const lad=L.ladders.find(l=>p.x>l.x-10&&p.x<l.x+l.w+10&&p.y>l.y-4&&p.y<=l.y+l.h+2);
   if(lad&&!p.lad&&((K.U&&p.y>lad.y+6)||(K.D&&p.y<lad.y+lad.h-6))){p.lad=lad;p.vy=0;p.cr=0;p.gr=0}
   if(p.lad){if(!lad){p.lad=null}else{p.x+=((lad.x+lad.w/2)-p.x)*Math.min(1,dt*10);p.y+=(K.D-K.U)*230*dt;p.climb+=Math.abs(K.D-K.U)*dt*9;p.vy=0;
@@ -198,14 +230,14 @@ function step(dt,t){const p=S.p,L=S.L,so=L.solids.filter(s=>!s.when||s.when());
   // crouch
   if(K.D&&p.gr&&!(lad&&p.y<lad.y+lad.h-6))p.cr=1;else if(p.cr&&!so.some(s=>!s.ow&&xov(p.x,s)&&p.y>s.y+1&&p.y-PH<s.y+s.h))p.cr=0;
   const h=p.cr?PC:PH,dir=K.R-K.L;if(dir)p.face=dir;
-  p.vx+=(dir*(p.cr?150:RUN)-p.vx)*Math.min(1,dt*(p.gr?14:7));
+  p.vx+=(dir*(p.cr?150:RUN)-p.vx)*Math.min(1,dt*(p.gr?(p.on&&p.on.ice?.5:14):7));
   const carry=p.gr&&p.on&&p.on.v?p.on.v:0;let nx=clamp(p.x+(p.vx+(p.gr?carry:p.cv))*dt,L.x0+PW/2,L.x1-PW/2);
   for(const s of so){if(s.ow)continue;if(nx+PW/2>s.x&&nx-PW/2<s.x+s.w&&p.y>s.y+1&&p.y-h<s.y+s.h){
       if(p.gr&&s.y<p.y&&p.y-s.y<=26){p.y=s.y;continue}
       nx=p.x<s.x+s.w/2?s.x-PW/2-.01:s.x+s.w+PW/2+.01;p.vx=0;p.cv=0}}
   if(Math.abs(nx-p.x)>.2&&p.gr){const w0=p.walkp;p.walkp+=Math.abs(p.vx)*dt*.03;if(Math.floor(w0/Math.PI)!==Math.floor(p.walkp/Math.PI)&&Math.abs(p.vx)>60)SFX.step()}
   p.x=nx;
-  if(!K.U)p.hold=0;if(K.U&&!p.hold&&(p.gr||p.coy>0)&&!p.cr&&!(lad&&p.y>lad.y+6)){p.vy=-JV;p.cv=carry*1.5;p.gr=0;p.coy=0;SFX.jump()}
+  const ju=K.U||TAP.U;TAP.U=0;if(!ju)p.hold=0;if(ju&&!p.hold&&(p.gr||p.coy>0)&&!p.cr&&!(lad&&p.y>lad.y+6)){p.vy=-JV;p.cv=carry*1.5;p.gr=0;p.coy=0;SFX.jump()}
   p.vy=Math.min(p.vy+GRAV*dt,1600);const prev=p.y;let ny=p.y+p.vy*dt,land=null;
   for(const s of so){if(!xov(p.x,s))continue;
     if(p.vy>=0&&prev<=s.y+1&&ny>=s.y){ny=s.y;land=s}
@@ -217,18 +249,20 @@ function step(dt,t){const p=S.p,L=S.L,so=L.solids.filter(s=>!s.when||s.when());
   p.rockv+=(-p.rock*90-p.rockv*7)*dt;p.rock+=p.rockv*dt;
   for(const c of L.cps)if(Math.abs(p.x-c[0])<70&&Math.abs(p.y-c[1])<40&&(S.cp[0]!==c[0]||S.cp[1]!==c[1])){S.cp=c;SFX.flag();say('Checkpoint. A fall brings you back here.')}
   if(Math.abs(p.x-L.exit[0])<60&&Math.abs(p.y-L.exit[1])<60&&p.gr&&!S.won){S.won=t;SFX.win();K.L=K.R=K.U=K.D=0;padShow();
-    say(S.n<3?'Delivered. Next: '+LEVELS[S.n+1].name+'.':'All four delivered. Whereof one cannot speak, thereof one must pack.')}}
+    S.afterTxt=S.lv.after();say(S.afterTxt)}}
 
 function drawSolid(s,t){const h=Math.min(s.h,1300);
   if(s.arm){g.fillStyle='#4a4038';g.fillRect(s.x+22,s.y,26,s.h-60);g.fillStyle=RED;g.strokeStyle=INK;g.lineWidth=4;g.fillRect(s.x-14,s.y+s.h-64,s.w+28,64);g.strokeRect(s.x-14,s.y+s.h-64,s.w+28,64);
     g.fillStyle=PAPER;for(let i=0;i<3;i++)g.fillRect(s.x-6+i*32,s.y+s.h-50,16,36);return}
-  if(s.ear)return;
-  g.fillStyle=s.beam?'#7d5f3c':s.belt?'#3b342d':KR;g.fillRect(s.x,s.y,s.w,h);
+  if(s.ear||s.gone)return;
+  if(s.dec){const q=s.ct?Math.min(1,(now()-s.ct)/.32):0;g.save();g.translate(s.x+s.w/2,s.y+q*30);g.rotate(q*.25);tag(s.dec,0,18,26,{bg:'#d9c39a'});g.restore();return}
+  g.fillStyle=s.beam?'#7d5f3c':s.belt?'#3b342d':s.ice?'#cfe0df':s.tread?'#d9c39a':KR;g.fillRect(s.x,s.y,s.w,h);
   if(s.belt){g.fillStyle=PAPER;const o=(t*150)%60;for(let x=s.x+o-60;x<s.x+s.w;x+=60)if(x>=s.x)g.fillRect(x,s.y+12,Math.min(26,s.x+s.w-x),8);
     g.fillStyle=KR;g.fillRect(s.x,s.y+34,s.w,h-34);for(let x=s.x+20;x<s.x+s.w;x+=90){g.fillStyle='#3b342d';g.beginPath();g.arc(x,s.y+17,13,0,7);g.fill()}}
   else if(s.beam){g.save();g.beginPath();g.rect(s.x,s.y,s.w,h);g.clip();g.strokeStyle=RED;g.lineWidth=14;for(let x=s.x-h;x<s.x+s.w;x+=44){g.beginPath();g.moveTo(x,s.y+h);g.lineTo(x+h,s.y);g.stroke()}g.restore()}
   else{g.strokeStyle='rgba(70,48,24,.3)';g.lineWidth=2;for(let y=s.y+24;y<s.y+h;y+=22){g.beginPath();g.moveTo(s.x,y);g.lineTo(s.x+s.w,y);g.stroke()}}
   g.strokeStyle=PAPER;g.lineWidth=9;g.strokeRect(s.x,s.y,s.w,h);g.strokeStyle=INK;g.lineWidth=3.5;g.strokeRect(s.x,s.y,s.w,h);g.fillStyle=INK;g.fillRect(s.x,s.y,s.w,7);
+  if(s.tread)tag(s.tread,s.x+s.w/2,s.y+60,30,{bg:KR});if(s.ice){g.strokeStyle='#fff';g.lineWidth=5;for(let x=s.x+30;x<s.x+s.w-40;x+=70){g.beginPath();g.moveTo(x,s.y+18);g.lineTo(x+34,s.y+10);g.stroke()}}
   if(s.lab){const m=M[s.lab],k2=Math.min(1.25,s.w*.7/m[2]);sp(s.lab,s.x+s.w/2,s.y+(s.slab?h+6:20)+m[3]*k2,(s.x%7<3?1.5:-1.5),k2)}}
 function courier(x,y,J,o){g.save();g.translate(x,y);if(o&&o.sq)g.scale(1.1,.86);man(0,0,MS,J,Object.assign({pack:1},o||{}));g.restore()}
 const crouchJ=(face,ph)=>ground(fk([0,PY],face,38,[98+Math.sin(ph)*8,74-Math.sin(ph)*8],[-128,-118],[50,20],[70,60]));
@@ -252,13 +286,15 @@ function frame(t,dt){const lv=S.lv,L=S.L,p=S.p,k=H*.215/262,VW=W/k;
     for(let y=l.y+10;y<l.y+l.h;y+=42){g.strokeStyle=PAPER;g.lineWidth=11;g.beginPath();g.moveTo(l.x+8,y);g.lineTo(l.x+l.w-8,y);g.stroke();g.strokeStyle=INK;g.lineWidth=5;g.beginPath();g.moveTo(l.x+8,y);g.lineTo(l.x+l.w-8,y);g.stroke()}}
   for(const c of L.cps){const got=S.cp[0]===c[0]&&S.cp[1]===c[1];g.strokeStyle=INK;g.lineWidth=8;g.beginPath();g.moveTo(c[0]-50,c[1]);g.lineTo(c[0]-50,c[1]-300);g.stroke();tag(got?'SAVED':'CHECK',c[0]-50+62,c[1]-275,32,{bg:got?PAPER:RED,c:got?INK:PAPER,r:got?-3:3})}
   {const e=L.exit;g.fillStyle='#17110d';g.fillRect(e[0]-70,e[1]-300,140,300);g.strokeStyle=PAPER;g.lineWidth=10;g.strokeRect(e[0]-70,e[1]-300,140,300);g.strokeStyle=INK;g.lineWidth=4;g.strokeRect(e[0]-70,e[1]-300,140,300);tag('EXIT',e[0],e[1]-340,38,{bg:RED,c:PAPER,r:-2})}
-  if(lv.npc)for(const n of lv.npc(t))courier(n.x,n.y,n.cr?crouchJ(1,t*8):n.y<0?jumpJ(1,-1):walk(t*9+n.x*.01,1),{});
+  if(lv.npc)for(const n of lv.npc(t)){courier(n.x,n.y,n.cr?crouchJ(1,t*8):n.y<0?jumpJ(1,-1):walk(t*9+n.x*.01,1),{});if(n.say)tag('BEETLE.',n.x,n.y-(n.cr?250:330),30,{bg:PAPER,r:-3})}
   // the courier
   if(!(S.dead>=0)||Math.floor(t*20)%2){let J;const mv=Math.abs(p.vx)>30;
     if(p.lad)J=climbJ(p.climb);else if(p.cr)J=crouchJ(p.face,mv?p.walkp*2:0);else if(!p.gr)J=jumpJ(p.face,p.vy);else if(mv)J=walk(p.walkp,p.face);else J=idle(p.face,.3+.3*Math.sin(t*3));
     if(S.won){const q=Math.min(1,(t-S.won)/.6);g.globalAlpha=1-q}
     courier(p.x,p.y,J,{sq:t-p.sq<.13,pr:p.rock*57+(mv&&p.gr?Math.sin(p.walkp*2)*3:0)});g.globalAlpha=1;
     if(lv.gaps)tag('YOU',p.x,p.y+52,30,{bg:RED,c:PAPER})}
+  if(lv.front)lv.front(t);
+  if(t-S.hitT<1.1)tag(S.hit,p.x,p.y-(p.cr?230:330)-(t-S.hitT)*60,34,{bg:/^NOT|DOES NOT/.test(S.hit)?RED:PAPER,c:/^NOT|DOES NOT/.test(S.hit)?PAPER:INK,r:-4});
   g.restore();
   if(S.dead>=0){g.fillStyle='rgba(20,14,10,'+Math.min(.7,(t-S.dead)*1.6)+')';g.fillRect(0,0,W,H)}
   g.fillStyle=PAPER;g.fillRect(0,H-4,W*clamp((p.x-L.x0)/(L.exit[0]-L.x0),0,1),4);
@@ -266,30 +302,30 @@ function frame(t,dt){const lv=S.lv,L=S.L,p=S.p,k=H*.215/262,VW=W/k;
     g.font='700 '+Math.max(12,Math.min(15,W*.034))+'px ui-monospace,Menlo,monospace';g.textAlign='center';g.textBaseline='middle';g.fillStyle=PAPER;
     const lines=[''];for(const w of b.split(' ')){if(g.measureText(lines[lines.length-1]+' '+w).width>W*.86)lines.push(w);else lines[lines.length-1]+=(lines[lines.length-1]?' ':'')+w}
     lines.forEach((l,i)=>g.fillText(l,W/2,cy+s1*1.9+i*20));g.globalAlpha=.6+.4*Math.sin(t*5);tag(c,W/2,cy+s1*1.9+lines.length*20+Math.max(24,U*7),Math.max(12,fitSize(c,W*.8,H*.05)),{bg:RED,c:PAPER});g.globalAlpha=1};
-  if(!S.ready)card(lv.how[0],lv.how[1],'MOVE THE JOYSTICK OR PRESS AN ARROW KEY');
-  else if(S.won&&t-S.won>.7)card(S.n<3?'DELIVERED':'ALL FOUR DELIVERED',S.n<3?'Level '+(S.n+2)+' of 4: '+LEVELS[S.n+1].name+'.':'The courier is inside. Play any level again from the menu.',S.n<3?'PRESS ANY DIRECTION FOR THE NEXT LEVEL':'PRESS ANY DIRECTION FOR THE MENU')}
+  if(!S.ready)card(lv.how[0],lv.how[1]+' '+lv.game+', '+lv.ref+'.','MOVE THE JOYSTICK OR PRESS AN ARROW KEY');
+  else if(S.won&&t-S.won>.7)card(S.n<3?'DELIVERED':'ALL FOUR DELIVERED',(S.afterTxt||'')+(S.n<3?' Next: '+LEVELS[S.n+1].name+'.':' Whereof one cannot speak, thereof one must pack.'),S.n<3?'PRESS ANY DIRECTION FOR THE NEXT LEVEL':'PRESS ANY DIRECTION FOR THE MENU')}
 
 /* ---------- shell ---------- */
-function begin(n){const lv=LEVELS[n],L=lv.build();cur=lv;S={n,lv,L,ready:false,won:0,dead:-1,cp:L.start,camx:null,cy:0,asp:0,proc:0,ck:-1,msg:'',
+function begin(n){const lv=LEVELS[n];if(lv.calls)lv.calls.forEach(c=>c.done=0);S={ladGone:0};const L=lv.build();cur=lv;S={n,lv,L,ready:false,won:0,dead:-1,cp:L.start,camx:null,cy:0,asp:0,proc:0,ck:-1,msg:'',hit:'',hitT:-9,item:null,dPrev:0,looks:[],peek:null,sayer:-1,sayT:-9,ladGone:0,sawR:0,sawD:0,iced:0,afterTxt:'',
     p:{x:L.start[0],y:L.start[1],vx:0,vy:0,cv:0,gr:1,on:null,face:1,cr:0,lad:null,coy:0,walkp:0,climb:0,sq:-9,rock:0,rockv:0}};
   $('#hub').hidden=true;$('#game').hidden=false;$('#name').textContent=(n+1)+'  '+lv.name;score('');say(lv.how[1]);fit();last=now();cancelAnimationFrame(raf);raf=requestAnimationFrame(loop)}
 function home(){cancelAnimationFrame(raf);cur=null;S=null;K.L=K.R=K.U=K.D=0;$('#game').hidden=true;$('#hub').hidden=false}
 function loop(){if(!cur)return;const t=now(),dt=Math.min(.05,t-last);last=t;const d=window.devicePixelRatio||1;g.setTransform(d,0,0,d,0,0);g.globalAlpha=1;g.clearRect(0,0,W,H);frame(t,dt);raf=requestAnimationFrame(loop)}
 function press(){if(!S)return;ac();if(!S.ready){S.ready=true;return}if(S.won&&now()-S.won>.9){if(S.n<3)location.hash='L'+(S.n+2);else location.hash=''}}
 function route(){const m=/^#L([1-4])$/.exec(location.hash);if(m)begin(+m[1]-1);else home()}
-LEVELS.forEach((lv,i)=>{const b=document.createElement('button');b.style.backgroundImage='url(a/'+lv.art+')';b.innerHTML='<div><b></b><span></span></div>';b.querySelector('b').textContent=(i+1)+'  '+lv.name;b.querySelector('span').textContent=lv.how[0].toLowerCase().replace(/^./,c=>c.toUpperCase());b.onclick=()=>{ac();location.hash='L'+(i+1)};$('#tiles').appendChild(b)});
+LEVELS.forEach((lv,i)=>{const b=document.createElement('button');b.style.backgroundImage='url(a/'+lv.art+')';b.innerHTML='<div><b></b><span></span></div>';b.querySelector('b').textContent=(i+1)+'  '+lv.name;b.querySelector('span').textContent=lv.game+' · '+lv.ref;b.onclick=()=>{ac();location.hash='L'+(i+1)};$('#tiles').appendChild(b)});
 $('#exit').onclick=()=>{location.hash=''};
 $('#snd').onclick=()=>{muted=!muted;$('#snd').textContent=muted?'Muted':'Sound';if(!muted)ac()};
 addEventListener('hashchange',route);addEventListener('resize',()=>{if(cur)fit()});if(window.ResizeObserver)new ResizeObserver(()=>{if(cur)fit()}).observe($('#stage'));
 const KEYS={ArrowLeft:'L',ArrowRight:'R',ArrowUp:'U',ArrowDown:'D',a:'L',d:'R',w:'U',s:'D',A:'L',D:'R',W:'U',S:'D',' ':'U'};
-addEventListener('keydown',e=>{if(!cur||e.metaKey||e.ctrlKey||e.altKey)return;if(e.key==='Escape'){location.hash='';return}const k=KEYS[e.key];if(!k)return;e.preventDefault();if(!e.repeat)press();if(S.ready&&!S.won)K[k]=1;padShow()});
+addEventListener('keydown',e=>{if(!cur||e.metaKey||e.ctrlKey||e.altKey)return;if(e.key==='Escape'){location.hash='';return}const k=KEYS[e.key];if(!k)return;e.preventDefault();if(!e.repeat)press();if(S.ready&&!S.won)setK(k,1);padShow()});
 addEventListener('keyup',e=>{const k=KEYS[e.key];if(k){K[k]=0;padShow()}});
 addEventListener('blur',()=>{K.L=K.R=K.U=K.D=0;padShow()});
 const pad=$('#pad');let padId=null;
 function padShow(dx,dy){for(const[c,k]of[['u','U'],['d','D'],['l','L'],['r','R']])pad.querySelector('.'+c).classList.toggle('on',!!K[k]);
   const kx=dx===undefined?(K.R-K.L)*30:dx,ky=dy===undefined?(K.D-K.U)*30:dy;$('#knob').style.transform='translate('+kx+'px,'+ky+'px)'}
 function padSet(e){const r=pad.getBoundingClientRect(),R0=r.width/2,dx=e.clientX-r.left-R0,dy=e.clientY-r.top-R0,d=Math.hypot(dx,dy);
-  if(d<R0*.16){K.L=K.R=K.U=K.D=0}else{const cx=dx/d,cy=dy/d;K.R=cx>.38?1:0;K.L=cx<-.38?1:0;K.D=cy>.38?1:0;K.U=cy<-.38?1:0}
+  if(d<R0*.16){K.L=K.R=K.U=K.D=0}else{const cx=dx/d,cy=dy/d,ok=S&&S.ready&&!S.won;setK('R',ok&&cx>.38?1:0);setK('L',ok&&cx<-.38?1:0);setK('D',ok&&cy>.38?1:0);setK('U',ok&&cy<-.38?1:0)}
   if(!S||!S.ready||S.won)K.L=K.R=K.U=K.D=0;const m=Math.min(d,R0*.5)/(d||1);padShow(dx*m,dy*m)}
 pad.addEventListener('pointerdown',e=>{if(padId!==null)return;padId=e.pointerId;try{pad.setPointerCapture(padId)}catch(_){}press();padSet(e);e.preventDefault()});
 pad.addEventListener('pointermove',e=>{if(e.pointerId===padId)padSet(e)});
