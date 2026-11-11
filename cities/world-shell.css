@@ -1,0 +1,68 @@
+/* The world stays visible; controls become a small dock and one deliberate panel. */
+.world-shell #top,.world-shell #plate,.world-shell #cast{display:none}
+.world-shell #bgcap{top:auto!important;bottom:108px;left:18px!important;max-width:calc(100vw - 36px);font-size:10px!important;z-index:7}
+.world-shell #addr{z-index:12;bottom:132px;max-width:min(420px,82vw);max-height:48vh;overflow:auto;user-select:text}
+.world-shell #start{z-index:50;cursor:default;background:radial-gradient(ellipse at 10% 10%,#172f41ed,transparent 65%),#070c12ed}
+.world-shell #start .go{cursor:pointer;border:1px solid #bba783;padding:13px 18px;border-radius:3px;align-self:flex-start;min-height:44px;box-sizing:border-box}
+.world-shell #start .go:focus-visible{outline:3px solid #91d3e6;outline-offset:4px}
+.world-shell #start p{max-width:560px}
+.world-shell #world-header{position:fixed;top:max(15px,env(safe-area-inset-top));left:18px;right:18px;z-index:8;display:flex;align-items:start;justify-content:space-between;gap:20px;pointer-events:none}
+#world-header .eyebrow{font:10px/1.4 'JetBrains Mono',monospace;letter-spacing:.2em;color:#d3ad77}
+#world-header h1{font:400 clamp(15px,2vw,22px)/1.25 Jost,system-ui,sans-serif;margin:5px 0;color:#f5ead9;text-shadow:0 1px 8px #000}
+#world-mode-label{font:10px/1.4 monospace;color:#c3cbd3;text-align:right;max-width:140px;text-shadow:0 1px 7px #000}
+#world-dock{position:fixed;z-index:15;left:50%;transform:translateX(-50%);bottom:max(14px,env(safe-area-inset-bottom));display:flex;gap:2px;padding:5px;background:#09111eee;border:1px solid #7a756859;border-radius:9px;box-shadow:0 8px 35px #0007;max-width:calc(100vw - 16px)}
+#world-dock button,.world-panel button,.world-panel select,.world-panel input[type=file]::file-selector-button{font:500 12px/1.2 Jost,system-ui,sans-serif;border:1px solid #47505d;background:#18212c;color:#ebe4d6;min-height:44px;border-radius:4px;padding:9px 12px;cursor:pointer}
+#world-dock button{border:0;background:transparent;white-space:nowrap;min-width:48px;padding:9px 10px}
+#world-dock button[aria-pressed=true],.world-panel button.primary{color:#161716;background:#e9b77a}
+#world-dock button:hover,.world-panel button:hover{background:#33404e}
+#world-dock button:focus-visible,.world-panel :focus-visible{outline:2px solid #9cd6e4;outline-offset:2px}
+#world-dock button:disabled{opacity:.45;cursor:wait}
+#world-hint{position:fixed;left:50%;transform:translateX(-50%);bottom:80px;z-index:8;max-width:min(650px,90vw);font:11px/1.5 'JetBrains Mono',monospace;text-align:center;color:#d7d7d4;text-shadow:0 1px 8px #000;pointer-events:none}
+#world-status{position:fixed;top:90px;left:18px;right:18px;z-index:30;font:12px/1.5 system-ui;color:#f6e4c4;pointer-events:none}
+#world-status:empty{display:none}
+#world-status span{display:inline-block;background:#111b28ee;border:1px solid #ac8b60;padding:9px 12px;border-radius:4px;max-width:560px}
+#world-crosshair{position:fixed;left:50%;top:50%;width:5px;height:5px;border:1px solid #f2e3c4;border-radius:50%;transform:translate(-50%,-50%);z-index:6;pointer-events:none;opacity:.65}
+#world-stick{position:fixed;left:max(20px,env(safe-area-inset-left));bottom:130px;width:96px;height:96px;border:1px solid #b9bdc779;border-radius:50%;background:#0a162838;z-index:10;touch-action:none;display:none}
+#world-stick::before{content:'';position:absolute;inset:26px;border:1px solid #d2cab4aa;border-radius:50%;background:#e5ddbe2c;transform:translate(var(--stick-x,0px),var(--stick-y,0px))}
+#world-stick::after{content:'MOVE';position:absolute;bottom:-23px;left:0;right:0;text-align:center;color:#c6c8c8;font:9px monospace;letter-spacing:.16em}
+#world-stick[data-active=true]{background:#12253c88}
+#world-vertical{position:fixed;right:18px;bottom:130px;z-index:10;display:none;gap:8px}
+#world-vertical button{width:46px;height:46px;border:1px solid #c4bc9b88;border-radius:50%;background:#0a16287a;color:#f5e9d2;font:22px system-ui;touch-action:none}
+.world-panel{position:fixed;inset:0;margin:auto;width:min(660px,calc(100vw - 32px));max-height:calc(100dvh - 40px);box-sizing:border-box;border:1px solid #86785f;background:#0d1621f7;color:#ece4d6;border-radius:10px;padding:0;box-shadow:0 24px 100px #000c;font:14px/1.5 Jost,system-ui,sans-serif;user-select:text}
+.world-panel::backdrop{background:#02071288;backdrop-filter:blur(3px)}
+.world-panel header{position:sticky;top:0;background:#0d1621;z-index:3;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #36404d;padding:14px 18px}
+.world-panel h2{font:400 23px/1.2 Jost,system-ui;margin:0}
+.world-panel h3{font:500 13px/1.4 monospace;letter-spacing:.1em;color:#dfba80;margin:22px 0 10px}
+.world-panel p{color:#b8c4cf;margin:8px 0 16px}
+.world-panel .content{padding:0 18px 20px}
+.world-panel .field{display:grid;grid-template-columns:1fr 150px 46px;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid #ffffff0b}
+.world-panel .field output{font:11px monospace;color:#c5b28f;text-align:right}
+.world-panel .field input[type=range]{width:100%;accent-color:#e9b77a;min-height:32px;margin:0}
+.world-panel .field input[type=checkbox]{width:20px;height:20px;accent-color:#e9b77a;justify-self:end}
+.world-panel .field select{grid-column:2/4;width:100%;min-width:0}
+.world-panel label{font-size:13px}
+.world-panel .actions{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0}
+.world-panel details{border-top:1px solid #41444a;margin:16px 0;padding-top:12px}
+.world-panel summary{cursor:pointer;color:#ddc395;min-height:30px}
+.world-panel .note{font-size:12px;color:#9eacb9}
+.world-panel .room-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.world-panel .room-grid button{text-align:left;min-height:64px;display:flex;flex-direction:column;align-items:start;justify-content:center;gap:6px}
+.world-panel .room-grid small{font:10px/1.3 monospace;color:#a9b6c2}
+.world-panel .room-grid [aria-current=true]{border-color:#e7b981;background:#342a20}
+.world-panel .room-grid button[hidden]{display:none}
+.world-panel .search{width:100%;box-sizing:border-box;border:1px solid #47505d;border-radius:4px;padding:12px;color:#eee;background:#18212c;font:14px system-ui;margin:4px 0 16px}
+#world-tools #bar,#world-tools #card{position:static;inset:auto;max-width:none;width:auto;display:flex;flex-wrap:wrap;gap:7px;padding:12px 0;background:none;border:0;backdrop-filter:none}
+#world-tools #card{display:block}
+#world-tools #bar a,#world-tools #bar button{box-sizing:border-box;min-height:44px;padding:10px;font:11px/1.5 monospace;background:#18212c;border:1px solid #47505d;border-radius:3px}
+#world-tools #bar select{max-width:100%;min-height:44px;background:#18212c}
+#world-tools #card .x{position:static;float:right;min-height:44px}
+#world-tools #card button{min-height:32px}
+#world-cabinet .entry{padding:14px 0;border-bottom:1px solid #39424e}
+#world-cabinet .entry small{display:block;color:#a6b5c6}
+#world-cabinet .entry a{display:inline-block;padding:8px 0;color:#e9b77a}
+#world-inspect-pin{margin:10px 0 2px;min-height:40px;border:1px solid #d6ac70;background:#24313d;color:#f3ddba;border-radius:4px;padding:7px 12px;cursor:pointer}
+.world-shell[data-world-mode=film] #world-crosshair,.world-shell[data-world-mode=film] #world-stick,.world-shell[data-world-mode=film] #world-vertical{display:none!important}
+.world-shell.cine #world-header,.world-shell.cine #world-dock,.world-shell.cine #world-hint,.world-shell.cine #world-crosshair,.world-shell.cine #world-stick,.world-shell.cine #world-vertical,.world-shell.cine #world-status{display:none!important}
+@media(pointer:coarse){#world-stick{display:block}#world-vertical[data-fly=true]{display:grid}#world-hint{bottom:83px;font-size:10px;max-width:92vw}.world-shell #bgcap{bottom:220px}}
+@media(max-width:480px){.world-panel .field{grid-template-columns:1fr 110px 35px}#world-dock button{padding:8px;font-size:11px;min-width:45px}#world-header h1{max-width:230px}#world-mode-label{font-size:9px;max-width:90px}.world-panel .room-grid{grid-template-columns:1fr 1fr}.world-panel .content{padding:0 14px 18px}.world-panel header{padding:12px 14px}}
+@media(prefers-reduced-motion:reduce){.world-shell *{scroll-behavior:auto!important}}

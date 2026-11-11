@@ -12,7 +12,7 @@ Live: https://hartswf0.github.io/bolas/
 | [Afterlight](afterlight/) | Films about what light leaves behind, a film concept by Sosuke & Watson. Twenty-one versions in order (an instrument, an essay, a story, five trailers and ten sample studies), each shown with the note that produced it. |
 | [WYGWYL](wygwyl/) | The poet as a jointed paper cut-out made from his own photographs, set over the cineosis-lab cel cuts with the reading on the soundtrack. Every patch is built from the lab's cel database. |
 | [Celluloid Cities](cities/) | All of Bolas as seven cities built of film: each of its 434 videos is a tower whose windows are that film's own frames. In ALLWAYS · ARGON, the 97 cuts that kept an edit list each have a street: their archive sources stand along it, and jellyfish carry each shot, one a bar, from its source tower to the cut's own tower, which lights floor by floor until the cut is whole. Fourteen further cities hold the Cineosis Lab archive, one per WYGWYL poem. Touch a floor to read its address. Songs, species and fonts are read from the contaminant-jelly site; source thumbnails from the Cineosis Lab site. |
-| [Worlds](worlds/) | Every world of the orchestra on one wall, with a still of each and a door into it: twelve paints and prints (stencil, poster, spray, ink on film, wet ink, watercolour, ink wash, thick paint, woodblock, cyanotype, risograph, glass), twelve experiments, six places (library, data center, video store, film depot, wet collection, orbit), all walkable, any of them seen through any paint, the celluloid cities, and seventeen builders. |
+| [Worlds](worlds/) | Every world of the orchestra on one wall, with a still of each and a door into it: twelve paints and prints (stencil, poster, spray, ink on film, wet ink, watercolour, ink wash, thick paint, woodblock, cyanotype, risograph, glass), twelve experiments, seven places (library, data center, video store, film depot, wet collection, orbit and constellation commons), shared walking or flight, the celluloid cities, and authored builders. |
 
 - [This Side Up](this-side-up/): case studies of the cardboard cut-out films, each with a full case page of versions, prompts, critic rounds and sheets
 - [PAELEO](paeleo/): Promptable Augmented Environments Lab · Ekphrastic Operations. One research program at three scales (AEL, PEO, PAELEO); its films are made with the SCION swarms, all 54 of which are written up and shown through the same paper dog at [paeleo/scion/](paeleo/scion/); six of them make the same scene from the bottom up at [paeleo/handmade/](paeleo/handmade/); PAE-04, [The Burning of the Abominable House](paeleo/abominable-house/), is Calvino's burned house as flour-sack films, with a film bank that plays any of its 12^12 stories
@@ -36,3 +36,18 @@ from the rig at one shared scale (`cameos.json` records each strip's frame size 
 them and has them react to the player (they sit down and turn to watch on play, turn back on pause, cheer at the end).
 A new character is a set of sprites plus one entry for its size and lines. The poet is a real person: he appears but never speaks.
 
+
+## Shared archive world
+
+[Enter Constellation Commons](cities/?room=constellation&mode=explore). Celluloid Cities now has an Explore camera alongside the existing Film director. The existing rooms and cities share a room map, a song, a cabinet of source-linked film selections, and saved visual settings. This is a connected set of navigable scenes; transitions use constellation doors and the map.
+
+- **Explore:** WASD / arrow keys and drag to look; touch joystick plus right-thumb look on phones. Settings switches Walk to Fly / swim, with Q/E or touch arrows for height. Walking uses conservative shelf/tower bounds; flight passes through objects.
+- **Inspect:** tap a film floor or tape, or aim and press F / Inspect. Keep its source record in the cabinet. Named stars enter rooms.
+- **Settings:** place, song, authored paint (including risograph and radiographic glass) and city form are saved together. Fine treatments include woodblock, ink landscape, pen doodle, watercolor, spray, thread, cyanotype and glass; continuous outline, line width, grain and wobble. Original retains the chosen authored treatment, including its trail and musical behavior. Orbit keeps its planet and film ribbons under the shared sky controls. Settings include stars, fog, speed, volume, steady camera, reset, JSON import/export and a shareable room link.
+- **Film:** preserves the authored camera and recording tools. Those tools remain in Settings → Film, recording & experiment tools.
+
+The versioned host API is `window.archiveWorld`. [WORLD_CONTRACT.md](cities/WORLD_CONTRACT.md) documents state, events, provenance and room ownership. The Drifts and Real Jelly remain linked working experiences with their own renderers, bodies and instruments; they have not yet been mounted as shared-runtime rooms.
+
+Run the dependency-free state, style and navigation checks with `node --test cities/tests/world-state.test.mjs cities/tests/world-style.test.mjs cities/tests/world-navigation.test.mjs`. Artistic contours are screen-space luminance edges, not geometry-normal outlines or physical pigment/refraction simulations.
+
+For the DOM/runtime integration suite (Node22+), run `npm --prefix cities/tests install --ignore-scripts` and `npm --prefix cities/tests test`. The shell tests execute the real modules with THREEr160 and explicit canvas/dialog/composer/host doubles. They do not certify rendered appearance, browser audio, or physical touch-device behavior.
