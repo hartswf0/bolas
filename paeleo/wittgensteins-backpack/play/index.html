@@ -40,6 +40,7 @@ button:focus-visible,a:focus-visible{outline:3px solid var(--red);outline-offset
 #acts button.d{background:none;border-style:dashed;color:var(--dim)}
 #acts button.u{background:var(--red);color:var(--paper)}
 #acts button:active{transform:translateY(1px)}
+body.kb #acts button[data-k]::after{content:attr(data-k);display:block;font:400 10px/1.2 ui-monospace,Menlo,monospace;letter-spacing:0;opacity:.75;margin-top:2px}
 </style>
 </head>
 <body>
@@ -73,7 +74,9 @@ function fit(){const r=$('#stage').getBoundingClientRect(),d=window.devicePixelR
 function say(t){$('#say').textContent=t}
 function score(t){$('#score').textContent=t}
 function acts(list,cols){const a=$('#acts');a.innerHTML='';a.style.gridTemplateColumns='repeat('+(cols||list.length||1)+',minmax(0,1fr))';
-  list.forEach(b=>{const e=document.createElement('button');e.textContent=b.t;if(b.k)e.className=b.k;if(b.span)e.style.gridColumn='span '+b.span;if(b.off){e.style.visibility='hidden';e.disabled=true}e.onclick=b.f;a.appendChild(e)})}
+  list.forEach(b=>{const e=document.createElement('button');e.textContent=b.t;if(b.k)e.className=b.k;if(b.span)e.style.gridColumn='span '+b.span;if(b.off){e.style.visibility='hidden';e.disabled=true}if(b.key){e.dataset.key=b.key;e.dataset.k=KEYNAME[b.key]||b.key.toUpperCase()}e.onclick=()=>{go();b.f()};a.appendChild(e)})}
+const KEYNAME={ArrowLeft:'\u2190',ArrowRight:'\u2192',ArrowUp:'\u2191',ArrowDown:'\u2193',' ':'SPACE',Enter:'ENTER'};
+function go(){if(S&&!S.ready){S.ready=true;if(cur.begin)cur.begin()}}
 function done(text){S.over=1;say(text+'  '+cur.ref);acts([{t:'AGAIN',k:'q',f:()=>start(cur.id)}])}
 
 /* ---------- cut-out kit: the film's sprites ---------- */
@@ -125,10 +128,11 @@ const G={};
 
 /* ---------- 1 the stairs: a word is an order ---------- */
 const ITEMS=['BOX','BAG','PACK','BELT'],w_=s=>s.replace('NOT ','');
-G.stairs={name:'The stairs',ref:'PI §1, §2, §107',line:'A word is an order.',art:'t1.jpg',
+G.stairs={how:['PRESS THE WORD THAT IS CALLED','Tap, click, or use the arrow keys.'],name:'The stairs',ref:'PI §1, §2, §107',line:'A word is an order.',art:'t1.jpg',
   init(){S={me:0,st:0,call:[],i:0,t0:0,dur:7,fl:-9,vx:0};this.next()},
-  next(){const n=S.me<4?1:S.me<8?2:3;S.call=shuf(ITEMS).slice(0,n);S.i=0;S.t0=now();S.lock=now()+.25;S.dur=7-S.me*.3;this.ui()},
-  ui(){score('ME '+S.me+' / STAIRS '+S.st);say(S.why||'Press what is called, left to right, before the bar runs out.');acts(ITEMS.map(w=>({t:w,f:()=>this.tap(w)})))},
+  next(){const n=S.me<4?1:S.me<8?2:3;S.call=shuf(ITEMS).slice(0,n);S.i=0;S.t0=now();S.lock=now()+.25;S.dur=S.me<2?1e9:8.5-S.me*.35;this.ui()},
+  begin(){S.t0=now()},
+  ui(){score('ME '+S.me+' / STAIRS '+S.st);say(S.why||'Press what is called, left to right, before the bar runs out.');acts(ITEMS.map((w,i)=>({t:w,key:['ArrowLeft','ArrowUp','ArrowDown','ArrowRight'][i],f:()=>this.tap(w)})))},
   tap(w){if(S.over||now()<S.lock)return;if(w===S.call[S.i]){S.i++;S.why='';if(S.i===S.call.length){S.me++;if(S.me===12){score('ME 12 / STAIRS '+S.st);return done('Top floor. Nobody asked what BOX names. It was an order every time.')}this.next()}}else this.miss('NOT '+w)},
   miss(why){S.st++;S.fl=now();S.flw=why||'TOO SLOW';S.why=(why?'The call was '+S.call[S.i]+', not '+w_(why)+'.':'Too slow.')+' The stairs score.';if(S.st===12){score('ME '+S.me+' / STAIRS 12');return done('The stairs win. Back to the rough ground.')}this.next()},
   draw(t,dt){
@@ -145,15 +149,16 @@ G.stairs={name:'The stairs',ref:'PI §1, §2, §107',line:'A word is an order.',
     const str=S.call.join(' THEN '),size=Math.max(18,fitSize(str,W*.86,H*.075));g.font='900 '+size+'px '+FONT;
     const full=g.measureText(str).width;tag(str,W/2,H*.1,size,{r:-1.5,bg:PAPER});g.font='900 '+size+'px '+FONT;
     if(S.i){const dw=g.measureText(S.call.slice(0,S.i).join(' THEN ')).width;g.strokeStyle=RED;g.lineWidth=size*.12;g.beginPath();g.moveTo(W/2-full/2,H*.1);g.lineTo(W/2-full/2+dw,H*.1);g.stroke()}
-    const f=clamp(1-(t-S.t0)/S.dur,0,1);g.fillStyle=INK;g.fillRect(W*.2-2,H*.1+size*1.25-2,W*.6+4,Math.max(8,U*2.2)+4);g.fillStyle=f<.3?RED:PAPER;g.fillRect(W*.2,H*.1+size*1.25,W*.6*f,Math.max(8,U*2.2));
+    const f=clamp(1-(t-S.t0)/S.dur,0,1);if(S.dur<1e8)g.fillStyle=INK,g.fillRect(W*.2-2,H*.1+size*1.25-2,W*.6+4,Math.max(8,U*2.2)+4),g.fillStyle=f<.3?RED:PAPER,g.fillRect(W*.2,H*.1+size*1.25,W*.6*f,Math.max(8,U*2.2));else tag('NO TIMER YET',W/2,H*.1+size*1.6,Math.max(11,U*3),{bg:PAPER});
     if(t-S.fl<.9)tag(S.flw+'  STAIRS +1',W/2,H*.27,Math.min(H*.035,W*.05),{bg:RED,c:PAPER,r:3});
   }};
 
 /* ---------- 2 everyone has a box: the contents cancel out ---------- */
 const INBOX=['a bug','the word BEETLE','a frog','a smaller box','nothing'];
-G.beetle={name:'Everyone has a box',ref:'PI §293',line:'What is inside drops out.',art:'t2.jpg',
+G.beetle={how:['PRESS MARCH WHEN THE RING CLOSES','Tap, click, or press SPACE.'],name:'Everyone has a box',ref:'PI §293',line:'What is inside drops out.',art:'t2.jpg',
   init(){S={steps:0,t0:now(),P:.7,last:-1,looks:[],asked:0,open:null,bub:null,stum:-9,hit:-9};
-    score('STEP 0 / 16');say('Press MARCH as the ring closes. Tap any box to look inside.');acts([{t:'MARCH',f:()=>this.march()}])},
+    score('STEP 0 / 16');say('Press MARCH as the ring closes. Tap any box to look inside.');acts([{t:'MARCH',key:' ',f:()=>this.march()}])},
+  begin(){S.t0=now()},key(k){if(k==='Enter'||k.startsWith('Arrow')){this.march();return 1}},
   march(){if(S.over)return;const bt=now()-S.t0,k=Math.round(bt/S.P),err=Math.abs(bt-k*S.P);
     if(err<.19&&k!==S.last){S.last=k;S.steps++;S.hit=now();score('STEP '+S.steps+' / 16');if(S.steps<16)say('In step.');
       if(S.steps===16)done('The line arrived. In your box you saw: '+([...new Set(S.looks)].join(', ')||'you never looked')+'. '+(S.asked?'You asked '+S.asked+' other'+(S.asked===1?'':'s')+'; each said BEETLE.':'You asked nobody what they carry.'))}
@@ -182,12 +187,12 @@ G.beetle={name:'Everyone has a box',ref:'PI §293',line:'What is inside drops ou
 /* ---------- 3 the word-stairs: climb it, kick it away ---------- */
 const RH=['FOX','SOCKS','ROCKS','LOCKS','CLOCKS','BLOCKS','KNOX','KNOCKS'],LAB=[0,2,3,6,7,4,5,1,8];
 const DEC=['BAG','BACK','BOOKS','BIKES','BEAKS','TAPE','TRUCK','STAIR','BELT','BOSS','BOAT','BUCKS','FIX','SACKS','LICKS','BRICK','FAX','COAT'];
-G.ladder={name:'The word-stairs',ref:'Tractatus 6.54; Culture and Value',line:'Climb it, then kick it away.',art:'t3.jpg',
+G.ladder={how:['PRESS THE WORD THAT RHYMES WITH BOX','Tap, click, or use the arrow keys.'],name:'The word-stairs',ref:'Tractatus 6.54; Culture and Value',line:'Climb it, then kick it away.',art:'t3.jpg',
   init(){S={r:['BOX'],ph:0,t0:0,sh:-9,why:''};this.ui()},
   ui(){score(S.r.length+' / 9');S.lock=now()+.25;
-    if(S.r.length===9){S.ph=1;say('You are at the top.');return acts([{t:'THROW AWAY THE LADDER',k:'u',f:()=>{S.ph=2;S.t0=now();say('');acts([{t:'-',off:1}])}}])}
+    if(S.r.length===9){S.ph=1;say('You are at the top.');return acts([{t:'THROW AWAY THE LADDER',k:'u',key:' ',f:()=>{S.ph=2;S.t0=now();say('');acts([{t:'-',off:1}])}}])}
     say(S.why||'Press the word that rhymes with BOX. A wrong word breaks a rung.');
-    const want=RH[S.r.length-1];acts(shuf([want,...shuf(DEC).slice(0,2)]).map(w=>({t:w,f:()=>this.tap(w,want)})))},
+    const want=RH[S.r.length-1];acts(shuf([want,...shuf(DEC).slice(0,2)]).map((w,i)=>({t:w,key:['ArrowLeft','ArrowUp','ArrowRight'][i],f:()=>this.tap(w,want)})))},
   tap(w,want){if(S.ph||now()<S.lock)return;if(w===want){S.r.push(w);S.why=''}else{S.sh=now();const p=S.r.length>1?S.r.pop():'';S.why=w+' does not rhyme with BOX.'+(p?' '+p+' breaks off.':'')}this.ui()},
   draw(t){
     bg('stage');const fl=H*.95,rh=Math.min(H*(W>H?.085:.066),W*.105),rw=rh*2.75,x0=W*.5-rh*1.2,dt=t-S.t0,k=Math.min(H*.22,W*.34)/MH;
@@ -204,14 +209,15 @@ G.ladder={name:'The word-stairs',ref:'Tractatus 6.54; Culture and Value',line:'C
   }};
 
 /* ---------- 4 rabbit, duck, fly: the drawing does not change ---------- */
-G.aspect={name:'Rabbit, duck, fly',ref:'PI II xi, §309',line:'The drawing does not change.',art:'t4.jpg',
+G.aspect={how:['CARROT: RABBIT.  BREAD: DUCK.','Tap that side of the stage, click, or use left and right arrows.'],name:'Rabbit, duck, fly',ref:'PI II xi, §309',line:'The drawing does not change.',art:'t4.jpg',
   init(){S={st:0,n:0,calls:0,asp:null,it:null,ang:180,fx:0,fy:60,out:0,res:'',rt:-9,drag:null};this.spawn();this.ui()},
-  spawn(){S.it={k:R(['CARROT','BREAD']),t0:now(),dur:Math.max(1.5,2.8-S.n*.15)}},
+  spawn(){S.it={k:R(['CARROT','BREAD']),t0:now(),dur:Math.max(1.7,3.2-S.n*.15)}},
+  begin(){S.it.t0=now()},key(k){if(S.st===1&&(k==='ArrowLeft'||k==='ArrowRight')){S.ang+=k==='ArrowLeft'?-15:15;return 1}},
   ui(){if(S.st===0){score(S.n+' / 8');say('Carrot: press RABBIT! Bread: press DUCK! Press before it lands.');
-      acts([{t:'RABBIT!',f:()=>this.call('RABBIT')},{t:'DUCK!',f:()=>this.call('DUCK')}])}
-    else{score('');say('Show the fly the way out. It only flies up. Drag the bottle or press TURN.');acts([{t:'TURN',f:()=>{S.ang+=30}}])}},
+      acts([{t:'DUCK!',key:'ArrowLeft',f:()=>this.call('DUCK')},{t:'RABBIT!',key:'ArrowRight',f:()=>this.call('RABBIT')}])}
+    else{score('');say('Show the fly the way out. It only flies up. Drag the bottle or press TURN.');acts([{t:'TURN',key:' ',f:()=>{S.ang+=30}}])}},
   call(a){if(S.over||S.st)return;if(S.asp!==a)S.calls++;S.asp=a;S.it.dur=Math.min(S.it.dur,now()-S.it.t0+.35)},
-  down(x,y){if(S.st===1)S.drag={a:Math.atan2(y-H/2,x-W/2),g:S.ang}},
+  down(x,y){if(S.st===1)S.drag={a:Math.atan2(y-H/2,x-W/2),g:S.ang};else this.call(x<W/2?'DUCK':'RABBIT')},
   move(x,y){if(S.st===1&&S.drag)S.ang=S.drag.g+(Math.atan2(y-H/2,x-W/2)-S.drag.a)*180/Math.PI},
   up(){S.drag=null},
   draw(t,dt){
@@ -242,12 +248,13 @@ G.aspect={name:'Rabbit, duck, fly',ref:'PI II xi, §309',line:'The drawing does 
   }};
 
 /* ---------- 5 constraint mode: nothing stretches ---------- */
-G.rig={name:'Constraint mode',ref:'PI §193–194; Sketchpad',line:'Nothing stretches.',art:'t5.jpg',
+G.rig={how:['PRESS REACH','Tap the box, click, or press SPACE. Arrow keys step.'],name:'Constraint mode',ref:'PI §193–194; Sketchpad',line:'Nothing stretches.',art:'t5.jpg',
   B:[[.64,-330],[.93,-400],[.07,-250],[.82,-200],[.4,-440]],
   init(){const p=W/2-this.span()*.12;S={got:0,steps:0,px:p,vx:p,want:null,tg:null,ok:true,face:1,need:0};this.ui()},
   span(){return Math.min(W,560*this.k())},
   ui(){score('BOX '+S.got+' / 5');say('Reach the box. Drag the hand or press REACH. If it will not solve, move the pinned feet.');
-    acts([{t:'STEP LEFT',k:'s'+(S.need<0?' u':''),f:()=>this.step(-1)},{t:'REACH',f:()=>{S.want=this.bx()}},{t:'STEP RIGHT',k:'s'+(S.need>0?' u':''),f:()=>this.step(1)}])},
+    acts([{t:'STEP LEFT',key:'ArrowLeft',k:'s'+(S.need<0?' u':''),f:()=>this.step(-1)},{t:'REACH',key:' ',f:()=>{S.want=this.bx()}},{t:'STEP RIGHT',key:'ArrowRight',k:'s'+(S.need>0?' u':''),f:()=>this.step(1)}])},
+  key(k){if(k==='ArrowUp'||k==='Enter'){S.want=this.bx();return 1}},
   k(){return Math.min(H*.6/MH,W/420)},
   bx(){const b=this.B[S.got];return[W/2+(b[0]-.5)*this.span(),H*.9+b[1]*this.k()]},
   step(d){if(S.over)return;const nx=clamp(S.px+d*this.k()*60,W*.06,W*.94);if(nx===S.px)return;S.px=nx;S.steps++},
@@ -293,13 +300,13 @@ const RULE={DETACH:'An arm unpins. It is still the same man.',INVERT:'Gravity tu
   REPLACE:'A new head in the same socket. The slot decides the role.',HATCH:'The box was an egg. A new player arrives with new rules.',SWALLOW:'Container and carrier change places.',
   EMERGE:'Tape becomes marching bodies by one rule of projection.',ENTER:'A whole mover becomes one box in the truck.',INTERRUPT:'Stopped from outside the frame. The stage is as it was.'};
 const HEADS=[null,'boxhead','duckrabbit','frog_dj'];
-G.verbs={name:'Ten verbs',ref:'Tractatus 5.632, 7',line:'One rule changes per stamp.',art:'t6.jpg',
+G.verbs={how:['PRESS ANY VERB','Tap, click, or use the number keys.'],name:'Ten verbs',ref:'Tractatus 5.632, 7',line:'One rule changes per stamp.',art:'t6.jpg',
   fresh(){return{arm:0,inv:0,bee:0,head:0,frog:0,sw:0,ent:0}},
   init(){S={s:this.fresh(),c:{arm:0,inv:0,bee:0,frog:0,sw:0,ent:0,pack:0},used:new Set(),ft:-9,ct:-9,pt:-9,pk:0,msg:'Stamp a verb. Each one changes one rule of the stage.'};this.ui()},
   vis(){return!S.s.sw&&!S.s.ent},
   ok(v){const s=S.s,vis=this.vis();if(S.pk)return false;
     return v==='DETACH'?vis&&!s.arm:v==='INVERT'||v==='REPLACE'||v==='ENTER'?vis:v==='ENLARGE'?!s.bee:v==='HATCH'?!s.frog:v==='SWALLOW'?s.frog&&vis:v==='EMERGE'?!!s.sw:v==='INTERRUPT'?true:S.used.size===9},
-  ui(){score(S.used.size+' / 9');say(S.msg);const soft=v=>(v==='SWALLOW'||v==='EMERGE')&&!S.pk;acts(VERBS.map(v=>({t:v,k:'s'+(!this.ok(v)&&soft(v)?' d':S.used.has(v)?' q':'')+(v==='PACK'?' u':''),off:!this.ok(v)&&!soft(v),f:()=>this.go(v)})),innerWidth>600?10:5)},
+  ui(){score(S.used.size+' / 9');say(S.msg);const soft=v=>(v==='SWALLOW'||v==='EMERGE')&&!S.pk;acts(VERBS.map((v,i)=>({t:v,key:String((i+1)%10),k:'s'+(!this.ok(v)&&soft(v)?' d':S.used.has(v)?' q':'')+(v==='PACK'?' u':''),off:!this.ok(v)&&!soft(v),f:()=>this.go(v)})),innerWidth>600?10:5)},
   go(v){const s=S.s,t=now();if(!this.ok(v)){if(v==='SWALLOW'){S.msg=s.frog?'He is not on stage to be swallowed. INTERRUPT first.':'Nothing to swallow him. HATCH first.';this.ui()}else if(v==='EMERGE'){S.msg='Nobody is inside. SWALLOW first.';this.ui()}return}
     if(v==='DETACH')s.arm=1;else if(v==='INVERT')s.inv=s.inv?0:1;else if(v==='ENLARGE')s.bee=1;else if(v==='REPLACE')s.head=(s.head+1)%4;
     else if(v==='HATCH')s.frog=1;else if(v==='SWALLOW')s.sw=1;else if(v==='EMERGE'){s.sw=0;S.ct=t}else if(v==='ENTER')s.ent=1;
@@ -361,15 +368,16 @@ const DOES={DETACH:'An arm unpins and comes back. It is still the same man.',INV
   REPLACE:'A new head in the same socket. The slot decides the role.',HATCH:'The box was an egg. A frog joins the line.',SWALLOW:'Container and carrier change places. The frog carries him.',
   EMERGE:'Tape becomes marching bodies.',ENTER:'A whole mover becomes one small box. He fits under the shelf.',INTERRUPT:'Stopped from outside the frame. Every rule is as it was.'};
 const WHEADS=[null,'boxhead','duckrabbit','frog_dj'],BUD=['frog_green','frog_blue','frog_dial'];
-G.walk={name:'The walk',ref:'Tractatus 5.632, 7',line:'One street, nine verbs, the whole song.',art:'t1.jpg',music:1,
+G.walk={how:['HOLD RIGHT OF HIM TO WALK','Touch or mouse: hold the stage. Keys: arrows, SPACE jumps, X dances.'],name:'The walk',ref:'Tractatus 5.632, 7',line:'One street, nine verbs, the whole song.',art:'t1.jpg',music:1,
   init(){S={cy:0,x:260,y:0,vy:0,gr:1,face:1,dir:0,jump:0,ptr:null,walkp:0,cam:0,have:[],groove:0,combo:0,dp:-1,dpT:-9,hit:'',hitT:-9,
       big:0,small:0,inv:0,armT:-9,head:0,buds:0,swT:-9,emT:-9,emX:0,ftT:-9,ftX:0,npcP:-1,npcT:-9,bub:-9,d:-1,cardT:-9,pk:0,pkT:0,keys:{},msg:''};
-    clock0=now();AU.src='a/song.mp3';AU.currentTime=0;AU.muted=muted;AU.play().catch(()=>{});this.ui()},
+    clock0=now();AU.src='a/song.mp3';AU.muted=muted;this.ui()},
+  begin(){clock0=now();if(S.ready)AU.play().catch(()=>{})},
   k(){return H*.36/MH},sc(){const t=now(),under=S.x>SLAB.x0-60&&S.x<SLAB.x1+60;if(under&&S.wasSmall)return .38;S.wasSmall=t<S.small;return t<S.big?1.8:t<S.small?.38:1},
   ui(){score(S.have.length+'/9  GROOVE '+S.groove);say(S.msg||'Hold right of him to walk. Hold above his hat to jump. Walk into the red words.');
-    const near=Math.abs(S.x-12900)<420,l=[{t:'DANCE',span:3,f:()=>this.dance()},{t:'JUMP',span:2,k:'q',f:()=>{S.jump=1}}];
-    VERBS.slice(0,9).forEach(v=>l.push({t:v,k:'s',off:!S.have.includes(v),f:()=>this.verb(v)}));
-    l.push({t:'PACK',k:'s u',off:!(S.have.length===9&&near)||S.pk,f:()=>this.pack()});acts(l,5)},
+    const near=Math.abs(S.x-12900)<420,l=[{t:'DANCE',span:3,key:'x',f:()=>this.dance()},{t:'JUMP',span:2,k:'q',key:' ',f:()=>{S.jump=1}}];
+    VERBS.slice(0,9).forEach((v,i)=>l.push({t:v,k:'s',key:String(i+1),off:!S.have.includes(v),f:()=>this.verb(v)}));
+    l.push({t:'PACK',k:'s u',key:'p',off:!(S.have.length===9&&near)||S.pk,f:()=>this.pack()});acts(l,5)},
   beatHit(quiet){const ok=offBeat(mt())<.11;if(ok){S.groove++;S.combo++}else if(!quiet)S.combo=0;if(ok||!quiet){S.hit=ok?(S.combo>3?'ON IT x'+S.combo:'ON IT'):'OFF BEAT';S.hitT=now()}return ok},
   dance(){if(S.over||S.pk)return;this.beatHit();S.dp=(S.dp+1)%POSES.length;S.dpT=now();S.npcP=S.dp;S.npcT=now()+.45;this.ui()},
   verb(v){if(S.over||S.pk||!S.have.includes(v))return;const t=now();this.beatHit(1);
@@ -455,26 +463,43 @@ G.walk={name:'The walk',ref:'Tractatus 5.632, 7',line:'One street, nine verbs, t
     // ---- overlay text
     if(ce<2.6){const q=ce<.4?ce/.4:ce>2.2?(2.6-ce)/.4:1,sz=fitSize(D.n,W*.8,H*.07);g.globalAlpha=q;tag((S.d+1)+'  '+D.n,W/2+(1-q)*W*.4*(ce<1?1:-1),H*.12,sz,{r:-2,bg:sketch?'#050805':KR,c:sketch?GRN:INK});g.globalAlpha=1}
     if(t-S.hitT<.6){const bad=!S.hit.startsWith('ON');tag(S.hit,clamp((S.x-S.cam)*k,W*.2,W*.8),Math.max(U*8,FY+S.cy-(S.y+MH*sc)*k-U*8-(t-S.hitT)*U*14),Math.max(13,U*4.2),{bg:bad?RED:PAPER,c:bad?PAPER:INK,r:-5})};
+    if(S.x<700&&S.ready){const hx=Math.min(W*.86,(S.x-S.cam)*k+W*.34),hy=FY-MH*k*.5,a=.5+.5*Math.sin(t*6);g.globalAlpha=.45+.55*a;g.strokeStyle=PAPER;g.lineWidth=Math.max(4,U*1.4);g.lineCap='round';for(const d of[0,1,2]){const x=hx+(d-1)*U*6+a*U*2;g.beginPath();g.moveTo(x-U*2.5,hy-U*5);g.lineTo(x+U*2.5,hy);g.lineTo(x-U*2.5,hy+U*5);g.stroke()}g.globalAlpha=1;tag('HOLD HERE',hx,hy+U*11,Math.max(12,U*3.6),{bg:PAPER})}
     const R0=Math.max(9,U*3.2);g.strokeStyle=sketch?GRN:PAPER;g.lineWidth=3;g.beginPath();g.arc(W-R0*2.2,R0*2.2,R0,0,7);g.stroke();g.fillStyle=sketch?GRN:PAPER;g.beginPath();g.arc(W-R0*2.2,R0*2.2,R0*pulse,0,7);g.fill();
     g.fillStyle=sketch?GRN:PAPER;g.fillRect(0,H-4,W*S.x/WEND,4);
     if(S.pk&&t-S.pkT>2.4&&!S.over){score('9/9  GROOVE '+S.groove);done('WHEREOF ONE CANNOT SPEAK, THEREOF ONE MUST PACK. The mover is inside his own box. Groove '+S.groove+'.')}
   }};
-addEventListener('keydown',e=>{if(cur===G.walk&&S){S.keys[e.key]=1;if(e.key===' '||e.key.startsWith('Arrow'))e.preventDefault();const n=+e.key;if(n>=1&&n<=9)G.walk.verb(VERBS[n-1]);if(e.key==='d')G.walk.dance()}});
-addEventListener('keyup',e=>{if(cur===G.walk&&S)S.keys[e.key]=0});
+const WASD={a:'ArrowLeft',d:'ArrowRight',w:'ArrowUp',A:'ArrowLeft',D:'ArrowRight',W:'ArrowUp'};
+addEventListener('keydown',e=>{if(!cur||!S||e.metaKey||e.ctrlKey||e.altKey)return;document.body.classList.add('kb');
+  if(e.key===' '||e.key.startsWith('Arrow'))e.preventDefault();if(e.key==='Escape'){location.hash='';return}
+  const was=S.ready;go();
+  if(cur===G.walk){S.keys[WASD[e.key]||e.key]=1;if(e.key===' '||e.key.startsWith('Arrow')||WASD[e.key])return}
+  if(e.repeat)return;if(cur.key&&cur.key(e.key))return;
+  const bs=[...document.querySelectorAll('#acts button')].filter(b=>!b.disabled);let b=bs.find(b=>b.dataset.key===e.key);
+  if(!b&&!bs.some(b=>b.dataset.key)){const n=e.key==='0'?9:+e.key-1;if(n>=0&&n<bs.length)b=bs[n];else if((e.key===' '||e.key==='Enter')&&bs.length===1)b=bs[0]}
+  if(b){e.preventDefault();b.click()}});
+addEventListener('keyup',e=>{if(cur===G.walk&&S)S.keys[WASD[e.key]||e.key]=0});
 /* ---------- shell ---------- */
 const ORDER=['walk','stairs','beetle','ladder','aspect','rig','verbs'];
 ORDER.forEach((id,i)=>{const G_=G[id];G_.id=id;const b=document.createElement('button');b.style.backgroundImage='url(a/'+G_.art+')';
   b.innerHTML='<div><b></b><span></span></div>';b.querySelector('b').textContent=(i?i+'  ':'')+G_.name;b.querySelector('span').textContent=G_.line;if(id==='walk')b.className='wide';b.onclick=()=>{location.hash=id};$('#tiles').appendChild(b)});
 function start(id){cur=G[id];$('#hub').hidden=true;$('#game').hidden=false;$('#name').textContent=cur.name;
-  $('#snd').hidden=!cur.music;fit();S=null;cur.init();last=now();cancelAnimationFrame(raf);raf=requestAnimationFrame(loop)}
+  $('#snd').hidden=!cur.music;fit();S=null;cur.init();S.ready=false;last=now();cancelAnimationFrame(raf);raf=requestAnimationFrame(loop)}
 function home(){pid=null;AU.pause();cancelAnimationFrame(raf);cur=null;S=null;$('#game').hidden=true;$('#hub').hidden=false}
-function loop(){if(!cur)return;const t=now(),dt=Math.min(.05,t-last);last=t;g.clearRect(0,0,W,H);cur.draw(t,dt);raf=requestAnimationFrame(loop)}
+function loop(){if(!cur)return;const t=now(),dt=Math.min(.05,t-last);last=t;g.setTransform(devicePixelRatio||1,0,0,devicePixelRatio||1,0,0);g.globalAlpha=1;g.clearRect(0,0,W,H);
+  if(!S.ready&&cur.begin)cur.begin();cur.draw(t,S.ready?dt:0);
+  if(!S.ready&&!S.over){g.fillStyle='rgba(20,14,10,.6)';g.fillRect(0,0,W,H);const h=cur.how,cy=H*.42,s1=Math.max(15,fitSize(h[0],W*.86,H*.075));
+    tag(h[0],W/2,cy,s1,{r:-1.5});
+    g.font='700 '+Math.max(12,Math.min(15,W*.034))+'px ui-monospace,Menlo,monospace';g.textAlign='center';g.textBaseline='middle';g.fillStyle=PAPER;
+    const words=h[1].split(' '),lines=[''];for(const w of words){if(g.measureText(lines[lines.length-1]+' '+w).width>W*.86)lines.push(w);else lines[lines.length-1]+=(lines[lines.length-1]?' ':'')+w}
+    lines.forEach((l,i)=>g.fillText(l,W/2,cy+s1*1.9+i*20));
+    g.globalAlpha=.6+.4*Math.sin(t*5);tag('TAP, CLICK OR PRESS ANY KEY',W/2,cy+s1*1.9+lines.length*20+Math.max(22,U*7),Math.max(12,fitSize('TAP, CLICK OR PRESS ANY KEY',W*.8,H*.045)),{bg:RED,c:PAPER});g.globalAlpha=1}
+  raf=requestAnimationFrame(loop)}
 function route(){const id=location.hash.slice(1);if(G[id])start(id);else home()}
 $('#exit').onclick=()=>{location.hash=''};$('#snd').onclick=()=>{muted=!muted;AU.muted=muted;$('#snd').textContent=muted?'Muted':'Sound';if(!muted&&AU.paused&&cur&&cur.music)AU.play().catch(()=>{})};
 addEventListener('hashchange',route);addEventListener('resize',()=>{if(cur)fit()});if(window.ResizeObserver)new ResizeObserver(()=>{if(cur)fit()}).observe($('#stage'));
 const pos=e=>{const r=cv.getBoundingClientRect();return[e.clientX-r.left,e.clientY-r.top]};
 let pid=null;
-cv.addEventListener('pointerdown',e=>{if(cur&&cur.down&&S&&pid===null){pid=e.pointerId;try{cv.setPointerCapture(pid)}catch(_){}cur.down(...pos(e))}});
+cv.addEventListener('pointerdown',e=>{if(cur&&S&&!S.ready){go();if(!cur.music)return}if(cur&&cur.down&&S&&pid===null){pid=e.pointerId;try{cv.setPointerCapture(pid)}catch(_){}cur.down(...pos(e))}});
 cv.addEventListener('pointermove',e=>{if(cur&&cur.move&&S&&e.pointerId===pid)cur.move(...pos(e))});
 const pup_=e=>{if(e.pointerId===pid){pid=null;if(cur&&cur.up&&S)cur.up()}};cv.addEventListener('pointerup',pup_);cv.addEventListener('pointercancel',pup_);
 route();
