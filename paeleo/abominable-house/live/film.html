@@ -55,24 +55,25 @@ select{font:600 11px 'JetBrains Mono';background:var(--card);color:var(--fg);bor
 .case-links{display:flex;flex-wrap:wrap;gap:4px 13px;margin:3px 0 7px;font-size:11px}
 .case-links a{color:var(--acc);text-underline-offset:.22em}
 .case-links a:focus-visible{outline:2px solid var(--acc);outline-offset:3px}
+a.gq{font:400 10px "JetBrains Mono",monospace;letter-spacing:.04em;text-transform:none;color:inherit;opacity:.75;margin-left:6px;white-space:nowrap}a.gq:hover,a.gq:focus-visible{opacity:1}
 </style></head><body>
 <div id=app>
  <div id=stage><canvas id=c width=1920 height=1080></canvas><canvas id=ac aria-label="Atlas of films"></canvas><div id=tap><span>TAP TO PLAY WITH SOUND</span></div><video id=vid src="film720.mp4" poster="poster.jpg" controls playsinline style="display:none;position:absolute;inset:0;width:100%;height:100%;background:#000"></video></div>
  <div id=panel>
   <div id=top>
    <h1>THE ABOMINABLE HOUSE</h1>
-   <nav class="case-links" aria-label="Case file navigation"><a href="../">PAE-04 case file</a><a id="same-film" href="player.html">Deed bank · same assignment</a></nav>
+   <nav class="case-links" aria-label="Case file navigation"><a href="../">PAE-04 case file</a><a id="same-film" href="player.html">Deed bank · same assignment</a><a class="gq" href="guide.html">Guide · what this panel means</a></nav>
    <div class=mute>one film of 8,916,100,448,256 · deeds, consequences, memories, levers</div>
    <div class=row><input id=num type=text inputmode=numeric aria-label="Film number"><button id=go>PLAY FILM</button><button id=roll>ROLL</button><button id=pp>PAUSE</button><button id=lv class=on>LEVERS</button><button id=wv>WATCH RENDER</button><button id=atl>ATLAS</button><button id=tz>T ZERO</button></div>
    <div class="row fr"><span class=mute>PACE</span><button id=p_fast>FAST</button><button id=p_watch>WATCH</button><button id=p_cut class=on>CUT</button><span class=mute style="margin-left:8px">STORY</span><button id=mc>MOST LIKELY</button><button id=lg>LEGOS</button></div>
-   <div class=row><span class=mute>PIE</span><label class=mute>symbolic<input id=pP type=range min=0 max=100 value=50 aria-label="Practical vs symbolic">practical</label></div><div class=row><label class=mute>collective<input id=pI type=range min=0 max=100 value=50 aria-label="Individual vs collective">individual</label><label class=mute>order<input id=pE type=range min=0 max=100 value=40 aria-label="Entropy">chance</label><button id=gen>LET THEM DECIDE</button><button id=best>SIX MEMOS</button></div>
+   <div class=row><span class=mute>PIE <a class="gq" href="guide.html#pie">explain</a></span><label class=mute>symbolic<input id=pP type=range min=0 max=100 value=50 aria-label="Practical vs symbolic">practical</label></div><div class=row><label class=mute>collective<input id=pI type=range min=0 max=100 value=50 aria-label="Individual vs collective">individual</label><label class=mute>order<input id=pE type=range min=0 max=100 value=40 aria-label="Entropy">chance</label><button id=gen>LET THEM DECIDE</button><button id=best>SIX MEMOS</button></div>
    <div class="row fr"><span class=mute>AUTHOR</span><button id=a_irony>IRONY</button><button id=a_suspense>SUSPENSE</button><button id=a_twist>TWIST</button><span class=mute style="margin-left:8px">CALVINO</span><button id=op>OPENINGS</button></div>
    <div id=believ class=mute style="margin-top:4px"></div>
    <input id=scrub type=range min=0 max=1000 value=0 aria-label="Scrub">
    <div id=seg></div>
   </div>
   <div id=atlasP>
-   <h2>THE ATLAS · the space of films, not one film</h2>
+   <h2>THE ATLAS · the space of films, not one film <a class="gq" href="guide.html#atlas">explain</a></h2>
    <div class=row><button id=v_map class="vb on">MAP</button><button id=v_tree class=vb>TREE</button><button id=v_memos class=vb>SIX MEMOS</button><button id=v_compare class=vb>COMPARE</button><button id=a_exit>BACK TO FILM</button></div>
    <div id=mapc><div class=row><label class=mute>x <select id=ax></select></label><label class=mute>y <select id=ay></select></label></div><div class=row><label class=mute>colour <select id=aco></select></label></div><div class=row id=asrc></div></div>
    <div class=row><button id=a_play>PLAY THIS FILM</button><button id=a_pin>PIN AS A</button><button id=a_undo>UNDO</button><button id=a_focus>TREE FROM HERE</button><button id=a_complete>COMPLETE FROM TREE</button></div>
@@ -403,13 +404,13 @@ signature_construction_ecology:
   </div>
   <div id=scroll>
    <div id=top5></div><pre id=legos style="display:none;white-space:pre-wrap;font-size:10px;max-height:40vh;overflow:auto;background:var(--card);border:1px solid var(--line);padding:6px"></pre>
-   <h2>THE TABLEAU · each row is one sack's strand, each column one deed</h2><div id=tab></div><h2>THE AUDIENCE · inverse planning: what a watcher infers before this deed</h2><div id=curves></div><div id=aud></div>
+   <h2>THE TABLEAU · each row is one sack's strand, each column one deed <a class="gq" href="guide.html#tableau">explain</a></h2><div id=tab></div><h2>THE AUDIENCE · inverse planning: what a watcher infers before this deed <a class="gq" href="guide.html#audience">explain</a></h2><div id=curves></div><div id=aud></div>
    <div id=reading></div>
-   <h2>THE MINDS · beliefs, desires, intentions, memory stream</h2><div id=minds></div>
-   <h2>THE FOUR · archetype and levers before this deed</h2>
+   <h2>THE MINDS · beliefs, desires, intentions, memory stream <a class="gq" href="guide.html#minds">explain</a></h2><div id=minds></div>
+   <h2>THE FOUR · archetype and levers before this deed <a class="gq" href="guide.html#four">explain</a></h2>
    <div class=sacks id=sacks></div>
-   <h2>THE LIES · Kurosawa</h2><div id=lies></div>
-   <h2>THE INDEX</h2>
+   <h2>THE LIES · Kurosawa <a class="gq" href="guide.html#lies">explain</a></h2><div id=lies></div>
+   <h2>THE INDEX <a class="gq" href="guide.html#tiers">explain</a></h2>
    <div id=index></div>
   </div>
  </div>
@@ -537,8 +538,8 @@ function panel(s){const seg=document.getElementById('seg');const k=Math.min(s.k,
  if(s.type==='fire'){rd.innerHTML=`<div class=head>THE HOUSE BURNS</div><div class=mute>${L.states[12].impossible.length} contradictions in this film: a dead sack acted ${L.states[12].impossible.length} time(s).</div>`}
  else rd.innerHTML=`<div class=head>${r.headline}</div><div style="margin:2px 0 4px">${quatrain(k).join(' / ')}</div>
  <div class=mute>${(()=>{const ev=SC.ev[k];return `believability ${ev.raw.toFixed(2)} <span class='tier T${TIERN.indexOf(ev.tier)}'>${ev.tier}</span> · p ${ev.p.toFixed(3)} of 12 pairs<br>${ev.why.join(' · ')}`})()}</div>
- <h2>PLOT · tug-of-war update (house belief)</h2>${r.plot.map(p=>`<div class=pl><span><span class=chip style="background:${COL[p.who]}"></span>${WHO[p.who]} ${p.what}</span><div class=bar><i style="left:0;width:${pct(Math.min(1,p.p1))}%"></i><b style="left:${pct(Math.min(1,p.p0))}%"></b></div><span>${p.p0.toFixed(2)} → ${p.p1.toFixed(2)} (${p.p1>=p.p0?'+':''}${(p.p1-p.p0).toFixed(2)})</span></div>`).join('')}
- <h2>BARTHES · the match</h2><div><b>${r.mythBefore[0]}</b> vs <b>${r.mythBefore[1]}</b> → <b>${r.match[0]}</b> vs <b>${r.match[1]}</b></div>`;
+ <h2>PLOT · tug-of-war update (house belief) <a class="gq" href="guide.html#plot">explain</a></h2>${r.plot.map(p=>`<div class=pl><span><span class=chip style="background:${COL[p.who]}"></span>${WHO[p.who]} ${p.what}</span><div class=bar><i style="left:0;width:${pct(Math.min(1,p.p1))}%"></i><b style="left:${pct(Math.min(1,p.p0))}%"></b></div><span>${p.p0.toFixed(2)} → ${p.p1.toFixed(2)} (${p.p1>=p.p0?'+':''}${(p.p1-p.p0).toFixed(2)})</span></div>`).join('')}
+ <h2>BARTHES · the match <a class="gq" href="guide.html#barthes">explain</a></h2><div><b>${r.mythBefore[0]}</b> vs <b>${r.mythBefore[1]}</b> → <b>${r.match[0]}</b> vs <b>${r.match[1]}</b></div>`;
  const st=L.states[k];document.getElementById('sacks').innerHTML=IDS.map(id=>{const m=st.myth[id],top=LEDGER.ARCH.map(a=>[a,m[a]||0]).sort((a,b)=>b[1]-a[1]).slice(0,3),lv=st.levers[id];
   return `<div class="sack ${st.alive[id]?'':'dead'}"><div class=nm><span class=chip style="background:${COL[id]}"></span>${WHO[id]}${st.alive[id]?'':' · dead'}</div><div class=mute>${top.map(([a,w])=>a.toLowerCase()+' '+w.toFixed(2)).join(' · ')}</div>
   ${['loom','weight','tempo','halo','shadow','shrink','grey'].map(n=>`<div class=lev><span>${n}</span><div class=bar><i style="left:${n==='loom'||n==='tempo'||n==='weight'?50:0}%;width:${Math.abs(lv[n])*(n==='loom'||n==='tempo'||n==='weight'?50:100)}%;${lv[n]<0?'transform:translateX(-100%)':''}"></i></div></div>`).join('')}
@@ -579,7 +580,7 @@ function setFilm(d,cut,fork){
  film=d;CUT=cut||12;FORK=fork||null;
  const n=enc(d);
  document.getElementById('num').value=n.toLocaleString('en-US');
- document.getElementById('same-film').href='player.html?n='+n;
+ document.getElementById('same-film').href='player.html?n='+n;document.querySelectorAll('a.gq').forEach(a=>{a.href='guide.html?n='+n+(a.hash||'')});
  build();t=0;curSeg=null;
 }
 function boot(){

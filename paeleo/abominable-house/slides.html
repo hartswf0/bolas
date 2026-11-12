@@ -1,0 +1,238 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<title>Abominable House Slides</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Twenty slides, one per journal entry on The Burning of the Abominable House. Each has a graphic drawn from the project's files and a short explanation.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&family=IM+Fell+English:ital@0;1&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<style>
+/* Layout: one slide per screen, no scroll. Graphic on top (left on wide screens), words below (right). A strip of twenty ticks at the bottom. */
+:root{--paper:#f4f2ea;--ink:#141414;--card:#ebe3cf;--grey:#6d695f;--rule:#d3ccb9;--hl:#ffdc00;--cut:#a3321f;--ok:#4d6a4f;
+ --R:#7a3f37;--B:#3a3530;--I:#b0915e;--O:#7a3b8f;
+ --display:"IM Fell English",Georgia,serif;--body:Inter,"Helvetica Neue",Arial,sans-serif;--mono:"IBM Plex Mono",ui-monospace,Menlo,monospace}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--paper:#15140f;--ink:#ebe6d8;--card:#211f19;--grey:#9d978a;--rule:#34312a;--hl:#c9a800;--cut:#e0603f;--ok:#8fb592;--R:#c67a6e;--B:#a39b8e;--I:#d4b67e;--O:#b583c8;color-scheme:dark}}
+:root[data-theme="dark"]{--paper:#15140f;--ink:#ebe6d8;--card:#211f19;--grey:#9d978a;--rule:#34312a;--hl:#c9a800;--cut:#e0603f;--ok:#8fb592;--R:#c67a6e;--B:#a39b8e;--I:#d4b67e;--O:#b583c8;color-scheme:dark}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:var(--paper);color:var(--ink);font:15px/1.5 var(--body);display:grid;grid-template-rows:auto minmax(0,1fr) auto}
+header{display:flex;gap:10px 16px;align-items:baseline;flex-wrap:wrap;padding:10px 16px 8px;border-bottom:2px solid var(--ink)}
+#num{font:700 22px var(--mono);color:var(--cut)}
+h1{font:400 clamp(22px,4.2vw,34px)/1.05 var(--display);margin:0;flex:1 1 12ch;text-wrap:balance}
+#when{font:12px var(--mono);color:var(--grey)}
+main{display:grid;grid-template-rows:minmax(0,1.25fr) minmax(0,1fr);min-height:0}
+#stagewrap{display:grid;grid-template-rows:minmax(0,1fr) auto;min-height:0;padding:8px 16px 4px;gap:6px}
+#stage{min-height:0;position:relative}
+#stage svg{position:absolute;inset:0;width:100%;height:100%}
+#ctl{display:flex;gap:6px 10px;flex-wrap:wrap;align-items:center;font:12px var(--mono);min-height:30px}
+#words{overflow:auto;padding:8px 16px 10px;border-top:1px solid var(--rule);background:var(--card)}
+#claim{font:21px/1.25 var(--display);margin:0 0 6px;max-width:40ch;text-wrap:balance}
+#words p{margin:0 0 6px;max-width:62ch}
+#src,#un{font:11.5px/1.45 var(--mono);color:var(--grey)}
+#un b{color:var(--cut);font-weight:700;letter-spacing:.06em}
+#try{font:12px var(--mono)}
+#try::before{content:"";display:inline-block;width:8px;height:8px;background:var(--hl);border:1px solid var(--ink);margin-right:6px}
+footer{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:center;padding:8px 16px;border-top:2px solid var(--ink)}
+button,.b{font:700 11px var(--mono);letter-spacing:.06em;color:var(--ink);background:transparent;border:1.5px solid var(--ink);padding:6px 9px;cursor:pointer;text-decoration:none}
+button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+button:focus-visible,input:focus-visible,.b:focus-visible{outline:2px solid var(--cut);outline-offset:2px}
+#ticks{display:flex;gap:3px;align-items:center}
+#ticks button{flex:1;height:14px;padding:0;border-width:1px;min-width:0}
+#ticks button[aria-current="true"]{background:var(--cut);border-color:var(--cut)}
+input[type=range]{accent-color:var(--cut);width:min(46vw,240px)}
+input[type=text]{font:13px var(--mono);padding:5px 7px;border:1.5px solid var(--ink);background:var(--paper);color:var(--ink);width:15em}
+svg text{font-family:var(--mono);font-size:11px;fill:var(--ink)}
+svg .g{fill:var(--grey)} svg .c{fill:var(--cut)} svg .big{font-size:15px;font-weight:700} svg .d{font-family:var(--display);font-size:17px}
+svg .ln{stroke:var(--ink);stroke-width:1.2;fill:none} svg .th{stroke:var(--rule);stroke-width:1;fill:none}
+svg .bx{fill:var(--paper);stroke:var(--ink);stroke-width:1.2} svg .fc{fill:var(--card);stroke:var(--ink);stroke-width:1.2}
+svg .ink{fill:var(--ink)} svg .cut{fill:var(--cut)} svg .cl{stroke:var(--cut);stroke-width:1.6;fill:none} svg .hl{fill:var(--hl)} svg .ok{fill:var(--ok)}
+svg .tap{cursor:pointer}
+@media (min-width:900px){main{grid-template-rows:none;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr)}#words{border-top:0;border-left:1px solid var(--rule);padding:18px 20px}#claim{font-size:26px}}
+</style></head><body>
+<header><span id="num"></span><h1 id="title"></h1><span id="when"></span></header>
+<main>
+ <div id="stagewrap"><div id="stage"></div><div id="ctl"></div></div>
+ <div id="words"><p id="claim"></p><p id="exp"></p><p id="try"></p><p id="src"></p><p id="un"></p></div>
+</main>
+<footer><button id="prev" aria-label="Previous slide">BACK</button><div id="ticks"></div><button id="next" aria-label="Next slide">NEXT</button></footer>
+<script>
+const DATA={"ev": [[1.0, "knife cut 1", "flinches back"], [4.0, "knife cut 2", "flinches again, less"], [6.5, "tower starts to lean, flour sifts", "notices"], [9.0, "", "comes, head low"], [14.5, "", "props the tower"], [18.0, "knife cut 3", "braces"], [21.0, "cut 4; the tower falls; the penny drops", ""], [21.4, "", "leaps"], [22.4, "the penny lands on the sack", "catches"], [23.0, "", "lands in a squash"], [24.5, "", "gathers the flour in"], [30.0, "the knife hovers over the penny", "stays"], [31.2, "the knife withdraws", ""]], "doer": {"practical": [[0.499, 0.044, 0.153, 0.304], [0.318, 0.068, 0.407, 0.208], [0.373, 0.041, 0.171, 0.414], [0.252, 0.073, 0.264, 0.411], [0.505, 0.235, 0.15, 0.11], [0.271, 0.197, 0.239, 0.294], [0.14, 0.701, 0.055, 0.104], [0.29, 0.286, 0.146, 0.278], [0.222, 0.176, 0.241, 0.361], [0.446, 0.06, 0.129, 0.366], [0.384, 0.087, 0.266, 0.263], [0.147, 0.647, 0.053, 0.153]], "hybrid": [[0.681, 0.058, 0.108, 0.153], [0.318, 0.196, 0.272, 0.214], [0.35, 0.14, 0.194, 0.316], [0.284, 0.159, 0.236, 0.321], [0.513, 0.185, 0.155, 0.146], [0.287, 0.235, 0.214, 0.264], [0.21, 0.52, 0.108, 0.163], [0.29, 0.295, 0.162, 0.252], [0.219, 0.175, 0.197, 0.409], [0.437, 0.124, 0.161, 0.277], [0.388, 0.14, 0.223, 0.249], [0.208, 0.495, 0.097, 0.199]], "symbolic": [[0.802, 0.066, 0.066, 0.066], [0.275, 0.427, 0.137, 0.162], [0.275, 0.408, 0.145, 0.172], [0.276, 0.386, 0.158, 0.18], [0.504, 0.219, 0.133, 0.145], [0.295, 0.368, 0.154, 0.183], [0.293, 0.359, 0.158, 0.19], [0.295, 0.349, 0.159, 0.196], [0.207, 0.182, 0.151, 0.461], [0.413, 0.236, 0.173, 0.178], [0.374, 0.248, 0.181, 0.196], [0.296, 0.322, 0.167, 0.215]]}, "rules": [["Belindo does not use a knife", "6687075336192"], ["nobody strangles Belindo", "5015306502144"], ["Belindo is tied only if someone had a gun on him first", "4074936532992"], ["no blackmail or snooping by a slanderer on the one slandered", "3424078614528"], ["nobody strangled was also knifed", "2663172255744"]]};
+const NS='http://www.w3.org/2000/svg',$=id=>document.getElementById(id);
+const el=(n,a,t)=>{const e=document.createElementNS(NS,n);for(const k in a)e.setAttribute(k,a[k]);if(t!==undefined)e.textContent=t;return e};
+let SV;
+const svg=(w=600,h=360)=>{SV=el('svg',{viewBox:`0 0 ${w} ${h}`,preserveAspectRatio:'xMidYMid meet',role:'img'});$('stage').appendChild(SV);return SV};
+const A=(n,a,t)=>SV.appendChild(el(n,a,t));
+const T=(x,y,s,c='',anc='start')=>A('text',{x,y,class:c,'text-anchor':anc},s);
+const ctl=h=>{$('ctl').insertAdjacentHTML('beforeend',h)};
+const fmt=n=>BigInt(n).toLocaleString('en-US');
+const IDS=['R','B','I','O'],WHO={R:'Roessler',B:'Belindo',I:'Inigo',O:'Ogiva'},PAIRS=[];for(const a of IDS)for(const v of IDS)if(a!==v)PAIRS.push([a,v]);
+const ROM=['I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII'];
+const DEED=['Blackmail','Drugging','Incitement','Knifing','Prostitution','Gun','Tying','Assault','Seduction','Slander','Snooping','Strangling'];
+const dec=n=>{n=BigInt(n);const d=[];for(let k=0;k<12;k++){d.unshift(Number(n%12n));n/=12n}return d};
+const enc=d=>d.reduce((n,x)=>n*12n+BigInt(x),0n);
+function arrow(){const df=A('defs',{});const m=el('marker',{id:'ah',viewBox:'0 0 8 8',refX:7,refY:4,markerWidth:6,markerHeight:6,orient:'auto'});m.appendChild(el('path',{d:'M0 0L8 4L0 8z',class:'ink'}));df.appendChild(m)}
+function card(x,y,w,h,film,tap,row13){const cw=w/12,ch=h/(row13?13:12);
+ for(let k=0;k<12;k++){T(x+cw*k+cw/2,y-5,ROM[k],'g','middle');
+  for(let p=0;p<12;p++){const on=film&&film[k]===p;const r=A('rect',{x:x+cw*k+1,y:y+ch*p+1,width:cw-2,height:ch-2,class:on?'cut':'bx'+(tap?' tap':'')});if(tap)r.addEventListener('click',()=>tap(k,p))}}
+ for(let p=0;p<12;p++)T(x-6,y+ch*p+ch*.7,PAIRS[p][0]+PAIRS[p][1],'g','end');
+ if(row13){A('rect',{x:x+1,y:y+ch*12+3,width:w-2,height:ch-4,fill:'none',stroke:'var(--cut)','stroke-dasharray':'5 4','stroke-width':1.5});T(x+w/2,y+ch*12+ch*.72,'13 · Arson · the index does not say who','c','middle')}}
+function graph(cx,cy,film){const POS={R:[cx-150,cy-95],O:[cx+150,cy-95],I:[cx-150,cy+95],B:[cx+150,cy+95]};const by={};film.forEach((p,k)=>(by[p]=by[p]||[]).push(k));
+ for(const p in by){const [a,b]=PAIRS[p],P=POS[a],Q=POS[b],dx=Q[0]-P[0],dy=Q[1]-P[1],L=Math.hypot(dx,dy),ux=dx/L,uy=dy/L,nx=-uy,ny=ux;
+  const s=[P[0]+ux*24+nx*6,P[1]+uy*24+ny*6],e=[Q[0]-ux*26+nx*6,Q[1]-uy*26+ny*6],c=[(s[0]+e[0])/2+nx*22,(s[1]+e[1])/2+ny*22];
+  A('path',{d:`M${s[0]} ${s[1]}Q${c[0]} ${c[1]} ${e[0]} ${e[1]}`,class:'ln','marker-end':'url(#ah)'});
+  const t=.32,x=(1-t)*(1-t)*s[0]+2*t*(1-t)*c[0]+t*t*e[0]+nx*11,y=(1-t)*(1-t)*s[1]+2*t*(1-t)*c[1]+t*t*e[1]+ny*11+4;A('text',{x,y,'text-anchor':'middle',class:'c',style:'paint-order:stroke;stroke:var(--paper);stroke-width:5px;stroke-linejoin:round'},by[p].map(k=>ROM[k]).join(' '))}
+ for(const id of IDS){const P=POS[id];A('circle',{cx:P[0],cy:P[1],r:21,fill:`var(--${id})`,stroke:'var(--ink)'});A('text',{x:P[0],y:P[1]+5,'text-anchor':'middle',style:'fill:#fff;font-size:15px;font-weight:700'},id);T(P[0],P[1]+(P[1]<cy?-28:38),WHO[id],'g','middle')}}
+function sack(x,base,w,h,cls='fc'){const e=h*.16;return A('path',{class:cls,d:`M${x-w/2} ${base}L${x+w/2} ${base}Q${x+w/2+w*.06} ${base-h*.5} ${x+w/2-4} ${base-h+e}L${x+w/2+w*.08} ${base-h-e}L${x+w*.18} ${base-h+e*.3}Q${x} ${base-h+e*.9} ${x-w*.18} ${base-h+e*.3}L${x-w/2-w*.08} ${base-h-e}L${x-w/2+4} ${base-h+e}Q${x-w/2-w*.06} ${base-h*.5} ${x-w/2} ${base}Z`})}
+
+const S=[
+{t:'The sack',w:'1930s · Burbank',c:'A body that can only change shape, never size.',
+ e:'Left: the project’s own sack, tower and knife. Right: a schematic sack whose height you set. Its width changes so the drawn area stays the same, which is the rule the brief gives every swarm.',
+ y:'Drag the slider from squash to stretch.',s:'flour-tower/BRIEF.md · stills/07-4.1.jpg',u:'The 1930s studio drawings were not seen. The right-hand sack is my schematic.',
+ r(){svg();A('image',{href:'journal-img/07-4.1.jpg',x:8,y:40,width:300,height:241,preserveAspectRatio:'xMidYMid meet'});T(158,300,'SCION 07 film, 4.1 s','g','middle');
+  const g=A('g',{});A('line',{x1:330,y1:290,x2:592,y2:290,class:'ln'});const lab=T(461,318,'','big','middle');T(461,338,'drawn area held at 100%','g','middle');
+  const draw=v=>{g.textContent='';const h=70+v*1.5,w=13500/h;SV.appendChild(g);const keep=SV;SV=g;sack(461,289,w,h);SV=keep;lab.textContent=`height ${Math.round(h)} · width ${Math.round(w)}`};
+  ctl('<label for="sq">squash</label><input type="range" id="sq" min="0" max="100" value="45"><span>stretch</span>');$('sq').oninput=e=>draw(+e.target.value);draw(45)}},
+{t:'The request',w:'1973 · Paris',c:'A computer maker asked. A men’s magazine printed the answer.',
+ e:'The chain of publication as secondary sources give it. Tap a stop to read what the source says about it.',
+ y:'Tap any stop.',s:'secondary sources read online, 10 Nov 2026',u:'IBM’s wording, the Playboy issue, and whether the 1973 text equals the 1995 translation.',
+ r(){svg();const st=[['1973','IBM','A loosely stated request, in Paris: how far can a story be written with a computer?'],['1973','Oulipo','Calvino joins as a foreign member in February.'],['1973','Playboy','First printed in the Italian edition.'],['1986','Motte','“Prose and Anticombinatorics” appears in English in Oulipo: A Primer of Potential Literature.'],['1995','Parks','The story appears in English in Numbers in the Dark.']];
+  A('line',{x1:50,y1:150,x2:550,y2:150,class:'ln'});const note=A('text',{x:300,y:250,class:'d','text-anchor':'middle'},'');const note2=A('text',{x:300,y:274,class:'d','text-anchor':'middle'},'');
+  const show=i=>{const w=st[i][2].split(' ');let a=[],b=[];for(const x of w)((a.join(' ').length<52&&!b.length)?a:b).push(x);note.textContent=a.join(' ');note2.textContent=b.join(' ');SV.querySelectorAll('circle').forEach((c,j)=>c.setAttribute('class',j===i?'cut tap':'bx tap'))};
+  st.forEach((s,i)=>{const x=50+i*125;const c=A('circle',{cx:x,cy:150,r:13,class:'bx tap'});c.addEventListener('click',()=>show(i));T(x,120,s[0],'big','middle');T(x,188,s[1],'','middle')});show(0)}},
+{t:'The index',w:'1973 · the story',c:'Twelve deeds across, twelve ordered pairs down. Nothing says when.',
+ e:'The deed bank’s punch card. A film is one cell per column. The columns are in alphabetical order because the index is; the card has no column for time.',
+ y:'Tap cells to punch a film, or draw one at random.',s:'live/player.html, lines 66–68',u:'Whether the Italian index is in the same order.',
+ r(){svg();let film=dec('5885051002576');const lab=A('text',{x:300,y:352,class:'big','text-anchor':'middle'},'');const g=A('g',{});
+  const draw=()=>{g.textContent='';const k=SV;SV=g;card(70,24,500,300,film,(c,p)=>{film[c]=p;draw()});SV=k;lab.textContent='film '+fmt(enc(film))+' of '+fmt(12n**12n)};
+  ctl('<button id="rnd">DRAW A FILM</button>');$('rnd').onclick=()=>{film=film.map(()=>Math.floor(Math.random()*12));draw()};draw()}},
+{t:'A name used twice',w:'13 and 24 Oct 2026',c:'Every one of the 54 prompts has the same eleven parts.',
+ e:'The outline of one SCION prompt, read from the Reiniger entry. Parts 4 and 5 are the ones the journal keeps returning to: make the hard scene first, then face a tribunal.',
+ y:'Tap a part to read its heading.',s:'paeleo/scion/swarms.json, swarm 2 · git log',u:'Whether the name was taken from Anthropic’s system. The repo shows only that the word appears 11 days after their post.',
+ r(){svg();arrow();const P=['header: lineage, interpretation, 5 inputs','1 · Creative theorem to prove','2 · Native formal language','3 · Assemble the smallest capable swarm','4 · Hard proof scene; produce before scaling','5 · The bar and acceptance tribunal','6 · Evolving inquiry, not blind retries','7 · Discovery and recursive expansion','8 · Deliverable contract','Inherited operating doctrine, 15 points','START NOW'];
+  const lab=A('text',{x:300,y:330,class:'d','text-anchor':'middle'},'');T(20,22,'13 Oct · Anthropic’s post on Scion','g');T(580,22,'24 Oct · first SCION commit here','g','end');A('line',{x1:20,y1:32,x2:580,y2:32,class:'th'});
+  P.forEach((p,i)=>{const col=i%6,row=Math.floor(i/6),x=24+col*96,y=70+row*110;const hot=i===4||i===5;const r=A('rect',{x,y,width:78,height:62,class:(hot?'hl':'bx')+' tap',stroke:'var(--ink)'});if(hot)r.setAttribute('stroke-width',1.5);
+   T(x+39,y+38,i===0?'head':i===9?'doctrine':i===10?'start':String(i),'big','middle');r.addEventListener('click',()=>lab.textContent=p);
+   if(i<10&&col<5)A('line',{x1:x+80,y1:y+31,x2:x+94,y2:y+31,class:'ln','marker-end':'url(#ah)'})});
+  A('path',{d:'M573 132V152H24V178',class:'ln','marker-end':'url(#ah)'});lab.textContent=P[4]}},
+{t:'The tower leans too late',w:'30 Oct 2026 · PAE-03',c:'The sack notices at 6.5 s. By 9 s the tower has tilted 0.7 of a degree.',
+ e:'The tower drawn at the angle the critic measured: 0.001 rad at 7.0 s and 0.012 rad at 9.0 s. At true scale the lean cannot be seen, which was the critic’s point.',
+ y:'Drag time. Switch to ×20 to see what a visible lean would need.',s:'flour-tower/score.json · critic/07/round1.md',u:'Angles between the two measured times are a straight line I drew. Only film 07 was read.',
+ r(){svg();let ex=1,t=6.5;const g=A('g',{});const draw=()=>{g.textContent='';const k=SV;SV=g;const a=t<7?0.001*(t-6.5)/0.5:0.001+0.011*(t-7)/2;
+   A('line',{x1:40,y1:290,x2:560,y2:290,class:'ln'});sack(150,289,110,95);
+   const deg=a*180/Math.PI;A('rect',{x:360,y:110,width:70,height:180,class:'fc',transform:`rotate(${-deg*ex} 360 290)`});A('circle',{cx:395,cy:104,r:7,class:'cut',transform:`rotate(${-deg*ex} 360 290)`});
+   A('line',{x1:360,y1:290,x2:360,y2:96,class:'th','stroke-dasharray':'3 3'});
+   T(300,36,`t = ${t.toFixed(1)} s`,'big','middle');T(300,56,`${a.toFixed(4)} rad = ${deg.toFixed(2)}°`+(ex>1?'  (drawn ×20)':''),'','middle');
+   T(150,318,'sack: “notices” at 6.5 s','g','middle');T(395,318,'tower','g','middle');SV=k};
+  ctl('<input type="range" id="tt" min="6.5" max="9" step="0.1" value="6.5" aria-label="time"><button id="x1" aria-pressed="true">TRUE SCALE</button><button id="x20" aria-pressed="false">×20</button>');
+  $('tt').oninput=e=>{t=+e.target.value;draw()};const set=v=>{ex=v;$('x1').setAttribute('aria-pressed',v===1);$('x20').setAttribute('aria-pressed',v===20);draw()};$('x1').onclick=()=>set(1);$('x20').onclick=()=>set(20);draw()}},
+{t:'The penny',w:'30 Oct 2026 · PAE-03',c:'The score says the penny drops. One critic measured it thrown to 1.36 m.',
+ e:'The thirteen events of the score on one line: what the world does above, what the sack chooses below. The penny’s event is marked. The still shows where the penny ends up in the Reiniger film.',
+ y:'Tap an event on the line.',s:'flour-tower/score.json · critic/02/round1.md line 11 · stills/02-22.5.jpg',u:'The page says four films threw or carried the penny. One critic file was searched.',
+ r(){svg();const ev=DATA.ev,x=t=>30+t/32*540;A('line',{x1:30,y1:70,x2:570,y2:70,class:'ln'});const l1=A('text',{x:30,y:118,class:'d'},''),l2=A('text',{x:30,y:140,class:''},'');
+  const show=i=>{l1.textContent=ev[i][0].toFixed(1)+' s · world: '+(ev[i][1]||'nothing');l2.textContent='sack: '+(ev[i][2]||'no choice');SV.querySelectorAll('.evt').forEach((c,j)=>c.setAttribute('r',j===i?9:5))};
+  ev.forEach((e,i)=>{const pen=e[1].includes('penny drops');const c=A('circle',{cx:x(e[0]),cy:70,r:5,class:(pen?'cut':'ink')+' tap evt'});c.addEventListener('click',()=>show(i));if(e[1])A('line',{x1:x(e[0]),y1:52,x2:x(e[0]),y2:64,class:'ln'});if(e[2])A('line',{x1:x(e[0]),y1:76,x2:x(e[0]),y2:88,class:'ln'})});
+  T(30,40,'world','g');T(30,100,'sack','g');T(570,40,'32 s','g','end');
+  A('image',{href:'journal-img/02-22.5.jpg',x:30,y:160,width:300,height:190,preserveAspectRatio:'xMidYMid meet'});
+  A('line',{x1:400,y1:340,x2:400,y2:340-136,class:'cl'});A('circle',{cx:400,cy:340-136,r:6,class:'cut'});A('line',{x1:380,y1:340,x2:560,y2:340,class:'ln'});T(412,208,'1.36 m, as the critic measured','c');T(412,336,'table','g');A('line',{x1:480,y1:240,x2:480,y2:332,class:'ln','stroke-dasharray':'4 3'});T(488,290,'“drops”','g');show(6)}},
+{t:'The checks and the critics',w:'30 Oct 2026 · PAE-03',c:'Seventeen verdicts. Four films passed narrowly the first time.',
+ e:'The first line of every critic file. Red did not pass, pale passed narrowly, dark passed. The project page counts eighteen rounds; the folder holds seventeen files.',
+ y:'Tap a cell for the file’s first line.',s:'flour-tower/critic/*/round*.md',u:'Only first lines were read for most files. One sentence was found that sets a self-check against the picture.',
+ r(){svg();const F=[['02','Reiniger','nnn'],['06','Whitney','xxn'],['07','Foldès','np-'],['08','Sutherland','xnn'],['14','Pose2Pose','nnn'],['41','Soft body','nnp']],N={n:'PASS (narrow)',x:'DOES NOT PASS (narrowly)',p:'PASS','-':'no file'};
+  const lab=A('text',{x:300,y:340,class:'d','text-anchor':'middle'},'');[1,2,3].forEach(r=>T(250+(r-1)*110+45,34,'round '+r,'g','middle'));
+  F.forEach((f,i)=>{const y=48+i*44;T(236,y+24,f[0]+' · '+f[1],'','end');[...f[2]].forEach((v,r)=>{const c=A('rect',{x:250+r*110,y,width:90,height:34,class:(v==='x'?'cut':v==='p'?'ink':v==='n'?'fc':'')+' tap',fill:v==='-'?'none':undefined,stroke:'var(--ink)','stroke-dasharray':v==='-'?'4 3':undefined});
+    if(v==='-')c.setAttribute('fill','none');c.addEventListener('click',()=>lab.textContent=`SCION ${f[0]} · critic round ${r+1} · ${N[v]}`)})});
+  lab.textContent='SCION 06 · critic round 1 · DOES NOT PASS (narrowly)'}},
+{t:'A film is a number',w:'6 Nov 2026 · PAE-04',c:'Twelve base-12 digits. Each digit says who did one deed to whom.',
+ e:'The number is decoded by the same function the deed bank uses. Each arrow runs from doer to victim and carries the numerals of the deeds on it.',
+ y:'Type any number up to 8,916,100,448,255, or draw one.',s:'live/player.html lines 72–73, enc and dec',u:'The mp4 labelled with the first number was not watched.',
+ r(){svg();arrow();const g=A('g',{});const draw=n=>{g.textContent='';const k=SV;SV=g;const f=dec(n);graph(300,165,f);T(300,345,f.join(' · '),'g','middle');SV=k};
+  ctl('<label for="fn">film</label><input type="text" id="fn" inputmode="numeric" value="5885051002576"><button id="fr">DRAW</button>');
+  const go=()=>{let v=$('fn').value.replace(/[^0-9]/g,'')||'0';let n=BigInt(v);if(n>=12n**12n)n=12n**12n-1n;$('fn').value=n.toString();draw(n)};$('fn').oninput=go;$('fr').onclick=()=>{$('fn').value=String(Math.floor(Math.random()*8916100448256));go()};go()}},
+{t:'Deed VIII',w:'6 Nov 2026 · PAE-04',c:'From 2.95 s to 4.75 s the curtain removes both sacks from the picture.',
+ e:'A schematic of the layer order in the source comment. Three canvases are stacked: room, victim, doer. The curtain belongs to the room and is applied to the two sack layers as a cut-out.',
+ y:'Drag time across the shaded span.',s:'live/deeds/08-assault.js, lines 1–16 · sheets/08.jpg',u:'The deed was not played. The times are the comment’s. The drawing is mine.',
+ r(){svg();const g=A('g',{});const draw=t=>{g.textContent='';const k=SV;SV=g;const down=t>=2.95&&t<=4.75;
+   [['bg · room, curtain',0],['V · victim',1],['A · doer',2]].forEach(([n,i])=>{const x=40+i*26,y=210-i*62;A('path',{d:`M${x} ${y}h230l40 -40h-230z`,class:'fc'});T(x+282,y-14,n,'')
+    if(i===0&&down)A('path',{d:`M${x+90} ${y}h110l40 -40h-110z`,class:'cut'});
+    if(i>0&&!down){const kk=SV;sack(x+(i===1?150:105),y-6,26,30,'bx')}
+    if(i>0&&down)A('path',{d:`M${x+90} ${y}h110l40 -40h-110z`,fill:'none',stroke:'var(--cut)','stroke-dasharray':'4 3'})});
+   A('rect',{x:40,y:300,width:520,height:14,class:'bx'});A('rect',{x:40+2.95/6*520,y:300,width:(4.75-2.95)/6*520,height:14,class:'cut'});A('line',{x1:40+t/6*520,y1:292,x2:40+t/6*520,y2:322,class:'ln','stroke-width':2});
+   T(40,338,'0 s','g');T(560,338,'6 s','g','end');T(300,338,down?'curtain down: both sack layers cut out':'curtain up','big','middle');SV=k};
+  ctl('<input type="range" id="t8" min="0" max="6" step="0.05" value="2" aria-label="time">');$('t8').oninput=e=>draw(+e.target.value);draw(2)}},
+{t:'The rope leaves a mark',w:'6 Nov 2026 · PAE-04',c:'Every deed has a row: what it leaves on the victim, how much fear, one piece of evidence.',
+ e:'The ledger’s rule table, all twelve rows. Bars are the fear the deed adds to the victim. A filled square means the deed can kill.',
+ y:'Read across row VII.',s:'live/ledger.js, RULE, lines 8–20',u:'How the evidence field is used later in a film.',
+ r(){svg();const R=[['coins',.7,0,'photograph'],['drowsy',.4,0,'cup'],['greyed, drowsy',0,1,'lamp'],['emptied, torn',1,1,'flour'],['none',.6,0,'coins'],['none',1,0,'gun'],['rope, gag',.8,0,'rope'],['torn',1,0,'curtain'],['none',0,0,'flower'],['blot, tag',.3,0,'ink'],['none',0,0,'keyhole'],['cinched',1,1,'cord']];
+  T(150,20,'left on victim','g');T(300,20,'fear','g');T(420,20,'kills','g');T(470,20,'evidence','g');
+  R.forEach((r,i)=>{const y=30+i*26;if(i===6)A('rect',{x:8,y:y-2,width:584,height:24,class:'hl',opacity:.35});T(14,y+15,ROM[i],'c');T(52,y+15,DEED[i],'');T(150,y+15,r[0],r[0]==='none'?'g':'');A('rect',{x:300,y:y+4,width:100,height:12,class:'bx'});A('rect',{x:300,y:y+4,width:100*r[1],height:12,class:'ink'});A('rect',{x:424,y:y+4,width:12,height:12,class:r[2]?'cut':'bx'});T(470,y+15,r[3],'')})}},
+{t:'Belindo’s share',w:'6 Nov 2026 · PAE-04',c:'Under symbolic reasons Belindo does about a third of each violent deed.',
+ e:'Who does each deed, as a share of about 333,333 stories. The page says Belindo takes over most violent deeds in the symbolic mode. In the data he dominates tying and strangling in the practical mode and loses that lead in the symbolic one.',
+ y:'Switch modes and watch rows VII and XII.',s:'live/numbers.html, D.million[mode].doer',u:'Column order R, B, I, O is taken from ledger.js and the figure legend.',
+ r(){svg();const g=A('g',{});let m='practical';const draw=()=>{g.textContent='';const k=SV;SV=g;
+   IDS.forEach((id,j)=>{A('rect',{x:110+j*118,y:6,width:12,height:12,fill:`var(--${id})`});T(128+j*118,17,WHO[id],'')});
+   DATA.doer[m].forEach((row,i)=>{const y=30+i*26,viol=[3,5,6,7,11].includes(i);T(14,y+15,ROM[i],viol?'c':'g');T(50,y+15,DEED[i],viol?'':'g');let x=150;row.forEach((v,j)=>{const w=v*420;A('rect',{x,y:y+3,width:w,height:17,fill:`var(--${IDS[j]})`,stroke:j===1?'var(--ink)':'none','stroke-width':j===1?1.5:0});if(j===1&&w>34)A('text',{x:x+w/2,y:y+16,'text-anchor':'middle',style:'fill:#fff;font-size:10px'},v.toFixed(2));x+=w})});SV=k};
+  ctl(['practical','hybrid','symbolic'].map(x=>`<button data-m="${x}" aria-pressed="${x===m}">${x.toUpperCase()}</button>`).join(''));
+  $('ctl').querySelectorAll('button').forEach(b=>b.onclick=()=>{m=b.dataset.m;$('ctl').querySelectorAll('button').forEach(o=>o.setAttribute('aria-pressed',o===b));draw()});draw()}},
+{t:'Row thirteen',w:'6 Nov 2026 · PAE-04',c:'The one deed everyone agrees happened has no cell to punch.',
+ e:'The same punch card with the thirteenth entry the code adds beneath it. Twelve rows of pairs can be chosen. The thirteenth is a fixed line of text and names no one.',
+ y:'',s:'live/player.html, line 85',u:'',
+ r(){svg();card(70,24,500,320,null,null,true)}},
+{t:'Two wrong totals',w:'10 Nov 2026 · 10:38',c:'Three figures for one number. Only one is twelve to the twelfth.',
+ e:'The digits aligned on the right. Marked digits differ from the true value. The Wikipedia figure, as the numbers page quotes it, is the longer wrong figure with its first digit missing.',
+ y:'',s:'computed today; numbers.html; an English text read online',u:'The figure printed in the Parks translation.',
+ r(){svg();const rows=[['12 to the 12th','8916100448256'],['English text online','8874296672256'],['numbers page, citing Wikipedia','874296672256']];const tr=rows[0][1];
+  rows.forEach((r,i)=>{const y=70+i*90;T(30,y-28,r[0],'g');const d=r[1].padStart(13,' ');[...d].forEach((ch,j)=>{if(ch===' ')return;const x=40+j*40+(Math.floor((j+2)/3))*8,bad=i>0&&ch!==tr[j];if(bad)A('rect',{x:x-4,y:y-24,width:32,height:34,class:'hl',stroke:'var(--ink)'});A('text',{x:x+12,y,'text-anchor':'middle',style:'font-size:26px;font-weight:700'},ch)})});
+  T(30,330,'Also this morning: a 25-digit count on a project page was reported by a summarising tool as 34 digits.','g')}},
+{t:'The price moves',w:'10 Nov 2026 · 10:42',c:'A rule about the wrestler changes what the daughter is worth.',
+ e:'Share of stories in which each policy still pays. The five rules forbid Belindo the knife and forbid strangling him, so both killings shift toward the other pairs, Ogiva on the widow among them. Only the widow’s life policy moves.',
+ y:'Switch between no rules and the five rules.',s:'live/policies.html, exact enumeration; two counters agree on 2,663,172,255,744',u:'Fire and wigs rest on a prior of four equally likely arsonists, which is the modeller’s choice.',
+ r(){svg();const P=[['Inigo · fire',75,75],['Widow · life',84.0,79.4],['Ogiva · wigs',75,75],['Widow · Belindo’s tour',91.7,91.7]];const g=A('g',{});let m=0;
+  const draw=()=>{g.textContent='';const k=SV;SV=g;[0,25,50,75,100].forEach(v=>{A('line',{x1:190+v*3.6,y1:30,x2:190+v*3.6,y2:300,class:'th'});T(190+v*3.6,318,v+'%','g','middle')});
+   P.forEach((p,i)=>{const y=50+i*62,v=p[1+m];T(180,y+20,p[0],'','end');A('rect',{x:190,y,width:v*3.6,height:30,class:i===1?'cut':'ink'});T(196+v*3.6,y+20,v.toFixed(1)+'%','big');if(m&&p[1]!==p[2])A('line',{x1:190+p[1]*3.6,y1:y-6,x2:190+p[1]*3.6,y2:y+36,class:'ln','stroke-dasharray':'4 3'})});SV=k};
+  ctl('<button id="p0" aria-pressed="true">NO RULES</button><button id="p1" aria-pressed="false">THE FILM’S FIVE RULES</button>');const set=v=>{m=v;$('p0').setAttribute('aria-pressed',!v);$('p1').setAttribute('aria-pressed',!!v);draw()};$('p0').onclick=()=>set(0);$('p1').onclick=()=>set(1);draw()}},
+{t:'Hard to present',w:'10 Nov 2026 · 10:49',c:'Five rules cut the stories from 8.9 trillion to 2.7 trillion, one rule at a time.',
+ e:'Each bar is what is left after the next rule, from the numbers page’s own data. The marker shows a second count, the ledger’s, which that page also introduces as the count under the rules.',
+ y:'Tap a bar to read the rule.',s:'live/numbers.html, D.rules and D.count.total',u:'The four palettes are in the journal entry, not on this slide.',
+ r(){svg();const R=[['all stories','8916100448256'],...DATA.rules],mx=8916100448256;const lab=A('text',{x:300,y:346,class:'d','text-anchor':'middle'},'');
+  R.forEach((r,i)=>{const y=20+i*46,w=Number(r[1])/mx*470;const b=A('rect',{x:20,y,width:w,height:30,class:(i?'ink':'fc')+' tap'});b.addEventListener('click',()=>lab.textContent=r[0]);T(28+w,y+20,fmt(r[1]),'')});
+  const lx=20+3316025558016/mx*470;A('line',{x1:lx,y1:8,x2:lx,y2:300,class:'cl','stroke-dasharray':'5 4'});T(lx+6,312,'ledger count 3,316,025,558,016','c');lab.textContent=R[5][0]}},
+{t:'The gate',w:'10 Nov 2026 · 11:49',c:'The agent asked to merge its own work. The host said no.',
+ e:'Three parties, four messages, in order. The refusal came from outside the agent, and the branch stayed where it was.',
+ y:'',s:'tool result, 11:49',u:'',
+ r(){svg();arrow();[['author',90],['agent',300],['host',510]].forEach(([n,x])=>{A('rect',{x:x-50,y:14,width:100,height:30,class:'fc'});T(x,34,n,'big','middle');A('line',{x1:x,y1:44,x2:x,y2:330,class:'th'})});
+  [[90,300,84,'“push it here”',''],[300,510,144,'merge pull request 14',''],[510,300,204,'denied: [Merge Without Review]','c'],[300,90,264,'not merged; the pull request is open','']].forEach(([a,b,y,s,c])=>{A('line',{x1:a+(b>a?4:-4),y1:y,x2:b+(b>a?-6:6),y2:y,class:c?'cl':'ln','marker-end':'url(#ah)'});T((a+b)/2,y-8,s,c,'middle')});
+  T(510,300,'main: unchanged','g','middle')}},
+{t:'Two hands on one page',w:'10 Nov 2026 · 13:47',c:'Two versions of one file met at line 138.',
+ e:'The main line and the agent’s branch as the repository records them. The author’s rebuild landed on main while the branch waited. The merge kept the author’s lines.',
+ y:'',s:'git log; commits 53959783 and e40efb59',u:'',
+ r(){svg();A('line',{x1:40,y1:110,x2:560,y2:110,class:'ln'});A('path',{d:'M120 110C160 110 160 230 200 230H420C460 230 470 230 480 230',class:'ln'});A('path',{d:'M380 110C420 110 420 230 480 230',class:'cl'});
+  [[120,110,'d738f2bf','6 Nov'],[380,110,'53959783','13:47 · author: Unify the case file'],[220,230,'policies, whole house','10:49'],[480,230,'e40efb59','merge · conflict at index.html:138']].forEach(([x,y,a,b],i)=>{A('circle',{cx:x,cy:y,r:9,class:i===3?'cut':i===1?'ink':'bx'});T(x,y-18,a,'big','middle');T(x,y+28,b,'g','middle')});
+  T(40,96,'main','g');T(200,216,'branch','g');T(300,320,'kept: the author’s lines, with two cards set inside them','d','middle')}},
+{t:'The notes arrive by voice',w:'10 Nov 2026 · 18:07',c:'Five words needed a reading before the paper could cite them.',
+ e:'Left: the words as the dictation wrote them. Right: the reading taken. Every line on this slide is a guess until the author confirms it.',
+ y:'',s:'the author’s message of 18:07',u:'Whether each reading is what was said.',
+ r(){svg();arrow();[['flower animation test','flour sack test'],['Giertych','Geertz'],['Lim Stanislaw’s Baitistics','Stanisław Lem, bitistics'],['BDI work of Demi Hasabis','BDI: Bratman; Rao and Georgeff'],['Legos','the LDraw work']].forEach((p,i)=>{const y=50+i*58;A('rect',{x:20,y:y-22,width:230,height:34,class:'fc'});T(135,y,p[0],'','middle');A('line',{x1:256,y1:y-5,x2:340,y2:y-5,class:'ln','stroke-dasharray':'5 4','marker-end':'url(#ah)'});A('rect',{x:346,y:y-22,width:236,height:34,class:'bx'});T(464,y,p[1],'','middle')});T(135,22,'as written','g','middle');T(464,22,'read as','g','middle')}},
+{t:'The semaphore is not found',w:'10 Nov 2026 · 18:07',c:'One search. Ten results. The word in none of them.',
+ e:'What a single search can and cannot show. Each square is one returned page. An empty square means the excerpt did not contain the word, which is weaker than the book not containing it.',
+ y:'',s:'one web search, 18:07',u:'The book itself was not opened.',
+ r(){svg();T(300,40,'query: Stanisław Lem “History of Bitic Literature” bitistics Imaginary Magnitude','','middle');for(let i=0;i<10;i++){A('rect',{x:45+i*52,y:90,width:42,height:54,class:'bx'});T(66+i*52,162,String(i+1),'g','middle')}
+  T(300,210,'excerpts containing “bitic” or “bitistics”: several','','middle');T(300,236,'excerpts containing “semaphore”: 0 of 10','big c','middle');A('rect',{x:200,y:262,width:200,height:54,fill:'none',stroke:'var(--cut)','stroke-dasharray':'5 4'});T(300,294,'the book: unopened','c','middle')}},
+{t:'The thesis arrives early',w:'10 Nov 2026 · 18:09',c:'Sixteen minutes between the five labels and “too early.”',
+ e:'The evening’s messages on one line. Dark marks are drafts published; red marks are the author’s replies. Each reply pushed the writing back toward the files.',
+ y:'Tap a mark.',s:'message timestamps, 10 Nov',u:'',
+ r(){svg();const M=[[17.95,'a','“write this up towards a publication”'],[18.07,'d','process paper published'],[18.12,'a','“waiting for an argument or thesis”'],[18.15,'d','draft with a thesis and five claims'],[18.42,'a','“too early, too orderly”'],[18.46,'d','journal, twenty entries'],[19.05,'a','“don’t assume too much”'],[19.15,'d','journal, second pass with exhibits']],x=t=>40+(t-17.9)/1.35*520;
+  A('line',{x1:40,y1:140,x2:560,y2:140,class:'ln'});['18:00','18:30','19:00'].forEach((s,i)=>{const xx=x(18+i*.5);A('line',{x1:xx,y1:134,x2:xx,y2:146,class:'ln'});T(xx,166,s,'g','middle')});
+  const lab=A('text',{x:300,y:250,class:'d','text-anchor':'middle'},'');const show=i=>{lab.textContent=M[i][2];SV.querySelectorAll('.mk').forEach((c,j)=>c.setAttribute('stroke-width',j===i?4:0))};
+  M.forEach((m,i)=>{const c=A('rect',{x:x(m[0])-7,y:m[1]==='a'?96:150,width:14,height:34,class:(m[1]==='a'?'cut':'ink')+' tap mk',stroke:'var(--hl)','stroke-width':0});c.addEventListener('click',()=>show(i))});
+  T(40,88,'author','c');T(40,204,'drafts','g');show(4)}}
+];
+let cur=0;
+function show(i){cur=Math.max(0,Math.min(S.length-1,i));const s=S[cur];$('stage').textContent='';$('ctl').textContent='';
+ $('num').textContent=String(cur+1).padStart(2,'0');$('title').textContent=s.t;$('when').textContent=s.w;$('claim').textContent=s.c;$('exp').textContent=s.e;
+ $('try').textContent=s.y;$('try').hidden=!s.y;$('src').textContent=s.s;$('un').innerHTML=s.u?'<b>NOT CHECKED</b> ':'';if(s.u)$('un').append(s.u);$('un').hidden=!s.u;
+ s.r();SV.setAttribute('aria-label',s.c);document.querySelectorAll('#ticks button').forEach((b,j)=>b.setAttribute('aria-current',j===cur));
+ $('prev').disabled=cur===0;$('next').disabled=cur===S.length-1;const h='#s'+String(cur+1).padStart(2,'0');if(location.hash!==h)try{history.replaceState(null,'',h)}catch(e){location.hash=h}}
+S.forEach((s,i)=>{const b=document.createElement('button');b.setAttribute('aria-label','Slide '+(i+1)+': '+s.t);b.onclick=()=>show(i);$('ticks').appendChild(b)});
+$('prev').onclick=()=>show(cur-1);$('next').onclick=()=>show(cur+1);
+addEventListener('keydown',e=>{if(e.target.tagName==='INPUT')return;if(e.key==='ArrowRight')show(cur+1);if(e.key==='ArrowLeft')show(cur-1)});
+let tx=null;$('stage').addEventListener('touchstart',e=>{tx=e.touches[0].clientX},{passive:true});$('stage').addEventListener('touchend',e=>{if(tx===null)return;const d=e.changedTouches[0].clientX-tx;if(Math.abs(d)>70)show(cur+(d<0?1:-1));tx=null});
+const fromHash=()=>{const m=/^#s(\d+)$/.exec(location.hash);show(m?+m[1]-1:0)};addEventListener('hashchange',fromHash);fromHash();
+</script></body></html>
