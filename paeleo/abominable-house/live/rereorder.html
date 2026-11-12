@@ -42,125 +42,135 @@ li b{font:600 10.5px/1.9 var(--mono);letter-spacing:.06em;color:var(--acc)}li[ar
 <div id="bar"><button id="pp" aria-pressed="true">PAUSE</button><button id="vo" aria-pressed="false">VOICE</button><div id="prog"><i></i></div><button id="nx">NEXT</button></div></section>
 <section id="desk"><div id="eps" role="tablist" aria-label="Chapters"></div><div id="script"></div></section></main>
 <script src="vo2/vo.js"></script><script src="ledger.js"></script><script src="story.js"></script><script src="agents.js"></script><script src="crossed.js"></script><script src="kit.js"></script>
+<script src="deeds/01-blackmail.js"></script><script src="deeds/02-drugging.js"></script><script src="deeds/03-incitement.js"></script><script src="deeds/04-knifing.js"></script><script src="deeds/05-prostitution.js"></script><script src="deeds/06-gun.js"></script><script src="deeds/07-tying.js"></script><script src="deeds/08-assault.js"></script><script src="deeds/09-seduction.js"></script><script src="deeds/10-slander.js"></script><script src="deeds/11-snooping.js"></script><script src="deeds/12-strangling.js"></script>
 <script>
-// Every picture in this film is made of the same specks. A fixed share of them is the tower (all 12^12 films); the rest, plus whatever a rule cuts off the tower, pours into the picture for the current line.
-const $=id=>document.getElementById(id),cv=$('cv'),g=cv.getContext('2d'),BG='#14110e',HL='#ffdc00',MONO='"JetBrains Mono",ui-monospace,Menlo,monospace',DISP='"Big Shoulders Display","Arial Black",Impact,sans-serif';
-const PAL=['#f4ead2','#cdbb92','#c9705e','#8f8678','#d8b06a','#b673d6','#e0603f','#ffdc00','#5aa7b0','#84ad52'],FL=0,FD=1,RED=6,YEL=7,TEAL=8,GRN=9,CI={R:2,B:3,I:4,O:5};
-const PRGB=PAL.map(h=>[1,3,5].map(i=>parseInt(h.slice(i,i+2),16)));
-const HASH=x=>{const s=Math.sin(x*127.1+311.7)*43758.5453;return s-Math.floor(s)},cl=(a,b,x)=>Math.max(a,Math.min(b,x));
-const PR=(typeof PAIRS!=='undefined'?PAIRS:null)||(()=>{const o=[];for(const a of 'RBIO')for(const v of 'RBIO')if(a!==v)o.push([a,v]);return o})();
+// Every scene here is made from the deed films already shot: the same performances, restaged several at a time, with the doer removed, or run backwards. Between lines the picture breaks into flour, falls, and is poured into the next picture. The column on the left is all 12^12 films, 6,000 specks tall.
+const $=id=>document.getElementById(id),cv=$('cv'),vg=cv.getContext('2d'),st=document.createElement('canvas');st.width=1920;st.height=1080;const g=st.getContext('2d');
+const BG='#14110e',PAPER='#f4eedd',INK='#1d1812',ACC='#c8402a',HL='#ffdc00',COL={R:'#8a4a40',B:'#3a342e',I:'#b0915e',O:'#8a47a3'},CLOTH={R:'#d6bf96',B:'#e8d5ae',I:'#e2cea5',O:'#f0e4c8'},WHO={R:'Roessler',B:'Belindo',I:'Inigo',O:'Ogiva'},MONO='"JetBrains Mono",ui-monospace,Menlo,monospace';
+const KEYS=['blackmail','drugging','incitement','knifing','prostitution','gun','tying','assault','seduction','slander','snooping','strangling'],ROM=['I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII'];
+const cl=(a,b,x)=>Math.max(a,Math.min(b,x)),H=K.hash,PR=LEDGER.PAIRS&&LEDGER.PAIRS.length?LEDGER.PAIRS:(()=>{const o=[];for(const a of 'RBIO')for(const v of 'RBIO')if(a!==v)o.push([a,v]);return o})();
 const TOTAL=12n**12n,KEEP=[1,.75,.5625,.457,.3555,.2987],LEFT=[8916100448256n,6687075336192n,5015306502144n,4074936532992n,3169395081216n,2663172255744n],big=n=>n.toString().replace(/\B(?=(\d{3})+(?!\d))/g,','),
  RULE5=['Belindo cannot be strangled','Belindo does not use a knife','Belindo cannot be tied without a gun on him','no one is both strangled and knifed','a slanderer does not also snoop on or blackmail the same person'];
-const film=r=>{const f=[];for(let j=0;j<12;j++)f.push(Math.floor(HASH(r*7.13+j*1.9+3)*12));return f};
-const tier=f=>{try{return STORY.score(f).tier}catch(e){return 'POSSIBLE'}},TCI={PREPOSTEROUS:RED,POSSIBLE:I_(),PLAUSIBLE:GRN,PROBABLE:TEAL,CERTAIN:5};function I_(){return 4}
+const film=r=>{const f=[];for(let j=0;j<12;j++)f.push(Math.floor(H(r*7.13+j*1.9+3)*12));return f},tier=f=>{try{return STORY.score(f).tier}catch(e){return 'POSSIBLE'}},TCO={PREPOSTEROUS:'#e0603f',POSSIBLE:'#d8b06a',PLAUSIBLE:'#84ad52',PROBABLE:'#5aa7b0',CERTAIN:'#b673d6'};
 let TS=null;function share(){if(TS)return TS;const n={PREPOSTEROUS:0,POSSIBLE:0,PLAUSIBLE:0,PROBABLE:0,CERTAIN:0};for(let i=0;i<300;i++)n[tier(film(i+900))]++;return TS=n}
 function susp(){try{const a=CROSSED.audience(film(41)),o=[];for(let k=0;k<12;k++)o.push(+a[k].suspense||0);const m=Math.max(...o)||1;return o.map(v=>v/m)}catch(e){return null}}
-// ---- shapes the flour is poured into (drawn on a small hidden canvas, then sampled)
-const sc=document.createElement('canvas');sc.width=480;sc.height=270;const sg=sc.getContext('2d',{willReadFrequently:true});
-const F=(c,i)=>{c.fillStyle=PAL[i]},box=(c,i,x,y,w,h)=>{F(c,i);c.fillRect(x,y,w,h)},disc=(c,i,x,y,r)=>{F(c,i);c.beginPath();c.arc(x,y,r,0,7);c.fill()};
-function word(c,i,t,x,y,fs,al){F(c,i);c.font='800 '+fs+'px '+DISP;c.textAlign=al||'center';c.textBaseline='alphabetic';c.fillText(t,x,y)}
-function fsack(c,id,x,y,h,lean){const w=h*.78;c.save();c.translate(x,y);c.rotate(lean||0);F(c,FL);c.beginPath();c.moveTo(-w*.4,0);c.lineTo(w*.4,0);c.quadraticCurveTo(w*.6,-h*.45,w*.46,-h);c.lineTo(w*.3,-h*1.12);c.lineTo(w*.22,-h*.98);c.quadraticCurveTo(0,-h*.9,-w*.22,-h*.98);c.lineTo(-w*.3,-h*1.12);c.lineTo(-w*.46,-h);c.quadraticCurveTo(-w*.6,-h*.45,-w*.4,0);c.fill();box(c,CI[id],-w*.5,-h*.7,w,h*.3);c.restore()}
-function fwald(c,x,y,h){const w=h*.56;c.save();c.translate(x,y);F(c,FL);c.beginPath();c.moveTo(-w/2,0);c.lineTo(w/2,0);c.lineTo(w/2,-h*.86);c.lineTo(-w/2+w*.22,-h*.86);c.lineTo(-w/2,-h*.72);c.fill();
- c.globalCompositeOperation='destination-out';for(let r=0;r<4;r++)for(let q=0;q<5;q++)if(HASH(r*7.3+q*3.1)>.42)c.fillRect(-w*.36+q*w*.16,-h*.5+r*h*.1,w*.09,h*.06);c.globalCompositeOperation='source-over';
- box(c,RED,-w/2-6,-h*.76,w+12,h*.12);box(c,3,-w*.34,-h*1.06,w*.68,h*.2);box(c,3,-w*.56,-h*.89,w*1.12,h*.05);c.restore()}
-function fskil(c,x,y,h){const w=h*.44;c.save();c.translate(x,y);F(c,FD);c.beginPath();c.roundRect(-w/2,-h*.72,w,h*.72,w*.2);c.fill();disc(c,FL,0,-h*.86,h*.14);box(c,TEAL,-w*.1,-h*.7,w*.2,h*.36);box(c,TEAL,-w*.5,-h*.2,w,h*.07);c.restore()}
-const FIG={W:fwald,S:fskil},fig=(c,k,x,y,h)=>FIG[k]?FIG[k](c,x,y,h):fsack(c,k,x,y,h);
-const host=(c,k)=>fig(c,k,420,1010,k==='W'||k==='S'?330:270);
-function cells(c,f,x,y,cw,ch){f.forEach((p,i)=>{box(c,CI[PR[p][0]],x+i*cw,y,cw-10,ch);box(c,CI[PR[p][1]],x+i*cw+cw*.45,y+ch*.45,cw*.45-10,ch*.55)})}
-function mound(c,i,x,y,w,h){F(c,i);c.beginPath();c.moveTo(x-w/2,y);c.quadraticCurveTo(x,y-h*2,x+w/2,y);c.fill()}
-function houseS(c,x,y,s,i){box(c,i,x-s/2,y-s*.7,s,s*.7);F(c,i);c.beginPath();c.moveTo(x-s*.65,y-s*.7);c.lineTo(x,y-s*1.25);c.lineTo(x+s*.65,y-s*.7);c.fill()}
-const P={
- total(c){word(c,FL,'12',1180,560,520);word(c,YEL,'12',1560,330,260);word(c,FD,'FILMS',1330,800,200)},
- pct(c,ph){word(c,ph?YEL:FL,Math.round(KEEP[ph]*100)+'%',1330,520,460)},
- skiller(c){fskil(c,1050,1010,700);word(c,YEL,'?',1520,700,700)},
- six(c){['W','R','B','I','O','S'].forEach((k,i)=>fig(c,k,960+i*170,i%2?1000:760,k==='W'||k==='S'?300:240))},
- plot1(c){host(c,'W');for(let i=0;i<3;i++){const y=150+i*220;F(c,i===0?FL:FD);c.beginPath();c.moveTo(840,y);c.lineTo(1560,y);c.lineTo(1320,y+150);c.lineTo(1080,y+150);c.fill();box(c,FL,1180,y+150,40,70)}cells(c,film(7),720,860,96,110)},
- plot2(c){host(c,'W');for(let r=0;r<8;r++){const f=film(r+900);cells(c,f,640,150+r*100,84,70);box(c,TCI[tier(f)],1680,150+r*100,150,70)}},
- tug1(c){host(c,'B');fsack(c,'B',850,820,420,-.22);fsack(c,'I',1650,820,330,.3);box(c,FD,930,560,660,26);box(c,RED,1110,520,50,110)},
- tug2(c){host(c,'B');fsack(c,'B',1050,1000,560);F(c,YEL);c.lineWidth=40;c.strokeStyle=PAL[YEL];c.beginPath();c.ellipse(1050,330,150,90,0,0,7);c.stroke();c.strokeStyle=PAL[RED];c.lineWidth=46;c.beginPath();c.moveTo(1420,180);c.lineTo(1760,520);c.moveTo(1760,180);c.lineTo(1420,520);c.stroke();word(c,FL,'25%',1590,860,260)},
- rash1(c){host(c,'O');for(let i=0;i<9;i++)box(c,FD,640+i*150+HASH(i)*40,120,34+HASH(i*3)*30,820);[[900,3],[1150,5],[1420,4]].forEach(([x,i])=>{disc(c,FL,x,560,46);F(c,i);c.beginPath();c.moveTo(x-90,900);c.lineTo(x,610);c.lineTo(x+90,900);c.fill()});box(c,FL,1500,930,300,60);disc(c,FL,1830,950,44)},
- rash2(c){host(c,'O');['R','B','O','I'].forEach((a,i)=>{const x=640+(i%2)*620,y=130+(i>>1)*450;F(c,FD);c.fillRect(x,y,560,16);c.fillRect(x,y+384,560,16);c.fillRect(x,y,16,400);c.fillRect(x+544,y,16,400);
-   fsack(c,a,x+170,y+350,230);if(a!=='I')fsack(c,'I',x+400,y+350,200,.5);box(c,RED,x+250,y+170,90,22)})},
- inv(c,ph){host(c,'I');fsack(c,'I',760,980,250);const n=4+ph*5;for(let i=0;i<n;i++){const u=i/14;disc(c,YEL,900+u*720,880-u*560-Math.sin(u*3)*60,20)}
-   box(c,FL,1640,150,200,200);box(c,TEAL,1640,230,200,40);box(c,FL,1660,640,150,330);disc(c,3,1780,810,16);box(c,GRN,1500,350-[60,150,250][ph],80,[60,150,250][ph]);box(c,GRN,1500,970-[60,40,20][ph],80,[60,40,20][ph])},
- inv2(c,ph){host(c,'I');box(c,FL,640,400,260,260);box(c,TEAL,640,500,260,50);fsack(c,'I',1560,700,300);fsack(c,'R',1760,700,230,.5);F(c,YEL);c.beginPath();if(ph)c.moveTo(1380,440),c.lineTo(1380,620),c.lineTo(1100,620),c.lineTo(1100,700),c.lineTo(950,530),c.lineTo(1100,360),c.lineTo(1100,440);else c.moveTo(960,440),c.lineTo(960,620),c.lineTo(1240,620),c.lineTo(1240,700),c.lineTo(1390,530),c.lineTo(1240,360),c.lineTo(1240,440);c.fill()},
- bar1(c){host(c,'R');word(c,YEL,'?',780,640,620);for(let i=0;i<12;i++)box(c,i<7?FL:FD,640+i*96,800,80,90);box(c,RED,1010,690,640,22);F(c,RED);c.beginPath();c.moveTo(1650,650);c.lineTo(1730,701);c.lineTo(1650,752);c.fill();F(c,YEL);c.fillRect(1740,560,150,18);c.fillRect(1740,822,150,18);c.fillRect(1740,560,18,280);c.fillRect(1872,560,18,280)},
- bar2(c){host(c,'R');const s=susp();for(let i=0;i<12;i++){const v=s?s[i]:.2+.7*HASH(i*2.3),h=40+620*v;box(c,v>.66?RED:FL,640+i*100,900-h,80,h)}box(c,FD,620,910,1230,20)},
- town1(c){host(c,'S');[[760,420],[1050,330],[1380,440],[1700,340],[820,860],[1150,820],[1480,900],[1760,800]].forEach(([x,y],i)=>houseS(c,x,y,190,i%2?FL:FD));for(let i=0;i<25;i++)disc(c,[2,4,5,TEAL,YEL][i%5],640+HASH(i*1.7)*1200,480+HASH(i*4.3)*120+(i%2)*440,20)},
- town2(c){host(c,'S');F(c,FD);c.fillRect(640,330,1200,24);c.fillRect(640,980,1200,24);c.fillRect(640,330,24,660);c.fillRect(1816,330,24,660);c.beginPath();c.moveTo(580,330);c.lineTo(1240,90);c.lineTo(1900,330);c.lineTo(1900,290);c.lineTo(1240,50);c.lineTo(580,290);c.fill();
-   'RBIO'.split('').forEach((k,i)=>{const x=800+i*290;fsack(c,k,x,970,250);for(let m=0;m<4;m++)box(c,m===3?YEL:CI[k],x-90,560-m*46,100+HASH(i*5+m)*90,28)})},
- back(k){return c=>{fig(c,k,980,1010,k==='W'||k==='S'?420:340);mound(c,FD,1500,1010,640,150);word(c,YEL,'30%',1500,560,300)}},
- end1(c){['W','R','B','I','O','S'].forEach((k,i)=>fig(c,k,960+i*170,i%2?1010:790,k==='W'||k==='S'?290:230));word(c,YEL,'30%',1380,400,340)},
- end2(c){word(c,FL,'WHICH',1340,400,300);word(c,YEL,'ONE?',1340,760,380)}};
-// ---- the film: chapters, each a host and their lines
+function clean(c){c.setTransform(1,0,0,1,0,0);c.globalAlpha=1;c.globalCompositeOperation='source-over';c.filter='none';c.setLineDash([]);c.lineCap='butt'}
+function waldemar(x,y,h,sq){const w=h*.56;g.save();g.translate(x,y);g.scale(1/Math.sqrt(sq),sq);g.lineWidth=7;g.strokeStyle=INK;g.lineJoin='round';
+ g.beginPath();g.moveTo(-w/2,0);g.lineTo(w/2,0);g.lineTo(w/2,-h*.86);g.lineTo(-w/2+w*.22,-h*.86);g.lineTo(-w/2,-h*.72);g.closePath();g.fillStyle='#efe6cf';g.fill();g.stroke();
+ g.fillStyle=INK;for(let r=0;r<4;r++)for(let q=0;q<5;q++)if(K.hash(r*7.3+q*3.1)>.42)g.fillRect(-w*.36+q*w*.16,-h*.5+r*h*.1,w*.07,h*.05);
+ g.fillStyle='#a3321f';g.fillRect(-w/2-6,-h*.74,w+12,h*.09);g.strokeRect(-w/2-6,-h*.74,w+12,h*.09);g.fillStyle='#2a2622';g.fillRect(-w*.34,-h*1.04,w*.68,h*.19);g.fillRect(-w*.56,-h*.87,w*1.12,h*.04);g.restore()}
+function skiller(x,y,h,sq){const w=h*.74;g.save();g.translate(x,y);g.scale(1/Math.sqrt(sq),sq);g.lineWidth=7;g.strokeStyle=PAPER;g.lineJoin='round';
+ g.fillStyle='#15120f';g.fillRect(-w/2,-h*.7,w,h*.7);g.strokeRect(-w/2,-h*.7,w,h*.7);g.beginPath();g.moveTo(-w*.18,-h*.7);g.lineTo(-w*.18,-h*.86);g.lineTo(w*.18,-h*.86);g.lineTo(w*.18,-h*.7);g.stroke();
+ g.fillStyle=PAPER;g.fillRect(-w*.3,-h*.52,w*.6,h*.3);g.fillStyle=INK;for(let i=0;i<3;i++)g.fillRect(-w*.24,-h*(.47-i*.07),w*.48,h*.02);g.fillStyle=ACC;g.beginPath();g.arc(w*.18,-h*.27,h*.04,0,7);g.fill();g.restore()}
+function sack(id,x,y,h,bob){const C=K.CAST[id],w=h*Math.min(1.25,C.w/C.h);g.save();g.translate(x,y-(bob||0));g.lineWidth=6;g.strokeStyle=INK;g.lineJoin='round';
+ g.beginPath();g.moveTo(-w*.4,0);g.lineTo(w*.4,0);g.quadraticCurveTo(w*.6,-h*.45,w*.46,-h);g.lineTo(w*.3,-h*1.12);g.lineTo(w*.22,-h*.98);g.quadraticCurveTo(0,-h*.9,-w*.22,-h*.98);g.lineTo(-w*.3,-h*1.12);g.lineTo(-w*.46,-h);g.quadraticCurveTo(-w*.6,-h*.45,-w*.4,0);g.closePath();g.fillStyle=CLOTH[id];g.fill();g.stroke();
+ g.fillStyle=COL[id];g.fillRect(-w*.42,-h*.62,w*.84,h*.14);g.restore()}
+// ---- clips: each deed frame is drawn full size off screen, then copied into a slot
+const off=document.createElement('canvas');off.width=1920;off.height=1080;const og=off.getContext('2d'),SL=new Map();let budget=3;
+function rend(key,A,V,t,o){og.save();clean(og);og.clearRect(0,0,1920,1080);try{DEEDS[key].draw(og,t,A,V,K,o||{})}catch(e){}og.restore();clean(og)}
+function clip(id,key,A,V,t,x,y,w,o){o=o||{};let S=SL.get(id);if(!S){S={cv:document.createElement('canvas'),sig:''};S.cv.width=800;S.cv.height=450;S.c=S.cv.getContext('2d');SL.set(id,S)}
+ const sig=key+A+V+(o.noA?'n':'')+'|'+t.toFixed(2);if(S.sig!==sig&&(budget>0||!S.sig)){budget--;S.sig=sig;if(o.noA){rend(key,A,V,t,{layer:'bg'});S.c.drawImage(off,0,0,800,450);rend(key,A,V,t,{layer:'V'});S.c.drawImage(off,0,0,800,450)}else{rend(key,A,V,t);S.c.drawImage(off,0,0,800,450)}}
+ const h=w*9/16;g.globalAlpha=o.dim||1;g.drawImage(S.cv,x,y,w,h);g.globalAlpha=1;g.strokeStyle=o.bd||PAPER;g.lineWidth=o.bd?10:4;g.strokeRect(x,y,w,h);
+ if(o.cut){g.strokeStyle='#e0603f';g.lineWidth=Math.max(12,w*.03);g.beginPath();g.moveTo(x+w*.06,y+h*.1);g.lineTo(x+w*.94,y+h*.9);g.stroke()}
+ if(o.q){g.fillStyle=HL;g.font='800 '+h*.7+'px "Big Shoulders Display",Impact,sans-serif';g.textAlign='center';g.textBaseline='middle';g.fillText('?',x+w*(o.qx||.3),y+h*.5)}
+ if(o.tag)tag(x+w/2,y+h-Math.max(18,w*.035),o.tag,Math.max(22,w*.045),o.tbg)}
+function tag(x,y,txt,fs,bg){g.font='600 '+fs+'px '+MONO;const w=g.measureText(txt).width+fs*.7,h=fs*1.5,X=cl(6,1914-w,x-w/2);g.fillStyle=bg||PAPER;g.fillRect(X,y-h/2,w,h);g.fillStyle=INK;g.textBaseline='middle';g.textAlign='left';g.fillText(txt,X+fs*.35,y+2)}
+const X0=330,XW=1560,lp=(T,o)=>((T+(o||0))%6.4)*.94;
+function wall(T,dim,n){const f=film(Math.floor(T/3.2)+(n||0));for(let k=0;k<12;k++){const [A,V]=PR[f[k]];clip('w'+k,KEYS[k],A,V,lp(T,k*.5),X0+(k%4)*392,60+Math.floor(k/4)*226,380,{dim,tag:ROM[k]+' · '+A+' to '+V})}}
+function hosts(){waldemar(520,1040,300,1);['R','B','I','O'].forEach((k,i)=>sack(k,800+i*250,1040,k==='B'?260:210,0));skiller(1790,1040,300,1)}
+function host(k,T){const b=Math.abs(Math.sin(T*5))*10;if(k==='W')waldemar(1800,1072-b,240,1);else if(k==='S')skiller(1790,1072-b,240,1);else sack(k,1800,1072,200,b)}
+// the tower: 6,000 specks, each standing for about 1.49 billion films
+const NTW=6000,TU=[],TV=[];for(let i=0;i<NTW;i++){TU.push(H(i*1.37));TV.push((i+H(i*5.1))/NTW)}
+function tower(f,f0,pu){g.strokeStyle='rgba(244,234,210,.45)';g.lineWidth=3;g.setLineDash([12,12]);g.strokeRect(50,110,210,910);g.setLineDash([]);
+ for(let i=0;i<NTW;i++){const v=TV[i];if(v<=f){g.fillStyle=i%3?'#f4ead2':'#cdbb92';g.fillRect(60+TU[i]*186,1010-v*890,5,5)}else if(v<=f0&&pu<1.6){const q=pu*(.6+H(i*2.2));g.fillStyle='#cdbb92';g.fillRect(60+TU[i]*186+q*260*(.3+H(i*7.7)),1010-v*890+900*q*q,5,5)}}
+ g.fillStyle=HL;g.fillRect(40,1010-f*890-4,236,8);tag(155,66,(f*100).toFixed(f<1?1:0)+'%',44,HL)}
+const refrain=k=>(T)=>{wall(T,.8,7);tag(X0+XW/2,760,'LEFT STANDING · '+big(LEFT[5])+' films',52,HL);host(k,T)};
+const ST={
+ all(T){wall(T,1);tag(X0+XW/2,770,big(TOTAL)+' films · 12 deeds × 12 pairs each',44,HL);tag(X0+XW/2,860,'one speck in the tower = 1.49 billion films',36);host('W',T)},
+ rules(T,ph,pu){if(!ph){wall(T,1);tag(X0+XW/2,770,'no rules yet',48,HL);host('W',T);return}
+  const three=(key,fix,asV)=>['R','I','O'].forEach((o,i)=>clip('r'+i,key,asV?o:'B',asV?'B':o,lp(T,i),X0+i*524,150,500,{cut:pu>.8,tag:(asV?WHO[o]+' to Belindo':'Belindo to '+WHO[o])}));
+  if(ph===1)three('strangling',0,1);if(ph===2)three('knifing',0,0);if(ph===3)three('tying',0,1);
+  if(ph===4){clip('r0','knifing','R','I',lp(T),X0+20,150,740,{tag:'knifed'});clip('r1','strangling','O','I',lp(T,1),X0+800,150,740,{tag:'and strangled'});if(pu>.8){g.strokeStyle='#e0603f';g.lineWidth=30;g.beginPath();g.moveTo(X0+60,190);g.lineTo(X0+1500,530);g.stroke()}}
+  if(ph===5){clip('r0','slander','O','R',lp(T),X0+20,150,740,{tag:'slanders'});clip('r1','snooping','O','R',lp(T,1),X0+800,150,740,{tag:'and snoops on the same person'});if(pu>.8){g.strokeStyle='#e0603f';g.lineWidth=30;g.beginPath();g.moveTo(X0+60,190);g.lineTo(X0+1500,530);g.stroke()}}
+  tag(X0+XW/2,90,'RULE '+ph+' · '+RULE5[ph-1],ph===5?34:44,HL);tag(X0+XW/2,700,big(LEFT[ph])+' films left',52);host('W',T)},
+ need(T){const n=Math.floor(T/.9),f=film(n),k=n%12,[A,V]=PR[f[k]];clip('big',KEYS[k],A,V,3.2,X0+60,60,1240,{tag:ROM[k]+' · '+WHO[A]+' to '+WHO[V]+' ?'});tag(X0+680,850,big(LEFT[5])+' films · one is needed',44,HL);skiller(1760,1060,420,1)},
+ six(T){wall(T,.35);hosts()},
+ plot1(T,ph,pu,u){const k=Math.min(11,Math.floor(u*12)),f=film(7),[A,V]=PR[f[k]];[['for deed in I .. XII:',0],['   who   ~ draw(tenants)',1],['   whom  ~ draw(others)',2]].forEach(([t,i])=>tag(X0+330,170+i*110,t,40,i&&Math.floor(u*24)%2===i-1?HL:PAPER));
+  clip('big',KEYS[k],A,V,lp(T),X0+700,60,850,{tag:ROM[k]+' · '+WHO[A]+' to '+WHO[V]});for(let i=0;i<12;i++){const x=X0+30+i*126,p=PR[f[i]];g.fillStyle=i<=k?COL[p[0]]:'#2a2520';g.fillRect(x,640,114,90);if(i<=k){g.fillStyle=COL[p[1]];g.fillRect(x+57,685,57,45)}g.strokeStyle=PAPER;g.lineWidth=i===k?8:2;g.strokeRect(x,640,114,90)}
+  tag(X0+XW/2,800,'one run of the program = one film',40);host('W',T)},
+ plot2(T){for(let i=0;i<6;i++){const f=film(i+900),k=(i*5+3)%12,[A,V]=PR[f[k]],t=tier(f);clip('p'+i,KEYS[k],A,V,lp(T,i),X0+(i%3)*524,60+Math.floor(i/3)*320,500,{tag:t.toLowerCase(),tbg:TCO[t]})}tag(X0+XW/2,730,'six films from the program, each with its rating',40,HL);host('W',T)},
+ tug1(T){clip('a','strangling','B','I',lp(T),X0+20,150,740,{tag:'Belindo wins'});clip('b','strangling','I','B',lp(T,.4),X0+800,150,740,{tag:'Inigo wins',q:1,qx:.5});tag(X0+XW/2,90,'seen: who won · worked out: who is stronger',42,HL);host('B',T)},
+ tug2(T){['R','I','O'].forEach((o,i)=>clip('r'+i,'strangling',o,'B',lp(T,i),X0+i*524,150,500,{cut:T>1.5,tag:WHO[o]+' to Belindo'}));tag(X0+XW/2,90,'RULE 1 · Belindo cannot be strangled',44,HL);tag(X0+XW/2,700,'a quarter of the tower: 2,229,025,112,064 films',44);host('B',T)},
+ rash1(T){clip('big','knifing','R','I',lp(T),X0+160,60,1240,{tag:'one event: a knifing'});tag(X0+780,850,'Rashomon · Kurosawa, 1950 · one death, four tellings',40,HL);host('O',T)},
+ rash2(T){[['knifing','R','Roessler did it'],['knifing','B','Belindo did it'],['knifing','O','Ogiva did it'],['incitement','O','he was talked into it']].forEach(([key,a,t],i)=>clip('q'+i,key,a,'I',lp(T,i*.7),X0+90+(i%2)*700,30+Math.floor(i/2)*400,670,{tag:t}));tag(X0+XW/2,870,'staged: four tellings of what happened to Inigo',38,HL);host('O',T)},
+ inv1(T){const t=lp(T),u=t/6;clip('big','snooping','I','R',t,X0+20,110,1000,{tag:'the steps Inigo takes'});[['goal A',.15+.8*u],['goal B',.5-.4*u]].forEach(([n,v],i)=>{const x=X0+1130+i*200;g.fillStyle='#2a2520';g.fillRect(x,150,150,480);g.fillStyle=i?PAPER:HL;g.fillRect(x,630-480*v,150,480*v);g.strokeStyle=PAPER;g.lineWidth=4;g.strokeRect(x,150,150,480);tag(x+75,670,n,34)});tag(X0+1300,90,'illustration',30);tag(X0+XW/2,800,'each step moves the estimate of what he wants',40,HL);host('I',T)},
+ inv2(T){const t=lp(T);clip('a','snooping','I','R',t,X0+20,150,740,{tag:'film bank: goal, then deed'});clip('b','snooping','I','R',6-t,X0+800,150,740,{tag:'inverse planning: deed, then goal',tbg:HL});tag(X0+XW/2,90,'the same scene, run forwards and run backwards',42);host('I',T)},
+ bar1(T){clip('big','knifing','R','I',lp(T),X0+160,60,1240,{noA:1,q:1,tag:'the doer is left out'});tag(X0+780,850,'the hermeneutic code · Barthes, S/Z · a question, and its delay',38,HL);host('R',T)},
+ bar2(T){const f=film(41),s=susp();for(let k=0;k<12;k++){const [A,V]=PR[f[k]],x=X0+(k%6)*262,y=40+Math.floor(k/6)*250;clip('s'+k,KEYS[k],A,V,lp(T,k*.4),x,y,250,{noA:1,tag:ROM[k]});const v=s?s[k]:.5;g.fillStyle=v>.66?'#e0603f':PAPER;g.fillRect(X0+20+k*128,860-250*v,110,250*v)}
+  g.fillStyle=PAPER;g.fillRect(X0,862,XW,6);tag(X0+XW/2,560,'suspense at each deed · one sample film · doers left out',36,HL);host('R',T)},
+ town1(T){for(let i=0;i<6;i++){const f=film(i+30+Math.floor(T/4)),k=(i*2+1)%12,[A,V]=PR[f[k]];clip('t'+i,KEYS[k],A,V,lp(T,i*.9),X0+(i%3)*524,60+Math.floor(i/3)*320,500,{tag:WHO[A]+' and '+WHO[V]})}tag(X0+XW/2,730,'generative agents · Park and colleagues, 2023 · every room acting at once',36,HL);host('S',T)},
+ town2(T,ph,pu,u){const f=film(77),k=Math.min(11,Math.floor(u*12)),[A,V]=PR[f[k]];clip('big',KEYS[k],A,V,cl(.3,5.8,(u*12-k)*6),X0+160,60,1240,{tag:ROM[k]+' · '+WHO[A]+' to '+WHO[V]});for(let i=0;i<12;i++){const x=X0+30+i*126,p=PR[f[i]];g.fillStyle=i<=k?COL[p[0]]:'#2a2520';g.fillRect(x,800,114,70);g.strokeStyle=PAPER;g.lineWidth=i===k?8:2;g.strokeRect(x,800,114,70)}tag(X0+XW/2,930,'one run = one film out of the tower',38,HL);host('S',T)},
+ end1(T){wall(T,.35,7);hosts();tag(X0+XW/2,90,'six readings · the tower is still at 30%',48,HL)},
+ end2(T){wall(T,1,7);tag(X0+XW/2,770,'which one?',90,HL);host('W',T)}};
 const SPK={W:'WALDEMAR · programmer',S:'SKILLER · insurer',R:'ROESSLER',B:'BELINDO',I:'INIGO',O:'OGIVA'};
-const leftTag=()=>[[1500,130,'LEFT STANDING · '+big(LEFT[5])+' films',40,HL]];
 const CH=[
 {t:'Tower',h:'W',sum:'All the films as one tower of flour, and what the story\'s five rules cut off it.',b:[
- {s:'W',tw:'c',f:1,p:P.total,o:[[1330,930,big(TOTAL),54,HL]],x:'This tower is every film the house can make: twelve deeds, twelve choices for each, 8,916,100,448,256 films. Each speck on your screen stands for more than a billion of them.'},
- {s:'W',tw:'c',f:KEEP,heap:1,p:P.pct,ph:6,o:(u,ph)=>[[1330,700,ph?'RULE '+ph+' · '+RULE5[ph-1]:'no rules yet',ph===5?30:40,HL],[1330,790,big(LEFT[ph])+' films',44]],x:'The story gives five rules. Belindo cannot be strangled. Belindo does not use a knife. He cannot be tied without a gun on him. No one is both strangled and knifed. A slanderer does not also snoop on or blackmail the same person. Each one cuts the tower. Thirty percent is left.'},
- {s:'S',tw:'c',f:5,p:P.skiller,x:'Thirty percent of that tower is still 2,663 billion films. I insure the house. I need one.'},
- {s:'W',tw:'c',f:5,p:P.six,x:'So six of us will each take the loose flour and stage one way of reading. Watch what each of us leaves standing.'}]},
+ {s:'W',tw:'c',f:1,st:'all',x:'This tower is every film the house can make: twelve deeds, twelve choices for each, 8,916,100,448,256 films. Each speck on your screen stands for more than a billion of them.'},
+ {s:'W',tw:'c',f:KEEP,st:'rules',ph:6,x:'The story gives five rules. Belindo cannot be strangled. Belindo does not use a knife. He cannot be tied without a gun on him. No one is both strangled and knifed. A slanderer does not also snoop on or blackmail the same person. Each one cuts the tower. Thirty percent is left.'},
+ {s:'S',tw:'c',f:5,st:'need',x:'Thirty percent of that tower is still 2,663 billion films. I insure the house. I need one.'},
+ {s:'W',tw:'c',f:5,st:'six',x:'So six of us will each take the loose flour and stage one way of reading. Watch what each of us leaves standing.'}]},
 {t:'Waldemar',h:'W',th:'the probabilistic language of thought',src:'Goodman, Tenenbaum and Gerstenberg, 2015',sum:'A concept is a small program that makes examples.',b:[
- {s:'W',p:P.plot1,o:[[1200,220,'for each of 12 deeds',40],[1200,440,'draw who does it',40],[1200,660,'draw to whom',40]],x:'Mine is the probabilistic language of thought, from Goodman, Tenenbaum and Gerstenberg. A concept is a small program that makes examples. My program makes a film: for each of twelve deeds, draw who does it, and draw to whom.'},
- {s:'W',p:P.plot2,o:[[1755,110,'rating',36,HL]],x:()=>{const n=share();return 'Run it forward and flour comes out as films. Run it against what we know of the four tenants and each film gets a rating. In three hundred random films, '+Math.round(n.PREPOSTEROUS/3)+' in a hundred rate preposterous and '+Math.round((n.PLAUSIBLE+n.PROBABLE+n.CERTAIN)/3)+' in a hundred plausible or better.'}},
- {s:'W',tw:'c',p:P.back('W'),o:leftTag,x:'What it leaves: every film has a rating, and no film is chosen. The tower is the same height.'}]},
+ {s:'W',st:'plot1',x:'Mine is the probabilistic language of thought, from Goodman, Tenenbaum and Gerstenberg. A concept is a small program that makes examples. My program makes a film: for each of twelve deeds, draw who does it, and draw to whom.'},
+ {s:'W',st:'plot2',x:()=>{const n=share();return 'Run it forward and flour comes out as films. Run it against what we know of the four tenants and each film gets a rating. In three hundred random films, '+Math.round(n.PREPOSTEROUS/3)+' in a hundred rate preposterous and '+Math.round((n.PLAUSIBLE+n.PROBABLE+n.CERTAIN)/3)+' in a hundred plausible or better.'}},
+ {s:'W',tw:'c',st:'refW',x:'What it leaves: every film has a rating, and no film is chosen. The tower is the same height.'}]},
 {t:'Belindo',h:'B',th:'the tug-of-war example',src:'Goodman, Tenenbaum and Gerstenberg, 2015',sum:'Strength is never seen. It is worked out from who won.',b:[
- {s:'B',p:P.tug1,x:'Mine is their tug-of-war example. You never see strength. You see who won, and you work back to strength, allowing that a strong player may have been lazy that day.'},
- {s:'B',p:P.tug2,o:[[1400,960,'RULE 1 · Belindo cannot be strangled',40,HL]],x:'The story does this to me. It says Belindo cannot be strangled. That is a judgement of my strength written as a rule, and it cut a quarter off the tower.'},
- {s:'B',tw:'c',p:P.back('B'),o:leftTag,x:'What it leaves: the story shows no contest I won. My strength is stated, not worked out from anything. Take the rule away and the quarter comes back.'}]},
+ {s:'B',st:'tug1',x:'Mine is their tug-of-war example. You never see strength. You see who won, and you work back to strength, allowing that a strong player may have been lazy that day.'},
+ {s:'B',st:'tug2',x:'The story does this to me. It says Belindo cannot be strangled. That is a judgement of my strength written as a rule, and it cut a quarter off the tower.'},
+ {s:'B',tw:'c',st:'refB',x:'What it leaves: the story shows no contest I won. My strength is stated, not worked out from anything. Take the rule away and the quarter comes back.'}]},
 {t:'Ogiva',h:'O',th:'Rashomon',src:'Kurosawa, 1950',sum:'One event, four tellings that do not agree.',b:[
- {s:'O',p:P.rash1,x:'Mine is Kurosawa\'s Rashomon. One death in a grove, told four times by four people, and the four tellings do not agree.'},
- {s:'O',p:P.rash2,o:[[1240,80,'staged for this film · the knife, four tellings',36,HL]],x:'Put the knife in front of the four of us and ask each one. Every telling keeps the knife and changes the hand that holds it.'},
- {s:'O',tw:'c',p:P.back('O'),o:leftTag,x:'What it leaves: four films where there was one. Rashomon gives no fifth telling to check the others against, and neither does the house.'}]},
+ {s:'O',st:'rash1',x:'Mine is Kurosawa\'s Rashomon. One death in a grove, told four times by four people, and the four tellings do not agree.'},
+ {s:'O',st:'rash2',x:'Put the knife in front of the four of us and ask each one. Every telling keeps the knife and changes the hand that holds it.'},
+ {s:'O',tw:'c',st:'refO',x:'What it leaves: four films where there was one. Rashomon gives no fifth telling to check the others against, and neither does the house.'}]},
 {t:'Inigo',h:'I',th:'inverse planning',src:'Baker, Saxe and Tenenbaum, 2009',sum:'From the steps someone takes, work back to what they want.',b:[
- {s:'I',p:P.inv,ph:3,o:[[1740,110,'goal A',36],[1740,600,'goal B',36]],x:'Mine is inverse planning, from Baker, Saxe and Tenenbaum. Assume a person acts to get something. Watch the steps. Then ask which goal makes those steps sensible. Each step moves the estimate.'},
- {s:'I',p:P.inv2,ph:2,o:(u,ph)=>[[770,340,'a goal',40],[1650,340,'a deed',40],[1170,800,ph?'inverse planning: deed to goal':'the film bank: goal to deed',40,HL]],x:'The film bank gives each of us a goal and lets us choose deeds from it. Inverse planning runs the other way: from the deed back to the goal.'},
- {s:'I',tw:'c',p:P.back('I'),o:leftTag,x:'What it leaves: it needs the steps. The story gives a list of twelve deeds and nobody seen doing them.'}]},
+ {s:'I',st:'inv1',x:'Mine is inverse planning, from Baker, Saxe and Tenenbaum. Assume a person acts to get something. Watch the steps. Then ask which goal makes those steps sensible. Each step moves the estimate.'},
+ {s:'I',st:'inv2',x:'The film bank gives each of us a goal and lets us choose deeds from it. Inverse planning runs the other way: from the deed back to the goal.'},
+ {s:'I',tw:'c',st:'refI',x:'What it leaves: it needs the steps. The story gives a list of twelve deeds and nobody seen doing them.'}]},
 {t:'Roessler',h:'R',th:'the hermeneutic code',src:'Barthes, S/Z, 1970',sum:'A story asks a question and delays the answer.',b:[
- {s:'R',p:P.bar1,o:[[1815,500,'answer',36]],x:'Mine is Barthes, in S/Z. One of the codes he finds in a story is the hermeneutic code: the story asks a question, then delays the answer with snares and partial answers.'},
- {s:'R',p:P.bar2,o:[[1240,110,'suspense at each deed · one sample film',36,HL]],x:'The house asks who did what to whom, twelve times over. The film bank measures the delay as suspense, deed by deed.'},
- {s:'R',tw:'c',p:P.back('R'),o:leftTag,x:'What it leaves: an account of how the question is kept open. It was not built to close it.'}]},
+ {s:'R',st:'bar1',x:'Mine is Barthes, in S/Z. One of the codes he finds in a story is the hermeneutic code: the story asks a question, then delays the answer with snares and partial answers.'},
+ {s:'R',st:'bar2',x:'The house asks who did what to whom, twelve times over. The film bank measures the delay as suspense, deed by deed.'},
+ {s:'R',tw:'c',st:'refR',x:'What it leaves: an account of how the question is kept open. It was not built to close it.'}]},
 {t:'Skiller',h:'S',th:'generative agents',src:'Park and colleagues, 2023',sum:'Agents with memories, placed in a town and left to act.',b:[
- {s:'S',p:P.town1,x:'Mine is the town Park and colleagues built in 2023: twenty-five agents, each keeping a stream of memories, each reflecting on them and planning what to do next.'},
- {s:'S',p:P.town2,o:[[1240,440,'memories',36]],x:'Put four such agents in this house and let them go. They produce a film. Each run is one film out of the tower.'},
- {s:'S',tw:'c',p:P.back('S'),o:leftTag,x:'What it leaves: a film the agents made, not the film that happened. I cannot pay a claim on that.'}]},
+ {s:'S',st:'town1',x:'Mine is the town Park and colleagues built in 2023: twenty-five agents, each keeping a stream of memories, each reflecting on them and planning what to do next.'},
+ {s:'S',st:'town2',x:'Put four such agents in this house and let them go. They produce a film. Each run is one film out of the tower.'},
+ {s:'S',tw:'c',st:'refS',x:'What it leaves: a film the agents made, not the film that happened. I cannot pay a claim on that.'}]},
 {t:'Left',h:'W',sum:'What the six readings leave.',b:[
- {s:'W',tw:'c',p:P.end1,x:'Six readings. Each took flour and made a picture. None of them took the tower below thirty percent.'},
- {s:'W',tw:'c',p:P.end2,o:leftTag,x:'The tower still stands. Which film to stop on is left to whoever is watching.'}]}];
-const val=v=>typeof v==='function'?v():v;
-window.LINES=()=>CH.map(c=>c.b.map(b=>[b.s,val(b.x)]));
-// ---- specks
-const N=innerWidth<700?9000:13000,NT=Math.round(N*.55),SZ=7,px=new Float32Array(N),py=new Float32Array(N),vx=new Float32Array(N),vy=new Float32Array(N),tx=new Float32Array(N),ty=new Float32Array(N),dl=new Float32Array(N),ci=new Uint8Array(N),ti=new Uint8Array(N),tu=new Float32Array(N),tv=new Float32Array(N);
-for(let i=0;i<N;i++){px[i]=Math.random()*1920;py[i]=-Math.random()*900;if(i<NT){tu[i]=Math.random();tv[i]=(i+Math.random())/NT}}
-const TR={c:[300,110,460,900],s:[50,170,190,840]};
-let ch=0,bi=0,bt=0,phase=0,since=0,playing=true,voice=false,last=0;const au=new Audio();
-const B=()=>CH[ch].b[bi],fOf=(b,ph)=>{const f=b.f===undefined?5:b.f;return Array.isArray(f)?f[ph]:f>1?KEEP[f]:f},dur=b=>{const v=window.VO2&&VO2[ch]&&VO2[ch][bi];return Math.max(5.5,(v||val(b.x).split(' ').length*.38)+1.2)};
-function assign(){const b=B(),f=fOf(b,phase),r=TR[b.tw||'s'];since=0;sg.clearRect(0,0,480,270);sg.save();sg.scale(.25,.25);try{b.p&&b.p(sg,phase)}catch(e){console.error(e)}sg.restore();sg.globalCompositeOperation='source-over';
- const d=sg.getImageData(0,0,480,270).data,pts=[];for(let i=0;i<129600;i++)if(d[i*4+3]>110)pts.push(i);
- const pool=[];for(let i=0;i<N;i++){if(i<NT&&tv[i]<=f){tx[i]=r[0]+tu[i]*r[2];ty[i]=r[1]+r[3]*(1-tv[i]);ti[i]=HASH(i)>.5?FL:FD;dl[i]=0}
-  else if(i<NT&&b.heap){const a=HASH(i*3.7),q=HASH(i*9.1);tx[i]=1330+(a-.5)*900;ty[i]=1050-q*190*(1-Math.abs(a-.5)*2);ti[i]=FD;dl[i]=(tv[i]-f)*2}
-  else pool.push(i)}
- const M=pts.length,T=[];for(let j=0;j<pool.length;j++){let x,y,c=FD;if(M){const p=pts[(j*7919+((Math.random()*M)|0))%M],k=p*4;x=(p%480)*4+Math.random()*4;y=((p/480)|0)*4+Math.random()*4;let bd=1e9;for(let q=0;q<PRGB.length;q++){const e=PRGB[q],dd=(d[k]-e[0])**2+(d[k+1]-e[1])**2+(d[k+2]-e[2])**2;if(dd<bd){bd=dd;c=q}}}else{x=260+Math.random()*1500;y=1050-Math.random()*26}T.push([x,y,c])}
- T.sort((a,b)=>b[1]-a[1]);pool.sort((a,b)=>py[b]-py[a]);const L=pool.length||1;pool.forEach((i,j)=>{tx[i]=T[j][0];ty[i]=T[j][1];ti[i]=T[j][2];dl[i]=.15+j/L*1.1})}
-function step(dt){const k=70,dm=Math.exp(-9.5*dt);for(let i=0;i<N;i++){if(since<dl[i]){vy[i]+=1500*dt;vx[i]+=(HASH(i+since)-.5)*500*dt;if(py[i]>1050){py[i]=1050;vy[i]*=-.15;vx[i]*=.6}}else{ci[i]=ti[i];vx[i]=(vx[i]+(tx[i]-px[i])*k*dt)*dm;vy[i]=(vy[i]+(ty[i]-py[i])*k*dt)*dm}px[i]+=vx[i]*dt;py[i]+=vy[i]*dt}}
-function tag(x,y,txt,fs,bg){g.font='600 '+fs+'px '+MONO;const w=g.measureText(txt).width+fs*.7,h=fs*1.5,X=cl(10,1910-w,x-w/2);g.fillStyle=bg||'#f4eedd';g.fillRect(X,y-h/2,w,h);g.fillStyle='#1d1812';g.textBaseline='middle';g.textAlign='left';g.fillText(txt,X+fs*.35,y+2)}
-function draw(){g.globalAlpha=.42;g.fillStyle=BG;g.fillRect(0,0,1920,1080);g.globalAlpha=1;for(let q=0;q<PAL.length;q++){g.fillStyle=PAL[q];for(let i=0;i<N;i++)if(ci[i]===q)g.fillRect(px[i],py[i],SZ,SZ)}
- const b=B(),u=bt/dur(b),r=TR[b.tw||'s'],f=fOf(b,phase);g.strokeStyle='rgba(244,234,210,.5)';g.lineWidth=3;g.setLineDash([14,14]);g.strokeRect(r[0]-8,r[1]-8,r[2]+24,r[3]+16);g.setLineDash([]);
- if(since>.9){g.fillStyle=HL;g.fillRect(r[0]-26,r[1]+r[3]*(1-f)-4,r[2]+60,8);if(b.tw==='c')tag(r[0]+r[2]/2,60,(f*100).toFixed(f<1?1:0)+'% of all films',40);
-  const o=typeof b.o==='function'?b.o(u,phase):b.o;if(o)o.forEach(t=>tag(t[0],t[1],t[2],t[3]||40,t[4]))}
- const C=CH[ch];if(C.th&&b.tw!=='c'){tag(960,1046,C.th+' · '+C.src,34)}}
-function say(){try{au.pause();if(voice&&playing){au.src='vo2/c'+ch+'b'+(bi+1)+'.mp3';const pr=au.play();if(pr&&pr.catch)pr.catch(()=>{voice=false;$('vo').setAttribute('aria-pressed','false');$('vo').textContent='VOICE BLOCKED'})}}catch(e){}}
+ {s:'W',tw:'c',st:'end1',x:'Six readings. Each took flour and made a picture. None of them took the tower below thirty percent.'},
+ {s:'W',tw:'c',st:'end2',x:'The tower still stands. Which film to stop on is left to whoever is watching.'}]}];
+'WRBIOS'.split('').forEach(k=>ST['ref'+k]=refrain(k));
+
+const val=v=>typeof v==='function'?v():v;window.LINES=()=>CH.map(c=>c.b.map(b=>[b.s,val(b.x)]));
+// ---- flour between scenes: the old picture is cut into cells, the cells fall as flour, then are poured into the new picture
+const GX=128,GY=72,NC=GX*GY,CS=15,TD=2.1,sm=document.createElement('canvas');sm.width=GX;sm.height=GY;const sx=sm.getContext('2d',{willReadFrequently:true});let oldC=new Array(NC).fill(BG),newC=new Array(NC).fill(BG);
+function snap(src){sx.drawImage(src,0,0,GX,GY);const d=sx.getImageData(0,0,GX,GY).data,o=new Array(NC);for(let i=0;i<NC;i++)o[i]='rgb('+d[i*4]+','+d[i*4+1]+','+d[i*4+2]+')';return o}
+function flour(t){vg.fillStyle=BG;vg.fillRect(0,0,1920,1080);for(let i=0;i<NC;i++){const cx=i%GX,cy=(i/GX)|0,x=cx*CS,y=cy*CS,h1=H(i*1.13),h2=H(i*2.71),h3=H(i*3.97),r=1-cy/(GY-1);
+  const a=cl(0,1,(t-(.05+r*.3+h1*.25))/.55),b=cl(0,1,(t-(1+r*.4+h3*.25))/.5),pxx=x+(h2-.5)*320,pyy=1066-h3*90-18*Math.sin(cx/GX*3.14);
+  let X,Y;if(b>0){const e=1-(1-b)*(1-b);X=pxx+(x-pxx)*e;Y=pyy+(y-pyy)*e-Math.sin(b*3.14)*60*h1}else{X=x+(pxx-x)*a;Y=y+(pyy-y)*a*a}
+  vg.fillStyle=b>.55?newC[i]:a<.25?oldC[i]:(i%3?'#f4ead2':'#cdbb92');const z=b>0?5+(CS-5)*b:CS-(CS-5)*a;vg.fillRect(X,Y,z+.5,z+.5)}}
+// ---- player
+let ch=0,bi=0,bt=0,tt=9,phase=0,playing=true,voice=false,last=0;const au=new Audio();
+const B=()=>CH[ch].b[bi],fAt=(b,ph)=>{const f=b.f===undefined?5:b.f;return Array.isArray(f)?f[ph]:f>1?KEEP[f]:f},dur=b=>{const v=window.VO2&&VO2[ch]&&VO2[ch][bi];return Math.max(6,(v||val(b.x).split(' ').length*.38)+1.4)+TD};
+function stage(){const b=B(),D=dur(b)-TD,T=Math.max(0,bt-TD),n=b.ph||1,ph=Math.min(n-1,Math.floor(T/D*n)),pu=T-ph*D/n;phase=ph;clean(g);g.fillStyle=BG;g.fillRect(0,0,1920,1080);try{ST[b.st](T,ph,pu,cl(0,.999,T/D))}catch(e){console.error(e)}clean(g);tower(fAt(b,ph),ph?fAt(b,ph-1):fAt(b,ph),pu)}
 function ui(){const C=CH[ch],b=B();$('cap').innerHTML='<b>'+SPK[b.s]+'</b>'+val(b.x);[...$('eps').children].forEach((e,i)=>e.setAttribute('aria-selected',i===ch));
- $('script').innerHTML='<h2>'+ch+' · '+C.t+(C.th?' · '+C.th:'')+'</h2><p>'+C.sum+(C.src?' Source: '+C.src+'.':'')+'</p><ol>'+C.b.map((l,i)=>'<li tabindex="0" data-i="'+i+'" aria-current="'+(i===bi)+'"><b>'+SPK[l.s].split(' ')[0]+'</b><span>'+val(l.x)+'</span></li>').join('')+'</ol><p class="note">Computed here: the film counts after each rule and the ratings of 300 random films. Staged for this film: the tug-of-war, the grove, the two goals, the town. The theory summaries are ours and are short; read the sources. "What it leaves" lines are our judgement.</p>'}
-function setBeat(c,i){ch=c;bi=i;bt=0;phase=0;assign();ui();say()}
-function next(){if(bi+1<CH[ch].b.length)setBeat(ch,bi+1);else if(ch+1<CH.length)setBeat(ch+1,0);else{setPlay(false);bt=dur(B())}}
+ $('script').innerHTML='<h2>'+ch+' · '+C.t+(C.th?' · '+C.th:'')+'</h2><p>'+C.sum+(C.src?' Source: '+C.src+'.':'')+'</p><ol>'+C.b.map((l,i)=>'<li tabindex="0" data-i="'+i+'" aria-current="'+(i===bi)+'"><b>'+SPK[l.s].split(' ')[0]+'</b><span>'+val(l.x)+'</span></li>').join('')+'</ol><p class="note">Every scene is one of the twelve deed films, restaged. Computed here: the film counts after each rule, the ratings of the six films, the suspense bars. Staged for this film: who tells what in the four tellings, and the two goal bars. The theory summaries are ours and are short; read the sources. "What it leaves" lines are our judgement.</p>'}
+function say(){try{au.pause();if(voice&&playing){au.src='vo2/c'+ch+'b'+(bi+1)+'.mp3';const pr=au.play();if(pr&&pr.catch)pr.catch(()=>{voice=false;$('vo').setAttribute('aria-pressed','false');$('vo').textContent='VOICE BLOCKED'})}}catch(e){}}
+function setBeat(c,i){oldC=snap(cv);ch=c;bi=i;bt=0;tt=0;SL.forEach(S=>S.sig='');budget=99;stage();newC=snap(st);ui();say()}
+function next(){if(bi+1<CH[ch].b.length)setBeat(ch,bi+1);else if(ch+1<CH.length)setBeat(ch+1,0);else{setPlay(false)}}
 function setPlay(p){playing=p;$('pp').textContent=p?'PAUSE':'PLAY';$('pp').setAttribute('aria-pressed',p);if(!p)au.pause();else if(voice)say()}
-function frame(now){const dt=Math.min(.05,(now-last)/1000||0);last=now;since+=dt;if(playing){bt+=dt;const b=B(),D=dur(b),n=b.ph||1,ph=Math.min(n-1,Math.floor(bt/D*n));if(ph!==phase){phase=ph;assign()}$('prog').firstChild.style.width=cl(0,100,bt/D*100)+'%';if(bt>=D)next()}step(dt);draw();requestAnimationFrame(frame)}
+function frame(now){const dt=Math.min(.05,(now-last)/1000||0);last=now;tt+=dt;if(playing){bt+=dt;const D=dur(B());$('prog').firstChild.style.width=cl(0,100,bt/D*100)+'%';if(bt>=D){next();requestAnimationFrame(frame);return}}
+ if(tt<TD+.25)flour(tt);else{budget=3;stage();vg.drawImage(st,0,0)}requestAnimationFrame(frame)}
 CH.forEach((c,i)=>{const e=document.createElement('button');e.textContent=i+' '+c.t.toUpperCase();e.setAttribute('role','tab');e.onclick=()=>{setBeat(i,0);setPlay(true)};$('eps').appendChild(e)});
-$('pp').onclick=()=>setPlay(!playing);cv.onclick=()=>setPlay(!playing);$('nx').onclick=()=>{next();};
+$('pp').onclick=()=>setPlay(!playing);cv.onclick=()=>setPlay(!playing);$('nx').onclick=()=>next();
 $('vo').onclick=()=>{voice=!voice;$('vo').setAttribute('aria-pressed',voice);$('vo').textContent='VOICE';if(voice){setPlay(true);bt=0;say()}else au.pause()};
 $('script').onclick=e=>{const li=e.target.closest('li');if(li){setBeat(ch,+li.dataset.i);setPlay(true)}};$('script').onkeydown=e=>{if(e.key==='Enter'){const li=e.target.closest('li');if(li)setBeat(ch,+li.dataset.i)}};
-au.onended=()=>{if(playing&&voice)bt=Math.max(bt,dur(B())-.6)};
 setBeat(0,0);requestAnimationFrame(frame);
 </script></body></html>
