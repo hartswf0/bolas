@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Policies</title>
+<meta name="description" content="The four insurance policies in Calvino's Abominable House, priced by exact count over the 12^12 stories.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+<style>
+/* layout: one screen. top half = the thing studied (scenario graph or marginals, plus four payouts); bottom half = controls in tabs. side by side on wide screens. */
+:root{
+  --paper:#f4f2ea; --panel:#ebe3cf; --ink:#141414; --muted:#6d695f; --line:#d3ccb9;
+  --accent:#141414; --void:#a3321f; --pay:#6d695f;
+  --R:#7a3f37; --B:#3a3530; --I:#b0915e; --O:#7a3b8f;
+  --display:"IM Fell English",Georgia,serif;
+  --body:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#15140f; --panel:#211f19; --ink:#ebe6d8; --muted:#9d978a; --line:#34312a;
+    --accent:#ebe6d8; --void:#e0603f; --pay:#9d978a; --R:#c67a6e; --B:#a39b8e; --I:#d4b67e; --O:#b583c8; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#15140f; --panel:#211f19; --ink:#ebe6d8; --muted:#9d978a; --line:#34312a;
+  --accent:#ebe6d8; --void:#e0603f; --pay:#9d978a; --R:#c67a6e; --B:#a39b8e; --I:#d4b67e; --O:#b583c8; color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:var(--paper);color:var(--ink);font:12px/1.35 var(--body);
+  display:grid;grid-template-rows:auto minmax(0,1fr) minmax(0,1fr);font-variant-numeric:tabular-nums}
+header{padding:8px 16px 6px;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:2px 16px;align-items:baseline}
+h1{font:400 22px/1.05 var(--display);margin:0}
+nav{display:flex;gap:6px;flex-wrap:wrap;font:600 10px var(--body);letter-spacing:.08em;width:100%}
+nav a{color:var(--ink);text-decoration:none;border:1.5px solid var(--ink);padding:3px 6px}
+nav a:focus-visible,nav a:hover{background:var(--ink);color:var(--paper);outline:none}
+#totals{color:var(--muted);font-size:10.5px}
+#totals b{color:var(--ink);font-weight:500}
+#stage{display:grid;grid-template-rows:auto minmax(0,1fr) auto;padding:6px 16px 8px;gap:6px;min-height:0}
+#controls{display:grid;grid-template-rows:auto minmax(0,1fr);border-top:1px solid var(--line);background:var(--panel);min-height:0}
+.seg{display:flex;gap:0}
+.seg button,.tabs button,.act{font:500 11px var(--body);color:var(--ink);background:transparent;border:1px solid var(--line);padding:5px 9px;cursor:pointer}
+.seg button+button{border-left:0}
+.seg button[aria-pressed="true"],.tabs button[aria-selected="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.bar{display:flex;justify-content:space-between;align-items:center;gap:8px}
+#readout{color:var(--muted);font-size:10.5px;text-align:right;min-width:0;overflow-wrap:anywhere}
+#view{min-height:0;position:relative}
+#graph,#heat{position:absolute;inset:0;width:100%;height:100%}
+#heat{display:grid;grid-template-columns:2.8em repeat(12,minmax(0,1fr));grid-template-rows:repeat(13,minmax(0,1fr));gap:1px;font-size:9px}
+#heat .h{color:var(--muted);display:flex;align-items:center;justify-content:center}
+#heat .r{justify-content:flex-start}
+#heat .c{border:1px solid var(--line);position:relative;padding:0;background:transparent;cursor:pointer}
+#heat .c i{position:absolute;inset:0;background:var(--accent)}
+#heat .c.v{border-color:var(--void)}
+#heat .c.v i{background:var(--void)}
+#heat .c.z::after{content:"";position:absolute;left:25%;right:25%;top:50%;border-top:1px solid var(--line)}
+[hidden]{display:none!important}
+svg text{font-family:var(--body);fill:var(--ink)}
+.node{fill:var(--panel);stroke:var(--ink);stroke-width:1.2}
+.arc{fill:none;stroke:var(--accent);stroke-width:1.1}
+.arc.v{stroke:var(--void);stroke-width:1.8}
+.lbl{font-size:6.5px;fill:var(--accent)}
+.lbl.v{fill:var(--void);font-weight:600}
+.ah{fill:var(--accent)} .ahv{fill:var(--void)}
+.flame{fill:var(--void)}
+#pols{display:grid;gap:3px}
+.pol{display:grid;grid-template-columns:9.5em minmax(0,1fr) 4.2em;gap:8px;align-items:center}
+.pol .pn{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.track{height:12px;border:1px solid var(--line);position:relative;background:var(--panel)}
+.track .fill{position:absolute;left:0;top:0;bottom:0;background:var(--pay)}
+.track .rng{position:absolute;top:-3px;bottom:-3px;border-left:2px solid var(--ink);border-right:2px solid var(--ink)}
+.pol b{text-align:right;font-weight:600;font-size:13px}
+.tabs{display:flex;padding:6px 16px 0;gap:0;flex-wrap:wrap}
+.tabs button+button{border-left:0}
+.pane{overflow:auto;padding:8px 16px 12px;min-height:0}
+.row{display:grid;grid-template-columns:minmax(0,1fr) 92px 2.6em;gap:8px;align-items:center;padding:3px 0;border-bottom:1px dotted var(--line)}
+.row label{min-width:0}
+.row output{text-align:right}
+input[type=range]{width:100%;accent-color:var(--accent);margin:0}
+.hint{color:var(--muted);font-size:10.5px;margin:0 0 6px;max-width:65ch}
+.acts{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0 2px}
+.act{background:var(--paper)}
+#slist{display:grid;grid-template-columns:repeat(auto-fill,minmax(15em,1fr));gap:1px 16px;margin:6px 0}
+#slist div.v{color:var(--void);font-weight:600}
+#sid{overflow-wrap:anywhere}
+.notes li{margin:0 0 5px;max-width:65ch}
+.notes{padding-left:16px;margin:0}
+h2{font:600 12px var(--display);text-transform:uppercase;letter-spacing:.05em;margin:8px 0 4px}
+@media (min-width:860px){
+  body{grid-template-rows:auto minmax(0,1fr);grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);font-size:13px}
+  header{grid-column:1/-1}
+  #controls{border-top:0;border-left:1px solid var(--line)}
+  #heat{font-size:11px}
+}
+</style>
+</head>
+<body>
+<header>
+  <nav><a href="../">THE ABOMINABLE HOUSE</a><a href="../whole-house.html">THE WHOLE HOUSE</a><a href="film.html">THE FILM BANK</a><a href="numbers.html">THE NUMBERS</a></nav>
+  <h1>The Policies</h1>
+  <div id="totals"></div>
+</header>
+
+<section id="stage" aria-label="Scenario and payouts">
+  <div class="bar">
+    <div class="seg" role="group" aria-label="View">
+      <button id="vGraph" aria-pressed="true">Scenario</button>
+      <button id="vHeat" aria-pressed="false">Marginals</button>
+    </div>
+    <div id="readout"></div>
+  </div>
+  <div id="view">
+    <svg id="graph" viewBox="0 0 300 190" preserveAspectRatio="xMidYMid meet" role="img" aria-label="One sampled scenario drawn as arrows from perpetrator to victim">
+      <defs>
+        <marker id="ah" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="5" markerHeight="5" orient="auto"><path class="ah" d="M0 0L8 4L0 8z"/></marker>
+        <marker id="ahv" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="4" markerHeight="4" orient="auto"><path class="ahv" d="M0 0L8 4L0 8z"/></marker>
+      </defs>
+      <g id="arcs"></g><g id="nodes"></g>
+    </svg>
+    <div id="heat" hidden></div>
+  </div>
+  <div id="pols"></div>
+</section>
+
+<section id="controls">
+  <div class="tabs" role="tablist">
+    <button role="tab" data-t="rules" aria-selected="true">Rules</button>
+    <button role="tab" data-t="arson" aria-selected="false">Arson and source</button>
+    <button role="tab" data-t="scen" aria-selected="false">Scenario</button>
+    <button role="tab" data-t="notes" aria-selected="false">Assumptions</button>
+  </div>
+  <div class="pane" id="p-rules">
+    <p class="hint">Each slider is the weight kept by scenarios that break the rule. 0 forbids them. 1 ignores the rule.</p>
+    <div id="ruleRows"></div>
+    <div class="acts">
+      <button class="act" id="preNarr">The film's five rules</button>
+      <button class="act" id="preWide">The story's wider rules</button>
+      <button class="act" id="preBase">No rules (baseline)</button>
+    </div>
+  </div>
+  <div class="pane" id="p-arson" hidden>
+    <p class="hint">Arson is not in the list of twelve deeds, so the arsonist gets a prior. Sliders are relative weights.</p>
+    <div id="arsonRows"></div>
+    <h2>Source and clauses</h2>
+    <div id="srcRows"></div>
+    <div class="acts">
+      <div class="seg" role="group" aria-label="Tour clause scope">
+        <button id="scN" aria-pressed="true">Tour: incitement only</button>
+        <button id="scB" aria-pressed="false">Tour: plus slander, blackmail, drugging</button>
+      </div>
+    </div>
+  </div>
+  <div class="pane" id="p-scen" hidden>
+    <div class="acts" style="margin-top:0"><button class="act" id="draw">Draw another scenario</button></div>
+    <div id="sid"></div>
+    <div id="slist"></div>
+    <div id="sars"></div>
+  </div>
+  <div class="pane" id="p-notes" hidden>
+    <ul class="notes">
+      <li>The film's five rules are the ones counted on Twelve to the Twelfth; with them set to 0 and the rest to 1 the count here is 2,663,172,255,744, the same figure.</li>
+      <li>A scenario assigns each of the twelve deeds one perpetrator and one other victim among the four tenants: 12 choices per deed, 12^12 scenarios.</li>
+      <li>Payout = P(list planted) + P(list genuine) x (1 - P(voiding condition)). P(voiding condition) is the weighted share of scenarios where the clause holds.</li>
+      <li>Widow's life voids when Ogiva knifes or strangles the widow and the attack is fatal. Tour cover voids when the widow incites Belindo to suicide; the wider reading adds slander, blackmail and drugging of Belindo by the widow.</li>
+      <li>Fire cover voids when Inigo is the arsonist. Wig cover voids when Ogiva is the arsonist. The arsonist is independent of the deeds in this model.</li>
+      <li>If the list is planted, the model treats it as proving nothing, so no clause can be shown and all four policies pay.</li>
+      <li>The black bracket on a bar is the span of that payout when each rule in turn is set to 0 and to 1 with the others held.</li>
+      <li>Deed order is used only where a rule needs it (gun threat before tying). The counter enumerates three independent groups of deeds exactly; no sampling is used for the payouts.</li>
+      <li>Red cells and red arrows are deed assignments that trigger a voiding clause.</li>
+    </ul>
+  </div>
+</section>
+
+<script>
+//CORE
+const TEN=['Widow Roessler','Ogiva','Inigo','Belindo Kid'], TS=['R','O','I','B'];
+const PAIRS=[];for(let a=0;a<4;a++)for(let b=0;b<4;b++)if(a!==b)PAIRS.push([a,b]);
+const pid=(a,b)=>PAIRS.findIndex(p=>p[0]===a&&p[1]===b);
+const WB=pid(0,3), OW=pid(1,0);
+const DEEDS=['Blackmail','Drugging','Incitement to suicide','Knifing','Prostitution','Threatening with a gun','Tying and gagging','Assault','Seduction','Slander','Snooping','Strangling'];
+const CODE=['BLK','DRG','INC','KNF','PRO','GUN','TIE','ASL','SED','SLA','SNO','STR'];
+const D={BLK:0,DRG:1,INC:2,KNF:3,PRO:4,GUN:5,TIE:6,ASL:7,SED:8,SLA:9,SNO:10,STR:11};
+const VIC=PAIRS.map(p=>p[1]), PER=PAIRS.map(p=>p[0]);
+function wA(i,k,g,t,s,w){let x=1;
+  if(VIC[s]===3)x*=w[0];
+  if(VIC[t]===3&&VIC[g]!==3)x*=w[1];
+  if(g===k||g===s)x*=w[2];
+  if(VIC[k]===VIC[s]&&VIC[s]===VIC[i])x*=w[6];
+  if(PER[k]===3)x*=w[7];
+  if(VIC[k]===VIC[s])x*=w[8];
+  return x;}
+function wB(p,r,s,w){let x=1;if(s===r)x*=w[3];if(p===s||p===r)x*=w[4];return x;}
+function wC(b,sl,sn,w){let x=1;if(sl===sn||sl===b)x*=w[5];return x;}
+function compute(w,f){
+  const m=Array.from({length:12},()=>new Float64Array(12));
+  let ZA=0,v2=0,vInc=0;
+  for(let i=0;i<12;i++)for(let k=0;k<12;k++)for(let g=0;g<12;g++)for(let t=0;t<12;t++)for(let s=0;s<12;s++){
+    const x=wA(i,k,g,t,s,w);if(!x)continue;ZA+=x;
+    m[D.INC][i]+=x;m[D.KNF][k]+=x;m[D.GUN][g]+=x;m[D.TIE][t]+=x;m[D.STR][s]+=x;
+    const n=(k===OW)+(s===OW);if(n)v2+=x*(1-Math.pow(1-f,n));
+    if(i===WB)vInc+=x;}
+  let ZB=0;
+  for(let p=0;p<12;p++)for(let r=0;r<12;r++)for(let s=0;s<12;s++){
+    const x=wB(p,r,s,w);if(!x)continue;ZB+=x;m[D.PRO][p]+=x;m[D.ASL][r]+=x;m[D.SED][s]+=x;}
+  let ZC=0,vC=0;
+  for(let b=0;b<12;b++)for(let sl=0;sl<12;sl++)for(let sn=0;sn<12;sn++){
+    const x=wC(b,sl,sn,w);if(!x)continue;ZC+=x;m[D.BLK][b]+=x;m[D.SLA][sl]+=x;m[D.SNO][sn]+=x;
+    if(b===WB||sl===WB)vC+=x;}
+  for(const d of [D.INC,D.KNF,D.GUN,D.TIE,D.STR])for(let p=0;p<12;p++)m[d][p]/=ZA;
+  for(const d of [D.PRO,D.ASL,D.SED])for(let p=0;p<12;p++)m[d][p]/=ZB;
+  for(const d of [D.BLK,D.SLA,D.SNO])for(let p=0;p<12;p++)m[d][p]/=ZC;
+  for(let p=0;p<12;p++)m[D.DRG][p]=1/12;
+  return {Z:ZA*ZB*ZC*12,marg:m,void2:v2/ZA,pInc:vInc/ZA,pC:vC/ZC};}
+function payouts(r,st){
+  const void4=st.broad?1-(1-r.pInc)*(1-r.pC)*(1-1/12):r.pInc;
+  let sum=st.ars.reduce((a,b)=>a+b,0);const ars=sum?st.ars.map(a=>a/sum):[.2,.2,.2,.2,.2];
+  const q=st.q, pay=v=>q+(1-q)*(1-v);
+  return [pay(ars[2]),pay(r.void2),pay(ars[1]),pay(void4)];}
+function sample(w,ars){
+  const R=()=>Math.floor(Math.random()*12), a=new Array(12);
+  for(let n=0;n<20000;n++){const i=R(),k=R(),g=R(),t=R(),s=R();
+    if(Math.random()<wA(i,k,g,t,s,w)){a[D.INC]=i;a[D.KNF]=k;a[D.GUN]=g;a[D.TIE]=t;a[D.STR]=s;break;}}
+  for(let n=0;n<20000;n++){const p=R(),r=R(),s=R();
+    if(Math.random()<wB(p,r,s,w)){a[D.PRO]=p;a[D.ASL]=r;a[D.SED]=s;break;}}
+  for(let n=0;n<20000;n++){const b=R(),sl=R(),sn=R();
+    if(Math.random()<wC(b,sl,sn,w)){a[D.BLK]=b;a[D.SLA]=sl;a[D.SNO]=sn;break;}}
+  a[D.DRG]=R();
+  for(let d=0;d<12;d++)if(a[d]===undefined)a[d]=R();
+  let sum=ars.reduce((x,y)=>x+y,0),u=Math.random()*(sum||5),who=4;
+  for(let j=0;j<5;j++){u-=sum?ars[j]:1;if(u<0){who=j;break;}}
+  return {a,who};}
+function isVoid(d,p,broad){
+  if((d===D.KNF||d===D.STR)&&p===OW)return true;
+  if(d===D.INC&&p===WB)return true;
+  if(broad&&(d===D.SLA||d===D.BLK||d===D.DRG)&&p===WB)return true;
+  return false;}
+//UI
+const RULES=[
+ ['Belindo is strangled',0],
+ ['Belindo is tied with no gun threat on him',0],
+ ['Gun threat on a pair already knifed or strangled',1],
+ ['Seduction and assault by the same pair',1],
+ ['Prostitution after seduction or assault, same pair',1],
+ ['Slanderer also snoops on or blackmails the same person',0],
+ ['One victim knifed, strangled and incited',1],
+ ['Belindo uses a knife',0],
+ ['One victim both strangled and knifed',0]];
+const FILM=[0,0,1,1,1,0,1,0,0], WIDE=[0,0,.2,0,.2,0,.1,0,.5];
+const POL=[['Inigo: fire','Void if Inigo set the fire'],["Widow: life",'Void if Ogiva killed the widow'],['Ogiva: wigs','Void if Ogiva destroyed the wigs'],['Belindo: tour','Void if the widow drove Belindo to suicide']];
+const st={w:RULES.map(r=>r[1]),f:1,ars:[1,1,1,1,1],q:0,broad:false};
+let scen=null;
+const $=id=>document.getElementById(id), pct=x=>(100*x).toFixed(1)+'%';
+function slider(host,id,label,val,on){
+  const row=document.createElement('div');row.className='row';
+  row.innerHTML=`<label for="${id}">${label}</label><input type="range" id="${id}" min="0" max="1" step="0.05" value="${val}"><output for="${id}">${(+val).toFixed(2)}</output>`;
+  const inp=row.querySelector('input'),out=row.querySelector('output');
+  inp.addEventListener('input',()=>{out.textContent=(+inp.value).toFixed(2);on(+inp.value);update(true);});
+  host.appendChild(row);}
+RULES.forEach((r,i)=>slider($('ruleRows'),'r'+i,r[0],r[1],v=>st.w[i]=v));
+['Widow Roessler','Ogiva','Inigo','Belindo Kid','Skiller'].forEach((n,i)=>slider($('arsonRows'),'a'+i,n+' set the fire',1,v=>st.ars[i]=v));
+slider($('srcRows'),'q','Chance the list was planted',0,v=>st.q=v);
+slider($('srcRows'),'f','Chance a knifing or strangling is fatal',1,v=>st.f=v);
+function setSliders(){
+  st.w.forEach((v,i)=>{$('r'+i).value=v;$('r'+i).nextElementSibling.textContent=v.toFixed(2);});
+  st.ars.forEach((v,i)=>{$('a'+i).value=v;$('a'+i).nextElementSibling.textContent=v.toFixed(2);});
+  $('q').value=st.q;$('q').nextElementSibling.textContent=st.q.toFixed(2);
+  $('f').value=st.f;$('f').nextElementSibling.textContent=st.f.toFixed(2);
+  $('scN').setAttribute('aria-pressed',!st.broad);$('scB').setAttribute('aria-pressed',st.broad);}
+$('preNarr').onclick=()=>{st.w=FILM.slice();setSliders();update(true);};
+$('preWide').onclick=()=>{st.w=WIDE.slice();setSliders();update(true);};
+$('preBase').onclick=()=>{st.w=[1,1,1,1,1,1,1,1,1];st.ars=[1,1,1,1,0];st.q=0;st.f=1;st.broad=false;setSliders();update(true);};
+$('scN').onclick=()=>{st.broad=false;setSliders();update(false);};
+$('scB').onclick=()=>{st.broad=true;setSliders();update(false);};
+$('draw').onclick=()=>{scen=sample(st.w,st.ars);drawScenario();};
+document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('.tabs button').forEach(x=>x.setAttribute('aria-selected',x===b));
+  for(const t of ['rules','arson','scen','notes'])$('p-'+t).hidden=t!==b.dataset.t;});
+function setView(h){$('heat').hidden=!h;$('graph').toggleAttribute('hidden',h);
+  $('vHeat').setAttribute('aria-pressed',h);$('vGraph').setAttribute('aria-pressed',!h);
+  $('readout').textContent=h?'Tap a cell for its probability':scenLine();}
+$('vGraph').onclick=()=>setView(false);$('vHeat').onclick=()=>setView(true);
+
+$('pols').innerHTML=POL.map((p,i)=>`<div class="pol" title="${p[1]}"><span class="pn">${p[0]}</span><div class="track"><i class="fill" id="pf${i}"></i><i class="rng" id="pr${i}" hidden></i></div><b id="pv${i}"></b></div>`).join('');
+// heat grid
+(function(){const h=$('heat');let s='<div class="h"></div>';
+  PAIRS.forEach(p=>s+=`<div class="h">${TS[p[0]]}${TS[p[1]]}</div>`);
+  for(let d=0;d<12;d++){s+=`<div class="h r">${CODE[d]}</div>`;
+    for(let p=0;p<12;p++)s+=`<button class="c" id="c${d}_${p}" aria-label="${DEEDS[d]}, ${TEN[PAIRS[p][0]]} on ${TEN[PAIRS[p][1]]}"><i></i></button>`;}
+  h.innerHTML=s;
+  h.addEventListener('click',e=>{const c=e.target.closest('.c');if(!c)return;const [d,p]=c.id.slice(1).split('_').map(Number);
+    $('readout').textContent=`${DEEDS[d]}: ${TEN[PAIRS[p][0]]} on ${TEN[PAIRS[p][1]]} = ${pct(last.marg[d][p])}`;});})();
+let last=null;
+function update(resample){
+  const r=compute(st.w,st.f);last=r;const pay=payouts(r,st);
+  const lo=pay.slice(),hi=pay.slice();
+  for(let i=0;i<9;i++)for(const v of [0,1]){if(st.w[i]===v)continue;const w=st.w.slice();w[i]=v;
+    const p=payouts(compute(w,st.f),st);for(let j=0;j<4;j++){lo[j]=Math.min(lo[j],p[j]);hi[j]=Math.max(hi[j],p[j]);}}
+  pay.forEach((p,i)=>{$('pv'+i).textContent=pct(p);$('pf'+i).style.width=(100*p)+'%';
+    const rg=$('pr'+i);if(hi[i]-lo[i]>0.002){rg.hidden=false;rg.style.left=(100*lo[i])+'%';rg.style.width=(100*(hi[i]-lo[i]))+'%';
+      $('pv'+i).title=`rule sweep ${pct(lo[i])} to ${pct(hi[i])}`;}else rg.hidden=true;});
+  const total=8916100448256, hard=st.w.every(v=>v===0||v===1);
+  $('totals').innerHTML=`12^12 = <b>8,916,100,448,256</b> &middot; ${hard?'admissible scenarios':'weighted scenarios'} <b>${Math.round(r.Z).toLocaleString('en-US')}</b> (${pct(r.Z/total)})`;
+  let mx=0;for(let d=0;d<12;d++)for(let p=0;p<12;p++)mx=Math.max(mx,r.marg[d][p]);
+  for(let d=0;d<12;d++)for(let p=0;p<12;p++){const c=$(`c${d}_${p}`),v=r.marg[d][p];
+    c.firstChild.style.opacity=(v/mx*0.9).toFixed(3);c.classList.toggle('z',v===0);c.classList.toggle('v',isVoid(d,p,st.broad));}
+  if(resample||!scen)scen=sample(st.w,st.ars);
+  drawScenario();}
+const POS=[[52,34],[248,34],[52,156],[248,156]];
+function scenLine(){if(!scen)return'';const n=scen.a.filter((p,d)=>isVoid(d,p,st.broad)).length;
+  return n?`This scenario triggers ${n} voiding deed${n>1?'s':''}`:'This scenario triggers no deed clause';}
+function drawScenario(){
+  const NS='http://www.w3.org/2000/svg',arcs=$('arcs'),nodes=$('nodes');arcs.textContent='';nodes.textContent='';
+  const el=(n,a,t)=>{const e=document.createElementNS(NS,n);for(const k in a)e.setAttribute(k,a[k]);if(t!==undefined)e.textContent=t;return e;};
+  const by={};scen.a.forEach((p,d)=>(by[p]=by[p]||[]).push(d));
+  for(const p in by){const [a,b]=PAIRS[p],A=POS[a],B=POS[b];
+    const dx=B[0]-A[0],dy=B[1]-A[1],L=Math.hypot(dx,dy),ux=dx/L,uy=dy/L,nx=-uy,ny=ux;
+    const s=[A[0]+ux*15+nx*4,A[1]+uy*15+ny*4],e=[B[0]-ux*16+nx*4,B[1]-uy*16+ny*4];
+    const c=[(s[0]+e[0])/2+nx*16,(s[1]+e[1])/2+ny*16];
+    const v=by[p].some(d=>isVoid(d,+p,st.broad));
+    arcs.appendChild(el('path',{class:'arc'+(v?' v':''),d:`M${s[0]} ${s[1]}Q${c[0]} ${c[1]} ${e[0]} ${e[1]}`,'marker-end':v?'url(#ahv)':'url(#ah)'}));
+    const t=.3,x=(1-t)*(1-t)*s[0]+2*t*(1-t)*c[0]+t*t*e[0]+nx*7,y=(1-t)*(1-t)*s[1]+2*t*(1-t)*c[1]+t*t*e[1]+ny*7;
+    const tx=el('text',{class:'lbl'+(v?' v':''),x:x,y:y,'text-anchor':'middle'});
+    for(let j=0;j<by[p].length;j+=2)tx.appendChild(el('tspan',{x:x,dy:j?7.5:0},by[p].slice(j,j+2).map(d=>CODE[d]).join(' ')));
+    arcs.appendChild(tx);}
+  POS.forEach((P,i)=>{nodes.appendChild(el('circle',{class:'node',cx:P[0],cy:P[1],r:13,style:'fill:var(--'+TS[i]+')'}));
+    nodes.appendChild(el('text',{x:P[0],y:P[1]+3.5,'text-anchor':'middle','font-size':10,'font-weight':600,style:'fill:var(--paper)'},TS[i]));
+    nodes.appendChild(el('text',{x:P[0]+(i%2?19:-19),y:P[1]+(i<2?-10:16),'text-anchor':i%2?'end':'start','font-size':7},TEN[i]));});
+  nodes.appendChild(el('rect',{class:'node',x:141,y:86,width:18,height:18}));
+  nodes.appendChild(el('text',{x:150,y:98.5,'text-anchor':'middle','font-size':9,'font-weight':600},'S'));
+  nodes.appendChild(el('text',{x:150,y:113,'text-anchor':'middle','font-size':6.5},'Skiller'));
+  const F=scen.who<4?[POS[scen.who][0]+(scen.who%2?18:-18),POS[scen.who][1]+2]:[150,80];
+  nodes.appendChild(el('path',{class:'flame',d:`M${F[0]} ${F[1]-9}q5 5 4 9a4 4 0 0 1-8 0q0-3 2-4q0 2 1 2q2-3 1-7z`}));
+  const id=scen.a.map(p=>'0123456789AB'[p]).join('');let rank=0n;for(const p of scen.a)rank=rank*12n+BigInt(p);
+  $('sid').textContent=`Scenario ${id.replace(/(.{4})/g,'$1 ').trim()} (base 12) = number ${rank.toLocaleString('en-US')} of 12^12`;
+  $('slist').innerHTML=scen.a.map((p,d)=>`<div class="${isVoid(d,p,st.broad)?'v':''}">${CODE[d]} ${TEN[PAIRS[p][0]]} on ${TEN[PAIRS[p][1]]}</div>`).join('');
+  $('sars').textContent='Fire set by '+['Widow Roessler','Ogiva','Inigo','Belindo Kid','Skiller'][scen.who]+'. Drawn with the list taken as genuine.';
+  if($('heat').hidden)$('readout').textContent=scenLine();}
+update(true);
+</script>
+</body>
+</html>
