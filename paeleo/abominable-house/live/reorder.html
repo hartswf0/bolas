@@ -12,7 +12,7 @@
 body{background:var(--bg);color:var(--fg);font:15px/1.45 var(--body);display:grid;grid-template-rows:auto minmax(0,1fr);overflow:hidden}
 header{padding:6px 12px;border-bottom:1.5px solid var(--fg);display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
 h1{font:800 clamp(22px,5.4vw,34px)/1 var(--disp);text-transform:uppercase;margin:0}
-header span{font:11px var(--mono);color:var(--mute)}header a{color:var(--acc);font:11px var(--mono);margin-left:auto}
+header span{font:11px var(--mono);color:var(--mute)}header a{color:var(--acc);font:11px var(--mono)}header>a{margin-left:auto}
 main{display:grid;grid-template-rows:auto minmax(0,1fr);min-height:0}
 #scene{background:#0d0b09;color:#f1ebdf;min-width:0}
 #cv{display:block;width:100%;aspect-ratio:16/9;max-height:40dvh;object-fit:contain;background:#000;cursor:pointer}
@@ -35,14 +35,14 @@ li b{font:600 10.5px/1.9 var(--mono);letter-spacing:.06em;color:var(--acc)}li[ar
 .note{font:11.5px/1.45 var(--mono);color:var(--mute);margin-top:8px}
 @media (min-width:900px),(min-aspect-ratio:3/2){main{grid-template-rows:none;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr)}#cv{max-height:calc(100dvh - 190px)}#scene{align-self:start}#cap{font-size:18px}}
 </style></head><body>
-<header><h1>Re:Order in Crime</h1><span>five explainer episodes cut from the deed films</span><a href="guide.html">the guide</a></header>
+<header><h1>Re:Order in Crime</h1><span>six explainer episodes cut from the deed films · follows <a href="https://hartswf0.github.io/2700-fa26/LAB%207%20-%20CLASSES/abominable-house/">The Burning of the Abominable House</a> and <a href="https://hartswf0.github.io/2700-fa26/LAB%207%20-%20CLASSES/by-what-light/index.html">By What Light</a></span><a href="guide.html">the guide</a></header>
 <main>
  <section id="scene"><canvas id="cv" width="1920" height="1080" role="img" aria-label="The deed film with the speakers drawn on it"></canvas>
   <div id="cap" aria-live="polite"></div>
   <div id="bar"><button id="pp">PAUSE</button><button id="pv" aria-label="Previous line">&lsaquo;</button><button id="nx" aria-label="Next line">&rsaquo;</button><div id="prog"><i></i></div><button id="vo" aria-pressed="false">VOICE</button></div></section>
  <section id="desk"><div id="eps" role="tablist"></div><div id="script"></div></section>
 </main>
-<script src="ledger.js"></script><script src="story.js"></script><script src="agents.js"></script><script src="crossed.js"></script><script src="kit.js"></script>
+<script src="vo/vo.js"></script><script src="ledger.js"></script><script src="story.js"></script><script src="agents.js"></script><script src="crossed.js"></script><script src="kit.js"></script>
 <script src="deeds/01-blackmail.js"></script><script src="deeds/02-drugging.js"></script><script src="deeds/03-incitement.js"></script><script src="deeds/04-knifing.js"></script><script src="deeds/05-prostitution.js"></script><script src="deeds/06-gun.js"></script><script src="deeds/07-tying.js"></script><script src="deeds/08-assault.js"></script><script src="deeds/09-seduction.js"></script><script src="deeds/10-slander.js"></script><script src="deeds/11-snooping.js"></script><script src="deeds/12-strangling.js"></script>
 <script>
 // Re:Order in Crime. Each episode is a list of lines. A line names who speaks, what they say, which deed plays
@@ -51,7 +51,9 @@ li b{font:600 10.5px/1.9 var(--mono);letter-spacing:.06em;color:var(--acc)}li[ar
 const $=id=>document.getElementById(id),IDS=LEDGER.IDS,PAIRS=LEDGER.PAIRS,ORDER=LEDGER.ORDER,NAMES=STORY.NAMES,WHO={R:'Roessler',B:'Belindo',I:'Inigo',O:'Ogiva'},ROM=['I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII'];
 const dec=n=>{n=BigInt(n);const d=[];for(let k=0;k<12;k++){d.unshift(Number(n%12n));n/=12n}return d},f2=x=>(+x).toFixed(2),cl=(a,b,x)=>Math.max(a,Math.min(b,x)),sm=K.sm,lerp=K.lerp;
 const film=dec('1541585241617'),L=LEDGER.run(film),AUD=CROSSED.audience(film),MINDS=AGENTS.minds(film),LIES=STORY.lies(film),SC=STORY.score(film);
-const SPK={W:'WALDEMAR · programmer',S:'SKILLER · insurer',AU:'THE WATCHERS',R:'ROESSLER',B:'BELINDO',I:'INIGO',O:'OGIVA'};
+const SPK={W:'WALDEMAR · programmer',S:'SKILLER · insurer',AU:'THE WATCHERS',MY:'THE ROLE READER',PR:'THE INTEREST READER',R:'ROESSLER',B:'BELINDO',I:'INIGO',O:'OGIVA'};
+function pAt(k,P){const st=L.states[k],it=MINDS.per[k].intent,pie={P,I:.5,E:.3},U=PAIRS.map(([a,v])=>AGENTS.utility(st,k,a,v,{intent:it},pie)),tau=.08+pie.E*1.6,lg=U.map(u=>Math.log(Math.max(u,1e-12))/tau),mx=Math.max(...lg),w=lg.map(x=>Math.exp(x-mx)),z=w.reduce((a,b)=>a+b,0);return w.map(x=>x/z)}
+const logFilm=P=>film.reduce((a,p,k)=>a+Math.log(pAt(k,P)[p]),0);
 const plan=(id,k)=>{const it=MINDS.per[k].intent[id];return it?CROSSED.hypText(id,it):'no plan'};
 // lines that depend on the film are functions, so they always say what the code says
 const EP=[
@@ -93,7 +95,14 @@ const EP=[
  {s:'W',k:6,fx:'names',sk:1,x:'In my last hypothesis his program forecast these deeds before they happened. Mine only replays them.'},
  {s:'S',k:6,fx:'twenty',sk:1,x:'I am not a character in his program.'},
  {s:'W',k:6,fx:'twenty',sk:1,x:'Adding him gives twenty pairs instead of twelve, and a fifth mind with a goal: pay nothing.'},
- {s:'W',k:6,fx:'missing',sk:1,x:'What this program still lacks: a recorder with an interest, an order of events, and a claim attached to each trace.'}]}];
+ {s:'W',k:6,fx:'missing',sk:1,x:'What this program still lacks: a recorder with an interest, an order of events, and a claim attached to each trace.'}]}
+,{t:'6 · Two readers',sum:'One deed read by role and read by interest, and what the dial in the program says about each.',b:[
+ {s:'W',k:5,fx:'names',x:'Two readers watch the same deed. One says the tenants act out the roles the house gives them. The other says each acts for its own interest. The positions are named after a debate between the anthropologists Sahlins and Obeyesekere.'},
+ {s:'MY',k:5,fx:'roles',x:()=>{const m=LEDGER.reading(L,5).mythBefore;return 'I read it by role. Before this deed the house had cast '+WHO[L.ev[5].A]+' as the '+m[0].toLowerCase()+' and '+WHO[L.ev[5].V]+' as the '+m[1].toLowerCase()+'. I say the deed follows from the casting.'}},
+ {s:'PR',k:5,fx:'think',x:()=>'I read it by interest. '+WHO[L.ev[5].A]+' wants to '+STORY.CAST[L.ev[5].A].goal+'. I ask what this deed gets toward that.'},
+ {s:'W',k:5,fx:'pie2',x:()=>{const a=pAt(5,0),b=pAt(5,1);return 'My program has a dial for this. Turned all the way to roles, it gives this deed a chance of '+f2(a[film[5]])+'. Turned all the way to interest, '+f2(b[film[5]])+'.'}},
+ {s:'W',k:5,fx:'pie2',x:()=>{const a=pAt(5,0),b=pAt(5,1),top=q=>{const i=q.indexOf(Math.max(...q));return WHO[PAIRS[i][0]]+' to '+WHO[PAIRS[i][1]]};return top(a)===top(b)?'Both readings pick the same likeliest pair for this deed: '+top(a)+'. They differ in how likely they make the deed that happened.':'By role, the likeliest pair for this deed would be '+top(a)+'. By interest, '+top(b)+'.'}},
+ {s:'W',k:5,fx:'pie2',x:()=>'Over all twelve deeds of this film, the role reading gives a log probability of '+logFilm(0).toFixed(1)+' and the interest reading '+logFilm(1).toFixed(1)+'. The higher number accounts for more of the film. Neither says what a deed meant to the sack that did it.'}]}];
 const cv=$('cv'),g=cv.getContext('2d'),PAPER='#f4eedd',INK='#1d1812',ACC='#c8402a',HL='#ffdc00',COL={R:'#8a4a40',B:'#3a342e',I:'#b0915e',O:'#8a47a3'},MONO='"JetBrains Mono",ui-monospace,Menlo,monospace',DISP='"Big Shoulders Display","Arial Narrow",Impact,sans-serif';
 function tagc(x,y,txt,o){o=o||{};const fs=o.fs||42;g.font=`600 ${fs}px ${MONO}`;const w=g.measureText(txt).width+fs*.7,h=fs*1.5;let X=o.anc==='l'?x:o.anc==='r'?x-w:x-w/2,Y=y-h/2;X=cl(10,1910-w,X);Y=cl(10,1070-h,Y);
  g.fillStyle=o.bg||PAPER;g.fillRect(X,Y,w,h);g.lineWidth=5;g.strokeStyle=o.bd||INK;g.strokeRect(X,Y,w,h);g.fillStyle=o.fg||INK;g.textBaseline='middle';g.textAlign='left';g.fillText(txt,X+fs*.35,Y+h/2+2);return{x:X,y:Y,w,h}}
@@ -125,32 +134,35 @@ const FX={
  fields(c){[['THE ACT','knifing'],['EFFECT ON THE BODY','a wound · no death'],['THE CLAIM','suicide']].forEach(([h,v],i)=>{const x=40+i*620,on=i<c.n,w=600;g.fillStyle=on?PAPER:'rgba(244,238,221,.25)';g.fillRect(x,40,w,170);g.strokeStyle=i===c.n-1?HL:INK;g.lineWidth=i===c.n-1?10:5;g.strokeRect(x,40,w,170);
    g.fillStyle=INK;g.font=`600 30px ${MONO}`;g.textAlign='left';g.textBaseline='middle';g.fillText(h,x+24,84);if(on){g.font=`600 44px ${MONO}`;g.fillText(v,x+24,156)}});tagc(960,250,c.n>2?'stored here: 1 and 2 together · 3 not stored':'',{fs:34,bg:c.n>2?HL:'rgba(0,0,0,0)',bd:c.n>2?INK:'rgba(0,0,0,0)',fg:c.n>2?INK:'rgba(0,0,0,0)'})},
  policy(c){[['no rules',84.0],['five rules',79.4]].forEach(([n,v],i)=>{const y=110+i*120,x=520,w=1100,e=sm(0,.4,c.u);tagc(x-20,y,n,{anc:'r',fs:40});g.fillStyle=PAPER;g.fillRect(x,y-34,w,68);g.fillStyle=i?ACC:INK;g.fillRect(x,y-34,w*v/100*e,68);g.strokeStyle=INK;g.lineWidth=5;g.strokeRect(x,y-34,w,68);tagc(x+w*v/100*e,y,v.toFixed(1)+'%',{fs:40,bg:HL,anc:'l'})});tagc(960,350,'Roessler\'s life policy · share of films that pay',{fs:34})},
+ pie2(c){[['by role',pAt(c.k,0)],['by interest',pAt(c.k,1)]].forEach(([n,p],r)=>{const mx=Math.max(...p),bw=62,x0=r?1010:110,by=330;tagc(x0+6*(bw+6),60,n,{fs:40,bg:r?PAPER:HL});p.forEach((v,i)=>{const h=10+200*v/mx,x=x0+i*(bw+6);g.fillStyle=i===film[c.k]?HL:PAPER;g.fillRect(x,by-h,bw,h);g.strokeStyle=INK;g.lineWidth=4;g.strokeRect(x,by-h,bw,h);g.fillStyle=COL[PAIRS[i][0]];g.fillRect(x+6,by+8,bw/2-8,22);g.fillStyle=COL[PAIRS[i][1]];g.fillRect(x+bw/2+2,by+8,bw/2-8,22)});tagc(x0+6*(bw+6),by+84,'this deed p '+f2(p[film[c.k]]),{fs:34})})},
  twenty(c){tagc(960,110,'4 characters · 12 pairs',{fs:46});tagc(960,200,'5 characters · 20 pairs',{fs:46,bg:HL})},
  missing(c){['a recorder with an interest','an order of events','a claim on each trace'].forEach((s,i)=>{if(c.u>i*.2)tagc(960,100+i*96,(i+1)+' · '+s,{fs:46,bg:HL})})}
 };
 let ep=0,bi=0,bt=0,playing=!matchMedia('(prefers-reduced-motion: reduce)').matches,last=0,lastDraw=0,gap=.05,voice=false;
-const val=v=>typeof v==='function'?v():v,dur=b=>cl(4.5,11,val(b.x).length/13);
+const val=v=>typeof v==='function'?v():v,VOD=window.VO||[],dur=b=>{const i=EP.indexOf(EP.find(E=>E.b.includes(b))),j=EP[i].b.indexOf(b),d=VOD[i]&&VOD[i][j];return d?d+.7:cl(4.5,11,val(b.x).length/13)};
+const au=new Audio();au.preload='auto';
 function ctxOf(b){if(b.d)return{deed:b.d,A:b.A,V:b.V,k:ORDER.indexOf(b.d),carry:{}};const e=L.ev[b.k];return{deed:e.deed,A:e.A,V:e.V,k:b.k,carry:L.states[b.k].body}}
 function draw(now){const b=EP[ep].b[bi],c=ctxOf(b),D=DEEDS[c.deed],u=cl(0,1,bt/dur(b)),lt=lerp(.3,5.7,u);clean(g);g.fillStyle='#000';g.fillRect(0,0,1920,1080);
  g.save();try{D.draw(g,lt,c.A,c.V,K,{carry:c.carry})}catch(x){console.error(x)}g.restore();clean(g);
  let M;try{M=D.marks(lt,c.A,c.V,K,{carry:c.carry})}catch(x){}const fix=(q,dx)=>(!q||![q.x,q.y,q.w,q.h].every(isFinite)||q.w<8)?{x:dx,y:520,w:220,h:300}:{x:cl(0,1700,q.x),y:cl(60,960,q.y),w:cl(40,900,q.w),h:cl(40,900,q.h)};
  c.M={A:fix(M&&M.A,560),V:fix(M&&M.V,1180)};c.u=u;c.now=now;c.ph=b.ph;c.n=b.n;
  g.save();try{FX[b.fx](c)}catch(x){console.error(x)}g.restore();clean(g);
- const sp=val(b.s),talk=1+.05*Math.sin(now*9);if(sp==='AU'||b.fx==='guess'||b.fx==='roles')watchers(sp==='AU'?talk:1);
+ const sp=val(b.s),talk=1+.05*Math.sin(now*9);if(sp==='AU'||sp==='MY'||sp==='PR'||b.fx==='guess'||b.fx==='roles'||b.fx==='pie2')watchers(sp==='AU'?talk:1);
  waldemar(1790,1062,300,sp==='W'?talk:1);if(b.sk)skiller(130,1062,250,sp==='S'?talk:1);
- const at=sp==='W'?[1790,700]:sp==='S'?[130,760]:sp==='AU'?[960,930]:[cx(c.M[sp===c.A?'A':'V']),Math.min(1030,c.M[sp===c.A?'A':'V'].y+c.M[sp===c.A?'A':'V'].h+50)];
+ const at=sp==='W'?[1790,700]:sp==='S'?[130,760]:sp==='AU'?[960,930]:sp==='MY'?[560,930]:sp==='PR'?[1380,930]:[cx(c.M[sp===c.A?'A':'V']),Math.min(1030,c.M[sp===c.A?'A':'V'].y+c.M[sp===c.A?'A':'V'].h+50)];
  tagc(at[0],at[1],SPK[sp].split(' · ')[0]+' speaks',{fs:32,bg:HL})}
 function setBeat(i,keep){const n=EP[ep].b.length;bi=cl(0,n-1,i);bt=0;const b=EP[ep].b[bi],sp=val(b.s),tx=val(b.x);$('cap').textContent='';const h=document.createElement('b');h.textContent=SPK[sp];$('cap').append(h,tx);
  document.querySelectorAll('#script li').forEach((li,j)=>{li.setAttribute('aria-current',j===bi);if(j===bi&&!keep)li.scrollIntoView({block:'nearest'})});
- if(voice)try{speechSynthesis.cancel();const ut=new SpeechSynthesisUtterance(tx);ut.pitch=sp==='W'?.9:sp==='S'?.6:sp==='AU'?1.2:1.4;ut.rate=1;speechSynthesis.speak(ut)}catch(x){}}
+ say()}
+function say(){try{au.pause();if(voice&&playing){au.src='vo/e'+(ep+1)+'b'+(bi+1)+'.mp3';au.currentTime=0;const pr=au.play();if(pr&&pr.catch)pr.catch(()=>{voice=false;$('vo').setAttribute('aria-pressed',false);$('vo').textContent='VOICE BLOCKED'})}}catch(x){}}
 function setEp(i){ep=i;document.querySelectorAll('#eps button').forEach((q,j)=>q.setAttribute('aria-selected',j===ep));const E=EP[ep],s=$('script');s.textContent='';const h=document.createElement('h2');h.textContent=E.t;const p=document.createElement('p');p.textContent=E.sum;const ol=document.createElement('ol');
  E.b.forEach((b,j)=>{const li=document.createElement('li'),w=document.createElement('b'),t=document.createElement('span');li.tabIndex=0;w.textContent=SPK[val(b.s)].split(' · ')[0];t.textContent=val(b.x);li.append(w,t);li.onclick=()=>setBeat(j,true);li.onkeydown=e=>{if(e.key==='Enter')setBeat(j,true)};ol.append(li)});
- const nt=document.createElement('p');nt.className='note';nt.textContent='Film 1,541,585,241,617. Thoughts, guesses, roles and the irony figure are read from the film bank code at the deed shown. Episode 4 plays two deed modules directly; the ledger would refuse the second. The two payout figures are from the policies page. Skiller, the planted heading and the claim are not modelled; the episodes say so.';
+ const nt=document.createElement('p');nt.className='note';nt.textContent='Film 1,541,585,241,617. Thoughts, guesses, roles and the irony figure are read from the film bank code at the deed shown. Episode 4 plays two deed modules directly; the ledger would refuse the second. The two payout figures are from the policies page. The count, the policies, the rules and the fifth and sixth person are told in the film The Burning of the Abominable House; rooms, light and witnesses in By What Light. Voices are Kokoro recordings made ahead of time. Skiller, the planted heading and the claim are not modelled; the episodes say so.';
  s.append(h,p,ol,nt);setBeat(0)}
-function setPlay(p){playing=p;$('pp').textContent=p?'PAUSE':'PLAY'}
+function setPlay(p){playing=p;$('pp').textContent=p?'PAUSE':'PLAY';if(!p)try{au.pause()}catch(x){}else if(voice&&bt<.3)say()}
 EP.forEach((E,i)=>{const q=document.createElement('button');q.setAttribute('role','tab');q.textContent=String(i+1);q.setAttribute('aria-label',E.t);q.onclick=()=>setEp(i);$('eps').append(q)});
 $('pp').onclick=()=>setPlay(!playing);cv.onclick=()=>setPlay(!playing);$('pv').onclick=()=>setBeat(bi-1);$('nx').onclick=()=>setBeat(bi+1);
-$('vo').onclick=()=>{voice=!voice;$('vo').setAttribute('aria-pressed',voice);if(!voice)try{speechSynthesis.cancel()}catch(x){}else setBeat(bi)};
+$('vo').onclick=()=>{voice=!voice;$('vo').textContent='VOICE';$('vo').setAttribute('aria-pressed',voice);if(!voice)try{au.pause()}catch(x){}else{setPlay(true);setBeat(bi)}};
 addEventListener('keydown',e=>{if(e.key==='ArrowRight')setBeat(bi+1);else if(e.key==='ArrowLeft')setBeat(bi-1);else if(e.key===' '){e.preventDefault();setPlay(!playing)}});
 function tick(ms){requestAnimationFrame(tick);const now=ms/1000,dt=Math.min(.1,(now-last)||0);last=now;const b=EP[ep].b[bi],d=dur(b);
  if(playing){bt+=dt;if(bt>=d){if(bi<EP[ep].b.length-1)setBeat(bi+1);else if(ep<EP.length-1)setEp(ep+1);else{bt=d;setPlay(false)}}}
