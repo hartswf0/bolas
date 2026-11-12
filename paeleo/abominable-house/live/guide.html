@@ -1,11 +1,11 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8">
 <title>Film Bank Guide</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="What each part of the film bank's side panel means, where it comes from and how it is computed, shown on the film and deed you choose.">
+<meta name="description" content="What each part of the film bank's side panel means, where it comes from and how it is computed, shown on the film and deed you choose, with the deed itself playing and marked up.">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800&family=JetBrains+Mono:wght@400;600&family=Literata:opsz,wght@7..72,400;7..72,500&display=swap" rel="stylesheet">
 <style>
-/* Layout: one topic per screen, no page scroll. Diagram on top (left on a desk), words below (right). The film bank's paper palette, so the guide reads as the same panel explained. */
+/* Layout: one topic per screen, no page scroll. The deed plays on top, marked up for the topic; the bench below holds one pane at a time (words, figure, method, source). On a wide screen the film sits left and every pane is listed right. A bystander sack walks over the page and stands on the part it is talking about. */
 :root{--bg:#f1ebdf;--card:#faf6ee;--fg:#1d1812;--mute:#6f6456;--line:#d3c8b4;--acc:#a3321f;--flour:#ece6d8;--hl:#ffdc00;
  --R:#6e3a33;--B:#2a2622;--I:#b0915e;--O:#7a3b8f;--T1:#a3321f;--T2:#b0752a;--T3:#5d7a3a;--T4:#2f6f7a;--T5:#3d3a8a;
  --disp:"Big Shoulders Display","Arial Narrow",Impact,sans-serif;--body:"Literata",Georgia,serif;--mono:"JetBrains Mono",ui-monospace,Menlo,monospace}
@@ -13,48 +13,86 @@
 :root[data-theme="dark"]{--bg:#121110;--card:#1a1816;--fg:#ece3d2;--mute:#958a7a;--line:#2e2a25;--acc:#e0603f;--flour:#2a2722;--hl:#c9a800;--R:#c67a6e;--B:#a39b8e;--I:#d4b67e;--O:#b583c8;--T1:#e0603f;--T2:#d9a04e;--T3:#9bbf6e;--T4:#6fb6c2;--T5:#8f8be0;color-scheme:dark}
 *{box-sizing:border-box}
 html,body{height:100%;margin:0}
-body{background:var(--bg);color:var(--fg);font:15px/1.5 var(--body);display:grid;grid-template-rows:auto minmax(0,1fr) auto}
-header{padding:8px 14px 6px;border-bottom:1.5px solid var(--fg);display:grid;gap:5px}
-.r{display:flex;gap:6px 10px;flex-wrap:wrap;align-items:center}
-h1{font:800 clamp(24px,5vw,38px)/1 var(--disp);text-transform:uppercase;margin:0;flex:1 1 10ch}
-#no{font:600 15px var(--mono);color:var(--acc)}
-.links{font:11px var(--mono)}.links a{color:var(--acc)}
+body{background:var(--bg);color:var(--fg);font:15px/1.5 var(--body);display:grid;grid-template-rows:auto minmax(0,1fr) auto;overflow:hidden}
+header{padding:6px 12px 5px;border-bottom:1.5px solid var(--fg);display:grid;gap:4px}
+.r{display:flex;gap:5px 8px;flex-wrap:wrap;align-items:center}
+h1{font:800 clamp(21px,5.2vw,34px)/1 var(--disp);text-transform:uppercase;margin:0;flex:1 1 10ch}
+#no{font:600 14px var(--mono);color:var(--acc)}
+.links{font:10.5px var(--mono);margin-left:auto}.links a{color:var(--acc)}header .links{display:none}
 .ctx{font:11.5px var(--mono);color:var(--mute)}
-.ctx input{font:12px var(--mono);width:12.5em;padding:3px 5px;border:1px solid var(--fg);background:var(--card);color:var(--fg)}
+.ctx input{font:12px var(--mono);width:12.2em;padding:3px 5px;border:1px solid var(--fg);background:var(--card);color:var(--fg)}
 button{font:600 11px var(--mono);letter-spacing:.05em;color:var(--fg);background:var(--card);border:1px solid var(--fg);padding:5px 8px;cursor:pointer}
-button[aria-pressed="true"]{background:var(--fg);color:var(--bg)}
+button[aria-pressed="true"],button[aria-selected="true"]{background:var(--fg);color:var(--bg)}
 button:focus-visible,input:focus-visible,a:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
-main{display:grid;grid-template-rows:minmax(0,1.2fr) minmax(0,1fr);min-height:0}
-#sw{display:grid;grid-template-rows:minmax(0,1fr) auto;gap:4px;padding:8px 14px 4px;min-height:0}
-#stage{position:relative;min-height:0}
+.lit{outline:3px solid var(--hl)!important;outline-offset:2px}
+main{display:grid;grid-template-rows:auto minmax(0,1fr);min-height:0}
+#scene{background:#0d0b09;color:#f1ebdf;min-width:0}
+#cv{display:block;width:100%;aspect-ratio:16/9;max-height:42dvh;object-fit:contain;background:#000;cursor:pointer}
+#bar{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:6px;align-items:center;padding:4px 8px}
+#bar button{background:#1d1812;color:#f1ebdf;border-color:#6f6456;padding:4px 7px}
+#scrub{width:100%;accent-color:#e0603f;margin:0}
+#ctxline{grid-column:1/-1;font:10.5px/1.3 var(--mono);color:#b9ad9a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#desk{display:grid;grid-template-rows:auto minmax(0,1fr);min-height:0;background:var(--card)}
+#tabs{display:flex;gap:0;border-bottom:1px solid var(--line)}
+#tabs button{flex:1;border:0;border-right:1px solid var(--line);background:transparent;padding:7px 2px}
+#tabs button[aria-selected="true"]{background:var(--fg);color:var(--bg)}
+#tabs #zoom{flex:0 0 auto;padding:7px 9px;border-right:0}
+#panes{min-height:0;overflow:auto}
+.pane{display:none;padding:9px 12px 12px}
+.pane.on{display:block}
+#p-fig.on{padding:4px 8px 6px}
+#stage{position:relative;aspect-ratio:600/350}
 #stage svg{position:absolute;inset:0;width:100%;height:100%}
-#ctl{display:flex;gap:6px 10px;flex-wrap:wrap;align-items:center;min-height:28px;font:11.5px var(--mono)}
-#ctl input[type=range]{accent-color:var(--acc);width:min(30vw,150px)}
-#words{overflow:auto;padding:10px 14px 14px;border-top:1px solid var(--line);background:var(--card)}
-#q{font:italic 19px/1.3 var(--body);margin:0 0 8px;max-width:40ch;text-wrap:balance}
-#words h2{font:600 10.5px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--acc);margin:10px 0 2px}
-#words p{margin:0 0 4px;max-width:64ch}
-#words .src{font:11.5px/1.45 var(--mono);color:var(--mute)}
-footer{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:8px;align-items:center;padding:7px 14px;border-top:1.5px solid var(--fg)}
+#ctl{display:flex;gap:5px 10px;flex-wrap:wrap;align-items:center;font:11.5px var(--mono)}
+#ctl:not(:empty){min-height:28px}
+#ctl input[type=range]{accent-color:var(--acc);width:min(26vw,140px)}
+#q{font:italic 18px/1.3 var(--body);margin:0 0 6px;max-width:40ch;text-wrap:balance}
+#prog{display:grid;grid-template-columns:auto minmax(0,1fr);gap:1px 10px;font:11.5px/1.4 var(--mono);margin:2px 0 8px;padding:6px 8px;background:var(--flour);border:1px solid var(--line)}
+#prog b{font-weight:600;white-space:nowrap}#prog i{font-style:normal;color:var(--mute);grid-column:1/-1;margin:0 0 4px 12px}#prog span{overflow-wrap:anywhere}
+.pane h2:not(:first-child){margin-top:8px}
+.pane h2{font:600 10.5px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--acc);margin:0 0 2px}
+.pane p{margin:0 0 4px;max-width:64ch}
+.pane .src{font:11.5px/1.45 var(--mono);color:var(--mute)}
+footer{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:8px;align-items:center;padding:6px 12px;border-top:1.5px solid var(--fg)}
 #ticks{display:flex;gap:3px}#ticks button{flex:1;height:14px;padding:0;min-width:0;background:transparent}
 #ticks button[aria-current="true"]{background:var(--acc);border-color:var(--acc)}
+#fx{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:20}
+#say{position:fixed;z-index:21;pointer-events:none;display:none;font:600 12px/1.25 var(--mono);background:#ffdc00;color:#1d1812;border:1.5px solid #1d1812;padding:3px 7px;max-width:62vw}
+body.zoom #scene{display:none}body.zoom #fx,body.zoom #say{display:none!important}
+body.zoom #stage{overflow:auto;aspect-ratio:auto;max-height:100%}body.zoom #stage svg{position:static;width:210%;height:auto;display:block}
 svg text{font-family:var(--mono);font-size:11px;fill:var(--fg)}
 svg .g{fill:var(--mute)}svg .c{fill:var(--acc)}svg .b{font-weight:600}svg .d{font-family:var(--disp);font-size:19px;font-weight:800;text-transform:uppercase}
 svg .ln{stroke:var(--fg);stroke-width:1.2;fill:none}svg .th{stroke:var(--line);stroke-width:1;fill:none}svg .al{stroke:var(--acc);stroke-width:1.8;fill:none}
 svg .bx{fill:var(--card);stroke:var(--fg);stroke-width:1.1}svg .fl{fill:var(--flour);stroke:var(--fg);stroke-width:1.1}svg .ink{fill:var(--fg)}svg .acc{fill:var(--acc)}svg .tr{fill:var(--line)}svg .hl{fill:var(--hl)}
 svg .tap{cursor:pointer}
-@media (min-width:900px){main{grid-template-rows:none;grid-template-columns:minmax(0,1.45fr) minmax(0,1fr)}#words{border-top:0;border-left:1px solid var(--line);padding:16px 18px}#q{font-size:23px}}
+@media (min-width:900px),(min-aspect-ratio:3/2){main{grid-template-rows:none;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr)}
+ #scene{align-self:start;border-right:1px solid var(--line)}#cv{max-height:calc(100dvh - 170px)}
+ header .links{display:inline}#p-how .links{display:none}#desk{grid-template-rows:minmax(0,1fr)}#tabs{display:none}.pane,.pane.on{display:block}#p-fig,#p-fig.on{display:block;height:auto;order:-1}
+ #panes{display:flex;flex-direction:column}#q{font-size:22px}}
 </style></head><body>
 <header>
- <div class="r"><span id="no"></span><h1 id="title"></h1><span class="links"><a href="film.html" id="back">back to the film bank</a> · <a href="player.html">deed bank</a> · <a href="numbers.html">numbers</a></span></div>
- <div class="r ctx"><label for="fn">film</label><input id="fn" inputmode="numeric" aria-label="Film number"><button id="kd" aria-label="Previous deed">&lsaquo;</button><span id="kk"></span><button id="ku" aria-label="Next deed">&rsaquo;</button><span id="ctxline"></span></div>
+ <div class="r"><span id="no"></span><h1 id="title"></h1><span class="links"><a href="film.html" id="back">film bank</a> · <a href="player.html">deed bank</a> · <a href="numbers.html">numbers</a></span></div>
+ <div class="r ctx"><label for="fn">film</label><input id="fn" inputmode="numeric" aria-label="Film number"><button id="kd" aria-label="Previous deed">&lsaquo;</button><span id="kk"></span><button id="ku" aria-label="Next deed">&rsaquo;</button></div>
 </header>
 <main>
- <div id="sw"><div id="stage"></div><div id="ctl"></div></div>
- <div id="words"><p id="q"></p><h2>What you are looking at</h2><p id="what"></p><h2>How it is worked out</h2><p id="how"></p><h2>Where it comes from</h2><p id="from"></p><p class="src" id="src"></p></div>
+ <section id="scene" aria-label="The deed, playing">
+  <canvas id="cv" width="1920" height="1080" role="img" aria-label="The deed, drawn by its module and marked up for this topic"></canvas>
+  <div id="bar"><button id="pp">PAUSE</button><input id="scrub" type="range" min="0" max="1200" value="0" aria-label="Time: scene 1 the deed, scene 2 the case"><button id="tour">GUIDE</button><div id="ctxline"></div></div>
+ </section>
+ <section id="desk">
+  <div id="tabs" role="tablist"><button role="tab" data-p="what">CASE</button><button role="tab" data-p="how">PROGRAM</button><button role="tab" data-p="fig">FIGURE</button><button id="zoom" aria-pressed="false">ZOOM</button></div>
+  <div id="panes">
+   <div class="pane" id="p-what"><h2 id="by"></h2><p id="q"></p><h2>What you are looking at</h2><p id="what"></p><h2>Where the reading comes from</h2><p id="from"></p></div>
+   <div class="pane" id="p-fig"><div id="stage"></div><div id="ctl"></div></div>
+   <div class="pane" id="p-how"><h2>Waldemar's program · parameters for this part</h2><div id="prog"></div><h2>How it is worked out</h2><p id="how"></p><p class="src" id="src"></p><p class="links"><a href="film.html" id="back2">film bank</a> · <a href="player.html">deed bank</a> · <a href="numbers.html">numbers</a></p></div>
+  </div>
+ </section>
 </main>
 <footer><button id="prev">BACK</button><div id="ticks"></div><button id="next">NEXT</button></footer>
+<canvas id="fx" aria-hidden="true"></canvas><div id="say" aria-hidden="true"></div>
 <script src="ledger.js"></script><script src="story.js"></script><script src="agents.js"></script><script src="crossed.js"></script>
+<script src="kit.js"></script>
+<script src="deeds/01-blackmail.js"></script><script src="deeds/02-drugging.js"></script><script src="deeds/03-incitement.js"></script><script src="deeds/04-knifing.js"></script><script src="deeds/05-prostitution.js"></script><script src="deeds/06-gun.js"></script><script src="deeds/07-tying.js"></script><script src="deeds/08-assault.js"></script><script src="deeds/09-seduction.js"></script><script src="deeds/10-slander.js"></script><script src="deeds/11-snooping.js"></script><script src="deeds/12-strangling.js"></script>
 <script>
 const NS='http://www.w3.org/2000/svg',$=id=>document.getElementById(id);
 const IDS=LEDGER.IDS,PAIRS=LEDGER.PAIRS,ORDER=LEDGER.ORDER,WHO={R:'Roessler',B:'Belindo',I:'Inigo',O:'Ogiva'},ROM=['I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII'],NAMES=STORY.NAMES;
@@ -193,18 +231,280 @@ const S=[
  r(){svg();[['MAP','sampled films as points · choose x, y and colour'],['TREE','what can follow, sized by the tenants\' likelihood'],['SIX MEMOS','best film per cell: exactitude × multiplicity × visibility'],['COMPARE','two films, deed by deed']].forEach((b,i)=>{const y=12+i*56;A('rect',{x:20,y,width:560,height:46,class:'fl'});T(34,y+20,b[0],'b');T(34,y+37,b[1],'g')});
   const M=[['believability',SC.believ],['strands holding',STR.holding/4],['exactitude (weakest strand)',STR.min],['irony, summed',Math.min(1,AUD.reduce((a,x)=>a+x.irony,0))],['deaths',IDS.filter(s=>!L.states[12].alive[s]).length/4]];T(20,252,'this film, from the same modules','b');M.forEach((m,i)=>{const y=262+i*17;T(20,y+9,m[0],'');bar(220,y+1,280,9,m[1],'var(--acc)');T(508,y+10,f2(m[1]*(i===1||i===4?4:1)),'b')})}}
 ];
-let cur=0;
-function show(i){cur=Math.max(0,Math.min(S.length-1,i));const s=S[cur],e=ev();$('stage').textContent='';$('ctl').textContent='';$('no').textContent=String(cur+1).padStart(2,'0')+'/'+S.length;$('title').textContent=s.t;$('q').textContent=s.q;$('what').textContent=s.what;$('how').textContent=s.how;$('from').textContent=s.from;$('src').textContent='code: '+s.src;
- $('kk').textContent='deed '+ROM[k];$('ctxline').textContent=NAMES[k]+' · '+WHO[e.A]+' to '+WHO[e.V]+' · '+SC.ev[k].tier.toLowerCase();$('back').href='film.html?n='+enc(film);
+// =====================================================================================================
+// THE SCENE. The deed is drawn by its own module (the same DEEDS[key].draw the deed bank calls), with the
+// marks the earlier deeds left on each sack. Each topic then draws its own markup on top of the picture, placed
+// from the module's own boxes for doer and victim (DEEDS[key].marks), so the explanation sits on the sacks.
+// =====================================================================================================
+// =====================================================================================================
+// WALDEMAR AND THE CASES. In the story the narrator is Waldemar, a programmer who must hand the insurance
+// agent a computer result. Here he narrates: every page lists the parameters of one part of the program he would
+// have had to write (PROGRAM), and names whose reading of the deed that part encodes (CASE). The deed plays twice:
+// scene 1 as the module draws it, scene 2 with that reading drawn on it.
+// =====================================================================================================
+const big=n=>n.toLocaleString('en-US'),fmO=o=>Object.entries(o).map(([a,b])=>a.toLowerCase()+' '+b).join(', ')||'none';
+S.unshift({id:'waldemar',t:'Waldemar\'s program',q:'A programmer is asked to trace four insurance policies back through twelve deeds. By the end he is a character in his own program.',
+ what:'The story has a narrator, Waldemar, who must give the insurance agent Skiller a computer result. This guide makes him the narrator too: the figure in the hat and scarf is Waldemar, and each page shows one part of the program he would have had to write, with its parameters.',
+ how:'Four tenants give twelve ordered pairs. Twelve deeds, each done by one pair, give twelve to the twelfth films. When Waldemar adds Skiller the pairs rise to twenty; when he adds himself, to thirty. Every page after this one plays the selected deed twice: first as it is, then with one reading drawn on it.',
+ from:'Calvino wrote the story in 1973 after a question from IBM about writing with a computer. Daniel Solove reads it as showing that a computer can out-calculate a person but cannot match what a person can imagine. The last pages of the story go further: Waldemar decides the program was written before he started, and that his machine wins only if it works out how the other one is playing.',
+ src:'live/ledger.js PAIRS · live/guide.html',
+ r(){svg();const rows=[['the house',4n,12n],['with Skiller',5n,20n],['with Waldemar',6n,30n]];
+  [[20,40,560,270,'the real computer is elsewhere'],[70,84,460,196,'Waldemar · programmer · sixth'],[120,128,360,122,'Skiller · insurance agent · fifth'],[170,172,260,48,'Roessler · Belindo · Inigo · Ogiva']].forEach(([x,y,w,h,s],i)=>{A('rect',{x,y,width:w,height:h,class:i===3?'bx':'fl'});T(x+10,y+16,s,i===3?'b':'g')});
+  T(20,328,'characters · ordered pairs · films','g');rows.forEach((r,i)=>T(240+i*0,0,''));
+  rows.forEach((r,i)=>T(20+i*196,344,r[1]+' · '+r[2]+' · '+(r[2]**12n>10n**15n?(Number(r[2]**12n)).toExponential(2):big(r[2]**12n)),i?'':'b'))}});
+S.splice(3,0,{id:'sieve',t:'The sieve',q:'Calvino\'s narrator lays down exclusions. Braffort wrote them as filters. This program keeps every film and marks it down instead.',
+ what:'The rules the narrator states in the story, and what each does to the rating of the selected deed. The bars compare how many films exist with how many pass five of the rules when the rules are applied as hard filters.',
+ how:'In the story a rule deletes films. Here a rule multiplies the rating of a deed by a factor below one (or above one, when one deed prepares another), so a film that breaks a rule can still be played and is rated preposterous. Counting the films that break none of five rules gives 2,663,172,255,744, about 30 percent.',
+ from:'Paul Braffort, who wrote the selection programs for Calvino, reports that compatibility tables removed absurd films but did not reduce the number enough, and that the work was left unfinished. Calvino\'s conclusion, in the Oulipo Atlas, was that the computer frees the writer from the combinatorial search so that he can attend to the one deviation that makes a text a work of art.',
+ src:'live/story.js rate() · live/policies.html for the count',
+ r(){svg();const all=12n**12n,five=2663172255744n;T(20,30,'films','b');bar(20,40,560,22,1,'var(--fg)');T(20,78,big(all)+' · every film','g');
+  bar(20,96,560,22,Number(five)/Number(all),'var(--acc)');T(20,134,big(five)+' · break none of five rules ('+Math.round(Number(five)*100/Number(all))+'%)','g');
+  const v=SC.ev[k];T(20,176,ROM[k]+' '+NAMES[k]+' · what the rules did to this deed','b');v.why.slice(0,7).forEach((w,i)=>T(30,196+i*17,'· '+w,''));T(20,196+Math.min(7,v.why.length)*17+10,'rating '+f2(v.raw)+' · '+v.tier.toLowerCase(),'c')}});
+{const d=S.find(s=>s.id==='draw');d.from+=' Hannes Bajohr calls a prompt that produces a picture operative ekphrasis: a description that is executed. Here the film number is such a text. That is this project\'s reading; the further step from image to video, game and world is also this project\'s, not his.'}
+const CASE={
+ waldemar:{by:'Calvino, 1973: the story',plate:'a program about a program',prog:()=>[['CHARACTERS','4','Roessler, Belindo, Inigo, Ogiva'],['PAIRS','4 x 3 = 12','doer, then victim'],['DEEDS','12','the index, in its order'],['FILMS','12^12 = '+big(12n**12n),'the story prints 8,874,296,672,256'],['+ SKILLER','20^12 = '+big(20n**12n),'five characters, 20 pairs'],['+ WALDEMAR','30^12 = '+big(30n**12n),'six characters, 30 pairs']]},
+ panel:{by:'Skiller\'s request, in the story',plate:'ten partial accounts of one deed',prog:()=>{const e=ev();return[['film',big(enc(film)),'twelve digits in base 12'],['k',String(k+1),'which deed'],['event','{'+e.deed+', '+e.A+', '+e.V+'}','deed, doer, victim'],['state','LEDGER.run(film).states[k]','everything before this deed'],['modules','ledger · story · agents · crossed','each block calls one']]}},
+ controls:{by:'Calvino\'s question: which story to keep',plate:'five ways to choose a film',prog:()=>[['STORY.mcts','iter 3000 · c 0.35','tree search for believable films'],['AGENTS.generate','pie · seed','the tenants choose each deed'],['CROSSED.author','width 14 · lambda 1.5','beam search for irony, suspense or twist'],['CROSSED.openings','1,728','every three-deed opening']]},
+ sieve:{by:'Braffort\'s filters, 1977',plate:'a rule marks the deed down',prog:()=>[['strangle the wrestler','x 0.25',''],['tie the wrestler','x 0.15','x 2.2 if held at gunpoint first'],['gun, then rope','x 1.6',''],['court after forcing','x 0.06','after selling, x 0.3'],['snoop or blackmail after slander','x 0.2',''],['third deadly deed on one sack','x 0.15',''],['dead doer · dead victim','x 0.02 · x 0.03','tied doer, x 0.05']]},
+ tiers:{by:'Calvino\'s narrator: who is suited to what',plate:'suited or not suited',prog:()=>{const v=SC.ev[k];return[['fit',(v.why[0].split(': ')[1]||''),v.why[0].split(': ')[0]],['raw',f2(v.raw),'after every rule and feeling'],['cut points','0.05 · 0.30 · 0.70 · 0.95','preposterous, possible, plausible, probable, certain'],['film',f2(SC.believ),'geometric mean of the twelve']]}},
+ pie:{by:'Sahlins and Obeyesekere, by way of Growing Entanglements',plate:'interest, role or chance',prog:()=>[['P',f2(pie.P),'0 symbolic reasons · 1 practical'],['I',f2(pie.I),'0 the belief of the house · 1 its own'],['E',f2(pie.E),'how much chance'],['tau',f2(.08+pie.E*1.6),'0.08 + 1.6 E, the softmax temperature'],['U','P^p x S^(1-p) x C','C is 2.2 when the deed carries out a plan']]},
+ tableau:{by:'Calvino, The Castle of Crossed Destinies',plate:'one deed, two strands',prog:()=>{const fr=stA().frames[k];return[['SITE',fr.site,'the room this deed happens in'],['light',fr.light+' · '+fr.lightName,'base, +1 from deed IX, +1 from deed XI'],['witness','light >= 1','whoever is in the room learns of it'],['holds','believability > 0.30','and never asked to act dead or tied'],['tied','next 2 deeds','a tied sack cannot act']]}},
+ audience:{by:'Chandra, Li, Tenenbaum and Ragan-Kelley, 2023',plate:'a watcher infers each plan',prog:()=>[['hypotheses','10 per tenant','no plan, or one of 3 plans toward one of 3 others'],['prior','no plan 0.20','the other nine share 0.80'],['EPS','0.06','mixed back each deed, because plans change'],['watcher PIE','P 0.5 · I 0.5 · E 0.3','tau 0.56'],['surprise','-log p / log 12','the watcher gave this deed p '+f2(AUD[k].p)]]},
+ plot:{by:'Tenenbaum and colleagues: the tug-of-war',plate:'a match the doer won',prog:()=>{const e=ev();return[['PRIOR_STR','R 0 · B 1.5 · I -0.8 · O -0.4','strength before anything happens'],['p(win)','logistic(doer - victim)','expected before the deed'],['step','0.9 x variance x surprise','how far each belief moves'],['HARM['+e.deed+']',f2(LEDGER.HARM[e.deed]),'how dangerous this deed makes the doer look']]}},
+ barthes:{by:'Barthes, Mythologies',plate:'the house reads types',prog:()=>{const e=ev(),sh=LEDGER.SHIFT[e.deed];return[['ARCH','15 roles','miser to ghost'],['ARCH0['+e.A+']',fmO(LEDGER.ARCH0[e.A]),'the doer at the start'],['SHIFT doer',fmO(sh[0]),'what this deed adds to the doer'],['SHIFT victim',fmO(sh[1]),'and to the victim'],['mix','0.35','0.8 when the victim dies · 0.5 when refused']]}},
+ minds:{by:'Bratman; Rao and Georgeff; Park and colleagues, 2023',plate:'belief, desire, plan, memory',prog:()=>[['importance','1 + 9 x feeling','+3 if the victim died · at most 10'],['recall','0.85^age + importance/10 + relevance','the top three records'],['reflect','importance sums to 14','writes up to two conclusions'],['plan','grudge > 0.5 or danger > 0.6','hostile · desire > 0.5 win · guilt > 0.6 amend'],['commitment','x 2.2','for a deed that carries the plan out']]},
+ four:{by:'the Disney flour-sack exercise',plate:'a role is a way of being drawn',prog:()=>{const l=stA().levers[ev().A];return[['loom',f2(l.loom),'brute 0.8 + predator + invulnerable 0.6 - victim 0.8 - scapegoat 0.5'],['weight',f2(l.weight),'gentle giant 0.5 + brute 0.8 + miser 0.2 - dreamer 0.4'],['tempo',f2(l.tempo),'idol 0.4 + spy 0.5 + seducer 0.3 - dreamer 0.5 - corpse'],['halo',f2(l.halo),'idol 0.8 + seducer 0.6 + invulnerable 0.5'],['shadow',f2(l.shadow),'predator + spy 0.6 + miser 0.3'],['shrink',f2(l.shrink),'victim 0.6 + scapegoat 0.8'],['grey',f2(l.grey),'corpse + ghost']]}},
+ lies:{by:'Kurosawa, Rashomon',plate:'each account protects its teller',prog:()=>[['R breaks if done to her','blackmail, prostitution, knifing, rape, slander',''],['B breaks if done to him','drugging, tying, incitement, gun',''],['I breaks if done by him','knifing, strangling, incitement',''],['O breaks if done to her','slander, snooping, rape, knifing',''],['broken at','the first such deed while alive','otherwise the lie holds']]},
+ step:{by:'Knowles and Tenney, The House of Dust',plate:'a room, a light, a material',prog:()=>{const R=LEDGER.RULE[ev().deed];return[['RULE.V',R.V.join(', ')||'none','marks put on the victim'],['RULE.mindV',fmO(R.mindV),'feelings added, scaled by temperament'],['RULE.mindA',fmO(R.mindA),'and in the doer'],['evidence',R.evidence,'the trace left in the room'],['kills',R.kills?'if conditions hold':'no','knifing needs a weakened victim · despair needs a load above 1.5']]}},
+ draw:{by:'Bajohr\'s term: operative ekphrasis',plate:'a text that is executed',prog:()=>{const e=ev(),D=DEEDS[e.deed];return[['draw','(g, t, A, V, K, {layer, carry})','no stored state: any frame is drawn directly'],['t','0 to 6 s','one shot'],['contact',D.contact.toFixed(1)+' s','when the deed lands'],['layer','bg · V · A','room, victim, doer'],['carry',stB().body[e.V].join(', ')||'none','marks the victim brings in'],['leaves',(D.leaves.V||[]).join(', ')||'none','marks this module says it leaves']]}},
+ atlas:{by:'Mouret and Clune, MAP-Elites; Calvino, Six Memos',plate:'one film among the films',prog:()=>[['sample','110 random + 60 searched','scored for this page only'],['x · believability',f2(SC.believ),''],['y · deaths',String(IDS.filter(q=>!L.states[12].alive[q]).length),''],['strands holding',STR.holding+' of 4','weakest '+f2(STR.min)]]}
+};
+let cur=0,pane='what',pass=-1;
+const cv=$('cv'),g=cv.getContext('2d'),off=document.createElement('canvas');off.width=1920;off.height=1080;const og=off.getContext('2d');
+const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+let ft=0,playing=!RM,lastNow=0,lastDraw=0,MK=null,dirty=true,gapD=.05; // gapD: seconds between redraws, set from what the last one cost so a slow module never stalls the page
+const LOOP=13,cl=(a,b,x)=>Math.max(a,Math.min(b,x)),sm=K.sm,lerp=K.lerp;
+const COL={R:'#8a4a40',B:'#3a342e',I:'#b0915e',O:'#8a47a3'},PAPER='#f4eedd',INK='#1d1812',ACC='#c8402a',HL='#ffdc00';
+const TCOL={PREPOSTEROUS:'#a3321f',POSSIBLE:'#b0752a',PLAUSIBLE:'#5d7a3a',PROBABLE:'#2f6f7a',CERTAIN:'#3d3a8a'};
+const MONO='"JetBrains Mono",ui-monospace,Menlo,monospace',DISP='"Big Shoulders Display","Arial Narrow",Impact,sans-serif';
+// a paper label on the picture; returns its rectangle
+function tagc(x,y,txt,o){o=o||{};const fs=o.fs||44;g.font=`600 ${fs}px ${MONO}`;const w=g.measureText(txt).width+fs*.7,h=fs*1.5;
+ let X=o.anc==='l'?x:o.anc==='r'?x-w:x-w/2,Y=y-h/2;if(!o.raw){X=cl(10,1910-w,X);Y=cl(10,1070-h,Y)}
+ g.fillStyle=o.bg||PAPER;g.fillRect(X,Y,w,h);g.lineWidth=5;g.strokeStyle=o.bd||INK;g.strokeRect(X,Y,w,h);
+ g.fillStyle=o.fg||INK;g.textBaseline='middle';g.textAlign='left';g.fillText(txt,X+fs*.35,Y+h/2+2);return{x:X,y:Y,w,h}}
+function brk(b,col){const n=Math.min(60,b.w*.3,b.h*.3);g.strokeStyle=col;g.lineWidth=10;g.lineCap='square';
+ for(const[sx,sy]of[[0,0],[1,0],[0,1],[1,1]]){const x=b.x-14+sx*(b.w+28),y=b.y-14+sy*(b.h+28);g.beginPath();g.moveTo(x+(sx?-n:n),y);g.lineTo(x,y);g.lineTo(x,y+(sy?-n:n));g.stroke()}}
+const pop=(t,t0,d)=>{const u=cl(0,1,(t-t0)/(d||.3));return u<=0?0:1+.45*Math.sin(u*Math.PI)*(1-u)};
+const cxOf=b=>b.x+b.w/2,topOf=b=>Math.max(120,b.y-52),short=(s,n)=>s.length>n?s.slice(0,n-1)+'…':s;
+function softPick(){const st=stB(),it=MINDS.per[k].intent,U=PAIRS.map(([a,v])=>AGENTS.utility(st,k,a,v,{intent:it},pie)),tau=.08+pie.E*1.6,lg=U.map(u=>Math.log(Math.max(u,1e-12))/tau),mx=Math.max(...lg),w=lg.map(x=>Math.exp(x-mx)),z=w.reduce((a,b)=>a+b,0);return w.map(x=>x/z)}
+let CLOUD=null;
+function cloud(){if(CLOUD)return CLOUD;const pts=[];try{for(let i=0;i<110;i++){const f=[];for(let j=0;j<12;j++)f.push(Math.floor(K.hash(i*12.7+j*3.3+5)*12));const sc=STORY.score(f);pts.push({b:sc.believ,d:IDS.filter(s=>!sc.L.states[12].alive[s]).length,t:sc.tier})}
+  for(const sc of STORY.mcts(60,.35,7))pts.push({b:sc.believ,d:IDS.filter(s=>!sc.L.states[12].alive[s]).length,t:sc.tier})}catch(x){console.error(x)}return CLOUD=pts}
+
+// ---- one markup per topic. t = seconds into the shot, M = {A,V} boxes on the 1920x1080 picture, e = the event, D = the deed module
+const ANN={
+ panel(t,M,e,D){brk(M.A,COL[e.A]);brk(M.V,COL[e.V]);tagc(cxOf(M.A),topOf(M.A),'DOER');tagc(cxOf(M.V),topOf(M.V),'VICTIM');
+  const c=[(cxOf(M.A)+cxOf(M.V))/2,(M.A.y+M.V.y)/2+90],u=sm(D.contact,D.contact+.8,t);
+  ['RATING','ROLE','BELIEF','MEMORY','LIE'].forEach((n,i)=>{const x=210+i*375,y=70;if(u>0){g.strokeStyle=HL;g.lineWidth=7;g.beginPath();g.moveTo(c[0],c[1]);g.lineTo(lerp(c[0],x,u),lerp(c[1],y+36,u));g.stroke()}tagc(x,y,n,{fs:40,bg:u>=1?HL:PAPER})})},
+ controls(t,M,e){const w=146,x0=960-6*w,y=26;film.forEach((p,i)=>{const[a,v]=PAIRS[p],x=x0+i*w;g.fillStyle=i===k?HL:PAPER;g.fillRect(x+6,y,w-12,104);g.strokeStyle=INK;g.lineWidth=5;g.strokeRect(x+6,y,w-12,104);
+   [a,v].forEach((s,j)=>{g.fillStyle=COL[s];g.beginPath();g.arc(x+w/2-27+j*54,y+52,21,0,7);g.fill();g.stroke()})});
+  g.fillStyle=ACC;g.fillRect(x0+k*w+6+(w-12)*cl(0,1,t/6)-4,y-8,8,120);tagc(cxOf(M.A),topOf(M.A)+0,WHO[e.A],{bg:COL[e.A],fg:'#fff'});tagc(cxOf(M.V),topOf(M.V),WHO[e.V],{bg:COL[e.V],fg:'#fff'});
+  tagc(960,1016,'deed '+ROM[k]+' of XII · pair '+(film[k]+1)+' of 12',{fs:40})},
+ tiers(t,M,e,D){const r=SC.ev[k].raw,tr=SC.ev[k].tier,x0=260,w=1400,y=958,th=[0,.05,.3,.7,.95,1],nm=Object.keys(TCOL);
+  for(let i=0;i<5;i++){g.fillStyle=TCOL[nm[i]];g.fillRect(x0+th[i]*w,y,(th[i+1]-th[i])*w,44)}g.strokeStyle=PAPER;g.lineWidth=5;g.strokeRect(x0,y,w,44);
+  const mx=x0+r*w;g.fillStyle=HL;g.strokeStyle=INK;g.lineWidth=5;g.beginPath();g.moveTo(mx,y-6);g.lineTo(mx-30,y-58);g.lineTo(mx+30,y-58);g.closePath();g.fill();g.stroke();tagc(mx,y-100,f2(r),{fs:46});
+  const s=pop(t,D.contact,.35);if(s>0){g.save();g.translate(960,430);g.rotate(-.1);g.scale(s,s);g.font=`800 210px ${DISP}`;g.textAlign='center';g.textBaseline='middle';const tw=g.measureText(tr).width;
+   g.fillStyle='rgba(244,238,221,.9)';g.fillRect(-tw/2-50,-130,tw+100,260);g.strokeStyle=TCOL[tr];g.lineWidth=18;g.strokeRect(-tw/2-50,-130,tw+100,260);g.fillStyle=TCOL[tr];g.fillText(tr,0,10);g.restore()}},
+ pie(t,M,e){const p=softPick(),mx=Math.max(...p),bw=118,x0=960-6*(bw+10),by=1040;
+  p.forEach((v,i)=>{const h=18+300*v/mx,x=x0+i*(bw+10),[a,b]=PAIRS[i];g.fillStyle=i===film[k]?HL:PAPER;g.fillRect(x,by-h,bw,h);g.strokeStyle=INK;g.lineWidth=5;g.strokeRect(x,by-h,bw,h);
+   [a,b].forEach((s,j)=>{g.fillStyle=COL[s];g.beginPath();g.arc(x+bw/2-24+j*48,by-h-30,18,0,7);g.fill();g.stroke()})});
+  const i=film[k];tagc(x0+i*(bw+10)+bw/2,by-18-300*p[i]/mx-92,'p '+f2(p[i]),{fs:42,bg:HL});brk(M.A,COL[e.A])},
+ tableau(t,M,e){const fr=stA().frames[k];tagc(cxOf(M.A),topOf(M.A),'DOES',{bg:COL[e.A],fg:'#fff'});tagc(cxOf(M.V),topOf(M.V),'SUFFERS',{bd:COL[e.V]});
+  tagc(30,62,fr.site+' · '+fr.lightName,{anc:'l',fs:40});
+  if(fr.inhabitants.length)fr.inhabitants.forEach((s,i)=>{const y=160+i*96;g.fillStyle=PAPER;g.strokeStyle=INK;g.lineWidth=5;g.beginPath();g.ellipse(70,y,36,22,0,0,7);g.fill();g.stroke();g.fillStyle=COL[s];g.beginPath();g.arc(70,y,13,0,7);g.fill();tagc(120,y,WHO[s]+' sees it',{anc:'l',fs:38})});
+  else tagc(30,160,'no one else sees it',{anc:'l',fs:38})},
+ audience(t,M,e,D){const a=AUD[k],u=sm(D.contact,D.contact+.6,t);
+  g.fillStyle='rgba(13,10,8,.94)';for(let i=0;i<7;i++){const x=150+i*270+(i%2)*46,y=1080;g.beginPath();g.ellipse(x,y-70,74,92,0,0,7);g.fill();g.beginPath();g.ellipse(x,y+40,150,90,0,0,7);g.fill()}
+  [['surprise',cl(0,1,a.surprise)],['twist',cl(0,1,a.twist)],['suspense',a.suspense],['irony',cl(0,1,a.irony)]].forEach(([n,v],i)=>{const y=58+i*74,x=1340;tagc(x-14,y,n,{anc:'r',fs:38});g.fillStyle=PAPER;g.fillRect(x,y-22,480,44);g.fillStyle=ACC;g.fillRect(x,y-22,480*v*u,44);g.strokeStyle=INK;g.lineWidth=5;g.strokeRect(x,y-22,480,44)});
+  const b=t<D.contact?a.before[e.A]:a.after[e.A];tagc(960,890,(t<D.contact?'guess · ':'now · ')+WHO[e.A]+': '+b.text,{fs:40,bg:t<D.contact?PAPER:HL})},
+ plot(t,M,e,D){const R=LEDGER.reading(L,k).plot,u=sm(D.contact,D.contact+.5,t),pa=lerp(R[0].p0,R[0].p1,u),pv=lerp(R[1].p0,R[1].p1,u);
+  const a=[cxOf(M.A),M.A.y+M.A.h*.42],v=[cxOf(M.V),M.V.y+M.V.h*.42],f=pv/(pa+pv),kx=lerp(a[0],v[0],f),ky=lerp(a[1],v[1],f)+18;
+  for(const[c,w]of[[INK,26],['#c9a46a',16]]){g.strokeStyle=c;g.lineWidth=w;g.lineCap='round';g.beginPath();g.moveTo(a[0],a[1]);g.quadraticCurveTo(kx,ky+26,v[0],v[1]);g.stroke()}
+  g.fillStyle=ACC;g.strokeStyle=INK;g.lineWidth=5;g.fillRect(kx-26,ky-22,52,70);g.strokeRect(kx-26,ky-22,52,70);
+  tagc(kx,ky-90,f2(pa)+' : '+f2(pv),{fs:44,bg:u>=1?HL:PAPER});tagc(a[0],topOf(M.A),'strength '+f2(pa),{fs:36});tagc(v[0],topOf(M.V),'strength '+f2(pv),{fs:36})},
+ barthes(t,M,e,D){const R=LEDGER.reading(L,k),u=cl(0,1,(t-D.contact)/.45);
+  [[M.A,R.mythBefore[0],R.match[0],e.A],[M.V,R.mythBefore[1],R.match[1],e.V]].forEach(([b,was,is,id])=>{g.save();g.translate(cl(260,1660,cxOf(b)),topOf(b));g.scale(Math.max(.04,Math.abs(Math.cos(u*Math.PI))),1);
+   tagc(0,0,u<.5?was:is,{raw:1,fs:50,bg:u>=.5&&was!==is?HL:PAPER,bd:COL[id]});g.restore()})},
+ minds(t,M,e){const rc=MINDS.per[k].recall,it=MINDS.per[k].intent[e.A];
+  [[M.A,rc.A[0],e.A],[M.V,rc.V[0],e.V]].forEach(([b,r,id])=>{const y=topOf(b)-(id===e.A?120:20),x=cl(330,1590,cxOf(b));tagc(x,y,r?short(r.text,30):'nothing yet',{fs:38,bd:COL[id]});
+   g.fillStyle=PAPER;g.strokeStyle=INK;g.lineWidth=4;for(let i=0;i<3;i++){g.beginPath();g.arc(lerp(x,cxOf(b),.3+i*.3),lerp(y+44,b.y+10,.15+i*.3),13-i*3,0,7);g.fill();g.stroke()}});
+  if(it)tagc(cl(330,1590,cxOf(M.A)),topOf(M.A)-196,'plan: '+CROSSED.hypText(e.A,it),{fs:38,bg:HL})},
+ four(t,M,e){const lv=stA().levers;[[M.A,e.A],[M.V,e.V]].forEach(([b,id])=>{const l=lv[id],cx=cxOf(b),fy=b.y+b.h;
+   g.fillStyle=`rgba(0,0,0,${.25+.3*cl(0,1,l.shadow)})`;g.beginPath();g.ellipse(cx,fy+8,b.w*(.55+.5*cl(0,1,l.shadow)),20,0,0,7);g.fill();
+   if(l.halo>.05){g.strokeStyle=`rgba(255,220,0,${cl(.2,1,l.halo+.2)})`;g.lineWidth=12;g.beginPath();g.ellipse(cx,b.y+b.h/2,b.w*.66,b.h*.62,0,0,7);g.stroke()}
+   const sc=1+.3*cl(-1,1,l.loom)-.25*cl(0,1,l.shrink);if(Math.abs(sc-1)>.03){g.setLineDash([18,14]);g.strokeStyle=sc>1?ACC:PAPER;g.lineWidth=7;g.strokeRect(cx-b.w*sc/2,fy-b.h*sc,b.w*sc,b.h*sc);g.setLineDash([])}
+   const top=Object.entries(l).sort((p,q)=>Math.abs(q[1])-Math.abs(p[1]))[0];tagc(cx,topOf(b)-(sc>1?b.h*(sc-1):0),top[0]+' '+(top[1]>=0?'+':'')+f2(top[1]),{fs:40,bd:COL[id]})})},
+ lies(t,M,e,D){[[M.A,e.A],[M.V,e.V]].forEach(([b,id])=>{const en=LIES.find(x=>x.id===id),x=cl(360,1560,cxOf(b)),y=topOf(b)-(id===e.A?170:10),r=tagc(x,y,en.lie,{fs:36,bd:COL[id]});
+   if(en.broken!=null&&(en.broken<k||(en.broken===k&&t>=D.contact))){g.strokeStyle=ACC;g.lineWidth=9;g.beginPath();g.moveTo(r.x-10,r.y+r.h*.7);g.lineTo(r.x+r.w+10,r.y+r.h*.3);g.stroke();
+    const s=en.broken===k?pop(t,D.contact,.3):1;g.save();g.translate(x,y-66);g.scale(s,s);tagc(0,0,'broken at '+ROM[en.broken],{raw:1,fs:36,bg:ACC,fg:'#fff'});g.restore()}})},
+ step(t,M,e,D){const R=LEDGER.RULE[e.deed],was=stB().body[e.V],after=t>=D.contact,x=cl(300,1620,cxOf(M.V));
+  tagc(30,62,after?'AFTER':'BEFORE',{anc:'l',fs:46,bg:after?HL:PAPER});
+  if(!after)tagc(x,topOf(M.V),was.length?short(was.join(' · '),30):'unmarked',{fs:38});
+  else{const add=R.V.filter(q=>!was.includes(q)).concat(Object.keys(R.mindV).map(q=>q+' +'));if(stB().alive[e.V]&&!stA().alive[e.V])add.unshift('dies');
+   add.slice(0,4).forEach((q,i)=>{const s=pop(t,D.contact+i*.16,.3);if(s<=0)return;g.save();g.translate(x,topOf(M.V)-i*74);g.scale(s,s);tagc(0,0,q,{raw:1,fs:38,bg:i||q!=='dies'?PAPER:ACC,fg:i||q!=='dies'?INK:'#fff'});g.restore()});
+   tagc(960,1016,'trace left: '+R.evidence,{fs:40})}},
+ waldemar(t,M,e){tagc(cxOf(M.A),topOf(M.A),WHO[e.A],{bg:COL[e.A],fg:'#fff'});tagc(cxOf(M.V),topOf(M.V),WHO[e.V],{bg:COL[e.V],fg:'#fff'});
+  [[60,'SKILLER · fifth'],[1560,'WALDEMAR · sixth']].forEach(([x,n],i)=>{g.setLineDash([20,16]);g.strokeStyle=PAPER;g.lineWidth=7;g.strokeRect(x,560,300,380);g.setLineDash([]);tagc(x+150,520,n,{fs:36,bg:i?HL:PAPER})});tagc(960,70,'4 characters · 12 pairs · 12^12 films',{fs:40})},
+ sieve(t,M,e){const v=SC.ev[k];v.why.slice(0,5).forEach((w,i)=>tagc(30,62+i*72,short(w,44),{anc:'l',fs:34,bg:i?PAPER:HL}));tagc(cxOf(M.V),topOf(M.V),'rating '+f2(v.raw),{bd:TCOL[v.tier]})},
+ draw(){},atlas(){}
+};
+function clean(c){c.setTransform(1,0,0,1,0,0);c.globalAlpha=1;c.globalCompositeOperation='source-over';c.filter='none';c.setLineDash([]);c.lineCap='butt'}
+function deedInto(c,D,lt,e,opt){c.save();clean(c);try{D.draw(c,lt,e.A,e.V,K,opt)}catch(x){console.error(x)}c.restore();clean(c)}
+function drawFilm(){const s=S[cur],e=ev(),D=DEEDS[e.deed],ps=ft>=6?1:0,lt=Math.min(ps?ft-6:ft,5.99),carry=stB().body;
+ if(ps!==pass){pass=ps;$('ctxline').textContent=ps?'SCENE 2 · the case · '+CASE[s.id].by+' · '+CASE[s.id].plate:'SCENE 1 · the deed · '+ROM[k]+' '+NAMES[k]+' · '+WHO[e.A]+' to '+WHO[e.V]+' · drawn as '+D.lineage.replace(/^SCION-[A-Z-]+ · /,'')}
+ try{MK=D.marks(lt,e.A,e.V,K,{carry})}catch(x){MK=null}
+ const fix=(b,dx)=>(!b||![b.x,b.y,b.w,b.h].every(isFinite)||b.w<8||b.h<8)?{x:dx,y:520,w:220,h:300}:{x:cl(0,1700,b.x),y:cl(60,960,b.y),w:cl(40,900,b.w),h:cl(40,900,b.h)};
+ MK={A:fix(MK&&MK.A,560),V:fix(MK&&MK.V,1180)};
+ clean(g);g.fillStyle='#000';g.fillRect(0,0,1920,1080);
+ if(!ps){deedInto(g,D,lt,e,{carry});return}
+ if(s.id==='draw'){ // the three layers every module can draw alone, pulled apart and put back
+  const sp=sm(.5,1.5,lt)*(1-sm(4.7,5.7,lt)),z=1-.26*sp;g.fillStyle='#17130f';g.fillRect(0,0,1920,1080);
+  [['bg','ROOM'],['V','VICTIM'],['A','DOER']].forEach(([ly,nm],i)=>{og.clearRect(0,0,1920,1080);deedInto(og,D,lt,e,{layer:ly,carry});
+   const x=960-960*z+(i-1)*250*sp,y=540-540*z+(1-i)*120*sp;if(sp>.02&&i===0){g.fillStyle='#000';g.fillRect(x,y,1920*z,1080*z)}
+   g.drawImage(off,x,y,1920*z,1080*z);if(sp>.02){g.strokeStyle=i?HL:PAPER;g.lineWidth=6;g.strokeRect(x,y,1920*z,1080*z);tagc(x+20,y+50,(i+1)+' · '+nm,{anc:'l',fs:38,bg:i?HL:PAPER})}});
+  const x0=260,w=1400,y=1040;g.fillStyle=PAPER;g.fillRect(x0,y,w,14);g.fillStyle=ACC;g.fillRect(x0+w*D.contact/6-5,y-22,10,58);g.fillStyle=HL;g.strokeStyle=INK;g.lineWidth=4;g.beginPath();g.arc(x0+w*lt/6,y+7,20,0,7);g.fill();g.stroke();
+  tagc(x0+w*D.contact/6,y-58,'contact '+D.contact.toFixed(1)+' s',{fs:34});tagc(30,62,short(D.lineage.replace(/^SCION-[A-Z-]+ · /,''),40),{anc:'l',fs:36})}
+ else if(s.id==='atlas'){ // the frame shrinks to one point among other films, placed by the same two numbers
+  deedInto(g,D,lt,e,{carry});og.clearRect(0,0,1920,1080);og.drawImage(cv,0,0);const u=sm(1.0,2.6,lt)*(1-sm(5.2,6,lt)),P=cloud(),X=b=>240+b*1480,Y=d=>930-d*190;
+  g.fillStyle=`rgba(244,238,221,${u})`;g.fillRect(0,0,1920,1080);g.globalAlpha=u;
+  for(let d=0;d<=4;d++){g.strokeStyle='rgba(29,24,18,.25)';g.lineWidth=3;g.beginPath();g.moveTo(240,Y(d));g.lineTo(1720,Y(d));g.stroke()}
+  P.forEach((p,i)=>{g.fillStyle=TCOL[p.t];g.fillRect(X(p.b)-20+(K.hash(i)-.5)*30,Y(p.d)-12+(K.hash(i*3.1)-.5)*110,40,24)});
+  g.globalAlpha=1;if(u>.5){tagc(1720,1030,'believability',{anc:'r',fs:38});tagc(30,62,'deaths 0 to 4, bottom to top',{anc:'l',fs:36})}
+  const z=lerp(1,.15,u),dth=IDS.filter(q=>!L.states[12].alive[q]).length,cx=lerp(960,X(SC.believ),u),cy=lerp(540,Y(dth),u);
+  g.drawImage(off,cx-960*z,cy-540*z,1920*z,1080*z);if(u>.05){g.strokeStyle=HL;g.lineWidth=10;g.strokeRect(cx-960*z,cy-540*z,1920*z,1080*z)}if(u>.9)tagc(cx,cy-540*z-50,'this film',{fs:40,bg:HL})}
+ else deedInto(g,D,lt,e,{carry});
+ g.save();try{ANN[s.id](lt,MK,e,D)}catch(x){console.error(x)}g.restore();clean(g)}
+
+// =====================================================================================================
+// THE GUIDE SACK. A tenant who is not in this deed (a witness if there is one) walks the page. It starts
+// inside the picture beside the sack it is talking about, jumps out over the frame onto the figure or a
+// control, and drops through the page to come back up inside the picture. Its line says what to look at.
+// =====================================================================================================
+const TOUR={
+ waldemar:[{at:'pt:960,900',say:'I am Waldemar. I wrote this.'},{at:'fig:300,170',tab:'fig',say:'Four, then five, then six.'},{at:'el:#next',say:'One part per page.'}],
+ sieve:[{at:'V',say:'A rule marks it down.'},{at:'fig:300,96',tab:'fig',say:'About 30 percent pass five rules.'}],
+ panel:[{at:'V',say:'One deed, just done.'},{at:'fig:120,60',tab:'fig',say:'Ten blocks read it.'},{at:'el:#next',say:'One block per page.'}],
+ controls:[{at:'pt:960,150',say:'A film is twelve choices.'},{at:'el:#ku',say:'Step through the deeds.'},{at:'el:#fn',say:'Type any film number.'}],
+ tiers:[{at:'V',say:'Would this pair do this?'},{at:'fig:140,62',tab:'fig',say:'Five words on one scale.'},{at:'el:#ku',say:'Try another deed.'}],
+ pie:[{at:'A',say:'Why this doer?'},{at:'fig:420,40',tab:'fig',say:'All twelve pairs, weighed.'},{at:'el:#dE',tab:'fig',say:'Turn up chance.'}],
+ tableau:[{at:'A',say:'This one does it.'},{at:'V',say:'This one suffers it.'},{at:()=>'fig:'+(124+k*34)+',308',tab:'fig',say:'One column per deed.'}],
+ audience:[{at:'pt:960,880',say:'A watcher guesses plans.'},{at:()=>'fig:'+(89+k*34.4)+',40',tab:'fig',say:'Four measures per deed.'},{at:'el:#ku',say:'Look for the twist.'}],
+ plot:[{at:'A',say:'The doer won this pull.'},{at:'fig:586,112',tab:'fig',say:'Beliefs move after it.'}],
+ barthes:[{at:'V',say:'The house names a type.'},{at:'fig:300,36',tab:'fig',say:'Grey before, red after.'}],
+ minds:[{at:'A',say:'What the doer remembers.'},{at:'fig:60,150',tab:'fig',say:'One plan at a time.'},{at:'el:#ctl button',tab:'fig',say:'Pick a tenant.'}],
+ four:[{at:'V',say:'The role changes the drawing.'},{at:'fig:150,112',tab:'fig',say:'Seven levers per sack.'}],
+ lies:[{at:'V',say:'One sentence each.'},{at:'fig:430,34',tab:'fig',say:'Red marks the break.'}],
+ step:[{at:'V',say:'Watch what the deed leaves.'},{at:'fig:300,62',tab:'fig',say:'Before, deed, after.'}],
+ draw:[{at:'pt:960,900',say:'Three layers, one module.'},{at:'fig:230,104',tab:'fig',say:'A function of time.'},{at:'el:#scrub',say:'Drag the time.'}],
+ atlas:[{at:'pt:420,900',say:'One film among many.'},{at:'fig:300,268',tab:'fig',say:'Where this film sits.'}]};
+const fx=$('fx'),fg=fx.getContext('2d'),say=$('say'),CLOTH={R:'#d6bf96',B:'#e8d5ae',I:'#e2cea5',O:'#f0e4c8'};
+function sizeFx(){const d=Math.min(2,devicePixelRatio||1);fx.width=innerWidth*d;fx.height=innerHeight*d;fg.setTransform(d,0,0,d,0,0)}
+// the sack as flat cut paper: body, two ears, and the one attribute that tells the four apart
+function sackArt(c,id,x,y,s,o){o=o||{};if(id==='W')return waldArt(c,x,y,s,o);const C=K.CAST[id],sq=o.sq||1,w=C.w*s/Math.sqrt(sq),h=C.h*s*sq,lw=Math.max(1.3,s*6.5);
+ c.save();c.translate(x,y);if(o.shadow!==0){c.fillStyle='rgba(0,0,0,.28)';c.beginPath();c.ellipse(0,1,w*.6,Math.max(2,h*.07),0,0,7);c.fill()}
+ c.translate(0,-(o.lift||0));c.transform(1,0,-(o.lean||0),1,0,0);
+ const bl=id==='B'?.09:id==='I'?.05:id==='R'?.08:.04,sag=(id==='I'?.2:.07)*h;
+ const body=()=>{c.beginPath();c.moveTo(-w*.4,0);c.lineTo(w*.4,0);c.quadraticCurveTo(w/2+bl*w*.6,-h*.02,w/2+bl*w,-h*.42);c.quadraticCurveTo(w/2+bl*w*.4,-h*.86,w*.48,-h);c.quadraticCurveTo(0,-h+sag,-w*.48,-h);c.quadraticCurveTo(-w/2-bl*w*.4,-h*.86,-w/2-bl*w,-h*.42);c.quadraticCurveTo(-w/2-bl*w*.6,-h*.02,-w*.4,0);c.closePath()};
+ c.lineJoin='round';c.lineWidth=lw;c.strokeStyle=INK;
+ const ear=sd=>{const pt=o.point===sd?1:0,e=(o.ear||0)+pt*.9;c.save();c.translate(sd*w*.44,-h*.97);
+  if(id==='I'){c.rotate(-sd*(.1+e*1.3)+(o.sway||0));c.beginPath();c.moveTo(-sd*w*.1,0);c.quadraticCurveTo(sd*w*.24,h*.3,sd*w*.1,h*.82);c.quadraticCurveTo(-sd*w*.06,h*.5,-sd*w*.14,h*.05);c.closePath();c.fillStyle='#bfa77c'}
+  else{const Ln=(id==='B'?.2:id==='R'?.28:.16)*h*(1+.6*pt);c.rotate(sd*(.55+e*.35)+(o.sway||0));c.beginPath();c.moveTo(-w*.1,h*.04);c.lineTo(0,-Ln);c.lineTo(w*.1,h*.04);c.closePath();c.fillStyle=id==='R'?'#6e3a33':id==='O'?'#7a3b8f':CLOTH[id]}
+  c.fill();c.stroke();c.restore()};
+ if(id!=='I'){ear(-1);ear(1)}
+ body();c.fillStyle=CLOTH[id];c.fill();c.save();body();c.clip();
+ if(id==='R'){c.fillStyle='#6e3a33';c.fillRect(-w,-h*1.2,2*w,h*.4);c.fillStyle='#57281f';for(let i=-5;i<=5;i++){c.beginPath();c.moveTo(i*w*.1-w*.04,-h*.8);c.lineTo(i*w*.1,-h*.72);c.lineTo(i*w*.1+w*.04,-h*.8);c.fill()}}
+ if(id==='B'){c.fillStyle='#2a2622';c.fillRect(-w,-h*.47,2*w,h*.08);c.strokeStyle='rgba(120,88,40,.85)';c.lineWidth=lw*.8;c.beginPath();c.arc(0,-h*.7,w*.14,0,7);c.moveTo(0,-h*.7+w*.11);c.lineTo(0,-h*.7-w*.1);c.stroke()}
+ if(id==='I'){c.strokeStyle='rgba(60,42,25,.5)';c.lineWidth=lw*.6;c.beginPath();c.moveTo(-w*.5,-h*.45);c.quadraticCurveTo(0,-h*.55,w*.5,-h*.44);c.stroke()}
+ c.restore();c.strokeStyle=INK;c.lineWidth=lw;body();c.stroke();
+ if(id==='I'){ear(-1);ear(1)}
+ if(id==='O'){c.fillStyle='#7a3b8f';c.strokeStyle='#4f2161';c.beginPath();c.moveTo(-w*.68,-h*.34);c.lineTo(-w*.66,-h*.95);c.quadraticCurveTo(-w*.6,-h*1.13,0,-h*1.12);c.quadraticCurveTo(w*.6,-h*1.13,w*.66,-h*.95);c.lineTo(w*.68,-h*.34);c.lineTo(w*.42,-h*.37);c.lineTo(w*.42,-h*.86);c.lineTo(-w*.42,-h*.86);c.lineTo(-w*.42,-h*.37);c.closePath();c.fill();c.stroke()}
+ c.restore()}
+const WC={w:112,h:190},HC=()=>H.id==='W'?WC:HC();
+function waldArt(c,x,y,s,o){const sq=o.sq||1,w=WC.w*s/Math.sqrt(sq),h=WC.h*s*sq,lw=Math.max(1.3,s*6.5);c.save();c.translate(x,y);c.fillStyle='rgba(0,0,0,.28)';c.beginPath();c.ellipse(0,1,w*.6,Math.max(2,h*.05),0,0,7);c.fill();
+ c.translate(0,-(o.lift||0));c.transform(1,0,-(o.lean||0)-(o.point||0)*.08,1,0,0);c.lineJoin='round';c.lineWidth=lw;c.strokeStyle=INK;
+ c.beginPath();c.moveTo(-w/2,0);c.lineTo(w/2,0);c.lineTo(w/2,-h*.86);c.lineTo(-w/2+w*.22,-h*.86);c.lineTo(-w/2,-h*.72);c.closePath();c.fillStyle='#efe6cf';c.fill();c.stroke();
+ c.fillStyle=INK;for(let r=0;r<4;r++)for(let q=0;q<5;q++)if(K.hash(r*7.3+q*3.1)>.42)c.fillRect(-w*.36+q*w*.16,-h*.5+r*h*.1,w*.07,h*.05);
+ c.fillStyle='#a3321f';c.fillRect(-w/2-lw,-h*.74,w+2*lw,h*.09);c.strokeRect(-w/2-lw,-h*.74,w+2*lw,h*.09);c.beginPath();c.moveTo(w*.2,-h*.66);c.lineTo(w*.42+(o.sway||0)*w,-h*.42);c.lineTo(w*.22,-h*.44);c.closePath();c.fill();c.stroke();
+ c.fillStyle='#2a2622';c.fillRect(-w*.34,-h*1.04,w*.68,h*.19);c.fillRect(-w*.56,-h*.87,w*1.12,h*.04);c.strokeRect(-w*.56,-h*.87,w*1.12,h*.04);c.restore()}
+// where the picture actually sits inside the canvas box (it is letterboxed when the box is not 16:9)
+function filmRect(){const r=cv.getBoundingClientRect(),sc=Math.min(r.width/1920,r.height/1080);return{l:r.left+(r.width-1920*sc)/2,t:r.top+(r.height-1080*sc)/2,w:1920*sc,h:1080*sc,sc,ok:r.width>4}}
+const sOf=px=>px/Math.max(HC().h,HC().w*.85),uiPx=()=>cl(32,54,innerWidth*.09);
+function where(st){let at=typeof st.at==='function'?st.at():st.at;const F=filmRect();
+ const fs=sOf(F.h*.15),hw=HC().w*fs/Math.max(F.sc,1e-6)/2,inFilm=(x,y,dir)=>F.ok?{x:F.l+x*F.sc,y:F.t+y*F.sc,s:fs,zone:'film',dir,ok:true}:{ok:false};
+ if(at==='A'||at==='V'){if(!MK)return{ok:false};const b=MK[at],left=at==='A'?b.x>210:b.x+b.w>1700;return inFilm(left?b.x-60-hw:b.x+b.w+60+hw,Math.min(1040,b.y+b.h),left?1:-1)}
+ if(at.startsWith('pt:')){const[x,y]=at.slice(3).split(',').map(Number);return inFilm(x,y,0)}
+ if(at.startsWith('fig:')){if(!SV)return{ok:false};const r=SV.getBoundingClientRect();if(r.width<8||r.height<8)return{ok:false};const[x,y]=at.slice(4).split(',').map(Number),sc=Math.min(r.width/600,r.height/350);
+  return{x:r.left+(r.width-600*sc)/2+x*sc,y:r.top+(r.height-350*sc)/2+y*sc,s:sOf(uiPx()),zone:'ui',dir:0,ok:true}}
+ const elx=document.querySelector(at.slice(3));if(!elx)return{ok:false};const r=elx.getBoundingClientRect();if(r.width<4)return{ok:false};
+ return{x:r.left+r.width/2,y:r.top+1,s:sOf(uiPx()),zone:'ui',dir:0,ok:true,el:elx}}
+const H={id:'W',x:-80,y:300,s:.2,zone:'film',mode:'idle',t0:0,step:-1,auto:true,from:null,to:null,dur:.5,parts:[],lit:null,sayOn:false};
+function narrator(){const e=ev(),fr=stA().frames[k],c=IDS.filter(q=>q!==e.A&&q!==e.V);return fr.inhabitants.find(q=>c.includes(q))||c.find(q=>stA().alive[q])||c[0]}
+function puff(x,y,n){for(let i=0;i<n;i++)H.parts.push({x,y,vx:(Math.random()-.5)*90,vy:-20-Math.random()*60,t:0})}
+function goStep(i){const steps=TOUR[S[cur].id];if(!steps)return;H.step=((i%steps.length)+steps.length)%steps.length;const st=steps[H.step];
+ if(st.tab)setPane(st.tab);if(typeof st.at==='string'&&st.at.startsWith('el:')){const q=document.querySelector(st.at.slice(3));if(q&&q.closest('#panes'))q.scrollIntoView({block:'nearest'})}if(H.lit){H.lit.classList.remove('lit');H.lit=null}say.style.display='none';H.sayOn=false;
+ $('tour').textContent='GUIDE '+(H.step+1)+'/'+steps.length;
+ requestAnimationFrame(()=>{let to=where(st);if(!to.ok)to=where({at:'V'});if(!to.ok)return;const now=performance.now()/1000;
+  H.from={x:H.x,y:H.y,s:H.s,zone:H.zone};H.to=to;H.t0=now;const d=Math.hypot(to.x-H.x,to.y-H.y);
+  if(RM){H.mode='idle';Object.assign(H,{x:to.x,y:to.y,s:to.s,zone:to.zone});land()}
+  else if(H.zone==='ui'&&to.zone==='film'){H.mode='sink';H.dur=.38}
+  else{H.mode='hop';H.dur=cl(.34,.7,d/620);puff(H.x,H.y,4)}})}
+function land(){const st=TOUR[S[cur].id][H.step];H.t0=performance.now()/1000;H.mode='idle';puff(H.x,H.y,6);
+ if(H.to&&H.to.el){H.lit=H.to.el;H.lit.classList.add('lit')}say.textContent=st.say;say.style.display='block';H.sayOn=true}
+function host(now,dt){const d=Math.min(2,devicePixelRatio||1);fg.setTransform(d,0,0,d,0,0);fg.clearRect(0,0,innerWidth,innerHeight);
+ const steps=TOUR[S[cur].id];if(!steps||H.step<0||document.body.classList.contains('zoom'))return;
+ const st=steps[H.step],C=HC();let o={sq:1,lean:0,ear:0,lift:0,sway:.05*Math.sin(now*2.3)},clip=null;
+ if(H.mode==='hop'){const an=.12,u=(now-H.t0-an)/H.dur,f=H.from,to=H.to;
+  if(u<0){o.sq=1-.22*sm(0,an,now-H.t0)}
+  else if(u<1){const e=u*u*(3-2*u),hgt=Math.max(34,Math.abs(to.x-f.x)*.28)+Math.max(0,f.y-to.y)*.25;H.x=lerp(f.x,to.x,e);H.y=lerp(f.y,to.y,e);H.s=lerp(f.s,to.s,e);o.lift=hgt*4*u*(1-u);o.sq=1.14;o.lean=cl(-.3,.3,(to.x-f.x)/500)*(1-u);o.ear=-.6*(1-2*u)}
+  else{Object.assign(H,{x:to.x,y:to.y,s:to.s,zone:to.zone});land()}}
+ else if(H.mode==='sink'){const u=(now-H.t0)/H.dur,hh=C.h*H.s*1.5;clip=[0,0,innerWidth,H.from.y];H.y=H.from.y+hh*u*u;o.sq=1-.1*u;
+  if(u>=1){const F=filmRect(),to=H.to;H.x=to.x;H.s=to.s;H.zone='film';H.from={x:to.x,y:F.t+F.h+C.h*to.s*1.3,s:to.s,zone:'film'};H.y=H.from.y;H.mode='rise';H.t0=now;H.dur=.5}}
+ else if(H.mode==='rise'){const u=cl(0,1,(now-H.t0)/H.dur),F=filmRect(),e=1-Math.pow(1-u,3)+.12*Math.sin(u*Math.PI);clip=[F.l,F.t,F.w,F.h];H.y=lerp(H.from.y,H.to.y,e);o.sq=1+.1*(1-u);o.ear=.5*(1-u);
+  if(u>=1){H.y=H.to.y;land()}}
+ else{ // standing: keep beside a target that moves, breathe, point
+  const to=where(st);if(to.ok){H.x+=(to.x-H.x)*Math.min(1,dt*6);H.y+=(to.y-H.y)*Math.min(1,dt*6);H.s+=(to.s-H.s)*Math.min(1,dt*6);o.point=to.dir||0;if(H.zone==='film'){const F=filmRect();clip=[F.l,F.t,F.w,F.h]}}
+  else if(H.zone==='ui'&&now-H.t0>.4){goStep(0);return}
+  const b=now-H.t0;o.sq=1+.02*Math.sin(now*2.2)-(b<.3?.2*Math.sin(b/.3*Math.PI)*(1-b/.3):0);
+  if(H.auto&&!RM&&b>4.6&&H.step<steps.length-1){const nx=steps[H.step+1];if(!(nx.tab&&nx.tab!==pane&&getComputedStyle($('tabs')).display!=='none')){goStep(H.step+1);return}}}
+ fg.save();if(clip){fg.beginPath();fg.rect(clip[0],clip[1],clip[2],clip[3]);fg.clip()}
+ sackArt(fg,H.id,H.x,H.y,H.s,o);fg.restore();
+ H.parts=H.parts.filter(p=>(p.t+=dt)<.5);for(const p of H.parts){p.x+=p.vx*dt;p.y+=p.vy*dt;fg.fillStyle=`rgba(251,247,238,${1-p.t/.5})`;fg.strokeStyle=`rgba(29,24,18,${.5*(1-p.t/.5)})`;fg.lineWidth=1;fg.beginPath();fg.arc(p.x,p.y,2+5*p.t,0,7);fg.fill();fg.stroke()}
+ if(H.sayOn){const hh=C.h*H.s*(H.id==='O'?1.2:1.05),w=say.offsetWidth,ht=say.offsetHeight;let top=H.zone==='film'?H.y+7:H.y-hh-ht-8;if(top<4)top=H.y+10;say.style.left=cl(4,innerWidth-w-4,H.x-w/2)+'px';say.style.top=top+'px'}}
+
+// ---- panes, slides, controls
+function setPane(p){pane=p;document.querySelectorAll('#tabs [data-p]').forEach(b=>b.setAttribute('aria-selected',b.dataset.p===p));document.querySelectorAll('.pane').forEach(d=>d.classList.toggle('on',d.id==='p-'+p));$('panes').scrollTop=0}
+function show(i,keep){cur=Math.max(0,Math.min(S.length-1,i));const s=S[cur],e=ev();$('stage').textContent='';$('ctl').textContent='';$('no').textContent=String(cur+1).padStart(2,'0')+'/'+S.length;$('title').textContent=s.t;$('q').textContent=s.q;$('what').textContent=s.what;$('how').textContent=s.how;$('from').textContent=s.from;$('src').textContent='code: '+s.src;
+ $('kk').textContent='deed '+ROM[k];pass=-1;$('by').textContent='The case · '+CASE[s.id].by;$('prog').textContent='';for(const[a,b,c]of CASE[s.id].prog()){const x=document.createElement('b');x.textContent=a;const y=document.createElement('span');y.textContent=b;$('prog').append(x,y);if(c){const z=document.createElement('i');z.textContent=c;$('prog').append(z)}}$('back').href=$('back2').href='film.html?n='+enc(film);
  s.r();SV.setAttribute('aria-label',s.q);document.querySelectorAll('#ticks button').forEach((b,j)=>b.setAttribute('aria-current',j===cur));$('prev').disabled=!cur;$('next').disabled=cur===S.length-1;
+ if(!keep){setPane('what');ft=0}try{drawFilm()}catch(x){console.error(x)}dirty=true;H.id='W';H.auto=true;goStep(0);
  try{history.replaceState(null,'','?n='+enc(film)+'&k='+(k+1)+'#'+s.id)}catch(x){}}
 function go(id){const i=S.findIndex(s=>s.id===id);show(i<0?0:i)}
-function setK(v){k=(v+12)%12;show(cur)}
-function setFilm(v){let n=BigInt((String(v).replace(/[^0-9]/g,''))||'0');if(n>=12n**12n)n=12n**12n-1n;film=dec(n);compute();$('fn').value=n.toLocaleString('en-US');show(cur)}
+function setK(v){k=(v+12)%12;ft=0;show(cur,true)}
+function setFilm(v){let n=BigInt((String(v).replace(/[^0-9]/g,''))||'0');if(n>=12n**12n)n=12n**12n-1n;film=dec(n);compute();$('fn').value=n.toLocaleString('en-US');ft=0;show(cur,true)}
+function setPlay(p){playing=p;$('pp').textContent=p?'PAUSE':'PLAY'}
 S.forEach((s,i)=>{const b=document.createElement('button');b.setAttribute('aria-label',s.t);b.onclick=()=>show(i);$('ticks').appendChild(b)});
 $('prev').onclick=()=>show(cur-1);$('next').onclick=()=>show(cur+1);$('kd').onclick=()=>setK(k-1);$('ku').onclick=()=>setK(k+1);$('fn').onchange=e=>setFilm(e.target.value);
-addEventListener('keydown',e=>{if(e.target.tagName==='INPUT')return;if(e.key==='ArrowRight')show(cur+1);else if(e.key==='ArrowLeft')show(cur-1);else if(e.key==='ArrowDown')setK(k+1);else if(e.key==='ArrowUp')setK(k-1)});
-addEventListener('hashchange',()=>go(location.hash.slice(1)));
+$('pp').onclick=()=>setPlay(!playing);cv.onclick=()=>setPlay(!playing);$('scrub').oninput=e=>{ft=e.target.value/100;setPlay(false);dirty=true};
+$('tour').onclick=()=>{H.auto=false;goStep(H.step+1)};
+document.querySelectorAll('#tabs [data-p]').forEach(b=>b.onclick=()=>{H.auto=false;setPane(b.dataset.p)});
+$('zoom').onclick=()=>{const z=document.body.classList.toggle('zoom');$('zoom').setAttribute('aria-pressed',z);if(z)setPane('fig')};
+addEventListener('keydown',e=>{if(e.target.tagName==='INPUT')return;if(e.key==='ArrowRight')show(cur+1);else if(e.key==='ArrowLeft')show(cur-1);else if(e.key==='ArrowDown')setK(k+1);else if(e.key==='ArrowUp')setK(k-1);else if(e.key===' '){e.preventDefault();setPlay(!playing)}});
+addEventListener('hashchange',()=>go(location.hash.slice(1)));addEventListener('resize',sizeFx);
+function tick(ms){requestAnimationFrame(tick);const now=ms/1000,dt=Math.min(.1,now-lastNow||0);lastNow=now;
+ if(playing){ft=(ft+dt)%LOOP;$('scrub').value=Math.round(Math.min(ft,12)*100)}
+ if((playing||dirty)&&now-lastDraw>=gapD&&!document.body.classList.contains('zoom')){lastDraw=now;dirty=false;const c0=performance.now();drawFilm();gapD=cl(.05,.5,(performance.now()-c0)/1000*2)}
+ host(now,dt)}
 const qp=new URLSearchParams(location.search);if(qp.get('k'))k=Math.max(0,Math.min(11,+qp.get('k')-1));
-film=dec((qp.get('n')||'1541585241617').replace(/[^0-9]/g,'')||'0');compute();$('fn').value=enc(film).toLocaleString('en-US');go(location.hash.slice(1));
+film=dec((qp.get('n')||'1541585241617').replace(/[^0-9]/g,'')||'0');compute();$('fn').value=enc(film).toLocaleString('en-US');sizeFx();setPlay(playing);go(location.hash.slice(1));requestAnimationFrame(tick);
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>{dirty=true});
 </script></body></html>
