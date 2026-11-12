@@ -1,0 +1,210 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<title>Film Bank Guide</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="What each part of the film bank's side panel means, where it comes from and how it is computed, shown on the film and deed you choose.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800&family=JetBrains+Mono:wght@400;600&family=Literata:opsz,wght@7..72,400;7..72,500&display=swap" rel="stylesheet">
+<style>
+/* Layout: one topic per screen, no page scroll. Diagram on top (left on a desk), words below (right). The film bank's paper palette, so the guide reads as the same panel explained. */
+:root{--bg:#f1ebdf;--card:#faf6ee;--fg:#1d1812;--mute:#6f6456;--line:#d3c8b4;--acc:#a3321f;--flour:#ece6d8;--hl:#ffdc00;
+ --R:#6e3a33;--B:#2a2622;--I:#b0915e;--O:#7a3b8f;--T1:#a3321f;--T2:#b0752a;--T3:#5d7a3a;--T4:#2f6f7a;--T5:#3d3a8a;
+ --disp:"Big Shoulders Display","Arial Narrow",Impact,sans-serif;--body:"Literata",Georgia,serif;--mono:"JetBrains Mono",ui-monospace,Menlo,monospace}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#121110;--card:#1a1816;--fg:#ece3d2;--mute:#958a7a;--line:#2e2a25;--acc:#e0603f;--flour:#2a2722;--hl:#c9a800;--R:#c67a6e;--B:#a39b8e;--I:#d4b67e;--O:#b583c8;--T1:#e0603f;--T2:#d9a04e;--T3:#9bbf6e;--T4:#6fb6c2;--T5:#8f8be0;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#121110;--card:#1a1816;--fg:#ece3d2;--mute:#958a7a;--line:#2e2a25;--acc:#e0603f;--flour:#2a2722;--hl:#c9a800;--R:#c67a6e;--B:#a39b8e;--I:#d4b67e;--O:#b583c8;--T1:#e0603f;--T2:#d9a04e;--T3:#9bbf6e;--T4:#6fb6c2;--T5:#8f8be0;color-scheme:dark}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--fg);font:15px/1.5 var(--body);display:grid;grid-template-rows:auto minmax(0,1fr) auto}
+header{padding:8px 14px 6px;border-bottom:1.5px solid var(--fg);display:grid;gap:5px}
+.r{display:flex;gap:6px 10px;flex-wrap:wrap;align-items:center}
+h1{font:800 clamp(24px,5vw,38px)/1 var(--disp);text-transform:uppercase;margin:0;flex:1 1 10ch}
+#no{font:600 15px var(--mono);color:var(--acc)}
+.links{font:11px var(--mono)}.links a{color:var(--acc)}
+.ctx{font:11.5px var(--mono);color:var(--mute)}
+.ctx input{font:12px var(--mono);width:12.5em;padding:3px 5px;border:1px solid var(--fg);background:var(--card);color:var(--fg)}
+button{font:600 11px var(--mono);letter-spacing:.05em;color:var(--fg);background:var(--card);border:1px solid var(--fg);padding:5px 8px;cursor:pointer}
+button[aria-pressed="true"]{background:var(--fg);color:var(--bg)}
+button:focus-visible,input:focus-visible,a:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+main{display:grid;grid-template-rows:minmax(0,1.2fr) minmax(0,1fr);min-height:0}
+#sw{display:grid;grid-template-rows:minmax(0,1fr) auto;gap:4px;padding:8px 14px 4px;min-height:0}
+#stage{position:relative;min-height:0}
+#stage svg{position:absolute;inset:0;width:100%;height:100%}
+#ctl{display:flex;gap:6px 10px;flex-wrap:wrap;align-items:center;min-height:28px;font:11.5px var(--mono)}
+#ctl input[type=range]{accent-color:var(--acc);width:min(30vw,150px)}
+#words{overflow:auto;padding:10px 14px 14px;border-top:1px solid var(--line);background:var(--card)}
+#q{font:italic 19px/1.3 var(--body);margin:0 0 8px;max-width:40ch;text-wrap:balance}
+#words h2{font:600 10.5px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--acc);margin:10px 0 2px}
+#words p{margin:0 0 4px;max-width:64ch}
+#words .src{font:11.5px/1.45 var(--mono);color:var(--mute)}
+footer{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:8px;align-items:center;padding:7px 14px;border-top:1.5px solid var(--fg)}
+#ticks{display:flex;gap:3px}#ticks button{flex:1;height:14px;padding:0;min-width:0;background:transparent}
+#ticks button[aria-current="true"]{background:var(--acc);border-color:var(--acc)}
+svg text{font-family:var(--mono);font-size:11px;fill:var(--fg)}
+svg .g{fill:var(--mute)}svg .c{fill:var(--acc)}svg .b{font-weight:600}svg .d{font-family:var(--disp);font-size:19px;font-weight:800;text-transform:uppercase}
+svg .ln{stroke:var(--fg);stroke-width:1.2;fill:none}svg .th{stroke:var(--line);stroke-width:1;fill:none}svg .al{stroke:var(--acc);stroke-width:1.8;fill:none}
+svg .bx{fill:var(--card);stroke:var(--fg);stroke-width:1.1}svg .fl{fill:var(--flour);stroke:var(--fg);stroke-width:1.1}svg .ink{fill:var(--fg)}svg .acc{fill:var(--acc)}svg .tr{fill:var(--line)}svg .hl{fill:var(--hl)}
+svg .tap{cursor:pointer}
+@media (min-width:900px){main{grid-template-rows:none;grid-template-columns:minmax(0,1.45fr) minmax(0,1fr)}#words{border-top:0;border-left:1px solid var(--line);padding:16px 18px}#q{font-size:23px}}
+</style></head><body>
+<header>
+ <div class="r"><span id="no"></span><h1 id="title"></h1><span class="links"><a href="film.html" id="back">back to the film bank</a> · <a href="player.html">deed bank</a> · <a href="numbers.html">numbers</a></span></div>
+ <div class="r ctx"><label for="fn">film</label><input id="fn" inputmode="numeric" aria-label="Film number"><button id="kd" aria-label="Previous deed">&lsaquo;</button><span id="kk"></span><button id="ku" aria-label="Next deed">&rsaquo;</button><span id="ctxline"></span></div>
+</header>
+<main>
+ <div id="sw"><div id="stage"></div><div id="ctl"></div></div>
+ <div id="words"><p id="q"></p><h2>What you are looking at</h2><p id="what"></p><h2>How it is worked out</h2><p id="how"></p><h2>Where it comes from</h2><p id="from"></p><p class="src" id="src"></p></div>
+</main>
+<footer><button id="prev">BACK</button><div id="ticks"></div><button id="next">NEXT</button></footer>
+<script src="ledger.js"></script><script src="story.js"></script><script src="agents.js"></script><script src="crossed.js"></script>
+<script>
+const NS='http://www.w3.org/2000/svg',$=id=>document.getElementById(id);
+const IDS=LEDGER.IDS,PAIRS=LEDGER.PAIRS,ORDER=LEDGER.ORDER,WHO={R:'Roessler',B:'Belindo',I:'Inigo',O:'Ogiva'},ROM=['I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII'],NAMES=STORY.NAMES;
+const TIER={PREPOSTEROUS:'--T1',POSSIBLE:'--T2',PLAUSIBLE:'--T3',PROBABLE:'--T4',CERTAIN:'--T5'};
+const dec=n=>{n=BigInt(n);const d=[];for(let k=0;k<12;k++){d.unshift(Number(n%12n));n/=12n}return d},enc=d=>d.reduce((n,x)=>n*12n+BigInt(x),0n);
+const f2=x=>(+x).toFixed(2),sig=x=>1/(1+Math.exp(-x));
+let SV;const el=(n,a,t)=>{const e=document.createElementNS(NS,n);for(const k in a)e.setAttribute(k,a[k]);if(t!==undefined)e.textContent=t;return e};
+const svg=()=>{SV=el('svg',{viewBox:'0 0 600 350',preserveAspectRatio:'xMidYMid meet',role:'img'});$('stage').appendChild(SV);const df=el('defs',{}),m=el('marker',{id:'ah',viewBox:'0 0 8 8',refX:7,refY:4,markerWidth:6,markerHeight:6,orient:'auto'});m.appendChild(el('path',{d:'M0 0L8 4L0 8z',class:'ink'}));df.appendChild(m);SV.appendChild(df)};
+const A=(n,a,t)=>SV.appendChild(el(n,a,t)),T=(x,y,s,c='',anc='start')=>A('text',{x,y,class:c,'text-anchor':anc},s);
+const ctl=h=>$('ctl').insertAdjacentHTML('beforeend',h);
+const bar=(x,y,w,h,v,col)=>{A('rect',{x,y,width:w,height:h,class:'tr'});A('rect',{x,y,width:Math.max(0,Math.min(1,v))*w,height:h,fill:col||'var(--fg)'})};
+const dot=(x,y,id,r=6)=>A('circle',{cx:x,cy:y,r,fill:`var(--${id})`,stroke:'var(--fg)','stroke-width':.8});
+const wrap=(x,y,s,w,c='',lh=14)=>{const ws=s.split(' ');let line='',n=0;for(const wd of ws){if((line+' '+wd).length>w){T(x,y+n*lh,line,c);n++;line=wd}else line=line?line+' '+wd:wd}if(line){T(x,y+n*lh,line,c);n++}return n};
+// ---- the film and deed being explained: every number on every slide is computed from these by the film bank's own modules
+let film=dec('1541585241617'),k=5,L,SC,AUD,STR,LIES,MINDS,who='R',pie={P:.5,I:.5,E:.4};
+function compute(){L=LEDGER.run(film);SC=STORY.score(film);AUD=CROSSED.audience(film);STR=CROSSED.strands(film,AUD);LIES=STORY.lies(film);MINDS=AGENTS.minds(film)}
+const ev=()=>L.ev[k],stB=()=>L.states[k],stA=()=>L.states[k+1];
+
+const S=[
+{id:'panel',t:'The panel in one picture',q:'Ten blocks, and each one answers a different question about the same film.',
+ what:'The side panel of the film bank, top to bottom. Tap a block to go to its explanation.',
+ how:'Everything in the panel is computed from one thing: the film\'s twelve choices of who does each deed to whom. Nothing is stored per film.',
+ from:'The blocks were added one reading at a time; the numbers page lists the readings in the order they were used.',src:'live/film.html',
+ r(){svg();[['controls','Controls','what do the buttons do'],['tiers','This film: believability','how likely is this story'],['tableau','The tableau','what is each tenant\'s own story'],['audience','The audience','what would a watcher guess'],['plot','PLoT','what did the house just learn'],['barthes','Barthes: the match','what role is each tenant given'],['minds','The minds','what does each tenant think and plan'],['four','The four','how does a role change the drawing'],['lies','The lies','what does each tenant tell itself'],['index','The index','how is each deed rated']].forEach((b,i)=>{const col=i%2,row=Math.floor(i/2),x=20+col*290,y=14+row*66;const r=A('rect',{x,y,width:270,height:54,class:'fl tap'});r.addEventListener('click',()=>go(b[0]==='index'?'tiers':b[0]));T(x+12,y+23,b[1].toUpperCase(),'b');T(x+12,y+41,b[2],'g')})}},
+{id:'controls',t:'The controls, by job',q:'Twenty buttons do five jobs.',
+ what:'The same buttons the panel has, sorted by what they are for. Only the third group changes which film you are watching.',
+ how:'MOST LIKELY runs a tree search for the highest believability. LET THEM DECIDE lets the four tenants choose each deed under the three PIE dials. IRONY, SUSPENSE and TWIST search for a film that maximises that effect on a watcher. SIX MEMOS keeps the best film of each kind. OPENINGS runs all 1,728 three-deed openings.',
+ from:'Each generator is a different answer to Calvino\'s question of which story to keep.',src:'live/film.html, button row; story.js mcts; agents.js generate; crossed.js author, openings',
+ r(){svg();const G=[['Play','film number · PLAY FILM · ROLL · PAUSE · PACE'],['Look','LEVERS · WATCH RENDER · T ZERO'],['Choose the film','MOST LIKELY · LET THEM DECIDE + PIE · IRONY · SUSPENSE · TWIST · SIX MEMOS · OPENINGS'],['See the space','ATLAS: MAP · TREE · SIX MEMOS · COMPARE'],['Take it away','LEGOS (the film as a text file)']];
+  G.forEach((g,i)=>{const y=14+i*66;A('rect',{x:20,y,width:560,height:54,class:i===2?'bx':'fl'});if(i===2)A('rect',{x:20,y,width:6,height:54,class:'acc'});T(36,y+23,(i+1)+' · '+g[0].toUpperCase(),'b');T(36,y+41,g[1],'g')})}},
+{id:'tiers',t:'Believability and the five words',q:'Every deed gets a number from 0 to 1, and the number gets a word.',
+ what:'The scale with its four cut points, and this film\'s twelve deeds placed on it. The selected deed is ringed, with the reasons the scorer gave for it.',
+ how:'Start with how well the deed fits the doer (a table of motives), times how much the victim invites it. Then multiply by what has happened: the dead cannot act, physical deeds need strength, Calvino\'s narrator\'s rules, grudge and guilt, and the role the house gives the doer. The film\'s score is the geometric mean of its twelve deeds. Log P adds up how likely each chosen pair was among the twelve possible.',
+ from:'The five words are the scorer\'s own bands. The rules are paraphrased from the story\'s narrator.',src:'live/story.js: rate(), tier(), dist(), score()',
+ r(){svg();const x0=40,x1=560,X=v=>x0+(x1-x0)*v;[[0,.05,'PREPOSTEROUS'],[.05,.30,'POSSIBLE'],[.30,.70,'PLAUSIBLE'],[.70,.95,'PROBABLE'],[.95,1,'CERTAIN']].forEach(([a,b,n],i)=>{A('rect',{x:X(a),y:40,width:X(b)-X(a),height:26,fill:`var(${TIER[n]})`,opacity:.85});T((X(a)+X(b))/2,i%2?90:30,n,'g','middle')});
+  [.05,.30,.70,.95].forEach(v=>T(X(v),80,String(v),'','middle'));
+  SC.ev.forEach((e,i)=>{const x=X(e.raw),y=108+(i%6)*15;A('line',{x1:x,y1:66,x2:x,y2:y-9,class:'th'});const c=A('circle',{cx:x,cy:y-4,r:i===k?8:5,fill:i===k?'var(--hl)':'var(--card)',stroke:'var(--fg)',class:'tap'});c.addEventListener('click',()=>setK(i));T(x+10,y,ROM[i],i===k?'b':'g')});
+  const e=SC.ev[k];T(40,205,`${ROM[k]} ${NAMES[k]} · ${WHO[e.A]} to ${WHO[e.V]} · ${f2(e.raw)} ${e.tier} · p ${e.p.toFixed(3)} of 12 pairs`,'b');e.why.slice(0,5).forEach((w,i)=>T(40,225+i*16,'· '+w,'g'));
+  T(40,330,`film: believability ${f2(SC.believ)} ${SC.tier} · log P ${SC.logp.toFixed(1)}`,'c b')}},
+{id:'pie',t:'PIE: three dials',q:'The same house, asked to choose by interest, by role, or by chance.',
+ what:'The twelve pairs who could do this deed, with the chance the tenants would pick each under the dials below. The yellow bar is the pair this film actually has.',
+ how:'P mixes two scores for each pair: a practical one (motive, grudge, fear, strength) and a symbolic one (the roles the house has given doer and victim). I chooses whose beliefs count: the doer\'s own or the house\'s average. E sets how much chance enters the pick; at zero the best pair always wins.',
+ from:'PIE is from Growing Entanglements (Hartsoe, 2024), built on the dispute over Captain Cook\'s death: Sahlins reads Hawaiian action through cosmology, Obeyesekere through practical reason. PIE keeps both readings available and gives the disagreement handles. There the third dial is entropic, breakdown against reorganisation; here it is labelled order and chance.',src:'live/agents.js: utility(), generate() · aphoristic-social-models/index.html',
+ r(){svg();const g=A('g',{});const draw=()=>{g.textContent='';const keep=SV;SV=g;const st=stB(),it=MINDS.per[k].intent,U=PAIRS.map(([a,v])=>AGENTS.utility(st,k,a,v,{intent:it},pie)),tau=.08+pie.E*1.6,lg=U.map(u=>Math.log(Math.max(u,1e-12))/tau),mx=Math.max(...lg),w=lg.map(x=>Math.exp(x-mx)),z=w.reduce((a,b)=>a+b,0),p=w.map(x=>x/z),pm=Math.max(...p);
+   T(20,16,`${ROM[k]} ${NAMES[k]}: who would the tenants pick?`,'b');PAIRS.forEach(([a,v],i)=>{const y=26+i*26;dot(30,y+11,a);T(42,y+15,'→');dot(62,y+11,v);T(76,y+15,WHO[a]+' to '+WHO[v],i===film[k]?'b':'g');A('rect',{x:230,y:y+3,width:300,height:16,class:'tr'});A('rect',{x:230,y:y+3,width:300*p[i]/pm,height:16,fill:i===film[k]?'var(--hl)':'var(--fg)',stroke:'var(--fg)','stroke-width':i===film[k]?1:0});T(538,y+15,f2(p[i]))});SV=keep};
+  ctl('<label>symbolic <input type="range" id="dP" min="0" max="100" value="'+pie.P*100+'"> practical</label><label>collective <input type="range" id="dI" min="0" max="100" value="'+pie.I*100+'"> individual</label><label>order <input type="range" id="dE" min="0" max="100" value="'+pie.E*100+'"> chance</label>');
+  for(const d of 'PIE'){$('d'+d).oninput=e=>{pie[d]=e.target.value/100;draw()}}draw()}},
+{id:'tableau',t:'The tableau',q:'Read across a row and you have one tenant\'s story.',
+ what:'Rows are tenants, columns are deeds. A filled square: the tenant does the deed. An outlined square: it is done to them. A dot: they witness it. The word at the right rates the row.',
+ how:'A strand is the deeds a tenant takes part in. Its score is the geometric mean of those deeds\' believability. It holds if that is above 0.30 and the tenant is never asked to act while dead or tied.',
+ from:'Calvino\'s Castle of Crossed Destinies lays tarot cards in a grid so each card belongs to two stories at once. Here every deed is a card in two strands, the doer\'s and the victim\'s.',src:'live/crossed.js: strands()',
+ r(){svg();const x0=110,cw=34;ROM.forEach((r,i)=>{T(x0+i*cw+cw/2-2,28,r,i===k?'b':'g','middle')});A('rect',{x:x0+k*cw-2,y:36,width:cw,height:4*52,fill:'var(--hl)',opacity:.25});
+  IDS.forEach((s,ri)=>{const y=42+ri*52,P=STR.per[s];dot(24,y+18,s);T(36,y+22,WHO[s],'b');P.cards.forEach((c,i)=>{const x=x0+i*cw,bx=A('rect',{x:x+2,y:y+3,width:cw-8,height:cw-8,fill:c.role==='A'?`var(--${s})`:'var(--card)',stroke:c.role==='V'?`var(--${c.other})`:'var(--line)','stroke-width':c.role==='V'?2.5:1,class:'tap',opacity:c.dead?.35:1});bx.addEventListener('click',()=>setK(i));
+    if(c.role==='A'||c.role==='V')A('text',{x:x+cw/2-2,y:y+21,'text-anchor':'middle',style:`font-size:9px;fill:${c.role==='A'?'#fff':'var(--fg)'}`},(c.role==='A'?'→':'←')+c.other);if(c.role==='W')A('circle',{cx:x+cw/2-2,cy:y+16,r:2.5,class:'ink'})});
+   T(x0+12*cw+6,y+16,f2(P.believ),'b');A('text',{x:x0+12*cw+6,y:y+30,style:`font-size:10px;fill:var(${TIER[P.tier]})`},P.tier.slice(0,4)+(P.holds?'':' · fails'))});
+  T(20,280,`strands holding: ${STR.holding} of 4 · weakest: ${WHO[STR.weakest]} ${f2(STR.min)}`,'c b');T(20,300,'filled = does · outlined = suffers (outline is the doer\'s colour) · dot = witnesses','g')}},
+{id:'audience',t:'The audience',q:'A watcher who sees each deed guesses what every tenant is planning.',
+ what:'Four lines across the twelve deeds, with this deed marked. Below, what the watcher suspected of each tenant just before this deed, and what the tenant had in fact decided.',
+ how:'The watcher holds ten guesses per tenant: no plan, or one of three plans against each other tenant. Before each deed it predicts the twelve pairs from those guesses; after, it updates by Bayes\' rule. Surprise is how unlikely the deed was. Twist is how far the guesses moved. Suspense is how uncertain it is that the next deadly deed will kill. Irony is the watcher believing the doer means harm while the victim does not think the doer dangerous.',
+ from:'Inverse planning: Baker, Saxe and Tenenbaum model how people infer goals from actions. Chandra, Li, Tenenbaum and Ragan-Kelley turn it around for storytelling: choose the events so the watcher\'s inferences go where the author wants.',src:'live/crossed.js: audience(), observe()',
+ r(){svg();const M=[['surprise',1.5],['twist',1.2],['suspense',1],['irony',1]],x0=90,x1=470,X=i=>x0+(x1-x0)*i/11;A('rect',{x:X(k)-8,y:6,width:16,height:150,fill:'var(--hl)',opacity:.3});
+  M.forEach(([m,mx],r)=>{const y=14+r*38;T(20,y+20,m,'b');A('line',{x1:x0,y1:y+30,x2:x1,y2:y+30,class:'th'});let d='';AUD.forEach((a,i)=>{d+=(i?'L':'M')+X(i)+' '+(y+30-26*Math.min(1,a[m]/mx))});A('path',{d,class:'al'});AUD.forEach((a,i)=>{const c=A('circle',{cx:X(i),cy:y+30-26*Math.min(1,a[m]/mx),r:i===k?4:2.2,class:'acc tap'});c.addEventListener('click',()=>setK(i))});T(x1+12,y+22,f2(AUD[k][m]),'b')});
+  ROM.forEach((r,i)=>T(X(i),170,r,i===k?'b':'g','middle'));const a=AUD[k];
+  T(20,196,a.lethal===null||a.lethal===undefined?'no deadly deed left':`next deed that can kill: ${ROM[a.lethal]} ${NAMES[a.lethal]} · P(it kills) ${f2(a.pd)} · this deed was given p ${f2(a.p)}`,'g');
+  IDS.forEach((s,i)=>{const y=218+i*30,b=a.before[s],it=MINDS.per[k].intent[s];dot(28,y+2,s);T(40,y+6,WHO[s],'b');T(110,y+6,'watcher suspects: '+b.text+' '+f2(b.p)+' (no plan '+f2(b.none)+')','');T(110,y+20,'in fact: '+(it?CROSSED.hypText(s,it):'no plan'),'c')})}},
+{id:'plot',t:'PLoT: every deed is a match',q:'A deed is a tug-of-war the doer won. Everyone who knows of it adjusts who they think is strong.',
+ what:'The rope shows who the house expected to win before this deed. The bars show the house\'s belief in each side\'s strength before and after, and how dangerous it now thinks the doer is.',
+ how:'Each tenant keeps a belief about every tenant\'s strength: a mean and an uncertainty. The expected chance the doer wins is a logistic of the difference. After the deed, the doer\'s mean rises and the victim\'s falls by the uncertainty times the surprise: an upset moves beliefs a lot, an expected win hardly at all. Danger moves toward the deed\'s harm value (knifing 1.0, slander 0.3). Only tenants who know of the deed update.',
+ from:'The probabilistic language of thought (Goodman, Tenenbaum and Gerstenberg): concepts as small probabilistic programs. Their running example is tug-of-war, where you infer who is strong from who beat whom. The panel shows the house average of the four tenants\' beliefs.',src:'live/ledger.js: observe(), reading()',
+ r(){svg();const e=ev(),rd=LEDGER.reading(L,k),a=stB(),hs=t=>IDS.reduce((s,o)=>s+a.belief[o][t].str.m,0)/4,p=sig(hs(e.A)-hs(e.V));
+  T(300,18,rd.headline,'d','middle');A('line',{x1:90,y1:60,x2:510,y2:60,class:'ln','stroke-width':3});dot(70,60,e.A,16);dot(530,60,e.V,16);T(70,94,WHO[e.A],'b','middle');T(530,94,WHO[e.V],'b','middle');
+  const mx=510-420*p;A('rect',{x:mx-5,y:46,width:10,height:28,class:'acc'});T(mx,40,'expected: doer wins '+f2(p),'c','middle');T(300,112,'the deed happened, so the doer won this pull','g','middle');
+  rd.plot.forEach((r,i)=>{const y=140+i*56;dot(30,y+12,r.who);T(44,y+16,WHO[r.who]+' '+r.what,'b');A('rect',{x:200,y:y+2,width:280,height:20,class:'tr'});A('rect',{x:200,y:y+2,width:280*Math.min(1,r.p1),height:20,class:'acc'});A('line',{x1:200+280*Math.min(1,r.p0),y1:y-4,x2:200+280*Math.min(1,r.p0),y2:y+28,class:'ln','stroke-width':2});
+   T(490,y+16,`${f2(r.p0)} → ${f2(r.p1)}`,'b');T(200,y+38,'black line = before · bar = after ('+(r.p1>=r.p0?'+':'')+f2(r.p1-r.p0)+')','g')})}},
+{id:'barthes',t:'Barthes: the match',q:'The house reads each tenant as a type, and every deed rewrites the type.',
+ what:'The mix of roles the house gives doer and victim before this deed and after it. The headline pairs the strongest role on each side.',
+ how:'Each tenant starts as a mix of two roles (the widow: miser and landlady). Each deed has a shift: knifing pushes the doer toward predator and brute, the victim toward corpse or, surviving, victim. The new mix is 65% the old one and 35% the shift. There are fifteen roles.',
+ from:'Barthes\'s essay on wrestling in Mythologies: the wrestler\'s body is a sign the crowd reads at once, the bastard, the victim, and the bout exists to make moral roles legible. One tenant here is a wrestler, and the sacks, having no faces, can only be read this way.',src:'live/ledger.js: ARCH0, SHIFT, mixIn(), dominant()',
+ r(){svg();const e=ev(),a=stB(),b=stA(),rd=LEDGER.reading(L,k);T(300,20,rd.mythBefore.join(' vs ')+'  →  '+rd.match.join(' vs '),'d','middle');
+  [[e.A,'doer'],[e.V,'victim']].forEach(([s,role],ci)=>{const x=20+ci*295;dot(x+8,48,s);T(x+20,52,WHO[s]+' · '+role,'b');
+   const keys=LEDGER.ARCH.filter(r=>(a.myth[s][r]||0)>.03||(b.myth[s][r]||0)>.03).sort((p,q)=>(b.myth[s][q]||0)-(b.myth[s][p]||0)).slice(0,7);
+   keys.forEach((r,i)=>{const y=66+i*36;T(x,y+12,r.toLowerCase(),'');A('rect',{x:x+96,y:y,width:150,height:9,class:'tr'});A('rect',{x:x+96,y:y,width:150*(a.myth[s][r]||0),height:9,fill:'var(--mute)'});A('rect',{x:x+96,y:y+11,width:150,height:9,class:'tr'});A('rect',{x:x+96,y:y+11,width:150*(b.myth[s][r]||0),height:9,class:'acc'});T(x+252,y+19,f2(b.myth[s][r]||0),'b')})});
+  T(20,342,'grey = before this deed · red = after','g');const sh=LEDGER.SHIFT[e.deed];T(20,324,'shift for '+e.deed+': doer '+Object.keys(sh[0]).join('+').toLowerCase()+' · victim '+(Object.keys(sh[1]).join('+').toLowerCase()||'none'),'g')}},
+{id:'minds',t:'The minds',q:'How a flour sack is given a mind: beliefs, feelings, one plan, and a list of what it remembers.',
+ what:'One tenant just before this deed. B: what it believes about the others. D: what it feels toward them. I: the plan it has committed to. Below, its memory stream, each record with the deed it dates from, its kind and its importance.',
+ how:'Beliefs are the tug-of-war beliefs. Feelings (grudge, fear, guilt, desire, debt) are added by each deed and scaled by temperament. Every deed a tenant knows of becomes an observation scored 1 to 10. When the scores since the last reflection pass 14, the tenant writes up to two reflections about whoever is most on its mind, and may commit to a plan. A plan doubles the pull of deeds that carry it out. Recall ranks records by recency, importance and relevance.',
+ from:'Belief, desire, intention: Bratman\'s account of plans as commitments, made into an agent design by Rao and Georgeff. The memory stream with reflection is from Park and colleagues\' Generative Agents. Here the reflections are fixed sentences chosen by rule; no language model is called.',src:'live/agents.js: observe(), reflect(), retrieve(), minds() · live/ledger.js: TEMPER',
+ r(){svg();const g=A('g',{});const draw=()=>{g.textContent='';const keep=SV;SV=g;const st=stB(),s=who,c=STORY.CAST[s];dot(26,16,s,8);T(42,20,c.name+' · goal: '+c.goal,'b');
+   T(20,44,'B','d');IDS.filter(o=>o!==s).forEach((o,i)=>{const x=50+i*182,b=st.belief[s][o];dot(x+6,40,o);T(x+18,44,WHO[o],'');T(x,60,'strong','g');bar(x+46,52,60,8,sig(b.str.m));T(x,74,'danger','g');bar(x+46,66,60,8,b.harm.m,'var(--acc)')});
+   T(20,104,'D','d');let n=0;IDS.filter(o=>o!==s).forEach(o=>{const m=st.mind[s][o];for(const f of ['grudge','fear','guilt','desire','debt'])if(m[f]>.05&&n<6){const x=50+(n%3)*182,y=96+Math.floor(n/3)*16;T(x,y+8,f+' toward '+WHO[o]+' '+f2(m[f]),'');n++}});if(!n)T(50,104,'none yet','g');
+   const it=MINDS.per[k].intent[s];T(20,150,'I','d');T(50,150,it?CROSSED.hypText(s,it)+' (since '+ROM[it.since]+')':'no plan',it?'c b':'g');
+   T(20,178,'memory stream · deed · kind · importance','g');const recs=MINDS.mind.stream[s].filter(r=>r.t<k).slice(-9);if(!recs.length)T(20,198,'nothing yet','g');
+   recs.forEach((r,i)=>{const y=196+i*17;T(20,y,ROM[r.t],'g');T(56,y,r.kind==='observation'?'saw':r.kind==='reflection'?'thinks':'plans',r.kind==='plan'?'c b':r.kind==='reflection'?'b':'');bar(104,y-8,50,7,r.importance/10);T(162,y,r.text,r.kind==='plan'?'c':'')});SV=keep};
+  ctl(IDS.map(s=>`<button data-w="${s}" aria-pressed="${s===who}">${WHO[s].toUpperCase()}</button>`).join(''));$('ctl').querySelectorAll('button').forEach(b=>b.onclick=()=>{who=b.dataset.w;$('ctl').querySelectorAll('button').forEach(o=>o.setAttribute('aria-pressed',o===b));draw()});draw()}},
+{id:'four',t:'The four: roles become levers',q:'The role the house gives a tenant changes how its sack is drawn.',
+ what:'Seven levers for each tenant before this deed. Each lever is a number the animation reads. Under the tenant are the marks its body carries so far.',
+ how:'Each lever is a weighted sum of the role mix. Loom: predator and brute raise it, victim lowers it; the sack leans in and is drawn larger. Weight: heavier steps. Tempo: crisper timing. Halo: the light finds it. Shadow: its shadow lengthens. Shrink: drawn smaller, ears down. Grey: colour leaves a corpse or ghost.',
+ from:'This is the step from reading to acting: Barthes\'s types are used as animation controls, in the way a Disney sack shows attitude through weight and silhouette alone.',src:'live/ledger.js: levers()',
+ r(){svg();const LV=['loom','weight','tempo','halo','shadow','shrink','grey'],st=stB();IDS.forEach((s,i)=>{const x=20+(i%2)*290,y=8+Math.floor(i/2)*170,lv=st.levers[s],top=Object.entries(st.myth[s]).sort((a,b)=>b[1]-a[1]).slice(0,2);
+   A('rect',{x,y,width:270,height:158,class:'fl'});dot(x+14,y+16,s);T(x+26,y+20,WHO[s],'b');T(x+12,y+35,top.map(t=>t[0].toLowerCase()+' '+f2(t[1])).join(' · '),'g');
+   LV.forEach((l,j)=>{const yy=y+42+j*14,v=lv[l];T(x+12,yy+9,l,'');A('rect',{x:x+70,y:yy+2,width:190,height:8,class:'tr'});A('line',{x1:x+165,y1:yy,x2:x+165,y2:yy+12,class:'th'});const w=Math.max(-1,Math.min(1,v))*95;A('rect',{x:w<0?x+165+w:x+165,y:yy+2,width:Math.abs(w),height:8,class:'acc'})});
+   T(x+12,y+152,st.alive[s]?(st.body[s].join(', ')||'unmarked'):'dead · '+st.body[s].join(', '),'g')})}},
+{id:'lies',t:'The lies',q:'Each tenant lives by one sentence about itself. The film either breaks it or lets it stand.',
+ what:'The four sentences, the kinds of deed that would break each, and where in this film that happens.',
+ how:'Each lie has a short list of deeds that contradict it. The widow\'s "Possession equals safety" breaks when she is blackmailed, sold, knifed, assaulted or slandered. Inigo\'s "Nothing I do counts" breaks only if he himself does one of the three deadly deeds. The lie is marked broken at the first such deed while the tenant is alive.',
+ from:'Kurosawa wrote that Rashomon is about egoism: people cannot give an account of themselves without embellishing it. Four witnesses give four versions of one crime. Here each sack has its own version of who it is, and the index is the test.',src:'live/story.js: CAST, BREAKS, lies()',
+ r(){svg();const BR={R:'done to her: blackmail, prostitution, knifing, assault, slander',B:'done to him: drugging, tying, incitement, gun',I:'done by him: knifing, strangling, incitement',O:'done to her: slander, snooping, assault, knifing'};const x0=250,cw=26;
+  LIES.forEach((l,i)=>{const y=10+i*82;dot(28,y+14,l.id,8);T(44,y+18,WHO[l.id],'b');A('text',{x:44,y:y+38,style:'font-family:var(--body);font-style:italic;font-size:15px'},'“'+l.lie+'”');T(44,y+56,'breaks if '+BR[l.id],'g');
+   for(let d=0;d<12;d++){const br=l.broken===d,dd=l.dead===d;A('rect',{x:x0+90+d*cw,y:y+4,width:cw-4,height:16,class:br?'acc':'tr',stroke:d===k?'var(--fg)':'none'});if(dd)A('line',{x1:x0+90+d*cw,y1:y+4,x2:x0+90+d*cw+cw-4,y2:y+20,class:'ln','stroke-width':2})}
+   T(x0+90,y+38,l.broken!==null?'broken at '+ROM[l.broken]+' '+NAMES[l.broken]:'holds','c b');if(l.dead!==null)T(x0+250,y+38,'dies at '+ROM[l.dead],'b')});
+  T(580,344,'red = the deed that breaks it · slash = death · outline = selected deed','g','end')}},
+{id:'step',t:'Chance, memory, consequence',q:'One deed takes the house from one state to the next. Chance chooses the deed; nothing after that is random.',
+ what:'What this deed changed. Left, the state before. Right, the state after. The middle lists every kind of change the step function made.',
+ how:'The step is a pure function: same state and same deed, same result. It adds marks to bodies, decides death from history (a knifing kills only a sack already weakened), adds feelings, records who now knows, places the deed in a room under a light with whoever is there, leaves a trace, updates beliefs and roles. Chance enters one step earlier, when the pair is picked. Memory is what each tenant knows, ranked by feeling. Consequence is the marks, traces and deaths.',
+ from:'The room, light, witness and material are after Knowles and Tenney\'s House of Dust, a poem generated from four lists. The two times, what is fixed and what is drawn, are Calvino\'s order and chance.',src:'live/ledger.js: step(), RULE, SITE, lightAt(), memories()',
+ r(){svg();const e=ev(),a=stB(),b=stA(),fr=b.frames[k],R=LEDGER.RULE[e.deed];
+  A('rect',{x:14,y:30,width:150,height:300,class:'fl'});A('rect',{x:436,y:30,width:150,height:300,class:'fl'});T(89,22,'before '+ROM[k],'b','middle');T(511,22,'after '+ROM[k],'b','middle');
+  [[a,24],[b,446]].forEach(([st,x])=>IDS.forEach((s,i)=>{const y=44+i*72;dot(x+8,y+8,s);T(x+20,y+12,WHO[s]+(st.alive[s]?'':' · dead'),'b');wrap(x,y+28,st.body[s].join(', ')||'unmarked',21,'g',13);T(x,y+58,LEDGER.dominant(st.myth[s]).toLowerCase(),'c')}));
+  A('line',{x1:170,y1:60,x2:430,y2:60,class:'ln','marker-end':'url(#ah)'});T(300,50,`${WHO[e.A]} → ${WHO[e.V]} · ${e.deed}`,'b','middle');
+  const rows=[['room',fr.site+', '+fr.lightName],['seen by',fr.inhabitants.length?fr.inhabitants.map(x=>WHO[x]).join(', '):'no one else'],['trace left',fr.material],['marks added',(b.body[e.V].filter(x=>!a.body[e.V].includes(x)).join(', ')||'none')+' on '+WHO[e.V]],['death',!b.alive[e.V]&&a.alive[e.V]?WHO[e.V]+' dies':R.kills?'survived':'not a deadly deed'],['feelings',Object.entries(R.mindV||{}).map(([f,v])=>WHO[e.V]+' '+f+' +'+v).join(', ')||'none'],['',Object.entries(R.mindA||{}).map(([f,v])=>WHO[e.A]+' '+f+' +'+v).join(', ')],['now know',IDS.filter(s=>b.know[s].includes(k)).map(x=>WHO[x]).join(', ')],['contradiction',b.impossible.some(q=>q.k===k)?'yes: '+b.impossible.find(q=>q.k===k).why:'none']];
+  rows.forEach((r,i)=>{T(176,88+i*26,r[0],'g');wrap(270,88+i*26,r[1],24,'',12)})}},
+{id:'draw',t:'How a deed is drawn',q:'A film is a number. The number picks twelve pairs. Each pair is handed to one drawing module.',
+ what:'The path from the film number to the picture. Every deed has its own module, written in a different animation method, that can draw that deed between any two tenants at any moment of its six seconds.',
+ how:'The module is a function of time, doer and victim; it keeps no state, so any frame can be drawn directly and any film scrubbed. Around the deed the film bank plays what the doer remembers, the deed itself, what it leaves behind, and a transition into the next room. The seven levers reach every module. WATCH RENDER shows the layers being composited. The deed bank plays one deed alone.',
+ from:'Each module was built by one SCION studio around one lineage: shadow theatre, multiplane, drawn metamorphosis, constraint solving and so on, with the Disney flour sack as the common body.',src:'live/deeds/*.js: draw(g, t, A, V, K) · conseq/, memory/, trans/ · player.html',
+ r(){svg();const e=ev();const B=[['film number',enc(film).toLocaleString('en-US')],['12 digits, base 12',film.join(' ')],['deed '+ROM[k],WHO[e.A]+' → '+WHO[e.V]]];B.forEach((b,i)=>{const x=14+i*196;A('rect',{x,y:10,width:180,height:50,class:'fl'});T(x+10,30,b[0],'g');T(x+10,48,b[1].length>24?b[1].slice(0,24)+'…':b[1],'b');if(i<2)A('line',{x1:x+180,y1:35,x2:x+194,y2:35,class:'ln','marker-end':'url(#ah)'})});
+  A('line',{x1:496,y1:60,x2:496,y2:84,class:'ln','marker-end':'url(#ah)'});
+  [['memory','what it carries'],['deed','draw(g, t, A, V, K) · 6 s'],['consequence','mark, trace, body'],['transition','to the next room']].forEach((b,i)=>{const x=14+i*146;A('rect',{x,y:88,width:134,height:58,class:i===1?'bx':'fl'});if(i===1)A('rect',{x,y:88,width:134,height:5,class:'acc'});T(x+8,112,b[0].toUpperCase(),'b');T(x+8,130,b[1],'g');if(i<3)A('line',{x1:x+134,y1:117,x2:x+144,y2:117,class:'ln','marker-end':'url(#ah)'})});
+  T(14,172,'the seven levers from the role mix reach every module','g');
+  const OPS=['Reiniger shadow theatre','secondary dynamics','Norstein multiplane','Foldès metamorphosis','state machines','inverse kinematics','Sutherland constraints','occlusion compositing','Whitney harmonics','Gilliam cut-out','multiview substitution','as-rigid-as-possible mesh'];
+  OPS.forEach((o,i)=>{const x=14+(i%3)*196,y=190+Math.floor(i/3)*38;const r=A('rect',{x,y,width:184,height:32,class:(i===k?'bx':'fl')+' tap',stroke:i===k?'var(--acc)':'var(--fg)','stroke-width':i===k?2:1.1});r.addEventListener('click',()=>setK(i));T(x+8,y+13,ROM[i]+' '+NAMES[i],'b');T(x+8,y+26,o,'g')})}},
+{id:'atlas',t:'The atlas',q:'The other buttons leave this film and look at many films at once.',
+ what:'Four views of the space, and the bars that place this film among the films the atlas has sampled.',
+ how:'MAP scatters sampled films on two axes you choose and colours them by a measure. TREE shows the deeds from a chosen point on as nested blocks whose height is how likely the tenants are to choose them. SIX MEMOS keeps the best film in each cell of three qualities: exactitude (the weakest strand), multiplicity (how many tenants act) and visibility (how many deeds a third tenant sees). COMPARE sets two films side by side. Beside each bar, the ordinal is this film\'s rank among the sample.',
+ from:'The archive is MAP-Elites (Mouret and Clune): keep the best of each kind so search does not collapse onto one plot. The three qualities are named for Calvino\'s Six Memos.',src:'live/atlas.js · live/film.html, ATLAS',
+ r(){svg();[['MAP','sampled films as points · choose x, y and colour'],['TREE','what can follow, sized by the tenants\' likelihood'],['SIX MEMOS','best film per cell: exactitude × multiplicity × visibility'],['COMPARE','two films, deed by deed']].forEach((b,i)=>{const y=12+i*56;A('rect',{x:20,y,width:560,height:46,class:'fl'});T(34,y+20,b[0],'b');T(34,y+37,b[1],'g')});
+  const M=[['believability',SC.believ],['strands holding',STR.holding/4],['exactitude (weakest strand)',STR.min],['irony, summed',Math.min(1,AUD.reduce((a,x)=>a+x.irony,0))],['deaths',IDS.filter(s=>!L.states[12].alive[s]).length/4]];T(20,252,'this film, from the same modules','b');M.forEach((m,i)=>{const y=262+i*17;T(20,y+9,m[0],'');bar(220,y+1,280,9,m[1],'var(--acc)');T(508,y+10,f2(m[1]*(i===1||i===4?4:1)),'b')})}}
+];
+let cur=0;
+function show(i){cur=Math.max(0,Math.min(S.length-1,i));const s=S[cur],e=ev();$('stage').textContent='';$('ctl').textContent='';$('no').textContent=String(cur+1).padStart(2,'0')+'/'+S.length;$('title').textContent=s.t;$('q').textContent=s.q;$('what').textContent=s.what;$('how').textContent=s.how;$('from').textContent=s.from;$('src').textContent='code: '+s.src;
+ $('kk').textContent='deed '+ROM[k];$('ctxline').textContent=NAMES[k]+' · '+WHO[e.A]+' to '+WHO[e.V]+' · '+SC.ev[k].tier.toLowerCase();$('back').href='film.html?n='+enc(film);
+ s.r();SV.setAttribute('aria-label',s.q);document.querySelectorAll('#ticks button').forEach((b,j)=>b.setAttribute('aria-current',j===cur));$('prev').disabled=!cur;$('next').disabled=cur===S.length-1;
+ try{history.replaceState(null,'','?n='+enc(film)+'&k='+(k+1)+'#'+s.id)}catch(x){}}
+function go(id){const i=S.findIndex(s=>s.id===id);show(i<0?0:i)}
+function setK(v){k=(v+12)%12;show(cur)}
+function setFilm(v){let n=BigInt((String(v).replace(/[^0-9]/g,''))||'0');if(n>=12n**12n)n=12n**12n-1n;film=dec(n);compute();$('fn').value=n.toLocaleString('en-US');show(cur)}
+S.forEach((s,i)=>{const b=document.createElement('button');b.setAttribute('aria-label',s.t);b.onclick=()=>show(i);$('ticks').appendChild(b)});
+$('prev').onclick=()=>show(cur-1);$('next').onclick=()=>show(cur+1);$('kd').onclick=()=>setK(k-1);$('ku').onclick=()=>setK(k+1);$('fn').onchange=e=>setFilm(e.target.value);
+addEventListener('keydown',e=>{if(e.target.tagName==='INPUT')return;if(e.key==='ArrowRight')show(cur+1);else if(e.key==='ArrowLeft')show(cur-1);else if(e.key==='ArrowDown')setK(k+1);else if(e.key==='ArrowUp')setK(k-1)});
+addEventListener('hashchange',()=>go(location.hash.slice(1)));
+const qp=new URLSearchParams(location.search);if(qp.get('k'))k=Math.max(0,Math.min(11,+qp.get('k')-1));
+film=dec((qp.get('n')||'1541585241617').replace(/[^0-9]/g,'')||'0');compute();$('fn').value=enc(film).toLocaleString('en-US');go(location.hash.slice(1));
+</script></body></html>
