@@ -507,4 +507,4 @@ function tick(ms){requestAnimationFrame(tick);const now=ms/1000,dt=Math.min(.1,n
 const qp=new URLSearchParams(location.search);if(qp.get('k'))k=Math.max(0,Math.min(11,+qp.get('k')-1));
 film=dec((qp.get('n')||'1541585241617').replace(/[^0-9]/g,'')||'0');compute();$('fn').value=enc(film).toLocaleString('en-US');sizeFx();setPlay(playing);go(location.hash.slice(1));requestAnimationFrame(tick);
 if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>{dirty=true});
-</script></body></html>
+</script><script src="flow.js"></script></body></html>

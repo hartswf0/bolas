@@ -35,7 +35,7 @@ li b{font:600 10.5px/1.9 var(--mono);letter-spacing:.06em;color:var(--acc)}li[ar
 .note{font:11.5px/1.45 var(--mono);color:var(--mute);margin-top:8px}
 @media (min-width:900px),(min-aspect-ratio:3/2){main{grid-template-rows:none;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr)}#cv{max-height:calc(100dvh - 190px)}#scene{align-self:start}#cap{font-size:18px}}
 </style></head><body>
-<header><h1>Re:Order in Crime</h1><span>six explainer episodes cut from the deed films · follows <a href="https://hartswf0.github.io/2700-fa26/LAB%207%20-%20CLASSES/abominable-house/">The Burning of the Abominable House</a> and <a href="https://hartswf0.github.io/2700-fa26/LAB%207%20-%20CLASSES/by-what-light/index.html">By What Light</a></span><a href="guide.html">the guide</a></header>
+<header><h1>Re:Order in Crime</h1><span>nine explainer episodes: the deed films, and drawn scenes that explain them · follows <a href="https://hartswf0.github.io/2700-fa26/LAB%207%20-%20CLASSES/abominable-house/">The Burning of the Abominable House</a> and <a href="https://hartswf0.github.io/2700-fa26/LAB%207%20-%20CLASSES/by-what-light/index.html">By What Light</a></span><a href="rereorder.html">Re:Re:Order</a> <a href="guide.html">the guide</a></header>
 <main>
  <section id="scene"><canvas id="cv" width="1920" height="1080" role="img" aria-label="The deed film with the speakers drawn on it"></canvas>
   <div id="cap" aria-live="polite"></div>
@@ -57,10 +57,18 @@ const logFilm=P=>film.reduce((a,p,k)=>a+Math.log(pAt(k,P)[p]),0);
 const plan=(id,k)=>{const it=MINDS.per[k].intent[id];return it?CROSSED.hypText(id,it):'no plan'};
 // lines that depend on the film are functions, so they always say what the code says
 const EP=[
+{t:'0 · The story about the story',sum:'What Calvino\'s story is about, and why these episodes are shaped the way they are.',b:[
+ {s:'W',sc:'nest',n:1,x:'Calvino\'s story is told by a programmer. A boarding house has burned down with four people in it. All that is left is the cover of a notebook, with an index of twelve deeds.'},
+ {s:'W',sc:'count',x:'The insurer wants to know who did what to whom. Each heading needs a doer and a victim. There are twelve possible pairs, and twelve headings to fill.'},
+ {s:'W',sc:'nest',n:2,x:'Partway through, the programmer starts to suspect the insurer, and adds him to the program as a fifth character.'},
+ {s:'W',sc:'nest',n:3,x:'Then he adds himself, as the sixth.'},
+ {s:'W',sc:'nest',n:4,x:'At the end he decides that his own program was laid out for him in advance, and that the real computer is somewhere else.'},
+ {s:'W',sc:'nest',n:4,x:'So the story is not about the crime. It is about a man writing a program about a crime, and finding himself inside it.'},
+ {s:'W',sc:'grid',x:'We did the same thing on purpose. We wrote the program, drew its films, and in these episodes the program explains itself.'}]},
 {t:'1 · The index',sum:'What Waldemar is given, and who gave it to him.',b:[
  {s:'W',k:5,fx:'index',x:'All I have is a list of twelve headings. No names, and no order.'},
  {s:'W',k:5,fx:'index',x:'Calvino put it to the Oulipo in November 1972 as a project where four characters commit twelve crimes and the reader must find out who did what.'},
- {s:'W',k:5,fx:'names',x:'My program gives each heading one doer and one victim. That is a film. This is one of 8,916,100,448,256.'},
+ {s:'W',sc:'count',x:'My program gives each heading one doer and one victim. That is a film. This is one of 8,916,100,448,256.'},
  {s:'S',k:5,fx:'index',sk:1,x:'I brought him the list.'},
  {s:'W',k:5,fx:'noise',sk:1,x:'In my last hypothesis Skiller chose what reached me, and some of the headings are only noise. The story does not say which.'},
  {s:'W',k:5,fx:'two',sk:1,x:'So there are two questions. What happened in the house? And what would someone with an interest write in the index?'},
@@ -69,7 +77,7 @@ const EP=[
  {s:'W',k:0,fx:'card',x:()=>'I do not move a sack. I punch a card for it: a goal, a temperament, and one sentence it lives by. For '+WHO[L.ev[0].A]+': "'+STORY.CAST[L.ev[0].A].lie+'"'},
  {s:'W',k:3,fx:'think',x:'After every deed it knows of, the sack writes a line in its memory, scored by how much it felt.'},
  {s:()=>L.ev[3].V,k:3,fx:'think',x:()=>{const r=MINDS.per[4].recall.A.concat(MINDS.per[4].recall.V).find(q=>q)||{text:'nothing yet'};return 'I remember: '+r.text}},
- {s:'W',k:4,fx:'think',x:'When the scores add up to 14 it draws a conclusion, and it may commit to one plan.'},
+ {s:'W',sc:'mindloop',x:'When the scores add up to 14 it draws a conclusion, and it may commit to one plan.'},
  {s:()=>[L.ev[5].A,L.ev[5].V].find(q=>MINDS.per[5].intent[q])||L.ev[5].A,k:5,fx:'think',x:()=>{const q=[L.ev[5].A,L.ev[5].V].find(z=>MINDS.per[5].intent[z])||L.ev[5].A;return 'My plan now: '+plan(q,5)+'.'}},
  {s:'W',k:5,fx:'think',x:'A plan makes the deeds that carry it out 2.2 times as likely. That is all the control I have over what it does next.'}]},
 {t:'3 · The debate',sum:'The watchers, the house and the sack give three accounts of one deed.',b:[
@@ -79,7 +87,7 @@ const EP=[
  {s:'W',k:5,fx:'guess',ph:2,x:()=>'The watchers see only deeds. I can read the plan. The distance between their guess and the fact is what the panel calls irony: '+f2(AUD[5].irony)+' at this deed.'},
  {s:'AU',k:5,fx:'roles',x:()=>{const m=LEDGER.reading(L,5).match;return 'To the house this is '+m[0]+' against '+m[1]+'.'}},
  {s:()=>L.ev[5].V,k:5,fx:'roles',x:()=>'What I tell myself: "'+STORY.CAST[L.ev[5].V].lie+'"'},
- {s:'W',k:5,fx:'roles',x:'A role given by the house, a guess made by the watchers, a sentence kept by the sack. The program computes all three and does not pick one.'}]},
+ {s:'W',sc:'three',x:'A role given by the house, a guess made by the watchers, a sentence kept by the sack. The program computes all three and does not pick one.'}]},
 {t:'4 · The rule he cancels',sum:'Strangled, then knifed: why one deed needs three records.',b:[
  {s:'W',d:'strangling',A:'B',V:'I',fx:'names',x:'Suppose Belindo strangles Inigo.'},
  {s:'W',d:'knifing',A:'O',V:'I',fx:'names',x:'Then, to make it look like suicide, they knife the body.'},
@@ -87,11 +95,12 @@ const EP=[
  {s:'W',d:'knifing',A:'O',V:'I',fx:'fields',n:1,x:'To allow it I have to keep three things apart. First, the act: a knifing.'},
  {s:'W',d:'knifing',A:'O',V:'I',fx:'fields',n:2,x:'Second, what it did to the body: a wound, and no death, because he was already dead.'},
  {s:'W',d:'knifing',A:'O',V:'I',fx:'fields',n:3,x:'Third, what the trace is meant to make a reader believe: suicide.'},
- {s:'W',d:'knifing',A:'O',V:'I',fx:'fields',n:3,x:'This program stores the first two as one record and does not store the third. It also runs the deeds in the order of the index, so here a knifing always comes before a strangling.'}]},
+ {s:'W',d:'knifing',A:'O',V:'I',fx:'fields',n:3,x:'This program stores the first two as one record and does not store the third.'},
+ {s:'W',sc:'order',x:'It also runs the deeds in the order of the index, so here a knifing always comes before a strangling.'}]},
 {t:'5 · Two computers',sum:'Skiller belongs inside the model. He is not in it yet.',b:[
  {s:'S',k:5,fx:'names',sk:1,x:'The company only needs to know whom it has to pay.'},
  {s:'W',k:5,fx:'policy',sk:1,x:'With no rules, Roessler\'s life policy pays out in 84.0 percent of films. With five of my rules, 79.4 percent.'},
- {s:'W',k:5,fx:'policy',sk:1,x:'So a rule about who can do what to whom changes what the insurer owes.'},
+ {s:'W',sc:'sieve',n:1,x:'So a rule about who can do what to whom changes what the insurer owes.'},
  {s:'W',k:6,fx:'names',sk:1,x:'In my last hypothesis his program forecast these deeds before they happened. Mine only replays them.'},
  {s:'S',k:6,fx:'twenty',sk:1,x:'I am not a character in his program.'},
  {s:'W',k:6,fx:'twenty',sk:1,x:'Adding him gives twenty pairs instead of twelve, and a fifth mind with a goal: pay nothing.'},
@@ -102,7 +111,24 @@ const EP=[
  {s:'PR',k:5,fx:'think',x:()=>'I read it by interest. '+WHO[L.ev[5].A]+' wants to '+STORY.CAST[L.ev[5].A].goal+'. I ask what this deed gets toward that.'},
  {s:'W',k:5,fx:'pie2',x:()=>{const a=pAt(5,0),b=pAt(5,1);return 'My program has a dial for this. Turned all the way to roles, it gives this deed a chance of '+f2(a[film[5]])+'. Turned all the way to interest, '+f2(b[film[5]])+'.'}},
  {s:'W',k:5,fx:'pie2',x:()=>{const a=pAt(5,0),b=pAt(5,1),top=q=>{const i=q.indexOf(Math.max(...q));return WHO[PAIRS[i][0]]+' to '+WHO[PAIRS[i][1]]};return top(a)===top(b)?'Both readings pick the same likeliest pair for this deed: '+top(a)+'. They differ in how likely they make the deed that happened.':'By role, the likeliest pair for this deed would be '+top(a)+'. By interest, '+top(b)+'.'}},
- {s:'W',k:5,fx:'pie2',x:()=>'Over all twelve deeds of this film, the role reading gives a log probability of '+logFilm(0).toFixed(1)+' and the interest reading '+logFilm(1).toFixed(1)+'. The higher number accounts for more of the film. Neither says what a deed meant to the sack that did it.'}]}];
+ {s:'W',k:5,fx:'pie2',x:()=>'Over all twelve deeds of this film, the role reading gives a log probability of '+logFilm(0).toFixed(1)+' and the interest reading '+logFilm(1).toFixed(1)+'. The higher number accounts for more of the film. Neither says what a deed meant to the sack that did it.'}]},{t:'7 · What we learned',sum:'Eight things the building of it showed, each with its picture.',b:[
+ {s:'W',sc:'count',n:2,x:'One. The number. The story prints 8,874,296,672,256. Twelve to the twelfth is 8,916,100,448,256. We do not know why they differ.'},
+ {s:'W',sc:'sieve',n:1,x:'Two. Rules do not shrink it much. Five of the narrator\'s rules still leave about thirty percent, more than two and a half trillion films. Braffort reported the same of his own filters.'},
+ {s:'W',sc:'sieve',n:2,x:'Three. So we stopped deleting. A rule lowers a film\'s rating, and every film can still be played. A film that breaks the rules is rated preposterous, and you can watch it.'},
+ {s:'W',sc:'grid',x:'Four. To play any film, each deed had to be drawable for any pair. Twelve drawing modules give one hundred and forty-four scenes, and each carries the marks left by the deeds before it.'},
+ {s:'W',sc:'three',x:'Five. One deed supports several accounts at once: the role the house gives, the plan the watchers guess, the sentence the sack keeps. The program computes all of them and cannot choose between them.'},
+ {s:'W',sc:'mindloop',x:'Six. Giving a sack a mind did not mean moving it. It meant setting numbers, and letting memory, conclusions and one plan change the odds of what it does next.'},
+ {s:'W',sc:'order',x:'Seven. The story has things the program lacks: an unknown order of events, someone with an interest who writes the index, and a claim attached to each trace.'},
+ {s:'W',sc:'nest',n:4,x:'Eight. The story ends with the programmer inside his program. Explaining this one put us in the same place: every page of the guide is the program describing itself.'}]},{t:'8 · Flour and scale',sum:'How big the set of films is, what the rules take away, and why the practical question is which film to stop on.',b:[
+ {s:'W',sc:'speck',n:1,x:'Take one speck of flour for each film. We assume a speck is sixty thousandths of a millimetre across and weighs a hundred and sixty-four billionths of a gram.'},
+ {s:'W',sc:'tower',x:'All 8,916,100,448,256 specks weigh about 1,462 kilograms. That is sixty-four fifty-pound sacks, which is one loaded pallet.'},
+ {s:'W',sc:'time',x:'It is small to store and long to watch. At one film in every frame, twenty-four frames a second, the projector would run for 11,772 years.'},
+ {s:'W',sc:'speck',n:2,x:'Or give each film one pixel. A full HD frame holds 2,073,600 of them. The whole set fills 4,299,817 frames: 49 hours and 46 minutes, with no film shown twice.'},
+ {s:'W',sc:'cut',x:'Now the narrator\'s rules, used as filters. Belindo cannot be strangled: forty-eight sacks left. Belindo does not use a knife: thirty-six. He cannot be tied without a gun on him: twenty-nine and a half. No one is both strangled and knifed: twenty-three. A slanderer does not also snoop on or blackmail the same person: nineteen.'},
+ {s:'W',sc:'sift',n:1,x:'A filter is a sieve. What does not pass is thrown away, and after five rules nineteen sacks are still far too many to read.'},
+ {s:'W',sc:'sift',n:2,x:()=>{const T=tierShare();return 'So we sort instead of sieving, and keep everything. In a sample of three hundred films drawn at random, '+Math.round(T[0][1]*100)+' in a hundred are rated preposterous and '+Math.round((T[2][1]+T[3][1]+T[4][1])*100)+' in a hundred plausible or better.'}},
+ {s:'W',sc:'motion',n:1,x:'Here are films going by, thirty a second, each a row of twelve pairs with its rating at the end. At this speed the whole set would take 9,418 years.'},
+ {s:'W',sc:'motion',n:2,x:'So the practical question is never how to see them all. It is which one to stop on. The buttons in the film bank are four ways of choosing one film without looking at the rest.'}]}];
 const cv=$('cv'),g=cv.getContext('2d'),PAPER='#f4eedd',INK='#1d1812',ACC='#c8402a',HL='#ffdc00',COL={R:'#8a4a40',B:'#3a342e',I:'#b0915e',O:'#8a47a3'},MONO='"JetBrains Mono",ui-monospace,Menlo,monospace',DISP='"Big Shoulders Display","Arial Narrow",Impact,sans-serif';
 function tagc(x,y,txt,o){o=o||{};const fs=o.fs||42;g.font=`600 ${fs}px ${MONO}`;const w=g.measureText(txt).width+fs*.7,h=fs*1.5;let X=o.anc==='l'?x:o.anc==='r'?x-w:x-w/2,Y=y-h/2;X=cl(10,1910-w,X);Y=cl(10,1070-h,Y);
  g.fillStyle=o.bg||PAPER;g.fillRect(X,Y,w,h);g.lineWidth=5;g.strokeStyle=o.bd||INK;g.strokeRect(X,Y,w,h);g.fillStyle=o.fg||INK;g.textBaseline='middle';g.textAlign='left';g.fillText(txt,X+fs*.35,Y+h/2+2);return{x:X,y:Y,w,h}}
@@ -138,11 +164,73 @@ const FX={
  twenty(c){tagc(960,110,'4 characters · 12 pairs',{fs:46});tagc(960,200,'5 characters · 20 pairs',{fs:46,bg:HL})},
  missing(c){['a recorder with an interest','an order of events','a claim on each trace'].forEach((s,i)=>{if(c.u>i*.2)tagc(960,100+i*96,(i+1)+' · '+s,{fs:46,bg:HL})})}
 };
+// ---- drawn scenes: explanations that are not a deed clip. c.u runs 0 to 1 over the line, c.now is seconds, c.n is the step.
+const off=document.createElement('canvas');off.width=1920;off.height=1080;const og=off.getContext('2d'),CLOTH={R:'#d6bf96',B:'#e8d5ae',I:'#e2cea5',O:'#f0e4c8'};
+function sack(id,x,y,h,bob){const C=K.CAST[id],w=h*Math.min(1.25,C.w/C.h);g.save();g.translate(x,y-(bob||0));g.lineWidth=6;g.strokeStyle=INK;g.lineJoin='round';
+ g.beginPath();g.moveTo(-w*.4,0);g.lineTo(w*.4,0);g.quadraticCurveTo(w*.6,-h*.45,w*.46,-h);g.lineTo(w*.3,-h*1.12);g.lineTo(w*.22,-h*.98);g.quadraticCurveTo(0,-h*.9,-w*.22,-h*.98);g.lineTo(-w*.3,-h*1.12);g.lineTo(-w*.46,-h);g.quadraticCurveTo(-w*.6,-h*.45,-w*.4,0);g.closePath();g.fillStyle=CLOTH[id];g.fill();g.stroke();
+ g.fillStyle=COL[id];g.fillRect(-w*.42,-h*.62,w*.84,h*.14);g.restore()}
+function page(){g.fillStyle='#efe7d6';g.fillRect(0,0,1920,1080);g.strokeStyle='rgba(29,24,18,.07)';g.lineWidth=2;for(let x=0;x<1920;x+=60){g.beginPath();g.moveTo(x,0);g.lineTo(x,1080);g.stroke()}}
+function inset(deed,A,V,lt,x,y,w){const D=DEEDS[deed];og.save();clean(og);og.clearRect(0,0,1920,1080);try{D.draw(og,lt,A,V,K,{})}catch(e){}og.restore();clean(og);g.drawImage(off,x,y,w,w*9/16);g.strokeStyle=INK;g.lineWidth=8;g.strokeRect(x,y,w,w*9/16)}
+const big=n=>n.toLocaleString('en-US'),pulse=u=>1+.25*Math.sin(cl(0,1,u/.25)*Math.PI)*(1-cl(0,1,u/.25));
+const SC_={
+ nest(c){page();const n=c.n||1,R=[[760,400,400,300,'the house · four tenants'],[590,310,740,480,'SKILLER · the insurer · fifth'],[420,220,1080,660,'WALDEMAR · the programmer · sixth'],[250,130,1420,840,'the real computer is elsewhere']];
+  for(let i=Math.min(n,4)-1;i>=0;i--){const[x,y,w,h,t]=R[i],nw=i===n-1&&i>0,k=nw?lerp(1.25,1,sm(0,.35,c.u)):1;g.save();g.translate(x+w/2,y+h/2);g.scale(k,k);g.globalAlpha=nw?sm(0,.3,c.u):1;if(i===3)g.setLineDash([26,18]);g.fillStyle=i?'rgba(255,220,0,'+(nw?.18:.05)+')':'#faf6ee';g.fillRect(-w/2,-h/2,w,h);g.strokeStyle=INK;g.lineWidth=i===n-1?10:6;g.strokeRect(-w/2,-h/2,w,h);g.restore();tagc(x+w/2,y+4,t,{fs:34,bg:i===n-1?HL:PAPER})}
+  IDS.forEach((id,i)=>sack(id,820+i*94,660,150,6*Math.sin(c.now*3+i)));const pr=[12,20,30][Math.min(n,3)-1];tagc(30,1010,pr+' pairs · '+pr+'^12 films',{anc:'l',fs:40,bg:HL})},
+ count(c){page();const w=140,x0=960-6*w;for(let i=0;i<12;i++){const set=c.u>.15+i*.045,p=set?film[i]:Math.floor(K.hash(Math.floor(c.now*14)*1.7+i)*12),[a,v]=PAIRS[p],x=x0+i*w;tagc(x+w/2,250,ROM[i],{fs:30});g.fillStyle=set?HL:'#faf6ee';g.fillRect(x+8,290,w-16,170);g.strokeStyle=INK;g.lineWidth=6;g.strokeRect(x+8,290,w-16,170);sack(a,x+w/2-26,430,84);sack(v,x+w/2+30,430,60);g.fillStyle=INK;g.font=`600 26px ${MONO}`;g.textAlign='center';g.fillText(a+'→'+v,x+w/2,318)}
+  tagc(960,150,'twelve headings · each takes one of twelve doer-and-victim pairs',{fs:38});const done=c.u>.15+12*.045;g.fillStyle=INK;g.font=`800 150px ${DISP}`;g.textAlign='center';g.textBaseline='middle';g.fillText(done?'1,541,585,241,617':big(BigInt(Math.floor(K.hash(Math.floor(c.now*14))*8.9e12))),960,640);
+  if(c.n===2){tagc(960,800,'the story prints  8,874,296,672,256',{fs:44});tagc(960,890,'12^12 =  8,916,100,448,256',{fs:44,bg:HL})}else tagc(960,800,done?'this setting is one film':'8,916,100,448,256 settings',{fs:44,bg:done?HL:PAPER})},
+ sieve(c){page();const soft=c.n===2,TC=['#a3321f','#b0752a','#5d7a3a','#2f6f7a','#3d3a8a'];g.fillStyle=INK;g.fillRect(200,520,1520,22);let pass=0;
+  for(let i=0;i<360;i++){const x=230+K.hash(i*1.3)*1460,ph=(c.u*1.6+K.hash(i*2.7))%1.3,y=140+ph*640,ok=soft||K.hash(i*5.1)<.3,below=y>531;if(below&&!ok)continue;if(below)pass++;const t=K.hash(i*9.9),ti=t<.55?0:t<.8?1:t<.93?2:t<.985?3:4;g.fillStyle=below&&soft?TC[ti]:INK;g.fillRect(x-13,(!ok&&y>500?500:y)-8,26,16)}
+  tagc(960,470,soft?'A RULE · lowers the rating':'A RULE · deletes',{fs:44,bg:HL});tagc(960,1010,soft?'every film kept · each one rated · you can still play it':'about 30 percent pass five rules · 2,663,172,255,744 films',{fs:40});tagc(1890,150,'schematic: each mark stands for many films',{anc:'r',fs:28})},
+ mindloop(c){page();const N=['SEES A DEED','SCORES IT','SUM REACHES 14','CONCLUDES','COMMITS TO A PLAN','PLAN DEEDS x 2.2'],cx0=960,cy0=540,rx=640,ry=340,a=c.now*.9;
+  g.strokeStyle=INK;g.lineWidth=6;g.beginPath();g.ellipse(cx0,cy0,rx,ry,0,0,7);g.stroke();const cur=Math.floor(((a/(2*Math.PI))%1)*6);
+  N.forEach((t,i)=>{const th=-Math.PI/2+i*Math.PI/3;tagc(cx0+rx*Math.cos(th),cy0+ry*Math.sin(th),t,{fs:36,bg:i===cur?HL:PAPER})});
+  g.fillStyle=ACC;g.strokeStyle=INK;g.beginPath();g.arc(cx0+rx*Math.cos(a-Math.PI/2),cy0+ry*Math.sin(a-Math.PI/2),26,0,7);g.fill();g.stroke();
+  sack('R',cx0-250,cy0+150,230,5*Math.sin(c.now*3));const rc=MINDS.per[5].recall.V.concat(MINDS.per[5].recall.A).filter(q=>q).slice(0,3);g.textAlign='left';g.textBaseline='middle';
+  rc.forEach((r,i)=>{if(c.u<i*.2)return;g.fillStyle='#faf6ee';g.fillRect(cx0-90,cy0-90+i*70,520,56);g.strokeStyle=INK;g.lineWidth=4;g.strokeRect(cx0-90,cy0-90+i*70,520,56);g.fillStyle=ACC;g.fillRect(cx0-90,cy0-90+i*70,520*cl(.1,1,(r.importance||5)/10),8);g.fillStyle=INK;g.font=`600 30px ${MONO}`;g.fillText(short(r.text,26),cx0-74,cy0-58+i*70)});
+  tagc(cx0+170,cy0+150,'plan: '+plan('R',5),{fs:34,bg:HL})},
+ three(c){page();const e=L.ev[5],m=LEDGER.reading(L,5).match;inset(e.deed,e.A,e.V,lerp(.3,5.7,c.u),560,90,800);const P=[[330,740,'THE HOUSE gives a role',m[0]+' against '+m[1]],[960,880,'THE WATCHERS guess a plan',AUD[5].after[e.A].text],[1590,740,'THE SACK keeps a sentence',short(STORY.CAST[e.V].lie,28)]];
+  P.forEach(([x,y,h,v],i)=>{if(c.u<i*.22)return;g.strokeStyle=INK;g.lineWidth=6;g.beginPath();g.moveTo(960,540);g.lineTo(x,y-70);g.stroke();tagc(x,y-40,h,{fs:32});tagc(x,y+30,v,{fs:36,bg:HL})});if(c.u>.7)tagc(960,1020,'the program computes all three and does not choose',{fs:38})},
+ order(c){page();const sh=c.u<.55,w=140,x0=960-6*w;tagc(960,170,sh?'THE STORY · the order of the deeds is unknown':'THIS PROGRAM · the deeds always run in index order',{fs:44,bg:sh?PAPER:HL});
+  const perm=[...Array(12).keys()];if(sh){const s0=Math.floor(c.now*2.2);perm.sort((a,b)=>K.hash(a*3.1+s0)-K.hash(b*3.1+s0))}
+  perm.forEach((d,slot)=>{const x=x0+slot*w,dead=d===3||d===11;g.save();g.translate(x+w/2,520+(sh?18*Math.sin(c.now*5+d):0));g.rotate(sh?.08*Math.sin(c.now*4+d):0);g.fillStyle=dead?HL:'#faf6ee';g.fillRect(-w/2+8,-150,w-16,300);g.strokeStyle=INK;g.lineWidth=6;g.strokeRect(-w/2+8,-150,w-16,300);g.fillStyle=INK;g.font=`800 60px ${DISP}`;g.textAlign='center';g.textBaseline='middle';g.fillText(ROM[d],0,-80);g.save();g.rotate(-Math.PI/2);g.font=`600 22px ${MONO}`;g.fillText(short(NAMES[d],16),-30,0);g.restore();g.restore()});
+  tagc(960,800,sh?'strangle, then knife the body: possible':'knifing (IV) always comes before strangling (XII)',{fs:40})},
+ grid(c){page();const cw=62,ch=50,x0=70,y0=200,idx=Math.floor(c.u*143.99),hc=idx%12,hr=Math.floor(idx/12);tagc(x0+6*cw,130,'12 deeds across · 12 pairs down · 144 scenes',{fs:34});
+  for(let r=0;r<12;r++)for(let q=0;q<12;q++){const[a,v]=PAIRS[r],x=x0+q*cw,y=y0+r*ch,on=r*12+q<=idx;g.fillStyle=on?COL[a]:'#faf6ee';g.fillRect(x+3,y+3,cw-6,ch-6);if(on){g.fillStyle=COL[v];g.fillRect(x+cw/2,y+ch/2-4,cw/2-8,ch/2-4)}g.strokeStyle=r===hr&&q===hc?HL:INK;g.lineWidth=r===hr&&q===hc?8:2;g.strokeRect(x+3,y+3,cw-6,ch-6)}
+  const pi=Math.floor(c.now/1.6)%12,[A,V]=PAIRS[pi];inset('gun',A,V,(c.now%1.6)/1.6*5+.5,880,220,980);tagc(1370,170,'one module · deed VI · now '+WHO[A]+' to '+WHO[V],{fs:36,bg:HL});tagc(1370,840,'the same drawing code plays any of the twelve pairs',{fs:34})}
+};
+// ---- flour scenes: one speck of flour stands for one film. Working assumptions, stated on screen: a speck is a 60 micrometre sphere of density 1.45 g/cm3 (about 164 ng); a sack is 50 lb.
+const SACKS=[64.5,48.4,36.3,29.5,22.9,19.3],LEFT=[8916100448256n,6687075336192n,5015306502144n,4074936532992n,3169395081216n,2663172255744n],RULE5=['Belindo cannot be strangled','Belindo does not use a knife','Belindo cannot be tied without a gun on him','no one is both strangled and knifed','a slanderer does not also snoop on or blackmail the same person'];
+let TSH=null;function tierShare(){if(TSH)return TSH;const n={PREPOSTEROUS:0,POSSIBLE:0,PLAUSIBLE:0,PROBABLE:0,CERTAIN:0};for(let i=0;i<300;i++){const f=[];for(let j=0;j<12;j++)f.push(Math.floor(K.hash(i*12.7+j*3.3+5)*12));n[STORY.score(f).tier]++}return TSH=Object.entries(n).map(([t,c])=>[t,c/300])}
+const RF=new Map();function rowFilm(r){if(!RF.has(r)){const f=[];for(let j=0;j<12;j++)f.push(Math.floor(K.hash(r*7.13+j*1.9+3)*12));RF.set(r,{f,t:STORY.score(f).tier});if(RF.size>400)RF.delete(RF.keys().next().value)}return RF.get(r)}
+const TCO={PREPOSTEROUS:'#a3321f',POSSIBLE:'#b0752a',PLAUSIBLE:'#5d7a3a',PROBABLE:'#2f6f7a',CERTAIN:'#3d3a8a'};
+function pallet(x0,y0,n,ghost,fly){for(let i=0;i<65;i++){const col=i%8,row=Math.floor(i/8),x=x0+col*150+(row%2)*10,y=y0-row*74,part=cl(0,1,n-i);if(part<=0&&i>=ghost)continue;g.save();g.translate(x,y);
+  if(part<=0){g.translate(fly*900,-fly*260*Math.sin(fly*3));g.globalAlpha=1-fly;g.rotate(fly*2)}g.fillStyle=part>0?'#e8d5ae':'#faf6ee';g.strokeStyle=INK;g.lineWidth=5;g.beginPath();g.roundRect(0,-64,140*(part>0?Math.max(.3,part):1),64,16);g.fill();g.stroke();g.restore()}}
+Object.assign(SC_,{
+ speck(c){page();if(c.n===2){const W=1120,H=630,x0=400,y0=150,m=Math.floor(sm(0,.7,c.u)*9000);g.fillStyle='#17130f';g.fillRect(x0,y0,W,H);g.fillStyle='#fbf7ee';for(let i=0;i<m;i++)g.fillRect(x0+K.hash(i*1.31)*W,y0+K.hash(i*2.77)*H,5,5);g.strokeStyle=INK;g.lineWidth=8;g.strokeRect(x0,y0,W,H);
+   tagc(960,860,'2,073,600 specks fill one full HD frame · one film per pixel',{fs:40});tagc(960,950,'all the films: 4,299,817 frames · 49 hours 46 minutes',{fs:44,bg:HL})}
+  else{const z=lerp(60,6,sm(.2,.9,c.u));g.fillStyle=INK;g.beginPath();g.arc(960,470,z*3,0,7);g.fillStyle='#fbf7ee';g.fill();g.strokeStyle=INK;g.lineWidth=6;g.stroke();const m=Math.floor(sm(.3,1,c.u)*900);g.fillStyle=INK;for(let i=0;i<m;i++){g.fillRect(960+(K.hash(i*1.7)-.5)*1500,470+(K.hash(i*3.3)-.5)*600,6,6)}
+   tagc(960,150,'one speck of flour = one film',{fs:50,bg:HL});tagc(960,930,'assumed: a speck 60 micrometres across, 164 billionths of a gram',{fs:36})}},
+ tower(c){page();pallet(330,900,64.5*sm(0,.8,c.u),0,0);g.fillStyle=INK;g.fillRect(310,906,1240,22);tagc(960,110,big(12n**12n)+' specks',{fs:50,bg:HL});tagc(960,210,'1,462 kg · 64 sacks of 50 lb · one pallet',{fs:42});},
+ cut(c){page();const st=Math.min(5,Math.floor(cl(0,.999,(c.u-.1)/.9)*6)),fr=cl(0,1,((c.u-.1)/.9*6)%1*1.6);pallet(330,900,SACKS[st],Math.ceil(st?SACKS[st-1]:0),st?fr:1);g.fillStyle=INK;g.fillRect(310,906,1240,22);
+  tagc(960,90,st?'RULE '+st+' · '+RULE5[st-1]:'no rules yet',{fs:st?38:44,bg:HL});tagc(960,180,big(LEFT[st])+' films · '+(Number(LEFT[st])*100/Number(LEFT[0])).toFixed(1)+'% · '+SACKS[st].toFixed(1)+' sacks',{fs:40})},
+ sift(c){page();const soft=c.n===2,sx=30*Math.sin(c.now*11);g.save();g.translate(sx,0);g.strokeStyle=INK;g.lineWidth=10;g.beginPath();g.moveTo(520,330);g.lineTo(620,480);g.lineTo(1300,480);g.lineTo(1400,330);g.stroke();g.setLineDash([10,22]);g.beginPath();g.moveTo(620,480);g.lineTo(1300,480);g.stroke();g.setLineDash([]);
+  if(!soft){g.fillStyle='#e8d5ae';g.beginPath();g.moveTo(640,476);g.quadraticCurveTo(960,476-230*(.3+.7*c.u),1280,476);g.fill();g.stroke()}g.restore();
+  g.fillStyle=soft?'#fbf7ee':INK;for(let i=0;i<220;i++){const x=640+K.hash(i*1.9)*640,ph=(c.now*.7+K.hash(i*4.1))%1;g.fillStyle=INK;g.fillRect(x,490+ph*330,6,6)}
+  if(soft){const T=tierShare();T.forEach(([t,v],i)=>{const x=330+i*260,h=20+560*v*sm(0,.8,c.u);g.fillStyle=TCO[t];g.fillRect(x,960-h,220,h);g.strokeStyle=INK;g.lineWidth=5;g.strokeRect(x,960-h,220,h);tagc(x+110,1000,t.toLowerCase()+' '+Math.round(v*100)+'%',{fs:28})});tagc(960,200,'SORT · nothing thrown away · a sample of 300 films, rated',{fs:40,bg:HL})}
+  else{g.fillStyle='#e8d5ae';g.strokeStyle=INK;g.beginPath();g.moveTo(700,960);g.quadraticCurveTo(960,960-150*c.u,1220,960);g.closePath();g.fill();g.stroke();tagc(960,200,'SIEVE · what does not pass is thrown away',{fs:40,bg:HL});tagc(1560,400,'stays in the sieve · 70%',{fs:34});tagc(960,1010,'passes five rules · 30% · 19 sacks',{fs:34})}},
+ motion(c){page();const base=Math.floor(c.now*30),fr=(c.now*30)%1,cw=52;for(let j=0;j<28;j++){const r=base-j,R=rowFilm(r),y=70+(j+fr)*34;if(y>1010)continue;R.f.forEach((p,i)=>{g.fillStyle=COL[PAIRS[p][0]];g.fillRect(70+i*cw,y,cw-4,28);g.fillStyle=COL[PAIRS[p][1]];g.fillRect(70+i*cw+cw/2,y+12,cw/2-6,14)});g.fillStyle=TCO[R.t];g.fillRect(70+12*cw+10,y,90,28)}
+  const pick=Math.floor(c.now/2.5),R=rowFilm(pick*75),[A,V]=PAIRS[R.f[5]];inset('gun',A,V,(c.now%2.5)/2.5*5+.5,900,150,880);tagc(1340,100,'stopped on one · deed VI · '+WHO[A]+' to '+WHO[V],{fs:34,bg:HL});
+  tagc(1340,720,'30 films a second · all of them: 9,418 years',{fs:36});if(c.n===2)['MOST LIKELY · a search for believable films','LET THEM DECIDE · the tenants choose each deed','IRONY · SUSPENSE · TWIST · an author searches','OPENINGS · every three-deed opening'].forEach((t,i)=>{if(c.u>i*.18)tagc(1340,800+i*62,t,{fs:30})})},
+ time(c){page();const x0=160,w=1500;tagc(960,150,'one film per frame · 24 frames a second',{fs:42});g.fillStyle='#faf6ee';g.fillRect(x0,230,w,70);g.fillStyle=ACC;g.fillRect(x0,230,w*c.u,70);g.strokeStyle=INK;g.lineWidth=6;g.strokeRect(x0,230,w,70);tagc(x0,350,'start',{fs:30,anc:'l'});tagc(x0+w,350,'11,772 years later',{fs:30,anc:'r'});tagc(x0+w*c.u,200,Math.round(11772*c.u).toLocaleString('en-US')+' years',{fs:34,bg:HL});
+  tagc(960,560,'one film per pixel · full HD',{fs:42});g.fillStyle='#faf6ee';g.fillRect(x0,640,w,70);g.fillStyle=INK;g.fillRect(x0,640,w*Math.min(1,c.u*3),70);g.strokeRect(x0,640,w,70);tagc(x0+w,760,'49 hours 46 minutes',{fs:30,anc:'r'});tagc(960,900,'small to store · long to watch',{fs:46,bg:HL})}
+});
 let ep=0,bi=0,bt=0,playing=!matchMedia('(prefers-reduced-motion: reduce)').matches,last=0,lastDraw=0,gap=.05,voice=false;
 const val=v=>typeof v==='function'?v():v,VOD=window.VO||[],dur=b=>{const i=EP.indexOf(EP.find(E=>E.b.includes(b))),j=EP[i].b.indexOf(b),d=VOD[i]&&VOD[i][j];return d?d+.7:cl(4.5,11,val(b.x).length/13)};
 const au=new Audio();au.preload='auto';
-function ctxOf(b){if(b.d)return{deed:b.d,A:b.A,V:b.V,k:ORDER.indexOf(b.d),carry:{}};const e=L.ev[b.k];return{deed:e.deed,A:e.A,V:e.V,k:b.k,carry:L.states[b.k].body}}
+function ctxOf(b){if(b.k==null&&!b.d)b.k=5;if(b.d)return{deed:b.d,A:b.A,V:b.V,k:ORDER.indexOf(b.d),carry:{}};const e=L.ev[b.k];return{deed:e.deed,A:e.A,V:e.V,k:b.k,carry:L.states[b.k].body}}
 function draw(now){const b=EP[ep].b[bi],c=ctxOf(b),D=DEEDS[c.deed],u=cl(0,1,bt/dur(b)),lt=lerp(.3,5.7,u);clean(g);g.fillStyle='#000';g.fillRect(0,0,1920,1080);
+ if(b.sc){c.u=u;c.now=now;c.n=b.n;g.save();try{SC_[b.sc](c)}catch(x){console.error(x)}g.restore();clean(g);const sp=val(b.s),talk=1+.05*Math.sin(now*9);waldemar(1790,1062,260,sp==='W'?talk:1);return}
  g.save();try{D.draw(g,lt,c.A,c.V,K,{carry:c.carry})}catch(x){console.error(x)}g.restore();clean(g);
  let M;try{M=D.marks(lt,c.A,c.V,K,{carry:c.carry})}catch(x){}const fix=(q,dx)=>(!q||![q.x,q.y,q.w,q.h].every(isFinite)||q.w<8)?{x:dx,y:520,w:220,h:300}:{x:cl(0,1700,q.x),y:cl(60,960,q.y),w:cl(40,900,q.w),h:cl(40,900,q.h)};
  c.M={A:fix(M&&M.A,560),V:fix(M&&M.V,1180)};c.u=u;c.now=now;c.ph=b.ph;c.n=b.n;
@@ -154,13 +242,13 @@ function draw(now){const b=EP[ep].b[bi],c=ctxOf(b),D=DEEDS[c.deed],u=cl(0,1,bt/d
 function setBeat(i,keep){const n=EP[ep].b.length;bi=cl(0,n-1,i);bt=0;const b=EP[ep].b[bi],sp=val(b.s),tx=val(b.x);$('cap').textContent='';const h=document.createElement('b');h.textContent=SPK[sp];$('cap').append(h,tx);
  document.querySelectorAll('#script li').forEach((li,j)=>{li.setAttribute('aria-current',j===bi);if(j===bi&&!keep)li.scrollIntoView({block:'nearest'})});
  say()}
-function say(){try{au.pause();if(voice&&playing){au.src='vo/e'+(ep+1)+'b'+(bi+1)+'.mp3';au.currentTime=0;const pr=au.play();if(pr&&pr.catch)pr.catch(()=>{voice=false;$('vo').setAttribute('aria-pressed',false);$('vo').textContent='VOICE BLOCKED'})}}catch(x){}}
+function say(){try{au.pause();if(voice&&playing){au.src='vo/e'+ep+'b'+(bi+1)+'.mp3';au.currentTime=0;const pr=au.play();if(pr&&pr.catch)pr.catch(e=>{if(!e||e.name!=='NotAllowedError')return;voice=false;$('vo').setAttribute('aria-pressed',false);$('vo').textContent='VOICE BLOCKED'})}}catch(x){}}
 function setEp(i){ep=i;document.querySelectorAll('#eps button').forEach((q,j)=>q.setAttribute('aria-selected',j===ep));const E=EP[ep],s=$('script');s.textContent='';const h=document.createElement('h2');h.textContent=E.t;const p=document.createElement('p');p.textContent=E.sum;const ol=document.createElement('ol');
  E.b.forEach((b,j)=>{const li=document.createElement('li'),w=document.createElement('b'),t=document.createElement('span');li.tabIndex=0;w.textContent=SPK[val(b.s)].split(' · ')[0];t.textContent=val(b.x);li.append(w,t);li.onclick=()=>setBeat(j,true);li.onkeydown=e=>{if(e.key==='Enter')setBeat(j,true)};ol.append(li)});
  const nt=document.createElement('p');nt.className='note';nt.textContent='Film 1,541,585,241,617. Thoughts, guesses, roles and the irony figure are read from the film bank code at the deed shown. Episode 4 plays two deed modules directly; the ledger would refuse the second. The two payout figures are from the policies page. The count, the policies, the rules and the fifth and sixth person are told in the film The Burning of the Abominable House; rooms, light and witnesses in By What Light. Voices are Kokoro recordings made ahead of time. Skiller, the planted heading and the claim are not modelled; the episodes say so.';
  s.append(h,p,ol,nt);setBeat(0)}
 function setPlay(p){playing=p;$('pp').textContent=p?'PAUSE':'PLAY';if(!p)try{au.pause()}catch(x){}else if(voice&&bt<.3)say()}
-EP.forEach((E,i)=>{const q=document.createElement('button');q.setAttribute('role','tab');q.textContent=String(i+1);q.setAttribute('aria-label',E.t);q.onclick=()=>setEp(i);$('eps').append(q)});
+EP.forEach((E,i)=>{const q=document.createElement('button');q.setAttribute('role','tab');q.textContent=String(i);q.setAttribute('aria-label',E.t);q.onclick=()=>setEp(i);$('eps').append(q)});
 $('pp').onclick=()=>setPlay(!playing);cv.onclick=()=>setPlay(!playing);$('pv').onclick=()=>setBeat(bi-1);$('nx').onclick=()=>setBeat(bi+1);
 $('vo').onclick=()=>{voice=!voice;$('vo').textContent='VOICE';$('vo').setAttribute('aria-pressed',voice);if(!voice)try{au.pause()}catch(x){}else{setPlay(true);setBeat(bi)}};
 addEventListener('keydown',e=>{if(e.key==='ArrowRight')setBeat(bi+1);else if(e.key==='ArrowLeft')setBeat(bi-1);else if(e.key===' '){e.preventDefault();setPlay(!playing)}});
@@ -169,4 +257,4 @@ function tick(ms){requestAnimationFrame(tick);const now=ms/1000,dt=Math.min(.1,(
  $('prog').firstChild.style.width=(100*(bi+cl(0,1,bt/d))/EP[ep].b.length)+'%';
  if(now-lastDraw>=gap){lastDraw=now;const c0=performance.now();draw(now);gap=cl(.05,.5,(performance.now()-c0)/500)}}
 setPlay(playing);setEp(0);requestAnimationFrame(tick);
-</script></body></html>
+</script><script src="flow.js"></script></body></html>
