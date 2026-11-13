@@ -1,0 +1,43 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<title>Who Did What · Watch All</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="The four films of the Abominable House played back to back with voices: the case in ten lines, the first film, Re:Order in Crime, and Six Readings.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+/* Layout: no page scroll. One slim bar on top (part number, title, back, next, voice), the current film fills everything under it. Before the first tap a start card covers the film; after the last film an end card lists the pages to use by hand. */
+*{box-sizing:border-box}html,body{height:100%;margin:0}body{background:#14110e;color:#f4eedd;font:600 12px "JetBrains Mono",ui-monospace,Menlo,monospace;display:grid;grid-template-rows:auto 3px minmax(0,1fr);overflow:hidden}
+#top{display:flex;gap:6px;align-items:center;padding:6px 8px;border-bottom:1px solid #3a332b}
+#top b{font:800 clamp(16px,4.4vw,24px)/1 "Big Shoulders Display",Impact,sans-serif;text-transform:uppercase;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#top span{color:#958a7a;white-space:nowrap}
+button,a.b{font:inherit;letter-spacing:.05em;color:#f4eedd;background:#1d1812;border:1px solid #6f6456;padding:7px 9px;cursor:pointer;text-decoration:none}
+button[aria-pressed="true"]{background:#ffdc00;color:#1d1812;border-color:#ffdc00}button:focus-visible,a:focus-visible{outline:2px solid #ffdc00;outline-offset:2px}
+#all{background:#3a332b}#all i{display:block;height:100%;width:0;background:#e0603f}
+#stage{position:relative;min-height:0}iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:#14110e}
+.card{position:absolute;inset:0;background:#14110e;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;gap:12px;padding:6vw;overflow:auto}
+.card h1{font:800 clamp(44px,11vw,110px)/.9 "Big Shoulders Display",Impact,sans-serif;text-transform:uppercase;margin:0}
+.card p{font:16px/1.45 Georgia,serif;max-width:52ch;margin:0;color:#e6dcc8}
+.card ol{margin:0;padding:0;list-style:none;font:15px/1.5 Georgia,serif}.card ol b{font:600 12px "JetBrains Mono",monospace;color:#ffdc00;margin-right:8px}
+.card .go{font-size:15px;background:#ffdc00;color:#1d1812;border-color:#ffdc00;padding:12px 18px}
+.card .row{display:flex;gap:6px;flex-wrap:wrap}[hidden]{display:none!important}
+</style></head><body>
+<div id="top"><span id="n"></span><b id="t">Who did what</b><button id="pv">BACK</button><button id="nx">NEXT</button><button id="vo" aria-pressed="true">VOICE</button></div>
+<div id="all"><i></i></div>
+<div id="stage"><iframe id="fr" title="Current film" allow="autoplay"></iframe>
+<div class="card" id="start"><h1>Who did what</h1><p>A house burned. Four people died. A list of twelve crimes was found with no names on it. Four films, back to back, about 22 minutes with voices.</p><ol id="lst"></ol><div class="row"><button class="go" id="go">START</button><a class="b" id="fl" href="flow.html">ALL TEN STOPS</a></div></div>
+<div class="card" id="end" hidden><h1>Now run it</h1><p>That is everything to watch. These pages are for using by hand.</p><div class="row" id="hands"></div><div class="row"><button id="again">WATCH AGAIN</button></div></div></div>
+<script>
+// WATCH is read by each film page (through flow.js) to know it is being played from here.
+window.WATCH={voice:true};
+const M=window.WATCH_MAP||{},u=f=>M[f]||('live/'+f),$=id=>document.getElementById(id);
+const PL=[['rerereorder.html','The List Has No Names','2 min',0],['abom.html','The Story, Drawn in Code','1 min 36 s',98],['reorder.html','Re:Order in Crime','13 min',0],['rereorder.html','Six Readings','6 min',0]];
+const HANDS=[['player.html','THE DEED BANK'],['film.html','THE FILM BANK'],['guide.html','FILM BANK GUIDE'],['numbers.html','THE COUNT'],['policies.html','THE POLICIES'],['array.html','THE ARRAY']];
+let i=-1,timer=0;
+$('lst').innerHTML=PL.map((p,k)=>'<li><b>'+(k+1)+'</b>'+p[1]+' · '+p[2]+'</li>').join('');
+$('hands').innerHTML=HANDS.map(h=>'<a class="b" href="'+u(h[0])+'">'+h[1]+'</a>').join('');if(M['flow.html'])$('fl').href=M['flow.html'];
+function play(k){clearTimeout(timer);if(k>=PL.length){i=PL.length;$('fr').src='about:blank';$('end').hidden=false;$('t').textContent='Now run it';$('n').textContent='';$('all').firstChild.style.width='100%';return}
+ i=Math.max(0,k);$('start').hidden=true;$('end').hidden=true;const p=PL[i];$('fr').src=u(p[0]);$('t').textContent=p[1];$('n').textContent=(i+1)+'/'+PL.length;$('all').firstChild.style.width=(100*i/PL.length)+'%';if(p[3])timer=setTimeout(()=>play(i+1),p[3]*1000)}
+addEventListener('message',e=>{if(e.data==='film:end'&&e.source===$('fr').contentWindow)play(i+1)});
+$('go').onclick=()=>play(0);$('again').onclick=()=>play(0);$('nx').onclick=()=>play(i+1);$('pv').onclick=()=>play(i-1);
+$('vo').onclick=()=>{WATCH.voice=!WATCH.voice;$('vo').setAttribute('aria-pressed',WATCH.voice);if(i>=0&&i<PL.length)play(i)};
+</script></body></html>
