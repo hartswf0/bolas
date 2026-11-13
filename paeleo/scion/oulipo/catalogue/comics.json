@@ -1,0 +1,323 @@
+[
+  {
+    "id": 11,
+    "slug": "cercle-vicieux",
+    "work": "Cercle vicieux",
+    "title": "Long-form panel palindrome",
+    "family": "Comics",
+    "byline": "Étienne Lécroart · 2000",
+    "line": "Reverse a comic’s panel sequence after its midpoint.",
+    "image": [
+      "cercle1.webp",
+      "Six black-and-white panels from Cercle vicieux",
+      "L’Association"
+    ],
+    "sources": [
+      [
+        "L’Association, Cercle vicieux",
+        "https://www.lassociation.fr/catalogue/cercle-vicieux/",
+        "Identifies a 30-page palindrome that reverses at its midpoint and shows original pages."
+      ],
+      [
+        "Contrebandes, Bande dessinée sous contrainte",
+        "https://www.contrebandes.net/2007/11/bande-dessinee-sous-contrainte/",
+        "Describes panel and balloon identity across the central turn."
+      ],
+      [
+        "SCION 43, Collage Graph Rewriting",
+        "https://hartswf0.github.io/bolas/paeleo/scion/operator.html#s43",
+        "Keep panel identity separate from its role in a sequence."
+      ]
+    ],
+    "thesis": "Make a familiar drawing acquire a second function when its neighbors arrive in reverse order. Build a hinge that makes the reversal feel earned across page turns.",
+    "state": "◻(Panel) has immutable artwork ID, lettered text, speaker, and visual anchors. ◻(ReadingOrder) stores the ordered panel IDs across pages. ◻(StoryRole) maps each occurrence to its local purpose and causal neighbors. [mirror] maps the chosen prefix into a suffix by reverse order.",
+    "invariant": "Every mirrored occurrence points to the exact original panel and lettering. Declare whether the work uses a single hinge panel or a seam between paired panels. Page grids may change with format while the flattened panel order remains identical.",
+    "concurrency": "Builders own panel IDs in the prefix. The mirrored suffix is derived from the same IDs. A patch to a panel invalidates both of its occurrences and nearby transitions. At 100×, run symmetry checks on sequences before laying them out and count distinct hinges.",
+    "swarm": "A story designer maps action and consequence in both halves. A drawing and lettering unit produces the canonical panels. A page designer places the hinge and page turns. A validator checks exact symmetry. A fresh reader marks the first meaningful change in interpretation.",
+    "proof": "Make a four-page original story with nine unique panels and one of those as the hinge. Use the other eight panels on either side, yielding 17 occurrences. Begin with an action that reads as accusation and returns as protection. Place the hinge on a purposeful page turn.",
+    "fixture": "[A,B,C,X,C,B,A] passes a single-center check. [A,B,C,X,C,B′,A] fails when B′ changes the balloon or drawing. Validate normalized content IDs and flattened reading order after every export.",
+    "critic": "Have someone read at normal pace without the symmetry key, then point to the turning panel and explain which repeated drawing means something different. Check the payoff at phone and print size.",
+    "inquiry": "If the back half feels like duplication, keep every panel and change which state the hinge makes inferable. If the hinge is too conspicuous, keep the event and compare its page placement.",
+    "branch": "After acceptance, create a seam-based variant with a doubled center and compare the effect of one extra beat without redrawing the paired panels.",
+    "deliver": "Four-page readable comic, canonical panel registry, flattened path and reversal test, a hinge comparison, reader notes, and the editable page layout.",
+    "shared": "Make a forward passage through the station beats, then repeat the exact panel IDs in reverse. Treat the backward leg as a second reading of the evidence. Keep the shared incident in canonical chronological order outside the page.",
+    "tags": [
+      "#etienne-lecroart",
+      "#panel-palindrome",
+      "#oubapo"
+    ]
+  },
+  {
+    "id": 12,
+    "slug": "quatre-vingt-quinze",
+    "work": "Quatre-vingt-quinze",
+    "title": "Crossed reading paths",
+    "family": "Comics",
+    "byline": "Étienne Lécroart · Oubapo",
+    "line": "Read the same page across and down to get different stories.",
+    "image": [
+      "extract-003.webp",
+      "Four columns and five rows of orange and black panels with red crossing marks",
+      "Cité internationale de la bande dessinée et de l’image"
+    ],
+    "sources": [
+      [
+        "Fred Paltani-Sargologos, fig. 23, p. 109",
+        "https://www.citebd.org/sites/default/files/blog_9eart/IMG/pdf/Le_roman_graphique_une_bande_dessinee_prescriptrice_de_legitimation_culturelle.pdf#page=109",
+        "Identifies Lécroart’s crossed strip and reproduces the grid."
+      ],
+      [
+        "Cité de la bande dessinée, Oubapo",
+        "https://www.citebd.org/neuvieme-art/oubapo",
+        "Describes the practice of reading a page both vertically and horizontally."
+      ],
+      [
+        "SCION 8, Constraint Sketchpad",
+        "https://hartswf0.github.io/bolas/paeleo/scion/operator.html#s8",
+        "Make one edit respect simultaneous neighboring constraints."
+      ]
+    ],
+    "thesis": "Make one panel answer two different narrative questions depending on the route into it. Let the second reading disclose a meaning the first route leaves latent.",
+    "state": "◻(Cell) has row, column, canonical artwork and lettered text, visible props, and outgoing cues. ◻(ReadingPath) is an ordered list of cell IDs with allowed neighbor edges. ◻(NarrativeContext) is a path-local precondition and effect at each occurrence.",
+    "invariant": "Use one immutable panel and text for each coordinate in all traversals. Each declared route visits legal cells in its published order. Each route has its own supported setup and resolution. Offer axis cues that remain clear in grayscale or at small size.",
+    "concurrency": "An across-path author and a down-path author propose requirements on shared cells. A cell changes only after both adjacency contracts pass. Independent cells can merge when they share no changed edge. At 100×, solve the path constraints before drawing polished alternatives.",
+    "swarm": "Two story agents design independent routes over one cell vocabulary. A grid designer identifies high-coupling crossroads. A letterer keeps ambiguous lines usable in both paths. A path validator checks coverage and adjacency. Independent readers start on opposite routes.",
+    "proof": "Build a 3×3 original grid. Read it row-major as a lost-key story and column-major as a story about who set up the encounter. Make the center panel answer different preceding beats. Require both endings to use the same final cell.",
+    "fixture": "For cell IDs A through I, across is A B C D E F G H I and down is A D G B E H C F I. Both routes visit every cell once. A per-route rewrite of E fails even when both stories read independently.",
+    "critic": "Give two readers different starting routes and record their account before showing the other. Ask where they lost direction and what the center panel meant in each reading.",
+    "inquiry": "If the routes feel synonymous, fix art and revise one shared line so it resolves different tensions. If one route fails coherence, freeze the successful route and inspect the first unsupported incoming transition.",
+    "branch": "Try a diagonal or serpentine route only if it earns its own causal arc. Record it as an additional path through the same cell registry.",
+    "deliver": "A print-ready or responsive grid, separate path walkthroughs, canonical cells, adjacency tests, and reader evidence for each route.",
+    "shared": "Use a row-major traversal to follow what happens at the station. Use a column-major traversal to follow the envelope, bell, and key as repeated concerns. Keep every cell identical between paths.",
+    "tags": [
+      "#etienne-lecroart",
+      "#crossed-reading",
+      "#oubapo"
+    ]
+  },
+  {
+    "id": 13,
+    "slug": "boucle-la",
+    "work": "Boucle-là !",
+    "title": "A short palindrome with a hinge",
+    "family": "Comics",
+    "byline": "Étienne Lécroart · Oubapo",
+    "line": "Use one line as the hinge that flips an argument.",
+    "image": [
+      "extract-001.webp",
+      "Four rows of black-and-white panels repeating around the central reversal",
+      "Cité internationale de la bande dessinée et de l’image"
+    ],
+    "sources": [
+      [
+        "Fred Paltani-Sargologos, fig. 22, p. 108",
+        "https://www.citebd.org/sites/default/files/blog_9eart/IMG/pdf/Le_roman_graphique_une_bande_dessinee_prescriptrice_de_legitimation_culturelle.pdf#page=108",
+        "Reproduces Boucle-là ! as an example of the palindrome."
+      ],
+      [
+        "SCION 47, Sound-to-Action",
+        "https://hartswf0.github.io/bolas/paeleo/scion/operator.html#s47",
+        "A line’s timing and the listener’s state give it a dramatic function."
+      ]
+    ],
+    "thesis": "Build a tight conversational reversal in which the same speech and drawings change who seems to be on the defensive. The central line pivots the exchange within one page.",
+    "state": "◻(ExchangePanel) binds an immutable visual asset to speaker and balloon text. ◻(SpeechAct) assigns each occurrence a local function such as accuse, deny, reassure, or concede. ◻(Hinge) is the single permitted unpaired occurrence.",
+    "invariant": "Mirror the complete sequence of story panels around the hinge, preserving art and words. Title and page furniture live outside the mirrored sequence. Record how the pragmatic meaning changes through adjacency alone.",
+    "concurrency": "Writers may pitch competing hinge lines, while the panel builder owns the immutable drawings. A changed panel label invalidates both mirrored adjacencies. At 100×, group hinge candidates by the resulting speech-act change before layout.",
+    "swarm": "A dialogue writer designs an argument with reversible lines. A panel artist gives each line a clear posture. A validator tests palindrome identity. A critic traces who has leverage before and after the hinge.",
+    "proof": "Draw one page of seven occurrences: three panels, one hinge, the same three in reverse. Two people dispute who left a note. Make the hinge reveal that the note was meant for the person accusing the other. Repeat the art and lettering exactly.",
+    "fixture": "[A,B,C,H,C,B,A] passes. Swapping speakers on the second B or reversing the letters within a balloon fails. Two different hinges with the same pair sequence are legal separate candidates.",
+    "critic": "After one natural reading, ask which line shifted the leverage and which repeated line changed meaning. Judge that change before pointing out the symmetry.",
+    "inquiry": "If the reversal is legible only after explanation, hold every paired panel and compare alternate hinge wording. If the speech reads but faces imply the wrong relationship, change the canonical pose for both occurrences at once.",
+    "branch": "Move the same rule into sound with repeated voice clips and one hinge cue. Track whether changed adjacency still changes the speech act.",
+    "deliver": "A single readable page, panel ID path, paired speech-act annotations, hinge alternatives, and independently located turning point.",
+    "shared": "Let two people ask who left the key. Build three exact panel pairs and a hinge in which the key’s ownership is questioned. The observed station facts remain the same.",
+    "tags": [
+      "#etienne-lecroart",
+      "#dialogue-hinge",
+      "#short-palindrome"
+    ]
+  },
+  {
+    "id": 14,
+    "slug": "moins-dun-quart-de-seconde-pour-vivre",
+    "work": "Moins d’un quart de seconde pour vivre",
+    "title": "Iconic iteration",
+    "family": "Comics",
+    "byline": "Jean-Christophe Menu and Lewis Trondheim · 1991 edition",
+    "line": "Repeat the artwork and make the words carry the action.",
+    "image": [
+      "iteration-001.webp",
+      "Four panels showing the same creature with changing speech balloons",
+      "Cité internationale de la bande dessinée et de l’image"
+    ],
+    "sources": [
+      [
+        "Léo Louis-Honoré, Itération et inexpressivité, p. 23",
+        "https://www.citebd.org/sites/default/files/blog_9eart/IMG/pdf/ITERATION_ET_INEXPRESSIVITE_DANS_LA_BANDE_DESSINEE_HUMORISTIQUE_2_reduit.pdf#page=23",
+        "Documents Menu and Trondheim’s use of iconic iteration and reproduces an example."
+      ],
+      [
+        "SCION 17, Repeatable Graphic Grammar",
+        "https://hartswf0.github.io/bolas/paeleo/scion/operator.html#s17",
+        "Reuse a fixed graphic unit while changing dramatic use."
+      ]
+    ],
+    "thesis": "Make a stationary drawing feel like a changing situation through what a character says, withholds, or repeats. The final balloon should change how the reader understands the expression already on the page.",
+    "state": "◻(Plate) has an asset hash and fixed crop. ◻(PanelOccurrence) binds one plate ID to independently editable balloons and an optional silence. ◻(DialogueBeat) records speaker, intention, and transition in the listener’s understanding.",
+    "invariant": "For the strict proof every image occurrence uses the same art bytes, crop, scale, and frame. Keep balloons on a separate plane. The artwork-only raster must compare equal across the strip.",
+    "concurrency": "A plate maker publishes one immutable art layer. Writers branch on balloons. Balloon collisions are resolved in layout. Two dialogue edits that alter the same expectation chain receive separate readings. At 100×, reject graphic drift before scoring distinct speech sequences.",
+    "swarm": "A plate artist builds one durable ambiguous pose. Two writers develop competing four-beat arcs. A letterer handles balloon spacing and silence. An independent reader tests whether the words create real progression.",
+    "proof": "Draw a figure seated on a bench holding an unopened envelope. Repeat the drawing four times. In one strip the figure persuades themself to wait. In the other, the same pose becomes an alibi. Leave one panel wordless in at least one cut.",
+    "fixture": "Four identical layer hashes with three changed balloon strings pass. Changing the crop by one pixel or subtly redrawing a mouth fails strict mode. A silent third panel remains a valid dialogue event.",
+    "critic": "Ask what changed in each strip and why the blank beat matters. Compare the two strips at the same size with artwork held constant.",
+    "inquiry": "If the words simply describe the illustration, keep the image and write one line that gives a different reason for the same posture. If the joke runs too long, test silence before removing a panel.",
+    "branch": "After the single-plate proof, freeze a tiny authorized plate library and compare a single repeated image with recombination across several fixed drawings.",
+    "deliver": "Two four-panel strips, unlettered canonical art, balloon layer files, asset equality check, and a reader comparison.",
+    "shared": "Use one view of the bench, visitor, and envelope. Let balloons establish the bell, the key’s discovery, and the decision to leave while the image layer remains fixed.",
+    "tags": [
+      "#jean-christophe-menu",
+      "#lewis-trondheim",
+      "#iconic-iteration"
+    ]
+  },
+  {
+    "id": 15,
+    "slug": "les-caids-de-la-gaudriole",
+    "work": "Les caïds de la gaudriole",
+    "title": "Folded dialogue",
+    "family": "Comics",
+    "byline": "Étienne Lécroart · Oubapo",
+    "line": "Let a physical fold bring hidden words and images together.",
+    "image": [
+      "fold_extract-000.webp",
+      "Two panels with fold marks and the panel they form when combined",
+      "Cité internationale de la bande dessinée et de l’image"
+    ],
+    "sources": [
+      [
+        "Léo Louis-Honoré, Itération et inexpressivité, p. 21",
+        "https://www.citebd.org/sites/default/files/blog_9eart/IMG/pdf/ITERATION_ET_INEXPRESSIVITE_DANS_LA_BANDE_DESSINEE_HUMORISTIQUE_2_reduit.pdf#page=21",
+        "Reproduces the folded strip and identifies Les caïds de la gaudriole as its source."
+      ],
+      [
+        "Étienne Lécroart, essay on comics constraints, fig. 4",
+        "https://www.ieeff.org/f19lecroart.pdf",
+        "Describes how folds join selected page portions in the related Pervenche et Victor."
+      ],
+      [
+        "SCION 8, Constraint Sketchpad",
+        "https://hartswf0.github.io/bolas/paeleo/scion/operator.html#s8",
+        "Express alignment as inspectable geometry."
+      ]
+    ],
+    "thesis": "Make the fold itself change what the comic says. The open strip sets up a reading, then the same ink yields a surprising line or image when two edges meet.",
+    "state": "◻(Sheet) records physical dimensions, surfaces, print registration, and artwork. ◻(Fold) records axis, order, moving portion, and visible masks. ◻(Fragment) has x/y bounds, speaker, layer, and text. [fold] maps visible fragments to new adjacency in sheet coordinates.",
+    "invariant": "Use only ink present on the sheet. Model occlusion and movement by the declared fold geometry. Define print scale and a seam tolerance before composing. A hidden or revealed phrase must be recoverable from explicit visible fragments.",
+    "concurrency": "A geometry builder fixes fold and seam coordinates. Writers and artists work on panels within those bounds. A change to axis position or print scale invalidates all dependent reveals. At 100×, test fragment fit and reading order before printing candidate strips.",
+    "swarm": "A paper engineer lays out fold marks and a flat test export. A writer constructs open and folded lines from shared fragments. A panel artist aligns meaningful image edges. A separate tester performs the fold and reports the new reading.",
+    "proof": "Make a printable strip with two visible panels and one marked fold. The open panels set up a misunderstanding over a borrowed key. Folding joins two existing text fragments and aligns the hands to reveal who held it. Include an animated or toggled digital fold preview if physical printing is unavailable.",
+    "fixture": "A fold around x=f reflects the moving point x into 2f−x. Apply the declared visibility mask and compare seam alignment against the actual print tolerance. A new overlay that appears only after folding and has no ink source fails.",
+    "critic": "Have someone fold the marked print or operate the digital equivalent without being told the punchline. Ask what appeared at the seam and whether both readings are coherent.",
+    "inquiry": "If the joke requires explanation, freeze mechanics and replace one fragment with a double-purpose phrase. If the idea reads but the letters miss, preserve the writing and correct the physical registration.",
+    "branch": "Try a second fold on a fresh copy. Calculate the resulting visible faces and check the order of operations before adding content.",
+    "deliver": "Scale-marked printable file, flat and folded previews, fragment inventory, fold coordinates and tolerances, assembly instructions, and review evidence.",
+    "shared": "The open strip describes the envelope as unimportant. A fold joins two parts of visible dialogue to identify the key without adding ink. The reveal changes the reading of the same incident.",
+    "tags": [
+      "#etienne-lecroart",
+      "#paper-folding",
+      "#oubapo"
+    ]
+  },
+  {
+    "id": 16,
+    "slug": "99-ways-template",
+    "work": "99 Ways to Tell a Story · Template",
+    "title": "Build a neutral baseline",
+    "family": "Comics",
+    "byline": "Matt Madden · 2005",
+    "line": "Draw an ordinary event clearly enough to survive many retellings.",
+    "image": [
+      "madden1.webp",
+      "Matt Madden’s Template page, with a figure moving from desk to refrigerator",
+      "Matt Madden"
+    ],
+    "sources": [
+      [
+        "Matt Madden, 99 Ways to Tell a Story",
+        "https://mattmadden.com/comics/99x/",
+        "Explains the original one-page anecdote and its 99 reworkings after Queneau."
+      ],
+      [
+        "Matt Madden, selected pages",
+        "https://mattmadden.com/comics/99x/discover-99-ways-to-tell-a-story-exercises-in-style/",
+        "Presents Template and Subjective as separate versions."
+      ],
+      [
+        "SCION 27, Declarative Film Compiler",
+        "https://hartswf0.github.io/bolas/paeleo/scion/operator.html#s27",
+        "Keep the canonical event list separate from the presentation."
+      ]
+    ],
+    "thesis": "Design a compact incident whose people, objects, motives, and missed goal can be recovered without explanation. Build the baseline as a usable score for future experiments.",
+    "state": "◻(Anecdote) contains ordered event IDs, participants, object identities, and causal links. ◻(BaselinePage) records panel bounds, objective viewpoint, speech, timing, and visible event evidence. [derive] takes a baseline and one declared operator into a comparable variation.",
+    "invariant": "Freeze the source event graph once a fresh reader can reconstruct it. Panel timing and framing may vary between adaptations. Distinguish source facts, visible cues, and interpretations so one does not silently change another.",
+    "concurrency": "A story author and continuity checker own the canonical beats. Rendering agents may propose independent page layouts against that same graph. After freeze, a beat change is a new baseline revision and invalidates dependent comparisons. At 100×, group candidates by event coverage and changed dimension.",
+    "swarm": "A writer drafts a small action chain. A cartoonist draws the clear baseline. A continuity reader extracts beats without seeing the ledger. Two variant builders test its portability by changing one dimension each.",
+    "proof": "Draw one page in six to eight panels. A person leaves a desk, hears a question from another room, answers, reaches the cupboard, and forgets why. Build one compressed retelling and one new point of view after the baseline passes independent reading.",
+    "fixture": "The baseline records speaker identity, destination, interruption, and outcome. A version may imply an event outside the frame when the cue is specified. Changing the outcome creates a declared alternate story and leaves the style comparison set.",
+    "critic": "Ask a reader to retell the incident in order before showing the ledger. Then compare two derivatives and name what each alters while identifying the same incident.",
+    "inquiry": "If readers disagree about the facts, repair the cheapest ambiguous panel in the baseline and rerun the same reading. If only the variants fail, preserve the baseline and inspect their operator-specific omissions.",
+    "branch": "Make one event ledger serve a strip, a 20-second animatic, and a sound scene. Compare where each medium has to supply its own cues.",
+    "deliver": "Baseline comic, machine-readable beat ledger, two clearly labeled derivative pages, coverage report, and a baseline revision reusable by another swarm.",
+    "shared": "Make the clearest objective page for the station incident. Export the canonical beats and panel IDs so the other operators can reuse them.",
+    "tags": [
+      "#matt-madden",
+      "#baseline-anecdote",
+      "#exercises-in-style"
+    ]
+  },
+  {
+    "id": 17,
+    "slug": "99-ways-subjective",
+    "work": "99 Ways to Tell a Story · Subjective",
+    "title": "First-person reconstruction",
+    "family": "Comics",
+    "byline": "Matt Madden · 2005",
+    "line": "Retell the same incident through what one participant can perceive.",
+    "image": [
+      "madden2.webp",
+      "First-person comic panels looking past hands toward objects and a refrigerator",
+      "Matt Madden"
+    ],
+    "sources": [
+      [
+        "Matt Madden, selected pages",
+        "https://mattmadden.com/comics/99x/discover-99-ways-to-tell-a-story-exercises-in-style/",
+        "Publishes the baseline Template and the Subjective viewpoint variant."
+      ],
+      [
+        "SCION 45, Occlusion Compositing",
+        "https://hartswf0.github.io/bolas/paeleo/scion/operator.html#s45",
+        "Derive the picture from who can see what in a shared world."
+      ]
+    ],
+    "thesis": "Keep one event sequence while making the audience inhabit a character’s restricted information. Let hands, gaze direction, and offscreen speech do the work a wide shot did in the baseline.",
+    "state": "◻(Event) has objective identity and order. ◻(EyePose) has position, direction, and field of view. ◻(Observation) has event_id, sensory channel, evidence, and access condition. [observe] maps shared events and eye pose into the character’s visible and audible world.",
+    "invariant": "Hold canonical participants, causality, and outcome fixed. Every visible object must be accessible from the chosen viewpoint. Handle outside-view events with a permitted sensory cue, inference, or uncertainty. Mark reflective glimpses as geometrically supported.",
+    "concurrency": "Build hands, environments, and speech independently from a frozen event sheet. A viewpoint change triggers affected visibility checks. Two versions that give the protagonist incompatible knowledge remain separate. At 100×, filter visibility violations before comparing emotional effects.",
+    "swarm": "A continuity agent freezes events. A viewpoint artist stages head turns, hands, and reach. A writer moves unseen speech offscreen. A visibility verifier checks geometry and knowledge. A fresh viewer compares the objective and subjective pages.",
+    "proof": "Redraw a six-panel household anecdote through the main character’s eyes. Preserve its initial errand and failed outcome. Provide one unseen interruption through sound or a speech balloon and one visible object that only enters after a head turn.",
+    "fixture": "If an object lies outside a pose’s field of view, omit it until a turn or supported reflection. Keep the original event ID even when the spectator learns it indirectly. A disembodied reverse shot fails strict viewpoint mode.",
+    "critic": "Ask what the spectator knew before the turn, which cue changed that knowledge, and whether the endpoint still matches the baseline. Compare without giving the viewer the shot list first.",
+    "inquiry": "If the subjective version reads as a series of arbitrary crops, hold the beat order and test orientation cues. If an offscreen action is too vague, hold viewpoint and compare a spatialized cue with a visible consequence.",
+    "branch": "Assign the same event to a different witness’s eye line and list which facts become inaccessible. Keep shared event IDs across versions.",
+    "deliver": "Paired comic pages or playable views, frozen event ledger, viewpoint/visibility map, sound cues where applicable, and an independent comparison of knowledge.",
+    "shared": "Redraw the station incident through the visitor’s eyes. The bell comes from offscreen. Hands open the envelope. Keep the closed door and the final placement of the key clear.",
+    "tags": [
+      "#matt-madden",
+      "#subjective-viewpoint",
+      "#exercises-in-style"
+    ]
+  }
+]

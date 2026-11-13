@@ -1,0 +1,464 @@
+[
+  {
+    "id": 1,
+    "slug": "la-machine-a-tuer-le-temps",
+    "work": "La Machine à tuer le temps",
+    "title": "Fixed shot pool",
+    "family": "Cinema",
+    "byline": "Oucipo and Raymond Queneau · c. 1974",
+    "line": "Make different films from one locked inventory of shots.",
+    "image": [
+      "oucipo.webp",
+      "The red Oucipo notebook and its photographs for shots 15 and 16",
+      "Drouot Estimations"
+    ],
+    "sources": [
+      [
+        "Drouot Estimations, lot 175",
+        "https://www.drouot-estimations.com/en/l/19776519-queneau-raymond-and-the-ou-ci-po-dossier-la-machine-a-tuer",
+        "The dossier inventories 42 photographs. It proposes variations in order, duration, reversal, speed, synchronization, and soundtrack."
+      ],
+      [
+        "SCION 27, Declarative Film Compiler",
+        "https://hartswf0.github.io/bolas/paeleo/scion/operator.html#s27",
+        "Build an edit from explicit, replayable timeline instructions."
+      ]
+    ],
+    "thesis": "Make the audience infer a different cause or motive from identical raw images. The defining cut changes what an encounter means while every visible source image remains traceable to the same frozen pool.",
+    "state": "◻(ShotAsset) has asset_id, source hash, native frame bounds, and source anchor. ◻(PictureEdit) is an ordered list of asset_id, in/out frame, integer output duration, direction, and speed. ◻(SoundEdit) has separately versioned tracks, cues, and offsets. Shot pool × edit → [render] → ◻(Screening).",
+    "invariant": "Freeze one asset manifest before branching. Every visible frame must resolve to a declared asset and valid source range. Permit timing, order, repeat, omission, reverse, and independent audio changes. Keep geometry, color, content, and framing of every referenced image fixed for this exercise.",
+    "concurrency": "Branch by edit ID against the same pool hash. Picture cuts and audio moves merge when their intervals and explicit sync dependencies remain compatible. A picture trim and a cue tied to the old cut require re-alignment or a fork. At 100× proposals, check inventory and deduplicate edit recipes before scheduling renders.",
+    "swarm": "A shot registrar freezes the pool and frame ranges. Rival editors build two contrasting timelines. A sound editor creates and aligns stems for both. A validator compares manifests and resolves every output frame. A fresh viewer compares unlabelled exports.",
+    "proof": "Shoot or draw eight short originals: a clock, a hand with a parcel, a second hand, a door, a glance, a dropped receipt, a person exiting, and an empty threshold. Make a 20–30 second ordinary handoff and a second cut that makes the parcel seem illicit. Screen once with one shared sound bed, then with both final mixes. The historical count is 42. Eight is this proof’s budget.",
+    "fixture": "A=[clock, hand, door, exit] and B=[exit, door, hand, clock] pass inventory membership on the same pool hash. A generated insert or an out-of-bounds source frame fails. Audio-only replacement must preserve the serialized picture edit.",
+    "critic": "Ask for the perceived cause, the person acting on it, and the exact cut or audible cue that changed the inference. Report whether each cut reads at normal speed and whether the distinction survives the common-sound screening.",
+    "inquiry": "If both cuts read alike, hold the soundtrack fixed and reverse one dependency-bearing adjacency. If the reversal confuses chronology without shifting motive, compare a longer hold on the glance with a delayed cue. Retain the test that changes the reading and document the controlling variable.",
+    "branch": "After the baseline passes, add one declared time operation such as staggered repetition. Use one shared cut to test how far sound alone can move genre.",
+    "deliver": "Two playable cuts, frozen shot inventory, timecoded edit recipes and stems, one picture-reuse report, an independent comparison, and the accepted edit checkpoint.",
+    "shared": "Use one pool for both station edits. Reorder the bell and the hand’s arrival at the bench to shift whether the key feels planted or merely forgotten. Keep the actual inventory and the shared event record frozen.",
+    "tags": [
+      "#oucipo",
+      "#shot-inventory",
+      "#temporal-editing"
+    ]
+  },
+  {
+    "id": 2,
+    "slug": "un-homme-qui-dort",
+    "work": "Un homme qui dort",
+    "title": "Second-person voice",
+    "family": "Cinema",
+    "byline": "Georges Perec and Bernard Queysanne · 1974 release",
+    "line": "Let a voice say “you” while the image observes someone else.",
+    "image": [
+      "sommeil.webp",
+      "A black-and-white close-up of Jacques Spiesser beside a doubled reflection",
+      "QAGOMA / Dovidis"
+    ],
+    "sources": [
+      [
+        "QAGOMA, film program and still",
+        "https://www.qagoma.qld.gov.au/cinema/screening/un-homme-qui-dort-the-man-who-sleeps-2026-03-22",
+        "Film and production context."
+      ],
+      [
+        "Katja Waschneck, Screening OULIPO, introduction, PDF p. 9",
+        "https://repository.essex.ac.uk/22413/1/Screening%20OULIPO.pdf#page=9",
+        "Identifies the second-person narration."
+      ],
+      [
+        "SCION 47, Sound-to-Action",
+        "https://hartswf0.github.io/bolas/paeleo/scion/operator.html#s47",
+        "Use the timecoded voice track as a performance score."
+      ]
+    ],
+    "thesis": "Make a spectator feel personally addressed while an anonymous figure stays available to observation. The proof hinges on one interval in which the voice’s address and the image’s point of view become perceptibly separate.",
+    "state": "◻(AddressClause) has addressee_id, grammatical person, predicate, and spoken interval. ◻(ObservedAction) has subject_id, event_id, and observation interval. Keep camera viewpoint, narrator, on-screen performer, and audience position as distinct fields. [bind] maps an address clause and an observed action to a declared relation: anticipates, overlaps, lags, or leaves silence.",
+    "invariant": "Keep narrative address in the second person in the constrained language. Quoted diegetic speech lives on its own track. Preserve the declared addressee until a marked shift. Keep a voice-free passage long enough for the spectator to notice the body or place on its own.",
+    "concurrency": "Image and narration teams fork from a common beat ledger. They can work in parallel while each time span keeps its event ID. Moving a voice onset across a key silence or an edit across an address boundary invalidates the other track’s review. At 100×, align to beat IDs and flag distinct relation patterns before screenings.",
+    "swarm": "A voice writer produces clauses and referent tags. A camera or drawing team makes a quiet observational cut. A sound editor controls distance, breath, and withheld cues. A referent checker audits the transcript. An independent viewer reports when ‘you’ lands on character, audience, or both.",
+    "proof": "Build 35 seconds: a person wakes, ignores a ringing telephone, and takes an identical staircase twice. Keep the camera outside their viewpoint. Record two original second-person tracks with identical words, one ahead of actions and one delayed. Leave a held shot with only room sound.",
+    "fixture": "An address clause like ‘You hear it through the wall’ passes with an explicit addressee and interval. A narrator’s shift to ‘He hears it’ fails the grammar gate. The same words can validly produce anticipatory and retrospective timelines.",
+    "critic": "Have a fresh viewer watch once at normal speed and mark when the voice feels addressed to them. Ask what the body does while the voice is silent and where narration merely duplicates visible behavior.",
+    "inquiry": "Compare a single onset shift while freezing voice delivery, then hold onsets and change camera distance. Use the contrast to locate whether referent instability comes from timing or visual address. Preserve unease that follows the declared relationship.",
+    "branch": "Transfer the grammar to a first-person game camera as a separate experiment and test whether camera and addressee collapse into the same role.",
+    "deliver": "A playable study, picture timeline, two aligned voice takes, clause/referent ledger, timed silence map, and a review locating the strongest change in address.",
+    "shared": "Address the visitor as ‘you’ while observing them from across the concourse. Test placing ‘You hear the bell’ immediately before and after the bell. Keep the same observed actions.",
+    "tags": [
+      "#georges-perec",
+      "#second-person",
+      "#voice-over"
+    ]
+  },
+  {
+    "id": 3,
+    "slug": "les-lieux-dune-fugue",
+    "work": "Les Lieux d’une fugue",
+    "title": "Route and remembered time",
+    "family": "Cinema",
+    "byline": "Georges Perec · 1978",
+    "line": "Let present-day places carry a remembered route.",
+    "image": [
+      "fugue1.webp",
+      "A dark Paris doorway marked number 18",
+      "Film-documentaire.fr / INA"
+    ],
+    "sources": [
+      [
+        "Tënk, film and editorial note",
+        "https://www.on-tenk.com/fr/documentaires/les-films-de-georges-perec/les-lieux-dune-fugue",
+        "Perec films locations tied to his childhood flight while a voice reconstructs the memory."
+      ],
+      [
+        "Film-documentaire.fr, INA stills",
+        "https://www.film-documentaire.fr/4DACTION/w_fiche_film/20629_1",
+        "Production record and stills."
+      ],
+      [
+        "SCION 53, Civic Footage Performer",
+        "https://hartswf0.github.io/bolas/paeleo/scion/operator.html#s53",
+        "Link a filmed place to a traceable location and source."
+      ]
+    ],
+    "thesis": "Use an ordinary doorway, pavement seam, or path to make the distance between a filmed present and a remembered past felt. Permit the memory track to jump while the return of a place gives the viewer orientation.",
+    "state": "◻(Place) holds place_id, repeatable visual cue, adjacency, and capture scope. ◻(MemoryFragment) holds speaker, recollection time or range, place link, confidence, and provenance. Record capture_time, remembered_time, and screen_time independently. [pair] takes a place observation and a recollection into an audiovisual beat.",
+    "invariant": "Protect the site identity of each shot and the status of each recollection. An inferred place link remains visibly uncertain in the record. Default to present-day spaces and a dislocated voice track. Use enacted images only under a declared alternate method.",
+    "concurrency": "Assign separate write scopes to route evidence, image capture, and narration. A location recataloging blocks merges of any script segment relying on that location. At 100×, reject unsupported place associations and prioritize a small number of returning landmarks before assembling more footage.",
+    "swarm": "A route researcher assigns sites and uncertainty. A location unit captures empty or ordinary present spaces. A narration writer builds a nonchronological voice score. An editor composes return, lag, and silence. An independent place reader identifies recurring landmarks and distinctions of time.",
+    "proof": "Make a 45–60 second portrait of a fictional childhood departure. Film or stage three places: a doorway, a junction, a bench. Shoot one place twice from the same position at different times. Place the memory of the bench over the doorway, then return to the bench in silence.",
+    "fixture": "Two clips may share place_id while capture_time differs. A memory marked ‘roughly winter’ retains an interval. A generated exact date or definite link without evidence fails the provenance check.",
+    "critic": "Ask which location returned, where the voice seems to belong, and whether the viewer can distinguish a recollection from a claim about the visible present. Let exact chronology remain uncertain when the project declares it uncertain.",
+    "inquiry": "If all places feel interchangeable, lock the spoken cut and replace one shot with a stronger repeatable landmark. If sites read clearly but time collapses, freeze picture and move the first memory by one adjacency. Review orientation and productive dislocation separately.",
+    "branch": "Try the same site in a spatial walkthrough. Compare what changes when a viewer chooses the sequence of places while fragments keep their independent time stamps.",
+    "deliver": "A playable route film, place IDs and route diagram, parallel capture and memory timelines, source/uncertainty ledger, and critic notes tied to exact returns.",
+    "shared": "Film the bench, door, and concourse in the present. Use the bell as a sound the narrator remembers from an earlier visit. Return to the empty bench as the image-time anchor.",
+    "tags": [
+      "#georges-perec",
+      "#place-memory",
+      "#split-timeline"
+    ]
+  },
+  {
+    "id": 4,
+    "slug": "recits-dellis-island",
+    "work": "Récits d’Ellis Island",
+    "title": "Traces and testimony",
+    "family": "Cinema",
+    "byline": "Robert Bober and Georges Perec · 1980",
+    "line": "Give a place, its records, and its witnesses distinct voices.",
+    "image": [
+      "ellis.webp",
+      "The Statue of Liberty and the New York skyline across the water",
+      "QAGOMA / INA"
+    ],
+    "sources": [
+      [
+        "QAGOMA, Ellis Island Tales",
+        "https://www.qagoma.qld.gov.au/cinema/screening/ellis-island-tales-2026-03-15",
+        "Documents the two parts, the present-day visit, historical photographs, narration, and interviews."
+      ],
+      [
+        "BnF audiovisual record",
+        "https://catalogue.bnf.fr/ark:/12148/cb392144425",
+        "Credits Bober as director and Perec for text and voice."
+      ],
+      [
+        "SCION 54, Provenance Graph",
+        "https://hartswf0.github.io/bolas/paeleo/scion/operator.html#s54",
+        "Carry source identifiers and transformations to the render."
+      ]
+    ],
+    "thesis": "Make the spectator notice what a site can show and what becomes knowable when a witness speaks. Keep uncertainty visible when records and testimony point in different directions.",
+    "state": "◻(Trace) has asset ID, place/time coverage, source and permission. ◻(Testimony) has speaker, consent/use scope, verbatim interval, language, and transcription status. ◻(Claim) links evidence IDs with the relation supports, disputes, or leaves open. [assemble] projects those relations into a two-part viewing sequence.",
+    "invariant": "A specific quotation retains its speaker, timecode, context, and permitted use. Staged or fictional testimony carries a visible label. A photograph can support a claim about what it shows and must have separately verified identity or date for additional claims. Keep disputed evidence available in the ledger.",
+    "concurrency": "Researchers add immutable evidence records, editors propose associations, and a separate reviewer verifies claim scope. A transcript correction invalidates dependent subtitles and voice cuts. A consent change invalidates every derived public export using the affected interval. At 100×, queue reviews by unique claim and contested evidence.",
+    "swarm": "A location unit shoots the present site. An archive researcher logs sources and absences. A testimony unit edits consented or clearly fictional accounts. A montage editor stages the transition from traces to voices. An independent reviewer checks attribution and perceivable distinctions.",
+    "proof": "Make two 25-second movements around a fictional or consented closed rail station: an empty platform plus a dated trace, then two accounts of the last train that disagree about a detail. Use original or cleared materials. Carry both accounts into the cut and make the disagreement intelligible.",
+    "fixture": "A claim that a witness recalls an event may cite that witness’s attributed segment. A claim that the image proves that same memory needs a separately verified match. A missing consent state blocks the affected public export and leaves the private rights-cleared assembly available.",
+    "critic": "Ask the reviewer to point to what they saw, what each person said, and what remains unresolved. Inspect captions and context before accepting a cut that combines different speakers or decades.",
+    "inquiry": "If the audience treats the trace as conclusive proof, compare an earlier source card with a changed adjacency while the spoken words stay fixed. Keep the intervention that clarifies what the evidence can bear.",
+    "branch": "Try a second ordering in which a testimony changes how the viewer reads an earlier image. Preserve both the claim ledger and the evidence behind it.",
+    "deliver": "Two-part documentary study, source and permission ledger, claim graph, timecoded transcript/captions, independent evidence review, and a recoverable permitted assembly.",
+    "shared": "Use the empty bench and an old station diagram as traces. Put attributed fictional accounts of the visitor’s gesture in the second movement. Preserve the factual seed and mark where recollections differ.",
+    "tags": [
+      "#robert-bober",
+      "#georges-perec",
+      "#documentary-evidence"
+    ]
+  },
+  {
+    "id": 5,
+    "slug": "le-chant-du-styrene",
+    "work": "Le Chant du styrène",
+    "title": "Reverse manufacture in verse",
+    "family": "Cinema",
+    "byline": "Alain Resnais and Raymond Queneau · 1958",
+    "line": "Trace a finished object back to its material with a metered voice.",
+    "image": [
+      "styreneA.webp",
+      "Red and yellow molded plastic shapes set against a dark background",
+      "Film-documentaire.fr / Les Films de la Pléiade"
+    ],
+    "sources": [
+      [
+        "IFcinéma / ARTE",
+        "https://ifcinema.lab.arte.tv/fr/movie?id=888a78d9-2087-f793-a52f-cc533324dc84",
+        "Describes the movement from finished product to raw material and Queneau’s alexandrines."
+      ],
+      [
+        "Film-documentaire.fr, film and still",
+        "https://www.film-documentaire.fr/4DACTION/w_fiche_film/7153",
+        "Production record and credit for the documentary’s imagery."
+      ],
+      [
+        "SCION 27, Declarative Film Compiler",
+        "https://hartswf0.github.io/bolas/paeleo/scion/operator.html#s27",
+        "Make process order and audiovisual cues inspectable."
+      ]
+    ],
+    "thesis": "Turn an industrial dependency into a visual and audible discovery. Hold a product long enough to make its shape familiar, then cut to the process or negative form that explains how it came into being.",
+    "state": "◻(ProcessStep) has process_id, named inputs and outputs, material evidence, and source anchor. ◻(ReverseTour) traverses an evidenced path from output toward prerequisites. ◻(VerseLine) has spoken text, scansion, caesura, stress/cue timing, and associated step ID.",
+    "invariant": "Follow declared process edges in reverse dependency order. Separate industrial process order from whether a shot runs forward or backward. In French use classical alexandrine scansion and mark the 6+6 break. For another language declare the chosen metrical analogue and its spoken verification method.",
+    "concurrency": "Process verifier and verse writer exchange stable step IDs. A line can change freely within its cue contract. A corrected process edge invalidates any tour, verse, or title that depends on it. At 100×, validate paths and meter independently before previewing candidates.",
+    "swarm": "A process researcher builds the verified dependency graph. A camera or simulation unit stages object, tool, and material. A verse writer and voice performer score each reveal. An audiovisual editor uses cut and caesura together. An independent reviewer checks process comprehension and listening rhythm.",
+    "proof": "Make a 25–40 second reverse tour from a cast key or a user-supplied object. Stage four steps from finished form toward mold, intermediate material, and raw stock as verified for the chosen fabrication. Write four original lines in the chosen meter. Place one cut on a caesura and one against it to test the effect.",
+    "fixture": "Given raw_stock → casting → finish, [finish, casting, raw_stock] passes. [finish, raw_stock, casting] fails under the same direct-edge rule. An unverified alternative manufacturing path remains a separate hypothesis.",
+    "critic": "Have someone reconstruct the material sequence without a diagram, then locate where voice and image meet or pull apart. Listen to actual performed meter. A valid syllable count alone leaves delivery open.",
+    "inquiry": "When the viewer can recite the process but cannot see the transformation, hold verse and swap in a shape match. When the cut reads but the spoken rhythm strains, hold images and compare scansions at the same tempo.",
+    "branch": "Repeat with one sound-only transition whose metallic or granular cue predicts the upcoming material.",
+    "deliver": "Playable reverse tour, evidence-backed process graph, scansion and cue sheet, clean voice and sound stems, and an independently reviewed picture/verse assembly.",
+    "shared": "Keep the lost-key encounter as a short prologue. The key becomes the opening image of the reverse tour. Use a real or clearly staged fabrication chain and keep the station event record separate.",
+    "tags": [
+      "#alain-resnais",
+      "#alexandrine",
+      "#reverse-process"
+    ]
+  },
+  {
+    "id": 6,
+    "slug": "zazie-dans-le-metro",
+    "work": "Zazie dans le métro",
+    "title": "Visual slapstick from verbal play",
+    "family": "Cinema",
+    "byline": "Louis Malle, adapting Raymond Queneau · 1960",
+    "line": "Carry a verbal joke into a cut, a gesture, or the street itself.",
+    "image": [
+      "zazie1.webp",
+      "Catherine Demongeot laughing in close-up as Zazie",
+      "The Criterion Collection"
+    ],
+    "sources": [
+      [
+        "The Criterion Collection, Zazie dans le métro",
+        "https://www.criterion.com/films/27626-zazie-dans-le-metro",
+        "Identifies the novel as the source and Malle’s visual gags and editing tricks."
+      ],
+      [
+        "SCION 1, Comic Cutout Metamorphosis",
+        "https://hartswf0.github.io/bolas/paeleo/scion/operator.html#s1",
+        "Build a legible comic expectation before a disruptive transformation."
+      ]
+    ],
+    "thesis": "Make a child or trickster’s goal simple enough to survive a city that keeps changing the terms of the chase. Translate a linguistic ambiguity into a physical setup and a filmic payoff.",
+    "state": "◻(Gag) has goal, setup prop, conventional expectation, reversal, and recovery beat. ◻(Route) is a graph of entrances, exits, obstacles, and match anchors. ◻(GagOperation) changes screen time, screen direction, object identity, or apparent place under a declared exception.",
+    "invariant": "Preserve the protagonist’s objective and a recognizable anchor at every discontinuous cut. Each effect introduces a specific reversal with a consequence. Keep a clean continuity cut as the reference for comparing comic timing.",
+    "concurrency": "Branch on gag slots. A timing edit can merge with a prop redraw when the outgoing silhouette and cue frames survive. Two gags that depend on mutually exclusive setup states fork. At 100×, deduplicate by setup → reversal → consequence before rendering.",
+    "swarm": "A gag writer records the word-to-action translation. A layout unit plots entrances, exits, and eye trace. An editor builds continuity and gag cuts. A sound unit scores impacts and holds. A fresh viewer reports exactly where the expectation flipped.",
+    "proof": "Make a 20-second pursuit of a bus, train, or other promised vehicle. Use three city locations and one prop that gets reinterpreted twice. Test a jump cut for impossible distance and a match cut that turns a queue into an obstacle. Start with the same straightforward chase.",
+    "fixture": "Setup A establishes who wants the vehicle. Cut B breaks distance while keeping the vehicle or prop identifiable. Removing the recognizable match anchor makes B an intentional negative control. A gag with no downstream event consequence fails the beat contract.",
+    "critic": "With sound off, have a viewer state the goal and locate the moment each joke turns. Replay with sound and see whether impact, pause, or offscreen cue improves the timing.",
+    "inquiry": "If a gag feels random, freeze the reversal and lengthen or clarify the setup. If it feels predictable, change the reveal frame while holding setup information fixed. Let the two variants isolate the problem.",
+    "branch": "Introduce a single rule for a city block that recurs with one altered exit. Keep only variations that reward recognition.",
+    "deliver": "Two playable cuts, a word-to-gag table, route and continuity exceptions, timecoded gag cues, critic notes, and the strongest checkpoint.",
+    "shared": "Make the visitor’s goal legible before introducing a running gag with the envelope and signs. Keep the door closed and make the failed route itself the comic event.",
+    "tags": [
+      "#louis-malle",
+      "#raymond-queneau",
+      "#visual-slapstick"
+    ]
+  },
+  {
+    "id": 7,
+    "slug": "renzo-e-luciana",
+    "work": "Renzo e Luciana",
+    "title": "Rules that choreograph a couple",
+    "family": "Cinema",
+    "byline": "Mario Monicelli and co-writers including Italo Calvino · 1962",
+    "line": "Stage an ordinary relationship inside schedules, rules, and cramped space.",
+    "image": [
+      "calvino.webp",
+      "Marisa Solinas in a white hat seated close to Germano Giglioli",
+      "Cineteca di Bologna"
+    ],
+    "sources": [
+      [
+        "Il Cinema Ritrovato, Renzo e Luciana",
+        "https://ilcinemaritrovato.it/film/boccaccio-70-episodio-renzo-e-luciana/",
+        "Credits Calvino’s source story and co-screenwriting and describes the workplace prohibition."
+      ],
+      [
+        "SCION 48, Characters That Can Refuse",
+        "https://hartswf0.github.io/bolas/paeleo/scion/operator.html#s48",
+        "Track explicit commitments and available choices as conditions change."
+      ]
+    ],
+    "thesis": "Make a relationship visible in the time and space two people can steal from an institution. The defining shot gives both performers something particular to do while the rule governing their encounter stays legible without exposition.",
+    "state": "◻(Actor) has private commitment, schedule, location, and role. ◻(InstitutionalRule) has observer, trigger, scope, and visible consequence. ◻(MeetingWindow) is the intersection of time, place, access, and exposure conditions. [stage] maps an allowed or risky encounter to blocking and sound cues.",
+    "invariant": "Preserve the declared rule and each actor’s knowledge while they improvise. Track the clock, who sees whom, and the consequence of disclosure in each beat. Any deliberate rule violation changes exposure state and is carried forward.",
+    "concurrency": "Blocking, schedule design, and performance draw from one clock. A new shot angle can merge with an actor beat if visibility remains equivalent. Changes to shifts or entrances that alter a meeting window reopen dependent performances. At 100×, prune illegal timelines and rank the remaining rehearsals by distinct choices.",
+    "swarm": "A rule modeler draws shifts and sightlines. A performance unit creates two strategies with different degrees of concealment. A staging editor builds a cut around one almost-missed encounter. A sound editor times the work bell and footsteps. An independent viewer reconstructs the social constraint.",
+    "proof": "Make a 35-second two-person encounter around a factory or service desk where co-workers must conceal a private commitment. They have one overlapping break and one doorway visible to a supervisor. Play the encounter under the original shift and a late bell that removes the safe window.",
+    "fixture": "Given breaks [12:00,12:03) and [12:00,12:04) and a safe corner accessible [12:01,12:04), a private meeting can occur [12:01,12:03). Delaying the second break to [12:03,12:07) eliminates the overlap. Stage the consequence in the second version.",
+    "critic": "Ask what each person wanted, what prevented them, and which small action kept the relationship intact. Compare a sound-off read with the bell restored.",
+    "inquiry": "If the institutional constraint reads as arbitrary misfortune, freeze the acting and strengthen one visible cause such as a supervisor’s sightline. If it reads but the couple feels generic, keep the rule and change one performer’s strategy.",
+    "branch": "Change who knows the rule in a separate rehearsal. Track what a new witness does to the same scene’s risk and rhythm.",
+    "deliver": "A playable scene and counterfactual, schedule and visibility graph, rule ledger, annotated performance beats, and independent review.",
+    "shared": "Make the envelope a handoff between two workers whose shifts barely overlap. The bench and locked door become access points in their schedule. Keep the brass key and departure intact.",
+    "tags": [
+      "#italo-calvino",
+      "#mario-monicelli",
+      "#social-choreography"
+    ]
+  },
+  {
+    "id": 8,
+    "slug": "monsieur-ripois",
+    "work": "Monsieur Ripois",
+    "title": "Interested confession",
+    "family": "Cinema",
+    "byline": "René Clément · dialogue by Raymond Queneau · 1954",
+    "line": "Cut between what a speaker claims, what happened, and what a listener hears.",
+    "image": [
+      "ripois1.webp",
+      "A man and a woman seated close together in a black-and-white still",
+      "Fondation René Clément"
+    ],
+    "sources": [
+      [
+        "Fondation René Clément, filmography and credits",
+        "https://fondationreneclement.fr/filmographie/monsieur-ripois/",
+        "Credits Queneau for dialogue and describes Ripois telling his history to a woman he hopes to seduce."
+      ],
+      [
+        "SCION 47, Sound-to-Action",
+        "https://hartswf0.github.io/bolas/paeleo/scion/operator.html#s47",
+        "Time a listener’s gesture to a particular speech event."
+      ]
+    ],
+    "thesis": "Make a confession operate as a present-tense action. Give the speaker a reason to retell the past and the listener enough evidence to make a different inference. Distinguish what a flashback establishes from what the speaker wants it to establish.",
+    "state": "◻(Claim) has claim_id, speaker, target listener, asserted event, desired effect, and timeline position. ◻(SceneEvidence) has evidence_id, event relation, perspective, and level of certainty. ◻(ListenerState) holds what the listener can hear, see, infer, or withhold.",
+    "invariant": "Preserve an event ledger independent of each telling. Mark recollected images as a perspective unless an independent scene or material trace supports them. Each pivotal line has a listener consequence that can be staged and inspected.",
+    "concurrency": "Writers branch dialogue against the same event ledger. Reaction and voice work merge only when addressed clauses and cue windows still match. A changed claim must trigger review of its associated cutaway and listener state. At 100×, group variants by intended tactic and material discrepancy.",
+    "swarm": "A dramaturg defines two agendas. A dialogue writer supplies the self-serving account. An editor stages one corroborating and one ambiguous image. A performer or animator scores the listener’s shifts in posture and timing. A fresh critic reports credibility and leverage.",
+    "proof": "Make a 30–45 second encounter in which a visitor claims they returned a borrowed object. Cut to a version of the return that hides one consequential gesture. Give the listener a receipt, a look, or an audible clue that can change what they decide to do next.",
+    "fixture": "Claim C1 may conflict with E2 while both records survive. A spoken line and a flashback derive from distinct entries. A cut that presents E2 as verified while E2 is a subjective reconstruction fails.",
+    "critic": "Ask what the speaker wants now, what the listener believes, and which cut, look, or clause changed the balance. Run two viewers on alternate reaction placements if possible.",
+    "inquiry": "If suspicion appears too early, move the reaction under the same line before withholding a fact. If no discrepancy reads, freeze performance and revise the visible evidence so a specific claim becomes contestable.",
+    "branch": "Build a second teller’s account of the same past event and compare where the evidence permits incompatible interpretations.",
+    "deliver": "A playable confession, alternate reaction cut, claim/evidence ledger, dialogue and listening cues, and an independent credibility reading.",
+    "shared": "The visitor recounts what happened at the bench to persuade a listener that the envelope was left untouched. Keep the seed event ledger and give the listener one independent clue.",
+    "tags": [
+      "#rene-clement",
+      "#raymond-queneau",
+      "#interested-narration"
+    ]
+  },
+  {
+    "id": 9,
+    "slug": "la-mort-en-ce-jardin",
+    "work": "La Mort en ce jardin",
+    "title": "Material resistance and surreal interruption",
+    "family": "Cinema",
+    "byline": "Luis Buñuel and co-writers including Raymond Queneau · 1956",
+    "line": "Put a group under pressure and let one strange object redirect its choices.",
+    "image": [
+      "bunuel.webp",
+      "Two people shelter among jungle roots in a black-and-white publicity still",
+      "MoMA / Photofest"
+    ],
+    "sources": [
+      [
+        "MoMA, Death in the Garden",
+        "https://www.moma.org/calendar/events/9358",
+        "Screenplay credits and description of the adventure and its surreal interruptions."
+      ],
+      [
+        "SCION 43, Collage Graph Rewriting",
+        "https://hartswf0.github.io/bolas/paeleo/scion/operator.html#s43",
+        "Connect an unusual substitution to a readable chain of consequences."
+      ]
+    ],
+    "thesis": "Earn a surreal detail by placing it inside a concrete survival or escape problem. The detail should change a decision, relationship, or allocation while the setting retains physical resistance.",
+    "state": "◻(WorldState) records routes, resource stock, supports, obstacles, and positions. ◻(GroupDecision) records chooser, alternatives, resource costs, and resulting allegiances. ◻(Interruption) has first appearance, material affordance, rule exception if any, and next consequence.",
+    "invariant": "Conserve resources and track location and possession across cuts. Declare the scope of any impossible behavior. Tie the strange detail to an action the group can take and a state that persists after it.",
+    "concurrency": "World and performance revisions may merge when route reachability and possession remain stable. Two patches that give the same resource to different people conflict. At 100×, compare consequence traces before approving more atmospheric variations.",
+    "swarm": "A world unit models the escape problem. A performance unit stages competing motives and visible labor. An object and sound team designs one concrete interruption. An editor preserves consequences through the cut. A fresh critic checks both physical plausibility within the rule and dramatic necessity.",
+    "proof": "Stage 30–45 seconds of three people crossing a flooded passage with one dry bag and one safe plank. An immaculate wedding shoe floats into reach. One person retrieves it and the group has to change its crossing order. Make an alternate in which the interruption stays visually identical but lands earlier.",
+    "fixture": "If the plank holds one person, simultaneous occupancy fails unless the scenario explicitly changes the material law. A retrieved object gains a holder and changes the next available action. A disappeared possession without a logged event fails continuity.",
+    "critic": "Ask where the physical danger lies, what the object changes, and when a character makes the consequential choice. Review dry staging and final mix as separate conditions.",
+    "inquiry": "If the object feels ornamental, preserve its design and change the decision it enables. If the scene loses physical credibility, keep the decision and repair the earlier support, position, or cost.",
+    "branch": "Test a second object with the same affordance but a different social meaning. Preserve the mechanical result and compare what it does to the group’s reading.",
+    "deliver": "A playable sequence and one controlled variant, world/resource trace, possession and visibility audit, critic evidence, and the accepted assembly.",
+    "shared": "Use a blocked station exit and the unclaimed key as the interruption. Keep the door shut. Let a character’s handling of the key change who trusts the visitor or which route they try.",
+    "tags": [
+      "#luis-bunuel",
+      "#surreal-interruption",
+      "#material-resistance"
+    ]
+  },
+  {
+    "id": 10,
+    "slug": "anemic-cinema",
+    "work": "Anémic cinéma",
+    "title": "Rotating type and apparent depth",
+    "family": "Cinema",
+    "byline": "Marcel Duchamp, with Man Ray and Marc Allégret · 1926",
+    "line": "Alternate optical depth with words that demand to be read.",
+    "image": [
+      "spiralTextPom.webp",
+      "Three successive frames of a spiral of French lettering",
+      "Centre Pompidou"
+    ],
+    "gallery": [
+      [
+        "duchamp2.webp",
+        "A rotating optical disc with concentric rings",
+        "MoMA"
+      ]
+    ],
+    "sources": [
+      [
+        "MoMA, Anemic Cinema",
+        "https://www.moma.org/collection/works/398274",
+        "Describes the collaborators and alternation of optical discs and spiraling French wordplay."
+      ],
+      [
+        "Centre Pompidou, film frames",
+        "https://www.centrepompidou.fr/en/ressources/oeuvre/cXbk7g5",
+        "Shows filmstrip images and describes the interplay of depth and flat text."
+      ],
+      [
+        "SCION 6, Harmonic Motion Orchestra",
+        "https://hartswf0.github.io/bolas/paeleo/scion/operator.html#s6",
+        "Use inspectable timing curves for optical motion."
+      ]
+    ],
+    "thesis": "Make one flat mechanism produce two acts of attention. The first disc seems to move in depth. The next makes the eye pursue a sentence around a surface. Use the moment of switching between them as the principal event.",
+    "state": "◻(Disc) has kind, radius, graphic source, turn direction, and angular velocity curve. ◻(GlyphPath) maps character order to radius, angle, and tangent. ◻(ExposureSequence) alternates disc types using an integer frame clock. [project] maps planar marks to a frame.",
+    "invariant": "Keep the geometry on a flat plane for the proof. Preserve glyph order under rotation and keep the two disc kinds legible. Make the release motion safe to inspect, with predictable playback and a still or reduced-motion view when the result is interactive.",
+    "concurrency": "Language and optical discs can be authored independently against a shared field of view. Phase changes can merge with glyph edits only when the declared reading interval still works. Changes that desynchronize exposure and speed fork. At 100×, measure aliasing and compare distinct motion profiles before screening.",
+    "swarm": "An optical designer authors ring/spiral patterns. A language agent writes original short puns and lays out glyphs. A camera or renderer agent builds fixed-view rotation. A timing verifier checks ordering and reproducibility. An independent reader compares apparent depth with legibility.",
+    "proof": "Make 18–25 seconds with two original optical discs and two original text discs. One seems to expand toward the eye and one recedes. Then make one reading disc legible at its chosen speed. Offer a still pass to distinguish legibility of layout from the effect of movement.",
+    "fixture": "At a fixed speed, angle(t + period) equals angle(t) modulo 2π. Glyph order along the spiral must match source token order even if turn direction changes. Two consecutive discs of the same declared type fail the strict alternation fixture.",
+    "critic": "Record which disc appears to pulse in depth, where a viewer loses their reading position, and whether the switch changes how they look. Judge the effect at intended size and speed.",
+    "inquiry": "If depth fails, hold speed and change ring spacing or center offset. If text fails, hold geometry and compare a slower turn with a longer exposure. Preserve the still-legible wording as a fixed reference.",
+    "branch": "Try a silent version and one version where a pulse cues the switch. Use sound as a declared contemporary intervention.",
+    "deliver": "Playable sequence, original disc artwork or procedural source, glyph mapping, exposure/phase score, still or reduced-motion view, and the perceptual review.",
+    "shared": "Turn the bench key and service door into motifs on optical discs. Put an original short pun about keys and bells on text discs. Preserve the station facts as source notes while making the disc switch the screen event.",
+    "tags": [
+      "#marcel-duchamp",
+      "#optical-discs",
+      "#spiral-text"
+    ]
+  }
+]
