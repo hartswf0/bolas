@@ -396,4 +396,4 @@ function live(){const tap=document.createElement('div');tap.id='tap';tap.innerHT
  const au=new Audio('abom.mp3');let t0=performance.now(),playing=false;
  function loop(){const t=playing?au.currentTime:((performance.now()-t0)/1000)%DUR;DRAW(Math.min(t,DUR-.01));if(playing&&au.ended){playing=false;tap.style.display='flex';tap.firstChild.textContent='PLAY AGAIN'}requestAnimationFrame(loop)}
  tap.onclick=()=>{au.currentTime=0;au.play().then(()=>{playing=true;tap.style.display='none'}).catch(()=>{})};loop()}
-</script></body></html>
+</script><script src="flow.js"></script></body></html>
