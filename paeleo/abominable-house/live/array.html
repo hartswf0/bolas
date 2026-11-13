@@ -185,4 +185,4 @@ function loop(now){const dt=Math.min(.1,(now-prev)/1000);prev=now;
  draw();pump();requestAnimationFrame(loop)}
 const h=VIEWS.findIndex(v=>'#'+v.toLowerCase()===location.hash);if(h>=0)S.view=h;
 fit();recompute();sync();requestAnimationFrame(loop);
-</script></body></html>
+</script><script src="flow.js"></script></body></html>

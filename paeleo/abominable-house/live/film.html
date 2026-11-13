@@ -623,4 +623,4 @@ window.FILMINFO=()=>({TOT,SEG:SEG.map(s=>({type:s.type,k:s.k,t0:s.t0,dur:s.dur,w
 document.getElementById('atl').onclick=()=>{if(document.body.classList.contains('atlas')){ATLAS.close()}else{playing=false;if(master)newMaster();ATLAS.open()}};
 document.getElementById('a_exit').onclick=()=>ATLAS.close();
 document.getElementById('tz').onclick=e=>{fanOn=!fanOn;e.target.classList.toggle('on',fanOn);if(fanOn){playing=false;pp.textContent='PLAY';if(master)newMaster();document.getElementById('tap').style.display='none'}};
-</script><script src="atlasdata.js"></script><script src="atlas.js"></script></body></html>
+</script><script src="atlasdata.js"></script><script src="atlas.js"></script><script src="flow.js"></script></body></html>

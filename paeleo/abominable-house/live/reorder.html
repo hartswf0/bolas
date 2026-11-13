@@ -257,4 +257,4 @@ function tick(ms){requestAnimationFrame(tick);const now=ms/1000,dt=Math.min(.1,(
  $('prog').firstChild.style.width=(100*(bi+cl(0,1,bt/d))/EP[ep].b.length)+'%';
  if(now-lastDraw>=gap){lastDraw=now;const c0=performance.now();draw(now);gap=cl(.05,.5,(performance.now()-c0)/500)}}
 setPlay(playing);setEp(0);requestAnimationFrame(tick);
-</script></body></html>
+</script><script src="flow.js"></script></body></html>

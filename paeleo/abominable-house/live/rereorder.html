@@ -1,5 +1,5 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8">
-<title>Re:Re:Order in Crime</title>
+<title>Six Readings · Re:Re:Order in Crime</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="description" content="One tower of flour stands for every film the abominable house can make. Six characters each take flour from it to stage one theory of reading, and each leaves the tower standing.">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -36,7 +36,7 @@ li b{font:600 10.5px/1.9 var(--mono);letter-spacing:.06em;color:var(--acc)}li[ar
 @media (min-width:900px){main{grid-template-columns:minmax(0,1.5fr) minmax(320px,1fr);grid-template-rows:minmax(0,1fr)}#cv{max-height:70dvh}}
 @media (prefers-reduced-motion:reduce){#cv{image-rendering:auto}}
 </style></head><body>
-<header><h1>Re:Re:Order in Crime</h1><span>one tower of flour · six readings</span><a href="reorder.html">Re:Order in Crime</a></header>
+<header><h1>Six Readings</h1><span>Re:Re:Order in Crime · stop 9 of 10</span><a href="reorder.html">Re:Order in Crime</a></header>
 <main><section id="scene"><canvas id="cv" width="1920" height="1080" aria-label="Flour animation. The spoken line is printed below."></canvas>
 <div id="cap" aria-live="polite"></div>
 <div id="bar"><button id="pp" aria-pressed="true">PAUSE</button><button id="vo" aria-pressed="false">VOICE</button><div id="prog"><i></i></div><button id="nx">NEXT</button></div></section>
@@ -173,4 +173,4 @@ $('pp').onclick=()=>setPlay(!playing);cv.onclick=()=>setPlay(!playing);$('nx').o
 $('vo').onclick=()=>{voice=!voice;$('vo').setAttribute('aria-pressed',voice);$('vo').textContent='VOICE';if(voice){setPlay(true);bt=0;say()}else au.pause()};
 $('script').onclick=e=>{const li=e.target.closest('li');if(li){setBeat(ch,+li.dataset.i);setPlay(true)}};$('script').onkeydown=e=>{if(e.key==='Enter'){const li=e.target.closest('li');if(li)setBeat(ch,+li.dataset.i)}};
 setBeat(0,0);requestAnimationFrame(frame);
-</script></body></html>
+</script><script src="flow.js"></script></body></html>
