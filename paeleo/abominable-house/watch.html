@@ -30,7 +30,7 @@ button[aria-pressed="true"]{background:#ffdc00;color:#1d1812;border-color:#ffdc0
 // WATCH is read by each film page (through flow.js) to know it is being played from here.
 window.WATCH={voice:true};
 const M=window.WATCH_MAP||{},u=f=>M[f]||('live/'+f),$=id=>document.getElementById(id);
-const PL=[['rerereorder.html','The List Has No Names','2 min',0],['abom.html','The Story, Drawn in Code','1 min 36 s',98],['reorder.html','Re:Order in Crime','13 min',0],['rereorder.html','Six Readings','6 min',0]];
+const PL=[['mentalfilm.html','The Mental Film','4 min · the frame',0],['rerereorder.html','The List Has No Names','2 min',0],['abom.html','The Story, Drawn in Code','1 min 36 s',98],['reorder.html','Re:Order in Crime','13 min',0],['rereorder.html','Six Readings','6 min',0]];
 const HANDS=[['player.html','THE DEED BANK'],['film.html','THE FILM BANK'],['guide.html','FILM BANK GUIDE'],['numbers.html','THE COUNT'],['policies.html','THE POLICIES'],['array.html','THE ARRAY']];
 let i=-1,timer=0;
 $('lst').innerHTML=PL.map((p,k)=>'<li><b>'+(k+1)+'</b>'+p[1]+' · '+p[2]+'</li>').join('');
