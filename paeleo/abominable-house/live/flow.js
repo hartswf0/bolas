@@ -1,6 +1,7 @@
 // The full flow: one fixed order through every page of the Abominable House. Each page loads this file; it adds a small control at the bottom left (previous, the list, next). A page hosted elsewhere can set window.FLOW_MAP (file name to URL) and window.FLOW_HERE (its own file name).
 (function(){
 const FLOW=[
+ ['mentalfilm.html','The Mental Film','The frame. What does an index of twelve crimes leave open?'],
  ['rerereorder.html','The List Has No Names','The case in ten lines. Why can nobody say who did what?'],
  ['abom.html','The Story, Drawn in Code','The first film. What does the story itself say happened?'],
  ['player.html','The Deed Bank','Each of the twelve deeds, by every pair. What does one crime look like?'],
