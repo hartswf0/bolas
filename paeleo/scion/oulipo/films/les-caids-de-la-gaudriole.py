@@ -217,6 +217,7 @@ FINAL = 5.0
 DUR = round(T_END + FINAL, 2)
 
 film = Film(SLUG, seconds=DUR, boil=0, wobble=0)
+grayscale_frames(film)
 film.poster_at = T_SHUT1 + 3.0
 
 _fold_cache = {}

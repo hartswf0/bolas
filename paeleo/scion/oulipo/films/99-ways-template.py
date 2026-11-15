@@ -248,6 +248,7 @@ CARDS = {1: ("Retelling 1 · compressed", "fewer panels, same incident"),
          2: ("Retelling 2 · another point of view", "the porter, from the platform bench")}
 
 film = Film(SLUG, seconds=DUR, boil=0, wobble=0)
+grayscale_frames(film)
 film.poster_at = TITLE + 2.0 + 3 * 3.0 + 1.0
 
 

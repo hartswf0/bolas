@@ -117,6 +117,7 @@ TITLE = 2.6
 DUR = round(TITLE + sh.t, 2)
 
 film = Film(SLUG, seconds=DUR, boil=0, wobble=0)
+grayscale_frames(film)
 film.poster_at = TITLE + EV[3][0] + 2.5
 
 

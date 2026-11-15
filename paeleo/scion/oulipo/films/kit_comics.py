@@ -9,6 +9,7 @@ from __future__ import annotations
 import hashlib
 import math
 
+import numpy as np
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
 from kit import *  # noqa: F401,F403
@@ -29,22 +30,44 @@ WOOD = (150, 110, 70)
 DOORC = (120, 96, 80)
 BOARD = (54, 50, 48)
 CAPTION = (246, 226, 168)
+VCOAT = (150, 40, 50)       # the visitor's coat: rendered as pen hatching
+WHITE = (255, 255, 255)
+SPOT = (204, 84, 72)        # red spot colour (only quatre-vingt-quinze uses it)
+SPOT_L = (232, 158, 146)
 
 # ------------------------------------------------------------ lettering ---
 
 _lf = {}
 
 
+# Pen-and-ink house rules (after the reference pages): lettering in the mono face,
+# thickened with a stroke so it reads as a hand-ruled pen letter; UPPER for the
+# Oubapo pages, mixed case for Madden.
+STYLE = {"upper": True, "letter": "mono"}
+
+
 def lfont(size, weight="Bold"):
-    key = (int(size), weight)
+    key = (int(size), weight, STYLE["letter"])
     if key not in _lf:
-        f = ImageFont.truetype(str(FONTS / "instrument-sans.woff2"), int(size))
-        try:
-            f.set_variation_by_name(weight)
-        except Exception:
-            pass
+        if STYLE["letter"] == "mono":
+            f = ImageFont.truetype(str(FONTS / "ibm-plex-mono.woff2"), int(size))
+        else:
+            f = ImageFont.truetype(str(FONTS / "instrument-sans.woff2"), int(size))
+            try:
+                f.set_variation_by_name(weight)
+            except Exception:
+                pass
         _lf[key] = f
     return _lf[key]
+
+
+def pen_text(d, xy, s, f, fill=INK, anchor="mm"):
+    sw = max(1, int(f.size / 26)) if STYLE["letter"] == "mono" else 0
+    d.text(xy, s, font=f, fill=fill, anchor=anchor, stroke_width=sw, stroke_fill=fill)
+
+
+def up(s):
+    return s.upper() if STYLE["upper"] else s
 
 
 def wrap(text, f, maxw):
@@ -67,7 +90,7 @@ def text_block(ink, cx, cy, lines, size, color=INK, weight="Bold", lh=1.16):
     n = len(lines)
     for k, ln in enumerate(lines):
         y = cy + (k - (n - 1) / 2) * size * lh
-        ink.d.text((cx, y), ln, font=f, fill=color, anchor="mm")
+        pen_text(ink.d, (cx, y), ln, f, color)
 
 
 def _superellipse(cx, cy, rx, ry, n=2.6, steps=96):
@@ -85,7 +108,7 @@ def balloon(ink, cx, cy, text, size=34, tail=None, maxw=420, kind="speech", widt
 
     Returns the balloon's bounding box."""
     f = lfont(size, weight)
-    lines = lines or wrap(text.upper() if kind != "keep" else text, f, maxw)
+    lines = lines or wrap(up(text) if kind != "keep" else text, f, maxw)
     tw = max(f.getlength(ln) for ln in lines)
     th = size * 1.16 * len(lines)
     px, py = pad or (size * 0.75, size * 0.55)
@@ -147,7 +170,7 @@ def balloon(ink, cx, cy, text, size=34, tail=None, maxw=420, kind="speech", widt
 
 def caption_box(ink, x, y, text, size=28, maxw=380, fill=CAPTION, color=INK, width=3, anchor="lt", weight="SemiBold"):
     f = lfont(size, weight)
-    lines = wrap(text.upper(), f, maxw)
+    lines = wrap(up(text), f, maxw)
     tw = max(f.getlength(ln) for ln in lines)
     th = size * 1.16 * len(lines)
     bw, bh = tw + size * 0.9, th + size * 0.6
@@ -176,7 +199,7 @@ def sfx(ink, x, y, text, size=70, angle=-8, color=ACCENT, stroke=INK, sw=5):
 # ------------------------------------------------------------ figures ---
 
 CAST = {
-    "visitor": dict(coat=ACCENT, trousers=TROUSER, hair=HAIR, hat="cloche", long=True),
+    "visitor": dict(coat=VCOAT, trousers=TROUSER, hair=HAIR, hat="cloche", long=True),
     "porter": dict(coat=NAVY, trousers=NAVY_D, hair=(60, 52, 48), hat="cap", tash=True),
     "clerk": dict(coat=OLIVE, trousers=(80, 74, 70), hair=(120, 110, 100), hat=None, glasses=True, shirt=True),
     "other": dict(coat=(96, 112, 88), trousers=TROUSER, hair=(150, 104, 60), hat=None),
@@ -456,13 +479,62 @@ def envelope_s(ink, x, y, w=70, h=46, open_=0.0, seal=True, angle=0.0):
 
 # ------------------------------------------------------------- panels ---
 
-def make_panel(w, h, draw, seed=0, bg=PAGE, border=6, wobble=0.9):
-    """Render a panel once. `draw(ink, w, h)` paints it; a border is ruled last."""
+# exact fill colour -> treatment. Anything not listed is thresholded by luminance,
+# so every drawing comes out as black-and-white pen and ink with solid blacks.
+INK_MAP = {VCOAT: "hatch", BRASS: "white", (170, 136, 100): "white", ACCENT: "white", CAPTION: "white",
+           (40, 50, 110): "black", (176, 176, 168): "white", (120, 140, 90): "black"}
+
+
+def ink_treat(img, extra=None, threshold=140):
+    a = np.asarray(img.convert("RGB")).astype(np.int32)
+    lum = (a[..., 0] * 299 + a[..., 1] * 587 + a[..., 2] * 114) / 1000.0
+    out = np.clip((lum - (threshold - 24)) / 48.0, 0, 1)[..., None] * 255.0
+    out = np.repeat(out, 3, axis=2)
+    hh, ww = lum.shape
+    yy, xx = np.mgrid[0:hh, 0:ww]
+    hatch = ((xx + yy) % 8) < 2
+    table = dict(INK_MAP)
+    table.update(extra or {})
+    for col, tr in table.items():
+        m = (a[..., 0] == col[0]) & (a[..., 1] == col[1]) & (a[..., 2] == col[2])
+        if not m.any():
+            continue
+        if tr == "white":
+            out[m] = 255
+        elif tr == "black":
+            out[m] = 0
+        elif tr == "hatch":
+            out[m] = 255
+            out[m & hatch] = 0
+        elif tr == "dots":
+            dots = ((xx % 7) < 2) & ((yy % 7) < 2)
+            out[m] = 255
+            out[m & dots] = 0
+        else:  # an explicit colour (spot)
+            out[m] = tr
+    return Image.fromarray(out.clip(0, 255).astype(np.uint8))
+
+
+def make_panel(w, h, draw, seed=0, bg=PAGE, border=6, wobble=0.9, treat=None, raw=False):
+    """Render a panel once. `draw(ink, w, h)` paints it; a border is ruled last,
+    then the colour sketch is inked (see ink_treat) unless raw=True."""
     ink = Ink(0, 0, (int(w), int(h)), boil=0, wobble=wobble, seed=seed)
     ink.d.rectangle([0, 0, w, h], fill=bg)
     draw(ink, w, h)
     ink.rect(border / 2, border / 2, w - border / 2, h - border / 2, color=INK, width=border, rough=False)
-    return ink.img.convert("RGB")
+    img = ink.img.convert("RGB")
+    return img if raw else ink_treat(img, treat)
+
+
+def grayscale_frames(film):
+    """Wrap a Film so every finished frame is black and white (the pages are ink only)."""
+    base = film.frame
+
+    def frame(k):
+        return base(k).convert("L").convert("RGB")
+
+    film.frame = frame
+    return film
 
 
 def art_id(img):
@@ -472,7 +544,7 @@ def art_id(img):
 class Board:
     """A page lying on a dark table, with margin so the camera can roam."""
 
-    def __init__(self, pw, ph, margin=200, ground=BOARD, paper=PAGE):
+    def __init__(self, pw, ph, margin=200, ground=BOARD, paper=WHITE):
         self.pw, self.ph, self.m = pw, ph, margin
         self.img = Image.new("RGB", (pw + 2 * margin, ph + 2 * margin), ground)
         sh = Image.new("L", self.img.size, 0)

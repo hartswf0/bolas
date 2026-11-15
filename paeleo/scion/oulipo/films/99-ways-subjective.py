@@ -166,6 +166,7 @@ sh.add(FULL, 4.2, 0.8)
 T_CMP = TITLE + sh.t
 DUR = round(T_CMP + 7.0, 2)
 film = Film(SLUG, seconds=DUR, boil=0, wobble=0)
+grayscale_frames(film)
 film.poster_at = TITLE + VIS[2][0] + 1.5
 
 

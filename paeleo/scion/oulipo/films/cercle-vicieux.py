@@ -160,7 +160,7 @@ grid_x = PW - 60 - 2 * CW - G
 ink = b.ink()
 tx = b.m + 60 + XW / 2
 ink.text((tx, b.m + 300), "Cercle", "serif", 120, INK, anchor="mm")
-ink.text((tx, b.m + 410), "vicieux", "serif", 120, ACCENT, anchor="mm")
+ink.text((tx, b.m + 410), "vicieux", "serif", 120, INK, anchor="mm")
 ink.label((tx, b.m + 520), "a palindrome in 17 panels", 34, MUTED, anchor="mm")
 key_shape(ink, tx - 60, b.m + 700, 3.0)
 ink.label((tx, b.m + 880), "read it forward.", 34, INK, anchor="mm")
@@ -225,6 +225,7 @@ T += 5.5
 DUR = T
 
 film = Film(SLUG, seconds=round(DUR, 2), boil=0, wobble=0)
+grayscale_frames(film)
 film.poster_at = [s for s in SEG if s[2] == "page"][2][0] + 2.6
 
 

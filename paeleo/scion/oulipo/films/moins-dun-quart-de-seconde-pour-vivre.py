@@ -107,6 +107,7 @@ sh.add(FULL, 7.5, 0.9)
 DUR = round(TITLE + sh.t, 2)
 
 film = Film(SLUG, seconds=DUR, boil=0, wobble=0)
+grayscale_frames(film)
 film.poster_at = TITLE + REVEAL[7][0] + 2.0
 
 
