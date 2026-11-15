@@ -32,186 +32,181 @@ ST = starts(SEGS)
 
 
 # --------------------------------------------------------------- shots ---
+# High-contrast black-and-white photography: hard side light, deep blacks,
+# soft grain, close framing, shadow doubles on the wall.
 
-def room_box(ink, light=0.0):
-    ink.fill(mix_color(SHADE, WALL, 0.55 + 0.35 * light))
-    ink.poly([(180, 60), (780, 60), (780, 330), (180, 330)], fill=mix_color(WALL, PAGE, 0.3 * light), color=INK, width=2)
-    ink.poly([(180, 330), (780, 330), (960, 540), (0, 540)], fill=FLOOR, color=INK, width=2)
-    ink.line([(0, 0), (180, 60)], INK, 2)
-    ink.line([(960, 0), (780, 60)], INK, 2)
-    ink.poly([(520, 100), (680, 100), (680, 230), (520, 230)], fill=mix_color((90, 100, 120), (235, 232, 215), light), color=INK, width=3)
-    ink.line([(600, 100), (600, 230)], INK, 2)
-    ink.line([(520, 165), (680, 165)], INK, 2)
-    if light > 0:
-        ink.poly([(520, 330), (680, 330), (760, 470), (470, 470)], fill=(240, 232, 205, int(90 * light)), color=None)
+LIGHT = (-0.8, -0.35, 0.5)
+HAIR_T = hair_tex(W, H, 4)
+CLOTH = box_blur(fnoise(W, H, 8, octaves=4, base=3), 6) * 40
+GRADE = dict(mono=True, contrast=1.7, pivot=0.42, crush=0.05, blur=0.8, vignette=0.55, grain=0.055, grain_size=1.5,
+             halation=0.12, hal_color=(1, 1, 1), hal_r=10)
 
 
-def s_bed(t, ink):
-    light = ease(t, 0, 5)
-    room_box(ink, light * 0.6)
-    # bed in perspective, lower left
-    ink.poly([(90, 380), (520, 380), (600, 500), (40, 500)], fill=(225, 222, 214), color=INK, width=2.5)
-    ink.rect(70, 300, 110, 500, fill=(120, 96, 80), color=INK, width=2)
-    up = ease(t, 2.0, 3.1)
-    hip = (290, 430)
-    ang = lerp(math.pi * 1.02, math.pi * 1.5, up)  # lying (head on the pillow, left) -> sitting up
-    neck = (hip[0] + math.cos(ang) * 110, hip[1] + math.sin(ang) * 110)
-    head = (hip[0] + math.cos(ang) * 136, hip[1] + math.sin(ang) * 136)
-    ink.ellipse(150, 420, 46, 18, fill=PAGE, color=INK, width=2)  # pillow
-    ink.line([hip, neck], SHADE, 9)
-    ink.circle(head[0], head[1], 18, fill=PAGE, color=INK, width=2.5)
-    if up > 0.5:
-        ink.line([(neck[0], neck[1] + 14), (neck[0] + 40, neck[1] + 60), (neck[0] + 80, neck[1] + 70)], INK, 3)
-    bx = lerp(170, 280, up)
-    ink.poly([(bx, 410), (560, 400), (590, 480), (bx - 10, 470)], fill=BLANKET, color=INK, width=2.5)
-    # chair with clothes
-    ink.rect(700, 360, 780, 372, fill=(120, 96, 80), color=INK, width=2)
-    ink.line([(705, 372), (700, 440)], INK, 3)
-    ink.line([(775, 372), (780, 440)], INK, 3)
-    ink.line([(775, 360), (785, 280)], INK, 3)
-    ink.poly([(740, 300), (790, 290), (780, 380), (735, 370)], fill=SHADE, color=INK, width=2)
+def s_bed(t):
+    """Overhead: the face on the pillow; eyes open at 2.0, he sits up out of frame at 3.1."""
+    R = Relief(W, H)
+    R.field(CLOTH, (236, 236, 232), tex=0.92 + 0.08 * fnoise(W, H, 9, 3, 6))
+    R.ellipsoid(470, 220, 360, 190, depth=70, base=20, color=(244, 244, 240), gloss=0.05)
+    R.dent(470, 230, 170, 120, 26)
+    up = ease(t, 3.1, 4.4)
+    cy = lerp(230, -330, up)
+    s = lerp(0.92, 1.25, up)
+    if cy > -300:
+        face(R, 470, cy, s, look=(0.0, 0.0), eyes_open=ease(t, 1.8, 2.3) * (1 - up), hair=(34, 30, 28), tex=HAIR_T, base=60, neck=True)
+    # blanket from the chin down, its folds from the same cloth noise
+    blank = poly_mask(W, H, [(0, 400), (960, 380), (960, 540), (0, 540)], blur=6)
+    R.z += blank * (90 + CLOTH * 1.5)
+    R.col = R.col * (1 - blank[..., None]) + np.asarray((120, 120, 124), np.float32) / 255 * blank[..., None]
+    return R.render(light=LIGHT, amb=0.22, diff=0.95, spec=0.15, smooth=5)
 
 
-def phone(ink, x, y, ringing):
-    dx = 2.5 * math.sin(ink.t * 90) if ringing else 0
-    ink.poly([(x - 46 + dx, y), (x + 46 + dx, y), (x + 36 + dx, y - 34), (x - 36 + dx, y - 34)], fill=INK, color=INK, width=2)
-    ink.circle(x + dx, y - 16, 11, fill=PAGE, color=INK, width=2)
-    ink.poly([(x - 52 + dx, y - 44), (x + 52 + dx, y - 44), (x + 44 + dx, y - 56), (x - 44 + dx, y - 56)], fill=INK, color=INK, width=2)
-    if ringing:
-        for r in (70, 90):
-            ink.arc(x, y - 40, r, -math.pi * 0.35, -math.pi * 0.08, INK, 2)
-            ink.arc(x, y - 40, r, -math.pi * 0.92, -math.pi * 0.65, INK, 2)
+def phone_obj(R, x, y, ringing, t):
+    dx = 3 * math.sin(t * 90) if ringing else 0
+    R.slab([(x - 110 + dx, y), (x + 110 + dx, y), (x + 86 + dx, y - 80), (x - 86 + dx, y - 80)], height=70, bevel=10, base=120, color=(28, 28, 30), gloss=0.9)
+    R.capsule((x - 120 + dx, y - 104), (x + 120 + dx, y - 104), 26, depth=1.0, base=200, color=(22, 22, 24), gloss=1.0)
+    R.ellipsoid(x - 120 + dx, y - 100, 36, 30, base=200, color=(22, 22, 24), gloss=1.0)
+    R.ellipsoid(x + 120 + dx, y - 100, 36, 30, base=200, color=(22, 22, 24), gloss=1.0)
+    R.ellipsoid(x + dx, y - 36, 40, 30, depth=10, base=190, color=(210, 210, 206), gloss=0.5)
 
 
-def s_phone(t, ink):
-    ink.fill(WALL)
-    ink.d.rectangle([0, 380, 960, 540], fill=FLOOR)
-    ink.line([(0, 380), (960, 380)], INK, 2)
-    # bed edge and the seated man (seen from across the room)
-    ink.rect(120, 330, 470, 400, fill=(225, 222, 214), color=INK, width=2.5)
-    ink.poly([(120, 330), (470, 330), (470, 352), (120, 360)], fill=BLANKET, color=INK, width=2)
-    turn = ease(t, 6.6, 7.2)
-    figure(ink, 300, 432, 1.25, "sit", facing=1 if turn < 0.5 else -1, coat=SHADE, arm=30)
-    # table with telephone and the sealed envelope
-    ink.rect(640, 330, 860, 344, fill=(120, 96, 80), color=INK, width=2)
-    ink.line([(660, 344), (660, 470)], INK, 4)
-    ink.line([(840, 344), (840, 470)], INK, 4)
+def s_phone(t):
+    """Across the room: him on the bed edge, his shadow double on the wall, the telephone foreground left."""
+    wall = vgrad(H, W, (210, 210, 206), (150, 150, 148)) * (0.92 + 0.08 * fnoise(W, H, 3, 3, 4))[..., None]
+    lit = np.clip(np.linspace(1.2, 0.35, W, dtype=np.float32), 0, 1)[None, :, None]
+    R = Relief(W, H, bg=wall * lit)
+    look = ease(t, 6.6, 7.4)
+    turn = lerp(0.35, -0.7, look)
+    face(R, 610, 250, 0.82, look=(lerp(0.3, -0.9, look), 0.1), turn=turn, hair=(30, 28, 26), tex=HAIR_T, collar=(200, 200, 196))
+    R.slab([(420, 440), (820, 440), (900, 540), (340, 540)], height=60, bevel=16, base=0, color=(90, 90, 92))
     ringing = any(r <= t + 6.0 < r + 1.05 for r in RINGS)
-    phone(ink, 710, 330, ringing)
-    envelope(ink, 805, 318, 64, 26)
-    # door frame we look through (outside his viewpoint)
-    ink.d.rectangle([0, 0, 70, 540], fill=SHADE)
-    ink.d.rectangle([890, 0, 960, 540], fill=SHADE)
-    ink.d.rectangle([0, 0, 960, 40], fill=SHADE)
-    ink.line([(70, 40), (70, 540)], INK, 3)
-    ink.line([(890, 40), (890, 540)], INK, 3)
-    ink.line([(70, 40), (890, 40)], INK, 3)
+    a = R.render(light=LIGHT, amb=0.15, diff=1.0, spec=0.25, smooth=4)
+    a = cast_shadow(a, R.silhouette(), 150, 18, 10, 0.75)  # the shadow double
+    R2 = Relief(W, H, bg=a)
+    phone_obj(R2, 190, 520, ringing, t)
+    b = R2.render(light=LIGHT, amb=0.2, diff=0.9, spec=1.0, shin=60, smooth=2)
+    return blur_arr(b, 0) if not ringing else b
 
 
-def s_held(t, ink):
-    ink.fill(mix_color(SHADE, WALL, 0.4))
-    ink.poly([(330, 70), (630, 70), (630, 360), (330, 360)], fill=(232, 230, 214), color=INK, width=4)
-    ink.line([(480, 70), (480, 360)], INK, 3)
-    ink.line([(330, 215), (630, 215)], INK, 3)
-    sway = 6 * math.sin(t * 0.9)
-    ink.poly([(300, 60), (360 + sway, 60), (350 + sway * 1.5, 380), (296, 380)], fill=(170, 150, 140), color=INK, width=2)
-    ink.d.rectangle([0, 400, 960, 540], fill=FLOOR)
-    ink.line([(0, 400), (960, 400)], INK, 2)
-    ink.rect(420, 405, 540, 415, fill=(120, 96, 80), color=INK, width=2)
-    ink.line([(430, 415), (430, 470)], INK, 3)
-    ink.line([(530, 415), (530, 470)], INK, 3)
-    figure(ink, 470, 470, 1.5, "sit", facing=-1, coat=(40, 42, 50), color=(30, 30, 36), arm=20)
+_HELD = None
+
+
+def s_held(t):
+    """Held shot: his head against the wall, the double on the wall behind. Only room sound."""
+    global _HELD
+    if _HELD is None:
+        wall = vgrad(H, W, (236, 236, 232), (190, 190, 186))
+        dark = np.clip((np.arange(W, dtype=np.float32) - 600) / 40, 0, 1)[None, :, None]
+        wall = wall * (1 - 0.82 * dark)
+        R = Relief(W, H, bg=wall)
+        face(R, 400, 250, 1.12, look=(-0.3, 0.15), turn=0.25, hair=(26, 24, 22), tex=HAIR_T, collar=(226, 226, 222))
+        a = R.render(light=(-0.9, -0.4, 0.45), amb=0.12, diff=1.05, spec=0.2, smooth=5)
+        sil = R.silhouette()
+        dbl = np.roll(sil, 300, 1)
+        dbl = blur_arr(dbl, 4)
+        a = a * (1 - 0.0 * dbl[..., None])
+        a = np.where((dbl[..., None] > 0.5) & (sil[..., None] < 0.5), a * 0.18 + 0.02, a)
+        _HELD = a
+    return _HELD
 
 
 def s_stairs(k, u, ink):
     t = k / FPS
-    ink.fill((176, 172, 166))
-    ink.hatch(0, 0, 960, 540, gap=11, angle=-30, color=(150, 146, 140), width=1, alpha=120)
-    steps, x0, y0, x1, y1 = 12, 60, 130, 900, 480
+    wall = vgrad(H, W, (60, 60, 62), (20, 20, 22))
+    R = Relief(W, H, bg=wall)
+    steps, x0, y0, x1, y1 = 12, 40, 110, 900, 500
     sw, sh = (x1 - x0) / steps, (y1 - y0) / steps
-    pts = [(0, y0), (x0, y0)]
-    for s in range(steps):
-        pts += [(x0 + s * sw, y0 + (s + 1) * sh), (x0 + (s + 1) * sw, y0 + (s + 1) * sh)]
-    pts += [(960, y1), (960, 540), (0, 540)]
-    ink.poly(pts, fill=(120, 108, 96), color=INK, width=2.5)
-    ink.line([(0, y0 - 80), (x0, y0 - 80)] + [(x1, y1 - 80), (960, y1 - 80)], INK, 3)
-    for s in range(0, steps + 1, 2):
-        ink.line([(x0 + s * sw, y0 + s * sh - 80), (x0 + s * sw, y0 + s * sh)], INK, 2)
-    ink.line([(480, 0), (480, 40)], INK, 2)
-    ink.circle(480, 52, 12, fill=(250, 236, 190), color=INK, width=2)
+    for s_ in range(steps):
+        xa = x0 + s_ * sw
+        ya = y0 + (s_ + 1) * sh
+        R.slab([(xa, ya), (xa + sw + 2, ya), (xa + sw + 2, 540), (xa, 540)], height=20 + s_ * 6, bevel=3, base=0, color=(200, 200, 196))
+    R.capsule((0, y0 - 90), (x1 + 60, y1 - 90), 6, base=200, color=(30, 30, 30), gloss=0.8)
     p = ramp(t, 0.3, 5.4) * 1.18 - 0.05
     s_f = p * steps
     xs = x0 + s_f * sw
     ys = y0 + (math.floor(max(0, s_f)) + 1) * sh if s_f > 0 else y0
-    if xs < 1000:
-        figure(ink, xs, ys, 0.9, "walk", phase=s_f / 2, facing=1, coat=SHADE, hat=True)
+    if xs < 1060:
+        person(R, xs, ys, 230, phase=s_f / 2, pose="walk", coat=(36, 36, 38), trousers=(24, 24, 26), hair=(20, 20, 20), base=150)
+    a = R.render(light=(-0.6, -0.7, 0.5), amb=0.12, diff=1.0, spec=0.3, smooth=2)
+    a = cast_shadow(a, R.silhouette() * (np.arange(H)[:, None] < 540), -90, -30, 6, 0.0)
+    # hard window light falling across the stairs
+    beam = poly_mask(W, H, [(380, 0), (620, 0), (900, 540), (520, 540)], blur=18)
+    a = a * (0.35 + 0.85 * beam[..., None])
+    if xs < 1060:
+        pm = np.zeros((H, W), np.float32)
+        hx = int(xs)
+        pm = R.silhouette()
+        a = cast_shadow(a, pm, 110, -20, 5, 0.55 * 1)
+    ink.img = Image.fromarray(np.clip(a * 255, 0, 255).astype(np.uint8))
 
 
-STAIRS = build_clip(s_stairs, int(6 * FPS), (W, H), boil=6, wobble=1.1, seed=5)
+STAIRS = [np.asarray(f, np.float32) / 255 for f in build_clip(s_stairs, int(6 * FPS), (W, H), boil=0, wobble=0, seed=5)]
 
 
-def picture_at(t, ink):
+def picture_at(t):
     seg, lt, dur, a = segment(t, PICT)
     if seg == "bed":
-        s_bed(lt, ink)
-    elif seg == "phone":
-        s_phone(lt, ink)
-    elif seg == "held":
-        s_held(lt, ink)
-    else:
-        k = min(len(STAIRS) - 1, int(lt * FPS))
-        ink.paste(STAIRS[k])  # stairsA and stairsB are the same frames
-    return seg
+        return seg, s_bed(lt)
+    if seg == "phone":
+        return seg, s_phone(lt)
+    if seg == "held":
+        return seg, s_held(lt)
+    k = min(len(STAIRS) - 1, int(lt * FPS))
+    return seg, STAIRS[k]  # stairsA and stairsB are the same frames
 
 
 def lines_for(off):
     return [(a + off, a + off + CAP, s) for a, s in LINES]
 
 
+GREY = (180, 180, 178)
+
+
 def score_strip(ink, t, off):
-    x0, x1, y = 150, 810, 20
-    ink.d.rectangle([x0 - 90, y - 10, x1 + 12, y + 26], fill=NIGHT + (160,))
-    ink.line([(x0, y), (x1, y)], RULE, 1, rough=False)
-    ink.line([(x0, y + 14), (x1, y + 14)], RULE, 1, rough=False)
-    ink.text((x0 - 82, y - 7), "action", "mono", 10, PAGE)
-    ink.text((x0 - 82, y + 7), "voice", "mono", 10, (230, 150, 160))
+    x0, x1, y = 150, 810, 18
+    ink.d.rectangle([x0 - 90, y - 10, x1 + 12, y + 26], fill=(0, 0, 0, 150))
+    ink.line([(x0, y), (x1, y)], (120, 120, 120), 1, rough=False)
+    ink.line([(x0, y + 14), (x1, y + 14)], (120, 120, 120), 1, rough=False)
+    ink.text((x0 - 82, y - 7), "action", "mono", 10, GREY)
+    ink.text((x0 - 82, y + 7), "voice", "mono", 10, (250, 250, 250))
     for a, _ in LINES:
         xa = lerp(x0, x1, a / PLEN)
-        ink.line([(xa, y - 5), (xa, y + 5)], PAGE, 2, rough=False)
+        ink.line([(xa, y - 5), (xa, y + 5)], GREY, 2, rough=False)
         xv = lerp(x0, x1, (a + off) / PLEN)
-        ink.line([(xv, y + 9), (xv, y + 19)], (230, 150, 160), 2, rough=False)
+        ink.line([(xv, y + 9), (xv, y + 19)], (250, 250, 250), 2, rough=False)
     h0, h1 = lerp(x0, x1, 14 / PLEN), lerp(x0, x1, 21 / PLEN)
-    ink.d.rectangle([h0, y + 2, h1, y + 12], fill=BRASS + (140,))
+    ink.d.rectangle([h0, y + 2, h1, y + 12], fill=(90, 90, 90, 180))
     px = lerp(x0, x1, t / PLEN)
-    ink.line([(px, y - 8), (px, y + 22)], ACCENT, 2, rough=False)
+    ink.line([(px, y - 8), (px, y + 22)], (255, 255, 255), 1, rough=False)
 
 
-film = Film("un-homme-qui-dort", seconds=TOTAL, boil=6, wobble=1.1)
-film.poster_at = ST["pass1"] + 9.5
+film = Film("un-homme-qui-dort", seconds=TOTAL, boil=0, wobble=0)
+film.poster_at = ST["pass1"] + 17.0
 
 
 @film.picture
 def frame(t, ink):
     seg, lt, dur, _ = segment(t, SEGS)
+    ink._grain = False
     if seg == "title":
-        title_card(ink, "Un homme qui dort", "the same picture twice · the same words twice · the voice moves")
-        fade_edges(ink, lt, dur, 0.3)
+        title_card(ink, "Un homme qui dort", "the same picture twice · the same words twice · the voice moves", ground=(0, 0, 0), fg=(240, 240, 236), subfg=(150, 150, 150))
+        fade_edges(ink, lt, dur, 0.3, (0, 0, 0))
         return
     if seg in ("card1", "card2"):
         title_card(ink, "Track 1 · the voice ahead" if seg == "card1" else "Track 2 · the voice after",
-                   f"each line {abs(LEAD):.1f} s before what it names" if seg == "card1" else f"each line {LAG:.1f} s after what it names", size=44)
-        fade_edges(ink, lt, dur, 0.25)
+                   f"each line {abs(LEAD):.1f} s before what it names" if seg == "card1" else f"each line {LAG:.1f} s after what it names",
+                   ground=(0, 0, 0), fg=(240, 240, 236), subfg=(150, 150, 150), size=44)
+        fade_edges(ink, lt, dur, 0.25, (0, 0, 0))
         return
     off = LEAD if seg == "pass1" else LAG
-    pseg = picture_at(lt, ink)
-    ink.vignette(0.45)
+    pseg, arr = picture_at(lt)
+    put(ink, photo(arr, seed=int(t * FPS), **GRADE))
     for a, b, s in lines_for(off):
         if a <= lt < b:
-            ink.caption(s, alpha=min(1, (lt - a) / 0.15, (b - lt) / 0.2), size=26)
+            subtitle(ink, s, alpha=min(1, (lt - a) / 0.15, (b - lt) / 0.2), size=27)
     if pseg == "held" and not any(a <= lt < b for a, b, _ in lines_for(off)):
-        tag(ink, (W - 20, H - 30), "room sound only", 11, RULE, NIGHT, anchor="ra", alpha=150)
+        tag(ink, (W - 20, H - 30), "room sound only", 11, GREY, (0, 0, 0), anchor="ra", alpha=140)
     score_strip(ink, lt, off)
-    tag(ink, (20, H - 30), "TRACK 1 · ahead" if seg == "pass1" else "TRACK 2 · after", 11, PAGE, NIGHT, alpha=170)
+    tag(ink, (20, H - 30), "TRACK 1 · ahead" if seg == "pass1" else "TRACK 2 · after", 11, (230, 230, 230), (0, 0, 0), alpha=150)
 
 
 @film.sound
