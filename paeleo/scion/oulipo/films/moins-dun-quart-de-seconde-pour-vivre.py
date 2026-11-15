@@ -25,7 +25,7 @@ def plate(ink, w, h):
            holding=lambda k, hf, hb: envelope_s(k, hf[0] + 2, hf[1] - 8, 96, 62))
 
 
-PLATE = make_panel(PWID, PHGT, plate, seed=7)
+PLATE = make_panel(PWID, PHGT, plate, seed=7, treat={WALL: "black", WALL2: "black", FLOOR: "white", WOOD: "white", DOORC: "white"})
 PLATE_ID = art_id(PLATE)
 HEAD = (230 + 3 * 1.45, 530 - 208 * 1.45)
 MOUTH = (HEAD[0] + 18, HEAD[1] - 62)  # tails stop above the hat, never on the face

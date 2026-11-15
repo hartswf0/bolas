@@ -114,3 +114,65 @@ def sub_frame(fn, t, i, size=(W, H), boil=8, wobble=1.2, seed=0, grain=False):
     fn(t, ink)
     ink._grain = grain
     return ink.finish()
+
+
+# ------------------------------------------------------------ handwriting ---
+
+_hand_cache = {}
+
+
+def hand_word(word, size, color, seed=0, slant=0.2, weight=0):
+    """A word that looks pen-written: drawn with the sans at 2x, warped by a slow wobble,
+    slanted, randomly scaled, then thickened a touch like felt-tip bleed."""
+    key = (word, size, color, seed, slant, weight)
+    if key in _hand_cache:
+        return _hand_cache[key]
+    rs = np.random.RandomState((hash(word) + seed * 7919) % (2 ** 31))
+    S = 2
+    f = font("sans", int(size * S * rs.uniform(0.94, 1.06)))
+    tmp = ImageDraw.Draw(Image.new("L", (1, 1)))
+    bx = tmp.textbbox((0, 0), word, font=f)
+    w, h = bx[2] - bx[0] + 40 * S, int(size * S * 1.9)
+    m = Image.new("L", (w, h), 0)
+    dm = ImageDraw.Draw(m)
+    cx = 10 * S - bx[0]
+    for ch in word:  # letter by letter: each a little higher or lower, larger or smaller
+        fc = font("sans", max(6, int(f.size * rs.uniform(0.9, 1.1))))
+        dm.text((cx, int(size * S * 0.35) + rs.uniform(-1.6, 1.6) * S + (f.size - fc.size) * 0.8), ch, font=fc, fill=255)
+        cx += fc.getlength(ch) * rs.uniform(0.94, 1.04)
+    a = np.asarray(m, np.float32)
+    yy, xx = np.mgrid[0:h, 0:w].astype(np.float32)
+    ph1, ph2 = rs.uniform(0, 6.28, 2)
+    dx = 0.7 * S * np.sin(yy / (16.0 * S) + ph1) + 0.5 * S * np.sin(xx / (6.0 * S)) + slant * (h * 0.6 - yy)
+    dy = 1.2 * S * np.sin(xx / (11.0 * S) + ph2)
+    sx = np.clip(xx - dx, 0, w - 1).astype(np.int32)
+    sy = np.clip(yy - dy, 0, h - 1).astype(np.int32)
+    warped = Image.fromarray(a[sy, sx].astype(np.uint8), "L")
+    if weight:
+        warped = warped.filter(ImageFilter.MaxFilter(3))
+    warped = warped.resize((w // S, h // S), Image.LANCZOS).filter(ImageFilter.GaussianBlur(0.35))
+    im = Image.new("RGBA", warped.size, tuple(color[:3]) + (0,))
+    im.putalpha(warped.point(lambda v: min(255, int(v * 1.15))))
+    _hand_cache[key] = im
+    return im
+
+
+def hand_text(ink, xy, s, size=24, color=(30, 30, 40), width=None, seed=0, line_gap=1.35, alpha=1.0, rot=0.0):
+    """Lay handwritten words along lines (wrapping at width). Returns the y after the last line."""
+    x0, y = xy
+    x = x0
+    rs = random.Random(seed)
+    for k, word in enumerate(s.split(" ")):
+        if word == "\n":
+            x, y = x0, y + size * line_gap
+            continue
+        im = hand_word(word, size, color, seed + k)
+        ww = im.width - 36
+        if width and x + ww - x0 > width and x > x0:
+            x, y = x0 + rs.uniform(-3, 3), y + size * line_gap
+        jitter = rs.uniform(-2, 2)
+        if rot:
+            im = im.rotate(rot, expand=True, resample=Image.BICUBIC)
+        ink.paste(im, (x, y - size * 0.35 + jitter), alpha=alpha)
+        x += ww + size * 0.26 + rs.uniform(-1, 2)
+    return y + size * line_gap

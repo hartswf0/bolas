@@ -6,6 +6,8 @@ from PIL import Image, ImageDraw
 from kit import *
 from kit_comics import *
 
+STYLE["upper"] = False   # Madden letters in mixed case
+
 SLUG = "99-ways-template"
 PW, PH = 2400, 1350
 CW, CH = 740, 590

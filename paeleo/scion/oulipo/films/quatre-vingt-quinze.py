@@ -52,7 +52,7 @@ def cD(ink, w, h):
     ink.hatch(0, 0, w, h, gap=16, angle=60, color=RULE, alpha=110)
     cx, cy = w / 2, h / 2 + 40
     for sx, sgn in ((0, 1), (w, -1)):
-        ink.poly([(sx, cy - 20), (cx - sgn * 250, cy - 10), (cx - sgn * 250, cy + 70), (sx, cy + 100)], fill=ACCENT, color=INK, width=4)
+        ink.poly([(sx, cy - 20), (cx - sgn * 250, cy - 10), (cx - sgn * 250, cy + 70), (sx, cy + 100)], fill=VCOAT, color=INK, width=4)
         ink.ellipse(cx - sgn * 235, cy + 30, 38, 30, fill=SKIN, color=INK, width=3)
     ink.rect(cx - 200, cy - 50, cx + 200, cy + 110, fill=PAGE, color=INK, width=4)
     ink.poly([(cx - 200, cy - 50), (cx + 200, cy - 50), (cx, cy - 150)], fill=WASH, color=INK, width=4)
@@ -107,7 +107,9 @@ def cI(ink, w, h):
 
 
 FUNCS = dict(A=cA, B=cB, C=cC, D=cD, E=cE, F=cF, G=cG, H=cH, I=cI)
-CELLS = {k: make_panel(CW, CH, f, seed=i + 1) for i, (k, f) in enumerate(FUNCS.items())}
+RED = {WALL: SPOT_L, WALL2: SPOT_L, FLOOR: SPOT, ACCENT: SPOT}
+CELLS = {k: make_panel(CW, CH, f, seed=i + 1, treat=RED if k in "BDFH" else {ACCENT: SPOT})
+         for i, (k, f) in enumerate(FUNCS.items())}
 IDS = {k: art_id(v) for k, v in CELLS.items()}
 ACROSS = list("ABCDEFGHI")
 DOWN = [ACROSS[r * 3 + c] for c in range(3) for r in range(3)]
@@ -124,14 +126,21 @@ for k, pid in enumerate(ACROSS):
     bi.d.text((x0 + 4, y0 - 6), pid, font=lfont(24, "Bold"), fill=MUTED, anchor="lb")
 for r in range(3):
     y = board.m + TM + r * (CH + G) + CH / 2
-    bi.d.text((board.m + LM / 2, y), f"{r + 1}", font=lfont(40, "Bold"), fill=ACCENT, anchor="mm")
-    bi.line([(board.m + 30, y + 36), (board.m + 70, y + 36)], ACCENT, 4, rough=False)
-    bi.d.polygon([(board.m + 72, y + 28), (board.m + 86, y + 36), (board.m + 72, y + 44)], fill=ACCENT)
+    bi.d.text((board.m + LM / 2, y), f"{r + 1}", font=lfont(40, "Bold"), fill=SPOT, anchor="mm")
+    bi.line([(board.m + 30, y + 36), (board.m + 70, y + 36)], SPOT, 4, rough=False)
+    bi.d.polygon([(board.m + 72, y + 28), (board.m + 86, y + 36), (board.m + 72, y + 44)], fill=SPOT)
 for c in range(3):
     x = board.m + LM + c * (CW + G) + CW / 2
-    bi.d.text((x, board.m + 30), "|||"[: c + 1].replace("|", "I"), font=lfont(34, "Bold"), fill=BRASS, anchor="mm")
-    bi.line([(x + 40, board.m + 14), (x + 40, board.m + 48)], BRASS, 4, rough=False)
-    bi.d.polygon([(x + 32, board.m + 48), (x + 48, board.m + 48), (x + 40, board.m + 62)], fill=BRASS)
+    bi.d.text((x, board.m + 30), "|||"[: c + 1].replace("|", "I"), font=lfont(34, "Bold"), fill=INK, anchor="mm")
+    bi.line([(x + 40, board.m + 14), (x + 40, board.m + 48)], INK, 4, rough=False)
+    bi.d.polygon([(x + 32, board.m + 48), (x + 48, board.m + 48), (x + 40, board.m + 62)], fill=INK)
+for r in range(4):
+    for c in range(4):
+        jx = board.m + LM + c * (CW + G) - G / 2
+        jy = board.m + TM + r * (CH + G) - G / 2
+        for k in range(4):
+            a = k * math.pi / 4 + 0.2
+            bi.line([(jx - 16 * math.cos(a), jy - 16 * math.sin(a)), (jx + 16 * math.cos(a), jy + 16 * math.sin(a))], SPOT, 4)
 for pid in ACROSS:
     assert art_id(board.img.crop(tuple(int(v) for v in RECT[pid]))) == IDS[pid]
 
@@ -167,8 +176,8 @@ DUR = round(TITLE + sh.t, 2)
 film = Film(SLUG, seconds=DUR, boil=0, wobble=0)
 film.poster_at = TITLE + VISITS[4][0] + 1.0
 
-ROUTES = [("ROUTE 1 · ACROSS", "rows, left to right: what happened at the station", ACCENT),
-          ("ROUTE 2 · DOWN", "columns, top to bottom: who set the encounter up", BRASS)]
+ROUTES = [("ROUTE 1 · ACROSS", "rows, left to right: what happened at the station", SPOT),
+          ("ROUTE 2 · DOWN", "columns, top to bottom: who set the encounter up", INK)]
 
 
 def minimap(ink, route, n):

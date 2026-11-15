@@ -7,6 +7,8 @@ from PIL import Image, ImageDraw
 from kit import *
 from kit_comics import *
 
+STYLE["upper"] = False
+
 SLUG = "99-ways-subjective"
 _spec = importlib.util.spec_from_file_location("ways_template", HERE / "99-ways-template.py")
 TPL = importlib.util.module_from_spec(_spec)
@@ -145,7 +147,7 @@ def s6(ink, w, h):
     balloon(ink, 370, 370, "...what did I come for?", 34, tail=(370, 560), maxw=300, kind="thought")
 
 
-SUBJ = [make_panel(CW, CH, f, seed=40 + i) for i, f in enumerate((s1, s2, s3, s4, s5, s6))]
+SUBJ = [make_panel(CW, CH, f, seed=40 + i, treat={(120, 88, 60): "white"}) for i, f in enumerate((s1, s2, s3, s4, s5, s6))]
 SUBJ_EVENTS = [["E1"], ["E2"], ["E3"], ["E4"], ["E5"], ["E5"]]
 assert [e for p in SUBJ_EVENTS for e in p][::1] and {e for p in SUBJ_EVENTS for e in p} == {e for e, _ in TPL.EVENTS}
 

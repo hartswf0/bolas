@@ -45,10 +45,10 @@ def panel1(ink, w, h):
     f = lfont(LS, "Bold")
     x0, x1 = 50, 1130
     _balloon_frame(ink, x0, x1, BAL_Y, tail=(PORTER_X + 20, 255))
-    ink.d.text((A - 7, BAL_Y), "THE KEY IS", font=f, fill=INK, anchor="rm")
-    ink.d.text((A + 7, BAL_Y), "MISSING!", font=f, fill=INK, anchor="lm")
+    pen_text(ink.d, (A - 7, BAL_Y), "THE KEY IS", f, INK, "rm")
+    pen_text(ink.d, (A + 7, BAL_Y), "MISSING!", f, INK, "lm")
     balloon(ink, 985, 224, "You borrowed it!", 28, tail=(800, 250), maxw=330)
-    balloon(ink, 1020, 312, "This? Just a dull envelope.", 28, tail=(1000, 375), maxw=330)
+    balloon(ink, 985, 318, "This? Just a dull envelope.", 28, tail=(1000, 378), maxw=250)
 
 
 def panel2(ink, w, h):
@@ -67,8 +67,8 @@ def panel2(ink, w, h):
     f = lfont(LS, "Bold")
     x0, x1 = 1250, 2370
     _balloon_frame(ink, x0 - ox, x1 - ox, BAL_Y, tail=(1440 - ox, 260))
-    ink.d.text((B - 7 - ox, BAL_Y), "LOOK: NOTHING", font=f, fill=INK, anchor="rm")
-    ink.d.text((B + 7 - ox, BAL_Y), "IN MY HAND.", font=f, fill=INK, anchor="lm")
+    pen_text(ink.d, (B - 7 - ox, BAL_Y), "LOOK: NOTHING", f, INK, "rm")
+    pen_text(ink.d, (B + 7 - ox, BAL_Y), "IN MY HAND.", f, INK, "lm")
 
 
 def _balloon_frame(ink, x0, x1, cy, tail):
@@ -101,9 +101,9 @@ def build_sheet():
     for x, lab in ((A, "A"), (B, "B")):
         for y0, y1 in ((0, PY0 - 4), (PY0 + PHT + 4, SH)):
             for yy in range(int(y0), int(y1), 10):
-                sheet.d.line([(x, yy), (x, min(y1, yy + 5))], fill=ACCENT, width=3)
-        sheet.d.polygon([(x - 9, 0), (x + 9, 0), (x, 14)], fill=ACCENT)
-        sheet.d.text((x + (-14 if lab == "A" else 14), 18), lab, font=lfont(22), fill=ACCENT, anchor="rm" if lab == "A" else "lm")
+                sheet.d.line([(x, yy), (x, min(y1, yy + 5))], fill=INK, width=3)
+        sheet.d.polygon([(x - 9, 0), (x + 9, 0), (x, 14)], fill=INK)
+        sheet.d.text((x + (-14 if lab == "A" else 14), 18), lab, font=lfont(22), fill=INK, anchor="rm" if lab == "A" else "lm")
     sheet.d.text(((A + B) / 2, PY0 + PHT + 20), "FOLD BACK SO A MEETS B", font=lfont(18, "SemiBold"), fill=MUTED, anchor="mm")
     return sheet.img.convert("RGB")
 

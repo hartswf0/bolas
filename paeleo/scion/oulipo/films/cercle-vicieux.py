@@ -55,7 +55,7 @@ def pD(ink, w, h):
     cx, cy = w / 2, h / 2 + 30
     # sleeves
     _ = None
-    for sx, col, sgn in ((0, ACCENT, 1), (w, ACCENT, -1)):
+    for sx, col, sgn in ((0, VCOAT, 1), (w, VCOAT, -1)):
         ink.poly([(sx, cy - 40), (cx - sgn * 210, cy - 30), (cx - sgn * 210, cy + 80), (sx, cy + 120)], fill=col, color=INK, width=4)
     for sgn in (1, -1):
         hx = cx - sgn * 225

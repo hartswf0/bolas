@@ -1,9 +1,10 @@
-"""Teuf-Teuf — one load, one push, three mechanisms: drag, loose rollers, wheels on axles.
-Same stage, same load, same push window (7 s) and same hand height in every trial.
-A counter-check removes the axle; a closing strip compares distances."""
+"""Teuf-Teuf, painted as a cave wall: one load, one push, three mechanisms (drag, loose
+logs, axled wheels) in black and ochre pigment on limestone. Same stage, load, hand
+height and seven-second push window in every trial; a counter-check removes the axle."""
 import math
 from kit import *
-from kit_anim import run, hatch_poly
+import random
+from kit_anim import run
 
 film = Film("teuf-teuf", seconds=30.5, boil=6, wobble=0.9, seed=3)
 film.poster_at = 21.0
@@ -96,299 +97,400 @@ def carry_pose(tau, L):
 
 # --------------------------------------------------------------- drawing ---
 
-def backdrop(ink, ghost=None):
-    ink.paper()
-    ink.d.rectangle([0, 92, W, G], fill=(236, 228, 214))
-    for y in range(120, G, 34):
-        ink.line([(0, y), (W, y)], RULE, 1, alpha=140, amount=0.4)
-    ink.line([(0, 300), (W, 300)], MUTED, 2, alpha=180)
-    hatch_poly(ink, [(0, 300), (W, 300), (W, G), (0, G)], gap=9, angle=70, color=MUTED, alpha=45)
-    door(ink, 520, G, w=78, h=160, sign="SERVICE")
-    clock(ink, 300, 170, 30, 7.25)
-    bench(ink, 885, G, w=150)
-    ink.d.rectangle([0, G, W, H], fill=WASH)
-    ink.line([(0, G), (W, G)], INK, 2.5)
-    # ruler
-    for m in range(0, 9):
-        x = X0 + m * PX
-        ink.line([(x, G + 8), (x, G + 18)], INK, 1.6, rough=False)
-        ink.label((x, G + 22), f"{m} m", 11, MUTED, anchor="ma")
-        if m < 8:
-            ink.line([(x + PX / 2, G + 8), (x + PX / 2, G + 13)], MUTED, 1, rough=False)
-    ink.label((X0 + 8 * PX + 6, G + 8), "bench", 11, ACCENT)
+# ------------------------------------------------------ cave-wall idiom ---
+# Everything is painted as pigment on a mottled limestone wall: black and ochre
+# silhouettes with soft dry edges, sprayed hand stencils, light incised lines.
+
+BLK = (30, 24, 20)
+OCH = (166, 102, 46)
+RED = (122, 50, 32)
+SCR = (236, 228, 210)      # incised line: the pale stone under the surface
+STONE = (206, 197, 178)
+
+_wall = None
+_tex = None
 
 
-def crate(ink, L, bottom, tilt=0.0):
-    """Crate whose LEFT edge is at L, bottom edge at `bottom`; envelope on top."""
+def _noise(rs, w, h, cells_w, cells_h):
+    a = rs.uniform(0, 1, (cells_h, cells_w)).astype(np.float32)
+    return np.asarray(Image.fromarray((a * 255).astype(np.uint8)).resize((w, h), Image.BICUBIC), np.float32) / 255
+
+
+def wall():
+    """Limestone: low and mid mottling, dark wavy bands top and bottom, a few old incisions."""
+    global _wall, _tex
+    if _wall is None:
+        rs = np.random.RandomState(7)
+        m = 0.55 * _noise(rs, W, H, 9, 6) + 0.3 * _noise(rs, W, H, 40, 24) + 0.15 * _noise(rs, W, H, 160, 90)
+        wash = np.zeros((H, W), np.float32)
+        yy, xx = np.mgrid[0:H, 0:W]
+        for cx, cy, rx, ry, g in ((760, 120, 260, 50, 0.22), (300, 330, 380, 40, 0.10), (90, 200, 120, 140, 0.12), (620, 400, 300, 30, 0.08)):
+            wash += g * np.exp(-(((xx - cx) / rx) ** 2 + ((yy - cy) / ry) ** 2))
+        base = np.array(STONE, np.float32)[None, None, :] * (0.78 + 0.36 * m[..., None] - wash[..., None])
+        y = np.arange(H)[:, None]
+        x = np.arange(W)[None, :]
+        top = 58 + 16 * np.sin(x / 140.0) + 8 * np.sin(x / 47.0 + 1)
+        bot = 472 + 12 * np.sin(x / 120.0 + 2) + 6 * np.sin(x / 37.0)
+        dark = np.clip((top - y) / 22, 0, 1) + np.clip((y - bot) / 18, 0, 1)
+        dark = np.clip(dark, 0, 1)[..., None]
+        band = np.array((96, 86, 76), np.float32)[None, None, :] * (0.8 + 0.4 * m[..., None])
+        img = base * (1 - dark * 0.9) + band * dark * 0.9
+        im = Image.fromarray(img.clip(0, 255).astype(np.uint8))
+        d = ImageDraw.Draw(im, "RGBA")
+        r = random.Random(3)
+        for cx, cy, rx, ry, a0, a1 in ((640, 210, 150, 60, 3.3, 6.0), (380, 160, 90, 40, 3.0, 6.2), (720, 330, 120, 50, 3.6, 5.9)):
+            arc = [(cx + rx * math.cos(a0 + (a1 - a0) * q / 30), cy + ry * math.sin(a0 + (a1 - a0) * q / 30)) for q in range(31)]
+            d.line(arc, fill=SCR + (120,), width=2)  # older incised animal backs, half lost
+        for _ in range(26):  # old scratches, like the wall's earlier marks
+            x0, y0 = r.uniform(0, W), r.uniform(80, 440)
+            pts = [(x0, y0)]
+            a = r.uniform(0, 6.28)
+            for _k in range(r.randint(3, 8)):
+                a += r.uniform(-0.6, 0.6)
+                pts.append((pts[-1][0] + 14 * math.cos(a), pts[-1][1] + 14 * math.sin(a)))
+            d.line(pts, fill=SCR + (90,), width=1)
+        for _ in range(60):  # pigment speckle at right, like a dotted herd
+            px, py = r.gauss(880, 40), r.gauss(150, 28)
+            d.ellipse([px, py, px + r.uniform(2, 4), py + r.uniform(2, 4)], fill=BLK + (150,))
+        _wall = im
+        tex = 0.55 + 0.45 * (0.6 * _noise(rs, W, H, 300, 170) + 0.4 * _noise(rs, W, H, 60, 34))
+        _tex = Image.fromarray((tex * 255).clip(0, 255).astype(np.uint8), "L")
+    return _wall
+
+
+def paint(ink, sheet, soft=1.1):
+    """Lay the sheet onto the wall as pigment: soft edge, stone grain showing through."""
+    a = sheet.img.getchannel("A").filter(ImageFilter.GaussianBlur(soft))
+    a = ImageChops.multiply(a, _tex)
+    rgb = sheet.img.convert("RGB")
+    ink.img.paste(rgb, (0, 0), a)
+    ink.d = ImageDraw.Draw(ink.img, "RGBA")
+
+
+_stencils = {}
+
+
+def stencil(color=BLK, seed=1, s=1.0, ang=0.0):
+    """A sprayed negative hand: dense dots around the hand shape, none inside it."""
+    key = (color, seed, s, ang)
+    if key in _stencils:
+        return _stencils[key]
+    sz = int(120 * s)
+    hand = Image.new("L", (sz, sz), 0)
+    d = ImageDraw.Draw(hand)
+    c = sz / 2
+    d.ellipse([c - 20 * s, c - 6 * s, c + 20 * s, c + 30 * s], fill=255)
+    for k, (fa, fl) in enumerate(((-0.95, 26), (-0.35, 36), (0.0, 40), (0.33, 36), (0.68, 28))):
+        a = fa - math.pi / 2 + (0.9 if k == 0 else 0)
+        bx, by = c + math.cos(a + 0.0) * 14 * s, c + 4 * s + math.sin(a) * 14 * s
+        tx, ty = bx + math.cos(a) * fl * s, by + math.sin(a) * fl * s
+        d.line([(bx, by), (tx, ty)], fill=255, width=int(11 * s))
+        d.ellipse([tx - 5.5 * s, ty - 5.5 * s, tx + 5.5 * s, ty + 5.5 * s], fill=255)
+    hand = hand.rotate(math.degrees(ang), resample=Image.BICUBIC)
+    halo = hand.filter(ImageFilter.MaxFilter(int(17 * s) | 1)).filter(ImageFilter.GaussianBlur(9 * s))
+    rs = np.random.RandomState(seed)
+    dots = (rs.uniform(0, 1, (sz, sz)) < 0.32).astype(np.float32)
+    h = np.asarray(halo, np.float32) / 255
+    inside = np.asarray(hand.filter(ImageFilter.GaussianBlur(1.2)), np.float32) / 255
+    al = np.clip(h * 1.6, 0, 1) * (0.35 + 0.65 * dots) * (1 - inside)
+    im = Image.new("RGBA", (sz, sz), color + (0,))
+    im.putalpha(Image.fromarray((al * 235).astype(np.uint8), "L"))
+    _stencils[key] = im
+    return im
+
+
+def ptext(sheet, xy, s, size, color=BLK, anchor="la", kind="serif"):
+    sheet.text(xy, s, kind, size, color, anchor=anchor)
+
+
+def scratch(ink, pts, width=1.6, alpha=220):
+    """Incised line: a pale groove with a faint dark lip."""
+    ink.line([(x + 1, y + 1) for x, y in pts], (90, 80, 70), width, alpha=alpha // 3)
+    ink.line(pts, SCR, width, alpha=alpha)
+
+
+# --------------------------------------------------------------- drawing ---
+
+def backdrop(ink, sheet):
+    ink.paste(wall())
+    # ground: a painted line over an incised groove
+    scratch(ink, [(0, G + 2), (W, G + 2)], 2.0)
+    sheet.line([(0, G), (W, G)], BLK, 3.0, amount=1.4)
+    # the station, in the same pigment: incised service door, ochre bench, black bell
+    scratch(ink, [(480, G), (480, G - 160), (560, G - 160), (560, G)], 2.2)
+    scratch(ink, [(486, G), (486, G - 154), (554, G - 154), (554, G)], 1.2, 150)
+    sheet.circle(548, G - 80, 3.5, fill=BLK, color=None, width=0)
+    ptext(sheet, (520, G - 186), "service", 16, RED, anchor="mm")
+    bx = 885
+    sheet.stroke([(bx - 75, G - 44), (bx + 75, G - 44)], OCH, 9)
+    sheet.stroke([(bx - 75, G - 74), (bx + 75, G - 74)], OCH, 8)
+    for px in (bx - 62, bx + 62):
+        sheet.stroke([(px, G - 74), (px, G)], BLK, 5)
+    # ruler: pigment dots every half metre, a big dot each metre
+    for k in range(17):
+        x = X0 + k * PX / 2
+        r = 4 if k % 2 == 0 else 2.2
+        sheet.circle(x, G + 14, r, fill=BLK, color=None, width=0)
+        if k % 2 == 0:
+            ptext(sheet, (x, G + 22), f"{k // 2}", 14, BLK, anchor="ma")
+    ink.paste(stencil(RED, 4, 0.72, -0.3), (712, G - 185))   # the goal: a red hand over the bench
+    ink.paste(stencil(BLK, 9, 0.7, 0.25), (140, 200))        # the maker's hand at the start
+    return bx
+
+
+def bell(sheet, swing=0.0):
+    bx, by = 885, 250
+    sheet.line([(bx, 222), (bx, 234)], BLK, 2.5)
+    sheet.poly([(bx - 14 + 10 * swing, by + 16), (bx + 14 + 10 * swing, by + 16), (bx + 8, by - 12), (bx - 8, by - 12)], fill=BLK, color=BLK, width=2)
+
+
+def crate(sheet, L, bottom):
+    """The load: an ochre block with a black contour; the sealed envelope on top."""
     x0, x1, y1, y0 = L, L + CW, bottom, bottom - CH
-    pts = [(x0, y0 + tilt), (x1, y0), (x1, y1), (x0, y1 + tilt)]
-    ink.poly(pts, fill=(196, 160, 112), color=INK, width=2.5)
-    hatch_poly(ink, pts, gap=7, angle=-60, color=(120, 86, 50), alpha=90)
-    for f in (0.33, 0.66):
-        ink.line([(x0, lerp(y0, y1, f) + tilt * (1 - f * 0)), (x1, lerp(y0, y1, f))], INK, 1.6)
-    ink.line([(x0 + 4, y1 + tilt - 4), (x1 - 4, y0 + 4)], INK, 1.8)
-    envelope(ink, L + CW / 2, y0 - 13 + tilt / 2, w=58, h=24)
-    ink.circle(L + CW / 2, y0 - 10 + tilt / 2, 4, fill=ACCENT, color=INK, width=1)
+    sheet.poly([(x0, y0), (x1, y0), (x1, y1), (x0, y1)], fill=OCH, color=BLK, width=4)
+    sheet.stroke([(x0 + 6, y0 + 28), (x1 - 6, y0 + 26)], RED, 4)
+    sheet.stroke([(x0 + 6, y0 + 54), (x1 - 6, y0 + 52)], RED, 4)
+    ex, ey = L + CW / 2, y0 - 13
+    sheet.poly([(ex - 29, ey - 12), (ex + 29, ey - 12), (ex + 29, ey + 12), (ex - 29, ey + 12)], fill=(222, 210, 186), color=BLK, width=2.5)
+    sheet.line([(ex - 29, ey - 12), (ex, ey + 2), (ex + 29, ey - 12)], BLK, 2)
+    sheet.circle(ex, ey + 2, 4.5, fill=RED, color=None, width=0)
 
 
-def pusher(ink, hx, hy, phase, stoop=0.0, carrying=False, walk=False):
-    """Leaning pusher with both hands at (hx, hy). stoop bends to the ground."""
+def pusher(sheet, hx, hy, phase, stoop=0.0, carrying=False, walk=False):
+    """A black pigment figure, leaning into the push."""
     lean = math.radians(28 if not walk else 6)
-    sx, sy = hx - (38 if not walk else 10), hy - 6 - 30 * (1 if walk else 0)
+    sx, sy = hx - (38 if not walk else 10), hy - 6 - (30 if walk else 0)
     sy += stoop * 26
     hipx, hipy = sx - math.sin(lean) * 52, sy + math.cos(lean) * 52
-    head = (sx + math.sin(lean) * 15 + 3, sy - math.cos(lean) * 15 - 4)
+    head = (sx + math.sin(lean) * 16 + 3, sy - math.cos(lean) * 16 - 5)
     for sgn in (1, -1):
         a = math.sin(2 * math.pi * phase) * 0.45 * sgn
         footx = hipx + math.sin(a) * 40 - (14 if not walk else 0)
         kx, ky = lerp(hipx, footx, 0.5) + 6, lerp(hipy, G, 0.5) - 4 * abs(a)
-        ink.line([(hipx, hipy), (kx, ky), (footx, G - 1)], INK, 3)
-        ink.line([(footx, G - 1), (footx + 9, G - 1)], INK, 3)
-    ink.line([(sx, sy), (hipx, hipy)], INK, 3.4)
-    ink.poly([(sx - 7, sy - 2), (sx + 8, sy + 2), (hipx + 7, hipy + 2), (hipx - 9, hipy - 2)], fill=(92, 104, 120), color=INK, width=2)
+        sheet.stroke([(hipx, hipy), (kx, ky), (footx, G - 2), (footx + 10, G - 2)], BLK, 7, taper=False)
+    sheet.stroke([(sx, sy), (lerp(sx, hipx, 0.5) - 2, lerp(sy, hipy, 0.5)), (hipx, hipy)], BLK, 15, taper=False)
     tx, ty = (hx, hy + stoop * 62) if not carrying else (sx + 16, sy + 4)
-    for off in (0, 4):
+    for off in (0, 5):
         ex, ey = lerp(sx, tx, 0.5) - 2, lerp(sy, ty, 0.5) + 8
-        ink.line([(sx, sy + off), (ex, ey + off), (tx, ty + off)], INK, 2.6)
-    ink.circle(head[0], head[1], 10, fill=PAGE, color=INK, width=2.4)
-    ink.line([(head[0] - 9, head[1] - 7), (head[0] + 9, head[1] - 9)], INK, 3)   # cap brim
+        sheet.stroke([(sx, sy + off), (ex, ey + off), (tx, ty + off)], BLK, 5.5, taper=False)
+    sheet.ellipse(head[0], head[1], 10, 12, fill=BLK, color=BLK, width=2, angle=lean)
     return (tx, ty)
 
 
-def roller(ink, x, a, alpha=255, color=(176, 132, 82), dashed=False):
+def roller(sheet, x, a, alpha=255):
     cy = G - ROLL_R
-    ink.circle(x, cy, ROLL_R, fill=color + (alpha,) if alpha < 255 else color, color=INK, width=2, alpha=alpha)
-    ink.circle(x, cy, 4, fill=(120, 86, 50), color=INK, width=1, alpha=alpha)
-    ink.line([(x, cy), (x + math.cos(a) * ROLL_R, cy + math.sin(a) * ROLL_R)], INK, 1.6, alpha=alpha, rough=False)
+    sheet.circle(x, cy, ROLL_R, fill=OCH + (alpha,), color=BLK, width=3, alpha=alpha)
+    sheet.line([(x - math.cos(a) * ROLL_R * 0.8, cy - math.sin(a) * ROLL_R * 0.8), (x + math.cos(a) * ROLL_R * 0.8, cy + math.sin(a) * ROLL_R * 0.8)], BLK, 2.4, alpha=alpha)
 
 
-def wheel(ink, cx, cy, ang, axle=True):
-    ink.circle(cx, cy, WHEEL_R, fill=PAGE, color=INK, width=3)
-    for k in range(6):
-        a = ang + k * math.pi / 3
-        ink.line([(cx, cy), (cx + math.cos(a) * (WHEEL_R - 2), cy + math.sin(a) * (WHEEL_R - 2))], INK, 1.6, rough=False)
-    ink.circle(cx, cy, 5, fill=BRASS, color=INK, width=1.5, rough=False)
-    ink.circle(cx, G, 3, fill=ACCENT, color=None, width=0, rough=False)  # ground contact
+def wheel(sheet, cx, cy, ang):
+    sheet.circle(cx, cy, WHEEL_R, fill=None, color=BLK, width=5)
+    for k in range(4):
+        a = ang + k * math.pi / 4
+        sheet.line([(cx - math.cos(a) * (WHEEL_R - 3), cy - math.sin(a) * (WHEEL_R - 3)), (cx + math.cos(a) * (WHEEL_R - 3), cy + math.sin(a) * (WHEEL_R - 3))], BLK, 2.4)
+    sheet.circle(cx, cy, 5, fill=OCH, color=BLK, width=2)
+    sheet.circle(cx, G, 3.5, fill=RED, color=None, width=0)
 
 
-def cart(ink, L, ang, axle=True, rear_drop=0.0, wheel_rel=(14, 106)):
-    """Platform whose left edge is L; bed at G-50..G-40."""
+def cart(sheet, L, ang, wheel_rel=(14, 106)):
     by = G - 2 * WHEEL_R - 10
-    drop = rear_drop * (by + 10 - G + 10)  # rear end falls to the ground
-    bed = [(L - 10, by - drop * 0 + 0), (L + CW + 10, by), (L + CW + 10, by + 10), (L - 10, by + 10)]
-    bed = [(x, y + (-drop) * (1 - (x - L + 10) / (CW + 20))) for x, y in bed]
-    for k, rel in enumerate(wheel_rel):
-        wx = L + rel if axle else rel
-        wheel(ink, wx, G - WHEEL_R, ang if axle else ang[k])
-        if axle:
-            ink.rect(L + (wheel_rel[k]) - 5, by + 8, L + wheel_rel[k] + 5, G - WHEEL_R, fill=INK, color=INK, width=1, rough=False)
-    ink.poly(bed, fill=(150, 110, 70), color=INK, width=2.5)
+    for rel in wheel_rel:
+        wheel(sheet, L + rel, G - WHEEL_R, ang)
+        sheet.rect(L + rel - 5, by + 8, L + rel + 5, G - WHEEL_R, fill=BLK, color=BLK, width=1)
+    sheet.poly([(L - 10, by), (L + CW + 10, by), (L + CW + 10, by + 10), (L - 10, by + 10)], fill=BLK, color=BLK, width=3)
     return by
 
 
-def header(ink, num, title, sub, tau):
-    ink.d.rectangle([0, 0, W, 86], fill=PAGE)
-    ink.line([(0, 86), (W, 86)], RULE, 1.5, rough=False)
-    ink.text((28, 18), num, "serif", 40, ACCENT)
-    ink.text((88, 20), title, "serif", 34, INK)
-    ink.label((90, 60), sub, 13, MUTED)
-    # push clock: same 7-second window in every trial
-    cx, cy, r = W - 64, 43, 26
-    ink.circle(cx, cy, r, fill=WASH, color=INK, width=2, rough=False)
-    f = clamp(tau / PUSH)
-    if f > 0:
-        pts = [(cx, cy)] + [(cx + r * math.sin(2 * math.pi * f * k / 40), cy - r * math.cos(2 * math.pi * f * k / 40)) for k in range(41)]
-        ink.d.polygon(pts, fill=ACCENT + (170,))
-    ink.label((cx - r - 12, cy - 8), f"push {min(tau, PUSH):3.1f}/7 s", 12, INK, anchor="ra")
+def header(ink, sheet, num, title, sub, tau):
+    ptext(sheet, (34, 70), num, 58, RED)
+    ptext(sheet, (34 + 22 * len(num) + 30, 80), title, 36, BLK)
+    ptext(sheet, (36 + 22 * len(num) + 30, 122), sub, 19, (52, 42, 34))
+    # push clock: seven sprayed dots, one per second of push
+    for k in range(7):
+        x, y = W - 210 + k * 26, 96
+        on = tau >= k + 1 or (k < tau < k + 1)
+        sheet.circle(x, y, 8 if on else 3, fill=BLK if on else (90, 80, 70), color=None, width=0)
+    ptext(sheet, (W - 210 - 14, 88), "push", 15, (70, 58, 48), anchor="ra")
 
 
-def force_arrow(ink, hx, active=True):
+def force_mark(sheet, hx, active=True):
+    if not active:
+        return
     y = HAND_Y - 70
-    a = 255 if active else 80
-    ink.line([(hx - 92, y), (hx - 30, y)], ACCENT, 4, alpha=a, rough=False)
-    ink.poly([(hx - 30, y - 8), (hx - 16, y), (hx - 30, y + 8)], fill=ACCENT, color=None, alpha=a, rough=False)
-    ink.label((hx - 100, y - 8), "F", 14, ACCENT, anchor="ra")
+    sheet.stroke([(hx - 96, y), (hx - 28, y)], RED, 6)
+    sheet.poly([(hx - 30, y - 10), (hx - 12, y), (hx - 30, y + 10)], fill=RED, color=RED, width=2)
 
 
-def readout(ink, m, best=None):
-    ink.d.rectangle([20, 100, 196, 136], fill=PAGE + (230,))
-    ink.label((30, 106), f"load moved {m:4.2f} m", 15, INK)
+def readout(sheet, m):
+    ptext(sheet, (36, 150), f"{m:4.2f} m", 30, BLK)
+    for k in range(int(m * 2 + 1e-6)):   # one tally stroke per half metre
+        x = 40 + k * 9 + (k // 5) * 8
+        sheet.line([(x, 192), (x - 2, 214)], BLK, 3)
+
+
+def caption(ink, s, alpha=1.0, color=SCR):
+    if alpha > 0:
+        ink.text((W / 2, 508), s, "serif", 23, color, anchor="mm", alpha=int(255 * alpha))
 
 
 # --------------------------------------------------------------- picture ---
 
 @film.picture
 def frame(t, ink):
+    ink._grain = True
+    sheet = ink.layer()
     if t < TITLE[1]:
-        ink.fill(PAPER)
-        ink.text((W / 2, 200), "Teuf-Teuf", "serif", 72, INK, anchor="mm")
-        ink.label((W / 2, 262), "a demonstration of three mechanisms", 16, MUTED, anchor="mm")
-        ink.label((W / 2, 290), "same load · same push · same seven seconds", 14, ACCENT, anchor="mm")
-        crate(ink, W / 2 - CW / 2, 430)
-        ink.line([(260, 430), (700, 430)], INK, 2)
+        ink.paste(wall())
+        ptext(sheet, (W / 2, 210), "Teuf-Teuf", 84, BLK, anchor="mm")
+        ptext(sheet, (W / 2, 280), "three ways to move a load: drag, roll, ride", 22, RED, anchor="mm")
+        crate(sheet, W / 2 - CW / 2, 420)
+        sheet.line([(260, 420), (700, 420)], BLK, 3)
+        paint(ink, sheet)
+        for k, (x, y, c, a) in enumerate(((120, 120, BLK, 0.2), (760, 100, RED, -0.4), (820, 300, BLK, 0.5))):
+            ink.paste(stencil(c, 20 + k, 0.8, a), (x, y))
+        caption(ink, "same load · same push · same seven seconds")
         return
     for name, (a, b) in SECT.items():
         if a <= t < b:
-            tau = t - a - LEAD
-            section(ink, name, tau, t)
+            section(ink, sheet, name, t - a - LEAD)
             fade = min(1, (t - a) / 0.2, (b - t) / 0.2)
-            if fade < 1:
-                ink.d.rectangle([0, 0, W, H], fill=PAPER + (int(255 * (1 - fade)),))
-            return
-    if t < COUNTER[1]:
-        counter(ink, t - COUNTER[0])
-        return
-    summary(ink, t - SUMMARY[0])
+            break
+    else:
+        if t < COUNTER[1]:
+            counter(ink, sheet, t - COUNTER[0])
+            fade = min(1, (t - COUNTER[0]) / 0.2, (COUNTER[1] - t) / 0.2)
+        else:
+            summary(ink, sheet, t - SUMMARY[0])
+            fade = min(1, (t - SUMMARY[0]) / 0.25)
+    if fade < 1:
+        ink.d.rectangle([0, 0, W, H], fill=(96, 86, 76, int(255 * (1 - fade))))
 
 
-def section(ink, name, tau, t):
-    backdrop(ink)
+def section(ink, sheet, name, tau):
+    backdrop(ink, sheet)
+    cap = None
     if name == "drag":
         m = drag_m(tau)
         L = X0 - CW + m * PX
-        # scratch trail and dust at the sliding contact
         if m > 0.01:
             for k in range(3):
-                ink.line([(X0 - CW + 6, G - 1 - k * 2), (L + CW - 4, G - 1 - k * 2)], MUTED, 1, alpha=120)
-        crate(ink, L, G)
+                scratch(ink, [(X0 - CW + 6, G - 3 - k * 3), (L + CW - 4, G - 3 - k * 3)], 1.2, 200)
+        crate(sheet, L, G)
         slipping = 0.45 < ((clamp(tau, 0, PUSH) % (PUSH / 9)) / (PUSH / 9)) < 0.8 and 0 < tau < PUSH
         if slipping:
-            for k in range(7):
-                ink.circle(L + 8 + k * 16 + ink.j(4), G - 3 + ink.j(2), 2 + ink.rng.random() * 2, fill=MUTED, color=None, alpha=150)
+            for k in range(9):
+                sheet.circle(L + 8 + k * 13 + ink.j(4), G - 5 + ink.j(3), 2 + ink.rng.random() * 2.5, fill=OCH, color=None, width=0)
         else:
-            ink.line([(L, G - 1), (L + CW, G - 1)], ACCENT, 3, alpha=200)  # whole base in contact
-        hx = L
-        pusher(ink, hx, HAND_Y, m * 2.2 if tau > 0 else 0)
-        force_arrow(ink, hx, 0 < tau < PUSH)
-        header(ink, "I", "Dragging", "contact: the whole base, wood on stone · it sticks, then slips", max(0, tau))
-        readout(ink, m)
-        if tau > PUSH:
-            ink.caption("1.2 m in seven seconds. Most of the push turns into scraping.", ease(tau, PUSH, PUSH + 0.2), size=21)
+            sheet.stroke([(L, G - 1), (L + CW, G - 1)], RED, 6, taper=False)
+        pusher(sheet, L, HAND_Y, m * 2.2 if tau > 0 else 0)
+        force_mark(sheet, L, 0 < tau < PUSH)
+        header(ink, sheet, "I", "Drag", "the whole base rubs on the ground: it sticks, then slips", max(0, tau))
+        readout(sheet, m)
+        cap = ("1.2 m in seven seconds. Most of the push becomes scraping.", ease(tau, PUSH, PUSH + 0.2)) if tau > PUSH else None
     elif name == "roll":
         m = roll_load_m(tau)
         L = X0 - CW + m * PX
         rollers, picked = roll_sim(max(0, tau))
-        for k, r in enumerate(rollers):
+        for r in rollers:
             if not r["carried"]:
-                roller(ink, r["x"], r["a"])
-                rel = r["x"] - L
-                if 0 <= rel <= CW:
-                    ink.circle(r["x"], G - 2 * ROLL_R, 2.5, fill=ACCENT, color=None, width=0, rough=False)
-                    ink.circle(r["x"], G, 2.5, fill=ACCENT, color=None, width=0, rough=False)
-        crate(ink, L, G - 2 * ROLL_R)
+                roller(sheet, r["x"], r["a"])
+                if 0 <= r["x"] - L <= CW:
+                    sheet.circle(r["x"], G - 2 * ROLL_R, 3, fill=RED, color=None, width=0)
+        crate(sheet, L, G - 2 * ROLL_R)
         hx, carrying, stoop = carry_pose(max(0, tau), L)
-        walking = 2.45 < tau < 4.8
-        hand = pusher(ink, hx, HAND_Y, (hx - X0) / 60, stoop=stoop, carrying=carrying, walk=walking)
+        hand = pusher(sheet, hx, HAND_Y, (hx - X0) / 60, stoop=stoop, carrying=carrying, walk=2.45 < tau < 4.8)
         if carrying:
-            r = rollers[picked]
-            ink.circle(hand[0] + 4, hand[1] + 8, ROLL_R, fill=(176, 132, 82), color=INK, width=2)
-            ink.circle(hand[0] + 4, hand[1] + 8, 4, fill=(120, 86, 50), color=INK, width=1)
-        force_arrow(ink, L, (0 < tau < 2.2) or (4.8 < tau < PUSH))
-        header(ink, "II", "Rolling on loose cylinders", "contact: two thin lines per roller · rollers travel at half the load's speed", max(0, tau))
-        readout(ink, m)
+            sheet.circle(hand[0] + 4, hand[1] + 8, ROLL_R, fill=OCH, color=BLK, width=3)
+        force_mark(sheet, L, (0 < tau < 2.2) or (4.8 < tau < PUSH))
+        header(ink, sheet, "II", "Roll on loose logs", "the logs move at half the load's speed and fall out behind", max(0, tau))
+        readout(sheet, m)
         if 2.2 < tau < 4.8:
-            ink.caption("The back roller has fallen out. The load waits while it is carried round.", 1, size=20)
+            cap = ("The back log has fallen out. The load waits while it is carried round.", 1)
         elif tau > 5.6:
-            ink.caption("…and it falls out again. 3.0 m.", ease(tau, 5.6, 5.8), size=21)
+            cap = ("…and it falls out again. 3.0 m.", ease(tau, 5.6, 5.8))
     else:
         m = wheel_m(tau)
         L = X0 - CW + m * PX
-        # ghosts of the rollers left behind in trial II
         rl, _ = roll_sim(PUSH)
-        for r in rl:
-            roller(ink, r["x"], r["a"], alpha=60, color=(200, 190, 175))
+        for r in rl:  # faint ghosts of the logs abandoned in II
+            roller(sheet, r["x"], r["a"], alpha=70)
         ang = m * PX / WHEEL_R
-        by = cart(ink, L, ang)
-        crate(ink, L, by)
-        pusher(ink, L, HAND_Y, m * 0.9, walk=False)
-        force_arrow(ink, L, 0 < tau < 6.0)
-        header(ink, "III", "Wheels on axles", "contact: one point per wheel · the axle carries the turn with the load", max(0, tau))
-        readout(ink, m)
+        by = cart(sheet, L, ang)
+        crate(sheet, L, by)
+        pusher(sheet, L, HAND_Y, m * 0.9)
+        force_mark(sheet, L, 0 < tau < 6.0)
+        header(ink, sheet, "III", "Ride on axled wheels", "one point of contact per wheel · the axle carries the turn", max(0, tau))
+        readout(sheet, m)
+        sw = math.sin((tau - 6.0) * 14) * math.exp(-(tau - 6.0) * 2) * 0.5 if tau >= 6.0 else 0
+        bell(sheet, sw)
         if 0.6 < tau < 4.2:
-            ink.caption("THE WHEEL:  “I’m a roller that was asked to stay.”", ease(tau, 0.6, 0.8) * (1 - ease(tau, 4.0, 4.2)), size=22, color=ACCENT)
-        if tau >= 6.0:
-            ink.caption("8 m: the load reaches the bench before the push window closes.", ease(tau, 6.0, 6.2), size=20)
-            # the bell above the bench
-            sw = math.sin((tau - 6.0) * 14) * math.exp(-(tau - 6.0) * 2) * 0.5
-            bx, byy = 870, 250
-            ink.line([(bx, 226), (bx, 236)], INK, 2)
-            ink.poly([(bx - 14 + 10 * sw, byy + 16), (bx + 14 + 10 * sw, byy + 16), (bx + 8, byy - 12), (bx - 8, byy - 12)], fill=BRASS, color=INK, width=2)
-        if tau < 6.0:
-            bx, byy = 870, 250
-            ink.line([(bx, 226), (bx, 236)], INK, 2)
-            ink.poly([(bx - 14, byy + 16), (bx + 14, byy + 16), (bx + 8, byy - 12), (bx - 8, byy - 12)], fill=BRASS, color=INK, width=2)
+            cap = ("THE WHEEL:  “I’m a log that was asked to stay.”", ease(tau, 0.6, 0.8) * (1 - ease(tau, 4.0, 4.2)))
+        elif tau >= 6.0:
+            cap = ("8 m: the load reaches the bench, and the bell rings.", ease(tau, 6.0, 6.2))
+    if name != "wheel":
+        bell(sheet)
+    paint(ink, sheet)
+    if cap:
+        caption(ink, *cap)
 
 
 def counter_state(tau):
     x = 90 * smooth(clamp(tau / 1.6))
-    wrel0 = (14, 106)
     L0 = X0 - CW
     L = L0 + x
     wx, angs = [], []
-    for rel in wrel0:
-        # loose wheel: under the bed it travels at half the bed's speed; once behind it stays
+    for rel in (14, 106):
         free = L0 + rel + x / 2
-        exit_x = None
-        if rel - x / 2 < -10:  # passed out of the back
-            xe = 2 * (rel + 10)
-            free = L0 + rel + xe / 2
+        if rel - x / 2 < -10:
+            free = L0 + rel + (rel + 10)
         wx.append(free)
         angs.append((free - (L0 + rel)) / WHEEL_R)
     drop = clamp((x - 2 * (14 + 10)) / 18)
     return L, wx, angs, drop
 
 
-def counter(ink, tau):
-    backdrop(ink)
+def counter(ink, sheet, tau):
+    backdrop(ink, sheet)
     L, wx, angs, drop = counter_state(tau)
     by = G - 2 * WHEEL_R - 10
     for k in range(2):
-        wheel(ink, wx[k], G - WHEEL_R, angs[k])
-    bed = [(L - 10, by), (L + CW + 10, by), (L + CW + 10, by + 10), (L - 10, by + 10)]
+        wheel(sheet, wx[k], G - WHEEL_R, angs[k])
+        sheet.line([(wx[k] - 8, G - WHEEL_R - 34), (wx[k] + 8, G - WHEEL_R - 18)], RED, 3)
+        sheet.line([(wx[k] + 8, G - WHEEL_R - 34), (wx[k] - 8, G - WHEEL_R - 18)], RED, 3)
     dy = drop * (G - 10 - by)
+    bed = [(L - 10, by), (L + CW + 10, by), (L + CW + 10, by + 10), (L - 10, by + 10)]
     bed = [(x, y + dy * (1 - (x - L + 10) / (CW + 20))) for x, y in bed]
-    ink.poly(bed, fill=(150, 110, 70), color=INK, width=2.5)
-    sheet = ink.layer()
-    crate(sheet, L, by)
-    ang = math.degrees(math.atan2(dy, CW + 20))
-    rot = sheet.img.rotate(ang, resample=Image.BICUBIC, center=(L + CW + 10, by))
-    ink.paste(rot)
-    for k in range(2):
-        ink.label((wx[k] - 6, G - WHEEL_R - 40), "×", 22, ACCENT)
-    pusher(ink, L, HAND_Y, tau)
-    if drop > 0.5:
-        for k in range(5):
-            ink.circle(L - 6 + k * 6 + ink.j(3), G - 4 + ink.j(2), 2, fill=MUTED, color=None, alpha=160)
-    header(ink, "×", "Counter-check: axle removed", "same cart, same push · the wheels are loose discs under the bed", min(PUSH, tau))
-    ink.caption("Without the axle the wheels lag at half speed and drop out: rollers again.", ease(tau, 0.4, 0.6), size=20)
-    fade = min(1, tau / 0.2, (COUNTER[1] - COUNTER[0] - tau) / 0.2)
-    if fade < 1:
-        ink.d.rectangle([0, 0, W, H], fill=PAPER + (int(255 * (1 - fade)),))
+    sheet.poly(bed, fill=BLK, color=BLK, width=3)
+    sub = ink.layer()
+    crate(sub, L, by)
+    rot = sub.img.rotate(math.degrees(math.atan2(dy, CW + 20)), resample=Image.BICUBIC, center=(L + CW + 10, by))
+    sheet.img.paste(rot, (0, 0), rot)
+    sheet.d = ImageDraw.Draw(sheet.img, "RGBA")
+    pusher(sheet, L, HAND_Y, tau)
+    header(ink, sheet, "×", "Counter-check: no axle", "same cart, same push · the wheels are loose discs under the bed", min(PUSH, tau))
+    bell(sheet)
+    paint(ink, sheet)
+    caption(ink, "Without the axle the wheels lag, drop out behind: logs again.", ease(tau, 0.4, 0.6))
 
 
-def summary(ink, tau):
-    ink.fill(PAPER)
-    ink.text((W / 2, 52), "Same load · same push · seven seconds", "serif", 36, INK, anchor="mm")
-    rows = [("I  drag", 1.2), ("II  loose rollers", 3.0), ("III  wheels on axles", 8.0)]
+def summary(ink, sheet, tau):
+    ink.paste(wall())
+    ptext(sheet, (W / 2, 110), "same load · same push · seven seconds", 34, BLK, anchor="mm")
+    rows = [("I drag", 1.2), ("II logs", 3.0), ("III wheels", 8.0)]
     for k, (name, m) in enumerate(rows):
-        y = 150 + k * 112
-        x0, x1 = 300, 300 + 8 * 70
-        ink.label((40, y - 12), name, 16, INK)
-        ink.line([(x0, y), (x1, y)], INK, 2, rough=False)
-        for mm in range(9):
-            ink.line([(x0 + mm * 70, y), (x0 + mm * 70, y + 8)], MUTED, 1, rough=False)
+        y = 200 + k * 92
+        x0 = 260
+        ptext(sheet, (60, y - 24), name, 28, RED)
+        for q in range(17):
+            sheet.circle(x0 + q * 35, y, 3.5 if q % 2 == 0 else 2, fill=BLK, color=None, width=0)
         grow = ease(tau, 0.2 + k * 0.4, 1.0 + k * 0.4)
         xm = x0 + m * 70 * grow
-        ink.d.rectangle([x0, y - 6, xm, y - 2], fill=ACCENT + (200,))
-        ink.rect(xm - 44, y - 40, xm, y - 8, fill=(196, 160, 112), color=INK, width=2)
-        ink.label((xm + 8, y - 30), f"{m * grow:3.1f} m", 15, ACCENT)
-    ink.label((W / 2, H - 30), "order shown is mechanical, not a dated history", 12, MUTED, anchor="mm")
-    fade = min(1, tau / 0.25)
-    if fade < 1:
-        ink.d.rectangle([0, 0, W, H], fill=PAPER + (int(255 * (1 - fade)),))
-
-
-# ----------------------------------------------------------------- sound ---
+        sheet.stroke([(x0, y - 10), (xm, y - 10)], OCH, 8, taper=False)
+        sheet.rect(xm - 40, y - 46, xm, y - 16, fill=OCH, color=BLK, width=3)
+        ptext(sheet, (xm + 12, y - 40), f"{m * grow:3.1f} m", 22, BLK)
+    paint(ink, sheet)
+    ink.paste(stencil(RED, 30, 0.6, -0.2), (x0 + 8 * 70 + 50, 300))
+    caption(ink, "order shown is mechanical, not a dated history")
 
 @film.sound
 def sound(mix):
