@@ -1,0 +1,49 @@
+{
+  "film": "un-homme-qui-dort",
+  "revision": "beats-r1",
+  "base": "plan-r1 (2026-11-15)",
+  "note": "Common beat ledger. Every unit forks from this file. Times are pass-relative seconds (one pass = 35.0 s, 24 fps). Picture events are AUTHORED by U1 animation and must land on the planned frame (round(t*24)) +/-1 frame. Change only through a new revision of this file; moving a voice onset across SIL-H or an edit across an address boundary invalidates the other tracks' reviews.",
+  "film_layout": [
+    {"id": "CARD-I", "film_t": [0.0, 1.0], "content": "HANDMADE typeset card 'I' (neutral; no word about timing)"},
+    {"id": "PASS-A", "film_t": [1.0, 36.0], "voice_track": "A_ahead"},
+    {"id": "CARD-II", "film_t": [36.0, 37.0], "content": "HANDMADE typeset card 'II'"},
+    {"id": "PASS-B", "film_t": [37.0, 72.0], "voice_track": "B_behind"}
+  ],
+  "shots": [
+    {"id": "S1", "name": "WAKE", "t": [0.0, 5.5], "plate": "LoC 2017811426", "camera_viewpoint": "foot of the bunk, standing height, outside the man", "move": "lateral glide"},
+    {"id": "S2", "name": "TELEPHONE", "t": [5.5, 8.5], "plate": "LoC 2017735081", "camera_viewpoint": "across the hall, nobody present", "move": "slow push past hanging coats"},
+    {"id": "S3", "name": "REFUSE", "t": [8.5, 11.5], "plate": "LoC 2017811449", "camera_viewpoint": "outside the room, through the open doorway", "move": "lateral glide settling to rest"},
+    {"id": "S4", "name": "HELD", "t": [11.5, 19.0], "plate": "LoC 2017811449 (same rig as S3, camera at rest)", "camera_viewpoint": "outside the room, through the open doorway", "move": "none (held)"},
+    {"id": "S5", "name": "FLIGHT-1", "t": [19.0, 24.5], "plate": "LoC 2017811447 (figure removed, wall extended)", "camera_viewpoint": "side-on to the stair, from the hall below", "move": "small lateral glide; figure climbs"},
+    {"id": "S6", "name": "STAIRWELL", "t": [24.5, 27.0], "plate": "LoC 2017714056", "camera_viewpoint": "foot of the stairwell looking up, empty", "move": "slow upward tilt across planes"},
+    {"id": "S7", "name": "FLIGHT-2 + TAIL", "t": [27.0, 35.0], "plate": "S5 frames 0..131 reused byte-identically (27.0-32.5), then the last S5 frame held (32.5-35.0)", "camera_viewpoint": "as S5", "move": "as S5, then held"}
+  ],
+  "events": [
+    {"id": "E1", "name": "wake: head and torso piece lifts", "subject_id": "figure:F", "shot": "S1", "t_on": 2.0, "t_off": 2.8},
+    {"id": "E2", "name": "ring 1", "subject_id": "object:telephone", "shot": "S2", "t_on": 6.0, "t_off": 7.0},
+    {"id": "E2b", "name": "ring 2 (unbound)", "subject_id": "object:telephone", "shot": "S2", "t_on": 7.6, "t_off": 8.6},
+    {"id": "E3", "name": "ring 3 heard, not answered (glance at 9.25, hold, return at 10.4, no reach)", "subject_id": "figure:F", "shot": "S3", "t_on": 9.0, "t_off": 10.0},
+    {"id": "E4", "name": "flight 1: figure enters frame", "subject_id": "figure:F", "shot": "S5", "t_on": 20.5, "t_off": 23.5, "exit": 23.5},
+    {"id": "E5", "name": "flight 1: footfalls (gesture accents)", "subject_id": "figure:F", "shot": "S5", "footfalls": [20.8, 21.35, 21.9, 22.45, 23.0]},
+    {"id": "E6", "name": "flight 2: figure enters frame (same frames as E4)", "subject_id": "figure:F", "shot": "S7", "t_on": 28.5, "t_off": 31.5, "exit": 31.5},
+    {"id": "E7", "name": "flight 2: footfalls", "subject_id": "figure:F", "shot": "S7", "footfalls": [28.8, 29.35, 29.9, 30.45, 31.0]}
+  ],
+  "silences": [
+    {"id": "SIL-H", "t": [11.5, 19.0], "allowed_sound": "room tone only", "voice": "none", "captions": "none"}
+  ],
+  "clauses": [
+    {"id": "c1", "text": "You open your eyes.", "bind": "E1", "dur": 1.2, "A": [0.8, 2.0], "B": [3.2, 4.4]},
+    {"id": "c2", "text": "You hear it through the wall.", "bind": "E2", "dur": 1.25, "A": [4.8, 6.05], "B": [7.2, 8.45]},
+    {"id": "c3", "text": "You do not answer.", "bind": "E3", "dur": 1.2, "A": [7.8, 9.0], "B": [10.2, 11.4]},
+    {"id": "c4", "text": "You take the stairs.", "bind": "E4", "dur": 1.3, "A": [19.3, 20.6], "B": [21.7, 23.0]},
+    {"id": "c5", "text": "You take the same stairs again, one step after another.", "bind": "E6", "dur": 2.8, "A": [27.3, 30.1], "B": [29.7, 32.5]}
+  ],
+  "offset_rule": "A.on = event.t_on - 1.2; B.on = event.t_on + 1.2 (tolerance 0.05 s). Durations identical across tracks.",
+  "allowed_edit_crossings": [
+    "c2.A starts in S1 (4.8) and runs into S2, the shot holding its own event E2: allowed (anticipation into own event's shot).",
+    "c3.A starts in S2 (7.8) and runs into S3, the shot holding its own event E3: allowed."
+  ],
+  "guards": {"silence_guard_s": 0.1, "note": "c3.B ends 11.4 (0.1 s before SIL-H); c4.A starts 19.3 (0.3 s after SIL-H)."},
+  "defining_beat": {"id": "D", "where": "PASS-B, c5 over S7", "condition": "c5.B visible on >= 0.8 s of frames after E6.exit (31.5), i.e. on an empty stair; planned 1.0 s"},
+  "baseline": {"id": "Bl", "where": "PASS-B, c4 over S5", "condition": "c4.B [21.7, 23.0] lies wholly inside the figure-visible interval [20.5, 23.5]"}
+}
