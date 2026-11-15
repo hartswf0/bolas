@@ -1,0 +1,382 @@
+{
+ "unit": "U2 sound (FORAGE)",
+ "film": "recits-dellis-island",
+ "plan_revision": "plan-r1",
+ "date": "2026-11-15",
+ "method": "Commons API search (filemime:audio) and category browsing (Sounds of level crossing signals, Sounds of rail transport, Short-duration soundscapes, Ambient sounds, Audio files of doorbells, Audio files by Gravity Sound, LaSonotheque.org). Licences read from extmetadata. Decoded with ffmpeg only; trimmed, DC removed and peak-normalised in numpy; checked visually by waveform and spectrogram, plus video frames for S4. Nothing was synthesised.",
+ "download_note": "upload.wikimedia.org answered HTTP 429 (Retry-After 600) for original files throughout the session, probably because other swarm units share the address. All audio was therefore fetched as Commons' own transcodes (MP3, Ogg or VP9 WebM) of the originals. They are the same recordings, re-encoded lossily by Wikimedia. file_url gives the original and downloaded_url the transcode actually fetched. Total downloaded about 17 MB.",
+ "items": [
+  {
+   "id": "S1",
+   "title": "Glockenschlagwerk Bahnhof Fridingen.ogg",
+   "author": "Olga Ernst",
+   "license": "CC BY-SA 4.0",
+   "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Glockenschlagwerk_Bahnhof_Fridingen.ogg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/f/fa/Glockenschlagwerk_Bahnhof_Fridingen.ogg",
+   "downloaded_url": "https://upload.wikimedia.org/wikipedia/commons/transcoded/f/fa/Glockenschlagwerk_Bahnhof_Fridingen.ogg/Glockenschlagwerk_Bahnhof_Fridingen.ogg.mp3",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/recits-dellis-island/sound/S1_bell_fridingen_single.wav",
+   "raw_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/recits-dellis-island/sound/raw/Glockenschlagwerk_Bahnhof_Fridingen.ogg.mp3",
+   "sha256": "0c798a7f322e6e034cf2e3b51bcaeff652532b6bfd595310aa179501437dff2b",
+   "raw_sha256": "9efca3c655d57b37811b079da7ec2e81ff5695ce7399b6cabecfcd35eb6f8cc8",
+   "commons_sha1_of_original": "59e9cdd607d65e903b21476b808946481143dc43",
+   "duration": 1.2,
+   "onset_s": 0.138,
+   "onset_detector_s": 0.138,
+   "onset_note": "first strike transient (2 ms envelope, threshold 25% of peak, walked back to the attack start)",
+   "rms_dbfs": -17.78,
+   "peak_dbfs": -3.0,
+   "gain_applied_db": -0.52,
+   "trim": {
+    "start_s": 6.85,
+    "dur_s": 1.2,
+    "fade_in_s": 0.0,
+    "fade_out_s": 0.15
+   },
+   "format": "WAV PCM s16, 44100 Hz, stereo (mono sources duplicated), DC removed, peak-normalised to -3 dBFS",
+   "what_it_shows": "A mechanical bell striker (Glockenschlagwerk) at Fridingen station, Baden-Württemberg, Germany, recorded on site; the file is a run of 13 separate strikes about 0.9 s apart. One isolated strike (source 6.85-8.05 s, strike at about 7.0 s) is cut out with its natural decay to near silence.",
+   "verified_date_or_place": "2019-04-20 (Commons DateTimeOriginal; category 'April 2019 in Baden-Württemberg'); Bahnhof Fridingen (an der Donau), Germany, per title. Categorised as a level-crossing bell, so it is a railway signal bell at a station, not a hand-rung platform bell.",
+   "used_as": "S1 bell, one strike. Same file used at every placement: Beat A 33.6 s, Beat B 47.6 s, ledger card 49.9 s (pan left) and 52.4 s (pan right). Tag 'S1 · station bell, Fridingen, 20 Apr 2019 · recorded elsewhere'.",
+   "use": "S1 bell, one strike. Same file used at every placement: Beat A 33.6 s, Beat B 47.6 s, ledger card 49.9 s (pan left) and 52.4 s (pan right). Tag 'S1 · station bell, Fridingen, 20 Apr 2019 · recorded elsewhere'.",
+   "recorded_where": "2019-04-20 (Commons DateTimeOriginal; category 'April 2019 in Baden-Württemberg'); Bahnhof Fridingen (an der Donau), Germany, per title. Categorised as a level-crossing bell, so it is a railway signal bell at a station, not a hand-rung platform bell.",
+   "notes": "Downloaded as the Commons MP3 transcode of the Ogg original, because upload.wikimedia.org rate-limited (HTTP 429) downloads of originals during this session. The waveform is flat-topped at the strike peak, which suggests the source recording clips slightly. That is audible as a hard attack, not as distortion in the tail.",
+   "licence_checked": "2026-11-15, Commons API extmetadata LicenseShortName/LicenseUrl"
+  },
+  {
+   "id": "S2",
+   "title": "Keys hitting tree 2 (Gravity Sound).wav",
+   "author": "Gravity Sound",
+   "license": "CC BY 4.0",
+   "license_url": "https://creativecommons.org/licenses/by/4.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Keys_hitting_tree_2_(Gravity_Sound).wav",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/c/c8/Keys_hitting_tree_2_%28Gravity_Sound%29.wav",
+   "downloaded_url": "https://upload.wikimedia.org/wikipedia/commons/transcoded/c/c8/Keys_hitting_tree_2_%28Gravity_Sound%29.wav/Keys_hitting_tree_2_%28Gravity_Sound%29.wav.mp3",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/recits-dellis-island/sound/S2_keys_on_wood.wav",
+   "raw_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/recits-dellis-island/sound/raw/Keys_hitting_tree_2_(Gravity_Sound).wav.mp3",
+   "sha256": "7a79dd67244f03a5cd2f4115dda4fcb8a7f82b50c46b0c403e3c2f4c964c2942",
+   "raw_sha256": "e963401ca6aea73b0f37ef285ea1ef0a759d492f236d63f9d4a9ba9f5d2a2275",
+   "commons_sha1_of_original": "3318c48b3978a85ebfb5ee068419202a524cc447",
+   "duration": 1.3,
+   "onset_s": 0.102,
+   "onset_detector_s": 0.102,
+   "onset_note": "first strike transient (2 ms envelope, threshold 25% of peak, walked back to the attack start)",
+   "rms_dbfs": -31.27,
+   "peak_dbfs": -3.0,
+   "gain_applied_db": -1.82,
+   "trim": {
+    "start_s": 0.25,
+    "dur_s": 1.3,
+    "fade_in_s": 0.0,
+    "fade_out_s": 0.2
+   },
+   "format": "WAV PCM s16, 44100 Hz, stereo (mono sources duplicated), DC removed, peak-normalised to -3 dBFS",
+   "what_it_shows": "A bunch of keys striking a tree trunk (wood): one clear contact transient, then two smaller settling jingles within about 0.7 s, as when keys are put down. The description says only 'keys hitting tree'. It is a real recorded foley-type sound, not synthesised.",
+   "verified_date_or_place": "unverified (no date or place given; author Gravity Sound)",
+   "used_as": "S2 key set down. Same file at Beat A 35.4 s, Beat B 44.6 s, ledger card 50.6 s (pan left) and 51.6 s (pan right). Tag it honestly as 'S2 · keys against wood, recorded elsewhere'. It is not a brass key on a bench.",
+   "use": "S2 key set down. Same file at Beat A 35.4 s, Beat B 44.6 s, ledger card 50.6 s (pan left) and 51.6 s (pan right). Tag it honestly as 'S2 · keys against wood, recorded elsewhere'. It is not a brass key on a bench.",
+   "recorded_where": "unverified (no date or place given; author Gravity Sound)",
+   "notes": "Requested 'keys set down on wood or stone'. The nearest openly licensed recording found is keys hitting a tree, which is wood. Takes 1 and 3 were inspected and rejected: take 1 has a weaker transient, and take 3 has pre-noise and two separate hits. MP3 transcode of the WAV original (429 on originals).",
+   "licence_checked": "2026-11-15, Commons API extmetadata LicenseShortName/LicenseUrl"
+  },
+  {
+   "id": "S3",
+   "title": "Folkingham 2020-09-18 1149.mp3",
+   "author": "Robert EA Harvey",
+   "license": "CC BY-SA 4.0",
+   "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Folkingham_2020-09-18_1149.mp3",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/d/dd/Folkingham_2020-09-18_1149.mp3",
+   "downloaded_url": "https://upload.wikimedia.org/wikipedia/commons/transcoded/d/dd/Folkingham_2020-09-18_1149.mp3/Folkingham_2020-09-18_1149.mp3.ogg",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/recits-dellis-island/sound/S3_field_folkingham.wav",
+   "raw_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/recits-dellis-island/sound/raw/Folkingham_2020-09-18_1149.mp3.ogg",
+   "sha256": "ee5539a8a842457dee705a6777d90a4c0314009c98a82e9e5ee49e274777984e",
+   "raw_sha256": "2989f0662961a9edcbcdf69d578df5c49d72e0db27ba8d3832517a44f1372813",
+   "commons_sha1_of_original": "1c112b9dcc60a30b0830b481beca5d9b8e0f1374",
+   "duration": 32.0,
+   "onset_s": null,
+   "onset_detector_s": 0.824,
+   "onset_note": "continuous ambience; detector value is the first frame above threshold, i.e. after the fade-in",
+   "rms_dbfs": -26.69,
+   "peak_dbfs": -3.0,
+   "gain_applied_db": -0.97,
+   "trim": {
+    "start_s": 15.0,
+    "dur_s": 32.0,
+    "fade_in_s": 1.0,
+    "fade_out_s": 1.5
+   },
+   "format": "WAV PCM s16, 44100 Hz, stereo (mono sources duplicated), DC removed, peak-normalised to -3 dBFS",
+   "what_it_shows": "Outdoor ambience in the village of Folkingham, Lincolnshire, England, at 11:49: a steady air bed with intermittent unidentified bird calls (Commons category 'Unidentified birds by sound'). Excerpt from 15-47 s of the 51 s source, with 1.0 s fade-in and 1.5 s fade-out.",
+   "verified_date_or_place": "2020-09-18 11:49 (Commons DateTimeOriginal and file name); Folkingham, Lincolnshire, England. Recorded to accompany Geograph photo 6609782.",
+   "used_as": "S3 field ambience bed under Movement I (from about 2.2 s, continuous to 28.0 s, then 0.6 s fade) and low under Beats A and B. 32 s covers the 25.8 s Movement I bed without looping. For longer use, loop with a 1 s crossfade.",
+   "use": "S3 field ambience bed under Movement I (from about 2.2 s, continuous to 28.0 s, then 0.6 s fade) and low under Beats A and B. 32 s covers the 25.8 s Movement I bed without looping. For longer use, loop with a 1 s crossfade.",
+   "recorded_where": "2020-09-18 11:49 (Commons DateTimeOriginal and file name); Folkingham, Lincolnshire, England. Recorded to accompany Geograph photo 6609782.",
+   "notes": "Content checked by spectrogram only (transients are bird calls and occasional knocks). No speech was identified, but it was not auditioned by ear. Ogg transcode of the MP3 original (429 on originals).",
+   "licence_checked": "2026-11-15, Commons API extmetadata LicenseShortName/LicenseUrl"
+  },
+  {
+   "id": "S3b",
+   "title": "Vento fisterra.ogg",
+   "author": "Escoitar.org",
+   "license": "Public domain",
+   "license_url": null,
+   "source_url": "https://commons.wikimedia.org/wiki/File:Vento_fisterra.ogg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/3/38/Vento_fisterra.ogg",
+   "downloaded_url": "https://upload.wikimedia.org/wikipedia/commons/transcoded/3/38/Vento_fisterra.ogg/Vento_fisterra.ogg.mp3",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/recits-dellis-island/sound/S3b_wind_fisterra.wav",
+   "raw_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/recits-dellis-island/sound/raw/Vento_fisterra.ogg.mp3",
+   "sha256": "9bb7870c15c8c4d1e456ef3821b138aaf600075dc7f015d3108987c050c7e929",
+   "raw_sha256": "4b9ea89e913f501df3a922e7ffcfcca8dcecb2a9d17daecd0c6d5abb9c55af08",
+   "commons_sha1_of_original": "c695e8aea2244b4581bf317226652ce51d6ce36b",
+   "duration": 32.0,
+   "onset_s": null,
+   "onset_detector_s": 0.714,
+   "onset_note": "continuous ambience; detector value is the first frame above threshold, i.e. after the fade-in",
+   "rms_dbfs": -23.48,
+   "peak_dbfs": -3.0,
+   "gain_applied_db": -0.41,
+   "trim": {
+    "start_s": 60.0,
+    "dur_s": 32.0,
+    "fade_in_s": 1.0,
+    "fade_out_s": 1.5
+   },
+   "format": "WAV PCM s16, 44100 Hz, stereo (mono sources duplicated), DC removed, peak-normalised to -3 dBFS",
+   "what_it_shows": "Wind at Fisterra (Finisterre), Galicia, Spain, an open coastal headland: broadband wind, rising slowly over the excerpt (source 60-92 s of 257 s).",
+   "verified_date_or_place": "unverified date; place Fisterra, Galicia, per the description 'Gravación do vento de Fisterra'",
+   "used_as": "Alternate or layer for S3 if the editor wants wind rather than birds. Not required.",
+   "use": "Alternate or layer for S3 if the editor wants wind rather than birds. Not required.",
+   "recorded_where": "unverified date; place Fisterra, Galicia, per the description 'Gravación do vento de Fisterra'",
+   "notes": "Licence 'Public domain' (PD-self by uploader Escoitar.org). MP3 transcode of the Ogg original.",
+   "licence_checked": "2026-11-15, Commons API extmetadata LicenseShortName/LicenseUrl"
+  },
+  {
+   "id": "S4",
+   "title": "Železniční trať 170, projíždějící vlak nad Dolejším Kařezským rybníkem.ogv",
+   "author": "Juandev",
+   "license": "CC BY-SA 3.0",
+   "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:%C5%BDelezni%C4%8Dn%C3%AD_tra%C5%A5_170,_proj%C3%AD%C5%BEd%C4%9Bj%C3%ADc%C3%AD_vlak_nad_Dolej%C5%A1%C3%ADm_Ka%C5%99ezsk%C3%BDm_rybn%C3%ADkem.ogv",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/a/a9/%C5%BDelezni%C4%8Dn%C3%AD_tra%C5%A5_170%2C_proj%C3%AD%C5%BEd%C4%9Bj%C3%ADc%C3%AD_vlak_nad_Dolej%C5%A1%C3%ADm_Ka%C5%99ezsk%C3%BDm_rybn%C3%ADkem.ogv",
+   "downloaded_url": "https://upload.wikimedia.org/wikipedia/commons/transcoded/a/a9/%C5%BDelezni%C4%8Dn%C3%AD_tra%C5%A5_170%2C_proj%C3%AD%C5%BEd%C4%9Bj%C3%ADc%C3%AD_vlak_nad_Dolej%C5%A1%C3%ADm_Ka%C5%99ezsk%C3%BDm_rybn%C3%ADkem.ogv/%C5%BDelezni%C4%8Dn%C3%AD_tra%C5%A5_170%2C_proj%C3%AD%C5%BEd%C4%9Bj%C3%ADc%C3%AD_vlak_nad_Dolej%C5%A1%C3%ADm_Ka%C5%99ezsk%C3%BDm_rybn%C3%ADkem.ogv.480p.vp9.webm",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/recits-dellis-island/sound/S4_distant_train_karez.wav",
+   "raw_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/recits-dellis-island/sound/raw/Železniční_trať_170,_projíždějící_vlak_nad_Dolejším_Kařezským_rybníkem.ogv.480p.vp9.webm",
+   "sha256": "66902d461f3e928339a5ec7b5ecabd7c844599980aecc2df746e2c1321690cba",
+   "raw_sha256": "0eab1bb8d8fc6d2abcaf552419cdd62390774ef0373e4adcb4929fdfb019c196",
+   "commons_sha1_of_original": "6467be31a781fb3be511e6525fe69529ce4f6c4c",
+   "duration": 26.7,
+   "onset_s": null,
+   "onset_detector_s": 1.391,
+   "onset_note": "continuous ambience; detector value is the first frame above threshold, i.e. after the fade-in",
+   "rms_dbfs": -17.32,
+   "peak_dbfs": -3.0,
+   "gain_applied_db": 15.54,
+   "trim": {
+    "start_s": 0.3,
+    "dur_s": 26.7,
+    "fade_in_s": 1.5,
+    "fade_out_s": 1.5
+   },
+   "format": "WAV PCM s16, 44100 Hz, stereo (mono sources duplicated), DC removed, peak-normalised to -3 dBFS",
+   "what_it_shows": "Audio track of a video of a cargo train crossing the far bank of Dolejší Kařezský pond on railway line 170, Rokycany District, Czech Republic. The train is seen far off across the water in frames at 12 s and 22 s. The sound is wind on the microphone plus a low distant rumble that peaks around 11-14 s.",
+   "verified_date_or_place": "2013-09-01 (Commons DateTimeOriginal); Dolejší Kařezský rybník, railway line 170 (Beroun-Plzeň), Czech Republic. The train was confirmed visually in extracted frames.",
+   "used_as": "S4 distant train pass-by at about 13.5 s, at low level (about -20 dB under S3), tagged 'S4 · recorded elsewhere'. Only the audio is used.",
+   "use": "S4 distant train pass-by at about 13.5 s, at low level (about -20 dB under S3), tagged 'S4 · recorded elsewhere'. Only the audio is used.",
+   "recorded_where": "2013-09-01 (Commons DateTimeOriginal); Dolejší Kařezský rybník, railway line 170 (Beroun-Plzeň), Czech Republic. The train was confirmed visually in extracted frames.",
+   "notes": "The wind bed dominates. Normalising this quiet track to -3 dBFS peak needed +15.5 dB of gain, so place it well under S3. Audio taken from the Commons 480p VP9 WebM transcode.",
+   "licence_checked": "2026-11-15, Commons API extmetadata LicenseShortName/LicenseUrl"
+  },
+  {
+   "id": "S4b",
+   "title": "Trains through a railwa.ogg",
+   "author": "ezwa",
+   "license": "Public domain",
+   "license_url": null,
+   "source_url": "https://commons.wikimedia.org/wiki/File:Trains_through_a_railwa.ogg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/0/08/Trains_through_a_railwa.ogg",
+   "downloaded_url": "https://upload.wikimedia.org/wikipedia/commons/transcoded/0/08/Trains_through_a_railwa.ogg/Trains_through_a_railwa.ogg.mp3",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/recits-dellis-island/sound/S4b_trains_station_ezwa.wav",
+   "raw_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/recits-dellis-island/sound/raw/Trains_through_a_railwa.ogg.mp3",
+   "sha256": "485553d48cedb8c0cf9045c4cb47c078ac64cb0646414fd7f3164135f900642a",
+   "raw_sha256": "73e03294d76f7d37c4a5546ff72b44fdfa0bb305e6751e8489c2171fc402bf17",
+   "commons_sha1_of_original": "e94bc282b1e1eea1d72a5f85f7092a855f02bd78",
+   "duration": 24.0,
+   "onset_s": null,
+   "onset_detector_s": 8.054,
+   "onset_note": "continuous ambience; detector value is the first frame above threshold, i.e. after the fade-in",
+   "rms_dbfs": -32.06,
+   "peak_dbfs": -3.0,
+   "gain_applied_db": 21.87,
+   "trim": {
+    "start_s": 52.0,
+    "dur_s": 24.0,
+    "fade_in_s": 1.5,
+    "fade_out_s": 1.5
+   },
+   "format": "WAV PCM s16, 44100 Hz, stereo (mono sources duplicated), DC removed, peak-normalised to -3 dBFS",
+   "what_it_shows": "Trains passing through a railway station, heard at a distance on a very quiet recording (PDSounds no. 681). Excerpt 52-76 s contains a distinct passing event at about 7-9 s into the clip.",
+   "verified_date_or_place": "2008-11-13 (Commons DateTimeOriginal); place unverified",
+   "used_as": "Alternate for S4. Not required.",
+   "use": "Alternate for S4. Not required.",
+   "recorded_where": "2008-11-13 (Commons DateTimeOriginal); place unverified",
+   "notes": "The source is very quiet (peak -25 dBFS, floor about -57 dBFS), so after peak normalisation the noise floor is high. Use only at low level. Licence 'Public domain' (PD-author, PDSounds.org).",
+   "licence_checked": "2026-11-15, Commons API extmetadata LicenseShortName/LicenseUrl"
+  },
+  {
+   "id": "S5",
+   "title": "2023-Mai-20 15h40min Wien im linken Seitenschiff des Stephansdoms, fast Stille.wav",
+   "author": "DrTrumpet",
+   "license": "CC BY-SA 4.0",
+   "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:2023-Mai-20_15h40min_Wien_im_linken_Seitenschiff_des_Stephansdoms,_fast_Stille.wav",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/0/06/2023-Mai-20_15h40min_Wien_im_linken_Seitenschiff_des_Stephansdoms%2C_fast_Stille.wav",
+   "downloaded_url": "https://upload.wikimedia.org/wikipedia/commons/transcoded/0/06/2023-Mai-20_15h40min_Wien_im_linken_Seitenschiff_des_Stephansdoms%2C_fast_Stille.wav/2023-Mai-20_15h40min_Wien_im_linken_Seitenschiff_des_Stephansdoms%2C_fast_Stille.wav.mp3",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/recits-dellis-island/sound/S5_roomtone_stephansdom.wav",
+   "raw_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/recits-dellis-island/sound/raw/2023-Mai-20_15h40min_Wien_im_linken_Seitenschiff_des_Stephansdoms,_fast_Stille.wav.mp3",
+   "sha256": "631ebb2e9e43f0b264157687c8a6d48e768a9b780bc7705548b96a7ed4ab8290",
+   "raw_sha256": "53a0be2b0edef087c49b6775c9967512a3537d52e69d99be71bb15b26e0e512e",
+   "commons_sha1_of_original": "ae7227397771273e268fa4c42a3b029cfb455ae7",
+   "duration": 10.0,
+   "onset_s": null,
+   "onset_detector_s": 0.447,
+   "onset_note": "continuous ambience; detector value is the first frame above threshold, i.e. after the fade-in",
+   "rms_dbfs": -18.68,
+   "peak_dbfs": -3.0,
+   "gain_applied_db": 11.84,
+   "trim": {
+    "start_s": 5.8,
+    "dur_s": 10.0,
+    "fade_in_s": 0.5,
+    "fade_out_s": 0.5
+   },
+   "format": "WAV PCM s16, 44100 Hz, stereo (mono sources duplicated), DC removed, peak-normalised to -3 dBFS",
+   "what_it_shows": "Near-silence ('fast Stille') in the left side aisle of St Stephen's Cathedral, Vienna: a steady large-interior room tone with a faint distant crowd and air. 10 s excerpt (source 5.8-15.8 s), cut after a single click at 5.6 s.",
+   "verified_date_or_place": "2023-05-20 15:40 (file name; Commons category 'Wie klingt Wien 2023-05-20'); St. Stephen's Cathedral, Vienna, Austria",
+   "used_as": "S5 interior room tone under the statement sheets (30.0-32.5 s and 41.0-43.5 s), at low level. Alternatively, declare silence as the plan allows.",
+   "use": "S5 interior room tone under the statement sheets (30.0-32.5 s and 41.0-43.5 s), at low level. Alternatively, declare silence as the plan allows.",
+   "recorded_where": "2023-05-20 15:40 (file name; Commons category 'Wie klingt Wien 2023-05-20'); St. Stephen's Cathedral, Vienna, Austria",
+   "notes": "This is a cathedral, not a small room, so its air is larger than a waiting room's. Normalising needed +11.8 dB of gain; play it at about -30 dB. Loopable with a crossfade. MP3 transcode of the WAV original.",
+   "licence_checked": "2026-11-15, Commons API extmetadata LicenseShortName/LicenseUrl"
+  }
+ ],
+ "absences": [
+  {
+   "wanted": "S1 hand-rung platform or station bell (handbell, station departure bell)",
+   "searched": "handbell, Handglocke, Tischglocke, service bell, desk bell, school bell, ship's bell, tram bell, station bell, railway bell, Läutewerk; categories Audio files of bells, Audio files of doorbells, Sounds of rail transport (FR, DE), Sounds of level crossing signals",
+   "result": "No openly licensed recording of a hand-rung platform bell was found. The station's mechanical bell striker at Fridingen (S1) is the closest real railway-station bell and is used instead."
+  },
+  {
+   "wanted": "S2 a single key, or keys, set down on a wooden bench or stone",
+   "searched": "keys, keys dropped, keys table, keys jingle, keychain, keyring, Schlüssel, Schlüsselbund, Schlüssel fallen, clés, key lock door; Gravity Sound and LaSonotheque categories",
+   "result": "No recording of keys put down on a bench or stone was found under an allowed licence. Keys striking a tree trunk (wood, CC BY 4.0) is used and must be labelled as such. A brass key on a bench is not recorded anywhere."
+  },
+  {
+   "wanted": "S5 small-room interior tone (waiting room or office)",
+   "searched": "room tone; Ambient sounds; Wie klingt Wien set; Gravity Sound (air conditioner hum rejected: mechanical hum, no place)",
+   "result": "No small-room tone was found. A large-interior near-silence (St Stephen's, Vienna) is offered. Otherwise the plan's declared silence under the statement sheets stands: card text 'silence · no room recording'."
+  }
+ ],
+ "declared_silences": [
+  {
+   "where": "0.0-2.2 s opening, 28.6-30.0 s card, end card",
+   "why": "Plan section 'Heard: silence'. Nothing was foraged for these, by design."
+  },
+  {
+   "where": "38.5-41.0 s T7 Méliès 1896",
+   "why": "The film is silent. No projector or train sound is added."
+  },
+  {
+   "where": "statement sheets 30.0-32.5 s and 41.0-43.5 s, if S5 is not used",
+   "why": "No small-room tone was found under an allowed licence. Declare 'silence' rather than fill the gap."
+  }
+ ],
+ "rejected_candidates": [
+  {
+   "title": "Joseph SARDIN - Vent.ogg",
+   "why": "Studio foley imitation of wind (per its description), not a field recording; licence also flagged 'License review needed'"
+  },
+  {
+   "title": "Bue Laeutewerk zweifach.ogg (CC BY-SA 3.0, MdE)",
+   "why": "Level-crossing bell in a continuous run (about 30 strikes accelerating). No clean isolated strike as good as Fridingen's. Downloaded, inspected, deleted."
+  },
+  {
+   "title": "Ladenklingel.ogg (CC BY-SA 3.0)",
+   "why": "Shop-door bell: domestic, a double ring, and reads as a shop, not a halt. Inspected, deleted."
+  },
+  {
+   "title": "Bell-ring.flac / Bicycle-bell-*.wav",
+   "why": "Bicycle bells, the wrong object"
+  },
+  {
+   "title": "Bells (Gravity Sound).wav, BÜ TSB Waldkrankenhaus.ogg",
+   "why": "Undocumented content, or a level-crossing run. Not needed after Fridingen. Deleted."
+  },
+  {
+   "title": "Keys hitting tree (1), (3), Keys shaking (Gravity Sound)",
+   "why": "Take 2 has the cleanest single contact. Shaking is a jingle, not a set-down. Deleted."
+  },
+  {
+   "title": "Nmbs class41-departing.ogg (CC0)",
+   "why": "A close diesel railcar departing, not distant. Deleted."
+  },
+  {
+   "title": "Train passing by in the Wirikuta Desert (CC0)",
+   "why": "86.7 MB original, over the 40 MB download budget"
+  },
+  {
+   "title": "Bourne woods windy 2020-05-05 0753.mp3 (CC BY-SA 4.0)",
+   "why": "Woodland interior, not open countryside. Folkingham preferred. Deleted."
+  },
+  {
+   "title": "Air conditioner hum (Gravity Sound)",
+   "why": "Mechanical hum with no stated place. Not a room tone for a halt."
+  }
+ ],
+ "credits_entries": [
+  {
+   "title": "Glockenschlagwerk Bahnhof Fridingen.ogg",
+   "author": "Olga Ernst",
+   "license": "CC BY-SA 4.0",
+   "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Glockenschlagwerk_Bahnhof_Fridingen.ogg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/f/fa/Glockenschlagwerk_Bahnhof_Fridingen.ogg",
+   "used_as": "S1 bell, one strike. Same file used at every placement: Beat A 33.6 s, Beat B 47.6 s, ledger card 49.9 s (pan left) and 52.4 s (pan right). Tag 'S1 · station bell, Fridingen, 20 Apr 2019 · recorded elsewhere'."
+  },
+  {
+   "title": "Keys hitting tree 2 (Gravity Sound).wav",
+   "author": "Gravity Sound",
+   "license": "CC BY 4.0",
+   "license_url": "https://creativecommons.org/licenses/by/4.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Keys_hitting_tree_2_(Gravity_Sound).wav",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/c/c8/Keys_hitting_tree_2_%28Gravity_Sound%29.wav",
+   "used_as": "S2 key set down. Same file at Beat A 35.4 s, Beat B 44.6 s, ledger card 50.6 s (pan left) and 51.6 s (pan right). Tag it honestly as 'S2 · keys against wood, recorded elsewhere'. It is not a brass key on a bench."
+  },
+  {
+   "title": "Folkingham 2020-09-18 1149.mp3",
+   "author": "Robert EA Harvey",
+   "license": "CC BY-SA 4.0",
+   "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Folkingham_2020-09-18_1149.mp3",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/d/dd/Folkingham_2020-09-18_1149.mp3",
+   "used_as": "S3 field ambience bed under Movement I (from about 2.2 s, continuous to 28.0 s, then 0.6 s fade) and low under Beats A and B. 32 s covers the 25.8 s Movement I bed without looping. For longer use, loop with a 1 s crossfade."
+  },
+  {
+   "title": "Železniční trať 170, projíždějící vlak nad Dolejším Kařezským rybníkem.ogv",
+   "author": "Juandev",
+   "license": "CC BY-SA 3.0",
+   "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:%C5%BDelezni%C4%8Dn%C3%AD_tra%C5%A5_170,_proj%C3%AD%C5%BEd%C4%9Bj%C3%ADc%C3%AD_vlak_nad_Dolej%C5%A1%C3%ADm_Ka%C5%99ezsk%C3%BDm_rybn%C3%ADkem.ogv",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/a/a9/%C5%BDelezni%C4%8Dn%C3%AD_tra%C5%A5_170%2C_proj%C3%AD%C5%BEd%C4%9Bj%C3%ADc%C3%AD_vlak_nad_Dolej%C5%A1%C3%ADm_Ka%C5%99ezsk%C3%BDm_rybn%C3%ADkem.ogv",
+   "used_as": "S4 distant train pass-by at about 13.5 s, at low level (about -20 dB under S3), tagged 'S4 · recorded elsewhere'. Only the audio is used."
+  },
+  {
+   "title": "2023-Mai-20 15h40min Wien im linken Seitenschiff des Stephansdoms, fast Stille.wav",
+   "author": "DrTrumpet",
+   "license": "CC BY-SA 4.0",
+   "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:2023-Mai-20_15h40min_Wien_im_linken_Seitenschiff_des_Stephansdoms,_fast_Stille.wav",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/0/06/2023-Mai-20_15h40min_Wien_im_linken_Seitenschiff_des_Stephansdoms%2C_fast_Stille.wav",
+   "used_as": "S5 interior room tone under the statement sheets (30.0-32.5 s and 41.0-43.5 s), at low level. Alternatively, declare silence as the plan allows."
+  }
+ ]
+}
