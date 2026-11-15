@@ -1,0 +1,167 @@
+{
+  "film": "recits-dellis-island",
+  "plan_revision": "plan-r1",
+  "generated": "2026-11-15",
+  "unit": "U3",
+  "relations": [
+    "supports",
+    "disputes",
+    "leaves_open"
+  ],
+  "matches": [],
+  "claims": [
+    {
+      "id": "C1",
+      "text": "A recalls the bell ringing before the key was put on the bench.",
+      "status": "supported (as a recollection, not as fact)",
+      "evidence": [
+        {
+          "type": "Testimony",
+          "ref": "segA:A2",
+          "interval": "00:18.0–00:22.5",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "C2",
+      "text": "B recalls the key being put on the bench before the bell rang (bell as the train pulled out).",
+      "status": "supported (as a recollection, not as fact)",
+      "evidence": [
+        {
+          "type": "Testimony",
+          "ref": "segB:B2",
+          "interval": "01:04.5–01:07.0",
+          "relation": "supports"
+        },
+        {
+          "type": "Testimony",
+          "ref": "segB:B3",
+          "interval": "01:07.0–01:10.5",
+          "relation": "supports"
+        }
+      ]
+    },
+    {
+      "id": "C3",
+      "text": "On the night of the last train, the bell rang before the key was put down.",
+      "status": "DISPUTED · UNRESOLVED",
+      "evidence": [
+        {
+          "type": "Testimony",
+          "ref": "segA:A2",
+          "interval": "00:18.0–00:22.5",
+          "relation": "supports"
+        },
+        {
+          "type": "Testimony",
+          "ref": "segB:B2",
+          "interval": "01:04.5–01:07.0",
+          "relation": "disputes"
+        },
+        {
+          "type": "Testimony",
+          "ref": "segB:B3",
+          "interval": "01:07.0–01:10.5",
+          "relation": "disputes"
+        },
+        {
+          "type": "Trace",
+          "ref": "T1",
+          "relation": "leaves_open",
+          "scope": "shows an empty goods platform on 23 Jan 2021 (EXIF); no bench, bell or key visible; supports neither order"
+        }
+      ],
+      "note": "Both segments are kept in the ledger and in the cut (I4, precondition 6). Equivalent under A/B swap: A disputes B and B disputes A."
+    },
+    {
+      "id": "C4",
+      "text": "A door was shut on 23 Jan 2021.",
+      "status": "supported",
+      "evidence": [
+        {
+          "type": "Trace",
+          "ref": "T2",
+          "relation": "supports",
+          "scope": "closed wooden double door of the goods shed, EXIF 23 Jan 2021 13:59 (measured)"
+        }
+      ],
+      "note": "Supports only that photographed door on that day. It does not support the accounts' 'service door stayed shut' on the night of the fictional last train (no Match)."
+    },
+    {
+      "id": "C5",
+      "text": "The halt was built in 1869.",
+      "status": "open (stated, unverified)",
+      "evidence": [
+        {
+          "type": "Trace",
+          "ref": "T3",
+          "relation": "leaves_open",
+          "scope": "Commons uploader description of T3 states 1869 (architect Rougemont); the photograph cannot show a build date"
+        }
+      ],
+      "on_screen_form": "'built 1869 according to the uploader, unverified'"
+    },
+    {
+      "id": "C6",
+      "text": "The image proves A's memory.",
+      "status": "BLOCKED",
+      "evidence": [
+        {
+          "type": "Trace",
+          "ref": "T1",
+          "relation": "leaves_open"
+        },
+        {
+          "type": "Testimony",
+          "ref": "segA:A2",
+          "interval": "00:18.0–00:22.5",
+          "relation": "leaves_open"
+        }
+      ],
+      "blocked_reason": "No Match record exists linking T1 (or any trace) to seg A; precondition 5 forbids projecting this claim.",
+      "project": false
+    }
+  ],
+  "agreed": {
+    "text": "Envelope, key left on the bench, service door shut",
+    "evidence": [
+      {
+        "type": "Testimony",
+        "ref": "segA:A1",
+        "interval": "00:14.0–00:18.0",
+        "relation": "supports"
+      },
+      {
+        "type": "Testimony",
+        "ref": "segA:A2",
+        "interval": "00:18.0–00:22.5",
+        "relation": "supports"
+      },
+      {
+        "type": "Testimony",
+        "ref": "segA:A3",
+        "interval": "00:22.5–00:26.0",
+        "relation": "supports"
+      },
+      {
+        "type": "Testimony",
+        "ref": "segB:B1",
+        "interval": "01:02.0–01:04.5",
+        "relation": "supports"
+      },
+      {
+        "type": "Testimony",
+        "ref": "segB:B2",
+        "interval": "01:04.5–01:07.0",
+        "relation": "supports"
+      },
+      {
+        "type": "Testimony",
+        "ref": "segB:B4",
+        "interval": "01:10.5–01:13.0",
+        "relation": "supports"
+      }
+    ]
+  }
+}
