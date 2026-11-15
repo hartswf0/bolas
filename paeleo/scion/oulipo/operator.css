@@ -371,3 +371,7 @@ button, input, pre, dialog { border-radius: 3px; }
   letter-spacing: .06em;
   text-transform: uppercase;
 }
+.film-credits { margin-top: .6rem; font-size: .85rem; }
+.film-credits summary { cursor: pointer; color: var(--muted); font-family: var(--mono); font-size: .75rem; letter-spacing: .04em; }
+.film-credits ul { margin: .5rem 0 0; padding-left: 1.1rem; }
+.film-credits li { margin: .2rem 0; font-size: .85rem; line-height: 1.45; }

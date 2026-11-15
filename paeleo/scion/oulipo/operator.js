@@ -168,6 +168,28 @@ function renderFilm(entry) {
   file.download = entry.slug + ".mp4";
   links.append(script, document.createTextNode("  ·  "), file);
   caption.append(links);
+  if (entry.film.credits && entry.film.credits.length) {
+    const credits = element("details", null, "film-credits");
+    credits.append(element("summary", "Foraged material · " + entry.film.credits.length + " sources"));
+    const listing = element("ul");
+    for (const item of entry.film.credits) {
+      const row = element("li");
+      const title = element(item.source_url ? "a" : "span", item.title);
+      if (item.source_url) {
+        title.href = item.source_url;
+        title.target = "_blank";
+        title.rel = "noopener";
+      }
+      row.append(title, document.createTextNode(
+        " · " + (item.author || "unknown author") + " · " + item.license + (item.used_as ? " · " + item.used_as : "")
+      ));
+      listing.append(row);
+    }
+    credits.append(listing);
+    caption.append(credits);
+  } else {
+    caption.append(element("p", "Every frame and sound handmade in code; nothing foraged.", "film-links"));
+  }
   figure.append(video, caption);
   panel.append(figure);
 }

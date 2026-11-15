@@ -250,6 +250,9 @@ def main():
                 "script": f"films/{entry['slug']}.py",
                 "note": note.read_text().strip() if note.is_file() else "",
             }
+            credits = PROJECT / "films" / "credits" / f"{entry['slug']}.json"
+            if credits.is_file():
+                entry["film"]["credits"] = json.loads(credits.read_text())
         for source in ([entry["image"]] if "image" in entry else []) + entry.get("gallery", []):
             if source[0] not in images:
                 images[source[0]] = image_path(source[0])
