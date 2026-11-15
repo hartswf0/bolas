@@ -218,7 +218,7 @@ def frame(t, ink):
     elif kind == "cell":
         route, n = arg
         t0 = [m for m, tg in sh.marks if tg == (kind, arg)][0]
-        if tt - t0 < 0.7:
+        if tt - t0 < 1.1:
             minimap(ink, route, n)
     elif kind == "path":
         t0 = [m for m, tg in sh.marks if tg == (kind, arg)][0]
