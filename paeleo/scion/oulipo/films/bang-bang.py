@@ -3,15 +3,16 @@ inventor try a paper wing, a rubber-band rotor and a glide that fails. The glide
 is a five-board sequence. The pigeon's captions read each attempt as sensible bird behaviour."""
 import math
 from kit import *
-from kit_anim import run, hatch_poly
+from kit_anim import run, hatch_poly, hand_text
 
 film = Film("bang-bang", seconds=30.0, boil=5, wobble=1.5, seed=11)
 film.poster_at = 20.6
 
-GR = (74, 72, 80)          # graphite
-BLUE = (110, 150, 205)     # non-photo blue construction line
-RED = (190, 60, 60)        # red pencil
-SURROUND = (52, 50, 49)
+GR = (34, 32, 42)          # pen line
+BLUE = (150, 142, 128)     # faint pencil construction line
+RED = (34, 32, 42)         # arrows in the same pen
+PAP = (241, 231, 203)      # yellowed paper; drawings fill with it, so they read as line
+SURROUND = (247, 246, 242)
 PX0, PY0, PX1, PY1 = 40, 34, 920, 430   # board panel
 FLOOR = 392                              # platform line inside the board
 
@@ -30,6 +31,75 @@ BOARDS = [
 ]
 
 
+NOTES = {
+    "00": ("Bang Bang — découpage. Le narrateur : le pigeon de la gouttière.", "(the inventor is invented; so are his machines)", ""),
+    "01": ("La cloche. Il s'épingle deux horaires aux bras. Les choses plates veulent qu'on les soulève.", "(The bell. He pins two timetables to his arms. Flat things want lifting.)", "ding !"),
+    "02": ("Il bat vite, comme moi au départ. Le papier plie là où je plierais une plume.", "(He beats fast, as I do on take-off. Paper folds where I'd bend a feather.)", "flap flap"),
+    "03": ("Il tord un élastique comme on retient son souffle, puis il dépense tout d'un coup. Moi aussi.", "(He twists a band like holding a breath, then spends it all at once. So would I.)", "tours : 120 ... crac !"),
+    "04": ("Élan, ouvrir, s'appuyer sur l'air.", "(Run, open, lean on the air.)", "1/5"),
+    "05": ("Bien. À plat. Il n'en faut pas plus.", "(Good. Level. That is all it takes.)", "2/5"),
+    "06": ("Puis il lève le menton pour voir plus loin.", "(Then he lifts his chin to see further.)", "3/5 · nez en l'air 35°"),
+    "07": ("L'air lâche tous ceux qui font ça.", "(The air lets go of anyone who does that.)", "4/5 · décroche"),
+    "08": ("Il a choisi le sol. Moi aussi, chaque soir.", "(He chose the ground. I choose it too, every evening.)", "5/5 · BANG !"),
+    "09": ("D'en haut, tout semblait raisonnable. Il voulait seulement le sol un peu plus tard.", "(From up here it looked reasonable. He only wanted the ground a little later.)", "coo..."),
+}
+
+_page = None
+
+
+def page():
+    """Yellowed sheet on a white scanner bed: warm gradient, darker edges, a soft fold,
+    and faint show-through of writing on the back."""
+    global _page
+    if _page is None:
+        rs = np.random.RandomState(4)
+        yy, xx = np.mgrid[0:H, 0:W].astype(np.float32)
+        img = np.zeros((H, W, 3), np.float32) + np.array(SURROUND, np.float32)
+        x0, y0, x1, y1 = 20, 12, 940, 528
+        inside = (xx >= x0) & (xx < x1) & (yy >= y0) & (yy < y1)
+        edge = np.minimum.reduce([xx - x0, x1 - xx, yy - y0, y1 - yy]).clip(0, 60) / 60
+        col = np.array(PAP, np.float32) * (0.93 + 0.07 * edge[..., None])
+        col *= 1 - 0.035 * np.exp(-((xx - 478) / 14) ** 2)[..., None]   # the fold
+        noise = Image.fromarray((rs.uniform(0, 255, (H // 6, W // 6))).astype(np.uint8)).resize((W, H), Image.BICUBIC)
+        col *= (0.985 + 0.03 * np.asarray(noise, np.float32)[..., None] / 255)
+        img[inside] = col[inside]
+        im = Image.fromarray(img.clip(0, 255).astype(np.uint8))
+        d = ImageDraw.Draw(im, "RGBA")
+        d.rectangle([x0 + 3, y1, x1 + 3, y1 + 3], fill=(200, 196, 186, 255))
+        back = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+        bk = Ink(0, 0)
+        bk.img = back
+        bk.d = ImageDraw.Draw(back, "RGBA")
+        hand_text(bk, (640, 120), "et puis encore une fois la même chose, plus haut", 22, (120, 110, 90), width=260, seed=90, alpha=0.22)
+        hand_text(bk, (110, 330), "la planche 4 bis", 22, (120, 110, 90), width=260, seed=91, alpha=0.18)
+        back = back.transpose(Image.FLIP_LEFT_RIGHT).filter(ImageFilter.GaussianBlur(1.4))
+        im.paste(back, (0, 0), back)
+        _page = im
+    return _page
+
+
+PANEL = (64, 46, 604, 286)       # main board on the sheet
+THUMBS = [(64, 318, 324, 432), (344, 318, 604, 432)]
+_thumb_cache = {}
+
+
+def board_image(b, lt, size, index=0):
+    sheet = Ink(lt, index, (W, H), 5, 1.5, 11)
+    sheet.img = Image.new("RGB", (W, H), PAP)
+    sheet.d = ImageDraw.Draw(sheet.img, "RGBA")
+    sheet.label = lambda *a, **k: None    # notes live in the margin, in pen
+    draw_board(sheet, b, lt)
+    im = sheet.img.crop((PX0 + 8, PY0 + 8, PX1 - 8, PY1 - 8)).filter(ImageFilter.MinFilter(3))
+    return im.resize(size, Image.LANCZOS)
+
+
+def framed(ink, box, im):
+    x0, y0, x1, y1 = box
+    ink.paste(im, (x0, y0))
+    ink.rect(x0, y0, x1, y1, color=GR, width=2.2)
+    ink.circle(x0 + 14, y0 + 14, 6, fill=GR, color=GR, width=1)   # the punch hole of the reference sheet
+
+
 def board_at(t):
     for b in BOARDS:
         if b[0] <= t < b[1]:
@@ -42,15 +112,15 @@ def board_at(t):
 def pigeon(ink, x, y, s=1.0, facing=-1, bob=0.0, color=GR):
     """A sitting pigeon, feet at (x, y)."""
     f = facing
-    ink.ellipse(x, y - 22 * s, 30 * s, 19 * s, fill=(205, 205, 212), color=color, width=2, angle=-0.25 * f)
+    ink.ellipse(x, y - 22 * s, 30 * s, 19 * s, fill=PAP, color=color, width=2, angle=-0.25 * f)
     hx, hy = x + 26 * s * f, y - 44 * s + bob * 3
-    ink.circle(hx, hy, 11 * s, fill=(214, 214, 220), color=color, width=2)
-    ink.poly([(hx + 9 * s * f, hy - 2 * s), (hx + 19 * s * f, hy + 1 * s), (hx + 9 * s * f, hy + 4 * s)], fill=(150, 130, 110), color=color, width=1.5)
+    ink.circle(hx, hy, 11 * s, fill=PAP, color=color, width=2)
+    ink.poly([(hx + 9 * s * f, hy - 2 * s), (hx + 19 * s * f, hy + 1 * s), (hx + 9 * s * f, hy + 4 * s)], fill=PAP, color=color, width=1.5)
     ink.circle(hx + 4 * s * f, hy - 3 * s, 2.2 * s, fill=color, color=None, width=0)
-    ink.poly([(x - 26 * s * f, y - 26 * s), (x - 52 * s * f, y - 18 * s), (x - 48 * s * f, y - 10 * s), (x - 22 * s * f, y - 14 * s)], fill=(170, 170, 180), color=color, width=1.8)
+    ink.poly([(x - 26 * s * f, y - 26 * s), (x - 52 * s * f, y - 18 * s), (x - 48 * s * f, y - 10 * s), (x - 22 * s * f, y - 14 * s)], fill=PAP, color=color, width=1.8)
     ink.line([(x - 6 * s * f, y - 30 * s), (x + 14 * s * f, y - 20 * s), (x - 18 * s * f, y - 16 * s)], color, 1.4)
     for dx in (-4, 6):
-        ink.line([(x + dx * s, y - 6 * s), (x + dx * s + 2, y)], (170, 90, 80), 2)
+        ink.line([(x + dx * s, y - 6 * s), (x + dx * s + 2, y)], GR, 2)
     hatch_poly(ink, [(x - 20 * s, y - 24 * s), (x + 18 * s, y - 14 * s), (x - 10 * s, y - 6 * s)], gap=4, angle=30, color=color, alpha=90)
 
 
@@ -74,7 +144,7 @@ def inventor(ink, x, y, s=1.0, arms=(-10, -10), wings=False, hat=True, crouch=0.
         ink.line([hip, (x + 26 * s, hip[1] + 6), (x + 24 * s, y)], GR, 2.6)
     # coat
     ink.poly([(neck[0] - 12 * s, neck[1] + 4), (neck[0] + 12 * s, neck[1] + 4), (hip[0] + 18 * s, hip[1] + 22 * s), (hip[0] - 16 * s, hip[1] + 22 * s)],
-             fill=(196, 190, 176), color=GR, width=2.2)
+             fill=PAP, color=GR, width=2.2)
     hatch_poly(ink, [(neck[0] + 2, neck[1] + 6), (neck[0] + 12 * s, neck[1] + 4), (hip[0] + 18 * s, hip[1] + 22 * s), (hip[0] + 2, hip[1] + 22 * s)], gap=5, angle=60, color=GR, alpha=80)
     sh = (neck[0], neck[1] + 8 * s)
     hands = []
@@ -91,12 +161,12 @@ def inventor(ink, x, y, s=1.0, arms=(-10, -10), wings=False, hat=True, crouch=0.
             tip = (hd[0] + side * math.cos(ar) * 40 * s, hd[1] - math.sin(ar) * 40 * s)
             lo = lambda p: (p[0] - math.sin(ar) * 34 * s * 0.6 * side + fold * 6, p[1] + math.cos(ar) * 34 * s * (0.9 - abs(wing_fold) * 0.4))
             pts = [sh, tip, lo(tip), lo(sh)]
-            ink.poly(pts, fill=(246, 244, 236), color=GR, width=1.8)
+            ink.poly(pts, fill=PAP, color=GR, width=1.8)
             for q in range(1, 5):
                 f = q / 5
                 a_ = lerp2(sh, tip, f)
                 ink.line([a_, lo(a_)], BLUE, 1, alpha=120)
-    ink.circle(head[0], head[1], 12 * s, fill=(240, 236, 226), color=GR, width=2.2)
+    ink.circle(head[0], head[1], 12 * s, fill=PAP, color=GR, width=2.2)
     ink.line([(head[0] + 4 * s, head[1] - 2 * s), (head[0] + 7 * s, head[1] - 2 * s)], GR, 1.5)  # eye
     if hat:
         ink.line([(head[0] - 16 * s, head[1] - 8 * s), (head[0] + 16 * s, head[1] - 8 * s)], GR, 2.4)
@@ -107,8 +177,8 @@ def inventor(ink, x, y, s=1.0, arms=(-10, -10), wings=False, hat=True, crouch=0.
 def station_bits(ink, bench_x=600, door_x=300, scale=1.0):
     ink.line([(PX0 + 10, FLOOR), (PX1 - 10, FLOOR)], GR, 2.2)
     ink.line([(PX0 + 10, FLOOR + 1), (PX1 - 10, FLOOR + 22)], BLUE, 1, alpha=110)
-    door(ink, door_x, FLOOR, w=70, h=140, fill=(200, 194, 184), color=GR)
-    bench(ink, bench_x, FLOOR, w=180, color=GR, fill=(214, 204, 186))
+    door(ink, door_x, FLOOR, w=70, h=140, fill=PAP, color=GR)
+    bench(ink, bench_x, FLOOR, w=180, color=GR, fill=PAP)
 
 
 def arrow(ink, p, q, color=RED, width=2.5):
@@ -119,13 +189,13 @@ def arrow(ink, p, q, color=RED, width=2.5):
 
 
 def fx(ink, xy, s, size=20, color=RED, rot=0):
-    ink.text(xy, s, "sans", size, color, anchor="mm")
+    hand_text(ink, (xy[0] - size * len(s) * 0.25, xy[1] - size * 0.4), s, int(size * 1.5), GR, seed=len(s))
 
 
 def gutter(ink):
     """Foreground gutter the pigeon sits on (narrator's fixed vantage)."""
     pts = [(640, 300), (PX1 - 6, 270), (PX1 - 6, 306), (640, 330)]
-    ink.poly(pts, fill=(186, 180, 172), color=GR, width=2.4)
+    ink.poly(pts, fill=PAP, color=GR, width=2.4)
     hatch_poly(ink, pts, gap=5, angle=-20, color=GR, alpha=110)
     for k in range(5):
         x = 660 + k * 52
@@ -139,7 +209,7 @@ def glider(ink, cx, cy, pitch, span=210, crumple=0.0):
     for px, py in [(-span / 2, 0), (-span / 2 + 30, -14), (span / 2, -8), (span / 2 - 20, 6)]:
         px += crumple * 12 * math.sin(px * 0.08)
         pts.append((cx + px * ca + py * sa, cy - px * sa + py * ca + crumple * 10 * math.cos(px * 0.06)))
-    ink.poly(pts, fill=(248, 246, 238), color=GR, width=2)
+    ink.poly(pts, fill=PAP, color=GR, width=2)
     for k in range(1, 6):
         f = k / 6
         a, b = lerp2(pts[0], pts[2], f), lerp2(pts[1], pts[3], f)
@@ -150,10 +220,8 @@ def glider(ink, cx, cy, pitch, span=210, crumple=0.0):
 # --------------------------------------------------------------- boards ---
 
 def b_title(ink, lt):
-    ink.text((480, 170), "BANG BANG", "serif", 72, GR, anchor="mm")
-    ink.label((480, 230), "animatic · ten boards · 30 s", 16, MUTED, anchor="mm")
-    ink.label((480, 256), "narrator: the pigeon on the station gutter (fixed vantage)", 14, MUTED, anchor="mm")
-    ink.label((480, 282), "the inventor is fictional; his machines are made up", 13, RED, anchor="mm")
+    hand_text(ink, (300, 120), "BANG  BANG", 64, GR, seed=5)
+    hand_text(ink, (330, 230), "découpage · 10 planches · 30 s", 26, GR, seed=6)
     pigeon(ink, 480, 380, 1.4, facing=-1)
 
 
@@ -162,7 +230,7 @@ def b_wide(ink, lt):
     # bell on its bracket
     sw = math.sin(lt * 16) * math.exp(-lt * 1.6) * 0.5 if lt < 3 else 0
     ink.line([(230, 150), (260, 150)], GR, 2)
-    ink.poly([(250 - 12 + 8 * sw, 186), (250 + 12 + 8 * sw, 186), (250 + 7, 160), (250 - 7, 160)], fill=(214, 196, 150), color=GR, width=2)
+    ink.poly([(250 - 12 + 8 * sw, 186), (250 + 12 + 8 * sw, 186), (250 + 7, 160), (250 - 7, 160)], fill=PAP, color=GR, width=2)
     if lt < 1.4:
         fx(ink, (300, 150), "DING", 18)
     up = 10 + 50 * ease(lt, 1.2, 2.4)
@@ -183,7 +251,7 @@ def b_flap(ink, lt):
         fx(ink, (250 if up else 600, 140), "flap", 24)
         for q in range(3):
             ang = (k * 1.7 + q) % 6
-            ink.rect(560 + q * 40 + 12 * math.sin(ang), 150 + 30 * q + lt * 18, 574 + q * 40, 160 + 30 * q + lt * 18, fill=(246, 244, 236), color=GR, width=1.3)
+            ink.rect(560 + q * 40 + 12 * math.sin(ang), 150 + 30 * q + lt * 18, 574 + q * 40, 160 + 30 * q + lt * 18, fill=PAP, color=GR, width=1.3)
     else:
         fx(ink, (620, 160), "(nothing)", 18, MUTED)
     arrow(ink, (220, 200), (220, 140) if up else (220, 260))
@@ -203,11 +271,11 @@ def b_rotor(ink, lt):
     turns = int(4 + 14 * wind) if lt < 3.6 else 0
     pts = [(hx + (5 if q % 2 else -5), lerp(hy - 22, top + 4, q / max(1, turns))) for q in range(turns + 1)]
     if lt < 3.6 and len(pts) > 1:
-        ink.line(pts, (150, 100, 80), 1.6, rough=False)
+        ink.line(pts, GR, 1.6, rough=False)
     ang = lt * 40 if spin else (wind * 6 if lt < 2.6 else 0.3)
     for sgn in (1, -1):
         L = 46 * math.cos(ang) * sgn
-        ink.ellipse(hx + L / 2, top, abs(L) / 2 + 2, 5, fill=(230, 226, 214), color=GR, width=1.8)
+        ink.ellipse(hx + L / 2, top, abs(L) / 2 + 2, 5, fill=PAP, color=GR, width=1.8)
     if spin:
         ink.ellipse(hx, top, 48, 8, color=GR, width=1, alpha=110)
         fx(ink, (hx + 110, top), "bzzzz", 22)
@@ -219,7 +287,7 @@ def b_rotor(ink, lt):
     else:
         ink.line([(hx - 30, top - 10), (hx + 34, top + 12), (hx - 20, top + 24)], RED, 2.5)
         fx(ink, (hx + 90, top - 6), "SNAP", 26)
-        ink.ellipse(hx + 60, FLOOR - 4, 20, 4, color=(150, 100, 80), width=1.6)  # band on the floor
+        ink.ellipse(hx + 60, FLOOR - 4, 20, 4, color=GR, width=1.6)  # band on the floor
     ink.label((PX0 + 16, PY1 - 22), "hold the wind-up; rotor spins 1 s; band breaks", 11, BLUE)
 
 
@@ -307,33 +375,37 @@ def draw_board(ink, b, lt):
 
 @film.picture
 def frame(t, ink):
-    ink.fill(SURROUND)
+    ink._grain = True
+    ink.paste(page())
     b = board_at(t)
     lt = t - b[0]
-    # board sheet with a slight drop shadow
-    ink.d.rectangle([PX0 + 6, PY0 + 6, PX1 + 6, PY1 + 6], fill=(30, 29, 28))
-    ink.d.rectangle([PX0, PY0, PX1, PY1], fill=PAGE)
-    ink.rect(PX0 + 8, PY0 + 8, PX1 - 8, PY1 - 8, color=GR, width=1.6)
-    draw_board(ink, b, lt)
-    # board slug
-    ink.d.rectangle([PX0 + 8, PY0 + 8, PX0 + 330, PY0 + 34], fill=PAGE)
-    ink.label((PX0 + 16, PY0 + 13), f"BB-{b[2]}  {b[0]:05.2f}–{b[1]:05.2f}  {b[3]}", 12, GR)
-    if b[5]:
-        ink.label((PX1 - 16, PY0 + 13), b[5], 12, RED, anchor="ra")
-    # caption: the pigeon's voice
-    if b[4]:
-        a = ease(lt, 0.1, 0.35)
-        ink.text((W / 2, 466), b[4], "serif", 22, PAGE, anchor="mm", alpha=int(255 * a))
-    # timing strip with every board
-    y = 508
-    for s, e, bid, *_ in BOARDS:
-        x0, x1 = 40 + s / 30 * 880, 40 + e / 30 * 880
-        col = (120, 116, 110) if bid != b[2] else BRASS
-        ink.d.rectangle([x0 + 1, y, x1 - 1, y + 14], fill=col)
-        if x1 - x0 > 40:
-            ink.label(((x0 + x1) / 2, y + 1), bid, 10, SURROUND, anchor="ma")
-    ph = 40 + t / 30 * 880
-    ink.d.rectangle([ph - 1, y - 6, ph + 1, y + 20], fill=RED)
+    k = BOARDS.index(b)
+    x0, y0, x1, y1 = PANEL
+    framed(ink, PANEL, board_image(b, lt, (x1 - x0, y1 - y0), int(t * FPS)))
+    for j, box in enumerate(THUMBS):   # the next boards wait below, as on a storyboard sheet
+        if k + 1 + j < len(BOARDS):
+            nb = BOARDS[k + 1 + j]
+            if nb[2] not in _thumb_cache:
+                _thumb_cache[nb[2]] = board_image(nb, 0.0, (box[2] - box[0], box[3] - box[1]))
+            framed(ink, box, _thumb_cache[nb[2]])
+            hand_text(ink, (box[0] + 30, box[1] + 4), nb[2], 16, GR, seed=k + j)
+    # pen notes in the right column
+    note, aside, margin = NOTES[b[2]]
+    hand_text(ink, (640, 40), f"{b[2]}   {b[0]:.0f}–{b[1]:.0f} s   {b[3]}", 19, (80, 70, 60), width=290, seed=k)
+    a = ease(lt, 0.05, 0.35)
+    y = hand_text(ink, (640, 96), note, 25, GR, width=280, seed=10 + k, alpha=a)
+    hand_text(ink, (648, y + 8), aside, 17, (86, 78, 66), width=270, seed=40 + k, alpha=a)
+    if margin:
+        hand_text(ink, (660, 404), margin, 26, GR, width=260, seed=70 + k, rot=4)
+    # pen-ruled timing line with a tick per board and the playhead
+    yl = 478
+    ink.line([(64, yl), (904, yl)], GR, 1.8)
+    for s_, e_, bid, *_ in BOARDS:
+        xx = 64 + s_ / 30 * 840
+        ink.line([(xx, yl - 7), (xx, yl + 7)], GR, 1.6)
+        hand_text(ink, (xx + 6, yl + 8), bid, 14, GR if bid == b[2] else (130, 120, 100), seed=int(bid))
+    ph = 64 + t / 30 * 840
+    ink.circle(ph, yl, 5, fill=GR, color=GR, width=1)
 
 
 @film.sound

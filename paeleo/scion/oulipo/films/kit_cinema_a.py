@@ -568,7 +568,7 @@ import random  # noqa: E402  (used by hand_text)
 SKIN = (222, 182, 152)
 
 
-def face(R, cx, cy, s=1.0, skin=SKIN, hair=(40, 30, 24), look=(0.0, 0.0), turn=0.0, mouth=0.0, smile=0.0,
+def face(R, cx, cy, s=1.0, skin=SKIN, hair=(78, 64, 52), look=(0.0, 0.0), turn=0.0, mouth=0.0, smile=0.0,
          eyes_open=1.0, fringe=1.0, hair_len=1.0, base=0.0, tex=None, cap=None, lips=(176, 104, 98), iris=(80, 60, 44),
          neck=True, collar=None):
     """A head in relief, about 300*s px tall, centred at (cx, cy). Built as one
@@ -577,10 +577,13 @@ def face(R, cx, cy, s=1.0, skin=SKIN, hair=(40, 30, 24), look=(0.0, 0.0), turn=0
     W_, H_ = R.w, R.h
     ox = 40 * s * turn
     if neck:
-        R.capsule((cx + ox * 0.2, cy + 120 * s), (cx + ox * 0.1, cy + 260 * s), 58 * s, 66 * s, depth=0.7, base=base - 40 * s, color=mix_color(skin, (120, 80, 70), 0.2))
+        R.capsule((cx + ox * 0.2, cy + 100 * s), (cx + ox * 0.1, cy + 230 * s), 66 * s, 74 * s, depth=0.7, base=base - 40 * s, color=mix_color(skin, (120, 80, 70), 0.15))
         if collar is not None:
-            R.slab([(cx - 170 * s, cy + 300 * s), (cx - 70 * s, cy + 180 * s), (cx, cy + 240 * s), (cx + 70 * s, cy + 180 * s), (cx + 170 * s, cy + 300 * s), (cx + 300 * s, cy + 420 * s), (cx - 300 * s, cy + 420 * s)],
-                   height=60 * s, bevel=14 * s, base=base, color=collar, gloss=0.1)
+            R.slab([(cx - 440 * s, cy + 520 * s), (cx - 330 * s, cy + 270 * s), (cx - 150 * s, cy + 215 * s), (cx - 60 * s, cy + 195 * s), (cx, cy + 290 * s),
+                    (cx + 60 * s, cy + 195 * s), (cx + 150 * s, cy + 215 * s), (cx + 330 * s, cy + 270 * s), (cx + 440 * s, cy + 520 * s)],
+                   height=90 * s, bevel=40 * s, base=base - 20 * s, color=collar, gloss=0.08)
+            R.slab([(cx - 75 * s, cy + 190 * s), (cx, cy + 300 * s), (cx - 10 * s, cy + 320 * s), (cx - 120 * s, cy + 240 * s)], height=14 * s, bevel=4 * s, base=base + 70 * s, color=collar)
+            R.slab([(cx + 75 * s, cy + 190 * s), (cx, cy + 300 * s), (cx + 10 * s, cy + 320 * s), (cx + 120 * s, cy + 240 * s)], height=14 * s, bevel=4 * s, base=base + 70 * s, color=collar)
     R.ellipsoid(cx, cy - 10 * s, 112 * s, 140 * s, depth=110 * s, base=base, color=skin, gloss=0.12)
     R.ellipsoid(cx + ox * 0.3, cy + 62 * s, 84 * s, 82 * s, depth=96 * s, base=base, color=skin, gloss=0.12)
     for side in (-1, 1):
@@ -601,8 +604,8 @@ def face(R, cx, cy, s=1.0, skin=SKIN, hair=(40, 30, 24), look=(0.0, 0.0), turn=0
     # eyes (painted onto the socket floor)
     for side in (-1, 1):
         ex, ey = fx + side * 44 * s, cy - 18 * s
-        ry = 10.5 * s * max(0.08, eyes_open)
-        m = np.clip(1 - ((xx - ex) / (22 * s)) ** 2 - ((yy - ey) / ry) ** 2, 0, 1)
+        ry = 11.5 * s * max(0.08, eyes_open)
+        m = np.clip(1 - ((xx - ex) / (24 * s)) ** 2 - ((yy - ey) / ry) ** 2, 0, 1)
         m = np.clip(m * 6, 0, 1)
         R.paint(m, (228, 224, 216))
         if eyes_open > 0.25:
@@ -631,8 +634,8 @@ def face(R, cx, cy, s=1.0, skin=SKIN, hair=(40, 30, 24), look=(0.0, 0.0), turn=0
             mt = mo * (yy < my - 2 * s + (4 + 16 * mouth) * s * 0.1 + curve(xx))
             R.paint(np.clip(mt * 6, 0, 1), (232, 226, 210))
     # hair: crescent over the skull + fringe, painted and raised
-    hm = ellipse_mask(W_, H_, cx - ox * 0.1, cy - 52 * s, 122 * s, 116 * s, blur=2 * s)
-    face_m = ellipse_mask(W_, H_, fx, cy + 34 * s + (1 - fringe) * 0 - fringe * 20 * s, 96 * s, 132 * s - 30 * s * fringe, blur=5 * s)
+    hm = ellipse_mask(W_, H_, cx - ox * 0.1, cy - 66 * s, 120 * s, 98 * s, blur=2 * s)
+    face_m = ellipse_mask(W_, H_, fx, cy + 26 * s - 6 * s * fringe, 102 * s, 128 * s - 12 * s * fringe, blur=6 * s)
     hm = np.clip(hm - face_m, 0, 1)
     if hair_len > 1.0:
         for side in (-1, 1):
@@ -642,7 +645,7 @@ def face(R, cx, cy, s=1.0, skin=SKIN, hair=(40, 30, 24), look=(0.0, 0.0), turn=0
     hc = np.asarray(hair, np.float32) / 255
     k = hm[..., None]
     R.col = R.col * (1 - k) + (hc * (t[..., None] if isinstance(t, np.ndarray) else t)) * k
-    R.gloss = R.gloss * (1 - hm) + 0.35 * hm
+    R.gloss = R.gloss * (1 - hm) + 0.5 * hm
     if cap is not None:
         R.ellipsoid(cx, cy - 112 * s, 126 * s, 54 * s, depth=40 * s, base=base + 100 * s, color=cap, gloss=0.2)
         R.ellipsoid(cx + 40 * s, cy - 74 * s, 120 * s, 18 * s, depth=10 * s, base=base + 128 * s, color=cap, gloss=0.2)

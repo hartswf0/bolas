@@ -2,13 +2,14 @@
 CUT 1 plays the original shift; CUT 2 moves Bruno's bell to 12:03 and the safe window closes."""
 import math
 from kit_cinema_b import *
+from kit_cinema_b import _Draw
 
 S_PER_MIN = 5.0
 CUT = 26.5            # seconds per cut; clock runs 11:59:42 .. 12:05:00
 PRE = 1.5             # local seconds before 12:00
 SC = Score([(0, 3.0, "title"), (3.0, 7.5, "rule"), (7.5, 7.5 + CUT, "cut1"), (7.5 + CUT, 10.0 + CUT, "card2"),
             (10.0 + CUT, 10.0 + 2 * CUT, "cut2"), (10.0 + 2 * CUT, 17.0 + 2 * CUT, "ledger")])
-film = Film("renzo-e-luciana", seconds=SC.total, boil=6, wobble=1.0, seed=3)
+film = PhotoFilm("renzo-e-luciana", seconds=SC.total, seed=3)
 film.poster_at = SC.start("cut1") + PRE + 2.0 * S_PER_MIN
 
 FLOOR = 470
@@ -71,186 +72,308 @@ def gaze_at(cut, m):
 
 # ---- drawing ------------------------------------------------------------
 
-def set_room(ink, m, cut):
-    ink.d.rectangle([0, 112, W, FLOOR], fill=(236, 230, 216))
-    ink.d.rectangle([0, FLOOR, W, H], fill=WASH)
-    ink.line([(0, FLOOR), (W, FLOOR)], INK, 2.5)
-    ink.line([(0, 112), (W, 112)], INK, 2)
-    # corridor beyond the partition is cooler
-    ink.d.rectangle([DOOR_X + 14, 113, W, FLOOR], fill=(224, 222, 210))
-    # partition wall and doorway
-    ink.rect(DOOR_X, 113, DOOR_X + 14, 300, fill=(190, 178, 160), color=INK, width=2)
-    ink.line([(DOOR_X, 300), (DOOR_X + 14, 300)], INK, 2)
-    ink.line([(DOOR_X + 7, 300), (DOOR_X + 7, FLOOR)], MUTED, 1, alpha=90)
-    # conveyor at Ada's station
-    ink.rect(50, 392, 270, 410, fill=(120, 116, 110), color=INK, width=2)
+# ---- look: a sunlit 1960s black-and-white photograph ---------------------
+LOOK = {"bw": True, "gamma": 1.05, "contrast": 0.55, "lift": 0.03, "gain": 0.97, "halation": (0.35, 0.72, 9),
+        "soft": 0.6, "grain": (0.055, 1.3), "vignette": 0.35}
+LIGHT = (0.62, -0.62, 0.48)          # hard sun from the terrace, high on the right
+WALL_BASE = 400
+OUT_AMT = 0.55                        # interior is this much darker than the terrace
+ADA = {"skin": 0.70, "top": lambda wx, wy: np.where(((wx * 0.9 + wy * 0.25) // 7) % 2 == 0, 0.93, 0.16),
+       "bottom": lambda wx, wy: np.where(((wx * 0.9 + wy * 0.25) // 7) % 2 == 0, 0.93, 0.16), "skirt": True,
+       "legs": 0.66, "shin": 0.66, "hair": 0.08, "hair_style": "up", "hat": "bucket", "hat_col": 0.96, "shoes": 0.05,
+       "bare_forearms": True, "lips": 0.18}
+BRUNO = {"skin": 0.62, "top": 0.92, "bare_arms": True, "bottom": 0.1, "hair": 0.06, "shoes": 0.08}
+SUPER = {"skin": 0.6, "top": 0.1, "bottom": 0.1, "hair": 0.55, "collar": 0.95}
+BODY_S = 0.74
+
+
+def bg_field(wx, wy):
+    """Static plaster, brick, tile and pergola light as a value field."""
+    v = np.zeros_like(wx)
+    n = value_noise(wx, wy, 40, 3)
+    inside = wx < DOOR_X + 7
+    wall = wy < WALL_BASE
+    # interior plaster
+    v = np.where(inside & wall, 0.55 + 0.04 * n - 0.15 * np.clip((WALL_BASE - wy) / 300, 0, 1), v)
+    # terrace brick (as in a sunny courtyard)
+    bx = (wx + np.where((wy // 13) % 2 == 0, 0, 15)) % 30
+    by = wy % 13
+    brick = 0.66 + 0.06 * value_noise(wx // 30 * 30, wy // 13 * 13, 9, 5) + 0.03 * n
+    mortar = (bx < 2.2) | (by < 2.2)
+    v = np.where(~inside & wall, np.where(mortar, 0.84, brick), v)
+    # tiled floor in perspective (small square tiles)
+    depth = np.maximum(wy - (WALL_BASE - 90), 1)
+    u = (wx - 620) / depth * 3.2
+    w_ = 300 / depth * 3.0
+    grout = (np.abs(u - np.round(u)) < 0.05 * 1) | (np.abs(w_ - np.round(w_)) < 0.035 * (depth / 60))
+    tile = np.where(inside, 0.62, 0.86) + 0.03 * n
+    v = np.where(~wall, np.where(grout, tile - 0.16, tile), v)
+    # pergola slat shadows across the terrace wall and floor
+    ph_ = (wx * 1.0 + wy * 0.62 + 6 * value_noise(wx, wy, 60, 8)) % 86
+    soft = np.clip(np.minimum(ph_ - 4, 34 - ph_) / 5, 0, 1)
+    shade = 1 - 0.5 * soft
+    beam = np.clip(1 - np.abs(wy - 150) / 22, 0, 1)  # the pergola beam's shadow high on the wall
+    v = np.where(~inside, v * shade * (1 - 0.45 * beam), v)
+    # interior is shaded except a patch of sun thrown through the doorway onto the floor
+    patch = (~wall) & inside & (wx > DOOR_X - 230 + (wy - WALL_BASE) * 1.2) & (wx < DOOR_X + 8)
+    v = np.where(inside & ~patch, v * OUT_AMT, v)
+    return v
+
+
+_BG = {}
+
+
+def background(cam):
+    if cam not in _BG:
+        ph = Photo(cam=cam, light=LIGHT)
+        ph.field(bg_field)
+        static_props(ph)
+        _BG[cam] = ph.a.copy()
+    return _BG[cam]
+
+
+def box3(ph, x0, y0, x1, y1, val, depth=10, top=None):
+    """A lit box: front face, top face, sunlit side."""
+    ph.shadow([(x0 - 30, y1), (x1, y1), (x1 - 20, y1 + 8), (x0 - 46, y1 + 8)], 0.45, 4)
+    ph.rect(x0, y0, x1, y1, val, grad=((x0, y0), 1.05, (x0, y1), 0.8))
+    ph.poly([(x0, y0), (x1, y0), (x1 + depth, y0 - depth * 0.6), (x0 + depth, y0 - depth * 0.6)], top if top is not None else C(val) * 1.15)
+    ph.poly([(x1, y0), (x1 + depth, y0 - depth * 0.6), (x1 + depth, y1 - depth * 0.6), (x1, y1)], C(val) * 1.25)
+
+
+def deck_chair(ph, x, y, s=1.0):
+    """A folding chair: white tubular frame, striped canvas sling."""
+    sling = lambda wx, wy: np.where(((wx - wy * 0.2) // (6 * s)) % 2 == 0, 0.9, 0.3)
+    ph.poly([(x - 26 * s, y - 70 * s), (x + 4 * s, y - 64 * s), (x + 22 * s, y - 26 * s), (x - 4 * s, y - 30 * s)], sling, blur=0.8,
+            grad=((x - 26 * s, y - 70 * s), 1.0, (x + 22 * s, y - 26 * s), 0.7))
+    for a, b in (((x - 30 * s, y - 74 * s), (x + 24 * s, y)), ((x + 6 * s, y - 64 * s), (x - 24 * s, y)), ((x - 30 * s, y - 74 * s), (x + 6 * s, y - 64 * s)),
+                 ((x + 22 * s, y - 26 * s), (x + 34 * s, y - 30 * s))):
+        ph.capsule(a, b, 2.2 * s, 2.2 * s, 0.97, amb=0.45, spec=0.4)
+    ph.shadow([(x - 40 * s, y), (x + 30 * s, y), (x - 10 * s, y + 10 * s), (x - 90 * s, y + 10 * s)], 0.4, 4)
+
+
+def static_props(ph):
+    # conveyor
+    ph.capsule((50, 398), (270, 398), 8, 8, 0.25, amb=0.3, spec=0.3)
     for x in (70, 250):
-        ink.line([(x, 410), (x, FLOOR)], INK, 2.5)
+        ph.capsule((x, 404), (x, FLOOR), 3, 3, 0.2, spec=0.3)
+    # service desk with papers
+    ph.shadow([(250, FLOOR), (420, FLOOR), (400, FLOOR + 10), (220, FLOOR + 10)], 0.5, 5)
+    box3(ph, 290, 382, 420, FLOOR, 0.42, depth=12)
+    ph.rect(312, 366, 352, 378, 0.95, blur=0.5)
+    ph.rect(356, 370, 392, 377, 0.8, blur=0.5)
+    # supervisor booth: dark interior behind glass
+    ph.rect(430, 140, 580, 262, 0.62, grad=((430, 140), 1.0, (580, 262), 0.6))
+    ph.rect(430, 262, 580, FLOOR, 0.3, grad=((430, 262), 1.0, (430, FLOOR), 0.7))
+    for x in (430, 580):
+        ph.capsule((x, 136), (x, FLOOR), 3.5, 3.5, 0.12, spec=0.3)
+    ph.capsule((428, 138), (582, 138), 4, 4, 0.12, spec=0.3)
+    ph.capsule((428, 262), (582, 262), 4, 4, 0.12, spec=0.3)
+    # partition pillar (edge of the doorway)
+    ph.rect(DOOR_X, 100, DOOR_X + 14, 300, 0.6, grad=((DOOR_X, 0), 0.7, (DOOR_X + 14, 0), 1.1))
+    ph.rect(DOOR_X - 2, 296, DOOR_X + 16, 304, 0.4)
+    # terrace: deck chairs behind, crates, bench, the closed service door
+    deck_chair(ph, 690, 440, 0.8)
+    deck_chair(ph, 745, 442, 0.8)
+    for (x0, y0) in ((626, 410), (676, 410), (640, 352)):
+        box3(ph, x0, y0, x0 + 50, y0 + 58, 0.62, depth=8)
+        ph.stroke([(x0, y0 + 20), (x0 + 50, y0 + 20)], 1.2, 0.4)
+        ph.stroke([(x0, y0 + 40), (x0 + 50, y0 + 40)], 1.2, 0.4)
+    # bench
+    ph.shadow([(BENCH_X - 85, FLOOR), (BENCH_X + 85, FLOOR), (BENCH_X + 20, FLOOR + 14), (BENCH_X - 150, FLOOR + 14)], 0.5, 5)
+    for yy in (FLOOR - 48, FLOOR - 76):
+        ph.capsule((BENCH_X - 85, yy), (BENCH_X + 85, yy), 4, 4, 0.55, spec=0.2)
+    for xx in (BENCH_X - 70, BENCH_X + 70):
+        ph.capsule((xx, FLOOR - 48), (xx, FLOOR), 2.5, 2.5, 0.2)
+    # service door in the brick wall: dark varnished wood, brass knob, closed
+    ph.rect(865, 230, 945, 400, 0.22, grad=((865, 230), 0.8, (945, 400), 1.1))
+    ph.rect(873, 240, 937, 310, 0.28, blur=1)
+    ph.rect(873, 320, 937, 392, 0.28, blur=1)
+    ph.ellipsoid(878, 330, 3.5, 3.5, 0.8, spec=0.8)
+    ph.rect(870, 214, 940, 226, 0.92, blur=0.6)
+
+
+def dyn_props(ph, m, cut):
+    # moving boxes on the conveyor
     off = (m * 60 * 1.6) % 60
     for k in range(5):
         bx = 50 + ((k * 60 + off) % 220)
-        ink.rect(bx, 370, bx + 30, 392, fill=(198, 160, 110), color=INK, width=1.6)
-    # Bruno's service desk
-    ink.rect(290, 380, 420, FLOOR, fill=(170, 140, 104), color=INK, width=2.4)
-    ink.label((355, 425), "SERVICE DESK", 11, INK, anchor="mm")
-    ink.rect(310, 366, 350, 380, fill=PAGE, color=INK, width=1.4)  # forms
+        box3(ph, bx, 372, bx + 30, 390, 0.7, depth=6)
     # wall clock
-    clock(ink, 140, 200, 34, 12 + m / 60)
-    # supervisor booth
-    ink.rect(430, 140, 580, 262, fill=(205, 214, 214), color=INK, width=3)
-    ink.hatch(432, 142, 578, 260, gap=11, angle=60, color=(150, 170, 175), width=1, alpha=70)
-    ink.line([(430, 262), (430, FLOOR)], INK, 2.5)
-    ink.line([(580, 262), (580, FLOOR)], INK, 2.5)
-    ink.label((505, 278), "SUPERVISOR", 11, INK, anchor="mm")
-    # corner: crates, bench, closed service door
-    for (x0, y0) in ((626, 410), (676, 410), (640, 352)):
-        ink.rect(x0, y0, x0 + 50, y0 + 58, fill=(184, 150, 100), color=INK, width=2)
-        ink.line([(x0, y0), (x0 + 50, y0 + 58)], INK, 1.2, alpha=140)
-    bench(ink, BENCH_X, FLOOR, w=170)
-    door(ink, 905, FLOOR, w=70, h=160, open_=0.0, sign="SERVICE")
-    ink.label((780, 132), "SAFE CORNER · not visible from the booth", 11, MUTED, anchor="mm")
+    cx, cy, r = 140, 200, 30
+    ph.shadow(((cx - 4, cy + 4), (r, r)), 0.4, 4, kind="ellipse")
+    ph.ellipsoid(cx, cy, r, r, 0.9, amb=0.6)
+    hrs = 12 + m / 60
+    for a, ln, wd in ((2 * math.pi * (hrs / 12) - math.pi / 2, 0.5, 2.8), (2 * math.pi * (hrs % 1) - math.pi / 2, 0.8, 1.8)):
+        ph.stroke([(cx, cy), (cx + math.cos(a) * r * ln, cy + math.sin(a) * r * ln)], wd, 0.05)
+    if cut == "cut2" and m >= 3.05:
+        f = ease(m, 3.05, 3.15)
+        box3(ph, 262, lerp(372, FLOOR - 20, f), 292, lerp(390, FLOOR, f), 0.7, depth=6)
 
 
-def supervisor(ink, m, cut):
+def supervisor_draw(ph, m, cut):
     g = gaze_at(cut, m)
-    hx, hy = 505, 205
-    ink.rect(470, 228, 540, 262, fill=(60, 58, 60), color=INK, width=2)  # shoulders
-    ink.circle(hx, hy, 15, fill=PAGE, color=INK, width=2.4)
-    ink.rect(hx - 17, hy - 22, hx + 17, hy - 12, fill=INK, color=INK, width=1)
-    if g == "door":
-        ink.line([(hx + 13, hy + 1), (hx + 19, hy + 3)], INK, 2.4)
-        eye = (hx + 8, hy - 2)
-        tgt = [(DOOR_X - 4, 300), (DOOR_X + 22, FLOOR)]
-    elif g == "floor":
-        ink.line([(hx - 13, hy + 1), (hx - 19, hy + 3)], INK, 2.4)
-        eye = (hx - 8, hy - 2)
-        tgt = [(110, 340), (300, FLOOR)]
-    else:
-        ink.line([(hx - 3, hy + 13), (hx + 2, hy + 17)], INK, 2.4)
-        ink.rect(486, 240, 526, 252, fill=PAGE, color=INK, width=1.5)  # ledger
-        eye = None
-    if eye:
-        a = 0.5 + 0.15 * math.sin(m * 10)
-        ink.d.polygon([eye, tgt[0], tgt[1]], fill=ACCENT + (int(60 * a + 25),))
-        for q in tgt:
-            ink.line([eye, q], ACCENT, 1.6, alpha=200)
-    word = {"door": "watching the doorway", "ledger": "reading the ledger", "floor": "looks at the floor"}[g]
-    ink.label((505, 152), word, 11, ACCENT if eye else MUTED, anchor="mm")
+    face = {"door": 1, "floor": -1, "ledger": 1}[g]
+    sk = skeleton(505, 330, 0.72, "stand", 0, face, arm=60 if g == "ledger" else 10, arm2=50 if g == "ledger" else -5)
+    if g == "ledger":
+        sk["head"] = (sk["head"][0] + 2, sk["head"][1] + 6)
+    person(ph, sk, SUPER)
+    ph.rect(430, 262, 580, FLOOR, 0.3 * 0.82, grad=((430, 262), 1.0, (430, FLOOR), 0.7))
+    ph.rect(486, 238, 528, 246, 0.9 if g == "ledger" else 0.75, blur=0.6)  # ledger on the sill
+    # glass reflections over him
+    ph.light_patch([(440, 145), (470, 145), (420, 258), (432, 258)], 0.18, 3)
+    ph.light_patch([(520, 145), (532, 145), (500, 258), (494, 258)], 0.12, 3)
+    return g
 
 
-def actor(ink, cut, who, m):
+def actor_draw(ph, cut, who, m):
     x, v = path_x(PATHS[cut][who], m)
     walking = abs(v) > 1
     facing = 1 if v > 0 else -1
+    pose, arm, arm2 = ("walk" if walking else "stand"), None, None
     if not walking:
         facing = -1 if x > DOOR_X else 1
-        if who == "ada" and x < DOOR_X:
-            facing = -1 if cut == "cut1" or m < 1 else 1
-        if who == "bruno" and x < DOOR_X:
+        if who == "ada" and x > DOOR_X:
             facing = 1
-    phase = x / 70.0
-    coat = ADA_COAT if who == "ada" else BRUNO_COAT
-    pose = "walk" if walking else "stand"
-    arm = None
-    # particular business
-    if not walking:
+        if who == "bruno" and x > DOOR_X:
+            facing = -1
         if who == "ada" and x < DOOR_X and 0 <= m < 1:
-            pose, arm = "reach", 120  # pours coffee from a thermos
+            arm = 120  # pouring from a thermos
         if who == "bruno" and x < DOOR_X and cut == "cut2" and m < 3:
-            pose, arm = "reach", 70 + 25 * abs(math.sin(m * 60 * 2.2))  # stamping forms
+            arm = 70 + 25 * abs(math.sin(m * 60 * 2.2))  # stamping
         if who == "bruno" and x < DOOR_X and cut == "cut1" and 0 <= m < 1:
-            pose, arm = "reach", 95  # winding his watch
-        if who == "ada" and x > DOOR_X and pose == "stand":
-            pose, arm = "reach", 70
-        if who == "bruno" and x > DOOR_X and pose == "stand":
-            pose, arm = "reach", 75
-    s = 1.0
-    pts = figure(ink, x, FLOOR - 2, s, pose, phase, facing, coat=coat, arm=arm, hat=False)
-    if who == "ada":
-        hx, hy = pts["head"]
-        ink.arc(hx, hy - 2, 12, math.pi, 2 * math.pi, INK, 5)  # scarf of hair
-    ink.label((x, FLOOR + 20), who.upper(), 12, coat, anchor="mm")
-    return x, pts
+            arm = 95  # winding his watch
+        if x > DOOR_X:
+            pose, arm, arm2 = "sit", 62, 40
+    xx = x if pose != "sit" else (BENCH_X - 42 if who == "ada" else BENCH_X + 42)
+    sk = skeleton(xx, FLOOR - (0 if pose != "sit" else 2), BODY_S, pose, x / 64.0, facing, arm=arm, arm2=arm2)
+    if pose != "sit":
+        cast_shadow(ph, sk, dx=-0.8, dy=0.12, strength=0.5 if x > DOOR_X else 0.25)
+    person(ph, sk, ADA if who == "ada" else BRUNO)
+    return x, sk
 
 
-def props(ink, cut, m, ada, bruno):
-    (ax, apts), (bx, bpts) = ada, bruno
-    hand_a, hand_b = apts["hands"][0], bpts["hands"][0]
+def props_draw(ph, cut, m, ada, bruno):
+    (ax, ask), (bx, bsk) = ada, bruno
+    ha, hb = ask["arms"][0][1], bsk["arms"][0][1]
     if cut == "cut1":
         if m < 1.85:
-            envelope(ink, hand_a[0], hand_a[1], 30, 20)
+            photo_envelope(ph, ha[0], ha[1] - 4, 26, 17)
         elif m < 2.0:
-            p = lerp2(hand_a, hand_b, ease(m, 1.85, 2.0))
-            envelope(ink, p[0], p[1], 30, 20)
+            p = lerp2(ha, hb, ease(m, 1.85, 2.0))
+            photo_envelope(ph, p[0], p[1] - 4, 26, 17)
         elif m < 2.4:
-            envelope(ink, hand_b[0], hand_b[1] + 6, 30, 20, open_=ease(m, 2.05, 2.15))
+            photo_envelope(ph, hb[0], hb[1] - 2, 26, 17, open_=ease(m, 2.05, 2.15))
             if m > 2.12:
-                key_shape(ink, hand_b[0] - 10, hand_b[1] - 22, 0.6, angle=-0.4)
-                bench_key_glint(ink, hand_b[0] + 4, hand_b[1] - 30, m * 60)
+                photo_key(ph, hb[0] - 14, hb[1] - 20, 0.5, angle=-0.3, spec=0.9)
         elif m < 3.4:
-            envelope(ink, BENCH_X + 10, FLOOR - 52, 30, 20, open_=1)
-            key_shape(ink, hand_b[0] - 10, hand_b[1] - 6, 0.6, angle=-0.4)
-        if 2.32 <= m < 2.42:  # hands touch
-            mid = lerp2(hand_a, hand_b, 0.5)
-            ink.circle(mid[0], mid[1], 6, fill=ACCENT, color=INK, width=1.5)
+            photo_envelope(ph, BENCH_X + 4, FLOOR - 54, 26, 17, open_=1)
+            photo_key(ph, hb[0] - 12, hb[1] - 6, 0.5, angle=-0.3, spec=0.9)
     else:
         if m < 2.9:
-            envelope(ink, hand_a[0], hand_a[1], 30, 20)
+            photo_envelope(ph, ha[0], ha[1] - 4, 26, 17)
         elif m < 3.62:
-            envelope(ink, BENCH_X - 20, FLOOR - 52, 30, 20)
+            photo_envelope(ph, BENCH_X - 20, FLOOR - 54, 26, 17)
         elif m < 3.85:
-            envelope(ink, hand_b[0], hand_b[1] + 6, 30, 20, open_=ease(m, 3.65, 3.78))
+            photo_envelope(ph, hb[0], hb[1] - 2, 26, 17, open_=ease(m, 3.65, 3.78))
         else:
-            envelope(ink, BENCH_X - 20, FLOOR - 52, 30, 20, open_=1)
-            key_shape(ink, hand_b[0] - 10, hand_b[1] - 20, 0.6, angle=-0.4 + 0.2 * math.sin(m * 40))
-            bench_key_glint(ink, hand_b[0] + 4, hand_b[1] - 28, m * 60)
-        # the box that falls off the unattended conveyor
-        if 3.05 <= m:
-            f = ease(m, 3.05, 3.15)
-            ink.rect(262, lerp(370, FLOOR - 22, f), 292, lerp(392, FLOOR, f), fill=(198, 160, 110), color=INK, width=1.6)
+            photo_envelope(ph, BENCH_X - 20, FLOOR - 54, 26, 17, open_=1)
+            photo_key(ph, hb[0] - 12, hb[1] - 18, 0.5, angle=-0.3 + 0.2 * math.sin(m * 40), spec=0.9)
 
 
-def header(ink, cut, m, local):
+# camera plan per cut: (from minute, to minute, (scale, centre x, centre y))
+WIDE = (1.0, 480, 296)
+CAMS = {
+    "cut1": [(-9, 1.72, WIDE), (1.72, 2.45, (2.45, 792, 392)), (2.45, 9, WIDE)],
+    "cut2": [(-9, 1.65, WIDE), (1.65, 2.25, (2.3, 770, 392)), (2.25, 2.62, (2.2, 360, 380)), (2.62, 3.12, WIDE),
+             (3.12, 3.45, (1.9, 610, 380)), (3.45, 3.88, WIDE), (3.88, 4.7, (2.45, 800, 392)), (4.7, 9, WIDE)],
+}
+
+
+def cam_at(cut, m):
+    for a, b, c in CAMS[cut]:
+        if a <= m < b:
+            return c
+    return WIDE
+
+
+def header_band(img, cut, m):
+    ink = ink_on(img)
+    d = ink.d
+    d.rectangle([0, 0, W, 60], fill=(6, 6, 6, 255))
     sc = SCHED[cut]
-    ink.d.rectangle([0, 0, W, 111], fill=PAGE)
-    ink.line([(0, 111), (W, 111)], RULE, 1.5, rough=False)
-    title = "CUT 1 · original shift" if cut == "cut1" else "CUT 2 · late bell"
-    ink.label((24, 18), title, 14, ACCENT)
-    bars = [("ADA", [sc["ada"]], ADA_COAT), ("BRUNO", [sc["bruno"]], BRUNO_COAT),
-            ("DOOR UNWATCHED", [sc["unwatched"]], (120, 150, 120)),
-            ("MEETING WINDOW", [sc["window"]] if sc["window"] else [], ACCENT)]
-    X = timeline_bar(ink, 24, 690, 34, -0.3, 5.0, bars, now=m, label_w=124, row=12, gap=4, font_size=11)
+    ink.text((20, 10), "CUT 1 · ORIGINAL SHIFT" if cut == "cut1" else "CUT 2 · LATE BELL", "mono", 12, (230, 228, 220))
+    x0, x1, t0, t1 = 290, 700, -0.3, 5.0
+    X = lambda v: lerp(x0, x1, (clamp(v, t0, t1) - t0) / (t1 - t0))
+    rows = [("ADA", sc["ada"], (225, 225, 220)), ("BRUNO", sc["bruno"], (150, 150, 146)),
+            ("DOOR UNWATCHED", sc["unwatched"], (90, 90, 88)), ("MEETING", sc["window"], (255, 255, 255))]
+    for k, (lab, span, col) in enumerate(rows):
+        y = 6 + k * 12
+        ink.text((x0 - 8, y + 4), lab, "mono", 9, (170, 168, 160), anchor="rm")
+        d.rectangle([x0, y, x1, y + 8], fill=(30, 30, 30, 255))
+        if span:
+            d.rectangle([X(span[0]), y, X(span[1]), y + 8], fill=col + (255,))
+        elif lab == "MEETING":
+            ink.text((X(2.2), y + 4), "none: the breaks no longer overlap", "mono", 9, (230, 228, 220), anchor="mm")
+    nx = X(m)
+    d.line([(nx, 3), (nx, 54)], fill=(255, 255, 255, 255), width=2)
     for mm in range(0, 6):
-        ink.label((X(mm), 102), f"12:0{mm}", 10, MUTED, anchor="mm")
-    if not sc["window"]:
-        ink.label((X(2.2), 86), "none — breaks no longer overlap", 10, ACCENT, anchor="mm")
-    ink.text((830, 46), clock_str(m), "mono", 34, INK, anchor="mm")
-    # exposure state, carried forward
+        ink.text((X(mm), 56), f"12:0{mm}", "mono", 8, (140, 138, 130), anchor="mb")
+    ink.text((830, 22), clock_str(m), "mono", 28, (244, 242, 236), anchor="mm")
     seen = cut == "cut2" and m >= 3.5
-    ink.label((830, 84), "EXPOSURE: " + ("Ada late · on record" if seen else "none"), 12, ACCENT if seen else MUTED, anchor="mm")
+    ink.text((830, 48), "EXPOSURE: " + ("ADA LATE · ON RECORD" if seen else "NONE"), "mono", 10, (255, 255, 255) if seen else (150, 148, 140), anchor="mm")
+    return ink.img
 
 
-def play_cut(ink, cut, local):
+def sightline_overlay(img, ph, cut, m):
+    """A thin chinagraph mark on the print: where the supervisor is looking (wide shots only)."""
+    g = gaze_at(cut, m)
+    if g == "ledger":
+        return img
+    eye = ph.P(512, 214) if g == "door" else ph.P(498, 214)
+    tgts = [ph.P(DOOR_X - 2, 300), ph.P(DOOR_X + 20, FLOOR)] if g == "door" else [ph.P(110, 340), ph.P(300, FLOOR)]
+    d = _Draw.Draw(img, "RGBA")
+    for q in tgts:
+        n = 24
+        for k in range(0, n, 2):
+            a, b = k / n, (k + 1) / n
+            d.line([lerp2(eye, q, a), lerp2(eye, q, b)], fill=(255, 255, 255, 150), width=2)
+    d.polygon([eye] + tgts, fill=(255, 255, 255, 26))
+    return img
+
+
+def play_cut(cut, local, k):
     m = (local - PRE) / S_PER_MIN
-    set_room(ink, m, cut)
-    supervisor(ink, m, cut)
-    bruno = actor(ink, cut, "bruno", m)
-    ada = actor(ink, cut, "ada", m)
-    props(ink, cut, m, ada, bruno)
-    header(ink, cut, m, local)
-    # bell flash
+    cam = cam_at(cut, m)
+    ph = Photo(cam=cam, light=LIGHT)
+    ph.a[:] = background(cam)
+    dyn_props(ph, m, cut)
+    supervisor_draw(ph, m, cut)
+    bruno = actor_draw(ph, cut, "bruno", m)
+    ada = actor_draw(ph, cut, "ada", m)
+    props_draw(ph, cut, m, ada, bruno)
+    # interior exposure: people inside the factory sit in shade
+    x_door = ph.P(DOOR_X + 7, 0)[0]
+    if x_door > 0:
+        box = (0, 0, int(clamp(x_door, 0, W)), H)
+        if box[2] > 0:
+            yy, xx = np.mgrid[0:H, 0:box[2]].astype(np.float32)
+            wx, wy = ph.world(xx, yy)
+            patch = (wy > WALL_BASE) & (wx > DOOR_X - 230 + (wy - WALL_BASE) * 1.2)
+            mul = np.where(patch, 1.0, 0.82)[..., None]
+            ph.a[:, :box[2]] *= mul
+    img = finish(ph, LOOK, k)
+    if cam == WIDE:
+        img = sightline_overlay(img, ph, cut, m)
     for b in bells(cut):
         if b[0] <= m < b[0] + 0.12:
-            ink.label((140, 250), "BELL", 14, ACCENT, anchor="mm")
-            for r in (44, 52):
-                ink.arc(140, 200, r, -2.4, -0.7, ACCENT, 2)
+            ink = ink_on(img)
+            ink.text((ph.P(140, 250)[0], ph.P(140, 250)[1]), "BELL", "mono", 14, (255, 255, 255), anchor="mm")
+            img = ink.img
+    img = header_band(img, cut, m)
     for a, b, who, line in CAPS[cut]:
         if a <= m < b:
-            al = min(1, (m - a) / 0.04, (b - m) / 0.04)
-            if who:
-                speaker_caption(ink, who, line, al, y=H - 30, who_color=ACCENT)
-            else:
-                ink.caption(line, al, y=H - 30, size=20, color=MUTED)
+            subtitle(img, line, who=who.title() if who else None, size=24)
+    return img
 
 
 def bells(cut):
@@ -260,47 +383,56 @@ def bells(cut):
     return [(0, "Ada's break", -0.5), (3, "Ada back / Bruno's late break", 0.0)]
 
 
+def text_card(lines, k, kicker=None):
+    ph = Photo()
+    ph.ground(0.04)
+    img = finish(ph, {"grain": (0.04, 1.3), "bw": True}, k)
+    ink = ink_on(img)
+    if kicker:
+        ink.text((W / 2, 64), kicker, "mono", 14, (190, 188, 180), anchor="mm")
+    for (x, y, s, kind, size, col, anc) in lines:
+        ink.text((x, y), s, kind, size, col, anchor=anc)
+    return ink.img
+
+
 @film.picture
-def frame(t, ink):
+def frame(t, k):
     name, local, a, b = SC.at(t)
     if name == "title":
-        section_card(ink, "AFTER RENZO E LUCIANA · MONICELLI / CALVINO 1962", "One break, one doorway", "two co-workers · a private commitment · a supervisor's sightline")
+        img = photo_card("AFTER RENZO E LUCIANA · MONICELLI / CALVINO 1962", "One break, one doorway",
+                         "two co-workers · a private commitment · a supervisor's sightline", k=k)
     elif name == "rule":
-        ink.fill(PAGE)
-        ink.label((W / 2, 70), "THE RULE", 15, ACCENT, anchor="mm")
-        ink.text((W / 2, 130), "No private meetings on shift.", "serif", 40, INK, anchor="mm")
-        ink.text((W / 2, 180), "The supervisor watches the only doorway to the corner.", "serif", 28, MUTED, anchor="mm")
-        lines = ["Ada's break        12:00 – 12:03",
-                 "Bruno's break      12:00 – 12:04",
-                 "doorway unwatched  12:01 – 12:04   (supervisor at his ledger)",
-                 "safe meeting       12:01 – 12:03"]
-        for k, s in enumerate(lines):
-            ink.text((200, 250 + k * 38), s, "mono", 20, ACCENT if k == 3 else INK)
-        ink.label((W / 2, 440), "Ada carries a sealed envelope. Nobody at work may know why.", 14, MUTED, anchor="mm")
+        WH, GR = (244, 242, 236), (170, 168, 160)
+        lines = [(W / 2, 128, "No private meetings on shift.", "serif", 42, WH, "mm"),
+                 (W / 2, 178, "The supervisor watches the only doorway to the terrace.", "serif", 26, GR, "mm"),
+                 (200, 250, "Ada's break        12:00 – 12:03", "mono", 20, WH, "la"),
+                 (200, 288, "Bruno's break      12:00 – 12:04", "mono", 20, WH, "la"),
+                 (200, 326, "doorway unwatched  12:01 – 12:04   (supervisor at his ledger)", "mono", 20, WH, "la"),
+                 (200, 364, "safe meeting       12:01 – 12:03", "mono", 20, (255, 255, 255), "la"),
+                 (W / 2, 440, "Ada carries a sealed envelope. Nobody at work may know why.", "mono", 14, GR, "mm")]
+        img = text_card(lines, k, "THE RULE")
     elif name in ("cut1", "cut2"):
-        play_cut(ink, name, local)
+        img = play_cut(name, local, k)
     elif name == "card2":
-        section_card(ink, "CUT 2 · same rule, same people", "The late bell", "Bruno's break moves to 12:03 – 12:07 · overlap with Ada: none")
+        img = photo_card("CUT 2 · same rule, same people", "The late bell", "Bruno's break moves to 12:03 – 12:07 · overlap with Ada: none", k=k)
     else:
-        ink.fill(PAGE)
-        ink.label((W / 2, 50), "RULE LEDGER", 15, ACCENT, anchor="mm")
+        WH, GR = (244, 242, 236), (160, 158, 150)
         rows = [("", "CUT 1 · original", "CUT 2 · late bell"),
                 ("breaks", "overlap [12:00,12:03)", "overlap: none"),
-                ("meeting", "12:01:42 – 12:02:24 in corner", "none · a look in the doorway"),
+                ("meeting", "12:01:42 – 12:02:24 on the bench", "none · one word in the doorway"),
                 ("envelope", "hand to hand", "left sealed on the bench"),
                 ("brass key", "Bruno, 12:02:10", "Bruno, 12:03:50, alone"),
                 ("exposure", "none", "Ada 30 s late · on record"),
                 ("service door", "closed", "closed")]
-        for k, (a1, b1, c1) in enumerate(rows):
-            y = 110 + k * 50
-            col = ACCENT if k == 0 else INK
-            ink.text((70, y), a1, "mono", 16, MUTED)
-            ink.text((230, y), b1, "mono" if k else "serif", 17 if k else 26, col)
-            ink.text((580, y), c1, "mono" if k else "serif", 17 if k else 26, col)
-            if k:
-                ink.line([(60, y - 14), (900, y - 14)], RULE, 1, rough=False)
-        ink.label((W / 2, 480), "the small action that kept it: the envelope left where only he would sit", 14, ACCENT, anchor="mm")
-    edge_fade(ink, t, a, b, 0.35)
+        lines = []
+        for i, (a1, b1, c1) in enumerate(rows):
+            y = 110 + i * 50
+            lines += [(70, y, a1, "mono", 15, GR, "la"), (230, y, b1, "mono" if i else "serif", 17 if i else 26, WH, "la"),
+                      (580, y, c1, "mono" if i else "serif", 17 if i else 26, WH, "la")]
+        lines.append((W / 2, 480, "the small action that kept it: the envelope left where only he would sit", "mono", 14, (255, 255, 255), "mm"))
+        img = text_card(lines, k, "RULE LEDGER")
+    f = min(1.0, (t - a) / 0.35, (b - t) / 0.35)
+    return fade_img(img, f)
 
 
 @film.sound

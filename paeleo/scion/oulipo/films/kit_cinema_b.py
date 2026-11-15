@@ -544,10 +544,19 @@ def person(ph, sk, outfit, face=True):
     ph.capsule(hip, k1, 10 * s, 7.5 * s, leg_col, amb=0.35)
     ph.capsule(k1, f1, 7.5 * s, 5 * s, outfit.get("shin", leg_col), amb=0.35)
     ph.ellipsoid(f1[0] + 6 * s * f, f1[1] - 2 * s, 10 * s, 4 * s, shoes, amb=0.4, spec=0.25)
-    ph.capsule(neck, (hip[0], hip[1] - 4 * s), 15 * s, 12 * s, top, amb=0.3, spec=outfit.get("top_spec", 0.0))
-    if outfit.get("bare_chest"):
-        ph.capsule(neck, (hip[0], hip[1] - 8 * s), 14 * s, 11 * s, skin, amb=0.3, spec=0.12)
-    ph.capsule((neck[0], neck[1] + 4 * s), (head[0], head[1] + 6 * s), 4.5 * s, 4 * s, skin, amb=0.3)
+    # torso: shoulders wider than the waist, shaded across its width toward the light
+    sw, ww = 17 * s, 12.5 * s
+    nx_, ny_ = neck
+    hx_, hy_ = hip
+    lx = ph.light[0]
+    gl, gr = (0.55, 1.08) if lx > 0 else (1.08, 0.55)
+    ph.poly([(nx_ - sw, ny_ + 3 * s), (nx_ + sw, ny_ + 3 * s), (hx_ + ww, hy_ + 2 * s), (hx_ - ww, hy_ + 2 * s)], top, blur=1.0,
+            grad=((min(nx_, hx_) - sw, 0), gl, (max(nx_, hx_) + sw, 0), gr))
+    ph.ellipsoid(nx_ - sw * 0.55, ny_ + 7 * s, 8 * s, 7 * s, top, amb=0.35)
+    ph.ellipsoid(nx_ + sw * 0.55, ny_ + 7 * s, 8 * s, 7 * s, top, amb=0.35)
+    if outfit.get("collar"):
+        ph.poly([(nx_ - 5 * s, ny_ + 2 * s), (nx_ + 5 * s, ny_ + 2 * s), (nx_, ny_ + 14 * s)], outfit["collar"], blur=0.7)
+    ph.capsule((neck[0], neck[1] + 4 * s), (head[0], head[1] + 6 * s), 4.8 * s, 4.2 * s, skin, amb=0.3)
     # near arm
     el, hd = sk["arms"][0]
     ph.capsule(sk["sh"], el, 6.5 * s, 5.5 * s, arm_col, amb=0.3)
@@ -556,6 +565,10 @@ def person(ph, sk, outfit, face=True):
     # head
     hr = 11.5 * s
     ph.ellipsoid(head[0], head[1], hr * 0.86, hr, skin, amb=0.28, spec=0.06)
+    # profile: brow, nose, chin toward the facing side; an ear behind
+    ph.ellipsoid(head[0] + hr * 0.72 * f, head[1] + hr * 0.12, hr * 0.2, hr * 0.26, skin, amb=0.35, spec=0.08)
+    ph.ellipsoid(head[0] + hr * 0.38 * f, head[1] + hr * 0.72, hr * 0.42, hr * 0.32, skin, amb=0.3)
+    ph.ellipsoid(head[0] - hr * 0.2 * f, head[1] + hr * 0.08, hr * 0.16, hr * 0.24, C(skin) * 0.9 if not callable(skin) else skin, amb=0.3)
     hat = outfit.get("hat")
     if face and ph.s * s > 1.2:
         ex = head[0] + 4 * s * f

@@ -35,10 +35,10 @@ ST = starts(SEGS)
 # High-contrast black-and-white photography: hard side light, deep blacks,
 # soft grain, close framing, shadow doubles on the wall.
 
-LIGHT = (-0.8, -0.35, 0.5)
+LIGHT = (-0.5, -0.45, 0.75)
 HAIR_T = hair_tex(W, H, 4)
 CLOTH = box_blur(fnoise(W, H, 8, octaves=4, base=3), 6) * 40
-GRADE = dict(mono=True, contrast=1.7, pivot=0.42, crush=0.05, blur=0.8, vignette=0.55, grain=0.055, grain_size=1.5,
+GRADE = dict(mono=True, contrast=1.5, pivot=0.42, crush=0.05, blur=0.8, vignette=0.55, grain=0.055, grain_size=1.5,
              halation=0.12, hal_color=(1, 1, 1), hal_r=10)
 
 
@@ -52,7 +52,7 @@ def s_bed(t):
     cy = lerp(230, -330, up)
     s = lerp(0.92, 1.25, up)
     if cy > -300:
-        face(R, 470, cy, s, look=(0.0, 0.0), eyes_open=ease(t, 1.8, 2.3) * (1 - up), hair=(34, 30, 28), tex=HAIR_T, base=60, neck=True)
+        face(R, 470, cy, s, look=(0.0, 0.0), eyes_open=ease(t, 1.8, 2.3) * (1 - up), hair=(70, 62, 56), tex=HAIR_T, base=60, neck=True)
     # blanket from the chin down, its folds from the same cloth noise
     blank = poly_mask(W, H, [(0, 400), (960, 380), (960, 540), (0, 540)], blur=6)
     R.z += blank * (90 + CLOTH * 1.5)
@@ -76,10 +76,10 @@ def s_phone(t):
     R = Relief(W, H, bg=wall * lit)
     look = ease(t, 6.6, 7.4)
     turn = lerp(0.35, -0.7, look)
-    face(R, 610, 250, 0.82, look=(lerp(0.3, -0.9, look), 0.1), turn=turn, hair=(30, 28, 26), tex=HAIR_T, collar=(200, 200, 196))
+    face(R, 610, 250, 0.82, look=(lerp(0.3, -0.9, look), 0.1), turn=turn, hair=(70, 62, 56), tex=HAIR_T, collar=(200, 200, 196))
     R.slab([(420, 440), (820, 440), (900, 540), (340, 540)], height=60, bevel=16, base=0, color=(90, 90, 92))
     ringing = any(r <= t + 6.0 < r + 1.05 for r in RINGS)
-    a = R.render(light=LIGHT, amb=0.15, diff=1.0, spec=0.25, smooth=4)
+    a = R.render(light=LIGHT, amb=0.25, diff=0.9, spec=0.25, smooth=4)
     a = cast_shadow(a, R.silhouette(), 150, 18, 10, 0.75)  # the shadow double
     R2 = Relief(W, H, bg=a)
     phone_obj(R2, 190, 520, ringing, t)
@@ -94,24 +94,17 @@ def s_held(t):
     """Held shot: his head against the wall, the double on the wall behind. Only room sound."""
     global _HELD
     if _HELD is None:
-        wall = vgrad(H, W, (236, 236, 232), (190, 190, 186))
-        dark = np.clip((np.arange(W, dtype=np.float32) - 600) / 40, 0, 1)[None, :, None]
-        wall = wall * (1 - 0.82 * dark)
+        wall = vgrad(H, W, (238, 238, 234), (200, 200, 196)) * np.clip(np.linspace(1.08, 0.62, W, dtype=np.float32), 0, 1)[None, :, None]
         R = Relief(W, H, bg=wall)
-        face(R, 400, 250, 1.12, look=(-0.3, 0.15), turn=0.25, hair=(26, 24, 22), tex=HAIR_T, collar=(226, 226, 222))
-        a = R.render(light=(-0.9, -0.4, 0.45), amb=0.12, diff=1.05, spec=0.2, smooth=5)
-        sil = R.silhouette()
-        dbl = np.roll(sil, 300, 1)
-        dbl = blur_arr(dbl, 4)
-        a = a * (1 - 0.0 * dbl[..., None])
-        a = np.where((dbl[..., None] > 0.5) & (sil[..., None] < 0.5), a * 0.18 + 0.02, a)
-        _HELD = a
+        face(R, 360, 250, 1.12, look=(-0.3, 0.15), turn=0.25, hair=(74, 66, 58), tex=HAIR_T, collar=(226, 226, 222))
+        a = R.render(light=(-0.6, -0.4, 0.7), amb=0.22, diff=0.95, spec=0.2, smooth=5)
+        _HELD = cast_shadow(a, R.silhouette(), 330, 10, 3, 0.78)  # the shadow double on the wall
     return _HELD
 
 
 def s_stairs(k, u, ink):
     t = k / FPS
-    wall = vgrad(H, W, (60, 60, 62), (20, 20, 22))
+    wall = vgrad(H, W, (150, 150, 148), (70, 70, 70))
     R = Relief(W, H, bg=wall)
     steps, x0, y0, x1, y1 = 12, 40, 110, 900, 500
     sw, sh = (x1 - x0) / steps, (y1 - y0) / steps
@@ -126,16 +119,14 @@ def s_stairs(k, u, ink):
     ys = y0 + (math.floor(max(0, s_f)) + 1) * sh if s_f > 0 else y0
     if xs < 1060:
         person(R, xs, ys, 230, phase=s_f / 2, pose="walk", coat=(36, 36, 38), trousers=(24, 24, 26), hair=(20, 20, 20), base=150)
-    a = R.render(light=(-0.6, -0.7, 0.5), amb=0.12, diff=1.0, spec=0.3, smooth=2)
-    a = cast_shadow(a, R.silhouette() * (np.arange(H)[:, None] < 540), -90, -30, 6, 0.0)
-    # hard window light falling across the stairs
-    beam = poly_mask(W, H, [(380, 0), (620, 0), (900, 540), (520, 540)], blur=18)
-    a = a * (0.35 + 0.85 * beam[..., None])
+    a = R.render(light=(-0.6, -0.7, 0.5), amb=0.3, diff=0.9, spec=0.3, smooth=2)
+    # hard window light falling across the stairs, and his long shadow
+    beam = poly_mask(W, H, [(300, 0), (640, 0), (980, 540), (480, 540)], blur=14)
+    a = a * (0.45 + 0.75 * beam[..., None])
     if xs < 1060:
-        pm = np.zeros((H, W), np.float32)
-        hx = int(xs)
-        pm = R.silhouette()
-        a = cast_shadow(a, pm, 110, -20, 5, 0.55 * 1)
+        fig = Relief(W, H)
+        person(fig, xs, ys, 230, phase=s_f / 2, pose="walk", base=150)
+        a = cast_shadow(a, fig.silhouette(), 120, -14, 4, 0.6)
     ink.img = Image.fromarray(np.clip(a * 255, 0, 255).astype(np.uint8))
 
 
