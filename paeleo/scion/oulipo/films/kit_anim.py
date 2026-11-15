@@ -176,3 +176,155 @@ def hand_text(ink, xy, s, size=24, color=(30, 30, 40), width=None, seed=0, line_
         ink.paste(im, (x, y - size * 0.35 + jitter), alpha=alpha)
         x += ww + size * 0.26 + rs.uniform(-1, 2)
     return y + size * line_gap
+
+
+# ---------------------------------------------------------------- forage ---
+# Commons / LoC helpers. Downloads are data only: decoded with PIL/ffmpeg, never run.
+
+import json as _json
+import time as _time
+import urllib.parse as _up
+import urllib.request as _ur
+
+UA = {"User-Agent": "oulipo-film-research/1.0"}
+COMMONS = "https://commons.wikimedia.org/w/api.php"
+OK_LICENCES = ("public domain", "pd", "cc0", "cc by", "cc-by", "cc by-sa", "cc-by-sa", "no restrictions")
+BAD = ("nc", "nd", "fair use", "non-free")
+
+
+def _get(url, tries=6, binary=False):
+    for k in range(tries):
+        try:
+            with _ur.urlopen(_ur.Request(url, headers=UA), timeout=60) as r:
+                data = r.read()
+            if not binary and data[:40].lstrip().startswith(b"You are making too many"):
+                raise IOError("rate limited")
+            return data
+        except Exception as e:  # noqa
+            if k == tries - 1:
+                raise
+            _time.sleep((15 if "429" in str(e) or "rate" in str(e) else 4) * (k + 1))
+
+
+def commons_search(q, n=10):
+    url = COMMONS + "?" + _up.urlencode(dict(action="query", list="search", srnamespace=6, srsearch=q, format="json", srlimit=n))
+    return [r["title"] for r in _json.loads(_get(url))["query"]["search"]]
+
+
+def commons_info(title, width=1280):
+    url = COMMONS + "?" + _up.urlencode(dict(action="query", titles=title, prop="imageinfo", iiprop="url|extmetadata|size|mime",
+                                             iiurlwidth=width, format="json"))
+    for k in range(6):
+        js = _json.loads(_get(url))
+        if "query" in js:
+            break
+        _time.sleep(10 * (k + 1))
+    pages = js["query"]["pages"]
+    p = next(iter(pages.values()))
+    ii = p["imageinfo"][0]
+    md = ii.get("extmetadata", {})
+    val = lambda k: re.sub(r"<[^>]+>", "", md.get(k, {}).get("value", "")).strip()  # noqa
+    return dict(title=title, author=val("Artist") or "unknown", license=val("LicenseShortName") or val("License"),
+                license_url=val("LicenseUrl"), source_url=ii.get("descriptionurl", ""), file_url=ii.get("url", "").split("?")[0],
+                thumb_url=ii.get("thumburl", ii.get("url", "")).replace("//thumb.wikimedia.org/", "//upload.wikimedia.org/").split("?")[0], mime=ii.get("mime", ""), date=val("DateTimeOriginal"),
+                desc=val("ImageDescription")[:300], size=(ii.get("width"), ii.get("height")))
+
+
+def licence_ok(lic):
+    l_ = (lic or "").lower()
+    if any(re.search(r"\b" + b + r"\b", l_) for b in BAD):
+        return False
+    return any(o in l_ for o in OK_LICENCES)
+
+
+def fetch(url, dest):
+    dest = Path(dest)
+    if not dest.exists():
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        dest.write_bytes(_get(url, binary=True))
+        _time.sleep(1.0)
+    return dest
+
+
+import re  # noqa: E402
+
+
+_src_cache = {}
+
+
+def load_src(path):
+    path = str(path)
+    if path not in _src_cache:
+        _src_cache[path] = Image.open(path).convert("RGB")
+    return _src_cache[path]
+
+
+def kenburns(img, box0, box1, f, size=(W, H)):
+    """Crop that travels from box0 to box1 (source pixels, x0 y0 x1 y1) as f goes 0..1,
+    corrected to the output aspect, resized to size."""
+    f = smooth(f)
+    b = [lerp(a, c, f) for a, c in zip(box0, box1)]
+    cx, cy = (b[0] + b[2]) / 2, (b[1] + b[3]) / 2
+    w, h = b[2] - b[0], b[3] - b[1]
+    asp = size[0] / size[1]
+    if w / h > asp:
+        h = w / asp
+    else:
+        w = h * asp
+    if w > img.width:
+        w, h = img.width, img.width / asp
+    if h > img.height:
+        h, w = img.height, img.height * asp
+    cx = clamp(cx, w / 2, img.width - w / 2)
+    cy = clamp(cy, h / 2, img.height - h / 2)
+    return img.resize(size, Image.LANCZOS, box=(cx - w / 2, cy - h / 2, cx + w / 2, cy + h / 2))
+
+
+def text_ext(ink, xy, s, kind="sans", size=14, color=INK):
+    """Text with a hand-drawn caron for letters the house fonts lack (š, č, ž)."""
+    f = font(kind, size)
+    x, y = xy
+    for ch in s:
+        base = {"š": "s", "č": "c", "ž": "z", "Š": "S", "Č": "C", "Ž": "Z"}.get(ch)
+        ink.text((x, y), base or ch, kind, size, color)
+        w = f.getlength(base or ch)
+        if base:
+            top = y + size * (0.18 if base.islower() else -0.1)
+            cx = x + w / 2
+            ink.d.line([(cx - size * 0.16, top), (cx, top + size * 0.14), (cx + size * 0.16, top)], fill=tuple(color[:3]) + (255,), width=max(1, size // 12))
+        x += w
+
+
+def transcoded_url(file_url, suffix):
+    """Commons transcode of a media file, e.g. suffix '.mp3' or '.360p.vp9.webm'."""
+    name = file_url.split("/")[-1]
+    return file_url.replace("/wikipedia/commons/", "/wikipedia/commons/transcoded/") + "/" + name + suffix
+
+
+def forage(slug, name, used, title, width=1280, suffix=None):
+    """Download a Commons file (thumbnail, or transcode when suffix is given), record its credit."""
+    root = HERE
+    i = commons_info(title, width or 1280)
+    if not licence_ok(i["license"]):
+        raise SystemExit(f"REJECT licence {i['license']} {title}")
+    url = transcoded_url(i["file_url"], suffix) if suffix else i["thumb_url"]
+    dest = fetch(url, root / "sources" / slug / name)
+    cf = root / "credits" / f"{slug}.json"
+    cr = _json.loads(cf.read_text()) if cf.exists() else []
+    cr = [c for c in cr if c["title"] != title]
+    cr.append(dict(title=title, author=i["author"], license=i["license"], license_url=i["license_url"],
+                   source_url=i["source_url"], file_url=url, used_as=used))
+    cf.write_text(_json.dumps(cr, indent=1, ensure_ascii=False))
+    return dest, i
+
+
+def load_audio(path, start=0.0, dur=None, rate=RATE):
+    """Decode any foraged audio/video file to mono float samples with ffmpeg (data only)."""
+    import subprocess as _sp
+    cmd = ["ffmpeg", "-loglevel", "error", "-ss", str(start), "-i", str(path)]
+    if dur:
+        cmd += ["-t", str(dur)]
+    cmd += ["-vn", "-ac", "1", "-ar", str(rate), "-f", "s16le", "-"]
+    raw = _sp.run(cmd, capture_output=True, check=True).stdout
+    a = np.frombuffer(raw, np.int16).astype(np.float64) / 32768
+    return a

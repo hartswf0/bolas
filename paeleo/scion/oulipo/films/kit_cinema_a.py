@@ -723,3 +723,90 @@ def subtitle(ink, s, alpha=1.0, y=None, size=26, color=(245, 245, 240), kind="se
     for dx, dy in ((-2, 0), (2, 0), (0, -2), (0, 2), (2, 2), (-2, 2), (2, -2), (-2, -2)):
         ink.text((ink.w / 2 + dx, y + dy), s, kind, size, (0, 0, 0), anchor="mm", alpha=int(a * 0.55))
     ink.text((ink.w / 2, y), s, kind, size, color, anchor="mm", alpha=a)
+
+
+# ========================================================= foraged media ===
+# Decoding of foraged files and archive streams (ffmpeg only; nothing from a
+# source file is ever executed). Clips are cut once from the archive into
+# films/sources/<slug>/ and decoded from there.
+
+import subprocess as _sp
+import os as _os
+import wave as _wave
+
+SOURCES = HERE / "sources"
+
+
+def _env():
+    e = dict(_os.environ)
+    if e.get("HTTPS_PROXY") and not e.get("http_proxy"):
+        e["http_proxy"] = e["HTTPS_PROXY"]
+    return e
+
+
+def cut_clip(slug, name, src, start, dur, width=960):
+    """Cut [start, start+dur] of a foraged film (URL or path) to a small local mp4, once."""
+    out = SOURCES / slug / f"{name}.mp4"
+    if not out.exists():
+        out.parent.mkdir(parents=True, exist_ok=True)
+        _sp.run(["ffmpeg", "-v", "error", "-y", "-ss", f"{start}", "-t", f"{dur}", "-i", str(src), "-an",
+                 "-vf", f"scale={width}:-2", "-c:v", "libx264", "-crf", "18", "-pix_fmt", "yuv420p", str(out)],
+                check=True, env=_env())
+    return out
+
+
+def decode(path, size=(W, H), fps=FPS, fit="cover", gray=False):
+    """Decode a local video file to a list of PIL frames at the film's frame rate."""
+    w, h = size
+    if fit == "cover":
+        vf = f"fps={fps},scale={w}:{h}:force_original_aspect_ratio=increase,crop={w}:{h}"
+    else:
+        vf = f"fps={fps},scale={w}:{h}:force_original_aspect_ratio=decrease,pad={w}:{h}:(ow-iw)/2:(oh-ih)/2:black"
+    if gray:
+        vf += ",format=gray,format=rgb24"
+    p = _sp.run(["ffmpeg", "-v", "error", "-i", str(path), "-vf", vf, "-f", "rawvideo", "-pix_fmt", "rgb24", "-"],
+                stdout=_sp.PIPE, check=True)
+    n = len(p.stdout) // (w * h * 3)
+    a = np.frombuffer(p.stdout, np.uint8)[: n * w * h * 3].reshape(n, h, w, 3)
+    return [Image.fromarray(x) for x in a]
+
+
+def photo_fit(path, size=(W, H), box=None, fit="cover", gray=False, bg=(0, 0, 0)):
+    """Load a foraged photograph, optionally crop to box (fractions x0,y0,x1,y1), fit to size."""
+    im = Image.open(path).convert("RGB")
+    if box:
+        x0, y0, x1, y1 = box
+        im = im.crop((int(x0 * im.width), int(y0 * im.height), int(x1 * im.width), int(y1 * im.height)))
+    if gray:
+        im = im.convert("L").convert("RGB")
+    w, h = size
+    if fit == "cover":
+        s = max(w / im.width, h / im.height)
+        im = im.resize((max(w, round(im.width * s)), max(h, round(im.height * s))), Image.LANCZOS)
+        l, t = (im.width - w) // 2, (im.height - h) // 2
+        return im.crop((l, t, l + w, t + h))
+    s = min(w / im.width, h / im.height)
+    im = im.resize((round(im.width * s), round(im.height * s)), Image.LANCZOS)
+    out = Image.new("RGB", size, bg)
+    out.paste(im, ((w - im.width) // 2, (h - im.height) // 2))
+    return out
+
+
+def push(img, t, dur, z0=1.0, z1=1.08, c0=(0.5, 0.5), c1=(0.5, 0.5), size=(W, H)):
+    """A slow camera move over a still: zoom z0->z1, centre c0->c1 (fractions)."""
+    f = ease(t, 0, dur)
+    z = lerp(z0, z1, f)
+    cw, ch = img.width / z, img.height / z
+    cx = lerp(c0[0], c1[0], f) * img.width
+    cy = lerp(c0[1], c1[1], f) * img.height
+    cx = min(max(cx, cw / 2), img.width - cw / 2)
+    cy = min(max(cy, ch / 2), img.height - ch / 2)
+    return img.resize(size, Image.BICUBIC, box=(cx - cw / 2, cy - ch / 2, cx + cw / 2, cy + ch / 2))
+
+
+def load_audio(path, start=0.0, dur=None, rate=RATE):
+    """Decode foraged audio to a mono float array at the kit's rate."""
+    cmd = ["ffmpeg", "-v", "error", "-ss", f"{start}"] + (["-t", f"{dur}"] if dur else []) + ["-i", str(path), "-ac", "1", "-ar", str(rate), "-f", "s16le", "-"]
+    p = _sp.run(cmd, stdout=_sp.PIPE, check=True, env=_env())
+    x = np.frombuffer(p.stdout, np.int16).astype(np.float64) / 32768
+    return x / (np.abs(x).max() + 1e-9)

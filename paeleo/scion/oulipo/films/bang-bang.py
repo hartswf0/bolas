@@ -2,8 +2,9 @@
 inventor try a paper wing, a rubber-band rotor and a glide that fails. The glide failure
 is a five-board sequence. The pigeon's captions read each attempt as sensible bird behaviour."""
 import math
+from pathlib import Path
 from kit import *
-from kit_anim import run, hatch_poly, hand_text
+from kit_anim import run, hatch_poly, hand_text, load_audio
 
 film = Film("bang-bang", seconds=30.0, boil=5, wobble=1.5, seed=11)
 film.poster_at = 20.6
@@ -48,34 +49,46 @@ _page = None
 
 
 def page():
-    """Yellowed sheet on a white scanner bed: warm gradient, darker edges, a soft fold,
-    and faint show-through of writing on the back."""
+    """A plain sheet of storyboard paper on the white table: flat colour, a ruled edge."""
     global _page
     if _page is None:
-        rs = np.random.RandomState(4)
-        yy, xx = np.mgrid[0:H, 0:W].astype(np.float32)
-        img = np.zeros((H, W, 3), np.float32) + np.array(SURROUND, np.float32)
-        x0, y0, x1, y1 = 20, 12, 940, 528
-        inside = (xx >= x0) & (xx < x1) & (yy >= y0) & (yy < y1)
-        edge = np.minimum.reduce([xx - x0, x1 - xx, yy - y0, y1 - yy]).clip(0, 60) / 60
-        col = np.array(PAP, np.float32) * (0.93 + 0.07 * edge[..., None])
-        col *= 1 - 0.035 * np.exp(-((xx - 478) / 14) ** 2)[..., None]   # the fold
-        noise = Image.fromarray((rs.uniform(0, 255, (H // 6, W // 6))).astype(np.uint8)).resize((W, H), Image.BICUBIC)
-        col *= (0.985 + 0.03 * np.asarray(noise, np.float32)[..., None] / 255)
-        img[inside] = col[inside]
-        im = Image.fromarray(img.clip(0, 255).astype(np.uint8))
-        d = ImageDraw.Draw(im, "RGBA")
-        d.rectangle([x0 + 3, y1, x1 + 3, y1 + 3], fill=(200, 196, 186, 255))
-        back = Image.new("RGBA", (W, H), (0, 0, 0, 0))
-        bk = Ink(0, 0)
-        bk.img = back
-        bk.d = ImageDraw.Draw(back, "RGBA")
-        hand_text(bk, (640, 120), "et puis encore une fois la même chose, plus haut", 22, (120, 110, 90), width=260, seed=90, alpha=0.22)
-        hand_text(bk, (110, 330), "la planche 4 bis", 22, (120, 110, 90), width=260, seed=91, alpha=0.18)
-        back = back.transpose(Image.FLIP_LEFT_RIGHT).filter(ImageFilter.GaussianBlur(1.4))
-        im.paste(back, (0, 0), back)
+        im = Image.new("RGB", (W, H), SURROUND)
+        d = ImageDraw.Draw(im)
+        d.rectangle([23, 15, 943, 531], fill=(214, 210, 200))
+        d.rectangle([20, 12, 940, 528], fill=PAP)
         _page = im
     return _page
+
+
+# foraged reference prints pinned beside the boards (public domain, Wikimedia Commons / LoC)
+SRC = Path(__file__).resolve().parent / "sources" / "bang-bang"
+REFS = {
+    "02": ("penaud_models.jpg", (60, 500, 490, 725), "réf. : Pénaud, oiseau mécanique (gravure, 1875)"),
+    "03": ("penaud_models.jpg", (90, 80, 370, 265), "réf. : Pénaud, hélicoptère à élastique (gravure, 1875)"),
+    "04": ("lilienthal_start.jpg", (0, 0, 960, 399), "réf. : Lilienthal, le départ (Popular Science Monthly, 1894-95)"),
+    "05": ("lilienthal_start.jpg", (0, 0, 960, 399), "réf. : Lilienthal, le départ (Popular Science Monthly, 1894-95)"),
+    "06": ("lilienthal_loc.jpg", (120, 90, 1150, 720), "réf. : Lilienthal en vol, 1895 (Library of Congress)"),
+    "07": ("lilienthal_loc.jpg", (420, 200, 1000, 560), "réf. : Lilienthal en vol, 1895 (Library of Congress)"),
+    "08": ("lilienthal_loc.jpg", (120, 90, 1150, 720), "réf. : Lilienthal en vol, 1895 (Library of Congress)"),
+}
+_ref_cache = {}
+
+
+def ref_print(ink, bid):
+    if bid not in REFS:
+        return False
+    f, box, cap = REFS[bid]
+    key = (f, box)
+    if key not in _ref_cache:
+        im = Image.open(SRC / f).convert("RGB").crop(box)
+        im.thumbnail((240, 104), Image.LANCZOS)
+        pr = Image.new("RGB", (im.width + 12, im.height + 12), (250, 250, 246))
+        pr.paste(im, (6, 6))
+        _ref_cache[key] = pr.rotate(-2.5, expand=True, resample=Image.BICUBIC, fillcolor=PAP)
+    pr = _ref_cache[key]
+    ink.paste(pr, (658, 306))
+    hand_text(ink, (652, 306 + pr.height + 6), cap, 13, (86, 78, 66), width=280, seed=sum(map(ord, bid)))
+    return True
 
 
 PANEL = (64, 46, 604, 286)       # main board on the sheet
@@ -393,12 +406,14 @@ def frame(t, ink):
     note, aside, margin = NOTES[b[2]]
     hand_text(ink, (640, 40), f"{b[2]}   {b[0]:.0f}–{b[1]:.0f} s   {b[3]}", 19, (80, 70, 60), width=290, seed=k)
     a = ease(lt, 0.05, 0.35)
-    y = hand_text(ink, (640, 96), note, 25, GR, width=280, seed=10 + k, alpha=a)
+    y = hand_text(ink, (640, 92), note, 23, GR, width=285, seed=10 + k, alpha=a)
     hand_text(ink, (648, y + 8), aside, 17, (86, 78, 66), width=270, seed=40 + k, alpha=a)
-    if margin:
+    if not ref_print(ink, b[2]) and margin:
         hand_text(ink, (660, 404), margin, 26, GR, width=260, seed=70 + k, rot=4)
+    elif margin:
+        hand_text(ink, (420, 292), margin, 20, GR, width=200, seed=70 + k)
     # pen-ruled timing line with a tick per board and the playhead
-    yl = 478
+    yl = 500
     ink.line([(64, yl), (904, yl)], GR, 1.8)
     for s_, e_, bid, *_ in BOARDS:
         xx = 64 + s_ / 30 * 840
@@ -411,11 +426,16 @@ def frame(t, ink):
 @film.sound
 def sound(mix):
     R = mix.rate
-    mix.room(0, 30, gain=0.015)
+    # foraged: real pigeons as the bed under everything, a real tower bell in board 01
+    pig = load_audio(SRC / "pigeons.webm", 6.0, 30.0)
+    pig *= np.minimum(1, np.arange(len(pig)) / (1.0 * R))
+    mix.add(pig / (np.abs(pig).max() + 1e-9), 0.0, 0.18)
+    bell = load_audio(SRC / "bell_pribyslav.mp3", 2.0, 3.6)
+    bell *= np.minimum(1, (len(bell) - np.arange(len(bell))) / (0.8 * R))
+    mix.add(bell / (np.abs(bell).max() + 1e-9), 3.0, 0.5, -0.3)
     for s, *_ in BOARDS[1:]:
         mix.whoosh(s - 0.08, 0.18, 0.05)      # board change: a sheet slides
     # 01 bell, a few steps
-    mix.bell(3.1, 587, 3.0, 0.3, -0.4)
     mix.murmur(3.4, 3.2, gain=0.05, pitch=330, pan=0.5)
     # 02 flaps: a paper burst per down-stroke
     for k in range(14):
