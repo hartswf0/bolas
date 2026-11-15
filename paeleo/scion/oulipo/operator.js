@@ -51,6 +51,7 @@ function renderList() {
       item.dataset.id = entry.id;
       if (entry.id === selected.id) item.setAttribute("aria-current", "page");
       item.append(element("span", entry.work, "item-name"), element("span", entry.title, "item-rule"));
+      if (entry.hasFilm) item.append(element("span", "film", "item-film"));
       if (!standalone) {
         item.addEventListener("click", event => {
           if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
@@ -146,7 +147,33 @@ function openImage([key, alt, credit]) {
   dialog.showModal();
 }
 
+function renderFilm(entry) {
+  if (!entry.film) return;
+  const figure = element("figure", null, "film");
+  const video = element("video");
+  video.controls = true;
+  video.preload = "metadata";
+  video.playsInline = true;
+  video.poster = root + entry.film.poster;
+  video.src = root + entry.film.src;
+  video.setAttribute("aria-label", "Proof film for " + entry.work);
+  const caption = element("figcaption");
+  caption.append(element("span", "Proof film · drawn and scored in code", "film-kicker"));
+  if (entry.film.note) caption.append(element("p", entry.film.note));
+  const links = element("p", null, "film-links");
+  const script = element("a", "Frame and sound source");
+  script.href = root + entry.film.script;
+  const file = element("a", "Download .mp4");
+  file.href = root + entry.film.src;
+  file.download = entry.slug + ".mp4";
+  links.append(script, document.createTextNode("  ·  "), file);
+  caption.append(links);
+  figure.append(video, caption);
+  panel.append(figure);
+}
+
 function renderOverview(entry) {
+  renderFilm(entry);
   if (entry.family === "Compiler") {
     for (const index of [0, 8, 9]) {
       const section = entry.sections[index];

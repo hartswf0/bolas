@@ -338,3 +338,36 @@ button, input, pre, dialog { border-radius: 3px; }
 @media (pointer: coarse) {
   .action, .tab, .browse { min-height: 2.75rem; }
 }
+.film {
+  margin: 0 0 2rem;
+  padding-bottom: 1.6rem;
+  border-bottom: 1px solid var(--rule);
+}
+.film video {
+  display: block;
+  width: 100%;
+  max-width: 960px;
+  aspect-ratio: 16 / 9;
+  background: var(--ink);
+  border-radius: 3px;
+}
+.film figcaption { max-width: 72ch; margin-top: .8rem; }
+.film figcaption p { margin: .35rem 0 0; line-height: 1.5; }
+.film-kicker {
+  color: var(--accent);
+  font: .72rem/1.2 var(--mono);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.film-links { color: var(--muted); font-size: .85rem; }
+.item-film {
+  display: inline-block;
+  margin-top: .25rem;
+  padding: 0 .35rem;
+  border: 1px solid var(--rule);
+  border-radius: 2px;
+  color: var(--accent);
+  font: .64rem/1.5 var(--mono);
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
