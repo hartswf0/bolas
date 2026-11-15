@@ -271,7 +271,7 @@ def backdrop(P, era, tau):
             P.line([(0, y), (960, y)], "floor", 1, alpha=110 - k * 15)
         P.rect(600, 80, 760, 170, 0.3, "board")
         P.text((680, 96), "PLATFORM 0", 13, anchor="ma")
-        P.text((680, 124), "07:12  →  ANYWHERE", 13, "lamp", anchor="ma")
+        P.text((680, 124), "07:12  TO  ANYWHERE", 13, "lamp", anchor="ma")
         P.text((680, 148), "doors open for all", 11, "door", anchor="ma")
     # the service door: closed in every era
     dx = 250
