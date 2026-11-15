@@ -52,12 +52,12 @@ def s_bed(t):
     cy = lerp(230, -330, up)
     s = lerp(0.92, 1.25, up)
     if cy > -300:
-        face(R, 470, cy, s, look=(0.0, 0.0), eyes_open=ease(t, 1.8, 2.3) * (1 - up), hair=(70, 62, 56), tex=HAIR_T, base=60, neck=True)
+        face(R, 470, cy, s, look=(0.0, 0.0), eyes_open=ease(t, 1.8, 2.3) * (1 - up), hair=(70, 62, 56), tex=HAIR_T, base=60, neck=False)
     # blanket from the chin down, its folds from the same cloth noise
     blank = poly_mask(W, H, [(0, 400), (960, 380), (960, 540), (0, 540)], blur=6)
     R.z += blank * (90 + CLOTH * 1.5)
     R.col = R.col * (1 - blank[..., None]) + np.asarray((120, 120, 124), np.float32) / 255 * blank[..., None]
-    return R.render(light=LIGHT, amb=0.22, diff=0.95, spec=0.15, smooth=5)
+    return R.render(light=LIGHT, amb=0.2, diff=0.75, spec=0.15, smooth=5)
 
 
 def phone_obj(R, x, y, ringing, t):
@@ -79,7 +79,7 @@ def s_phone(t):
     face(R, 610, 250, 0.82, look=(lerp(0.3, -0.9, look), 0.1), turn=turn, hair=(70, 62, 56), tex=HAIR_T, collar=(200, 200, 196))
     R.slab([(420, 440), (820, 440), (900, 540), (340, 540)], height=60, bevel=16, base=0, color=(90, 90, 92))
     ringing = any(r <= t + 6.0 < r + 1.05 for r in RINGS)
-    a = R.render(light=LIGHT, amb=0.25, diff=0.9, spec=0.25, smooth=4)
+    a = R.render(light=LIGHT, amb=0.2, diff=0.78, spec=0.2, smooth=5)
     a = cast_shadow(a, R.silhouette(), 150, 18, 10, 0.75)  # the shadow double
     R2 = Relief(W, H, bg=a)
     phone_obj(R2, 190, 520, ringing, t)
@@ -97,7 +97,7 @@ def s_held(t):
         wall = vgrad(H, W, (238, 238, 234), (200, 200, 196)) * np.clip(np.linspace(1.08, 0.62, W, dtype=np.float32), 0, 1)[None, :, None]
         R = Relief(W, H, bg=wall)
         face(R, 360, 250, 1.12, look=(-0.3, 0.15), turn=0.25, hair=(74, 66, 58), tex=HAIR_T, collar=(226, 226, 222))
-        a = R.render(light=(-0.6, -0.4, 0.7), amb=0.22, diff=0.95, spec=0.2, smooth=5)
+        a = R.render(light=(-0.6, -0.4, 0.7), amb=0.18, diff=0.8, spec=0.2, smooth=6)
         _HELD = cast_shadow(a, R.silhouette(), 330, 10, 3, 0.78)  # the shadow double on the wall
     return _HELD
 

@@ -41,60 +41,92 @@ CHECK = 6.0
 TOTAL = TOUR_END + CHECK
 
 
-def finish(ink, lt, d):
-    ink.fill(VELVET)
-    ink.hatch(0, 0, W, H, gap=6, angle=70, color=(40, 52, 88), width=1, alpha=160)
-    ang = -0.25 + 0.12 * math.sin(lt * 0.6)
-    s = 5.6
-    cx, cy = W / 2 - 110 * math.cos(ang), H / 2 - 10 - 110 * math.sin(ang)
-    ink.ellipse(W / 2 + 16, H / 2 + 50, 230, 22, fill=(10, 14, 30, 120), color=None)
-    key_shape(ink, cx, cy, s, angle=ang, color=(200, 160, 70))
-    # a glint travelling down the shank
-    g = (lt * 0.35) % 1.0
-    gx, gy = cx + math.cos(ang) * s * lerp(8, 40, g), cy + math.sin(ang) * s * lerp(8, 40, g)
-    for r, a in ((16, 70), (8, 160), (3, 255)):
-        ink.circle(gx, gy - 4, r, fill=(255, 245, 210, a), color=None)
+# ------------------------------------------------------------------ look ---
+# Saturated, glossy forms on pure black, lit like studio product shots:
+# hard speculars, translucent colour, soft out-of-focus coloured lights.
+
+YEL = (255, 196, 30)
+RED_P = (210, 30, 30)
+BLUE_P = (30, 70, 230)
+BLACK = np.zeros((H, W, 3), np.float32)
+GR = dict(sat=1.35, contrast=1.15, pivot=0.35, crush=0.03, blur=0.6, halation=0.3, hal_color=(1.0, 0.8, 0.5), hal_r=14,
+          vignette=0.25, grain=0.025, grain_size=1.2)
+LT = (-0.45, -0.7, 0.6)
 
 
-KEYMASK = None
+def bokeh(arr, items):
+    """Out-of-focus coloured lights: (cx, cy, rx, ry, color, strength)."""
+    for cx, cy, rx, ry, col, k in items:
+        m = ellipse_mask(W, H, cx, cy, rx, ry, blur=max(rx, ry) * 0.25)
+        arr = arr + m[..., None] * np.asarray(col, np.float32) / 255 * k
+    return np.clip(arr, 0, 1)
 
 
-def s_mould(ink, lt, d):
-    ink.fill((60, 48, 40))
-    ink.rect(150, 70, 810, 470, fill=(120, 88, 56), color=INK, width=4)   # the flask
-    ink.rect(180, 100, 780, 440, fill=SAND, color=INK, width=2)
-    rs = np.random.RandomState(1)
-    for _ in range(500):
-        x, y = rs.uniform(185, 775), rs.uniform(105, 435)
-        ink.d.point((x, y), fill=(170, 150, 116))
-    # the cavity: the key's negative, plus the sprue and runner
-    cx, cy, s = 300, 270, 4.4
-    key_shape(ink, cx, cy, s, angle=0, color=(120, 100, 76), outline=(90, 74, 58))
-    ink.rect(cx + 40 * s, cy - 7, 700, cy + 7, fill=(120, 100, 76), color=(90, 74, 58), width=2)
-    ink.circle(710, cy, 26, fill=(120, 100, 76), color=(90, 74, 58), width=2)
-    # backward shot: the rough casting comes down out of the air into its hollow
+def key_relief(R, x, y, s, angle=0.0, color=YEL, base=0.0, gloss=1.0, trans=0.35):
+    ca, sa = math.cos(angle), math.sin(angle)
+
+    def P(px, py):
+        return (x + (px * ca - py * sa) * s, y + (px * sa + py * ca) * s)
+    n = 20
+    ring = [P(9 * math.cos(2 * math.pi * k / n), 9 * math.sin(2 * math.pi * k / n)) for k in range(n + 1)]
+    for p0, p1 in zip(ring, ring[1:]):
+        R.capsule(p0, p1, 3.4 * s, base=base, color=color, gloss=gloss, trans=trans)
+    R.capsule(P(10, 0), P(40, 0), 2.6 * s, base=base, color=color, gloss=gloss, trans=trans)
+    for bx0, bx1, by in ((29, 34, 9.5), (35.5, 40, 7.5)):
+        R.slab([P(bx0, 1), P(bx1, 1), P(bx1, by), P(bx0, by)], height=4.5 * s, bevel=1.2 * s, base=base, color=color, gloss=gloss, trans=trans)
+    R.ellipsoid(*P(40, 0), 3 * s, 3 * s, base=base, color=color, gloss=gloss, trans=trans)
+
+
+def finish(lt, d):
+    bg = bokeh(BLACK, [(W * 0.7, 150, 330, 26, BLUE_P, 0.55), (180, 380, 70, 70, BLUE_P, 0.5), (820, 400, 26, 26, RED_P, 0.6),
+                       (110, 120, 18, 18, YEL, 0.4)])
+    R = Relief(W, H, bg=bg)
+    ang = -0.22 + 0.10 * math.sin(lt * 0.6)
+    s = 6.0
+    key_relief(R, W / 2 - 120 * math.cos(ang), H / 2 - 30 - 120 * math.sin(ang), s, ang)
+    g = (lt * 0.3) % 1.0
+    lt_ = (lerp(-0.9, 0.2, g), -0.7, 0.6)
+    return R.render(light=lt_, amb=0.25, diff=0.75, spec=1.6, shin=70, smooth=1), "STEP 1 · finished key · held"
+
+
+KEY_HOLE = None
+
+
+def s_mould(lt, d):
+    """A red glossy mould block holding the key's negative; the casting sinks back into it."""
+    bg = bokeh(BLACK, [(820, 90, 60, 60, BLUE_P, 0.4), (120, 470, 30, 30, YEL, 0.3)])
+    R = Relief(W, H, bg=bg)
+    R.slab([(130, 120), (830, 120), (830, 440), (130, 440)], height=60, bevel=12, base=0, color=RED_P, gloss=0.8, trans=0.2)
+    # carve the hollow: a key-shaped negative pressed into the top face
+    cav = Relief(W, H)
+    cx, cy, s = 290, 280, 4.4
+    key_relief(cav, cx, cy, s, 0, color=(255, 255, 255))
+    cav.capsule((cx + 40 * s, cy), (700, cy), 2.4 * s)
+    cav.ellipsoid(712, cy, 26, 26)
+    hole = cav.hit.astype(np.float32)
+    zc = np.where(cav.hit, cav.z, 0)
+    R.z -= hole * (zc + 8)
+    R.col = R.col * (1 - 0.45 * hole[..., None])
+    # backward shot: the rough casting (with sprue) comes down out of the air into its hollow
     f = ease(lt, 0.2, d - 0.4)
     lift = 1 - f
     sc = s * (1 + 0.22 * lift)
-    ox, oy = -30 * lift, -60 * lift
+    ox, oy = -30 * lift, -70 * lift
+    k = sc / s
+    key_relief(R, cx + ox, cy + oy, sc, 0, color=YEL, base=50 + 120 * lift, trans=0.25)
+    R.capsule((cx + ox + 40 * sc, cy + oy), (cx + ox + 40 * sc + (700 - cx - 40 * s) * k, cy + oy), 2.4 * sc, base=50 + 120 * lift, color=YEL, gloss=1.0)
+    R.ellipsoid(cx + ox + 40 * sc + (712 - cx - 40 * s) * k, cy + oy, 26 * k, 26 * k, base=50 + 120 * lift, color=YEL, gloss=1.0)
+    a = R.render(light=LT, amb=0.25, diff=0.75, spec=1.4, shin=60, smooth=1)
     if lift > 0.02:
-        ink.ellipse(cx + 90 * s / 4.4 + 20, cy + 30, 190 * (1 + lift * 0.3), 30, fill=(0, 0, 0, int(70 * lift)), color=None)
-    rough = (176, 140, 70)
-    key_shape(ink, cx + ox, cy + oy, sc, angle=0, color=rough)
-    ink.rect(cx + ox + 40 * sc, cy + oy - 6, cx + ox + 40 * sc + (700 - cx - 40 * s) * (sc / s), cy + oy + 6, fill=rough, color=INK, width=2)
-    ink.circle(cx + ox + 40 * sc + (710 - cx - 40 * s) * (sc / s), cy + oy, 24 * sc / s, fill=rough, color=INK, width=2)
-    tag(ink, (18, 16), "STEP 2 · sand mould, opened · shot runs backward (casting returns to its hollow)", 12, PAGE, NIGHT, alpha=190)
+        pass
+    return a, "STEP 2 · the mould and its hollow · shot runs backward (the casting returns)"
 
 
-def s_melt(ink, lt, d):
-    ink.fill((26, 20, 22))
-    for r, a in ((380, 30), (260, 40), (160, 50)):
-        ink.circle(430, 260, r, fill=(120, 50, 20, a), color=None)
-    # mould below with sprue cup
-    ink.rect(300, 420, 760, 540, fill=(120, 88, 56), color=INK, width=3)
-    ink.rect(320, 420, 740, 440, fill=SAND, color=INK, width=2)
-    ink.circle(560, 430, 16, fill=(60, 40, 30), color=INK, width=2)
-    # backward shot: the pour retracts and the crucible tilts back upright
+def s_melt(lt, d):
+    bg = bokeh(BLACK, [(430, 230, 300, 260, (255, 90, 10), 0.18), (820, 120, 40, 40, BLUE_P, 0.4)])
+    R = Relief(W, H, bg=bg)
+    R.slab([(300, 430), (760, 430), (760, 540), (300, 540)], height=50, bevel=10, base=0, color=RED_P, gloss=0.8)
+    R.dent(560, 440, 22, 12, 20)
     f = ease(lt, 0.2, d - 0.3)
     tilt = lerp(0.85, 0.15, f)
     px, py = 470, 210
@@ -102,60 +134,62 @@ def s_melt(ink, lt, d):
 
     def P(x, y):
         return (px + x * ca - y * sa, py + x * sa + y * ca)
+    R.slab([P(-70, -70), P(70, -70), P(52, 80), P(-52, 80)], height=70, bevel=20, base=60, color=(40, 50, 120), gloss=1.0)
+    R.slab([P(-60, -66), P(60, -66), P(56, -40), P(-56, -40)], height=12, bevel=4, base=125, color=(255, 170, 40), gloss=0.6)
+    R.capsule(P(-90, 0), P(-230, 30), 9, base=110, color=(60, 60, 80), gloss=1.0)
+    R.capsule(P(90, 0), P(230, 30), 9, base=110, color=(60, 60, 80), gloss=1.0)
     lip = P(70, -70)
-    stream_len = max(0.0, 1 - f * 1.25)
-    if stream_len > 0:
-        end = lerp2(lip, (560, 430), stream_len)
-        for w, c in ((20, (255, 120, 30, 90)), (10, GLOW), (4, (255, 230, 150))):
-            ink.line([lip, ((lip[0] + end[0]) / 2 + 12, (lip[1] + end[1]) / 2), end], c, w)
-    ink.poly([P(-70, -70), P(70, -70), P(52, 80), P(-52, 80)], fill=(70, 62, 60), color=INK, width=3)
-    ink.poly([P(-62, -60), P(62, -60), P(58, -30), P(-58, -30)], fill=GLOW, color=(255, 200, 120), width=2)
-    ink.line([P(-90, 0), P(-200, 20)], (60, 60, 64), 8)   # tongs
-    ink.line([P(90, 0), P(200, 20)], (60, 60, 64), 8)
+    stream = max(0.0, 1 - f * 1.25)
+    a = R.render(light=LT, amb=0.25, diff=0.75, spec=1.3, shin=60, smooth=1)
+    if stream > 0:
+        end = lerp2(lip, (560, 440), stream)
+        m = np.zeros((H, W), np.float32)
+        for k in range(30):
+            q = lerp2(lip, end, k / 29)
+            m = np.maximum(m, ellipse_mask(W, H, q[0] + 10 * math.sin(k / 5), q[1], 9, 9))
+        a = comp(a, (255, 200, 80), blur_arr(m, 2))
+        a = np.clip(a + blur_arr(m, 18)[..., None] * np.array([1.0, 0.45, 0.05]) * 0.8, 0, 1)
+    glow = ellipse_mask(W, H, *P(0, -55), 70, 18, blur=20)
+    a = np.clip(a + glow[..., None] * np.array([1.0, 0.5, 0.1]) * 0.7, 0, 1)
     rs = np.random.RandomState(int(lt * 12))
-    for _ in range(14):
-        x, y = lip[0] + rs.normal(0, 60), lip[1] + rs.normal(60, 70)
-        ink.circle(x, y, rs.uniform(1, 3), fill=(255, 210, 120), color=None)
-    tag(ink, (18, 16), "STEP 3 · molten brass, c. 950 °C · shot runs backward (the pour climbs home)", 12, PAGE, NIGHT, alpha=190)
+    for _ in range(18):
+        x, y = lip[0] + rs.normal(0, 70), lip[1] + rs.normal(60, 80)
+        a = comp(a, (255, 220, 140), ellipse_mask(W, H, x, y, rs.uniform(1.5, 3.5), rs.uniform(1.5, 3.5)))
+    return a, "STEP 3 · molten brass, c. 950 °C · shot runs backward (the pour climbs home)"
 
 
-def s_stock(ink, lt, d):
-    ink.fill((52, 56, 60))
-    ink.rect(60, 330, 900, 360, fill=(120, 96, 70), color=INK, width=3)
-    ink.d.rectangle([60, 360, 900, 540], fill=(70, 62, 56))
+def s_stock(lt, d):
+    bg = bokeh(BLACK, [(160, 110, 90, 90, BLUE_P, 0.35), (840, 120, 30, 30, YEL, 0.5)])
+    R = Relief(W, H, bg=bg)
 
-    def ingot(x, y, col, lab):
-        ink.poly([(x, y), (x + 150, y), (x + 136, y - 46), (x + 14, y - 46)], fill=col, color=INK, width=2.5)
-        ink.line([(x + 18, y - 40), (x + 132, y - 40)], mix_color(col, PAGE, 0.4), 2)
-        ink.text((x + 75, y - 22), lab, "mono", 16, INK, anchor="mm")
+    def ingot(x, y, col, base=0):
+        R.slab([(x, y), (x + 160, y), (x + 144, y - 56), (x + 16, y - 56)], height=50, bevel=12, base=base, color=col, gloss=1.0, trans=0.15)
     for i in range(3):
-        ingot(110 + i * 165, 330, COPPER, "Cu")
-    ingot(140 + 0 * 165, 284, COPPER, "Cu")
+        ingot(100 + i * 175, 380, (200, 70, 30))
+    ingot(140, 322, (200, 70, 30), base=40)
     for i in range(2):
-        ingot(620 + i * 140, 330, ZINC, "Zn")
-    ink.text((W / 2, 392), "raw stock · copper 63 · zinc 37 · yellow brass, as declared", "mono", 14, RULE, anchor="mm")
-    tag(ink, (18, 16), "STEP 4 · raw stock · shot runs forward", 12, PAGE, NIGHT, alpha=190)
+        ingot(630 + i * 160, 380, (110, 140, 235))
+    a = R.render(light=LT, amb=0.25, diff=0.8, spec=1.3, shin=50, smooth=1)
+    return a, "STEP 4 · raw stock: copper (Cu) and zinc (Zn) · shot runs forward"
 
 
-def prologue(ink, lt):
-    ink.fill((214, 206, 190))
-    for x in range(0, W, 60):
-        ink.line([(x, 0), (x, 330)], RULE, 1, alpha=150)
-    ink.d.rectangle([0, 330, W, H], fill=WASH)
-    ink.line([(0, 330), (W, 330)], INK, 2)
-    door(ink, 790, 330, 90, 170, sign="SERVICE")
-    bench(ink, 420, 420, 300)
+def prologue(lt):
+    bg = bokeh(BLACK, [(780, 140, 90, 90, BLUE_P, 0.45), (150, 100, 20, 20, YEL, 0.4)])
+    R = Relief(W, H, bg=bg)
+    # the bench: two red slats on dark legs
+    for y0 in (300, 360):
+        R.slab([(150, y0), (760, y0 - 6), (760, y0 + 30), (150, y0 + 36)], height=30, bevel=8, base=20, color=RED_P, gloss=0.9)
+    for x0 in (190, 700):
+        R.capsule((x0, 400), (x0, 520), 10, base=10, color=(50, 50, 70), gloss=1.0)
     down = ease(lt, 0.4, 1.8)
     away = ease(lt, 2.6, 3.6)
-    kx, ky = 420, lerp(200, 368, down)
-    if lt < 2.4:
-        key_shape(ink, kx - 20, ky, 1.2, angle=0.1)
-    else:
-        key_shape(ink, kx - 20, 368, 1.2, angle=0.1)
-    hy = lerp(150, 350, down) - 400 * away
-    ink.poly([(kx - 30, -20), (kx + 20, -20), (kx + 24, hy - 30), (kx - 34, hy - 30)], fill=(70, 82, 98), color=INK, width=2)
-    ink.ellipse(kx - 5, hy - 12, 26, 22, fill=(224, 196, 170), color=INK, width=2)
-    tag(ink, (18, 16), "prologue · station record · the key is left on the bench", 12, PAGE, NIGHT, alpha=190)
+    ky = lerp(120, 300, down) if lt < 2.4 else 300
+    key_relief(R, 400, ky, 2.2, 0.1, base=60)
+    hy = lerp(80, 280, down) - 420 * away
+    R.capsule((440, hy - 300), (440, hy - 40), 34, base=90, color=(30, 50, 140), gloss=0.5)
+    R.ellipsoid(430, hy - 20, 34, 30, base=100, color=(236, 170, 130), gloss=0.4)
+    a = R.render(light=LT, amb=0.25, diff=0.75, spec=1.3, shin=60, smooth=1)
+    return a, "prologue · station record · the key is left on the bench"
 
 
 def verse_overlay(ink, t):
@@ -165,7 +199,7 @@ def verse_overlay(ink, t):
             continue
         al = min(1, (t - a) / 0.25, (b - t) / 0.25)
         y = H - 74
-        ink.d.rectangle([0, y - 34, W, H], fill=NIGHT + (int(200 * al),))
+        ink.d.rectangle([0, y - 58, W, H], fill=(0, 0, 0, int(170 * al)))
         lit = sum(1 for o in on if o <= t)
         f1 = PAGE if lit >= 1 else RULE
         ink.text((W / 2 - 22, y - 8), h1, "serif", 30, PAGE, anchor="rm", alpha=int(255 * al))
@@ -183,7 +217,7 @@ def verse_overlay(ink, t):
 
 
 def check_card(ink, lt):
-    ink.fill(NIGHT)
+    ink.fill((0, 0, 0))
     ink.text((60, 44), "order check", "serif", 36, PAGE)
     ink.text((60, 104), "process edges   raw stock  >  melt  >  mould + pour  >  casting  >  finish", "mono", 14, RULE)
     ink.text((60, 134), "tour            finish, mould, melt, raw stock   (reverse dependency order)   passes", "mono", 14, PAGE)
@@ -201,18 +235,20 @@ def check_card(ink, lt):
              "mono", 11, RULE, anchor="mm")
 
 
-film = Film("le-chant-du-styrene", seconds=TOTAL, boil=6, wobble=1.1)
+film = Film("le-chant-du-styrene", seconds=TOTAL, boil=0, wobble=0)
 film.poster_at = (CUT2 + CUT3) / 2
 
 
 @film.picture
 def frame(t, ink):
     if t < PRE[0][1]:
-        title_card(ink, "Le Chant du laiton", "a reverse tour from a cast key · four alexandrines")
+        title_card(ink, "Le Chant du laiton", "a reverse tour from a cast key · four alexandrines", ground=(0, 0, 0))
         fade_edges(ink, t, PRE[0][1], 0.3)
         return
     if t < TOUR0:
-        prologue(ink, t - PRE[0][1])
+        arr, lab = prologue(t - PRE[0][1])
+        put(ink, photo(arr, seed=int(t * FPS), **GR))
+        tag(ink, (18, 16), lab, 12, (240, 240, 240), (0, 0, 0), alpha=170)
         fade_edges(ink, t - PRE[0][1], PRE[1][1], 0.3)
         return
     if t >= TOUR_END:
@@ -223,9 +259,9 @@ def frame(t, ink):
         if a <= t < b:
             break
     lt, d = t - a, b - a
-    {"finish": finish, "mould": s_mould, "melt": s_melt, "stock": s_stock}[name](ink, lt, d)
-    if name == "finish":
-        tag(ink, (18, 16), "STEP 1 · finished key · held", 12, PAGE, NIGHT, alpha=190)
+    arr, lab = {"finish": finish, "mould": s_mould, "melt": s_melt, "stock": s_stock}[name](lt, d)
+    put(ink, photo(arr, seed=int(t * FPS), **GR))
+    tag(ink, (18, 16), lab, 12, (240, 240, 240), (0, 0, 0), alpha=170)
     verse_overlay(ink, t)
     if t > TOUR_END - 0.4:
         fade_edges(ink, t - (TOUR_END - 0.4), 0.4, 0.4)

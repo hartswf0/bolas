@@ -579,8 +579,8 @@ def face(R, cx, cy, s=1.0, skin=SKIN, hair=(78, 64, 52), look=(0.0, 0.0), turn=0
     if neck:
         R.capsule((cx + ox * 0.2, cy + 100 * s), (cx + ox * 0.1, cy + 230 * s), 66 * s, 74 * s, depth=0.7, base=base - 40 * s, color=mix_color(skin, (120, 80, 70), 0.15))
         if collar is not None:
-            R.slab([(cx - 440 * s, cy + 520 * s), (cx - 330 * s, cy + 270 * s), (cx - 150 * s, cy + 215 * s), (cx - 60 * s, cy + 195 * s), (cx, cy + 290 * s),
-                    (cx + 60 * s, cy + 195 * s), (cx + 150 * s, cy + 215 * s), (cx + 330 * s, cy + 270 * s), (cx + 440 * s, cy + 520 * s)],
+            R.slab([(cx - 440 * s, cy + 520 * s), (cx - 330 * s, cy + 225 * s), (cx - 150 * s, cy + 180 * s), (cx - 60 * s, cy + 175 * s), (cx, cy + 290 * s),
+                    (cx + 60 * s, cy + 175 * s), (cx + 150 * s, cy + 180 * s), (cx + 330 * s, cy + 225 * s), (cx + 440 * s, cy + 520 * s)],
                    height=90 * s, bevel=40 * s, base=base - 20 * s, color=collar, gloss=0.08)
             R.slab([(cx - 75 * s, cy + 190 * s), (cx, cy + 300 * s), (cx - 10 * s, cy + 320 * s), (cx - 120 * s, cy + 240 * s)], height=14 * s, bevel=4 * s, base=base + 70 * s, color=collar)
             R.slab([(cx + 75 * s, cy + 190 * s), (cx, cy + 300 * s), (cx + 10 * s, cy + 320 * s), (cx + 120 * s, cy + 240 * s)], height=14 * s, bevel=4 * s, base=base + 70 * s, color=collar)
@@ -594,7 +594,7 @@ def face(R, cx, cy, s=1.0, skin=SKIN, hair=(78, 64, 52), look=(0.0, 0.0), turn=0
     for side in (-1, 1):
         R.bump(fx + side * 54 * s, cy + 34 * s, 36 * s, 28 * s, 9 * s + 6 * s * smile, soft=True)   # cheeks
         R.dent(fx + side * 44 * s, cy - 20 * s, 34 * s, 22 * s, 12 * s)            # sockets
-    R.bump(fx + ox * 0.3, cy + 2 * s, 13 * s, 42 * s, 16 * s, soft=False)          # nose bridge
+    R.bump(fx + ox * 0.3, cy + 2 * s, 15 * s, 44 * s, 14 * s, soft=True)          # nose bridge
     R.bump(fx + ox * 0.35, cy + 32 * s, 20 * s, 14 * s, 12 * s, soft=True)         # nose tip
     for side in (-1, 1):
         R.bump(fx + ox * 0.3 + side * 15 * s, cy + 38 * s, 9 * s, 7 * s, 5 * s, soft=True)

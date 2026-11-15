@@ -695,3 +695,68 @@ def photo_key(ph, x, y, s=1.0, angle=0.0, col=0.72, spec=0.5):
     ph.capsule(R(8, 0), R(40, 0), 2.6 * s, 2.6 * s, col, amb=0.35, spec=spec)
     ph.rect(*R(30, 2), *R(34, 9), C(col) * 0.85, blur=0.5)
     ph.rect(*R(36, 2), *R(40, 7), C(col) * 0.85, blur=0.5)
+
+
+def _shade_from_height(ph, Hpx, albedo, amb=0.25, spec=0.0, shine=14, light=None):
+    """Lambert + specular from a height field given in pixels."""
+    L = ph.light if light is None else np.array(light, np.float32) / np.linalg.norm(light)
+    gy, gx = np.gradient(Hpx)
+    n = np.stack([-gx, -gy, np.ones_like(gx)], -1)
+    n /= np.linalg.norm(n, axis=-1, keepdims=True)
+    lam = np.clip(n @ L, 0, 1)
+    hv = L + np.array([0, 0, 1], np.float32)
+    hv /= np.linalg.norm(hv)
+    sp = np.clip(n @ hv, 0, 1) ** shine
+    return albedo * (amb + (1 - amb) * lam)[..., None] + (spec * sp)[..., None]
+
+
+def pillow(ph, pts, color, radius=12, amb=0.25, spec=0.0, shine=14, blur=0.8, alpha=1.0, depth=1.0, light=None):
+    """Fill a polygon and shade it as a soft inflated volume (photographic forms without outlines)."""
+    sp = ph.Pl(pts)
+    R = radius * ph.s
+    box = ph._box(sp, R * 2 + 4)
+    if not box:
+        return
+    x0, y0, x1, y1 = box
+    m = _Image.new("L", (x1 - x0, y1 - y0), 0)
+    _Draw.Draw(m).polygon([(x - x0, y - y0) for x, y in sp], fill=255)
+    hgt = np.asarray(m.filter(_Filter.GaussianBlur(max(1.0, R))), np.float32) / 255.0
+    mask = np.asarray(m.filter(_Filter.GaussianBlur(blur)) if blur > 0.3 else m, np.float32)[..., None] / 255.0
+    Hpx = np.sqrt(np.clip(hgt, 0, 1)) * R * depth
+    alb = ph._colour(color, box)
+    if alb.ndim == 1:
+        alb = np.broadcast_to(alb, (y1 - y0, x1 - x0, 3))
+    c = _shade_from_height(ph, Hpx, alb, amb, spec, shine, light)
+    ph._comp(box, mask, c, alpha)
+
+
+def gauss_bumps(nx, ny, bumps):
+    out = np.zeros_like(nx)
+    for bx, by, sx, sy, a in bumps:
+        out += a * np.exp(-(((nx - bx) / sx) ** 2 + ((ny - by) / sy) ** 2))
+    return out
+
+
+def face_volume(ph, cx, cy, r, f, skin, bumps, egg=(0.74, 1.0, 0.14), amb=0.22, spec=0.12, shine=12, albedo_fn=None):
+    """A head as one smooth height field: an egg plus gaussian features (nose, brow, cheeks, lips, chin).
+    Coordinates of bumps are in head radii, x mirrored by facing f."""
+    (sx, sy) = ph.P(cx, cy)
+    R = r * ph.s
+    box = ph._box([(sx - 1.15 * R, sy - 1.2 * R), (sx + 1.15 * R, sy + 1.25 * R)], 4)
+    if not box:
+        return
+    xx, yy = ph._grid(box)
+    nx, ny = (xx - sx) / R * f, (yy - sy) / R
+    rx, ry, taper = egg
+    w = rx - taper * np.clip(ny, 0, 1) ** 1.5
+    q = (nx / w) ** 2 + (ny / ry) ** 2
+    h0 = np.sqrt(np.clip(1 - q, 0, 1))
+    Hn = h0 + gauss_bumps(nx, ny, bumps)
+    mask = np.clip((Hn - 0.02) / 0.05, 0, 1)
+    mi = _Image.fromarray((mask * 255).astype(np.uint8)).filter(_Filter.GaussianBlur(0.8))
+    mask = np.asarray(mi, np.float32)[..., None] / 255.0
+    alb = np.broadcast_to(C(skin), mask.shape[:2] + (3,)).copy()
+    if albedo_fn is not None:
+        alb = albedo_fn(nx, ny, alb)
+    c = _shade_from_height(ph, Hn * R * 0.9, alb, amb, spec, shine)
+    ph._comp(box, mask, c, 1.0)

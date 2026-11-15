@@ -23,182 +23,228 @@ CUTS = {3.4: "continuity cut", 5.6: "jump cut · two kilometres in one stride", 
 QUEUE_X = [430, 500, 570, 640, 710, 780, 850, 920]
 
 
-def girl(ink, x, y, pose, phase, facing=1, anchor=True, arm=None, env=True):
-    coat = RED if anchor else (70, 96, 130)
-    f = figure(ink, x, y, 1.0, pose, phase, facing, coat=coat, arm=arm)
-    hx, hy = f["head"]
-    if anchor:
-        ink.ellipse(hx - 2 * facing, hy - 9, 13, 5, fill=INK, color=INK, width=1)  # beret
-        ink.circle(hx - 2 * facing, hy - 15, 2.5, fill=INK, color=INK, width=1)
-        if env:
-            ex, ey = f["hands"][0]
-            envelope(ink, ex + 10 * facing, ey - 4, 32, 21)
-            ink.circle(ex + 8 * facing, ey - 3, 3, fill=ACCENT, color=None)
+# ------------------------------------------------------------------ look ---
+# Warm 1960 colour negative: saturated skin and browns, shallow focus (soft
+# backgrounds, sharp figures), halation in the highlights, fine grain.
+
+GIRL_SKIN = (238, 172, 138)
+GIRL_HAIR = (118, 62, 30)
+BERET = (34, 40, 70)
+GR = dict(sat=1.25, contrast=1.12, pivot=0.45, blur=0.9, tone=((1.06, 0.95, 0.82), (1.04, 1.0, 0.92)), halation=0.16,
+          hal_color=(1.0, 0.7, 0.45), hal_r=14, vignette=0.42, grain=0.035, grain_size=1.4, gain=1.02)
+LT = (-0.5, -0.6, 0.7)
+HT = hair_tex(W, H, 7)
+_PLATES = {}
+
+
+def plate(name):
+    """Background plates, painted once in soft colour and thrown out of focus."""
+    if name in _PLATES:
+        return _PLATES[name]
+    if name == "streetA":
+        a = vgrad(H, W, (236, 222, 196), (200, 180, 150))
+        for x, w, c in ((0, 260, (196, 140, 96)), (260, 220, (150, 160, 120)), (480, 260, (214, 176, 130)), (740, 220, (170, 120, 110))):
+            a = comp(a, c, poly_mask(W, H, [(x, 40), (x + w, 60), (x + w, 400), (x, 400)]))
+            for wx in range(x + 30, x + w - 40, 70):
+                for wy in (90, 210):
+                    a = comp(a, (60, 50, 44), poly_mask(W, H, [(wx, wy), (wx + 40, wy), (wx + 40, wy + 70), (wx, wy + 70)]))
+        a = comp(a, (120, 110, 100), poly_mask(W, H, [(0, 400), (W, 400), (W, H), (0, H)]))
+        a = blur_arr(a, 7)
+        # the sign, nearer the lens, less blurred
+        sg = np.zeros_like(a)
+        img = Image.new("RGB", (W, H), (0, 0, 0))
+        d = ImageDraw.Draw(img)
+        d.rectangle([590, 60, 900, 170], fill=(244, 238, 222))
+        d.text((745, 98), "GARE", font=font("serif", 44), fill=(30, 26, 24), anchor="mm")
+        d.text((745, 144), "the 4·10 to the sea", font=font("mono", 17), fill=(170, 40, 40), anchor="mm")
+        d.polygon([(905, 100), (935, 115), (905, 130)], fill=(244, 238, 222))
+        m = poly_mask(W, H, [(590, 60), (900, 60), (938, 115), (900, 170), (590, 170)])
+        a = a * (1 - m[..., None]) + blur_arr(np.asarray(img, np.float32) / 255, 1.2) * m[..., None]
+        a = comp(a, (60, 56, 52), poly_mask(W, H, [(740, 170), (752, 170), (752, 400), (740, 400)], blur=2))
+    elif name == "streetB":
+        a = vgrad(H, W, (226, 214, 190), (190, 170, 140))
+        for x, w, c in ((0, 300, (130, 140, 160)), (300, 200, (206, 170, 120)), (500, 260, (180, 176, 150)), (760, 200, (160, 120, 100))):
+            a = comp(a, c, poly_mask(W, H, [(x, 60), (x + w, 50), (x + w, 330), (x, 330)]))
+            for wx in range(x + 30, x + w - 40, 64):
+                a = comp(a, (70, 60, 54), poly_mask(W, H, [(wx, 110), (wx + 36, 110), (wx + 36, 170), (wx, 170)]))
+        a = comp(a, (178, 168, 152), poly_mask(W, H, [(0, 330), (W, 330), (W, 410), (0, 410)]))
+        a = comp(a, (92, 88, 90), poly_mask(W, H, [(0, 410), (W, 410), (W, H), (0, H)]))
+        a = comp(a, (60, 110, 170), ellipse_mask(W, H, 700, 200, 24, 24))
+        a = blur_arr(a, 5)
+    elif name in ("front", "gate"):
+        a = vgrad(H, W, (214, 224, 230), (230, 220, 200))
+        a = comp(a, (212, 190, 156), poly_mask(W, H, [(200, 20), (W, 20), (W, 330), (200, 330)]))
+        if name == "front":
+            a = comp(a, (110, 86, 70), poly_mask(W, H, [(420, 330)] + [(640 + 220 * math.cos(math.pi + math.pi * k / 30), 330 + 220 * math.sin(math.pi + math.pi * k / 30)) for k in range(31)]))
+            img = Image.new("RGB", (W, H), (212, 190, 156))
+            ImageDraw.Draw(img).text((640, 60), "GARE", font=font("serif", 46), fill=(50, 40, 34), anchor="mm")
+            a = np.minimum(a, np.asarray(img, np.float32) / 255 + (1 - poly_mask(W, H, [(540, 30), (740, 30), (740, 95), (540, 95)]))[..., None])
+        else:
+            img = Image.new("RGB", (W, H), (212, 190, 156))
+            ImageDraw.Draw(img).text((680, 90), "QUAIS · DÉPARTS", font=font("mono", 26), fill=(50, 40, 34), anchor="mm")
+            a = np.minimum(a, np.asarray(img, np.float32) / 255 + (1 - poly_mask(W, H, [(480, 60), (880, 60), (880, 120), (480, 120)]))[..., None])
+        a = comp(a, (176, 164, 146), poly_mask(W, H, [(0, 330), (W, 330), (W, H), (0, H)]))
+        a = blur_arr(a, 3.5)
+    else:  # platform
+        a = vgrad(H, W, (216, 206, 186), (180, 170, 150))
+        a = comp(a, (130, 96, 76), poly_mask(W, H, [(60, 40), (160, 40), (160, 220), (60, 220)]))
+        img = Image.new("RGB", (W, H), (0, 0, 0))
+        ImageDraw.Draw(img).text((110, 28), "SERVICE", font=font("mono", 14), fill=(250, 245, 230), anchor="mm")
+        a = np.maximum(a, np.asarray(img, np.float32) / 255)
+        a = comp(a, (120, 116, 110), poly_mask(W, H, [(0, 220), (W, 220), (W, 370), (0, 370)]))
+        a = comp(a, (226, 214, 190), poly_mask(W, H, [(0, 370), (W, 370), (W, H), (0, H)]))
+        a = blur_arr(a, 3)
+    _PLATES[name] = a
+    return a
+
+
+def envelope_r(R, x, y, w=44, h=30, base=120):
+    R.slab([(x - w / 2, y - h / 2), (x + w / 2, y - h / 2), (x + w / 2, y + h / 2), (x - w / 2, y + h / 2)], height=6, bevel=2, base=base, color=(244, 240, 228), gloss=0.2)
+    R.ellipsoid(x, y, 6, 6, depth=4, base=base + 6, color=(190, 30, 30), gloss=0.8)
+
+
+def key_r(R, x, y, s=1.0, angle=0.0, base=40):
+    ca, sa = math.cos(angle), math.sin(angle)
+
+    def P(px, py):
+        return (x + (px * ca - py * sa) * s, y + (px * sa + py * ca) * s)
+    ring = [P(9 * math.cos(2 * math.pi * k / 16), 9 * math.sin(2 * math.pi * k / 16)) for k in range(17)]
+    for p0, p1 in zip(ring, ring[1:]):
+        R.capsule(p0, p1, 3.2 * s, base=base, color=(214, 168, 70), gloss=1.0)
+    R.capsule(P(10, 0), P(40, 0), 2.5 * s, base=base, color=(214, 168, 70), gloss=1.0)
+    R.slab([P(30, 1), P(34, 1), P(34, 9), P(30, 9)], height=4 * s, bevel=1, base=base, color=(214, 168, 70), gloss=1.0)
+    R.slab([P(36, 1), P(40, 1), P(40, 7), P(36, 7)], height=4 * s, bevel=1, base=base, color=(214, 168, 70), gloss=1.0)
+
+
+def girl(R, x, y, pose, phase, facing=1, anchor=True, arm=None, env=True, hgt=250):
+    coat = (186, 46, 40) if anchor else (60, 90, 140)
+    f = person(R, x, y, hgt, phase, pose, facing, coat=coat, trousers=(236, 172, 138), hair=GIRL_HAIR if anchor else (40, 34, 30),
+               skin=GIRL_SKIN, hat=BERET if anchor else None, arm=arm, base=60, gloss=0.25, child=True)
+    if anchor and env:
+        hx, hy = f["hands"][0]
+        envelope_r(R, hx + 14 * facing, hy - 8, base=200)
     return f
 
 
-def street(ink, palette, sign=False, stop=False):
-    ink.fill(SKY)
-    x = 0
-    for k, (w, h, c) in enumerate(palette):
-        ink.rect(x, 300 - h, x + w, 300, fill=c, color=INK, width=2.5)
-        for wx in range(int(x) + 20, int(x + w) - 30, 50):
-            for wy in range(320 - h, 270, 60):
-                ink.rect(wx, wy, wx + 26, wy + 34, fill=(230, 232, 226), color=INK, width=1.5)
-        x += w
-    ink.d.rectangle([0, 300, W, 400], fill=(178, 172, 162))
-    ink.line([(0, 300), (W, 300)], INK, 2)
-    ink.d.rectangle([0, 400, W, H], fill=(100, 98, 100))
-    ink.line([(0, 400), (W, 400)], INK, 3)
-    for xx in range(0, W, 120):
-        ink.line([(xx, 470), (xx + 60, 470)], PAGE, 4, rough=False)
-    if sign:
-        ink.line([(250, 400), (250, 220)], INK, 4)
-        ink.rect(150, 190, 360, 250, fill=PAGE, color=INK, width=2.5)
-        ink.text((255, 208), "GARE", "serif", 24, INK, anchor="mm")
-        ink.text((255, 236), "the 4·10 to the sea", "mono", 12, ACCENT, anchor="mm")
-        ink.poly([(362, 220), (390, 220), (390, 210), (410, 225), (390, 240), (390, 230), (362, 230)], fill=INK, color=None, rough=False)
-        clock(ink, 620, 120, 34, hours=4 + 6 / 60)
-    if stop:
-        ink.line([(700, 400), (700, 230)], INK, 4)
-        ink.circle(700, 220, 22, fill=(60, 110, 160), color=INK, width=2)
-        ink.text((700, 220), "BUS", "mono", 11, PAGE, anchor="mm")
-        ink.rect(560, 250, 660, 400, fill=(160, 120, 70), color=INK, width=2)  # kiosk
-        ink.text((610, 272), "JOURNAUX", "mono", 11, PAGE, anchor="mm")
+QUEUE_COATS = [(70, 64, 60), (120, 92, 66), (80, 92, 110), (96, 70, 50), (60, 70, 64), (130, 110, 90), (70, 64, 80), (110, 80, 60)]
 
 
-def front(ink):
-    ink.fill(SKY)
-    ink.rect(240, 40, 960, 330, fill=(214, 196, 166), color=INK, width=3)
-    ink.d.pieslice([420, 90, 860, 520], 180, 360, fill=(120, 100, 84))
-    ink.arc(640, 305, 220, math.pi, 2 * math.pi, INK, 3)
-    ink.text((640, 70), "GARE", "serif", 34, INK, anchor="mm")
-    clock(ink, 360, 150, 40, hours=4 + 9 / 60)
-    ink.d.rectangle([0, 330, W, H], fill=(178, 172, 162))
-    ink.line([(0, 330), (W, 330)], INK, 2)
-
-
-def queue(ink, t, shuffle=0.0):
+def queue(R, t):
     for i, qx in enumerate(QUEUE_X):
         sway = math.sin(t * 2 + i) * 2
-        figure(ink, qx + sway, 440, 1.3 + 0.06 * (i % 3), "stand", facing=1, coat=((60, 60, 64), (98, 84, 70), (70, 82, 98))[i % 3], hat=i % 2 == 0)
+        person(R, qx + sway, 450, 330 + 14 * (i % 3), 0, "stand", 1, coat=QUEUE_COATS[i], trousers=(50, 48, 50),
+               hat=(40, 36, 34) if i % 2 == 0 else None, base=20)
 
 
-def gate(ink, open_):
-    ink.fill(SKY)
-    ink.d.rectangle([0, 330, W, H], fill=(178, 172, 162))
-    ink.line([(0, 330), (W, 330)], INK, 2)
-    ink.rect(380, 120, 960, 330, fill=(214, 196, 166), color=INK, width=3)
-    ink.text((680, 150), "QUAIS · DÉPARTS", "mono", 18, INK, anchor="mm")
+def gate(R, open_):
     for i, qx in enumerate(QUEUE_X):
         side = -1 if i < 4 else 1
-        x = qx + side * 300 * open_ * (1 if i >= 4 else 1) * (0.4 + 0.15 * abs(i - 3.5))
-        ink.line([(x, 440), (x, 270)], INK, 7)
-        ink.poly([(x - 8, 272), (x, 250), (x + 8, 272)], fill=INK, color=INK, width=1)
+        x = qx + side * 300 * open_ * (0.4 + 0.15 * abs(i - 3.5))
+        R.capsule((x, 450), (x, 130), 9, base=40, color=(30, 30, 34), gloss=1.0)
+        R.ellipsoid(x, 122, 12, 16, base=40, color=(170, 130, 50), gloss=1.0)
     if open_ < 0.05:
-        ink.line([(QUEUE_X[0] - 10, 300), (QUEUE_X[-1] + 10, 300)], INK, 5)
-        ink.line([(QUEUE_X[0] - 10, 420), (QUEUE_X[-1] + 10, 420)], INK, 5)
-        ink.circle(675, 370, 12, fill=BRASS, color=INK, width=2)
+        for y in (190, 400):
+            R.capsule((QUEUE_X[0] - 10, y), (QUEUE_X[-1] + 10, y), 7, base=44, color=(30, 30, 34), gloss=1.0)
+        R.ellipsoid(675, 300, 16, 16, base=50, color=(200, 160, 60), gloss=1.0)
 
 
-def guard(ink, x, y, salute):
-    f = figure(ink, x, y, 1.35, "reach" if salute else "stand", facing=-1, coat=(40, 52, 80), hat=True, arm=150 if salute else None)
-    return f
-
-
-def train(ink, x0):
+def train(R, x0):
     for c in range(3):
-        x = x0 - c * 330
-        ink.rect(x - 310, 210, x, 360, fill=(46, 84, 70), color=INK, width=3)
+        x = x0 - c * 340
+        R.slab([(x - 320, 120), (x, 120), (x, 350), (x - 320, 350)], height=60, bevel=16, base=0, color=(40, 100, 80), gloss=0.7)
         for w in range(4):
-            wx = x - 290 + w * 72
-            ink.rect(wx, 236, wx + 52, 280, fill=(220, 226, 214), color=INK, width=2)
+            wx = x - 296 + w * 74
+            R.slab([(wx, 150), (wx + 54, 150), (wx + 54, 220), (wx, 220)], height=4, bevel=2, base=60, color=(220, 230, 220), gloss=1.0)
         for wx in (x - 260, x - 60):
-            ink.circle(wx, 362, 18, fill=INK, color=INK, width=1)
-    ink.poly([(x0, 210), (x0 + 40, 240), (x0 + 40, 360), (x0, 360)], fill=(46, 84, 70), color=INK, width=3)
+            R.ellipsoid(wx, 356, 22, 22, base=40, color=(30, 30, 30), gloss=0.8)
 
 
-def platform_bg(ink):
-    ink.fill((210, 204, 192))
-    for x in range(0, W, 60):
-        ink.line([(x, 0), (x, 200)], RULE, 1, alpha=150)
-    door(ink, 120, 200, 70, 150, sign="SERVICE")
-    ink.d.rectangle([0, 360, W, H], fill=WASH)
-    ink.line([(0, 380), (W, 380)], INK, 3)
-    ink.d.rectangle([0, 200, W, 360], fill=(150, 146, 140))
-    bench(ink, 300, 470, 200)
+def bench_r(R, x, y, w=260):
+    for y0 in (y - 70, y - 40):
+        R.slab([(x - w / 2, y0), (x + w / 2, y0), (x + w / 2, y0 + 14), (x - w / 2, y0 + 14)], height=14, bevel=4, base=10, color=(150, 100, 60), gloss=0.3)
+    for px in (x - w / 2 + 18, x + w / 2 - 18):
+        R.capsule((px, y - 30), (px, y), 6, base=6, color=(40, 36, 34), gloss=0.6)
 
 
-def chase(t, ink, anchor=True):
+def chase_arr(t, anchor=True):
     for name, a, b in SHOTS:
         if a <= t < b:
             break
     lt = t - a
     if name == "streetA":
-        street(ink, [(240, 150, (196, 160, 120)), (260, 190, (170, 176, 150)), (220, 130, (210, 186, 150)), (300, 170, (180, 150, 140))], sign=True)
-        look = ease(lt, 0.9, 1.4)
-        if lt < 1.0:
-            girl(ink, lerp(40, 200, lt / 1.0), 440, "walk", lt * 1.5)
-        elif lt < 1.8:
-            girl(ink, 200, 440, "reach", 0, arm=150)  # she points at the sign: the goal
-        else:
-            girl(ink, lerp(200, 1000, ease(lt, 1.8, 3.4) ** 1.1), 440, "run", lt * 2.6)
-    elif name == "streetB":
-        street(ink, [(300, 180, (150, 160, 180)), (200, 140, (200, 170, 130)), (260, 200, (190, 190, 170)), (200, 150, (160, 130, 120))], stop=True)
-        x = lerp(-40, 520, lt / 2.2)
-        pose = "run"
-        girl(ink, x, 440 - (18 * math.sin(math.pi * ramp(lt, 1.6, 2.2)) if lt > 1.6 else 0), pose, lt * 2.6, anchor=anchor or True)
-    elif name == "front":
-        front(ink)
-        queue(ink, lt)
-        if lt < 0.5:  # lands mid-stride, same pose as she left
-            girl(ink, lerp(120, 200, lt / 0.5), 440 - 18 * math.sin(math.pi * (0.5 + lt)), "run", 2.6 * (2.2 + lt), anchor=anchor)
+        R = Relief(W, H, bg=plate("streetA"))
+        # medium close: she looks up at the sign (the goal), then dashes off right
+        go = ease(lt, 1.9, 3.3)
+        cx = lerp(330, 1300, go ** 1.4)
+        face(R, cx, 250, 0.95, skin=GIRL_SKIN, hair=GIRL_HAIR, look=(0.8, -0.7), turn=0.3, smile=0.4 + 0.4 * ease(lt, 1.0, 1.6), mouth=0.15,
+             hair_len=1.25, tex=HT, cap=BERET, collar=(186, 46, 40))
+        envelope_r(R, cx + 210, 470 - 40 * ease(lt, 0.5, 1.2), 90, 60, base=260)
+        return R.render(light=LT, amb=0.3, diff=0.8, spec=0.3, smooth=4)
+    if name == "streetB":
+        R = Relief(W, H, bg=plate("streetB"))
+        x = lerp(-60, 540, lt / 2.2)
+        girl(R, x, 470 - (24 * math.sin(math.pi * ramp(lt, 1.6, 2.2)) if lt > 1.6 else 0), "run", lt * 2.6)
+        return R.render(light=LT, amb=0.3, diff=0.8, spec=0.4, smooth=2)
+    if name == "front":
+        R = Relief(W, H, bg=plate("front"))
+        queue(R, lt)
+        if lt < 0.5:
+            girl(R, lerp(120, 200, lt / 0.5), 470 - 24 * math.sin(math.pi * (0.5 + lt)), "run", 2.6 * (2.2 + lt), anchor=anchor)
         elif lt < 1.4:
-            girl(ink, lerp(200, 330, ease(lt, 0.5, 1.4)), 440, "run", lt * 2.6, anchor=anchor)
+            girl(R, lerp(200, 330, ease(lt, 0.5, 1.4)), 470, "run", lt * 2.6, anchor=anchor)
         else:
             tap = (lt * 3) % 1 < 0.5
-            girl(ink, 340, 440, "stand", 0, anchor=anchor, arm=40 if tap else 10)
-        if lt > 1.8:
-            ink.text((QUEUE_X[0] + 240, 270), "· · ·", "mono", 22, INK, anchor="mm")
-    elif name == "gate":
+            girl(R, 340, 470, "stand", 0, anchor=anchor, arm=40 if tap else 10)
+        return R.render(light=LT, amb=0.3, diff=0.8, spec=0.4, smooth=2)
+    if name == "gate":
+        R = Relief(W, H, bg=plate("gate"))
         op = ease(lt, 1.6, 2.4)
-        gate(ink, op)
-        guard(ink, 900, 440, 1.0 <= lt < 2.0)
+        gate(R, op)
+        person(R, 905, 460, 360, 0, "reach" if 1.0 <= lt < 2.0 else "stand", -1, coat=(36, 46, 76), trousers=(30, 34, 50), hat=(30, 36, 60), arm=150, base=20)
         if lt < 1.0:
-            girl(ink, 340, 440, "stand", 0)
+            girl(R, 340, 470, "stand", 0)
         elif lt < 2.6:
-            girl(ink, 340, 440, "reach", 0, arm=150)  # the envelope shown as a ticket
-            if lt > 1.2:
-                tag(ink, (360, 270), "TICKET", 12, INK, PAGE, anchor="ma", alpha=240)
+            girl(R, 340, 470, "reach", 0, arm=150)
         else:
-            girl(ink, lerp(340, 1000, ease(lt, 2.6, 3.2)), 440, "run", lt * 2.6)
-    elif name == "platform":
-        platform_bg(ink)
+            girl(R, lerp(340, 1000, ease(lt, 2.6, 3.2)), 470, "run", lt * 2.6)
+        return R.render(light=LT, amb=0.3, diff=0.8, spec=0.5, smooth=2)
+    if name == "platform":
+        R = Relief(W, H, bg=plate("platform"))
         tx = lerp(700, 1900, ease(lt, 0.0, 4.4) * 0.6 + 0.4 * ramp(lt, 0, 4.4) ** 2)
-        train(ink, tx)
+        train(R, tx)
+        bench_r(R, 300, 500)
         if lt < 1.4:
-            gx = lerp(-20, 440, lt / 1.4)
-            girl(ink, gx, 470, "run", lt * 2.8)
-        elif lt < 2.4:  # folds the envelope into a dart; the key drops out
-            girl(ink, 440, 470, "reach", 0, arm=100, env=False)
+            girl(R, lerp(-20, 460, lt / 1.4), 500, "run", lt * 2.8)
+        elif lt < 2.4:
+            f = girl(R, 460, 500, "reach", 0, arm=100, env=False)
+            hx, hy = f["hands"][0]
             fold = ramp(lt, 1.4, 2.0)
-            ink.poly([(470, 395 - 8 * fold), (500 + 10 * fold, 402), (470, 410 + 6 * (1 - fold))], fill=PAGE, color=INK, width=1.5)
-            ky = lerp(400, 420, ease(lt, 1.9, 2.3))
-            kx = lerp(462, 330, ease(lt, 1.9, 2.3))
-            key_shape(ink, kx, ky, 0.7, angle=ease(lt, 1.9, 2.3) * 2.4)
+            R.slab([(hx, hy - 14 + 8 * fold), (hx + 40 + 10 * fold, hy - 4), (hx, hy + 8 - 6 * fold)], height=4, bevel=1, base=220, color=(244, 240, 228))
+            kf = ease(lt, 1.9, 2.3)
+            key_r(R, lerp(hx, 300, kf), lerp(hy, 440, kf), 0.9, kf * 2.4, base=200)
         else:
-            girl(ink, 440, 470, "reach", 0, arm=160, env=False)
-            f = ramp(lt, 2.4, 3.1)
-            dx, dy = lerp(480, 760, f), lerp(390, 255, f) - 60 * math.sin(math.pi * f)
-            if f < 1:
-                ink.poly([(dx, dy), (dx - 30, dy - 8), (dx - 24, dy + 6)], fill=PAGE, color=INK, width=1.5)
+            girl(R, 460, 500, "reach", 0, arm=160, env=False)
+            f_ = ramp(lt, 2.4, 3.1)
+            dx, dy = lerp(500, 780, f_), lerp(380, 180, f_) - 60 * math.sin(math.pi * f_)
+            if f_ < 1:
+                R.slab([(dx, dy), (dx - 34, dy - 9), (dx - 26, dy + 7)], height=4, bevel=1, base=220, color=(244, 240, 228))
         if lt >= 2.3:
-            key_shape(ink, 310, 420, 0.7, angle=2.4)
-    else:
-        platform_bg(ink)
-        key_shape(ink, 310, 420, 0.7, angle=2.4)
-        girl(ink, lerp(400, 640, ease(lt, 0.6, 2.0)), 470, "walk", lt * 1.6, env=False)
-        ink.caption("The letter caught the 4·10. The key stayed on the bench.", size=22)
+            key_r(R, 300, 440, 0.9, 2.4, base=30)
+        return R.render(light=LT, amb=0.3, diff=0.8, spec=0.6, smooth=2)
+    # bench: close-up, she laughs; the key on the bench in the foreground
+    R = Relief(W, H, bg=blur_arr(plate("platform"), 6))
+    face(R, 470, 230, 1.0, skin=GIRL_SKIN, hair=GIRL_HAIR, look=(0, 0.1), smile=1.0, mouth=0.7 * ease(lt, 0.2, 0.6), eyes_open=0.55,
+         hair_len=1.25, tex=HT, cap=BERET, collar=(186, 46, 40))
+    R.slab([(0, 470), (W, 470), (W, H), (0, H)], height=30, bevel=6, base=300, color=(150, 100, 60), gloss=0.3)
+    key_r(R, 640, 500, 2.2, 2.4, base=340)
+    return R.render(light=LT, amb=0.3, diff=0.8, spec=0.5, smooth=4)
+
+
+def chase(t, ink, anchor=True):
+    put(ink, photo(chase_arr(t, anchor), seed=int(t * FPS) + (0 if anchor else 7), **GR))
+    for name, a, b in SHOTS:
+        if a <= t < b and name == "bench":
+            subtitle(ink, "The letter caught the 4·10. The key stayed on the bench.", size=24)
 
 
 def beats(ink, lt):
@@ -216,8 +262,8 @@ def beats(ink, lt):
     fade_edges(ink, lt, 4.4, 0.3)
 
 
-film = Film("zazie-dans-le-metro", seconds=TOTAL, boil=10, wobble=1.4)
-film.poster_at = ST["chase"] + 11.4
+film = Film("zazie-dans-le-metro", seconds=TOTAL, boil=0, wobble=0)
+film.poster_at = ST["chase"] + 19.0
 
 
 @film.picture
