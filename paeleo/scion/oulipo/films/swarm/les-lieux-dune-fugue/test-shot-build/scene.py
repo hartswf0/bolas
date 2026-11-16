@@ -109,11 +109,12 @@ def build_facade():
                          *F(x, TOPY), 8.0, 2.0, "DOOR-C jamb panel (rotated) PRINT-1"))
         x += ww + 1
     # sill under the balcony (projecting stone strip)
-    sill_w = JR0 + JW + 30
-    sx, sy = plain_patch(DOOR_C, int(sill_w / 1.6), 30, plain_area, avoid, 80)
-    tex = crop_resize(st, sx, sy, sx + int(sill_w / 1.6), sy + 30, sill_w, SILL_Y1 - SILL_Y0) * 1.04
-    pcs.append(Piece("sill", tex, scissor_alpha(sill_w, SILL_Y1 - SILL_Y0, 0.7, 0.5, 0.05), *F(-P + 2, SILL_Y0), 12.0, 2.0,
-                     f"DOOR-C {sx},{sy} PRINT-1"))
+    for i, (a, b) in enumerate([(-P + 2, 210), (210, 420), (420, JR0 + JW + 30)]):
+        bw, bh = b - a - 1, SILL_Y1 - SILL_Y0
+        sx, sy = plain_patch(DOOR_C, int(bw / 1.5), int(bh / 1.5), plain_area, avoid, 500)
+        tex = crop_resize(st, sx, sy, sx + int(bw / 1.5), sy + int(bh / 1.5), bw, bh) * 1.04
+        pcs.append(Piece(f"sill-{i}", tex, scissor_alpha(bw, bh, 0.7, 0.5, 0.05), *F(a, SILL_Y0), 12.0, 2.0,
+                         f"DOOR-C {sx},{sy} PRINT-1"))
     # iron balcony band: the Columbus window grille, printed dark (PRINT-3), cut in two lengths
     ir = PRINTS["PRINT-3 DOOR-C iron"][395:755, 1385:1525]
     irs = cv2.resize(ir, (int(ir.shape[1] * 56 / ir.shape[0]), 56), interpolation=cv2.INTER_AREA)

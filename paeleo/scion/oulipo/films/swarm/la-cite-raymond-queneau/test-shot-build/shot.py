@@ -225,13 +225,13 @@ def roof_strips():
     top = FH * M
     for j in range(N_STRIP):
         th0 = (math.pi / 2) * j / N_STRIP
-        th1 = (math.pi / 2) * (j + 1) / N_STRIP
+        th1 = min(math.pi / 2, (math.pi / 2) * (j + 1.35) / N_STRIP)   # overlap: no seams between strips
         def pt(u, th):
             p = A + DIR * (u * M) + np.array([DIR[1], -DIR[0]]) * (RROOF * (1 - math.cos(th)))
             return proj(p[0], top + RROOF * math.sin(th), p[1])
         # texture rows: eave at bottom (v=ROOF_H) -> ridge at top (v=0); map by angle
         v0 = ROOF_H * (1 - j / N_STRIP)
-        v1 = ROOF_H * (1 - (j + 1) / N_STRIP)
+        v1 = ROOF_H * (1 - th1 / (math.pi / 2))
         src = [(0, v1), (FW, v1), (FW, v0), (0, v0)]
         dst = [pt(0, th1), pt(FW, th1), pt(FW, th0), pt(0, th0)]
         strips.append((src, dst))
@@ -392,9 +392,9 @@ ROAD = tex_layer("p7.jpg", (PW * SS, 200 * SS), ((97, 115, 113), 0.45), 4)
 VERGE = tex_layer("p3.jpg", (PW * SS, 220 * SS), ((78, 102, 56), 0.5), 5)
 SKY = tex_layer("p4.jpg", (PW * SS, PH * SS), ((240, 231, 239), 0.08), 6)
 FENCE = tex_layer("p7.jpg", (60 * SS, PH * SS), ((60, 69, 61), 0.6), 7)
-TREE_TEX = tex_layer("p7.jpg", (400, 600), ((114, 124, 105), 0.5), 8)
+TREE_TEX = tex_layer("p7.jpg", (400, 600), ((96, 104, 88), 0.5), 8)
 
-def sheet(canvas, arr, mask, dx=0, dy=0, shadow=True, E=1.0):
+def sheet(canvas, arr, mask, dx=0, dy=0, shadow=True, E=1.0, edge=True):
     """Composite a cut sheet (RGB float array + L mask) with a soft overcast drop shadow (offset <= 3 px)."""
     m = mask.filter(ImageFilter.GaussianBlur(0.6))
     if shadow:
@@ -403,6 +403,8 @@ def sheet(canvas, arr, mask, dx=0, dy=0, shadow=True, E=1.0):
         canvas.paste((30, 34, 30), (dx + 2 * SS // 2, dy + 3 * SS // 2), sh)
     rgb = Image.fromarray(np.clip(arr * E, 0, 255).astype(np.uint8))
     canvas.paste(rgb, (dx, dy), m)
+    if not edge:
+        return
     # 1 px lighter cut edge
     edge = mask.filter(ImageFilter.FIND_EDGES).filter(ImageFilter.GaussianBlur(0.5))
     edge = Image.fromarray((np.asarray(edge) * 0.25).astype(np.uint8))
@@ -429,9 +431,9 @@ def sapling(d_mask, x, base_y, height, k, seed):
         y1 = y0 - math.cos(ang) * length
         d_mask.line((x0, y0, x1, y1), fill=255, width=max(1, int(width)))
         if depth > 0:
-            for da in (-0.45 - r.rand() * 0.25, 0.35 + r.rand() * 0.3):
+            for da in (-0.38 - r.rand() * 0.25, 0.05 + r.rand() * 0.15, 0.32 + r.rand() * 0.3)[: 2 + (depth < 3)]:
                 branch(x1, y1, ang + da + sway * (4 - depth), length * (0.62 + r.rand() * 0.12), width * 0.62, depth - 1)
-    branch(x, base_y, sway, height * 0.40, 5.0 * SS, 3)
+    branch(x, base_y, sway, height * 0.36, 4.0 * SS, 4)
 
 # --------------------------------------------------------------- frame ---
 def frame(k):
@@ -508,13 +510,13 @@ def frame(k):
         scale = (by - facade_pt(u * BAYW, 0)[1])
         sapling(td, bx, base_y, scale * 0.9, k, j + 1)
     tarr = np.asarray(Image.fromarray(TREE_TEX.astype(np.uint8)).resize(OUT_SIZE)).astype(np.float32)
-    sheet(can, tarr, tm, shadow=True, E=E)
+    sheet(can, tarr, tm, shadow=True, E=E, edge=False)
 
     gl = facade_pt(0, FH)[1]
     gr = facade_pt(FW, FH)[1]
     def hedge_top(x):
         base = gl + (gr - gl) * x / W2
-        return base - 14 * SS + 3 * SS * math.sin(x / 23.0) + 2 * SS * math.sin(x / 7.3)
+        return base - 12 * SS + 2 * SS * math.sin(x / 23.0) + 1.5 * SS * math.sin(x / 7.3)
     hm = jag_mask((W2, H2), hedge_top, 11)
     harr = np.zeros((H2, W2, 3), np.float32)
     harr[:] = np.asarray(Image.fromarray(HEDGE.astype(np.uint8)).resize((W2, H2))).astype(np.float32)
@@ -522,16 +524,18 @@ def frame(k):
 
     # P5 pavement + road: band rising gently left -> right
     def road_top(x):
-        return gr + 18 * SS + (gl - gr) * 0.0 - (x / W2) * 10 * SS + 8 * SS
+        return gl + (gr - gl) * x / W2 + 16 * SS
     rm = jag_mask((W2, H2), road_top, 12)
     rarr = np.zeros((H2, W2, 3), np.float32)
     rarr[:] = np.asarray(Image.fromarray(ROAD.astype(np.uint8)).resize((W2, H2))).astype(np.float32)
     # kerb line + faint dashes (cut paper strips)
     rimg = Image.fromarray(np.clip(rarr, 0, 255).astype(np.uint8))
     rd = ImageDraw.Draw(rimg)
+    pav = [(0, road_top(0)), (W2, road_top(W2)), (W2, road_top(W2) + 16 * SS), (0, road_top(0) + 12 * SS)]
+    rd.polygon(pav, fill=(124, 133, 129))
     for x in range(0, W2, 8):
-        y = road_top(x)
-        rd.line((x, y, x + 8, road_top(x + 8)), fill=(150, 156, 150), width=3 * SS)
+        y = road_top(x) + 12 * SS + 4 * SS * x / W2
+        rd.line((x, y, x + 8, y), fill=(146, 152, 146), width=2 * SS)
     for j in range(7):
         x = j * 160 * SS + 30 * SS
         y = road_top(x) + 70 * SS + (x / W2) * -14 * SS
@@ -540,7 +544,7 @@ def frame(k):
 
     # P6 verge: grass wedge at lower left
     def verge_top(x):
-        return H2 - 30 * SS - (W2 * 0.75 - x) * 0.11 if x < W2 * 0.75 else H2 + 10
+        return H2 - 2 * SS - (W2 * 0.72 - x) * 0.17 if x < W2 * 0.72 else H2 + 10
     vm = jag_mask((W2, H2), verge_top, 13)
     varr = np.asarray(Image.fromarray(VERGE.astype(np.uint8)).resize((W2, H2))).astype(np.float32)
     sheet(can, varr, vm, shadow=True, E=E)
