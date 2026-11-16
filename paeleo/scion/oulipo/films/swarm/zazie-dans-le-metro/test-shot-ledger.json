@@ -1,5 +1,5 @@
 {
- "shot": "zazie-dans-le-metro TEST SHOT (film 6.0-11.0 s; jump cut at film frame 192)",
+ "shot": "zazie-dans-le-metro TEST SHOT r2 (film 6.0-11.0 s; jump cut at film frame 192). r1 archived in test-shot-r1/",
  "foraged": [
   {
    "id": "P1",
@@ -12,8 +12,8 @@
    "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/zazie-dans-le-metro/r2/loc_05184.jpg",
    "sha256": "124648d19718ac0187c5e8febeaa200b85f24f915a0f6c5336d07238d7e3e963",
    "rights_text_quoted": "No known restrictions on reproduction.",
-   "checked_on": "2026-11-16",
-   "used_as": "L1 plate 6.0-8.0 s: crop (318,330,650,579) of the 1024 px file, gamma 1.45, 48% desaturation toward grey-olive, Gaussian defocus r=12 @720"
+   "checked_on": "2026-11-16 (re-verified r2)",
+   "used_as": "L1 plate 6.0-8.0 s: crop (318,330,650,579) of the 1024 px file, gamma 1.40, 48% desaturation, tint toward grey-olive, median luma 101, Gaussian defocus r=12 @720"
   },
   {
    "id": "P2",
@@ -22,12 +22,12 @@
    "license": "Public domain (no known restrictions)",
    "license_url": "https://www.loc.gov/rr/print/res/244_phot.html",
    "source_url": "https://www.loc.gov/item/2002707975/",
-   "file_url": "https://tile.loc.gov/storage-services/service/pnp/ppmsc/09900/09974v.jpg",
-   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/zazie-dans-le-metro/r2/loc_09974.jpg",
-   "sha256": "3d3448a3c5f1b32e5f9f7296982c02d698dacf9f77c26dbd794498fb15407e29",
+   "file_url": "https://tile.loc.gov/storage-services/master/pnp/ppmsc/09900/09974u.tif",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/zazie-dans-le-metro/test-shot/hires/09974u.tif",
+   "sha256": "b60c2116cc9b46df6f538fef10ad744c536e9cd2efc8fe8155e6f46e023d4d84",
    "rights_text_quoted": "No known restrictions on publication.",
-   "checked_on": "2026-11-16",
-   "used_as": "L2 plate 8.0-11.0 s incl. its native horse tram (V) at frame right: crop (6,330,458,669), 30% desaturation, defocus r=11 with a rack to r=3.5 at 9.0-10.0 s"
+   "checked_on": "2026-11-16 (re-verified r2)",
+   "used_as": "L2 plate 8.0-11.0 s, from the 3650 px master TIFF (30.2 MB): tighter crop (122,418,482,688) in 1024-px coords so the native horse tram sits mid-height at frame right beside her ear; gamma 1.40, 58% desaturation, tint toward grey-olive; defocus r=11 @720 with a rack to r=3.5 at 9.0-10.0 s. The tram V is GrabCut from the same pixels (rect seed, largest blob, feathered) and held on a nearer card plane at r=2 @720, +12% light, with a 4-5 px drop shadow. Not mirrored."
   },
   {
    "id": "PAPER1",
@@ -59,7 +59,7 @@
   }
  ],
  "handmade": [
-  "puppet head rig: back bob (3 tones + 3 lit strands), 10 spring fringe strands + 4 slivers (5 hair tones), ears with inner-ear shade, face sheet, jaw/socket tissue, tissue cheeks (rise 6 px), brows, eyes x3 (squeeze with crow's-foot creases / half / open-right), folded nose tab, lips, mouth replacements 1/2/4/5/6 with gap-tooth upper set, laugh folds, neck, orange collar + fold, jumper, brass split pins",
+  "puppet head rig (r2): bob as ONE layered mass (shadow/deep/dark under-layers, mid/warm/crown/lit panels, 10 fine slivers), crown cap with parting slivers over the fringe roots, 10 spring fringe strands rendered as a dense mass (union shadow + deep under-layers 1.75x/1.5x wide, strand layer in 4 browns, 10 lit slivers on top), 9 fine spring flyaways (2 detach), curved side locks with under-layers and snipped tips, ears (left lobe now shows), face sheet, jaw/socket tissue, per-drawing cheeks (apples swell and rise 11 px @720, lit top, crescent under), brows, eyes x3 (squeeze without crow's feet / half / open-right), shorter rounded nose tab, lips (thin stretched upper, full lower + highlight, dimples), mouth replacements 1/2/4/5/6: smaller (w 200-212, open 30-74 px at 2x), ONE ivory upper-teeth strip with a notched central gap and shadowed laterals, dim lower strip on 5/6, tongue on 6; neck, orange collar + fold, jumper, brass split pin",
   "PLACE DE CLICHY enamel street plaque (cut card, #2f3f55 dyed kraft, cream letters in DejaVu Sans Bold)",
   "caption « … le tram ! » in Instrument Serif (kit font, OFL)",
   "kit-synthesized: street murmur, room tone, tram bell x2, hooves (kit step), paper snap (plaque), gulp click"
@@ -78,8 +78,8 @@
    "reason": "index flags their sound as 'speech' (narration); not used"
   },
   {
-   "item": "LoC TIFF masters 05184u.tif / 09974u.tif (31 MB each)",
-   "reason": "not needed: plates are defocused; IIIF on the TIFF ids returned 404"
+   "item": "LoC TIFF master 05184u.tif (P1)",
+   "reason": "not needed: P1 is defocused hard; the 1024 px JPEG suffices"
   }
  ],
  "credits_draft": [
@@ -90,7 +90,7 @@
    "license_url": "https://www.loc.gov/rr/print/res/244_phot.html",
    "source_url": "https://www.loc.gov/item/2001698526/",
    "file_url": "https://tile.loc.gov/storage-services/service/pnp/ppmsc/05100/05184v.jpg",
-   "used_as": "L1 plate 6.0-8.0 s: crop (318,330,650,579) of the 1024 px file, gamma 1.45, 48% desaturation toward grey-olive, Gaussian defocus r=12 @720"
+   "used_as": "L1 plate 6.0-8.0 s (defocused, graded toward grey-olive)"
   },
   {
    "title": "Street scene and monument, in the Place Clichy, Paris, France (Photochrom)",
@@ -98,8 +98,8 @@
    "license": "Public domain (no known restrictions)",
    "license_url": "https://www.loc.gov/rr/print/res/244_phot.html",
    "source_url": "https://www.loc.gov/item/2002707975/",
-   "file_url": "https://tile.loc.gov/storage-services/service/pnp/ppmsc/09900/09974v.jpg",
-   "used_as": "L2 plate 8.0-11.0 s incl. its native horse tram (V) at frame right: crop (6,330,458,669), 30% desaturation, defocus r=11 with a rack to r=3.5 at 9.0-10.0 s"
+   "file_url": "https://tile.loc.gov/storage-services/master/pnp/ppmsc/09900/09974u.tif",
+   "used_as": "L2 plate 8.0-11.0 s and its native horse tram V (GrabCut card plane), from the master TIFF"
   },
   {
    "title": "Kraft tileable 1024x1024.png",

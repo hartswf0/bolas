@@ -184,10 +184,13 @@ def plaque():
 
 # ------------------------------------------------------------------ compose one drawing
 STATIC = pp.build_static()
+CAP = pp.crown_cap()
 MOUTHS = {m: pp.mouth_piece(m) for m in (1, 2, 4, 5, 6)}
 EYEP = {k: [pp.eye_piece(k, ex, ey, fl, 300 + 20 * i) for i, ((ex, ey), fl) in enumerate(zip(pp.EYES, (-1, 1)))]
         for k in ("squeeze", "half", "open_r")}
 PLAQUE = None
+VMASK = None
+TONE = [int(v) for v in np.interp(np.arange(256), [0, 24, 80, 150, 255], [0, 24, 90, 152, 222])]
 _draw_cache = {}
 STRANDS = []
 
@@ -213,11 +216,11 @@ def draw_puppet(f, states):
     head.lay(STATIC["ear_r"]); head.lay(STATIC["ear_r_in"], shadow=False)
     head.lay(STATIC["face"])
     face_mask = Image.new("L", (PW, PH), 0); face_mask.paste(STATIC["face"].img.getchannel("A"), (STATIC["face"].ox, STATIC["face"].oy))
-    lift = 12 * lg                                    # cheeks rise 6 px @720
+    lift = 22 * lg                                    # r2: cheeks rise 11 px @720 and swell (pp.cheeks)
     for k in ("jaw_tissue", "socket_l", "socket_r"):
         head.lay(STATIC[k], shadow=False, clip=face_mask)
-    head.lay(STATIC["cheek_l"], 0, -lift, shadow=False, clip=face_mask)
-    head.lay(STATIC["cheek_r"], 0, -lift, shadow=False, clip=face_mask)
+    for pc in pp.cheeks(lg):
+        head.lay(pc, shadow=False, clip=face_mask)
     for pc in pp.laugh_folds(1.0 if row["mouth"] in (4, 5, 6) else 0.0):
         head.lay(pc, shadow=False)
     for side in EYEP[row["eyes"]]:
@@ -241,10 +244,14 @@ def draw_puppet(f, states):
     out.img = body.img
     out.img.alpha_composite(headimg)
     # fringe casts a deeper shadow on the face (separate plane, farther from the face card)
-    for i, pts in enumerate(st["strands"]):
-        S_ = STRANDS[0][i]
-        pc = pp.cut(pp.ribbon(pp.catmull(pts, 6), S_.width, 14), S_.tone, S_.seed, rough=0.7)
-        out.lay(pc, sh_off=(12, 15), sh_a=0.42, sh_blur=9)
+    for pc, kw in pp.fringe_pieces(st["strands"], STRANDS[0]):
+        out.lay(pc, **kw)
+    # crown cap over the fringe roots, rotated with the head; the split pin goes through it
+    cap = pp.Sheet()
+    for i, pc in enumerate(CAP):
+        cap.lay(pc, shadow=i > 0, sh_off=(2, 3), sh_a=0.2, sh_blur=2)
+    capimg = cap.img.rotate(-math.degrees(ang), resample=Image.BICUBIC, center=pp.NECK_PIN, translate=(dx, dy))
+    S2 = pp.Piece(capimg, 0, 0); out.lay(S2, sh_off=(5, 6), sh_a=0.3, sh_blur=5)
     X = make_xform(ang, dx, dy)
     cx, cy = X(pp.CROWN)
     pp.brad(out, cx + 10, cy + 70, 9)
@@ -252,8 +259,8 @@ def draw_puppet(f, states):
         if pts[0][0] > PW + 200:
             continue
         S_ = STRANDS[1][i]
-        pc = pp.cut(pp.ribbon(pp.catmull(pts, 6), S_.width, 4), S_.tone, S_.seed, rough=0.5)
-        out.lay(pc, sh_off=(10, 12), sh_a=0.35, sh_blur=8)
+        pc = pp.cut(pp.ribbon(pp.catmull(pts, 6), S_.width, 2), S_.tone, S_.seed, rough=0.3, edge_light=False)
+        out.lay(pc, sh_off=(8, 10), sh_a=0.3, sh_blur=6)
     # overcast light from upper left: gentle falloff across the paper (one tabletop object, one light)
     a = np.asarray(out.img).astype(np.float32)
     yy, xx = np.mgrid[0:PH, 0:PW].astype(np.float32)
@@ -275,7 +282,17 @@ def compose(f, states):
     # multiplane: plate drifts at 0.25x of the head's lateral motion, plus a slow drift
     ox = (P.width - PW) / 2 - 0.25 * (dx + 300 * ang) - (6 * (g / FPS) if name == "P1" else -4 * ((g - CUT) / FPS))
     oy = (P.height - PH) / 2 - 0.25 * dy * 0.3
-    pic = P.crop((int(ox), int(oy), int(ox) + PW, int(oy) + PH)).convert("RGBA")
+    box = (int(ox), int(oy), int(ox) + PW, int(oy) + PH)
+    pic = P.crop(box).convert("RGBA")
+    if name == "P2":   # multiplane: the native tram V (GrabCut mask from plates.py) sits on a nearer, sharper plane
+        global VMASK
+        if VMASK is None:
+            VMASK = Image.open(MED / "plates/P2_Vmask.png").convert("L")
+        Vp = plate("P2", min(bl, 4.0)).crop(box).point(lambda v: min(255, int(v * 1.12))).convert("RGBA")
+        vm = VMASK.crop(box)
+        sh = Image.new("L", vm.size, 0); sh.paste(vm.filter(ImageFilter.GaussianBlur(6)), (8, 10))
+        pic = Image.composite(Image.new("RGBA", pic.size, (22, 16, 8, 255)), pic, sh.point(lambda v: int(v * 0.35)))
+        pic = Image.composite(Vp, pic, vm)       # the V card on its own plane, with its own drop shadow
     if name == "P2" and f >= 52:
         global PLAQUE
         if PLAQUE is None:
@@ -294,7 +311,11 @@ def compose(f, states):
     if pb > 0.2:
         pup = pup.filter(ImageFilter.GaussianBlur(pb))
     pic.alpha_composite(pup)
-    return pic.convert("RGB").resize((720, 540), Image.LANCZOS)
+    # one unifying tone curve over the composite (r2): lift the mids a touch, roll off the paper/teeth highs
+    a = np.asarray(pic.convert("RGB").resize((720, 540), Image.LANCZOS)).astype(np.float32)
+    L = a.mean(2, keepdims=True); Lt = np.interp(L, np.arange(256), TONE)
+    a = np.clip(a * (Lt / np.maximum(L, 1.0)), 0, 255)      # on luminance only, so the skin keeps its warmth
+    return Image.fromarray(a.astype(np.uint8))
 
 
 # ------------------------------------------------------------------ tests (secondary dynamics bar)

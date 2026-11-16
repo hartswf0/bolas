@@ -130,6 +130,13 @@ def build_A():
         ramp[-int(1.2 * RATE):] *= np.linspace(1, 0.15, int(1.2 * RATE))           # lifted off the heat
         place(bus, "A", "kettle begins to sing", seg * ramp, s_ke, 502, 0, 0.30, win_pan(16) + 0.1, "silhouette_rise:16",
               "someone inside has been waiting with the tea")
+    # the soft greeting at the head turn: a real recorded "toi" (Lingua Libre, CC BY 4.0), heard through the room
+    toi, s_toi = decode("toi_loquax")
+    if toi is not None:
+        e = np.abs(toi); i0 = onset(toi, 0.08); seg = toi[i0:]
+        seg = seg[: int(0.75 * RATE)] * np.linspace(1, 0.6, len(seg[: int(0.75 * RATE)]))
+        place(bus, "A", "soft spoken 'toi ?' (real speech)", lowpass(seg, 3200), s_toi, 538, 240, 0.30, win_pan(16) + 0.05,
+              "head_turn:16", "the one who waited greets the one who came home")
     # step 17 (window 29): a distant door, irregularly late
     if door is not None:
         x = door[onset(door, 0.2):][: int(1.2 * RATE)]

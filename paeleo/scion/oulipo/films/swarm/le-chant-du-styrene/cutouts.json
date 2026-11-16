@@ -1,0 +1,334 @@
+{
+ "unit": "U2 cutout puppetry (camera unit A: Sh1, Sh2a, Sh2b, Sh5 heap)",
+ "plan_revision": "plan.md r3",
+ "date": "2026-11-16",
+ "media_dir": "films/sources/le-chant-du-styrene/cutout-puppetry-camera-unit-a-sh1-sh2a-sh2b-sh5-heap-/",
+ "build_scripts": "films/swarm/le-chant-du-styrene/cutout-build/ (cut.py GrabCut, layout.py constraint graph + cameras, geo.py geometry.json, gel.py gel ramp, render.py frames, heap.py Sh5 heap, finish.py stills/stats)",
+ "geometry": "films/swarm/le-chant-du-styrene/geometry.json",
+ "geometry_note": "Canonical layout for the Sh2b->Sh3a shape match is cameras.sh2b_hold (zoom 0.75, centre (9,26) world): rings[k].film.sh2b_hold.home_centre / outer_R / inner_r, arm_polyline, gate, plus hub_film and sprue. It is the bare (left) runner of the photograph with the four loose rings homed by the gate-contact constraint. U3's test shot measured the right-hand runner-with-rings (test-shot/geometry.json); its cavity layout must be re-generated from this file (or reconciled) for the 15.8-17.6 s hold to match the mould outline.",
+ "renders": {
+  "sh1": {
+   "t": "0.00-8.60 s",
+   "frames": "0-206 (global index f, t=f/24)",
+   "png": "films/sources/le-chant-du-styrene/cutout-puppetry-camera-unit-a-sh1-sh2a-sh2b-sh5-heap-/sh1/f%04d.png",
+   "mp4": "films/sources/le-chant-du-styrene/cutout-puppetry-camera-unit-a-sh1-sh2a-sh2b-sh5-heap-/sh1.mp4",
+   "content": "four loose rings held on black, slow camera drift (zoom 1.00->1.025), one ring settles after being set down at 0.6 s, blue practicals at 0.3x"
+  },
+  "sh2a": {
+   "t": "8.60-13.02 s",
+   "frames": "207-312",
+   "png": "films/sources/le-chant-du-styrene/cutout-puppetry-camera-unit-a-sh1-sh2a-sh2b-sh5-heap-/sh2a/f%04d.png",
+   "mp4": "films/sources/le-chant-du-styrene/cutout-puppetry-camera-unit-a-sh1-sh2a-sh2b-sh5-heap-/sh2a.mp4",
+   "content": "wide (zoom 0.62): bare runner right, rings left; rings fly on eased quadratic arcs, posed on twos, staggered starts 10.30/11.10/11.80/12.50 s, rotation <= 9 deg, lift scale +10%, always in front of the runner (pass over its arms)",
+   "ring1_home": "ring 1 (left arm) is exactly home on frame 312 (t=13.000 s, offset 0.0 px; 0.07 px on f311); it is the last frame of Sh2a; cut C1 at 13.02 s falls between frames 312 and 313"
+  },
+  "sh2b": {
+   "t": "13.02-17.60 s",
+   "frames": "313-422",
+   "png": "films/sources/le-chant-du-styrene/cutout-puppetry-camera-unit-a-sh1-sh2a-sh2b-sh5-heap-/sh2b/f%04d.png",
+   "mp4": "films/sources/le-chant-du-styrene/cutout-puppetry-camera-unit-a-sh1-sh2a-sh2b-sh5-heap-/sh2b.mp4",
+   "content": "close (zoom 1.12 centred on the right arm pair) gliding (smoothstep) to the complete-shot framing by 15.80 s, then hold to 17.60; rings 2-4 home at 14.00/14.70/15.30 s; every ring settles with a spring-damper (zeta 0.35, 3.2 Hz, peak 3.84 deg, outward recoil 2.5 px from the gate, never penetrating); residual at 15.80 s <= 0.003 deg"
+  },
+  "sh5": {
+   "t": "35.00-38.00 s",
+   "png_rgba": "films/sources/le-chant-du-styrene/cutout-puppetry-camera-unit-a-sh1-sh2a-sh2b-sh5-heap-/sh5/heap_rgba_960x408.png",
+   "plate": "films/sources/le-chant-du-styrene/cutout-puppetry-camera-unit-a-sh1-sh2a-sh2b-sh5-heap-/sh5/heap_on_black.png",
+   "mp4": "films/sources/le-chant-du-styrene/cutout-puppetry-camera-unit-a-sh1-sh2a-sh2b-sh5-heap-/sh5/sh5_heap_hold_3s.mp4",
+   "placement": "films/sources/le-chant-du-styrene/cutout-puppetry-camera-unit-a-sh1-sh2a-sh2b-sh5-heap-/sh5/heap_place.json",
+   "content": "real heap of orange plastic granules GrabCut onto black, lit warm from above with the base falling to black; ragged real top edge across the band (band y ~60-120 on the right), cropped by the band sides and bottom; U4's falling pellets land on its top edge. Hold is static (motion stops by 36.5 is up to U4's layer)"
+  }
+ },
+ "delivery_format": "960x408 picture band only, no captions, no letterbox, no grain (the editor applies the one shared grain); PNG sequences + lossless libx264rgb crf 0 mp4 at 24 fps",
+ "pieces": {
+  "bare_runner": {
+   "raw": "films/sources/le-chant-du-styrene/cutout-puppetry-camera-unit-a-sh1-sh2a-sh2b-sh5-heap-/pieces/bare_runner.png",
+   "gelled": "films/sources/le-chant-du-styrene/cutout-puppetry-camera-unit-a-sh1-sh2a-sh2b-sh5-heap-/pieces/bare_runner_gelled.png",
+   "mask": "films/sources/le-chant-du-styrene/cutout-puppetry-camera-unit-a-sh1-sh2a-sh2b-sh5-heap-/masks/bare_runner_mask.png",
+   "contour": "films/sources/le-chant-du-styrene/cutout-puppetry-camera-unit-a-sh1-sh2a-sh2b-sh5-heap-/masks/bare_runner_contour.png",
+   "bbox_src": [
+    90,
+    31,
+    391,
+    316
+   ],
+   "fg_components": 1
+  },
+  "ring0": {
+   "raw": "films/sources/le-chant-du-styrene/cutout-puppetry-camera-unit-a-sh1-sh2a-sh2b-sh5-heap-/pieces/ring0.png",
+   "gelled": "films/sources/le-chant-du-styrene/cutout-puppetry-camera-unit-a-sh1-sh2a-sh2b-sh5-heap-/pieces/ring0_gelled.png",
+   "mask": "films/sources/le-chant-du-styrene/cutout-puppetry-camera-unit-a-sh1-sh2a-sh2b-sh5-heap-/masks/ring0_mask.png",
+   "contour": "films/sources/le-chant-du-styrene/cutout-puppetry-camera-unit-a-sh1-sh2a-sh2b-sh5-heap-/masks/ring0_contour.png",
+   "bbox_src": [
+    39,
+    283,
+    127,
+    119
+   ],
+   "fg_components": 1
+  },
+  "ring1": {
+   "raw": "films/sources/le-chant-du-styrene/cutout-puppetry-camera-unit-a-sh1-sh2a-sh2b-sh5-heap-/pieces/ring1.png",
+   "gelled": "films/sources/le-chant-du-styrene/cutout-puppetry-camera-unit-a-sh1-sh2a-sh2b-sh5-heap-/pieces/ring1_gelled.png",
+   "mask": "films/sources/le-chant-du-styrene/cutout-puppetry-camera-unit-a-sh1-sh2a-sh2b-sh5-heap-/masks/ring1_mask.png",
+   "contour": "films/sources/le-chant-du-styrene/cutout-puppetry-camera-unit-a-sh1-sh2a-sh2b-sh5-heap-/masks/ring1_contour.png",
+   "bbox_src": [
+    281,
+    310,
+    126,
+    120
+   ],
+   "fg_components": 1
+  },
+  "ring2": {
+   "raw": "films/sources/le-chant-du-styrene/cutout-puppetry-camera-unit-a-sh1-sh2a-sh2b-sh5-heap-/pieces/ring2.png",
+   "gelled": "films/sources/le-chant-du-styrene/cutout-puppetry-camera-unit-a-sh1-sh2a-sh2b-sh5-heap-/pieces/ring2_gelled.png",
+   "mask": "films/sources/le-chant-du-styrene/cutout-puppetry-camera-unit-a-sh1-sh2a-sh2b-sh5-heap-/masks/ring2_mask.png",
+   "contour": "films/sources/le-chant-du-styrene/cutout-puppetry-camera-unit-a-sh1-sh2a-sh2b-sh5-heap-/masks/ring2_contour.png",
+   "bbox_src": [
+    26,
+    441,
+    132,
+    127
+   ],
+   "fg_components": 1
+  },
+  "ring3": {
+   "raw": "films/sources/le-chant-du-styrene/cutout-puppetry-camera-unit-a-sh1-sh2a-sh2b-sh5-heap-/pieces/ring3.png",
+   "gelled": "films/sources/le-chant-du-styrene/cutout-puppetry-camera-unit-a-sh1-sh2a-sh2b-sh5-heap-/pieces/ring3_gelled.png",
+   "mask": "films/sources/le-chant-du-styrene/cutout-puppetry-camera-unit-a-sh1-sh2a-sh2b-sh5-heap-/masks/ring3_mask.png",
+   "contour": "films/sources/le-chant-du-styrene/cutout-puppetry-camera-unit-a-sh1-sh2a-sh2b-sh5-heap-/masks/ring3_contour.png",
+   "bbox_src": [
+    204,
+    498,
+    134,
+    131
+   ],
+   "fg_components": 1
+  },
+  "runner_with_rings": {
+   "raw": "films/sources/le-chant-du-styrene/cutout-puppetry-camera-unit-a-sh1-sh2a-sh2b-sh5-heap-/pieces/runner_with_rings.png",
+   "gelled": "films/sources/le-chant-du-styrene/cutout-puppetry-camera-unit-a-sh1-sh2a-sh2b-sh5-heap-/pieces/runner_with_rings_gelled.png",
+   "mask": "films/sources/le-chant-du-styrene/cutout-puppetry-camera-unit-a-sh1-sh2a-sh2b-sh5-heap-/masks/runner_with_rings_mask.png",
+   "contour": "films/sources/le-chant-du-styrene/cutout-puppetry-camera-unit-a-sh1-sh2a-sh2b-sh5-heap-/masks/runner_with_rings_contour.png",
+   "bbox_src": [
+    728,
+    73,
+    519,
+    458
+   ],
+   "fg_components": 1
+  }
+ },
+ "failure_masks": [
+  "films/sources/le-chant-du-styrene/cutout-puppetry-camera-unit-a-sh1-sh2a-sh2b-sh5-heap-/masks/bare_runner_failure.png",
+  "films/sources/le-chant-du-styrene/cutout-puppetry-camera-unit-a-sh1-sh2a-sh2b-sh5-heap-/masks/loose_rings_failure.png",
+  "films/sources/le-chant-du-styrene/cutout-puppetry-camera-unit-a-sh1-sh2a-sh2b-sh5-heap-/masks/runner_with_rings_failure.png",
+  "films/sources/le-chant-du-styrene/cutout-puppetry-camera-unit-a-sh1-sh2a-sh2b-sh5-heap-/masks/heap_failure.png"
+ ],
+ "failure_mask_legend": "red = hue said plastic but GrabCut rejected it; yellow = GrabCut kept an unsaturated (table/steel) pixel",
+ "grabcut_debug": "films/sources/le-chant-du-styrene/cutout-puppetry-camera-unit-a-sh1-sh2a-sh2b-sh5-heap-/masks/cut_debug.jpg",
+ "grabcut_checks": {
+  "fg_components_per_piece": "1 for every piece (no stray foreground islands)",
+  "background_islands_remaining": {
+   "bare_runner": [],
+   "ring0": [
+    123
+   ],
+   "ring1": [
+    89
+   ],
+   "ring2": [
+    239
+   ],
+   "ring3": [
+    241
+   ],
+   "runner_with_rings": [
+    125,
+    41,
+    352,
+    503
+   ]
+  },
+  "note": "the remaining enclosed background regions are the real bores of the rings (89-241 px in the loose rings) and, in runner_with_rings, the bores plus the gaps between arm and ring; pinholes <= 40 px (JPEG noise) were filled. Gate stubs, legs and the sprue post are kept on the bare runner (one component). Islands dropped from the bare-runner rectangle: parts of the loose rings intruding into it.",
+  "heap": {
+   "components": 60,
+   "dropped_far_components": 30,
+   "note": "heap + loose grains within 30 px kept; granules seen through the perforated plate and the floor reflection rejected (red in failure mask)"
+  }
+ },
+ "transforms": {
+  "world": "source px minus bare-runner hub (278,160)",
+  "film": "(world - cam.centre)*cam.zoom + (480,204)",
+  "rest_layout": "loose rings keep the photograph's own relative layout, translated by (-482,-270) world px",
+  "contact": "ring centre = gate (arm tip) + (ellipse support radius along -u - 2 px fused overlap) * u",
+  "arm_assignment": "ring 1 -> left arm (181 deg), ring 2 -> up-right (297), ring 3 -> right (9), ring 4 -> down (105); sprue = the short post at 250 deg"
+ },
+ "gel_ramp": {
+  "declared": true,
+  "reason": "no red or amber translucent runner photograph under an allowed licence was found (proposals round 2 search; process_verse.json not present when this unit ran, so no replacement was reported)",
+  "method": "Beer-Lambert re-lighting of the photograph's own V channel: optical thickness th = wall*(0.08 + 2.9*(-ln V/V98) + 0.45*dt/dtmax); transmission exp(-alpha*th), alpha=(0.20,1.45,3.6) RGB, warm backlight (1.0,0.86,0.66); real specular catches kept warm; grazing edges darkened within 3 px (no glow outline); in-material scatter blur 3.5 px x0.28. Declared wall factor: runner 0.42 (thin arms, amber-orange), rings 1.3 (thick discs, deep red). Teal hue discarded; shape, shading, gate stubs and moulding marks are the photograph's.",
+  "unify": "one mild halation of the amber cores (blur 5 & 16 px) and a shared highlight roll-off (knee lum 0.66, no whites, max lum 207), identical in all four shots"
+ },
+ "multiplane": {
+  "layers": [
+   "0 blue practicals (handmade gaussian disc r~54 px at (128,78) and bar at y 34, x 540-860), parallax 0.3x of camera motion",
+   "1 bare runner 1.0x",
+   "2 rings 1.0x, always above the runner (occlusion DAG: rings > runner > practicals)"
+  ]
+ },
+ "measurements": {
+  "stills": {
+   "sh1_5.0s_f120": {
+    "lum_lt20": 0.888,
+    "p50": 0.0,
+    "p95": 28.0,
+    "p99": 107.0,
+    "max": 207.0,
+    "lit_p99": 206.0,
+    "lit_sat_median": 0.98,
+    "lit_warm_frac": 0.7,
+    "lit_amber_frac_H28_50": 0.07,
+    "lit_blue_frac": 0.3
+   },
+   "sh2a_12.0s_f288": {
+    "lum_lt20": 0.91,
+    "p50": 0.0,
+    "p95": 26.0,
+    "p99": 99.0,
+    "max": 207.0,
+    "lit_p99": 206.0,
+    "lit_sat_median": 0.93,
+    "lit_warm_frac": 0.62,
+    "lit_amber_frac_H28_50": 0.07,
+    "lit_blue_frac": 0.38
+   },
+   "sh2b_16.5s_f396": {
+    "lum_lt20": 0.896,
+    "p50": 0.0,
+    "p95": 29.0,
+    "p99": 129.0,
+    "max": 207.0,
+    "lit_p99": 206.0,
+    "lit_sat_median": 0.95,
+    "lit_warm_frac": 0.72,
+    "lit_amber_frac_H28_50": 0.08,
+    "lit_blue_frac": 0.28
+   },
+   "sh5_heap": {
+    "lum_lt20": 0.757,
+    "p50": 0.9,
+    "p95": 101.0,
+    "p99": 171.0,
+    "max": 207.0,
+    "lit_p99": 203.0,
+    "lit_sat_median": 0.86,
+    "lit_warm_frac": 0.88,
+    "lit_amber_frac_H28_50": 0.05,
+    "lit_blue_frac": 0.12
+   },
+   "reference_band": {
+    "lum_lt20": 0.543,
+    "p50": 12.5,
+    "p95": 163.0,
+    "p99": 197.0,
+    "max": 242.0,
+    "lit_p99": 211.0,
+    "lit_sat_median": 0.91,
+    "lit_warm_frac": 0.62,
+    "lit_amber_frac_H28_50": 0.32,
+    "lit_blue_frac": 0.25
+   }
+  },
+  "ring1_home_frame": 312,
+  "max_inflight_rotation_deg": 9.0,
+  "settle_peak_deg": 3.84,
+  "settle_residual_15_8s_deg": 0.003,
+  "gate_contact_residual_px": "0 by construction (centre-to-gate distance equals measured support radius)",
+  "band_height_fill_sh2b_hold": "ring 2 top ~y 14 to ring 4 bottom ~y 398 of 408 (94%)"
+ },
+ "evidence": [
+  {
+   "id": "F-runner",
+   "title": "Spritzguss teile.jpg",
+   "author": "Gmhofmann",
+   "license": "CC BY-SA 4.0",
+   "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Spritzguss_teile.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/e/e6/Spritzguss_teile.jpg",
+   "local_path": "films/sources/le-chant-du-styrene/r2/spritzguss.jpg (1280x664 copy of the 2052x1064 original)",
+   "what_it_shows": "two teal injection-moulded runners on a white table, own work 2014-12-20: left a degated four-arm runner with its gate stubs and its four loose rings, right a runner with four rings still attached",
+   "verified_date_or_place": "Commons API extmetadata read 2026-11-16: LicenseShortName CC BY-SA 4.0, Artist Gmhofmann, Credit Own work",
+   "used_as": "GrabCut puppets (bare runner, four loose rings) for Sh1/Sh2a/Sh2b, with a declared thickness-based colour substitution (teal -> red/amber); runner_with_rings cut as evidence of ring placement; source of geometry.json. Cutouts are CC BY-SA 4.0 adaptations."
+  },
+  {
+   "id": "F-heap",
+   "title": "Granuls orange.jpg",
+   "author": "Lobkovs",
+   "license": "CC BY-SA 3.0",
+   "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Granuls_orange.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/8/8b/Granuls_orange.jpg",
+   "local_path": "films/sources/le-chant-du-styrene/cutout-puppetry-camera-unit-a-sh1-sh2a-sh2b-sh5-heap-/heap/granuls_orange_1920.jpg (1920 px Commons thumbnail of the 2293x1342 original)",
+   "what_it_shows": "a sloping heap of orange plastic granules against a perforated steel plate (description 'Композиционное направление 2', own work, 2011-10-12)",
+   "verified_date_or_place": "Commons API extmetadata read 2026-11-16: LicenseShortName CC BY-SA 3.0, Artist Lobkovs, Credit Own work",
+   "used_as": "Sh5 raw-stock heap: GrabCut cutout onto black, real orange colour kept (no substitution), warm key gain and base fall-off only. Adaptation CC BY-SA 3.0."
+  }
+ ],
+ "credits_entries": [
+  {
+   "title": "Spritzguss teile.jpg",
+   "author": "Gmhofmann",
+   "license": "CC BY-SA 4.0",
+   "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Spritzguss_teile.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/e/e6/Spritzguss_teile.jpg",
+   "used_as": "Sh1-Sh2b: the rings and the runner, cut out (GrabCut) and animated as puppets. Colour substituted: the photographed plastic is teal; it is re-lit through a declared red/amber thickness gel."
+  },
+  {
+   "title": "Granuls orange.jpg",
+   "author": "Lobkovs",
+   "license": "CC BY-SA 3.0",
+   "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Granuls_orange.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/8/8b/Granuls_orange.jpg",
+   "used_as": "Sh5: the heap of plastic granules, cut out (GrabCut) onto black and lit warm."
+  }
+ ],
+ "handmade": [
+  {
+   "id": "H-puppetry",
+   "what": "ring flights (eased arcs on twos, staggered), spring-damper settle, camera drift/glide",
+   "where": "cutout-build/render.py, layout.py"
+  },
+  {
+   "id": "H-gel",
+   "what": "declared thickness-based colour substitution",
+   "where": "cutout-build/gel.py"
+  },
+  {
+   "id": "H-practicals-u2",
+   "what": "two defocused blue practical lights on a 0.3x plane (same family as the test shot's)",
+   "where": "cutout-build/render.py practicals()"
+  },
+  {
+   "id": "H-constraints",
+   "what": "constraint graph hub/arm/gate/ring-contact; geometry.json",
+   "where": "cutout-build/layout.py, geo.py"
+  }
+ ],
+ "absences": [
+  "Red or amber translucent runner photograph under PD/CC0/CC BY/CC BY-SA: not found (round-2 Commons search of categories Sprue, Injection moulding, Nurdles, Polystyrene and terms Gussast, Airfix, translucent, red; process_verse.json was not yet written, so no U1 find to use).",
+  "Heap candidates rejected after looking: r2/pellets.jpg (granules inside a sack, no free-standing heap), r2/nurdles.jpg (scattered beach nurdles in grass, no heap), kf/pellet_azul.jpg (Pellet azul.jpg, ISIPLAST, CC BY-SA 4.0: frame-filling flat field of blue granules, no silhouette); 'Granulat Lasertransparent.jpg' (Laserlicht, CC0) is grey studio granules on white, too cold; Commons searches 'Kunststoffgranulat', 'plastic granules', 'polystyrene granules', 'plastic pellets pile', 'Granulat Haufen', 'resin pellets' run 2026-11-16.",
+  "Moving Image Archive cache: not used by this unit (plan.md: no plastics footage in the cache; these shots are puppetry of stills)."
+ ],
+ "gaps": [
+  "Amber share is lower than the reference: lit pixels in H 28-50 are 7-8% vs 32% in the reference band; the plastic reads red and orange, runner orange, rings deep red. The reference's bright yellow trees belong to Sh4 (U4).",
+  "Frames are darker overall than the reference band (lum<20: 0.89 vs 0.54) because a single runner occupies the band; the plan's acceptance (>=65% <20, p99<=210) is met.",
+  "Ring ellipse major-axis direction for the contact support is approximate (rings are near-circular, minor/major ~0.94; error < 3 px).",
+  "Sh2b hold: ring 4's bottom rim comes within ~10 px of the band's bottom edge; ring 2 within ~14 px of the top.",
+  "No sound produced by this unit (U1 owns stems); ring-home frames for clicks: ring 1 f312 (13.000 s), ring 2 f336 (14.00), ring 3 f353 (14.70), ring 4 f368 (15.30 s; f367 is 15.29); set-down settle in Sh1 at 0.60 s."
+ ],
+ "compare_still": "films/swarm/le-chant-du-styrene/cutouts-compare-16.5s.jpg (also films/sources/le-chant-du-styrene/cutout-puppetry-camera-unit-a-sh1-sh2a-sh2b-sh5-heap-/stills/compare_16.5s.jpg)",
+ "no_material_from_the_1958_film": true
+}

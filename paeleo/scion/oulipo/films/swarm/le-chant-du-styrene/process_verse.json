@@ -1,0 +1,812 @@
+{
+ "unit": "U1 process-verse (process researcher + verse writer + voice/sound performer)",
+ "revision": "r1 against plan.md r3 (round 3 build)",
+ "date": "2026-11-16",
+ "process_graph": {
+  "path": "/home/user/bolas/paeleo/scion/oulipo/films/swarm/le-chant-du-styrene/process_graph.json",
+  "builder": "/home/user/bolas/paeleo/scion/oulipo/films/swarm/le-chant-du-styrene/process-verse-build/make_graph.py",
+  "steps": [
+   "P1",
+   "P2",
+   "M",
+   "P3",
+   "P4"
+  ],
+  "edges": [
+   {
+    "id": "plasticize",
+    "inputs": [
+     "P1"
+    ],
+    "outputs": [
+     "P2"
+    ],
+    "confidence": 0.88,
+    "licence": [
+     "Public domain",
+     "CC BY-SA 4.0",
+     "CC BY 3.0"
+    ],
+    "evidence": [
+     "E-process-pd",
+     "E-screw",
+     "E-cat-im",
+     "E-gigaset",
+     "E-styron",
+     "E-bos411"
+    ]
+   },
+   {
+    "id": "inject+cool",
+    "inputs": [
+     "P2",
+     "M"
+    ],
+    "outputs": [
+     "P3"
+    ],
+    "confidence": 0.92,
+    "licence": [
+     "CC BY-SA 4.0",
+     "CC BY-SA 3.0",
+     "Public domain",
+     "CC0",
+     "CC BY 3.0"
+    ],
+    "evidence": [
+     "E-diagram",
+     "E-moldcavity",
+     "E-process-pd",
+     "E-hotrunner",
+     "E-mold11",
+     "E-gigaset"
+    ]
+   },
+   {
+    "id": "degate",
+    "inputs": [
+     "P3"
+    ],
+    "outputs": [
+     "P4"
+    ],
+    "confidence": 0.95,
+    "licence": [
+     "CC BY-SA 4.0",
+     "CC BY-SA 3.0"
+    ],
+    "evidence": [
+     "E-spritzguss",
+     "E-nub",
+     "E-cutter",
+     "E-moldcavity"
+    ]
+   }
+  ],
+  "hypotheses_unverified": [
+   "H-regrind",
+   "H-reference-construction",
+   "H-polymer-of-foraged-runner"
+  ]
+ },
+ "validator": {
+  "path": "/home/user/bolas/paeleo/scion/oulipo/films/swarm/le-chant-du-styrene/validate_tour.py",
+  "run": "python3 -I validate_tour.py [--ledger <editor ledger json>] [--json]",
+  "result": {
+   "fixture_pass": {
+    "tour": [
+     "finish",
+     "casting",
+     "raw_stock"
+    ],
+    "ok": true,
+    "reason": "ok",
+    "edges": [
+     "finish <-finish- casting",
+     "casting <-cast- raw_stock"
+    ]
+   },
+   "fixture_fail": {
+    "tour": [
+     "finish",
+     "raw_stock",
+     "casting"
+    ],
+    "ok": false,
+    "reason": "no direct verified edge raw_stock -> finish"
+   },
+   "film_tour": {
+    "ok": true,
+    "reason": "ok",
+    "edges": [
+     "P4 <-degate- P3",
+     "P3 <-inject+cool- M+P2",
+     "M+P2 <-plasticize- P1"
+    ]
+   },
+   "counter_rings_to_pellets": {
+    "ok": false,
+    "reason": "no direct verified edge P1 -> P4",
+    "edges": []
+   },
+   "counter_skip_shot": {
+    "ok": false,
+    "reason": "no direct verified edge M+P2 -> P4",
+    "edges": []
+   },
+   "counter_forward_order": {
+    "ok": false,
+    "reason": "no direct verified edge M+P2 -> P1",
+    "edges": []
+   },
+   "ledger_source": "PLANNED_SHOTS (plan.md section 7)",
+   "ledger": {
+    "playback_field_on_every_shot": true,
+    "path": [
+     "P4",
+     "P3",
+     "M+P2",
+     "P1"
+    ],
+    "ok": true,
+    "reason": "ok",
+    "edges_used": [
+     "P4 <-degate- P3",
+     "P3 <-inject+cool- M+P2",
+     "M+P2 <-plasticize- P1"
+    ],
+    "duration_s": 38.0,
+    "duration_ok": true
+   },
+   "verse": {
+    "C1_t": 13.025,
+    "C1_ok": true,
+    "C1_frame_window": [
+     312,
+     313
+    ],
+    "C2_t": 20.8,
+    "C2_ok": true,
+    "C2_before_caesura_s": 0.825,
+    "C2_lead_ok": true,
+    "line_spans": {
+     "L1": [
+      2.4,
+      6.45
+     ],
+     "L2": [
+      11.0,
+      15.05
+     ],
+     "L3": [
+      19.6,
+      23.65
+     ],
+     "L4": [
+      29.4,
+      33.45
+     ]
+    },
+    "other_cuts": [
+     8.6,
+     17.6,
+     27.6,
+     35.0
+    ],
+    "other_cuts_in_gaps_ok": true,
+    "ok": true
+   },
+   "all_ok": true
+  },
+  "ledger_format": "{\"shots\":[{\"shot_id\",\"step_id\",\"playback\",\"t_in\",\"t_out\"}, ...]} or a bare list; exit status 0 = all checks pass"
+ },
+ "verse": {
+  "meter": "classical alexandrine 6+6, pulse 0.30 s, caesura gap 0.45 s; onset(k) = on + (k-1)*0.30 + (k>6)*0.45; caesura midpoint = on + 2.025",
+  "lines": [
+   {
+    "id": "L1",
+    "step_id": "P4",
+    "onset": 2.4,
+    "cue": "free (no cut)",
+    "text": "Voici les quatre anneaux | que la main a gardés.",
+    "syllables": [
+     "Voi",
+     "ci",
+     "les",
+     "qua",
+     "tr'an",
+     "neaux",
+     "que",
+     "la",
+     "main",
+     "a",
+     "gar",
+     "dés"
+    ],
+    "elisions": [
+     "quatr(e) + anneaux: mute e elided before a vowel (syllable 5 'tr'an')"
+    ],
+    "caesura": "after 'anneaux' (syllable 6, masculine); no mute e at the break",
+    "notes": "'Voici' = 2 syllables; 'que' (syll. 7) counts before the consonant l; 'main a' is a nasal vowel before a vowel, admitted in classical prosody (not a hiatus).",
+    "gloss": "Here are the four rings that the hand has kept.",
+    "scansion": "Voi-ci-les-qua-tr'an-neaux | que-la-main-a-gar-dés",
+    "caesura_after": 6,
+    "epic_caesura": false,
+    "syllable_onsets": [
+     2.4,
+     2.7,
+     3.0,
+     3.3,
+     3.6,
+     3.9,
+     4.65,
+     4.95,
+     5.25,
+     5.55,
+     5.85,
+     6.15
+    ],
+    "caesura_gap": [
+     4.2,
+     4.65
+    ],
+    "caesura_mid": 4.425,
+    "line_end": 6.45,
+    "caption_hemistichs": [
+     "Voici les quatre anneaux",
+     "que la main a gardés."
+    ],
+    "accents": [
+     6,
+     12
+    ]
+   },
+   {
+    "id": "L2",
+    "step_id": "P3",
+    "onset": 11.0,
+    "cue": "C1 ON the caesura: cut at the gap midpoint 13.025 s",
+    "text": "Chaque anneau s'en revient | au bras qui l'a nourri.",
+    "syllables": [
+     "Cha",
+     "qu'an",
+     "neau",
+     "s'en",
+     "re",
+     "vient",
+     "au",
+     "bras",
+     "qui",
+     "l'a",
+     "nou",
+     "rri"
+    ],
+    "elisions": [
+     "chaqu(e) + anneau (syllable 2 'qu'an')",
+     "s'en, l'a: written elisions"
+    ],
+    "caesura": "after 'revient' (syllable 6, masculine; 'vient' monosyllabic by usage); liaison t into 'au'",
+    "notes": "CHANGED from plan draft '... au bras qui l'a coulé': the runner arm does not cast the ring, it feeds it (French 'canal d'alimentation' = runner), so 'nourri' is the process-true verb. Same count, same caesura, same cue.",
+    "gloss": "Each ring comes back to the arm that fed it.",
+    "scansion": "Cha-qu'an-neau-s'en-re-vient | au-bras-qui-l'a-nou-rri",
+    "caesura_after": 6,
+    "epic_caesura": false,
+    "syllable_onsets": [
+     11.0,
+     11.3,
+     11.6,
+     11.9,
+     12.2,
+     12.5,
+     13.25,
+     13.55,
+     13.85,
+     14.15,
+     14.45,
+     14.75
+    ],
+    "caesura_gap": [
+     12.8,
+     13.25
+    ],
+    "caesura_mid": 13.025,
+    "line_end": 15.05,
+    "caption_hemistichs": [
+     "Chaque anneau s'en revient",
+     "au bras qui l'a nourri."
+    ],
+    "accents": [
+     6,
+     12
+    ]
+   },
+   {
+    "id": "L3",
+    "step_id": "M+P2",
+    "onset": 19.6,
+    "cue": "C2 AGAINST the caesura: cut on the onset of syllable 5 at 20.80 s, 0.825 s before the caesura midpoint 21.625",
+    "text": "Le rouge se retire, | et la forme est un creux.",
+    "syllables": [
+     "Le",
+     "rou",
+     "ge",
+     "se",
+     "re",
+     "ti(re)",
+     "et",
+     "la",
+     "for",
+     "m'est",
+     "un",
+     "creux"
+    ],
+    "elisions": [
+     "retir(e) + et: the feminine e after syllable 6 ELIDES before the vowel of 'et' (regular caesura, not epic)",
+     "form(e) + est (syllable 10 'm'est')"
+    ],
+    "caesura": "after 'reti-' (syllable 6), its mute e absorbed by elision into 'et'",
+    "notes": "'rou-ge' counts its mute e before the consonant s. CORRECTION to plan.md/test-shot labels: syllable 5 is 're' (first syllable of 'retire'), not '-ti-'; '-ti-' is syllable 6 at 21.10. The time of C2 (20.80) is unchanged: the cut lands as the word 'retire' begins.",
+    "gloss": "The red withdraws, and the form is a hollow.",
+    "scansion": "Le-rou-ge-se-re-ti(re) | et-la-for-m'est-un-creux",
+    "caesura_after": 6,
+    "epic_caesura": false,
+    "syllable_onsets": [
+     19.6,
+     19.9,
+     20.2,
+     20.5,
+     20.8,
+     21.1,
+     21.85,
+     22.15,
+     22.45,
+     22.75,
+     23.05,
+     23.35
+    ],
+    "caesura_gap": [
+     21.4,
+     21.85
+    ],
+    "caesura_mid": 21.625,
+    "line_end": 23.65,
+    "caption_hemistichs": [
+     "Le rouge se retire,",
+     "et la forme est un creux."
+    ],
+    "accents": [
+     6,
+     12
+    ]
+   },
+   {
+    "id": "L4",
+    "step_id": "P1",
+    "onset": 29.4,
+    "cue": "free; line ends 33.45; chord at 33.60; cut to the heap at 35.00 in a line gap",
+    "text": "L'objet était un arbre, | et l'arbre était du grain.",
+    "syllables": [
+     "L'ob",
+     "jet",
+     "é",
+     "tait",
+     "un",
+     "ar(bre)",
+     "et",
+     "l'ar",
+     "br'é",
+     "tait",
+     "du",
+     "grain"
+    ],
+    "elisions": [
+     "arbr(e) + et across the caesura (regular, not epic)",
+     "arbr(e) + était (syllable 9 'br'é')",
+     "L'objet, l'arbre: written elisions"
+    ],
+    "caesura": "after 'ar-' (syllable 6), mute e elided into 'et'",
+    "notes": "Liaisons: objet_était, était_un, un_arbre. No hiatus.",
+    "gloss": "The object was a tree, and the tree was grain.",
+    "scansion": "L'ob-jet-é-tait-un-ar(bre) | et-l'ar-br'é-tait-du-grain",
+    "caesura_after": 6,
+    "epic_caesura": false,
+    "syllable_onsets": [
+     29.4,
+     29.7,
+     30.0,
+     30.3,
+     30.6,
+     30.9,
+     31.65,
+     31.95,
+     32.25,
+     32.55,
+     32.85,
+     33.15
+    ],
+    "caesura_gap": [
+     31.2,
+     31.65
+    ],
+    "caesura_mid": 31.425,
+    "line_end": 33.45,
+    "caption_hemistichs": [
+     "L'objet était un arbre,",
+     "et l'arbre était du grain."
+    ],
+    "accents": [
+     6,
+     12
+    ]
+   }
+  ],
+  "cue_check": {
+   "C1": 13.025,
+   "C1_ok": true,
+   "C1_frames": "13.025 s = frame 312.6; frames 312 (13.000) and 313 (13.042) are both within +-1 frame; the cutout unit lands ring 1 home on frame 312 and cuts between 312 and 313",
+   "C2": 20.8,
+   "C2_ok": true,
+   "C2_frames": "20.80 s = frame 499.2 -> cut at frame 499 (20.792)",
+   "C2_lead_before_caesura_s": 0.825,
+   "other_cuts": [
+    8.6,
+    17.6,
+    27.6,
+    35.0
+   ],
+   "other_cuts_in_line_gaps": true,
+   "line_spans": {
+    "L1": [
+     2.4,
+     6.45
+    ],
+    "L2": [
+     11.0,
+     15.05
+    ],
+    "L3": [
+     19.6,
+     23.65
+    ],
+    "L4": [
+     29.4,
+     33.45
+    ]
+   }
+  },
+  "changes_vs_plan": [
+   "L2 'coulé' -> 'nourri' (process-true; cue contract kept)",
+   "L3 cue syllable label corrected: syllable 5 = 're', not '-ti-' (time unchanged)"
+  ]
+ },
+ "sound": {
+  "format": "WAV 44.1 kHz stereo 16-bit, each 38.000 s, aligned at film t=0, one fixed scale for all stems (sum at suggested gains)",
+  "dir": "/home/user/bolas/paeleo/scion/oulipo/films/sources/le-chant-du-styrene/process-verse-process-researcher-verse-writer-voice-sound-performer-/stems",
+  "builder": "/home/user/bolas/paeleo/scion/oulipo/films/swarm/le-chant-du-styrene/process-verse-build/stems.py",
+  "cues": "/home/user/bolas/paeleo/scion/oulipo/films/sources/le-chant-du-styrene/process-verse-process-researcher-verse-writer-voice-sound-performer-/stems/cues.json",
+  "overview": "/home/user/bolas/paeleo/scion/oulipo/films/sources/le-chant-du-styrene/process-verse-process-researcher-verse-writer-voice-sound-performer-/stems/stems_overview.png",
+  "suggested_gains": {
+   "meter": 1.0,
+   "ring_events": 1.0,
+   "drain": 0.9,
+   "rain": 0.8,
+   "chord": 0.8,
+   "room": 1.0,
+   "press_foraged": 1.0
+  },
+  "stems": {
+   "meter.wav": "HANDMADE performed meter: 48 struck-plastic pulses (12 per line) with the 0.45 s caesura gap and accents on syllables 6 and 12 (louder, longer). L1 hollow ring clicks (modal synthesis, free-ring flexural ratios 1:2.83:5.43:8.87, f0 ~1180 Hz with a rising-then-falling pitch contour); L2 lower hollow runner-arm clicks (free-free beam ratios, f0 ~640 Hz); L3 viscous low tones (~98 Hz drooping, with a wet blub; final syllable 74 Hz); L4 granular bursts of 22-40 micro-grains. Measured onset error vs cue sheet: max 0.005 s over 48 pulses (< 1 frame); the gap before each 2nd hemistich is silent in this stem.",
+   "ring_events.wav": "HANDMADE: Sh1 ring set down at 0.60 with a 3-bounce rattle; Sh2 per ring a lift-off tick + 0.45 s air whoosh at launch (10.30, 11.10, 11.80, 12.50) and a snap home on the gate (13.000 = ring 1 on frame 312 just before C1; 14.000, 14.700, 15.300), rings 2-4 followed by a settle rattle derived from the cutout unit's spring-damper (3.2 Hz, zeta 0.22), all ended before 15.75; silence (room only) 15.9-17.6. Times read from geometry.json timing.",
+   "drain.wav": "HANDMADE: Sh3b drain tone 21.00-26.30, falling 190->55 Hz with gurgle; four cavity-release suctions FAR TO NEAR at 21.90, 22.90, 23.90, 24.90 (1.0 s apart, nearer ones louder) - PROPOSED times for the melt unit's larger drain-order spacing; sprue glug at 26.20.",
+   "rain.wav": "HANDMADE: granular pellet rain, sound-only transition 26.80-27.60 over the still empty mould (18 -> 160 grains/s), thickening through Sh4 to ~500/s at 33.60, ducked 0.12 s under each L4 pulse so the meter stays countable, thinning after the chord, then the last duller grains landing on the heap 35.0-36.5; 0.8 s ahead of the Sh4 picture.",
+   "chord.wav": "HANDMADE: struck chord at 33.60 on locked rational ratios 1:3/2:2:5/2:3:4 over 110 Hz (the Whitney alignment heard) with a plastic transient; decays mostly before 35.0.",
+   "room.wav": "HANDMADE room tone 0-38 s: low pink air + faint 50/100 Hz hum, fades out 36.6-37.8 to silence at 38.0.",
+   "press_foraged.wav": "FORAGED: the real Engel injection moulding machine recording (source 2.0-12.8 s), band-limited 30-2500 Hz and set about 18 dB down as a faint press bed under L3: fades in 18.8-19.8, out 26.4-27.4 so the pellet rain enters over near-silence.",
+   "mix_preview.wav": "sum of all stems at suggested gains (reference for the editor, not a master)"
+  },
+  "foraged_raw": [
+   "/home/user/bolas/paeleo/scion/oulipo/films/sources/le-chant-du-styrene/process-verse-process-researcher-verse-writer-voice-sound-performer-/gigaset_full.wav",
+   "/home/user/bolas/paeleo/scion/oulipo/films/sources/le-chant-du-styrene/process-verse-process-researcher-verse-writer-voice-sound-performer-/gigaset_trim_2.0-12.8s_raw.wav"
+  ],
+  "report": {
+   "meter": {
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/le-chant-du-styrene/process-verse-process-researcher-verse-writer-voice-sound-performer-/stems/meter.wav",
+    "peak": 0.734
+   },
+   "ring_events": {
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/le-chant-du-styrene/process-verse-process-researcher-verse-writer-voice-sound-performer-/stems/ring_events.wav",
+    "peak": 0.946
+   },
+   "drain": {
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/le-chant-du-styrene/process-verse-process-researcher-verse-writer-voice-sound-performer-/stems/drain.wav",
+    "peak": 0.431
+   },
+   "rain": {
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/le-chant-du-styrene/process-verse-process-researcher-verse-writer-voice-sound-performer-/stems/rain.wav",
+    "peak": 0.155
+   },
+   "chord": {
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/le-chant-du-styrene/process-verse-process-researcher-verse-writer-voice-sound-performer-/stems/chord.wav",
+    "peak": 0.416
+   },
+   "room": {
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/le-chant-du-styrene/process-verse-process-researcher-verse-writer-voice-sound-performer-/stems/room.wav",
+    "peak": 0.012
+   },
+   "press_foraged": {
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/le-chant-du-styrene/process-verse-process-researcher-verse-writer-voice-sound-performer-/stems/press_foraged.wav",
+    "peak": 0.074
+   },
+   "mix_preview": {
+    "path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/le-chant-du-styrene/process-verse-process-researcher-verse-writer-voice-sound-performer-/stems/mix_preview.wav",
+    "peak": 0.94
+   },
+   "meter_onset_error_s": {
+    "max_abs": 0.005,
+    "n": 48,
+    "frame": 0.041666666666666664
+   },
+   "rain_grains": 2311,
+   "meter_level_just_before_hemistich2_dB_re_peak": {
+    "L1": -183.3,
+    "L2": -183.3,
+    "L3": -183.3,
+    "L4": -183.3
+   }
+  }
+ },
+ "red_amber_runner_search": {
+  "for_unit": "U2 cutout",
+  "result": "NOT FOUND - keep the declared thickness-to-colour gel ramp on the teal Spritzguss teile runner",
+  "time_spent_min": 10,
+  "searched": [
+   "Commons file search: 'sprue red plastic', 'Gussast', 'Spritzling', 'runner injection red', 'transparent red plastic sprue', 'sprue plastic model', 'clear red plastic parts runner', 'Angießkanal', 'Spritzgussteil rot', 'translucent amber plastic molded', 'Gunpla clear parts'",
+   "Commons categories: Sprue (4 files: Casting gating system.svg, Mold cavity.jpg [cream], Spritzguss teile.jpg [teal], Sprue.JPG [grey]), Injection moulding (first 60 members), Plastic pellets",
+   "Library of Congress photos: 'injection molding plastic', 'polystyrene' (no relevant items; one query failed mid-transfer)",
+   "Previously foraged local candidates re-viewed: gp_* Gunpla sprues (green/blue/grey, opaque), sprue_dm (grey), flash (grey), sprue_array/sprue_multi (green/blue)"
+  ],
+  "closest": [
+   "Mold cavity.jpg (CC BY-SA 3.0): cream, opaque, a 4-cavity shot with sprue/runner/gates labelled - good process evidence, wrong colour and not translucent"
+  ]
+ },
+ "notes_for_other_units": {
+  "melt_unit": "Drain order proposal matching drain.wav: far cavity empty at 21.90, then 22.90, 23.90, 24.90 (near), sprue last at 26.20. If you choose other times, edit cues.json drain.cavity_release_far_to_near and re-run stems.py (1.6 s).",
+  "editor": "Captions: use the four lines exactly as in verse.lines[].caption_hemistichs (L2 now ends 'nourri'). Mix stems at suggested_gains; they share one scale. Run validate_tour.py --ledger on the final ledger. Credits: add the Gigaset recording (CC BY 3.0, below) - it is the film's one foraged sound."
+ },
+ "evidence": [
+  {
+   "title": "Spritzguss teile.jpg",
+   "author": "Gmhofmann",
+   "license": "CC BY-SA 4.0",
+   "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Spritzguss_teile.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/e/e6/Spritzguss_teile.jpg",
+   "local_path": "films/sources/le-chant-du-styrene/r2/spritzguss.jpg",
+   "what_it_shows": "Two injection-moulded shots of the same tool, teal plastic on white: left, a degated four-arm runner beside its four loose rings; right, a runner with four rings still attached at the gates. Commons category: Sprue.",
+   "verified_date_or_place": "licence read from Commons extmetadata 2026-11-16; photograph date/place unverified; polymer not stated (polystyrene unverified)",
+   "id": "E-spritzguss",
+   "used_as": "process evidence for degate; on screen as GrabCut cutouts (cutout unit)"
+  },
+  {
+   "title": "Mold cavity.jpg",
+   "author": "Blue tooth7",
+   "license": "CC BY-SA 3.0",
+   "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Mold_cavity.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/4/43/Mold_cavity.jpg",
+   "local_path": "films/sources/le-chant-du-styrene/process-verse-process-researcher-verse-writer-voice-sound-performer-/dl/mold_cavity.jpg",
+   "what_it_shows": "An actual 4-cavity shot (brackets for an LCD TV power button) with sprue, runner, gates and each part labelled 'Produk (cavity)': the part is the filled cavity, still joined to the runner. Categories: Injection moulding, Moulds, Sprue.",
+   "verified_date_or_place": "licence read 2026-11-16; viewed; date/place unverified",
+   "id": "E-moldcavity",
+   "used_as": "process evidence only (not on screen)"
+  },
+  {
+   "title": "Injection molding diagram.svg",
+   "author": "ariel cornejo",
+   "license": "CC BY-SA 4.0",
+   "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Injection_molding_diagram.svg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/3/32/Injection_molding_diagram.svg",
+   "local_path": "films/sources/le-chant-du-styrene/process-verse-process-researcher-verse-writer-voice-sound-performer-/dl/im_diagram_1280.png (1280 px PNG render)",
+   "what_it_shows": "Simplified section: a melt charge pushed (P) from the nozzle through sprue, runner and gates into empty cavities between two mould plates; second panel shows the cavities filled as parts, ejector pins below.",
+   "verified_date_or_place": "licence read 2026-11-16; viewed",
+   "id": "E-diagram",
+   "used_as": "process evidence only (not on screen)"
+  },
+  {
+   "title": "Hot runner x-section injection.png",
+   "author": "Keyarts at English Wikipedia (image created by Orycon Control Technology)",
+   "license": "CC BY-SA 3.0",
+   "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Hot_runner_x-section_injection.png",
+   "file_url": "",
+   "local_path": "",
+   "what_it_shows": "Cross-section of a plastic injection mould shown in the injection cycle (per file description).",
+   "verified_date_or_place": "licence read 2026-11-16; not downloaded, not viewed",
+   "id": "E-hotrunner",
+   "used_as": "process evidence only (not on screen)"
+  },
+  {
+   "title": "Injection mold - (11).jpg",
+   "author": "Bricetofly",
+   "license": "CC0",
+   "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Injection_mold_-_(11).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/1/10/Injection_mold_-_%2811%29.jpg",
+   "local_path": "films/sources/le-chant-du-styrene/kf/mold11.jpg",
+   "what_it_shows": "Machined steel plate of a plastic injection mould with a slide ('système de tiroir pour un moule à injection plastique').",
+   "verified_date_or_place": "licence read 2026-11-16 (also by the test-shot unit); viewed",
+   "id": "E-mold11",
+   "used_as": "evidence for M (mould steel); on screen as the Sh3 steel (melt unit)"
+  },
+  {
+   "title": "Injection moulding machine screw.jpg",
+   "author": "Nalbarian",
+   "license": "CC BY-SA 4.0",
+   "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Injection_moulding_machine_screw.jpg",
+   "file_url": "",
+   "local_path": "",
+   "what_it_shows": "Injection-moulding machine screws, before and after purging with commercial purging resin (per description): the screw that melts and conveys the resin.",
+   "verified_date_or_place": "licence read 2026-11-16; not downloaded, not viewed",
+   "id": "E-screw",
+   "used_as": "process evidence only (not on screen)"
+  },
+  {
+   "title": "Injection moulding process (1).png",
+   "author": "derivative of Injection_moulding_process.png by Laurens (per Commons Artist field)",
+   "license": "Public domain",
+   "license_url": "",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Injection_moulding_process_(1).png",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/8/82/Injection_moulding_process_%281%29.png",
+   "local_path": "films/sources/le-chant-du-styrene/process-verse-process-researcher-verse-writer-voice-sound-performer-/dl/im_process_pd.png",
+   "what_it_shows": "Schematic (viewed): granules (yellow) fall from a hopper onto a rotating screw in a barrel and turn to red melt along it; the melt is pushed through the nozzle into the sprue, runner and cavities of a two-plate mould; the solid runner with its parts is then ejected. All three edges in one drawing.",
+   "verified_date_or_place": "licence read 2026-11-16 (Public domain); viewed",
+   "id": "E-process-pd",
+   "used_as": "process evidence only (not on screen)"
+  },
+  {
+   "title": "Gigaset Cordless Telephone Production II - Engel Injection Moulding Machine.webm",
+   "author": "Sound recordist: Kathinka Engels; photographer and video recordist: Inke Pickhardt (Work With Sounds)",
+   "license": "CC BY 3.0",
+   "license_url": "https://creativecommons.org/licenses/by/3.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Gigaset_Cordless_Telephone_Production_II_-_Engel_Injection_Moulding_Machine.webm",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/transcoded/9/9f/Gigaset_Cordless_Telephone_Production_II_-_Engel_Injection_Moulding_Machine.webm/Gigaset_Cordless_Telephone_Production_II_-_Engel_Injection_Moulding_Machine.webm.480p.vp9.webm",
+   "local_path": "films/sources/le-chant-du-styrene/process-verse-process-researcher-verse-writer-voice-sound-performer-/dl/gigaset_engel.webm",
+   "what_it_shows": "33.6 s of an Engel injection moulding machine running in the Gigaset telephone factory, Bocholt, Germany, 2009 (Commons category: Injection moulding; Videos of 2009). Continuous machine sound, no speech detected in level/centroid profile.",
+   "verified_date_or_place": "Bocholt, Germany, 2009 (per Commons description/categories); licence read 2026-11-16; frames viewed",
+   "id": "E-gigaset",
+   "used_as": "evidence for the machine; its audio is the foraged press bed stem (press_foraged.wav) under Sh3a/Sh3b"
+  },
+  {
+   "title": "Plastic pellets for injection molding.jpg",
+   "author": "Teemeah",
+   "license": "CC BY-SA 3.0",
+   "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Plastic_pellets_for_injection_molding.jpg",
+   "file_url": "",
+   "local_path": "",
+   "what_it_shows": "Coloured plastic granules for injection moulding (per description). Category: Plastic pellets.",
+   "verified_date_or_place": "licence read 2026-11-16; not downloaded",
+   "id": "E-pellets",
+   "used_as": "process evidence only (not on screen)"
+  },
+  {
+   "title": "Uncolored plastic granules.jpg",
+   "author": "Rohini",
+   "license": "CC BY-SA 3.0",
+   "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Uncolored_plastic_granules.jpg",
+   "file_url": "",
+   "local_path": "",
+   "what_it_shows": "'Plastic granules used in the process of manufacturing plastic articles' (description).",
+   "verified_date_or_place": "licence read 2026-11-16; not downloaded",
+   "id": "E-granules",
+   "used_as": "process evidence only (not on screen)"
+  },
+  {
+   "title": "Styron (Dow Polystyrene) - DPLA - 648a2cd69107879d8c651555a0a31798.jpg",
+   "author": "Dow Chemical Company (via Science History Institute / DPLA)",
+   "license": "Public domain",
+   "license_url": "",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Styron_(Dow_Polystyrene)_-_DPLA_-_648a2cd69107879d8c651555a0a31798.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Styron_%28Dow_Polystyrene%29_-_DPLA_-_648a2cd69107879d8c651555a0a31798.jpg/1280px-Styron_%28Dow_Polystyrene%29_-_DPLA_-_648a2cd69107879d8c651555a0a31798.jpg",
+   "local_path": "films/sources/le-chant-du-styrene/process-verse-process-researcher-verse-writer-voice-sound-performer-/dl/styron_ad_1280.jpg",
+   "what_it_shows": "Colour print advertisement (wartime, 'Chemicals indispensable to industry and victory') for Styron, Dow's polystyrene, showing a hand releasing a stream of granules, a crystal-clear block and a beaded chain: printed matter tying the polymer to granular raw stock and moulding.",
+   "verified_date_or_place": "Commons category PD US; Dow Chemical Company, Midland, Michigan; date not stated on file page (1940s by its slogan, unverified); viewed",
+   "id": "E-styron",
+   "used_as": "process evidence only (not on screen)"
+  },
+  {
+   "title": "Circular of the Bureau of Standards no. 411- organic plastics (IA circularofbureau411klin).pdf",
+   "author": "Kline, Gordon M. (US National Bureau of Standards)",
+   "license": "Public domain (PD US Government)",
+   "license_url": "",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Circular_of_the_Bureau_of_Standards_no._411-_organic_plastics_(IA_circularofbureau411klin).pdf",
+   "file_url": "",
+   "local_path": "",
+   "what_it_shows": "US government survey of organic plastics (subject: Plastics). Printed-matter anchor for thermoplastics such as polystyrene being moulded; pages not inspected here.",
+   "verified_date_or_place": "licence read 2026-11-16; not downloaded; contents unverified",
+   "id": "E-bos411",
+   "used_as": "process evidence only (not on screen)"
+  },
+  {
+   "title": "Gunpla sprue nub.jpg",
+   "author": "Gravis",
+   "license": "CC BY-SA 4.0",
+   "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Gunpla_sprue_nub.jpg",
+   "file_url": "",
+   "local_path": "",
+   "what_it_shows": "A part clipped free of its sprue, showing the gate nub left by the cut (description).",
+   "verified_date_or_place": "licence read 2026-11-16; not downloaded",
+   "id": "E-nub",
+   "used_as": "process evidence only (not on screen)"
+  },
+  {
+   "title": "Gunpla sprue cutter.jpg",
+   "author": "Gravis",
+   "license": "CC BY-SA 4.0",
+   "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Gunpla_sprue_cutter.jpg",
+   "file_url": "",
+   "local_path": "",
+   "what_it_shows": "Side-cutters sold for clipping plastic model parts from sprues (description).",
+   "verified_date_or_place": "licence read 2026-11-16; not downloaded",
+   "id": "E-cutter",
+   "used_as": "process evidence only (not on screen)"
+  },
+  {
+   "title": "Category:Injection moulding (description)",
+   "author": "Wikimedia Commons contributors",
+   "license": "CC BY-SA 4.0 (Commons text)",
+   "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+   "source_url": "https://commons.wikimedia.org/wiki/Category:Injection_moulding",
+   "file_url": "",
+   "local_path": "",
+   "what_it_shows": "'Injection molding (moulding) is a manufacturing process for producing parts from both thermoplastic and thermosetting plastic ...' Parent categories: Moulding, Plastic processing.",
+   "verified_date_or_place": "wikitext read 2026-11-16",
+   "id": "E-cat-im",
+   "used_as": "process evidence only (not on screen)"
+  }
+ ],
+ "handmade": [
+  {
+   "id": "H-graph",
+   "what": "process_graph.json + validate_tour.py (direct-edge reverse-tour validator with fixture and counterexamples)",
+   "where": "/home/user/bolas/paeleo/scion/oulipo/films/swarm/le-chant-du-styrene"
+  },
+  {
+   "id": "H-verse",
+   "what": "four original French alexandrines with scansion, elisions, onset tables and glosses",
+   "where": "/home/user/bolas/paeleo/scion/oulipo/films/swarm/le-chant-du-styrene/process_verse.json"
+  },
+  {
+   "id": "H-stems",
+   "what": "meter, ring_events, drain, rain, chord, room stems by modal/noise synthesis in numpy (kit.Mix band filter used read-only)",
+   "where": "/home/user/bolas/paeleo/scion/oulipo/films/sources/le-chant-du-styrene/process-verse-process-researcher-verse-writer-voice-sound-performer-/stems"
+  }
+ ],
+ "credits_entries": [
+  {
+   "title": "Gigaset Cordless Telephone Production II - Engel Injection Moulding Machine (2009)",
+   "author": "Sound recordist Kathinka Engels; photographer and video recordist Inke Pickhardt (Work With Sounds), via Wikimedia Commons",
+   "license": "CC BY 3.0",
+   "license_url": "https://creativecommons.org/licenses/by/3.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Gigaset_Cordless_Telephone_Production_II_-_Engel_Injection_Moulding_Machine.webm",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/transcoded/9/9f/Gigaset_Cordless_Telephone_Production_II_-_Engel_Injection_Moulding_Machine.webm/Gigaset_Cordless_Telephone_Production_II_-_Engel_Injection_Moulding_Machine.webm.480p.vp9.webm",
+   "used_as": "sound: the press bed under Sh3a/Sh3b (audio 2.0-12.8 s, band-limited, about -18 dB)"
+  }
+ ],
+ "absences": [
+  "No genuine red or amber translucent runner/sprue photograph under an allowed licence (see red_amber_runner_search).",
+  "No open photograph or recording of polystyrene melt itself (it is enclosed in the barrel/mould); the melt stays a declared handmade simulation.",
+  "No open evidence foraged for regrind (runner scrap returned to the hopper): kept as unverified hypothesis H-regrind, not an edge.",
+  "No open evidence that the 1958 reference's trees are injection-moulded polystyrene: hypothesis H-reference-construction.",
+  "No openly licensed real speech usable as voice: voice stays captions + the wordless performed meter.",
+  "No struck-plastic or pellet recordings found under an allowed licence in this run's budget (not searched exhaustively); those sounds are handmade.",
+  "Moving Image Archive cache: query 'machine|press|factory|stamping|industr' returned general factory shots (Valley Town 1940, Master Hands 1936, etc.) and no plastics; not used, since a licensed recording of an actual injection moulding machine was found on Commons.",
+  "Library of Congress: no relevant injection-moulding or polystyrene printed matter in two queries."
+ ],
+ "downloads_MB": 2.57
+}

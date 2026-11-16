@@ -1,0 +1,294 @@
+{
+ "unit": "U1 route-researcher",
+ "film": "les-lieux-dune-fugue",
+ "date": "2026-11-16",
+ "places": [
+  {
+   "place_id": "P01",
+   "name": "la porte (porte cochère, numéro 7)",
+   "cue": "dark two-leaf carriage door, left of centre, running out of frame bottom, in warm ashlar with narrow carved jambs, small dark '7' plaque right of the door at lintel height, pale plinth, dark iron band at top",
+   "adjacency": {
+    "next": "P02",
+    "prev": null
+   },
+   "capture_scope": {
+    "sources": [
+     "DOOR-C",
+     "DOOR-S",
+     "STOCK"
+    ],
+    "pieces": "ashlar blocks, jambs, lintel, plinth, balcony band (DOOR-C grille), two leaves + stud/handle children (DOOR-S), plaque (handmade card)",
+    "observations": [
+     "P01-A matin (shot 1, 0:00-0:08)",
+     "P01-B soir (shot 4, 0:28-0:44)"
+    ],
+    "camera_pose": "identical for A and B (U2 records)"
+   },
+   "source_ids": [
+    "DOOR-C",
+    "DOOR-S",
+    "STOCK"
+   ],
+   "source_capture_time": {
+    "DOOR-C": "2009",
+    "DOOR-S": "2013-11"
+   },
+   "staged_capture_time": {
+    "A": "matin (lamp A)",
+    "B": "soir (lamp B)"
+   }
+  },
+  {
+   "place_id": "P02",
+   "name": "le carrefour",
+   "cue": "stone kerb and pavement with a gutter seam that runs up the setts and forks where the street splits",
+   "adjacency": {
+    "next": "P03",
+    "prev": "P01"
+   },
+   "capture_scope": {
+    "sources": [
+     "JUNC-M",
+     "STOCK"
+    ],
+    "fallback": [
+     "JUNC-F"
+    ],
+    "planes": "kerb/pavement 0 (JUNC-M ground crop) / corner stone 0.5 (JUNC-M lower walls, no signage) / far fork 1.0 (JUNC-M far crop)",
+    "pieces": "+ handmade ochre route strip laid along the seam",
+    "observations": [
+     "P02 (shot 2, 0:08-0:19)"
+    ]
+   },
+   "source_ids": [
+    "JUNC-M"
+   ],
+   "source_capture_time": {
+    "JUNC-M": "c. 1860"
+   }
+  },
+  {
+   "place_id": "P03",
+   "name": "le banc",
+   "cue": "slatted bench with iron arm, a tree trunk behind it to the left, leaf litter in front",
+   "adjacency": {
+    "next": null,
+    "prev": "P02"
+   },
+   "capture_scope": {
+    "sources": [
+     "BENCH",
+     "STOCK"
+    ],
+    "planes": "litter 0 / bench 0.4 / trunks 0.7 / far park 1.0 (present, warm); memory print inside P01 door at 0.6/1.0 (cold)",
+    "observations": [
+     "P03 présent (shot 3, 0:19-0:28)",
+     "P03 retour, silence (shot 5, 0:44-0:52)"
+    ],
+    "plate_and_framing": "identical for both observations"
+   },
+   "source_ids": [
+    "BENCH"
+   ],
+   "source_capture_time": {
+    "BENCH": "2012"
+   }
+  }
+ ],
+ "sources": [
+  {
+   "id": "DOOR-C",
+   "title": "Exterior doorway, Joseph P. Kinnerary U.S. Courthouse, Columbus, Ohio",
+   "author": "Carol M. Highsmith",
+   "license": "Public domain (Carol M. Highsmith Archive, Library of Congress. Item record rights_advisory: 'No known restrictions on publication.' Highsmith dedicated the archive to the public)",
+   "license_url": "https://www.loc.gov/rr/print/res/482_high.html",
+   "source_url": "https://www.loc.gov/item/2010719611/",
+   "file_url": "https://tile.loc.gov/image-services/iiif/service:pnp:highsm:10700:10776/full/pct:25/0/default.jpg",
+   "local_path": "films/sources/les-lieux-dune-fugue/r2/hs_10700_10776.jpg",
+   "what_it_shows": "Frontal carved-stone doorway in ochre ashlar, carved vine jambs, marble base, window grille",
+   "verified_date_or_place": "2009 (record date '2009.'), Columbus, Ohio, USA",
+   "source_capture_time": "2009",
+   "call_number": "LC-DIG-highsm-10776",
+   "licence_evidence": "rights_advisory 'No known restrictions on publication.'; contributor 'Highsmith, Carol M., 1946-, photographer'; re-verified 2026-11-16 on the item record (www.loc.gov/item/<id>/?fo=json)",
+   "used_as": "P01 facade: ashlar blocks, lintel, carved jambs, plinth (marble base), balcony band (window grille)"
+  },
+  {
+   "id": "DOOR-S",
+   "title": "Exterior door. U.S. Custom House, East Bay and Bull Streets, Savannah, Georgia",
+   "author": "Carol M. Highsmith",
+   "license": "Public domain (Carol M. Highsmith Archive, Library of Congress. Item record rights_advisory: 'No known restrictions on publication.' Highsmith dedicated the archive to the public)",
+   "license_url": "https://www.loc.gov/rr/print/res/482_high.html",
+   "source_url": "https://www.loc.gov/item/2014630119/",
+   "file_url": "https://tile.loc.gov/image-services/iiif/service:pnp:highsm:25800:25800/full/pct:50/0/default.jpg",
+   "local_path": "films/sources/les-lieux-dune-fugue/r2/hs_25800_25800.jpg",
+   "what_it_shows": "A dark riveted/studded double door",
+   "verified_date_or_place": "November 2013 (record 'created_published: 2013 November.'), Savannah, Georgia, USA",
+   "source_capture_time": "2013-11",
+   "call_number": "LC-DIG-highsm-25800",
+   "licence_evidence": "rights_advisory 'No known restrictions on publication.'; contributor Highsmith; re-verified 2026-11-16 on the item record (www.loc.gov/item/<id>/?fo=json)",
+   "used_as": "P01 door leaves (printed dark) and their stud/handle children"
+  },
+  {
+   "id": "BENCH",
+   "title": "Park bench in Sacramento, the capital city of the U.S. state of California and the county seat of Sacramento County",
+   "author": "Carol M. Highsmith",
+   "license": "Public domain (Carol M. Highsmith Archive, Library of Congress. Item record rights_advisory: 'No known restrictions on publication.' Highsmith dedicated the archive to the public)",
+   "license_url": "https://www.loc.gov/rr/print/res/482_high.html",
+   "source_url": "https://www.loc.gov/item/2013633886/",
+   "file_url": "https://tile.loc.gov/image-services/iiif/service:pnp:highsm:23400:23429/full/pct:25/0/default.jpg",
+   "local_path": "films/sources/les-lieux-dune-fugue/r2/bench/sac_23429.jpg",
+   "what_it_shows": "Slatted park bench with iron arms among trees and leaf litter",
+   "verified_date_or_place": "2012 (record date '2012.'), Sacramento, California, USA",
+   "source_capture_time": "2012",
+   "call_number": "LC-DIG-highsm-23429",
+   "licence_evidence": "rights_advisory 'No known restrictions on publication.'; contributor Highsmith; re-verified 2026-11-16 on the item record (www.loc.gov/item/<id>/?fo=json)",
+   "used_as": "P03 present plate (warm print) and memory bench/park planes inside the open door (cold print)"
+  },
+  {
+   "id": "STOCK",
+   "title": "[Unidentified Production: Sketch no. 27, Blank Sheet of Paper]",
+   "author": "Federal Theatre Project (U.S.); Nels Astner",
+   "license": "Public domain (U.S. government work; LoC Federal Theatre Project restriction statement: 'not aware of any copyright ... free to use and reuse')",
+   "license_url": "https://www.loc.gov/item/musftpsets.200218222/",
+   "source_url": "https://www.loc.gov/item/musftpsets.200218222/",
+   "file_url": "",
+   "local_path": "films/sources/les-lieux-dune-fugue/test-shot/dl/ftp_blank_sheet.jpg",
+   "what_it_shows": "Scan of a blank sheet of paper (fibre, tooth, slight foxing)",
+   "verified_date_or_place": "1934 (record date)",
+   "source_capture_time": "1934 (sheet); scan date not given",
+   "licence_evidence": "Collection 'Restriction and Notice Statement' on the item record (re-verified 2026-11-16). LoC notes it has not analysed every FTP item individually; a blank sheet carries no authorship of its own",
+   "used_as": "paper-stock fibre for every print, card and leaf (U2 scope; listed here for the credits)"
+  },
+  {
+   "id": "JUNC-M",
+   "title": "Charles Marville, Rue Tirechappe (c. 1860), Getty Museum object 68586",
+   "author": "Charles Marville (via J. Paul Getty Museum Open Content)",
+   "license": "Public domain",
+   "license_url": "https://commons.wikimedia.org/wiki/File:Charles_Marville,_Rue_Tirechappe_-_Getty_Museum.jpg",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Charles_Marville,_Rue_Tirechappe_-_Getty_Museum.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Charles_Marville%2C_Rue_Tirechappe_-_Getty_Museum.jpg/1920px-Charles_Marville%2C_Rue_Tirechappe_-_Getty_Museum.jpg",
+   "local_path": "films/sources/les-lieux-dune-fugue/route/junction/marville_rue_tirechappe_1860_1920.jpg",
+   "what_it_shows": "Albumen print, warm sepia: narrow Paris street, stone kerb and pavement in the foreground, a wet gutter seam running up the setts to a fork where the street splits at the far end. Posters and painted signs on the upper walls (legible) and a blurred carriage in the far distance; no foreground people",
+   "verified_date_or_place": "c. 1860 (extmetadata DateTimeOriginal 1860), rue Tirechappe, Paris 1er (demolished soon after, per the Getty description)",
+   "source_capture_time": "c. 1860",
+   "licence_evidence": "Commons extmetadata (2026-11-16): LicenseShortName 'Public domain', Copyrighted 'False', UsageTerms 'Public domain', Credit 'The Getty Center, Object 68586 ... Getty Research Institute Open Content Program ... no known copyright restrictions'. Author died 1879: PD-old",
+   "used_as": "P02 junction (PRIMARY): ground plane = kerb + pavement + gutter seam (crop y>=1550, no text); far plane = the fork (crop junction_far_fork); mid-plane stone from the lower right wall. Upper walls with signage are NOT to be used"
+  },
+  {
+   "id": "JUNC-F",
+   "title": "Rue du Soleil, rue de Belleville, Paris 20e",
+   "author": "Polymagou",
+   "license": "CC BY-SA 4.0",
+   "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Rue_du_Soleil,_rue_de_Belleville,_Paris_20e.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/1/1e/Rue_du_Soleil%2C_rue_de_Belleville%2C_Paris_20e.jpg",
+   "local_path": "films/sources/les-lieux-dune-fugue/route/junction/fallback_Rue_du_Soleil_rue_de_Belleville_Paris_20e.jpg",
+   "what_it_shows": "Present-day colour street corner (laverie at the crossing of rue du Soleil and rue de Belleville): grey granite kerb, pavement, drain, zebra stripe. Large LAVERIE sign, street sign and graffiti above",
+   "verified_date_or_place": "2025-05-02 (extmetadata DateTimeOriginal 2025-05-02 20:25:25), Paris 20e",
+   "source_capture_time": "2025-05-02",
+   "licence_evidence": "Commons extmetadata (2026-11-16): LicenseShortName 'CC BY-SA 4.0', Artist 'Polymagou', Credit 'Own work'",
+   "used_as": "P02 FALLBACK only (ground strip y>=1440 of the 1280 px copy). Credit only if U2 uses it"
+  }
+ ],
+ "handmade": [
+  {
+   "id": "ROUTE-PNG",
+   "what": "route diagram P01->P02->P03 with the inferred memory link P01..P03",
+   "where": "films/swarm/les-lieux-dune-fugue/route.png"
+  },
+  {
+   "id": "CROPS",
+   "what": "prepared crops of JUNC-M (ground kerb/seam 4:3, ground full width, far fork, right-wall stone) and JUNC-F ground strip; plain PIL crops, no grading",
+   "where": "films/sources/les-lieux-dune-fugue/route-researcher/"
+  }
+ ],
+ "rejected": [
+  {
+   "item": "LoC Highsmith searches for P02 ('sidewalk', 'curb', 'street corner stone', 'cobblestone street', 'brick sidewalk', fa=contributor:highsmith)",
+   "reason": "results are plaques, mosaics, markets, people; no frontal kerb/pavement seam or fork in warm stone found in the first pages. Searches slow (one timed out)"
+  },
+  {
+   "item": "Charles Marville, Rue d'Alésia (Commons PD)",
+   "reason": "bridge and road works, no kerb seam/fork read; grey"
+  },
+  {
+   "item": "Allée Bd Saint-Jacques.JPG (CC BY-SA 3.0); Avenue Canadiens 2021 (CC BY-SA 4.0); Bd Saint-Martin2/3 (PD)",
+   "reason": "tree-lined avenues, cars, cold grey asphalt; no warm stone, no fork"
+  },
+  {
+   "item": "Paris 75008 Champs-Élysées sidewalk 20120507 (01) (CC BY 2.0)",
+   "reason": "crowd of foreground people"
+  },
+  {
+   "item": "Marville balcony crop (top-left of JUNC-M) as the P01 ironwork band",
+   "reason": "oblique view and painted 'MAGASIN' lettering under it; the DOOR-C window grille (already used in the test shot) stays the balcony band"
+  },
+  {
+   "item": "29 rue du Soleil 3-4 / 5 (CC BY-SA 4.0, Polymagou); Paris Metro Nationale Bänke (CC0); loc_8a40126v/8a40127v, loc_12017v and r2 misc (469387, b11f24, bff002, ebdfb3, ebe344, 7574ad)",
+   "reason": "earlier-direction sources; not part of the Paper Facade build. Not credited unless U2 uses one"
+  },
+  {
+   "item": "JUNC-F as primary",
+   "reason": "large legible LAVERIE sign, street sign and graffiti; cold grey granite; only the ground strip is usable"
+  }
+ ],
+ "absences": [
+  "LoC Highsmith PD: no frontal warm-stone kerb/pavement with a seam or fork found (queries listed in rejected).",
+  "PD ironwork balcony photographed frontally: not found under an allowed licence in the time box (LoC 'wrought iron balcony' Highsmith returned Maysville KY houses and street scenes, none frontal band-like); DOOR-C grille reused.",
+  "Commons API rate-limited this session (HTTP 429 repeatedly); category walks for 'Paving stones in Paris' and 'Curbs in France' returned nothing. Searching paused rather than hammered.",
+  "Sound: out of this unit's scope (U3 owns the recording retry)."
+ ],
+ "uncertainty": [
+  "P02 source JUNC-M is c. 1860, monochrome albumen (warm sepia), while P01/P03 sources are 2009-2013 colour. The c.1860 date is recorded as source_capture_time only; on screen P02 is a 'present' observation. Risk: a viewer could read the sepia junction as 'past'. Mitigation for U2: print it with the same warm stone grade as P01 (one global curve), keep it distinct from the cold memory print; if it still reads as 'old photo', switch to JUNC-F ground strip and record the switch (that re-catalogues P02 and blocks F2 until U3 confirms).",
+  "JUNC-M perspective is steep (street receding), not the 'frontal, slightly high' framing in plan §5; the multiplane glide should use the ground crop as the near plane and the far-fork crop as the far plane.",
+  "JUNC-M far crop contains a blurred carriage and a ghosted driver figure at distance; not a foreground figure, but U2 may mask it or keep the far plane out of focus.",
+  "DOOR-C, DOOR-S, BENCH dates are year-level from the LoC records (DOOR-S month-level); exact days are not given.",
+  "STOCK: LoC says the Federal Theatre Project collection is generally US government work but not analysed item by item.",
+  "The film's narrative route (P01->P02->P03) joins photographs from three cities; the ledger states this and no adjacency is claimed geographically.",
+  "Perec film dates (shot c.1976, broadcast 1978) not verified here; no material from it is used."
+ ],
+ "route": {
+  "nodes": [
+   "P01",
+   "P02",
+   "P03"
+  ],
+  "edges": [
+   {
+    "src": "P01",
+    "dst": "P02",
+    "kind": "route (walked)",
+    "status": "asserted (F1/F2 narration)",
+    "screen": "shot 1 -> shot 2"
+   },
+   {
+    "src": "P02",
+    "dst": "P03",
+    "kind": "route (walked)",
+    "status": "asserted for P02 (F2); arrival at P03 inferred (F3 'ce banc, ou un autre')",
+    "screen": "shot 2 -> shot 3"
+   },
+   {
+    "src": "P01",
+    "dst": "P03",
+    "kind": "memory link (dislocated, through the door)",
+    "status": "INFÉRÉ",
+    "screen": "shot 4 (F5)"
+   }
+  ],
+  "diagram": "films/swarm/les-lieux-dune-fugue/route.png",
+  "note": "The route is a narrative order, not geography: the three source photographs are of Columbus OH, Paris and Sacramento CA. Nothing claims they are adjacent on a map."
+ },
+ "editor_media": {
+  "dir": "films/sources/les-lieux-dune-fugue/route-researcher/",
+  "files": {
+   "junction_ground_kerb_seam_4x3.png": "JUNC-M crop (160,1550,1440,2510): kerb, pavement, gutter seam; near plane",
+   "junction_ground_full_width.png": "JUNC-M crop (0,1618,1920,2510)",
+   "junction_far_fork.png": "JUNC-M crop (795,1289,1317,1646): far fork; far plane (contains distant blurred carriage)",
+   "junction_right_wall_stone.png": "JUNC-M crop (1590,1340,1890,1620): plain stone for the mid-plane corner",
+   "ironwork_balcony_marville.png": "rejected for use (kept for the record)",
+   "fallback_soleil_ground_kerb.png": "JUNC-F crop (0,1440,1280,1707) of the 1280 px copy: fallback ground strip"
+  }
+ },
+ "downloads_mb": 1.3
+}
