@@ -342,11 +342,11 @@ def draw_window16(k, base, lit):
     # head: ellipsoid in 3D, yaw rotates the profile (nose) toward the road (toward camera / right-down)
     yaw = math.radians(yaw_deg(k))
     pitch = math.radians(6.0) * min(1.0, yaw / math.radians(25))
-    hr = h * 0.16
+    hr = h * 0.19
     hc = (neck[0], neck[1] - hr * 1.15)
     # initial pose: profile facing left (looking along the street toward the door's approach).
     # yaw turns the face toward the viewer (the road).
-    phi = -math.pi / 2 + yaw                        # facing direction angle in the x-z plane
+    phi = math.radians(-50.0) + yaw                 # starts 3/4 to the left (along the street); turns 25 deg toward the road
     pts = []
     for a in np.linspace(0, 2 * math.pi, 64, endpoint=False):
         pts.append((hc[0] + hr * 0.86 * math.cos(a), hc[1] + hr * math.sin(a)))
@@ -361,7 +361,14 @@ def draw_window16(k, base, lit):
     bx = hc[0] - fx * hr * 0.85
     sd.ellipse((bx - hr * 0.42, hc[1] - hr * 0.75, bx + hr * 0.42, hc[1] - hr * 0.0), fill=255)
     # tissue diffuses the card's edge (the card is behind the tissue, back-lit)
-    sil = sil.filter(ImageFilter.GaussianBlur(S4 * 0.9))
+    # lean toward the glass while turning: the shadow on the tissue grows and sharpens (focus as event)
+    lean = ease((k - 536) / 16.0)
+    if lean > 0:
+        sc = 1.0 + 0.10 * lean
+        big = sil.resize((int(w * sc), int(h * sc)), Image.BICUBIC)
+        ox, oy = int((big.width - w) * 0.45), int((big.height - h) * 0.85)
+        sil = big.crop((ox, oy, ox + w, oy + h))
+    sil = sil.filter(ImageFilter.GaussianBlur(S4 * (1.0 - 0.45 * lean)))
     sa = np.asarray(sil).astype(np.float32)[..., None] / 255.0
     shadow = np.array([46, 38, 34], np.float32)
     tarr = np.asarray(tissue).astype(np.float32)
