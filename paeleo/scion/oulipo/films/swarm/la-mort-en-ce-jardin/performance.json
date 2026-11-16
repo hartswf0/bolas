@@ -1,0 +1,862 @@
+{
+ "slug": "la-mort-en-ce-jardin",
+ "unit": "U2 performance + SCION #32 Forward Kinematics (#48 state machine, #41 secondary dynamics as methods)",
+ "revision": "perf-r1",
+ "date": "2026-11-16",
+ "inputs": [
+  "plan.md (plan-r1)",
+  "swarms.json #32, #44, #29, #41 prompts",
+  "test-shot-build/shot.py (approved r2 card primitives, planes, shoe cut)",
+  "proposals/kf.py (superseded by shot.py's rig)",
+  "U1 world planes: not yet available (sources/.../world/ held only look/); rendered over the approved test-shot planes"
+ ],
+ "code": {
+  "rig": "films/swarm/la-mort-en-ce-jardin/performance/rig.py",
+  "puppets": "films/swarm/la-mort-en-ce-jardin/performance/puppets.py",
+  "gate": "films/swarm/la-mort-en-ce-jardin/performance/gate.py",
+  "render_test_shot": "films/swarm/la-mort-en-ce-jardin/performance/render_ls5.py",
+  "sheet": "films/swarm/la-mort-en-ce-jardin/performance/sheet.py",
+  "run": "cd films/swarm/la-mort-en-ce-jardin/performance && python3 -I rig.py && python3 -I gate.py && python3 -I gate.py --counterexamples && python3 -I render_ls5.py && python3 -I sheet.py"
+ },
+ "rig": {
+  "scion": "#32 Forward Kinematics",
+  "units": "world px (wide-shot picture px at puppet scale s=1)",
+  "angle_convention": "absolute bone angles in degrees, screen coordinates (0 = +x, 90 = down); local = abs(child) - abs(parent)",
+  "joint_graph": {
+   "spine": {
+    "parent": "root",
+    "length": 92
+   },
+   "neck": {
+    "parent": "spine",
+    "length": 16
+   },
+   "head": {
+    "parent": "neck",
+    "length": 22
+   },
+   "upper_f": {
+    "parent": "spine",
+    "length": 44
+   },
+   "fore_f": {
+    "parent": "upper_f",
+    "length": 42
+   },
+   "hand_f": {
+    "parent": "fore_f",
+    "length": 14
+   },
+   "upper_n": {
+    "parent": "spine",
+    "length": 44
+   },
+   "fore_n": {
+    "parent": "upper_n",
+    "length": 42
+   },
+   "hand_n": {
+    "parent": "fore_n",
+    "length": 14
+   },
+   "thigh_f": {
+    "parent": "root",
+    "length": 58
+   },
+   "shin_f": {
+    "parent": "thigh_f",
+    "length": 56
+   },
+   "foot_f": {
+    "parent": "shin_f",
+    "length": 22
+   },
+   "thigh_n": {
+    "parent": "root",
+    "length": 58
+   },
+   "shin_n": {
+    "parent": "thigh_n",
+    "length": 56
+   },
+   "foot_n": {
+    "parent": "shin_n",
+    "length": 22
+   }
+  },
+  "order": [
+   "spine",
+   "neck",
+   "head",
+   "upper_f",
+   "fore_f",
+   "hand_f",
+   "upper_n",
+   "fore_n",
+   "hand_n",
+   "thigh_f",
+   "shin_f",
+   "foot_f",
+   "thigh_n",
+   "shin_n",
+   "foot_n"
+  ],
+  "hands": {
+   "L": "hand_f",
+   "R": "hand_n"
+  },
+  "prop_attachment": {
+   "bag": {
+    "bone_end": true,
+    "offset": [
+     0,
+     -4
+    ],
+    "note": "strap hangs from the hand-bone end"
+   },
+   "shoe": {
+    "bone_frac": 0.7,
+    "note": "heel in the palm, rotates with the hand bone"
+   },
+   "pencil": {
+    "bone_frac": 1.0
+   }
+  },
+  "head_card_scale": 1.22,
+  "pose_rate": 12,
+  "fps": 24,
+  "quantisation": "time floor to 1/12 s, angles rounded to whole degrees",
+  "invariants": [
+   "bone length |L - L0*s| < 0.5 px every frame",
+   "child pivot on parent end < 0.5 px (no head/neck detachment)",
+   "props drawn from the holder's hand bone only"
+  ],
+  "world": {
+   "N_ground": 392,
+   "F_ground": 384,
+   "plank": [
+    [
+     190.0,
+     392.0
+    ],
+    [
+     690.0,
+     384.0
+    ]
+   ],
+   "plank_capacity": 1,
+   "plank_deflection_max_px": 9.0,
+   "liana": "y(x) = 70 - 10q + 40 sin(pi q), q = (x+40)/900",
+   "water": "see water_y() in rig.py",
+   "water_offset_px": {
+    "L": 0.20824642234947532,
+    "E": 0.18514397936320393
+   }
+  }
+ },
+ "pose_keys": {
+  "file": "films/swarm/la-mort-en-ce-jardin/performance/poses.json",
+  "rate": "12 poses/s (on twos), angles whole degrees, smoothstep eased between authored keys (walks keyed every 1/12 s, linear)",
+  "shots": {
+   "L-S1/E-S1": "standing queue A 150, B 100 (bag L hand), C 40",
+   "L-S2/E-S2": "A crouch-write keys 3.0-5.6 at x 120 (pencil hand travels 50 px)",
+   "L-S3": "A walk on the plank 6.0-12.5, x 160->740, hip solved from the lower boot on the deflecting plank (hip drop at double support), left hand on the liana",
+   "L-S4": "B steps to the plank head 8.0-9.5; head turns 14.25-17.0 in 12 fps steps; C head turn at 15.5-16.0 (« Laisse-la. »)",
+   "L-S5 (test shot)": "shared retrieval keys T0=18.4: -0.40 sees, 0.00 pushes bag back (B.L->C.R), +0.40 lowers, +0.85 kneels/reaches, +1.20 grasps (shoe water->B.R), +1.70 rises, +2.20/+2.60 shoe held out at chest height, free hand up toward the liana; C receive keys -0.60..+2.60 (bag to chest, then held high)",
+   "L-S6": "B rises to standing by 21.8, C stands with the bag high by 21.0",
+   "L-S7": "C walks 22.9-23.9 to the head, crosses 24.0-29.6 liana + bag high",
+   "L-S8": "B crosses 30.0-35.0 liana + shoe at chest",
+   "E-S3": "A to the plank head 6.0-6.6, head turns 7.25-8.4, steps back 9.0-10.0 as B comes forward",
+   "E-S4": "identical retrieval keys at T0=11.4 with A as receiver (B.L->A.R)",
+   "E-S6": "B crosses 15.0-19.5 (shoe), A 19.8-24.4 (bag high), C 24.8-29.4 (free hand)",
+   "baseline": "A 6.0-12.5, B 13.0-19.5 (bag swapped to right hand at 12.75), C 20.0-26.5"
+  }
+ },
+ "world_traces": {
+  "L": {
+   "file": "films/swarm/la-mort-en-ce-jardin/performance/trace-L.json",
+   "crossing_order": [
+    "A",
+    "C",
+    "B"
+   ],
+   "last_crosser": "B",
+   "bag_carrier_on_plank": [
+    "C"
+   ],
+   "min_clearance_px": {
+    "A": 16.94,
+    "C": 7.18,
+    "B": 4.0
+   },
+   "max_plank_occupancy": 1
+  },
+  "E": {
+   "file": "films/swarm/la-mort-en-ce-jardin/performance/trace-E.json",
+   "crossing_order": [
+    "B",
+    "A",
+    "C"
+   ],
+   "last_crosser": "C",
+   "bag_carrier_on_plank": [
+    "A"
+   ],
+   "min_clearance_px": {
+    "B": 12.54,
+    "A": 9.32,
+    "C": 6.0
+   },
+   "max_plank_occupancy": 1
+  },
+  "baseline": {
+   "file": "films/swarm/la-mort-en-ce-jardin/performance/trace-baseline.json",
+   "crossing_order": [
+    "A",
+    "B",
+    "C"
+   ],
+   "last_crosser": "C",
+   "bag_carrier_on_plank": [
+    "B"
+   ],
+   "min_clearance_px": {
+    "A": 16.94,
+    "B": 13.06,
+    "C": 9.19
+   },
+   "max_plank_occupancy": 1
+  }
+ },
+ "event_log": {
+  "L": [
+   {
+    "t": 5.8,
+    "event": "grip",
+    "who": "A",
+    "hand": "L",
+    "obj": "liana"
+   },
+   {
+    "t": 12.85,
+    "event": "release",
+    "who": "A",
+    "hand": "L",
+    "obj": "liana"
+   },
+   {
+    "t": 18.4,
+    "event": "handoff",
+    "obj": "bag",
+    "frm": "B",
+    "to": "C",
+    "hands": [
+     "B.L",
+     "C.R"
+    ]
+   },
+   {
+    "t": 19.599999999999998,
+    "event": "retrieve",
+    "obj": "shoe",
+    "frm": "water",
+    "to": "B",
+    "hands": [
+     "B.R"
+    ]
+   },
+   {
+    "t": 23.8,
+    "event": "grip",
+    "who": "C",
+    "hand": "L",
+    "obj": "liana"
+   },
+   {
+    "t": 29.8,
+    "event": "grip",
+    "who": "B",
+    "hand": "L",
+    "obj": "liana"
+   },
+   {
+    "t": 29.95,
+    "event": "release",
+    "who": "C",
+    "hand": "L",
+    "obj": "liana"
+   },
+   {
+    "t": 35.35,
+    "event": "release",
+    "who": "B",
+    "hand": "L",
+    "obj": "liana"
+   }
+  ],
+  "E": [
+   {
+    "t": 11.4,
+    "event": "handoff",
+    "obj": "bag",
+    "frm": "B",
+    "to": "A",
+    "hands": [
+     "B.L",
+     "A.R"
+    ]
+   },
+   {
+    "t": 12.6,
+    "event": "retrieve",
+    "obj": "shoe",
+    "frm": "water",
+    "to": "B",
+    "hands": [
+     "B.R"
+    ]
+   },
+   {
+    "t": 14.8,
+    "event": "grip",
+    "who": "B",
+    "hand": "L",
+    "obj": "liana"
+   },
+   {
+    "t": 19.6,
+    "event": "grip",
+    "who": "A",
+    "hand": "L",
+    "obj": "liana"
+   },
+   {
+    "t": 19.85,
+    "event": "release",
+    "who": "B",
+    "hand": "L",
+    "obj": "liana"
+   },
+   {
+    "t": 24.6,
+    "event": "grip",
+    "who": "C",
+    "hand": "L",
+    "obj": "liana"
+   },
+   {
+    "t": 24.75,
+    "event": "release",
+    "who": "A",
+    "hand": "L",
+    "obj": "liana"
+   },
+   {
+    "t": 29.75,
+    "event": "release",
+    "who": "C",
+    "hand": "L",
+    "obj": "liana"
+   }
+  ],
+  "baseline": [
+   {
+    "t": 5.8,
+    "event": "grip",
+    "who": "A",
+    "hand": "L",
+    "obj": "liana"
+   },
+   {
+    "t": 12.75,
+    "event": "hand_swap",
+    "who": "B",
+    "obj": "bag",
+    "frm": "L",
+    "to": "R"
+   },
+   {
+    "t": 12.8,
+    "event": "grip",
+    "who": "B",
+    "hand": "L",
+    "obj": "liana"
+   },
+   {
+    "t": 12.85,
+    "event": "release",
+    "who": "A",
+    "hand": "L",
+    "obj": "liana"
+   },
+   {
+    "t": 19.8,
+    "event": "grip",
+    "who": "C",
+    "hand": "L",
+    "obj": "liana"
+   },
+   {
+    "t": 19.85,
+    "event": "release",
+    "who": "B",
+    "hand": "L",
+    "obj": "liana"
+   },
+   {
+    "t": 26.85,
+    "event": "release",
+    "who": "C",
+    "hand": "L",
+    "obj": "liana"
+   }
+  ]
+ },
+ "gate": {
+  "checks": [
+   "G1 plank occupancy <= 1",
+   "G2 <= 2 grips per person; plank occupant has exactly one hand on the liana",
+   "G3 one holder per object (bag always; shoe once it appears; no vanishing)",
+   "G4 holder changes only at logged handoff/retrieve/hand_swap (+-1 frame), hands (or shoe and hand) within 40 px",
+   "G5 FK recomputed from stored root + whole-degree angles: bone length / pivot error < 0.5 px; stored hand points agree",
+   "G6 bag bottom above the water while over the channel"
+  ],
+  "results": [
+   {
+    "name": "trace-L.json",
+    "verdict": "PASS",
+    "frames": 864,
+    "rig_error_max_px": 0.0,
+    "errors_by_joint_px": {
+     "spine": 0.0,
+     "neck": 0.0,
+     "head": 0.0,
+     "upper_f": 0.0,
+     "fore_f": 0.0,
+     "hand_f": 0.0,
+     "upper_n": 0.0,
+     "fore_n": 0.0,
+     "hand_n": 0.0,
+     "thigh_f": 0.0,
+     "shin_f": 0.0,
+     "foot_f": 0.0,
+     "thigh_n": 0.0,
+     "shin_n": 0.0,
+     "foot_n": 0.0
+    },
+    "failures": {}
+   },
+   {
+    "name": "trace-E.json",
+    "verdict": "PASS",
+    "frames": 720,
+    "rig_error_max_px": 0.0,
+    "errors_by_joint_px": {
+     "spine": 0.0,
+     "neck": 0.0,
+     "head": 0.0,
+     "upper_f": 0.0,
+     "fore_f": 0.0,
+     "hand_f": 0.0,
+     "upper_n": 0.0,
+     "fore_n": 0.0,
+     "hand_n": 0.0,
+     "thigh_f": 0.0,
+     "shin_f": 0.0,
+     "foot_f": 0.0,
+     "thigh_n": 0.0,
+     "shin_n": 0.0,
+     "foot_n": 0.0
+    },
+    "failures": {}
+   },
+   {
+    "name": "trace-baseline.json",
+    "verdict": "PASS",
+    "frames": 864,
+    "rig_error_max_px": 0.0,
+    "errors_by_joint_px": {
+     "spine": 0.0,
+     "neck": 0.0,
+     "head": 0.0,
+     "upper_f": 0.0,
+     "fore_f": 0.0,
+     "hand_f": 0.0,
+     "upper_n": 0.0,
+     "fore_n": 0.0,
+     "hand_n": 0.0,
+     "thigh_f": 0.0,
+     "shin_f": 0.0,
+     "foot_f": 0.0,
+     "thigh_n": 0.0,
+     "shin_n": 0.0,
+     "foot_n": 0.0
+    },
+    "failures": {}
+   }
+  ],
+  "counterexamples": [
+   {
+    "name": "CX1 three hands: B keeps the bag, takes the shoe, crosses liana+bag+shoe",
+    "verdict": "FAIL",
+    "frames": 864,
+    "rig_error_max_px": 0.0,
+    "errors_by_joint_px": {
+     "spine": 0.0,
+     "neck": 0.0,
+     "head": 0.0,
+     "upper_f": 0.0,
+     "fore_f": 0.0,
+     "hand_f": 0.0,
+     "upper_n": 0.0,
+     "fore_n": 0.0,
+     "hand_n": 0.0,
+     "thigh_f": 0.0,
+     "shin_f": 0.0,
+     "foot_f": 0.0,
+     "thigh_n": 0.0,
+     "shin_n": 0.0,
+     "foot_n": 0.0
+    },
+    "failures": {
+     "G2_hands": {
+      "count": 133,
+      "first": [
+       "t=29.833: B holds ['liana', 'shoe', 'bag']: more than two hands",
+       "t=29.875: B holds ['liana', 'shoe', 'bag']: more than two hands",
+       "t=29.917: B holds ['liana', 'shoe', 'bag']: more than two hands",
+       "t=29.958: B holds ['liana', 'shoe', 'bag']: more than two hands",
+       "t=30.000: B holds ['liana', 'shoe', 'bag']: more than two hands",
+       "t=30.042: B holds ['liana', 'shoe', 'bag']: more than two hands"
+      ]
+     },
+     "G4_events": {
+      "count": 1,
+      "first": [
+       "t=18.417: bag ['B.L'] -> ['B.x'] with no logged event"
+      ]
+     }
+    },
+    "expected": "FAIL",
+    "as_expected": true
+   },
+   {
+    "name": "CX2 double occupancy: C steps on at 24.0 while A is still on the plank",
+    "verdict": "FAIL",
+    "frames": 864,
+    "rig_error_max_px": 0.0,
+    "errors_by_joint_px": {
+     "spine": 0.0,
+     "neck": 0.0,
+     "head": 0.0,
+     "upper_f": 0.0,
+     "fore_f": 0.0,
+     "hand_f": 0.0,
+     "upper_n": 0.0,
+     "fore_n": 0.0,
+     "hand_n": 0.0,
+     "thigh_f": 0.0,
+     "shin_f": 0.0,
+     "foot_f": 0.0,
+     "thigh_n": 0.0,
+     "shin_n": 0.0,
+     "foot_n": 0.0
+    },
+    "failures": {
+     "G1_plank": {
+      "count": 11,
+      "first": [
+       "t=24.167: occupants ['A', 'C']",
+       "t=24.208: occupants ['A', 'C']",
+       "t=24.250: occupants ['A', 'C']",
+       "t=24.292: occupants ['A', 'C']",
+       "t=24.333: occupants ['A', 'C']",
+       "t=24.375: occupants ['A', 'C']"
+      ]
+     }
+    },
+    "expected": "FAIL",
+    "as_expected": true
+   },
+   {
+    "name": "CX3 disappeared possession: no bag holder 20.0-20.5 s, no event",
+    "verdict": "FAIL",
+    "frames": 864,
+    "rig_error_max_px": 0.0,
+    "errors_by_joint_px": {
+     "spine": 0.0,
+     "neck": 0.0,
+     "head": 0.0,
+     "upper_f": 0.0,
+     "fore_f": 0.0,
+     "hand_f": 0.0,
+     "upper_n": 0.0,
+     "fore_n": 0.0,
+     "hand_n": 0.0,
+     "thigh_f": 0.0,
+     "shin_f": 0.0,
+     "foot_f": 0.0,
+     "thigh_n": 0.0,
+     "shin_n": 0.0,
+     "foot_n": 0.0
+    },
+    "failures": {
+     "G3_holders": {
+      "count": 12,
+      "first": [
+       "t=20.000: bag holders []",
+       "t=20.042: bag holders []",
+       "t=20.083: bag holders []",
+       "t=20.125: bag holders []",
+       "t=20.167: bag holders []",
+       "t=20.208: bag holders []"
+      ]
+     },
+     "G4_events": {
+      "count": 2,
+      "first": [
+       "t=20.000: bag ['C.R'] -> [] with no logged event",
+       "t=20.500: bag [] -> ['C.R'] with no logged event"
+      ]
+     }
+    },
+    "expected": "FAIL",
+    "as_expected": true
+   }
+  ],
+  "handoff_hand_distance_px": {
+   "L B->C": 18.4,
+   "E B->A": 18.4
+  },
+  "notes": "all three real traces PASS; all three plan-section-4 counterexamples FAIL as required (CX1 G2+G4, CX2 G1, CX3 G3+G4)"
+ },
+ "test_shot": {
+  "shot": "L-S5",
+  "film": [
+   20.0,
+   22.4
+  ],
+  "frames": 58,
+  "png_sequence": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-mort-en-ce-jardin/performance/L-S5/L-S5_000.png .. L-S5_057.png (800x540 picture, to be pillarboxed in 960x540)",
+  "preview": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-mort-en-ce-jardin/performance/L-S5-preview.mp4",
+  "frame_log": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-mort-en-ce-jardin/performance/L-S5.json",
+  "contact": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-mort-en-ce-jardin/performance/L-S5-contact.jpg",
+  "camera": "zoom 2.6 on the world trace; window tilts down 19.2-19.8 to follow her reach into the water, back up as she rises",
+  "head_B_frac_H": 0.241,
+  "screen_rig_error_max_px": 0.0,
+  "shoe_to_face_min_px": 112.0,
+  "stats_mean": {
+   "p": [
+    34,
+    45,
+    73,
+    105,
+    145,
+    195,
+    216
+   ],
+   "above200": 3.8,
+   "below60": 15.7,
+   "grad": 8.63,
+   "hp_sigma": 12.35,
+   "rb": 0.0
+  },
+  "reference": {
+   "p": [
+    35,
+    38,
+    59,
+    105,
+    161,
+    206,
+    229
+   ],
+   "above200": 6.3,
+   "below60": 25.1,
+   "grad_same_measure": 9.72
+  },
+  "gaps": [
+   "p75 ~145 and ~3.5 % above L200 vs reference 161 / 6.3 %: lifted by brighter card tones and plate curves, still short (no filter used)",
+   "below-L60 share ~16 % vs 25 %: the frame lacks the reference's dark root mass low left / dark canopy",
+   "mean gradient ~8.6 vs 9.7 on the same Sobel measure (the plan's 14.4 uses a different gradient measure)",
+   "the shoe sits close to the plank line in frames 41-45; it reads as touching the plank foot, as intended, but the water band is shallow (clearance 16 px world)",
+   "C is cropped at the top as he stands with the bag (20.0-20.4); the hand-off itself is fully in frame"
+  ]
+ },
+ "puppet_sheet": [
+  "films/swarm/la-mort-en-ce-jardin/puppet-sheet.png",
+  "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-mort-en-ce-jardin/performance/puppet-sheet.png"
+ ],
+ "foraged": [
+  {
+   "id": "FOR-SHOE-LACMA-51.47.2",
+   "title": "Pair of Woman's Bar Shoes (Wedding), LACMA 51.47.2a-b",
+   "author": "Los Angeles County Museum of Art (photograph)",
+   "license": "Public domain",
+   "license_url": "",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Pair_of_Woman%27s_Bar_Shoes_(Wedding)_LACMA_51.47.2a-b.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/9/90/Pair_of_Woman%27s_Bar_Shoes_%28Wedding%29_LACMA_51.47.2a-b.jpg",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-mort-en-ce-jardin/test-shot/cut/shoe.png (cut from /home/user/bolas/paeleo/scion/oulipo/films/sources/la-mort-en-ce-jardin/shoe_lacma_bar.jpg)",
+   "what_it_shows": "a white satin bar-strap wedding shoe with a rosette, museum photograph on plain ground",
+   "verified_date_or_place": "LicenseShortName 'Public domain' read from Commons extmetadata 2026-11-16 (test-shot stage, test-shot/meta_shoe_audio.json); live re-read in this unit blocked by Commons HTTP 429",
+   "used_as": "the one photographic object: floating at the plank foot, then parented to B's right hand bone (FK) in L-S5; reused GrabCut cut, unchanged"
+  },
+  {
+   "id": "FOR-RENO-FLOOD-1927",
+   "title": "[Reno Flood] (1927)",
+   "author": "via movingimagearchive.com",
+   "license": "Public domain (US, pre-1929)",
+   "license_url": "",
+   "source_url": "https://www.movingimagearchive.com/sources/reno-flood-878d25a3?clip=4bc92290-7671-5797-bbb6-c637ebc27f24",
+   "file_url": "",
+   "local_path": "/home/user/hartswf0/cineosis-lab/lab/thumbs/4bc92290-7671-5797-bbb6-c637ebc27f24.jpg (cache still; source film 107.8-122.7 s)",
+   "what_it_shows": "open flood water in a street with broken reflections (b/w), 320x240 still",
+   "verified_date_or_place": "year 1927 from the archive index; looked at before use",
+   "used_as": "L-S5 water plane: rows 118-236 graded p2/p98->L35/220, scaled 1.5x (under the 1.6x limit), mirrored joins, sliding 3 px per pose, mixed 58/42 with the jungle's own rippled reflection"
+  },
+  {
+   "id": "FOR-BUTTRESS-ROOTS-NEUMANN",
+   "title": "Buttress roots.JPG",
+   "author": "Patti Neumann",
+   "license": "CC BY-SA 3.0",
+   "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Buttress_roots.JPG",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Buttress_roots.JPG/1280px-Buttress_roots.JPG",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-mort-en-ce-jardin/test-shot/plates/Buttress_roots_JPG.jpg",
+   "what_it_shows": "fig buttress and surface roots over leaf-litter forest floor (colour photo, overcast; used as luminance)",
+   "verified_date_or_place": "licence read from Commons extmetadata at the test-shot stage 2026-11-16 (Buttress_roots_JPG.json); photo dated 2013-01-07",
+   "used_as": "L-S5 near mud bank: rows 600-960 (root-laced floor), luminance, p2/p98->L35/220 x0.92, torn edge into the water, darker wet mud toward the edge (replaces the flat card bank)"
+  },
+  {
+   "id": "FOR-HUGE-BUTTRESS",
+   "title": "Huge Buttress roots (28115225997)",
+   "author": "gailhampshire from Cradley, Malvern, U.K",
+   "license": "CC BY 2.0",
+   "license_url": "https://creativecommons.org/licenses/by/2.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Huge_Buttress_roots_(28115225997).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/Huge_Buttress_roots_%2828115225997%29.jpg/1280px-Huge_Buttress_roots_%2828115225997%29.jpg",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-mort-en-ce-jardin/test-shot/cut/P0_far.png",
+   "what_it_shows": "rainforest interior with a giant buttress trunk",
+   "verified_date_or_place": "test-shot stage extmetadata record 2026-11-16",
+   "used_as": "P0 far plane (0.15x), its monotone curve with a lifted mid (gamma 0.62) for the bright wet middle"
+  },
+  {
+   "id": "FOR-BUTTRESS-ROOTS-1",
+   "title": "Buttress Roots 1",
+   "author": "Mokkie",
+   "license": "CC BY-SA 4.0",
+   "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Buttress_Roots_1.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Buttress_Roots_1.jpg/1280px-Buttress_Roots_1.jpg",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-mort-en-ce-jardin/test-shot/cut/P1_flange.png",
+   "what_it_shows": "sinuous pale buttress flanges",
+   "verified_date_or_place": "test-shot stage extmetadata record 2026-11-16",
+   "used_as": "P1 flange plane (0.35x) and, rotated -24 deg with 3 px depth blur, the P4 root diagonal low left (2.0x)"
+  },
+  {
+   "id": "FOR-COLOCASIA",
+   "title": "Colocasia esculenta leaves",
+   "author": "Gs35357670",
+   "license": "CC BY-SA 4.0",
+   "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Colocasia_esculenta_leaves.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Colocasia_esculenta_leaves.jpg/1280px-Colocasia_esculenta_leaves.jpg",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-mort-en-ce-jardin/test-shot/cut/P3_leaves.png",
+   "what_it_shows": "heart-shaped taro leaves",
+   "verified_date_or_place": "test-shot stage extmetadata record 2026-11-16",
+   "used_as": "P3 near leaves (1.5x) framing the top of the close"
+  },
+  {
+   "id": "FOR-LAVERS-HILL-FERN",
+   "title": "Lavers Hill (AU), Melba Gully State Park -- 2019 -- 1133 (bw)",
+   "author": "Dietmar Rabich",
+   "license": "CC BY-SA 4.0",
+   "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Lavers_Hill_(AU),_Melba_Gully_State_Park_--_2019_--_1133_(bw).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/Lavers_Hill_%28AU%29%2C_Melba_Gully_State_Park_--_2019_--_1133_%28bw%29.jpg/1280px-Lavers_Hill_%28AU%29%2C_Melba_Gully_State_Park_--_2019_--_1133_%28bw%29.jpg",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-mort-en-ce-jardin/test-shot/cut/P4_fern.png",
+   "what_it_shows": "tree-fern fronds (b/w)",
+   "verified_date_or_place": "test-shot stage extmetadata record 2026-11-16",
+   "used_as": "P4 fern at the right edge (2.0x)"
+  },
+  {
+   "id": "FOR-CARDBOARD-SCAN",
+   "title": "Cardboard-546867",
+   "author": "Humusak",
+   "license": "CC0",
+   "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Cardboard-546867.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Cardboard-546867.jpg/1280px-Cardboard-546867.jpg",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-mort-en-ce-jardin/test-shot/paper/Cardboard_546867_jpg.jpg",
+   "what_it_shows": "a cardboard surface scan",
+   "verified_date_or_place": "test-shot stage extmetadata record 2026-11-16",
+   "used_as": "paper-fibre/pulp texture of every puppet piece and the bag (high-pass of the scan, +/-5.5 % on each piece's flat grey), and the tooth that breaks the pencil lines"
+  },
+  {
+   "id": "FOR-INDISCH-ALLERLEI",
+   "title": "Indisch allerlei (1920)",
+   "author": "via movingimagearchive.com",
+   "license": "Public domain (US, pre-1929)",
+   "license_url": "",
+   "source_url": "https://www.movingimagearchive.com/sources/indisch-allerlei?clip=fdb47ec9-f0f6-5e20-9af2-f697c50a2bf8",
+   "file_url": "",
+   "local_path": "/home/user/hartswf0/cineosis-lab/lab/thumbs/fdb47ec9-f0f6-5e20-9af2-f697c50a2bf8.jpg",
+   "what_it_shows": "canal water beside washing women (1920)",
+   "verified_date_or_place": "year from the archive index (test-shot stage)",
+   "used_as": "not used in L-S5 (still loaded by the reused shot.py module for the wide-shot water strips)"
+  }
+ ],
+ "handmade": [
+  {
+   "id": "HM-PUPPET-A",
+   "what": "A, tall man with a hat: 24 cut grey-card pieces (far/near thigh, shin, boot, upper sleeve, forearm, hand; torso, collar flaps x2, trouser top+belt, neck, profile head, ear, eye white, iris; hat crown, brim, band; cuff), 12 split pins + 3 buttons, pencil face with expression channels, sleeve-break chevrons, knee creases, charcoal mud deposit darker at cut edges/creases, sweat speculars L208-222 on brow, cheek, nose, knuckles",
+   "where": "performance/puppets.py draw_figure(who='A'); shown in puppet-sheet.png"
+  },
+  {
+   "id": "HM-PUPPET-B",
+   "what": "B, woman: 26+ pieces incl. back hair mass, 14 wet loose hair strands (separate cut slivers, 3-link chains with spring-damper follow-through, #41), front hair, 3 forelock strands, rolled cuffs x2, bare forearms; blouse with pencilled placket and drag folds; mud smears on blouse, knees, hands; sweat speculars L208-228 (brow, cheek, nose, hair, knuckles)",
+   "where": "performance/puppets.py; HairSim"
+  },
+  {
+   "id": "HM-PUPPET-C",
+   "what": "C, man: 24 pieces incl. cropped hair, headband with two pencilled rows (zigzag, dots, ruled edges) and two knot tails, cuff; sleeve breaks; mud and sweat as above",
+   "where": "performance/puppets.py"
+  },
+  {
+   "id": "HM-BAG",
+   "what": "dry bag: dark oilcloth roll-top card (body L58 with a soft sheen L96-112), roll band, strap, tie, buckle split pin, pencilled creases; parented to the holder's hand-bone end",
+   "where": "performance/puppets.py bag_piece()"
+  },
+  {
+   "id": "HM-PLANK-CLOSE",
+   "what": "pale card plank (L204), pencil-scored grain, seen running away from the camera in the close; in the world trace it bends as a 2-segment polyline (2 px at the ends, 9 px mid-span) and springs back to 0 when empty",
+   "where": "render_ls5.py (S.plank) and rig.py plank_deflection()"
+  },
+  {
+   "id": "HM-RIG",
+   "what": "FK rig: 15-bone joint graph per puppet, invariant bone lengths, props parented to hand bones, whole-degree poses on twos; pose keys for every plan-section-6 shot in L, E, baseline",
+   "where": "performance/rig.py, rig.json, poses.json"
+  }
+ ],
+ "absences": [
+  {
+   "searched": "Wikimedia Commons API: 'muddy riverbank', 'flooded forest water surface', 'mud bank river black and white', 'swamp water surface leaves', 'flooded rainforest' (2026-11-16, twice with backoff)",
+   "result": "HTTP 429 (rate-limited, probably by the parallel world unit); nothing new downloaded. Mud bank filled from an already-downloaded CC BY-SA root/forest-floor photo; flood water from the archive cache."
+  },
+  {
+   "searched": "movingimagearchive cache 'swamp|mud|flood|river|bayou|marsh' (stills)",
+   "result": "usable: [Reno Flood] 1927 (water), 1936 Pittsburgh Flood (water, not used); 'Mud Puddle - Heavy Rain' 2007 rejected (post-1929, rights not verified); The Green Promise 1949 swamp too dark at 320x240"
+  },
+  {
+   "searched": "openly licensed photograph of a real tropical mud bank (wet clay with roots) at >= 1000 px",
+   "result": "not found in this unit's budget; the forest-floor roots photo stands in. Recommend U1 supply one if Commons recovers."
+  }
+ ],
+ "notes_for_editor": [
+  "Close shots are camera reframings of the world trace: call rig.sample(poses[v][who], t) -> fk() -> camera map (render_ls5.to_screen); never re-pose in screen space.",
+  "E-S4 = render_ls5.frame with POSES/TRACE switched to E and T_START 10.5 (same keys shifted -7.0 s). The water level differs 4.5 px between L and E at the grasp, so the shoe's resting y differs by that amount (U3's byte-identical shoe layer must be placed relative to the plank foot, not to the water line, or accept the small difference).",
+  "Shoe drift before arrival here is an approximation (shoe_world in rig.py); U3's SHOE-DRIFT-1 is canonical; arrival/tap 3.6 s after first appearance (L 17.6, E 10.6) and grasp 2.0 s after the tap.",
+  "Water level offsets were calibrated so the last crosser's min clearance is exactly 4 px (L, B) and 6 px (E, C); see rig.json world.water_offset_px.",
+  "Bag is held high (hand above the head) on every crossing; bag_bottom_y is logged per frame."
+ ]
+}

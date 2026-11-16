@@ -169,8 +169,8 @@ PRESENT = [  # (t, oneshot, variant, gain, cue, master/baseline)
 FLASH = [
  (fr(220), "latch", 0, 0.20, "SH-1 latch"),
  (fr(222), "doorhinge", 0, 0.14, "SH-1 door swings open"),
- (fr(240), "step", 0, 0.22, "SH-1 step 1"), (fr(252), "step", 1, 0.20, "SH-1 step 2"),
- (fr(264), "step", 2, 0.22, "SH-1 step 3"), (fr(276), "step", 3, 0.18, "SH-1 step 4"),
+ (fr(234), "step", 0, 0.22, "SH-1 step 1"), (fr(242), "step", 1, 0.20, "SH-1 step 2"),
+ (fr(250), "step", 2, 0.22, "SH-1 step 3"), (fr(258), "step", 3, 0.18, "SH-1 step 4"),  # retimed by editor to U3 foot contacts
  (fr(341), "setdown", 0, 0.14, "SH-2 box into the aunt's hands"),
  (fr(349), "lidhinge", 0, 0.12, "SH-3 aunt opens lid (soft hinge)"),
  (fr(408), "lidshut", 0, 0.24, "SH-4 lid shut INSIDE the swallow (heard, not seen); no ring sound"),

@@ -124,8 +124,18 @@ VERSIONS = {"L": dict(T=36.0, shoe_t0=14.0), "E": dict(T=30.0, shoe_t0=7.0), "ba
 def water_y(v, t):
     """water rises 18 px over each version (smaller y = higher water). Tuned so the last crosser's clearance at the
     plank centre is 4 px (L, B) and 6 px (E, C), as in plan section 4."""
-    if v == "E": return 421.0 - 18.0 * min(t, 27.1) / 27.1
-    return 419.0 - 18.0 * min(t, 32.5) / 32.5
+    if v == "E": return 421.0 + WATER_OFFSET["E"] - 18.0 * min(t, 27.1) / 27.1
+    return 419.0 + WATER_OFFSET["L"] - 18.0 * min(t, 32.5) / 32.5
+
+
+WATER_OFFSET = {"L": 0.0, "E": 0.0}      # calibrated in main() so the last crosser's minimum clearance is 4 px (L) / 6 px (E)
+
+
+def plank_deflection(occ_x):
+    """the plank sags most under a mid-span occupant (2 px at the ends, 9 px at mid-span); 0 when empty (springs back)."""
+    if occ_x is None: return 0.0
+    u = min(max((occ_x - PLANK_N[0]) / (PLANK_F[0] - PLANK_N[0]), 0), 1)
+    return 2.0 + (PLANK_DEFL_MAX - 2.0) * math.sin(math.pi * u)
 
 
 def liana_y(x):
@@ -181,7 +191,7 @@ def walk_keys(t0, t1, x0, x1, who, v, cargo, ground_fn, stride=58.0):
         foot_x = J0["shin_f"][1][0] if J0["shin_f"][1][1] > J0["shin_n"][1][1] else J0["shin_n"][1][0]
         gy = ground_fn(t, foot_x)
         root = (x, gy - foot_y)
-        if on or cargo is not None and (PLANK_N[0] - 30 < x < PLANK_F[0] + 30):
+        if PLANK_N[0] - 35 < x < PLANK_F[0] + 35:
             shx = root[0] + 92 * math.cos(math.radians(torso)); shy = root[1] + 92 * math.sin(math.radians(torso))
             tx = shx + 34
             arm_f = arm_to(root, torso, (tx, liana_y(tx) + 4), bend=1, hand=-96)
@@ -194,7 +204,7 @@ def walk_keys(t0, t1, x0, x1, who, v, cargo, ground_fn, stride=58.0):
     return keys
 
 
-def retrieval_keys(T0, hip_x=172.0, ground=N_GROUND):
+def retrieval_keys(T0, hip_x=128.0, ground=N_GROUND):
     """the shared kneel-reach-grasp-rise sequence (identical keys, relative to the hand-off time T0) for L-S5 and E-S4.
     B faces the plank foot; her far (left) hand gives the bag back to the receiver; her near (right) hand takes the
     heel of the floating shoe; she rises with it held at her chest, well below and in front of her face; her free
@@ -204,12 +214,12 @@ def retrieval_keys(T0, hip_x=172.0, ground=N_GROUND):
         absd = pose(torso, head, arm_to(hip, torso, far_t, bf, hf), arm_to(hip, torso, near_t, bn, hn), *LEGS[legs])
         R.append(key(T0 + dt, hip, absd, tag=f"retrieve {dt:+.2f}", **ex))
     G = ground
-    k(-0.40, (hip_x, G - 40), -72, -56, (160, G - 50), (206, G - 52), "crouch", bf=1, gaze=0.6, brow=0.5)   # sees it
-    k(0.00, (hip_x - 6, G - 38), -84, -70, (128, G - 74), (204, G - 54), "crouch", gaze=0.3, brow=0.8,
+    k(-0.40, (hip_x, G - 40), -72, -56, (hip_x - 12, G - 50), (196, G - 52), "crouch", bf=1, gaze=0.6, brow=0.5)   # sees it
+    k(0.00, (hip_x - 6, G - 38), -84, -70, (88, G - 74), (190, G - 54), "crouch", gaze=0.3, brow=0.8,
       mouth=0.4)                                                                                         # pushes the bag back
     k(0.40, (hip_x + 2, G - 32), -62, -44, (196, G - 46), (214, G - 30), "crouch", gaze=1.0, brow=0.6)    # far hand empty; lowers
-    k(0.85, (hip_x + 6, G - HIP_ABOVE["seiza"]), -38, -20, (214, G - 26), (220, G - 4), "seiza", gaze=1.0, brow=0.4)  # knees, reach
-    k(1.20, (hip_x + 8, G - HIP_ABOVE["seiza"]), -30, -12, (214, G - 26), (228, G + 6), "seiza", hn=24, gaze=1.0,
+    k(0.85, (hip_x + 6, G - HIP_ABOVE["seiza"]), -48, -28, (206, G - 30), (222, G - 2), "seiza", gaze=1.0, brow=0.4)  # knees, reach
+    k(1.20, (hip_x + 8, G - HIP_ABOVE["seiza"]), -42, -18, (206, G - 30), (230, G + 8), "seiza", hn=30, gaze=1.0,
       brow=0.9, mouth=0.25)                                                                              # grasp: hand over the satin
     k(1.70, (hip_x + 6, G - HIP_ABOVE["seiza"]), -60, -44, (206, G - 70), (232, G - 66), "seiza", gaze=0.8, brow=0.6)  # rises with it
     k(2.20, (hip_x + 4, G - HIP_ABOVE["seiza"]), -84, -74, (208, G - 182), (210, G - 60), "seiza", bf=1, bn="down",
@@ -219,17 +229,18 @@ def retrieval_keys(T0, hip_x=172.0, ground=N_GROUND):
     return R
 
 
-def receive_keys(T0, hip_x=112.0, ground=N_GROUND, who="C"):
+def receive_keys(T0, hip_x=46.0, ground=N_GROUND, who="C"):
     """the receiver (C in L, A in E) crouched behind her: hands out, takes the bag at T0, pulls it to his chest,
     rises and holds it high (dry)."""
     G = ground; R = []
     def k(dt, hip, torso, head, far_t, near_t, legs, **ex):
         absd = pose(torso, head, arm_to(hip, torso, far_t, -1), arm_to(hip, torso, near_t, -1), *LEGS[legs])
         R.append(key(T0 + dt, hip, absd, tag=f"receive {who} {dt:+.2f}", **ex))
-    k(-0.60, (hip_x - 6, G - 40), -84, -84, (140, G - 130), (150, G - 120), "crouch", gaze=0.2)
-    k(-0.20, (hip_x, G - 40), -78, -72, (124, G - 72), (130, G - 70), "crouch", gaze=0.4, brow=0.5)
-    k(0.00, (hip_x + 2, G - 40), -76, -68, (126, G - 74), (132, G - 72), "crouch", gaze=0.4, brow=0.6, mouth=0.3)
-    k(0.50, (hip_x - 8, G - 40), -86, -84, (118, G - 108), (128, G - 100), "crouch", gaze=0.6, brow=0.7)
+    X = hip_x
+    k(-0.60, (X - 4, G - 40), -90, -86, (X + 20, G - 130), (X + 28, G - 120), "crouch", gaze=0.2)
+    k(-0.20, (X, G - 40), -86, -78, (X + 38, G - 72), (X + 44, G - 70), "crouch", gaze=0.4, brow=0.5)
+    k(0.00, (X + 2, G - 40), -84, -76, (X + 40, G - 74), (X + 46, G - 72), "crouch", gaze=0.4, brow=0.6, mouth=0.3)
+    k(0.50, (X - 4, G - 40), -90, -86, (X + 22, G - 108), (X + 30, G - 100), "crouch", gaze=0.6, brow=0.7)
     hs = (hip_x - 6, G - HIP_ABOVE["stand"])
     absd = pose(-90, -88, arm_to(hs, -90, (hip_x + 10, G - 268), -1, -90), arm_to(hs, -90, (hip_x + 24, G - 262), -1, -90), *STAND)
     R.append(key(T0 + 2.6, hs, absd, tag=f"receive {who} bag high", gaze=0.3, brow=0.8))
@@ -264,7 +275,7 @@ def ground_N_or_plank(v, occ):
     def g(t, x):
         if x <= PLANK_N[0]: return N_GROUND
         if x >= PLANK_F[0]: return F_GROUND
-        return plank_top(x, occ(t), PLANK_DEFL_MAX if occ(t) is not None else 0)
+        return plank_top(x, occ(t), plank_deflection(occ(t)))
     return g
 
 
@@ -286,10 +297,10 @@ def build(v):
         for who, a, b, _ in sched:
             if a <= t <= b:
                 u = smoothstep((t - a) / (b - a)) * 0.25 + ((t - a) / (b - a)) * 0.75
-                return 176 + (712 - 176) * u
+                return 160 + (740 - 160) * u
         return None
     gfn = ground_N_or_plank(v, occ_x)
-    F_SPOTS = iter([780, 748, 716])
+    F_SPOTS = iter([795, 770, 745])
     walks = {}
     for who, a, b, cargo in sched:
         walks[who] = (a, b, cargo, next(F_SPOTS))
@@ -301,95 +312,89 @@ def build(v):
 
     def crossing(who):
         a, b, cargo, fx = walks[who]
-        K = walk_keys(a, b, 176, 712, who, v, cargo, gfn)
-        K += walk_bank(who, b + 1 / 12, b + 0.9, 712, fx, cargo)
+        K = walk_keys(a, b, 160, 740, who, v, cargo, gfn)
+        K += walk_bank(who, b + 1 / 12, b + 0.9, 740, fx, cargo)
         return K, fx
 
     shoe_t0 = VERSIONS[v]["shoe_t0"]
     if v in ("L", "baseline"):
         # A: S1 standing, S2 writes the ledger, S3 crosses
-        P["A"] += [standing(0.0, 150, N_GROUND)] + crouch_write_keys(3.0, 5.6, 150) + [standing(5.75, 160, N_GROUND)]
+        P["A"] += [standing(0.0, 150, N_GROUND)] + crouch_write_keys(3.0, 5.6, 120) + [standing(5.75, 150, N_GROUND)]
         K, fxA = crossing("A"); P["A"] += K
         P["A"].append(standing(b_end(K) + 0.5, fxA, F_GROUND, arm_n=(-150, -110, -100)))
-        grips["A"] += [(6.0, "L", "liana"), (12.5 + 0.05, "L", "free")]
-        ev += [dict(t=6.0, event="grip", who="A", hand="L", obj="liana"), dict(t=12.55, event="release", who="A", hand="L", obj="liana")]
     if v == "L":
         T0 = 18.4
         # B: bag in her LEFT (far) hand from the start
-        P["B"] += [standing(0.0, 110, N_GROUND, arm_f=(96, 92, 92))]
-        P["B"] += walk_bank("B", 8.0, 9.5, 110, 172)
-        base = standing(9.6, 172, N_GROUND, arm_f=(96, 92, 92))
+        P["B"] += [standing(0.0, 100, N_GROUND, arm_f=(96, 92, 92))]
+        P["B"] += walk_bank("B", 8.0, 9.5, 100, 150)
+        base = standing(9.6, 150, N_GROUND, arm_f=(96, 92, 92))
         P["B"].append(base)
         P["B"] += head_turn_keys(base, [(14.25, -84, 0.0), (14.5, -70, 0.4), (15.5, -66, 0.5), (16.2, -60, 0.6), (17.0, -58, 0.7)])
         P["B"] += retrieval_keys(T0)
-        P["B"].append(standing(T0 + 3.4, 176, N_GROUND, arm_n=arm_to((176, 272), -90, (200, 330), "down", -40),
+        P["B"].append(standing(T0 + 3.4, 132, N_GROUND, arm_n=arm_to((132, 272), -90, (156, 330), "down", -40),
                                arm_f=(100, 94, 94), gaze=0.6))
-        P["B"].append(standing(29.9, 176, N_GROUND, arm_n=arm_to((176, 272), -90, (200, 330), "down", -40), arm_f=(100, 94, 94)))
+        P["B"].append(standing(29.0, 132, N_GROUND, arm_n=arm_to((132, 272), -90, (156, 330), "down", -40), arm_f=(100, 94, 94)))
+        P["B"] += walk_bank("B", 29.1, 29.9, 132, 160, "shoe_chest")
         K, fxB = crossing("B"); P["B"] += K
         # C
-        P["C"] += [standing(0.0, 64, N_GROUND, arm_f=(96, 92, 92))]
-        P["C"] += walk_bank("C", 9.0, 10.2, 64, 106)
-        P["C"].append(standing(10.3, 106, N_GROUND))
+        P["C"] += [standing(0.0, 40, N_GROUND, arm_f=(96, 92, 92))]
+        P["C"] += walk_bank("C", 9.0, 10.2, 40, 66)
+        P["C"].append(standing(10.3, 66, N_GROUND))
         P["C"] += head_turn_keys(P["C"][-1], [(15.5, -70, 0.3), (16.0, -80, 0.0)])   # « Laisse-la. »
-        P["C"] += walk_bank("C", 16.6, 17.2, 106, 112)
-        P["C"] += receive_keys(T0, 112, who="C")
-        P["C"] += walk_bank("C", 23.0, 23.9, 106, 176, "bag_high")
+        P["C"] += walk_bank("C", 16.6, 17.2, 66, 46)
+        P["C"] += receive_keys(T0, 46, who="C")
+        P["C"] += walk_bank("C", 22.9, 23.9, 40, 160, "bag_high")
         K, fxC = crossing("C"); P["C"] += K
-        P["A"].append(standing(26.5, 780, F_GROUND, arm_n=(-150, -110, -100)))
         # grips and possession
-        grips["B"] += [(0.0, "L", "bag"), (T0, "L", "free"), (T0 + 1.2, "R", "shoe"), (30.0, "L", "liana"), (35.05, "L", "free")]
-        grips["C"] += [(T0, "R", "bag"), (24.0, "L", "liana"), (29.65, "L", "free")]
+        grips["B"] += [(0.0, "L", "bag"), (T0, "L", "free"), (T0 + 1.2, "R", "shoe")]
+        grips["C"] += [(T0, "R", "bag")]
         ev += [dict(t=T0, event="handoff", obj="bag", frm="B", to="C", hands=["B.L", "C.R"]),
-               dict(t=T0 + 1.2, event="retrieve", obj="shoe", frm="water", to="B", hands=["B.R"]),
-               dict(t=24.0, event="grip", who="C", hand="L", obj="liana"), dict(t=29.65, event="release", who="C", hand="L", obj="liana"),
-               dict(t=30.0, event="grip", who="B", hand="L", obj="liana"), dict(t=35.05, event="release", who="B", hand="L", obj="liana")]
+               dict(t=T0 + 1.2, event="retrieve", obj="shoe", frm="water", to="B", hands=["B.R"])]
     if v == "E":
         T0 = 11.4
-        P["A"] += [standing(0.0, 150, N_GROUND)] + crouch_write_keys(3.0, 5.6, 150) + [standing(5.75, 160, N_GROUND)]
-        P["A"] += walk_bank("A", 6.0, 6.6, 160, 176)
-        base = standing(6.7, 176, N_GROUND)
+        P["A"] += [standing(0.0, 150, N_GROUND)] + crouch_write_keys(3.0, 5.6, 120) + [standing(5.75, 150, N_GROUND)]
+        P["A"] += walk_bank("A", 6.0, 6.6, 150, 160)
+        base = standing(6.7, 160, N_GROUND)
         P["A"].append(base)
         P["A"] += head_turn_keys(base, [(7.25, -84, 0.0), (7.5, -72, 0.4), (8.4, -66, 0.6)])
-        P["A"] += walk_bank("A", 9.0, 10.0, 176, 112)                 # steps back from the edge as she comes forward
-        P["A"] += receive_keys(T0, 112, who="A")
-        P["A"].append(standing(19.0, 106, N_GROUND, arm_f=arm_to((106, 272), -90, (116, 124), -1, -90),
-                               arm_n=arm_to((106, 272), -90, (130, 130), -1, -90)))
-        P["A"] += walk_bank("A", 19.1, 19.75, 106, 176, "bag_high")
+        P["A"] += walk_bank("A", 9.0, 10.0, 160, 46)                 # steps back from the edge as she comes forward
+        P["A"] += receive_keys(T0, 46, who="A")
+        P["A"].append(standing(18.9, 64, N_GROUND, arm_f=arm_to((64, 272), -90, (74, 124), -1, -90),
+                               arm_n=arm_to((64, 272), -90, (88, 130), -1, -90)))
+        P["A"] += walk_bank("A", 19.0, 19.75, 64, 160, "bag_high")
         K, fxA = crossing("A"); P["A"] += K
-        P["B"] += [standing(0.0, 110, N_GROUND, arm_f=(96, 92, 92))]
-        P["B"].append(standing(7.2, 110, N_GROUND, arm_f=(96, 92, 92)))
+        P["B"] += [standing(0.0, 100, N_GROUND, arm_f=(96, 92, 92))]
+        P["B"].append(standing(7.2, 100, N_GROUND, arm_f=(96, 92, 92)))
         P["B"] += head_turn_keys(P["B"][-1], [(7.5, -70, 0.5)])
-        P["B"] += walk_bank("B", 9.0, 10.4, 110, 172)
+        P["B"] += walk_bank("B", 9.0, 10.4, 100, 128)
         P["B"] += retrieval_keys(T0)
-        P["B"].append(standing(T0 + 3.0, 176, N_GROUND, arm_n=arm_to((176, 272), -90, (200, 330), "down", -40)))
-        P["B"] += walk_bank("B", 14.5, 14.95, 176, 176.01, "shoe_chest")
+        P["B"].append(standing(T0 + 3.0, 132, N_GROUND, arm_n=arm_to((132, 272), -90, (156, 330), "down", -40)))
+        P["B"] += walk_bank("B", 14.3, 14.95, 132, 160, "shoe_chest")
         K, fxB = crossing("B"); P["B"] += K
-        P["C"] += [standing(0.0, 64, N_GROUND, arm_f=(96, 92, 92))]
-        P["C"].append(standing(24.0, 64, N_GROUND))
-        P["C"] += walk_bank("C", 24.1, 24.75, 64, 176)
+        P["C"] += [standing(0.0, 30, N_GROUND, arm_f=(96, 92, 92))]
+        P["C"].append(standing(24.0, 30, N_GROUND))
+        P["C"] += walk_bank("C", 24.05, 24.75, 30, 160)
         K, fxC = crossing("C"); P["C"] += K
-        grips["B"] += [(0.0, "L", "bag"), (T0, "L", "free"), (T0 + 1.2, "R", "shoe"), (15.0, "L", "liana"), (19.55, "L", "free")]
-        grips["A"] += [(T0, "R", "bag"), (19.8, "L", "liana"), (24.45, "L", "free")]
-        grips["C"] += [(24.8, "L", "liana"), (29.45, "L", "free")]
+        grips["B"] += [(0.0, "L", "bag"), (T0, "L", "free"), (T0 + 1.2, "R", "shoe")]
+        grips["A"] += [(T0, "R", "bag")]
         ev += [dict(t=T0, event="handoff", obj="bag", frm="B", to="A", hands=["B.L", "A.R"]),
                dict(t=T0 + 1.2, event="retrieve", obj="shoe", frm="water", to="B", hands=["B.R"])]
-        for who, a, b, _ in sched:
-            ev += [dict(t=a, event="grip", who=who, hand="L", obj="liana"), dict(t=round(b + 0.05, 2), event="release", who=who, hand="L", obj="liana")]
     if v == "baseline":
-        P["B"] += [standing(0.0, 110, N_GROUND, arm_f=(96, 92, 92))]
-        P["B"] += walk_bank("B", 8.0, 9.5, 110, 172)
-        P["B"].append(standing(12.4, 172, N_GROUND, arm_f=(96, 92, 92)))
-        hs = (172, N_GROUND - HIP_ABOVE["stand"])
-        P["B"].append(standing(12.8, 172, N_GROUND, arm_f=(100, 94, 94), arm_n=arm_to(hs, -90, (200, 130), -1, -80)))   # swaps the bag to her right hand
+        P["B"] += [standing(0.0, 100, N_GROUND, arm_f=(96, 92, 92))]
+        P["B"] += walk_bank("B", 8.0, 9.5, 100, 150)
+        P["B"].append(standing(12.4, 150, N_GROUND, arm_f=(96, 92, 92)))
+        hs = (150, N_GROUND - HIP_ABOVE["stand"])
+        P["B"].append(standing(12.8, 150, N_GROUND, arm_f=(100, 94, 94), arm_n=arm_to(hs, -90, (178, 130), -1, -80)))   # swaps the bag to her right hand
         K, fxB = crossing("B"); P["B"] += K
-        P["C"] += [standing(0.0, 64, N_GROUND)] + walk_bank("C", 9.0, 10.2, 64, 106) + [standing(10.3, 106, N_GROUND), standing(19.2, 106, N_GROUND)]
-        P["C"] += walk_bank("C", 19.3, 19.95, 106, 176)
+        P["C"] += [standing(0.0, 40, N_GROUND)] + walk_bank("C", 9.0, 10.2, 40, 66) + [standing(10.3, 66, N_GROUND), standing(19.2, 66, N_GROUND)]
+        P["C"] += walk_bank("C", 19.3, 19.95, 66, 160)
         K, fxC = crossing("C"); P["C"] += K
-        grips["B"] += [(0.0, "L", "bag"), (12.75, "R", "bag"), (12.75, "L", "free"), (13.0, "L", "liana"), (19.55, "L", "free")]
-        grips["C"] += [(20.0, "L", "liana"), (26.55, "L", "free")]
-        ev += [dict(t=12.75, event="hand_swap", who="B", obj="bag", frm="L", to="R"),
-               dict(t=13.0, event="grip", who="B", hand="L", obj="liana"), dict(t=19.55, event="release", who="B", hand="L", obj="liana"),
-               dict(t=20.0, event="grip", who="C", hand="L", obj="liana"), dict(t=26.55, event="release", who="C", hand="L", obj="liana")]
+        grips["B"] += [(0.0, "L", "bag"), (12.75, "R", "bag"), (12.75, "L", "free")]
+        ev += [dict(t=12.75, event="hand_swap", who="B", obj="bag", frm="L", to="R")]
+    for who, a, b, _ in sched:                     # the liana law: one hand on it from the step on to the step off
+        grips[who] += [(round(a - 0.2, 3), "L", "liana"), (round(b + 0.35, 3), "L", "free")]
+        ev += [dict(t=round(a - 0.2, 3), event="grip", who=who, hand="L", obj="liana"),
+               dict(t=round(b + 0.35, 3), event="release", who=who, hand="L", obj="liana")]
     for who in P:
         P[who].sort(key=lambda k: k["t"])
         # drop exact duplicate times (later builder wins)
@@ -456,9 +461,10 @@ def trace(B):
                                      ankles=[[round(a[0], 2), round(a[1], 2)] for a in ank], expr={k: round(x, 3) for k, x in ex.items()})
         st["plank_occupant"] = occ
         ox = B["occ_fn"](t)
-        st["plank_deflection_px"] = PLANK_DEFL_MAX if ox is not None else 0.0
+        st["plank_deflection_px"] = round(plank_deflection(ox), 2)
         if ox is not None:
-            st["clearance_px"] = round(st["water_y"] - plank_top(ox, ox, PLANK_DEFL_MAX), 2)
+            st["occupant_x"] = round(ox, 2)
+            st["clearance_px"] = round(st["water_y"] - plank_top(ox, ox, plank_deflection(ox)), 2)
         # holders
         for obj in ("bag", "shoe"):
             hs = [(w, h) for w, p in st["people"].items() for h, it in p["grips"].items() if it == obj]
@@ -472,7 +478,10 @@ def trace(B):
         if st["bag"] and st["bag"][0] != "water":
             w, h = st["bag"][0].split(".")
             hp = st["people"][w]["hands"][h]
-            st["bag_bottom_y"] = round(hp[1] + 70 * 0.95, 2)
+            bot = hp[1] + 66
+            over_water = PLANK_N[0] < hp[0] < PLANK_F[0]
+            if not over_water: bot = min(bot, N_GROUND if hp[0] < PLANK_N[0] else F_GROUND)   # rests on the bank
+            st["bag_bottom_y"] = round(bot, 2); st["bag_over_water"] = over_water
         frames.append(st)
     return frames
 
@@ -488,6 +497,15 @@ def main():
                     "props drawn from the holder's hand bone only"],
         world=dict(N_ground=N_GROUND, F_ground=F_GROUND, plank=[PLANK_N, PLANK_F], plank_capacity=1, plank_deflection_max_px=PLANK_DEFL_MAX,
                    liana="y(x) = 70 - 10q + 40 sin(pi q), q = (x+40)/900", water="see water_y() in rig.py"))
+    json.dump(rig, open(HERE / "rig.json", "w"), indent=1)
+    for v, last, target in (("L", "B", 4.0), ("E", "C", 6.0)):
+        B = build(v); a, b = [(s[1], s[2]) for s in B["schedule"] if s[0] == last][0]
+        mins = []
+        for i in range(int(a * FPS), int(b * FPS) + 1):
+            t = i / FPS; ox = B["occ_fn"](t)
+            if ox is not None: mins.append(water_y(v, t) - plank_top(ox, ox, plank_deflection(ox)))
+        WATER_OFFSET[v] += target - min(mins)
+    rig["world"]["water_offset_px"] = dict(WATER_OFFSET)
     json.dump(rig, open(HERE / "rig.json", "w"), indent=1)
     allp, allev = {}, {}
     for v in VERSIONS:

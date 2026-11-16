@@ -1,0 +1,129 @@
+[
+ {
+  "name": "CX1 three hands: B keeps the bag, takes the shoe, crosses liana+bag+shoe",
+  "verdict": "FAIL",
+  "frames": 864,
+  "rig_error_max_px": 0.0,
+  "errors_by_joint_px": {
+   "spine": 0.0,
+   "neck": 0.0,
+   "head": 0.0,
+   "upper_f": 0.0,
+   "fore_f": 0.0,
+   "hand_f": 0.0,
+   "upper_n": 0.0,
+   "fore_n": 0.0,
+   "hand_n": 0.0,
+   "thigh_f": 0.0,
+   "shin_f": 0.0,
+   "foot_f": 0.0,
+   "thigh_n": 0.0,
+   "shin_n": 0.0,
+   "foot_n": 0.0
+  },
+  "failures": {
+   "G2_hands": {
+    "count": 133,
+    "first": [
+     "t=29.833: B holds ['liana', 'shoe', 'bag']: more than two hands",
+     "t=29.875: B holds ['liana', 'shoe', 'bag']: more than two hands",
+     "t=29.917: B holds ['liana', 'shoe', 'bag']: more than two hands",
+     "t=29.958: B holds ['liana', 'shoe', 'bag']: more than two hands",
+     "t=30.000: B holds ['liana', 'shoe', 'bag']: more than two hands",
+     "t=30.042: B holds ['liana', 'shoe', 'bag']: more than two hands"
+    ]
+   },
+   "G4_events": {
+    "count": 1,
+    "first": [
+     "t=18.417: bag ['B.L'] -> ['B.x'] with no logged event"
+    ]
+   }
+  },
+  "expected": "FAIL",
+  "as_expected": true
+ },
+ {
+  "name": "CX2 double occupancy: C steps on at 24.0 while A is still on the plank",
+  "verdict": "FAIL",
+  "frames": 864,
+  "rig_error_max_px": 0.0,
+  "errors_by_joint_px": {
+   "spine": 0.0,
+   "neck": 0.0,
+   "head": 0.0,
+   "upper_f": 0.0,
+   "fore_f": 0.0,
+   "hand_f": 0.0,
+   "upper_n": 0.0,
+   "fore_n": 0.0,
+   "hand_n": 0.0,
+   "thigh_f": 0.0,
+   "shin_f": 0.0,
+   "foot_f": 0.0,
+   "thigh_n": 0.0,
+   "shin_n": 0.0,
+   "foot_n": 0.0
+  },
+  "failures": {
+   "G1_plank": {
+    "count": 11,
+    "first": [
+     "t=24.167: occupants ['A', 'C']",
+     "t=24.208: occupants ['A', 'C']",
+     "t=24.250: occupants ['A', 'C']",
+     "t=24.292: occupants ['A', 'C']",
+     "t=24.333: occupants ['A', 'C']",
+     "t=24.375: occupants ['A', 'C']"
+    ]
+   }
+  },
+  "expected": "FAIL",
+  "as_expected": true
+ },
+ {
+  "name": "CX3 disappeared possession: no bag holder 20.0-20.5 s, no event",
+  "verdict": "FAIL",
+  "frames": 864,
+  "rig_error_max_px": 0.0,
+  "errors_by_joint_px": {
+   "spine": 0.0,
+   "neck": 0.0,
+   "head": 0.0,
+   "upper_f": 0.0,
+   "fore_f": 0.0,
+   "hand_f": 0.0,
+   "upper_n": 0.0,
+   "fore_n": 0.0,
+   "hand_n": 0.0,
+   "thigh_f": 0.0,
+   "shin_f": 0.0,
+   "foot_f": 0.0,
+   "thigh_n": 0.0,
+   "shin_n": 0.0,
+   "foot_n": 0.0
+  },
+  "failures": {
+   "G3_holders": {
+    "count": 12,
+    "first": [
+     "t=20.000: bag holders []",
+     "t=20.042: bag holders []",
+     "t=20.083: bag holders []",
+     "t=20.125: bag holders []",
+     "t=20.167: bag holders []",
+     "t=20.208: bag holders []"
+    ]
+   },
+   "G4_events": {
+    "count": 2,
+    "first": [
+     "t=20.000: bag ['C.R'] -> [] with no logged event",
+     "t=20.500: bag [] -> ['C.R'] with no logged event"
+    ]
+   }
+  },
+  "expected": "FAIL",
+  "as_expected": true
+ }
+]

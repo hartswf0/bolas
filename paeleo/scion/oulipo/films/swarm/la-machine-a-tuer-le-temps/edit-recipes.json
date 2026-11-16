@@ -3,7 +3,7 @@
  "slug": "la-machine-a-tuer-le-temps",
  "unit": "U3 cut-editors (SCION 27 owner)",
  "date": "2026-11-16",
- "base_pool_hash": "ddb94d86f44a21d24b33f8bb227323c68dbaa54dcf96f97581a0f3897902eb2e",
+ "base_pool_hash": "7e50704ce76934d73e25d32ad82b9fdb6e9db4e7ae0cacb560fcea0f49745164",
  "N": 120,
  "fps": 24,
  "size": [
@@ -26,7 +26,7 @@
  "edits": [
   {
    "edit_id": "A1",
-   "base_pool_hash": "ddb94d86f44a21d24b33f8bb227323c68dbaa54dcf96f97581a0f3897902eb2e",
+   "base_pool_hash": "7e50704ce76934d73e25d32ad82b9fdb6e9db4e7ae0cacb560fcea0f49745164",
    "role": "cut A (baseline, ordinary handoff), pool order 01..08",
    "events": [
     {
@@ -200,7 +200,7 @@
   },
   {
    "edit_id": "B1",
-   "base_pool_hash": "ddb94d86f44a21d24b33f8bb227323c68dbaa54dcf96f97581a0f3897902eb2e",
+   "base_pool_hash": "7e50704ce76934d73e25d32ad82b9fdb6e9db4e7ae0cacb560fcea0f49745164",
    "role": "cut B (the parcel seems illicit)",
    "events": [
     {
@@ -211,7 +211,8 @@
      "direction": "fwd",
      "speed": 0.5,
      "out_frames": 120,
-     "why": "long stare opens; look-out"
+     "why": "the porter looks into the lens, held: each pool frame shown twice. The rostrum drift on this print is near-static, so on screen it reads as a held print, not as slow motion (declared, repair round 1).",
+     "reads_as": "held print"
     },
     {
      "asset_id": "04",
@@ -227,11 +228,11 @@
      "asset_id": "02",
      "role": "hand with a parcel",
      "in": 24,
-     "out": 95,
+     "out": 119,
      "direction": "fwd",
      "speed": 1,
-     "out_frames": 72,
-     "why": "her look back now answers his; parcel"
+     "out_frames": 96,
+     "why": "repair round 2: held 4.0 s (src 24-119, the push ends on her face and the box) so her look back lands right after the door; 06 (paper slips) follows directly: parcel, then paper"
     },
     {
      "asset_id": "06",
@@ -261,7 +262,8 @@
      "direction": "rev",
      "speed": 1,
      "out_frames": 36,
-     "why": "the clock arrives late, pulling away (alibi)"
+     "why": "the clock from its closest framing, the camera retreating (src 119->84). No clock is shown running backwards; the earlier \"reversed clock / alibi\" claim is withdrawn (repair round 1).",
+     "reads_as": "pull back from the clock"
     },
     {
      "asset_id": "07",
@@ -277,11 +279,11 @@
      "asset_id": "08",
      "role": "empty threshold",
      "in": 0,
-     "out": 95,
+     "out": 71,
      "direction": "fwd",
      "speed": 1,
-     "out_frames": 96,
-     "why": "the empty hall held long"
+     "out_frames": 72,
+     "why": "repair round 2: 3.0 s (src 0-71), giving 24 f to 02; the cut stays 564 f"
     }
    ],
    "total_frames": 564,
@@ -294,7 +296,7 @@
      "start_tc": "0.000s",
      "out_frames": 120,
      "seconds": 5.0,
-     "film_frame": 870
+     "film_frame": 894
     },
     {
      "event": 1,
@@ -303,78 +305,81 @@
      "start_tc": "5.000s",
      "out_frames": 48,
      "seconds": 2.0,
-     "film_frame": 990
+     "film_frame": 1014
     },
     {
      "event": 2,
      "asset_id": "02",
      "start_frame": 168,
      "start_tc": "7.000s",
-     "out_frames": 72,
-     "seconds": 3.0,
-     "film_frame": 1038
+     "out_frames": 96,
+     "seconds": 4.0,
+     "film_frame": 1062
     },
     {
      "event": 3,
      "asset_id": "06",
-     "start_frame": 240,
-     "start_tc": "10.000s",
+     "start_frame": 264,
+     "start_tc": "11.000s",
      "out_frames": 72,
      "seconds": 3.0,
-     "film_frame": 1110
+     "film_frame": 1158
     },
     {
      "event": 4,
      "asset_id": "03",
-     "start_frame": 312,
-     "start_tc": "13.000s",
+     "start_frame": 336,
+     "start_tc": "14.000s",
      "out_frames": 60,
      "seconds": 2.5,
-     "film_frame": 1182
+     "film_frame": 1230
     },
     {
      "event": 5,
      "asset_id": "01",
-     "start_frame": 372,
-     "start_tc": "15.500s",
+     "start_frame": 396,
+     "start_tc": "16.500s",
      "out_frames": 36,
      "seconds": 1.5,
-     "film_frame": 1242
+     "film_frame": 1290
     },
     {
      "event": 6,
      "asset_id": "07",
-     "start_frame": 408,
-     "start_tc": "17.000s",
+     "start_frame": 432,
+     "start_tc": "18.000s",
      "out_frames": 60,
      "seconds": 2.5,
-     "film_frame": 1278
+     "film_frame": 1326
     },
     {
      "event": 7,
      "asset_id": "08",
-     "start_frame": 468,
-     "start_tc": "19.500s",
-     "out_frames": 96,
-     "seconds": 4.0,
-     "film_frame": 1338
+     "start_frame": 492,
+     "start_tc": "20.500s",
+     "out_frames": 72,
+     "seconds": 3.0,
+     "film_frame": 1386
     }
    ],
-   "film_start_frame": 870,
+   "film_start_frame": 894,
    "render": {
-    "mp4": "sources/la-machine-a-tuer-le-temps/editors/B1.mp4",
-    "frames_rendered": 564,
-    "frames_expected": 564,
-    "pool_md5_mismatches": [],
-    "mp4_sha256": "49d58b8945e801ba74a8a13296b4cb0a389327a046a50eb4438cea2648be7398",
-    "ledger": "sources/la-machine-a-tuer-le-temps/cut-editors/B1/ledger.json",
-    "cuts_sheet": "sources/la-machine-a-tuer-le-temps/cut-editors/B1/cuts.jpg",
-    "strip_sheet": "sources/la-machine-a-tuer-le-temps/cut-editors/B1/strip.jpg"
+    "note": "repair round 2: re-timed (02 96 f, 08 72 f); rendered only inside the film from the frozen PNGs; the editors rough-cut mp4 is of the round-1 timing",
+    "superseded_render": {
+     "mp4": "sources/la-machine-a-tuer-le-temps/editors/B1.mp4",
+     "frames_rendered": 564,
+     "frames_expected": 564,
+     "pool_md5_mismatches": [],
+     "mp4_sha256": "49d58b8945e801ba74a8a13296b4cb0a389327a046a50eb4438cea2648be7398",
+     "ledger": "sources/la-machine-a-tuer-le-temps/cut-editors/B1/ledger.json",
+     "cuts_sheet": "sources/la-machine-a-tuer-le-temps/cut-editors/B1/cuts.jpg",
+     "strip_sheet": "sources/la-machine-a-tuer-le-temps/cut-editors/B1/strip.jpg"
+    }
    }
   },
   {
    "edit_id": "B2-rev-adjacency",
-   "base_pool_hash": "ddb94d86f44a21d24b33f8bb227323c68dbaa54dcf96f97581a0f3897902eb2e",
+   "base_pool_hash": "7e50704ce76934d73e25d32ad82b9fdb6e9db4e7ae0cacb560fcea0f49745164",
    "role": "fallback: 04<->02 swapped (05->02->04), soundtrack fixed",
    "events": [
     {
@@ -385,7 +390,8 @@
      "direction": "fwd",
      "speed": 0.5,
      "out_frames": 120,
-     "why": "long stare opens; look-out"
+     "why": "the porter looks into the lens, held: each pool frame shown twice. The rostrum drift on this print is near-static, so on screen it reads as a held print, not as slow motion (declared, repair round 1).",
+     "reads_as": "held print"
     },
     {
      "asset_id": "02",
@@ -435,7 +441,8 @@
      "direction": "rev",
      "speed": 1,
      "out_frames": 36,
-     "why": "the clock arrives late, pulling away (alibi)"
+     "why": "the clock from its closest framing, the camera retreating (src 119->84). No clock is shown running backwards; the earlier \"reversed clock / alibi\" claim is withdrawn (repair round 1).",
+     "reads_as": "pull back from the clock"
     },
     {
      "asset_id": "07",
@@ -468,7 +475,7 @@
      "start_tc": "0.000s",
      "out_frames": 120,
      "seconds": 5.0,
-     "film_frame": 870
+     "film_frame": 894
     },
     {
      "event": 1,
@@ -477,7 +484,7 @@
      "start_tc": "5.000s",
      "out_frames": 72,
      "seconds": 3.0,
-     "film_frame": 990
+     "film_frame": 1014
     },
     {
      "event": 2,
@@ -486,7 +493,7 @@
      "start_tc": "8.000s",
      "out_frames": 48,
      "seconds": 2.0,
-     "film_frame": 1062
+     "film_frame": 1086
     },
     {
      "event": 3,
@@ -495,7 +502,7 @@
      "start_tc": "10.000s",
      "out_frames": 72,
      "seconds": 3.0,
-     "film_frame": 1110
+     "film_frame": 1134
     },
     {
      "event": 4,
@@ -504,7 +511,7 @@
      "start_tc": "13.000s",
      "out_frames": 60,
      "seconds": 2.5,
-     "film_frame": 1182
+     "film_frame": 1206
     },
     {
      "event": 5,
@@ -513,7 +520,7 @@
      "start_tc": "15.500s",
      "out_frames": 36,
      "seconds": 1.5,
-     "film_frame": 1242
+     "film_frame": 1266
     },
     {
      "event": 6,
@@ -522,7 +529,7 @@
      "start_tc": "17.000s",
      "out_frames": 60,
      "seconds": 2.5,
-     "film_frame": 1278
+     "film_frame": 1302
     },
     {
      "event": 7,
@@ -531,10 +538,10 @@
      "start_tc": "19.500s",
      "out_frames": 96,
      "seconds": 4.0,
-     "film_frame": 1338
+     "film_frame": 1362
     }
    ],
-   "film_start_frame": 870,
+   "film_start_frame": 894,
    "render": {
     "mp4": "sources/la-machine-a-tuer-le-temps/editors/B2-rev-adjacency.mp4",
     "frames_rendered": 564,
@@ -548,7 +555,7 @@
   },
   {
    "edit_id": "B3-glance-hold",
-   "base_pool_hash": "ddb94d86f44a21d24b33f8bb227323c68dbaa54dcf96f97581a0f3897902eb2e",
+   "base_pool_hash": "7e50704ce76934d73e25d32ad82b9fdb6e9db4e7ae0cacb560fcea0f49745164",
    "role": "fallback: 05 glance held 7.0 s",
    "events": [
     {
@@ -559,7 +566,8 @@
      "direction": "fwd",
      "speed": 0.5,
      "out_frames": 168,
-     "why": "glance held 7 s: the stare becomes surveillance"
+     "why": "the porter looks into the lens, held: each pool frame shown twice. The rostrum drift on this print is near-static, so on screen it reads as a held print, not as slow motion (declared, repair round 1).",
+     "reads_as": "held print"
     },
     {
      "asset_id": "04",
@@ -609,7 +617,8 @@
      "direction": "rev",
      "speed": 1,
      "out_frames": 36,
-     "why": "the clock arrives late, pulling away (alibi)"
+     "why": "the clock from its closest framing, the camera retreating (src 119->84). No clock is shown running backwards; the earlier \"reversed clock / alibi\" claim is withdrawn (repair round 1).",
+     "reads_as": "pull back from the clock"
     },
     {
      "asset_id": "07",
@@ -642,7 +651,7 @@
      "start_tc": "0.000s",
      "out_frames": 168,
      "seconds": 7.0,
-     "film_frame": 870
+     "film_frame": 894
     },
     {
      "event": 1,
@@ -651,7 +660,7 @@
      "start_tc": "7.000s",
      "out_frames": 48,
      "seconds": 2.0,
-     "film_frame": 1038
+     "film_frame": 1062
     },
     {
      "event": 2,
@@ -660,7 +669,7 @@
      "start_tc": "9.000s",
      "out_frames": 72,
      "seconds": 3.0,
-     "film_frame": 1086
+     "film_frame": 1110
     },
     {
      "event": 3,
@@ -669,7 +678,7 @@
      "start_tc": "12.000s",
      "out_frames": 72,
      "seconds": 3.0,
-     "film_frame": 1158
+     "film_frame": 1182
     },
     {
      "event": 4,
@@ -678,7 +687,7 @@
      "start_tc": "15.000s",
      "out_frames": 60,
      "seconds": 2.5,
-     "film_frame": 1230
+     "film_frame": 1254
     },
     {
      "event": 5,
@@ -687,7 +696,7 @@
      "start_tc": "17.500s",
      "out_frames": 36,
      "seconds": 1.5,
-     "film_frame": 1290
+     "film_frame": 1314
     },
     {
      "event": 6,
@@ -696,7 +705,7 @@
      "start_tc": "19.000s",
      "out_frames": 60,
      "seconds": 2.5,
-     "film_frame": 1326
+     "film_frame": 1350
     },
     {
      "event": 7,
@@ -705,10 +714,10 @@
      "start_tc": "21.500s",
      "out_frames": 96,
      "seconds": 4.0,
-     "film_frame": 1386
+     "film_frame": 1410
     }
    ],
-   "film_start_frame": 870,
+   "film_start_frame": 894,
    "render": {
     "mp4": "sources/la-machine-a-tuer-le-temps/editors/B3-glance-hold.mp4",
     "frames_rendered": 612,
@@ -722,7 +731,7 @@
   },
   {
    "edit_id": "B4-delayed-cue",
-   "base_pool_hash": "ddb94d86f44a21d24b33f8bb227323c68dbaa54dcf96f97581a0f3897902eb2e",
+   "base_pool_hash": "7e50704ce76934d73e25d32ad82b9fdb6e9db4e7ae0cacb560fcea0f49745164",
    "role": "fallback: B1 picture, door-latch cue delayed 12 f into 04 (sound unit)",
    "events": [
     {
@@ -733,7 +742,8 @@
      "direction": "fwd",
      "speed": 0.5,
      "out_frames": 120,
-     "why": "long stare opens; look-out"
+     "why": "the porter looks into the lens, held: each pool frame shown twice. The rostrum drift on this print is near-static, so on screen it reads as a held print, not as slow motion (declared, repair round 1).",
+     "reads_as": "held print"
     },
     {
      "asset_id": "04",
@@ -749,11 +759,11 @@
      "asset_id": "02",
      "role": "hand with a parcel",
      "in": 24,
-     "out": 95,
+     "out": 119,
      "direction": "fwd",
      "speed": 1,
-     "out_frames": 72,
-     "why": "her look back now answers his; parcel"
+     "out_frames": 96,
+     "why": "repair round 2: held 4.0 s (src 24-119, the push ends on her face and the box) so her look back lands right after the door; 06 (paper slips) follows directly: parcel, then paper"
     },
     {
      "asset_id": "06",
@@ -783,7 +793,8 @@
      "direction": "rev",
      "speed": 1,
      "out_frames": 36,
-     "why": "the clock arrives late, pulling away (alibi)"
+     "why": "the clock from its closest framing, the camera retreating (src 119->84). No clock is shown running backwards; the earlier \"reversed clock / alibi\" claim is withdrawn (repair round 1).",
+     "reads_as": "pull back from the clock"
     },
     {
      "asset_id": "07",
@@ -799,11 +810,11 @@
      "asset_id": "08",
      "role": "empty threshold",
      "in": 0,
-     "out": 95,
+     "out": 71,
      "direction": "fwd",
      "speed": 1,
-     "out_frames": 96,
-     "why": "the empty hall held long"
+     "out_frames": 72,
+     "why": "repair round 2: 3.0 s (src 0-71), giving 24 f to 02; the cut stays 564 f"
     }
    ],
    "total_frames": 564,
@@ -816,7 +827,7 @@
      "start_tc": "0.000s",
      "out_frames": 120,
      "seconds": 5.0,
-     "film_frame": 870
+     "film_frame": 894
     },
     {
      "event": 1,
@@ -825,68 +836,71 @@
      "start_tc": "5.000s",
      "out_frames": 48,
      "seconds": 2.0,
-     "film_frame": 990
+     "film_frame": 1014
     },
     {
      "event": 2,
      "asset_id": "02",
      "start_frame": 168,
      "start_tc": "7.000s",
-     "out_frames": 72,
-     "seconds": 3.0,
-     "film_frame": 1038
+     "out_frames": 96,
+     "seconds": 4.0,
+     "film_frame": 1062
     },
     {
      "event": 3,
      "asset_id": "06",
-     "start_frame": 240,
-     "start_tc": "10.000s",
+     "start_frame": 264,
+     "start_tc": "11.000s",
      "out_frames": 72,
      "seconds": 3.0,
-     "film_frame": 1110
+     "film_frame": 1158
     },
     {
      "event": 4,
      "asset_id": "03",
-     "start_frame": 312,
-     "start_tc": "13.000s",
+     "start_frame": 336,
+     "start_tc": "14.000s",
      "out_frames": 60,
      "seconds": 2.5,
-     "film_frame": 1182
+     "film_frame": 1230
     },
     {
      "event": 5,
      "asset_id": "01",
-     "start_frame": 372,
-     "start_tc": "15.500s",
+     "start_frame": 396,
+     "start_tc": "16.500s",
      "out_frames": 36,
      "seconds": 1.5,
-     "film_frame": 1242
+     "film_frame": 1290
     },
     {
      "event": 6,
      "asset_id": "07",
-     "start_frame": 408,
-     "start_tc": "17.000s",
+     "start_frame": 432,
+     "start_tc": "18.000s",
      "out_frames": 60,
      "seconds": 2.5,
-     "film_frame": 1278
+     "film_frame": 1326
     },
     {
      "event": 7,
      "asset_id": "08",
-     "start_frame": 468,
-     "start_tc": "19.500s",
-     "out_frames": 96,
-     "seconds": 4.0,
-     "film_frame": 1338
+     "start_frame": 492,
+     "start_tc": "20.500s",
+     "out_frames": 72,
+     "seconds": 3.0,
+     "film_frame": 1386
     }
    ],
    "picture_identical_to": "B1",
-   "film_start_frame": 870,
+   "film_start_frame": 894,
    "render": {
-    "mp4": "sources/la-machine-a-tuer-le-temps/editors/B1.mp4",
-    "note": "picture identical to B1 (same events, same ledger); no separate render"
+    "note": "repair round 2: re-timed (02 96 f, 08 72 f); rendered only inside the film from the frozen PNGs; the editors rough-cut mp4 is of the round-1 timing",
+    "superseded_render": {
+     "mp4": "sources/la-machine-a-tuer-le-temps/editors/B1.mp4",
+     "note": "picture identical to B1 (same events, same ledger); no separate render"
+    }
    }
   }
  ],
@@ -954,7 +968,7 @@
   },
   "B1_door_latch": {
    "t_frame_cutB": 114,
-   "t_frame_film": 984,
+   "t_frame_film": 1008,
    "sync_dep": {
     "edit_id": "B1",
     "event": 1
@@ -963,7 +977,7 @@
   },
   "B4_door_latch": {
    "t_frame_cutB": 132,
-   "t_frame_film": 1002,
+   "t_frame_film": 1026,
    "sync_dep": {
     "edit_id": "B1",
     "event": 1
@@ -1155,5 +1169,21 @@
   ],
   "working": "sources/la-machine-a-tuer-le-temps/cut-editors/<edit_id>/{ledger.json,concat.txt,cuts.jpg,strip.jpg}",
   "builder": "swarm/la-machine-a-tuer-le-temps/editors_build.py"
+ },
+ "repair_round_1": {
+  "date": "2026-11-16",
+  "by": "montage editor",
+  "changes": [
+   "pool re-frozen after retoning 04 (lo 22) and 01 (hi 183): base_pool_hash ddb94d86f44a -> 7e50704ce769; frame indices and recipes unchanged",
+   "B-branch film_start_frame and cut_points.film_frame re-serialised from notebook_rig.TL (S7 starts at 894, not 870; S5 is 216 f)",
+   "validate.py ledger now checks film_start_frame and every cut_points.film_frame against the ledger",
+   "B1 05 declared a held print (0.5x over a near-static drift); B1 01 described as a pull back from the clock; the reversed-clock claim is dropped",
+   "B4 delayed latch: cut-B frame 132 = film frame 1026 (was given as 1002)"
+  ]
+ },
+ "repair_round_2": {
+  "date": "2026-11-16",
+  "change": "B1 (and B4, picture-identical to B1): 02 held 72->96 f (src 24-119), 08 96->72 f (src 0-71); cut B stays 564 f, film timeline unchanged. Order unchanged: 05 -> 04 -> 02 -> 06 (parcel, then paper slips). Notebook S8 pull-out now starts on 08 src 71.",
+  "why": "critic round 2: strengthen the handoff through order and duration only, no new pixels"
  }
 }

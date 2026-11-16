@@ -658,13 +658,14 @@
     "onset_frame": 586,
     "who": "her",
     "action": "head drops -11 deg toward the box",
-    "action_onset_frame": 610,
-    "action_end_frame": 618,
+    "action_onset_frame": 696,
+    "action_end_frame": 704,
     "ease": "ease-out over 8 frames",
     "hold": "hold -11 deg to 734",
     "value": -11.0,
     "listener_action": true,
-    "notes": "--late: line end 598 + 12 = 610; the word lands, then she checks"
+    "notes": "--late: line end 598 + 12 = 610; the word lands, then she checks",
+    "note": "editor repair 2: late = caption clears (684) + 12, which is also >= spoken end (598) + 12"
    },
    {
     "cue_id": "CUE-3s",
@@ -672,8 +673,8 @@
     "onset_frame": 586,
     "who": "him",
     "action": "lean completes to +4 deg at 605 (he is not stopped by her), then freezes when she drops",
-    "action_onset_frame": 610,
-    "action_end_frame": 610,
+    "action_onset_frame": 696,
+    "action_end_frame": 696,
     "ease": "none (already at rest)",
     "hold": "hold +4 deg to CUE-3h",
     "listener_action": false
@@ -944,7 +945,7 @@
    {
     "cue_id": "CUE-3",
     "onset_frame": 586,
-    "action_onset_frame": 610,
+    "action_onset_frame": 696,
     "holds": true
    },
    {

@@ -1,0 +1,1614 @@
+{
+ "sources": {
+  "murmur": "handmade synthesis v2 (Commons file not obtained): event-built concourse -- talkers on a crowd swell, passing walkers, 2 PA fragments, trolley, case, steam; smooth filters",
+  "concourse_events": [
+   {
+    "what": "talker utterances",
+    "count": 123
+   },
+   {
+    "what": "walker (close)",
+    "t": 11.9,
+    "dur": 8.04
+   },
+   {
+    "what": "walker (close)",
+    "t": 19.18,
+    "dur": 8.24
+   },
+   {
+    "what": "walker",
+    "t": 15.21,
+    "dur": 7.86
+   },
+   {
+    "what": "walker",
+    "t": -3.0,
+    "dur": 8.15
+   },
+   {
+    "what": "walker",
+    "t": 8.62,
+    "dur": 8.64
+   },
+   {
+    "what": "walker",
+    "t": 23.07,
+    "dur": 5.67
+   },
+   {
+    "what": "walker",
+    "t": 6.65,
+    "dur": 8.63
+   },
+   {
+    "what": "walker",
+    "t": 13.6,
+    "dur": 6.95
+   },
+   {
+    "what": "walker",
+    "t": 18.63,
+    "dur": 8.22
+   },
+   {
+    "what": "PA fragment (unintelligible)",
+    "t": 6.3,
+    "dur": 2.6
+   },
+   {
+    "what": "PA fragment (unintelligible)",
+    "t": 18.7,
+    "dur": 2.2
+   },
+   {
+    "what": "baggage trolley",
+    "t": 10.02
+   },
+   {
+    "what": "case set down",
+    "t": 14.05
+   },
+   {
+    "what": "steam release, far",
+    "t": 21.8
+   }
+  ],
+  "previews": {
+   "screening1-sharedbed": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-machine-a-tuer-le-temps/sound/preview_screening1-sharedbed_v2.wav",
+   "final": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-machine-a-tuer-le-temps/sound/preview_final_v2.wav"
+  }
+ },
+ "cues": [
+  {
+   "track": "T0",
+   "t_frame": 0,
+   "t_s": 0.0,
+   "cue": "room tone in (foraged 1935 interior air, looped)",
+   "sync_dep": {
+    "segment": "S0",
+    "frames": [
+     0,
+     71
+    ]
+   }
+  },
+  {
+   "track": "T0",
+   "t_frame": 162,
+   "t_s": 6.75,
+   "cue": "room dips -12 dB under cut A",
+   "sync_dep": {
+    "segment": "S3"
+   }
+  },
+  {
+   "track": "T0",
+   "t_frame": 894,
+   "t_s": 37.25,
+   "cue": "room dips -12 dB under cut B",
+   "sync_dep": {
+    "segment": "S7"
+   }
+  },
+  {
+   "track": "T0",
+   "t_frame": 1584,
+   "t_s": 66.0,
+   "cue": "single clock tick; room tone ends with it",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 84,
+    "ev": "tape",
+    "note": "last held second of S10 (after the tape event)"
+   }
+  },
+  {
+   "track": "T1",
+   "t_frame": 0,
+   "t_s": 0.0,
+   "cue": "shared bed starts on cut frame 0 (same offset in A and B): murmur + distant trains + 1 Hz tick on whole seconds",
+   "sync_dep": {
+    "edit_id": "A1|B1",
+    "event": 0
+   },
+   "ticks_at_s": [
+    -3.0,
+    -2.0,
+    -1.0,
+    0.0,
+    1.0,
+    2.0,
+    "..."
+   ]
+  },
+  {
+   "track": "T1",
+   "t_frame": -90,
+   "t_s": -3.75,
+   "cue": "preroll: bed fades in faint under S1, rises under the S2 push",
+   "sync_dep": {
+    "segment": "S1-S2",
+    "frames": [
+     72,
+     161
+    ]
+   }
+  },
+  {
+   "track": "T1",
+   "t_frame": 480,
+   "t_s": 20.0,
+   "cue": "cut A slot: bed falls to room tone under S4 (18 f)",
+   "sync_dep": {
+    "edit_id": "A1",
+    "event": 7,
+    "at": "out"
+   }
+  },
+  {
+   "track": "T1",
+   "t_frame": 564,
+   "t_s": 23.5,
+   "cue": "cut B slot: bed falls to room tone under S8 (18 f)",
+   "sync_dep": {
+    "edit_id": "B1",
+    "event": 7,
+    "at": "out"
+   }
+  },
+  {
+   "track": "T3",
+   "t_frame": 60,
+   "t_s": 2.5,
+   "cue": "mail-room bustle under 02 (parcels, paper), fades by 6 f into 03",
+   "sync_dep": {
+    "edit_id": "A1",
+    "event": 1
+   }
+  },
+  {
+   "track": "T3",
+   "t_frame": 192,
+   "t_s": 8.0,
+   "cue": "door latch on the 04 cut (on the frame)",
+   "sync_dep": {
+    "edit_id": "A1",
+    "event": 3
+   },
+   "offset_frames": 0
+  },
+  {
+   "track": "T3",
+   "t_frame": 366,
+   "t_s": 15.25,
+   "cue": "distant factory/rail whistle under 07 (foraged, Valley Town 1940), hall-reverbed",
+   "sync_dep": {
+    "edit_id": "A1",
+    "event": 6
+   }
+  },
+  {
+   "track": "T3",
+   "t_frame": 0,
+   "t_s": 0.0,
+   "cue": "bed at normal level, tick steady at 1 Hz, murmur warmed (low-pass 2.6 kHz)",
+   "sync_dep": {
+    "edit_id": "A1",
+    "event": 0
+   }
+  },
+  {
+   "track": "T4",
+   "t_frame": 0,
+   "t_s": 0.0,
+   "cue": "bed ducked -9 dB (murmur + trains); tick slowing: 3 ticks, intervals x1.28 each, weakening",
+   "sync_dep": {
+    "edit_id": "B1",
+    "event": 0
+   },
+   "tick_times_s": [
+    0.0,
+    1.0,
+    2.28
+   ]
+  },
+  {
+   "track": "T4",
+   "t_frame": 60,
+   "t_s": 2.5,
+   "cue": "DECLARED SILENCE 2.5 s over the 05 stare (frames 60-119): no tick, no bed, air only at -62 dBFS",
+   "sync_dep": {
+    "edit_id": "B1",
+    "event": 0
+   },
+   "duration_frames": 60,
+   "declared_silence": true
+  },
+  {
+   "track": "T4",
+   "t_frame": 114,
+   "t_s": 4.75,
+   "cue": "door latch pre-lapped 6 f before the 05->04 cut",
+   "sync_dep": {
+    "edit_id": "B1",
+    "event": 1
+   },
+   "offset_frames": -6
+  },
+  {
+   "track": "T4",
+   "t_frame": 120,
+   "t_s": 5.0,
+   "cue": "bed returns ducked on 04 (no tick yet)",
+   "sync_dep": {
+    "edit_id": "B1",
+    "event": 1
+   }
+  },
+  {
+   "track": "T4",
+   "t_frame": 154,
+   "t_s": 6.4167,
+   "cue": "close footsteps pre-lap the 04->02 cut by 14 f and arrive with her (5 steps, 0.46 s, rising)",
+   "sync_dep": {
+    "edit_id": "B1",
+    "event": 2
+   },
+   "offset_frames": -14,
+   "last_step_s": 8.257
+  },
+  {
+   "track": "T4",
+   "t_frame": 259,
+   "t_s": 10.7917,
+   "cue": "the parcel set down hard on a counter, 5 f before 06",
+   "sync_dep": {
+    "edit_id": "B1",
+    "event": 3
+   },
+   "offset_frames": -5
+  },
+  {
+   "track": "T4",
+   "t_frame": 262,
+   "t_s": 10.9167,
+   "cue": "a paper slip drawn across the counter, pre-lapping 06 by 2 f (parcel exchanged for paper)",
+   "sync_dep": {
+    "edit_id": "B1",
+    "event": 3
+   },
+   "offset_frames": -2
+  },
+  {
+   "track": "T4",
+   "t_frame": 264,
+   "t_s": 11.0,
+   "cue": "tick returns hard on 06 (+3 dB first tick), 1 Hz",
+   "sync_dep": {
+    "edit_id": "B1",
+    "event": 3
+   }
+  },
+  {
+   "track": "T4",
+   "t_frame": 336,
+   "t_s": 14.0,
+   "cue": "tick continues under 03 (someone is timing it)",
+   "sync_dep": {
+    "edit_id": "B1",
+    "event": 4
+   }
+  },
+  {
+   "track": "T4",
+   "t_frame": 396,
+   "t_s": 16.5,
+   "cue": "tick alone on 01: bed muted, only the tick",
+   "sync_dep": {
+    "edit_id": "B1",
+    "event": 5
+   },
+   "until_frame": 431
+  },
+  {
+   "track": "T4",
+   "t_frame": 420,
+   "t_s": 17.5,
+   "cue": "footsteps pre-lap 07 by 12 f, receding on stone, 0.52 s pace",
+   "sync_dep": {
+    "edit_id": "B1",
+    "event": 6
+   },
+   "offset_frames": -12
+  },
+  {
+   "track": "T4",
+   "t_frame": 432,
+   "t_s": 18.0,
+   "cue": "tick stops; bed back ducked under 07",
+   "sync_dep": {
+    "edit_id": "B1",
+    "event": 6
+   }
+  },
+  {
+   "track": "T4",
+   "t_frame": 492,
+   "t_s": 20.5,
+   "cue": "hall reverb tail (RT 3.6 s) of the last steps under 08, fading to nothing by frame 558; bed fades out too",
+   "sync_dep": {
+    "edit_id": "B1",
+    "event": 7
+   },
+   "last_step_s": 20.62
+  },
+  {
+   "track": "T4-B4",
+   "t_frame": 0,
+   "t_s": 0.0,
+   "cue": "bed ducked -9 dB (murmur + trains); tick slowing: 3 ticks, intervals x1.28 each, weakening",
+   "sync_dep": {
+    "edit_id": "B1",
+    "event": 0
+   },
+   "tick_times_s": [
+    0.0,
+    1.0,
+    2.28
+   ]
+  },
+  {
+   "track": "T4-B4",
+   "t_frame": 60,
+   "t_s": 2.5,
+   "cue": "DECLARED SILENCE 2.5 s over the 05 stare (frames 60-119): no tick, no bed, air only at -62 dBFS",
+   "sync_dep": {
+    "edit_id": "B1",
+    "event": 0
+   },
+   "duration_frames": 60,
+   "declared_silence": true
+  },
+  {
+   "track": "T4-B4",
+   "t_frame": 132,
+   "t_s": 5.5,
+   "cue": "door latch delayed 12 f into 04 (branch B4)",
+   "sync_dep": {
+    "edit_id": "B1",
+    "event": 1
+   },
+   "offset_frames": 12
+  },
+  {
+   "track": "T4-B4",
+   "t_frame": 120,
+   "t_s": 5.0,
+   "cue": "bed returns ducked on 04 (no tick yet)",
+   "sync_dep": {
+    "edit_id": "B1",
+    "event": 1
+   }
+  },
+  {
+   "track": "T4-B4",
+   "t_frame": 154,
+   "t_s": 6.4167,
+   "cue": "close footsteps pre-lap the 04->02 cut by 14 f and arrive with her (5 steps, 0.46 s, rising)",
+   "sync_dep": {
+    "edit_id": "B1",
+    "event": 2
+   },
+   "offset_frames": -14,
+   "last_step_s": 8.257
+  },
+  {
+   "track": "T4-B4",
+   "t_frame": 259,
+   "t_s": 10.7917,
+   "cue": "the parcel set down hard on a counter, 5 f before 06",
+   "sync_dep": {
+    "edit_id": "B1",
+    "event": 3
+   },
+   "offset_frames": -5
+  },
+  {
+   "track": "T4-B4",
+   "t_frame": 262,
+   "t_s": 10.9167,
+   "cue": "a paper slip drawn across the counter, pre-lapping 06 by 2 f (parcel exchanged for paper)",
+   "sync_dep": {
+    "edit_id": "B1",
+    "event": 3
+   },
+   "offset_frames": -2
+  },
+  {
+   "track": "T4-B4",
+   "t_frame": 264,
+   "t_s": 11.0,
+   "cue": "tick returns hard on 06 (+3 dB first tick), 1 Hz",
+   "sync_dep": {
+    "edit_id": "B1",
+    "event": 3
+   }
+  },
+  {
+   "track": "T4-B4",
+   "t_frame": 336,
+   "t_s": 14.0,
+   "cue": "tick continues under 03 (someone is timing it)",
+   "sync_dep": {
+    "edit_id": "B1",
+    "event": 4
+   }
+  },
+  {
+   "track": "T4-B4",
+   "t_frame": 396,
+   "t_s": 16.5,
+   "cue": "tick alone on 01: bed muted, only the tick",
+   "sync_dep": {
+    "edit_id": "B1",
+    "event": 5
+   },
+   "until_frame": 431
+  },
+  {
+   "track": "T4-B4",
+   "t_frame": 420,
+   "t_s": 17.5,
+   "cue": "footsteps pre-lap 07 by 12 f, receding on stone, 0.52 s pace",
+   "sync_dep": {
+    "edit_id": "B1",
+    "event": 6
+   },
+   "offset_frames": -12
+  },
+  {
+   "track": "T4-B4",
+   "t_frame": 432,
+   "t_s": 18.0,
+   "cue": "tick stops; bed back ducked under 07",
+   "sync_dep": {
+    "edit_id": "B1",
+    "event": 6
+   }
+  },
+  {
+   "track": "T4-B4",
+   "t_frame": 492,
+   "t_s": 20.5,
+   "cue": "hall reverb tail (RT 3.6 s) of the last steps under 08, fading to nothing by frame 558; bed fades out too",
+   "sync_dep": {
+    "edit_id": "B1",
+    "event": 7
+   },
+   "last_step_s": 20.62
+  },
+  {
+   "track": "T2",
+   "t_frame": 54,
+   "t_s": 2.25,
+   "cue": "cover flap around the coil, board lands",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 0,
+    "ev": "cover_flip",
+    "f": 54
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 660,
+   "t_s": 27.5,
+   "cue": "page turn: rustle + soft land",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 3,
+    "ev": "turn",
+    "f": 660
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 664,
+   "t_s": 27.6667,
+   "cue": "page turn: rustle + soft land",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 4,
+    "ev": "turn",
+    "f": 664
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 668,
+   "t_s": 27.8333,
+   "cue": "page turn: rustle + soft land",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 5,
+    "ev": "turn",
+    "f": 668
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 676,
+   "t_s": 28.1667,
+   "cue": "slip lifted: peel/air",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 6,
+    "ev": "lift",
+    "f": 676
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 677,
+   "t_s": 28.2083,
+   "cue": "slip slides over paper",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 7,
+    "ev": "travel",
+    "f": 677
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 680,
+   "t_s": 28.3333,
+   "cue": "slip lifted: peel/air",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 8,
+    "ev": "lift",
+    "f": 680
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 681,
+   "t_s": 28.375,
+   "cue": "slip slides over paper",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 9,
+    "ev": "travel",
+    "f": 681
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 688,
+   "t_s": 28.6667,
+   "cue": "set-down tap",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 10,
+    "ev": "setdown",
+    "f": 688
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 691,
+   "t_s": 28.7917,
+   "cue": "spring overshoot return: faint second contact",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 11,
+    "ev": "settle",
+    "f": 688
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 690,
+   "t_s": 28.75,
+   "cue": "page turn: rustle + soft land",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 12,
+    "ev": "turn",
+    "f": 690
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 692,
+   "t_s": 28.8333,
+   "cue": "set-down tap",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 13,
+    "ev": "setdown",
+    "f": 692
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 695,
+   "t_s": 28.9583,
+   "cue": "spring overshoot return: faint second contact",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 14,
+    "ev": "settle",
+    "f": 692
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 698,
+   "t_s": 29.0833,
+   "cue": "slip lifted: peel/air",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 15,
+    "ev": "lift",
+    "f": 698
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 699,
+   "t_s": 29.125,
+   "cue": "slip slides over paper",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 16,
+    "ev": "travel",
+    "f": 699
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 702,
+   "t_s": 29.25,
+   "cue": "slip lifted: peel/air",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 17,
+    "ev": "lift",
+    "f": 702
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 703,
+   "t_s": 29.2917,
+   "cue": "slip slides over paper",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 18,
+    "ev": "travel",
+    "f": 703
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 706,
+   "t_s": 29.4167,
+   "cue": "slip lifted: peel/air",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 19,
+    "ev": "lift",
+    "f": 706
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 707,
+   "t_s": 29.4583,
+   "cue": "slip slides over paper",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 20,
+    "ev": "travel",
+    "f": 707
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 710,
+   "t_s": 29.5833,
+   "cue": "set-down tap",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 21,
+    "ev": "setdown",
+    "f": 710
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 713,
+   "t_s": 29.7083,
+   "cue": "spring overshoot return: faint second contact",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 22,
+    "ev": "settle",
+    "f": 710
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 714,
+   "t_s": 29.75,
+   "cue": "set-down tap",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 23,
+    "ev": "setdown",
+    "f": 714
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 717,
+   "t_s": 29.875,
+   "cue": "spring overshoot return: faint second contact",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 24,
+    "ev": "settle",
+    "f": 714
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 716,
+   "t_s": 29.8333,
+   "cue": "red pencil strike (1 stroke)",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 25,
+    "ev": "strike",
+    "f": 716
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 718,
+   "t_s": 29.9167,
+   "cue": "set-down tap",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 26,
+    "ev": "setdown",
+    "f": 718
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 721,
+   "t_s": 30.0417,
+   "cue": "spring overshoot return: faint second contact",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 27,
+    "ev": "settle",
+    "f": 718
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 720,
+   "t_s": 30.0,
+   "cue": "red pencil write (2 strokes)",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 28,
+    "ev": "write",
+    "f": 720
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 726,
+   "t_s": 30.25,
+   "cue": "page turn: rustle + soft land",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 29,
+    "ev": "turn",
+    "f": 726
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 734,
+   "t_s": 30.5833,
+   "cue": "slip lifted: peel/air",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 30,
+    "ev": "lift",
+    "f": 734
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 735,
+   "t_s": 30.625,
+   "cue": "slip slides over paper",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 31,
+    "ev": "travel",
+    "f": 735
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 738,
+   "t_s": 30.75,
+   "cue": "slip lifted: peel/air",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 32,
+    "ev": "lift",
+    "f": 738
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 739,
+   "t_s": 30.7917,
+   "cue": "slip slides over paper",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 33,
+    "ev": "travel",
+    "f": 739
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 742,
+   "t_s": 30.9167,
+   "cue": "slip lifted: peel/air",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 34,
+    "ev": "lift",
+    "f": 742
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 743,
+   "t_s": 30.9583,
+   "cue": "slip slides over paper",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 35,
+    "ev": "travel",
+    "f": 743
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 746,
+   "t_s": 31.0833,
+   "cue": "set-down tap",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 36,
+    "ev": "setdown",
+    "f": 746
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 749,
+   "t_s": 31.2083,
+   "cue": "spring overshoot return: faint second contact",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 37,
+    "ev": "settle",
+    "f": 746
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 748,
+   "t_s": 31.1667,
+   "cue": "slip lifted: peel/air",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 38,
+    "ev": "lift",
+    "f": 748
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 749,
+   "t_s": 31.2083,
+   "cue": "slip slides over paper",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 39,
+    "ev": "travel",
+    "f": 749
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 750,
+   "t_s": 31.25,
+   "cue": "set-down tap",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 40,
+    "ev": "setdown",
+    "f": 750
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 753,
+   "t_s": 31.375,
+   "cue": "spring overshoot return: faint second contact",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 41,
+    "ev": "settle",
+    "f": 750
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 754,
+   "t_s": 31.4167,
+   "cue": "set-down tap",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 42,
+    "ev": "setdown",
+    "f": 754
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 757,
+   "t_s": 31.5417,
+   "cue": "spring overshoot return: faint second contact",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 43,
+    "ev": "settle",
+    "f": 754
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 756,
+   "t_s": 31.5,
+   "cue": "red pencil strike (1 stroke)",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 44,
+    "ev": "strike",
+    "f": 756
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 760,
+   "t_s": 31.6667,
+   "cue": "set-down tap",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 45,
+    "ev": "setdown",
+    "f": 760
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 763,
+   "t_s": 31.7917,
+   "cue": "spring overshoot return: faint second contact",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 46,
+    "ev": "settle",
+    "f": 760
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 760,
+   "t_s": 31.6667,
+   "cue": "red pencil write (3 strokes)",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 47,
+    "ev": "write",
+    "f": 760
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 764,
+   "t_s": 31.8333,
+   "cue": "red pencil strike (1 stroke)",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 48,
+    "ev": "strike",
+    "f": 764
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 768,
+   "t_s": 32.0,
+   "cue": "red pencil write (2 strokes)",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 49,
+    "ev": "write",
+    "f": 768
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 772,
+   "t_s": 32.1667,
+   "cue": "page turn: rustle + soft land",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 50,
+    "ev": "turn",
+    "f": 772
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 780,
+   "t_s": 32.5,
+   "cue": "slip lifted: peel/air",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 51,
+    "ev": "lift",
+    "f": 780
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 781,
+   "t_s": 32.5417,
+   "cue": "slip slides over paper",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 52,
+    "ev": "travel",
+    "f": 781
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 792,
+   "t_s": 33.0,
+   "cue": "set-down tap",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 53,
+    "ev": "setdown",
+    "f": 792
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 795,
+   "t_s": 33.125,
+   "cue": "spring overshoot return: faint second contact",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 54,
+    "ev": "settle",
+    "f": 792
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 794,
+   "t_s": 33.0833,
+   "cue": "red pencil strike (1 stroke)",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 55,
+    "ev": "strike",
+    "f": 794
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 798,
+   "t_s": 33.25,
+   "cue": "red pencil write (3 strokes)",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 56,
+    "ev": "write",
+    "f": 798
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 806,
+   "t_s": 33.5833,
+   "cue": "page turn: rustle + soft land",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 57,
+    "ev": "turn",
+    "f": 806
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 814,
+   "t_s": 33.9167,
+   "cue": "slip lifted: peel/air",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 58,
+    "ev": "lift",
+    "f": 814
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 815,
+   "t_s": 33.9583,
+   "cue": "slip slides over paper",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 59,
+    "ev": "travel",
+    "f": 815
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 818,
+   "t_s": 34.0833,
+   "cue": "slip lifted: peel/air",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 60,
+    "ev": "lift",
+    "f": 818
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 819,
+   "t_s": 34.125,
+   "cue": "slip slides over paper",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 61,
+    "ev": "travel",
+    "f": 819
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 826,
+   "t_s": 34.4167,
+   "cue": "set-down tap",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 62,
+    "ev": "setdown",
+    "f": 826
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 829,
+   "t_s": 34.5417,
+   "cue": "spring overshoot return: faint second contact",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 63,
+    "ev": "settle",
+    "f": 826
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 828,
+   "t_s": 34.5,
+   "cue": "red pencil strike (1 stroke)",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 64,
+    "ev": "strike",
+    "f": 828
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 830,
+   "t_s": 34.5833,
+   "cue": "set-down tap",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 65,
+    "ev": "setdown",
+    "f": 830
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 833,
+   "t_s": 34.7083,
+   "cue": "spring overshoot return: faint second contact",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 66,
+    "ev": "settle",
+    "f": 830
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 832,
+   "t_s": 34.6667,
+   "cue": "red pencil write (2 strokes)",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 67,
+    "ev": "write",
+    "f": 832
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 836,
+   "t_s": 34.8333,
+   "cue": "red pencil strike (1 stroke)",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 68,
+    "ev": "strike",
+    "f": 836
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 840,
+   "t_s": 35.0,
+   "cue": "red pencil write (2 strokes)",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 69,
+    "ev": "write",
+    "f": 840
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 844,
+   "t_s": 35.1667,
+   "cue": "red pencil strike (1 stroke)",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 70,
+    "ev": "strike",
+    "f": 844
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 848,
+   "t_s": 35.3333,
+   "cue": "red pencil write (3 strokes)",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 71,
+    "ev": "write",
+    "f": 848
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 850,
+   "t_s": 35.4167,
+   "cue": "typed tape laid and pressed down",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 72,
+    "ev": "tape",
+    "f": 850
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 1476,
+   "t_s": 61.5,
+   "cue": "loose sheet slides in over the spread, settles",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 75,
+    "ev": "slide",
+    "f": 1476
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 1512,
+   "t_s": 63.0,
+   "cue": "red pencil line (1 stroke)",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 76,
+    "ev": "line",
+    "f": 1512
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 1518,
+   "t_s": 63.25,
+   "cue": "red pencil line (1 stroke)",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 77,
+    "ev": "line",
+    "f": 1518
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 1524,
+   "t_s": 63.5,
+   "cue": "red pencil line (1 stroke)",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 78,
+    "ev": "line",
+    "f": 1524
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 1530,
+   "t_s": 63.75,
+   "cue": "red pencil line (1 stroke)",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 79,
+    "ev": "line",
+    "f": 1530
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 1536,
+   "t_s": 64.0,
+   "cue": "red pencil line (1 stroke)",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 80,
+    "ev": "line",
+    "f": 1536
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 1542,
+   "t_s": 64.25,
+   "cue": "red pencil line (1 stroke)",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 81,
+    "ev": "line",
+    "f": 1542
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 1548,
+   "t_s": 64.5,
+   "cue": "red pencil line (1 stroke)",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 82,
+    "ev": "line",
+    "f": 1548
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 1554,
+   "t_s": 64.75,
+   "cue": "red pencil line (1 stroke)",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 83,
+    "ev": "line",
+    "f": 1554
+   }
+  },
+  {
+   "track": "T2",
+   "t_frame": 1566,
+   "t_s": 65.25,
+   "cue": "typed tape laid and pressed down",
+   "sync_dep": {
+    "stream": "notebook/events.json",
+    "index": 84,
+    "ev": "tape",
+    "f": 1566
+   }
+  }
+ ],
+ "files": [
+  {
+   "file": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-machine-a-tuer-le-temps/sound/T0_room_v2.wav",
+   "seconds": 67.0,
+   "frames_24": 1608.0,
+   "rms_dbfs": -52.6,
+   "peak_dbfs": -10.4,
+   "sha256": "34b003fa365e9018be74130c1169df09a3cb6ff80552108df44de887d503246f"
+  },
+  {
+   "file": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-machine-a-tuer-le-temps/sound/T1_bed_cutA-slot_v2.wav",
+   "seconds": 20.75,
+   "frames_24": 498.0,
+   "rms_dbfs": -26.5,
+   "peak_dbfs": -10.5,
+   "sha256": "e0b3555e4e44a32e3d022c3b633498bc56f93c7ec089c932ec38a22eff58fd26"
+  },
+  {
+   "file": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-machine-a-tuer-le-temps/sound/T1_bed_preroll_v2.wav",
+   "seconds": 3.75,
+   "frames_24": 90.0,
+   "rms_dbfs": -32.6,
+   "peak_dbfs": -13.2,
+   "sha256": "157ed0e71f6ff458f75f090bf35d9b69024da0652b102e4eb5f935c3f50ac1e7"
+  },
+  {
+   "file": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-machine-a-tuer-le-temps/sound/T1_bed_v2.wav",
+   "seconds": 24.25,
+   "frames_24": 582.0,
+   "rms_dbfs": -26.5,
+   "peak_dbfs": -10.5,
+   "sha256": "ff8a77d73fd165a60fddbf67b050ff799768e7158a5693ea5cf126d929edf289"
+  },
+  {
+   "file": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-machine-a-tuer-le-temps/sound/T2_foley_v2.wav",
+   "seconds": 67.0,
+   "frames_24": 1608.0,
+   "rms_dbfs": -39.1,
+   "peak_dbfs": -6.3,
+   "sha256": "7ea2973d6f78a308b4240d3203862eb65bff9dde4edb5e5868e6f4f322db48b5"
+  },
+  {
+   "file": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-machine-a-tuer-le-temps/sound/T3_mixA_v2.wav",
+   "seconds": 20.75,
+   "frames_24": 498.0,
+   "rms_dbfs": -22.8,
+   "peak_dbfs": -6.5,
+   "sha256": "7d44dab9b788ace03b55cc0a146ba49074465af5c49cc59b6646f6b99eeadc19"
+  },
+  {
+   "file": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-machine-a-tuer-le-temps/sound/T4_mixB_B4-delayed-cue_v2.wav",
+   "seconds": 24.25,
+   "frames_24": 582.0,
+   "rms_dbfs": -34.0,
+   "peak_dbfs": -7.0,
+   "sha256": "f3fa531c544a21cdb6b35cb9e0105dab63ea92e3caa6c85e6853f8a61312e5b6"
+  },
+  {
+   "file": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-machine-a-tuer-le-temps/sound/T4_mixB_v2.wav",
+   "seconds": 24.25,
+   "frames_24": 582.0,
+   "rms_dbfs": -34.0,
+   "peak_dbfs": -7.5,
+   "sha256": "506acc3fef30805210ef1a4ffcab6f72f320f1d5d1ac875b45e728918b528851"
+  },
+  {
+   "file": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-machine-a-tuer-le-temps/sound/preview_final_v2.wav",
+   "seconds": 67.0,
+   "frames_24": 1608.0,
+   "rms_dbfs": -27.1,
+   "peak_dbfs": -6.4,
+   "sha256": "71acd1ac6a5ecffbe88b5a4163264a5cc3efeed1fb5abebb6d39273e9ceed9ea"
+  },
+  {
+   "file": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-machine-a-tuer-le-temps/sound/preview_screening1-sharedbed_v2.wav",
+   "seconds": 67.0,
+   "frames_24": 1608.0,
+   "rms_dbfs": -27.8,
+   "peak_dbfs": -6.4,
+   "sha256": "9459918a08c0ced254480901cf8857b5ee1f539909c03064368b5835a60adeca"
+  }
+ ],
+ "timeline": {
+  "S0": [
+   0,
+   71
+  ],
+  "S1": [
+   72,
+   143
+  ],
+  "S2": [
+   144,
+   161
+  ],
+  "S3": [
+   162,
+   641
+  ],
+  "S4": [
+   642,
+   659
+  ],
+  "S5": [
+   660,
+   875
+  ],
+  "S6": [
+   876,
+   893
+  ],
+  "S7": [
+   894,
+   1457
+  ],
+  "S8": [
+   1458,
+   1475
+  ],
+  "S9": [
+   1476,
+   1499
+  ],
+  "S10": [
+   1500,
+   1607
+  ],
+  "total": 1608
+ },
+ "pool_hash": "7e50704ce76934d73e25d32ad82b9fdb6e9db4e7ae0cacb560fcea0f49745164"
+}

@@ -54,7 +54,7 @@ for n, d in PIECES.items():
                    fail_px=int((fail > 0).sum()), fail_frac=round(float((fail > 0).sum()) / max(1, (a > 127).sum()), 3),
                    transform_to_master="master_x = 391 + x*5597/1440 + 2772 ; master_y = 456 + y*4198/1080 + 4158 (8d04830u.tif px)",
                    note=d.get("note", ""))
-# her gloved hand from V1 (same sitting, same flash, LoC 2017831567 master crop x 4980..5740, y 6240..7190)
+# her gloved hand from V1 (same sitting, same flash, LoC 2017831565 / 8d04831u.tif master crop x 4980..5740, y 6240..7190)
 h = cv2.imread(OUT + "v1-master-hand.png", 0); FH = feats(h)
 HPOLY = [(345,230),(420,212),(500,228),(560,280),(588,360),(590,470),(582,580),(560,660),(520,715),(460,738),(410,725),(370,680),(342,620),(338,520),(340,420),(342,320)]
 a, fail = cut(h, FH, HPOLY, er=41, di=31, it=6)

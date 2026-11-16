@@ -24,11 +24,11 @@ TODAY = "2026-11-16"
 ROLE = {"01": "clock", "02": "hand with a parcel", "03": "second hand", "04": "door", "05": "glance",
         "06": "dropped receipt", "07": "person exiting", "08": "empty threshold"}
 USED_AS = {
- "01": "pool asset 01 'l'horloge' (clock): notebook card in slot 1 for cut A, slot 6 after the re-shuffle; cut A event 1 (src 0-59) and cut B event 6 (src 119-84 reversed); rostrum push W0 whole dispatcher's counter -> W1 x1.25 toward the wall clock",
+ "01": "pool asset 01 'l'horloge' (clock): notebook card in slot 1 for cut A, slot 6 after the re-shuffle; cut A event 1 (src 0-59) and cut B event 6 (src 119-84 reversed: the camera pulls back from the clock's closest framing; no clock is shown running backwards); rostrum push W0 whole dispatcher's counter -> W1 x1.25 toward the wall clock",
  "02": "pool asset 02 'le colis' (hand with a parcel): notebook card slot 2 -> 3; cut A event 2 (src 0-71), cut B event 3 (src 24-95, full 3 s); push W0 woman with box and co-workers -> W1 x1.25 toward her face and the box",
  "03": "pool asset 03 'la trotteuse' (second hand): notebook card slot 3 -> 5; cut A event 3, cut B event 5 (src 0-59); push W0 upper body with raised watch hand -> W1 x1.2 toward the watch hand",
  "04": "pool asset 04 'la porte' (door): notebook card slot 4 -> 2; cut A event 4 (src 0-59), cut B event 2 (src 0-47); push W0 carriage door and the couple's backs -> W1 x1.2 toward the door opening and the soldier",
- "05": "pool asset 05 'le regard' (glance): notebook card slot 5 -> 1; cut A event 5 (src 0-47), cut B event 1 (src 0-59 at 0.5x, 5 s); push W0 head and shoulders -> W1 x1.3 to the eyes",
+ "05": "pool asset 05 'le regard' (glance): notebook card slot 5 -> 1; cut A event 5 (src 0-47), cut B event 1 (src 0-59, each frame shown twice: a 5 s hold; the rostrum drift is near-static, so it reads as a held print); push W0 head and shoulders -> W1 x1.3 to the eyes",
  "06": "pool asset 06 'le reçu' (slips on the counter): notebook card slot 6 -> 4; cut A event 6, cut B event 4 (src 30-101); push W0 counter and clerk's hands -> W1 x1.25 toward the slips",
  "07": "pool asset 07 'la sortie' (person exiting): notebook card slot 7 (never moves); cut A event 7, cut B event 7; push W0 file of soldiers -> W1 x1.15 drifting toward the TRACK 2 doorway",
  "08": "pool asset 08 'le seuil' (empty threshold): notebook card slot 8 (never moves); cut A event 8, cut B event 8 (src 0-95); push W0 waiting room with benches -> W1 x1.05 toward the lone red cap",
@@ -57,7 +57,7 @@ def toned_print(aid, long_side=1600):
     """The frozen toned card print: whole clean area, print_op applied, fixed size."""
     im = R.load(aid)
     s, clean, W0, W1 = R.geometry(aid, im.size)
-    lo, hi = R.levels(im, clean)
+    lo, hi = R.levels(im, clean, aid)
     w, h = clean[2] - clean[0], clean[3] - clean[1]
     k = long_side / max(w, h)
     size = (round(w * k), round(h * k))
@@ -75,7 +75,7 @@ def main():
     for aid in sorted(R.POOL):
         im = R.load(aid)
         s, clean, W0, W1 = R.geometry(aid, im.size)
-        lo, hi = R.levels(im, clean)
+        lo, hi = R.levels(im, clean, aid)
         red = rec[aid]["reduce"]
         work = im.reduce(red) if red > 1 else im
         wins = R.windows(W0, W1)
@@ -92,11 +92,11 @@ def main():
     print_op = {"name": "print-stage-1943",
                 "order": ["LoC master TIFF (8-bit L)", "integer box reduce r (r=2 when a side > 8000 px, else 1)",
                           "per-frame eased 16:9 window crop, LANCZOS resample to 1280x720 (float box, PIL)",
-                          "levels: v = clip((x - lo)/(hi - lo), 0, 1) with lo/hi = the asset's p0.5/p99.5 inside clean_bounds (fixed, recorded per asset)",
+                          "levels: v = clip((x - lo)/(hi - lo), 0, 1) with lo/hi = the asset's p0.5/p99.5 inside clean_bounds (fixed, recorded per asset), except the per-asset overrides in levels_override (04 lo 22, 01 hi 183; repair round 1, measured on the windows)",
                           "paper curve: v' = v ** gamma (one gamma for all 8)",
                           "warm silver-gelatin map: rgb = black + v' * (white - black), rounded to uint8"],
                 "black_rgb": list(R.BLACK), "white_rgb": list(R.WHITE), "gamma": R.GAMMA,
-                "levels_percentiles": [R.LO_PCT, R.HI_PCT],
+                "levels_percentiles": [R.LO_PCT, R.HI_PCT], "levels_override": R.LEVELS_OVERRIDE,
                 "no": ["grain", "vignette", "blur", "sharpen", "tint per shot", "dither"],
                 "applies_to": "every appearance of a print: rostrum assets and notebook card prints (registrar-validator/prints/<id>.png)"}
     assets = []

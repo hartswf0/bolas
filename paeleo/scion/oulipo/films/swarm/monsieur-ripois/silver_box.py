@@ -41,22 +41,30 @@ def shade(n, base, spec_amt, uvx, uvy, cam_dir):
     sp = max(0.0, float(n @ h)) ** 30
     return 0.16 + 0.78 * lam * base, sp * spec_amt
 
-def guilloche(tw, th, seed, freq=38):
+def guilloche(tw, th, seed, freq=30):
+    """editor repair 2: hand-engraved bright-cut texture, not a uniform vector line pattern. An engine-turned rose of fine
+    V-grooves whose depth wanders (the graver's hand), interrupted where the metal is polished flat by handling
+    (the high spots catch the key and the grooves vanish into the highlight), plus random fine hairline scratches."""
     yy, xx = np.mgrid[0:th, 0:tw].astype(np.float32)
-    u = xx / tw - 0.5; v = (yy / th - 0.5) * th / tw
-    r = np.sqrt(u * u + v * v); a = np.arctan2(v, u)
-    g = np.sin(2 * np.pi * (r * freq + 0.18 * np.sin(a * 14 + r * 30)))          # engine-turned rose
-    g2 = np.sin(2 * np.pi * (u * freq * 0.5 + 0.12 * np.sin(v * 90)))           # wave band
-    # engine-turned cut: thin V-grooves (dark) between polished lands; a groove's two facets catch the key differently
-    ph = (r * freq + 0.18 * np.sin(a * 14 + r * 30)) % 1.0
-    ph2 = (u * freq * 0.5 + 0.12 * np.sin(v * 90)) % 1.0
-    gro = np.clip(1 - np.abs(ph - 0.5) / 0.16, 0, 1) ** 1.5
-    gro2 = np.clip(1 - np.abs(ph2 - 0.5) / 0.14, 0, 1) ** 1.5
-    band = (np.abs(v) < 0.08 * th / tw * 4).astype(np.float32)
-    pat = -np.maximum(gro * (1 - band), gro2 * band) + 0.35 * np.sign(ph - 0.5) * np.maximum(gro, gro2 * band)
     rng = np.random.default_rng(seed)
+    u = xx / tw - 0.5; v = (yy / th - 0.5) * th / tw
+    r = np.sqrt(u * u + (1.6 * v) ** 2); a = np.arctan2(v, u)
+    jit = cv2.GaussianBlur(rng.normal(0, 1, (th, tw)).astype(np.float32), (0, 0), max(2, tw / 90)) * 0.9
+    ph = (r * freq + 0.22 * np.sin(a * 11 + r * 24) + jit * 0.12) % 1.0
+    depth = np.clip(0.55 + 0.45 * cv2.GaussianBlur(rng.normal(0, 1, (th, tw)).astype(np.float32), (0, 0), tw / 30) * 3, 0.15, 1)
+    gro = np.clip(1 - np.abs(ph - 0.5) / 0.15, 0, 1) ** 1.1 * depth
+    pat = -gro + 0.30 * np.sign(ph - 0.5) * gro                       # dark groove, its far facet catching light
     wear = cv2.GaussianBlur(rng.normal(0, 1, (th, tw)).astype(np.float32), (0, 0), tw / 40)
-    return pat, wear
+    wear = wear / (wear.std() + 1e-6)
+    polish = np.clip((wear - 0.5) / 1.0, 0, 1)                         # rubbed-flat patches: engraving worn away
+    pat = pat * (1 - 0.85 * polish)
+    sc = np.zeros((th, tw), np.float32)                                # hairline scratches
+    for _ in range(int(tw * th / 9000) + 6):
+        x0, y0 = rng.uniform(0, tw), rng.uniform(0, th); ang = rng.uniform(-0.5, 0.5) + rng.choice([0, np.pi / 2]) * 0.2
+        L = rng.uniform(tw * 0.03, tw * 0.2)
+        cv2.line(sc, (int(x0), int(y0)), (int(x0 + L * math.cos(ang)), int(y0 + L * math.sin(ang))), float(rng.uniform(0.3, 1)), 1, cv2.LINE_AA)
+    pat = pat + 0.35 * sc
+    return pat, wear * 0.4
 
 def env_strip(env, tw, th, x0, y0, x1, y1, blur):
     """reflection: blurred crop of the room plate (fractional coords), flipped as a mirror would"""
@@ -72,10 +80,12 @@ def face_tex(kind, tw, th, n, cam, centre, env, seed):
     if kind == "metal":
         pat, wear = guilloche(tw, th, seed)
         e = env_strip(env, tw, th, 0.15, 0.25, 0.85, 0.85, 4)
-        grad = 1 - 0.35 * (xx / tw) if n[0] >= 0 else 0.85 + 0.15 * (yy / th)       # falloff away from key
-        val = (0.45 * dif * grad + 0.42 * e * (0.7 + 0.3 * dif)) * (1 + 0.32 * pat) + 0.05 * wear
-        streak = np.exp(-((xx / tw - 0.62) ** 2) / 0.012)
-        val += (sp * 0.9 + 0.35) * streak * (1 + 0.25 * pat)                        # key's specular streak, up to paper white
+        grad = 0.62 + 0.38 * (xx / tw) if n[0] >= 0 else 0.85 + 0.15 * (yy / th)       # editor repair 1: brighter toward the camera-RIGHT flash, falling off to the left like the coats
+        streak = np.exp(-((xx / tw - 0.80) ** 2) / 0.010)          # specular on the flash (camera-right) side
+        tarn = np.clip(-wear * 2.5, 0, 1)                                            # tarnish bloom in the low spots
+        brk = 1 - 0.8 * np.clip(streak * 1.6, 0, 1)                                  # engraving lost in the highlight
+        val = (0.45 * dif * grad + 0.42 * e * (0.7 + 0.3 * dif)) * (1 + 0.40 * pat * brk) * (1 - 0.22 * tarn) + 0.06 * wear
+        val += (sp * 0.9 + 0.35) * streak * (1 + 0.12 * pat)                        # key's specular streak, up to paper white
         # bevelled border: a bright edge on the key side, darker on the far side
         b = max(2, tw // 60)
         val[:b, :] += 0.35; val[-b:, :] *= 0.55; val[:, :b] += 0.2; val[:, -b:] *= 0.6
@@ -108,17 +118,27 @@ def face_tex(kind, tw, th, n, cam, centre, env, seed):
         u = xx / tw; v = yy / th                                                    # v: 0 = front, 1 = back
         edge = np.minimum.reduce([u, 1 - u, v, 1 - v])
         val = 0.15 + 0.04 * fib + 0.06 * np.clip(edge * 8, 0, 1) * dif               # pile sheen
-        # pressed ring hollow (empty): a soft elliptical depression around the slit
-        du = (u - SLOT["cx"]) / 0.16; dv = (v - SLOT["cy"]) / 0.20
-        rr = np.sqrt(du * du + dv * dv)
-        val -= 0.07 * np.exp(-(rr ** 2) * 3)
-        val += 0.09 * np.exp(-((rr - 1.0) ** 2) * 30) * (dv > -0.3)                    # lit lip on the near side
-        # the slit: a dark cut with a lit far lip (key from the front lights the back wall of the cut)
-        su = np.abs(u - SLOT["cx"]) / (SLOT["len"] / 2); sv = (v - SLOT["cy"]) / (SLOT["wid"] / D_ / 2)
-        inside = (su < 1) & (np.abs(sv) < 1)
-        val[inside] = 0.02
-        lip = (su < 1) & (sv > 1) & (sv < 2.4)
-        val[lip] += 0.22
+        # editor repair 2: a RING SLOT, not a black bar. A padded velvet roll runs across the insert; its crease is the
+        # slit, and at the centre the pile is pressed apart into a lens-shaped hollow where the ring's band sat (empty).
+        vd = (v - SLOT["cy"]) * D_                                                  # physical distance from the crease (w units)
+        roll_hw = 0.075
+        inroll = np.clip(1 - np.abs(vd) / roll_hw, 0, 1)
+        prof = np.sqrt(np.clip(1 - (np.abs(vd) / roll_hw) ** 2, 0, 1))              # half-cylinder pad either side
+        ext = np.clip(1 - np.abs(u - SLOT["cx"]) / 0.40, 0, 1) ** 0.3
+        sheen = np.where(vd < 0, 1.0, 0.55) * prof                                  # near pad faces the key more
+        val = val * (1 - 0.45 * inroll * ext) + (0.22 * sheen ** 2.2 + 0.05 * fib * prof) * ext
+        du = (u - SLOT["cx"]) / (SLOT["len"] / 2)
+        lens = np.clip(1 - du * du, 0, 1)
+        hw = 0.0035 + 0.017 * lens                                                  # crease half-width, opened by the ring
+        crease = np.exp(-(vd / np.maximum(hw, 1e-4)) ** 2 * 2.0) * ext
+        val = val * (1 - 0.95 * crease)
+        lip = np.exp(-((vd + hw * 1.6) / 0.004) ** 2) * lens                         # lit lip of the hollow (near side)
+        val += 0.24 * lip * ext
+        crest = np.exp(-((np.abs(vd) - roll_hw * 0.40) / 0.006) ** 2) * np.where(vd < 0, 1.0, 0.6)
+        val += 0.07 * crest * ext                                                    # pile sheen along each pad's crest
+        # the pile still holds the ring's round impression on the far pad (a faint pressed circle)
+        rr = np.sqrt(((u - SLOT["cx"]) / 0.055) ** 2 + ((vd - 0.012) / 0.03) ** 2)
+        val -= 0.06 * np.exp(-((rr - 1.0) / 0.18) ** 2) * (vd > 0)
         return val
     if kind == "metal_flat":       # rim top
         val = np.full((th, tw), 0.5 + 0.5 * dif, np.float32) + sp * 0.6

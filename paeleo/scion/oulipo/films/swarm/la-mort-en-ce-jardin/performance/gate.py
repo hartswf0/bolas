@@ -51,7 +51,7 @@ def gate(tr, name="trace", max_report=6):
             if obj == "shoe" and len(hs) > 1: fails["G3_holders"].append((t, f"shoe holders {hs}"))
             if obj == "shoe" and prev is not None and len(prev["shoe"]) == 1 and len(hs) == 0:
                 fails["G3_holders"].append((t, "shoe vanished"))
-        if st.get("bag_bottom_y") is not None and st["bag_bottom_y"] >= st["water_y"]:
+        if st.get("bag_over_water") and st["bag_bottom_y"] >= st["water_y"]:
             fails["G6_dry"].append((t, f"bag bottom {st['bag_bottom_y']} at/below water {st['water_y']}"))
         if prev is not None:
             for obj in ("bag", "shoe"):

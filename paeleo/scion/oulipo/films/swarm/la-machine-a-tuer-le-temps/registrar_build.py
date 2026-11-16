@@ -103,10 +103,18 @@ def windows(W0, W1):
     return out
 
 
-def levels(im, clean):
+# Repair round 1 (critic, acceptance 5): one print-stage levels change per asset,
+# chosen by measuring the rendered windows, not the clean area.
+#   04: the door window had p1 35.8-39.4 (band 14-36): black point lo raised 11 -> 22
+#   01: the clock window had p99 208-210 (band 210-238): white point hi lowered 188 -> 183
+LEVELS_OVERRIDE = {"04": {"lo": 22.0}, "01": {"hi": 183.0}}
+
+
+def levels(im, clean, aid=None):
     a = np.asarray(im.crop(tuple(int(round(v)) for v in clean)))[::2, ::2]
     lo, hi = np.percentile(a, [LO_PCT, HI_PCT])
-    return float(lo), float(hi)
+    o = LEVELS_OVERRIDE.get(aid, {})
+    return float(o.get("lo", lo)), float(o.get("hi", hi))
 
 
 def print_op(gray, lo, hi):
@@ -121,7 +129,7 @@ def render(aid, measure=False):
     im = load(aid)
     native = im.size
     s, clean, W0, W1 = geometry(aid, native)
-    lo, hi = levels(im, clean)
+    lo, hi = levels(im, clean, aid)
     # integer box reduce of the very large 4x5 D-series scans (12.8k px) so the
     # per-frame resample stays tractable; exact, deterministic, never upscales
     red = 2 if native[0] > 8000 or native[1] > 8000 else 1

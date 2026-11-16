@@ -1,359 +1,306 @@
-"""La Machine à tuer le temps — eight drawn shots frozen in one pool, two cuts.
+#!/usr/bin/env python3
+"""La Machine a tuer le temps -- direction 1 'Le cahier rebattu' (assembly).
 
-CUT A reads as an ordinary parcel handoff, CUT B as an illicit one. Every
-picture frame on screen is a frame of one of the eight pooled clips (rendered
-once, hashed), placed by an explicit edit recipe: asset, in/out, integer
-output frames, direction. Screening 1 plays both cuts side by side over one
-shared sound bed; screening 2 plays each cut with its own final mix.
+A handmade red spiral notebook (paper stop-motion, on twos) holds a frozen
+pool of eight public-domain Jack Delano photographs (Union Station, Chicago,
+1943; LoC FSA/OWI).  Cut A plays them in pool order; the prints are then
+lifted, re-slotted and re-numbered in red pencil, translation only; cut B plays
+the same frozen frames in the new order.  Coda: the A->B permutation graph in
+red pencil.
+
+Assembly only: every picture element comes from the swarm units.
+  notebook segments  swarm/la-machine-a-tuer-le-temps/notebook_rig.py (U2)
+  cut segments       frozen pool PNGs (U1 pool-manifest.json) expanded from the
+                     recipes A1 / B1 in edit-recipes.json (U3)
+  sound              versioned stems from sound_build.py (U4), placed with mix.add
+Kit grain is switched off on every frame (ink._grain = False): the pool frames
+must stay byte-identical to the manifest and the paper has its own fibre.
+
+Timeline: the animator's 1608 f (67.0 s).  S5 is 216 f, not plan section 7's
+192 f, because one print per page needs four page turns; every later segment is
++24 f.
+
+Run from the project root:
+  python3 films/la-machine-a-tuer-le-temps.py                 both exports
+  python3 films/la-machine-a-tuer-le-temps.py --only final    the film only
+  python3 films/la-machine-a-tuer-le-temps.py --only shared   screening-1 export only
+  python3 films/la-machine-a-tuer-le-temps.py --stills 5 30 ... PNG stills
 """
-import json
-import hashlib
-import math
+import hashlib, json, math, os, sys, wave
+from pathlib import Path
+
+HERE = Path(__file__).resolve().parent
+SLUG = 'la-machine-a-tuer-le-temps'
+SW = HERE / 'swarm' / SLUG
+sys.path.insert(0, str(HERE))
+sys.path.insert(0, str(SW))
+
+import numpy as np
 from PIL import Image
-from kit_cinema_a import *
+from kit import Film, OUT
+import notebook_rig as R
 
-SW, SH = 800, 450
-N = 24  # source frames per pooled clip
-COAT1 = (70, 82, 98)
-COAT2 = (58, 52, 50)
-WOOD = (150, 110, 70)
-SKIN = (224, 196, 170)
-
-
-# ---------------------------------------------------------------- shots ---
-
-def wall(ink, color=WASH):
-    ink.fill(color)
-    for x in range(0, SW + 1, 50):
-        ink.line([(x, 0), (x, SH)], RULE, 1, alpha=140)
-    for y in range(0, SH + 1, 25):
-        ink.line([(0, y), (SW, y)], RULE, 1, alpha=110)
-
-
-def s_clock(k, u, ink):
-    wall(ink)
-    ink.rect(380, 0, 420, 70, fill=(80, 70, 60), color=INK, width=2)
-    clock(ink, 400, 215, 150, hours=3 + 58 / 60)
-    sec = 8 + 14 * u
-    a = 2 * math.pi * sec / 60 - math.pi / 2
-    ink.line([(400 - math.cos(a) * 30, 215 - math.sin(a) * 30), (400 + math.cos(a) * 132, 215 + math.sin(a) * 132)], ACCENT, 2, rough=False)
-    ink.circle(400, 215, 5, fill=ACCENT, color=ACCENT, width=1, rough=False)
-    ink.text((400, 290), "GARE", "serif", 26, MUTED, anchor="mm")
+FPS = 24
+TL = R.TL
+TOTAL = TL['total']                      # 1608
+SECONDS = TOTAL / FPS                    # 67.0
+SRC = HERE / 'sources' / SLUG
+ASSETS = SRC / 'registrar' / 'assets'
+SND = SRC / 'sound'
+CACHE = SRC / 'assembly' / 'nb'
+LEDGER = SW / 'render-ledger.json'
+MAN = json.load(open(SW / 'pool-manifest.json'))
+RECIPES = json.load(open(SW / 'edit-recipes.json'))
+POOL_HASH = MAN['pool_hash']
+POOL_MD5 = {a['asset_id']: a['frame_md5'] for a in MAN['assets']}
+CUTS = {'S3': 'A1', 'S7': 'B1'}
 
 
-def counter(ink):
-    ink.fill((214, 205, 190))
-    ink.hatch(0, 0, SW, 270, gap=14, angle=90, color=RULE, width=1, alpha=120)
-    ink.rect(-10, 280, SW + 10, SH + 10, fill=WOOD, color=INK, width=3)
-    for y in (320, 372, 418):
-        ink.line([(0, y), (SW, y + 4)], (120, 85, 50), 1.5, alpha=160)
+# ------------------------------------------------------------ recipes
+def expand(ev):
+    """validate.py expansion: src_k = in + step*floor(k*speed)."""
+    step = 1 if ev['direction'] == 'fwd' else -1
+    return [(ev['asset_id'], ev['in'] + step * int(math.floor(k * ev['speed']))) for k in range(ev['out_frames'])]
 
 
-def hand(ink, hx, hy, side, sleeve, cuff=PAGE, ring=False, open_=False):
-    """A forearm from the left (side=1) or right (side=-1) ending at (hx, hy)."""
-    edge = -40 if side == 1 else SW + 40
-    ink.poly([(edge, hy - 34), (hx - side * 70, hy - 30), (hx - side * 70, hy + 30), (edge, hy + 36)], fill=sleeve, color=INK, width=2.5)
-    ink.rect(min(hx - side * 70, hx - side * 82), hy - 30, max(hx - side * 70, hx - side * 82), hy + 30, fill=cuff, color=INK, width=2)
-    ink.ellipse(hx - side * 32, hy, 46, 30, fill=SKIN, color=INK, width=2.5)
-    if open_:
-        for f in range(4):
-            fy = hy - 22 + f * 14
-            ink.line([(hx - side * 8, fy), (hx + side * 34, fy - 4 + f * 2)], INK, 7)
-            ink.line([(hx - side * 8, fy), (hx + side * 34, fy - 4 + f * 2)], SKIN, 4)
-        ink.line([(hx - side * 40, hy - 26), (hx - side * 10, hy - 44)], INK, 9)
-        ink.line([(hx - side * 40, hy - 26), (hx - side * 10, hy - 44)], SKIN, 6)
-        if ring:
-            ink.ellipse(hx + side * 8, hy - 8, 5, 9, fill=BRASS, color=INK, width=1.5)
+EDITS = {e['edit_id']: e for e in RECIPES['edits']}
+SEQ = {}
+for seg, eid in CUTS.items():
+    ed = EDITS[eid]
+    assert ed['base_pool_hash'] == POOL_HASH, eid
+    SEQ[seg] = [x for ev in ed['events'] for x in expand(ev)]
+    assert len(SEQ[seg]) == TL[seg][1] - TL[seg][0] + 1, (seg, len(SEQ[seg]))
+
+
+def cut_src(k):
+    seg = R.segment_of(k)
+    if seg in SEQ:
+        return seg, SEQ[seg][k - TL[seg][0]]
+    return seg, None
+
+
+# ------------------------------------------------------------ notebook cache
+def _rig_key():
+    h = hashlib.sha256()
+    for p in (SW / 'notebook_rig.py', SW / 'registrar_build.py', SW / 'pool-manifest.json'):
+        h.update(p.read_bytes())
+    return h.hexdigest()
+
+
+def _nb_one(f):
+    im, led = R.notebook_frame(f)
+    im.save(CACHE / f'{f:04d}.png', compress_level=1)
+    return f, led
+
+
+def build_notebook_cache():
+    """Render every notebook frame once (4 processes) and keep its rig ledger."""
+    CACHE.mkdir(parents=True, exist_ok=True)
+    key = _rig_key(); kf = CACHE / 'key.json'
+    frames = [f for f in range(TOTAL) if R.segment_of(f) not in SEQ]
+    if kf.exists() and json.load(open(kf)).get('key') == key and all((CACHE / f'{f:04d}.png').exists() for f in frames):
+        return json.load(open(CACHE / 'rig-ledger.json'))
+    R.slips(); R.meta()
+    import multiprocessing as mp
+    led = {}
+    with mp.get_context('fork').Pool(4) as pool:
+        for i, (f, l) in enumerate(pool.imap_unordered(_nb_one, frames, chunksize=4)):
+            led[str(f)] = l
+            if i % 100 == 0:
+                print(f'  notebook {i}/{len(frames)}', flush=True)
+    json.dump(led, open(CACHE / 'rig-ledger.json', 'w'))
+    json.dump({'key': key}, open(kf, 'w'))
+    return led
+
+
+def nb_image(f):
+    p = CACHE / f'{f:04d}.png'
+    if p.exists() and (CACHE / 'key.json').exists():
+        return Image.open(p).convert('RGB')
+    return R.notebook_frame(f)[0]
+
+
+# ------------------------------------------------------------ picture
+def picture(t, ink):
+    k = ink.i
+    ink._grain = False                     # no kit grain on prints or paper
+    seg, a = cut_src(k)
+    if a is not None:
+        img = Image.open(ASSETS / a[0] / f'{a[1]:04d}.png').convert('RGB')
     else:
-        for f in range(4):
-            ink.arc(hx + side * 2, hy - 18 + f * 12, 9, -math.pi / 2, math.pi / 2, INK, 2)
+        img = nb_image(k)
+    ink.paste(img, (0, 0))
 
 
-def s_parcel(k, u, ink):
-    counter(ink)
-    hx = lerp(150, 420, ease(u, 0, 1))
-    hy = 250
-    # parcel under the hand
-    px = hx + 40
-    ink.rect(px - 80, hy - 40, px + 80, hy + 56, fill=(190, 152, 104), color=INK, width=2.5)
-    ink.line([(px, hy - 40), (px, hy + 56)], (90, 70, 50), 2)
-    ink.line([(px - 80, hy + 8), (px + 80, hy + 8)], (90, 70, 50), 2)
-    ink.circle(px, hy + 8, 10, fill=ACCENT, color=INK, width=1.5)
-    ink.label((px - 72, hy + 30), "No 0417", 12, (80, 60, 40))
-    hand(ink, hx - 30, hy - 36, 1, COAT1)
+# ------------------------------------------------------------ sound
+def _wav(name):
+    with wave.open(str(SND / name)) as w:
+        assert w.getframerate() == 44100 and w.getnchannels() == 2
+        return np.frombuffer(w.readframes(w.getnframes()), np.int16).reshape(-1, 2).astype(np.float64) / 32768
 
 
-def s_hand2(k, u, ink):
-    counter(ink)
-    hx = lerp(SW + 40, 480, ease(u, 0, 1))
-    hand(ink, hx, 232, -1, COAT2, cuff=(200, 190, 175), ring=True, open_=True)
+def _put(mix, x, frame):
+    at = frame / FPS
+    mix.add(x[:, 0], at, gain=1 / 1.414, pan=-1.0)   # kit pan law: L only, x1.414
+    mix.add(x[:, 1], at, gain=1 / 1.414, pan=1.0)
 
 
-def s_door(k, u, ink):
-    wall(ink, (226, 216, 200))
-    ink.d.rectangle([0, 420, SW, SH], fill=(160, 150, 136))
-    # light under the door
-    ink.d.rectangle([318, 416, 482, 421], fill=(245, 215, 140, 220))
-    door(ink, 400, 418, 160, 320, sign="SERVICE")
-    a = 0.55 * math.sin(math.pi * u)  # the handle dips and returns
-    kx, ky = 400 - 80 + 160 - 12, 418 - 160
-    ink.line([(kx, ky), (kx - math.cos(a) * 34, ky + math.sin(a) * 34)], INK, 7, rough=False)
-    ink.line([(kx, ky), (kx - math.cos(a) * 34, ky + math.sin(a) * 34)], BRASS, 4, rough=False)
+XF = 6                                   # cut-mix -> bed crossfade, last frames of cut A
 
 
-def s_glance(k, u, ink):
-    ink.fill(SKIN)
-    ink.d.rectangle([0, 0, SW, 70], fill=COAT2)  # hat brim
-    ink.line([(0, 70), (SW, 74)], INK, 3)
-    look = -ease(u, 0.15, 0.85)
-    for cx in (250, 550):
-        ink.stroke([(cx - 110, 150), (cx - 20, 128), (cx + 100, 146)], INK, 9)  # brow
-        ink.ellipse(cx, 230, 105, 46, fill=PAGE, color=INK, width=3)
-        ix = cx + look * 52
-        ink.circle(ix, 232, 34, fill=(96, 74, 52), color=INK, width=2)
-        ink.circle(ix, 232, 15, fill=INK, color=INK, width=1)
-        ink.circle(ix + 9, 222, 5, fill=PAGE, color=PAGE, width=1)
-        ink.arc(cx, 262, 110, math.pi * 1.15, math.pi * 1.85, INK, 3)  # lid
-        ink.line([(cx - 95, 300), (cx + 80, 305)], (180, 150, 125), 2)
-    ink.line([(400, 200), (392, 330), (412, 345)], (170, 135, 110), 3)
+def _fr(n):
+    return int(round(n / FPS * 44100))
 
 
-SLIP = None
+def _fade(x, a, b, up):
+    """Linear gain ramp over samples [a, b) (up: 0->1, else 1->0); beyond b: 1 (up) or 0."""
+    g = np.ones(len(x))
+    r = np.linspace(0, 1, b - a) if up else np.linspace(1, 0, b - a)
+    if up:
+        g[:a] = 0; g[a:b] = r
+    else:
+        g[a:b] = r; g[b:] = 0
+    return x * g[:, None]
 
 
-def slip():
-    global SLIP
-    if SLIP is None:
-        i = Ink(0, 0, (150, 90), boil=0, wobble=0.6)
-        i.img = Image.new("RGBA", (150, 90), (0, 0, 0, 0))
-        from PIL import ImageDraw
-        i.d = ImageDraw.Draw(i.img, "RGBA")
-        i.rect(2, 2, 147, 87, fill=PAGE, color=INK, width=2)
-        i.text((75, 20), "RECEIPT", "mono", 13, INK, anchor="mm")
-        i.text((75, 42), "No 0417", "mono", 15, ACCENT, anchor="mm")
-        i.text((75, 64), "1 parcel · 15:58", "mono", 11, MUTED, anchor="mm")
-        SLIP = i.img
-    return SLIP
+def sound_for(variant):
+    """variant 'final': T0 + T2 + mix A (T3) under S3 + mix B (T4) under S7.
+    variant 'shared': T0 + T2 + the same shared bed T1 under both cuts.
+
+    Repair round 1: outside S3/S7 the two exports carry the same samples.
+      - S4 (pull-out after A) is the T1 bed's fall in BOTH exports; in the film,
+        mix A crossfades into it over the last 6 frames of cut A.
+      - S8 (pull-out after B) has no cut bed in either export: mix B already
+        reaches digital zero at cut frame 559; the shared bed fades out over
+        cut frames 552-563.
+      - T0 room is identical under A's and B's frames 0..479 (sound_build.py),
+        so the shared export is sample-identical from each cut's frame 0."""
+    def fn(mix):
+        _put(mix, _wav('T0_room_v2.wav'), 0)
+        _put(mix, _wav('T2_foley_v2.wav'), 0)
+        pre = _wav('T1_bed_preroll_v2.wav')
+        _put(mix, pre, TL['S1'][0])                       # bed fades in under S1, rises under S2
+        _put(mix, pre[-int(18 / FPS * 44100):], TL['S6'][0])   # rise under the S6 push
+        bedA = _wav('T1_bed_cutA-slot_v2.wav')            # 498 f: identical to T1 for 0..479, then falls
+        nA, nB = TL['S3'][1] - TL['S3'][0] + 1, TL['S7'][1] - TL['S7'][0] + 1
+        if variant == 'final':
+            a = _fr(nA - XF)
+            _put(mix, _fade(_wav('T3_mixA_v2.wav')[:_fr(nA)], a, _fr(nA), up=False), TL['S3'][0])
+            _put(mix, _fade(bedA, a, _fr(nA), up=True), TL['S3'][0])
+            _put(mix, _wav('T4_mixB_v2.wav')[:_fr(nB)], TL['S7'][0])
+        else:
+            _put(mix, bedA, TL['S3'][0])
+            _put(mix, _fade(_wav('T1_bed_v2.wav')[:_fr(nB)], _fr(nB - 12), _fr(nB), up=False), TL['S7'][0])
+    return fn
 
 
-def s_receipt(k, u, ink):
-    ink.fill((150, 144, 134))
-    for y in range(0, SH, 60):
-        ink.line([(0, y), (SW, y)], (120, 114, 104), 2, alpha=200)
-    for x in range(-400, SW + 400, 90):
-        ink.line([(x, 0), (SW / 2 + (x - SW / 2) * 1.4, SH)], (120, 114, 104), 2, alpha=200)
-    f = ease(u, 0, 0.85)
-    y = lerp(-60, 300, f)
-    x = 400 + 60 * math.sin(u * 7) * (1 - f)
-    ang = 35 * math.sin(u * 9) * (1 - f) + 12
-    if f > 0.98:
-        ink.ellipse(400, 330, 90, 14, fill=(0, 0, 0, 50), color=None)
-    rot_paste(ink, slip(), x, y, ang)
+def master_pcm(variant):
+    """The exact int16 PCM kit hands to ffmpeg for this export (kit Mix + master)."""
+    from kit import Mix
+    m = Mix(SECONDS)
+    sound_for(variant)(m)
+    return m.master()
 
 
-def arch(ink):
-    ink.fill((206, 196, 180))
-    ink.d.rectangle([0, 330, SW, SH], fill=(170, 160, 146))
-    ink.line([(0, 330), (SW, 330)], INK, 2)
-    ink.d.rectangle([450, 70, 650, 330], fill=(250, 238, 205))
-    ink.d.pieslice([450, -30, 650, 170], 180, 360, fill=(250, 238, 205))
-    ink.arc(550, 70, 100, math.pi, 2 * math.pi, INK, 4)
-    ink.line([(450, 70), (450, 330)], INK, 4)
-    ink.line([(650, 70), (650, 330)], INK, 4)
-    ink.poly([(450, 330), (650, 330), (720, SH), (380, SH)], fill=(240, 226, 190, 160), color=None)
-    bench(ink, 200, 380, 220)
+# ------------------------------------------------------------ ledger
+_PMD5 = {}
 
 
-def s_exit(k, u, ink):
-    arch(ink)
-    f = ease(u, 0, 1)
-    figure(ink, lerp(330, 560, f), lerp(420, 326, f), lerp(1.55, 0.95, f), "walk", phase=u * 2.2, facing=1, coat=COAT1, hat=True)
+def print_md5(k):
+    """md5 of the frozen toned card print at its (only) table scale."""
+    if k not in _PMD5:
+        s = R.slips()[k]
+        _PMD5[k] = hashlib.md5(R.sample_print(k, (0, 0, 1, 1), (s.pw, s.ph)).tobytes()).hexdigest()
+    return _PMD5[k]
 
 
-def s_threshold(k, u, ink):
-    arch(ink)
-    for m in range(14):
-        x = 470 + (m * 53 % 170) + 12 * math.sin(u * 3 + m)
-        y = 120 + (m * 97 % 200) - u * 30
-        ink.circle(x, y, 2, fill=(255, 250, 230), color=None)
+def nb_entry(f, rl, md5):
+    V = rl['view']; S = R.OW / (V[2] - V[0])
+    prints = []
+    for p in rl.get('prints', []):
+        k = p['asset']; o = p['rect_out']
+        tw = (o[2] - o[0]) / S                               # measured table width of the print
+        pw = R.meta()[k]['pyr_size'][0]
+        declared = R.slips()[k].pw / pw
+        measured = tw / pw                                   # rect_out is rounded to 1e-3 px by the rig
+        if abs(measured - declared) > 1e-4:
+            raise SystemExit(f'frame {f}: print {k} table scale {measured} != {declared}')
+        prints.append(dict(asset_id=k, dx=round(V[0] + o[0] / S, 3), dy=round(V[1] + o[1] / S, 3),
+                           scale=round(declared, 6), scale_measured=round(measured, 6),
+                           camera_scale=p['scale'], rot=0, print_md5=print_md5(k)))
+    e = dict(frame=f, segment=rl['segment'], asset_id='notebook', drawing=rl.get('drawing'),
+             view=V, prints=prints, md5=md5)
+    if rl.get('turning'):
+        e['turning'] = rl['turning']
+        e['note'] = ('leaf turn: prints on the turning leaf are foreshortened by the physical turn and '
+                     'prints at rest are composited at table resolution; excluded from the print check')
+    if 'slips' in rl:
+        e['slips'] = rl['slips']
+    return e
 
 
-SHOTS = [("clock", s_clock), ("parcel", s_parcel), ("hand2", s_hand2), ("door", s_door),
-         ("glance", s_glance), ("receipt", s_receipt), ("exit", s_exit), ("threshold", s_threshold)]
-LABEL = {"clock": "clock", "parcel": "hand + parcel", "hand2": "second hand", "door": "door",
-         "glance": "glance", "receipt": "dropped receipt", "exit": "person exiting", "threshold": "empty threshold"}
-POOL = {}
-for i, (name, fn) in enumerate(SHOTS):
-    POOL[name] = build_clip(fn, N, (SW, SH), boil=6, wobble=1.1, seed=31 + i)
-POOL_HASH = hashlib.sha1("".join(frames_hash(POOL[n]) for n, _ in SHOTS).encode()).hexdigest()[:12]
-SMALL = {n: [f.resize((456, 256), Image.LANCZOS) for f in fr] for n, fr in POOL.items()}
-THUMB = {n: [f.resize((208, 117), Image.LANCZOS) for f in fr] for n, fr in POOL.items()}
-ASSET_ID = {n: i + 1 for i, (n, _) in enumerate(SHOTS)}
-HUE = {"clock": (176, 138, 62), "parcel": (190, 152, 104), "hand2": (120, 110, 100), "door": (120, 96, 80),
-       "glance": (200, 160, 130), "receipt": (230, 226, 214), "exit": (70, 82, 98), "threshold": (240, 226, 190)}
+def make_film(variant, ledger):
+    slug = SLUG if variant == 'final' else SLUG + '-shared-bed'
+    film = Film(slug, seconds=SECONDS, size=(1280, 720), fps=FPS)
+    film.picture(picture)
+    film.sound(sound_for(variant))
+    film.poster_at = (TL['S5'][1] - 6 + 0.5) / FPS         # re-numbered spread at the end of S5
+    orig = film.frame
 
-# ---------------------------------------------------------- edit recipes ---
-# (asset, in, out, output_frames, direction)
-CUT_A = [("threshold", 0, 23, 48, 1), ("clock", 0, 23, 60, 1), ("parcel", 0, 23, 72, 1), ("hand2", 0, 23, 60, 1),
-         ("glance", 0, 23, 36, 1), ("receipt", 0, 23, 72, 1), ("exit", 0, 23, 84, 1), ("door", 0, 0, 48, 1)]
-CUT_B = [("glance", 0, 23, 72, 1), ("door", 0, 23, 48, 1), ("parcel", 0, 23, 36, 1), ("hand2", 0, 23, 24, 1),
-         ("glance", 0, 23, 36, -1), ("receipt", 0, 23, 96, 1), ("clock", 0, 23, 36, 1), ("exit", 0, 23, 36, 1),
-         ("threshold", 0, 23, 96, 1)]
-for cut in (CUT_A, CUT_B):
-    assert sum(e[3] for e in cut) == 480
-    for a, i0, i1, n, d in cut:  # validator: every edit resolves inside the pool
-        assert a in POOL and 0 <= i0 <= i1 < N
-CUT_LEN = 20.0
-RECIPE_HASH = {k: hashlib.sha1(json.dumps(c).encode()).hexdigest()[:8] for k, c in (("A", CUT_A), ("B", CUT_B))}
+    def frame(k):
+        img = orig(k)
+        ledger[k] = hashlib.md5(img.tobytes()).hexdigest()
+        return img
+    film.frame = frame
+    return film
 
 
-def edit_starts(cut):
-    out, a = [], 0
-    for e in cut:
-        out.append(a / FPS)
-        a += e[3]
-    return out
+def write_ledger(md5s, rig):
+    led = []
+    for f in range(TOTAL):
+        seg, a = cut_src(f)
+        if a is not None:
+            e = dict(frame=f, segment=seg, edit_id=CUTS[seg], asset_id=a[0], src_frame=a[1], md5=md5s[f])
+            if md5s[f] != POOL_MD5[a[0]][a[1]]:
+                raise SystemExit(f'frame {f}: rendered md5 differs from pool {a}')
+            led.append(e)
+        else:
+            led.append(nb_entry(f, rig[str(f)], md5s[f]))
+    json.dump(dict(slug=SLUG, base_pool_hash=POOL_HASH, fps=FPS, frames=TOTAL, timeline=TL,
+                   md5_is='md5 of the RGB24 bytes of the frame handed to ffmpeg (pre-encode)',
+                   ledger=led), open(LEDGER, 'w'))
+    print('ledger ->', LEDGER)
 
 
-def resolve(cut, k):
-    """Output frame k of a cut -> (edit index, asset, source frame)."""
-    a = 0
-    for idx, (asset, i0, i1, n, d) in enumerate(cut):
-        if k < a + n:
-            j = k - a
-            src = i0 + (i1 - i0) * j / max(1, n - 1)
-            if d < 0:
-                src = i1 - (src - i0)
-            return idx, asset, int(round(src))
-        a += n
-    asset, i0, i1, n, d = cut[-1]
-    return len(cut) - 1, asset, i1 if d > 0 else i0
-
-
-def strip(ink, cut, k, x0, y0, w, h, label, short=False):
-    total = sum(e[3] for e in cut)
-    idx, _, src = resolve(cut, k)
-    a = 0
-    for j, (asset, i0, i1, n, d) in enumerate(cut):
-        xa, xb = x0 + w * a / total, x0 + w * (a + n) / total
-        on = j == idx
-        ink.d.rectangle([xa + 1, y0, xb - 1, y0 + h], fill=HUE[asset] + (255 if on else 90,))
-        if xb - xa > 26:
-            ink.text(((xa + xb) / 2, y0 + h / 2), f"{ASSET_ID[asset]:02d}{'' if d > 0 else 'r'}", "mono", 11,
-                     INK if on else RULE, anchor="mm")
-        a += n
-    px = x0 + w * min(k, total) / total
-    ink.line([(px, y0 - 4), (px, y0 + h + 4)], ACCENT, 2, rough=False)
-    asset, i0, i1, n, d = cut[idx]
-    if short:
-        ink.text((x0, y0 + h + 8), f"edit {idx + 1}/{len(cut)} · {ASSET_ID[asset]:02d} {LABEL[asset]} · src {src:02d} · {'fwd' if d > 0 else 'rev'}", "mono", 11, RULE)
-        return
-    ink.text((x0, y0 + h + 8), f"{label} · edit {idx + 1}/{len(cut)} · asset {ASSET_ID[asset]:02d} {LABEL[asset]} · src {src:02d} of {i0}–{i1} · "
-             f"{n} fr {'fwd' if d > 0 else 'rev'}", "mono", 11, RULE)
-
-
-SEGS = [("title", 2.4), ("pool", 4.4), ("card1", 1.6), ("split", CUT_LEN), ("cardA", 1.6), ("A", CUT_LEN),
-        ("cardB", 1.6), ("B", CUT_LEN), ("report", 3.2)]
-TOTAL = sum(d for _, d in SEGS)
-ST = starts(SEGS)
-film = Film("la-machine-a-tuer-le-temps", seconds=TOTAL, boil=0, wobble=0)
-film.poster_at = ST["B"] + 10.0
-
-
-@film.picture
-def frame(t, ink):
-    seg, lt, dur, _ = segment(t, SEGS)
-    ink.fill(NIGHT)
-    if seg == "title":
-        title_card(ink, "La Machine à tuer le temps", "eight drawn shots · one frozen pool · two cuts")
-    elif seg == "pool":
-        ink.text((W / 2, 28), "THE POOL", "mono", 15, PAGE, anchor="mm")
-        for i, (name, _) in enumerate(SHOTS):
-            cx, cy = 26 + (i % 4) * 230, 62 + (i // 4) * 196
-            k = int(lt * FPS) % N
-            ink.paste(THUMB[name][k], (cx, cy))
-            ink.d.rectangle([cx, cy, cx + 207, cy + 116], outline=RULE + (255,), width=1)
-            ink.text((cx, cy + 126), f"{i + 1:02d} {LABEL[name]}", "mono", 12, PAGE)
-            ink.text((cx, cy + 144), f"{N} fr · sha {frames_hash(POOL[name])[:8]}" if i == 0 or lt > 0.2 else "", "mono", 10, MUTED)
-        ink.text((W / 2, H - 22), f"pool hash {POOL_HASH} · frozen before cutting · no frame outside these {8 * N}", "mono", 12, BRASS, anchor="mm")
-    elif seg in ("card1", "cardA", "cardB"):
-        t1 = {"card1": ("Screening 1", "CUT A and CUT B side by side · one shared sound bed"),
-              "cardA": ("CUT A · ordinary handoff", f"final mix A · recipe {RECIPE_HASH['A']}"),
-              "cardB": ("CUT B · illicit", f"final mix B · recipe {RECIPE_HASH['B']}")}[seg]
-        title_card(ink, *t1, size=44)
-    elif seg == "split":
-        k = min(479, int(lt * FPS))
-        ink.text((W / 2, 30), "SCREENING 1 · shared bed", "mono", 14, BRASS, anchor="mm")
-        for j, (cut, nm) in enumerate(((CUT_A, "CUT A"), (CUT_B, "CUT B"))):
-            x0 = 16 + j * 472
-            _, asset, src = resolve(cut, k)
-            ink.paste(SMALL[asset][src], (x0, 92))
-            ink.text((x0, 70), nm + (" · ordinary" if j == 0 else " · illicit"), "mono", 13, PAGE)
-            strip(ink, cut, k, x0, 366, 456, 22, nm, short=True)
-    elif seg in ("A", "B"):
-        cut = CUT_A if seg == "A" else CUT_B
-        k = min(479, int(lt * FPS))
-        _, asset, src = resolve(cut, k)
-        ink.paste(POOL[asset][src], (80, 12))
-        strip(ink, cut, k, 80, 478, 800, 20, "CUT " + seg)
-    elif seg == "report":
-        ink.text((W / 2, 70), "picture-reuse report", "serif", 40, PAGE, anchor="mm")
-        rows = [f"pool {POOL_HASH} · 8 assets · {8 * N} source frames",
-                f"CUT A  recipe {RECIPE_HASH['A']} · 8 edits · 480 fr · assets 8 1 2 3 5 6 7 4",
-                f"CUT B  recipe {RECIPE_HASH['B']} · 9 edits · 480 fr · assets 5 4 2 3 5(rev) 6 1 7 8",
-                "out-of-pool frames: 0 · generated inserts: 0 · geometry/colour untouched",
-                "fixture  A=[clock, hand, door, exit]  B=[exit, door, hand, clock]  in pool: pass",
-                "audio swap (screening 1 to 2) leaves both picture recipes unchanged"]
-        for i, r in enumerate(rows):
-            ink.text((W / 2, 150 + i * 44), r, "mono", 15, PAGE if i else BRASS, anchor="mm")
-    if seg in ("A", "B", "split"):
-        return
-    fade_edges(ink, lt, dur, 0.25)
-
-
-@film.sound
-def sound(mix):
-    s = ST["split"]
-    # ---- shared bed (screening 1): room tone, a wall-clock tick, distant platform air
-    mix.room(s, CUT_LEN, 0.03)
-    for k in range(int(CUT_LEN)):
-        mix.click(s + k + 0.5, 0.12, 0.1, 3000, 0.02)
-    mix.wind(s, CUT_LEN, 0.03)
-    mix.bell(s + 0.3, 587, 3.0, 0.08, -0.4)
-
-    # ---- final mix A: ordinary
-    a = ST["A"]
-    ea = [a + x for x in edit_starts(CUT_A)]
-    mix.room(a, CUT_LEN, 0.03)
-    mix.bell(a + 0.2, 659, 3.0, 0.14, -0.3)
-    for k in range(int(CUT_LEN)):
-        mix.click(a + k + 0.5, 0.06, 0.1, 3000, 0.02)
-    for i, f in enumerate((392, 494, 587, 494)):  # a small friendly figure as the parcel crosses
-        mix.pluck(ea[2] + 0.4 + i * 0.35, f, 1.2, 0.12, -0.2)
-    mix.murmur(ea[3] + 0.6, 1.4, 0.08, 150, 0.2, seed=4)   # "thank you"
-    mix.murmur(ea[4] + 0.1, 0.9, 0.06, 115, -0.2, seed=8)
-    paper_flutter(mix, ea[5] + 0.3, 1.8, 0.06)
-    mix.steps(ea[6] + 0.2, ea[7], 0.48, 0.18, "stone", -0.1, 0.5)
-    mix.pluck(ea[7] + 0.3, 784, 1.5, 0.08)
-
-    # ---- final mix B: illicit
-    b = ST["B"]
-    eb = [b + x for x in edit_starts(CUT_B)]
-    mix.room(b, CUT_LEN, 0.02)
-    mix.drone(b, CUT_LEN, (41.2, 58.3, 82.4), 0.09, attack=2, release=1.5)
-    mix.add(mix.tone(1975, 3.0) * mix.env(int(3.0 * mix.rate), 1.2, 0.1, 1.0, 1.0) * 0.4, b, 0.05, 0.3)  # thin held whistle on the glance
-    heartbeat(mix, b + 1.0, eb[5] + 3.5, 66, accel=1.6, gain=0.28)
-    mix.click(eb[1] + 0.9, 0.35, 0.4, 2000, 0.06)  # the handle
-    mix.thud(eb[3] + 0.2, 60, 0.3)
-    paper_flutter(mix, eb[5] + 0.2, 2.6, 0.05)
-    mix.thud(eb[5] + 3.4, 38, 0.6, 0, 0.8)
-    mix.note(eb[5] + 3.4, 69.3, 2.4, 0.12, 0, "saw", 0.01, 1.5, 0.2)
-    mix.note(eb[5] + 3.4, 73.4, 2.4, 0.1, 0, "saw", 0.01, 1.5, 0.2)
-    for k in range(6):
-        mix.click(eb[6] + k * 0.25, 0.25, 0.1, 3500, 0.02)
-    mix.steps(eb[7], eb[8], 0.26, 0.25, "stone", 0, 0.7)
-    mix.bell(eb[8] + 1.0, 330, 4.0, 0.06, 0.5)
-
-
-if __name__ == "__main__":
-    film.render()
+if __name__ == '__main__':
+    if len(sys.argv) > 1 and sys.argv[1] == '--stills':
+        film = Film(SLUG, seconds=SECONDS, size=(1280, 720), fps=FPS)
+        film.picture(picture)
+        film.render()
+        sys.exit(0)
+    if '--reledger' in sys.argv:                 # rebuild the ledger from the recorded frame md5s
+        old = json.load(open(LEDGER))['ledger']
+        write_ledger({e['frame']: e['md5'] for e in old}, build_notebook_cache())
+        sys.exit(0)
+    only = sys.argv[sys.argv.index('--only') + 1] if '--only' in sys.argv else None
+    sys.argv = sys.argv[:1]
+    rig = build_notebook_cache()
+    md5 = {}
+    for variant in ('final', 'shared'):
+        if only and only != variant:
+            continue
+        m = {}
+        make_film(variant, m).render()
+        if variant == 'shared':
+            web = OUT / f'{SLUG}-shared-bed.webp'
+            if web.exists():
+                web.unlink()                                 # only the film keeps a poster
+        md5[variant] = m
+    if 'final' in md5 and 'shared' in md5:
+        same = all(md5['final'][k] == md5['shared'][k] for k in range(TOTAL))
+        print('pre-encode picture identical in both exports:', same)
+        if not same:
+            raise SystemExit('picture differs between exports')
+    first = md5.get('final') or md5.get('shared')
+    if first:
+        write_ledger(first, rig)

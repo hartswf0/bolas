@@ -9,6 +9,22 @@
    "note": ""
   },
   {
+   "t": 6.0,
+   "frame": 144,
+   "cue": "CUE-1b box set down on her lap",
+   "source": "Knocking_on_wood_or_door.ogg",
+   "perspective": "present dry",
+   "note": ""
+  },
+  {
+   "t": 7.75,
+   "frame": 186,
+   "cue": "CUE-2a clasp tick",
+   "source": "Cupboarddoorclose.ogg",
+   "perspective": "present dry",
+   "note": ""
+  },
+  {
    "t": 27.0,
    "frame": 648,
    "cue": "CUE-3h his hand to his knee: sleeve rustle",
@@ -62,6 +78,94 @@
    "cue": "CUE-5a receipt into the velvet slot",
    "source": "Book_paper_pages_assorted.ogg",
    "perspective": "present dry",
+   "note": ""
+  },
+  {
+   "t": 39.5,
+   "frame": 948,
+   "cue": "CUE-5b lid click (dry, close)",
+   "source": "Cupboarddoorclose.ogg",
+   "perspective": "present dry",
+   "note": ""
+  },
+  {
+   "t": 9.167,
+   "frame": 220,
+   "cue": "SH-1 latch",
+   "source": "Door_handle_creaking.ogg",
+   "perspective": "flashback muffled",
+   "note": ""
+  },
+  {
+   "t": 9.25,
+   "frame": 222,
+   "cue": "SH-1 door swings open",
+   "source": "Squeaky_door_hinge.ogg",
+   "perspective": "flashback muffled",
+   "note": ""
+  },
+  {
+   "t": 9.75,
+   "frame": 234,
+   "cue": "SH-1 step 1",
+   "source": "Knocking_on_wood_or_door.ogg",
+   "perspective": "flashback muffled",
+   "note": ""
+  },
+  {
+   "t": 10.083,
+   "frame": 242,
+   "cue": "SH-1 step 2",
+   "source": "Knocking_on_wood_or_door.ogg",
+   "perspective": "flashback muffled",
+   "note": ""
+  },
+  {
+   "t": 10.417,
+   "frame": 250,
+   "cue": "SH-1 step 3",
+   "source": "Knocking_on_wood_or_door.ogg",
+   "perspective": "flashback muffled",
+   "note": ""
+  },
+  {
+   "t": 10.75,
+   "frame": 258,
+   "cue": "SH-1 step 4",
+   "source": "Knocking_on_wood_or_door.ogg",
+   "perspective": "flashback muffled",
+   "note": ""
+  },
+  {
+   "t": 14.208,
+   "frame": 341,
+   "cue": "SH-2 box into the aunt's hands",
+   "source": "Knocking_on_wood_or_door.ogg",
+   "perspective": "flashback muffled",
+   "note": ""
+  },
+  {
+   "t": 14.542,
+   "frame": 349,
+   "cue": "SH-3 aunt opens lid (soft hinge)",
+   "source": "Squeaky_door_hinge.ogg",
+   "perspective": "flashback muffled",
+   "note": ""
+  },
+  {
+   "t": 17.0,
+   "frame": 408,
+   "cue": "SH-4 lid shut INSIDE the swallow (heard, not seen); no ring sound",
+   "source": "Cupboarddoorclose.ogg",
+   "perspective": "flashback muffled",
+   "note": ""
+  },
+  {
+   "t": 19.0,
+   "frame": 456,
+   "cue": "SH-4 box set on the aunt's lap",
+   "source": "Knocking_on_wood_or_door.ogg",
+   "perspective": "flashback muffled",
    "note": ""
   }
  ],
@@ -137,6 +241,46 @@
   17.05
  ],
  "oneshots": {
+  "step": {
+   "source": "Knocking_on_wood_or_door.ogg",
+   "how": "knock transients low-passed to 900 Hz = heel on parquet",
+   "n": 6
+  },
+  "setdown": {
+   "source": "Knocking_on_wood_or_door.ogg",
+   "how": "one knock, 1.4 kHz low-pass, fabric-damped = box set on a lap / into hands",
+   "n": 1
+  },
+  "lidclick": {
+   "source": "Cupboarddoorclose.ogg",
+   "how": "wooden cupboard close, pitched up 1.6x, high-passed: small box lid click",
+   "n": 1
+  },
+  "clasp": {
+   "source": "Cupboarddoorclose.ogg",
+   "how": "first 50 ms of the close, pitched up 2.2x: clasp tick",
+   "n": 1
+  },
+  "lidshut": {
+   "source": "Cupboarddoorclose.ogg",
+   "how": "lid shut (muffled later)",
+   "n": 1
+  },
+  "latch": {
+   "source": "Door_handle_creaking.ogg",
+   "how": "door handle turned: latch",
+   "n": 1
+  },
+  "doorhinge": {
+   "source": "Squeaky_door_hinge.ogg",
+   "how": "door swinging open",
+   "n": 1
+  },
+  "lidhinge": {
+   "source": "Squeaky_door_hinge.ogg",
+   "how": "hinge pitched up 1.7x, 0.45 s: small box lid opening",
+   "n": 1
+  },
   "door": {
    "source": "Closing_an_old_door.ogg",
    "how": "old door, its strongest event",
@@ -158,17 +302,12 @@
    "n": 3
   }
  },
- "missing": [
-  "step",
-  "lidclick",
-  "latch",
-  "doorhinge"
- ],
+ "missing": [],
  "stats": {
   "peak_dbfs": -6.0,
-  "present_rms_dbfs": -33.0,
-  "flashback_rms_dbfs": -22.8,
-  "hf_share_last_0.5s_flashback": 0.003,
+  "present_rms_dbfs": -37.1,
+  "flashback_rms_dbfs": -40.7,
+  "hf_share_last_0.5s_flashback": 0.001,
   "hf_share_first_0.5s_present_after_cut": 0.8
  }
 }

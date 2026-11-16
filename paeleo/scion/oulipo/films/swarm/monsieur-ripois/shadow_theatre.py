@@ -34,8 +34,8 @@ BW = 72.0                                   # box width on screen (theatrical sc
 BODY_H, LID_H, DEPTH = BOXSPEC["body_h"] * BW, BOXSPEC["lid_h"] * BW, BOXSPEC["depth"] * BW
 SLOT_CX = BOXSPEC["slot"]["cx"]
 LID_DRAW = [BOXSPEC["lid_states_deg"][k] for k in ("closed", "33", "66", "100")]
-RING_D = 0.20 * BW                           # spec 0.11w enlarged x1.8 for silhouette legibility
-RING_BAND = 0.045 * BW
+RING_D = 0.27 * BW                           # spec 0.11w enlarged x2.45 for silhouette legibility (theatrical prop scale)
+RING_BAND = 0.06 * BW
 PRESENT_SLOT_SCREEN = (370.0, 304.0)         # present insert slot centre (U2 slot_screen_insert), norm_x 0.484
 
 # ---------------------------------------------------------------- small geometry
@@ -65,9 +65,9 @@ R_JACKET = [(-6, -118), (-16, -113), (-22, -106), (-25, -97), (-29, -91), (-21, 
             (-28, -58), (-24, -44), (-22, -32), (-24, -14), (-26, 6), (-27, 22), (-12, 24), (-3, 19), (5, 24),
             (25, 23), (23, 6), (20, -14), (18, -32), (20, -52), (23, -74), (25, -92), (23, -104), (16, -112), (6, -118)]
 # replacement torso: turned 3/4, back toward the aunt (used only around the swallow)
-R_JACKET34 = [(-4, -118), (-18, -115), (-30, -109), (-38, -98), (-41, -80), (-40, -60), (-37, -40), (-36, -14),
-              (-38, 22), (-12, 25), (-2, 20), (8, 25), (42, 22), (43, 0), (44, -30), (46, -60), (46, -86),
-              (42, -102), (32, -112), (16, -118)]
+R_JACKET34 = [(-4, -119), (-14, -117), (-26, -112), (-35, -104), (-40, -92), (-41, -76), (-39, -58), (-35, -40), (-33, -24),
+              (-35, -4), (-38, 22), (-12, 25), (-2, 20), (8, 25), (40, 22), (40, 4), (38, -20), (40, -42), (44, -64),
+              (45, -84), (42, -100), (34, -111), (20, -118)]
 R_HEAD = [(7, 4), (8, -10), (11, -18), (16, -28), (17, -40), (14, -50), (8, -57), (2, -61), (-6, -66), (-14, -68),
           (-21, -65), (-25, -59), (-19, -61), (-15, -57), (-15, -49), (-17, -44), (-18, -41), (-25, -34), (-18, -31),
           (-19, -28), (-16, -26.5), (-18, -24.5), (-17, -20), (-13, -16), (-8, -13), (-7, 4)]
@@ -78,7 +78,7 @@ R_UPPER, R_FORE, R_THIGH, R_SHIN = 62.0, 56.0, 90.0, 86.0
 R_SHOULDER = {"profile": {"near": (-4, -104), "far": (6, -104)}, "34": {"near": (-12, -104), "far": (22, -104)}}
 R_NECK = (-3, -116)
 LIMITS_R = {"torso": (-12, 8), "neck": (-20, 20),
-            "n_sh": (-40, 150), "n_el": (0, 150), "n_wr": (-80, 80),
+            "n_sh": (-60, 150), "n_el": (0, 150), "n_wr": (-80, 80),
             "f_sh": (-42, -22), "f_el": (55, 100), "f_wr": (-50, 10),
             "hipA": (-30, 35), "hipB": (-30, 35), "kneeA": (-75, 0), "kneeB": (-75, 0),
             "ankA": (-30, 20), "ankB": (-30, 20)}
@@ -177,6 +177,7 @@ def _walk_roots():
         if old != st or pin[0] != st:
             _, _, an, _ = _leg_points((x, y), *(A if st == "A" else B), st)
             pin = (st, an[0])
+        if name == "ST stand": x = roots[-1][1][0] - 8.0
         roots.append((name, (x, y), A, B, st))
         prev_stance = st
     return roots
@@ -188,6 +189,7 @@ BOX_OFFER = (ROOT_END[0] - 92.0, ROOT_END[1] - 6.0)        # box bottom-centre (
 AUNT_ROOT = (BOX_OFFER[0] - 104.0, 392.0)                    # her hip on the seat (plane)
 LAP_Y = AUNT_ROOT[1] - 10.0
 BOX_LAP = (AUNT_ROOT[0] + 66.0, LAP_Y)
+PH_BOX = (AUNT_ROOT[0] + 106.0, AUNT_ROOT[1] - 110.0)                 # hand-off point (box bottom-centre)
 M_END = PRESENT_SLOT_SCREEN[0] - BOX_OFFER[0]                # ring lands on the present slot's screen x
 
 def m_of(f):
@@ -213,7 +215,7 @@ def key_interp(keys, f):
     return keys[-1][1]
 
 def chest_point(root):                                         # where the box hides (inside torso34)
-    return (root[0] + 2.0, root[1] - 46.0)
+    return (root[0] + 2.0, root[1] - 32.0)
 
 def box_track(f, root):
     """box bottom-centre (plane coords), holder, lid angle; on twos (ones in the swallow)"""
@@ -236,9 +238,9 @@ def box_track(f, root):
         pos = key_interp([(184, BOX_OFFER), (190, C)], g)
         lid = LID_DRAW[3] if g < 190 else LID_DRAW[3] * (1 - sm((g - 190) / 7.0))
         return pos, "him", float(lid)
-    PH = (AUNT_ROOT[0] + 92.0, AUNT_ROOT[1] - 64.0)
+    PH = PH_BOX
     if g < F_HANDOFF:
-        return key_interp([(198, C), (204, (C[0] - 40, C[1] + 6)), (F_HANDOFF, PH)], g), "him", 0.0
+        return key_interp([(195, C), (204, (C[0] - 40, C[1] + 6)), (F_HANDOFF, PH)], g), "him", 0.0
     if g < F_SETDOWN:
         x = (g - F_HANDOFF) / float(F_SETDOWN - F_HANDOFF)
         e = x * x * (0.6 + 0.4 * x)                               # ease-in: the weight accelerates onto the lap
@@ -261,14 +263,14 @@ def pose_R(f):
     P["neck"] = key_interp([(0, 0.0), (60, 0.0), (72, -4.0), (106, -12.0), (140, -10.0), (184, -10.0),
                             (190, 4.0), (198, 4.0), (212, -8.0), (240, -6.0)], g)
     # far arm behind the back: only the elbow moves, +6 deg during the swallow (the hidden hand meets the box)
-    fsh = -36.0 + 6.0 * sm((g - 190) / 7.0) * (1 - sm((g - 200) / 8.0))
-    P["f_sh"], P["f_el"], P["f_wr"] = fsh, 72.0 + 14.0 * sm((g - 190) / 7.0) * (1 - sm((g - 200) / 8.0)), -22.0
+    fsh = -36.0 + 6.0 * sm((g - 190) / 7.0) * (1 - sm((g - 197) / 3.0))
+    P["f_sh"], P["f_el"], P["f_wr"] = fsh, 72.0 + 14.0 * sm((g - 190) / 7.0) * (1 - sm((g - 197) / 3.0)), -22.0
     return P
 
 def pose_A(f):
     g = f2(f)
     P = {}
-    P["torso"] = key_interp([(0, 0.0), (104, 0.0), (124, 8.0), (180, 8.0), (188, 2.0), (204, 4.0), (214, 10.0),
+    P["torso"] = key_interp([(0, 0.0), (104, 0.0), (124, 13.0), (180, 13.0), (196, 3.0), (206, 4.0), (214, 10.0),
                              (240, 6.0), (252, 6.0)], g)
     P["head"] = "down" if (128 <= g < 206 or g >= 222) else "up"
     P["neck"] = key_interp([(0, 0.0), (120, 4.0), (128, 10.0), (180, 12.0), (206, 2.0), (222, 12.0), (240, 16.0)], g)
@@ -322,14 +324,18 @@ def build_R(f, box_pos):
     # near arm: IK to the box grip (hand under the box, thumb against its front), or a hanging rest
     sn = root + Mt @ np.array(R_SHOULDER[jk]["near"], float)
     holder = box_pos[1]
-    if holder == "him":
+    if holder == "him" and 186 <= f2(f) <= 205:
+        bp = box_pos[0]
+        T = (bp[0] - 0.28 * BW, bp[1] - 8.0)                  # closing the lid from the front, box at his chest
+        hand_dir = 250.0
+    elif holder == "him":
         bp = box_pos[0]
         T = (bp[0] + 0.30 * BW, bp[1] + 4.0)
         hand_dir = 180.0
     else:
         g = f2(f)
         x = sm((g - F_HANDOFF) / 14.0)
-        PH = (AUNT_ROOT[0] + 92.0 + 0.30 * BW, AUNT_ROOT[1] - 60.0)
+        PH = (PH_BOX[0] + 0.30 * BW, PH_BOX[1] + 4.0)
         rest = (root[0] - 14.0, root[1] + 8.0)
         T = (lerp(PH[0], rest[0], x), lerp(PH[1], rest[1], x)); hand_dir = lerp(180.0, 100.0, x)
     du, df = ik2(sn, T, R_UPPER, R_FORE, bend=-1)
@@ -372,7 +378,7 @@ def build_A(f, box_pos, ear_angle):
     g = f2(f)
     rest = (root[0] + 54.0, root[1] - 14.0)                         # palm resting on the lap, by the knee
     bp, holder, lid = box_pos
-    lid_front = (bp[0] - 0.40 * BW, bp[1] - BODY_H - DEPTH * math.sin(math.radians(lid)) - 2)
+    lid_front = (bp[0] - 0.47 * BW, bp[1] - BODY_H - 0.55 * DEPTH * math.sin(math.radians(lid)) - 2)
     if g < 104:
         T = rest; hd = 60.0
     elif g < 126:
@@ -383,7 +389,7 @@ def build_A(f, box_pos, ear_angle):
         T = key_interp([(180, lid_front), (190, rest)], g); hd = 60.0
     elif g < F_HANDOFF:
         under = (bp[0] - 0.20 * BW, bp[1] + 3)
-        PH_under = (AUNT_ROOT[0] + 92.0 - 0.20 * BW, AUNT_ROOT[1] - 61.0)
+        PH_under = (PH_BOX[0] - 0.20 * BW, PH_BOX[1] + 3.0)
         T = key_interp([(200, rest), (F_HANDOFF, PH_under)], g); hd = -20.0
     elif g < F_SETDOWN:
         T = (bp[0] - 0.20 * BW, bp[1] + 3); hd = -20.0
@@ -419,7 +425,7 @@ def build_A(f, box_pos, ear_angle):
 def _ear_anchor_continuous(f):
     """ear lobe position from the un-stepped (continuous) pose, used only to drive the pendulum"""
     P = pose_A(f)  # pose_A is stepped; build a continuous version by evaluating on ones
-    tor = key_interp([(0, 0.0), (104, 0.0), (124, 8.0), (180, 8.0), (188, 2.0), (204, 4.0), (214, 10.0), (240, 6.0)], f)
+    tor = key_interp([(0, 0.0), (104, 0.0), (124, 13.0), (180, 13.0), (196, 3.0), (206, 4.0), (214, 10.0), (240, 6.0)], f)
     neck = key_interp([(0, 0.0), (120, 4.0), (128, 10.0), (180, 12.0), (206, 2.0), (222, 12.0), (240, 16.0)], f)
     root = np.array(AUNT_ROOT, float)
     nk = root + R(tor) @ np.array(A_NECK, float)
@@ -427,7 +433,7 @@ def _ear_anchor_continuous(f):
 
 def _simulate_earring():
     g = 9.81 * (360 / 1.75)            # px/s^2 at this puppet scale (R. 360 px = 1.75 m)
-    L, c = 11.0, 2.2
+    L, c = 11.0, 3.0
     sub = 8; dt = 1.0 / FPS / sub
     th, om = 0.0, 0.0
     out = []
@@ -451,22 +457,22 @@ def stage_pieces(f):
     ax = AUNT_ROOT[0]
     # wing chair (facing right), plane coords relative to her hip
     def C(pts): return [(ax + x, y) for x, y in pts]
-    ps.append(("chair_back", C([(-60, 392), (-66, 330), (-68, 262), (-64, 216), (-52, 199), (-34, 197), (-22, 207),
-                                (-20, 262), (-22, 330), (-20, 392)])))
-    ps.append(("chair_wing", C([(-28, 212), (-4, 210), (14, 222), (18, 244), (8, 262), (-14, 270), (-24, 262)])))
-    ps.append(("chair_arm", C([(-32, 342), (80, 336), (92, 330), (100, 338), (96, 352), (82, 356), (-32, 360)])))
+    ps.append(("chair_back", C([(-72, 392), (-78, 330), (-80, 262), (-76, 216), (-64, 199), (-46, 197), (-34, 207),
+                                (-32, 262), (-34, 330), (-32, 392)])))
+    ps.append(("chair_wing", C([(-36, 214), (-24, 211), (-18, 222), (-20, 250), (-28, 266), (-36, 262)])))
+    ps.append(("chair_arm", C([(-24, 372), (40, 370), (48, 366), (54, 372), (50, 384), (-24, 392)])))
     ps.append(("chair_seat", C([(-66, 392), (104, 392), (108, 408), (100, 420), (-62, 420)])))
     ps.append(("chair_legF", C([(90, 418), (100, 418), (96, 440), (102, 470), (106, 478), (92, 478), (92, 460), (88, 440)])))
     ps.append(("chair_legB", C([(-60, 418), (-50, 418), (-52, 450), (-58, 478), (-66, 478), (-60, 450)])))
     # lace antimacassar over the chair back: scalloped lower edge (holes punched separately)
-    lace = [(-70, 194), (-50, 186), (-30, 190), (-18, 200)]
+    lace = [(-82, 194), (-62, 186), (-42, 190), (-30, 200)]
     for k in range(7):
-        x0 = -18 - k * 7.5
+        x0 = -30 - k * 7.5
         lace += [(x0 - 1.5, 238 - 2), (x0 - 3.75, 244), (x0 - 6, 238 - 2)]
-    lace += [(-72, 236)]
+    lace += [(-84, 236)]
     ps.append(("lace", C(lace)))
     # standard lamp, left of the chair
-    lx = ax - 128
+    lx = ax - 140
     ps.append(("lamp_shade", [(lx - 26, 190), (lx + 26, 190), (lx + 17, 150), (lx - 17, 150)]))
     ps.append(("lamp_finial", circ(lx, 146, 4)))
     ps.append(("lamp_pole", [(lx - 2.5, 190), (lx + 2.5, 190), (lx + 2.5, 470), (lx - 2.5, 470)]))
@@ -475,7 +481,7 @@ def stage_pieces(f):
     dx0 = 600.0
     ps.append(("door_jambL", [(dx0, 100), (dx0 + 10, 100), (dx0 + 10, 478), (dx0, 478)]))
     ps.append(("door_jambR", [(dx0 + 74, 100), (dx0 + 84, 100), (dx0 + 84, 478), (dx0 + 74, 478)]))
-    ps.append(("door_lintel", [(dx0 - 8, 92), (dx0 + 92, 92), (dx0 + 92, 104), (dx0 - 8, 104)]))
+    ps.append(("door_lintel", [(dx0, 92), (dx0 + 84, 92), (dx0 + 84, 104), (dx0, 104)]))
     g = f2(f)
     dw = 64.0 if g < 6 else (30.0 if g < 12 else 7.0)
     ps.append(("door_panel", [(dx0 + 74 - dw, 106), (dx0 + 74, 106), (dx0 + 74, 476), (dx0 + 74 - dw, 476)]))
@@ -487,11 +493,11 @@ def stage_holes(f, dx0, dw):
     ax = AUNT_ROOT[0]
     for r_ in range(3):
         for k in range(6):
-            cx = ax - 66 + k * 8 + (4 if r_ % 2 else 0); cy = 202 + r_ * 9
-            if cx < ax - 20: holes.append(("lace_hole", circ(cx, cy, 2.0, 10)))
+            cx = ax - 78 + k * 8 + (4 if r_ % 2 else 0); cy = 202 + r_ * 9
+            if cx < ax - 32: holes.append(("lace_hole", circ(cx, cy, 2.0, 10)))
     for k in range(7):
-        holes.append(("lace_scallop", circ(ax - 21.75 - k * 7.5, 238, 1.3, 8)))
-    lx = ax - 128
+        holes.append(("lace_scallop", circ(ax - 33.75 - k * 7.5, 238, 1.3, 8)))
+    lx = ax - 140
     holes.append(("lamp_slot", [(lx - 19, 168), (lx + 19, 168), (lx + 19, 173), (lx - 19, 173)]))
     if dw > 20:
         x0, x1 = dx0 + 74 - dw + dw * 0.18, dx0 + 74 - dw * 0.18
@@ -533,7 +539,7 @@ def box_polys(pos, lid):
         solid.append([(x0 + 1, top), (x0 + BW - 1, top), (x0 + BW - 1, yt + 0.5), (x0 + 1, yt + 0.5)])
         punched.append([(x0 + 4, yt - 1.6), (x0 + BW - 4, yt - 1.6), (x0 + BW - 4, yt - 0.4), (x0 + 4, yt - 0.4)])  # velvet lip
         if lid >= 60:
-            rc = (x0 + SLOT_CX * BW, yt - RING_D * 0.30)
+            rc = (x0 + SLOT_CX * BW, yt - RING_D * 0.36)
             ring = rc
     return solid, punched, ring
 
@@ -541,7 +547,7 @@ def ring_polys(rc):
     """the ring standing in the slot, half sunk: a punched light annulus + stone (drawn above the body top)"""
     ro, ri = RING_D / 2, RING_D / 2 - RING_BAND
     outer = circ(rc[0], rc[1], ro, 28); inner = circ(rc[0], rc[1], ri, 24)
-    stone = [(rc[0], rc[1] - ro - 5.5), (rc[0] + 3.2, rc[1] - ro - 1.5), (rc[0], rc[1] - ro + 1.2), (rc[0] - 3.2, rc[1] - ro - 1.5)]
+    stone = [(rc[0], rc[1] - ro - 7.0), (rc[0] + 4.2, rc[1] - ro - 2.0), (rc[0], rc[1] - ro + 1.6), (rc[0] - 4.2, rc[1] - ro - 2.0)]
     return outer, inner, stone
 
 # ---------------------------------------------------------------- the backlit paper screen
@@ -576,7 +582,7 @@ def _make_blinds():
     soft = cv2.GaussianBlur(th, (0, 0), 3.0)
     e = np.minimum.reduce([np.linspace(0, 1, 150)[None, :].repeat(480, 0), np.linspace(1, 0, 150)[None, :].repeat(480, 0),
                            np.linspace(0, 1, 480)[:, None].repeat(150, 1), np.linspace(1, 0, 480)[:, None].repeat(150, 1)]) * 6
-    return soft * np.clip(e, 0, 1) * 0.20
+    return soft * np.clip(e, 0, 1) * 0.15
 
 PAPER = None
 BLINDS = None
@@ -615,6 +621,9 @@ def silhouette(f, sc=None, scale=S):
         _poly(d, pts, m, 0)
     # R. is drawn only once he is in the doorway (behind the panel in D1)
     showR = f2(f) >= 6
+    behind = 186 <= f2(f) <= 199 and sc["box_pos"][1] == "him"
+    if behind:
+        for pts in sc["box"]: _poly(d, pts, m, 255)
     if showR:
         for name, pts in sc["R"].pieces:
             _poly(d, pts, m, 255)
@@ -626,10 +635,11 @@ def silhouette(f, sc=None, scale=S):
             if name == "door_panel": _poly(d, pts, m, 255)
         for name, pts in sc["holes"]:
             if name == "door_moulding": _poly(d, pts, m, 0)
-    for pts in sc["box"]:
-        _poly(d, pts, m, 255)
-    for pts in sc["box_punch"]:
-        _poly(d, pts, m, 0)
+    if not behind:
+        for pts in sc["box"]:
+            _poly(d, pts, m, 255)
+        for pts in sc["box_punch"]:
+            _poly(d, pts, m, 0)
     glow = Image.new("L", (W * S, H * S), 0); dg = ImageDraw.Draw(glow)
     if sc["ring"] is not None and not (F_SWALLOW[0] <= f <= F_SWALLOW[1]):
         outer, inner, stone = ring_polys(sc["ring"])

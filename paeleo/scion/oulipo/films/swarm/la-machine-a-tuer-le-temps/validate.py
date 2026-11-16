@@ -269,6 +269,16 @@ def check_ledger(entries, man, recipes=None, frames_dir=None):
             fr = [f for f, _, _ in sorted(cut_seq[eid])]
             if fr and fr != list(range(fr[0], fr[0] + len(fr))):
                 errs.append(f"{eid}: cut frames not contiguous")
+            # repair round 1: the recipe's serialised film frames must equal where
+            # the ledger actually places the cut and each of its events
+            if fr and "film_start_frame" in ed and ed["film_start_frame"] != fr[0]:
+                errs.append(f"{eid}: recipe film_start_frame {ed['film_start_frame']} != ledger first cut frame {fr[0]}")
+            acc = fr[0] if fr else 0
+            for i, ev in enumerate(ed["events"]):
+                cps = [c for c in ed.get("cut_points", []) if c.get("event") == i]
+                if fr and cps and "film_frame" in cps[0] and cps[0]["film_frame"] != acc:
+                    errs.append(f"{eid}: cut_points[{i}].film_frame {cps[0]['film_frame']} != ledger frame {acc}")
+                acc += ev["out_frames"]
     return {"cut_frames": n_cut, "notebook_frames": n_nb, "errors": errs}
 
 

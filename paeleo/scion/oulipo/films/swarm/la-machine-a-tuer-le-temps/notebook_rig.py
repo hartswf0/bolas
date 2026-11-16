@@ -52,15 +52,18 @@ import registrar_build as RB                             # geometry + print_op o
 
 A_ORDER = ['01', '02', '03', '04', '05', '06', '07', '08']
 B_ORDER = ['05', '04', '02', '06', '03', '01', '07', '08']
+# Tape captions: the makers' own text, kept to what each single photograph shows
+# (repair round 1: no invented off-screen space or actions; the montage, not the
+# caption, makes the story).  The coda sheet says the captions and story B are invented.
 CAPS = {
- '01': "01.- L'horloge du bureau de\n     régulation ; on pointe.",
- '02': "02.- Une femme emporte le colis\n     et se retourne.",
- '03': "03.- Le contrôleur regarde\n     sa montre.",
- '04': "04.- Un soldat monte dans le\n     wagon ; la porte reste ouverte.",
- '05': "05.- Le porteur regarde hors du\n     champ, vers la consigne.",
- '06': "06.- Les bons de réservation\n     restent sur le comptoir.",
- '07': "07.- Les soldats sortent par\n     la voie 2.",
- '08': "08.- La salle d'attente, vide,\n     à une heure du matin.",
+ '01': "01.- L'horloge du bureau de\n     régulation.",
+ '02': "02.- Une femme porte\n     un colis.",
+ '03': "03.- Un contrôleur, sa montre\n     à la main.",
+ '04': "04.- La porte d'un wagon ;\n     un soldat sur le seuil.",
+ '05': "05.- Le porteur regarde\n     l'objectif.",
+ '06': "06.- Des bons de réservation\n     sur le comptoir.",
+ '07': "07.- Des soldats passent\n     devant la voie 2.",
+ '08': "08.- La salle d'attente, presque\n     vide, à une heure du matin.",
 }
 
 # ============================================================ the print pool
@@ -85,7 +88,7 @@ def prep():
     for k in A_ORDER:
         im = RB.load(k)
         s, clean, W0, W1 = RB.geometry(k, im.size)
-        lo, hi = meas[k]['levels'] if k in meas else RB.levels(im, clean)
+        lo, hi = RB.levels(im, clean, k)
         r = max(1, int((clean[2] - clean[0]) // 2600))
         lvl = im.reduce(r) if r > 1 else im
         lvl.save(WORK / f'{k}_pyr.png')
@@ -187,7 +190,7 @@ G = {  # single-stroke skeletons in a unit box (x right, y down); my hand
  'E': [[(.85, 0), (.08, 0), (.08, 1), (.88, 1)], [(.08, .5), (.65, .5)]],
  'G': [[(.9, .15), (.55, 0), (.15, .15), (0, .5), (.15, .85), (.55, 1), (.9, .82), (.9, .55), (.55, .55)]],
  'H': [[(.05, 0), (.05, 1)], [(.9, 0), (.9, 1)], [(.05, .5), (.9, .5)]],
- 'I': [[(.5, 0), (.5, 1)]],
+ 'I': [[(.2, 0), (.2, 1)]],          # repair round 2: stroke centred in its narrow advance (no gap after H)
  'L': [[(.1, 0), (.1, 1), (.85, 1)]],
  'M': [[(0, 1), (.08, 0), (.5, .65), (.92, 0), (1, 1)]],
  'N': [[(.05, 1), (.05, 0), (.9, 1), (.9, 0)]],
@@ -197,7 +200,7 @@ G = {  # single-stroke skeletons in a unit box (x right, y down); my hand
  'S': [[(.9, .12), (.5, 0), (.12, .15), (.2, .42), (.8, .58), (.9, .85), (.5, 1), (.08, .88)]],
  'T': [[(0, 0), (1, 0)], [(.5, 0), (.5, 1)]],
  'U': [[(.05, 0), (.08, .75), (.5, 1), (.92, .75), (.95, 0)]],
- 'À': [[(0, 1), (.48, 0), (.95, 1)], [(.2, .62), (.78, .6)], [(.3, -.38), (.55, -.16)]],
+ 'À': [[(0, 1), (.48, 0), (.95, 1)], [(.2, .62), (.78, .6)], [(.22, -.36), (.52, -.12)]],
  '.': [[(.45, .92), (.5, .97)]],
  '-': [[(.1, .55), (.85, .5)]],
 }
@@ -350,7 +353,8 @@ PAGE_BASE = {'L': (240, 230, 207), 'R': (243, 233, 210)}   # warm yellow-cream
 TABLE_BASE = (226, 223, 217)
 COVER_RED = (97, 14, 24)             # #610e18
 V_SPREAD = (XC - 1240.0, 1125 - 697.5, XC + 1240.0, 1125 + 697.5)
-V_WORK = (200.0, 112.5, 3800.0, 2137.5)
+V_WORK = (200.0, 112.5, 3800.0, 2137.5)       # round-1 S5 working view (no longer used)
+V_COVER = (XC + FW / 2 - 1240.0, 1125 - 697.5, XC + FW / 2 + 1240.0, 1125 + 697.5)
 PRINT_MAX = (740, 540)
 PRINT_TOP = 205
 SLIP_M = 34
@@ -511,6 +515,14 @@ def table_base():
     return _cache['table']
 
 
+ROW0, ROWH = 200, 96            # coda rows (compressed in repair round 1 to make room for the label)
+HASH_Y, DISC_Y = 958, 1040
+DISCLAIMER = ("Photographies : Jack Delano, 1943, FSA/OWI,\n"
+              "Library of Congress. Légendes et récit B\n"
+              "inventés ; les personnes photographiées\n"
+              "n'y ont aucune part.")
+
+
 def sheet_img():
     """The loose sheet for the coda (same stock), with the two hand columns."""
     if 'sheet' in _cache:
@@ -520,8 +532,11 @@ def sheet_img():
     hand(im, 'A', 395, 90, 70, seed=81, color=PEN, width=4.5)
     hand(im, 'B', 1290, 90, 70, seed=82, color=PEN, width=4.5)
     for i in range(8):
-        hand(im, A_ORDER[i], 360, 220 + i * 112, NUM_H, seed=1100 + i, color=PEN, width=4.0)
-        hand(im, B_ORDER[i], 1260, 220 + i * 112, NUM_H, seed=1200 + i, color=PEN, width=4.0)
+        hand(im, A_ORDER[i], 360, ROW0 + i * ROWH, NUM_H, seed=1100 + i, color=PEN, width=4.0)
+        hand(im, B_ORDER[i], 1260, ROW0 + i * ROWH, NUM_H, seed=1200 + i, color=PEN, width=4.0)
+    # declared fiction, typed on the sheet before it is laid in (visible all of S9-S10)
+    dt = typed_tape(DISCLAIMER, seed=919, sz=36)
+    im.paste(dt, (int(880 - dt.width / 2), DISC_Y))
     _cache['sheet'] = im
     return im
 
@@ -539,7 +554,10 @@ def _tl(l5):
 # ---- S5 choreography (local frames, even = on twos).  Pages are slots.
 #   R/L parks are on the table beside the notebook (no gutter room once a
 #   print fills each page).  Stack-carrying keeps it to 4 page turns.
-PARK = {'L1': (110, 470), 'L2': (165, 545), 'R1': (3090, 440), 'R2': (3125, 500), 'R3': (3160, 560), 'R4': (3195, 620)}
+# Repair round 2: S5 is framed on the spread (V_SPREAD, spread = 83 % of frame width); the
+# parks lie on the table just outside the copy-stand frame, so a parked card is never
+# shown clipped -- it is carried out of frame and brought back in.
+PARK = {'L1': (-190, 470), 'L2': (-170, 560), 'R1': (3290, 440), 'R2': (3305, 500), 'R3': (3320, 560), 'R4': (3335, 620)}
 S5_TURNS = [  # (leaf, f0, frames, direction)  riffle back from spread 4, then work
     (3, 0, 8, -1), (2, 4, 8, -1), (1, 8, 8, -1),
     (1, 30, 8, +1), (2, 66, 8, +1), (2, 112, 8, -1), (1, 146, 8, -1)]
@@ -704,7 +722,7 @@ def w0_table_rect(k, page):
     return (px0 + W[0] * s.pw, py0 + W[1] * s.ph, px0 + W[2] * s.pw, py0 + W[3] * s.ph)
 
 
-PULL_SRC = {'S4': 47, 'S8': 95}     # last src frame of asset 08 in cut A / cut B (plan recipes A1, B1)
+PULL_SRC = {'S4': 47, 'S8': 71}     # last src frame of asset 08 in cut A / cut B (A1; B1 re-timed in repair round 2)
 
 
 def win_table_rect(k, page, src):
@@ -719,17 +737,20 @@ def win_table_rect(k, page, src):
 def view(f):
     """Camera rect in table px + whether jitter applies (jitter scale 0..1)."""
     seg = segment_of(f); a, b = TL[seg]
-    if seg in ('S0', 'S1'):
+    if seg == 'S0':                                          # repair round 2: the closed cover centred
+        c0 = TL['S0'][0] + 54
+        u = (f - c0) / (TL['S0'][1] + 1 - c0)
+        return lerp_view(V_COVER, V_SPREAD, _cubic(u), push=False) if u > 0 else V_COVER, 1.0
+    if seg == 'S1':
         return V_SPREAD, 1.0
     if seg == 'S2':
         u = (f - a) / (b - a); return lerp_view(V_SPREAD, w0_table_rect('01', 1), _cubic(u)), 1 - _cubic(u)
     if seg == 'S4':
         u = (f - a) / (b - a); return lerp_view(win_table_rect('08', 8, PULL_SRC['S4']), V_SPREAD, _cubic(u)), _cubic(u)
-    if seg == 'S5':
-        u = (f - a) / 16
-        return lerp_view(V_SPREAD, V_WORK, _cubic(u), push=False), 1.0
+    if seg == 'S5':                                          # repair round 2: locked on the spread
+        return V_SPREAD, 1.0
     if seg == 'S6':
-        u = (f - a) / (b - a); return lerp_view(V_WORK, w0_table_rect('05', 1), _cubic(u)), 1 - _cubic(u)
+        u = (f - a) / (b - a); return lerp_view(V_SPREAD, w0_table_rect('05', 1), _cubic(u)), 1 - _cubic(u)
     if seg == 'S8':
         u = (f - a) / (b - a); return lerp_view(win_table_rect('08', 8, PULL_SRC['S8']), V_SPREAD, _cubic(u)), _cubic(u)
     return V_SPREAD, 1.0
@@ -737,10 +758,10 @@ def view(f):
 
 def jitter(f, V, amt):
     """Stop-motion table jitter: +-0.6 output px per drawing, notebook layer only."""
-    d = f // 2
-    r = random.Random(5000 + d); sc = (V[2] - V[0]) / OW
-    jx, jy = r.uniform(-0.6, 0.6) * amt * sc, r.uniform(-0.6, 0.6) * amt * sc
-    return (V[0] + jx, V[1] + jy, V[2] + jx, V[3] + jy)
+    # Repair round 1 (critic, acceptance 3): the camera is locked off on the copy
+    # stand, so nothing wobbles at rest.  The table no longer boils; all motion
+    # comes from the paper itself (lifts, travels, settles, turns, strokes).
+    return V
 
 
 # ============================================================ compositing
@@ -795,6 +816,23 @@ def page_marks(f):
     return [('A', 1.0)], min(1, max(0, (fq - (g5 + S5_AB[0]) + 2) / 4)), min(1, max(0, (fq - (g5 + S5_AB[1]) + 2) / 8))
 
 
+B_TAPE_TEXT = 'B : récit inventé'
+B_TAPE_F = 190                      # S5 local frame: the tape is laid on page 1 after 'B'
+
+
+def b_tape():
+    if 'btape' not in _cache:
+        _cache['btape'] = typed_tape(B_TAPE_TEXT, seed=929, sz=34)
+    return _cache['btape']
+
+
+def b_tape_frac(f):
+    fq = 2 * (f // 2); g5 = TL['S5'][0]
+    if f > TL['S6'][1]:
+        return 1.0
+    return min(1, max(0, (fq - (g5 + B_TAPE_F) + 2) / 6))
+
+
 def draw_page_marks(img, ox, oy, f):
     _, fs, fw = page_marks(f)
     hand(img, 'A', ox + 70, oy + 120, NUM_H, seed=1501, color=RED_PENCIL, width=7.0, tool='pencil')
@@ -804,6 +842,11 @@ def draw_page_marks(img, ox, oy, f):
     if fw > 0:
         st = word_strokes('B', ox + 150, oy + 116, NUM_H, 1503)
         m, off = render_strokes(st, fw, 7.0, 1503, 'pencil'); ink_on(img, m, off, RED_PENCIL)
+    tu = b_tape_frac(f)
+    if tu > 0:                       # repair round 2: the fiction is declared before cut B plays
+        tp = b_tape()
+        y = oy + 122 - (1 - tu) * 24
+        img.paste(tp, (int(ox + 250), int(y)))
 
 
 def face_full(p, f, with_prints):
@@ -1013,13 +1056,13 @@ def coda_frame(f, led):
             if fr <= 0:
                 continue
             r = random.Random(1600 + i)
-            p0 = (520, 220 + i * 112 + NUM_H / 2 + r.uniform(-3, 3)); p1 = (1230, 220 + j * 112 + NUM_H / 2 + r.uniform(-3, 3))
+            p0 = (520, ROW0 + i * ROWH + NUM_H / 2 + r.uniform(-3, 3)); p1 = (1230, ROW0 + j * ROWH + NUM_H / 2 + r.uniform(-3, 3))
             mid = ((p0[0] + p1[0]) / 2 + r.uniform(-8, 8), (p0[1] + p1[1]) / 2 + r.uniform(-6, 6))
             m, off = render_strokes([catmull([p0, mid, p1])], fr, 6.5, 1600 + i, 'pencil')
             ink_on(sheet, m, off, RED_PENCIL)
         tu = min(1, max(0, (t - 66 + 2) / 10))
         if tu > 0:                                            # the typed tape is laid on
-            tp = coda_tape(); ty = 1130 - tp.height + (1 - (1 - tu) ** 2) * 0 + (1 - tu) * 260
+            tp = coda_tape(); ty = HASH_Y - (1 - tu) * 36
             ta = Image.new('L', tp.size, 255)
             sheet.paste(tp, (int(880 - tp.width / 2), int(ty)), ta)
             led['tape'] = round(tu, 3)
@@ -1051,6 +1094,7 @@ def events():
         ev.append(dict(f=g5 + fw, ev='write', asset=k, mark=gl, frames=8, tool='red pencil'))
     ev.append(dict(f=g5 + S5_AB[0], ev='strike', mark='A', page=1, frames=4, tool='red pencil'))
     ev.append(dict(f=g5 + S5_AB[1], ev='write', mark='B', page=1, frames=8, tool='red pencil'))
+    ev.append(dict(f=g5 + B_TAPE_F, ev='tape', text=B_TAPE_TEXT, page=1, frames=6))
     for s, a in (('S2', '01'), ('S6', '05')):
         ev.append(dict(f=TL[s][0], ev='push', asset=a, frames=18, ends_on='asset %s frame 0 (W0)' % a))
     for s in ('S4', 'S8'):

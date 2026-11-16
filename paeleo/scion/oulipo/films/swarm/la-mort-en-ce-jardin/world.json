@@ -1,0 +1,815 @@
+{
+ "slug": "la-mort-en-ce-jardin",
+ "unit": "U1 world & jungle planes (world + SCION #44 Multiplane + #29 GrabCut)",
+ "revision": "world-r1 (forks plan-r1, test-shot r2)",
+ "date": "2026-11-16",
+ "outputs": {
+  "world_json": "/home/user/bolas/paeleo/scion/oulipo/films/swarm/la-mort-en-ce-jardin/world.json",
+  "scene_graph": "/home/user/bolas/paeleo/scion/oulipo/films/swarm/la-mort-en-ce-jardin/world-scene.json",
+  "world_trace": "/home/user/bolas/paeleo/scion/oulipo/films/swarm/la-mort-en-ce-jardin/world-trace.json",
+  "world_sheet": "/home/user/bolas/paeleo/scion/oulipo/films/swarm/la-mort-en-ce-jardin/world-sheet.jpg",
+  "scripts": {
+   "plates": "/home/user/bolas/paeleo/scion/oulipo/films/swarm/la-mort-en-ce-jardin/world-build/plates.py",
+   "compose": "/home/user/bolas/paeleo/scion/oulipo/films/swarm/la-mort-en-ce-jardin/world-build/compose.py",
+   "trace": "/home/user/bolas/paeleo/scion/oulipo/films/swarm/la-mort-en-ce-jardin/world-build/trace.py",
+   "sheet": "/home/user/bolas/paeleo/scion/oulipo/films/swarm/la-mort-en-ce-jardin/world-build/sheet.py"
+  },
+  "test_frames": {
+   "wide": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-mort-en-ce-jardin/world/test/wide_L-S1_t1.5.png",
+   "close": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-mort-en-ce-jardin/world/test/close_L-S5_t19.0.png",
+   "wide_960": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-mort-en-ce-jardin/world/test/wide_L-S1_t1.5_960.png",
+   "close_960": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-mort-en-ce-jardin/world/test/close_L-S5_t19.0_960.png",
+   "stats": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-mort-en-ce-jardin/world/test/stats.json"
+  },
+  "cut_pieces": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-mort-en-ce-jardin/world/cut/ (RGBA *.png, *_fail.png GrabCut doubt masks, cut.json transforms)",
+  "water_motion": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-mort-en-ce-jardin/world/water_motion/"
+ },
+ "how_to_use": "import world-build/compose.py functions (run with argv [world dir, swarm dir]): render(cam, t, framing, shot, water_y, occupant_u, defl, hand) returns the 800x540 world plate with P0-P2 and P3/P4 (wide) or near dressing (close); the editor/U2 should draw puppets, bag and shoe on P2 between plank/liana and the P3/P4 pass (pass p2_cb=lambda C, cam: ... to render(); it runs after plank and liana, before P3/P4 or the near dressing) using the same cam via project_pt(). Cameras: cam_glide(t) L-S1/E-S1, cam_push(t) L-S4, cam_close(centre,M) for L-S5/E-S4/L-S6 (values in world-scene.json). water_y(t), plank occupant u and deflection come from world-trace.json.",
+ "evidence": [
+  {
+   "id": "Cyathea_dregei_Common_Tree_Fern_Cape_Town_jpg",
+   "title": "Cyathea dregei - Common Tree Fern - Cape Town.jpg",
+   "author": "Abu Shawka",
+   "license": "Public domain",
+   "license_url": "",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Cyathea_dregei_-_Common_Tree_Fern_-_Cape_Town.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/Cyathea_dregei_-_Common_Tree_Fern_-_Cape_Town.jpg/1920px-Cyathea_dregei_-_Common_Tree_Fern_-_Cape_Town.jpg",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-mort-en-ce-jardin/world/plates/Cyathea_dregei_Common_Tree_Fern_Cape_Town_jpg.jpg",
+   "what_it_shows": "tree-fern crowns over a pond, overcast, Kirstenbosch-style garden",
+   "verified_date_or_place": "licence read from Commons extmetadata (LicenseShortName) 2026-11-16, this unit; original date 2010-11-24",
+   "used_as": "P1 lit tree-fern mass on the far bank (P3b_treefern_mass) = the bright middle; close-shot near dressing tree-fern crown at right (P3_treefern); spare water plate W_pond_cyathea"
+  },
+  {
+   "id": "Fig_Tree_Buttress_Roots_Ficus_sp_8727707129_jpg",
+   "title": "Fig Tree Buttress Roots (Ficus sp.) (8727707129).jpg",
+   "author": "Bernard DUPONT from FRANCE",
+   "license": "CC BY-SA 2.0",
+   "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Fig_Tree_Buttress_Roots_(Ficus_sp.)_(8727707129).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Fig_Tree_Buttress_Roots_%28Ficus_sp.%29_%288727707129%29.jpg/1920px-Fig_Tree_Buttress_Roots_%28Ficus_sp.%29_%288727707129%29.jpg",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-mort-en-ce-jardin/world/plates/Fig_Tree_Buttress_Roots_Ficus_sp_8727707129_jpg.jpg",
+   "what_it_shows": "Ficus buttress/stilt-root mass with leaf litter, Asian rainforest, overcast, wet bark highlights",
+   "verified_date_or_place": "licence read from Commons extmetadata (LicenseShortName) 2026-11-16, this unit; original date 2013-04-08 15:31",
+   "used_as": "P1 hero root wall left of centre (cut P1_ficus_roots); P4 foreground root diagonal (cut P4_root_diag, mirrored); bank surface for both banks (B_litter_ficus, soil/litter/root-base band)"
+  },
+  {
+   "id": "Flooded_banks_in_the_muddy_water_of_the_Mekong_with_a_boy_ro",
+   "title": "Flooded banks in the muddy water of the Mekong with a boy, rowing in a repurposed refrigerator raft, in Don Khon, Laos.jpg",
+   "author": "Basile Morin",
+   "license": "CC BY-SA 4.0",
+   "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Flooded_banks_in_the_muddy_water_of_the_Mekong_with_a_boy,_rowing_in_a_repurposed_refrigerator_raft,_in_Don_Khon,_Laos.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/Flooded_banks_in_the_muddy_water_of_the_Mekong_with_a_boy%2C_rowing_in_a_repurposed_refrigerator_raft%2C_in_Don_Khon%2C_Laos.jpg/1920px-Flooded_banks_in_the_muddy_water_of_the_Mekong_with_a_boy%2C_rowing_in_a_repurposed_refrigerator_raft%2C_in_Don_Khon%2C_Laos.jpg",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-mort-en-ce-jardin/world/plates/Flooded_banks_in_the_muddy_water_of_the_Mekong_with_a_boy_ro.jpg",
+   "what_it_shows": "flooded banks, boats and houses on the Mekong; only the lower water band is used (no people)",
+   "verified_date_or_place": "licence read from Commons extmetadata (LicenseShortName) 2026-11-16, this unit; original date 2019-09-06 14:00:56",
+   "used_as": "spare water plate W_flood_mekong (cut, not in the test frames)"
+  },
+  {
+   "id": "Flooded_building_and_tree_trunk_in_the_muddy_water_of_the_Me",
+   "title": "Flooded building and tree trunk in the muddy water of the Mekong in Si Phan Don, Laos, September 2019.jpg",
+   "author": "Basile Morin",
+   "license": "CC BY-SA 4.0",
+   "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Flooded_building_and_tree_trunk_in_the_muddy_water_of_the_Mekong_in_Si_Phan_Don,_Laos,_September_2019.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Flooded_building_and_tree_trunk_in_the_muddy_water_of_the_Mekong_in_Si_Phan_Don%2C_Laos%2C_September_2019.jpg/1920px-Flooded_building_and_tree_trunk_in_the_muddy_water_of_the_Mekong_in_Si_Phan_Don%2C_Laos%2C_September_2019.jpg",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-mort-en-ce-jardin/world/plates/Flooded_building_and_tree_trunk_in_the_muddy_water_of_the_Me.jpg",
+   "what_it_shows": "fluted tree trunk standing in muddy flood water, flood surface with ripples and reflections, overcast",
+   "verified_date_or_place": "licence read from Commons extmetadata (LicenseShortName) 2026-11-16, this unit; original date 2019-09-07 12:52:20",
+   "used_as": "water plate W_flood_trunk (y 80-100 % band) for every frame; P1 fluted trunk in the flood at right (P1c_flood_trunk)"
+  },
+  {
+   "id": "Ginat_Liana_hanging_on_giant_trees_in_Sinharaja_Rain_forest_",
+   "title": "Ginat Liana hanging on giant trees in Sinharaja Rain forest of Sri Lanka.jpg",
+   "author": "Ruwan Illeperuma",
+   "license": "CC BY-SA 4.0",
+   "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Ginat_Liana_hanging_on_giant_trees_in_Sinharaja_Rain_forest_of_Sri_Lanka.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Ginat_Liana_hanging_on_giant_trees_in_Sinharaja_Rain_forest_of_Sri_Lanka.jpg/1920px-Ginat_Liana_hanging_on_giant_trees_in_Sinharaja_Rain_forest_of_Sri_Lanka.jpg",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-mort-en-ce-jardin/world/plates/Ginat_Liana_hanging_on_giant_trees_in_Sinharaja_Rain_forest_.jpg",
+   "what_it_shows": "dense rainforest interior, a dark twisting liana between trunks; walkers at right edge (excluded by crop)",
+   "verified_date_or_place": "licence read from Commons extmetadata (LicenseShortName) 2026-11-16, this unit; original date 2019-12-11 11:31:47",
+   "used_as": "P0 far forest wall (P0b_forest, left 78 %); P1 hanging liana (P1d_liana)"
+  },
+  {
+   "id": "Huge_Buttress_roots_28115225997_jpg",
+   "title": "Huge Buttress roots (28115225997).jpg",
+   "author": "gailhampshire from Cradley, Malvern, U.K",
+   "license": "CC BY 2.0",
+   "license_url": "https://creativecommons.org/licenses/by/2.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Huge_Buttress_roots_(28115225997).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/Huge_Buttress_roots_%2828115225997%29.jpg/1280px-Huge_Buttress_roots_%2828115225997%29.jpg",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-mort-en-ce-jardin/test-shot/plates/Huge_Buttress_roots_28115225997_jpg.jpg",
+   "what_it_shows": "giant buttress trunk with flanges in a rainforest wall",
+   "verified_date_or_place": "reused from the test shot r2; licence read from Commons extmetadata 2026-11-16 (saved metadata json re-read by this unit; live re-query not repeated because Commons was returning 429)",
+   "used_as": "P0 far wall + giant buttress trunk, right half (P0_far, whole plate)"
+  },
+  {
+   "id": "Buttress_Roots_1_jpg",
+   "title": "Buttress Roots 1.jpg",
+   "author": "Mokkie",
+   "license": "CC BY-SA 4.0",
+   "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Buttress_Roots_1.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Buttress_Roots_1.jpg/1280px-Buttress_Roots_1.jpg",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-mort-en-ce-jardin/test-shot/plates/Buttress_Roots_1_jpg.jpg",
+   "what_it_shows": "sinuous buttress flange",
+   "verified_date_or_place": "reused from the test shot r2; licence read from Commons extmetadata 2026-11-16 (saved metadata json re-read by this unit; live re-query not repeated because Commons was returning 429)",
+   "used_as": "P1b_flange cut (spare; not in the test frames)"
+  },
+  {
+   "id": "Colocasia_esculenta_leaves_jpg",
+   "title": "Colocasia esculenta leaves.jpg",
+   "author": "Gs35357670",
+   "license": "CC BY-SA 4.0",
+   "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Colocasia_esculenta_leaves.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Colocasia_esculenta_leaves.jpg/1280px-Colocasia_esculenta_leaves.jpg",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-mort-en-ce-jardin/test-shot/plates/Colocasia_esculenta_leaves_jpg.jpg",
+   "what_it_shows": "heart-shaped taro leaves",
+   "verified_date_or_place": "reused from the test shot r2; licence read from Commons extmetadata 2026-11-16 (saved metadata json re-read by this unit; live re-query not repeated because Commons was returning 429)",
+   "used_as": "P3 heart leaves top right (wide) and top left (close), P3c_leaves (test-shot GrabCut reused)"
+  },
+  {
+   "id": "Lavers_Hill_AU_Melba_Gully_State_Park_2019_1133_bw_jpg",
+   "title": "Lavers Hill (AU), Melba Gully State Park -- 2019 -- 1133 (bw).jpg",
+   "author": "Dietmar Rabich",
+   "license": "CC BY-SA 4.0",
+   "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Lavers_Hill_(AU),_Melba_Gully_State_Park_--_2019_--_1133_(bw).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/Lavers_Hill_%28AU%29%2C_Melba_Gully_State_Park_--_2019_--_1133_%28bw%29.jpg/1280px-Lavers_Hill_%28AU%29%2C_Melba_Gully_State_Park_--_2019_--_1133_%28bw%29.jpg",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-mort-en-ce-jardin/test-shot/plates/Lavers_Hill_AU_Melba_Gully_State_Park_2019_1133_bw_jpg.jpg",
+   "what_it_shows": "b/w tree-fern fronds and crozier",
+   "verified_date_or_place": "reused from the test shot r2; licence read from Commons extmetadata 2026-11-16 (saved metadata json re-read by this unit; live re-query not repeated because Commons was returning 429)",
+   "used_as": "P3 dark fronds top left (P3d_fern_bw: test-shot cut + its dark-pinnae key baked in)"
+  },
+  {
+   "id": "Cardboard_546867_jpg",
+   "title": "Cardboard-546867.jpg",
+   "author": "Humusak",
+   "license": "CC0",
+   "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Cardboard-546867.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Cardboard-546867.jpg/1280px-Cardboard-546867.jpg",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-mort-en-ce-jardin/test-shot/paper/Cardboard_546867_jpg.jpg",
+   "what_it_shows": "cardboard scan",
+   "verified_date_or_place": "reused from the test shot r2; licence read from Commons extmetadata 2026-11-16 (saved metadata json re-read by this unit; live re-query not repeated because Commons was returning 429)",
+   "used_as": "fibre (high-pass) of the handmade plank card"
+  },
+  {
+   "id": "mia_3543b210",
+   "title": "Shock Troops of Disaster: The Story of the New England Hurricane (1938)",
+   "author": "via movingimagearchive.com",
+   "license": "Rights as listed by movingimagearchive.com (largely public domain); not independently verified",
+   "license_url": "",
+   "source_url": "https://www.movingimagearchive.com/sources/shock-troops-of-disaster-the-story-of-the-new-england-hurricane-3442bf83?clip=3543b210-92c9-5da6-befa-36991ace688c",
+   "file_url": "",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-mort-en-ce-jardin/world/water_motion/shock_troops_001..064.png (+ shock_troops_water.wav)",
+   "what_it_shows": "b/w dark rippling water under a bridge, 2.5 s (source film 269.87-272.41 s), 320x240, with source sound",
+   "verified_date_or_place": "cache /home/user/hartswf0/cineosis-lab/lab/clips/3543b210-92c9-5da6-befa-36991ace688c.mp4, looked at 2026-11-16",
+   "used_as": "water motion in wide shots: ripple field (rows 120-240, x1.6, ping-pong 60 frames) modulating the flood-water plate; its sound decoded to wav for U3/editor (optional water bed)"
+  }
+ ],
+ "cuts": {
+  "P0_far": {
+   "source": "Huge Buttress roots (28115225997)",
+   "curve_p2_p98": [
+    5.1,
+    222.2
+   ],
+   "cut": "none (back plate)",
+   "crop_in_source": [
+    0,
+    0,
+    1280,
+    927
+   ],
+   "size": [
+    1280,
+    927
+   ],
+   "alpha_cover": 1.0
+  },
+  "P1_ficus_roots": {
+   "source": "Fig Tree Buttress Roots (Ficus sp.) (8727707129)",
+   "curve_p2_p98": [
+    5.2,
+    209.0
+   ],
+   "seeds": "hue key (brown=probable fg, saturated green=probable bg) + trunk/curtain fg + foliage/litter bg polygons",
+   "components_before": 23,
+   "kept": 1,
+   "islands_removed": 22,
+   "small_holes_filled": 25,
+   "crop_in_source": [
+    481,
+    0,
+    1818,
+    1317
+   ],
+   "size": [
+    1337,
+    1317
+   ],
+   "alpha_cover": 0.543
+  },
+  "P4_root_diag": {
+   "source": "Fig Tree Buttress Roots (Ficus sp.) (8727707129)",
+   "curve_p2_p98": [
+    5.1,
+    185.8
+   ],
+   "seeds": "lower-right root run: brown key inside a hand polygon",
+   "components_before": 1,
+   "kept": 1,
+   "islands_removed": 0,
+   "small_holes_filled": 7,
+   "crop_in_source": [
+    1024,
+    953,
+    1819,
+    1317
+   ],
+   "size": [
+    795,
+    364
+   ],
+   "alpha_cover": 0.525
+  },
+  "P1b_flange": {
+   "source": "Buttress Roots 1",
+   "curve_p2_p98": [
+    27.8,
+    193.7
+   ],
+   "seeds": "rect + wall/soil bg + flange fg polygons (test-shot r2 seeds)",
+   "components_before": 3,
+   "kept": 1,
+   "islands_removed": 2,
+   "small_holes_filled": 14,
+   "crop_in_source": [
+    179,
+    96,
+    1265,
+    662
+   ],
+   "size": [
+    1086,
+    566
+   ],
+   "alpha_cover": 0.602
+  },
+  "P3_treefern": {
+   "source": "Cyathea dregei - Common Tree Fern - Cape Town",
+   "curve_p2_p98": [
+    53.8,
+    226.3
+   ],
+   "seeds": "crown polygon; luma > p45 inside = probable fg; core fg; hole_fill 40 px only (pinna gaps open)",
+   "components_before": 1,
+   "kept": 1,
+   "islands_removed": 0,
+   "small_holes_filled": 3,
+   "crop_in_source": [
+    1207,
+    383,
+    1821,
+    857
+   ],
+   "size": [
+    614,
+    474
+   ],
+   "alpha_cover": 0.721
+  },
+  "P3b_treefern_mass": {
+   "source": "Cyathea dregei - Common Tree Fern - Cape Town",
+   "curve_p2_p98": [
+    30.0,
+    239.5
+   ],
+   "seeds": "left crowns polygon + luma key",
+   "components_before": 3,
+   "kept": 1,
+   "islands_removed": 2,
+   "small_holes_filled": 6,
+   "crop_in_source": [
+    80,
+    184,
+    1180,
+    687
+   ],
+   "size": [
+    1100,
+    503
+   ],
+   "alpha_cover": 0.64
+  },
+  "P3c_leaves": {
+   "source": "test-shot r2 cut P3_leaves.png (plates.py r2, GrabCut)",
+   "reused": true,
+   "size": [
+    1242,
+    1139
+   ]
+  },
+  "P3d_fern_bw": {
+   "source": "test-shot r2 cut P4_fern.png (plates.py r2, GrabCut)",
+   "reused": true,
+   "size": [
+    1280,
+    853
+   ]
+  },
+  "W_flood_mekong": {
+   "source": "Flooded banks in the muddy water of the Mekong ... Don Khon, Laos",
+   "curve_p2_p98": [
+    68.7,
+    211.0
+   ],
+   "cut": "water band y 80-100 %, no people or boats",
+   "crop_in_source": [
+    0,
+    864,
+    1920,
+    1080
+   ],
+   "size": [
+    1920,
+    216
+   ],
+   "alpha_cover": 1.0
+  },
+  "W_pond_cyathea": {
+   "source": "Cyathea dregei - Common Tree Fern - Cape Town",
+   "curve_p2_p98": [
+    45.1,
+    168.1
+   ],
+   "cut": "pond band y 82-100 % (reflections of the ferns)",
+   "crop_in_source": [
+    96,
+    1209,
+    1920,
+    1475
+   ],
+   "size": [
+    1824,
+    266
+   ],
+   "alpha_cover": 1.0
+  },
+  "P1d_liana": {
+   "source": "Ginat Liana hanging on giant trees in Sinharaja Rain forest of Sri Lanka",
+   "curve_p2_p98": [
+    0.9,
+    245.6
+   ],
+   "seeds": "hand polygon along the liana; luma < 70 probable fg, < 40 fg",
+   "components_before": 14,
+   "kept": 1,
+   "islands_removed": 13,
+   "small_holes_filled": 1,
+   "crop_in_source": [
+    633,
+    0,
+    1269,
+    674
+   ],
+   "size": [
+    636,
+    674
+   ],
+   "alpha_cover": 0.172
+  },
+  "P0b_forest": {
+   "source": "Ginat Liana hanging on giant trees in Sinharaja Rain forest of Sri Lanka",
+   "curve_p2_p98": [
+    2.9,
+    253.9
+   ],
+   "cut": "left 78 % (excludes the walkers at right), no cut",
+   "crop_in_source": [
+    0,
+    0,
+    1497,
+    934
+   ],
+   "size": [
+    1497,
+    934
+   ],
+   "alpha_cover": 1.0
+  },
+  "B_litter_ficus": {
+   "source": "Fig Tree Buttress Roots (Ficus sp.) (8727707129)",
+   "curve_p2_p98": [
+    5.7,
+    189.8
+   ],
+   "cut": "soil/litter/root-base band y 78-100 %",
+   "crop_in_source": [
+    0,
+    1027,
+    1920,
+    1317
+   ],
+   "size": [
+    1920,
+    290
+   ],
+   "alpha_cover": 1.0
+  },
+  "W_flood_trunk": {
+   "source": "Flooded building and tree trunk in the muddy water of the Mekong in Si Phan Don, Laos, September 2019",
+   "curve_p2_p98": [
+    58.3,
+    244.1
+   ],
+   "cut": "flood-water band y 80-100 %",
+   "crop_in_source": [
+    0,
+    960,
+    1920,
+    1200
+   ],
+   "size": [
+    1920,
+    240
+   ],
+   "alpha_cover": 1.0
+  },
+  "P1c_flood_trunk": {
+   "source": "Flooded building and tree trunk in the muddy water of the Mekong in Si Phan Don, Laos, September 2019",
+   "curve_p2_p98": [
+    11.6,
+    163.7
+   ],
+   "seeds": "trunk polygon; luma < 150 probable fg; core fg; bright water bg",
+   "components_before": 14,
+   "kept": 1,
+   "islands_removed": 13,
+   "small_holes_filled": 4,
+   "crop_in_source": [
+    228,
+    371,
+    770,
+    938
+   ],
+   "size": [
+    542,
+    567
+   ],
+   "alpha_cover": 0.585
+  }
+ },
+ "grabcut_qa": {
+  "no_background_islands": "cleanup() keeps the main component plus components >= 0.4-20 % of it; removed: P1_ficus_roots 22, P4_root_diag 0, P1b_flange 2, P3_treefern 0, P3b_treefern_mass 2, P1d_liana 13, P1c_flood_trunk 13",
+  "pinnae_kept": "tree-fern cuts fill only holes < 40 px, so the gaps between pinnae stay open (P3_treefern, P3b_treefern_mass); P3d keeps the test-shot dark-pinnae key",
+  "failure_masks": "every cut writes <piece>_fail.png (GrabCut probable-background pixels inside the working region); shown under each piece in world-sheet.jpg",
+  "known_defects": [
+   "P1_ficus_roots: straight GrabCut edge on the left where the litter seed polygon cut the root skirt (hidden behind the N bank and P4 in the wide; visible as a darker column at x~120-150)",
+   "P1c_flood_trunk: the cut stops where the canopy starts; it is placed with its top above the frame so the stop is never seen in the wide",
+   "P1d_liana: keyed dark object; some sky gaps along its edge were kept as part of the liana (13 islands removed)"
+  ]
+ },
+ "grading": {
+  "rule": "one monotone linear curve per plate, p2/p98 (of the cut piece's own pixels) -> L35/220, Rec.601 luminance, neutral (R=G=B); lighting is a uniform per-piece gain in the scene graph, no gradients, no grain, no vignette",
+  "upscale_check": "place() asserts screen scale <= 1.6 x download resolution for every piece and framing; max measured: wide 1.6, close 1.5 (the archive ripple field is the 1.6 case)"
+ },
+ "scene_graph_summary": {
+  "planes": "P0 z 6.667 ratio 0.15 | P1 z 2.857 ratio 0.35 | P2 z 1 ratio 1.0 | P3 z 0.667 ratio 1.5 | P4 z 0.5 ratio 2.0",
+  "projection": "screen = O + m (p - O - (X,Y)/z), m = z/(z-D), O=(400,270)",
+  "depth_blur_sigma_px": {
+   "wide": {
+    "P0": 1.0,
+    "P1": 0.5,
+    "P2": 0,
+    "P3": 0.9,
+    "P4": 1.5
+   },
+   "close": {
+    "P0": 1.1,
+    "P1": 0.6,
+    "P2": 0,
+    "near": 1.0,
+    "near_fg": 1.8
+   }
+  },
+  "cameras": {
+   "L_S1": "lateral glide R->L, X 30 -> -30 (60 px at P2; P0 9 px, P1 21, P3 90, P4 120), smoothstep over 3 s",
+   "L_S4": "push-in 8 % at P2 toward (300,380) over 5.5 s: D = 1-1/1.08; P0 x1.011, P1 x1.027, P3 x1.125, P4 x1.174",
+   "L_S5_and_E_S4": "close: dolly M=3.0 at P2 centred on world (205,330), window x 72-338 y 240-420; P0 x1.11, P1 x1.30; P3/P4 behind camera -> near dressing (tree-fern crown right, heart leaf top left, root diagonal low left)",
+   "L_S6": "close two-shot: M=2.85 centred on (140,250), window y 155-345 (standing heads at y ~149-191 -> head 0.22 H if the puppet head is 42 px wide-scale)",
+   "E_S1": "= L-S1 byte-identical"
+  },
+  "puppet_scale_note": "for head >= 0.25 H in L-S5 at M=3.0 the puppet head must be >= 45 px at the wide scale (0.45 H figure = 243 px tall); U2 sets the rig scale accordingly or the editor raises M to 3.4 with the centre at (205,345)"
+ },
+ "world_trace": {
+  "file": "/home/user/bolas/paeleo/scion/oulipo/films/swarm/la-mort-en-ce-jardin/world-trace.json",
+  "fps": 24,
+  "summary": {
+   "L": {
+    "version": "L",
+    "duration_s": 36.0,
+    "fps": 24,
+    "frames": 865,
+    "shoe_first_appearance_s": 14.0,
+    "crossings": [
+     {
+      "who": "A",
+      "t_on": 7.0,
+      "t_off": 12.0,
+      "load": "A",
+      "min_clearance_px": 14.06
+     },
+     {
+      "who": "C",
+      "t_on": 24.6,
+      "t_off": 29.6,
+      "load": "C_with_bag",
+      "min_clearance_px": 5.75
+     },
+     {
+      "who": "B",
+      "t_on": 30.0,
+      "t_off": 35.0,
+      "load": "B",
+      "min_clearance_px": 4.03
+     }
+    ],
+    "order": [
+     "A",
+     "C",
+     "B"
+    ],
+    "bag_carrier": "C",
+    "last_crosser": "B",
+    "last_crosser_min_clearance_px": 4.03,
+    "water_rise_end_px": 18.0,
+    "events": [
+     {
+      "t": 18.4,
+      "event": "handoff",
+      "obj": "bag",
+      "frm": "B",
+      "to": "C",
+      "body_gap_px": 46.0
+     },
+     {
+      "t": 19.6,
+      "event": "retrieve",
+      "obj": "shoe",
+      "frm": "water",
+      "to": "B",
+      "body_gap_px": 18.0
+     }
+    ],
+    "ledger": {
+     "before": "1 A · 2 B (sac) · 3 C",
+     "after": "1 A · 2 C (sac) · 3 B",
+     "strike_rewrite_window_s": [
+      21.5,
+      23.5
+     ]
+    }
+   },
+   "E": {
+    "version": "E",
+    "duration_s": 30.0,
+    "fps": 24,
+    "frames": 721,
+    "shoe_first_appearance_s": 7.0,
+    "crossings": [
+     {
+      "who": "B",
+      "t_on": 15.0,
+      "t_off": 19.5,
+      "load": "B",
+      "min_clearance_px": 11.63
+     },
+     {
+      "who": "A",
+      "t_on": 19.8,
+      "t_off": 24.4,
+      "load": "A_with_bag",
+      "min_clearance_px": 7.26
+     },
+     {
+      "who": "C",
+      "t_on": 24.8,
+      "t_off": 29.4,
+      "load": "C",
+      "min_clearance_px": 5.74
+     }
+    ],
+    "order": [
+     "B",
+     "A",
+     "C"
+    ],
+    "bag_carrier": "A",
+    "last_crosser": "C",
+    "last_crosser_min_clearance_px": 5.74,
+    "water_rise_end_px": 15.0,
+    "events": [
+     {
+      "t": 11.4,
+      "event": "handoff",
+      "obj": "bag",
+      "frm": "B",
+      "to": "A",
+      "body_gap_px": 28.0
+     },
+     {
+      "t": 12.6,
+      "event": "retrieve",
+      "obj": "shoe",
+      "frm": "water",
+      "to": "B",
+      "body_gap_px": 18.0
+     }
+    ],
+    "ledger": {
+     "before": "1 A · 2 B (sac) · 3 C",
+     "after": "1 B (chaussure) · 2 A (sac) · 3 C",
+     "strike_rewrite_window_s": [
+      12.9,
+      15.0
+     ]
+    }
+   },
+   "Bl": {
+    "version": "Bl",
+    "duration_s": 26.0,
+    "fps": 24,
+    "frames": 625,
+    "shoe_first_appearance_s": null,
+    "crossings": [
+     {
+      "who": "A",
+      "t_on": 7.0,
+      "t_off": 12.0,
+      "load": "A",
+      "min_clearance_px": 14.06
+     },
+     {
+      "who": "B",
+      "t_on": 12.6,
+      "t_off": 17.6,
+      "load": "B_with_bag",
+      "min_clearance_px": 12.24
+     },
+     {
+      "who": "C",
+      "t_on": 18.2,
+      "t_off": 23.2,
+      "load": "C",
+      "min_clearance_px": 8.95
+     }
+    ],
+    "order": [
+     "A",
+     "B",
+     "C"
+    ],
+    "bag_carrier": "B",
+    "last_crosser": "C",
+    "last_crosser_min_clearance_px": 8.95,
+    "water_rise_end_px": 13.0,
+    "events": [],
+    "ledger": {
+     "before": "1 A · 2 B (sac) · 3 C",
+     "after": null,
+     "strike_rewrite_window_s": null
+    }
+   }
+  },
+  "water": "level_y(t) = 416 - min(0.5 t, 18) (P2 px; +18 at L 36 s, +15 at E 30 s)",
+  "plank": "p0 (170,392) N -> p1 (690,384) F, span 520 px, 12 px thick; 2-segment kink under the occupant, depth D_max(load) sin(pi u): A 9, A+bag 9.5, B 7.5, B+bag 8, C 8.5; empty-plank spring 2 px exp(-dt/0.25) cos(6 pi dt) after each step-off",
+  "liana": "anchors (-40,40) and (860,20), rest mid (410,118); pulled to the occupant's hand",
+  "banks": "N polygon (-60,396)...(236,440)...(-60,560); F polygon (688,384)...(860,560); stations per version in world-trace.json 'stations'",
+  "last_crosser_clearance": "L: B 4.03 px (plank 12 px thick, so its underside is in the water at mid-span); E: C 5.74 px; baseline: C 8.95 px",
+  "asserted_every_frame": [
+   "plank occupancy <= 1",
+   "2 hands each; occupant has exactly one on the liana",
+   "one bag holder; holder changes only at logged events",
+   "bag above the water line"
+  ]
+ },
+ "test_frame_stats": {
+  "reference": {
+   "p1_5_25_50_75_95_99": [
+    35,
+    38,
+    59,
+    105,
+    161,
+    206,
+    229
+   ],
+   "below60_pct": 25.1,
+   "above200_pct": 6.3,
+   "mean_abs_R_minus_B": 0.0,
+   "mean_gradient": 14.36,
+   "row_means_top_to_bottom": [
+    90,
+    89,
+    103,
+    125,
+    142,
+    125
+   ]
+  },
+  "wide": {
+   "p1_5_25_50_75_95_99": [
+    31,
+    44,
+    69,
+    103,
+    144,
+    201,
+    217
+   ],
+   "below60_pct": 16.6,
+   "above200_pct": 5.2,
+   "mean_abs_R_minus_B": 0.0,
+   "mean_gradient": 18.9,
+   "row_means_top_to_bottom": [
+    94,
+    100,
+    85,
+    142,
+    128,
+    111
+   ]
+  },
+  "close": {
+   "p1_5_25_50_75_95_99": [
+    32,
+    43,
+    68,
+    98,
+    153,
+    201,
+    215
+   ],
+   "below60_pct": 15.2,
+   "above200_pct": 5.2,
+   "mean_abs_R_minus_B": 0.0,
+   "mean_gradient": 12.41,
+   "row_means_top_to_bottom": [
+    97,
+    92,
+    86,
+    148,
+    134,
+    107
+   ]
+  },
+  "gradient_definition": "mean(|dL/dx|+|dL/dy|) at native resolution; reference 14.36 at 1000x677 (16.69 at 800x541); the test-shot compare used mean hypot(np.gradient) (reference 9.72) -- not comparable",
+  "reading": "measured: neutral (|R-B| 0), lifted blacks (p1 31-32), p50 98-103, p95 201, >L200 5.2 % (ref 6.3), gradient 18.9 wide / 12.4 close (ref 14.4, kf-1 4.65). Short of the reference: p75 144-153 (ref 161) and the dark share <L60 15-17 % (ref 25 %); the canopy rows are 94-100 vs 89-90. Puppets (dark trousers, mud) will add dark share in the centre; perceptually: soft overcast mid-grey, no sky, frame crammed with root, fern, leaf -- judged by this unit only, needs the independent critic."
+ },
+ "handmade": [
+  {
+   "item": "plank",
+   "what": "pale scored card beam bending as a 2-segment polyline, lit top edge L214, fibre from Cardboard-546867 (CC0)",
+   "where": "world-build/compose.py plank()"
+  },
+  {
+   "item": "liana cord",
+   "what": "twisted-paper cord, two strands, follows the occupant's hand",
+   "where": "compose.py liana()"
+  },
+  {
+   "item": "bank tear",
+   "what": "torn bank polygons (N/F) clipping the foraged surface photograph, wet-mud fill and waterline darkening",
+   "where": "compose.py bank(), N_BANK/F_BANK"
+  },
+  {
+   "item": "world state",
+   "what": "WorldState trace L/E/Bl with invariant asserts",
+   "where": "world-build/trace.py -> world-trace.json"
+  }
+ ],
+ "media_for_editor": {
+  "cut_pieces": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-mort-en-ce-jardin/world/cut/",
+  "water_motion_frames": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-mort-en-ce-jardin/world/water_motion/shock_troops_001..064.png (24 fps, gray, 320x240)",
+  "water_motion_audio": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-mort-en-ce-jardin/world/water_motion/shock_troops_water.wav (48 kHz mono, 2.7 s)",
+  "raw_plates": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-mort-en-ce-jardin/world/plates/",
+  "test_frames": "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-mort-en-ce-jardin/world/test/"
+ },
+ "absences": [
+  "real mud-bank photographs: 'Riverbank collapse in Ghana.jpg' (CC BY-SA 4.0) and 'Muddy bank of the River Welland - geograph.org.uk - 4237865.jpg' (CC BY-SA 2.0) were chosen from a Commons search but could not be downloaded (Commons 429 rate limit for 20+ min); the banks use the soil/litter/root-base band of the Ficus photograph instead -- photographic forest floor, not a wet mud bank. Next step: fetch one of those two (titles above) and set BANK_PIECE",
+  "'StateLibQld 2 394125 Tree ferns, Bunya Mountains, 1913.jpg' (Public domain, b/w) not downloaded for the same reason",
+  "Library of Congress search (flood water trees swamp / muddy river bank / jungle buttress roots / tropical forest Panama): results were book scans; one 503; nothing usable found in the time",
+  "movingimagearchive cache: no full-resolution jungle or flood plate (clips are 320x240; too small for the far plane under the 1.6x rule); Shock Troops of Disaster (1938) used for ripple motion only; Water (1953) reeds clip looked at, not used",
+  "Commons video of flood water (filetype:video) query was rate-limited; not searched"
+ ],
+ "gaps": [
+  "banks are litter not mud (see absences)",
+  "dark share and p75 below the reference in the empty world (puppets should close part of it)",
+  "close L-S5 shows only a sliver of water at the bottom at M=3.0; the shoe's arrival point (214,410) is at the window's lower edge (y 420) -- frame lower or raise M carefully",
+  "credits file films/credits/la-mort-en-ce-jardin.json not written by this unit (editor assembles it from these evidence records)"
+ ]
+}
