@@ -1,0 +1,138 @@
+{
+ "shot": "Sh3b 'La coulee rendue' (test shot), film time 20.80-27.60 s, step M+P2 <- P3, playback: backward (the fill run in reverse)",
+ "outputs": {
+  "video": "films/swarm/le-chant-du-styrene/test-shot.mp4",
+  "compare": "films/swarm/le-chant-du-styrene/test-shot-compare.jpg",
+  "geometry": "films/sources/le-chant-du-styrene/test-shot/geometry.json",
+  "scripts": "films/swarm/le-chant-du-styrene/test-shot-build/ (geometry.py, melt.py, shot.py, compare.py, preview.py)"
+ },
+ "foraged": [
+  {
+   "id": "F-steel",
+   "title": "Injection mold - (11).jpg",
+   "author": "Bricetofly",
+   "license": "CC0",
+   "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Injection_mold_-_(11).jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/1/10/Injection_mold_-_%2811%29.jpg",
+   "local": "films/sources/le-chant-du-styrene/kf/mold11.jpg (1280 px copy, re-used from round 2; licence re-read from Commons extmetadata 2026-11-16)",
+   "used_as": "the mould-plate steel: crop x640-1280, y118-455 of the 1280 px copy, upscaled; desaturated toward neutral steel; its real machining texture (high-pass) is what the melt refracts, what the spill and raking key light, and the floor of the hollows. The far 8% strip of the plane is a mirrored extension of the photo's top edge."
+  },
+  {
+   "id": "F-runner",
+   "title": "Spritzguss teile.jpg",
+   "author": "Gmhofmann",
+   "license": "CC BY-SA 4.0",
+   "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Spritzguss_teile.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/e/e6/Spritzguss_teile.jpg",
+   "local": "films/sources/le-chant-du-styrene/r2/spritzguss.jpg (1280 px copy; licence re-read from Commons extmetadata 2026-11-16)",
+   "used_as": "measurement only in this shot (not shown): GrabCut cutouts of the four loose rings and the runner-with-rings give geometry.json (ring sizes, bore, hub, arm angles and widths). The cavities and runner channel are generated from it. Derived cutouts cut_ring0-3.png / cut_runner_with_rings.png are CC BY-SA 4.0 adaptations."
+  }
+ ],
+ "handmade": [
+  {
+   "id": "H-cavity",
+   "what": "cavity/runner/sprue depth field built from geometry.json (melt.py)"
+  },
+  {
+   "id": "H-melt",
+   "what": "fill-time field (weighted geodesic from the sprue, wall lag, slower in cavities) run backward; meniscus boil on twos + Whitney oscillator bank; Beer-Lambert thickness colour; refraction of F-steel; light spill; specular; raking key; perspective camera glide and focus pull (melt.py)"
+  },
+  {
+   "id": "H-practicals",
+   "what": "two defocused blue practical lights (disc, bar) on their own plane, 0.3x drift (melt.py)"
+  },
+  {
+   "id": "H-sound",
+   "what": "all sound synthesized in shot.py with kit.Mix: room/hum, 8 viscous syllable pulses (L3 syllables 5-12), four cavity-release suctions at simulated times, falling drain tone with gurgle, sprue glug at 26.20, granular pellet rain 26.80-27.60"
+  },
+  {
+   "id": "H-caption",
+   "what": "caption 'Le rouge se retire, | et la forme est un creux.' cream serif (kit font instrument-serif) in the lower bar with a rule at the caesura"
+  }
+ ],
+ "declared_substitutions": [
+  "The glow of the melt is a lighting choice (pigmented plastic lit through by a warm source reflected from the polished cavity floor); molten polystyrene does not visibly glow.",
+  "The cavity bore is eccentric, inherited from the oblique view of the ring in the runner photograph (rectified by y/0.94 only), so that the hollow matches the Sh2 cutout silhouette; a real tool's bore would be concentric (concentric version measured IoU 0.83)."
+ ],
+ "archive_cache": "Moving Image Archive cache not used: this shot is a procedural animation over one still; plan.md records that the cache has no plastics footage.",
+ "no_material_from_the_1958_film": true,
+ "measurements": {
+  "iou": [
+   {
+    "ring": 0,
+    "arm": 0,
+    "iou": 0.9183
+   },
+   {
+    "ring": 1,
+    "arm": 1,
+    "iou": 0.9243
+   },
+   {
+    "ring": 2,
+    "arm": 2,
+    "iou": 0.9108
+   },
+   {
+    "ring": 3,
+    "arm": 3,
+    "iou": 0.9103
+   }
+  ],
+  "flip_iou_lr": 0.172,
+  "flip_iou_ud": 0.164,
+  "stats": {
+   "reference band": {
+    "frac_lum_lt20": 0.572,
+    "p50": 9.9,
+    "p95": 161.7,
+    "p99": 195.5,
+    "lit_median_sat": 0.88,
+    "lit_warm_frac": 0.69,
+    "lit_blue_frac": 0.27
+   },
+   "t=21.40": {
+    "frac_lum_lt20": 0.788,
+    "p50": 7.6,
+    "p95": 46.8,
+    "p99": 87.3,
+    "lit_median_sat": 0.92,
+    "lit_warm_frac": 0.85,
+    "lit_blue_frac": 0.15
+   },
+   "t=22.80": {
+    "frac_lum_lt20": 0.836,
+    "p50": 5.0,
+    "p95": 47.5,
+    "p99": 89.3,
+    "lit_median_sat": 0.75,
+    "lit_warm_frac": 0.78,
+    "lit_blue_frac": 0.17
+   },
+   "t=27.00": {
+    "frac_lum_lt20": 0.877,
+    "p50": 4.4,
+    "p95": 36.6,
+    "p99": 63.6,
+    "lit_median_sat": 0.11,
+    "lit_warm_frac": 0.03,
+    "lit_blue_frac": 0.56
+   }
+  },
+  "cavity_empty_film_time": {
+   "0": 23.07,
+   "1": 23.15,
+   "2": 22.84,
+   "3": 22.85
+  },
+  "empty_order": [
+   2,
+   3,
+   0,
+   1
+  ],
+  "sprue_empty_film_time": 26.2
+ }
+}
