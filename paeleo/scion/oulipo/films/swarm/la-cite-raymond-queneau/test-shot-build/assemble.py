@@ -18,6 +18,7 @@ SW = os.path.dirname(HERE)
 FONTS = "/home/user/bolas/paeleo/scion/oulipo/assets/fonts"
 REF = "/home/user/bolas/paeleo/scion/oulipo/assets/references/citefilm.webp"
 K0, K1, FPS = 456, 624, 24
+W16_BOX = (468, 70, 538, 150)
 PAPER, INKC, MUTED = (243, 239, 228), (36, 32, 29), (101, 92, 82)
 serif = ImageFont.truetype(os.path.join(FONTS, "instrument-serif.woff2"), 24)
 sans = ImageFont.truetype(os.path.join(FONTS, "instrument-sans.woff2"), 14)
@@ -99,7 +100,21 @@ def main():
     pos = [(10, 10), (20 + tiles[0][1].width, 10), (10, H + 54), (20 + tiles[0][1].width, H + 54)]
     for (lab, im), (x, y) in zip(tiles, pos):
         sheet.paste(im, (x, y)); d.text((x, y + H + 4), lab, font=sans, fill=INKC)
-    # window-16 inset
+    # window-16 inset strip: the beat at 2x (nearest-neighbour from the decoded A pass), so the reviewer can see the turn
+    ks = [488, 496, 510, 518, 538, 545, 552, 566]
+    strip = Image.new("RGB", (W, 200), PAPER)
+    ds = ImageDraw.Draw(strip)
+    ds.text((10, 4), "window 16 at 2x, from the shot (lights f492 · rises f502-518 · head turn f538-552 · curtain f552-566)", font=sans, fill=INKC)
+    cw = (W - 20) // len(ks)
+    for n, k in enumerate(ks):
+        raw = subprocess.run(["ffmpeg", "-v", "error", "-ss", f"{(k - K0) / FPS + 0.001:.3f}", "-i", final, "-frames:v", "1", "-f", "rawvideo", "-pix_fmt", "rgb24", "-"],
+                             capture_output=True, check=True).stdout
+        im = Image.frombytes("RGB", (960, 540), raw).crop(W16_BOX)
+        im = im.resize((im.width * 2, im.height * 2), Image.NEAREST)
+        strip.paste(im, (10 + n * cw, 24)); ds.text((10 + n * cw, 24 + im.height + 2), f"f{k}", font=tag, fill=MUTED)
+    full = Image.new("RGB", (W, sheet.height + strip.height), PAPER)
+    full.paste(sheet, (0, 0)); full.paste(strip, (0, sheet.height))
+    sheet = full
     sheet.save(os.path.join(SW, "test-shot-compare.jpg"), quality=90)
     json.dump(report, open(os.path.join(sdir, "report.json"), "w"), indent=1)
     print(json.dumps(report, indent=1))
