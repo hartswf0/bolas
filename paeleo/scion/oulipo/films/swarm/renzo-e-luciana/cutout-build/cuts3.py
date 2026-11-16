@@ -68,13 +68,16 @@ head_cut = poly(g.shape, [(280, 0), (762, 0), (762, 380), (668, 385), (560, 425)
 head = fm & head_cut & ~arm & ~apple_g
 body = fm & ~head_cut | (fm & cv2.dilate(~head_cut & 255, np.ones((15, 15), np.uint8)))   # 7 px overlap under the head (no detachment)
 body &= ~(arm & cv2.erode(arm, np.ones((5, 5), np.uint8)))
-# collage backing where the lifted forearm/apple uncover the sweater and collar: Telea fill of the body piece only (never flesh:
+# collage backing where the lifted forearm/apple uncover the sweater and collar: a swatch of her own cardigan knit (never flesh:
 # the uncovered zone is cardigan, sweater and the collar point; the chin edge stays on the head piece)
 under = cv2.dilate(arm | apple_g, np.ones((5, 5), np.uint8)) & ~head
-gb = cv2.inpaint(g, under, 7, cv2.INPAINT_TELEA)
+# a real swatch of her own cardigan knit (x130-230, y400-560 of the same crop) pasted behind as the backing card
+gb = g.copy(); Y, X = np.nonzero(under); sw = g[400:560, 130:230].astype(np.float32)
+sw = sw - sw.mean() + np.median(g[(fm > 0) & (g < 90)])
+gb[Y, X] = np.clip(sw[(Y - 400) % 160, (X - 130) % 100], 0, 255).astype(np.uint8)
 body_full = body | (under & fm)
 save('lu_body', gb, body_full, (20, 280, 700, 900), {'hip': (420, 880), 'neck': (440, 450), 'elbow': (510, 900)}, '8d16982u',
-     note='cardigan, striped collar, sweater; Telea backing only where the forearm and apple are lifted off')
+     note='cardigan, striped collar, sweater; backing card cut from her own cardigan knit only where the forearm and apple are lifted off')
 save('lu_head', g, head | (fm & head_cut & apple_g & ~cv2.dilate(apple_g, np.ones((3, 3), np.uint8))), (290, 20, 735, 480),
      {'neck': (440, 450), 'mouth': (515, 412), 'eye': (612, 318)}, '8d16982u', note='hairnet, curls, face in three-quarter, chin')
 save('lu_arm', g, arm, (430, 480, 670, 870), {'elbow': (510, 900), 'grip': (556, 545)}, '8d16982u', note='forearm + hand (fingers in front of the apple)')
