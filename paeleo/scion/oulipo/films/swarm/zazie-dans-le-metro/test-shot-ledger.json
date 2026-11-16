@@ -1,0 +1,123 @@
+{
+ "shot": "zazie-dans-le-metro TEST SHOT (film 6.0-11.0 s; jump cut at film frame 192)",
+ "foraged": [
+  {
+   "id": "P1",
+   "title": "The Madeleine, and rue Royale, Paris, France (Photochrom)",
+   "author": "Detroit Publishing Co. (Photoglob Zürich), c.1890-1900",
+   "license": "Public domain (no known restrictions)",
+   "license_url": "https://www.loc.gov/rr/print/res/244_phot.html",
+   "source_url": "https://www.loc.gov/item/2001698526/",
+   "file_url": "https://tile.loc.gov/storage-services/service/pnp/ppmsc/05100/05184v.jpg",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/zazie-dans-le-metro/r2/loc_05184.jpg",
+   "sha256": "124648d19718ac0187c5e8febeaa200b85f24f915a0f6c5336d07238d7e3e963",
+   "rights_text_quoted": "No known restrictions on reproduction.",
+   "checked_on": "2026-11-16",
+   "used_as": "L1 plate 6.0-8.0 s: crop (318,330,650,579) of the 1024 px file, gamma 1.45, 48% desaturation toward grey-olive, Gaussian defocus r=12 @720"
+  },
+  {
+   "id": "P2",
+   "title": "Street scene and monument, in the Place Clichy, Paris, France (Photochrom)",
+   "author": "Detroit Publishing Co. (Photoglob Zürich), c.1890-1900",
+   "license": "Public domain (no known restrictions)",
+   "license_url": "https://www.loc.gov/rr/print/res/244_phot.html",
+   "source_url": "https://www.loc.gov/item/2002707975/",
+   "file_url": "https://tile.loc.gov/storage-services/service/pnp/ppmsc/09900/09974v.jpg",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/zazie-dans-le-metro/r2/loc_09974.jpg",
+   "sha256": "3d3448a3c5f1b32e5f9f7296982c02d698dacf9f77c26dbd794498fb15407e29",
+   "rights_text_quoted": "No known restrictions on publication.",
+   "checked_on": "2026-11-16",
+   "used_as": "L2 plate 8.0-11.0 s incl. its native horse tram (V) at frame right: crop (6,330,458,669), 30% desaturation, defocus r=11 with a rack to r=3.5 at 9.0-10.0 s"
+  },
+  {
+   "id": "PAPER1",
+   "title": "Kraft tileable 1024x1024.png",
+   "author": "Coyau (Wikimedia Commons user)",
+   "license": "Public domain",
+   "license_url": "",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Kraft_tileable_1024x1024.png",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/4/47/Kraft_tileable_1024x1024.png",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/zazie-dans-le-metro/test-shot/paper/kraft.png",
+   "sha256": "1cd268910167e5e5353eaeb3956365df37cd963f5641f2f308c5eeed4e3d3b0d",
+   "rights_text_quoted": "extmetadata LicenseShortName: Public domain; description: 'kraft paper tileable sample.'",
+   "checked_on": "2026-11-16",
+   "used_as": "fibre of every puppet piece and the plaque: per-piece rotated crop of the scan, luma multiplied into the piece colour (dye)"
+  },
+  {
+   "id": "SND1",
+   "title": "Strong winds before the Rain.ogg",
+   "author": "SAgbley (Wikimedia Commons user)",
+   "license": "CC BY-SA 4.0",
+   "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Strong_winds_before_the_Rain.ogg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/1/1d/Strong_winds_before_the_Rain.ogg",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/zazie-dans-le-metro/test-shot/sound/wind.ogg",
+   "sha256": "6dc11dc2c5d840d873b25b288adfae1bc3b536d069fda9892fb702c1781a592d",
+   "rights_text_quoted": "extmetadata LicenseShortName: CC BY-SA 4.0; date 2023-04-04; description: 'A Video depicting strong winds...'",
+   "checked_on": "2026-11-16",
+   "used_as": "audio only: 0.2-1.26 s of the recording as the gust (6.6-7.67 s), 1.6-3.3 s under the Clichy cut; not auditioned by ear, chosen by spectrum (broadband, flatness 0.14-0.29)"
+  }
+ ],
+ "handmade": [
+  "puppet head rig: back bob (3 tones + 3 lit strands), 10 spring fringe strands + 4 slivers (5 hair tones), ears with inner-ear shade, face sheet, jaw/socket tissue, tissue cheeks (rise 6 px), brows, eyes x3 (squeeze with crow's-foot creases / half / open-right), folded nose tab, lips, mouth replacements 1/2/4/5/6 with gap-tooth upper set, laugh folds, neck, orange collar + fold, jumper, brass split pins",
+  "PLACE DE CLICHY enamel street plaque (cut card, #2f3f55 dyed kraft, cream letters in DejaVu Sans Bold)",
+  "caption « … le tram ! » in Instrument Serif (kit font, OFL)",
+  "kit-synthesized: street murmur, room tone, tram bell x2, hooves (kit step), paper snap (plaque), gulp click"
+ ],
+ "rejected": [
+  {
+   "item": "r2/Little_girl_*.jpg, Laughing_Girl_*.jpg, Young_girl_*.jpg, girl_mask.png",
+   "reason": "excluded: real child, user rule"
+  },
+  {
+   "item": "Commons Texture 15.JPG / Texture 16.JPG (CC0)",
+   "reason": "not downloaded: Commons 429 rate limit"
+  },
+  {
+   "item": "Moving Image Archive crowd clips (Coney Island bcb87a65, Golden Gate City 86343393, Scatter radar ce8590ca)",
+   "reason": "index flags their sound as 'speech' (narration); not used"
+  },
+  {
+   "item": "LoC TIFF masters 05184u.tif / 09974u.tif (31 MB each)",
+   "reason": "not needed: plates are defocused; IIIF on the TIFF ids returned 404"
+  }
+ ],
+ "credits_draft": [
+  {
+   "title": "The Madeleine, and rue Royale, Paris, France (Photochrom)",
+   "author": "Detroit Publishing Co. (Photoglob Zürich), c.1890-1900",
+   "license": "Public domain (no known restrictions)",
+   "license_url": "https://www.loc.gov/rr/print/res/244_phot.html",
+   "source_url": "https://www.loc.gov/item/2001698526/",
+   "file_url": "https://tile.loc.gov/storage-services/service/pnp/ppmsc/05100/05184v.jpg",
+   "used_as": "L1 plate 6.0-8.0 s: crop (318,330,650,579) of the 1024 px file, gamma 1.45, 48% desaturation toward grey-olive, Gaussian defocus r=12 @720"
+  },
+  {
+   "title": "Street scene and monument, in the Place Clichy, Paris, France (Photochrom)",
+   "author": "Detroit Publishing Co. (Photoglob Zürich), c.1890-1900",
+   "license": "Public domain (no known restrictions)",
+   "license_url": "https://www.loc.gov/rr/print/res/244_phot.html",
+   "source_url": "https://www.loc.gov/item/2002707975/",
+   "file_url": "https://tile.loc.gov/storage-services/service/pnp/ppmsc/09900/09974v.jpg",
+   "used_as": "L2 plate 8.0-11.0 s incl. its native horse tram (V) at frame right: crop (6,330,458,669), 30% desaturation, defocus r=11 with a rack to r=3.5 at 9.0-10.0 s"
+  },
+  {
+   "title": "Kraft tileable 1024x1024.png",
+   "author": "Coyau (Wikimedia Commons user)",
+   "license": "Public domain",
+   "license_url": "",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Kraft_tileable_1024x1024.png",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/4/47/Kraft_tileable_1024x1024.png",
+   "used_as": "fibre of every puppet piece and the plaque: per-piece rotated crop of the scan, luma multiplied into the piece colour (dye)"
+  },
+  {
+   "title": "Strong winds before the Rain.ogg",
+   "author": "SAgbley (Wikimedia Commons user)",
+   "license": "CC BY-SA 4.0",
+   "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Strong_winds_before_the_Rain.ogg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/1/1d/Strong_winds_before_the_Rain.ogg",
+   "used_as": "audio only: 0.2-1.26 s of the recording as the gust (6.6-7.67 s), 1.6-3.3 s under the Clichy cut; not auditioned by ear, chosen by spectrum (broadband, flatness 0.14-0.29)"
+  }
+ ]
+}

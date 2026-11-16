@@ -237,6 +237,24 @@ def roof_strips():
         strips.append((src, dst))
     return strips
 
+def build_roof_map():
+    top = FH * M
+    nrm = np.array([DIR[1], -DIR[0]])
+    us = np.arange(0, FW, 0.5)
+    ths = np.linspace(0, math.pi / 2, 900)
+    U, TH = np.meshgrid(us, ths)
+    P = A[None, None, :] + DIR[None, None, :] * (U[..., None] * M) + nrm[None, None, :] * (RROOF * (1 - np.cos(TH)))[..., None]
+    Y = top + RROOF * np.sin(TH)
+    X = CX + F_PX * P[..., 0] / P[..., 1]
+    Yp = CY - F_PX * (Y - EYE) / P[..., 1]
+    xi = np.clip(np.round(X).astype(int), 0, OUT_SIZE[0] - 1).ravel()
+    yi = np.clip(np.round(Yp).astype(int), 0, OUT_SIZE[1] - 1).ravel()
+    v = np.clip(((1 - TH / (math.pi / 2)) * (ROOF_H - 1)).astype(int), 0, ROOF_H - 1).ravel()
+    u = np.clip(U.astype(int), 0, FW - 1).ravel()
+    return xi, yi, (v, u)
+
+ROOF_MAP = None
+
 def end_wall_poly():
     """Right end wall: cream, curved top (quarter circle profile), receding into the block."""
     top = FH * M
@@ -472,11 +490,12 @@ def frame(k):
     ImageDraw.Draw(ew).polygon(end_wall_poly(), fill=255)
     endcol = load_end_wall() * E
     sheet(can, endcol, ew, shadow=False, E=1.0)
-    # roof strips
-    for src, dst in roof_strips():
-        ws = warp(rtex, src, dst)
-        al = ws.split()[3].point(lambda v: 255 if v > 90 else 0)
-        can.paste(ws.convert("RGB"), (0, 0), al)
+    # curved roof: forward-project a dense (u, theta) grid of the zinc sheet onto the canvas
+    carr = np.asarray(can).copy()
+    rt = np.asarray(rtex)
+    xs_, ys_, cols = ROOF_MAP
+    carr[ys_, xs_] = rt[cols[0], cols[1]]
+    can = Image.fromarray(carr)
     # facade shadow/occlusion onto ground (soft, below)
     can.paste(wf, (0, 0), wf)
     # roof-end quarter-circle rim (zinc edge seen in section)
@@ -564,6 +583,7 @@ def frame(k):
 
     return can.resize((PW, PH), Image.LANCZOS)
 
+ROOF_MAP = build_roof_map()
 _END = None
 def load_end_wall():
     global _END
