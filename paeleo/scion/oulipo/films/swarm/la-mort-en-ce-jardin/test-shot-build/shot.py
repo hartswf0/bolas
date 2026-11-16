@@ -118,7 +118,7 @@ def card_piece(canvas, polys, tone, mud=0.0, seed=0, shadow=5, sweat=(), creases
         m = MUD[(seed * 7) % 150:(seed * 7) % 150 + H, (seed * 3) % 160:(seed * 3) % 160 + W]
         edge = 1 - gblur(a, 9) / 255                 # deposit collects toward the card's edges/creases
         dep = np.clip(m * 0.5 + edge * 1.3 * (a > 10), 0, 2.2)
-        col = col * (1 - mud * 0.17 * dep)                # charcoal-and-water darkening
+        col = col * (1 - mud * 0.22 * dep)                # charcoal-and-water darkening
     canvas[:] = canvas * (1 - al) + col[..., None] * al
     for (cx, cy, rx, ry, rot, v) in sweat:
         s = Image.new("L", (W, H), 0)
@@ -310,7 +310,7 @@ def draw_puppet(canvas, J, s, tones, who, mud=1.0, facing=1, front_hand_cb=None,
         brad(canvas, *J[b][0], max(3, 2.2 * s))
 
 
-TONES_B = dict(shirt=192, skin=160, leg=104, hair=206)
+TONES_B = dict(shirt=204, skin=166, leg=104, hair=212)
 TONES_C = dict(shirt=92, skin=128, leg=70, hair=44, band=170)
 
 
@@ -402,9 +402,9 @@ def water_plane(canvas, top, t, x_cam, scale=1.0, lift=0):
     canvas[:] = canvas * (1 - g[..., None]) + 175 * g[..., None]
 
 
-P0 = load_cut("P0_far", 0.78, blur=1.1)
-P1 = load_cut("P1_flange", 0.62, blur=0.7)
-P3 = load_cut("P3_leaves", 0.58, blur=2.6)
+P0 = load_cut("P0_far", 0.70, blur=0.4)
+P1 = load_cut("P1_flange", 0.62, blur=0.0)
+P3 = load_cut("P3_leaves", 0.58, blur=1.4)
 P3[..., :3] *= 0.80                                         # leaves under the canopy: a stop under the plank light
 P4R = load_cut("P1_flange", 0.55, blur=3.5, rot=-24)       # foreground root diagonal, low left
 # fern: GrabCut matte x graphite-dark pinnae (the light leaves behind the fern drop out)
@@ -418,7 +418,7 @@ _a = np.maximum(_a, 255 * ((((xx - wF * .39) / (wF * .1)) ** 2 + ((yy - hF * .43
 _f[..., 3] = _a
 FERN = np.asarray(Image.fromarray(_f.astype(np.uint8), "RGBA").resize((int(wF * .5), int(hF * .5)), Image.LANCZOS), np.float32)
 _al = FERN[..., 3:] / 255
-FERN = np.dstack([gblur(FERN[..., :3] * _al, 1.6) / np.maximum(gblur(_al[..., 0], 1.6)[..., None], 1e-3), gblur(_al[..., 0], 1.6)[..., None] * 255])
+FERN = np.dstack([gblur(FERN[..., :3] * _al, 0.9) / np.maximum(gblur(_al[..., 0], 0.9)[..., None], 1e-3), gblur(_al[..., 0], 0.9)[..., None] * 255])
 
 
 def bank(canvas, cam, top=470, seed=600):
