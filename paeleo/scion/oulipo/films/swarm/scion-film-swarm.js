@@ -21,6 +21,8 @@ const COMMON = `Project root: ${ROOT}. Work: prompts/${slug}.md (the SCION syste
 - AESTHETIC TARGET: each work has reference image(s) in ${ROOT}/assets/references/ (named in catalogue/*.json under "image" and "gallery" for this slug). The film must arrive at that aesthetic: medium, tonal range, palette, light, grain/texture, framing and scale, typography, rhythm. Reach it through the choice of real material and of real technique (choose genuinely black-and-white footage for a B&W reference; frame as close as the reference; light and composite the way it implies; grade only to unify real material). A filter that fakes a look over unsuitable material still fails. Never copy, trace or paste the reference images themselves.
 - ANIMATION SCIONS: /home/user/bolas/paeleo/scion/swarms.json holds 54 animation technique swarms (fields id, title, family, lineage, prompt): artists (Gilliam cutout, Reiniger shadow theatre, Ernst collage, Mouris image torrent, Norstein multiplane, Whitney harmonic motion, Foldès metamorphosis), puppetry/deformation (ARAP, MLS, IK, secondary motion, pose libraries, drawing substitution), cutout extraction (GrabCut, SAM-style masks, alpha matting), compositing (multiplane parallax, occlusion), and archive swarms (Getty/Smithsonian, Library of Congress print stage, Mouris montage, Atlanta Moving Image civic footage, provenance graph). The director picks the technique SCIONs this film uses; every unit and the editor read those prompts in full and apply their methods for real (e.g. actually cut figures out of archive frames and articulate them; actually build parallax planes from foraged layers), keeping their invariants and acceptance tests. Animate the foraged material; don't just slideshow it. OpenCV (cv2.grabCut etc.), numpy, PIL and ffmpeg are available.
 - Rendering uses ${ROOT}/films/kit.py (read it; do not edit it). No text-to-speech exists: voice is captions; foraged recordings of real speech only if openly licensed.
+- CHOSEN DIRECTION (picked by the user from keyframe proposals in ${SW}/proposals/: read proposals.md and look at board.jpg and the chosen kf-N.png): ${args.direction || 'none chosen; derive from the prompt'}. Build that direction; the chosen keyframe is the look to meet or beat. Don't drift to another direction without saying why.
+- TIME BUDGET: this is one short film. Prefer fewer, better shots; stop polishing what already meets the bar. Each unit should finish within about 45 minutes; keep new downloads under ~75 MB.
 - Do not git commit. Do not touch other films' files. Earlier versions of this film's script/notes/credits may exist (films/${slug}.py, films/notes/${slug}.txt, films/credits/${slug}.json, films/sources/${slug}/): you may reuse foraged sources already there after re-verifying their licences, but the plan is rebuilt from scratch.`
 
 phase('Direct')
@@ -61,12 +63,21 @@ if (!plan) throw new Error('director failed')
 log(`Techniques: ${plan.techniques.map(x => x.title).join(', ')}`)
 log(`Plan: ${plan.units.length} units — ${plan.units.map(u => u.role + ' (' + u.mode + ')').join(', ')}`)
 
+if (args.stage === 'shot') {
+  phase('Units')
+  const shot = await agent(`You are the TEST-SHOT unit of the SCION swarm for "${slug}". The user will look at this one shot before the full build is approved.
+${COMMON}
+Read ${SW}/plan.md. Make ONE shot only: the defining beat (${plan.defining_beat}), 5–10 s, from real foraged/handmade material with the chosen techniques genuinely applied (${plan.techniques.map(x => x.id + ' ' + x.title).join('; ')}) and its sound. Aesthetic target: ${plan.aesthetic}
+Write ${SW}/test-shot.mp4 (960x540 or the film's aspect, H.264 + AAC) and ${SW}/test-shot-compare.jpg (the reference beside 3 frames from the shot, labelled). Put scripts in ${SW}/test-shot-build/ and media in ${ROOT}/films/sources/${slug}/test-shot/. Record every foraged item (title, author, licence, source_url) in ${SW}/test-shot-ledger.json. Look at your frames before finishing. Return: what is on screen and heard, sources and licences, how it moves, and its honest weaknesses against the reference and the chosen keyframe.`, { label: 'test shot', phase: 'Units' })
+  return { slug, stage: 'shot', plan: { aesthetic: plan.aesthetic, techniques: plan.techniques, thesis: plan.thesis, beat: plan.defining_beat, acceptance: plan.acceptance, units: plan.units.map(u => u.role + ':' + u.mode) }, shot }
+}
+
 phase('Units')
 const unitReports = await parallel(plan.units.map(u => () => agent(`You are the ${u.role.toUpperCase()} unit of the SCION swarm for "${slug}" (mode: ${u.mode}).
 ${COMMON}
 Read ${SW}/plan.md first. Technique SCIONs for this film (read their prompts in /home/user/bolas/paeleo/scion/swarms.json and apply them): ${plan.techniques.map(x => x.id + ' ' + x.title).join('; ')}. Aesthetic target (from the reference images; gather and make material that genuinely reaches it): ${plan.aesthetic}
 Your assignment:
-${u.task}
+${u.task}${args.shotNotes ? `\nThe test shot (${SW}/test-shot.mp4, test-shot-ledger.json) was reviewed; reuse its material and build where it works. Notes on it: ${args.shotNotes}` : ''}
 Write your output to ${u.output}. For every foraged item write an evidence record: {id, title, author, license, license_url, source_url, file_url, local_path, what_it_shows, verified_date_or_place (or "unverified"), used_as}. Log absences: what you searched for and could not find under an allowed licence. For handmade items, record what was made and where. Prepare media for the editor (trim clips with ffmpeg, extract stills, decode audio to wav) under ${ROOT}/films/sources/${slug}/${u.role.replace(/\W+/g, '-').toLowerCase()}/. Look at what you gather (extract a few frames, view them) before accepting it. Return a short report: what you produced, the paths, licences, gaps.`, { label: u.role, phase: 'Units' })))
 
 phase('Edit')
