@@ -7,3 +7,6 @@ swarm/**/*.png
 swarm/**/*.jpg
 swarm/**/*.webm
 swarm/**/*.wav
+# swarm intermediates: keep only test shots (finished films live in assets/films/)
+swarm/**/*.mp4
+!swarm/*/test-shot.mp4
