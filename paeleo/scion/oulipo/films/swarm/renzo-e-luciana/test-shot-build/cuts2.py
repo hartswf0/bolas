@@ -52,14 +52,17 @@ m[600:] = 0
 m &= ~poly(g.shape, [(440, 330), (741, 330), (741, 691), (440, 691)])   # lunch box, thermos, the other woman's hand
 fa = poly(g.shape, [(412, 278), (520, 255), (600, 238), (690, 245), (700, 330), (640, 345), (560, 318), (470, 322), (412, 336)])
 farm = m & fa
-hd = poly(g.shape, [(20, 80), (420, 80), (420, 300), (360, 302), (320, 318), (270, 328), (200, 300), (20, 300)])
-head = m & hd & ~farm; body = m & ~hd & ~farm
+# scissor guides (the cut lines a collage artist draws), refined by the GrabCut matte
+hd = poly(g.shape, [(60, 170), (80, 120), (130, 90), (200, 78), (270, 85), (315, 110), (320, 150), (300, 185), (295, 215), (303, 248),
+                    (292, 262), (292, 312), (240, 312), (180, 300), (120, 304), (70, 308), (20, 305), (20, 230), (50, 200)])
+bd = poly(g.shape, [(20, 300), (60, 292), (130, 284), (240, 290), (330, 296), (420, 290), (445, 300), (445, 600), (20, 600)])
+head = cv2.morphologyEx(m | (hd & (g < 200)), cv2.MORPH_OPEN, np.ones((3, 3), np.uint8)) & hd & ~farm
+body = m & bd & ~farm
 # collage backing where the lifted forearm leaves the sleeve end: a small dark card patch in the forearm's tone
 patch = poly(g.shape, [(395, 285), (440, 280), (445, 335), (400, 338)]) & cv2.dilate(m, np.ones((5, 5), np.uint8))
 gb = g.copy(); gb[patch > 0] = np.median(g[farm > 0])
-neck_ov = poly(g.shape, [(230, 280), (360, 280), (360, 330), (230, 330)]) & m      # head keeps a collar overlap (no gap at the neck pin)
-rig.update(save('lu_body', gb, body | patch, (20, 150, 445, 600), {'hip': (250, 590), 'neck': (295, 318), 'elbow': (418, 307)}, '8d03481u'))
-rig.update(save('lu_head', g, head | (neck_ov & ~farm), (20, 80, 425, 335), {'neck': (295, 318)}, '8d03481u'))
+rig.update(save('lu_body', gb, body | patch, (20, 150, 445, 600), {'hip': (250, 590), 'neck': (250, 300), 'elbow': (418, 307)}, '8d03481u'))
+rig.update(save('lu_head', g, head, (20, 75, 325, 315), {'neck': (250, 300)}, '8d03481u'))
 rig.update(save('lu_arm', g, farm, (405, 235, 705, 350), {'elbow': (418, 307), 'grip': (652, 326)}, '8d03481u'))
 # ---------- Renzo: Arthur S. Siegel, Dodge truck plant, Detroit, lunch hour 1942 (8d07886u, crop K=8) ----------
 g = grey(H + '/re_8d07886.png')      # 448 x 830
@@ -68,7 +71,7 @@ m = gc(g, (195, 25, 448, 640),
            [(280, 260), (400, 250), (410, 460), (290, 470)], [(275, 195), (320, 190), (325, 230), (280, 235)]],
        bg=[[(0, 0), (190, 0), (190, 640), (0, 640)], [(0, 0), (448, 0), (448, 28), (0, 28)],
            [(395, 60), (448, 60), (448, 190), (395, 190)], [(190, 0), (230, 0), (225, 85), (190, 95)]])
-m[640:] = 0; m[:, :200] = 0
+m[640:] = 0; m[:, :200] = 0; m[:, 428:] = 0
 hd = poly(g.shape, [(190, 20), (448, 20), (448, 178), (345, 182), (300, 205), (250, 208), (205, 192)])
 head = m & hd
 neck_ov = poly(g.shape, [(240, 170), (350, 170), (350, 228), (240, 228)]) & m
@@ -78,8 +81,7 @@ rig.update(save('re_head', g, head | neck_ov, (195, 20, 448, 232), {'neck': (290
 # ---------- apple: Marjory Collins, Ross Heater lunch, Buffalo 1943 (8d16982v), the real apple in her hand ----------
 g = grey(SRC + '/loc/8d16982v.jpg')
 ap = poly(g.shape, [(590, 222), (604, 211), (628, 208), (646, 216), (652, 232), (642, 247), (622, 254), (600, 256), (588, 244)])
-am = gc(g, (580, 200, 660, 262), fg=[[(605, 220), (640, 220), (640, 245), (605, 245)]], bg=[])
-rig.update(save('apple', g, am & ap, (585, 205, 656, 260), {'c': (620, 232), 'top': (622, 212)}, '8d16982v', .8))
+rig.update(save('apple', g, ap, (585, 205, 656, 260), {'c': (620, 232), 'top': (622, 212)}, '8d16982v', .8))
 # ---------- the CAPOREPARTO doorway: Jack Delano, Madison WI 1942 (8d03483u, crop K=5): the real door casing + back room ----------
 g = grey(H + '/door_8d03483.png')    # 615 x 1026
 dm = poly(g.shape, [(0, 74), (30, 76), (433, 102), (421, 978), (0, 978)])

@@ -158,7 +158,7 @@ def fibre(w, h, base, seed, sigma=4.5):
                         .resize((w, h), Image.BICUBIC)).astype(np.float32) - 128
     lf = up(0, 90); mf = up(0, 7)
     hf = rng.normal(0, 1, (h, w)).astype(np.float32)
-    n = hf * sigma * 0.75 + mf / (mf.std() + 1e-6) * sigma * 0.45 + lf / (lf.std() + 1e-6) * sigma * 0.35
+    n = hf * sigma * 0.8 + mf / (mf.std() + 1e-6) * sigma * 0.3 + lf / (lf.std() + 1e-6) * sigma * 0.14
     a = np.empty((h, w, 3), np.float32)
     for i, cc in enumerate(base):
         a[..., i] = cc + n * (1.0, 0.98, 0.9)[i]
@@ -279,7 +279,7 @@ def render_strokes(strokes, frac, width, seed, tool='pen'):
         tooth = g.random((m.height, m.width)).astype(np.float32)
         tooth = np.asarray(Image.fromarray((tooth * 255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(0.55))).astype(np.float32) / 255
         a = np.asarray(m).astype(np.float32) / 255
-        a = a * np.clip((tooth - 0.33) * 3.2, 0.12, 1.0) * 1.05
+        a = a * np.clip((tooth - 0.18) * 3.0, 0.30, 1.0) * 1.08
         m = Image.fromarray((np.clip(a, 0, 1) * 255).astype(np.uint8))
     elif tool == 'felt':
         m = m.filter(ImageFilter.GaussianBlur(0.5))
@@ -297,7 +297,7 @@ def ink_on(img, mask, off, color, opacity=1.0):
 
 
 PEN = (66, 58, 47)            # #423a2f thin dark pen
-RED_PENCIL = (196, 26, 34)    # true red pencil core
+RED_PENCIL = (200, 20, 30)    # true red pencil core
 RED_INK = (168, 52, 47)       # thin red ink for page numbers (#b76158 at AA edge)
 FELT = (24, 21, 23)
 NUM_H = 58                    # pen and red-pencil numbers share this height
@@ -419,7 +419,7 @@ class Slip:
                 m, off = render_strokes([catmull(pts)], fr, 6.0, seed, 'pencil')
             else:
                 st = word_strokes(gl, self.num_x + 66, self.num_y - 4, NUM_H, seed)
-                m, off = render_strokes(st, fr, 7.0, seed, 'pencil')
+                m, off = render_strokes(st, fr, 8.0, seed, 'pencil')
             ink_on(im, m, off, RED_PENCIL)
         return im
 
@@ -439,9 +439,9 @@ def page_face(p):
     gut = (FW - xx) if sd == 'L' else xx
     a *= (0.972 + 0.028 * np.clip(gut / 90, 0, 1))[None, :, None]
     im = to_img(a); d = ImageDraw.Draw(im)
-    hx = FW - 16 if sd == 'L' else 16
+    hx = FW - 17 if sd == 'L' else 17
     for y in COIL_Y:
-        d.ellipse([hx - 6, y - PY0 - 5, hx + 6, y - PY0 + 5], fill=(78, 72, 66))
+        d.ellipse([hx - 4, y - PY0 + 1, hx + 4, y - PY0 + 8], fill=(92, 86, 78))
     if p <= 8:
         x = FW - 115 if sd == 'R' else 70
         hand(im, str(p), x, 46, 40, seed=900 + p, color=RED_INK, width=3.0, tool='pen')
@@ -449,20 +449,28 @@ def page_face(p):
     return im
 
 
-COIL_Y = [PY0 + 32 + i * (FH - 64) / 23 for i in range(24)]
+COIL_N = 36
+COIL_Y = [PY0 + 24 + i * (FH - 48) / (COIL_N - 1) for i in range(COIL_N)]
 
 
 def coil_layer():
-    """Fine wire coil, 24 loops across the gutter (RGBA strip)."""
+    """Fine wire coil: 36 slanted loops of thin wire through punched holes
+    either side of the gutter (RGBA strip)."""
     if 'coil' in _cache:
         return _cache['coil']
     x0 = XC - 40; w = 80
-    im = Image.new('RGBA', (w, FH + 40), (0, 0, 0, 0)); d = ImageDraw.Draw(im)
+    S = 3
+    im = Image.new('RGBA', (w * S, (FH + 40) * S), (0, 0, 0, 0)); d = ImageDraw.Draw(im)
     for y in COIL_Y:
-        yy = y - PY0 + 20
-        d.arc([XC - 16 - x0 - 2, yy - 14 + 2, XC + 16 - x0 + 2, yy + 14 + 2], 180, 360, fill=(30, 28, 26, 70), width=5)
-        d.arc([XC - 16 - x0, yy - 14, XC + 16 - x0, yy + 14], 180, 360, fill=(58, 58, 60, 255), width=4)
-        d.arc([XC - 14 - x0, yy - 12, XC + 14 - x0, yy + 12], 210, 300, fill=(205, 205, 205, 230), width=1)
+        yy = (y - PY0 + 20) * S
+        L, R = (XC - 17 - x0) * S, (XC + 17 - x0) * S
+        # front of the loop: an arc from the left hole over the gutter to the right hole, slanted
+        pts = [(L + (R - L) * t, yy + 7 * S * (t - 0.5) - 11 * S * math.sin(math.pi * t)) for t in np.linspace(0, 1, 24)]
+        d.line([(x + 2 * S, yv + 3 * S) for x, yv in pts], fill=(25, 22, 20, 60), width=3 * S)
+        d.line(pts, fill=(62, 62, 64, 255), width=int(2.6 * S))
+        hl = [(x - 0.6 * S, yv - 0.8 * S) for x, yv in pts[5:15]]
+        d.line(hl, fill=(215, 215, 212, 220), width=S)
+    im = im.resize((w, FH + 40), Image.LANCZOS)
     _cache['coil'] = (im, (x0, PY0 - 20))
     return _cache['coil']
 
@@ -477,7 +485,7 @@ def cover_face():
     a += (peb / peb.std() * 4.5)[..., None]                  # pebbled board grain
     im = to_img(a); d = ImageDraw.Draw(im)
     for y in COIL_Y:
-        d.ellipse([16 - 6, y - PY0 - 5, 16 + 6, y - PY0 + 5], fill=(40, 8, 12))
+        d.ellipse([17 - 4, y - PY0 + 1, 17 + 4, y - PY0 + 8], fill=(40, 8, 12))
 
     def label(box, seed):
         x0, y0, x1, y1 = box; r = random.Random(seed)
@@ -696,6 +704,18 @@ def w0_table_rect(k, page):
     return (px0 + W[0] * s.pw, py0 + W[1] * s.ph, px0 + W[2] * s.pw, py0 + W[3] * s.ph)
 
 
+PULL_SRC = {'S4': 47, 'S8': 95}     # last src frame of asset 08 in cut A / cut B (plan recipes A1, B1)
+
+
+def win_table_rect(k, page, src):
+    s = slips()[k]; x, y = s.rest_xy(side(page))
+    px0, py0 = x + s.print_xy[0], y + s.print_xy[1]
+    m = meta()[k]; c = m['clean']; cw, ch = c[2] - c[0], c[3] - c[1]
+    W = RB.windows(tuple(m['W0']), tuple(m['W1']))[src]
+    return (px0 + (W[0] - c[0]) / cw * s.pw, py0 + (W[1] - c[1]) / ch * s.ph,
+            px0 + (W[2] - c[0]) / cw * s.pw, py0 + (W[3] - c[1]) / ch * s.ph)
+
+
 def view(f):
     """Camera rect in table px + whether jitter applies (jitter scale 0..1)."""
     seg = segment_of(f); a, b = TL[seg]
@@ -704,14 +724,14 @@ def view(f):
     if seg == 'S2':
         u = (f - a) / (b - a); return lerp_view(V_SPREAD, w0_table_rect('01', 1), _cubic(u)), 1 - _cubic(u)
     if seg == 'S4':
-        u = (f - a) / (b - a); return lerp_view(w0_table_rect('08', 8), V_SPREAD, _cubic(u)), _cubic(u)
+        u = (f - a) / (b - a); return lerp_view(win_table_rect('08', 8, PULL_SRC['S4']), V_SPREAD, _cubic(u)), _cubic(u)
     if seg == 'S5':
         u = (f - a) / 16
         return lerp_view(V_SPREAD, V_WORK, _cubic(u), push=False), 1.0
     if seg == 'S6':
         u = (f - a) / (b - a); return lerp_view(V_WORK, w0_table_rect('05', 1), _cubic(u)), 1 - _cubic(u)
     if seg == 'S8':
-        u = (f - a) / (b - a); return lerp_view(w0_table_rect('08', 8), V_SPREAD, _cubic(u)), _cubic(u)
+        u = (f - a) / (b - a); return lerp_view(win_table_rect('08', 8, PULL_SRC['S8']), V_SPREAD, _cubic(u)), _cubic(u)
     return V_SPREAD, 1.0
 
 
