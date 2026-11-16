@@ -26,6 +26,7 @@ T_BAG, T_SHOE = 0.4, 1.6                # film 20.4, 21.6
 CLOSE_END, LEDGER_END = 3.4, 5.6
 
 LEDGER = dict(events=[], frames=[], rig_error_max=0.0)
+SOUND_SRC = []
 
 
 # ------------------------------------------------------------------ material helpers
@@ -712,7 +713,11 @@ def load_audio(path, start, dur):
 @film.sound
 def sound(mix):
     A = SRC / "audio"
-    bed = load_audio(A / "stream.wav", 12.0, DUR + 0.5)
+    SOUND_SRC.clear()
+    if (A / "stream.mp3").exists():
+        bed = load_audio(A / "stream.mp3", 12.0, DUR + 0.5); SOUND_SRC.append("stream.mp3 (CC0, jackthemurray)")
+    else:                                              # declared fallback: kit-synthesized water bed
+        m2 = type(mix)(DUR + 0.5); m2.water(0, DUR + 0.5, gain=0.5); bed = m2.L.copy(); SOUND_SRC.append("kit Mix.water (synth)")
     bed = bed / (np.abs(bed).max() + 1e-9)
     n = len(bed); env = np.ones(n)
     ts = np.arange(n) / 44100
@@ -724,7 +729,9 @@ def sound(mix):
     ru = mix.band(mix.noise(0.32, "white"), 900, 5000) * mix.env(int(0.32 * 44100), 0.01, 0.25)
     mix.add(ru, T_BAG - 0.05, 0.5, pan=-0.5); mix.thud(T_BAG + 0.05, freq=90, gain=0.35, pan=-0.5, seconds=0.25)
     # her hand into the water at the shoe; trickle off her fingers as she lifts (foraged PD recording)
-    tr = load_audio(A / "trickle.ogg", 3.0, 1.2); tr = tr / (np.abs(tr).max() + 1e-9)
+    have_tr = (A / "trickle.ogg").exists()
+    tr = load_audio(A / "trickle.ogg", 3.0, 1.2) if have_tr else mix.band(mix.noise(1.2, "white"), 1500, 6000) * 0.3
+    tr = tr / (np.abs(tr).max() + 1e-9); SOUND_SRC.append("trickle.ogg (PD, stephan / pdsounds)" if have_tr else "synth drip")
     tr *= np.linspace(1, 0, len(tr)) ** 1.5
     mix.add(tr, T_SHOE - 0.25, 0.30, pan=0.45)
     mix.click(T_SHOE, gain=0.18, pan=0.45, bright=2500)           # card fingers on the satin heel
@@ -744,7 +751,8 @@ def sound(mix):
         cr = mix.tone(150 + 25 * k, 0.28, "saw", vibrato=0.05) * mix.env(int(0.28 * 44100), 0.03, 0.2)
         mix.add(mix.band(cr, 200, 1400), at, 0.14, pan=0.1 * k)
         mix.step(at + 0.02, gain=0.12, surface="wood")
-    sp = load_audio(A / "trickle.ogg", 9.0, 1.0); sp = sp / (np.abs(sp).max() + 1e-9) * np.linspace(1, 0, len(sp))
+    sp = load_audio(A / "trickle.ogg", 9.0, 1.0) if have_tr else mix.lowpass(mix.noise(1.0, "white"), 3000)
+    sp = sp / (np.abs(sp).max() + 1e-9) * np.linspace(1, 0, len(sp))
     mix.add(sp, LEDGER_END + 1.62, 0.5, pan=0.1)
     mix.add(mix.lowpass(mix.noise(0.4, "white"), 1800) * mix.env(int(0.4 * 44100), 0.005, 0.35), LEDGER_END + 1.6, 0.5)
 
@@ -767,4 +775,6 @@ if __name__ == "__main__":
         dict(film_t="L-S8 excerpt", event="last_crossing", who="B", min_clearance_px=4),
     ]
     json.dump(LEDGER, open(SWARM / "test-shot-build" / "world-trace.json", "w"), indent=0, ensure_ascii=False)
-    print("rig_error_max", LEDGER["rig_error_max"])
+    LEDGER["sound_sources"] = SOUND_SRC
+    json.dump(LEDGER, open(SWARM / "test-shot-build" / "world-trace.json", "w"), indent=0, ensure_ascii=False)
+    print("rig_error_max", LEDGER["rig_error_max"], SOUND_SRC)
