@@ -1,0 +1,1026 @@
+{
+ "film": "a-morning-stroll",
+ "revision": "score-r1 / plan-r1",
+ "fps": 24,
+ "seconds": 68.0,
+ "versions": {
+  "V1": {
+   "era": 1959,
+   "genre_tone": "deadpan",
+   "render_technique": "photo-cutout FK puppet over foraged plate (#29/#32/#45)",
+   "door_mechanism": "hand",
+   "plate": "loc-ppmsca.70651",
+   "offset_s": 3.0,
+   "events": {
+    "E1": {
+     "global_s": [
+      3.0,
+      6.0
+     ],
+     "global_frame": [
+      72,
+      144
+     ]
+    },
+    "E2": {
+     "global_s": 6.5,
+     "global_frame": 156
+    },
+    "E3": {
+     "global_s": 9.0,
+     "global_frame": 216
+    },
+    "E4": {
+     "global_s": 9.32,
+     "global_frame": 224
+    },
+    "E5": {
+     "global_s": [
+      10.0,
+      11.5
+     ],
+     "global_frame": [
+      240,
+      276
+     ]
+    },
+    "E6": {
+     "global_s": [
+      11.5,
+      13.0
+     ],
+     "global_frame": [
+      276,
+      312
+     ]
+    },
+    "E7": {
+     "global_s": [
+      14.0,
+      18.0
+     ],
+     "global_frame": [
+      336,
+      432
+     ]
+    }
+   },
+   "shots": {
+    "A": {
+     "global_s": [
+      3.0,
+      8.0
+     ],
+     "global_frame": [
+      72,
+      192
+     ]
+    },
+    "B": {
+     "global_s": [
+      8.0,
+      14.0
+     ],
+     "global_frame": [
+      192,
+      336
+     ]
+    },
+    "C": {
+     "global_s": [
+      14.0,
+      18.0
+     ],
+     "global_frame": [
+      336,
+      432
+     ]
+    }
+   },
+   "checks": {
+    "E3": {
+     "global_frame": 216,
+     "global_s": 9.0,
+     "beak_in_leaf_mask": true,
+     "beak_stage_px": [
+      1929.3,
+      264.8
+     ],
+     "label": "measured"
+    },
+    "E4": {
+     "global_frame": 224,
+     "global_s": 9.333,
+     "beak_in_leaf_mask": true,
+     "beak_stage_px": [
+      1929.3,
+      264.8
+     ],
+     "label": "measured"
+    },
+    "E6_end": {
+     "global_frame": 312,
+     "bird_px_visible": 0,
+     "visible_px_f204_to_f240_step4": [
+      11996,
+      12072,
+      12475,
+      12003,
+      10933,
+      9515,
+      3359,
+      1045,
+      213,
+      0
+     ],
+     "label": "measured on the composite"
+    },
+    "strike_poses_E3_window": {
+     "keys_f138_f156": [
+      "settle",
+      "settle",
+      "look_up",
+      "cock",
+      "cock",
+      "strike",
+      "strike",
+      "recoil",
+      "recoil",
+      "recoil",
+      "recoil",
+      "cock",
+      "cock",
+      "strike",
+      "strike",
+      "recoil",
+      "recoil",
+      "recoil",
+      "recoil"
+     ],
+     "label": "pose keys per frame (>=3 distinct joint configurations within 1 s of E3)"
+    },
+    "shot_A_f60": {
+     "shot": "A",
+     "watcher_x": -298.5,
+     "watcher_head_deg": 0.0,
+     "bird_px_total": 4411,
+     "bird_px_visible": 3641,
+     "bird_px_behind_iron": 769,
+     "bird_height_frac": 0.211,
+     "key": "settle"
+    }
+   }
+  },
+  "V2": {
+   "era": 2009,
+   "genre_tone": "deadpan",
+   "render_technique": "photo-cutout FK puppet over foraged plate (#29/#32/#45)",
+   "door_mechanism": "chain",
+   "plate": "loc-highsm.56276",
+   "offset_s": 19.0,
+   "events": {
+    "E1": {
+     "global_s": [
+      19.0,
+      22.0
+     ],
+     "global_frame": [
+      456,
+      528
+     ]
+    },
+    "E2": {
+     "global_s": 22.5,
+     "global_frame": 540
+    },
+    "E3": {
+     "global_s": 25.0,
+     "global_frame": 600
+    },
+    "E4": {
+     "global_s": 25.32,
+     "global_frame": 608
+    },
+    "E5": {
+     "global_s": [
+      26.0,
+      27.5
+     ],
+     "global_frame": [
+      624,
+      660
+     ]
+    },
+    "E6": {
+     "global_s": [
+      27.5,
+      29.0
+     ],
+     "global_frame": [
+      660,
+      696
+     ]
+    },
+    "E7": {
+     "global_s": [
+      30.0,
+      34.0
+     ],
+     "global_frame": [
+      720,
+      816
+     ]
+    }
+   },
+   "shots": {
+    "A": {
+     "global_s": [
+      19.0,
+      24.0
+     ],
+     "global_frame": [
+      456,
+      576
+     ]
+    },
+    "B": {
+     "global_s": [
+      24.0,
+      30.0
+     ],
+     "global_frame": [
+      576,
+      720
+     ]
+    },
+    "C": {
+     "global_s": [
+      30.0,
+      34.0
+     ],
+     "global_frame": [
+      720,
+      816
+     ]
+    }
+   },
+   "checks": {
+    "E3": {
+     "global_frame": 600,
+     "global_s": 25.0,
+     "beak_in_leaf_mask": true,
+     "beak_stage_px": [
+      466.0,
+      1242.7
+     ],
+     "label": "measured"
+    },
+    "E4": {
+     "global_frame": 608,
+     "global_s": 25.333,
+     "beak_in_leaf_mask": true,
+     "beak_stage_px": [
+      466.0,
+      1242.7
+     ],
+     "label": "measured"
+    },
+    "E6_end": {
+     "global_frame": 696,
+     "bird_px_visible": 0,
+     "visible_px_f204_to_f240_step4": [
+      10565,
+      8650,
+      4667,
+      646,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     "label": "measured on the composite"
+    },
+    "strike_poses_E3_window": {
+     "keys_f138_f156": [
+      "hold",
+      "hold",
+      "hold",
+      "cock",
+      "cock",
+      "strike",
+      "strike",
+      "recoil",
+      "recoil",
+      "recoil",
+      "recoil",
+      "cock",
+      "cock",
+      "strike",
+      "strike",
+      "recoil",
+      "recoil",
+      "recoil",
+      "recoil"
+     ],
+     "label": "pose keys per frame (>=3 distinct joint configurations within 1 s of E3)"
+    },
+    "shot_A_f60": {
+     "shot": "A",
+     "door_deg": 0.0,
+     "watcher_x": 963.0,
+     "bird_px_visible": 916,
+     "bird_height_frac": 0.106
+    }
+   }
+  },
+  "V3": {
+   "era": 2059,
+   "genre_tone": "deadpan",
+   "render_technique": "photo-cutout FK puppet over foraged plate (#29/#32/#45)",
+   "door_mechanism": "listen",
+   "plate": "see plates.json 2059",
+   "offset_s": 35.0,
+   "events": {
+    "E1": {
+     "global_s": [
+      35.0,
+      38.0
+     ],
+     "global_frame": [
+      840,
+      912
+     ]
+    },
+    "E2": {
+     "global_s": 38.5,
+     "global_frame": 924
+    },
+    "E3": {
+     "global_s": 41.0,
+     "global_frame": 984
+    },
+    "E4": {
+     "global_s": 41.32,
+     "global_frame": 992
+    },
+    "E5": {
+     "global_s": [
+      42.0,
+      43.5
+     ],
+     "global_frame": [
+      1008,
+      1044
+     ]
+    },
+    "E6": {
+     "global_s": [
+      43.5,
+      45.0
+     ],
+     "global_frame": [
+      1044,
+      1080
+     ]
+    },
+    "E7": {
+     "global_s": [
+      46.0,
+      50.0
+     ],
+     "global_frame": [
+      1104,
+      1200
+     ]
+    }
+   },
+   "shots": {
+    "A": {
+     "global_s": [
+      35.0,
+      40.0
+     ],
+     "global_frame": [
+      840,
+      960
+     ]
+    },
+    "B": {
+     "global_s": [
+      40.0,
+      46.0
+     ],
+     "global_frame": [
+      960,
+      1104
+     ]
+    },
+    "C": {
+     "global_s": [
+      46.0,
+      50.0
+     ],
+     "global_frame": [
+      1104,
+      1200
+     ]
+    }
+   },
+   "checks": {
+    "E3": {
+     "global_frame": 984,
+     "global_s": 41.0,
+     "beak_in_leaf_mask": true,
+     "beak_stage_px": [
+      915.6,
+      637.0
+     ],
+     "label": "measured"
+    },
+    "E4": {
+     "global_frame": 992,
+     "global_s": 41.333,
+     "beak_in_leaf_mask": true,
+     "beak_stage_px": [
+      915.6,
+      637.0
+     ],
+     "label": "measured"
+    },
+    "E6_end": {
+     "global_frame": 1080,
+     "bird_px_visible": 0,
+     "visible_px_f204_to_f240_step4": [
+      9484,
+      8520,
+      7741,
+      6358,
+      5109,
+      4001,
+      3022,
+      2184,
+      477,
+      0
+     ],
+     "label": "measured on the composite"
+    },
+    "strike_poses_E3_window": {
+     "keys_f138_f156": [
+      "hold",
+      "hold",
+      "hold",
+      "cock",
+      "cock",
+      "strike",
+      "strike",
+      "recoil",
+      "recoil",
+      "recoil",
+      "recoil",
+      "cock",
+      "cock",
+      "strike",
+      "strike",
+      "recoil",
+      "recoil",
+      "recoil",
+      "recoil"
+     ],
+     "label": "pose keys per frame (>=3 distinct joint configurations within 1 s of E3)"
+    },
+    "shot_A_f60": {
+     "shot": "A",
+     "state": "closed",
+     "dots": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "slide": 0.0,
+     "watcher_x": 175.8,
+     "watcher_shadow_height_frac": 0.639,
+     "bird_px_visible": 4872,
+     "bird_height_frac": 0.224,
+     "beak_in_leaf": false,
+     "beak_stage": [
+      667.4,
+      617.9
+     ],
+     "inside": false
+    },
+    "X1": {
+     "peck_frame": {
+      "shot": "A",
+      "state": "closed",
+      "dots": [
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       0.0
+      ],
+      "slide": 0.0,
+      "watcher_x": 520,
+      "watcher_shadow_height_frac": 0.637,
+      "bird_px_visible": 4436,
+      "bird_height_frac": 0.193,
+      "beak_in_leaf": true,
+      "beak_stage": [
+       894.6,
+       636.6
+      ],
+      "inside": false
+     },
+     "plus3": {
+      "shot": "A",
+      "state": "listening",
+      "dots": [
+       1.0,
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       0.0
+      ],
+      "slide": 0.0,
+      "watcher_x": 520,
+      "watcher_shadow_height_frac": 0.637,
+      "bird_px_visible": 4446,
+      "bird_height_frac": 0.219,
+      "beak_in_leaf": true,
+      "beak_stage": [
+       847.1,
+       577.0
+      ],
+      "inside": false
+     },
+     "door_slide_at_X1": 0.0,
+     "label": "measured: one dot, refused, door shut"
+    },
+    "V3A_watcher_shadow_height_frac_f96": 0.637
+   },
+   "counterexample": {
+    "id": "X1",
+    "name": "single_peck_refused",
+    "local_s": 4.6,
+    "local_frame": 110,
+    "global_s": 39.6,
+    "global_frame": 950,
+    "span_local_s": [
+     4.6,
+     5.2
+    ],
+    "signature": "one strike on glass; one sensor dot lights then blinks off; door stays shut; added event, moves no protected event"
+   },
+   "door_fsm_events": [
+    [
+     4.6,
+     "closed->listening"
+    ],
+    [
+     5.125,
+     "listening->refuse(timeout)"
+    ],
+    [
+     5.583333333333333,
+     "refuse->closed"
+    ],
+    [
+     6.0,
+     "closed->listening"
+    ],
+    [
+     6.333333333333333,
+     "listening: 2nd strike in rhythm"
+    ],
+    [
+     6.833333333333333,
+     "listening->open"
+    ],
+    [
+     10.208333333333334,
+     "open->closed"
+    ]
+   ]
+  },
+  "D": {
+   "era": 1959,
+   "genre_tone": "deadpan",
+   "render_technique": "diagnostic: Reiniger silhouette theatre (black card on backlit paper), identical curves",
+   "door_mechanism": "hand",
+   "plate": "loc-ppmsca.70651 (traced tread lines only)",
+   "offset_s": 51.0,
+   "events": {
+    "E1": {
+     "global_s": [
+      51.0,
+      54.0
+     ],
+     "global_frame": [
+      1224,
+      1296
+     ]
+    },
+    "E2": {
+     "global_s": 54.5,
+     "global_frame": 1308
+    },
+    "E3": {
+     "global_s": 57.0,
+     "global_frame": 1368
+    },
+    "E4": {
+     "global_s": 57.32,
+     "global_frame": 1376
+    },
+    "E5": {
+     "global_s": [
+      58.0,
+      59.5
+     ],
+     "global_frame": [
+      1392,
+      1428
+     ]
+    },
+    "E6": {
+     "global_s": [
+      59.5,
+      61.0
+     ],
+     "global_frame": [
+      1428,
+      1464
+     ]
+    },
+    "E7": {
+     "global_s": [
+      62.0,
+      66.0
+     ],
+     "global_frame": [
+      1488,
+      1584
+     ]
+    }
+   },
+   "shots": {
+    "A": {
+     "global_s": [
+      51.0,
+      56.0
+     ],
+     "global_frame": [
+      1224,
+      1344
+     ]
+    },
+    "B": {
+     "global_s": [
+      56.0,
+      62.0
+     ],
+     "global_frame": [
+      1344,
+      1488
+     ]
+    },
+    "C": {
+     "global_s": [
+      62.0,
+      66.0
+     ],
+     "global_frame": [
+      1488,
+      1584
+     ]
+    }
+   },
+   "checks": {
+    "E3": {
+     "global_frame": 1368,
+     "global_s": 57.0,
+     "beak_in_leaf_mask": true,
+     "beak_stage_px": [
+      1929.3,
+      264.8
+     ],
+     "label": "measured"
+    },
+    "E4": {
+     "global_frame": 1376,
+     "global_s": 57.333,
+     "beak_in_leaf_mask": true,
+     "beak_stage_px": [
+      1929.3,
+      264.8
+     ],
+     "label": "measured"
+    },
+    "E6_end": {
+     "global_frame": 1464,
+     "bird_px_visible": 0,
+     "visible_px_f204_to_f240_step4": [
+      11996,
+      12072,
+      12475,
+      12003,
+      11067,
+      10006,
+      6792,
+      4150,
+      286,
+      0
+     ],
+     "label": "measured on the composite"
+    },
+    "strike_poses_E3_window": {
+     "keys_f138_f156": [
+      "settle",
+      "settle",
+      "look_up",
+      "cock",
+      "cock",
+      "strike",
+      "strike",
+      "recoil",
+      "recoil",
+      "recoil",
+      "recoil",
+      "cock",
+      "cock",
+      "strike",
+      "strike",
+      "recoil",
+      "recoil",
+      "recoil",
+      "recoil"
+     ],
+     "label": "pose keys per frame (>=3 distinct joint configurations within 1 s of E3)"
+    }
+   }
+  }
+ },
+ "assertions": {
+  "E3_E4_global_frames": {
+   "V1": [
+    216,
+    224
+   ],
+   "V2": [
+    600,
+    608
+   ],
+   "V3": [
+    984,
+    992
+   ],
+   "D": [
+    1368,
+    1376
+   ]
+  },
+  "E3_E4_global_s": {
+   "V1": [
+    9.0,
+    9.333
+   ],
+   "V2": [
+    25.0,
+    25.333
+   ],
+   "V3": [
+    41.0,
+    41.333
+   ],
+   "D": [
+    57.0,
+    57.333
+   ]
+  },
+  "all_versions_share_local_event_frames": true,
+  "beak_in_leaf_on_E3_E4": true,
+  "zero_bird_px_past_jamb_at_E6_end": true
+ },
+ "compare": {
+  "compare-1959.jpg": {
+   "film_frame_s": 9.0,
+   "film": {
+    "lt40": 20.9,
+    "gt200": 24.8,
+    "median": 156.0,
+    "p5_p95": [
+     6,
+     239
+    ],
+    "corner_centre": 0.31,
+    "R_minus_B": 0.0,
+    "abs_R_minus_B": 0.0,
+    "sat": 0.0,
+    "largest_black_mass": 14.7,
+    "palette": [
+     "#191919",
+     "#b3b3b3",
+     "#d1d1d1",
+     "#8a8a8a",
+     "#eaeaea",
+     "#585858"
+    ]
+   },
+   "reference": "orchard3.webp",
+   "reference_stats": {
+    "lt40": 21.1,
+    "gt200": 34.6,
+    "median": 153.0,
+    "p5_p95": [
+     7,
+     246
+    ],
+    "corner_centre": 0.09,
+    "R_minus_B": 0.0,
+    "abs_R_minus_B": 0.0,
+    "sat": 0.0,
+    "largest_black_mass": 14.8,
+    "palette": [
+     "#141414",
+     "#bfbfbf",
+     "#e6e6e6",
+     "#484848",
+     "#f4f4f4",
+     "#7c7c7c"
+    ]
+   }
+  },
+  "compare-2009.jpg": {
+   "film_frame_s": 25.0,
+   "film": {
+    "lt40": 17.8,
+    "gt200": 9.4,
+    "median": 95.7,
+    "p5_p95": [
+     22,
+     217
+    ],
+    "corner_centre": 2.18,
+    "R_minus_B": 26.5,
+    "abs_R_minus_B": 29.6,
+    "sat": 0.275,
+    "largest_black_mass": 2.5,
+    "palette": [
+     "#271f1f",
+     "#624033",
+     "#7f6050",
+     "#afafa7",
+     "#d9d6c8",
+     "#8e8171"
+    ]
+   },
+   "reference": "orchardAK08.webp",
+   "reference_stats": {
+    "lt40": 44.3,
+    "gt200": 14.0,
+    "median": 53.6,
+    "p5_p95": [
+     1,
+     203
+    ],
+    "corner_centre": 2.02,
+    "R_minus_B": 7.1,
+    "abs_R_minus_B": 18.2,
+    "sat": 0.285,
+    "largest_black_mass": 27.8,
+    "palette": [
+     "#050808",
+     "#221f22",
+     "#3d3f38",
+     "#c7d2b2",
+     "#5b5341",
+     "#84867c"
+    ]
+   }
+  },
+  "compare-2059.jpg": {
+   "film_frame_s": 41.0,
+   "film": {
+    "lt40": 1.8,
+    "gt200": 0.9,
+    "median": 128.9,
+    "p5_p95": [
+     63,
+     174
+    ],
+    "corner_centre": 0.83,
+    "R_minus_B": -4.2,
+    "abs_R_minus_B": 5.6,
+    "sat": 0.086,
+    "largest_black_mass": 0.1,
+    "palette": [
+     "#424c4b",
+     "#878e8a",
+     "#979e99",
+     "#646d69",
+     "#767d79",
+     "#abb2ad"
+    ]
+   },
+   "reference": "orchardAK17.webp",
+   "reference_stats": {
+    "lt40": 28.6,
+    "gt200": 2.3,
+    "median": 82.7,
+    "p5_p95": [
+     1,
+     181
+    ],
+    "corner_centre": 1.07,
+    "R_minus_B": 6.0,
+    "abs_R_minus_B": 11.8,
+    "sat": 0.248,
+    "largest_black_mass": 22.2,
+    "palette": [
+     "#a0a99b",
+     "#0e0b0a",
+     "#463d3a",
+     "#2f2b2f",
+     "#7e8277",
+     "#b9bfaf"
+    ]
+   }
+  },
+  "extra_V3A_39.0": {
+   "lt40": 3.1,
+   "gt200": 0.4,
+   "median": 138.6,
+   "p5_p95": [
+    50,
+    176
+   ],
+   "corner_centre": 1.07,
+   "R_minus_B": -5.0,
+   "abs_R_minus_B": 5.7,
+   "sat": 0.08,
+   "largest_black_mass": 0.8,
+   "palette": [
+    "#777f7b",
+    "#414949",
+    "#8a928f",
+    "#9ea5a1",
+    "#949c98",
+    "#acb3ae"
+   ]
+  },
+  "extra_V1A_5.5": {
+   "lt40": 33.1,
+   "gt200": 27.7,
+   "median": 149.0,
+   "p5_p95": [
+    5,
+    241
+   ],
+   "corner_centre": 0.22,
+   "R_minus_B": 0.0,
+   "abs_R_minus_B": 0.0,
+   "sat": 0.0,
+   "largest_black_mass": 17.8,
+   "palette": [
+    "#060606",
+    "#b6b6b6",
+    "#d7d7d7",
+    "#eeeeee",
+    "#212121",
+    "#676767"
+   ]
+  },
+  "extra_V2A_22.0": {
+   "lt40": 13.7,
+   "gt200": 8.2,
+   "median": 119.5,
+   "p5_p95": [
+    12,
+    212
+   ],
+   "corner_centre": 0.96,
+   "R_minus_B": 42.1,
+   "abs_R_minus_B": 44.7,
+   "sat": 0.372,
+   "largest_black_mass": 4.4,
+   "palette": [
+    "#844f40",
+    "#2f221d",
+    "#b37f66",
+    "#aea18c",
+    "#8d7b69",
+    "#d4d1c0"
+   ]
+  }
+ }
+}

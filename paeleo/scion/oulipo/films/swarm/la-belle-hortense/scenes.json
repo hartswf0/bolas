@@ -1,0 +1,1214 @@
+{
+ "unit": "animator: scene authors, Reiniger rig, multiplane, stencil dye, pan exposure (SCIONs 2, 29 (cut), 32 (FK), 44)",
+ "revision": "A1",
+ "date": "2026-11-16",
+ "module": {
+  "scene": "films/swarm/la-belle-hortense/animator/scene.py",
+  "beats": "films/swarm/la-belle-hortense/animator/beats.py",
+  "cut": "films/swarm/la-belle-hortense/animator/cut.py",
+  "writer": "films/swarm/la-belle-hortense/animator/scenes_json.py",
+  "rig": "films/sources/la-belle-hortense/animator/rig_runner.json",
+  "pieces": "films/sources/la-belle-hortense/animator/cut/pieces.npz",
+  "cut_log": "films/sources/la-belle-hortense/animator/cut/cut_log.json",
+  "dye_masks": "films/sources/la-belle-hortense/animator/dye",
+  "clips": "films/sources/la-belle-hortense/animator-scene-authors-reiniger-rig-multiplane-stencil-dye-pan-exposure-scions-2-and-44-/clips",
+  "stills": "films/sources/la-belle-hortense/animator-scene-authors-reiniger-rig-multiplane-stencil-dye-pan-exposure-scions-2-and-44-/stills",
+  "usage": "python3 -I cut.py; python3 -I scene.py testshot; python3 -I beats.py; python3 -I scenes_json.py. Editor: clips are 960x540, 24 fps, 36 frames (1.5 s), silent, no type; or import beats and call the frame functions."
+ },
+ "methods": {
+  "stencil": "Each plate printed monochrome on its own hard curve (p1 -> black, p99.6 -> paper) and dyed through masks keyed from the plate's hues: grass (yellow-green/mid/deep green by original hue, density from the print, cream on the hottest blades), soil (ochre, red earth in the darker half), brick quoins red, plaster yellow-ochre, trees deep green, sky left cream paper. Coat: #e2011b over a print stretched on the coat's own p2..p98.5 so the folds stay; warm sheen on the top 12%. Key brass, bell bronze. Masks saved in dye/.",
+  "multiplane": "Long planes assembled from distinct crops of the two Bourre plates joined by 72 px cross-fades (no mirror tiling); far 0.35 / mid 0.6 / bench 0.8 / figure 1.0 / near 1.6; the camera tilted down so no sky enters V.3.",
+  "pan_exposure": "Every frame = mean of n sub-frames over a 180-degree shutter (1/48 s). Streak length per plane = ratio x camera speed / 48. No blur kernel on any picture (contact-shadow and stencil-edge masks are softened, never the image).",
+  "rig": "Reiniger/FK: all runner pieces share the photo's pixel frame; child transform = parent @ T(pivot - child_pivot) @ R(child_pivot, angle) @ S; angle limits clamp every pose. Replacement profiles for the visitor (front walking in, back walking off).",
+  "test_shot_fixes": "(1) runner actually runs: new knee joint below the hem (thigh 460->700, shin hinged there, 1.75 stretch), hip -35..40, knee -75..0, 2.3 Hz stride, forward lean -10 deg, sleeve and forearm swing in counter-phase, coat tails swing at the waist; (2) coat keeps its folds (local p2..p98.5 stretch before the dye); (3) colour edge to edge: no sky, planes cut from grass/wall/bush bands, no mirror seams; (4) tonal range: hard print curve (true blacks), cream highlights on hot blades, ochre and red-earth soil dye in the streak; (5) English gloss in cream on a black band."
+ },
+ "test_shot": {
+  "file": "films/swarm/la-belle-hortense/testshot.mp4",
+  "still": "films/swarm/la-belle-hortense/testshot_43.3.png",
+  "board": "films/swarm/la-belle-hortense/testshot-board.jpg",
+  "measures": "films/sources/la-belle-hortense/animator/testshot_measures.json",
+  "targets": {
+   "coat_hue_within_8deg_of_minus6": true,
+   "coat_sat_ge_0_75": true,
+   "green_ge_25pct": true,
+   "lower_gy_gx_ge_1_3": true,
+   "coat_height_ge_0_55": true,
+   "head_at_top_edge": true,
+   "pivot_le_1px": true,
+   "parallax_order": true,
+   "key_parabola": {
+    "y_coeffs": [
+     1300.26,
+     -160.08,
+     302.37
+    ],
+    "g_fit_px_s2": 2600.5,
+    "max_resid_px": 0.0177,
+    "rotation_deg_per_s": 690.0,
+    "n": 9
+   }
+  }
+ },
+ "silhouette_checks": {
+  "I4": "films/sources/la-belle-hortense/animator/checks/sil_I4.png",
+  "II2": [
+   "films/sources/la-belle-hortense/animator/checks/sil_II2.png",
+   "films/sources/la-belle-hortense/animator/checks/sil_II2_swap.png"
+  ],
+  "V3": "films/sources/la-belle-hortense/animator/checks/sil_V3_43.3.png",
+  "method": "figures and props painted black on white, colour and stage removed; judged by eye (perceptual, not measured)"
+ },
+ "slots": [
+  {
+   "id": "I.1",
+   "motif": "manteau",
+   "start": 3.0,
+   "end": 4.5,
+   "function": "background",
+   "streak_plan": 0.0,
+   "clip": "films/sources/la-belle-hortense/animator-scene-authors-reiniger-rig-multiplane-stencil-dye-pan-exposure-scions-2-and-44-/clips/I1_manteau.mp4",
+   "still": "films/sources/la-belle-hortense/animator-scene-authors-reiniger-rig-multiplane-stencil-dye-pan-exposure-scions-2-and-44-/stills/I1_manteau_mid.png",
+   "frame_function": "beats.I1(t_local, sil=False)",
+   "n_sub": 1,
+   "shutter_deg": null,
+   "planes": "wide meadow plate (far 0.35 / ground 1.0, at rest), bench, folded coat (3 hinged pieces)",
+   "streak_px_ground": 0.0,
+   "rig": "folded coat: 3 hinged pieces (fold lines y=330, 485 of the coat panel), fold=0.84 (z-fold 145 deg), bundle laid -90 deg and squashed 0.5 on the seat",
+   "owner": "animator"
+  },
+  {
+   "id": "I.2",
+   "motif": "cloche",
+   "start": 4.5,
+   "end": 6.0,
+   "function": "action",
+   "streak_plan": 0.0,
+   "clip": "films/sources/la-belle-hortense/animator-scene-authors-reiniger-rig-multiplane-stencil-dye-pan-exposure-scions-2-and-44-/clips/I2_cloche.mp4",
+   "still": "films/sources/la-belle-hortense/animator-scene-authors-reiniger-rig-multiplane-stencil-dye-pan-exposure-scions-2-and-44-/stills/I2_cloche_mid.png",
+   "frame_function": "beats.I2(t_local, sil=False)",
+   "n_sub": 4,
+   "shutter_deg": 180,
+   "planes": "wide plate + bench + coat; bell (foreground, damped pendulum, strike 4.6); visitor front profile walking in",
+   "streak_px_ground": 0.0,
+   "rig": "visitor front profile (LoC 2017750548) walking: legs below the hem alternate lift+foreshorten at 0.9 Hz; bell damped pendulum struck at film 4.6",
+   "bell": {
+    "model": "theta(t)=theta0*exp(-t/tau)*sin(2*pi*f*t); clapper child pendulum, lag 0.9 rad, tau*0.8",
+    "theta0_deg": 26.0,
+    "tau_s": 1.5,
+    "f_hz": 1.05,
+    "peaks_deg": [
+     22.3,
+     16.23,
+     11.82,
+     8.6,
+     6.26,
+     4.56
+    ],
+    "log_peak_slope_per_halfcycle": -0.3175,
+    "expected_slope": -0.3175,
+    "limits_ok": true
+   },
+   "owner": "animator"
+  },
+  {
+   "id": "I.3",
+   "motif": "clé",
+   "start": 6.0,
+   "end": 7.5,
+   "function": "action",
+   "streak_plan": 0.0,
+   "clip": "films/sources/la-belle-hortense/animator-scene-authors-reiniger-rig-multiplane-stencil-dye-pan-exposure-scions-2-and-44-/clips/I3_cle.mp4",
+   "still": "films/sources/la-belle-hortense/animator-scene-authors-reiniger-rig-multiplane-stencil-dye-pan-exposure-scions-2-and-44-/stills/I3_cle_mid.png",
+   "frame_function": "beats.I3(t_local, sil=False)",
+   "n_sub": 6,
+   "shutter_deg": 180,
+   "planes": "insert: grass/gravel plate; HANDMADE envelope, flap hinge; key slides out",
+   "streak_px_ground": 0.0,
+   "rig": "HANDMADE envelope: flap hinged at the top edge, theta 0->180 deg over 0.5 s (cos foreshortening, reverse printed 0.8); key slides out 0.55-1.3 s",
+   "owner": "animator"
+  },
+  {
+   "id": "I.4",
+   "motif": "banc",
+   "start": 7.5,
+   "end": 9.0,
+   "function": "action",
+   "streak_plan": 0.0,
+   "clip": "films/sources/la-belle-hortense/animator-scene-authors-reiniger-rig-multiplane-stencil-dye-pan-exposure-scions-2-and-44-/clips/I4_banc.mp4",
+   "still": "films/sources/la-belle-hortense/animator-scene-authors-reiniger-rig-multiplane-stencil-dye-pan-exposure-scions-2-and-44-/stills/I4_banc_mid.png",
+   "frame_function": "beats.I4(t_local, sil=False)",
+   "n_sub": 4,
+   "shutter_deg": 180,
+   "planes": "wide: visitor bows, key travels to the coat, contact shadow; she straightens",
+   "streak_px_ground": 0.0,
+   "rig": "visitor bows (upper body compress 0.32 about the waist, 0.1-0.55 s), key travels hand->coat on an arc (0.3-0.75 s), contact shadow, she straightens (0.95-1.4 s)",
+   "silhouette_check": "films/sources/la-belle-hortense/animator/checks/sil_I4.png",
+   "owner": "animator"
+  },
+  {
+   "id": "I.5",
+   "motif": "reçu",
+   "start": 9.0,
+   "end": 10.5,
+   "function": "action",
+   "streak_plan": 0.0,
+   "clip": "films/sources/la-belle-hortense/animator-scene-authors-reiniger-rig-multiplane-stencil-dye-pan-exposure-scions-2-and-44-/clips/I5_recu.mp4",
+   "still": "films/sources/la-belle-hortense/animator-scene-authors-reiniger-rig-multiplane-stencil-dye-pan-exposure-scions-2-and-44-/stills/I5_recu_mid.png",
+   "frame_function": "beats.I5(t_local, sil=False)",
+   "n_sub": 6,
+   "shutter_deg": 180,
+   "planes": "wide: the receipt falls (drift + flutter) to the gravel",
+   "streak_px_ground": 0.0,
+   "rig": "receipt: terminal fall 170 px/s, lateral drift 60 px at 0.9 Hz, rotation 40 deg at 1.1 Hz, flip cos(2pi 0.8 t); lands at her feet ~1.2 s",
+   "owner": "animator"
+  },
+  {
+   "id": "I.6",
+   "motif": "porte",
+   "start": 10.5,
+   "end": 12.0,
+   "function": "background",
+   "streak_plan": 0.0,
+   "clip": "films/sources/la-belle-hortense/animator-scene-authors-reiniger-rig-multiplane-stencil-dye-pan-exposure-scions-2-and-44-/clips/I6_porte.mp4",
+   "still": "films/sources/la-belle-hortense/animator-scene-authors-reiniger-rig-multiplane-stencil-dye-pan-exposure-scions-2-and-44-/stills/I6_porte_mid.png",
+   "frame_function": "beats.I6(t_local, sil=False)",
+   "n_sub": 4,
+   "shutter_deg": 180,
+   "planes": "wide, slow push toward the shed door; visitor back profile walks off right",
+   "streak_px_ground": 0.0,
+   "rig": "visitor back profile (LoC 2017750547) walking off right and away (scale 0.9->0.55); camera push 1.00->1.07 toward the shed door",
+   "owner": "animator"
+  },
+  {
+   "id": "II.1",
+   "motif": "porte",
+   "start": 12.0,
+   "end": 13.5,
+   "function": "action",
+   "streak_plan": 0.25,
+   "owner": "print-sound / editor (typeset or insert, not an animated beat of this unit)"
+  },
+  {
+   "id": "II.2",
+   "motif": "manteau",
+   "start": 13.5,
+   "end": 15.0,
+   "function": "action",
+   "streak_plan": 0.25,
+   "clip": "films/sources/la-belle-hortense/animator-scene-authors-reiniger-rig-multiplane-stencil-dye-pan-exposure-scions-2-and-44-/clips/II2_manteau.mp4",
+   "still": "films/sources/la-belle-hortense/animator-scene-authors-reiniger-rig-multiplane-stencil-dye-pan-exposure-scions-2-and-44-/stills/II2_manteau_mid.png",
+   "frame_function": "beats.II2(t_local, sil=False)",
+   "n_sub": 6,
+   "shutter_deg": 180,
+   "planes": "push-in on the bench: coat lifted (unfolds on its hinges), 6-frame brass glint, holdout swap behind the bench",
+   "streak_px_ground": 0.0,
+   "rig": "coat unfolds on its hinges as it is lifted (fold 0.84->0, lift 520 px); brass glint on frames 6-11 (6 frames); at 0.9 s cut through the bench holdout: conductor (walk pose 1 Hz) drawn BEHIND the bench plane",
+   "silhouette_check": [
+    "films/sources/la-belle-hortense/animator/checks/sil_II2.png",
+    "films/sources/la-belle-hortense/animator/checks/sil_II2_swap.png"
+   ],
+   "runner": {
+    "pivot_max_px": 0.0,
+    "pivot_ok": true,
+    "shin_pose_changes_every_frame": false,
+    "sample_poses": [
+     {
+      "t": 0.021,
+      "kneeN": -23.42,
+      "hipN": 2.0
+     },
+     {
+      "t": 0.271,
+      "kneeN": -23.42,
+      "hipN": 2.0
+     },
+     {
+      "t": 0.521,
+      "kneeN": -23.42,
+      "hipN": 2.0
+     },
+     {
+      "t": 0.771,
+      "kneeN": -23.42,
+      "hipN": 2.0
+     },
+     {
+      "t": 1.021,
+      "kneeN": -43.93,
+      "hipN": 15.77
+     },
+     {
+      "t": 1.271,
+      "kneeN": -4.07,
+      "hipN": 16.51
+     }
+    ]
+   },
+   "owner": "animator"
+  },
+  {
+   "id": "II.3",
+   "motif": "reçu",
+   "start": 15.0,
+   "end": 16.5,
+   "function": "evidence",
+   "streak_plan": 0.25,
+   "owner": "print-sound / editor (typeset or insert, not an animated beat of this unit)"
+  },
+  {
+   "id": "II.4",
+   "motif": "cloche",
+   "start": 16.5,
+   "end": 18.0,
+   "function": "action",
+   "streak_plan": 0.25,
+   "clip": "films/sources/la-belle-hortense/animator-scene-authors-reiniger-rig-multiplane-stencil-dye-pan-exposure-scions-2-and-44-/clips/bell_strike.mp4",
+   "still": "films/sources/la-belle-hortense/animator-scene-authors-reiniger-rig-multiplane-stencil-dye-pan-exposure-scions-2-and-44-/stills/bell_strike_mid.png",
+   "frame_function": "beats.bell_clip(t_local, sil=False)",
+   "n_sub": 4,
+   "shutter_deg": 180,
+   "planes": "shed wall plate (dyed), bell + clapper damped pendulum; strike at local 0.1 s (use in I.2 inset, II.4, III.5, IV.3, V.6)",
+   "streak_px_ground": 0.0,
+   "note": "same bell clip; strike at local 0.1 s = film 16.6",
+   "bell": {
+    "model": "theta(t)=theta0*exp(-t/tau)*sin(2*pi*f*t); clapper child pendulum, lag 0.9 rad, tau*0.8",
+    "theta0_deg": 26.0,
+    "tau_s": 1.5,
+    "f_hz": 1.05,
+    "peaks_deg": [
+     22.3,
+     16.23,
+     11.82,
+     8.6,
+     6.26,
+     4.56
+    ],
+    "log_peak_slope_per_halfcycle": -0.3175,
+    "expected_slope": -0.3175,
+    "limits_ok": true
+   },
+   "owner": "animator"
+  },
+  {
+   "id": "II.5",
+   "motif": "banc",
+   "start": 18.0,
+   "end": 19.5,
+   "function": "absence",
+   "streak_plan": 0.25,
+   "animator": "empty bench: beats.I1 without the coat -> use beats.bench_empty",
+   "owner": "animator (reuse) / editor"
+  },
+  {
+   "id": "II.6",
+   "motif": "clé",
+   "start": 19.5,
+   "end": 21.0,
+   "function": "absence",
+   "streak_plan": 0.25,
+   "owner": "print-sound / editor (typeset or insert, not an animated beat of this unit)"
+  },
+  {
+   "id": "III.1",
+   "motif": "clé",
+   "start": 21.0,
+   "end": 22.5,
+   "function": "false-lead",
+   "streak_plan": 0.3,
+   "owner": "print-sound / editor (typeset or insert, not an animated beat of this unit)"
+  },
+  {
+   "id": "III.2",
+   "motif": "porte",
+   "start": 22.5,
+   "end": 24.0,
+   "function": "evidence",
+   "streak_plan": 0.3,
+   "owner": "print-sound / editor (typeset or insert, not an animated beat of this unit)"
+  },
+  {
+   "id": "III.3",
+   "motif": "banc",
+   "start": 24.0,
+   "end": 25.5,
+   "function": "evidence",
+   "streak_plan": 0.3,
+   "animator": "bench, gravel, nothing: beats.bench_empty",
+   "owner": "animator (reuse) / editor"
+  },
+  {
+   "id": "III.4",
+   "motif": "manteau",
+   "start": 25.5,
+   "end": 27.0,
+   "function": "background",
+   "streak_plan": 0.3,
+   "clip": "films/sources/la-belle-hortense/animator-scene-authors-reiniger-rig-multiplane-stencil-dye-pan-exposure-scions-2-and-44-/clips/III4_manteau.mp4",
+   "still": "films/sources/la-belle-hortense/animator-scene-authors-reiniger-rig-multiplane-stencil-dye-pan-exposure-scions-2-and-44-/stills/III4_manteau_mid.png",
+   "frame_function": "beats.III4(t_local, sil=False)",
+   "n_sub": 12,
+   "shutter_deg": 180,
+   "planes": "wide plate panning 160 px/s (far 0.35 / ground 1.0); conductor at 0.10 scale running on the far meadow",
+   "streak_px_ground": 3.3,
+   "parallax": {
+    "ratios": [
+     0.35,
+     1.0
+    ],
+    "px_per_frame": [
+     2.33,
+     6.67
+    ],
+    "order_ok": true
+   },
+   "runner": {
+    "pivot_max_px": 0.0,
+    "pivot_ok": true,
+    "shin_pose_changes_every_frame": true,
+    "sample_poses": [
+     {
+      "t": 0.021,
+      "kneeN": -73.91,
+      "hipN": 16.08
+     },
+     {
+      "t": 0.271,
+      "kneeN": -6.12,
+      "hipN": -17.72
+     },
+     {
+      "t": 0.521,
+      "kneeN": -61.02,
+      "hipN": 38.2
+     },
+     {
+      "t": 0.771,
+      "kneeN": -17.47,
+      "hipN": -27.65
+     },
+     {
+      "t": 1.021,
+      "kneeN": -24.72,
+      "hipN": 33.77
+     },
+     {
+      "t": 1.271,
+      "kneeN": -52.05,
+      "hipN": -9.83
+     }
+    ]
+   },
+   "rig": "same coat cutout and dye at 0.14 scale (1/5 of V.3), running gait 2.3 Hz",
+   "owner": "animator"
+  },
+  {
+   "id": "III.5",
+   "motif": "cloche",
+   "start": 27.0,
+   "end": 28.5,
+   "function": "evidence",
+   "streak_plan": 0.3,
+   "clip": "films/sources/la-belle-hortense/animator-scene-authors-reiniger-rig-multiplane-stencil-dye-pan-exposure-scions-2-and-44-/clips/bell_strike.mp4",
+   "still": "films/sources/la-belle-hortense/animator-scene-authors-reiniger-rig-multiplane-stencil-dye-pan-exposure-scions-2-and-44-/stills/bell_strike_mid.png",
+   "frame_function": "beats.bell_clip(t_local, sil=False)",
+   "n_sub": 4,
+   "shutter_deg": 180,
+   "planes": "shed wall plate (dyed), bell + clapper damped pendulum; strike at local 0.1 s (use in I.2 inset, II.4, III.5, IV.3, V.6)",
+   "streak_px_ground": 0.0,
+   "note": "same bell clip; strike at local 0.1 s = film 27.1",
+   "bell": {
+    "model": "theta(t)=theta0*exp(-t/tau)*sin(2*pi*f*t); clapper child pendulum, lag 0.9 rad, tau*0.8",
+    "theta0_deg": 26.0,
+    "tau_s": 1.5,
+    "f_hz": 1.05,
+    "peaks_deg": [
+     22.3,
+     16.23,
+     11.82,
+     8.6,
+     6.26,
+     4.56
+    ],
+    "log_peak_slope_per_halfcycle": -0.3175,
+    "expected_slope": -0.3175,
+    "limits_ok": true
+   },
+   "owner": "animator"
+  },
+  {
+   "id": "III.6",
+   "motif": "reçu",
+   "start": 28.5,
+   "end": 30.0,
+   "function": "evidence",
+   "streak_plan": 0.3,
+   "owner": "print-sound / editor (typeset or insert, not an animated beat of this unit)"
+  },
+  {
+   "id": "IV.1",
+   "motif": "reçu",
+   "start": 30.0,
+   "end": 31.5,
+   "function": "evidence",
+   "streak_plan": 0.4,
+   "owner": "print-sound / editor (typeset or insert, not an animated beat of this unit)"
+  },
+  {
+   "id": "IV.2",
+   "motif": "clé",
+   "start": 31.5,
+   "end": 33.0,
+   "function": "false-lead",
+   "streak_plan": 0.4,
+   "animator": "replay of I.4 exact pixels (clip I4_banc) inside the typed frame I·4 (editor)",
+   "owner": "animator (reuse) / editor"
+  },
+  {
+   "id": "IV.3",
+   "motif": "cloche",
+   "start": 33.0,
+   "end": 34.5,
+   "function": "false-lead",
+   "streak_plan": 0.4,
+   "clip": "films/sources/la-belle-hortense/animator-scene-authors-reiniger-rig-multiplane-stencil-dye-pan-exposure-scions-2-and-44-/clips/bell_strike.mp4",
+   "still": "films/sources/la-belle-hortense/animator-scene-authors-reiniger-rig-multiplane-stencil-dye-pan-exposure-scions-2-and-44-/stills/bell_strike_mid.png",
+   "frame_function": "beats.bell_clip(t_local, sil=False)",
+   "n_sub": 4,
+   "shutter_deg": 180,
+   "planes": "shed wall plate (dyed), bell + clapper damped pendulum; strike at local 0.1 s (use in I.2 inset, II.4, III.5, IV.3, V.6)",
+   "streak_px_ground": 0.0,
+   "note": "same bell clip; strike at local 0.1 s = film 33.1",
+   "bell": {
+    "model": "theta(t)=theta0*exp(-t/tau)*sin(2*pi*f*t); clapper child pendulum, lag 0.9 rad, tau*0.8",
+    "theta0_deg": 26.0,
+    "tau_s": 1.5,
+    "f_hz": 1.05,
+    "peaks_deg": [
+     22.3,
+     16.23,
+     11.82,
+     8.6,
+     6.26,
+     4.56
+    ],
+    "log_peak_slope_per_halfcycle": -0.3175,
+    "expected_slope": -0.3175,
+    "limits_ok": true
+   },
+   "owner": "animator"
+  },
+  {
+   "id": "IV.4",
+   "motif": "porte",
+   "start": 34.5,
+   "end": 36.0,
+   "function": "evidence",
+   "streak_plan": 0.4,
+   "owner": "print-sound / editor (typeset or insert, not an animated beat of this unit)"
+  },
+  {
+   "id": "IV.5",
+   "motif": "manteau",
+   "start": 36.0,
+   "end": 37.5,
+   "function": "action",
+   "streak_plan": 0.4,
+   "clip": "films/sources/la-belle-hortense/animator-scene-authors-reiniger-rig-multiplane-stencil-dye-pan-exposure-scions-2-and-44-/clips/IV5_manteau.mp4",
+   "still": "films/sources/la-belle-hortense/animator-scene-authors-reiniger-rig-multiplane-stencil-dye-pan-exposure-scions-2-and-44-/stills/IV5_manteau_mid.png",
+   "frame_function": "beats.IV5(t_local, sil=False)",
+   "n_sub": 36,
+   "shutter_deg": 180,
+   "planes": "run stage pan 1500 px/s (0.35/0.6/1.0/1.6); coat at 1.9 scale sweeping across the near plane",
+   "streak_px_ground": 31.2,
+   "parallax": {
+    "ratios": [
+     0.35,
+     0.6,
+     1.0,
+     1.6
+    ],
+    "px_per_frame": [
+     21.88,
+     37.5,
+     62.5,
+     100.0
+    ],
+    "order_ok": true
+   },
+   "runner": {
+    "pivot_max_px": 0.0,
+    "pivot_ok": true,
+    "shin_pose_changes_every_frame": true,
+    "sample_poses": [
+     {
+      "t": 0.021,
+      "kneeN": -73.91,
+      "hipN": 16.08
+     },
+     {
+      "t": 0.271,
+      "kneeN": -6.12,
+      "hipN": -17.72
+     },
+     {
+      "t": 0.521,
+      "kneeN": -61.02,
+      "hipN": 38.2
+     },
+     {
+      "t": 0.771,
+      "kneeN": -17.47,
+      "hipN": -27.65
+     },
+     {
+      "t": 1.021,
+      "kneeN": -24.72,
+      "hipN": 33.77
+     },
+     {
+      "t": 1.271,
+      "kneeN": -52.05,
+      "hipN": -9.83
+     }
+    ]
+   },
+   "planes_list": [
+    "far 0.35 (shed wall/quoins/bushes: Bourre 50866795131 + 50866798791)",
+    "mid 0.6 (platform wall + far meadow)",
+    "ground 1.0 (meadow grass, earth)",
+    "figure 1.0 (camera-locked)",
+    "near 1.6 (close grass)"
+   ],
+   "rig": "coat at 1.9 scale crossing at 2400 px/s: its own 50 px smear per exposure",
+   "owner": "animator"
+  },
+  {
+   "id": "IV.6",
+   "motif": "banc",
+   "start": 37.5,
+   "end": 39.0,
+   "function": "absence",
+   "streak_plan": 0.4,
+   "animator": "empty bench: beats.bench_empty",
+   "owner": "animator (reuse) / editor"
+  },
+  {
+   "id": "V.1",
+   "motif": "banc",
+   "start": 39.0,
+   "end": 40.5,
+   "function": "action",
+   "streak_plan": 1.0,
+   "clip": "films/sources/la-belle-hortense/animator-scene-authors-reiniger-rig-multiplane-stencil-dye-pan-exposure-scions-2-and-44-/clips/V1_banc.mp4",
+   "still": "films/sources/la-belle-hortense/animator-scene-authors-reiniger-rig-multiplane-stencil-dye-pan-exposure-scions-2-and-44-/stills/V1_banc_mid.png",
+   "frame_function": "beats.V1(t_local, sil=False)",
+   "n_sub": 36,
+   "shutter_deg": 180,
+   "planes": "run stage + bench plane 0.8; camera accelerates 0 -> 4200 px/s",
+   "streak_px_ground": 87.5,
+   "parallax": {
+    "ratios": [
+     0.35,
+     0.6,
+     0.8,
+     1.0,
+     1.6
+    ],
+    "px_per_frame": [
+     61.25,
+     105.0,
+     140.0,
+     175.0,
+     280.0
+    ],
+    "order_ok": true
+   },
+   "planes_list": [
+    "far 0.35 (shed wall/quoins/bushes: Bourre 50866795131 + 50866798791)",
+    "mid 0.6 (platform wall + far meadow)",
+    "ground 1.0 (meadow grass, earth)",
+    "figure 1.0 (camera-locked)",
+    "near 1.6 (close grass)",
+    "bench plane 0.8"
+   ],
+   "owner": "animator"
+  },
+  {
+   "id": "V.2",
+   "motif": "reçu",
+   "start": 40.5,
+   "end": 42.0,
+   "function": "action",
+   "streak_plan": 1.0,
+   "clip": "films/sources/la-belle-hortense/animator-scene-authors-reiniger-rig-multiplane-stencil-dye-pan-exposure-scions-2-and-44-/clips/V2_recu.mp4",
+   "still": "films/sources/la-belle-hortense/animator-scene-authors-reiniger-rig-multiplane-stencil-dye-pan-exposure-scions-2-and-44-/stills/V2_recu_mid.png",
+   "frame_function": "beats.V2(t_local, sil=False)",
+   "n_sub": 36,
+   "shutter_deg": 180,
+   "planes": "run stage at full speed; ticket in the wake; runner catches the camera",
+   "streak_px_ground": 87.5,
+   "parallax": {
+    "ratios": [
+     0.35,
+     0.6,
+     1.0,
+     1.6
+    ],
+    "px_per_frame": [
+     61.25,
+     105.0,
+     175.0,
+     280.0
+    ],
+    "order_ok": true
+   },
+   "planes_list": [
+    "far 0.35 (shed wall/quoins/bushes: Bourre 50866795131 + 50866798791)",
+    "mid 0.6 (platform wall + far meadow)",
+    "ground 1.0 (meadow grass, earth)",
+    "figure 1.0 (camera-locked)",
+    "near 1.6 (close grass)"
+   ],
+   "runner": {
+    "pivot_max_px": 0.0,
+    "pivot_ok": true,
+    "shin_pose_changes_every_frame": true,
+    "sample_poses": [
+     {
+      "t": 0.021,
+      "kneeN": -61.02,
+      "hipN": 38.2
+     },
+     {
+      "t": 0.271,
+      "kneeN": -17.47,
+      "hipN": -27.65
+     },
+     {
+      "t": 0.521,
+      "kneeN": -24.72,
+      "hipN": 33.77
+     },
+     {
+      "t": 0.771,
+      "kneeN": -52.05,
+      "hipN": -9.83
+     },
+     {
+      "t": 1.021,
+      "kneeN": -6.86,
+      "hipN": 6.45
+     },
+     {
+      "t": 1.271,
+      "kneeN": -74.95,
+      "hipN": 21.04
+     }
+    ]
+   },
+   "owner": "animator"
+  },
+  {
+   "id": "V.3",
+   "motif": "manteau",
+   "start": 42.0,
+   "end": 43.5,
+   "function": "evidence",
+   "streak_plan": 1.0,
+   "clip": "films/sources/la-belle-hortense/animator-scene-authors-reiniger-rig-multiplane-stencil-dye-pan-exposure-scions-2-and-44-/clips/V3_manteau_clean.mp4",
+   "typed_clip": "films/swarm/la-belle-hortense/testshot.mp4",
+   "window_film_s": [
+    41.5,
+    44.0
+   ],
+   "frame_function": "scene.v3_sub(film_t) integrated by scene.integrate(..., n=36, shutter=0.5)",
+   "n_sub": 36,
+   "shutter_deg": 180,
+   "planes": [
+    "far 0.35 (shed wall/quoins/bushes: Bourre 50866795131 + 50866798791)",
+    "mid 0.6 (platform wall + far meadow)",
+    "ground 1.0 (meadow grass, earth)",
+    "figure 1.0 (camera-locked)",
+    "near 1.6 (close grass)"
+   ],
+   "parallax_ratios": [
+    0.35,
+    0.6,
+    1.0,
+    1.0,
+    1.6
+   ],
+   "streak_px_per_exposure": {
+    "far": 30.6,
+    "mid": 52.5,
+    "ground": 87.5,
+    "near": 140.0
+   },
+   "parallax_px_per_frame": {
+    "far": 61.2,
+    "mid": 105.0,
+    "ground": 175.0,
+    "near": 280.0
+   },
+   "parallax_order_all_frames": true,
+   "pivot_max_px": 2.4116620165382783e-13,
+   "rig": "runner FK (rig_runner.json): hip/knee per leg, coat tails at the waist, sleeve at the shoulder, forearm at the elbow; gait 2.3 Hz, lean -10 deg (forward), bob 9 px",
+   "coat_height_frac": 0.62,
+   "cap_top_y": -46.7,
+   "key_drop": {
+    "t_release": 43.2,
+    "t_land": 43.566,
+    "positions": [
+     [
+      43.2292,
+      491.39,
+      298.8,
+      40.1
+     ],
+     [
+      43.2708,
+      489.52,
+      297.55,
+      68.9
+     ],
+     [
+      43.3125,
+      486.08,
+      300.81,
+      97.6
+     ],
+     [
+      43.3542,
+      481.08,
+      308.59,
+      126.4
+     ],
+     [
+      43.3958,
+      474.52,
+      320.88,
+      155.1
+     ],
+     [
+      43.4375,
+      466.39,
+      337.69,
+      183.9
+     ],
+     [
+      43.4792,
+      456.7,
+      359.01,
+      212.6
+     ],
+     [
+      43.5208,
+      445.45,
+      384.84,
+      241.4
+     ],
+     [
+      43.5625,
+      432.64,
+      415.19,
+      270.1
+     ]
+    ],
+    "parabola": {
+     "y_coeffs": [
+      1300.26,
+      -160.08,
+      302.37
+     ],
+     "g_fit_px_s2": 2600.5,
+     "max_resid_px": 0.0177,
+     "rotation_deg_per_s": 690.0,
+     "n": 9
+    }
+   },
+   "still": "films/swarm/la-belle-hortense/testshot_43.3.png",
+   "board": "films/swarm/la-belle-hortense/testshot-board.jpg",
+   "measures_43_3": {
+    "luma": [
+     20,
+     53,
+     88,
+     109,
+     133
+    ],
+    "med_sat": 159,
+    "coat_hue_deg": -7.0,
+    "coat_sat": 1.0,
+    "green_pct": 82.9,
+    "lower_gy_gx": 1.67,
+    "red_rows_frac": 0.86,
+    "red_top_row": 44
+   },
+   "reference_measures": {
+    "luma": [
+     0,
+     65,
+     100,
+     152,
+     232
+    ],
+    "med_sat": 170,
+    "coat_hue_deg": -5.6,
+    "coat_sat": 0.94,
+    "green_pct": 54.1,
+    "lower_gy_gx": 1.59,
+    "red_rows_frac": 1.0,
+    "red_top_row": 0
+   },
+   "silhouette_check": "films/sources/la-belle-hortense/animator/checks/sil_V3_43.3.png",
+   "owner": "animator"
+  },
+  {
+   "id": "V.4",
+   "motif": "clé",
+   "start": 43.5,
+   "end": 45.0,
+   "function": "evidence",
+   "streak_plan": 1.0,
+   "clip": "films/sources/la-belle-hortense/animator-scene-authors-reiniger-rig-multiplane-stencil-dye-pan-exposure-scions-2-and-44-/clips/V4_cle.mp4",
+   "still": "films/sources/la-belle-hortense/animator-scene-authors-reiniger-rig-multiplane-stencil-dye-pan-exposure-scions-2-and-44-/stills/V4_cle_mid.png",
+   "frame_function": "beats.V4(t_local, sil=False)",
+   "n_sub": 24,
+   "shutter_deg": 180,
+   "planes": "run stage; camera brakes, overshoots, returns to rest on the key; hand takes it",
+   "streak_px_ground": 87.5,
+   "parallax": {
+    "ratios": [
+     0.35,
+     0.6,
+     1.0,
+     1.6
+    ],
+    "px_per_frame": [
+     61.25,
+     105.0,
+     175.0,
+     280.0
+    ],
+    "order_ok": true
+   },
+   "planes_list": [
+    "far 0.35 (shed wall/quoins/bushes: Bourre 50866795131 + 50866798791)",
+    "mid 0.6 (platform wall + far meadow)",
+    "ground 1.0 (meadow grass, earth)",
+    "figure 1.0 (camera-locked)",
+    "near 1.6 (close grass)"
+   ],
+   "rig": "key on the ground plane (moves with ratio 1.0), one bounce; camera Hermite brake 43.5-44.2 with overshoot, rests on the key (the plate re-forms as a still photograph); forearm piece turned -105 deg comes down 44.35, takes the key 44.7",
+   "owner": "animator"
+  },
+  {
+   "id": "V.5",
+   "motif": "porte",
+   "start": 45.0,
+   "end": 46.5,
+   "function": "action",
+   "streak_plan": 1.0,
+   "clip": "films/sources/la-belle-hortense/animator-scene-authors-reiniger-rig-multiplane-stencil-dye-pan-exposure-scions-2-and-44-/clips/V5_porte.mp4",
+   "still": "films/sources/la-belle-hortense/animator-scene-authors-reiniger-rig-multiplane-stencil-dye-pan-exposure-scions-2-and-44-/stills/V5_porte_mid.png",
+   "frame_function": "beats.V5(t_local, sil=False)",
+   "n_sub": 4,
+   "shutter_deg": 180,
+   "planes": "shed plate (dyed) close on the door: key turns, right leaf swings in (perspective), dark inside",
+   "streak_px_ground": 0.0,
+   "rig": "key turns in the lock (x-foreshortening about its shaft, 0-0.35 s); right door leaf (cut from the plate along its frame) swings in on its outer hinge 0->82 deg (perspective quad, free edge recedes 10%); behind it true black",
+   "owner": "animator"
+  },
+  {
+   "id": "V.6",
+   "motif": "cloche",
+   "start": 46.5,
+   "end": 48.0,
+   "function": "action",
+   "streak_plan": 1.0,
+   "clip": "films/sources/la-belle-hortense/animator-scene-authors-reiniger-rig-multiplane-stencil-dye-pan-exposure-scions-2-and-44-/clips/bell_strike.mp4",
+   "still": "films/sources/la-belle-hortense/animator-scene-authors-reiniger-rig-multiplane-stencil-dye-pan-exposure-scions-2-and-44-/stills/bell_strike_mid.png",
+   "frame_function": "beats.bell_clip(t_local, sil=False)",
+   "n_sub": 4,
+   "shutter_deg": 180,
+   "planes": "shed wall plate (dyed), bell + clapper damped pendulum; strike at local 0.1 s (use in I.2 inset, II.4, III.5, IV.3, V.6)",
+   "streak_px_ground": 0.0,
+   "note": "same bell clip; strike at local 0.1 s = film 46.6",
+   "bell": {
+    "model": "theta(t)=theta0*exp(-t/tau)*sin(2*pi*f*t); clapper child pendulum, lag 0.9 rad, tau*0.8",
+    "theta0_deg": 26.0,
+    "tau_s": 1.5,
+    "f_hz": 1.05,
+    "peaks_deg": [
+     22.3,
+     16.23,
+     11.82,
+     8.6,
+     6.26,
+     4.56
+    ],
+    "log_peak_slope_per_halfcycle": -0.3175,
+    "expected_slope": -0.3175,
+    "limits_ok": true
+   },
+   "owner": "animator"
+  },
+  {
+   "id": "VI.1",
+   "motif": "cloche",
+   "start": 48.0,
+   "end": 49.5,
+   "function": "closure",
+   "streak_plan": 0.2,
+   "clip": "films/sources/la-belle-hortense/animator-scene-authors-reiniger-rig-multiplane-stencil-dye-pan-exposure-scions-2-and-44-/clips/VI1_cloche.mp4",
+   "still": "films/sources/la-belle-hortense/animator-scene-authors-reiniger-rig-multiplane-stencil-dye-pan-exposure-scions-2-and-44-/stills/VI1_cloche_mid.png",
+   "frame_function": "beats.VI1(t_local, sil=False)",
+   "n_sub": 4,
+   "shutter_deg": 180,
+   "planes": "bell settling to rest (damped continuation of V.6)",
+   "streak_px_ground": 0.0,
+   "bell": {
+    "model": "continuation of V.6 (theta0 26 deg, tau 1.5) with an added damper tau 0.6 s from 48.0",
+    "amplitude_at_48_deg": 10.22,
+    "amplitude_at_49_5_deg": 0.84
+   },
+   "owner": "animator"
+  },
+  {
+   "id": "VI.2",
+   "motif": "banc",
+   "start": 49.5,
+   "end": 51.0,
+   "function": "evidence",
+   "streak_plan": 0.2,
+   "animator": "replay of I.4 exact pixels (clip I4_banc) inside the typed frame I·4 (editor)",
+   "owner": "animator (reuse) / editor"
+  },
+  {
+   "id": "VI.3",
+   "motif": "porte",
+   "start": 51.0,
+   "end": 52.5,
+   "function": "closure",
+   "streak_plan": 0.2,
+   "owner": "print-sound / editor (typeset or insert, not an animated beat of this unit)"
+  },
+  {
+   "id": "VI.4",
+   "motif": "reçu",
+   "start": 52.5,
+   "end": 54.0,
+   "function": "closure",
+   "streak_plan": 0.2,
+   "owner": "print-sound / editor (typeset or insert, not an animated beat of this unit)"
+  },
+  {
+   "id": "VI.5",
+   "motif": "clé",
+   "start": 54.0,
+   "end": 55.5,
+   "function": "closure",
+   "streak_plan": 0.2,
+   "owner": "print-sound / editor (typeset or insert, not an animated beat of this unit)"
+  },
+  {
+   "id": "VI.6",
+   "motif": "manteau",
+   "start": 55.5,
+   "end": 57.0,
+   "function": "background",
+   "streak_plan": 0.2,
+   "animator": "the folded coat on the bench again: clip I1_manteau (identical pixels, signature identity)",
+   "owner": "animator (reuse) / editor"
+  }
+ ],
+ "evidence": {
+  "verified_on": "2026-11-16",
+  "foraged": [
+   {
+    "id": "COND",
+    "title": "Chicago, Illinois. Conductor checking his time in the telegraphers office at Union Station (1943 Feb.)",
+    "author": "Jack Delano (U.S. Farm Security Administration/Office of War Information)",
+    "license": "Public domain (US government work; LoC rights advisory: No known restrictions)",
+    "license_url": "https://www.loc.gov/rr/print/res/071_fsab.html",
+    "source_url": "https://www.loc.gov/item/2017844115/",
+    "file_url": "",
+    "local_path": "films/sources/la-belle-hortense/test-shot/plates/loc_2017844115.jpg (cut: test-shot/cut/pieces.npz; re-split in animator/cut/pieces.npz)",
+    "what_it_shows": "a railroad conductor in a long overcoat and cap, standing, holding a watch",
+    "verified_date_or_place": "2026-11-16, loc.gov item JSON rights_advisory re-read (animator/dl/loc_2017844115.json)",
+    "used_as": "the runner and the coat: torso, coat tails, sleeve, forearm, thighs (trouser cloth), shins; folded coat panel (3 hinged pieces); coat stencil-dyed #e2011b"
+   },
+   {
+    "id": "VISITOR-F",
+    "title": "Old woman and Pekingese walking along a street in Saint Albans, Vermont (1941 Sept.)",
+    "author": "Jack Delano (FSA/OWI)",
+    "license": "Public domain (US government work; LoC rights advisory: No known restrictions)",
+    "license_url": "https://www.loc.gov/rr/print/res/071_fsab.html",
+    "source_url": "https://www.loc.gov/item/2017750548/",
+    "file_url": "https://tile.loc.gov/storage-services/service/pnp/fsa/8a36000/8a36800/8a36814v.jpg",
+    "local_path": "films/sources/la-belle-hortense/animator/dl/loc_8a36814v.jpg",
+    "what_it_shows": "an elderly woman in a print dress and hat walking toward the camera on a sidewalk, holding a leash",
+    "verified_date_or_place": "2026-11-16, loc.gov item JSON (animator/dl/loc_2017750548.json)",
+    "used_as": "the visitor, front profile (GrabCut; dog and sidewalk removed): walks in (I.2), bows and lays the key (I.4), drops the receipt (I.5)"
+   },
+   {
+    "id": "VISITOR-B",
+    "title": "[Untitled photo, possibly related to: Old woman and Pekingese walking along a street in Saint Albans, Vermont] ([1941 Sept.])",
+    "author": "Jack Delano (FSA/OWI)",
+    "license": "Public domain (US government work; LoC rights advisory: No known restrictions)",
+    "license_url": "https://www.loc.gov/rr/print/res/071_fsab.html",
+    "source_url": "https://www.loc.gov/item/2017750547/",
+    "file_url": "https://tile.loc.gov/storage-services/service/pnp/fsa/8a36000/8a36800/8a36813v.jpg",
+    "local_path": "films/sources/la-belle-hortense/animator/dl/loc_8a36813v.jpg",
+    "what_it_shows": "the same woman walking away from the camera",
+    "verified_date_or_place": "2026-11-16, loc.gov item JSON (animator/dl/loc_2017750547.json)",
+    "used_as": "the visitor, back profile (replacement drawing): walks off (I.6)"
+   },
+   {
+    "id": "BENCH",
+    "title": "Park bench in Sacramento, the capital city of the U.S. state of California and the county seat of Sacramento County (2012)",
+    "author": "Carol M. Highsmith",
+    "license": "Public domain (Carol M. Highsmith Archive, Library of Congress; rights advisory: No known restrictions on publication)",
+    "license_url": "https://www.loc.gov/rr/print/res/482_high.html",
+    "source_url": "https://www.loc.gov/item/2013633886/",
+    "file_url": "https://tile.loc.gov/image-services/iiif/service:pnp:highsm:23400:23429/full/pct:25/0/default.jpg",
+    "local_path": "films/sources/les-lieux-dune-fugue/r2/bench/sac_23429.jpg (read in place, not copied)",
+    "what_it_shows": "a cast-iron park bench with wooden slats on fallen leaves",
+    "verified_date_or_place": "2026-11-16, loc.gov item JSON (animator/dl/loc_2013633886.json)",
+    "used_as": "the bench (GrabCut), printed monochrome; holdout plane for the II.2 swap. Credit line: Carol M. Highsmith Archive, Library of Congress, Prints and Photographs Division"
+   },
+   {
+    "id": "BELL",
+    "title": "File:Bahnhofsglocke HLB 1.jpg",
+    "author": "Reinhard Dietrich",
+    "license": "Public domain",
+    "license_url": "",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Bahnhofsglocke_HLB_1.jpg",
+    "file_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Bahnhofsglocke_HLB_1.jpg/960px-Bahnhofsglocke_HLB_1.jpg",
+    "local_path": "films/sources/la-belle-hortense/animator/dl/Bahnhofsglocke_HLB_1.jpg",
+    "what_it_shows": "a bronze station bell (Hessische Landesbahn) hung between two concrete posts, clapper visible",
+    "verified_date_or_place": "2026-11-16, Commons extmetadata LicenseShortName=Public domain, Artist=Reinhard Dietrich (animator/dl/commons_bell_search.json)",
+    "used_as": "the bell and its clapper (scissor polygon + GrabCut), dyed bronze; damped pendulum in every cloche slot"
+   },
+   {
+    "id": "SHED",
+    "title": "Bourré (Loir-et-Cher) (50866795131).jpg",
+    "author": "Daniel Jolivet",
+    "license": "CC BY 2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Bourr%C3%A9_(Loir-et-Cher)_(50866795131).jpg",
+    "file_url": "https://upload.wikimedia.org/wikipedia/commons/e/e4/Bourr%C3%A9_%28Loir-et-Cher%29_%2850866795131%29.jpg",
+    "local_path": "films/sources/la-belle-hortense/test-shot/plates/Bourr_Loir-et-Cher_50866795131_.jpg",
+    "what_it_shows": "the goods shed at Bourré: plaster wall, red/white brick quoins, the double door, grass (taken 23 Jan 2021)",
+    "verified_date_or_place": "2026-11-16, Commons extmetadata LicenseShortName=CC BY 2.0, Artist=Daniel Jolivet (test-shot/commons_meta.json)",
+    "used_as": "bell-slot wall, V.5 door and door leaf, far/mid/ground/near planes of the run stage; stencil-dyed"
+   },
+   {
+    "id": "MEADOW",
+    "title": "Bourré (Loir-et-Cher) (50866798791).jpg",
+    "author": "Daniel Jolivet",
+    "license": "CC BY 2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Bourr%C3%A9_(Loir-et-Cher)_(50866798791).jpg",
+    "file_url": "https://upload.wikimedia.org/wikipedia/commons/8/88/Bourr%C3%A9_%28Loir-et-Cher%29_%2850866798791%29.jpg",
+    "local_path": "films/sources/la-belle-hortense/test-shot/plates/Bourr_Loir-et-Cher_50866798791_.jpg",
+    "what_it_shows": "the shed across the meadow, platform wall, trees, overcast sky",
+    "verified_date_or_place": "2026-11-16, Commons extmetadata LicenseShortName=CC BY 2.0, Artist=Daniel Jolivet (test-shot/commons_meta.json)",
+    "used_as": "the wide station of modules I-III and all run-stage planes; stencil-dyed; sky left cream paper"
+   },
+   {
+    "id": "KEY",
+    "title": "File:Skeletonkey.png",
+    "author": "Blenheimears",
+    "license": "CC0",
+    "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Skeletonkey.png",
+    "file_url": "https://upload.wikimedia.org/wikipedia/commons/2/21/Skeletonkey.png",
+    "local_path": "films/sources/la-belle-hortense/test-shot/plates/skeletonkey.png",
+    "what_it_shows": "skeleton keys photographed on white",
+    "verified_date_or_place": "2026-11-16, Commons extmetadata LicenseShortName=CC0 (test-shot/commons_meta.json)",
+    "used_as": "the brass key in every beat (density cut, dyed #c9a23a)"
+   },
+   {
+    "id": "STEPS",
+    "title": "File:Concrete Steps 2.ogg",
+    "author": "Pwaivers",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Concrete_Steps_2.ogg",
+    "file_url": "https://upload.wikimedia.org/wikipedia/commons/b/bf/Concrete_Steps_2.ogg",
+    "local_path": "films/sources/la-belle-hortense/test-shot/sound/Concrete_Steps_2.wav",
+    "what_it_shows": "(audio) two footsteps on concrete",
+    "verified_date_or_place": "2026-11-16, Commons extmetadata (test-shot/commons_meta.json)",
+    "used_as": "test-shot footfalls at 4.6 per second (2.3 Hz stride)"
+   },
+   {
+    "id": "FONT",
+    "title": "Courier 10 Pitch Bold/Regular (c0583bt_.pfb, c0419bt_.pfb)",
+    "author": "Bitstream",
+    "license": "Bitstream donation to the X Consortium (free licence)",
+    "license_url": "",
+    "source_url": "/usr/share/fonts/X11/Type1/",
+    "file_url": "",
+    "local_path": "/usr/share/fonts/X11/Type1/",
+    "what_it_shows": "typeface",
+    "verified_date_or_place": "unverified (system font package)",
+    "used_as": "test-shot type, envelope address, receipt"
+   }
+  ],
+  "handmade": [
+   {
+    "id": "RIG",
+    "what": "runner FK rig (torso, coat tails, sleeve, forearm, two thighs re-made from the trousers' own cloth, two shins), folded-coat hinge set, visitor replacement profiles, bell pendulum, door-leaf perspective hinge",
+    "where": "swarm/la-belle-hortense/animator/{cut.py,scene.py,beats.py}; animator/rig_runner.json"
+   },
+   {
+    "id": "DYE",
+    "what": "stencil dye masks keyed from each plate (grass, soil, brick, wall, trees, sky) and the coat stencil",
+    "where": "films/sources/la-belle-hortense/animator/dye/*.png"
+   },
+   {
+    "id": "ENVELOPE",
+    "what": "cream envelope with hinged flap, typed address \"Bourré, quai\"",
+    "where": "scene.py make_envelope()"
+   },
+   {
+    "id": "TICKET",
+    "what": "receipt REÇU / une clé / remise au banc, red circled 6 (stand-in until the print-sound unit's print replaces it)",
+    "where": "scene.py make_ticket()"
+   },
+   {
+    "id": "TYPE",
+    "what": "test-shot type: V. / le manteau revient / gloss in cream on a black band / slot line with MANTEAU red",
+    "where": "scene.py typeset_v()"
+   },
+   {
+    "id": "SYNTH",
+    "what": "test-shot wind, whooshes, slot clicks (kit.Mix) and key tinks (struck-brass partials)",
+    "where": "scene.py testshot()"
+   }
+  ],
+  "absences": [
+   {
+    "searched": "higher-resolution LoC IIIF crops of the visitor negatives (8a36814, 8a36813)",
+    "result": "IIIF region requests returned 404; used the 1024 px service JPEGs (visitor reads soft at 1.4x)"
+   },
+   {
+    "searched": "Commons Bahnhofsglocke candidates Azpeitia_Bahnhofsglocke.jpg (CC BY-SA 4.0), Glocke_HLB_2.jpg (PD)",
+    "result": "rate-limited (HTML instead of image); not needed: Bahnhofsglocke_HLB_1.jpg (PD) used"
+   },
+   {
+    "searched": "a PD photograph of a figure actually running",
+    "result": "not searched further: the conductor was re-rigged with knees and a run cycle instead (user note allowed either)"
+   },
+   {
+    "searched": "an openly licensed key-tink recording",
+    "result": "Keys hitting tree 2.ogg missing on Commons (test-shot/commons_meta.json); key tinks synthesised"
+   },
+   {
+    "searched": "a key hook for VI.5",
+    "result": "not built by this unit (gap)"
+   }
+  ]
+ }
+}

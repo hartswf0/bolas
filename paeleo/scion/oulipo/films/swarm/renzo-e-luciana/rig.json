@@ -44,7 +44,7 @@
    "note": "stage = plate at native 1933x1087; DOF blur sigma 1.1; hands inpainted"
   },
   "door": {
-   "file": "films/sources/renzo-e-luciana/cutout-performance/pieces/r2/door_empty.png",
+   "file": "films/sources/renzo-e-luciana/editor/door_clean.png",
    "source_item": "loc-2017829778",
    "pivots_piece_px": {
     "tl": [
@@ -60,7 +60,7 @@
     236,
     1.0
    ],
-   "note": "placed at (367,-30): casing at x~800, just left of the clock"
+   "note": "Delano doorway with the lab technician retouched out (editor-build/door_clean.py): window panes copied from the same window 62/124 px higher, wall/floor = adjacent wall row tone + this negative's own grain; left jamb also drawn as the door_leaf occluder in front of the foreman"
   },
   "foreman_front": {
    "file": "films/sources/renzo-e-luciana/cutout-performance/pieces/foreman_front.png",
@@ -83,26 +83,7 @@
     228,
     0.95
    ],
-   "note": "facing FLOOR; t < turn"
-  },
-  "foreman_back": {
-   "file": "films/sources/renzo-e-luciana/cutout-performance/pieces/r2/foreman.png",
-   "source_item": "loc-2017829778",
-   "pivots_piece_px": {
-    "feet": [
-     44,
-     378
-    ]
-   },
-   "parent": "door",
-   "z": 2,
-   "stage_scale": 1.0,
-   "grade_levels_gamma": [
-    18,
-    236,
-    1.0
-   ],
-   "note": "facing OFFICE; reading sway on the feet pin"
+   "note": "THE foreman, one man for both states: FLOOR = standing in the doorway (head pans on the neck pin); OFFICE = head turns +14 deg to the office and he steps back behind the left jamb (clipped by the wall left of the opening), drawn nowhere until he steps back in"
   },
   "lu_body": {
    "file": "films/sources/renzo-e-luciana/cutout-performance/pieces/lu_body.png",
@@ -155,52 +136,6 @@
     10,
     214,
     0.92
-   ],
-   "note": ""
-  },
-  "re_body": {
-   "file": "films/sources/renzo-e-luciana/cutout-performance/pieces/r2/re_body.png",
-   "source_item": "loc-2017835701",
-   "pivots_piece_px": {
-    "hip": [
-     135,
-     450
-    ],
-    "neck": [
-     95,
-     55
-    ]
-   },
-   "parent": "R.root",
-   "z": 5,
-   "stage_scale": 0.7,
-   "grade_levels_gamma": [
-    22,
-    200,
-    1.08
-   ],
-   "note": ""
-  },
-  "re_head": {
-   "file": "films/sources/renzo-e-luciana/cutout-performance/pieces/r2/re_head.png",
-   "source_item": "loc-2017835701",
-   "pivots_piece_px": {
-    "neck": [
-     95,
-     185
-    ],
-    "mouth": [
-     19,
-     146
-    ]
-   },
-   "parent": "re_body@neck",
-   "z": 6,
-   "stage_scale": 0.7,
-   "grade_levels_gamma": [
-    22,
-    226,
-    1.1
    ],
    "note": ""
   },
@@ -306,6 +241,180 @@
    "stage_scale": 1.0,
    "grade_levels_gamma": null,
    "note": ""
+  },
+  "re2_body": {
+   "file": "films/sources/renzo-e-luciana/editor/pieces/re2_body.png",
+   "source_item": "loc-2017835701",
+   "source_file": "8d07886u.tif (K=4 range crop 6492,3472-10080,10112)",
+   "pivots_piece_px": {
+    "hip": [
+     360,
+     870
+    ],
+    "neck": [
+     280,
+     80
+    ],
+    "shoulder": [
+     200,
+     226
+    ]
+   },
+   "stage_scale": 0.55,
+   "grade_levels_gamma": [
+    20,
+    214,
+    1.0
+   ],
+   "note": ""
+  },
+  "re2_head": {
+   "file": "films/sources/renzo-e-luciana/editor/pieces/re2_head.png",
+   "source_item": "loc-2017835701",
+   "source_file": "8d07886u.tif (K=4 range crop 6492,3472-10080,10112)",
+   "pivots_piece_px": {
+    "neck": [
+     200,
+     370
+    ],
+    "mouth": [
+     48,
+     292
+    ],
+    "eye": [
+     61,
+     199
+    ]
+   },
+   "stage_scale": 0.55,
+   "grade_levels_gamma": [
+    20,
+    214,
+    1.0
+   ],
+   "note": ""
+  },
+  "re2_uarm": {
+   "file": "films/sources/renzo-e-luciana/editor/pieces/re2_uarm.png",
+   "source_item": "loc-2017835701",
+   "source_file": "8d07886u.tif (K=4 range crop 6492,3472-10080,10112)",
+   "pivots_piece_px": {
+    "shoulder": [
+     260,
+     86
+    ],
+    "elbow": [
+     162,
+     284
+    ]
+   },
+   "stage_scale": 0.55,
+   "grade_levels_gamma": [
+    20,
+    214,
+    1.0
+   ],
+   "note": ""
+  },
+  "re2_larm": {
+   "file": "films/sources/renzo-e-luciana/editor/pieces/re2_larm.png",
+   "source_item": "loc-2017835701",
+   "source_file": "8d07886u.tif (K=4 range crop 6492,3472-10080,10112)",
+   "pivots_piece_px": {
+    "elbow": [
+     162,
+     284
+    ],
+    "wrist": [
+     60,
+     480
+    ]
+   },
+   "stage_scale": 0.55,
+   "grade_levels_gamma": [
+    20,
+    214,
+    1.0
+   ],
+   "note": ""
+  },
+  "re2_farm": {
+   "file": "films/sources/renzo-e-luciana/editor/pieces/re2_farm.png",
+   "source_item": "loc-2017835701",
+   "source_file": "8d07886u.tif (K=4 range crop 6492,3472-10080,10112)",
+   "pivots_piece_px": {
+    "elbow": [
+     260,
+     40
+    ],
+    "wrist": [
+     260,
+     40
+    ],
+    "grip": [
+     82,
+     136
+    ]
+   },
+   "stage_scale": 0.55,
+   "grade_levels_gamma": [
+    20,
+    214,
+    1.0
+   ],
+   "note": ""
+  },
+  "re2_head_chew1": {
+   "file": "films/sources/renzo-e-luciana/editor/pieces/re2_head_chew1.png",
+   "source_item": "loc-2017835701",
+   "source_file": "8d07886u.tif (K=4 range crop 6492,3472-10080,10112)",
+   "pivots_piece_px": {
+    "neck": [
+     200,
+     370
+    ],
+    "mouth": [
+     48,
+     292
+    ],
+    "eye": [
+     61,
+     199
+    ]
+   },
+   "stage_scale": 0.55,
+   "grade_levels_gamma": [
+    20,
+    214,
+    1.0
+   ],
+   "note": "jaw substitution drawing: lower face re-pinned -2.5 deg at the jaw hinge"
+  },
+  "re2_head_chew2": {
+   "file": "films/sources/renzo-e-luciana/editor/pieces/re2_head_chew2.png",
+   "source_item": "loc-2017835701",
+   "source_file": "8d07886u.tif (K=4 range crop 6492,3472-10080,10112)",
+   "pivots_piece_px": {
+    "neck": [
+     200,
+     370
+    ],
+    "mouth": [
+     48,
+     292
+    ],
+    "eye": [
+     61,
+     199
+    ]
+   },
+   "stage_scale": 0.55,
+   "grade_levels_gamma": [
+    20,
+    214,
+    1.0
+   ],
+   "note": "jaw substitution drawing: lower face re-pinned -5.0 deg at the jaw hinge"
   }
  },
  "skeletons": {
@@ -324,7 +433,31 @@
   "Foreman": [
    "feet pin (sway)",
    "front/back = drawing substitution of two real photographs at the 12:01 turn"
-  ]
+  ],
+  "renzo": {
+   "root": "hip",
+   "chain": [
+    "re2_body(hip)",
+    "re2_head(neck)",
+    "re2_uarm(shoulder)",
+    "re2_larm(elbow)",
+    "re2_farm(wrist)"
+   ],
+   "substitution_drawings": {
+    "head": [
+     "re2_head",
+     "re2_head_chew1",
+     "re2_head_chew2"
+    ]
+   }
+  },
+  "luciana_substitutions": {
+   "head": [
+    "lu_head",
+    "lu_chew1 (jaw +3 deg, built in films/renzo-e-luciana.py)",
+    "lu_chew2 (jaw +6 deg)"
+   ]
+  }
  },
  "grabcut_checks": {
   "lu_figure": {
@@ -341,6 +474,13 @@
    "components": 1,
    "area_vs_guide": 0.973,
    "pass": true
+  },
+  "renzo_k4_editor_r1": {
+   "figure_components": 1,
+   "figure_area_vs_guide": 0.996,
+   "pass": true,
+   "uarm_px": 85894,
+   "farm_px": 43452
   }
  },
  "occlusion_dag": "plate < door < foreman < lu_body < lu_head < re_body < re_head < apple(hand) < lu_arm (A) < pails < apple(lid) < clock hands; in B lu_arm precedes re_body",
@@ -458,7 +598,8 @@
    "local_path": "films/sources/renzo-e-luciana/test-shot/r2/hi/re_8d07886.png (r2 crop, reused)",
    "what_it_shows": "a man in a cap in profile at lunch",
    "verified_date_or_place": "1942, Detroit, Michigan (LoC item)",
-   "used_as": "Renzo (kept from the approved r2): head and torso pieces, neck and hip pins"
+   "used_as": "Renzo: body, head (+2 jaw drawings), upper arm, forearm, hands, re-cut at 2x (K=4) from the master TIFF (editor r1); pins hip, neck, shoulder, elbow, wrist",
+   "used_as_retired_r1": "Renzo (kept from the approved r2): head and torso pieces, neck and hip pins"
   },
   {
    "id": "loc-2017829778",
@@ -498,6 +639,17 @@
    "what_it_shows": "a mechanical clock ticking",
    "verified_date_or_place": "unverified",
    "used_as": "scratch tick bed (louder in B)"
+  },
+  {
+   "id": "loc-2017851145",
+   "title": "Bethlehem-Fairfield shipyards, Baltimore, Maryland. Erecting bottom shell plates (1943)",
+   "author": "Arthur S. Siegel",
+   "license": "No known restrictions (LoC item JSON read 2026-11-16)",
+   "source_url": "https://www.loc.gov/item/2017851145/",
+   "file_url": "https://tile.loc.gov/storage-services/service/pnp/fsa/8d28000/8d28400/8d28435v.jpg",
+   "used_as": "foreman back view (editor r2)",
+   "local": "films/sources/renzo-e-luciana/editor/r2back/mid/8d28435v.jpg",
+   "json": "films/swarm/renzo-e-luciana/editor-build/loc_2017851145.json"
   }
  ],
  "checked_not_used": [
@@ -548,10 +700,9 @@
   }
  ],
  "absences": [
-  "A real back view of the hard-hat foreman (the same man as the front view) was not found; the turn substitutes two different real men (Siegel front, Delano back) of similar build in work clothes. Declared; no mirroring used.",
-  "No second pose of the Ross Heater woman (OWI-23899-D) in the adjacent negatives in hand; her feed / bite / lid motion is forearm rotation on the elbow pin plus head tilt, the photograph's own pose being her bite.",
-  "No openly licensed recording of a bite, a late bell or factory room tone was foraged by this unit; the scratch track uses kit synthesis (declared) for those; the sound unit owns the real cues.",
-  "Renzo has no separate arm piece (the Siegel negative shows no free forearm), so in B he leaves the apple on her lid with a lean-in bite rather than a hand set-down."
+  "(editor r2) No back view of the SAME hard-hat man exists in the Siegel 8d283xx sequence checked. The OFFICE state is a second real Siegel 1943 Bethlehem-Fairfield photograph seen from behind (LoC 2017851145, 8d28435), wearing the front photograph's hard hat and standing on its legs (declared collage). The Delano lab technician is not used (retouched out).",
+  "No second pose of the Ross Heater woman (OWI-23899-D) in the adjacent negatives in hand; her motion is forearm rotation on the elbow pin plus hip and head, the photograph's own pose being her bite.",
+  "Renzo now has upper arm, forearm and hand pieces (editor r1, 5 pins); there is no kit sound in the film (the sound unit's Commons recordings only)."
  ],
  "handmade": [
   {
@@ -571,8 +722,8 @@
    "where": "cutout-build/cuts3.py"
   },
   {
-   "what": "scratch sound: kit room tone, foreman steps, paper rustles, bite crunches, apple set-down click, late bell (1320 Hz kit bell)",
-   "where": "cutout-build/render3.py snd(); films/kit.py"
+   "what": "(editor r2) the front foreman photograph's hard hat and legs collaged onto the back photograph (one foreman, two photographs)",
+   "where": "films/renzo-e-luciana.py (fparts, OFFICE)"
   }
  ],
  "build": [
@@ -586,5 +737,75 @@
   "Version A from 0.4-5.0 must keep Luciana off the corner; in this performance she is offstage left until 5.08 and slides in behind the pails 5.1-6.9 (the full film can show her at a left place out of the MEDIUM window).",
   "Late bell and bites in the test shot are kit scratch; replace with the sound unit cues.",
   "Downloads this unit: 29.4 MB (one master-TIFF range crop) + LoC item JSON."
- ]
+ ],
+ "retired_in_editor_r1": {
+  "foreman_back": {
+   "file": "films/sources/renzo-e-luciana/cutout-performance/pieces/r2/foreman.png",
+   "source_item": "loc-2017829778",
+   "pivots_piece_px": {
+    "feet": [
+     44,
+     378
+    ]
+   },
+   "parent": "door",
+   "z": 2,
+   "stage_scale": 1.0,
+   "grade_levels_gamma": [
+    18,
+    236,
+    1.0
+   ],
+   "note": "facing OFFICE; reading sway on the feet pin",
+   "why": "a second, different man (Delano lab technician, profile, face visible) is not the foreman turned away; retired. The OFFICE state is now the one foreman out of sight in his office."
+  },
+  "re_body/re_head (r2, K=8)": "replaced by the K=4 re-cut with arm pieces (editor-build/renzo_cut.py)"
+ },
+ "editor_r1": "Repair round 1 (editor): see swarm/renzo-e-luciana/assembly.md. performance.json is regenerated from the rendered film.",
+ "retired_in_editor_r2": {
+  "handmade (scratch kit sound)": [
+   {
+    "what": "scratch sound: kit room tone, foreman steps, paper rustles, bite crunches, apple set-down click, late bell (1320 Hz kit bell)",
+    "where": "cutout-build/render3.py snd(); films/kit.py"
+   }
+  ],
+  "absences (r3 text)": [
+   "A real back view of the hard-hat foreman (the same man as the front view) was not found; the turn substitutes two different real men (Siegel front, Delano back) of similar build in work clothes. Declared; no mirroring used.",
+   "No second pose of the Ross Heater woman (OWI-23899-D) in the adjacent negatives in hand; her feed / bite / lid motion is forearm rotation on the elbow pin plus head tilt, the photograph's own pose being her bite.",
+   "No openly licensed recording of a bite, a late bell or factory room tone was foraged by this unit; the scratch track uses kit synthesis (declared) for those; the sound unit owns the real cues.",
+   "Renzo has no separate arm piece (the Siegel negative shows no free forearm), so in B he leaves the apple on her lid with a lean-in bite rather than a hand set-down."
+  ],
+  "note": "Retired by the editor in repair round 2: the r3 test shot's kit scratch sound is not in the film; two-men turn (Delano back) replaced; Renzo has arm pieces."
+ },
+ "editor_r2": {
+  "foreman": {
+   "front": "fm_front (LoC 2017851041): body + head (neck pin, 18 px overlap: no seam), feet pin with lean",
+   "back": "fb_torso/fb_arm (LoC 2017851145, editor-build/back_cut.py, GrabCut, one component each) + fm_legs + fm_hat from the front photograph; pins: feet (lean), hip, neck, shoulder",
+   "place": "FM_FEET (655, 642) in the doorway in both states; never leaves the screen",
+   "turns": {
+    "A": [
+     5.0,
+     20.0
+    ],
+    "B": [
+     42.0,
+     57.0
+    ]
+   }
+  },
+  "camera": {
+   "WIDE": [
+    400,
+    20,
+    1296
+   ],
+   "MEDIUM": [
+    560,
+    50,
+    960
+   ],
+   "push": "1.35x, doorway (foreman) kept in frame"
+  },
+  "pieces": "films/sources/renzo-e-luciana/editor/pieces_r2/back_pieces.json"
+ }
 }

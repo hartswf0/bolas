@@ -1,479 +1,552 @@
-"""Bang Bang — a pencil animatic. A pigeon on the station gutter watches a (fictional)
-inventor try a paper wing, a rubber-band rotor and a glide that fails. The glide failure
-is a five-board sequence. The pigeon's captions read each attempt as sensible bird behaviour."""
-import math
+# Bang Bang (after Jabely / Queneau's storyboard dossier): SCION proof film, Direction 2 "Planche gravée".
+#
+# A magpie narrates three flying attempts by a fictional inventor (Monsieur Pique-Vent). The picture is
+# articulated cut-paper puppets cut (GrabCut, SCION #29) from public-domain engravings (Popular Science Monthly
+# 1894-95 Lilienthal apparatus; Pénaud's flying models 1875; Bowen/Audubon magpie, octavo printings 1840-1871), pinned with brass split
+# pins (Reiniger, SCION #2) and posed frame by frame on 2s from the board unit's exposure sheet, with spring-damper
+# follow-through (SCION #41). The commentary is the bird's: torn cream slips written on letter by letter in a loose
+# pen hand, one struck word (monter -> s'arrêter) at the stall.
+#
+#   python3 films/bang-bang.py                 -> assets/films/bang-bang.mp4 + .webp (1280x720, repair 1)
+#   python3 films/bang-bang.py --stills 22 ... -> films/stills/bang-bang/
+#   python3 films/bang-bang.py --variants      -> films/swarm/bang-bang/baseline_bb07-09.mp4, swap_bb07-09.mp4
+#   python3 films/bang-bang.py --checks        -> saved frames, side-by-side, measurements (films/swarm/bang-bang/)
+#
+# Inputs (built by the swarm units, read here, not edited): swarm/bang-bang/{exposure.json, cues.json,
+# cues_swap.json, stems.json, rig.json, ledger.json}; the rig/dynamics code in swarm/bang-bang/board-build/board.py
+# (imported for the puppet pieces, pins, joint chain and the same spring-damper runs that produced exposure.json);
+# the pieces and sheets in sources/bang-bang/board/; the stems in sources/bang-bang/sound/.
+import json, math, os, sys, wave
 from pathlib import Path
-from kit import *
-from kit_anim import run, hatch_poly, hand_text, load_audio
 
-film = Film("bang-bang", seconds=30.0, boil=5, wobble=1.5, seed=11)
-film.poster_at = 20.6
+import numpy as np
+import cv2
+from PIL import Image, ImageDraw, ImageFont
 
-GR = (34, 32, 42)          # pen line
-BLUE = (150, 142, 128)     # faint pencil construction line
-RED = (34, 32, 42)         # arrows in the same pen
-PAP = (241, 231, 203)      # yellowed paper; drawings fill with it, so they read as line
-SURROUND = (247, 246, 242)
-PX0, PY0, PX1, PY1 = 40, 34, 920, 430   # board panel
-FLOOR = 392                              # platform line inside the board
+FILMS = Path(__file__).resolve().parent
+PROJ = FILMS.parent
+SW = FILMS / "swarm" / "bang-bang"
+SND = FILMS / "sources" / "bang-bang" / "sound"
+sys.path.insert(0, str(FILMS))
+sys.path.insert(0, str(SW / "board-build"))
+sys.path.insert(0, str(SW / "proposals"))
+sys.path.insert(0, str(SW / "editor-build"))
+from kit import Film, Mix  # noqa: E402
+import pen  # noqa: E402  (the board unit's ink layer; imported here first so the hand can be replaced)
+import hand_shim  # noqa: E402  (editor repair 1: the handmade joined cursive, editor-build/cursive.py)
+pen.hand = hand_shim.pen_hand
+import board as B  # noqa: E402
+B.hand2 = hand_shim.hand2
 
-# (start, end, id, shot, caption, fx)
-BOARDS = [
-    (0.0, 3.0, "00", "title", "", ""),
-    (3.0, 7.0, "01", "wide · the gutter", "PIGEON:  The bell. He pins two timetables to his arms. Flat things want lifting.", "FX bell"),
-    (7.0, 11.0, "02", "paper wing", "He beats them fast, as I do on take-off. Paper folds where I’d bend a feather.", "FX flap ×8"),
-    (11.0, 16.0, "03", "rubber-band rotor", "He twists a band, like holding a breath — then spends it all at once. So would I.", "FX wind · buzz · snap"),
-    (16.0, 18.0, "04", "glide 1/5 · run-up", "Run, open, lean on the air.", "FX steps"),
-    (18.0, 19.8, "05", "glide 2/5 · launch", "Good. Level. That is all it takes.", "FX wind"),
-    (19.8, 21.6, "06", "glide 3/5 · nose up", "Then he lifts his chin to see further.", "FX wind thins"),
-    (21.6, 23.4, "07", "glide 4/5 · stall", "The air lets go of anyone who does that.", "FX —"),
-    (23.4, 25.6, "08", "glide 5/5 · down", "He chose the ground. I choose it too, every evening.", "FX BANG"),
-    (25.6, 30.0, "09", "two-shot · bench", "From up here it all looked reasonable. He only wanted the ground a little later.", "FX coo"),
-]
+FPS, NF = 24, 720
+OW, OH = 1280, 720                                     # repair 1: 1280x720 so hatching and glosses survive
+KZ = OW / 960                                          # the board camera is written for a 960-wide frame
+PX, PWID, PHT, PYS, TX0, GROUND, PW, PH = B.PX, B.PWID, B.PHT, B.PYS, B.TX0, B.GROUND, B.PW, B.PH
+PENINK, GRAPH, SHADOW, DESK = B.PENINK, B.GRAPH, B.SHADOW, B.DESK
 
+CUES = json.load(open(SW / "cues.json"))
+SWAP = json.load(open(SW / "cues_swap.json"))
+EXPO = json.load(open(SW / "exposure.json"))
+assert EXPO["frames"] == NF and EXPO["strike_frame"] == 528 and EXPO["impact_frame"] == 605
 
-NOTES = {
-    "00": ("Bang Bang — découpage. Le narrateur : le pigeon de la gouttière.", "(the inventor is invented; so are his machines)", ""),
-    "01": ("La cloche. Il s'épingle deux horaires aux bras. Les choses plates veulent qu'on les soulève.", "(The bell. He pins two timetables to his arms. Flat things want lifting.)", "ding !"),
-    "02": ("Il bat vite, comme moi au départ. Le papier plie là où je plierais une plume.", "(He beats fast, as I do on take-off. Paper folds where I'd bend a feather.)", "flap flap"),
-    "03": ("Il tord un élastique comme on retient son souffle, puis il dépense tout d'un coup. Moi aussi.", "(He twists a band like holding a breath, then spends it all at once. So would I.)", "tours : 120 ... crac !"),
-    "04": ("Élan, ouvrir, s'appuyer sur l'air.", "(Run, open, lean on the air.)", "1/5"),
-    "05": ("Bien. À plat. Il n'en faut pas plus.", "(Good. Level. That is all it takes.)", "2/5"),
-    "06": ("Puis il lève le menton pour voir plus loin.", "(Then he lifts his chin to see further.)", "3/5 · nez en l'air 35°"),
-    "07": ("L'air lâche tous ceux qui font ça.", "(The air lets go of anyone who does that.)", "4/5 · décroche"),
-    "08": ("Il a choisi le sol. Moi aussi, chaque soir.", "(He chose the ground. I choose it too, every evening.)", "5/5 · BANG !"),
-    "09": ("D'en haut, tout semblait raisonnable. Il voulait seulement le sol un peu plus tard.", "(From up here it looked reasonable. He only wanted the ground a little later.)", "coo..."),
-}
-
-_page = None
+# ------------------------------------------------------------------ editor's fixes to the staging (writer unit's open items)
+# (1) 'Krach !' witness: from f576 to f620 the magpie perches at the right edge of panel 3, head lowered to the wreck,
+#     instead of on the post in panel 2 (out of frame during BB-09). Panel 2 keeps the post pose as its held key.
+_fly0 = B.fly_s2
+_CALLS = {"n": 0}
 
 
-def page():
-    """A plain sheet of storyboard paper on the white table: flat colour, a ruled edge."""
-    global _page
-    if _page is None:
-        im = Image.new("RGB", (W, H), SURROUND)
-        d = ImageDraw.Draw(im)
-        d.rectangle([23, 15, 943, 531], fill=(214, 210, 200))
-        d.rectangle([20, 12, 940, 528], fill=PAP)
-        _page = im
-    return _page
+def fly_s2(f):
+    _CALLS["n"] += 1
+    if 576 <= f < 620:
+        if f == 600 and _CALLS["n"] > 1:
+            return _fly0(600)                              # panel 2's held key pose (bird on the post)
+        hop = 8 * math.sin(math.pi * (f - 576) / 6) if f < 582 else 0.0
+        head = 18 if f < 590 else 34                       # two held head angles: watching, then down at the wreck
+        return ("perch", "s2p3", 655, GROUND - 4 - hop, -14, head)
+    return _fly0(f)
 
 
-# foraged reference prints pinned beside the boards (public domain, Wikimedia Commons / LoC)
-SRC = Path(__file__).resolve().parent / "sources" / "bang-bang"
-REFS = {
-    "02": ("penaud_models.jpg", (60, 500, 490, 725), "réf. : Pénaud, oiseau mécanique (gravure, 1875)"),
-    "03": ("penaud_models.jpg", (90, 80, 370, 265), "réf. : Pénaud, hélicoptère à élastique (gravure, 1875)"),
-    "04": ("lilienthal_start.jpg", (0, 0, 960, 399), "réf. : Lilienthal, le départ (Popular Science Monthly, 1894-95)"),
-    "05": ("lilienthal_start.jpg", (0, 0, 960, 399), "réf. : Lilienthal, le départ (Popular Science Monthly, 1894-95)"),
-    "06": ("lilienthal_loc.jpg", (120, 90, 1150, 720), "réf. : Lilienthal en vol, 1895 (Library of Congress)"),
-    "07": ("lilienthal_loc.jpg", (420, 200, 1000, 560), "réf. : Lilienthal en vol, 1895 (Library of Congress)"),
-    "08": ("lilienthal_loc.jpg", (120, 90, 1150, 720), "réf. : Lilienthal en vol, 1895 (Library of Congress)"),
-}
-_ref_cache = {}
+B.fly_s2 = fly_s2
+
+# (2) S3 ('Enfin, les grandes ailes.') needs its referent: the glider puppet is laid into sheet 1 panel 3 at f340,
+#     dropped onto the card (cast shadow shrinking as it lands), and stays there as that panel's key pose.
+_scene0 = B.scene
 
 
-def ref_print(ink, bid):
-    if bid not in REFS:
-        return False
-    f, box, cap = REFS[bid]
-    key = (f, box)
-    if key not in _ref_cache:
-        im = Image.open(SRC / f).convert("RGB").crop(box)
-        im.thumbnail((240, 104), Image.LANCZOS)
-        pr = Image.new("RGB", (im.width + 12, im.height + 12), (250, 250, 246))
-        pr.paste(im, (6, 6))
-        _ref_cache[key] = pr.rotate(-2.5, expand=True, resample=Image.BICUBIC, fillcolor=PAP)
-    pr = _ref_cache[key]
-    ink.paste(pr, (658, 306))
-    hand_text(ink, (652, 306 + pr.height + 6), cap, 13, (86, 78, 66), width=280, seed=sum(map(ord, bid)))
-    return True
+def scene(f):
+    _CALLS["n"] = 0
+    sh, out = _scene0(f)
+    if sh == 1 and f >= 340:
+        s = B.smooth((f - 340) / 6.0); hgt = 46 * (1 - s)
+        ch = B.pose_chain("glider", "hip", (440 - 10 * (1 - s), GROUND - 64 - 30 * (1 - s)), 3 + 4 * (1 - s), {"legs": -3})
+        for nm in ("legs", "glider"):
+            out.append(("s1p3", nm, ch[nm][0], hgt + 4))
+    return sh, out
 
 
-PANEL = (64, 46, 604, 286)       # main board on the sheet
-THUMBS = [(64, 318, 324, 432), (344, 318, 604, 432)]
-_thumb_cache = {}
+B.scene = scene
 
 
-def board_image(b, lt, size, index=0):
-    sheet = Ink(lt, index, (W, H), 5, 1.5, 11)
-    sheet.img = Image.new("RGB", (W, H), PAP)
-    sheet.d = ImageDraw.Draw(sheet.img, "RGBA")
-    sheet.label = lambda *a, **k: None    # notes live in the margin, in pen
-    draw_board(sheet, b, lt)
-    im = sheet.img.crop((PX0 + 8, PY0 + 8, PX1 - 8, PY1 - 8)).filter(ImageFilter.MinFilter(3))
-    return im.resize(size, Image.LANCZOS)
+# (3) repair 2 (critic, optional): one ink.  The engravings were printed to (45,38,32), darker and colder than the felt
+#     pen; remap each engraving piece's tones linearly so its darkest line sits at (70,58,46) on the same cream, which
+#     also softens the perched magpie's solid black.  Paper-wing pieces (pen-inked) are untouched.
+_I1, _I2, _PP = np.array((45, 38, 32), np.float32), np.array((70, 58, 46), np.float32), np.array((242, 228, 212), np.float32)
+for _nm, _pc in B.P.items():
+    if _nm.startswith("paper_wing"): continue
+    _a = _pc["a"][..., None]; _c = np.where(_a > 1e-3, _pc["rgb"] / np.maximum(_a, 1e-3), _PP)
+    _c = _I2 + (_c - _I1) * (_PP - _I2) / (_PP - _I1)
+    _pc["rgb"] = np.clip(_c, 0, 255) * _a
 
 
-def framed(ink, box, im):
-    x0, y0, x1, y1 = box
-    ink.paste(im, (x0, y0))
-    ink.rect(x0, y0, x1, y1, color=GR, width=2.2)
-    ink.circle(x0 + 14, y0 + 14, 6, fill=GR, color=GR, width=1)   # the punch hole of the reference sheet
+# ------------------------------------------------------------------ the sheets (replaces board.build_sheet: headers with
+# frame ranges, the BB-06 header on sheet 1 panel 3, the inked A/B labels, the vertical graphite margin note)
+HEADS = {1: ["BB-01   1,0 - 8,0 s   f24-192   l'aile de papier", "BB-02/03   8,0 - 14,2 s   f192-340   le moulin",
+             "BB-04/05   14,2 - 16,0 s   f340-384   les grandes ailes"],   # repair 2: contiguous numbering, ranges = exposure BOARDS
+         2: ["BB-07   18,0 - 21,0 s   f432-504   l'élan", "BB-08   21,0 - 24,0 s   f504-576   le décrochage",
+             "BB-09   24,0 - 27,5 s   f576-660   la chute"]}
 
 
-def board_at(t):
-    for b in BOARDS:
-        if b[0] <= t < b[1]:
-            return b
-    return BOARDS[-1]
+FICTION = "M. Pique-Vent, inventeur inventé - vols imaginés"
 
 
-# ------------------------------------------------------------- drawings ---
-
-def pigeon(ink, x, y, s=1.0, facing=-1, bob=0.0, color=GR):
-    """A sitting pigeon, feet at (x, y)."""
-    f = facing
-    ink.ellipse(x, y - 22 * s, 30 * s, 19 * s, fill=PAP, color=color, width=2, angle=-0.25 * f)
-    hx, hy = x + 26 * s * f, y - 44 * s + bob * 3
-    ink.circle(hx, hy, 11 * s, fill=PAP, color=color, width=2)
-    ink.poly([(hx + 9 * s * f, hy - 2 * s), (hx + 19 * s * f, hy + 1 * s), (hx + 9 * s * f, hy + 4 * s)], fill=PAP, color=color, width=1.5)
-    ink.circle(hx + 4 * s * f, hy - 3 * s, 2.2 * s, fill=color, color=None, width=0)
-    ink.poly([(x - 26 * s * f, y - 26 * s), (x - 52 * s * f, y - 18 * s), (x - 48 * s * f, y - 10 * s), (x - 22 * s * f, y - 14 * s)], fill=PAP, color=color, width=1.8)
-    ink.line([(x - 6 * s * f, y - 30 * s), (x + 14 * s * f, y - 20 * s), (x - 18 * s * f, y - 16 * s)], color, 1.4)
-    for dx in (-4, 6):
-        ink.line([(x + dx * s, y - 6 * s), (x + dx * s + 2, y)], GR, 2)
-    hatch_poly(ink, [(x - 20 * s, y - 24 * s), (x + 18 * s, y - 14 * s), (x - 10 * s, y - 6 * s)], gap=4, angle=30, color=color, alpha=90)
-
-
-def inventor(ink, x, y, s=1.0, arms=(-10, -10), wings=False, hat=True, crouch=0.0, legs="stand", tilt=0.0, wing_fold=0.0):
-    """Inventor in a long coat, feet at (x, y). arms are angles from horizontal (deg, + up)."""
-    h = 130 * s
-    hip = (x, y - h * (0.47 - 0.12 * crouch))
-    neck = (x + math.sin(tilt) * h * 0.35, hip[1] - h * 0.36 * math.cos(tilt))
-    head = (neck[0] + math.sin(tilt) * 14 * s, neck[1] - 13 * s)
-    if legs == "stand":
-        ink.line([hip, (x - 6 * s, y - h * 0.22), (x - 9 * s, y)], GR, 2.6)
-        ink.line([hip, (x + 6 * s, y - h * 0.22), (x + 9 * s, y)], GR, 2.6)
-    elif legs == "run":
-        ink.line([hip, (x + 18 * s, y - h * 0.25), (x + 28 * s, y - 4)], GR, 2.6)
-        ink.line([hip, (x - 12 * s, y - h * 0.2), (x - 34 * s, y - h * 0.08)], GR, 2.6)
-    elif legs == "dangle":
-        ink.line([hip, (x - 4 * s, y - h * 0.2), (x - 14 * s, y - h * 0.02)], GR, 2.6)
-        ink.line([hip, (x + 10 * s, y - h * 0.22), (x + 8 * s, y)], GR, 2.6)
-    elif legs == "sit":
-        ink.line([hip, (x + 30 * s, hip[1] + 2), (x + 32 * s, y)], GR, 2.6)
-        ink.line([hip, (x + 26 * s, hip[1] + 6), (x + 24 * s, y)], GR, 2.6)
-    # coat
-    ink.poly([(neck[0] - 12 * s, neck[1] + 4), (neck[0] + 12 * s, neck[1] + 4), (hip[0] + 18 * s, hip[1] + 22 * s), (hip[0] - 16 * s, hip[1] + 22 * s)],
-             fill=PAP, color=GR, width=2.2)
-    hatch_poly(ink, [(neck[0] + 2, neck[1] + 6), (neck[0] + 12 * s, neck[1] + 4), (hip[0] + 18 * s, hip[1] + 22 * s), (hip[0] + 2, hip[1] + 22 * s)], gap=5, angle=60, color=GR, alpha=80)
-    sh = (neck[0], neck[1] + 8 * s)
-    hands = []
-    for k, a in enumerate(arms):
-        side = 1 if k == 0 else -1
-        ar = math.radians(a)
-        el = (sh[0] + side * math.cos(ar) * 26 * s, sh[1] - math.sin(ar) * 26 * s)
-        hd = (el[0] + side * math.cos(ar) * 24 * s, el[1] - math.sin(ar) * 24 * s)
-        ink.line([sh, el, hd], GR, 2.4)
-        hands.append(hd)
-        if wings:
-            # a timetable pinned along the forearm; folds as it flaps
-            fold = wing_fold * side
-            tip = (hd[0] + side * math.cos(ar) * 40 * s, hd[1] - math.sin(ar) * 40 * s)
-            lo = lambda p: (p[0] - math.sin(ar) * 34 * s * 0.6 * side + fold * 6, p[1] + math.cos(ar) * 34 * s * (0.9 - abs(wing_fold) * 0.4))
-            pts = [sh, tip, lo(tip), lo(sh)]
-            ink.poly(pts, fill=PAP, color=GR, width=1.8)
-            for q in range(1, 5):
-                f = q / 5
-                a_ = lerp2(sh, tip, f)
-                ink.line([a_, lo(a_)], BLUE, 1, alpha=120)
-    ink.circle(head[0], head[1], 12 * s, fill=PAP, color=GR, width=2.2)
-    ink.line([(head[0] + 4 * s, head[1] - 2 * s), (head[0] + 7 * s, head[1] - 2 * s)], GR, 1.5)  # eye
-    if hat:
-        ink.line([(head[0] - 16 * s, head[1] - 8 * s), (head[0] + 16 * s, head[1] - 8 * s)], GR, 2.4)
-        ink.rect(head[0] - 9 * s, head[1] - 20 * s, head[0] + 9 * s, head[1] - 8 * s, fill=GR, color=GR, width=1)
-    return dict(head=head, hands=hands, neck=neck, hip=hip)
+def build_sheet(n):
+    pg = B.paper(PW, PH, 10 + n, B.PAPER)
+    xx = np.arange(PW, dtype=np.float32)
+    mg = np.clip((90 - xx) / 60, 0, 1)[None, :, None]
+    pg = pg * (1 - mg) + (pg / B.PAPER * B.MARGIN) * mg
+    gk = pen.Ink(PW, PH, 300 + n); rg = np.random.default_rng(310 + n)
+    lines = ["Planche", "Il s'est fait une aile", "en papier.  pof", "Ensuite un moulin", "à élastique", "clac",
+             "Enfin les grandes ailes", "Il court face au vent", "Donc il se pose", "Un peu vite", "mais au bon endroit"]
+    for i, s_ in enumerate(lines):
+        pen.hand(gk, s_, 140 + rg.uniform(0, 80), 200 + i * 135, size=1.5, width=2.6, rng=rg)
+    for y0 in PYS:
+        X0 = PW - PX - PWID
+        gk.line([(X0, y0), (X0 + PWID, y0 + 2)], width=2.4); gk.line([(X0 + PWID, y0 + 2), (X0 + PWID, y0 + PHT)], width=2.4)
+        gk.line([(X0 + PWID, y0 + PHT), (X0, y0 + PHT)], width=2.4); gk.line([(X0, y0 + PHT), (X0, y0)], width=2.4)
+    gc = cv2.GaussianBlur(gk.coverage()[:, ::-1], (0, 0), 2.2)
+    B.comp(pg, B.GHOST, np.clip(cv2.GaussianBlur(gc, (0, 0), 1.5) * 0.42, 0, 0.32))
+    k = pen.Ink(PW, PH, 320 + n)
+    for i, y0 in enumerate(PYS):
+        # repair 1: no toned card inside the panel; the panel is the same paper as the page, as in the reference
+        x0 = PX
+        k.line([(x0, y0), (x0 + PWID, y0 + 1)], width=2.6, jit=1.0); k.line([(x0 + PWID, y0 + 1), (x0 + PWID + 1, y0 + PHT)], width=2.6, jit=1.0)
+        k.line([(x0 + PWID + 1, y0 + PHT), (x0 - 1, y0 + PHT - 1)], width=2.6, jit=1.0); k.line([(x0 - 1, y0 + PHT - 1), (x0, y0)], width=2.6, jit=1.0)
+        cov = B.SETS[f"s{n}p{i + 1}"]
+        k.a[y0 * pen.SS:(y0 + PHT) * pen.SS, PX * pen.SS:(PX + PWID) * pen.SS] = np.maximum(
+            k.a[y0 * pen.SS:(y0 + PHT) * pen.SS, PX * pen.SS:(PX + PWID) * pen.SS], cv2.resize(cov, (PWID * pen.SS, PHT * pen.SS)))
+    pg = pen.put_ink(pg, k.coverage(), ink=PENINK, seed=330 + n)
+    yy, xx2 = np.ogrid[:PH, :PW]
+    for y0 in PYS:                                     # the punched dot: a hole showing the dark board below
+        d = np.sqrt((xx2 - (PX + 26)) ** 2 + (yy - (y0 + 24)) ** 2)
+        B.comp(pg, (58, 48, 40), np.clip(11.5 - d, 0, 1))
+        B.comp(pg, (90, 78, 66), np.clip(5 - np.sqrt((xx2 - (PX + 23)) ** 2 + (yy - (y0 + 21)) ** 2), 0, 1) * 0.6)
+    g = pen.Ink(PW, PH, 340 + n); rgr = np.random.default_rng(350 + n)
+    for i, y0 in enumerate(PYS):
+        pen.hand(g, HEADS[n][i], PX + 60, y0 - 14, size=0.85, width=1.3, rng=rgr)
+    pen.hand(g, f"Bang Bang  -  planche {n}", TX0 + 20, 50, size=1.1, width=1.5, rng=rgr)
+    # repair 1 (reviewer): the fiction is declared on the page itself, readable in the wide shots
+    pen.hand(g, FICTION, TX0 + 20, 98, size=1.55, width=1.9, rng=rgr)
+    pen.hand(g, str(n), PW - 120, 80, size=1.2, width=1.6, rng=rgr)
+    cov_g = g.coverage()
+    if n == 2:                                         # the reference's marginal device: a vertical note beside panel 2
+        m = pen.Ink(560, 70, 361); pen.hand(m, "BB-08  f504-576  voir B", 10, 46, size=0.85, width=1.3, rng=np.random.default_rng(362))
+        mc = cv2.rotate(m.coverage(), cv2.ROTATE_90_COUNTERCLOCKWISE)
+        y0 = PYS[1] + 20; x0 = PX + PWID + 6
+        cov_g[y0:y0 + mc.shape[0], x0:x0 + mc.shape[1]] = np.maximum(cov_g[y0:y0 + mc.shape[0], x0:x0 + mc.shape[1]], mc)
+    pg = pen.put_ink(pg, cov_g * 0.8, ink=GRAPH, seed=360 + n, bleed=0.4)
+    return pg
 
 
-def station_bits(ink, bench_x=600, door_x=300, scale=1.0):
-    ink.line([(PX0 + 10, FLOOR), (PX1 - 10, FLOOR)], GR, 2.2)
-    ink.line([(PX0 + 10, FLOOR + 1), (PX1 - 10, FLOOR + 22)], BLUE, 1, alpha=110)
-    door(ink, door_x, FLOOR, w=70, h=140, fill=PAP, color=GR)
-    bench(ink, bench_x, FLOOR, w=180, color=GR, fill=PAP)
+# inked part labels, written in by the board artist as each board plays: A at the paper wing (BB-01, from f60),
+# B at the rubber band (BB-02/03, from f300); panel-local coverage
+def _label(ch, x, y, seed):
+    L = pen.Ink(PWID, PHT, seed); pen.hand(L, ch, x, y, size=0.9, width=1.7, rng=np.random.default_rng(seed + 1)); return L.coverage()
 
 
-def arrow(ink, p, q, color=RED, width=2.5):
-    ink.line([p, q], color, width)
-    a = math.atan2(q[1] - p[1], q[0] - p[0])
-    for d in (2.6, -2.6):
-        ink.line([q, (q[0] + 12 * math.cos(a + d), q[1] + 12 * math.sin(a + d))], color, width)
+LAB_A, LAB_B = _label("A", 560, 150, 370), _label("B", 412, 190, 372)
+
+# camera (repair 1): the slips are wider (larger hand), so every push-in keeps the panel at ~60 % of frame width with
+# the frame's right edge just past the slip column; BB-08 still pushes in (58 -> 61 %), one move per board.
+def cam_panel(i, frac):
+    z = frac * 960 / PWID; fw = 960 / z
+    right = TX0 + 4 + SLIP_W + 26
+    return right - fw / 2, PYS[i] + PHT / 2 + 14, z
 
 
-def fx(ink, xy, s, size=20, color=RED, rot=0):
-    hand_text(ink, (xy[0] - size * len(s) * 0.25, xy[1] - size * 0.4), s, int(size * 1.5), GR, seed=len(s))
+def camera(f):
+    W_ = B.CAM_WIDE; L = B.lerp_cam
+    if f < 24: return 1, W_, "wide"
+    if f < 192: return 1, L(W_, cam_panel(0, 0.60), (f - 24) / 30), "push panel 1"
+    if f < 384: return 1, L(cam_panel(0, 0.60), cam_panel(1, 0.60), (f - 192) / 14), "slide to panel 2"
+    if f < 432:
+        if f < 396: return 1, L(cam_panel(1, 0.60), W_, (f - 384) / 12), "pull out"
+        if f < 420: return (1 if f < 408 else 2), W_, "page turn"
+        return 2, L(W_, cam_panel(0, 0.60), (f - 420) / 12), "push panel 1"
+    if f < 504: return 2, cam_panel(0, 0.60), "hold panel 1"
+    if f < 576: return 2, L(cam_panel(1, 0.58), cam_panel(1, 0.61), (f - 504) / 40), "push-in panel 2"
+    if f < 660: return 2, L(cam_panel(2, 0.60), cam_panel(2, 0.61), (f - 576) / 84), "panel 3"
+    if f < 684: return 2, L(cam_panel(2, 0.61), W_, (f - 660) / 18), "pull out"
+    return 2, W_, "wide"
 
 
-def gutter(ink):
-    """Foreground gutter the pigeon sits on (narrator's fixed vantage)."""
-    pts = [(640, 300), (PX1 - 6, 270), (PX1 - 6, 306), (640, 330)]
-    ink.poly(pts, fill=PAP, color=GR, width=2.4)
-    hatch_poly(ink, pts, gap=5, angle=-20, color=GR, alpha=110)
-    for k in range(5):
-        x = 660 + k * 52
-        ink.line([(x, 330 - (x - 640) * 0.1), (x - 8, 298 - (x - 640) * 0.1)], GR, 1.2)
+B.camera = camera
 
 
-def glider(ink, cx, cy, pitch, span=210, crumple=0.0):
-    """A big paper glider wing seen from the side-ish: long flat lozenge, pitched."""
-    ca, sa = math.cos(pitch), math.sin(pitch)
-    pts = []
-    for px, py in [(-span / 2, 0), (-span / 2 + 30, -14), (span / 2, -8), (span / 2 - 20, 6)]:
-        px += crumple * 12 * math.sin(px * 0.08)
-        pts.append((cx + px * ca + py * sa, cy - px * sa + py * ca + crumple * 10 * math.cos(px * 0.06)))
-    ink.poly(pts, fill=PAP, color=GR, width=2)
-    for k in range(1, 6):
-        f = k / 6
-        a, b = lerp2(pts[0], pts[2], f), lerp2(pts[1], pts[3], f)
-        ink.line([a, b], BLUE, 1, alpha=100)
-    return pts
+SHEETS = {}
 
 
-# --------------------------------------------------------------- boards ---
-
-def b_title(ink, lt):
-    hand_text(ink, (300, 120), "BANG  BANG", 64, GR, seed=5)
-    hand_text(ink, (330, 230), "découpage · 10 planches · 30 s", 26, GR, seed=6)
-    pigeon(ink, 480, 380, 1.4, facing=-1)
+def sheet(n):
+    if n not in SHEETS:
+        SHEETS[n] = build_sheet(n)
+    return SHEETS[n]
 
 
-def b_wide(ink, lt):
-    station_bits(ink, bench_x=330, door_x=150)
-    # bell on its bracket
-    sw = math.sin(lt * 16) * math.exp(-lt * 1.6) * 0.5 if lt < 3 else 0
-    ink.line([(230, 150), (260, 150)], GR, 2)
-    ink.poly([(250 - 12 + 8 * sw, 186), (250 + 12 + 8 * sw, 186), (250 + 7, 160), (250 - 7, 160)], fill=PAP, color=GR, width=2)
-    if lt < 1.4:
-        fx(ink, (300, 150), "DING", 18)
-    up = 10 + 50 * ease(lt, 1.2, 2.4)
-    inventor(ink, 360, FLOOR - 40, 0.72, arms=(up, up), wings=lt > 0.8)
-    gutter(ink)
-    pigeon(ink, 800, 288, 1.5, facing=-1, bob=math.sin(lt * 3))
-    ink.line([(780, 240), (430, 300)], BLUE, 1, alpha=110)  # eyeline
-    ink.label((PX0 + 16, PY1 - 22), "camera: behind the pigeon · it only sees what this frame sees", 11, BLUE)
+# ------------------------------------------------------------------ the bird's slips (from cues.json), typed baseline strips
+PANEL_OF = {"BB-01": (1, 0), "BB-02/03": (1, 1), "BB-03/06": (1, 2), "BB-04/05": (1, 2), "BB-07": (2, 0), "BB-08": (2, 1), "BB-09": (2, 2)}
+SLIP_W, SLIP_SIZE = 384, 1.55                          # repair 1: x-height ~23 page px, the reference's hand size
+XH = hand_shim.XH * SLIP_SIZE; LINE_H = 2.85 * XH
+GLOSS_X, GLOSS_W, GLOSS_SIZE = TX0 + 4 + SLIP_W + 46, 640, 1.75  # graphite English gloss: one paragraph per panel
 
 
-def b_flap(ink, lt):
-    station_bits(ink, bench_x=420, door_x=150)
-    k = int(lt * 4)
-    up = k % 2 == 0 and lt < 3.4
-    a = 50 if up else -35
-    p = inventor(ink, 420, FLOOR - 40, 1.0, arms=(a, a), wings=True, wing_fold=0.0 if up else 0.7, crouch=0.2 if not up else 0)
-    if lt < 3.4:
-        fx(ink, (250 if up else 600, 140), "flap", 24)
-        for q in range(3):
-            ang = (k * 1.7 + q) % 6
-            ink.rect(560 + q * 40 + 12 * math.sin(ang), 150 + 30 * q + lt * 18, 574 + q * 40, 160 + 30 * q + lt * 18, fill=PAP, color=GR, width=1.3)
-    else:
-        fx(ink, (620, 160), "(nothing)", 18, MUTED)
-    arrow(ink, (220, 200), (220, 140) if up else (220, 260))
-    ink.label((PX0 + 16, PY1 - 22), "2 drawings alternating on 6s · feet never leave the bench", 11, BLUE)
+def cps_for(text, a, b):
+    L = len(text.replace(" ", "")); Wd = len(text.split(" "))
+    return (L + 0.6 * (Wd - 1)) * FPS / max(1, b - a)
 
 
-def b_rotor(ink, lt):
-    station_bits(ink, bench_x=470, door_x=170)
-    wind = ease(lt, 0.0, 2.4)
-    spin = lt >= 2.6 and lt < 3.6
-    lift = 10 * math.sin(math.pi * ramp(lt, 2.7, 3.5)) if spin else 0
-    p = inventor(ink, 470, FLOOR - 40 - lift, 1.0, arms=(60, 20) if lt < 2.6 else (-30, -30), hat=True)
-    hx, hy = p["head"]
-    top = hy - 70
-    ink.line([(hx, hy - 20), (hx, top)], GR, 2.4)
-    # the twisted band along the mast
-    turns = int(4 + 14 * wind) if lt < 3.6 else 0
-    pts = [(hx + (5 if q % 2 else -5), lerp(hy - 22, top + 4, q / max(1, turns))) for q in range(turns + 1)]
-    if lt < 3.6 and len(pts) > 1:
-        ink.line(pts, GR, 1.6, rough=False)
-    ang = lt * 40 if spin else (wind * 6 if lt < 2.6 else 0.3)
-    for sgn in (1, -1):
-        L = 46 * math.cos(ang) * sgn
-        ink.ellipse(hx + L / 2, top, abs(L) / 2 + 2, 5, fill=PAP, color=GR, width=1.8)
-    if spin:
-        ink.ellipse(hx, top, 48, 8, color=GR, width=1, alpha=110)
-        fx(ink, (hx + 110, top), "bzzzz", 22)
-        arrow(ink, (hx - 90, FLOOR - 30), (hx - 90, FLOOR - 60))
-        ink.label((hx - 150, FLOOR - 20), "lift: 1 cm", 12, RED)
-    elif lt < 2.6:
-        ink.label((hx + 70, top + 30), f"winds: {int(120 * wind)}", 16, RED)
-        fx(ink, (hx + 90, top - 10), "crk crk", 18)
-    else:
-        ink.line([(hx - 30, top - 10), (hx + 34, top + 12), (hx - 20, top + 24)], RED, 2.5)
-        fx(ink, (hx + 90, top - 6), "SNAP", 26)
-        ink.ellipse(hx + 60, FLOOR - 4, 20, 4, color=GR, width=1.6)  # band on the floor
-    ink.label((PX0 + 16, PY1 - 22), "hold the wind-up; rotor spins 1 s; band breaks", 11, BLUE)
+def build_slips(cues):
+    """One torn slip per non-continuation cue; continuation cues (line_of) are written on their slip's next line.
+    Returns {sheet: [slip dict]} with page positions stacked one group per panel in the right column."""
+    rows = [c for c in cues if c.get("kind", "slip") == "slip" or c["cue"].startswith("S")]
+    base = [c for c in rows if not c.get("line_of")]
+    out = {1: [], 2: []}; ystack = {}
+    for k, c in enumerate(base):
+        sh, pi = PANEL_OF[c["board_id"]]
+        seed = 40 + k * 7
+        Wc, Hc = SLIP_W, 520
+        y0 = 26 + 2.0 * XH + (0.9 * XH if any(d.get("line_of") == c["cue"] and d["cue"].endswith("-corr") for d in rows) else 0)
+        letters, (ex, ey) = B.hand2(Wc, Hc, c["text"], 20, y0, size=SLIP_SIZE, width=2.4, seed=900 + seed, maxw=Wc - 44,
+                                    line_h=LINE_H + (1.0 * XH if any(d.get("line_of") == c["cue"] and d["cue"].endswith("-corr") for d in rows) else 0),
+                                    cps=cps_for(c["text"], c["write_start_frame"], c["write_end_frame"]), t0=c["write_start_frame"])
+        sl = {"id": c["cue"], "text": c["text"], "letters": letters, "t": c["paste_frame"], "w0": c["write_start_frame"],
+              "end": c["write_end_frame"], "gloss": c.get("gloss_en_graphite", ""), "cont": [], "strike": None, "fix": None}
+        for cc in [d for d in rows if d.get("line_of") == c["cue"]]:
+            if cc["cue"].endswith("-strike"):
+                n6 = len(c["text"].split(" ")[-1])
+                mx0, my0, mx1, my1 = B.letters_bbox(letters, len(letters) - n6, len(letters))
+                stk = pen.Ink(Wc, Hc, 948); stk.line([(mx0 - 5, (my0 + my1) / 2 + 3), (mx1 + 6, (my0 + my1) / 2 - 2)], width=3.0, jit=0.6, press=0.3)
+                sl["strike"] = (stk.coverage(), cc["write_start_frame"], mx0, mx1)
+                sl["fixpos"] = (mx0 - 6, my0 - 4)
+            elif cc["cue"].endswith("-corr"):
+                fx, fy = sl["fixpos"]
+                sl["fix"], _ = B.hand2(Wc, Hc, cc["text"], fx, fy, size=SLIP_SIZE * 0.78, width=2.2, seed=947,
+                                       cps=len(cc["text"]) * FPS / max(1, cc["write_end_frame"] - cc["write_start_frame"]), t0=cc["write_start_frame"])
+            else:
+                lt, (ex, ey) = B.hand2(Wc, Hc, cc["text"], 26, ey + LINE_H, size=SLIP_SIZE, width=2.4, seed=930 + seed,
+                                       maxw=Wc - 44, line_h=LINE_H, cps=cps_for(cc["text"], cc["write_start_frame"], cc["write_end_frame"]), t0=cc["write_start_frame"])
+                sl["cont"].append(lt); sl["gloss"] += "  " + cc.get("gloss_en_graphite", "")
+        allc = np.max([l[0] for l in letters + sum(sl["cont"], [])], 0)
+        h = int(np.nonzero(allc.max(1) > 0.05)[0].max()) + 20
+        sl["h"] = h
+        for key in ("letters",):
+            sl[key] = [(cv[:h], a, b) for cv, a, b in sl[key]]
+        sl["cont"] = [[(cv[:h], a, b) for cv, a, b in lt] for lt in sl["cont"]]
+        if sl["fix"]: sl["fix"] = [(cv[:h], a, b) for cv, a, b in sl["fix"]]
+        if sl["strike"]: sl["strike"] = (sl["strike"][0][:h],) + sl["strike"][1:]
+        sl["rgb"], sl["a"] = B.torn_slip(Wc, h, 900 + seed)
+        y = ystack.get((sh, pi), PYS[pi] + 22)
+        sl["x"] = TX0 + 4 + (k % 3) * 5; sl["y"] = y; sl["ang"] = [1.0, -1.4, 0.6, -0.8, 1.3][k % 5]
+        ystack[(sh, pi)] = y + h + 16
+        sl["gloss_txt"] = sl["gloss"].replace("~~climb~~ ", "").strip(); sl["panel"] = (sh, pi)
+        sl["gloss_t"] = max([sl["end"]] + [cc["write_end_frame"] for cc in rows if cc.get("line_of") == c["cue"]]) + 3
+        out[sh].append(sl)
+    # the graphite English gloss: the slips of one panel make ONE paragraph in the right half of the column, each
+    # sentence appearing once its slip is written (the reference's one-paragraph-per-panel grammar)
+    for sh in out:
+        for pi in range(3):
+            group = [sl for sl in out[sh] if sl.get("panel") == (sh, pi)]
+            if not group: continue
+            text = "  ".join(sl["gloss_txt"] for sl in group)
+            Wg, Hg = GLOSS_W + 60, PHT
+            lets, _ = B.hand2(Wg, Hg, text, 8, 60, size=GLOSS_SIZE, width=1.7, seed=970 + 10 * sh + pi, maxw=GLOSS_W,
+                              line_h=2.9 * hand_shim.XH * GLOSS_SIZE, cps=99, t0=0)
+            k = 0
+            for sl in group:
+                n = len(sl["gloss_txt"].replace(" ", ""))
+                part = lets[k:k + n]; k += n
+                sl["gloss_cov"] = np.max([c for c, _, _ in part], 0) if part else None
+                sl["gloss_xy"] = (GLOSS_X, PYS[pi] + 24)
+    return out
 
 
-def b_glide(ink, lt, step):
-    station_bits(ink, bench_x=330, door_x=140)
-    bx = 330
-    if step == 1:  # crouched on the bench, wing over head; run-up arrow
-        p = inventor(ink, bx - 40 + 40 * ease(lt, 0.3, 1.8), FLOOR - 40, 0.9, arms=(80, 80), crouch=0.4, legs="run")
-        glider(ink, p["head"][0], p["head"][1] - 40, 0.0)
-        arrow(ink, (bx - 80, FLOOR - 140), (bx + 60, FLOOR - 140))
-    elif step == 2:  # launch, level
-        x = lerp(bx + 60, bx + 200, ease(lt, 0, 1.8))
-        y = FLOOR - 120
-        p = inventor(ink, x, y, 0.9, arms=(80, 80), legs="run", tilt=0.25)
-        glider(ink, p["head"][0], p["head"][1] - 34, 0.0)
-        arrow(ink, (x + 120, y - 150), (x + 230, y - 150))
-        ink.line([(bx + 40, FLOOR - 80), (x - 20, y - 10)], BLUE, 1, alpha=120)
-    elif step == 3:  # nose up: the readable failure
-        x = bx + 210 + 20 * ease(lt, 0, 1.8)
-        y = FLOOR - 140
-        pitch = math.radians(lerp(5, 35, ease(lt, 0.1, 1.0)))
-        p = inventor(ink, x, y, 0.9, arms=(80, 80), legs="dangle", tilt=-0.15)
-        g = glider(ink, p["head"][0], p["head"][1] - 34, pitch)
-        ink.line([(p["head"][0] - 130, p["head"][1] - 34), (p["head"][0] + 130, p["head"][1] - 34)], BLUE, 1.4, alpha=160)
-        ink.arc(p["head"][0], p["head"][1] - 34, 90, -pitch, 0, RED, 2)
-        ink.label((p["head"][0] + 120, p["head"][1] - 40), f"{int(math.degrees(pitch))}°  NOSE UP", 16, RED)
-        ink.label((p["head"][0] + 120, p["head"][1] - 18), "airflow breaks off the top", 12, RED)
-        for q in range(3):
-            yy = p["head"][1] - 30 - q * 12
-            ink.line([(x + 60, yy), (x + 120, yy - 8 + 6 * math.sin(lt * 8 + q))], RED, 1.5, alpha=180)
-    elif step == 4:  # stall: drops straight
-        x = bx + 230
-        y = lerp(FLOOR - 140, FLOOR - 40, ease(lt, 0.1, 1.6) ** 1.6)
-        p = inventor(ink, x, y, 0.9, arms=(90, 70), legs="dangle")
-        glider(ink, p["head"][0] - 10, p["head"][1] - 36, math.radians(lerp(35, 70, ease(lt, 0, 1.2))), crumple=0.4)
-        for q in range(4):
-            ink.line([(x - 40 + q * 26, FLOOR - 170), (x - 40 + q * 26, y - 70)], RED, 1.2, alpha=150)
-        arrow(ink, (x + 110, FLOOR - 170), (x + 110, FLOOR - 70))
-    elif step == 5:  # down: sat on the platform under a crumpled wing
-        x = bx + 230
-        shake = math.sin(lt * 40) * math.exp(-lt * 5) * 6
-        inventor(ink, x, FLOOR, 0.9, arms=(-20, -40), legs="sit", hat=False)
-        glider(ink, x + 10 + shake, FLOOR - 120, math.radians(-20), crumple=1.0)
-        ink.ellipse(x - 50, FLOOR - 2, 14, 5, fill=GR, color=GR, width=1)  # the hat
-        if lt < 1.2:
-            fx(ink, (x - 150, FLOOR - 170), "BANG", 46)
-            for q in range(8):
-                a = q * math.pi / 4
-                ink.line([(x - 150 + 60 * math.cos(a), FLOOR - 170 + 34 * math.sin(a)),
-                          (x - 150 + 80 * math.cos(a), FLOOR - 170 + 46 * math.sin(a))], RED, 2)
-    gutter(ink)
-    pigeon(ink, 830, 286, 1.2, facing=-1, bob=math.sin(lt * 4) * (1 if step < 5 else 0.2))
+def build_typed(rcues):
+    """Human reporter's typed newspaper strips: typewriter face on a greyer newsprint strip, straight-cut, no correction."""
+    fnt = ImageFont.truetype(str(PROJ / "assets" / "fonts" / "ibm-plex-mono.woff2"), 25)
+    out = {2: []}; groups = []
+    for c in rcues:
+        if c.get("paste_frame") is None and groups: groups[-1]["lines"].append(c)
+        else: groups.append({"lead": c, "lines": [c]})
+    for k, g in enumerate(groups):
+        sh, pi = PANEL_OF[g["lead"]["board_id"]]
+        w = SLIP_W; h = 26 + 38 * len(g["lines"])
+        r = np.random.default_rng(700 + k)
+        rgb = B.paper(w, h, 710 + k, (231, 225, 213)); a = np.zeros((h, w), np.float32); a[3:h - 3, 2:w - 2] = 1
+        lines = []
+        for j, c in enumerate(g["lines"]):
+            im = Image.new("L", (w, h), 0); d = ImageDraw.Draw(im)
+            xs = [16]
+            for ch in c["text"]:
+                d.text((xs[-1], 12 + 38 * j + r.normal(0, 0.4)), ch, font=fnt, fill=int(225 * r.uniform(0.8, 1.0)))
+                xs.append(xs[-1] + fnt.getlength(ch))
+            lines.append((np.asarray(im, np.float32) / 255, xs, c["write_start_frame"], c["write_end_frame"]))
+        out[sh].append({"id": g["lead"]["cue"], "typed": lines, "rgb": rgb, "a": a, "h": h, "t": g["lead"]["paste_frame"],
+                        "x": TX0 + 4, "y": PYS[pi] + 22, "ang": 0.0, "gloss_cov": None})
+    return out
 
 
-def b_bench(ink, lt):
-    station_bits(ink, bench_x=470, door_x=200)
-    inventor(ink, 430, FLOOR - 1, 1.0, arms=(-50, -60), legs="sit", hat=True)
-    # the pigeon flies down and lands on the bench beside him
-    f = ease(lt, 0.2, 1.6)
-    px, py = lerp(820, 540, f), lerp(200, FLOOR - 78, f)
-    if f < 1:
-        for sgn in (1, -1):
-            wa = math.sin(lt * 20) * 0.8
-            ink.line([(px, py - 20), (px + 30 * sgn, py - 40 - 20 * wa * sgn)], GR, 2)
-    pigeon(ink, px, py, 1.0, facing=-1)
-    glider(ink, 650, FLOOR - 10, 0.0, span=160, crumple=1.0)
-    ink.label((PX0 + 16, PY1 - 22), "hold 3 s · end of sequence", 11, BLUE)
+def slip_cov(sl, f):
+    if "typed" in sl:
+        cov = np.zeros_like(sl["a"])
+        for img, xs, a, b in sl["typed"]:
+            if f < a: continue
+            n = len(xs) - 1; k = n if f >= b else int(n * (f - a + 1) / max(1, b - a + 1))
+            cov[:, :int(xs[k])] = np.maximum(cov[:, :int(xs[k])], img[:, :int(xs[k])])
+        return cov
+    cov = B.reveal(sl["letters"], f)
+    for lt in sl["cont"]:
+        c2 = B.reveal(lt, f)
+        if c2 is not None: cov = np.maximum(cov, c2)
+    if sl["strike"] is not None:
+        sc, sf, mx0, mx1 = sl["strike"]
+        if f >= sf:
+            xs = np.arange(cov.shape[1], dtype=np.float32); xe = mx0 - 5 + (mx1 - mx0 + 11) * min(1.0, (f - sf + 1) / 3)
+            cov = np.maximum(cov, sc * np.clip((xe - xs) / 2, 0, 1)[None, :])
+    if sl["fix"]:
+        fc = B.reveal(sl["fix"], f)
+        if fc is not None: cov = np.maximum(cov, fc)
+    return cov
 
 
-def draw_board(ink, b, lt):
-    bid = b[2]
-    if bid == "00":
-        b_title(ink, lt)
-    elif bid == "01":
-        b_wide(ink, lt)
-    elif bid == "02":
-        b_flap(ink, lt)
-    elif bid == "03":
-        b_rotor(ink, lt)
-    elif bid in ("04", "05", "06", "07", "08"):
-        b_glide(ink, lt, int(bid) - 3)
-    else:
-        b_bench(ink, lt)
+SLIPSETS = {}
 
 
-@film.picture
-def frame(t, ink):
-    ink._grain = True
-    ink.paste(page())
-    b = board_at(t)
-    lt = t - b[0]
-    k = BOARDS.index(b)
-    x0, y0, x1, y1 = PANEL
-    framed(ink, PANEL, board_image(b, lt, (x1 - x0, y1 - y0), int(t * FPS)))
-    for j, box in enumerate(THUMBS):   # the next boards wait below, as on a storyboard sheet
-        if k + 1 + j < len(BOARDS):
-            nb = BOARDS[k + 1 + j]
-            if nb[2] not in _thumb_cache:
-                _thumb_cache[nb[2]] = board_image(nb, 0.0, (box[2] - box[0], box[3] - box[1]))
-            framed(ink, box, _thumb_cache[nb[2]])
-            hand_text(ink, (box[0] + 30, box[1] + 4), nb[2], 16, GR, seed=k + j)
-    # pen notes in the right column
-    note, aside, margin = NOTES[b[2]]
-    hand_text(ink, (640, 40), f"{b[2]}   {b[0]:.0f}–{b[1]:.0f} s   {b[3]}", 19, (80, 70, 60), width=290, seed=k)
-    a = ease(lt, 0.05, 0.35)
-    y = hand_text(ink, (640, 92), note, 23, GR, width=285, seed=10 + k, alpha=a)
-    hand_text(ink, (648, y + 8), aside, 17, (86, 78, 66), width=270, seed=40 + k, alpha=a)
-    if not ref_print(ink, b[2]) and margin:
-        hand_text(ink, (660, 404), margin, 26, GR, width=260, seed=70 + k, rot=4)
-    elif margin:
-        hand_text(ink, (420, 292), margin, 20, GR, width=200, seed=70 + k)
-    # pen-ruled timing line with a tick per board and the playhead
-    yl = 500
-    ink.line([(64, yl), (904, yl)], GR, 1.8)
-    for s_, e_, bid, *_ in BOARDS:
-        xx = 64 + s_ / 30 * 840
-        ink.line([(xx, yl - 7), (xx, yl + 7)], GR, 1.6)
-        hand_text(ink, (xx + 6, yl + 8), bid, 14, GR if bid == b[2] else (130, 120, 100), seed=int(bid))
-    ph = 64 + t / 30 * 840
-    ink.circle(ph, yl, 5, fill=GR, color=GR, width=1)
+def slipset(name):
+    if name not in SLIPSETS:
+        if name == "bird": SLIPSETS[name] = build_slips(CUES["cues"])
+        elif name == "swap": SLIPSETS[name] = build_slips(SWAP["cues"])
+        else:
+            s = build_slips([c for c in CUES["cues"] if PANEL_OF[c["board_id"]][0] == 1])
+            s[2] = build_typed(CUES["baseline_human_reporter"]["slips"])[2]
+            SLIPSETS[name] = s
+    return SLIPSETS[name]
 
 
-@film.sound
-def sound(mix):
-    R = mix.rate
-    # foraged: real pigeons as the bed under everything, a real tower bell in board 01
-    pig = load_audio(SRC / "pigeons.webm", 6.0, 30.0)
-    pig *= np.minimum(1, np.arange(len(pig)) / (1.0 * R))
-    mix.add(pig / (np.abs(pig).max() + 1e-9), 0.0, 0.18)
-    bell = load_audio(SRC / "bell_pribyslav.mp3", 2.0, 3.6)
-    bell *= np.minimum(1, (len(bell) - np.arange(len(bell))) / (0.8 * R))
-    mix.add(bell / (np.abs(bell).max() + 1e-9), 3.0, 0.5, -0.3)
-    for s, *_ in BOARDS[1:]:
-        mix.whoosh(s - 0.08, 0.18, 0.05)      # board change: a sheet slides
-    # 01 bell, a few steps
-    mix.murmur(3.4, 3.2, gain=0.05, pitch=330, pan=0.5)
-    # 02 flaps: a paper burst per down-stroke
-    for k in range(14):
-        at = 7.0 + k * 0.25
-        if k % 2 == 1:
-            x = mix.band(mix.noise(0.12), 600, 5000) * np.exp(-np.linspace(0, 6, int(0.12 * R)))
-            mix.add(x, at, 0.35, -0.2 if k % 4 == 1 else 0.2)
-    mix.murmur(7.3, 3.4, gain=0.05, pitch=330, pan=0.5)
-    # 03 rotor: ratchet clicks speeding up, buzz, snap
-    t, gap = 11.0, 0.16
-    while t < 13.5:
-        mix.click(t, 0.12, 0.1, 5000, 0.015)
-        t += gap
-        gap = max(0.05, gap * 0.93)
-    buzz = mix.tone(95, 1.0, "square") * (0.6 + 0.4 * np.sin(2 * np.pi * 31 * mix.t(1.0)))
-    mix.add(buzz * mix.env(len(buzz), 0.03, 0.1, 0.8, 0.2), 13.6, 0.12)
-    mix.click(14.6, 0.5, 0, 7000, 0.02)
-    mix.pluck(14.6, 880, 0.4, 0.15)
-    mix.murmur(11.4, 4.2, gain=0.05, pitch=330, pan=0.5)
-    # 04–08 glide: steps, a widening then thinning rush, silence, BANG
-    mix.steps(16.3, 17.9, 0.2, 0.18, "wood")
-    w = mix.band(mix.noise(5.0), 300, 3000)
-    env = np.interp(np.arange(len(w)) / R, [0, 1.0, 2.6, 3.6, 5.0], [0, 1, 0.6, 0.0, 0])
-    mix.add(w * env, 17.8, 0.14)
-    mix.thud(23.45, 55, 0.9)
-    mix.add(mix.band(mix.noise(0.4), 200, 2500) * np.exp(-np.linspace(0, 6, int(0.4 * R))), 23.45, 0.35)
-    for at, dur in ((16.2, 1.6), (18.1, 1.6), (20.0, 1.5), (21.8, 1.5), (23.9, 1.6)):
-        mix.murmur(at, dur, gain=0.045, pitch=330, pan=0.5)
-    # 09 wingbeats down, two coos, last line
-    for k in range(6):
-        mix.whoosh(25.8 + k * 0.18, 0.12, 0.05, 0.4)
-    for at in (27.4, 28.3):
-        tt = mix.t(0.5)
-        coo = np.sin(2 * np.pi * (310 + 40 * np.sin(2 * np.pi * 2 * tt)) * tt) * np.sin(np.pi * tt / 0.5) ** 2
-        mix.add(coo, at, 0.12, 0.2)
-    mix.murmur(25.9, 3.6, gain=0.045, pitch=330, pan=0.3)
-    mix.reverb(0.12)
+# ------------------------------------------------------------------ the rubber band (BB-02/03), drawn by the board artist each drawing
+def band_cov(items, fa):
+    hub = None
+    for panel, nm, M, hgt in items:
+        if panel == "s1p2" and nm == "heli_shaft":
+            pv = B.P["heli_shaft"]["pv"]; top = B.ap(M, pv["top_hub"]); bot = B.ap(M, pv["bottom_hub"]); hub = (top, bot)
+    if hub is None or fa < 192:
+        return None
+    top, bot = hub
+    k = pen.Ink(PWID, PHT, 600 + fa // 4)
+    d = bot - top; L = float(np.hypot(*d)) + 1e-6; nrm = np.array([-d[1], d[0]]) / L
+    if fa < 312:                                       # the twisted skein: more kinks as it is wound
+        turns = min(12, max(0, (fa - 192) // 5)) if fa < 252 else 12 - 9 * min(1.0, (fa - 254) / 58)
+        n = int(4 + 2 * turns); ts = np.linspace(0, 1, 4 * n + 1)
+        amp = 3.0 + 0.25 * turns
+        pts = [top + d * t + nrm * (amp * math.sin(t * n * math.pi) + 7) for t in ts]
+        k.line(pts, width=1.3, jit=0.25, press=0.2)
+    else:                                              # snapped: the loose end whips (spring amplitude BAND[f]) and hangs
+        A = B.BAND.get(fa, 0.0) if fa <= 384 else 0.0
+        ts = np.linspace(0, 1, 40)
+        pts = [bot + np.array([10 + 34 * t + A * 0.5 * t * math.sin(t * 7 + fa * 0.8), -8 + 26 * t * t + A * 0.3 * t * math.cos(t * 5)]) for t in ts]
+        k.line(pts, width=1.3, jit=0.3, press=0.2)
+    if 192 <= fa < 260:                                # graphite tally of turns
+        g = pen.Ink(PWID, PHT, 620)
+        n = min(12, max(0, (fa - 192) // 5))
+        for i in range(n):
+            gx = 560 + (i % 5) * 9 + (i // 5) * 62
+            g.line([(gx, 52), (gx + 1, 78)], width=1.0, jit=0.2) if (i % 5) < 4 else g.line([(gx - 40, 72), (gx + 4, 56)], width=1.0, jit=0.2)
+        return k.coverage(), g.coverage()
+    return k.coverage(), None
+
+
+# ------------------------------------------------------------------ one frame (page-space crop -> 960x540); board.render generalised
+PIN_SCALE = 0.55
+
+
+def put_cov(can, cov, ink, alpha, x, y, seed):
+    if cov is None: return
+    h, w = cov.shape; x, y = int(x), int(y); Hc, Wc = can.shape[:2]
+    xa_, ya_, xb_, yb_ = max(0, x), max(0, y), min(Wc, x + w), min(Hc, y + h)
+    if xb_ > xa_ and yb_ > ya_:
+        sub = can[ya_:yb_, xa_:xb_]
+        can[ya_:yb_, xa_:xb_] = pen.put_ink(sub, cov[ya_ - y:yb_ - y, xa_ - x:xb_ - x] * alpha, ink=ink, seed=seed, bleed=0.4)
+
+
+def render(f, slips="bird", force_sheet=None):
+    fa = f if f == 605 else f - (f % 2)                # on 2s; the impact f605 is shot on ones (repair 2: contact + snap on the frame)
+    sh_n, cam, _ = B.camera(fa)
+    if force_sheet: sh_n = force_sheet
+    cx, cy, z = cam
+    fw, fh = 960 / z, 540 / z
+    X0, Y0 = int(math.floor(cx - fw / 2)) - 2, int(math.floor(cy - fh / 2)) - 2
+    Wc, Hc = int(fw) + 6, int(fh) + 6
+    can = np.zeros((Hc, Wc, 3), np.float32) + DESK
+    S = sheet(sh_n)
+    xa, ya, xb, yb = max(0, X0), max(0, Y0), min(PW, X0 + Wc), min(PH, Y0 + Hc)
+    if xb > xa and yb > ya:
+        dm = np.zeros((Hc, Wc), np.float32); dm[max(0, -Y0 + 8):max(0, PH - Y0 + 8), max(0, -X0 + 6):max(0, PW - X0 + 6)] = 1
+        B.comp(can, SHADOW, cv2.GaussianBlur(dm, (0, 0), 6) * 0.18)
+        can[ya - Y0:yb - Y0, xa - X0:xb - X0] = S[ya:yb, xa:xb]
+    ox, oy = PX - X0, PYS[1] - Y0
+    if sh_n == 2:                                      # BB-08 board-artist annotations, once the pose is held (kept after)
+        if fa >= 541: put_cov(can, B.ANN_G, GRAPH, 0.75 * min(1, (fa - 541) / 8), ox, oy, f // 4)
+        if fa >= 543: put_cov(can, B.ANN_A, PENINK, min(1, (fa - 543) / 3), ox, oy, f // 4)
+        if fa >= 549: put_cov(can, B.ANN_B, PENINK, min(1, (fa - 549) / 3), ox, oy, f // 4)
+    _, items = B.scene(fa if (force_sheet is None or force_sheet == (1 if fa < 408 else 2)) else (406 if force_sheet == 1 else 420))
+    if sh_n == 1:
+        if fa >= 60: put_cov(can, LAB_A, PENINK, min(1, (fa - 60) / 3), PX - X0, PYS[0] - Y0, 11)
+        if fa >= 300: put_cov(can, LAB_B, PENINK, min(1, (fa - 300) / 3), PX - X0, PYS[1] - Y0, 12)
+        bc = band_cov(items, fa)
+        if bc:
+            put_cov(can, bc[0], B.INK, 1.0, PX - X0, PYS[1] - Y0, 5)
+            if bc[1] is not None: put_cov(can, bc[1], GRAPH, 0.8, PX - X0, PYS[1] - Y0, 6)
+    shadow = np.zeros((Hc, Wc), np.float32); layers = []
+    for panel, nm, M, hgt in items:
+        px0, py0 = B.panel_origin(panel)
+        Mw = M.copy(); Mw[0, 2] += px0 - X0; Mw[1, 2] += py0 - Y0
+        # clip to the panel, and skip pieces whose panel is outside the view
+        cy0, cy1 = max(0, py0 - Y0 + 3), min(Hc, max(0, py0 - Y0 + PHT - 3)); cx0, cx1 = max(0, px0 - X0 + 3), min(Wc, max(0, px0 - X0 + PWID - 3))
+        if cy1 <= cy0 or cx1 <= cx0: continue
+        pc = B.P[nm]
+        # warp only inside the panel's visible window
+        Mw2 = Mw.copy(); Mw2[0, 2] -= cx0; Mw2[1, 2] -= cy0
+        ww, hh = cx1 - cx0, cy1 - cy0
+        a = np.zeros((Hc, Wc), np.float32); rgb = np.zeros((Hc, Wc, 3), np.float32)
+        a[cy0:cy1, cx0:cx1] = cv2.warpAffine(pc["a"], Mw2, (ww, hh), flags=cv2.INTER_LINEAR)
+        rgb[cy0:cy1, cx0:cx1] = cv2.warpAffine(pc["rgb"], Mw2, (ww, hh), flags=cv2.INTER_LINEAR)
+        dx, dy = 0.07 * hgt + 3, 0.10 * hgt + 4
+        Ms = Mw2.copy(); Ms[0, 2] += dx; Ms[1, 2] += dy
+        shadow[cy0:cy1, cx0:cx1] = np.maximum(shadow[cy0:cy1, cx0:cx1], cv2.warpAffine(pc["a"], Ms, (ww, hh)))
+        layers.append((a, rgb))
+    B.comp(can, SHADOW, cv2.GaussianBlur(shadow, (0, 0), 4) * 0.26)
+    for a, rgb in layers:
+        can *= (1 - a[..., None]); can += rgb
+    for panel, nm, M, hgt in items:                    # brass split pins at the visible joints
+        px0, py0 = B.panel_origin(panel)
+        pins = {"glider": ["hip"], "glider_core": ["hip", "wing_root_R"], "pilot_torso": ["hip", "shoulder_R"], "pie_body": ["neck"],
+                "fly_body": ["shoulder_L"], "heli_shaft": ["top_hub", "bottom_hub"]}.get(nm, [])
+        for pn in pins:
+            if pn in B.P[nm]["pv"]:
+                hp = B.ap(M, B.P[nm]["pv"][pn]); B.pin_at(can, hp[0] + px0 - X0, hp[1] + py0 - Y0, PIN_SCALE)
+    # the slips: pasted (lift + shadow settle over 3 frames), pinned, written on
+    for sl in slipset(slips).get(sh_n, []):
+        if sl["t"] is None or f < sl["t"]: continue
+        cov = slip_cov(sl, f)
+        ink = PENINK if "typed" not in sl else (38, 36, 34)
+        rgb = pen.put_ink(sl["rgb"].copy(), cov, ink=ink, seed=7)
+        lift = max(0.0, 6 - 2 * (f - sl["t"]))
+        h, w = sl["a"].shape
+        M = cv2.getRotationMatrix2D((w / 2, h / 2), sl["ang"], 1.0); M[0, 2] += sl["x"] - X0 - lift; M[1, 2] += sl["y"] - Y0 - lift * 2
+        A = cv2.warpAffine(sl["a"], M, (Wc, Hc)); Rg = cv2.warpAffine(rgb * sl["a"][..., None], M, (Wc, Hc))
+        Ms = M.copy(); Ms[0, 2] += 2 + lift; Ms[1, 2] += 3 + lift * 1.4
+        B.comp(can, SHADOW, cv2.GaussianBlur(cv2.warpAffine(sl["a"], Ms, (Wc, Hc)), (0, 0), 2.5) * 0.24)
+        can = can * (1 - A[..., None]) + Rg
+        pn = B.ap(M, (16, 14)); B.pin_at(can, pn[0], pn[1], 1.0)
+        if sl.get("gloss_cov") is not None and f >= sl["gloss_t"]:
+            put_cov(can, sl["gloss_cov"], GRAPH, 0.95 * min(1, (f - sl["gloss_t"]) / 8), sl["gloss_xy"][0] - X0, sl["gloss_xy"][1] - Y0, 9)
+    zo = z * KZ
+    M = np.array([[zo, 0, -zo * (cx - fw / 2 - X0)], [0, zo, -zo * (cy - fh / 2 - Y0)]], np.float32)
+    out = cv2.warpAffine(np.clip(can, 0, 255), M, (OW, OH), flags=cv2.INTER_AREA if zo < 1 else cv2.INTER_LINEAR,
+                         borderValue=tuple(float(c) for c in DESK))
+    return out
+
+
+def page_turn(f, slips="bird"):
+    """f396-f418 at the wide shot: planche 1 flips up on its top binding (foreshortened in y, edge shadow on planche 2)."""
+    base = render(f, slips, force_sheet=2)
+    if f >= 408:
+        s = (f - 408) / 10.0
+        cx, cy, z = B.CAM_WIDE; z *= KZ; top = (0 - (cy - OH / z / 2)) * z
+        band = np.exp(-((np.arange(OH) - top) / 14.0) ** 2) * 0.22 * (1 - s)
+        return base * (1 - band[:, None, None]) + SHADOW * band[:, None, None]
+    up = render(f, slips, force_sheet=1)
+    cx, cy, z = B.CAM_WIDE; z *= KZ
+    top = (0 - (cy - OH / z / 2)) * z; bot = (PH - (cy - OH / z / 2)) * z
+    x0 = int((0 - (cx - OW / z / 2)) * z); x1 = int(math.ceil((PW - (cx - OW / z / 2)) * z))
+    s = (f - 396) / 12.0; c = max(0.02, math.cos(math.pi / 2 * s))
+    t0, t1 = int(top), int(math.ceil(bot)); hh = t1 - t0; nh = max(1, int(hh * c))
+    pg = cv2.resize(up[t0:t1, x0:x1], (x1 - x0, nh), interpolation=cv2.INTER_AREA)
+    pg = pg * (0.93 + 0.07 * c)                        # the lifting page catches a little less light
+    out = base.copy()
+    ys = np.arange(OH, dtype=np.float32)
+    edge = t0 + nh
+    sh = np.exp(-np.clip(ys - edge, 0, None) / (18 + 40 * (1 - c))) * (ys >= edge) * 0.30 * (1 - c * 0.6)
+    out = out * (1 - sh[:, None, None]) + SHADOW * sh[:, None, None]
+    out[t0:t0 + nh, x0:x1] = pg
+    return out
+
+
+def frame_rgb(f, slips="bird"):
+    if 396 <= f < 418:
+        return page_turn(f, slips)
+    return render(f, slips)
+
+
+# ------------------------------------------------------------------ sound: the writer unit's stems, rebalanced, via mix.add
+GAINS = {"air": 1.5, "magpie": 0.9, "paper": 1.5, "action": 0.85, "pin": 1.1}
+
+
+def read_wav(p):
+    w = wave.open(str(p)); n = w.getnframes(); ch = w.getnchannels(); assert w.getframerate() == 44100
+    a = np.frombuffer(w.readframes(n), np.int16).astype(np.float64) / 32768
+    return a.reshape(-1, ch) if ch > 1 else np.stack([a, a], 1)
+
+
+def add_stereo(mix, st, gain, at=0.0):
+    mix.add(st[:, 0], at, gain=gain / 1.414, pan=-1.0); mix.add(st[:, 1], at, gain=gain / 1.414, pan=1.0)
+
+
+def stems_sound(mix, f0=0, f1=NF, drop=()):
+    a, b = int(f0 / FPS * 44100), int(f1 / FPS * 44100)
+    for name, g in GAINS.items():
+        if name in drop: continue
+        add_stereo(mix, read_wav(SND / f"bang-bang_stem_{name}.wav")[a:b], g)
+
+
+# ------------------------------------------------------------------ films
+def make_film(slug, f0, f1, slips, sound_fn):
+    film = Film(slug, seconds=(f1 - f0) / FPS, size=(OW, OH))
+
+    @film.picture
+    def _(t, ink):
+        k = int(round(t * FPS)) + f0
+        ink.img = Image.fromarray(np.clip(frame_rgb(k, slips), 0, 255).astype(np.uint8))
+
+    film.sound(sound_fn)
+    return film
+
+
+def main_film():
+    film = make_film("bang-bang", 0, NF, "bird", lambda mix: stems_sound(mix))
+    film.poster_at = 548 / FPS                        # the stall, struck word visible
+    return film
+
+
+def baseline_sound(mix):
+    add_stereo(mix, read_wav(SND / "baseline_bb07-09_mix.wav"), 1.2)
 
 
 if __name__ == "__main__":
-    run(film)
+    if len(sys.argv) > 1 and sys.argv[1] == "--variants":
+        make_film("baseline_bb07-09", 432, 660, "baseline", baseline_sound).render(out_dir=SW)
+        make_film("swap_bb07-09", 432, 660, "swap", lambda mix: stems_sound(mix, 432, 660)).render(out_dir=SW)
+    elif len(sys.argv) > 1 and sys.argv[1] == "--frames":
+        for a in sys.argv[2:]:
+            f = int(a); film = main_film(); film.frame(f).save(SW / f"frame_f{f:03d}.png")
+            print("frame", f)
+    else:
+        main_film().render()

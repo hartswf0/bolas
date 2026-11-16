@@ -1,340 +1,403 @@
-"""La Belle Hortense — station. Six modules, six motifs (key, bell, coat, bench, receipt,
-locked door). Each module uses every motif exactly once, in an order produced by applying
-the sextine permutation [6,1,5,2,4,3] to the previous module's order. The motif chips
-visibly travel to their new places between modules. Module 1 is the station episode;
-the coat is background there and evidence by module 5."""
-import math
-import re
-from kit import *
-from kit_anim import run, hatch_poly
+"""La belle Hortense: a sextine exercise, in hommage to the novel by Jacques Roubaud (1985); a fiction re-staging
+archive photographs (nothing is taken from the novel or its cover).  SCION swarm assembly, revision E2 (repair round 1).
 
-film = Film("la-belle-hortense", seconds=71.0, boil=0, wobble=0, seed=4)
-film.poster_at = 47.0
+Six 9 s modules of six 1.5 s slots.  Module I deals the six motifs ABCDEF (manteau, cloche, cle, banc, recu,
+porte); each next module re-deals them by the sestina permutation sigma = [6,1,5,2,4,3].  The red coat lies on the
+bench as set dressing in I.1, the visitor lays the key on it in I.4, and sigma brings the coat back to slot 3 of
+module V (42.0-43.5 s), running, pan-streaked red on green, with the key dropping out of its fold.
 
-MOTIF = {"A": "key", "B": "bell", "C": "coat", "D": "bench", "E": "receipt", "F": "door"}
-PERM = [6, 1, 5, 2, 4, 3]
+Picture: decoded frames of prepared clips (animator unit U3 and the editor beats), all built from foraged
+photographs (FSA/OWI conductor and visitor, Highsmith bench, Bourre plates by Daniel Jolivet, Commons bell
+and key) cut out, articulated, stencil-dyed and pan-exposed by sub-frame integration; handmade print objects and
+type from U4 laid over them.  Sound: U4's cue sheet of foraged recordings (Fridingen bell, steps, handle, hinge,
+lock, keys, paper) plus kit-synthesised clicks, wind and whooshes, placed with mix.add.
+
+    python3 films/la-belle-hortense.py                    # render assets/films/la-belle-hortense.mp4
+    python3 films/la-belle-hortense.py --stills 3.75 8.25 # stills to films/stills/la-belle-hortense/
+    python3 films/la-belle-hortense.py --baseline         # story-order diagnostic -> films/swarm/.../baseline-cut.mp4
+"""
+import json
+import subprocess
+import sys
+import wave
+from pathlib import Path
+
+import numpy as np
+from PIL import Image
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from kit import Film, FPS, W, H, PROJECT  # noqa: E402
+
+SLUG = "la-belle-hortense"
+SW = PROJECT / "films/swarm" / SLUG
+SRC = PROJECT / "films/sources" / SLUG
+ANIM = SRC / "animator-scene-authors-reiniger-rig-multiplane-stencil-dye-pan-exposure-scions-2-and-44-/clips"
+EDIT = SRC / "editor/clips"
+PRINT = SRC / "print-sound/print"
+EPRINT = SRC / "editor/print"                    # editor E2 cards (fiction label, hommage line, licence)
+
+STRUCT = json.loads((SW / "structure.json").read_text())
+PRINTJ = json.loads((SW / "print.json").read_text())
+CUES = json.loads((SW / "sound_cues.json").read_text())
+
+LETTERS = "ABCDEF"
+MOTIF = {"A": "manteau", "B": "cloche", "C": "clé", "D": "banc", "E": "reçu", "F": "porte"}
+ROMAN = ["I", "II", "III", "IV", "V", "VI"]
+SIGMA = STRUCT["sigma"]
+ORDERS = [m["order"] for m in STRUCT["modules"]]
 
 
-def permute(order):
-    return [order[p - 1] for p in PERM]
+# ----------------------------------------------------------- permutation fixture (asserted at render time)
+def sigma_step(order):
+    return "".join(order[s - 1] for s in SIGMA)
 
 
-ORDERS = [list("ABCDEF")]
+assert SIGMA == [6, 1, 5, 2, 4, 3]
+assert sigma_step("ABCDEF") == "FAEBDC", "fixture ABCDEF -> FAEBDC"
+o = "ABCDEF"
 for _ in range(6):
-    ORDERS.append(permute(ORDERS[-1]))
-assert ORDERS[1] == list("FAEBDC") and ORDERS[6] == list("ABCDEF")
+    o = sigma_step(o)
+assert o == "ABCDEF", "sigma^6 = id"
+assert ORDERS[0] == "ABCDEF"
+for i in range(5):
+    assert ORDERS[i + 1] == sigma_step(ORDERS[i]), f"module {ROMAN[i + 1]} = sigma(module {ROMAN[i]})"
+assert sigma_step(ORDERS[5]) == ORDERS[0], "VI returns to I"
+for od in ORDERS:
+    assert sorted(od) == list(LETTERS), f"duplicate motif in {od}"
 
-MODULES = [
-    ("07:11", "the platform", [
-        "07:11. A visitor arrives with a sealed envelope; it holds a brass KEY.",
-        "The BELL rings once. Nobody comes.",
-        "Someone's folded COAT lies drying at the far end, its pocket torn.",
-        "The visitor sets the find on the near end of the BENCH and leaves.",
-        "Underfoot, a café RECEIPT: ordinary litter.",
-        "The service DOOR stays shut.",
-    ]),
-    ("08:00", "the porter", [
-        "08:00. The porter tries the service DOOR: still locked.",
-        "The visitor's KEY is gone.",
-        "The café clerk writes a RECEIPT for every tea.",
-        "The porter says the 07:20 BELL sent him running to Platform 2.",
-        "He says he never sat on the BENCH.",
-        "His COAT is on his back now, dry.",
-    ]),
-    ("08:20", "the clerk", [
-        "The clerk remembers a folded COAT, then none.",
-        "Only the station-master opens the service DOOR, and he is away.",
-        "She saw the porter sit down on the BENCH with his tea.",
-        "She saw no KEY. She wasn't looking for one.",
-        "When the BELL went, he jumped up, grabbing his things.",
-        "Her book holds a RECEIPT: one tea, 07:19.",
-    ]),
-    ("08:40", "the litter", [
-        "The porter's own RECEIPT turns up underfoot: 07:19, one tea.",
-        "So he sat, on his folded COAT, to keep dry.",
-        "At the BELL he snatched it up in one movement.",
-        "Now it hangs on the hook by the service DOOR.",
-        "On the platform there is still no KEY.",
-        "The BENCH is searched slat by slat: empty.",
-    ]),
-    ("09:00", "the hook", [
-        "On the BENCH: the find set down at 07:15, the porter seated at 07:19.",
-        "The RECEIPT and the clerk agree on that.",
-        "Whoever has the KEY may not know it.",
-        "On its hook, the COAT hangs crooked, heavy on one side.",
-        "It swings against the DOOR with a small metal tick.",
-        "The BELL for the 09:05 has not rung yet.",
-    ]),
-    ("09:05", "the lining", [
-        "The 09:05 BELL rings. Nobody boards.",
-        "The clerk lays the porter's things along the BENCH.",
-        "Not the service DOOR: that was never the question.",
-        "The RECEIPT, the tea, the hurry, the snatch.",
-        "She shakes the COAT. The torn pocket rattles.",
-        "Out of the lining slides the brass KEY.",
-    ]),
+
+def slot_start(i, k):          # i, k from 0
+    return 3.0 + 9.0 * i + 1.5 * k
+
+
+# ------------------------------------------------------------------ the sequence (clip per slot)
+# (clip directory, clip name, first clip frame).  Clips are 36 frames = one 1.5 s slot unless noted.
+A, E = ANIM, EDIT
+SLOT_CLIPS = {
+    "I.1": (E, "I1_manteau_E2", 0), "I.2": (E, "I2_cloche_E2", 0), "I.3": (E, "I3_cle_E2", 0),
+    "I.4": (E, "I4_banc_E2", 0), "I.5": (E, "I5_recu_E2", 0), "I.6": (E, "I6_porte_E2", 0),
+    "II.1": (E, "II1_porte", 0), "II.2": (E, "II2_manteau_E2", 0), "II.3": (E, "II3_recu", 0),
+    "II.4": (A, "bell_strike", 0), "II.5": (A, "bench_empty", 0), "II.6": (E, "II6_cle", 0),
+    "III.1": (E, "III1_cle_E2", 0), "III.2": (E, "III2_porte", 0), "III.3": (A, "bench_empty", 0),
+    "III.4": (A, "III4_manteau", 0), "III.5": (A, "bell_strike", 0), "III.6": (E, "III6_recu", 0),
+    "IV.1": (E, "IV1_recu", 0), "IV.2": (E, "I4_banc_E2", 0), "IV.3": (A, "bell_strike", 0),
+    "IV.4": (E, "IV4_porte", 0), "IV.5": (E, "IV5_manteau_E2", 0), "IV.6": (A, "bench_empty", 0),
+    "V.1": (E, "V1_banc_E2", 0), "V.2": (E, "V2_recu_E2", 0),
+    "V.3": (A, "V3_manteau_clean", 12),          # the accepted test shot: clip covers 41.5-44.0, slot = frames 12..47
+    "V.4": (E, "V4_cle_E2", 0), "V.5": (A, "V5_porte", 0), "V.6": (A, "bell_strike", 0),
+    "VI.1": (A, "VI1_cloche", 0), "VI.2": (E, "I4_banc_E2", 0), "VI.3": (E, "VI3_porte", 0),
+    "VI.4": (E, "VI4_recu", 0), "VI.5": (E, "VI5_cle", 0), "VI.6": (E, "I1_manteau_E2", 0),
+}
+# the motif each clip shows (checked against the order below)
+CLIP_MOTIF = {
+    "I1_manteau": "manteau", "I2_cloche": "cloche", "I3_cle": "clé", "I4_banc": "banc", "I5_recu": "reçu",
+    "I6_porte": "porte", "II1_porte": "porte", "II2_manteau": "manteau", "II3_recu": "reçu", "bell_strike": "cloche",
+    "bench_empty": "banc", "II6_cle": "clé", "III1_cle": "clé", "III2_porte": "porte", "III4_manteau": "manteau",
+    "III6_recu": "reçu", "IV1_recu": "reçu", "IV4_porte": "porte", "IV5_manteau": "manteau", "V1_banc": "banc",
+    "V2_recu": "reçu", "V3_manteau_clean": "manteau", "V4_cle": "clé", "V5_porte": "porte", "VI1_cloche": "cloche",
+    "VI3_porte": "porte", "VI4_recu": "reçu", "VI5_cle": "clé",
+}
+CLIP_MOTIF.update({n + "_E2": m for n, m in list(CLIP_MOTIF.items())})
+CLIP_MOTIF.update({"I4_banc_E2": "banc", "I1_manteau_E2": "manteau"})
+REPLAY = {"IV.2": "clé", "VI.2": "banc"}       # the I.4 pixels, framed and tagged I·4: an equivalent view
+
+SLOT_TYPE = [o for o in PRINTJ["objects"] if o["id"] == "SLOT-TYPE"][0]["states"]
+SEGMENTS = []                                    # (t0, t1, slot id, motif)
+for i, od in enumerate(ORDERS):
+    for k, letter in enumerate(od):
+        sid = f"{ROMAN[i]}.{k + 1}"
+        t0 = slot_start(i, k)
+        ap = STRUCT["modules"][i]["appearances"][k]
+        assert ap["id"] == sid and ap["motif"] == letter and abs(ap["start"] - t0) < 1e-9, sid
+        clip = SLOT_CLIPS[sid][1]
+        shown = REPLAY.get(sid, CLIP_MOTIF[clip])
+        assert shown == MOTIF[letter], f"{sid}: clip {clip} shows {shown}, order says {MOTIF[letter]}"
+        st = SLOT_TYPE[sid]
+        assert st["active_word"] == MOTIF[letter].upper(), f"{sid} slot word {st['active_word']}"
+        assert abs(st["t"][0] - t0) < 1e-9
+        SEGMENTS.append((t0, t0 + 1.5, sid, MOTIF[letter]))
+
+
+def segment_at(t):
+    for seg in SEGMENTS:
+        if seg[0] <= t < seg[1]:
+            return seg
+    return None
+
+
+# the highlighted slot word equals order_i[k] at every slot midpoint (and the 3.75 + ... sample times)
+for i, od in enumerate(ORDERS):
+    for k, letter in enumerate(od):
+        for tm in (slot_start(i, k) + 0.75, slot_start(i, k) + 0.75 + 1e-3):
+            seg = segment_at(tm)
+            assert SLOT_TYPE[seg[2]]["active_word"] == MOTIF[letter].upper(), (tm, seg)
+
+# ------------------------------------------------------------------ decoding (ffmpeg only; untrusted data)
+_clips = {}
+
+
+def clip_frames(d, name):
+    key = (str(d), name)
+    if key not in _clips:
+        if len(_clips) >= 3:
+            _clips.pop(next(iter(_clips)))
+        raw = subprocess.run(["ffmpeg", "-v", "error", "-i", str(Path(d) / f"{name}.mp4"),
+                              "-f", "rawvideo", "-pix_fmt", "rgb24", "-"], capture_output=True, check=True).stdout
+        a = np.frombuffer(raw, np.uint8)
+        _clips[key] = a.reshape(-1, H, W, 3)
+    return _clips[key]
+
+
+_png = {}
+
+
+def png(name):
+    if name not in _png:
+        _png[name] = Image.open(PRINT / name).convert("RGBA")
+    return _png[name]
+
+
+# enamel '6' plate on the left leaf of the door in V.5 (same plate coords as the editor beats: (470, 505), 30 px)
+V5_SCALE, V5_OX, V5_OY = 1.15, int(500 * 1.15 - W / 2), int(545 * 1.15 - H / 2)
+_en = png("enamel_plate_6.png")
+_ew = 30.0 * V5_SCALE
+ENAMEL_V5 = _en.resize((int(round(_ew)), int(round(_ew * _en.size[1] / _en.size[0]))), Image.LANCZOS)
+ENAMEL_V5_XY = (int(round(470 * V5_SCALE - V5_OX - ENAMEL_V5.size[0] / 2)),
+                int(round(505 * V5_SCALE - V5_OY - ENAMEL_V5.size[1] / 2)))
+
+CREAM = (225, 229, 178)
+_st = {}
+
+
+def slot_type(sid):
+    """U4's slot type, with a cream typed strip laid under the red caption line (as under the slot line), so the
+    red stays legible over the dark shed wall as well as over the green streak."""
+    if sid not in _st:
+        ov = png(Path(SLOT_TYPE[sid]["file"]).name)
+        a = np.asarray(ov)
+        red = (a[..., 3] > 128) & (a[..., 0] > 120) & (a[..., 1] < 70) & (a[..., 2] < 80)
+        red[int(H * 0.9):] = False                       # the slot line's active word has its own strip
+        band = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+        if red.any():
+            ys, xs = np.nonzero(red)
+            b = np.zeros((H, W, 4), np.uint8)
+            b[max(ys.min() - 5, 0):ys.max() + 6, max(xs.min() - 7, 0):xs.max() + 8] = (*CREAM, 235)
+            dark = (a[..., 3] > 128) & (a[..., :3].max(-1) < 40)
+            dark[:max(ys.min() - 70, 0)] = False
+            dark[ys.min() - 4:] = False
+            if dark.any():                                # the module numeral above it
+                yn, xn = np.nonzero(dark)
+                b[yn.min() - 5:yn.max() + 6, max(xn.min() - 7, 0):xn.max() + 8] = (*CREAM, 235)
+            band = Image.fromarray(b, "RGBA")
+        band.alpha_composite(ov)
+        _st[sid] = band
+    return _st[sid]
+INKC = (1, 2, 1)
+
+
+def replay_frame_mat(img):
+    out = img.convert("RGBA")
+    a = np.zeros((H, W, 4), np.uint8)
+    a[:12], a[-12:], a[:, :12], a[:, -12:] = (*CREAM, 255), (*CREAM, 255), (*CREAM, 255), (*CREAM, 255)
+    a[12:14, 12:-12] = a[-14:-12, 12:-12] = (*INKC, 255)
+    a[12:-12, 12:14] = a[12:-12, -14:-12] = (*INKC, 255)
+    out.alpha_composite(Image.fromarray(a, "RGBA"))
+    return out.convert("RGB")
+
+
+def replay_frame(img):
+    """typed frame round the replayed I.4 pixels: a cream mat 12 px wide, black rule, tag I·4 top left."""
+    out = img.copy()
+    mat = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    a = np.zeros((H, W, 4), np.uint8)
+    a[:12], a[-12:], a[:, :12], a[:, -12:] = (*CREAM, 255), (*CREAM, 255), (*CREAM, 255), (*CREAM, 255)
+    a[12:14, 12:-12] = a[-14:-12, 12:-12] = (*INKC, 255)
+    a[12:-12, 12:14] = a[12:-12, -14:-12] = (*INKC, 255)
+    mat = Image.fromarray(a, "RGBA")
+    out = out.convert("RGBA")
+    out.alpha_composite(mat)
+    out.alpha_composite(png("replay_tag_I4.png"), (26, 24))
+    return out.convert("RGB")
+
+
+ENDCARD = [(57.0, "endcard_rows_0.png"), (57.5, "endcard_rows_1.png"), (58.0, "endcard_rows_2.png"),
+           (58.5, "endcard_rows_3.png"), (59.0, "endcard_rows_4.png"), (59.5, "endcard_rows_5.png"),
+           (60.0, "endcard_rows_6.png"), (60.5, "endcard_sigma.png"), (61.0, "endcard_credits.png")]
+
+
+_eprint = {}
+
+
+def eprint(name):
+    if name not in _eprint:
+        _eprint[name] = Image.open(EPRINT / name).convert("RGBA")
+    return _eprint[name]
+
+
+V4_REPLAY_FRAMES = 17                            # V.4 local frames 0..16: half-speed replay of the key leaving the hem
+
+
+def ralenti_frame(img):
+    """the V.4 replay is labelled like the I.4 replays: cream mat, black rule, typed tag 'V·3 ralenti'."""
+    from PIL import ImageDraw, ImageFont
+    out = replay_frame_mat(img)
+    d = ImageDraw.Draw(out)
+    f = ImageFont.truetype("/usr/share/fonts/X11/Type1/c0583bt_.pfb", 20)
+    x0, y0, x1, y1 = d.textbbox((30, 26), "V·3 ralenti ×0,64", font=f)
+    d.rectangle((x0 - 6, y0 - 4, x1 + 6, y1 + 4), fill=CREAM, outline=INKC, width=2)
+    d.text((30, 26), "V·3 ralenti ×0,64", font=f, fill=(165, 9, 23))
+    return out
+
+
+def frame_image(k):
+    """the film's frame k as a PIL RGB image."""
+    t = k / FPS
+    if t < 3.0:
+        img = Image.fromarray(clip_frames(EDIT, "TITLE")[min(k, 71)]).convert("RGBA")
+        img.alpha_composite(eprint("title_type_E2.png"))
+        return img.convert("RGB")
+    if t >= 57.0:
+        name = [n for t0, n in ENDCARD if t >= t0 - 1e-9][-1]
+        img = png(name).copy()
+        if t >= 60.5 - 1e-9:
+            img.alpha_composite(eprint("endcard_text_E2.png"))
+        return img.convert("RGB")
+    seg = segment_at(t)
+    sid = seg[2]
+    d, name, first = SLOT_CLIPS[sid]
+    local = k - int(round(seg[0] * FPS))
+    fr = clip_frames(d, name)
+    img = Image.fromarray(fr[min(first + local, len(fr) - 1)])
+    if sid == "V.5":
+        img = img.convert("RGBA")
+        img.alpha_composite(ENAMEL_V5, ENAMEL_V5_XY)
+        img = img.convert("RGB")
+    if sid in REPLAY:
+        img = replay_frame(img)
+    if sid == "V.4" and local < V4_REPLAY_FRAMES:
+        img = ralenti_frame(img)
+    img = img.convert("RGBA")
+    img.alpha_composite(slot_type(sid))
+    return img.convert("RGB")
+
+
+# ------------------------------------------------------------------ sound: U4's cue sheet via mix.add
+def read_wav(path):
+    with wave.open(str(path), "rb") as wf:
+        assert wf.getframerate() == 44100 and wf.getsampwidth() == 2
+        x = np.frombuffer(wf.readframes(wf.getnframes()), np.int16).astype(np.float32) / 32768.0
+        if wf.getnchannels() == 2:
+            x = x.reshape(-1, 2).mean(1)
+    return x
+
+
+CLICK_BOOST = 10 ** (10 / 20)                   # +10 dB on every typewriter click (critic: inaudible under room tone)
+V4_RETIME = {"key_tink_strong.wav": 44.15, "key_tink_soft.wav": 44.33}   # landing as seen in the V.4 half-speed replay
+
+
+def cue_plan(cues=None):
+    out = []
+    for c in (cues if cues is not None else CUES["cues"]):
+        f = c["file"].split("/")[-1]
+        t, g = c["t"], c["gain"]
+        if f == "click.wav" or f.startswith("type_"):
+            g *= CLICK_BOOST
+        if c.get("slot") == "V.4" and f in V4_RETIME:
+            t = V4_RETIME[f]
+        out.append(dict(c, t=t, gain=g))
+    return out
+
+
+def lay_sound(mix, cues=None, offset=0.0):
+    for c in cue_plan(cues):
+        mix.add(read_wav(PROJECT / c["file"]), c["t"] - offset, gain=c["gain"], pan=c.get("pan", 0.0))
+
+
+# ------------------------------------------------------------------ film
+film = Film(SLUG, seconds=66.0)
+film.poster_at = 43.3
+
+
+def picture(t, ink):
+    ink._grain = False              # the cover's texture is motion streak, not grain: no added grain anywhere
+    k = int(round(t * FPS))
+    ink.img.paste(frame_image(k))
+
+
+film.picture(picture)
+film.sound(lay_sound)
+
+
+# ------------------------------------------------------------------ baseline diagnostic (story order, no sigma)
+BASE = [  # (label, clip dir, clip, first frame, caption)
+    ("card", None, None, 0, None),
+    ("I.1", EDIT, "BASE_I1", 0, "Une gare vide."),
+    ("I.4", EDIT, "BASE_I4", 0, "Elle laisse la clé sur le banc."),
+    ("II.2", EDIT, "II2_manteau_E2", 0, "Il prend son manteau."),
+    ("II.5", ANIM, "bench_empty", 0, "La clé a disparu."),
+    ("V.1", ANIM, "V1_banc", 0, None),
+    ("V.3", ANIM, "V3_manteau_clean", 12, "Le manteau revient."),
+    ("V.4", EDIT, "V4_cle_E2", 0, "La clé était dans le pli."),
+    ("end", None, None, 0, None),
 ]
 
-# hard checks: each module uses every motif exactly once, in the permuted order
-WORDS = {v: re.compile(r"\b" + v + r"s?\b", re.I) for v in MOTIF.values()}
-for m, (_, _, lines) in enumerate(MODULES):
-    for k, line in enumerate(lines):
-        want = MOTIF[ORDERS[m][k]]
-        for w, rx in WORDS.items():
-            n = len(rx.findall(line))
-            assert n == (1 if w == want else 0), (m + 1, k + 1, w, line)
 
-TITLE = (0.0, 3.0)
-MOD = 9.8
-STARTS = [3.0 + i * MOD for i in range(5)]
-PAUSE = (STARTS[-1] + MOD, STARTS[-1] + MOD + 2.4)
-STARTS.append(PAUSE[1])
-END = (STARTS[-1] + MOD, 71.0)
-TRANS = 1.2
-LINE0, LINE_GAP = 1.4, 1.3
+def baseline_film():
+    from kit import Ink  # noqa: F401
+    from PIL import ImageDraw, ImageFont
+    cb = ImageFont.truetype("/usr/share/fonts/X11/Type1/c0583bt_.pfb", 26)
+    cs = ImageFont.truetype("/usr/share/fonts/X11/Type1/c0583bt_.pfb", 18)
+    durs = [2.0] + [1.5] * 7 + [3.0]
+    starts = np.cumsum([0] + durs[:-1])
+    total = float(sum(durs))
+    bf = Film(SLUG + "-baseline", seconds=total)
 
-CHIP_Y = 150
-CHIP_X0, CHIP_DX, CHIP_W = 78, 136, 124
+    def pic(t, ink):
+        ink._grain = False
+        j = int(np.searchsorted(starts, t, side="right") - 1)
+        label, d, name, first, cap = BASE[j]
+        if d is None:
+            img = Image.new("RGB", (W, H), (232, 228, 196))
+            dr = ImageDraw.Draw(img)
+            if label == "card":
+                dr.text((60, 190), "CONTRE-ÉPREUVE · ordre du récit", font=cb, fill=INKC)
+                dr.text((60, 236), "baseline: story order, no permutation; no coat in I", font=cs, fill=(165, 9, 23))
+                dr.text((60, 266), "the key is laid on the bare bench; the coat is first seen in II", font=cs, fill=INKC)
+            else:
+                dr.text((60, 190), "verify.py: baseline.json REJECTED (12 checks)", font=cb, fill=(165, 9, 23))
+                dr.text((60, 236), "the only supports of S are the reveal itself (42.0, 43.5 s);", font=cs, fill=INKC)
+                dr.text((60, 266), "nothing before 39 s points back to the coat.", font=cs, fill=INKC)
+            ink.img.paste(img)
+            return
+        k = int(round((t - starts[j]) * FPS))
+        fr = clip_frames(d, name)
+        img = Image.fromarray(fr[min(first + k, len(fr) - 1)])
+        dr = ImageDraw.Draw(img)
+        dr.text((40, 446), f"baseline {label}", font=cs, fill=INKC)
+        if cap:
+            tw = dr.textlength(cap, font=cb)
+            dr.rectangle((34, 474, 46 + tw, 510), fill=INKC)
+            dr.text((40, 478), cap, font=cb, fill=CREAM)
+        ink.img.paste(img)
 
+    def snd(mix):
+        # the same recordings, re-timed to the baseline: clicks at cut starts, the V.3 steps and key tinks
+        cues = [c for c in CUES["cues"] if c.get("slot") in ("V.3", "V.4")]
+        off = 42.0 - starts[6]
+        lay_sound(mix, cues, off)
+        click = [c for c in CUES["cues"] if c["file"].endswith("click.wav")][0]
+        for s in starts[1:]:
+            mix.add(read_wav(PROJECT / click["file"]), float(s), gain=click["gain"])
 
-def chip_x(i):
-    return CHIP_X0 + i * CHIP_DX + CHIP_W / 2
-
-
-# ---------------------------------------------------------------- icons ---
-
-def icon(ink, letter, cx, cy, s=1.0, col=INK):
-    if letter == "A":
-        key_shape(ink, cx - 16 * s, cy, 0.8 * s)
-    elif letter == "B":
-        ink.poly([(cx - 12 * s, cy + 10 * s), (cx + 12 * s, cy + 10 * s), (cx + 7 * s, cy - 10 * s), (cx - 7 * s, cy - 10 * s)], fill=BRASS, color=col, width=1.6, rough=False)
-        ink.circle(cx, cy + 13 * s, 3 * s, fill=col, color=None, width=0, rough=False)
-    elif letter == "C":
-        ink.poly([(cx - 6 * s, cy - 13 * s), (cx + 6 * s, cy - 13 * s), (cx + 14 * s, cy - 6 * s), (cx + 11 * s, cy + 14 * s), (cx - 11 * s, cy + 14 * s), (cx - 14 * s, cy - 6 * s)],
-                 fill=(92, 104, 120), color=col, width=1.6, rough=False)
-        ink.line([(cx, cy - 13 * s), (cx, cy + 14 * s)], PAGE, 1.2, rough=False)
-    elif letter == "D":
-        ink.rect(cx - 18 * s, cy - 2 * s, cx + 18 * s, cy + 3 * s, fill=(150, 110, 70), color=col, width=1.4, rough=False)
-        ink.rect(cx - 18 * s, cy - 12 * s, cx + 18 * s, cy - 8 * s, fill=(150, 110, 70), color=col, width=1.4, rough=False)
-        for x in (cx - 14 * s, cx + 14 * s):
-            ink.line([(x, cy + 3 * s), (x, cy + 13 * s)], col, 2, rough=False)
-    elif letter == "E":
-        pts = [(cx - 10 * s, cy - 14 * s), (cx + 10 * s, cy - 14 * s), (cx + 10 * s, cy + 12 * s)]
-        for k in range(5):
-            pts.append((cx + 10 * s - (k + 0.5) * 4 * s, cy + (14 if k % 2 == 0 else 10) * s))
-        pts.append((cx - 10 * s, cy + 12 * s))
-        ink.poly(pts, fill=PAGE, color=col, width=1.4, rough=False)
-        for k in range(3):
-            ink.line([(cx - 6 * s, cy - 8 * s + k * 6 * s), (cx + 6 * s, cy - 8 * s + k * 6 * s)], MUTED, 1, rough=False)
-    elif letter == "F":
-        ink.rect(cx - 10 * s, cy - 15 * s, cx + 10 * s, cy + 15 * s, fill=(120, 96, 80), color=col, width=1.6, rough=False)
-        ink.circle(cx + 5 * s, cy, 2 * s, fill=BRASS, color=None, width=0, rough=False)
-
-
-def chip(ink, letter, cx, cy, hot=0.0, evidence=False):
-    x0, x1 = cx - CHIP_W / 2, cx + CHIP_W / 2
-    fill = mix_color(PAGE, (246, 226, 214), hot)
-    ink.rect(x0, cy - 26, x1, cy + 26, fill=fill, color=ACCENT if hot > 0.5 else RULE, width=2 if hot > 0.5 else 1.4, rough=False)
-    icon(ink, letter, x0 + 28, cy, 0.9)
-    ink.text((x0 + 54, cy - 13), MOTIF[letter], "serif", 22, INK)
-    ink.label((x1 - 8, cy + 8), letter, 11, MUTED, anchor="ra")
-    if evidence:
-        ink.d.rectangle([x0, cy + 28, x1, cy + 46], fill=ACCENT)
-        ink.label((cx, cy + 30), "now evidence", 11, PAGE, anchor="ma")
-
-
-# --------------------------------------------------------------- frames ---
-
-def rich_line(ink, x, y, s, size, alpha, hot_letter):
-    """Draw s with its single upper-case motif word in accent."""
-    f = font("serif", size)
-    m = re.search(r"\b(KEY|BELL|COAT|BENCH|RECEIPT|DOOR)\b", s)
-    parts = [(s, INK)] if not m else [(s[:m.start()], INK), (m.group(1).lower(), ACCENT), (s[m.end():], INK)]
-    for txt, col in parts:
-        if not txt:
-            continue
-        ink.text((x, y), txt, "serif", size, col, alpha=alpha)
-        if col == ACCENT:
-            w = f.getlength(txt)
-            ink.d.line([(x, y + size + 3), (x + w, y + size + 3)], fill=ACCENT + (alpha,), width=2)
-        x += f.getlength(txt)
-
-
-def order_strip(ink, upto, current=None):
-    x = 40
-    for m in range(6):
-        s = "".join(ORDERS[m])
-        col = ACCENT if m == current else (INK if m < upto else RULE)
-        ink.text((x, 500), s, "mono", 17, col)
-        ink.label((x, 482), f"M{m + 1}", 10, MUTED)
-        x += 92
-    ink.label((W - 40, 500), "next[i] = prev[p(i)] · p = 6 1 5 2 4 3", 12, MUTED, anchor="ra")
-
-
-def module_frame(ink, m, lt):
-    clock, place, lines = MODULES[m]
-    order = ORDERS[m]
-    prev = ORDERS[m - 1] if m > 0 else None
-    # header
-    ink.text((40, 22), f"Module {m + 1}", "serif", 40, INK)
-    ink.label((210, 38), f"{clock} · {place}", 15, MUTED)
-    ink.label((W - 40, 38), "order  " + " ".join(order), 15, ACCENT, anchor="ra")
-    ink.line([(40, 80), (920, 80)], RULE, 1.2, rough=False)
-    # chips: travel from previous slot to new slot during the transition
-    u = ease(lt, 0.1, TRANS)
-    for i, letter in enumerate(order):
-        x_new = chip_x(i)
-        if prev is None:
-            a = ease(lt, 0.1 + i * 0.12, 0.4 + i * 0.12)
-            x, y = x_new, CHIP_Y + (1 - a) * 20
-            if a <= 0:
-                continue
-        else:
-            j = prev.index(letter)
-            x_old = chip_x(j)
-            x = lerp(x_old, x_new, u)
-            y = CHIP_Y - math.sin(math.pi * u) * (14 + 7 * abs(i - j))
-            if 0 < u < 1:
-                path = [(lerp(x_old, x_new, q / 16), CHIP_Y - 26 - math.sin(math.pi * q / 16) * (14 + 7 * abs(i - j))) for q in range(17)]
-                ink.line(path, ACCENT, 1.4, rough=False, alpha=110)
-        k_line = i
-        hot = 0.0
-        t_line = LINE0 + k_line * LINE_GAP
-        if t_line <= lt < t_line + LINE_GAP:
-            hot = ease(lt, t_line, t_line + 0.2)
-        evidence = (m == 4 and letter == "C" and lt > LINE0 + 3 * LINE_GAP) or (m == 3 and letter == "E" and lt > LINE0)
-        chip(ink, letter, x, y, hot, evidence)
-        ink.label((x - CHIP_W / 2, CHIP_Y - 40), str(i + 1), 11, MUTED) if u >= 1 or prev is None else None
-    if prev is not None and lt < TRANS + 0.4:
-        ink.label((W / 2, CHIP_Y + 40), "apply [6,1,5,2,4,3]: slot i takes the motif from slot p(i)", 13, ACCENT, anchor="ma")
-    # the six sentences, one per slot
-    for k, s in enumerate(lines):
-        t_line = LINE0 + k * LINE_GAP
-        if lt < t_line:
-            continue
-        a = ease(lt, t_line, t_line + 0.35)
-        y = 206 + k * 44
-        ink.label((48, y + 8), f"{k + 1}", 13, ACCENT if t_line <= lt < t_line + LINE_GAP else MUTED)
-        rich_line(ink, 74 + (1 - a) * 16, y, s, 24, int(255 * a), order[k])
-    order_strip(ink, m + 1, m)
-
-
-def title_frame(ink, lt):
-    ink.text((W / 2, 190), "La Belle Hortense", "serif", 70, INK, anchor="mm")
-    ink.label((W / 2, 250), "a station mystery in six modules", 16, MUTED, anchor="mm")
-    ink.label((W / 2, 276), "six motifs, once each per module · order turned by the sextine [6,1,5,2,4,3]", 14, ACCENT, anchor="mm")
-    for i, l in enumerate("ABCDEF"):
-        a = ease(lt, 0.6 + i * 0.12, 0.9 + i * 0.12)
-        if a > 0:
-            chip(ink, l, chip_x(i), 380 + (1 - a) * 20)
-
-
-def pause_frame(ink, lt):
-    ink.fill(NIGHT)
-    ink.text((W / 2, 220), "Pause.", "serif", 64, PAGE, anchor="mm")
-    ink.text((W / 2, 290), "Where did the visitor's find go? Everything you need has been shown.", "serif", 26, RULE, anchor="mm")
-    ink.label((W / 2, 340), "name your answer, and the motif that changed your mind", 14, BRASS, anchor="mm")
-
-
-def end_frame(ink, lt):
-    ink.text((W / 2, 40), "The grid", "serif", 38, INK, anchor="mm")
-    ink.label((W / 2, 74), "six modules · every motif once per row · a seventh turn returns the first order", 13, MUTED, anchor="mm")
-    gx0, gy0, dx, dy = 300, 110, 62, 54
-    cols = {"A": BRASS, "B": (120, 140, 90), "C": (92, 104, 120), "D": (150, 110, 70), "E": MUTED, "F": ACCENT}
-    rows = 7
-    # paths of each motif through the grid
-    for l in "ABCDEF":
-        a = ease(lt, 0.4, 2.4)
-        pts = [(gx0 + ORDERS[r].index(l) * dx, gy0 + r * dy) for r in range(rows)]
-        n = max(1, int(a * (rows - 1) * 10))
-        path = []
-        for q in range(n + 1):
-            f = q / 10
-            r = min(rows - 2, int(f))
-            path.append(lerp2(pts[r], pts[r + 1], f - r))
-        if len(path) > 1:
-            ink.line(path, cols[l], 3 if l == "A" else 1.8, rough=False, alpha=230 if l in "AC" else 120)
-    for r in range(rows):
-        ink.label((gx0 - 60, gy0 + r * dy - 8), f"M{r + 1}" if r < 6 else "(M7)", 13, MUTED if r < 6 else ACCENT)
-        for i, l in enumerate(ORDERS[r]):
-            x, y = gx0 + i * dx, gy0 + r * dy
-            ink.circle(x, y, 19, fill=PAGE, color=cols[l], width=2.2, rough=False)
-            icon(ink, l, x + (4 if l == "A" else 0), y, 0.62)
-    ink.label((700, 120), "key  (bold path)", 13, BRASS)
-    ink.label((700, 144), "coat: background in M1,", 13, (92, 104, 120))
-    ink.label((700, 162), "evidence by M5", 13, (92, 104, 120))
-    if lt > 2.6:
-        a = ease(lt, 2.6, 3.0)
-        ink.label((700, 210), "clue chain", 13, ACCENT, alpha=int(255 * a))
-        chain = ["M1·3 coat on the bench", "M3·3 porter sits there", "M4·2 sits on his coat", "M4·3 snatches it at the bell",
-                 "M5·4 it hangs heavy", "M5·5 metal tick", "M6·6 the key falls out"]
-        for k, c in enumerate(chain):
-            ink.label((700, 232 + k * 20), c, 12, INK, alpha=int(255 * a))
-
-
-@film.picture
-def frame(t, ink):
-    ink.paper()
-    if t < TITLE[1]:
-        title_frame(ink, t)
-        lt, span = t, TITLE[1]
-    elif PAUSE[0] <= t < PAUSE[1]:
-        pause_frame(ink, t - PAUSE[0])
-        lt, span = t - PAUSE[0], PAUSE[1] - PAUSE[0]
-    elif t >= END[0]:
-        end_frame(ink, t - END[0])
-        lt, span = t - END[0], 99
-    else:
-        m = max(i for i, s in enumerate(STARTS) if s <= t)
-        lt = t - STARTS[m]
-        span = MOD
-        module_frame(ink, m, lt)
-    fade = min(1, lt / 0.25, (span - lt) / 0.25)
-    if fade < 1:
-        ink.d.rectangle([0, 0, W, H], fill=PAPER + (int(255 * (1 - fade)),))
-
-
-# ----------------------------------------------------------------- sound ---
-
-def motif_sound(mix, letter, at):
-    R = mix.rate
-    if letter == "A":  # key: a small bright clink
-        tt = mix.t(0.6)
-        sig = (np.sin(2 * np.pi * 2630 * tt) + 0.6 * np.sin(2 * np.pi * 3710 * tt)) * np.exp(-tt * 9)
-        mix.add(sig, at, 0.12, 0.2)
-    elif letter == "B":
-        mix.bell(at, 523, 2.4, 0.22, -0.2)
-    elif letter == "C":  # coat: cloth swish
-        x = mix.band(mix.noise(0.35), 150, 1400) * np.hanning(int(0.35 * R))
-        mix.add(x, at, 0.22, 0.1)
-    elif letter == "D":  # bench: knock on wood
-        mix.thud(at, 210, 0.2, 0.0, 0.12)
-        mix.click(at, 0.15, 0, 1800)
-    elif letter == "E":  # receipt: a short paper tear
-        x = mix.band(mix.noise(0.22), 2000, 8000) * np.exp(-np.linspace(0, 3, int(0.22 * R)))
-        mix.add(x, at, 0.1, 0.3)
-    elif letter == "F":  # locked door: a latch that doesn't give
-        mix.thud(at, 65, 0.35)
-        mix.click(at + 0.05, 0.2, -0.2, 2500)
-
-
-@film.sound
-def sound(mix):
-    mix.room(0, 71, gain=0.012)
-    for i, l in enumerate("ABCDEF"):
-        mix.click(0.6 + i * 0.12, 0.08, -0.5 + 0.2 * i, 2000)
-    for m, start in enumerate(STARTS):
-        if m > 0:
-            mix.whoosh(start + 0.1, 1.0, 0.06)
-            for i in range(6):
-                mix.click(start + TRANS - 0.05 + i * 0.015, 0.06, -0.5 + 0.2 * i, 3000)
-        for k, letter in enumerate(ORDERS[m]):
-            motif_sound(mix, letter, start + LINE0 + k * LINE_GAP)
-    mix.drone(PAUSE[0], 2.4, (73.4, 110), gain=0.05, attack=0.3, release=0.6)
-    for k, f in enumerate((262, 330, 392, 523, 659, 784)):
-        mix.pluck(END[0] + 0.4 + k * 0.33, f, 1.6, 0.1, -0.5 + 0.2 * k)
-    mix.reverb(0.12)
+    bf.picture(pic)
+    bf.sound(snd)
+    bf.poster_at = starts[6] + 1.3
+    return bf
 
 
 if __name__ == "__main__":
-    run(film)
+    if len(sys.argv) > 1 and sys.argv[1] == "--baseline":
+        sys.argv = sys.argv[:1]
+        baseline_film().render(out_dir=SW)
+    else:
+        film.render()

@@ -1,0 +1,108 @@
+{
+ "method": "layout_wall.measure: lum = .299R+.587G+.114B; pale = Gaussian(4)-blurred lum > 150",
+ "source": "assets/films/teuf-teuf.mp4",
+ "reference": {
+  "pale_fraction": 0.569,
+  "pale_median_rgb": [
+   221,
+   216,
+   187
+  ],
+  "pale_median_lum": 214,
+  "frac_below_60": 0.158,
+  "lum_percentiles_1_5_10_25_50_75_90_95_99": [
+   15.0,
+   23.0,
+   42.0,
+   89.0,
+   175.0,
+   218.0,
+   232.0,
+   236.0,
+   243.0
+  ]
+ },
+ "frames": {
+  "7.0": {
+   "pale_fraction": 0.551,
+   "pale_median_rgb": [
+    221,
+    215,
+    186
+   ],
+   "pale_median_lum": 213,
+   "frac_below_60": 0.16,
+   "lum_percentiles_1_5_10_25_50_75_90_95_99": [
+    21.0,
+    33.0,
+    51.0,
+    72.0,
+    181.0,
+    214.0,
+    220.0,
+    223.0,
+    227.0
+   ],
+   "checks": {
+    "pale_lum_195_220": true,
+    "rgb_within_12": true,
+    "R_ge_G_gt_B": true,
+    "below60_ge_12pct": true
+   }
+  },
+  "17.5": {
+   "pale_fraction": 0.468,
+   "pale_median_rgb": [
+    216,
+    211,
+    182
+   ],
+   "pale_median_lum": 209,
+   "frac_below_60": 0.285,
+   "lum_percentiles_1_5_10_25_50_75_90_95_99": [
+    19.0,
+    21.0,
+    22.0,
+    53.0,
+    138.0,
+    208.0,
+    215.0,
+    217.0,
+    220.0
+   ],
+   "checks": {
+    "pale_lum_195_220": true,
+    "rgb_within_12": true,
+    "R_ge_G_gt_B": true,
+    "below60_ge_12pct": true
+   }
+  },
+  "30.0": {
+   "pale_fraction": 0.559,
+   "pale_median_rgb": [
+    222,
+    215,
+    186
+   ],
+   "pale_median_lum": 213,
+   "frac_below_60": 0.166,
+   "lum_percentiles_1_5_10_25_50_75_90_95_99": [
+    21.0,
+    37.0,
+    50.0,
+    72.0,
+    187.0,
+    215.0,
+    220.0,
+    223.0,
+    227.0
+   ],
+   "checks": {
+    "pale_lum_195_220": true,
+    "rgb_within_12": true,
+    "R_ge_G_gt_B": true,
+    "below60_ge_12pct": true
+   }
+  }
+ }
+}

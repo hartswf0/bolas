@@ -1,752 +1,1156 @@
-"""A Morning Stroll — station variation. One visitor, one goose, one bench, three eras on
-the same street-side station: 1959 in stark black line with solid black shadows, 2009 in
-flat colour with graphic shading at dusk, 2059 in a worn, desaturated, textured world with
-long hard shadows. Every era runs the same 15-second event score (arrive · three-stroke
-bell · envelope · key on bench · goose taps key · HAT TIP · departure). Era chooses props
-and bell timbre; technique chooses the drawing. A diagnostic renders 1959 in two techniques."""
+"""A Morning Stroll (after Grant Orchard, 2011) - SCION assembly, Direction 1 "Rizzuto Stoop" (plan-r1 / score-r1).
+
+A real 1870s rooster (LoC stereograph), GrabCut-cut into 10 pieces and driven by forward kinematics, climbs three
+real stoops (Rizzuto 1959, Highsmith south Philadelphia, a Commons sliding-glass entrance) and knocks twice with its
+beak: tok . tok, 8 frames apart. The door answers by hand (1959), on a chain (2009) and by listening (2059). Then the
+1959 score is replayed as Reiniger black-card silhouette theatre (diagnostic D), with identical event frames.
+
+    python3 films/a-morning-stroll.py                 render assets/films/a-morning-stroll.mp4 (68 s)
+    python3 films/a-morning-stroll.py --stills 9 25   PNG stills (films/stills/a-morning-stroll/)
+    python3 films/a-morning-stroll.py --report        assertions + ledger + compare sheets, no render
+
+Layer DAG per shot follows films/swarm/a-morning-stroll/plates.json (plate -> hall/interior -> leaf -> cast shadows
+-> puppet -> railing holdouts -> jamb/sill holdouts -> vignette -> kit grain). Only the unify grades recorded by
+story-plates are applied (plates/<era>/*graded*). No look filters.
+"""
+import json
 import math
-from PIL import Image, ImageChops, ImageDraw, ImageFilter
-from kit import *
-from kit_anim import run, sub_frame
+import os
+import sys
+import wave
+from pathlib import Path
 
-film = Film("a-morning-stroll", seconds=55.0, boil=2, wobble=0.0, seed=5)
-film.poster_at = 25.2
+import cv2
+import numpy as np
+from PIL import Image
 
-FLOOR = 440       # feet on the sidewalk
-SEAT = 394
-WALL = 380        # where the façade meets the pavement
-CURB = 478
-ERA_LEN = 15.0
-TITLE_END = 2.0
-ERAS = [("1959", "line", 2.0), ("2009", "flat", 17.0), ("2059", "grit", 32.0)]
-DIAG = (47.0, 55.0)
-DIAG_FROM = 4.0
-BELL = (4.5, 4.9, 5.3)   # matched sound cue: three strokes
-TAPS = (9.0, 9.4)
-TIP = (10.0, 10.7)       # matched action: the hat tip to the goose
-KEY_SPOT = (522, SEAT - 3)
-
-LWHITE = (232, 232, 228)
-LBLACK = (14, 14, 14)
-
-PALETTES = {
-    "1959": dict(wall=(200, 196, 186), wall2=(150, 146, 140), floor=(214, 212, 206), road=(120, 120, 120), bench=(150, 110, 80),
-                 iron=(30, 30, 34), door=(110, 90, 76), coat=(70, 70, 76), trouser=(40, 40, 46), skin=(236, 206, 180), hat=(40, 40, 44),
-                 goose=(248, 248, 244), beak=(232, 150, 50), bell=(190, 160, 80), key=(214, 172, 70), env=(244, 240, 230),
-                 seal=(160, 40, 40), win=(40, 44, 50), frame=(220, 220, 214), tree=(90, 140, 80), sky=(200, 210, 214), sign=(240, 236, 226),
-                 pod=(150, 150, 150), curb=(170, 170, 166)),
-    "2009": dict(wall=(112, 108, 136), wall2=(84, 78, 110), floor=(168, 168, 172), road=(104, 104, 110), bench=(214, 88, 64),
-                 iron=(22, 22, 28), door=(58, 92, 112), coat=(40, 150, 150), trouser=(210, 160, 40), skin=(232, 186, 150), hat=(200, 40, 50),
-                 goose=(250, 250, 248), beak=(246, 150, 40), bell=(226, 54, 44), key=(240, 196, 60), env=(250, 248, 238),
-                 seal=(200, 40, 40), win=(16, 18, 30), frame=(150, 146, 160), tree=(60, 150, 60), sky=(28, 46, 96), sign=(234, 220, 120),
-                 pod=(120, 200, 220), curb=(236, 200, 30)),
-    "2059": dict(wall=(104, 84, 72), wall2=(74, 62, 56), floor=(122, 128, 128), road=(70, 72, 74), bench=(96, 80, 64),
-                 iron=(40, 42, 44), door=(64, 66, 64), coat=(70, 72, 66), trouser=(46, 46, 44), skin=(196, 170, 150), hat=(52, 50, 46),
-                 goose=(240, 238, 230), beak=(220, 120, 40), bell=(140, 120, 80), key=(196, 160, 70), env=(214, 210, 198),
-                 seal=(140, 40, 40), win=(22, 24, 26), frame=(110, 100, 92), tree=(70, 64, 56), sky=(176, 182, 178), sign=(160, 154, 140),
-                 pod=(170, 172, 168), curb=(110, 112, 112)),
-}
+FILMS = Path(__file__).resolve().parent
+OUL = FILMS.parent
+SRC = FILMS / "sources" / "a-morning-stroll"
+PL = SRC / "plates"
+SW = FILMS / "swarm" / "a-morning-stroll"
+PUP = SRC / "puppet"
+sys.path.insert(0, str(FILMS))
+sys.path.insert(0, str(PUP))
+import kit  # noqa: E402
+import puppet as P  # noqa: E402
+import knockproof as KP  # noqa: E402  (the approved V1-B knock, imported as a module; its main() is not run)
 
 
-class Tech:
-    """A drawing system. Scenes give shapes by tone (0 dark .. 1 light) and hue."""
+# ---- repair r2: a strike that reads with the sound off (#32). The whole neck and head drive forward ~25-30 canvas px:
+# 2-frame anticipation (cock: head back), strike on ones with the body pitching into it, a visible recoil.
+P.POSES["strike"] = {"neck": -30, "head": -14}
+P.POSES["cock"] = {"neck": 12, "head": 6}
+P.POSES["recoil"] = {"neck": 9, "head": 4}
+LEAN = {"strike": -14.0, "recoil": 4.0, "cock": 5.0}
 
-    def __init__(self, ink, kind, era):
-        self.ink, self.kind, self.era = ink, kind, era
-        self.pal = PALETTES[era]
-        ink.wobble = 0.8 if kind == "line" else 0.0
 
-    def col(self, hue):
-        return self.pal.get(hue, (128, 128, 128))
+def _rebuild_kp():
+    tr = KP.build_track()
+    for f, p in enumerate(tr):
+        for e in (KP.E3, KP.E4):
+            d = f - e
+            extra = {-3: 3.0, -2: 3.0, -1: -3.0, 0: -6.0, 1: -2.0}.get(d)
+            if extra is not None and f < 92:
+                p["rot"] += extra                              # body pitches into the blow beyond the module's lean
+    KP.TRACK = tr
 
-    def shape(self, pts, tone, hue, outline=True, alpha=255, **_):
-        ink = self.ink
-        if self.kind == "mask":
-            ink.d.polygon([tuple(p) for p in pts], fill=255)
-        elif self.kind == "line":
-            if tone < 0.3:
-                ink.poly(pts, fill=LBLACK, color=LBLACK, width=2)
+
+_rebuild_kp()
+
+# ---- repair r2: colour rooster for 2009 (LoC highsm.61221, Carol M. Highsmith 2019; GrabCut, 10 pieces)
+P.RIG["rooster_c"] = json.load(open(PUP / "pieces/rooster_c/rig_c.json"))
+
+
+def colour_rig():
+    r = P.Rig("rooster_c", era=2009)
+    for n in r.J:                                              # the photograph's own daylight colour: no tone remap
+        r.pieces[n] = np.asarray(Image.open(PUP / f"pieces/rooster_c/piece_{n}.png"), np.float32)
+    return r
+
+
+FLECK_RNG = np.random.RandomState(11)
+FLECKS = [(FLECK_RNG.uniform(-1, 1), FLECK_RNG.uniform(-1.6, 0.2), FLECK_RNG.uniform(0.6, 1.4)) for _ in range(9)]
+
+
+def contact_fx(out, pts, f, k, kind, nick_until=None):
+    """HANDMADE contact marks drawn where the beak tip met the door (pts = {E3L: canvas xy, E4L: canvas xy};
+    k = canvas px per stage px): on each contact frame chips of paint thrown off over the next 5 frames under
+    gravity (wood, painted door) or a glint (glass); a hard dark nick with a lit lip stays where the beak hit
+    until the door moves."""
+    out = np.ascontiguousarray(out, np.float32)
+    for e in (E3L, E4L):
+        bx, by = float(pts[e][0]), float(pts[e][1])
+        d = f - e
+        if kind != "glass" and f >= e and (nick_until is None or f < nick_until):
+            cv2.ellipse(out, (int(bx), int(by)), (max(2, int(2.4 * k)), max(1, int(1.5 * k))), 20, 0, 360, (12, 12, 12), -1, cv2.LINE_AA)
+            cv2.ellipse(out, (int(bx), int(by - 1.4 * k)), (max(2, int(2.4 * k)), max(1, int(1.0 * k))), 20, 180, 360, (245, 245, 245), 1, cv2.LINE_AA)
+        if not 0 <= d <= 5:
+            continue
+        if kind == "glass":
+            if d <= 2:
+                L = (16 - 5 * d) * max(k, 0.8)
+                for ang in (0, 45, 90, 135):
+                    a = math.radians(ang)
+                    p0 = (int(bx - L * math.cos(a)), int(by - L * math.sin(a)))
+                    p1 = (int(bx + L * math.cos(a)), int(by + L * math.sin(a)))
+                    cv2.line(out, p0, p1, (235, 240, 236), 2 if d == 0 else 1, cv2.LINE_AA)
+                cv2.circle(out, (int(bx), int(by)), int(2 + 2 * (2 - d)), (250, 252, 250), -1, cv2.LINE_AA)
+            continue
+        col = (22, 22, 22) if kind == "wood" else (150, 168, 186)
+        for i, (vx, vy, sz) in enumerate(FLECKS):
+            tt = d + 0.6
+            x = bx + (vx * 4.0 + 1.0) * tt * k
+            y = by + (vy * 4.0 * tt + 1.1 * tt * tt) * k
+            r = max(1, int(round(1.3 * sz * k)))
+            c = col if i % 3 else (238, 238, 238)
+            a0 = 2.1 * i + 0.9 * tt * (vx + 0.3)
+            tri = np.int32([[x + r * 1.6 * math.cos(a0 + q), y + r * 1.6 * math.sin(a0 + q)] for q in (0.0, 2.3, 4.1)])
+            cv2.fillPoly(out, [tri], c, cv2.LINE_AA)
+    return out
+
+W, H, FPS = 960, 540, 24
+SECONDS = 68.0
+INK = (20, 20, 20)                 # #141414 card ground
+OFFS = {"V1": 3.0, "V2": 19.0, "V3": 35.0, "D": 51.0}
+E3L, E4L = 144, 152                # local frames (6.00 s, 6.333 s): 8 frames apart
+E6END = 240                        # local 10.0 s
+BEAT = json.load(open(SW / "beatmap.json"))
+
+
+def img(p, mode=None):
+    im = Image.open(p)
+    if mode:
+        im = im.convert(mode)
+    return np.asarray(im).astype(np.float32)
+
+
+def T(x, y):
+    return P.T(x, y)
+
+
+def cam_rect(r0, r1, u):
+    """stage -> canvas 3x3 for a crop rect interpolated start -> end (the 1.5 % push)."""
+    x0, y0, x1, y1 = [a + (b - a) * u for a, b in zip(r0, r1)]
+    k = W / (x1 - x0)
+    return np.array([[k, 0, -x0 * k], [0, k, -y0 * k], [0, 0, 1.0]])
+
+
+def warp(a, M, interp=cv2.INTER_LINEAR, border=cv2.BORDER_CONSTANT):
+    return cv2.warpAffine(a, np.asarray(M, np.float64)[:2], (W, H), flags=interp, borderMode=border)
+
+
+def rgb3(g):
+    return np.repeat(g[..., None], 3, 2) if g.ndim == 2 else g
+
+
+def over(base, rgb, a):
+    return rgb * a[..., None] + base * (1 - a[..., None])
+
+
+def vis_px(a):
+    return int((a > 0.5).sum())
+
+
+def height_frac(a):
+    ys = np.nonzero((a > 0.5).any(1))[0]
+    return 0.0 if len(ys) == 0 else float((ys.max() - ys.min() + 1) / H)
+
+
+def beak_in(mask_stage, A, lm):
+    b = P.ap(np.linalg.inv(A), lm["beak"])
+    x, y = int(round(b[0])), int(round(b[1]))
+    ok = 0 <= y < mask_stage.shape[0] and 0 <= x < mask_stage.shape[1] and mask_stage[y, x] > 0.5
+    return bool(ok), [round(float(b[0]), 1), round(float(b[1]), 1)]
+
+
+def wshadow(rig, x, hd, fy, height, light, A):
+    """Watcher cast shadow (#45 ground projection of the OWI silhouette): (x, h) -> (x + h*lx, fy + h*ly)."""
+    lx, ly = light
+    pose = P.mkpose((x, fy), height / rig.r["height_px"], {"head": -hd})
+    Pm = T(0, fy) @ np.array([[1, -lx, 0], [0, -ly, 0], [0, 0, 1]], float) @ T(0, -fy)
+    Wd = rig.world(pose)
+    al = np.zeros((H, W), np.float32)
+    for n in rig.order:
+        al = np.maximum(al, warp(rig.pieces[n][..., 3] / 255.0, A @ Pm @ Wd[n]))
+    return al
+
+
+def watcher_x(t, x0, x_stop, x_end, t_stop=3.5, t_go=11.0, t_out=15.0):
+    """E1 slide -> E2 stop at 3.5 s (0.4 s ease), head +14 deg on twos, held to 10.0 -> E7 resumes at 11.0."""
+    x, hd, _ = P.Watcher.score(t, x0, x_stop)
+    if t >= t_go:
+        x = x_stop + (x_end - x_stop) * min(1.0, (t - t_go) / (t_out - t_go)) ** 1.15
+    return x, hd
+
+
+ROO59 = P.Rig("rooster", era=1959)
+ROO09 = colour_rig()   # r2: the Highsmith colour rooster (2009 daylight) replaces the toned 1870s stand-in
+ROO59b = ROO59
+ROO_59 = ROO59
+ROO_2059 = P.Rig("rooster", era=2059)
+WATCH = P.Watcher()
+
+
+def with_head(ang, f, e3, e4, peck=None):
+    name, w = P.head_score(f, e3, e4)
+    if name is None and peck is not None:
+        name, w = P.peck_score(f, peck)
+    lean = LEAN.get(name, 0.0) * w
+    a = P.add_head(ang, name, w) if name else dict(ang)
+    a["rot"] = a.get("rot", 0.0) + lean
+    return a, name
+
+
+def look(g, base=0.35):
+    return ("look_up", 1.0 if (g // 12) % 2 else base)
+
+
+def walk_ang(g):
+    """walk cycle on twos, 8 frames per stride: hips swing +-16, the lifted leg folds."""
+    ph = ((g - g % 2) % 8) / 8.0
+    s = math.sin(2 * math.pi * ph)
+    a = dict(P.POSES["rest"])
+    a.update(hip_L=16 * s, hip_R=-16 * s, shank_L=-30 * max(0, s), shank_R=-30 * max(0, -s),
+             foot_L=12 * max(0, s), foot_R=12 * max(0, -s), rot=-2.0, neck=-3 * abs(s), head=2 * abs(s))
+    return a
+
+
+def climb(rig, hops, n_frames, x_of, hold_head=True):
+    """hops = [(start_frame, tread_from, tread_to)], treads {x,y,scale}; the hop cycle of the puppet module,
+    one tread per 8 frames on twos; holds between hops (settle, then hold with the head looking about)."""
+    out = []
+    for f in range(n_frames):
+        g = f - f % 2
+        cur = None
+        for (s, a, b) in hops:
+            if s <= g < s + 8:
+                cur = P.track_climb(rig, [a, b], 0, 8)[g - s]
+                break
+        if cur is None:
+            done = [h for h in hops if g >= h[0] + 8]
+            tr = done[-1][2] if done else hops[0][1]
+            since = g - (done[-1][0] + 8) if done else 99
+            key = "settle" if 0 <= since < 4 else "hold"
+            ang = P.angles_of(key)
+            if hold_head and key == "hold":
+                ang = P.add_head(ang, *look(g))
+            cur = P.ground_pose(rig, tr["x"], lambda xx, y=tr["y"]: y, tr["scale"], ang)
+            cur["key"], cur["contact"] = key, True
+        out.append(cur)
+    return P.tail_lag(out, rig)
+
+
+# =============================================================================================== V1 1959
+G59 = json.load(open(PL / "1959/geometry.json"))
+PLATE59 = img(PL / "1959/plate_graded.png", "L")
+VIG59 = img(PL / "1959/vignette_960x540.png", "L") / 255.0
+IRON59A = img(PL / "1959/holdout_A_iron.png")[..., 3] / 255.0          # crop-A coords, offset (300, 1050)
+CA59 = G59["crops"]["A"]
+
+# the knock-proof module, re-based on story-plates' single unify grade (one curve for plate and puppet)
+_r = KP.RX0, KP.RY0, KP.RX1, KP.RY1
+KP.plate = PLATE59[_r[1]:_r[3], _r[0]:_r[2]].copy()
+_hole = cv2.dilate((KP.iron0 > 0.3).astype(np.uint8), np.ones((5, 5), np.uint8))
+KP.leaf_tex = cv2.inpaint(KP.plate.astype(np.uint8), _hole & cv2.dilate(KP.leaf0, np.ones((9, 9), np.uint8)), 7,
+                          cv2.INPAINT_TELEA).astype(np.float32)
+KP.CAM_I = (1662.0, 118.0, 2202.0)   # repair r2: insert moved off the black vestibule recess; the black mass is now
+                                     # the watcher's cast shadow on the door (below) and, later, the open hall
+
+
+def _watcher_on_door():
+    """#45 / real light logic: the watcher stopped on the sidewalk (E2, held until E7) throws a hard head-and-
+    shoulders shadow up the stoop onto the lower-left of the door. Same OWI silhouette and head turn (14 deg) as V1-A,
+    projected with the low-left sun: sheared right, slightly elongated. Region coords of the knock plate."""
+    Hr, Wr = KP.plate.shape
+    pose = P.mkpose((1595.0, 990.0), 760.0 / WATCH.r["height_px"], {"head": -14.0})
+    Wd = WATCH.world(pose)
+    shear = T(0, 990) @ np.array([[1, -0.24, 0], [0, 1.0, 0], [0, 0, 1]], float) @ T(0, -990)
+    al = np.zeros((Hr, Wr), np.float32)
+    for n in WATCH.order:
+        M = (T(-KP.RX0, -KP.RY0) @ shear @ Wd[n])[:2]
+        al = np.maximum(al, cv2.warpAffine(WATCH.pieces[n][..., 3] / 255.0, M, (Wr, Hr), flags=cv2.INTER_LINEAR))
+    return cv2.GaussianBlur(al, (0, 0), 0.9)
+
+
+KP_WSH = _watcher_on_door()
+KP.plate = KP.plate * (1 - 0.82 * KP_WSH)
+_LEAF_CLEAN = KP.leaf_tex.copy()
+_LEAF_SH = KP.leaf_tex * (1 - 0.82 * KP_WSH)
+_door_layers0 = KP.door_layers
+
+
+def _door_layers(th, A):
+    """the shadow lies on the door while it is shut and slides off it as the leaf swings into the dark hall."""
+    u = min(1.0, math.sin(th) * 4.0)
+    KP.leaf_tex = _LEAF_SH * (1 - u) + _LEAF_CLEAN * u
+    try:
+        return _door_layers0(th, A)
+    finally:
+        KP.leaf_tex = _LEAF_SH
+
+
+KP.leaf_tex = _LEAF_SH
+KP.door_layers = _door_layers
+_vy, _vx = np.mgrid[0:H, 0:W].astype(np.float32)
+_vr = np.hypot((_vx - W / 2) / (W / 2), (_vy - H / 2) / (H / 2))
+KP.VIG = np.clip(1 - 0.45 * np.clip(_vr - 0.42, 0, None) ** 1.3, 0.10, 1).astype(np.float32)   # r2: gentler lens fall-off (corner/centre ~0.3, whites back above 20 %)
+
+
+def nose_y(name, x):
+    pts = np.array(G59["A"]["tread_nose_polylines"][name], float)
+    return float(np.interp(x, pts[:, 0], pts[:, 1]))
+
+
+def tread59(name, x, h):
+    y = nose_y(name, x) - 28 if name != "N1" else 880.0
+    return {"x": x, "y": y, "scale": h / ROO59.r["height_px"]}
+
+
+TR59 = {"N6": tread59("N6", 1290, 262), "N5": tread59("N5", 1345, 250), "N4": tread59("N4", 1400, 240)}
+# repair r2: the climb runs up the middle of the stoop, behind the near twisted bars (#45 holdout), and stops on N4
+# so the comb stays inside the frame; the bird then holds and looks up the last treads toward the door.
+HOPS59 = [(14, TR59["N6"], TR59["N5"]), (52, TR59["N5"], TR59["N4"])]
+TRACK59A = climb(ROO59, HOPS59, 120, None)
+L59_TREAD = (0.88 * 0.5, 0.47 * 0.5)
+L59_WATCH = (0.85 * 1.25, -0.53 * 1.25)
+
+
+def riser_below(y_master, x):
+    for n in ("N2", "N3", "N4", "N5", "N6"):
+        ny = nose_y(n, x)
+        if ny > y_master + 5:
+            return ny
+    return None
+
+
+def v1_wide(fl, shot, silhouette=False):
+    """V1 A (fl 0-119) / C (fl 264-359): sidewalk-level wide on the Rizzuto treads."""
+    t = fl / FPS
+    u = fl / 119.0 if shot == "A" else (fl - 264) / 95.0
+    A = cam_rect(CA59["push_start"], CA59["push_end"], u)
+    iron = warp(IRON59A, A @ T(300, 1050))
+    x, hd = watcher_x(t, -1700, 150, 2900)
+    wsh = wshadow(WATCH, x, hd, 2350, 1500, L59_WATCH, A)
+    wsh = cv2.GaussianBlur(wsh, (0, 0), 1.0)
+    info = {"shot": shot, "watcher_x": round(x, 1), "watcher_head_deg": hd}
+    lay = None
+    if shot == "A":
+        pose = TRACK59A[fl]
+        lay = ROO59.render(pose, A, (W, H))
+    if silhouette:
+        return d_wide(A, iron, wsh, lay, info)
+    base = rgb3(warp(PLATE59, A, cv2.INTER_CUBIC, cv2.BORDER_REPLICATE))
+    plate = base.copy()
+    base = base * (1 - 0.80 * wsh[..., None])                   # the watcher's hard morning shadow
+    out = base
+    if lay is not None:
+        al = lay["alpha"]
+        sole = [lay["lm"]["foot_L"], lay["lm"]["foot_R"]]
+        gy = max(s[1] for s in sole)
+        ry = riser_below(P.ap(np.linalg.inv(A), (0, gy))[1] + 0, TRACK59A[fl]["root"][0])
+        risers = [P.ap(A, (0, ry))[1]] if ry else None
+        sh = P.cast_shadow(al, gy, L59_TREAD, risers, riser_shift=0.25 * 200 * A[0, 0])
+        out = out * (1 - 0.70 * sh[..., None])
+        if TRACK59A[fl].get("contact", True):
+            out = out * (1 - P.contact_shadow((W, H), [(s[0], s[1] + 1) for s in sole], 13, 3.5, 0.65)[..., None])
+        out = over(out, lay["rgb"], al)
+        vis = al * (1 - iron)
+        info.update(bird_px_total=vis_px(al), bird_px_visible=vis_px(vis), bird_px_behind_iron=int(((al > 0.5) & (iron > 0.5)).sum()),
+                    bird_height_frac=round(height_frac(al), 3), key=TRACK59A[fl].get("key"))
+    shadowed_plate = plate * (1 - 0.80 * wsh[..., None])
+    out = over(out, shadowed_plate, iron)                        # #45: the near lace iron is in front of the bird
+    out = out * VIG59[..., None]
+    return out, info
+
+
+def kp_beak(c):
+    A = KP.cam_affine(c)
+    return P.ap(A, KP.BIRD.landmarks(KP.pose_at(c))["beak"]), A
+
+
+def v1_knock(fl):
+    """V1 B (fl 120-263): the approved knock-proof composite (puppet unit), on the story-plates grade, with the
+    r2 strike, the watcher's shadow on the door and the contact marks."""
+    c = fl - 120
+    g = KP.compose(c).astype(np.float32)
+    led = KP.LEDGER["frames"][c]
+    A = KP.cam_affine(c)
+    pts = {e: P.ap(A, KP.BIRD.landmarks(KP.pose_at(e - 120))["beak"]) for e in (E3L, E4L)}
+    g = contact_fx(g, pts, fl, A[0, 0], "wood", nick_until=168)
+    info = {"shot": "B", "clip_f": c, "insert": led.get("insert"), "beak_in_leaf": led.get("beak_in_leaf_mask"),
+            "beak_stage": led.get("beak_plate"), "bird_px_visible": led.get("bird_px_visible"), "door_deg": led.get("door_deg")}
+    return rgb3(g), info
+
+
+# =============================================================================================== D (silhouette)
+PAPER_RNG = np.random.RandomState(7)
+_fib = cv2.GaussianBlur(PAPER_RNG.normal(0, 1, (H, W)).astype(np.float32), (0, 0), 1.2)
+_fib2 = cv2.GaussianBlur(PAPER_RNG.normal(0, 1, (H, W)).astype(np.float32), (0, 0), 9)
+_yy, _xx = np.mgrid[0:H, 0:W].astype(np.float32)
+_r = np.hypot((_xx - W * 0.5) / (W * 0.62), (_yy - H * 0.46) / (H * 0.62))
+BACKLIT = np.clip(1.0 - 0.55 * _r ** 2, 0.25, 1.0) * (1 + 0.035 * _fib + 0.05 * _fib2)
+PAPER_RGB = np.array([252, 236, 204], np.float32)               # warm paper lit from behind
+CARD = np.array([16, 14, 13], np.float32)
+PIN = np.array([150, 146, 140], np.float32)
+
+
+def paper():
+    return BACKLIT[..., None] * PAPER_RGB[None, None, :]
+
+
+def card_over(out, a, color=CARD):
+    return out * (1 - a[..., None]) + color[None, None, :] * a[..., None]
+
+
+def split_pins(out, lm, A, r=3.2):
+    for k, v in lm.items():
+        if k.startswith("pin_") and k not in ("pin_body",):
+            cv2.circle(out, (int(round(v[0])), int(round(v[1]))), int(round(r)), PIN.tolist(), -1, cv2.LINE_AA)
+            cv2.circle(out, (int(round(v[0])), int(round(v[1]))), max(1, int(round(r * 0.4))), (90, 88, 84), -1, cv2.LINE_AA)
+    return out
+
+
+def stoop_card(A):
+    """black-card stoop traced from the 1959 tread-nose lines: each tread's nose and riser shadow as a card strip,
+    the stoop's shadow side as one card."""
+    m = np.zeros((H, W), np.uint8)
+    for n, pts in G59["A"]["tread_nose_polylines"].items():
+        pts = np.array(pts, float)
+        xs = np.concatenate([[200.0], pts[:, 0], [2350.0]])
+        ys = np.concatenate([[pts[0, 1]], pts[:, 1], [pts[-1, 1]]])
+        top = [P.ap(A, (x, y - 3)) for x, y in zip(xs, ys)]
+        bot = [P.ap(A, (x, y + 10)) for x, y in zip(xs[::-1], ys[::-1])]
+        cv2.fillPoly(m, [np.int32(np.round(top + bot))], 1, cv2.LINE_AA)
+    side = [P.ap(A, p) for p in G59["A"]["shadow_side_left_edge"]] + [P.ap(A, (2400, 2300)), P.ap(A, (2400, 1000))]
+    cv2.fillPoly(m, [np.int32(np.round(side))], 1, cv2.LINE_AA)
+    return cv2.GaussianBlur(m.astype(np.float32), (0, 0), 0.6)
+
+
+def d_wide(A, iron, wsh, lay, info):
+    out = paper()
+    out = out * (1 - 0.42 * wsh[..., None])                       # the watcher: a grey gel shadow on the screen
+    out = card_over(out, stoop_card(A))
+    if lay is not None:
+        out = card_over(out, lay["alpha"])
+        out = split_pins(out, lay["lm"], A)
+        info.update(bird_px_visible=vis_px(lay["alpha"] * (1 - iron)), bird_height_frac=round(height_frac(lay["alpha"]), 3))
+    out = card_over(out, cv2.GaussianBlur((iron > 0.5).astype(np.float32), (0, 0), 0.7))
+    return out, info
+
+
+def _poly(m, pts, A, val=1.0):
+    cv2.fillPoly(m, [np.int32(np.round([P.ap(A, q) * 4 for q in pts]))], val, cv2.LINE_AA, shift=2)
+
+
+def _rect(m, x0, y0, x1, y1, A, val=1.0):
+    _poly(m, [(x0, y0), (x1, y0), (x1, y1), (x0, y1)], A, val)
+
+
+def railing_card(A):
+    """HANDMADE black-card railing for the theatre (r2): the handrail as one strip along the measured rail line,
+    square balusters every 34 px and a cut scroll ring between each pair: cut shapes, not the photo's matte."""
+    m = np.zeros((H, W), np.float32)
+    rc = KP.rail_c
+    _poly(m, [(1450, rc(1450) - 9), (2320, rc(2320) - 9), (2320, rc(2320) + 9), (1450, rc(1450) + 9)], A)
+    for i, x in enumerate(np.arange(1566.0, 2320.0, 34.0)):
+        _rect(m, x - 3.5, rc(x) + 6, x + 3.5, 760, A)
+        if i % 2 == 0:
+            cx, cy = x + 17, rc(x + 17) + 70
+            c = P.ap(A, (cx, cy))
+            r = 13 * A[0, 0]
+            cv2.circle(m, (int(c[0] * 4), int(c[1] * 4)), int(r * 4), 1.0, max(1, int(4 * 3.2 * A[0, 0])), cv2.LINE_AA, shift=2)
+            cv2.circle(m, (int(c[0] * 4), int((c[1] + 2.2 * r) * 4)), int(r * 0.7 * 4), 1.0, max(1, int(4 * 3.0 * A[0, 0])), cv2.LINE_AA, shift=2)
+    return np.clip(m, 0, 1)
+
+
+def door_card_geo(A):
+    """HANDMADE door: one black card over the leaf with its four panel mouldings cut as thin slots (light through)."""
+    d = np.zeros((H, W), np.float32)
+    _rect(d, KP.HINGE_X, KP.RY0 - 60, KP.LEAF_R, 700, A)
+    for (x0, y0, x1, y1) in ((1782, 20, 1958, 262), (1782, 300, 1958, 690)):
+        for inset, wdt in ((0, 6), (16, 3.5)):
+            a0, b0, a1, b1 = x0 + inset, y0 + inset, x1 - inset, y1 - inset
+            sl = np.zeros((H, W), np.float32)
+            _rect(sl, a0, b0, a1, b1, A)
+            _rect(sl, a0 + wdt, b0 + wdt, a1 - wdt, b1 - wdt, A, 0.0)
+            d = d * (1 - 0.92 * sl)
+    kn = P.ap(A, (1958, 318))                                     # the knob: a pin-head disc
+    cv2.circle(d, (int(kn[0]), int(kn[1])), max(2, int(7 * A[0, 0])), 1.0, -1, cv2.LINE_AA)
+    return d
+
+
+def d_knock(fl):
+    """D B: the knock-proof score replayed as silhouette theatre - same camera, same FK track, same door angle.
+    r2: every set piece is a cut card (door with slot mouldings, vestibule and jamb boards, railing strip with
+    balusters and scroll rings); the watcher is a grey gel shadow; nothing is thresholded from the photograph."""
+    c = fl - 120
+    t = c / FPS
+    A = KP.cam_affine(c)
+    th = KP.door_theta(t)
+    leafm = KP.warp_plate(KP.leaf0.astype(np.float32), A, cv2.INTER_LINEAR)
+    rail = railing_card(A)
+    board = np.zeros((H, W), np.float32)
+    _rect(board, 1380, KP.RY0 - 80, KP.HINGE_X - 6, 760, A)          # the vestibule: a board
+    _rect(board, KP.LEAF_R, KP.RY0 - 80, KP.LEAF_R + 16, 760, A)      # the latch jamb: a strip
+    hold_in = np.maximum(np.maximum(board, rail), 1 - leafm)        # once inside, seen only through the doorway
+    out = paper()
+    wsh = KP.warp_plate(KP_WSH, A, cv2.INTER_LINEAR)
+    out = out * (1 - 0.42 * wsh[..., None])                          # the watcher: grey gel, as in the wides
+    door_card = door_card_geo(A)
+    if th > 0:
+        src, dst = KP.leaf_quads(th)
+        s_ = np.float32([P.ap(A, p) for p in src])
+        d_ = np.float32([P.ap(A, p) for p in dst])
+        Hm = cv2.getPerspectiveTransform(s_, d_)
+        swung = cv2.warpPerspective(door_card, Hm, (W, H))
+        out = out * (1 + 0.12 * leafm[..., None])                  # the opened doorway: the lamp behind the screen
+        out = card_over(out, swung * 0.58)
+    else:
+        out = card_over(out, door_card * 0.58)                     # the door is tissue over card: a grey the bird reads on
+    out = card_over(out, board * 0.97)
+    pose = KP.pose_at(c)
+    lay = KP.BIRD.render(pose, A, (W, H))
+    al = lay["alpha"]
+    if KP.TRACK[c]["inside"]:
+        al = al * (1 - hold_in)
+    out = card_over(out, al)
+    if not KP.TRACK[c]["inside"]:
+        out = split_pins(out, lay["lm"], A, r=3.2 * A[0, 0] / 1.7)
+    out = card_over(out, rail)
+    pts = {e: P.ap(A, KP.BIRD.landmarks(KP.pose_at(e - 120))["beak"]) for e in (E3L, E4L)}
+    out = contact_fx(out, pts, fl, A[0, 0], "wood", nick_until=168)
+    led = KP.LEDGER["frames"].get(c)
+    if led is None:
+        KP.compose(c)
+        led = KP.LEDGER["frames"][c]
+    info = {"shot": "B", "clip_f": c, "beak_in_leaf": led["beak_in_leaf_mask"], "beak_stage": led["beak_plate"],
+            "bird_px_visible": vis_px(al * (1 - rail)) if KP.TRACK[c]["inside"] else led["bird_px_visible"]}
+    return out, info
+
+
+# =============================================================================================== V2 2009
+G09 = json.load(open(PL / "2009/geometry.json"))
+PRE09 = img(PL / "2009/preview_graded.png", "RGB")                     # A/C stage: 1024-px service JPEG coords
+REG09 = img(PL / "2009/region_graded.png", "RGB")                      # B stage: master region / 3
+LEAF09 = img(PL / "2009/piece_leaf.png")
+HALL09 = img(PL / "2009/hall.png")
+JAMBR09 = img(PL / "2009/holdout_jamb_right.png")[..., 3] / 255.0
+JAMBL09 = img(PL / "2009/holdout_jamb_left.png")[..., 3] / 255.0
+IRON09 = img(PL / "2009/holdout_iron.png")[..., 3] / 255.0
+S_RP = 3 * 1024 / 13925.0
+R2P = np.array([[S_RP, 0, 7300 * 1024 / 13925.0], [0, S_RP, 1500 * 1024 / 13925.0], [0, 0, 1.0]])   # region -> preview
+CA09 = G09["crops"]["A"]
+RB09_0, RB09_1 = (400.0, 1006.2, 933.0, 1306.0), (404.0, 1008.4, 929.0, 1303.8)    # r2: B reframed onto the latch edge, brick and iron (saturation from the scene, not a boost)
+QUAD09 = [(145.0, 330.0), (485.0, 330.0), (485.0, 1245.0), (145.0, 1245.0)]
+CAM09, Z09 = (466.0, 1000.0), 1500.0
+CHAIN_Y = 842.0                    # chain height on the leaf (handmade object, placed just above the knob)
+L09 = (-0.42, 0.22)                # bird cast shadow: plate light from upper right (shadows fall down-left)
+LINK_F = img(PL / "handmade/chain_link_face.png")
+LINK_E = img(PL / "handmade/chain_link_edge.png")
+
+
+def p2r(y):
+    return (y - 1500 * 1024 / 13925.0) / S_RP
+
+
+def v2_tread(y_pre, x_pre=592.0, h_pre=38.0):
+    return {"x": x_pre, "y": y_pre, "scale": h_pre / 608.0}
+
+
+TR09 = [v2_tread(560, 586, 40), v2_tread(533, 588, 39.5), v2_tread(508, 589, 39), v2_tread(473, 590, 38.5),
+        v2_tread(441, 591, 38), v2_tread(412, 592, 37.5), v2_tread(395, 593, 37.5)]
+HOPS09 = [(6 + 14 * i, TR09[i], TR09[i + 1]) for i in range(6)]
+TRACK09A = climb(ROO09, HOPS09, 120, None)
+
+
+def door_hinged(stage_img, leaf_a, hall_rgb, quad, th, cam, z0, A, shade=0.35):
+    """#45 door layer: plate, hall where the leaf has swung away, the leaf as a homography about its hinge."""
+    base = warp(stage_img, A, cv2.INTER_CUBIC, cv2.BORDER_REPLICATE)
+    la = warp(leaf_a, A)
+    if th <= 0:
+        return base, la, la, None
+    dst = P.hinge_quad(quad, "left", th, cam, z0)
+    s = np.float32([P.ap(A, p) for p in quad])
+    d = np.float32([P.ap(A, p) for p in dst])
+    Hm = cv2.getPerspectiveTransform(s, d)
+    tex = cv2.warpPerspective(base, Hm, (W, H)) * (1 - shade * math.sin(th))
+    sw = cv2.warpPerspective(la, Hm, (W, H))
+    hall = warp(hall_rgb, A)
+    out = over(base, hall, la)
+    out = over(out, tex, sw)
+    return out, la, sw, d
+
+
+def draw_chain(out, p_jamb, p_leaf, th, k):
+    """HANDMADE 2009 door chain: 6 shaded steel links along the puppet module's catenary (slack -> taut at 25 deg)."""
+    pts = P.chain_links(p_jamb, p_leaf, th, sag_px=14.0 * k)
+    lay = np.zeros((H, W, 4), np.float32)
+    for i in range(len(pts) - 1):
+        (x0, y0), (x1, y1) = pts[i], pts[i + 1]
+        L = math.hypot(x1 - x0, y1 - y0) * 2.0
+        sp = LINK_F if i % 2 == 0 else LINK_E
+        sc = max(0.08, L / 50.0)
+        ang = math.degrees(math.atan2(-(y1 - y0), x1 - x0))
+        M = cv2.getRotationMatrix2D((36.0, 36.0), ang, sc)
+        M[:, 2] += [(x0 + x1) / 2 - 36.0, (y0 + y1) / 2 - 36.0]
+        s = cv2.warpAffine(sp, M, (W, H), flags=cv2.INTER_LINEAR)
+        a = s[..., 3:4] / 255.0
+        lay[..., :3] = s[..., :3] * a + lay[..., :3] * (1 - a)
+        lay[..., 3:4] = a + lay[..., 3:4] * (1 - a)
+    return over(out, lay[..., :3] * 0.9, lay[..., 3])
+
+
+def v2_wide(fl, shot):
+    t = fl / FPS
+    u = fl / 119.0 if shot == "A" else (fl - 264) / 95.0
+    A = cam_rect(CA09["push_start"], CA09["push_end"], u)
+    th = 0.0 if shot == "A" else math.radians(25.0)
+    quad = [tuple(P.ap(R2P, q)) for q in QUAD09]
+    leaf_a = cv2.warpAffine(LEAF09[..., 3] / 255.0, R2P[:2], (1024, 575))
+    hall = cv2.warpAffine(HALL09[..., :3], R2P[:2], (1024, 575))
+    out, la, sw, d = door_hinged(PRE09, leaf_a, hall, quad, th, tuple(P.ap(R2P, CAM09)), Z09 * S_RP, A)
+    plate = warp(PRE09, A, cv2.INTER_CUBIC, cv2.BORDER_REPLICATE)
+    x, hd = watcher_x(t, 1010, 948, 1160)
+    wsh = cv2.GaussianBlur(wshadow(WATCH, x, -hd, 562, 165, (-0.95, 0.10), A), (0, 0), 1.2)
+    out = out * (1 - 0.5 * wsh[..., None])
+    info = {"shot": shot, "door_deg": round(math.degrees(th), 1), "watcher_x": round(x, 1)}
+    iron = warp(IRON09, A @ R2P)
+    if shot == "A":
+        pose = TRACK09A[fl]
+        lay = ROO09.render(pose, A, (W, H))
+        al = lay["alpha"]
+        sole = [lay["lm"]["foot_L"], lay["lm"]["foot_R"]]
+        gy = max(s[1] for s in sole)
+        sh = P.cast_shadow(al, gy, L09)
+        out = out * (1 - 0.45 * sh[..., None])
+        if TRACK09A[fl].get("contact", True):
+            out = out * (1 - P.contact_shadow((W, H), [(s[0], s[1] + 1) for s in sole], 7, 2.0, 0.55)[..., None])
+        out = over(out, lay["rgb"], al)
+        info.update(bird_px_visible=vis_px(al * (1 - iron)), bird_height_frac=round(height_frac(al), 3))
+    out = over(out, plate * (1 - 0.5 * wsh[..., None]), iron)
+    return out, info
+
+
+def track09b():
+    tr = []
+    x0, y0, sc = 436.0, 1283.0, 108.0 / 608.0       # r2: closer to the latch edge, scaled to the tighter B
+    gr = lambda xx: y0  # noqa: E731
+    for c in range(144):
+        g = c - c % 2
+        if E3L - 120 - 4 <= c <= E4L - 120 + 4:
+            g = c
+        f = g + 120
+        if g < 84:
+            ang = P.angles_of("hold" if g >= 4 else "settle")
+            if g < 18:
+                ang = P.add_head(ang, "look_up", 0.6 if (g // 6) % 2 else 0.2)
+            ang, name = with_head(ang, f, E3L, E4L)
+            if name is None and g >= 40:
+                ang = P.add_head(ang, *look(g, 0.5))
+            p = P.ground_pose(ROO09, x0, gr, sc, ang)
+            if f in (E3L, E4L):
+                p["root"] = (p["root"][0] - 1.0, p["root"][1] + 0.4)
+            p["key"] = name or "hold"
+        else:                                                  # E6: walk right into the chained gap, past the jamb
+            u = (g - 84) / 34.0
+            x = x0 + 230 * min(1.0, u) ** 1.1
+            p = P.ground_pose(ROO09, x, gr, sc * (1 - 0.06 * min(1, u)), walk_ang(g))
+            p["key"] = "walk_in"
+        tr.append(p)
+    return P.tail_lag(tr, ROO09)
+
+
+TRACK09B = track09b()
+
+
+def v2_knock(fl):
+    c = fl - 120
+    t = fl / FPS
+    A = cam_rect(RB09_0, RB09_1, c / 143.0)
+    th = P.chain_theta(t)
+    out, la, sw, d = door_hinged(REG09, LEAF09[..., 3] / 255.0, HALL09[..., :3], QUAD09, th, CAM09, Z09, A)
+    k = A[0, 0]
+    jambR = warp(JAMBR09, A)
+    pose = TRACK09B[c]
+    lum = 1.0 - 0.4 * np.clip((pose["root"][0] - 400) / 140, 0, 1)
+    lay = ROO09.render(pose, A, (W, H), lum=float(lum))
+    al = lay["alpha"]
+    sole = [lay["lm"]["foot_L"], lay["lm"]["foot_R"]]
+    gy = max(s[1] for s in sole)
+    sh = P.cast_shadow(al, gy, L09) * (1 - la * (th > 0.05))
+    out = out * (1 - 0.45 * sh[..., None])
+    out = out * (1 - P.contact_shadow((W, H), [(s[0], s[1] + 1) for s in sole], 16, 4, 0.55)[..., None])
+    vis = al
+    if c >= 84:                                                # inside the doorway: only the gap shows the bird
+        xe = d[1][0] if d is not None else W
+        xx = np.arange(W, dtype=np.float32)[None, :]
+        revealed = np.clip(la - sw, 0, 1)
+        front = (xx < xe).astype(np.float32)
+        vis = al * np.maximum(front, revealed) * (1 - jambR)
+    out = over(out, lay["rgb"], vis)
+    if th > 0.01 and d is not None:                            # the chain across the gap
+        fy = (CHAIN_Y - 330) / (1245 - 330)
+        p_leaf = (d[1][0] + (d[2][0] - d[1][0]) * fy, d[1][1] + (d[2][1] - d[1][1]) * fy)
+        p_jamb = tuple(P.ap(A, (489.0, CHAIN_Y - 6)))
+        out = draw_chain(out, p_jamb, p_leaf, th, k)
+    pts = {e: P.ap(A, ROO09.landmarks(TRACK09B[e - 120])["beak"]) for e in (E3L, E4L)}
+    out = contact_fx(out, pts, fl, k, "paint", nick_until=167)
+    bi, bst = beak_in(LEAF09[..., 3] / 255.0, A, lay["lm"])
+    return out, {"shot": "B", "door_deg": round(math.degrees(th), 2), "beak_in_leaf": bi, "beak_stage": bst,
+                 "bird_px_visible": vis_px(vis), "bird_height_frac": round(height_frac(al), 3)}
+
+
+# =============================================================================================== V3 2059
+G59x = json.load(open(PL / "2059/geometry.json"))
+PL59 = img(PL / "2059/plate_graded.png", "RGB")
+def _interior():
+    """the view through the doorway once the glass has gone: the plate's own through-glass view with the leaf frame
+    members (stiles, rails) inpainted away and the glass sheen taken off (x0.66). HANDMADE from the foraged plate."""
+    p = np.clip(img(PL / "2059/plate_graded.png", "RGB"), 0, 255).astype(np.uint8)
+    m = np.zeros(p.shape[:2], np.uint8)
+    for x0, x1 in ((690, 709), (919, 941), (1156, 1175)):
+        m[180:712, x0:x1] = 1
+    for y0, y1 in ((182, 204), (680, 704)):
+        m[y0:y1, 690:1175] = 1
+    out = cv2.inpaint(p, m, 9, cv2.INPAINT_TELEA).astype(np.float32)
+    return out * 0.66
+
+
+INT59 = _interior()
+LL59 = img(PL / "2059/piece_leaf_left.png")
+LR59 = img(PL / "2059/piece_leaf_right.png")
+POSTL = img(PL / "2059/piece_post_left.png")
+POSTR = img(PL / "2059/piece_post_right.png")
+PILLAR = img(PL / "2059/piece_pillar.png")
+THRESH = img(PL / "2059/piece_threshold.png")
+BAR = img(PL / "handmade/sensor_bar_off.png")
+DOT_ON = img(PL / "handmade/sensor_dot_on.png")
+DOT_RF = img(PL / "handmade/sensor_dot_refuse.png")
+DOTC = json.load(open(PL / "handmade/handmade.json"))["sensor_2059"]["dot_centres"]
+CA20 = G59x["crops"]["A"]
+RB20_0, RB20_1 = (400.0, 180.0, 1440.0, 765.0), (407.8, 184.4, 1432.2, 760.6)
+TRAVEL = G59x["slide_rails"]["travel_px"]
+X1_T = 4.6
+FSM, FSM_EVENTS = P.DoorFSM([(X1_T, True), (E3L / FPS, True), (E4L / FPS, True)], t_close=10.2).trace(15.0)
+LEAF_MASK20 = np.maximum(LL59[..., 3], LR59[..., 3]) / 255.0
+L20_BIRD = (0.10, -0.32)
+L20_WATCH = (0.30, -0.95)
+
+
+def sensor_layer(dots, state):
+    """HANDMADE 7-dot strip: brushed bar, lit dots composited at the sprite positions."""
+    s = BAR.copy()
+    for i, on in enumerate(dots):
+        if on <= 0:
+            continue
+        sp = DOT_RF if state == "refuse" else DOT_ON
+        cx, cy = DOTC[i]
+        x0, y0 = int(cx - 32), int(cy - 32)
+        sub = np.zeros_like(s)
+        xa, ya = max(0, x0), max(0, y0)
+        xb, yb = min(s.shape[1], x0 + 64), min(s.shape[0], y0 + 64)
+        sub[ya:yb, xa:xb] = sp[ya - y0:yb - y0, xa - x0:xb - x0]
+        a = sub[..., 3:4] / 255.0 * on
+        s[..., :3] = sub[..., :3] * a + s[..., :3] * (1 - a)
+        s[..., 3:4] = np.maximum(s[..., 3:4], sub[..., 3:4] * on)
+    return s
+
+
+def strip_on(out, A, fr):
+    m = A @ T(930 - 140, 205 - 11.5) @ P.S(0.5)
+    s = warp(sensor_layer(fr["dots"], fr["state"]), m)
+    return over(out, s[..., :3], s[..., 3] / 255.0)
+
+
+def track20a():
+    tr = []
+    for f in range(120):
+        g = f - f % 2
+        if X1_T * FPS - 4 <= f <= X1_T * FPS + 5:
+            g = f
+        if g < 100:
+            u = g / 100.0
+            x = 300 + 480 * u
+            y = 850 - 105 * u
+            sc = (0.335 - 0.035 * u)
+            ang = walk_ang(g)
+            ang = P.add_head(ang, "look_up", 0.3)
+            p = P.ground_pose(ROO_2059, x, lambda xx, y=y: y, sc, ang)
+            p["key"] = "walk"
+        else:
+            ang = P.angles_of("hold")
+            ang, name = with_head(ang, f, -999, -999, peck=int(round(X1_T * FPS)))
+            p = P.ground_pose(ROO_2059, 780, lambda xx: 745.0, 0.30, ang)
+            p["key"] = name or "hold"
+        tr.append(p)
+    return P.tail_lag(tr, ROO_2059)
+
+
+def track20b():
+    tr = []
+    for c in range(144):
+        g = c - c % 2
+        f = c + 120
+        if E3L - 4 <= f <= E4L + 4:
+            g = c
+        inside = False
+        if g < 12:                                         # one step closer: the peck had come a tread too early
+            u = g / 12.0
+            p = P.ground_pose(ROO_2059, 780 + 22 * u, lambda xx: 745.0, 0.30, walk_ang(g))
+            p["key"] = "step"
+        elif g < 84:
+            ang = P.angles_of("settle" if g < 16 else "hold")
+            ang, name = with_head(ang, f, E3L, E4L)
+            if name is None and g >= 44:
+                ang = P.add_head(ang, *look(g, 0.5))
+            p = P.ground_pose(ROO_2059, 802, lambda xx: 745.0, 0.30, ang)
+            if f in (E3L, E4L):
+                p["root"] = (p["root"][0] - 1.0, p["root"][1] + 0.4)
+            p["key"] = name or "hold"
+        elif g < 92:                                       # hop over the threshold rail
+            k = (g - 84) // 2
+            key = P.HOP_KEYS[k]
+            u = {"crouch": 0.0, "push": 0.08, "air": 0.55, "land": 1.0}[key]
+            x = 802 + 60 * u
+            y = 745 + (700 - 745) * u
+            lift = 30.0 if key == "air" else 0.0
+            p = P.ground_pose(ROO_2059, x, lambda xx, y=y: y, 0.30 - 0.03 * u, P.angles_of(key), lift=lift)
+            p["key"] = key
+            inside = u > 0.5
+        else:                                              # walk on into the interior, behind the glass and the pillar
+            u = min(1.0, (g - 92) / 26.0)
+            x = 862 + (1196 - 862) * u
+            y = 700 - 14 * u
+            p = P.ground_pose(ROO_2059, x, lambda xx, y=y: y, 0.27 - 0.165 * u, walk_ang(g))
+            p["key"] = "walk_in"
+            inside = True
+        p["inside"] = inside
+        tr.append(p)
+    return P.tail_lag(tr, ROO_2059)
+
+
+TRACK20A, TRACK20B = track20a(), track20b()
+
+
+def v3_frame(fl, shot):
+    t = fl / FPS
+    fr = FSM[min(fl, len(FSM) - 1)]
+    if shot == "B":
+        A = cam_rect(RB20_0, RB20_1, (fl - 120) / 143.0)
+    else:
+        # 2059 wides are locked off (no push): the reference's static camera, and the terrazzo plate resampled
+        # every frame would cost ~2.5 MB of the 6 MB budget in codec noise
+        A = cam_rect(CA20["push_start"], CA20["push_end"], 0.5)
+    slide = fr["slide"]
+    base = warp(PL59, A, cv2.INTER_CUBIC, cv2.BORDER_REPLICATE)
+    leafm = warp(LEAF_MASK20, A)
+    interior = warp(INT59, A, cv2.INTER_LINEAR, cv2.BORDER_REPLICATE)
+    out = over(base, interior, leafm * (1.0 if slide > 0 else 0.0))
+    info = {"shot": shot, "state": fr["state"], "dots": fr["dots"], "slide": slide}
+    bird = None
+    track = TRACK20A if shot == "A" else TRACK20B if shot == "B" else None
+    if track is not None:
+        c = fl if shot == "A" else fl - 120
+        pose = track[c]
+        inside = pose.get("inside", False)
+        lum = 1.0 - 0.3 * (1.0 if inside else 0.0) * min(1.0, (pose["root"][0] - 862) / 200 + 0.4)
+        bird = ROO_2059.render(pose, A, (W, H), lum=float(lum))
+        bird["inside"] = inside
+    # watcher: AK17's very long low-sun shadow raking up the forecourt onto the glass
+    if shot != "B":
+        x, hd = watcher_x(t, -900, 520, 2150)
+        wsh = cv2.GaussianBlur(wshadow(WATCH, x, hd, 1000, 700, L20_WATCH, A), (0, 0), 1.8)
+        info.update(watcher_x=round(x, 1), watcher_shadow_height_frac=round(height_frac(wsh), 3))
+    else:
+        wsh = np.zeros((H, W), np.float32)
+    out = out * (1 - 0.55 * wsh[..., None])
+    if bird is not None and bird["inside"]:
+        out = over(out, bird["rgb"], bird["alpha"])
+    # the two leaves slide on their rails (the door's own answer, no hand)
+    if slide > 0 or (bird is not None and bird["inside"]):
+        dx = TRAVEL * slide
+        for piece, sgn in ((LL59, -1), (LR59, 1)):
+            M = A @ T(sgn * dx, 0)
+            pc = warp(piece, M)
+            a = pc[..., 3] / 255.0
+            if bird is not None and bird["inside"]:            # glass: the bird behind reads at 45 %
+                ba = bird["alpha"] * a
+                mixc = pc[..., :3] * (1 - 0.45 * ba[..., None]) + bird["rgb"] * 0.45 * ba[..., None]
+                out = over(out, mixc, a)
             else:
-                ink.poly(pts, fill=LWHITE + (alpha,), color=LBLACK if outline else None, width=2.4, alpha=alpha)
+                out = over(out, pc[..., :3], a)
+    th = warp(THRESH, A)
+    out = over(out, th[..., :3], th[..., 3] / 255.0)
+    if bird is not None and not bird["inside"]:
+        al = bird["alpha"]
+        sole = [bird["lm"]["foot_L"], bird["lm"]["foot_R"]]
+        gy = max(s[1] for s in sole)
+        out = out * (1 - 0.35 * P.cast_shadow(al, gy, L20_BIRD)[..., None])
+        out = out * (1 - P.contact_shadow((W, H), [(s[0], s[1] + 1) for s in sole], 11 * A[0, 0] / 0.63 * 0.6, 3, 0.6)[..., None])
+        out = over(out, bird["rgb"], al)
+    hold = np.zeros((H, W), np.float32)
+    for piece in (POSTL, POSTR, PILLAR):
+        pc = warp(piece, A)
+        a = pc[..., 3] / 255.0
+        out = over(out, pc[..., :3] * (1 - 0.55 * wsh[..., None]), a)
+        hold = np.maximum(hold, a)
+    out = strip_on(out, A, fr)
+    if shot == "B":
+        pts = {e: P.ap(A, ROO_2059.landmarks(TRACK20B[e - 120])["beak"]) for e in (E3L, E4L)}
+        out = contact_fx(out, pts, fl, A[0, 0], "glass")
+    if bird is not None:
+        al = bird["alpha"]
+        if bird["inside"]:
+            v = al * (1 - hold)
+            info["bird_px_visible"] = vis_px(v)
+            info["bird_px_visible_full"] = vis_px(v * (1 - leafm * (slide < 0.5)))
         else:
-            c = self.col(hue)
-            if self.kind == "flat" and tone < 0.5 and hue in ("wall", "wall2", "pod", "door"):
-                c = tuple(int(v * 0.8) for v in c)
-            if self.kind == "grit":
-                c = tuple(min(255, int(v * (0.62 + 0.5 * tone))) for v in c)
-            ink.poly(pts, fill=c + (alpha,), color=None, rough=False)
-
-    def line(self, pts, hue, width=2.0, tone=0.1, alpha=255):
-        ink = self.ink
-        if self.kind == "mask":
-            ink.d.line([tuple(p) for p in pts], fill=255, width=int(width + 1))
-        elif self.kind == "line":
-            if tone >= 0.6:
-                ink.line(pts, LBLACK, width + 4, alpha=alpha)
-                ink.line(pts, LWHITE, width, alpha=alpha, rough=False)
-            else:
-                ink.line(pts, LBLACK, width + 0.6, alpha=alpha)
-        else:
-            ink.line(pts, self.col(hue), width + 1, rough=False, alpha=alpha)
-
-    def shadow(self, pts):
-        if self.kind == "line":
-            self.ink.poly(pts, fill=LBLACK, color=None, rough=False)
-        elif self.kind == "flat":
-            self.ink.poly(pts, fill=(30, 18, 54, 120), color=None, rough=False)
-        elif self.kind == "grit":
-            self.ink.poly(pts, fill=(10, 12, 16, 150), color=None, rough=False)
-
-    def circle(self, cx, cy, r, tone, hue, outline=True, n=None, alpha=255):
-        n = n or max(14, int(r * 1.2))
-        self.shape([(cx + r * math.cos(2 * math.pi * k / n), cy + r * math.sin(2 * math.pi * k / n)) for k in range(n)], tone, hue, outline, alpha=alpha)
-
-    def ellipse(self, cx, cy, rx, ry, tone, hue, ang=0.0, outline=True):
-        n = max(16, int(max(rx, ry)))
-        ca, sa = math.cos(ang), math.sin(ang)
-        pts = [(cx + rx * math.cos(2 * math.pi * k / n) * ca - ry * math.sin(2 * math.pi * k / n) * sa,
-                cy + rx * math.cos(2 * math.pi * k / n) * sa + ry * math.sin(2 * math.pi * k / n) * ca) for k in range(n)]
-        self.shape(pts, tone, hue, outline)
-
-    def rect(self, x0, y0, x1, y1, tone, hue, outline=True, alpha=255, **_):
-        self.shape([(x0, y0), (x1, y0), (x1, y1), (x0, y1)], tone, hue, outline, alpha=alpha)
-
-    def text(self, xy, s, size, hue="iron", anchor="la", kind="sans"):
-        if self.kind == "mask":
-            return
-        c = LBLACK if self.kind == "line" else self.col(hue)
-        self.ink.text(xy, s, kind, size, c, anchor=anchor)
+            info["bird_px_visible"] = vis_px(al * (1 - hold))
+        info["bird_height_frac"] = round(height_frac(al), 3)
+        bi, bst = beak_in(LEAF_MASK20, A, bird["lm"])
+        info.update(beak_in_leaf=bi, beak_stage=bst, inside=bird["inside"])
+    return out, info
 
 
-# ------------------------------------------------------------ backdrops ---
-
-_bg_cache = {}
-
-
-def backdrop_image(era, kind):
-    key = (era, kind)
-    if key not in _bg_cache:
-        ink = Ink(0, 0, (W, H), 0, 0.8, 5)
-        ink.fill(LWHITE if kind == "line" else PALETTES[era]["wall"])
-        P = Tech(ink, kind, era)
-        ink.wobble = 0.8 if kind == "line" else 0.0
-        draw_backdrop(P, era, kind)
-        img = ink.img.convert("RGB")
-        if kind == "grit":
-            img = grit_texture(img)
-        _bg_cache[key] = img
-    return _bg_cache[key]
+# =============================================================================================== cards and timeline
+def card_frame(ink, t, big, small=None, a0=0.0, a1=1.0, size=46):
+    ink.fill(INK)
+    al = min(1.0, (t - a0) / 0.25, (a1 - t) / 0.35) if a1 > a0 else 1.0
+    al = max(0.0, al)
+    ink.text((W / 2, H / 2 - (16 if small else 0)), big, "sans", size, (238, 238, 238), anchor="mm", alpha=int(255 * al))
+    if small:
+        ink.text((W / 2, H / 2 + 34), small, "sans", 17, (150, 150, 150), anchor="mm", alpha=int(255 * al))
 
 
-def grit_texture(img):
-    rs = np.random.RandomState(12)
-    a = np.asarray(img, np.float32)
-    n1 = np.asarray(Image.fromarray(rs.uniform(0, 255, (H // 3, W // 3)).astype(np.uint8)).resize((W, H), Image.BICUBIC), np.float32) / 255
-    n2 = rs.normal(0, 1, (H, W)).astype(np.float32)
-    n3 = np.asarray(Image.fromarray(rs.uniform(0, 255, (H // 40, W // 40)).astype(np.uint8)).resize((W, H), Image.BICUBIC), np.float32) / 255
-    yy = np.arange(H, dtype=np.float32)[:, None] / H
-    soot = 1 - 0.35 * np.clip(1 - yy * 2.2, 0, 1) * (0.5 + 0.5 * n3)      # darker high on the wall
-    a = a * (0.82 + 0.3 * n1[..., None]) * soot[..., None] + n2[..., None] * 6
-    return Image.fromarray(a.clip(0, 255).astype(np.uint8))
+def version_frame(v, fl):
+    if v == "V1":
+        if fl < 120:
+            return v1_wide(fl, "A")
+        if fl < 264:
+            return v1_knock(fl)
+        return v1_wide(fl, "C")
+    if v == "D":
+        if fl < 120:
+            return v1_wide(fl, "A", silhouette=True)
+        if fl < 264:
+            return d_knock(fl)
+        return v1_wide(fl, "C", silhouette=True)
+    if v == "V2":
+        if fl < 120:
+            return v2_wide(fl, "A")
+        if fl < 264:
+            return v2_knock(fl)
+        return v2_wide(fl, "C")
+    return v3_frame(fl, "A" if fl < 120 else "B" if fl < 264 else "C")
 
 
-def draw_backdrop(P, era, kind):
-    ink = P.ink
-    # façade
-    P.rect(-4, -4, 884, WALL, 0.9, "wall", outline=False)
-    if kind != "line":
-        P.rect(-4, -4, 300, WALL, 0.4, "wall2", outline=False)  # flat graphic shading on the left
-    P.line([(-4, WALL), (884, WALL)], "iron", 2)
-    # sky and the next lot beyond the building edge
-    P.rect(884, -4, 964, WALL, 0.95 if era != "2009" else 0.2, "sky", outline=False)
-    P.line([(884, -4), (884, WALL)], "iron", 2.4)
-    # pavement, curb, road
-    P.rect(-4, WALL, 964, CURB, 0.92, "floor", outline=False)
-    P.rect(-4, CURB, 964, CURB + 14, 0.8 if era != "2009" else 0.9, "curb")
-    P.rect(-4, CURB + 14, 964, 544, 0.35 if kind != "line" else 0.95, "road", outline=False)
-    if kind == "line":
-        P.line([(-4, CURB), (964, CURB)], "iron", 2.6)
-        P.shadow([(-4, CURB + 14), (964, CURB + 14), (964, 544), (-4, 544)]) if False else None
-        P.shadow([(-4, CURB + 14), (964, CURB + 14), (964, CURB + 30), (-4, CURB + 26)])
-    if era == "2059":
-        for x in range(-40, 1000, 96):   # flagstones with cracks
-            P.line([(x, WALL), (x - 30, CURB)], "iron", 1, alpha=110)
-        for y in (408, 446):
-            P.line([(-4, y), (964, y)], "iron", 1, alpha=90)
-        for cx, cy in ((180, 460), (640, 420), (820, 455)):
-            P.line([(cx, cy), (cx + 18, cy - 6), (cx + 30, cy + 2), (cx + 46, cy - 4)], "iron", 1, alpha=140)
-    if era == "2009":
-        P.text((520, CURB + 1), "K E E P   C L E A R", 12, "iron", anchor="ma")
-    # windows
-    wins = [(70, 30), (320, 30), (560, 30), (760, 30), (560, 196), (760, 196)]
-    for wx, wy in wins:
-        w, h = 104, 112
-        P.rect(wx - 6, wy - 6, wx + w + 6, wy + h + 10, 0.9, "frame")
-        dark = era == "2009" or era == "2059"
-        P.rect(wx, wy, wx + w, wy + h, 0.1 if dark else 0.95, "win")
-        if kind == "line":
-            P.shadow([(wx, wy), (wx + w, wy), (wx + w, wy + 16), (wx + 18, wy + 16), (wx + 18, wy + h), (wx, wy + h)])
-        if era == "2059" and (wx + wy) % 3 == 0:   # boarded
-            for k in range(3):
-                P.shape([(wx - 4, wy + 18 + k * 34), (wx + w + 4, wy + 10 + k * 34), (wx + w + 4, wy + 26 + k * 34), (wx - 4, wy + 34 + k * 34)], 0.6, "bench")
-        else:
-            P.line([(wx + w / 2, wy), (wx + w / 2, wy + h)], "frame", 3, 0.9)
-            P.line([(wx, wy + h / 2), (wx + w, wy + h / 2)], "frame", 3, 0.9)
-        P.rect(wx - 10, wy + h + 6, wx + w + 10, wy + h + 16, 0.9, "frame")
-    # fire escape over the upper right windows
-    if era != "2059":
-        for y in (150, 160):
-            P.line([(540, y), (890 - 12, y)], "iron", 2.4)
-        for x in range(546, 880, 18):
-            P.line([(x, 150), (x, 130)], "iron", 1.4)
-        P.line([(540, 130), (878, 130)], "iron", 2)
-        P.line([(700, 160), (760, 196 + 60)], "iron", 2)
-        P.line([(712, 160), (772, 196 + 60)], "iron", 2)
-        for k in range(1, 6):
-            P.line([(700 + k * 10, 160 + k * 16), (712 + k * 10, 160 + k * 16)], "iron", 1.4)
-    else:
-        P.line([(540, 150), (700, 154), (760, 190)], "iron", 2.4)   # what is left of it
-    # stoop with railing, at the left
-    steps = 5
-    for k in range(steps):
-        y0 = WALL - (k + 1) * 16
-        P.rect(20 + k * 12, y0, 170, y0 + 16, 0.85, "wall2")
-    if kind == "line":
-        P.shadow([(170, WALL - 80), (196, WALL - 70), (196, WALL), (170, WALL)])
-        P.shadow([(20, WALL), (196, WALL), (240, WALL + 30), (40, WALL + 30)])
-    elif kind == "flat":
-        P.shadow([(170, WALL - 80), (210, WALL - 64), (210, WALL), (170, WALL)])
-    for k in range(9):
-        x = 26 + k * 18
-        P.line([(x, WALL - 16 - k * 8), (x, WALL - 60 - k * 8)], "iron", 1.8)
-    P.line([(20, WALL - 60), (180, WALL - 132)], "iron", 2.6)
-    # the station entrance: sign and the service door, closed
-    dx = 250
-    P.rect(dx - 52, WALL - 186, dx + 52, WALL, 0.9, "frame")
-    P.rect(dx - 42, WALL - 176, dx + 42, WALL, 0.25 if kind == "line" else 0.4, "door")
-    P.circle(dx + 28, WALL - 88, 5, 0.9, "key")
-    P.line([(dx, WALL - 230), (dx, WALL - 210)], "iron", 2)
-    P.rect(dx - 62, WALL - 214, dx + 62, WALL - 190, 0.9, "sign")
-    P.text((dx, WALL - 210), "STATION · SERVICE", 13, "iron", anchor="ma")
-    # lamp post and the far tree
-    if era != "2059":
-        P.rect(696, 120, 704, FLOOR - 10, 0.1, "iron")
-        P.shape([(684, 98), (716, 98), (710, 124), (690, 124)], 0.9 if era == "1959" else 0.95, "sign")
-    else:
-        P.shape([(694, 260), (704, 260), (740, FLOOR - 12), (728, FLOOR - 10)], 0.1, "iron")   # bent post
-    if era == "1959":   # cloud-crowned tree, outline only
-        cx, cy = 925, 150
-        pts = []
-        for k in range(14):
-            a = 2 * math.pi * k / 14
-            r = 70 + 12 * math.sin(3 * a)
-            for q in range(5):
-                b = a + q * (2 * math.pi / 14) / 4
-                bump = 1 + 0.12 * math.sin(math.pi * q / 4)
-                pts.append((cx + math.cos(b) * r * bump * 0.8, cy + math.sin(b) * r * bump))
-        P.shape(pts, 0.95, "tree")
-        P.rect(918, 220, 932, WALL + 20, 0.95, "tree")
-        P.shadow([(890, WALL + 20), (960, WALL + 20), (960, WALL + 34), (880, WALL + 30)])
-    elif era == "2009":
-        for cx, cy, r in ((930, 120, 60), (900, 200, 46), (950, 230, 40)):
-            P.circle(cx, cy, r, 0.5, "tree", outline=False)
-        P.circle(915, 110, 30, 0.5, "frame", outline=False, alpha=60)
-        P.rect(924, 240, 934, WALL + 10, 0.2, "iron")
-        # neon and posters: flat graphic signs
-        P.rect(330, 52, 410, 120, 0.1, "win")
-        P.text((370, 64), "TICKETS", 15, "sign", anchor="ma")
-        P.rect(332, 54, 408, 118, 0.9, "bell", outline=False, alpha=0) if False else None
-        ink.d.rectangle([336, 58, 404, 116], outline=(255, 90, 170), width=3)
-        ink.d.rectangle([588, 250, 640, 274], fill=(220, 40, 40))
-        ink.text((614, 254), "OPEN", "sans", 14, (250, 240, 230), anchor="ma")
-        ink.d.rectangle([140, 140, 186, 196], fill=(240, 236, 226))
-        ink.text((163, 146), "LOST", "sans", 11, (30, 30, 40), anchor="ma")
-        key_shape(ink, 152, 176, 0.6)
-        for gx, gy, gc in ((120, 330, (90, 200, 90)), (430, 340, (230, 110, 200)), (470, 300, (240, 220, 80))):
-            ink.d.ellipse([gx, gy, gx + 60, gy + 26], fill=gc + (200,))
-    else:
-        for b in ((925, WALL, 905, 220), (912, 290, 870, 250), (918, 260, 950, 210)):
-            P.line([b[:2], b[2:]], "tree", 4)
-        # the wreck, low in the road
-        P.shape([(620, 544), (640, 500), (700, 488), (820, 486), (880, 500), (900, 544)], 0.15, "iron")
-        P.shape([(700, 488), (720, 470), (800, 468), (820, 486)], 0.1, "win")
-        for cx in (660, 860):
-            P.circle(cx, 534, 18, 0.1, "iron")
-        for cx, cy in ((120, 450), (430, 468), (600, 432), (760, 462)):   # litter
-            P.shape([(cx, cy), (cx + 12, cy - 2), (cx + 14, cy + 6), (cx + 2, cy + 8)], 0.9, "env")
-    if kind == "line":
-        # smoke smudge, top left, like a grey wash over the drawing
-        sm = Image.new("L", (W, H), 0)
-        ImageDraw.Draw(sm).ellipse([-200, -160, 360, 140], fill=150)
-        sm = sm.filter(ImageFilter.GaussianBlur(60))
-        ink.img.paste(Image.new("RGB", (W, H), (60, 60, 60)), (0, 0), sm)
-        ink.d = ImageDraw.Draw(ink.img, "RGBA")
+def which(k):
+    for v, o in OFFS.items():
+        f0 = int(round(o * FPS))
+        if f0 <= k < f0 + 360:
+            return v, k - f0
+    return None, None
 
 
-def bell(P, era, tau):
-    x, y = 480, 170
-    hit = [tau - b for b in BELL if 0 <= tau - b < 0.4]
-    h = hit[0] if hit else None
-    if era == "1959":
-        sw = 0.35 * math.sin(tau * 18) * math.exp(-(tau - BELL[0]) * 1.2) if BELL[0] <= tau < BELL[-1] + 2 else 0
-        P.line([(x - 40, y - 30), (x, y - 30), (x, y - 16)], "iron", 3)
-        cx, cy = x + 30 * sw, y + 10
-        P.shape([(x, y - 16), (cx - 20, cy + 24), (cx + 20, cy + 24)], 0.9, "bell")
-        P.ellipse(cx, cy + 24, 20, 5, 0.1, "bell")
-    elif era == "2009":
-        P.circle(x, y, 26, 0.35, "bell")
-        P.rect(x - 6, y + 22, x + 6, y + 40, 0.1, "iron")
-        hx = x + (8 if h is not None and int(h * 40) % 2 else 0)
-        P.circle(hx + 20, y + 22, 6, 0.1, "iron")
-    else:
-        P.rect(x - 22, y - 18, x + 22, y + 18, 0.4, "bell")
-        for k in range(4):
-            P.line([(x - 14, y - 10 + k * 7), (x + 14, y - 10 + k * 7)], "iron", 1.4)
-        if h is not None:
-            P.ink.d.ellipse([x + 26, y - 22, x + 34, y - 14], fill=(240, 120, 60))
-    if h is not None:
-        for k in range(3):
-            a = -0.6 + k * 0.6
-            P.line([(x + 36 * math.cos(a - 1.57) * 1.5, y + 20 + 36 * math.sin(a - 1.57)),
-                    (x + 50 * math.cos(a - 1.57) * 1.5, y + 20 + 50 * math.sin(a - 1.57))], "iron", 2)
-
-
-def bench_draw(P, era):
-    x0, x1 = 360, 600
-    if era == "1959":
-        P.rect(x0 + 10, SEAT - 66, x1 - 10, SEAT - 52, 0.9, "bench")
-        P.rect(x0, SEAT - 6, x1, SEAT + 6, 0.9, "bench")
-        for px in (x0 + 18, x1 - 18):
-            P.shape([(px - 6, SEAT - 66), (px + 6, SEAT - 66), (px + 10, FLOOR), (px - 10, FLOOR)], 0.1, "iron")
-    elif era == "2009":
-        P.rect(x0, SEAT - 8, x1, SEAT + 6, 0.5, "bench")
-        for px, d in ((x0 + 22, -14), (x1 - 22, 14)):
-            P.shape([(px - 3, SEAT + 6), (px + 3, SEAT + 6), (px + d + 2, FLOOR), (px + d - 2, FLOOR)], 0.1, "iron", outline=False)
-        P.rect(x0 + 10, SEAT - 62, x1 - 10, SEAT - 44, 0.5, "bench")
-    else:
-        P.rect(x0, SEAT - 6, x1, SEAT + 6, 0.5, "bench")
-        P.shape([(x0 + 10, SEAT - 62), (x1 - 60, SEAT - 58), (x1 - 60, SEAT - 46), (x0 + 10, SEAT - 50)], 0.5, "bench")  # one slat left
-        for px in (x0 + 18, x1 - 18):
-            P.rect(px - 5, SEAT + 6, px + 5, FLOOR, 0.2, "iron")
-
-
-
-# ------------------------------------------------------------ the score ---
-
-def visitor_state(tau):
-    """Position, seating blend, walk phase, facing, hand target, props for era-time tau."""
-    st = dict(x=-80, sit=0.0, phase=0.0, facing=1, hand=None, env="hand", env_open=0.0, key="env", tip=0.0, visible=True)
-    if tau < 0.6:
-        st["visible"] = False
-        return st
-    if tau < 3.6:
-        f = ramp(tau, 0.6, 3.6)
-        st["x"] = lerp(-60, 452, f)
-        st["phase"] = st["x"] / 64
-        return st
-    st["x"] = 452
-    if tau < 10.8:
-        st["sit"] = ease(tau, 3.6, 4.0)
-        lap = (st["x"] + 28, SEAT - 8)
-        st["hand"] = lap
-        st["env"] = "lap"
-        if 5.6 <= tau < 7.2:
-            st["hand"] = lerp2(lap, (st["x"] + 30, SEAT - 40), ease(tau, 5.6, 5.9))
-            st["env"] = "hand"
-            st["env_open"] = ease(tau, 5.9, 6.5)
-            if tau >= 6.6:
-                st["key"] = "hand"
-        elif 7.2 <= tau < 7.8:
-            st["hand"] = lerp2((st["x"] + 30, SEAT - 40), (KEY_SPOT[0], KEY_SPOT[1] - 6), ease(tau, 7.2, 7.7))
-            st["env"], st["env_open"], st["key"] = "lap", 1.0, "hand"
-        elif tau >= 7.8:
-            st["hand"] = lerp2((KEY_SPOT[0], KEY_SPOT[1] - 6), lap, ease(tau, 7.8, 8.2))
-            st["env"], st["env_open"], st["key"] = "lap", 1.0, "bench"
-            if TIP[0] <= tau < TIP[1]:
-                u = math.sin(math.pi * ramp(tau, TIP[0], TIP[1]))
-                st["tip"] = u
-                st["hand"] = lerp2(lap, (st["x"] + 8, SEAT - 100), min(1, u * 1.6))
-        return st
-    st["env"], st["env_open"], st["key"] = "hand", 1.0, "bench"
-    if tau < 11.2:
-        st["sit"] = 1 - ease(tau, 10.8, 11.2)
-        return st
-    st["facing"] = -1
-    f = ramp(tau, 11.2, 14.2)
-    st["x"] = lerp(452, -90, f)
-    st["phase"] = -st["x"] / 64
-    if st["x"] < -70:
-        st["visible"] = False
-    return st
-
-
-def goose_state(tau, era):
-    st = dict(x=1020, facing=-1, phase=0.0, neck=0.0, sit=0.0, hop=0.0, visible=tau >= 5.8, inside=False)
-    if tau < 8.2:
-        f = ramp(tau, 5.8, 8.2)
-        st["x"] = lerp(1020, 628, f)
-        st["phase"] = st["x"] / 40
-        return st
-    st["x"] = 628
-    if tau < 10.2:
-        # reach, then two taps on the key
-        st["neck"] = ease(tau, 8.4, 8.9) * (1 - ease(tau, 9.7, 10.2))
-        for tp in TAPS:
-            if tp - 0.12 <= tau < tp + 0.12:
-                st["neck"] = 1.08
-        return st
-    if era == "1959":
-        st["sit"] = ease(tau, 11.0, 11.6)
-    elif era == "2009":
-        u = ramp(tau, 11.4, 12.0)
-        st["hop"] = math.sin(math.pi * u) * 30 + 52 * smooth(u)
-        st["x"] = lerp(628, 566, smooth(u))
-        st["sit"] = ease(tau, 12.1, 12.6)
-    else:
-        st["facing"] = 1 if tau > 10.9 else -1
-        f = ramp(tau, 11.0, 12.7)
-        st["x"] = lerp(628, 846, f)
-        st["phase"] = st["x"] / 40
-        if tau > 12.95:
-            st["inside"] = True
-    return st
-
-
-def pod_state(tau):
-    door = ease(tau, 11.8, 12.4) * (1 - ease(tau, 13.0, 13.5))
-    slide = ease(tau, 13.6, 15.0) ** 1.5 * 340
-    return door, slide
-
-
-# --------------------------------------------------------------- scenes ---
-
-def key_draw(P, x, y, s=1.0):
-    P.circle(x - 10 * s, y, 6 * s, 0.85, "key")
-    P.rect(x - 4 * s, y - 2 * s, x + 16 * s, y + 2 * s, 0.85, "key")
-    P.rect(x + 10 * s, y + 2 * s, x + 13 * s, y + 6 * s, 0.85, "key", outline=False)
-
-
-def envelope_draw(P, x, y, opened):
-    P.rect(x - 18, y - 11, x + 18, y + 11, 0.95, "env")
-    tip = lerp(y + 2, y - 22, opened)
-    P.shape([(x - 18, y - 11), (x + 18, y - 11), (x, tip)], 0.85 if opened > 0.5 else 0.95, "env")
-    if opened < 0.5:
-        P.circle(x, y - 1, 3.5, 0.15, "seal")
-
-
-def visitor(P, era, tau):
-    st = visitor_state(tau)
-    if not st["visible"]:
+def picture(t, ink):
+    k = int(round(t * FPS))
+    v0, _ = which(k)
+    ink._grain = v0 == "D"   # r2: the 1959 silver print carries its own grain; kit grain only on the paper theatre
+    if k < 48:
+        card_frame(ink, t, "A MORNING STROLL", "after Grant Orchard (2011)", 0.15, 2.0)
         return
-    x, s, f = st["x"], st["sit"], st["facing"]
-    # standing frame
-    hip_s = (x, FLOOR - 64)
-    hip_t = (x, SEAT - 6)
-    hip = lerp2(hip_s, hip_t, s)
-    sh = (hip[0] + 4 * f * s, hip[1] - 52)
-    head = (sh[0] + 3 * f, sh[1] - 20)
-    # legs
-    if s > 0.5:
-        for dx in (0, -5):
-            P.line([hip, (x + 34 + dx, SEAT - 4), (x + 36 + dx, FLOOR)], "trouser", 5, 0.05)
-            P.line([(x + 36 + dx, FLOOR), (x + 46 + dx, FLOOR)], "trouser", 5, 0.05)
-    else:
-        for sgn in (1, -1):
-            a = math.sin(2 * math.pi * st["phase"]) * 0.42 * sgn if st["phase"] else 0.06 * sgn
-            knee = (hip[0] + math.sin(a) * 32 * f, hip[1] + 32)
-            foot = (knee[0] + math.sin(a - 0.12) * 32 * f, FLOOR)
-            P.line([hip, knee, foot], "trouser", 5, 0.05)
-            P.line([foot, (foot[0] + 10 * f, FLOOR)], "trouser", 5, 0.05)
-    # coat (era cut)
-    hem = {"1959": 34, "2009": 10, "2059": 22}[era]
-    flare = {"1959": 14, "2009": 4, "2059": 8}[era]
-    P.shape([(sh[0] - 13, sh[1]), (sh[0] + 13, sh[1]), (hip[0] + 14 + flare * f + s * 20 * f, hip[1] + hem * (1 - s * 0.6)),
-             (hip[0] - 14 - flare * 0.4, hip[1] + hem * (1 - s * 0.6))], {"1959": 0.9, "2009": 0.5, "2059": 0.5}[era], "coat")
-    # arm and hand
-    hand = st["hand"]
-    if hand is None:
-        a = math.sin(2 * math.pi * st["phase"]) * 0.4
-        hand = (sh[0] + math.sin(a) * 42 * f, sh[1] + 44)
-    elbow = ((sh[0] + hand[0]) / 2 - 6 * f, (sh[1] + hand[1]) / 2 + 10)
-    # head and hat
-    P.circle(head[0], head[1], 13, 0.88, "skin")
-    lift = st["tip"] * 16
-    tilt = st["tip"] * 0.35
-    hx, hy = head[0] + st["tip"] * 4, head[1] - 9 - lift
-    if era == "1959":   # trilby
-        P.shape([(hx - 20, hy + 3), (hx + 20, hy + 1), (hx + 12, hy - 2), (hx + 10, hy - 14), (hx - 10, hy - 14), (hx - 12, hy - 2)], 0.1, "hat")
-    elif era == "2009":  # cap, peak forward
-        P.shape([(hx - 13, hy + 2), (hx + 13, hy + 2), (hx + 10, hy - 10), (hx - 10, hy - 10)], 0.4, "hat")
-        P.shape([(hx + 6 * f, hy - 1), (hx + 28 * f, hy + 2), (hx + 26 * f, hy + 5), (hx + 6 * f, hy + 4)], 0.4, "hat")
-    else:  # wide brim against the low sun
-        P.shape([(hx - 26, hy + 4), (hx + 26, hy + 2), (hx + 24, hy - 1), (hx - 24, hy + 1)], 0.2, "hat")
-        P.shape([(hx - 11, hy + 1), (hx + 11, hy + 1), (hx + 9, hy - 13), (hx - 9, hy - 13)], 0.2, "hat")
-    P.line([(sh[0], sh[1] + 4), elbow, hand], "coat", 4.5, 0.9 if era == "1959" else 0.1)
-    P.circle(hand[0], hand[1], 4.5, 0.88, "skin")
-    # props
-    if st["env"] == "hand":
-        envelope_draw(P, hand[0] + 6 * f, hand[1] + 2, st["env_open"])
-    elif st["env"] == "lap":
-        envelope_draw(P, x + 20, SEAT - 14, st["env_open"])
-    if st["key"] == "hand":
-        key_draw(P, hand[0] + 4, hand[1] - 16 if tau < 7.2 else hand[1] - 4)
-    elif st["key"] == "env" and st["env"] == "hand" and st["env_open"] > 0.6:
-        pass
-
-
-def goose(P, era, tau, alpha_inside=False):
-    st = goose_state(tau, era)
-    if not st["visible"] or st["inside"]:
+    if k >= 1584:
+        card_frame(ink, t, "", None, 66.0, 68.2)
+        al = max(0.0, min(1.0, (t - 66.0) / 0.25, (68.2 - t) / 0.35))
+        lines = [("Foraged: Library of Congress (Rizzuto 1959, Highsmith 2019, 1870s stereograph, Bubley 1943),", 17, 205),
+                 ("Wikimedia Commons, Prelinger Archives via movingimagearchive.com.", 17, 205),
+                 ("Sliding door photograph: Plennert, CC BY-SA 4.0. This film is CC BY-SA 4.0.", 17, 205),
+                 ("Handmade: the cuts and joints, shadows, chain, sensor strip, chips, silhouette cards.", 15, 150)]
+        for i, (tx, sz, g) in enumerate(lines):
+            ink.text((W / 2, H / 2 - 48 + 30 * i), tx, "sans", sz, (g, g, g), anchor="mm", alpha=int(255 * al))
         return
-    x, f = st["x"], st["facing"]
-    base = FLOOR - st["hop"]
-    body_y = base - 30 + st["sit"] * 12
-    if st["sit"] < 0.8:
-        for sgn in (1, -1):
-            a = math.sin(2 * math.pi * st["phase"]) * 0.4 * sgn if st["phase"] else 0
-            P.line([(x, body_y + 14), (x + math.sin(a) * 12, base)], "beak", 3, 0.5)
-            P.line([(x + math.sin(a) * 12, base), (x + math.sin(a) * 12 + 8 * f, base)], "beak", 3, 0.5)
-    P.ellipse(x, body_y, 30, 17, 0.9, "goose", ang=0.12 * f)
-    P.shape([(x - 26 * f, body_y - 4), (x - 44 * f, body_y - 14), (x - 30 * f, body_y + 4)], 0.9, "goose")
-    P.line([(x - 18 * f, body_y - 2), (x + 10 * f, body_y - 6), (x + 16 * f, body_y + 2)], "goose", 1.5, 0.2)
-    # neck: rest pose -> reach to the key
-    n = st["neck"]
-    rest = (x + 26 * f, body_y - 44)
-    target = (KEY_SPOT[0] + 18, KEY_SPOT[1] - 10)
-    hd = lerp2(rest, target, min(1, n)) if n <= 1 else (target[0] - 2, target[1] + 5)
-    mid = ((x + 22 * f + hd[0]) / 2, min(body_y - 30, hd[1] - 8))
-    P.line([(x + 20 * f, body_y - 8), mid, hd], "goose", 9, 0.95)
-    P.circle(hd[0], hd[1], 8, 0.9, "goose")
-    bf = -1 if n > 0.5 else f
-    P.shape([(hd[0] + 6 * bf, hd[1] - 3), (hd[0] + 20 * bf, hd[1] + 2), (hd[0] + 6 * bf, hd[1] + 4)], 0.5, "beak")
-    P.circle(hd[0] + 2 * bf, hd[1] - 2, 1.6, 0.05, "iron", outline=False)
-
-
-def pod(P, tau):
-    door, slide = pod_state(tau)
-    ox = slide
-    x0, x1, y0, y1 = 760 + ox, 1010 + ox, 230, FLOOR - 4
-    P.shape([(x0 + 30, y0), (x1, y0), (x1, y1), (x0, y1), (x0, y0 + 40)], 0.25, "pod")
-    dxl, dxr = 820 + ox, 900 + ox
-    w = (dxr - dxl) / 2
-    P.rect(dxl - w * door * 0.9, y0 + 30, dxl + w - w * door * 0.9, y1 - 6, 0.5, "pod")
-    P.rect(dxl + w + w * door * 0.9, y0 + 30, dxr + w * door * 0.9, y1 - 6, 0.5, "pod")
-    P.line([(x0 + 20, y1 + 6), (x1, y1 + 6)], "pod", 2)
-    sensor = 0.9 if 11.6 < tau < 13.5 else 0.3
-    P.circle(dxl + w, y0 + 18, 4, sensor, "door")
-    gs = goose_state(tau, "2059")
-    if gs["inside"]:
-        # a white shape behind the glass
-        P.ellipse(860 + ox, y1 - 50, 26, 15, 0.7, "goose")
-        P.circle(884 + ox, y1 - 92, 7, 0.7, "goose")
-        P.line([(878 + ox, y1 - 58), (884 + ox, y1 - 88)], "goose", 6, 0.7)
-
-
-
-# ------------------------------------------------------------- shadows ---
-
-SUN = {  # how a caster's silhouette is thrown onto the pavement: (run per px of height, rise per px)
-    "line": (0.6, 0.12),     # high sun: a short solid black pool at the feet
-    "flat": (0.5, 0.06),
-    "grit": (1.3, 0.42),      # low sun: long hard shadows across the flagstones
-}
-
-
-def cast(ink, era, kind, tau):
-    """Draw visitor, goose and bench as a mask, then shear it onto the ground."""
-    m = Ink(tau, 0, (W, H), 0, 0, 0)
-    m.img = Image.new("L", (W, H), 0)
-    m.d = ImageDraw.Draw(m.img)
-    P = Tech(m, "mask", era)
-    bench_draw(P, era)
-    visitor(P, era, tau)
-    goose(P, era, tau)
-    run_, rise = SUN[kind]
-    # inverse map: ground point (X, Y) comes from caster point (x, y) with height F - y
-    k = 1.0 / rise
-    F = FLOOR
-    sh = m.img.transform((W, H), Image.AFFINE, (1, run_ * k, -run_ * k * F, 0, k, F - k * F), resample=Image.BILINEAR)
-    cut = Image.new("L", (W, H), 0)
-    ImageDraw.Draw(cut).rectangle([0, WALL - 10, W, CURB + 14], fill=255)
-    sh = ImageChops.multiply(sh, cut)
-    if kind == "line":
-        ink.img.paste(Image.new("RGB", (W, H), LBLACK), (0, 0), sh.point(lambda v: 255 if v > 90 else 0))
-    elif kind == "flat":
-        ink.img.paste(Image.new("RGB", (W, H), (40, 26, 70)), (0, 0), sh.point(lambda v: int(v * 0.45)))
-    else:
-        ink.img.paste(Image.new("RGB", (W, H), (12, 14, 18)), (0, 0), sh.filter(ImageFilter.GaussianBlur(1.2)).point(lambda v: int(v * 0.8)))
-    ink.d = ImageDraw.Draw(ink.img, "RGBA")
-
-
-def scene(ink, era, kind, tau, label=True):
-    ink.img.paste(backdrop_image(era, kind), (0, 0))
-    ink.d = ImageDraw.Draw(ink.img, "RGBA")
-    P = Tech(ink, kind, era)
-    cast(ink, era, kind, tau)
-    bell(P, era, tau)
-    if era == "2059":
-        pod(P, tau)
-    bench_draw(P, era)
-    if tau >= 7.75:
-        key_draw(P, *KEY_SPOT)
-    visitor(P, era, tau)
-    goose(P, era, tau)
-    finish(ink, kind, tau)
-    if label:
-        tag = {"line": "black line, solid shadow", "flat": "flat colour, graphic shade", "grit": "worn texture, low sun"}[kind]
-        txt = f"{era} · {tag}"
-        tw = ink.text_size(txt, "mono", 15)[0]
-        ink.d.rectangle([16, 12, 36 + tw, 40], fill=(LBLACK if kind == "line" else (20, 18, 30) if kind == "flat" else (30, 32, 34)) + (210,))
-        ink.label((26, 17), txt, 15, LWHITE)
-    return P
-
-
-_grit_noise = None
-
-
-def finish(ink, kind, tau):
-    global _grit_noise
-    if kind == "line":
-        # old print: lift blacks a little, flicker, heavy vignette
-        img = ink.img.convert("L")
-        fl = 1 + 0.03 * math.sin(tau * 23) + 0.02 * math.sin(tau * 61)
-        img = img.point(lambda v: int(min(255, (22 + v * 0.86) * fl)))
-        ink.img = img.convert("RGB")
-        ink.vignette(0.6)
-    elif kind == "grit":
-        if _grit_noise is None:
-            rs = np.random.RandomState(31)
-            _grit_noise = rs.normal(0, 1, (H, W)).astype(np.float32)
-        a = np.asarray(ink.img, np.float32)
-        g = a.mean(axis=2, keepdims=True)
-        a = g + (a - g) * 0.55                                      # drained colour
-        a = a * np.array([0.94, 1.0, 1.04], np.float32) + _grit_noise[..., None] * 4
-        ink.img = Image.fromarray(a.clip(0, 255).astype(np.uint8))
-        ink.vignette(0.35)
-    ink.d = ImageDraw.Draw(ink.img, "RGBA")
-
-
-@film.picture
-def frame(t, ink):
-    if t < TITLE_END:
-        ink.fill(LWHITE)
-        ink.text((W / 2, 220), "A Morning Stroll", "sans", 60, LBLACK, anchor="mm")
-        ink.label((W / 2, 282), "station variation · three eras · one gesture, one bell", 15, (70, 70, 70), anchor="mm")
-        ink.label((W / 2, 308), "1959 black line  ·  2009 flat colour  ·  2059 worn and textured", 13, (140, 40, 40), anchor="mm")
-        ink.vignette(0.6)
+    v, fl = which(k)
+    if v is None:
+        lab = {48: ("1959", None), 432: ("2009", "plate photographed 2019, standing in"), 816: ("2059", "plate photographed 2022; staged"),
+               1200: ("1959", "diagnostic: silhouette")}
+        f0 = max(x for x in lab if x <= k)
+        big, small = lab[f0]
+        card_frame(ink, t, big, small, f0 / FPS, f0 / FPS + 1.0)
         return
-    for era, kind, start in ERAS:
-        if start <= t < start + ERA_LEN:
-            tau = t - start
-            ink._grain = kind == "line"
-            scene(ink, era, kind, tau)
-            cue = None
-            if TIP[0] <= tau < TIP[1] + 0.3:
-                cue = "GESTURE · hat tip"
-            if BELL[0] <= tau < BELL[-1] + 0.4:
-                cue = "CUE · three-stroke bell"
-            if cue:
-                tw = ink.text_size(cue, "mono", 15)[0]
-                ink.d.rectangle([W - 40 - tw, 12, W - 16, 40], fill=(150, 30, 40, 230))
-                ink.label((W - 28, 17), cue, 15, LWHITE, anchor="ra")
-            fade = min(1, tau / 0.3, (ERA_LEN - tau) / 0.3)
-            if fade < 1:
-                ink.d.rectangle([0, 0, W, H], fill=(0, 0, 0, int(255 * (1 - fade))))
-            return
-    lt = t - DIAG[0]
-    tau = DIAG_FROM + lt
-    ink._grain = False
-    ink.fill((30, 30, 32))
-    ink.text((W / 2, 40), "Diagnostic · the 1959 era in two techniques, same timing", "sans", 26, LWHITE, anchor="mm")
-    for k, kind in enumerate(("line", "flat")):
-        img = sub_frame(lambda tt, sub: scene(sub, "1959", kind, tau, label=False), tau, int(t * FPS), boil=2, wobble=0.8, seed=5)
-        img = img.resize((456, 256), Image.LANCZOS)
-        x = 16 + k * 472
-        ink.paste(img, (x, 120))
-        ink.label((x, 386), f"era 1959 · technique: {'black line' if k == 0 else 'flat colour'}", 13, (200, 200, 200))
-    ink.label((W / 2, 420), f"era-time {tau:4.1f} s", 14, (220, 180, 90), anchor="mm")
-    ink.text((W / 2, 480), "Props and bell timbre come from the era; line, fill and shadow come from the technique.", "sans", 18, LWHITE, anchor="mm")
-    if lt < 0.3:
-        ink.d.rectangle([0, 0, W, H], fill=(0, 0, 0, int(255 * (1 - lt / 0.3))))
+    out, _ = version_frame(v, fl)
+    ink.paste(Image.fromarray(np.clip(out, 0, 255).astype(np.uint8), "RGB"))
 
 
-# ----------------------------------------------------------------- sound ---
-
-PITCH = (659.3, 523.3, 392.0)
-
-
-def era_bell(mix, era, at, gain=1.0, pan=0.0):
-    for b, f in zip(BELL, PITCH):
-        if era == "1959":
-            mix.bell(at + b, f, 2.6, 0.32 * gain, pan)
-        elif era == "2009":
-            mix.ring(at + b, 0.3, 0.16 * gain, pan, freq=f * 2)
-        else:
-            tt = mix.t(1.6)
-            sig = (np.sin(2 * np.pi * f * tt) + 0.3 * np.sin(2 * np.pi * f * 2.001 * tt)) * np.exp(-tt * 2.2)
-            sig *= np.minimum(1, tt / 0.02)
-            mix.add(sig, at + b, 0.28 * gain, pan)
+# =============================================================================================== sound (sound unit stems)
+def load_st(p):
+    with wave.open(str(p)) as w:
+        x = np.frombuffer(w.readframes(w.getnframes()), np.int16).astype(np.float64) / 32768
+        return x.reshape(-1, 2) if w.getnchannels() == 2 else np.stack([x, x], 1)
 
 
-def era_sound(mix, era, at, gain=1.0):
-    if era == "1959":
-        mix.room(at, ERA_LEN, gain=0.018 * gain, hum=0.5)
-        for k in range(3):
-            x = mix.band(mix.noise(1.2), 2000, 8000) * np.hanning(int(1.2 * mix.rate))
-            mix.add(x, at + 1.2 + k * 4.4, 0.04 * gain, 0.7)
-        surface = "wood"
-    elif era == "2009":
-        mix.room(at, ERA_LEN, gain=0.022 * gain, hum=60)
-        surface = "stone"
-    else:
-        mix.drone(at, ERA_LEN, (110, 165, 220), gain=0.03 * gain)
-        surface = "water"
-    if era == "2059":
-        for k in range(int(3.0 / 0.46)):
-            mix.click(at + 0.7 + k * 0.46, 0.08 * gain, -0.6, 1200)
-        for k in range(int(3.0 / 0.46)):
-            mix.click(at + 11.3 + k * 0.46, 0.07 * gain, -0.6, 1200)
-    else:
-        mix.steps(at + 0.7, at + 3.6, 0.46, 0.17 * gain, surface, -0.7, -0.1)
-        mix.steps(at + 11.3, at + 14.2, 0.46, 0.15 * gain, surface, -0.1, -0.8)
-    era_bell(mix, era, at, gain)
-    # paper, key on wood, goose honk, the two taps (matched in every era)
-    mix.add(mix.band(mix.noise(0.5), 1500, 7000) * np.exp(-np.linspace(0, 4, int(0.5 * mix.rate))), at + 5.9, 0.08 * gain)
-    mix.click(at + 7.72, 0.25 * gain, 0.1, 3000)
-    tt = mix.t(0.3)
-    honk = sum(np.sin(2 * np.pi * 310 * k * tt) / k for k in range(1, 8)) * np.sin(np.pi * tt / 0.3)
-    mix.add(mix.band(honk, 400, 2400) * 0.5, at + 6.1, 0.2 * gain, 0.6)
-    for tp in TAPS:
-        mix.click(at + tp, 0.28 * gain, 0.2, 2200, 0.02)
-        mix.thud(at + tp, 260, 0.08 * gain, 0.2, 0.08)
-    if era == "2009":
-        mix.whoosh(at + 11.5, 0.4, 0.06 * gain, 0.3)
-        mix.step(at + 12.0, 0.12 * gain, 0.3, "wood")
-    if era == "2059":
-        mix.whoosh(at + 11.8, 0.6, 0.08 * gain, 0.7)
-        mix.whoosh(at + 13.0, 0.5, 0.06 * gain, 0.7)
-        tt = mix.t(1.8)
-        hum = np.sin(2 * np.pi * (80 + 120 * tt) * tt) * np.minimum(1, tt) * np.exp(-tt * 0.8)
-        mix.add(hum, at + 13.4, 0.12 * gain, 0.8)
+STEMS = SRC / "sound" / "stems"
 
 
-@film.sound
+def add_st(mix, st, at, gain=1.0):
+    mix.add(st[:, 0], at, gain / 1.414, pan=-1.0)
+    mix.add(st[:, 1], at, gain / 1.414, pan=1.0)
+
+
+def faded(st, a, b, fin=0.3, fout=0.4, rate=44100):
+    seg = st[int(a * rate):int(b * rate)].copy()
+    n = len(seg)
+    w = np.ones(n)
+    w[:int(fin * rate)] = np.linspace(0, 1, int(fin * rate))
+    w[n - int(fout * rate):] = np.linspace(1, 0, int(fout * rate))
+    return seg * w[:, None]
+
+
 def sound(mix):
-    mix.note(0.3, 392, 1.2, 0.08)
-    for era, kind, start in ERAS:
-        era_sound(mix, era, start)
-    # diagnostic: the 1909 track, same timing, cut to the shown window
-    sub = Mix(ERA_LEN, seed=9)
-    era_sound(sub, "1959", 0.0)
-    a = int(DIAG_FROM * mix.rate)
-    n = int((DIAG[1] - DIAG[0]) * mix.rate)
-    i = int(DIAG[0] * mix.rate)
-    seg_l, seg_r = sub.L[a:a + n], sub.R[a:a + n]
-    env = np.minimum(1, np.arange(len(seg_l)) / (0.2 * mix.rate))
-    mix.L[i:i + len(seg_l)] += seg_l * env * 0.8
-    mix.R[i:i + len(seg_r)] += seg_r * env * 0.8
-    mix.reverb(0.14)
+    v = {n: load_st(STEMS / f"{n}.wav") for n in ("v1", "v2", "v3")}
+    add_st(mix, load_st(STEMS / "title_tail.wav"), 0.0, 0.9)
+    add_st(mix, faded(v["v1"], 13.9, 15.0, 0.35, 0.15), 1.95, 0.8)    # card 1959: the 1959 bed leads in
+    add_st(mix, v["v1"], 3.0)
+    add_st(mix, faded(v["v2"], 13.9, 15.0, 0.3, 0.1), 18.0, 0.8)
+    add_st(mix, v["v2"], 19.0)
+    add_st(mix, faded(v["v3"], 13.9, 15.0, 0.3, 0.1), 34.0, 0.8)
+    add_st(mix, v["v3"], 35.0)
+    add_st(mix, faded(v["v1"], 13.9, 15.0, 0.3, 0.1), 50.0, 0.6)
+    add_st(mix, v["v1"], 51.0)                                       # D reuses the identical 1959 stem
+    add_st(mix, faded(v["v1"], 12.5, 14.5, 0.1, 1.6), 66.0, 0.6)
 
+
+# =============================================================================================== ledger, checks, compare
+REFS = OUL / "assets" / "references"
+
+
+def stats(a):
+    a = np.asarray(a, np.float32)
+    L = 0.299 * a[..., 0] + 0.587 * a[..., 1] + 0.114 * a[..., 2]
+    hsv = cv2.cvtColor(np.clip(a, 0, 255).astype(np.uint8), cv2.COLOR_RGB2HSV)
+    h, w = L.shape
+    cs = max(1, int(min(h, w) * 0.12))
+    corners = np.mean([L[:cs, :cs].mean(), L[:cs, -cs:].mean(), L[-cs:, :cs].mean(), L[-cs:, -cs:].mean()])
+    centre = L[h // 3: 2 * h // 3, w // 3: 2 * w // 3].mean()
+    q = Image.fromarray(np.clip(a, 0, 255).astype(np.uint8)).quantize(6, method=Image.Quantize.MEDIANCUT)
+    pal = q.getpalette()[:18]
+    cnt = sorted(q.getcolors(), reverse=True)
+    palette = ["#%02x%02x%02x" % tuple(pal[3 * i:3 * i + 3]) for _, i in cnt]
+    dark = (L < 40).astype(np.uint8)
+    n, lab, st, _ = cv2.connectedComponentsWithStats(dark, connectivity=8)
+    big = float(st[1:, cv2.CC_STAT_AREA].max() / L.size) if n > 1 else 0.0
+    return {"lt40": round(float((L < 40).mean() * 100), 1), "gt200": round(float((L > 200).mean() * 100), 1),
+            "median": round(float(np.median(L)), 1), "p5_p95": [int(np.percentile(L, 5)), int(np.percentile(L, 95))],
+            "corner_centre": round(float(corners / max(centre, 1e-6)), 2),
+            "R_minus_B": round(float((a[..., 0] - a[..., 2]).mean()), 1),
+            "abs_R_minus_B": round(float(np.abs(a[..., 0] - a[..., 2]).mean()), 1),
+            "sat": round(float(hsv[..., 1].mean() / 255), 3), "largest_black_mass": round(big * 100, 1), "palette": palette}
+
+
+def compare_sheet(frame_img, ref_name, title, fs, rs, out_path):
+    from PIL import ImageDraw
+    ref = Image.open(REFS / ref_name).convert("RGB")
+    ref = ref.resize((960, int(960 * ref.size[1] / ref.size[0])))
+    sheet = Image.new("RGB", (1940, 760), (20, 20, 20))
+    sheet.paste(frame_img, (10, 50))
+    sheet.paste(ref.crop((0, 0, 960, min(540, ref.size[1]))), (970, 50))
+    d = ImageDraw.Draw(sheet)
+    f1 = kit.font("sans", 22)
+    f2 = kit.font("mono", 14)
+    d.text((10, 14), title, fill=(235, 235, 235), font=f1)
+    d.text((970, 14), f"reference: {ref_name} (compared only; never copied)", fill=(235, 235, 235), font=f1)
+    for x0, s in ((10, fs), (970, rs)):
+        y = 600
+        for i, c in enumerate(s["palette"]):
+            d.rectangle([x0 + i * 82, y, x0 + i * 82 + 74, y + 34], fill=c, outline=(90, 90, 90))
+            d.text((x0 + i * 82, y + 38), c, fill=(200, 200, 200), font=f2)
+        d.text((x0, y + 66), f"<40 {s['lt40']}%  >200 {s['gt200']}%  median {s['median']}  p5/p95 {s['p5_p95']}  "
+               f"corner/centre {s['corner_centre']}", fill=(220, 220, 220), font=f2)
+        d.text((x0, y + 86), f"mean R-B {s['R_minus_B']}  |R-B| {s['abs_R_minus_B']}  sat {s['sat']}  "
+               f"largest <40 mass {s['largest_black_mass']}%", fill=(220, 220, 220), font=f2)
+    sheet.save(out_path, quality=88)
+
+
+def report(film):
+    led = {"film": "a-morning-stroll", "revision": "score-r1 / plan-r1", "fps": FPS, "seconds": SECONDS,
+           "versions": {}, "assertions": {}}
+    gl = lambda v, f: int(round(OFFS[v] * FPS)) + f  # noqa: E731
+    for v in ("V1", "V2", "V3", "D"):
+        bv = BEAT["versions"][v]
+        man = {"era": bv["era"], "genre_tone": bv["genre_tone"], "render_technique": bv["render_technique"],
+               "door_mechanism": bv["door_mechanism"], "plate": bv["plate"], "offset_s": OFFS[v],
+               "events": {e: dict(bv["events"][e]) for e in bv["events"]}, "shots": bv["shots"], "checks": {}}
+        if v == "V3":
+            man["counterexample"] = bv["counterexample"]
+            man["door_fsm_events"] = FSM_EVENTS
+        for name, fl in (("E3", E3L), ("E4", E4L)):
+            out, info = version_frame(v, fl)
+            assert gl(v, fl) == bv["events"][name]["global_frame"], (v, name)
+            assert info["beak_in_leaf"], f"{v} {name}: beak tip not inside the door-leaf mask {info}"
+            man["checks"][name] = {"global_frame": gl(v, fl), "global_s": round(gl(v, fl) / FPS, 3),
+                                   "beak_in_leaf_mask": info["beak_in_leaf"], "beak_stage_px": info.get("beak_stage"),
+                                   "label": "measured"}
+        assert gl(v, E4L) - gl(v, E3L) == 8
+        out, info = version_frame(v, E6END)
+        assert info["bird_px_visible"] == 0, f"{v}: bird visible past the jamb at E6 end: {info}"
+        seq = []
+        for fl in range(204, 241, 4):
+            seq.append(version_frame(v, fl)[1]["bird_px_visible"])
+        man["checks"]["E6_end"] = {"global_frame": gl(v, E6END), "bird_px_visible": 0,
+                                   "visible_px_f204_to_f240_step4": seq, "label": "measured on the composite"}
+        man["checks"]["strike_poses_E3_window"] = {
+            "keys_f138_f156": [(TRACK09B[f - 120]["key"] if v == "V2" else TRACK20B[f - 120]["key"] if v == "V3"
+                                else KP.TRACK[f - 120].get("key")) for f in range(138, 157)],
+            "label": "pose keys per frame (>=3 distinct joint configurations within 1 s of E3)"}
+        if v == "V1":
+            man["checks"]["V1A_bird_px_behind_iron_f0_f119_step8"] = [
+                {"f": f, **{k_: version_frame("V1", f)[1].get(k_) for k_ in ("bird_px_total", "bird_px_behind_iron", "bird_height_frac")}}
+                for f in range(0, 120, 8)]
+        if v in ("V1", "V2", "V3"):
+            fa = 60
+            man["checks"]["shot_A_f60"] = version_frame(v, fa)[1]
+        if v == "V3":
+            ox = BEAT["versions"]["V3"]["counterexample"]["local_frame"]
+            o, ix = version_frame("V3", ox)
+            o2, ix2 = version_frame("V3", ox + 3)
+            man["checks"]["X1"] = {"peck_frame": ix, "plus3": ix2, "door_slide_at_X1": ix["slide"],
+                                   "label": "measured: one dot, refused, door shut"}
+            man["checks"]["V3A_watcher_shadow_height_frac_f96"] = version_frame("V3", 96)[1]["watcher_shadow_height_frac"]
+        led["versions"][v] = man
+    for e in ("E1", "E2", "E3", "E4", "E5", "E6", "E7"):
+        loc = [led["versions"][v]["events"][e]["global_frame"] for v in ("V1", "V2", "V3", "D")]
+        loc0 = [x - int(round(OFFS[v] * FPS)) if isinstance(x, int) else [y - int(round(OFFS[v] * FPS)) for y in x]
+                for x, v in zip(loc, ("V1", "V2", "V3", "D"))]
+        assert all(l == loc0[0] for l in loc0), e
+    led["assertions"] = {"E3_E4_global_frames": {v: [gl(v, E3L), gl(v, E4L)] for v in OFFS},
+                         "E3_E4_global_s": {v: [round(gl(v, E3L) / FPS, 3), round(gl(v, E4L) / FPS, 3)] for v in OFFS},
+                         "all_versions_share_local_event_frames": True, "beak_in_leaf_on_E3_E4": True,
+                         "zero_bird_px_past_jamb_at_E6_end": True}
+    comps = {}
+    for v, ts, ref, name in (("V1", 9.0, "orchard3.webp", "compare-1959.jpg"), ("V2", 25.0, "orchardAK08.webp", "compare-2009.jpg"),
+                             ("V3", 41.0, "orchardAK17.webp", "compare-2059.jpg")):
+        fimg = film.frame(int(round(ts * FPS)))
+        fs = stats(np.asarray(fimg))
+        rs = stats(np.asarray(Image.open(REFS / ref).convert("RGB")))
+        compare_sheet(fimg, ref, f"film {ts:.1f} s ({v})", fs, rs, SW / name)
+        comps[name] = {"film_frame_s": ts, "film": fs, "reference": ref, "reference_stats": rs}
+    for v, ts in (("V3A", 39.0), ("V1A", 5.5), ("V2A", 22.0)):
+        comps[f"extra_{v}_{ts}"] = stats(np.asarray(film.frame(int(round(ts * FPS)))))
+    led["compare"] = comps
+    json.dump(led, open(SW / "ledger.json", "w"), indent=1, default=lambda o: o if not isinstance(o, np.generic) else o.item())
+    print(json.dumps(led["assertions"], indent=1))
+    for k, c in comps.items():
+        print(k, c.get("film", c))
+    return led
+
+
+film = kit.Film("a-morning-stroll", seconds=SECONDS, boil=0)
+film.picture(picture)
+film.sound(sound)
+film.poster_at = 9.0
 
 if __name__ == "__main__":
-    run(film)
+    if "--report" in sys.argv:
+        report(film)
+    else:
+        film.render()

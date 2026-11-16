@@ -24,7 +24,10 @@ for y in range(H):
 # 4. bench front (x >= 322, rows 435..): tile vertically from the visible bench below the figure
 rng = np.random.default_rng(4)
 # per-row tone of the flat wall/floor just left of the figure (x 228..238, the first clean column band), smoothed down the rows
-ROWV = np.array([np.median(g[y, 186:207][~m[y, 186:207]]) if (~m[y, 186:207]).any() else np.nan for y in range(H)])
+def _rowv(y):
+    a, b = (186, 207) if y <= 562 else (150, 240)          # wall: the pilaster foot; floor: the open floor left of the figure
+    v = g[y, a:b][~m[y, a:b]]; return np.median(v) if len(v) else np.nan
+ROWV = np.array([_rowv(y) for y in range(H)])
 ok = ~np.isnan(ROWV); ROWV = np.interp(np.arange(H), np.nonzero(ok)[0], ROWV[ok]); ROWV = cv2.GaussianBlur(ROWV.reshape(-1, 1).astype(np.float32), (0, 0), 3).ravel()
 pt = g[760:820, 110:170]; GR = pt - cv2.GaussianBlur(pt, (0, 0), 2.0)      # the negative's own grain (flat floor patch)
 for y in range(435, H):
@@ -42,7 +45,7 @@ rest = m & ~filled
 if rest.any():
     out = cv2.inpaint(np.clip(out, 0, 255).astype(np.uint8), rest.astype(np.uint8), 3, cv2.INPAINT_TELEA).astype(np.float32)
 # feather the seam
-fm = cv2.GaussianBlur(m.astype(np.float32), (0, 0), 1.2)
+fm = np.clip(cv2.GaussianBlur(m.astype(np.float32), (0, 0), 4.0) * 1.6, 0, 1)
 fin = g * (1 - fm) + out * fm
 Image.fromarray(np.dstack([np.clip(fin, 0, 255)] * 3 + [al]).astype(np.uint8), 'RGBA').save(OUT + '/door_clean.png')
 v = np.hstack([g, fin])[140:700, 100:840]

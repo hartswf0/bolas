@@ -1,0 +1,398 @@
+{
+ "unit": "U1 story-plates",
+ "plan": "plan-r1",
+ "score": "score-r1",
+ "beatmap": "/home/user/bolas/paeleo/scion/oulipo/films/swarm/a-morning-stroll/beatmap.json",
+ "build_scripts": [
+  "/home/user/bolas/paeleo/scion/oulipo/films/swarm/a-morning-stroll/plates-build/common.py",
+  "/home/user/bolas/paeleo/scion/oulipo/films/swarm/a-morning-stroll/plates-build/prep_1959.py",
+  "/home/user/bolas/paeleo/scion/oulipo/films/swarm/a-morning-stroll/plates-build/prep_2009.py",
+  "/home/user/bolas/paeleo/scion/oulipo/films/swarm/a-morning-stroll/plates-build/prep_2059.py",
+  "/home/user/bolas/paeleo/scion/oulipo/films/swarm/a-morning-stroll/plates-build/handmade.py",
+  "/home/user/bolas/paeleo/scion/oulipo/films/swarm/a-morning-stroll/plates-build/contact.py"
+ ],
+ "foraged": [
+  {
+   "id": "loc-ppmsca.70651",
+   "title": "[Detail of stoop showing staircases and decorative handrails]",
+   "author": "Angelo Rizzuto, photographer (Anthony Angel Collection, Library of Congress)",
+   "license": "No known restrictions on publication (LoC rights advisory, re-read live from loc.gov item JSON on 2026-11-16)",
+   "license_url": "https://www.loc.gov/rr/print/res/730_ange.html",
+   "source_url": "https://www.loc.gov/item/2020636795/",
+   "file_url": "https://tile.loc.gov/storage-services/master/pnp/ppmsca/70600/70651u.tif",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/a-morning-stroll/test-shot/70651u_full.png (decoded master, reused from the approved test shot); item JSON plates/raw/item_2020636795.json",
+   "what_it_shows": "a granite New York stoop in hard light: wide treads, twisted iron balusters, white lace-iron railings against dark brick, the lower half of a panelled door with a black recess beside it",
+   "verified_date_or_place": "July 1959, New York (LoC record: 1959 [07/ July]); call number LOT 15144-K, no. 120",
+   "used_as": "1959 plate for V1 and D: shots A/C (treads), B (door + handrail perch) and the beak insert; iron, leaf and jamb mattes cut from it"
+  },
+  {
+   "id": "loc-highsm.56276",
+   "title": "A classic Philadelphia \"stoop,\" or short entry staircase to row houses in south Philadelphia ...",
+   "author": "Carol M. Highsmith, photographer (Carol M. Highsmith Archive, Library of Congress)",
+   "license": "No known restrictions on publication (LoC rights advisory, read from loc.gov resource JSON 2026-11-16); Highsmith gift to the public domain",
+   "license_url": "https://www.loc.gov/rr/print/res/482_high.html",
+   "source_url": "https://www.loc.gov/item/2019688760/",
+   "file_url": "https://tile.loc.gov/storage-services/master/pnp/highsm/56200/56276u.tif (region read by HTTP multi-range) and https://tile.loc.gov/storage-services/service/pnp/highsm/56200/56276v.jpg",
+   "local_path": "plates/raw/56276u_region_3x.png (master cols 7300-10100, rows 1500-7650, every 3rd row, 3x decimated) and ../r2/56276v.jpg",
+   "what_it_shows": "brick row-house facade, a pale blue panelled door with brass knob and kick plate, five white marble steps, black iron handrail; low sun with bare-tree shadows",
+   "verified_date_or_place": "photographed 2019-03-12 (LoC created_published), south Philadelphia. NOT 2009: it stands in for the 2009 era; no dated 2005-2012 Highsmith Philadelphia stoop was found in time",
+   "used_as": "2009 plate for V2: A/C from the 1024-px service JPEG, B from the master region; leaf, jambs and iron mattes"
+  },
+  {
+   "id": "commons-schiebetuer",
+   "title": "File:Automatische Schiebetüre mit Schlüsselsäule.jpg",
+   "author": "Plennert (Wikimedia Commons, own work)",
+   "license": "CC BY-SA 4.0 (Commons extmetadata LicenseShortName; AttributionRequired true)",
+   "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Automatische_Schiebet%C3%BCre_mit_Schl%C3%BCssels%C3%A4ule.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Automatische_Schiebet%C3%BCre_mit_Schl%C3%BCssels%C3%A4ule.jpg/1920px-Automatische_Schiebet%C3%BCre_mit_Schl%C3%BCssels%C3%A4ule.jpg",
+   "local_path": "plates/raw/commons/schiebetuer.jpg (1920 x 865; original 4624 x 2084 refused with HTTP 429); metadata plates/raw/commons/candidates_extmetadata.json",
+   "what_it_shows": "frontal, eye-level automatic sliding glass double door between terrazzo walls, a steel key pillar beside it, grey forecourt and mat; cold flat daylight",
+   "verified_date_or_place": "taken 28 March 2022, 10:38 (EXIF via extmetadata); place not stated",
+   "used_as": "2059 plate for V3: the listening door (leaves slide on the measured rails), the 7-dot strip mounted on its head rail"
+  }
+ ],
+ "reused_test_shot_material": "test-shot/plate/iron.png (B railing holdout) re-cut into plates/1959/holdout_B_iron.png; the beak contact point (1921,251) and hinge geometry from test-shot/plate/plate.json",
+ "handmade": [
+  {
+   "what": "1959 interior dark hall: black field, one soft slit of daylight, floor sheen, 3.8-level grain",
+   "where": "/home/user/bolas/paeleo/scion/oulipo/films/sources/a-morning-stroll/plates/1959/hall_B.png"
+  },
+  {
+   "what": "2009 interior hall (warm near-black with far glow), masked to the leaf opening",
+   "where": "/home/user/bolas/paeleo/scion/oulipo/films/sources/a-morning-stroll/plates/2009/hall.png"
+  },
+  {
+   "what": "2059 interior opening: the plate's own through-glass view with the reflection lifted (5-px min filter) and darkened",
+   "where": "/home/user/bolas/paeleo/scion/oulipo/films/sources/a-morning-stroll/plates/2059/interior_opening.png"
+  },
+  {
+   "what": "2009 door chain: 6 shaded steel oval links (torus normals, key light upper right), slack catenary and taut states, link sprites, guard plate; link centres/angles in handmade.json",
+   "where": "/home/user/bolas/paeleo/scion/oulipo/films/sources/a-morning-stroll/plates/handmade/chain_*.png"
+  },
+  {
+   "what": "2059 7-dot sensor strip: brushed-steel bar with recessed lenses, ON (cool white) and REFUSE (amber) dot sprites with bloom, state previews",
+   "where": "/home/user/bolas/paeleo/scion/oulipo/films/sources/a-morning-stroll/plates/handmade/sensor_*.png"
+  },
+  {
+   "what": "holdout mattes and pieces cut from each plate (RGBA + contour masks + failure masks) and a 960x540 lens vignette",
+   "where": "/home/user/bolas/paeleo/scion/oulipo/films/sources/a-morning-stroll/plates/<era>/holdout_*, piece_*, failure_*, vignette_960x540.png"
+  }
+ ],
+ "plates": {
+  "1959": {
+   "geometry": "/home/user/bolas/paeleo/scion/oulipo/films/sources/a-morning-stroll/plates/1959/geometry.json",
+   "contact_sheet": "/home/user/bolas/paeleo/scion/oulipo/films/sources/a-morning-stroll/plates/contact_1959.jpg",
+   "stats": {
+    "reference": {
+     "lt40": 21.1,
+     "gt200": 34.6,
+     "median": 153.0,
+     "p5_p95": [
+      7,
+      246
+     ],
+     "corner_centre": 0.25,
+     "R_minus_B": 0.0,
+     "sat": 0.0,
+     "palette": [
+      "#141414",
+      "#bfbfbf",
+      "#e6e6e6",
+      "#484848",
+      "#f4f4f4",
+      "#7c7c7c"
+     ]
+    },
+    "A": {
+     "lt40": 28.4,
+     "gt200": 52.7,
+     "median": 213.0,
+     "p5_p95": [
+      8,
+      248
+     ],
+     "corner_centre": 0.45,
+     "R_minus_B": 0.0,
+     "sat": 0.0,
+     "palette": [
+      "#f8f8f8",
+      "#090909",
+      "#b1b1b1",
+      "#ebebeb",
+      "#434343",
+      "#fbfbfb"
+     ]
+    },
+    "B": {
+     "lt40": 24.3,
+     "gt200": 39.7,
+     "median": 175.0,
+     "p5_p95": [
+      8,
+      248
+     ],
+     "corner_centre": 0.39,
+     "R_minus_B": 0.0,
+     "sat": 0.0,
+     "palette": [
+      "#0b0b0b",
+      "#cbcbcb",
+      "#f8f8f8",
+      "#989898",
+      "#ececec",
+      "#575757"
+     ]
+    }
+   }
+  },
+  "2009": {
+   "geometry": "/home/user/bolas/paeleo/scion/oulipo/films/sources/a-morning-stroll/plates/2009/geometry.json",
+   "contact_sheet": "/home/user/bolas/paeleo/scion/oulipo/films/sources/a-morning-stroll/plates/contact_2009.jpg",
+   "stats": {
+    "reference": {
+     "lt40": 44.3,
+     "gt200": 14.0,
+     "median": 53.6,
+     "p5_p95": [
+      1,
+      203
+     ],
+     "corner_centre": 1.87,
+     "R_minus_B": 7.1,
+     "sat": 0.284,
+     "palette": [
+      "#050808",
+      "#221f22",
+      "#3d3f38",
+      "#c7d2b2",
+      "#5b5341",
+      "#84867c"
+     ]
+    },
+    "A": {
+     "lt40": 13.6,
+     "gt200": 8.3,
+     "median": 120.1,
+     "p5_p95": [
+      13,
+      213
+     ],
+     "corner_centre": 0.86,
+     "R_minus_B": 42.0,
+     "sat": 0.367,
+     "palette": [
+      "#a2806a",
+      "#2f221d",
+      "#886250",
+      "#b1a590",
+      "#834034",
+      "#d6d3c2"
+     ]
+    },
+    "B": {
+     "lt40": 13.4,
+     "gt200": 18.5,
+     "median": 118.3,
+     "p5_p95": [
+      27,
+      227
+     ],
+     "corner_centre": 0.63,
+     "R_minus_B": 18.1,
+     "sat": 0.199,
+     "palette": [
+      "#2b2322",
+      "#c2c7c3",
+      "#825c49",
+      "#9e998f",
+      "#564e48",
+      "#e1ddcd"
+     ]
+    }
+   }
+  },
+  "2059": {
+   "geometry": "/home/user/bolas/paeleo/scion/oulipo/films/sources/a-morning-stroll/plates/2059/geometry.json",
+   "contact_sheet": "/home/user/bolas/paeleo/scion/oulipo/films/sources/a-morning-stroll/plates/contact_2059.jpg",
+   "stats": {
+    "reference": {
+     "lt40": 28.6,
+     "gt200": 2.3,
+     "median": 82.7,
+     "p5_p95": [
+      1,
+      182
+     ],
+     "corner_centre": 0.94,
+     "R_minus_B": 6.0,
+     "sat": 0.246,
+     "palette": [
+      "#a0a99b",
+      "#0e0b0a",
+      "#463d3a",
+      "#2f2b2f",
+      "#7e8277",
+      "#b9bfaf"
+     ]
+    },
+    "A": {
+     "lt40": 0.7,
+     "gt200": 0.0,
+     "median": 140.2,
+     "p5_p95": [
+      71,
+      174
+     ],
+     "corner_centre": 0.99,
+     "R_minus_B": -5.1,
+     "sat": 0.072,
+     "palette": [
+      "#909794",
+      "#4f5858",
+      "#9da3a0",
+      "#747c79",
+      "#828985",
+      "#a8afab"
+     ]
+    },
+    "B": {
+     "lt40": 2.0,
+     "gt200": 0.0,
+     "median": 128.5,
+     "p5_p95": [
+      65,
+      175
+     ],
+     "corner_centre": 0.76,
+     "R_minus_B": -3.5,
+     "sat": 0.084,
+     "palette": [
+      "#6e7671",
+      "#444e4c",
+      "#808883",
+      "#979e98",
+      "#8b928d",
+      "#a9afaa"
+     ]
+    }
+   }
+  }
+ },
+ "handmade_manifest": "/home/user/bolas/paeleo/scion/oulipo/films/sources/a-morning-stroll/plates/handmade/handmade.json",
+ "editor_stills": "/home/user/bolas/paeleo/scion/oulipo/films/sources/a-morning-stroll/story-plates/<era>_<A|B|C|B_insert>_<start|end>.png (960x540, 1.5 % push end frames)",
+ "test_shot_fixes": {
+  "bird_larger": "B is now 640x360 master px (was 900x506): the same 120-145 px bird reads at 33-40 % of frame height; A/C bird 220-300 master px = 19-27 %",
+  "strikes_readable": "a beak insert crop (1640,120)-(2040,345), 2.4x, with the contact point at frame (674,314): cut in for 2-4 frames on each strike or hold 5.9-6.5 s",
+  "whites_dominate": "1959 A: 52.7 % >200 vs 28.4 % <40 (the stoop's shadow side is the one black mass); B: 39.7 % >200 vs 24.3 % <40 (the recess is the one black mass). Unify curve softened so the granite keeps mid-greys",
+  "kept": "handrail perch staging in B, the real print and its grain"
+ },
+ "section7_1959_check": {
+  "A": {
+   "lt40": 28.4,
+   "gt200": 52.7,
+   "median": 213.0,
+   "p5_p95": [
+    8,
+    248
+   ],
+   "corner_centre": 0.45,
+   "R_minus_B": 0.0,
+   "sat": 0.0,
+   "palette": [
+    "#f8f8f8",
+    "#090909",
+    "#b1b1b1",
+    "#ebebeb",
+    "#434343",
+    "#fbfbfb"
+   ]
+  },
+  "B": {
+   "lt40": 24.3,
+   "gt200": 39.7,
+   "median": 175.0,
+   "p5_p95": [
+    8,
+    248
+   ],
+   "corner_centre": 0.39,
+   "R_minus_B": 0.0,
+   "sat": 0.0,
+   "palette": [
+    "#0b0b0b",
+    "#cbcbcb",
+    "#f8f8f8",
+    "#989898",
+    "#ececec",
+    "#575757"
+   ]
+  },
+  "insert": {
+   "lt40": 14.7,
+   "gt200": 50.8,
+   "median": 202.0,
+   "p5_p95": [
+    8,
+    248
+   ],
+   "corner_centre": 0.66,
+   "R_minus_B": 0.0,
+   "sat": 0.0,
+   "palette": [
+    "#dadada",
+    "#2c2c2c",
+    "#f8f8f8",
+    "#bdbdbd",
+    "#9c9c9c",
+    "#f1f1f1"
+   ]
+  },
+  "verdict": "measured: neutral (R-B 0), >=15 % <40 and >=20 % >200 in A and B from the real shadow side / recess; corner/centre 0.39-0.45 before the vignette layer (editor multiplies vignette_960x540, corner 0.40). Insert has 14.7 % <40 (only the recess strip) - acceptable for a 0.6 s cut-in"
+ },
+ "absences": [
+  "LoC IIIF image service (tile.loc.gov/image-services/iiif/service:pnp:ppmsca:70600:70651/..., and highsm:56200:56276) returned 404 for every request on 2026-11-16; used the master TIFFs instead (70651u decoded earlier; 56276u via byte-range reads, ~17 MB)",
+  "No matched Rizzuto doorway searched: the 70651 door leaf is usable from the master (its top is cut by the print edge at y~55, so the door top never appears; framing avoids it)",
+  "No 2005-2012 Highsmith Philadelphia stoop/door found (loc.gov photos search with dates=2005/2012 returned 0 results); highsm.56276 is dated 2019 and recorded as such",
+  "2059: no Commons CC entrance that combines a few steps AND automatic sliding glass doors was found (searches: 'automatic sliding door entrance steps', 'sliding glass doors entrance stairs', incategory Automatic_doors / Sliding_doors, night entrances). Chosen plate is at grade with a threshold rail. Candidates seen and rejected: Carrefour Scheibenhard (signage, CC BY-SA), Tai Chien Building night (CJK signage + passer-by, CC0), TransGlobe Taipei Hope Square (people, logos, CC0), Donghua Building night (not viewed: thumbnail fetch failed); Hotel Ambasador Premium Lodz 1 (CC BY 4.0, thumbnail 429, not viewed)",
+  "Commons original-resolution download of the 2059 plate refused (HTTP 429 x9 with backoff); 1920 px thumbnail used",
+  "LoC search for sliding-glass-door entrances (fallback in plan section 11) returned only HABS/HAER and book records, none usable"
+ ],
+ "known_gaps": [
+  "1959 A iron holdout: one thin bar (frame x~505) is only partly caught; failure mask exported (failure_A_iron.png). Perceptually judged acceptable at normal speed; puppet should not stage a crossing exactly there or should paint it from the contour",
+  "2009 iron holdout includes some of the balusters' own cast shadow on the step edge and misses the lit top of the handrail; stage the bird left of the rail",
+  "2059 grade is flat (median ~130, 0.7-2 % <40): the darks AK17 has must come from the computed long watcher shadow and the interior; consider raising the grade's contrast once the shadow is in",
+  "light directions are estimated from the plates, not measured photogrammetrically",
+  "2009 A/C come from the 1024 px service JPEG (1.6x enlargement); B is from the master"
+ ],
+ "credits_ready": [
+  {
+   "title": "[Detail of stoop showing staircases and decorative handrails], July 1959 (ppmsca.70651)",
+   "author": "Angelo Rizzuto (Anthony Angel Collection, Library of Congress)",
+   "license": "No known restrictions on publication",
+   "license_url": "https://www.loc.gov/rr/print/res/730_ange.html",
+   "source_url": "https://www.loc.gov/item/2020636795/",
+   "file_url": "https://tile.loc.gov/storage-services/master/pnp/ppmsca/70600/70651u.tif",
+   "used_as": "1959 plate (V1, D)"
+  },
+  {
+   "title": "A classic Philadelphia \"stoop\" ... south Philadelphia, 2019 (highsm.56276)",
+   "author": "Carol M. Highsmith (Carol M. Highsmith Archive, Library of Congress)",
+   "license": "No known restrictions on publication (public domain dedication by the photographer)",
+   "license_url": "https://www.loc.gov/rr/print/res/482_high.html",
+   "source_url": "https://www.loc.gov/item/2019688760/",
+   "file_url": "https://tile.loc.gov/storage-services/master/pnp/highsm/56200/56276u.tif",
+   "used_as": "2009 plate (V2)"
+  },
+  {
+   "title": "Automatische Schiebetüre mit Schlüsselsäule (2022)",
+   "author": "Plennert, via Wikimedia Commons",
+   "license": "CC BY-SA 4.0",
+   "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Automatische_Schiebet%C3%BCre_mit_Schl%C3%BCssels%C3%A4ule.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/3/3e/Automatische_Schiebet%C3%BCre_mit_Schl%C3%BCssels%C3%A4ule.jpg",
+   "used_as": "2059 plate (V3), graded cold; derivative frames are CC BY-SA 4.0"
+  }
+ ],
+ "downloads_mb_this_unit": 18.6
+}

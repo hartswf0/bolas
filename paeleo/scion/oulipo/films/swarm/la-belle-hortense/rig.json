@@ -1,0 +1,1018 @@
+{
+ "generated_by": "swarm/la-belle-hortense/forage-cut/build_rig.py",
+ "verified": "2026-11-16",
+ "angle_convention": "degrees, positive clockwise on screen; 0 = pose as photographed",
+ "figures": {
+  "conductor": {
+   "source_id": "COND",
+   "source": "LoC 2017844115 (Jack Delano 1943, FSA/OWI, PD)",
+   "source_file": "films/sources/la-belle-hortense/forage/raw/loc_2017844115.jpg",
+   "crop_box": [
+    368,
+    285,
+    680,
+    1000
+   ],
+   "grabcut_report": {
+    "islands_removed": 0,
+    "fg_px": 118499,
+    "holes_filled_px": 188,
+    "prior_disagree_px": 18951
+   },
+   "failure_mask": "films/sources/la-belle-hortense/forage/cut/conductor/failure_mask.png",
+   "full_mask": "films/sources/la-belle-hortense/forage/cut/conductor/grabcut_mask.png",
+   "pieces": {
+    "coat_panel": {
+     "png": "films/sources/la-belle-hortense/forage/cut/conductor/coat_panel.png",
+     "offset_in_crop": [
+      17,
+      132
+     ],
+     "size": [
+      257,
+      512
+     ],
+     "parent": null,
+     "joint_pivot": null,
+     "angle_limits_deg": [
+      -2,
+      14
+     ],
+     "pivots_crop": {
+      "pivot_hip": [
+       172,
+       636
+      ],
+      "pivot_neck": [
+       150,
+       150
+      ],
+      "pivot_shoulder": [
+       238,
+       168
+      ],
+      "pivot_hemN": [
+       176,
+       636
+      ],
+      "pivot_hemF": [
+       110,
+       636
+      ],
+      "pivot_paper": [
+       230,
+       318
+      ]
+     },
+     "pivots_piece": {
+      "pivot_hip": [
+       155,
+       504
+      ],
+      "pivot_neck": [
+       133,
+       18
+      ],
+      "pivot_shoulder": [
+       221,
+       36
+      ],
+      "pivot_hemN": [
+       159,
+       504
+      ],
+      "pivot_hemF": [
+       93,
+       504
+      ],
+      "pivot_paper": [
+       213,
+       186
+      ]
+     },
+     "note": "root: coat + body; lean forward 9 deg in the run; dyed red via coat_dye.png"
+    },
+    "coat_upper": {
+     "png": "films/sources/la-belle-hortense/forage/cut/conductor/coat_upper.png",
+     "offset_in_crop": [
+      23,
+      132
+     ],
+     "size": [
+      251,
+      318
+     ],
+     "parent": null,
+     "joint_pivot": null,
+     "angle_limits_deg": [
+      -2,
+      14
+     ],
+     "pivots_crop": {
+      "pivot_waist": [
+       140,
+       440
+      ],
+      "pivot_neck": [
+       150,
+       150
+      ],
+      "pivot_shoulder": [
+       238,
+       168
+      ],
+      "pivot_paper": [
+       230,
+       318
+      ],
+      "pivot_hipN": [
+       150,
+       440
+      ],
+      "pivot_hipF": [
+       96,
+       440
+      ]
+     },
+     "pivots_piece": {
+      "pivot_waist": [
+       117,
+       308
+      ],
+      "pivot_neck": [
+       127,
+       18
+      ],
+      "pivot_shoulder": [
+       215,
+       36
+      ],
+      "pivot_paper": [
+       207,
+       186
+      ],
+      "pivot_hipN": [
+       127,
+       308
+      ],
+      "pivot_hipF": [
+       73,
+       308
+      ]
+     },
+     "note": "RUN VARIANT root: coat above the waist (y<448); use with skirtN/skirtF instead of coat_panel"
+    },
+    "skirtN": {
+     "png": "films/sources/la-belle-hortense/forage/cut/conductor/skirtN.png",
+     "offset_in_crop": [
+      105,
+      430
+     ],
+     "size": [
+      150,
+      214
+     ],
+     "parent": "coat_upper",
+     "joint_pivot": "pivot_hipN",
+     "angle_limits_deg": [
+      -25,
+      30
+     ],
+     "pivots_crop": {
+      "pivot_hipN": [
+       150,
+       440
+      ],
+      "pivot_hemN": [
+       176,
+       636
+      ]
+     },
+     "pivots_piece": {
+      "pivot_hipN": [
+       45,
+       10
+      ],
+      "pivot_hemN": [
+       71,
+       206
+      ]
+     },
+     "note": "RUN VARIANT near coat flap hinged at the hip, follows thighN; dye skirtN_dye.png"
+    },
+    "skirtF": {
+     "png": "films/sources/la-belle-hortense/forage/cut/conductor/skirtF.png",
+     "offset_in_crop": [
+      17,
+      430
+     ],
+     "size": [
+      95,
+      214
+     ],
+     "parent": "coat_upper",
+     "joint_pivot": "pivot_hipF",
+     "angle_limits_deg": [
+      -25,
+      30
+     ],
+     "pivots_crop": {
+      "pivot_hipF": [
+       96,
+       440
+      ],
+      "pivot_hemF": [
+       110,
+       636
+      ]
+     },
+     "pivots_piece": {
+      "pivot_hipF": [
+       79,
+       10
+      ],
+      "pivot_hemF": [
+       93,
+       206
+      ]
+     },
+     "note": "RUN VARIANT far coat flap hinged at the hip, follows thighF; dye skirtF_dye.png"
+    },
+    "head_cap": {
+     "png": "films/sources/la-belle-hortense/forage/cut/conductor/head_cap.png",
+     "offset_in_crop": [
+      102,
+      16
+     ],
+     "size": [
+      122,
+      166
+     ],
+     "parent": "coat_panel",
+     "joint_pivot": "pivot_neck",
+     "angle_limits_deg": [
+      -8,
+      8
+     ],
+     "pivots_crop": {
+      "pivot_neck": [
+       150,
+       150
+      ]
+     },
+     "pivots_piece": {
+      "pivot_neck": [
+       48,
+       134
+      ]
+     },
+     "note": "nods with the stride (counter-rotation)"
+    },
+    "arm": {
+     "png": "films/sources/la-belle-hortense/forage/cut/conductor/arm.png",
+     "offset_in_crop": [
+      97,
+      147
+     ],
+     "size": [
+      177,
+      168
+     ],
+     "parent": "coat_panel",
+     "joint_pivot": "pivot_shoulder",
+     "angle_limits_deg": [
+      -35,
+      35
+     ],
+     "pivots_crop": {
+      "pivot_shoulder": [
+       238,
+       168
+      ],
+      "pivot_elbow": [
+       256,
+       294
+      ]
+     },
+     "pivots_piece": {
+      "pivot_shoulder": [
+       141,
+       21
+      ],
+      "pivot_elbow": [
+       159,
+       147
+      ]
+     },
+     "note": "sleeve + forearm + hand, one piece; arm swing; dyed via arm_dye.png"
+    },
+    "newspaper": {
+     "png": "films/sources/la-belle-hortense/forage/cut/conductor/newspaper.png",
+     "offset_in_crop": [
+      200,
+      313
+     ],
+     "size": [
+      59,
+      75
+     ],
+     "parent": "coat_panel",
+     "joint_pivot": "pivot_paper",
+     "angle_limits_deg": [
+      -6,
+      6
+     ],
+     "pivots_crop": {
+      "pivot_top": [
+       230,
+       318
+      ]
+     },
+     "pivots_piece": {
+      "pivot_top": [
+       30,
+       5
+      ]
+     },
+     "note": "in the coat pocket; secondary flutter only"
+    },
+    "thighF": {
+     "png": "films/sources/la-belle-hortense/forage/cut/conductor/thighF.png",
+     "offset_in_crop": [
+      68,
+      630
+     ],
+     "size": [
+      80,
+      39
+     ],
+     "parent": "coat_panel",
+     "joint_pivot": "pivot_hemF",
+     "angle_limits_deg": [
+      -35,
+      40
+     ],
+     "pivots_crop": {
+      "pivot_hip": [
+       110,
+       636
+      ],
+      "pivot_knee": [
+       108,
+       664
+      ]
+     },
+     "pivots_piece": {
+      "pivot_hip": [
+       42,
+       6
+      ],
+      "pivot_knee": [
+       40,
+       34
+      ]
+     },
+     "note": "far leg upper part below the hem (hip hidden by coat); print darker"
+    },
+    "shinF": {
+     "png": "films/sources/la-belle-hortense/forage/cut/conductor/shinF.png",
+     "offset_in_crop": [
+      73,
+      659
+     ],
+     "size": [
+      71,
+      56
+     ],
+     "parent": "thighF",
+     "joint_pivot": "pivot_knee",
+     "angle_limits_deg": [
+      0,
+      75
+     ],
+     "pivots_crop": {
+      "pivot_knee": [
+       108,
+       664
+      ],
+      "pivot_toe": [
+       104,
+       708
+      ]
+     },
+     "pivots_piece": {
+      "pivot_knee": [
+       35,
+       5
+      ],
+      "pivot_toe": [
+       31,
+       49
+      ]
+     },
+     "note": "far shin + shoe, knee hinge"
+    },
+    "thighN": {
+     "png": "films/sources/la-belle-hortense/forage/cut/conductor/thighN.png",
+     "offset_in_crop": [
+      144,
+      630
+     ],
+     "size": [
+      64,
+      39
+     ],
+     "parent": "coat_panel",
+     "joint_pivot": "pivot_hemN",
+     "angle_limits_deg": [
+      -35,
+      40
+     ],
+     "pivots_crop": {
+      "pivot_hip": [
+       176,
+       636
+      ],
+      "pivot_knee": [
+       176,
+       664
+      ]
+     },
+     "pivots_piece": {
+      "pivot_hip": [
+       32,
+       6
+      ],
+      "pivot_knee": [
+       32,
+       34
+      ]
+     },
+     "note": "near leg upper part below the hem"
+    },
+    "shinN": {
+     "png": "films/sources/la-belle-hortense/forage/cut/conductor/shinN.png",
+     "offset_in_crop": [
+      145,
+      659
+     ],
+     "size": [
+      53,
+      54
+     ],
+     "parent": "thighN",
+     "joint_pivot": "pivot_knee",
+     "angle_limits_deg": [
+      0,
+      75
+     ],
+     "pivots_crop": {
+      "pivot_knee": [
+       176,
+       664
+      ],
+      "pivot_toe": [
+       182,
+       708
+      ]
+     },
+     "pivots_piece": {
+      "pivot_knee": [
+       31,
+       5
+      ],
+      "pivot_toe": [
+       37,
+       49
+      ]
+     },
+     "note": "near shin + shoe, knee hinge"
+    }
+   },
+   "dye_masks": {
+    "coat": "films/sources/la-belle-hortense/forage/cut/conductor/coat_dye.png",
+    "arm": "films/sources/la-belle-hortense/forage/cut/conductor/arm_dye.png",
+    "frame": "full crop (312x715), same frame as crop_box",
+    "dye": "#e2011b laid as multiply over the monochrome print so the coat folds show through"
+   },
+   "fullcrop_npz": "films/sources/la-belle-hortense/forage/cut/conductor/pieces_fullcrop.npz"
+  },
+  "bell": {
+   "source_id": "BELL",
+   "source": "Commons File:Bahnhofsglocke HLB 1.jpg (Reinhard Dietrich, PD)",
+   "source_file": "films/sources/la-belle-hortense/forage/raw/commons_Bahnhofsglocke_HLB_1_960px.jpg",
+   "crop_box": [
+    250,
+    20,
+    660,
+    520
+   ],
+   "grabcut_report": {
+    "islands_removed": 0,
+    "fg_px": 83137,
+    "holes_filled_px": 44,
+    "prior_disagree_px": 24942
+   },
+   "failure_mask": "films/sources/la-belle-hortense/forage/cut/bell/failure_mask.png",
+   "full_mask": "films/sources/la-belle-hortense/forage/cut/bell/grabcut_mask.png",
+   "pieces": {
+    "yoke": {
+     "png": "films/sources/la-belle-hortense/forage/cut/bell/yoke.png",
+     "offset_in_crop": [
+      73,
+      47
+     ],
+     "size": [
+      308,
+      85
+     ],
+     "parent": null,
+     "joint_pivot": null,
+     "angle_limits_deg": [
+      0,
+      0
+     ],
+     "pivots_crop": {
+      "pivot_axle": [
+       235,
+       92
+      ]
+     },
+     "pivots_piece": {
+      "pivot_axle": [
+       162,
+       45
+      ]
+     },
+     "note": "fixed crossbar + hub (wall/post bracket)"
+    },
+    "body": {
+     "png": "films/sources/la-belle-hortense/forage/cut/bell/body.png",
+     "offset_in_crop": [
+      68,
+      109
+     ],
+     "size": [
+      299,
+      307
+     ],
+     "parent": "yoke",
+     "joint_pivot": "pivot_axle",
+     "angle_limits_deg": [
+      -38,
+      38
+     ],
+     "pivots_crop": {
+      "pivot_axle": [
+       235,
+       92
+      ],
+      "pivot_clapper": [
+       225,
+       130
+      ]
+     },
+     "pivots_piece": {
+      "pivot_axle": [
+       167,
+       -17
+      ],
+      "pivot_clapper": [
+       157,
+       21
+      ]
+     },
+     "note": "pendulum, theta(t)=theta0 exp(-t/tau) cos(wt)"
+    },
+    "clapper": {
+     "png": "films/sources/la-belle-hortense/forage/cut/bell/clapper.png",
+     "offset_in_crop": [
+      183,
+      397
+     ],
+     "size": [
+      83,
+      88
+     ],
+     "parent": "body",
+     "joint_pivot": "pivot_clapper",
+     "angle_limits_deg": [
+      -25,
+      25
+     ],
+     "pivots_crop": {
+      "pivot_clapper": [
+       225,
+       130
+      ],
+      "clapper_tip": [
+       222,
+       478
+      ]
+     },
+     "pivots_piece": {
+      "pivot_clapper": [
+       42,
+       -267
+      ],
+      "clapper_tip": [
+       39,
+       81
+      ]
+     },
+     "note": "child pendulum, lags the body; strike when |clapper-body| hits limit"
+    }
+   }
+  },
+  "key": {
+   "source_id": "KEY",
+   "source": "Commons File:Skeletonkey.png (Blenheimears, CC0)",
+   "source_file": "films/sources/la-belle-hortense/forage/raw/skeletonkey.png",
+   "crop_box": [
+    150,
+    40,
+    400,
+    660
+   ],
+   "grabcut_report": {
+    "islands_removed": 0,
+    "fg_px": 66426,
+    "holes_filled_px": 0,
+    "prior_disagree_px": 6129
+   },
+   "failure_mask": "films/sources/la-belle-hortense/forage/cut/key/failure_mask.png",
+   "full_mask": "films/sources/la-belle-hortense/forage/cut/key/grabcut_mask.png",
+   "pieces": {
+    "key": {
+     "png": "films/sources/la-belle-hortense/forage/cut/key/key.png",
+     "offset_in_crop": [
+      15,
+      23
+     ],
+     "size": [
+      234,
+      580
+     ],
+     "parent": null,
+     "joint_pivot": null,
+     "angle_limits_deg": [
+      -180,
+      180
+     ],
+     "pivots_crop": {
+      "pivot_bow_hole": [
+       128,
+       512
+      ],
+      "tip": [
+       128,
+       30
+      ],
+      "centre": [
+       130,
+       320
+      ]
+     },
+     "pivots_piece": {
+      "pivot_bow_hole": [
+       113,
+       489
+      ],
+      "tip": [
+       113,
+       7
+      ],
+      "centre": [
+       115,
+       297
+      ]
+     },
+     "note": "free body: falls, turns, lands; dyed brass #c9a23a"
+    }
+   }
+  },
+  "visitor": {
+   "source_id": "VISITOR",
+   "source": "LoC 2017750547 (Jack Delano 1941, FSA/OWI, PD), file 8a36813v.jpg",
+   "source_file": "films/sources/la-belle-hortense/forage/raw/loc_8a36813v.jpg",
+   "crop_box": [
+    560,
+    160,
+    800,
+    600
+   ],
+   "grabcut_report": {
+    "islands_removed": 0,
+    "fg_px": 24807,
+    "holes_filled_px": 1,
+    "prior_disagree_px": 7044
+   },
+   "failure_mask": "films/sources/la-belle-hortense/forage/cut/visitor/failure_mask.png",
+   "full_mask": "films/sources/la-belle-hortense/forage/cut/visitor/grabcut_mask.png",
+   "pieces": {
+    "body": {
+     "png": "films/sources/la-belle-hortense/forage/cut/visitor/body.png",
+     "offset_in_crop": [
+      52,
+      26
+     ],
+     "size": [
+      117,
+      290
+     ],
+     "parent": null,
+     "joint_pivot": null,
+     "angle_limits_deg": [
+      -6,
+      6
+     ],
+     "pivots_crop": {
+      "pivot_hipL": [
+       100,
+       300
+      ],
+      "pivot_hipR": [
+       119,
+       302
+      ],
+      "pivot_elbowL": [
+       64,
+       188
+      ],
+      "pivot_neck": [
+       108,
+       70
+      ]
+     },
+     "pivots_piece": {
+      "pivot_hipL": [
+       48,
+       274
+      ],
+      "pivot_hipR": [
+       67,
+       276
+      ],
+      "pivot_elbowL": [
+       12,
+       162
+      ],
+      "pivot_neck": [
+       56,
+       44
+      ]
+     },
+     "note": "root: hat + dress + right arm with leash hand; seen from behind, walks away/into depth"
+    },
+    "forearm": {
+     "png": "films/sources/la-belle-hortense/forage/cut/visitor/forearm.png",
+     "offset_in_crop": [
+      52,
+      183
+     ],
+     "size": [
+      34,
+      66
+     ],
+     "parent": "body",
+     "joint_pivot": "pivot_elbowL",
+     "angle_limits_deg": [
+      -20,
+      25
+     ],
+     "pivots_crop": {
+      "pivot_elbowL": [
+       64,
+       188
+      ],
+      "hand": [
+       65,
+       235
+      ]
+     },
+     "pivots_piece": {
+      "pivot_elbowL": [
+       12,
+       5
+      ],
+      "hand": [
+       13,
+       52
+      ]
+     },
+     "note": "left forearm + hand; carries the envelope (prop attached at hand)"
+    },
+    "shinL": {
+     "png": "films/sources/la-belle-hortense/forage/cut/visitor/shinL.png",
+     "offset_in_crop": [
+      80,
+      297
+     ],
+     "size": [
+      34,
+      88
+     ],
+     "parent": "body",
+     "joint_pivot": "pivot_kneeL",
+     "angle_limits_deg": [
+      -30,
+      35
+     ],
+     "pivots_crop": {
+      "pivot_kneeL": [
+       100,
+       304
+      ],
+      "heelL": [
+       102,
+       350
+      ]
+     },
+     "pivots_piece": {
+      "pivot_kneeL": [
+       20,
+       7
+      ],
+      "heelL": [
+       22,
+       53
+      ]
+     },
+     "note": "left shin + shoe, hinged at the dress hem (knee hidden by the dress)"
+    },
+    "shinR": {
+     "png": "films/sources/la-belle-hortense/forage/cut/visitor/shinR.png",
+     "offset_in_crop": [
+      107,
+      297
+     ],
+     "size": [
+      37,
+      90
+     ],
+     "parent": "body",
+     "joint_pivot": "pivot_kneeR",
+     "angle_limits_deg": [
+      -30,
+      35
+     ],
+     "pivots_crop": {
+      "pivot_kneeR": [
+       119,
+       306
+      ],
+      "heelR": [
+       118,
+       382
+      ]
+     },
+     "pivots_piece": {
+      "pivot_kneeR": [
+       12,
+       9
+      ],
+      "heelR": [
+       11,
+       85
+      ]
+     },
+     "note": "right shin + shoe, hinged at the dress hem"
+    }
+   }
+  },
+  "bench": {
+   "source_id": "BENCH",
+   "source": "LoC 2013633886 (Carol M. Highsmith 2012, PD)",
+   "source_file": "films/sources/la-belle-hortense/forage/raw/highsmith_bench_sac_23429.jpg",
+   "crop_box": [
+    715,
+    995,
+    990,
+    1240
+   ],
+   "grabcut_report": {
+    "islands_removed": 1,
+    "fg_px": 19616,
+    "holes_filled_px": 0,
+    "prior_disagree_px": 5627
+   },
+   "failure_mask": "films/sources/la-belle-hortense/forage/cut/bench/failure_mask.png",
+   "full_mask": "films/sources/la-belle-hortense/forage/cut/bench/grabcut_mask.png",
+   "pieces": {
+    "bench": {
+     "png": "films/sources/la-belle-hortense/forage/cut/bench/bench.png",
+     "offset_in_crop": [
+      15,
+      17
+     ],
+     "size": [
+      240,
+      217
+     ],
+     "parent": null,
+     "joint_pivot": null,
+     "angle_limits_deg": [
+      0,
+      0
+     ],
+     "pivots_crop": {
+      "seat_left": [
+       40,
+       120
+      ],
+      "seat_right": [
+       240,
+       125
+      ],
+      "ground_contact": [
+       130,
+       225
+      ]
+     },
+     "pivots_piece": {
+      "seat_left": [
+       25,
+       103
+      ],
+      "seat_right": [
+       225,
+       108
+      ],
+      "ground_contact": [
+       115,
+       208
+      ]
+     },
+     "note": "static prop; seat line for the coat and key"
+    }
+   }
+  },
+  "door": {
+   "source_id": "SHED-DOOR",
+   "source": "Commons File:Bourré (Loir-et-Cher) (50866795131).jpg (Daniel Jolivet, CC BY 2.0)",
+   "source_file": "films/sources/la-belle-hortense/forage/raw/bourre_50866795131.jpg",
+   "crop_box": [
+    436,
+    452,
+    566,
+    628
+   ],
+   "grabcut_report": {
+    "islands_removed": 0,
+    "fg_px": 19196,
+    "holes_filled_px": 0,
+    "prior_disagree_px": 1345
+   },
+   "failure_mask": "films/sources/la-belle-hortense/forage/cut/door/failure_mask.png",
+   "full_mask": "films/sources/la-belle-hortense/forage/cut/door/grabcut_mask.png",
+   "pieces": {
+    "leaf": {
+     "png": "films/sources/la-belle-hortense/forage/cut/door/leaf.png",
+     "offset_in_crop": [
+      1,
+      9
+     ],
+     "size": [
+      128,
+      167
+     ],
+     "parent": null,
+     "joint_pivot": "hinge_top",
+     "angle_limits_deg": [
+      0,
+      80
+     ],
+     "pivots_crop": {
+      "hinge_top": [
+       7,
+       10
+      ],
+      "hinge_bottom": [
+       7,
+       168
+      ],
+      "keyhole": [
+       108,
+       100
+      ]
+     },
+     "pivots_piece": {
+      "hinge_top": [
+       6,
+       1
+      ],
+      "hinge_bottom": [
+       6,
+       159
+      ],
+      "keyhole": [
+       107,
+       91
+      ]
+     },
+     "note": "swings on the left jamb; render as horizontal foreshortening cos(angle)"
+    }
+   }
+  }
+ }
+}

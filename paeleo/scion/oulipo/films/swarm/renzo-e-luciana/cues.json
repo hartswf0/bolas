@@ -145,14 +145,14 @@
     1
    ],
    "stem": "room",
-   "what": "A room tone bed (plant roar + far machine shop + hall air); clock tick bed except 7.0-14.3 (meeting: room tone only)",
-   "source": null,
+   "what": "room tone: PD hall recording low-passed <200 Hz; clock tick bed (dropped under the A meeting 7.0-14.3)",
+   "source": "File:Church people walking steps with reverb.ogg + File:Clock ticking.ogg",
    "fallback": null,
    "pan": 0.0,
    "dur": 35.0,
    "end_frame": 840,
    "rules_cue": "room_tone/clock_tick A",
-   "license": ""
+   "license": "Public domain"
   },
   {
    "cue": "steps",
@@ -164,7 +164,7 @@
     11
    ],
    "stem": "steps",
-   "what": "foreman pacing in the doorway (FLOOR); stops at 5.0 when he turns (9 steps, every ~0.55 s, stop by 5.00)",
+   "what": "foreman shifting his weight in the doorway (FLOOR); stops at 5.0 when he turns (9 steps, every ~0.55 s, stop by 5.00)",
    "source": "File:Concrete Steps 2.ogg",
    "fallback": null,
    "pan": -0.6,
@@ -241,7 +241,7 @@
     121
    ],
    "stem": "foley",
-   "what": "FOREMAN TURNS to OFFICE: substitution front -> back photograph (12:01)",
+   "what": "FOREMAN TURNS to OFFICE (12:01): substitution front photograph (LoC 2017851041) -> back photograph (LoC 2017851145), in the doorway; he stays on screen",
    "source": "File:Book paper pages assorted.ogg",
    "fallback": null,
    "pan": 0.0,
@@ -451,7 +451,7 @@
     482
    ],
    "stem": "steps",
-   "what": "foreman pacing resumes, fading (25 steps, every ~0.60 s, stop by 35.00)",
+   "what": "foreman shifting his weight resumes, fading (25 steps, every ~0.60 s, stop by 35.00)",
    "source": "File:Concrete Steps 2.ogg",
    "fallback": null,
    "pan": -0.6,
@@ -524,14 +524,14 @@
     889
    ],
    "stem": "room",
-   "what": "B room tone bed; clock tick rises from 42.0 to 52.0 (R waits alone), eases after the late bell",
-   "source": null,
+   "what": "room tone: PD hall recording low-passed <200 Hz; clock tick bed rising 42.0-52.0 (R waits alone)",
+   "source": "File:Church people walking steps with reverb.ogg + File:Clock ticking.ogg",
    "fallback": null,
    "pan": 0.0,
    "dur": 35.0,
    "end_frame": 1728,
    "rules_cue": "room_tone/clock_tick B",
-   "license": ""
+   "license": "Public domain"
   },
   {
    "cue": "steps",
@@ -583,7 +583,7 @@
     1009
    ],
    "stem": "foley",
-   "what": "FOREMAN TURNS to OFFICE: substitution front -> back photograph (12:01)",
+   "what": "FOREMAN TURNS to OFFICE (12:01): substitution front photograph (LoC 2017851041) -> back photograph (LoC 2017851145), in the doorway; he stays on screen",
    "source": "File:Book paper pages assorted.ogg",
    "fallback": null,
    "pan": 0.0,
@@ -801,7 +801,7 @@
     1370
    ],
    "stem": "steps",
-   "what": "B foreman pacing resumes, fading (26 steps, every ~0.60 s, stop by 72.00)",
+   "what": "B foreman shifting his weight resumes, fading (26 steps, every ~0.60 s, stop by 72.00)",
    "source": "File:Concrete Steps 2.ogg",
    "fallback": null,
    "pan": -0.6,
@@ -828,5 +828,8 @@
    "rules_cue": "timeclock_punch",
    "license": "CC BY-SA 3.0"
   }
+ ],
+ "editor_notes": [
+  "editor r2: the foreman turns back to the front photograph at 20.0 (A) and 57.0 (B) with the punch/12:04 cues; no separate sound. B: Luciana drops the two-bite apple into her pail at 55.95 (covered by the 55.0 bite tail and room tone)."
  ]
 }
