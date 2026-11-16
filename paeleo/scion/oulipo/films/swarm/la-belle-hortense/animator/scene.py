@@ -26,7 +26,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 for d in (ED, os.path.join(ED, 'clips'), os.path.join(ED, 'stills'), os.path.join(AN, 'dye'), os.path.join(AN, 'checks')):
     os.makedirs(d, exist_ok=True)
 W, H, FPS = 960, 540, 24
-CB = '/usr/share/fonts/X11/Type1/c0583bt_.pfb'; CR = '/usr/share/fonts/X11/Type1/c0419bt_.pfb'
+CB = '/home/user/bolas/paeleo/scion/oulipo/films/sources/la-belle-hortense/editor/type/HortenseSlab-Bold.ttf'; CR = '/home/user/bolas/paeleo/scion/oulipo/films/sources/la-belle-hortense/editor/type/HortenseSlab-Regular.ttf'
 _fc = {}
 def font(sz, bold=True):
     k = (sz, bold)

@@ -1,4 +1,4 @@
-"""U4 print-sound: the handmade print objects of La belle Hortense, set in Courier 10 Pitch Bold.
+"""U4 print-sound: the handmade print objects of La belle Hortense, set in Hortense Slab (handmade, editor/typeface.py; was Courier 10 Pitch).
 
 Every object is typeset here, character by character (a typewriter strikes one letter at a time,
 so each letter gets its own small baseline offset and ink weight from a seeded generator).
@@ -15,9 +15,9 @@ FILMS = Path("/home/user/bolas/paeleo/scion/oulipo/films")
 SWARM = FILMS / "swarm/la-belle-hortense"
 OUT = FILMS / "sources/la-belle-hortense/print-sound/print"
 OUT.mkdir(parents=True, exist_ok=True)
-BOLD = "/usr/share/fonts/X11/Type1/c0583bt_.pfb"
-REG = "/usr/share/fonts/X11/Type1/c0419bt_.pfb"
-SIGMA = "/usr/share/fonts/truetype/dejavu/DejaVuSansMono-Bold.ttf"  # only for the glyph sigma (Courier 10 Pitch lacks it)
+BOLD = "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-belle-hortense/editor/type/HortenseSlab-Bold.ttf"
+REG = "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-belle-hortense/editor/type/HortenseSlab-Regular.ttf"
+SIGMA = "/home/user/bolas/paeleo/scion/oulipo/films/sources/la-belle-hortense/editor/type/HortenseSlab-Bold.ttf"  # Hortense Slab has its own sigma
 W, H = 960, 540
 BLACK = (1, 2, 1)
 RED_T = (165, 9, 23)      # title red, cover quantised
@@ -363,8 +363,7 @@ ec["timing"]["credits"] = 61.0
 ec["note"] = "each state is shown from its time until the next; credits hold to 66.0 (sound silent 63-66). Row clicks in sound_cues.json at 57.5 ... 61.0."
 REC["objects"].append(ec)
 
-REC.update({"unit": "U4 print-sound", "font": {"face": "Courier 10 Pitch Bold (c0583bt_.pfb) / Regular (c0419bt_.pfb)", "licence": "Bitstream donation to the X Consortium (free X11 Type1 font)",
-                                                 "fallback_glyph": "σ from DejaVu Sans Mono Bold (Bitstream Vera licence / public domain changes); Courier 10 Pitch has no sigma"},
+REC.update({"unit": "U4 print-sound", "font": {"face": "Hortense Slab Bold / Regular (handmade for this film, editor/typeface.py; sources/la-belle-hortense/editor/type/)", "licence": "handmade for the work; released with the film under CC BY-SA 4.0", "note": "replaces Courier 10 Pitch and the DejaVu sigma (editor repair round 2): every glyph, sigma included, is drawn in typeface.py"},
             "palette": {"black": "#010201", "title_red": "#a50917", "red": "#e2011b", "cream": "#e1e5b2", "card": "#e8e4c4", "manila": "#d6c48c"},
             "script": rel(Path(__file__).resolve())})
 json.dump(REC, open(SWARM / "print.json", "w"), indent=1, ensure_ascii=False)

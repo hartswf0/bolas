@@ -1,6 +1,6 @@
 {
  "unit": "animator: scene authors, Reiniger rig, multiplane, stencil dye, pan exposure (SCIONs 2, 29 (cut), 32 (FK), 44)",
- "revision": "A1",
+ "revision": "A1 + editor E3",
  "date": "2026-11-16",
  "module": {
   "scene": "films/swarm/la-belle-hortense/animator/scene.py",
@@ -66,15 +66,15 @@
    "end": 4.5,
    "function": "background",
    "streak_plan": 0.0,
-   "clip": "films/sources/la-belle-hortense/animator-scene-authors-reiniger-rig-multiplane-stencil-dye-pan-exposure-scions-2-and-44-/clips/I1_manteau.mp4",
-   "still": "films/sources/la-belle-hortense/animator-scene-authors-reiniger-rig-multiplane-stencil-dye-pan-exposure-scions-2-and-44-/stills/I1_manteau_mid.png",
-   "frame_function": "beats.I1(t_local, sil=False)",
+   "clip": "films/sources/la-belle-hortense/editor/clips/I1_manteau_E3.mp4",
+   "still": "films/sources/la-belle-hortense/editor/stills/I1_manteau_E3_mid.png",
+   "frame_function": "beats.I1(t_local, sil=False) via repair3_beats (coat 0.30 on the bench's left half)",
    "n_sub": 1,
    "shutter_deg": null,
    "planes": "wide meadow plate (far 0.35 / ground 1.0, at rest), bench, folded coat (3 hinged pieces)",
    "streak_px_ground": 0.0,
    "rig": "folded coat: 3 hinged pieces (fold lines y=330, 485 of the coat panel), fold=0.84 (z-fold 145 deg), bundle laid -90 deg and squashed 0.5 on the seat",
-   "owner": "animator"
+   "owner": "editor E3"
   },
   {
    "id": "I.2",
@@ -83,9 +83,9 @@
    "end": 6.0,
    "function": "action",
    "streak_plan": 0.0,
-   "clip": "films/sources/la-belle-hortense/animator-scene-authors-reiniger-rig-multiplane-stencil-dye-pan-exposure-scions-2-and-44-/clips/I2_cloche.mp4",
-   "still": "films/sources/la-belle-hortense/animator-scene-authors-reiniger-rig-multiplane-stencil-dye-pan-exposure-scions-2-and-44-/stills/I2_cloche_mid.png",
-   "frame_function": "beats.I2(t_local, sil=False)",
+   "clip": "films/sources/la-belle-hortense/editor/clips/I2_cloche_E3.mp4",
+   "still": "films/sources/la-belle-hortense/editor/stills/I2_cloche_E3_mid.png",
+   "frame_function": "beats.I2(t_local, sil=False) via repair3_beats (coat 0.30 on the bench's left half)",
    "n_sub": 4,
    "shutter_deg": 180,
    "planes": "wide plate + bench + coat; bell (foreground, damped pendulum, strike 4.6); visitor front profile walking in",
@@ -108,7 +108,7 @@
     "expected_slope": -0.3175,
     "limits_ok": true
    },
-   "owner": "animator"
+   "owner": "editor E3"
   },
   {
    "id": "I.3",
@@ -134,16 +134,16 @@
    "end": 9.0,
    "function": "action",
    "streak_plan": 0.0,
-   "clip": "films/sources/la-belle-hortense/animator-scene-authors-reiniger-rig-multiplane-stencil-dye-pan-exposure-scions-2-and-44-/clips/I4_banc.mp4",
-   "still": "films/sources/la-belle-hortense/animator-scene-authors-reiniger-rig-multiplane-stencil-dye-pan-exposure-scions-2-and-44-/stills/I4_banc_mid.png",
-   "frame_function": "beats.I4(t_local, sil=False)",
+   "clip": "films/sources/la-belle-hortense/editor/clips/I4_banc_E3.mp4",
+   "still": "films/sources/la-belle-hortense/editor/stills/I4_banc_E3_mid.png",
+   "frame_function": "repair3_beats.I4(t_local, sil=False)",
    "n_sub": 4,
    "shutter_deg": 180,
    "planes": "wide: visitor bows, key travels to the coat, contact shadow; she straightens",
    "streak_px_ground": 0.0,
    "rig": "visitor bows (upper body compress 0.32 about the waist, 0.1-0.55 s), key travels hand->coat on an arc (0.3-0.75 s), contact shadow, she straightens (0.95-1.4 s)",
    "silhouette_check": "films/sources/la-belle-hortense/animator/checks/sil_I4.png",
-   "owner": "animator"
+   "owner": "editor E3"
   },
   {
    "id": "I.5",
@@ -152,15 +152,15 @@
    "end": 10.5,
    "function": "action",
    "streak_plan": 0.0,
-   "clip": "films/sources/la-belle-hortense/animator-scene-authors-reiniger-rig-multiplane-stencil-dye-pan-exposure-scions-2-and-44-/clips/I5_recu.mp4",
-   "still": "films/sources/la-belle-hortense/animator-scene-authors-reiniger-rig-multiplane-stencil-dye-pan-exposure-scions-2-and-44-/stills/I5_recu_mid.png",
-   "frame_function": "beats.I5(t_local, sil=False)",
+   "clip": "films/sources/la-belle-hortense/editor/clips/I5_recu_E3.mp4",
+   "still": "films/sources/la-belle-hortense/editor/stills/I5_recu_E3_mid.png",
+   "frame_function": "beats.I5(t_local, sil=False) via repair3_beats (coat 0.30 on the bench's left half)",
    "n_sub": 6,
    "shutter_deg": 180,
    "planes": "wide: the receipt falls (drift + flutter) to the gravel",
    "streak_px_ground": 0.0,
    "rig": "receipt: terminal fall 170 px/s, lateral drift 60 px at 0.9 Hz, rotation 40 deg at 1.1 Hz, flip cos(2pi 0.8 t); lands at her feet ~1.2 s",
-   "owner": "animator"
+   "owner": "editor E3"
   },
   {
    "id": "I.6",
@@ -169,15 +169,15 @@
    "end": 12.0,
    "function": "background",
    "streak_plan": 0.0,
-   "clip": "films/sources/la-belle-hortense/animator-scene-authors-reiniger-rig-multiplane-stencil-dye-pan-exposure-scions-2-and-44-/clips/I6_porte.mp4",
-   "still": "films/sources/la-belle-hortense/animator-scene-authors-reiniger-rig-multiplane-stencil-dye-pan-exposure-scions-2-and-44-/stills/I6_porte_mid.png",
-   "frame_function": "beats.I6(t_local, sil=False)",
+   "clip": "films/sources/la-belle-hortense/editor/clips/I6_porte_E3.mp4",
+   "still": "films/sources/la-belle-hortense/editor/stills/I6_porte_E3_mid.png",
+   "frame_function": "beats.I6(t_local, sil=False) via repair3_beats (coat 0.30 on the bench's left half)",
    "n_sub": 4,
    "shutter_deg": 180,
    "planes": "wide, slow push toward the shed door; visitor back profile walks off right",
    "streak_px_ground": 0.0,
    "rig": "visitor back profile (LoC 2017750547) walking off right and away (scale 0.9->0.55); camera push 1.00->1.07 toward the shed door",
-   "owner": "animator"
+   "owner": "editor E3"
   },
   {
    "id": "II.1",
@@ -195,9 +195,9 @@
    "end": 15.0,
    "function": "action",
    "streak_plan": 0.25,
-   "clip": "films/sources/la-belle-hortense/animator-scene-authors-reiniger-rig-multiplane-stencil-dye-pan-exposure-scions-2-and-44-/clips/II2_manteau.mp4",
-   "still": "films/sources/la-belle-hortense/animator-scene-authors-reiniger-rig-multiplane-stencil-dye-pan-exposure-scions-2-and-44-/stills/II2_manteau_mid.png",
-   "frame_function": "beats.II2(t_local, sil=False)",
+   "clip": "films/sources/la-belle-hortense/editor/clips/II2_manteau_E3.mp4",
+   "still": "films/sources/la-belle-hortense/editor/stills/II2_manteau_E3_mid.png",
+   "frame_function": "repair3_beats.II2(t_local, sil=False)",
    "n_sub": 6,
    "shutter_deg": 180,
    "planes": "push-in on the bench: coat lifted (unfolds on its hinges), 6-frame brass glint, holdout swap behind the bench",
@@ -244,7 +244,7 @@
      }
     ]
    },
-   "owner": "animator"
+   "owner": "editor E3"
   },
   {
    "id": "II.3",
@@ -306,7 +306,10 @@
    "end": 21.0,
    "function": "absence",
    "streak_plan": 0.25,
-   "owner": "print-sound / editor (typeset or insert, not an animated beat of this unit)"
+   "owner": "editor E3",
+   "clip": "films/sources/la-belle-hortense/editor/clips/II6_cle_E3.mp4",
+   "still": "films/sources/la-belle-hortense/editor/stills/II6_cle_E3_mid.png",
+   "frame_function": "repair3_beats.II6(t_local)"
   },
   {
    "id": "III.1",
@@ -343,9 +346,9 @@
    "end": 27.0,
    "function": "background",
    "streak_plan": 0.3,
-   "clip": "films/sources/la-belle-hortense/animator-scene-authors-reiniger-rig-multiplane-stencil-dye-pan-exposure-scions-2-and-44-/clips/III4_manteau.mp4",
-   "still": "films/sources/la-belle-hortense/animator-scene-authors-reiniger-rig-multiplane-stencil-dye-pan-exposure-scions-2-and-44-/stills/III4_manteau_mid.png",
-   "frame_function": "beats.III4(t_local, sil=False)",
+   "clip": "films/sources/la-belle-hortense/editor/clips/III4_manteau_E3.mp4",
+   "still": "films/sources/la-belle-hortense/editor/stills/III4_manteau_E3_mid.png",
+   "frame_function": "repair3_beats.III4(t_local)",
    "n_sub": 12,
    "shutter_deg": 180,
    "planes": "wide plate panning 160 px/s (far 0.35 / ground 1.0); conductor at 0.10 scale running on the far meadow",
@@ -399,7 +402,7 @@
     ]
    },
    "rig": "same coat cutout and dye at 0.14 scale (1/5 of V.3), running gait 2.3 Hz",
-   "owner": "animator"
+   "owner": "editor E3"
   },
   {
    "id": "III.5",
@@ -461,7 +464,11 @@
    "function": "false-lead",
    "streak_plan": 0.4,
    "animator": "replay of I.4 exact pixels (clip I4_banc) inside the typed frame I·4 (editor)",
-   "owner": "animator (reuse) / editor"
+   "owner": "editor E3",
+   "clip": "films/sources/la-belle-hortense/editor/clips/I4_banc_E3.mp4",
+   "still": "films/sources/la-belle-hortense/editor/stills/I4_banc_E3_mid.png",
+   "frame_function": "repair3_beats.I4(t_local, sil=False)",
+   "note": "replay of the I.4 pixels, framed and tagged I·4"
   },
   {
    "id": "IV.3",
@@ -982,7 +989,11 @@
    "function": "evidence",
    "streak_plan": 0.2,
    "animator": "replay of I.4 exact pixels (clip I4_banc) inside the typed frame I·4 (editor)",
-   "owner": "animator (reuse) / editor"
+   "owner": "editor E3",
+   "clip": "films/sources/la-belle-hortense/editor/clips/I4_banc_E3.mp4",
+   "still": "films/sources/la-belle-hortense/editor/stills/I4_banc_E3_mid.png",
+   "frame_function": "repair3_beats.I4(t_local, sil=False)",
+   "note": "replay of the I.4 pixels, framed and tagged I·4"
   },
   {
    "id": "VI.3",
@@ -1019,7 +1030,10 @@
    "function": "background",
    "streak_plan": 0.2,
    "animator": "the folded coat on the bench again: clip I1_manteau (identical pixels, signature identity)",
-   "owner": "animator (reuse) / editor"
+   "owner": "editor E3",
+   "clip": "films/sources/la-belle-hortense/editor/clips/I1_manteau_E3.mp4",
+   "still": "films/sources/la-belle-hortense/editor/stills/I1_manteau_E3_mid.png",
+   "frame_function": " via repair3_beats (coat 0.30 on the bench's left half)"
   }
  ],
  "evidence": {
@@ -1143,17 +1157,74 @@
     "used_as": "test-shot footfalls at 4.6 per second (2.3 Hz stride)"
    },
    {
-    "id": "FONT",
-    "title": "Courier 10 Pitch Bold/Regular (c0583bt_.pfb, c0419bt_.pfb)",
-    "author": "Bitstream",
-    "license": "Bitstream donation to the X Consortium (free licence)",
-    "license_url": "",
-    "source_url": "/usr/share/fonts/X11/Type1/",
-    "file_url": "",
-    "local_path": "/usr/share/fonts/X11/Type1/",
-    "what_it_shows": "typeface",
-    "verified_date_or_place": "unverified (system font package)",
-    "used_as": "test-shot type, envelope address, receipt"
+    "id": "ENVELOPE-LOC",
+    "title": "[Stamped envelope addressed to Lieut Edwin T. Carrington] (back), 1861",
+    "author": "Unknown (William A. Gladstone collection, Library of Congress)",
+    "license": "No known restrictions on publication (LoC rights advisory; 1861, public domain by age). Checked live 2026-11-16.",
+    "license_url": "https://www.loc.gov/item/2010652109/",
+    "source_url": "https://www.loc.gov/item/2010652109/",
+    "file_url": "https://tile.loc.gov/storage-services/service/pnp/ppmsca/11300/11331v.jpg",
+    "used_as": "I.3: the envelope (back, flap side), cut out with GrabCut, the key sliding out of its top edge; two library pencil marks on the lower edge inpainted"
+   },
+   {
+    "id": "KEYS-SND",
+    "title": "Keys hitting tree 2 (Gravity Sound).wav",
+    "author": "Gravity Sound",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Keys_hitting_tree_2_(Gravity_Sound).wav",
+    "file_url": "https://upload.wikimedia.org/wikipedia/commons/c/c8/Keys_hitting_tree_2_%28Gravity_Sound%29.wav",
+    "used_as": "key tinks (I.4 muffled on the coat, V.4 landing and bounce, VI.5 on the hook)"
+   },
+   {
+    "id": "HANDLE",
+    "title": "Door handle creaking.ogg",
+    "author": "stephan",
+    "license": "Public domain",
+    "license_url": "https://commons.wikimedia.org/wiki/File:Door_handle_creaking.ogg",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Door_handle_creaking.ogg",
+    "file_url": "https://upload.wikimedia.org/wikipedia/commons/7/74/Door_handle_creaking.ogg",
+    "used_as": "locked-door handle rattles (II.1, III.2, IV.4)"
+   },
+   {
+    "id": "HINGE",
+    "title": "Squeaky door hinge.ogg",
+    "author": "MKFI",
+    "license": "Public domain",
+    "license_url": "https://commons.wikimedia.org/wiki/File:Squeaky_door_hinge.ogg",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Squeaky_door_hinge.ogg",
+    "file_url": "https://upload.wikimedia.org/wikipedia/commons/6/6a/Squeaky_door_hinge.ogg",
+    "used_as": "the door opening (V.5)"
+   },
+   {
+    "id": "LOCK",
+    "title": "342706 spacejoe lock-3-open-lock-3.wav",
+    "author": "SpaceJoe",
+    "license": "CC0",
+    "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "source_url": "https://commons.wikimedia.org/wiki/File:342706_spacejoe_lock-3-open-lock-3.wav",
+    "file_url": "https://upload.wikimedia.org/wikipedia/commons/a/a7/342706_spacejoe_lock-3-open-lock-3.wav",
+    "used_as": "key in the lock, latch (V.5)"
+   },
+   {
+    "id": "PAPER",
+    "title": "Book paper pages assorted.ogg",
+    "author": "stephan",
+    "license": "Public domain",
+    "license_url": "https://commons.wikimedia.org/wiki/File:Book_paper_pages_assorted.ogg",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Book_paper_pages_assorted.ogg",
+    "file_url": "https://upload.wikimedia.org/wikipedia/commons/7/79/Book_paper_pages_assorted.ogg",
+    "used_as": "paper sounds: envelope (I.3), receipt flutter (I.5, V.2), pick-up (II.3), stamp slap (VI.4)"
+   },
+   {
+    "id": "BELL-SND",
+    "title": "Glockenschlagwerk Bahnhof Fridingen.ogg",
+    "author": "Olga Ernst",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Glockenschlagwerk_Bahnhof_Fridingen.ogg",
+    "file_url": "https://upload.wikimedia.org/wikipedia/commons/f/fa/Glockenschlagwerk_Bahnhof_Fridingen.ogg",
+    "used_as": "bell strikes at 0.4, 4.6, 16.6, 27.1, 33.1, 46.6, 57.2 s"
    }
   ],
   "handmade": [
@@ -1168,24 +1239,34 @@
     "where": "films/sources/la-belle-hortense/animator/dye/*.png"
    },
    {
-    "id": "ENVELOPE",
-    "what": "cream envelope with hinged flap, typed address \"Bourré, quai\"",
-    "where": "scene.py make_envelope()"
-   },
-   {
-    "id": "TICKET",
-    "what": "receipt REÇU / une clé / remise au banc, red circled 6 (stand-in until the print-sound unit's print replaces it)",
-    "where": "scene.py make_ticket()"
-   },
-   {
-    "id": "TYPE",
-    "what": "test-shot type: V. / le manteau revient / gloss in cream on a black band / slot line with MANTEAU red",
-    "where": "scene.py typeset_v()"
-   },
-   {
     "id": "SYNTH",
     "what": "test-shot wind, whooshes, slot clicks (kit.Mix) and key tinks (struck-brass partials)",
     "where": "scene.py testshot()"
+   },
+   {
+    "id": "TICKET",
+    "what": "receipt card (U4 print.json RECEIPT): REÇU N° 6 / une clé / porte de service / remise au banc, red circled 6, strike-through and underline type-on, RENDU stamp",
+    "where": "print.json RECEIPT"
+   },
+   {
+    "id": "TYPEFACE",
+    "what": "Hortense Slab, handmade typewriter face for all type",
+    "where": "print.json TYPEFACE; editor/typeface.py"
+   },
+   {
+    "id": "HOOK",
+    "what": "VI.5 bent-wire key hook",
+    "where": "print.json HOOK"
+   },
+   {
+    "id": "KEY-OUTLINE",
+    "what": "II.6 pencilled outline of the key on the empty seat",
+    "where": "print.json KEY-OUTLINE"
+   },
+   {
+    "id": "RIG-E3",
+    "what": "visitor: upper-arm piece cut from the back-view body along the sleeve's inner edge, hinged at the shoulder, forearm child at the elbow (I.4); conductor 'without his coat': his own print undyed, narrowed 0.70 below the collar, jacket-length sleeve (II.2); II.2 reach pose swings the forearm to -100 deg (declared extension of the runner's [-30, 22] limit, this beat only)",
+    "where": "editor/repair3_beats.py"
    }
   ],
   "absences": [
@@ -1202,13 +1283,16 @@
     "result": "not searched further: the conductor was re-rigged with knees and a run cycle instead (user note allowed either)"
    },
    {
-    "searched": "an openly licensed key-tink recording",
-    "result": "Keys hitting tree 2.ogg missing on Commons (test-shot/commons_meta.json); key tinks synthesised"
-   },
-   {
-    "searched": "a key hook for VI.5",
-    "result": "not built by this unit (gap)"
+    "searched": "a PD/CC photograph of a man without an overcoat in the conductor's pose",
+    "result": "not searched (time budget): II.2 builds him from his own print, undyed and narrowed (RIG-E3)"
    }
+  ],
+  "revision": "E3 (editor repair round 2, 2026-11-16)",
+  "superseded": [
+   "ENVELOPE (typed-address handmade envelope): replaced on screen by ENVELOPE-LOC",
+   "absence 'Keys hitting tree 2.ogg missing ... key tinks synthesised': the Gravity Sound .wav (CC BY 4.0) was found and live-verified by U4 and review-2; the tinks are that recording",
+   "FONT Courier 10 Pitch and the DejaVu sigma: replaced by TYPEFACE (handmade)"
   ]
- }
+ },
+ "type_font": "Hortense Slab (handmade; print.json TYPEFACE)"
 }

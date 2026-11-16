@@ -1,0 +1,76 @@
+# verify.py run 2026-11-16T19:18:56  args=['structure.json']
+== structure.json  (rev S3: La belle Hortense: canonical structure)
+  [PASS] P1a: sigma [6, 1, 5, 2, 4, 3] is a permutation of 1..6
+  [PASS] P1b: fixture ABCDEF -> FAEBDC
+  [PASS] P1c: sigma^6 = id (ABCDEF -> ABCDEF)
+  [PASS] P1d: six modules, I = ABCDEF
+  [PASS] P1e: sigma(I ABCDEF) = FAEBDC; II is FAEBDC
+  [PASS] P1e: sigma(II FAEBDC) = CFDABE; III is CFDABE
+  [PASS] P1e: sigma(III CFDABE) = ECBFAD; IV is ECBFAD
+  [PASS] P1e: sigma(IV ECBFAD) = DEACFB; V is DEACFB
+  [PASS] P1e: sigma(V DEACFB) = BDFECA; VI is BDFECA
+  [PASS] P1f: sigma(VI BDFECA) returns to ABCDEF
+  [PASS] P2a: I: six distinct motifs ABCDEF (no duplicate)
+  [PASS] P2b: I: appearances follow the declared order ABCDEF
+  [PASS] P2c: I: slot times = 3.0+9(i-1)+1.5(k-1), 1.5 s long
+  [PASS] P2a: II: six distinct motifs FAEBDC (no duplicate)
+  [PASS] P2b: II: appearances follow the declared order FAEBDC
+  [PASS] P2c: II: slot times = 3.0+9(i-1)+1.5(k-1), 1.5 s long
+  [PASS] P2a: III: six distinct motifs CFDABE (no duplicate)
+  [PASS] P2b: III: appearances follow the declared order CFDABE
+  [PASS] P2c: III: slot times = 3.0+9(i-1)+1.5(k-1), 1.5 s long
+  [PASS] P2a: IV: six distinct motifs ECBFAD (no duplicate)
+  [PASS] P2b: IV: appearances follow the declared order ECBFAD
+  [PASS] P2c: IV: slot times = 3.0+9(i-1)+1.5(k-1), 1.5 s long
+  [PASS] P2a: V: six distinct motifs DEACFB (no duplicate)
+  [PASS] P2b: V: appearances follow the declared order DEACFB
+  [PASS] P2c: V: slot times = 3.0+9(i-1)+1.5(k-1), 1.5 s long
+  [PASS] P2a: VI: six distinct motifs BDFECA (no duplicate)
+  [PASS] P2b: VI: appearances follow the declared order BDFECA
+  [PASS] P2c: VI: slot times = 3.0+9(i-1)+1.5(k-1), 1.5 s long
+  [PASS] P3: every function allowed and permitted for its motif
+  [PASS] G0: clue K0 sits at I.1 t=3.0
+  [PASS] G0: clue K1 sits at I.4 t=7.5
+  [PASS] G0: clue K2 sits at II.2 t=13.5
+  [PASS] G0: clue K3 sits at II.5 t=18.0
+  [PASS] G0: clue K4 sits at II.3 t=15.0
+  [PASS] G0: clue K5 sits at III.3 t=24.0
+  [PASS] G0: clue K6 sits at III.4 t=25.5
+  [PASS] G0: clue K7 sits at III.5 t=27.0
+  [PASS] G0: clue K8 sits at III.6 t=28.5
+  [PASS] G0: clue K9 sits at III.2 t=22.5
+  [PASS] G0: clue K10 sits at IV.2 t=31.5
+  [PASS] G0: clue K11 sits at IV.4 t=34.5
+  [PASS] G0: clue R1 sits at V.3 t=42.0
+  [PASS] G0: clue R2 sits at V.4 t=43.5
+  [PASS] C1a: every support of S before 39.0 s (4 supports)
+  [PASS] C1b: at least one support at or before 21.0 s: ['K0@3.0', 'K1@7.5', 'K2@13.5', 'K3@18.0']
+  [PASS] C1c: every support of S at or before 21.0 s
+  [PASS] C1d: reveal clues are typed as reveals, not supports
+  [PASS] C2: S derivable from clues before 39.0 s alone
+  [PASS] C3a: reveal group ['R1', 'R2'] not a necessary support; necessary groups = []
+  [INFO] C3: fair-play core (groups necessary among clues before 39.0 s) = ['K1', 'K2']
+  [PASS] C3b: S derivable with the reveal removed
+  [PASS] C3c: motif A: first background at 3.0 s, evidence at ['V.3'], reveal at 42.0 s; 'key_on_coat' shown before the reveal by ['K1@I.4', 'K10@IV.2'] (reveal must not rest on its own first appearance)
+  [PASS] C4: S becomes inferable at 13.5 s (declared 13.5 s)
+  [PASS] C5: ALT-1 ('The visitor took the key back.') refuted before 39.0 s by ['K4@II.3', 'K8@III.6']
+  [PASS] C5: ALT-2 ('A thief took the key.') refuted before 39.0 s by ['K9@III.2', 'K11@IV.4', 'K2@II.2']
+  [PASS] C5: ALT-3 ('The bell: its ringing shook the key off the bench, or a bell-ringer took it.') refuted before 39.0 s by ['K5@III.3', 'K7@III.5']
+  [PASS] C6a: module I starts with empty knowledge
+  [PASS] C6b: knowledge_out(I) == knowledge_in(II)
+  [PASS] C6b: knowledge_out(II) == knowledge_in(III)
+  [PASS] C6b: knowledge_out(III) == knowledge_in(IV)
+  [PASS] C6b: knowledge_out(IV) == knowledge_in(V)
+  [PASS] C6b: knowledge_out(V) == knowledge_in(VI)
+  [PASS] C6c: knowledge only grows within each module
+  [PASS] C6d: 'S inferable' first enters knowledge in II; computed time falls in II
+  [PASS] C7: no caption names 'manteau' before 13.5 s
+  [PASS] S1a: cloche slot I.2 (4.5-6.0) has bell cue [('bell_strike', 4.6)]
+  [PASS] S1a: cloche slot II.4 (16.5-18.0) has bell cue [('bell_strike', 16.6)]
+  [PASS] S1a: cloche slot III.5 (27.0-28.5) has bell cue [('bell_strike', 27.1)]
+  [PASS] S1a: cloche slot IV.3 (33.0-34.5) has bell cue [('bell_strike', 33.1)]
+  [PASS] S1a: cloche slot V.6 (46.5-48.0) has bell cue [('bell_strike', 46.6)]
+  [PASS] S1a: cloche slot VI.1 (48.0-49.5) has bell cue [('bell_tail', 48.0)]
+  [PASS] S1b: no bell-strike onset outside cloche slots
+  [PASS] S1c: a click at every slot start
+  => PASS

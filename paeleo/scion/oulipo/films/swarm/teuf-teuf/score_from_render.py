@@ -33,7 +33,8 @@ C = {c["i"]: c for c in CAPS}
 HOM = CUE.get("homage_line", {})
 END = CUE.get("end_line", {})
 stop_counter_m = round((CUE.get("counter_stop_F", 0) - 330.0) / 100.0, 2) if CUE.get("counter_stop_F") else None
-ends = MECH["asserts"]["invariant_1_same_challenge"].get("end_points_m", {})
+_fe = MECH["asserts"]["invariant_1_same_challenge"]["front_edge_m"]
+ends = {"counter": round(_fe["counter (stop)"], 2)}
 
 
 def snd(lo, hi):
@@ -62,7 +63,7 @@ SHOTS = [
     ("3d/3e", 21.0, 25.0, f"Rolls on; log B also left behind ({E('log-stop', 1)} s); stops at 3.00 m ({E('stone-stop-2')} s); the camera pulls back to the full wall 23.0-23.6 s; 3 m ghost at 23.15 s. Reset cut 25.0 s.", "-"),
     ("4", 25.0, 34.0, f"WHEEL AND AXLE. Plank cart on two Ljubljana-wheel cutouts; the carrier walks ahead of the load, clear of it; passes 3 m at {E('pass-3m')} s; 8.00 m at {E('wheel-stop')} s; 8 m ghost at 33.35 s. Reset cut 34.0 s.",
      f"caption 3 at {C[3]['on']} s"),
-    ("5", 34.0, 38.0, f"COUNTER-CHECK. Pins pulled {E('pin-pull')} s; same push from 35.0 s; the loose wheels drift back under the platform; the rear wheel rolls out at {E('wheel-drop')} s, kicked out behind the pusher in front of his legs, and settles behind him ({E('loose-wheel-stop')} s, tok); the platform's rear falls for 0.30 s and lands {E('platform-lands')} s; grinds to a stop at {E('stop-counter')} s, {ends.get('counter', '0.82')} m.",
+    ("5", 34.0, 38.0, f"COUNTER-CHECK. Pins pulled {E('pin-pull')} s; same push from 35.0 s; the loose wheels drift back under the platform; the rear wheel rolls out at {E('wheel-drop')} s, kicked out behind the pusher in front of his legs, and settles behind him ({E('loose-wheel-stop')} s, tok); the platform's rear falls for 0.30 s and lands {E('platform-lands')} s; grinds to a stop at {E('stop-counter')} s, {ends['counter']} m.",
      f"caption 4 at {C[4]['on']} s"),
     ("6", 38.0, 44.0, f"COMPARISON HELD. Three ghosts (1.2 / 3.0 / 8.0 m); the figures sit; the loose wheel lying behind rocks once ({E('callback')} s, tok).",
      f"{END.get('on', 39.8)}-{END.get('off', 44.0)} s end line written on, staged-sequence label first, then sources"),

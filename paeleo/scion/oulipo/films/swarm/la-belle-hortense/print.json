@@ -74,7 +74,8 @@
     "I.2": "front, carried at the visitor's forearm hand pivot",
     "I.3": "back + flap hinge open + key slides out",
     "I.5": "receipt slips from it"
-   }
+   },
+   "status": "superseded on screen in I.3 by the LoC 1861 envelope (ENVELOPE-LOC, LoC 2010652109); kept here as a built object, not shown"
   },
   {
    "id": "PLATE6",
@@ -204,8 +205,8 @@
      ],
      "file": "films/sources/la-belle-hortense/print-sound/print/slot_II_2.png",
      "numeral": "II.",
-     "caption_fr": "Il reprend son manteau.",
-     "caption_en": "He takes back his coat.",
+     "caption_fr": "Le contrôleur reprend son manteau.",
+     "caption_en": "The conductor takes back his coat.",
      "slot_line": "porte · MANTEAU · reçu · cloche · banc · clé",
      "active_word": "MANTEAU"
     },
@@ -631,13 +632,45 @@
     "credits": 61.0
    },
    "note": "each state is shown from its time until the next; credits hold to 66.0 (sound silent 63-66). Row clicks in sound_cues.json at 57.5 ... 61.0."
+  },
+  {
+   "id": "HOOK",
+   "what": "VI.5: a bent-wire key hook (drawn stroke by stroke: shank, eye, curl), the key hung on it by its bow",
+   "made_by": "editor",
+   "script": "films/swarm/la-belle-hortense/editor/editor_beats.py hook_draw()",
+   "slots": [
+    "VI.5"
+   ],
+   "licence": "handmade for this film (CC BY-SA 4.0 with the film)"
+  },
+  {
+   "id": "KEY-OUTLINE",
+   "what": "II.6: red grease-pencil outline traced round the key's own cut mask, foreshortened on the empty seat (the key's absence)",
+   "made_by": "editor E3",
+   "script": "films/swarm/la-belle-hortense/editor/repair3_beats.py chalk_outline()",
+   "slots": [
+    "II.6"
+   ],
+   "licence": "handmade for this film (CC BY-SA 4.0 with the film)"
+  },
+  {
+   "id": "TYPEFACE",
+   "what": "Hortense Slab Bold / Regular: a monospaced slab-serif typewriter face drawn glyph by glyph as pen strokes and slab serifs, traced to TrueType outlines (all type in the film, sigma included)",
+   "made_by": "editor E3",
+   "script": "films/swarm/la-belle-hortense/editor/typeface.py",
+   "files": [
+    "films/sources/la-belle-hortense/editor/type/HortenseSlab-{Bold,Regular}.ttf",
+    "films/sources/la-belle-hortense/editor/type/specimen.png"
+   ],
+   "licence": "handmade for this film (CC BY-SA 4.0 with the film)",
+   "replaces": "Courier 10 Pitch (X Consortium/Bitstream licence) and the DejaVu Sans Mono sigma (Bitstream Vera licence): neither licence is in the allowed set"
   }
  ],
  "unit": "U4 print-sound",
  "font": {
-  "face": "Courier 10 Pitch Bold (c0583bt_.pfb) / Regular (c0419bt_.pfb)",
-  "licence": "Bitstream donation to the X Consortium (free X11 Type1 font)",
-  "fallback_glyph": "σ from DejaVu Sans Mono Bold (Bitstream Vera licence / public domain changes); Courier 10 Pitch has no sigma"
+  "face": "Hortense Slab Bold / Regular (handmade, see object TYPEFACE)",
+  "files": "films/sources/la-belle-hortense/editor/type/HortenseSlab-{Bold,Regular}.ttf",
+  "licence": "handmade for the work; CC BY-SA 4.0 with the film"
  },
  "palette": {
   "black": "#010201",

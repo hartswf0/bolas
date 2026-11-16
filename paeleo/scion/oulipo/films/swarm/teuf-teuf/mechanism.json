@@ -404,7 +404,7 @@
     "drag (11.5 s)": 1.2,
     "rollers (23.0 s)": 3.0,
     "wheel (33.0 s)": 8.0,
-    "counter (stop)": 0.818
+    "counter (stop)": 0.8832
    },
    "pass": true
   },
@@ -422,7 +422,7 @@
     "carrier_all_pinned": 0.0
    },
    "max_roller_slip_px_per_frame": 0.0101,
-   "max_loose_wheel_slip_px_per_frame": 0.0072,
+   "max_loose_wheel_slip_px_per_frame": 0.0082,
    "wheel_rotation_error_px": 0.002,
    "log_ground_tangency_error_px": 0.0,
    "bar": "foot slide <= 1 px, hand residual <= 2 px during pushes, roller slip <= 0.5 px/frame, tangent +-1 px",
@@ -446,7 +446,7 @@
    "wide_closeup_agreement": {
     "16.2": {
      "cams": [
-      "A",
+      "P",
       "B"
      ],
      "load_step_px": 3.09,
@@ -508,7 +508,7 @@
      "max_decay_to_1pct_s": 0.229
     },
     "plat_drop": {
-     "first_impulse_s": 35.995,
+     "first_impulse_s": 36.175,
      "max_abs_before": 0.0,
      "max_decay_to_1pct_s": 0.354
     },

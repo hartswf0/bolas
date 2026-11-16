@@ -2,29 +2,31 @@
  "film": "teuf-teuf",
  "unit": "montage-editor",
  "date": "2026-11-16",
- "repair": 1,
+ "repair": 2,
  "single_ledger": "exposure.json is the rendered frames' sheet; mechanism.json asserts run on it (verify_sheet.py); sim.py's sheet is in superseded/",
  "revisions_md5_12": {
-  "swarm/teuf-teuf/exposure.json": "21f3b2d32fb3",
-  "swarm/teuf-teuf/mechanism.json": "8becb14dc81e",
-  "swarm/teuf-teuf/animation.json": "4699c6d01324",
+  "swarm/teuf-teuf/exposure.json": "8472f539ab11",
+  "swarm/teuf-teuf/mechanism.json": "43574a583d30",
+  "swarm/teuf-teuf/animation.json": "9b1e0fd98df7",
   "swarm/teuf-teuf/layout.json": "c72c9437762a",
-  "swarm/teuf-teuf/layout_wall.py": "035f668fecce",
-  "swarm/teuf-teuf/score.json": "cdedc531aa30",
-  "swarm/teuf-teuf/register.json": "d8530b4673d3",
-  "swarm/teuf-teuf/animator-build/motion.py": "7e1024af9766",
-  "swarm/teuf-teuf/animator-build/anim.py": "98ee27ccf143",
+  "swarm/teuf-teuf/layout_wall.py": "47e76ccf7c23",
+  "swarm/teuf-teuf/score.json": "01374949ba32",
+  "swarm/teuf-teuf/score.md": "e4323951b152",
+  "swarm/teuf-teuf/score_from_render.py": "a045c934ac33",
+  "swarm/teuf-teuf/register.json": "0406bed0ff94",
+  "swarm/teuf-teuf/animator-build/motion.py": "48a2a719c8f1",
+  "swarm/teuf-teuf/animator-build/anim.py": "1fd5b180f7b4",
   "swarm/teuf-teuf/verify_sheet.py": "1fd5026fe61d",
-  "sources/teuf-teuf/animator/animator_master_0-44s.mp4": "d1d1f4ef6f30",
-  "sources/teuf-teuf/animator/frames_metrics.json": "1a3e2555f240",
-  "sources/teuf-teuf/layout/frameA_lum.npy": "a125a465661c",
-  "sources/teuf-teuf/layout/frameB_lum.npy": "cf0db1e78b84",
+  "sources/teuf-teuf/animator/animator_master_0-44s.mp4": "511d08b9da9c",
+  "sources/teuf-teuf/animator/frames_metrics.json": "c2eb376ec3df",
+  "sources/teuf-teuf/layout/frameA_lum.npy": "0d56b0f97bca",
+  "sources/teuf-teuf/layout/frameB_lum.npy": "51d76ee750a8",
   "sources/teuf-teuf/sound/stem-room.wav": "199d07cc0b00",
-  "teuf-teuf.py": "39807805a0b1",
-  "credits/teuf-teuf.json": "fed86eb78842",
-  "notes/teuf-teuf.txt": "0d1ff5fc8753",
-  "../assets/films/teuf-teuf.mp4": "deb971c657c7",
-  "../assets/films/teuf-teuf-nocaption.mp4": "0e0c0d2aa3bd"
+  "teuf-teuf.py": "9b38e67517b7",
+  "credits/teuf-teuf.json": "c64c4cfffbb9",
+  "notes/teuf-teuf.txt": "729bf94e0682",
+  "../assets/films/teuf-teuf.mp4": "4b8bb8292faf",
+  "../assets/films/teuf-teuf-nocaption.mp4": "04180633d93c"
  },
  "asserts_all_pass": true,
  "declared_cuts_s": [
@@ -267,11 +269,23 @@
     388
    ],
    "camera": [
-    "A"
+    "A",
+    "P",
+    "P0.0197",
+    "P0.0741",
+    "P0.1562",
+    "P0.2593",
+    "P0.3762",
+    "P0.5000",
+    "P0.6238",
+    "P0.7407",
+    "P0.8438",
+    "P0.9259",
+    "P0.9803"
    ],
    "picture": "sources/teuf-teuf/animator/shot_3a_rollers_wide.mp4 (via animator_master_0-44s.mp4)",
    "sheet": "swarm/teuf-teuf/exposure.json frames 336-388 (rendered frames)",
-   "plates": "layout frameA_lum.npy",
+   "plates": "layout frameA_lum.npy; push-in crops of master_lum_x2.2.npy (x1.28)",
    "metrics": {
     "pusher": {
      "max_planted_foot_slide_px": 0.0,
@@ -368,12 +382,12 @@
     503
    ],
    "camera": [
-    "A",
-    "B"
+    "B",
+    "P"
    ],
    "picture": "sources/teuf-teuf/animator/shot_3c_carrier_sets_log.mp4 (via animator_master_0-44s.mp4)",
    "sheet": "swarm/teuf-teuf/exposure.json frames 451-503 (rendered frames)",
-   "plates": "layout frameA_lum.npy",
+   "plates": "layout frameA_lum.npy; push-in crops of master_lum_x2.2.npy (x1.28)",
    "metrics": {
     "pusher": {
      "max_planted_foot_slide_px": 0.0,
@@ -415,11 +429,11 @@
     551
    ],
    "camera": [
-    "A"
+    "P"
    ],
    "picture": "sources/teuf-teuf/animator/shot_3d_rollers_on.mp4 (via animator_master_0-44s.mp4)",
    "sheet": "swarm/teuf-teuf/exposure.json frames 504-551 (rendered frames)",
-   "plates": "layout frameA_lum.npy",
+   "plates": "layout frameA_lum.npy; push-in crops of master_lum_x2.2.npy (x1.28)",
    "metrics": {
     "pusher": {
      "max_planted_foot_slide_px": 0.0,
@@ -464,11 +478,26 @@
     599
    ],
    "camera": [
-    "A"
+    "A",
+    "P",
+    "P0.0023",
+    "P0.0265",
+    "P0.0741",
+    "P0.1409",
+    "P0.2230",
+    "P0.3164",
+    "P0.4170",
+    "P0.5208",
+    "P0.6238",
+    "P0.7220",
+    "P0.8114",
+    "P0.8879",
+    "P0.9475",
+    "P0.9862"
    ],
    "picture": "sources/teuf-teuf/animator/shot_3e_hold_3m.mp4 (via animator_master_0-44s.mp4)",
    "sheet": "swarm/teuf-teuf/exposure.json frames 552-599 (rendered frames)",
-   "plates": "layout frameA_lum.npy",
+   "plates": "layout frameA_lum.npy; push-in crops of master_lum_x2.2.npy (x1.28)",
    "metrics": {
     "pusher": {
      "max_planted_foot_slide_px": 0.0,
@@ -524,7 +553,7 @@
      "max_hand_residual_px_while_pinned": null,
      "pinned_frames": 0,
      "max_foot_ik_residual_px": 0.0,
-     "max_knee_flex_deg": 81.6
+     "max_knee_flex_deg": 81.8
     },
     "max_stone_step_px_per_frame": 5.65,
     "stone_front_m_at_end": 8.0
@@ -562,6 +591,12 @@
     "footstep pusher",
     "footstep pusher",
     "footstep pusher",
+    "footstep carrier",
+    "footstep carrier",
+    "footstep carrier",
+    "footstep carrier",
+    "footstep carrier",
+    "footstep carrier",
     "footstep carrier",
     "footstep carrier",
     "footstep carrier",
@@ -623,9 +658,9 @@
      "max_foot_ik_residual_px": 0.0,
      "max_knee_flex_deg": 110.5
     },
-    "loose_wheel_slip_px_per_frame": 0.0072,
+    "loose_wheel_slip_px_per_frame": 0.0082,
     "max_stone_step_px_per_frame": 5.65,
-    "stone_front_m_at_end": 0.818
+    "stone_front_m_at_end": 0.883
    },
    "captions": [
     "« Sans essieu, la roue n'est qu'un rouleau qui se croit quelqu'un. »"
@@ -641,9 +676,11 @@
     "footstep carrier",
     "pins pulled, forks drop",
     "rear wheel falls out",
-    "platform's rear hits the ground",
+    "platform's rear lands on the ground (after a 0.30 s fall)",
+    "plank end strikes the ground",
     "platform grinds to a stop",
-    "loose wheel stops"
+    "tok: the loose wheel settles behind the pusher",
+    "tok rebound"
    ]
   },
   {
@@ -679,7 +716,7 @@
     },
     "loose_wheel_slip_px_per_frame": 0.0,
     "max_stone_step_px_per_frame": 0.0,
-    "stone_front_m_at_end": 0.818
+    "stone_front_m_at_end": 0.883
    },
    "captions": [],
    "sound_events": [

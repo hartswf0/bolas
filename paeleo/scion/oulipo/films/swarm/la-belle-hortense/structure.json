@@ -1,6 +1,6 @@
 {
  "title": "La belle Hortense: canonical structure",
- "revision": "S2",
+ "revision": "S3",
  "base": "plan.md P1",
  "owner": "U1 structure (combinatorial editor + mystery designer + verifier)",
  "sigma": [
@@ -230,7 +230,7 @@
      "start": 7.5,
      "end": 9.0,
      "function": "action",
-     "on_screen": "Wide again. She lays the key on the bench, ON THE RED COAT; contact shadow; she straightens. (Clue K1; frame 8.25 s is the critic's pointing frame.)",
+     "on_screen": "Closer on the bench. She stands clear of the bench's left end (gap >= 30 px); her upper arm and forearm hinge out over the red coat; the key hangs from her hand by its bow, is let go and drops onto the folded skirt, rocks and lies. (Clue K1; 8.25 s = key lying on the coat, her hand above it.)",
      "caption_fr": "Elle la laisse sur le banc.",
      "caption_en": "She leaves it on the bench.",
      "slot_line": "manteau · cloche · clé · BANC · reçu · porte",
@@ -358,9 +358,9 @@
      "start": 13.5,
      "end": 15.0,
      "function": "action",
-     "on_screen": "At the bench the red coat is lifted out of frame; for 6 frames a brass glint shows in its fold. Holdout cut behind the bench plane to the conductor already wearing it. (Clue K2.)",
-     "caption_fr": "Il reprend son manteau.",
-     "caption_en": "He takes back his coat.",
+     "on_screen": "The conductor (railway cap, dark jacket, no coat) walks in, reaches out and closes his hand on the coat's collar, steps back with it (skirt opening; for 6 frames a brass glint and the key's bow in its fold), swings it onto his shoulders and walks off wearing it, red. (Clue K2.)",
+     "caption_fr": "Le contrôleur reprend son manteau.",
+     "caption_en": "The conductor takes back his coat.",
      "slot_line": "porte · MANTEAU · reçu · cloche · banc · clé",
      "sound": [
       {
@@ -467,7 +467,7 @@
      "start": 19.5,
      "end": 21.0,
      "function": "absence",
-     "on_screen": "The key is absent: on the receipt, 'une clé' is struck through in red, typed over.",
+     "on_screen": "The key is absent: on the empty seat, a red grease-pencil outline of the key where it lay; beside it the receipt, 'une clé' struck through in red, typed over.",
      "caption_fr": "Où est la clé ?",
      "caption_en": "Where is the key?",
      "slot_line": "porte · manteau · reçu · cloche · banc · CLÉ",
@@ -597,7 +597,7 @@
      "start": 25.5,
      "end": 27.0,
      "function": "background",
-     "on_screen": "Wide, far plane: a small red figure crosses the far end of the meadow (conductor in the coat, 1/5 scale). Same cut, same dye. Caption does not name the coat.",
+     "on_screen": "Wide, middle plane: a red figure (the conductor in the coat, 0.275 scale, ~28% of frame height) runs across in front of the shed. Same cut, same dye. Caption does not name the coat.",
      "caption_fr": "Au loin, quelqu'un traverse.",
      "caption_en": "Far off, someone crosses.",
      "slot_line": "clé · porte · banc · MANTEAU · cloche · reçu",
@@ -1569,5 +1569,8 @@
     "where": "films/sources/la-belle-hortense/structure-combinatorial-editor-mystery-designer-verifier-/slots.csv"
    }
   ]
- }
+ },
+ "revision_notes": [
+  "S3 (editor repair round 2, 2026-11-16): on-screen staging of I.4, II.2, II.6, III.4 re-made for silhouette legibility; II.2 caption names the conductor; clue graph, orders, times and supports unchanged."
+ ]
 }

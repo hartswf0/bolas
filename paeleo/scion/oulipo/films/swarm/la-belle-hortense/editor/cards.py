@@ -1,7 +1,7 @@
 """Editor repair E2: title type and end-card overlay with the fiction label, the hommage line (Roubaud named as
 the novel's author, not the film's), the film's licence (CC BY-SA 4.0, required by the BY-SA sounds) and the
-typeface credits.  Typeface: Courier 10 Pitch (Bitstream, X Consortium licence); the one glyph sigma on the end
-card stays U4's DejaVu Sans Mono (Bitstream Vera licence).
+typeface credits.  Typeface: Hortense Slab, handmade for this film (editor/typeface.py), CC BY-SA 4.0 with the film.
+Repair round 2: the title is a stacked slab block, author black above the title red, as on a paperback cover.
 
     python3 -I films/swarm/la-belle-hortense/editor/cards.py
 Writes films/sources/la-belle-hortense/editor/print/{title_type_E2,endcard_text_E2}.png and prints cap heights.
@@ -12,8 +12,8 @@ from PIL import Image, ImageDraw, ImageFont
 ROOT = '/home/user/bolas/paeleo/scion/oulipo'
 OUT = os.path.join(ROOT, 'films/sources/la-belle-hortense/editor/print')
 os.makedirs(OUT, exist_ok=True)
-BOLD = '/usr/share/fonts/X11/Type1/c0583bt_.pfb'
-REG = '/usr/share/fonts/X11/Type1/c0419bt_.pfb'
+BOLD = '/home/user/bolas/paeleo/scion/oulipo/films/sources/la-belle-hortense/editor/type/HortenseSlab-Bold.ttf'
+REG = '/home/user/bolas/paeleo/scion/oulipo/films/sources/la-belle-hortense/editor/type/HortenseSlab-Regular.ttf'
 W, H = 960, 540
 BLACK = (1, 2, 1); RED_T = (165, 9, 23); CREAM = (225, 229, 178)
 
@@ -35,19 +35,27 @@ def line(d, xy, s, sz, fg, band=None, path=BOLD, pad=(6, 3)):
     return y1
 
 
-FICTION = ["Fiction. Photographies d'archives (FSA/OWI, 1941–43) mises en scène ;",
-           "les personnes représentées n'ont aucun lien avec cette histoire."]
+FICTION = ["Fiction. Photographies (FSA/OWI 1941–43, C. M. Highsmith, D. Jolivet, enveloppe 1861)",
+           "mises en scène ; les personnes représentées n'ont aucun lien avec cette histoire."]
 
 
 def title():
+    """stacked slab block: author in black on two lines, the title in red beneath it (cover order), then the
+    sextine lines and the fiction label on typed bands."""
     img = Image.new('RGBA', (W, H), (0, 0, 0, 0))
     d = ImageDraw.Draw(img)
-    line(d, (54, 226), 'La belle Hortense', 58, RED_T)
-    line(d, (56, 304), 'exercice sur une sextine,', 22, BLACK, CREAM)
-    line(d, (56, 336), 'en hommage au roman de Jacques Roubaud (1985)', 22, BLACK, CREAM)
-    line(d, (56, 380), 'six modules · [6,1,5,2,4,3]', 18, BLACK, CREAM)
+    pad = Image.new('RGBA', (W, H), (0, 0, 0, 0)); pd = ImageDraw.Draw(pad)
+    pd.rectangle((40, 40, 520, 318), fill=CREAM + (222,))          # a typed paper block behind the stack
+    img.alpha_composite(pad)
+    line(d, (58, 48), 'Jacques', 64, BLACK)
+    line(d, (58, 116), 'Roubaud', 64, BLACK)
+    line(d, (58, 196), 'La belle', 50, RED_T)
+    line(d, (58, 250), 'Hortense', 50, RED_T)
+    line(d, (560, 60), 'exercice sur une sextine,', 18, BLACK, CREAM)
+    line(d, (560, 88), 'en hommage au roman (1985)', 18, BLACK, CREAM)
+    line(d, (560, 122), 'six modules · [6,1,5,2,4,3]', 18, BLACK, CREAM)
     for j, s in enumerate(FICTION):
-        line(d, (56, 456 + j * 28), s, 18, CREAM, BLACK)
+        line(d, (44, 466 + j * 28), s, 17, CREAM, BLACK)
     return img
 
 
@@ -55,8 +63,8 @@ CREDITS = [
     "Photographies : Jack Delano, FSA/OWI (Library of Congress, domaine public) ; Daniel Jolivet, Bourré",
     "(CC BY 2.0) ; Carol M. Highsmith (LoC, domaine public) ; Reinhard Dietrich (dom. public) ; clé (CC0){env}.",
     "Sons : Olga Ernst (CC BY-SA 4.0) ; Pwaivers (CC BY-SA 3.0) ; stephan, MKFI (domaine public) ;",
-    "Gravity Sound (CC BY 4.0) ; SpaceJoe (CC0).  Caractères : Courier 10 Pitch (Bitstream, licence X Consortium) ;",
-    "Signe sigma : DejaVu Sans Mono (licence Bitstream Vera).  Hommage ; rien n'est repris du roman ni de sa couverture.",
+    "Gravity Sound (CC BY 4.0) ; SpaceJoe (CC0).  Caractères : Hortense Slab, dessinés à la main pour ce film (CC BY-SA 4.0).",
+    "Hommage au roman de Jacques Roubaud ; rien n'est repris du roman ni de sa couverture.",
     "Enveloppe de 1861 (LoC, domaine public).  Ce film est publié sous licence CC BY-SA 4.0 (creativecommons.org/licenses/by-sa/4.0).",
 ]
 

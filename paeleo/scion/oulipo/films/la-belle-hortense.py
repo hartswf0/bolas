@@ -1,5 +1,5 @@
 """La belle Hortense: a sextine exercise, in hommage to the novel by Jacques Roubaud (1985); a fiction re-staging
-archive photographs (nothing is taken from the novel or its cover).  SCION swarm assembly, revision E2 (repair round 1).
+archive photographs (nothing is taken from the novel or its cover).  SCION swarm assembly, revision E3 (repair round 2).
 
 Six 9 s modules of six 1.5 s slots.  Module I deals the six motifs ABCDEF (manteau, cloche, cle, banc, recu,
 porte); each next module re-deals them by the sestina permutation sigma = [6,1,5,2,4,3].  The red coat lies on the
@@ -74,19 +74,19 @@ def slot_start(i, k):          # i, k from 0
 # (clip directory, clip name, first clip frame).  Clips are 36 frames = one 1.5 s slot unless noted.
 A, E = ANIM, EDIT
 SLOT_CLIPS = {
-    "I.1": (E, "I1_manteau_E2", 0), "I.2": (E, "I2_cloche_E2", 0), "I.3": (E, "I3_cle_E2", 0),
-    "I.4": (E, "I4_banc_E2", 0), "I.5": (E, "I5_recu_E2", 0), "I.6": (E, "I6_porte_E2", 0),
-    "II.1": (E, "II1_porte", 0), "II.2": (E, "II2_manteau_E2", 0), "II.3": (E, "II3_recu", 0),
-    "II.4": (A, "bell_strike", 0), "II.5": (A, "bench_empty", 0), "II.6": (E, "II6_cle", 0),
+    "I.1": (E, "I1_manteau_E3", 0), "I.2": (E, "I2_cloche_E3", 0), "I.3": (E, "I3_cle_E2", 0),
+    "I.4": (E, "I4_banc_E3", 0), "I.5": (E, "I5_recu_E3", 0), "I.6": (E, "I6_porte_E3", 0),
+    "II.1": (E, "II1_porte", 0), "II.2": (E, "II2_manteau_E3", 0), "II.3": (E, "II3_recu", 0),
+    "II.4": (A, "bell_strike", 0), "II.5": (A, "bench_empty", 0), "II.6": (E, "II6_cle_E3", 0),
     "III.1": (E, "III1_cle_E2", 0), "III.2": (E, "III2_porte", 0), "III.3": (A, "bench_empty", 0),
-    "III.4": (A, "III4_manteau", 0), "III.5": (A, "bell_strike", 0), "III.6": (E, "III6_recu", 0),
-    "IV.1": (E, "IV1_recu", 0), "IV.2": (E, "I4_banc_E2", 0), "IV.3": (A, "bell_strike", 0),
+    "III.4": (E, "III4_manteau_E3", 0), "III.5": (A, "bell_strike", 0), "III.6": (E, "III6_recu", 0),
+    "IV.1": (E, "IV1_recu", 0), "IV.2": (E, "I4_banc_E3", 0), "IV.3": (A, "bell_strike", 0),
     "IV.4": (E, "IV4_porte", 0), "IV.5": (E, "IV5_manteau_E2", 0), "IV.6": (A, "bench_empty", 0),
     "V.1": (E, "V1_banc_E2", 0), "V.2": (E, "V2_recu_E2", 0),
     "V.3": (A, "V3_manteau_clean", 12),          # the accepted test shot: clip covers 41.5-44.0, slot = frames 12..47
     "V.4": (E, "V4_cle_E2", 0), "V.5": (A, "V5_porte", 0), "V.6": (A, "bell_strike", 0),
-    "VI.1": (A, "VI1_cloche", 0), "VI.2": (E, "I4_banc_E2", 0), "VI.3": (E, "VI3_porte", 0),
-    "VI.4": (E, "VI4_recu", 0), "VI.5": (E, "VI5_cle", 0), "VI.6": (E, "I1_manteau_E2", 0),
+    "VI.1": (A, "VI1_cloche", 0), "VI.2": (E, "I4_banc_E3", 0), "VI.3": (E, "VI3_porte", 0),
+    "VI.4": (E, "VI4_recu", 0), "VI.5": (E, "VI5_cle", 0), "VI.6": (E, "I1_manteau_E3", 0),
 }
 # the motif each clip shows (checked against the order below)
 CLIP_MOTIF = {
@@ -98,7 +98,8 @@ CLIP_MOTIF = {
     "VI3_porte": "porte", "VI4_recu": "reçu", "VI5_cle": "clé",
 }
 CLIP_MOTIF.update({n + "_E2": m for n, m in list(CLIP_MOTIF.items())})
-CLIP_MOTIF.update({"I4_banc_E2": "banc", "I1_manteau_E2": "manteau"})
+CLIP_MOTIF.update({n + "_E3": m for n, m in list(CLIP_MOTIF.items()) if not n.endswith("_E2")})
+CLIP_MOTIF.update({"I4_banc_E2": "banc", "I1_manteau_E2": "manteau", "I4_banc_E3": "banc", "I1_manteau_E3": "manteau"})
 REPLAY = {"IV.2": "clé", "VI.2": "banc"}       # the I.4 pixels, framed and tagged I·4: an equivalent view
 
 SLOT_TYPE = [o for o in PRINTJ["objects"] if o["id"] == "SLOT-TYPE"][0]["states"]
@@ -242,7 +243,7 @@ def ralenti_frame(img):
     from PIL import ImageDraw, ImageFont
     out = replay_frame_mat(img)
     d = ImageDraw.Draw(out)
-    f = ImageFont.truetype("/usr/share/fonts/X11/Type1/c0583bt_.pfb", 20)
+    f = ImageFont.truetype("/home/user/bolas/paeleo/scion/oulipo/films/sources/la-belle-hortense/editor/type/HortenseSlab-Bold.ttf", 20)
     x0, y0, x1, y1 = d.textbbox((30, 26), "V·3 ralenti ×0,64", font=f)
     d.rectangle((x0 - 6, y0 - 4, x1 + 6, y1 + 4), fill=CREAM, outline=INKC, width=2)
     d.text((30, 26), "V·3 ralenti ×0,64", font=f, fill=(165, 9, 23))
@@ -253,7 +254,7 @@ def frame_image(k):
     """the film's frame k as a PIL RGB image."""
     t = k / FPS
     if t < 3.0:
-        img = Image.fromarray(clip_frames(EDIT, "TITLE")[min(k, 71)]).convert("RGBA")
+        img = Image.fromarray(clip_frames(EDIT, "TITLE_E3")[min(k, 71)]).convert("RGBA")
         img.alpha_composite(eprint("title_type_E2.png"))
         return img.convert("RGB")
     if t >= 57.0:
@@ -333,7 +334,7 @@ BASE = [  # (label, clip dir, clip, first frame, caption)
     ("card", None, None, 0, None),
     ("I.1", EDIT, "BASE_I1", 0, "Une gare vide."),
     ("I.4", EDIT, "BASE_I4", 0, "Elle laisse la clé sur le banc."),
-    ("II.2", EDIT, "II2_manteau_E2", 0, "Il prend son manteau."),
+    ("II.2", EDIT, "II2_manteau_E3", 0, "Il prend son manteau."),
     ("II.5", ANIM, "bench_empty", 0, "La clé a disparu."),
     ("V.1", ANIM, "V1_banc", 0, None),
     ("V.3", ANIM, "V3_manteau_clean", 12, "Le manteau revient."),
@@ -345,8 +346,8 @@ BASE = [  # (label, clip dir, clip, first frame, caption)
 def baseline_film():
     from kit import Ink  # noqa: F401
     from PIL import ImageDraw, ImageFont
-    cb = ImageFont.truetype("/usr/share/fonts/X11/Type1/c0583bt_.pfb", 26)
-    cs = ImageFont.truetype("/usr/share/fonts/X11/Type1/c0583bt_.pfb", 18)
+    cb = ImageFont.truetype("/home/user/bolas/paeleo/scion/oulipo/films/sources/la-belle-hortense/editor/type/HortenseSlab-Bold.ttf", 26)
+    cs = ImageFont.truetype("/home/user/bolas/paeleo/scion/oulipo/films/sources/la-belle-hortense/editor/type/HortenseSlab-Bold.ttf", 18)
     durs = [2.0] + [1.5] * 7 + [3.0]
     starts = np.cumsum([0] + durs[:-1])
     total = float(sum(durs))
@@ -364,7 +365,7 @@ def baseline_film():
                 dr.text((60, 236), "baseline: story order, no permutation; no coat in I", font=cs, fill=(165, 9, 23))
                 dr.text((60, 266), "the key is laid on the bare bench; the coat is first seen in II", font=cs, fill=INKC)
             else:
-                dr.text((60, 190), "verify.py: baseline.json REJECTED (12 checks)", font=cb, fill=(165, 9, 23))
+                dr.text((60, 190), "verify.py: baseline.json REJECTED (14 checks)", font=cb, fill=(165, 9, 23))
                 dr.text((60, 236), "the only supports of S are the reveal itself (42.0, 43.5 s);", font=cs, fill=INKC)
                 dr.text((60, 266), "nothing before 39 s points back to the coat.", font=cs, fill=INKC)
             ink.img.paste(img)

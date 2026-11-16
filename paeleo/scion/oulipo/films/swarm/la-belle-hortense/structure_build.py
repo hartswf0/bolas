@@ -77,7 +77,7 @@ A["II"] = {
     "F": ("action", "Tight on the door: the conductor's cut hand tries the handle. Locked. Small pan begins (streak 0.15).",
           "Fermée.", "Locked.", [(0.2, "rattle", "door handle rattle (foraged)")]),
     "A": ("action", "At the bench the red coat is lifted out of frame; for 6 frames a brass glint shows in its fold. Holdout cut behind the bench plane to the conductor already wearing it. (Clue K2.)",
-          "Il reprend son manteau.", "He takes back his coat.", [(0.2, "cloth", "cloth rustle (filtered noise)")]),
+          "Le contrôleur reprend son manteau.", "The conductor takes back his coat.", [(0.2, "cloth", "cloth rustle (filtered noise)")]),
     "E": ("evidence", "He picks up the ticket. Insert: the line 'remise au banc' is legible.",
           "« remise au banc »", "'left at the bench'", [(0.2, "paper", "paper handling")]),
     "B": ("action", "The bell swings: a train is due. He hurries off left; the camera pans; first streaks (0.4).",

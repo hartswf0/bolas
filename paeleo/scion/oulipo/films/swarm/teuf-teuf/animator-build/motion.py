@@ -269,7 +269,7 @@ def sim_counter():
             F_new = X0 + wheel_d(t - C_T0)
         else:
             # grinding: friction stops it within ~0.35 s
-            v = max(0.0, v - 520.0 * DT)
+            v = max(0.0, v - 380.0 * DT)      # repair 2: grinds to rest just after the rear lands (0.30 s fall)
             F_new = F + v * DT
         v = (F_new - F) / DT if not grind else v
         F = F_new
