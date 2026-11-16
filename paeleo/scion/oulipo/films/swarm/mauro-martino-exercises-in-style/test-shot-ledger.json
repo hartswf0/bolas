@@ -1,0 +1,51 @@
+{
+ "shot": "test shot: baseline (street-side, cut-paper), seed 0417, clip t 0.00-7.00 s; defining beat A3 shove at clip t 1.20 (film 0:05.2)",
+ "foraged": [
+  {
+   "title": "1-6-16, nouvel autobus Madeleine-Bastille : [photographie de presse] / [Agence Rol]",
+   "author": "Agence Rol (Bibliotheque nationale de France, Gallica)",
+   "license": "Public domain",
+   "license_url": "",
+   "source_url": "https://commons.wikimedia.org/wiki/File:1-6-16,_nouvel_autobus_Madeleine-Bastille_-_btv1b6946541g.jpg",
+   "file_url": "https://upload.wikimedia.org/wikipedia/commons/e/ee/1-6-16%2C_nouvel_autobus_Madeleine-Bastille_-_btv1b6946541g.jpg",
+   "licence_check": "re-read 2026-11-16 from Commons extmetadata: LicenseShortName 'Public domain', License 'pd', DateTimeOriginal 1916, Credit BnF (raw response: films/sources/mauro-martino-exercises-in-style/test-shot/rol-meta.json)",
+   "commons_original_sha1": "7e34feb9f2f4c26c08ac4cb1a5fed3c13d23921d",
+   "local_file": "films/sources/mauro-martino-exercises-in-style/commons/rol1916.jpg (1280 px thumbnail, reused from the earlier forage)",
+   "local_sha1": "bb5fd56ac6428b621ce0953c8aa0c21b04d88ba5",
+   "used_as": "the bus: rectified to a side elevation (homography in test-shot/plates/plates.json), cut out with GrabCut (mask + box/scribble seeds + hand polygon, 6 iterations, failure mask exported), wheels cut as separate rotating circles, printed through CLAHE + median + threshold into key block, tint block and shade; the real 1916 passengers survive as ink heads in the first windows"
+  }
+ ],
+ "synthetic_declared": [
+  {
+   "element": "sound bed (engine putter, brake squeal, street air)",
+   "made_with": "films/kit.py Mix noise/lowpass/room",
+   "reason": "Commons API returned HTTP 429 on every audio search during this unit; the Moving Image Archive candidates with sound (Formations 1936, Uruguay 1949, Water 1953) could not be confirmed as non-music/non-narration and their rights are unverified, so none was used"
+  },
+  {
+   "element": "shove thud at 1.20, stanchion click at 1.33, runners' steps, bell at 6.00",
+   "made_with": "kit thud / click / step / bell",
+   "reason": "no real bell or street recording obtained"
+  }
+ ],
+ "handmade": [
+  "carved Haussmann facade (mansard + dormers, dentil cornice, pedimented windows, balconies with baluster cuts, lit arched shopfronts), built from seeded tapered gouge strokes in key / tint / dark-tint / shade blocks",
+  "gouged roadway and pavement, kerb, long horizontal cast-shadow strokes",
+  "rear platform: arched lit opening, canopy, floor, step and hangers, ring chain, black stanchion, bell cord and tassel",
+  "carved destination board MADELEINE - BASTILLE (serif capitals with seeded gouge-bitten edges, cut out of an ink board)",
+  "articulated silhouette puppets: long-necked man (felt hat with cut braid notches, cord end), bowler-hatted jostler, two seeded runners (coat/cap, skirt/cloche); Catmull-Rom part outlines, FK with pins and angle limits, replacement hands (fist / flat / open)",
+  "rear bay pane re-cut as a plain tint block so the A6 seat can be read"
+ ],
+ "not_used": [
+  {
+   "title": "Moving Image Archive cache clips 6eb03e7f (Formations, 1936), 1ae81a8c (Uruguay, 1949), 545715d8 (Water, 1953)",
+   "author": "via movingimagearchive.com",
+   "license": "Rights as listed by movingimagearchive.com (largely public domain); not independently verified",
+   "source_url": "https://www.movingimagearchive.com/sources/formations-59719c02?clip=6eb03e7f-b5eb-5366-9aca-ffebedfae20e",
+   "used_as": "audio decoded and analysed only (spectral flatness / tonality); not used"
+  },
+  {
+   "title": "Grève des autobus - Place de la Bourse (Peyriras, 1933)",
+   "used_as": "not used in this shot (its PD basis was not re-verified; Commons rate-limited)"
+  }
+ ]
+}

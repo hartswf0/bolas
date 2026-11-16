@@ -63,8 +63,8 @@ _fibre = {}
 
 def fibre_field(seed, size=(CW, CH)):
     """Paper fibre: many short, slightly curved strands, light and dark, plus fine tooth. Returns ~N(0,1)-ish field."""
-    if seed in _fibre:
-        return _fibre[seed]
+    if (seed, size) in _fibre:
+        return _fibre[(seed, size)]
     rs = np.random.RandomState(seed)
     w, h = size
     img = Image.new("L", size, 128)
@@ -85,7 +85,7 @@ def fibre_field(seed, size=(CW, CH)):
     f = cv2.GaussianBlur(f, (0, 0), 0.7)
     tooth = cv2.GaussianBlur(rs.normal(0, 1, (h, w)).astype(np.float32), (0, 0), 1.2)
     f = f / (f.std() + 1e-6) * 0.8 + tooth / (tooth.std() + 1e-6) * 0.45
-    _fibre[seed] = f
+    _fibre[(seed, size)] = f
     return f
 
 

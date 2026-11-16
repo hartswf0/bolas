@@ -26,7 +26,10 @@ PHONES = {
 
 
 def load(word):
-    raw = subprocess.run(["ffmpeg", "-v", "error", "-i", str(VOICE / f"{word}.wav"), "-ac", "1", "-ar", str(RATE),
+    src = VOICE / f"{word}.wav"
+    if not src.exists():
+        src = VOICE / f"{word}.mp3"        # Commons' own transcode of the same CC0 recording
+    raw = subprocess.run(["ffmpeg", "-v", "error", "-i", str(src), "-ac", "1", "-ar", str(RATE),
                           "-f", "f32le", "-"], capture_output=True, check=True).stdout
     return np.frombuffer(raw, np.float32).astype(np.float64)
 

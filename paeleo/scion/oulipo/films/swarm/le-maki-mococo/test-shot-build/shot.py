@@ -45,7 +45,7 @@ F_TAG = ImageFont.truetype(INTER, 11 * S)
 POEM = ["In the dark it hangs and swings,", "binturong, binturong,", "smells of popcorn, never rings —", "binturong, binturong."]
 X0, BASE0, LEAD = 462, 330, 36
 CUES = {"sound": 2.0, "text": 15.5, "image": 38.0}
-SEGS = [(0.0, 3.0, 15.5), (3.0, 5.5, 38.0), (5.5, 8.0, 44.0), (8.0, 10.01, 52.0)]
+SEGS = [(0.0, 4.0, 15.5), (4.0, 6.3, 38.0), (6.3, 8.3, 44.0), (8.3, 10.01, 52.0)]
 RESP_A = dict(speaker="Reader A (fictional)", t_said=44.0, cites=["image", "text"],
               quoted_span="Oh — it hangs by its tail. ‘Never rings’: it was never a gong.")
 
@@ -84,7 +84,7 @@ HANGS_BOX = word_box(0, "hangs")
 # ------------------------------------------------------------------ voice + visemes (#47) ---
 VO = V.build()               # assembled real recordings, measured timing
 VO_A = 0.30                  # shot time where L1 starts (passage A)
-VO_D = 8.12                  # shot time where "hangs" is said again (passage D)
+VO_D = 8.38                  # shot time where "hangs" is said again (passage D)
 LEAD_S = 1 / 24              # mouth leads the sound by one frame
 
 
@@ -104,9 +104,9 @@ def phone_at(T):
 def gesture(T):
     """Silent acting: the reader's thought (B surprise, C 'O' then close)."""
     ft = film_time(T)
-    if 38.0 <= ft < 40.5:
+    if 38.0 <= ft < 40.3:
         return ("rest" if ft < 38.3 else "surprise"), None
-    if 44.0 <= ft < 46.5:
+    if 44.0 <= ft < 46.0:
         if ft < 44.1:
             return "surprise", None
         if ft < 45.0:
@@ -149,7 +149,7 @@ def jaw_at(T, pose):
     if v:
         return base * (0.75 + 0.45 * e)
     ft = film_time(T)
-    if pose == "surprise" and 38.0 <= ft < 40.5:
+    if pose == "surprise" and 38.0 <= ft < 40.3:
         return 0.6 + (base - 0.6) * kit.smooth(kit.clamp((ft - 38.3) / 1.1))      # slow opening
     return base
 
@@ -177,7 +177,7 @@ def typed_chars(T):
     line = POEM[0]
     pos = 0
     for w in VO["L1"]["words"]:
-        i = line.index(w["text"], pos)
+        i = line.lower().index(w["text"], pos)
         pos = i + len(w["text"])
         t0, t1 = VO_A + w["t0"], VO_A + w["t0"] + max(0.12, (w["t1"] - w["t0"]) * 0.8)
         n = len(w["text"]) + (1 if pos < len(line) and line[pos] in ",." else 0)
@@ -216,8 +216,8 @@ def type_layer(T, img):
         x += (F_CUE.getlength(name) / S + 30) * S
     # layer tag beside the hanging thing (typed graph: hypothesis vs cue)
     tag = ("Reader A’s gong", "(guess)") if ft < 38.5 else ("Brehm, 1895", "(image cue)")
-    d.text((772 * S, 128 * S), tag[0], font=F_TAG, fill=MUTED + (255,), anchor="rs")
-    d.text((772 * S, 143 * S), tag[1], font=F_TAG, fill=MUTED + (255,), anchor="rs")
+    d.text((750 * S, 128 * S), tag[0], font=F_TAG, fill=MUTED + (255,), anchor="rs")
+    d.text((750 * S, 143 * S), tag[1], font=F_TAG, fill=MUTED + (255,), anchor="rs")
     # caption: Reader A's reconsideration (cites image released 0:38 <= 0:44)
     if ft >= 44.1:
         a = kit.ramp(ft, 44.1, 44.35) * (0.55 if ft >= 52.0 else 1.0)
@@ -247,7 +247,7 @@ def underline(T, img):
     """Red pencil drawn straight-ahead under 'hangs': dabs along a slightly bowed stroke, skipping on paper tooth."""
     global _pencil
     ft = film_time(T)
-    t0, t1 = 52.30, 53.30
+    t0, t1 = 52.15, 53.00
     if ft < t0:
         return
     if _pencil is None:
@@ -267,10 +267,10 @@ def underline(T, img):
     lay = Image.new("L", (P.CW, P.CH), 0)
     d = ImageDraw.Draw(lay)
     for i in range(k):
-        r = (1.25 + 0.5 * press[i]) * S
-        d.ellipse([xs[i] * S - r, ys[i] * S - r * 0.8, xs[i] * S + r, ys[i] * S + r * 0.8], fill=int(160 * press[i]))
+        r = (1.5 + 0.6 * press[i]) * S
+        d.ellipse([xs[i] * S - r, ys[i] * S - r * 0.8, xs[i] * S + r, ys[i] * S + r * 0.8], fill=int(235 * press[i]))
     a = np.asarray(lay, np.float32) / 255.0
-    a = a * np.clip(0.75 + 0.5 * tooth, 0, 1)          # graphite/wax skips on the paper tooth
+    a = a * np.clip(0.82 + 0.35 * tooth, 0, 1)          # graphite/wax skips on the paper tooth
     img[..., :3] = img[..., :3] * (1 - a[..., None]) + np.array(PENCIL, np.float32) * a[..., None]
 
 
@@ -327,18 +327,18 @@ def sound(mix):
     mix.add(VO["L1"]["wav"], VO_A, gain=0.9)     # real voice (Lingua Libre, CC0)
     mix.add(VO["hangs"]["wav"], VO_D, gain=0.9)
     # B: the animal's weight lands on the cord: a dull paper flop; wedges tick as they tear. NO ring.
-    mix.thud(3.0, freq=95, gain=0.10, seconds=0.25)
+    mix.thud(4.0, freq=95, gain=0.10, seconds=0.25)
     for ft in hanging.gone(38.0):
-        T = 3.0 + ft - 38.0
+        T = 4.0 + ft - 38.0
         mix.click(T, gain=0.11, pan=0.55, bright=2600, seconds=0.035)
         x = mix.band(mix.noise(0.09), 700, 3200) * np.exp(-np.linspace(0, 6, int(0.09 * mix.rate)))
         mix.add(x, T + 0.02, gain=0.035, pan=0.6)
     # D: red pencil on paper (band-passed noise shaped by the stroke speed)
-    t0 = 8.0 + 0.30
-    n = int(1.0 * mix.rate)
+    t0 = 8.3 + 0.15
+    n = int(0.85 * mix.rate)
     u = np.linspace(0, 1, n)
     sp = np.gradient(np.array([kit.smooth(x) for x in u]))
-    x = mix.band(mix.noise(1.0), 1800, 6000) * (sp / sp.max()) * (0.7 + 0.3 * np.random.RandomState(5).rand(n))
+    x = mix.band(mix.noise(0.85), 1800, 6000) * (sp / sp.max()) * (0.7 + 0.3 * np.random.RandomState(5).rand(n))
     mix.add(x, t0, gain=0.05, pan=0.1)
 
 

@@ -858,6 +858,20 @@ def render_frame(f, sim):
 def sound(mix, bed):
     if bed is not None:
         mix.add(bed, 0.0, gain=1.0)
+    else:
+        # SYNTHETIC (declared): no openly licensed street/engine recording could be fetched for this
+        # test shot (Commons API answered HTTP 429 throughout). Engine putter + street air from kit.
+        n = int(CLIP * mix.rate); tt = np.arange(n) / mix.rate
+        rpm = np.where(tt < 0.9, 15 - 4 * tt / 0.9, np.where(tt < 6.2, 10.5, 10.5 + 7 * np.clip((tt - 6.2) / 0.8, 0, 1)))
+        ph = 2 * np.pi * np.cumsum(rpm) / mix.rate
+        putter = (0.5 + 0.5 * np.sin(ph)) ** 3
+        eng = mix.lowpass(mix.noise(CLIP, "brown"), 320) * putter
+        eng += 0.25 * np.sin(2 * ph * 4) * putter
+        lvl = np.where(tt < 0.9, 1.0, np.where(tt < 6.2, 0.6, 1.0 + 0.6 * np.clip((tt - 6.2) / 0.8, 0, 1)))
+        mix.add(eng * lvl, 0.0, gain=0.22, pan=0.25)
+        squeal = mix.band(mix.noise(0.55), 2600, 3400) * np.linspace(1, 0, int(0.55 * mix.rate)) ** 1.5
+        mix.add(squeal, 0.35, gain=0.05, pan=0.3)            # brake as the layer decelerates
+        mix.room(0.0, CLIP, gain=0.035)
     mix.thud(1.20, freq=80, gain=0.55)                         # A3 shove (synthetic, declared)
     mix.click(1.33, gain=0.35, bright=2500, seconds=0.05)      # A4 shoulder on the brass stanchion
     for k in range(13):                                        # runners' steps (synthetic, declared)

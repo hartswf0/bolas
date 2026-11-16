@@ -31,12 +31,12 @@ POSES = {
     "rest":     dict(jaw=0.6, ulift=0, upro=0, lpro=0, ldrop=0, tuck=0, corner=0, thick=1.00, tongue=0),
     "MBP":      dict(jaw=0.0, ulift=-2, upro=3, lpro=4, ldrop=-5, tuck=0, corner=4, thick=0.92, tongue=0),
     "A":        dict(jaw=4.6, ulift=5, upro=-2, lpro=-6, ldrop=4, tuck=0, corner=-4, thick=0.92, tongue=0),
-    "O":        dict(jaw=3.0, ulift=3, upro=12, lpro=10, ldrop=2, tuck=0, corner=46, thick=1.10, tongue=0),
+    "O":        dict(jaw=3.0, ulift=3, upro=10, lpro=10, ldrop=2, tuck=0, corner=12, thick=1.10, tongue=0),
     "EI":       dict(jaw=1.8, ulift=6, upro=-4, lpro=-6, ldrop=0, tuck=0, corner=-16, thick=0.86, tongue=0),
-    "UW":       dict(jaw=1.4, ulift=1, upro=16, lpro=14, ldrop=0, tuck=0, corner=58, thick=1.08, tongue=0),
+    "UW":       dict(jaw=1.4, ulift=1, upro=16, lpro=14, ldrop=0, tuck=0, corner=16, thick=1.08, tongue=0),
     "FV":       dict(jaw=0.9, ulift=4, upro=0, lpro=-16, ldrop=-10, tuck=1, corner=0, thick=0.95, tongue=0),
     "LNT":      dict(jaw=2.0, ulift=4, upro=0, lpro=-2, ldrop=0, tuck=0, corner=-6, thick=0.95, tongue=1),
-    "hm":       dict(jaw=0.0, ulift=-2, upro=8, lpro=9, ldrop=-6, tuck=0, corner=26, thick=1.04, tongue=0),
+    "hm":       dict(jaw=0.0, ulift=-2, upro=8, lpro=9, ldrop=-6, tuck=0, corner=10, thick=1.04, tongue=0),
     "surprise": dict(jaw=5.6, ulift=10, upro=2, lpro=-2, ldrop=8, tuck=0, corner=8, thick=1.02, tongue=0),
 }
 POSE_IDS = list(POSES)
@@ -79,7 +79,7 @@ HEAD = [(-40, -20), (414, -20), (412, -2), (398, 12), (392, 22), (398, 30), (360
         (146, 176), (136, 226), (118, 286), (92, 348), (58, 410), (14, 466), (-40, 520)]
 JAW = [(-320, 120), (150, 132), (300, 150), (392, 190), (388, 250), (366, 282), (352, 300), (360, 330), (378, 362),
        (382, 398), (372, 432), (346, 460), (300, 482), (236, 498), (150, 510), (40, 528), (-320, 560)]
-NECK = [(-40, 380), (180, 440), (300, 452), (278, 482), (252, 512), (232, 580), (-40, 580)]
+NECK = [(-40, 380), (180, 440), (318, 452), (304, 486), (290, 520), (282, 580), (-40, 580)]
 TEETH_PTS = [(326, 96), (392, 98), (403, 104), (405, 122), (398, 136), (386, 139), (370, 137), (350, 133), (328, 129)]
 CAVITY_PTS = [(150, 132), (300, 108), (404, 102), (414, 128), (408, 172), (398, 212), (300, 222), (150, 200)]
 TONGUE_PTS = [(170, 200), (290, 178), (356, 176), (384, 190), (378, 208), (330, 222), (220, 232), (160, 226)]
@@ -143,7 +143,7 @@ class Mouth:
             gl = P.piece(poly(gloss_poly(p), 300 + i), GLOSS, 300 + i, (180, 110, 116), (236, 196, 196), fibre=0.0, rim=0.12, model=0.25)
             # gloss is a separate small piece of glossy paper glued onto the lower lip: compose it into the lip drawing
             P.shadow(lo, gl[..., 3], dx=1.0, dy=1.5, blur=1.2, strength=0.25, clip=lo[..., 3])
-            P.over(lo, gl, 0.92)
+            P.over(lo, gl, 0.62)
             self.lib[pid] = (up, lo)
 
     def render(self, pose, jaw_deg, bg):
