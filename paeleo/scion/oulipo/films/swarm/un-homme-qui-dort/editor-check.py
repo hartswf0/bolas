@@ -22,7 +22,7 @@ HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[2]
 MP4 = ROOT / "assets/films/un-homme-qui-dort.mp4"
 REF = ROOT / "assets/references/sommeil.webp"
-DIRS = {k: Path(v) for k, v in json.loads((HERE / "e2-picture-ledger.json").read_text())["shot_dirs"].items()}  # repair round 1
+DIRS = {k: Path(v) for k, v in json.loads((HERE / "e3-picture-ledger.json").read_text())["shot_dirs"].items()}  # repair round 2
 W, H, FPS = 960, 540, 24
 SHOTS = [("S1", 0.0, 5.5), ("S2", 5.5, 8.5), ("S3", 8.5, 11.5), ("S4", 11.5, 19.0),
          ("S5", 19.0, 24.5), ("S6", 24.5, 27.0), ("S7", 27.0, 35.0)]
@@ -63,7 +63,7 @@ def shot_frame(pt):
 def main():
     V = decode_video()
     out = {"film_frames": int(V.shape[0]), "duration_s": V.shape[0] / FPS}
-    u1 = json.loads((HERE / "e2-picture-ledger.json").read_text())
+    u1 = json.loads((HERE / "e3-picture-ledger.json").read_text())
     head = u1["measured"]["head_height"]
     timings = json.loads((HERE / "editor-final-timings.json").read_text())
     capfr = {k: [tuple(c["frames_film"]) for c in timings["captions_film_t"][k]] for k in "AB"}
@@ -145,7 +145,7 @@ def main():
         "E4": {"t_on": m["events"]["E4_enter"]["measured_t"], "exit": m["events"]["E4_exit"]["measured_t"]},
         "E6": {"t_on": m["events"]["E6_enter"]["measured_t"], "exit": m["events"]["E6_exit"]["measured_t"]}},
         "figure_alpha_coverage": {"S5": cov["S5"], "S7": cov["S7"]},
-        "note": "derived by editor-check.py from e2-picture-ledger.json measured.*; E2/E2b/E3 are sound events (U2 placed at planned times)"}
+        "note": "derived by editor-check.py from e3-picture-ledger.json measured.*; E2/E2b/E3 are sound events (U2 placed at planned times)"}
     (HERE / "editor-gate-picture.json").write_text(json.dumps(gate_pic, indent=1))
     (HERE / "editor-check.json").write_text(json.dumps(out, indent=1))
     # side-by-side sheet: reference + one caption-free final frame per shot

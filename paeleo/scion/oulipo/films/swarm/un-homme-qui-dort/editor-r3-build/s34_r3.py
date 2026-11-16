@@ -135,7 +135,7 @@ def plate_big():
     """the graded negative itself on the shot's crop, at render scale (U1 curve; identical to the rest composite
     except that it has no matte edges)."""
     if "g" not in _PLATE:
-        g, c, rec = graded_plate("2017862340")
+        g, c, rec = graded_plate("2017862340", tuple(man["curve"]["stats_box"]))
         x0, y0, x1, y1 = CROP
         _PLATE["g"] = cv2.resize(g[y0:y1, x0:x1].astype(np.float32), (W * SS, H * SS), interpolation=cv2.INTER_AREA)
     return _PLATE["g"]

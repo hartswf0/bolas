@@ -2,8 +2,8 @@
  "film": "un-homme-qui-dort",
  "unit": "U3 voice writer + referent checker (one owner, one ledger)",
  "mode": "handmake",
- "forks_from": "beats-r2",
- "date": "2026-11-15",
+ "forks_from": "beats-r3",
+ "date": "2026-11-16 (r3, editor)",
  "time_base": "pass-relative seconds, 24 fps; film time = pass + 1.0 (A) or + 37.0 (B)",
  "declared_addressee": {
   "id": "you:A1",
@@ -16,18 +16,18 @@
  },
  "viseme_set": {
   "declared": "empty",
-  "note": "SCION-47: the performer never speaks; mouth stays closed; no flapping in silence"
+  "note": "SCION-47: the performer never speaks and no mouth motion is authored anywhere. Mouths are the plates' own and stay still: closed in S1 (2017862333); pursed/slightly open as photographed in S3/S4 and on the S5/S7 climber (2017862340). r2 wrongly said 'mouth stays closed' (the r2 S1 plate 2017862347 had an open mouth)."
  },
  "offset_rule": "A.on = event.t_on - 1.2; B.on = event.t_on + 1.2 (tolerance 0.05 s). Durations identical across tracks.",
  "clauses": [
   {
    "clause_id": "c1",
-   "text": "You open your eyes.",
+   "text": "You lift your head.",
    "addressee_id": "you:A1",
    "grammatical_person": 2,
    "subject": "You",
-   "predicate": "open(your eyes)",
-   "verb": "open",
+   "predicate": "lift(your head)",
+   "verb": "lift",
    "polarity": "positive",
    "aspect": "punctual",
    "referent_tags": [
@@ -38,10 +38,10 @@
      "depicted_by": "figure:F (Bubley sitter, LoC 2017862333) via bind E1"
     },
     {
-     "span": "your eyes",
+     "span": "your head",
      "role": "patient (body part of addressee)",
-     "referent": "you:A1.eyes",
-     "depicted_by": "figure:F eyes; kept down and off-lens (invariant 4)"
+     "referent": "you:A1.head",
+     "depicted_by": "figure:F head piece H rising >= 30 px off the fixed hand K in E1 (r3); eyes the plate's own, down and off-lens"
     }
    ],
    "bind": {
@@ -323,13 +323,13 @@
      "span": "You",
      "role": "agent / addressee",
      "referent": "you:A1",
-     "depicted_by": "figure:F (Vachon powder-plant employee, LoC 2017811447; declared casting substitution) via bind E4"
+     "depicted_by": "figure:F (the Bubley sitter of S3/S4, cut from LoC 2017862340, climbing the Mydans stair LoC 2017714056) via bind E4"
     },
     {
      "span": "the stairs",
      "role": "path",
      "referent": "place:stair#1",
-     "depicted_by": "S5 stair plate LoC 2017811447"
+     "depicted_by": "S5 stair plate LoC 2017714056 (Mydans)"
     }
    ],
    "bind": {
@@ -582,7 +582,7 @@
    "narrator": "N, off-screen, captions only",
    "on_screen_performer": "figure:F (Bubley sitter, LoC 2017862340)",
    "audience_position": "spectator before the screen",
-   "performer_eyeline": "off-lens; turns 3 deg toward frame left at 9.25",
+   "performer_eyeline": "off-lens; turns 9 deg toward frame left at 9.25",
    "is_pov": false,
    "gaze_meets_lens": false
   },
@@ -606,11 +606,11 @@
     19.0,
     24.5
    ],
-   "camera_viewpoint": "side-on to the stair from the hall below",
+   "camera_viewpoint": "below and beside the flight, outside him; he looks ahead up the stair, off-lens",
    "narrator": "N, off-screen, captions only",
-   "on_screen_performer": "figure:F (Vachon powder-plant employee, LoC 2017811447) 20.5-23.5; none 19.0-20.5 and 23.5-24.5",
+   "on_screen_performer": "figure:F (Bubley sitter, cut from LoC 2017862340, on the Mydans stair LoC 2017714056) 20.5-23.5; none 19.0-20.5 and 23.5-24.5",
    "audience_position": "spectator before the screen",
-   "performer_eyeline": "profile, up the stair, off-lens",
+   "performer_eyeline": "three-quarter, ahead up the stair, off-lens",
    "is_pov": false,
    "gaze_meets_lens": false
   },
@@ -674,7 +674,7 @@
   "gate": "/home/user/bolas/paeleo/scion/oulipo/films/swarm/un-homme-qui-dort/u3-gate.py",
   "audit": "/home/user/bolas/paeleo/scion/oulipo/films/swarm/un-homme-qui-dort/u3-referent-audit.json",
   "caption_proof": "/home/user/bolas/paeleo/scion/oulipo/films/swarm/un-homme-qui-dort/u3-caption-proof.png",
-  "builder": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/u3-voice-writer-referent-checker-one-owner-one-ledger-/u3_build_ledger.py"
+  "builder": "/home/user/bolas/paeleo/scion/oulipo/films/swarm/un-homme-qui-dort/editor-r3-build/u3_build_ledger_r3.py"
  },
  "evidence": [
   {

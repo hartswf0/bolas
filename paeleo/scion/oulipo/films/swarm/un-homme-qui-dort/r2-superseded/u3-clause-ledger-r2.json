@@ -1,0 +1,744 @@
+{
+ "film": "un-homme-qui-dort",
+ "unit": "U3 voice writer + referent checker (one owner, one ledger)",
+ "mode": "handmake",
+ "forks_from": "beats-r2",
+ "date": "2026-11-15",
+ "time_base": "pass-relative seconds, 24 fps; film time = pass + 1.0 (A) or + 37.0 (B)",
+ "declared_addressee": {
+  "id": "you:A1",
+  "grammatical_person": 2,
+  "note": "one addressee throughout; no marked shift exists in this proof"
+ },
+ "diegetic_speech_track": {
+  "declared": "empty",
+  "note": "invariant 2; U2 states no speech audible"
+ },
+ "viseme_set": {
+  "declared": "empty",
+  "note": "SCION-47: the performer never speaks; mouth stays closed; no flapping in silence"
+ },
+ "offset_rule": "A.on = event.t_on - 1.2; B.on = event.t_on + 1.2 (tolerance 0.05 s). Durations identical across tracks.",
+ "clauses": [
+  {
+   "clause_id": "c1",
+   "text": "You open your eyes.",
+   "addressee_id": "you:A1",
+   "grammatical_person": 2,
+   "subject": "You",
+   "predicate": "open(your eyes)",
+   "verb": "open",
+   "polarity": "positive",
+   "aspect": "punctual",
+   "referent_tags": [
+    {
+     "span": "You",
+     "role": "agent / addressee",
+     "referent": "you:A1",
+     "depicted_by": "figure:F (Bubley sitter, LoC 2017862333) via bind E1"
+    },
+    {
+     "span": "your eyes",
+     "role": "patient (body part of addressee)",
+     "referent": "you:A1.eyes",
+     "depicted_by": "figure:F eyes; kept down and off-lens (invariant 4)"
+    }
+   ],
+   "bind": {
+    "event_id": "E1",
+    "event_name": "wake: head piece lifts off the hand and rights itself",
+    "subject_id": "figure:F",
+    "shot_id": "S1",
+    "observation_interval": [
+     2.0,
+     2.8
+    ],
+    "exit": null
+   },
+   "duration_s": 1.2,
+   "tracks": {
+    "A": {
+     "track": "A_ahead",
+     "interval": [
+      0.8,
+      2.0
+     ],
+     "film_interval": [
+      1.8,
+      3.0
+     ],
+     "declared_relation": "anticipates",
+     "onset_minus_event_s": -1.2,
+     "overlaps_computed": false,
+     "overlap_with_bound_event_s": 0.0,
+     "incidental_overlaps_unbound": [],
+     "shots_spanned": [
+      "S1"
+     ],
+     "gap_to_SIL-H_s": 9.5,
+     "figure_visible_planned": [
+      [
+       0.8,
+       2.0
+      ]
+     ]
+    },
+    "B": {
+     "track": "B_behind",
+     "interval": [
+      3.2,
+      4.4
+     ],
+     "film_interval": [
+      40.2,
+      41.4
+     ],
+     "declared_relation": "lags",
+     "onset_minus_event_s": 1.2,
+     "overlaps_computed": false,
+     "overlap_with_bound_event_s": 0.0,
+     "incidental_overlaps_unbound": [],
+     "shots_spanned": [
+      "S1"
+     ],
+     "gap_to_SIL-H_s": 7.1,
+     "figure_visible_planned": [
+      [
+       3.2,
+       4.4
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "clause_id": "c2",
+   "text": "You hear it through the wall.",
+   "addressee_id": "you:A1",
+   "grammatical_person": 2,
+   "subject": "You",
+   "predicate": "hear(it, through the wall)",
+   "verb": "hear",
+   "polarity": "positive",
+   "aspect": "perception",
+   "referent_tags": [
+    {
+     "span": "You",
+     "role": "experiencer / addressee",
+     "referent": "you:A1",
+     "depicted_by": "absent from S2 (nobody present); figure:F is the off-screen listener whose room fixes sonic perspective"
+    },
+    {
+     "span": "it",
+     "role": "stimulus (3rd-person non-human; not narration person)",
+     "referent": "object:telephone.ring",
+     "depicted_by": "E2 ring 1 (sound) over S2 telephone plate LoC 2017735081"
+    },
+    {
+     "span": "the wall",
+     "role": "path",
+     "referent": "place:wall-between-room-and-hall",
+     "depicted_by": "sonic perspective only (low-passed bell, U2); not shown as such"
+    }
+   ],
+   "bind": {
+    "event_id": "E2",
+    "event_name": "ring 1",
+    "subject_id": "object:telephone",
+    "shot_id": "S2",
+    "observation_interval": [
+     6.0,
+     7.0
+    ],
+    "exit": null
+   },
+   "duration_s": 1.25,
+   "tracks": {
+    "A": {
+     "track": "A_ahead",
+     "interval": [
+      4.8,
+      6.05
+     ],
+     "film_interval": [
+      5.8,
+      7.05
+     ],
+     "declared_relation": "anticipates",
+     "onset_minus_event_s": -1.2,
+     "overlaps_computed": true,
+     "overlap_with_bound_event_s": 0.05,
+     "incidental_overlaps_unbound": [],
+     "shots_spanned": [
+      "S1",
+      "S2"
+     ],
+     "gap_to_SIL-H_s": 5.45,
+     "figure_visible_planned": [
+      [
+       4.8,
+       5.5
+      ]
+     ]
+    },
+    "B": {
+     "track": "B_behind",
+     "interval": [
+      7.2,
+      8.45
+     ],
+     "film_interval": [
+      44.2,
+      45.45
+     ],
+     "declared_relation": "lags",
+     "onset_minus_event_s": 1.2,
+     "overlaps_computed": false,
+     "overlap_with_bound_event_s": 0.0,
+     "incidental_overlaps_unbound": [
+      {
+       "event_id": "E2b",
+       "overlap_s": 0.85,
+       "bound": false
+      }
+     ],
+     "shots_spanned": [
+      "S2"
+     ],
+     "gap_to_SIL-H_s": 3.05,
+     "figure_visible_planned": []
+    }
+   }
+  },
+  {
+   "clause_id": "c3",
+   "text": "You do not answer.",
+   "addressee_id": "you:A1",
+   "grammatical_person": 2,
+   "subject": "You",
+   "predicate": "answer(it)",
+   "verb": "answer",
+   "polarity": "negative",
+   "aspect": "refusal (withheld action)",
+   "referent_tags": [
+    {
+     "span": "You",
+     "role": "agent of refused act / addressee",
+     "referent": "you:A1",
+     "depicted_by": "figure:F (Bubley sitter, LoC 2017862340) via bind E3"
+    },
+    {
+     "span": "(answer) [implicit object]",
+     "role": "elided theme",
+     "referent": "object:telephone.call",
+     "depicted_by": "ring 3 heard in S3; head turns at 9.25 and returns at 10.4, no reach"
+    }
+   ],
+   "bind": {
+    "event_id": "E3",
+    "event_name": "ring 3 heard, not answered (head turns at 9.25 toward the sound, shadow follows, holds; returns at 10.4; no reach)",
+    "subject_id": "figure:F",
+    "shot_id": "S3",
+    "observation_interval": [
+     9.0,
+     10.0
+    ],
+    "exit": null
+   },
+   "duration_s": 1.2,
+   "tracks": {
+    "A": {
+     "track": "A_ahead",
+     "interval": [
+      7.8,
+      9.0
+     ],
+     "film_interval": [
+      8.8,
+      10.0
+     ],
+     "declared_relation": "anticipates",
+     "onset_minus_event_s": -1.2,
+     "overlaps_computed": false,
+     "overlap_with_bound_event_s": 0.0,
+     "incidental_overlaps_unbound": [
+      {
+       "event_id": "E2b",
+       "overlap_s": 0.8,
+       "bound": false
+      }
+     ],
+     "shots_spanned": [
+      "S2",
+      "S3"
+     ],
+     "gap_to_SIL-H_s": 2.5,
+     "figure_visible_planned": [
+      [
+       8.5,
+       9.0
+      ]
+     ]
+    },
+    "B": {
+     "track": "B_behind",
+     "interval": [
+      10.2,
+      11.4
+     ],
+     "film_interval": [
+      47.2,
+      48.4
+     ],
+     "declared_relation": "lags",
+     "onset_minus_event_s": 1.2,
+     "overlaps_computed": false,
+     "overlap_with_bound_event_s": 0.0,
+     "incidental_overlaps_unbound": [],
+     "shots_spanned": [
+      "S3"
+     ],
+     "gap_to_SIL-H_s": 0.1,
+     "figure_visible_planned": [
+      [
+       10.2,
+       11.4
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "clause_id": "c4",
+   "text": "You take the stairs.",
+   "addressee_id": "you:A1",
+   "grammatical_person": 2,
+   "subject": "You",
+   "predicate": "take(the stairs)",
+   "verb": "take",
+   "polarity": "positive",
+   "aspect": "motion",
+   "referent_tags": [
+    {
+     "span": "You",
+     "role": "agent / addressee",
+     "referent": "you:A1",
+     "depicted_by": "figure:F (Vachon powder-plant employee, LoC 2017811447; declared casting substitution) via bind E4"
+    },
+    {
+     "span": "the stairs",
+     "role": "path",
+     "referent": "place:stair#1",
+     "depicted_by": "S5 stair plate LoC 2017811447"
+    }
+   ],
+   "bind": {
+    "event_id": "E4",
+    "event_name": "flight 1: figure enters frame",
+    "subject_id": "figure:F",
+    "shot_id": "S5",
+    "observation_interval": [
+     20.5,
+     23.5
+    ],
+    "exit": 23.5
+   },
+   "duration_s": 1.3,
+   "tracks": {
+    "A": {
+     "track": "A_ahead",
+     "interval": [
+      19.3,
+      20.6
+     ],
+     "film_interval": [
+      20.3,
+      21.6
+     ],
+     "declared_relation": "anticipates",
+     "onset_minus_event_s": -1.2,
+     "overlaps_computed": true,
+     "overlap_with_bound_event_s": 0.1,
+     "incidental_overlaps_unbound": [],
+     "shots_spanned": [
+      "S5"
+     ],
+     "gap_to_SIL-H_s": 0.3,
+     "figure_visible_planned": [
+      [
+       20.5,
+       20.6
+      ]
+     ],
+     "after_exit_s": 0.0
+    },
+    "B": {
+     "track": "B_behind",
+     "interval": [
+      21.7,
+      23.0
+     ],
+     "film_interval": [
+      58.7,
+      60.0
+     ],
+     "declared_relation": "lags",
+     "onset_minus_event_s": 1.2,
+     "overlaps_computed": true,
+     "overlap_with_bound_event_s": 1.3,
+     "incidental_overlaps_unbound": [],
+     "shots_spanned": [
+      "S5"
+     ],
+     "gap_to_SIL-H_s": 2.7,
+     "figure_visible_planned": [
+      [
+       21.7,
+       23.0
+      ]
+     ],
+     "after_exit_s": 0.0
+    }
+   }
+  },
+  {
+   "clause_id": "c5",
+   "text": "You take the same stairs again, one step after another.",
+   "addressee_id": "you:A1",
+   "grammatical_person": 2,
+   "subject": "You",
+   "predicate": "take(the same stairs, again; one step after another)",
+   "verb": "take",
+   "polarity": "positive",
+   "aspect": "iterative motion",
+   "referent_tags": [
+    {
+     "span": "You",
+     "role": "agent / addressee",
+     "referent": "you:A1",
+     "depicted_by": "figure:F via bind E6 while visible (28.5-31.5); after E6.exit nobody: in track B the address falls on the audience position (D)"
+    },
+    {
+     "span": "the same stairs",
+     "role": "path (identity claim)",
+     "referent": "place:stair#1",
+     "depicted_by": "S7 27.0-32.5 = S5 frames byte-identical (invariant 5); 'same' is true by frame identity"
+    },
+    {
+     "span": "again",
+     "role": "iteration anaphor",
+     "referent": "event:E4",
+     "depicted_by": "repeat of flight 1"
+    },
+    {
+     "span": "one step after another",
+     "role": "manner",
+     "referent": "event:E7 footfalls",
+     "depicted_by": "footfalls 28.8, 29.35, 29.9, 30.45, 31.0 (step dips + foraged steps)"
+    }
+   ],
+   "bind": {
+    "event_id": "E6",
+    "event_name": "flight 2: figure enters frame (same frames as E4)",
+    "subject_id": "figure:F",
+    "shot_id": "S7",
+    "observation_interval": [
+     28.5,
+     31.5
+    ],
+    "exit": 31.5
+   },
+   "duration_s": 2.8,
+   "tracks": {
+    "A": {
+     "track": "A_ahead",
+     "interval": [
+      27.3,
+      30.1
+     ],
+     "film_interval": [
+      28.3,
+      31.1
+     ],
+     "declared_relation": "anticipates",
+     "onset_minus_event_s": -1.2,
+     "overlaps_computed": true,
+     "overlap_with_bound_event_s": 1.6,
+     "incidental_overlaps_unbound": [],
+     "shots_spanned": [
+      "S7"
+     ],
+     "gap_to_SIL-H_s": 8.3,
+     "figure_visible_planned": [
+      [
+       28.5,
+       30.1
+      ]
+     ],
+     "after_exit_s": 0.0
+    },
+    "B": {
+     "track": "B_behind",
+     "interval": [
+      29.7,
+      32.5
+     ],
+     "film_interval": [
+      66.7,
+      69.5
+     ],
+     "declared_relation": "lags",
+     "onset_minus_event_s": 1.2,
+     "overlaps_computed": true,
+     "overlap_with_bound_event_s": 1.8,
+     "incidental_overlaps_unbound": [],
+     "shots_spanned": [
+      "S7"
+     ],
+     "gap_to_SIL-H_s": 10.7,
+     "figure_visible_planned": [
+      [
+       29.7,
+       31.5
+      ]
+     ],
+     "after_exit_s": 1.0
+    }
+   }
+  }
+ ],
+ "silences": [
+  {
+   "id": "SIL-H",
+   "interval": [
+    11.5,
+    19.0
+   ],
+   "shot_id": "S4",
+   "film_intervals": {
+    "A": [
+     12.5,
+     20.0
+    ],
+    "B": [
+     48.5,
+     56.0
+    ]
+   },
+   "tracks": {
+    "A": {
+     "relation": "leaves_silence",
+     "captions": []
+    },
+    "B": {
+     "relation": "leaves_silence",
+     "captions": []
+    }
+   },
+   "allowed_sound": "room tone only",
+   "guard_s": 0.1,
+   "nearest_clauses": {
+    "before": "c3.B ends 11.4 (gap 0.1)",
+    "after": "c4.A starts 19.3 (gap 0.3)"
+   }
+  }
+ ],
+ "viewpoints": [
+  {
+   "shot_id": "S1",
+   "t": [
+    0.0,
+    5.5
+   ],
+   "camera_viewpoint": "beside the bed at his head height, outside him, looking at his face (he looks down, not into lens)",
+   "narrator": "N, off-screen, captions only",
+   "on_screen_performer": "figure:F (Bubley sitter, LoC 2017862333)",
+   "audience_position": "spectator before the screen",
+   "performer_eyeline": "down at his hand/pillow, off-lens",
+   "is_pov": false,
+   "gaze_meets_lens": false
+  },
+  {
+   "shot_id": "S2",
+   "t": [
+    5.5,
+    8.5
+   ],
+   "camera_viewpoint": "across the hall; nobody present",
+   "narrator": "N, off-screen, captions only",
+   "on_screen_performer": "none (nobody present; telephone only)",
+   "audience_position": "spectator before the screen",
+   "performer_eyeline": "n/a",
+   "is_pov": false,
+   "gaze_meets_lens": false
+  },
+  {
+   "shot_id": "S3",
+   "t": [
+    8.5,
+    11.5
+   ],
+   "camera_viewpoint": "across the room at seated head height, outside him; his eyes are turned off-lens",
+   "narrator": "N, off-screen, captions only",
+   "on_screen_performer": "figure:F (Bubley sitter, LoC 2017862340)",
+   "audience_position": "spectator before the screen",
+   "performer_eyeline": "off-lens; turns 3 deg toward frame left at 9.25",
+   "is_pov": false,
+   "gaze_meets_lens": false
+  },
+  {
+   "shot_id": "S4",
+   "t": [
+    11.5,
+    19.0
+   ],
+   "camera_viewpoint": "as S3, closer",
+   "narrator": "N, off-screen, captions only",
+   "on_screen_performer": "figure:F (Bubley sitter, LoC 2017862340)",
+   "audience_position": "spectator before the screen",
+   "performer_eyeline": "off-lens (as S3)",
+   "is_pov": false,
+   "gaze_meets_lens": false
+  },
+  {
+   "shot_id": "S5",
+   "t": [
+    19.0,
+    24.5
+   ],
+   "camera_viewpoint": "side-on to the stair from the hall below",
+   "narrator": "N, off-screen, captions only",
+   "on_screen_performer": "figure:F (Vachon powder-plant employee, LoC 2017811447) 20.5-23.5; none 19.0-20.5 and 23.5-24.5",
+   "audience_position": "spectator before the screen",
+   "performer_eyeline": "profile, up the stair, off-lens",
+   "is_pov": false,
+   "gaze_meets_lens": false
+  },
+  {
+   "shot_id": "S6",
+   "t": [
+    24.5,
+    27.0
+   ],
+   "camera_viewpoint": "foot of the stairwell looking up, empty",
+   "narrator": "N, off-screen, captions only",
+   "on_screen_performer": "none (empty stairwell)",
+   "audience_position": "spectator before the screen",
+   "performer_eyeline": "n/a",
+   "is_pov": false,
+   "gaze_meets_lens": false
+  },
+  {
+   "shot_id": "S7",
+   "t": [
+    27.0,
+    35.0
+   ],
+   "camera_viewpoint": "as S5",
+   "narrator": "N, off-screen, captions only",
+   "on_screen_performer": "figure:F (same frames as S5) 28.5-31.5; none 27.0-28.5 and 31.5-35.0",
+   "audience_position": "spectator before the screen",
+   "performer_eyeline": "as S5",
+   "is_pov": false,
+   "gaze_meets_lens": false
+  }
+ ],
+ "roles_kept_distinct": "camera_viewpoint, narrator, on_screen_performer and audience_position are four separate fields per shot and never merge: no POV, the narrator never appears, the performer never looks into the lens, the audience is addressed only through the empty frames of D.",
+ "defining_beat": {
+  "id": "D",
+  "where": "PASS-B, c5 over S7",
+  "condition": "c5.B visible on >= 0.8 s of frames after E6.exit (31.5) with zero figure-alpha coverage; planned 1.0 s"
+ },
+ "baseline": {
+  "id": "Bl",
+  "where": "PASS-B, c4 over S5",
+  "condition": "c4.B [21.7, 23.0] lies wholly inside the figure-visible interval [20.5, 23.5]"
+ },
+ "allowed_edit_crossings": [
+  "c2.A starts in S1 (4.8) and runs into S2, the shot holding its own event E2: allowed.",
+  "c3.A starts in S2 (7.8) and runs into S3, the shot holding its own event E3: allowed."
+ ],
+ "caption_setting": {
+  "font": "Instrument Serif (assets/fonts/instrument-serif.woff2, OFL), 26 px",
+  "color": "#efefef",
+  "band": "#1e1e1e at 60% opacity (alpha 153), padding 14 px x, 10/12 px y",
+  "y_center": "frame height - 46 px",
+  "align": "centred",
+  "case": "sentence case, full stop kept",
+  "not": "kit Ink.caption()'s cream PAGE band; the editor draws this band itself",
+  "proof": "u3-caption-proof.png"
+ },
+ "outputs": {
+  "takeA.srt": "/home/user/bolas/paeleo/scion/oulipo/films/swarm/un-homme-qui-dort/takeA.srt",
+  "takeB.srt": "/home/user/bolas/paeleo/scion/oulipo/films/swarm/un-homme-qui-dort/takeB.srt",
+  "gate": "/home/user/bolas/paeleo/scion/oulipo/films/swarm/un-homme-qui-dort/u3-gate.py",
+  "audit": "/home/user/bolas/paeleo/scion/oulipo/films/swarm/un-homme-qui-dort/u3-referent-audit.json",
+  "caption_proof": "/home/user/bolas/paeleo/scion/oulipo/films/swarm/un-homme-qui-dort/u3-caption-proof.png",
+  "builder": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/u3-voice-writer-referent-checker-one-owner-one-ledger-/u3_build_ledger.py"
+ },
+ "evidence": [
+  {
+   "id": "loc-2017862340",
+   "title": "Washington, D.C. A boardinghouse philosopher",
+   "author": "Esther Bubley (photographer), U.S. Office of War Information",
+   "license": "No known restrictions (LoC rights_advisory; FSA/OWI, US government work)",
+   "license_url": "https://www.loc.gov/rr/print/res/071_fsab.html",
+   "source_url": "https://www.loc.gov/item/2017862340/",
+   "file_url": "https://tile.loc.gov/storage-services/master/pnp/fsa/8d33000/8d33500/8d33583u.tif",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/u1-picture-camera-drawing-team-quiet-observational-cut-scion-29-extraction-scion-44-multiplane-staging-scion-47-body-actions-aesthetic-grade-/raw/8d33583u.tif",
+   "what_it_shows": "a man in a dark pinstripe suit slumped against a pale wall, flash-lit, his cast shadow on the wall at right",
+   "verified_date_or_place": "1943 Jan., Washington, D.C. (LoC record /home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/u1-picture-camera-drawing-team-quiet-observational-cut-scion-29-extraction-scion-44-multiplane-staging-scion-47-body-actions-aesthetic-grade-/raw/2017862340.json, read 2026-11-15)",
+   "used_as": "U3 caption proof only: provisional S4 stand-in frame (U1's recorded S4 crop and curve); not a film element supplied by U3"
+  },
+  {
+   "id": "loc-2017811447",
+   "title": "[Untitled photo, possibly related to: Powder plant employee going upstairs. Mrs. Pritchard's boardinghouse. Radford, Virginia]",
+   "author": "John Vachon (photographer), U.S. Farm Security Administration",
+   "license": "No known restrictions (LoC rights_advisory; FSA/OWI, US government work)",
+   "license_url": "https://www.loc.gov/rr/print/res/071_fsab.html",
+   "source_url": "https://www.loc.gov/item/2017811447/",
+   "file_url": "https://tile.loc.gov/storage-services/service/pnp/fsa/8c18000/8c18400/8c18457v.jpg",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/u1-picture/raw/loc_2017811447_v.jpg",
+   "what_it_shows": "a man in a cap climbing a boardinghouse stair in profile, plaid coat over his arm, banister at left, patterned wallpaper",
+   "verified_date_or_place": "1940 Dec., Radford, Virginia (LoC record /home/user/bolas/paeleo/scion/oulipo/films/sources/un-homme-qui-dort/u1-picture-camera-drawing-team-quiet-observational-cut-scion-29-extraction-scion-44-multiplane-staging-scion-47-body-actions-aesthetic-grade-/raw/2017811447.json, read 2026-11-15)",
+   "used_as": "U3 caption proof only: provisional S5 stand-in frame (plate, rebate cropped, one monotone curve); not a film element supplied by U3"
+  },
+  {
+   "id": "font-instrument-serif",
+   "title": "Instrument Serif",
+   "author": "The Instrument Serif Project Authors",
+   "license": "SIL Open Font License 1.1",
+   "license_url": "https://openfontlicense.org",
+   "source_url": "https://github.com/Instrument/instrument-serif",
+   "file_url": "",
+   "local_path": "/home/user/bolas/paeleo/scion/oulipo/assets/fonts/instrument-serif.woff2",
+   "what_it_shows": "caption typeface",
+   "verified_date_or_place": "OFL text shipped beside the font",
+   "used_as": "caption and card typography"
+  }
+ ],
+ "handmade": [
+  {
+   "item": "five second-person clauses (original English; not Perec's text)",
+   "where": "this ledger, takeA.srt, takeB.srt"
+  },
+  {
+   "item": "referent tags, bind relations, viewpoint role table",
+   "where": "this ledger"
+  },
+  {
+   "item": "pure-Python gate",
+   "where": "/home/user/bolas/paeleo/scion/oulipo/films/swarm/un-homme-qui-dort/u3-gate.py"
+  },
+  {
+   "item": "caption typography proof (Instrument Serif, OFL font shipped in assets/fonts)",
+   "where": "/home/user/bolas/paeleo/scion/oulipo/films/swarm/un-homme-qui-dort/u3-caption-proof.png"
+  }
+ ],
+ "absences": [
+  {
+   "searched": "an openly licensed recording of a real voice speaking these lines",
+   "result": "not sought further: the clauses are original text written for this film, so no existing recording of them can exist; no TTS is available. Voice is captions only (plan §3)."
+  }
+ ]
+}

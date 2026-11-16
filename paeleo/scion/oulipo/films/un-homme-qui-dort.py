@@ -1,17 +1,19 @@
 """Un homme qui dort -- one 35-second picture, screened twice with two timings of the same words.
 
-Assembly of the SCION swarm (plan-r2 / beats-r2 / aesthetic-r2), montage editor, repair round 1.
+Assembly of the SCION swarm (plan-r2 / beats-r3 / aesthetic-r2), montage editor, repair round 2.
 
 PICTURE (foraged, Library of Congress FSA/OWI negatives, "No known restrictions"):
-  S1 WAKE   LoC 2017862347 (Esther Bubley, Jan 1943, master TIFF 8d33590u.tif) -- the same sitter as S3/S4,
-            head bowed over a newspaper against the pale flash-lit wall; GrabCut head lifts (weighted rotation).
+  S1 WAKE   LoC 2017862333 (Esther Bubley, Jan 1943, master TIFF 8d33576u.tif) -- probably the same sitter as
+            S3/S4, head resting on his hand; the hand stays, the GrabCut head rises 35 px off it.
   S2        LoC 2017735081 (Russell Lee, 1936) wall telephone (U1's frames).
   S3 + S4   LoC 2017862340 (Bubley, Jan 1943, master TIFF 8d33583u.tif), one framing on the reference layout;
-            the head turns 9 deg toward the bell with its cast shadow (weighted warp), then the 7.5 s hold.
-  S5 = S7   LoC 2017811447 (John Vachon, 1940) stair flight, climber cut out and moved (byte-identical twice).
-  S6        LoC 2017714056 (Carl Mydans, 1935) stairwell (U1's frames).
-  Pre-caption PNG sequences come from editor-r2 (S1, S3, S4, S5, S7; scripts in
-  films/swarm/un-homme-qui-dort/editor-r2-build/) and U1 (S2, S6); they are pasted unchanged here.
+            the head turns 9 deg toward the bell with its cast shadow (weighted warp of the negative), then the
+            7.5 s hold on the untouched negative.
+  S5 = S7   stage LoC 2017714056 (Carl Mydans, 1935) dark stair flight; climber = the S3/S4 sitter cut from
+            LoC 2017862340 (head+torso, IK-articulated trouser legs), behind the handrail and balusters.
+  S6        LoC 2017714056 (Mydans) the same stairwell, wider (U1's frames).
+  Pre-caption PNG sequences come from editor-r3 (S1, S3, S4, S5, S7; scripts in
+  films/swarm/un-homme-qui-dort/editor-r3-build/) and U1 (S2, S6); they are pasted unchanged here.
   Each plate carries one monotone neutral print curve (recorded); no grain, vignette or filter is added.
 
 SOUND (foraged, Wikimedia Commons, CC BY 4.0 / CC BY 3.0): U2's four pass stems (room tone,
@@ -19,7 +21,7 @@ SOUND (foraged, Wikimedia Commons, CC BY 4.0 / CC BY 3.0): U2's four pass stems 
   both passes; U2's room-tone handles carry the two cards, cross-faded under card II so the room never
   restarts audibly at 37.0.
 
-HANDMADE: the cards (numerals I / II) and the captions (U3's takeA / takeB, Instrument Serif 26 px
+HANDMADE: the cards (numerals I / II, with a one-line declaration of the material) and the captions (U3's takeA / takeB, Instrument Serif 26 px
   #efefef on a neutral #1e1e1e band at 60 %).
 
 Layout (film seconds): CARD-I 0-1, PASS-A 1-36, CARD-II 36-37, PASS-B 37-72.
@@ -61,13 +63,18 @@ SHOTS = [("S1", 0.0, 5.5), ("S2", 5.5, 8.5), ("S3", 8.5, 11.5), ("S4", 11.5, 19.
          ("S5", 19.0, 24.5), ("S6", 24.5, 27.0), ("S7", 27.0, 35.0)]
 SIL_H = (11.5, 19.0)
 GUARD = 0.1
+PICTURE_LEDGER = "e3-picture-ledger.json"
+# on-screen declaration of what the moving figures are (reviewer, repair round 2), set under each numeral
+DECLARE = ["Animated from FSA/OWI photographs, Library of Congress, 1935\u201343:",
+           "figures cut out of the negatives and moved; some background filled in."]
+DECL_COL = (0xD6, 0xD6, 0xD6)
 
 
 # ------------------------------------------------------------ material ---
 def shot_frames():
     """Pass frame index -> PNG path, in shot order (e2-picture-ledger shot_dirs)."""
     out = []
-    dirs = json.loads((SWARM / "e2-picture-ledger.json").read_text())["shot_dirs"]
+    dirs = json.loads((SWARM / PICTURE_LEDGER).read_text())["shot_dirs"]
     for sid, a, b in SHOTS:
         n = int(round((b - a) * FPS))
         files = sorted(Path(dirs[sid]).glob(f"{sid}_*.png"))
@@ -94,7 +101,7 @@ def parse_srt(p):
 
 
 TAKE = {"A": parse_srt(SWARM / "takeA.srt"), "B": parse_srt(SWARM / "takeB.srt")}
-U1L = json.loads((SWARM / "e2-picture-ledger.json").read_text())   # measured picture ledger (repair round 1)
+U1L = json.loads((SWARM / PICTURE_LEDGER).read_text())   # measured picture ledger (repair round 2)
 U2L = json.loads((SWARM / "u2-sound-ledger.json").read_text())
 BEATS = json.loads((SWARM / "beats.json").read_text())
 
@@ -200,7 +207,9 @@ def draw_caption(ink, s):
 
 def card(ink, numeral):
     ink.fill(BLACK)
-    ink.text((W / 2, H / 2), numeral, "serif", 54, CAPTION, anchor="mm")
+    ink.text((W / 2, H / 2 - 18), numeral, "serif", 54, CAPTION, anchor="mm")
+    for j, line in enumerate(DECLARE):
+        ink.text((W / 2, H / 2 + 52 + 24 * j), line, "serif", 19, DECL_COL, anchor="mm")
 
 
 def segment(k):
