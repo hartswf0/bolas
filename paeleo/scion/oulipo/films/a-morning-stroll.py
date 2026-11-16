@@ -1175,6 +1175,14 @@ def report(film):
     for v, ts in (("V3A", 39.0), ("V1A", 5.5), ("V2A", 22.0)):
         comps[f"extra_{v}_{ts}"] = stats(np.asarray(film.frame(int(round(ts * FPS)))))
     led["compare"] = comps
+    # r3: the 2009 chain on screen (critic r2): chain pixels and leaf angle in B1, the insert, B2 and the C wide
+    chk = {}
+    for ts in (26.3, 26.5, 26.8, 29.0, 31.0, 33.5):
+        fl = int(round((ts - OFFS["V2"]) * FPS))
+        _, inf = v2_knock(fl) if fl < 264 else v2_wide(fl, "C")
+        chk[str(ts)] = {"door_deg": inf.get("door_deg"), "chain_px": inf.get("chain_px", 0), "insert": inf.get("insert", False)}
+    assert all(chk[k]["chain_px"] > 0 for k in chk), chk
+    led["versions"]["V2"]["checks"]["chain_on_screen"] = dict(frames=chk, chain_taut_s=19.0 + 7.6, label="measured on the composite")
     json.dump(led, open(SW / "ledger.json", "w"), indent=1, default=lambda o: o if not isinstance(o, np.generic) else o.item())
     print(json.dumps(led["assertions"], indent=1))
     for k, c in comps.items():
