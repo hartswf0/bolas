@@ -27,6 +27,15 @@ def grab(t):
     return np.frombuffer(raw, np.uint8).reshape(720, 1280, 3)
 
 
+def pale_std(a):
+    """repair 2 pass condition: std of luminance inside the pale-wall mask (blurred lum > 150)"""
+    import cv2
+    x = a.astype(np.float32)
+    lum = 0.299 * x[..., 0] + 0.587 * x[..., 1] + 0.114 * x[..., 2]
+    pale = cv2.GaussianBlur(lum, (0, 0), 4) > 150
+    return round(float(lum[pale].std()), 2)
+
+
 ref = np.asarray(Image.open(REF).convert("RGB"))
 out = {"method": "layout_wall.measure: lum = .299R+.587G+.114B; pale = Gaussian(4)-blurred lum > 150",
        "source": str(MP4.relative_to(PROJ)), "reference": measure(ref), "frames": {}}
@@ -34,6 +43,7 @@ rows = []
 for t in TIMES:
     a = grab(t)
     m = measure(a)
+    m["pale_lum_std"] = pale_std(a)
     pr = m["pale_median_rgb"]
     m["checks"] = dict(
         pale_lum_195_220=195 <= m["pale_median_lum"] <= 220,

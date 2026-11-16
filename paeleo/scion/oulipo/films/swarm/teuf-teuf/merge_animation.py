@@ -7,7 +7,13 @@ m = json.load(open(os.path.join(H, "animation_metrics_tmp.json")))
 for k in ("inputs", "outputs", "for_the_editor", "per_shot", "wide_closeup_agreement", "secondary_dynamics",
           "silhouette_read_test", "tone_composited_frames", "summary"):
     a[k] = m[k]
-a["revision"] = "editor repair 1 (2026-11-16): re-rendered after the critic's review"
+a["revision"] = "editor repair 2 (2026-11-16): re-rendered after the second critic review"
+a["repair_2_changes"] = [
+    "Wall plates flattened to a near-uniform wash (rock high-pass 0.10, broad relief 0.12); red spray dark only round the two stencils; two large guanacos kept, the rest below 10 % contrast; two white scratched line animals added; the lower hand re-cut with all five fingers and holes filled (a true pale stencil); band rub contrast x1.85.",
+    "Wide roller shots push in to x1.28 (14.0-14.5 s), held through 3c-3d, pull back 23.0-23.6 s.",
+    "Counter-check: the falling platform edge kicks the rear wheel out behind (-260 px/s, rolling resistance 260 px/s^2); it is drawn in front of the pusher's legs and settles behind him; the platform's rear falls in 0.30 s (uniform acceleration), not 2 frames.",
+    "Wheel trial: the carrier walks ahead of the load the whole trial (hip at front + 100 px), never half-hidden behind the stone.",
+]
 a["repair_1_changes"] = [
     "Contact solve in Puppet.build (#33): the root is moved so every foot target and every pinned/holding hand target lies inside limb reach, so IK end-effectors land on their targets (drag hands, shot-2 heave, log-D pick-up, fast walks).",
     "Sit-down feet are labelled planted only once the sit pose has settled.",

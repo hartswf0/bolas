@@ -76,6 +76,9 @@ END = SCORE["end_line"]
 STAGED = "Séquence mise en scène, non chronologique · staged sequence, not a chronology"
 SRC_LINE = "Sources : Cueva de las Manos (Suzko, CC BY-SA 3.0) · roue des marais de Ljubljana (P. Milošević, CC BY-SA 4.0)"
 SRC_LINE2 = "sons : PDSounds (domaine public) · Gravity Sound (CC BY 4.0) · Pwaivers (CC BY-SA 3.0)"
+HOMAGE = ("d'après Teuf-Teuf de Jean Jabely (1956) · légendes originales, pas le texte de Queneau",
+          "after Jean Jabely's Teuf-Teuf (1956) · original captions, not Queneau's text")
+HOM_ON, HOM_OFF = 1.6, 3.9       # repair 2 (review): the lineage is named on screen, under the title (register R1, R13, R14)
 END_ON, END_OFF = 39.8, 44.0     # written on by 40.8 s, then held 3.2 s (review repair)
 
 FONT_IT = "/usr/share/fonts/truetype/liberation/LiberationSerif-Italic.ttf"
@@ -204,6 +207,9 @@ def picture_frame(k):
         lines, a = caption_at(t)
         if lines and a > 0:
             arr = comp_type(arr, *type_layer(lines, a))
+    if HOM_ON <= t < HOM_OFF:     # lineage line (both versions: provenance, not commentary)
+        a = min(1.0, (t - HOM_ON) / 0.4, (HOM_OFF - t) / 0.4)
+        arr = comp_type(arr, *type_layer([(HOMAGE[0], 21, 648), (HOMAGE[1], 17, 678)], a))
     # end source line (in both versions: it is provenance, not commentary). Staged label first, larger.
     if END_ON <= t < END_OFF:
         rev = min(1.0, (t - END_ON) / 1.0)
@@ -380,5 +386,8 @@ if __name__ == "__main__":
         nc = NOCAP
         make_film("teuf-teuf-nocaption" if nc else "teuf-teuf").render()
         if not nc:
-            json.dump(dict(captions=CAPS, sound_events=SOUND_LOG), open(SWARM / "assembly-cues.json", "w"), indent=1, ensure_ascii=False)
+            json.dump(dict(captions=CAPS, sound_events=SOUND_LOG,
+                           homage_line=dict(on=HOM_ON, off=HOM_OFF, fr=HOMAGE[0], en=HOMAGE[1]),
+                           end_line=dict(on=END_ON, written_by=END_ON + 1.0, off=END_OFF, lines=[STAGED, SRC_LINE, SRC_LINE2])),
+                      open(SWARM / "assembly-cues.json", "w"), indent=1, ensure_ascii=False)
             subprocess.run([sys.executable, __file__, "--nocaption"], check=True)

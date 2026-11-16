@@ -1,14 +1,14 @@
 {
  "about": "teuf-teuf historical source register: every historical or causal claim the film makes or implies, its source and status. Status: sourced | uncertain | contested | staged compression | derived (asserted in sim.py) | original. Nothing marked uncertain or contested appears on screen as fact.",
- "date": "2026-11-16",
+ "date": "2026-11-16 (repair 2)",
  "claims": [
   {
    "id": "R1",
    "claim": "Teuf-Teuf is a 1956 animated film by Jean Jabely, an animated history of means of transport staged on a cave-painting mural; Cité Films distributes it and supplies the reference still.",
    "source_url": "https://citefilms.com/movie/teuf-teuf",
    "status": "sourced",
-   "on_screen": false,
-   "note": "source anchor given in prompts/teuf-teuf.md; page not re-read in this session. The film itself was not seen beyond the one still: its sequence is unknown."
+   "on_screen": "1.6-3.9 s, lower band: « d'après Teuf-Teuf de Jean Jabely (1956) · légendes originales » (the only date on screen)",
+   "note": "source anchor given in prompts/teuf-teuf.md; page not re-read in this session. The film itself was not seen beyond the one still: its sequence is unknown. Repair 2: named on screen as the film's lineage (homage), dated from this source anchor."
   },
   {
    "id": "R2",
@@ -76,11 +76,11 @@
   },
   {
    "id": "R9",
-   "claim": "Scale: the boulder is 2.5 m long and the figures about 2.5 m tall at 100 px/m; the wheels are 0.72 m across; distances 1.2 / 3.0 / 8.0 m.",
+   "claim": "Scale: the boulder is 1.8 m long and 1.26 m high (one 180 x 126 px mask in every trial) and the figures about 2.3 m tall at 100 px/m; the wheels are 0.68 m across; distances 1.2 / 3.0 / 8.0 m.",
    "source_url": "",
    "status": "staged compression",
    "on_screen": "scratched ticks at 0, 1.2, 3 and 8 m (unlabelled)",
-   "note": "the ratios between trials are the proof, not absolute sizes. The 1.2/3.0/8.0 m outcomes come from the fixture films/teuf-teuf.py and are demonstrative, not measured historical performance."
+   "note": "the ratios between trials are the proof, not absolute sizes. The 1.2/3.0/8.0 m outcomes come from the motion fixture films/swarm/teuf-teuf/animator-build/motion.py, verified on the rendered frames (verify_sheet.py); they are demonstrative, not measured historical performance. (Repair 2: updated from the superseded 2.5 m / 250 px stone.)"
   },
   {
    "id": "R10",
@@ -120,7 +120,7 @@
    "source_url": "https://citefilms.com/movie/teuf-teuf",
    "status": "sourced",
    "on_screen": false,
-   "note": "the reference still (assets/references/teuf.webp) was only measured and viewed."
+   "note": "the reference still (assets/references/teuf.webp) was only measured and viewed. The film's note (films/notes/teuf-teuf.txt) and the end card name the lineage: an homage after Jabely's Teuf-Teuf (1956), with original captions."
   },
   {
    "id": "R15",
