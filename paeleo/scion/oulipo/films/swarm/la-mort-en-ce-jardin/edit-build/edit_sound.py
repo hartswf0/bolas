@@ -195,10 +195,10 @@ def build(TR, SPLASH, Mix, RATE, SEG_E_REWRITE=(52.9, 54.5)):
         pk = np.abs(sp).max() + 1e-9
         sp = np.tanh(4.0 * sp / pk) / np.tanh(4.0) * pk          # soft saturation: a dense wash, not a single spike
         seg = sp[:int(0.35 * RATE)]
-        g = step_ref * 10 ** (15.0 / 20) / rms(seg)            # 15 dB over the median isolated plank step (>= 8 dB over the steps in the mix)
+        g = step_ref * 10 ** (14.0 / 20) / rms(seg)            # 14 dB over the median isolated plank step (>= 8 dB over the steps in the mix)
         put(foley, sp * g, off + sp_t - 0.08, 1.0, pan_of(x))
         cue(off + sp_t - 0.08, "foley", f"splash on {last}'s shins at the plank's lowest (trace clearance {SPLASH[v]['clearance_px']:.1f} px, local {sp_t:.3f} s)",
-            v, ssrc, 1.0, clearance_px=SPLASH[v]["clearance_px"], over_step_db_isolated=15.0)
+            v, ssrc, 1.0, clearance_px=SPLASH[v]["clearance_px"], over_step_db_isolated=14.0)
     # pencil
     for v, a, b in (("L", 5.0, 7.6), ("E", 42.5, 45.1)):
         put(foley, G["pencil"](b - a), a, 1.0, -0.2); cue(a, "foley", "pencil writing the ledger", v, "HM-SYN-PENCIL", b - a)

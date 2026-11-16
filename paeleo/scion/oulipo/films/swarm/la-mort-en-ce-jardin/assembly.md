@@ -1,4 +1,4 @@
-# Assembly: la-mort-en-ce-jardin, edit-r1 (montage editor)
+# Assembly: la-mort-en-ce-jardin, edit-r2 (montage editor, repair round 1)
 
 Script: `films/la-mort-en-ce-jardin.py`. It imports the unit code and does not edit it:
 - U1: `world-build/compose.py`
@@ -11,7 +11,7 @@ Per-frame audit: `ledger.json` (`film_frames`, and `worlds.L/E/baseline` holding
 
 ## Evidence IDs
 
-**Foraged** (see `films/credits/la-mort-en-ce-jardin.json`; every licence was re-read live from Commons extmetadata on 2026-11-16):
+**Foraged** (see `films/credits/la-mort-en-ce-jardin.json`). Licences: some unit records were read from metadata saved earlier on 2026-11-16, during the Commons 429s; the independent reviewer's live batch re-check confirmed all 11 Commons items on 2026-11-16. The one item added in edit-r2 (Buttress Roots 1) was read live from extmetadata by the editor; the raw answer is in `sources/la-mort-en-ce-jardin/edit/meta/`.
 
 | ID | material | licence |
 |---|---|---|
@@ -23,6 +23,7 @@ Per-frame audit: `ledger.json` (`film_frames`, and `worlds.L/E/baseline` holding
 | `Colocasia_esculenta_leaves_jpg` | P3 leaves | CC BY-SA 4.0 |
 | `Lavers_Hill…bw` | P3 fronds | CC BY-SA 4.0 |
 | `Buttress_roots.JPG` | ledger-insert floor | CC BY-SA 3.0 |
+| `Buttress_Roots_1_jpg` (cut `P1b_flange`) | P1 buttress flange behind the hand-off in L-S5 / E-S4 (edit-r2) | CC BY-SA 4.0 |
 | `mia_3543b210` | *Shock Troops of Disaster* 1938, ripple motion | archive formula |
 | `Cardboard_546867_jpg` | card fibre | CC0 |
 | `FOR-SHOE-LACMA-51.47.2` | wedding shoe | PD |
@@ -35,7 +36,9 @@ Per-frame audit: `ledger.json` (`film_frames`, and `worlds.L/E/baseline` holding
 - `HM-BANKS` (U1 torn polygons).
 - `HM-SHOE-CUT` and `HM-DRIFT-LAYER` (U3).
 - `HM-LEDGER`, `HM-CARDS` and `HM-INSERT-HAND` (editor). These are the pencil lettering traced stroke by stroke along glyph skeletons, the strike and underline strokes, the torn card, and the writer's hand card with its pencil.
-- `HM-SYN-*` (U3 synthesized foley: insects, creak, wood/mud steps, tap, rustle, lap, splash, pencil, liana).
+- `HM-WET` (editor, edit-r2): charcoal mud and sweat glints laid on faces and mittens.
+- `HM-SPLASH` (editor, edit-r2): cut-paper water sheet and card droplets on the last crosser's shins, on twos.
+- `HM-SYN-*`: synthesized foley from U3's generators, re-placed by `edit-build/edit_sound.py`. Covers insects, creak, wood/mud steps, tap, rustle, lap, splash, plip, pencil and liana.
 
 ## Timecoded sequence
 
@@ -46,19 +49,19 @@ Per-frame audit: `ledger.json` (`film_frames`, and `worlds.L/E/baseline` holding
 | 5.0–8.0 | L-S2 | 3–6 | insert | the ledger card on the forest floor; A's hand pencils « 1 A · 2 B (sac) · 3 C » | HM-LEDGER, Buttress_roots.JPG |
 | 8.0–14.5 | L-S3 | 6–12.5 | wide, static | A crosses, R hand on the liana; the plank bends at the occupant (2–9 px) and springs back | trace-L |
 | 14.5–20.0 | L-S4 | 12.5–18 | push-in 8 % toward (300,380) | 14.0 local: the shoe layer k 0 enters; 17.58: tap (k 86); « Laisse-la. »; 18.4: bag B→C | FOR-SHOE, HM-DRIFT-LAYER (k = (local−14)·24) |
-| 20.0–22.4 | L-S5 (D) | 18–20.4 | close at the plank foot, M 2.6 centred (200,336) | B kneels and reaches; her hand card over the layer (k 115–134); 19.6 grasp, shoe parented to B.R; rises | hi layer at m/3 (downscale) |
-| 22.4–23.5 | L-S6 | 20.4–21.5 | two-shot, M 2.8 centred (110,212) | C holds the bag high, B with the shoe; « Je ne peux pas tout porter. » | |
+| 20.0–22.4 | L-S5 (D) | 18–20.4 | close: opens at M 2.4 on (128,296), with both heads in frame for the hand-off, then tilts down over 18.5–19.05 to M 2.6 on (200,336) | 18.4 bag B→C, with C's headband in frame against the buttress flange; B kneels and reaches; her hand card over the layer (k 115–134); 19.6 grasp, shoe parented to B.R; rises | hi layer at m/3 (downscale), Buttress_Roots_1, HM-WET |
+| 22.4–23.5 | L-S6 | 20.4–21.5 | two-shot, M 2.4 centred (112,230), the shoe hand in frame | C holds the bag high, B with the shoe; « Je ne peux pas tout porter. » | |
 | 23.5–25.5 | L-S6i | 21.5–23.5 | insert | the old line struck in 8 frames, then « 1 A · 2 C (sac) · 3 B » written by B's free left hand | HM-LEDGER |
 | 25.5–26.0 | L-S6 | 23.5–24 | two-shot | C steps toward the plank | |
 | 26.0–32.0 | L-S7 | 24–30 | wide | C crosses with liana and bag held high; water rising | |
-| 32.0–38.0 | L-S8 | 30–36 | wide | B crosses last with liana and shoe; clearance down to 4 px; splash; mud darkens on her; « Elle la garde. » | |
+| 32.0–38.0 | L-S8 | 30–36 | wide | B crosses last with liana and shoe; clearance down to 4.0 px at local 32.04 (film 34.04), where the paper splash rises up her shins (film frames 816–843); mud darkens on her; « Elle la garde. » | HM-SPLASH, HM-SYN-SPLASH |
 | 38.0–39.5 | card | | card | « Plus tôt » | HM-CARDS |
 | 39.5–42.5 | E-S1 | 0–3 | = L-S1 | byte-identical to film frames 48–119 | |
 | 42.5–45.5 | E-S2 | 3–6 | = L-S2 | byte-identical to film frames 120–191 | |
-| 45.5–50.0 | E-S3 | 6–10.5 | wide | 7.0 local: the same layer frames (k = (local−7)·24); 10.58 tap | |
-| 50.0–52.4 | E-S4 (D′) | 10.5–12.9 | = L-S5 framing | 11.4 bag B→A; 12.6 grasp; the same pose sequence | |
-| 52.4–54.5 | E-S5 | 12.9–15 | insert | struck, then « 1 B (chaussure) · 2 A (sac) · 3 C » written by A's free left hand | |
-| 54.5–69.5 | E-S6 | 15–30 | wide | B crosses first (low water), A with the bag, C last (6 px clearance, splash); « C passe le dernier. » | |
+| 45.5–50.5 | E-S3 | 6–11.0 | wide | 7.0 local: the same layer frames (k = (local−7)·24); 10.58 tap | |
+| 50.5–52.9 | E-S4 (D′) | 11.0–13.4 | = L-S5 camera as a function of time since the cut | 11.4 bag B→A, with A (hat) in frame; 12.6 grasp; the same pose sequence; shoe-layer k 96–149 hi, raster-identical to L-S5 | Buttress_Roots_1, HM-WET |
+| 52.9–54.5 | E-S5 | 13.4–15 | insert | struck, then « 1 B (chaussure) · 2 A (sac) · 3 C » written by A's free left hand | |
+| 54.5–69.5 | E-S6 | 15–30 | wide | B crosses first (low water), A with the bag, C last: 6.0 px clearance at local 26.75 (film 66.25), paper splash on C's shins (film frames 1589–1616); « C passe le dernier. » | HM-SPLASH, HM-SYN-SPLASH |
 | 69.5–73.0 | cmp | | card | « sans chaussure : 1 A · 2 B (sac) · 3 C » / « 14 s : 1 A · 2 C (sac) · 3 B » / « 7 s : 1 B · 2 A (sac) · 3 C », with each last crosser underlined in turn | |
 
 ## Claim graph (prompt section 9 deliverable)
@@ -74,7 +77,10 @@ The causal chain, one row per version:
 In both versions the bag leaves B before she touches the shoe, so the shoe costs a hand. B then holds the liana and the shoe, so she has no hand for the bag; every later frame shows B.R = shoe and someone else holding the bag.
 
 **What is equivalent between L and E:**
-- The 150 shoe-layer PNGs (hash list in `ledger.json` `shoe_layer.png_sha256`; the same files are pasted at a +168-frame offset).
+- All 150 shoe-layer frames appear in both versions (`ledger.json` `shoe_layer.per_k`). Each is shown from the same file (sha256) at the same resolution, at world times exactly 7.0 s (168 frames) apart; `write_ledger()` asserts all three.
+  - k 0–95 are the wide layer. L shows them in the L-S4 push-in and E in the static E-S3 wide, so the screen rasters differ by that camera move only.
+  - k 96–149 are the hi layer in the identical close camera. The screen raster is byte-identical (`raster_sha256`) before a whole-pixel vertical translation `dy_screen = round(m·dy_world)`, which rides each version's own water level (about 5 px lower in E).
+  - In all, 57 of the 150 screen rasters are byte-identical (k 0–2 and 96–149).
 - The retrieval pose keys.
 - E-S1/S2 = L-S1/S2, checked by `sha1_rgb` on every pair in `write_ledger()`.
 
@@ -96,32 +102,36 @@ In both versions the bag leaves B before she touches the shoe, so the shoe costs
   - The L-S5/E-S4 close is re-centred from U1's (205,330) M 3.0 to (200,336) M 2.6, so that B's head and the shoe at the waterline are both in frame.
   - The L-S6 two-shot is (110,212) M 2.8, and its near dressing is re-laid (the same U1 pieces) so that no frond crosses a face.
 - **Who writes the ledger.** Only the hand appears in the inserts: A writes the first line, B's free hand makes the L rewrite (A has crossed), and A's free hand makes the E rewrite.
-- **Sound** uses U3's stems as they stand. When this edit ran, Commons downloads were still rate-limited (HTTP 429), so the foraged jungle, cicadas, tide and splash recordings never arrived. The insect bed, lap and splash are synthesized stand-ins, declared in the notes.
+- **E retiming (edit-r2, a deviation from plan section 6).** The E-S3/E-S4 cut moves from 50.0 to 50.5 and the E-S4/E-S5 cut from 52.4 to 52.9. E-S5 becomes 1.6 s, with the rewrite written faster.
+  - Why: E-S4 now starts at the same shoe-layer frame (k 96) and the same 0.4 s before the hand-off as L-S5. That is the only way all 150 layer frames can appear in both versions at the same resolution.
+  - What stays: the film-to-local offset of E (39.5 s) and every other cut.
+- **Close re-dressing (edit-r2).**
+  - The heart leaf that hid the receiver is removed from the L-S5/E-S4 near dressing; a small dark fern frond sits in the top-left corner instead.
+  - A buttress flange (Buttress Roots 1) is inserted as a P1 plane, in close renders only.
+- **Sound (edit-r2).** `edit-build/edit_sound.py` rebuilds the stems. It executes only the function definitions of U3's `sound.py`, so the generators are unchanged. `sound.json` is the editor's record; U3's original is kept as `sound-u3.json`.
+  - **Rustle:** starts 1 frame before the logged holder change (L film frame 490, E film frame 1222), about 11 dB over the bed.
+  - **Splash:** on the trace's minimum-clearance frame, the same 4.0 / 6.0 px the ledger reports. It is soft-saturated and about 8 dB over the median plank step in the final mix.
+  - **Tap:** at layer frame 86.
+  - **Still synthesized:** upload.wikimedia.org kept answering HTTP 429 (Retry-After 600) through this round, so the verified Jungle Sound Thailand Phuket (CC BY-SA 3.0), Bathtub water splashes (PD) and tide (PD) recordings never downloaded. The jungle bed, lap and splash stay synthesized and are declared in the notes and in `sound.json` (`jungle_source: HM-SYN-INSECTS`, `have.jungle=false`). Re-running the film script after the files land in `sources/.../object-sound/raw/` picks them up automatically (`update_credits.py` adds their rows).
+- **Not in the final film** (spares; credit them before any use): Buttress_Roots_1 is now in the film. Flooded banks…raft, the Oxford shoe, *[Reno Flood]* 1927 and *Indisch allerlei* 1920 are not.
 
-## Render and acceptance measurements (edit-r1)
+## Render and acceptance measurements (edit-r2)
 
-Output: `assets/films/la-mort-en-ce-jardin.mp4`, 73.0 s, 5.24 MB, with audio (mean −24.7 dB, max −2.7 dB). The side-by-side sheet is `edit-compare.jpg`.
+Output: `assets/films/la-mort-en-ce-jardin.mp4`, 73.0 s, 5,417,015 bytes, with audio (mean −24.2 dB, max 0.0 dB after AAC). The side-by-side sheet is `edit-compare.jpg`.
 
-Measured over the 800×540 picture area:
+Measured over the 800×540 picture area. Gradient is given two ways: |dx|+|dy| and hypot(dx, dy).
 
-| frame | p5/p50/p95 | \|R−B\| | gradient | below L60 | above L200 |
+| frame | p5/p50/p95 | \|R−B\| | gradient (abs / hypot) | below L60 | above L200 |
 |---|---|---|---|---|---|
-| reference (native) | 38/105/206 | 0 | 14.4 | 25.1 % | 6.3 % |
-| 3.5 s, L-S1 wide | 42/103/199 | 0.0 | 16.4 | 17.1 % | 4.4 % |
-| 21.2 s, L-S5 close | 43/98/200 | 0.0 | 13.3 | 16.9 % | 4.9 % |
+| reference (native) | 38/105/206 | 0 | 14.36 / 11.42 | 25.1 % | 6.3 % |
+| 3.5 s, L-S1 wide | 42/102/199 | 0.0 | 16.40 / 13.19 | 17.1 % | 4.4 % |
+| 21.2 s, L-S5 close | 41/104/200 | 0.0 | 14.07 / 11.22 | 18.4 % | 4.8 % |
 
-Acceptance condition 4 holds: p5 is within 30–45, p50 within 90–125, p95 ≥ 185, and |R−B| ≤ 2. Condition 5's gradient (≥ 10) also holds. The dark share is still below the reference.
-
-`ledger.json` summary:
-- **Bone error:** `rig_error_max` is 0.0001 px.
-- **Byte identity:** 144 E→L frame pairs are byte-identical (sha1 of the RGB frame).
-- **Shoe layer:** 130 shoe-layer frames appear in both versions at the same resolution, with equal file hashes.
-- **Per-version outcomes:**
-
-| version | crossing order | last crosser | bag carrier | min. clearance |
-|---|---|---|---|---|
-| L | A, C, B | B | C | 4.0 px |
-| E | B, A, C | C | A | 6.0 px |
-| baseline | A, B, C | C | B | 9.2 px |
-
-- **Plank:** maximum occupancy is 1 in all three versions.
+`ledger.json` (edit-r2):
+- **Rig:** `rig_error_max` is 0.0002 px.
+- **Byte identity:** 144 E→L frame pairs are byte-identical.
+- **Shoe layer:** 150/150 frames appear in both versions with identical file hashes and resolution at +7.0 s; 57 screen rasters are byte-identical.
+- **Shoe in hand:** after the retrieval, the shoe is on screen in every frame where B holds it (L 345/345, E 379/379).
+- **Splash:** frames are logged.
+- **Plank:** maximum occupancy is 1.
+- **Orders:** L A, C, B (last B, 4.0 px); E B, A, C (last C, 6.0 px); baseline A, B, C (last C, 9.2 px).

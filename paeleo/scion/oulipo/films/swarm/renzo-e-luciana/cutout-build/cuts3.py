@@ -70,12 +70,12 @@ body = fm & ~head_cut | (fm & cv2.dilate(~head_cut & 255, np.ones((15, 15), np.u
 body &= ~(arm & cv2.erode(arm, np.ones((5, 5), np.uint8)))
 # collage backing where the lifted forearm/apple uncover the sweater and collar: a swatch of her own cardigan knit (never flesh:
 # the uncovered zone is cardigan, sweater and the collar point; the chin edge stays on the head piece)
-under = cv2.dilate(arm | apple_g, np.ones((5, 5), np.uint8)) & ~head
+under = cv2.dilate(arm, np.ones((5, 5), np.uint8)) & ~head & ~cv2.dilate(apple_g, np.ones((5, 5), np.uint8))   # the apple's place stays open (wall shows)
 # a real swatch of her own cardigan knit (x130-230, y400-560 of the same crop) pasted behind as the backing card
 gb = g.copy(); Y, X = np.nonzero(under); sw = g[400:560, 130:230].astype(np.float32)
 sw = sw - sw.mean() + np.median(g[(fm > 0) & (g < 90)])
 gb[Y, X] = np.clip(sw[(Y - 400) % 160, (X - 130) % 100], 0, 255).astype(np.uint8)
-body_full = body | (under & fm)
+body_full = (body | (under & fm)) & ~cv2.dilate(apple_g, np.ones((3, 3), np.uint8))
 save('lu_body', gb, body_full, (20, 280, 700, 900), {'hip': (420, 880), 'neck': (440, 450), 'elbow': (510, 900)}, '8d16982u',
      note='cardigan, striped collar, sweater; backing card cut from her own cardigan knit only where the forearm and apple are lifted off')
 save('lu_head', g, head | (fm & head_cut & apple_g & ~cv2.dilate(apple_g, np.ones((3, 3), np.uint8))), (290, 20, 735, 480),
